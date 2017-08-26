@@ -9,7 +9,9 @@ require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetQuestion.php';
  *
  * @package     Modules/Test
  */
-class ilTestRandomQuestionSetQuestionCollection
+// hey: fixRandomTestBuildable - iterator interface for collection
+class ilTestRandomQuestionSetQuestionCollection implements Iterator
+// hey.
 {
 	private $questions = array();
 
@@ -28,6 +30,19 @@ class ilTestRandomQuestionSetQuestionCollection
 		$this->questions[] = $question;
 	}
 
+	// hey: fixRandomTestBuildable - iterator interface for collection
+	/* @return ilTestRandomQuestionSetQuestion */
+	public function current() { return current($this->questions); }
+	/* @return ilTestRandomQuestionSetQuestion */
+	public function next() { return next($this->questions); }
+	/* @return string */
+	public function key() { return key($this->questions); }
+	/* @return bool */
+	public function valid() { return key($this->questions) !== null; }
+	/* @return ilTestRandomQuestionSetQuestion */
+	public function rewind() { return reset($this->questions); }
+	// hey.
+	
 	public function isGreaterThan($amount)
 	{
 		return count($this->questions) > $amount;
@@ -37,10 +52,18 @@ class ilTestRandomQuestionSetQuestionCollection
 	{
 		return count($this->questions) < $amount;
 	}
-
-	public function getMissingCount($amount)
+	
+	/**
+	 * @param int $requiredAmount
+	 * @return int
+	 */
+	public function getMissingCount($requiredAmount)
 	{
-		return $amount - count($this->questions);
+		// hey: fixRandomTestBuildable - fix returning missing count instead of difference (neg values!)
+		$difference = $requiredAmount - count($this->questions);
+		$missingCount = $difference < 0 ? 0 : $difference;
+		return $missingCount;
+		// hey.
 	}
 
 	public function shuffleQuestions()
@@ -75,6 +98,18 @@ class ilTestRandomQuestionSetQuestionCollection
 
 	public function getRelativeComplementCollection(self $questionCollection)
 	{
+		// hey: fixRandomTestBuildable - comment for refactoring
+		/**
+		 * actually i would like to consider $this as quantity A
+		 * passed $questionCollection is should be considered as quantity B
+		 * 
+		 * --> relative complement usually means all element from B missing in A
+		 * 
+		 * indeed we are considering $questionCollection as A and $this as B currently (!)
+		 * when changing, do not forget to switch caller and param for all usages (!)
+		 */
+		// hey.
+		
 		$questionIds = array_flip( $questionCollection->getInvolvedQuestionIds() );
 
 		$relativeComplementCollection = new self();
@@ -89,6 +124,39 @@ class ilTestRandomQuestionSetQuestionCollection
 
 		return $relativeComplementCollection;
 	}
+	
+	// hey: fixRandomTestBuildable - advanced need for quantity tools
+	/**
+	 * @param ilTestRandomQuestionSetQuestionCollection $questionCollection
+	 * @return ilTestRandomQuestionSetQuestionCollection
+	 */
+	public function getIntersectionCollection(self $questionCollection)
+	{
+		$questionIds = array_flip( $questionCollection->getInvolvedQuestionIds() );
+		
+		$intersectionCollection = new self();
+		
+		foreach($this->getQuestions() as $question)
+		{
+			if( !isset($questionIds[$question->getQuestionId()]) )
+			{
+				continue;
+			}
+			
+			$intersectionCollection->addQuestion($question);
+		}
+		
+		return $intersectionCollection;
+	}
+	
+	/**
+	 * @return int
+	 */
+	public function getQuestionAmount()
+	{
+		return count($this->getQuestions());
+	}
+	// hey.
 
 	public function getInvolvedQuestionIds()
 	{

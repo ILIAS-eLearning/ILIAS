@@ -62,6 +62,7 @@ var OSDNotifications = function (settings) {
 			}
 
 			function renderItems(data, init) {
+
 				var currentTime = parseInt(new Date().getTime() / 1000),
 					newItems = false;
 
@@ -72,21 +73,19 @@ var OSDNotifications = function (settings) {
 						}
 					} else {
 						var id = this.notification_osd_id;
-
 						if ($('#osdNotification_' + id).length == 0 && (this.valid_until > currentTime || this.valid_until == 0)) {
 							newItems = true;
-
 							var newElement = $(
 								'<div class="osdNotification" id="osdNotification_' + this.notification_osd_id + '">'
 									+ ((getParam(this.data.handlerParams, 'osd.closable', true)) ? ('<div class="btn-link" style="float: right" onclick="OSDNotifier.removeNotification(' + this.notification_osd_id + ')">' + settings.closeHtml + '</div>') : '')
-									+ '<div class="osdNotificationTitle"><img class="osdNotificationIcon" src="' + this.data.iconPath + '" alt="" />'
+									+ '<div class="osdNotificationTitle">'
+									+ (this.data.iconPath ? '<img class="osdNotificationIcon" src="' + this.data.iconPath + '" alt="" />' : '')
 									+ (this.data.link ? ('<a class="target_link" href="' + this.data.link + '" target="' + this.data.linktarget + '">' + this.data.title + '</a>') : this.data.title)
 									+ '</div>'
 									+ '<div class="osdNotificationShortDescription">' + this.data.shortDescription + '</div>'
 									+ '</div>'
 							);
 							$('.osdNotificationContainer').append(newElement);
-
 							if (getParam(this.data.handlerParams, 'osd.closable', true)) {
 								var href = newElement.find('.target_link').attr('href');
 								newElement.find('.target_link').click(function () {

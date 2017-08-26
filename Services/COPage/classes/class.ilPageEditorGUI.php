@@ -20,6 +20,7 @@ include_once ("./Services/COPage/classes/class.ilPageObjectGUI.php");
 * @ilCtrl_Calls ilPageEditorGUI: ilPCInteractiveImageGUI, ilPCProfileGUI, ilPCVerificationGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCBlogGUI, ilPCQuestionOverviewGUI, ilPCSkillsGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCConsultationHoursGUI, ilPCMyCoursesGUI, ilPCAMDPageListGUI
+* @ilCtrl_Calls ilPageEditorGUI: ilPCGridGUI, ilPCGridCellGUI
 *
 * @ingroup ServicesCOPage
 */
@@ -190,12 +191,14 @@ class ilPageEditorGUI
 		$first_hier_character = substr($hier_id, 0, 1);
 		if ($first_hier_character == "c" ||
 			$first_hier_character == "r" ||
+			$first_hier_character == "g" ||
 			$first_hier_character == "i")
 		{
 			$hier_id = substr($hier_id, 1);
 		}
 		$this->page->buildDom();
 		$this->page->addHierIDs();
+
 
 		// determine command and content object
 		if ($cmdClass != "ilfilesystemgui")
@@ -206,9 +209,16 @@ class ilPageEditorGUI
 		
 
 		$next_class = $this->ctrl->getNextClass($this);
+		$this->log->debug("next class: ".$next_class);
 
+		// special case: placeholders from preview mode come without hier_id
+		if ($next_class == "ilpcplaceholdergui" && $hier_id == "" && $_GET["pl_pc_id"] != "")
+		{
+			$hid = $this->page->getHierIdsForPCIds(array($_GET["pl_pc_id"]));
+			$hier_id = $hid[$_GET["pl_pc_id"]];
+		}
 
-		// determine content type
+			// determine content type
 		if ($com[0] == "insert" || $com[0] == "create")
 		{
 			$cmd = $com[0];
@@ -306,6 +316,8 @@ exit;
 //$this->ctrl->debug("+next_class:".$next_class."+");
 //echo("+next_class:".$next_class."+".$ctype."+"); exit;
 
+		$this->log->debug("(2) next class: ".$next_class.", ctype: ".$ctype);
+
 		if ($next_class == "")
 		{
 			include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
@@ -331,21 +343,15 @@ exit;
 			case "ilinternallinkgui":
 				$link_gui = new ilInternalLinkGUI(
 					$this->page_gui->getPageConfig()->getIntLinkHelpDefaultType(),
-					$this->page_gui->getPageConfig()->getIntLinkHelpDefaultId());
-				$link_gui->setMode("normal");
+					$this->page_gui->getPageConfig()->getIntLinkHelpDefaultId(),
+					$this->page_gui->getPageConfig()->getIntLinkHelpDefaultIdIsRef());
 				$link_gui->setFilterWhiteList(
 					$this->page_gui->getPageConfig()->getIntLinkFilterWhiteList());
 				foreach ($this->page_gui->getPageConfig()->getIntLinkFilters() as $filter)
 				{
 					$link_gui->filterLinkType($filter);
 				}
-//				$link_gui->setSetLinkTargetScript(
-//					$this->ctrl->getLinkTarget($this, "setInternalLink"));
 				$link_gui->setReturn($this->int_link_return);
-				if ($ilCtrl->isAsynch())
-				{
-					$link_gui->setMode("asynch");
-				}
 
 				$ret = $this->ctrl->forwardCommand($link_gui);
 				break;
@@ -672,7 +678,7 @@ exit;
 		global $ilCtrl;
 		$this->page->pasteContents($a_hier_id, $this->page_gui->getPageConfig()->getEnableSelfAssessment());
 		include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
-		ilEditClipboard::setAction("");
+		//ilEditClipboard::setAction("");
 		$this->ctrl->returnToParent($this);
 	}
 

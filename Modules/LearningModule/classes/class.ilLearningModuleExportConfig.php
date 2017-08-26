@@ -13,15 +13,17 @@ include_once("./Services/Export/classes/class.ilExportConfig.php");
 class ilLearningModuleExportConfig extends ilExportConfig
 {
 	protected $master_only = false;
+	protected $include_media = true;
 
 	/**
 	 * Set master language only
 	 *
 	 * @param bool $a_val export only master language
 	 */
-	function setMasterLanguageOnly($a_val)
+	function setMasterLanguageOnly($a_val, $a_include_media = true)
 	{
 		$this->master_only = $a_val;
+		$this->include_media = $a_include_media;
 	}
 
 	/**
@@ -33,6 +35,17 @@ class ilLearningModuleExportConfig extends ilExportConfig
 	{
 		return $this->master_only;
 	}
+
+	/**
+	 * Get include media
+	 *
+	 * @return bool export media?
+	 */
+	function getIncludeMedia()
+	{
+		return $this->include_media;
+	}
+
 }
 
 ?>

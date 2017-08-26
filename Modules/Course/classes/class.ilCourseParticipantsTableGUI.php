@@ -298,8 +298,20 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		}
 		
 		$this->tpl->setVariable('VAL_POSTNAME', 'participants');
-		$this->tpl->setVariable('VAL_PASSED_ID',$a_set['usr_id']);
-		$this->tpl->setVariable('VAL_PASSED_CHECKED',($a_set['passed'] ? 'checked="checked"' : ''));
+
+		if ($ilAccess->checkAccess("grade", "", $this->rep_object->getRefId()))
+		{
+			$this->tpl->setCurrentBlock('grade');
+			$this->tpl->setVariable('VAL_PASSED_ID', $a_set['usr_id']);
+			$this->tpl->setVariable('VAL_PASSED_CHECKED', ($a_set['passed'] ? 'checked="checked"' : ''));
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$this->tpl->setVariable('VAL_PASSED_TXT', ($a_set['passed']
+				? $this->lng->txt("yes")
+				: $this->lng->txt("no")));
+		}
 		
 		if(
 			$this->getParticipants()->isAdmin($a_set['usr_id']) || 
@@ -384,6 +396,15 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		unset($additional_fields['org_units']);
 		
 		$part = $this->participants->getParticipants();
+		
+		$part = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+			'manage_members', 
+			'manage_members', 
+			$this->getRepositoryObject()->getRefId(), 
+			$part
+		);			
+		
+		
 		if(!$part)
 		{
 			$this->setData(array());
@@ -450,6 +471,11 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 			
 			$usr_ids[] = $user['usr_id'];
 		}
+		/**
+		 * @var $ilAccess \ilAccessHandler
+		 */
+		global $ilAccess;
+		$usr_ids = $ilAccess->filterUserIdsByPositionOfCurrentUser(ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS, $this->rep_object->getRefId(), $usr_ids);
 		
 		// merge course data
 		$course_user_data = $this->getParentObject()->readMemberData(

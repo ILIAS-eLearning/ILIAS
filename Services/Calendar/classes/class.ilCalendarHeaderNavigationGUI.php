@@ -41,7 +41,13 @@ class ilCalendarHeaderNavigationGUI
 	protected $increment = '';
 	
 	protected $html;
+
+	/**
+	 * @var ilLanguage
+	 */
 	protected $lng;
+
+
 	protected $tpl;
 
 	/**
@@ -54,15 +60,20 @@ class ilCalendarHeaderNavigationGUI
 	 */
 	public function __construct($cmdClass,ilDate $seed,$a_increment,$cmd = '')
 	{
-		global $lng,$ilCtrl;
+		global $DIC;
 		
-		$this->lng = $lng;
+		$this->lng = $DIC->language();
 		
-		$this->ctrl = $ilCtrl;
+		$this->ctrl = $DIC->ctrl();
 		$this->cmdClass = $cmdClass;
 		$this->seed = clone $seed;
 		$this->increment = $a_increment;
 		$this->cmd = $cmd;
+		$this->toolbar = $DIC->toolbar();
+		$this->ui = $DIC->ui();
+		$this->user = $DIC->user();
+
+		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
 	}
 	
 	/**
@@ -73,67 +84,55 @@ class ilCalendarHeaderNavigationGUI
 	 */
 	public function getHTML()
 	{
-		global $lng;
-		
-	 	$this->tpl = new ilTemplate('tpl.navigation_header.html',true,true,'Services/Calendar');
-		
-		$this->incrementDate(-2);
-		$num = 0;
-		do
-		{
-			switch($this->increment)
-			{
-				case ilDateTime::DAY:
-					$this->tpl->setVariable('NAV_NAME_'.++$num,ilCalendarUtil::_numericDayToString($this->seed->get(IL_CAL_FKT_DATE,'w')));
-					break;
-				
-				case ilDateTime::WEEK:
-					$this->tpl->setVariable('NAV_NAME_'.++$num,$this->lng->txt('week').' '.$this->seed->get(IL_CAL_FKT_DATE,'W'));
-					break;
-					
-				case ilDateTime::MONTH:
-					if($num == 2)
-					{
-						$this->tpl->setVariable('NAV_NAME_'.++$num,
-							$this->lng->txt('month_'.$this->seed->get(IL_CAL_FKT_DATE,'m').'_long').
-							' '.$this->seed->get(IL_CAL_FKT_DATE,'Y'));
-					}
-					else
-					{
-						$this->tpl->setVariable('NAV_NAME_'.++$num,$this->lng->txt('month_'.$this->seed->get(IL_CAL_FKT_DATE,'m').'_long'));
-					}
-					break;
-			}
-			$this->ctrl->setParameterByClass(get_class($this->cmdClass),'seed',$this->seed->get(IL_CAL_DATE));
-			$this->tpl->setVariable('NAV_LINK_'.$num,$this->ctrl->getLinkTarget($this->cmdClass,$this->cmd));
-			// $this->ctrl->clearParametersByClass(get_class($this->cmdClass));
-			$this->ctrl->setParameterByClass(get_class($this->cmdClass),'seed','');
+		$lng = $this->lng;
+		$ui = $this->ui;
+		$toolbar = $this->toolbar;
 
-			$this->incrementDate(1);
+		$tpl = new ilTemplate("tpl.navigation_header.html", true, true, "Services/Calendar");
 
-		} while($num < 6);
+		// previous button
+		$this->incrementDate(-1);
+		$this->ctrl->setParameterByClass(get_class($this->cmdClass),'seed',$this->seed->get(IL_CAL_DATE));
+		$b1 = $ui->factory()->button()->standard($lng->txt("previous"), $this->ctrl->getLinkTarget($this->cmdClass,$this->cmd));
 
-		// header
-		switch ($this->increment)
+		// today button
+		$this->incrementDate(1);
+		ilDatePresentation::setUseRelativeDates(false);
+		switch($this->increment)
 		{
 			case ilDateTime::DAY:
-				$this->tpl->setVariable('TXT_SELECT_TITLE', $lng->txt("cal_day_selection"));
-				$this->tpl->setVariable('TXT_VIEW_HEAD', $lng->txt("cal_day_overview"));
+				$tpl->setVariable("TXT_TITLE", ilCalendarUtil::_numericDayToString($this->seed->get(IL_CAL_FKT_DATE,'w')).
+					", ".ilDatePresentation::formatDate($this->seed));
 				break;
-				
+
 			case ilDateTime::WEEK:
-				$this->tpl->setVariable('TXT_SELECT_TITLE', $lng->txt("cal_week_selection"));
-				$this->tpl->setVariable('TXT_VIEW_HEAD', $lng->txt("cal_week_overview"));
+				$weekday_list = ilCalendarUtil::_buildWeekDayList($this->seed,$this->user_settings->getWeekStart())->get();
+				$start = current($weekday_list);
+				$end = end($weekday_list);
+				$tpl->setVariable("TXT_TITLE", $this->lng->txt('week').' '.$this->seed->get(IL_CAL_FKT_DATE,'W').
+					", ".ilDatePresentation::formatDate($start)." - ".
+					ilDatePresentation::formatDate($end));
 				break;
-				
+
 			case ilDateTime::MONTH:
-				$this->tpl->setVariable('TXT_SELECT_TITLE', $lng->txt("cal_month_selection"));
-				$this->tpl->setVariable('TXT_VIEW_HEAD', $lng->txt("cal_month_overview"));
+				$tpl->setVariable("TXT_TITLE", $this->lng->txt('month_'.$this->seed->get(IL_CAL_FKT_DATE,'m').'_long').
+						' '.$this->seed->get(IL_CAL_FKT_DATE,'Y'));
 				break;
 		}
-	 	$this->tpl->setVariable('TXT_SELECTED', $lng->txt("stat_selected"));
-		
-	 	return $this->tpl->get();
+		ilDatePresentation::setUseRelativeDates(true);
+		$this->ctrl->setParameterByClass(get_class($this->cmdClass),'seed','');
+		$b2 = $ui->factory()->button()->standard($lng->txt("today"), $this->ctrl->getLinkTarget($this->cmdClass,$this->cmd));
+
+		// next button
+		$this->incrementDate(1);
+		$this->ctrl->setParameterByClass(get_class($this->cmdClass),'seed',$this->seed->get(IL_CAL_DATE));
+		$b3 = $ui->factory()->button()->standard($lng->txt("next"), $this->ctrl->getLinkTarget($this->cmdClass,$this->cmd));
+		$this->ctrl->setParameterByClass(get_class($this->cmdClass),'seed','');
+
+		$toolbar->addComponent($ui->factory()->viewControl()->section($b1,$b2,$b3));
+		$toolbar->addSeparator();
+
+		return $tpl->get();
 	}
 
 	protected function incrementDate($a_count)

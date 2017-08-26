@@ -232,6 +232,35 @@ class ilSkillResources implements ilSkillUsageInfo
 				"skl_skill_resource", "rep_ref_id", "base_skill_id");
 	}
 
+	/**
+	 * Get levels for trigger per ref id
+	 *
+	 * @param int $a_ref_id
+	 * @return array skill levels
+	 */
+	static function getTriggerLevelsForRefId($a_ref_id)
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+
+		$set = $db->query("SELECT * FROM skl_skill_resource ".
+			" WHERE rep_ref_id = ".$db->quote($a_ref_id, "integer").
+			" AND ltrigger = ".$db->quote(1, "integer"));
+
+		$skill_levels = array();
+		while ($rec = $db->fetchAssoc($set))
+		{
+			$skill_levels[] = array(
+				"base_skill_id" => $rec["base_skill_id"],
+				"tref_id" => $rec["tref_id"],
+				"level_id" => $rec["level_id"]
+			);
+		}
+		return $skill_levels;
+	}
+
+
 }
 
 ?>

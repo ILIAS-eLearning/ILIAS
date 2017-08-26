@@ -19,7 +19,8 @@ include_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilMailSearchGUI, ilContactGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilPersonalWorkspaceGUI, ilPersonalSettingsGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilPortfolioRepositoryGUI, ilPersonalSkillsGUI, ilObjChatroomGUI
-* @ilCtrl_Calls ilPersonalDesktopGUI: ilBadgeProfileGUI
+* @ilCtrl_Calls ilPersonalDesktopGUI: ilMyStaffGUI
+* @ilCtrl_Calls ilPersonalDesktopGUI: ilBadgeProfileGUI, ilGroupUserActionsGUI
 *
 */
 class ilPersonalDesktopGUI
@@ -231,7 +232,20 @@ class ilPersonalDesktopGUI
 				$ret = $this->ctrl->forwardCommand($bgui);
 				$this->tpl->show();
 				break;
-			
+			case 'ilmystaffgui':
+				$this->getStandardTemplates();
+				include_once './Services/MyStaff/classes/class.ilMyStaffGUI.php';
+				$mstgui = new ilMyStaffGUI();
+				$ret = $this->ctrl->forwardCommand($mstgui);
+				break;
+			case 'ilgroupuseractionsgui':
+				$this->getStandardTemplates();
+				$this->setTabs();
+				include_once './Modules/Group/UserActions/classes/class.ilGroupUserActionsGUI.php';
+				$ggui = new ilGroupUserActionsGUI();
+				$ret = $this->ctrl->forwardCommand($ggui);
+				$this->tpl->show();
+				break;
 			case 'redirect':
 				$this->redirect();
 				break;
@@ -725,6 +739,11 @@ class ilPersonalDesktopGUI
 		}
 		
 		$this->ctrl->redirectByClass("ilpersonalworkspacegui", $cmd);
+	}
+
+	function jumpToMyStaff()
+	{
+        $this->ctrl->redirectByClass("ilmystaffgui");
 	}
 	
 	/**

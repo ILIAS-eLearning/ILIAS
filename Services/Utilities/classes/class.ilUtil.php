@@ -3858,6 +3858,44 @@ class ilUtil
 	}
 
 	/**
+	 * @param string $a_initial_filename
+	 * @return mixed|string
+	 */
+	public static function getSafeFilename($a_initial_filename)
+	{
+		$file_peaces = explode('.', $a_initial_filename);
+
+		$file_extension = array_pop($file_peaces);
+
+		if(SUFFIX_REPL_ADDITIONAL)
+		{
+			$string_extensions = SUFFIX_REPL_DEFAULT.",".SUFFIX_REPL_ADDITIONAL;
+		}
+		else
+		{
+			$string_extensions = SUFFIX_REPL_DEFAULT;
+		}
+
+		$sufixes = explode(",", $string_extensions);
+
+		if (in_array($file_extension, $sufixes)) {
+			$file_extension = "sec";
+		}
+
+		array_push($file_peaces, $file_extension);
+
+		$safe_filename = "";
+		foreach ($file_peaces as $piece) {
+			$safe_filename .= "$piece";
+			if ($piece != end($file_peaces)) {
+				$safe_filename .= ".";
+			}
+		}
+
+		return $safe_filename;
+	}
+
+	/**
 	* Renames all files with certain suffix and gives them a new suffix.
 	* This words recursively through a directory.
 	*
@@ -4136,31 +4174,15 @@ class ilUtil
 	{
 		global $DIC;
 
+		// Make sure the target is in a valid subfolder. (e.g. no uploads to ilias/setup/....)
+		list($targetFilesystem, $targetDir) = self::sanitateTargetPath($a_target);
+
 		$upload = $DIC->upload();
 
-		$preProcessor = new \ILIAS\FileUpload\Processor\FilenameOverridePreProcessor($a_name ? $a_name : basename($a_target));
-		$upload->register($preProcessor);
-
-		switch(true) {
-			case strpos($a_target, ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
-			case strpos($a_target, './' . ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
-			case strpos($a_target, CLIENT_WEB_DIR) === 0:
-				$targetFilesystem =  \ILIAS\FileUpload\Location::WEB;
-				break;
-			case strpos($a_target, CLIENT_DATA_DIR) === 0:
-				$targetFilesystem =  \ILIAS\FileUpload\Location::STORAGE;
-				break;
-			case strpos($a_target, ILIAS_ABSOLUTE_PATH . '/Customizing') === 0:
-				$targetFilesystem =  \ILIAS\FileUpload\Location::CUSTOMIZING;
-				break;
-			default:
-				throw new InvalidArgumentException("Can not move files to \"$a_target\" because path can not be mapped to web, storage or customizing location.");
+		// If the upload has not yet been processed make sure he gets processed now.
+		if(!$upload->hasBeenProcessed()) {
+			$upload->process();
 		}
-
-		$absTargetDir = dirname($a_target);
-		$targetDir = LegacyPathHelper::createRelativePath($absTargetDir);
-
-		$upload->process();
 
 		try {
 			if (!$upload->hasUploads()) {
@@ -4169,7 +4191,7 @@ class ilUtil
 			/**
 			 * @var \ILIAS\FileUpload\DTO\UploadResult $UploadResult
 			 */
-			$UploadResult = $upload->getResults()[0];
+			$UploadResult = $upload->getResults()[$a_file];
 			$ProcessingStatus = $UploadResult->getStatus();
 			if ($ProcessingStatus->getCode() === ProcessingStatus::REJECTED) {
 				throw new ilException($ProcessingStatus->getMessage());
@@ -4184,7 +4206,7 @@ class ilUtil
 			return false;
 		}
 
-		$upload->moveFilesTo($targetDir, $targetFilesystem);
+		$upload->moveOneFileTo($UploadResult, $targetDir, $targetFilesystem, $a_name);
 
 		return true;
 	}
@@ -4425,6 +4447,36 @@ class ilUtil
 		}
 		return $ref_ids ? $ref_ids : array();
 	}
+
+
+	/**
+	 * @param $a_target
+	 *
+	 * @return array
+	 */
+	protected static function sanitateTargetPath($a_target) {
+		switch (true) {
+			case strpos($a_target, ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
+			case strpos($a_target, './' . ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
+			case strpos($a_target, CLIENT_WEB_DIR) === 0:
+				$targetFilesystem = \ILIAS\FileUpload\Location::WEB;
+				break;
+			case strpos($a_target, CLIENT_DATA_DIR) === 0:
+				$targetFilesystem = \ILIAS\FileUpload\Location::STORAGE;
+				break;
+			case strpos($a_target, ILIAS_ABSOLUTE_PATH . '/Customizing') === 0:
+				$targetFilesystem = \ILIAS\FileUpload\Location::CUSTOMIZING;
+				break;
+			default:
+				throw new InvalidArgumentException("Can not move files to \"$a_target\" because path can not be mapped to web, storage or customizing location.");
+		}
+
+		$absTargetDir = dirname($a_target);
+		$targetDir = LegacyPathHelper::createRelativePath($absTargetDir);
+
+		return array( $targetFilesystem, $targetDir );
+	}
+
 
 	/**
 	 * Include Mathjax
@@ -4806,7 +4858,6 @@ class ilUtil
 	public static function sendFailure($a_info = "",$a_keep = false)
 	{
 		global $tpl;
-
 		if(is_object($tpl))
 		{
 			$tpl->setMessage("failure", $a_info, $a_keep);

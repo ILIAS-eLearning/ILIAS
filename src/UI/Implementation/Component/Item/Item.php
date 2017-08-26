@@ -20,7 +20,7 @@ abstract class Item implements C\Item\Item {
 	protected $color = null;
 
 	/**
-	 * @var string
+	 * @var string|\ILIAS\UI\Component\Button\Shy
 	 */
 	protected $title;
 
@@ -45,7 +45,10 @@ abstract class Item implements C\Item\Item {
 	protected $lead = null;
 
 	public function __construct($title) {
-		$this->checkStringArg("title", $title);
+		if (! $title instanceof \ILIAS\UI\Component\Button\Shy)
+		{
+			$this->checkStringArg("title", $title);
+		}
 		$this->title = $title;
 	}
 

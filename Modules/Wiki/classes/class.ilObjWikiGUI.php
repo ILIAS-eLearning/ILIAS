@@ -18,7 +18,7 @@ require_once "./Modules/Wiki/classes/class.ilObjWiki.php";
 * @ilCtrl_Calls ilObjWikiGUI: ilRatingGUI, ilWikiPageTemplateGUI, ilWikiStatGUI
 * @ilCtrl_Calls ilObjWikiGUI: ilObjectMetaDataGUI
 * @ilCtrl_Calls ilObjWikiGUI: ilSettingsPermissionGUI
-* @ilCtrl_Calls ilObjWikiGUI: ilRepositoryObjectSearchGUI, ilObjectCopyGUI
+* @ilCtrl_Calls ilObjWikiGUI: ilRepositoryObjectSearchGUI, ilObjectCopyGUI, ilObjNotificationSettingsGUI
 */
 class ilObjWikiGUI extends ilObjectGUI
 {
@@ -39,7 +39,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		$this->type = "wiki";
 
 		$this->log = ilLoggerFactory::getLogger('wiki');
-		
+
 		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 		$lng->loadLanguageModule("obj");
 		$lng->loadLanguageModule("wiki");
@@ -242,6 +242,15 @@ class ilObjWikiGUI extends ilObjectGUI
 						'view'
 				);
 				$ilCtrl->forwardCommand($search_gui);
+				break;
+
+			case 'ilobjnotificationsettingsgui':
+				$this->addHeaderAction();
+				$ilTabs->activateTab("settings");
+				$this->setSettingsSubTabs("notifications");
+				include_once("./Services/Notification/classes/class.ilObjNotificationSettingsGUI.php");
+				$gui = new ilObjNotificationSettingsGUI($this->object->getRefId());
+				$this->ctrl->forwardCommand($gui);
 				break;
 
 			default:
@@ -539,7 +548,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		
 		// wiki tabs
 		if (in_array($ilCtrl->getCmdClass(), array("", "ilobjwikigui",
-			"ilinfoscreengui", "ilpermissiongui", "ilexportgui", "ilratingcategorygui",
+			"ilinfoscreengui", "ilpermissiongui", "ilexportgui", "ilratingcategorygui", "ilobjnotificationsettingsgui",
 			"ilwikistatgui", "ilwikipagetemplategui", "iladvancedmdsettingsgui", "ilsettingspermissiongui", 'ilrepositoryobjectsearchgui'
 			)) || (in_array($ilCtrl->getNextClass(), array("ilpermissiongui"))))
 		{	
@@ -627,7 +636,7 @@ class ilObjWikiGUI extends ilObjectGUI
 
 		if (in_array($a_active,
 			array("general_settings", "style", "imp_pages", "rating_categories",
-			"page_templates", "advmd", "permission_settings")))
+			"page_templates", "advmd", "permission_settings", "notifications")))
 		{
 			if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 			{
@@ -670,6 +679,11 @@ class ilObjWikiGUI extends ilObjectGUI
 							$lng->txt("rating_categories"),
 							$ilCtrl->getLinkTargetByClass(array('ilratinggui', 'ilratingcategorygui'), ''));
 				}
+
+				$ilTabs->addSubTab('notifications',
+					$lng->txt("notifications"),
+					$ilCtrl->getLinkTargetByClass("ilobjnotificationsettingsgui", ''));
+
 			}
 			
 			$ilTabs->activateSubTab($a_active);
@@ -1397,7 +1411,8 @@ class ilObjWikiGUI extends ilObjectGUI
 			if(!ilWikiPage::lookupAdvancedMetadataHidden($a_wpg_id))
 			{		
 				$cmd = null;
-				if($ilAccess->checkAccess("write", "", $a_wiki_ref_id))
+				if($ilAccess->checkAccess("write", "", $a_wiki_ref_id) ||
+					$ilAccess->checkAccess("edit_page_meta", "", $a_wiki_ref_id))
 				{
 					$cmd = array(
 						"edit" => $ilCtrl->getLinkTargetByClass("ilwikipagegui", "editAdvancedMetaData"),

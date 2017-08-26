@@ -461,7 +461,7 @@ class ilAdministrationGUI
 				"user_services" =>
 					array("pdts", "prfa", "nwss", "awra", "cadm", "cals", "mail"),
 				"content_services" =>
-					array("seas", "mds", "tags", "taxs", 'ecss', "otpl", "ltis"),
+					array("seas", "mds", "tags", "taxs", 'ecss', "otpl", "pdfg", "ltis"),
 				"maintenance" =>
 					array('sysc', "recf", 'logs', "root", "wfe")
 				),

@@ -166,6 +166,10 @@ class ilAuthShibbolethSettingsGUI {
 		$defaultrole->setOptions($role);
 		$defaultrole->setRequired(true);
 		$defaultrole->setValue($settings["shib_user_default_role"]);
+		// Administrator must activate new user accounts
+		$activate_new = new ilCheckboxInputGUI($this->lng->txt("shib_activate_new"), "shib[activate_new]");
+		$activate_new->setInfo($this->lng->txt("shib_activate_new_info"));
+		$activate_new->setChecked($settings["shib_activate_new"]);
 		//set name of federation
 		$name = new ilTextInputGUI();
 		$name->setTitle($this->lng->txt("shib_federation_name"));
@@ -238,8 +242,8 @@ class ilAuthShibbolethSettingsGUI {
 			$checkinput->setPostVar("shib[update_" . $field . "]");
 			$checkinput->setChecked($settings["shib_update_" . $field]);
 			if ($setting == 'shib_login' || $setting == 'shib_firstname'
-				|| $setting == 'shib_lastname'
-				|| $setting == 'shib_email'
+			    || $setting == 'shib_lastname'
+			    || $setting == 'shib_email'
 			) {
 				$textinput->setRequired(true);
 			}
@@ -247,6 +251,7 @@ class ilAuthShibbolethSettingsGUI {
 		}
 		$propertys->addItem($enable);
 		$propertys->addItem($local);
+		$propertys->addItem($activate_new);
 		$propertys->addItem($defaultrole);
 		$propertys->addItem($name);
 		$internalwayf->addSubItem($idplist);
@@ -268,25 +273,18 @@ class ilAuthShibbolethSettingsGUI {
 
 
 	public function save() {
-		global $DIC;
-		$ilUser = $DIC['ilUser'];
-		// validate required data
-		if (! $_POST["shib"]["login"]
-			or ! $_POST["shib"]["hos_type"]
-			or ! $_POST["shib"]["firstname"]
-			or ! $_POST["shib"]["lastname"]
-			or ! $_POST["shib"]["email"]
-			or ! $_POST["shib"]["user_default_role"]
-			or ! $_POST["shib"]["federation_name"]
-		) {
-			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"), $this->ilias->error_obj->MESSAGE);
-		}
+		$required = array("login", "hos_type", "firstname", "lastname", "email", "user_default_role", "federation_name");
+		array_walk($required, function (&$item) {
+			if (!$_POST["shib"][$item]) {
+				ilUtil::sendFailure($this->lng->txt("fill_out_all_required_fields"), true);
+				$this->ctrl->redirect($this, 'settings');
+			}
+		});
+
 		// validate api
-		if ($_POST["shib"]["data_conv"]
-			and $_POST["shib"]["data_conv"] != ''
-			and ! is_readable($_POST["shib"]["data_conv"])
-		) {
-			$this->ilias->raiseError($this->lng->txt("shib_data_conv_warning"), $this->ilias->error_obj->MESSAGE);
+		if ($_POST["shib"]["data_conv"] && $_POST["shib"]["data_conv"] != '' && !is_readable($_POST["shib"]["data_conv"])) {
+			ilUtil::sendFailure($this->lng->txt("shib_data_conv_warning"), true);
+			$this->ctrl->redirect($this, 'settings');
 		}
 		// all ok. save settings
 		$shib_settings = array(
@@ -331,6 +329,8 @@ class ilAuthShibbolethSettingsGUI {
 		$this->ilias->setSetting("shib_login_button", $_POST["shib"]["login_button"]);
 		$this->ilias->setSetting("shib_data_conv", $_POST["shib"]["data_conv"]);
 		$this->ilias->setSetting("shib_auth_allow_local", ($_POST['shib']['auth_allow_local'] == '1') ? '1' : '0');
+		$this->ilias->setSetting("shib_activate_new", ($_POST['shib']['activate_new'] == '1') ? '1' : '0');
+
 		ilUtil::sendSuccess($this->lng->txt("shib_settings_saved"), true);
 		$this->ctrl->redirect($this, 'settings');
 	}
@@ -762,5 +762,3 @@ class ilAuthShibbolethSettingsGUI {
 		return true;
 	}
 }
-
-?>

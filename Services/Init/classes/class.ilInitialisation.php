@@ -836,8 +836,8 @@ class ilInitialisation
 		self::initGlobal("rbacadmin", "ilRbacAdmin",
 			 "./Services/AccessControl/classes/class.ilRbacAdmin.php");
 		
-		self::initGlobal("ilAccess", "ilAccessHandler", 
-			 "./Services/AccessControl/classes/class.ilAccessHandler.php");
+		self::initGlobal("ilAccess", "ilAccess",
+			 "./Services/AccessControl/classes/class.ilAccess.php");
 		
 		require_once "./Services/AccessControl/classes/class.ilConditionHandler.php";
 	}
@@ -1231,6 +1231,7 @@ class ilInitialisation
 				// :TODO: should be moved to context?!
 				$mandatory_auth = ($current_script != "shib_login.php"
 						&& $current_script != "shib_logout.php"
+						&& $current_script != "saml.php"
 						&& $current_script != "error.php"
 						&& $current_script != "chat.php"
 						&& $current_script != "wac.php"
@@ -1474,7 +1475,11 @@ class ilInitialisation
 			ilLoggerFactory::getLogger('init')->debug('Blocked authentication for lti provider requests.');
 			return true;
 		}
-		
+		if(ilContext::getType() == ilContext::CONTEXT_SAML)
+		{
+			ilLoggerFactory::getLogger('init')->debug('Blocked authentication for SAML request.');
+			return true;
+		}
 		if(
 			$a_current_script == "register.php" || 
 			$a_current_script == "pwassist.php" ||

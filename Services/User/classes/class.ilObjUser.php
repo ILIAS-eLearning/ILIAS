@@ -3752,47 +3752,53 @@ class ilObjUser extends ilObject
 	*
 	* @static
 	*/
-	public static function _checkExternalAuthAccount($a_auth, $a_account)
+	public static function _checkExternalAuthAccount($a_auth, $a_account, $tryFallback = true)
 	{
-		global $ilDB,$ilSetting;
+		$db       = $GLOBALS['DIC']->database();
+		$settings = $GLOBALS['DIC']->settings();
 
 		// Check directly with auth_mode
-		$r = $ilDB->queryF("SELECT * FROM usr_data WHERE ".
+		$r = $db->queryF("SELECT * FROM usr_data WHERE ".
 			" ext_account = %s AND auth_mode = %s",
 			array("text", "text"),
 			array($a_account, $a_auth));
-		if ($usr = $ilDB->fetchAssoc($r))
+		if ($usr = $db->fetchAssoc($r))
 		{
 			return $usr["login"];
 		}
 
+		if(!$tryFallback)
+		{
+			return false;
+		}
+
 		// For compatibility, check for login (no ext_account entry given)
-		$res = $ilDB->queryF("SELECT login FROM usr_data ".
+		$res = $db->queryF("SELECT login FROM usr_data ".
 			"WHERE login = %s AND auth_mode = %s AND ext_account IS NULL ",
 			array("text", "text"),
 			array($a_account, $a_auth));
-		if($usr = $ilDB->fetchAssoc($res))
+		if($usr = $db->fetchAssoc($res))
 		{
 			return $usr['login'];
 		}
 
 		// If auth_default == $a_auth => check for login
-		if(ilAuthUtils::_getAuthModeName($ilSetting->get('auth_mode')) == $a_auth)
+		if(ilAuthUtils::_getAuthModeName($settings->get('auth_mode')) == $a_auth)
 		{
-			$res = $ilDB->queryF("SELECT login FROM usr_data WHERE ".
+			$res = $db->queryF("SELECT login FROM usr_data WHERE ".
 				" ext_account = %s AND auth_mode = %s",
 				array("text", "text"),
 				array($a_account, "default"));
-			if ($usr = $ilDB->fetchAssoc($res))
+			if ($usr = $db->fetchAssoc($res))
 			{
 				return $usr["login"];
 			}
 			// Search for login (no ext_account given)
-			$res = $ilDB->queryF("SELECT login FROM usr_data ".
+			$res = $db->queryF("SELECT login FROM usr_data ".
 				"WHERE login = %s AND (ext_account IS NULL OR ext_account = '') AND auth_mode = %s",
 				array("text", "text"),
 				array($a_account, "default"));
-			if($usr = $ilDB->fetchAssoc($res))
+			if($usr = $db->fetchAssoc($res))
 			{
 				return $usr["login"];
 			}
@@ -3921,7 +3927,7 @@ class ilObjUser extends ilObject
 	public static function _getPersonalPicturePath($a_usr_id,$a_size = "small", $a_force_pic = false,
 		$a_prevent_no_photo_image = false)
 	{
-		global $ilDB;
+		global $ilDB, $ilSetting;
 
 		// BEGIN DiskQuota: Fetch all user preferences in a single query
 		$res = $ilDB->queryF("SELECT * FROM usr_pref WHERE ".
@@ -3978,6 +3984,27 @@ class ilObjUser extends ilObject
 					$a_size = "xsmall";
 				}				
 				$file = ilUtil::getImagePath("no_photo_".$a_size.".jpg");
+
+				// letter avatars
+				if ((int)$ilSetting->get('letter_avatars'))
+				{
+					// general idea, see https://gist.github.com/vctrfrnndz/fab6f839aaed0de566b0
+					$name = ilObjUser::_lookupName($a_usr_id);
+					if ($profile)
+					{
+						$short = substr($name["firstname"], 0, 1) . substr($name["lastname"], 0, 1);
+					} else
+					{
+						$short = substr($name["login"], 0, 2);
+					}
+					$colors = ["#1abc9c", "#16a085", "#f1c40f", "#f39c12", "#2ecc71", "#27ae60", "#e67e22", "#d35400", "#3498db", "#2980b9", "#e74c3c", "#c0392b", "#9b59b6", "#8e44ad", "#bdc3c7", "#34495e", "#2c3e50", "#95a5a6", "#7f8c8d", "#ec87bf", "#d870ad", "#f69785", "#9ba37e", "#b49255", "#b49255", "#a94136"];
+					$color = $colors[$a_usr_id % count($colors)];
+					$tpl = new ilTemplate("tpl.letter_avatar.svg", true, true, "Services/User");
+					$tpl->setVariable("COLOR", $color);
+					$tpl->setVariable("SHORT", $short);
+					$data_src = "data:image/svg+xml," . rawurlencode($tpl->get());
+					return $data_src;
+				}
 			}
 		}
 

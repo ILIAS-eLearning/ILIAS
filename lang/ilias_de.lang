@@ -14,6 +14,29 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+orgu#:#orgu_global_set_form#:#Globale Einstellungen
+orgu#:#orgu_global_set_positions#:#Anzeige von Benutzerdaten nach Positionen in Organisationseinheiten
+orgu#:#orgu_global_set_positions_type_active#:#Aktiv für:
+orgu#:#orgu_global_set_type_changeable#:#Aktivierung
+orgu#:#orgu_global_set_type_changeable_object#:#De/Aktivierung auf Objektebene
+orgu#:#orgu_global_set_type_changeable_no#:#Nicht deaktivierbar
+orgu#:#orgu_global_set_type_default#:#Standardwert
+orgu#:#orgu_global_set_type_default_info#:#Legen Sie den Standardwert für neue Objekte fest.
+rbac#:#il_sess_participant#:#Sitzungsteilnehmer
+rbac#:#il_sess_status_closed#:#Nicht-Teilnehmer geschlossene Sitzung
+meta#:#md_adv_scope#:#Gültigkeitsbereich
+meta#:#meta_local#:#Lokal
+meta#:#udf_type_externallink#:#Externer Link
+meta#:#udf_type_internallink#:#Interner Link
+didactic#:#didactic_scope_list_header#:#Beschränkt auf:
+meta#:#md_adv_scope_list_header#:#Beschränkt auf:
+didactic#:#didactic_scope#:#Gültigkeitsbereich
+sess#:#sess_mem_tbl_header#:#Sitzungsteilnehmer
+sess#:#objs_crs_role#:#Kursrollen
+sess#:#objs_grp_role#:#Gruppenrollen
+sess#:#sess_part_filter_registered#:#Nur Angemeldete
+sess#:#sess_part_filter_participated#:#Nur Teilgenommene
+sess#:#sess_print_list#:#Liste erstellen
 forum#:#delete_drafts_successfully#:#Die Entwürfe wurden erfolgreich gelöscht.
 forum#:#sure_delete_drafts#:#Sind Sie sicher, dass Sie die gewählten Entwürfe löschen möchten?
 forum#:#restore#:#Wiederherstellen
@@ -41,6 +64,22 @@ forum#:#adm_save_drafts_desc#:#Wenn aktiviert, können angemeldete Benutzer Beit
 forum#:#adm_autosave_drafts#:#Entwürfe automatisch speichern   
 forum#:#adm_autosave_ival#:#Speicherintervall
 forum#:#adm_autosave_drafts_desc#:#Wenn aktiviert, werden Entwürfe während des Editierens automatisch gespeichert.
+common#:#pwsp_recalculate_disk_quota#:#Persönlicher Arbeitsraum: Neuberechnung Disk-Quota
+common#:#pwsp_recalculate_disk_quota_desc#:#Berechnet die Disk-Quota-Werte für den persönlichen Arbeitsraum neu.
+itgr#:#itgr_show_title#:#Titel anzeigen
+itgr#:#itgr_show_title_info#:#Der Titel des Objektblocks wird in der Präsentation für Lerner angezeigt.
+itgr#:#itgr_behaviour#:#Verhalten
+itgr#:#itgr_behaviour_info#:#Das System merkt sich den Zustand (geöffnet/geschlossen) je Benutzer bis zur Abmeldung (Logout).
+itgr#:#itgr_always_open#:#Immer offen
+itgr#:#itgr_expandable_closed#:#Ausklappbar (zunächst geschlossen)
+itgr#:#itgr_expandable_open#:#Ausklappbar (zunächst geöffnet)
+exc#:#exc_submission_and_grades_notification_link#:#Link zur Übung (Abgaben und Noten): %s
+exc#:#exc_submission_downloads_notification_link#:#Neue Abgaben herunterladen: %s
+exc#:#exc_submission_no_new_files#:#Keine neuen Abgaben vorhanden.
+exc#:#exc_wait_for_files#:#Der Download sollte automatisch starten. Bei Problemen klicken Sie bitte hier.
+exc#:#exc_target_not_valid#:#Das Link-Ziel ist nicht mehr gültig.
+exc#:#exc_no_get_target#:#Kein gültiges Link-Ziel gefunden.
+exc#:#exc_all_new_files_offered_already#:#Alle neuen Dateien wurden bereits zum Download angeboten. Für einen erneuten Download klicken Sie bitte auf die entsprechenden Aktionslinks in der untenstehenden Liste.
 acc#:#acc_access_key#:#Access-Key
 acc#:#acc_access_keys#:#Access-Keys
 acc#:#acc_comp_frm#:#Forum
@@ -352,6 +391,8 @@ assessment#:#add_applet_parameter#:#Applet-Parameter hinzufügen
 assessment#:#add_area#:#Region hinzufügen
 assessment#:#add_circle#:#Kreis hinzufügen
 assessment#:#add_gap#:#Lückentext hinzufügen
+assessment#:#tst_msg_rand_quest_set_not_sync#:#Die Regeln zur zufälligen Ziehung von Fragen wurden neu erstellt oder verändert. Die Fragen müssen erneut aus den Fragenpools in den Test kopiert werden. Bei diesem Vorgang wird auch eine Prüfung durchgeführt, ob der Regelsatz für Zufallsziehungen erfüllbar ist.
+assessment#:#tst_msg_rand_quest_set_sync_duration#:#Die Synchronisierung kopiert alle Fragen, welche auf die Kriterien der Ziehungsregeln zutreffen. Dies kann für große Pools einige Minuten dauern.
 assessment#:#add_imagemap#:#Imagemap importieren
 assessment#:#add_matching_pair#:#Zuordnungspaar hinzufügen
 assessment#:#add_new_question#:#Neue Frage hinzufügen
@@ -386,6 +427,11 @@ assessment#:#applet_new_parameter#:#Neuer Parameter
 assessment#:#applet_parameter#:#Parameter
 assessment#:#applet_parameters#:#Applet-Parameter
 assessment#:#apply#:#Übernehmen
+assessment#:#tst_msg_rand_quest_set_rule_label#:#Regel %s
+assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_missing_#:#Für Regel %s werden %s Fragen benötigt, es stehen aber nur %s Fragen zur Verfügung.
+assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_missing_shared#:#Von den vorgesehenen Fragen stehen %s Fragen zu dem auch den folgenden Regeln zur Verfügung: %s
+assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_reserved#:#Für Regel %s werden %s Fragen benötigt und es sind %s Fragen vorgesehen.
+assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_reserved_shared#:#Durch Überschneidungen mit den folgenden Regeln stehen aber nur %s Fragen garantiert zur Verfügung: %s
 assessment#:#tst_res_lo_objectives_header#:#Relevante Lernziele
 assessment#:#tst_res_lo_try_header#:#Versuch
 assessment#:#tst_res_lo_try_n#:#%s. Versuch
@@ -407,6 +453,8 @@ assessment#:#ass_export_files#:#Exportdateien
 assessment#:#ass_file#:#Datei
 assessment#:#ass_question#:#Frage
 assessment#:#ass_size#:#Größe
+assessment#:#tst_filter_question_type#:#Fragentyp
+assessment#:#tst_filter_question_type_enabled#:#Fragentyp Filter verwenden
 assessment#:#tst_objectives_progress_header#:#Fortschritte in den Lernzielen
 assessment#:#tst_objective_progress_header#:#Fortschritt im Lernziel
 assessment#:#assClozeTest#:#Lückentextfrage
@@ -1858,7 +1906,7 @@ blog#:#blog_font_color#:#Schriftfarbe
 blog#:#blog_list_more#:#mehr
 blog#:#blog_navigation#:#Beiträge
 blog#:#blog_new#:#Neues Blog anlegen
-blog#:#blog_new_posting_info#:#Der erste Textblock wird als Auszug in der Liste der Einträge verwendet.
+blog#:#blog_new_posting_info#:#Der Beitrag wurde veröffentlicht. Der erste Textblock wird als Auszug in der Liste der Einträge verwendet.
 blog#:#blog_notification_activated#:#Änderungs-Benachrichtigung aktiviert
 blog#:#blog_notification_deactivated#:#Änderungs-Benachrichtigung deaktiviert
 blog#:#blog_notification_toggle_off#:#Änderungs-Benachrichtigung deaktivieren
@@ -2747,6 +2795,7 @@ common#:#condition_passed#:#Bestanden
 common#:#condition_precondition#:#Vorbedingungen:
 common#:#condition_select_object#:#Bitte wählen Sie das Objekt aus, das für die Vorbedingung genutzt werden soll.
 common#:#condition_select_one#:#-Bitte wählen Sie eine Bedingung aus-
+common#:#condition_accredited_or_passed#:#Akkreditiert oder Bestanden
 common#:#condition_update#:#Speichern
 common#:#conditions_updated#:#Die Bedingungen wurden gespeichert.
 common#:#confirm#:#Bestätigen
@@ -3081,7 +3130,7 @@ common#:#exc_edit#:#Eine neue Übung wurde angelegt
 common#:#exc_edit_exercise#:#Übung bearbeiten
 rbac#:#exc_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
 rbac#:#exc_edit_permission#:#Rechteeinstellungen ändern
-common#:#exc_edit_until#:#Zu bearbeiten bis
+common#:#exc_edit_until#:#Abgabetermin
 common#:#exc_exercise_sent#:#Übung versandt
 common#:#exc_feedback_sent#:#Feedback versandt
 common#:#exc_files#:#Dateien
@@ -4065,7 +4114,7 @@ common#:#msg_wrong_format#:#Der Wert, den Sie eingegeben haben, erfüllt nicht d
 common#:#multimedia#:#Multimedia
 common#:#my_bms#:#Meine Bookmarks
 common#:#my_courses#:#Meine Kurse
-common#:#my_courses_groups#:#Meine Kurse und Gruppen
+common#:#my_courses_groups#:#Kurse und Gruppen
 common#:#my_frms#:#Meine Foren
 common#:#my_grps#:#Meine Gruppen
 common#:#my_los#:#Meine Lernobjekte
@@ -4461,7 +4510,7 @@ common#:#personal_desktop#:#Persönlicher Schreibtisch
 common#:#personal_picture#:#Profilbild
 common#:#personal_profile#:#Persönliche Daten und Profil
 common#:#personal_settings#:#Einstellungen
-common#:#personal_workspace#:#Mein Arbeitsraum
+common#:#personal_workspace#:#Arbeitsraum
 common#:#persons#:#Personen
 common#:#pg_a#:#eine Seite
 common#:#pg_add#:#Seite anlegen
@@ -4884,7 +4933,7 @@ common#:#side_frame#:#Rahmen Baumansicht
 common#:#signature#:#Signatur
 common#:#simultaneous_login_detected#:#Der Zugang zum System wird verweigert, da sich bereits ein Benutzer mit diesen Zugangsdaten in einer ILIAS-Sitzung befindet.
 common#:#size#:#Größe
-common#:#skills#:#Meine Kompetenzen
+common#:#skills#:#Kompetenzen
 common#:#skin_style#:#Standard-Skin / -Style
 common#:#smtp#:#SMTP
 common#:#soap_user_administration#:#Administration über SOAP
@@ -5296,6 +5345,7 @@ common#:#visitors#:#Besucher
 common#:#visits#:#Besuche
 common#:#web_resources#:#Weblinks
 common#:#webdav#:#WebDAV
+common#:#edit_metadata#:#Metadaten bearbeiten
 common#:#webdav_pear_auth_http_needed#:#Sie benötigen PEAR-Auth_HTTP um diese Funktion zu verwenden. Geben Sie im Terminal-Fenster <code>pear install Auth_HTTP</code> ein.
 common#:#webdav_pwd_instruction#:#Um das ILIAS-Magazin als Webordner außerhalb der aktuellen Sitzung als Webordner zu öffnen, empfehlen wir ein lokales Passwort anzulegen.<br />Dieses Passwort wird nur für die Webordner-Funktionalitäten benötigt, die ILIAS-Anmeldung erfolgt weiterhin mit Ihrem gewohnten Passwort.
 common#:#webdav_pwd_instruction_success#:#Ein neues lokales Passwort wurde angelegt. Sie können nun das Magazin als Webordner öffnen.
@@ -7096,7 +7146,7 @@ dateplaner#:#cal_grp_notification_body#:#es erfolgte eine Terminänderung in der
 dateplaner#:#cal_grp_notification_sub#:#Terminänderung in Gruppe "%s"
 dateplaner#:#cal_in#:#im
 dateplaner#:#cal_last#:#Letzten
-dateplaner#:#cal_manage#:#Kalender
+dateplaner#:#cal_manage#:#Kalender verwalten
 dateplaner#:#cal_milestone_settings#:#Meilensteine
 dateplaner#:#cal_month_overview#:#Monatsübersicht
 dateplaner#:#cal_month_s#:#Monat(e)
@@ -7128,7 +7178,7 @@ dateplaner#:#cal_search#:#Suchbegriff
 dateplaner#:#cal_search_info_share#:#Bitte geben Sie den Namen der Person/Rolle ein, für die Sie diesen Kalender freigeben möchten.
 dateplaner#:#cal_second#:#Zweiten
 dateplaner#:#cal_server_tz#:#Server-Zeitzone
-dateplaner#:#cal_share#:#Kalender freigeben
+dateplaner#:#cal_share#:#Freigabe
 dateplaner#:#cal_share_accept#:#Einladung annehmen
 dateplaner#:#cal_share_cal#:#Kalender freigeben (Lesezugriff)
 dateplaner#:#cal_share_cal_editable#:#Kalender freigeben (Lese- und Schreibzugriff)
@@ -7474,7 +7524,7 @@ exc#:#exc_assignment_view#:#Je Übungseinheit
 exc#:#exc_assignments#:#Übungseinheiten
 exc#:#exc_assignments_deleted#:#Die Übungseinheiten wurden gelöscht.
 exc#:#exc_blog_created#:#Blog wurde erstellt.
-exc#:#exc_blog_returned#:#Zugeordnetes Blog
+exc#:#exc_blog_returned#:#Blog zur Übungseinheit
 exc#:#exc_blog_selected#:#Das Blog wurde verknüpft.
 exc#:#exc_completion_by_submission#:#Automatisch bei Abgabe
 exc#:#exc_completion_by_submission_info#:#Gibt ein Teilnehmer ein Arbeitsergebnis ab, wird der Status "Bestanden" gesetzt. Der Tutor kann den Status manuell überschreiben. Das Ändern dieser Einstellung hat keine Auswirkung auf bestehende Bewertungen.
@@ -7525,8 +7575,8 @@ exc#:#exc_pass_minimum_nr#:#Mindestanzahl an Übungseinheiten
 exc#:#exc_pass_minimum_nr_info#:#Teilnehmer müssen eine Mindestanzahl an Übungseinheiten bestehen, um die gesamte Übung zu bestehen.
 exc#:#exc_pass_mode#:#Anforderung
 exc#:#exc_portfolio_created#:#Portfolio wurde erstellt.
-exc#:#exc_portfolio_returned#:#Zugeordnetes Portfolio
-exc#:#exc_portfolio_selected#:#Das Portfolio wurde verknüpft.
+exc#:#exc_portfolio_returned#:#Portfolio zur Übungseinheit
+exc#:#exc_portfolio_selected#:#Das Portfolio wurde zugeordnet.
 exc#:#exc_presentation_order#:#Reihenfolge
 exc#:#exc_public_submission#:#Öffentliche Lösungsabgaben
 exc#:#exc_save_order#:#Reihenfolge speichern
@@ -7541,13 +7591,13 @@ exc#:#exc_select_portfolio#:#Vorhandenes Portfolio nutzen
 exc#:#exc_select_portfolio_change#:#Anderes Portfolio benutzen
 exc#:#exc_select_portfolio_info#:#Bitte wählen Sie eines Ihrer Portfolios, um es in dieser Übungseinheit zu benutzen.
 exc#:#exc_send_assignment#:#Übungseinheit per Mail verschicken
-exc#:#exc_show_submissions#:#Arbeitsergebnisse veröffentlichen
-exc#:#exc_show_submissions_info#:#Alle abgegebenen Arbeitsergebnisse einer Übungseinheit können nach dem Abgabetermin von allen Teilnehmern eingesehen werden.
+exc#:#exc_show_submissions#:#Lösungsabgaben veröffentlichen
+exc#:#exc_show_submissions_info#:#Alle Lösungsabgaben einer Übungseinheit können nach dem Abgabetermin von allen Teilnehmern eingesehen werden.
 exc#:#exc_start_time#:#Startzeit
 exc#:#exc_starting_on#:#Startet am
 exc#:#exc_submission_notification#:#Benachrichtigung bei Abgabe
 exc#:#exc_submission_notification_body#:#Eine neue Abgabe wurde für die Übung "%s" hochgeladen
-exc#:#exc_submission_notification_info#:#Sie werden per Mail benachrichtigt, sobald neue Arbeitsergebnisse abgegeben wurden. Dies ist eine persönliche Einstellung, die nur für Sie gilt. Andere Tutoren der Übung sind davon nicht betroffen.
+exc#:#exc_submission_notification_info#:#Sie werden per Mail benachrichtigt, sobald neue Lösungen abgegeben wurden. Dies ist eine persönliche Einstellung, die nur für Sie gilt. Andere Tutoren der Übung sind davon nicht betroffen.
 exc#:#exc_submission_notification_link#:#Link zur Übung: %s
 exc#:#exc_submission_notification_subject#:#Eine neue Abgabe wurde für die Übung "%s" hochgeladen
 exc#:#exc_submissions_and_grades#:#Abgaben und Noten
@@ -7762,6 +7812,8 @@ grp#:#grp_cancel_subscr_request#:#Aufnahmeantrag zurückziehen
 grp#:#grp_change_type#:#Gruppenart ändern
 didactic#:#grp_closed#:#Geschlossene Gruppe
 didactic#:#grp_closed_info#:#Die Gruppe ist für Nicht-Mitglieder unsichtbar.
+didactic#:#sess_closed#:#Geschlossene Sitzung
+didactic#:#sess_closed_info#:#Die Sitzung ist für Nicht-Teilnehmer unsichtbar.
 grp#:#grp_custom_user_fields#:#Gruppenspezifische Benutzerdaten
 grp#:#grp_deactivate_notification#:#Benachrichtigung deaktivieren
 grp#:#grp_delete_member#:#Löschen
@@ -9045,12 +9097,12 @@ pd#:#pd_enable_bookmarks#:#Bookmarks aktivieren
 pd#:#pd_enable_comments#:#Kommentare aktivieren
 pd#:#pd_enable_global_profiles#:#Öffentliche Profile aktivieren
 pd#:#pd_enable_global_profiles_info#:#Die Option ermöglicht Benutzern, ihr Profil global (im Internet) zugänglich zu machen.
-pd#:#pd_enable_my_memberships#:#'Meine Kurse und Gruppen' aktivieren
+pd#:#pd_enable_my_memberships#:#'Kurse und Gruppen' aktivieren
 pd#:#pd_enable_my_memberships_info#:#Die Sicht 'Meine Mitgliedschaften' enthält alle Kurse und Gruppen, in denen der Benutzer Mitglied ist.
 pd#:#pd_enable_my_offers#:#'Ausgewählte Angebote' aktivieren
 pd#:#pd_enable_my_offers_info#:#Die Sicht 'Ausgewählte Angebote' enthält alle Objekte, die sich auf dem Persönlichen Schreibtisch des Benutzers befinden.
 pd#:#pd_enable_notes#:#Notizen aktivieren
-pd#:#pd_enable_personal_workspace#:#Mein Arbeitsraum aktivieren
+pd#:#pd_enable_personal_workspace#:#Arbeitsraum aktivieren
 pd#:#pd_enable_prtf#:#Portfolios aktivieren
 pd#:#pd_enable_user_publish#:#Veröffentlichung Inhalte von Benutzern aktivieren
 pd#:#pd_enable_user_publish_info#:#Die Option ermöglicht Benutzern, ihr Profil, Arbeitsrauminhalte und Portfolios global (im Internet) zugänglich zu machen.
@@ -9067,7 +9119,7 @@ pd#:#pd_personal_items_default_view_info#:#Wählen Sie hier die Standard-Sicht f
 pd#:#pd_settings#:#Einstellungen
 pd#:#pd_time_before_removal#:#Maximaler Zeitraum für Inaktivität (in Minuten)
 pd#:#pd_time_before_removal_info#:#Nach Ablauf dieses Zeitraums, werden Benutzer aus der Liste der "Aktiven Benutzer" entfernt.
-pd#:#pd_view_select_at_least_one#:#Bitte wählen Sie mindestens eine Sicht, entweder 'Ausgewählte Angebote' und/oder 'Meine Kurse und Gruppen'.
+pd#:#pd_view_select_at_least_one#:#Bitte wählen Sie mindestens eine Sicht, entweder 'Ausgewählte Angebote' und/oder 'Kurse und Gruppen'.
 pdesk#:#bm_num_bookmark_folders#:#Ordner
 pdesk#:#bm_num_bookmarks#:#Bookmark(s)
 pdesk#:#pdesk_feedback_request#:#Feedback-Anfrage
@@ -9088,7 +9140,7 @@ prtf#:#prtf_create_portfolio#:#Portfolio hinzufügen
 prtf#:#prtf_default_portfolio#:#Mein Profil
 prtf#:#prtf_edit_portfolio#:#Portfolio bearbeiten
 prtf#:#prtf_exercise_info#:#Dieses Portfolio ist der Übungseinheit "%s" der Übung "%s" zugeordnet.
-prtf#:#prtf_exercise_submitted_info#:#Sie haben Ihr Portfolio am %s eingereicht. Sie können eine Kopie des eingereichten Portfolios für eigene Zwecke speichern: %s
+prtf#:#prtf_exercise_submitted_info#:#Sie haben Ihr Portfolio am %s eingereicht. Wenn Sie möchten, speichern Sie sich eine Kopie für Ihre persönliche Ablage %s
 prtf#:#prtf_existing_portfolio#:#Vorhandenes Portfolio
 prtf#:#prtf_finalize_portfolio#:#Portfolio abschließen und abgeben
 prtf#:#prtf_finalized#:#Das Portfolio wurde abgegeben.
@@ -9890,7 +9942,7 @@ search#:#search_lucene_info#:#Wenn aktiviert, kann auch in HTML-Lernmodulen sowi
 search#:#search_lucene_port#:#Lucene-Port
 search#:#search_lucene_readme#:#Zur Installationsanleitung
 search#:#search_meta#:#Metadaten
-search#:#search_minimum_three#:#Die Suchbegriffe müssen mindestens 3 Zeichen lang sein
+search#:#search_minimum_three#:#Die Suchbegriffe müssen mindestens 3 Zeichen lang sein.
 search#:#search_move_folder_not_allowed#:#Ordner können nicht verschoben werden.
 search#:#search_move_to#:#Verschieben nach:
 search#:#search_my_search_results#:#Meine Suchergebnisse
@@ -9974,6 +10026,8 @@ shib#:#shib_rules_tables#:#Aktive Regeln für die Rollenzuordnung
 shib#:#shib_settings#:#Shibboleth-Einstellungen
 shib#:#shib_update_role_ass_table#:#Regel zur Rollenzuordnung bearbeiten
 shib#:#shib_update_roles#:#Rollenzuordnungen
+shib#:#shib_activate_new#:#Neue Accounts mit Freischaltung
+shib#:#shib_activate_new_info#:#Wenn aktiviert, werden neue Benutzeraccounts inaktiv angelegt und müssen von einem Administrator aktiviert werden.
 skmg#:#scat#:#Kategorie
 skmg#:#skll#:#Basiskompetenz
 skmg#:#skmg_add_level#:#Ausprägung hinzufügen
@@ -11474,10 +11528,10 @@ wsp#:#wsp_permission_all_pw_info#:#Nach Eingabe des Passworts ist dieses Objekt 
 wsp#:#wsp_permission_registered_info#:#Dieses Objekt ist für alle registrierten Benutzer freigegeben.
 wsp#:#wsp_permission_removed#:#Der Eintrag wurde gelöscht.
 wsp#:#wsp_permissions#:#Freigabe
-wsp#:#wsp_personal_workspace#:#Mein Arbeitsraum
+wsp#:#wsp_personal_workspace#:#Arbeitsraum
 wsp#:#wsp_personal_workspace_description#:#Hier können Sie persönliche Dateien, Blogs und Nachweise verwalten.
 wsp#:#wsp_remove_permission#:#Freigabe entfernen
-wsp#:#wsp_root_folder#:#Mein Arbeitsraum
+wsp#:#wsp_root_folder#:#Arbeitsraum
 wsp#:#wsp_set_permission_all#:#Internet/WWW
 wsp#:#wsp_set_permission_all_password#:#Internet/WWW mit Passwort
 wsp#:#wsp_set_permission_course#:#Kursmitglieder
@@ -11517,7 +11571,8 @@ cptch#:#cptch_wrong_input#:#Falsche Eingabe
 forum#:#cont_captcha_code#:#Code
 cptch#:#cptch_freetype_support_needed#:#Um diese Funktion zu nutzen benötigen Sie die freetype-Unterstützung von PHP.
 grp#:#grp_print_list#:#Liste erstellen
-grp#:#grp_members_print_title#:#Gruppenmitglieder
+sess#:#sess_members_print_title#:#Gruppenmitglieder
+grp#:#grp_members_print_title#:#Sitzungsteilnehmer
 trac#:#trac_closed_misc#:#Sonstige
 common#:#reg_goto_parent_membership_info#:#Nur Mitglieder können auf das Zielobjekt zugreifen.
 rep#:#rep_no_permission_to_delete#:#Kein Recht zum Löschen
@@ -12660,7 +12715,7 @@ trac#:#trac_lp_list_gui#:#Persönlicher Schreibtisch, Magazin, Suche
 trac#:#trac_lp_list_gui_info#:#Wenn aktiviert, wird der Lernfortschrittsstatus in Objekt-Listen angezeigt.
 common#:#hide_all_details#:#Alle Details ausblenden
 common#:#show_all_details#:#Alle Details anzeigen
-common#:#select_files_from_computer#:#Wählen Sie die Dateien von Ihrem Computer aus
+common#:#select_files_from_computer#:#Dateien wählen
 common#:#drag_files_here#:#Ziehen Sie die Dateien in diesen Bereich
 common#:#selected_files#:#Ausgewählte Dateien
 common#:#num_of_selected_files#:#%s Datei(en) ausgewählt
@@ -13051,7 +13106,7 @@ exc#:#exc_needs_deadline#:#Diese Option benötigt einen Abgabetermin.
 exc#:#exc_team_upload_not_supported#:#Diese Option ist für Team-Upload-Übungseinheiten nicht verfügbar.
 exc#:#exc_global_feedback_file#:#Musterlösung
 exc#:#exc_global_feedback_file_cron#:#Benachrichtigung bei Verfügbarkeit
-exc#:#exc_global_feedback_file_cron_info#:#Über einen Cron-Job werden die Lerner über die Verfügbarkeit der Musterlösung informiert.
+exc#:#exc_global_feedback_file_cron_info#:#Teilnehmer werden per Mail über die Verfügbarkeit der Musterlösung informiert.
 exc#:#exc_feedback_notification_subject#:#Feedback für Übungseinheit der Übung "%s" freigeschaltet
 exc#:#exc_feedback_notification_salutation#:#Hallo %s,
 exc#:#exc_feedback_notification_body#:#Das Feedback zur folgenden Übungseinheit wurde freigeschaltet.
@@ -13072,7 +13127,7 @@ rep#:#rep_object_lists#:#Objektlisten
 rep#:#rep_custom_icons#:#Angepasste Icons
 cmps#:#cmps_enable_creation#:#Erstellung einschalten
 cmps#:#cmps_slots#:#Slots
-pd#:#pd_personal_workspace#:#Mein Arbeitsraum
+pd#:#pd_personal_workspace#:#Arbeitsraum
 common#:#obj_wbrs#:#Weblink
 common#:#obj_wbrs_desc#:#Allgemeine Einstellungen für Weblinks
 common#:#obj_crss#:#Kurs
@@ -13154,6 +13209,37 @@ common#:#il_orgu_employee#:#Mitarbeiter
 common#:#il_orgu_superior#:#Vorgesetzte
 common#:#view_learning_progress#:#Zeige Lernfortschritt
 common#:#view_learning_progress_rec#:#Lernfortschritt rekursiv einsehen
+rbac#:#rbac_info_only_position_access#:#Ihnen werden nur die Mitglieder angezeigt, auf die Sie aufgrund Ihrer Mitgliedschaften in Organisationseinheiten Zugriff haben.
+obj#:#obj_orgunit_positions#:#Zugriffsregelungen nach Organisationseinheiten
+obj#:#obj_orgunit_positions_info#:#Wenn aktiviert, können zusätzliche Zugriffsregelungen über Positionen in Organisationseinheiten vergeben werden.
+orgu#:#authorities#:#Authoritäten
+orgu#:#positions#:#Positionen
+orgu#:#scope_1#:#gleiche Organisationseinheit
+orgu#:#scope_2#:#Folgende Organisationseinheiten
+orgu#:#scope_3#:#Alle Organisationseinheiten
+orgu#:#over_-1#:#Alle
+orgu#:#over#:#über
+orgu#:#scope#:#in
+orgu#:#org_op_set_lp#:#Lernfortschritt von anderen Benutzern setzen.
+orgu#:#org_op_view_lp#:#Lernfortschritt von anderen Benutzern einsehen.
+common#:#my_staff#:#Meine Mitarbeiter
+mst#:#mst_my_staff#:#Meine Mitarbeiter
+mst#:#mst_list_users#:#Mitarbeiterliste
+mst#:#mst_list_courses#:#Kurse meiner Mitarbeiter
+mst#:#mst_select_course#:#Kurs auswählen
+mst#:#mst_please_select_course#:#Bitte wählen Sie einen Kurs aus.
+mst#:#mst_opt_all#:#Alle
+mst#:#mst_memb_status_requested#:#Beantragt
+mst#:#mst_memb_status_waitinglist#:#Warteliste
+mst#:#mst_memb_status_registered#:#Angemeldet
+mst#:#mst_show_courses#:#Kurse anzeigen
+mst#:#mst_courses_of#:#Kurse von %s
+orgu#:#orgu_enable_my_staff#:#‘Meine Mitarbeiter’ aktivieren
+orgu#:#orgu_enable_my_staff_info#:#The Ansicht ‘Meine Mitarbeiter’ zeigt die Lernfortschritte der eigenen Mitarbeiter an.
+orgu#:#org_op_manage_members#:#Mitglieder bearbeiten
+orgu#:#org_op_read_learning_pr#:#Lernfortschritt einsehen
+orgu#:#form_title_org_default_permissions_update#:#Standardrechte
+orgu#:#msg_confirm_deletion#:#Gelöscht
 orgu#:#view_learning_progress#:#Lernfortschritt einsehen
 orgu#:#orgu_staff_deassign#:#Diese Benutzer aus der Rolle wirklich entfernen?
 orgu#:#orgu_msg_info_paste#:#Wählen Sie nun den gewünschten Ort, an dem die ausgewählten Objekte eingefügt werden sollen.
@@ -14065,7 +14151,7 @@ content#:#cont_no_page_access_unansw_q#:#Sie müssen alle bisherigen Fragen korr
 classification#:#clsfct_block_title#:#Auswahl nach Themen
 classification#:#clsfct_block_info#:#Ihre Auswahl filtert die Objekte.
 classification#:#clsfct_content_title#:#Zu Ihrer Auswahl passende Objekte.
-classification#:#clsfct_content_no_match#:#Keine Treffer
+classification#:#clsfct_content_no_match#:#Es wurden keine Objekte für die ausgewählten Kriterien gefunden.
 cntr#:#sorting_new_items_position#:#Position neuer Objekte
 cntr#:#sorting_new_items_at_top#:#Oben
 cntr#:#sorting_new_items_at_bottom#:#Unten
@@ -14591,7 +14677,7 @@ mob#:#mob_object#:#Objekt
 content#:#cont_qtries_info#:#Standardwert "Anzahl der Versuche" für neu angelegte Fragen.
 lm#:#lm_copy#:#ILIAS-Lernmodul kopieren
 content#:#cont_settings#:#Lernmoduleinstellungen
-exc#:#exc_no_team_yet_notice#:#Sie gehören noch keinem Team an!
+exc#:#exc_no_team_yet_notice#:#Sie gehören noch keinem Team an.
 prtf#:#prtf_edit_embedded_blog#:#Blog "%s" bearbeiten
 exc#:#exc_manage_team#:#Team verwalten
 assessment#:#user_has_finished_a_test#:#Ein Teilnehmer hat einen Test beendet.
@@ -14948,7 +15034,7 @@ mob#:#mob_upload_multi_srt_howto#:#Die .zip-Datei / .zip-Archiv darf keine Unter
 mob#:#mob_file_could_not_be_uploaded#:#Datei konnte nicht hochgeladen werden.
 mob#:#mob_multi_srt_files#:#SRT-Dateien
 content#:#cont_subtitle_files#:#Untertitel Medienobjekte
-content#:#cont_upload_multi_srt_howto#:#Erlaubt das Hochladen mehrerer Untertitel-Dateien (.srt) in einer .zip-Datei für alle Medienobjekte eines Lernmoduls. Die .zip-Datei / .zip-Archiv darf keine Unterverzeichnisse enthalten. Alle .srt-Dateien müssen auf oberster Ebene liegen, um erkannt zu werden. Die Dateinamen müssen enden mit "_&lt;SPRACHE&gt;.srt", wobei SPRACHE die entsprechende Sprachkennung ist (z. B. "en", "it" oder "de"). Der Rest des Dateinamens muss dem Namen der zugehörigen Videodatei entsprechen. Die Datei für englische Untertitel des Videos "my_video.mp4" heißt entsprechend "my_video_en.srt".
+content#:#cont_upload_multi_srt_howto#:#Erlaubt das Hochladen mehrerer Untertitel-Dateien (.srt) in einer .zip-Datei für alle Medienobjekte. Die .zip-Datei / .zip-Archiv darf keine Unterverzeichnisse enthalten. Alle .srt-Dateien müssen auf oberster Ebene liegen, um erkannt zu werden. Die Dateinamen müssen enden mit "_&lt;SPRACHE&gt;.srt", wobei SPRACHE die entsprechende Sprachkennung ist (z. B. "en", "it" oder "de"). Der Rest des Dateinamens muss dem Namen der zugehörigen Videodatei entsprechen. Die Datei für englische Untertitel des Videos "my_video.mp4" heißt entsprechend "my_video_en.srt".
 content#:#cont_moved_srt_files#:#Die Untertitel-Dateien wurden den Medienobjekten zugeordnet.
 content#:#cont_subtitle_file#:#SRT-ZIP-Datei
 content#:#cont_multi_srt_files#:#SRT-Dateien
@@ -15958,6 +16044,48 @@ wsp#:#element_already_shared#:#Die Ressource ist für diesen Benutzer bereits fr
 wsp#:#search_no_match#:#Es wurde kein Benutzer mit diesem Benutzernamen gefunden.
 wsp#:#element_shared#:#Die Ressource wurde freigegeben.
 wsp#:#share#:#Freigeben
+common#:#obj_pdfg#:#PDF-Erstellung
+common#:#obj_pdfg_desc#:#Administrationseinstellungen für die PDF-Erstellung
+common#:#building_export_file#:#Erstelle Export Datei...
+pdfgen#:#phantomjs#:#PhantomJS
+pdfgen#:#tcpdf#:#TCPDF
+pdfgen#:#path#:#Pfad zum Programm
+pdfgen#:#fop_config#:#Konfiguration für Fop
+pdfgen#:#phantomjs_config#:#Konfiguration für PhantomJs
+pdfgen#:#page_settings#:#Seiteneinstellungen
+pdfgen#:#orientation#:#Orientierung
+pdfgen#:#print_media_type#:#Benutze Druck Media Type anstatt Bildschirm
+pdfgen#:#output_options#:#Ausgabe Optionen
+pdfgen#:#margin#:#Rand
+pdfgen#:#show_info#:#Zeige Informationen
+pdfgen#:#header_type#:#Kopfzeile
+pdfgen#:#text#:#Text
+pdfgen#:#footer_type#:#Fußzeile
+pdfgen#:#spacing#:#Abstand
+pdfgen#:#head_text#:#Text
+pdfgen#:#header_height#:#Höhe Kopfzeile
+pdfgen#:#header_show_pages#:#Zeige Seitenzahlen
+pdfgen#:#footer_text#:#Text
+pdfgen#:#footer_height#:#Höhe Fußzeile
+pdfgen#:#footer_show_pages#:#Zeige Seitenzahlen
+prtf#:#pdf_export#:#PDF Export
+pdfgen#:#xsl#:#Pfad zur XSL Datei
+pdfgen#:#preferred_renderer#:#Bevorzugter Renderer
+pdfgen#:#selected_renderer#:#Gewählter Renderer
+pdfgen#:#configure#:#Konfiguriere Renderer
+pdfgen#:#image_scale#:#Bildskalierung
+pdfgen#:#config_saved#:#Speichern erfolgreich.
+pdfgen#:#config_not_saved#:#Speichern fehlgeschlagen.
+pdfgen#:#margin_left#:#Margin Links
+pdfgen#:#margin_top#:#Margin Oben
+pdfgen#:#margin_right#:#Margin Rechts
+pdfgen#:#margin_bottom#:#Margin Unten
+pdfgen#:#viewport#:#Viewport
+pdfgen#:#viewport_info#:#Viewport in Pixeln z.B "1920*1080"
+pdfgen#:#zoom#:#Zoom
+pdfgen#:#javascript_delay#:#Javascript Verzögerung
+pdfgen#:#page_size#:#Seitengröße
+pdfgen#:#reset_to_default#:#Default Einstellungen laden
 copg#:#copg_questions_not_supported_here#:#In diesem Kontext werden keine Fragen unterstützt.
 auth#:#auth_err_login_attempts_deactivation#:#Das Benutzerkonto wurde wegen falscher Loginversuche deaktiviert. 
 crs#:#crs_edit_lo_introduction#:#Einleitung bearbeiten
@@ -15980,6 +16108,8 @@ background_tasks#:#background_tasks_running#:#Laufende Aufgaben
 background_tasks#:#scheduled#:#Geplant
 background_tasks#:#dismiss#:#Beenden
 background_tasks#:#completed#:#Abgeschlossen
+background_tasks#:#waiting#:#Warten
+background_tasks#:#proceed_job#:#Weiter
 grp#:#grp_period#:#Veranstaltungszeitraum
 grp#:#grp_period_info#:#Information zum Start und Ende der Veranstaltung, die mit der Gruppe unterstützt werden soll.
 exc#:#exc_settings_feedback_mail_info#:#Tutoren geben ihre Rückmeldungen zur Abgabe in ein Mail-Formular ein. Die Mail wird dem entsprechenden Teilnehmer gesendet.
@@ -15990,6 +16120,76 @@ rbac#:#file_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen
 rbac#:#stys_sty_write_content#:#Content-Styles bearbeiten
 style#:#manage_system_styles#:#System Styles verwalten
 style#:#scope#:#Gültigkeitsbereich
+auth#:#auth_saml#:#SAML
+common#:#auth_saml#:#SAML
+common#:#saml_log_in#:#Login
+common#:#saml_login_form_txt#:#Bei ILIAS anmelden über SAML
+common#:#saml_login_form_info_txt#:#Um sich ber SAML anzumelden, klicken Sie bitte den 'Anmelde'-Button.
+common#:#login_to_ilias_via_saml#:#Bei ILIAS via SAML-Authentifizierung anmelden
+auth#:#auth_saml_configure#:#SAML-Unterstützung konfigurieren
+auth#:#auth_saml_add_idp_btn#:#Identity Provider Hinzufügen
+auth#:#auth_saml_sure_delete_idp#:#Sind Sie sicher, dass Sie den gewählten Identity Provider unwiederruflich löschen möchten? Für die betroffenen Benutzerkonten wird anschließend die Standard-Authentifizierung gewählt.
+auth#:#auth_saml_deleted_idp#:#Der Identity Provider wurde gelöscht.
+auth#:#auth_saml_unknow_idp#:#Der Identity Provider existiert nicht.
+auth#:#auth_saml_add_idp_md_label#:#Identity Provider SAML Metadaten
+auth#:#auth_saml_idp_selection_table_title#:#Identity Provider
+auth#:#auth_saml_idp_selection_table_desc#:#Please select the Identity Provider that you wish to log in with.
+auth#:#auth_saml_add_idp_md_info#:#Bitte fügen Sie hier die Metadaten des Identity Provider als XML-formatierte Zeichenkette ein.
+auth#:#auth_saml_add_idp_md_error#:#Der eingegeben Wert entsprach leider nicht einem wohlgeformten XML-Dokument. Bitte stellen Sie sicher, dass das XML einen gültigen Identity Provider enthält.
+auth#:#auth_saml_enable#:#SAML-Unterstützung aktivieren
+auth#:#auth_saml_migration_info#:#Aktivieren Sie diese Einstellung, um neuen Benutzern die Möglichkeit zu bieten, eventuell vorhandene ILIAS Benutzerkonten auf SAML-Authentifizierung umzustellen.
+auth#:#auth_saml_migration#:#Account-Migration:
+auth#:#auth_saml_role_select#:#Rolle:
+auth#:#auth_allow_local_info#:#Wenn aktiviert, ist die lokale Authentifizierung gegen die ILIAS-Datenbank mit Benutzername/Passwort auch für jene Benutzerkonten möglich, deren Authentifizierungsmodus SAML ist.
+auth#:#auth_saml_sync_info#:#Wenn aktiviert, wird automatisch ein ILIAS-Benutzerkonto für Personen angelegt, wenn sich diese erfolgreich gegen SAML authentifiziert haben, bisher aber noch nicht über einen ILIAS-Account verfügen.  Des Weiteren werden bei Aktivierung bereits vorhandene Benutzerkonten aktualisiert.
+auth#:#auth_saml_sync#:#Benutzer-Synchronisierung
+auth#:#auth_saml_uid_claim#:#Eindeutiges Attribut für die Benutzerkonten-Identifikation
+auth#:#auth_saml_uid_claim_info#:#Definieren Sie hier das Attribut, anhand dessen ILIAS bei der Authentifizierung ermitteln kann, ob ein Benutzerkonto bereits existiert, oder ob es sich um ein bereits vorhandenes Benutzerkonto handelt.
+auth#:#auth_saml_username_claim#:#Attribut für den Anzeigenamen/Benutzernamen
+auth#:#auth_saml_username_claim_info#:#Definieren Sie hier das Attribut, anhand dessen ILIAS den Anzeigenamen/Benutzernamen generieren soll.
+auth#:#auth_saml_user_mapping#:#Zuordnung der Profildaten
+auth#:#auth_saml_update_field_info#:#Automatisch aktualisieren
+auth#:#err_auth_saml_failed#:#Die Authentifizierung ist fehlgeschlagen. Bitte kontaktieren Sie Ihren Administrator.
+auth#:#err_auth_saml_no_ilias_user#:#Die Authentifizierung ist fehlgeschlagen. Bitte kontaktieren Sie Ihren Administrator.
+auth#:#auth_saml_login_form#:#Anzeige im Anmeldeformular
+auth#:#auth_saml_login_form_info#:#Falls aktiviert und es mindestens einen aktiven IDP gibt, wird auf der Anmeldeseite von ILIAS ein Button angezeigt, der bei Klick einen SAML-Request initiert.
+auth#:#auth_saml_idps#:#SAML IDP Liste
+auth#:#auth_saml_idps_info#:#Bitte kontrollieren Sie vor dem Hinzufügen eines Identity Provider die SimpleSAMLphp Konfiguration in den Dateien '<strong>%s</strong>' und '<strong>%s</strong>' (externes Datenverzeichnis) und passen Sie diese an. Bitte lesen Sie dazu auch die folgende Dokumentation: %s.
+auth#:#auth_saml_idp#:#IDP
+auth#:#auth_saml_configure_idp#:#SAML-IDP konfigurieren: %s
+auth#:#saml_tab_head_idp#:#IDP
+auth#:#auth_saml_idp_settings#:#IDP Einstellungen
+dateplaner#:#cal_origin#:#Herkunft
+dateplaner#:#cal_list#:#Liste
+dateplaner#:#cal_grp_curr_crs_cons#:#Sprechstunden
+dateplaner#:#cal_grp_curr_crs#:#Aktueller Kurs
+dateplaner#:#cal_grp_personal#:#Persönlich
+dateplaner#:#cal_grp_others#:#Andere
+dateplaner#:#cal_download_all_files#:#Alle Dateien herunterladen
+dateplaner#:#cal_owner#:#Eigentümer
+dateplaner#:#cal_contained_in#:#Contained in
+dateplaner#:#cal_app_info#:#Information zur Übungseinheit
+dateplaner#:#cal_crs_info#:#Course Information
+crs#:#crs_open#:#Kurs öffnen
+grp#:#grp_grp_open#:#Gruppe öffnen
+dateplaner#:#cal_grp_info#:#Information zur Gruppe
+dateplaner#:#cal_exc_info#:#Information zur Übungseinheit
+dateplaner#:#cal_sess_info#:#Session Information
+dateplaner#:#cal_agenda#:#Agenda
+dateplaner#:#cal_exc_open#:#Übungseinheit öffnen
+book#:#book_open#:#Buchungspool öffnen
+book#:#book_booking_information#:#Information
+sess#:#sess_open#:#Sitzung öffnen
+dateplaner#:#cal_show_weeks#:#Anzeige Wochenspalte
+dateplaner#:#cal_show_weeks_info#:#Zeigt die Wochen im Seitenblock "Kalender" an. Benutzer können die Anzeige deaktivieren.
+dateplaner#:#cal_usr_show_weeks#:#Anzeige Wochenspalte
+dateplaner#:#cal_usr_show_weeks_info#:#Zeigt die Wochen im Seitenblock "Kalender" an.
+dateplaner#:#cal_grp_curr_grp#:#Aktuelle Gruppe
+dateplaner#:#cal_subscription#:#Abonnieren
+dateplaner#:#cal_cal_shared_with#:#Benutzer mit denen der Kalender geteilt wird
+dateplaner#:#cal_consultation_hours_for_user#:#Sprechstunden für %1
+dateplaner#:#cal_open_calendar#:#Kalender öffnen
+dateplaner#:#cal_delete_cal#:#Kalender löschen
 mail#:#first_email_missing_info#:#Auswahl nicht möglich, da keine E-Mail-Adresse eingetragen wurde
 mail#:#second_email_missing_info#:#Auswahl nicht möglich, da keine zweite E-Mail-Adresse eingetragen wurde
 mail#:#mail_first_email#:#Erste E-Mail-Adresse
@@ -15997,3 +16197,183 @@ mail#:#mail_second_email#:#Zweite E-Mail-Adresse
 mail#:#mail_both_email#:#Beide E-Mail-Adressen
 common#:#second_email_not_valid#:#Die eingegebene zweite E-Mail-Adresse ist nicht gültig!
 common#:#second_email#:#Zweite E-Mail
+cmps#:#cmps_must_installed#:#Plugin muss installiert werden.
+cmps#:#cmps_install#:#Installieren
+rbac#:#amend_grading#:#Dokumentation nach Finalisierung ändern
+rbac#:#iass_amend_grading#:#Benutzer darf die Prüfungsdaten nach Finalisierung ändern.
+iass#:#iass_usr_amend#:#Dokumentation nach Finalisierung ändern
+iass#:#iass_event_time_place_required#:#Verpflichtende Angabe von Datum und Ort
+iass#:#iass_event_time_place_required_info#:#In der Dokumentation zu einem Teilnehmer müssen Datum und Ort angegeben werden.
+iass#:#iass_place#:#Ort der Durchführung
+iass#:#iass_event_time#:#Datum der Durchführung
+prg#:#prg_multi_mark_accredited#:#Akkredieren
+prg#:#prg_multi_unmark_accredited#:#Akkreditierung entfernen
+prg#:#prg_multi_remove_user#:#Benutzer entfernen
+prg#:#prg_multi_mark_relevant#:#Als relevant markieren
+prg#:#prg_multi_unmark_relevant#:#Als unrelevant markieren
+prg#:#prg_multi_update_from_current_plan#:#Aus dem aktuellen Plan aktualisieren.
+prg#:#prg_remove_users_success#:#Die Benutzer wurden entfernt.
+prg#:#prg_remove_users_not_possible#:#Die Benutzer konnten nicht entfernt werden, da sie nicht an diesem Studienprogramm hinzugefügt wurden.
+prg#:#prg_remove_users_partitial_success#:#Die Benutzer wurden teilweise entfernt. Einige konnten nicht entfernt werden, da sie nicht an diesem Studienprogramm hinzugefügt wurden.
+prg#:#prg_mark_accredited_multi_success#:#Das Programm wurde für die Benutzer erfolgreich akkreditiert.
+prg#:#prg_mark_relevant_multi_success#:#Das Programm wurde für die Benutzer als relevant markiert.
+prg#:#prg_mark_not_relevant_multi_success#:#Das Programm wurde für die Benutzer als nicht relevant markiert.
+skmg#:#skmg_assigned_profiles#:#Zugewiesene Profile
+skmg#:#skmg_selected_skills#:#Ausgewählte Kompetenzen
+skmg#:#skmg_hide_profile_self_eval#:#Profilwerte nach Selbsteinschätzung anzeigen
+skmg#:#skmg_hide_profile_self_eval_info#:#Für einzelne Kompetenzwerte werden Profilwerte erst angezeigt, nachdem der Benutzer eine Selbsteinschätzung abgegeben hat.
+skmg#:#skmg_suggested#:#Vorgeschlagenes Magazinobjekt
+skmg#:#skmg_lp_triggers_level#:#Gesetzt durch 'Bearbeitet'-Status
+skmg#:#skmg_save_settings#:#Einstellungen speichern
+content#:#cont_pc_grid#:#Spaltenlayout
+content#:#cont_grid_nr_cells#:#Anzahl Spalten
+content#:#cont_ed_insert_grid#:#Spaltenlayout einfügen
+content#:#cont_grid_width_s#:#Klein (Small)
+content#:#cont_grid_width_s_info#:#z.B. Smartphone
+content#:#cont_grid_width_m_info#:#z.B. Tablet
+content#:#cont_grid_width_l#:#Groß (Large)
+content#:#cont_grid_width_l_info#:#z.B. Desktop
+content#:#cont_grid_width_xl#:#Sehr groß (Extra Large)
+content#:#cont_grid_width_xl_info#:#z.B. Wide Desktop
+content#:#cont_add_cell#:#Spalte hinzufügen
+content#:#cont_ed_delete_cell#:#Spalte löschen
+content#:#cont_ed_cell_left#:#Nach links verschieben
+content#:#cont_ed_cell_right#:#Nach rechts verschieben
+content#:#cont_ed_insert_grid_info#:#Fügt ein responsives Spaltenlayout basierend auf einem Raster mit 12 Einheiten je Zeile ein.
+content#:#cont_ed_grid_col_width#:#Spaltenbreite
+content#:#cont_ed_grid_col_width_info#:#Spalten können mehrere 1/12-Einheiten einer Zeile in Abhängigkeit von der Bildschirmgröße belegen. Die genannten Geräte sind Beispiele. Letztendlich entscheidet die Bildschirmgröße das Verhaltent. 12/12 entspricht einer Breite von 100%.
+content#:#cont_ed_grid_col_widths#:#Spaltenbreiten
+user#:#has_role#:#Rolle
+content#:#cont_grid_cell_confirm_deletion#:#Sollen die Spalten wirklich gelöscht werden?
+content#:#cont_grid_cell#:#Spalte
+user#:#criteria#:#Kriterium
+user#:#starting_point#:#Startseite
+user#:#user_role_starting_point#:#Benutzer - Startseite
+user#:#roles_without_starting_point#:#Rollen ohne definierte Startseite
+user#:#all_roles_has_starting_point#:#Alle Rollen mit definierter Startseite
+user#:#starting_page#:#Startseite
+user#:#starting_points#:#Startseiten
+user#:#user_chooses_starting_page#:#Benutzer setzt Startseite
+user#:#save_order#:#Reihenfolge speichern
+user#:#editing_this_role#:#Regel editieren
+user#:#create_starting_point#:#Regel erstellen
+user#:#starting_point_settings#:#Einstellungen Startseite
+user#:#confirm_delete_starting_point#:#Sind Sie sich sicher, dass diese Regel gelöscht werden soll?
+user#:#back_to_starting_points_list#:#Zurück zu Startseiten
+exc#:#exc_work_instructions#:#Arbeitsanweisung
+exc#:#exc_after_submission#:#Nach der Abgabe
+exc#:#exc_schedule#:#Terminplan
+exc#:#exc_submit_convenience_no_deadline#:#Geben Sie nach Bearbeitung der Übungseinheit ab. Es gibt keinen festen Abgabetermin.
+exc#:#exc_select_portfolio_unlink#:#Portfolio entfernen
+exc#:#exc_sure_unlink_portfolio#:#Möchten Sie das Portfolio aus dieser Übungseinheit entfernen?
+exc#:#exc_portfolio_unlinked_from_assignment#:#Das Portfolio wurde aus der Übungseinheit entfernt.
+exc#:#exc_template#:#Portfoliovorlage
+exc#:#exc_portfolio_template#:#Portfoliovorlage bestimmen
+exc#:#exc_without_template#:#Ohne Portfoliovorlage
+exc#:#exc_with_template#:#Mit Portfoliovorlage
+exc#:#exc_without_template_info#:#Teilnehmer erstellen ihre Portfolios selbständig ohne Vorlage.
+exc#:#exc_with_template_info#:#Ein leeres Portfolio wird automatisch aus einer bestimmten Portfoliovorlage abgeleitet.
+exc#:#exc_no_portfolio_templates#:#Es sind keine Portfoliovorlagen vorhanden.
+exc#:#exc_go_to_exercise#:#Zur Übung
+exc#:#exc_limit_characters#:#Anzahl der Zeichen beschränken
+exc#:#exc_min_char_limit#:#Mindestanzahl Zeichen
+exc#:#exc_max_char_limit#:#Höchstanzahl Zeichen
+exc#:#exc_chars_remaining#:#Verbleibende Zeichen
+exc#:#msg_input_char_limit_min#:#Sie müssen die festgelegte Mindestanzahl an Zeichen eingeben. Ihr Beitrag ist zu kurz.
+exc#:#msg_input_char_limit_max#:#Sie müssen die festgelegte Höchstzahl von Zeichen beachten. Ihr Beitrag ist zu lang.
+exc#:#exc_direct_no_submit#:#Nicht abgeben
+obj#:#obj_activation#:#Aktivierung
+obj#:#obj_user_decides_notification#:#Mitglieder müssen Benachrichtigungen selber aktivieren
+obj#:#obj_settings_for_all_members#:#Mitglieder werden automatisch benachrichtigt
+obj#:#obj_user_not_disable_not#:#Mitglieder können die Benachrichtigung nicht deaktiveren
+skmg#:#skmg_eval_type_1#:#Fremdeinschätzung
+skmg#:#skmg_eval_type_2#:#Messung
+skmg#:#skmg_eval_type_3#:#Selbsteinschätzung
+user#:#user_profile_info#:#Infotext Benutzerprofil
+user#:#user_profile_info_text_info#:#Dieser Text erscheint über dem Eingabeformular der persönlichen Daten.
+user#:#user_make_profile_public#:#Profil veröffentlichen
+content#:#cont_prtf_page#:#Portfolioseite
+content#:#cont_prtt_page#:#Portfoliovorlagenseite
+svy#:#svy_user_added_360_appraisee#:#360°-Umfrage '%1'
+svy#:#svy_user_added_360_appraisee_mail#:#Sie wurden der Umfrage als Feedback-Nehmer hinzugefügt.
+svy#:#svy_user_added_360_rater#:#360°-Umfrage '%1'
+svy#:#svy_user_added_360_rater_mail#:#Sie wurden als Feedback-Geber hinzugefügt.
+svy#:#svy_user_added_360_appraisee_close_mail#:#Die 360°-Umfrage wurde für Ihre Feedback-Geber geschlossen.
+svy#:#survey_360_appraisees_remind_info#:#Falls die Selbsteinschätzung aktiviert ist, erhalten Feedback-Nehmer, die die Umfrage noch nicht abgeschlossen haben, eine Erinnerungsnachricht.
+svy#:#survey_360_raters_remind_info#:#Feedback-Geber, die die Umfrage noch nicht abgeschlossen haben, erhalten eine Erinnerungsnachricht.
+svy#:#svy_user_added_360_rater_reminder_mail#:#Bitte bewerten Sie noch die folgenden Feedback-Nehmer:
+prtf#:#prtf_add_new_blog#:#Neues Blog hinzufügen
+prtf#:#prtf_add_new_blog_info#:#Das neue Blog wird Ihrem persönlichen Arbeitsraum hinzugefügt.
+prtf#:#prtf_add_existing_blog#:#Vorhandenes Blog nutzen
+blog#:#blog_draft_text#:#Unveröffentlichter Beitrag
+user#:#usr_letter_avatars#:#Letter-Avatare
+user#:#usr_letter_avatars_info#:#Zeigt die Initialen des Benutzernamens oder Logins an, wenn kein öffentliches Profilbild vorliegt.
+mep#:#mep_master_language_only_no_media#:#Master Language without Media
+content#:#cont_master_language_only_no_media#:#Master Language without Media
+mep#:#mep_content#:#Content
+mep#:#mep_media_subtitles#:#Media Subtitles
+content#:#cont_last_visited_page#:#Zuletzt besuchte Seite
+content#:#cont_first_page#:#Erste Seite
+content#:#cont_lm_starting_point#:#Startseite für ILIAS-Lernmodule
+content#:#cont_lm_starting_point_info#:#Seite, die beim Anklicken des Lernmodultitels geöffnet wird.
+content#:#cont_short_titles#:#Kurztitel
+content#:#cont_short_title#:#Kurztitel
+content#:#cont_short_title_info#:#Kurztitel werden in der Präsentationsansicht in der Baumdarstellung auf der linken Seite und für die Vor- und Zurück-Navigation genutzt.
+grp#:#grp_add_to_group#:#Zur Gruppe hinzufügen
+grp#:#grp_add_user_to_group#:#Benutzer zur Gruppe hinzufügen
+grp#:#grp_create_or_use_existing#:#Wollen Sie den Benutzer zu einer bestehenden Gruppe hinzufügen oder eine neue Gruppe anlegen?
+grp#:#grp_use_existing#:#Bestehende Gruppe nutzen
+grp#:#grp_create_new#:#Neue Gruppe anlegen
+grp#:#grp_sure_add_user_to_group#:#Wollen Sie den Benutzer wirklich der Gruppe hinzufügen?
+grp#:#grp_add_user#:#Benutzer hinzufügen
+grp#:#grp_user_been_added#:#Der Benutzer wurde der Gruppe hinzugefügt.
+grp#:#grp_sure_create_group_add_user#:#Wollen Sie die Gruppen wirklich erstellen und den Benutzer hinzufügen?
+grp#:#grp_create_and_add_user#:#Erstellen und hinzufügen
+grp#:#grp_next#:#Weiter
+obj#:#obj_tool_setting_skills#:#Kompetenzen
+cont#:#cont_skill_assigned_comp#:#Kompetenzauswahl
+cont#:#cont_skill_members#:#Mitglieder
+cont#:#cont_skill_show#:#Anzeigen
+cont#:#cont_skill_publish#:#Veröffentlichung
+cont#:#cont_skill_publish_manual#:#Manuell
+cont#:#cont_skill_publish_manual_info#:#Zuweisungen von Kompetenzausprägungen zu Mitgliedern werden für diese erst sichtbar, wenn diese veröffentlicht werden.
+cont#:#cont_skill_publish_auto_info#:#Zuweisungen von Kompetenzausprägungen zu Mitgliedern werden für diese sofort sichtbar.
+cont#:#cont_skill_publish_auto#:#Automatisch
+cont#:#cont_add_skill#:#Kompetenz hinzufügen
+cont#:#cont_cont_skills#:#Kompetenzen der Mitglieder
+cont#:#cont_skill#:#Kompetenz
+cont#:#cont_path#:#Pfad
+cont#:#cont_really_remove_skill_from_course#:#Sollen die Kompetenzen wirklich aus der Liste entfernt werden?
+cont#:#cont_skill_do_not_set#:#Nich setzen
+cont#:#cont_skill_no_skill#:#Kein Wert (zurücksetzen)
+cont#:#cont_mem_skills#:#Kompetenzen
+cont#:#cont_published#:#Veröffentlichung
+cont#:#cont_assign_competence#:#Mitgliedern Kompetenzen zuweisen
+cont#:#cont_deassign_competence#:#Kompetenzen zurücksetzen
+cont#:#cont_publish_assignment#:#Zuweisungen veröffentlichen
+cont#:#cont_really_deassign_skills#:#Wollen Sie wirklich alle Kompetenzuweisungen des Benutzers zurücksetzen?
+skll#:#skll_new_skill_achievements#:#Sie haben die folgenden Kompetenzausprägungen im Zeitraum %1$s bis %2$s erreicht:
+skll#:#skll_intro_skill_notification_for#:#nachfolgend eine Übersicht Ihrer letzten Kompetenzänderungen:
+skll#:#skll_skill_notification#:#Benachrichtigung Kompetenzauswertung
+skll#:#skll_skill_notification_desc#:#Benutzer werden über geänderte Kompetenzausprägungen benachrichtigt.
+skll#:#skll_competence_achievements#:#Neue Kompetenzbewertungen und -einschätzungen
+common#:#grade#:#Bewerten
+rbac#:#grp_grade#:#Gruppenmitglieder bewerten
+rbac#:#crs_grade#:#Kursmitglieder bewerten
+grp#:#grp_no_perm_to_add_create_first#:#Sie müssen zunächst eine neue Gruppe erstellen. Bitte wählen Sie den Ort, an dem die neue Gruppe erstellt werden soll.
+grp#:#grp_create_new_grp_in#:#Neue Gruppe in '%1' erstellen.
+obj#:#obj_tool_setting_skills_info#:#Die Funktion ermöglicht es Kompetenzen auszuwählen und Mitgliedern Kompetenzausprägungen zuzuweisen.
+obj#:#cont_skll_published#:#Alle Kompetenzzuweisungen wurden veröffentlicht.
+obj#:#cont_skll_published_some_not#:#Alle gegebenen Kompetenzzuweisungen wurden veröffentlicht. Zu einigen Benutzern konnten keine Kompetenzen veröffentlicht werden, da keine Zuweisungen vorlagen.
+grp#:#grp_user_already_in_group#:#Der ausgewählte Benutzter ist bereits Mitglieder der Gruppe.
+prg#:#prg_deadline#:#Stichtag
+prg#:#prg_status_failed#:#nicht bestanden
+common#:#edit_page_meta#:#Seitenmetadaten bearbeiten
+rbac#:#wiki_edit_page_meta#:#Wikiseitenmetadaten bearbeiten
+content#:#cont_user#:#Benutzer
+content#:#cont_user_search_did_not_match#:#Es wurde kein Benutzer gefunden.
+blog#:#blog_latest_posting#:#Neuester Beitrag
+classification#:#clsfct_selected_objects#:#Ausgewählte Objekte
+classification#:#clsfct_back_to_cat#:#Zurück zur Kategorie
+tax#:#tax_tax_assignment#:#Taxonomiezuordnung
+tax#:#tax_tax_settings#:#Taxonomieeinstellungen

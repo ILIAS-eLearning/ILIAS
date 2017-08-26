@@ -94,7 +94,9 @@ class ilADTActiveRecordByType
 			"float" => array("Float"),
 			"date" => array("Date"),
 			"datetime" => array("DateTime"),
-			"location" => array("Location")
+			"location" => array("Location"),
+			'extlink' => ['ExternalLink'],
+			'intlink' => ['InternalLink']
 		);
 	}
 	
@@ -154,6 +156,12 @@ class ilADTActiveRecordByType
 					$a_element_id."_zoom" => $a_row["loc_zoom"]
 				);	
 				break;
+			
+			case 'extlink':
+				return [
+					$a_element_id.'_value' => $a_row['value'],
+					$a_element_id.'_title' => $a_row['title']
+				];
 
 			default:
 				if($a_row[self::SINGLE_COLUMN_NAME] !== null)
@@ -178,7 +186,8 @@ class ilADTActiveRecordByType
 		$this->properties->getADT()->reset();
 		
 		//  using preloaded data
-		if(is_array(self::$preloaded))
+		// TODO: remove this hack.
+		if(is_array(self::$preloaded) && !$a_return_additional_data)
 		{
 			$primary = $this->properties->getPrimary();
 			foreach(self::$preloaded as $table => $data)
@@ -737,19 +746,19 @@ class ilADTActiveRecordByType
 		}			
 		if($found)
 		{				
-			$res = array();
+			$objects = [];
 			
 			$sql = "SELECT *".$a_additional_fields.
 				" FROM ".$a_table."_".$found.
 				" WHERE field_id = ".$ilDB->quote($a_field_id, "integer").
 				" AND ".$a_condition;
-			$set = $ilDB->query($sql);
-			while($row = $ilDB->fetchAssoc($set))
+			$res = $ilDB->query($sql);
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 			{
-				$res[] = $row;
+				$objects[] = $row;
 			}
 			
-			return $res;
+			return $objects;
 		}				
 	}
 }

@@ -21,4 +21,18 @@ interface Panel extends \ILIAS\UI\Component\Component {
 	 * @return \ILIAS\UI\Component\Component[]|\ILIAS\UI\Component\Component
 	 */
 	public function getContent();
+
+	/**
+	 * Sets action Dropdown being displayed beside the title
+	 * @param \ILIAS\UI\Component\Dropdown\Standard $actions
+	 * @return Sub
+	 */
+	public function withActions(\ILIAS\UI\Component\Dropdown\Standard $actions);
+
+	/**
+	 * Gets action Dropdown being displayed beside the title
+	 * @return \ILIAS\UI\Component\Dropdown\Standard | null
+	 */
+	public function getActions();
+
 }

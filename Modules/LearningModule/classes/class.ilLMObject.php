@@ -24,16 +24,24 @@ class ilLMObject
 	var $data_record;		// assoc array of lm_data record
 	var $content_object;
 	var $title;
+	var $short_title;
 	var $description;
 	var $active = true;
 	static protected $data_records = array();
+
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
 
 	/**
 	* @param	object		$a_content_obj		content object (digi book or learning module)
 	*/
 	function __construct($a_content_obj, $a_id = 0)
 	{
-		global $ilias;
+		global $DIC;
+
+		$this->db = $DIC->database();
 
 		$this->id = $a_id;
 		$this->setContentObject($a_content_obj);
@@ -205,6 +213,7 @@ class ilLMObject
 		$this->type = $this->data_record["type"];
 		$this->setImportId($this->data_record["import_id"]);
 		$this->setTitle($this->data_record["title"]);
+		$this->setShortTitle($this->data_record["short_title"]);
 		$this->setLayout($this->data_record["layout"]);
 		//$this->setActive(ilUtil::yn2tf($this->data_record["active"]));
 
@@ -234,48 +243,90 @@ class ilLMObject
 
 
 	/**
-	* set title of lm object
-	*
-	* @param	string		$a_title	title of chapter or page
-	*/
+	 * set title of lm object
+	 *
+	 * @param	string		$a_title	title of chapter or page
+	 */
 	function setTitle($a_title)
 	{
 		$this->title = $a_title;
 	}
 
 	/**
-	* get title of lm object
-	*
-	* @return	string		title of chapter or page
-	*/
+	 * get title of lm object
+	 *
+	 * @return	string		title of chapter or page
+	 */
 	function getTitle()
 	{
 		return $this->title;
 	}
 
+	/**
+	 * set short title of lm object
+	 *
+	 * @param	string		$a_title	short title of chapter or page
+	 */
+	function setShortTitle($a_title)
+	{
+		$this->short_title = $a_title;
+	}
 
 	/**
-	* Lookup title
-	*
-	* @param	int		lm object id
-	*/
-	static function _lookupTitle($a_obj_id)
+	 * get short title of lm object
+	 *
+	 * @return	string		short title of chapter or page
+	 */
+	function getShortTitle()
+	{
+		return $this->short_title;
+	}
+
+
+	/**
+	 * Lookup title
+	 *
+	 * @param	int		lm object id
+	 */
+	protected static function _lookup($a_obj_id, $a_field)
 	{
 		global $ilDB;
 
 		if (isset(self::$data_records[$a_obj_id]))
 		{
-			return self::$data_records[$a_obj_id]["title"];
+			return self::$data_records[$a_obj_id][$a_field];
 		}
 
-		$query = "SELECT title FROM lm_data WHERE obj_id = ".
+		$query = "SELECT ".$a_field." FROM lm_data WHERE obj_id = ".
 			$ilDB->quote($a_obj_id, "integer");
 		$obj_set = $ilDB->query($query);
 		$obj_rec = $ilDB->fetchAssoc($obj_set);
 
-		return $obj_rec["title"];
+		return $obj_rec[$a_field];
 	}
-	
+
+	/**
+	 * Lookup title
+	 *
+	 * @param int $a_obj_id object id
+	 * @return string
+	 */
+	static function _lookupTitle($a_obj_id)
+	{
+		return self::_lookup($a_obj_id, "title");
+	}
+
+	/**
+	 * Lookup short title
+	 *
+	 * @param int $a_obj_id object id
+	 * @return string
+	 */
+	static function _lookupShortTitle($a_obj_id)
+	{
+		return self::_lookup($a_obj_id, "short_title");
+	}
+
 	/**
 	* Lookup type
 	*
@@ -425,14 +476,15 @@ class ilLMObject
 
 		// insert object data
 		$this->setId($ilDB->nextId("lm_data"));
-		$query = "INSERT INTO lm_data (obj_id, title, type, layout, lm_id, import_id, create_date) ".
+		$query = "INSERT INTO lm_data (obj_id, title, type, layout, lm_id, import_id, short_title, create_date) ".
 			"VALUES (".
 			$ilDB->quote($this->getId(), "integer").",".
 			$ilDB->quote($this->getTitle(), "text").",".
 			$ilDB->quote($this->getType(), "text").", ".
 			$ilDB->quote($this->getLayout(), "text").", ".
 			$ilDB->quote($this->getLMId(), "integer").",".
-			$ilDB->quote($this->getImportId(), "text").
+			$ilDB->quote($this->getImportId(), "text").",".
+			$ilDB->quote($this->getShortTitle(), "text").
 			", ".$ilDB->now().")";
 		$ilDB->manipulate($query);
 
@@ -460,6 +512,7 @@ class ilLMObject
 		$query = "UPDATE lm_data SET ".
 			" lm_id = ".$ilDB->quote($this->getLMId(), "integer").
 			" ,title = ".$ilDB->quote($this->getTitle(), "text").
+			" ,short_title = ".$ilDB->quote($this->getShortTitle(), "text").
 			" ,layout = ".$ilDB->quote($this->getLayout(), "text").
 			" WHERE obj_id = ".$ilDB->quote($this->getId(), "integer");
 
@@ -1537,6 +1590,65 @@ class ilLMObject
 		}
 	}
 
-	
+	/**
+	 * Get short titles
+	 *
+	 * @param
+	 * @return array
+	 */
+	static function getShortTitles($a_lm_id, $a_lang = "-")
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+
+		$title_data = array();
+		if ($a_lang == "-")
+		{
+			$set = $db->query("SELECT t.child, d.obj_id, d.title, d.short_title FROM lm_data d LEFT JOIN lm_tree t ON (d.obj_id = t.child) WHERE d.lm_id = " .
+				$db->quote($a_lm_id, "integer") . " ORDER BY t.lft, d.title");
+		}
+		else
+		{
+			$set = $db->query("SELECT t.child, d.obj_id, tr.title, tr.short_title, d.title default_title, d.short_title default_short_title FROM lm_data d ".
+				" LEFT JOIN lm_tree t ON (d.obj_id = t.child) ".
+				" LEFT JOIN lm_data_transl tr ON (tr.id = d.obj_id AND tr.lang=".$db->quote($a_lang, "text").") WHERE d.lm_id = " .
+				$db->quote($a_lm_id, "integer") . " ORDER BY t.lft, d.title");
+		}
+		while ($rec = $db->fetchAssoc($set))
+		{
+			$title_data[] = $rec;
+		}
+		return $title_data;
+	}
+
+	/**
+	 * Write short title
+	 *
+	 * @param integer $a_id object id
+	 * @param string $a_short_title short title
+	 */
+	static function writeShortTitle($a_id, $a_short_title, $a_lang = "-")
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+
+		if ($a_lang != "-" && $a_lang != "")
+		{
+			$trans = new ilLMObjTranslation($a_id, $a_lang);
+			$trans->setShortTitle($a_short_title);
+			$trans->save();
+		}
+		else
+		{
+			$db->manipulate("UPDATE lm_data SET " .
+				" short_title = " . $db->quote($a_short_title, "text") .
+				" WHERE obj_id = " . $db->quote($a_id, "integer")
+			);
+		}
+	}
+
+
 }
 ?>

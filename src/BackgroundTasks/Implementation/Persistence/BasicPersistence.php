@@ -173,6 +173,9 @@ class BasicPersistence implements Persistence {
 
 		// The recursive part.
 		$this->saveTask($bucket->getTask(), $bucketContainer->getId());
+		if (!$bucket->getCurrentTask()) {
+			$bucket->setCurrentTask($bucket->getTask());
+		}
 		$bucketContainer->setCurrentTaskid($this->getTaskContainerId($bucket->getCurrentTask()));
 		$bucketContainer->setRootTaskid($this->getTaskContainerId($bucket->getTask()));
 
@@ -354,7 +357,6 @@ class BasicPersistence implements Persistence {
 		$bucket->setTitle($bucketContainer->getTitle());
 		$bucket->setDescription($bucketContainer->getDescription());
 		$bucket->setOverallPercentage($bucketContainer->getPercentage());
-
 		$bucket->setTask($this->loadTask($bucketContainer->getRootTaskid(), $bucket, $bucketContainer));
 
 		$this->bucketHashToObserverContainerId[spl_object_hash($bucket)] = $bucket_id;
@@ -385,7 +387,7 @@ class BasicPersistence implements Persistence {
 		$task = $factory->createTask($taskContainer->getClassName());
 
 		/** @var ValueToTaskContainer $valueToTask */
-		$valueToTasks = ValueToTaskContainer::where([ 'task_id' => $taskContainerId ])->get();
+		$valueToTasks = ValueToTaskContainer::where([ 'task_id' => $taskContainerId ])->orderBy('task_id')->get();
 		$inputs = [];
 		foreach ($valueToTasks as $valueToTask) {
 			$inputs[] = $this->loadValue($valueToTask->getValueId(), $bucket, $bucketContainer);

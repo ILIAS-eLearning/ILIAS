@@ -1,25 +1,34 @@
 <form class="ilForm" method="post" action="{FORM_ACTION}">
 
-<div class="ilCalSelList">
-<ul class="ilCalSel" id="categories">
+<div class="ilCalSelList" id="categories">
+<!-- BEGIN item_grp -->
+<h6>{GRP_HEAD}</h6>
+<ul class="ilCalSel" >
 <!-- BEGIN item -->
 	<li>
-		<input type="hidden" name="shown_cat_ids[]" value="{VAL_ID}" />
-		<span class="ilCalColSpan" style="background-color: {BGCOLOR}">
-			<input type="checkbox" name="selected_cat_ids[]" value="{VAL_ID}" {VAL_CHECKED} />
-		</span>
-		<img src="{IMG_SRC}" alt="{IMG_ALT}" title="{IMG_ALT}" />
-		<div class="ilCalSelTitle">
-		<a class="small" href="{EDIT_LINK}">{VAL_TITLE}</a>
-		<!-- BEGIN calendar_path -->
-		<div class="il_Description">
-			<span class="small">{ADD_PATH_INFO}</span>
-		</div>
-		<!-- END calendar_path -->
+		<div>
+			<div class="ilCalColSpan" style="border-color: {BGCOLOR}">
+				<input type="hidden" name="shown_cat_ids[]" value="{VAL_ID}" />
+				<input type="checkbox" name="selected_cat_ids[]" value="{VAL_ID}" {VAL_CHECKED} {VAL_DISABLED}/>
+			</div>
+			<div>
+				<img src="{IMG_SRC}" alt="{IMG_ALT}" title="{IMG_ALT}" />
+			</div>
+			<div>
+				<div class="ilCalSelTitle">
+				<a class="small" href="{EDIT_LINK}">{VAL_TITLE}</a>
+				<!-- BEGIN calendar_path -->
+				<div class="il_Description">
+					<span class="small">{ADD_PATH_INFO}</span>
+				</div>
+				<!-- END calendar_path -->
+				</div>
+			</div>
 		</div>
 	</li>
 <!-- END item -->
 </ul>
+<!-- END item_grp -->
 </div>
 <div class="ilCalSelSelAll light">
 <input id="chb_select_all_cat" type="checkbox" onclick="il.Util.setChecked('categories', 'selected_cat_ids',

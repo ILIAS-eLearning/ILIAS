@@ -27,6 +27,19 @@ class ilContainerPageGUI extends ilPageObjectGUI
 
 		parent::__construct("cont", $a_id, $a_old_nr, false, $a_lang);
 	}
-	
+
+	/**
+	 * Get profile back url
+	 */
+	function getProfileBackUrl()
+	{
+		include_once("./Services/Link/classes/class.ilLink.php");
+		$link = ilLink::_getLink((int) $_GET["ref_id"]);
+		// make it relative, since profile only accepts relative links as back links
+		$link = substr($link, strpos($link, "//") + 2);
+		$link = substr($link, strpos($link, "/"));
+		return $link;
+	}
+
 } 
 ?>

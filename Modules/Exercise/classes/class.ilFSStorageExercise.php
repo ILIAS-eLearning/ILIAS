@@ -228,7 +228,6 @@ class ilFSStorageExercise extends ilFileSystemStorage
 	function uploadFile($a_http_post_file, $user_id, $is_unziped = false)
 	{
 		$this->create();
-		
 		// TODO:
 		// CHECK UPLOAD LIMIT
 		//
@@ -263,7 +262,7 @@ class ilFSStorageExercise extends ilFileSystemStorage
 			if (!$is_unziped)
 			{
 				//move_uploaded_file($a_http_post_file["tmp_name"], $savepath . $prefix . "_" . $filename);
-				ilUtil::moveUploadedFile($a_http_post_file["tmp_name"], $a_http_post_file["name"],
+				ilUtil::moveUploadedFile($a_http_post_file["tmp_name"], $prefix . "_" . $filename,
 				$savepath . "/" . $prefix . "_" . $filename);
 			}
 			else
@@ -274,7 +273,6 @@ class ilFSStorageExercise extends ilFileSystemStorage
 			}
 			
 			require_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
-
 			if (is_file($savepath . "/" . $prefix . "_" . $filename))
 			{
 				$result = array(

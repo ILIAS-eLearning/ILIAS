@@ -30,6 +30,11 @@ class ilCalendarUserSettings
 	
 	private $day_start;
 	private $day_end;
+
+	/**
+	 * @var bool
+	 */
+	private $show_weeks = true;
 	
 	/**
 	 * Constructor
@@ -274,6 +279,26 @@ class ilCalendarUserSettings
 	}
 
 	/**
+	 * Set show weeks
+	 *
+	 * @param bool $a_val show weeks
+	 */
+	function setShowWeeks($a_val)
+	{
+		$this->show_weeks = $a_val;
+	}
+
+	/**
+	 * Get show weeks
+	 *
+	 * @return bool show weeks
+	 */
+	function getShowWeeks()
+	{
+		return $this->show_weeks;
+	}
+
+	/**
 	 * save
 	 *
 	 * @access public
@@ -288,6 +313,7 @@ class ilCalendarUserSettings
 		$this->user->writePref('calendar_selection_type',$this->getCalendarSelectionType());
 		$this->user->writePref('day_start',$this->getDayStart());
 		$this->user->writePref('day_end',$this->getDayEnd());
+		$this->user->writePref('show_weeks',$this->getShowWeeks());
 	}
 	
 	
@@ -325,6 +351,10 @@ class ilCalendarUserSettings
 		$this->setDayEnd($this->user->getPref('day_end') !== false ?
 			$this->user->getPref('day_end') :
 			ilCalendarSettings::DEFAULT_DAY_END
+		);
+		$this->setShowWeeks($this->user->getPref('show_weeks') !== false ?
+			$this->user->getPref('show_weeks') :
+			ilCalendarSettings::DEFAULT_SHOW_WEEKS
 		);
 	}
 	

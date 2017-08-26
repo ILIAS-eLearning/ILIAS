@@ -195,21 +195,24 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
 		{
 			// rating
-			if(ilObjWiki::_lookupRating($this->getPageObject()->getWikiId()))
-			{			
-				if(!$this->getPageObject()->getRating())
+			if (ilObjWiki::_lookupRating($this->getPageObject()->getWikiId()))
+			{
+				if (!$this->getPageObject()->getRating())
 				{
 					$list->addItem($lng->txt("wiki_activate_page_rating"), "",
 						$ilCtrl->getLinkTargetByClass("ilwikipagegui", "activateWikiPageRating"));
-				}
-				else
-				{			
+				} else
+				{
 					$list->addItem($lng->txt("wiki_deactivate_page_rating"), "",
 						$ilCtrl->getLinkTargetByClass("ilwikipagegui", "deactivateWikiPageRating"));
 				}
 			}
-		
-			// unhide advmd?		
+		}
+
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]) ||
+			$ilAccess->checkAccess("edit_page_meta", "", $_GET["ref_id"]))
+		{
+			// unhide advmd?
 			include_once 'Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php';
 			if((bool)sizeof(ilAdvancedMDRecord::_getSelectedRecordsByObject("wiki", $this->getPageObject()->getWikiId(), "wpg")) &&
 				ilWikiPage::lookupAdvancedMetadataHidden($this->getPageObject()->getId()))
