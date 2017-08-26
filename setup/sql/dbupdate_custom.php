@@ -453,7 +453,6 @@ if($ilDB->tableColumnExists('lti_ext_consumer', 'active'))
 	$ilDB->dropTableColumn('lti_ext_consumer', 'active');
 }
 ?>
-
 <#12>
 <?php
 if (!$ilDB->tableExists('lti_int_provider_obj'))
@@ -494,4 +493,34 @@ if (!$ilDB->tableExists('lti_int_provider_obj'))
 	$ilDB->addPrimaryKey('lti_int_provider_obj',array('obj_id','consumer_id'));
 }
 ?>
+<#13>
+<?php
+if($ilDB->tableExists('lti_int_provider_obj'))
+{
+	$ilDB->dropTable('lti_int_provider_obj');
+}
+?>
+<#14>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$type_id = ilDBUpdateNewObjectType::getObjectTypeId('ltis');
 
+$ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('release_objects', 'Release objects', 'object', 500);
+if($ops_id && $type_id)
+{
+	ilDBUpdateNewObjectType::addRBACOperation($type_id, $ops_id);
+}
+?>
+<#15>
+<?php
+if(!$ilDB->tableColumnExists("il_object_def", "lti_provider"))
+{
+	$def = array(
+			'type'    => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 0
+		);
+	$ilDB->addTableColumn("il_object_def", "lti_provider", $def);
+}
+?>

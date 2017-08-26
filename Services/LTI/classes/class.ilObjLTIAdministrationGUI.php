@@ -224,9 +224,10 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 		$cb_obj_types = new ilCheckboxGroupInputGUI($this->lng->txt("act_lti_for_obj_type"), 'types');
 
 		$valid_obj_types = $this->object->getLTIObjectTypes();
-		foreach($valid_obj_types as $obj_type_id => $obj_name)
+		foreach($valid_obj_types as $obj_type)
 		{
-			$cb_obj_types->addOption(new ilCheckboxOption($obj_name, $obj_type_id));
+			$object_name = $GLOBALS['DIC']->language()->txt('objs_'.$obj_type);
+			$cb_obj_types->addOption(new ilCheckboxOption($object_name, $obj_type));
 		}
 		$form->addItem($cb_obj_types);
 

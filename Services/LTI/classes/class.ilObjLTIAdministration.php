@@ -11,54 +11,19 @@ require_once './Services/Object/classes/class.ilObject.php';
  */
 class ilObjLTIAdministration extends ilObject
 {
-	/**
-	 * @var array
-	 */
-	protected $obj_types_available;
-
 	public function __construct($a_id = 0, $a_call_by_reference = true)
 	{
 		$this->type = "ltis";
-
-		$this->obj_types_available = array(
-			'crs',
-			'sahs',
-			'svy',
-			'tst'
-		);
 		parent::__construct($a_id,$a_call_by_reference);
 	}
 
 	/**
-	 * @return array object type id => object type class name
+	 * @return string[] Array of lti provider supportting object types
 	 */
 	public function getLTIObjectTypes()
 	{
 		$obj_def = new ilObjectDefinition();
-		$repository_objects = $obj_def->getCreatableSubObjects("root");
-		$id_types = array();
-		foreach ($repository_objects as $key => $value)
-		{
-			array_push($id_types, $key);
-		}
-		$match_array = array_intersect($id_types, $this->obj_types_available);
-
-		$validLTIObjectTypes = array();
-		foreach ($match_array as $obj_type)
-		{
-			$validLTIObjectTypes[$obj_type] = $obj_def->getClassName($obj_type);
-		}
-
-		return $validLTIObjectTypes;
-
-	}
-
-	/**
-	 * @return array object type ids available for LTI
-	 */
-	public function getLTIObjectTypesIds()
-	{
-		return $this->obj_types_available;
+		return $obj_def->getLTIProviderTypes();
 	}
 
 	/**
@@ -96,13 +61,10 @@ class ilObjLTIAdministration extends ilObject
 
 		if($a_obj_types)
 		{
-			$lti_obj_types = $this->getLTIObjectTypesIds();
-
-			$obj_actives = array_intersect($lti_obj_types, $a_obj_types);
 
 			$query = "INSERT INTO lti_ext_consumer_otype (consumer_id, object_type) VALUES (%s, %s)";
 			$types = array("integer", "text");
-			foreach ($obj_actives as $ot)
+			foreach ($a_obj_types as $ot)
 			{
 				$values = array($a_consumer_id, $ot);
 				$ilDB->manipulateF($query,$types,$values);
@@ -176,5 +138,25 @@ class ilObjLTIAdministration extends ilObject
 			$consumers[] = ilLTIToolConsumer::fromRecordId($row->id,$connector);
 		}
 		return $consumers;
+	}
+	
+	/**
+	 * Lookup ref_id
+	 */
+	public static function lookupLTISettingsRefId()
+	{
+		$res = $GLOBALS['DIC']->database()->queryF('
+			SELECT object_reference.ref_id FROM object_reference, tree, object_data
+			WHERE tree.parent = %s
+			AND object_data.type = %s
+			AND object_reference.ref_id = tree.child
+			AND object_reference.obj_id = object_data.obj_id',
+			array('integer', 'text'),
+			array(SYSTEM_FOLDER_ID, 'ltis'));
+		while($row = $GLOBALS['DIC']->database()->fetchAssoc($res))
+		{
+			$lti_ref_id = $row['ref_id'];
+		}
+		return $lti_ref_id;
 	}
 }
