@@ -452,6 +452,13 @@ function LMSFinish(param){
 	if (IliasCommit()==false) return setreturn(101,"LMSFinish was not successful because of failure with implicit LMSCommit");
 	Initialized=false;
 	IliasLaunchAfterFinish(sco_id);
+
+	//With Fix for InternetExplorer to avoid searching API in a non-available opener after closing tab
+	var windowOpenerLoc;
+	try{windowOpenerLoc=window.opener.location;}catch(e){}
+	window.opener=null;
+	try{windowOpenerLoc.reload();} catch(e){}
+
 	return setreturn(0,"");
 }
 

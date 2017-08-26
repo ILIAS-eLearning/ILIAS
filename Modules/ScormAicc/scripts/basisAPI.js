@@ -210,7 +210,10 @@ function IliasLaunch(i_l){
 		else status4tree(iv.launchId,getValueIntern(iv.launchId,'cmi.core.lesson_status'),getValueIntern(iv.launchId,'cmi.core.total_time'));
 		b_launched=true;
 		iv.launchId=i_l;
-		if (href.substring(0,4)!="http") href=iv.dataDirectory+href;
+		if (href.substring(0,4)!="http") {
+			href=iv.dataDirectory+href;
+			href=href.replace("//","/"); // for relative dataDirectory to avoid double slashes
+		}
 		frames.sahs_content.document.location.replace(decodeURIComponent(href));
 	}
 	else {
@@ -500,7 +503,10 @@ this.SchedulePing=SchedulePing;
 basisInit();
 
 if (typeof SOP!="undefined" && SOP==true) {
-	window.addEventListener('beforeunload',onWindowUnload);
+		window.addEventListener('beforeunload', function (event) {
+			onWindowUnload();
+			event.preventDefault();
+		});
 } else {
 	if(window.addEventListener) window.addEventListener('unload',onWindowUnload);
 	else if(window.attachEvent) window.attachEvent('onunload',onWindowUnload);//IE<9
