@@ -27,7 +27,7 @@ class ilOrgUnitOperation extends ActiveRecord {
 	 *
 	 * @con_has_field  true
 	 * @con_fieldtype  text
-	 * @con_length     16
+	 * @con_length     256
 	 * @con_index      true
 	 */
 	protected $operation_string = '';

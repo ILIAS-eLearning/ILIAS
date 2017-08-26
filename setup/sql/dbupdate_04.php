@@ -20429,3 +20429,28 @@ if( !$ilDB->tableColumnExists('prg_usr_progress', 'deadline'))
 		$ilDB->query("UPDATE sahs_lm SET id_setting = 0");
 	}
 ?>
+<#5186>
+<?php
+
+$ilDB->modifyTableColumn(
+		'il_orgu_operations', 
+		'operation_string',
+		array(
+			"length" => 256
+		)
+	);
+	ilOrgUnitOperation::resetDB();	
+	ilOrgUnitOperationQueries::registerNewOperationForMultipleContexts(ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS, 'Read the learning Progress of a User', array(
+		ilOrgUnitOperationContext::CONTEXT_CRS,
+		ilOrgUnitOperationContext::CONTEXT_GRP,
+		ilOrgUnitOperationContext::CONTEXT_IASS,
+		ilOrgUnitOperationContext::CONTEXT_EXC,
+		ilOrgUnitOperationContext::CONTEXT_SVY,
+	));
+
+	ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_MANAGE_MEMBERS, 'Edit Members in a course', ilOrgUnitOperationContext::CONTEXT_CRS);
+	ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_MANAGE_MEMBERS, 'Edit Members in a group', ilOrgUnitOperationContext::CONTEXT_GRP);
+	ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_EDIT_SUBMISSION_GRADES, '', ilOrgUnitOperationContext::CONTEXT_EXC);
+	ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_ACCESS_RESULTS, '', ilOrgUnitOperationContext::CONTEXT_SVY);
+?>
+
