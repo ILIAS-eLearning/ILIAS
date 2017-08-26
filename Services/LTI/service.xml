@@ -2,6 +2,7 @@
 <service xmlns="http://www.w3.org" version="$Id$"
          id="lti">
     <baseclasses>
+	    <baseclass name="ilLTIRouterGUI" dir="classes" />
     </baseclasses>
     <objects>
         <object id="ltis" class_name="LTIAdministration" dir="classes" translate="sys" rbac="1" system="1" administration="1">

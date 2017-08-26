@@ -13914,3 +13914,8 @@ classification#:#clsfct_selected_objects#:#Selected Objects
 classification#:#clsfct_back_to_cat#:#Back to Category
 tax#:#tax_tax_assignment#:#Taxonomy Assignment
 tax#:#tax_tax_settings#:#Taxonomy Settings
+lti#:#lti_not_allowed#:#Access denied. Your request was redirected to the root LTI object.
+lti#:#lti_navigation#:#Navigation
+lti#:#lti_exit#:#Close LTI Session
+lti#:#lti_exited#:#LTI Session closed
+lti#:#lti_exited_info#:#LTI Session successfully closed

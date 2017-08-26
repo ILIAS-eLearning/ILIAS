@@ -16377,3 +16377,8 @@ classification#:#clsfct_selected_objects#:#Ausgewählte Objekte
 classification#:#clsfct_back_to_cat#:#Zurück zur Kategorie
 tax#:#tax_tax_assignment#:#Taxonomiezuordnung
 tax#:#tax_tax_settings#:#Taxonomieeinstellungen
+lti#:#lti_not_allowed#:#Zugriff nicht erlaubt. Sie wurden in den ursprünglichen LTI Bereich umgeleitet.
+lti#:#lti_navigation#:#Navigation
+lti#:#lti_exit#:#LTI Sitzung beenden
+lti#:#lti_exited#:#LTI Sitzung beendet
+lti#:#lti_exited_info#:#Die LTI Sitzung wurde erfolgreich beendet

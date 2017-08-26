@@ -83,7 +83,15 @@ class ilLocatorGUI
 		}
 		else
 		{
-			$a_start = ROOT_FOLDER_ID;
+			// LTI
+			if (isset($_SESSION['lti_tree_root_id'])) 
+			{
+				$a_start = $_SESSION['lti_tree_root_id'];
+			}
+			else 
+			{
+				$a_start = ROOT_FOLDER_ID;
+			}
 		}
 		
 		if ($a_ref_id > 0)
