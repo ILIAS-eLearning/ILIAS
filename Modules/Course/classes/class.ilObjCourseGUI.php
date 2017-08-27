@@ -23,6 +23,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
  * @ilCtrl_Calls ilObjCourseGUI: ilMailMemberSearchGUI, ilBadgeManagementGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilLOPageGUI, ilObjectMetaDataGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilCourseMembershipGUI, ilPropertyFormGUI, ilContainerSkillGUI, ilCalendarPresentationGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilLTIProviderObjSettingGUI
  *
  * @extends ilContainerGUI
  */
@@ -1580,6 +1581,14 @@ class ilObjCourseGUI extends ilContainerGUI
 												 $this->ctrl->getLinkTargetByClass('ilobjcoursegroupinggui','listGroupings'),
 												 'listGroupings',
 												 get_class($this));
+				$lti_settings = new ilLTIProviderObjSettingGUI($this->object->getRefId());
+				if($lti_settings->hasSettingsAccess())
+				{
+					$this->tabs_gui->addSubTabTarget(
+						'lti_provider',
+						$this->ctrl->getLinkTargetByClass(ilLTIProviderObjSettingGUI::class)
+					);
+				}
 
 				// custom icon
 				if ($this->ilias->getSetting("custom_icons"))
@@ -2233,6 +2242,15 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		switch($next_class)
 		{
+			case 'illtiproviderobjsettinggui':
+				
+				$this->setSubTabs('properties');
+				$this->tabs_gui->activateTab('settings');
+				$this->tabs_gui->activateSubTab('lti_provider');
+				$lti_gui = new ilLTIProviderObjSettingGUI($this->object->getRefId());
+				$this->ctrl->forwardCommand($lti_gui);
+				break;
+				
 			case 'ilcoursemembershipgui':
 				
 				$this->tabs_gui->activateTab('members');

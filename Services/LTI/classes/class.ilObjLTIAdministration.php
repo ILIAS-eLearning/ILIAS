@@ -101,8 +101,8 @@ class ilObjLTIAdministration extends ilObject
 		 */
 		$db = $GLOBALS['DIC']->database();
 		
-		$query = 'select distinct(id) id from lti_ext_consumer join lti2_consumer on id = consumer_pk join lti_ext_consumer_otype on id = consumer_id '.
-			'WHERE enabled = '.$db->quote(1,'integer').' '.
+		$query = 'select id from lti_ext_consumer join lti_ext_consumer_otype on id = consumer_id '.
+			'WHERE active = '.$db->quote(1,'integer').' '.
 			'AND object_type = '.$db->quote($a_type,'text');
 		$res = $db->query($query);
 		while($row = $res->fetchObject())
@@ -124,18 +124,16 @@ class ilObjLTIAdministration extends ilObject
 		 */
 		$db = $GLOBALS['DIC']->database();
 		
-		$query = 'select distinct(id) id from lti_ext_consumer join lti2_consumer on id = consumer_pk join lti_ext_consumer_otype on id = consumer_id '.
-			'WHERE enabled = '.$db->quote(1,'integer').' '.
+		$query = 'select distinct(id) id from lti_ext_consumer join lti_ext_consumer_otype on id = consumer_id '.
+			'WHERE active = '.$db->quote(1,'integer').' '.
 			'AND object_type = '.$db->quote($a_type,'text');
 		$res = $db->query($query);
 		
-		include_once './Services/LTI/classes/class.ilLTIDataConnector.php';
 		$connector = new ilLTIDataConnector();
 		$consumers = array();
 		while($row = $res->fetchObject())
 		{
-			include_once './Services/LTI/classes/InternalProvider/class.ilLTIToolConsumer.php';
-			$consumers[] = ilLTIToolConsumer::fromRecordId($row->id,$connector);
+			$consumers[] = ilLTIToolConsumer::fromExternalConsumerId($row->id, $connector);
 		}
 		return $consumers;
 	}

@@ -458,7 +458,7 @@ if($ilDB->tableColumnExists('lti_ext_consumer', 'active'))
 if (!$ilDB->tableExists('lti_int_provider_obj'))
 {
 	$ilDB->createTable('lti_int_provider_obj', array(
-		'obj_id' => array(
+		'ref_id' => array(
 			'type' => 'integer',
 			'length' => 4,
 			'notnull' => false
@@ -568,3 +568,38 @@ if(!$ilDB->tableColumnExists('lti_ext_consumer', 'active'))
 	);
 }
 ?>
+<#19>
+<?php
+if (!$ilDB->tableExists('lti_int_provider_obj'))
+{
+	$ilDB->createTable('lti_int_provider_obj', array(
+		'ref_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+		),
+		'ext_consumer_id' => [
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+		],
+		'admin' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+		),
+		'tutor' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+		),
+		'member' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+		)
+	));
+	$ilDB->addPrimaryKey('lti_int_provider_obj',array('ref_id','ext_consumer_id'));
+}
+?>
+

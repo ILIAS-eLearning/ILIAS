@@ -32,13 +32,6 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 			$_POST['launch_presentation_document_target'] = 'window';
 		}
 
-		//Bsp.: crs_67
-		if (isset($_GET['target'])) {
-			$context_ar = explode('_',$_GET['target']);
-			if (count($context_ar) == 2) {
-				$_SESSION['lti_context_id'] = $context_ar[1];
-			}
-		}
 		if (isset($_POST['launch_presentation_css_url'])) {
 			$_SESSION['lti_launch_css_url'] = $_POST['launch_presentation_css_url'];
 			//Bsp.: 'http://192.168.0.74/lti_custom.css';
@@ -49,11 +42,6 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 		}
 
 
-		$this->dataConnector = new ilLTIDataConnector();
-		require_once 'Services/LTI/classes/InternalProvider/class.ilLTIToolConsumer.php';
-		// sm: this does only load the standard lti date connector, not the ilLTIToolConsumer with extended data, like prefix.
-		$consumer = new ilLTIToolConsumer($_POST['oauth_consumer_key'],$this->dataConnector);
-		// $consumer = new ToolProvider\ToolConsumer($_POST['oauth_consumer_key'],$this->dataConnector);
 
 		$lti_provider = new ilLTIToolProvider($this->dataConnector);
 		// $lti_provider = new ToolProvider\ToolProvider($this->dataConnector);
@@ -66,6 +54,10 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 		}
 		// if ($lti_provider->reason != "") die($lti_provider->reason);//ACHTUNG später Rückgabe prüfen und nicht vergessen UWE
 
+		$this->dataConnector = new ilLTIDataConnector();
+		// sm: this does only load the standard lti date connector, not the ilLTIToolConsumer with extended data, like prefix.
+		$consumer = new ilLTIToolConsumer($_POST['oauth_consumer_key'],$this->dataConnector);
+
 		/**
 		 * @var ilLTIToolConsumer
 		 */
@@ -73,6 +65,8 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 			$consumer->getRecordId(),
 			$this->dataConnector
 		);
+		
+		$_SESSION['lti_context_id'] = $consumer->getRefId();
 		
 		
 		if(!$consumer->enabled)
@@ -313,6 +307,8 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 	
 	protected function handleLocalRoleAssignments($user_id, ilLTIToolConsumer $consumer)
 	{
+		return false;
+		
 		$target_ref_id = $_SESSION['lti_context_id'];
 		if(!$target_ref_id)
 		{
@@ -321,8 +317,8 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 		}
 		$target_obj_id = ilObject::_lookupObjId($target_ref_id);
 		
-		include_once './Services/LTI/classes/InternalProvider/class.ilLTIProviderObjSetting.php';
-		$obj_settings = new illTIProviderObjectSetting($target_obj_id, $consumer->getId());
+		
+		$obj_settings = new ilLTIProviderObjectSetting($target_obj_id, $consumer->getId());
 		
 		// @todo read from lti data
 		$roles = $_POST['roles'];

@@ -235,46 +235,6 @@ class ilObjectServiceSettingsGUI
 				$form->addItem($bdg);		
 			}
 		}
-		if(in_array(self::LTI_RELEASE, $services))
-		{
-			include_once './Services/LTI/classes/class.ilObjLTIAdministration.php';
-			if(ilObjLTIAdministration::isEnabledForType(ilObject::_lookupType($a_obj_id)))
-			{
-				$GLOBALS['DIC']->language()->loadLanguageModule('lti');
-				
-				foreach(ilObjLTIAdministration::getEnabledConsumersForType(ilObject::_lookupType($a_obj_id)) as $consumer)
-				{
-					$section = new ilFormSectionHeaderGUI();
-					$section->setTitle($consumer->getTitle());
-					$section->setInfo($consumer->getDescription());
-					$form->addItem($section);
-					
-					include_once './Services/LTI/classes/InternalProvider/class.ilLTIProviderObjSetting.php';
-					$consumer_settings = new illTIProviderObjectSetting($a_obj_id, $consumer->getId());
-					
-					$active = new ilCheckboxInputGUI($GLOBALS['lng']->txt('lti_obj_active'), 'lti_active_'.$consumer->getId());
-					$active->setInfo($GLOBALS['lng']->txt('lti_obj_active_info'));
-					$active->setValue(1);
-					$active->setChecked($consumer_settings->isEnabled());
-					$form->addItem($active);
-					
-					$admin = new ilCheckboxInputGUI($GLOBALS['lng']->txt('lti_admin'),'lti_admin_'.$consumer->getId());
-					$admin->setValue(1);
-					$admin->setChecked($consumer_settings->isAdminAssignmentEnabled());
-					$active->addSubItem($admin);
-					
-					$tutor = new ilCheckboxInputGUI($GLOBALS['lng']->txt('lti_tutor'),'lti_tutor_'.$consumer->getId());
-					$tutor->setValue(1);
-					$tutor->setChecked($consumer_settings->isTutorAssignmentEnabled());
-					$active->addSubItem($tutor);
-					
-					$member = new ilCheckboxInputGUI($GLOBALS['lng']->txt('lti_member'),'lti_member_'.$consumer->getId());
-					$member->setValue(1);
-					$member->setChecked($consumer_settings->isMemberAssignmentEnabled());
-					$active->addSubItem($member);
-				}
-			}
-		}
 		if(in_array(self::ORGU_POSITION_ACCESS, $services))
 		{
 			$position_settings = ilOrgUnitGlobalSettings::getInstance()->getObjectPositionSettingsByType(

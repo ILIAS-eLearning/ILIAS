@@ -228,6 +228,29 @@ class ilLTIToolConsumer extends ToolConsumer
 		}
 		return $toolConsumer;
 	}
+	
+	
+	/**
+	 * Load consumer from global settings and ref_id
+	 * @param type $a_ext_consumer_id
+	 * @param type $a_ref_id
+	 * @param type $a_data_connector
+	 */
+	public static function fromGlobalSettingsAndRefId($a_ext_consumer_id, $a_ref_id, ilLTIDataConnector $a_data_connector)
+	{
+		$toolConsumer = new ilLTIToolConsumer(null, $a_data_connector);
+		$toolConsumer->initialize();
+		$toolConsumer->setExtConsumerId($a_ext_consumer_id);
+		$toolConsumer->setRefId($a_ref_id);
+		
+		$consumer_pk = $a_data_connector->lookupRecordIdByGlobalSettingsAndRefId($toolConsumer);
+		if($consumer_pk)
+		{
+			return self::fromRecordId($consumer_pk, $a_data_connector);
+		}
+		$toolConsumer->initialize();
+		return $toolConsumer;
+	}
 
 
 	/**
@@ -256,7 +279,7 @@ class ilLTIToolConsumer extends ToolConsumer
 	 */
 	public function saveLTI($dataConnector)
 	{
-		$ok = $dataConnector->saveToolConsumerILIASExtensions($this);
+		$ok = $dataConnector->saveToolConsumerILIAS($this);
 		return $ok;
 	}
 

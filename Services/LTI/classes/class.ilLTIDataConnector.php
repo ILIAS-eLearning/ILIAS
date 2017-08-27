@@ -130,6 +130,33 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     }
 	
 	/**
+	 * Load tool consumer settings
+	 * @param ilLTIToolConsumer $consumer
+	 */
+	public function loadObjectToolConsumerSettings(ilLTIToolConsumer $consumer)
+	{
+		$this->loadGlobalToolConsumerSettings($consumer);
+		
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+
+		$query = 'SELECT * from lti2_consumer where id = '. $ilDB->quote($consumer->getExtConsumerId(),'integer');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+		{
+			$consumer->setTitle($row->title);
+			$consumer->setDescription($row->description);
+			$consumer->setPrefix($row->prefix);
+			$consumer->setLanguage($row->user_language);
+			$consumer->setRole($row->role);
+			$consumer->setActive($row->active);
+			return true;
+		}
+		return false;
+		
+	}
+	
+	/**
 	 * Load global tool consumer settings in consumer
 	 * @param ilLTIToolConsumer $consumer
 	 */
@@ -160,7 +187,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
  *
  * @return boolean True if the tool consumer object was successfully loaded
  */
-    public function loadToolConsumerILIAS($consumer)
+    public function loadToolConsumerILIAS(ilLTIToolConsumer $consumer)
     {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
@@ -170,9 +197,12 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 					   'consumer_name, consumer_version, consumer_guid, ' .
 					   'profile, tool_proxy, settings, protected, enabled, ' .
 					   'enable_from, enable_until, last_access, created, updated, ' .
-					   'title, description, prefix, user_language, role, local_role_always_member, default_skin ' .
-					   'FROM lti2_consumer, lti_ext_consumer ' .
-					   'WHERE lti_ext_consumer.id = consumer_pk AND ';
+					   'ext_consumer_id, ref_id '.
+					   #'title, description, prefix, user_language, role, local_role_always_member, default_skin ' .
+					   'FROM lti2_consumer '.
+					   #'FROM lti2_consumer, lti_ext_consumer ' .
+					   'WHERE ';
+					   #'WHERE lti_ext_consumer.id = consumer_pk AND ';
         if (!empty($consumer->getRecordId())) {
 			$query .= 'consumer_pk = %s';
 			$types = array('integer');
@@ -220,12 +250,15 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                     }
                     $consumer->created = strtotime($row->created);
                     $consumer->updated = strtotime($row->updated);
+					
 					//ILIAS specific
-					$consumer->setTitle($row->title);
-					$consumer->setDescription($row->description);
-					$consumer->setPrefix($row->prefix);
-					$consumer->setLanguage($row->user_language);
-					$consumer->setRole($row->role);
+					$consumer->setExtConsumerId($row->ext_consumer_id);
+					$consumer->setRefId($row->ref_id);
+					#$consumer->setTitle($row->title);
+					#$consumer->setDescription($row->description);
+					#$consumer->setPrefix($row->prefix);
+					#$consumer->setLanguage($row->user_language);
+					#$consumer->setRole($row->role);
 					// local_role_always_member
 					// default_skin
 
@@ -235,10 +268,31 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
             // }
             // mysql_free_result($rsConsumer);
         }
-
+		
+		$this->loadGlobalToolConsumerSettings($consumer);
         return $ok;
-
     }
+	
+	
+	/**
+	 * Lookup record id for global settings and ref_id
+	 * @param ilLTIToolConsumer $consumer
+	 * @return type
+	 */
+	public function lookupRecordIdByGlobalSettingsAndRefId(ilLTIToolConsumer $consumer)
+	{
+		$db = $GLOBALS['DIC']->database();
+		
+		$query = 'SELECT consumer_pk from lti2_consumer '.
+			'WHERE ext_consumer_id = '.$db->quote($consumer->getExtConsumerId(),'integer').' '.
+			'AND ref_id = '.$db->quote($consumer->getRefId(),'integer');
+		$res = $db->query($query);
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+		{
+			return $row->consumer_pk;
+		}
+		return null;
+	}
 	
 /**
  * Save tool consumer object.
@@ -374,7 +428,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 	 *
 	 * @return boolean True if the tool consumer object was successfully saved
 	 */
-	public function saveToolConsumerILIAS($consumer)
+	public function saveToolConsumerILIAS(ilLTIToolConsumer $consumer)
     {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
@@ -407,7 +461,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 		
 		$consumer->name = $consumer->getTitle();//50UK
         if (empty($id)) {
-			$consumer->setRecordId( $ilDB->nextId('lti_ext_consumer') );
+			$consumer->setRecordId( $ilDB->nextId('lti2_consumer'));
 			$id = $consumer->getRecordId();
 			$consumer->created = $time;
 			$consumer->updated = $time;
@@ -416,21 +470,16 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 			// $query = "INSERT INTO {$this->dbTableNamePrefix}" . $this->CONSUMER_TABLE_NAME . ' (consumer_key256, consumer_key, name, ' .
 			$query = 'INSERT INTO lti2_consumer (consumer_key256, consumer_key, name, ' .
 						'secret, lti_version, consumer_name, consumer_version, consumer_guid, profile, tool_proxy, settings, protected, enabled, ' .
-						'enable_from, enable_until, last_access, created, updated, consumer_pk) ' .
-						'VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)';
+						'enable_from, enable_until, last_access, created, updated, consumer_pk,ext_consumer_id,ref_id) ' .
+						'VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)';
 			$types = array("text", "text", "text", 
 						"text", "text", "text", "text", "text", "text", "text", "text", "integer", "integer", 
-						"timestamp", "timestamp", "timestamp", "timestamp", "timestamp", "integer");
+						"timestamp", "timestamp", "timestamp", "timestamp", "timestamp", "integer", 'integer', 'integer');
 			$values = array($key256, $key, $consumer->name, 
 						$consumer->secret, $consumer->ltiVersion, $consumer->consumerName, $consumer->consumerVersion, $consumer->consumerGuid, $profile, $consumer->toolProxy, $settingsValue, $protected, $enabled,
-						$from, $until, $last, $now, $now, $id);
+						$from, $until, $last, $now, $now, $id, $consumer->getExtConsumerId(), $consumer->getRefId());
 			$ilDB->manipulateF($query,$types,$values);
 			
-			$query = 'INSERT INTO lti_ext_consumer (title, description, prefix, user_language, role, id) ' .
-						'VALUES (%s, %s, %s, %s, %s, %s)';
-			$types = array("text", "text", "text", "text", "integer", "integer");
-			$values = array($consumer->getTitle(),$consumer->getDescription(),$consumer->getPrefix(),$consumer->getLanguage(),$consumer->getRole(),$id);
-			$ilDB->manipulateF($query,$types,$values);
         } else {
 			$consumer->updated = $time;
 			
@@ -447,16 +496,9 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 						$consumer->secret, $consumer->ltiVersion, $consumer->consumerName, $consumer->consumerVersion, $consumer->consumerGuid, $profile, $consumer->toolProxy, $settingsValue, $protected, $enabled,
 						$from, $until, $last, $now, $id);
 			$ilDB->manipulateF($query,$types,$values);
-
-			if ($consumer->getPrefix()) {
-				$query = 'UPDATE lti_ext_consumer SET title = %s, description = %s, prefix = %s, user_language = %s, role = %s WHERE id = %s';
-				$types = array("text", "text", "text", "text", "integer", "integer");
-				$values = array($consumer->getTitle(),$consumer->getDescription(),$consumer->getPrefix(),$consumer->getLanguage(),$consumer->getRole(),$id);
-				$ilDB->manipulateF($query,$types,$values);
-			}
         }
 		
-		return $true;
+		return true;
     }
 	
 	/**
