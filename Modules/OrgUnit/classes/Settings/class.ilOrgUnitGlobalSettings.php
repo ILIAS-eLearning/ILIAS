@@ -80,7 +80,8 @@ class ilOrgUnitGlobalSettings {
 	 */
 	public function isPositionAccessActiveForObject($a_obj_id) {
 		if (isset($this->object_position_cache[$a_obj_id])) {
-			return $a_obj_id;
+			
+			return $this->object_position_cache[$a_obj_id];
 		}
 		$type = ilObject::_lookupType($a_obj_id);
 		try {
@@ -97,9 +98,9 @@ class ilOrgUnitGlobalSettings {
 			return false;
 		}
 		if (!$type_settings->isChangeableForObject()) {
-			$this->object_position_cache[$a_obj_id] = false;
+			$this->object_position_cache[$a_obj_id] = true;
 
-			return false;
+			return true;
 		}
 		$object_position = new ilOrgUnitObjectTypePositionSetting($type);
 		$this->object_position_cache[$a_obj_id] = $object_position->isActive();
