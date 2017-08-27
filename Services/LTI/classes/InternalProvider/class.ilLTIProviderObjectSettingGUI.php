@@ -8,7 +8,7 @@
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  *
  */
-class ilLTIProviderObjSettingGUI
+class ilLTIProviderObjectSettingGUI
 {
 	const ROLE_ADMIN = 'admin';
 	const ROLE_TUTOR = 'tutor';

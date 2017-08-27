@@ -67,6 +67,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 		);
 		
 		$_SESSION['lti_context_id'] = $consumer->getRefId();
+		$_GET['target'] = ilObject::_lookupType($consumer->getRefId(),true).'_'.$consumer->getRefId();
 		
 		
 		if(!$consumer->enabled)
@@ -78,8 +79,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 		}
 		
 
-		$lti_id = $consumer->getRecordId();
-		// $lti_id = $this->findAuthKeyId($_POST['oauth_consumer_key']);
+		$lti_id = $consumer->getExtConsumerId();
 		if(!$lti_id)
 		{
 			$status->setReason('lti_auth_failed_invalid_key');
@@ -226,7 +226,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 		$userObj = new ilObjUser();
 
 		include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
-		$local_user = ilAuthUtils::_generateLogin($a_prefix . '_' . $this->getCredentials()->getUsername());
+		$local_user = ilAuthUtils::_generateLogin($consumer->getPrefix() . '_' . $this->getCredentials()->getUsername());
 
 		$newUser["login"] = $local_user;
 		$newUser["firstname"] = $_POST['lis_person_name_given'];

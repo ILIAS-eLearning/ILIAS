@@ -371,7 +371,6 @@ class ilObjectServiceSettingsGUI
 				{
 					ilLoggerFactory::getLogger('lti')->debug($form->getInput('lti_active['.$consumer->getId().']'));
 					
-					include_once './Services/LTI/classes/InternalProvider/class.ilLTIProviderObjSetting.php';
 					$consumer_settings = new illTIProviderObjectSetting($a_obj_id, $consumer->getId());
 					$consumer_settings->setEnabled($form->getInput('lti_active_'.$consumer->getId()));
 					$consumer_settings->enableAdminAssignment($form->getInput('lti_admin_'.$consumer->getId()));

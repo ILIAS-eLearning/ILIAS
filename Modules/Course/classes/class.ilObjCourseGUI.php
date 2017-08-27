@@ -23,7 +23,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
  * @ilCtrl_Calls ilObjCourseGUI: ilMailMemberSearchGUI, ilBadgeManagementGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilLOPageGUI, ilObjectMetaDataGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilCourseMembershipGUI, ilPropertyFormGUI, ilContainerSkillGUI, ilCalendarPresentationGUI
- * @ilCtrl_Calls ilObjCourseGUI: ilLTIProviderObjSettingGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilLTIProviderObjectSettingGUI
  *
  * @extends ilContainerGUI
  */
@@ -1581,12 +1581,12 @@ class ilObjCourseGUI extends ilContainerGUI
 												 $this->ctrl->getLinkTargetByClass('ilobjcoursegroupinggui','listGroupings'),
 												 'listGroupings',
 												 get_class($this));
-				$lti_settings = new ilLTIProviderObjSettingGUI($this->object->getRefId());
+				$lti_settings = new ilLTIProviderObjectSettingGUI($this->object->getRefId());
 				if($lti_settings->hasSettingsAccess())
 				{
 					$this->tabs_gui->addSubTabTarget(
 						'lti_provider',
-						$this->ctrl->getLinkTargetByClass(ilLTIProviderObjSettingGUI::class)
+						$this->ctrl->getLinkTargetByClass(ilLTIProviderObjectSettingGUI::class)
 					);
 				}
 
@@ -2242,12 +2242,12 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		switch($next_class)
 		{
-			case 'illtiproviderobjsettinggui':
+			case 'illtiproviderobjectsettinggui':
 				
 				$this->setSubTabs('properties');
 				$this->tabs_gui->activateTab('settings');
 				$this->tabs_gui->activateSubTab('lti_provider');
-				$lti_gui = new ilLTIProviderObjSettingGUI($this->object->getRefId());
+				$lti_gui = new ilLTIProviderObjectSettingGUI($this->object->getRefId());
 				$lti_gui->setCustomRolesForSelection($GLOBALS['DIC']->rbac()->review()->getLocalRoles($this->object->getRefId()));
 				$lti_gui->offerLTIRolesForSelection(false);
 				$this->ctrl->forwardCommand($lti_gui);
