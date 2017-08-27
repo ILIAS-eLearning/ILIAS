@@ -70,7 +70,16 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 		$_GET['target'] = ilObject::_lookupType($consumer->getRefId(),true).'_'.$consumer->getRefId();
 		
 		
+		// lti service activation
 		if(!$consumer->enabled)
+		{
+			$this->getLogger()->warning('Consumer is not enabled');
+			$status->setReason('lti_consumer_inactive');
+			$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
+			return false;
+		}
+		// global activation status
+		if(!$consumer->getActive())
 		{
 			$this->getLogger()->warning('Consumer is not enabled');
 			$status->setReason('lti_consumer_inactive');

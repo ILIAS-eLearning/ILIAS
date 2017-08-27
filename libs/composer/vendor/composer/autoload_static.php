@@ -4811,6 +4811,7 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'ilLTIDataConnector' => __DIR__ . '/../..' . '/../../Services/LTI/classes/class.ilLTIDataConnector.php',
         'ilLTIProviderObjectSetting' => __DIR__ . '/../..' . '/../../Services/LTI/classes/InternalProvider/class.ilLTIProviderObjectSetting.php',
         'ilLTIProviderObjectSettingGUI' => __DIR__ . '/../..' . '/../../Services/LTI/classes/InternalProvider/class.ilLTIProviderObjectSettingGUI.php',
+        'ilLTIProviderReleasedObjectsTableGUI' => __DIR__ . '/../..' . '/../../Services/LTI/classes/InternalProvider/class.ilLTIProviderReleasedObjectsTableGUI.php',
         'ilLTIRouterGUI' => __DIR__ . '/../..' . '/../../Services/LTI/classes/class.ilLTIRouterGUI.php',
         'ilLTIToolConsumer' => __DIR__ . '/../..' . '/../../Services/LTI/classes/InternalProvider/class.ilLTIToolConsumer.php',
         'ilLTIToolProvider' => __DIR__ . '/../..' . '/../../Services/LTI/classes/InternalProvider/class.ilLTIToolProvider.php',

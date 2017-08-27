@@ -4601,6 +4601,7 @@ return array(
     'ilLTIDataConnector' => $baseDir . '/../../Services/LTI/classes/class.ilLTIDataConnector.php',
     'ilLTIProviderObjectSetting' => $baseDir . '/../../Services/LTI/classes/InternalProvider/class.ilLTIProviderObjectSetting.php',
     'ilLTIProviderObjectSettingGUI' => $baseDir . '/../../Services/LTI/classes/InternalProvider/class.ilLTIProviderObjectSettingGUI.php',
+    'ilLTIProviderReleasedObjectsTableGUI' => $baseDir . '/../../Services/LTI/classes/InternalProvider/class.ilLTIProviderReleasedObjectsTableGUI.php',
     'ilLTIRouterGUI' => $baseDir . '/../../Services/LTI/classes/class.ilLTIRouterGUI.php',
     'ilLTIToolConsumer' => $baseDir . '/../../Services/LTI/classes/InternalProvider/class.ilLTIToolConsumer.php',
     'ilLTIToolProvider' => $baseDir . '/../../Services/LTI/classes/InternalProvider/class.ilLTIToolProvider.php',

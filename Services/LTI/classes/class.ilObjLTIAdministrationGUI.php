@@ -84,6 +84,12 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 				$this->lng->txt("consumers"),
 				$this->ctrl->getLinkTarget($this, "listConsumers"));
 		}
+		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+			$this->tabs_gui->addTab("releasedObjects",
+				$this->lng->txt("lti_released_objects"),
+				$this->ctrl->getLinkTarget($this, "releasedObjects"));
+		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
@@ -437,5 +443,19 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 		ilUtil::sendSuccess($this->lng->txt($msg),true);
 		
 		$GLOBALS['DIC']->ctrl()->redirect($this,'listConsumers');
+	}
+	
+	/**
+	 * Show relases objects
+	 */
+	protected function releasedObjects()
+	{
+		$GLOBALS['DIC']->tabs()->activateTab('releasedObjects');
+		
+		$table = new ilLTIProviderReleasedObjectsTableGUI($this,'releasedObjects','ltireleases');
+		$table->init();
+		$table->parse();
+		
+		$GLOBALS['DIC']->ui()->mainTemplate()->setContent($table->getHTML());
 	}
 }

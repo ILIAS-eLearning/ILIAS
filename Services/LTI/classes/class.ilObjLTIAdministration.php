@@ -157,4 +157,28 @@ class ilObjLTIAdministration extends ilObject
 		}
 		return $lti_ref_id;
 	}
+	
+	/**
+	 * Read released objects
+	 */
+	public static function readReleaseObjects()
+	{
+		$db = $GLOBALS['DIC']->database();
+		
+		$query = 'select ref_id, title from lti2_consumer join lti_ext_consumer '.
+			'on id = ext_consumer_id where enabled = '.$db->quote(1,'integer');
+		$res = $db->query($query);
+		
+		ilLoggerFactory::getLogger('lti')->debug($query);
+		
+		$rows = [];
+		while($row =  $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$item['ref_id'] = $row->ref_id;
+			$item['title'] = $row->title;
+			
+			$rows[] = $item;
+		}
+		return $rows;
+	}
 }

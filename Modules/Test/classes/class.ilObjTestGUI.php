@@ -164,6 +164,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->prepareOutput();
 				$this->addHeaderAction();
 				$this->getSettingsSubTabs();
+				$GLOBALS['DIC']->tabs()->activateTab('settings');
 				$GLOBALS['DIC']->tabs()->activateSubTab('lti_provider');
 				$lti_gui = new ilLTIProviderObjectSettingGUI($this->object->getRefId());
 				$lti_gui->setCustomRolesForSelection($GLOBALS['DIC']->rbac()->review()->getLocalRoles($this->object->getRefId()));
