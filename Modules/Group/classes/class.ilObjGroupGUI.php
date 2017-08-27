@@ -73,7 +73,6 @@ class ilObjGroupGUI extends ilContainerGUI
 		switch($next_class)
 		{
 			case 'illtiproviderobjectsettinggui':
-				
 				$this->setSubTabs('properties');
 				$this->tabs_gui->activateTab('settings');
 				$this->tabs_gui->activateSubTab('lti_provider');

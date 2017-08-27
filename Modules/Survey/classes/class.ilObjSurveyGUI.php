@@ -16,7 +16,8 @@ include_once "./Services/Object/classes/class.ilObjectGUI.php";
 * @ilCtrl_Calls ilObjSurveyGUI: ilCommonActionDispatcherGUI, ilSurveySkillGUI
 * @ilCtrl_Calls ilObjSurveyGUI: ilSurveyEditorGUI, ilSurveyConstraintsGUI
 * @ilCtrl_Calls ilObjSurveyGUI: ilSurveyParticipantsGUI, ilLearningProgressGUI
-* @ilCtrl_Calls ilObjSurveyGUI: ilExportGUI
+* @ilCtrl_Calls ilObjSurveyGUI: ilExportGUI, ilLTIProviderObjectSettingGUI
+*
 *
 * @ingroup ModulesSurvey
 */
@@ -98,6 +99,17 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->log->debug("next_class= $next_class");
 		switch($next_class)
 		{
+			case 'illtiproviderobjectsettinggui':
+				$this->addSubTabs('settings');
+				$ilTabs->activateTab("settings");
+				$ilTabs->activateSubTab('lti_provider');
+				$lti_gui = new ilLTIProviderObjectSettingGUI($this->object->getRefId());
+				$lti_gui->setCustomRolesForSelection($GLOBALS['DIC']->rbac()->review()->getLocalRoles($this->object->getRefId()));
+				$lti_gui->offerLTIRolesForSelection(false);
+				$this->ctrl->forwardCommand($lti_gui);
+				break;
+			
+			
 			case "ilinfoscreengui":
 				if(!in_array($this->ctrl->getCmdClass(),
 					array('ilpublicuserprofilegui', 'ilobjportfoliogui')))
@@ -1336,6 +1348,31 @@ class ilObjSurveyGUI extends ilObjectGUI
 	}
 	
 	/**
+	 * Add subtabs for tabs
+	 * @param type $a_section
+	 */
+	function addSubTabs($a_section)
+	{
+		if($a_section == 'settings')
+		{
+			$this->tabs_gui->addSubTabTarget(
+				"settings",
+				$this->ctrl->getLinkTarget($this,'properties')
+			);
+			
+			$lti_settings = new ilLTIProviderObjectSettingGUI($this->object->getRefId());
+			if($lti_settings->hasSettingsAccess())
+			{
+				$this->tabs_gui->addSubTabTarget(
+					'lti_provider',
+					$this->ctrl->getLinkTargetByClass(ilLTIProviderObjectSettingGUI::class)
+				);
+			}
+		}
+	}
+
+
+	/**
 	* Display and fill the properties form of the test
 	*
 	* @access	public
@@ -1346,9 +1383,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 		
 		$this->checkPermission("write");
 		
+		$this->addSubTabs('settings');
 		$ilTabs->activateTab("settings");
-
-
+		$ilTabs->activateSubTab('settings');
+		
 		if ($this->object->get360Mode())
 		{
 			$ilHelp->setScreenId("settings_360");
