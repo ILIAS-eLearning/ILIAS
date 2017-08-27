@@ -93,11 +93,11 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 	
 		if($internal_account)
 		{
-			$this->updateUser($internal_account);
+			$this->updateUser($internal_account, $consumer);
 		}
 		else
 		{
-			$internal_account = $this->createUser($lti_id,$consumer->getPrefix());
+			$internal_account = $this->createUser($consumer);
 		}
 		
 		$this->handleLocalRoleAssignments($internal_account, $consumer);
@@ -219,9 +219,9 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 	 *
 	 * @access protected
 	 */
-	protected function createUser($a_lti_id, $a_prefix)
+	protected function createUser(ilLTIToolConsumer $consumer)
 	{
-		global $ilClientIniFile, $ilSetting, $rbacadmin;
+		global $ilClientIniFile, $ilSetting;
 
 		$userObj = new ilObjUser();
 
@@ -238,7 +238,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 		$newUser["passwd"] = "";
 		$newUser["passwd_type"] = IL_PASSWD_CRYPTED;
 
-		$newUser["auth_mode"] = 'lti_'.$a_lti_id;
+		$newUser["auth_mode"] = 'lti_'.$consumer->getExtConsumerId();
 		$newUser['ext_account'] = $this->getCredentials()->getUsername();
 		$newUser["profile_incomplete"] = 0;
 
@@ -265,11 +265,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 		$userObj->saveAsNew();
 		$userObj->writePrefs();
 
-		
-		if($global_role = $this->findGlobalRole($a_lti_id))
-		{
-			$rbacadmin->assignUser($global_role, $userObj->getId(), true);
-		}
+		$GLOBALS['DIC']->rbac()->admin()->assignUser($consumer->getRole(), $userObj->getId());
 		
 		$this->getLogger()->info('Created new lti user with uid: ' . $userObj->getId(). ' and login: ' . $userObj->getLogin());
 		return $userObj->getId();
@@ -280,7 +276,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 	 *
 	 * @access protected
 	 */
-	protected function updateUser($a_local_user_id)
+	protected function updateUser($a_local_user_id, ilLTIToolConsumer $consumer)
 	{
 		global $ilClientIniFile,$ilLog,$rbacadmin;
 		
@@ -300,6 +296,8 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 		$user_obj->update();
 		$user_obj->refreshLogin();
 		
+		$GLOBALS['DIC']->rbac()->admin()->assignUser($consumer->getRole(), $user_obj->getId());
+		$this->getLogger()->debug('Assigned user to: ' . $consumer->getRole());
 		
 		$this->getLogger()->info('Update of lti user with uid: ' . $user_obj->getId(). ' and login: ' . $user_obj->getLogin());
 		return $user_obj->getId();
@@ -307,18 +305,13 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 	
 	protected function handleLocalRoleAssignments($user_id, ilLTIToolConsumer $consumer)
 	{
-		return false;
-		
 		$target_ref_id = $_SESSION['lti_context_id'];
 		if(!$target_ref_id)
 		{
 			$this->getLogger()->debug('No target id given');
 			return false;
 		}
-		$target_obj_id = ilObject::_lookupObjId($target_ref_id);
-		
-		
-		$obj_settings = new ilLTIProviderObjectSetting($target_obj_id, $consumer->getId());
+		$obj_settings = new ilLTIProviderObjectSetting($target_ref_id, $consumer->getExtConsumerId());
 		
 		// @todo read from lti data
 		$roles = $_POST['roles'];
@@ -334,53 +327,38 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 			$role_name = trim($role_name);
 			switch($role_name)
 			{
-				
 				case 'Administrator':
 					
 					$this->getLogger()->debug('Administrator role handling');
-					if($obj_settings->isAdminAssignmentEnabled())
+					if($obj_settings->getAdminRole())
 					{
-						include_once './Services/Object/classes/class.ilObjectFactory.php';
-						$factory = new ilObjectFactory();
-						$course = $factory->getInstanceByRefId($target_ref_id,false);
-						if($course instanceof ilObjCourse)
-						{
-							$role = $course->getDefaultAdminRole();
-							$GLOBALS['rbacadmin']->assignUser($role, $user_id);
-						}
-						
+						$GLOBALS['DIC']->rbac()->admin()->assignUser(
+							$obj_settings->getAdminRole(),
+							$user_id
+						);
 					}
 					break;
 
 				case 'Instructor':
-					
 					$this->getLogger()->debug('Instructor role handling');
-					if($obj_settings->isTutorAssignmentEnabled())
+					$this->getLogger()->debug('Tutor role for request: ' . $obj_settings->getTutorRole());
+					if($obj_settings->getTutorRole())
 					{
-						include_once './Services/Object/classes/class.ilObjectFactory.php';
-						$factory = new ilObjectFactory();
-						$course = $factory->getInstanceByRefId($target_ref_id,false);
-						if($course instanceof ilObjCourse)
-						{
-							$role = $course->getDefaultTutorRole();
-							$GLOBALS['rbacadmin']->assignUser($role, $user_id);
-						}
+						$GLOBALS['DIC']->rbac()->admin()->assignUser(
+							$obj_settings->getTutorRole(),
+							$user_id
+						);
 					}
 					break;
 
 				case 'Member':
-					
 					$this->getLogger()->debug('Member role handling');
-					if($obj_settings->isMemberAssignmentEnabled())
+					if($obj_settings->getMemberRole())
 					{
-						include_once './Services/Object/classes/class.ilObjectFactory.php';
-						$factory = new ilObjectFactory();
-						$course = $factory->getInstanceByRefId($target_ref_id,false);
-						if($course instanceof ilObjCourse)
-						{
-							$role = $course->getDefaultMemberRole();
-							$GLOBALS['rbacadmin']->assignUser($role, $user_id);
-						}
+						$GLOBALS['DIC']->rbac()->admin()->assignUser(
+							$obj_settings->getMemberRole(),
+							$user_id
+						);
 					}
 					break;
 			}

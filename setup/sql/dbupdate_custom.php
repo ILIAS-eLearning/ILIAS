@@ -602,4 +602,3 @@ if (!$ilDB->tableExists('lti_int_provider_obj'))
 	$ilDB->addPrimaryKey('lti_int_provider_obj',array('ref_id','ext_consumer_id'));
 }
 ?>
-

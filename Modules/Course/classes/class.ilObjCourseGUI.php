@@ -2248,6 +2248,8 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->activateTab('settings');
 				$this->tabs_gui->activateSubTab('lti_provider');
 				$lti_gui = new ilLTIProviderObjSettingGUI($this->object->getRefId());
+				$lti_gui->setCustomRolesForSelection($GLOBALS['DIC']->rbac()->review()->getLocalRoles($this->object->getRefId()));
+				$lti_gui->offerLTIRolesForSelection(false);
 				$this->ctrl->forwardCommand($lti_gui);
 				break;
 				

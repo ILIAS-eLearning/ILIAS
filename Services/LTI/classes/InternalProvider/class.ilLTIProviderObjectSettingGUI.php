@@ -41,6 +41,17 @@ class ilLTIProviderObjSettingGUI
 	protected $ref_id = null;
 	
 	/**
+	 * Custom roles for selection
+	 * @var int[]
+	 */
+	protected $custom_roles = [];
+	
+	/**
+	 * @var bool
+	 */
+	protected $use_lti_roles = true;
+	
+	/**
 	 * @param int ref_id
 	 */
 	public function __construct($a_ref_id)
@@ -71,8 +82,26 @@ class ilLTIProviderObjSettingGUI
 			'release_objects',
 			ilObjLTIAdministration::lookupLTISettingsRefId()
 		);
-			
 	}
+	
+	/**
+	 * Set custom roles for mapping to LTI roles
+	 * @param type $a_roles
+	 */
+	public function setCustomRolesForSelection($a_roles)
+	{
+		$this->custom_roles = $a_roles;
+	}
+	
+	/**
+	 * Offer LTI roles for mapping
+	 * @param bool $a_stat
+	 */
+	public function offerLTIRolesForSelection($a_stat)
+	{
+		$this->use_lti_roles = $a_stat;
+	}
+	
 	
 	/**
 	 * Ctrl execute command
@@ -114,6 +143,11 @@ class ilLTIProviderObjSettingGUI
 		
 		foreach(ilObjLTIAdministration::getEnabledConsumersForType(ilObject::_lookupType($this->ref_id,true)) as $global_consumer)
 		{
+			$object_info = new ilLTIProviderObjectSetting($this->ref_id, $global_consumer->getExtConsumerId());
+			
+			$this->logger->debug($object_info->getAdminRole());
+			
+			
 			// meta data for external consumers
 			$section = new ilFormSectionHeaderGUI();
 			$section->setTitle($global_consumer->getTitle());
@@ -146,22 +180,31 @@ class ilLTIProviderObjSettingGUI
 				$active->addSubItem($secret);
 			}
 			
-			
-					
-			/*
-			$admin = new ilCheckboxInputGUI($GLOBALS['lng']->txt('lti_admin'),'lti_admin_'.$ext_consumer->getExtConsumerId());
-			$admin->setValue(1);
+			$admin = new ilSelectInputGUI(
+				$this->lng->txt('lti_admin'),
+				'lti_admin_'.$global_consumer->getExtConsumerId()
+			);
+			$admin->setOptions($this->getRoleSelection());
+			$admin->setValue($object_info->getAdminRole() ? $object_info->getAdminRole() : 0);
 			$active->addSubItem($admin);
-				
-			$tutor = new ilCheckboxInputGUI($GLOBALS['lng']->txt('lti_tutor'),'lti_tutor_'.$ext_consumer->getExtConsumerId());
-			$tutor->setValue(1);
+			
+			$tutor = new ilSelectInputGUI(
+				$this->lng->txt('lti_tutor'),
+				'lti_tutor_'.$global_consumer->getExtConsumerId()
+			);
+			$tutor->setOptions($this->getRoleSelection());
+			$tutor->setValue($object_info->getTutorRole() ? $object_info->getTutorRole() : 0);
 			$active->addSubItem($tutor);
-					
-			$member = new ilCheckboxInputGUI($GLOBALS['lng']->txt('lti_member'),'lti_member_'.$ext_consumer->getExtConsumerId());
-			$member->setValue(1);
+			
+			$member = new ilSelectInputGUI(
+				$this->lng->txt('lti_member'),
+				'lti_member_'.$global_consumer->getExtConsumerId()
+			);
+			$member->setOptions($this->getRoleSelection());
+			$member->setValue($object_info->getMemberRole() ? $object_info->getMemberRole() : 0);
 			$active->addSubItem($member);
-			 * 
-			 */
+			
+			
 		}
 		
 		$form->addCommandButton('updateSettings', $this->lng->txt('save'));
@@ -184,6 +227,8 @@ class ilLTIProviderObjSettingGUI
 		$connector = new ilLTIDataConnector();
 		foreach(ilObjLTIAdministration::getEnabledConsumersForType(ilObject::_lookupType($this->ref_id,true)) as $global_consumer)
 		{
+			$this->saveRoleSelection($form, $global_consumer->getExtConsumerId());
+			
 			$consumer = ilLTIToolConsumer::fromGlobalSettingsAndRefId(
 				$global_consumer->getExtConsumerId(),
 				$this->ref_id,
@@ -215,9 +260,49 @@ class ilLTIProviderObjSettingGUI
 		
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
 		$this->ctrl->redirect($this, 'settings');
-		
-		
-		
 	}
 	
+	/**
+	 * Save role selection for consumer
+	 * @param ilPropertyFormGUI $form
+	 * @param type $global_consumer_id
+	 */
+	protected function saveRoleSelection(ilPropertyFormGUI $form, $global_consumer_id)
+	{
+		$object_info = new ilLTIProviderObjectSetting($this->ref_id, $global_consumer_id);
+		
+		$admin_role = $form->getInput('lti_admin_'.$global_consumer_id);
+		if($admin_role > 0)
+		{
+			$object_info->setAdminRole($admin_role);
+		}
+		$tutor_role = $form->getInput('lti_tutor_'.$global_consumer_id);
+		if($tutor_role > 0)
+		{
+			$object_info->setTutorRole($tutor_role);
+		}
+		$member_role = $form->getInput('lti_member_'.$global_consumer_id);
+		if($member_role > 0)
+		{
+			$object_info->setMemberRole($member_role);
+		}
+		$object_info->save();
+	}
+	
+	
+	/**
+	 * Get role selection
+	 * @return array
+	 */
+	protected function getRoleSelection()
+	{
+		$options = [];
+		$options[0] = $this->lng->txt('select_one');
+		foreach($this->custom_roles as $role_id)
+		{
+			$title = ilObjRole::_getTranslation(ilObjRole::_lookupTitle($role_id));
+			$options[$role_id] = $title;
+		}
+		return $options;
+	}
 }

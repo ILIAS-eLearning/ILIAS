@@ -22,7 +22,6 @@ class ilLTIProviderObjectSetting
 	
 	private $ref_id = 0;
 	private $consumer_id = 0;
-	private $enabled = false;
 	private $admin = false;
 	private $tutor = false;
 	private $member = false;
@@ -97,7 +96,7 @@ class ilLTIProviderObjectSetting
 	{
 		$query = 'DELETE FROM lti_int_provider_obj '.
 			'WHERE ref_id = '.$this->db->quote($this->ref_id, 'integer').' '.
-			'AND consumer_id = '.$this->db->quote($this->getConsumerId(), 'integer');
+			'AND ext_consumer_id = '.$this->db->quote($this->getConsumerId(), 'integer');
 		$this->db->manipulate($query);
 	}
 	
@@ -106,7 +105,7 @@ class ilLTIProviderObjectSetting
 		$this->delete();
 		
 		$query = 'INSERT INTO lti_int_provider_obj '.
-			'(ref_id,consumer_id,admin,tutor,member) VALUES( '.
+			'(ref_id,ext_consumer_id,admin,tutor,member) VALUES( '.
 			$this->db->quote($this->ref_id, 'integer').', '.
 			$this->db->quote($this->getConsumerId(), 'integer').', '.
 			$this->db->quote($this->getAdminRole(), 'integer').', '.
@@ -122,20 +121,20 @@ class ilLTIProviderObjectSetting
 	 */
 	protected function read()
 	{
-		if(!$this->obj_id)
+		if(!$this->ref_id)
 		{
 			return false;
 		}
 		
 		$query = 'SELECT * FROM lti_int_provider_obj '.
 			'WHERE ref_id = '.$this->db->quote($this->ref_id, 'integer').' '.
-			'AND consumer_id = '.$this->db->quote($this->getConsumerId(), 'integer');
+			'AND ext_consumer_id = '.$this->db->quote($this->getConsumerId(), 'integer');
 		
 		$res = $this->db->query($query);
 		while($row = $res->fetchObject())
 		{
 			$this->ref_id = $row->ref_id;
-			$this->consumer_id = $row->consumer_id;
+			$this->consumer_id = $row->ext_consumer_id;
 			$this->admin = $row->admin;
 			$this->tutor = $row->tutor;
 			$this->member = $row->member;
