@@ -87,6 +87,13 @@ class ilDownloadFilesBackgroundTask
 	 */
 	public function getBucketTitle()
 	{
+		//TODO: fix ilUtil zip stuff
+		// Error If name starts "-"
+		// error massage from ilUtil->execQuoted = ["","zip error: Invalid command arguments (short option 'a' not supported)"]
+		if(substr($this->bucket_title, 0, 1) === "-") {
+			$this->bucket_title = ltrim($this->bucket_title, "-");
+		}
+
 		return $this->bucket_title;
 	}
 	
