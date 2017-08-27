@@ -387,7 +387,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 			// create
 			$new_id = $ilDB->nextId('lti_ext_consumer');
 			$query = 'INSERT INTO lti_ext_consumer (title, description, prefix, user_language, role, id, active) ' .
-				'VALUES (%s, %s, %s, %s, %s, %s)';
+				'VALUES (%s, %s, %s, %s, %s, %s, %s)';
 			$types = ["text", "text", "text", "text", "integer", "integer", 'integer'];
 			$values = [
 				$consumer->getTitle(),
@@ -537,15 +537,6 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 
-        $query = 'DELETE FROM lti_ext_consumer WHERE id = %s';
-		$types = array("integer");
-		$values = array($consumer->getRecordId());
-		$ilDB->manipulateF($query,$types,$values);
-
-        $query = 'DELETE FROM lti_ext_consumer_otype WHERE consumer_id = %s';
-		$types = array("integer");
-		$values = array($consumer->getRecordId());
-		$ilDB->manipulateF($query,$types,$values);
 
 // Delete any nonce values for this consumer
         $query = "DELETE FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::NONCE_TABLE_NAME . ' WHERE consumer_pk = %s';

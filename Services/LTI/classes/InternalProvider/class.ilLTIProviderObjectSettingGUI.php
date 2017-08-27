@@ -133,7 +133,7 @@ class ilLTIProviderObjSettingGUI
 			$active->setValue(1);
 			$form->addItem($active);
 
-			if($active_consumer->getRefId()) // and enabled
+			if($active_consumer->getEnabled()) // and enabled
 			{
 				$active->setChecked(true);
 				
@@ -181,15 +181,42 @@ class ilLTIProviderObjSettingGUI
 			return;
 		}
 		
-		foreach(ilObjLTIAdministration::getEnabledConsumersForType(ilObject::_lookupType($this->ref_id,true)) as $ext_consumer)
+		$connector = new ilLTIDataConnector();
+		foreach(ilObjLTIAdministration::getEnabledConsumersForType(ilObject::_lookupType($this->ref_id,true)) as $global_consumer)
 		{
-			$connector = new ilLTIDataConnector();
-			$consumer = new ilLTIToolConsumer(null,$connector);
-			$consumer->setExtConsumerId($ext_consumer->getExtConsumerId());
-			$consumer->setRefId($this->ref_id);
-			$consumer->saveLTI($connector);
+			$consumer = ilLTIToolConsumer::fromGlobalSettingsAndRefId(
+				$global_consumer->getExtConsumerId(),
+				$this->ref_id,
+				$connector
+			);
+			if(!$form->getInput('lti_active_'.$global_consumer->getExtConsumerId()))
+			{
+				// not active anymore => delete consumer
+				if($consumer->getEnabled())
+				{
+					$this->logger->info('Deleting lti consumer for object reference: '. $this->ref_id);
+					$consumer->delete();
+				}
+			}
+			else
+			{
+				// new activation
+				if(!$consumer->getEnabled())
+				{
+					$this->logger->info('Created new lti release for: ' . $this->ref_id);
+					$consumer->setExtConsumerId($global_consumer->getExtConsumerId());
+					$consumer->createSecret();
+					$consumer->setRefId($this->ref_id);
+					$consumer->setEnabled(true);
+					$consumer->saveLTI($connector);
+				}
+			}
 		}
-
+		
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+		$this->ctrl->redirect($this, 'settings');
+		
+		
 		
 	}
 	

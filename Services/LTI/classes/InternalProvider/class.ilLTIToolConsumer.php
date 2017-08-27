@@ -140,6 +140,15 @@ class ilLTIToolConsumer extends ToolConsumer
 	{
 		return $this->secret;
 	}
+	
+	
+	/**
+	 * Create a secret
+	 */
+	public function createSecret()
+	{
+		$this->setSecret(\IMSGlobal\LTI\ToolProvider\DataConnector\DataConnector::getRandomString(12));
+	}
 
 	/**
 	 * @param string $lang  (int?)
@@ -188,6 +197,17 @@ class ilLTIToolConsumer extends ToolConsumer
 	{
 		return $this->role;
 	}
+	
+	
+	public function setEnabled($a_status)
+	{
+		$this->enabled = $a_status;
+	}
+	
+	public function getEnabled()
+	{
+		return $this->enabled;
+	}
 
 // local_role_always_member, default_skin
 
@@ -234,7 +254,8 @@ class ilLTIToolConsumer extends ToolConsumer
 	 * Load consumer from global settings and ref_id
 	 * @param type $a_ext_consumer_id
 	 * @param type $a_ref_id
-	 * @param type $a_data_connector
+	 * @param ilLTIDataConnector $a_data_connector
+	 * @retrun ilLTIToolConsumer
 	 */
 	public static function fromGlobalSettingsAndRefId($a_ext_consumer_id, $a_ref_id, ilLTIDataConnector $a_data_connector)
 	{
