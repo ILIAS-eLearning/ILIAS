@@ -4808,6 +4808,7 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'ilLPStatusWrapper' => __DIR__ . '/../..' . '/../../Services/Tracking/classes/class.ilLPStatusWrapper.php',
         'ilLPTableBaseGUI' => __DIR__ . '/../..' . '/../../Services/Tracking/classes/class.ilLPTableBaseGUI.php',
         'ilLPXmlWriter' => __DIR__ . '/../..' . '/../../Services/Tracking/classes/class.ilLPXmlWriter.php',
+        'ilLTICronOutcomeService' => __DIR__ . '/../..' . '/../../Services/LTI/classes/class.ilLTICronOutcomeService.php',
         'ilLTIDataConnector' => __DIR__ . '/../..' . '/../../Services/LTI/classes/class.ilLTIDataConnector.php',
         'ilLTIProviderObjectSetting' => __DIR__ . '/../..' . '/../../Services/LTI/classes/InternalProvider/class.ilLTIProviderObjectSetting.php',
         'ilLTIProviderObjectSettingGUI' => __DIR__ . '/../..' . '/../../Services/LTI/classes/InternalProvider/class.ilLTIProviderObjectSettingGUI.php',

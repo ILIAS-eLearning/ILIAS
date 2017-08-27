@@ -4598,6 +4598,7 @@ return array(
     'ilLPStatusWrapper' => $baseDir . '/../../Services/Tracking/classes/class.ilLPStatusWrapper.php',
     'ilLPTableBaseGUI' => $baseDir . '/../../Services/Tracking/classes/class.ilLPTableBaseGUI.php',
     'ilLPXmlWriter' => $baseDir . '/../../Services/Tracking/classes/class.ilLPXmlWriter.php',
+    'ilLTICronOutcomeService' => $baseDir . '/../../Services/LTI/classes/class.ilLTICronOutcomeService.php',
     'ilLTIDataConnector' => $baseDir . '/../../Services/LTI/classes/class.ilLTIDataConnector.php',
     'ilLTIProviderObjectSetting' => $baseDir . '/../../Services/LTI/classes/InternalProvider/class.ilLTIProviderObjectSetting.php',
     'ilLTIProviderObjectSettingGUI' => $baseDir . '/../../Services/LTI/classes/InternalProvider/class.ilLTIProviderObjectSettingGUI.php',

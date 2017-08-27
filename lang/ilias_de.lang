@@ -16,6 +16,8 @@
 <!-- language file start -->
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Learning Tools Interoperability
+common#:#lti_outcome#:#LTI Lernfortschritt Benachrichtigung
+common#:#lti_outcome_info#:#Sendet den Lernfortschrittstatus von LTI-Benutzern an LTI Tool Consumer.
 lti#:#act_lti_for_obj_type#:#Activate LTI for Type of Object
 lti#:#gbl_roles_to_users#:#Global Role assigned to LTI Users
 lti#:#consumers#:#Consumers

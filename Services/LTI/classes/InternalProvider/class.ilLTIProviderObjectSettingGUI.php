@@ -184,29 +184,32 @@ class ilLTIProviderObjectSettingGUI
 				$active->addSubItem($secret);
 			}
 			
-			$admin = new ilSelectInputGUI(
-				$this->lng->txt('lti_admin'),
-				'lti_admin_'.$global_consumer->getExtConsumerId()
-			);
-			$admin->setOptions($this->getRoleSelection());
-			$admin->setValue($object_info->getAdminRole() ? $object_info->getAdminRole() : 0);
-			$active->addSubItem($admin);
-			
-			$tutor = new ilSelectInputGUI(
-				$this->lng->txt('lti_tutor'),
-				'lti_tutor_'.$global_consumer->getExtConsumerId()
-			);
-			$tutor->setOptions($this->getRoleSelection());
-			$tutor->setValue($object_info->getTutorRole() ? $object_info->getTutorRole() : 0);
-			$active->addSubItem($tutor);
-			
-			$member = new ilSelectInputGUI(
-				$this->lng->txt('lti_member'),
-				'lti_member_'.$global_consumer->getExtConsumerId()
-			);
-			$member->setOptions($this->getRoleSelection());
-			$member->setValue($object_info->getMemberRole() ? $object_info->getMemberRole() : 0);
-			$active->addSubItem($member);
+			if($this->custom_roles)
+			{
+				$admin = new ilSelectInputGUI(
+					$this->lng->txt('lti_admin'),
+					'lti_admin_'.$global_consumer->getExtConsumerId()
+				);
+				$admin->setOptions($this->getRoleSelection());
+				$admin->setValue($object_info->getAdminRole() ? $object_info->getAdminRole() : 0);
+				$active->addSubItem($admin);
+
+				$tutor = new ilSelectInputGUI(
+					$this->lng->txt('lti_tutor'),
+					'lti_tutor_'.$global_consumer->getExtConsumerId()
+				);
+				$tutor->setOptions($this->getRoleSelection());
+				$tutor->setValue($object_info->getTutorRole() ? $object_info->getTutorRole() : 0);
+				$active->addSubItem($tutor);
+
+				$member = new ilSelectInputGUI(
+					$this->lng->txt('lti_member'),
+					'lti_member_'.$global_consumer->getExtConsumerId()
+				);
+				$member->setOptions($this->getRoleSelection());
+				$member->setValue($object_info->getMemberRole() ? $object_info->getMemberRole() : 0);
+				$active->addSubItem($member);
+			}
 			
 			
 		}
