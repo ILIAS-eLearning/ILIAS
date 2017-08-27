@@ -171,6 +171,10 @@ class ilLTIProviderObjectSettingGUI
 			{
 				$active->setChecked(true);
 				
+				$url = new ilNonEditableValueGUI($this->lng->txt('lti_launch_url'), 'url');
+				$url->setValue(ILIAS_HTTP_PATH.'/lti.php?client_id='.CLIENT_ID);
+				$active->addSubItem($url);
+				
 				$key = new ilNonEditableValueGUI($this->lng->txt('lti_consumer_key'), 'key');
 				$key->setValue($active_consumer->getKey());
 				$active->addSubItem($key);
