@@ -105,7 +105,9 @@ class ilOrgUnitOperationQueries {
 	 *
 	 * @return \ilOrgUnitOperation
 	 */
-	public static function findByOperationString($operation_string) {
-		return ilOrgUnitOperation::where([ 'operation_string' => $operation_string ])->first();
+	public static function findByOperationString($operation_string, $context_name) {
+		$context = ilOrgUnitOperationContextQueries::findByName($context_name);
+
+		return ilOrgUnitOperation::where([ 'operation_string' => $operation_string, 'context_id'=>$context->getId() ])->first();
 	}
 }

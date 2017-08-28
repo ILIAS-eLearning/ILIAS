@@ -8,6 +8,7 @@
 class ilOrgUnitOperation extends ActiveRecord {
 
 	const OP_READ_LEARNING_PROGRESS = 'read_learning_progress';
+	const OP_WRITE_LEARNING_PROGRESS = 'write_learning_progress';
 	const OP_EDIT_SUBMISSION_GRADES = 'edit_submissions_grades';
 	const OP_ACCESS_RESULTS = 'access_results';
 	const OP_MANAGE_MEMBERS = 'manage_members';

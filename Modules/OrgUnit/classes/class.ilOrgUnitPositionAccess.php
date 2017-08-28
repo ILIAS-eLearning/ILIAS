@@ -104,7 +104,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
 		}
 
 		// $all_available_users = $this->ua->getUserIdsOfOrgUnit()
-		$operation = ilOrgUnitOperationQueries::findByOperationString($pos_perm);
+		$operation = ilOrgUnitOperationQueries::findByOperationString($pos_perm, $this->getTypeForRefId($ref_id));
 		if(!$operation) {
 			return $user_ids;
 		}
@@ -159,7 +159,10 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
 			return false;
 		}
 
-		$operation = ilOrgUnitOperationQueries::findByOperationString($pos_perm);
+		$operation = ilOrgUnitOperationQueries::findByOperationString($pos_perm, $this->getTypeForRefId($ref_id));
+		if(!$operation) {
+			return false;
+		}
 		$current_user_id = $this->getCurrentUsersId();
 
 		foreach ($this->ua->getPositionsOfUserId($current_user_id) as $position) {
