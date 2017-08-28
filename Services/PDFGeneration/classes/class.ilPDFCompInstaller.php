@@ -76,7 +76,7 @@ class ilPDFCompInstaller
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 
-		$query = 'SELECT count(*) num FROM ' . self::PURPOSE_CONF_TABLE . ' WHERE service = '
+		$query = 'SELECT count(*) num FROM ' . self::PURPOSE_PURPOSES_TABLE . ' WHERE service = '
 			. $ilDB->quote($service, 'text') . ' AND purpose = ' . $ilDB->quote($purpose, 'text');
 		$result = $ilDB->query($query);
 		$row = $ilDB->fetchAssoc($result);
