@@ -27,6 +27,7 @@ class ilUserUtil
 	const START_PD_SETTINGS = 14;
 	const START_REPOSITORY= 15;
 	const START_REPOSITORY_OBJ= 16;
+	const START_PD_MYSTAFF = 17;
 	
 	/**
 	 * Default behaviour is:
@@ -230,6 +231,10 @@ class ilUserUtil
 		{
 			$all[self::START_PD_SUBSCRIPTION] = 'my_courses_groups';
 		}
+
+		if(ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff()) {
+			$all[self::START_PD_MYSTAFF] = 'my_staff';
+		}
 	
 		if($a_force_all || !$ilSetting->get("disable_personal_workspace"))
 		{
@@ -240,10 +245,10 @@ class ilUserUtil
 		$settings = ilCalendarSettings::_getInstance();
 		if($a_force_all || $settings->isEnabled())
 		{
-			$all[self::START_PD_CALENDAR] = 'calendar';		
+			$all[self::START_PD_CALENDAR] = 'calendar';
 		}
 
-		$all[self::START_REPOSITORY] = 'repository';		
+		$all[self::START_REPOSITORY] = 'repository';
 		
 		foreach($all as $idx => $lang)
 		{
@@ -405,7 +410,7 @@ class ilUserUtil
 				// invalid starting object, overview is fallback
 				$current = self::START_PD_OVERVIEW;
 				// fallthrough
-			
+
 			default:
 				$map = array(
 					self::START_PD_OVERVIEW => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSelectedItems',
@@ -421,7 +426,8 @@ class ilUserUtil
 					// self::START_PD_MAIL => 'ilias.php?baseClass=ilMailGUI',
 					// self::START_PD_CONTACTS => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToContacts',
 					// self::START_PD_PROFILE => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToProfile',
-					// self::START_PD_SETTINGS => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSettings'			
+					// self::START_PD_SETTINGS => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSettings'
+					self::START_PD_MYSTAFF => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToMyStaff'
 				);				
 				return $map[$current];		
 		}		
