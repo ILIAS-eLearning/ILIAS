@@ -218,7 +218,7 @@ class ilIndividualAssessmentMembers implements Iterator, Countable {
 		return $this->withOnlyUsersByIds
 			( $access_handler->filterUserIdsByRbacOrPositionOfCurrentUser
 				( "read_learning_progress"
-				, "view_lp"
+				, "read_learning_progress"
 				, $this->referencedObject()->getRefId()
 				, $this->membersIds()
 				)

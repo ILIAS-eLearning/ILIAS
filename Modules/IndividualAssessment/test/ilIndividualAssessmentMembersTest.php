@@ -259,7 +259,7 @@ class ilIndividualAssessmentMembersTest extends PHPUnit_Framework_TestCase {
 		$ah
 			->expects($this->once())
 			->method("filterUserIdsByRbacOrPositionOfCurrentUser")
-			->with("read_learning_progress", "view_lp", $ref_id, $user_ids)
+			->with("read_learning_progress", "read_learning_progress", $ref_id, $user_ids)
 			->willReturn($keep_user_ids);
 
 		$members

@@ -20525,3 +20525,9 @@ if(!$ilDB->tableExists('orgu_obj_pos_settings'))
 }
 	
 ?>
+<#5190>
+<?php
+
+ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_WRITE_LEARNING_PROGRESS, 'Write the learning Progress of a User', ilOrgUnitOperationContext::CONTEXT_IASS);
+
+?>
