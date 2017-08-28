@@ -61,6 +61,9 @@ class ilSystemStyleMainGUI
 	 */
 	function __construct()
 	{
+		/**
+		 * @var ILIAS\DI\Container $DIC
+		 */
 		global $DIC;
 
 		$this->ctrl = $DIC->ctrl();
@@ -134,11 +137,11 @@ class ilSystemStyleMainGUI
 					break;
 				case "ilsystemstyledocumentationgui":
 					$ilHelp->setSubScreenId("documentation");
-					$this->checkPermission("sty_management");
+					$read_only = !$this->checkPermission("sty_management",false);
 					$this->setUnderworldTabs('documentation');
 					$this->setUnderworldTitle();
 					include_once("Documentation/class.ilSystemStyleDocumentationGUI.php");
-					$system_styles_documentation = new ilSystemStyleDocumentationGUI();
+					$system_styles_documentation = new ilSystemStyleDocumentationGUI($read_only);
 					$this->ctrl->forwardCommand($system_styles_documentation);
 					break;
 				case "ilsystemstyleoverviewgui":
@@ -159,6 +162,39 @@ class ilSystemStyleMainGUI
 			$system_styles_overview = new ilSystemStyleOverviewGUI(!$this->checkPermission("sty_write_system",false),$this->checkPermission("sty_management",false));
 			$this->ctrl->forwardCommand($system_styles_overview);
 		}
+	}
+
+	/**
+	 * @param $id
+	 */
+	public static function _goto($ref_id,$params){
+		/**
+		 * @var ILIAS\DI\Container $DIC
+		 */
+		global $DIC;
+
+		$node_id = $params[2];
+		$skin_id = $params[3];
+		$style_id = $params[4];
+
+		$DIC->ctrl()->setParameterByClass('ilSystemStyleDocumentationGUI','skin_id', $skin_id);
+		$DIC->ctrl()->setParameterByClass('ilSystemStyleDocumentationGUI','style_id',
+				$style_id);
+		$DIC->ctrl()->setParameterByClass('ilSystemStyleDocumentationGUI','node_id',$node_id);
+		$DIC->ctrl()->setParameterByClass('ilSystemStyleDocumentationGUI','ref_id', $ref_id);
+
+		$_GET['baseClass']= 'ilAdministrationGUI';
+
+		$cmd = "entries";
+		$cmd_classes = [
+				"ilAdministrationGUI",
+				"ilObjStyleSettingsGUI",
+				"ilSystemStyleMainGUI",
+				'ilSystemStyleDocumentationGUI'
+		];
+
+		$DIC->ctrl()->setTargetScript("ilias.php");
+		$DIC->ctrl()->redirectByClass($cmd_classes,$cmd);
 	}
 
 	/**

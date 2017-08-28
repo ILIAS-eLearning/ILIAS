@@ -20613,3 +20613,25 @@ $superior->setCoreIdentifier(ilOrgUnitPosition::CORE_POSITION_SUPERIOR);
 $superior->update();
 
 ?>
+<#5195>
+<?php
+$ilDB->insert('pdfgen_renderer_avail',
+	array(
+		'availability_id' => array('integer', $ilDB->nextId('pdfgen_renderer_avail')),
+		'service' 	=> array('text', 'Wiki'),
+		'purpose' 	=> array('text', 'ContentExport'),
+		'renderer'	=> array('text', 'PhantomJS')
+	)
+);
+?>
+<#5196>
+<?php
+$ilDB->insert('pdfgen_renderer_avail',
+	array(
+		'availability_id' => array('integer', $ilDB->nextId('pdfgen_renderer_avail')),
+		'service' 	=> array('text', 'Portfolio'),
+		'purpose' 	=> array('text', 'ContentExport'),
+		'renderer'	=> array('text', 'PhantomJS')
+	)
+);
+?>

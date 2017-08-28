@@ -128,7 +128,6 @@ abstract class ilPageObject
 	final public function __construct($a_id = 0, $a_old_nr = 0, $a_lang = "-")
 	{
 		global $DIC;
-
 		$this->db = $DIC->database();
 		$this->user = $DIC->user();
 		$this->lng = $DIC->language();
@@ -2568,6 +2567,12 @@ abstract class ilPageObject
 			{
 				$p = explode("=", $p);
 				$par[$p[0]] = $p[1];
+			}
+
+			$target_client_id = $par["client_id"];
+			if ($target_client_id != "" && $target_client_id != CLIENT_ID)
+			{
+				continue;
 			}
 
 			// get ref id

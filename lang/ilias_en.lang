@@ -13929,3 +13929,17 @@ classification#:#clsfct_back_to_cat#:#Back to Category
 tax#:#tax_tax_assignment#:#Taxonomy Assignment
 tax#:#tax_tax_settings#:#Taxonomy Settings
 prtf#:#prtf_portfolio_created_from_template#:#This is the preview of your new portfolio. To add pages and manage the content of the portfolio click on "Edit Portfolio" on top of this page.
+style#:#open_documentation#:#Open Documentation
+style#:#ks_documentation_of_style#:#Kitchen Sink documentation of style:
+style#:#ks_documentation_of_substyle#:#Kitchen Sink documentation of sub style:
+prtf#:#prtf_pdf#:#PDF
+prtf#:#prtf_print_selection#:#Page Selection
+prtf#:#prtf_all_pages#:#All Pages
+prtf#:#prtf_selected_pages#:#Selected Pages
+prtf#:#prtf_print_options#:#Options
+prtf#:#prtf_author#:#Author
+prtf#:#prtf_link#:#Link
+prtf#:#prtf_date_of_print#:#Date of Print
+prtf#:#prtf_signature#:#Signature Field
+prtf#:#prtf_signature_info#:#Adds a field to the print where the author can sign the portfolio.
+prtf#:#prtf_signature_date#:#Date, Signature
