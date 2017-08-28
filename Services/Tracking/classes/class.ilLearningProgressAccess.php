@@ -79,8 +79,14 @@ class ilLearningProgressAccess
 		}
 		
 		if(
-			$this->checkPermission('read_learning_progress', $a_ref_id) ||
-			$this->checkPermission('edit_learning_progress', $a_ref_id)
+			$GLOBALS['DIC']->access()->checkRbacOrPositionPermissionAccess(
+				'read_learning_progress',
+				'read_learning_progress',
+				$a_ref_id) || 
+			$GLOBALS['DIC']->access()->checkRbacOrPositionPermissionAccess(
+				'edit_learning_progress',
+				'edit_learning_progress',
+				$a_ref_id)
 		)			
 		{
 			return true;
