@@ -10960,8 +10960,6 @@ orgu#:#scope_3#:#All Organisational Units
 orgu#:#over_-1#:#Everyone
 orgu#:#over#:#Over
 orgu#:#scope#:#In
-orgu#:#org_op_set_lp#:#Set learning progress of other users
-orgu#:#org_op_view_lp#:#View learning progress of other users
 common#:#my_staff#:#My Staff
 mst#:#mst_my_staff#:#My Staff
 mst#:#mst_list_users#:#Staff List
@@ -10977,7 +10975,8 @@ mst#:#mst_courses_of#:#Courses of %s
 orgu#:#orgu_enable_my_staff#:#Enable ‘My Staff’
 orgu#:#orgu_enable_my_staff_info#:#The View ‘My Staff’ shows the Learning Progress of the own Employees.
 orgu#:#org_op_manage_members#:#Manage Members
-orgu#:#org_op_read_learning_pr#:#Read Learning Progress
+orgu#:#org_op_read_learning_progress#:#View learning progress of other users
+orgu#:#org_op_write_learning_progress#:#Set learning progress of other users
 orgu#:#form_title_org_default_permissions_update#:#Default Permissions
 orgu#:#msg_confirm_deletion#:#Deleted
 orgu#:#view_learning_progress#:#View Learning Progress

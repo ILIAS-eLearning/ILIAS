@@ -13219,8 +13219,6 @@ orgu#:#scope_3#:#Alle Organisationseinheiten
 orgu#:#over_-1#:#Alle
 orgu#:#over#:#über
 orgu#:#scope#:#in
-orgu#:#org_op_set_lp#:#Lernfortschritt von anderen Benutzern setzen.
-orgu#:#org_op_view_lp#:#Lernfortschritt von anderen Benutzern einsehen.
 common#:#my_staff#:#Meine Mitarbeiter
 mst#:#mst_my_staff#:#Meine Mitarbeiter
 mst#:#mst_list_users#:#Mitarbeiterliste
@@ -13236,7 +13234,8 @@ mst#:#mst_courses_of#:#Kurse von %s
 orgu#:#orgu_enable_my_staff#:#‘Meine Mitarbeiter’ aktivieren
 orgu#:#orgu_enable_my_staff_info#:#The Ansicht ‘Meine Mitarbeiter’ zeigt die Lernfortschritte der eigenen Mitarbeiter an.
 orgu#:#org_op_manage_members#:#Mitglieder bearbeiten
-orgu#:#org_op_read_learning_pr#:#Lernfortschritt einsehen
+orgu#:#org_op_read_learning_progress#:#Lernfortschritt von anderen Benutzern einsehen
+orgu#:#org_op_write_learning_progress#:#Lernfortschritt von anderen Benutzern setzen.
 orgu#:#form_title_org_default_permissions_update#:#Standardrechte
 orgu#:#msg_confirm_deletion#:#Gelöscht
 orgu#:#view_learning_progress#:#Lernfortschritt einsehen
