@@ -480,7 +480,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 					if ($data_rec["scaled"] != null) $score .= ($data_rec["scaled"]*100)."%";
 					$title = self::_lookupItemTitle($data_rec["cp_node_id"]);
 					$last_access=ilDatePresentation::formatDate(new ilDateTime($data_rec['last_access'],IL_CAL_DATETIME));
-					$data[] = array("user_id" => $data_rec["user_id"], "sco_id"=>$data_rec["cp_node_id"],
+					$data[] = array("sco_id"=>$data_rec["cp_node_id"],
 						"score" => $score, "time" => $time, "status" => $status,"last_access"=>$last_access,"title"=>$title);
 				}
 				else
