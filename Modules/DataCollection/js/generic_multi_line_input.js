@@ -50,7 +50,8 @@
 
 						setup_line(new_line);
 
-						$(new_line).insertAfter($(this).parent());
+						console.log($(this).parent().parent());
+						$(new_line).insertAfter($(this).parent().parent());
 
 						// if date input, configure datetimepicker
 						var $div = new_line.find('.date');
