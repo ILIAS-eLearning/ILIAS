@@ -12,6 +12,7 @@ class ilMStShowUserGUI {
 
 	use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
 	const CMD_INDEX = 'index';
+	const CMD_SHOWUSER = 'showUser';
 	const CMD_RESET_FILTER = 'resetFilter';
 	const CMD_APPLY_FILTER = 'applyFilter';
 	/**
@@ -48,8 +49,6 @@ class ilMStShowUserGUI {
 	public function executeCommand() {
 		$this->checkAccessOrFail();
 
-		$this->addTabs('show_user');
-
 		$cmd = $this->ctrl()->getCmd();
 		$next_class = $this->ctrl()->getNextClass();
 
@@ -64,9 +63,15 @@ class ilMStShowUserGUI {
 					case self::CMD_RESET_FILTER:
 					case self::CMD_APPLY_FILTER:
 					case self::CMD_INDEX:
+						$this->addTabs('show_courses');
+						$this->$cmd();
+						break;
+					case self::CMD_SHOWUSER:
+						$this->addTabs('show_user');
 						$this->$cmd();
 						break;
 					default:
+						$this->addTabs('show_courses');
 						$this->index();
 						break;
 				}
@@ -84,6 +89,8 @@ class ilMStShowUserGUI {
 		$this->table->setTitle(sprintf($this->lng()
 		                                    ->txt('mst_courses_of'), ilObjCourse::_lookupTitle($this->usr_id)));
 
+
+
 		/*$pub_profile = new ilPublicUserProfileGUI($this->usr_id);
 
 		$tpl = new ilTemplate('./Services/MyStaff/templates/default/tpl.show_user_container.html', true, true);
@@ -98,6 +105,19 @@ class ilMStShowUserGUI {
 
 		$this->tpl()->setContent($this->table->getHTML());
 	}
+
+	protected function showUser() {
+		//Redirect if Profile is not public
+		$user = new ilObjUser($this->usr_id);
+		if(!$user->hasPublicProfile())
+		{
+			$this->ctrl()->redirectByClass('ilMStShowUserGUI', "index");
+		}
+
+		$pub_profile = new ilPublicUserProfileGUI($this->usr_id);
+		$this->tpl()->setContent($pub_profile->getEmbeddable());
+	}
+
 
 
 	protected function applyFilter() {
@@ -142,10 +162,18 @@ class ilMStShowUserGUI {
 			ilMyStaffGUI::class,
 			ilMStListUsersGUI::class,
 		)));
-		$tabs->addTab('show_user', $lng->txt('mst_show_courses'), $ctrl->getLinkTargetByClass(array(
+		$tabs->addTab('show_courses', $lng->txt('mst_show_courses'), $ctrl->getLinkTargetByClass(array(
 			ilMyStaffGUI::class,
 			ilMStShowUserGUI::class,
 		), self::CMD_INDEX));
+
+		$user = new ilObjUser($this->usr_id);
+		if($user->hasPublicProfile())
+		{
+			$ctrl->setParameterByClass('ilmstshowusergui', 'usr_id', $this->usr_id);
+			$public_profile_url = $ctrl->getLinkTargetByClass('ilmstshowusergui', self::CMD_SHOWUSER);
+			$tabs->addTab('show_user',$lng->txt('public_profile'),$public_profile_url);
+		}
 
 		if ($active_tab_id) {
 			$tabs->activateTab($active_tab_id);
