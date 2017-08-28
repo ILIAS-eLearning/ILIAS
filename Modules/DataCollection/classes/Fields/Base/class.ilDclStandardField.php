@@ -328,6 +328,11 @@ class ilDclStandardField extends ilDclBaseFieldModel
 				return $value;
 		}
 	}
+
+
+	public function afterClone($records) {
+
+	}
 }
 
 ?>
