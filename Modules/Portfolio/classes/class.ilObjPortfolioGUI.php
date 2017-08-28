@@ -1146,8 +1146,14 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		// because of PDF export
 		$form->setPreventDoubleSubmission(false);
 
+		// signature
+		$cb = new ilCheckboxInputGUI($this->lng->txt("prtf_signature"), "signature");
+		$cb->setInfo($this->lng->txt("prtf_signature_info"));
+		$form->addItem($cb);
+
+
 		// selection type
-		$radg = new ilRadioGroupInputGUI($lng->txt("prtf_selection"), "sel_type");
+		$radg = new ilRadioGroupInputGUI($lng->txt("prtf_print_selection"), "sel_type");
 		$radg->setValue("all_pages");
 		$op2 = new ilRadioOption($lng->txt("prtf_all_pages"), "all_pages");
 		$radg->addOption($op2);
@@ -1182,7 +1188,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
 		$form->addCommandButton("exportPDF", $lng->txt("prtf_pdf"));
 
-		$form->setTitle($lng->txt("prtf_print_selection"));
+		$form->setTitle($lng->txt("prtf_print_options"));
 		$form->setFormAction($ilCtrl->getFormAction($this, "exportPDF"));
 
 		return $form;
@@ -1258,6 +1264,14 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 				$cover_tpl->parseCurrentBlock();
 			}
 		}
+
+		if ($_POST["signature"])
+		{
+			$cover_tpl->setCurrentBlock("signature");
+			$cover_tpl->setVariable("TXT_SIGNATURE", $lng->txt("prtf_signature_date"));
+			$cover_tpl->parseCurrentBlock();
+		}
+
 		$cover_tpl->setVariable("PORTFOLIO_TITLE", $this->object->getTitle());
 		$cover_tpl->setVariable("PORTFOLIO_ICON", ilUtil::getImagePath("icon_prtf.svg"));
 
