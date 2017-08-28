@@ -78,8 +78,10 @@ class ilLearningProgressAccess
 			return false;
 		}
 		
-		if($ilAccess->checkAccess('read_learning_progress','',$a_ref_id) ||
-			$ilAccess->checkAccess('edit_learning_progress','',$a_ref_id))
+		if(
+			$this->checkPermission('read_learning_progress', $a_ref_id) ||
+			$this->checkPermission('edit_learning_progress', $a_ref_id)
+		)			
 		{
 			return true;
 		}
