@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://presentbright.corp.yahoo.com/" />
+<title>basic</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">basic</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/yui2/latest_build/examples/dragdrop/dd-basic_clean.html</td>
+	<td></td>
+</tr>
+<tr>
+	<td>store</td>
+	<td>+50</td>
+	<td>deltaX</td>
+</tr>
+<tr>
+	<td>store</td>
+	<td>-30</td>
+	<td>deltaY</td>
+</tr>
+<tr>
+	<td>storeElementPositionLeft</td>
+	<td>dd-demo-1</td>
+	<td>X</td>
+</tr>
+<tr>
+	<td>storeElementPositionTop</td>
+	<td>//div[@id='dd-demo-1']</td>
+	<td>Y</td>
+</tr>
+<tr>
+	<td>store</td>
+	<td>javascript{storedVars['deltaX']+','+storedVars['deltaY']}</td>
+	<td>deltaStr</td>
+</tr>
+<tr>
+	<td>verifyExpression</td>
+	<td>${deltaStr}</td>
+	<td>123456</td>
+</tr>
+<tr>
+	<td>dragAndDrop</td>
+	<td>//div[@id='dd-demo-1']</td>
+	<td>${deltaStr}</td>
+</tr>
+<tr>
+	<td>storeElementPositionLeft</td>
+	<td>//div[@id='dd-demo-1']</td>
+	<td>newX</td>
+</tr>
+<tr>
+	<td>storeElementPositionTop</td>
+	<td>//div[@id='dd-demo-1']</td>
+	<td>newY</td>
+</tr>
+<tr>
+	<td>verifyExpression</td>
+	<td>javascript{parseInt(storedVars['X'])+parseInt(storedVars['deltaX'])+''}</td>
+	<td>${newX}</td>
+</tr>
+<tr>
+	<td>verifyExpression</td>
+	<td>javascript{parseInt(storedVars['Y'])+parseInt(storedVars['deltaY'])+''}</td>
+	<td>${newY}</td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

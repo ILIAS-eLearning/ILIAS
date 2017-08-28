@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>Build Different Orientations</title>
+
+<style type="text/css">
+/*margin and padding on body element
+  can introduce errors in determining
+  element position and are not recommended;
+  we turn them off as a foundation for YUI
+  CSS treatments. */
+body {
+	margin:0;
+	padding:0;
+}
+.spacer {
+  margin: 3em;
+}
+.spacer2 {
+  margin: 12em;
+}
+.spacer3 {
+  margin: 13em;
+}
+</style>
+
+<link rel="stylesheet" type="text/css" href="../../../../../build/fonts/fonts-min.css" />
+<link rel="stylesheet" type="text/css" href="../../../../../build/tabview/assets/skins/sam/tabview.css" />
+<script type="text/javascript" src="../../../../../build/yahoo-dom-event/yahoo-dom-event.js"></script>
+
+<script type="text/javascript" src="../../../../../build/element/element-min.js"></script>
+<script type="text/javascript" src="../../../../../build/tabview/tabview-min.js"></script>
+
+<!--there is no custom header content for this example-->
+
+</head>
+
+<body class="yui-skin-sam">
+
+
+<h1>Build Different Orientations</h1>
+
+<div class="exampleIntro">
+	<p>This demonstrates how to build TabViews from markup for different orientations.</p>
+</div>
+
+<!--BEGIN SOURCE CODE FOR EXAMPLE =============================== -->
+
+<div id="demo-top" class="yui-navset">
+    <ul class="yui-nav">
+        <li><a href="#tab1-top"><em>Tab One Label Top</em></a></li>
+        <li><a href="#tab2-top"><em>Tab Two Label Top</em></a></li>
+        <li class="selected"><a href="#tab3-top"><em>Tab Three Label Top</em></a></li>
+    </ul>            
+    <div class="yui-content">
+        <div id="tab1-top"><p>Tab One Content Top</p></div>
+        <div id="tab2-top"><p>Tab Two Content Top</p></div>
+        <div id="tab3-top"><p>Tab Three Content Top</p></div>
+    </div>
+</div>
+
+<div class='spacer'></div>
+
+<div id="demo-left" class="yui-navset">
+    <ul class="yui-nav">
+        <li><a href="#tab1-left"><em>Tab One Label Left</em></a></li>
+        <li><a href="#tab2-left"><em>Tab Two Label Left</em></a></li>
+        <li class="selected"><a href="#tab3-left"><em>Tab Three Label Left</em></a></li>
+    </ul>            
+    <div class="yui-content">
+        <div id="tab1-left"><p>Tab One Content Left</p></div>
+        <div id="tab2-left"><p>Tab Two Content Left</p></div>
+        <div id="tab3-left"><p>Tab Three Content Left</p></div>
+    </div>
+</div>
+
+<div class='spacer2'></div>
+
+<div id="demo-right" class="yui-navset">
+    <ul class="yui-nav">
+        <li><a href="#tab1-right"><em>Tab One Label Right</em></a></li>
+        <li><a href="#tab2-right"><em>Tab Two Label Right</em></a></li>
+        <li class="selected"><a href="#tab3-right"><em>Tab Three Label Right</em></a></li>
+    </ul>            
+    <div class="yui-content">
+        <div id="tab1-right"><p>Tab One Content Right</p></div>
+        <div id="tab2-right"><p>Tab Two Content Right</p></div>
+        <div id="tab3-right"><p>Tab Three Content Right</p></div>
+    </div>
+</div>
+
+<div class='spacer3'></div>
+
+<div id="demo-bottom" class="yui-navset">
+    <ul class="yui-nav">
+        <li><a href="#tab1-bottom"><em>Tab One Label Bottom</em></a></li>
+        <li><a href="#tab2-bottom"><em>Tab Two Label Bottom</em></a></li>
+        <li class="selected"><a href="#tab3-bottom"><em>Tab Three Label Bottom</em></a></li>
+    </ul>            
+    <div class="yui-content">
+        <div id="tab1-bottom"><p>Tab One Content Bottom</p></div>
+        <div id="tab2-bottom"><p>Tab Two Content Bottom</p></div>
+        <div id="tab3-bottom"><p>Tab Three Content Bottom</p></div>
+    </div>
+</div>
+
+<div class='spacer'></div>
+
+<script>
+(function() {
+    var tabViewTop = new YAHOO.widget.TabView('demo-top', { orientation:'top'});
+    var tabViewLeft = new YAHOO.widget.TabView('demo-left', { orientation:'left'});
+    var tabViewRight = new YAHOO.widget.TabView('demo-right', { orientation:'right'});
+    var tabViewBottom = new YAHOO.widget.TabView('demo-bottom', { orientation:'bottom'});
+
+    YAHOO.log("The example has finished loading; as you interact with it, you'll see log messages appearing here.", "info", "example");
+})();
+</script>
+
+<!--END SOURCE CODE FOR EXAMPLE =============================== -->
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="YuiBuild" default="local">
+
+    <description>SWF Build File</description>
+
+    <property file="build.properties" />
+    <import file="${builddir}/2.x/bootstrap.xml" description="Default Build Properties and Targets" />
+
+    <!-- custom properties -->
+
+    <property name="astra.srcdir" value="${component.basedir}/as"/>
+    
+    <target name="build" depends="YuiModuleTargets.build, swfbuild" />
+    <target name="deploybuild" depends="YuiSharedTargets.deploybuild, swfdeploy" />
+
+    <target name="swfbuild" description="Charts Override to Build SWF" depends="build-swc">
+		<exec executable="${flexbin}/mxmlc" failonerror="true">
+
+			<!-- start with the classes from the SWC -->
+			<arg line="--library-path+='${astra.srcdir}'"/>
+			
+			<!-- specify where to output the SWF -->
+			<arg line="--output '${component.builddir}/assets/charts.swf'"/>
+
+			<!-- compile the main class -->
+			<arg line="'${astra.srcdir}/Charts.as'"/>
+		</exec>	
+    </target>
+
+    <target name="build-swc" description="builds the SWC required for the Charts SWF">
+        <exec executable="${flexbin}/compc" failonerror="true">
+
+            <!-- Flash Platform Source Files -->
+            <arg line="--source-path+='${astra.srcdir}'"/>
+
+            <!-- Core Flash CS3 Source Files -->
+            <arg line="--source-path+='${flashbin}/Configuration/ActionScript 3.0/Classes'"/>
+            <arg line="--source-path+='${flashbin}/Configuration/Component Source/ActionScript 3.0/User Interface'"/>
+
+            <!-- Main Classes to Include (will also add dependencies) -->
+            <arg line="--include-classes com.yahoo.astra.fl.charts.LineChart"/>
+            <arg value="com.yahoo.astra.fl.charts.ColumnChart"/>
+            <arg value="com.yahoo.astra.fl.charts.BarChart"/>
+            <arg value="com.yahoo.astra.fl.charts.PieChart"/>
+            <arg value="com.yahoo.astra.fl.charts.StackedColumnChart"/>
+            <arg value="com.yahoo.astra.fl.charts.StackedBarChart"/>
+            <arg value="com.yahoo.astra.fl.charts.legend.Legend"/>
+            <arg value="com.yahoo.astra.utils.JavaScriptUtil"/>
+            <arg value="fl.containers.UILoader"/>
+
+            <!-- Output SWC -->
+            <arg line="--output '${astra.srcdir}/charts.swc'"/>
+        </exec>
+    </target>
+
+    <target name="swfdeploy" description="Charts Override to Build SWF">
+		<copy file="${component.builddir}/assets/charts.swf" todir="${global.build.component.assets}" />
+    </target>
+    
+</project>
