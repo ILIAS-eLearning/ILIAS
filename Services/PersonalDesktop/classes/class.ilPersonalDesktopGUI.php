@@ -741,9 +741,10 @@ class ilPersonalDesktopGUI
 		$this->ctrl->redirectByClass("ilpersonalworkspacegui", $cmd);
 	}
 
-	function jumpToMyStaff()
+
+	protected function jumpToMyStaff()
 	{
-        $this->ctrl->redirectByClass("ilmystaffgui");
+		$this->ctrl->redirectByClass("ilmystaffgui");
 	}
 	
 	/**
