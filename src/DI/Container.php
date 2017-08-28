@@ -95,7 +95,7 @@ class Container extends \Pimple\Container {
 	}
 
 	/**
-	 * Get interface to the i18n service.
+	 * Get interface to the tabs
 	 *
 	 * @return	\ilTabsGUI
 	 */

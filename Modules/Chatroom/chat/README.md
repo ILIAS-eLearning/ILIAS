@@ -34,6 +34,7 @@ The chat server is tested and runs with the following versions of NodeJs:
   * v0.12.10
   * 4.5.0 (LTS)
   * 6.5.0
+  * 6.11.2
 
 ## HTTPS
 

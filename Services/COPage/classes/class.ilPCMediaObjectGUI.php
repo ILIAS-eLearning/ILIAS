@@ -28,7 +28,8 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		global $ilCtrl;
 
 		$this->ctrl = $ilCtrl;
-
+//		var_dump($_POST);
+//ilUtil::printBacktrace(10); exit;
 //echo "constructor target:".$_SESSION["il_map_il_target"].":<br>";
 		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 		

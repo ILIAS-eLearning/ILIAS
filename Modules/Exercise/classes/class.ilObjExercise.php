@@ -600,8 +600,15 @@ class ilObjExercise extends ilObject
 		
 		// data rows
 		$mem_obj = new ilExerciseMembers($this);
-		$mems = array();
-		foreach($mem_obj->getMembers() as $user_id)
+		
+		$filtered_members = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+			'etit_submissions_grades',
+			'edit_submissions_grades',
+			$this->getRefId(),
+			(array) $mem_obj->getMembers()
+		);
+		
+		foreach((array) $filtered_members as $user_id)
 		{
 			$mems[$user_id] = ilObjUser::_lookupName($user_id);
 		}

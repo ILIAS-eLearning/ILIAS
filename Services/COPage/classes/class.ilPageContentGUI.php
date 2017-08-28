@@ -412,7 +412,7 @@ class ilPageContentGUI
 		{
 			unset($_SESSION["il_pg_error"]);
 		}
-
+		$this->log->debug("return to parent jump".$this->hier_id);
 		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 	}
 
@@ -619,7 +619,8 @@ class ilPageContentGUI
 			unset($_SESSION["il_pg_error"]);
 		}
 	
-		ilUtil::sendSuccess($lng->txt("cont_sel_el_cut_use_paste"), true);
+		//ilUtil::sendSuccess($lng->txt("cont_sel_el_cut_use_paste"), true);
+		$this->log->debug("return to parent jump".$this->hier_id);
 	 	$this->ctrl->returnToParent($this, "jump".$this->hier_id);	 	
 	}
 
@@ -632,7 +633,7 @@ class ilPageContentGUI
 		
 		$obj = $this->content_obj;
 		
-		ilUtil::sendSuccess($lng->txt("cont_sel_el_copied_use_paste"), true);
+		//ilUtil::sendSuccess($lng->txt("cont_sel_el_copied_use_paste"), true);
   		$this->pg_obj->copyContents(array($this->hier_id.":".$this->pc_id));
   
 	 	$this->ctrl->returnToParent($this, "jump".$this->hier_id);	 	

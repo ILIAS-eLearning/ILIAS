@@ -288,20 +288,15 @@ class ilSCORM13Player
 	//config data also used for SOP
 	public function getConfigForPlayer()
 	{
-		global $ilUser,$ilias,$ilSetting;
+		global $ilUser,$ilias;
 		$initSuspendData = null;
-		$cmi_learner_id = (string) $ilUser->getID();
-		$lm_set = new ilSetting("lm");
-		if($lm_set->get("scorm_login_as_learner_id") == 1) {
-			$cmi_learner_id = (string) $ilUser->getLogin();
-		}
 		$config = array
 		(
 			'scope'=>$this->getScope(),
 			'learner_id' => (string) $ilUser->getID(),
-			'cmi_learner_id' => $cmi_learner_id,
+			'cmi_learner_id' => (string) $this->slm->getApiStudentId(),
 			'course_id' => (string) $this->packageId,
-			'learner_name' => $ilUser->getFirstname()." ".$ilUser->getLastname(),
+			'learner_name' => (string) $this->slm->getApiStudentName(),
 			'mode' => $this->slm->getDefaultLessonMode(),
 			'credit' => $this->slm->getCreditMode(),
 			'auto_review' => $this->slm->getAutoReviewChar(),

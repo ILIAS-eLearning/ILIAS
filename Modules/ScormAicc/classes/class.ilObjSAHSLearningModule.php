@@ -107,6 +107,8 @@ class ilObjSAHSLearningModule extends ilObject
 			$this->setIe_compatibility(ilUtil::yn2tf($lm_rec["ie_compatibility"]));
 			$this->setIe_force_render(ilUtil::yn2tf($lm_rec["ie_force_render"]));
 			$this->setMasteryScore($lm_rec["mastery_score"]);
+			$this->setIdSetting($lm_rec["id_setting"]);
+			$this->setNameSetting($lm_rec["name_setting"]);
 			
 			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 			if (ilObject::_lookupType($this->getStyleSheetId()) != "sty")
@@ -895,6 +897,40 @@ class ilObjSAHSLearningModule extends ilObject
 	}
 */
 
+	/**
+	* get id_setting
+	*/
+	function getIdSetting()
+	{
+		return $this->id_setting;
+	}
+
+	/**
+	* set id_setting 
+	*/
+	function setIdSetting($a_id_setting)
+	{
+		$this->id_setting = $a_id_setting;
+	}
+
+	/**
+	* get name_setting
+	*/
+	function getNameSetting()
+	{
+		return $this->name_setting;
+	}
+
+	/**
+	* set name_setting 
+	*/
+	function setNameSetting($a_name_setting)
+	{
+		$this->name_setting = $a_name_setting;
+	}
+
+	
+
 
 	/**
 	* update object data
@@ -950,7 +986,9 @@ class ilObjSAHSLearningModule extends ilObject
 				auto_suspend = %s,
 				ie_compatibility = %s, 
 				ie_force_render = %s,
-				mastery_score = %s
+				mastery_score = %s,
+				id_setting = %s,
+				name_setting = %s
 			WHERE id = %s', 
 		array(	'text',
 				'text',
@@ -988,6 +1026,8 @@ class ilObjSAHSLearningModule extends ilObject
 				'text',
 				'text',
 				'text',
+				'integer',
+				'integer',
 				'integer',
 				'integer'
 				), 
@@ -1028,6 +1068,8 @@ class ilObjSAHSLearningModule extends ilObject
 				ilUtil::tf2yn($this->getIe_compatibility()),
 				ilUtil::tf2yn($this->getIe_force_render()),
 				$s_mastery_score,
+				$this->getIdSetting(),
+				$this->getNameSetting(),
 				$this->getId())
 		);
 
@@ -1417,6 +1459,59 @@ class ilObjSAHSLearningModule extends ilObject
 		$lmDir=ilUtil::getWebspaceDir("filesystem")."/lm_data/lm_".$this->getId();
 		$zipFile=ilUtil::getDataDir()."/lm_data/lm_".$this->getId();
 		return ilUtil::zip($lmDir, $zipFile, true);
+	}
+
+	/**
+	* Get cmi.core.student_id / cmi.learner_id for API
+	*/
+	public function getApiStudentId() {
+		global $ilias;
+		$idSetting = $this->getIdSetting();
+		$studentId = $ilias->account->getId();
+		if ($idSetting%2 == 1) $studentId = $ilias->account->getLogin();
+		if ($idSetting > 3) $studentId .= '_o_'.$this->getId();
+		else if ($idSetting > 1) $studentId .= '_r_'.$_GET["ref_id"];
+		return $studentId;
+	}
+
+	/**
+	* Get cmi.core.student_name / cmi.learner_name for API
+	* note: 'lastname, firstname' is required for SCORM 1.2; 9 = no name to hide student_name for external content
+	*/
+	public function getApiStudentName() {
+		global $ilias, $lng;
+		$studentName = " ";
+		switch ($this->getNameSetting())
+		{
+			case 0:
+				$studentName = $ilias->account->getLastname().', '.$ilias->account->getFirstname();
+				break;
+			case 1:
+				$studentName = $ilias->account->getFirstname().' '.$ilias->account->getLastname();
+				break;
+			case 2:
+				$studentName = $ilias->account->getFullname();
+				break;
+			case 3:
+				switch($ilias->account->getGender()) {
+					case 'f':
+						$studentName = $lng->txt('salutation_f');
+						break;
+
+					case 'm':
+						$studentName = $lng->txt('salutation_m');
+						break;
+
+					default:
+						$studentName = $lng->txt('salutation');
+				}
+				$studentName .= ' '.$ilias->account->getLastname();
+				break;
+			case 4:
+				$studentName = $ilias->account->getFirstname();
+				break;
+		}
+		return $studentName;
 	}
 
 }

@@ -180,6 +180,9 @@ class ilObjSurvey extends ilObject
 	
 	const NOTIFICATION_PARENT_COURSE = 1;
 	const NOTIFICATION_INVITED_USERS = 2;
+	const NOTIFICATION_APPRAISEES = 3;
+	const NOTIFICATION_RATERS = 4;
+	const NOTIFICATION_APPRAISEES_AND_RATERS = 5;
 	
 
 	/**
@@ -5158,7 +5161,10 @@ class ilObjSurvey extends ilObject
 	
 	public function addAppraisee($a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$access = $DIC->access();
 		
 		if(!$this->isAppraisee($a_user_id) && 
 			$a_user_id != ANONYMOUS_USER_ID)
@@ -5167,10 +5173,112 @@ class ilObjSurvey extends ilObject
 				"obj_id" => array("integer", $this->getSurveyId()),
 				"user_id" => array("integer", $a_user_id)
 			);			
-			$ilDB->insert("svy_360_appr", $fields);			
+			$ilDB->insert("svy_360_appr", $fields);
+
+			// send notification and add to desktop
+			if ($access->checkAccessOfUser($a_user_id, "read", "", $this->getRefId()))
+			{
+				$this->sendAppraiseeNotification($a_user_id);
+				$type = ilObject::_lookupType($this->getRefId(), true);
+				ilObjUser::_addDesktopItem($a_user_id,$this->getRefId(),$type);
+			}
 		}				
 	}
-	
+
+	/**
+	 * Send appraisee notification
+	 *
+	 * @param int $a_user_id user id
+	 */
+	function sendAppraiseeNotification($a_user_id)
+	{
+		include_once "./Services/Notification/classes/class.ilSystemNotification.php";
+		$ntf = new ilSystemNotification();
+		$ntf->setLangModules(array("svy", "survey"));
+		$ntf->setRefId($this->getRefId());
+		$ntf->setGotoLangId('url');
+
+		// user specific language
+		$lng = $ntf->getUserLanguage($a_user_id);
+
+		$ntf->setIntroductionLangId("svy_user_added_360_appraisee_mail");
+		$subject = str_replace("%1", $this->getTitle(), $lng->txt("svy_user_added_360_appraisee"));
+
+		// #10044
+		$mail = new ilMail(ANONYMOUS_USER_ID);
+		//$mail->enableSOAP(false); // #10410
+		$mail->sendMail(ilObjUser::_lookupLogin($a_user_id),
+			null,
+			null,
+			$subject,
+			$ntf->composeAndGetMessage($a_user_id, null, "read", true),
+			null,
+			array("system"));
+	}
+
+	/**
+	 * Send appraisee notification
+	 *
+	 * @param int $a_user_id user id
+	 */
+	function sendAppraiseeCloseNotification($a_user_id)
+	{
+		include_once "./Services/Notification/classes/class.ilSystemNotification.php";
+		$ntf = new ilSystemNotification();
+		$ntf->setLangModules(array("svy", "survey"));
+		$ntf->setRefId($this->getRefId());
+		$ntf->setGotoLangId('url');
+
+		// user specific language
+		$lng = $ntf->getUserLanguage($a_user_id);
+
+		$ntf->setIntroductionLangId("svy_user_added_360_appraisee_close_mail");
+		$subject = str_replace("%1", $this->getTitle(), $lng->txt("svy_user_added_360_appraisee"));
+
+		// #10044
+		$mail = new ilMail(ANONYMOUS_USER_ID);
+		//$mail->enableSOAP(false); // #10410
+		$mail->sendMail(ilObjUser::_lookupLogin($a_user_id),
+			null,
+			null,
+			$subject,
+			$ntf->composeAndGetMessage($a_user_id, null, "read", true),
+			null,
+			array("system"));
+	}
+
+	/**
+	 * Send rater notification
+	 *
+	 * @param int $a_user_id user id
+	 */
+	function sendRaterNotification($a_user_id, $a_appraisee_id)
+	{
+		include_once "./Services/Notification/classes/class.ilSystemNotification.php";
+		$ntf = new ilSystemNotification();
+		$ntf->setLangModules(array("svy", "survey"));
+		$ntf->setRefId($this->getRefId());
+		$ntf->setGotoLangId('url');
+
+		// user specific language
+		$lng = $ntf->getUserLanguage($a_user_id);
+
+		$ntf->setIntroductionLangId("svy_user_added_360_rater_mail");
+		$subject = str_replace("%1", $this->getTitle(), $lng->txt("svy_user_added_360_rater"));
+		$ntf->addAdditionalInfo("survey_360_appraisee", ilUserUtil::getNamePresentation($a_appraisee_id,false, false, "", true));
+
+		// #10044
+		$mail = new ilMail(ANONYMOUS_USER_ID);
+		//$mail->enableSOAP(false); // #10410
+		$mail->sendMail(ilObjUser::_lookupLogin($a_user_id),
+			null,
+			null,
+			$subject,
+			$ntf->composeAndGetMessage($a_user_id, null, "read", true),
+			null,
+			array("system"));
+	}
+
 	public function isAppraisee($a_user_id)
 	{
 		global $ilDB;
@@ -5250,7 +5358,10 @@ class ilObjSurvey extends ilObject
 	
 	public function addRater($a_appraisee_id, $a_user_id, $a_anonymous_id = 0)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$access = $DIC->access();
 		
 		if($this->isAppraisee($a_appraisee_id) &&
 			!$this->isRater($a_appraisee_id, $a_user_id, $a_anonymous_id))
@@ -5261,7 +5372,16 @@ class ilObjSurvey extends ilObject
 				"user_id" => array("integer", $a_user_id),
 				"anonymous_id" => array("integer", $a_anonymous_id)
 			);			
-			$ilDB->insert("svy_360_rater", $fields);			
+			$ilDB->insert("svy_360_rater", $fields);
+
+			// send notification and add to desktop
+			if ($access->checkAccessOfUser($a_user_id, "read", "", $this->getRefId()))
+			{
+				$this->sendRaterNotification($a_user_id, $a_appraisee_id);
+				$type = ilObject::_lookupType($this->getRefId(), true);
+				ilObjUser::_addDesktopItem($a_user_id,$this->getRefId(),$type);
+			}
+
 		}				
 	}
 	
@@ -5619,7 +5739,10 @@ class ilObjSurvey extends ilObject
 	
 	function closeAppraisee($a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$user = $DIC->user();
 		
 		// close the appraisee
 		$ilDB->manipulate("UPDATE svy_360_appr".
@@ -5635,6 +5758,12 @@ class ilObjSurvey extends ilObject
 			include_once("./Modules/Survey/classes/class.ilSurveySkill.php");
 			$sskill = new ilSurveySkill($this);
 			$sskill->writeAppraiseeSkills($a_user_id);
+		}
+
+		// send notification
+		if ($user->getId() != $a_user_id)
+		{
+			$this->sendAppraiseeCloseNotification($a_user_id);
 		}
 	}
 	
@@ -5803,32 +5932,146 @@ class ilObjSurvey extends ilObject
 		}
 	}
 
+	/**
+	 * Send 360 reminders
+	 *
+	 * @param
+	 * @return
+	 */
+	function sent360Reminders()
+	{
+		global $DIC;
+
+		$access = $DIC->access();
+
+		// collect all open ratings
+		$rater_ids = array();
+		foreach ($this->getAppraiseesData() as $app)
+		{
+			$this->log->debug("Handle appraisee ".$app['user_id']);
+
+			if (!$this->isAppraiseeClosed($app['user_id']))
+			{
+				$this->log->debug("Check self evaluation, self: ".$this->get360SelfAppraisee().", target: ".$this->getReminderTarget());
+
+				// self evaluation?
+				if ($this->get360SelfEvaluation() &&
+					in_array($this->getReminderTarget(), array(ilObjSurvey::NOTIFICATION_APPRAISEES, ilObjSurvey::NOTIFICATION_APPRAISEES_AND_RATERS)))
+				{
+					$this->log->debug("...1");
+					// did user already finished self evaluation?
+					if (!$this->is360SurveyStarted($app['user_id'], $app['user_id']))
+					{
+						$this->log->debug("...2");
+						if (!is_array($rater_ids[$app['user_id']]))
+						{
+							$rater_ids[$app['user_id']] = array();
+						}
+						if (!in_array($app["user_id"], $rater_ids[$app['user_id']]))
+						{
+							$rater_ids[$app['user_id']][] = $app["user_id"];
+						}
+					}
+				}
+
+				$this->log->debug("Check raters.");
+
+				// should raters be notified?
+				if (in_array($this->getReminderTarget(), array(ilObjSurvey::NOTIFICATION_RATERS, ilObjSurvey::NOTIFICATION_APPRAISEES_AND_RATERS)))
+				{
+					foreach ($this->getRatersData($app['user_id']) as $rater)
+					{
+						// is rater not anonymous and did not rate yet?
+						if (!$rater["anonymous_id"] && !$rater["finished"])
+						{
+							if (!is_array($rater_ids[$rater["user_id"]]))
+							{
+								$rater_ids[$rater["user_id"]] = array();
+							}
+							if (!in_array($app["user_id"], $rater_ids[$rater["user_id"]]))
+							{
+								$rater_ids[$rater["user_id"]][] = $app["user_id"];
+							}
+						}
+					}
+				}
+			}
+		}
+
+		$this->log->debug("Found raters:".count($rater_ids));
+
+		foreach ($rater_ids as $id => $app)
+		{
+			if ($access->checkAccessOfUser($id, "read", "", $this->getRefId()))
+			{
+				$this->send360ReminderToUser($id, $app);
+			}
+		}
+	}
+
+	/**
+	 * Send rater notification
+	 *
+	 * @param int $a_user_id user id
+	 */
+	function send360ReminderToUser($a_user_id, $a_appraisee_ids)
+	{
+		$this->log->debug("Send mail to:".$a_user_id);
+
+		include_once "./Services/Notification/classes/class.ilSystemNotification.php";
+		$ntf = new ilSystemNotification();
+		$ntf->setLangModules(array("svy", "survey"));
+		$ntf->setRefId($this->getRefId());
+		$ntf->setGotoLangId('url');
+
+		// user specific language
+		$lng = $ntf->getUserLanguage($a_user_id);
+
+		$ntf->setIntroductionLangId("svy_user_added_360_rater_reminder_mail");
+		$subject = str_replace("%1", $this->getTitle(), $lng->txt("svy_user_added_360_rater"));
+
+		foreach ($a_appraisee_ids as $appraisee_id)
+		{
+			$ntf->addAdditionalInfo("survey_360_appraisee", ilUserUtil::getNamePresentation($appraisee_id, false, false, "", true));
+		}
+
+		// #10044
+		$mail = new ilMail(ANONYMOUS_USER_ID);
+		$mail->enableSOAP(false); // #10410
+		$mail->sendMail(ilObjUser::_lookupLogin($a_user_id),
+			null,
+			null,
+			$subject,
+			$ntf->composeAndGetMessage($a_user_id, null, "read", true),
+			null,
+			array("system"));
+	}
+
+
 	public function getNotificationTargetUserIds($a_use_invited)
 	{
 		global $tree;
-		
-		if((bool)$a_use_invited)
+
+		if ((bool)$a_use_invited)
 		{
-			$user_ids = $this->getInvitedUsers();				
-		}
-		else
+			$user_ids = $this->getInvitedUsers();
+		} else
 		{
 			$parent_grp_ref_id = $tree->checkForParentType($this->getRefId(), "grp");
-			if($parent_grp_ref_id)
+			if ($parent_grp_ref_id)
 			{
 				include_once "Modules/Group/classes/class.ilGroupParticipants.php";
 				$part = new ilGroupParticipants(ilObject::_lookupObjId($parent_grp_ref_id));
-				$user_ids = $part->getMembers();					
-			}
-			else
+				$user_ids = $part->getMembers();
+			} else
 			{
 				$parent_crs_ref_id = $tree->checkForParentType($this->getRefId(), "crs");
-				if($parent_crs_ref_id)
+				if ($parent_crs_ref_id)
 				{
 					include_once "Modules/Course/classes/class.ilCourseParticipants.php";
 					$part = new ilCourseParticipants(ilObject::_lookupObjId($parent_crs_ref_id));
-					$user_ids = $part->getMembers();					
-				}				
+					$user_ids = $part->getMembers();
+				}
 			}
 		}
 		return $user_ids;
@@ -5869,6 +6112,8 @@ class ilObjSurvey extends ilObject
 		
 		$now = time();		
 		$today = date("Y-m-d");
+
+		$this->log->debug("Check status and dates.");
 		
 		// object settings / participation period
 		if($this->isOffline() ||
@@ -5895,7 +6140,9 @@ class ilObjSurvey extends ilObject
 		{
 			return false;
 		}
-		
+
+		$this->log->debug("Check access period.");
+
 		// object access period
 		include_once "Services/Object/classes/class.ilObjectActivation.php";	
 		$item_data = ilObjectActivation::getItem($this->getRefId());				
@@ -5905,48 +6152,62 @@ class ilObjSurvey extends ilObject
 		{
 			return false;
 		}
-		
+
+		$this->log->debug("Check frequency.");
+
 		// check frequency
 		$cut = new ilDate($today, IL_CAL_DATE);
 		$cut->increment(IL_CAL_DAY, $this->getReminderFrequency()*-1);
 		if(!$this->getReminderLastSent() ||
-			$cut->get(IL_CAL_DATE) >= substr($this->getReminderLastSent(), 0, 10))					
-		{				
+			$cut->get(IL_CAL_DATE) >= substr($this->getReminderLastSent(), 0, 10))
+		{
 			$missing_ids = array();
-			
-			// #16871
-			$user_ids = $this->getNotificationTargetUserIds(($this->getReminderTarget() == self::NOTIFICATION_INVITED_USERS));
-			if($user_ids)
-			{
-				// gather participants who already finished
-				$finished_ids = array();
-				$set = $ilDB->query("SELECT user_fi FROM svy_finished".
-				" WHERE survey_fi = ".$ilDB->quote($this->getSurveyId(), "integer").
-				" AND state = ".$ilDB->quote(1, "text").
-				" AND ".$ilDB->in("user_fi", $user_ids, "", "integer"));
-				while($row = $ilDB->fetchAssoc($set))
-				{
-					$finished_ids[] = $row["user_fi"];						
-				}
 
-				// some users missing out?
-				$missing_ids = array_diff($user_ids, $finished_ids);
-				if($missing_ids)
+			if (!$this->get360Mode())
+			{
+				$this->log->debug("Entering survey mode.");
+
+				// #16871
+				$user_ids = $this->getNotificationTargetUserIds(($this->getReminderTarget() == self::NOTIFICATION_INVITED_USERS));
+				if ($user_ids)
 				{
-					foreach($missing_ids as $idx => $user_id)
+					// gather participants who already finished
+					$finished_ids = array();
+					$set = $ilDB->query("SELECT user_fi FROM svy_finished" .
+						" WHERE survey_fi = " . $ilDB->quote($this->getSurveyId(), "integer") .
+						" AND state = " . $ilDB->quote(1, "text") .
+						" AND " . $ilDB->in("user_fi", $user_ids, "", "integer"));
+					while ($row = $ilDB->fetchAssoc($set))
 					{
-						// should be able to participate
-						if(!$ilAccess->checkAccessOfUser($user_id, "read", "", $this->getRefId(), "svy", $this->getId()))
+						$finished_ids[] = $row["user_fi"];
+					}
+
+					// some users missing out?
+					$missing_ids = array_diff($user_ids, $finished_ids);
+					if ($missing_ids)
+					{
+						foreach ($missing_ids as $idx => $user_id)
 						{
-							unset($missing_ids[$idx]);
+							// should be able to participate
+							if (!$ilAccess->checkAccessOfUser($user_id, "read", "", $this->getRefId(), "svy", $this->getId()))
+							{
+								unset($missing_ids[$idx]);
+							}
 						}
 					}
-				}								
-				if($missing_ids)
-				{
-					$this->sentReminder($missing_ids);
+					if ($missing_ids)
+					{
+						$this->sentReminder($missing_ids);
+					}
 				}
 			}
+			else
+			{
+				$this->log->debug("Entering 360 mode.");
+
+				$this->sent360Reminders();
+			}
+
 
 			$this->setReminderLastSent($today);
 			$this->saveToDb();

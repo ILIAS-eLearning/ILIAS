@@ -13,6 +13,10 @@ include_once("./Services/Export/classes/class.ilXmlExporter.php");
 class ilMediaPoolExporter extends ilXmlExporter
 {
 	private $ds;
+	/**
+	 * @var ilMediaPoolExportConfig
+	 */
+	private $config;
 
 	/**
 	 * Initialisation
@@ -27,7 +31,7 @@ class ilMediaPoolExporter extends ilXmlExporter
 		if ($this->config->getMasterLanguageOnly())
 		{
 			$conf = $this->getExport()->getConfig("Services/COPage");
-			$conf->setMasterLanguageOnly(true);
+			$conf->setMasterLanguageOnly(true, $this->config->getIncludeMedia());
 			$this->ds->setMasterLanguageOnly(true);
 		}
 	}

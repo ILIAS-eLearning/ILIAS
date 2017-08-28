@@ -613,6 +613,36 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		$cb->setInfo($this->lng->txt("cont_auto_suspend_info"));
 		$this->form->addItem($cb);
 
+		// settings for student_id
+		$options = array(
+			0 => $this->lng->txt("cont_sc_id_setting_user_id"),
+			1 => $this->lng->txt("cont_sc_id_setting_user_login"),
+			2 => $this->lng->txt("cont_sc_id_setting_user_id_plus_ref_id"),
+			3 => $this->lng->txt("cont_sc_id_setting_user_login_plus_ref_id"),
+			4 => $this->lng->txt("cont_sc_id_setting_user_id_plus_obj_id"),
+			5 => $this->lng->txt("cont_sc_id_setting_user_login_plus_obj_id")
+			);
+		$si = new ilSelectInputGUI($this->lng->txt("cont_sc_id_setting_2004"), "id_setting");
+		$si->setOptions($options);
+		$si->setValue($this->object->getIdSetting());
+		$si->setInfo($this->lng->txt("cont_sc_id_setting_info"));
+		$this->form->addItem($si);
+
+		// settings for student_name
+		$options = array(
+			0 => $this->lng->txt("cont_sc_name_setting_last_firstname"),
+			1 => $this->lng->txt("cont_sc_name_setting_first_lastname"),
+			2 => $this->lng->txt("cont_sc_name_setting_fullname"),
+			3 => $this->lng->txt("cont_sc_name_setting_salutation_lastname"),
+			4 => $this->lng->txt("cont_sc_name_setting_first_name"),
+			9 => $this->lng->txt("cont_sc_name_setting_no_name")
+			);
+		$si = new ilSelectInputGUI($this->lng->txt("cont_sc_name_setting_2004"), "name_setting");
+		$si->setOptions($options);
+		$si->setValue($this->object->getNameSetting());
+		$si->setInfo($this->lng->txt("cont_sc_name_setting_info"));
+		$this->form->addItem($si);
+
 		//
 		// debugging
 		//
@@ -816,8 +846,8 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			$this->object->setAutoSuspend($t_auto_suspend);
 			$this->object->setOfflineMode($tmpOfflineMode);
 			$this->object->setDebug(ilUtil::yn2tf($_POST["cobj_debug"]));
-			//$this->object->setDebugPw($_POST["debug_pw"]);
-			
+			$this->object->setIdSetting($_POST["id_setting"]);
+			$this->object->setNameSetting($_POST["name_setting"]);
 			$this->object->setTitle($_POST["Fobject_title"]);
 			$this->object->setDescription($_POST["Fobject_description"]);
 

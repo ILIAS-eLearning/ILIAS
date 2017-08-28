@@ -1,4 +1,4 @@
-@import "less/font.less";
+@import "less/font.less"; 
  /* rtl-review is this font safe for RTL languages? */
 
  /* rtl-review */
@@ -7,7 +7,6 @@
 
 bdo[dir="ltr"] { direction: ltr; unicode-bidi: bidi-override; }
 bdo[dir="rtl"] { direction: rtl; unicode-bidi: bidi-override; }
-
 
 /*
 /* rtl-review */
@@ -83,6 +82,7 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 @import "@{uibase}Panel/panel.less";
 @import "@{uibase}Card/card.less";
 @import "@{uibase}Deck/deck.less";
+@import "@{uibase}Dropzone/dropzone.less";
 @import "@{uibase}Button/button.less";
 @import "@{uibase}Button/tag.less";
 @import "@{uibase}Divider/divider.less";
@@ -95,7 +95,6 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 
 @import "less/variables.less";             // customized
 
-
 // UI framework components which make use of variables from less/variables.less
 // Note: These files need to be imported after less/variables.less
 @import "@{uibase}Popover/popover.less";
@@ -107,6 +106,51 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 .bg-primary {
   color: white;
 }
+
+/* flex grid support start, see http://www.bootply.com/126437 */
+
+/* deactivated flex grid, since grids in grids will not work correctly width:100%; and flex:1 1 auto; seem to be problems
+
+.row-flex, .row-flex > div[class*='col-'] {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	flex:1 1 auto;
+}
+
+
+.row-flex-wrap {
+	-webkit-flex-flow: row wrap;
+	align-content: flex-start;
+	flex:0;
+}
+
+.row-flex > div[class*='col-'], .container-flex > div[class*='col-'] {
+	margin:-.2px;
+}
+
+.container-flex > div[class*='col-'] div,.row-flex > div[class*='col-'] div {
+	 width:100%;
+ }
+
+.flex-col {
+	display: flex;
+	display: -webkit-flex;
+	flex: 1 100%;
+	flex-flow: column nowrap;
+}
+
+.flex-grow {
+	display: flex;
+	-webkit-flex: 2;
+	flex: 2;
+}
+
+*/
+
+/* flex grid support end */
 
 /* RTL review overwrite some specifics [bootstrap] styles
  *
@@ -737,6 +781,10 @@ td.std, th.std {
 [dir="rtl"] th,
 [dir="rtl"] td.std, [dir="rtl"] th.std {
 	text-align: right;
+}
+
+.calstd .btn {
+	white-space: normal;
 }
 
 th.option, td.option {
@@ -1650,6 +1698,7 @@ img.ilIcon {
 @import "less/Services/Badge/delos.less";
 @import "less/Services/Calendar/bootstrap-datetimepicker.less";
 @import "less/Services/BackgroundTasks/delos.less";
+@import "less/Modules/OrgUnit/delos.less";
 
 .noMargin {
 	margin: 0;
