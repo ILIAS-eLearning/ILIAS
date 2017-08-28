@@ -98,9 +98,10 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this, 'view'));
 		$purpose_map = ilPDFGeneratorUtils::getPurposeMap();
+//var_dump($purpose_map); exit;
 		$selection_map = ilPDFGeneratorUtils::getSelectionMap();
 		$renderers = ilPDFGeneratorUtils::getRenderers();
-
+//var_dump($renderers); exit;
 		foreach($purpose_map as $service => $purposes)
 		{
 			foreach($purposes as $purpose)

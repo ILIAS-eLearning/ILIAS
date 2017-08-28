@@ -521,8 +521,15 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 		$r_config['viewport']		= $config['viewport'];
 		$r_config['header']			= $h_config;
 		$r_config['footer']			= $f_config;
+		$r_config['session_id']		= session_id();
+		$r_config['client_id']		= CLIENT_ID;
+		$parts = parse_url(ILIAS_HTTP_PATH);
+		$r_config['cookie_domain']	= $parts["host"];
+		$r_config['cookie_path']	= $parts["path"] ? $parts["path"] : '/';
 
-		return json_encode( json_encode($r_config) );
+		$json = json_encode( json_encode($r_config) );
+		//$json = json_encode($r_config);
+		return $json;
 
 	}
 }

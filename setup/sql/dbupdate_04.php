@@ -20470,4 +20470,27 @@ $ilDB->modifyTableColumn(
 		$ilDB->query("UPDATE sahs_lm SET name_setting = 0");
 	}
 ?>
+<#5188>
+<?php
+$ilDB->insert('pdfgen_renderer_avail',
+	array(
+		'availability_id' => array('integer', $ilDB->nextId('pdfgen_renderer_avail')),
+		'service' 	=> array('text', 'Wiki'),
+		'purpose' 	=> array('text', 'ContentExport'),
+		'renderer'	=> array('text', 'PhantomJS')
+	)
+);
+?>
+<#5189>
+<?php
+$ilDB->insert('pdfgen_renderer_avail',
+	array(
+		'availability_id' => array('integer', $ilDB->nextId('pdfgen_renderer_avail')),
+		'service' 	=> array('text', 'Portfolio'),
+		'purpose' 	=> array('text', 'ContentExport'),
+		'renderer'	=> array('text', 'PhantomJS')
+	)
+);
+?>
+
 

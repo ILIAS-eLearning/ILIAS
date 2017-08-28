@@ -157,9 +157,24 @@ var PhantomJsHelper =  (function () {
 		}
 		pro.src_file = src_file;
 		pro.out_file = out_file;
+
+		phantom.addCookie({
+			"name"     : "PHPSESSID",
+			"value"    : pro.json.session_id,
+			"domain"   : pro.json.cookie_domain,
+			"path"     : pro.json.cookie_path.replace('\\', '')
+		});
+		phantom.addCookie({
+			"name"     : "ilClientId",
+			"value"    : pro.json.client_id,
+			"domain"   : pro.json.cookie_domain,
+			"path"     : pro.json.cookie_path.replace('\\', '')
+		});
+
 		pro.initPhantomWebPageObject();
 		pro.configurePhantomWebPage();
 		pro.renderPhantomPage();
+
 	};
 
 	pub.protect = pro;

@@ -80,6 +80,12 @@ class ilObjDefReader extends ilSaxParser
 		{
 			$this->readers[$k]["reader"]->clearTables();
 		}
+
+		require_once './Services/PDFGeneration/classes/class.ilPDFCompInstaller.php';
+//		$ilDB->manipulate("DELETE FROM ".ilPDFCompInstaller::PURPOSE_PURPOSES_TABLE);
+//		$ilDB->manipulate("DELETE FROM ".ilPDFCompInstaller::PURPOSE_MAP_TABLE);
+//		$ilDB->manipulate("DELETE FROM pdfgen_conf");
+
 	}
 
 	/**

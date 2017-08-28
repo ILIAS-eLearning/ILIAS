@@ -14,4 +14,7 @@
 		</object>
 	</objects>
 	<logging />
+	<web_access_checker>
+		<secure_path path="css" checking-class="ilContentStyleWAC" />
+	</web_access_checker>
 </service>
