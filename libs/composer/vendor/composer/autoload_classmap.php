@@ -3539,7 +3539,6 @@ return array(
     'ilForumPostsTree' => $baseDir . '/../../Modules/Forum/classes/class.ilForumPostsTree.php',
     'ilForumProperties' => $baseDir . '/../../Modules/Forum/classes/class.ilForumProperties.php',
     'ilForumSearch' => $baseDir . '/../../Services/Search/classes/class.ilForumSearch.php',
-    'ilForumSettingsGUI' => $baseDir . '/../../Modules/Forum/classes/class.ilForumSettingsGUI.php',
     'ilForumStatisticsTableGUI' => $baseDir . '/../../Modules/Forum/classes/class.ilForumStatisticsTableGUI.php',
     'ilForumTopic' => $baseDir . '/../../Modules/Forum/classes/class.ilForumTopic.php',
     'ilForumTopicTableGUI' => $baseDir . '/../../Modules/Forum/classes/class.ilForumTopicTableGUI.php',

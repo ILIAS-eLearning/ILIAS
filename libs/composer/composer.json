@@ -19,7 +19,6 @@
 		"tecnickcom/tcpdf": "^6.2.12",
 		"pimple/pimple" : "^3.0",
 		"symfony/yaml": "^3.1",
-		"moment/moment": "^2.14.1",
 		"guzzlehttp/psr7": "^1.4",
 		"psr/http-message": "^1.0",
 		"dflydev/fig-cookies": "^1.0",
@@ -142,14 +141,6 @@
 			"wrapped_by": "",
 			"last_update": "2016-07-07",
 			"last_update_by": "Michael Jansen <mjansen@databay.de>"
-		},
-		"moment/moment" : {
-			"source": "https://github.com/moment/moment",
-			"used_version": "v2.14.1",
-			"added_by": "Thomas Joußen <tjoussen@databay.de>",
-			"wrapped_by": "",
-			"last_update": "2016-08-03",
-			"last_update_by": "Thomas Joußen <tjoussen@databay.de>"
 		},
 		"guzzlehttp/psr7" : {
 			"source": "https://github.com/guzzle/psr7",

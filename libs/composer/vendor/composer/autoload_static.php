@@ -3700,7 +3700,6 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'ilForumPostsTree' => __DIR__ . '/../..' . '/../../Modules/Forum/classes/class.ilForumPostsTree.php',
         'ilForumProperties' => __DIR__ . '/../..' . '/../../Modules/Forum/classes/class.ilForumProperties.php',
         'ilForumSearch' => __DIR__ . '/../..' . '/../../Services/Search/classes/class.ilForumSearch.php',
-        'ilForumSettingsGUI' => __DIR__ . '/../..' . '/../../Modules/Forum/classes/class.ilForumSettingsGUI.php',
         'ilForumStatisticsTableGUI' => __DIR__ . '/../..' . '/../../Modules/Forum/classes/class.ilForumStatisticsTableGUI.php',
         'ilForumTopic' => __DIR__ . '/../..' . '/../../Modules/Forum/classes/class.ilForumTopic.php',
         'ilForumTopicTableGUI' => __DIR__ . '/../..' . '/../../Modules/Forum/classes/class.ilForumTopicTableGUI.php',
