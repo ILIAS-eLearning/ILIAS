@@ -84,7 +84,7 @@ class ilMStShowUserGUI {
 		$this->table->setTitle(sprintf($this->lng()
 		                                    ->txt('mst_courses_of'), ilObjCourse::_lookupTitle($this->usr_id)));
 
-		$pub_profile = new ilPublicUserProfileGUI($this->usr_id);
+		/*$pub_profile = new ilPublicUserProfileGUI($this->usr_id);
 
 		$tpl = new ilTemplate('./Services/MyStaff/templates/default/tpl.show_user_container.html', true, true);
 
@@ -94,9 +94,9 @@ class ilMStShowUserGUI {
 
 		$tpl->setCurrentBlock('profile');
 		$tpl->setVariable('PROFILE', $pub_profile->getEmbeddable());
-		$tpl->parseCurrentBlock();
+		$tpl->parseCurrentBlock();*/
 
-		$this->tpl()->setContent($tpl->get());
+		$this->tpl()->setContent($this->table->getHTML());
 	}
 
 

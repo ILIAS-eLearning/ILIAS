@@ -235,15 +235,15 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
 		$selection = new ilAdvancedSelectionListGUI();
 		$selection->setListTitle($this->lng()->txt('actions'));
 		$selection->setId('selection_list_' . $my_staff_user->getUsrId());
-		foreach ($action_collection->getActions() as $action) {
-			$selection->addItem($action->getText(), '', $action->getHref());
-		}
 		$this->ctrl()->setParameterByClass('ilMStShowUserGUI', 'usr_id', $my_staff_user->getUsrId());
 		$selection->addItem($this->lng()->txt('mst_show_courses'), '', $this->ctrl()->getLinkTargetByClass(array(
 			'ilPersonalDesktopGUI',
 			'ilMyStaffGUI',
 			'ilMStShowUserGUI',
 		)));
+		foreach ($action_collection->getActions() as $action) {
+			$selection->addItem($action->getText(), '', $action->getHref());
+		}
 		$this->tpl->setVariable('ACTIONS', $selection->getHTML());
 	}
 
