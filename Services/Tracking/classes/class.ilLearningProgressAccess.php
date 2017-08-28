@@ -76,9 +76,18 @@ class ilLearningProgressAccess
 		{
 			return false;
 		}
-
-		if ($DIC->access()->checkRbacOrPositionPermissionAccess('read_learning_progress', ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS, $a_ref_id)
-		    || $DIC->access()->checkRbacOrPositionPermissionAccess('edit_learning_progress', ilOrgUnitOperation::OP_WRITE_LEARNING_PROGRESS, $a_ref_id)) {
+		
+		if(
+			$DIC->access()->checkRbacOrPositionPermissionAccess(
+				'read_learning_progress',
+				ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS,
+				$a_ref_id) ||
+			$DIC->access()->checkRbacOrPositionPermissionAccess(
+				'edit_learning_progress',
+				ilOrgUnitOperation::OP_WRITE_LEARNING_PROGRESS,
+				$a_ref_id)
+		)			
+		{
 			return true;
 		}
 		
