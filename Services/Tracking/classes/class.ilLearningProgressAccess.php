@@ -53,34 +53,32 @@ class ilLearningProgressAccess
 		}
 		return $GLOBALS['ilAccess']->checkAccessOfUser($a_user_id, $a_permission,'', $a_ref_id);
 	}
-	
-	
+
+
 	/**
 	 * check access to learning progress
-	 * 
-	 * @param int $a_ref_id reference ifd of object
+	 *
+	 * @param int  $a_ref_id          reference id of object
 	 * @param bool $a_allow_only_read read access is sufficient (see courses/groups)
-	 * @return
-	 * @static
+	 *
+	 * @return bool
 	 */
 	public static function checkAccess($a_ref_id, $a_allow_only_read = true)
 	{
-		global $ilUser,$ilAccess;
-		
-		if($ilUser->getId() == ANONYMOUS_USER_ID)
+		global $DIC;
+
+		if($DIC->user()->getId() == ANONYMOUS_USER_ID)
 		{
 			return false;
 		}
 
-		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
 		if(!ilObjUserTracking::_enabledLearningProgress())
 		{
 			return false;
 		}
-		
-		if($ilAccess->checkAccess('read_learning_progress','',$a_ref_id) ||
-			$ilAccess->checkAccess('edit_learning_progress','',$a_ref_id))
-		{
+
+		if ($DIC->access()->checkRbacOrPositionPermissionAccess('read_learning_progress', ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS, $a_ref_id)
+		    || $DIC->access()->checkRbacOrPositionPermissionAccess('edit_learning_progress', ilOrgUnitOperation::OP_WRITE_LEARNING_PROGRESS, $a_ref_id)) {
 			return true;
 		}
 		
@@ -88,15 +86,14 @@ class ilLearningProgressAccess
 		{
 			return false;			
 		}
-		
-		include_once './Services/Object/classes/class.ilObjectLP.php';
+
 		$olp = ilObjectLP::getInstance(ilObject::_lookupObjId($a_ref_id));
 		if(!$olp->isActive())
 		{
 			return false;
 		}
 		
-		if(!$ilAccess->checkAccess('read','',$a_ref_id))
+		if(!$DIC->access()->checkAccess('read','',$a_ref_id))
 		{
 			return false;
 		}
@@ -109,4 +106,3 @@ class ilLearningProgressAccess
 		return false;
 	}
 }
-?>
