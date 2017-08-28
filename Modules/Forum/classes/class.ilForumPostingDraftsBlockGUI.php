@@ -16,6 +16,10 @@ class ilForumPostingDraftsBlockGUI extends ilBlockGUI
 	 * @var string
 	 */
 	public static $block_type = 'pdfrmpostdraft';
+	/**
+	 * @var ilSetting
+	 */
+	private $settings;
 
 	/**
 	 * Constructor
@@ -23,13 +27,15 @@ class ilForumPostingDraftsBlockGUI extends ilBlockGUI
 	public function __construct()
 	{
 		/**
-		 * @var $lng ilLanguage
+		 * @var $lng \ilLanguage
 		 */
-		global $lng;
+		global $lng, $DIC;
 
 		parent::__construct();
 
-		$lng->loadLanguageModule('forum');
+		$this->settings = $DIC->settings();
+		
+		$this->lng->loadLanguageModule('forum');
 
 		$this->setLimit(5);
 		$this->setImage(ilUtil::getImagePath('icon_frm.svg'));

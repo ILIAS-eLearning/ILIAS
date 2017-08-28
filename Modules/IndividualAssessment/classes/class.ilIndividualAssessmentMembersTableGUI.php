@@ -5,12 +5,22 @@ require_once 'Modules/IndividualAssessment/classes/Members/class.ilIndividualAss
 require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
 require_once 'Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
 require_once 'Services/Tracking/classes/class.ilLPStatus.php';
+
+/**
+ * List of members fo iass
+ *
+ * @author Denis Klöpfer <denis.kloepfer@concepts-and-training.de>
+ * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
+ */
 class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 	public function __construct($a_parent_obj, $a_parent_cmd="", $a_template_context="") {
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
+
 		global $DIC;
 		$this->ctrl = $DIC['ilCtrl'];
 		$this->lng = $DIC['lng'];
+		$this->viewer_id = (int)$DIC['ilUser']->getId();
+
 		$this->setEnableTitle(true);
 		$this->setTopCommands(true);
 		$this->setEnableHeader(true);
@@ -18,22 +28,24 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 		$this->setExternalSegmentation(true);
 		$this->setRowTemplate("tpl.members_table_row.html", "Modules/IndividualAssessment");
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, "view"));
-		$this->parent_obj = $a_parent_obj;
-		$this->may_edit = $this->userMayEditGrades();
-		$this->may_view = $this->userMayViewGrades();
-		$this->may_book = $this->userMayEditMembers();
-		$this->columns = $this->visibleColumns();
-		$this->viewer_id = $DIC['ilUser']->getId();
-		foreach ($this->columns as $lng_var => $params) {
+
+		$this->iass_access = $this->parent_obj->object->accessHandler();
+
+		foreach ($this->visibleColumns() as $lng_var => $params) {
 			$this->addColumn($this->lng->txt($lng_var), $params[0]);
 		}
-		$this->setData(iterator_to_array($a_parent_obj->object->loadMembers()));
+		$this->setData(iterator_to_array($a_parent_obj->object->loadVisibleMembers()));
 	}
 
+	/**
+	 * Get column user should be shown
+	 *
+	 * @return string()
+	 */
 	protected function visibleColumns() {
 		$columns = array( 'name' 				=> array('name')
 						, 'login' 				=> array('login'));
-		if($this->may_view || $this->may_edit) {
+		if($this->userMayViewGrades() || $this->userMayEditGrades()) {
 			$columns['grading'] = array('lp_status');
 			$columns['iass_graded_by'] = array('iass_graded_by');
 		}
@@ -41,29 +53,43 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 		return $columns;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	protected function fillRow($a_set) {
 		$this->tpl->setVariable("FULLNAME", $a_set[ilIndividualAssessmentMembers::FIELD_LASTNAME].', '.$a_set[ilIndividualAssessmentMembers::FIELD_FIRSTNAME]);
 		$this->tpl->setVariable("LOGIN", $a_set[ilIndividualAssessmentMembers::FIELD_LOGIN]);
-		if(!ilObjUser::_lookupActive($a_set[ilIndividualAssessmentMembers::FIELD_USR_ID]))	{
+
+		if(!ilObjUser::_lookupActive($a_set[ilIndividualAssessmentMembers::FIELD_USR_ID])) {
 			$this->tpl->setCurrentBlock('access_warning');
 			$this->tpl->setVariable('PARENT_ACCESS', $this->lng->txt('usr_account_inactive'));
 			$this->tpl->parseCurrentBlock();
 		}
-		if($this->may_view || $this->may_edit) {
+
+		if($this->userMayViewGrades() || $this->userMayEditGrades()) {
 			$this->tpl->setCurrentBlock('lp_info');
 			$status = $a_set[ilIndividualAssessmentMembers::FIELD_FINALIZED] == 1 ? $a_set[ilIndividualAssessmentMembers::FIELD_LEARNING_PROGRESS] : ilIndividualAssessmentMembers::LP_IN_PROGRESS;
 			$this->tpl->setVariable("LP_STATUS", $this->getEntryForStatus($status));
-			$this->tpl->setVariable("GRADED_BY", 
-				$a_set[ilIndividualAssessmentMembers::FIELD_EXAMINER_ID] && $a_set[ilIndividualAssessmentMembers::FIELD_FINALIZED]
-				?	$a_set[ilIndividualAssessmentMembers::FIELD_EXAMINER_LASTNAME].", "
-						.$a_set[ilIndividualAssessmentMembers::FIELD_EXAMINER_FIRSTNAME]
-				: 	'');
+
+			$graded_by = "";
+			if($a_set[ilIndividualAssessmentMembers::FIELD_EXAMINER_ID] && $a_set[ilIndividualAssessmentMembers::FIELD_FINALIZED]) {
+				$graded_by = $a_set[ilIndividualAssessmentMembers::FIELD_EXAMINER_LASTNAME].", ".$a_set[ilIndividualAssessmentMembers::FIELD_EXAMINER_FIRSTNAME];
+			}
+			$this->tpl->setVariable("GRADED_BY", $graded_by);
+
 			$this->tpl->parseCurrentBlock();
 		}
+
 		$this->tpl->setVariable("ACTIONS",$this->buildActionDropDown($a_set));
 	}
 
-
+	/**
+	 * Get image path for lp images
+	 *
+	 * @param int 	$a_status
+	 *
+	 * @return string
+	 */
 	protected function getImagetPathForStatus($a_status) {
 		switch($a_status) {
 			case ilIndividualAssessmentMembers::LP_IN_PROGRESS :
@@ -82,6 +108,13 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 		return ilLearningProgressBaseGUI::_getImagePathForStatus($status);
 	}
 
+	/**
+	 * Get text for lp status
+	 *
+	 * @param int 	$a_status
+	 *
+	 * @return string
+	 */
 	protected function getEntryForStatus($a_status) {
 		switch($a_status) {
 			case ilIndividualAssessmentMembers::LP_IN_PROGRESS :
@@ -96,48 +129,100 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 		}
 	}
 
+	/**
+	 * Get the action drop down
+	 *
+	 * @param string[]
+	 *
+	 * @return ilAdvancedSelectionListGUI
+	 */
 	protected function buildActionDropDown($a_set) {
 		$l = new ilAdvancedSelectionListGUI();
 		$l->setListTitle($this->lng->txt("actions"));
 
 		$this->ctrl->setParameterByClass('ilIndividualAssessmentMemberGUI', 'usr_id', $a_set['usr_id']);
-		$edited_by_other = $this->setWasEditedByOtherUser($a_set);
+		$edited_by_viewer = $this->setWasEditedByViewer((int)$a_set[ilIndividualAssessmentMembers::FIELD_EXAMINER_ID]);
+		$finalized = (bool)$a_set[ilIndividualAssessmentMembers::FIELD_FINALIZED];
 
-		if (($a_set['finalized'] && $this->may_edit && !$edited_by_other) || $this->may_view) {
+		if ($finalized && (($this->userMayEditGradesOf($a_set["usr_id"]) && $edited_by_viewer) || $this->userMayViewGrades())) {
 			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI','view');
 			$l->addItem($this->lng->txt('iass_usr_view'), 'view', $target);
 		}
-		if(!$a_set['finalized'] && $this->may_edit && !$edited_by_other) {
+
+		if(!$finalized && $this->userMayEditGradesOf($a_set["usr_id"]) && $edited_by_viewer) {
 			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI','edit');
 			$l->addItem($this->lng->txt('iass_usr_edit'), 'edit', $target);
 		}
-		if(!$a_set['finalized'] && $this->may_book) {
+
+		if(!$finalized && $this->userMayEditMembers()) {
 			$this->ctrl->setParameter($this->parent_obj, 'usr_id', $a_set['usr_id']);
 			$target = $this->ctrl->getLinkTarget($this->parent_obj,'removeUserConfirmation');
 			$this->ctrl->setParameter($this->parent_obj, 'usr_id', null);
 			$l->addItem($this->lng->txt('iass_usr_remove'), 'removeUser', $target);
 		}
+
+		if($finalized && $this->userMayAmendGrades()) {
+			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI', 'amend');
+			$l->addItem($this->lng->txt('iass_usr_amend'), 'amend', $target);
+		}
 		$this->ctrl->setParameterByClass('ilIndividualAssessmentMemberGUI', 'usr_id', null);
 		return $l->getHTML();
 	}
 
-	protected function setWasEditedByOtherUser($set) {
-		return (int)$set[ilIndividualAssessmentMembers::FIELD_EXAMINER_ID] !== (int)$this->viewer_id
-				&& 0 !== (int)$set[ilIndividualAssessmentMembers::FIELD_EXAMINER_ID];
+	/**
+	 * Check the set was edited by viewing user
+	 *
+	 * @param int 	$examiner_id
+	 *
+	 * @return bool
+	 */
+	protected function setWasEditedByViewer($examiner_id) {
+		return $examiner_id === $this->viewer_id || 0 === $examiner_id;
 	}
 
+	/**
+	 * User may edit grades
+	 *
+	 * @return bool
+	 */
 	protected function userMayEditGrades() {
-		return $this->parent_obj->object->accessHandler()
-			->checkAccessToObj($this->parent_obj->object,'edit_learning_progress');
+		return $this->iass_access->mayGradeUser();
 	}
 
+	/**
+	 * User may edit grades of a specific user.
+	 *
+	 * @param  int	$a_user_id
+	 * @return bool
+	 */
+	protected function userMayEditGradesOf($a_user_id) {
+		return $this->iass_access->mayGradeUserById($a_user_id);
+	}
+
+	/**
+	 * User may view grades
+	 *
+	 * @return bool
+	 */
 	protected function userMayViewGrades() {
-		return $this->parent_obj->object->accessHandler()
-			->checkAccessToObj($this->parent_obj->object,'read_learning_progress');
+		return $this->iass_access->mayViewUser();
 	}
 
+	/**
+	 * User may amend members records.
+	 *
+	 * @return bool
+	 */
 	protected function userMayEditMembers() {
-		return $this->parent_obj->object->accessHandler()
-			->checkAccessToObj($this->parent_obj->object,'edit_members');
+		return $this->iass_access->mayEditMembers();
+	}
+
+	/**
+	 * User may amend grades
+	 *
+	 * @return bool
+	 */
+	protected function userMayAmendGrades() {
+		return $this->iass_access->mayAmendGradeUser();
 	}
 }

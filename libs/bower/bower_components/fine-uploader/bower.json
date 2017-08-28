@@ -1,0 +1,45 @@
+{
+  "name": "fine-uploader",
+  "version": "5.11.8",
+  "author": "Widen Enterprises, Inc.",
+  "description": "A official bower build for FineUploader/fine-uploader",
+  "license": "https://raw.githubusercontent.com/FineUploader/fine-uploader/master/LICENSE",
+  "keywords": [
+    "amazon",
+    "api",
+    "aws",
+    "azure",
+    "chunk",
+    "chunking",
+    "cross-domain",
+    "cross-site",
+    "drag",
+    "drop",
+    "file",
+    "file-input",
+    "file-uploader",
+    "input",
+    "jquery",
+    "jquery-plugin",
+    "multiple",
+    "preview",
+    "progress",
+    "resume",
+    "s3",
+    "selection",
+    "upload",
+    "widget"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/FineUploader/bower-dist.git"
+  },
+  "main": [
+    "dist/"
+  ],
+  "ignore": [
+    ".*",
+    "build.sh",
+    "src"
+  ]
+}

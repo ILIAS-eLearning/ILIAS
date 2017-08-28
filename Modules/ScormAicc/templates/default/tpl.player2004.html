@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" id="scormplayer">
+	<head>
+		<title>{SOP_TITLE}</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=7" />
+	<script type="text/javascript">
+	</script>
+		<script type="text/javascript">//<![CDATA[
+		Date.remoteOffset = (new Date()).getTime() - 1372597491243;
+		//]]></script>
+
+	<style>
+		.ilc_rte_status_RTEAsset { padding-left: 18px; background: url(./templates/default/images/scorm/asset_s.png) 0 0 no-repeat; }
+		.ilc_rte_status_RTECompleted { padding-left: 18px; background: url(./templates/default/images/scorm/completed_s.png) 0 0 no-repeat; }
+		.ilc_rte_status_RTENotAttempted{padding-left: 18px; background: url(./templates/default/images/scorm/not_attempted_s.png) 0 0 no-repeat;}
+		.ilc_rte_status_RTERunning {padding-left: 18px; background: url(./templates/default/images/scorm/running_s.png) 0 0 no-repeat;}
+		.ilc_rte_status_RTEIncomplete {padding-left: 18px; background: url(./templates/default/images/scorm/incomplete_s.png) 0 0 no-repeat;}
+		.ilc_rte_status_RTEPassed {padding-left: 18px; background: url(./templates/default/images/scorm/passed_s.png) 0 0 no-repeat;}
+		.ilc_rte_status_RTEFailed {padding-left: 18px; background: url(./templates/default/images/scorm/failed_s.png) 0 0 no-repeat;}
+		.ilc_rte_status_RTEBrowsed {padding-left: 18px; background: url(./templates/default/images/scorm/browsed.png) 0 0 no-repeat;}
+	</style>
+
+	<link type="text/css" href="./templates/default/delos.css?vers=4-4-0-Pre-Alpha" rel="stylesheet"/>
+	<link type="text/css" href="./Modules/Scorm2004/templates/default/player.css" rel="stylesheet"/>
+
+
+	<base target="frmResource" />
+				
+	</head>
+	<body class="loadingState">
+		<div id="zmove"></div>
+
+		<div  id="toolbar">
+			<div class="iosRTEMenu ilc_rte_menu_RTEMenu" style="clear:both;">
+				<div class="iosRTELogo ilc_rte_menu_RTELogo" ></div>
+				<div class="ilc_rte_menu_RTELinkBar">
+					<a target="_self" href="#" class="ilc_rte_mlink_RTELink" onclick="toggleView();" id="treeToggle">Hide Tree</a>
+					&nbsp;
+					<a target="_self" href="#" class="ilc_rte_mlink_RTELink" id="navStart">Start</a>
+					<a target="_self" href="#" class="ilc_rte_mlink_RTELink" id="navExit">Exit</a>
+					<a target="_self" href="#" class="ilc_rte_mlink_RTELink" id="navExitAll">Exit All</a>
+					<a target="_self" href="#" class="ilc_rte_mlink_RTELink" id="navSuspendAll">Suspend All</a>
+					<a target="_self" href="#" class="ilc_rte_mlink_RTELink" id="navPrevious">&lt; Previous</a>
+					<a target="_self" href="#" class="ilc_rte_mlink_RTELink" id="navContinue">Continue &gt;</a>
+				</div>
+				<div style="clear:both;"></div>
+			</div>
+		</div>
+		<div id="intro" style="display:none;">
+			<div id="introLabel">loading</div>
+		</div>
+		<div id="mainTable">
+			<div id="leftView">
+				<div class="ilc_rte_tree_RTETree">
+					<div id="treeView"></div>
+					<div id="ilLog">
+						<pre id="ilLogPre"></pre>
+					</div>
+					<div id="treeControls" class="ilc_rte_tree_RTETreeControl">
+						<!--<a id="toggleLog" href="#" onclick="toggleLog();">Show Log</a>&nbsp;&nbsp;-->
+						<a class="ilc_rte_tclink_RTETreeControlLink" id="toggleLog" href="#" onclick=""></a>&nbsp;&nbsp;
+						<a class="ilc_rte_tclink_RTETreeControlLink" id="toggleTree" href="#" onclick="toggleTree();">Collapse All</a>
+					</div>
+				</div>
+			</div>
+			<div id="dragbar" class="dragbar ilc_rte_drag_RTEDragBar"></div>
+			<div id="tdResource">
+				<iframe id="res" style="width: 100%; height:100%;" frameborder="0"></iframe>
+			</div>
+		</div>
+		
+		<script type="text/javascript" src="./Services/YUI/js/2_9_0/yahoo/yahoo-min.js"></script>
+		<script type="text/javascript" src="./Services/YUI/js/2_9_0/event/event-min.js"></script>
+		<script type="text/javascript" src="./Modules/Scorm2004/scripts/yui/treeview/treeview-min.js"></script>
+		<script type="text/javascript" src="./Modules/Scorm2004/scripts/jquery-1.4.4.min.js"></script>
+		<script type="text/javascript" src="./Modules/Scorm2004/scripts/rteconfig.js"></script>
+		<script type="text/javascript" src="./Services/UIComponent/NestedList/js/ilNestedList.js"></script>
+
+		<script type="text/javascript" src="./Modules/Scorm2004/scripts/buildrte/rte.js"></script>
+		<script type="text/javascript">
+		//<![CDATA[
+		somInitialized=false;
+		var SOP = true;
+		var params;
+		var maxInitTries = 20;
+		var tries=0;
+		
+		function initPlayer() {
+			initButtons();
+			params = getObj(gui.getPlayerParams(window));
+			var d = JSON.parse(gui.getData("lmGetAllByClientAndObjIdAtInitOfPlayer",[params.client,params.obj_id],true));
+			var init_data=JSON.parse(d[0].init_data);
+			init_data.status.last_visited=d[0].last_visited;
+			init_data.status.saved_global_status=d[0].status;
+			init_data.package_url='/data/'+params.client+'/lm_data/lm_'+params.obj_id+'/';
+			init_data.specialpage_url='./specialPage.html?message=';
+			init_adlact_data=JSON.parse(d[0].adlact_data);
+			
+			init_data.langstrings={
+				"btnStart":gui.getLocStr("btnStart"),
+				"btnExit":gui.getLocStr("btnExit"),
+				"btnExitAll":gui.getLocStr("btnExitAll"),
+				"btnSuspendAll":gui.getLocStr("btnSuspendAll"),
+				"btnPrevious":gui.getLocStr("btnPrevious"),
+				"btnContinue":gui.getLocStr("btnContinue"),
+				"btnhidetree":gui.getLocStr("btnhidetree"),
+				"btnshowtree":gui.getLocStr("btnshowtree"),
+				"linkexpandTree":gui.getLocStr("linkexpandTree"),
+				"linkcollapseTree":gui.getLocStr("linkcollapseTree")
+				};
+			
+			init_cp_data=JSON.parse(d[0].resources);
+			d=null;
+			var ret={
+			"schema":{},
+			"data":{
+				"package":[],
+				"node":[],
+				"comment":[],
+				"correct_response":[],
+				"interaction":[],
+				"objective":[]
+				}
+			};
+			ret.schema={"package":["user_id","learner_name","slm_id","mode","credit"],"node":["accesscount","accessduration","accessed","activityAbsoluteDuration","activityAttemptCount","activityExperiencedDuration","activityProgressStatus","attemptAbsoluteDuration","attemptCompletionAmount","attemptCompletionStatus","attemptExperiencedDuration","attemptProgressStatus","audio_captioning","audio_level","availableChildren","cmi_node_id","completion","completion_status","completion_threshold","cp_node_id","created","credit","delivery_speed","entry","exit","language","launch_data","learner_name","location","max","min","mode","modified","progress_measure","raw","scaled","scaled_passing_score","session_time","success_status","suspend_data","total_time","user_id"],"comment":["cmi_comment_id","cmi_node_id","comment","timestamp","location","sourceIsLMS"],"correct_response":["cmi_correct_response_id","cmi_interaction_id","pattern"],"interaction":["cmi_interaction_id","cmi_node_id","description","id","latency","learner_response","result","timestamp","type","weighting"],"objective":["cmi_interaction_id","cmi_node_id","cmi_objective_id","completion_status","description","id","max","min","raw","scaled","progress_measure","success_status","scope"]};
+
+			d=JSON.parse(gui.getData("lmGetAllCmiNodeByClientAndObjId",[params.client,params.obj_id],false));
+			ret.data.node=d;
+			d=null;
+			ret.data.comment=JSON.parse(gui.getData("lmGetAllCmiCommentByClientAndObjId",[params.client,params.obj_id],false));
+			ret.data.correct_response=JSON.parse(gui.getData("lmGetAllCmiCorrectResponseByClientAndObjId",[params.client,params.obj_id],false));
+			ret.data.interaction=JSON.parse(gui.getData("lmGetAllCmiInteractionByClientAndObjId",[params.client,params.obj_id],false));
+			ret.data.objective=JSON.parse(gui.getData("lmGetAllCmiObjectiveByClientAndObjId",[params.client,params.obj_id],false));
+			init_cmi_data=ret;
+			ret=null;
+			init_globalobj_data={};
+			scorm_init(init_data);
+		}
+		
+		function initButtons() {
+			document.getElementById("treeToggle").innerHTML = gui.getLocStr("btnhidetree");
+			document.getElementById("navStart").innerHTML = gui.getLocStr("btnStart");
+			document.getElementById("navExit").innerHTML = gui.getLocStr("btnExit");
+			document.getElementById("navExitAll").innerHTML = gui.getLocStr("btnExitAll");
+			document.getElementById("navSuspendAll").innerHTML = gui.getLocStr("btnSuspendAll");
+			document.getElementById("navPrevious").innerHTML = "&lt; " + gui.getLocStr("btnPrevious");
+			document.getElementById("navContinue").innerHTML = gui.getLocStr("btnContinue") + " &gt;";
+		}
+		
+		function initSpecialPage(w) {
+			if (!somInitialized || !gui) {
+				return;
+			}
+			var elSpecialPage = w.document.getElementById("txtSpecialPage");
+			var elCloseWindow = w.document.getElementById("txtCloseWindow");
+			var lngPages = {
+			"_COURSECOMPLETE_"	:		"seq_coursecomplete",
+			"_ENDSESSION_"		: 		"seq_endsession",
+			"_SEQBLOCKED_"		: 		"seq_blocked",
+			"_NOTHING_"		: 		"seq_nothing",
+			"_ERROR_"		:  		"seq_error",
+			"_DEADLOCK_"		:		"seq_deadlock",
+			"_INVALIDNAVREQ_"	:		"seq_invalidnavreq",
+			"_SEQABANDON_"		:		"seq_abandon",
+			"_SEQABANDONALL_"	:		"seq_abandonall",
+			"_TOC_"			:		"seq_toc"
+			}
+			var params = getObj(gui.getPlayerParams(w));
+			var page = params.page;
+			elSpecialPage.innerHTML = gui.getLocStr(lngPages[page]);
+			if (page!="_TOC_" && page!="_SEQABANDON_" && page!="_SEQABANDONALL_" ) {
+				elCloseWindow.innerHTML = gui.getLocStr("seq_close");
+			} 
+			else {
+				elCloseWindow.innerHTML = "";
+			}
+		}
+		
+		function initSom() {
+			if (typeof gui != "object") {
+				if (tries < maxInitTries) {
+					tries++;
+					setTimeout("initSom()", 100);
+					return;
+				}
+				else {
+					alert("could not initialize global objects!");
+				}
+			}
+			else {
+				initPlayer();
+			}
+		}
+		
+		function getObj(str) {
+			return JSON.parse(str);
+		}
+
+		function saveRequest(data) {
+			var dbResult = gui.setData("setCMIData",[params.client, params.obj_id, data.p, data]);
+			return JSON.parse(dbResult);
+		}
+		function scormPlayerUnload(data) {
+			if(data.last!="") var dbResult = gui.setData("scormPlayerUnload",[params.client, params.obj_id, data.last]);
+		}
+		window.addEventListener("load",initSom,true);
+		//]]>
+		</script>
+		
+	</body>
+</html>

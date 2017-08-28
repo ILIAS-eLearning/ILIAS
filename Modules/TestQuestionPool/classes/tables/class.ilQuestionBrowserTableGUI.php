@@ -3,6 +3,7 @@
 
 include_once('./Services/Table/classes/class.ilTable2GUI.php');
 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewGUI.php';
+require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
 
 /**
 *
@@ -62,8 +63,6 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 		{
 			$this->addColumn('','','1%');
 			$this->addColumn($this->lng->txt("title"),'title', '');
-			$this->addColumn('','', '');
-			$this->addColumn('','', '');
 			foreach ($this->getSelectedColumns() as $c)
 			{
 				if (strcmp($c, 'description') == 0) $this->addColumn($this->lng->txt("description"),'description', '');
@@ -76,12 +75,12 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 				if (strcmp($c, 'tstamp') == 0) $this->addColumn($this->lng->txt("last_update"),'tstamp', '');
 				if (strcmp($c, 'working_time') == 0) $this->addColumn($this->lng->txt("working_time"),'working_time', '');
 			}
+			$this->addColumn($this->lng->txt('actions'), '');
 			$this->setSelectAllCheckbox('q_id');
 		}
 		else
 		{
 			$this->addColumn($this->lng->txt("title"),'title', '');
-			$this->addColumn('','f','1%');
 			foreach ($this->getSelectedColumns() as $c)
 			{
 				if (strcmp($c, 'description') == 0) $this->addColumn($this->lng->txt("description"),'description', '');
@@ -102,13 +101,6 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 				$this->addMultiCommand('move', $this->lng->txt('move'));
 				$this->addMultiCommand('exportQuestion', $this->lng->txt('export'));
 				$this->addMultiCommand('deleteQuestions', $this->lng->txt('delete'));
-
-				$this->addCommandButton('importQuestions', $this->lng->txt('import'));
-
-				if (array_key_exists("qpl_clipboard", $_SESSION) && count($_SESSION['qpl_clipboard']))
-				{
-					$this->addCommandButton('paste', $this->lng->txt('paste'));
-				}
 			}
 		}
 
@@ -288,22 +280,16 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 		$this->ctrl->setParameterByClass($class, "q_id", $data["question_id"]);
 		$points = 0;
 
+		$actions = new ilAdvancedSelectionListGUI();
+		$actions->setId('qst' . $data["question_id"]);
+		$actions->setListTitle($this->lng->txt('actions'));
+
 		if (!$this->confirmdelete)
 		{
 			$this->tpl->setCurrentBlock('checkbox');
 			$this->tpl->setVariable('CB_QUESTION_ID', $data["question_id"]);
 			$this->tpl->parseCurrentBlock();
 
-			if ($this->getEditable())
-			{
-				//$href = $this->ctrl->getLinkTargetByClass("ilAssQuestionPageGUI", "edit");
-				$href = $this->ctrl->getLinkTargetByClass($data['type_tag'].'GUI', 'editQuestion');
-				
-				$this->tpl->setCurrentBlock("edit_link");
-				$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
-				$this->tpl->setVariable("LINK_EDIT", $href);
-				$this->tpl->parseCurrentBlock();
-			}
 			if ($data["complete"] == 0)
 			{
 				$this->tpl->setCurrentBlock("qpl_warning");
@@ -362,10 +348,47 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 				}
 			}
 
-			$this->tpl->setCurrentBlock('preview');
-			$this->tpl->setVariable("TXT_PREVIEW", $this->lng->txt("preview"));
-			$this->tpl->setVariable("LINK_PREVIEW", $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW));
-			$this->tpl->parseCurrentBlock();
+			$actions->addItem($this->lng->txt('preview'), '', $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW));
+			if($this->getEditable())
+			{
+				$editHref = $this->ctrl->getLinkTargetByClass($data['type_tag'].'GUI', 'editQuestion');
+				$actions->addItem($this->lng->txt('edit_question'), '', $editHref);
+
+				$editPageHref = $this->ctrl->getLinkTargetByClass('ilAssQuestionPageGUI', 'edit');
+				$actions->addItem($this->lng->txt('edit_page'), '', $editPageHref);
+			}
+
+			if($this->getWriteAccess())
+			{
+				$this->ctrl->setParameter($this->parent_obj, 'q_id', $data['question_id']);
+				$moveHref = $this->ctrl->getLinkTarget($this->parent_obj, 'move');
+				$this->ctrl->setParameter($this->parent_obj, 'q_id', null);
+				$actions->addItem($this->lng->txt('move'), '', $moveHref);
+
+				$this->ctrl->setParameter($this->parent_obj, 'q_id', $data['question_id']);
+				$copyHref = $this->ctrl->getLinkTarget($this->parent_obj, 'copy');
+				$this->ctrl->setParameter($this->parent_obj, 'q_id', null);
+				$actions->addItem($this->lng->txt('copy'), '', $copyHref);
+
+				$this->ctrl->setParameter($this->parent_obj, 'q_id', $data['question_id']);
+				$deleteHref = $this->ctrl->getLinkTarget($this->parent_obj, 'deleteQuestions');
+				$this->ctrl->setParameter($this->parent_obj, 'q_id', null);
+				$actions->addItem($this->lng->txt('delete'), '', $deleteHref);
+			}
+
+			if($this->getEditable())
+			{
+				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackEditingGUI.php';
+				$this->ctrl->setParameterByClass('ilAssQuestionFeedbackEditingGUI', 'q_id', $data['question_id']);
+				$feedbackHref = $this->ctrl->getLinkTargetByClass('ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
+				$this->ctrl->setParameterByClass('ilAssQuestionFeedbackEditingGUI', 'q_id', null);
+				$actions->addItem($this->lng->txt('tst_feedback'), '', $feedbackHref);
+
+				$this->ctrl->setParameterByClass('ilAssQuestionHintsGUI', 'q_id', $data['question_id']);
+				$hintsHref =  $this->ctrl->getLinkTargetByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
+				$this->ctrl->setParameterByClass('ilAssQuestionHintsGUI', 'q_id', null);
+				$actions->addItem($this->lng->txt('tst_question_hints_tab'), '', $hintsHref);
+			}
 		}
 		else
 		{
@@ -390,7 +413,17 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 			}
 		}
 		$this->tpl->setVariable('QUESTION_ID', $data["question_id"]);
-		$this->tpl->setVariable("QUESTION_TITLE", $data["title"]);
+		if(!$this->confirmdelete)
+		{
+			$this->tpl->setVariable('QUESTION_HREF_LINKED', $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW));
+			$this->tpl->setVariable('QUESTION_TITLE_LINKED', $data['title']);
+			$this->tpl->setVariable('ACTIONS', $actions->getHTML());
+		}
+		else
+		{
+			$this->tpl->setVariable('QUESTION_ID_UNLINKED', $data['question_id']);
+			$this->tpl->setVariable('QUESTION_TITLE_UNLINKED', $data['title']);
+		}
 	}
 	
 	public function setEditable($value)

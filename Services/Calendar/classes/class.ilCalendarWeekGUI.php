@@ -1,25 +1,5 @@
 <?php
-/*
-        +-----------------------------------------------------------------------------+
-        | ILIAS open source                                                           |
-        +-----------------------------------------------------------------------------+
-        | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-        |                                                                             |
-        | This program is free software; you can redistribute it and/or               |
-        | modify it under the terms of the GNU General Public License                 |
-        | as published by the Free Software Foundation; either version 2              |
-        | of the License, or (at your option) any later version.                      |
-        |                                                                             |
-        | This program is distributed in the hope that it will be useful,             |
-        | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-        | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-        | GNU General Public License for more details.                                |
-        |                                                                             |
-        | You should have received a copy of the GNU General Public License           |
-        | along with this program; if not, write to the Free Software                 |
-        | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-        +-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 *
@@ -27,6 +7,7 @@
 * @version $Id$
 *
 * @ilCtrl_Calls ilCalendarWeekGUI: ilCalendarAppointmentGUI
+* @ilCtrl_Calls ilCalendarWeekGUI: ilCalendarAppointmentPresentationGUI
 *
 * @ingroup ServicesCalendar 
 */
@@ -35,10 +16,10 @@ include_once('Services/Calendar/classes/class.ilDate.php');
 include_once('Services/Calendar/classes/class.ilCalendarHeaderNavigationGUI.php');
 include_once('Services/Calendar/classes/class.ilCalendarUserSettings.php');
 include_once('Services/Calendar/classes/class.ilCalendarAppointmentColors.php');
+include_once('Services/Calendar/classes/class.ilCalendarViewGUI.php');
 
 
-
-class ilCalendarWeekGUI
+class ilCalendarWeekGUI extends ilCalendarViewGUI
 {
 	protected $num_appointments = 1;
 	protected $seed = null;
@@ -61,20 +42,16 @@ class ilCalendarWeekGUI
 	 */
 	public function __construct(ilDate $seed_date)
 	{
-		global $ilCtrl, $lng, $ilUser,$ilTabs,$tpl;
-		
+		//$DIC elements initialization
+		$this->initialize(ilCalendarViewGUI::CAL_PRESENTATION_WEEK);
+
 		$this->seed = $seed_date;
 		$this->seed_info = $this->seed->get(IL_CAL_FKT_GETDATE,'','UTC');
-
-		$this->tpl = $tpl;
-		$this->lng = $lng;
-		$this->ctrl = $ilCtrl;
-		$this->tabs_gui = $ilTabs;
 		
-		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId());
-		$this->app_colors = new ilCalendarAppointmentColors($ilUser->getId());
+		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
+		$this->app_colors = new ilCalendarAppointmentColors($this->user->getId());
 		
-		$this->timezone = $ilUser->getTimeZone();
+		$this->timezone = $this->user->getTimeZone();
 	}
 	
 	/**
@@ -89,10 +66,15 @@ class ilCalendarWeekGUI
 
 		$this->ctrl->saveParameter($this,'seed');
 
-
 		$next_class = $ilCtrl->getNextClass();
 		switch($next_class)
 		{
+			case "ilcalendarappointmentpresentationgui":
+				$this->ctrl->setReturn($this, "");
+				include_once("./Services/Calendar/classes/class.ilCalendarAppointmentPresentationGUI.php");
+				$gui = ilCalendarAppointmentPresentationGUI::_getInstance(new ilDate($this->seed, IL_CAL_DATE), $this->getCurrentApp());
+				$this->ctrl->forwardCommand($gui);
+				break;
 			case 'ilcalendarappointmentgui':
 				$this->ctrl->setReturn($this,'');
 				$this->tabs_gui->setSubTabActive($_SESSION['cal_last_tab']);
@@ -146,8 +128,6 @@ class ilCalendarWeekGUI
 		
 		include_once('./Services/YUI/classes/class.ilYuiUtil.php');
 		ilYuiUtil::initDragDrop();
-		ilYuiUtil::initPanel();
-		
 		
 		$navigation = new ilCalendarHeaderNavigationGUI($this,$this->seed,ilDateTime::WEEK);
 		$this->tpl->setVariable('NAVIGATION',$navigation->getHTML());
@@ -415,9 +395,8 @@ class ilCalendarWeekGUI
 	 */
 	protected function showFulldayAppointment($a_app)
 	{
-		$this->tpl->setCurrentBlock('panel_code');
-		$this->tpl->setVariable('NUM',$this->num_appointments);
-		$this->tpl->parseCurrentBlock();
+		$f = $this->ui_factory;
+		$r = $this->ui_renderer;
 		
 		// milestone icon
 		if ($a_app['event']->isMilestone())
@@ -430,19 +409,23 @@ class ilCalendarWeekGUI
 
 		$this->tpl->setCurrentBlock('fullday_app');
 		
-		include_once('./Services/Calendar/classes/class.ilCalendarAppointmentPanelGUI.php');
-		$this->tpl->setVariable('PANEL_F_DAY_DATA',ilCalendarAppointmentPanelGUI::_getInstance($this->seed)->getHTML($a_app));
-		$this->tpl->setVariable('F_DAY_ID',$this->num_appointments);
-		
 		$compl = ($a_app['event']->isMilestone() && $a_app['event']->getCompletion() > 0)
 			? " (".$a_app['event']->getCompletion()."%)"
 			: "";
 
-		$this->tpl->setVariable('F_APP_TITLE',$a_app['event']->getPresentationTitle().$compl);
+		//plugins can change the modal title.
+		$modal_title = $this->getModalTitleByPlugins();
+		$shy = $this->getAppointmentShyButton($a_app['event'], $a_app['dstart'], "", $modal_title);
+
+		$title = ($new_title = $this->getContentByPlugins($a_app['event'], $a_app['dstart'], $shy))? $new_title : $shy;
+
+		$this->tpl->setVariable('F_APP_TITLE',$title.$compl);
 
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
+		$font_color = ilCalendarUtil::calculateFontColor($color);
+
 		$this->tpl->setVariable('F_APP_BGCOLOR',$color);
-		$this->tpl->setVariable('F_APP_FONTCOLOR',ilCalendarUtil::calculateFontColor($color));
+		$this->tpl->setVariable('F_APP_FONTCOLOR',$font_color);
 		
 		$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 		$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());
@@ -461,11 +444,9 @@ class ilCalendarWeekGUI
 	 */
 	protected function showAppointment($a_app)
 	{
-		global $ilUser;
-		
-		$this->tpl->setCurrentBlock('panel_code');
-		$this->tpl->setVariable('NUM',$this->num_appointments);
-		$this->tpl->parseCurrentBlock();
+		$ilUser = $this->user;
+		$f = $this->ui_factory;
+		$r = $this->ui_renderer;
 		
 		if (!$ilUser->prefs["screen_reader_optimization"])
 		{
@@ -475,9 +456,6 @@ class ilCalendarWeekGUI
 		{
 			$this->tpl->setCurrentBLock('scrd_not_empty');
 		}
-
-		include_once('./Services/Calendar/classes/class.ilCalendarAppointmentPanelGUI.php');
-		$this->tpl->setVariable('PANEL_DATA',ilCalendarAppointmentPanelGUI::_getInstance($this->seed)->getHTML($a_app));
 		
 		$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 		$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());
@@ -489,20 +467,16 @@ class ilCalendarWeekGUI
 		$td_style = $style;
 
 		
-		if($a_app['event']->isFullDay())
-		{
-			$title = $a_app['event']->getPresentationTitle();
-		}
-		else
+		if(!$a_app['event']->isFullDay())
 		{
 			switch($this->user_settings->getTimeFormat())
 			{
 				case ilCalendarSettings::TIME_FORMAT_24:
-					$title = $a_app['event']->getStart()->get(IL_CAL_FKT_DATE,'H:i',$this->timezone);
+					$time = $a_app['event']->getStart()->get(IL_CAL_FKT_DATE,'H:i',$this->timezone);
 					break;
 					
 				case ilCalendarSettings::TIME_FORMAT_12:
-					$title = $a_app['event']->getStart()->get(IL_CAL_FKT_DATE,'h:ia',$this->timezone);
+					$time = $a_app['event']->getStart()->get(IL_CAL_FKT_DATE,'h:ia',$this->timezone);
 					break;
 			}
 			// add end time for screen readers
@@ -511,20 +485,27 @@ class ilCalendarWeekGUI
 				switch($this->user_settings->getTimeFormat())
 				{
 					case ilCalendarSettings::TIME_FORMAT_24:
-						$title.= "-".$a_app['event']->getEnd()->get(IL_CAL_FKT_DATE,'H:i',$this->timezone);
+						$time.= "-".$a_app['event']->getEnd()->get(IL_CAL_FKT_DATE,'H:i',$this->timezone);
 						break;
 						
 					case ilCalendarSettings::TIME_FORMAT_12:
-						$title.= "-".$a_app['event']->getEnd()->get(IL_CAL_FKT_DATE,'h:ia',$this->timezone);
+						$time.= "-".$a_app['event']->getEnd()->get(IL_CAL_FKT_DATE,'h:ia',$this->timezone);
 						break;
 				}
 			}
-			
-			$title .= (' '.$a_app['event']->getPresentationTitle());		
+
 			$td_style .= $a_app['event']->getPresentationStyle();
 		}
-		
-		$this->tpl->setVariable('APP_TITLE',$title);
+		//plugins can change the modal title.
+		$modal_title = $this->getModalTitleByPlugins();
+		$shy = $this->getAppointmentShyButton($a_app['event'], $a_app['dstart'], "", $modal_title);
+
+		$title = ($time != "")? $time." ".$shy : $shy;
+
+		//calendar plugins
+		$title = ($new_title = $this->getContentByPlugins($a_app['event'], $a_app['dstart'], $shy))? $new_title : $title;
+
+		$this->tpl->setVariable('APP_TITLE', $title);
 		$this->tpl->setVariable('LINK_NUM',$this->num_appointments);
 		
 		$this->tpl->setVariable('LINK_STYLE',$style);
@@ -554,8 +535,6 @@ class ilCalendarWeekGUI
 		$this->num_appointments++;
 
 	}
-	
-	
 	
 	/**
 	 * calculate overlapping hours 
@@ -718,7 +697,4 @@ class ilCalendarWeekGUI
 		return $colspans;
 	}
 	
-	
 }
-	
-?>

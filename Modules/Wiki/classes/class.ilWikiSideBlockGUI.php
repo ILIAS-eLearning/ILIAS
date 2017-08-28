@@ -27,7 +27,7 @@ class ilWikiSideBlockGUI extends ilBlockGUI
 		
 		$lng->loadLanguageModule("wiki");
 		$this->setEnableNumInfo(false);
-		
+
 		$this->setTitle($lng->txt("wiki_quick_navigation"));
 		$this->allow_moving = false;
 	}
@@ -115,7 +115,7 @@ class ilWikiSideBlockGUI extends ilBlockGUI
 		global $ilCtrl, $lng, $ilAccess;
 		
 		$tpl = new ilTemplate("tpl.wiki_side_block_content.html", true, true, "Modules/Wiki");
-		
+
 		$wp = $this->getPageObject();
 		
 		// start page

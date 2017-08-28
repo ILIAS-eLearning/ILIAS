@@ -5619,7 +5619,7 @@ function getAnswerFeedbackPoints()
 		{
 			while ($row = $ilDB->fetchAssoc($query_result))
 			{
-				$row = ilAssQuestionType::conmpleteMissingPluginName($row);
+				$row = ilAssQuestionType::completeMissingPluginName($row);
 				
 				if( !$row['plugin'] )
 				{

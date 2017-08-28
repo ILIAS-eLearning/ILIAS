@@ -20,10 +20,11 @@ class ilObjIndividualAssessment extends ilObject {
 	public function __construct($a_id = 0, $a_call_by_reference = true) {
 		global $DIC;
 		$this->type = 'iass';
+		$this->il_access_handler = $DIC["ilAccess"];
 		parent::__construct($a_id, $a_call_by_reference);
 		$this->settings_storage = new ilIndividualAssessmentSettingsStorageDB($DIC['ilDB']);
 		$this->members_storage =  new ilIndividualAssessmentMembersStorageDB($DIC['ilDB']);
-		$this->access_handler = new ilIndividualAssessmentAccessHandler(
+		$this->access_handler = new ilIndividualAssessmentAccessHandler($this,
 				 $DIC['ilAccess']
 				,$DIC['rbacadmin']
 				,$DIC['rbacreview']
@@ -75,6 +76,16 @@ class ilObjIndividualAssessment extends ilObject {
 	 */
 	public function loadMembers() {
 		return $this->members_storage->loadMembers($this);
+	}
+
+	/**
+	 * Get the members object associated with this and visible by the current user.
+	 *
+	 * @return	ilIndividualAssessmentMembers
+	 */
+	public function loadVisibleMembers() {
+		return $this->members_storage->loadMembers($this)
+				->withAccessHandling($this->il_access_handler);
 	}
 
 	/**

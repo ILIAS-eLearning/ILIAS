@@ -34,8 +34,12 @@ class ilTestRandomQuestionSetStagingPoolBuilder
 	public function rebuild(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList)
 	{
 		$this->reset();
-
-		$this->build($sourcePoolDefinitionList);
+		
+		// fau: taxFilter/typeFilter - copy only the needed questions, and copy every question only once
+		// TODO-RND2017: remove non cheap methods and rename cheap ones
+		#$this->build($sourcePoolDefinitionList);
+		$this->buildCheap($sourcePoolDefinitionList);
+		// fau.
 	}
 
 	public function reset()
@@ -123,6 +127,94 @@ class ilTestRandomQuestionSetStagingPoolBuilder
 
 		return $questionIdMapping;
 	}
+	
+	// fau: taxFilter/typeFilter - select only the needed questions, and copy every question only once
+	private function buildCheap(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList)
+	{
+		// TODO-RND2017: refactor using assQuestionList and wrap with assQuestionListCollection for unioning
+		 
+		$questionIdMappingPerPool = array();
+		
+		// select questions to be copied by the definitions
+		// note: a question pool may appear many times in this list
+		
+		/* @var ilTestRandomQuestionSetSourcePoolDefinition $definition */
+		foreach($sourcePoolDefinitionList as $definition)
+		{
+			$taxFilter = $definition->getOriginalTaxonomyFilter();
+			$typeFilter = $definition->getTypeFilter();
+			if (!empty($taxFilter))
+			{
+				require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
+				
+				$filterItems = null;
+				foreach ($taxFilter as $taxId => $nodeIds)
+				{
+					$taxItems = array();
+					foreach ($nodeIds as $nodeId)
+					{
+						$nodeItems = ilObjTaxonomy::getSubTreeItems(
+							'qpl', $definition->getPoolId(), 'quest', $taxId, $nodeId
+						);
+						
+						foreach ($nodeItems as $nodeItem)
+						{
+							$taxItems[] = $nodeItem['item_id'];
+						}
+					}
+					
+					$filterItems = isset($filterItems) ? array_intersect($filterItems, array_unique($taxItems)) : array_unique($taxItems);
+				}
+				// stage only the questions applying to the taxonomy filter
+				$this->stageQuestionsFromSourcePoolCheap($definition->getPoolId(), $questionIdMappingPerPool, array_values($filterItems), $typeFilter);
+			}
+			else
+			{
+				// stage all questions of the pool
+				$this->stageQuestionsFromSourcePoolCheap($definition->getPoolId(), $questionIdMappingPerPool, null, $typeFilter);
+			}
+		}
+		
+		// copy the taxonomies to the test and map them
+		foreach( $questionIdMappingPerPool as $sourcePoolId => $questionIdMapping)
+		{
+			$taxonomiesKeysMap = $this->mirrorSourcePoolTaxonomies($sourcePoolId, $questionIdMapping);
+			$this->applyMappedTaxonomiesKeys($sourcePoolDefinitionList, $taxonomiesKeysMap, $sourcePoolId);
+		}
+	}
+	
+	private function stageQuestionsFromSourcePoolCheap($sourcePoolId, &$questionIdMappingPerPool, $filterIds = null, $typeFilter = null)
+	{
+		$query = 'SELECT question_id FROM qpl_questions WHERE obj_fi = %s AND complete = %s AND original_id IS NULL';
+		if (!empty($filterIds))
+		{
+			$query .= ' AND ' . $this->db->in('question_id', $filterIds, false, 'integer');
+		}
+		if (!empty($typeFilter))
+		{
+			$query .= ' AND ' . $this->db->in('question_type_fi', $typeFilter, false, 'integer');
+		}
+		$res = $this->db->queryF( $query, array('integer', 'text'), array($sourcePoolId, 1) );
+		
+		while( $row = $this->db->fetchAssoc($res) )
+		{
+			if (!isset($questionIdMappingPerPool[$sourcePoolId][ $row['question_id'] ]))
+			{
+				$question = assQuestion::_instantiateQuestion($row['question_id']);
+				$duplicateId = $question->duplicate(true, null, null, null, $this->testOBJ->getId());
+				
+				$nextId = $this->db->nextId('tst_rnd_cpy');
+				$this->db->insert('tst_rnd_cpy', array(
+					'copy_id' => array('integer', $nextId),
+					'tst_fi' => array('integer', $this->testOBJ->getTestId()),
+					'qst_fi' => array('integer', $duplicateId),
+					'qpl_fi' => array('integer', $sourcePoolId)
+				));
+			}
+			$questionIdMappingPerPool[$sourcePoolId][ $row['question_id'] ] = $duplicateId;
+		}
+	}
+	// fau.
 
 	private function mirrorSourcePoolTaxonomies($sourcePoolId, $questionIdMapping)
 	{
@@ -152,13 +244,17 @@ class ilTestRandomQuestionSetStagingPoolBuilder
 
 			if($definition->getPoolId() == $sourcePoolId)
 			{
-				$definition->setMappedFilterTaxId(
-					$taxonomiesKeysMap->getMappedTaxonomyId($definition->getOriginalFilterTaxId())
-				);
-
-				$definition->setMappedFilterTaxNodeId(
-					$taxonomiesKeysMap->getMappedTaxNodeId($definition->getOriginalFilterTaxNodeId())
-				);
+				// fau: taxFilter/typeFilter - map the enhanced taxonomy filter
+				#$definition->setMappedFilterTaxId(
+				#	$taxonomiesKeysMap->getMappedTaxonomyId($definition->getOriginalFilterTaxId())
+				#);
+				
+				#$definition->setMappedFilterTaxNodeId(
+				#	$taxonomiesKeysMap->getMappedTaxNodeId($definition->getOriginalFilterTaxNodeId())
+				#);
+				
+				$definition->mapTaxonomyFilter($taxonomiesKeysMap);
+				// fau.
 			}
 		}
 	}

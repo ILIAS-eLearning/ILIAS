@@ -469,6 +469,7 @@ abstract class ilObjPortfolioBase extends ilObject2
 		// copy pages
 		$blog_count = 0;
 		include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";
+		$page_map = array();
 		foreach(ilPortfolioPage::getAllPortfolioPages($source_id) as $page)
 		{
 			$page_id = $page["id"];	
@@ -605,8 +606,11 @@ abstract class ilObjPortfolioBase extends ilObject2
 				{
 					$target_page->update();	// handle mob usages!
 				}
+				$page_map[$source_page->getId()] = $target_page->getId();
 			}		
 		}
+
+		ilPortfolioPage::updateInternalLinks($page_map);
 	}
 		
 	protected static function updateDomNodes($a_dom, $a_xpath, $a_attr_id, $a_attr_value)

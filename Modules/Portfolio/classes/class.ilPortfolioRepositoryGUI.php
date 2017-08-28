@@ -9,7 +9,7 @@ include_once('./Modules/Portfolio/classes/class.ilObjPortfolio.php');
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
  *
- * @ilCtrl_Calls ilPortfolioRepositoryGUI: ilObjPortfolioGUI
+ * @ilCtrl_Calls ilPortfolioRepositoryGUI: ilObjPortfolioGUI, ilObjExerciseGUI
  *
  * @ingroup ModulesPortfolio
  */
@@ -45,18 +45,28 @@ class ilPortfolioRepositoryGUI
 		switch($next_class)
 		{			
 			case "ilobjportfoliogui":
+
+				include_once('./Modules/Portfolio/classes/class.ilObjPortfolioGUI.php');
+				$gui = new ilObjPortfolioGUI((int) $_REQUEST["prt_id"]);
+
 				if($cmd != "preview")
 				{
 					$this->setLocator();
-										
-					$ilTabs->setBack2Target($lng->txt("prtf_tab_portfolios"),
-						$ilCtrl->getLinkTarget($this, "show"));														
-				}				
-				include_once('./Modules/Portfolio/classes/class.ilObjPortfolioGUI.php');
-				$gui = new ilObjPortfolioGUI($_REQUEST["prt_id"]);
+
+					if ((int) $_GET["exc_back_ref_id"] > 0)
+					{
+						include_once("./Services/Link/classes/class.ilLink.php");
+						$ilTabs->setBack2Target($lng->txt("obj_exc"), ilLink::_getLink((int) $_GET["exc_back_ref_id"]));
+					}
+					else
+					{
+						$ilTabs->setBack2Target($lng->txt("prtf_tab_portfolios"), $ilCtrl->getLinkTarget($this, "show"));
+					}
+				}
+
 				$ilCtrl->forwardCommand($gui);
 				break;
-			
+
 			default:						
 				$this->setLocator();
 				$this->setTabs();				
@@ -81,7 +91,7 @@ class ilPortfolioRepositoryGUI
 		
 		$ilTabs->activateTab("mypf");
 	}
-	
+
 	protected function setLocator()
 	{
 		global $ilLocator, $lng, $ilCtrl, $tpl;

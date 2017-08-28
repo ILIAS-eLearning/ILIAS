@@ -44,6 +44,16 @@ class ilItemGroupAR extends ActiveRecord
 	protected $hide_title = '';
 
 	/**
+	 * @var int
+	 *
+	 * @con_has_field true
+	 * @con_fieldtype integer
+	 * @con_length    1
+	 * @con_is_notnull false
+	 */
+	protected $behaviour = 0;
+
+	/**
 	 * Get ID
 	 *
 	 * @return int ID
@@ -81,6 +91,27 @@ class ilItemGroupAR extends ActiveRecord
 	public function getHideTitle()
 	{
 		return $this->hide_title;
+	}
+
+	/**
+	 * Set behaviour
+	 *
+	 * @param int $a_val behaviour
+	 */
+	public function setBehaviour($a_val)
+	{
+		$this->behaviour = $a_val;
+	}
+
+
+	/**
+	 * Get behaviour
+	 *
+	 * @return int behaviour
+	 */
+	public function getBehaviour()
+	{
+		return $this->behaviour;
 	}
 }
 

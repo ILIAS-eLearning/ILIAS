@@ -19,7 +19,8 @@ include_once('./Modules/Group/classes/class.ilObjGroup.php');
 * @ilCtrl_Calls ilObjGroupGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilExportGUI, ilMemberExportGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilCommonActionDispatcherGUI, ilObjectServiceSettingsGUI, ilSessionOverviewGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilGroupMembershipGUI, ilBadgeManagementGUI, ilMailMemberSearchGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
-* 
+* @ilCtrl_Calls ilObjGroupGUI: ilContainerSkillGUI, ilCalendarPresentationGUI
+*
 *
 * @extends ilObjectGUI
 */
@@ -261,6 +262,18 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->ctrl->forwardCommand($t);
 				break;
 
+			case "ilcontainerskillgui":
+				$this->tabs_gui->activateTab('obj_tool_setting_skills');
+				include_once("./Services/Container/Skills/classes/class.ilContainerSkillGUI.php");
+				$gui = new ilContainerSkillGUI($this);
+				$this->ctrl->forwardCommand($gui);
+
+			case 'ilcalendarpresentationgui':
+				include_once('./Services/Calendar/classes/class.ilCalendarPresentationGUI.php');
+				$cal = new ilCalendarPresentationGUI($this->object->getRefId());
+				$ret = $this->ctrl->forwardCommand($cal);
+				break;
+
 			default:
 			
 				// check visible permission
@@ -388,7 +401,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	 * After object creation 
 	 * @param \ilObject $new_object
 	 */
-	public function afterSave(\ilObject $new_object)
+	public function afterSave(\ilObject $new_object, $a_redirect = true)
 	{
 		global $ilUser, $ilSetting;
 		
@@ -419,8 +432,11 @@ class ilObjGroupGUI extends ilContainerGUI
 		$members_obj->updateNotification($ilUser->getId(),$ilSetting->get('mail_grp_admin_notification', true));
 		
 		ilUtil::sendSuccess($this->lng->txt("object_added"), true);
-		$this->ctrl->setParameter($this, "ref_id", $new_object->getRefId());
-		$this->ctrl->redirect($this,'edit');
+		if ($a_redirect)
+		{
+			$this->ctrl->setParameter($this, "ref_id", $new_object->getRefId());
+			$this->ctrl->redirect($this, 'edit');
+		}
 	}
 	
 	/**
@@ -563,7 +579,9 @@ class ilObjGroupGUI extends ilContainerGUI
 						ilObjectServiceSettingsGUI::USE_NEWS,
 						ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
 						ilObjectServiceSettingsGUI::TAG_CLOUD,
-						ilObjectServiceSettingsGUI::BADGES
+						ilObjectServiceSettingsGUI::BADGES,
+						ilObjectServiceSettingsGUI::SKILLS,
+						ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS
 					)
 				);
 				
@@ -1072,8 +1090,19 @@ class ilObjGroupGUI extends ilContainerGUI
 					 "",
 					 "ilbadgemanagementgui");
 			}
-		}		
-		
+		}
+
+		// skills
+		include_once("./Services/Object/classes/class.ilObjectServiceSettingsGUI.php");
+		if($ilAccess->checkAccess('read','',$this->ref_id) && ilContainer::_lookupContainerSetting($this->object->getId(),
+				ilObjectServiceSettingsGUI::SKILLS, false))
+		{
+			$this->tabs_gui->addTarget("obj_tool_setting_skills",
+				$this->ctrl->getLinkTargetByClass(array("ilcontainerskillgui", "ilcontskillpresentationgui"), ""),
+				"",
+				array("ilcontainerskillgui", "ilcontskillpresentationgui", "ilcontskilladmingui"));
+		}
+
 		// learning progress
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 		if(ilLearningProgressAccess::checkAccess($this->object->getRefId(), $is_participant))
@@ -1378,29 +1407,36 @@ class ilObjGroupGUI extends ilContainerGUI
 	 * @param string edit or create
 	 * @return
 	 */
-	protected function initForm($a_mode = 'edit')
+	public function initForm($a_mode = 'edit', $a_omit_form_action = false)
 	{
 		global $ilUser,$tpl,$tree;
 		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		
 		$form = new ilPropertyFormGUI();
-		switch($a_mode)
+
+		if (!$a_omit_form_action)
 		{
-			case 'edit':
-				$form->setFormAction($this->ctrl->getFormAction($this,'update'));
-				break;
-				
-			default:
-				$form->setTableWidth('600px');
-				$form->setFormAction($this->ctrl->getFormAction($this,'save'));
-				break;
+			switch ($a_mode)
+			{
+				case 'edit':
+					$form->setFormAction($this->ctrl->getFormAction($this, 'update'));
+					break;
+
+				default:
+					$form->setTableWidth('600px');
+					$form->setFormAction($this->ctrl->getFormAction($this, 'save'));
+					break;
+			}
 		}
 		
 		// title
 		$title = new ilTextInputGUI($this->lng->txt('title'),'title');
 		$title->setSubmitFormOnEnter(true);
-		$title->setValue($this->object->getTitle());
+		if ($a_mode == "edit")
+		{
+			$title->setValue($this->object->getTitle());
+		}
 		$title->setSize(min(40, ilObject::TITLE_LENGTH));
 		$title->setMaxLength(ilObject::TITLE_LENGTH);
 		$title->setRequired(true);
@@ -1408,7 +1444,10 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		// desc
 		$desc = new ilTextAreaInputGUI($this->lng->txt('description'),'desc');
-		$desc->setValue($this->object->getLongDescription());
+		if ($a_mode == "edit")
+		{
+			$desc->setValue($this->object->getLongDescription());
+		}
 		$desc->setRows(2);
 		$desc->setCols(40);
 		$form->addItem($desc);
@@ -1641,7 +1680,9 @@ class ilObjGroupGUI extends ilContainerGUI
 						ilObjectServiceSettingsGUI::USE_NEWS,
 						ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
 						ilObjectServiceSettingsGUI::TAG_CLOUD,						
-						ilObjectServiceSettingsGUI::BADGES
+						ilObjectServiceSettingsGUI::BADGES,
+						ilObjectServiceSettingsGUI::SKILLS,
+						ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS
 					)
 				);
 

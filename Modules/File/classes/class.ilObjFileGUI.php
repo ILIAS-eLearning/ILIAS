@@ -1,10 +1,6 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./Services/Object/classes/class.ilObject2GUI.php";
-require_once "./Modules/File/classes/class.ilObjFile.php";
-require_once "./Modules/File/classes/class.ilObjFileAccess.php";
-
 /**
 * GUI class for file objects.
 *
@@ -55,7 +51,6 @@ class ilObjFileGUI extends ilObject2GUI
 		
 		if($this->id_type == self::WORKSPACE_NODE_ID)
 		{
-			include_once "Services/Form/classes/class.ilFileInputGUI.php";
 			ilFileInputGUI::setPersonalWorkspaceQuotaCheck(true);
 		}
 
@@ -90,7 +85,6 @@ class ilObjFileGUI extends ilObject2GUI
 				
 				$ilTabs->activateTab("id_meta");
 
-				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
 				$md_gui = new ilObjectMetaDataGUI($this->object);	
 				
 				// todo: make this work
@@ -102,21 +96,18 @@ class ilObjFileGUI extends ilObject2GUI
 			// repository permissions
 			case 'ilpermissiongui':
 				$ilTabs->activateTab("id_permissions");
-				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
 				$ret = $this->ctrl->forwardCommand($perm_gui);
 				break;
 		
 			case "ilexportgui":
 				$ilTabs->activateTab("export");
-				include_once("./Services/Export/classes/class.ilExportGUI.php");
 				$exp_gui = new ilExportGUI($this);
 				$exp_gui->addFormat("xml");
 				$ret = $this->ctrl->forwardCommand($exp_gui);
 				break;
 
 			case 'ilobjectcopygui':
-				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
 				$cp = new ilObjectCopyGUI($this);
 				$cp->setType('file');
 				$this->ctrl->forwardCommand($cp);
@@ -125,20 +116,17 @@ class ilObjFileGUI extends ilObject2GUI
 			// personal workspace permissions
 			case "ilworkspaceaccessgui";				
 				$ilTabs->activateTab("id_permissions");
-				include_once('./Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php');
 				$wspacc = new ilWorkspaceAccessGUI($this->node_id, $this->getAccessHandler());
 				$this->ctrl->forwardCommand($wspacc);
 				break;
 			
 			case "ilcommonactiondispatchergui":
-				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
 				$this->ctrl->forwardCommand($gui);
 				break;
 			
 			case "illearningprogressgui":
 				$ilTabs->activateTab('learning_progress');
-				require_once 'Services/Tracking/classes/class.ilLearningProgressGUI.php';
 				$new_gui = new ilLearningProgressGUI(
 					ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
 					$this->object->getRefId(),
@@ -184,7 +172,6 @@ class ilObjFileGUI extends ilObject2GUI
 			
 		if($this->id_type == self::WORKSPACE_NODE_ID)
 		{
-			include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
 			if(!ilDiskQuotaHandler::isUploadPossible())
 			{				
 				$this->lng->loadLanguageModule("file");
@@ -194,7 +181,6 @@ class ilObjFileGUI extends ilObject2GUI
 		}
 		
 		// use drag-and-drop upload if configured
-		require_once("Services/FileUpload/classes/class.ilFileUploadSettings.php");
 		if (ilFileUploadSettings::isDragAndDropUploadEnabled())
 		{
 			$forms[] = $this->initMultiUploadForm();
@@ -300,13 +286,13 @@ class ilObjFileGUI extends ilObject2GUI
 			}
 
 			// create and insert file in grp_tree
-			include_once("./Modules/File/classes/class.ilObjFile.php");
+
 			$fileObj = new ilObjFile();
 			$fileObj->setTitle($title);
 			$fileObj->setDescription($description);
 			$fileObj->setFileName($upload_file["name"]);
 			//$fileObj->setFileType($upload_file["type"]);
-			include_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
+
 			$fileObj->setFileType(ilMimeTypeUtil::getMimeType(
 				"", $upload_file["name"], $upload_file["type"]));
 			$fileObj->setFileSize($upload_file["size"]);
@@ -566,9 +552,9 @@ class ilObjFileGUI extends ilObject2GUI
 		include_once 'Modules/File/classes/class.ilECSFileSettings.php';	
 		$ecs = new ilECSFileSettings($this->object);			
 		$ecs->handleSettingsUpdate();
-		
+
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
-		ilUtil::redirect($this->ctrl->getLinkTarget($this,'edit','',false,false));
+		ilUtil::redirect($this->ctrl->getLinkTarget($this,'versions','',false,false));
 	}
 	
 	/**
@@ -631,15 +617,13 @@ class ilObjFileGUI extends ilObject2GUI
 		$upload_possible = true;
 		if($this->id_type == self::WORKSPACE_NODE_ID)
 		{
-			include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
 			$upload_possible = ilDiskQuotaHandler::isUploadPossible();			
 		}
 		
 		if($upload_possible)
 		{
-			$file = new ilFileInputGUI($this->lng->txt('obj_file'),'file');
+			$file = new ilFileStandardDropzoneInputGUI($this->lng->txt('obj_file'), 'file');
 			$file->setRequired(false);
-	//		$file->enableFileNameSelection('title');
 			$form->addItem($file);
 
 			$group = new ilRadioGroupInputGUI('','replace');

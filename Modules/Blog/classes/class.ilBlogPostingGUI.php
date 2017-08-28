@@ -47,6 +47,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 
 		// needed for notification
 		$this->getBlogPosting()->setBlogNodeId($this->node_id, $this->isInWorkspace());
+		$this->getBlogPosting()->getPageConfig()->setEditLockSupport(!$this->isInWorkspace());
 		
 		// #11151
 		$this->may_contribute = (bool)$a_may_contribute;
@@ -108,6 +109,14 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 			default:
 				if($posting)
 				{
+					if($_REQUEST["cmd"] == "deactivatePageToList")
+					{
+						ilUtil::sendSuccess($this->lng->txt("blog_draft_info"), true);
+					}
+					else if($_REQUEST["cmd"] == "activatePageToList")
+					{
+						ilUtil::sendSuccess($this->lng->txt("blog_new_posting_info"), true);
+					}
 					$this->setPresentationTitle($posting->getTitle());
 					
 					$tpl->setTitle(ilObject::_lookupTitle($this->getBlogPosting()->getBlogId()).": ". // #15017
@@ -162,8 +171,10 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	 */
 	function preview($a_mode = null)
 	{
-		global $ilCtrl, $tpl, $ilSetting;
-		
+		global $ilCtrl, $tpl, $ilSetting, $DIC;
+
+		$toolbar = $DIC->toolbar();
+
 		$this->getBlogPosting()->increaseViewCnt();
 		
 		$wtpl = new ilTemplate("tpl.blog_page_view_main_column.html",
@@ -198,7 +209,9 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 			
 			$may_delete_comments = ($this->checkAccess("contribute") &&
 				$ilSetting->get("comments_del_tutor", 1));
-			
+
+			$wtpl->setVariable("TOOLBAR", $toolbar->getHTML());
+
 			$wtpl->setVariable("NOTES", $this->getNotesHTML($this->getBlogPosting(),
 				false, $this->enable_public_notes, $may_delete_comments, $callback));
 		}
@@ -857,7 +870,19 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 			(int)round($src_width*$shrink_ratio), 
 			(int)round($src_height*$shrink_ratio)
 		);
-	}	
+	}
+
+	/**
+	 * Get disabled text
+	 *
+	 * @param
+	 * @return
+	 */
+	function getDisabledText()
+	{
+		return $this->lng->txt("blog_draft_text");
+	}
+
 }
 
 ?>

@@ -190,16 +190,25 @@ class ilLOUtils
 	protected static function buildQplTitleByDefinition(ilTestRandomQuestionSetSourcePoolDefinition $def, ilTestTaxonomyFilterLabelTranslater $trans)
 	{
 		$title = $def->getPoolTitle();
-		$tax_id = $def->getMappedFilterTaxId();
-		if($tax_id)
+		// fau: taxFilter/typeFilter - get title for extended filter conditions
+		$filterTitle = array();
+		$filterTitle[] = $trans->getTaxonomyFilterLabel($def->getMappedTaxonomyFilter());
+		$filterTitle[] = $trans->getTypeFilterLabel($def->getTypeFilter());
+		if (!empty($filterTitle))
 		{
-			$title .= (' -> '. $trans->getTaxonomyTreeLabel($tax_id));
+			$title .= ' -> '.implode(' / ',  $filterTitle);
 		}
-		$tax_node = $def->getMappedFilterTaxNodeId();
-		if($tax_node)
-		{
-			$title .= (' -> ' .$trans->getTaxonomyNodeLabel($tax_node));
-		}
+		#$tax_id = $def->getMappedFilterTaxId();
+		#if($tax_id)
+		#{
+		#	$title .= (' -> '. $trans->getTaxonomyTreeLabel($tax_id));
+		#}
+		#$tax_node = $def->getMappedFilterTaxNodeId();
+		#if($tax_node)
+		#{
+		#	$title .= (' -> ' .$trans->getTaxonomyNodeLabel($tax_node));
+		#}
+		// fau.
 		return $title;
 	}
 	

@@ -1,0 +1,16 @@
+<div class="il-orgunit-authority">
+	<!-- BEGIN inline_in_bl -->
+	<div class="form-inline">
+		<!-- END inline_in_bl -->
+		<!-- BEGIN authority -->
+		<!-- END authority -->
+		<input type="hidden" name="{POST_VAR}[{AUTHORITY_ID}][id]" value="{AUTHORITY_ID}">
+		<input type="hidden" name="{POST_VAR}[{AUTHORITY_ID}][position_id]" value="{POSITION_ID}">
+		<select class="form-control" id="{POST_VAR}[{AUTHORITY_ID}][over]" name="{POST_VAR}[{AUTHORITY_ID}][over]">{OVER_OPTIONS}</select>
+		<select class="form-control" id="{POST_VAR}[{AUTHORITY_ID}][scope]" name="{POST_VAR}[{AUTHORITY_ID}][scope]">{SCOPE_OPTIONS}</select>
+		<!-- BEGIN inline_out_bl -->    {MULTI_ICONS}
+	</div><!-- END inline_out_bl -->
+</div>
+<script>
+    $('.il-orgunit-authority').ilOrgUnitAuthorityInput({}, '{DATA}');
+</script>

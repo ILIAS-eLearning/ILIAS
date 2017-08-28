@@ -1,5 +1,4 @@
 <?php
-
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 //require_once "./Services/Object/classes/class.ilObject.php";
 
@@ -9,6 +8,7 @@
 * Class for scorm offline player connection
 *
 * @author Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
+* @author Stefan Schneider <schneider@hrz.uni-marburg.de>
 * @version $Id: class.ilSCORMOfflineMode.php  $
 *
 * @ingroup ModulesScormAicc
@@ -18,6 +18,24 @@ class ilSCORMOfflineMode
 	var $type;
 	var $obj_id;
 	var $offlineMode;
+	var $cmd_url;
+	var $lm_cmd_url;
+	var $player12_url;
+	var $player2004_url;
+	var $som_url;
+	
+	var $sop_dir;
+	var $som_dir;
+	var $scripts_dir;
+	
+	var $sop_index;
+	var $sop_appcache;
+	var $lm_dir;
+	var $lm_index;
+	var $lm_appcache;
+	var $lm_imsmanifest_xml;
+	var $imsmanifest;
+	var $debug = false; // omit caching sop and som files for debugging
 
 	/**
 	* Constructor
@@ -33,12 +51,81 @@ class ilSCORMOfflineMode
 		$this->obj_id = ilObject::_lookupObjectId($_GET['ref_id']);
 		include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
 		$this->type = ilObjSAHSLearningModule::_lookupSubType($this->obj_id);
+		$this->cmd_url = './ilias.php?baseClass=ilSAHSPresentationGUI&cmd=';
+		$this->lm_cmd_url = './ilias.php?baseClass=ilSAHSPresentationGUI&ref_id=' . $this->id . '&cmd=';
+		$this->player12_url = $this->cmd_url . 'offlineMode_player12';
+		$this->player2004_url = $this->cmd_url . 'offlineMode_player2004'; // ToDo: does not exist yet
+		$this->som_url = $this->cmd_url . 'offlineMode_som';
+		$this->offlineMode = 'online';
+		$this->sop_index = './Modules/ScormAicc/sop/sop_index.html';
+		$this->sop_appcache = './Modules/ScormAicc/sop/sop.appcache';
+		$this->sop_dir = './Modules/ScormAicc/templates/sop/';
+		$this->som_dir = './Modules/ScormAicc/templates/som/';
+		$this->scripts_dir = './Modules/ScormAicc/scripts/';
 		$this->read();
 	}
+	
+	function getSopManifestEntries() { // ToDo: database support !!
+		global $log;
+		$log->write("getSopManifestEntries");
+		$manifest_string = "";
+		if (!$this->debug) {
+			$manifest_string .= $this->player12_url . "\n";
+			$manifest_string .= $this->som_url . "\n";
+			$objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->sop_dir));
+			foreach($objects as $name => $object) {
+				if (preg_match('/\/\.+/',$name)) {
+					continue;
+				}
+				//$manifest_string .= preg_replace('/^\./','./Modules/ScormAicc',$name) . "\n"; // for cli
+				$manifest_string .= self::encodeuri($name) . "\n";
+			}
+			$objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->som_dir));
+			foreach($objects as $name => $object) {
+				if (preg_match('/\/\.+/',$name)) {
+					continue;
+				}
+				//$manifest_string .= preg_replace('/^\./','./Modules/ScormAicc',$name) . "\n"; // for cli
+				$manifest_string .= self::encodeuri($name) . "\n";
+			}
+			
+			$objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->scripts_dir));
+			foreach($objects as $name => $object) {
+				if (preg_match('/\/\.+/',$name)) {
+					continue;
+				}
+				//$manifest_string .= preg_replace('/^\./','./Modules/ScormAicc',$name) . "\n"; // for cli
+				$manifest_string .= self::encodeuri($name) . "\n";
+			}
+		}
+		$log->write($manifest_string);
+		return $manifest_string;
+	}
+	
+	function getLmManifestEntries() { // ToDo: database support !!
+		global $log;
+		$log->write("getLmManifestEntries");
+		$this->lm_dir = ilUtil::getWebspaceDir("filesystem").'/lm_data/lm_'.$this->obj_id;
+		$manifest_string = "";
+		$objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->lm_dir));
+		foreach($objects as $name => $object) {
+			if (preg_match('/\/\.+/',$name)) {
+				continue;
+			}
+			if (preg_match('/\.zip$/',$name)) {
+				continue;
+			}
+			//$manifest_string .= preg_replace('/^\./','./Modules/ScormAicc',$name) . "\n"; // for cli
+			$manifest_string .= self::encodeuri($name) . "\n";
+		}
+		$log->write($manifest_string);
+		return $manifest_string;
+	}
 
-	function il2sop() {
+	// function il2sop() {
+	function tracking2sop() {
 		global $ilUser, $ilias;
-		$this->setOfflineMode("il2sop");
+		// $this->setOfflineMode("il2sop");
 		header('Content-Type: text/javascript; charset=UTF-8');
 
 		include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
@@ -78,6 +165,7 @@ class ilSCORMOfflineMode
 			$cmi = json_decode(ilObjSCORMInitData::getIliasScormData($this->obj_id));
 			$max_attempt = ilObjSCORMInitData::get_max_attempts($this->obj_id);
 		}
+		//UK max_attempt weg!
 		if ($max_attempt == null) $max_attempt = 0;
 		$result = array(
 			'client_data' => array(
@@ -284,7 +372,7 @@ class ilSCORMOfflineMode
 		);
 		while($row = $ilDB->fetchAssoc($res))
 		{
-			if ($row['offline_mode'] != null) {
+			if ($row['offline_mode'] != null && $row['offline_mode'] != '') {
 				$this->offlineMode = $row['offline_mode'];
 			} else {
 				$this->offlineMode = "online";
@@ -325,4 +413,9 @@ class ilSCORMOfflineMode
 			array($obj_id,$user_id)
 		);
 	}
+
+	public static function encodeuri($path) {
+		return implode('/', array_map('rawurlencode', explode('/', $path)));
+	}
+
 }

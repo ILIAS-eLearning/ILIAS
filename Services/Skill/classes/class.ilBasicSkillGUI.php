@@ -838,5 +838,37 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 		$ilCtrl->redirect($this, "showLevelResources");
 	}
 
+	/**
+	 * Save resource settings
+	 *
+	 * @param
+	 * @return
+	 */
+	function saveResourceSettings()
+	{
+		global $ilCtrl;
+
+		include_once("./Services/Skill/classes/class.ilSkillResources.php");
+		$resources = new ilSkillResources($this->base_skill_id, $this->tref_id);
+
+		foreach ($resources->getResourcesOfLevel((int) $_GET["level_id"]) as $r)
+		{
+			$imparting = false;
+			if (is_array($_POST["suggested"]) && isset($_POST["suggested"][$r["rep_ref_id"]]) && $_POST["suggested"][$r["rep_ref_id"]])
+			{
+				$imparting = true;
+			}
+			$trigger = false;
+			if (is_array($_POST["trigger"]) && isset($_POST["trigger"][$r["rep_ref_id"]]) && $_POST["trigger"][$r["rep_ref_id"]])
+			{
+				$trigger = true;
+			}
+			$resources->setResourceAsImparting((int) $_GET["level_id"], $r["rep_ref_id"], $imparting);
+			$resources->setResourceAsTrigger((int) $_GET["level_id"], $r["rep_ref_id"], $trigger);
+		}
+		$resources->save();
+
+		$ilCtrl->redirect($this, "showLevelResources");
+	}
 }
 ?>

@@ -18833,7 +18833,6 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#5098>
 <?php
-
 include_once './Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
 ilDBUpdateNewObjectType::addRBACTemplate(
 	'sess', 
@@ -19179,4 +19178,1438 @@ if( !$ilDB->tableExists('adv_md_values_intlink') )
 <#5106>
 <?php
 	$ilCtrlStructureReader->getStructure();
+?>
+<#5107>
+<?php
+if (!$ilDB->tableColumnExists('iass_settings', 'event_time_place_required')) {
+	$ilDB->addTableColumn('iass_settings', 'event_time_place_required', array(
+	"type" => "integer",
+	"length" => 1,
+	"notnull" => true,
+	"default" => 0
+	));
+}
+?>
+<#5108>
+<?php
+if (!$ilDB->tableColumnExists('iass_members', 'place')) {
+	$ilDB->addTableColumn('iass_members', 'place', array(
+	"type" => "text",
+	"length" => 255
+	));
+}
+?>
+<#5109>
+<?php
+if (!$ilDB->tableColumnExists('iass_members', 'event_time')) {
+	$ilDB->addTableColumn('iass_members', 'event_time', array(
+	"type" => "integer",
+	"length" => 8
+	));
+}
+?>
+<#5110>
+<?php
+
+if(!$ilDB->tableColumnExists("il_object_def", "orgunit_permissions"))
+{
+	$def = array(
+			'type'    => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 0
+		);
+	$ilDB->addTableColumn("il_object_def", "orgunit_permissions", $def);
+}
+
+$ilCtrlStructureReader->getStructure();
+?>
+<#5111>
+<?php
+if(!$ilDB->tableExists('orgu_obj_type_settings') )
+{
+	$ilDB->createTable('orgu_obj_type_settings', array(
+		'obj_type' => array(
+			'type' => 'text',
+			'length' => 10,
+			'notnull' => true
+		),
+		'active' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		),
+		'activation_default' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		),
+		'changeable' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		)
+		)
+	);
+	$ilDB->addPrimaryKey('orgu_obj_type_settings', array('obj_type'));
+}
+?>
+<#5112>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5113>
+<?php
+if(!$ilDB->tableColumnExists('grp_settings', 'grp_start'))
+{
+		$ilDB->addTableColumn('grp_settings', 'grp_start', array(
+			"type" => "integer",
+			"notnull" => false,
+			"length" => 4
+		));
+}
+if(!$ilDB->tableColumnExists('grp_settings', 'grp_end'))
+{
+		$ilDB->addTableColumn('grp_settings', 'grp_end', array(
+			"type" => "integer",
+			"notnull" => false,
+			"length" => 4
+		));
+}
+?>	
+<#5114>
+<?php
+if (!$ilDB->tableExists("usr_starting_point"))
+{
+	$ilDB->createTable("usr_starting_point", array(
+		"id" => array(
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => true,
+			"default" => 0
+		),
+		"position" => array(
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => false,
+			"default" => 0
+		),
+		"starting_point" => array (
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => false,
+			"default" => 0
+		),
+		"starting_object" => array (
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => false,
+			"default" => 0
+		),
+		"rule_type" => array (
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => false,
+			"default" => 0
+		),
+		"rule_options" => array (
+			"type" => "text",
+			"length" => 4000,
+			"notnull" => false,
+		)
+	));
+
+	$ilDB->addPrimaryKey('usr_starting_point', array('id'));
+	$ilDB->createSequence('usr_starting_point');
+}
+?>
+<#5115>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5116>
+<?php
+if($ilDB->tableExists("exc_assignment"))
+{
+	if(!$ilDB->tableColumnExists('exc_assignment','portfolio_template'))
+	{
+		$ilDB->addTableColumn("exc_assignment", "portfolio_template", array("type" => "integer", "length" => 4));
+	}
+	if(!$ilDB->tableColumnExists('exc_assignment','min_char_limit'))
+	{
+		$ilDB->addTableColumn("exc_assignment", "min_char_limit", array("type" => "integer", "length" => 4));
+	}
+	if(!$ilDB->tableColumnExists('exc_assignment','max_char_limit'))
+	{
+		$ilDB->addTableColumn("exc_assignment", "max_char_limit", array("type" => "integer", "length" => 4));
+	}
+}
+?>
+<#5117>
+<?php
+if(!$ilDB->tableExists("exc_ass_file_order"))
+{
+	$fields = array(
+		"id" => array(
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => true,
+			"default" => 0
+		),
+		"assignment_id" => array(
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => true,
+			"default" => 0
+		),
+		"filename" => array(
+			"type" => "text",
+			"length" => 150,
+			"notnull" => true,
+		),
+		"order_nr" => array(
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => true,
+			"default" => 0
+		),
+	);
+
+	$ilDB->createTable("exc_ass_file_order", $fields);
+	$ilDB->addPrimaryKey('exc_ass_file_order', array('id'));
+
+	$ilDB->createSequence("exc_ass_file_order");
+}
+?>
+<#5118>
+<?php
+	//
+?>
+<#5119>
+<?php
+	if(!$ilDB->tableExists("obj_noti_settings"))
+	{
+		$fields = array(
+			"obj_id" => array(
+				"type" => "integer",
+				"length" => 4,
+				"notnull" => true,
+				"default" => 0
+			),
+			"noti_mode" => array(
+				"type" => "integer",
+				"length" => 1,
+				"notnull" => true,
+				"default" => 0
+			)
+		);
+
+		$ilDB->createTable("obj_noti_settings", $fields);
+		$ilDB->addPrimaryKey('obj_noti_settings', array('obj_id'));
+	}
+?>
+<#5120>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5121>
+<?php
+
+if(!$ilDB->tableColumnExists('notification','activated'))
+{
+	$ilDB->addTableColumn(
+		'notification',
+		'activated',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		));
+
+	$ilDB->manipulate("UPDATE notification SET ".
+		" activated = ".$this->db->quote(1, "integer"));
+}
+?>
+<#5122>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5123>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5124>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5125>
+<?php
+if(!$ilDB->tableColumnExists('itgr_data','behaviour'))
+{
+	$ilDB->addTableColumn(
+		'itgr_data',
+		'behaviour',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		)
+	);
+}
+?>
+<#5126>
+<?php
+	$ilSetting = new ilSetting();
+	$ilSetting->set('letter_avatars', 1);
+?>
+<#5127>
+<?php
+
+	if (!$ilDB->tableExists('pdfgen_conf'))
+	{
+		$fields = array (
+			'conf_id'			=> array('type' => 'integer', 	'length' => 4,		'notnull' => true),
+			'renderer'			=> array('type' => 'text', 		'length' => 255,	'notnull' => true),
+			'service'			=> array('type' => 'text',	  	'length' => 255,	'notnull' => true),
+			'purpose'			=> array('type' => 'text',		'length' => 255,	'notnull' => true),
+			'config'			=> array('type' => 'clob')
+		);
+
+		$ilDB->createTable('pdfgen_conf', $fields);
+		$ilDB->addPrimaryKey('pdfgen_conf', array('conf_id'));
+		$ilDB->createSequence('pdfgen_conf');
+	}
+
+	if (!$ilDB->tableExists('pdfgen_map'))
+	{
+		$fields = array (
+			'map_id'			=> array('type' => 'integer', 	'length' => 4,		'notnull' => true),
+			'service'			=> array('type' => 'text', 		'length' => 255,	'notnull' => true),
+			'purpose'			=> array('type' => 'text',	  	'length' => 255,	'notnull' => true),
+			'preferred'			=> array('type' => 'text',		'length' => 255,	'notnull' => true),
+			'selected'			=> array('type' => 'text',		'length' => 255,	'notnull' => true)
+	);
+
+	$ilDB->createTable('pdfgen_map', $fields);
+	$ilDB->addPrimaryKey('pdfgen_map', array('map_id'));
+	$ilDB->createSequence('pdfgen_map');
+}
+?>
+<#5128>
+	<?php
+		if (!$ilDB->tableExists('pdfgen_purposes'))
+		{
+			$fields = array (
+				'purpose_id'		=> array('type' => 'integer', 	'length' => 4,		'notnull' => true),
+				'service'			=> array('type' => 'text', 		'length' => 255,	'notnull' => true),
+				'purpose'			=> array('type' => 'text',	  	'length' => 255,	'notnull' => true),
+			);
+
+			$ilDB->createTable('pdfgen_purposes', $fields);
+			$ilDB->addPrimaryKey('pdfgen_purposes', array('purpose_id'));
+			$ilDB->createSequence('pdfgen_purposes');
+		}
+	?>
+<#5129>
+<?php
+	include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+	ilDBUpdateNewObjectType::addAdminNode('pdfg', 'PDFGeneration');
+?>
+<#5130>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5131>
+<?php
+	if (!$ilDB->tableExists('pdfgen_renderer'))
+	{
+		$fields = array (
+		'renderer_id'	=> array('type' => 'integer', 	'length' => 4,		'notnull' => true),
+		'renderer'		=> array('type' => 'text',	  	'length' => 255,	'notnull' => true),
+		'path'			=> array('type' => 'text',	  	'length' => 255,	'notnull' => true),
+		);
+
+		$ilDB->createTable('pdfgen_renderer', $fields);
+		$ilDB->addPrimaryKey('pdfgen_renderer', array('renderer_id'));
+		$ilDB->createSequence('pdfgen_renderer');
+	}
+
+	if (!$ilDB->tableExists('pdfgen_renderer_avail'))
+	{
+		$fields = array (
+		'availability_id'	=> array('type' => 'integer', 	'length' => 4,		'notnull' => true),
+		'service'			=> array('type' => 'text', 		'length' => 255,	'notnull' => true),
+		'purpose'			=> array('type' => 'text',	  	'length' => 255,	'notnull' => true),
+		'renderer'			=> array('type' => 'text',	  	'length' => 255,	'notnull' => true),
+	);
+
+	$ilDB->createTable('pdfgen_renderer_avail', $fields);
+	$ilDB->addPrimaryKey('pdfgen_renderer_avail', array('availability_id'));
+	$ilDB->createSequence('pdfgen_renderer_avail');
+}
+?>
+<#5132>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5133>
+<?php
+	$ilDB->insert('pdfgen_renderer',
+		array(
+		'renderer_id' => array('integer', $ilDB->nextId('pdfgen_renderer')),
+		'renderer'	=> array('text', 'TCPDF'),
+		'path'		=> array('text', 'Services/PDFGeneration/classes/renderer/tcpdf/class.ilTCPDFRenderer.php')
+		)
+	);
+?>
+<#5134>
+<?php
+	$ilDB->insert('pdfgen_renderer',
+		array(
+		'renderer_id' => array('integer',$ilDB->nextId('pdfgen_renderer')),
+		'renderer'	=> array('text','PhantomJS'),
+		'path'		=> array('text','Services/PDFGeneration/classes/renderer/phantomjs/class.ilPhantomJSRenderer.php')
+		)
+	);
+?>
+<#5135>
+<?php
+	$ilDB->insert('pdfgen_renderer_avail',
+		array(
+		'availability_id' => array('integer', $ilDB->nextId('pdfgen_renderer_avail')),
+		'service' 	=> array('text', 'Test'),
+		'purpose' 	=> array('text', 'PrintViewOfQuestions'),
+		'renderer'	=> array('text', 'PhantomJS')
+		)
+	);
+?>
+<#5136>
+<?php
+	$ilDB->insert('pdfgen_renderer_avail',
+		array(
+			'availability_id' => array('integer', $ilDB->nextId('pdfgen_renderer_avail')),
+			'service' 	=> array('text', 'Test'),
+			'purpose' 	=> array('text', 'UserResult'),
+			'renderer'	=> array('text', 'PhantomJS')
+		)
+	);
+?>
+<#5137>
+<?php
+	$ilDB->insert('pdfgen_renderer_avail',
+		array(
+			'availability_id' => array('integer', $ilDB->nextId('pdfgen_renderer_avail')),
+			'service' 	=> array('text', 'Test'),
+			'purpose' 	=> array('text', 'PrintViewOfQuestions'),
+			'renderer'	=> array('text', 'TCPDF')
+		)
+	);
+?>
+<#5138>
+<?php
+$ilDB->insert('pdfgen_renderer_avail',
+	array(
+		'availability_id' => array('integer', $ilDB->nextId('pdfgen_renderer_avail')),
+		'service' 	=> array('text', 'Test'),
+		'purpose' 	=> array('text', 'UserResult'),
+		'renderer'	=> array('text', 'TCPDF')
+	)
+);
+?>
+<#5139>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5140>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5141>
+<?php
+if(!$ilDB->tableColumnExists('lm_data','short_title'))
+{
+	$ilDB->addTableColumn(
+		'lm_data',
+		'short_title',
+		array(
+			'type' => 'text',
+			'length' => 200,
+			'default' => ''
+		));
+}
+?>
+<#5142>
+<?php
+if(!$ilDB->tableColumnExists('lm_data_transl','short_title'))
+{
+	$ilDB->addTableColumn(
+		'lm_data_transl',
+		'short_title',
+		array(
+			'type' => 'text',
+			'length' => 200,
+			'default' => ''
+		));
+}
+?>
+<#5143>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$iass_type_id = ilDBUpdateNewObjectType::getObjectTypeId('iass');
+if ($iass_type_id) {
+	$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation(
+		'amend_grading',
+		'Amend grading',
+		'object',
+		8200
+	);
+	if ($new_ops_id) {
+		ilDBUpdateNewObjectType::addRBACOperation($iass_type_id, $new_ops_id);
+	}
+}
+?>
+<#5144>
+<?php
+if (!$ilDB->tableExists('cont_skills'))
+{
+	$ilDB->createTable('cont_skills', array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'skill_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'tref_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+
+	$ilDB->addPrimaryKey('cont_skills',array('id','skill_id','tref_id'));
+}
+?>
+<#5145>
+<?php
+if (!$ilDB->tableExists('cont_member_skills'))
+{
+	$ilDB->createTable('cont_member_skills', array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'tref_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'skill_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'level_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'published' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+
+	$ilDB->addPrimaryKey('cont_member_skills',array('obj_id','user_id','skill_id', 'tref_id'));
+}
+?>
+<#5146>
+<?php
+	include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+	$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('grade', 'Grade', 'object', 2410);
+	$type_id = ilDBUpdateNewObjectType::getObjectTypeId('crs');
+	if($type_id && $new_ops_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($type_id, $new_ops_id);
+	}
+	$type_id2 = ilDBUpdateNewObjectType::getObjectTypeId('grp');
+	if($type_id2 && $new_ops_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($type_id2, $new_ops_id);
+	}
+?>
+<#5147>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+	$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('manage_members');
+	$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('grade');
+	ilDBUpdateNewObjectType::cloneOperation('crs', $src_ops_id, $tgt_ops_id);
+	ilDBUpdateNewObjectType::cloneOperation('grp', $src_ops_id, $tgt_ops_id);
+?>
+
+<#5148>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+	$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('manage_members');
+	$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('grade');
+	ilDBUpdateNewObjectType::cloneOperation('crs', $src_ops_id, $tgt_ops_id);
+	ilDBUpdateNewObjectType::cloneOperation('grp', $src_ops_id, $tgt_ops_id);
+?>
+
+<#5149>
+<?php
+if( !$ilDB->tableColumnExists('tst_rnd_quest_set_qpls', 'origin_tax_filter'))
+{
+	$ilDB->addTableColumn('tst_rnd_quest_set_qpls', 'origin_tax_filter',
+		array('type' => 'text', 'length' => 4000, 'notnull'	=> false, 'default'	=> null)
+	);
+}
+?>
+
+<#5150>
+<?php
+if( !$ilDB->tableColumnExists('tst_rnd_quest_set_qpls', 'mapped_tax_filter'))
+{
+	$ilDB->addTableColumn('tst_rnd_quest_set_qpls', 'mapped_tax_filter',
+		array('type' => 'text', 'length' => 4000, 'notnull'	=> false, 'default'	=> null)
+	);
+}
+?>
+
+<#5151>
+<?php
+$query = "SELECT * FROM tst_rnd_quest_set_qpls WHERE origin_tax_fi IS NOT NULL OR mapped_tax_fi IS NOT NULL";
+$result = $ilDB->query($query);
+while ($row = $ilDB->fetchObject($result))
+{
+	if (!empty($row->origin_tax_fi))
+	{
+		$origin_tax_filter = serialize(array((int) $row->origin_tax_fi => array((int) $row->origin_node_fi)));
+	}
+	else
+	{
+		$origin_tax_filter = null;
+	}
+
+	if (!empty($row->mapped_tax_fi))
+	{
+		$mapped_tax_filter = serialize(array((int) $row->mapped_tax_fi => array((int) $row->mapped_node_fi)));
+	}
+	else
+	{
+		$mapped_tax_filter = null;
+	}
+
+	$update = "UPDATE tst_rnd_quest_set_qpls SET "
+		. " origin_tax_fi = NULL, origin_node_fi = NULL, mapped_tax_fi = NULL, mapped_node_fi = NULL, "
+		. " origin_tax_filter = " . $ilDB->quote($origin_tax_filter, 'text'). ", "
+		. " mapped_tax_filter = " . $ilDB->quote($mapped_tax_filter, 'text')
+		. " WHERE def_id = " . $ilDB->quote($row->def_id);
+
+	$ilDB->manipulate($update);
+}
+?>
+<#5152>
+<?php
+if( !$ilDB->tableColumnExists('tst_rnd_quest_set_qpls', 'type_filter'))
+{
+	$ilDB->addTableColumn('tst_rnd_quest_set_qpls', 'type_filter',
+		array('type' => 'text', 'length' => 250, 'notnull'	=> false, 'default'	=> null)
+	);
+}
+?>
+<#5153>
+<?php
+	include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+	$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('edit_page_meta', 'Edit Page Metadata', 'object', 3050);
+	$type_id = ilDBUpdateNewObjectType::getObjectTypeId('wiki');
+	if($type_id && $new_ops_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($type_id, $new_ops_id);
+	}
+?>
+<#5154>
+<?php
+	include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+	$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+	$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_page_meta');
+	ilDBUpdateNewObjectType::cloneOperation('wiki', $src_ops_id, $tgt_ops_id);
+?>
+<#5155>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5156>
+<?php
+if(!$ilDB->tableExists('saml_attribute_mapping'))
+{
+	$ilDB->createTable(
+		'saml_attribute_mapping',
+		array(
+			'idp_id'        => array(
+				'type'    => 'integer',
+				'length'  => 4,
+				'notnull' => true
+			),
+			'attribute'     => array(
+				'type'    => 'text',
+				'length'  => '75',
+				'notnull' => true
+			),
+			'idp_attribute' => array(
+				'type'    => 'text',
+				'length'  => '1000',
+				'notnull' => false,
+				'default' => null
+			),
+		)
+	);
+}
+?>
+
+<#5157>
+<?php
+$ilDB->addPrimaryKey('saml_attribute_mapping', array('idp_id', 'attribute'));
+?>
+<#5158>
+<?php
+if(!$ilDB->tableColumnExists('saml_attribute_mapping', 'idp_attribute'))
+{
+	$ilDB->modifyTableColumn('saml_attribute_mapping', 'idp_attribute', array(
+		'type'    => 'text',
+		'length'  => '1000',
+		'notnull' => false,
+		'default' => null
+	));
+}
+?>
+<#5159>
+<?php
+if(!$ilDB->tableColumnExists('saml_attribute_mapping', 'update_automatically'))
+{
+	$ilDB->addTableColumn('saml_attribute_mapping', 'update_automatically', array(
+		'type'    => 'integer',
+		'length'  => 1,
+		'notnull' => true,
+		'default' => 0
+	));
+}
+?>
+<#5160>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5161>
+<?php
+if(!$ilDB->tableExists('saml_idp_settings'))
+{
+	$ilDB->createTable(
+		'saml_idp_settings',
+		array(
+			'idp_id'        => array(
+				'type'    => 'integer',
+				'length'  => 4,
+				'notnull' => true
+			),
+			'is_active'     => array(
+				'type'    => 'integer',
+				'length'  => 1,
+				'notnull' => true
+			)
+		)
+	);
+}
+?>
+<#5162>
+<?php
+$ilDB->addPrimaryKey('saml_idp_settings', array('idp_id'));
+?>
+<#5163>
+<?php
+if(!$ilDB->tableColumnExists('saml_idp_settings', 'allow_local_auth'))
+{
+	$ilDB->addTableColumn('saml_idp_settings', 'allow_local_auth',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		)
+	);
+}
+if(!$ilDB->tableColumnExists('saml_idp_settings', 'default_role_id'))
+{
+	$ilDB->addTableColumn('saml_idp_settings', 'default_role_id',
+		array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	);
+}
+if(!$ilDB->tableColumnExists('saml_idp_settings', 'uid_claim'))
+{
+	$ilDB->addTableColumn('saml_idp_settings', 'uid_claim',
+		array(
+			'type' => 'text',
+			'length' => 1000,
+			'notnull' => false,
+			'default' => null
+		)
+	);
+}
+if(!$ilDB->tableColumnExists('saml_idp_settings', 'login_claim'))
+{
+	$ilDB->addTableColumn('saml_idp_settings', 'login_claim',
+		array(
+			'type' => 'text',
+			'length' => 1000,
+			'notnull' => false,
+			'default' => null
+		)
+	);
+}
+if(!$ilDB->tableColumnExists('saml_idp_settings', 'sync_status'))
+{
+	$ilDB->addTableColumn('saml_idp_settings', 'sync_status',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		)
+	);
+}
+if(!$ilDB->tableColumnExists('saml_idp_settings', 'account_migr_status'))
+{
+	$ilDB->addTableColumn('saml_idp_settings', 'account_migr_status',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		)
+	);
+}
+?>
+<#5164>
+<?php
+if(!$ilDB->tableExists('auth_ext_attr_mapping') && $ilDB->tableExists('saml_attribute_mapping'))
+{
+	$ilDB->renameTable('saml_attribute_mapping', 'auth_ext_attr_mapping');
+}
+?>
+<#5165>
+<?php
+if(!$ilDB->tableColumnExists('auth_ext_attr_mapping', 'auth_src_id') && $ilDB->tableColumnExists('auth_ext_attr_mapping', 'idp_id'))
+{
+	$ilDB->renameTableColumn('auth_ext_attr_mapping', 'idp_id', 'auth_src_id');
+}
+?>
+<#5166>
+<?php
+if(!$ilDB->tableColumnExists('auth_ext_attr_mapping', 'auth_mode'))
+{
+	$ilDB->addTableColumn('auth_ext_attr_mapping', 'auth_mode', array(
+		'type'    => 'text',
+		'notnull' => false,
+		'length'  => 50
+	));
+}
+?>
+<#5167>
+<?php
+// This migrates existing records
+$ilDB->manipulate('UPDATE auth_ext_attr_mapping SET auth_mode = ' . $ilDB->quote('saml', 'text'));
+?>
+<#5168>
+<?php
+$ilDB->dropPrimaryKey('auth_ext_attr_mapping');
+?>
+<#5169>
+<?php
+$ilDB->addPrimaryKey('auth_ext_attr_mapping', array('auth_mode', 'auth_src_id', 'attribute'));
+?>
+<#5170>
+<?php
+if(!$ilDB->tableColumnExists('auth_ext_attr_mapping', 'ext_attribute') && $ilDB->tableColumnExists('auth_ext_attr_mapping', 'idp_attribute'))
+{
+	$ilDB->renameTableColumn('auth_ext_attr_mapping', 'idp_attribute', 'ext_attribute');
+}
+?>
+<#5171>
+<?php
+if(!$ilDB->sequenceExists('saml_idp_settings'))
+{
+	$ilDB->createSequence('saml_idp_settings');
+}
+?>
+<#5172>
+<?php
+if(!$ilDB->tableColumnExists('saml_idp_settings', 'entity_id'))
+{
+	$ilDB->addTableColumn('saml_idp_settings', 'entity_id',
+		array(
+			'type' => 'text',
+			'length' => 1000,
+			'notnull' => false,
+			'default' => null
+		)
+	);
+}
+?>
+
+<#5173>
+<?php
+if($ilDB->tableExists('cal_categories_hidden') )
+{
+	$ilDB->renameTable('cal_categories_hidden', 'cal_cat_visibility');
+	$ilDB->addTableColumn('cal_cat_visibility', 'obj_id', array(
+		"type" => "integer",
+		"length" => 4,
+		"notnull" => true,
+		"default" => 0
+	));
+	$ilDB->addTableColumn('cal_cat_visibility', 'visible', array(
+		"type" => "integer",
+		"length" => 1,
+		"notnull" => true,
+		"default" => 0
+	));
+}
+?>
+<#5174>
+<?php
+if($ilDB->tableExists('cal_cat_visibility'))
+{
+	$ilDB->dropPrimaryKey('cal_cat_visibility');
+		$ilDB->addPrimaryKey('cal_cat_visibility', array('user_id','cat_id','obj_id'));
+}
+?>
+<#5175>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5176>
+<?php
+$fields = array(
+	'id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'title' => array(
+		'type' => 'text',
+		'length' => '512',
+
+	),
+	'description' => array(
+		'type' => 'text',
+		'length' => '4000',
+
+	),
+	'core_position' => array(
+		'type' => 'integer',
+		'length' => '1',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_orgu_positions')) {
+	$ilDB->createTable('il_orgu_positions', $fields);
+	$ilDB->addPrimaryKey('il_orgu_positions', array( 'id' ));
+
+	if (! $ilDB->sequenceExists('il_orgu_positions')) {
+		$ilDB->createSequence('il_orgu_positions');
+	}
+
+}
+?>
+<#5177>
+<?php
+$fields = array(
+	'id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'over' => array(
+		'type' => 'integer',
+		'length' => '1',
+
+	),
+	'scope' => array(
+		'type' => 'integer',
+		'length' => '1',
+
+	),
+	'position_id' => array(
+		'type' => 'integer',
+		'length' => '1',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_orgu_authority')) {
+	$ilDB->createTable('il_orgu_authority', $fields);
+	$ilDB->addPrimaryKey('il_orgu_authority', array( 'id' ));
+
+	if (! $ilDB->sequenceExists('il_orgu_authority')) {
+		$ilDB->createSequence('il_orgu_authority');
+	}
+
+}
+?>
+<#5178>
+<?php
+$fields = array(
+	'id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'user_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'position_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'orgu_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_orgu_ua')) {
+	$ilDB->createTable('il_orgu_ua', $fields);
+	$ilDB->addPrimaryKey('il_orgu_ua', array( 'id' ));
+
+	if (! $ilDB->sequenceExists('il_orgu_ua')) {
+		$ilDB->createSequence('il_orgu_ua');
+	}
+
+}
+?>
+<#5179>
+<?php
+$fields = array(
+	'operation_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'operation_string' => array(
+		'type' => 'text',
+		'length' => '16',
+
+	),
+	'description' => array(
+		'type' => 'text',
+		'length' => '512',
+
+	),
+	'list_order' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'context_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_orgu_operations')) {
+	$ilDB->createTable('il_orgu_operations', $fields);
+	$ilDB->addPrimaryKey('il_orgu_operations', array( 'operation_id' ));
+
+	if (! $ilDB->sequenceExists('il_orgu_operations')) {
+		$ilDB->createSequence('il_orgu_operations');
+	}
+
+}
+?>
+<#5180>
+<?php
+$fields = array(
+	'id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'context' => array(
+		'type' => 'text',
+		'length' => '16',
+
+	),
+	'parent_context_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_orgu_op_contexts')) {
+	$ilDB->createTable('il_orgu_op_contexts', $fields);
+	$ilDB->addPrimaryKey('il_orgu_op_contexts', array( 'id' ));
+
+	if (! $ilDB->sequenceExists('il_orgu_op_contexts')) {
+		$ilDB->createSequence('il_orgu_op_contexts');
+	}
+
+}
+?>
+<#5181>
+<?php
+$fields = array(
+	'id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'context_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'operations' => array(
+		'type' => 'text',
+		'length' => '2048',
+
+	),
+	'parent_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'position_id' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_orgu_permissions')) {
+	$ilDB->createTable('il_orgu_permissions', $fields);
+	$ilDB->addPrimaryKey('il_orgu_permissions', array( 'id' ));
+
+	if (! $ilDB->sequenceExists('il_orgu_permissions')) {
+		$ilDB->createSequence('il_orgu_permissions');
+	}
+
+}
+?>
+<#5182>
+<?php
+$ilOrgUnitPositionEmployee = new ilOrgUnitPosition();
+$ilOrgUnitPositionEmployee->setTitle("Employees");
+$ilOrgUnitPositionEmployee->setDescription("Employees of a OrgUnit");
+$ilOrgUnitPositionEmployee->setCorePosition(true);
+$ilOrgUnitPositionEmployee->create();
+$employee_position_id = $ilOrgUnitPositionEmployee->getId();
+
+$ilOrgUnitPositionSuperior = new ilOrgUnitPosition();
+$ilOrgUnitPositionSuperior->setTitle("Superiors");
+$ilOrgUnitPositionSuperior->setDescription("Superiors of a OrgUnit");
+$ilOrgUnitPositionSuperior->setCorePosition(true);
+
+// Authority
+$Sup = new ilOrgUnitAuthority();
+$Sup->setScope(ilOrgUnitAuthority::SCOPE_SAME_ORGU);
+$Sup->setOver($ilOrgUnitPositionEmployee->getId());
+$ilOrgUnitPositionSuperior->setAuthorities([ $Sup ]);
+$ilOrgUnitPositionSuperior->create();
+$superiors_position_id = $ilOrgUnitPositionSuperior->getId();
+
+?>
+<#5183>
+<?php
+
+try{
+	ilOrgUnitOperationContextQueries::registerNewContext(ilOrgUnitOperationContext::CONTEXT_OBJECT);
+	ilOrgUnitOperationContextQueries::registerNewContext(ilOrgUnitOperationContext::CONTEXT_IASS, ilOrgUnitOperationContext::CONTEXT_OBJECT);
+	ilOrgUnitOperationContextQueries::registerNewContext(ilOrgUnitOperationContext::CONTEXT_CRS, ilOrgUnitOperationContext::CONTEXT_OBJECT);
+	ilOrgUnitOperationContextQueries::registerNewContext(ilOrgUnitOperationContext::CONTEXT_GRP, ilOrgUnitOperationContext::CONTEXT_OBJECT);
+	ilOrgUnitOperationContextQueries::registerNewContext(ilOrgUnitOperationContext::CONTEXT_TST, ilOrgUnitOperationContext::CONTEXT_OBJECT);
+	ilOrgUnitOperationContextQueries::registerNewContext(ilOrgUnitOperationContext::CONTEXT_EXC, ilOrgUnitOperationContext::CONTEXT_OBJECT);
+	ilOrgUnitOperationContextQueries::registerNewContext(ilOrgUnitOperationContext::CONTEXT_SVY, ilOrgUnitOperationContext::CONTEXT_OBJECT);
+
+	ilOrgUnitOperationQueries::registerNewOperationForMultipleContexts(ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS, 'Read the learning Progress of a User', array(
+		ilOrgUnitOperationContext::CONTEXT_CRS,
+		ilOrgUnitOperationContext::CONTEXT_GRP,
+		ilOrgUnitOperationContext::CONTEXT_IASS,
+		ilOrgUnitOperationContext::CONTEXT_EXC,
+		ilOrgUnitOperationContext::CONTEXT_SVY,
+	));
+
+	ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_MANAGE_MEMBERS, 'Edit Members in a course', ilOrgUnitOperationContext::CONTEXT_CRS);
+	ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_MANAGE_MEMBERS, 'Edit Members in a group', ilOrgUnitOperationContext::CONTEXT_GRP);
+	ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_EDIT_SUBMISSION_GRADES, '', ilOrgUnitOperationContext::CONTEXT_EXC);
+	ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_ACCESS_RESULTS, '', ilOrgUnitOperationContext::CONTEXT_SVY);
+}catch(ilException $e){
+}
+
+
+?>
+
+<#5184>
+<?php
+if( !$ilDB->tableColumnExists('prg_usr_progress', 'deadline'))
+{
+	$ilDB->addTableColumn('prg_usr_progress', 'deadline',
+		array('type' => 'text',
+			'length' => 15,
+			'notnull'=> false
+		)
+	);
+}
+
+?>
+<#5185>
+<?php
+	if(!$ilDB->tableColumnExists('sahs_lm','id_setting'))
+	{
+		$ilDB->addTableColumn(
+			'sahs_lm',
+			'id_setting',
+			array(
+				'type' 		=> 'integer',
+				'length' 	=> 1,
+				'notnull'	=> true,
+				'default'	=> 0
+			)
+		);
+		$ilDB->query("UPDATE sahs_lm SET id_setting = 0");
+	}
+?>
+<#5186>
+<?php
+
+$ilDB->modifyTableColumn(
+		'il_orgu_operations', 
+		'operation_string',
+		array(
+			"length" => 256
+		)
+	);
+	ilOrgUnitOperation::resetDB();	
+	ilOrgUnitOperationQueries::registerNewOperationForMultipleContexts(ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS, 'Read the learning Progress of a User', array(
+		ilOrgUnitOperationContext::CONTEXT_CRS,
+		ilOrgUnitOperationContext::CONTEXT_GRP,
+		ilOrgUnitOperationContext::CONTEXT_IASS,
+		ilOrgUnitOperationContext::CONTEXT_EXC,
+		ilOrgUnitOperationContext::CONTEXT_SVY,
+	));
+
+	ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_MANAGE_MEMBERS, 'Edit Members in a course', ilOrgUnitOperationContext::CONTEXT_CRS);
+	ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_MANAGE_MEMBERS, 'Edit Members in a group', ilOrgUnitOperationContext::CONTEXT_GRP);
+	ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_EDIT_SUBMISSION_GRADES, '', ilOrgUnitOperationContext::CONTEXT_EXC);
+	ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_ACCESS_RESULTS, '', ilOrgUnitOperationContext::CONTEXT_SVY);
+?>
+<#5187>
+<?php
+	if(!$ilDB->tableColumnExists('sahs_lm','name_setting'))
+	{
+		$ilDB->addTableColumn(
+			'sahs_lm',
+			'name_setting',
+			array(
+				'type' 		=> 'integer',
+				'length' 	=> 1,
+				'notnull'	=> true,
+				'default'	=> 0
+			)
+		);
+		$ilDB->query("UPDATE sahs_lm SET name_setting = 0");
+	}
+?>
+<#5188>
+<?php
+if(!$ilDB->tableExists('orgu_obj_type_settings') )
+{
+	$ilDB->createTable('orgu_obj_type_settings', array(
+		'obj_type' => array(
+			'type' => 'text',
+			'length' => 10,
+			'notnull' => true
+		),
+		'active' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		),
+		'activation_default' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		),
+		'changeable' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		)
+		)
+	);
+	$ilDB->addPrimaryKey('orgu_obj_type_settings', array('obj_type'));
+}
+?>
+<#5189>
+<?php
+if(!$ilDB->tableExists('orgu_obj_pos_settings'))
+{
+	$ilDB->createTable('orgu_obj_pos_settings', array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+		),
+		'active' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		)
+		)
+	);
+	$ilDB->addPrimaryKey('orgu_obj_pos_settings', array('obj_id'));
+}
+	
+?>
+<#5190>
+<?php
+
+ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_WRITE_LEARNING_PROGRESS, 'Write the learning Progress of a User', ilOrgUnitOperationContext::CONTEXT_IASS);
+
+?>
+<#5191>
+<?php
+// "make place" for two new datatypes, text_selection comes after text, date_selection comes after datetime
+$ilDB->manipulate("UPDATE il_dcl_datatype SET sort = (sort + 10) WHERE title in ('number', 'boolean', 'datetime')");
+$ilDB->manipulate("UPDATE il_dcl_datatype SET sort = (sort + 20) WHERE title not in ('text', 'number', 'boolean', 'datetime')");
+?>
+<#5192>
+<?php
+// Datacollection: Add text_selection fieldtype
+$ilDB->insert('il_dcl_datatype', array(
+        'id' => array('integer', ilDclDatatype::INPUTFORMAT_TEXT_SELECTION),
+        'title' => array('text', 'text_selection'),
+        'ildb_type' => array('text', 'text'),
+        'storage_location' => array('integer', 1),
+        'sort' => array('integer', 10),
+    ));
+// Datacollection: Add date_selection fieldtype
+$ilDB->insert('il_dcl_datatype', array(
+	'id' => array('integer', ilDclDatatype::INPUTFORMAT_DATE_SELECTION),
+	'title' => array('text', 'date_selection'),
+	'ildb_type' => array('text', 'text'),
+	'storage_location' => array('integer', 1),
+	'sort' => array('integer', 50),
+));
+?>
+<#5193>
+<?php
+$fields = array(
+	'id' => array(
+		'notnull' => '1',
+		'type' => 'integer',
+		'length' => '8',
+		
+	),
+	'field_id' => array(
+		'notnull' => '1',
+		'type' => 'integer',
+		'length' => '8',
+		
+	),
+	'opt_id' => array(
+		'notnull' => '1',
+		'type' => 'integer',
+		'length' => '8',
+		
+	),
+	'sorting' => array(
+		'notnull' => '1',
+		'type' => 'integer',
+		'length' => '8',
+		
+	),
+	'value' => array(
+		'notnull' => '1',
+		'type' => 'text',
+		'length' => '128',
+		
+	),
+	
+);
+if (! $ilDB->tableExists('il_dcl_sel_opts')) {
+	$ilDB->createTable('il_dcl_sel_opts', $fields);
+	$ilDB->addPrimaryKey('il_dcl_sel_opts', array( 'id' ));
+	
+	if (! $ilDB->sequenceExists('il_dcl_sel_opts')) {
+		$ilDB->createSequence('il_dcl_sel_opts');
+	}
+	
+}
+?>
+<#5194>
+<?php
+if(!$ilDB->tableColumnExists('il_orgu_positions','core_identifier'))
+{
+	$ilDB->addTableColumn(
+		'il_orgu_positions',
+		'core_identifier',
+		array(
+			'type' 		=> 'integer',
+			'length' 	=> 4,
+			'default'	=> 0
+		)
+	);
+	$ilDB->query("UPDATE il_orgu_positions SET core_identifier = 0");
+}
+
+$employee = ilOrgUnitPosition::where(['title'=>"Employees", 'core_position'=>true])->first();
+$employee->setCoreIdentifier(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
+$employee->update();
+
+$superior = ilOrgUnitPosition::where(['title'=>"Superiors", 'core_position'=>true])->first();
+$superior->setCoreIdentifier(ilOrgUnitPosition::CORE_POSITION_SUPERIOR);
+$superior->update();
+
 ?>
