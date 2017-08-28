@@ -1,15 +1,15 @@
 <?php
 
-// namespace ILIAS\Modules\OrgUnit\Positions;
-
-// use ILIAS\Modules\OrgUnit\Positions\Authorities\Authority;
-
 /**
  * Class ilOrgUnitPosition
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilOrgUnitPosition extends \ActiveRecord {
+
+	const CORE_POSITION_EMPLOYEE = 1;
+	const CORE_POSITION_SUPERIOR = 2;
+
 
 	/**
 	 * @return string
@@ -26,6 +26,16 @@ class ilOrgUnitPosition extends \ActiveRecord {
 	 */
 	public static function get() {
 		return parent::get();
+	}
+
+
+	/**
+	 * @param $core_identifier
+	 *
+	 * @return \ilOrgUnitPosition
+	 */
+	public static function getCorePosition($core_identifier) {
+		return ilOrgUnitPosition::where([ 'core_identifier' => $core_identifier ])->first();
 	}
 
 
@@ -130,6 +140,14 @@ class ilOrgUnitPosition extends \ActiveRecord {
 	 */
 	protected $core_position = false;
 	/**
+	 * @var int
+	 *
+	 * @con_has_field  true
+	 * @con_fieldtype  integer
+	 * @con_length     4
+	 */
+	protected $core_identifier = 0;
+	/**
 	 * @var \ilOrgUnitAuthority[]
 	 */
 	protected $authorities = array();
@@ -193,6 +211,11 @@ class ilOrgUnitPosition extends \ActiveRecord {
 	public function deleteWithAllDependencies() {
 		foreach ($this->getDependentAuthorities() as $authority) {
 			$authority->delete();
+		}
+
+		$ilOrgUnitUserAssignmentQueries = ilOrgUnitUserAssignmentQueries::getInstance();
+		foreach ($ilOrgUnitUserAssignmentQueries->getUserAssignmentsOfPosition($this->getId()) as $assignment) {
+			$assignment->delete();
 		}
 		parent::delete();
 	}
@@ -275,6 +298,22 @@ class ilOrgUnitPosition extends \ActiveRecord {
 	 */
 	public function setAuthorities($authorities) {
 		$this->authorities = $authorities;
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getCoreIdentifier() {
+		return $this->core_identifier;
+	}
+
+
+	/**
+	 * @param int $core_identifier
+	 */
+	public function setCoreIdentifier($core_identifier) {
+		$this->core_identifier = $core_identifier;
 	}
 
 

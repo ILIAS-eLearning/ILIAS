@@ -20355,19 +20355,6 @@ $ilOrgUnitPositionSuperior->setAuthorities([ $Sup ]);
 $ilOrgUnitPositionSuperior->create();
 $superiors_position_id = $ilOrgUnitPositionSuperior->getId();
 
-
-
-// $ilObjOrgUnitTree = ilObjOrgUnitTree::_getInstance();
-// foreach ($ilObjOrgUnitTree->getAllChildren(56) as $orgu_ref_id) {
-// 	$employees = $ilObjOrgUnitTree->getEmployees($orgu_ref_id);
-// 	foreach ($employees as $employee_user_id) {
-// 		ilOrgUnitUserAssignment::findOrCreateAssignment($employee_user_id, $employee_position_id, $orgu_ref_id);
-// 	}
-// 	$superiors = $ilObjOrgUnitTree->getSuperiors($orgu_ref_id);
-// 	foreach ($superiors as $superior_user_id) {
-// 		ilOrgUnitUserAssignment::findOrCreateAssignment($superior_user_id, $superiors_position_id, $orgu_ref_id);
-// 	}
-// }
 ?>
 <#5183>
 <?php
@@ -20600,4 +20587,29 @@ if (! $ilDB->tableExists('il_dcl_sel_opts')) {
 	}
 	
 }
+?>
+<#5194>
+<?php
+if(!$ilDB->tableColumnExists('il_orgu_positions','core_identifier'))
+{
+	$ilDB->addTableColumn(
+		'il_orgu_positions',
+		'core_identifier',
+		array(
+			'type' 		=> 'integer',
+			'length' 	=> 4,
+			'default'	=> 0
+		)
+	);
+	$ilDB->query("UPDATE il_orgu_positions SET core_identifier = 0");
+}
+
+$employee = ilOrgUnitPosition::where(['title'=>"Employees", 'core_position'=>true])->first();
+$employee->setCoreIdentifier(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
+$employee->update();
+
+$superior = ilOrgUnitPosition::where(['title'=>"Superiors", 'core_position'=>true])->first();
+$superior->setCoreIdentifier(ilOrgUnitPosition::CORE_POSITION_SUPERIOR);
+$superior->update();
+
 ?>

@@ -174,7 +174,26 @@ class ilOrgUnitUserAssignmentQueries {
 	}
 
 
-	public function getUserIds() {
+	/**
+	 * @param $position_id
+	 *
+	 * @return int[]
+	 */
+	public function getUserIdsOfPosition($position_id) {
+		return ilOrgUnitUserAssignment::where([
+			'position_id' => $position_id,
+		])->getArray(null, 'user_id');
+	}
 
+
+	/**
+	 * @param $position_id
+	 *
+	 * @return ilOrgUnitUserAssignment[]
+	 */
+	public function getUserAssignmentsOfPosition($position_id) {
+		return ilOrgUnitUserAssignment::where([
+			'position_id' => $position_id,
+		])->get();
 	}
 }

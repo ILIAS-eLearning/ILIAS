@@ -11,6 +11,8 @@ class ilOrgUnitPositionGUI extends BaseCommands {
 
 	const SUBTAB_SETTINGS = 'settings';
 	const SUBTAB_PERMISSIONS = 'obj_orgunit_positions';
+	const CMD_CONFIRM_DELETION = 'confirmDeletion';
+	const CMD_CONFIRM_DELETION_AND_ASSIGN = 'confirmDeletionAndAssign';
 
 
 	/**
@@ -85,11 +87,62 @@ class ilOrgUnitPositionGUI extends BaseCommands {
 
 
 	protected function confirm() {
-		self::initAuthoritiesRenderer();
-		$position_string = $this->dic()->language()->txt("position") . ": ";
-		$authority_string = $this->dic()->language()->txt("authority") . ": ";
-
 		$position = $this->getPositionFromRequest();
+		if ($position->isCorePosition()) {
+			$this->cancel();
+		}
+
+		$this->dic()->language()->loadLanguageModule('orgu');
+		$user_string = $this->dic()->language()->txt("user_assignments") . ": ";
+		$ilOrgUnitUserAssignmentQueries = ilOrgUnitUserAssignmentQueries::getInstance();
+
+		$confirmation = new ilConfirmationGUI();
+		$confirmation->setFormAction($this->ctrl()->getFormAction($this));
+		$confirmation->setCancel($this->txt(self::CMD_CANCEL), self::CMD_CANCEL);
+		$confirmation->setConfirm($this->txt('confirm_deletion_and_assign'), self::CMD_CONFIRM_DELETION_AND_ASSIGN);
+		$confirmation->addButton($this->txt('confirm_deletion_button'), self::CMD_CONFIRM_DELETION);
+		$confirmation->setHeaderText($this->txt('msg_confirm_d_ua'));
+
+		$confirmation->addHiddenItem(self::AR_ID, $position->getId());
+
+		// Amount uf user-assignments
+		$userIdsOfPosition = $ilOrgUnitUserAssignmentQueries->getUserIdsOfPosition($position->getId());
+		$confirmation->addItem('users', true, $user_string . count($userIdsOfPosition));
+
+		$this->tpl()->setContent($confirmation->getHTML());
+	}
+
+
+	protected function confirmDeletionAndAssign() {
+		$position = $this->getPositionFromRequest();
+		if ($position->isCorePosition()) {
+			$this->cancel();
+		}
+		$ilOrgUnitUserAssignmentQueries = ilOrgUnitUserAssignmentQueries::getInstance();
+		$assignments = $ilOrgUnitUserAssignmentQueries->getUserAssignmentsOfPosition($position->getId());
+
+		$employee_position = ilOrgUnitPosition::getCorePosition(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
+
+		foreach ($assignments as $assignment) {
+			ilOrgUnitUserAssignment::findOrCreateAssignment($assignment->getUserId(), $employee_position->getId(), $assignment->getOrguId());
+			$assignment->delete();
+		}
+
+		$this->confirmDeletion();
+	}
+
+
+	protected function confirmDeletion() {
+		$position = $this->getPositionFromRequest();
+		if ($position->isCorePosition()) {
+			$this->cancel();
+		}
+		self::initAuthoritiesRenderer();
+		$this->dic()->language()->loadLanguageModule('orgu');
+		$position_string = $this->dic()->language()->txt("position") . ": ";
+		$authority_string = $this->dic()->language()->txt("authorities") . ": ";
+		$user_string = $this->dic()->language()->txt("user_assignments") . ": ";
+		$ilOrgUnitUserAssignmentQueries = ilOrgUnitUserAssignmentQueries::getInstance();
 
 		$confirmation = new ilConfirmationGUI();
 		$confirmation->setFormAction($this->ctrl()->getFormAction($this));
@@ -99,9 +152,15 @@ class ilOrgUnitPositionGUI extends BaseCommands {
 		$confirmation->addItem(self::AR_ID, $position->getId(), $position_string
 		                                                        . $position->getTitle());
 
-		foreach ($position->getAuthorities() as $authority) {
-			$confirmation->addItem('authorities[]', $authority->getId(), $authority_string
-			                                                             . $authority);
+		// Authorities
+		$authority_string .= implode(", ", $position->getAuthorities());
+		$confirmation->addItem('authorities', true, $authority_string);
+
+		// Amount uf user-assignments
+		$userIdsOfPosition = $ilOrgUnitUserAssignmentQueries->getUserIdsOfPosition($position->getId());
+		$count = count($userIdsOfPosition);
+		if ($count) {
+			$confirmation->addItem('users', true, $user_string . $count);
 		}
 
 		$this->tpl()->setContent($confirmation->getHTML());

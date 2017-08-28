@@ -64,8 +64,11 @@ class ilOrgUnitPositionTableGUI extends ilTable2GUI {
 		$selection->setId(BaseCommands::AR_ID . $set['id']);
 		$selection->addItem($this->DIC->language()->txt('edit'), 'edit', $this->DIC->ctrl()
 		                                                                           ->getLinkTargetByClass(ilOrgUnitPositionGUI::class, ilOrgUnitPositionGUI::CMD_EDIT));
-		$selection->addItem($this->DIC->language()->txt('delete'), 'delete', $this->DIC->ctrl()
-		                                                                               ->getLinkTargetByClass(ilOrgUnitPositionGUI::class, ilOrgUnitPositionGUI::CMD_CONFIRM));
+		if(!$obj->isCorePosition()) {
+			$selection->addItem($this->DIC->language()->txt('delete'), 'delete', $this->DIC->ctrl()
+			                                                                               ->getLinkTargetByClass(ilOrgUnitPositionGUI::class, ilOrgUnitPositionGUI::CMD_CONFIRM));
+		}
+
 		$this->tpl->setVariable('ACTIONS', $selection->getHTML());
 	}
 

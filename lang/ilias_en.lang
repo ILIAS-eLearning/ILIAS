@@ -10955,7 +10955,11 @@ common#:#view_learning_progress_rec#:#View Learning Progress of Unit incl. Subun
 rbac#:#rbac_info_only_position_access#:#You are presented only with those members with a Position within your organisational unit. Members with other organisational Positions are not shown to you but may reside in this coures without being shown to you.
 obj#:#obj_orgunit_positions#:#Access Control by Organisation Unit Positions
 obj#:#obj_orgunit_positions_info#:#If enabled, additional access control rules can be defined by positions in organisational units.
+orgu#:#msg_confirm_deletion#:#Would you really like to delete tho following Position?
+orgu#:#msg_confirm_d_ua#:#Would you like to assign these person to the position Employee of their respective Organisational Units?
+orgu#:#user_assignments#:#User Assignments
 orgu#:#authorities#:#Authorities
+orgu#:#authority#:#Authority
 orgu#:#positions#:#Positions
 orgu#:#scope_1#:#Same Organisational Unit
 orgu#:#scope_2#:#Subsequent Organisational Units
@@ -10981,13 +10985,15 @@ orgu#:#org_op_manage_members#:#Manage Members
 orgu#:#org_op_read_learning_progress#:#View learning progress of other users
 orgu#:#org_op_write_learning_progress#:#Set learning progress of other users
 orgu#:#form_title_org_default_permissions_update#:#Default Permissions
-orgu#:#msg_confirm_deletion#:#Deleted
 orgu#:#view_learning_progress#:#View Learning Progress
 orgu#:#il_orgu_employee#:#Employee
 orgu#:#orgu_staff_deassign#:#Are you sure you want to deassign these users from this role?
 orgu#:#deassign_user_successful#:#Users have been successfully deassigned from this role.
 orgu#:#il_orgu_superior#:#Superior
 orgu#:#orgu_staff#:#Staff
+orgu#:#confirm_deletion_and_assign#:#Delete and Assign Users
+orgu#:#confirm_deletion_button#:#Delete
+orgu#:#msg_deleted#:#Deleted
 orgu#:#Staff#:#Staff
 orgu#:#employee#:#Employee
 orgu#:#superior#:#Superior
