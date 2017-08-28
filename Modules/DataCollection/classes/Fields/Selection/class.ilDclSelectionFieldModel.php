@@ -140,7 +140,7 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel {
 				break;
 			case static::PROP_SELECTION_TYPE:
 				$will_be_multi = ($value == self::SELECTION_TYPE_MULTI);
-				if ($this->isMulti() && !$will_be_multi || !$this->isMulti() && $will_be_multi) {
+				if ($this->getProperty($key) && ($this->isMulti() && !$will_be_multi || !$this->isMulti() && $will_be_multi)) {
 					$this->multiPropertyChanged($will_be_multi);
 				}
 				parent::setProperty($key, $value)->store();
