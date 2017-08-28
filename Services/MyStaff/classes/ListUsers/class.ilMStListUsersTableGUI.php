@@ -63,7 +63,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
 		$this->determineOffsetAndOrder();
 
 		//Permission Filter
-		$arr_usr_id = $this->access->getUsersForUserOperationAndContext($ilUser->getId(),1,'crs');
+		$arr_usr_id = $this->access->getUsersForUser($ilUser->getId());
 
 		$options = array(
 			'filters' => $this->filter,

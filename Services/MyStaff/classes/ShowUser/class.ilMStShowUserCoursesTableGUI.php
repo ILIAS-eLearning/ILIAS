@@ -37,7 +37,7 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI {
 		$this->setId('myst_su');
 
 		parent::__construct($parent_obj, $parent_cmd, '');
-		$this->setRowTemplate('tpl.list_courses_row.html', "Services/MyStaff");
+		$this->setRowTemplate('tpl.list_user_courses_row.html', "Services/MyStaff");
 		$this->setFormAction($this->ctrl()->getFormAction($parent_obj));;
 		$this->setDefaultOrderDirection('desc');
 
@@ -69,7 +69,9 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI {
 		$this->determineOffsetAndOrder();
 
 		//Permission Filter
-		$arr_usr_id = $this->access->getUsersForUserOperationAndContext($ilUser->getId(),1,'crs');
+		$operation = ilOrgUnitOperationQueries::findByOperationString(ilOrgUnitOperation::OP_ACCESS_ENROLMENTS,'crs');
+
+		$arr_usr_id = $this->access->getUsersForUserOperationAndContext($ilUser->getId(),$operation->getOperationId(),'crs');
 
 		$this->filter['usr_id'] = $this->usr_id;
 		$options = array(

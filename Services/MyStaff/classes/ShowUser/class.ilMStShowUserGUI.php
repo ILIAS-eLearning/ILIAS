@@ -28,6 +28,9 @@ class ilMStShowUserGUI {
 	public function __construct() {
 		$this->usr_id = $this->dic()->http()->request()->getQueryParams()['usr_id'];
 		$this->ctrl()->setParameter($this, 'usr_id', $this->usr_id);
+
+		$this->tpl()->setTitle(ilUserUtil::getNamePresentation($this->usr_id));
+		$this->tpl()->setTitleIcon(ilObjUser::_getPersonalPicturePath($this->usr_id, "xxsmall"));
 	}
 
 

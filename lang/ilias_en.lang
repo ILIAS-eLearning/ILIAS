@@ -10967,20 +10967,20 @@ orgu#:#scope_3#:#All Organisational Units
 orgu#:#over_-1#:#Everyone
 orgu#:#over#:#Over
 orgu#:#scope#:#In
-common#:#my_staff#:#My Staff
-mst#:#mst_my_staff#:#My Staff
+common#:#my_staff#:#Staff
+mst#:#mst_my_staff#:#Staff
 mst#:#mst_list_users#:#Staff List
-mst#:#mst_list_courses#:#Courses of My Staff
+mst#:#mst_list_courses#:#Enrolments
 mst#:#mst_select_course#:#Select Course
 mst#:#mst_please_select_course#:#Please select a course.
 mst#:#mst_opt_all#:#All
 mst#:#mst_memb_status_requested#:#Requested
 mst#:#mst_memb_status_waitinglist#:#Waiting List
 mst#:#mst_memb_status_registered#:#Registered
-mst#:#mst_show_courses#:#Show Courses
-mst#:#mst_courses_of#:#Courses of %s
-orgu#:#orgu_enable_my_staff#:#Enable ‘My Staff’
-orgu#:#orgu_enable_my_staff_info#:#The View ‘My Staff’ shows the Learning Progress of the own Employees.
+mst#:#mst_show_courses#:#Enrolments
+mst#:#mst_courses_of#:#Enrolments of %s
+orgu#:#orgu_enable_my_staff#:#Enable View ‘Staff’
+orgu#:#orgu_enable_my_staff_info#:#The View ‘Staff’ shows the Learning Progress of the own Employees.
 orgu#:#org_op_manage_members#:#Manage Members
 orgu#:#org_op_read_learning_progress#:#View learning progress of other users
 orgu#:#org_op_write_learning_progress#:#Set learning progress of other users

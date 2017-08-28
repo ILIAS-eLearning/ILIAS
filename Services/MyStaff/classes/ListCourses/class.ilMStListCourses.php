@@ -34,7 +34,7 @@ class ilMStListCourses {
 
 		$udf = ilUserDefinedFields::_getInstance();
 
-		$select = 'SELECT crs.title as crs_title, reg_status, lp_status, usr_data.usr_id as usr_id, usr_data.login as usr_login, usr_data.lastname as usr_lastname, usr_data.firstname as usr_firstname, usr_data.email as usr_email  from (
+		$select = 'SELECT crs_ref.ref_id as crs_ref_id, crs.title as crs_title, reg_status, lp_status, usr_data.usr_id as usr_id, usr_data.login as usr_login, usr_data.lastname as usr_lastname, usr_data.firstname as usr_firstname, usr_data.email as usr_email  from (
 	                    select reg.obj_id, reg.usr_id, '
 		          . ilMStListCourse::MEMBERSHIP_STATUS_REGISTERED . ' as reg_status, lp.status as lp_status from obj_members as reg
                         left join ut_lp_marks as lp on lp.obj_id = reg.obj_id and lp.usr_id = reg.usr_id
@@ -68,6 +68,7 @@ class ilMStListCourses {
 
 		while ($crs = $ilDB->fetchAssoc($result)) {
 			$list_course = new ilMStListCourse();
+			$list_course->setCrsRefId($crs['crs_ref_id']);
 			$list_course->setCrsTitle($crs['crs_title']);
 			$list_course->setUsrRegStatus($crs['reg_status']);
 			$list_course->setUsrLpStatus($crs['lp_status']);
