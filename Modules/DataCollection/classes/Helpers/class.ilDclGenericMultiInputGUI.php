@@ -53,6 +53,10 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI {
 	 * @var
 	 */
 	protected $limit = 0;
+	/**
+	 * @var bool
+	 */
+	protected $allow_empty_fields = false;
 
 
 	/**
@@ -70,6 +74,22 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI {
 	 */
 	public function setLimit($limit) {
 		$this->limit = $limit;
+	}
+
+
+	/**
+	 * @return boolean
+	 */
+	public function isAllowEmptyFields() {
+		return $this->allow_empty_fields;
+	}
+
+
+	/**
+	 * @param boolean $allow_empty_fields
+	 */
+	public function setAllowEmptyFields($allow_empty_fields) {
+		$this->allow_empty_fields = $allow_empty_fields;
 	}
 
 
@@ -127,6 +147,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI {
 	 * @param array $options
 	 */
 	public function addInput(ilFormPropertyGUI $input, $options = array()) {
+		$input->setRequired(!$this->allow_empty_fields);
 		$this->inputs[$input->getPostVar()] = $input;
 		$this->input_options[$input->getPostVar()] = $options;
 	}
