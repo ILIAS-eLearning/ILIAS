@@ -173,6 +173,16 @@ class ilDclSelectionOption extends ActiveRecord {
 
 	/**
 	 * @param $field_id
+	 */
+	public static function flushOptions($field_id) {
+		foreach (self::getAllForField($field_id) as $option) {
+			$option->delete();
+		}
+	}
+
+
+	/**
+	 * @param $field_id
 	 *
 	 * @return self[]
 	 */

@@ -131,6 +131,7 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel {
 	public function setProperty($key, $value) {
 		switch ($key) {
 			case static::PROP_SELECTION_OPTIONS:
+				ilDclSelectionOption::flushOptions($this->getId());
 				$sorting = 1;
 				foreach ($value as $id => $val) {
 					ilDclSelectionOption::storeOption($this->getId(), $id, $sorting, $val);
