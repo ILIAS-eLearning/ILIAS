@@ -76,9 +76,10 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
 				foreach ($options as $opt) {
 					$array[$opt->getOptId()] = $opt->getValue();
 				}
-				$input->setOptions(array(0 => $this->lng->txt('dcl_please_select')) + $array);
+				$input->setOptions(array("" => $this->lng->txt('dcl_please_select')) + $array);
 				break;
 		}
+		$this->setupInputField($input, $this->getField());
 		return $input;
 	}
 
