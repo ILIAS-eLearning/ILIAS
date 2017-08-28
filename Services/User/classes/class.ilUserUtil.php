@@ -27,7 +27,7 @@ class ilUserUtil
 	const START_PD_SETTINGS = 14;
 	const START_REPOSITORY= 15;
 	const START_REPOSITORY_OBJ= 16;
-	const START_PD_MYSTAFF=17;
+	const START_PD_MYSTAFF = 17;
 	
 	/**
 	 * Default behaviour is:
@@ -245,7 +245,7 @@ class ilUserUtil
 		$settings = ilCalendarSettings::_getInstance();
 		if($a_force_all || $settings->isEnabled())
 		{
-			$all[self::START_PD_CALENDAR] = 'calendar';		
+			$all[self::START_PD_CALENDAR] = 'calendar';
 		}
 
 		$all[self::START_REPOSITORY] = 'repository';
