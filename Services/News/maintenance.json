@@ -1,12 +1,12 @@
 {
     "maintenance_model": "Classic",
-    "first_maintainer": "",
+    "first_maintainer": "akill(149)",
     "second_maintainer": "",
     "implicit_maintainers": [],
     "coordinator": "",
-    "tester": "",
-    "testcase_writer": "",
+    "tester": "Thomas.schroeder(38330)",
+    "testcase_writer": "Thomas.schroeder(38330)",
     "path": "Services/News",
-    "belong_to_component": "None",
+    "belong_to_component": "News",
     "used_in_components": []
 }

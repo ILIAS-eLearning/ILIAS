@@ -54,10 +54,27 @@ class ilAssQuestionProcessLockFileStorage extends ilFileSystemStorage
 
 	public function create()
 	{
-		if(!file_exists($this->getPath()))
+		set_error_handler(function ($severity, $message, $file, $line)
+		{
+			throw new ErrorException($message, $severity, 0, $file, $line);
+		});
+
+		try
 		{
 			ilUtil::makeDirParents($this->getPath());
+			restore_error_handler();
+
 		}
+		catch(Exception $e)
+		{
+			restore_error_handler();
+		}
+
+		if(!file_exists($this->getPath()))
+		{
+			throw new ErrorException(sprintf('Could not find directory: %s', $this->getPath()));
+		}
+
 		return true;
 	}
 	

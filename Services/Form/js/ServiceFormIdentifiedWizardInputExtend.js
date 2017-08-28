@@ -19,8 +19,8 @@ var ilIdentifiedWizardInputExtend;
 		init: function(parameters)
 		{
 			if(parameters)
-			{console.log($(parameters.fieldContainerSelector));
-				if( $(parameters.fieldContainerSelector).size() )
+			{
+				if( $(parameters.fieldContainerSelector).length )
 				{
 					this.tag_container = parameters.fieldContainerSelector;
 				}

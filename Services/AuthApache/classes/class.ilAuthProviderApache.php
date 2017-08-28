@@ -1,5 +1,4 @@
 <?php
-
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Services/Authentication/classes/Provider/class.ilAuthProvider.php';
@@ -17,12 +16,10 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
 	const APACHE_AUTH_TYPE_DIRECT_MAPPING = 1;
 	const APACHE_AUTH_TYPE_EXTENDED_MAPPING = 2;
 	const APACHE_AUTH_TYPE_BY_FUNCTION = 3;
-	
+
 	private $settings = null;
-	
 	private $migration_account = '';
-	
-	
+
 	/**
 	 * Constructor
 	 * @param \ilAuthCredentials $credentials
@@ -34,7 +31,7 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
 		include_once './Services/Administration/classes/class.ilSetting.php';
 		$this->settings = new ilSetting('apache_auth');
 	}
-	
+
 	/**
 	 * Get setings
 	 * @return \ilSetting
@@ -43,10 +40,10 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
 	{
 		return $this->settings;
 	}
-	
+
 	/**
-	 * Do apache auth
 	 * @param \ilAuthStatus $status
+	 * @return bool
 	 */
 	public function doAuthentication(\ilAuthStatus $status)
 	{
@@ -56,7 +53,7 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
 			$this->handleAuthenticationFail($status, 'apache_auth_err_disabled');
 			return false;
 		}
-		
+
 		if(
 			!$this->getSettings()->get('apache_auth_indicator_name') ||
 			!$this->getSettings()->get('apache_auth_indicator_value')
@@ -66,7 +63,7 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
 			$this->handleAuthenticationFail($status, 'apache_auth_err_indicator_match_failure');
 			return false;
 		}
-		
+
 		if(
 			!in_array(
 				$_SERVER[$this->getSettings()->get('apache_auth_indicator_name')],
@@ -78,7 +75,7 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
 			$this->handleAuthenticationFail($status, 'err_wrong_login');
 			return false;
 		}
-		
+
 		include_once './Services/Utilities/classes/class.ilUtil.php';
 		if(!ilUtil::isLogin($this->getCredentials()->getUsername()))
 		{
@@ -86,15 +83,15 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
 			$this->handleAuthenticationFail($status, 'apache_auth_err_invalid_login');
 			return false;
 		}
-		
+
 		if(!strlen($this->getCredentials()->getUsername()))
 		{
 			$this->getLogger()->info('No username given');
 			$this->handleAuthenticationFail($status, 'err_wrong_login');
 			return false;
 		}
-		
-		$login = ilObjUser::_checkExternalAuthAccount('apache', $this->getCredentials()->getUsername());
+
+		$login  = ilObjUser::_checkExternalAuthAccount('apache', $this->getCredentials()->getUsername());
 		$usr_id = ilObjUser::_lookupId($login);
 		if(!$usr_id)
 		{
@@ -102,7 +99,7 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
 			$this->handleAuthenticationFail($status, 'err_wrong_login');
 			return false;
 		}
-		
+
 		$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
 		$status->setAuthenticatedUserId($usr_id);
 		return true;
@@ -115,7 +112,6 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
 	 */
 	public function migrateAccount($a_usr_id)
 	{
-		
 	}
 
 	/**
@@ -124,7 +120,6 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
 	 */
 	public function createNewAccount(\ilAuthStatus $status)
 	{
-		
 	}
 
 
@@ -133,7 +128,6 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
 	 */
 	public function getExternalAccountName()
 	{
-		
 	}
 
 	/**
@@ -149,9 +143,5 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
 	 */
 	public function getUserAuthModeName()
 	{
-		
 	}
-
-
 }
-?>

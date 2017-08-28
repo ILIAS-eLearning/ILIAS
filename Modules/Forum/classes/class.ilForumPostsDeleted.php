@@ -3,7 +3,7 @@
 
 /**
  * Class ilForumPostsDeleted
- * @author Nadia Ahmad <nahmad@databay.de>
+ * @author Nadia Matuschek <nmatuschek@databay.de>
  */
 class ilForumPostsDeleted
 {
@@ -89,7 +89,16 @@ class ilForumPostsDeleted
 			$this->setForumTitle($provider->getForumTitle());
 			$this->setThreadTitle($provider->getThreadTitle());
 			$this->setPostTitle($provider->getPostTitle());
-			$this->setPostMessage($provider->getPostMessage());
+			
+			if($provider->getPostCensored() == 1)
+			{
+				$this->setPostMessage($provider->getCensorshipComment());	
+			}	
+			else
+			{	
+				$this->setPostMessage($provider->getPostMessage());
+			}
+			
 			$this->setPostDate($provider->getPostDate());
 			$this->setObjId($provider->getObjId());
 			$this->setRefId($provider->getRefId());
@@ -380,6 +389,4 @@ class ilForumPostsDeleted
 	{
 		$this->thread_deleted = $thread_deleted;
 	}
-
-
 }

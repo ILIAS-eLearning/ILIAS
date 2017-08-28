@@ -53,6 +53,9 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 
 	public function __construct() {
 		global $DIC;
+
+		parent::__construct();
+
 		$lng = $DIC['lng'];
 		$ilUser = $DIC['ilUser'];
 		$ilAccess = $DIC['ilAccess'];
@@ -185,7 +188,11 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 	}
 	
 	protected function shouldShowThisList() {
-		return $_GET["cmd"] == "jumpToSelectedItems" && !$_GET["expand"];
+		global $DIC;
+		$ctrl = $DIC->ctrl();
+		return ($_GET["cmd"] == "jumpToSelectedItems" ||
+				($ctrl->getCmdClass() == "ilpersonaldesktopgui" && $ctrl->getCmd() == "show")
+			) && !$_GET["expand"];
 	}
 	
 	protected function readUsersAssignments() {

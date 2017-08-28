@@ -11,9 +11,12 @@ require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetBuilder.php';
  */
 class ilTestRandomQuestionSetBuilderWithAmountPerTest extends ilTestRandomQuestionSetBuilder
 {
+	/**
+	 * @return bool
+	 */
 	public function checkBuildable()
 	{
-		$questionStage = $this->getQuestionStageForSourcePoolDefinitionList($this->sourcePoolDefinitionList);
+		$questionStage = $this->getSrcPoolDefListRelatedQuestUniqueCollection($this->sourcePoolDefinitionList);
 
 		if( $questionStage->isSmallerThan($this->questionSetConfig->getQuestionAmountPerTest()) )
 		{
@@ -22,10 +25,13 @@ class ilTestRandomQuestionSetBuilderWithAmountPerTest extends ilTestRandomQuesti
 
 		return true;
 	}
-
+	
+	/**
+	 * @param ilTestSession $testSession
+	 */
 	public function performBuild(ilTestSession $testSession)
 	{
-		$questionStage = $this->getQuestionStageForSourcePoolDefinitionList($this->sourcePoolDefinitionList);
+		$questionStage = $this->getSrcPoolDefListRelatedQuestUniqueCollection($this->sourcePoolDefinitionList);
 
 		$questionSet = $this->fetchQuestionsFromStageRandomly(
 			$questionStage, $this->questionSetConfig->getQuestionAmountPerTest()

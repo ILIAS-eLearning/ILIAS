@@ -99,7 +99,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		{
 			$this->addColumn($this->lng->txt("actions"), "");
 		}
-
+		$this->setSelectAllCheckbox('uid');
 		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);
 		$this->setEnableHeader(true);
@@ -120,7 +120,8 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		$this->getItems();
 		
 		// #13807
-		$this->has_edit = $rbacsystem->checkAccess('edit_learning_progress',$this->ref_id);
+		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
+		$this->has_edit = ilLearningProgressAccess::checkPermission('edit_learning_progress', $this->ref_id);
 		
 		/* currently not active, needs to be revised
 		include_once "Services/Object/classes/class.ilObjectLP.php";
@@ -197,7 +198,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 			$check_agreement,
 			$this->user_fields
 			);
-			
+		
 		if (count($tr_data["set"]) == 0 && $this->getOffset() > 0)
 		{
 			$this->resetOffset();

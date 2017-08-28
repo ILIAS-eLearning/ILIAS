@@ -1,8 +1,5 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once("./Modules/Category/classes/class.ilCategoryExporter.php");
-require_once("./Services/Xml/classes/class.ilXmlWriter.php");
-require_once("./Services/Export/classes/class.ilExport.php");
 /**
  * Class ilOrgUnitExporter
  *
@@ -49,7 +46,6 @@ class ilOrgUnitExporter extends ilCategoryExporter {
 	public function simpleExportExcel($orgu_ref_id) {
 		// New File and Sheet
 		$file_name = "org_unit_export_" . $orgu_ref_id;
-		require_once('./Services/Excel/classes/class.ilExcel.php');
 		$worksheet = new ilExcel();
 		$worksheet->addSheet('org_units');
 		$row = 1;
@@ -111,7 +107,6 @@ class ilOrgUnitExporter extends ilCategoryExporter {
 		ilUtil::delDir($export_run_dir );
 
 		// Store info about export
-		include_once './Services/Export/classes/class.ilExportFileInfo.php';
 		$exp = new ilExportFileInfo($orgu_id);
 		$exp->setVersion(ILIAS_VERSION_NUMERIC);
 		$exp->setCreationDate(new ilDateTime($ts,IL_CAL_UNIX));
@@ -164,4 +159,3 @@ class ilOrgUnitExporter extends ilCategoryExporter {
 		return $attr;
 	}
 }
-?>

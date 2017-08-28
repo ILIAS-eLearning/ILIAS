@@ -2,7 +2,10 @@
     "maintenance_model": "Classic",
     "first_maintainer": "",
     "second_maintainer": "",
-    "implicit_maintainers": [],
+    "implicit_maintainers": [
+        "akill(149)",
+        "smeyer(191)"
+    ],
     "coordinator": "",
     "tester": "",
     "testcase_writer": "",

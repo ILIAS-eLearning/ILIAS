@@ -1,11 +1,4 @@
 <?php
-require_once('./Modules/DataCollection/classes/Fields/Reference/class.ilDclReferenceRecordFieldModel.php');
-require_once('./Modules/DataCollection/classes/Fields/Rating/class.ilDclRatingRecordFieldModel.php');
-require_once('./Modules/DataCollection/classes/Fields/IliasReference/class.ilDclIliasReferenceRecordFieldModel.php');
-require_once('./Modules/DataCollection/classes/Fields/Formula/class.ilDclFormulaRecordFieldModel.php');
-require_once('./Modules/DataCollection/classes/Fields/Text/class.ilDclTextRecordFieldModel.php');
-require_once('./Modules/DataCollection/classes/Fields/NReference/class.ilDclNReferenceRecordFieldModel.php');
-require_once('./Modules/DataCollection/classes/Fields/class.ilDclFieldFactory.php');
 
 /**
  * Class ilDclCache

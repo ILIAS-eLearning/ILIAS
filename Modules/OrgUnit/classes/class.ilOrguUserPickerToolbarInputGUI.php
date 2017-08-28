@@ -1,6 +1,5 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once("./Modules/OrgUnit/classes/class.ilMultiUserToolbarInputGUI.php");
 /**
  * Class ilOrguUserPickerToolbarInputGUI
  *
@@ -43,4 +42,3 @@ class ilOrguUserPickerToolbarInputGUI extends ilMultiUserToolbarInputGUI {
 		return $this->staff;
 	}
 }
-?>

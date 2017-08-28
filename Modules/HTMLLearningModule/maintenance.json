@@ -1,12 +1,12 @@
 {
     "maintenance_model": "Classic",
-    "first_maintainer": "",
+    "first_maintainer": "akill(149)",
     "second_maintainer": "",
     "implicit_maintainers": [],
     "coordinator": "",
-    "tester": "",
-    "testcase_writer": "",
+    "tester": "suittenpointner(3458)",
+    "testcase_writer": "suittenpointner(3458)",
     "path": "Modules/HTMLLearningModule",
-    "belong_to_component": "None",
+    "belong_to_component": "Learning Module HTML",
     "used_in_components": []
 }

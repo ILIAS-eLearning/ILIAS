@@ -218,13 +218,15 @@ class ilAccountMail
 			// replace placeholders
 			$mail_subject = $this->replacePlaceholders($amail['subject'], $user, $amail, $lang);
 			$mail_body = $this->replacePlaceholders($amail['body'], $user, $amail, $lang);
-		}	
-		
+		}
+
+		/** @var ilMailMimeSenderFactory $senderFactory */
+		$senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
+
 		// send the mail
 		include_once 'Services/Mail/classes/class.ilMimeMail.php';
 		$mmail = new ilMimeMail();
-		$mmail->autoCheck(false);
-		$mmail->From($ilSetting->get('admin_email'));																		
+		$mmail->From($senderFactory->system());
 		$mmail->Subject($mail_subject);
 		$mmail->To($user->getEmail());
 		$mmail->Body($mail_body);

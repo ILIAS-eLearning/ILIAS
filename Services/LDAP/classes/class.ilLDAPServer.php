@@ -699,7 +699,11 @@ class ilLDAPServer
 		}
 		foreach($names as $name)
 		{
-			$new_names[] = trim($name);
+			$name = trim($name);
+			if(strlen($name))
+			{
+				$new_names[] = trim($name);
+			}
 		}
 		return $new_names;
 	}

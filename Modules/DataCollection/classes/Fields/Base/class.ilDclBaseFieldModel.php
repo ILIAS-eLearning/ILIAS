@@ -1,12 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once('./Modules/DataCollection/classes/Fields/Base/class.ilDclFieldProperty.php');
-require_once('./Services/Exceptions/classes/class.ilException.php');
-require_once('./Modules/DataCollection/classes/Helpers/class.ilDclCache.php');
-require_once('./Modules/DataCollection/classes/Helpers/class.ilDclRecordQueryObject.php');
-require_once('./Modules/DataCollection/classes/Table/class.ilDclTableFieldSetting.php');
-
 /**
  * Class ilDclBaseFieldModel
  *
@@ -93,6 +87,10 @@ class ilDclBaseFieldModel {
 	const PROP_LINK_DETAIL_PAGE_TEXT = "link_detail_page";
 	const PROP_SUPPORTED_FILE_TYPES = "supported_file_types";
 	const PROP_PLUGIN_HOOK_NAME = "plugin_hook_name";
+	const PROP_TEXT_SELECTION_OPTIONS = "text_selection_options";
+	const PROP_TEXT_SELECTION_TYPE = "text_selection_type";
+	const PROP_DATE_SELECTION_OPTIONS = "date_selection_options";
+	const PROP_DATE_SELECTION_TYPE = "date_selection_type";
 
 
 	// type of table il_dcl_view
@@ -812,7 +810,7 @@ class ilDclBaseFieldModel {
 
 		$sql_obj->setSelectStatement($select_str);
 		$sql_obj->setJoinStatement($join_str);
-		$sql_obj->setOrderStatement("field_{$this->getId()} ".$direction);
+		$sql_obj->setOrderStatement("field_{$this->getId()} {$direction}");
 
 		return $sql_obj;
 	}
@@ -895,9 +893,60 @@ class ilDclBaseFieldModel {
 	 */
 	public function checkTitlesForImport(array &$titles, array &$import_fields) {
 		foreach ($titles as $k => $title) {
+			if (!ilStr::isUtf8($title)) {
+				$title = utf8_encode($title);
+			}
 			if ($title == $this->getTitle()) {
 				$import_fields[$k] = $this;
 			}
 		}
+	}
+
+
+	/**
+	 * called when saving the 'edit field' form
+	 *
+	 * @param ilPropertyFormGUI $form
+	 */
+	public function storePropertiesFromForm(ilPropertyFormGUI $form) {
+		$field_props = $this->getValidFieldProperties();
+		foreach ($field_props as $property) {
+			$representation = ilDclFieldFactory::getFieldRepresentationInstance($this);
+			$value = $form->getInput($representation->getPropertyInputFieldId($property));
+
+			// save non empty values and set them to null, when they already exist. Do not override plugin-hook when already set.
+			if(!empty($value) || ($this->getPropertyInstance($property) != NULL && $property != self::PROP_PLUGIN_HOOK_NAME)) {
+				$this->setProperty($property, $value)->store();
+			}
+		}
+	}
+
+
+	/**
+	 * called to fill the 'edit field' form
+	 *
+	 * @param ilPropertyFormGUI $form
+	 *
+	 * @return bool
+	 */
+	public function fillPropertiesForm(ilPropertyFormGUI &$form) {
+		$values = array(
+			'table_id' => $this->getTableId(),
+			'field_id' => $this->getId(),
+			'title' => $this->getTitle(),
+			'datatype' => $this->getDatatypeId(),
+			'description' => $this->getDescription(),
+			'required' => $this->getRequired(),
+			'unique' => $this->isUnique(),
+		);
+
+		$properties = $this->getValidFieldProperties();
+		foreach ($properties as $prop) {
+			$values['prop_' . $prop] = $this->getProperty($prop);
+		}
+
+		$form->setValuesByArray($values);
+
+		return true;
 	}
 }

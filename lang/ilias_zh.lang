@@ -11485,7 +11485,7 @@ survey#:#svy_activation_limited_visibility_info#:#如果选择，调查是可见
 mathjax#:#mathjax_enable_mathjax_info#:#激活支持，为基于MathJax的LaTeX表达式的数学输出。
 mathjax#:#mathjax_enable_mathjax#:#启用 MathJax
 mathjax#:#mathjax_mathjax#:#MathJax
-mathjax#:#mathjax_path_to_mathjax_desc#:#例如，http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML 或一个您的本地安装的URL。
+mathjax#:#mathjax_path_to_mathjax_desc#:#例如，https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML 或一个您的本地安装的URL。
 mathjax#:#mathjax_path_to_mathjax#:#到MathJax的URL
 mathjax#:#mathjax_settings#:#MathJax 设置
 mathjax#:#mathjax_limiter#:#行内分隔符

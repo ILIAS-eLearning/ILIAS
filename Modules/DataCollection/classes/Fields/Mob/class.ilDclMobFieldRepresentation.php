@@ -1,6 +1,4 @@
 <?php
-require_once ('./Modules/DataCollection/classes/Fields/Mob/class.ilDclMobFieldModel.php');
-require_once('./Modules/DataCollection/classes/Fields/Fileupload/class.ilDclFileuploadFieldRepresentation.php');
 
 /**
  * Class ilDclFileuploadFieldRepresentaion

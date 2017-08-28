@@ -237,13 +237,25 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 	
 	private function handleParameters()
 	{
-		// $this->ctrl->saveParameter($this, 'q_id'); // required ?? maybe for page view ?
-
 		$this->ctrl->saveParameter($this, self::CONTEXT_PARAMETER);
-		$this->addHiddenInput(self::CONTEXT_PARAMETER, $_GET[self::CONTEXT_PARAMETER]);
+		if(isset($_GET[self::CONTEXT_PARAMETER]))
+		{
+			$this->addHiddenInput(self::CONTEXT_PARAMETER, $_GET[self::CONTEXT_PARAMETER]);
+		}
+		else if(isset($_POST[self::CONTEXT_PARAMETER]))
+		{
+			$this->addHiddenInput(self::CONTEXT_PARAMETER, $_POST[self::CONTEXT_PARAMETER]);
+		}
 		
 		$this->ctrl->saveParameter($this, self::MODE_PARAMETER);
-		$this->addHiddenInput(self::MODE_PARAMETER, $_GET[self::MODE_PARAMETER]);
+		if(isset($_GET[self::MODE_PARAMETER]))
+		{
+			$this->addHiddenInput(self::MODE_PARAMETER, $_GET[self::MODE_PARAMETER]);
+		}
+		else if(isset($_POST[self::MODE_PARAMETER]))
+		{
+			$this->addHiddenInput(self::MODE_PARAMETER, $_POST[self::MODE_PARAMETER]);
+		}
 	}
 
 	private function fetchContextParameter()
@@ -545,19 +557,20 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 		if($this->fetchModeParameter() == self::MODE_BROWSE_POOLS)
 		{
 			$available_pools = array_map('intval', array_keys(ilObjQuestionPool::_getAvailableQuestionpools(true)));
-			$parentIds       = array_intersect($parentIds, $available_pools);
+			return array_intersect($parentIds, $available_pools);
 		}
 		else if($this->fetchModeParameter() == self::MODE_BROWSE_TESTS)
 		{
 			// TODO bheyser: Move this to another place ...
-			$parentIds = array_filter($parentIds, function($obj_id)  {
+			return array_filter($parentIds, function($obj_id)  {
 				$refIds = ilObject::_getAllReferences($obj_id);
 				$refId  = current($refIds);
 				return $this->access->checkAccess('write', '', $refId);
 			});
 		}
 
-		return $parentIds;
+		// Return no parent ids if the user wants to hack...
+		return array();
 	}
 	
 	private function getQuestionParentObjectType()

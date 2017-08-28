@@ -11491,7 +11491,7 @@ survey#:#svy_activation_limited_visibility_info#:#If chosen, the survey is visib
 mathjax#:#mathjax_enable_mathjax_info#:#Activates support for MathJax based mathematical output of LaTeX expressions.###28 09 2012 new variable
 mathjax#:#mathjax_enable_mathjax#:#Enable MathJax###28 09 2012 new variable
 mathjax#:#mathjax_mathjax#:#MathJax###28 09 2012 new variable
-mathjax#:#mathjax_path_to_mathjax_desc#:#E.g. http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML or a URL to your local installation.###28 09 2012 new variable
+mathjax#:#mathjax_path_to_mathjax_desc#:#E.g. https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML or a URL to your local installation.###28 09 2012 new variable
 mathjax#:#mathjax_path_to_mathjax#:#URL to MathJax###28 09 2012 new variable
 mathjax#:#mathjax_settings#:#MathJax Settings###28 09 2012 new variable
 mathjax#:#mathjax_limiter#:#Inline Delimiters###28 09 2012 new variable

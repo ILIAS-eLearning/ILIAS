@@ -81,6 +81,13 @@ class Factory implements G\Factory {
 	/**
 	 * @inheritdoc
 	 */
+	public function briefcase($action = null) {
+		return new Glyph(G\Glyph::BRIEFCASE, "briefcase", $action);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function sortDescending($action = null) {
 		return new Glyph(G\Glyph::SORT_DESCENDING, "sort_descending", $action);
 	}

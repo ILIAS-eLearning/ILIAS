@@ -15,7 +15,7 @@
  */
 abstract class ilExplorerBaseGUI
 {
-	protected static $js_tree_path = "./Services/UIComponent/Explorer2/lib/jstree-v.pre1.0/jquery.jstree.js";
+	protected static $js_tree_path = "./libs/bower/bower_components/jstree/jquery.jstree.js";
 	protected static $js_expl_path = "./Services/UIComponent/Explorer2/js/Explorer2.js";
 	protected $skip_root_node = false;
 	protected $ajax = false;

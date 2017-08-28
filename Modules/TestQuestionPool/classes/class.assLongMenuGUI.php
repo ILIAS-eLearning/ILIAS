@@ -42,13 +42,15 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 		$user_solution = array();
 		if($active_id)
 		{
-			$solutions = NULL;
-			include_once "./Modules/Test/classes/class.ilObjTest.php";
-			if(!ilObjTest::_getUsePreviousAnswers($active_id, true))
-			{
-				if(is_null($pass)) $pass = ilObjTest::_getPass($active_id);
-			}
-			$solutions =& $this->object->getSolutionValues($active_id, $pass);
+			// hey: prevPassSolutions - obsolete due to central check
+			#$solutions = NULL;
+			#include_once "./Modules/Test/classes/class.ilObjTest.php";
+			#if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
+			#{
+			#	if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
+			#}
+			$solutions = $this->object->getTestOutputSolutions($active_id, $pass);
+			// hey.
 			foreach($solutions as $idx => $solution_value)
 			{
 				$user_solution[$solution_value["value1"]] = $solution_value["value2"];
@@ -346,7 +348,9 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 	
 	
 	function getTestOutput($active_id,
-						   $pass = NULL,
+						// hey: prevPassSolutions - will be always available from now on
+						   $pass,
+						// hey.
 						   $is_postponed = FALSE,
 						   $use_post_solutions = FALSE,
 						   $show_feedback = FALSE

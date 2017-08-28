@@ -1,5 +1,4 @@
 <?php
-require_once("./Modules/DataCollection/classes/Helpers/class.ilDclRecordQueryObject.php");
 
 /**
  * Class ilDclRatingFieldModel

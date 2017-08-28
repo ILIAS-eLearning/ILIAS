@@ -1,12 +1,5 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once("./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseFieldModel.php");
-require_once("./Modules/DataCollection/classes/Fields/Base/class.ilDclDatatype.php");
-require_once("./Modules/DataCollection/classes/Table/class.ilDclTable.php");
-require_once("./Modules/DataCollection/classes/Helpers/class.ilDclCache.php");
-require_once('./Services/Form/classes/class.ilNonEditableValueGUI.php');
-require_once("./Modules/DataCollection/classes/Fields/Base/class.ilDclFieldProperty.php");
-require_once('./Modules/DataCollection/classes/Fields/Plugin/class.ilDclFieldTypePlugin.php');
 
 /**
  * Class ilDclFieldEditGUI
@@ -137,7 +130,8 @@ class ilDclFieldEditGUI {
 		$tpl = $DIC['tpl'];
 
 		$this->initForm("edit");
-		$this->getValues();
+
+		$this->field_obj->fillPropertiesForm($this->form);
 
 		$tpl->setContent($this->form->getHTML());
 	}
@@ -285,32 +279,6 @@ class ilDclFieldEditGUI {
 
 
 	/**
-	 * getFieldValues
-	 */
-	public function getValues() {
-		//Std-Values
-		$values = array(
-			'table_id' => $this->field_obj->getTableId(),
-			'field_id' => $this->field_obj->getId(),
-			'title' => $this->field_obj->getTitle(),
-			'datatype' => $this->field_obj->getDatatypeId(),
-			'description' => $this->field_obj->getDescription(),
-			'required' => $this->field_obj->getRequired(),
-			'unique' => $this->field_obj->isUnique(),
-		);
-
-		$properties = $this->field_obj->getValidFieldProperties();
-		foreach ($properties as $prop) {
-			$values['prop_' . $prop] = $this->field_obj->getProperty($prop);
-		}
-
-		$this->form->setValuesByArray($values);
-
-		return true;
-	}
-
-
-	/**
 	 * save Field
 	 *
 	 * @param string $a_mode values: create | update
@@ -350,16 +318,8 @@ class ilDclFieldEditGUI {
 			}
 
 			// Get possible properties and save them
-			$field_props = $this->field_obj->getValidFieldProperties();
-			foreach ($field_props as $property) {
-				$representation = ilDclFieldFactory::getFieldRepresentationInstance($this->field_obj);
-				$value = $this->form->getInput($representation->getPropertyInputFieldId($property));
+			$this->field_obj->storePropertiesFromForm($this->form);
 
-				// save non empty values and set them to null, when they already exist. Do not override plugin-hook when already set.
-				if(!empty($value) || ($this->field_obj->getPropertyInstance($property) != NULL && $property != ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME)) {
-					$this->field_obj->setProperty($property, $value)->store();
-				}
-			}
 
 			$ilCtrl->setParameter($this, "field_id", $this->field_obj->getId());
 

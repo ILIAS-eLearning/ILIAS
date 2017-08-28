@@ -8783,7 +8783,7 @@ mathjax#:#mathjax_limiter#:#Séparateurs
 mathjax#:#mathjax_limiter_info#:#Définissez les séparateurs tels qu'ils sont configurés dans votre installation MathJax.
 mathjax#:#mathjax_mathjax#:#MathJax
 mathjax#:#mathjax_path_to_mathjax#:#URL vers MathJax
-mathjax#:#mathjax_path_to_mathjax_desc#:#Ex. http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML ou une URL vers votre installation locale.
+mathjax#:#mathjax_path_to_mathjax_desc#:#Ex. https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML ou une URL vers votre installation locale.
 mathjax#:#mathjax_settings#:#Paramètres MathJax
 mcst#:#mcst_add_new_item#:#Ajouter un Nouveau Média
 mcst#:#mcst_audioportable_settings_info#:#Liste d'extensions de fichier séparées par des virgules

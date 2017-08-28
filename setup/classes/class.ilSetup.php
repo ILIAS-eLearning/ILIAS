@@ -14,6 +14,10 @@ include_once("./setup/classes/class.ilDBConnections.php");
 */
 class ilSetup
 {
+
+	/**
+	 * @var ilIniFile
+	 */
 	var $ini;			// ini file object
 	var $ini_file_path;	// full path to setup.ini, containing the client list
 	var $error = "";	// error text
@@ -22,7 +26,7 @@ class ilSetup
 	var $ini_client_exists = false; // control flag client.ini
 
 	var $setup_defaults;			// ilias.master.ini
-	var $ilias_nic_server = "http://www.ilias.de/ilias-nic/index.php";	// URL to ilias nic server
+	var $ilias_nic_server = "https://www.ilias.de/ilias-nic/index.php";	// URL to ilias nic server
 
 	var $preliminaries_result = array();	// preliminaries check results
 	var $preliminaries = true;				//

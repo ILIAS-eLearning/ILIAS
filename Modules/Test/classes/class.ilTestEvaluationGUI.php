@@ -1004,7 +1004,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		{
 			//$this->object->deliverPDFfromHTML($template->get());
 			require_once 'class.ilTestPDFGenerator.php';
-			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle());
+			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle(), PDF_USER_RESULT);
 		}
 		else
 		{
@@ -1135,7 +1135,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$name = ilObjUser::_lookupName($user_id);
 			$filename = $name['lastname'] . '_' . $name['firstname'] . '_' . $name['login'] . '__'. $this->object->getTitle();
 			require_once 'class.ilTestPDFGenerator.php';
-			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $filename);
+			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $filename, PDF_USER_RESULT);
 			//ilUtil::deliverData($file, ilUtil::getASCIIFilename($this->object->getTitle()) . ".pdf", "application/pdf", false, true);
 			//$template->setVariable("PDF_FILE_LOCATION", $filename);
 		}
@@ -1342,7 +1342,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		if( $this->isPdfDeliveryRequest() )
 		{
 			require_once 'class.ilTestPDFGenerator.php';
-			ilTestPDFGenerator::generatePDF($tpl->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle());
+			ilTestPDFGenerator::generatePDF($tpl->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle(), PDF_USER_RESULT);
 		}
 		else
 		{
@@ -1490,7 +1490,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		{
 			//$this->object->deliverPDFfromHTML($template->get(), $this->object->getTitle());
 			require_once 'class.ilTestPDFGenerator.php';
-			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle());
+			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle(), PDF_USER_RESULT);
 		}
 		else
 		{
@@ -2105,7 +2105,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				}
 
 				$taxId = substr($item->getPostVar(), strlen('tax_'));
-				$questionList->addTaxonomyFilter($taxId, $item->getValue());
+				$questionList->addTaxonomyFilter($taxId, $item->getValue(), $this->object->getId(), 'tst');
 			}
 			elseif( $item->getValue() !== false )
 			{

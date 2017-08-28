@@ -10,6 +10,12 @@ require_once("./Services/UICore/lib/html-it/ITX.php");
 require_once("./Services/UICore/classes/class.ilTemplate.php");
 
 class ilIndependentTemplate extends ilTemplate implements \ILIAS\UI\Implementation\Render\Template {
+	function __construct($file,$flag1,$flag2,$in_module = false, $vars = "DEFAULT",
+		$plugin = false, $a_use_cache = true)
+	{
+		parent::__construct($file, $flag1, $flag2, $in_module, $vars, $plugin, false);
+	}
+
 	/**
 	 * Reads a file from disk and returns its content.
 	 *

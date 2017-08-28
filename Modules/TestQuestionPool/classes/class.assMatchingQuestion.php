@@ -1600,7 +1600,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		$result = new ilUserQuestionResult($this, $active_id, $pass);
 
 		$data = $ilDB->queryF(
-			"SELECT morder FROM qpl_a_mdef WHERE question_fi = %s ORDER BY def_id",
+			"SELECT ident FROM qpl_a_mdef WHERE question_fi = %s ORDER BY def_id",
 			array("integer"),
 			array($this->getId())
 		);
@@ -1609,7 +1609,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		for($index=1; $index <= $ilDB->numRows($data); ++$index)
 		{
 			$row = $ilDB->fetchAssoc($data);
-			$definitions[$row["morder"]] = $index;
+			$definitions[$row["ident"]] = $index;
 		}
 
 		$data = $ilDB->queryF(

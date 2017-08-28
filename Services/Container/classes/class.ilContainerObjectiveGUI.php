@@ -381,11 +381,12 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 	
 	protected function renderTest($a_test_ref_id, $a_objective_id, $a_is_initial = false, $a_add_border = false, $a_lo_result = array())
 	{
+		$node_data = [];
 		if($a_test_ref_id)
 		{
 			$node_data = $GLOBALS['tree']->getNodeData($a_test_ref_id);
 		}
-		else
+		if(!$node_data['child'])
 		{
 			return '';
 		}

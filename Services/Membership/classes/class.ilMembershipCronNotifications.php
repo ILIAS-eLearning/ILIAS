@@ -53,6 +53,9 @@ class ilMembershipCronNotifications extends ilCronJob
 	public function run()
 	{				
 		global $lng, $ilDB;
+
+		$log = ilLoggerFactory::getLogger("mmbr");
+		$log->debug("===Member Notifications=== start");
 		
 		$status = ilCronJobResult::STATUS_NO_ACTION;
 		$status_details = null;
@@ -77,8 +80,11 @@ class ilMembershipCronNotifications extends ilCronJob
 		
 		include_once "Services/Membership/classes/class.ilMembershipNotifications.php";
 		$objects = ilMembershipNotifications::getActiveUsersforAllObjects();
+
 		if(sizeof($objects))
-		{				
+		{
+			$log->debug("nr of objects: ".count($objects));
+
 			// gather news for each user over all objects
 			
 			$user_news_aggr = array();
@@ -86,6 +92,8 @@ class ilMembershipCronNotifications extends ilCronJob
 			include_once "Services/News/classes/class.ilNewsItem.php";
 			foreach($objects as $ref_id => $user_ids)
 			{
+				$log->debug("handle ref id ".$ref_id.", users: ".count($user_ids));
+
 				// gather news per object
 				$news_item = new ilNewsItem();
 				if($news_item->checkNewsExistsForGroupCourse($ref_id, $last_run))
@@ -108,6 +116,7 @@ class ilMembershipCronNotifications extends ilCronJob
 			}
 			unset($objects);
 
+			$log->debug("prepare sending mails");
 
 			// send mails (1 max for each user)
 			
@@ -119,6 +128,8 @@ class ilMembershipCronNotifications extends ilCronJob
 			{
 				foreach($user_news_aggr as $user_id => $user_news)
 				{
+					$log->debug("sending mails to user ".$user_id.", nr news: ".count($user_news));
+
 					$this->sendMail($user_id, $user_news, $last_run);
 					
 					// #17928
@@ -133,6 +144,8 @@ class ilMembershipCronNotifications extends ilCronJob
 			$lng = $old_lng;
 		}
 
+		$log->debug("save run");
+
 		// save last run
 		$setting->set(get_class($this), date("Y-m-d H:i:s")); 
 
@@ -143,7 +156,9 @@ class ilMembershipCronNotifications extends ilCronJob
 		{
 			$result->setMessage($status_details);
 		}
-		
+
+		$log->debug("===Member Notifications=== done");
+
 		return $result;
 	}
 	

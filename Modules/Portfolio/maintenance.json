@@ -1,12 +1,12 @@
 {
     "maintenance_model": "Classic",
-    "first_maintainer": "",
+    "first_maintainer": "akill(149)",
     "second_maintainer": "",
     "implicit_maintainers": [],
     "coordinator": "",
-    "tester": "",
-    "testcase_writer": "",
+    "tester": "KlausVorkauf(5890)",
+    "testcase_writer": "KlausVorkauf(5890)",
     "path": "Modules/Portfolio",
-    "belong_to_component": "None",
+    "belong_to_component": "Portfolio",
     "used_in_components": []
 }

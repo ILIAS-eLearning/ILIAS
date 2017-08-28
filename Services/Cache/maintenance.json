@@ -1,12 +1,17 @@
 {
     "maintenance_model": "Classic",
-    "first_maintainer": "",
+    "first_maintainer": "akill(149)",
     "second_maintainer": "",
-    "implicit_maintainers": [],
+    "implicit_maintainers": [
+        "akill(149)"
+    ],
     "coordinator": "",
     "tester": "",
     "testcase_writer": "",
     "path": "Services/Cache",
     "belong_to_component": "None",
-    "used_in_components": []
+    "used_in_components": [
+        "News",
+        "Calendar"
+    ]
 }

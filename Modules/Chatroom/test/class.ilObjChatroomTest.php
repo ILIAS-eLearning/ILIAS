@@ -22,7 +22,7 @@ class ilObjChatroomTest extends ilChatroomAbstractTest
 
 		$this->createIlChatroomUserMock();
 
-		$this->object = $this->getMock(
+		$this->object = $this->createMock(
 			'ilObjChatroom',
 			array('createDefaultRole')
 		);

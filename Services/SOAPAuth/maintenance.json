@@ -1,12 +1,12 @@
 {
     "maintenance_model": "Classic",
-    "first_maintainer": "",
-    "second_maintainer": "",
+    "first_maintainer": "smeyer(191)",
+    "second_maintainer": "mjansen(8784)",
     "implicit_maintainers": [],
     "coordinator": "",
     "tester": "",
     "testcase_writer": "",
     "path": "Services/SOAPAuth",
-    "belong_to_component": "None",
+    "belong_to_component": "SOAP",
     "used_in_components": []
 }

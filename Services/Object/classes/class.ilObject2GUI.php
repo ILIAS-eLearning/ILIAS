@@ -626,7 +626,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 	 * @param ilObject $a_obj
 	 * @param int $a_parent_node_id
 	 */
-	protected function putObjectInTree(ilObject $a_obj, $a_parent_node_id = null)
+	public function putObjectInTree(ilObject $a_obj, $a_parent_node_id = null)
 	{
 		global $rbacreview, $ilUser, $objDefinition;
 

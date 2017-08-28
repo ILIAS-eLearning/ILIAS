@@ -1,5 +1,4 @@
 <?php
-require_once('./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecordRepresentation.php');
 /**
  * Class ilDclTextFieldRepresentation
  *
@@ -91,10 +90,9 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation {
 		$input_field = $form->getItemByPostVar('field_'.$this->getField()->getId());
 		$raw_input = $this->getFormInput();
 
-		$value = (is_array($raw_input) && isset($raw_input['link']))? $raw_input['link'] : $raw_input;
+		$value = is_array($raw_input) ? $raw_input['link'] : $raw_input;
 		$field_values = array();
 		if($this->getField()->getProperty(ilDclBaseFieldModel::PROP_URL)) {
-			$value = (isset($raw_input['link']))? $raw_input['link'] : '';
 			$field_values["field_".$this->getRecordField()->getField()->getId()."_title"] = (isset($raw_input['title']))? $raw_input['title'] : '';
 		}
 

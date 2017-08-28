@@ -178,6 +178,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				
 				include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 				$q_gui = assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
+				$q_gui->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_PREVIEW);
 				$q_gui->setQuestionTabs();
 				$q_gui->outAdditionalOutput();
 				$q_gui->object->setObjId($this->object->getId());
@@ -877,15 +878,22 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	function deleteQuestionsObject()
 	{
 		global $rbacsystem;
-		
-		if (count($_POST["q_id"]) < 1)
+
+		$questionIdsToDelete = isset($_POST['q_id']) ? (array)$_POST['q_id'] : array();
+		if(0 === count($questionIdsToDelete) && isset($_GET['q_id']))
+		{
+			$questionIdsToDelete = array($_GET['q_id']);
+		}
+
+		$questionIdsToDelete = array_filter(array_map('intval', $questionIdsToDelete));
+		if(0 === count($questionIdsToDelete))
 		{
 			ilUtil::sendInfo($this->lng->txt("qpl_delete_select_none"), true);
 			$this->ctrl->redirect($this, "questions");
 		}
 		
 		ilUtil::sendQuestion($this->lng->txt("qpl_confirm_delete_questions"));
-		$deleteable_questions =& $this->object->getDeleteableQuestionDetails($_POST["q_id"]);
+		$deleteable_questions =& $this->object->getDeleteableQuestionDetails($questionIdsToDelete);
 		include_once "./Modules/TestQuestionPool/classes/tables/class.ilQuestionBrowserTableGUI.php";
 		$table_gui = new ilQuestionBrowserTableGUI($this, 'questions', (($rbacsystem->checkAccess('write', $_GET['ref_id']) ? true : false)), true);
 		$table_gui->setEditable($rbacsystem->checkAccess('write', $_GET['ref_id']));
@@ -1046,7 +1054,21 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$btn->setUrl($this->ctrl->getLinkTarget($this, 'createQuestionForm'));
 			$btn->setPrimary(true);
 			$toolbar->addButtonInstance($btn);
-			
+
+
+			$btnImport = ilLinkButton::getInstance();
+			$btnImport->setCaption('import');
+			$btnImport->setUrl($this->ctrl->getLinkTarget($this, 'importQuestions'));
+			$toolbar->addButtonInstance($btnImport);
+
+			if(array_key_exists("qpl_clipboard", $_SESSION) && count($_SESSION['qpl_clipboard']))
+			{
+				$btnPaste = ilLinkButton::getInstance();
+				$btnPaste->setCaption('paste');
+				$btnPaste->setUrl($this->ctrl->getLinkTarget($this, 'paste'));
+				$toolbar->addButtonInstance($btnPaste);
+			}
+
 			$this->tpl->setContent(
 					$this->ctrl->getHTML($toolbar) . $this->ctrl->getHTML($table_gui)
 			);
@@ -1232,6 +1254,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			}
 			ilUtil::sendInfo($this->lng->txt("qpl_copy_insert_clipboard"), true);
 		}
+		else if(isset($_GET['q_id']) && $_GET['q_id'] > 0)
+		{
+			$this->object->copyToClipboard((int)$_GET['q_id']);
+			ilUtil::sendInfo($this->lng->txt("qpl_copy_insert_clipboard"), true);
+		}
 		else
 		{
 			ilUtil::sendInfo($this->lng->txt("qpl_copy_select_none"), true);
@@ -1251,6 +1278,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->object->moveToClipboard($value);
 			}
 			ilUtil::sendInfo($this->lng->txt("qpl_move_insert_clipboard"), true);
+		}
+		else if(isset($_GET['q_id']) && $_GET['q_id'] > 0)
+		{
+			$this->object->moveToClipboard((int)$_GET['q_id']);
+			ilUtil::sendInfo($this->lng->txt("qpl_copy_insert_clipboard"), true);
 		}
 		else
 		{

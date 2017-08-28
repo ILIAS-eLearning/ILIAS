@@ -605,9 +605,10 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 	
 	public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
 	{
+		$participantSolution = $previewSession->getParticipantsSolution();
 		foreach ($this->answers as $key => $answer)
 		{
-			if( $key == $previewSession->getParticipantsSolution() )
+			if( is_numeric($participantSolution) && $key == $participantSolution )
 			{
 				return $answer->getPoints();
 			}

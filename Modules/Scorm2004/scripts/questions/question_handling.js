@@ -129,7 +129,7 @@ ilias.questions.handleMCImages = function(a_id) {
 				var img = questions[a_id].answers[i].image;
 				if(img.length)
 				{
-					var text_node = jQuery(node).next();
+					var text_node = jQuery(node).closest('.ilc_qanswer_Answer').find('.answertext');
 					if(questions[a_id].thumb > 0)
 					{
 						jQuery(text_node).before('<a class="ilc_qimgd_ImageDetailsLink" href="' + questions[a_id].path + img + '" target="_blank">' +
@@ -145,7 +145,41 @@ ilias.questions.handleMCImages = function(a_id) {
 		}
 
 	});
-}
+};
+
+ilias.questions.handleKprimImages = function(a_id) {
+
+	if(questions[a_id].path === undefined)
+	{
+		return;
+	}
+
+	jQuery('div#container' + a_id + ' .answers').each(function() {
+		var $firstOption = jQuery(this).find('input[type="radio"]:first');
+		for(var i=0;i<questions[a_id].answers.length;i++)
+		{
+			if('kprim_choice_' + a_id + '_result_' + questions[a_id].answers[i].order == $firstOption.prop("name"))
+			{
+				var img = questions[a_id].answers[i].image;
+				if(img.length)
+				{
+					var text_node = $firstOption.closest('tr').find('.answertext');
+					if(questions[a_id].thumb > 0)
+					{
+						jQuery(text_node).before('<a class="ilc_qimgd_ImageDetailsLink" href="' + questions[a_id].path + img + '" target="_blank">' +
+							'<img class="ilc_qimg_QuestionImage" src="' + questions[a_id].path + 'thumb.' + img + '" /></a>');
+					}
+					else
+					{
+						jQuery(text_node).before('<img class="ilc_qimg_QuestionImage" src="' + questions[a_id].path + img + '" />');
+					}
+
+				}
+			}
+		}
+
+	});
+};
 
 ilias.questions.assSingleChoice = function(a_id) {
 

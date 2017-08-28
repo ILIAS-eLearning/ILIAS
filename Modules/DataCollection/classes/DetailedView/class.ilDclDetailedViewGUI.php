@@ -2,17 +2,6 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once('./Modules/DataCollection/classes/Table/class.ilDclTable.php');
-require_once('./Services/COPage/classes/class.ilPageObjectGUI.php');
-require_once('./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecordModel.php');
-require_once('./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseFieldModel.php');
-require_once('class.ilDclDetailedViewDefinition.php');
-require_once('./Services/UIComponent/Button/classes/class.ilLinkButton.php');
-require_once('./Modules/DataCollection/classes/Content/class.ilDclRecordEditGUI.php');
-require_once("./Services/PermanentLink/classes/class.ilPermanentLinkGUI.php");
-require_once("./Modules/DataCollection/classes/Content/class.ilDclRecordListTableGUI.php");
-require_once("./Modules/DataCollection/classes/Content/class.ilDclRecordListGUI.php");
-require_once("./Modules/DataCollection/classes/TableView/class.ilDclTableViewTableGUI.php");
 
 /**
  *

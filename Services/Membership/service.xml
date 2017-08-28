@@ -4,4 +4,5 @@
 		<cron id="mem_notification" class="ilMembershipCronNotifications" />
 		<cron id="mem_min_members" class="ilMembershipCronMinMembers" />
 	</crons>
+	<logging />
 </service>

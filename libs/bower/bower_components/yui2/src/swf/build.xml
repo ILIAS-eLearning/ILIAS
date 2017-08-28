@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="YUI2SWF" default="local">
+    <description>YUI2.x SWF Build File</description>
+    <property file="build.properties" />
+    <import file="${builddir}/2.x/bootstrap.xml" />
+</project>	

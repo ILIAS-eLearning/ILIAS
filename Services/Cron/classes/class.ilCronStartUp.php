@@ -87,5 +87,13 @@ class ilCronStartUp
 		}				
 		return true;
 	}
+
+	/**
+	 * Closes the current auth session
+	 */
+	public function logout()
+	{
+		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
+		$GLOBALS['DIC']['ilAuthSession']->logout();
+	}
 }
-?>

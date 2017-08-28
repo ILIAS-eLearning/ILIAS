@@ -62,11 +62,20 @@ class ilObjCertificateSettingsAccess extends ilObjectAccess
 
 	/**
 	* Returns the filesystem path of the background image
-	*
+	* @param bool $asRelative
 	* @return string The filesystem path of the background image
 	*/
-	public static function getBackgroundImagePath()
+	public static function getBackgroundImagePath($asRelative = false)
 	{
+		if($asRelative)
+		{
+			return str_replace(
+				array(CLIENT_WEB_DIR, '//'),
+				array('[CLIENT_WEB_DIR]', '/'),
+				ilObjCertificateSettingsAccess::getBackgroundImageDefaultFolder() . ilObjCertificateSettingsAccess::getBackgroundImageName()
+			);
+		}
+
 		return ilObjCertificateSettingsAccess::getBackgroundImageDefaultFolder() . ilObjCertificateSettingsAccess::getBackgroundImageName();
 	}
 

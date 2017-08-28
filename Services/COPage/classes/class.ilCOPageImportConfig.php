@@ -98,11 +98,6 @@ class ilCOPageImportConfig extends ilImportConfig
 	{
 		return $this->skip_int_link_resolve;
 	}
-
-
-
-
-
 }
 
 ?>

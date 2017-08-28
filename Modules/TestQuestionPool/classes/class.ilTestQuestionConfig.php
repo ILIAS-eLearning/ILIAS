@@ -13,6 +13,15 @@ class ilTestQuestionConfig
 	protected $enableFormChangeDetection = true;
 	protected $enableBackgroundChangeDetection = false;
 
+	// hey: prevPassSolutions - previous solution adopted
+	protected $previousPassSolutionReuseAllowed = false;
+	protected $solutionInitiallyPrefilled = false;
+	// hey.
+
+	protected $scoreEmptyMcSolutionsEnabled = false;
+	
+	protected $workedThrough = false;
+	
 	/**
 	 * ilTestQuestionConfig constructor.
 	 */
@@ -103,4 +112,82 @@ class ilTestQuestionConfig
 		$this->enableBackgroundChangeDetection = $enableBackgroundChangeDetection;
 		return $this;
 	}
+
+	// hey: prevPassSolutions - extension or fix or anything sensefull in the current fixing work :-D
+	/**
+	 * @return bool
+	 */
+	public function isPreviousPassSolutionReuseAllowed()
+	{
+		return $this->previousPassSolutionReuseAllowed;
+	}
+	
+	/**
+	 * @param bool $previousPassSolutionReuseAllowed
+	 */
+	public function setPreviousPassSolutionReuseAllowed($previousPassSolutionReuseAllowed)
+	{
+		$this->previousPassSolutionReuseAllowed = $previousPassSolutionReuseAllowed;
+	}
+	// hey.
+	
+	// hey: prevPassSolutions - previous solution adopted
+	/**
+	 * @return bool
+	 */
+	public function isSolutionInitiallyPrefilled()
+	{
+		return $this->solutionInitiallyPrefilled;
+	}
+	
+	/**
+	 * @param bool $solutionInitiallyPrefilled
+	// hey: prevPassSolutions - streamlined signatures
+	 * @return ilTestQuestionConfig $this
+	// hey.
+	 */
+	public function setSolutionInitiallyPrefilled($solutionInitiallyPrefilled)
+	{
+		$this->solutionInitiallyPrefilled = $solutionInitiallyPrefilled;
+		// hey: prevPassSolutions - streamlined signatures
+		return $this;
+		// hey.
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isScoreEmptyMcSolutionsEnabled()
+	{
+		return $this->scoreEmptyMcSolutionsEnabled;
+	}
+	
+	/**
+	 * @param bool $scoreEmptyMcSolutionsEnabled
+	 */
+	public function setScoreEmptyMcSolutionsEnabled($scoreEmptyMcSolutionsEnabled)
+	{
+		$this->scoreEmptyMcSolutionsEnabled = $scoreEmptyMcSolutionsEnabled;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isWorkedThrough()
+	{
+		return $this->workedThrough;
+	}
+	
+	/**
+	 * @param bool $workedThrough
+	 * @return $this
+	 */
+	public function setWorkedThrough($workedThrough)
+	{
+		$this->workedThrough = $workedThrough;
+		return $this;
+	}
+	// hey.
+	
+	
 }

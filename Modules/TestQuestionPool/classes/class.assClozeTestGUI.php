@@ -1249,7 +1249,9 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 	
 	function getTestOutput(
 				$active_id, 
-				$pass = NULL, 
+				// hey: prevPassSolutions - will be always available from now on
+				$pass,
+				// hey.
 				$is_postponed = FALSE, 
 				$use_post_solutions = FALSE, 
 				$show_feedback = FALSE
@@ -1259,12 +1261,14 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		$user_solution = array();
 		if ($active_id)
 		{
-			include_once "./Modules/Test/classes/class.ilObjTest.php";
-			if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
-			{
-				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
-			}
-			$user_solution = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
+			// hey: prevPassSolutions - obsolete due to central check
+			#include_once "./Modules/Test/classes/class.ilObjTest.php";
+			#if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
+			#{
+			#	if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
+			#}
+			$user_solution = $this->object->getTestOutputSolutions($active_id, $pass);
+			// hey.
 			if (!is_array($user_solution)) 
 			{
 				$user_solution = array();
@@ -1624,7 +1628,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 	 */
 	private function populateSolutiontextToGapTpl($gaptemplate, $gap, $solutiontext)
 	{
-		if ($_GET['pdf'])
+		if( $this->renderPurposeSupportsFormHtml() )
 		{
 			$gaptemplate->setCurrentBlock('gap_span');
 			$gaptemplate->setVariable('SPAN_SOLUTION', $solutiontext);

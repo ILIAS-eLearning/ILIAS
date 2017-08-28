@@ -25,7 +25,7 @@ include_once('./Services/Calendar/classes/class.ilCalendarUserSettings.php');
 include_once('./Services/Calendar/classes/class.ilDateTime.php');
 include_once('./Services/Calendar/classes/class.ilCalendarRecurrenceCalculator.php');
 include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
-include_once('./Services/Calendar/classes/class.ilCalendarHidden.php');
+include_once('./Services/Calendar/classes/class.ilCalendarVisibility.php');
 
 /** 
 * Represents a list of calendar appointments (including recurring events) for a specific user
@@ -562,5 +562,18 @@ class ilCalendarSchedule
 		
 		return true;
 	}
+
+	/**
+	 * Set period
+	 *
+	 * @param
+	 * @return
+	 */
+	function setPeriod(ilDate $a_start, ilDate $a_end)
+	{
+		$this->start = $a_start;
+		$this->end = $a_end;
+	}
+
 }
 ?>

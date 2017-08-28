@@ -9,12 +9,12 @@
     "tester": "",
     "testcase_writer": "",
     "path": "Services/GlobalCache",
-    "belong_to_component": "None",
+    "belong_to_component": "GlobalCache",
     "used_in_components": [
         "Component",
         "EventHandling",
         "Initialisation",
-        "Language",
+        "Language Handling",
         "Object",
         "TemplateEngine"
     ]

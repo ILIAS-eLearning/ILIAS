@@ -4,7 +4,7 @@
 include_once './Services/Mail/classes/class.ilMailNotification.php';
 
 /**
- * @author Nadia Matuschek <nmatuschekd@databay.de>
+ * @author Nadia Matuschek <nmatuschek@databay.de>
  * @version $Id$
  *
  */
@@ -328,7 +328,7 @@ class ilForumMailNotification extends ilMailNotification
 
 					$this->setBody(ilMail::getSalutation($rcp, $this->getLanguage()));
 					$this->appendBody("\n\n");
-					$this->appendBody(sprintf($this->getLanguageText('post_updated_by'), $this->provider->getPostUpdateUserName(), $this->provider->getForumTitle()));
+					$this->appendBody(sprintf($this->getLanguageText('post_updated_by'), $this->provider->getPostUpdateUserName($this->getLanguage()), $this->provider->getForumTitle()));
 					$this->appendBody("\n\n");
 					$this->appendBody($this->getLanguageText('forum') . ": " . $this->provider->getForumTitle());
 					$this->appendBody("\n\n");
@@ -389,7 +389,7 @@ class ilForumMailNotification extends ilMailNotification
 
 					$this->setBody(ilMail::getSalutation($rcp, $this->getLanguage()));
 					$this->appendBody("\n\n");
-					$this->appendBody(sprintf($this->getLanguageText('post_censored_by'), $this->provider->getPostUpdateUserName() ,$this->provider->getForumTitle()));
+					$this->appendBody(sprintf($this->getLanguageText('post_censored_by'), $this->provider->getPostUpdateUserName($this->getLanguage()) ,$this->provider->getForumTitle()));
 					$this->appendBody("\n\n");
 					$this->appendBody($this->getLanguageText('forum') . ": " . $this->provider->getForumTitle());
 					$this->appendBody("\n\n");
@@ -449,7 +449,7 @@ class ilForumMailNotification extends ilMailNotification
 
 					$this->setBody(ilMail::getSalutation($rcp, $this->getLanguage()));
 					$this->appendBody("\n\n");
-					$this->appendBody(sprintf($this->getLanguageText('post_uncensored_by'), $this->provider->getPostUpdateUserName()));
+					$this->appendBody(sprintf($this->getLanguageText('post_uncensored_by'), $this->provider->getPostUpdateUserName($this->getLanguage())));
 					$this->appendBody("\n\n");
 					$this->appendBody($this->getLanguageText('forum') . ": " . $this->provider->getForumTitle());
 					$this->appendBody("\n\n");

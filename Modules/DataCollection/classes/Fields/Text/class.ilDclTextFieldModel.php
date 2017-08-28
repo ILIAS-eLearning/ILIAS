@@ -1,7 +1,4 @@
 <?php
-require_once("./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseFieldModel.php");
-require_once ('./Modules/DataCollection/classes/Fields/Text/class.ilDclTextRecordQueryObject.php');
-require_once("./Modules/DataCollection/classes/Helpers/class.ilDclRecordQueryObject.php");
 
 /**
  * Class ilDclTextFieldModel
@@ -225,6 +222,9 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel {
 	 */
 	public function checkTitlesForImport(array &$titles, array &$import_fields) {
 		foreach ($titles as $k => $title) {
+			if (!ilStr::isUtf8($title)) {
+				$title = utf8_encode($title);
+			}
 			if ($title == $this->getTitle()) {
 				$import_fields[$k] = $this;
 				if ($this->hasProperty(ilDclBaseFieldModel::PROP_URL) && $titles[$k+1] == $this->getTitle().'_title') {

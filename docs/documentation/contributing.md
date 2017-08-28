@@ -4,8 +4,8 @@
 
 In general we consider everyone who takes part in the development of ILIAS a
 contributor, where the contribution could take various forms, e.g. testing,
-creating feature request, writing documentation. We aim to include everyone
-performing these or similar activities in our processes.
+creating feature request, writing documentation, reporting security issues.
+We aim to include everyone performing these or similar activities in our processes.
 
 For practical reasons we need to define a contributor to be everyone who
 wants to contribute commits to our repository for now. We trying to figure
@@ -79,7 +79,7 @@ other things you could contribute to ILIAS:
 * **Bug Reports**: We do our best, but ILIAS might contain bugs we do not know
   yet. Check out how the ILIAS Community handles [bug reports](http://www.ilias.de/docu/goto.php?target=wiki_5307&client_id=docu#ilPageTocA115).
 * **Information about Security Issues**: Check out how the ILIAS community handles
-  [security issues](http://www.ilias.de/docu/goto.php?target=wiki_5307&client_id=docu#ilPageTocA112).
+  [security issues](http://www.ilias.de/docu/goto.php?target=wiki_5307&client_id=docu#ilPageTocA112). Reporter of security issues will also be named in the release notes.
 * **Time for Testing or Testcases**: We always need people that contribute testcases
-  and perform them before new releases. Please have a look [here](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html).
-  This part if our development is german only (sorry non-german-speakers).
+  and perform them before new releases. Please have a look [here](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html) (German only).
+  An English translation of the Tester Guide will be provided in summer 2017. If you have questions before that, do not hesitate to contact our test case manager Fabian Kruse (fabian@ilias.de).

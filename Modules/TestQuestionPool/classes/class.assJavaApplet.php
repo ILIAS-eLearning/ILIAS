@@ -677,6 +677,28 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
 		}
 		return $points;
 	}
+	
+	// hey: prevPassSolutions - bypass intermediate solution requests and deligate
+	//							to own implementation for requests to authorized solutions 
+	public function getSolutionValues($active_id, $pass = NULL, $authorized = true)
+	{
+		if( !$authorized )
+		{
+			return array();
+		}
+		
+		return $this->getSolutionValuesRegardlessOfAuthorization($active_id, $pass);
+	}
+	
+	public function getSolutionValuesRegardlessOfAuthorization($active_id, $pass = NULL)
+	{
+		// - similar to getSolutionValues in general
+		// - does not consider "step" in any kind
+		// - returns a customized associative array
+		// - is the original implementation for qtype
+		return $this->getReachedInformation($active_id, $pass);
+	}
+	// hey.
 
 	/**
 	 * Returns the evaluation data, a learner has entered to answer the question
@@ -1046,9 +1068,13 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 * Get the test question configuration
 	 * @return ilTestQuestionConfig
 	 */
-	public function getTestQuestionConfig()
+	// hey: refactored identifiers
+	public function buildTestPresentationConfig()
+	// hey.
 	{
-		return parent::getTestQuestionConfig()
+		// hey: refactored identifiers
+		return parent::buildTestPresentationConfig()
+		// hey.
 			->setFormChangeDetectionEnabled(false)
 			->setBackgroundChangeDetectionEnabled(true);
 	}

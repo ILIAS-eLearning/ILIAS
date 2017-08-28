@@ -1249,7 +1249,7 @@ class ilSurveyPageGUI
 
 			if($this->object->isPoolActive())
 			{
-				$ilToolbar->addSeparator();
+				//$ilToolbar->addSeparator();
 
 				$last_on_page = 0;
 				if($a_pages && 
@@ -1330,7 +1330,7 @@ class ilSurveyPageGUI
 		// jump to page
 		if(sizeof($pages_drop) > 1)
 		{
-			$ilToolbar->addSeparator();
+			//$ilToolbar->addSeparator();
 
 			$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
 

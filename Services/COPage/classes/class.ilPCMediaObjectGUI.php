@@ -28,7 +28,8 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		global $ilCtrl;
 
 		$this->ctrl = $ilCtrl;
-
+//		var_dump($_POST);
+//ilUtil::printBacktrace(10); exit;
 //echo "constructor target:".$_SESSION["il_map_il_target"].":<br>";
 		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 		
@@ -526,8 +527,9 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		
 		// standard size
 		$radio_size = new ilRadioGroupInputGUI($lng->txt("size"), "st_derive_size");
+		$orig_size = $std_item->getOriginalSize();
 		$op1 = new ilRadioOption($lng->txt("cont_default").
-			" (".$std_item->getWidth()." x ".$std_item->getHeight().")", "y");
+			" (".$orig_size["width"]." x ".$orig_size["height"].")", "y");
 		$op2 = new ilRadioOption($lng->txt("cont_custom"), "n");
 		$radio_size->addOption($op1);
 		
@@ -644,8 +646,9 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 			
 			// full size
 			$radio_size = new ilRadioGroupInputGUI($lng->txt("size"), "full_derive_size");
+			$fw_size = $std_item->getOriginalSize();
 			$op1 = new ilRadioOption($lng->txt("cont_default").
-				" (".$full_item->getWidth()." x ".$full_item->getHeight().")", "y");
+				" (".$fw_size["width"]." x ".$fw_size["height"].")", "y");
 			$op2 = new ilRadioOption($lng->txt("cont_custom"), "n");
 			$radio_size->addOption($op1);
 			

@@ -31,7 +31,7 @@ class ilObjChatroomAdminAccessTest extends PHPUnit_Framework_TestCase
 		}
 
 		require_once './Services/AccessControl/classes/class.ilAccessHandler.php';
-		$this->ilAccessMock = $this->getMock('ilAccessHandler');
+		$this->ilAccessMock = $this->createMock('ilAccessHandler');
 		global $ilAccess;
 		$ilAccess = $this->ilAccessMock;
 

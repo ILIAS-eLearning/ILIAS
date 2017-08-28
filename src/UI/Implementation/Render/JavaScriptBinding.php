@@ -24,4 +24,13 @@ interface JavaScriptBinding {
 	 * @return	null
 	 */
 	public function addOnLoadCode($code);
+
+	/**
+	 * Get all the registered on-load javascript code for the async context, e.g. return all code
+	 * inside <script> tags
+	 *
+	 * @return string
+	 */
+	public function getOnLoadCodeAsync();
+
 }

@@ -71,7 +71,11 @@ class ilCloudPlugin
 
         if(!$cloud_modul_object)
         {
-            $cloud_modul_object = new ilObjCloud($obj_id, false);
+	        // in the context of deleting, it's possible that the ilObjCloud with this obj_id is already pushing up the daisies
+	        // so instantiating it would lead to an error
+            if ($obj_id == 0 || ilObjCloud::_exists($obj_id, false, 'cld')) {
+		        $cloud_modul_object = new ilObjCloud($obj_id, false);
+	        }
         }
         $this->setCloudModulObject($cloud_modul_object);
     }

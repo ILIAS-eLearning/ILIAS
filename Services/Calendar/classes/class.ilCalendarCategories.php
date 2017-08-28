@@ -36,7 +36,7 @@ include_once './Services/Calendar/classes/class.ilCalendarCache.php';
 
 class ilCalendarCategories
 {
-	const MODE_REPOSITORY = 2;
+	const MODE_REPOSITORY = 2;						// course/group full calendar view (allows to select other calendars)
 	const MODE_REMOTE_ACCESS = 3;
 	const MODE_PERSONAL_DESKTOP_MEMBERSHIP = 4;
 	const MODE_PERSONAL_DESKTOP_ITEMS = 5; 
@@ -44,6 +44,8 @@ class ilCalendarCategories
 	const MODE_CONSULTATION = 7;
 	const MODE_PORTFOLIO_CONSULTATION = 8;
 	const MODE_REMOTE_SELECTED = 9;
+	const MODE_REPOSITORY_CONTAINER_ONLY = 10;		// course/group content view (side block, focus on course/group appointments only)
+	const MODE_SINGLE_CALENDAR = 11;
 	
 	protected static $instance = null;
 	
@@ -65,6 +67,11 @@ class ilCalendarCategories
 	protected $target_ref_id = 0;
 	
 	/**
+	 * ilLogger
+	 */
+	protected $logger = null;
+	
+	/**
 	 * Singleton instance
 	 *
 	 * @access protected
@@ -74,6 +81,8 @@ class ilCalendarCategories
 	protected function __construct($a_usr_id = 0)
 	{
 		global $ilUser,$ilDB;
+		
+		$this->logger = $GLOBALS['DIC']->logger()->cal();
 		
 		$this->user_id = $a_usr_id;
 		if(!$this->user_id)
@@ -245,6 +254,26 @@ class ilCalendarCategories
 	}
 
 	/**
+	 * Set source ref id
+	 *
+	 * @param int $a_val ref id of current context/source
+	 */
+	function setSourceRefId($a_val)
+	{
+		$this->root_ref_id = $a_val;
+	}
+
+	/**
+	 * Get source ref id
+	 *
+	 * @return int ref id of current context/source
+	 */
+	function getSourceRefId()
+	{
+		return $this->root_ref_id;
+	}
+
+	/**
 	 * initialize visible categories
 	 *
 	 * @access public
@@ -252,8 +281,14 @@ class ilCalendarCategories
 	 * @param int ref_id of root node
 	 * @return
 	 */
-	public function initialize($a_mode,$a_source_ref_id = 0,$a_use_cache = false)
+	public function initialize($a_mode, $a_source_ref_id = 0, $a_use_cache = false, $a_cat_id = 0)
 	{
+		if ($this->getMode() != 0)
+		{
+			include_once("./Services/Calendar/exceptions/class.ilCalCategoriesInitializedMultipleException.php");
+			throw new ilCalCategoriesInitializedMultipleException("ilCalendarCategories is initialized multiple times for user ".$this->user_id.".");
+		}
+
 		$this->setMode($a_mode);
 		if($a_use_cache)
 		{
@@ -268,8 +303,7 @@ class ilCalendarCategories
 				}
 			}
 		}
-		
-		
+
 		switch($this->getMode())
 		{
 			case self::MODE_REMOTE_ACCESS:
@@ -302,6 +336,12 @@ class ilCalendarCategories
 				$this->readReposCalendars();
 				break;
 
+			case self::MODE_REPOSITORY_CONTAINER_ONLY:
+				$this->root_ref_id = $a_source_ref_id;
+				$this->root_obj_id = ilObject::_lookupObjId($this->root_ref_id);
+				$this->readReposCalendars(true);
+				break;
+
 			case self::MODE_MANAGE:
 				$this->readPDCalendars();
 				$this->readSelectedItemCalendars();
@@ -315,6 +355,10 @@ class ilCalendarCategories
 			
 			case self::MODE_PORTFOLIO_CONSULTATION:
 				$this->readConsultationHoursCalendar();
+				break;
+
+			case self::MODE_SINGLE_CALENDAR:
+				$this->readSingleCalendar($a_cat_id);
 				break;
 		}
 		
@@ -591,14 +635,20 @@ class ilCalendarCategories
 	 * @param
 	 * @return
 	 */
-	protected function readReposCalendars()
+	protected function readReposCalendars($a_container_only = false)
 	{
 		global $ilAccess,$tree;
 		global $ilDB;
-		
-		$this->readPublicCalendars();
-		$this->readPrivateCalendars();
-		$this->readConsultationHoursCalendar();
+
+		if (!$a_container_only)
+		{
+			$this->readPublicCalendars();
+			$this->readPrivateCalendars();
+			//$this->readConsultationHoursCalendar($this->root_ref_id);
+			$this->readAllConsultationHoursCalendarOfContainer($this->root_ref_id);
+		}
+
+
 
 		#$query = "SELECT ref_id,obd.obj_id obj_id FROM tree t1 ".
 		#	"JOIN object_reference obr ON t1.child = obr.ref_id ".
@@ -607,37 +657,84 @@ class ilCalendarCategories
 		#	"AND t1.lft <= (SELECT rgt FROM tree WHERE child = ".$this->db->quote($this->root_ref_id,'integer')." ) ".
 		#	"AND ".$ilDB->in('type',array('crs','grp','sess'),false,'text')." ".
 		#	"AND tree = 1";
-		
-		$subtree_query = $GLOBALS['tree']->getSubTreeQuery(
-				$this->root_ref_id,
-				array('object_reference.ref_id','object_data.obj_id'),
-				array('crs','grp','sess','exc')
-		);
-		
-		$res = $ilDB->query($subtree_query);
-		$obj_ids = array();
-		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+
+		// alternative 1: do not aggregate items of current course
+		if (!true)		//
 		{
-			if($tree->isDeleted($row->ref_id))
+			$subtree_query = $GLOBALS['tree']->getSubTreeQuery(
+				$this->root_ref_id,
+				array('object_reference.ref_id', 'object_data.obj_id'),
+				array('crs', 'grp', 'sess', 'exc')
+			);
+
+			$res = $ilDB->query($subtree_query);
+			$obj_ids = array();
+			while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
-				continue;
-			}
-			
-			$obj_type = ilObject::_lookupType($row->obj_id);
-			if($obj_type == 'crs' or $obj_type == 'grp')
-			{
-				// Check for global/local activation
-				if(!ilCalendarSettings::_getInstance()->lookupCalendarActivated($row->obj_id))
+				if ($tree->isDeleted($row->ref_id))
 				{
 					continue;
 				}
+
+				$obj_type = ilObject::_lookupType($row->obj_id);
+				if ($obj_type == 'crs' or $obj_type == 'grp')
+				{
+					//Added for calendar revision --> https://goo.gl/CXGTRF
+					//In 5.2-trunk, the booking pools did not appear in the marginal calendar.
+					$this->readBookingCalendar();
+					// Check for global/local activation
+					if (!ilCalendarSettings::_getInstance()->lookupCalendarActivated($row->obj_id))
+					{
+						continue;
+					}
+				}
+				if ($ilAccess->checkAccess('read', '', $row->ref_id))
+				{
+					$obj_ids[] = $row->obj_id;
+				}
 			}
-			if($ilAccess->checkAccess('read','',$row->ref_id))
-			{
-				$obj_ids[] = $row->obj_id;
-			}
+			$this->readSelectedCategories($obj_ids, $this->root_ref_id);
 		}
-		$this->readSelectedCategories($obj_ids);
+		else	// alternative 2: aggregate items of current course (discussion with timon 3.8.3017: this is the current preference)
+		{
+			$this->readSelectedCategories(array($this->root_obj_id), $this->root_ref_id);
+		}
+
+		$this->addSubitemCalendars();
+
+
+		if (!$a_container_only)
+		{
+			$this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id, 'crs'));
+			$this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id, 'grp'));
+		}
+	}
+
+	function readSingleCalendar($a_cat_id)
+	{
+		include_once './Services/Calendar/classes/class.ilCalendarCategory.php';
+		$cat = new ilCalendarCategory($a_cat_id);
+		switch ($cat->getType())
+		{
+			case ilCalendarCategory::TYPE_OBJ:
+				$this->readSelectedCalendar($a_cat_id);
+				break;
+
+			case ilCalendarCategory::TYPE_GLOBAL:
+				$this->readPublicCalendars(array($a_cat_id));
+				break;
+
+			case ilCalendarCategory::TYPE_USR:
+				$this->readPrivateCalendars(array($a_cat_id));
+				break;
+
+			case ilCalendarCategory::TYPE_CH:
+				$this->readConsultationHoursCalendar($this->root_ref_id, $a_cat_id);
+				break;
+
+			case ilCalendarCategory::TYPE_BOOK:
+				break;
+		}
 	}
 	
 	/**
@@ -646,13 +743,19 @@ class ilCalendarCategories
 	 * @access protected
 	 * @return
 	 */
-	protected function readPublicCalendars()
+	protected function readPublicCalendars($cat_ids = null)
 	{
 		global $rbacsystem,$ilAccess;
-		
+
+		$in = "";
+		if (is_array($cat_ids))
+		{
+			$in = " AND ".$this->db->in('cat_id', $cat_ids, false, 'integer')." ";
+		}
+
 		// global categories
 		$query = "SELECT * FROM cal_categories ".
-			"WHERE type = ".$this->db->quote(ilCalendarCategory::TYPE_GLOBAL ,'integer')." ".
+			"WHERE type = ".$this->db->quote(ilCalendarCategory::TYPE_GLOBAL ,'integer')." ".$in.
 			"ORDER BY title ";
 
 		$res = $this->db->query($query);
@@ -665,6 +768,7 @@ class ilCalendarCategories
 			$this->categories_info[$row->cat_id]['color'] = $row->color;
 			$this->categories_info[$row->cat_id]['type'] = $row->type;
 			$this->categories_info[$row->cat_id]['editable'] = $rbacsystem->checkAccess('edit_event',ilCalendarSettings::_getInstance()->getCalendarSettingsId());
+			$this->categories_info[$row->cat_id]['settings'] = $rbacsystem->checkAccess('write',ilCalendarSettings::_getInstance()->getCalendarSettingsId());
 			$this->categories_info[$row->cat_id]['accepted'] = false;
 			$this->categories_info[$row->cat_id]['remote'] = ($row->loc_type == ilCalendarCategory::LTYPE_REMOTE);
 		}
@@ -678,15 +782,21 @@ class ilCalendarCategories
 	 * @access protected
 	 * @return
 	 */
-	protected function readPrivateCalendars()
+	protected function readPrivateCalendars($only_cat_ids = null)
 	{
 		global $ilUser;
 		global $ilDB;
 
+		$in = "";
+		if (is_array($only_cat_ids))
+		{
+			$in = " AND ".$this->db->in('cat_id', $only_cat_ids, false, 'integer')." ";
+		}
+
 		// First read private calendars of user
 		$query = "SELECT cat_id FROM cal_categories ".
 			"WHERE type = ".$this->db->quote(ilCalendarCategory::TYPE_USR ,'integer')." ".
-			"AND obj_id = ".$this->db->quote($ilUser->getId(),'integer')." ";
+			"AND obj_id = ".$this->db->quote($ilUser->getId(),'integer')." ".$in;
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
@@ -700,8 +810,14 @@ class ilCalendarCategories
 		{
 			return true;
 		}
-		
-		
+
+		if (is_array($only_cat_ids))
+		{
+			$cat_ids = array_filter($cat_ids, function ($id) use ($only_cat_ids) {
+				return in_array($id, $only_cat_ids);
+			});
+		}
+
 		// user categories
 		$query = "SELECT * FROM cal_categories ".
 			"WHERE type = ".$this->db->quote(ilCalendarCategory::TYPE_USR ,'integer')." ".
@@ -735,21 +851,50 @@ class ilCalendarCategories
 			{
 				$this->categories_info[$row->cat_id]['editable'] = true;
 			}
+			if ($ilUser->getId() == $row->obj_id)
+			{
+				$this->categories_info[$row->cat_id]['settings'] = true;
+			}
+			else
+			{
+				$this->categories_info[$row->cat_id]['settings'] = false;
+			}
 			
 			$this->categories_info[$row->cat_id]['accepted'] = in_array($row->cat_id, $accepted_ids);
 			$this->categories_info[$row->cat_id]['remote'] = ($row->loc_type == ilCalendarCategory::LTYPE_REMOTE);
 		}
 	}
-	
+
+	/**
+	 * Read personal consultation hours calendar of all tutors for a container
+	 * @param int $a_container_ref_id container ref id
+	 */
+	public function readAllConsultationHoursCalendarOfContainer($a_container_ref_id)
+	{
+		include_once "Modules/Course/classes/class.ilCourseParticipants.php";
+		$obj_id = ilObject::_lookupObjId($a_container_ref_id);
+		$participants = ilCourseParticipants::_getInstanceByObjId($obj_id);
+		$users = array_unique(array_merge($participants->getTutors(), $participants->getAdmins()));
+		include_once 'Services/Booking/classes/class.ilBookingEntry.php';
+		$users = ilBookingEntry::lookupBookableUsersForObject($obj_id, $users);
+		$old_ch = $this->getCHUserId();
+		foreach ($users as $user)
+		{
+			$this->setCHUserId($user);
+			$this->readConsultationHoursCalendar($a_container_ref_id);
+		}
+		$this->setCHUserId($old_ch);
+	}
+
 	/**
 	 * Read personal consultation hours calendar
 	 * @param	int	$user_id
 	 * @return 
 	 */
-	public function readConsultationHoursCalendar($a_target_ref_id = NULL)
+	public function readConsultationHoursCalendar($a_target_ref_id = NULL, $a_cat_id = 0)
 	{
-		global $ilDB;
-		
+		global $ilDB, $lng;
+
 		if(!$this->getCHUserId())
 		{
 			$this->setCHUserId($this->user_id);
@@ -764,15 +909,23 @@ class ilCalendarCategories
 					'JOIN cal_entries ce ON be.booking_id = ce.context_id '.
 					'JOIN cal_cat_assignments ca ON ce.cal_id = ca.cal_id '.
 					'JOIN cal_categories cc ON ca.cat_id = cc.cat_id '.
-					'WHERE ((bo.target_obj_id IS NULL) OR bo.target_obj_id = '.$ilDB->quote($target_obj_id,'integer').' ) '.
-					'AND cc.obj_id = '.$ilDB->quote($this->getCHUserId(),'integer');
+					'WHERE ((bo.target_obj_id IS NULL) OR bo.target_obj_id = '.$ilDB->quote($target_obj_id,'integer').' ) ';
+
+			// limit only to user if no cat id is given
+			if ($a_cat_id == 0)
+			{
+				$query.= 'AND cc.obj_id = ' . $ilDB->quote($this->getCHUserId(), 'integer');
+			}
 			
 
 			$res = $ilDB->query($query);
 			$categories = array();
 			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
-				$categories[] = $row->cat_id;
+				if ($a_cat_id == 0 || $row->cat_id == $a_cat_id)
+				{
+					$categories[] = $row->cat_id;
+				}
 			}
 
 			if($categories)
@@ -785,10 +938,11 @@ class ilCalendarCategories
 					$this->categories[] = $row->cat_id;
 					$this->categories_info[$row->cat_id]['obj_id'] = $row->obj_id;
 					$this->categories_info[$row->cat_id]['cat_id'] = $row->cat_id;
-					$this->categories_info[$row->cat_id]['title'] = $row->title;
+					$this->categories_info[$row->cat_id]['title'] = ilObjUser::_lookupFullname($row->obj_id);
 					$this->categories_info[$row->cat_id]['color'] = $row->color;
 					$this->categories_info[$row->cat_id]['type'] = $row->type;
 					$this->categories_info[$row->cat_id]['editable'] = false;
+					$this->categories_info[$row->cat_id]['settings'] = false;
 					$this->categories_info[$row->cat_id]['accepted'] = false;
 					$this->categories_info[$row->cat_id]['remote'] = false;
 				}
@@ -796,9 +950,12 @@ class ilCalendarCategories
 		}
 		else // no category given
 		{
+			$filter = ($a_cat_id > 0)
+				? " AND cat_id = ".$ilDB->quote($a_cat_id, "integer")
+				: " AND obj_id = ".$ilDB->quote($this->getCHUserId(),'integer');
+
 			$query = "SELECT *  FROM cal_categories cc ".
-			"WHERE type = ".$ilDB->quote(ilCalendarCategory::TYPE_CH,'integer').' '.
-			"AND obj_id = ".$ilDB->quote($this->getCHUserId(),'integer');
+			"WHERE type = ".$ilDB->quote(ilCalendarCategory::TYPE_CH,'integer').' '.$filter;
 			$res = $ilDB->query($query);
 			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
@@ -809,6 +966,7 @@ class ilCalendarCategories
 				$this->categories_info[$row->cat_id]['color'] = $row->color;
 				$this->categories_info[$row->cat_id]['type'] = $row->type;
 				$this->categories_info[$row->cat_id]['editable'] = false;
+				$this->categories_info[$row->cat_id]['settings'] = false;
 				$this->categories_info[$row->cat_id]['accepted'] = false;
 				$this->categories_info[$row->cat_id]['remote'] = false;
 			}
@@ -843,6 +1001,7 @@ class ilCalendarCategories
 			$this->categories_info[$row->cat_id]['color'] = $row->color;
 			$this->categories_info[$row->cat_id]['type'] = $row->type;
 			$this->categories_info[$row->cat_id]['editable'] = false;
+			$this->categories_info[$row->cat_id]['settings'] = false;
 			$this->categories_info[$row->cat_id]['accepted'] = false;
 			$this->categories_info[$row->cat_id]['remote'] = false;
 		}
@@ -854,7 +1013,7 @@ class ilCalendarCategories
 	 * @access protected
 	 * @return
 	 */
-	protected function readSelectedCategories($a_obj_ids)
+	protected function readSelectedCategories($a_obj_ids, $a_source_ref_id = 0)
 	{
 		global $ilAccess,$tree;
 		global $ilDB;
@@ -884,8 +1043,13 @@ class ilCalendarCategories
 		
 			$editable = false;
 			$exists = false;
+			$settings = false;
 			foreach(ilObject::_getAllReferences($row->obj_id) as $ref_id)
 			{
+				if($ilAccess->checkAccess('edit_event','',$ref_id))
+				{
+					$settings = true;
+				}
 				if($ilAccess->checkAccess('edit_event','',$ref_id))
 				{
 					$exists = true;
@@ -902,6 +1066,7 @@ class ilCalendarCategories
 				continue;
 			}
 			$this->categories_info[$row->cat_id]['editable'] = $editable;
+			$this->categories_info[$row->cat_id]['settings'] = $settings;
 			
 			$this->categories[] = $row->cat_id;
 			$this->categories_info[$row->cat_id]['obj_id'] = $row->obj_id;
@@ -912,7 +1077,7 @@ class ilCalendarCategories
 			$this->categories_info[$row->cat_id]['obj_type'] = ilObject::_lookupType($row->obj_id);
 			$this->categories_info[$row->cat_id]['type'] = $row->type;
 			$this->categories_info[$row->cat_id]['remote'] = false;
-			
+			$this->categories_info[$row->cat_id]['source_ref_id'] = $a_source_ref_id;
 		}
 	}
 	

@@ -1,8 +1,5 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once("./Services/Export/classes/class.ilExportGUI.php");
-require_once("./Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
-require_once("class.ilOrgUnitExporter.php");
 /**
  * Class ilOrgUnitExportGUI
  *
@@ -79,4 +76,3 @@ class ilOrgUnitExportGUI extends ilExportGUI {
 	}
 
 }
-?>

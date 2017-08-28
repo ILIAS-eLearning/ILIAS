@@ -152,6 +152,29 @@ div.il_ContainerListItem {
 	vertical-align: middle;
 }
 
+.ilContainerBlockHeaderExpanded, .ilContainerBlockHeaderCollapsed {
+	background-repeat: no-repeat;
+	background-position: 20px 8px;
+	padding-left: 50px;
+	/* padding-top: 6px; */
+	background-color: @il-secondary-container-bg;
+	cursor: pointer;
+	margin-bottom: 1px;
+}
+
+.ilContainerBlockHeaderExpanded {
+	background-image: url("images/tree_exp.svg");
+}
+
+.ilContainerBlockHeaderCollapsed {
+	background-image: url("images/tree_col.svg");
+	/* background-color: @il-secondary-container-bg; */
+}
+
+.ilContainerBlockHeaderExpanded:hover, .ilContainerBlockHeaderCollapsed:hover {
+	background-color: @il-highlight-bg;
+}
+
 [dir="rtl"] .ilContainerBlockHeader {
 	text-align: right;
 }

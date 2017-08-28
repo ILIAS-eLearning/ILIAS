@@ -196,6 +196,7 @@ class ilUserXMLWriter extends ilXmlWriter
 
 		$this->__addElement ("Gender", $row["gender"]);
 		$this->__addElement ("Email", $row["email"]);
+		$this->__addElement ("SecondEmail", $row["second_email"], null, "second_email");
 		$this->__addElement ("Birthday", $row["birthday"]);
 		$this->__addElement ("Institution", $row["institution"]);
 		$this->__addElement ("Street", $row["street"]);
@@ -270,10 +271,11 @@ class ilUserXMLWriter extends ilXmlWriter
 	
 	private function __handlePreferences ($prefs, $row) 
 	{		
-		
+		//todo nadia: test mail_address_option 
 		include_once ("Services/Mail/classes/class.ilMailOptions.php");
 		$mailOptions = new ilMailOptions($row["usr_id"]);
 		$prefs["mail_incoming_type"] = $mailOptions->getIncomingType();		
+		$prefs["mail_address_option"] = $mailOptions->getMailAddressOption();		
 		$prefs["mail_signature"] = $mailOptions->getSignature();
 		$prefs["mail_linebreak"] = $mailOptions->getLinebreak();
 		if (count($prefs))
@@ -391,6 +393,7 @@ class ilUserXMLWriter extends ilXmlWriter
 				'public_country',
 				'public_department',
 				'public_email',
+				'public_second_email',
 				'public_fax',
 				'public_hobby',
 				'public_institution',

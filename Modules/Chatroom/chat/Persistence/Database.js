@@ -200,6 +200,60 @@ var Database = function Database(config) {
 		})
 	};
 
+	this.clearChatMessagesProcess = function (bound, namespaceName, callback) {
+		bound = parseInt(bound / 1000);
+
+		async.waterfall([
+			function(next) {
+				_pool.query('DELETE FROM chatroom_history WHERE timestamp < ?',
+					[bound],
+					function (err, result) {
+						if (err) throw err;
+						Container.getLogger().info("Clear Messages for namespace %s affected %s rows", namespaceName, result.affectedRows)
+
+						next(null, result);
+					});
+			},
+			function(result, next)
+			{
+				_pool.query('DELETE FROM osc_messages WHERE timestamp < ?',
+					[bound],
+					function (err, result) {
+						if (err) throw err;
+						Container.getLogger().info("Clear OSC-Messages for namespace %s affected %s rows", namespaceName, result.affectedRows)
+
+						next(null, result);
+					});
+			},
+			function(result, next)
+			{
+				_pool.query('DELETE c FROM osc_conversation c LEFT JOIN osc_messages m ON m.conversation_id = c.id WHERE m.id IS NULL',
+					[bound],
+					function (err, result) {
+						if (err) throw err;
+						Container.getLogger().info("Clear OSC-Conversations for namespace %s affected %s rows", namespaceName, result.affectedRows)
+
+						next(null, result);
+					});
+			},
+			function(result, next)
+			{
+				_pool.query('DELETE a FROM osc_activity a LEFT JOIN osc_conversation c ON a.conversation_id = c.id WHERE c.id IS NULL',
+					[bound],
+					function (err, result) {
+						if (err) throw err;
+						Container.getLogger().info("Clear OSC-Activity for namespace %s affected %s rows", namespaceName, result.affectedRows)
+
+						next(null, result);
+					});
+			}
+		],function(err){
+			if(err) throw err;
+
+			callback();
+		});
+	}
+
 	this.trackActivity = function(conversationId, userId, timestamp) {
 		var emptyResult = true;
 		_onQueryEvents(

@@ -1135,7 +1135,9 @@ class assFormulaQuestionGUI extends assQuestionGUI
 		return $questionoutput;
 	}
 
-	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
+	// hey: prevPassSolutions - pass will be always available from now on
+	function getTestOutput($active_id, $pass, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
+	// hey.
 	{
 		ilUtil::sendInfo($this->lng->txt('enter_valid_values'));
 		// get the solution of the user for the active pass or from the last pass if allowed
@@ -1143,12 +1145,16 @@ class assFormulaQuestionGUI extends assQuestionGUI
 		if($active_id)
 		{
 			$solutions = NULL;
-			include_once "./Modules/Test/classes/class.ilObjTest.php";
-			if(is_null($pass)) $pass = ilObjTest::_getPass($active_id);
+			// hey: prevPassSolutions - obsolete due to central check
+			#include_once "./Modules/Test/classes/class.ilObjTest.php";
+			#if(is_null($pass)) $pass = ilObjTest::_getPass($active_id);
+			// hey.
 
 			$user_solution["active_id"] = $active_id;
 			$user_solution["pass"]      = $pass;
-			$solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
+			// hey: prevPassSolutions - obsolete due to central check
+			$solutions = $this->object->getTestOutputSolutions($active_id, $pass);
+			// hey.
 
 			foreach($solutions as $idx => $solution_value)
 			{

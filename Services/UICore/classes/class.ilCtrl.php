@@ -746,8 +746,19 @@ class ilCtrl
 	{
 		$this->parameter[strtolower($a_class)][$a_parameter] = $a_value;
 	}
-	
-	
+
+	/**
+	 * Same as setParameterByClass, except that a class name is passed.
+	 *
+	 * @param	string		$a_class		gui class name
+	 * @param	string		$a_parameter	parameter name
+	 * @param	string		$a_parameter	parameter value
+	 */
+	public function clearParameterByClass($a_class, $a_parameter)
+	{
+		unset($this->parameter[strtolower($a_class)][$a_parameter]);
+	}
+
 	/**
 	 * Clears all parameters that have been set via setParameter for
 	 * a GUI class.

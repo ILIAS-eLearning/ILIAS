@@ -1,96 +1,99 @@
 /* Services/UIComponent/Toolbar */
 
 .ilToolbar {
-  &.navbar {
-    border: 0 none;
-    background-color: @il-toolbar-bg;
-  }
-  .ilToolbarItems {
-    padding: 0;
-  }
-  .form-control {
-    width: auto;
-    display: inline-block;
-  }
-  input[type="file"] {
-    display: inline-block;
-  }
-  li {
-    border-bottom: @il-toolbar-border;
-    .navbar-form, .navbar-text {
-      padding: 0;
-      border: 0 none;
-      margin-left: 0;
-      margin-right: 0;
-      display: inline-block;
-    }
-    &.navbar-text {
-      margin-left: 0;
-    }
-    &.ilToolbarSeparator {
-      border-left: @il-toolbar-border;
-      height: @il-toolbar-height;
-    }
-    &.ilToolbarGroup {
-      .navbar-form, .navbar-text {
-        margin-left: (@il-toolbar-margin / 2);
-        &:first-child {
-          margin-left: 0;
-        }
-      }
-      .navbar-text {
-        margin-right: 0;
-      }
-    }
-  }
-  .ilToolbarStickyItems {
-    float: left;
-    margin-left: @il-toolbar-margin;
-    &.navbar-nav {
-      margin-top: 0;
-      margin-bottom: 0;
-      .open .dropdown-menu > li > a {
-        padding-left: 0;
-      }
-    }
-    > li {
-      float: left;
-      margin-right: @il-toolbar-margin;
-      .navbar-form {
-        border: 0 none;
-      }
-      &.ilToolbarStickyItem {
-        border: 0 none;
-      }
-    }
-  }
-  ul {
-    &.dropdown-menu {
-      > li {
-        border: 0 none;
-      }
-    }
-  }
+	.container-fluid {
+		padding-left: 0;
+	}
+	&.navbar {
+		border: 0 none;
+		background-color: @il-toolbar-bg;
+	}
+	.ilToolbarItems {
+		padding: 0;
+	}
+	.form-control {
+		width: auto;
+		display: inline-block;
+		vertical-align: top;
+	}
+	input[type="file"] {
+		display: inline-block;
+	}
+	li {
+		border: 0 none;
+		margin-right: @il-toolbar-margin;
+		.navbar-form, .navbar-text {
+			padding: 0;
+			border: 0 none;
+			margin-left: 0;
+			margin-right: 0;
+			display: inline-block;
+		}
+		&.navbar-text {
+			margin-left: 0;
+		}
+		&.ilToolbarSeparator {
+			border-left: @il-toolbar-border;
+			height: @il-toolbar-height;
+		}
+		&.ilToolbarGroup {
+			.navbar-form, .navbar-text {
+				margin-left: (@il-toolbar-margin / 2);
+				&:first-child {
+					margin-left: 0;
+				}
+			}
+			.navbar-text {
+				margin-right: 0;
+			}
+		}
+	}
+	.ilToolbarStickyItems {
+		float: left;
+		margin-left: @il-toolbar-margin;
+		&.navbar-nav {
+			margin-top: 0;
+			margin-bottom: 0;
+			.open .dropdown-menu > li > a {
+				padding-left: 10px;
+			}
+		}
+		> li {
+			float: left;
+			margin-right: @il-toolbar-margin;
+			.navbar-form {
+				border: 0 none;
+			}
+			&.ilToolbarStickyItem {
+				border: 0 none;
+			}
+		}
+	}
+	ul {
+		&.dropdown-menu {
+			> li {
+				border: 0 none;
+				margin-right: 0;
+			}
+		}
+	}
 }
 
-@media (min-width: 768px) {
+@media only screen and (max-width: @grid-float-breakpoint-max) {
 	.ilToolbar {
-      .container-fluid {
-        padding-left: 0;
-      }
-      li {
-        border: 0;
-        margin-right: @il-toolbar-margin;
-      }
-      ul.dropdown-menu > li {
-        margin-right: 0;
-      }
-      .ilToolbarStickyItems {
-        &.navbar-nav {
-          .open .dropdown-menu > li > a {
-            padding-left: 10px;
-          }
-        }
-      }
-    }
+		.container-fluid {
+			padding-left: 15px;
+		}
+		li {
+			border-bottom: @il-toolbar-border;
+			margin-right: 0;
+		}
+		.ilToolbarStickyItems {
+			&.navbar-nav {
+				.open .dropdown-menu > li > a {
+					padding-left: 0;
+				}
+			}
+		}
+	}
 }

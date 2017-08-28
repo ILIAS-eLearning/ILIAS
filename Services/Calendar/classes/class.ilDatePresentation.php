@@ -40,6 +40,16 @@ class ilDatePresentation
 	public static $today = null;
 	public static $tomorrow = null;
 	public static $yesterday = null;
+
+	protected static $weekdays = array(
+		0 => "Su_short",
+		1 => "Mo_short",
+		2 => "Tu_short",
+		3 => "We_short",
+		4 => "Th_short",
+		5 => "Fr_short",
+		6 => "Sa_short"
+	);
 	
 	/**
 	 * set use relative dates 
@@ -110,7 +120,7 @@ class ilDatePresentation
 	 * @return string date presentation in user specific timezone and language 
 	 * @static
 	 */
-	public static function formatDate(ilDateTime $date)
+	public static function formatDate(ilDateTime $date, $a_skip_day = false, $a_include_wd = false)
 	{
 		global $lng,$ilUser;
 		
@@ -131,25 +141,29 @@ class ilDatePresentation
 			$date_info = $date->get(IL_CAL_FKT_GETDATE,'','UTC');
 		}
 		
-
-		if(self::isToday($date) and self::useRelativeDates())
+		if (!$a_skip_day)
 		{
-			$date_str = self::getLanguage()->txt('today');
-		}
-		elseif(self::isTomorrow($date) and self::useRelativeDates())
-		{
-			$date_str = self::getLanguage()->txt('tomorrow');
-		}
-		elseif(self::isYesterday($date) and self::useRelativeDates())
-		{
-			$date_str = self::getLanguage()->txt('yesterday');
-		}
-		else
-		{
-			include_once('./Services/Calendar/classes/class.ilCalendarUtil.php');
-			$date_str = $date->get(IL_CAL_FKT_DATE,'d').'. '.
-				ilCalendarUtil::_numericMonthToString($date_info['mon'],false).' '.
-				$date_info['year'];
+			if (self::isToday($date) and self::useRelativeDates())
+			{
+				$date_str = self::getLanguage()->txt('today');
+			} elseif (self::isTomorrow($date) and self::useRelativeDates())
+			{
+				$date_str = self::getLanguage()->txt('tomorrow');
+			} elseif (self::isYesterday($date) and self::useRelativeDates())
+			{
+				$date_str = self::getLanguage()->txt('yesterday');
+			} else
+			{
+				include_once('./Services/Calendar/classes/class.ilCalendarUtil.php');
+				$date_str = "";
+				if ($a_include_wd)
+				{
+					$date_str = $lng->txt(self::$weekdays[$date->get(IL_CAL_FKT_DATE, 'w')]) . ", 	";
+				}
+				$date_str.= $date->get(IL_CAL_FKT_DATE, 'd') . '. ' .
+					ilCalendarUtil::_numericMonthToString($date_info['mon'], false) . ' ' .
+					$date_info['year'];
+			}
 		}
 		
 		if(!$has_time)
@@ -179,7 +193,7 @@ class ilDatePresentation
 	 * @return
 	 * @static
 	 */
-	public static function formatPeriod(ilDateTime $start,ilDateTime $end)
+	public static function formatPeriod(ilDateTime $start,ilDateTime $end, $a_skip_starting_day = false)
 	{
 		global $ilUser;
 		
@@ -194,8 +208,14 @@ class ilDatePresentation
 			}
 			else
 			{
-				$date_str = self::formatDate(
-					new ilDate($start->get(IL_CAL_DATE,'',$ilUser->getTimeZone()),IL_CAL_DATE));
+				$date_str = "";
+				$sep = "";
+				if (!$a_skip_starting_day)
+				{
+					$date_str = self::formatDate(
+						new ilDate($start->get(IL_CAL_DATE, '', $ilUser->getTimeZone()), IL_CAL_DATE));
+					$sep = ", ";
+				}
 				
 				// $start == $end
 				if(ilDateTime::_equals($start,$end))
@@ -203,10 +223,10 @@ class ilDatePresentation
 					switch($ilUser->getTimeFormat())
 					{
 						case ilCalendarSettings::TIME_FORMAT_24:
-							return $date_str.', '.$start->get(IL_CAL_FKT_DATE,'H:i',$ilUser->getTimeZone());
+							return $date_str.$sep.$start->get(IL_CAL_FKT_DATE,'H:i',$ilUser->getTimeZone());
 							
 						case ilCalendarSettings::TIME_FORMAT_12:
-							return $date_str.', '.$start->get(IL_CAL_FKT_DATE,'h:i a',$ilUser->getTimeZone());
+							return $date_str.$sep.$start->get(IL_CAL_FKT_DATE,'h:i a',$ilUser->getTimeZone());
 					}
 				}
 				else
@@ -214,18 +234,18 @@ class ilDatePresentation
 					switch($ilUser->getTimeFormat())
 					{
 						case ilCalendarSettings::TIME_FORMAT_24:
-							return $date_str.', '.$start->get(IL_CAL_FKT_DATE,'H:i',$ilUser->getTimeZone()).' - '.
+							return $date_str.$sep.$start->get(IL_CAL_FKT_DATE,'H:i',$ilUser->getTimeZone()).' - '.
 								$end->get(IL_CAL_FKT_DATE,'H:i',$ilUser->getTimeZone());
 							
 						case ilCalendarSettings::TIME_FORMAT_12:
-							return $date_str.', '.$start->get(IL_CAL_FKT_DATE,'g:ia',$ilUser->getTimeZone()).' - '.
+							return $date_str.$sep.$start->get(IL_CAL_FKT_DATE,'g:ia',$ilUser->getTimeZone()).' - '.
 								$end->get(IL_CAL_FKT_DATE,'g:ia',$ilUser->getTimeZone());
 					}
 				}
 			}
 		}
 		// Different days
-		return self::formatDate($start).' - '.self::formatDate($end);
+		return self::formatDate($start, $a_skip_starting_day).' - '.self::formatDate($end);
 	}
 
 

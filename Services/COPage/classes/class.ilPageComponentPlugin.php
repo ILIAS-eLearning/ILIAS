@@ -17,6 +17,12 @@ abstract class ilPageComponentPlugin extends ilPlugin
 	const TXT_CMD_INSERT = "cmd_insert";
 	const CMD_INSERT = "insert";
 	const CMD_EDIT = "edit";
+
+	/**
+	 *
+	 * @var ilPageObject|null
+	 */
+	private $page_obj = null;
 	
 	/**
 	 * Get Component Type
@@ -122,6 +128,75 @@ abstract class ilPageComponentPlugin extends ilPlugin
 		$obj = new $class();
 		$obj->setPlugin($this);
 		return $obj;
+	}
+
+	/**
+	 * Inject the page object
+	 * This must be public to be called by ilPCPlugged
+	 * But the page object should not directly be accessible by plugins
+	 * @param ilPageObject
+	 */
+	public function setPageObj($a_page_obj)
+	{
+		$this->page_obj = $a_page_obj;
+	}
+
+	/**
+	 * Get the id of the page
+	 * @return int
+	 */
+	public function getPageId()
+	{
+		if (isset($this->page_obj))
+		{
+			return $this->page_obj->getId();
+		}
+		return 0;
+	}
+
+	/**
+	 * Get the object id of the parent object
+	 * @return int
+	 */
+	public function getParentId()
+	{
+		if (isset($this->page_obj))
+		{
+			return $this->page_obj->getParentId();
+		}
+		return 0;
+
+	}
+
+	/**
+	 * Get the object type og the parent object
+	 * @return string
+	 */
+	public function getParentType()
+	{
+		if (isset($this->page_obj))
+		{
+			return $this->page_obj->getParentType();
+		}
+		return '';
+	}
+
+	/**
+	 * This function is called when the page content is cloned
+	 * @param array 	$a_properties		(properties saved in the page, should be modified if neccessary)
+	 * @param string	$a_plugin_version	(plugin version of the properties)
+	 */
+	public function onClone(&$a_properties, $a_plugin_version)
+	{
+	}
+
+	/**
+	 * This function is called before the page content is deleted
+	 * @param array 	$a_properties		properties saved in the page (will be deleted afterwards)
+	 * @param string	$a_plugin_version	plugin version of the properties
+	 */
+	public function onDelete($a_properties, $a_plugin_version)
+	{
 	}
 
 }

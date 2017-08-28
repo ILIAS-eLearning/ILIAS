@@ -52,6 +52,8 @@ class ilObjSCORMInitData
 		}
 		$b_autoReview='false';
 		if ($slm_obj->getAutoReview()) $b_autoReview='true';
+		$b_autoSuspend='false';
+		if ($slm_obj->getAutoSuspend()) $b_autoSuspend='true';
 		$b_debug='false';
 		if ($slm_obj->getDebug()) $b_debug='true';
 		$b_autoContinue='false';
@@ -99,13 +101,14 @@ class ilObjSCORMInitData
 			.'"launchId":'.$launchId.','
 			.'"launchNr":0,'
 			.'"pingSession":'. $session_timeout.','
-			.'"studentId":'.$ilias->account->getId().','
-			.'"studentName":"'.self::encodeURIComponent($ilias->account->getLastname().', '.$ilias->account->getFirstname()).'",'
+			.'"studentId":"'.$slm_obj->getApiStudentId().'",'
+			.'"studentName":"'.self::encodeURIComponent($slm_obj->getApiStudentName()).'",'
 			.'"studentLogin":"'.self::encodeURIComponent($ilias->account->getLogin()).'",'
 			.'"studentOu":"'.self::encodeURIComponent($ilias->account->getDepartment()).'",'
 			.'"credit":"'.str_replace("_", "-", $slm_obj->getCreditMode()).'",'
 			.'"lesson_mode":"'.$slm_obj->getDefaultLessonMode().'",'
 			.'"b_autoReview":'.$b_autoReview.','
+			.'"b_autoSuspend":'.$b_autoSuspend.','
 			.'"b_messageLog":'.$b_messageLog.','
 			.'"b_checkSetValues":'.$b_checkSetValues.','
 			.'"b_storeObjectives":'.$b_storeObjectives.','
@@ -270,7 +273,7 @@ class ilObjSCORMInitData
 	// hash for storing data without session
 	private static function setHash($a_packageId,$a_user_id) {
 		global $ilDB;
-		$hash = mt_rand(1000000000,9999999999);
+		$hash = mt_rand(1000000000,2147483647);
 		$endDate = date('Y-m-d H:i:s', mktime(date('H'), date('i'), date('s'), date('m'), date('d')+1, date('Y')));
 
 		$res = $ilDB->queryF('SELECT count(*) cnt FROM sahs_user WHERE obj_id = %s AND user_id = %s',

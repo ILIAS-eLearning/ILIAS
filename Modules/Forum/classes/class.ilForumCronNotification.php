@@ -115,6 +115,7 @@ class ilForumCronNotification extends ilCronJob
 
 		$numRows = 0;
 		$this->num_sent_messages = 0;
+		$cj_start_date = date('Y-m-d H:i:s');
 
 		if($last_run_datetime != null &&
 			checkDate(date('m', strtotime($last_run_datetime)), date('d', strtotime($last_run_datetime)), date('Y', strtotime($last_run_datetime))))
@@ -125,12 +126,14 @@ class ilForumCronNotification extends ilCronJob
 		{
 			$threshold = strtotime('-' . (int)$this->settings->get('max_notification_age', 30) . ' days', time());
 		}
-
-		$date_condition = ' frm_posts.pos_date >= %s AND ';
-		$types          = array('timestamp');
-		$values         = array(date('Y-m-d H:i:s', $threshold));
-
-		$cj_start_date = date('Y-m-d H:i:s');
+		$threshold_date =  date('Y-m-d H:i:s', $threshold);
+		$new_posts_condition = '
+			frm_posts.pos_status = %s AND (
+				(frm_posts.pos_date >= %s AND frm_posts.pos_date = frm_posts.pos_activation_date) OR 
+				(frm_posts.pos_activation_date >= %s AND frm_posts.pos_date < frm_posts.pos_activation_date)
+			) ';
+		$types          = array('integer', 'timestamp', 'timestamp');
+		$values         = array(1, $threshold_date, $threshold_date);
 		
 		/*** new posts ***/
 		$res = $ilDB->queryf('
@@ -141,7 +144,7 @@ class ilForumCronNotification extends ilCronJob
 					frm_threads.thr_pk thread_id,
 					frm_posts.* 
 			FROM 	frm_notification, frm_posts, frm_threads, frm_data 
-			WHERE	'.$date_condition.' frm_posts.pos_thr_fk = frm_threads.thr_pk
+			WHERE	frm_posts.pos_thr_fk = frm_threads.thr_pk AND '.$new_posts_condition.' 
 			AND 	((frm_threads.thr_top_fk = frm_data.top_pk AND 	frm_data.top_frm_fk = frm_notification.frm_id)
 					OR (frm_threads.thr_pk = frm_notification.thread_id 
 			AND 	frm_data.top_pk = frm_threads.thr_top_fk) )
@@ -151,15 +154,18 @@ class ilForumCronNotification extends ilCronJob
 			$values
 		);
 		
-		if($numRows = $ilDB->numRows($res) > 0)
+		$numRows = $ilDB->numRows($res);
+		if($numRows > 0)
 		{
 			$this->sendCronForumNotification($res, ilForumMailNotification::TYPE_POST_NEW);
 		}
 
 		/*** updated posts ***/
-		$updated_condition = ' frm_posts.pos_update > frm_posts.pos_date AND frm_posts.pos_update >= %s AND ';
-		$types             = array('timestamp');
-		$values            = array(date('Y-m-d H:i:s', $threshold));
+		$updated_condition = '
+			frm_posts.pos_cens = %s AND frm_posts.pos_status = %s AND 
+			(frm_posts.pos_update > frm_posts.pos_date AND frm_posts.pos_update >= %s) ';
+		$types             = array('integer', 'integer', 'timestamp');
+		$values            = array(0, 1, $threshold_date);
 
 		$res = $ilDB->queryf('
 			SELECT 	frm_threads.thr_subject thr_subject, 
@@ -169,7 +175,7 @@ class ilForumCronNotification extends ilCronJob
 					frm_threads.thr_pk thread_id,
 					frm_posts.* 
 			FROM 	frm_notification, frm_posts, frm_threads, frm_data 
-			WHERE	'.$updated_condition.' frm_posts.pos_thr_fk = frm_threads.thr_pk
+			WHERE	frm_posts.pos_thr_fk = frm_threads.thr_pk AND '.$updated_condition.' 
 			AND 	((frm_threads.thr_top_fk = frm_data.top_pk AND 	frm_data.top_frm_fk = frm_notification.frm_id)
 					OR (frm_threads.thr_pk = frm_notification.thread_id 
 			AND 	frm_data.top_pk = frm_threads.thr_top_fk) )
@@ -178,16 +184,19 @@ class ilForumCronNotification extends ilCronJob
 			$types,
 			$values
 		);
-
-		if($numRows = $ilDB->numRows($res) > 0)
+		
+		$numRows = $ilDB->numRows($res);
+		if($numRows > 0)
 		{
 			$this->sendCronForumNotification($res, ilForumMailNotification::TYPE_POST_UPDATED);
 		}
 
-		/*** censored posts ***/
-		$censored_condition = ' frm_posts.pos_cens = %s AND frm_posts.pos_cens_date >= %s AND ';
-		$types              = array('integer', 'timestamp');
-		$values             = array(1, date('Y-m-d H:i:s', $threshold));
+		/*** censored posts ***/ 
+		$censored_condition = '
+			frm_posts.pos_cens = %s AND frm_posts.pos_status = %s AND  
+            (frm_posts.pos_cens_date >= %s AND frm_posts.pos_cens_date > frm_posts.pos_activation_date ) ';
+		$types              = array('integer', 'integer', 'timestamp');
+		$values             = array(1, 1, $threshold_date);
 
 		$res = $ilDB->queryf('
 			SELECT 	frm_threads.thr_subject thr_subject, 
@@ -197,25 +206,28 @@ class ilForumCronNotification extends ilCronJob
 					frm_threads.thr_pk thread_id,
 					frm_posts.* 
 			FROM 	frm_notification, frm_posts, frm_threads, frm_data 
-			WHERE	'.$censored_condition.' frm_posts.pos_thr_fk = frm_threads.thr_pk
+			WHERE	frm_posts.pos_thr_fk = frm_threads.thr_pk AND '.$censored_condition.'
 			AND 	((frm_threads.thr_top_fk = frm_data.top_pk AND 	frm_data.top_frm_fk = frm_notification.frm_id)
 					OR (frm_threads.thr_pk = frm_notification.thread_id 
 			AND 	frm_data.top_pk = frm_threads.thr_top_fk) )
-			AND 	frm_posts.pos_display_user_id != frm_notification.user_id
+			AND 	(frm_posts.pos_display_user_id != frm_notification.user_id)
 			ORDER BY frm_posts.pos_date ASC',
 			$types,
 			$values
 		);
 		
-		if($numRows = $ilDB->numRows($res) > 0)
+		$numRows = $ilDB->numRows($res);
+		if($numRows > 0)
 		{
 			$this->sendCronForumNotification($res, ilForumMailNotification::TYPE_POST_CENSORED);
 		}
-
+		
 		/*** uncensored posts ***/
-		$uncensored_condition = ' frm_posts.pos_cens = %s AND frm_posts.pos_cens_date >= %s AND ';
-		$types              = array('integer', 'timestamp');
-		$values             = array(0, date('Y-m-d H:i:s', $threshold));
+		$uncensored_condition = '
+			frm_posts.pos_cens = %s AND frm_posts.pos_status = %s AND  
+            (frm_posts.pos_cens_date >= %s AND frm_posts.pos_cens_date > frm_posts.pos_activation_date ) ';
+		$types              = array('integer', 'integer', 'timestamp');
+		$values             = array(0, 1, $threshold_date);
 
 		$res = $ilDB->queryf('
 			SELECT 	frm_threads.thr_subject thr_subject, 
@@ -225,7 +237,7 @@ class ilForumCronNotification extends ilCronJob
 					frm_threads.thr_pk thread_id,
 					frm_posts.* 
 			FROM 	frm_notification, frm_posts, frm_threads, frm_data 
-			WHERE	'.$uncensored_condition.' frm_posts.pos_thr_fk = frm_threads.thr_pk
+			WHERE	frm_posts.pos_thr_fk = frm_threads.thr_pk AND '.$uncensored_condition.' 
 			AND 	((frm_threads.thr_top_fk = frm_data.top_pk AND 	frm_data.top_frm_fk = frm_notification.frm_id)
 					OR (frm_threads.thr_pk = frm_notification.thread_id 
 			AND 	frm_data.top_pk = frm_threads.thr_top_fk) )
@@ -235,7 +247,8 @@ class ilForumCronNotification extends ilCronJob
 			$values
 		);
 		
-		if($numRows = $ilDB->numRows($res) > 0)
+		$numRows = $ilDB->numRows($res);
+		if($numRows > 0)
 		{
 			$this->sendCronForumNotification($res, ilForumMailNotification::TYPE_POST_UNCENSORED);
 		}

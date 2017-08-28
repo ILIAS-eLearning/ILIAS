@@ -47,8 +47,9 @@ class ilGroupParticipants extends ilParticipants
 	 */
 	public function __construct($a_obj_id)
 	{
-		$this->type = 'grp';
-		parent::__construct(self::COMPONENT_NAME,$a_obj_id);
+		// ref based constructor
+		$refs = ilObject::_getAllReferences($a_obj_id);
+		parent::__construct(self::COMPONENT_NAME,  array_pop($refs));
 	}
 	
 	/**
@@ -96,6 +97,22 @@ class ilGroupParticipants extends ilParticipants
 		return $roles;
 	}
 	
+	/**
+	 * Add user to role 
+	 * @param int $a_usr_id
+	 * @param int $a_role
+	 * @return boolean
+	 */
+	public function add($a_usr_id, $a_role)
+	{
+		if(parent::add($a_usr_id, $a_role))
+		{
+			$this->addDesktopItem($a_usr_id);
+			return true;
+		}
+		return false;
+	}
+	
 	public function addSubscriber($a_usr_id)
 	{
 		global $ilAppEventHandler, $ilLog;
@@ -137,14 +154,16 @@ class ilGroupParticipants extends ilParticipants
 	 * @param int $a_usr_id
 	 * @return 
 	 */
-	public function sendNotification($a_type,$a_usr_id)
+	public function sendNotification($a_type,$a_usr_id, $a_force_sending_mail = false)
 	{
 		include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
+		$mail = new ilGroupMembershipMailNotification();
+		$mail->forceSendingMail($a_force_sending_mail);
+		
 		switch($a_type)
 		{
 			case ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER:
 
-				$mail = new ilGroupMembershipMailNotification();
 				$mail->setType(ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER);	
 				$mail->setRefId($this->ref_id);
 				$mail->setRecipients(array($a_usr_id));
@@ -153,7 +172,6 @@ class ilGroupParticipants extends ilParticipants
 			
 			case ilGroupMembershipMailNotification::TYPE_DISMISS_MEMBER:
 
-				$mail = new ilGroupMembershipMailNotification();
 				$mail->setType(ilGroupMembershipMailNotification::TYPE_DISMISS_MEMBER);	
 				$mail->setRefId($this->ref_id);
 				$mail->setRecipients(array($a_usr_id));
@@ -162,7 +180,6 @@ class ilGroupParticipants extends ilParticipants
 				
 			case ilGroupMembershipMailNotification::TYPE_NOTIFICATION_REGISTRATION:
 				
-				$mail = new ilGroupMembershipMailNotification();
 				$mail->setType(ilGroupMembershipMailNotification::TYPE_NOTIFICATION_REGISTRATION);
 				$mail->setAdditionalInformation(array('usr_id' => $a_usr_id));
 				$mail->setRefId($this->ref_id);
@@ -172,7 +189,6 @@ class ilGroupParticipants extends ilParticipants
 				
 			case ilGroupMembershipMailNotification::TYPE_UNSUBSCRIBE_MEMBER:
 				
-				$mail = new ilGroupMembershipMailNotification();
 				$mail->setType(ilGroupMembershipMailNotification::TYPE_UNSUBSCRIBE_MEMBER);	
 				$mail->setRefId($this->ref_id);
 				$mail->setRecipients(array($a_usr_id));
@@ -181,7 +197,6 @@ class ilGroupParticipants extends ilParticipants
 				
 			case ilGroupMembershipMailNotification::TYPE_NOTIFICATION_UNSUBSCRIBE:
 					
-				$mail = new ilGroupMembershipMailNotification();
 				$mail->setType(ilGroupMembershipMailNotification::TYPE_NOTIFICATION_UNSUBSCRIBE);
 				$mail->setAdditionalInformation(array('usr_id' => $a_usr_id));
 				$mail->setRefId($this->ref_id);
@@ -191,7 +206,6 @@ class ilGroupParticipants extends ilParticipants
 
 			case ilGroupMembershipMailNotification::TYPE_SUBSCRIBE_MEMBER:
 				
-				$mail = new ilGroupMembershipMailNotification();
 				$mail->setType(ilGroupMembershipMailNotification::TYPE_SUBSCRIBE_MEMBER);	
 				$mail->setRefId($this->ref_id);
 				$mail->setRecipients(array($a_usr_id));
@@ -200,7 +214,6 @@ class ilGroupParticipants extends ilParticipants
 				
 			case ilGroupMembershipMailNotification::TYPE_NOTIFICATION_REGISTRATION_REQUEST:
 
-				$mail = new ilGroupMembershipMailNotification();
 				$mail->setType(ilGroupMembershipMailNotification::TYPE_NOTIFICATION_REGISTRATION_REQUEST);
 				$mail->setAdditionalInformation(array('usr_id' => $a_usr_id));
 				$mail->setRefId($this->ref_id);
@@ -210,7 +223,6 @@ class ilGroupParticipants extends ilParticipants
 				
 			case ilGroupMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER:
 
-				$mail = new ilGroupMembershipMailNotification();
 				$mail->setType(ilGroupMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER);	
 				$mail->setRefId($this->ref_id);
 				$mail->setRecipients(array($a_usr_id));
@@ -219,7 +231,6 @@ class ilGroupParticipants extends ilParticipants
 				
 			case ilGroupMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER:
 				
-				$mail = new ilGroupMembershipMailNotification();
 				$mail->setType(ilGroupMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER);	
 				$mail->setRefId($this->ref_id);
 				$mail->setRecipients(array($a_usr_id));
@@ -232,7 +243,6 @@ class ilGroupParticipants extends ilParticipants
 				$wl = new ilGroupWaitingList($this->obj_id);
 				$pos = $wl->getPosition($a_usr_id);
 					
-				$mail = new ilGroupMembershipMailNotification();
 				$mail->setType(ilGroupMembershipMailNotification::TYPE_WAITING_LIST_MEMBER);	
 				$mail->setRefId($this->ref_id);
 				$mail->setRecipients(array($a_usr_id));
@@ -242,7 +252,6 @@ class ilGroupParticipants extends ilParticipants
 				
 			case ilGroupMembershipMailNotification::TYPE_STATUS_CHANGED:
 
-				$mail = new ilGroupMembershipMailNotification();
 				$mail->setType(ilGroupMembershipMailNotification::TYPE_STATUS_CHANGED);	
 				$mail->setRefId($this->ref_id);
 				$mail->setRecipients(array($a_usr_id));

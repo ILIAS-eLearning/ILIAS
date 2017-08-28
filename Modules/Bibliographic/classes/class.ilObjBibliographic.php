@@ -3,8 +3,6 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 require_once "Services/Object/classes/class.ilObject2.php";
 require_once "Modules/Bibliographic/classes/class.ilBibliographicEntry.php";
-require_once('./Modules/Bibliographic/classes/Types/Ris/class.ilRis.php');
-require_once('./Modules/Bibliographic/classes/Types/BibTex/class.ilBibTex.php');
 
 /**
  * Class ilObjBibliographic
@@ -85,7 +83,8 @@ class ilObjBibliographic extends ilObject2 {
 	protected function doCreate() {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
-		$ilDB->manipulate("INSERT INTO il_bibl_data " . "(id, filename, is_online) VALUES (" . $ilDB->quote($this->getId(), "integer") . "," . // id
+		$ilDB->manipulate("INSERT INTO il_bibl_data " . "(id, filename, is_online) VALUES ("
+		                  . $ilDB->quote($this->getId(), "integer") . "," . // id
 		                  $ilDB->quote($this->getFilename(), "text") . "," . // filename
 		                  $ilDB->quote($this->getOnline(), "integer") . // is_online
 		                  ")");
@@ -95,7 +94,8 @@ class ilObjBibliographic extends ilObject2 {
 	protected function doRead() {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
-		$set = $ilDB->query("SELECT * FROM il_bibl_data " . " WHERE id = " . $ilDB->quote($this->getId(), "integer"));
+		$set = $ilDB->query("SELECT * FROM il_bibl_data " . " WHERE id = "
+		                    . $ilDB->quote($this->getId(), "integer"));
 		while ($rec = $ilDB->fetchAssoc($set)) {
 			if (!$this->getFilename()) {
 				$this->setFilename($rec["filename"]);
@@ -108,19 +108,23 @@ class ilObjBibliographic extends ilObject2 {
 	public function doUpdate() {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
-		$file_changed = !empty($_FILES['bibliographic_file']['name']);
-		if ($file_changed) {
+
+		$upload = $DIC->upload();
+		if ($upload->hasUploads()) {
+			$upload->process();
 			$this->deleteFile();
-			$this->moveFile();
+			$this->moveUploadedFile($upload);
 		}
+
+
 		// Delete the object, but leave the db table 'il_bibl_data' for being able to update it using WHERE, and also leave the file
 		$this->doDelete(true, true);
-		$ilDB->manipulate("UPDATE il_bibl_data SET " . "filename = " . $ilDB->quote($this->getFilename(), "text") . ", " . // filename
-		                  "is_online = " . $ilDB->quote($this->getOnline(), "integer") . // is_online
+		$ilDB->manipulate("UPDATE il_bibl_data SET " . "filename = "
+		                  . $ilDB->quote($this->getFilename(), "text") . ", " . // filename
+		                  "is_online = " . $ilDB->quote($this->getOnline(), "integer")
+		                  . // is_online
 		                  " WHERE id = " . $ilDB->quote($this->getId(), "integer"));
-		if ($file_changed) {
-			$this->writeSourcefileEntriesToDb();
-		}
+		$this->writeSourcefileEntriesToDb();
 	}
 
 
@@ -136,16 +140,17 @@ class ilObjBibliographic extends ilObject2 {
 		}
 		//il_bibl_attribute
 		$ilDB->manipulate("DELETE FROM il_bibl_attribute WHERE il_bibl_attribute.entry_id IN "
-		                  . "(SELECT il_bibl_entry.id FROM il_bibl_entry WHERE il_bibl_entry.data_id = " . $ilDB->quote($this->getId(), "integer")
-		                  . ")");
+		                  . "(SELECT il_bibl_entry.id FROM il_bibl_entry WHERE il_bibl_entry.data_id = "
+		                  . $ilDB->quote($this->getId(), "integer") . ")");
 		//il_bibl_entry
-		$ilDB->manipulate("DELETE FROM il_bibl_entry WHERE data_id = " . $ilDB->quote($this->getId(), "integer"));
+		$ilDB->manipulate("DELETE FROM il_bibl_entry WHERE data_id = "
+		                  . $ilDB->quote($this->getId(), "integer"));
 		if (!$leave_out_il_bibl_data) {
 			//il_bibl_data
-			$ilDB->manipulate("DELETE FROM il_bibl_data WHERE id = " . $ilDB->quote($this->getId(), "integer"));
+			$ilDB->manipulate("DELETE FROM il_bibl_data WHERE id = "
+			                  . $ilDB->quote($this->getId(), "integer"));
 		}
 		// delete history entries
-		require_once("./Services/History/classes/class.ilHistory.php");
 		ilHistory::_removeEntriesForObject($this->getId());
 	}
 
@@ -154,59 +159,63 @@ class ilObjBibliographic extends ilObject2 {
 	 * @return string the folder is: $ILIAS-data-folder/bibl/$id
 	 */
 	public function getFileDirectory() {
-		return ilUtil::getDataDir() . DIRECTORY_SEPARATOR . $this->getType() . DIRECTORY_SEPARATOR . $this->getId();
+		return "{$this->getType()}/{$this->getId()}";
 	}
 
 
 	/**
-	 * @param bool|false $file_to_copy
-	 *
-	 * @throws Exception
+	 * @param \ILIAS\FileUpload\FileUpload $upload
 	 */
-	public function moveFile($file_to_copy = false) {
-		$target_dir = $this->getFileDirectory();
-		if (!is_dir($target_dir)) {
-			ilUtil::makeDirParents($target_dir);
+	protected function moveUploadedFile(\ILIAS\FileUpload\FileUpload $upload) {
+		$result = $upload->getResults()[0];
+		if ($result->getStatus() == \ILIAS\FileUpload\DTO\ProcessingStatus::OK) {
+			$this->deleteFile();
+			$upload->moveFilesTo($this->getFileDirectory(), \ILIAS\FileUpload\Location::STORAGE);
+			$this->setFilename($result->getName());
 		}
-		if ($_FILES['bibliographic_file']['name']) {
-			$filename = $_FILES['bibliographic_file']['name'];
-		} elseif ($file_to_copy) {
-			//file is not uploaded, but a clone is made out of another bibl
-			$split_path = explode(DIRECTORY_SEPARATOR, $file_to_copy);
-			$filename = $split_path[sizeof($split_path) - 1];
-		} else {
-			throw new Exception("Either a file must be delivered via \$_POST/\$_FILE or the file must be delivered via the method argument file_to_copy");
-		}
-		$target_full_filename = $target_dir . DIRECTORY_SEPARATOR . $filename;
-		//If there is no file_to_copy (which is used for clones), copy the file from the temporary upload directory (new creation of object).
-		//Therefore, a warning predicates nothing and can be suppressed.
-		if (@!copy($file_to_copy, $target_full_filename)) {
-			if (!empty($_FILES['bibliographic_file']['tmp_name'])) {
-				ilUtil::moveUploadedFile($_FILES['bibliographic_file']['tmp_name'], $_FILES['bibliographic_file']['name'], $target_full_filename);
-			} else {
-				throw new Exception("The file delivered via the method argument file_to_copy could not be copied. The file '{$file_to_copy}' does probably not exist.");
-			}
-		}
-		$this->setFilename($filename);
-		ilUtil::sendSuccess($this->lng->txt("object_added"), true);
 	}
 
 
-	function deleteFile() {
-		$path = $this->getFilePath(true);
-		self::__force_rmdir($path);
+	public function copyFile($file_to_copy) {
+		$this->getFileSystem()->copy($file_to_copy, $this->getFilePath(true));
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	protected function deleteFile() {
+		$path = $this->getFileDirectory();
+		try {
+			$this->getFileSystem()->deleteDir($path);
+		} catch (\ILIAS\Filesystem\Exception\IOException $e) {
+			return false;
+		}
+
+		return true;
+	}
+
+
+	/**
+	 * @return \ILIAS\Filesystem\Filesystem
+	 */
+	private function getFileSystem() {
+		global $DIC;
+
+		return $DIC["filesystem"]->storage();
 	}
 
 
 	/**
 	 * @param bool $without_filename
 	 *
-	 * @return array with all filepath
+	 * @return string
 	 */
 	public function getFilePath($without_filename = false) {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
-		$set = $ilDB->query("SELECT filename FROM il_bibl_data " . " WHERE id = " . $ilDB->quote($this->getId(), "integer"));
+		$set = $ilDB->query("SELECT filename FROM il_bibl_data " . " WHERE id = "
+		                    . $ilDB->quote($this->getId(), "integer"));
 		$rec = $ilDB->fetchAssoc($set);
 		{
 			if ($without_filename) {
@@ -235,7 +244,8 @@ class ilObjBibliographic extends ilObject2 {
 
 
 	/**
-	 * @return string returns the absolute filepath of the bib/ris file. it's build as follows: $ILIAS-data-folder/bibl/$id/$filename
+	 * @return string returns the absolute filepath of the bib/ris file. it's build as follows:
+	 *                $ILIAS-data-folder/bibl/$id/$filename
 	 */
 	public function getFileAbsolutePath() {
 		return $this->getFileDirectory() . DIRECTORY_SEPARATOR . $this->getFilename();
@@ -275,43 +285,12 @@ class ilObjBibliographic extends ilObject2 {
 		return $overviewModels;
 	}
 
-
-	/**
-	 * remove a directory recursively
-	 *
-	 * @param $path
-	 *
-	 * @return bool
-	 */
-	protected static function __force_rmdir($path) {
-		if (!file_exists($path)) {
-			return false;
-		}
-		if (is_file($path) || is_link($path)) {
-			return unlink($path);
-		}
-		if (is_dir($path)) {
-			$path = rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-			$result = true;
-			$dir = new DirectoryIterator($path);
-			foreach ($dir as $file) {
-				if (!$file->isDot()) {
-					$result &= self::__force_rmdir($path . $file->getFilename(), false);
-				}
-			}
-			$result &= rmdir($path);
-
-			return $result;
-		}
-	}
-
-
 	/**
 	 * Clone BIBL
 	 *
 	 * @param ilObjBibliographic $new_obj
 	 * @param                    $a_target_id
-	 * @param int $a_copy_id copy id
+	 * @param int                $a_copy_id copy id
 	 *
 	 * @return ilObjPoll
 	 */
@@ -331,7 +310,8 @@ class ilObjBibliographic extends ilObject2 {
 
 
 	/**
-	 * @description Attention only use this for objects who have not yet been created (use like: $x = new ilObjDataCollection;
+	 * @description Attention only use this for objects who have not yet been created (use like: $x
+	 *              = new ilObjDataCollection;
 	 *              $x->cloneStructure($id))
 	 *
 	 * @param $original_id The original ID of the dataselection you want to clone it's structure
@@ -340,7 +320,7 @@ class ilObjBibliographic extends ilObject2 {
 	 */
 	public function cloneStructure($original_id) {
 		$original = new ilObjBibliographic($original_id);
-		$this->moveFile($original->getFileAbsolutePath());
+		$this->copyFile($original->getFilePath());
 		$this->setDescription($original->getDescription());
 		$this->setTitle($original->getTitle());
 		$this->setType($original->getType());
@@ -399,7 +379,8 @@ class ilObjBibliographic extends ilObject2 {
 				//if (mb_strlen($attribute, 'UTF-8') > self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH) {
 				if (ilStr::strLen($attribute) > self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH) {
 					// $attribute = mb_substr($attribute, 0, self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH - 3, 'UTF-8') . '...';
-					$attribute = ilStr::subStr($attribute, 0, self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH - 3) . '...';
+					$attribute = ilStr::subStr($attribute, 0, self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH
+					                                          - 3) . '...';
 				}
 				// ty (RIS) or entryType (BIB) is the type and is treated seperately
 				if (strtolower($key) == 'ty' || strtolower($key) == 'entrytype') {

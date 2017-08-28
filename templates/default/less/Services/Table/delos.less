@@ -203,7 +203,7 @@ tr.tblheader {
 }
 
 .tblrowmarked {
-	background-color: #ffe4e4;
+	background-color: #ffe4e4 !important;
 	color: #222;
 	padding: 3px;
 }
@@ -243,4 +243,18 @@ div.ilTableCommandRowTop {
 
 td > img[src$="icon_custom.svg"] {
     max-width: 32px;
+}
+
+// Because of an issue ion Bootstrap when using Dropdown in Tables we need this. See https://github.com/twbs/bootstrap/issues/11037
+@media (max-width: 767px) {
+  .table-responsive .dropdown-menu,
+  .table-responsive .dropdown-toggle {
+	position: static !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .table-responsive {
+	overflow: visible;
+  }
 }

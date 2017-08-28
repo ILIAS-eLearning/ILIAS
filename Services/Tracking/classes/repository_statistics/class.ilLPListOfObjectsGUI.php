@@ -99,7 +99,8 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			$this->__initDetails((int)$_GET["userdetails_id"]);
 		}
 		
-		if(!$rbacsystem->checkAccess('edit_learning_progress', $this->details_id))
+		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
+		if(!ilLearningProgressAccess::checkPermission('edit_learning_progress', $this->details_id))
 		{
 			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
 			$this->ctrl->returnToParent($this);
@@ -139,7 +140,8 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			$cancel = "details";
 		}
 		
-		if(!$rbacsystem->checkAccess('edit_learning_progress', $this->details_id))
+		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
+		if(!ilLearningProgressAccess::checkPermission('edit_learning_progress', $this->details_id))
 		{
 			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
 			$this->ctrl->returnToParent($this);

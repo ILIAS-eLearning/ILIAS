@@ -1107,14 +1107,24 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$ti->setInfo($this->lng->txt("short_inst_name_info"));
 		$this->form->addItem($ti);
 
-		// public section
+		
 		$cb = new ilCheckboxInputGUI($this->lng->txt("pub_section"), "pub_section");
 		$cb->setInfo($lng->txt("pub_section_info"));
-		if ($ilSetting->get("pub_section"))
+		if (ilPublicSectionSettings::getInstance()->isEnabled())
 		{
 			$cb->setChecked(true);
 		}				
 		$this->form->addItem($cb);
+		
+		$this->lng->loadLanguageModule('administration');
+		$domains = new ilTextInputGUI($this->lng->txt('adm_pub_section_domain_filter'), 'public_section_domains');
+		$domains->setInfo($this->lng->txt('adm_pub_section_domain_filter_info'));
+		$domains->setMulti(true);
+		$domains->setValue(current(ilPublicSectionSettings::getInstance()->getDomains()));
+		$domains->setMultiValues(ilPublicSectionSettings::getInstance()->getDomains());
+		
+		$cb->addSubItem($domains);
+		
 				
 			// Enable Global Profiles
 			$cb_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_user_publish'), 'enable_global_profiles');
@@ -1149,55 +1159,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$ti->setSize(40);
 		$ti->setInfo($this->lng->txt("adm_locale_info"));
 		$ti->setValue($ilSetting->get("locale"));
-		$this->form->addItem($ti);				
-	
-		// starting point
-		include_once "Services/User/classes/class.ilUserUtil.php";
-		$si = new ilRadioGroupInputGUI($this->lng->txt("adm_user_starting_point"), "usr_start");
-		$si->setRequired(true);
-		$si->setInfo($this->lng->txt("adm_user_starting_point_info"));
-		$valid = array_keys(ilUserUtil::getPossibleStartingPoints());
-		foreach(ilUserUtil::getPossibleStartingPoints(true) as $value => $caption)
-		{
-			$opt = new ilRadioOption($caption, $value);
-			$si->addOption($opt);
-			
-			if(!in_array($value, $valid))
-			{
-				$opt->setInfo($this->lng->txt("adm_user_starting_point_invalid_info"));
-			}			
-		}
-		$si->setValue(ilUserUtil::getStartingPoint());		
-		$this->form->addItem($si);
-		
-		// starting point: repository object
-		$repobj = new ilRadioOption($lng->txt("adm_user_starting_point_object"), ilUserUtil::START_REPOSITORY_OBJ);
-		$repobj_id = new ilTextInputGUI($lng->txt("adm_user_starting_point_ref_id"), "usr_start_ref_id");
-		$repobj_id->setRequired(true);
-		$repobj_id->setSize(5);
-		if($si->getValue() == ilUserUtil::START_REPOSITORY_OBJ)
-		{
-			$start_ref_id = ilUserUtil::getStartingObject();
-			$repobj_id->setValue($start_ref_id);
-			if($start_ref_id)
-			{
-				$start_obj_id = ilObject::_lookupObjId($start_ref_id);
-				if($start_obj_id)
-				{
-					$repobj_id->setInfo($lng->txt("obj_".ilObject::_lookupType($start_obj_id)).
-						": ".ilObject::_lookupTitle($start_obj_id));
-				}
-			}
-		}		
-		$repobj->addSubItem($repobj_id);
-		$si->addOption($repobj);
-		
-		// starting point: personal		
-		$startp = new ilCheckboxInputGUI($lng->txt("adm_user_starting_point_personal"), "usr_start_pers");
-		$startp->setInfo($lng->txt("adm_user_starting_point_personal_info"));
-		$startp->setChecked(ilUserUtil::hasPersonalStartingPoint());
-		$si->addSubItem($startp);
-				
+		$this->form->addItem($ti);
 		
 		// save and cancel commands
 		$this->form->addCommandButton("saveBasicSettings", $lng->txt("save"));
@@ -1224,19 +1186,28 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		if ($this->form->checkInput())
 		{
 			$ilSetting->set("short_inst_name", $_POST["short_inst_name"]);
-			$ilSetting->set("pub_section", $_POST["pub_section"]);
 			
-				$global_profiles = ($_POST["pub_section"])
-					? (int)$_POST['enable_global_profiles']
-					: 0;				
-				$ilSetting->set('enable_global_profiles', $global_profiles);
+			$public_section = ilPublicSectionSettings::getInstance();
+			$public_section->setEnabled($this->form->getInput('pub_section'));
+			
+			$domains = array();
+			foreach((array) $this->form->getInput('public_section_domains') as $domain)
+			{
+				if(strlen(trim($domain)))
+				{
+					$domains[] = $domain;
+				}
+			}
+			$public_section->setDomains($domains);
+			$public_section->save();
+			
+			$global_profiles = ($_POST["pub_section"])
+				? (int)$_POST['enable_global_profiles']
+				: 0;				
+			$ilSetting->set('enable_global_profiles', $global_profiles);
 								
 			$ilSetting->set("open_google", $_POST["open_google"]);			
 			$ilSetting->set("locale", $_POST["locale"]);
-						
-			include_once "Services/User/classes/class.ilUserUtil.php";
-			ilUserUtil::setStartingPoint($this->form->getInput('usr_start'), $this->form->getInput('usr_start_ref_id'));
-			ilUserUtil::togglePersonalStartingPoint($this->form->getInput('usr_start_pers'));
 
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "showBasicSettings");

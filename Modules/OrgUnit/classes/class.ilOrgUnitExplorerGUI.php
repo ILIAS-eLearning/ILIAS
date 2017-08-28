@@ -1,6 +1,5 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once("./Services/UIComponent/Explorer2/classes/class.ilTreeExplorerGUI.php");
 
 /**
  * Class ilOrgUnitExplorerGUI
@@ -218,4 +217,3 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI {
 	}
 }
 
-?>

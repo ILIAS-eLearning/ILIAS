@@ -111,7 +111,7 @@ class ilAuthFrontend
 		
 		if(!$user instanceof ilObjUser)
 		{
-			$this->getLogger()->info('Cannot instanitate user account for account migration: ' . $session->getUserId());
+			$this->getLogger()->info('Cannot instantiate user account for account migration: ' . $session->getUserId());
 			return false;
 		}
 		
@@ -215,7 +215,7 @@ class ilAuthFrontend
 		
 		if(!$user instanceof ilObjUser)
 		{
-			$this->getLogger()->error('Cannot instatiate user account with id: ' . $this->getStatus()->getAuthenticatedUserId());
+			$this->getLogger()->error('Cannot instantiate user account with id: ' . $this->getStatus()->getAuthenticatedUserId());
 			$this->getStatus()->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
 			$this->getStatus()->setAuthenticatedUserId(0);
 			$this->getStatus()->setReason('auth_err_invalid_user_account');

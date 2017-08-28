@@ -1,12 +1,15 @@
 {
     "maintenance_model": "Classic",
-    "first_maintainer": "",
+    "first_maintainer": "smeyer(191)",
     "second_maintainer": "",
     "implicit_maintainers": [],
     "coordinator": "",
     "tester": "",
     "testcase_writer": "",
     "path": "Services/WebServices",
-    "belong_to_component": "None",
-    "used_in_components": []
+    "belong_to_component": "Webservices",
+    "used_in_components": [
+        "ECS Interface",
+        "SOAP"
+    ]
 }

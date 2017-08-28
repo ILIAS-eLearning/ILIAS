@@ -81,7 +81,7 @@ class ilContextIcal implements ilContextTemplate
 	 */
 	public static function doAuthentication()
 	{
-		return true;
+		return false;
 	}
 
 	/**

@@ -1,12 +1,12 @@
 {
     "maintenance_model": "Classic",
-    "first_maintainer": "",
-    "second_maintainer": "",
+    "first_maintainer": "smeyer(191)",
+    "second_maintainer": "akill(149)",
     "implicit_maintainers": [],
     "coordinator": "",
-    "tester": "",
-    "testcase_writer": "",
+    "tester": "iLUB Universität Bern",
+    "testcase_writer": "iLUB Universität Bern",
     "path": "Modules/CourseReference",
-    "belong_to_component": "None",
+    "belong_to_component": "Course Management",
     "used_in_components": []
 }

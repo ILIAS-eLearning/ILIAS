@@ -1,6 +1,4 @@
 <?php
-require_once('./Services/Table/classes/class.ilTable2GUI.php');
-require_once('class.ilOrgUnitType.php');
 
 class ilOrgUnitTypeTableGUI extends ilTable2GUI {
 

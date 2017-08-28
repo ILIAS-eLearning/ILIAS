@@ -631,6 +631,7 @@ class ilObjMediaPool extends ilObject
 					$item->create();
 					$page = new ilMediaPoolPage($node["child"]);
 					$new_page = new ilMediaPoolPage();
+					$new_page->setParentId($a_new_obj->getId());
 					$new_page->setId($item->getId());
 					$new_page->create();
 					
@@ -657,14 +658,14 @@ class ilObjMediaPool extends ilObject
 	 *
 	 * @param
 	 */
-	function exportXML($a_master_only = false)
+	function exportXML($a_mode = "")
 	{
-		if ($a_master_only)
+		if (in_array($a_mode, array("master", "masternomedia")))
 		{
 			include_once("./Services/Export/classes/class.ilExport.php");
 			$exp = new ilExport();
 			$conf = $exp->getConfig("Modules/MediaPool");
-			$conf->setMasterLanguageOnly(true);
+			$conf->setMasterLanguageOnly(true, ($a_mode == "master"));
 			$exp->exportObject($this->getType(),$this->getId(), "4.4.0");
 		}
 	}

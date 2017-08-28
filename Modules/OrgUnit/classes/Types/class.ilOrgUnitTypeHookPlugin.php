@@ -1,6 +1,5 @@
 <?php
 
-require_once("./Services/Component/classes/class.ilPlugin.php");
 
 /**
  * Abstract parent class for all OrgUnitTypeHook plugin classes.
@@ -145,4 +144,3 @@ abstract class ilOrgUnitTypeHookPlugin extends ilPlugin
 
 
 }
-?>

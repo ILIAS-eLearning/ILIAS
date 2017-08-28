@@ -2163,7 +2163,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$this->course_logger->debug('Max members: ' . $max);
 		$this->course_logger->debug('Current members: ' . $now);
 		
-		if($now < $max)
+		if($max <= $now)
 		{
 			return;
 		}
@@ -2185,7 +2185,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 				continue;
 			}
 			$this->getMembersObject()->add($user_id,IL_CRS_MEMBER);
-			$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_ACCEPT_USER,$user_id);
+			$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_ACCEPT_USER,$user_id,true);
 			$waiting_list->removeFromList($user_id);
 			$this->checkLPStatusSync($user_id);
 			

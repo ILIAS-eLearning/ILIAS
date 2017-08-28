@@ -1,5 +1,4 @@
 <?php
-require_once('./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseFieldRepresentation.php');
 
 /**
  * Class ilDclTextFieldRepresentation
@@ -49,18 +48,14 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation {
 					$value = $record->getRecordFieldValue($fieldref);
 					if ($record->getRecordField($fieldref)->getField()->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
 						if (!is_array($value)) {
-							throw new ilDclException('Value of URL-Field should always be an array');
+							$value = array('title' => '', 'link' => $value);
 						}
 						$value = $value['title'] ? $value['title'] : $value['link'];
 					}
-//					$json = json_decode($value);
-//					if ($json instanceof stdClass) {
-//						$value = $json->title ? $json->title : $json->link;
-//					}
 					$options[$record->getId()] = $value;
 					break;
 				default:
-					$options[$record->getId()] = $record->getRecordFieldValue($fieldref);
+					$options[$record->getId()] = $record->getRecordFieldExportValue($fieldref);
 					break;
 			}
 		}

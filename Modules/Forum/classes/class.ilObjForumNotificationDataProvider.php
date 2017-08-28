@@ -24,7 +24,10 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	 * @var string $post_user_name
 	 */
 	protected $post_user_name = '';
-
+	/**
+	 * @var int
+	 */
+	public $pos_author_id = 0;
 	/**
 	 * @var int
 	 */
@@ -184,9 +187,28 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	/**
 	 * @return string login
 	 */
-	public function getPostUpdateUserName()
+	public function getPostUpdateUserName($user_lang)
 	{
-		return ilObjUser::_lookupLogin($this->objPost->getUpdateUserId());
+		// GET AUTHOR OF UPDATED POST
+		if($this->objPost->getUpdateUserId() > 0)
+		{
+			$this->post_user_name = ilObjUser::_lookupLogin($this->objPost->getUpdateUserId());
+		}
+		
+		if($this->objPost->getDisplayUserId() == 0 && $this->objPost->getPosAuthorId() == $this->objPost->getUpdateUserId())
+		{
+			if(strlen($this->objPost->getUserAlias()))
+			{
+				$this->post_user_name = $this->objPost->getUserAlias() . ' (' . $user_lang->txt('frm_pseudonym') . ')';
+			}
+			
+			if($this->post_user_name == '')
+			{
+				$this->post_user_name = $user_lang->txt('forums_anonymous');
+			}
+		}
+		
+		return $this->post_user_name;
 	}
 
 	/**
@@ -381,5 +403,21 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 		// get moderators to notify about needed activation
 		$rcps =  ilForum::_getModerators($this->getRefId());
 		return  (array)$rcps;
+	}
+	
+	/**
+	 * @param $pos_author_id
+	 */
+	public function setPosAuthorId($pos_author_id)
+	{
+		$this->pos_author_id = $pos_author_id;
+	}
+	
+	/**
+	 * @return int
+	 */
+	public function getPosAuthorId()
+	{
+		return $this->pos_author_id;
 	}
 }

@@ -1,7 +1,5 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once('./Services/Object/classes/class.ilObjectAccess.php');
-require_once('./Services/User/classes/class.ilUserAccountSettings.php');
 /**
  * Class ilObjOrgUnitAccess
  *
@@ -143,4 +141,3 @@ class ilObjOrgUnitAccess extends ilObjectAccess {
 		return false;
 	}
 }
-?>

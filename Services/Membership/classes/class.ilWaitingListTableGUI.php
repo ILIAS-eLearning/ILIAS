@@ -114,6 +114,14 @@ class ilWaitingListTableGUI extends ilTable2GUI
 	}
 	
 	/**
+	 * @return \ilWaitingList
+	 */
+	protected function getWaitingList()
+	{
+		return $this->waiting_list;
+	}
+	
+	/**
 	 * Get repository object
 	 * @return ilObject
 	 */
@@ -123,21 +131,19 @@ class ilWaitingListTableGUI extends ilTable2GUI
 	}
 	
 	/**
-	 * set subscribers
-	 *
-	 * @access public
-	 * @param
-	 * @return
+	 * Set user ids
+	 * @param int[] $a_user_ids
 	 */
-	public function setUsers($a_sub)
+	public function setUserIds($a_user_ids)
 	{
-		$this->wait = $a_sub;
-		foreach($this->wait as $usr_id => $usr_data)
+		$this->wait_user_ids = $this->wait = [];
+		foreach($a_user_ids as $usr_id)
 		{
 			$this->wait_user_ids[] = $usr_id;
+			$this->wait[$usr_id] = $this->getWaitingList()->getUser($usr_id);
 		}
-		
-		$this->readUserData();
+		ilLoggerFactory::getLogger('mem')->dump($this->wait);
+		ilLoggerFactory::getLogger('mem')->dump($this->wait_user_ids);
 	}
 	
 	/**
@@ -240,8 +246,6 @@ class ilWaitingListTableGUI extends ilTable2GUI
 	 */
 	public function readUserData()
 	{
-		global $rbacreview;
-
 		$this->determineOffsetAndOrder();
 
 		include_once './Services/User/classes/class.ilUserQuery.php';
@@ -286,6 +290,9 @@ class ilWaitingListTableGUI extends ilTable2GUI
 			$usr_data_fields,
 			$this->wait_user_ids
 		);
+		
+		ilLoggerFactory::getLogger('mem')->dump($this->wait_user_ids);
+		ilLoggerFactory::getLogger('mem')->dump($usr_data);
 		
 		foreach((array) $usr_data['set'] as $user)
 		{

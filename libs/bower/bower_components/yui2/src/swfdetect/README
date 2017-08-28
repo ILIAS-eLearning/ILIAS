@@ -1,0 +1,10 @@
+SWF Detect - Release Notes
+
+2.9.0
+    * Fixed a regression bug that caused the absence of Flash to cause an error.
+
+2.8.1
+    * No change
+	
+2.8.0
+    * Initial Release

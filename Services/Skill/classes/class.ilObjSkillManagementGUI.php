@@ -230,6 +230,14 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 		$cb_prop->setValue("1");
 		$cb_prop->setChecked($enable_skmg);
 		$form->addItem($cb_prop);
+
+		// Hide Competence Profile Data before Self-Assessment
+		$cb_prop = new ilCheckboxInputGUI($lng->txt("skmg_hide_profile_self_eval"),
+			"hide_profile_self_eval");
+		$cb_prop->setValue("1");
+		$cb_prop->setInfo($lng->txt("skmg_hide_profile_self_eval_info"));
+		$cb_prop->setChecked($skmg_set->getHideProfileBeforeSelfEval());
+		$form->addItem($cb_prop);
 		
 		// command buttons
 		if ($this->checkPermissionBool("write"))
@@ -255,6 +263,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 		include_once("./Services/Skill/classes/class.ilSkillManagementSettings.php");
 		$skmg_set = new ilSkillManagementSettings();
 		$skmg_set->activate((int) $_POST["enable_skmg"]);
+		$skmg_set->setHideProfileBeforeSelfEval((int) $_POST["hide_profile_self_eval"]);
 		
 		ilUtil::sendSuccess($this->lng->txt("settings_saved"),true);
 		

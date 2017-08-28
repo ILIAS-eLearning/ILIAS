@@ -374,7 +374,7 @@ class ilTestServiceGUI
 					{
 						if( $this->isPdfDeliveryRequest() )
 						{
-							$question_gui->setOutputMode(assQuestionGUI::OUTPUT_MODE_PDF);
+							$question_gui->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_PRINT_PDF);
 						}
 						
 						if($anchorNav)
@@ -719,7 +719,7 @@ class ilTestServiceGUI
 
 		if( $this->isPdfDeliveryRequest() )
 		{
-			$question_gui->setOutputMode(assQuestionGUI::OUTPUT_MODE_PDF);
+			$question_gui->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_PRINT_PDF);
 		}
 
 		$template = new ilTemplate("tpl.il_as_tst_correct_solution_output.html", TRUE, TRUE, "Modules/Test");
@@ -985,7 +985,7 @@ class ilTestServiceGUI
 					// check if re-instantiation is really neccessary
 					$question_gui = $this->object->createQuestionGUI("", $passes[$i]["qid"]);
 					$output .= $this->getResultsHeadUserAndPass($active_id, $resultpass + 1);
-					$question_gui->setOutputMode(assQuestionGUI::OUTPUT_MODE_PDF);
+					$question_gui->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_PRINT_PDF);
 					$output .= $question_gui->getSolutionOutput(
 						$active_id,
 						$resultpass,

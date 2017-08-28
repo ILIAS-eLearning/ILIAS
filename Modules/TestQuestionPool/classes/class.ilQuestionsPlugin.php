@@ -12,6 +12,11 @@ include_once ("./Services/Component/classes/class.ilPlugin.php");
  * @ingroup ServicesEventHandling
  */
 abstract class ilQuestionsPlugin extends ilPlugin {
+	
+	const COMP_NAME = 'TestQuestionPool';
+	const SLOT_NAME = 'Questions';
+	const SLOT_ID = 'qst';
+	
 	/**
 	 * Get Component Type
 	 *
@@ -27,7 +32,7 @@ abstract class ilQuestionsPlugin extends ilPlugin {
 	 * @return string Component Name
 	 */
 	final function getComponentName() {
-		return "TestQuestionPool";
+		return self::COMP_NAME;
 	}
 	
 	/**
@@ -36,7 +41,7 @@ abstract class ilQuestionsPlugin extends ilPlugin {
 	 * @return string Slot Name
 	 */
 	final function getSlot() {
-		return "Questions";
+		return self::SLOT_NAME;
 	}
 	
 	/**
@@ -45,7 +50,7 @@ abstract class ilQuestionsPlugin extends ilPlugin {
 	 * @return string Slot Id
 	 */
 	final function getSlotId() {
-		return "qst";
+		return self::SLOT_ID;
 	}
 	
 	/**

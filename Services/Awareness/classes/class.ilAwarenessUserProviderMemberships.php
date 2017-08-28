@@ -61,9 +61,9 @@ class ilAwarenessUserProviderMemberships extends ilAwarenessUserProvider
 
 		$set = $ilDB->query("SELECT DISTINCT usr_id, obj_id FROM obj_members ".
 			" WHERE ".$ilDB->in("obj_id", $groups_and_courses_of_user, false, "integer").' '.
-			'AND admin > '.$ilDB->quote(0,'integer').' '.
-			'AND tutor > '.$ilDB->quote(0,'integer').' '.
-			'AND member > '.$ilDB->quote(0,'integer')
+			'AND (admin > '.$ilDB->quote(0,'integer').' '.
+			'OR tutor > '.$ilDB->quote(0,'integer').' '.
+			'OR member > '.$ilDB->quote(0,'integer').")"
 		);
 		$ub = array();
 		while ($rec = $ilDB->fetchAssoc($set))
@@ -86,6 +86,9 @@ class ilAwarenessUserProviderMemberships extends ilAwarenessUserProvider
 				}
 			}
 		}
+
+		$this->log->debug("Got ".count($ub)." distinct members.");
+
 		return $ub;
 	}
 }

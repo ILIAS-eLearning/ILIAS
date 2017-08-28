@@ -7883,7 +7883,7 @@ mathjax#:#mathjax_enable_mathjax_info#:#Activa la visualización de expresiones 
 mathjax#:#mathjax_limiter#:#Delimitadores en línea
 mathjax#:#mathjax_limiter_info#:#Selecciona los delimitadores en línea tal y como tengas configurado en tu instalación de MathJax
 mathjax#:#mathjax_mathjax#:#MathJax
-mathjax#:#mathjax_path_to_mathjax_desc#:#P.e. http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML o una URL de tu instalación local
+mathjax#:#mathjax_path_to_mathjax_desc#:#P.e. https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML o una URL de tu instalación local
 mathjax#:#mathjax_path_to_mathjax#:#URL a MathJax
 mathjax#:#mathjax_settings#:#Configuración MathJax
 mcst#:#mcst_add_new_item#:#Añadir nuevo item de Media Cast

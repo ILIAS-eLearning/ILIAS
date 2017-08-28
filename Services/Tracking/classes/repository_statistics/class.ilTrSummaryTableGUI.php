@@ -402,8 +402,9 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			{
 				$valid = false;
 				foreach($result["ref_ids"] as $check_ref_id)
-				{					
-					if($rbacsystem->checkAccess("read_learning_progress", $check_ref_id))
+				{
+					include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
+					if(ilLearningProgressAccess::checkPermission('read_learning_progress', $check_ref_id))
 					{
 						$valid = true;
 						break;
