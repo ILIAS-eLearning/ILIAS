@@ -20459,7 +20459,6 @@ $ilDB->modifyTableColumn(
 ?>
 <#5188>
 <?php
-<<<<<<< HEAD
 if(!$ilDB->tableExists('orgu_obj_type_settings') )
 {
 	$ilDB->createTable('orgu_obj_type_settings', array(
