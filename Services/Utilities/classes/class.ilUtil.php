@@ -4451,7 +4451,7 @@ class ilUtil
 
 	/**
 	 * @param $a_target
-	 *
+	 * @internal
 	 * @return array
 	 */
 	protected static function sanitateTargetPath($a_target) {

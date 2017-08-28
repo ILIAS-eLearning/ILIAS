@@ -253,8 +253,7 @@ class ilObjFileGUI extends ilObject2GUI
 	function save()
 	{
 		global $DIC;
-		$objDefinition = $DIC['objDefinition'];
-		$ilUser = $DIC['ilUser'];
+		$ilUser = $DIC->user();
 
 		if (!$this->checkPermissionBool("create", "", "file"))
 		{
@@ -308,7 +307,6 @@ class ilObjFileGUI extends ilObject2GUI
 			$this->handleAutoRating($fileObj);
 
 			// BEGIN ChangeEvent: Record write event.
-			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
 			ilChangeEvent::_recordWriteEvent($fileObj->getId(), $ilUser->getId(), 'create');
 			// END ChangeEvent: Record write event.
 			
@@ -667,7 +665,6 @@ class ilObjFileGUI extends ilObject2GUI
 	{
 		global $DIC;
 		$ilUser = $DIC['ilUser'];
-		$ilCtrl = $DIC['ilCtrl'];
 		
 		if(ANONYMOUS_USER_ID == $ilUser->getId() && isset($_GET['transaction']) )
 		{
