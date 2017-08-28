@@ -127,6 +127,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 				if( $cmd == 'view' )
                 {
 					$cmd = 'showPage';
+					$ilCtrl->setCmd($cmd);
 				}
 
                 $q_gui = & assQuestionGUI::_getQuestionGUI('', $_REQUEST["q_id"]);
