@@ -186,7 +186,18 @@ abstract class ilFileSystemAbstractionStorage {
 	 *
 	 */
 	public function getAbsolutePath() {
+		return $this->getLegacyAbsolutePath();
 		return $this->path;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	protected function getLegacyAbsolutePath() {
+		$stream = $this->getFileSystemService()->readStream($this->path);
+
+		return $stream->getMetadata('uri');
 	}
 
 

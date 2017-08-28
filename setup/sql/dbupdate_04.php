@@ -20613,3 +20613,18 @@ $superior->setCoreIdentifier(ilOrgUnitPosition::CORE_POSITION_SUPERIOR);
 $superior->update();
 
 ?>
+<#5195>
+<?php
+if(!$ilDB->tableColumnExists('file_data','page_count'))
+{
+	$ilDB->addTableColumn(
+		'file_data',
+		'page_count',
+		array(
+			'type' 		=> 'integer',
+			'length' 	=> 8,
+		)
+	);
+}
+
+?>

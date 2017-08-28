@@ -17,17 +17,56 @@ require_once('Modules/File/classes/class.ilFSStorageFile.php');
  */
 class ilObjFile extends ilObject2 {
 
-	var $filename;
-	var $filetype;
-	var $filemaxsize = "20000000";    // not used yet
-	var $raise_upload_error;
-	var $mode = "object";
+	const MODE_FILELIST = "filelist";
+	const MODE_OBJECT = "object";
+	/**
+	 * @var bool
+	 */
+	protected $no_meta_data_creation;
+	/**
+	 * @var string
+	 */
+	protected $filename = '';
+	/**
+	 * @var string
+	 */
+	protected $filetype = '';
+	/**
+	 * @var string
+	 */
+	protected $filemaxsize = "20000000";    // not used yet
+	/**
+	 * @var string
+	 */
+	protected $filesize;
+	/**
+	 * @var bool
+	 */
+	public $raise_upload_error;
+	/**
+	 * @var string
+	 */
+	public $mode = self::MODE_OBJECT;
+	/**
+	 * @var int
+	 */
+	protected $page_count = 0;
+	/**
+	 * @var bool
+	 */
 	protected $rating = false;
 	/**
 	 * @var \ilFSStorageFile
 	 */
 	private $file_storage = null;
+	/**
+	 * @var \ilLogger
+	 */
 	protected $log = null;
+	/**
+	 * @var int
+	 */
+	protected $version = 0;
 
 
 	/**
@@ -50,10 +89,7 @@ class ilObjFile extends ilObject2 {
 	}
 
 
-	/**
-	 * Init type
-	 */
-	function initType() {
+	public function initType() {
 		$this->type = "file";
 	}
 
@@ -64,12 +100,8 @@ class ilObjFile extends ilObject2 {
 	 * @param bool upload mode (if enabled no entries in file_data will be done)
 	 */
 	protected function doCreate($a_upload = false) {
-		//BEGIN WebDAV Move Property creation into a method of its own.
 		$this->createProperties($a_upload);
-		//END WebDAV Move Property creation into a method of its own.	
 	}
-
-	//BEGIN WebDAV: Move Property creation into a method of its own.
 
 
 	/**
@@ -81,8 +113,6 @@ class ilObjFile extends ilObject2 {
 	 */
 	function createProperties($a_upload = false) {
 		global $DIC;
-		$ilDB = $DIC['ilDB'];
-		$tree = $DIC['tree'];
 
 		// Create file directory
 		$this->initFileStorage();
@@ -93,41 +123,34 @@ class ilObjFile extends ilObject2 {
 		}
 
 		// not upload mode
-		require_once("./Services/History/classes/class.ilHistory.php");
 		ilHistory::_createEntry($this->getId(), "create", $this->getFileName() . ",1");
 		$this->addNewsNotification("file_created");
 
-		require_once("./Services/News/classes/class.ilNewsItem.php");
+		// New Item
 		$default_visibility = ilNewsItem::_getDefaultVisibilityForRefId($_GET['ref_id']);
 		if ($default_visibility == "public") {
 			ilBlockSetting::_write("news", "public_notifications", 1, 0, $this->getId());
 		}
 
 		// log creation
-		include_once("./Services/Utilities/classes/class.ilStr.php");
 		$this->log->debug("ilObjFile::createProperties, ID: " . $this->getId() . ", Name: "
 		                  . $this->getFileName() . ", Type: " . $this->getFileType() . ", Size: "
 		                  . $this->getFileSize() . ", Mode: " . $this->getMode() . ", Name(Bytes): "
 		                  . implode(":", ilStr::getBytesForString($this->getFileName())));
 		$this->log->logStack(ilLogLevel::DEBUG);
 
-		$q = "INSERT INTO file_data (file_id,file_name,file_type,file_size,version,f_mode) "
-		     . "VALUES (" . $ilDB->quote($this->getId(), 'integer') . ","
-		     . $ilDB->quote($this->getFileName(), 'text') . ","
-		     . $ilDB->quote($this->getFileType(), 'text') . ","
-		     . $ilDB->quote((int)$this->getFileSize(), 'integer') . "," . $ilDB->quote(1, 'integer')
-		     . "," . $ilDB->quote($this->getMode(), 'text') . ")";
-		$res = $ilDB->manipulate($q);
+		$DIC->database()->insert('file_data', $this->getArrayForDatabase());
 
 		// no meta data handling for file list files
-		if ($this->getMode() != "filelist") {
+		if ($this->getMode() != self::MODE_FILELIST) {
 			$this->createMetaData();
 		}
 	}
 
 
-	//END WebDAV: Move Property creation into a method of its own.
-
+	/**
+	 * @param bool $a_status
+	 */
 	public function setNoMetaDataCreation($a_status) {
 		$this->no_meta_data_creation = (bool)$a_status;
 	}
@@ -202,7 +225,12 @@ class ilObjFile extends ilObject2 {
 	}
 
 
-	function getDirectory($a_version = 0) {
+	/**
+	 * @param int $a_version
+	 *
+	 * @return string
+	 */
+	public function getDirectory($a_version = 0) {
 		$version_subdir = "";
 
 		if ($a_version) {
@@ -230,9 +258,9 @@ class ilObjFile extends ilObject2 {
 
 
 	/**
-	 * @param      $a_upload_file
-	 * @param      $a_filename
-	 * @param bool $a_prevent_preview
+	 * @param string $a_upload_file
+	 * @param string $a_filename
+	 * @param bool   $a_prevent_preview
 	 */
 	public function getUploadFile($a_upload_file, $a_filename, $a_prevent_preview = false) {
 		global $DIC;
@@ -254,6 +282,12 @@ class ilObjFile extends ilObject2 {
 		if ($upload->hasUploads()) {
 			$upload->process();
 			$result = $upload->getResults()[$a_upload_file];
+
+			$md = $result->getMetaData()->toArray();
+			if ($md[ilCountPDFPagesPreProcessors::PAGE_COUNT]) {
+				$this->setPageCount($md[ilCountPDFPagesPreProcessors::PAGE_COUNT]);
+				$this->doUpdate();
+			}
 
 			$upload->moveOneFileTo($result, $file, Location::STORAGE, $a_filename);
 		}
@@ -375,16 +409,12 @@ class ilObjFile extends ilObject2 {
 	}
 
 
-	/**
-	 * read file properties
-	 */
 	protected function doRead() {
 		global $DIC;
-		$ilDB = $DIC['ilDB'];
 
-		$q = "SELECT * FROM file_data WHERE file_id = " . $ilDB->quote($this->getId(), 'integer');
-		$r = $this->ilias->db->query($q);
-		$row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
+		$q = "SELECT * FROM file_data WHERE file_id = %s";
+		$r = $DIC->database()->queryF($q, [ 'integer' ], [ $this->getId() ]);
+		$row = $r->fetchObject();
 
 		$this->setFileName($row->file_name);
 		$this->setFileType($row->file_type);
@@ -392,6 +422,7 @@ class ilObjFile extends ilObject2 {
 		$this->setVersion($row->version);
 		$this->setMode($row->f_mode);
 		$this->setRating($row->rating);
+		$this->setPageCount($row->page_count);
 
 		$this->initFileStorage();
 	}
@@ -399,7 +430,7 @@ class ilObjFile extends ilObject2 {
 
 	protected function beforeUpdate() {
 		// no meta data handling for file list files
-		if ($this->getMode() != "filelist") {
+		if ($this->getMode() != self::MODE_FILELIST) {
 			$this->updateMetaData();
 		}
 
@@ -407,24 +438,16 @@ class ilObjFile extends ilObject2 {
 	}
 
 
-	/**
-	 * update file
-	 */
 	protected function doUpdate() {
 		global $DIC;
-		$ilDB = $DIC['ilDB'];
-		$ilLog = $DIC['ilLog'];
 
-		//$ilLog->write(__METHOD__.' File type: '.$this->getFileType());
-
-		$q = "UPDATE file_data SET file_name = " . $ilDB->quote($this->getFileName(), 'text')
-		     . ", file_type = " . $ilDB->quote($this->getFiletype(), 'text') . " "
-		     . ", file_size = " . $ilDB->quote((int)$this->getFileSize(), 'integer') . " "
-		     . ", version = " . $ilDB->quote($this->getVersion(), 'integer') . " " . ", f_mode = "
-		     . $ilDB->quote($this->getMode(), 'text') . " " . ", rating = "
-		     . $ilDB->quote($this->hasRating(), 'integer') . " " . "WHERE file_id = "
-		     . $ilDB->quote($this->getId(), 'integer');
-		$res = $ilDB->manipulate($q);
+		$a_columns = $this->getArrayForDatabase();
+		$DIC->database()->update('file_data', $a_columns, [
+			'file_id' => [
+				'integer',
+				$this->getId(),
+			],
+		]);
 
 		self::handleQuotaUpdate($this);
 
@@ -459,32 +482,41 @@ class ilObjFile extends ilObject2 {
 
 
 	/**
-	 * set filename
+	 * @param string $a_name
 	 */
-	function setFileName($a_name) {
+	public function setFileName($a_name) {
 		$this->filename = $a_name;
 	}
 
 
-	function getFileName() {
+	/**
+	 * @return string
+	 */
+	public function getFileName() {
 		return $this->filename;
 	}
 
 
-	function setFileType($a_type) {
-		global $DIC;
-		$ilLog = $DIC['ilLog'];
-
+	/**
+	 * @param string $a_type
+	 */
+	public function setFileType($a_type) {
 		$this->filetype = $a_type;
 	}
 
 
-	function getFileType() {
+	/**
+	 * @return string
+	 */
+	public function getFileType() {
 		return $this->filetype;
 	}
 
 
-	function setFileSize($a_size) {
+	/**
+	 * @param $a_size
+	 */
+	public function setFileSize($a_size) {
 		$this->filesize = $a_size;
 	}
 
@@ -810,7 +842,7 @@ class ilObjFile extends ilObject2 {
 		}
 
 		// delete meta data
-		if ($this->getMode() != "filelist") {
+		if ($this->getMode() != self::MODE_FILELIST) {
 			$this->deleteMetaData();
 		}
 
@@ -882,12 +914,12 @@ class ilObjFile extends ilObject2 {
 
 		// #15143
 		$ilDB->replace("file_usage", array(
-				"id"            => array( "integer", (int)$a_file_id ),
-				"usage_type"    => array( "text", (string)$a_type ),
-				"usage_id"      => array( "integer", (int)$a_id ),
-				"usage_hist_nr" => array( "integer", (int)$a_usage_hist_nr ),
-				"usage_lang"    => array( "text", $a_usage_lang ),
-			), array());
+			"id"            => array( "integer", (int)$a_file_id ),
+			"usage_type"    => array( "text", (string)$a_type ),
+			"usage_id"      => array( "integer", (int)$a_id ),
+			"usage_hist_nr" => array( "integer", (int)$a_usage_hist_nr ),
+			"usage_lang"    => array( "text", $a_usage_lang ),
+		), array());
 
 		self::handleQuotaUpdate(new self($a_file_id, false));
 	}
@@ -1242,10 +1274,11 @@ class ilObjFile extends ilObject2 {
 			$data[1] = "1";
 		}
 
-		$result = array( "filename"         => $data[0],
-		                 "version"          => $data[1],
-		                 "rollback_version" => "",
-		                 "rollback_user_id" => "",
+		$result = array(
+			"filename"         => $data[0],
+			"version"          => $data[1],
+			"rollback_version" => "",
+			"rollback_user_id" => "",
 		);
 
 		// if rollback, the version contains the rollback version as well
@@ -1293,7 +1326,7 @@ class ilObjFile extends ilObject2 {
 	 */
 	protected function createPreview($force = false) {
 		// only normal files are supported
-		if ($this->getMode() != "object") {
+		if ($this->getMode() != self::MODE_OBJECT) {
 			return;
 		}
 
@@ -1307,7 +1340,7 @@ class ilObjFile extends ilObject2 {
 	 */
 	protected function deletePreview() {
 		// only normal files are supported
-		if ($this->getMode() != "object") {
+		if ($this->getMode() != self::MODE_OBJECT) {
 			return;
 		}
 
@@ -1316,13 +1349,50 @@ class ilObjFile extends ilObject2 {
 	}
 
 
+	/**
+	 * @param bool $a_value
+	 */
 	public function setRating($a_value) {
 		$this->rating = (bool)$a_value;
 	}
 
 
+	/**
+	 * @return bool
+	 */
 	public function hasRating() {
 		return $this->rating;
 	}
-} // END class.ilObjFile
-?>
+
+
+	/**
+	 * @return int
+	 */
+	public function getPageCount() {
+		return $this->page_count;
+	}
+
+
+	/**
+	 * @param int $page_count
+	 */
+	public function setPageCount($page_count) {
+		$this->page_count = $page_count;
+	}
+
+
+	/**
+	 * @return array
+	 */
+	private function getArrayForDatabase() {
+		return [
+			'file_id'    => [ 'integer', $this->getId() ],
+			'file_name'  => [ 'text', $this->getFileName() ],
+			'file_type'  => [ 'text', $this->getFileType() ],
+			'file_size'  => [ 'integer', (int)$this->getFileSize() ],
+			'version'    => [ 'integer', 1 ],
+			'f_mode'     => [ 'text', $this->getMode() ],
+			'page_count' => [ 'text', $this->getPageCount() ],
+		];
+	}
+}
