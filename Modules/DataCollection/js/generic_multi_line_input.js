@@ -49,7 +49,8 @@
 						$(new_line).addClass("multi_input_line");
 
 						setup_line(new_line);
-						$(element).append(new_line);
+
+						$(new_line).insertAfter($(this).parent());
 
 						// if date input, configure datetimepicker
 						var $div = new_line.find('.date');
