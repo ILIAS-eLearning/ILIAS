@@ -69,9 +69,9 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI {
 		$this->determineOffsetAndOrder();
 
 		//Permission Filter
-		$operation = ilOrgUnitOperationQueries::findByOperationString(ilOrgUnitOperation::OP_ACCESS_ENROLMENTS,'crs');
+		$operation = ilOrgUnitOperationQueries::findByOperationString(ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, 'crs');
 
-		$arr_usr_id = $this->access->getUsersForUserOperationAndContext($ilUser->getId(),$operation->getOperationId(),'crs');
+		$arr_usr_id = $this->access->getUsersForUserOperationAndContext($ilUser->getId(), $operation->getOperationId(), 'crs');
 
 		$this->filter['usr_id'] = $this->usr_id;
 		$options = array(

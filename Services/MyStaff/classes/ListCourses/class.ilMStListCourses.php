@@ -101,7 +101,7 @@ class ilMStListCourses {
 
 		$where = array();
 
-		$where[] =  '(crs_ref.ref_id, usr_data.usr_id) IN (SELECT * from tmp_ilobj_user_matrix)';
+		$where[] = '(crs_ref.ref_id, usr_data.usr_id) IN (SELECT * from tmp_ilobj_user_matrix)';
 
 		//$where[] = $ilDB->in('usr_data.usr_id', $arr_usr_ids, false, 'integer');
 
