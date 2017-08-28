@@ -112,7 +112,8 @@ class ilAdministrationGUI
 		
 		// permission checks
 		include_once './Services/MainMenu/classes/class.ilMainMenuGUI.php';
-		if(!$rbacsystem->checkAccess("read", SYSTEM_FOLDER_ID))
+		if(!$rbacsystem->checkAccess("visible", SYSTEM_FOLDER_ID) &&
+				!$rbacsystem->checkAccess("read", SYSTEM_FOLDER_ID))
 		{
 			$ilias->raiseError($this->lng->txt('permission_denied'),$ilias->error_obj->WARNING);
 		}
