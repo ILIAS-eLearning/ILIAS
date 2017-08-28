@@ -20635,3 +20635,7 @@ $ilDB->insert('pdfgen_renderer_avail',
 	)
 );
 ?>
+<#5197>
+<?php
+	ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, 'Access Enrolments in a course', ilOrgUnitOperationContext::CONTEXT_CRS);
+?>

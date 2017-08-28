@@ -36,13 +36,47 @@ class ilMyStaffAccess extends ilObjectAccess {
 		global $DIC;
 		$ilUser = $DIC['ilUser'];
 
-		if ($this->countOrgusOfUserWithOperationAndContext($ilUser->getId(),1,'crs') > 0)
-		{
+		$operation = ilOrgUnitOperationQueries::findByOperationString(ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, 'crs');
+		if ($this->countOrgusOfUserWithOperationAndContext($ilUser->getId(), $operation->getOperationId())
+		    > 0) {
 			return true;
 		}
 	}
 
-	public function countOrgusOfUserWithOperationAndContext($user_id, $operation_id = 1,$context = 'crs') {
+
+	/**
+	 * @param int $user_id
+	 *
+	 * @return mixed
+	 */
+	public function countOrgusOfUserWithAtLeastOneOperation($user_id) {
+		global $DIC;
+		/**
+		 * @var $ilDB \ilDBInterface
+		 */
+		$ilDB = $GLOBALS['DIC']->database();
+
+		$q = "select count(orgu_ua.orgu_id) as 'cnt' from il_orgu_permissions AS perm
+				INNER JOIN il_orgu_ua AS orgu_ua ON orgu_ua.position_id = perm.position_id
+				INNER JOIN il_orgu_op_contexts as contexts on contexts.id = perm.context_id and contexts.context is not NULL
+				where orgu_ua.user_id = " . $ilDB->quote($user_id, 'integer')
+		     . " and perm.operations is not NULL and perm.parent_id = -1";
+
+		$set = $ilDB->query($q);
+		$rec = $ilDB->fetchAssoc($set);
+
+		return $rec['cnt'];
+	}
+
+
+	/**
+	 * @param int    $user_id
+	 * @param int    $operation_id
+	 * @param string $context
+	 *
+	 * @return mixed
+	 */
+	public function countOrgusOfUserWithOperationAndContext($user_id, $operation_id = 1, $context = 'crs') {
 		global $DIC;
 		$ilUser = $DIC['ilUser'];
 		/**
@@ -52,10 +86,10 @@ class ilMyStaffAccess extends ilObjectAccess {
 
 		$q = "select count(orgu_ua.orgu_id) as cnt from il_orgu_permissions AS perm
 				INNER JOIN il_orgu_ua AS orgu_ua ON orgu_ua.position_id = perm.position_id
-				INNER JOIN il_orgu_op_contexts as contexts on contexts.id = perm.context_id and contexts.context = '".$context."'
-				and orgu_ua.user_id = $user_id and perm.operations LIKE  '%\"$operation_id\"%'
+				INNER JOIN il_orgu_op_contexts as contexts on contexts.id = perm.context_id and contexts.context = '"
+		     . $context . "'
+				and orgu_ua.user_id = " . $ilDB->quote($user_id, 'integer') . " and perm.operations LIKE  '%\"$operation_id\"%'
 				where perm.parent_id = -1";
-
 
 		$set = $ilDB->query($q);
 		$rec = $ilDB->fetchAssoc($set);
@@ -63,13 +97,14 @@ class ilMyStaffAccess extends ilObjectAccess {
 		return $rec['cnt'];
 	}
 
-	public function getUsersForUserOperationAndContext($user_id, $operation_id = 1,$context = 'crs') {
+
+	public function getUsersForUserOperationAndContext($user_id, $operation_id = 1, $context = 'crs') {
 		/**
 		 * @var $ilDB \ilDBInterface
 		 */
 		$ilDB = $GLOBALS['DIC']->database();
 
-		$this->buildTempTableIlobjectsUserMatrixForUserOperationAndContext($user_id,$operation_id,$context);
+		$this->buildTempTableIlobjectsUserMatrixForUserOperationAndContext($user_id, $operation_id, $context);
 
 		$q = 'SELECT usr_id FROM tmp_ilobj_user_matrix';
 
@@ -82,16 +117,78 @@ class ilMyStaffAccess extends ilObjectAccess {
 		}
 
 		return $arr_users;
-
 	}
 
-	public function getIlobjectsAndUsersForUserOperationAndContext($user_id, $operation_id = 1,$context = 'crs') {
+
+	public function getUsersForUser($user_id) {
 		/**
 		 * @var $ilDB \ilDBInterface
 		 */
 		$ilDB = $GLOBALS['DIC']->database();
 
-		$this->buildTempTableIlobjectsUserMatrixForUserOperationAndContext($user_id,$operation_id,$context);
+		$this->buildTempTableOrguMembers();
+
+		$q = "select  tmp_orgu_members.user_id as usr_id
+        		from 
+				tmp_orgu_members
+				INNER JOIN il_orgu_ua as orgu_ua_current_user on orgu_ua_current_user.user_id = "
+		     . $ilDB->quote($user_id, 'integer') . "
+				INNER JOIN il_orgu_authority AS auth ON auth.position_id = orgu_ua_current_user.position_id
+				where
+				(
+				/* Identische OrgUnit wie Current User; Nicht Rekursiv; Fixe Position */
+					(orgu_ua_current_user.orgu_id = tmp_orgu_members.orgu_id and auth.scope = 1
+						AND auth.over = tmp_orgu_members.user_position_id AND auth.over <> -1
+					)
+					OR
+					/* Identische OrgUnit wie Current User; Nicht Rekursiv; Position egal */
+					(orgu_ua_current_user.orgu_id = tmp_orgu_members.orgu_id and auth.scope = 1 and auth.over = -1)
+					OR
+					/* Kinder OrgUnit wie Current User */
+					(
+						(
+							tmp_orgu_members.orgu_id = orgu_ua_current_user.orgu_id OR
+							tmp_orgu_members.tree_path LIKE CONCAT(\"%.\",orgu_ua_current_user.orgu_id ,\".%\")
+							OR
+							tmp_orgu_members.tree_path LIKE  CONCAT(\"%.\",orgu_ua_current_user.orgu_id )
+						)
+						AND 
+						(
+							(
+								(
+									/* Gleiche Position */
+									auth.over = tmp_orgu_members.user_position_id AND auth.over <> -1
+								)
+								OR
+								(
+									/* Position Egal */
+									auth.over <> -1
+								)
+							)
+							AND auth.scope = 2
+						)
+					)
+				)";
+
+		$user_set = $ilDB->query($q);
+
+		$arr_users = array();
+
+		while ($rec = $ilDB->fetchAssoc($user_set)) {
+			$arr_users[$rec['usr_id']] = $rec['usr_id'];
+		}
+
+		return $arr_users;
+	}
+
+
+	public function getIlobjectsAndUsersForUserOperationAndContext($user_id, $operation_id = 1, $context = 'crs') {
+		/**
+		 * @var $ilDB \ilDBInterface
+		 */
+		$ilDB = $GLOBALS['DIC']->database();
+
+		$this->buildTempTableIlobjectsUserMatrixForUserOperationAndContext($user_id, $operation_id, $context);
 
 		$q = 'SELECT * FROM tmp_ilobj_user_matrix';
 
@@ -104,10 +201,10 @@ class ilMyStaffAccess extends ilObjectAccess {
 		}
 
 		return $arr_user_obj;
-
 	}
 
-	public function buildTempTableIlobjectsUserMatrixForUserOperationAndContext($user_id, $operation_id = 1,$context = 'crs',$temporary_table_name = 'tmp_ilobj_user_matrix') {
+
+	public function buildTempTableIlobjectsUserMatrixForUserOperationAndContext($user_id, $operation_id = 1, $context = 'crs', $temporary_table_name = 'tmp_ilobj_user_matrix') {
 		/**
 		 * @var $ilDB \ilDBInterface
 		 */
@@ -151,7 +248,8 @@ class ilMyStaffAccess extends ilObjectAccess {
 				) as user_perm_matrix  
 				INNER JOIN tmp_orgu_members_path as path on path.user_id = user_perm_matrix.usr_id
 				
-				INNER JOIN il_orgu_ua as orgu_ua_current_user on orgu_ua_current_user.user_id = $user_id
+				INNER JOIN il_orgu_ua as orgu_ua_current_user on orgu_ua_current_user.user_id = "
+		     . $ilDB->quote($user_id, 'integer') . "
 				INNER JOIN il_orgu_permissions AS perm on perm.position_id = orgu_ua_current_user.position_id and perm.parent_id = -1
 				INNER JOIN il_orgu_op_contexts as contexts on contexts.id = perm.context_id and contexts.context =  '$context'
 				and perm.operations  LIKE '%\"$operation_id\"%'
@@ -195,13 +293,13 @@ class ilMyStaffAccess extends ilObjectAccess {
 				)	
 			);";
 
-
 		$ilDB->manipulate($q);
 
 		return true;
 	}
 
-	public function buildTempTableIlobjectsSpecificPermissionSetForOperationAndContext($operation_id = 1,$context = 'crs',$temporary_table_name = 'tmp_ilobj_spec_permissions') {
+
+	public function buildTempTableIlobjectsSpecificPermissionSetForOperationAndContext($operation_id = 1, $context = 'crs', $temporary_table_name = 'tmp_ilobj_spec_permissions') {
 		/**
 		 * @var $ilDB \ilDBInterface
 		 */
@@ -225,15 +323,15 @@ class ilMyStaffAccess extends ilObjectAccess {
 					INNER JOIN il_orgu_op_contexts as contexts on contexts.id = perm.context_id and contexts.context = '$context'
 					WHERE
 				    perm.operations LIKE '%\"$operation_id\"%'
-			);";
-;
+			);";;
 
 		$ilDB->manipulate($q);
 
 		return true;
 	}
 
-	public function buildTempTableIlobjectsDefaultPermissionSetForOperationAndContext($operation_id = 1,$context = 'crs',$temporary_table_name = 'tmp_ilobj_default_permissions') {
+
+	public function buildTempTableIlobjectsDefaultPermissionSetForOperationAndContext($operation_id = 1, $context = 'crs', $temporary_table_name = 'tmp_ilobj_default_permissions') {
 		/**
 		 * @var $ilDB \ilDBInterface
 		 */
@@ -251,13 +349,15 @@ class ilMyStaffAccess extends ilObjectAccess {
 				    FROM
 				    object_data AS obj
 				    INNER JOIN object_reference AS obj_ref ON obj_ref.obj_id = obj.obj_id
-				    INNER JOIN il_orgu_permissions AS perm ON perm.operations LIKE '%\"".$operation_id."\"%' AND perm.parent_id = -1
-				    INNER JOIN il_orgu_op_contexts as contexts on contexts.id = perm.context_id and contexts.context = '".$context."'
+				    INNER JOIN il_orgu_permissions AS perm ON perm.operations LIKE '%\""
+		     . $operation_id . "\"%' AND perm.parent_id = -1
+				    INNER JOIN il_orgu_op_contexts as contexts on contexts.id = perm.context_id and contexts.context = '"
+		     . $context . "'
 				    INNER JOIN il_orgu_ua AS orgu_ua ON orgu_ua.position_id = perm.position_id
 				    INNER JOIN il_orgu_authority AS auth ON auth.position_id = orgu_ua.position_id
 				    
 				    WHERE
-				        obj.type = '".$context."'
+				        obj.type = '" . $context . "'
 				            AND (obj_ref.ref_id , orgu_ua.position_id) 
 				            
 				            NOT IN (SELECT 
@@ -265,7 +365,8 @@ class ilMyStaffAccess extends ilObjectAccess {
 				            FROM
 				                il_orgu_permissions AS perm
 				            INNER JOIN il_orgu_ua AS orgu_ua ON orgu_ua.position_id = perm.position_id
-				            INNER JOIN il_orgu_op_contexts as contexts on contexts.id = perm.context_id and contexts.context = '".$context."'
+				            INNER JOIN il_orgu_op_contexts as contexts on contexts.id = perm.context_id and contexts.context = '"
+		     . $context . "'
 				            WHERE perm.parent_id <> -1)
 							);";
 
@@ -277,7 +378,7 @@ class ilMyStaffAccess extends ilObjectAccess {
 	}
 
 
-	public function buildTempTableIlorgunitDefaultPermissionSetForOperationAndContext($operation_id = 1,$context = 'crs',$temporary_table_name = 'tmp_ilorgu_default_permissions') {
+	public function buildTempTableIlorgunitDefaultPermissionSetForOperationAndContext($operation_id = 1, $context = 'crs', $temporary_table_name = 'tmp_ilorgu_default_permissions') {
 		/**
 		 * @var $ilDB \ilDBInterface
 		 */
@@ -296,9 +397,10 @@ class ilMyStaffAccess extends ilObjectAccess {
 					il_orgu_permissions AS perm
 				    INNER JOIN il_orgu_ua AS orgu_ua ON orgu_ua.position_id = perm.position_id and perm.parent_id = -1
 				    INNER JOIN il_orgu_authority AS auth ON auth.position_id = orgu_ua.position_id
-				    INNER JOIN il_orgu_op_contexts as contexts on contexts.id = perm.context_id and contexts.context = '".$context."'
+				    INNER JOIN il_orgu_op_contexts as contexts on contexts.id = perm.context_id and contexts.context = '"
+		     . $context . "'
 				    WHERE
-				    perm.operations LIKE '%\"".$operation_id."\"%'
+				    perm.operations LIKE '%\"" . $operation_id . "\"%'
 							);";
 
 		$ilDB->manipulate($q);
@@ -360,7 +462,6 @@ class ilMyStaffAccess extends ilObjectAccess {
 							LEFT JOIN tree AS tree_orgu ON tree_orgu.child = orgu_ua.orgu_id
 			  );";
 
-
 		$ilDB->manipulate($q);
 
 		//echo $q;
@@ -396,7 +497,6 @@ class ilMyStaffAccess extends ilObjectAccess {
 
 		return self::$orgu_users_of_current_user_show_staff_permission;
 	}*/
-
 
 	/**
 	 * @param array $arr_orgu_ref_id
