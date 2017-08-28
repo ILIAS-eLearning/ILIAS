@@ -30,8 +30,6 @@ class ilForumDraftsHistory
 	 */
 	protected $draft_date = '0000-00-00 00:00:00';
 	
-	public $db;
-	
 	/**
 	 * @return int
 	 */
@@ -118,9 +116,6 @@ class ilForumDraftsHistory
 	 */
 	public function __construct($history_id = 0)
 	{
-		global $DIC;
-		$this->db = $DIC->database();
-		
 		if(isset($history_id) && $history_id > 0 )
 		{
 			$this->readByHistoryId($history_id);		
@@ -133,10 +128,12 @@ class ilForumDraftsHistory
 	 */
 	private function readByHistoryId($history_id)
 	{
-		$res = $this->db->queryF('SELECT * FROM frm_drafts_history WHERE history_id = %s',
+		global $ilDB;
+		
+		$res = $ilDB->queryF('SELECT * FROM frm_drafts_history WHERE history_id = %s',
 			array('integer'), array((int)$history_id));
 		
-		while($row = $this->db->fetchAssoc($res))
+		while($row = $ilDB->fetchAssoc($res))
 		{
 			$this->setHistoryId($row['history_id']);
 			$this->setDraftId($row['draft_id']);
@@ -148,8 +145,7 @@ class ilForumDraftsHistory
 	
 	public static function getInstancesByDraftId($draft_id)
 	{
-		global $DIC; 
-		$ilDB = $DIC->database();
+		global $ilDB;
 		
 		$res = $ilDB->queryF('SELECT * FROM frm_drafts_history WHERE draft_id = %s ORDER BY draft_date DESC', 
 			array('integer'), array((int) $draft_id));
@@ -166,9 +162,8 @@ class ilForumDraftsHistory
 	}
 	
 	/**
-	 * @param ilForumDraftsHistory $history_draft
-	 * @param array                $row
-	 * @return ilForumDraftsHistory
+	 * @param $draft ilForumPostDraft
+	 * @param $row   array
 	 */
 	protected static function populateWithDatabaseRecord(ilForumDraftsHistory $history_draft, array $row)
 	{
@@ -183,7 +178,9 @@ class ilForumDraftsHistory
 	
 	public function delete()
 	{
-		$this->db->manipulatef('DELETE FROM frm_drafts_history WHERE history_id = %s',
+		global $ilDB;
+		
+		$ilDB->manipulatef('DELETE FROM frm_drafts_history WHERE history_id = %s',
 			array('integer'), array($this->getHistoryId()));
 	}
 	
@@ -192,11 +189,13 @@ class ilForumDraftsHistory
 	 */
 	public function getFirstAutosaveByDraftId($draft_id)
 	{
-		$res = $this->db->queryF('SELECT * FROM frm_drafts_history WHERE draft_id = %s 
+		global $ilDB;
+		
+		$res = $ilDB->queryF('SELECT * FROM frm_drafts_history WHERE draft_id = %s 
 			ORDER BY history_id ASC',
 			array('integer'), array((int)$draft_id));
 		
-		if($row = $this->db->fetchAssoc($res))
+		if($row = $ilDB->fetchAssoc($res))
 		{
 			$this->setHistoryId($row['history_id']);
 			$this->setDraftId($row['draft_id']);
@@ -209,11 +208,13 @@ class ilForumDraftsHistory
 	 */
 	public function getLastAutosaveByDraftId($draft_id)
 	{
-		$res = $this->db->queryF('SELECT * FROM frm_drafts_history WHERE draft_id = %s 
+		global $ilDB;
+		
+		$res = $ilDB->queryF('SELECT * FROM frm_drafts_history WHERE draft_id = %s 
 			ORDER BY history_id DESC',
 			array('integer'), array($draft_id));
 		
-		while($row = $this->db->fetchAssoc($res))
+		while($row = $ilDB->fetchAssoc($res))
 		{
 			$this->setHistoryId($row['history_id']);
 			$this->setDraftId($row['draft_id']);
@@ -224,8 +225,10 @@ class ilForumDraftsHistory
 	
 	public function addDraftToHistory()
 	{
-		$next_id = $this->db->nextId('frm_drafts_history');
-		$this->db->insert('frm_drafts_history',
+		global $ilDB;
+		
+		$next_id = $ilDB->nextId('frm_drafts_history');
+		$ilDB->insert('frm_drafts_history',
 			array('history_id'   => array('integer', $next_id),
 			      'draft_id'     => array('integer', $this->getDraftId()),
 			      'post_subject' => array('text', $this->getPostSubject()),
@@ -297,13 +300,15 @@ class ilForumDraftsHistory
 		$draft_ids = array();
 		if(count($post_ids) > 0)
 		{
-			$res  = $this->db->query('
+			global $ilDB;
+			
+			$res  = $ilDB->query('
 			SELECT frm_drafts_history.history_id, frm_drafts_history.draft_id 
 			FROM frm_posts_drafts  
  			INNER JOIN frm_drafts_history ON frm_posts_drafts.draft_id
- 			WHERE ' . $this->db->in('post_id', $post_ids, false, 'integer'));
+ 			WHERE ' . $ilDB->in('post_id', $post_ids, false, 'integer'));
 			
-			while($row = $this->db->fetchAssoc($res))
+			while($row = $ilDB->fetchAssoc($res))
 			{
 				$draft_ids[] = $row['draft_id'];
 			}
@@ -315,19 +320,21 @@ class ilForumDraftsHistory
 	
 	public function deleteHistoryByDraftIds($draft_ids = array())
 	{
+		global $ilDB;
+		
 		if(count($draft_ids) > 0)
 		{
-			$res  = $this->db->query('SELECT history_id FROM frm_drafts_history 
- 					WHERE ' . $this->db->in('draft_id', $draft_ids, false, 'integer'));
+			$res  = $ilDB->query('SELECT history_id FROM frm_drafts_history 
+ 					WHERE ' . $ilDB->in('draft_id', $draft_ids, false, 'integer'));
 			
-			while($row = $this->db->fetchAssoc($res))
+			while($row = $ilDB->fetchAssoc($res))
 			{
 				$this->setHistoryId($row['history_id']);
 				$this->deleteMobs();
 			}
 			
-			$this->db->manipulate('DELETE FROM frm_drafts_history WHERE '
-					. $this->db->in('draft_id', $draft_ids, false, 'integer'));
+			$ilDB->manipulate('DELETE FROM frm_drafts_history WHERE '
+					. $ilDB->in('draft_id', $draft_ids, false, 'integer'));
 		}
 	}
 }

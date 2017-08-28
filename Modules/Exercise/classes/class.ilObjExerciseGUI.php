@@ -133,7 +133,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 				break;
 			
 			case "ilexercisemanagementgui":
-				$this->checkPermission("write");
+				// rbac or position access
+				$GLOBALS['DIC']->access()->checkRbacOrPositionPermissionAccess(
+					'edit_submissions_grades',
+					'edit_submissions_grades',
+					$this->object->getRefId()
+				);
 				$ilTabs->activateTab("grades");				
 				include_once("./Modules/Exercise/classes/class.ilExerciseManagementGUI.php");
 				$mgmt_gui = new ilExerciseManagementGUI($this->object, $this->ass);
@@ -399,6 +404,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$lng->txt("settings"),
 				$this->ctrl->getLinkTarget($this, 'edit'));
 			
+		}
+		if($GLOBALS['DIC']->access()->checkRbacOrPositionPermissionAccess(
+			'edit_submissions_grades',
+			'edit_submissions_grades', 
+			$this->object->getRefId()))
+		{
 			$this->tabs_gui->addTab("grades",
 				$lng->txt("exc_submissions_and_grades"),
 				$this->ctrl->getLinkTargetByClass("ilexercisemanagementgui", "members"));
@@ -592,34 +603,78 @@ class ilObjExerciseGUI extends ilObjectGUI
 	*/
 	public static function _goto($a_target, $a_raw)
 	{
-		global $lng, $ilAccess;
+		global $ilErr, $lng, $ilAccess, $ilCtrl;
 
-		$ass_id = null;
-		$parts = explode("_", $a_raw);
-		if(sizeof($parts) == 2)
+		//we don't have baseClass here...
+		$ilCtrl->setTargetScript("ilias.php");
+		$ilCtrl->initBaseClass("ilRepositoryGUI");
+
+		//ilExerciseMailNotification has links to:
+		// "Assignments", "Submission and Grades" and Downnoad the NEW files if the assignment type is "File Upload".
+		$ass_id = $_GET['ass_id'];
+		if(!$ass_id)
 		{
-			$ass_id = (int)$parts[1];
+			$ass_id = null;
+			$action = null;
+			$parts = explode("_", $a_raw);
+
+			switch(end($parts))
+			{
+				case "download":
+					$action = $parts[3];
+					$member = $parts[2];
+					$ass_id = $parts[1];
+					break;
+
+				case "setdownload":
+					$action = $parts[3];
+					$member = $parts[2];
+					$ass_id = $parts[1];
+					break;
+
+				case "grades":
+					$action= $parts[2];
+					$ass_id = $parts[1];
+					break;
+			}
 		}
-		
+
+		$ilCtrl->setParameterByClass("ilExerciseHandlerGUI", "ref_id", $a_target);
+
 		if ($ilAccess->checkAccess("read", "", $a_target))
 		{
-			if($ass_id)
-			{
-				$_GET["ass_id_goto"] = $ass_id;
+			$ilCtrl->setParameterByClass("ilExerciseHandlerGUI", "target", $a_raw);
+
+			if($ass_id){
+				$ilCtrl->setParameterByClass("ilExerciseManagementGUI", "ass_id", $ass_id);
 			}
-			$_GET["ref_id"] = $a_target;
-			$_GET["cmd"] = "showOverview";
-			$_GET["baseClass"] = "ilExerciseHandlerGUI";
-			include("ilias.php");
-			exit;
+
+			switch($action)
+			{
+				case "grades":
+					$ilCtrl->redirectByClass(array("ilRepositoryGUI", "ilExerciseHandlerGUI", "ilObjExerciseGUI", "ilExerciseManagementGUI"), "members");
+					break;
+
+				/*case "download":
+					$ilCtrl->setParameterByClass("ilExerciseHandlerGUI", "member_id", $member);
+					$ilCtrl->redirectByClass(array("ilRepositoryGUI", "ilExerciseHandlerGUI", "ilObjExerciseGUI", "ilExerciseManagementGUI", "ilExSubmissionFileGUI"),"downloadNewReturned");
+					break;*/
+
+				case "setdownload":
+					$ilCtrl->setParameterByClass("ilExerciseHandlerGUI", "member_id", $member);
+					$ilCtrl->redirectByClass(array("ilRepositoryGUI", "ilExerciseHandlerGUI", "ilObjExerciseGUI", "ilExerciseManagementGUI"),"waitingDownload");
+					break;
+
+				default:
+					$ilCtrl->redirectByClass(array("ilRepositoryGUI", "ilExerciseHandlerGUI", "ilObjExerciseGUI"), "showOverview");
+					break;
+
+			}
+
 		}
 		else if ($ilAccess->checkAccess("visible", "", $a_target))
 		{
-			$_GET["ref_id"] = $a_target;
-			$_GET["cmd"] = "infoScreen";
-			$_GET["baseClass"] = "ilExerciseHandlerGUI";
-			include("ilias.php");
-			exit;
+			$ilCtrl->redirectByClass(array("ilRepositoryGUI", "ilExerciseHandlerGUI", "ilObjExerciseGUI"), "infoScreen");
 		}
 		else if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
 		{
@@ -656,6 +711,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 		global $tpl, $ilTabs, $ilUser, $ilToolbar;
 		
 		$this->checkPermission("read");
+
+		$tpl->addJavaScript("./Modules/Exercise/js/ilExcPresentation.js");
 		
 		include_once("./Services/Tracking/classes/class.ilLearningProgress.php");
 		ilLearningProgress::_tracProgress($ilUser->getId(),$this->object->getId(),
@@ -709,8 +766,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{
 			$acc->setUseSessionStorage(true);
 		}
-		
-		$tpl->setContent($acc->getHTML());
+
+		$mtpl = new ilTemplate("tpl.exc_ass_overview.html", true, true, "Modules/Exercise");
+		$mtpl->setVariable("CONTENT", $acc->getHTML());
+
+		$tpl->setContent($mtpl->get());
 	}
 	
 	function certificateObject()

@@ -33,6 +33,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		$this->type = "svy";
 		$lng->loadLanguageModule("survey");
+		$lng->loadLanguageModule("svy");
 		$this->ctrl = $ilCtrl;
 		$this->ctrl->saveParameter($this, "ref_id");
 
@@ -501,34 +502,57 @@ class ilObjSurveyGUI extends ilObjectGUI
 			
 			if($valid)
 			{			
-				if(!$this->object->get360Mode())
+				if($form->getInput("rmd"))
 				{
-					if($form->getInput("rmd"))
+					$rmd_start = $form->getItemByPostVar("rmd_start")->getDate();
+					$rmd_end = $form->getItemByPostVar("rmd_end")->getDate();
+					if($rmd_end)
 					{
-						$rmd_start = $form->getItemByPostVar("rmd_start")->getDate();
-						$rmd_end = $form->getItemByPostVar("rmd_end")->getDate();
-						if($rmd_end)
+						if($rmd_start->get(IL_CAL_UNIX) > $rmd_end->get(IL_CAL_UNIX))
 						{
-							if($rmd_start->get(IL_CAL_UNIX) > $rmd_end->get(IL_CAL_UNIX))
-							{
-								$tmp = $rmd_start;
-								$rmd_start = $rmd_end;
-								$rmd_end = $tmp;
-							}							
-						}						
-						$this->object->setReminderStatus(true);
-						$this->object->setReminderStart($rmd_start);
-						$this->object->setReminderEnd($rmd_end);
-						$this->object->setReminderFrequency($form->getInput("rmd_freq"));
-						$this->object->setReminderTarget($form->getInput("rmd_grp"));						
+							$tmp = $rmd_start;
+							$rmd_start = $rmd_end;
+							$rmd_end = $tmp;
+						}
+					}
+					$this->object->setReminderStatus(true);
+					$this->object->setReminderStart($rmd_start);
+					$this->object->setReminderEnd($rmd_end);
+					$this->object->setReminderFrequency($form->getInput("rmd_freq"));
+					if(!$this->object->get360Mode())
+					{
+						$this->object->setReminderTarget($form->getInput("rmd_grp"));
 						$this->object->setReminderTemplate(($form->getInput("rmdt") > 0)
 							? $form->getInput("rmdt")
 							: null);
-					}		
+					}
 					else
 					{
-						$this->object->setReminderStatus(false);
+						if ($form->getInput("remind_appraisees") && $form->getInput("remind_raters"))
+						{
+							$this->object->setReminderTarget(ilObjSurvey::NOTIFICATION_APPRAISEES_AND_RATERS);
+						}
+						else if ($form->getInput("remind_appraisees"))
+						{
+							$this->object->setReminderTarget(ilObjSurvey::NOTIFICATION_APPRAISEES);
+						}
+						else if ($form->getInput("remind_raters"))
+						{
+							$this->object->setReminderTarget(ilObjSurvey::NOTIFICATION_RATERS);
+						}
+						else
+						{
+							$this->object->setReminderTarget(0);
+						}
 					}
+				}
+				else
+				{
+					$this->object->setReminderStatus(false);
+				}
+
+				if(!$this->object->get360Mode())
+				{
 
 					if($form->getInput("tut"))
 					{
@@ -1093,74 +1117,73 @@ class ilObjSurveyGUI extends ilObjectGUI
 		
 		// reminders
 		
-		// reminder - currently not available for 360° 
-		if(!$this->object->get360Mode())
-		{			
-			$info = new ilFormSectionHeaderGUI();
-			$info->setTitle($this->lng->txt("svy_settings_section_reminders"));
-			$form->addItem($info);		
-			
-			$rmd = new ilCheckboxInputGUI($this->lng->txt("survey_reminder_setting"), "rmd");
-			$rmd->setChecked($this->object->getReminderStatus());
-			$form->addItem($rmd);
-			
-			$rmd_start = new ilDateTimeInputGUI($this->lng->txt("survey_reminder_start"), "rmd_start");
-			$rmd_start->setRequired(true);
-			$start = $this->object->getReminderStart();
-			if($start)
-			{
-				$rmd_start->setDate($start);
-			}
-			$rmd->addSubItem($rmd_start);
+		$info = new ilFormSectionHeaderGUI();
+		$info->setTitle($this->lng->txt("svy_settings_section_reminders"));
+		$form->addItem($info);
 
-			$end = $this->object->getReminderEnd();
-			$rmd_end = new ilDateTimeInputGUI($this->lng->txt("survey_reminder_end"), "rmd_end");		
-			if($end)
-			{
-				$rmd_end->setDate($end);
-			}
-			$rmd->addSubItem($rmd_end);
+		$rmd = new ilCheckboxInputGUI($this->lng->txt("survey_reminder_setting"), "rmd");
+		$rmd->setChecked($this->object->getReminderStatus());
+		$form->addItem($rmd);
 
-			$rmd_freq = new ilNumberInputGUI($this->lng->txt("survey_reminder_frequency"), "rmd_freq");
-			$rmd_freq->setRequired(true);
-			$rmd_freq->setSize(3);		
-			$rmd_freq->setSuffix($this->lng->txt("survey_reminder_frequency_days"));
-			$rmd_freq->setValue($this->object->getReminderFrequency());
-			$rmd_freq->setMinValue(1);
-			$rmd->addSubItem($rmd_freq);
+		$rmd_start = new ilDateTimeInputGUI($this->lng->txt("survey_reminder_start"), "rmd_start");
+		$rmd_start->setRequired(true);
+		$start = $this->object->getReminderStart();
+		if($start)
+		{
+			$rmd_start->setDate($start);
+		}
+		$rmd->addSubItem($rmd_start);
 
+		$end = $this->object->getReminderEnd();
+		$rmd_end = new ilDateTimeInputGUI($this->lng->txt("survey_reminder_end"), "rmd_end");
+		if($end)
+		{
+			$rmd_end->setDate($end);
+		}
+		$rmd->addSubItem($rmd_end);
+
+		$rmd_freq = new ilNumberInputGUI($this->lng->txt("survey_reminder_frequency"), "rmd_freq");
+		$rmd_freq->setRequired(true);
+		$rmd_freq->setSize(3);
+		$rmd_freq->setSuffix($this->lng->txt("survey_reminder_frequency_days"));
+		$rmd_freq->setValue($this->object->getReminderFrequency());
+		$rmd_freq->setMinValue(1);
+		$rmd->addSubItem($rmd_freq);
+
+
+		if (!$this->object->get360Mode())
+		{
 			$rmd_grp = new ilRadioGroupInputGUI($this->lng->txt("survey_notification_target_group"), "rmd_grp");
 			$rmd_grp->setRequired(true);
 			$rmd_grp->setValue($this->object->getReminderTarget());
 			$rmd->addSubItem($rmd_grp);
 
-			$rmd_grp_crs = new ilRadioOption($this->lng->txt("survey_notification_target_group_parent_course"), 
-				ilObjSurvey::NOTIFICATION_PARENT_COURSE);		
-			if(!$has_parent)
+			$rmd_grp_crs = new ilRadioOption($this->lng->txt("survey_notification_target_group_parent_course"),
+				ilObjSurvey::NOTIFICATION_PARENT_COURSE);
+			if (!$has_parent)
 			{
 				$rmd_grp_crs->setInfo($this->lng->txt("survey_notification_target_group_parent_course_inactive"));
-			}
-			else
+			} else
 			{
 				$rmd_grp_crs->setInfo(sprintf($this->lng->txt("survey_notification_target_group_invited_info"),
 					count($this->object->getNotificationTargetUserIds(false))));
 			}
 			$rmd_grp->addOption($rmd_grp_crs);
 
-			$rmd_grp_inv = new ilRadioOption($this->lng->txt("survey_notification_target_group_invited"), 
+			$rmd_grp_inv = new ilRadioOption($this->lng->txt("survey_notification_target_group_invited"),
 				ilObjSurvey::NOTIFICATION_INVITED_USERS);
 			$rmd_grp_inv->setInfo(sprintf($this->lng->txt("survey_notification_target_group_invited_info"), $num_inv));
 			$rmd_grp->addOption($rmd_grp_inv);
-						
+
 			$mtmpl = $this->object->getReminderMailTemplates();
-			if($mtmpl)
+			if ($mtmpl)
 			{
 				$rmdt = new ilRadioGroupInputGUI($this->lng->txt("svy_reminder_mail_template"), "rmdt");
 				$rmdt->setRequired(true);
-				$rmdt->addOption(new ilRadioOption($this->lng->txt("svy_reminder_mail_template_none"), -1));				
-				foreach($mtmpl as $mtmpl_id => $mtmpl_caption)
+				$rmdt->addOption(new ilRadioOption($this->lng->txt("svy_reminder_mail_template_none"), -1));
+				foreach ($mtmpl as $mtmpl_id => $mtmpl_caption)
 				{
-					$option = new ilRadioOption($mtmpl_caption, $mtmpl_id);			
+					$option = new ilRadioOption($mtmpl_caption, $mtmpl_id);
 					$rmdt->addOption($option);
 				}
 				$rmdt->setValue($this->object->getReminderTemplate()
@@ -1168,8 +1191,28 @@ class ilObjSurveyGUI extends ilObjectGUI
 					: -1);
 				$rmd->addSubItem($rmdt);
 			}
-		}			
-		
+		}
+		else
+		{
+			// remind appraisees
+			$cb = new ilCheckboxInputGUI($this->lng->txt("survey_notification_target_group"), "remind_appraisees");
+			$cb->setOptionTitle($this->lng->txt("survey_360_appraisees"));
+			$cb->setInfo($this->lng->txt("survey_360_appraisees_remind_info"));
+			$cb->setValue("1");
+			$cb->setChecked(in_array($this->object->getReminderTarget(),
+				array(ilObjSurvey::NOTIFICATION_APPRAISEES, ilObjSurvey::NOTIFICATION_APPRAISEES_AND_RATERS)));
+			$rmd->addSubItem($cb);
+
+			// remind raters
+			$cb = new ilCheckboxInputGUI("", "remind_raters");
+			$cb->setOptionTitle($this->lng->txt("survey_360_raters"));
+			$cb->setInfo($this->lng->txt("survey_360_raters_remind_info"));
+			$cb->setValue("1");
+			$cb->setChecked(in_array($this->object->getReminderTarget(),
+				array(ilObjSurvey::NOTIFICATION_RATERS, ilObjSurvey::NOTIFICATION_APPRAISEES_AND_RATERS)));
+			$rmd->addSubItem($cb);
+		}
+
 		
 		// results
 		
@@ -1771,7 +1814,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 						}					
 						
 						$list = array();
-						
+
 						foreach($appr_ids as $appr_id)
 						{				
 							if($this->object->isAppraiseeClosed($appr_id))
@@ -1798,7 +1841,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 								$list[$appr_id] = array("start", $this->lng->txt("start_survey"));
 							}
 						}
-						
+
 						$info->addSection($this->lng->txt("survey_360_rate_other_appraisees"));
 						
 						include_once "Services/User/classes/class.ilUserUtil.php";

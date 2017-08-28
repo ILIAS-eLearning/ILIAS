@@ -30,13 +30,25 @@ abstract class ilContainerContentGUI
 	var $container_obj;
 
 	/**
+	 * @var ilLogger
+	 */
+	protected $log;
+
+	/**
 	* Constructor
 	*
 	*/
 	function __construct(&$container_gui_obj)
 	{
+		global $tpl;
+
 		$this->container_gui = $container_gui_obj;
 		$this->container_obj = $this->container_gui->object;
+
+		$tpl->addJavaScript("./Services/Container/js/Container.js");
+
+		$this->log = ilLoggerFactory::getLogger('cont');
+
 	}
 	
 	/**
@@ -728,7 +740,7 @@ abstract class ilContainerContentGUI
 	 */
 	function renderItemGroup($a_itgr)
 	{
-		global $ilAccess;
+		global $ilAccess, $ilUser;
 		
 		// #16493
 		$perm_ok = ($ilAccess->checkAccess("visible", "", $a_itgr['ref_id']) &&
@@ -756,17 +768,34 @@ abstract class ilContainerContentGUI
 		$item_list_gui->enableTimings(false);
 		$item_list_gui->getListItemHTML($a_itgr["ref_id"], $a_itgr["obj_id"],
 			$a_itgr["title"], $a_itgr["description"]);
-		$commands_html = $item_list_gui->getCommandsHTML(); 
+		$commands_html = $item_list_gui->getCommandsHTML();
 
+		// determine behaviour
 		include_once("./Modules/ItemGroup/classes/class.ilObjItemGroup.php");
+		include_once("./Modules/ItemGroup/classes/class.ilItemGroupBehaviour.php");
+		$beh = ilObjItemGroup::lookupBehaviour($a_itgr["obj_id"]);
+		include_once("./Services/Container/classes/class.ilContainerBlockPropertiesStorage.php");
+		$stored_val = ilContainerBlockPropertiesStorage::getProperty("itgr_".$a_itgr["ref_id"], $ilUser->getId(), "opened");
+		if ($stored_val !== false)
+		{
+			$beh = ($stored_val == "1")
+				? ilItemGroupBehaviour::EXPANDABLE_OPEN
+				: ilItemGroupBehaviour::EXPANDABLE_CLOSED;
+		}
+
+		$data = array(
+			"behaviour" => $beh,
+			"store-url" => "./ilias.php?baseClass=ilcontainerblockpropertiesstorage&cmd=store".
+				"&cont_block_id=itgr_".$a_itgr['ref_id']
+		);
 		if (ilObjItemGroup::lookupHideTitle($a_itgr["obj_id"]) &&
 			!$this->getContainerGUI()->isActiveAdministrationPanel())
 		{
-			$this->renderer->addCustomBlock($a_itgr["ref_id"], "", $commands_html);
+			$this->renderer->addCustomBlock($a_itgr["ref_id"], "", $commands_html, $data);
 		}
 		else
 		{
-			$this->renderer->addCustomBlock($a_itgr["ref_id"], $a_itgr["title"], $commands_html);
+			$this->renderer->addCustomBlock($a_itgr["ref_id"], $a_itgr["title"], $commands_html, $data);
 		}
 	
 		

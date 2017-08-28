@@ -172,12 +172,33 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
 		{
 			$infoMessage[] = $this->lng->txt('tst_msg_rand_quest_set_no_src_pool_defs');
 		}
+		// fau: delayCopyRandomQuestions - show info message if date of last synchronisation is empty
+		elseif ($this->questionSetConfig->getLastQuestionSyncTimestamp() == 0)
+		{
+			$infoMessage[] = $this->lng->txt('tst_msg_rand_quest_set_not_sync');
+			$infoMessage[] = "<br />{$this->buildQuestionStageRebuildLink()}";
+			$infoMessage[] ="<br><small>".$this->lng->txt('tst_msg_rand_quest_set_sync_duration')."</small>";
+		}
+		// fau.
+
 		elseif( !$this->questionSetConfig->isQuestionSetBuildable() )
 		{
+			//fau: fixRandomTestBuildable - show the messages if set is not buildable
+			ilUtil::sendFailure(implode('<br />', $this->questionSetConfig->getBuildableMessages()));
+			//fau.
+
 			$infoMessage[] = $this->lng->txt('tst_msg_rand_quest_set_pass_not_buildable');
 		}
 		else
 		{
+			//fau: fixRandomTestBuildable - show the messages if set is buildable but messages exist
+			if (count($this->questionSetConfig->getBuildableMessages()))
+			{
+				// REALLY REQUIRED !??
+				ilUtil::sendFailure(implode('<br />', $this->questionSetConfig->getBuildableMessages()));
+			}
+			//fau.
+
 			$infoMessage[] = $this->lng->txt('tst_msg_rand_quest_set_pass_buildable');
 			
 			if( $this->questionSetConfig->getLastQuestionSyncTimestamp() )

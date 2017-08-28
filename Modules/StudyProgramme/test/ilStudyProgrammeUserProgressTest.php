@@ -243,6 +243,47 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->assertLessThanOrEqual($ts_before_change, $ts_after_change);
 	}
 
+	public function testMarkFailed() {
+		$this->setAllNodesActive();
+		$tmp = $this->assignNewUserToRoot();
+		$ass = $tmp[0];
+		$user = $tmp[1];
+
+		$user2 = $this->newUser();
+		$USER_ID = $user2->getId();
+
+		$root_progress = array_shift($this->root->getProgressesOf($user->getId()));
+		$node1_progress = array_shift($this->node1->getProgressesOf($user->getId()));
+		$node2_progress = array_shift($this->node2->getProgressesOf($user->getId()));
+		$node2_progress->markFailed($USER_ID);
+
+		$this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $root_progress->getStatus());
+		$this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $node1_progress->getStatus());
+		$this->assertEquals(ilStudyProgrammeProgress::STATUS_FAILED, $node2_progress->getStatus());
+	}
+
+	public function testMarkNotFailed() {
+		$this->setAllNodesActive();
+		$tmp = $this->assignNewUserToRoot();
+		$ass = $tmp[0];
+		$user = $tmp[1];
+
+		$user2 = $this->newUser();
+		$USER_ID = $user2->getId();
+
+		$root_progress = array_shift($this->root->getProgressesOf($user->getId()));
+		$node1_progress = array_shift($this->node1->getProgressesOf($user->getId()));
+		$node2_progress = array_shift($this->node2->getProgressesOf($user->getId()));
+		$node2_progress->markFailed($USER_ID);
+
+		$this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $root_progress->getStatus());
+		$this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $node1_progress->getStatus());
+		$this->assertEquals(ilStudyProgrammeProgress::STATUS_FAILED, $node2_progress->getStatus());
+
+		$node2_progress->markNotFailed($USER_ID);
+
+		$this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $node2_progress->getStatus());
+	}
 
 	public function testMarkNotRelevant() {
 		$this->setAllNodesActive();

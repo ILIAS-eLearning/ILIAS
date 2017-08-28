@@ -27,6 +27,8 @@ class ilObjectServiceSettingsGUI
 	const TAG_CLOUD = 'cont_tag_cloud';
 	const CUSTOM_METADATA = 'cont_custom_md';
 	const BADGES = 'cont_badges';
+	const ORGU_POSITION_ACCESS = 'obj_orgunit_positions';
+	const SKILLS = 'cont_skills';
 	
 	private $gui = null;
 	private $modes = array();
@@ -182,8 +184,8 @@ class ilObjectServiceSettingsGUI
 					));
 				$form->addItem($tag);						
 			}			
-		}		
-		
+		}
+
 		// taxonomies
 		if(in_array(self::TAXONOMIES, $services))
 		{	
@@ -231,8 +233,44 @@ class ilObjectServiceSettingsGUI
 					));
 				$form->addItem($bdg);		
 			}
-		}		
-		
+		}	
+		if(in_array(self::ORGU_POSITION_ACCESS, $services))
+		{
+			$position_settings = ilOrgUnitGlobalSettings::getInstance()->getObjectPositionSettingsByType(
+				ilObject::_lookupType($a_obj_id)
+			);
+			if(
+				$position_settings->isActive() &&
+				$position_settings->isChangeableForObject()
+			)
+			{
+				$lia = new ilCheckboxInputGUI(
+					$GLOBALS['DIC']->language()->txt('obj_orgunit_positions'), 
+					self::ORGU_POSITION_ACCESS
+				);
+				$lia->setInfo($GLOBALS['DIC']->language()->txt('obj_orgunit_positions_info'));
+				$lia->setValue(1);
+				$lia->setChecked(
+					(bool) ilOrgUnitGlobalSettings::getInstance()->isPositionAccessActiveForObject($a_obj_id)
+				);
+				$form->addItem($lia);
+			}
+		}
+
+		// skills
+		if(in_array(self::SKILLS, $services))
+		{
+			$skill = new ilCheckboxInputGUI($GLOBALS['lng']->txt('obj_tool_setting_skills'), self::SKILLS);
+			$skill->setInfo($GLOBALS['lng']->txt('obj_tool_setting_skills_info'));
+			$skill->setValue(1);
+			$skill->setChecked(ilContainer::_lookupContainerSetting(
+				$a_obj_id,
+				self::SKILLS,
+				false
+			));
+			$form->addItem($skill);
+		}
+
 		return $form;
 	}
 	
@@ -288,14 +326,14 @@ class ilObjectServiceSettingsGUI
 			include_once './Services/Container/classes/class.ilContainer.php';
 			ilContainer::_writeContainerSetting($a_obj_id,self::AUTO_RATING_NEW_OBJECTS,(int) $form->getInput(self::AUTO_RATING_NEW_OBJECTS));
 		}
-		
+
 		// taxonomies
 		if(in_array(self::TAXONOMIES, $services))
 		{
 			include_once './Services/Container/classes/class.ilContainer.php';
 			ilContainer::_writeContainerSetting($a_obj_id,self::TAXONOMIES,(int) $form->getInput(self::TAXONOMIES));
 		}
-		
+
 		// tag cloud
 		if(in_array(self::TAG_CLOUD, $services))
 		{
@@ -320,7 +358,23 @@ class ilObjectServiceSettingsGUI
 				ilContainer::_writeContainerSetting($a_obj_id,self::BADGES,(int) $form->getInput(self::BADGES));
 			}
 		}
-		
+		// extended user access
+		if(in_array(self::ORGU_POSITION_ACCESS, $services))
+		{
+			$orgu_object_settings = new ilOrgUnitObjectPositionSetting($a_obj_id);
+			$orgu_object_settings->setActive(
+				(int) $form->getInput(self::ORGU_POSITION_ACCESS)	
+			);
+			$orgu_object_settings->update();
+		}
+
+		// skills
+		if(in_array(self::SKILLS, $services))
+		{
+			include_once './Services/Container/classes/class.ilContainer.php';
+			ilContainer::_writeContainerSetting($a_obj_id,self::SKILLS,(int) $form->getInput(self::SKILLS));
+		}
+
 		return true;
 	}
 

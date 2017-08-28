@@ -15,14 +15,19 @@ require_once("Services/Utilities/classes/class.ilUtil.php");
  */
 
 class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
+	const SEL_COLUMN_DEADLINE = "prg_deadline";
+
 	protected $assignment;
 	/**
 	 * @var ilStudyProgrammeUserProgressDB
 	 */
 	protected $sp_user_progress_db;
 
-	public function __construct($a_parent_obj, ilStudyProgrammeUserAssignment $a_ass, \ilStudyProgrammeUserProgressDB $sp_user_progress_db) {
+	public function __construct(ilObjStudyProgrammeIndividualPlanGUI $a_parent_obj, ilStudyProgrammeUserAssignment $a_ass, \ilStudyProgrammeUserProgressDB $sp_user_progress_db) {
 		$this->setId("manage_indiv");
+
+		$this->sp_user_progress_db = $sp_user_progress_db;
+
 		parent::__construct($a_parent_obj, 'manage');
 
 		global $DIC;
@@ -55,6 +60,11 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 						, "prg_changed_by"
 						, "prg_completion_by"
 						);
+
+		foreach ($this->getSelectedColumns() as $column) {
+			$columns[] = $column;
+		}
+
 		foreach ($columns as $lng_var) {
 			$this->addColumn($lng->txt($lng_var));
 		}
@@ -69,8 +79,6 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 
 		$this->possible_image = "<img src='".ilUtil::getImagePath("icon_ok.svg")."' alt='ok'>";
 		$this->not_possible_image = "<img src='".ilUtil::getImagePath("icon_not_ok.svg")."' alt='not ok'>";
-
-		$this->sp_user_progress_db = $sp_user_progress_db;
 	}
 
 	protected function fillRow($a_set) {
@@ -93,6 +101,30 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable("POSSIBLE", $a_set["possible"] ? $this->possible_image : $this->not_possible_image);
 		$this->tpl->setVariable("CHANGED_BY", $a_set["changed_by"]);
 		$this->tpl->setVariable("COMPLETION_BY", $a_set["completion_by"]);
+
+		foreach ($this->getSelectedColumns() as $column) {
+			switch($column) {
+				case self::SEL_COLUMN_DEADLINE:
+					$this->tpl->setCurrentBlock("deadline");
+					$this->tpl->setVariable("DEADLINE", $this->getDeadlineInput($a_set["progress_id"], $a_set["deadline"]));
+					$this->tpl->parseCurrentBlock("deadline");
+					break;
+			}
+		}
+	}
+
+	/**
+	 * Get selectable columns
+	 *
+	 * @return array[] 	$cols
+	 */
+	public function getSelectableColumns() {
+		$cols = array();
+
+		$cols[self::SEL_COLUMN_DEADLINE] = array(
+				"txt" => $this->lng->txt("prg_deadline"));
+
+		return $cols;
 	}
 
 	protected function fetchData() {
@@ -127,6 +159,7 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 						   , "completion_by" => $completion_by
 						   , "progress_id" => $progress->getId()
 						   , "program_status" => $progress->getStudyProgramme()->getStatus()
+						   , "deadline" =>$progress->getDeadline()
 						   );
 		});
 		return $plan;
@@ -172,6 +205,16 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 		$input->setValue($a_points_required);
 		$input->setSize(5);
 		return $input->render();
+	}
+
+	protected function getDeadlineInput($a_progress_id, $deadline) {
+		require_once("Services/Form/classes/class.ilDateTimeInputGUI.php");
+
+		$deadline_title = $this->getParentObject()->getDeadlinePostVarTitle();
+		$gui = new ilDateTimeInputGUI("", $deadline_title."[$a_progress_id]");
+		$gui->setDate($deadline);
+
+		return $gui->render();
 	}
 }
 

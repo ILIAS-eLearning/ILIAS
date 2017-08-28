@@ -224,7 +224,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		$lng = $DIC['lng'];
 		$forms = parent::initCreationForms($a_new_type);
 		// Add File-Upload
-		$in_file = new ilFileInputGUI($lng->txt("bibliography file"), "bibliographic_file");
+		$in_file = new ilFileStandardDropzoneInputGUI($lng->txt("bibliography file"), "bibliographic_file");
 		$in_file->setSuffixes(array( "ris", "bib", "bibtex" ));
 		$in_file->setRequired(true);
 		$forms[self::CFORM_NEW]->addItem($in_file);
@@ -310,11 +310,12 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		$lng = $DIC['lng'];
 		$form = parent::initEditForm();
 		// Add File-Upload
-		$in_file = new ilFileInputGUI($lng->txt("bibliography file"), "bibliographic_file");
+		$in_file = new ilFileStandardDropzoneInputGUI($lng->txt("bibliography file"), "bibliographic_file");
 		$in_file->setSuffixes(array( "ris", "bib", "bibtex" ));
 		$in_file->setRequired(false);
 		$cb_override = new ilCheckboxInputGUI($this->lng->txt("override_entries"), "override_entries");
 		$cb_override->addSubItem($in_file);
+
 		$form->addItem($cb_override);
 		$form->setFormAction($this->ctrl->getFormAction($this, "save"));
 

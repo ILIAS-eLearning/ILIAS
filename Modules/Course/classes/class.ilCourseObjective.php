@@ -169,14 +169,16 @@ class ilCourseObjective
 			$random_i = new ilLORandomTestQuestionPools(
 				$this->getCourse()->getId(),
 				$row->objective_id,
-				ilLOSettings::TYPE_TEST_INITIAL
+				ilLOSettings::TYPE_TEST_INITIAL,
+				0
 			);
 			$random_i->copy($a_copy_id, $new_course->getId(), $objective_id);
 			
 			$random_q = new ilLORandomTestQuestionPools(
 				$this->getCourse()->getId(),
 				$row->objective_id,
-				ilLOSettings::TYPE_TEST_QUALIFIED
+				ilLOSettings::TYPE_TEST_QUALIFIED,
+				0
 			);
 			$random_q->copy($a_copy_id, $new_course->getId(), $objective_id);
 			

@@ -98,8 +98,8 @@ class ilSystemStyleLessVariable extends ilSystemStyleLessItem
 		/**
 		 * @Todo: Fix this nasty hack to correct the icon-font-path
 		 */
-		if($value == "\"../../Services/UICore/lib/bootstrap-3.2.0/fonts/\""){
-			$this->value = "\"../../../../Services/UICore/lib/bootstrap-3.2.0/fonts/\"";
+		if($value == "\"../../libs/bower/bower_components/bootstrap/fonts/\""){
+			$this->value = "\"../../../../libs/bower/bower_components/bootstrap/fonts/\"";
 		}else{
 			$this->value =  str_replace(PHP_EOL, '', $value);;
 

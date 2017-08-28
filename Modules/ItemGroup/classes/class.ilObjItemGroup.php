@@ -84,6 +84,26 @@ class ilObjItemGroup extends ilObject2
 	}
 
 	/**
+	 * Set behaviour (see ilItemGroupBehaviour)
+	 *
+	 * @param int $a_val behaviour
+	 */
+	function setBehaviour($a_val)
+	{
+		$this->item_data_ar->setBehaviour($a_val);
+	}
+
+	/**
+	 * Get hide title
+	 *
+	 * @return int behaviour
+	 */
+	function getBehaviour()
+	{
+		return $this->item_data_ar->getBehaviour();
+	}
+
+	/**
 	 * Read
 	 */
 	protected function doRead()
@@ -201,14 +221,37 @@ class ilObjItemGroup extends ilObject2
 	 */
 	static function lookupHideTitle($a_id)
 	{
+		return self::lookup($a_id, "hide_title");
+	}
+
+	/**
+	 * Lookup behaviour
+	 *
+	 * @param int $a_id ID
+	 * @return int
+	 */
+	static function lookupBehaviour($a_id)
+	{
+		return self::lookup($a_id, "behaviour");
+	}
+
+	/**
+	 * Lookup hide title
+	 *
+	 * @param int $a_id ID
+	 * @return bool
+	 */
+	protected static function lookup($a_id, $a_key)
+	{
 		global $ilDB;
 
-		$set = $ilDB->query("SELECT hide_title FROM itgr_data ".
+		$set = $ilDB->query("SELECT ".$a_key." FROM itgr_data ".
 			" WHERE id = ".$ilDB->quote($a_id, "integer")
-			);
+		);
 		$rec = $ilDB->fetchAssoc($set);
-		return $rec["hide_title"];
+		return $rec[$a_key];
 	}
+
 
 }
 

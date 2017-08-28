@@ -53,6 +53,9 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 
 	public function __construct() {
 		global $DIC;
+
+		parent::__construct();
+
 		$lng = $DIC['lng'];
 		$ilUser = $DIC['ilUser'];
 		$ilAccess = $DIC['ilAccess'];

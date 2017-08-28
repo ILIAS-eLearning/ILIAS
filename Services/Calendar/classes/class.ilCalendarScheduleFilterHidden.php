@@ -3,7 +3,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once 'Services/Calendar/interfaces/interface.ilCalendarScheduleFilter.php';
-include_once 'Services/Calendar/classes/class.ilCalendarHidden.php';
+include_once 'Services/Calendar/classes/class.ilCalendarVisibility.php';
 
 /**
  * Calendar schedule filter for hidden categories
@@ -16,12 +16,13 @@ include_once 'Services/Calendar/classes/class.ilCalendarHidden.php';
 class ilCalendarScheduleFilterHidden implements ilCalendarScheduleFilter
 {
 	protected $user_id; // [int]
-	protected $hidden_cat; // [ilCalendarHidden]
+	protected $hidden_cat; // [ilCalendarVisibility]
 	
 	public function __construct($a_user_id)
 	{
 		$this->user_id = $a_user_id;
-		$this->hidden_cat = ilCalendarHidden::_getInstanceByUserId($this->user_id);
+		$this->hidden_cat = ilCalendarVisibility::_getInstanceByUserId($this->user_id,
+			ilCalendarCategories::_getInstance($this->user_id)->getSourceRefId());
 	}
 	
 	public function filterCategories(array $a_cats)

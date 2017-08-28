@@ -38,6 +38,10 @@ class Renderer extends AbstractComponentRenderer {
 			'template'  => str_replace(array_keys($replacement), array_values($replacement), $tpl->get()),
 		);
 
+		if($popover->isFixedPosition()) {
+			$options['style'] = "fixed";
+		}
+
 		$is_async = $popover->getAsyncContentUrl();
 		if ($is_async) {
 			$options['type'] = 'async';

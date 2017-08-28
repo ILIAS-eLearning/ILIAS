@@ -17,6 +17,24 @@ include_once './Services/Membership/classes/class.ilMembershipGUI.php';
 class ilSessionMembershipGUI extends ilMembershipGUI
 {
 	/**
+	 * No support for positions in sessions
+	 * Check if rbac or position access is granted.
+	 * @param string $a_rbac_perm
+	 * @param string $a_pos_perm
+	 * @param int $a_ref_id
+	 */
+	protected function checkRbacOrPositionAccessBool($a_rbac_perm, $a_pos_perm, $a_ref_id = 0)
+	{
+		if(!$a_ref_id)
+		{
+			$a_ref_id = $this->getParentObject()->getRefId();
+		}
+		return $this->checkPermissionBool($a_rbac_perm, $a_ref_id);
+	}
+
+	
+	
+	/**
 	 * Init participant view template
 	 */
 	protected function initParticipantTemplate()

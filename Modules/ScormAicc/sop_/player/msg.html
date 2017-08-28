@@ -1,0 +1,26 @@
+<html>
+	<head>
+		<title>Message</title>
+		<script>
+			function getParams(win) { // window object or url string
+				var qs = {};
+				var queryString;
+				queryString = (typeof win === "string") ? win.split("\?")[1] : win.document.location.search.slice(1);
+				var re = /([^&=]+)=([^&]*)/g;
+				var m;
+				while (m = re.exec(queryString)) {
+					qs[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+				}
+				return qs;
+			}
+			function printMsg() {
+				var qs = getParams(window);
+				var out = document.getElementById("somMsg");
+				out.innerHTML = qs.msg;
+			}
+		</script>
+	</head>
+	<body onload="printMsg();" style="font-family: arial, sans-serif, system;color:#333;">
+		<div id="somMsg" style="margin-top:10%;margin-left:20%"></div>
+	</body>
+</html>

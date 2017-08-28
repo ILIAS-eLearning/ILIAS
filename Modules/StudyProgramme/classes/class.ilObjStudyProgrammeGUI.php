@@ -684,7 +684,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 		if(!$this->getCreationMode() &&
 			$this->ilAccess->checkAccess('read', '', $_GET['ref_id']))
 		{
-			$link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", "frameset");
+			$link = ilLink::_getLink($_GET["ref_id"], "iass");
 
 			$ilNavigationHistory->addItem($_GET['ref_id'],
 				$link, 'prg');

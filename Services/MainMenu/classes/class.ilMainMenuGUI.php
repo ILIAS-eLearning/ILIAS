@@ -598,6 +598,15 @@ class ilMainMenuGUI
 			$gl->addSeparator();
 			
 			$separator = false;
+
+            if($ilSetting->get("enable_my_staff") and ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff() == true)
+            {
+                // my staff
+                $gl->addEntry($lng->txt("my_staff"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToMyStaff",
+                    "_top", "", "", "mm_pd_mst", ilHelp::getMainMenuTooltip("mm_pd_mst"),
+                    "left center", "right center", false);
+                $separator = true;
+            }
 			
 			if(!$ilSetting->get("disable_personal_workspace"))
 			{
@@ -608,7 +617,8 @@ class ilMainMenuGUI
 				
 				$separator = true;
 			}
-			
+
+
 			// portfolio
 			if ($ilSetting->get('user_portfolios'))
 			{
@@ -629,6 +639,18 @@ class ilMainMenuGUI
 				
 				$separator = true;
 			}
+
+			require_once 'Services/Badge/classes/class.ilBadgeHandler.php';
+			if(ilBadgeHandler::getInstance()->isActive())
+			{
+				$gl->addEntry($lng->txt('obj_bdga'),
+					'ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToBadges', '_top'
+					, "", "", "mm_pd_contacts", ilHelp::getMainMenuTooltip("mm_pd_badges"),
+					"left center", "right center", false);
+
+				$separator = true;
+			}
+
 
 			// Learning Progress
 			include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
@@ -684,23 +706,14 @@ class ilMainMenuGUI
 				
 				$separator = true;
 			}
-			
+
+			/*
 			if($separator)
 			{
 				$gl->addSeparator();
 			}
 			
-			require_once 'Services/Badge/classes/class.ilBadgeHandler.php';
-			if(ilBadgeHandler::getInstance()->isActive())
-			{
-				$gl->addEntry($lng->txt('obj_bdga'),
-					'ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToBadges', '_top'
-					, "", "", "mm_pd_contacts", ilHelp::getMainMenuTooltip("mm_pd_badges"),
-					"left center", "right center", false);
-				
-				$gl->addSeparator();
-			}
-			
+
 			// profile
 			$gl->addEntry($lng->txt("personal_profile"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToProfile",
 				"_top", "", "", "mm_pd_profile", ilHelp::getMainMenuTooltip("mm_pd_profile"),
@@ -709,7 +722,7 @@ class ilMainMenuGUI
 			// settings
 			$gl->addEntry($lng->txt("personal_settings"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToSettings",
 				"_top", "", "", "mm_pd_sett", ilHelp::getMainMenuTooltip("mm_pd_sett"),
-					"left center", "right center", false);
+					"left center", "right center", false);*/
 
 			$a_tpl->setVariable("DESK_CONT_OV", $gl->getHTML());
 		}
@@ -1135,6 +1148,7 @@ class ilMainMenuGUI
 
 		$popover = $factory->popover()
 		                   ->listing(array())
+		                   ->withFixedPosition()
 		                   ->withTitle($DIC->language()->txt("background_tasks_running")); // needs to have empty content
 		$DIC->ctrl()->clearParametersByClass(ilBTControllerGUI::class);
 		$DIC->ctrl()->setParameterByClass(ilBTControllerGUI::class,

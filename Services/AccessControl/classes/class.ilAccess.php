@@ -19,6 +19,10 @@
 class ilAccess implements ilAccessHandler {
 
 	/**
+	 * @var \ilOrgUnitPositionAccess
+	 */
+	protected $ilOrgUnitPositionAccess;
+	/**
 	 * @var array
 	 */
 	protected $obj_tree_cache;
@@ -89,6 +93,8 @@ class ilAccess implements ilAccessHandler {
 		$this->obj_id_cache = array();
 		$this->obj_type_cache = array();
 		$this->obj_tree_cache = array();
+
+		$this->ilOrgUnitPositionAccess = new ilOrgUnitPositionAccess();
 	}
 
 
@@ -103,7 +109,7 @@ class ilAccess implements ilAccessHandler {
 		{
 			$a_user_id = $ilUser->getId();
 		}
-		
+
 		if ($a_info == "")
 		{
 			$a_info = $this->current_info;
@@ -113,11 +119,11 @@ class ilAccess implements ilAccessHandler {
 
 		if ($this->cache)
 		{
-			$this->results[$a_ref_id][$a_permission][$a_cmd][$a_user_id] = 
+			$this->results[$a_ref_id][$a_permission][$a_cmd][$a_user_id] =
 					array("granted" => $a_access_granted, "info" => $a_info,
 					"prevent_db_cache" => $this->getPreventCachingLastResult());
 //echo "<br>write-$a_ref_id-$a_permission-$a_cmd-$a_user_id-$a_access_granted-";
-			$this->current_result_element = array($a_access_granted,$a_ref_id,$a_permission,$a_cmd,$a_user_id);			
+			$this->current_result_element = array($a_access_granted,$a_ref_id,$a_permission,$a_cmd,$a_user_id);
 			$this->last_result = $this->results[$a_ref_id][$a_permission][$a_cmd][$a_user_id];
 			$this->last_info = $a_info;
 		}
@@ -172,10 +178,10 @@ class ilAccess implements ilAccessHandler {
 	function storeCache()
 	{
 		global $ilDB, $ilUser;
-		
+
 		$query = "DELETE FROM acc_cache WHERE user_id = ".$ilDB->quote($ilUser->getId(),'integer');
 		$res = $ilDB->manipulate($query);
-		
+
 		$ilDB->insert('acc_cache', array(
 			'user_id'	=>	array('integer',$ilUser->getId()),
 			'time'		=>	array('integer',time()),
@@ -188,7 +194,7 @@ class ilAccess implements ilAccessHandler {
 	function readCache($a_secs = 0)
 	{
 		global $ilUser, $ilDB;
-		
+
 		if ($a_secs > 0)
 		{
 			$query = "SELECT * FROM acc_cache WHERE user_id = ".
@@ -243,14 +249,14 @@ class ilAccess implements ilAccessHandler {
 	function checkAccessOfUser($a_user_id,$a_permission, $a_cmd, $a_ref_id, $a_type = "", $a_obj_id = "", $a_tree_id="")
 	{
 		global $ilBench, $lng;
-		
+
 		$this->setPreventCachingLastResult(false);	// for external db based caches
-		
+
 		$ilBench->start("AccessControl", "0400_clear_info");
 		$this->current_info->clear();
 		$ilBench->stop("AccessControl", "0400_clear_info");
-		
-		
+
+
         // get stored result (internal memory based cache)
 		$cached = $this->doCacheCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id);
 		if ($cached["hit"])
@@ -313,7 +319,7 @@ class ilAccess implements ilAccessHandler {
 			$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false, $a_user_id);
 			return false;
 		}
-		
+
 		// Check object activation
 		$act_check = $this->doActivationCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id);
 		if(!$act_check)
@@ -327,7 +333,7 @@ class ilAccess implements ilAccessHandler {
 		$par_check = $this->doPathCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id);
 		if (!$par_check)
 		{
-			
+
 			$this->current_info->addInfoItem(IL_NO_PERMISSION, $lng->txt("status_no_permission"));
 			$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false, $a_user_id);
 			return false;
@@ -390,7 +396,7 @@ class ilAccess implements ilAccessHandler {
 		{
 			return $this->results;
 		}
-		
+
 		return $this->results[$a_ref_id];
 	}
 
@@ -413,7 +419,7 @@ class ilAccess implements ilAccessHandler {
 			return array("hit" => true, "granted" => $stored_access["granted"],
 				"prevent_db_cache" => $stored_access["prevent_db_cache"]);
 		}
-		
+
 		// not in cache
 		$ilBench->stop("AccessControl", "1000_checkAccess_get_cache_result");
 		return array("hit" => false, "granted" => false,
@@ -446,10 +452,10 @@ class ilAccess implements ilAccessHandler {
 		if(!$tree->isInTree($a_ref_id) or $tree->isDeleted($a_ref_id))
 		{
             // Store negative access results
-			
+
 			// Store in tree cache
             // Note, we only store up to 1000 results to avoid memory overflow.
-            if (count($this->obj_tree_cache) < 1000) 
+            if (count($this->obj_tree_cache) < 1000)
             {
                 $this->obj_tree_cache[$tree_cache_key] = false;
             }
@@ -487,7 +493,7 @@ class ilAccess implements ilAccessHandler {
 		global $lng, $ilBench, $ilErr, $ilLog;
 
 		$ilBench->start("AccessControl", "2500_checkAccess_rbac_check");
-		
+
 		if ($a_permission == "")
 		{
 				$message = sprintf('%s::doRBACCheck(): No operations given! $a_ref_id: %s',
@@ -496,7 +502,7 @@ class ilAccess implements ilAccessHandler {
 				$ilLog->write($message,$ilLog->FATAL);
 				$ilErr->raiseError($message,$ilErr->MESSAGE);
 		}
-		
+
 		if (isset($this->stored_rbac_access[$a_user_id."-".$a_permission."-".$a_ref_id]))
 		{
 			$access = $this->stored_rbac_access[$a_user_id."-".$a_permission."-".$a_ref_id];
@@ -554,22 +560,22 @@ class ilAccess implements ilAccessHandler {
 			{
 				continue;
 			}
-			
+
 			$access = $this->checkAccessOfUser($a_user_id, "read", "info", $id);
 
 			if ($access == false)
 			{
-				
+
 				//$this->doCacheCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id);
 				$this->current_info->addInfoItem(IL_NO_PARENT_ACCESS, $lng->txt("no_parent_access"),$id);
-				
+
 				if ($a_all == false)
 				{
 					return false;
 				}
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -579,13 +585,13 @@ class ilAccess implements ilAccessHandler {
 	function doActivationCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_all = false)
 	{
 		global $ilBench,$ilUser;
-		
+
 		$ilBench->start("AccessControl", "3150_checkAccess_check_course_activation");
 
 		$cache_perm = ($a_permission == "visible")
 			? "visible"
 			: "other";
-			
+
 //echo "<br>doActivationCheck-$cache_perm-$a_ref_id-$a_user_id-".$ilObjDataCache->lookupType($ilObjDataCache->lookupObjId($a_ref_id));
 
 		if (isset($this->ac_cache[$cache_perm][$a_ref_id][$a_user_id]))
@@ -593,14 +599,14 @@ class ilAccess implements ilAccessHandler {
 			$ilBench->stop("AccessControl", "3150_checkAccess_check_course_activation");
 			return $this->ac_cache[$cache_perm][$a_ref_id][$a_user_id];
 		}
-		
+
 		// nothings needs to be done if current permission is write permission
 		if($a_permission == 'write')
 		{
 			$ilBench->stop("AccessControl", "3150_checkAccess_check_course_activation");
 			return true;
 		}
-		
+
 		// #10852 - member view check
 		if($a_user_id == $ilUser->getId())
 		{
@@ -609,14 +615,14 @@ class ilAccess implements ilAccessHandler {
 			$memview = ilMemberViewSettings::getInstance();
 			if($memview->isActiveForRefId($a_ref_id) &&
 				$memview->getContainer() == $a_ref_id)
-			{				
+			{
 				return true;
-			}		
+			}
 		}
-		
-		include_once 'Services/Object/classes/class.ilObjectActivation.php';	
-		$item_data = ilObjectActivation::getItem($a_ref_id);				
-		
+
+		include_once 'Services/Object/classes/class.ilObjectActivation.php';
+		$item_data = ilObjectActivation::getItem($a_ref_id);
+
 		// if activation isn't enabled
 		if($item_data === NULL ||
 			$item_data['timing_type'] != ilObjectActivation::TIMINGS_ACTIVATION)
@@ -625,7 +631,7 @@ class ilAccess implements ilAccessHandler {
 			$ilBench->stop("AccessControl", "3150_checkAccess_check_course_activation");
 			return true;
 		}
-		
+
 		// if within activation time
 		if((time() >= $item_data['timing_start']) and
 		   (time() <= $item_data['timing_end']))
@@ -634,7 +640,7 @@ class ilAccess implements ilAccessHandler {
 			$ilBench->stop("AccessControl", "3150_checkAccess_check_course_activation");
 			return true;
 		}
-		
+
 		// if user has write permission
 		if($this->checkAccessOfUser($a_user_id, "write", "", $a_ref_id))
 		{
@@ -662,9 +668,9 @@ class ilAccess implements ilAccessHandler {
 	{
 		//echo "conditionCheck<br/>";
 		global $lng, $ilBench;
-		
+
 		if(
-			($a_permission == 'visible') and 
+			($a_permission == 'visible') and
 			!$this->checkAccessOfUser($a_user_id, "write", "", $a_ref_id, $a_type, $a_obj_id)
 		)
 		{
@@ -686,7 +692,7 @@ class ilAccess implements ilAccessHandler {
 				$ilBench->stop("AccessControl", "4000_checkAccess_condition_check");
 			}
 		}
-		
+
 
 		if (($a_permission == "read" or $a_permission == 'join') &&
 			!$this->checkAccessOfUser($a_user_id, "write", "", $a_ref_id, $a_type, $a_obj_id))
@@ -733,12 +739,12 @@ class ilAccess implements ilAccessHandler {
 
 		$class = $objDefinition->getClassName($a_type);
 		$location = $objDefinition->getLocation($a_type);
-		$full_class = "ilObj".$class."Access";		
+		$full_class = "ilObj".$class."Access";
 		include_once($location."/class.".$full_class.".php");
 		// static call to ilObj..::_checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id)
 
 		$full_class = new $full_class();
-		
+
 		$obj_access = call_user_func(array($full_class, "_checkAccess"),
 			$a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id);
 		if (!($obj_access === true))
@@ -752,7 +758,7 @@ class ilAccess implements ilAccessHandler {
 			$ilBench->stop("AccessControl", "5000_checkAccess_object_check");
 			return false;
 		}
-		
+
 		$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, true, $a_user_id);
 		$ilBench->stop("AccessControl", "5000_checkAccess_object_check");
 		return true;
@@ -830,91 +836,67 @@ class ilAccess implements ilAccessHandler {
 	//
 	// OrgUnit Positions
 	//
-	/**
-	 * @inheritdoc
-	 */
-	public function filterUserIdsForCurrentUsersPositionsAndAnyPermission(array $user_ids) {
-		// TODO: Implement filterUserIdsForCurrentUsersPositionsAndAnyPermission() method.
-		return $user_ids;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function filterUserIdsForUsersPositionsAndAnyPermission(array $user_ids, $for_user_id) {
-		// TODO: Implement filterUserIdsForUsersPositionsAndAnyPermission() method.
-		return $user_ids;
-	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function filterUserIdsForCurrentUsersPositionsAndPermission(array $user_ids, $permission) {
-		// TODO: Implement filterUserIdsForCurrentUsersPositionsAndPermission() method.
-		return $user_ids;
+		return $this->ilOrgUnitPositionAccess->filterUserIdsForCurrentUsersPositionsAndPermission($user_ids, $permission);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function filterUserIdsForUsersPositionsAndPermission(array $user_ids, $for_user_id, $permission) {
-		// TODO: Implement filterUserIdsForUsersPositionsAndPermission() method.
-		return $user_ids;
+		return $this->ilOrgUnitPositionAccess->filterUserIdsForUsersPositionsAndPermission($user_ids, $for_user_id, $permission);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function isCurrentUserBasedOnPositionsAllowedTo($permission, array $on_user_ids) {
-		// TODO: Implement isCurrentUserAllowedTo() method.
-		return false;
+		return $this->ilOrgUnitPositionAccess->isCurrentUserBasedOnPositionsAllowedTo($permission, $on_user_ids);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function isUserBasedOnPositionsAllowedTo($which_user_id, $permission, array $on_user_ids) {
-		// TODO: Implement isUserAllowedTo() method.
-		return false;
+		return $this->ilOrgUnitPositionAccess->isUserBasedOnPositionsAllowedTo($which_user_id, $permission, $on_user_ids);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function checkPositionAccess($pos_perm, $ref_id) {
-		// TODO: Implement checkPositionAccess() method.
-		return false;
+		return $this->ilOrgUnitPositionAccess->checkPositionAccess($pos_perm, $ref_id);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function checkRbacOrPositionPermissionAccess($rbac_perm, $pos_perm, $ref_id) {
-		// TODO: Implement checkRbacOrPositionPermissionAccess() method.
-		return false;
+		return $this->ilOrgUnitPositionAccess->checkRbacOrPositionPermissionAccess($rbac_perm, $pos_perm, $ref_id);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function filterUserIdsByPositionOfCurrentUser($pos_perm, $ref_id, array $user_ids) {
-		// TODO: Implement filterUserIdsByPositionOfCurrentUser() method.
-		return $user_ids;
+		return $this->ilOrgUnitPositionAccess->filterUserIdsByPositionOfCurrentUser($pos_perm, $ref_id, $user_ids);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function filterUserIdsByPositionOfUser($user_id, $pos_perm, $ref_id, array $user_ids) {
-		// TODO: Implement filterUserIdsByPositionOfUser() method.
-		return $user_ids;
+		return $this->ilOrgUnitPositionAccess->filterUserIdsByPositionOfUser($user_id, $pos_perm, $ref_id, $user_ids);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function filterUserIdsByRbacOrPositionOfCurrentUser($rbac_perm, $pos_perm, $ref_id, array $user_ids) {
-		// TODO: Implement filterUserIdsByRbacOrPositionOfCurrentUser() method.
-		return $user_ids;
+		return $this->ilOrgUnitPositionAccess->filterUserIdsByRbacOrPositionOfCurrentUser($rbac_perm, $pos_perm, $ref_id,  $user_ids);
 	}
 }
