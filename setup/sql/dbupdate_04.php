@@ -20531,3 +20531,73 @@ if(!$ilDB->tableExists('orgu_obj_pos_settings'))
 ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_WRITE_LEARNING_PROGRESS, 'Write the learning Progress of a User', ilOrgUnitOperationContext::CONTEXT_IASS);
 
 ?>
+<#5191>
+<?php
+// "make place" for two new datatypes, text_selection comes after text, date_selection comes after datetime
+$ilDB->manipulate("UPDATE il_dcl_datatype SET sort = (sort + 10) WHERE title in ('number', 'boolean', 'datetime')");
+$ilDB->manipulate("UPDATE il_dcl_datatype SET sort = (sort + 20) WHERE title not in ('text', 'number', 'boolean', 'datetime')");
+?>
+<#5192>
+<?php
+// Datacollection: Add text_selection fieldtype
+$ilDB->insert('il_dcl_datatype', array(
+        'id' => array('integer', ilDclDatatype::INPUTFORMAT_TEXT_SELECTION),
+        'title' => array('text', 'text_selection'),
+        'ildb_type' => array('text', 'text'),
+        'storage_location' => array('integer', 1),
+        'sort' => array('integer', 10),
+    ));
+// Datacollection: Add date_selection fieldtype
+$ilDB->insert('il_dcl_datatype', array(
+	'id' => array('integer', ilDclDatatype::INPUTFORMAT_DATE_SELECTION),
+	'title' => array('text', 'date_selection'),
+	'ildb_type' => array('text', 'text'),
+	'storage_location' => array('integer', 1),
+	'sort' => array('integer', 50),
+));
+?>
+<#5193>
+<?php
+$fields = array(
+	'id' => array(
+		'notnull' => '1',
+		'type' => 'integer',
+		'length' => '8',
+		
+	),
+	'field_id' => array(
+		'notnull' => '1',
+		'type' => 'integer',
+		'length' => '8',
+		
+	),
+	'opt_id' => array(
+		'notnull' => '1',
+		'type' => 'integer',
+		'length' => '8',
+		
+	),
+	'sorting' => array(
+		'notnull' => '1',
+		'type' => 'integer',
+		'length' => '8',
+		
+	),
+	'value' => array(
+		'notnull' => '1',
+		'type' => 'text',
+		'length' => '128',
+		
+	),
+	
+);
+if (! $ilDB->tableExists('il_dcl_sel_opts')) {
+	$ilDB->createTable('il_dcl_sel_opts', $fields);
+	$ilDB->addPrimaryKey('il_dcl_sel_opts', array( 'id' ));
+	
+	if (! $ilDB->sequenceExists('il_dcl_sel_opts')) {
+		$ilDB->createSequence('il_dcl_sel_opts');
+	}
+	
+}
+?>
