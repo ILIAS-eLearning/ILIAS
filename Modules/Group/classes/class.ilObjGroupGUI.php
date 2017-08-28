@@ -580,7 +580,8 @@ class ilObjGroupGUI extends ilContainerGUI
 						ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
 						ilObjectServiceSettingsGUI::TAG_CLOUD,
 						ilObjectServiceSettingsGUI::BADGES,
-						ilObjectServiceSettingsGUI::SKILLS
+						ilObjectServiceSettingsGUI::SKILLS,
+						ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS
 					)
 				);
 				
@@ -1680,7 +1681,8 @@ class ilObjGroupGUI extends ilContainerGUI
 						ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
 						ilObjectServiceSettingsGUI::TAG_CLOUD,						
 						ilObjectServiceSettingsGUI::BADGES,
-						ilObjectServiceSettingsGUI::SKILLS
+						ilObjectServiceSettingsGUI::SKILLS,
+						ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS
 					)
 				);
 
