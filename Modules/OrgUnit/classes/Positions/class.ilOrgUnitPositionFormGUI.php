@@ -26,7 +26,7 @@ class ilOrgUnitPositionFormGUI extends BaseForm {
 		$te = new ilTextAreaInputGUI($this->txt(self::F_DESCRIPTION), self::F_DESCRIPTION);
 		$this->addItem($te);
 
-		$m = new ilDclGenericMultiInputGUI($this->txt(self::F_AUTHORITIES), self::F_AUTHORITIES);
+		$m = new ilOrgUnitGenericMultiInputGUI($this->txt(self::F_AUTHORITIES), self::F_AUTHORITIES);
 		$m->setShowLabel(true);
 		$m->setMulti(true);
 

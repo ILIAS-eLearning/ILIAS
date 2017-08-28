@@ -4819,6 +4819,7 @@ return array(
     'ilOrgUnitExtensionGUI' => $baseDir . '/../../Modules/OrgUnit/classes/Extension/class.ilOrgUnitExtensionGUI.php',
     'ilOrgUnitExtensionListGUI' => $baseDir . '/../../Modules/OrgUnit/classes/Extension/class.ilOrgUnitExtensionListGUI.php',
     'ilOrgUnitExtensionPlugin' => $baseDir . '/../../Modules/OrgUnit/classes/Extension/class.ilOrgUnitExtensionPlugin.php',
+    'ilOrgUnitGenericMultiInputGUI' => $baseDir . '/../../Modules/OrgUnit/classes/Positions/Authorities/class.ilOrgUnitGenericMultiInputGUI.php',
     'ilOrgUnitGlobalSettings' => $baseDir . '/../../Modules/OrgUnit/classes/Settings/class.ilOrgUnitGlobalSettings.php',
     'ilOrgUnitGlobalSettingsGUI' => $baseDir . '/../../Modules/OrgUnit/classes/Settings/class.ilOrgUnitGlobalSettingsGUI.php',
     'ilOrgUnitImporter' => $baseDir . '/../../Modules/OrgUnit/classes/class.ilOrgUnitImporter.php',
