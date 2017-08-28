@@ -75,7 +75,7 @@ interface Factory {
 	 *      Sortation uses a Dropdown to display a collection of shy-buttons.
 	 *   effect: >
 	 *      A click on an option will change the ordering of the associated data-list
-	 *      by calling the current page with a parameter according to the selected option.
+	 *      by calling a page with a parameter according to the selected option or triggering a signal.
 	 *      The label displayed in the dropdown will be set to the selected sorting.
 	 *
 	 * rules:
