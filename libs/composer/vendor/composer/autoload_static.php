@@ -4980,6 +4980,7 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'ilOrgUnitExtensionGUI' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/Extension/class.ilOrgUnitExtensionGUI.php',
         'ilOrgUnitExtensionListGUI' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/Extension/class.ilOrgUnitExtensionListGUI.php',
         'ilOrgUnitExtensionPlugin' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/Extension/class.ilOrgUnitExtensionPlugin.php',
+        'ilOrgUnitGenericMultiInputGUI' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/Positions/Authorities/class.ilOrgUnitGenericMultiInputGUI.php',
         'ilOrgUnitGlobalSettings' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/Settings/class.ilOrgUnitGlobalSettings.php',
         'ilOrgUnitGlobalSettingsGUI' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/Settings/class.ilOrgUnitGlobalSettingsGUI.php',
         'ilOrgUnitImporter' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/class.ilOrgUnitImporter.php',
