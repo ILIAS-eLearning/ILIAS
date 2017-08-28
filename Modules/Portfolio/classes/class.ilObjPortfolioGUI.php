@@ -1198,13 +1198,16 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
 		$html = preg_replace("/src=\"\\.\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $html);
 		$html = preg_replace("/href=\"\\.\\//ims", "href=\"" . ILIAS_HTTP_PATH . "/", $html);
+
+		//echo $html; exit;
+
 		$pdf_factory = new ilHtmlToPdfTransformerFactory();
 		$pdf_factory->deliverPDFFromHTMLString($html, "portfolio.pdf", ilHtmlToPdfTransformerFactory::PDF_OUTPUT_DOWNLOAD, "Portfolio", "ContentExport");
 	}
 
 	public function printView($a_pdf_export = false)
 	{
-		global $tpl, $lng;
+		global $lng;
 
 		$pages = ilPortfolioPage::getAllPortfolioPages($this->object->getId());
 
@@ -1212,9 +1215,13 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$tpl = new ilTemplate("tpl.main.html", true, true);
 
 		$tpl->setCurrentBlock("AdditionalStyle");
-		$tpl->setVariable("LOCATION_ADDITIONAL_STYLESHEET", ilUtil::getStyleSheetLocation());
+		$tpl->setVariable("LOCATION_ADDITIONAL_STYLESHEET", ilUtil::getStyleSheetLocation("filesystem"));
 		$tpl->parseCurrentBlock();
 
+		$tpl->setCurrentBlock("ContentStyle");
+		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId(), false));
+		$tpl->parseCurrentBlock();
 
 		$tpl->setVariable("LOCATION_STYLESHEET", ilObjStyleSheet::getContentPrintStyle());
 		$this->setContentStyleSheet($tpl);
@@ -1258,13 +1265,21 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$cover_tpl->setVariable("TXT_LINK", $lng->txt("prtf_link"));
 		$cover_tpl->setVariable("TXT_DATE", $lng->txt("prtf_date_of_print"));
 
-		$cover_tpl->setVariable("AUTHOR", "Alexander Killing");
+		$author = ilObjUser::_lookupName($this->object->getOwner());
+		$author_str = $author["firstname"]." ".$author["lastname"];
+		$cover_tpl->setVariable("AUTHOR", $author_str);
 		$cover_tpl->setVariable("LINK", "http://anderson.local/ilias/goto.php?target=prtf_301_7&client_id=iliastrunk2");
-		$cover_tpl->setVariable("DATE", "28.8.2017");
+		ilDatePresentation::setUseRelativeDates(false);
+		$date_str = ilDatePresentation::formatDate(new ilDate(date("Y-m-d"), IL_CAL_DATE));
+		$cover_tpl->setVariable("DATE", $date_str);
 
 		$page_content .= $cover_tpl->get();
 		$page_content .= '<p style="page-break-after:always;"></p>';
 
+		$page_head_tpl = new ilTemplate("tpl.prtf_page_head.html", true, true, "Modules/Portfolio");
+		$page_head_tpl->setVariable("AUTHOR", $author_str);
+		$page_head_tpl->setVariable("DATE", $date_str);
+		$page_head_str = $page_head_tpl->get();
 
 		foreach ($pages as $page)
 		{
@@ -1278,7 +1293,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 				$page_gui = new ilPortfolioPageGUI($this->object->getId(), $page["id"]);
 				$page_gui->setOutputMode("print");
 				$page_gui->setPresentationTitle($page["title"]);
-				$page_content .= $page_gui->showPage();
+				$page_content .= $page_head_str.$page_gui->showPage();
 
 				if ($a_pdf_export)
 				{
@@ -1299,7 +1314,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 					$page_gui->setFullscreenLink("#");
 					$page_gui->setSourcecodeDownloadScript("#");
 					$page_gui->setOutputMode("print");
-					$page_content .= $page_gui->showPage();
+					$page_content .= $page_head_str.$page_gui->showPage();
 
 					if ($a_pdf_export)
 					{
@@ -1331,7 +1346,8 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		}
 		else
 		{
-			return $tpl->get("DEFAULT", false, false, false, true, false, false);
+			$ret = $tpl->get("DEFAULT", false, false, false, true, false, false);
+			return $ret;
 		}
 	}
 
