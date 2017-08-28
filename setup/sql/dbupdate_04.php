@@ -20470,4 +20470,36 @@ $ilDB->modifyTableColumn(
 		$ilDB->query("UPDATE sahs_lm SET name_setting = 0");
 	}
 ?>
-
+<#5188>
+<?php
+if(!$ilDB->tableExists('orgu_obj_type_settings') )
+{
+	$ilDB->createTable('orgu_obj_type_settings', array(
+		'obj_type' => array(
+			'type' => 'text',
+			'length' => 10,
+			'notnull' => true
+		),
+		'active' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		),
+		'activation_default' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		),
+		'changeable' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		)
+		)
+	);
+	$ilDB->addPrimaryKey('orgu_obj_type_settings', array('obj_type'));
+}
+?>
