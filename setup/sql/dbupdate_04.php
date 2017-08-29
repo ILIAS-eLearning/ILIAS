@@ -20650,3 +20650,8 @@ if(!$ilDB->tableColumnExists('crs_settings', 'show_members_export'))
                 ));
 }
 ?>
+<#5199>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
