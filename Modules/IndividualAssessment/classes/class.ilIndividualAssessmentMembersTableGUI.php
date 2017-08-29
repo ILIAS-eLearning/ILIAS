@@ -165,6 +165,11 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI', 'amend');
 			$l->addItem($this->lng->txt('iass_usr_amend'), 'amend', $target);
 		}
+
+		if($this->userMayDownloadAttachment($a_set['usr_id']) && (string)$a_set['file_name'] !== '') {
+			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI', 'downloadAttachment');
+			$l->addItem($this->lng->txt('iass_usr_download_attachemnt'), 'downloadAttachment', $target);
+		}
 		$this->ctrl->setParameterByClass('ilIndividualAssessmentMemberGUI', 'usr_id', null);
 		return $l->getHTML();
 	}
@@ -224,5 +229,14 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 	 */
 	protected function userMayAmendGrades() {
 		return $this->iass_access->mayAmendGradeUser();
+	}
+
+	/**
+	 * User may download attachment
+	 *
+	 * @return bool
+	 */
+	protected function userMayDownloadAttachment($usr_id) {
+		return $this->userMayViewGrades() || $this->userMayEditGrades() || $this->userMayEditGradesOf($usr_id);
 	}
 }
