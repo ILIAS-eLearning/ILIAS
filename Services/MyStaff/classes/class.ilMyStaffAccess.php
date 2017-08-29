@@ -213,9 +213,9 @@ class ilMyStaffAccess extends ilObjectAccess {
 		 */
 		$ilDB = $GLOBALS['DIC']->database();
 
-		$this->buildTempTableIlobjectsSpecificPermissionSetForOperationAndContext();
-		$this->buildTempTableIlobjectsDefaultPermissionSetForOperationAndContext();
-		$this->buildTempTableIlorgunitDefaultPermissionSetForOperationAndContext();
+		$this->buildTempTableIlobjectsSpecificPermissionSetForOperationAndContext($operation_id,$context);
+		$this->buildTempTableIlobjectsDefaultPermissionSetForOperationAndContext($operation_id,$context);
+		$this->buildTempTableIlorgunitDefaultPermissionSetForOperationAndContext($operation_id,$context);
 		$this->buildTempTableCourseMembers();
 		$this->buildTempTableOrguMembers();
 		$this->buildTempTableOrguMembers('tmp_orgu_members_path');

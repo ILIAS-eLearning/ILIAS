@@ -309,7 +309,8 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 			}
 		}
 
-		$user_action_collector = ilUserActionCollector::getInstance($ilUser->getId());
+		//TODO Context!
+		$user_action_collector = ilUserActionCollector::getInstance($ilUser->getId(),new ilAwarenessUserActionContext());
 		$action_collection = $user_action_collector->getActionsForTargetUser($my_staff_course->getUsrId(), 'awrn', 'toplist');
 
 		//TODO Async?
