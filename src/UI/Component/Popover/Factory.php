@@ -22,9 +22,14 @@ interface Factory {
 	 *    Listing Popovers are used to display lists.
 	 * rules:
 	 *   usage:
-	 *      1: Standard Popovers MUST NOT be used to render lists, use a Listing Popover for this purpose.
+	 *      1: >
+	 *          Standard Popovers MUST NOT be used to render lists, use a Listing Popover
+	 *          for this purpose.
 	 *      2: Standard Popovers SHOULD NOT contain complex or large components.
 	 *      3: Usages of Standard Popovers MUST be accepted by JourFixe.
+	 *      4: >
+	 *          Popovers with fixed Position MUST only be attached to triggerers with
+	 *          fixed position.
 	 * ---
 	 *
 	 * @param Component|Component[] $content
@@ -46,6 +51,7 @@ interface Factory {
 	 * rules:
 	 *   usage:
 	 *      1: Listing Popovers MUST be used if one needs to display lists inside a Popover.
+	 *      2: Popovers with fixed Position MUST only be attached to triggerers with fixed position.
 	 * ---
 	 *
 	 * @param Component[] $items

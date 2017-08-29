@@ -34,7 +34,8 @@ class ilAwarenessData
 		include_once("./Services/Awareness/classes/class.ilAwarenessUserCollector.php");
 		$this->user_collector = ilAwarenessUserCollector::getInstance($a_user_id);
 		include_once("./Services/User/Actions/classes/class.ilUserActionCollector.php");
-		$this->action_collector = ilUserActionCollector::getInstance($a_user_id);
+		include_once("./Services/Awareness/classes/class.ilAwarenessUserActionContext.php");
+		$this->action_collector = ilUserActionCollector::getInstance($a_user_id, new ilAwarenessUserActionContext());
 	}
 
 	/**
@@ -344,7 +345,7 @@ class ilAwarenessData
 					$obj->last_login = $n["last_login"];;
 
 					// get actions
-					$action_collection = $this->action_collector->getActionsForTargetUser($n["id"], "awrn", "toplist");
+					$action_collection = $this->action_collector->getActionsForTargetUser($n["id"]);
 					$obj->actions = array();
 					foreach ($action_collection->getActions() as $action)
 					{

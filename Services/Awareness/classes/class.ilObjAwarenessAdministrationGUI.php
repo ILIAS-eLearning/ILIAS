@@ -47,7 +47,9 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
 		{
 			case 'iluseractionadmingui':
 				include_once("./Services/User/Actions/classes/class.ilUserActionAdminGUI.php");
+				include_once("./Services/Awareness/classes/class.ilAwarenessUserActionContext.php");
 				$gui = new ilUserActionAdminGUI();
+				$gui->setActionContext(new ilAwarenessUserActionContext());
 				$this->tabs_gui->setTabActive('settings');
 				$this->setSubTabs("actions");
 				$this->ctrl->forwardCommand($gui);

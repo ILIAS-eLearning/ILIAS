@@ -79,13 +79,13 @@ il.Util = {
 	 	}
 		if(do_check)
 		{
-			$("#" + parent_el).find("input:checkbox" + name_sel).prop('checked', true);
-			$('[name="' + parent_el + '"]').find("input:checkbox" + name_sel).prop('checked', true);
+			$("#" + parent_el).find("input:checkbox" + name_sel).not(":disabled").prop('checked', true);
+			$('[name="' + parent_el + '"]').find("input:checkbox" + name_sel).not(":disabled").prop('checked', true);
 		}
 		else
 		{
-			$("#" + parent_el).find("input:checkbox" + name_sel).prop('checked', false);
-			$('[name="' + parent_el + '"]').find("input:checkbox" + name_sel).prop('checked', false);
+			$("#" + parent_el).find("input:checkbox" + name_sel).not(":disabled").prop('checked', false);
+			$('[name="' + parent_el + '"]').find("input:checkbox" + name_sel).not(":disabled").prop('checked', false);
 		}
 	  return true;
 	},
@@ -145,6 +145,10 @@ il.Util = {
 			url = url + "&" + k + "=" + par[k];
 		}
 		var request = YAHOO.util.Connect.asyncRequest('GET', url, cb);
+	},
+
+	sendAjaxPostRequestToUrl: function(url, data, succ_cb) {
+		$.post(url, data, succ_cb);
 	},
 	
 	// FailureHandler

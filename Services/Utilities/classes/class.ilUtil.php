@@ -3787,7 +3787,7 @@ class ilUtil
 //ilUtil::printBacktrace(5);
 //echo "<br>".$cmd; exit;
 		exec($cmd, $arr);
-//		$ilLog->write("ilUtil::execQuoted: ".$cmd.".");
+		$ilLog->write("ilUtil::execQuoted: ".$cmd.".");
 		return $arr;
 	}
 
@@ -3855,6 +3855,44 @@ class ilUtil
 		{
 			ilUtil::rRenameSuffix($a_dir, trim($def), "sec");
 		}
+	}
+
+	/**
+	 * @param string $a_initial_filename
+	 * @return mixed|string
+	 */
+	public static function getSafeFilename($a_initial_filename)
+	{
+		$file_peaces = explode('.', $a_initial_filename);
+
+		$file_extension = array_pop($file_peaces);
+
+		if(SUFFIX_REPL_ADDITIONAL)
+		{
+			$string_extensions = SUFFIX_REPL_DEFAULT.",".SUFFIX_REPL_ADDITIONAL;
+		}
+		else
+		{
+			$string_extensions = SUFFIX_REPL_DEFAULT;
+		}
+
+		$sufixes = explode(",", $string_extensions);
+
+		if (in_array($file_extension, $sufixes)) {
+			$file_extension = "sec";
+		}
+
+		array_push($file_peaces, $file_extension);
+
+		$safe_filename = "";
+		foreach ($file_peaces as $piece) {
+			$safe_filename .= "$piece";
+			if ($piece != end($file_peaces)) {
+				$safe_filename .= ".";
+			}
+		}
+
+		return $safe_filename;
 	}
 
 	/**
@@ -4820,7 +4858,6 @@ class ilUtil
 	public static function sendFailure($a_info = "",$a_keep = false)
 	{
 		global $tpl;
-
 		if(is_object($tpl))
 		{
 			$tpl->setMessage("failure", $a_info, $a_keep);

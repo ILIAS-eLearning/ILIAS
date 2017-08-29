@@ -198,4 +198,32 @@ EOT;
 
 		$this->assertHTMLEquals($expected, $html);
 	}
+
+	public function test_shy_title_and_property() {
+		$f = $this->getFactory();
+		$r = $this->getDefaultRenderer();
+		$df = new \ILIAS\Data\Factory();
+
+		$color = $df->color('#ff00ff');
+
+		$c = $f->item()->standard($f->button()->shy("ILIAS", "https://www.ilias.de"))
+			->withProperties(array("test" => $f->button()->shy("GitHub", "https://www.github.com")));
+
+		$html = $r->render($c);
+		$expected = <<<EOT
+<div class="il-item il-std-item ">
+			<h5><a class="btn btn-link" href="https://www.ilias.de" data-action="https://www.ilias.de">ILIAS</a></h5>
+			<hr class="il-item-divider" />
+			<div class="row">
+				<div class="col-sm-4 col-md-2 il-item-property-name">test</div>
+				<div class="col-sm-8 col-md-4 il-item-property-value"><a class="btn btn-link" href="https://www.github.com" data-action="https://www.github.com">GitHub</a></div>
+				<div class="col-sm-4 col-md-2 il-item-property-name"></div>
+				<div class="col-sm-8 col-md-4 il-item-property-value"></div>
+			</div>
+</div>
+EOT;
+
+		$this->assertHTMLEquals($expected, $html);
+	}
+
 }

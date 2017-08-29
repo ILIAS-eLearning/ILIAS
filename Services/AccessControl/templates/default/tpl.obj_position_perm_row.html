@@ -1,0 +1,18 @@
+<tr style="font-size: 75%" class="{CSS_ROW}">
+	<!-- BEGIN position_td -->
+	<td class="std" style="vertical-align: top">
+		<p>
+			<input type="checkbox" name="position_perm[{POSITION_ID}][{PERM_ID}]" id="perm_{POSITION_ID}_{PERM_ID}" value="1" {PERM_CHECKED} />
+			<label for="perm_{POSITION_ID}_{PERM_ID}" title="{PERM_LONG}">{TXT_PERM}</label>
+		</p>
+	</td>
+	<!-- END position_td -->
+	<!-- BEGIN position_select_all -->
+	<td class="std">
+		<p>
+			<input type="checkbox" id="select_{JS_ROLE_ID}_{JS_SUBID}" onclick="setCheckboxes('{JS_FORM_NAME}','{JS_ROLE_ID}','{JS_SUBID}',{JS_ALL_PERMS}); return true;" />
+			<label for="select_{JS_ROLE_ID}_{JS_SUBID}"><font class="bold">{TXT_SEL_ALL}</font></label>
+		</p>
+	</td>
+	<!-- END position_select_all -->
+</tr>

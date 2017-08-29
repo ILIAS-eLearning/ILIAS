@@ -47,10 +47,12 @@ class ilForumMailNotification extends ilMailNotification
 	 */
 	public function send()
 	{
-		global $DIC; 
-		$ilSetting = $DIC->settings();
-		$lng = $DIC->language();
-		$ilUser = $DIC->user();
+		/**
+		 * @var $ilSetting ilSetting
+		 * @var $lng       ilLanguage
+		 * @var $ilUser    ilObjUser
+		 */
+		global $ilSetting, $lng, $ilUser;
 
 		if(!$ilSetting->get('forum_notification', 0))
 		{
@@ -577,8 +579,10 @@ class ilForumMailNotification extends ilMailNotification
 	 */
 	private function getPermanentLink($type = self::PERMANENT_LINK_POST)
 	{
-		global $DIC;
-		$ilClientIniFile = $DIC['ilClientIniFile'];
+		/**
+		 * @var $ilClientIniFile ilIniFile
+		 */
+		global $ilClientIniFile;
 
 		if($type == self::PERMANENT_LINK_FORUM)
 		{

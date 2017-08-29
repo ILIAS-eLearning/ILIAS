@@ -17,6 +17,12 @@ class ilServicesMathSuite extends PHPUnit_Framework_TestSuite
 		require_once 'Services/Math/test/ilMathTest.php';
 		$suite->addTestSuite('ilMathTest');
 
+		require_once 'Services/Math/test/ilMathPhpAdapterTest.php';
+		$suite->addTestSuite('ilMathPhpAdapterTest');
+
+		require_once 'Services/Math/test/ilMathBCAdapterTest.php';
+		$suite->addTestSuite('ilMathBCAdapterTest');
+
 		return $suite;
 	}
 }

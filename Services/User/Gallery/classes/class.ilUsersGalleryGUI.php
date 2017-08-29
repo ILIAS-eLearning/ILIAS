@@ -118,8 +118,10 @@ class ilUsersGalleryGUI
 	 * @param ilObjUser $user
 	 * @param array     $sections
 	 */
-	protected function addContactWidgetSection(ilObjUser $user, array &$sections)
+	protected function addActionSection(ilObjUser $user, array &$sections)
 	{
+		$contact_btn_html = "";
+
 		if(
 			ilBuddySystem::getInstance()->isEnabled() &&
 			$this->user->getId() != $user->getId() &&
@@ -127,13 +129,29 @@ class ilUsersGalleryGUI
 			!$user->isAnonymous()
 		)
 		{
-
 			$contact_btn_html = ilBuddySystemLinkButton::getInstanceByUserId($user->getId())->getHtml();
-			if($contact_btn_html)
-			{
-				$sections[] = $this->factory->legacy($contact_btn_html);
-			}
 		}
+
+		include_once("./Services/User/Gallery/classes/class.ilGalleryUserActionContext.php");
+		include_once("./Services/User/Actions/classes/class.ilUserActionCollector.php");
+		$act_collector = ilUserActionCollector::getInstance($this->user->getId(),
+			new ilGalleryUserActionContext());
+		$action_collection = $act_collector->getActionsForTargetUser($user->getId());
+		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+		$list = new ilAdvancedSelectionListGUI();
+		$list->setListTitle("");
+		foreach ($action_collection->getActions() as $action)
+		{
+			$list->addItem($action->getText(), "", $action->getHref(), "", "", "", "", false, "","","","",true, $action->getData());
+		}
+		$list_html = $list->getHTML();
+
+
+		if($contact_btn_html || $list_html)
+		{
+			$sections[] = $this->factory->legacy("<div style='float:left; margin-bottom:5px;'>".$contact_btn_html."</div><div class='button-container'>&nbsp;".$list_html."</div>");
+		}
+
 	}
 
 	/**
@@ -196,7 +214,7 @@ class ilUsersGalleryGUI
 						]
 				);
 
-				$this->addContactWidgetSection($user->getAggregatedUser(), $sections);
+				$this->addActionSection($user->getAggregatedUser(), $sections);
 
 				if($user->hasPublicProfile())
 				{

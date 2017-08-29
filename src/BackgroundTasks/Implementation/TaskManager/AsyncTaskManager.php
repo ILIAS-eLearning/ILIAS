@@ -81,6 +81,8 @@ class AsyncTaskManager extends BasicTaskManager {
 				$persistence->deleteBucket($bucket);
 				$DIC->logger()->root()->info("[BackgroundTasks] Exception while async computing: "
 				                             . $e->getMessage());
+				$DIC->logger()->root()->info("[BackgroundTasks] Stack Trace: "
+					. $e->getTraceAsString());
 			}
 		}
 

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="YuiBuildContainer" default="local">
+
+    <description>Container Build File</description>
+
+    <property file="build.properties" />
+
+    <import file="${builddir}/2.x/bootstrap.xml" />
+
+    <target name="build" depends="YuiModuleTargets.build">
+       <ant antfile="${buildfile.dir}/buildcore.xml" target="container_build_subtask" inheritAll="false" />
+    </target>
+
+</project>
+

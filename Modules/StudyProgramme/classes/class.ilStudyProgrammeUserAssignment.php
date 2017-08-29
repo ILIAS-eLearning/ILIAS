@@ -13,14 +13,19 @@ require_once("./Modules/StudyProgramme/classes/model/class.ilStudyProgrammeAssig
  */
 class ilStudyProgrammeUserAssignment {
 	public $assignment; // ilStudyProgrammeAssignment
-	
+
+	/**
+	 * @var ilStudyProgrammeUserProgressDB
+	 */
+	private $sp_user_progress_db;
+
 	/**
 	 * Throws when id does not refer to a study programme assignment.
 	 *
 	 * @throws ilException
 	 * @param int | ilStudyProgrammeAssignment $a_id_or_model
 	 */
-	public function __construct($a_id_or_model) {
+	public function __construct($a_id_or_model, \ilStudyProgrammeUserProgressDB $sp_user_progress_db) {
 		if ($a_id_or_model instanceof ilStudyProgrammeAssignment) {
 			$this->assignment = $a_id_or_model;
 		}
@@ -31,8 +36,9 @@ class ilStudyProgrammeUserAssignment {
 			throw new ilException("ilStudyProgrammeUserAssignment::__construct: "
 								 ."Unknown assignmemt id '$a_id_or_model'.");
 		}
+		$this->sp_user_progress_db = $sp_user_progress_db;
 	}
-	
+
 	/**
 	 * Get an instance. Just wraps constructor.
 	 *
@@ -41,9 +47,9 @@ class ilStudyProgrammeUserAssignment {
 	 * @return ilStudyProgrammeUserAssignment
 	 */
 	static public function getInstance($a_id) {
-		return new ilStudyProgrammeUserAssignment($a_id);
+		return new ilStudyProgrammeUserAssignment($a_id, ilObjStudyProgramme::_getStudyProgrammeUserProgressDB());
 	}
-	
+
 	/**
 	 * Get all instances for a given user.
 	 *
@@ -61,7 +67,7 @@ class ilStudyProgrammeUserAssignment {
 		//the assignment for the user should not be returned
 		$ret = array();
 		foreach($assignments as $ass) {
-			$ass_obj =	new ilStudyProgrammeUserAssignment($ass);
+			$ass_obj = new ilStudyProgrammeUserAssignment($ass, ilObjStudyProgramme::_getStudyProgrammeUserProgressDB());
 			foreach (ilObject::_getAllReferences($ass_obj->assignment->getRootId()) as $value) {
 				if($tree->isInTree($value)) {
 					$ret[] = $ass_obj;
@@ -72,7 +78,7 @@ class ilStudyProgrammeUserAssignment {
 
 		return $ret;
 	}
-	
+
 	/**
 	 * Get all assignments that were made to the given program.
 	 *
@@ -83,10 +89,11 @@ class ilStudyProgrammeUserAssignment {
 		$assignments = ilStudyProgrammeAssignment::where(array( "root_prg_id" => $a_program_id ))
 													->get();
 		return array_map(function($ass) {
-			return new ilStudyProgrammeUserAssignment($ass);
+			return new ilStudyProgrammeUserAssignment($ass, ilObjStudyProgramme::_getStudyProgrammeUserProgressDB());
+
 		}, array_values($assignments)); // use array values since we want keys 0...
 	}
-	
+
 	/**
 	 * Get the id of the assignment.
 	 *
@@ -95,9 +102,9 @@ class ilStudyProgrammeUserAssignment {
 	public function getId() {
 		return $this->assignment->getId();
 	}
-	
+
 	/**
-	 * Get the program node where this assignment was made. 
+	 * Get the program node where this assignment was made.
 	 *
 	 * Throws when program this assignment is about has no ref id.
 	 *
@@ -114,7 +121,7 @@ class ilStudyProgrammeUserAssignment {
 		}
 		return ilObjStudyProgramme::getInstanceByRefId(array_shift($refs));
 	}
-	
+
 	/**
 	 * Get the progress on the root node of the programme.
 	 *
@@ -124,7 +131,7 @@ class ilStudyProgrammeUserAssignment {
 	public function getRootProgress() {
 		return $this->getStudyProgramme()->getProgressForAssignment($this->getId());
 	}
-	
+
 	/**
 	 * Get the id of the user who is assigned.
 	 *
@@ -133,27 +140,26 @@ class ilStudyProgrammeUserAssignment {
 	public function getUserId() {
 		return $this->assignment->getUserId();
 	}
-	
+
 	/**
 	 * Remove this assignment.
 	 */
 	public function deassign() {
 		$this->getStudyProgramme()->removeAssignment($this);
 	}
-	
+
 	/**
 	 * Delete the assignment from database.
 	 */
 	public function delete() {
-		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
-		$progresses = ilStudyProgrammeUserProgress::getInstancesForAssignment($this->getId());
+		$progresses = $this->sp_user_progress_db->getInstancesForAssignment($this->getId());
 		foreach ($progresses as $progress) {
 			$progress->delete();
 		}
-		
+
 		$this->assignment->delete();
 	}
-	
+
 	/**
 	 * Update all unmodified nodes in this assignment to the current state
 	 * of the program.
@@ -172,10 +178,10 @@ class ilStudyProgrammeUserAssignment {
 			$progress = $node->getProgressForAssignment($id);
 			return $progress->updateFromProgramNode();
 		});
-		
+
 		return $this;
 	}
-	
+
 	/**
 	 * Add missing progresses for new nodes in the programm.
 	 *
@@ -185,10 +191,10 @@ class ilStudyProgrammeUserAssignment {
 	 */
 	public function addMissingProgresses() {
 		require_once("Modules/StudyProgramme/classes/exceptions/class.ilStudyProgrammeNoProgressForAssignmentException.php");
-		
+
 		$prg = $this->getStudyProgramme();
 		$id = $this->getId();
-		
+
 		// Make $this->assignment protected again afterwards.
 		$prg->applyToSubTreeNodes(function($node) use ($id) {
 			try {
@@ -204,7 +210,7 @@ class ilStudyProgrammeUserAssignment {
 						 ->update();
 			}
 		});
-		
+
 		return $this;
 	}
 }

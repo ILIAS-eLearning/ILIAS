@@ -75,6 +75,18 @@ abstract class ilUserActionProvider
 	 */
 	abstract function getActionTypes();
 
+	/**
+	 * Get js scripts
+	 *
+	 * @param string $a_action_type
+	 * @return array
+	 */
+	function getJsScripts($a_action_type)
+	{
+		return array();
+	}
+
+
 }
 
 ?>

@@ -101,7 +101,8 @@ class ilObjectDefinition// extends ilSaxParser
 				'repository' => $rec['repository'],
 				'workspace' => $rec['workspace'],
 				'administration' => $rec['administration'],
-				'amet' => $rec['amet']
+				'amet' => $rec['amet'],
+				'orgunit_permissions' => $rec['orgunit_permissions']
 			);
 			$this->obj_data[$rec["id"]]["subobjects"] = array();
 
@@ -160,7 +161,8 @@ class ilObjectDefinition// extends ilSaxParser
 				'repository' => $rec['repository'],
 				'workspace' => $rec['workspace'],
 				'administration' => $rec['administration'],
-				'amet' => $rec['amet']
+				'amet' => $rec['amet'],
+				'orgunit_permissions' => $rec['orgunit_permissions']
 			);
 			$this->obj_data[$rec["id"]]["subobjects"] = array();
 
@@ -1038,6 +1040,31 @@ class ilObjectDefinition// extends ilSaxParser
 		}
 
 		return $amet;
+	}
+	
+	/**
+	 * Get object type with orgunit position permission support
+	 * @return string[] $types
+	 */
+	public function getOrgUnitPermissionTypes()
+	{
+		$types = [];
+		foreach($this->obj_data as $type => $object_info) {
+			if($object_info['orgunit_permissions']) {
+				$types[] = $type;
+			}
+		}
+		return $types;
+	}
+	
+	/**
+	 * Check if object type offers orgunit position support
+	 * @param string $obj_type
+	 * @return bool
+	 */
+	public function isOrgUnitPermissionType($a_obj_type)
+	{
+		return in_array($a_obj_type, $this->getOrgUnitPermissionTypes());
 	}
 
 	/**

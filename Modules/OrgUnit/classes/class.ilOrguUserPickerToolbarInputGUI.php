@@ -42,4 +42,3 @@ class ilOrguUserPickerToolbarInputGUI extends ilMultiUserToolbarInputGUI {
 		return $this->staff;
 	}
 }
-?>

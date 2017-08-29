@@ -53,21 +53,12 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	 */
 	public $objPost;
 
-	private $db;
-	private $access;
-	private $user;
-	
 	/**
 	 * @param ilForumPost $objPost
 	 * @param int         $ref_id
 	 */
 	public function __construct(ilForumPost $objPost, $ref_id)
 	{
-		global $DIC;
-		$this->db = $DIC->database();
-		$this->access = $DIC->access();
-		$this->user = $DIC->user();
-		
 		$this->objPost = $objPost;
 		$this->ref_id  = $ref_id;
 		$this->obj_id  = ilObject::_lookupObjId($ref_id);
@@ -155,8 +146,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	}
 
 	/**
-	 * @param ilLanguage $user_lang
-	 * @return bool|string
+	 * @return string
 	 */
 	public function getPostUserName($user_lang)
 	{
@@ -195,8 +185,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	}
 
 	/**
-	 * @param ilLanguage $user_lang
-	 * @return bool|string
+	 * @return string login
 	 */
 	public function getPostUpdateUserName($user_lang)
 	{
@@ -274,12 +263,14 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	 */
 	private function readThreadTitle()
 	{
-		$result = $this->db->queryf('
+		global $ilDB;
+
+		$result = $ilDB->queryf('
 			SELECT thr_subject FROM frm_threads 
 			WHERE thr_pk = %s',
 			array('integer'), array($this->objPost->getThreadId()));
 
-		$row = $this->db->fetchAssoc($result);
+		$row = $ilDB->fetchAssoc($result);
 		$this->thread_title = $row['thr_subject'];
 	}
 
@@ -288,12 +279,14 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	 */
 	private function readForumData()
 	{
-		$result = $this->db->queryf('
+		global $ilDB;
+
+		$result = $ilDB->queryf('
 			SELECT top_pk, top_name FROM frm_data
 			WHERE top_frm_fk = %s',
 			array('integer'), array($this->getObjId()));
 
-		$row = $this->db->fetchAssoc($result);
+		$row = $ilDB->fetchAssoc($result);
 		$this->forum_id    = $row['top_pk'];
 		$this->forum_title = $row['top_name'];
 	}
@@ -325,24 +318,26 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	 */
 	public function getForumNotificationRecipients()
 	{
-		$res = $this->db->queryf('
+		global $ilDB, $ilAccess, $ilUser;
+
+		$res = $ilDB->queryf('
 			SELECT frm_notification.user_id FROM frm_notification, frm_data 
 			WHERE frm_data.top_pk = %s
 			AND frm_notification.frm_id = frm_data.top_frm_fk 
 			AND frm_notification.user_id <> %s
 			GROUP BY frm_notification.user_id',
 			array('integer', 'integer'),
-			array($this->getForumId(), $this->user->getId()));
+			array($this->getForumId(), $ilUser->getId()));
 
 		// get all references of obj_id
 		$frm_references = ilObject::_getAllReferences($this->getObjId());
 		$rcps = array();
-		while($row = $this->db->fetchAssoc($res))
+		while($row = $ilDB->fetchAssoc($res))
 		{
 			// do rbac check before sending notification
 			foreach((array)$frm_references as $ref_id)
 			{
-				if($this->access->checkAccessOfUser($row['user_id'], 'read', '', $ref_id))
+				if($ilAccess->checkAccessOfUser($row['user_id'], 'read', '', $ref_id))
 				{
 					$rcps[] = $row['user_id'];
 				}
@@ -358,23 +353,25 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	 */
 	public function getThreadNotificationRecipients()
 	{
+		global $ilDB, $ilAccess, $ilUser;
+
 		// GET USERS WHO WANT TO BE INFORMED ABOUT NEW POSTS
-		$res = $this->db->queryf('
+		$res = $ilDB->queryf('
 			SELECT user_id FROM frm_notification 
 			WHERE thread_id = %s
 			AND user_id <> %s',
 			array('integer', 'integer'),
-			array($this->getThreadId(), $this->user->getId()));
+			array($this->getThreadId(), $GLOBALS['DIC']['ilUser']->getId()));
 
 		// get all references of obj_id
 		$frm_references = ilObject::_getAllReferences($this->getObjId());
 		$rcps = array();
-		while($row = $this->db->fetchAssoc($res))
+		while($row = $ilDB->fetchAssoc($res))
 		{
 			// do rbac check before sending notification
 			foreach((array)$frm_references as $ref_id)
 			{
-				if($this->access->checkAccessOfUser($row['user_id'], 'read', '', $ref_id))
+				if($ilAccess->checkAccessOfUser($row['user_id'], 'read', '', $ref_id))
 				{
 					$rcps[] = $row['user_id'];
 				}

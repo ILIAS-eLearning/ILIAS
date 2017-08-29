@@ -49,7 +49,8 @@ class ilCalendarSettings
 	
 	const DEFAULT_CACHE_MINUTES = 0;
 	const DEFAULT_SYNC_CACHE_MINUTES = 10;
-	
+
+	const DEFAULT_SHOW_WEEKS = true;
 
 	private static $instance = null;
 
@@ -81,6 +82,9 @@ class ilCalendarSettings
 	
 	private $webcal_sync = false;
 	private $webcal_sync_hours = 2;
+	private $show_weeks = false;
+
+	private $batch_file_downloads = false;
 
 	/**
 	 * singleton contructor
@@ -509,6 +513,36 @@ class ilCalendarSettings
 		return $this->webcal_sync_hours;
 	}
 
+	/**
+	 * Set show weeks
+	 *
+	 * @param bool $a_val show weeks	
+	 */
+	function setShowWeeks($a_val)
+	{
+		$this->show_weeks = $a_val;
+	}
+	
+	/**
+	 * Get show weeks
+	 *
+	 * @return bool show weeks
+	 */
+	function getShowWeeks()
+	{
+		return $this->show_weeks;
+	}
+
+	public function enableBatchFileDownloads($a_stat)
+	{
+		$this->batch_file_downloads = $a_stat;
+	}
+
+	function isBatchFileDownloadsEnabled()
+	{
+		return $this->batch_file_downloads;
+	}
+	
 		/**
 	 * save 
 	 *
@@ -536,6 +570,8 @@ class ilCalendarSettings
 		$this->storage->set('notification_user',(int) $this->isUserNotificationEnabled());
 		$this->storage->set('webcal_sync',(int) $this->isWebCalSyncEnabled());
 		$this->storage->set('webcal_sync_hours',(int) $this->getWebCalSyncHours());
+		$this->storage->set('show_weeks',(int) $this->getShowWeeks());
+		$this->storage->set('batch_files',(int) $this->isBatchFileDownloadsEnabled());
 	}
 
 	/**
@@ -567,6 +603,8 @@ class ilCalendarSettings
 		$this->enableUserNotification($this->storage->get('notification_user',$this->isUserNotificationEnabled()));
 		$this->enableWebCalSync($this->storage->get('webcal_sync',$this->isWebCalSyncEnabled()));
 		$this->setWebCalSyncHours($this->storage->get('webcal_sync_hours',$this->getWebCalSyncHours()));
+		$this->setShowWeeks($this->storage->get('show_weeks',$this->getShowWeeks()));
+		$this->enableBatchFileDownloads($this->storage->get('batch_files', $this->isBatchFileDownloadsEnabled()));
 	}
 	
 	/**

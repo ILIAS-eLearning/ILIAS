@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<project name="YuiConnection" default="local">
+    <description>Connection Build File</description>
+    <property file="connection_core.properties" />
+    <import file="${builddir}/2.x/bootstrap.xml" description="Default Build Properties and Targets" />
+</project>

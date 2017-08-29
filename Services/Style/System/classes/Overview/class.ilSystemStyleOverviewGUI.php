@@ -793,4 +793,6 @@ class ilSystemStyleOverviewGUI
 	{
 		$this->management_enabled = $management_enabled;
 	}
+
+
 }

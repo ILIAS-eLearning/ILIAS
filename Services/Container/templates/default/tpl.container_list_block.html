@@ -1,6 +1,5 @@
 <!-- BEGIN container_block -->
-<div {CB_ID} class="ilContainerBlock container-fluid form-inline">
-	<!-- BEGIN container_row -->
+<div {CB_ID} class="ilContainerBlock container-fluid form-inline" <!-- BEGIN cb_data --> data-{DATA_KEY}="{DATA_VALUE}"<!-- END cb_data -->>
 	<!-- BEGIN container_header_row_image -->
 	<div class="row ilContainerBlockHeader">
 		<img border="0" alt="{HEADER_ALT}" title="{HEADER_ALT}" src="{HEADER_IMG}" />
@@ -16,30 +15,34 @@
 		<div class="pull-right">{CHR_COMMANDS}</div>
 	</div>
 	<!-- END container_header_row -->
-	<!-- BEGIN container_standard_row -->
-	<!-- BEGIN row_type_1 -->
-	<div {ROW_ID} class="ilCLI ilObjListRow row">
-	<!-- END row_type_1 -->
-	<!-- BEGIN row_type_2 -->
-	<div {ROW_ID} class="ilCLI ilObjListRow row">
-	<!-- END row_type_2 -->
-		{BLOCK_ROW_CONTENT}
+	<div class="ilContainerItemsContainer <!-- BEGIN container_items_hide -->ilNoDisplay<!-- END container_items_hide -->">
+		<!-- BEGIN container_row -->
+		<!-- BEGIN container_standard_row -->
+		<!-- BEGIN row_type_1 -->
+		<div {ROW_ID} class="ilCLI ilObjListRow row">
+		<!-- END row_type_1 -->
+		<!-- BEGIN row_type_2 -->
+		<div {ROW_ID} class="ilCLI ilObjListRow row">
+		<!-- END row_type_2 -->
+			{BLOCK_ROW_CONTENT}
+		</div>
+		<!-- END container_standard_row -->
+
+		<!-- BEGIN container_details_row -->
+		<div class="tblfooter row il_BlockInfo">
+			{TXT_DETAILS}:
+			<!-- BEGIN details_img -->
+			<a href="{DETAILS_LINK}"><img src="{DETAILS_SRC}" alt="{DETAILS_ALT}" title="{DETAILS_ALT}" /></a>
+			<!-- END details_img -->
+		</div>
+		<!-- END container_details_row -->
+		<!-- END container_row -->
 	</div>
-	<!-- END container_standard_row -->
-	<!-- BEGIN container_details_row -->
-	<div class="tblfooter row il_BlockInfo">
-		{TXT_DETAILS}: 
-		<!-- BEGIN details_img -->
-		<a href="{DETAILS_LINK}"><img src="{DETAILS_SRC}" alt="{DETAILS_ALT}" title="{DETAILS_ALT}" /></a> 
-		<!-- END details_img -->
-	</div>
-	<!-- END container_details_row -->
-	<!-- END container_row -->
 	<!-- BEGIN select_all_row -->
 	<div class="tblfooter row ilContainerListFooter">
 		<input type="checkbox" name="{CHECKBOXNAME}" id="{CHECKBOXNAME}" value="1" onClick="javascript:il.Util.setChecked('{SEL_ALL_PARENT}', '{SEL_ALL_CB_NAME}', this.checked);" />
 		<label for="{CHECKBOXNAME}" class="small">{TXT_SELECT_ALL}</label>
 	</div>
-<!-- END select_all_row -->
+	<!-- END select_all_row -->
 </div>
 <!-- END container_block -->

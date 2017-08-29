@@ -88,7 +88,7 @@ class ilContObjectExport
 	*   @access public
 	*   @return
 	*/
-	function buildExportFile($a_master_only = false)
+	function buildExportFile($a_mode = "")
 	{
 		switch ($this->mode)
 		{
@@ -105,7 +105,7 @@ class ilContObjectExport
 				break;
 
 			default:
-				return $this->buildExportFileXML($a_master_only);
+				return $this->buildExportFileXML($a_mode);
 				break;
 		}
 	}
@@ -113,16 +113,16 @@ class ilContObjectExport
 	/**
 	* build xml export file
 	*/
-	function buildExportFileXML($a_master_only = false)
+	function buildExportFileXML($a_mode = "")
 	{
 		global $ilBench;
 
-		if ($a_master_only)
+		if (in_array($a_mode, array("master", "masternomedia")))
 		{
 			include_once("./Services/Export/classes/class.ilExport.php");
 			$exp = new ilExport();
 			$conf = $exp->getConfig("Modules/LearningModule");
-			$conf->setMasterLanguageOnly(true);
+			$conf->setMasterLanguageOnly(true, ($a_mode == "master"));
 			$exp->exportObject($this->cont_obj->getType(),$this->cont_obj->getId(), "5.1.0");
 			return;
 		}

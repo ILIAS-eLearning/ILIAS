@@ -52,6 +52,8 @@ class ilObjSCORMInitData
 		}
 		$b_autoReview='false';
 		if ($slm_obj->getAutoReview()) $b_autoReview='true';
+		$b_autoSuspend='false';
+		if ($slm_obj->getAutoSuspend()) $b_autoSuspend='true';
 		$b_debug='false';
 		if ($slm_obj->getDebug()) $b_debug='true';
 		$b_autoContinue='false';
@@ -99,13 +101,14 @@ class ilObjSCORMInitData
 			.'"launchId":'.$launchId.','
 			.'"launchNr":0,'
 			.'"pingSession":'. $session_timeout.','
-			.'"studentId":'.$ilias->account->getId().','
-			.'"studentName":"'.self::encodeURIComponent($ilias->account->getLastname().', '.$ilias->account->getFirstname()).'",'
+			.'"studentId":"'.$slm_obj->getApiStudentId().'",'
+			.'"studentName":"'.self::encodeURIComponent($slm_obj->getApiStudentName()).'",'
 			.'"studentLogin":"'.self::encodeURIComponent($ilias->account->getLogin()).'",'
 			.'"studentOu":"'.self::encodeURIComponent($ilias->account->getDepartment()).'",'
 			.'"credit":"'.str_replace("_", "-", $slm_obj->getCreditMode()).'",'
 			.'"lesson_mode":"'.$slm_obj->getDefaultLessonMode().'",'
 			.'"b_autoReview":'.$b_autoReview.','
+			.'"b_autoSuspend":'.$b_autoSuspend.','
 			.'"b_messageLog":'.$b_messageLog.','
 			.'"b_checkSetValues":'.$b_checkSetValues.','
 			.'"b_storeObjectives":'.$b_storeObjectives.','

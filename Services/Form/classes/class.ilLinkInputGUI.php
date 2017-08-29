@@ -138,7 +138,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 	function executeCommand()
 	{
 		global $ilCtrl, $lng;
-		
+
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
 
@@ -155,7 +155,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 				}
 				$link_gui->setFilterWhiteList($this->getFilterWhiteList());
 				$link_gui->setMode("asynch");
-			
+
 				$ret = $ilCtrl->forwardCommand($link_gui);
 				break;
 

@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<title>jQuery maphilight documentation</title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+	<script type="text/javascript" src="ui.tabs.pack.js"></script>
+	<link rel="stylesheet" type="text/css" href="ui.tabs.css" />
+	<style type="text/css">
+	body {
+		width: 80%;
+		margin: 0 auto;
+		line-height:1.5em;
+	}
+	body, h1, h2 {
+		font-family: "Trebuchet MS", Trebuchet, Verdana, Helvetica, Arial, sans-serif;
+	}
+	h1 {
+		margin: 1em 0 1.5em;
+		font-size: 18px;
+	}
+	h2 {
+		margin: 2em 0 1.5em;
+		font-size: 16px;
+	}
+	h3 {
+		background: #596380;
+		color: #fff;
+		margin-bottom:0.3em;
+		padding: 0.5em 0 0.5em 1em;
+		
+	}
+	p {
+		margin: 0;
+	}
+	pre, pre+p, p+p {
+		margin: 1ex 0 0;
+	}
+	pre {
+		background-color: #ddd;
+		border: 1px solid #ccc;
+		color: #000;
+		line-height: 1.1em;
+		overflow: auto;
+		padding: 5px;
+	}
+	code {
+		font-family: "Courier New", Courier, monospace;
+	}
+	.ui-tabs-nav li {
+		border: 1px solid #97A5B0;
+		border-bottom: none;
+		background: #ddecf5;
+	}
+	li.ui-tabs-selected {
+		border: 2px solid #97A5B0;
+		border-bottom: none;
+		background: #fff;
+	}
+	.options dt, .methods dt {
+		background: #CFD4E6;
+	}
+	</style>
+	<script type="text/javascript">$(function() {
+		$('.tabs').tabs();
+	});</script>
+</head>
+<body>
+	<h1>jQuery maphilight documentation</h1>
+	<p>maphilight applies to images with a 'usemap' attribute, and outlines the areas defined in their map on mouseover.</p>
+	<p>It provides a single jQuery function: <code>$('.foo').maphilight()</code></p>
+	<p>This would hilight every image with a map on the page: <code>$('img[usemap]').maphilight()</code></p>
+	<h2>Demos</h2>
+	<p><a href="demo_simple.html">The simple demo</a> (with awful art, and examples of data attributes)</p>
+	<p><a href="demo_world.html">A map of the world</a></p>
+	<p><a href="demo_usa.html">A map of the USA</a></p>
+	<p><a href="demo_features.html">A few feature-demonstrations</a></p>
+	<h2>Plugin methods</h2>
+	<dl class="methods">
+		<dt><a href="#maphilight"><code>maphilight( [options] )</code>: returns jQuery</a></dt>
+		<dd>Add hilight behavior to an imagemap</dd>
+		<dt><a href="#defaults"><code>$.maphilight.defaults</code></a></dt>
+		<dd>Default settings for all maphilight calls</dd>
+	</dl>
+	<div>
+		<a name="maphilight"></a>
+		<h3><code>maphilight( [options] )</code></h3>
+		<ul class="tabs">
+			<li><a href="#overview">Overview</a></li>
+			<li><a href="#options">Options</a></li>
+		</ul>
+		<div id="overview">
+			<p>The method that adds hilight behavior to an imagemap.</p>
+			<h4>Arguments:</h4>
+			<dl>
+				<dt><code>options</code> (optional)</dt>
+				<dd>
+					<p>A set of key/value pairs that configures the map.  All options are optional.</p>
+                    <p>All options can be overridden with the jQuery <code>data</code> method, per-<code>img</code> and per-<code>area</code>.</p>
+					<p>The <a href="http://docs.jquery.com/Plugins/Metadata">metadata plugin</a> is also supported.</p>
+					<p>Order of inheritance:
+						<ol>
+							<li><code>$(area).data('maphilight')</code></li>
+							<li><code>$(area).metadata()</code></li>
+							<li><code>$(img).data('maphilight')</code></li>
+							<li><code>$(img).metadata()</code></li>
+							<li><code>$(img).maphilight(options)</code></li>
+						</ol>
+					</p>
+					<p>Example: to make one particular hilight green:</p>
+					<pre><code>&lt;area ... class="{fillColor:'00ff00'}"></code></pre>
+				</dd>
+			</dl>
+		</div>
+		<div id="options">
+			<h4>Options:</h4>
+			<dl class="options">
+				<dt><code>fill</code> (Boolean. Default: true)</dt>
+				<dd>Whether to fill the shape</dd>
+				<dt><code>fillColor</code> (String. Default: '000000')</dt>
+				<dd>The color to fill the shape with</dd>
+				<dt><code>fillOpacity</code> (Number. Default: 0.2)</dt>
+				<dd>The opacity of the fill (0 = fully transparent, 1 = fully opaque)</dd>
+				<dt><code>stroke</code> (Boolean. Default: true)</dt>
+				<dd>Whether to outline the shape</dd>
+				<dt><code>strokeColor</code> (String. Default: 'ff0000')</dt>
+				<dd>The color of the outline</dd>
+				<dt><code>strokeOpacity</code> (Number. Default: 1)</dt>
+				<dd>The opacity of the outline (0 = fully transparent, 1 = fully opaque)</dd>
+				<dt><code>strokeWidth</code> (Number. Default: 1)</dt>
+				<dd>The thickness of the outline</dd>
+				<dt><code>fade</code> (Boolean. Default: true)</dt>
+				<dd>Whether to fade in the shapes on mouseover</dd>
+				<dt><code>alwaysOn</code> (Boolean. Default: false)</dt>
+				<dd>Whether to always show the hilighted areas</dd>
+				<dt><code>neverOn</code> (Boolean. Default: false)</dt>
+				<dd>Whether to never show the hilighted areas</dd>
+				<dd>(This only makes sense to use as per-area metadata, of course.)</dd>
+				<dt><code>groupBy</code> (String. Default: false)</dt>
+				<dd>The name of an attribute to group areas by</dd>
+				<dd>If this is present then all areas in the map which have the same attribute value as the hovered area will hilight as well</dd>
+				<dt><code>wrapClass</code> (String/bool. Default: false)</dt>
+				<dd>If true, applies the class on the &lt;img&gt; to the wrapper div maphilight created.</dd>
+				<dd>If a string, that string is used as a class on the wrapper div.</dd>
+				<dt><code>shadow</code> (Boolean. Default: false)</dt>
+				<dd>Whether to apply a shadow to the shape. (Only works with canvas-supporting browsers. So, everything but IE below version 9.)</dd>
+				<dt><code>shadowPosition</code> (String. Default: 'outside')</dt>
+				<dd>Where to position the shadow. Can be 'outside', 'inside', or 'both'.</dd>
+				<dt><code>shadowFrom</code> (String/bool. Default: false)</dt>
+				<dd>What to use to cast the shadow. Can be 'stroke' or 'fill'. If false, choose a value based on the shadow position. (Generally it looks better if it's being cast from a fill when it's outside the shape, and from a stroke when it's inside the shape.)</dd>
+				<dt><code>shadowX</code> (Number. Default: 0)</dt>
+				<dd>Horizontal offset of the shadow from the shape.</dd>
+				<dt><code>shadowY</code> (Number. Default: 0)</dt>
+				<dd>Vertical offset of the shadow from the shape.</dd>
+				<dt><code>shadowRadius</code> (Number. Default: 6)</dt>
+				<dd>Size of the shadow.</dd>
+				<dt><code>shadowColor</code> (String. Default: '000000')</dt>
+				<dd>Color of the shadow.</dd>
+				<dt><code>shadowOpacity</code> (Number. Default: 0.8)</dt>
+				<dd>Opacity of the shadow.</dd>
+			</dl>
+		</div>
+	</div>
+	<div>
+		<a name="defaults"></a>
+		<h3><code>$.maphilight.defaults</code></h3>
+		<p>The defaults for all uses of maphilight can be set here.  If you manually replace this, you <em>have</em> to specify all options.</p>
+		<pre><code>$.fn.maphilight.defaults = {
+	fill: true,
+	fillColor: '000000',
+	fillOpacity: 0.2,
+	stroke: true,
+	strokeColor: 'ff0000',
+	strokeOpacity: 1,
+	strokeWidth: 1,
+	fade: true,
+	alwaysOn: false,
+	neverOn: false,
+	groupBy: false,
+	wrapClass: true,
+	shadow: false,
+	shadowX: 0,
+	shadowY: 0,
+	shadowRadius: 6,
+	shadowColor: '000000',
+	shadowOpacity: 0.8,
+	shadowPosition: 'outside',
+	shadowFrom: false
+}</code></pre>
+	</div>
+	<h2>Changelog</h2>
+	<ul>
+		<li>1.2.2: New options groupBy and wrapClass. Allow .data to override options/metadata. Work around a jQuery bug with Opera.</li>
+		<li>1.2.1: Fix a Chrome bug. Apply the class on the img to the wrapper div created by maphilight.</li>
+		<li>1.2: Made <code>alwaysOn</code> work per-area with metadata plugin.</li>
+		<li>1.1: Added <code>alwaysOn</code> option. Fixed behavior in Firefox2/Safari/Opera.</li>
+		<li>1.0: First release.</li>
+	</ul>
+	<h2>Tested with</h2>
+	<ul>
+		<li>Firefox</li>
+		<li>IE 6, 7, 8, 9</li>
+		<li>Safari 3, 4, 5</li>
+		<li>Chrome</li>
+		<li>Opera 9, 10</li>
+	</ul>
+	<h2>Contributors</h2>
+	These people have contributed in some way to the project:
+	<ul>
+		<li>Billy Earney (@ University of Missouri): fixed alwaysOn for IE</li>
+		<li>Travis Balzarini (@ Sonoma County Web Team): fixed IE 8</li>
+		<li><a href="http://stackoverflow.com/users/92414/solutionyogi">SolutionYogi</a>: Also fixed IE 8 :)</li>
+		<li><a href="https://github.com/Raven24">Florian Staudacher</a>: provided the initial version of shadows</li>
+	</ul>
+</body>
+</html>

@@ -56,6 +56,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$next_class = $this->ctrl->getNextClass();
 		$cmd = $this->ctrl->getCmd("render");
 
+
 		switch($next_class)
 		{
 			// page editing
@@ -1016,7 +1017,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		$icon = ilUtil::getImagePath("icon_".$a_type.".svg");
 		$title = $this->lng->txt("objs_".$a_type);
-		
+
 		if ($a_show_image)
 		{
 			$a_tpl->setCurrentBlock("container_header_row_image");
@@ -1030,7 +1031,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		$a_tpl->setVariable("BLOCK_HEADER_CONTENT", $title);
 		$a_tpl->parseCurrentBlock();
-		$a_tpl->touchBlock("container_row");
+		//$a_tpl->touchBlock("container_row");
 	}
 
 	/**

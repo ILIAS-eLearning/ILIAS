@@ -1,0 +1,18 @@
+body { 
+	font-family: arial, sans-serif, system;
+	margin-top: 20px;
+	margin-left: 30px;
+}
+
+.title {
+	font-weight: bold;
+}
+
+.list {
+	margin-top: 20px;
+	line-height: 2em;
+}
+
+.lm {
+	cursor: pointer;
+}

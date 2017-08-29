@@ -156,7 +156,6 @@ class ilLocalUserGUI {
 	 * Show auto complete results
 	 */
 	protected function addUserAutoCompleteObject() {
-		include_once './Services/User/classes/class.ilUserAutoComplete.php';
 		$auto = new ilUserAutoComplete();
 		$auto->setSearchFields(array( 'login', 'firstname', 'lastname', 'email' ));
 		$auto->enableFieldSearchableCheck(true);
@@ -178,7 +177,6 @@ class ilLocalUserGUI {
 	function performDeleteUsers() {
 		global $DIC;
 		$ilLog = $DIC['ilLog'];
-		include_once './Services/User/classes/class.ilLocalUser.php';
 		$this->checkPermission("cat_administrate_users");
 		foreach ($_POST['user_ids'] as $user_id) {
 			if (! in_array($user_id, ilLocalUser::_getAllUserIds($_GET['ref_id']))) {
@@ -205,7 +203,6 @@ class ilLocalUserGUI {
 
 			return true;
 		}
-		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$confirm = new ilConfirmationGUI();
 		$confirm->setFormAction($this->ctrl->getFormAction($this));
 		$confirm->setHeaderText($this->lng->txt('sure_delete_selected_users'));
@@ -237,7 +234,6 @@ class ilLocalUserGUI {
 		}
 		$order = $_GET["sort_by"];
 		$direction = $_GET["sort_order"];
-		include_once './Services/User/classes/class.ilLocalUser.php';
 		if (! isset($_GET['obj_id'])) {
 			ilUtil::sendFailure('no_user_selected');
 			$this->index();
@@ -276,7 +272,6 @@ class ilLocalUserGUI {
 			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
 			$this->ctrl->redirect($this, "");
 		}
-		include_once './Services/User/classes/class.ilLocalUser.php';
 		// check hack
 		if (! isset($_GET['obj_id']) or ! in_array($_REQUEST['obj_id'], ilLocalUser::_getAllUserIds())) {
 			ilUtil::sendFailure('no_user_selected');
