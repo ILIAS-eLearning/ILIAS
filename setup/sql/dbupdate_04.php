@@ -20639,3 +20639,22 @@ $ilDB->insert('pdfgen_renderer_avail',
 <?php
 	ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, 'Access Enrolments in a course', ilOrgUnitOperationContext::CONTEXT_CRS);
 ?>
+<#5197>
+<?php
+	//
+?>
+<#5199>
+<?php
+if(!$ilDB->tableColumnExists('il_blog','nav_list_mon_with_post'))
+{
+	$ilDB->addTableColumn(
+		'il_blog',
+		'nav_list_mon_with_post',
+		array(
+			'type' 		=> 'integer',
+			'length' 	=> 4,
+			'default'	=> 3
+		)
+	);
+}
+?>
