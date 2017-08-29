@@ -21,51 +21,35 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once('Services/FileSystem/classes/class.ilFileSystemStorage.php');
-/** 
-* 
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-* 
-* 
-* @ingroup ModulesFile 
-*/
-class ilFSStorageFile extends ilFileSystemStorage
-{
+/**
+ * Class ilFSStorageFile
+ *
+ * @author Fabian Schmid <fs@studer-raimann.ch>
+ */
+class ilFSStorageFile extends ilFileSystemAbstractionStorage {
+
 	/**
-	 * Constructor
+	 * ilFSStorageFile constructor.
 	 *
-	 * @access public
-	 * @param int storage type
-	 * @param bool En/Disable automatic path conversion. If enabled files with id 123 will be stored in directory files/1/file_123
-	 * @param int object id of container (e.g file_id or mob_id)
-	 * 
+	 * @param int $a_container_id
 	 */
-	public function __construct($a_container_id = 0)
-	{
-		parent::__construct(self::STORAGE_DATA,true,$a_container_id);
+	public function __construct($a_container_id = 0) {
+		parent::__construct(self::STORAGE_DATA, true, $a_container_id);
 	}
-	
+
+
 	/**
-	 * Implementation of abstract method
-	 *
-	 * @access protected
-	 * 
+	 * @return string
 	 */
-	protected function getPathPostfix()
-	{
-	 	return 'file';
+	protected function getPathPostfix() {
+		return 'file';
 	}
-	
+
+
 	/**
-	 * Implementation of abstract method
-	 *
-	 * @access protected
-	 * 
+	 * @return string
 	 */
-	protected function getPathPrefix()
-	{
-	 	return 'ilFile';
+	protected function getPathPrefix() {
+		return 'ilFile';
 	}
 }
-?>

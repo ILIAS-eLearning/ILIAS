@@ -20654,7 +20654,6 @@ if(!$ilDB->tableColumnExists('crs_settings', 'show_members_export'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
-
 <#5200>
 <?php
 include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
@@ -21241,4 +21240,18 @@ if (!$ilDB->tableExists('lti_int_provider_obj'))
 <#5219>
 <?php
 	$ilCtrlStructureReader->getStructure();
+?>
+<#5220>
+<?php
+if(!$ilDB->tableColumnExists('file_data','page_count'))
+{
+	$ilDB->addTableColumn(
+		'file_data',
+		'page_count',
+		array(
+			'type' 		=> 'integer',
+			'length' 	=> 8,
+		)
+	);
+}
 ?>

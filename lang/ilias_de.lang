@@ -7702,6 +7702,7 @@ file#:#file_new_version#:#Neue Version anlegen
 file#:#file_new_version_info#:#Eine neue Dateiversion anlegen. Alte Versionen bleiben erhalten.
 file#:#file_uploaded_by#:#Hochgeladen von
 file#:#replace_file_info#:#Alle Dateiversionen werden gelöscht.
+common#:#page_count#:#Anzahl Seiten
 fold#:#fold_import#:#Ordner importieren
 form#:#form_alphabet_all#:#Alle
 form#:#form_days#:#Tage
