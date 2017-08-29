@@ -37,6 +37,9 @@ class ilMyStaffAccess extends ilObjectAccess {
 		$ilUser = $DIC['ilUser'];
 
 		$operation = ilOrgUnitOperationQueries::findByOperationString(ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, 'crs');
+		if(!$operation) {
+			return false;
+		}
 		if ($this->countOrgusOfUserWithOperationAndContext($ilUser->getId(), $operation->getOperationId())
 		    > 0) {
 			return true;
