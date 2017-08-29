@@ -14,6 +14,41 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+common#:#obj_ltis#:#LTI
+common#:#obj_ltis_desc#:#Learning Tools Interoperability
+common#:#lti_outcome#:#LTI Lernfortschritt Benachrichtigung
+common#:#lti_outcome_info#:#Sendet den Lernfortschrittstatus von LTI-Benutzern an LTI Tool Consumer.
+lti#:#act_lti_for_obj_type#:#Activate LTI for Type of Object
+lti#:#gbl_roles_to_users#:#Global Role assigned to LTI Users
+lti#:#consumers#:#Consumers
+lti#:#prefix#:#Prefix
+lti#:#lti_consumer_key#:#Consumer Key
+lti#:#lti_consumer_secret#:#Consumer Secret
+lti#:#user_lng#:#User Languague
+lti#:#lti_create_consumer#:#Create Consumer
+lti#:#lti_object_consumer#:#LTI Consumers
+lti#:#lti_settings#:#LTI Settings
+lti#:#lti_consumer_created#:#Consumer created
+lti#:#lti_consumer_updated#:#Consumer updated
+lti#:#lti_consumer_deleted#:#Consumer deleted
+lti#:#lti_consumer_set_active#:#Consumer activated
+lti#:#lti_consumer_set_inactive#:#Consumer deactivated
+lti#:#lm_only_one_download_per_type#:#Please note that you can only make one file per type (XML, HTML, SCORM) public accessible.
+lti#:#lti_auth_failed_invalid_key#:#Authentication failed, no valid consumer key given.
+lti#:#auth_lti#:#LTI Auth
+lti#:#lti_edit_consumer#:#Edit LTI Consumer
+lti#:#lti_obj_active#:#LTI-Tool Provider
+lti#:#lti_obj_active_info#:#If enabled, this object acts as a LTI tool provider. New LTI users can be automatically assigned to the following local roles.
+lti#:#lti_admin#:#LTI Administrator
+lti#:#lti_tutor#:#LTI Instructor
+lti#:#lti_member#:#LTI Member
+auth#:#lti_consumer_inactive#:#LTI tool consumer is disabled.
+lti#:#lti_object_release_settings_form#:#LTI Freigaben bearbeiten
+lti#:#lti_provider#:#LTI-Freigaben
+lti#:#lti_launch_url#:#Url
+lti#:#lti_released_objects#:#Objekt-Freigaben
+lti#:#lti_consumer#:#Freigabe für
+orgu#:#orgu_global_set_form#:#Global Organisational Unit Settings
 orgu#:#orgu_global_set_positions#:#Show User Data according to Organisational Unit Positions
 orgu#:#orgu_global_set_positions_type_active#:#Active for:
 orgu#:#orgu_global_set_type_changeable#:#Changeable
@@ -13948,3 +13983,8 @@ prtf#:#prtf_signature#:#Signature Field
 prtf#:#prtf_signature_info#:#Adds a field to the print where the author can sign the portfolio.
 prtf#:#prtf_signature_date#:#Date, Signature
 mem#:#mmbr_gallery_user_actions#:#Benutzeraktionen in Mitgliedergalerie
+lti#:#lti_not_allowed#:#Access denied. Your request was redirected to the root LTI object.
+lti#:#lti_navigation#:#Navigation
+lti#:#lti_exit#:#Close LTI Session
+lti#:#lti_exited#:#LTI Session closed
+lti#:#lti_exited_info#:#LTI Session successfully closed

@@ -243,6 +243,15 @@ class ilUserTableGUI extends ilTable2GUI
 			}
 		}
 
+
+		/**
+		 * LTI, showing depending by mode user?
+		 */
+		$cols["auth_mode"] = array(
+			"txt" => $lng->txt("auth_mode"),
+			"default" => false);
+
+		
 		// custom user fields
 		if($this->getMode() == self::MODE_USER_FOLDER)
 		{
@@ -333,6 +342,7 @@ class ilUserTableGUI extends ilTable2GUI
 		$query->setUserFolder($user_filter);
 		$query->setUdfFilter($udf_filter);
 		$query->setFirstLetterLastname(ilUtil::stripSlashes($_GET['letter']));
+		$query->setAuthenticationFilter($this->filter['authentication']);
 		
 		$usr_data = $query->query();
 		
@@ -411,6 +421,7 @@ class ilUserTableGUI extends ilTable2GUI
 		$query->setLimit(self::getAllCommandLimit());
 		$query->setTextFilter($this->filter['query']);
 		$query->setActionFilter($this->filter['activation']);
+		$query->setAuthenticationFilter($this->filter['authentication']);
 		$query->setLastLogin($this->filter['last_login']);
 		$query->setLimitedAccessFilter($this->filter['limited_access']);
 		$query->setNoCourseFilter($this->filter['no_courses']);
@@ -584,6 +595,28 @@ class ilUserTableGUI extends ilTable2GUI
 		$si->readFromSession();
 		$this->filter["global_role"] = $si->getValue();
 
+		// authentication mode
+		$auth_methods = ilAuthUtils::_getActiveAuthModes();
+		$options = array(
+			"" => $lng->txt("user_any"),
+		);
+		foreach ($auth_methods as $method => $value)
+		{
+			if ($method == 'default')
+			{
+				$options[$method] = $this->lng->txt('auth_'.$method)." (".$this->lng->txt('auth_'.ilAuthUtils::_getAuthModeName($value)).")";
+			}
+			else
+			{
+				$options[$method] = ilAuthUtils::getAuthModeTranslation($value);
+			}
+		}
+		$si = new ilSelectInputGUI($this->lng->txt("auth_mode"), "authentication_method");
+		$si->setOptions($options);
+		$this->addFilterItem($si);
+		$si->readFromSession();
+		$this->filter["authentication"] = $si->getValue();
+		
 		// udf fields
 		foreach ($this->udf_fields as $id => $f)
 		{
@@ -653,9 +686,9 @@ class ilUserTableGUI extends ilTable2GUI
 		global $ilCtrl, $lng;
 
 		$ilCtrl->setParameterByClass("ilobjusergui", "letter", $_GET["letter"]);
-
+		
 		foreach ($this->getSelectedColumns() as $c)
-		{			
+		{	
 			if ($c == "access_until")
 			{
 				$this->tpl->setCurrentBlock("access_until");
@@ -672,6 +705,12 @@ class ilUserTableGUI extends ilTable2GUI
 			{
 				$this->tpl->setCurrentBlock($c);
 				$this->tpl->setVariable("VAL_".strtoupper($c), (string) $user[$c]);
+			}
+			elseif($c == 'auth_mode')
+			{
+				$this->tpl->setCurrentBlock('user_field');
+				$this->tpl->setVariable('VAL_UF',  ilAuthUtils::getAuthModeTranslation(ilAuthUtils::_getAuthMode($user['auth_mode'])));
+				$this->tpl->parseCurrentBlock();
 			}
 			else	// all other fields
 			{
