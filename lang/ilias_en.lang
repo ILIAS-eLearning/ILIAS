@@ -13478,6 +13478,8 @@ awrn#:#awrn_use_osd_info#:#Display a popup to indicate new online users in the â
 exc#:#exc_tbl_filter_submission#:#Submission
 exc#:#exc_tbl_filter_has_submission#:#Has submitted
 exc#:#exc_tbl_filter_has_no_submission#:#Has not submitted yet
+iass#:#iass_upload_file#:#Upload a file
+iass#:#iass_file_visible_examinee#:#File visible for participant
 iass#:#general#:#General Information
 iass#:#iass_content#:#Assessment content description
 iass#:#iass_record_template#:#Record template
@@ -13538,6 +13540,10 @@ iass#:#iass_contact#:#Name
 iass#:#iass_responsibility#:#Responsibility
 iass#:#iass_phone#:#Phone
 iass#:#iass_mails#:#Mails
+iass#:#iass_place#:#Event location
+iass#:#iass_event_time#:#Event time
+iass#:#iass_usr_amend#:#Amend Grading
+iass#:#iass_save_amend#:#Save Amend
 iass#:#iass_info_emails_expl#:#You may provide several addresses separated by a coma.
 iass#:#iass_consultation_hours#:#Consultation Hours
 iass#:#iass_edit_info#:#Info Settings
@@ -13948,4 +13954,3 @@ prtf#:#prtf_date_of_print#:#Date of Print
 prtf#:#prtf_signature#:#Signature Field
 prtf#:#prtf_signature_info#:#Adds a field to the print where the author can sign the portfolio.
 prtf#:#prtf_signature_date#:#Date, Signature
-mem#:#mmbr_gallery_user_actions#:#Benutzeraktionen in Mitgliedergalerie
