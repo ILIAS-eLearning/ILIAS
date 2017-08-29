@@ -24,6 +24,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
  * @ilCtrl_Calls ilObjCourseGUI: ilLOPageGUI, ilObjectMetaDataGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilCourseMembershipGUI, ilPropertyFormGUI, ilContainerSkillGUI, ilCalendarPresentationGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilMemberExportSettingsGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilLTIProviderObjectSettingGUI
  *
  * @extends ilContainerGUI
  */
@@ -968,6 +969,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				ilObjectServiceSettingsGUI::TAG_CLOUD,
 				ilObjectServiceSettingsGUI::CUSTOM_METADATA,
 				ilObjectServiceSettingsGUI::BADGES,
+				ilObjectServiceSettingsGUI::LTI_RELEASE,
 				ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS,
 				ilObjectServiceSettingsGUI::SKILLS
 			)
@@ -1465,6 +1467,16 @@ class ilObjCourseGUI extends ilContainerGUI
 		include_once 'Modules/Course/classes/class.ilECSCourseSettings.php';
 		$ecs = new ilECSCourseSettings($this->object);		
 		$ecs->addSettingsToForm($form, 'crs');
+		
+		include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
+		ilObjectServiceSettingsGUI::initServiceSettingsForm(
+				$this->object->getId(),
+				$form,
+				array(
+					ilObjectServiceSettingsGUI::LTI_RELEASE
+				)
+			);
+		
 
 		return $form;
 	}
@@ -1578,6 +1590,14 @@ class ilObjCourseGUI extends ilContainerGUI
 												 $this->ctrl->getLinkTargetByClass('ilobjcoursegroupinggui','listGroupings'),
 												 'listGroupings',
 												 get_class($this));
+				$lti_settings = new ilLTIProviderObjectSettingGUI($this->object->getRefId());
+				if($lti_settings->hasSettingsAccess())
+				{
+					$this->tabs_gui->addSubTabTarget(
+						'lti_provider',
+						$this->ctrl->getLinkTargetByClass(ilLTIProviderObjectSettingGUI::class)
+					);
+				}
 
 				// custom icon
 				if ($this->ilias->getSetting("custom_icons"))
@@ -2241,6 +2261,17 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		switch($next_class)
 		{
+			case 'illtiproviderobjectsettinggui':
+				
+				$this->setSubTabs('properties');
+				$this->tabs_gui->activateTab('settings');
+				$this->tabs_gui->activateSubTab('lti_provider');
+				$lti_gui = new ilLTIProviderObjectSettingGUI($this->object->getRefId());
+				$lti_gui->setCustomRolesForSelection($GLOBALS['DIC']->rbac()->review()->getLocalRoles($this->object->getRefId()));
+				$lti_gui->offerLTIRolesForSelection(false);
+				$this->ctrl->forwardCommand($lti_gui);
+				break;
+				
 			case 'ilcoursemembershipgui':
 				
 				$this->tabs_gui->activateTab('members');

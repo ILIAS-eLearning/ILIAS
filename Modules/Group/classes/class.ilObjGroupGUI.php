@@ -20,6 +20,8 @@ include_once('./Modules/Group/classes/class.ilObjGroup.php');
 * @ilCtrl_Calls ilObjGroupGUI: ilCommonActionDispatcherGUI, ilObjectServiceSettingsGUI, ilSessionOverviewGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilGroupMembershipGUI, ilBadgeManagementGUI, ilMailMemberSearchGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilContainerSkillGUI, ilCalendarPresentationGUI
+* @ilCtrl_Calls ilObjGroupGUI: ilLTIProviderObjectSettingGUI
+* 
 *
 *
 * @extends ilObjectGUI
@@ -69,7 +71,18 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 
 		switch($next_class)
-		{	
+		{
+			case 'illtiproviderobjectsettinggui':
+				$this->setSubTabs('properties');
+				$this->tabs_gui->activateTab('settings');
+				$this->tabs_gui->activateSubTab('lti_provider');
+				$lti_gui = new ilLTIProviderObjectSettingGUI($this->object->getRefId());
+				$lti_gui->setCustomRolesForSelection($GLOBALS['DIC']->rbac()->review()->getLocalRoles($this->object->getRefId()));
+				$lti_gui->offerLTIRolesForSelection(false);
+				$this->ctrl->forwardCommand($lti_gui);
+				break;
+			
+			
 			case 'ilgroupmembershipgui':
 				
 				$this->tabs_gui->activateTab('members');
@@ -1798,6 +1811,16 @@ class ilObjGroupGUI extends ilContainerGUI
 						$this->lng->txt("cont_news_settings"),
 						$this->ctrl->getLinkTargetByClass('ilcontainernewssettingsgui'));
 				}
+				
+				$lti_settings = new ilLTIProviderObjectSettingGUI($this->object->getRefId());
+				if($lti_settings->hasSettingsAccess())
+				{
+					$this->tabs_gui->addSubTabTarget(
+						'lti_provider',
+						$this->ctrl->getLinkTargetByClass(ilLTIProviderObjectSettingGUI::class)
+					);
+				}
+				
 
 				break;
 				

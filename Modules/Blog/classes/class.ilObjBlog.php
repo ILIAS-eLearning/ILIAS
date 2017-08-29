@@ -69,7 +69,7 @@ class ilObjBlog extends ilObject2
 		$this->setKeywords($row["keywords"]);
 		$this->setAuthors($row["authors"]);
 		$this->setNavMode($row["nav_mode"]);
-		$this->setNavModeListPostings($row["nav_list_post"]);
+		$this->setNavModeListMonthsWithPostings($row["nav_list_mon_with_post"]);
 		$this->setNavModeListMonths($row["nav_list_mon"]);
 		$this->setOverviewPostings($row["ov_post"]);
 		if(trim($row["nav_order"]))
@@ -91,7 +91,7 @@ class ilObjBlog extends ilObject2
 		
 		$ilDB->manipulate("INSERT INTO il_blog (id,ppic,rss_active,approval".
 			",abs_shorten,abs_shorten_len,abs_image,abs_img_width,abs_img_height".
-			",keywords,authors,nav_mode,nav_list_post) VALUES (".
+			",keywords,authors,nav_mode,nav_list_mon_with_post) VALUES (".
 			$ilDB->quote($this->id, "integer").",".			
 			$ilDB->quote(true, "integer").",".
 			$ilDB->quote(true, "integer").",".
@@ -104,7 +104,7 @@ class ilObjBlog extends ilObject2
 			$ilDB->quote($this->hasKeywords(), "integer").",".	
 			$ilDB->quote($this->hasAuthors(), "integer").",".	
 			$ilDB->quote($this->getNavMode(), "integer").",".	
-			$ilDB->quote($this->getNavModeListPostings(), "integer").
+			$ilDB->quote($this->getNavModeListMonthsWithPostings(), "integer").
 			")");
 		
 		// #14661
@@ -158,7 +158,7 @@ class ilObjBlog extends ilObject2
 					",keywords = ".$ilDB->quote($this->hasKeywords(), "integer").
 					",authors = ".$ilDB->quote($this->hasAuthors(), "integer").
 					",nav_mode = ".$ilDB->quote($this->getNavMode(), "integer").
-					",nav_list_post = ".$ilDB->quote($this->getNavModeListPostings(), "integer").
+					",nav_list_mon_with_post = ".$ilDB->quote($this->getNavModeListMonthsWithPostings(), "integer").
 					",nav_list_mon = ".$ilDB->quote($this->getNavModeListMonths(), "integer").
 					",ov_post = ".$ilDB->quote($this->getOverviewPostings(), "integer").
 					",nav_order = ".$ilDB->quote(implode(";", $this->getOrder()), "text").
@@ -581,14 +581,14 @@ class ilObjBlog extends ilObject2
 		return $this->nav_mode;
 	}
 	
-	function setNavModeListPostings($a_value)
+	function setNavModeListMonthsWithPostings($a_value)
 	{
-		$this->nav_mode_list_postings = (int)$a_value;
+		$this->nav_mode_list_months_with_post = (int)$a_value;
 	}
 	
-	function getNavModeListPostings()
+	function getNavModeListMonthsWithPostings()
 	{
-		return $this->nav_mode_list_postings;
+		return $this->nav_mode_list_months_with_post;
 	}
 	
 	function setNavModeListMonths($a_value)

@@ -58,6 +58,16 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
 		switch($next_class)
 		{
+			case 'illtiproviderobjectsettinggui':
+				$this->setSettingsSubTabs();
+				$ilTabs->setSubTabActive('lti_provider');
+				$lti_gui = new ilLTIProviderObjectSettingGUI($this->object->getRefId());
+				$lti_gui->setCustomRolesForSelection($GLOBALS['DIC']->rbac()->review()->getLocalRoles($this->object->getRefId()));
+				$lti_gui->offerLTIRolesForSelection(false);
+				$this->ctrl->forwardCommand($lti_gui);
+				break;
+			
+			
 			case 'ilobjectmetadatagui':
 				if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
 				{
@@ -854,6 +864,15 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				"certificate",
 				$this->ctrl->getLinkTargetByClass("ilcertificategui", "certificateeditor"),
 				"", "ilcertificategui");					
+		}
+		
+		$lti_settings = new ilLTIProviderObjectSettingGUI($this->object->getRefId());
+		if($lti_settings->hasSettingsAccess())
+		{
+			$ilTabs->addSubTabTarget(
+				'lti_provider',
+				$this->ctrl->getLinkTargetByClass(ilLTIProviderObjectSettingGUI::class)
+			);
 		}
 
 		$ilTabs->setTabActive('settings');

@@ -166,11 +166,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$opt->setInfo($lng->txt("blog_nav_mode_month_list_info"));
 		$nav_mode->addOption($opt);
 		
-		$detail_num = new ilNumberInputGUI($lng->txt("blog_nav_mode_month_list_num_detail"), "nav_list_detail");
-		$detail_num->setInfo($lng->txt("blog_nav_mode_month_list_num_detail_info"));
-		$detail_num->setRequired(true);
+		$detail_num = new ilNumberInputGUI($lng->txt("blog_nav_mode_month_list_num_month_with_post"), "nav_list_mon_with_post");
+		$detail_num->setInfo($lng->txt("blog_nav_mode_month_list_num_month_with_post_info"));
+		//$detail_num->setRequired(true);
 		$detail_num->setSize(3);
-		$detail_num->setMinValue(0);
+		//$detail_num->setMinValue(0);
 		$opt->addSubItem($detail_num);
 		
 		$mon_num = new ilNumberInputGUI($lng->txt("blog_nav_mode_month_list_num_month"), "nav_list_mon");
@@ -328,7 +328,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$a_values["abss"] = $this->object->hasAbstractShorten();		
 		$a_values["absi"] = $this->object->hasAbstractImage();		
 		$a_values["nav"] = $this->object->getNavMode();
-		$a_values["nav_list_detail"] = $this->object->getNavModeListPostings();
+		$a_values["nav_list_mon_with_post"] = $this->object->getNavModeListMonthsWithPostings();
 		$a_values["nav_list_mon"] = $this->object->getNavModeListMonths();		
 		$a_values["ov_list_post_num"] = $this->object->getOverviewPostings();
 		
@@ -361,7 +361,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$this->object->setAbstractImageWidth($a_form->getInput("absiw"));
 		$this->object->setAbstractImageHeight($a_form->getInput("absih"));
 		$this->object->setNavMode($a_form->getInput("nav"));
-		$this->object->setNavModeListPostings($a_form->getInput("nav_list_detail"));
+		$this->object->setNavModeListMonthsWithPostings($a_form->getInput("nav_list_mon_with_post"));
 		$this->object->setNavModeListMonths($a_form->getInput("nav_list_mon"));
 		$this->object->setOverviewPostings($a_form->getInput("ov_list_post_num"));
 		
@@ -1681,7 +1681,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		// list month (incl. postings)
 		if($this->object->getNavMode() == ilObjBlog::NAV_MODE_LIST || $a_link_template)
 		{				
-			$max_detail_postings = $this->object->getNavModeListPostings();
+			//$max_detail_postings = $this->object->getNavModeListPostings();
 			$max_months = $this->object->getNavModeListMonths();
 
 			$wtpl = new ilTemplate("tpl.blog_list_navigation_by_date.html", true, true, "Modules/Blog");
@@ -1721,7 +1721,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				}
 
 				// list postings for month
-				if($counter < $max_detail_postings)
+				//if($counter < $max_detail_postings)
+				if ($mon_counter <= $this->object->getNavModeListMonthsWithPostings())
 				{													
 					if($add_year)
 					{
@@ -1732,10 +1733,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 					
 					foreach($postings as $id => $posting)
 					{						
-						if($max_detail_postings && $counter >= $max_detail_postings)
-						{
-							break;
-						}
+						//if($max_detail_postings && $counter >= $max_detail_postings)
+						//{
+						//	break;
+						//}
 
 						$counter++;
 
