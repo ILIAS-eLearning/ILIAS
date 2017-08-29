@@ -11,7 +11,7 @@ use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
 
 /**
- * This implements commonalities between standard and primary buttons. 
+ * This implements commonalities between standard and primary buttons.
  */
 abstract class Button implements C\Button\Button {
 	use ComponentHelper;
@@ -42,14 +42,14 @@ abstract class Button implements C\Button\Button {
 	 * @var bool
 	 */
 	protected $aria_checked = false;
-	
+
 
 	public function __construct($label, $action) {
 		$this->checkStringArg("label", $label);
 		$this->checkStringArg("action", $action);
 		$this->label = $label;
 		$this->action = $action;
-	} 
+	}
 
 	/**
 	 * @inheritdoc

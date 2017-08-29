@@ -4,7 +4,7 @@ require_once(__DIR__."/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__."/../../Base.php");
 
 use \ILIAS\UI\Component as C;
-
+use \ILIAS\UI\Implementation\Component\SignalGenerator;
 
 class ViewControlTest extends ILIAS_UI_TestBase {
 
@@ -19,7 +19,7 @@ class ViewControlTest extends ILIAS_UI_TestBase {
 
 	public function getViewControlFactory()
 	{
-		return new \ILIAS\UI\Implementation\Component\ViewControl\Factory();
+		return new \ILIAS\UI\Implementation\Component\ViewControl\Factory(new SignalGenerator());
 	}
 
 	public function test_implements_factory_interface()
