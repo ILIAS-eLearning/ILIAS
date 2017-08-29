@@ -9,7 +9,7 @@ include_once "./Services/Membership/classes/class.ilMembershipAdministrationGUI.
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id:$
  *
- * @ilCtrl_Calls ilObjGroupAdministrationGUI: ilPermissionGUI, ilMemberExportSettingsGUI
+ * @ilCtrl_Calls ilObjGroupAdministrationGUI: ilPermissionGUI, ilMemberExportSettingsGUI, ilUserActionadminGUI
  *
  * @ingroup ModulesGroup
  */

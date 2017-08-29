@@ -13947,3 +13947,4 @@ prtf#:#prtf_date_of_print#:#Date of Print
 prtf#:#prtf_signature#:#Signature Field
 prtf#:#prtf_signature_info#:#Adds a field to the print where the author can sign the portfolio.
 prtf#:#prtf_signature_date#:#Date, Signature
+mem#:#mmbr_gallery_user_actions#:#Benutzeraktionen in Mitgliedergalerie

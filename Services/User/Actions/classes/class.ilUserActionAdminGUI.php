@@ -26,6 +26,10 @@ class ilUserActionAdminGUI
 	 */
 	protected $lng;
 
+	/**
+	 * @var ilUserActionContext
+	 */
+	protected $action_context;
 
 	/**
 	 * Constructor
@@ -42,7 +46,26 @@ class ilUserActionAdminGUI
 		$this->tpl = $DIC["tpl"];
 
 		$this->lng->loadLanguageModule("usr");
-
+	}
+	
+	/**
+	 * Set action context
+	 *
+	 * @param ilUserActionContext $a_val action context	
+	 */
+	function setActionContext(ilUserActionContext $a_val = null)
+	{
+		$this->action_context = $a_val;
+	}
+	
+	/**
+	 * Get action context
+	 *
+	 * @return ilUserActionContext action context
+	 */
+	function getActionContext()
+	{
+		return $this->action_context;
 	}
 
 	/**
@@ -87,7 +110,8 @@ class ilUserActionAdminGUI
 		include_once("./Services/User/Actions/classes/class.ilUserActionAdmin.php");
 		foreach ($this->getActions() as $a)
 		{
-			ilUserActionAdmin::activateAction("awrn", "toplist", $a["action_comp_id"], $a["action_type_id"],
+			ilUserActionAdmin::activateAction($this->action_context->getComponentId(),
+				$this->action_context->getContextId(), $a["action_comp_id"], $a["action_type_id"],
 				(int)$_POST["active"][$a["action_comp_id"] . ":" . $a["action_type_id"]]);
 		}
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
@@ -113,7 +137,8 @@ class ilUserActionAdminGUI
 					"action_comp_id" => $p->getComponentId(),
 					"action_type_id" => $id,
 					"action_type_name" => $name,
-					"active" => ilUserActionAdmin::lookupActive("awrn", "toplist", $p->getComponentId(), $id)
+					"active" => ilUserActionAdmin::lookupActive($this->action_context->getComponentId(),
+						$this->action_context->getContextId(), $p->getComponentId(), $id)
 				);
 			}
 		}
