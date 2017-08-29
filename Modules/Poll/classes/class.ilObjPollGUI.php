@@ -182,6 +182,8 @@ class ilObjPollGUI extends ilObject2GUI
 		}
 		else
 		{
+			$this->object->setVotingPeriodBegin(0);
+			$this->object->setVotingPeriodEnd(0);
 			$this->object->setVotingPeriod(0);
 		}				
 	}
