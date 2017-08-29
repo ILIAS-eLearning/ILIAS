@@ -9,8 +9,8 @@ require_once 'Modules/IndividualAssessment/classes/LearningProgress/class.ilIndi
 require_once 'Modules/IndividualAssessment/classes/Notification/class.ilIndividualAssessmentPrimitiveInternalNotificator.php';
 require_once 'Modules/IndividualAssessment/classes/class.ilIndividualAssessmentLP.php';
 require_once 'Modules/IndividualAssessment/classes/FileStorage/class.ilIndividualAssessmentFileStorage.php';
-require_once("Services/Form/classes/class.ilFileInputGUI.php");
-require_once("Services/Form/classes/class.ilLinkInputGUI.php");
+require_once 'Services/Form/classes/class.ilFileInputGUI.php';
+
 /**
  * For the purpose of streamlining the grading and learning-process status definition
  * outside of tests, SCORM courses e.t.c. the IndividualAssessment is used.

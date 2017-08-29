@@ -13494,6 +13494,7 @@ iass#:#il_iass_members#:#Participants
 iass#:#iass_may_not_finalize#:#Examinee may not be finalised.
 iass#:#iass_subj_notification_completed#:#%s: Individual Assessment completed.
 iass#:#iass_subj_notification_failed#:#%s: Individual Assessment failed.
+iass#:#iass_usr_download_attachment#:#Download Attachment
 trac#:#trac_mode_individual_assessment#:#Graded manually by tutor or trainer
 common#:#obj_iass#:#Individual Assessment
 common#:#objs_iass#:#Individual Assessments
