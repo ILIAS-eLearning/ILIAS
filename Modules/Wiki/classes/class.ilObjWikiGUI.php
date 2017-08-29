@@ -1564,23 +1564,34 @@ class ilObjWikiGUI extends ilObjectGUI
 		// :TODO: fixing css dummy parameters
 		$html = preg_replace("/\?dummy\=[0-9]+/", "", $html);
 		$html = preg_replace("/\?vers\=[0-9A-Za-z\-]+/", "", $html);
-		
-		include_once "Services/PDFGeneration/classes/class.ilPDFGeneration.php";
-		include_once "Services/PDFGeneration/classes/class.ilPDFGenerationJob.php";
-		
-		$job = new ilPDFGenerationJob();
-		$job->setAutoPageBreak(true)
-			->setMarginLeft("10")
-			->setMarginRight("10")
-			->setMarginTop("10")
-			->setMarginBottom("10")
-			->setOutputMode("D") // download
-			->setFilename("wiki.pdf") // :TODO:
-			->setCreator("ILIAS Wiki") // :TODO:
-			->setImageScale(1.25) // complete content scaling ?!
-			->addPage($html);
-		
-		ilPDFGeneration::doJob($job);
+
+		if (false)
+		{
+			include_once "Services/PDFGeneration/classes/class.ilPDFGeneration.php";
+			include_once "Services/PDFGeneration/classes/class.ilPDFGenerationJob.php";
+
+			$job = new ilPDFGenerationJob();
+			$job->setAutoPageBreak(true)
+				->setMarginLeft("10")
+				->setMarginRight("10")
+				->setMarginTop("10")
+				->setMarginBottom("10")
+				->setOutputMode("D")// download
+				->setFilename("wiki.pdf")// :TODO:
+				->setCreator("ILIAS Wiki")// :TODO:
+				->setImageScale(1.25)// complete content scaling ?!
+				->addPage($html);
+
+			ilPDFGeneration::doJob($job);
+		}
+		else
+		{
+			$html = preg_replace("/src=\"\\.\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $html);
+			$html = preg_replace("/href=\"\\.\\//ims", "href=\"" . ILIAS_HTTP_PATH . "/", $html);
+			$pdf_factory = new ilHtmlToPdfTransformerFactory();
+			$pdf_factory->deliverPDFFromHTMLString($html, "wiki.pdf", ilHtmlToPdfTransformerFactory::PDF_OUTPUT_DOWNLOAD, "Wiki", "ContentExport");
+		}
+
 	}	
 
 	/**

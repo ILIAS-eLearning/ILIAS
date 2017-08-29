@@ -54,7 +54,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
 	protected function parseData() {
 		global $DIC;
 		$ilUser = $DIC['ilUser'];
-		
+
 		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);
 		$this->setDefaultOrderField('lastname');
@@ -63,7 +63,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
 		$this->determineOffsetAndOrder();
 
 		//Permission Filter
-		$arr_usr_id = $this->access->getUsersForUserOperationAndContext($ilUser->getId(),1,'crs');
+		$arr_usr_id = $this->access->getUsersForUser($ilUser->getId());
 
 		$options = array(
 			'filters' => $this->filter,
@@ -89,8 +89,8 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
 
 	public function initFilter() {
 		// User name, login, email filter
-		$item = new ilTextInputGUI($this->lng()->txt("login") . "/" . $this->lng()->txt("email") . "/"
-		                           . $this->lng()->txt("name"), "user");
+		$item = new ilTextInputGUI($this->lng()->txt("login") . "/" . $this->lng()->txt("email")
+		                           . "/" . $this->lng()->txt("name"), "user");
 		//$item->setDataSource($this->ctrl()->getLinkTarget($this->getParentObject(),"addUserAutoComplete", "", true));
 		//$item->setSize(20);
 		//$item->setSubmitFormOnEnter(true);
@@ -189,7 +189,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
 					case 'gender':
 						$this->tpl->setCurrentBlock('td');
 						$this->tpl->setVariable('VALUE', $this->lng()->txt('gender_'
-						                                                 . $my_staff_user->getGender()));
+						                                                   . $my_staff_user->getGender()));
 						$this->tpl->parseCurrentBlock();
 						break;
 					case 'interests_general':
@@ -235,12 +235,14 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
 		$selection = new ilAdvancedSelectionListGUI();
 		$selection->setListTitle($this->lng()->txt('actions'));
 		$selection->setId('selection_list_' . $my_staff_user->getUsrId());
-		$this->ctrl()->setParameterByClass('ilMStShowUserGUI', 'usr_id', $my_staff_user->getUsrId());
-		$selection->addItem($this->lng()->txt('mst_show_courses'), '', $this->ctrl()->getLinkTargetByClass(array(
-			'ilPersonalDesktopGUI',
-			'ilMyStaffGUI',
-			'ilMStShowUserGUI',
-		)));
+		$this->ctrl()
+		     ->setParameterByClass('ilMStShowUserGUI', 'usr_id', $my_staff_user->getUsrId());
+		$selection->addItem($this->lng()->txt('mst_show_courses'), '', $this->ctrl()
+		                                                                    ->getLinkTargetByClass(array(
+			                                                                    'ilPersonalDesktopGUI',
+			                                                                    'ilMyStaffGUI',
+			                                                                    'ilMStShowUserGUI',
+		                                                                    )));
 		foreach ($action_collection->getActions() as $action) {
 			$selection->addItem($action->getText(), '', $action->getHref());
 		}

@@ -13222,19 +13222,19 @@ orgu#:#scope_3#:#Alle Organisationseinheiten
 orgu#:#over_-1#:#Alle
 orgu#:#over#:#über
 orgu#:#scope#:#in
-common#:#my_staff#:#Meine Mitarbeiter
-mst#:#mst_my_staff#:#Meine Mitarbeiter
+common#:#my_staff#:#Mitarbeiter
+mst#:#mst_my_staff#:#Mitarbeiter
 mst#:#mst_list_users#:#Mitarbeiterliste
-mst#:#mst_list_courses#:#Kurse meiner Mitarbeiter
+mst#:#mst_list_courses#:#Einschreibungen
 mst#:#mst_select_course#:#Kurs auswählen
 mst#:#mst_please_select_course#:#Bitte wählen Sie einen Kurs aus.
 mst#:#mst_opt_all#:#Alle
 mst#:#mst_memb_status_requested#:#Beantragt
 mst#:#mst_memb_status_waitinglist#:#Warteliste
 mst#:#mst_memb_status_registered#:#Angemeldet
-mst#:#mst_show_courses#:#Kurse anzeigen
-mst#:#mst_courses_of#:#Kurse von %s
-orgu#:#orgu_enable_my_staff#:#‘Meine Mitarbeiter’ aktivieren
+mst#:#mst_show_courses#:#Einschreibungen
+mst#:#mst_courses_of#:#Einschreibungen von %s
+orgu#:#orgu_enable_my_staff#:#‘Ansicht Mitarbeiter’ aktivieren
 orgu#:#orgu_enable_my_staff_info#:#The Ansicht ‘Meine Mitarbeiter’ zeigt die Lernfortschritte der eigenen Mitarbeiter an.
 orgu#:#org_op_manage_members#:#Mitglieder bearbeiten
 orgu#:#org_op_read_learning_progress#:#Lernfortschritt von anderen Benutzern einsehen
@@ -13249,7 +13249,7 @@ orgu#:#il_orgu_employee#:#Mitarbeiter
 orgu#:#il_orgu_superior#:#Vorgesetzte
 orgu#:#orgu_staff#:#Beschäftigte
 orgu#:#orgu_view_learning_progress_rec#:#Lernfortschritt rekursiv einsehen
-orgu#:#Staff#:#Staff
+orgu#:#Staff#:#Mitarbeiter
 orgu#:#orgu_edit#:#Bearbeiten
 orgu#:#employee#:#Mitarbeiter
 orgu#:#superior#:#Vorgesetzter
@@ -16405,3 +16405,15 @@ prtf#:#prtf_portfolio_created_from_template#:#Dies ist die Vorschau Ihres neuen 
 style#:#open_documentation#:#Dokumentation öffnen
 style#:#ks_documentation_of_style#:#Kitchen Sink dokumentation von style:
 style#:#ks_documentation_of_substyle#:#Kitchen Sink dokumentation von sub style:
+prtf#:#prtf_pdf#:#PDF
+prtf#:#prtf_print_selection#:#Seitenauswahl
+prtf#:#prtf_all_pages#:#Alle Seiten
+prtf#:#prtf_selected_pages#:#Ausgewählte Seiten
+prtf#:#prtf_print_options#:#Optionen
+prtf#:#prtf_author#:#Autor
+prtf#:#prtf_link#:#Link
+prtf#:#prtf_date_of_print#:#Datum des Ausdrucks
+prtf#:#prtf_signature#:#Unterschriftsfeld
+prtf#:#prtf_signature_info#:#Fügt ein Feld für die Unterschrift des Autors hinzu.
+prtf#:#prtf_signature_date#:#Datum, Unterschrift
+mem#:#mmbr_gallery_user_actions#:#Member Gallery Actions

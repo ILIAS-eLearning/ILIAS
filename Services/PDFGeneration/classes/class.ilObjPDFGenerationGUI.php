@@ -100,7 +100,6 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
 		$purpose_map = ilPDFGeneratorUtils::getPurposeMap();
 		$selection_map = ilPDFGeneratorUtils::getSelectionMap();
 		$renderers = ilPDFGeneratorUtils::getRenderers();
-
 		foreach($purpose_map as $service => $purposes)
 		{
 			foreach($purposes as $purpose)

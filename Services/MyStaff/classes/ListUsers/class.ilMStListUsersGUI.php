@@ -10,7 +10,6 @@
 class ilMStListUsersGUI {
 
 	use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
-
 	const CMD_RESET_FILTER = 'resetFilter';
 	const CMD_APPLY_FILTER = 'applyFilter';
 	const CMD_INDEX = 'index';

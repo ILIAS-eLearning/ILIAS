@@ -12,6 +12,7 @@ class ilOrgUnitOperation extends ActiveRecord {
 	const OP_EDIT_SUBMISSION_GRADES = 'edit_submissions_grades';
 	const OP_ACCESS_RESULTS = 'access_results';
 	const OP_MANAGE_MEMBERS = 'manage_members';
+	const OP_ACCESS_ENROLMENTS = 'access_enrolments';
 	/**
 	 * @var int
 	 *

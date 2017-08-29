@@ -1115,5 +1115,263 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		return $a_skill_ids;
 
 	}
+	
+	/**
+	 * Export PDF selection
+	 *
+	 * @param
+	 */
+	function exportPDFSelection()
+	{
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
+
+		$form = $this->initPDFSelectionForm();
+
+		$tpl->setContent($form->getHTML());
+
+	}
+
+	/**
+	 * Init print view selection form.
+	 */
+	public function initPDFSelectionForm()
+	{
+		global $lng, $ilCtrl, $DIC;
+
+		$tabs = $DIC->tabs();
+
+		$tabs->clearTargets();
+		$tabs->setBackTarget($lng->txt("back"), $ilCtrl->getLinkTarget($this, "view"));
+
+		$pages = ilPortfolioPage::getAllPortfolioPages($this->object->getId());
+
+
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+
+		// because of PDF export
+		$form->setPreventDoubleSubmission(false);
+
+		// signature
+		$cb = new ilCheckboxInputGUI($this->lng->txt("prtf_signature"), "signature");
+		$cb->setInfo($this->lng->txt("prtf_signature_info"));
+		$form->addItem($cb);
+
+
+		// selection type
+		$radg = new ilRadioGroupInputGUI($lng->txt("prtf_print_selection"), "sel_type");
+		$radg->setValue("all_pages");
+		$op2 = new ilRadioOption($lng->txt("prtf_all_pages"), "all_pages");
+		$radg->addOption($op2);
+		$op3= new ilRadioOption($lng->txt("prtf_selected_pages"), "selection");
+		$radg->addOption($op3);
+
+		include_once("./Services/Form/classes/class.ilNestedListInputGUI.php");
+		$nl = new ilNestedListInputGUI("", "obj_id");
+		$op3->addSubItem($nl);
+
+		foreach ($pages as $p)
+		{
+			if ($p["type"] != ilPortfolioPage::TYPE_BLOG)
+			{
+				$nl->addListNode($p["id"], $p["title"], 0, false, false,
+					ilUtil::getImagePath("icon_pg.svg"), $lng->txt("page"));
+			}
+			else
+			{
+				$nl->addListNode($p["id"], $lng->txt("obj_blog").": ".ilObject::_lookupTitle($p["title"]), 0, false, false,
+					ilUtil::getImagePath("icon_blog.svg"), $lng->txt("obj_blog"));
+				$pages2 = ilBlogPosting::getAllPostings($p["title"]);
+				foreach ($pages2 as $p2)
+				{
+					$nl->addListNode("b".$p2["id"], $p2["title"], $p["id"], false, false,
+						ilUtil::getImagePath("icon_pg.svg"), $lng->txt("page"));
+				}
+			}
+		}
+
+		$form->addItem($radg);
+
+		$form->addCommandButton("exportPDF", $lng->txt("prtf_pdf"));
+
+		$form->setTitle($lng->txt("prtf_print_options"));
+		$form->setFormAction($ilCtrl->getFormAction($this, "exportPDF"));
+
+		return $form;
+	}
+
+	public function exportPDF()
+	{
+		$html = $this->printView(true);
+
+		// :TODO: fixing css dummy parameters
+		$html = preg_replace("/\?dummy\=[0-9]+/", "", $html);
+		$html = preg_replace("/\?vers\=[0-9A-Za-z\-]+/", "", $html);
+
+		$html = preg_replace("/src=\"\\.\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $html);
+		$html = preg_replace("/href=\"\\.\\//ims", "href=\"" . ILIAS_HTTP_PATH . "/", $html);
+
+		//echo $html; exit;
+
+		$pdf_factory = new ilHtmlToPdfTransformerFactory();
+		$pdf_factory->deliverPDFFromHTMLString($html, "portfolio.pdf", ilHtmlToPdfTransformerFactory::PDF_OUTPUT_DOWNLOAD, "Portfolio", "ContentExport");
+	}
+
+	public function printView($a_pdf_export = false)
+	{
+		global $lng;
+
+		$pages = ilPortfolioPage::getAllPortfolioPages($this->object->getId());
+
+
+		$tpl = new ilTemplate("tpl.main.html", true, true);
+
+		$tpl->setCurrentBlock("AdditionalStyle");
+		$tpl->setVariable("LOCATION_ADDITIONAL_STYLESHEET", ilUtil::getStyleSheetLocation("filesystem"));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("ContentStyle");
+		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId(), false));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setVariable("LOCATION_STYLESHEET", ilObjStyleSheet::getContentPrintStyle());
+		$this->setContentStyleSheet($tpl);
+
+		// syntax style
+		$tpl->setCurrentBlock("SyntaxStyle");
+		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+			ilObjStyleSheet::getSyntaxStylePath());
+		$tpl->parseCurrentBlock();
+
+
+		include_once("./Modules/Portfolio/classes/class.ilPortfolioPageGUI.php");
+
+		$page_content = "";
+
+		// cover page
+		$cover_tpl = new ilTemplate("tpl.prtf_cover.html", true, true, "Modules/Portfolio");
+		foreach ($pages as $page)
+		{
+			if ($page["type"] != ilPortfolioPage::TYPE_BLOG)
+			{
+				if ($_POST["sel_type"] == "selection" && (!is_array($_POST["obj_id"]) || !in_array($page["id"], $_POST["obj_id"])))
+				{
+					continue;
+				}
+				$cover_tpl->setCurrentBlock("content_item");
+				$cover_tpl->setVariable("ITEM_TITLE", $page["title"]);
+				$cover_tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$cover_tpl->setCurrentBlock("content_item");
+				$cover_tpl->setVariable("ITEM_TITLE", $lng->txt("obj_blog").": ".ilObject::_lookupTitle($page["title"]));
+				$cover_tpl->parseCurrentBlock();
+			}
+		}
+
+		if ($_POST["signature"])
+		{
+			$cover_tpl->setCurrentBlock("signature");
+			$cover_tpl->setVariable("TXT_SIGNATURE", $lng->txt("prtf_signature_date"));
+			$cover_tpl->parseCurrentBlock();
+		}
+
+		$cover_tpl->setVariable("PORTFOLIO_TITLE", $this->object->getTitle());
+		$cover_tpl->setVariable("PORTFOLIO_ICON", ilUtil::getImagePath("icon_prtf.svg"));
+
+		$cover_tpl->setVariable("TXT_AUTHOR", $lng->txt("prtf_author"));
+		$cover_tpl->setVariable("TXT_LINK", $lng->txt("prtf_link"));
+		$cover_tpl->setVariable("TXT_DATE", $lng->txt("prtf_date_of_print"));
+
+		$author = ilObjUser::_lookupName($this->object->getOwner());
+		$author_str = $author["firstname"]." ".$author["lastname"];
+		$cover_tpl->setVariable("AUTHOR", $author_str);
+		$cover_tpl->setVariable("LINK", "http://anderson.local/ilias/goto.php?target=prtf_301_7&client_id=iliastrunk2");
+		ilDatePresentation::setUseRelativeDates(false);
+		$date_str = ilDatePresentation::formatDate(new ilDate(date("Y-m-d"), IL_CAL_DATE));
+		$cover_tpl->setVariable("DATE", $date_str);
+
+		$page_content .= $cover_tpl->get();
+		$page_content .= '<p style="page-break-after:always;"></p>';
+
+		$page_head_tpl = new ilTemplate("tpl.prtf_page_head.html", true, true, "Modules/Portfolio");
+		$page_head_tpl->setVariable("AUTHOR", $author_str);
+		$page_head_tpl->setVariable("DATE", $date_str);
+		$page_head_str = $page_head_tpl->get();
+
+		foreach ($pages as $page)
+		{
+			if ($page["type"] != ilPortfolioPage::TYPE_BLOG)
+			{
+				if ($_POST["sel_type"] == "selection" && (!is_array($_POST["obj_id"]) || !in_array($page["id"], $_POST["obj_id"])))
+				{
+					continue;
+				}
+
+				$page_gui = new ilPortfolioPageGUI($this->object->getId(), $page["id"]);
+				$page_gui->setOutputMode("print");
+				$page_gui->setPresentationTitle($page["title"]);
+				$page_content .= $page_head_str.$page_gui->showPage();
+
+				if ($a_pdf_export)
+				{
+					$page_content .= '<p style="page-break-after:always;"></p>';
+				}
+			}
+			else
+			{
+				$pages2 = ilBlogPosting::getAllPostings($page["title"]);
+				foreach ($pages2 as $p2)
+				{
+					if ($_POST["sel_type"] == "selection" && (!is_array($_POST["obj_id"]) || !in_array("b".$p2["id"], $_POST["obj_id"])))
+					{
+						continue;
+					}
+					$page_gui = new ilBlogPostingGUI(0, null, $p2["id"]);
+					$page_gui->setFileDownloadLink("#");
+					$page_gui->setFullscreenLink("#");
+					$page_gui->setSourcecodeDownloadScript("#");
+					$page_gui->setOutputMode("print");
+					$page_content .= $page_head_str.$page_gui->showPage();
+
+					if ($a_pdf_export)
+					{
+						$page_content .= '<p style="page-break-after:always;"></p>';
+					}
+				}
+			}
+		}
+
+		$page_content = '<div class="ilInvisibleBorder">'.$page_content.'</div>';
+
+		if(!$a_pdf_export)
+		{
+			$page_content .= '<script type="text/javascript" language="javascript1.2">
+				<!--
+					il.Util.addOnLoad(function () {
+						il.Util.print();
+					});
+				//-->
+				</script>';
+		}
+
+		$tpl->setVariable("CONTENT", $page_content);
+
+		if(!$a_pdf_export)
+		{
+			$tpl->show(false);
+			exit;
+		}
+		else
+		{
+			$ret = $tpl->get("DEFAULT", false, false, false, true, false, false);
+			return $ret;
+		}
+	}
+
 }
 ?>
