@@ -16456,7 +16456,6 @@ prtf#:#prtf_date_of_print#:#Datum des Ausdrucks
 prtf#:#prtf_signature#:#Unterschriftsfeld
 prtf#:#prtf_signature_info#:#Fügt ein Feld für die Unterschrift des Autors hinzu.
 prtf#:#prtf_signature_date#:#Datum, Unterschrift
-mem#:#mmbr_gallery_user_actions#:#Member Gallery Actions
 lti#:#lti_not_allowed#:#Zugriff nicht erlaubt. Sie wurden in den ursprünglichen LTI Bereich umgeleitet.
 lti#:#lti_navigation#:#Navigation
 lti#:#lti_exit#:#LTI Sitzung beenden
