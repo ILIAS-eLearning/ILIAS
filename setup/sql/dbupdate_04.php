@@ -21284,7 +21284,7 @@ if(!$ilDB->tableColumnExists('il_blog','nav_list_mon_with_post'))
                                                                       "default" => 0
                                                                       ));
     }
-    ?>
+?>
 
 <#5223>
 <?php
@@ -21300,4 +21300,4 @@ if(!$ilDB->tableColumnExists('il_blog','nav_list_mon_with_post'))
                                                                       "length" => 1
                                                                       ));
     }
-    ?>
+?>
