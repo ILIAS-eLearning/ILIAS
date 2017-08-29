@@ -3585,55 +3585,13 @@ class ilUtil
 
 
 	/**
-	* http redirect to other script
-	*
-	* @param	string		$a_script		target script
-	* @static
-	* 
-	*/
+	 * @param $a_script
+	 *
+	 * @deprecated Use $DIC->ctrl()->redirectToURL() instead
+	 */
 	public static function redirect($a_script)
 	{
-		global $log, $PHP_SELF;
-		
-//echo "<br>".$a_script;
-		if (!is_int(strpos($a_script, "://")))
-		{
-			if (substr($a_script, 0, 1) != "/" && defined("ILIAS_HTTP_PATH"))
-			{
-				if (is_int(strpos($_SERVER["PHP_SELF"], "/setup/")))
-				{
-					$a_script = "setup/".$a_script;
-				}
-				$a_script = ILIAS_HTTP_PATH."/".$a_script;
-			}
-		}
-//echo "<br>".$a_script; exit;
-
-  		// include the user interface hook
-		global $ilPluginAdmin;
-		if (is_object($ilPluginAdmin))
-		{
-			$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
-			foreach ($pl_names as $pl)
-			{
-				$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
-				$gui_class = $ui_plugin->getUIClassInstance();
-				$resp = $gui_class->getHTML("Services/Utilities", "redirect", array("html" => $a_script));
-				if ($resp["mode"] != ilUIHookPluginGUI::KEEP)
-				{
-					$a_script = $gui_class->modifyHTML($a_script, $resp);
-				}
-			}
-		}
-
-        // Manually trigger to write and close the session. This has the advantage that if an exception is thrown
-        // during the writing of the session (ILIAS writes the session into the database by default) we get an exception
-        // if the session_write_close() is triggered by exit() then the exception will be dismissed but the session
-        // is never written, which is a nightmare to develop with.
-        session_write_close();
-
-		header("Location: ".$a_script);
-		exit();
+		$GLOBALS['DIC']->ctrl()->redirectToURL($a_script);
 	}
 
 	/**
