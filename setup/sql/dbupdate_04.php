@@ -20657,8 +20657,21 @@ if(!$ilDB->tableColumnExists('crs_settings', 'show_members_export'))
 	$ilCtrlStructureReader->getStructure();
 ?>
 
-
 <#5200>
+<?php
+    if(!$ilDB->tableColumnExists('file_data','page_count'))
+    {
+        $ilDB->addTableColumn(
+                              'file_data',
+                              'page_count',
+                              array(
+                                    'type' 		=> 'integer',
+                                    'length' 	=> 8,
+                                    )
+                              );
+    }
+?>
+<#5201>
 <?php
     if (!$ilDB->tableColumnExists('iass_settings', 'file_required')) {
         $ilDB->addTableColumn('iass_settings', 'file_required', array(
@@ -20670,7 +20683,7 @@ if(!$ilDB->tableColumnExists('crs_settings', 'show_members_export'))
     }
 ?>
 
-<#5201>
+<#5202>
 <?php
     if (!$ilDB->tableColumnExists('iass_members', 'file_name')) {
         $ilDB->addTableColumn('iass_members', 'file_name', array(
