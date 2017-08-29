@@ -21255,3 +21255,18 @@ if(!$ilDB->tableColumnExists('file_data','page_count'))
 	);
 }
 ?>
+<#5221>
+<?php
+if(!$ilDB->tableColumnExists('il_blog','nav_list_mon_with_post'))
+{
+	$ilDB->addTableColumn(
+		'il_blog',
+		'nav_list_mon_with_post',
+		array(
+			'type' 		=> 'integer',
+			'length' 	=> 4,
+			'default'	=> 3
+		)
+	);
+}
+?>
