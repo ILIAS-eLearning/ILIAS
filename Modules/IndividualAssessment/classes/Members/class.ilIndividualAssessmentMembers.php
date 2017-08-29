@@ -29,6 +29,8 @@ class ilIndividualAssessmentMembers implements Iterator, Countable {
 	const FIELD_NOTIFICATION_TS = 'notification_ts';
 	const FIELD_PLACE = "place";
 	const FIELD_EVENTTIME = "event_time";
+	const FIELD_FILE_NAME = "file_name";
+	const FIELD_USER_VIEW_FILE = "user_view_file";
 
 	const LP_NOT_ATTEMPTED = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
 	const LP_IN_PROGRESS = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
@@ -169,6 +171,8 @@ class ilIndividualAssessmentMembers implements Iterator, Countable {
 			, self::FIELD_EXAMINER_FIRSTNAME	=> null
 			, self::FIELD_EXAMINER_LASTNAME		=> null
 			, self::FIELD_INTERNAL_NOTE			=> null
+			, self::FIELD_FILE_NAME				=> null
+			, self::FIELD_USER_VIEW_FILE		=> false
 			, self::FIELD_FINALIZED				=> 0
 			);
 	}
