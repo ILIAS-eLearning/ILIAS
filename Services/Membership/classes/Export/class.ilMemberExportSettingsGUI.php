@@ -12,17 +12,20 @@ class ilMemberExportSettingsGUI
 {
 	const TYPE_PRINT_VIEW_SETTINGS = 'print_view';
 	const TYPE_EXPORT_SETTINGS = 'member_export';
+	const TYPE_PRINT_VIEW_MEMBERS = 'prv_members';
 	
 
 	private $parent_type = '';
+	private $parent_obj_id = 0;
 	
 	
 	/**
 	 * Constructor
 	 */
-	public function __construct($a_parent_type)
+	public function __construct($a_parent_type, $a_parent_obj_id = 0)
 	{
 		$this->parent_type = $a_parent_type;
+		$this->parent_obj_id = $a_parent_obj_id;
 		
 		$this->ctrl = $GLOBALS['ilCtrl'];
 		$this->lng = $GLOBALS['lng'];
@@ -46,12 +49,11 @@ class ilMemberExportSettingsGUI
 	public function executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass($this);
-		$cmd = $this->ctrl->getCmd();
+		$cmd = $this->ctrl->getCmd('printViewSettings');
 
 
 		switch($next_class)
 		{
-
 			default:
 				$this->$cmd();
 				break;
@@ -171,12 +173,14 @@ class ilMemberExportSettingsGUI
 		}
 		$roles->addOption(new ilCheckboxOption($GLOBALS['lng']->txt('event_tbl_member'),'role_mem'));
 		
-		$subscriber = new ilCheckboxOption($GLOBALS['lng']->txt('event_user_selection_include_requests'), 'subscr');
-		$roles->addOption($subscriber);
-		
-		$waiting_list = new ilCheckboxOption($GLOBALS['lng']->txt('event_user_selection_include_waiting_list'),'wlist');
-		$roles->addOption($waiting_list);
-		
+		if(!$this->parent_obj_id)
+		{
+			$subscriber = new ilCheckboxOption($GLOBALS['lng']->txt('event_user_selection_include_requests'), 'subscr');
+			$roles->addOption($subscriber);
+
+			$waiting_list = new ilCheckboxOption($GLOBALS['lng']->txt('event_user_selection_include_waiting_list'),'wlist');
+			$roles->addOption($waiting_list);
+		}
 		$form->addItem($roles);
 		
 		switch($a_type)
@@ -187,7 +191,13 @@ class ilMemberExportSettingsGUI
 		}
 		
 		include_once "Services/User/classes/class.ilUserFormSettings.php";
-		$settings = new ilUserFormSettings($this->parent_type.'s_pview',-1);
+		$identifier = $this->parent_type.'s_pview';
+		if($this->parent_obj_id)
+		{
+			$identifier .= '_'.$this->parent_obj_id;
+		}
+			
+		$settings = new ilUserFormSettings($identifier,-1);
 		$settings->exportToForm($form);
 		
 		return $form;
@@ -208,7 +218,13 @@ class ilMemberExportSettingsGUI
 			ilUserFormSettings::deleteAllForPrefix('crs_memlist');
 			ilUserFormSettings::deleteAllForPrefix('grp_memlist');
 			
-			$settings = new ilUserFormSettings($this->parent_type.'s_pview',-1);
+			$identifier = $this->parent_type.'s_pview';
+			if($this->parent_obj_id)
+			{
+				$identifier .= '_'.$this->parent_obj_id;
+			}
+			
+			$settings = new ilUserFormSettings($identifier,-1);
 			$settings->importFromForm($form);
 			$settings->store();
 			

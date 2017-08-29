@@ -20614,35 +20614,8 @@ $superior->update();
 
 ?>
 
+
 <#5195>
-<?php
-if (!$ilDB->tableColumnExists('iass_settings', 'file_required')) {
-	$ilDB->addTableColumn('iass_settings', 'file_required', array(
-	"type" => "integer",
-	"length" => 1,
-	"notnull" => true,
-	"default" => 0
-	));
-}
-?>
-
-<#5196>
-<?php
-if (!$ilDB->tableColumnExists('iass_members', 'file_name')) {
-	$ilDB->addTableColumn('iass_members', 'file_name', array(
-	"type" => "text",
-	"length" => 255
-	));
-}
-if (!$ilDB->tableColumnExists('iass_members', 'user_view_file')) {
-	$ilDB->addTableColumn('iass_members', 'user_view_file', array(
-	"type" => "integer",
-	"length" => 1
-	));
-}
-?>
-
-<#5197>
 <?php
 $ilDB->insert('pdfgen_renderer_avail',
 	array(
@@ -20653,7 +20626,7 @@ $ilDB->insert('pdfgen_renderer_avail',
 	)
 );
 ?>
-<#5198>
+<#5196>
 <?php
 $ilDB->insert('pdfgen_renderer_avail',
 	array(
@@ -20664,7 +20637,51 @@ $ilDB->insert('pdfgen_renderer_avail',
 	)
 );
 ?>
-<#5199>
+<#5197>
 <?php
 	ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, 'Access Enrolments in a course', ilOrgUnitOperationContext::CONTEXT_CRS);
+?>
+<#5198>
+<?php
+if(!$ilDB->tableColumnExists('crs_settings', 'show_members_export'))
+{
+                $ilDB->addTableColumn('crs_settings', 'show_members_export', array(
+                        "type" => "integer",
+                        "notnull" => false,
+                        "length" => 4
+                ));
+}
+?>
+<#5199>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
+
+<#5200>
+<?php
+    if (!$ilDB->tableColumnExists('iass_settings', 'file_required')) {
+        $ilDB->addTableColumn('iass_settings', 'file_required', array(
+                                                                      "type" => "integer",
+                                                                      "length" => 1,
+                                                                      "notnull" => true,
+                                                                      "default" => 0
+                                                                      ));
+    }
+?>
+
+<#5201>
+<?php
+    if (!$ilDB->tableColumnExists('iass_members', 'file_name')) {
+        $ilDB->addTableColumn('iass_members', 'file_name', array(
+                                                                 "type" => "text",
+                                                                 "length" => 255
+                                                                 ));
+    }
+    if (!$ilDB->tableColumnExists('iass_members', 'user_view_file')) {
+        $ilDB->addTableColumn('iass_members', 'user_view_file', array(
+                                                                      "type" => "integer",
+                                                                      "length" => 1
+                                                                      ));
+    }
 ?>
