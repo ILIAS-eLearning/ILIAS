@@ -335,7 +335,6 @@ class ilIndividualAssessmentMemberGUI {
 
 
 		$file_visible_to_examinee = new ilCheckboxInputGUI($this->lng->txt('iass_file_visible_examinee'), 'file_visible_examinee');
-		$file_visible_to_examinee->setInfo($this->lng->txt('iass_file_visible_examinee_explanation'));
 		$file_visible_to_examinee->setDisabled(!$may_be_edited);
 		$form->addItem($file_visible_to_examinee);
 
@@ -566,9 +565,12 @@ class ilIndividualAssessmentMemberGUI {
 		$member = $member->withRecord($data['record'])
 					->withInternalNote($data['internal_note'])
 					->withPlace($data['place'])
-					->withEventTime($this->createDatetime($data['event_time']))
 					->withLPStatus($data['learning_progress'])
 					->withViewFile((bool)$data['file_visible_examinee']);
+		if($data['event_time']) {
+			$member = $member->withEventTime($this->createDatetime($data['event_time']));
+		}
+
 
 		if (!$keep_examiner) {
 			$member = $member->withExaminerId($this->examiner->getId());
