@@ -16,6 +16,12 @@
 */
 class ilObjFileGUI extends ilObject2GUI
 {
+
+	/**
+	 * @var \ilObjFile
+	 */
+	public $object;
+
 	protected $log = null;
 
 	/**
@@ -253,8 +259,7 @@ class ilObjFileGUI extends ilObject2GUI
 	function save()
 	{
 		global $DIC;
-		$objDefinition = $DIC['objDefinition'];
-		$ilUser = $DIC['ilUser'];
+		$ilUser = $DIC->user();
 
 		if (!$this->checkPermissionBool("create", "", "file"))
 		{
@@ -291,7 +296,6 @@ class ilObjFileGUI extends ilObject2GUI
 			$fileObj->setTitle($title);
 			$fileObj->setDescription($description);
 			$fileObj->setFileName($upload_file["name"]);
-			//$fileObj->setFileType($upload_file["type"]);
 
 			$fileObj->setFileType(ilMimeTypeUtil::getMimeType(
 				"", $upload_file["name"], $upload_file["type"]));
@@ -308,7 +312,6 @@ class ilObjFileGUI extends ilObject2GUI
 			$this->handleAutoRating($fileObj);
 
 			// BEGIN ChangeEvent: Record write event.
-			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
 			ilChangeEvent::_recordWriteEvent($fileObj->getId(), $ilUser->getId(), 'create');
 			// END ChangeEvent: Record write event.
 			
@@ -481,7 +484,7 @@ class ilObjFileGUI extends ilObject2GUI
 	*
 	* @access	public
 	*/
-	function update()
+	public function update()
 	{
 		global $DIC;
 		$ilTabs = $DIC['ilTabs'];
@@ -667,7 +670,6 @@ class ilObjFileGUI extends ilObject2GUI
 	{
 		global $DIC;
 		$ilUser = $DIC['ilUser'];
-		$ilCtrl = $DIC['ilCtrl'];
 		
 		if(ANONYMOUS_USER_ID == $ilUser->getId() && isset($_GET['transaction']) )
 		{
@@ -807,19 +809,19 @@ class ilObjFileGUI extends ilObject2GUI
 		
 		// standard meta data
 		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
-		
+
+		// File Info
 		$info->addSection($this->lng->txt("file_info"));
-		$info->addProperty($this->lng->txt("filename"),
-			$this->object->getFileName());
-		// BEGIN WebDAV Guess file type.
-		$info->addProperty($this->lng->txt("type"),
-				$this->object->guessFileType());
-		// END WebDAV Guess file type.
-		$info->addProperty($this->lng->txt("size"),
-			ilUtil::formatSize(ilObjFile::_lookupFileSize($this->object->getId()),'long'));
-		$info->addProperty($this->lng->txt("version"),
-			$this->object->getVersion());
-		
+		$info->addProperty($this->lng->txt("filename"), $this->object->getFileName());
+		$info->addProperty($this->lng->txt("type"), $this->object->guessFileType());
+
+		$info->addProperty($this->lng->txt("size"), ilUtil::formatSize(ilObjFile::_lookupFileSize($this->object->getId()),'long'));
+		$info->addProperty($this->lng->txt("version"), $this->object->getVersion());
+
+		if($this->object->getPageCount() > 0) {
+			$info->addProperty($this->lng->txt("page_count"), $this->object->getPageCount());
+		}
+
 		// using getVersions function instead of ilHistory direct
 		$uploader = $this->object->getVersions();
 		$uploader = array_shift($uploader);
@@ -1246,13 +1248,11 @@ class ilObjFileGUI extends ilObject2GUI
 			}
 			
 			// create and insert file in grp_tree
-			include_once("./Modules/File/classes/class.ilObjFile.php");
 			$fileObj = new ilObjFile();
 			$fileObj->setTitle($title);
 			$fileObj->setDescription($description);
 			$fileObj->setFileName($filename);
-			
-			include_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
+
 			$fileObj->setFileType(ilMimeTypeUtil::getMimeType("", $filename, $type));
 			$fileObj->setFileSize($size);
 			$this->object_id = $fileObj->create();
@@ -1271,11 +1271,8 @@ class ilObjFileGUI extends ilObject2GUI
 			$fileObj->getUploadFile($temp_name, $filename);
 			
 			$this->handleAutoRating($fileObj);
-			
-			// BEGIN ChangeEvent: Record write event.
-			require_once('./Services/Tracking/classes/class.ilChangeEvent.php');
+
 			ilChangeEvent::_recordWriteEvent($fileObj->getId(), $ilUser->getId(), 'create');
-			// END ChangeEvent: Record write event.    
 		}
 		
 		return $response;

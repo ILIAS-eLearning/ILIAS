@@ -14,6 +14,41 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+common#:#obj_ltis#:#LTI
+common#:#obj_ltis_desc#:#Learning Tools Interoperability
+common#:#lti_outcome#:#LTI Lernfortschritt Benachrichtigung
+common#:#lti_outcome_info#:#Sendet den Lernfortschrittstatus von LTI-Benutzern an LTI Tool Consumer.
+lti#:#act_lti_for_obj_type#:#Activate LTI for Type of Object
+lti#:#gbl_roles_to_users#:#Global Role assigned to LTI Users
+lti#:#consumers#:#Consumers
+lti#:#prefix#:#Prefix
+lti#:#lti_consumer_key#:#Consumer Key
+lti#:#lti_consumer_secret#:#Consumer Secret
+lti#:#user_lng#:#User Languague
+lti#:#lti_create_consumer#:#Create Consumer
+lti#:#lti_object_consumer#:#LTI Consumers
+lti#:#lti_settings#:#LTI Settings
+lti#:#lti_consumer_created#:#Consumer created
+lti#:#lti_consumer_updated#:#Consumer updated
+lti#:#lti_consumer_deleted#:#Consumer deleted
+lti#:#lti_consumer_set_active#:#Consumer activated
+lti#:#lti_consumer_set_inactive#:#Consumer deactivated
+lti#:#lm_only_one_download_per_type#:#Please note that you can only make one file per type (XML, HTML, SCORM) public accessible.
+lti#:#lti_auth_failed_invalid_key#:#Authentication failed, no valid consumer key given.
+lti#:#auth_lti#:#LTI Auth
+lti#:#lti_edit_consumer#:#Edit LTI Consumer
+lti#:#lti_obj_active#:#LTI-Tool Provider
+lti#:#lti_obj_active_info#:#If enabled, this object acts as a LTI tool provider.
+lti#:#lti_admin#:#LTI-Administrator
+lti#:#lti_tutor#:#LTI-Tutor
+lti#:#lti_member#:#LTI-Member
+auth#:#lti_consumer_inactive#:#LTI tool consumer is disabled.
+lti#:#lti_object_release_settings_form#:#LTI Freigaben bearbeiten
+lti#:#lti_provider#:#LTI-Freigaben
+lti#:#lti_launch_url#:#Url
+lti#:#lti_released_objects#:#Objekt-Freigaben
+lti#:#lti_consumer#:#Released for
+orgu#:#orgu_global_set_form#:#Globale Einstellungen
 orgu#:#orgu_global_set_positions#:#Anzeige von Benutzerdaten nach Positionen in Organisationseinheiten
 orgu#:#orgu_global_set_positions_type_active#:#Aktiv für:
 orgu#:#orgu_global_set_type_changeable#:#Aktivierung
@@ -36,6 +71,10 @@ sess#:#objs_grp_role#:#Gruppenrollen
 sess#:#sess_part_filter_registered#:#Nur Angemeldete
 sess#:#sess_part_filter_participated#:#Nur Teilgenommene
 sess#:#sess_print_list#:#Liste erstellen
+crs#:#crs_show_member_export_settings#:#Teilnehmerliste
+crs#:#crs_show_member_export#:#Teilnehmerliste
+crs#:#crs_show_member_export_info#:#Mitglieder haben die Möglichkeit eine Teilnehmerliste zu generieren
+mem#:#mmbr_gallery_user_actions#:#Member Gallery Actions
 forum#:#delete_drafts_successfully#:#Die Entwürfe wurden erfolgreich gelöscht.
 forum#:#sure_delete_drafts#:#Sind Sie sicher, dass Sie die gewählten Entwürfe löschen möchten?
 forum#:#restore#:#Wiederherstellen
@@ -7663,6 +7702,7 @@ file#:#file_new_version#:#Neue Version anlegen
 file#:#file_new_version_info#:#Eine neue Dateiversion anlegen. Alte Versionen bleiben erhalten.
 file#:#file_uploaded_by#:#Hochgeladen von
 file#:#replace_file_info#:#Alle Dateiversionen werden gelöscht.
+common#:#page_count#:#Anzahl Seiten
 fold#:#fold_import#:#Ordner importieren
 form#:#form_alphabet_all#:#Alle
 form#:#form_days#:#Tage
@@ -13222,19 +13262,19 @@ orgu#:#scope_3#:#Alle Organisationseinheiten
 orgu#:#over_-1#:#Alle
 orgu#:#over#:#über
 orgu#:#scope#:#in
-common#:#my_staff#:#Meine Mitarbeiter
-mst#:#mst_my_staff#:#Meine Mitarbeiter
+common#:#my_staff#:#Mitarbeiter
+mst#:#mst_my_staff#:#Mitarbeiter
 mst#:#mst_list_users#:#Mitarbeiterliste
-mst#:#mst_list_courses#:#Kurse meiner Mitarbeiter
+mst#:#mst_list_courses#:#Einschreibungen
 mst#:#mst_select_course#:#Kurs auswählen
 mst#:#mst_please_select_course#:#Bitte wählen Sie einen Kurs aus.
 mst#:#mst_opt_all#:#Alle
 mst#:#mst_memb_status_requested#:#Beantragt
 mst#:#mst_memb_status_waitinglist#:#Warteliste
 mst#:#mst_memb_status_registered#:#Angemeldet
-mst#:#mst_show_courses#:#Kurse anzeigen
-mst#:#mst_courses_of#:#Kurse von %s
-orgu#:#orgu_enable_my_staff#:#‘Meine Mitarbeiter’ aktivieren
+mst#:#mst_show_courses#:#Einschreibungen
+mst#:#mst_courses_of#:#Einschreibungen von %s
+orgu#:#orgu_enable_my_staff#:#‘Ansicht Mitarbeiter’ aktivieren
 orgu#:#orgu_enable_my_staff_info#:#The Ansicht ‘Meine Mitarbeiter’ zeigt die Lernfortschritte der eigenen Mitarbeiter an.
 orgu#:#org_op_manage_members#:#Mitglieder bearbeiten
 orgu#:#org_op_read_learning_progress#:#Lernfortschritt von anderen Benutzern einsehen
@@ -13249,7 +13289,7 @@ orgu#:#il_orgu_employee#:#Mitarbeiter
 orgu#:#il_orgu_superior#:#Vorgesetzte
 orgu#:#orgu_staff#:#Beschäftigte
 orgu#:#orgu_view_learning_progress_rec#:#Lernfortschritt rekursiv einsehen
-orgu#:#Staff#:#Staff
+orgu#:#Staff#:#Mitarbeiter
 orgu#:#orgu_edit#:#Bearbeiten
 orgu#:#employee#:#Mitarbeiter
 orgu#:#superior#:#Vorgesetzter
@@ -14002,8 +14042,8 @@ blog#:#blog_nav_mode_month_list#:#Monatsliste
 blog#:#blog_nav_mode_month_list_info#:#Liste aller Monate, optional mit Einträgen
 blog#:#blog_nav_mode_month_list_num_detail#:#Anzahl Einträge (nach absteigendem Datum sortiert)
 blog#:#blog_nav_mode_month_list_num_detail_info#:#Ältere Einträge werden in der Monatsansicht gelistet.
-blog#:#blog_nav_mode_month_list_num_month#:#Anzahl Monate
-blog#:#blog_nav_mode_month_list_num_month_info#:#Weitere Monate werden nicht gelistet und sind nicht erreichbar. 
+blog#:#blog_nav_mode_month_list_num_month#:#Gesamtanzahl der Monate
+blog#:#blog_nav_mode_month_list_num_month_info#:#Zusätzliche Monate werden nur mit der Anzahl der Beiträge angezeigt.
 blog#:#blog_nav_mode_month_single#:#Kompletter Monat
 blog#:#blog_nav_mode_month_single_info#:#Listet alle Beiträge eines Monats. Der gewünschte Monat kann mit einem Dropdown gewählt werden.
 blog#:#blog_list_num_postings#:#Anzahl Einträge in der initialen Übersicht
@@ -16401,3 +16441,25 @@ content#:#cont_sc_name_setting_fullname#:#(ggf. Titel) Vorname Nachname
 content#:#cont_sc_name_setting_salutation_lastname#:#Anrede Nachname
 content#:#cont_sc_name_setting_first_name#:#Vorname
 content#:#cont_sc_name_setting_no_name#:#Leerzeichen
+prtf#:#prtf_portfolio_created_from_template#:#Dies ist die Vorschau Ihres neuen Portfolios. Um neue Seiten und Inhalte hinzuzufügen klicken Sie bitte auf "Portfolio bearbeiten" oben in dieser Ansicht.
+style#:#open_documentation#:#Dokumentation öffnen
+style#:#ks_documentation_of_style#:#Kitchen Sink dokumentation von style:
+style#:#ks_documentation_of_substyle#:#Kitchen Sink dokumentation von sub style:
+prtf#:#prtf_pdf#:#PDF
+prtf#:#prtf_print_selection#:#Seitenauswahl
+prtf#:#prtf_all_pages#:#Alle Seiten
+prtf#:#prtf_selected_pages#:#Ausgewählte Seiten
+prtf#:#prtf_print_options#:#Optionen
+prtf#:#prtf_author#:#Autor
+prtf#:#prtf_link#:#Link
+prtf#:#prtf_date_of_print#:#Datum des Ausdrucks
+prtf#:#prtf_signature#:#Unterschriftsfeld
+prtf#:#prtf_signature_info#:#Fügt ein Feld für die Unterschrift des Autors hinzu.
+prtf#:#prtf_signature_date#:#Datum, Unterschrift
+lti#:#lti_not_allowed#:#Zugriff nicht erlaubt. Sie wurden in den ursprünglichen LTI Bereich umgeleitet.
+lti#:#lti_navigation#:#Navigation
+lti#:#lti_exit#:#LTI Sitzung beenden
+lti#:#lti_exited#:#LTI Sitzung beendet
+lti#:#lti_exited_info#:#Die LTI Sitzung wurde erfolgreich beendet
+blog#:#blog_nav_mode_month_list_num_month_with_post#:#Anzahl Monate mit angezeigten Beiträgen
+blog#:#blog_nav_mode_month_list_num_month_with_post_info#:#Die Monate werden im Navigationsblock mit der vollständigen Liste der Beiträge angezeigt.

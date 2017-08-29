@@ -1813,6 +1813,7 @@ return;
 			$xh = xslt_create();
 			//		echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
 			//		echo "mode:".$this->getOutputMode().":<br>";
+//			var_dump($args); exit;
 			$output = xslt_process($xh, "arg:/_xml","arg:/_xsl", NULL, $args, $params);
 			
 			if (($this->getOutputMode() == "presentation" || $this->getOutputMode() == "preview")

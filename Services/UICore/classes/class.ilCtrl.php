@@ -848,7 +848,7 @@ class ilCtrl
 				throw new ilCtrlException($failure);
 			}
 			$GLOBALS['ilLog']->write(__METHOD__.' '.$failure);
-			ilUtil::redirect('./ilias.php?baseClass=ilRepositoryGUI');
+			$this->redirectToURL('./ilias.php?baseClass=ilRepositoryGUI');
 		}
 		$temp_node = $a_source_node;
 		
@@ -1255,7 +1255,60 @@ class ilCtrl
 		{
 			$script = $script."#".$a_anchor;
 		}
-		ilUtil::redirect($script);
+		$this->redirectToURL($script);
+	}
+
+
+	/**
+	 * @param $a_script
+	 */
+	public function redirectToURL($a_script) {
+		if (!is_int(strpos($a_script, "://"))) {
+			if (substr($a_script, 0, 1) != "/" && defined("ILIAS_HTTP_PATH")) {
+				if (is_int(strpos($_SERVER["PHP_SELF"], "/setup/"))) {
+					$a_script = "setup/" . $a_script;
+				}
+				$a_script = ILIAS_HTTP_PATH . "/" . $a_script;
+			}
+		}
+
+		// include the user interface hook
+		global $ilPluginAdmin;
+		if (is_object($ilPluginAdmin)) {
+			$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
+			foreach ($pl_names as $pl) {
+				$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
+				$gui_class = $ui_plugin->getUIClassInstance();
+				$resp = $gui_class->getHTML("Services/Utilities", "redirect", array( "html" => $a_script ));
+				if ($resp["mode"] != ilUIHookPluginGUI::KEEP) {
+					$a_script = $gui_class->modifyHTML($a_script, $resp);
+				}
+			}
+		}
+
+		// Manually trigger to write and close the session. This has the advantage that if an exception is thrown
+		// during the writing of the session (ILIAS writes the session into the database by default) we get an exception
+		// if the session_write_close() is triggered by exit() then the exception will be dismissed but the session
+		// is never written, which is a nightmare to develop with.
+		session_write_close();
+
+		global $DIC;
+		$http = $DIC->http();
+		switch ($http->request()->getHeaderLine('Accept')) {
+			case 'application/json':
+				$stream = \ILIAS\Filesystem\Stream\Streams::ofString(json_encode([
+					'success'      => true,
+					'message'      => 'Called redirect after async fileupload request',
+					"redirect_url" => $a_script,
+				]));
+				$http->saveResponse($http->response()->withBody($stream));
+				break;
+			default:
+				$http->saveResponse($http->response()->withAddedHeader("Location", $a_script));
+				break;
+		}
+		$http->sendResponse();
+		exit;
 	}
 
 
@@ -1272,7 +1325,7 @@ class ilCtrl
 		{
 			$script = $script."#".$a_anchor;
 		}
-		ilUtil::redirect($script);
+		$this->redirectToURL($script);
 	}
 	
 	/**
@@ -1388,7 +1441,7 @@ class ilCtrl
 			$script = $script."#".$a_anchor;
 		}
 
-		ilUtil::redirect($script);
+		$this->redirectToURL($script);
 	}
 
 

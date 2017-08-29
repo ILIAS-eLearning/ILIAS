@@ -17,16 +17,27 @@ class ilUserActionCollector
 	 * @var ilUserActionCollection
 	 */
 	protected $collection;
+
+	/**
+	 * @var int
+	 */
 	protected $user_id;
+
+	/**
+	 * @var ilUserActionContext
+	 */
+	protected $action_context;
 
 	/**
 	 * Constructor
 	 *
 	 * @param int $a_user_id user id (usually the current user logged in)
+	 * @param ilUserActionContext $a_context
 	 */
-	protected function __construct($a_user_id)
+	protected function __construct($a_user_id, ilUserActionContext $a_context)
 	{
 		$this->user_id = $a_user_id;
+		$this->action_context = $a_context;
 	}
 
 
@@ -34,13 +45,14 @@ class ilUserActionCollector
 	 * Get instance (for a user)
 	 *
 	 * @param int $a_user_id user id
+	 * @param ilUserActionContext $a_context
 	 * @return ilUserActionCollector
 	 */
-	static function getInstance($a_user_id)
+	static function getInstance($a_user_id, ilUserActionContext $a_context)
 	{
 		if (!isset(self::$instances[$a_user_id]))
 		{
-			self::$instances[$a_user_id] = new ilUserActionCollector($a_user_id);
+			self::$instances[$a_user_id] = new ilUserActionCollector($a_user_id, $a_context);
 		}
 
 		return self::$instances[$a_user_id];
@@ -51,7 +63,7 @@ class ilUserActionCollector
 	 *
 	 * @return ilUserActionCollection action
 	 */
-	public function getActionsForTargetUser($a_target_user, $a_context_component_id, $a_context_id)
+	public function getActionsForTargetUser($a_target_user)
 	{
 		// overall collection of users
 		include_once("./Services/User/Actions/classes/class.ilUserActionCollection.php");
@@ -66,7 +78,8 @@ class ilUserActionCollector
 			$coll = $prov->collectActionsForTargetUser($a_target_user);
 			foreach ($coll->getActions() as $action)
 			{
-				if (ilUserActionAdmin::lookupActive($a_context_component_id, $a_context_id, $prov->getComponentId(), $action->getType()))
+				if (ilUserActionAdmin::lookupActive($this->action_context->getComponentId(),
+					$this->action_context->getContextId(), $prov->getComponentId(), $action->getType()))
 				{
 					$this->collection->addAction($action);
 				}

@@ -20613,3 +20613,691 @@ $superior->setCoreIdentifier(ilOrgUnitPosition::CORE_POSITION_SUPERIOR);
 $superior->update();
 
 ?>
+
+
+<#5195>
+<?php
+$ilDB->insert('pdfgen_renderer_avail',
+	array(
+		'availability_id' => array('integer', $ilDB->nextId('pdfgen_renderer_avail')),
+		'service' 	=> array('text', 'Wiki'),
+		'purpose' 	=> array('text', 'ContentExport'),
+		'renderer'	=> array('text', 'PhantomJS')
+	)
+);
+?>
+<#5196>
+<?php
+$ilDB->insert('pdfgen_renderer_avail',
+	array(
+		'availability_id' => array('integer', $ilDB->nextId('pdfgen_renderer_avail')),
+		'service' 	=> array('text', 'Portfolio'),
+		'purpose' 	=> array('text', 'ContentExport'),
+		'renderer'	=> array('text', 'PhantomJS')
+	)
+);
+?>
+<#5197>
+<?php
+	ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, 'Access Enrolments in a course', ilOrgUnitOperationContext::CONTEXT_CRS);
+?>
+<#5198>
+<?php
+if(!$ilDB->tableColumnExists('crs_settings', 'show_members_export'))
+{
+                $ilDB->addTableColumn('crs_settings', 'show_members_export', array(
+                        "type" => "integer",
+                        "notnull" => false,
+                        "length" => 4
+                ));
+}
+?>
+<#5199>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
+<#5200>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::addAdminNode('ltis', 'LTI Settings');
+
+if (!$ilDB->tableExists('lti_ext_consumer'))
+{
+	$ilDB->createTable('lti_ext_consumer', array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'title' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true,
+		),
+		'description' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true,
+		),
+		'prefix' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true,
+		),
+		'consumer_key' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true,
+		),
+		'consumer_secret' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true,
+		),
+		'user_language' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true,
+		),
+		'role' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'active' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+	$ilDB->addPrimaryKey('lti_ext_consumer',array('id'));
+	$ilDB->createSequence('lti_ext_consumer');
+}
+
+if (!$ilDB->tableExists('lti_ext_consumer_otype'))
+{
+	$ilDB->createTable('lti_ext_consumer_otype', array(
+		'consumer_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'object_type' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true
+		),
+	));
+	$ilDB->addPrimaryKey('lti_ext_consumer_otype',array('consumer_id', 'object_type'));
+}
+?>
+<#5201>
+<?php
+if (!$ilDB->tableExists('lti2_consumer'))
+{
+	$ilDB->createTable('lti2_consumer', array(
+		'consumer_pk' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'name' => array(
+			'type' => 'text',
+			'length' => 50,
+			'notnull' => true
+		),
+		'consumer_key256' => array(
+			'type' => 'text',
+			'length' => 256,
+			'notnull' => true
+		),
+		'consumer_key' => array(
+			'type' => 'blob',
+			'default' => null
+		),
+		'secret' => array(
+			'type' => 'text',
+			'length' => 1024,
+			'notnull' => true
+		),
+		'lti_version' => array(
+			'type' => 'text',
+			'length' => 10,
+			'default' => null
+		),
+		'consumer_name' => array(
+			'type' => 'text',
+			'length' => 255,
+			'default' => null
+		),
+		'consumer_version' => array(
+			'type' => 'text',
+			'length' => 255,
+			'default' => null
+		),
+		'consumer_guid' => array(
+			'type' => 'text',
+			'length' => 1024,
+			'default' => null
+		),
+		'profile' => array(
+			'type' => 'blob',
+			'default' => null
+		),
+		'tool_proxy' => array(
+			'type' => 'blob',
+			'default' => null
+		),
+		'settings' => array(
+			'type' => 'blob',
+			'default' => null
+		),
+		'protected' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true
+		),
+		'enabled' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true
+		),
+		'enable_from' => array(
+			'type' => 'timestamp',
+			'default' => null
+		),
+		'enable_until' => array(
+			'type' => 'timestamp',
+			'default' => null
+		),
+		'last_access' => array(
+			'type' => 'timestamp',
+			'default' => null
+		),
+		'created' => array(
+			'type' => 'timestamp',
+			'notnull' => true
+		),
+		'updated' => array(
+			'type' => 'timestamp',
+			'notnull' => true
+		)
+	));
+	$ilDB->addPrimaryKey('lti2_consumer',array('consumer_pk'));
+	$ilDB->addUniqueConstraint('lti2_consumer', array('consumer_key256'), 'u1');
+	$ilDB->createSequence('lti2_consumer');  
+}
+?>
+<#5202>
+<?php
+if (!$ilDB->tableExists('lti2_tool_proxy'))
+{
+	$ilDB->createTable('lti2_tool_proxy', array(
+		'tool_proxy_pk' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'tool_proxy_id' => array(
+			'type' => 'text',
+			'length' => 32,
+			'notnull' => true
+		),
+		'consumer_pk' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'tool_proxy' => array(
+			'type' => 'blob',
+			'notnull' => true
+		),
+		'created' => array(
+			'type' => 'timestamp',
+			'notnull' => true
+		),
+		'updated' => array(
+			'type' => 'timestamp',
+			'notnull' => true
+		)
+	));
+	$ilDB->addPrimaryKey('lti2_tool_proxy',array('tool_proxy_pk'));
+	$ilDB->addIndex('lti2_tool_proxy',array('consumer_pk'),'i1');
+	$ilDB->addUniqueConstraint('lti2_tool_proxy', array('tool_proxy_id'), 'u1');
+	$ilDB->createSequence('lti2_tool_proxy');
+}
+?>
+<#5203>
+<?php
+if (!$ilDB->tableExists('lti2_nonce'))
+{
+	$ilDB->createTable('lti2_nonce', array(
+		'consumer_pk' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'value' => array(
+			'type' => 'text',
+			'length' => 32,
+			'notnull' => true
+		),
+		'expires' => array(
+			'type' => 'timestamp',
+			'notnull' => true
+		)
+	));
+	$ilDB->addPrimaryKey('lti2_nonce',array('consumer_pk','value'));
+}
+?>
+<#5204>
+<?php
+if (!$ilDB->tableExists('lti2_context'))
+{
+	$ilDB->createTable('lti2_context', array(
+		'context_pk' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'consumer_pk' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'lti_context_id' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true
+		),
+		'settings' => array(
+			'type' => 'blob',
+			'default' => null
+		),
+		'created' => array(
+			'type' => 'timestamp',
+			'notnull' => true
+		),
+		'updated' => array(
+			'type' => 'timestamp',
+			'notnull' => true
+		)
+	));
+	$ilDB->addPrimaryKey('lti2_context',array('context_pk'));
+	$ilDB->addIndex('lti2_context',array('consumer_pk'),'i1');
+	$ilDB->createSequence('lti2_context');
+
+}
+?>
+<#5205>
+<?php
+if (!$ilDB->tableExists('lti2_resource_link'))
+{
+	$ilDB->createTable('lti2_resource_link', array(
+		'resource_link_pk' => array(
+			'type' => 'integer',
+			'length' => 4
+		),
+		'context_pk' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'default' => null
+		),
+		'consumer_pk' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'default' => null
+		),
+		'lti_resource_link_id' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true
+		),
+		'settings' => array(
+			'type' => 'blob'
+		),
+		'primary_resource_link_pk' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'default' => null
+		),
+		'share_approved' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'default' => null
+		),
+		'created' => array(
+			'type' => 'timestamp',
+			'notnull' => true
+		),
+		'updated' => array(
+			'type' => 'timestamp',
+			'notnull' => true
+		)
+	));
+	$ilDB->addPrimaryKey('lti2_resource_link',array('resource_link_pk'));
+	$ilDB->addIndex('lti2_resource_link',array('consumer_pk'),'i1');
+	$ilDB->addIndex('lti2_resource_link',array('context_pk'),'i2');
+	$ilDB->createSequence('lti2_resource_link');
+}
+?>
+<#5206>
+<?php
+if (!$ilDB->tableExists('lti2_user_result'))
+{
+	$ilDB->createTable('lti2_user_result', array(
+		'user_pk' => array(
+			'type' => 'integer',
+			'length' => 4
+		),
+		'resource_link_pk' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'lti_user_id' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true
+		),
+		'lti_result_sourcedid' => array(
+			'type' => 'text',
+			'length' => 1024,
+			'notnull' => true
+		),
+		'created' => array(
+			'type' => 'timestamp',
+			'notnull' => true
+		),
+		'updated' => array(
+			'type' => 'timestamp',
+			'notnull' => true
+		)
+	));
+	$ilDB->addPrimaryKey('lti2_user_result',array('user_pk'));
+	$ilDB->addIndex('lti2_user_result',array('resource_link_pk'),'i1');
+	$ilDB->createSequence('lti2_user_result');
+}
+?>
+<#5207>
+<?php
+if (!$ilDB->tableExists('lti2_share_key'))
+{
+	$ilDB->createTable('lti2_share_key', array(
+		'share_key_id' => array(
+			'type' => 'text',
+			'length' => 32,
+			'notnull' => true
+		),
+		'resource_link_pk' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'auto_approve' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true
+		),
+		'expires' => array(
+			'type' => 'timestamp',
+			'notnull' => true
+		)
+	));
+	$ilDB->addPrimaryKey('lti2_share_key',array('share_key_id'));
+	$ilDB->addIndex('lti2_share_key',array('resource_link_pk'),'i1');
+}
+?>
+<#5208>
+<?php
+if(!$ilDB->tableColumnExists('lti_ext_consumer','local_role_always_member'))
+{
+	$ilDB->addTableColumn('lti_ext_consumer', 'local_role_always_member', array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		));
+}
+?>
+<#5209>
+<?php
+if(!$ilDB->tableColumnExists('lti_ext_consumer','default_skin'))
+{
+	$ilDB->addTableColumn('lti_ext_consumer', 'default_skin', array(
+			'type' => 'text',
+			'length' => 50,
+			'default' => null
+		));
+}
+?>
+<#5210>
+<?php
+if($ilDB->tableColumnExists('lti_ext_consumer', 'consumer_key'))
+{
+	$ilDB->dropTableColumn('lti_ext_consumer', 'consumer_key');
+}
+if($ilDB->tableColumnExists('lti_ext_consumer', 'consumer_secret'))
+{
+	$ilDB->dropTableColumn('lti_ext_consumer', 'consumer_secret');
+}
+if($ilDB->tableColumnExists('lti_ext_consumer', 'active'))
+{
+	$ilDB->dropTableColumn('lti_ext_consumer', 'active');
+}
+?>
+<#5211>
+<?php
+if (!$ilDB->tableExists('lti_int_provider_obj'))
+{
+	$ilDB->createTable('lti_int_provider_obj', array(
+		'ref_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+		),
+		'consumer_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+		),
+		
+		'enabled' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false
+		),
+		'admin' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false
+		),
+		'tutor' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false
+		),
+		'member' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false
+		)
+	));
+	$ilDB->addPrimaryKey('lti_int_provider_obj',array('ref_id','consumer_id'));
+}
+?>
+<#5212>
+<?php
+if($ilDB->tableExists('lti_int_provider_obj'))
+{
+	$ilDB->dropTable('lti_int_provider_obj');
+}
+?>
+<#5213>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$type_id = ilDBUpdateNewObjectType::getObjectTypeId('ltis');
+
+$ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('release_objects', 'Release objects', 'object', 500);
+if($ops_id && $type_id)
+{
+	ilDBUpdateNewObjectType::addRBACOperation($type_id, $ops_id);
+}
+?>
+<#5214>
+<?php
+if(!$ilDB->tableColumnExists("il_object_def", "lti_provider"))
+{
+	$def = array(
+			'type'    => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 0
+		);
+	$ilDB->addTableColumn("il_object_def", "lti_provider", $def);
+}
+?>
+<#5215>
+<?php
+if(!$ilDB->tableColumnExists('lti2_consumer','ext_consumer_id'))
+{
+	$ilDB->addTableColumn('lti2_consumer', 'ext_consumer_id', 
+		array(
+			"type" => "integer",
+			"notnull" => true,
+			"length" => 4
+		)
+	);
+}
+?>
+
+<#5216>
+<?php
+if(!$ilDB->tableColumnExists('lti2_consumer','ref_id'))
+{
+	$ilDB->addTableColumn('lti2_consumer', 'ref_id', 
+		array(
+			"type" => "integer",
+			"notnull" => true,
+			"length" => 4
+		)
+	);
+}
+?>
+<#5217>
+<?php
+if(!$ilDB->tableColumnExists('lti_ext_consumer', 'active'))
+{
+
+	$ilDB->addTableColumn(
+		'lti_ext_consumer',
+		'active',
+		[
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		]
+	);
+}
+?>
+<#5218>
+<?php
+if (!$ilDB->tableExists('lti_int_provider_obj'))
+{
+	$ilDB->createTable('lti_int_provider_obj', array(
+		'ref_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+		),
+		'ext_consumer_id' => [
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+		],
+		'admin' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+		),
+		'tutor' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+		),
+		'member' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+		)
+	));
+	$ilDB->addPrimaryKey('lti_int_provider_obj',array('ref_id','ext_consumer_id'));
+}
+?>
+<#5219>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5220>
+<?php
+if(!$ilDB->tableColumnExists('file_data','page_count'))
+{
+	$ilDB->addTableColumn(
+		'file_data',
+		'page_count',
+		array(
+			'type' 		=> 'integer',
+			'length' 	=> 8,
+		)
+	);
+}
+?>
+<#5221>
+<?php
+if(!$ilDB->tableColumnExists('il_blog','nav_list_mon_with_post'))
+{
+	$ilDB->addTableColumn(
+		'il_blog',
+		'nav_list_mon_with_post',
+		array(
+			'type' 		=> 'integer',
+			'length' 	=> 4,
+			'default'	=> 3
+		)
+	);
+}
+?>
+
+<#5222>
+<?php
+    if (!$ilDB->tableColumnExists('iass_settings', 'file_required')) {
+        $ilDB->addTableColumn('iass_settings', 'file_required', array(
+                                                                      "type" => "integer",
+                                                                      "length" => 1,
+                                                                      "notnull" => true,
+                                                                      "default" => 0
+                                                                      ));
+    }
+?>
+
+<#5223>
+<?php
+    if (!$ilDB->tableColumnExists('iass_members', 'file_name')) {
+        $ilDB->addTableColumn('iass_members', 'file_name', array(
+                                                                 "type" => "text",
+                                                                 "length" => 255
+                                                                 ));
+    }
+    if (!$ilDB->tableColumnExists('iass_members', 'user_view_file')) {
+        $ilDB->addTableColumn('iass_members', 'user_view_file', array(
+                                                                      "type" => "integer",
+                                                                      "length" => 1
+                                                                      ));
+    }
+?>

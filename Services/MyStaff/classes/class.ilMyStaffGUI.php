@@ -8,7 +8,6 @@
 class ilMyStaffGUI {
 
 	use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
-
 	const CMD_INDEX = 'index';
 	const TAB_LIST_USERS = 'list_users';
 	const TAB_LIST_COURSES = 'list_courses';

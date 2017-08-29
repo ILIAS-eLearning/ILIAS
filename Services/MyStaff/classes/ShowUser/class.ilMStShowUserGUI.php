@@ -28,6 +28,9 @@ class ilMStShowUserGUI {
 	public function __construct() {
 		$this->usr_id = $this->dic()->http()->request()->getQueryParams()['usr_id'];
 		$this->ctrl()->setParameter($this, 'usr_id', $this->usr_id);
+
+		$this->tpl()->setTitle(ilUserUtil::getNamePresentation($this->usr_id));
+		$this->tpl()->setTitleIcon(ilObjUser::_getPersonalPicturePath($this->usr_id, "xxsmall"));
 	}
 
 
@@ -89,8 +92,6 @@ class ilMStShowUserGUI {
 		$this->table->setTitle(sprintf($this->lng()
 		                                    ->txt('mst_courses_of'), ilObjCourse::_lookupTitle($this->usr_id)));
 
-
-
 		/*$pub_profile = new ilPublicUserProfileGUI($this->usr_id);
 
 		$tpl = new ilTemplate('./Services/MyStaff/templates/default/tpl.show_user_container.html', true, true);
@@ -106,18 +107,17 @@ class ilMStShowUserGUI {
 		$this->tpl()->setContent($this->table->getHTML());
 	}
 
+
 	protected function showUser() {
 		//Redirect if Profile is not public
 		$user = new ilObjUser($this->usr_id);
-		if(!$user->hasPublicProfile())
-		{
+		if (!$user->hasPublicProfile()) {
 			$this->ctrl()->redirectByClass('ilMStShowUserGUI', "index");
 		}
 
 		$pub_profile = new ilPublicUserProfileGUI($this->usr_id);
 		$this->tpl()->setContent($pub_profile->getEmbeddable());
 	}
-
 
 
 	protected function applyFilter() {
@@ -168,11 +168,10 @@ class ilMStShowUserGUI {
 		), self::CMD_INDEX));
 
 		$user = new ilObjUser($this->usr_id);
-		if($user->hasPublicProfile())
-		{
+		if ($user->hasPublicProfile()) {
 			$ctrl->setParameterByClass('ilmstshowusergui', 'usr_id', $this->usr_id);
 			$public_profile_url = $ctrl->getLinkTargetByClass('ilmstshowusergui', self::CMD_SHOWUSER);
-			$tabs->addTab('show_user',$lng->txt('public_profile'),$public_profile_url);
+			$tabs->addTab('show_user', $lng->txt('public_profile'), $public_profile_url);
 		}
 
 		if ($active_tab_id) {

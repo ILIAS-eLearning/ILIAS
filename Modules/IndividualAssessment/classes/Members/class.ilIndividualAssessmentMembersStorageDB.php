@@ -40,8 +40,20 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
 	public function loadMember(ilObjIndividualAssessment $obj, ilObjUser $usr) {
 		$obj_id = $obj->getId();
 		$usr_id = $usr->getId();
-		$sql = "SELECT iassme.obj_id, iassme.usr_id, iassme.examiner_id, iassme.record, iassme.internal_note, iassme.notify, iassme.notification_ts, iassme.learning_progress, iassme.finalized,\n"
-				." iassme.place, iassme.event_time\n"
+		$sql = "SELECT "
+				."iassme.obj_id,"
+				."iassme.usr_id,"
+				."iassme.examiner_id,"
+				."iassme.record,"
+				."iassme.internal_note,"
+				."iassme.notify,"
+				."iassme.notification_ts,"
+				."iassme.learning_progress,"
+				."iassme.finalized,"
+				."iassme.place,"
+				."iassme.event_time,"
+				."iassme.user_view_file,"
+				."iassme.file_name"
 				." FROM ".self::MEMBERS_TABLE." iassme\n"
 				."	JOIN usr_data usr ON iassme.usr_id = usr.usr_id\n"
 				."	LEFT JOIN usr_data ex ON iassme.examiner_id = ex.usr_id\n"
@@ -74,6 +86,8 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
 					  , ilIndividualAssessmentMembers::FIELD_NOTIFY => array("integer", $member->notify() ? 1 : 0)
 					  , ilIndividualAssessmentMembers::FIELD_FINALIZED => array("integer", $member->finalized() ? 1 : 0)
 					  , ilIndividualAssessmentMembers::FIELD_NOTIFICATION_TS => array("integer", $member->notificationTS())
+					  , ilIndividualAssessmentMembers::FIELD_FILE_NAME => array("text", $member->fileName())
+					  , ilIndividualAssessmentMembers::FIELD_USER_VIEW_FILE => array("integer", $member->viewFile() ? 1 : 0)
 				);
 
 		$this->db->update(self::MEMBERS_TABLE, $values, $where);
@@ -96,6 +110,7 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
 				."     ,usr.firstname as ".ilIndividualAssessmentMembers::FIELD_FIRSTNAME
 				."     ,usr.lastname as ".ilIndividualAssessmentMembers::FIELD_LASTNAME
 				."     ,usr.login as ".ilIndividualAssessmentMembers::FIELD_LOGIN
+				."	   ,iassme.".ilIndividualAssessmentMembers::FIELD_FILE_NAME
 				."     ,iassme.obj_id, iassme.usr_id, iassme.examiner_id, iassme.record, iassme.internal_note, iassme.notify"
 				."     ,iassme.notification_ts, iassme.learning_progress, iassme.finalized,iassme.place, iassme.event_time\n"
 				." FROM iass_members iassme"
@@ -119,6 +134,8 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
 			, ilIndividualAssessmentMembers::FIELD_NOTIFY => array("integer", $record[ilIndividualAssessmentMembers::FIELD_NOTIFY])
 			, ilIndividualAssessmentMembers::FIELD_FINALIZED => array("integer", 0)
 			, ilIndividualAssessmentMembers::FIELD_NOTIFICATION_TS => array("integer", -1)
+			, ilIndividualAssessmentMembers::FIELD_FILE_NAME => array("text", $record[ilIndividualAssessmentMembers::FIELD_FILE_NAME])
+			, ilIndividualAssessmentMembers::FIELD_USER_VIEW_FILE => array("integer", $record[ilIndividualAssessmentMembers::FIELD_USER_VIEW_FILE])
 		);
 
 		$this->db->insert(self::MEMBERS_TABLE, $values);

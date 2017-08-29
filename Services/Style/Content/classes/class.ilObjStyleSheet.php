@@ -1826,7 +1826,7 @@ class ilObjStyleSheet extends ilObject
 	*
 	* static (to avoid full reading)
 	*/
-	static function getContentStylePath($a_style_id)
+	static function getContentStylePath($a_style_id, $add_random = true)
 	{
 		global $ilias;
 		
@@ -1855,7 +1855,11 @@ class ilObjStyleSheet extends ilObject
 				$style->writeCSSFile();
 			}
 
-			$path = ilUtil::getWebspaceDir("output") . "/css/style_" . $a_style_id . ".css?dummy=$rand";
+			$path = ilUtil::getWebspaceDir("output") . "/css/style_" . $a_style_id . ".css";
+			if ($add_random)
+			{
+				$path .= "?dummy=$rand";
+			}
 			require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
 			$path = ilWACSignedPath::signFile($path);
 

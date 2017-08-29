@@ -73,6 +73,20 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 //echo "-$cmd-".$next_class."-";
 		switch($next_class)
 		{
+			case 'illtiproviderobjectsettinggui':
+				
+				$this->setTabs();
+				$ilTabs->setTabActive("settings");
+				$this->setSubTabs("lti_provider");
+				
+				$lti_gui = new ilLTIProviderObjectSettingGUI($this->object->getRefId());
+				$lti_gui->setCustomRolesForSelection($GLOBALS['DIC']->rbac()->review()->getLocalRoles($this->object->getRefId()));
+				$lti_gui->offerLTIRolesForSelection(true);
+				$this->ctrl->forwardCommand($lti_gui);
+				break;
+			
+			
+			
 			case "illearningprogressgui":
 				$this->addHeaderAction();
 				$this->addLocations();
@@ -2673,7 +2687,8 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 		if (in_array($a_active,
 			array("settings", "cont_style", "cont_lm_menu", "public_section",
-				"cont_glossaries", "cont_multilinguality", "obj_multilinguality")))
+				"cont_glossaries", "cont_multilinguality", "obj_multilinguality", 
+				"lti_provider")))
 		{
 			// general properties
 			$ilTabs->addSubTabTarget("settings",
@@ -2710,7 +2725,16 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 			$ilTabs->addSubTabTarget("obj_multilinguality",
 				$this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", ""));
-
+			
+			$lti_settings = new ilLTIProviderObjectSettingGUI($this->object->getRefId());
+			if($lti_settings->hasSettingsAccess())
+			{
+				$ilTabs->addSubTabTarget(
+					'lti_provider',
+					$this->ctrl->getLinkTargetByClass(ilLTIProviderObjectSettingGUI::class)
+				);
+			}
+			
 			$ilTabs->setSubTabActive($a_active);
 		}
 	}

@@ -33,6 +33,8 @@ class ilIndividualAssessmentMember {
 		$this->notification_ts = $data[ilIndividualAssessmentMembers::FIELD_NOTIFICATION_TS];
 		$this->place = $data[ilIndividualAssessmentMembers::FIELD_PLACE];
 		$this->event_time = new ilDateTime($data[ilIndividualAssessmentMembers::FIELD_EVENTTIME], IL_CAL_UNIX);
+		$this->file_name = $data[ilIndividualAssessmentMembers::FIELD_FILE_NAME];
+		$this->view_file = $data[ilIndividualAssessmentMembers::FIELD_USER_VIEW_FILE];
 		$this->iass = $iass;
 		$this->usr = $usr;
 	}
@@ -132,6 +134,9 @@ class ilIndividualAssessmentMember {
 	 * @return	bool
 	 */
 	public function mayBeFinalized() {
+		if($this->iass->getSettings()->fileRequired() && (string)$this->file_name === '') {
+			return false;
+		}
 		return ((string)$this->lp_status === (string)ilIndividualAssessmentMembers::LP_COMPLETED
 				||(string)$this->lp_status === (string)ilIndividualAssessmentMembers::LP_FAILED)
 				&& !$this->finalized();
@@ -326,5 +331,54 @@ class ilIndividualAssessmentMember {
 	public function eventTime()
 	{
 		return $this->event_time;
+	}
+		/**
+	 * Get the name of the uploaded file
+	 *
+	 * @return string
+	 */
+	public function fileName()
+	{
+		return $this->file_name;
+	}
+
+	/**
+	 * Set the name of the file
+	 *
+	 * @param string 	$file_name
+	 *
+	 * @return ilManualAssessmentMember
+	 */
+	public function withFileName($file_name)
+	{
+		assert('is_string($file_name)');
+		$clone = clone $this;
+		$clone->file_name = $file_name;
+		return $clone;
+	}
+
+	/**
+	 * Can user see the uploaded file
+	 *
+	 * @return boolean
+	 */
+	public function viewFile()
+	{
+		return $this->view_file;
+	}
+
+	/**
+	 * Set user can view uploaded file
+	 *
+	 * @param boolean 	$view_file
+	 *
+	 * @return ilManualAssessmentMember
+	 */
+	public function withViewFile($view_file)
+	{
+		assert('is_bool($view_file)');
+		$clone = clone $this;
+		$clone->view_file = $view_file;
+		return $clone;
 	}
 }

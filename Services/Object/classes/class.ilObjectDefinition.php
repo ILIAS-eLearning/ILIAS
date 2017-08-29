@@ -102,7 +102,8 @@ class ilObjectDefinition// extends ilSaxParser
 				'workspace' => $rec['workspace'],
 				'administration' => $rec['administration'],
 				'amet' => $rec['amet'],
-				'orgunit_permissions' => $rec['orgunit_permissions']
+				'orgunit_permissions' => $rec['orgunit_permissions'],
+				'lti_provider' => $rec['lti_provider']
 			);
 			$this->obj_data[$rec["id"]]["subobjects"] = array();
 
@@ -162,7 +163,8 @@ class ilObjectDefinition// extends ilSaxParser
 				'workspace' => $rec['workspace'],
 				'administration' => $rec['administration'],
 				'amet' => $rec['amet'],
-				'orgunit_permissions' => $rec['orgunit_permissions']
+				'orgunit_permissions' => $rec['orgunit_permissions'],
+				'lti_provider' => $rec['lti_provider']
 			);
 			$this->obj_data[$rec["id"]]["subobjects"] = array();
 
@@ -1055,6 +1057,22 @@ class ilObjectDefinition// extends ilSaxParser
 			}
 		}
 		return $types;
+	}
+	
+	/**
+	 * Get object types which offer lti provider support.
+	 * @return string[] $types
+	 */
+	public function getLTIProviderTypes()
+	{
+		$types = [];
+		foreach($this->obj_data as $type => $object_info) {
+			if($object_info['lti_provider']) {
+				$types[] = $type;
+			}
+		}
+		return $types;
+		
 	}
 	
 	/**

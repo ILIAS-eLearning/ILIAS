@@ -12,6 +12,21 @@ include_once("./Services/UICore/lib/html-it/ITX.php");
 */
 class ilTemplate extends HTML_Template_ITX
 {
+
+	const MESSAGE_TYPE_FAILURE = 'failure';
+	const MESSAGE_TYPE_INFO = "info";
+	const MESSAGE_TYPE_SUCCESS = "success";
+	const MESSAGE_TYPE_QUESTION = "question";
+	/**
+	 * @var array  available Types for Messages
+	 */
+	protected static $message_types = array(
+		self::MESSAGE_TYPE_FAILURE,
+		self::MESSAGE_TYPE_INFO,
+		self::MESSAGE_TYPE_SUCCESS,
+		self::MESSAGE_TYPE_QUESTION,
+	);
+
 	/**
 	* Content-type for template output
 	* @var	string
@@ -330,17 +345,25 @@ class ilTemplate extends HTML_Template_ITX
 		return $html;
 	}
 
+
 	/**
-	* Set message. Please use ilUtil::sendInfo(), ilUtil::sendSuccess()
-	* and ilUtil::sendFailure()
-	*/
-	function setMessage($a_type, $a_txt, $a_keep = false)
+	 * Set message. Please use ilUtil::sendInfo(), ilUtil::sendSuccess()
+	 * and ilUtil::sendFailure()
+	 *
+	 * @param  string  $a_type \ilTemplate::MESSAGE_TYPE_SUCCESS,
+	 *                         \ilTemplate::MESSAGE_TYPE_FAILURE,,
+	 *                         \ilTemplate::MESSAGE_TYPE_QUESTION,
+	 *                         \ilTemplate::MESSAGE_TYPE_INFO
+	 * @param   string $a_txt  The message to be sent
+	 * @param bool     $a_keep Keep this message over one redirect
+	 */
+	public function setMessage($a_type, $a_txt, $a_keep = false)
 	{
-		if (!in_array($a_type, array("info", "success", "failure", "question")) || $a_txt == "")
+		if (!in_array($a_type, self::$message_types) || $a_txt == "")
 		{
 			return;
 		}
-		if ($a_type == "question")
+		if ($a_type == self::MESSAGE_TYPE_QUESTION)
 		{
 			$a_type = "mess_question";
 		}
@@ -361,31 +384,26 @@ class ilTemplate extends HTML_Template_ITX
 	
 	function fillMessage()
 	{
-		global $lng;
+		global $DIC;
 
-		$ms = array("info", "success", "failure", "question");
+		$ms = array( self::MESSAGE_TYPE_INFO,
+		             self::MESSAGE_TYPE_SUCCESS, self::MESSAGE_TYPE_FAILURE,
+		             self::MESSAGE_TYPE_QUESTION
+		);
 		$out = "";
 		
 		foreach ($ms as $m)
 		{
-			$txt = "";
-			if ($m == "question")
+
+			if ($m == self::MESSAGE_TYPE_QUESTION)
 			{
 				$m = "mess_question";
 			}
-
-			if (isset($_SESSION[$m]) && $_SESSION[$m] != "")
-			{
-				$txt = $_SESSION[$m];
-			}
-			else if (isset($this->message[$m]))
-			{
-				$txt = $this->message[$m];
-			}
+			$txt = $this->getMessageTextForType($m);
 
 			if ($m == "mess_question")
 			{
-				$m = "question";
+				$m = self::MESSAGE_TYPE_QUESTION;
 			}
 
 			if ($txt != "")
@@ -393,13 +411,14 @@ class ilTemplate extends HTML_Template_ITX
 				$out.= $this->getMessageHTML($txt, $m);
 			}
 		
-			if ($m == "question")
+			if ($m == self::MESSAGE_TYPE_QUESTION)
 			{
 				$m = "mess_question";
 			}
 
-			if (isset($_SESSION[$m]) && $_SESSION[$m])
-			{
+			$request = $DIC->http()->request();
+			$accept_header = $request->getHeaderLine('Accept');
+			if (isset($_SESSION[$m]) && $_SESSION[$m] && ($accept_header !== 'application/json')) {
 				unset($_SESSION[$m]);
 			}
 		}
@@ -450,138 +469,148 @@ class ilTemplate extends HTML_Template_ITX
 	{
 		$this->contenttype = $a_content_type;
 	}
-	
+
+
 	/**
-	* @access	public
-	* @param	string
-	* @param bool fill template variable {TABS} with content of ilTabs
-	*/
-	function show($part = "DEFAULT", $a_fill_tabs = true, $a_skip_main_menu = false)
+	 * @param string $part
+	 * @param bool   $a_fill_tabs fill template variable {TABS} with content of ilTabs
+	 * @param bool   $a_skip_main_menu
+	 */
+	public function show($part = "DEFAULT", $a_fill_tabs = true, $a_skip_main_menu = false)
 	{
-		global $ilias, $ilTabs;
+		global $DIC;
+		$http = $DIC->http();
+		switch ($http->request()->getHeaderLine('Accept')) {
+			case 'application/json':
+				$string = json_encode([
+					self::MESSAGE_TYPE_SUCCESS => is_null($this->message[self::MESSAGE_TYPE_FAILURE]),
+					'message'                  => '',
+				]);
+				$stream = \ILIAS\Filesystem\Stream\Streams::ofString($string);
+				$http->saveResponse($http->response()->withBody($stream));
+				$http->sendResponse();
+				exit;
+			default:
+				// include yahoo dom per default
+				include_once("./Services/YUI/classes/class.ilYuiUtil.php");
+				ilYuiUtil::initDom();
 
-		// include yahoo dom per default
-		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
-		ilYuiUtil::initDom();
-		
-//echo "-".ilUtil::getP3PLocation()."-";
-		//header('P3P: policyref="'.ilUtil::getP3PLocation().
-		//	'", CP="CURa ADMa DEVa TAIa PSAa PSDa IVAa IVDa OUR BUS IND UNI COM NAV INT CNT STA PRE"');
-		header('P3P: CP="CURa ADMa DEVa TAIa PSAa PSDa IVAa IVDa OUR BUS IND UNI COM NAV INT CNT STA PRE"');
-		header("Content-type: " . $this->getContentType() . "; charset=UTF-8");
+				header('P3P: CP="CURa ADMa DEVa TAIa PSAa PSDa IVAa IVDa OUR BUS IND UNI COM NAV INT CNT STA PRE"');
+				header("Content-type: " . $this->getContentType() . "; charset=UTF-8");
 
-		$this->fillMessage();
-		
-		// display ILIAS footer
-		if ($part !== false)
-		{
-			$this->addILIASFooter();
+				$this->fillMessage();
+
+				// display ILIAS footer
+				if ($part !== false)
+				{
+					$this->addILIASFooter();
+				}
+
+				// set standard parts (tabs and title icon)
+				$this->fillBodyClass();
+				if ($a_fill_tabs)
+				{
+					if ($this->blockExists("content"))
+					{
+						// determine default screen id
+						$this->getTabsHTML();
+					}
+
+					// to get also the js files for the main menu
+					if (!$a_skip_main_menu)
+					{
+						$this->getMainMenu();
+						$this->initHelp();
+					}
+
+					if($this->blockExists("content") && $this->variableExists('MAINMENU'))
+					{
+						global $tpl;
+
+						include_once 'Services/Authentication/classes/class.ilSessionReminderGUI.php';
+						$session_reminder_gui = new ilSessionReminderGUI(ilSessionReminder::createInstanceWithCurrentUserSession());
+						$tpl->setVariable('SESSION_REMINDER', $session_reminder_gui->getHtml());
+					}
+
+					// these fill blocks in tpl.main.html
+					$this->fillCssFiles();
+					$this->fillInlineCss();
+					//$this->fillJavaScriptFiles();
+					$this->fillContentStyle();
+
+					// these fill just plain placeholder variables in tpl.main.html
+					$this->setCurrentBlock("DEFAULT");
+					$this->fillNewContentStyle();
+					$this->fillContentLanguage();
+					$this->fillWindowTitle();
+
+					// these fill blocks in tpl.adm_content.html
+					$this->fillHeader();
+					$this->fillSideIcons();
+					$this->fillScreenReaderFocus();
+					$this->fillStopFloating();
+					$this->fillLeftContent();
+					$this->fillLeftNav();
+					$this->fillRightContent();
+					$this->fillAdminPanel();
+					$this->fillToolbar();
+					$this->fillPermanentLink();
+
+					$this->setCenterColumnClass();
+
+					// late loading of javascipr files, since operations above may add files
+					$this->fillJavaScriptFiles();
+					$this->fillOnLoadCode();
+					
+					// these fill just plain placeholder variables in tpl.adm_content.html
+					if ($this->blockExists("content"))
+					{
+						$this->setCurrentBlock("content");
+						$this->fillTabs();
+						$this->fillMainContent();
+						$this->fillMainMenu();
+						$this->fillLightbox();
+						$this->parseCurrentBlock();
+					}
+				}
+
+				if ($part == "DEFAULT" or is_bool($part))
+				{
+					$html = parent::get();
+				}
+				else
+				{
+					$html = parent::get($part);
+				}
+
+				// include the template output hook
+				global $ilPluginAdmin;
+				$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
+				foreach ($pl_names as $pl)
+				{
+					$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
+					$gui_class = $ui_plugin->getUIClassInstance();
+
+					$resp = $gui_class->getHTML("", "template_show",
+						array("tpl_id" => $this->tplIdentifier, "tpl_obj" => $this, "html" => $html));
+
+					if ($resp["mode"] != ilUIHookPluginGUI::KEEP)
+					{
+						$html = $gui_class->modifyHTML($html, $resp);
+					}
+				}
+
+				// fix #9992: save language usages as late as possible
+				if ($this->translation_linked)
+				{
+					ilObjLanguageAccess::_saveUsages();
+				}
+
+				print $html;
+
+				$this->handleReferer();
+				break;
 		}
-
-		// set standard parts (tabs and title icon)
-		$this->fillBodyClass();
-		if ($a_fill_tabs)
-		{
-			if ($this->blockExists("content"))
-			{
-				// determine default screen id
-				$this->getTabsHTML();
-			}
-
-			// to get also the js files for the main menu
-			if (!$a_skip_main_menu)
-			{
-				$this->getMainMenu();
-				$this->initHelp();
-			}
-
-			if($this->blockExists("content") && $this->variableExists('MAINMENU'))
-			{
-				global $tpl;
-				
-				include_once 'Services/Authentication/classes/class.ilSessionReminderGUI.php';
-				$session_reminder_gui = new ilSessionReminderGUI(ilSessionReminder::createInstanceWithCurrentUserSession());
-				$tpl->setVariable('SESSION_REMINDER', $session_reminder_gui->getHtml());
-			}
-
-			// these fill blocks in tpl.main.html
-			$this->fillCssFiles();
-			$this->fillInlineCss();
-			//$this->fillJavaScriptFiles();
-			$this->fillContentStyle();
-
-			// these fill just plain placeholder variables in tpl.main.html
-			$this->setCurrentBlock("DEFAULT");
-			$this->fillNewContentStyle();
-			$this->fillContentLanguage();
-			$this->fillWindowTitle();
-
-			// these fill blocks in tpl.adm_content.html
-			$this->fillHeader();
-			$this->fillSideIcons();
-			$this->fillScreenReaderFocus();
-			$this->fillStopFloating();
-			$this->fillLeftContent();
-			$this->fillLeftNav();
-			$this->fillRightContent();
-			$this->fillAdminPanel();
-			$this->fillToolbar();
-			$this->fillPermanentLink();
-			
-			$this->setCenterColumnClass();
-
-			// late loading of javascipr files, since operations above may add files
-			$this->fillJavaScriptFiles();
-			$this->fillOnLoadCode();
-
-			// these fill just plain placeholder variables in tpl.adm_content.html
-			// these fill just plain placeholder variables in tpl.adm_content.html
-			if ($this->blockExists("content"))
-			{
-				$this->setCurrentBlock("content");
-				$this->fillTabs();
-				$this->fillMainContent();
-				$this->fillMainMenu();
-				$this->fillLightbox();
-				$this->parseCurrentBlock();
-			}
-		}
-		
-		if ($part == "DEFAULT" or is_bool($part))
-		{
-			$html = parent::get();
-		}
-		else
-		{
-			$html = parent::get($part);
-		}
-		
-		// include the template output hook
-		global $ilPluginAdmin;
-		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
-		foreach ($pl_names as $pl)
-		{
-			$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
-			$gui_class = $ui_plugin->getUIClassInstance();
-			
-			$resp = $gui_class->getHTML("", "template_show", 
-					array("tpl_id" => $this->tplIdentifier, "tpl_obj" => $this, "html" => $html));
-
-			if ($resp["mode"] != ilUIHookPluginGUI::KEEP)
-			{
-				$html = $gui_class->modifyHTML($html, $resp);
-			}
-		}
-
-		// fix #9992: save language usages as late as possible
-		if ($this->translation_linked)
-		{
-			ilObjLanguageAccess::_saveUsages();
-		}
-
-		print $html;
-		
-		$this->handleReferer();
 	}
 	
 	
@@ -2604,6 +2633,25 @@ if ($a == "HEADER") mk();
 	function enableDragDropFileUpload($a_ref_id)
 	{
 		$this->enable_fileupload = $a_ref_id;
+	}
+
+
+	/**
+	 * @param $m
+	 *
+	 * @return mixed|string
+	 */
+	private function getMessageTextForType($m) {
+		$txt = "";
+		if (isset($_SESSION[$m]) && $_SESSION[$m] != "") {
+			$txt = $_SESSION[$m];
+		} else {
+			if (isset($this->message[$m])) {
+				$txt = $this->message[$m];
+			}
+		}
+
+		return $txt;
 	}
 }
 

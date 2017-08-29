@@ -9,5 +9,8 @@
 		<systemcheck_task identifier="missing_reference" />
 		<systemcheck_task identifier="duplicates" />
 	</systemcheck> 
+	<events>
+		<event type="raise" id="deleteNode" />
+	</events>
 	<logging />
 </service>
