@@ -63,6 +63,15 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
 				$this->ctrl->forwardCommand($settings_gui);
 				break;
 
+			case 'iluseractionadmingui':
+				include_once("./Services/User/Actions/classes/class.ilUserActionAdminGUI.php");
+				include_once("./Services/User/Gallery/classes/class.ilGalleryUserActionContext.php");
+				$gui = new ilUserActionAdminGUI();
+				$gui->setActionContext(new ilGalleryUserActionContext());
+				$this->setSubTabs('settings', "actions");
+				$this->ctrl->forwardCommand($gui);
+				break;
+
 			default:
 				if(!$cmd || $cmd == "view")
 				{
@@ -225,7 +234,10 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
 				$GLOBALS['lng']->txt('mem_settings_tab_'.self::SUB_TAB_PRINT_VIEW),
 				$GLOBALS['ilCtrl']->getLinkTargetByClass('ilMemberExportSettingsGUI', 'printViewSettings')
 			);
-			
+			$GLOBALS['ilTabs']->addSubTab("actions",
+				$GLOBALS['lng']->txt("mmbr_gallery_user_actions"),
+				$GLOBALS['ilCtrl']->getLinkTargetByClass("iluseractionadmingui"));
+
 			$GLOBALS['ilTabs']->activateTab($a_main_tab);
 			$GLOBALS['ilTabs']->activateSubTab($a_active_tab);
 		}
