@@ -11667,8 +11667,8 @@ blog#:#blog_nav_mode_month_list#:#Show List of Months
 blog#:#blog_nav_mode_month_list_info#:#All months with postings are listed in the ‘Postings’ block.
 blog#:#blog_nav_mode_month_list_num_detail#:#Total number of postings
 blog#:#blog_nav_mode_month_list_num_detail_info#:#Latest postings are listed by date in reverse chronological order. Older postings are available via their month.
-blog#:#blog_nav_mode_month_list_num_month#:#Number of listed months
-blog#:#blog_nav_mode_month_list_num_month_info#:#Months above the limit will not be listed and related postings are not accessible.
+blog#:#blog_nav_mode_month_list_num_month#:#Total Number of shown months
+blog#:#blog_nav_mode_month_list_num_month_info#:#Additional months will be displayed with their total number of postings.
 blog#:#blog_nav_mode_month_single#:#Show Selected Month
 blog#:#blog_nav_mode_month_single_info#:#Only postings of the selected month are listed in the ‘Postings’ block. Month can be changed by drop-down.
 blog#:#blog_list_num_postings#:#Number of postings
@@ -13949,3 +13949,5 @@ prtf#:#prtf_signature#:#Signature Field
 prtf#:#prtf_signature_info#:#Adds a field to the print where the author can sign the portfolio.
 prtf#:#prtf_signature_date#:#Date, Signature
 mem#:#mmbr_gallery_user_actions#:#Benutzeraktionen in Mitgliedergalerie
+blog#:#blog_nav_mode_month_list_num_month_with_post#:#Number of month with listed postings
+blog#:#blog_nav_mode_month_list_num_month_with_post_info#:#These months will be displayed with all their postings in the navigation block.
