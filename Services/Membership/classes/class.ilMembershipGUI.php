@@ -266,6 +266,7 @@ class ilMembershipGUI
 				}
 
 				$this->showMailToMemberToolbarButton($GLOBALS['ilToolbar'], 'jump2UsersGallery');
+				$this->showMemberExportToolbarButton($GLOBALS['ilToolbar'], 'jump2UsersGallery');
 
 				require_once 'Services/User/Gallery/classes/class.ilUsersGalleryGUI.php';
 				require_once 'Services/User/Gallery/classes/class.ilUsersGalleryParticipants.php';
@@ -330,7 +331,9 @@ class ilMembershipGUI
 					$cmd != 'membersMap'
 				)
 				{
-					$this->checkRbacOrPositionAccessBool('manage_members','manage_members');
+					#$this->checkRbacOrPositionAccessBool('manage_members','manage_members');
+					#$this->checkPermission('manage_members');
+					$this->checkPermission('read');
 				}
 				else
 				{
@@ -858,9 +861,39 @@ class ilMembershipGUI
 		
 		$this->showMailToMemberToolbarButton($ilToolbar, 'participants', false);
 	}
+	
+	/**
+	 * Show member export button
+	 * @param ilToolbarGUI $toolbar
+	 * @param type $a_back_cmd
+	 * @param type $a_separator
+	 */
+	protected function showMemberExportToolbarButton(ilToolbarGUI $toolbar, $a_back_cmd = null, $a_separator = false)
+	{
+		if(
+			$this->getParentObject()->getType() == 'crs' &&
+			$this->getParentObject()->getShowMembersExport())
+		{
+			if($a_separator)
+			{
+				$toolbar->addSeparator();
+			}
 
-	
-	
+			if($a_back_cmd)
+			{
+				$this->ctrl->setParameter($this, "back_cmd", $a_back_cmd);
+			}
+			$toolbar->addButton(
+				$this->lng->txt($this->getParentObject()->getType().'_print_list'),
+				$this->ctrl->getLinkTarget($this, 'printForMembersOutput')
+			);
+		}
+	}
+
+
+
+
+
 	/**
 	 * Show mail to member toolbar button
 	 */
@@ -1522,6 +1555,8 @@ class ilMembershipGUI
 		}
 	}
 	
+	
+	
 	/**
 	 * Print members
 	 * @todo: refactor to own class
@@ -1530,12 +1565,24 @@ class ilMembershipGUI
 	{
 		global $ilTabs;
 		
-		$this->checkRbacOrPositionAccessBool('manage_members','manage_members');
+		#$this->checkRbacOrPositionAccessBool('manage_members','manage_members');
+		$this->checkPermission('read');
 		
 		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget(
-			$this->lng->txt('back'),
-			$this->ctrl->getLinkTarget($this, 'participants'));
+		
+		if($GLOBALS['ilAccess']->checkAccess('manage_members','',$this->getParentObject()->getId()))
+		{
+			$ilTabs->setBackTarget(
+				$this->lng->txt('back'),
+				$this->ctrl->getLinkTarget($this, 'participants'));
+		}
+		else
+		{
+			$ilTabs->setBackTarget(
+				$this->lng->txt('back'),
+				$this->ctrl->getLinkTarget($this, 'jump2UsersGallery'));
+		}
+		
 		
 		$list = $this->initAttendanceList();
 		$form = $list->initForm('printMembersOutput');
@@ -1563,12 +1610,39 @@ class ilMembershipGUI
 		exit();
 	}
 	
+	/**
+	 * print members output
+	 */
+	protected function printForMembersOutput()
+	{		
+		$list = $this->initAttendanceList();
+		$list->setTitle($this->lng->txt('obj_'.$this->getParentObject()->getType()).': '.$this->getParentObject()->getTitle());
+		$list->setId(0);
+		$form = $list->initForm('printForMembersOutput');
+		$list->initFromForm();
+		$list->setCallback(array($this, 'getAttendanceListUserData'));	
+		$this->member_data = $this->getPrintMemberData($this->getMembersObject()->getParticipants());
+		$list->getNonMemberUserData($this->member_data);
+		
+		$list->getFullscreenHTML();
+		exit();
+	}
+
+	/**
+	 * 
+	 */
+	protected function jump2UsersGallery()
+	{
+		$this->ctrl->redirectByClass('ilUsersGalleryGUI');
+	}
+	
+	
 	
 	
 	/**
 	 * Init attendance list
 	 */
-	protected function initAttendanceList()
+	protected function initAttendanceList($a_for_members = false)
 	{
 		/**
 		 * @var ilWaitingList

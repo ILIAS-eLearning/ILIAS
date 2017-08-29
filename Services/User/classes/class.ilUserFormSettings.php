@@ -287,7 +287,7 @@ class ilUserFormSettings
 	 * 
 	 * @param ilPropertyFormGUI $a_form	
 	 */
-	public function exportToForm(ilPropertyFormGUI $a_form)
+	public function exportToForm(ilPropertyFormGUI $a_form, $a_set_post = false)
 	{				
 		foreach($a_form->getItems() as $item)
 		{
@@ -298,6 +298,8 @@ class ilUserFormSettings
 				if($this->valueExists($field))
 				{
 					$value = $this->getValue($field);
+					if($a_set_post)
+						$_POST[$item->getPostVar()] = $value;
 
 					if(method_exists($item, "setDate"))
 					{

@@ -20639,3 +20639,19 @@ $ilDB->insert('pdfgen_renderer_avail',
 <?php
 	ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, 'Access Enrolments in a course', ilOrgUnitOperationContext::CONTEXT_CRS);
 ?>
+<#5198>
+<?php
+if(!$ilDB->tableColumnExists('crs_settings', 'show_members_export'))
+{
+                $ilDB->addTableColumn('crs_settings', 'show_members_export', array(
+                        "type" => "integer",
+                        "notnull" => false,
+                        "length" => 4
+                ));
+}
+?>
+<#5199>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
