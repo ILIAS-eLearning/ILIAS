@@ -20613,6 +20613,8 @@ $superior->setCoreIdentifier(ilOrgUnitPosition::CORE_POSITION_SUPERIOR);
 $superior->update();
 
 ?>
+
+
 <#5195>
 <?php
 $ilDB->insert('pdfgen_renderer_avail',
@@ -20654,6 +20656,7 @@ if(!$ilDB->tableColumnExists('crs_settings', 'show_members_export'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+
 <#5200>
 <?php
 include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
@@ -21269,4 +21272,32 @@ if(!$ilDB->tableColumnExists('il_blog','nav_list_mon_with_post'))
 		)
 	);
 }
+?>
+
+<#5222>
+<?php
+    if (!$ilDB->tableColumnExists('iass_settings', 'file_required')) {
+        $ilDB->addTableColumn('iass_settings', 'file_required', array(
+                                                                      "type" => "integer",
+                                                                      "length" => 1,
+                                                                      "notnull" => true,
+                                                                      "default" => 0
+                                                                      ));
+    }
+?>
+
+<#5223>
+<?php
+    if (!$ilDB->tableColumnExists('iass_members', 'file_name')) {
+        $ilDB->addTableColumn('iass_members', 'file_name', array(
+                                                                 "type" => "text",
+                                                                 "length" => 255
+                                                                 ));
+    }
+    if (!$ilDB->tableColumnExists('iass_members', 'user_view_file')) {
+        $ilDB->addTableColumn('iass_members', 'user_view_file', array(
+                                                                      "type" => "integer",
+                                                                      "length" => 1
+                                                                      ));
+    }
 ?>

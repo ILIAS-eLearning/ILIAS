@@ -28,6 +28,7 @@ class ilIndividualAssessmentSettingsStorageDB implements ilIndividualAssessmentS
 				, "content" => array("text", $settings->content())
 				, "record_template" => array("text", $settings->recordTemplate())
 				, "event_time_place_required" => array("integer", $settings->eventTimePlaceRequired())
+				, "file_required" => array("integer", $settings->fileRequired())
 				);
 
 		$this->db->insert(self::IASS_SETTINGS_TABLE, $values);
@@ -43,7 +44,7 @@ class ilIndividualAssessmentSettingsStorageDB implements ilIndividualAssessmentS
 		if(ilObjIndividualAssessment::_exists($obj->getId(), false, 'iass')) {
 			$obj_id = $obj->getId();
 			assert('is_numeric($obj_id)');
-			$sql = "SELECT content, record_template, event_time_place_required\n"
+			$sql = "SELECT content, record_template, event_time_place_required, file_required\n"
 				  ." FROM ".self::IASS_SETTINGS_TABLE."\n"
 				  ." WHERE obj_id = ".$this->db->quote($obj_id,'integer');
 
@@ -52,7 +53,8 @@ class ilIndividualAssessmentSettingsStorageDB implements ilIndividualAssessmentS
 					$obj,
 					$res["content"],
 					$res["record_template"],
-					(bool)$res["event_time_place_required"]
+					(bool)$res["event_time_place_required"],
+					(bool)$res['file_required']
 				);
 			}
 			throw new ilIndividualAssessmentException("$obj_id not in database");
@@ -71,6 +73,7 @@ class ilIndividualAssessmentSettingsStorageDB implements ilIndividualAssessmentS
 				( "content" => array("text", $settings->content())
 				, "record_template" => array("text", $settings->recordTemplate())
 				, "event_time_place_required" => array("integer", $settings->eventTimePlaceRequired())
+				, "file_required" => array("integer", $settings->fileRequired())
 				);
 
 		$this->db->update(self::IASS_SETTINGS_TABLE, $values, $where);

@@ -13514,6 +13514,8 @@ awrn#:#awrn_use_osd_info#:#Display a popup to indicate new online users in the â
 exc#:#exc_tbl_filter_submission#:#Submission
 exc#:#exc_tbl_filter_has_submission#:#Has submitted
 exc#:#exc_tbl_filter_has_no_submission#:#Has not submitted yet
+iass#:#iass_upload_file#:#Upload a file
+iass#:#iass_file_visible_examinee#:#File visible for participant
 iass#:#general#:#General Information
 iass#:#iass_content#:#Assessment content description
 iass#:#iass_record_template#:#Record template
@@ -13534,6 +13536,7 @@ iass#:#il_iass_members#:#Participants
 iass#:#iass_may_not_finalize#:#Examinee may not be finalised.
 iass#:#iass_subj_notification_completed#:#%s: Individual Assessment completed.
 iass#:#iass_subj_notification_failed#:#%s: Individual Assessment failed.
+iass#:#iass_usr_download_attachment#:#Download Attachment
 trac#:#trac_mode_individual_assessment#:#Graded manually by tutor or trainer
 common#:#obj_iass#:#Individual Assessment
 common#:#objs_iass#:#Individual Assessments
@@ -13573,6 +13576,10 @@ iass#:#iass_contact#:#Name
 iass#:#iass_responsibility#:#Responsibility
 iass#:#iass_phone#:#Phone
 iass#:#iass_mails#:#Mails
+iass#:#iass_place#:#Event location
+iass#:#iass_event_time#:#Event time
+iass#:#iass_usr_amend#:#Amend Grading
+iass#:#iass_save_amend#:#Save Amend
 iass#:#iass_info_emails_expl#:#You may provide several addresses separated by a coma.
 iass#:#iass_consultation_hours#:#Consultation Hours
 iass#:#iass_edit_info#:#Info Settings
