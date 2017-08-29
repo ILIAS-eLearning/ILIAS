@@ -20613,3 +20613,31 @@ $superior->setCoreIdentifier(ilOrgUnitPosition::CORE_POSITION_SUPERIOR);
 $superior->update();
 
 ?>
+
+<#5195>
+<?php
+if (!$ilDB->tableColumnExists('iass_settings', 'file_required')) {
+	$ilDB->addTableColumn('iass_settings', 'file_required', array(
+	"type" => "integer",
+	"length" => 1,
+	"notnull" => true,
+	"default" => 0
+	));
+}
+?>
+
+<#5196>
+<?php
+if (!$ilDB->tableColumnExists('iass_members', 'file_name')) {
+	$ilDB->addTableColumn('iass_members', 'file_name', array(
+	"type" => "text",
+	"length" => 255
+	));
+}
+if (!$ilDB->tableColumnExists('iass_members', 'user_view_file')) {
+	$ilDB->addTableColumn('iass_members', 'user_view_file', array(
+	"type" => "integer",
+	"length" => 1
+	));
+}
+?>
