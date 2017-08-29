@@ -168,7 +168,7 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 
 		if($this->userMayDownloadAttachment($a_set['usr_id']) && (string)$a_set['file_name'] !== '') {
 			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI', 'downloadAttachment');
-			$l->addItem($this->lng->txt('iass_usr_download_attachemnt'), 'downloadAttachment', $target);
+			$l->addItem($this->lng->txt('iass_usr_download_attachment'), 'downloadAttachment', $target);
 		}
 		$this->ctrl->setParameterByClass('ilIndividualAssessmentMemberGUI', 'usr_id', null);
 		return $l->getHTML();
