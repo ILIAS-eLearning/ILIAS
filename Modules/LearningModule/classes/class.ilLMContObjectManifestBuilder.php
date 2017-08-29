@@ -13,7 +13,7 @@ require_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 *
 * @ingroup ModulesIliasLearningModule
 */
-class ilContObjectManifestBuilder
+class ilLMContObjectManifestBuilder
 {
 	var $db;			// database object
 	var $ilias;			// ilias object

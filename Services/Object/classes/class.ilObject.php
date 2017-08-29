@@ -1253,14 +1253,20 @@ class ilObject
 		return $objects;
 	}
 
+
 	/**
-	* maybe this method should be in tree object!?
-	*
-	* @todo	role/rbac stuff
-	*/
+	 * maybe this method should be in tree object!?
+	 *
+	 * @todo    role/rbac stuff
+	 *
+	 * @param int $a_parent_ref Ref-ID of the parent object
+	 */
 	function putInTree($a_parent_ref)
 	{
-		global $tree, $log;
+		global $tree, $log, $ilAppEventHandler;
+		/**
+		 * @var $ilAppEventHandler ilAppEventHandler
+		 */
 
 		$tree->insertNode($this->getRefId(), $a_parent_ref);
 		
@@ -1269,6 +1275,13 @@ class ilObject
 			$this->getRefId().", obj_id: ".$this->getId().", type: ".
 			$this->getType().", title: ".$this->getTitle());
 
+		$ilAppEventHandler->raise('Services/Object', 'putObjectInTree', array(
+				'object'        => $this,
+				'obj_type'      => $this->getType(),
+				'obj_id'        => $this->getId(),
+				'parent_ref_id' => $a_parent_ref,
+			)
+		);
 	}
 
 	/**
@@ -1361,20 +1374,22 @@ class ilObject
 	}
 
 
-
-
 	/**
-	* delete object or referenced object
-	* (in the case of a referenced object, object data is only deleted
-	* if last reference is deleted)
-	* This function removes an object entirely from system!!
-	*
- 	* @access	public
-	* @return	boolean	true if object was removed completely; false if only a references was removed
-	*/
+	 * delete object or referenced object
+	 * (in the case of a referenced object, object data is only deleted
+	 * if last reference is deleted)
+	 * This function removes an object entirely from system!!
+	 *
+	 * @access    public
+	 * @return    boolean    true if object was removed completely; false if only a references was
+	 *                       removed
+	 */
 	function delete()
 	{
-		global $rbacadmin, $log, $ilDB;
+		global $rbacadmin, $log, $ilDB, $ilAppEventHandler;
+		/**
+		 * @var $ilAppEventHandler ilAppEventHandler
+		 */
 
 		$remove = false;
 
@@ -1394,7 +1409,9 @@ class ilObject
 				// raise error
 				$this->ilias->raiseError("ilObject::delete(): Type mismatch. (".$this->type."/".$this->id.")",$this->ilias->error_obj->WARNING);
 			}
-			
+
+			$ilAppEventHandler->raise('Services/Object', 'beforeDeletion', array( 'object' => $this ));
+
 			// delete entry in object_data
 			$q = "DELETE FROM object_data ".
 				"WHERE obj_id = ".$ilDB->quote($this->getId(), "integer");
@@ -1707,7 +1724,10 @@ class ilObject
 	 */
 	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
-		global $objDefinition,$ilUser,$rbacadmin, $ilDB;
+		global $objDefinition,$ilUser,$rbacadmin, $ilDB, $ilAppEventHandler;
+		/**
+		 * @var $ilAppEventHandler ilAppEventHandler
+		 */
 		
 		$location = $objDefinition->getLocation($this->getType());
 		$class_name = ('ilObj'.$objDefinition->getClassName($this->getType()));
@@ -1763,7 +1783,12 @@ class ilObject
 			"WHERE obj_id = ".$ilDB->quote($this->getId(),'integer');
 		$res = $ilDB->manipulate($query);
 		// END WebDAV: Clone WebDAV properties
-		
+
+		$ilAppEventHandler->raise('Services/Object', 'cloneObject', array(
+			'object'             => $new_obj,
+			'cloned_from_object' => $this,
+		));
+
 		return $new_obj;
 	}
 	
