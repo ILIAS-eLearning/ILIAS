@@ -42,6 +42,7 @@ class Renderer extends AbstractComponentRenderer {
 		}
 
 		$this->maybeRenderId($component, $tpl, "with_id", "ID");
+
 		return $tpl->get();
 	}
 
@@ -69,6 +70,22 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->parseCurrentBlock();
 		}
 	}
+
+
+	/**
+	 * Append a block to touch during rendering and return cloned instance
+	 *
+	 * @param string 	$block
+	 *
+	 * @return Renderer
+	 */
+	public function withBlocksToBeTouched($block) {
+		assert('is_string($block)');
+		$clone = clone $this;
+		$clone->touch_blocks[] = $block;
+		return $clone;
+	}
+
 
 	/**
 	 * @inheritdoc
