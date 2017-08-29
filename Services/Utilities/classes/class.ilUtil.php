@@ -3758,7 +3758,7 @@ class ilUtil
 	 */
 	public static function execQuoted($cmd, $args = NULL)
 	{
-		global $ilLog;
+		global $DIC;
 		
 		if(ilUtil::isWindows() && strpos($cmd, " ") !== false && substr($cmd, 0, 1) !== '"')
 		{
@@ -3784,10 +3784,11 @@ class ilUtil
 		{
 			$cmd .= " ".$args;
 		}
-//ilUtil::printBacktrace(5);
-//echo "<br>".$cmd; exit;
+
 		exec($cmd, $arr);
-		$ilLog->write("ilUtil::execQuoted: ".$cmd.".");
+
+		$DIC->logger()->root()->write("ilUtil::execQuoted: ".$cmd.".");
+
 		return $arr;
 	}
 
@@ -4451,7 +4452,7 @@ class ilUtil
 
 	/**
 	 * @param $a_target
-	 *
+	 * @internal
 	 * @return array
 	 */
 	protected static function sanitateTargetPath($a_target) {

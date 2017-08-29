@@ -259,7 +259,7 @@ final class FileUploadImpl implements FileUpload {
 					$metadata->getFilename(),
 					$metadata->getUploadSize(),
 					$metadata->getMimeType(),
-					new ImmutableMapWrapper($metadata->additionalMetaData()),
+					$metadata->additionalMetaData(),
 					$processingResult,
 					is_string($identifier)?$identifier:''
 				);
