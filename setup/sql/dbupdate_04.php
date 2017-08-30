@@ -20590,6 +20590,7 @@ if (! $ilDB->tableExists('il_dcl_sel_opts')) {
 ?>
 <#5194>
 <?php
+
 if(!$ilDB->tableColumnExists('il_orgu_positions','core_identifier'))
 {
 	$ilDB->addTableColumn(
@@ -20603,7 +20604,6 @@ if(!$ilDB->tableColumnExists('il_orgu_positions','core_identifier'))
 	);
 	$ilDB->query("UPDATE il_orgu_positions SET core_identifier = 0");
 }
-
 $employee = ilOrgUnitPosition::where(['title'=>"Employees", 'core_position'=>true])->first();
 $employee->setCoreIdentifier(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
 $employee->update();
@@ -20829,8 +20829,7 @@ if (!$ilDB->tableExists('lti2_consumer'))
 		)
 	));
 	$ilDB->addPrimaryKey('lti2_consumer',array('consumer_pk'));
-	$ilDB->addUniqueConstraint('lti2_consumer', array('consumer_key256'), 'u1');
-	$ilDB->createSequence('lti2_consumer');  
+	$ilDB->createSequence('lti2_consumer');
 }
 ?>
 <#5202>
