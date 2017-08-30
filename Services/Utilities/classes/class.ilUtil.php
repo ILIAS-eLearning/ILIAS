@@ -3745,7 +3745,7 @@ class ilUtil
 
 		exec($cmd, $arr);
 
-		$DIC->logger()->root()->write("ilUtil::execQuoted: ".$cmd.".");
+		$DIC->logger()->root()->debug("ilUtil::execQuoted: ".$cmd.".");
 
 		return $arr;
 	}
