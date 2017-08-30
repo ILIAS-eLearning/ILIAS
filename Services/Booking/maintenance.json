@@ -5,7 +5,7 @@
     "implicit_maintainers": [],
     "coordinator": "",
     "tester": "berggold(22199)",
-    "testcase_writer": "",
+    "testcase_writer": "iLUB Universität Bern",
     "path": "Services/Booking",
     "belong_to_component": "Calendar",
     "used_in_components": []
