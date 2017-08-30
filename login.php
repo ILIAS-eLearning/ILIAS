@@ -23,7 +23,7 @@ require_once("Services/Init/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
 
 $ilCtrl->initBaseClass("ilStartUpGUI");
-$ilCtrl->setCmd('showLoginPage');
+$ilCtrl->setCmd('showLoginPageOrStartupPage');
 $ilCtrl->setTargetScript("ilias.php");
 $ilCtrl->callBaseClass();
 $ilBench->save();
