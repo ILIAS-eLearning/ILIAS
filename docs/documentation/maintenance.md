@@ -581,4 +581,3 @@ The following directories are currently unmaintained:
 * Services/QTI
 * Services/Randomization
 * Services/Xml
-* Services/MyStaff
