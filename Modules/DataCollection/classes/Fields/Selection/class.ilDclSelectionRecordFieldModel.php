@@ -33,7 +33,7 @@ abstract class ilDclSelectionRecordFieldModel extends ilDclBaseRecordFieldModel 
 	 */
 	public function parseExportValue($value) {
 		$values = ilDclSelectionOption::getValues($this->getField()->getId(), $value);
-		return is_array($values) ? implode(", ", $values) : $values;
+		return is_array($values) ? implode("; ", $values) : $values;
 	}
 
 
@@ -76,7 +76,8 @@ abstract class ilDclSelectionRecordFieldModel extends ilDclBaseRecordFieldModel 
 	 * @return int[]
 	 */
 	protected function getMultipleValuesFromString($stringValues) {
-		$slicedStrings = explode(", ", $stringValues);
+		$delimiter = strpos($stringValues, '; ') ? '; ' : ', ';
+		$slicedStrings = explode($delimiter, $stringValues);
 		$slicedReferences = array();
 		$resolved = 0;
 		for($i = 0; $i < count($slicedStrings); $i++) {

@@ -18,7 +18,6 @@ abstract class Popover implements Component\Popover\Popover {
 
 	use ComponentHelper;
 	use JavaScriptBindable;
-
 	/**
 	 * @var string
 	 */
@@ -43,6 +42,10 @@ abstract class Popover implements Component\Popover\Popover {
 	 * @var SignalGeneratorInterface
 	 */
 	protected $signal_generator;
+	/**
+	 * @var bool
+	 */
+	protected $fixed_position = false;
 
 
 	/**
@@ -157,5 +160,23 @@ abstract class Popover implements Component\Popover\Popover {
 	protected function initSignals() {
 		$this->show_signal = $this->signal_generator->create();
 		$this->replace_content_signal = $this->signal_generator->create("ILIAS\\UI\\Implementation\\Component\\Popover\\ReplaceContentSignal");
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withFixedPosition() {
+		$this->fixed_position = true;
+
+		return $this;
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function isFixedPosition() {
+		return $this->fixed_position;
 	}
 }

@@ -289,7 +289,12 @@ class ilAuthFrontend
 		
 		// check if profile is complete						
 		include_once "Services/User/classes/class.ilUserProfile.php";
-		if(ilUserProfile::isProfileIncomplete($user) && ilAuthFactory::getContext() != ilAuthFactory::CONTEXT_ECS)
+		include_once './Services/Context/classes/class.ilContext.php';
+		if(
+			ilUserProfile::isProfileIncomplete($user) && 
+			ilAuthFactory::getContext() != ilAuthFactory::CONTEXT_ECS &&
+			ilContext::getType() != ilContext::CONTEXT_LTI_PROVIDER
+		)
 		{
 			ilLoggerFactory::getLogger('auth')->info('User profile is incomplete.');
 			$user->setProfileIncomplete(true);

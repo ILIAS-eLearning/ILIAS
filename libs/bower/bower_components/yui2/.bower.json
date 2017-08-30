@@ -1,0 +1,12 @@
+{
+  "name": "yui2",
+  "homepage": "https://github.com/yui/yui2",
+  "_release": "067c9f82ec",
+  "_resolution": {
+    "type": "commit",
+    "commit": "067c9f82ecc90e4b392b7cb06a4a4f7fe3f6136e"
+  },
+  "_source": "https://github.com/yui/yui2.git",
+  "_target": "067c9f82ecc90e4b392b7cb06a4a4f7fe3f6136e",
+  "_originalSource": "https://github.com/yui/yui2.git"
+}

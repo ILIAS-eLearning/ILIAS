@@ -733,7 +733,7 @@ class ilColumnGUI
 
 			if($ilBrowser->isMobile() || $ilBrowser->isIpad())
 			{
-				$tpl->addJavaScript('./Services/jQuery/js/jquery.ui.touch-punch.min.js');
+				$tpl->addJavaScript('./libs/bower/bower_components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js');
 			}
 			$tpl->addJavaScript('./Services/Block/js/block_sorting.js');
 

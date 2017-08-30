@@ -13,6 +13,7 @@ require_once 'Modules/IndividualAssessment/classes/Settings/class.ilIndividualAs
 require_once 'Modules/IndividualAssessment/classes/Settings/class.ilIndividualAssessmentSettingsStorageDB.php';
 require_once 'Modules/IndividualAssessment/classes/Members/class.ilIndividualAssessmentMembersStorageDB.php';
 require_once 'Modules/IndividualAssessment/classes/AccessControl/class.ilIndividualAssessmentAccessHandler.php';
+require_once 'Modules/IndividualAssessment/classes/FileStorage/class.ilIndividualAssessmentFileStorage.php';
 class ilObjIndividualAssessment extends ilObject {
 
 	protected $lp_active = null;
@@ -165,7 +166,27 @@ class ilObjIndividualAssessment extends ilObject {
 		$new_obj->info_settings = $new_info_settings;
 		$new_obj->settings_storage->updateSettings($new_settings);
 		$new_obj->settings_storage->updateInfoSettings($new_info_settings);
+
+		$fstorage = $this->getFileStorage();
+		if(count($fstorage->readDir()) > 0) {
+			$n_fstorage = $new_obj->getFileStorage();
+			$n_fstorage->create();
+			$fstorage->_copyDirectory($fstorage->getAbsolutePath(), $n_fstorage->getAbsolutePath());
+		}
 		return $new_obj;
+	}
+
+	/**
+	 * Get the file storage system
+	 *
+	 * @return ilManualAssessmentFileStorage
+	 */
+	public function getFileStorage()
+	{
+		if ($this->file_storage === null) {
+			$this->file_storage = ilIndividualAssessmentFileStorage::getInstance($this->getId());
+		}
+		return $this->file_storage;
 	}
 
 	/**

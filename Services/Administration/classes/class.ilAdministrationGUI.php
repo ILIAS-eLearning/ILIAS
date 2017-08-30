@@ -112,7 +112,8 @@ class ilAdministrationGUI
 		
 		// permission checks
 		include_once './Services/MainMenu/classes/class.ilMainMenuGUI.php';
-		if(!ilMainMenuGUI::_checkAdministrationPermission())
+		if(!$rbacsystem->checkAccess("visible", SYSTEM_FOLDER_ID) &&
+				!$rbacsystem->checkAccess("read", SYSTEM_FOLDER_ID))
 		{
 			$ilias->raiseError($this->lng->txt('permission_denied'),$ilias->error_obj->WARNING);
 		}
@@ -461,7 +462,7 @@ class ilAdministrationGUI
 				"user_services" =>
 					array("pdts", "prfa", "nwss", "awra", "cadm", "cals", "mail"),
 				"content_services" =>
-					array("seas", "mds", "tags", "taxs", 'ecss', "otpl", 'pdfg'),
+					array("seas", "mds", "tags", "taxs", 'ecss', "otpl", "pdfg", "ltis"),
 				"maintenance" =>
 					array('sysc', "recf", 'logs', "root", "wfe")
 				),

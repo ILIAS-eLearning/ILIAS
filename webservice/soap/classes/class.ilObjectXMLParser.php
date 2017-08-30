@@ -261,7 +261,7 @@ class ilObjectXMLParser extends ilSaxParser
 	}
 
 	/**
-	 * @throws ilObjectXMLExcpetion
+	 * @throws ilObjectXMLException
 	 */
 	function __addReference($a_ref_id,$a_parent_id,$a_time_target)
 	{

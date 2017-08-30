@@ -86,7 +86,7 @@ class Renderer extends AbstractComponentRenderer {
 	public function registerResources(\ILIAS\UI\Implementation\Render\ResourceRegistry $registry) {
 		parent::registerResources($registry);
 		$registry->register('./src/UI/templates/js/Button/button.js');
-		$registry->register("./libs/composer/vendor/moment/moment/min/moment-with-locales.min.js");
+		$registry->register("./libs/bower/bower_components/moment/min/moment-with-locales.min.js");
 		$registry->register("./Services/Calendar/lib/bootstrap3_datepicker/bootstrap-datetimepicker.min.js");
 	}
 

@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+    <title>Test Page</title>
+</head>
+<body>
+<h1>Event callback signature comparison</h1>
+<p>The callback signature for mouseenter and mouseleave subscriptions should match that of non-special events (e.g. click)</p>
+
+<h3>Click subs</h3>
+<code>YAHOO.util.Event.on('a', 'click', callback, 'foo');</code>
+<p>Click on the red box</p>
+<div id="a" style="min-height: 50px; width: 400px; background: red;"></div>
+
+<code>YAHOO.util.Event.delegate('b', 'click', callback, 'em', 'foo');</code>
+<p>Click on either "one" or "six"</p>
+<ul id="b">
+    <li>This is <em>one</em></li>
+    <li>This is two</li>
+    <li>This is three</li>
+    <li>This is four</li>
+    <li>This is five</li>
+    <li>This is <em>six</em></li>
+</ul>
+
+<h3>Mouseenter subs</h3>
+<code>YAHOO.util.Event.on('x', 'mouseenter', callback, 'foo');</code>
+<p>Click on the red box</p>
+<div id="x" style="min-height: 50px; width: 400px; background: red;"></div>
+
+<code>YAHOO.util.Event.delegate('y', 'mouseenter', callback, 'em', 'foo');</code>
+<p>Mouse over either "one" or "six"</p>
+<ul id="y">
+    <li>This is <em>one</em></li>
+    <li>This is two</li>
+    <li>This is three</li>
+    <li>This is four</li>
+    <li>This is five</li>
+    <li>This is <em>six</em></li>
+</ul>
+
+<script src="../../../../build/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script src="../../../../build/selector/selector.js"></script>
+<script src="../../../../build/event-mouseenter/event-mouseenter.js"></script>
+<script src="../../../../build/event-delegate/event-delegate.js"></script>
+<script>
+// Click subs
+YAHOO.util.Event.on("a", "click", function (e, foo) {
+    this.innerHTML = "<p>second arg: " + foo + "</p>";
+}, "foo");
+
+YAHOO.util.Event.delegate('b', 'click', function (e, foo, bar, baz) {
+    var innerHTML = this.innerHTML || 'oops';
+    YAHOO.util.Dom.get('a').innerHTML = '<p>second arg: ' + foo + '</p><p>third arg: ' + bar + '</p><p>fourth arg: ' + baz + '</p>';
+}, 'em', 'foo');
+
+// Mouseenter subs
+YAHOO.util.Event.on("x", "mouseenter", function (e, foo) {
+    this.innerHTML = "<p>second arg: " + foo + "</p>";
+}, "foo");
+
+YAHOO.util.Event.delegate('y', 'mouseenter', function (e, foo, bar, baz) {
+    var innerHTML = this.innerHTML || 'oops';
+    YAHOO.util.Dom.get('x').innerHTML = '<p>second arg: ' + foo + '</p><p>third arg: ' + bar + '</p><p>fourth arg: ' + baz + '</p>';
+}, 'em', 'foo');
+</script>
+</body>
+</html>

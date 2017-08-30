@@ -18,7 +18,7 @@ class ilPlayerUtil
 	 */
 	static function getLocalMediaElementJsPath()
 	{
-		return "./Services/MediaObjects/media_element_".self::$mejs_ver."/mediaelement-and-player.js";
+		return "./libs/bower/bower_components/mediaelement/build/mediaelement-and-player.min.js";
  	}
 
 	/**
@@ -26,7 +26,7 @@ class ilPlayerUtil
 	 */
 	static function getLocalMediaElementCssPath()
 	{
-		return "./Services/MediaObjects/media_element_".self::$mejs_ver."/mediaelementplayer.min.css";
+		return "./libs/bower/bower_components/mediaelement/build/mediaelementplayer.min.css";
  	}
 
  	/**
@@ -81,7 +81,7 @@ class ilPlayerUtil
 	 */
 	static function getFlashVideoPlayerDirectory()
 	{
-		return "Services/MediaObjects/media_element_2_14_2";
+		return "libs/bower/bower_components/mediaelement/build";
 	}
 	
 	
@@ -108,10 +108,9 @@ class ilPlayerUtil
 	 */
 	static function copyPlayerFilesToTargetDirectory($a_target_dir)
 	{
-		ilUtil::rCopy("./Services/MediaObjects/media_element_".self::$mejs_ver,
+		ilUtil::rCopy("./libs/bower/bower_components/mediaelement/build",
 			$a_target_dir);
 	}
 	
 }
 
-?>

@@ -454,6 +454,13 @@ class ilAttendanceList
 			$settings->deleteValue('desc'); // #11340
 			$settings->exportToForm($form);
 		}
+		elseif($a_cmd == 'printForMembersOutput')
+		{
+			include_once "Services/User/classes/class.ilUserFormSettings.php";
+			$settings = new ilUserFormSettings($this->parent_obj->getType().'s_pview_'.$this->parent_obj->getId(), -1);
+			$settings->deleteValue('desc'); // #11340
+			$settings->exportToForm($form,true);
+		}
 		
 		return $form;
 	}
@@ -470,7 +477,7 @@ class ilAttendanceList
 			{
 				$this->presets[$id][1] = false;
 			}
-			foreach($form->getInput('preset') as $value)
+			foreach((array) $form->getInput('preset') as $value)
 			{
 				if(isset($this->presets[$value]))
 				{
@@ -484,7 +491,7 @@ class ilAttendanceList
 			
 			$this->setTitle($form->getInput('title'), $form->getInput('desc'));
 			$this->setBlankColumns($form->getInput('blank'));
-
+			
 			$selection_of_users = (array)$form->getInput('selection_of_users'); // #18238
 
 			$roles = array();
@@ -530,13 +537,13 @@ class ilAttendanceList
 			
 			if($this->id)
 			{
-				$form->setValuesByPost();
+				#$form->setValuesByPost();
 				
-				include_once "Services/User/classes/class.ilUserFormSettings.php";
-				$settings = new ilUserFormSettings($this->id);
-				$settings->deleteValue('desc'); // #11340
-				$settings->importFromForm($form);
-				$settings->store();
+				#include_once "Services/User/classes/class.ilUserFormSettings.php";
+				#$settings = new ilUserFormSettings($this->id);
+				#$settings->deleteValue('desc'); // #11340
+				#$settings->importFromForm($form);
+				#$settings->store();
 			}
 			
 		}		
@@ -587,7 +594,7 @@ class ilAttendanceList
 			$tpl->setVariable('TXT_DESCRIPTION', $time);
 		}
 		
-		
+		ilLoggerFactory::getLogger('crs')->dump($this->presets);
 		// header 
 		
 		$tpl->setCurrentBlock('head_item');

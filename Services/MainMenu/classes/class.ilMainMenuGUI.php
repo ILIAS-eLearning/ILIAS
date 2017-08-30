@@ -1152,6 +1152,7 @@ class ilMainMenuGUI
 
 		$popover = $factory->popover()
 		                   ->listing(array())
+		                   ->withFixedPosition()
 		                   ->withTitle($DIC->language()->txt("background_tasks_running")); // needs to have empty content
 		$DIC->ctrl()->clearParametersByClass(ilBTControllerGUI::class);
 		$DIC->ctrl()->setParameterByClass(ilBTControllerGUI::class,

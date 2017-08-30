@@ -27,6 +27,7 @@ class ilObjectServiceSettingsGUI
 	const TAG_CLOUD = 'cont_tag_cloud';
 	const CUSTOM_METADATA = 'cont_custom_md';
 	const BADGES = 'cont_badges';
+	const LTI_RELEASE = 'obj_lti_settings';
 	const ORGU_POSITION_ACCESS = 'obj_orgunit_positions';
 	const SKILLS = 'cont_skills';
 	
@@ -233,7 +234,7 @@ class ilObjectServiceSettingsGUI
 					));
 				$form->addItem($bdg);		
 			}
-		}	
+		}
 		if(in_array(self::ORGU_POSITION_ACCESS, $services))
 		{
 			$position_settings = ilOrgUnitGlobalSettings::getInstance()->getObjectPositionSettingsByType(
@@ -358,6 +359,28 @@ class ilObjectServiceSettingsGUI
 				ilContainer::_writeContainerSetting($a_obj_id,self::BADGES,(int) $form->getInput(self::BADGES));
 			}
 		}
+		// lti
+		if(in_array(self::LTI_RELEASE, $services))
+		{
+			ilLoggerFactory::getLogger('lti')->dump($_POST);
+			
+			include_once './Services/LTI/classes/class.ilObjLTIAdministration.php';
+			if(ilObjLTIAdministration::isEnabledForType(ilObject::_lookupType($a_obj_id)))
+			{
+				foreach(ilObjLTIAdministration::getEnabledConsumersForType(ilObject::_lookupType($a_obj_id)) as $consumer)
+				{
+					ilLoggerFactory::getLogger('lti')->debug($form->getInput('lti_active['.$consumer->getId().']'));
+					
+					$consumer_settings = new illTIProviderObjectSetting($a_obj_id, $consumer->getId());
+					$consumer_settings->setEnabled($form->getInput('lti_active_'.$consumer->getId()));
+					$consumer_settings->enableAdminAssignment($form->getInput('lti_admin_'.$consumer->getId()));
+					$consumer_settings->enableTutorAssignment($form->getInput('lti_tutor_'.$consumer->getId()));
+					$consumer_settings->enableMemberAssignment($form->getInput('lti_member_'.$consumer->getId()));
+					$consumer_settings->save();
+				}
+			}
+		}
+		
 		// extended user access
 		if(in_array(self::ORGU_POSITION_ACCESS, $services))
 		{

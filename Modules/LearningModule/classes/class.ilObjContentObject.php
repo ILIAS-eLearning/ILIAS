@@ -2010,8 +2010,8 @@ class ilObjContentObject extends ilObject
 		$this->exportHTML($a_target_dir."/res", $log, false, "scorm");
 		
 		// build manifest file
-		include("./Modules/LearningModule/classes/class.ilContObjectManifestBuilder.php");
-		$man_builder = new ilContObjectManifestBuilder($this);
+		include("./Modules/LearningModule/classes/class.ilLMContObjectManifestBuilder.php");
+		$man_builder = new ilLMContObjectManifestBuilder($this);
 		$man_builder->buildManifest();
 		$man_builder->dump($a_target_dir);
 		

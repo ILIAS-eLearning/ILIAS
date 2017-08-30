@@ -9,7 +9,6 @@
 class ilMStListCoursesTableGUI extends ilTable2GUI {
 
 	use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
-
 	/**
 	 * @var array
 	 */
@@ -58,6 +57,8 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 		global $DIC;
 		$ilUser = $DIC['ilUser'];
 
+		$operation = ilOrgUnitOperationQueries::findByOperationString(ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, 'crs');
+
 		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);
 		$this->setDefaultOrderField('crs_title');
@@ -66,7 +67,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 		$this->determineOffsetAndOrder();
 
 		//Permission Filter
-		$this->access->buildTempTableIlobjectsUserMatrixForUserOperationAndContext($ilUser->getId(),1,'crs');
+		$this->access->buildTempTableIlobjectsUserMatrixForUserOperationAndContext($ilUser->getId(), $operation->getOperationId(), 'crs');
 
 		$options = array(
 			'filters' => $this->filter,
@@ -145,8 +146,8 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 		}
 
 		//user
-		$item = new ilTextInputGUI($this->lng()->txt("login") . "/" . $this->lng()->txt("email") . "/"
-		                           . $this->lng()->txt("name"), "user");
+		$item = new ilTextInputGUI($this->lng()->txt("login") . "/" . $this->lng()->txt("email")
+		                           . "/" . $this->lng()->txt("name"), "user");
 
 		$this->addFilterItem($item);
 		$item->readFromSession();
@@ -252,6 +253,11 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 				$this->addColumn($v['txt'], $sort, $v['width']);
 			}
 		}
+
+		//Actions
+		if (!$this->getExportMode()) {
+			$this->addColumn($this->lng()->txt('actions'));
+		}
 	}
 
 
@@ -259,6 +265,10 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 	 * @param ilMStListCourse $my_staff_course
 	 */
 	public function fillRow($my_staff_course) {
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
+		$ilAccess = $GLOBALS['DIC']->access();
+
 		$propGetter = Closure::bind(function ($prop) { return $this->$prop; }, $my_staff_course, $my_staff_course);
 
 		foreach ($this->getSelectableColumns() as $k => $v) {
@@ -298,6 +308,32 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 				}
 			}
 		}
+
+		//TODO Context!
+		$user_action_collector = ilUserActionCollector::getInstance($ilUser->getId(),new ilAwarenessUserActionContext());
+		$action_collection = $user_action_collector->getActionsForTargetUser($my_staff_course->getUsrId(), 'awrn', 'toplist');
+
+		//TODO Async?
+		$selection = new ilAdvancedSelectionListGUI();
+		$selection->setListTitle($this->lng()->txt('actions'));
+		$selection->setId('selection_list_' . $my_staff_course->getUsrId());
+
+		if ($ilAccess->checkAccess("visible", "", $my_staff_course->getCrsRefId())) {
+			$link = ilLink::_getStaticLink($my_staff_course->getCrsRefId(), 'crs');
+			$selection->addItem($my_staff_course->getCrsTitle(), '', $link);
+		};
+
+		$org_units = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits('ref_id');
+		foreach (ilOrgUnitUserAssignment::where(array( 'user_id' => $my_staff_course->getUsrId() ))
+		                                ->get() as $org_unit_assignment) {
+			$link = ilLink::_getStaticLink($org_unit_assignment->getOrguId(), 'orgu');
+			$selection->addItem($org_units[$org_unit_assignment->getOrguId()], '', $link);
+		}
+
+		foreach ($action_collection->getActions() as $action) {
+			$selection->addItem($action->getText(), '', $action->getHref());
+		}
+		$this->tpl->setVariable('ACTIONS', $selection->getHTML());
 	}
 
 

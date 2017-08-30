@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="YuiBuildResize" default="local">
+    <description>Resize Build File</description>
+    <property file="build.properties" />
+    <import file="${builddir}/2.x/bootstrap.xml" />
+</project>
+

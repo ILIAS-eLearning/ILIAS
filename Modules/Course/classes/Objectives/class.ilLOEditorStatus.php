@@ -509,7 +509,7 @@ class ilLOEditorStatus
 			foreach($this->getObjectives() as $objective_id)
 			{
 				include_once './Modules/Course/classes/Objectives/class.ilLORandomTestQuestionPools.php';
-				$seq = ilLORandomTestQuestionPools::lookupSequence(
+				$seq = ilLORandomTestQuestionPools::lookupSequences(
 						$this->parent_obj->getId(), 
 						$objective_id, 
 						ilObject::_lookupObjId($a_test_ref_id)
