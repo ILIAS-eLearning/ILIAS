@@ -411,6 +411,12 @@ The code base is deviced in several components:
 	* Testcases: [Fabian](http://www.ilias.de/docu/goto_docu_usr_27631.html)
 	* Tester: [Fabian](http://www.ilias.de/docu/goto_docu_usr_27631.html)
 
+* **SAML**
+	* 1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+
 * **SCORM Offline Player**
 	* 1st Maintainer: [ukohnle](http://www.ilias.de/docu/goto_docu_usr_21855.html)
 	* 2nd Maintainer: [sschneider](http://www.ilias.de/docu/goto_docu_usr_21741.html)
@@ -568,15 +574,11 @@ The following directories are currently maintained unter the Service-Maintenace-
 
 
 The following directories are currently unmaintained:
-* Services/CopyWizard
-* Services/DidacticTemplate
-* Services/Exceptions
-* Services/Http
-* Services/LDAP
+* Services/LTI
 * Services/License
-* Services/LinkChecker
 * Services/Math
 * Services/Membership
 * Services/QTI
 * Services/Randomization
 * Services/Xml
+* Services/MyStaff
