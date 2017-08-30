@@ -11,18 +11,14 @@
  */
 class ilUIFramework
 {
-
-	const BOWER_BOOTSTRAP_JS = "libs/bower/bower_components/bootstrap/dist/js/bootstrap.min.js";
-
-
 	/**
 	 * Get javascript files
 	 *
 	 * @return array array of files
 	 */
-	public static function getJSFiles()
+	static function getJSFiles()
 	{
-		return array( "./" . self::BOWER_BOOTSTRAP_JS );
+		return array("./Services/UICore/lib/bootstrap-3.2.0/dist/js/bootstrap.min.js");
 	}
 
 	/**
@@ -60,3 +56,5 @@ class ilUIFramework
 	}
 
 }
+
+?>

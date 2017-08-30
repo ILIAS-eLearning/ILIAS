@@ -254,7 +254,7 @@ class ilForumPostDraft
 	}
 	
 	/**
-	 * @param int $update_user
+	 * @param int $update_user_id
 	 */
 	public function setUpdateUserId($update_user_id)
 	{
@@ -332,6 +332,10 @@ class ilForumPostDraft
 	 */
 	public function __construct($user_id = 0, $post_id = 0, $draft_id = 0)
 	{
+		global $DIC;
+		
+		$this->db = $DIC->database();
+		
 		if($user_id && $post_id && $draft_id)
 		{
 			$this->setPostAuthorId($user_id);
@@ -346,15 +350,13 @@ class ilForumPostDraft
 	 */
 	protected function readDraft()
 	{
-		global $ilDB;
-		
-		$res = $ilDB->queryF(
+		$res = $this->db->queryF(
 			'SELECT * FROM frm_posts_drafts WHERE post_author_id = %s AND post_id = %s AND draft_id = %s',
 			array('integer', 'integer','integer'),
 			array($this->getPostAuthorId(), $this->getPostId(), $this->getDraftId())
 		);
 		
-		while($row = $ilDB->fetchAssoc($res))
+		while($row = $this->db->fetchAssoc($res))
 		{
 			self::populateWithDatabaseRecord($this, $row);
 		}
@@ -365,7 +367,8 @@ class ilForumPostDraft
 	 */
 	protected static function readDrafts($user_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 		
 		$res = $ilDB->queryF('SELECT * FROM frm_posts_drafts WHERE post_author_id = %s',
 			array('integer'), array($user_id));
@@ -419,10 +422,8 @@ class ilForumPostDraft
 	 */
 	public static function newInstanceByDraftId($draft_id)
 	{
-		/**
-		 * @var $ilDB ilDB
-		 */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 
 		$res = $ilDB->queryF(
 			'SELECT * FROM frm_posts_drafts WHERE draft_id = %s',
@@ -445,10 +446,8 @@ class ilForumPostDraft
 	 */
 	public static function newInstanceByHistorytId($history_id)
 	{
-		/**
-		 * @var $ilDB ilDB
-		 */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 
 		$res = $ilDB->queryF(
 			'SELECT * FROM frm_drafts_history WHERE history_id = %s',
@@ -468,12 +467,10 @@ class ilForumPostDraft
 
 	public function saveDraft()
 	{
-		global $ilDB;
-		
-		$draft_id = $ilDB->nextId('frm_posts_drafts');
+		$draft_id = $this->db->nextId('frm_posts_drafts');
 		$post_date = date("Y-m-d H:i:s");
 		
-		$ilDB->insert('frm_posts_drafts', array(
+		$this->db->insert('frm_posts_drafts', array(
 			'draft_id' => array('integer', $draft_id),
 			'post_id' => array('integer', $this->getPostId()),
 			'thread_id' => array('integer', $this->getThreadId()),
@@ -495,9 +492,7 @@ class ilForumPostDraft
 	
 	public function updateDraft()
 	{
-		global $ilDB;
-		
-		$ilDB->update('frm_posts_drafts', array(
+		$this->db->update('frm_posts_drafts', array(
 			'post_subject' => array('text', $this->getPostSubject()),
 			'post_message' => array('clob', $this->getPostMessage()),
 			'notify' => array('integer', $this->getNotify()),
@@ -512,9 +507,7 @@ class ilForumPostDraft
 	
 	public function deleteDraft()
 	{
-		global $ilDB;
-		
-		$ilDB->manipulateF('DELETE FROM frm_posts_drafts WHERE draft_id = %s',
+		$this->db->manipulateF('DELETE FROM frm_posts_drafts WHERE draft_id = %s',
 			array('integer'), array($this->getDraftId()));
 	}
 	
@@ -542,8 +535,6 @@ class ilForumPostDraft
 	 */
 	public function deleteDraftsByDraftIds(array $draft_ids = array())
 	{
-		global $ilDB;
-		
 		foreach($draft_ids as $draft_id)
 		{
 			self::deleteMobsOfDraft($draft_id);
@@ -552,8 +543,8 @@ class ilForumPostDraft
 			$objFileDataForumDrafts = new ilFileDataForumDrafts(0, $draft_id);
 			$objFileDataForumDrafts->delete();
 		}
-		$ilDB->manipulate('DELETE FROM frm_drafts_history WHERE ' . $ilDB->in('draft_id', $draft_ids, false, 'integer'));
-		$ilDB->manipulate('DELETE FROM frm_posts_drafts WHERE ' . $ilDB->in('draft_id', $draft_ids, false, 'integer'));
+		$this->db->manipulate('DELETE FROM frm_drafts_history WHERE ' . $this->db->in('draft_id', $draft_ids, false, 'integer'));
+		$this->db->manipulate('DELETE FROM frm_posts_drafts WHERE ' . $this->db->in('draft_id', $draft_ids, false, 'integer'));
 	}
 	
 	/**
@@ -561,7 +552,8 @@ class ilForumPostDraft
 	 */
 	public static function deleteDraftsByUserId($user_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 		
 		$res = $ilDB->queryF('SELECT draft_id FROM frm_posts_drafts WHERE post_author_id = %s',
 				array('integer'), array($user_id));
@@ -593,8 +585,8 @@ class ilForumPostDraft
 	{
 		if(!isset(self::$drafts_settings_cache['save_post_drafts']))
 		{
-			global $ilSetting;
-			self::$drafts_settings_cache['save_post_drafts'] = (bool)$ilSetting->get('save_post_drafts', false);
+			global $DIC;
+			self::$drafts_settings_cache['save_post_drafts'] = (bool)$DIC->settings()->get('save_post_drafts', false);
 		}
 		return self::$drafts_settings_cache['save_post_drafts'];
 	}
@@ -611,10 +603,10 @@ class ilForumPostDraft
 		}
 		if(!isset(self::$drafts_settings_cache['autosave_drafts']))
 		{
-			global $ilSetting;
+			global $DIC;
 			
-			self::$drafts_settings_cache['autosave_drafts'] = (bool)$ilSetting->get('autosave_drafts', false);
-			self::$drafts_settings_cache['autosave_drafts_ival'] = (int)$ilSetting->get('autosave_drafts_ival', 30);
+			self::$drafts_settings_cache['autosave_drafts'] = (bool)$DIC->settings()->get('autosave_drafts', false);
+			self::$drafts_settings_cache['autosave_drafts_ival'] = (int)$DIC->settings()->get('autosave_drafts_ival', 30);
 		}
 		return self::$drafts_settings_cache['autosave_drafts'];
 	}
@@ -634,7 +626,9 @@ class ilForumPostDraft
 	 */
 	public static function getDraftsStatisticsByRefId($ref_id)
 	{
-		global $ilUser, $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
+		$ilUser = $DIC->user();
 		
 		if(!isset(self::$forum_statistics_cache[$ref_id][$ilUser->getId()]))
 		{
@@ -665,7 +659,8 @@ class ilForumPostDraft
 	 */
 	public static function moveDraftsByMergedThreads($source_thread_id, $target_thread_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 		
 		$ilDB->update('frm_posts_drafts', 
 			array('thread_id' => array('integer', $target_thread_id)), 
@@ -680,7 +675,8 @@ class ilForumPostDraft
 	 */
 	public static function moveDraftsByMovedThread($thread_ids, $source_ref_id, $target_ref_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 		
 		$source_forum_id = ilObjForum::lookupForumIdByRefId($source_ref_id);
 		$target_forum_id = ilObjForum::lookupForumIdByRefId($target_ref_id);
@@ -702,7 +698,8 @@ class ilForumPostDraft
 	 */
 	public static function getThreadDraftData($post_author_id, $forum_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 		
 		$res = $ilDB->queryF('SELECT * FROM frm_posts_drafts 
 				WHERE post_author_id = %s
@@ -727,7 +724,8 @@ class ilForumPostDraft
 	 */
 	public static function createDraftBackup($draft_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 		
 		$res = $ilDB->queryF('SELECT * FROM frm_posts_drafts WHERE draft_id = %s',
 			array('integer'), array((int)$draft_id));
