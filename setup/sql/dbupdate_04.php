@@ -20141,6 +20141,10 @@ $fields = array(
 		'length' => '1',
 
 	),
+	'core_identifier' => array(
+			'type' => 'integer',
+			'length' => '1',
+		),
 
 );
 if (! $ilDB->tableExists('il_orgu_positions')) {
