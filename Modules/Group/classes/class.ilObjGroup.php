@@ -2173,9 +2173,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 				" AND leave_end < ".$ilDB->quote($now, "text").")".
 				" OR (leave_end IS NULL".
 				" AND registration_end IS NOT NULL".
-				" AND registration_end < ".$ilDB->quote($now, "text")."))"
-			// :TODO: there is no group start ?!
-			/* " AND (grp_start IS NULL OR grp_start > ".$ilDB->quote($now, "integer").")" */);
+				" AND registration_end < ".$ilDB->quote($now, "text")."))".
+			" AND (grp_start IS NULL OR grp_start > ".$ilDB->quote($now, "integer").")" );
 		while($row = $ilDB->fetchAssoc($set))
 		{
 			$refs = ilObject::_getAllReferences($row['obj_id']);
