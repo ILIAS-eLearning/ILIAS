@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionType.php';
+
 /**
  * @author        Björn Heyser <bheyser@databay.de>
  * @version        $Id$
