@@ -4932,10 +4932,6 @@ function getAnswerFeedbackPoints()
 			}
 			else if($this->isDynamicTest())
 			{
-				require_once 'Modules/Test/classes/class.ilTestSequenceFactory.php';
-				require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
-				require_once 'Modules/Test/classes/class.ilTestDynamicQuestionSetFilterSelection.php';
-
 				$lastPass = $data->getParticipant($active_id)->getLastPass();
 				for($testpass = 0; $testpass <= $lastPass; $testpass++)
 				{
