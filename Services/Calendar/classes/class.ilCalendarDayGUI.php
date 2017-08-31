@@ -102,7 +102,8 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 			case "ilcalendarappointmentpresentationgui":
 				$this->ctrl->setReturn($this, "");
 				include_once("./Services/Calendar/classes/class.ilCalendarAppointmentPresentationGUI.php");
-				$gui = ilCalendarAppointmentPresentationGUI::_getInstance(new ilDate($this->seed, IL_CAL_DATE), $this->getCurrentApp());
+				$this->logger->debug("-ExecCommand - representation of ilDate: this->seed->get(IL_CAL_DATE) = ".$this->seed->get(IL_CAL_DATE));
+				$gui = ilCalendarAppointmentPresentationGUI::_getInstance($this->seed, $this->getCurrentApp());
 				$this->ctrl->forwardCommand($gui);
 				break;
 			case 'ilcalendarappointmentgui':
