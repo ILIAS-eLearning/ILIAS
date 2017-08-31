@@ -4847,8 +4847,11 @@ function getAnswerFeedbackPoints()
 	
 	function getUnfilteredEvaluationData()
 	{
-		global $ilDB;
-		
+		/** @var $DIC ILIAS\DI\Container */
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
 		include_once "./Modules/Test/classes/class.ilTestEvaluationPassData.php";
 		include_once "./Modules/Test/classes/class.ilTestEvaluationUserData.php";
 		include_once "./Modules/Test/classes/class.ilTestEvaluationData.php";
@@ -4877,7 +4880,8 @@ function getAnswerFeedbackPoints()
 		$pass = NULL;
 		$checked = array();
 		$datasets = 0;
-		
+		$questionData  = [];
+
 		while( $row = $ilDB->fetchAssoc($result) )
 		{
 			$participantObject = $data->getParticipant($row["active_fi"]);
@@ -4923,6 +4927,65 @@ function getAnswerFeedbackPoints()
 							$data->getParticipant($active_id)->addQuestion($row["original_id"], $row["question_fi"], $row["points"], $row["sequence"], $tpass);
 							$data->addQuestionTitle($row["question_fi"], $row["title"]);
 						}
+					}
+				}
+			}
+			else if($this->isDynamicTest())
+			{
+				require_once 'Modules/Test/classes/class.ilTestSequenceFactory.php';
+				require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
+				require_once 'Modules/Test/classes/class.ilTestDynamicQuestionSetFilterSelection.php';
+
+				$lastPass = $data->getParticipant($active_id)->getLastPass();
+				for($testpass = 0; $testpass <= $lastPass; $testpass++)
+				{
+					require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
+					$dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig(
+						$DIC->repositoryTree(), $DIC->database(), $DIC['ilPluginAdmin'], $this
+					);
+					$dynamicQuestionSetConfig->loadFromDb();
+
+					require_once 'Modules/Test/classes/class.ilTestSequenceFactory.php';
+					$testSequenceFactory = new ilTestSequenceFactory($DIC->database(), $DIC->language(), $DIC['ilPluginAdmin'], $this);
+					$testSequence        = $testSequenceFactory->getSequenceByActiveIdAndPass($active_id, $testpass);
+
+					$testSequence->loadFromDb($dynamicQuestionSetConfig);
+					$testSequence->loadQuestions($dynamicQuestionSetConfig, new ilTestDynamicQuestionSetFilterSelection());
+
+					$sequence = (array)$testSequence->getUserSequenceQuestions();
+
+					$questionsIdsToRequest = array_diff(array_values($sequence), array_values($questionData));
+					if(count($questionsIdsToRequest) > 0)
+					{
+						$questionIdsCondition = ' ' . $DIC->database()->in('question_id', array_values($questionsIdsToRequest), false, 'integer') . ' ';
+
+						$res = $DIC->database()->queryF("
+							SELECT * 
+							FROM qpl_questions
+							WHERE {$questionIdsCondition}",
+							array('integer'),
+							array($active_id)
+						);
+						while($row = $DIC->database()->fetchAssoc($res))
+						{
+							$questionData[$row['question_id']] = $row;
+							$data->addQuestionTitle($row['question_id'], $row['title']);
+						}
+					}
+
+					foreach($sequence as $questionId)
+					{
+						if(!isset($questionData[$questionId]))
+						{
+							continue;
+						}
+
+						$row = $questionData[$questionId];
+
+						$data->getParticipant(
+							$active_id)->addQuestion($row['original_id'], $row['question_id'], $row['points'],
+							NULL, $testpass
+						);
 					}
 				}
 			}
