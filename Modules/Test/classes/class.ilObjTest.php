@@ -4882,8 +4882,11 @@ function getAnswerFeedbackPoints()
 	
 	function getUnfilteredEvaluationData()
 	{
-		global $ilDB;
-		
+		/** @var $DIC ILIAS\DI\Container */
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
 		include_once "./Modules/Test/classes/class.ilTestEvaluationPassData.php";
 		include_once "./Modules/Test/classes/class.ilTestEvaluationUserData.php";
 		include_once "./Modules/Test/classes/class.ilTestEvaluationData.php";
@@ -4912,7 +4915,8 @@ function getAnswerFeedbackPoints()
 		$pass = NULL;
 		$checked = array();
 		$datasets = 0;
-		
+		$questionData  = [];
+
 		while( $row = $ilDB->fetchAssoc($result) )
 		{
 			$participantObject = $data->getParticipant($row["active_fi"]);
@@ -4974,6 +4978,10 @@ function getAnswerFeedbackPoints()
 			}
 			else if($this->isDynamicTest())
 			{
+				require_once 'Modules/Test/classes/class.ilTestSequenceFactory.php';
+				require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
+				require_once 'Modules/Test/classes/class.ilTestDynamicQuestionSetFilterSelection.php';
+
 				$lastPass = $data->getParticipant($active_id)->getLastPass();
 				for($testpass = 0; $testpass <= $lastPass; $testpass++)
 				{
