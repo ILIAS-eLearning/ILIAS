@@ -2245,6 +2245,11 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		return true;
 	}
 	
+	/**
+	 * Minimum members check
+	 * @global type $ilDB
+	 * @return array
+	 */
 	public static function findCoursesWithNotEnoughMembers()
 	{
 		global $ilDB;
@@ -2267,6 +2272,14 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			" AND (crs_start IS NULL OR crs_start > ".$ilDB->quote($now, "integer").")");
 		while($row = $ilDB->fetchAssoc($set))
 		{
+			$refs = ilObject::_getAllReferences($row['obj_id']);
+			$ref = end($refs);
+			
+			if($GLOBALS['tree']->isDeleted($ref))
+			{
+				continue;
+			}
+			
 			$part = new ilCourseParticipants($row["obj_id"]);
 			$reci = $part->getNotificationRecipients();
 			if(sizeof($reci))
