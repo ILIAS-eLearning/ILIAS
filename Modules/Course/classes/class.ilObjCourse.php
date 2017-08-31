@@ -2231,7 +2231,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	 */
 	public static function findCoursesWithNotEnoughMembers()
 	{
-		global $ilDB;
+		$ilDB = $GLOBALS['DIC']->database();
+		$tree = $GLOBALS['DIC']->repositoryTree();
 		
 		$res = array();
 		
@@ -2254,7 +2255,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			$refs = ilObject::_getAllReferences($row['obj_id']);
 			$ref = end($refs);
 			
-			if($GLOBALS['tree']->isDeleted($ref))
+			if($tree->isDeleted($ref))
 			{
 				continue;
 			}
