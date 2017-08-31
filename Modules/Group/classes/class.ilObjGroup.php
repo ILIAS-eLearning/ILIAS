@@ -2156,7 +2156,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	 */
 	public static function findGroupsWithNotEnoughMembers()
 	{
-		global $ilDB;
+		$ilDB = $GLOBALS['DIC']->database();
+		$tree = $GLOBALS['DIC']->repositoryTree();
 		
 		$res = array();
 		
@@ -2180,7 +2181,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			$refs = ilObject::_getAllReferences($row['obj_id']);
 			$ref = end($refs);
 			
-			if($GLOBALS['tree']->isDeleted($ref))
+			if($tree->isDeleted($ref))
 			{
 				continue;
 			}
