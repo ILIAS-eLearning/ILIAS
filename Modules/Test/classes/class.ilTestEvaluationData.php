@@ -308,7 +308,7 @@ class ilTestEvaluationData
 	 * @param integer $active_id
 	 * @return ilTestEvaluationUserData
 	 */
-	function &getParticipant($active_id)
+	function getParticipant($active_id)
 	{
 		return $this->participants[$active_id];
 	}
@@ -323,7 +323,7 @@ class ilTestEvaluationData
 		unset($this->participants[$active_id]);
 	}
 	
-	function &getStatistics()
+	function getStatistics()
 	{
 		return $this->statistics;
 	}
