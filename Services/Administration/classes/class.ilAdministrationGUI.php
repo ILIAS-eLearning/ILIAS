@@ -42,6 +42,31 @@ include_once("./Services/Table/classes/class.ilTableGUI.php");
 */
 class ilAdministrationGUI
 {
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $objDefinition;
+
+	/**
+	 * @var ilMainMenuGUI
+	 */
+	protected $main_menu;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	var $lng;
 	var $tpl;
 	var $tree;
@@ -57,7 +82,19 @@ class ilAdministrationGUI
 	*/
 	function __construct()
 	{
-		global $lng, $tpl, $tree, $rbacsystem, $objDefinition, $ilCtrl, $ilMainMenu;
+		global $DIC;
+
+		$this->main_menu = $DIC["ilMainMenu"];
+		$this->help = $DIC["ilHelp"];
+		$this->error = $DIC["ilErr"];
+		$this->db = $DIC->database();
+		$lng = $DIC->language();
+		$tpl = $DIC["tpl"];
+		$tree = $DIC->repositoryTree();
+		$rbacsystem = $DIC->rbac()->system();
+		$objDefinition = $DIC["objDefinition"];
+		$ilCtrl = $DIC->ctrl();
+		$ilMainMenu = $DIC["ilMainMenu"];
 
 		$this->lng = $lng;
 		$this->lng->loadLanguageModule('administration');
@@ -103,7 +140,11 @@ class ilAdministrationGUI
 	*/
 	function executeCommand()
 	{
-		global $rbacsystem, $objDefinition, $ilHelp, $ilErr, $ilDB;
+		$rbacsystem = $this->rbacsystem;
+		$objDefinition = $this->objDefinition;
+		$ilHelp = $this->help;
+		$ilErr = $this->error;
+		$ilDB = $this->db;
 		
 		// permission checks
 		include_once './Services/MainMenu/classes/class.ilMainMenuGUI.php';
@@ -263,7 +304,7 @@ class ilAdministrationGUI
 	 */
 	function forward()
 	{
-		global $ilErr;
+		$ilErr = $this->error;
 		
 		if ($_GET["admin_mode"] != "repository")	// settings
 		{
@@ -321,7 +362,9 @@ class ilAdministrationGUI
 	*/
 	function showTree()
 	{
-		global $tpl, $tree, $lng;
+		$tpl = $this->tpl;
+		$tree = $this->tree;
+		$lng = $this->lng;
 		
 		if ($_GET["admin_mode"] != "repository")
 		{
@@ -341,7 +384,7 @@ class ilAdministrationGUI
 	 */
 	function jumpToPluginSlot()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "ctype", $_GET["ctype"]);
 		$ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "cname", $_GET["cname"]);
@@ -363,7 +406,9 @@ class ilAdministrationGUI
 	 */
 	function getDropDown()
 	{
-		global $tree, $rbacsystem, $lng;
+		$tree = $this->tree;
+		$rbacsystem = $this->rbacsystem;
+		$lng = $this->lng;
 
 		$objects = $tree->getChilds(SYSTEM_FOLDER_ID);
 
@@ -558,7 +603,8 @@ class ilAdministrationGUI
 	 */
 	function jump()
 	{
-		global $ilCtrl, $objDefinition;
+		$ilCtrl = $this->ctrl;
+		$objDefinition = $this->objDefinition;
 
 		$ref_id = (int) $_GET["ref_id"];
 		$obj_id = ilObject::_lookupObjId($ref_id);
