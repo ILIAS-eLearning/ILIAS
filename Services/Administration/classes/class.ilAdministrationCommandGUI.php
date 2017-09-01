@@ -33,6 +33,31 @@
 */
 class ilAdministrationCommandGUI 
 {
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
 	protected $ctrl = null;
 	protected $lng = null;
 	private $container = null;
@@ -42,7 +67,15 @@ class ilAdministrationCommandGUI
 	 */
 	public function __construct($a_container) 
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->tpl = $DIC["tpl"];
+		$this->settings = $DIC->settings();
+		$this->error = $DIC["ilErr"];
+		$this->tree = $DIC->repositoryTree();
+		$this->obj_definition = $DIC["objDefinition"];
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 
 		$this->container = $a_container;
 		$this->ctrl = $ilCtrl;
@@ -62,7 +95,9 @@ class ilAdministrationCommandGUI
 	 */
 	public function delete() 
 	{
-		global $tpl,$ilSetting,$ilErr;
+		$tpl = $this->tpl;
+		$ilSetting = $this->settings;
+		$ilErr = $this->error;
 
 		$this->ctrl->setReturnByClass(get_class($this->getContainer()), '');
 
@@ -134,7 +169,7 @@ class ilAdministrationCommandGUI
 	 */
 	public function cut() 
 	{
-		global $tree;
+		$tree = $this->tree;
 		
 		$this->ctrl->setReturnByClass(get_class($this->getContainer()), '');
 
@@ -152,7 +187,7 @@ class ilAdministrationCommandGUI
 	 */
 	public function showMoveIntoObjectTree()
 	{
-		global $objDefinition;
+		$objDefinition = $this->obj_definition;
 
 		$this->ctrl->setReturnByClass(get_class($this->getContainer()), '');
 
@@ -176,7 +211,7 @@ class ilAdministrationCommandGUI
 	 */
 	public function showLinkIntoMultipleObjectsTree()
 	{
-		global $objDefinition;
+		$objDefinition = $this->obj_definition;
 
 		$this->ctrl->setReturnByClass(get_class($this->getContainer()), '');
 
@@ -198,7 +233,7 @@ class ilAdministrationCommandGUI
 	 */
 	public function link() 
 	{
-		global $tree;
+		$tree = $this->tree;
 		
 		$this->ctrl->setReturnByClass(get_class($this->getContainer()), '');
 
@@ -215,7 +250,7 @@ class ilAdministrationCommandGUI
 	 */
 	public function paste() 
 	{
-		global $objDefinition;
+		$objDefinition = $this->obj_definition;
 
 		$this->ctrl->setReturnByClass(get_class($this->getContainer()), '');
 		$_GET['ref_id'] = (int) $_GET['item_ref_id'];
@@ -235,7 +270,7 @@ class ilAdministrationCommandGUI
 	
 	public function performPasteIntoMultipleObjects()
 	{
-		global $objDefinition;
+		$objDefinition = $this->obj_definition;
 
 		$this->ctrl->setReturnByClass(get_class($this->getContainer()), '');
 
