@@ -1,5 +1,5 @@
 /*!
- * jQuery UI Menu 1.12.0
+ * jQuery UI Menu 1.12.1
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -37,7 +37,7 @@
 }( function( $ ) {
 
 return $.widget( "ui.menu", {
-	version: "1.12.0",
+	version: "1.12.1",
 	defaultElement: "<ul>",
 	delay: 300,
 	options: {
@@ -236,8 +236,11 @@ return $.widget( "ui.menu", {
 		default:
 			preventDefault = false;
 			prev = this.previousFilter || "";
-			character = String.fromCharCode( event.keyCode );
 			skip = false;
+
+			// Support number pad values
+			character = event.keyCode >= 96 && event.keyCode <= 105 ?
+				( event.keyCode - 96 ).toString() : String.fromCharCode( event.keyCode );
 
 			clearTimeout( this.filterTimer );
 
