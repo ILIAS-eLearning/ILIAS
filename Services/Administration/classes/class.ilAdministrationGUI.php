@@ -38,14 +38,11 @@ include_once("./Services/Table/classes/class.ilTableGUI.php");
 * @ilCtrl_Calls ilAdministrationGUI: ilObjBibliographicAdminGUI, ilObjBibliographicGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjStudyProgrammeAdminGUI, ilObjStudyProgrammeGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjBadgeAdministrationGUI, ilMemberExportSettingsGUI
-* // BEGIN WebDAV
 * @ilCtrl_Calls ilAdministrationGUI: ilObjFileAccessSettingsGUI, ilPermissionGUI, ilObjRemoteTestGUI
-* // END WebDAV
 */
 class ilAdministrationGUI
 {
 	var $lng;
-	var $ilias;
 	var $tpl;
 	var $tree;
 	var $rbacsystem;
@@ -60,18 +57,16 @@ class ilAdministrationGUI
 	*/
 	function __construct()
 	{
-		global $lng, $ilias, $tpl, $tree, $rbacsystem, $objDefinition,
-			$_GET, $ilCtrl, $ilLog, $ilMainMenu;
+		global $lng, $tpl, $tree, $rbacsystem, $objDefinition, $ilCtrl, $ilMainMenu;
 
 		$this->lng = $lng;
 		$this->lng->loadLanguageModule('administration');
-		$this->ilias = $ilias;
 		$this->tpl = $tpl;
 		$this->tree = $tree;
 		$this->rbacsystem = $rbacsystem;
 		$this->objDefinition = $objDefinition;
-
 		$this->ctrl = $ilCtrl;
+
 		$ilMainMenu->setActive("administration");
 		
 		$this->creation_mode = false;
@@ -108,14 +103,14 @@ class ilAdministrationGUI
 	*/
 	function executeCommand()
 	{
-		global $tree, $rbacsystem, $ilias, $lng, $objDefinition, $ilHelp;
+		global $rbacsystem, $objDefinition, $ilHelp, $ilErr, $ilDB;
 		
 		// permission checks
 		include_once './Services/MainMenu/classes/class.ilMainMenuGUI.php';
 		if(!$rbacsystem->checkAccess("visible", SYSTEM_FOLDER_ID) &&
 				!$rbacsystem->checkAccess("read", SYSTEM_FOLDER_ID))
 		{
-			$ilias->raiseError($this->lng->txt('permission_denied'),$ilias->error_obj->WARNING);
+			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
 		}
 		
 		// check creation mode
@@ -171,7 +166,7 @@ class ilAdministrationGUI
 				{
 					// check db update
 					include_once ("./Services/Database/classes/class.ilDBUpdate.php");
-					$dbupdate = new ilDBUpdate($this->ilias->db,true);
+					$dbupdate = new ilDBUpdate($ilDB,true);
 					if (!$dbupdate->getDBVersionStatus())
 					{
 						ilUtil::sendFailure($this->lng->txt("db_need_update"));
@@ -268,7 +263,7 @@ class ilAdministrationGUI
 	 */
 	function forward()
 	{
-		global $tree;
+		global $ilErr;
 		
 		if ($_GET["admin_mode"] != "repository")	// settings
 		{
@@ -298,9 +293,7 @@ class ilAdministrationGUI
                 	$url_parts = parse_url(base64_decode(rawurldecode($_GET['fr'])));
                 	if($url_parts['http'] || $url_parts['host'])
                 	{
-                		global $ilias;
-                		
-                		$ilias->raiseError($this->lng->txt('permission_denied'), $ilias->error_obj->MESSAGE);
+                		$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
                 	}
                 	
                     $fs_gui->setMainFrameSource(

@@ -51,7 +51,7 @@ class ilAdministrationExplorer extends ilExplorer
 	*/
 	function formatHeader(&$tpl, $a_obj_id,$a_option)
 	{
-		global $lng, $ilias, $objDefinition;
+		global $lng, $objDefinition;
 		
 		if ($_GET["admin_mode"] == "settings")
 		{
