@@ -3391,6 +3391,7 @@ common#:#obj_facs#:#Dateien
 common#:#obj_facs_desc#:#Einstellungen für Dateien und Dateiverwaltung.
 common#:#obj_feed#:#Webfeed
 common#:#obj_file#:#Datei
+common#:#obj_file_duplicate#:#Datei kopieren
 common#:#obj_file_inline#:#Lernmodul Datei
 common#:#obj_fold#:#Ordner
 common#:#obj_frm#:#Forum

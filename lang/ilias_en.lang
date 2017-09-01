@@ -2902,6 +2902,7 @@ common#:#obj_facs#:#Files
 common#:#obj_feed#:#Web Feed
 common#:#obj_file_inline#:#Learning Module File
 common#:#obj_file#:#File
+common#:#obj_file_duplicate#:#Duplicate File
 common#:#obj_fold#:#Folder
 common#:#obj_frm_duplicate#:#Copy Forum
 common#:#obj_frm#:#Forum
