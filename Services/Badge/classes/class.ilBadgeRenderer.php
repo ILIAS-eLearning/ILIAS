@@ -13,6 +13,21 @@ include_once "Services/Badge/classes/class.ilBadge.php";
  */
 class ilBadgeRenderer
 {
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	protected $assignment; // [ilBadgeAssignment]
 	protected $badge; // [ilBadge]
 	
@@ -20,6 +35,11 @@ class ilBadgeRenderer
 	
 	public function __construct(ilBadgeAssignment $a_assignment = null, ilBadge $a_badge = null)
 	{
+		global $DIC;
+
+		$this->tpl = $DIC["tpl"];
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
 		if($a_assignment)
 		{
 			$this->assignment = $a_assignment;					
@@ -64,7 +84,8 @@ class ilBadgeRenderer
 	
 	public function getHTML()
 	{				
-		global $tpl, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
 		
 		if(!self::$init)
 		{
@@ -93,7 +114,8 @@ class ilBadgeRenderer
 	
 	public function getHref()
 	{
-		global $ilCtrl, $tpl;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
 		
 		if(!self::$init)
 		{
@@ -127,7 +149,7 @@ class ilBadgeRenderer
 	
 	public function renderModal()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		include_once "Services/UIComponent/Modal/classes/class.ilModalGUI.php";
 		
