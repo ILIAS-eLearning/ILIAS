@@ -15,6 +15,46 @@ include_once("./Services/UIComponent/Explorer2/classes/class.ilTreeExplorerGUI.p
  */
 class ilAdministrationExplorerGUI extends ilTreeExplorerGUI
 {
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
 	protected $type_grps = array();
 	protected $session_materials = array();
 	
@@ -23,7 +63,20 @@ class ilAdministrationExplorerGUI extends ilTreeExplorerGUI
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd)
 	{
-		global $tree, $ilSetting, $objDefinition;
+		global $DIC;
+
+		$this->tree = $DIC->repositoryTree();
+		$this->settings = $DIC->settings();
+		$this->obj_definition = $DIC["objDefinition"];
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->db = $DIC->database();
+		$this->user = $DIC->user();
+		$this->access = $DIC->access();
+		$tree = $DIC->repositoryTree();
+		$ilSetting = $DIC->settings();
+		$objDefinition = $DIC["objDefinition"];
 
 		$this->cur_ref_id = (int) $_GET["ref_id"];
 		
@@ -58,7 +111,7 @@ class ilAdministrationExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function getNodeContent($a_node)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$title = $a_node["title"];
 		if ($a_node["child"] == $this->getNodeId($this->getRootNode()))
@@ -92,7 +145,7 @@ class ilAdministrationExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function getNodeIconAlt($a_node)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		if ($a_node["child"] == $this->getNodeId($this->getRootNode()))
 		{
@@ -132,7 +185,8 @@ class ilAdministrationExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function getNodeHref($a_node)
 	{
-		global $ilCtrl, $objDefinition;
+		$ilCtrl = $this->ctrl;
+		$objDefinition = $this->obj_definition;
 		
 		$class_name = $objDefinition->getClassName($a_node["type"]);
 		$class = strtolower("ilObj".$class_name."GUI");
@@ -151,7 +205,7 @@ class ilAdministrationExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function isNodeVisible($a_node)
 	{
-		global $rbacsystem;
+		$rbacsystem = $this->rbacsystem;
 
 		$visible = $rbacsystem->checkAccess('visible', $a_node["child"]);
 		if ($a_node["type"] == "rolf" && $a_node["child"] != ROLE_FOLDER_ID)
@@ -171,7 +225,7 @@ class ilAdministrationExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function sortChilds($a_childs, $a_parent_node_id)
 	{
-		global $objDefinition;
+		$objDefinition = $this->obj_definition;
 
 		$parent_obj_id = ilObject::_lookupObjId($a_parent_node_id);
 		
@@ -237,7 +291,7 @@ class ilAdministrationExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function getChildsOfNode($a_parent_node_id)
 	{
-		global $rbacsystem;
+		$rbacsystem = $this->rbacsystem;
 		
 		if (!$rbacsystem->checkAccess("read", $a_parent_node_id))
 		{
@@ -255,7 +309,11 @@ class ilAdministrationExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function isNodeClickable($a_node)
 	{
-		global $rbacsystem,$tree,$ilDB,$ilUser,$ilAccess;
+		$rbacsystem = $this->rbacsystem;
+		$tree = $this->tree;
+		$ilDB = $this->db;
+		$ilUser = $this->user;
+		$ilAccess = $this->access;
 		
 		return $rbacsystem->checkAccess('read', $a_node["child"]);
 	}
