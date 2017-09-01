@@ -22,7 +22,7 @@ class ilAwarenessUserProviderAllUsers extends ilAwarenessUserProvider
 		global $DIC;
 
 		parent::__construct();
-		
+
 		$this->db = $DIC->database();
 	}
 
