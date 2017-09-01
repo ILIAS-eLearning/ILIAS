@@ -243,7 +243,9 @@ class ilObjFile extends ilObject2 {
 			$this->initFileStorage();
 		}
 
-		return $this->file_storage->getAbsolutePath() . '/' . $version_subdir;
+		$str = $this->file_storage->getAbsolutePath() . '/' . $version_subdir;
+
+		return $str;
 	}
 
 
@@ -273,7 +275,9 @@ class ilObjFile extends ilObject2 {
 			ilUtil::makeDirParents($this->getDirectory($this->getVersion()));
 		}
 
-		$file = $this->getDirectory($this->getVersion()) . "/" . $a_filename;
+//		$file = $this->getDirectory($this->getVersion()) . "/" . $a_filename;
+		$target_directory = $this->getDirectory($this->getVersion()) . "/";
+		$relative_path_to_file = \ILIAS\Filesystem\Util\LegacyPathHelper::createRelativePath($target_directory);
 
 		if (PATH_TO_GHOSTSCRIPT != "") {
 			$upload->register(new ilCountPDFPagesPreProcessors());
@@ -289,7 +293,7 @@ class ilObjFile extends ilObject2 {
 				$this->doUpdate();
 			}
 
-			$upload->moveOneFileTo($result, $file, Location::STORAGE, $a_filename);
+			$upload->moveOneFileTo($result, $relative_path_to_file, Location::STORAGE, $a_filename);
 		}
 
 		$this->handleQuotaUpdate($this);
@@ -675,7 +679,7 @@ class ilObjFile extends ilObject2 {
 			 * @var $ilClientIniFile ilIniFile
 			 */
 
-			$ilFileDelivery = new ilFileDelivery($this->file_storage->getLegacyFullAbsolutePath($file));
+			$ilFileDelivery = new ilFileDelivery($file);
 			$ilFileDelivery->setDisposition($this->isInline() ? ilFileDelivery::DISP_INLINE : ilFileDelivery::DISP_ATTACHMENT);
 			$ilFileDelivery->setMimeType($this->guessFileType($file));
 			$ilFileDelivery->setConvertFileNameToAsci(true);
