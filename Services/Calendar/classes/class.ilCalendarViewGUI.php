@@ -202,11 +202,12 @@ class ilCalendarViewGUI
 				$next_gui = ilCalendarAppointmentPresentationGUI::_getInstance($this->seed, $item);
 				$content = $ctrl->getHTML($next_gui);
 
-				if($_GET['modal_title'] != "") {
-					$modal = $f->modal()->roundtrip(rawurldecode($_GET['modal_title']) ,$f->legacy($content));
-				} else {
-					$modal = $f->modal()->roundtrip(ilDatePresentation::formatPeriod($dates["start"], $dates["end"]),$f->legacy($content));
-				}
+				//plugins can change the modal title.
+
+				$modal_title = ilDatePresentation::formatPeriod($dates["start"], $dates["end"]);
+				$modal_title = $this->getModalTitleByPlugins($modal_title);
+				$modal = $f->modal()->roundtrip($modal_title,$f->legacy($content));
+
 				echo $r->renderAsync($modal);
 			}
 		}
@@ -217,10 +218,9 @@ class ilCalendarViewGUI
 	 * @param $a_calendar_entry
 	 * @param $a_dstart
 	 * @param string $a_title_forced  //used in plugins to rename the shy button title.
-	 * @param string $a_new_modal_title
 	 * @return string  shy button html
 	 */
-	function getAppointmentShyButton($a_calendar_entry, $a_dstart, $a_title_forced = "", $a_new_modal_title = "")
+	function getAppointmentShyButton($a_calendar_entry, $a_dstart, $a_title_forced = "")
 	{
 		$f = $this->ui_factory;
 		$r = $this->ui_renderer;
@@ -228,15 +228,10 @@ class ilCalendarViewGUI
 		$this->ctrl->setParameter($this, "app_id", $a_calendar_entry->getEntryId());
 		$this->ctrl->setParameter($this,'dt',$a_dstart);
 		$this->ctrl->setParameter($this,'seed',$this->seed->get(IL_CAL_DATE));
-		if($a_new_modal_title != "")
-		{
-			$this->ctrl->setParameter($this,'modal_title',rawurlencode($a_new_modal_title));
-		}
 		$url = $this->ctrl->getLinkTarget($this, "getModalForApp", "", true, false);
 		$this->ctrl->setParameter($this, "app_id", $_GET["app_id"]);
 		$this->ctrl->setParameter($this, "dt", $_GET["dt"]);
 		$this->ctrl->setParameter($this,'seed',$_GET["seed"]);
-		$this->ctrl->setParameter($this,'modal_title',$_GET["modal_title"]);
 
 		$modal = $f->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
 
@@ -263,14 +258,14 @@ class ilCalendarViewGUI
 		return $res;
 	}
 
-	public function getModalTitleByPlugins()
+	public function getModalTitleByPlugins($a_current_title)
 	{
-		$modal_title = "";
+		$modal_title = $a_current_title;
 		//demo of plugin execution.
 		//"capm" is the plugin slot id for Appointment presentations (modals)
 		foreach($this->getActivePlugins("capm") as $plugin)
 		{
-			$modal_title = ($new_title = $plugin->editModalTitle())? $new_title : "";
+			$modal_title = ($new_title = $plugin->editModalTitle($a_current_title))? $new_title : "";
 		}
 		return $modal_title;
 	}
@@ -288,7 +283,7 @@ class ilCalendarViewGUI
 		foreach($this->getActivePlugins("capg") as $plugin)
 		{
 			$plugin->setAppointment($a_cal_entry, new ilDateTime($a_start_date));
-			if($new_content = $plugin->replaceContent())
+			if($new_content = $plugin->replaceContent($a_title))
 			{
 				$content = $new_content;
 			}

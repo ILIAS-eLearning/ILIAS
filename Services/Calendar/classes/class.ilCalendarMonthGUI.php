@@ -352,8 +352,7 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 			}
 
 			//plugins can change the modal title.
-			$modal_title = $this->getModalTitleByPlugins();
-			$shy = $this->getAppointmentShyButton($item['event'], $item['dstart'], "", $modal_title);
+			$shy = $this->getAppointmentShyButton($item['event'], $item['dstart'], "");
 
 			$title = ($time != "")? $time." ".$shy : $shy;
 

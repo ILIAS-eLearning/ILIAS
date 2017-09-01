@@ -340,9 +340,8 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 		$compl = ($a_app['event']->isMilestone() && $a_app['event']->getCompletion() > 0)
 			? " (".$a_app['event']->getCompletion()."%)"
 			: "";
-		//plugins can change the modal title.
-		$modal_title = $this->getModalTitleByPlugins();
-		$shy = $this->getAppointmentShyButton($a_app['event'], $a_app['dstart'], "", $modal_title);
+
+		$shy = $this->getAppointmentShyButton($a_app['event'], $a_app['dstart'], "");
 
 		$title = ($new_title = $this->getContentByPlugins($a_app['event'], $a_app['dstart'], $shy))? $new_title : $shy;
 
@@ -409,9 +408,8 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 					break;
 			}
 		}
-		//plugins can change the modal title.
-		$modal_title = $this->getModalTitleByPlugins();
-		$shy = $this->getAppointmentShyButton($a_app['event'], $a_app['dstart'],"", $modal_title);
+
+		$shy = $this->getAppointmentShyButton($a_app['event'], $a_app['dstart'],"");
 
 		$title = $shy;
 		$title = ($time != "")? $time." ".$title : $title;
