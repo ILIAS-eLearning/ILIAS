@@ -585,7 +585,7 @@ class ilCalendarUtil
 			
 			// unminified version does not work with jQuery 3.0
 			// https://github.com/Eonasdan/bootstrap-datetimepicker/issues/1684			
-			$tpl->addJavaScript("./Services/Calendar/lib/bootstrap3_datepicker/bootstrap-datetimepicker.min.js");		
+			$tpl->addJavaScript("./libs/bower/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js");
 			
 			$tpl->addJavaScript("Services/Form/js/Form.js"); // see ilPropertyFormGUI	
 		
