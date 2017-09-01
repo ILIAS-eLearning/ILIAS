@@ -137,6 +137,7 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel {
 					ilDclSelectionOption::storeOption($this->getId(), $id, $sorting, $val);
 					$sorting++;
 				}
+				$this->reorderExistingValues();
 				break;
 			case static::PROP_SELECTION_TYPE:
 				$will_be_multi = ($value == self::SELECTION_TYPE_MULTI);
@@ -147,6 +148,32 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel {
 				break;
 			default:
 				parent::setProperty($key, $value)->store();
+		}
+	}
+
+
+	/**
+	 * sorts record field values by the new order
+	 */
+	public function reorderExistingValues() {
+		$options = ilDclSelectionOption::getAllForField($this->getId());
+		// loop each record(-field)
+		foreach (ilDclCache::getTableCache($this->getTableId())->getRecords() as $record) {
+			$record_field = $record->getRecordField($this->getId());
+			$record_field_value = $record_field->getValue();
+
+			if (is_array($record_field_value) && count($record_field_value) > 1) {
+				$sorted_array = array();
+				// $options has the right order, so loop those
+				foreach ($options as $option) {
+					if (in_array($option->getOptId(),$record_field_value)) {
+						$sorted_array[] = $option->getOptId();
+					}
+				}
+				$record_field->setValue($sorted_array);
+				$record_field->doUpdate();
+			}
+
 		}
 	}
 
