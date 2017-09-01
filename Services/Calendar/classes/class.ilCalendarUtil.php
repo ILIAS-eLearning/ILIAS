@@ -581,7 +581,7 @@ class ilCalendarUtil
 		
 		if(!self::$init_datetimepicker)
 		{			
-			$tpl->addJavaScript("./libs/composer/vendor/moment/moment/min/moment-with-locales.min.js");	
+			$tpl->addJavaScript("./libs/bower/bower_components/moment/min/moment-with-locales.min.js");
 			
 			// unminified version does not work with jQuery 3.0
 			// https://github.com/Eonasdan/bootstrap-datetimepicker/issues/1684			
