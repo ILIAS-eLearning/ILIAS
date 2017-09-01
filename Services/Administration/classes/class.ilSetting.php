@@ -37,11 +37,6 @@ class ilSetting
 	protected $db;
 
 	/**
-	 * @var ilLanguage
-	 */
-	protected $lng;
-
-	/**
 	* cache for the read settings
 	* ilSetting is instantiated more than once per request for some modules
 	* The cache avoids reading them from the DB with each instance
@@ -67,7 +62,6 @@ class ilSetting
 		global $DIC;
 
 		$this->db = $DIC->database();
-		$this->lng = $DIC->language();
 		$ilDB = $DIC->database();
 		
 		$this->cache_disabled = $a_disabled_cache;
@@ -230,7 +224,9 @@ class ilSetting
 	*/
 	function set($a_key, $a_val)
 	{
-		$lng = $this->lng;
+		global $DIC;
+
+		$lng = $DIC["lng"];
 		$ilDB = $this->db;
 		
 		$this->delete($a_key);
