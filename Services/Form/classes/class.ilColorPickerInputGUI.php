@@ -12,6 +12,11 @@
 
 class ilColorPickerInputGUI extends ilTextInputGUI
 {
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
 	protected $hex;
 
 	/**
@@ -22,6 +27,9 @@ class ilColorPickerInputGUI extends ilTextInputGUI
 	*/
 	public function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->tpl = $DIC["tpl"];
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("color");
 		$this->setDefaultColor("04427e");
@@ -198,7 +206,7 @@ class ilColorPickerInputGUI extends ilTextInputGUI
 	*/
 	function insert($a_tpl)
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		include_once('./Services/YUI/classes/class.ilYuiUtil.php');
 		

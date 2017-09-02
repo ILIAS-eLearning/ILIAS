@@ -32,6 +32,11 @@ include_once 'Services/UIComponent/Toolbar/interfaces/interface.ilToolbarItem.ph
 */
 class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarItem
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	protected $value = "1";
 	protected $checked;
 	protected $optiontitle = "";
@@ -45,6 +50,9 @@ class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolba
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("checkbox");
 	}
@@ -149,7 +157,7 @@ class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolba
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$_POST[$this->getPostVar()] = 
 			ilUtil::stripSlashes($_POST[$this->getPostVar()]);
