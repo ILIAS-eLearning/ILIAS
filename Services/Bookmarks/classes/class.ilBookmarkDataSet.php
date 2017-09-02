@@ -18,9 +18,9 @@ class ilBookmarkDataSet extends ilDataSet
 	 */
 	function __construct()
 	{
-		parent::__construct();
 		global $DIC;
 
+		parent::__construct();
 		$this->db = $DIC->database();
 	}
 
