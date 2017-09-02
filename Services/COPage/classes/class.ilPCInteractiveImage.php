@@ -19,7 +19,7 @@ class ilPCInteractiveImage extends ilPageContent
 	 */
 	protected $lng;
 
-	
+
 	var $dom;
 	var $iim_node;
 	

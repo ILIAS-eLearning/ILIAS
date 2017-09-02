@@ -43,6 +43,11 @@ class ilPCMapGUI extends ilPageContentGUI
 	*/
 	function __construct(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
+		global $DIC;
+
+		$this->tpl = $DIC["tpl"];
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
 		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
 
@@ -72,7 +77,7 @@ class ilPCMapGUI extends ilPageContentGUI
 	*/
 	function insert()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$this->displayValidationError();
 		$this->initForm("create");
@@ -84,7 +89,9 @@ class ilPCMapGUI extends ilPageContentGUI
 	*/
 	function edit($a_insert = false)
 	{
-		global $ilCtrl, $tpl, $lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 		
 		$this->displayValidationError();
 		$this->initForm("update");
@@ -117,7 +124,8 @@ class ilPCMapGUI extends ilPageContentGUI
 	*/
 	function initForm($a_mode)
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		// edit form
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -192,7 +200,7 @@ class ilPCMapGUI extends ilPageContentGUI
 	*/
 	function create()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$this->initForm("create");
 		if ($this->form->checkInput())
@@ -225,7 +233,7 @@ class ilPCMapGUI extends ilPageContentGUI
 	*/
 	function update()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$this->initForm("update");
 		if ($this->form->checkInput())

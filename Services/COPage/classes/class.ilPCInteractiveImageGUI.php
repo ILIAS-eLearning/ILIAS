@@ -18,8 +18,25 @@ include_once("./Services/COPage/classes/class.ilMediaAliasItem.php");
  */
 class ilPCInteractiveImageGUI extends ilPageContentGUI
 {
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
 	function __construct($a_pg_obj, $a_content_obj, $a_hier_id = 0, $a_pc_id = "")
 	{
+		global $DIC;
+
+		$this->tpl = $DIC["tpl"];
+		$this->lng = $DIC->language();
+		$this->tabs = $DIC->tabs();
+		$this->ctrl = $DIC->ctrl();
+		$this->toolbar = $DIC->toolbar();
 		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
 
@@ -28,7 +45,9 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	*/
 	function executeCommand()
 	{
-		global $tpl, $lng, $ilTabs;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilTabs = $this->tabs;
 
 		
 //		$this->getCharacteristicsOfCurrentStyle("media_cont");	// scorm-2004
@@ -87,7 +106,9 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	 */
 	function getTabs(&$tab_gui, $a_create = false, $a_change_obj_ref = false)
 	{
-		global $ilCtrl, $ilTabs, $lng;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
 
 		if (!$a_create)
 		{
@@ -124,7 +145,10 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	 */
 	function insert($a_post_cmd = "edpost", $a_submit_cmd = "create_mob", $a_input_error = false)
 	{
-		global $ilTabs, $tpl, $ilCtrl, $lng;
+		$ilTabs = $this->tabs;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		ilUtil::sendInfo($lng->txt("cont_iim_create_info"));
 		
@@ -151,7 +175,8 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	 */
 	function edit()
 	{
-		global $tpl, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
 		
 		$ilCtrl->redirectByClass(array("ilpcinteractiveimagegui", "ilpciimtriggereditorgui"), "editMapAreas");
 		//$tpl->setContent("hh");
@@ -165,7 +190,9 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	 */
 	function editBaseImage($a_form = null)
 	{
-		global $tpl, $ilTabs, $lng;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
 		
 		$ilTabs->activateTab("edit_base_image");
 		
@@ -181,7 +208,8 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	 */
 	public function initForm($a_mode = "edit")
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -232,7 +260,8 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	 */
 	function create()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$this->content_obj = new ilPCInteractiveImage($this->getPage());
 		$this->content_obj->createMediaObject();
@@ -289,7 +318,8 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	 */
 	function update()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$mob = $this->content_obj->getMediaObject();
 		$mob_dir = ilObjMediaObject::_getDirectory($mob->getId());
@@ -395,7 +425,11 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	 */
 	function listOverlayImages()
 	{
-		global $tpl, $ilToolbar, $ilCtrl, $ilTabs, $lng;
+		$tpl = $this->tpl;
+		$ilToolbar = $this->toolbar;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
 		
 		ilUtil::sendInfo($lng->txt("cont_iim_overlay_info"));
 		
@@ -415,7 +449,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	 */
 	function addOverlayImages($a_form = null)
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		if ($a_form)
 		{
@@ -437,7 +471,9 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	 */
 	function initAddOverlaysForm()
 	{
-		global $lng, $ilCtrl, $ilTabs;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
 		
 		$ilTabs->setTabActive("list_overlays");
 		
@@ -469,7 +505,8 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	 */
 	function uploadOverlayImages()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$form = $this->initAddOverlaysForm();
 		if ($form->checkInput())
@@ -505,7 +542,10 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	*/
 	function confirmDeleteOverlays()
 	{
-		global $ilCtrl, $tpl, $lng, $ilTabs;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilTabs = $this->tabs;
 		
 		$ilTabs->setTabActive("list_overlays");
 
@@ -537,7 +577,8 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	 */
 	function deleteOverlays()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		if (is_array($_POST["file"]) && count($_POST["file"]) != 0)
 		{
@@ -563,7 +604,11 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	 */
 	function listContentPopups()
 	{
-		global $tpl, $ilToolbar, $ilCtrl, $ilTabs, $lng;
+		$tpl = $this->tpl;
+		$ilToolbar = $this->toolbar;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
 		
 		ilUtil::sendInfo($lng->txt("cont_iim_content_popups_info"));
 		
@@ -586,7 +631,8 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	 */
 	function addPopup()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$this->content_obj->addContentPopup();
 		$this->pg_obj->update();
@@ -599,7 +645,8 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	 */
 	function savePopups()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		if (is_array($_POST["title"]))
 		{
@@ -616,7 +663,10 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	 */
 	function confirmPopupDeletion()
 	{
-		global $ilCtrl, $tpl, $lng, $ilTabs;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilTabs = $this->tabs;
 		
 		$ilTabs->setTabActive("content_popups");
 			
@@ -651,7 +701,8 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	 */
 	function deletePopups()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		if (is_array($_POST["tid"]) && count($_POST["tid"]) != 0)
 		{
