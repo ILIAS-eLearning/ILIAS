@@ -17,7 +17,7 @@ class ilContainerPageConfig extends ilPageConfig
 	 * @var ilSetting
 	 */
 	protected $settings;
-	
+
 	/**
 	 * Init
 	 */
