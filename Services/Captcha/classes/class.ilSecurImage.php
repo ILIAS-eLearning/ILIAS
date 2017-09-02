@@ -13,6 +13,11 @@ require_once 'Services/Captcha/classes/class.ilSecurImageUtil.php';
 class ilSecurImage
 {
 	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
 	 * @var int
 	 */
 	const MAX_CAPTCHA_IMG_WIDTH = 430;
@@ -49,6 +54,9 @@ class ilSecurImage
 	 */
 	public function __construct()
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		ilSecurImageUtil::includeSecurImage();
 		$this->securimage = new Securimage();
 		if(!function_exists("imagettftext"))
@@ -93,7 +101,7 @@ class ilSecurImage
 		/**
 		 * @var $lng ilLanguage
 		 */
-		global $lng;
+		$lng = $this->lng;
 		
 		chdir(ilSecurImageUtil::getDirectory());
 		if(
