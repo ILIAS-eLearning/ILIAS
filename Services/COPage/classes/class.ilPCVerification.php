@@ -16,6 +16,23 @@ require_once("./Services/COPage/classes/class.ilPageContent.php");
 */
 class ilPCVerification extends ilPageContent
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		parent::__construct();
+		global $DIC;
+
+		$this->user = $DIC->user();
+	}
+
 	var $dom;
 
 	/**
@@ -57,7 +74,7 @@ class ilPCVerification extends ilPageContent
 	 */
 	function setData($a_type, $a_id)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$this->vrfc_node->set_attribute("Type", $a_type);
 		$this->vrfc_node->set_attribute("Id", $a_id);

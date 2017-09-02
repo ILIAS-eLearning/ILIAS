@@ -17,6 +17,11 @@ require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
 */
 class ilPCSourceCodeGUI extends ilPageContentGUI
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	
 	/**
 	* Constructor
@@ -24,6 +29,9 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 	*/
 	function __construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
+		global $DIC;
+
+		$this->user = $DIC->user();
 		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
 
@@ -97,7 +105,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 	*/
 	function insert()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		$form = $this->initPropertyForm($this->lng->txt("cont_insert_src"), "create_src", "cancelCreate");
 
