@@ -11,6 +11,11 @@
  */
 abstract class ilPageConfig
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	protected $int_link_filter = array("File", "PortfolioPage");
 	protected $prevent_rte_usage = false;
 	protected $use_attached_content = false;
@@ -51,6 +56,9 @@ abstract class ilPageConfig
 	 */
 	final public function __construct()
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		// load pc_defs
 		include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
 		$this->pc_defs = ilCOPagePCDef::getPCDefinitions();
@@ -203,7 +211,7 @@ abstract class ilPageConfig
 	 */
 	function addIntLinkFilter($a_val)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$this->setLocalizationLanguage($lng->getLangKey());
 		if (is_array($a_val))
