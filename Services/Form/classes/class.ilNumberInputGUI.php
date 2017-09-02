@@ -34,6 +34,9 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		parent::__construct($a_title, $a_postvar);
 	}
 
@@ -281,7 +284,7 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
 		if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "")
@@ -367,7 +370,7 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 	*/
 	function render()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$tpl = new ilTemplate("tpl.prop_number.html", true, true, "Services/Form");
 

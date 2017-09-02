@@ -46,6 +46,9 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 	 */
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		parent::__construct($a_title, $a_postvar);
 		
 		$this->setSuffixes(array("jpg", "jpeg", "png", "gif"));
@@ -280,7 +283,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 	 */
 	public function render($a_mode = "")
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$tpl = $this->getTemplate();
 		$i = 0;
