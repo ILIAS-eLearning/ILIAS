@@ -26,6 +26,26 @@ include_once ("./Services/COPage/classes/class.ilPageObjectGUI.php");
 */
 class ilPageEditorGUI
 {
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs_gui;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
 	var $tpl;
 	var $lng;
 	var $ctrl;
@@ -52,7 +72,16 @@ class ilPageEditorGUI
 	*/
 	function __construct(&$a_page_object, &$a_page_object_gui)
 	{
-		global $tpl, $lng, $objDefinition, $ilCtrl,$ilTabs;
+		global $DIC;
+
+		$this->help = $DIC["ilHelp"];
+		$this->user = $DIC->user();
+		$this->access = $DIC->access();
+		$tpl = $DIC["tpl"];
+		$lng = $DIC->language();
+		$objDefinition = $DIC["objDefinition"];
+		$ilCtrl = $DIC->ctrl();
+		$ilTabs = $DIC->tabs();
 
 		$this->log = ilLoggerFactory::getLogger('copg');
 
@@ -123,7 +152,8 @@ class ilPageEditorGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl, $ilHelp;;
+		$ilCtrl = $this->ctrl;
+		$ilHelp = $this->help;
 
 		$this->log->debug("ilPageEditorGUI: executeCommand begin");
 
@@ -461,7 +491,9 @@ exit;
 	*/
 	static function _doJSEditing()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC->user();
 
 		if ($ilUser->getPref("ilPageEditor_JavaScript") != "disable"
 			&& ilPageEditorGUI::_isBrowserJSEditCapable())
@@ -494,7 +526,7 @@ exit;
 	*/
 	function setMediaMode()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		$ilUser->writePref("ilPageEditor_MediaMode", $_POST["media_mode"]);
 		$ilUser->writePref("ilPageEditor_HTMLMode", $_POST["html_mode"]);
@@ -524,7 +556,7 @@ exit;
 	*/
 	function copyLinkedMediaToClipboard()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		ilUtil::sendSuccess($this->lng->txt("copied_to_clipboard"), true);
 		$ilUser->addObjectToClipboard($_POST["mob_id"], "mob", ilObject::_lookupTitle($_POST["mob_id"]));
@@ -536,7 +568,7 @@ exit;
 	*/
 	function copyLinkedMediaToMediaPool()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$this->ctrl->setParameterByClass("ilmediapooltargetselector", "mob_id", $_POST["mob_id"]); 
 		$this->ctrl->redirectByClass("ilmediapooltargetselector", "listPools");
@@ -560,7 +592,9 @@ exit;
 	 */
 	function deleteSelected()
 	{
-		global $ilCtrl, $tpl, $lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 
 		$targets = explode(";", $_POST["target"][0]);
 
@@ -622,7 +656,7 @@ exit;
 	 */
 	function copySelected()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if (is_int(strpos($_POST["target"][0], ";")))
 		{
@@ -641,7 +675,7 @@ exit;
 	 */
 	function cutSelected()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if (is_int(strpos($_POST["target"][0], ";")))
 		{
@@ -668,7 +702,7 @@ exit;
 	 */
 	function paste($a_hier_id)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		$this->page->pasteContents($a_hier_id, $this->page_gui->getPageConfig()->getEnableSelfAssessment());
 		include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
 		//ilEditClipboard::setAction("");
@@ -705,7 +739,8 @@ exit;
 	*/
 	function assignCharacteristicForm()
 	{
-		global $tpl, $lng;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 		
 		if (is_int(strpos($_POST["target"][0], ";")))
 		{
@@ -752,7 +787,8 @@ exit;
 	 */
 	function initCharacteristicForm($a_target, $a_types)
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		
 		// edit form
@@ -832,7 +868,7 @@ exit;
 	*/
 	function pasteFromClipboard($a_hier_id)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 //var_dump($a_hier_id);
 		$ilCtrl->setParameter($this, "hier_id", $a_hier_id);
 		$ilCtrl->setParameterByClass("ilEditClipboardGUI", "returnCommand",
@@ -902,7 +938,10 @@ exit;
 	*/
 	function showSnippetInfo()
 	{
-		global $tpl, $lng, $ilAccess, $ilCtrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilAccess = $this->access;
+		$ilCtrl = $this->ctrl;
 		
 		$stpl = new ilTemplate("tpl.snippet_info.html", true, true, "Services/COPage");
 		

@@ -13,6 +13,11 @@ require_once("./Services/COPage/classes/class.ilPageContent.php");
 */
 class ilPageContentGUI
 {
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
 	var $content_obj;
 	var $tpl;
 	var $lng;
@@ -51,7 +56,12 @@ class ilPageContentGUI
 	*/
 	function __construct($a_pg_obj, $a_content_obj, $a_hier_id = 0, $a_pc_id = "")
 	{
-		global $tpl, $lng, $ilCtrl;
+		global $DIC;
+
+		$this->error = $DIC["ilErr"];
+		$tpl = $DIC["tpl"];
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
 
 		$this->log = ilLoggerFactory::getLogger('copg');
 
@@ -254,7 +264,8 @@ class ilPageContentGUI
 	*/
 	function getBBMenu($a_ta_name = "par_content")
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		include_once("./Services/COPage/classes/class.ilPageEditorSettings.php");
 		
@@ -362,7 +373,7 @@ class ilPageContentGUI
 	*/
 	function moveAfter()
 	{
-		global $ilErr;
+		$ilErr = $this->error;
 
 		// check if a target is selected
 		if(!isset($_POST["target"]))
@@ -421,7 +432,7 @@ class ilPageContentGUI
 	*/
 	function moveBefore()
 	{
-		global $ilErr;
+		$ilErr = $this->error;
 
 		// check if a target is selected
 		if(!isset($_POST["target"]))
@@ -479,7 +490,7 @@ class ilPageContentGUI
 	*/
 	function splitPage()
 	{
-		global $ilErr;
+		$ilErr = $this->error;
 		
 		if ($this->pg_obj->getParentType() != "lm")
 		{
@@ -504,7 +515,7 @@ class ilPageContentGUI
 	*/
 	function splitPageNext()
 	{
-		global $ilErr;
+		$ilErr = $this->error;
 		
 		if ($this->pg_obj->getParentType() != "lm")
 		{
@@ -607,7 +618,7 @@ class ilPageContentGUI
 	 */
 	function cut() 
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$obj = $this->content_obj;
 		
@@ -631,7 +642,7 @@ class ilPageContentGUI
 	 */
 	function copy() 
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$obj = $this->content_obj;
 		
