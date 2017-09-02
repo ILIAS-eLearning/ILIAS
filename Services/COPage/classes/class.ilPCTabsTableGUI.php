@@ -20,12 +20,12 @@ class ilPCTabsTableGUI extends ilTable2GUI
 
 
 	function __construct($a_parent_obj, $a_parent_cmd,
+		$a_tabs)
+	{
 		global $DIC;
 
 		$this->ctrl = $DIC->ctrl();
 		$this->lng = $DIC->language();
-		$a_tabs)
-	{
 		$ilCtrl = $DIC->ctrl();
 		$lng = $DIC->language();
 		

@@ -21,18 +21,6 @@ class ilPCVerification extends ilPageContent
 	 */
 	protected $user;
 
-
-	/**
-	 * Constructor
-	 */
-	function __construct()
-	{
-		parent::__construct();
-		global $DIC;
-
-		$this->user = $DIC->user();
-	}
-
 	var $dom;
 
 	/**
@@ -40,6 +28,9 @@ class ilPCVerification extends ilPageContent
 	*/
 	function init()
 	{
+		global $DIC;
+
+		$this->user = $DIC->user();
 		$this->setType("vrfc");
 	}
 

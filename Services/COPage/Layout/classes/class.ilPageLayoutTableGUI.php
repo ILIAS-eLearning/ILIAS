@@ -12,10 +12,27 @@ include_once("Services/Table/classes/class.ilTable2GUI.php");
 */
 class ilPageLayoutTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
 
 	function __construct($a_parent_obj, $a_parent_cmd)
 	{
-		global $ilCtrl, $lng, $rbacsystem;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->rbacsystem = $DIC->rbac()->system();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$rbacsystem = $DIC->rbac()->system();
 
 		$lng->loadLanguageModule("content");
 		
@@ -74,7 +91,8 @@ class ilPageLayoutTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		// action
 		$ilCtrl->setParameter($this->parent_obj, "layout_id", $a_set['layout_id']);
