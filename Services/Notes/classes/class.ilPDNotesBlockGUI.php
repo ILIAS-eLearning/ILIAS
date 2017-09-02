@@ -22,7 +22,14 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 	*/
 	function __construct()
 	{
-		global $ilCtrl, $lng, $ilUser;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilUser = $DIC->user();
 		
 		parent::__construct();
 		
@@ -73,7 +80,7 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$next_class = $ilCtrl->getNextClass();
 		$cmd = $ilCtrl->getCmd("getHTML");
@@ -98,7 +105,7 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 	*/
 	function fillDataSection()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		include_once("Services/Notes/classes/class.ilNote.php");
 		$this->notes = ilNote::_getLastNotesOfUser();
@@ -127,7 +134,9 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 	*/
 	function getListRowData()
 	{
-		global $ilUser, $lng, $ilCtrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$data = array();
 		
@@ -191,7 +200,9 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 	*/
 	function fillRow($a_set)
 	{
-		global $ilUser, $ilCtrl, $lng;
+		$ilUser = $this->user;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		include_once("Services/Notes/classes/class.ilNoteGUI.php");
 		if (!is_object($this->note_gui))
@@ -254,7 +265,9 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 	*/
 	function getOverview()
 	{
-		global $ilUser, $lng, $ilCtrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 				
 		return '<div class="small">'.((int) count($this->notes))." ".$lng->txt("notes")."</div>";
 	}
@@ -264,7 +277,8 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 	*/
 	function showNote()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		include_once("./Services/Notes/classes/class.ilNoteGUI.php");
 		$note_gui = new ilNoteGUI();

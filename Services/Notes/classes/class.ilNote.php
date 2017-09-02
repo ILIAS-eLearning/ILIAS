@@ -23,12 +23,32 @@ define("IL_NOTE_CONTRA", 4);
 */
 class ilNote
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
 	
 	/**
 	* constructor
 	*/
 	function __construct($a_id = 0)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
+		$this->settings = $DIC->settings();
+		$this->access = $DIC->access();
 		if ($a_id > 0)
 		{
 			$this->id = $a_id;
@@ -245,7 +265,7 @@ class ilNote
 	
 	function create($a_use_provided_creation_date = false)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$cd = ($a_use_provided_creation_date)
 			? $this->getCreationDate()
@@ -287,7 +307,7 @@ class ilNote
 
 	function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		/*$q = "UPDATE note SET ".
 			"rep_obj_id = ".$ilDB->quote((int) $this->rep_obj_id, "integer").",".
@@ -323,7 +343,7 @@ class ilNote
 
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$q = "SELECT * FROM note WHERE id = ".
 			$ilDB->quote((int) $this->getId(), "integer");
@@ -337,7 +357,7 @@ class ilNote
 	*/
 	function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$q = "DELETE FROM note WHERE id = ".
 			$ilDB->quote((int) $this->getId(), "integer");
@@ -366,7 +386,9 @@ class ilNote
 	*/
 	static function _lookupCreationDate($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$q = "SELECT * FROM note WHERE id = ".
 			$ilDB->quote((int) $a_id, "integer");
@@ -381,7 +403,9 @@ class ilNote
 	*/
 	static function _lookupUpdateDate($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$q = "SELECT * FROM note WHERE id = ".
 			$ilDB->quote((int) $a_id, "integer");
@@ -398,7 +422,10 @@ class ilNote
 		$a_type = IL_NOTE_PRIVATE, $a_incl_sub = false, $a_filter = "",
 		$a_all_public = "y", $a_repository_mode = true, $a_sort_ascending = false)
 	{
-		global $ilDB, $ilUser;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilUser = $DIC->user();
 		
 		$author_where = ($a_type == IL_NOTE_PRIVATE || $a_all_public == "n")
 			? " AND author = ".$ilDB->quote((int) $ilUser->getId(), "integer")
@@ -451,7 +478,10 @@ class ilNote
 	*/
 	static function _getLastNotesOfUser()
 	{
-		global $ilDB, $ilUser;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilUser = $DIC->user();
 		
 		$q = "SELECT * FROM note WHERE ".
 			" type = ".$ilDB->quote((int) IL_NOTE_PRIVATE, "integer").
@@ -477,7 +507,11 @@ class ilNote
 	*/
 	static function _getRelatedObjectsOfUser($a_mode)
 	{
-		global $ilDB, $ilUser, $tree;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilUser = $DIC->user();
+		$tree = $DIC->repositoryTree();
 		
 		if ($a_mode == ilPDNotesGUI::PRIVATE_NOTES)
 		{
@@ -617,7 +651,9 @@ class ilNote
 	*/
 	static function getUserCount($a_rep_obj_id, $a_obj_id, $a_type)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->queryF("SELECT count(DISTINCT author) cnt FROM note WHERE ".
 			"rep_obj_id = %s AND obj_id = %s AND obj_type = %s",
@@ -635,7 +671,10 @@ class ilNote
 	 */
 	static function _countNotesAndCommentsMultiple($a_rep_obj_ids, $a_no_sub_objs = false)
 	{
-		global $ilDB, $ilUser;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilUser = $DIC->user();
 		
 		$q = "SELECT count(id) c, rep_obj_id, type FROM note WHERE ".
 			" ((type = ".$ilDB->quote(IL_NOTE_PRIVATE, "integer")." AND ".
@@ -668,7 +707,10 @@ class ilNote
 	 */
 	static function _countNotesAndComments($a_rep_obj_id, $a_sub_obj_id = null)
 	{
-		global $ilDB, $ilUser;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilUser = $DIC->user();
 		
 		$q = "SELECT count(id) c, rep_obj_id, type FROM note WHERE ".
 			" ((type = ".$ilDB->quote(IL_NOTE_PRIVATE, "integer")." AND ".
@@ -701,7 +743,9 @@ class ilNote
 	 */
 	static function activateComments($a_rep_obj_id, $a_obj_id, $a_obj_type, $a_activate = true)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		if ($a_obj_type == "")
 		{
@@ -749,7 +793,9 @@ class ilNote
 	 */
 	static function commentsActivated($a_rep_obj_id, $a_obj_id, $a_obj_type)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		if ($a_obj_type == "")
 		{
@@ -772,7 +818,9 @@ class ilNote
 	 */
 	static function getRepObjActivation($a_rep_obj_ids)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT * FROM note_settings ".
 			" WHERE ".$ilDB->in("rep_obj_id", $a_rep_obj_ids, false, "integer").
@@ -795,7 +843,8 @@ class ilNote
 	 */
 	function sendNotifications($a_changed = false)
 	{
-		global $ilSetting, $ilAccess;
+		$ilSetting = $this->settings;
+		$ilAccess = $this->access;
 
 		// no notifications for notes
 		if ($this->getType() == IL_NOTE_PRIVATE)
