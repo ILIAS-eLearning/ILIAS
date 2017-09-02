@@ -13,6 +13,16 @@ include_once './Services/Export/classes/class.ilExportOptions.php';
 */
 class ilContainerXmlParser
 {
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
 	private $source = 0;
 	private $mapping = null;
 	private $xml = '';
@@ -27,6 +37,10 @@ class ilContainerXmlParser
 	 */
 	public function __construct(ilImportMapping $mapping,$xml = '')
 	{
+		global $DIC;
+
+		$this->settings = $DIC->settings();
+		$this->obj_definition = $DIC["objDefinition"];
 		$this->mapping = $mapping;
 		$this->xml = $xml;
 	}
@@ -60,7 +74,7 @@ class ilContainerXmlParser
 	 */
 	protected function initItem($item, $a_parent_node)
 	{
-		global $ilSetting;
+		$ilSetting = $this->settings;
 		
 		$title = (string) $item['Title'];
 		$ref_id = (string) $item['RefId'];
@@ -195,7 +209,7 @@ class ilContainerXmlParser
 	 */
 	protected function createObject($ref_id,$obj_id,$type,$title,$parent_node)
 	{
-		global $objDefinition;
+		$objDefinition = $this->obj_definition;
 
 		// A mapping for this object already exists => create reference
 		$new_obj_id = $this->getMapping()->getMapping('Services/Container', 'objs', $obj_id);
