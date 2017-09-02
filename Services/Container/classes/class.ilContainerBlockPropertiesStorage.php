@@ -11,11 +11,33 @@
 class ilContainerBlockPropertiesStorage
 {
 	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->user = $DIC->user();
+	}
+
+	/**
 	* execute command
 	*/
 	function &executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$cmd = $ilCtrl->getCmd();
 		if (in_array($cmd, array("store")))
@@ -29,7 +51,7 @@ class ilContainerBlockPropertiesStorage
 	 */
 	function store()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		switch ($_GET["act"])
 		{
