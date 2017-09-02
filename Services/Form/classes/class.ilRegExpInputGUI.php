@@ -40,6 +40,9 @@ class ilRegExpInputGUI extends ilTextInputGUI
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("feedurl");
 	}
@@ -91,7 +94,7 @@ class ilRegExpInputGUI extends ilTextInputGUI
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		// this line is necessary, otherwise it is a security issue (Alex)
 		$_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);

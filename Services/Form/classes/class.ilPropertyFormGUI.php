@@ -46,6 +46,31 @@ include_once './Services/Form/classes/class.ilBirthdayInputGUI.php';
 */
 class ilPropertyFormGUI extends ilFormGUI
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
 	private $buttons = array();
 	private $items = array();
 	protected $mode = "std";
@@ -67,7 +92,14 @@ class ilPropertyFormGUI extends ilFormGUI
 	*/
 	function __construct()
 	{
-		global $lng;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+		$this->tpl = $DIC["tpl"];
+		$this->user = $DIC->user();
+		$this->settings = $DIC->settings();
+		$lng = $DIC->language();
 		
 		$lng->loadLanguageModule("form");
 
@@ -83,7 +115,7 @@ class ilPropertyFormGUI extends ilFormGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
@@ -579,7 +611,10 @@ class ilPropertyFormGUI extends ilFormGUI
 	*/
 	function getContent()
 	{
-		global $lng, $tpl, $ilUser, $ilSetting;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
+		$ilUser = $this->user;
+		$ilSetting = $this->settings;
 	
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		ilYuiUtil::initEvent();
@@ -749,7 +784,8 @@ class ilPropertyFormGUI extends ilFormGUI
 
 	function insertItem($item, $a_sub_item = false)
 	{
-		global $tpl, $lng;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 			
 		
 		$cfg = array();
@@ -954,7 +990,7 @@ class ilPropertyFormGUI extends ilFormGUI
 	 */
 	protected function keepFileUpload($a_hash, $a_field, $a_tmp_name, $a_name, $a_type, $a_index = null, $a_sub_index = null)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$user_id = $ilUser->getId();
 		if(!$user_id || $user_id == ANONYMOUS_USER_ID)
@@ -1137,7 +1173,7 @@ class ilPropertyFormGUI extends ilFormGUI
 	 */
 	protected function rebuildUploadedFiles()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 	
 		if($_POST["ilfilehash"])
 		{					

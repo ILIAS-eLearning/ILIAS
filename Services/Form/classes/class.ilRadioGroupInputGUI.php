@@ -43,6 +43,9 @@ class ilRadioGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilTabl
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("radio");
 	}
@@ -111,7 +114,7 @@ class ilRadioGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilTabl
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$_POST[$this->getPostVar()] = 
 			ilUtil::stripSlashes($_POST[$this->getPostVar()]);

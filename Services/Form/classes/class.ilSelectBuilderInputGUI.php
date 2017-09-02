@@ -11,6 +11,11 @@
  */
 class ilSelectBuilderInputGUI extends ilTextWizardInputGUI
 {
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
 	
 	protected $open_answer_indexes = array();
 	
@@ -18,6 +23,10 @@ class ilSelectBuilderInputGUI extends ilTextWizardInputGUI
 	// constructor
 	public function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->tpl = $DIC["tpl"];
 		parent::__construct($a_title, $a_postvar);
 	}
 	
@@ -63,7 +72,7 @@ class ilSelectBuilderInputGUI extends ilTextWizardInputGUI
 	*/	
 	public function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$foundvalues = $_POST[$this->getPostVar()];
 		
@@ -123,7 +132,7 @@ class ilSelectBuilderInputGUI extends ilTextWizardInputGUI
 	*/
 	public function insert($a_tpl)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$tpl = new ilTemplate("tpl.prop_selectbuilder.html", true, true, "Services/Form");
 		$i = 0;
@@ -190,7 +199,7 @@ class ilSelectBuilderInputGUI extends ilTextWizardInputGUI
 		$a_tpl->setVariable("PROP_GENERIC", $tpl->get());
 		$a_tpl->parseCurrentBlock();
 		
-		global $tpl;		
+		$tpl = $this->tpl;
 		$tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
 		$tpl->addJavascript("./Services/Form/templates/default/textwizard.js");
 	}
