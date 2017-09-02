@@ -16,7 +16,11 @@ require_once("./Services/COPage/classes/class.ilPageContent.php");
 */
 class ilPCContentInclude extends ilPageContent
 {
-	var $dom;
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	var $incl_node;
 
 	/**
@@ -31,6 +35,7 @@ class ilPCContentInclude extends ilPageContent
 	{
 		global $DIC;
 
+		$this->lng = $DIC->language();
 		$this->setType("incl");
 		$this->access = $DIC->access();
 	}
@@ -222,7 +227,7 @@ class ilPCContentInclude extends ilPageContent
 	 */
 	function modifyPageContentPostXsl($a_html, $a_mode)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$end = 0;
 		$start = strpos($a_html, "{{{{{ContentInclude;");
