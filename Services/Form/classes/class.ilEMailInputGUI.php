@@ -29,6 +29,11 @@
  */
 class ilEMailInputGUI extends ilFormPropertyGUI
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	protected $value;
 	protected $size = 30;
 	protected $max_length = 80;
@@ -51,6 +56,9 @@ class ilEMailInputGUI extends ilFormPropertyGUI
 	 */
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		parent::__construct($a_title, $a_postvar);
 		$this->setRetype(false);
 	}
@@ -101,7 +109,7 @@ class ilEMailInputGUI extends ilFormPropertyGUI
 	 */
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$_POST[$this->getPostVar()]             = ilUtil::stripSlashes($_POST[$this->getPostVar()], !(bool)$this->allowRFC822);
 		$_POST[$this->getPostVar() . '_retype'] = ilUtil::stripSlashes($_POST[$this->getPostVar() . '_retype'], !(bool)$this->allowRFC822);
@@ -135,7 +143,7 @@ class ilEMailInputGUI extends ilFormPropertyGUI
 	 */
 	function insert(ilTemplate $a_tpl)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$ptpl = new ilTemplate('tpl.prop_email.html', true, true, 'Services/Form');
 

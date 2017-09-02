@@ -10,6 +10,16 @@
 */
 class ilFlashFileInputGUI extends ilFileInputGUI
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
 	protected $applet;
 	protected $applet_path_web;
 	protected $width;
@@ -24,6 +34,10 @@ class ilFlashFileInputGUI extends ilFileInputGUI
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->tpl = $DIC["tpl"];
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("flash_file");
 		$this->setSuffixes(array("swf"));
@@ -72,7 +86,7 @@ class ilFlashFileInputGUI extends ilFileInputGUI
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		// remove trailing '/'
 		$_FILES[$this->getPostVar()]["name"] = rtrim($_FILES[$this->getPostVar()]["name"], '/');
@@ -313,7 +327,7 @@ class ilFlashFileInputGUI extends ilFileInputGUI
 	*/
 	function insert($a_tpl)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$template = new ilTemplate("tpl.prop_flashfile.html", true, true, "Services/Form");
 		if ($this->getApplet() != "")
@@ -378,7 +392,7 @@ class ilFlashFileInputGUI extends ilFileInputGUI
 		$a_tpl->setVariable("PROP_GENERIC", $template->get());
 		$a_tpl->parseCurrentBlock();
 		
-		global $tpl;
+		$tpl = $this->tpl;
 		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
 		ilYuiUtil::initConnectionWithAnimation();
 	}

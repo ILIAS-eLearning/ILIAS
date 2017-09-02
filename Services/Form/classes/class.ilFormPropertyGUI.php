@@ -10,6 +10,16 @@
 */
 class ilFormPropertyGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	protected $type;
 	protected $title;
 	protected $postvar;
@@ -32,6 +42,10 @@ class ilFormPropertyGUI
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
 		$this->setTitle($a_title);
 		$this->setPostVar($a_postvar);
 		$this->setDisabled(false);
@@ -42,7 +56,7 @@ class ilFormPropertyGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
@@ -438,7 +452,7 @@ class ilFormPropertyGUI
 	 */
 	protected function getMultiIconsHTML()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$id = $this->getFieldId();
 		

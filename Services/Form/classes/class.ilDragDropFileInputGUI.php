@@ -12,6 +12,21 @@ include_once("./Services/Form/classes/class.ilFileInputGUI.php");
 */
 class ilDragDropFileInputGUI extends ilFileInputGUI
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	private $uniqueId = 0;
 	private $archive_suffixes = array();
 	private $submit_button_name = null;
@@ -32,6 +47,11 @@ class ilDragDropFileInputGUI extends ilFileInputGUI
 	 */
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->tpl = $DIC["tpl"];
+		$this->user = $DIC->user();
 		parent::__construct($a_title, $a_postvar);
 		$this->uniqueId = self::getNextUniqueId();
 	}
@@ -67,7 +87,9 @@ class ilDragDropFileInputGUI extends ilFileInputGUI
 	 */
 	function render($a_mode = "")
 	{
-		global $lng, $tpl, $ilUser;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
+		$ilUser = $this->user;
 					
 		$quota_exceeded = $quota_legend = false;
 		if(self::$check_wsp_quota)
@@ -140,7 +162,7 @@ class ilDragDropFileInputGUI extends ilFileInputGUI
 	 */	
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		// if no information is received, something went wrong
 		// this is e.g. the case, if the post_max_size has been exceeded
