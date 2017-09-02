@@ -10,6 +10,16 @@
 */
 class ilFramesetGUI
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
 
 	/**
 	* Constructor
@@ -17,7 +27,11 @@ class ilFramesetGUI
 	*/
 	function __construct()
 	{
-		global $lng;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->settings = $DIC->settings();
+		$lng = $DIC->language();
 		
 		$this->setMainWidth("*");
 		$this->setSideWidth("25%");
@@ -138,7 +152,7 @@ class ilFramesetGUI
 	 */
 	function show($a_get_only = false)
 	{
-		global $ilSetting;
+		$ilSetting = $this->settings;
 		
 		if ($ilSetting->get("tree_frame") == "right")
 		{
