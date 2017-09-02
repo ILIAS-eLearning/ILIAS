@@ -17,12 +17,41 @@ include_once("./Services/Object/classes/class.ilObjectGUI.php");
 class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
 {
 	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
 	 * Contructor
 	 *
 	 * @access public
 	 */
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
+		global $DIC;
+
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->error = $DIC["ilErr"];
+		$this->access = $DIC->access();
+		$this->tabs = $DIC->tabs();
+		$this->tpl = $DIC["tpl"];
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
 		$this->type = 'mobs';
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
@@ -39,7 +68,9 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
 	 */
 	public function executeCommand()
 	{
-		global $rbacsystem,$ilErr,$ilAccess;
+		$rbacsystem = $this->rbacsystem;
+		$ilErr = $this->error;
+		$ilAccess = $this->access;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -80,7 +111,9 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
 	 */
 	public function getAdminTabs()
 	{
-		global $rbacsystem, $ilAccess, $ilTabs;
+		$rbacsystem = $this->rbacsystem;
+		$ilAccess = $this->access;
+		$ilTabs = $this->tabs;
 
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
@@ -102,7 +135,7 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
 	*/
 	function editSettings($a_omit_init = false)
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		if (!$a_omit_init)
 		{
@@ -117,7 +150,9 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
 	 */	
 	public function saveSettings()
 	{
-		global $tpl, $lng, $ilCtrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 	
 		$this->checkPermission("write");
 		
@@ -145,7 +180,9 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
 	 */
 	public function initMediaObjectsSettingsForm()
 	{
-		global $lng, $ilCtrl, $ilAccess;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilAccess = $this->access;
 		
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
