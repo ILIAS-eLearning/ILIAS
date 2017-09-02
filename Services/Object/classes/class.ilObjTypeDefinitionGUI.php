@@ -199,11 +199,11 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
-		global $rbacsystem, $rbacadmin, $rbacreview;
+		global $rbacsystem, $rbacadmin, $rbacreview, $ilErr;
 
 		if (!$rbacsystem->checkAccess('edit_permission', $_GET["ref_id"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->WARNING);
+			$ilErr->raiseError($this->lng->txt("permission_denied"),$ilErr->WARNING);
 		}
 
 		$ops_valid = $rbacreview->getOperationsOnType($_GET["obj_id"]);
@@ -243,11 +243,11 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 	*/
 	function editObject()
 	{
-		global $rbacsystem, $rbacreview;
+		global $rbacsystem, $rbacreview, $ilErr;
 		
 		if (!$rbacsystem->checkAccess("edit_permission",$_GET["ref_id"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->MESSAGE);
 		}
 
 		//prepare objectlist

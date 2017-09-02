@@ -14,6 +14,16 @@
 */
 class ilCommonActionDispatcherGUI
 {	
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
 	protected $obj_type; // [string]
 	protected $node_id; // [int]
 	protected $node_type; // [string]
@@ -38,6 +48,10 @@ class ilCommonActionDispatcherGUI
 	 */
 	function __construct($a_node_type, $a_access_handler, $a_obj_type, $a_node_id, $a_obj_id)
 	{								
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->settings = $DIC->settings();
 		$this->node_type = (int)$a_node_type;
 		$this->access_handler = $a_access_handler;
 		$this->obj_type = (string)$a_obj_type;
@@ -80,7 +94,10 @@ class ilCommonActionDispatcherGUI
 	 */
 	static function getInstanceFromAjaxCall()
 	{
-		global $ilAccess, $ilUser;
+		global $DIC;
+
+		$ilAccess = $DIC->access();
+		$ilUser = $DIC->user();
 		
 		if(isset($_GET["cadh"]))
 		{
@@ -130,7 +147,8 @@ class ilCommonActionDispatcherGUI
 		
 	function executeCommand()
 	{
-		global $ilCtrl, $ilSetting;
+		$ilCtrl = $this->ctrl;
+		$ilSetting = $this->settings;
 
 		// check access for object 
 		if ($this->node_id && 

@@ -58,11 +58,11 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 	*/
 	function viewObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $ilErr;
 
 		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->MESSAGE);
 		}
 
 		//prepare objectlist

@@ -158,12 +158,12 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
 	
 	function formatObject($tpl, $a_node_id, $a_option, $a_obj_id = 0)
 	{		
-		global $lng;
+		global $lng, $ilErr;
 		
 		if (!isset($a_node_id) or !is_array($a_option))
 		{
-			$this->ilias->raiseError(get_class($this)."::formatObject(): Missing parameter or wrong datatype! ".
-									"node_id: ".$a_node_id." options:".var_dump($a_option),$this->ilias->error_obj->WARNING);
+			$ilErr->raiseError(get_class($this)."::formatObject(): Missing parameter or wrong datatype! ".
+									"node_id: ".$a_node_id." options:".var_dump($a_option), $ilErr->WARNING);
 		}
 
 		$pic = false;
@@ -283,7 +283,7 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
 	*/
 	function formatHeader($tpl, $a_obj_id,$a_option)
 	{
-		global $lng, $ilias, $tree;
+		global $lng, $tree;
 
 		// custom icons
 		$path = ilObject::_getIcon($a_obj_id, "tiny", "root");

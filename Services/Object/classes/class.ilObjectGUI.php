@@ -14,14 +14,6 @@ class ilObjectGUI
 {
 	const COPY_WIZARD_NEEDS_PAGE = 1;
 	
-	
-	
-	/**
-	* ilias object
-	* @var		object ilias
-	* @access	private
-	*/
-	var $ilias;
 
 	/**
 	* object Definition Object
@@ -100,7 +92,7 @@ class ilObjectGUI
 	*/
 	function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
 	{
-		global $ilias, $objDefinition, $tpl, $tree, $ilCtrl, $ilErr, $lng, $ilTabs;
+		global $objDefinition, $tpl, $tree, $ilCtrl, $ilErr, $lng, $ilTabs;
 
 		/**
 		 * @var ilTab
@@ -117,7 +109,6 @@ class ilObjectGUI
 			$this->ilErr = $ilErr;
 		}
 
-		$this->ilias = $ilias;
 		$this->objDefinition = $objDefinition;
 		$this->tpl = $tpl;
 		$this->html = "";
@@ -1006,14 +997,14 @@ class ilObjectGUI
 	*/
 	public function saveObject()
 	{
-		global $objDefinition, $tpl;
+		global $objDefinition, $tpl, $ilErr;
 
 		$new_type = $_REQUEST["new_type"];
 
 		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
 		if (!$this->checkPermissionBool("create", "", $new_type))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("no_create_permission"), $ilErr->MESSAGE);
 		}
 
 		$this->lng->loadLanguageModule($new_type);
@@ -1157,11 +1148,11 @@ class ilObjectGUI
 	 */
 	public function editObject()
 	{
-		global $tpl, $ilTabs;
+		global $tpl, $ilTabs, $ilErr;
 
 		if (!$this->checkPermissionBool("write"))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("msg_no_perm_write"),$ilErr->MESSAGE);
 		}
 
 		$ilTabs->activateTab("settings");
@@ -1258,11 +1249,11 @@ class ilObjectGUI
 	 */
 	public function updateObject()
 	{
-		global $ilTabs, $tpl;
+		global $ilTabs, $tpl, $ilErr;
 		
 		if (!$this->checkPermissionBool("write"))
 		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("permission_denied"),$ilErr->MESSAGE);
 		}
 
 		$form = $this->initEditForm();
@@ -1545,9 +1536,6 @@ class ilObjectGUI
 	// BEGIN Security: Hide objects which aren't accessible by the user.
 	public function isVisible($a_ref_id,$a_type)
 	{
-		global $ilBench;
-		
-		$ilBench->start("Explorer", "setOutput_isVisible");
 		$visible = $this->checkPermissionBool("visible,read", "", "", $a_ref_id);
 		
 		if ($visible && $a_type == 'crs') {
@@ -1568,8 +1556,6 @@ class ilObjectGUI
 			}
 		}
 		
-		$ilBench->stop("Explorer", "setOutput_isVisible");
-
 		return $visible;
 	}
 	// END Security: Hide objects which aren't accessible by the user.
@@ -1581,11 +1567,11 @@ class ilObjectGUI
 	*/
 	public function viewObject()
 	{
-		global$tpl;
+		global $tpl, $ilErr;
 
 		if (!$this->checkPermissionBool("visible,read"))
 		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("permission_denied"),$ilErr->MESSAGE);
 		}
 		
 		// BEGIN ChangeEvent: record read event.

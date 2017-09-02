@@ -7,7 +7,6 @@ include_once("./Services/Object/classes/class.ilObjectGUI.php");
 * New implementation of ilObjectGUI. (beta)
 *
 * Differences to the ilObject implementation:
-* - no $this->ilias anymore
 * - no $this->tree anymore
 * - no $this->formaction anymore
 * - no $this->return_location anymore

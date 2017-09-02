@@ -135,11 +135,10 @@ class ilObjectListGUI
 	*/
 	function __construct($a_context = self::CONTEXT_REPOSITORY)
 	{
-		global $ilias, $DIC;
+		global $DIC;
 
 		$this->ui = $DIC->ui();
 		$this->rbacsystem = $DIC->rbac()->system();
-		$this->ilias = $ilias;
 		$this->ctrl = $DIC->ctrl();
 		$this->lng = $DIC->language();
 		$this->mode = IL_LIST_FULL;
@@ -1158,7 +1157,7 @@ class ilObjectListGUI
 	*/
 	public function getProperties()
 	{
-		global $objDefinition;
+		global $lng, $ilUser;
 
 		$props = array();
 		// please list alert properties first
@@ -1175,12 +1174,11 @@ class ilObjectListGUI
 			if (ilDAVActivationChecker::_isActive())
 			{
 				require_once ('Services/WebDAV/classes/class.ilDAVServer.php');
-				global $ilias, $lng;
 
 				// Show lock info
 				require_once('Services/WebDAV/classes/class.ilDAVLocks.php');
 				$davLocks = new ilDAVLocks();
-				if ($ilias->account->getId() != ANONYMOUS_USER_ID)
+				if ($ilUser->getId() != ANONYMOUS_USER_ID)
 				{
 					$locks =& $davLocks->getLocksOnObjectObj($this->obj_id);
 					if (count($locks) > 0)
@@ -1368,7 +1366,7 @@ class ilObjectListGUI
 	*/
 	public function getCommands()
 	{
-		global $ilAccess, $ilBench;
+		global $ilAccess, $ilUser;
 
 		$ref_commands = array();
 		foreach($this->commands as $command)
@@ -1386,8 +1384,7 @@ class ilObjectListGUI
 
 			// BEGIN WebDAV: Suppress commands that don't make sense for anonymous users.
 			// Suppress commands that don't make sense for anonymous users
-			global $ilias;
-			if ($ilias->account->getId() == ANONYMOUS_USER_ID &&
+			if ($ilUser->getId() == ANONYMOUS_USER_ID &&
 				$command['enable_anonymous'] == 'false')
 			{
 				continue;
@@ -1396,10 +1393,8 @@ class ilObjectListGUI
 
 			// all access checking should be made within $ilAccess and
 			// the checkAccess of the ilObj...Access classes
-			$ilBench->start("ilObjectListGUI", "4110_get_commands_check_access");
 			//$access = $ilAccess->checkAccess($permission, $cmd, $this->ref_id, $this->type);
 			$access = $this->checkCommandAccess($permission,$cmd,$this->ref_id,$this->type);
-			$ilBench->stop("ilObjectListGUI", "4110_get_commands_check_access");
 
 			if ($access)
 			{
@@ -1747,7 +1742,7 @@ class ilObjectListGUI
 			
 			// add no item access note in public section
 			// for items that are visible but not readable
-			if ($this->ilias->account->getId() == ANONYMOUS_USER_ID)
+			if ($ilUser->getId() == ANONYMOUS_USER_ID)
 			{
 				if (!$ilAccess->checkAccess("read", "", $this->ref_id, $this->type, $this->obj_id))
 				{
@@ -3430,7 +3425,7 @@ class ilObjectListGUI
 	function getListItemHTML($a_ref_id, $a_obj_id, $a_title, $a_description,
 		$a_use_asynch = false, $a_get_asynch_commands = false, $a_asynch_url = "")
 	{
-		global $ilBench, $ilUser;
+		global $ilUser;
 
 		// this variable stores wheter any admin commands
 		// are included in the output
@@ -3440,10 +3435,8 @@ class ilObjectListGUI
 		$type = ilObject::_lookupType($a_obj_id);
 
 		// initialization
-		$ilBench->start("ilObjectListGUI", "1000_getListHTML_init$type");
 		$this->initItem($a_ref_id, $a_obj_id, $a_title, $a_description);
-		$ilBench->stop("ilObjectListGUI", "1000_getListHTML_init$type");
-		
+
 		// prepare ajax calls
 		include_once "Services/Object/classes/class.ilCommonActionDispatcherGUI.php";
 		if($this->context == self::CONTEXT_REPOSITORY)
@@ -3501,7 +3494,6 @@ class ilObjectListGUI
   		// visible check
 		if (!$this->checkCommandAccess("visible", "", $a_ref_id, "", $a_obj_id))
 		{			
-			$ilBench->stop("ilObjectListGUI", "2000_getListHTML_check_visible");
 			$this->resetCustomData();
 			return "";
 		}
@@ -3552,40 +3544,30 @@ class ilObjectListGUI
 		}
 
 		// properties
-		$ilBench->start("ilObjectListGUI", "6000_insert_properties$type");
 		if ($this->getPropertiesStatus())
 		{
 			$this->insertProperties();
 		}
-		$ilBench->stop("ilObjectListGUI", "6000_insert_properties$type");
 
 		// notice properties
-		$ilBench->start("ilObjectListGUI", "6500_insert_notice_properties$type");
 		if($this->getNoticePropertiesStatus())
 		{
 			$this->insertNoticeProperties();
 		}
-		$ilBench->stop("ilObjectListGUI", "6500_insert_notice_properties$type");
 
 		// preconditions
-		$ilBench->start("ilObjectListGUI", "7000_insert_preconditions");
 		if ($this->getPreconditionsStatus())
 		{
 			$this->insertPreconditions();
 		}
-		$ilBench->stop("ilObjectListGUI", "7000_insert_preconditions");
 
 		// path
-		$ilBench->start("ilObjectListGUI", "8000_insert_path");
 		$this->insertPath();
-		$ilBench->stop("ilObjectListGUI", "8000_insert_path");
-		
-		$ilBench->start("ilObjectListGUI", "8500_item_detail_links");
+
 		if($this->getItemDetailLinkStatus())
 		{
 			$this->insertItemDetailLinks();			
 		}
-		$ilBench->stop("ilObjectListGUI", "8500_item_detail_links");
 
 		// icons and checkboxes
 		$this->insertIconsAndCheckboxes();

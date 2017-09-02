@@ -20,13 +20,6 @@ class ilObject
 
 
 	/**
-	* ilias object
-	* @var		object ilias
-	* @access	private
-	*/
-	var $ilias;
-
-	/**
 	* lng object
 	* @var		object language
 	* @access	private
@@ -94,17 +87,14 @@ class ilObject
 	*/
 	function __construct($a_id = 0, $a_reference = true)
 	{
-		global $ilias, $lng, $ilBench, $objDefinition;
-
-		$ilBench->start("Core", "ilObject_Constructor");
+		global $lng, $objDefinition;
 
 		if (DEBUG)
 		{
 			echo "<br/><font color=\"red\">type(".$this->type.") id(".$a_id.") referenced(".$a_reference.")</font>";
 		}
 
-		$this->ilias =& $ilias;
-		$this->lng =& $lng;
+		$this->lng = $lng;
 		$this->objDefinition = $objDefinition;
 
 		$this->max_title = self::TITLE_LENGTH;
@@ -133,7 +123,6 @@ class ilObject
 			$this->read();
 		}
 
-		$ilBench->stop("Core", "ilObject_Constructor");
 	}
 
 	/**
@@ -153,31 +142,28 @@ class ilObject
 	*/
 	public function read()
 	{
-		global $objDefinition, $ilBench, $ilDB, $log;
+		global $objDefinition, $ilDB, $log, $ilErr, $ilUser;
 
-		$ilBench->start("Core", "ilObject_read");
 		if ($this->referenced)
 		{
 			// check reference id
 			if (!isset($this->ref_id))
 			{
 				$message = "ilObject::read(): No ref_id given! (".$this->type.")";
-				$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+				$ilErr->raiseError($message, $ilErr->WARNING);
 			}
 
 			// read object data
-			$ilBench->start("Core", "ilObject_read_readData");
 
 			$q = "SELECT * FROM object_data, object_reference WHERE object_data.obj_id=object_reference.obj_id ".
 				 "AND object_reference.ref_id= ".$ilDB->quote($this->ref_id, "integer");
 			$object_set = $ilDB->query($q);
-			$ilBench->stop("Core", "ilObject_read_readData");
 
 			// check number of records
 			if ($ilDB->numRows($object_set) == 0)
 			{
 				$message = "ilObject::read(): Object with ref_id ".$this->ref_id." not found! (".$this->type.")";
-				$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+				$ilErr->raiseError($message,$ilErr->WARNING);
 			}
 
 			$obj = $ilDB->fetchAssoc($object_set);
@@ -188,7 +174,7 @@ class ilObject
 			if (!isset($this->id))
 			{
 				$message = "ilObject::read(): No obj_id given! (".$this->type.")";
-				$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+				$ilErr->raiseError($message,$ilErr->WARNING);
 			}
 
 			// read object data
@@ -240,7 +226,7 @@ class ilObject
 		{
 			// Read long description
 			$query = "SELECT * FROM object_description WHERE obj_id = ".$ilDB->quote($this->id,'integer');
-			$res = $this->ilias->db->query($query);
+			$res = $ilDB->query($query);
 			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				if(strlen($row->description))
@@ -251,7 +237,6 @@ class ilObject
 		}
 
 		// multilingual support systemobjects (sys) & categories (db)
-		$ilBench->start("Core", "ilObject_Constructor_getTranslation");
 		$translation_type = $objDefinition->getTranslationType($this->type);
 
 		if ($translation_type == "sys")
@@ -263,9 +248,9 @@ class ilObject
 		{
 			$q = "SELECT title,description FROM object_translation ".
 				 "WHERE obj_id = ".$ilDB->quote($this->id,'integer')." ".
-				 "AND lang_code = ".$ilDB->quote($this->ilias->account->getCurrentLanguage(),'text')." ".
+				 "AND lang_code = ".$ilDB->quote($ilUser->getCurrentLanguage(),'text')." ".
 				 "AND NOT lang_default = 1";
-			$r = $this->ilias->db->query($q);
+			$r = $ilDB->query($q);
 			$row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 			if ($row)
 			{
@@ -275,9 +260,6 @@ class ilObject
 			}
 		}
 
-		$ilBench->stop("Core", "ilObject_Constructor_getTranslation");
-
-		$ilBench->stop("Core", "ilObject_read");
 	}
 
 	/**
@@ -586,12 +568,12 @@ class ilObject
 	*/
 	function create()
 	{
-		global $ilDB, $log,$ilUser,$objDefinition;
+		global $ilDB, $log,$ilUser,$objDefinition, $ilErr;
 
 		if (!isset($this->type))
 		{
 			$message = get_class($this)."::create(): No object type given!";
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$ilErr->raiseError($message,$ilErr->WARNING);
 		}
 
 		// write log entry
@@ -700,7 +682,7 @@ class ilObject
 		if($objDefinition->isRBACObject($this->getType()))
 		{
 			// Update long description
-			$res = $this->ilias->db->query("SELECT * FROM object_description WHERE obj_id = ".
+			$res = $ilDB->query("SELECT * FROM object_description WHERE obj_id = ".
 				$ilDB->quote($this->getId(),'integer'));
 			if($res->numRows())
 			{
@@ -1329,18 +1311,18 @@ class ilObject
 	*/
 	function createReference()
 	{
-		global $ilDB;
+		global $ilDB, $ilErr;
 
 		if (!isset($this->id))
 		{
 			$message = "ilObject::createNewReference(): No obj_id given!";
-			$this->raiseError($message,$this->ilias->error_obj->WARNING);
+			$ilErr->raiseError($message,$ilErr->WARNING);
 		}
 
 		$next_id = $ilDB->nextId('object_reference');
 		$query = "INSERT INTO object_reference ".
 			 "(ref_id, obj_id) VALUES (".$ilDB->quote($next_id,'integer').','.$ilDB->quote($this->id ,'integer').")";
-		$this->ilias->db->query($query);
+		$ilDB->query($query);
 
 		$this->ref_id = $next_id;
 		$this->referenced = true;
@@ -1357,12 +1339,12 @@ class ilObject
 	*/
 	function countReferences()
 	{
-		global $ilDB;
+		global $ilDB, $ilErr;
 		
 		if (!isset($this->id))
 		{
 			$message = "ilObject::countReferences(): No obj_id given!";
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$ilErr->raiseError($message,$ilErr->WARNING);
 		}
 
 		$query = "SELECT COUNT(ref_id) num FROM object_reference ".
@@ -1386,7 +1368,7 @@ class ilObject
 	 */
 	function delete()
 	{
-		global $rbacadmin, $log, $ilDB, $ilAppEventHandler;
+		global $rbacadmin, $log, $ilDB, $ilAppEventHandler, $ilErr;
 		/**
 		 * @var $ilAppEventHandler ilAppEventHandler
 		 */
@@ -1407,7 +1389,7 @@ class ilObject
 				$log->write($message);
 					
 				// raise error
-				$this->ilias->raiseError("ilObject::delete(): Type mismatch. (".$this->type."/".$this->id.")",$this->ilias->error_obj->WARNING);
+				$ilErr->raiseError("ilObject::delete(): Type mismatch. (".$this->type."/".$this->id.")",$ilErr->WARNING);
 			}
 
 			$ilAppEventHandler->raise('Services/Object', 'beforeDeletion', array( 'object' => $this ));

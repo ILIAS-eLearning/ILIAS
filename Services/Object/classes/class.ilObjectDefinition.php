@@ -44,35 +44,10 @@ class ilObjectDefinition// extends ilSaxParser
 
 	/**
 	* Constructor
-	* 
-	* setup ILIAS global object
-	* @access	public
 	*/
 	function __construct()
 	{
-		global $ilias;
-		
 		$this->readDefinitionData();
-		$this->ilias = $ilias;
-		
-		//parent::__construct(ILIAS_ABSOLUTE_PATH."/objects.xml");
-		
-		// removing this line leads to segmentation faults in
-		// learning module editor with
-		// - PHP 5.2.1, libxml 2.6.22, libxslt 1.1.15 (MacOsX)
-		// - PHP 5.2.1, libxml 2.6.31, libxslt 1.1.22 (MacOsX)
-		// - PHP 5.2.5, libxml 2.6.31, libxslt 1.1.22 (MacOsX)
-		// - PHP 5.2.0-8+etch7, libxml 2.6.27, libxslt 1.1.19
-		// - PHP 5.2.0, libxml, libxml 2.6.26, libxslt 1.1.17 (OpenSuse 10.2)
-		// (needs further investigation)
-		// OK with:
-		// - PHP 5.1.2, libxml 2.6.24, libxslt 1.1.15
-		
-		//
-		// Replacing all "=&" with "=" in xml5compliance seems to solve the problem
-		//
-		
-//		$this->startParsing();
 	}
 
 
