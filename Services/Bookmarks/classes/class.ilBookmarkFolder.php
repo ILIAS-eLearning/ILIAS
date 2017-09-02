@@ -19,14 +19,6 @@ class ilBookmarkFolder
 	* @access private
 	*/
 	var $tree;
-
-	/**
-	* ilias object
-	* @var object ilias
-	* @access private
-	*/
-	var $ilias;
-
 	var $id;
 	var $title;
 	var $parent;
@@ -38,10 +30,7 @@ class ilBookmarkFolder
 	*/
 	function __construct($a_bmf_id = 0, $a_tree_id = 0)
 	{
-		global $ilias;
-
 		// Initiate variables
-		$this->ilias = $ilias;
 		if ($a_tree_id == 0)
 		{
 			$a_tree_id = $GLOBALS['DIC']['ilUser']->getId();
@@ -62,7 +51,7 @@ class ilBookmarkFolder
 	*/
 	function read()
 	{
-		global $ilias, $ilDB;
+		global $ilDB, $ilErr;
 
 		$q = "SELECT * FROM bookmark_data WHERE obj_id = ".
 			$ilDB->quote($this->getId(), "integer");
@@ -70,7 +59,7 @@ class ilBookmarkFolder
 		if ($ilDB->numRows($bmf_set) == 0)
 		{
 			$message = "ilBookmarkFolder::read(): Bookmark Folder with id ".$this->getId()." not found!";
-			$ilias->raiseError($message,$ilias->error_obj->WARNING);
+			$ilErr->raiseError($message, $ilErr->WARNING);
 		}
 		else
 		{
