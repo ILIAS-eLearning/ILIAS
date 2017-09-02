@@ -2610,7 +2610,7 @@ return;
 	 */
 	function displayMedia($a_fullscreen = false)
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		$tpl = new ilTemplate("tpl.fullscreen.html", true, true, "Modules/LearningModule");
 		$tpl->setCurrentBlock("ilMedia");
@@ -2996,7 +2996,7 @@ return;
 	 */
 	function insertJSAtPlaceholder()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		if ($_GET["pl_hier_id"] == "")
 		{

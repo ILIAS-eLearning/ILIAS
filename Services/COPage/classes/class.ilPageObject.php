@@ -45,6 +45,11 @@ define ("IL_NO_HEADER", "none");
  */
 abstract class ilPageObject
 {
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
 	static $exists = array();
 
 	/**
@@ -128,6 +133,7 @@ abstract class ilPageObject
 	final public function __construct($a_id = 0, $a_old_nr = 0, $a_lang = "-")
 	{
 		global $DIC;
+		$this->obj_definition = $DIC["objDefinition"];
 		$this->db = $DIC->database();
 		$this->user = $DIC->user();
 		$this->lng = $DIC->language();
@@ -2491,7 +2497,8 @@ abstract class ilPageObject
 	 */
 	function handleRepositoryLinksOnCopy($a_mapping, $a_source_ref_id)
 	{
-		global $tree, $objDefinition;
+		$tree = $this->tree;
+		$objDefinition = $this->obj_definition;
 
 		$this->buildDom();
 		$this->log->debug("Handle repository links...");

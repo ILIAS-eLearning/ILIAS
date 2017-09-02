@@ -170,7 +170,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 		}
 
 		$this->updated = $this->pg_obj->update();
-		
+
 		if ($this->updated === true && $this->ctrl->getCmd () != "upload" )
 		{
 			$this->ctrl->returnToParent($this, "jump".$this->hier_id);
