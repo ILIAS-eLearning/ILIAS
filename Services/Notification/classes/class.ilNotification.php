@@ -247,7 +247,9 @@ class ilNotification
 	 */
 	public static function setNotification($type, $user_id, $id, $status = true)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$fields = array(
 			"type" => array("integer", $type),
@@ -267,7 +269,9 @@ class ilNotification
 	 */
 	public static function updateNotificationTime($type, $id, array $user_ids, $page_id = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$sql = "UPDATE notification".
 				" SET last_mail = ".$ilDB->quote(date("Y-m-d H:i:s"), "timestamp");
@@ -292,7 +296,9 @@ class ilNotification
 	 */
 	public static function removeForObject($type, $id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$ilDB->query("DELETE FROM notification".
 				" WHERE type = ".$ilDB->quote($type, "integer").
@@ -306,7 +312,9 @@ class ilNotification
 	 */
 	public static function removeForUser($user_id)
     {
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$ilDB->query("DELETE FROM notification".
 				" WHERE user_id = ".$ilDB->quote($user_id, "integer"));
