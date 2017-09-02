@@ -393,7 +393,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	*/
 	function setTitleAndDescription()
 	{
-		global $ilias;
+		global $ilSetting;
 
 		if (!ilContainer::_lookupContainerSetting($this->object->getId(), "hide_header_icon_and_title"))
 		{
@@ -402,7 +402,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	
 			// set tile icon
 			$icon = ilObject::_getIcon($this->object->getId(), "big", $this->object->getType());
-			if ($ilias->getSetting("custom_icons") &&
+			if ($ilSetting->get("custom_icons") &&
 				in_array($this->object->getType(), array("cat","grp","crs", "root")))
 			{
 				require_once("./Services/Container/classes/class.ilContainer.php");
@@ -3091,10 +3091,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	function cloneNodes($srcRef,$dstRef,&$mapping, $newName=null)
 	{
 		global $tree;
-		global $ilias;
-		
+
 		// clone the source node
-		$srcObj =& $ilias->obj_factory->getInstanceByRefId($srcRef);
+		$srcObj = ilObjectFactory::getInstanceByRefId($srcRef);
 		error_log(__METHOD__.' cloning srcRef='.$srcRef.' dstRef='.$dstRef.'...');
 		$newRef = $srcObj->cloneObject($dstRef)->getRefId();
 		error_log(__METHOD__.' ...cloning... newRef='.$newRef.'...');
@@ -3104,7 +3103,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// name in the repository.
 		if (! is_null($newName))
 		{
-			$newObj =& $ilias->obj_factory->getInstanceByRefId($newRef);
+			$newObj = ilObjectFactory::getInstanceByRefId($newRef);
 			$newObj->setTitle($newName);
 			$newObj->update();
 			unset($newObj);

@@ -77,16 +77,14 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 	*/
 	function getMainContent()
 	{
-		global $ilBench, $ilAccess;
+		global $ilAccess;
 
 		$tpl = new ilTemplate("tpl.container_page.html", true, true,
 			"Services/Container");
 		
 		// get all sub items
-		$ilBench->start("ilContainerGUI", "0100_getSubItems");
 		$this->items = $this->getContainerObject()->getSubItems(
 			$this->getContainerGUI()->isActiveAdministrationPanel());
-		$ilBench->stop("ilContainerGUI", "0100_getSubItems");
 
 		// Show introduction, if repository is empty
 		// @todo: maybe we move this
