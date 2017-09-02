@@ -21,6 +21,36 @@ define ("IL_SCREEN_FULL", "full");
 */
 class ilColumnGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilBrowser
+	 */
+	protected $browser;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
 	protected $side = IL_COL_RIGHT;
 	protected $type;
 	protected $enableedit = false;
@@ -170,6 +200,14 @@ class ilColumnGUI
 	*/
 	public function __construct($a_col_type = "", $a_side = "", $use_std_context = false)
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$this->tpl = $DIC["tpl"];
+		$this->browser = $DIC["ilBrowser"];
+		$this->settings = $DIC->settings();
 		$this->setColType($a_col_type);
 		$this->setSide($a_side);
 	}
@@ -359,7 +397,9 @@ class ilColumnGUI
 	*/
 	static function getScreenMode()
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC->ctrl();
 
 		if ($ilCtrl->getCmdClass() == "ilcolumngui")
 		{
@@ -437,7 +477,7 @@ class ilColumnGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$ilCtrl->setParameter($this, "col_side" ,$this->getSide());
 		//$ilCtrl->saveParameter($this, "col_side");
@@ -489,7 +529,7 @@ class ilColumnGUI
 	*/
 	function getHTML()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$ilCtrl->setParameter($this, "col_side" ,$this->getSide());
 		
@@ -511,7 +551,9 @@ class ilColumnGUI
 	*/
 	function showBlocks()
 	{
-		global $ilCtrl, $lng, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 
 		$i = 1;
 		$sum_moveable = count($this->blocks[$this->getSide()]);
@@ -610,7 +652,10 @@ class ilColumnGUI
 		 * @var $ilCtrl ilCtrl
 		 * $var $tpl ilTemplate
 		 */
-		global $lng, $ilUser, $ilCtrl, $tpl;
+		$lng = $this->lng;
+		$ilUser = $this->user;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
 
 		// show selector for hidden blocks
 		include_once("Services/Block/classes/class.ilBlockSetting.php");
@@ -712,7 +757,9 @@ class ilColumnGUI
 			 * @var $tpl ilTemplate
 			 * @var $ilCtrl ilCtrl
 			 */
-			global $ilBrowser, $tpl, $ilCtrl;
+		$ilBrowser = $this->browser;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
 
 			include_once 'Services/jQuery/classes/class.iljQueryUtil.php';
 			iljQueryUtil::initjQuery();
@@ -742,7 +789,7 @@ class ilColumnGUI
 	*/
 	function updateBlock()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$this->determineBlocks();
 		$i = 1;
@@ -810,7 +857,8 @@ class ilColumnGUI
 	*/
 	function activateBlock()
 	{
-		global $ilUser, $ilCtrl;
+		$ilUser = $this->user;
+		$ilCtrl = $this->ctrl;
 
 		if ($_GET["block"] != "")
 		{
@@ -828,7 +876,7 @@ class ilColumnGUI
 	function addBlock()
 		
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$class = array_search($_GET["block_type"], self::$block_types);
 
@@ -852,7 +900,9 @@ class ilColumnGUI
 	*/
 	function determineBlocks()
 	{
-		global $ilUser, $ilCtrl, $ilSetting;
+		$ilUser = $this->user;
+		$ilCtrl = $this->ctrl;
+		$ilSetting = $this->settings;
 
 		include_once("./Services/Block/classes/class.ilBlockSetting.php");
 		$this->blocks[IL_COL_LEFT] = array();
@@ -1038,7 +1088,8 @@ class ilColumnGUI
 	*/
 	protected function isGloballyActivated($a_type)
 	{
-		global $ilSetting, $ilCtrl;
+		$ilSetting = $this->settings;
+		$ilCtrl = $this->ctrl;
 
 		if (isset($this->check_global_activation[$a_type]) && $this->check_global_activation[$a_type])
 		{
@@ -1125,7 +1176,8 @@ class ilColumnGUI
 	*/
 	protected function exceededLimit($a_type)
 	{
-		global $ilSetting, $ilCtrl;
+		$ilSetting = $this->settings;
+		$ilCtrl = $this->ctrl;
 
 		if ($this->check_nr_limit[$a_type])
 		{
@@ -1165,7 +1217,7 @@ class ilColumnGUI
 		/**
  		 * @var $ilUser ilObjUser
 		 */
-		global $ilUser;
+		$ilUser = $this->user;
 
 		$response = new stdClass();
 		$response->success = false;
