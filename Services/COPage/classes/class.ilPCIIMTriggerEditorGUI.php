@@ -17,11 +17,37 @@ include_once("./Services/COPage/classes/class.ilPCImageMapEditorGUI.php");
 class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
 {
 	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
 	* Constructor
 	*/
 	function __construct($a_content_obj, $a_page)
 	{
-		global $tpl;
+		global $DIC;
+
+		$this->tpl = $DIC["tpl"];
+		$this->lng = $DIC->language();
+		$this->toolbar = $DIC->toolbar();
+		$this->ctrl = $DIC->ctrl();
+		$tpl = $DIC["tpl"];
 		
 		$tpl->addJavascript("./Services/COPage/js/ilCOPagePres.js");
 				
@@ -45,7 +71,7 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
 	 */
 	function getEditorTitle()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		return $lng->txt("cont_pc_iim");
 	}
@@ -55,7 +81,10 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
 	 */
 	function getImageMapTableHTML()
 	{
-		global $tpl, $ilToolbar, $lng, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilToolbar = $this->toolbar;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
 		iljQueryUtil::initjQueryUI();
@@ -88,7 +117,8 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
 	 */
 	function getToolbar()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		// toolbar
 		$tb = new ilToolbarGUI();
@@ -116,7 +146,8 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
 	 */
 	function addNewArea()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		if ($_POST["shape"] == "Marker")
 		{
@@ -138,7 +169,8 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
 	 */
 	public function initAreaEditingForm($a_edit_property)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -175,7 +207,8 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
 	 */
 	function saveArea()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		switch ($_SESSION["il_map_edit_mode"])
 		{
@@ -207,7 +240,8 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
 	 */
 	function updateTrigger()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$this->content_obj->setTriggerOverlays($_POST["ov"]);
 		$this->content_obj->setTriggerPopups($_POST["pop"]);
@@ -226,7 +260,9 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
 	 */
 	function confirmDeleteTrigger()
 	{
-		global $ilCtrl, $tpl, $lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 			
 		if (!is_array($_POST["tr"]) || count($_POST["tr"]) == 0)
 		{
@@ -256,7 +292,8 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
 	 */
 	function deleteTrigger()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		if (is_array($_POST["tr"]) && count($_POST["tr"]) > 0)
 		{
