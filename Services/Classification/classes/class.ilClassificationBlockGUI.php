@@ -15,6 +15,16 @@ include_once("Services/Block/classes/class.ilBlockGUI.php");
  */
 class ilClassificationBlockGUI extends ilBlockGUI
 {		
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
 	protected $parent_obj_type; // [string]
 	protected $parent_obj_id; // [int]
 	protected $parent_ref_id; // [int]		
@@ -25,7 +35,15 @@ class ilClassificationBlockGUI extends ilBlockGUI
 	
 	public function __construct()
 	{		
-		global $lng;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+		$this->tpl = $DIC["tpl"];
+		$this->obj_definition = $DIC["objDefinition"];
+		$this->tree = $DIC->repositoryTree();
+		$this->access = $DIC->access();
+		$lng = $DIC->language();
 		
 		parent::__construct();
 							
@@ -50,7 +68,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
 	
 	public function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$cmd = $ilCtrl->getCmd();
 		$next_class = $ilCtrl->getNextClass($this);
@@ -73,7 +91,9 @@ class ilClassificationBlockGUI extends ilBlockGUI
 	
 	static function getScreenMode()
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC->ctrl();
 		
 		if($ilCtrl->isAsynch())
 		{
@@ -89,7 +109,8 @@ class ilClassificationBlockGUI extends ilBlockGUI
 	
 	public function getHTML()
 	{			
-		global $tpl, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
 		
 		if(!$ilCtrl->isAsynch())
 		{
@@ -110,7 +131,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
 	
 	public function getAjax()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$this->initProviders(true);		
 		
@@ -122,7 +143,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
 	
 	public function fillDataSection()
 	{		
-		global $DIC, $tpl;
+		$tpl = $this->tpl;
 
 		$ilCtrl = $DIC->ctrl();
 		
@@ -172,7 +193,12 @@ class ilClassificationBlockGUI extends ilBlockGUI
 	
 	protected function filterContainer()
 	{
-		global $objDefinition, $lng, $tree, $ilAccess, $ilCtrl, $tpl;
+		$objDefinition = $this->obj_definition;
+		$lng = $this->lng;
+		$tree = $this->tree;
+		$ilAccess = $this->access;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
 		
 		$this->initProviders();
 			
