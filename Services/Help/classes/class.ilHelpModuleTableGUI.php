@@ -15,11 +15,35 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 class ilHelpModuleTableGUI extends ilTable2GUI
 {
 	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
 	 * Constructor
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$this->settings = $DIC->settings();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
+		$lng = $DIC->language();
 		
 		$this->setId("help_mods");
 		
@@ -52,7 +76,9 @@ class ilHelpModuleTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilSetting, $ilCtrl;
+		$lng = $this->lng;
+		$ilSetting = $this->settings;
+		$ilCtrl = $this->ctrl;
 
 		$ilCtrl->setParameter($this->parent_obj, "hm_id", $a_set["id"]);
 		if ($a_set["id"] == $ilSetting->get("help_module"))
