@@ -27,7 +27,7 @@ class ilPageLayout
 	
 	function __construct($a_id=null)
 	{
-		global $ilias, $ilDB;
+		global $ilDB;
 		//create new instance
 		if ($a_id == null) {
 			$this->layout_id = $ilDB->nextId("page_layout");
@@ -138,7 +138,7 @@ class ilPageLayout
 	 */
 	public function activate($a_setting=true)
 	{
-		global $ilias, $ilDB;
+		global $ilDB;
 
 		$query = "UPDATE page_layout SET active=".$ilDB->quote($a_setting, "integer").
 			" WHERE layout_id =".$ilDB->quote($this->layout_id, "integer");
@@ -150,7 +150,7 @@ class ilPageLayout
 	 */
 	public function delete()
 	{
-		global $ilias, $ilDB;
+		global $ilDB;
 
 		$query = "DELETE FROM page_layout WHERE layout_id =".$ilDB->quote($this->layout_id, "integer");
 		$result = $ilDB->manipulate($query);
@@ -161,7 +161,7 @@ class ilPageLayout
 	 */
 	public function update()
 	{
-		global $ilias, $ilDB;
+		global $ilDB;
 		
 		$mod_scorm = $mod_portfolio = 0;
 		if(in_array(self::MODULE_SCORM, $this->modules))
@@ -190,7 +190,7 @@ class ilPageLayout
 	 */
 	public function readObject()
 	{
-		global $ilias, $ilDB;
+		global $ilDB;
 		$query = "SELECT * FROM page_layout WHERE layout_id =".$ilDB->quote($this->layout_id, "integer");
 		$result = $ilDB->query($query);
 		$row = $ilDB->fetchAssoc($result);

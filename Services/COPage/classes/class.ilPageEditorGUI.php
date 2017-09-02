@@ -26,12 +26,6 @@ include_once ("./Services/COPage/classes/class.ilPageObjectGUI.php");
 */
 class ilPageEditorGUI
 {
-	/**
-	* ilias object
-	* @var object ilias
-	* @access public
-	*/
-	var $ilias;
 	var $tpl;
 	var $lng;
 	var $ctrl;
@@ -58,12 +52,11 @@ class ilPageEditorGUI
 	*/
 	function __construct(&$a_page_object, &$a_page_object_gui)
 	{
-		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl,$ilTabs;
+		global $tpl, $lng, $objDefinition, $ilCtrl,$ilTabs;
 
 		$this->log = ilLoggerFactory::getLogger('copg');
 
 		// initiate variables
-		$this->ilias = $ilias;
 		$this->ctrl = $ilCtrl;
 		$this->tpl = $tpl;
 		$this->lng = $lng;
@@ -501,7 +494,7 @@ exit;
 	*/
 	function setMediaMode()
 	{
-		global $ilUser, $ilias;
+		global $ilUser;
 
 		$ilUser->writePref("ilPageEditor_MediaMode", $_POST["media_mode"]);
 		$ilUser->writePref("ilPageEditor_HTMLMode", $_POST["html_mode"]);

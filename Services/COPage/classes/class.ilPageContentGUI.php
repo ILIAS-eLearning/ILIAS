@@ -14,7 +14,6 @@ require_once("./Services/COPage/classes/class.ilPageContent.php");
 class ilPageContentGUI
 {
 	var $content_obj;
-	var $ilias;
 	var $tpl;
 	var $lng;
 
@@ -52,11 +51,10 @@ class ilPageContentGUI
 	*/
 	function __construct($a_pg_obj, $a_content_obj, $a_hier_id = 0, $a_pc_id = "")
 	{
-		global $ilias, $tpl, $lng, $ilCtrl;
+		global $tpl, $lng, $ilCtrl;
 
 		$this->log = ilLoggerFactory::getLogger('copg');
 
-		$this->ilias = $ilias;
 		$this->tpl = $tpl;
 		$this->lng = $lng;
 		$this->pg_obj = $a_pg_obj;
@@ -364,16 +362,18 @@ class ilPageContentGUI
 	*/
 	function moveAfter()
 	{
+		global $ilErr;
+
 		// check if a target is selected
 		if(!isset($_POST["target"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("no_checkbox"),$ilErr->MESSAGE);
 		}
 
 		// check if only one target is selected
 		if(count($_POST["target"]) > 1)
 		{
-			$this->ilias->raiseError($this->lng->txt("only_one_target"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("only_one_target"),$ilErr->MESSAGE);
 		}
 
 		$a_hid = explode(":", $_POST["target"][0]);
@@ -382,14 +382,14 @@ class ilPageContentGUI
 		// check if target is within source
 		if($this->hier_id == substr($a_hid[0], 0, strlen($this->hier_id)))
 		{
-			$this->ilias->raiseError($this->lng->txt("cont_target_within_source"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("cont_target_within_source"),$ilErr->MESSAGE);
 		}
 
 		// check whether target is allowed
 		$curr_node = $this->pg_obj->getContentNode($a_hid[0], $a_hid[1]);
 		if (is_object($curr_node) && $curr_node->node_name() == "FileItem")
 		{
-			$this->ilias->raiseError($this->lng->txt("cont_operation_not_allowed"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("cont_operation_not_allowed"),$ilErr->MESSAGE);
 		}
 
 		// strip "c" "r" of table ids from hierarchical id
@@ -421,16 +421,18 @@ class ilPageContentGUI
 	*/
 	function moveBefore()
 	{
+		global $ilErr;
+
 		// check if a target is selected
 		if(!isset($_POST["target"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("no_checkbox"),$ilErr->MESSAGE);
 		}
 
 		// check if target is within source
 		if(count($_POST["target"]) > 1)
 		{
-			$this->ilias->raiseError($this->lng->txt("only_one_target"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("only_one_target"),$ilErr->MESSAGE);
 		}
 
 		$a_hid = explode(":", $_POST["target"][0]);
@@ -438,14 +440,14 @@ class ilPageContentGUI
 		// check if target is within source
 		if($this->hier_id == substr($a_hid[0], 0, strlen($this->hier_id)))
 		{
-			$this->ilias->raiseError($this->lng->txt("cont_target_within_source"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("cont_target_within_source"),$ilErr->MESSAGE);
 		}
 
 		// check whether target is allowed
 		$curr_node = $this->pg_obj->getContentNode($a_hid[0], $a_hid[1]);
 		if (is_object($curr_node) && $curr_node->node_name() == "FileItem")
 		{
-			$this->ilias->raiseError($this->lng->txt("cont_operation_not_allowed"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("cont_operation_not_allowed"),$ilErr->MESSAGE);
 		}
 
 		// strip "c" "r" of table ids from hierarchical id

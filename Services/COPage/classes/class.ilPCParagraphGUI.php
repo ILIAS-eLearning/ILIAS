@@ -352,8 +352,6 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	 */
 	function editMultipleJS()
 	{
-		global $ilUser, $ilias;
-
 		echo $this->content_obj->getParagraphSequenceContent($this->pg_obj);
 		exit;
 	}

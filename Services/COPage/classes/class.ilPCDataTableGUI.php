@@ -271,9 +271,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 	 */
 	function update($a_redirect = true)
 	{
-		global $ilBench, $lng;
-
-		$ilBench->start("Editor","Data_Table_update");
+		global $lng;
 
 		// handle input data
 		include_once("./Services/COPage/classes/class.ilPCParagraph.php");
@@ -300,13 +298,11 @@ class ilPCDataTableGUI extends ilPCTableGUI
 
 		if ($this->updated !== true)
 		{
-			$ilBench->stop("Editor","Data_Table_update");
 			$this->editData();
 			return;
 		}
 
 		$this->updated = $this->pg_obj->update();
-		$ilBench->stop("Editor","Data_Table_update");
 
 		if ($a_redirect)
 		{
@@ -320,7 +316,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 	 */
 	function updateJS()
 	{
-		global $ilBench, $lng, $ilCtrl;
+		global $lng, $ilCtrl;
 				
 		if ($_POST["cancel_update"])
 		{

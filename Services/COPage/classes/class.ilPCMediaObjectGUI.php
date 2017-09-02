@@ -1076,7 +1076,9 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	*/
 	function copyToClipboard()
 	{
-		$this->ilias->account->addObjectToClipboard($this->content_obj->getMediaObject()->getId(), $this->content_obj->getMediaObject()->getType()
+		global $ilUser;
+
+		$ilUser->addObjectToClipboard($this->content_obj->getMediaObject()->getId(), $this->content_obj->getMediaObject()->getType()
 			, $this->content_obj->getMediaObject()->getTitle());
 		ilUtil::sendSuccess($this->lng->txt("copied_to_clipboard"), true);
 		$this->ctrl->returnToParent($this, "jump".$this->hier_id);

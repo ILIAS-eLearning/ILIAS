@@ -140,11 +140,8 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 	*/
 	function update()
 	{
-		global $ilBench;
-
 		$this->upload_source();
 
-		$ilBench->start("Editor","Paragraph_update");
 		// set language and characteristic
 		
 		$this->content_obj->setLanguage($_POST["par_language"]);
@@ -168,15 +165,12 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 		if ($this->updated !== true)
 		{
 			//echo "Did not update!";
-			$ilBench->stop("Editor","Paragraph_update");
 			$this->edit();
 			return;
 		}
 
 		$this->updated = $this->pg_obj->update();
-
-		$ilBench->stop("Editor","Paragraph_update");
-
+		
 		if ($this->updated === true && $this->ctrl->getCmd () != "upload" )
 		{
 			$this->ctrl->returnToParent($this, "jump".$this->hier_id);
