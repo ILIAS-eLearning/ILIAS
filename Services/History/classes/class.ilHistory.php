@@ -31,7 +31,10 @@ class ilHistory
 	static function _createEntry($a_obj_id, $a_action, $a_info_params = "", $a_obj_type = "",
 		$a_user_comment = "", $a_update_last = false)
 	{
-		global $ilDB, $ilUser;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilUser = $DIC->user();
 		
 		if ($a_obj_type == "")
 		{
@@ -128,7 +131,9 @@ class ilHistory
 	*/
 	static function _getEntriesForObject($a_obj_id, $a_obj_type = "")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		if ($a_obj_type == "")
 		{
@@ -203,7 +208,9 @@ class ilHistory
 	*/
 	static function _removeEntriesForObject($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$q = "DELETE FROM history WHERE obj_id = ".
 			$ilDB->quote($a_obj_id, "integer");
@@ -221,7 +228,9 @@ class ilHistory
 	*/
 	static function _copyEntriesForObject($a_src_id,$a_dst_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$q = "SELECT * FROM history WHERE obj_id = ".
 			$ilDB->quote($a_src_id, "integer");
@@ -266,7 +275,9 @@ class ilHistory
 	 */
 	static function _getEntryByHistoryID($a_hist_entry_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$q = "SELECT * FROM history WHERE id = ".
 			$ilDB->quote($a_hist_entry_id, "integer");
@@ -282,7 +293,9 @@ class ilHistory
 	 */
 	public static function _removeEntryByHistoryID($a_hist_entry_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$q = "DELETE FROM history WHERE id = ".
 			$ilDB->quote($a_hist_entry_id, "integer");
@@ -297,7 +310,9 @@ class ilHistory
 	 */
 	public static function _changeUserId($a_hist_entry_id, $new_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$ilDB->update("history", 
 			array("usr_id" => array("integer", $new_user_id)), 
