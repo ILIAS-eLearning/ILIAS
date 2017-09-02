@@ -34,6 +34,16 @@
 */
 class ilContainerLinkListGUI
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
 	var $ctrl;
 
 	/**
@@ -42,7 +52,12 @@ class ilContainerLinkListGUI
 	*/
 	function __construct()
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->tree = $DIC->repositoryTree();
+		$ilCtrl = $DIC->ctrl();
 		
 		$this->ctrl =& $ilCtrl;
 	}
@@ -65,7 +80,8 @@ class ilContainerLinkListGUI
 	
 	function show()
 	{
-		global $lng, $tree;
+		$lng = $this->lng;
+		$tree = $this->tree;
 		
 		$tpl = new ilTemplate("tpl.container_link_help.html", true, true,
 			"Services/Container");
