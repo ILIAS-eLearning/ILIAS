@@ -20,12 +20,40 @@ require_once ("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
 // Todo: extend ilObjMediaObjectGUI !?
 class ilPCMediaObjectGUI extends ilPageContentGUI
 {
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	var $header;
 	var $ctrl;
 
 	function __construct($a_pg_obj, $a_content_obj, $a_hier_id = 0, $a_pc_id = "")
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$this->tpl = $DIC["tpl"];
+		$this->lng = $DIC->language();
+		$this->tabs = $DIC->tabs();
+		$this->access = $DIC->access();
+		$this->toolbar = $DIC->toolbar();
+		$this->user = $DIC->user();
+		$ilCtrl = $DIC->ctrl();
 
 		$this->ctrl = $ilCtrl;
 //		var_dump($_POST);
@@ -76,7 +104,9 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	*/
 	function executeCommand()
 	{ 
-		global $tpl, $lng, $ilTabs;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilTabs = $this->tabs;
 
 		$this->getCharacteristicsOfCurrentStyle("media_cont");	// scorm-2004
 		
@@ -144,7 +174,10 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	*/
 	function insert($a_post_cmd = "edpost", $a_submit_cmd = "create_mob", $a_input_error = false)
 	{
-		global $ilTabs, $tpl, $ilCtrl, $lng;
+		$ilTabs = $this->tabs;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		if ($_GET["subCmd"] == "insertNew")
 		{
@@ -208,7 +241,9 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	 */
 	function changeObjectReference()
 	{
-		global $ilTabs, $ilCtrl, $lng;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		if ($_GET["subCmd"] == "insertNew")
 		{
@@ -262,7 +297,12 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	*/
 	function insertFromPool($a_change_obj_ref = false)
 	{
-		global $ilCtrl, $ilAccess, $ilTabs, $tpl, $lng, $ilToolbar;
+		$ilCtrl = $this->ctrl;
+		$ilAccess = $this->access;
+		$ilTabs = $this->tabs;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilToolbar = $this->toolbar;
 
 		if ($_SESSION["cont_media_pool"] != "" &&
 			$ilAccess->checkAccess("write", "", $_SESSION["cont_media_pool"])
@@ -318,7 +358,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	*/
 	function selectPool($a_change_obj_ref = false)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$_SESSION["cont_media_pool"] = $_GET["pool_ref_id"];
 		$ilCtrl->setParameter($this, "subCmd", "insertFromPool");
@@ -337,7 +377,9 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	*/
 	function poolSelection($a_change_obj_ref = false)
 	{
-		global $tpl, $ilTabs, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
 
 		$this->getTabs($ilTabs, true, $a_change_obj_ref);
 		$ilTabs->setSubTabActive("cont_mob_from_media_pool");
@@ -381,7 +423,8 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	*/
 	function selectObjectReference()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		if (is_array($_POST["id"]) && count($_POST["id"]) == 1)
 		{
 			include_once("./Services/COPage/classes/class.ilPCMediaObject.php");
@@ -405,7 +448,8 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	*/
 	function &create($a_create_alias = true, $a_change_obj_ref = false)
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		if ($_GET["subCmd"] == "insertFromPool")
 		{
@@ -492,7 +536,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	*/
 	function editAlias()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$this->initAliasForm();
 		$this->getAliasValues();
@@ -504,7 +548,8 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	*/
 	function initAliasForm()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		
@@ -753,7 +798,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	*/
 	function getAliasValues()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		// standard view resource
 		$std_alias_item = new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard",
@@ -1076,7 +1121,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	*/
 	function copyToClipboard()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		$ilUser->addObjectToClipboard($this->content_obj->getMediaObject()->getId(), $this->content_obj->getMediaObject()->getType()
 			, $this->content_obj->getMediaObject()->getTitle());
@@ -1165,7 +1210,9 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	*/
 	function editStyle()
 	{
-		global $ilCtrl, $tpl, $lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 		
 		$this->displayValidationError();
 		
@@ -1241,7 +1288,8 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	*/
 	function getTabs(&$tab_gui, $a_create = false, $a_change_obj_ref = false)
 	{
-		global $ilCtrl, $ilTabs;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
 
 		if (!$a_create)
 		{
