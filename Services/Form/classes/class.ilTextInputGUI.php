@@ -42,6 +42,9 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		parent::__construct($a_title, $a_postvar);
 		$this->setInputType("text");
 		$this->setType("text");
@@ -259,7 +262,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if(!$this->getMulti())
 		{		
@@ -388,7 +391,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 		/**
 		 * @var $lng ilLanguage
 		 */
-		global $lng;
+		$lng = $this->lng;
 		
 		$tpl = new ilTemplate("tpl.prop_textinput.html", true, true, "Services/Form");
 		if (strlen($this->getValue()))
