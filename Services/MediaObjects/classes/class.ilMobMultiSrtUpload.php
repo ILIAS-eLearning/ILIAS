@@ -11,6 +11,11 @@
  */
 class ilMobMultiSrtUpload
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	protected $lm;
 
 	/**
@@ -20,7 +25,9 @@ class ilMobMultiSrtUpload
 	 */
 	function __construct(ilMobMultiSrtInt $a_multi_srt)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 
 		$this->lng = $lng;
 		$this->multi_srt = $a_multi_srt;
