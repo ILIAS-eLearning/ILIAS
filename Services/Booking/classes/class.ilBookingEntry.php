@@ -12,6 +12,16 @@
 */
 class ilBookingEntry
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	private $id = 0;
 	private $obj_id = 0;
 	
@@ -26,6 +36,10 @@ class ilBookingEntry
 	 */
 	public function __construct($a_booking_id = 0)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
+		$this->user = $DIC->user();
 		$this->setId($a_booking_id);
 		if($this->getId())
 		{
@@ -41,7 +55,9 @@ class ilBookingEntry
 	 */
 	public static function resetGroup($a_group_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$query = 'UPDATE booking_entry SET booking_group = '.$ilDB->quote(0,'integer').' '.
 				'WHERE booking_group = '.$ilDB->quote($a_group_id,'integer');
@@ -56,7 +72,9 @@ class ilBookingEntry
 	 */
 	public static function lookupBookingsOfUser($a_app_ids, $a_usr_id, ilDateTime $start = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$query = 'SELECT entry_id FROM booking_user '.
 				'WHERE '.$ilDB->in('entry_id',$a_app_ids,false,'integer').' '.
@@ -199,7 +217,7 @@ class ilBookingEntry
 	 */
 	public function save()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$this->setId($ilDB->nextId('booking_entry'));
 		$query = 'INSERT INTO booking_entry (booking_id,obj_id,deadline,num_bookings,booking_group) '.
@@ -230,7 +248,7 @@ class ilBookingEntry
 	 */
 	public function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if(!$this->getId())
 		{
@@ -267,7 +285,7 @@ class ilBookingEntry
 	 */
 	public function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$query = "DELETE FROM booking_entry ".
 			"WHERE booking_id = ".$ilDB->quote($this->getId(),'integer');
@@ -286,7 +304,7 @@ class ilBookingEntry
 	 */
 	protected function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if(!$this->getId())
 		{
@@ -324,7 +342,7 @@ class ilBookingEntry
 	 */
 	public function isOwner($a_user_id = NULL)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		if(!$a_user_id)
 		{
@@ -343,7 +361,9 @@ class ilBookingEntry
 	 */
 	public static function removeObsoleteEntries()
     {
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->query('SELECT DISTINCT(context_id) FROM cal_entries e'.
 			' JOIN cal_cat_assignments a ON (e.cal_id = a.cal_id)'.
@@ -384,7 +404,9 @@ class ilBookingEntry
 	 */
 	public static function isBookable(array $a_obj_ids, $a_target_obj_id = NULL)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		if($a_target_obj_id)
 		{
@@ -418,7 +440,9 @@ class ilBookingEntry
 	 */
 	public static function lookupBookableUsersForObject($a_obj_id, $a_user_ids)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$query = 'SELECT be.obj_id bobj FROM booking_entry be '.
 				'JOIN booking_obj_assignment bo ON be.booking_id = bo.booking_id '.
@@ -472,7 +496,9 @@ class ilBookingEntry
 	 */
 	public static function hasObjectBookingEntries($a_obj_id, $a_usr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$user_restriction = '';
 		if($a_usr_id)
@@ -496,7 +522,9 @@ class ilBookingEntry
 	
 	public static function lookupBookingMessage($a_entry_id, $a_usr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$query = 'SELECT * from booking_user '.
 				'WHERE entry_id = '.$ilDB->quote($a_entry_id,'integer').' '.
@@ -517,7 +545,9 @@ class ilBookingEntry
 	 */
 	public static function writeBookingMessage($a_entry_id, $a_usr_id, $a_message)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$query = 'UPDATE booking_user SET '.
 				'booking_message = '.$ilDB->quote($a_message,'text').' '.
@@ -537,7 +567,7 @@ class ilBookingEntry
 	 */
 	public function getCurrentNumberOfBookings($a_entry_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$set = $ilDB->query('SELECT COUNT(*) AS counter FROM booking_user'.
 			' WHERE entry_id = '.$ilDB->quote($a_entry_id, 'integer'));
@@ -552,7 +582,7 @@ class ilBookingEntry
 	 */
 	public function getCurrentBookings($a_entry_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$set = $ilDB->query('SELECT user_id FROM booking_user'.
 			' WHERE entry_id = '.$ilDB->quote($a_entry_id, 'integer'));
@@ -572,7 +602,9 @@ class ilBookingEntry
 	 */
 	public static function lookupBookingsForAppointment($a_app_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$query = 'SELECT user_id FROM booking_user '.
 				'WHERE entry_id = '.$ilDB->quote($a_app_id, 'integer');
@@ -594,7 +626,9 @@ class ilBookingEntry
 	 */
 	public static function lookupBookingsForObject($a_obj_id, $a_usr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 
 		$query = 'SELECT bu.user_id, starta, enda FROM booking_user bu '.
@@ -654,7 +688,8 @@ class ilBookingEntry
 	 */
 	public function hasBooked($a_entry_id, $a_user_id = NULL)
 	{
-		global $ilUser, $ilDB;
+		$ilUser = $this->user;
+		$ilDB = $this->db;
 
 		if(!$a_user_id)
 		{
@@ -678,7 +713,7 @@ class ilBookingEntry
 	 */
 	public function isBookedOut($a_entry_id, $a_check_current_user = false)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		if($this->getNumberOfBookings() == $this->getCurrentNumberOfBookings($a_entry_id))
 		{
@@ -777,7 +812,8 @@ class ilBookingEntry
 	 */
 	public function book($a_entry_id, $a_user_id = false)
 	{
-		global $ilUser, $ilDB;
+		$ilUser = $this->user;
+		$ilDB = $this->db;
 		
 		if(!$a_user_id)
 		{
@@ -807,7 +843,8 @@ class ilBookingEntry
 	 */
 	public function cancelBooking($a_entry_id, $a_user_id = false)
 	{
-		global $ilUser, $ilDB;
+		$ilUser = $this->user;
+		$ilDB = $this->db;
 
 		if(!$a_user_id)
 		{
@@ -840,7 +877,7 @@ class ilBookingEntry
 	 */
 	public function deleteBooking($a_entry_id, $a_user_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 	
 		$query = 'DELETE FROM booking_user ' .
 			'WHERE entry_id = '.$ilDB->quote($a_entry_id, 'integer').' '.
