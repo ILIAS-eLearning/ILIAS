@@ -17,7 +17,41 @@
 */
 class ilInfoScreenGUI
 {
-	var $ilias;
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs_gui;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
 	var $lng;
 	var $ctrl;
 	var $gui_object;
@@ -41,9 +75,18 @@ class ilInfoScreenGUI
 	*/
 	function __construct($a_gui_object)
 	{
-		global $ilias, $ilCtrl, $lng,$ilTabs;
+		global $DIC;
 
-		$this->ilias = $ilias;
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->tpl = $DIC["tpl"];
+		$this->access = $DIC->access();
+		$this->user = $DIC->user();
+		$this->tree = $DIC->repositoryTree();
+		$this->settings = $DIC->settings();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilTabs = $DIC->tabs();
+
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
 		$this->tabs_gui = $ilTabs;
@@ -63,7 +106,9 @@ class ilInfoScreenGUI
 	*/
 	function executeCommand()
 	{
-		global $rbacsystem, $tpl, $ilAccess;
+		$rbacsystem = $this->rbacsystem;
+		$tpl = $this->tpl;
+		$ilAccess = $this->access;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 
@@ -305,7 +350,7 @@ class ilInfoScreenGUI
 	*/
 	function addMetaDataSections($a_rep_obj_id,$a_obj_id, $a_type)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$lng->loadLanguageModule("meta");
 
@@ -431,7 +476,11 @@ class ilInfoScreenGUI
 	*/
 	function addObjectSections()
 	{
-		global $lng, $ilCtrl, $ilUser, $ilAccess, $tree, $ilSetting, $ilObjDataCache;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
+		$ilAccess = $this->access;
+		$tree = $this->tree;
 		
 		$this->addSection($lng->txt("additional_info"));
 		$a_obj = $this->gui_object->object;
@@ -586,18 +635,17 @@ class ilInfoScreenGUI
 		}
 		// END ChangeEvent: Display change event info
 
-		// BEGIN WebDAV: Display locking information
+		// WebDAV: Display locking information
 		require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
 		if (ilDAVActivationChecker::_isActive())
 		{
-			global $ilias, $ilUser;
 			if ($ilUser->getId() != ANONYMOUS_USER_ID)
 			{
 				require_once 'Services/WebDAV/classes/class.ilDAVServer.php';
 				$davLocks = new ilDAVLocks();
 
 				// Show lock info
-				if ($ilias->account->getId() != ANONYMOUS_USER_ID)
+				if ($ilUser->getId() != ANONYMOUS_USER_ID)
 				{
 					$locks =& $davLocks->getLocksOnObjectObj($a_obj->getId());
 					if (count($locks) > 0)
@@ -612,8 +660,6 @@ class ilInfoScreenGUI
 				}
 			}
 		}
-		// END WebDAV: Display locking information
-
 
 	}
 	// END ChangeEvent: Display standard object info
@@ -622,7 +668,8 @@ class ilInfoScreenGUI
 	*/
 	function showSummary()
 	{
-		global $tpl, $ilAccess;
+		$tpl = $this->tpl;
+		$ilAccess = $this->access;
 
 		$tpl->setContent($this->getCenterColumnHTML());
 		$tpl->setRightContent($this->getRightColumnHTML());
@@ -634,7 +681,7 @@ class ilInfoScreenGUI
 	*/
 	function getCenterColumnHTML()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		include_once("Services/Block/classes/class.ilColumnGUI.php");
 		$column_gui = new ilColumnGUI("info", IL_COL_CENTER);
@@ -673,7 +720,9 @@ class ilInfoScreenGUI
 	*/
 	function getRightColumnHTML()
 	{
-		global $ilUser, $lng, $ilCtrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		include_once("Services/Block/classes/class.ilColumnGUI.php");
 		$column_gui = new ilColumnGUI("info", IL_COL_RIGHT);
@@ -704,7 +753,8 @@ class ilInfoScreenGUI
 	*/
 	function setColumnSettings($column_gui)
 	{
-		global $lng, $ilAccess;
+		$lng = $this->lng;
+		$ilAccess = $this->access;
 
 		$column_gui->setEnableEdit($this->news_editing);
 		$column_gui->setRepositoryMode(true);
@@ -726,7 +776,12 @@ class ilInfoScreenGUI
 	*/
 	function getHTML()
 	{
-		global $lng, $ilSetting, $tree, $ilAccess, $ilCtrl, $ilUser;
+		$lng = $this->lng;
+		$ilSetting = $this->settings;
+		$tree = $this->tree;
+		$ilAccess = $this->access;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 		
 		$tpl = new ilTemplate("tpl.infoscreen.html" ,true, true, "Services/InfoScreen");
 
@@ -902,7 +957,8 @@ class ilInfoScreenGUI
 
 	function showLearningProgress($a_tpl)
 	{
-		global $ilUser,$rbacsystem;
+		$ilUser = $this->user;
+		$rbacsystem = $this->rbacsystem;
 
 		if(!$rbacsystem->checkAccess('read',$this->gui_object->object->getRefId()))
 		{
@@ -1013,7 +1069,7 @@ class ilInfoScreenGUI
 
 	function saveProgress()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
 
@@ -1037,7 +1093,8 @@ class ilInfoScreenGUI
 	*/
 	function showNotesSection()
 	{
-		global $ilAccess, $ilSetting;
+		$ilAccess = $this->access;
+		$ilSetting = $this->settings;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		include_once("Services/Notes/classes/class.ilNoteGUI.php");
@@ -1121,7 +1178,7 @@ class ilInfoScreenGUI
 
 	function setTabs()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		$this->getTabs($this->tabs_gui);
 	}
@@ -1131,7 +1188,9 @@ class ilInfoScreenGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem,$ilUser,$ilAccess;
+		$rbacsystem = $this->rbacsystem;
+		$ilUser = $this->user;
+		$ilAccess = $this->access;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$force_active = ($next_class == "ilnotegui")
@@ -1150,7 +1209,8 @@ class ilInfoScreenGUI
 	*/
 	function addTagging()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$lng->loadLanguageModule("tagging");
 		$tags_set = new ilSetting("tags");
@@ -1194,7 +1254,7 @@ class ilInfoScreenGUI
 
 	function getHiddenToggleButton()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		return "<a onClick=\"toggleSections(this, '".$lng->txt("show_hidden_sections") ."', '".$lng->txt("hide_visible_sections") ."'); return false;\" href=\"#\">".$lng->txt("show_hidden_sections")."</a>";
 	}
