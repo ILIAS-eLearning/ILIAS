@@ -20,7 +20,9 @@ class ilNewsSubscription
 	*/
 	public static function _subscribe($a_ref_id, $a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$ilDB->manipulate("DELETE FROM il_news_subscription WHERE ".
 			" ref_id = ".$ilDB->quote($a_ref_id, "integer")." ".
@@ -38,7 +40,9 @@ class ilNewsSubscription
 	*/
 	public static function _unsubscribe($a_ref_id, $a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$ilDB->manipulate("DELETE FROM il_news_subscription WHERE ref_id  = ".
 			$ilDB->quote($a_ref_id, "integer")." AND user_id = ".
@@ -54,7 +58,9 @@ class ilNewsSubscription
 	*/
 	public static function _hasSubscribed($a_ref_id, $a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$query = "SELECT * FROM il_news_subscription WHERE ref_id = ".
 			$ilDB->quote($a_ref_id, "integer")." AND user_id = ".
@@ -79,7 +85,9 @@ class ilNewsSubscription
 	*/
 	public static function _getSubscriptionsOfUser($a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$query = "SELECT * FROM il_news_subscription WHERE user_id = ".
 			$ilDB->quote($a_user_id, "integer");

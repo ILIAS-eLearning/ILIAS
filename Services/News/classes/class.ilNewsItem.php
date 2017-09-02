@@ -27,6 +27,41 @@ define("NEWS_PUBLIC", "public");
 */
 class ilNewsItem
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilObjectDataCache
+	 */
+	protected $obj_data_cache;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
 	protected $id;
 	protected $title;
 	protected $content;
@@ -63,6 +98,15 @@ class ilNewsItem
 	*/
 	public function __construct($a_id = 0)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
+		$this->tree = $DIC->repositoryTree();
+		$this->access = $DIC->access();
+		$this->obj_data_cache = $DIC["ilObjDataCache"];
+		$this->user = $DIC->user();
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
 		if ($a_id > 0)
 		{
 			$this->setId($a_id);
@@ -537,7 +581,7 @@ class ilNewsItem
 	 */
 	public function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$query = "SELECT * FROM il_news_item WHERE id = ".
 			$ilDB->quote($this->getId(), "integer");
@@ -573,7 +617,7 @@ class ilNewsItem
 	 */
 	function create()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		// insert new record into db
 		$this->setId($ilDB->nextId("il_news_item"));
@@ -653,7 +697,7 @@ class ilNewsItem
 	 */
 	public function update($a_as_new = false)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$fields = array(
 			"title" => array("text", $this->getTitle()),
@@ -701,7 +745,9 @@ class ilNewsItem
 	static function _getNewsItemsOfUser($a_user_id, $a_only_public = false,
 		$a_prevent_aggregation = false, $a_per = 0, &$a_cnt = NULL)
 	{
-		global $ilAccess;
+		global $DIC;
+
+		$ilAccess = $DIC->access();
 
 		$news_item = new ilNewsItem();
 		$news_set = new ilSetting("news");
@@ -762,7 +808,9 @@ class ilNewsItem
 				}
 			}
 			if (ilNewsItem::getPrivateFeedId() != false) {
-				global $rbacsystem;
+		global $DIC;
+
+		$rbacsystem = $DIC->rbac()->system();
 				$acc = $rbacsystem->checkAccessOfUser(ilNewsItem::getPrivateFeedId(),"read", $ref_id);
 			
 				if (!$acc)
@@ -885,7 +933,9 @@ class ilNewsItem
         $a_prevent_aggregation = false, $a_starting_date = "", $a_no_auto_generated = false,
 		$a_user_id = null, $a_limit = 0, $a_exclude = array())
 	{
-		global $tree, $ilAccess, $ilObjDataCache;
+		$tree = $this->tree;
+		$ilAccess = $this->access;
+		$ilObjDataCache = $this->obj_data_cache;
 		
 		// get news of parent object
 		
@@ -1066,7 +1116,8 @@ class ilNewsItem
 		$a_time_period = 0, $a_prevent_aggregation = false, $a_starting_date = "",
         $a_no_auto_generated = false)
 	{
-		global $tree, $ilAccess;
+		$tree = $this->tree;
+		$ilAccess = $this->access;
 		
 		// get news of parent object
 		$data = $this->getNewsForRefId($a_ref_id, $a_only_public, true, $a_time_period,
@@ -1172,7 +1223,9 @@ class ilNewsItem
 	public function queryNewsForContext($a_for_rss_use = false, $a_time_period = 0,
         $a_starting_date = "", $a_no_auto_generated = false, $a_oldest_first = false, $a_limit = 0)
 	{
-		global $ilDB, $ilUser, $lng;
+		$ilDB = $this->db;
+		$ilUser = $this->user;
+		$lng = $this->lng;
 
 		$and = "";
 		if ($a_time_period > 0)
@@ -1286,7 +1339,8 @@ class ilNewsItem
 	 */
 	public function checkNewsExistsForGroupCourse($a_ref_id, $a_time_period = 1)
 	{
-		global $tree, $ilDB;
+		$tree = $this->tree;
+		$ilDB = $this->db;
 		
 		$all = array();
 
@@ -1339,7 +1393,10 @@ class ilNewsItem
         $a_time_period = 0, $a_starting_date = "", $a_no_auto_generated = false,
 		$a_user_id = null, $a_limit = 0, $a_exclude = array())
 	{
-		global $ilDB, $ilUser, $lng, $ilCtrl;
+		$ilDB = $this->db;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$and = "";
 		if ($a_time_period > 0)
@@ -1445,7 +1502,10 @@ class ilNewsItem
 	*/
 	static function _setRead($a_user_id, $a_news_id)
 	{
-		global $ilDB, $ilAppEventHandler;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilAppEventHandler = $DIC["ilAppEventHandler"];
 		
 		$ilDB->replace("il_news_read",
 			array(
@@ -1472,7 +1532,10 @@ class ilNewsItem
 	*/
 	static function _setUnread($a_user_id, $a_news_id)
 	{
-		global $ilDB, $ilAppEventHandler;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilAppEventHandler = $DIC["ilAppEventHandler"];
 		
 		$ilDB->manipulate("DELETE FROM il_news_read (user_id, news_id) VALUES (".
 			" WHERE user_id = ".$ilDB->quote($a_user_id, "integer").
@@ -1507,7 +1570,10 @@ class ilNewsItem
 	*/
 	static function _getDefaultVisibilityForRefId($a_ref_id)
 	{
-		global $tree, $ilSetting;
+		global $DIC;
+
+		$tree = $DIC->repositoryTree();
+		$ilSetting = $DIC->settings();
 
 		include_once("./Services/Block/classes/class.ilBlockSetting.php");
 
@@ -1547,7 +1613,7 @@ class ilNewsItem
 	*/
 	public function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// delete il_news_read entries
 		$ilDB->manipulate("DELETE FROM il_news_read ".
@@ -1577,7 +1643,9 @@ class ilNewsItem
 	static public function deleteNewsOfContext($a_context_obj_id,
 		$a_context_obj_type, $a_context_sub_obj_id = 0, $a_context_sub_obj_type = "")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		if ($a_context_obj_id == 0 || $a_context_obj_type == "")
 		{
@@ -1610,7 +1678,9 @@ class ilNewsItem
 	*/
 	static function _lookupTitle($a_news_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$query = "SELECT title FROM il_news_item WHERE id = ".
 			$ilDB->quote($a_news_id, "integer");
@@ -1624,7 +1694,9 @@ class ilNewsItem
 	*/
 	static function _lookupVisibility($a_news_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$query = "SELECT visibility FROM il_news_item WHERE id = ".
 			$ilDB->quote($a_news_id, "integer");
@@ -1639,7 +1711,9 @@ class ilNewsItem
 	*/
 	static function _lookupMobId($a_news_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$query = "SELECT mob_id FROM il_news_item WHERE id = ".
 			$ilDB->quote($a_news_id, "integer");
@@ -1653,7 +1727,9 @@ class ilNewsItem
 	*/
 	static function filterObjIdsPerNews($a_obj_ids, $a_time_period = 0, $a_starting_date = "",$a_ending_date = '', $ignore_period = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$and = "";
 		if ($a_time_period > 0)
@@ -1687,7 +1763,9 @@ class ilNewsItem
 	static function determineNewsTitle($a_context_obj_type, $a_title, $a_content_is_lang_var,
 		$a_agg_ref_id = 0, $a_aggregation = "")
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 
 		if ($a_agg_ref_id > 0)
 		{
@@ -1761,7 +1839,9 @@ class ilNewsItem
 	 */
 	static function determineNewsContent($a_context_obj_type, $a_content, $a_is_lang_var)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 
 		if ($a_is_lang_var)
 		{
@@ -1782,7 +1862,9 @@ class ilNewsItem
 	static function getFirstNewsIdForContext($a_context_obj_id,
 		$a_context_obj_type, $a_context_sub_obj_id = "", $a_context_sub_obj_type = "")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		// Determine how many rows should be deleted
 		$query = "SELECT * ".
@@ -1806,7 +1888,9 @@ class ilNewsItem
 		$a_context_obj_type, $a_context_sub_obj_id = "", $a_context_sub_obj_type = "",
 		$a_only_today = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		// Determine how many rows should be deleted
 		$query = "SELECT id, update_date ".
@@ -1841,7 +1925,9 @@ class ilNewsItem
 	*/
 	static function _lookupMediaObjectUsages($a_mob_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$query = "SELECT * ".
 			"FROM il_news_item ".
@@ -1863,7 +1949,9 @@ class ilNewsItem
 	*/
 	static function _lookupContextObjId($a_news_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$query = "SELECT * ".
 			"FROM il_news_item ".
@@ -1986,7 +2074,7 @@ class ilNewsItem
 	 */
 	function increaseDownloadCounter()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$cnt = $this->getMobDownloadCounter();
 		$cnt++;
@@ -2005,7 +2093,7 @@ class ilNewsItem
 	 */
 	function increasePlayCounter()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$cnt = $this->getMobPlayCounter();
 		$cnt++;
@@ -2024,7 +2112,9 @@ class ilNewsItem
 	 */
 	static function prepareNewsDataFromCache($a_cres)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$data = unserialize($a_cres);
 		$news_ids = array_keys($data);

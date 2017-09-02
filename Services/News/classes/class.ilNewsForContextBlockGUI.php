@@ -17,6 +17,21 @@ include_once("Services/Block/classes/class.ilBlockGUI.php");
 */
 class ilNewsForContextBlockGUI extends ilBlockGUI
 {
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
 	static $block_type = "news";
 	static $st_data;
 	
@@ -25,7 +40,19 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	*/
 	function __construct()
 	{
-		global $ilCtrl, $lng, $ilUser, $ilHelp;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$this->help = $DIC["ilHelp"];
+		$this->access = $DIC->access();
+		$this->settings = $DIC->settings();
+		$this->tabs = $DIC->tabs();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilUser = $DIC->user();
+		$ilHelp = $DIC["ilHelp"];
 
 		parent::__construct();
 		
@@ -83,7 +110,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	*/
 	function getNewsData()
 	{
-		global $ilCtrl, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 
 		include_once("./Services/News/classes/class.ilNewsCache.php");
 		$this->acache = new ilNewsCache();
@@ -147,7 +175,9 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	*/
 	static function getScreenMode()
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC->ctrl();
 		
 		if ($ilCtrl->getCmdClass() == "ilnewsitemgui")
 		{
@@ -177,7 +207,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$next_class = $ilCtrl->getNextClass();
 		$cmd = $ilCtrl->getCmd("getHTML");
@@ -240,7 +270,9 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	*/
 	function getHTML()
 	{
-		global $ilCtrl, $lng, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 		
 		$news_set = new ilSetting("news");
 		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
@@ -344,7 +376,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	*/
 	function handleView()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		include_once("Services/Block/classes/class.ilBlockSetting.php");
 		$this->view = ilBlockSetting::_lookup($this->getBlockType(), "view",
@@ -390,7 +422,9 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	*/
 	function fillRow($news)
 	{
-		global $ilUser, $ilCtrl, $lng;
+		$ilUser = $this->user;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		if ($this->getCurrentDetailLevel() > 2)
 		{
@@ -474,7 +508,9 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	*/
 	function getOverview()
 	{
-		global $ilUser, $lng, $ilCtrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 				
 		return '<div class="small">'.((int) count($this->getData()))." ".$lng->txt("news_news_items")."</div>";
 	}
@@ -484,7 +520,10 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	*/
 	function showNews()
 	{
-		global $lng, $ilCtrl, $ilUser, $ilAccess;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
+		$ilAccess = $this->access;
 		
 // workaround for dynamic mode (if cache is disabled, showNews has no data)
 if (empty(self::$st_data))
@@ -873,7 +912,8 @@ if (empty(self::$st_data))
 	*/
 	function unsubscribeNews()
 	{
-		global $ilUser, $ilCtrl;
+		$ilUser = $this->user;
+		$ilCtrl = $this->ctrl;
 		
 		include_once("./Services/News/classes/class.ilNewsSubscription.php");
 		ilNewsSubscription::_unsubscribe($_GET["ref_id"], $ilUser->getId());
@@ -885,7 +925,8 @@ if (empty(self::$st_data))
 	*/
 	function subscribeNews()
 	{
-		global $ilUser, $ilCtrl;
+		$ilUser = $this->user;
+		$ilCtrl = $this->ctrl;
 
 		include_once("./Services/News/classes/class.ilNewsSubscription.php");
 		ilNewsSubscription::_subscribe($_GET["ref_id"], $ilUser->getId());
@@ -897,7 +938,9 @@ if (empty(self::$st_data))
 	*/
 	function fillFooter()
 	{
-		global $ilCtrl, $lng, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 
 		parent::fillFooter();
 		
@@ -912,7 +955,9 @@ if (empty(self::$st_data))
 	*/
 	function showViewFooter()
 	{
-		global $ilUser, $lng, $ilCtrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		return;		// notifications always shown
 		
@@ -947,7 +992,8 @@ if (empty(self::$st_data))
 	
 	function showNotifications()
 	{
-		global $ilCtrl, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 		
 		include_once("Services/Block/classes/class.ilBlockSetting.php");
 		$view = ilBlockSetting::_write($this->getBlockType(), "view", "",
@@ -971,7 +1017,8 @@ if (empty(self::$st_data))
 	
 	function hideNotifications()
 	{
-		global $ilCtrl, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 
 		include_once("Services/Block/classes/class.ilBlockSetting.php");
 		$view = ilBlockSetting::_write($this->getBlockType(), "view", "hide_notifications",
@@ -1007,7 +1054,11 @@ if (empty(self::$st_data))
 	*/
 	function initSettingsForm()
 	{
-		global $ilUser, $lng, $ilCtrl, $ilSetting, $ilTabs;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilSetting = $this->settings;
+		$ilTabs = $this->tabs;
 
 		$ilTabs->clearTargets();
 
@@ -1128,7 +1179,7 @@ if (empty(self::$st_data))
 	*/
 	function cancelSettings()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$ilCtrl->returnToParent($this);
 	}
@@ -1138,7 +1189,8 @@ if (empty(self::$st_data))
 	*/
 	function saveSettings()
 	{
-		global $ilCtrl, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 		
 		$this->initSettingsForm();
 		
@@ -1199,7 +1251,9 @@ if (empty(self::$st_data))
 	*/
 	function showFeedUrl()
 	{
-		global $lng, $ilCtrl, $ilUser;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 		
 		include_once("./Services/News/classes/class.ilNewsItem.php");
 		
@@ -1231,7 +1285,8 @@ if (empty(self::$st_data))
 
 	function addCloseCommand($a_content_block)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$a_content_block->addHeaderCommand($ilCtrl->getParentReturn($this),
 			$lng->txt("close"), true);
@@ -1239,7 +1294,8 @@ if (empty(self::$st_data))
 	
 	function getDynamic()
 	{
-		global $ilCtrl, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 		
 		if ($ilCtrl->getCmd() == "hideNotifications" ||
 			$ilCtrl->getCmd() == "showNotifications")
@@ -1271,7 +1327,8 @@ if (empty(self::$st_data))
 
 	function getDynamicReload()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$ilCtrl->setParameterByClass("ilcolumngui", "block_id",
 			"block_".$this->getBlockType()."_".$this->getBlockId());
@@ -1292,7 +1349,8 @@ if (empty(self::$st_data))
 	
 	function getJSEnabler()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$ilCtrl->setParameterByClass("ilcolumngui", "block_id",
 			"block_".$this->getBlockType()."_".$this->getBlockId());
@@ -1308,7 +1366,8 @@ if (empty(self::$st_data))
 	
 	function disableJS()
 	{
-		global $ilCtrl, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 
 		$_SESSION["il_feed_js"] = "n";
 		$ilUser->writePref("il_feed_js", "n");
@@ -1318,7 +1377,7 @@ $ilCtrl->returnToParent($this);
 	
 	function enableJS()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 //echo "enableJS";
 		$_SESSION["il_feed_js"] = "y";
 		$ilUser->writePref("il_feed_js", "y");
