@@ -22,7 +22,9 @@ class ilInternalLink
 	 */
 	static function _deleteAllLinksOfSource($a_source_type, $a_source_id, $a_lang = "-")
 	{
-		global $ilias, $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$lang_where = "";
 		if ($a_lang != "")
@@ -46,7 +48,9 @@ class ilInternalLink
 	 */
 	static function _deleteAllLinksToTarget($a_target_type, $a_target_id, $a_target_inst = 0)
 	{
-		global $ilias, $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$ilDB->manipulateF("DELETE FROM int_link WHERE target_type = %s ".
 			" AND target_id = %s AND target_inst = %s ",
@@ -66,7 +70,9 @@ class ilInternalLink
 	static function _saveLink($a_source_type, $a_source_id, $a_target_type, $a_target_id, $a_target_inst = 0,
 		$a_source_lang = "-")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$ilDB->replace("int_link",
 			array(
@@ -92,7 +98,9 @@ class ilInternalLink
 	 */
 	static function _getSourcesOfTarget($a_target_type, $a_target_id, $a_target_inst)
 	{
-		global $ilias, $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$q = "SELECT * FROM int_link WHERE ".
 			"target_type = ".$ilDB->quote($a_target_type, "text")." AND ".
@@ -120,7 +128,9 @@ class ilInternalLink
 	 */
 	static function _getTargetsOfSource($a_source_type, $a_source_id, $a_source_lang = "-")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$lang_where = "";
 		if ($a_source_lang != "")
@@ -254,7 +264,9 @@ class ilInternalLink
 	 */
 	static function _exists($a_type, $a_target)
 	{
-		global $tree;
+		global $DIC;
+
+		$tree = $DIC->repositoryTree();
 		
 		switch($a_type)
 		{
