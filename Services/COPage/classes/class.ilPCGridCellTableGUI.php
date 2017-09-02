@@ -12,10 +12,20 @@ include_once("Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilPCGridCellTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
 
 	function __construct($a_parent_obj, $a_parent_cmd, ilPCGrid $a_grid)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
