@@ -612,24 +612,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				}
 			}
 			else
-			{				
-				//$GLOBALS["tpl"]->addAdminPanelCommand("paste",
-                //    $this->lng->txt("paste_clipboard_items"));
-
+			{
 				$toolbar->addFormButton(
 					$this->lng->txt('paste_clipboard_items'),
 					'paste'
 				);
-
-				if($_SESSION["clipboard"]["cmd"] == "link")
-				{
-					//$GLOBALS["tpl"]->addAdminPanelCommand("initAndDisplayLinkIntoMultipleObjects",
-					//	$this->lng->txt("paste_clipboard_items_into_multiple_objects"));
-					/*$toolbar->addFormButton(
-						$this->lng->txt('paste_clipboard_items_into_multiple_objects'),
-						'initAndDisplayLinkIntoMultipleObjects'
-					);*/
-				}
 
 				$toolbar->addFormButton(
 					$this->lng->txt('clear_clipboard'),
@@ -1715,7 +1702,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	*/
 	function linkObject()
 	{
-		global $clipboard, $rbacsystem, $rbacadmin, $ilCtrl, $ilErr;
+		global $rbacsystem, $ilCtrl, $ilErr;
 
 		if ($_GET["item_ref_id"] != "")
 		{
@@ -1754,9 +1741,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		{
 			//#12203
 			$ilErr->raiseError($this->lng->txt("msg_obj_no_link"), $ilErr->MESSAGE);
-
-			//$ilErr->raiseError($this->lng->txt("msg_not_possible_link")." ".
-			//						 implode(',',$no_link), $ilErr->MESSAGE);
 		}
 
 		// WRITE TO CLIPBOARD
