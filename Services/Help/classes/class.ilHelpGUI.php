@@ -26,11 +26,6 @@ class ilHelpGUI
 	protected $settings;
 
 	/**
-	 * @var ilHelpGUI
-	 */
-	protected $help;
-
-	/**
 	 * @var ilLanguage
 	 */
 	protected $lng;
@@ -55,7 +50,6 @@ class ilHelpGUI
 		global $DIC;
 
 		$this->settings = $DIC->settings();
-		$this->help = $DIC["ilHelp"];
 		$this->lng = $DIC->language();
 		$this->user = $DIC->user();
 		$ilCtrl = $DIC->ctrl();
@@ -217,9 +211,7 @@ class ilHelpGUI
 	 */
 	function showHelp()
 	{
-		$ilHelp = $this->help;
 		$lng = $this->lng;
-		$ilSetting = $this->settings;
 
 		if ($_GET["help_screen_id"] != "")
 		{
