@@ -32,12 +32,6 @@ class ilObjectAccess
 	*/
 	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
 	{
-		global $ilUser, $ilAccess;
-
-		if ($a_user_id == "")
-		{
-			$a_user_id = $ilUser->getId();
-		}
 
 		// add no access info item and return false if access is not granted
 		// $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $a_text, $a_data = "");
@@ -89,7 +83,9 @@ class ilObjectAccess
 	*/
 	static function _checkGoto($a_target)
 	{
-		global $ilAccess;
+		global $DIC;
+
+		$ilAccess = $DIC->access();
 		
 		$t_arr = explode("_", $a_target);
 

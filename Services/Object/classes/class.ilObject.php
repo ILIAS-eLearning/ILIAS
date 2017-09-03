@@ -13,6 +13,46 @@
 class ilObject
 {
 	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $objDefinition;
+
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var Logger
+	 */
+	protected $log;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
+	 * @var ilAppEventHandler
+	 */
+	protected $app_event_handler;
+
+	/**
+	 * @var ilRbacAdmin
+	 */
+	protected $rbacadmin;
+
+	/**
+	 * @var ilRbacReview
+	 */
+	protected $rbacreview;
+
+	/**
 	 * max length of object title
 	 */
 	const TITLE_LENGTH = 255; // title column max length in db
@@ -87,14 +127,27 @@ class ilObject
 	*/
 	function __construct($a_id = 0, $a_reference = true)
 	{
-		global $lng, $objDefinition;
+		global $DIC;
+
+
+		$this->ilias = $DIC["ilias"];
+
+		$this->db = $DIC->database();
+		$this->log = $DIC["ilLog"];
+		$this->error = $DIC["ilErr"];
+		$this->tree = $DIC->repositoryTree();
+		$this->app_event_handler = $DIC["ilAppEventHandler"];
+		$objDefinition = $DIC["objDefinition"];
 
 		if (DEBUG)
 		{
 			echo "<br/><font color=\"red\">type(".$this->type.") id(".$a_id.") referenced(".$a_reference.")</font>";
 		}
 
-		$this->lng = $lng;
+		if (isset($DIC["lng"]))
+		{
+			$this->lng = $DIC["lng"];
+		}
 		$this->objDefinition = $objDefinition;
 
 		$this->max_title = self::TITLE_LENGTH;
@@ -142,7 +195,13 @@ class ilObject
 	*/
 	public function read()
 	{
-		global $objDefinition, $ilDB, $log, $ilErr, $ilUser;
+		global $DIC;
+
+		$objDefinition = $this->objDefinition;
+		$ilDB = $this->db;
+		$ilLog = $this->log;
+		$ilErr = $this->error;
+		$ilUser = $DIC["ilUser"];
 
 		if ($this->referenced)
 		{
@@ -203,7 +262,7 @@ class ilObject
 				"was instantiated by type '".$this->type."'. DB type is: ".$obj["type"];
 
 			// write log entry
-			$log->write($message);
+			$ilLog->write($message);
 				
 			// raise error
 			include_once("./Services/Object/exceptions/class.ilObjectTypeMismatchException.php");
@@ -435,7 +494,9 @@ class ilObject
 
 	public static function _lookupObjIdByImportId($a_import_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$query = "SELECT * FROM object_data ".
 			"WHERE import_id = ".$ilDB->quote($a_import_id, "text")." ".
@@ -450,7 +511,9 @@ class ilObject
 
 	public static function _lookupImportId($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$query = "SELECT import_id FROM object_data ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer");
@@ -486,7 +549,9 @@ class ilObject
 	*/
 	static function _lookupOwnerName($a_owner_id)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 
 		if ($a_owner_id != -1)
 		{
@@ -568,7 +633,13 @@ class ilObject
 	*/
 	function create()
 	{
-		global $ilDB, $log,$ilUser,$objDefinition, $ilErr;
+		global $DIC;
+
+		$ilDB = $this->db;
+		$ilLog = $this->log;
+		$ilUser = $DIC["ilUser"];
+		$objDefinition = $this->objDefinition;
+		$ilErr = $this->error;
 
 		if (!isset($this->type))
 		{
@@ -577,7 +648,7 @@ class ilObject
 		}
 
 		// write log entry
-		$log->write("ilObject::create(), start");
+		$ilLog->write("ilObject::create(), start");
 
 		$this->title = ilUtil::shortenText($this->getTitle(), $this->max_title, $this->add_dots);
 		$this->desc = ilUtil::shortenText($this->getDescription(), $this->max_desc, $this->add_dots);
@@ -640,7 +711,7 @@ class ilObject
 		$this->setOwner($owner);
 
 		// write log entry
-		$log->write("ilObject::create(), finished, obj_id: ".$this->id.", type: ".
+		$ilLog->write("ilObject::create(), finished, obj_id: ".$this->id.", type: ".
 			$this->type.", title: ".$this->getTitle());
 
 		$GLOBALS['ilAppEventHandler']->raise(
@@ -659,7 +730,8 @@ class ilObject
 	*/
 	function update()
 	{
-		global $objDefinition, $ilDB;
+		$objDefinition = $this->objDefinition;
+		$ilDB = $this->db;
 
 		$q = "UPDATE object_data ".
 			"SET ".
@@ -763,9 +835,11 @@ class ilObject
 	*/
 	function createMetaData()
 	{
+		global $DIC;
+
 		include_once 'Services/MetaData/classes/class.ilMDCreator.php';
 
-		global $ilUser;
+		$ilUser = $DIC["ilUser"];
 
 		$md_creator = new ilMDCreator($this->getId(),0,$this->getType());
 		$md_creator->setTitle($this->getTitle());
@@ -831,7 +905,7 @@ class ilObject
      */
     function updateOwner()
     {
-		global $ilDB;
+		$ilDB = $this->db;
 		
         $q = "UPDATE object_data ".
             "SET ".
@@ -858,7 +932,9 @@ class ilObject
 	*/
 	static function _getIdForImportId($a_import_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$ilDB->setLimit(1,0);
 		$q = "SELECT * FROM object_data WHERE import_id = ".$ilDB->quote($a_import_id, "text").
@@ -882,7 +958,9 @@ class ilObject
 	*/
 	public static function _getAllReferences($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$query = "SELECT * FROM object_reference WHERE obj_id = ".
 			$ilDB->quote($a_id,'integer');
@@ -904,7 +982,9 @@ class ilObject
 	*/
 	public static function _lookupTitle($a_id)
 	{
-		global $ilObjDataCache;
+		global $DIC;
+
+		$ilObjDataCache = $DIC["ilObjDataCache"];
 
 		$tit = $ilObjDataCache->lookupTitle($a_id);
 //echo "<br>LOOKING-$a_id-:$tit";		
@@ -918,7 +998,9 @@ class ilObject
 	*/
 	static function _lookupOwner($a_id)
 	{
-		global $ilObjDataCache;
+		global $DIC;
+
+		$ilObjDataCache = $DIC["ilObjDataCache"];
 
 		$owner = $ilObjDataCache->lookupOwner($a_id);
 		return $owner;
@@ -926,7 +1008,9 @@ class ilObject
 
 	public static function _getIdsForTitle($title, $type = '', $partialmatch = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$query = (!$partialmatch)
 			? "SELECT obj_id FROM object_data WHERE title = ".$ilDB->quote($title, "text")
@@ -954,7 +1038,9 @@ class ilObject
 	*/
 	public static function _lookupDescription($a_id)
 	{
-		global $ilObjDataCache;
+		global $DIC;
+
+		$ilObjDataCache = $DIC["ilObjDataCache"];
 
 		return $ilObjDataCache->lookupDescription($a_id);
 	}
@@ -966,7 +1052,9 @@ class ilObject
 	*/
 	static function _lookupLastUpdate($a_id, $a_as_string = false)
 	{
-		global $ilObjDataCache;
+		global $DIC;
+
+		$ilObjDataCache = $DIC["ilObjDataCache"];
 		
 		if ($a_as_string)
 		{
@@ -985,7 +1073,9 @@ class ilObject
 	*/
 	static function _getLastUpdateOfObjects($a_objs)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		if (!is_array($a_objs))
 		{
@@ -1001,7 +1091,9 @@ class ilObject
 
 	public static function _lookupObjId($a_id)
 	{
-		global $ilObjDataCache;
+		global $DIC;
+
+		$ilObjDataCache = $DIC["ilObjDataCache"];
 
 		return (int) $ilObjDataCache->lookupObjId($a_id);
 	}
@@ -1011,7 +1103,9 @@ class ilObject
 	*/
 	static function _setDeletedDate($a_ref_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$query = "UPDATE object_reference SET deleted= ".$ilDB->now().' '.
 			"WHERE ref_id = ".$ilDB->quote($a_ref_id,'integer');
@@ -1026,7 +1120,9 @@ class ilObject
 	 */
 	public static function setDeletedDates($a_ref_ids)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$query = 'UPDATE object_reference SET deleted = '.$ilDB->now().' '.
 				'WHERE '.$ilDB->in('ref_id',(array) $a_ref_ids,false,'integer');
@@ -1041,7 +1137,9 @@ class ilObject
 	*/
 	public static function _resetDeletedDate($a_ref_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$query = "UPDATE object_reference SET deleted = ".$ilDB->quote(null,'timestamp').
 			" WHERE ref_id = ".$ilDB->quote($a_ref_id,'integer');
@@ -1053,7 +1151,9 @@ class ilObject
 	*/
 	static function _lookupDeletedDate($a_ref_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$query = "SELECT deleted FROM object_reference".
 			" WHERE ref_id = ".$ilDB->quote($a_ref_id, "integer");
@@ -1073,7 +1173,9 @@ class ilObject
 	*/
 	static function _writeTitle($a_obj_id, $a_title)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$q = "UPDATE object_data ".
 			"SET ".
@@ -1093,7 +1195,10 @@ class ilObject
 	*/
 	static function _writeDescription($a_obj_id, $a_desc)
 	{
-		global $ilDB,$objDefinition;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$objDefinition = $DIC["objDefinition"];
 
 
 		$desc = ilUtil::shortenText($a_desc,self::DESC_LENGTH,true);
@@ -1138,7 +1243,9 @@ class ilObject
 	*/
 	static function _writeImportId($a_obj_id, $a_import_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$q = "UPDATE object_data ".
 			"SET ".
@@ -1156,7 +1263,9 @@ class ilObject
 	*/
 	public static function _lookupType($a_id,$a_reference = false)
 	{
-		global $ilObjDataCache;
+		global $DIC;
+
+		$ilObjDataCache = $DIC["ilObjDataCache"];
 
 		if($a_reference)
 		{
@@ -1170,7 +1279,9 @@ class ilObject
 	*/
 	public static function _isInTrash($a_ref_id)
 	{
-		global $tree;
+		global $DIC;
+
+		$tree = $DIC->repositoryTree();
 
 		return $tree->isSaved($a_ref_id);
 	}
@@ -1199,7 +1310,9 @@ class ilObject
 	*/
 	public static function _lookupObjectId($a_ref_id)
 	{
-		global $ilObjDataCache;
+		global $DIC;
+
+		$ilObjDataCache = $DIC["ilObjDataCache"];
 
 		return (int) $ilObjDataCache->lookupObjId($a_ref_id);
 	}
@@ -1216,7 +1329,9 @@ class ilObject
 	*/
 	static function _getObjectsDataForType($a_type, $a_omit_trash = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$q = "SELECT * FROM object_data WHERE type = ".$ilDB->quote($a_type, "text");
 		$obj_set = $ilDB->query($q);
@@ -1245,7 +1360,9 @@ class ilObject
 	 */
 	function putInTree($a_parent_ref)
 	{
-		global $tree, $log, $ilAppEventHandler;
+		$tree = $this->tree;
+		$ilLog = $this->log;
+		$ilAppEventHandler = $this->app_event_handler;
 		/**
 		 * @var $ilAppEventHandler ilAppEventHandler
 		 */
@@ -1253,7 +1370,7 @@ class ilObject
 		$tree->insertNode($this->getRefId(), $a_parent_ref);
 		
 		// write log entry
-		$log->write("ilObject::putInTree(), parent_ref: $a_parent_ref, ref_id: ".
+		$ilLog->write("ilObject::putInTree(), parent_ref: $a_parent_ref, ref_id: ".
 			$this->getRefId().", obj_id: ".$this->getId().", type: ".
 			$this->getType().", title: ".$this->getTitle());
 
@@ -1284,7 +1401,10 @@ class ilObject
 	 */
 	public function setParentRolePermissions($a_parent_ref)
 	{
-		global $rbacadmin, $rbacreview;
+		global $DIC;
+
+		$rbacadmin = $DIC["rbacadmin"];
+		$rbacreview = $DIC["rbacreview"];
 		
 		$parent_roles = $rbacreview->getParentRoleIds($a_parent_ref);
 		foreach((array) $parent_roles as $parent_role)
@@ -1311,7 +1431,8 @@ class ilObject
 	*/
 	function createReference()
 	{
-		global $ilDB, $ilErr;
+		$ilDB = $this->db;
+		$ilErr = $this->error;
 
 		if (!isset($this->id))
 		{
@@ -1339,7 +1460,8 @@ class ilObject
 	*/
 	function countReferences()
 	{
-		global $ilDB, $ilErr;
+		$ilDB = $this->db;
+		$ilErr = $this->error;
 		
 		if (!isset($this->id))
 		{
@@ -1368,7 +1490,13 @@ class ilObject
 	 */
 	function delete()
 	{
-		global $rbacadmin, $log, $ilDB, $ilAppEventHandler, $ilErr;
+		global $DIC;
+
+		$rbacadmin = $DIC["rbacadmin"];
+		$ilLog = $this->log;
+		$ilDB = $this->db;
+		$ilAppEventHandler = $this->app_event_handler;
+		$ilErr = $this->error;
 		/**
 		 * @var $ilAppEventHandler ilAppEventHandler
 		 */
@@ -1386,7 +1514,7 @@ class ilObject
 					"was instantiated by type '".$this->type."'. DB type is: ".$db_type;
 					
 				// write log entry
-				$log->write($message);
+				$ilLog->write($message);
 					
 				// raise error
 				$ilErr->raiseError("ilObject::delete(): Type mismatch. (".$this->type."/".$this->id.")",$ilErr->WARNING);
@@ -1405,7 +1533,7 @@ class ilObject
 			$ilDB->manipulate($query);
 
 			// write log entry
-			$log->write("ilObject::delete(), deleted object, obj_id: ".$this->getId().", type: ".
+			$ilLog->write("ilObject::delete(), deleted object, obj_id: ".$this->getId().", type: ".
 				$this->getType().", title: ".$this->getTitle());
 			
 			// keep log of core object data 
@@ -1454,7 +1582,7 @@ class ilObject
 		else
 		{
 			// write log entry
-			$log->write("ilObject::delete(), object not deleted, number of references: ".
+			$ilLog->write("ilObject::delete(), object not deleted, number of references: ".
 				$this->countReferences().", obj_id: ".$this->getId().", type: ".
 				$this->getType().", title: ".$this->getTitle());
 		}
@@ -1471,7 +1599,7 @@ class ilObject
 			$res = $ilDB->manipulate($query);
 			
 			// write log entry
-			$log->write("ilObject::delete(), reference deleted, ref_id: ".$this->getRefId().
+			$ilLog->write("ilObject::delete(), reference deleted, ref_id: ".$this->getRefId().
 				", obj_id: ".$this->getId().", type: ".
 				$this->getType().", title: ".$this->getTitle());
 
@@ -1549,7 +1677,9 @@ class ilObject
 	*/
 	public static function _exists($a_id, $a_reference = false, $a_type = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		if ($a_reference)
 		{
@@ -1603,7 +1733,9 @@ class ilObject
 	*/
 	static function _getObjectsByType($a_obj_type = "", $a_owner = "")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 				
 		$order = " ORDER BY title";
 
@@ -1652,7 +1784,11 @@ class ilObject
 	 */
 	public static function _prepareCloneSelection($a_ref_ids,$new_type,$show_path = true)
 	{
-		global $ilDB,$lng,$objDefinition;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$lng = $DIC->language();
+		$objDefinition = $DIC["objDefinition"];
 		
 		$query = "SELECT obj_data.title obj_title,path_data.title path_title,child FROM tree ".
 			"JOIN object_reference obj_ref ON child = obj_ref.ref_id ".
@@ -1706,7 +1842,13 @@ class ilObject
 	 */
 	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
-		global $objDefinition,$ilUser,$rbacadmin, $ilDB, $ilAppEventHandler;
+		global $DIC;
+
+		$objDefinition = $this->objDefinition;
+		$ilUser = $DIC["ilUser"];
+		$rbacadmin = $DIC["rbacadmin"];
+		$ilDB = $this->db;
+		$ilAppEventHandler = $this->app_event_handler;
 		/**
 		 * @var $ilAppEventHandler ilAppEventHandler
 		 */
@@ -1783,7 +1925,7 @@ class ilObject
 	 */
 	public function appendCopyInfo($a_target_id,$a_copy_id)
 	{
-		global $tree;
+		$tree = $this->tree;
 		
 		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
 		$cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
@@ -1878,7 +2020,10 @@ class ilObject
 	public static function _getIcon($a_obj_id = "", $a_size = "big", $a_type = "",
 		$a_offline = false)
 	{
-		global $ilSetting, $objDefinition;
+		global $DIC;
+
+		$ilSetting = $DIC->settings();
+		$objDefinition = $DIC["objDefinition"];
 
 		if ($a_obj_id == "" && $a_type == "")
 		{
@@ -1944,7 +2089,10 @@ class ilObject
 	 */
 	static function collectDeletionDependencies(&$deps, $a_ref_id, $a_obj_id, $a_type, $a_depth = 0)
 	{
-		global $objDefinition, $tree;
+		global $DIC;
+
+		$objDefinition = $DIC["objDefinition"];
+		$tree = $DIC->repositoryTree();
 
 		if ($a_depth == 0)
 		{
@@ -2002,7 +2150,9 @@ class ilObject
 	 */
 	static function getLongDescriptions(array $a_obj_ids)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$res = $ilDB->query("SELECT * FROM object_description".
 			" WHERE ".$ilDB->in("obj_id", $a_obj_ids, "", "integer"));
@@ -2022,7 +2172,10 @@ class ilObject
 	 */
 	static function getAllOwnedRepositoryObjects($a_user_id)
 	{
-		global $ilDB, $objDefinition;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$objDefinition = $DIC["objDefinition"];
 				
 		$all = array();
 		
@@ -2065,7 +2218,9 @@ class ilObject
 	 */
 	static function fixMissingTitles($a_type, array &$a_obj_title_map)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		if(!in_array($a_type, array("catr", "crsr", "sess", "grpr")))
 		{
@@ -2120,7 +2275,9 @@ class ilObject
 	 */
 	static function _lookupCreationDate($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT create_date FROM object_data ".
 			" WHERE obj_id = ".$ilDB->quote($a_id, "integer"));
@@ -2137,7 +2294,9 @@ class ilObject
 	 */
 	public static function hasAutoRating($a_type, $a_ref_id)
 	{
-		global $tree;
+		global $DIC;
+
+		$tree = $DIC->repositoryTree();
 		
 		if(!$a_ref_id ||
 			!in_array($a_type, array("file", "lm", "wiki")))

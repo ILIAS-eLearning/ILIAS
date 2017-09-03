@@ -94,6 +94,9 @@ class ilObjectGUI
 	{
 		global $objDefinition, $tpl, $tree, $ilCtrl, $ilErr, $lng, $ilTabs;
 
+		global $DIC;
+		$this->ilias = $DIC["ilias"];
+
 		/**
 		 * @var ilTab
 		 */

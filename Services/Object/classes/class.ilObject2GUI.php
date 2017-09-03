@@ -50,7 +50,16 @@ abstract class ilObject2GUI extends ilObjectGUI
 	 */
 	function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
 	{
-		global $objDefinition, $tpl, $ilCtrl, $ilErr, $lng, $ilTabs, $tree, $ilAccess;
+		global $DIC;
+
+		$objDefinition  = $DIC["objDefinition"];
+		$tpl  = $DIC["tpl"];
+		$ilCtrl  = $DIC["ilCtrl"];
+		$ilErr  = $DIC["ilErr"];
+		$lng  = $DIC["lng"];
+		$ilTabs  = $DIC["ilTabs"];
+		$tree  = $DIC["tree"];
+		$ilAccess  = $DIC["ilAccess"];
 		
 		if (!isset($ilErr))
 		{
@@ -94,7 +103,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 				break;
 
 			case self::WORKSPACE_NODE_ID:
-				global $ilUser;
+				$ilUser = $DIC["ilUser"];
 				$this->node_id = $a_id;
 				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 				$this->tree = new ilWorkspaceTree($ilUser->getId());
@@ -105,7 +114,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 				break;
 
 			case self::WORKSPACE_OBJECT_ID:
-				global $ilUser;
+				$ilUser = $DIC["ilUser"];
 				$this->object_id = $a_id;
 				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 				$this->tree = new ilWorkspaceTree($ilUser->getId());
@@ -173,8 +182,6 @@ abstract class ilObject2GUI extends ilObjectGUI
 	 */
 	function executeCommand()
 	{
-		global $rbacsystem;
-
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		
@@ -247,7 +254,10 @@ abstract class ilObject2GUI extends ilObjectGUI
 	 */
 	protected function setLocator()
 	{
-		global $ilLocator, $tpl;
+		global $DIC;
+
+		$ilLocator = $DIC["ilLocator"];
+		$tpl = $DIC["tpl"];
 
 		if ($this->omit_locator)
 		{
@@ -321,7 +331,10 @@ abstract class ilObject2GUI extends ilObjectGUI
 	 */
 	protected function deleteConfirmation()
 	{
-		global $lng, $tpl, $objDefinition;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
+		$lng = $DIC["lng"];
 
 		$node_id = (int)$_REQUEST["item_ref_id"];
 		if (!$node_id)
@@ -399,7 +412,10 @@ abstract class ilObject2GUI extends ilObjectGUI
 	 */
 	protected function deleteConfirmedObjects()
 	{
-		global $lng, $objDefinition;
+		global $DIC;
+
+		$lng = $DIC["lng"];
+
 
 		if(sizeof($_POST["id"]))
 		{			
@@ -513,7 +529,11 @@ abstract class ilObject2GUI extends ilObjectGUI
 	 */
 	protected function setTabs()
 	{
-		global $ilTabs, $lng;
+		global $DIC;
+
+		$ilTabs = $DIC["ilTabs"];
+		$lng = $DIC["lng"];
+
 
 		switch($this->id_type)
 		{
@@ -627,7 +647,11 @@ abstract class ilObject2GUI extends ilObjectGUI
 	 */
 	public function putObjectInTree(ilObject $a_obj, $a_parent_node_id = null)
 	{
-		global $rbacreview, $ilUser, $objDefinition;
+		global $DIC;
+
+		$rbacreview = $DIC["rbacreview"];
+		$ilUser = $DIC["ilUser"];
+
 
 		$this->object_id = $a_obj->getId();
 
@@ -697,8 +721,11 @@ abstract class ilObject2GUI extends ilObjectGUI
 	 */
 	public static function handleAfterSaveCallback(ilObject $a_obj, $a_callback_ref_id)
 	{
-		global $objDefinition;
-		
+		global $DIC;
+
+		$objDefinition = $DIC["objDefinition"];
+
+
 		$a_callback_ref_id = (int)$a_callback_ref_id;		
 		if($a_callback_ref_id)
 		{
@@ -729,8 +756,11 @@ abstract class ilObject2GUI extends ilObjectGUI
 	 */
 	protected function checkPermissionBool($a_perm, $a_cmd = "", $a_type = "", $a_node_id = null)
 	{
-		global $ilUser;
-		
+		global $DIC;
+
+		$ilUser = $DIC["ilUser"];
+
+
 		if($a_perm == "create")
 		{
 			if(!$a_node_id)
@@ -772,8 +802,6 @@ abstract class ilObject2GUI extends ilObjectGUI
 	 */
 	protected function initHeaderAction($a_sub_type = null, $a_sub_id = null)
 	{
-		global $ilAccess; 
-		
 		if($this->id_type == self::WORKSPACE_NODE_ID)
 		{
 			if(!$this->creation_mode && $this->object_id)
