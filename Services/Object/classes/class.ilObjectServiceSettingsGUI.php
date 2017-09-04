@@ -13,6 +13,11 @@
  */
 class ilObjectServiceSettingsGUI 
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
 	// unfortunately the following constants are not stored
 	// in a non-GUI class, other classes are currently directly
 	// accessing these, see ilObjectDataSet (changes should be
@@ -41,6 +46,9 @@ class ilObjectServiceSettingsGUI
 	 */
 	public function __construct($a_parent_gui, $a_obj_id, $a_modes)
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
 		$this->gui = $a_parent_gui;
 		$this->modes = $a_modes;
 		$this->obj_id = $a_obj_id;
@@ -54,7 +62,7 @@ class ilObjectServiceSettingsGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd('editSettings');
@@ -74,7 +82,10 @@ class ilObjectServiceSettingsGUI
 	 */
 	public static function initServiceSettingsForm($a_obj_id, ilPropertyFormGUI $form, $services)
 	{
-		global $ilSetting, $ilCtrl;
+		global $DIC;
+
+		$ilSetting = $DIC->settings();
+		$ilCtrl = $DIC->ctrl();
 		
 		// info tab
 		if(in_array(self::INFO_TAB_VISIBILITY, $services))

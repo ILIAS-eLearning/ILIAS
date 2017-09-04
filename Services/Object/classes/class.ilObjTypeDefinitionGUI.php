@@ -18,12 +18,33 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 class ilObjTypeDefinitionGUI extends ilObjectGUI
 {
 	/**
+	 * @var ilRbacAdmin
+	 */
+	protected $rbacadmin;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
 	* Constructor
 	*
 	* @access	public
 	*/
 	public function __construct($a_data,$a_id,$a_call_by_reference)
 	{
+		global $DIC;
+
+		$this->rbacadmin = $DIC->rbac()->admin();
+		$this->rbacreview = $DIC->rbac()->review();
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->error = $DIC["ilErr"];
 		$this->type = "typ";
 		parent::__construct($a_data,$a_id,$a_call_by_reference);
 	}
@@ -34,7 +55,8 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
  	*/
 	function viewObject()
 	{
-		global $rbacadmin, $rbacreview;
+		$rbacadmin = $this->rbacadmin;
+		$rbacreview = $this->rbacreview;
 		
 		//prepare objectlist
 		$this->data = array();
@@ -199,7 +221,10 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
-		global $rbacsystem, $rbacadmin, $rbacreview, $ilErr;
+		$rbacsystem = $this->rbacsystem;
+		$rbacadmin = $this->rbacadmin;
+		$rbacreview = $this->rbacreview;
+		$ilErr = $this->error;
 
 		if (!$rbacsystem->checkAccess('edit_permission', $_GET["ref_id"]))
 		{
@@ -243,7 +268,9 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 	*/
 	function editObject()
 	{
-		global $rbacsystem, $rbacreview, $ilErr;
+		$rbacsystem = $this->rbacsystem;
+		$rbacreview = $this->rbacreview;
+		$ilErr = $this->error;
 		
 		if (!$rbacsystem->checkAccess("edit_permission",$_GET["ref_id"]))
 		{
@@ -422,7 +449,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 	*/
 	function getTabs()
 	{
-		global $rbacsystem;
+		$rbacsystem = $this->rbacsystem;
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
