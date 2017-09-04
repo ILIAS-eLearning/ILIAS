@@ -89,6 +89,9 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
 			if($this->access_to_mail_system)
 			{
 				$this->addMultiCommand('mailToUsers', $this->lng->txt('send_mail_to'));
+			}
+			if($this->chat_enabled)
+			{
 				$this->addMultiCommand('inviteToChat', $this->lng->txt('invite_to_chat'));
 			}
 		}
