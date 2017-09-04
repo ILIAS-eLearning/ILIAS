@@ -34,18 +34,26 @@
 */
 class ilSCORM2004PageLayout 
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	
 	const SEQ_TEMPLATE_DIR = './Modules/Scorm2004/templates/editor/page_layouts_temp/thumbnails';
 	
 	var $layout_id = null;
 	
 	function __construct($a_id) {
+		global $DIC;
+
+		$this->db = $DIC->database();
 		$this->layout_id = $a_id;
 	}
 	
 	
 	public function getXMLContent() {
-		global $ilDB;
+		$ilDB = $this->db;
          $r = $ilDB->query("SELECT content FROM page_layout WHERE layout_id=".
 								 $ilDB->quote($this->layout_id));
 	     $row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
@@ -60,7 +68,7 @@ class ilSCORM2004PageLayout
 	
 	
 	public function getTitle() {
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$r = $ilDB->queryF('SELECT title FROM page_layout WHERE layout_id = %s',
 		array('integer'),array($this->layout_id));
@@ -83,7 +91,9 @@ class ilSCORM2004PageLayout
 	
 	public static function activeLayouts()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		$arr_layouts = array();
 		$query = "SELECT * FROM page_layout WHERE (active=1) ORDER BY title ";
 		$result = $ilDB->query($query);

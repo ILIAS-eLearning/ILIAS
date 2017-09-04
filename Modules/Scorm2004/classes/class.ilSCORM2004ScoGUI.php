@@ -902,7 +902,7 @@ die("deprecated");
 	
 	function importSave()
 	{
-		global $_FILES, $lng, $ilErr;
+		global $lng, $ilErr;
 
 		// check if file was uploaded
 		$source = $_FILES["scormfile"]["tmp_name"];
