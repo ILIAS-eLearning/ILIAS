@@ -34,6 +34,11 @@ require_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
 */
 class ilGlossaryExport
 {
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
 	var $err;			// error object
 	var $db;			// database object
 	var $glo_obj;		// glossary
@@ -45,7 +50,12 @@ class ilGlossaryExport
 	*/
 	function __construct(&$a_glo_obj, $a_mode = "xml")
 	{
-		global $ilErr, $ilDB, $ilSetting;
+		global $DIC;
+
+		$this->settings = $DIC->settings();
+		$ilErr = $DIC["ilErr"];
+		$ilDB = $DIC->database();
+		$ilSetting = $DIC->settings();
 
 		$this->glo_obj = $a_glo_obj;
 

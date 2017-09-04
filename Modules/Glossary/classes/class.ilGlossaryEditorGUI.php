@@ -16,9 +16,44 @@
 */
 class ilGlossaryEditorGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilNavigationHistory
+	 */
+	protected $nav_history;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
 	function __construct()
 	{
-		global $ilCtrl, $lng, $ilAccess, $ilNavigationHistory, $ilErr;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$this->nav_history = $DIC["ilNavigationHistory"];
+		$this->error = $DIC["ilErr"];
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
+		$ilNavigationHistory = $DIC["ilNavigationHistory"];
+		$ilErr = $DIC["ilErr"];
 		
 		// initialisation stuff
 		$this->ctrl =  $ilCtrl;
@@ -42,7 +77,8 @@ class ilGlossaryEditorGUI
 	*/
 	function executeCommand()
 	{
-		global $lng, $ilAccess;
+		$lng = $this->lng;
+		$ilAccess = $this->access;
 		
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);

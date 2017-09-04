@@ -23,6 +23,46 @@ require_once("./Services/COPage/classes/class.ilPCParagraph.php");
 */
 class ilGlossaryPresentationGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs_gui;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
+	 * @var ilNavigationHistory
+	 */
+	protected $nav_history;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
 	var $admin_tabs;
 	var $glossary;
 	var $tpl;
@@ -34,7 +74,18 @@ class ilGlossaryPresentationGUI
 	*/
 	function __construct()
 	{
-		global $lng, $tpl, $ilCtrl, $ilTabs;
+		global $DIC;
+
+		$this->access = $DIC->access();
+		$this->error = $DIC["ilErr"];
+		$this->nav_history = $DIC["ilNavigationHistory"];
+		$this->toolbar = $DIC->toolbar();
+		$this->user = $DIC->user();
+		$this->help = $DIC["ilHelp"];
+		$lng = $DIC->language();
+		$tpl = $DIC["tpl"];
+		$ilCtrl = $DIC->ctrl();
+		$ilTabs = $DIC->tabs();
 
 		$this->tabs_gui = $ilTabs;
 		$this->tpl = $tpl;
@@ -116,7 +167,9 @@ class ilGlossaryPresentationGUI
 	 */
 	function executeCommand()
 	{
-		global $lng, $ilAccess, $ilErr;
+		$lng = $this->lng;
+		$ilAccess = $this->access;
+		$ilErr = $this->error;
 		
 		$lng->loadLanguageModule("content");
 
@@ -177,7 +230,13 @@ class ilGlossaryPresentationGUI
 	 */
 	function listTerms()
 	{
-		global $ilNavigationHistory, $ilAccess, $lng, $ilToolbar, $ilCtrl, $ilTabs, $ilErr;
+		$ilNavigationHistory = $this->nav_history;
+		$ilAccess = $this->access;
+		$lng = $this->lng;
+		$ilToolbar = $this->toolbar;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs_gui;
+		$ilErr = $this->error;
 
 		
 		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
@@ -216,7 +275,10 @@ class ilGlossaryPresentationGUI
 	*/
 	function listTermByGiven()
 	{
-		global $ilCtrl, $ilAccess, $lng, $tpl;
+		$ilCtrl = $this->ctrl;
+		$ilAccess = $this->access;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
 		
 		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
@@ -295,7 +357,7 @@ class ilGlossaryPresentationGUI
 	 */
 	function applyFilter()
 	{
-		global $ilTabs;
+		$ilTabs = $this->tabs_gui;
 
 		$prtab = $this->getPresentationTable();
 		$prtab->resetOffset();
@@ -321,7 +383,10 @@ class ilGlossaryPresentationGUI
 	*/
 	function listDefinitions($a_ref_id = 0, $a_term_id = 0, $a_get_html = false, $a_page_mode = IL_PAGE_PRESENTATION)
 	{
-		global $ilUser, $ilAccess, $lng,$ilErr;
+		$ilUser = $this->user;
+		$ilAccess = $this->access;
+		$lng = $this->lng;
+		$ilErr = $this->error;
 
 		if ($a_ref_id == 0)
 		{
@@ -586,7 +651,10 @@ class ilGlossaryPresentationGUI
 	 */
 	function showDefinitionTabs($a_act)
 	{
-		global $ilTabs, $lng, $ilCtrl, $ilHelp;
+		$ilTabs = $this->tabs_gui;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilHelp = $this->help;
 
 		if (!$this->offlineMode())
 		{
@@ -716,7 +784,9 @@ class ilGlossaryPresentationGUI
 	*/
 	function showDownloadList()
 	{
-		global $ilAccess, $lng, $ilTabs;
+		$ilAccess = $this->access;
+		$lng = $this->lng;
+		$ilTabs = $this->tabs_gui;
 
 		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
@@ -835,7 +905,9 @@ class ilGlossaryPresentationGUI
 	*/
 	function downloadExportFile()
 	{
-		global $ilAccess, $ilErr, $lng;
+		$ilAccess = $this->access;
+		$ilErr = $this->error;
+		$lng = $this->lng;
 		
 		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
@@ -883,7 +955,9 @@ class ilGlossaryPresentationGUI
 	*/
 	function downloadFile()
 	{
-		global $ilAccess, $ilErr, $lng;
+		$ilAccess = $this->access;
+		$ilErr = $this->error;
+		$lng = $this->lng;
 		
 		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
@@ -1136,7 +1210,12 @@ class ilGlossaryPresentationGUI
 	 */
 	function printViewSelection()
 	{
-		global $ilUser, $lng, $ilToolbar, $ilCtrl, $tpl, $ilTabs;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilToolbar = $this->toolbar;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs_gui;
 
 		$ilCtrl->saveParameter($this, "term_id");
 		
@@ -1163,7 +1242,8 @@ class ilGlossaryPresentationGUI
 	 */
 	public function initPrintViewSelectionForm()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$terms = $this->glossary->getTermList();
 
@@ -1236,7 +1316,8 @@ class ilGlossaryPresentationGUI
 	 */
 	function printView()
 	{
-		global $ilAccess, $tpl;
+		$ilAccess = $this->access;
+		$tpl = $this->tpl;
 
 		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
@@ -1325,7 +1406,10 @@ class ilGlossaryPresentationGUI
 	*/
 	function getTabs()
 	{
-		global $ilAccess, $lng, $ilCtrl, $ilHelp;
+		$ilAccess = $this->access;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilHelp = $this->help;
 		
 		$ilHelp->setScreenIdComponent("glo");
 		
@@ -1418,7 +1502,8 @@ class ilGlossaryPresentationGUI
 	*/
 	function outputInfoScreen()
 	{
-		global $ilAccess, $ilTabs;
+		$ilAccess = $this->access;
+		$ilTabs = $this->tabs_gui;
 
 		$this->setTabs();
 		$ilTabs->activateTab("info");
@@ -1485,7 +1570,7 @@ class ilGlossaryPresentationGUI
 	 */
 	function chooseLetter()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$ilCtrl->redirect($this, "listTerms");
 	}
@@ -1498,7 +1583,8 @@ class ilGlossaryPresentationGUI
 	 */
 	function showTaxonomy()
 	{
-		global $tpl, $lng;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 		if (!$this->offlineMode() && $this->glossary->getShowTaxonomy())
 		{
 			include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
