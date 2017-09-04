@@ -27,8 +27,6 @@ class ilCategoryXmlWriter extends ilXmlWriter
 	*/
 	public function __construct(ilObjCategory $cat = null)
 	{
-		global $ilias;
-
 		parent::__construct();
 
 		$this->category = $cat;

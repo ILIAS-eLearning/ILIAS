@@ -142,8 +142,6 @@ class ilCategoryImportParser extends ilSaxParser
 	*/
 	function handlerEndTag($a_xml_parser, $a_name)
 	{
-		global $ilias, $rbacadmin;
-
 		switch($a_name)
 		{
 			case "Category":

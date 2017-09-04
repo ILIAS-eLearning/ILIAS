@@ -84,7 +84,7 @@ class ilObjCategory extends ilContainer
 		
 		$q = "SELECT * FROM object_translation WHERE obj_id = ".
 			$ilDB->quote($this->getId(),'integer')." ORDER BY lang_default DESC";
-		$r = $this->ilias->db->query($q);
+		$r = $ilDB->query($q);
 		
 		$num = 0;
 

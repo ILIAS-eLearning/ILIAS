@@ -521,11 +521,11 @@ class ilObjCategoryGUI extends ilContainerGUI
 	*/
 	function infoScreen()
 	{
-		global $ilAccess, $ilCtrl;
+		global $ilAccess, $ilCtrl, $ilErr;
 
 		if (!$ilAccess->checkAccess("visible", "", $this->ref_id))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"), $ilErr->MESSAGE);
 		}
 		
 		if (!$this->info_screen_enabled)
@@ -779,9 +779,11 @@ class ilObjCategoryGUI extends ilContainerGUI
 	*/
 	function updateObject()
 	{
+		global $ilErr, $ilUser;
+
 		if (!$this->checkPermissionBool("write"))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("msg_no_perm_write"), $ilErr->MESSAGE);
 		}
 		else
 		{
@@ -801,28 +803,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$this->saveSortingSettings($form);
 				
 				// save custom icons
-/*				if ($this->ilias->getSetting("custom_icons"))
-				{
-					if($form->getItemByPostVar("cont_big_icon")->getDeletionFlag())
-					{
-						$this->object->removeBigIcon();
-					}
-					if($form->getItemByPostVar("cont_small_icon")->getDeletionFlag())
-					{
-						$this->object->removeSmallIcon();
-					}
-					if($form->getItemByPostVar("cont_tiny_icon")->getDeletionFlag())
-					{
-						$this->object->removeTinyIcon();
-					}
-
-					$this->object->saveIcons($_FILES["cont_big_icon"]['tmp_name'],
-						$_FILES["cont_small_icon"]['tmp_name'],
-						$_FILES["cont_tiny_icon"]['tmp_name']);
-				}*/
 
 				// BEGIN ChangeEvent: Record update
-				global $ilUser;
 				require_once('Services/Tracking/classes/class.ilChangeEvent.php');
 				ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
 				ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());				
@@ -906,9 +888,11 @@ class ilObjCategoryGUI extends ilContainerGUI
 	 */
 	function saveTranslationsObject()
 	{
+		global $ilErr;
+
 		if (!$this->checkPermissionBool("write"))
 		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->MESSAGE);
 		}
 
 		// default language set?
@@ -1182,7 +1166,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	// METHODS for local user administration
 	function listUsersObject($show_delete = false)
 	{
-		global $ilUser,$rbacreview, $ilToolbar;
+		global $ilUser, $ilErr, $ilToolbar;
 
 		include_once './Services/User/classes/class.ilLocalUser.php';
 		include_once './Services/User/classes/class.ilObjUserGUI.php';
@@ -1191,7 +1175,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 		if(!$rbacsystem->checkAccess("cat_administrate_users",$this->object->getRefId()))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_admin_users"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("msg_no_perm_admin_users"), $ilErr->MESSAGE);
 		}
 		$this->tabs_gui->setTabActive('administrate_users');
 
