@@ -13,13 +13,26 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 */
 class ilConfirmationTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
 	
 	/**
 	* Constructor
 	*/
 	function __construct($a_use_icons)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
+		$lng = $DIC->language();
 		
 		$this->use_icons = $a_use_icons;
 		
@@ -44,7 +57,7 @@ class ilConfirmationTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($item)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		if ($this->use_icons)
 		{
