@@ -21,7 +21,7 @@ class ilSkillTreeNodeFactory
 {
 	static function getInstance($a_id = 0)
 	{
-		global $ilias, $ilDB;
+		global $ilDB;
 
 		$query = "SELECT * FROM skl_tree_node WHERE obj_id = ".
 			$ilDB->quote($a_id, "integer");

@@ -216,7 +216,7 @@ class ilSkillTreeNode
 	*/
 	function read()
 	{
-		global $ilBench, $ilDB;
+		global $ilDB;
 
 		if(!isset($this->data_record))
 		{
@@ -678,7 +678,7 @@ class ilSkillTreeNode
 	static function pasteTree($a_item_id, $a_parent_id, $a_target, $a_insert_time,
 		&$a_copied_nodes, $a_as_copy = false, $a_add_suffix = false)
 	{
-		global $ilUser, $ilias, $ilLog, $lng;
+		global $ilUser, $ilLog, $lng;
 
 		$item_type = ilSkillTreeNode::_lookupType($a_item_id);
 
