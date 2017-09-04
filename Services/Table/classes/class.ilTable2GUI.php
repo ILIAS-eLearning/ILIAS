@@ -14,10 +14,6 @@ require_once("Services/Table/classes/class.ilTableGUI.php");
 */
 class ilTable2GUI extends ilTableGUI
 {
-	/**
-	 * @var ilObjUser
-	 */
-	protected $user;
 
 	/**
 	 * @var ilCtrl
@@ -116,7 +112,6 @@ class ilTable2GUI extends ilTableGUI
 		global $DIC;
 
 		$this->lng = $DIC->language();
-		$this->user = $DIC->user();
 		$this->ctrl = $DIC->ctrl();
 		$this->tpl = $DIC["tpl"];
 		$lng = $DIC->language();
@@ -203,7 +198,13 @@ class ilTable2GUI extends ilTableGUI
 	 */
 	function determineLimit()
 	{
-		$ilUser = $this->user;
+		global $DIC;
+
+		$ilUser = null;
+		if (isset($DIC["ilUser"]))
+		{
+			$ilUser = $DIC["ilUser"];
+		}
 
 		if ($this->limit_determined)
 		{
@@ -1369,8 +1370,11 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 
 	function setOrderLink($sort_field, $order_dir)
 	{
+		global $DIC;
+
+		$ilUser = $DIC->user();
+
 		$ilCtrl = $this->ctrl;
-		$ilUser = $this->user;
 
 		$hash = "";
 		if (is_object($ilUser) && $ilUser->getPref("screen_reader_optimization"))
@@ -1527,7 +1531,13 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	*/
 	function determineOffsetAndOrder($a_omit_offset = false)
 	{
-		$ilUser = $this->user;
+		global $DIC;
+
+		$ilUser = null;
+		if (isset($DIC["ilUser"]))
+		{
+			$ilUser = $DIC["ilUser"];
+		}
 
 		if ($this->nav_determined)
 		{
@@ -1623,9 +1633,17 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	*/
 	public function getHTML()
 	{
+		global $DIC;
+
+		$ilUser = null;
+		if (isset($DIC["ilUser"]))
+		{
+			$ilUser = $DIC["ilUser"];
+		}
+
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
-		$ilUser = $this->user;
+
 
 		if($this->getExportMode())
 		{
@@ -2159,9 +2177,16 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	*/
 	function fillFooter()
 	{
+		global $DIC;
+
+		$ilUser = null;
+		if (isset($DIC["ilUser"]))
+		{
+			$ilUser = $DIC["ilUser"];
+		}
+
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
-		$ilUser = $this->user;
 
 		$footer = false;
 
@@ -2473,9 +2498,12 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	*/
 	function getLinkbar($a_num)
 	{
+		global $DIC;
+
+		$ilUser = $DIC->user();
+
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
-		$ilUser = $this->user;
 
 		$hash = "";
 		if (is_object($ilUser) && $ilUser->getPref("screen_reader_optimization"))
@@ -2859,7 +2887,13 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	 */
 	function storeProperty($type, $value)
 	{
-		$ilUser = $this->user;
+		global $DIC;
+
+		$ilUser = null;
+		if (isset($DIC["ilUser"]))
+		{
+			$ilUser = $DIC["ilUser"];
+		}
 
 		if(is_object($ilUser) && $this->getId() != "")
 		{
@@ -2878,7 +2912,13 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	 */
 	function loadProperty($type)
     {
-		$ilUser = $this->user;
+		global $DIC;
+
+		$ilUser = null;
+		if (isset($DIC["ilUser"]))
+		{
+			$ilUser = $DIC["ilUser"];
+		}
 
 		if(is_object($ilUser) && $this->getId() != "")
 		{
@@ -3052,7 +3092,9 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	 */
 	public function restoreTemplate($a_name)
 	{
-		$ilUser = $this->user;
+		global $DIC;
+
+		$ilUser = $DIC->user();
 
 		$a_name = ilUtil::stripSlashes($a_name);
 
@@ -3091,7 +3133,9 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	 */
 	public function saveTemplate($a_name)
 	{
-		$ilUser = $this->user;
+		global $DIC;
+
+		$ilUser = $DIC->user();
 
 		$a_name = ilUtil::prepareFormOutput($a_name, true);
 
@@ -3119,7 +3163,9 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	 */
 	public function deleteTemplate($a_name)
 	{
-		$ilUser = $this->user;
+		global $DIC;
+
+		$ilUser = $DIC->user();
 
 		$a_name = ilUtil::prepareFormOutput($a_name, true);
 
