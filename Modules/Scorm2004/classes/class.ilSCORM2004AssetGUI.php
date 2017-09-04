@@ -19,12 +19,38 @@ require_once("./Modules/Scorm2004/classes/class.ilSCORM2004Asset.php");
 class ilSCORM2004AssetGUI extends ilSCORM2004ScoGUI
 {
 	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+	/**
 	 * Constructor
 	 * @access	public
 	 */
 	function __construct($a_slm_obj, $a_node_id = 0)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$this->tabs = $DIC->tabs();
+		$this->tpl = $DIC["tpl"];
+		$this->lng = $DIC->language();
+		$this->help = $DIC["ilHelp"];
+		$ilCtrl = $DIC->ctrl();
 
 		$ilCtrl->saveParameter($this, "obj_id");
 		$this->ctrl = $ilCtrl;
@@ -61,7 +87,11 @@ class ilSCORM2004AssetGUI extends ilSCORM2004ScoGUI
 	 */
 	function setTabs()
 	{
-		global $ilTabs, $ilCtrl, $tpl, $lng, $ilHelp;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilHelp = $this->help;
 
 		$ilHelp->setScreenIdComponent("sahsed");
 

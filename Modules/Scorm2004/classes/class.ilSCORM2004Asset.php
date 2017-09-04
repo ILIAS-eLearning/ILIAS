@@ -15,6 +15,21 @@ require_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
  */
 class ilSCORM2004Asset extends ilSCORM2004Node
 {
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
 	var $q_media = null;		// media files in questions
 
 	/**
@@ -22,6 +37,11 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 	 */
 	function __construct($a_slm_object, $a_id = 0)
 	{
+		global $DIC;
+
+		$this->tpl = $DIC["tpl"];
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
 		parent::__construct($a_slm_object, $a_id);
 		$this->setType("ass");
 	}
@@ -200,7 +220,9 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 
 	function exportPDF($a_inst, $a_target_dir, &$expLog)
 	{
-		global $tpl, $lng, $ilCtrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		$a_xml_writer = new ilXmlWriter;
 		$a_xml_writer->xmlStartTag("ContentObject", array("Type"=>"SCORM2004SCO"));
 		$this->exportPDFPrepareXmlNFiles($a_inst, $a_target_dir, $expLog,$a_xml_writer);
@@ -237,7 +259,9 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 	{
 
 		$this->exportHTML4PDF($a_inst, $a_target_dir, $expLog);
-		global $tpl, $lng, $ilCtrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		$this->exportXMLPageObjects($a_target_dir, $a_xml_writer, $a_inst, $expLog);
 		$this->exportXMLMediaObjects($a_xml_writer, $a_inst, $a_target_dir, $expLog);
 		$this->exportFileItems($a_target_dir,$expLog);
@@ -569,7 +593,9 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 	 */
 	static function renderNavigation($a_tpl, $a_spacer_img = "", $a_lang = "")
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		if ($a_spacer_img == "")
 		{
@@ -602,7 +628,9 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 	 */
 	static function renderMetaPage($a_tpl, $a_sco, $a_asset_type = "", $mode = "")
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		if ($a_sco->getType() != "sco" || $a_sco->getHideObjectivePage())
 		{

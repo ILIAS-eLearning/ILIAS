@@ -27,7 +27,9 @@ class ilContObjectManifestBuilder
 	 */
 	function __construct(&$a_cont_obj)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$this->cont_obj = $a_cont_obj;
 

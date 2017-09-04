@@ -24,13 +24,47 @@ include_once("./Services/COPage/Layout/classes/class.ilPageLayout.php");
 class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 {
 	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
 	* Constructor
 	*
 	* @access	public
 	*/
 	function __construct($a_data,$a_id,$a_call_by_reference, $a_prepare_output = true)
 	{
-		global $lng;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$this->ctrl = $DIC->ctrl();
+		$this->tpl = $DIC["tpl"];
+		$this->tabs = $DIC->tabs();
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->tree = $DIC->repositoryTree();
+		$this->toolbar = $DIC->toolbar();
+		$this->settings = $DIC->settings();
+		$this->help = $DIC["ilHelp"];
+		$this->error = $DIC["ilErr"];
+		$this->user = $DIC->user();
+		$lng = $DIC->language();
 
 		$lng->loadLanguageModule("content");
 		$lng->loadLanguageModule("sahs");
@@ -46,7 +80,11 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function executeCommand()
 	{
-		global $ilAccess, $ilCtrl, $tpl, $ilTabs, $lng;
+		$ilAccess = $this->access;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
 
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
@@ -127,7 +165,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function showEditTree()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004EditorExplorerGUI.php");
 		$exp = new ilSCORM2004EditorExplorerGUI($this, "showEditTree", $this->object);
@@ -194,7 +232,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 
 	function jumpToNode($a_anchor_node = "", $a_highlight_ids = "")
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$anchor = ($a_anchor_node != "")
 			? "node_".$a_anchor_node
@@ -227,7 +265,14 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function properties()
 	{
-		global $rbacsystem, $tree, $tpl, $lng, $ilToolbar, $ilCtrl, $ilSetting, $ilTabs;
+		$rbacsystem = $this->rbacsystem;
+		$tree = $this->tree;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilToolbar = $this->toolbar;
+		$ilCtrl = $this->ctrl;
+		$ilSetting = $this->settings;
+		$ilTabs = $this->tabs;
 
 		$this->setSubTabs("settings", "general_settings");
 		
@@ -323,7 +368,8 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function initPropertiesForm()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -673,7 +719,11 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	public function initPropertiesEditableForm()
 	{
-		global $lng, $ilCtrl, $tree, $rbacsystem, $ilSetting;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$tree = $this->tree;
+		$rbacsystem = $this->rbacsystem;
+		$ilSetting = $this->settings;
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -780,7 +830,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	*/
 	function saveProperties()
 	{
-		global $ilSetting;
+		$ilSetting = $this->settings;
 		
 		if ($this->object->editable != 1)
 		{
@@ -878,7 +928,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function detachGlossary()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$this->object->setAssignedGlossary(0);
 		$this->object->update();
@@ -890,7 +940,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function createGlossary()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 	
 		$this->initGlossaryCreationForm();
 		$tpl->setContent($this->form->getHTML());
@@ -901,7 +951,8 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	public function initGlossaryCreationForm()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -927,7 +978,11 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	public function saveGlossary()
 	{
-		global $tpl, $lng, $ilCtrl, $rbacsystem, $tree;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$rbacsystem = $this->rbacsystem;
+		$tree = $this->tree;
 	
 		$parent_ref_id = $tree->getParentId((int) $_GET["ref_id"]);
 		if (!$rbacsystem->checkAccess("create", $parent_ref_id, "glo"))
@@ -967,7 +1022,9 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function assignGlossary()
 	{
-		global $tpl, $ilCtrl, $tree;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$tree = $this->tree;
 		
 		include_once("./Modules/Scorm2004/classes/class.ilGlossarySelectorGUI.php");
 		$exp = new ilGlossarySelectorGUI(
@@ -1009,7 +1066,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function selectGlossary()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$this->object->setAssignedGlossary(ilObject::_lookupObjId((int) $_GET["glo_ref_id"]));
 		$this->object->update();
@@ -1039,7 +1096,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function editStyleProperties()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$this->initStylePropertiesForm();
 		$tpl->setContent($this->form->getHTML());
@@ -1050,7 +1107,10 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function initStylePropertiesForm()
 	{
-		global $ilCtrl, $lng, $ilTabs, $ilSetting;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilTabs = $this->tabs;
+		$ilSetting = $this->settings;
 		
 		$lng->loadLanguageModule("style");
 		$this->setSubTabs("settings", "style");
@@ -1121,7 +1181,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function createStyle()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$ilCtrl->redirectByClass("ilobjstylesheetgui", "create");
 	}
@@ -1131,7 +1191,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function editStyle()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$ilCtrl->redirectByClass("ilobjstylesheetgui", "edit");
 	}
@@ -1141,7 +1201,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function deleteStyle()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$ilCtrl->redirectByClass("ilobjstylesheetgui", "delete");
 	}
@@ -1151,7 +1211,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function saveStyleSettings()
 	{
-		global $ilSetting;
+		$ilSetting = $this->settings;
 	
 		if ($ilSetting->get("fixed_content_style_id") <= 0 &&
 			(ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
@@ -1169,7 +1229,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	*/
 	protected function showTrackingItemsBySco()
 	{
-		global $ilTabs;
+		$ilTabs = $this->tabs;
 
 
 		ilObjSCORMLearningModuleGUI::setSubTabs();
@@ -1214,7 +1274,8 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	}
 	function showTrackingItems()
 	{
-		global $ilTabs, $ilAccess;
+		$ilTabs = $this->tabs;
+		$ilAccess = $this->access;
 
 		$ilTabs->setTabActive('cont_tracking_data');
 
@@ -1279,7 +1340,8 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function showTree()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		$mtree = new ilTree($this->object->getId());
 		$mtree->setTableNames('sahs_sc13_tree','sahs_sc13_tree_node');
@@ -1379,7 +1441,11 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function showSequencing()
 	{
-		global $tpl, $lng, $ilTabs, $ilToolbar, $ilCtrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilTabs = $this->tabs;
+		$ilToolbar = $this->toolbar;
+		$ilCtrl = $this->ctrl;
 		
 		$ilTabs->setTabActive("sahs_sequencing");
 		
@@ -1434,7 +1500,10 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function confirmExpertMode()
 	{
-		global $ilCtrl, $tpl, $lng, $ilTabs;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilTabs = $this->tabs;
 		
 		$ilTabs->setTabActive("sahs_sequencing");
 			
@@ -1456,7 +1525,8 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function activateExpertMode()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$this->object->setSequencingExpertMode(true);
 		$this->object->update();
@@ -1470,7 +1540,9 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function saveSequencing()
 	{
-		global $tpl,$lng, $ilCtrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		include_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Item.php");
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Sco.php");
@@ -1528,7 +1600,10 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function showLearningObjectivesAlignment()
 	{
-		global $tpl, $lng, $ilCtrl, $ilToolbar;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilToolbar = $this->toolbar;
 
 		$chaps = $this->object->getTree()->getChilds(
 			$this->object->getTree()->getRootId());
@@ -1564,7 +1639,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 
 	function selectLObjChapter()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$_SESSION["sahs_cur_chap"] = (int) $_POST["chapter"];
 		$ilCtrl->redirect($this, "showLearningObjectivesAlignment");
@@ -1597,7 +1672,8 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function showExportList()
 	{
-		global $tpl, $ilToolbar;
+		$tpl = $this->tpl;
+		$ilToolbar = $this->toolbar;
 
 		$ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'selectExport'));
 		$ilToolbar->setId("scorm2004export");
@@ -1655,7 +1731,8 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function getTabs()
 	{
-		global $ilAccess, $ilHelp;
+		$ilAccess = $this->access;
+		$ilHelp = $this->help;
 
 		if ($this->ctrl->getCmd() == "delete")
 		{
@@ -1755,7 +1832,9 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function setSubTabs($a_main_tab = "", $a_active = "")
 	{
-		global $ilTabs, $ilCtrl, $lng;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		if ($a_main_tab == "settings" &&
 			$this->object->editable == 1)
@@ -1792,7 +1871,9 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	function showOrganization($a_top_node = 0, $a_form_action = "",
 		$a_title = "", $a_icon = "", $a_gui_obj = null, $a_gui_cmd = "")
 	{
-		global $lng, $ilCtrl, $tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
 
 		if ($a_form_action == "")
 		{
@@ -1858,7 +1939,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	*/
 	function getNotesHTML($a_mode = "")
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		// notes
 		$ilCtrl->setParameter($this, "nodes_mode", $a_mode);
@@ -1895,7 +1976,8 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function insertChapter($a_redirect = true)
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
 
@@ -1945,7 +2027,8 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function insertSco($a_redirect = true)
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
 
@@ -1996,7 +2079,8 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function insertAsset($a_redirect = true)
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
 
@@ -2047,7 +2131,8 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function insertPage($a_redirect = true)
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
 
@@ -2099,7 +2184,9 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	function insertScenarioGUI()
 	{
 
-		global $ilCtrl,$lng, $tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
 
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
 		include_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004SeqTemplate.php");
@@ -2170,7 +2257,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function insertScenario()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
 
@@ -2216,7 +2303,9 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function insertTemplateGUI($a_redirect = true, $a_special_page = false)
 	{
-		global $ilCtrl,$lng, $tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
 		
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
 		
@@ -2301,7 +2390,8 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function insertTemplate($a_redirect = true)
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
 
@@ -2404,7 +2494,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function saveAllTitles($a_redirect = true)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		if (is_array($_POST["title"]))
 		{
@@ -2438,7 +2528,9 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function deleteNodes($a_form_action = "")
 	{
-		global $lng, $tpl, $ilErr;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
+		$ilErr = $this->error;
 
 		if(!isset($_POST["id"]))
 		{
@@ -2493,7 +2585,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function confirmedDelete($a_redirect = true)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$tree = new ilTree($this->object->getId());
 		$tree->setTableNames('sahs_sc13_tree','sahs_sc13_tree_node');
@@ -2542,7 +2634,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	*/
 	function proceedDragDrop()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$this->object->executeDragDrop($_POST["il_hform_source_id"], $_POST["il_hform_target_id"],
 			$_POST["il_hform_fc"], $_POST["il_hform_as_subitem"]);
@@ -2554,7 +2646,8 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	*/
 	function copyItems($a_return = "showOrganization")
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
 		
@@ -2591,7 +2684,8 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	*/
 	function cutItems($a_return = "showOrganization")
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
 		
@@ -2630,7 +2724,8 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	*/
 	function insertPageClip()
 	{
-		global $ilCtrl, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 		
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
 		ilSCORM2004Node::insertPageClip($this->object);
@@ -2644,7 +2739,8 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function insertScoClip()
 	{
-		global $ilCtrl, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 		
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
 		ilSCORM2004Node::insertScoClip($this->object);
@@ -2658,7 +2754,8 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function insertAssetClip()
 	{
-		global $ilCtrl, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 		
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
 		ilSCORM2004Node::insertAssetClip($this->object);
@@ -2672,7 +2769,8 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	*/
 	function insertChapterClip()
 	{
-		global $ilCtrl, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 		
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
 		ilSCORM2004Node::insertChapterClip($this->object);
@@ -2686,7 +2784,12 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function insertLMChapterClip($a_confirm = false, $a_perform = false)
 	{
-		global $ilCtrl, $tpl, $ilToolbar, $ilCtrl, $lng, $ilTabs;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$ilToolbar = $this->toolbar;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilTabs = $this->tabs;
 
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
 
@@ -2796,7 +2899,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 
 	function exportISO()
 	{
-		global $ilErr;
+		$ilErr = $this->error;
 
 		$export = new ilScorm2004Export($this->object,'ISO');
 		if(!$export->buildExportFile())
@@ -2892,7 +2995,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	*/
 	function publishExportFile()
 	{
-		global $ilErr;
+		$ilErr = $this->error;
 
 		if(!isset($_POST["file"]))
 		{

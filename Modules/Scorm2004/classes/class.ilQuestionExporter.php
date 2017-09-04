@@ -15,6 +15,11 @@ require_once("./Modules/TestQuestionPool/classes/class.assQuestionGUI.php");
  */
 class ilQuestionExporter
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	static $exported = array(); //json data for all exported questions (class variable)
 	static $mobs = array(); //json data for all mobs  (class variable)
 	static $media_files = array(); //json data for all files  (class variable)
@@ -34,7 +39,11 @@ class ilQuestionExporter
 	 */
 	public function __construct($a_preview_mode = false)
 	{
-		global $ilDB, $lng;
+		global $DIC;
+
+		$this->tpl = $DIC["tpl"];
+		$ilDB = $DIC->database();
+		$lng = $DIC->language();
 
 		$this->db = $ilDB;
 		$this->lng = $lng;
@@ -160,7 +169,7 @@ class ilQuestionExporter
 	
 	private function assMultipleChoice() {
 		
-		global $tpl;
+		$tpl = $this->tpl;
 		$this->q_gui->populateJavascriptFilesRequiredForWorkForm($tpl);
 		$tpl->addCss('Modules/Test/templates/default/ta.css');
 		
@@ -203,7 +212,7 @@ class ilQuestionExporter
 
 	private function assKprimChoice()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		$tpl->addCss('Modules/Test/templates/default/ta.css');
 		
 		$this->tpl->setCurrentBlock("kprimchoice");
@@ -320,7 +329,7 @@ class ilQuestionExporter
 	}
 	
 	private function assMatchingQuestion() {
-		global $tpl;
+		$tpl = $this->tpl;
 		$tpl->addJavaScript('Modules/TestQuestionPool/js/ilMatchingQuestion.js');
 		$tpl->addCss('Modules/TestQuestionPool/templates/default/test_javascript.css');
 		$this->tpl->setCurrentBlock("matchingquestion");
