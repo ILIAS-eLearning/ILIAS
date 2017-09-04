@@ -18,7 +18,7 @@ class ilGlossaryEditorGUI
 {
 	function __construct()
 	{
-		global $ilCtrl, $lng, $ilAccess, $ilias, $ilNavigationHistory;
+		global $ilCtrl, $lng, $ilAccess, $ilNavigationHistory, $ilErr;
 		
 		// initialisation stuff
 		$this->ctrl =  $ilCtrl;
@@ -28,7 +28,7 @@ class ilGlossaryEditorGUI
 		if (!$ilAccess->checkAccess("write", "", $_GET["ref_id"]) &&
 			!$ilAccess->checkAccess("edit_content", "", $_GET["ref_id"]))
 		{
-			$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($lng->txt("permission_denied"), $ilErr->MESSAGE);
 		}
 		
 		$ilNavigationHistory->addItem($_GET["ref_id"],

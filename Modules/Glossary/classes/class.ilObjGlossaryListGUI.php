@@ -86,8 +86,6 @@ class ilObjGlossaryListGUI extends ilObjectListGUI
 	*/
 	function getCommandFrame($a_cmd)
 	{
-		global $ilias;
-
 		switch($a_cmd)
 		{
 			case "view":

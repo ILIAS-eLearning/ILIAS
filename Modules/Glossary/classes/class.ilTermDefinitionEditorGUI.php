@@ -18,7 +18,6 @@ require_once ("./Modules/Glossary/classes/class.ilGlossaryDefPageGUI.php");
 */
 class ilTermDefinitionEditorGUI
 {
-	var $ilias;
 	var $tpl;
 	var $lng;
 	var $glossary;
@@ -31,10 +30,9 @@ class ilTermDefinitionEditorGUI
 	*/
 	function __construct()
 	{
-		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl, $ilTabs;
+		global $tpl, $lng, $ilCtrl, $ilTabs;
 
 		// initiate variables
-		$this->ilias = $ilias;
 		$this->tpl = $tpl;
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;

@@ -17,7 +17,6 @@ require_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 */
 class ilGlossaryTermGUI
 {
-	var $ilias;
 	var $lng;
 	var $tpl;
 	var $glossary;
@@ -35,10 +34,9 @@ class ilGlossaryTermGUI
 	*/
 	function __construct($a_id = 0)
 	{
-		global $lng, $ilias, $tpl, $ilCtrl, $ilTabs;
+		global $lng, $tpl, $ilCtrl, $ilTabs;
 
 		$this->lng = $lng;
-		$this->ilias = $ilias;
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
 		$this->ctrl->saveParameter($this, array("term_id"));

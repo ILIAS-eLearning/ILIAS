@@ -11,7 +11,6 @@
 */
 class ilGlossaryTerm
 {
-	var $ilias;
 	var $lng;
 	var $tpl;
 
@@ -28,10 +27,9 @@ class ilGlossaryTerm
 	*/
 	function __construct($a_id = 0)
 	{
-		global $lng, $ilias, $tpl;
+		global $lng, $tpl;
 
 		$this->lng = $lng;
-		$this->ilias = $ilias;
 		$this->tpl = $tpl;
 
 		$this->id = $a_id;

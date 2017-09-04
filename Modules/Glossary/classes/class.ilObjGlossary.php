@@ -590,12 +590,14 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	function createImportDirectory()
 	{
+		global $ilErr;
+
 		$glo_data_dir = ilUtil::getDataDir()."/glo_data";
 		ilUtil::makeDir($glo_data_dir);
 		if(!is_writable($glo_data_dir))
 		{
-			$this->ilias->raiseError("Glossary Data Directory (".$glo_data_dir
-				.") not writeable.",$this->ilias->error_obj->FATAL);
+			$ilErr->raiseError("Glossary Data Directory (".$glo_data_dir
+				.") not writeable.",$ilErr->error_obj->FATAL);
 		}
 
 		// create glossary directory (data_dir/glo_data/glo_<id>)
@@ -603,14 +605,14 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		ilUtil::makeDir($glo_dir);
 		if(!@is_dir($glo_dir))
 		{
-			$this->ilias->raiseError("Creation of Glossary Directory failed.",$this->ilias->error_obj->FATAL);
+			$ilErr->raiseError("Creation of Glossary Directory failed.",$ilErr->FATAL);
 		}
 		// create Import subdirectory (data_dir/glo_data/glo_<id>/import)
 		$import_dir = $glo_dir."/import";
 		ilUtil::makeDir($import_dir);
 		if(!@is_dir($import_dir))
 		{
-			$this->ilias->raiseError("Creation of Export Directory failed.",$this->ilias->error_obj->FATAL);
+			$ilErr->raiseError("Creation of Export Directory failed.",$ilErr->FATAL);
 		}
 	}
 

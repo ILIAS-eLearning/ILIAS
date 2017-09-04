@@ -415,12 +415,14 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
+		global $ilErr;
+
 		$new_type = $_REQUEST["new_type"];
 
 		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
 		if (!$this->checkPermissionBool("create", "", $new_type))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("no_create_permission"), $ilErr->MESSAGE);
 		}
 
 		$this->lng->loadLanguageModule($new_type);
@@ -527,6 +529,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	
 	function viewObject()
 	{
+		global $ilErr;
+
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 		{
 			parent::viewObject();
@@ -535,7 +539,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		if (!$this->rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->MESSAGE);
 		}
 
 	}
@@ -1077,13 +1081,15 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function publishExportFile()
 	{
+		global $ilErr;
+
 		if(!isset($_POST["file"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
 		}
 		if (count($_POST["file"]) > 1)
 		{
-			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("cont_select_max_one_item"), $ilErr->MESSAGE);
 		}
 		
 		$file = explode(":", $_POST["file"][0]);

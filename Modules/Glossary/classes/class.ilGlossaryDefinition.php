@@ -13,7 +13,6 @@ require_once("./Modules/Glossary/classes/class.ilGlossaryDefPage.php");
 */
 class ilGlossaryDefinition
 {
-	var $ilias;
 	var $lng;
 	var $tpl;
 
@@ -31,10 +30,9 @@ class ilGlossaryDefinition
 	*/
 	function __construct($a_id = 0)
 	{
-		global $lng, $ilias, $tpl;
+		global $lng, $tpl;
 
 		$this->lng = $lng;
-		$this->ilias = $ilias;
 		$this->tpl = $tpl;
 
 		$this->id = $a_id;

@@ -25,7 +25,6 @@ class ilGlossaryPresentationGUI
 {
 	var $admin_tabs;
 	var $glossary;
-	var $ilias;
 	var $tpl;
 	var $lng;
 
@@ -35,12 +34,11 @@ class ilGlossaryPresentationGUI
 	*/
 	function __construct()
 	{
-		global $lng, $ilias, $tpl, $ilCtrl, $ilTabs;
+		global $lng, $tpl, $ilCtrl, $ilTabs;
 
 		$this->tabs_gui = $ilTabs;
 		$this->tpl = $tpl;
 		$this->lng = $lng;
-		$this->ilias = $ilias;
 		$this->ctrl = $ilCtrl;
 		$this->offline = false;
 		$this->ctrl->saveParameter($this, array("ref_id", "letter", "tax_node"));
@@ -118,7 +116,7 @@ class ilGlossaryPresentationGUI
 	 */
 	function executeCommand()
 	{
-		global $lng, $ilAccess, $ilias;
+		global $lng, $ilAccess, $ilErr;
 		
 		$lng->loadLanguageModule("content");
 
@@ -130,7 +128,7 @@ class ilGlossaryPresentationGUI
 			!($ilAccess->checkAccess("visible", "", $_GET["ref_id"]) &&
 				($cmd == "infoScreen" || strtolower($next_class) == "ilinfoscreengui")))
 		{
-			$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($lng->txt("permission_denied"), $ilErr->MESSAGE);
 		}
 		
 		if ($cmd != "listDefinitions")
@@ -179,12 +177,12 @@ class ilGlossaryPresentationGUI
 	 */
 	function listTerms()
 	{
-		global $ilNavigationHistory, $ilAccess, $ilias, $lng, $ilToolbar, $ilCtrl, $ilTabs;
+		global $ilNavigationHistory, $ilAccess, $lng, $ilToolbar, $ilCtrl, $ilTabs, $ilErr;
 
 		
 		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
-			$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($lng->txt("permission_denied"), $ilErr->MESSAGE);
 		}
 		
 		if (!$this->offlineMode())
@@ -218,11 +216,11 @@ class ilGlossaryPresentationGUI
 	*/
 	function listTermByGiven()
 	{
-		global $ilCtrl, $ilAccess, $ilias, $lng, $tpl;
+		global $ilCtrl, $ilAccess, $lng, $tpl;
 		
 		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
-			$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($lng->txt("permission_denied"), $ilErr->MESSAGE);
 		}
 
 		$this->lng->loadLanguageModule("meta");
@@ -323,7 +321,7 @@ class ilGlossaryPresentationGUI
 	*/
 	function listDefinitions($a_ref_id = 0, $a_term_id = 0, $a_get_html = false, $a_page_mode = IL_PAGE_PRESENTATION)
 	{
-		global $ilUser, $ilAccess, $ilias, $lng, $ilCtrl;
+		global $ilUser, $ilAccess, $lng,$ilErr;
 
 		if ($a_ref_id == 0)
 		{
@@ -344,7 +342,7 @@ class ilGlossaryPresentationGUI
 		
 		if (!$ilAccess->checkAccess("read", "", $ref_id))
 		{
-			$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($lng->txt("permission_denied"), $ilErr->MESSAGE);
 		}
 
 		// tabs
@@ -718,11 +716,11 @@ class ilGlossaryPresentationGUI
 	*/
 	function showDownloadList()
 	{
-		global $ilBench, $ilAccess, $ilias, $lng, $ilTabs;
+		global $ilAccess, $lng, $ilTabs;
 
 		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
-			$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($lng->txt("permission_denied"), $ilErr->MESSAGE);
 		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.glo_download_list.html", "Modules/Glossary");
@@ -837,11 +835,11 @@ class ilGlossaryPresentationGUI
 	*/
 	function downloadExportFile()
 	{
-		global $ilAccess, $ilias, $lng;
+		global $ilAccess, $ilErr, $lng;
 		
 		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
-			$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($lng->txt("permission_denied"), $ilErr->error_obj->MESSAGE);
 		}
 
 		$file = $this->glossary->getPublicExportFile($_GET["type"]);
@@ -854,7 +852,7 @@ class ilGlossaryPresentationGUI
 				exit;
 			}
 		}
-		$this->ilias->raiseError($this->lng->txt("file_not_found"),$this->ilias->error_obj->MESSAGE);
+		$ilErr->raiseError($this->lng->txt("file_not_found"),$ilErr->MESSAGE);
 	}
 
 	/**
@@ -885,11 +883,11 @@ class ilGlossaryPresentationGUI
 	*/
 	function downloadFile()
 	{
-		global $ilAccess, $ilias, $lng;
+		global $ilAccess, $ilErr, $lng;
 		
 		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
-			$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($lng->txt("permission_denied"), $ilErr->MESSAGE);
 		}
 
 		$file = explode("_", $_GET["file_id"]);
@@ -1420,7 +1418,7 @@ class ilGlossaryPresentationGUI
 	*/
 	function outputInfoScreen()
 	{
-		global $ilBench, $ilAccess, $ilTabs;
+		global $ilAccess, $ilTabs;
 
 		$this->setTabs();
 		$ilTabs->activateTab("info");
