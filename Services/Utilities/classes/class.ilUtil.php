@@ -2457,10 +2457,9 @@ class ilUtil
 			$path = ".";
 		}
 
-		//create directory with fixed permission 0755 and reset umask for the current process
-		umask(0022); //reset mask
-		$access = 0755;
-		return mkdir($a_dir, $access);
+		// create directory with file permissions of parent directory
+		umask(0000);
+		return @mkdir($a_dir,fileperms($path));
 	}
 
 
@@ -2505,7 +2504,7 @@ class ilUtil
 			}
 		}
 
-		umask(0022); //reset umask
+		umask(0000);
 		foreach ($dirs as $dirindex => $dir)
 		{
 			// starting with the longest existing path
@@ -2519,7 +2518,7 @@ class ilUtil
 						// at the end of a directory in mkdir, see Mantis #2554
 						$dir = substr($dir,0,strlen($dir)-1);
 					}
-					if (! mkdir($dir, 0755))
+					if (! mkdir($dir, $umask))
 					{
 						error_log("Can't make directory: $dir");
 						return false;
@@ -2529,6 +2528,11 @@ class ilUtil
 				{
 					error_log("$dir is not a directory");
 					return false;
+				}
+				else
+				{
+					// get umask of the last existing parent directory
+					$umask = fileperms($dir);
 				}
 			}
 		}
