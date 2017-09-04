@@ -104,10 +104,8 @@ class ilTemplate extends HTML_Template_ITX
 	{
 		global $DIC;
 
-		$this->error = $DIC["ilErr"];
 		$this->plugin_admin = $DIC["ilPluginAdmin"];
 
-		$ilErr = $DIC["ilErr"];
 //echo "<br>-".$file."-";
 
 		$this->activeBlock = "__global__";
@@ -127,7 +125,11 @@ class ilTemplate extends HTML_Template_ITX
 		$this->contenttype = "text/html";
 		if (!file_exists($fname))
 		{
-			$ilErr->raiseError("template ".$fname." was not found.", $ilErr->FATAL);
+			if (isset($DIC["ilErr"]))
+			{
+				$ilErr = $DIC["ilErr"];
+				$ilErr->raiseError("template " . $fname . " was not found.", $ilErr->FATAL);
+			}
 			return false;
 		}
 
