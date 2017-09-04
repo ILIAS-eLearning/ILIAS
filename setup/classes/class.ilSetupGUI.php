@@ -821,7 +821,7 @@ class ilSetupGUI
 		$sh->setTitle($this->lng->txt("3rd_party_software"));
 		$this->form->addItem($sh);
 
-		$tools = array("convert", "zip", "unzip", "ghostscript", "java", "ffmpeg");
+		$tools = array("convert", "zip", "unzip", "ghostscript", "java", "ffmpeg", "phantomjs");
 
 		foreach ($tools as $tool)
 		{
@@ -1150,6 +1150,11 @@ class ilSetupGUI
 		$ti->setInfo($lng->txt("ffmpeg_path_comment"));
 		$this->form->addItem($ti);
 
+		// phantomjs path
+		$pj = new ilTextInputGUI($lng->txt("phantomjs_path"), "phantomjs_path");
+		$pj->setInfo($lng->txt("phantomjs_path_comment"));
+		$this->form->addItem($pj);
+
 		// latex
 		$ti = new ilTextInputGUI($lng->txt("url_to_latex"), "latex_url");
 		$ti->setInfo($lng->txt("latex_url_comment"));
@@ -1242,6 +1247,7 @@ class ilSetupGUI
 		$values["ghostscript_path"] = $this->setup->ini->readVariable("tools","ghostscript");
 		//$values["mkisofs_path"] = $this->setup->ini->readVariable("tools","mkisofs");
 		$values["ffmpeg_path"] = $this->setup->ini->readVariable("tools","ffmpeg");
+		$values["phantomjs_path"] = $this->setup->ini->readVariable("tools","phantomjs");
 		$values["latex_url"] = $this->setup->ini->readVariable("tools","latex");
 		$values["fop_path"] = $this->setup->ini->readVariable("tools","fop");
 		$values["vscanner_type"] = $this->setup->ini->readVariable("tools", "vscantype");
@@ -1278,7 +1284,7 @@ class ilSetupGUI
 			if (ilUtil::isWindows())
 			{
 				$fs = array("datadir_path", "log_path", "convert_path", "zip_path",
-					"unzip_path", "ghostscript_path", "ffmpeg_path","lessc_path");
+					"unzip_path", "ghostscript_path", "ffmpeg_path","lessc_path", "phantomjs_path");
 				foreach ($fs as $f)
 				{
 					$_POST[$f] = str_replace("\\", "/", $_POST[$f]);
@@ -1336,7 +1342,7 @@ class ilSetupGUI
 			if (ilUtil::isWindows())
 			{
 				$fs = array("datadir_path", "log_path", "convert_path", "zip_path",
-					"unzip_path", "ghostscript_path", "ffmpeg_path","lessc_path");
+					"unzip_path", "ghostscript_path", "ffmpeg_path","lessc_path", "phantomjs_path");
 				foreach ($fs as $f)
 				{
 					$_POST[$f] = str_replace("\\", "/", $_POST[$f]);
@@ -1580,7 +1586,7 @@ class ilSetupGUI
 		{
 			$tools = array("convert" => "convert",
 				"zip" => "zip", "unzip" => "unzip", "ghostscript" => "gs",
-				"java" => "java", "ffmpeg" => "ffmpeg", "lessc"=>"lessc");
+				"java" => "java", "ffmpeg" => "ffmpeg", "lessc"=>"lessc", "phantomjs"=>"phantomjs");
 			$dirs = array("/usr/local", "/usr/local/bin", "/usr/bin", "/bin", "/sw/bin", "/usr/bin");
 		}
 		else
