@@ -10,6 +10,21 @@ require_once ('Services/UIComponent/CharSelector/classes/ilCharSelectorConfig.ph
 class ilCharSelectorGUI
 {
 	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
 	 * @static list of command classes for which the char selector is allowed 
 	 * (can also be a parent class of the actual command class)
 	 */
@@ -43,6 +58,11 @@ class ilCharSelectorGUI
 	 */
 	public function __construct($a_context = ilCharSelectorConfig::CONTEXT_NONE) 
 	{		
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+		$this->tpl = $DIC["tpl"];
 		$this->config = new ilCharSelectorConfig($a_context);
 	}
 	
@@ -52,7 +72,9 @@ class ilCharSelectorGUI
 	 */
 	public static function _isAllowed()
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC->ctrl();
 		
 		// get the command class 
 		// with correct case for checking parent classes
@@ -118,7 +140,7 @@ class ilCharSelectorGUI
 	 */
 	public function addFormProperties(ilPropertyFormGUI $a_form)
 	{
-		global $lng;
+		$lng = $this->lng;
 		$lng->loadLanguageModule('adve');
 
         require_once ('Services/UIComponent/CharSelector/classes/class.ilCharSelectorRadioGroupInputGUI.php');
@@ -206,7 +228,9 @@ class ilCharSelectorGUI
 	 */
 	function addToPage()
 	{
-		global $ilCtrl, $tpl, $lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 		
 		// don't add the panel twice
 		if ($this->added_to_page)
@@ -249,7 +273,7 @@ class ilCharSelectorGUI
 	 */
 	function getSelectorHTML()
 	{
-		global $lng;		
+		$lng = $this->lng;
 		$tpl = new ilTemplate("tpl.char_selector_panel.html", true, true, "Services/UIComponent/CharSelector");
 		
 		if (count($this->jsconfig->pages) > 1)
@@ -299,7 +323,7 @@ class ilCharSelectorGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		$cmd = $ilCtrl->getCmd("saveState");
 		switch($cmd)
 		{
