@@ -15,13 +15,24 @@ include_once("Services/Table/classes/class.ilTable2GUI.php");
 */
 class ilMediaCastTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
 	protected $downloadable = false;
 	protected $edit_order;
 	
 	function __construct($a_parent_obj, $a_parent_cmd = "", $a_edit_order = false,
 		$a_presentation_mode = false)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		$this->edit_order = (bool)$a_edit_order;
 		$this->presentation_mode = (bool)$a_presentation_mode;
@@ -61,7 +72,9 @@ class ilMediaCastTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl, $ilAccess;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilAccess = $this->access;
 
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		
