@@ -32,7 +32,9 @@ class ilUtil
 	*/
 	public static function getImageTagByType($a_type, $a_path, $a_big = false)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 
 		$size = ($a_big)
 			? "big"
@@ -74,7 +76,13 @@ class ilUtil
 	*/
 	public static function getImagePath($img, $module_path = "", $mode = "output", $offline = false)
 	{
-		global $ilias, $styleDefinition, $ilCtrl, $ilUser;
+		global $DIC;
+
+		$styleDefinition = null;
+		if (isset($DIC["styleDefinition"]))
+		{
+			$styleDefinition = $DIC["styleDefinition"];
+		}
 
 		if (is_int(strpos($_SERVER["PHP_SELF"], "setup.php")))
 		{
@@ -177,7 +185,9 @@ class ilUtil
 	*/
 	public static function getStyleSheetLocation($mode = "output", $a_css_name = "", $a_css_location = "")
 	{
-		global $ilias;
+		global $DIC;
+
+		$ilSetting = $DIC->settings();
 		
 		// add version as parameter to force reload for new releases
 		// use ilStyleDefinition instead of account to get the current style
@@ -204,7 +214,7 @@ class ilUtil
 		$vers = "";
 		if ($mode != "filesystem")
 		{
-			$vers = str_replace(" ", "-", $ilias->getSetting("ilias_version"));
+			$vers = str_replace(" ", "-", $ilSetting->get("ilias_version"));
 			$vers = "?vers=".str_replace(".", "-", $vers);
 		}
 		return $filename . $vers;
@@ -222,7 +232,9 @@ class ilUtil
 	*/
 	public static function getJSLocation($a_js_name, $a_js_location = "", $add_version = FALSE)
 	{
-		global $ilias;
+		global $DIC;
+
+		$ilSetting = $DIC->settings();
 
 		// add version as parameter to force reload for new releases
 		$js_name = $a_js_name;
@@ -242,7 +254,7 @@ class ilUtil
 		$vers = "";
 		if ($add_version)
 		{
-			$vers = str_replace(" ", "-", $ilias->getSetting("ilias_version"));
+			$vers = str_replace(" ", "-", $ilSetting->get("ilias_version"));
 			$vers = "?vers=".str_replace(".", "-", $vers);
 		}
 		return $filename . $vers;
@@ -257,8 +269,6 @@ class ilUtil
 	*/
 	public static function getP3PLocation()
 	{
-		global $ilias;
-
 		if (defined("ILIAS_MODULE"))
 		{
 			$base = '';
@@ -291,12 +301,14 @@ class ilUtil
 	*/
 	public static function getNewContentStyleSheetLocation($mode = "output")
 	{
-		global $ilias;
+		global $DIC;
+
+		$ilSetting = $DIC->settings();
 
 		// add version as parameter to force reload for new releases
 		if ($mode != "filesystem")
 		{
-			$vers = str_replace(" ", "-", $ilias->getSetting("ilias_version"));
+			$vers = str_replace(" ", "-", $ilSetting->get("ilias_version"));
 			$vers = "?vers=".str_replace(".", "-", $vers);
 		}
 
@@ -344,7 +356,9 @@ class ilUtil
 	public static function formSelect($selected,$varname,$options,$multiple = false,$direct_text = false, $size = "0",
 		$style_class = "", $attribs = "",$disabled = false)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 
 		if ($multiple == true)
 		{
@@ -898,7 +912,9 @@ class ilUtil
 	*/
 	public static function makeDateSelect($prefix, $year = "", $month = "", $day = "", $startyear = "",$a_long_month = true,$a_further_options = array(), $emptyoption = false)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 
 		$disabled = '';
 		if(isset($a_further_options['disabled']) and $a_further_options['disabled'])
@@ -1027,7 +1043,10 @@ class ilUtil
 	*/
 	public static function makeTimeSelect($prefix, $short = true, $hour = "", $minute = "", $second = "",$a_use_default = true,$a_further_options = array())
 	{
-		global $lng, $ilUser;
+		global $DIC;
+
+		$lng = $DIC->language();
+		$ilUser = $DIC->user();
 
 		$minute_steps = 1;
 		$disabled = '';
@@ -1129,7 +1148,9 @@ class ilUtil
 	*/
 	public static function is_email($a_email)
 	{
-		global $ilErr;
+		global $DIC;
+
+		$ilErr = $DIC["ilErr"];
 
 		// additional check for ilias object is needed,
 		// otherwise setup will fail with this if branch
@@ -1174,7 +1195,9 @@ class ilUtil
 	*/
 	public static function isPassword($a_passwd, &$customError = null)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
 		$security = ilSecuritySettings::_getInstance();
@@ -1356,7 +1379,9 @@ class ilUtil
 	 */
 	public static function getPasswordRequirementsInfo()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 
 		include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
 		$security = ilSecuritySettings::_getInstance();
@@ -1619,21 +1644,19 @@ class ilUtil
 	 */
 	public static function getWebspaceDir($mode = "filesystem")
 	{
-		global $ilias;
-
 		if ($mode == "filesystem")
 		{
-			return "./".ILIAS_WEB_DIR."/".$ilias->client_id;
+			return "./".ILIAS_WEB_DIR."/".CLIENT_ID;
 		}
 		else
 		{
 			if (defined("ILIAS_MODULE"))
 			{
-				return "../".ILIAS_WEB_DIR."/".$ilias->client_id;
+				return "../".ILIAS_WEB_DIR."/".CLIENT_ID;
 			}
 			else
 			{
-				return "./".ILIAS_WEB_DIR."/".$ilias->client_id;
+				return "./".ILIAS_WEB_DIR."/".CLIENT_ID;
 			}
 		}
 	}
@@ -2917,7 +2940,9 @@ class ilUtil
 
 	public static function maskAttributeTag($a_str, $tag, $tag_att)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC["ilLog"];
 
 		$ws = "[\s]*";
 		$att = $ws."[^>]*".$ws;
@@ -2942,7 +2967,9 @@ class ilUtil
 
 	public static function unmaskAttributeTag($a_str, $tag, $tag_att)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC["ilLog"];
 
 		while (preg_match('/&lt;('.$tag.' '.$tag_att.$tag_att.'="(([$@!*()~;,_0-9A-z\/:=%.&#?+\-])*)")&gt;/i',
 			$a_str, $found))
@@ -3364,7 +3391,6 @@ class ilUtil
 		// END WebDAV Provide a 'stable' sort algorithm
 
 		global $array_sortby,$array_sortorder;
-
 		$array_sortby = $a_array_sortby;
 
 		if ($a_array_sortorder == "desc")
@@ -3624,7 +3650,10 @@ class ilUtil
 	*/
 	public static function groupNameExists($a_group_name,$a_id = 0)
 	{
-		global $ilDB,$ilErr;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilErr = $DIC["ilErr"];
 
 		if (empty($a_group_name))
 		{
@@ -4070,7 +4099,9 @@ class ilUtil
 	*/
 	public static function virusHandling($a_file, $a_orig_name = "", $a_clean = true)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 
 		if (IL_VIRUS_SCANNER != "None")
 		{
@@ -4305,7 +4336,14 @@ class ilUtil
 	*/
 	public static function _getObjectsByOperations($a_obj_type,$a_operation,$a_usr_id = 0,$limit = 0)
 	{
-		global $ilDB,$rbacreview,$ilAccess,$ilUser,$ilias,$tree;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$rbacreview = $DIC->rbac()->review();
+		$ilAccess = $DIC->access();
+		$ilUser = $DIC->user();
+		$ilSetting = $DIC->settings();
+		$tree = $DIC->repositoryTree();
 
 		if(!is_array($a_obj_type))
 		{
@@ -4319,7 +4357,7 @@ class ilUtil
 		// limit number of results default is search result limit
 		if(!$limit)
 		{
-			$limit = $ilias->getSetting('search_max_hits',100);
+			$limit = $ilSetting->get('search_max_hits',100);
 		}
 		if($limit == -1)
 		{
@@ -4555,7 +4593,9 @@ class ilUtil
 	*/
 	public static function period2String(ilDateTime $a_from, $a_to = null)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		if (!$a_to)
 		{
@@ -4605,7 +4645,9 @@ class ilUtil
 			self::getUploadSizeLimitBytes()
 		);
 		
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		/*
 		// get the value for the maximal uploadable filesize from the php.ini (if available)
 		$umf=get_cfg_var("upload_max_filesize");
@@ -4729,7 +4771,9 @@ class ilUtil
 	*/
 	public static function _sortIds($a_ids,$a_table,$a_field,$a_id_name)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		if(!$a_ids)
 		{
@@ -4764,7 +4808,9 @@ class ilUtil
 	*/
 	public static function getMySQLTimestamp($a_ts)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		return $a_ts;
 	}
@@ -4777,7 +4823,9 @@ class ilUtil
 	*/
 	public static function quoteArray($a_array)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 
 		if(!is_array($a_array) or !count($a_array))
@@ -4803,7 +4851,9 @@ class ilUtil
 	*/
 	public static function sendInfo($a_info = "",$a_keep = false)
 	{
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 		$tpl->setMessage("info", $a_info, $a_keep);
 	}
 
@@ -4817,7 +4867,9 @@ class ilUtil
 	*/
 	public static function sendFailure($a_info = "",$a_keep = false)
 	{
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 		if(is_object($tpl))
 		{
 			$tpl->setMessage("failure", $a_info, $a_keep);
@@ -4832,7 +4884,9 @@ class ilUtil
 	* @static	*/
 	public static function sendQuestion($a_info = "",$a_keep = false)
 	{
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 		$tpl->setMessage("question", $a_info, $a_keep);
 	}
 
@@ -4846,13 +4900,19 @@ class ilUtil
 	*/
 	public static function sendSuccess($a_info = "",$a_keep = false)
 	{
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 		$tpl->setMessage("success", $a_info, $a_keep);
 	}
 
 	public static function infoPanel($a_keep = true)
 	{
-		global $tpl,$ilias,$lng;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
+		$lng = $DIC->language();
+		$ilUser = $DIC->user();
 
 		if (!empty($_SESSION["infopanel"]) and is_array($_SESSION["infopanel"]))
 		{
@@ -4875,7 +4935,7 @@ class ilUtil
 				$link .= "<td><a href=\"".$_SESSION["infopanel"]["link"]."\" target=\"".
 					ilFrameTargetInfo::_getFrame("MainContent").
 					"\">";
-				$link .= "<img src=\"".$ilias->tplPath.$ilias->account->prefs["skin"]."/images/".
+				$link .= "<img src=\""."./templates/".$ilUser->prefs["skin"]."/images/".
 					$_SESSION["infopanel"]["img"]."\" border=\"0\" vspace=\"0\"/>";
 				$link .= "</a></td>";
 			}
@@ -4967,7 +5027,9 @@ class ilUtil
 	
 	public static function _getHttpPath()
 	{
-		global $ilIliasIniFile;
+		global $DIC;
+
+		$ilIliasIniFile = $DIC["ilIliasIniFile"];
 		
 		if($_SERVER['SHELL'] || php_sapi_name() == 'cli' ||
 			// fallback for windows systems, useful in crons
@@ -5208,7 +5270,9 @@ class ilUtil
 	*/
 	protected static function fmtFloat($a_float, $a_decimals=0, $a_dec_point = null, $a_thousands_sep = null, $a_suppress_dot_zero=false)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 
 		if ($a_dec_point == null) {
 			{
@@ -5259,7 +5323,9 @@ class ilUtil
 	 */
 	public static function formatSize($size, $a_mode = 'short', $a_lng = null)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		if ($a_lng == null) {
 			$a_lng = $lng;
 		}

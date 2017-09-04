@@ -26,6 +26,9 @@ abstract class ilVerificationObject extends ilObject2
 
 	function __construct($a_id = 0, $a_reference = true)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		$this->map = $this->getPropertyMap();
 		parent::__construct($a_id, $a_reference);		
 	}
@@ -185,7 +188,7 @@ abstract class ilVerificationObject extends ilObject2
 	 */
 	protected function doRead()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if($this->id)
 		{		
@@ -221,7 +224,7 @@ abstract class ilVerificationObject extends ilObject2
 	 */
 	protected function saveProperties()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if($this->id)
 		{
@@ -256,7 +259,7 @@ abstract class ilVerificationObject extends ilObject2
 	 */
 	public function doDelete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if($this->id)
 		{

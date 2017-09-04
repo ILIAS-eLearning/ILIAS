@@ -15,6 +15,11 @@
 */
 class ilXHTMLPage
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	var $id = 0;
 	var $content = "";
 
@@ -25,6 +30,9 @@ class ilXHTMLPage
 	*/
 	function __construct($a_id = 0)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		if ($a_id > 0)
 		{
 			$this->setId($a_id);
@@ -77,7 +85,7 @@ class ilXHTMLPage
 	*/
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$set = $ilDB->query("SELECT * FROM xhtml_page WHERE id = ".
 			$ilDB->quote($this->getId(), "integer"));
@@ -92,7 +100,9 @@ class ilXHTMLPage
 	*/
 	static function _lookupContent($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT content FROM xhtml_page WHERE id = ".
 			$ilDB->quote($a_id, "integer"));
@@ -107,7 +117,9 @@ class ilXHTMLPage
 	*/
 	static function _lookupSavedContent($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT save_content FROM xhtml_page WHERE id = ".
 			$ilDB->quote($a_id, "integer"));
@@ -122,7 +134,7 @@ class ilXHTMLPage
 	*/
 	function save()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if ($this->getId() > 0)
 		{
@@ -149,7 +161,7 @@ class ilXHTMLPage
 	*/
 	function undo()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if ($this->getId() > 0)
 		{
@@ -169,7 +181,7 @@ class ilXHTMLPage
 	*/
 	function clear()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if ($this->getId() > 0)
 		{
