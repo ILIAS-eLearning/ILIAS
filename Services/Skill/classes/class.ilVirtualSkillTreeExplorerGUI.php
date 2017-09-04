@@ -13,6 +13,16 @@ include_once("./Services/UIComponent/Explorer2/classes/class.ilExplorerBaseGUI.p
  */
 class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
 	protected $show_draft_nodes = false;
 	protected $show_outdated_nodes = false;
 	
@@ -21,6 +31,10 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
 	 */
 	public function __construct($a_id, $a_parent_obj, $a_parent_cmd)
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
 		parent::__construct($a_id, $a_parent_obj, $a_parent_cmd);
 		
 		include_once("./Services/Skill/classes/class.ilVirtualSkillTree.php");
@@ -112,7 +126,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
 	 */
 	function getNodeContent($a_node)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$a_parent_id_parts = explode(":", $a_node["id"]);
 		$a_parent_skl_tree_id = $a_parent_id_parts[0];
@@ -185,7 +199,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
 	 */
 	function getNodeHref($a_node)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		// we have a tree id like <skl_tree_id>:<skl_template_tree_id> here
 		// use this, if you want a "common" skill id in format <skill_id>:<tref_id>
