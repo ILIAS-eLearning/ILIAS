@@ -3653,7 +3653,12 @@ class ilUtil
 		global $DIC;
 
 		$ilDB = $DIC->database();
-		$ilErr = $DIC["ilErr"];
+
+		$ilErr = null;
+		if (isset($DIC["ilErr"]))
+		{
+			$ilErr = $DIC["ilErr"];
+		}
 
 		if (empty($a_group_name))
 		{
