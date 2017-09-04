@@ -11,6 +11,26 @@
 */
 class ilTabsGUI
 {
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilPluginAdmin
+	 */
+	protected $plugin_admin;
+
 	var $target_script;
 	var $obj_type;
 	var $tpl;
@@ -28,7 +48,15 @@ class ilTabsGUI
 	*/
 	function __construct()
 	{
-		global $tpl, $objDefinition, $lng;
+		global $DIC;
+
+		$this->help = $DIC["ilHelp"];
+		$this->ctrl = $DIC->ctrl();
+		$this->user = $DIC->user();
+		$this->plugin_admin = $DIC["ilPluginAdmin"];
+		$tpl = $DIC["tpl"];
+		$objDefinition = $DIC["objDefinition"];
+		$lng = $DIC->language();
 
 		$this->tpl = $tpl;
 		$this->lng = $lng;
@@ -209,7 +237,7 @@ class ilTabsGUI
 	*/
 	function clearTargets()
 	{
-		global $ilHelp;
+		$ilHelp = $this->help;
 		
 		if (!$this->getSetupMode())
 		{
@@ -397,7 +425,11 @@ class ilTabsGUI
 	 */
 	function __getHTML($a_get_sub_tabs,$a_manual, $a_after_tabs_anchor = false)
 	{
-		global $ilCtrl, $lng, $ilUser, $ilPluginAdmin, $ilHelp;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilUser = $this->user;
+		$ilPluginAdmin = $this->plugin_admin;
+		$ilHelp = $this->help;
 
 		// user interface hook [uihk]
 		if (!$this->getSetupMode())
