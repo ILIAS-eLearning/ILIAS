@@ -11,6 +11,11 @@ include_once './Services/Table/classes/class.ilTable2GUI.php';
  */
 class ilExAssignmentTeamTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
 	protected $mode; // [int]
 	protected $team; // [ilExAssignmentTeam]	
 	protected $read_only; // [bool]	
@@ -33,7 +38,11 @@ class ilExAssignmentTeamTableGUI extends ilTable2GUI
 	 */
 	public function  __construct($a_parent_obj, $a_parent_cmd, $a_mode, $a_parent_ref_id, ilExAssignmentTeam $a_team, $a_read_only = false)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->access = $DIC->access();
+		$ilCtrl = $DIC->ctrl();
 				
 		$this->mode = $a_mode;
 		$this->team = $a_team;
@@ -107,7 +116,7 @@ class ilExAssignmentTeamTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{		
-		global $ilAccess;
+		$ilAccess = $this->access;
 		
 		if(!$this->read_only)
 		{
