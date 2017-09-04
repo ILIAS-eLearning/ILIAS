@@ -42,9 +42,12 @@ class ilSurveyCodesTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd)
 	{
+		global $DIC;
+
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
-		global $lng, $ilCtrl;
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
 
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
@@ -92,7 +95,7 @@ class ilSurveyCodesTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($data)
 	{
-		global $lng;
+		$lng = $this->lng;
 				
 		$this->tpl->setVariable('CB_CODE', $data['id']);
 	
