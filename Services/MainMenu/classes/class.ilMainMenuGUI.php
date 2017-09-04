@@ -618,7 +618,7 @@ class ilMainMenuGUI
 					"left center", "right center", false);
 
 			require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockViewSettings.php';
-			$pdItemsViewSettings = new ilPDSelectedItemsBlockSelectedItemsBlockViewSettings($GLOBALS['DIC']->user());
+			$pdItemsViewSettings = new ilPDSelectedItemsBlockViewSettings($GLOBALS['DIC']->user());
 
 			// my groups and courses, if both is available
 			if($pdItemsViewSettings->allViewsEnabled())

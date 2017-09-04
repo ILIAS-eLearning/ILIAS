@@ -11,6 +11,34 @@
 */
 class ilTablePropertiesStorage
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		global $DIC;
+
+		$this->user = $DIC->user();
+		$this->ctrl = $DIC->ctrl();
+		$this->db = $DIC->database();
+	}
+
 	var $properties = array (
 		"filter" => array("storage" => "db"),
 		"direction" => array("storage" => "db"),
@@ -27,7 +55,8 @@ class ilTablePropertiesStorage
 	*/
 	function &executeCommand()
 	{
-		global $ilUser, $ilCtrl;
+		$ilUser = $this->user;
+		$ilCtrl = $this->ctrl;
 		
 		$cmd = $ilCtrl->getCmd();
 //		$next_class = $this->ctrl->getNextClass($this);
@@ -40,7 +69,7 @@ class ilTablePropertiesStorage
 	 */
 	function showFilter()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		if ($_GET["user_id"] == $ilUser->getId())
 		{
@@ -54,7 +83,7 @@ class ilTablePropertiesStorage
 	 */
 	function hideFilter()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		if ($_GET["user_id"] == $ilUser->getId())
 		{
@@ -69,7 +98,7 @@ class ilTablePropertiesStorage
 	function storeProperty($a_table_id, $a_user_id, $a_property,
 		$a_value)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if ($a_table_id == "" || !$this->isValidProperty($a_property))
 		{
@@ -105,7 +134,7 @@ class ilTablePropertiesStorage
 	*/
 	function getProperty($a_table_id, $a_user_id, $a_property)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
         if ($a_table_id == "" || !$this->isValidProperty($a_property))
 		{

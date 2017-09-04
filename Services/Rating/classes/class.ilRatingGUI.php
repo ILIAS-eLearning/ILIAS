@@ -16,6 +16,21 @@ include_once("./Services/Rating/classes/class.ilRatingCategory.php");
  */
 class ilRatingGUI
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	protected $id = "rtg_";
 	protected $export_callback;
 	protected $export_subobj_title;
@@ -23,7 +38,12 @@ class ilRatingGUI
 
 	function __construct()
 	{
-		global $lng;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+		$this->user = $DIC->user();
+		$lng = $DIC->language();
 		
 		$lng->loadLanguageModule("rating");
 	}
@@ -33,7 +53,7 @@ class ilRatingGUI
 	 */
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
@@ -62,7 +82,7 @@ class ilRatingGUI
 	*/
 	function setObject($a_obj_id, $a_obj_type, $a_sub_obj_id = 0, $a_sub_obj_type = "")
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		// db-column is defined as not null, el stupido
 		if(!trim($a_sub_obj_type))
@@ -152,7 +172,8 @@ class ilRatingGUI
 	 */
 	protected function renderDetails($a_js_id, $a_may_rate, array $a_categories = null, $a_onclick = null, $a_average = false)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$ttpl = new ilTemplate("tpl.rating_details.html", true, true, "Services/Rating");		
 		
@@ -426,7 +447,7 @@ class ilRatingGUI
 	 */
 	function getHTML($a_show_overall = true, $a_may_rate = true, $a_onclick = null, $a_additional_id = null)
 	{
-		global $lng;	
+		$lng = $this->lng;
 		
 		$unique_id = $this->id;
 		if($a_additional_id)
@@ -591,7 +612,7 @@ class ilRatingGUI
 	*/
 	function saveRating()
 	{		
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		if(!is_array($_REQUEST["rating"]))
 		{				

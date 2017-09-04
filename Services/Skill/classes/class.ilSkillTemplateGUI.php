@@ -15,13 +15,39 @@ include_once("./Services/Skill/classes/class.ilSkillTreeNodeGUI.php");
  */
 class ilSkillTemplateGUI extends ilSkillTreeNodeGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 
 	/**
 	 * Constructor
 	 */
 	function __construct($a_node_id = 0)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->tpl = $DIC["tpl"];
+		$this->tabs = $DIC->tabs();
+		$this->lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
 		
 		$ilCtrl->saveParameter($this, "obj_id");
 		
@@ -41,7 +67,9 @@ class ilSkillTemplateGUI extends ilSkillTreeNodeGUI
 	 */
 	function executeCommand()
 	{
-		global $ilCtrl, $tpl, $ilTabs;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
 		
 		//$tpl->getStandardTemplate();
 		
@@ -61,7 +89,10 @@ class ilSkillTemplateGUI extends ilSkillTreeNodeGUI
 	 */
 	function setTabs()
 	{
-		global $ilTabs, $ilCtrl, $tpl, $lng;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 
 		$tpl->setTitleIcon(ilUtil::getImagePath("icon_skmg.svg"));
 		$tpl->setTitle(
@@ -74,7 +105,7 @@ class ilSkillTemplateGUI extends ilSkillTreeNodeGUI
 	 */
 	function proceedDragDrop()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 //		$this->slm_object->executeDragDrop($_POST["il_hform_source_id"], $_POST["il_hform_target_id"],
 //			$_POST["il_hform_fc"], $_POST["il_hform_as_subitem"]);

@@ -20,7 +20,9 @@ class ilTooltipGUI
 	static function addTooltip($a_el_id, $a_text, $a_container = "",
 		$a_my = "bottom center", $a_at = "top center", $a_use_htmlspecialchars = true)
 	{
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 		
 		self::initLibrary();		
 		if (!self::$initialized)
@@ -75,7 +77,9 @@ class ilTooltipGUI
 	 */
 	static function initLibrary()
 	{
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 		
 		if (self::$library_initialized)
 			return;

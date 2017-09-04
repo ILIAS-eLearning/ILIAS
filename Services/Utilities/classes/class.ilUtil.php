@@ -4132,6 +4132,7 @@ class ilUtil
 	public static function moveUploadedFile($a_file, $a_name, $a_target, $a_raise_errors = true, $a_mode = "move_uploaded")
 	{
 		global $DIC;
+		$targetFilename = basename($a_target);
 
 		// Make sure the target is in a valid subfolder. (e.g. no uploads to ilias/setup/....)
 		list($targetFilesystem, $targetDir) = self::sanitateTargetPath($a_target);
@@ -4165,7 +4166,7 @@ class ilUtil
 			return false;
 		}
 
-		$upload->moveOneFileTo($UploadResult, $targetDir, $targetFilesystem, $a_name);
+		$upload->moveOneFileTo($UploadResult, $targetDir, $targetFilesystem, $targetFilename);
 
 		return true;
 	}

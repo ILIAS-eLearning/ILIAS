@@ -14,6 +14,20 @@ abstract class ilObjectPluginListGUI extends ilObjectListGUI
 {
 
 	/**
+	 * Constructor
+	 */
+	function __construct($a_context = self::CONTEXT_REPOSITORY)
+	{
+		global $DIC;
+
+		parent::__construct($a_context);
+
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+	}
+
+
+	/**
 	 * @var ilRepositoryObjectPlugin
 	 */
 	protected $plugin;
@@ -112,7 +126,8 @@ abstract class ilObjectPluginListGUI extends ilObjectListGUI
 	*/
 	function getProperties()
 	{
-		global $lng, $ilUser;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 
 		$props = array();
 

@@ -12,6 +12,11 @@ require_once('./Services/UIComponent/Toolbar/interfaces/interface.ilToolbarItem.
  */
 abstract class ilButtonBase implements ilToolbarItem
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	protected $type; // [int]
 	protected $id; // [string]
 	protected $caption; // [string]
@@ -41,6 +46,9 @@ abstract class ilButtonBase implements ilToolbarItem
 	 */
 	protected function __construct($a_type)
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		$this->setType($a_type);
 	}
 	
@@ -124,7 +132,7 @@ abstract class ilButtonBase implements ilToolbarItem
 	 */
 	public function getCaption($a_translate = true)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$caption = $this->caption;
 		

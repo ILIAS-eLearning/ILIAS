@@ -7,6 +7,11 @@
  * @version 1.0.0
  */
 class ilCachedCtrl {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 
 	/**
 	 * @var bool
@@ -76,6 +81,9 @@ class ilCachedCtrl {
 
 
 	protected function __construct() {
+		global $DIC;
+
+		$this->db = $DIC->database();
 		$this->global_cache = ilGlobalCache::getInstance(ilGlobalCache::COMP_ILCTRL);
 		$this->readFromDB();
 	}
@@ -89,7 +97,7 @@ class ilCachedCtrl {
 
 
 	protected function readFromDB() {
-		global $ilDB;
+		$ilDB = $this->db;
 		/**
 		 * @var $ilDB ilDB
 		 */

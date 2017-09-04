@@ -15,13 +15,38 @@ include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
  */
 class ilSelfEvaluationTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	
 	/**
 	 * Constructor
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng, $ilUser;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$this->user = $DIC->user();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
+		$lng = $DIC->language();
+		$ilUser = $DIC->user();
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		include_once("./Services/Skill/classes/class.ilSkillSelfEvaluation.php");
@@ -48,7 +73,8 @@ class ilSelfEvaluationTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$this->tpl->setVariable("SE_ID", $a_set["id"]);
 		$this->tpl->setVariable("VAL_CREATED", $a_set["created"]);

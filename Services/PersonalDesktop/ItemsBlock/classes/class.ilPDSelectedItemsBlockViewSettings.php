@@ -6,7 +6,7 @@ require_once 'Services/PersonalDesktop/ItemsBlock/interfaces/interface.ilPDSelec
 /**
  * Class ilPDSelectedItemsBlockViewSettings
  */
-class ilPDSelectedItemsBlockSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConstants
+class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConstants
 {
 	/**
 	 * @var array
@@ -75,7 +75,9 @@ class ilPDSelectedItemsBlockSelectedItemsBlockViewSettings implements ilPDSelect
 	 */
 	public function __construct($actor, $view = self::VIEW_SELECTED_ITEMS)
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC->settings();
 
 		$this->settings = $ilSetting;
 

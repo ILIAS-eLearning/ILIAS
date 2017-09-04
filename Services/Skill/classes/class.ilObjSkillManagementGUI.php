@@ -17,6 +17,21 @@ include_once("./Services/Object/classes/class.ilObjectGUI.php");
  */
 class ilObjSkillManagementGUI extends ilObjectGUI
 {
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
 	protected $skill_tree;
 	
 	/**
@@ -26,7 +41,19 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 	 */
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->error = $DIC["ilErr"];
+		$this->access = $DIC->access();
+		$this->tabs = $DIC->tabs();
+		$this->lng = $DIC->language();
+		$this->settings = $DIC->settings();
+		$this->tpl = $DIC["tpl"];
+		$this->toolbar = $DIC->toolbar();
+		$this->user = $DIC->user();
+		$ilCtrl = $DIC->ctrl();
 
 		$this->type = 'skmg';
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
@@ -47,7 +74,10 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 	 */
 	public function executeCommand()
 	{
-		global $rbacsystem, $ilErr, $ilAccess, $ilTabs;
+		$rbacsystem = $this->rbacsystem;
+		$ilErr = $this->error;
+		$ilAccess = $this->access;
+		$ilTabs = $this->tabs;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -163,7 +193,9 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 	 */
 	public function getAdminTabs()
 	{
-		global $rbacsystem, $ilAccess, $lng;
+		$rbacsystem = $this->rbacsystem;
+		$ilAccess = $this->access;
+		$lng = $this->lng;
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -211,7 +243,10 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 	*/
 	public function editSettings()
 	{
-		global $ilCtrl, $lng, $ilSetting, $ilTabs;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilSetting = $this->settings;
+		$ilTabs = $this->tabs;
 
 		$ilTabs->activateTab("settings");
 
@@ -253,7 +288,8 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 	*/
 	public function saveSettings()
 	{
-		global $ilCtrl, $ilSetting;
+		$ilCtrl = $this->ctrl;
+		$ilSetting = $this->settings;
 
 		if (!$this->checkPermissionBool("write"))
 		{
@@ -275,7 +311,10 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 	 */
 	function editSkills()
 	{
-		global $tpl, $ilTabs, $lng, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$ilTabs->activateTab("skills");
 
@@ -290,7 +329,8 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 	 */
 	function saveAllTitles($a_succ_mess = true)
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		if (is_array($_POST["title"]))
 		{
@@ -317,7 +357,8 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 	 */
 	function saveAllTemplateTitles($a_succ_mess = true)
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		if (is_array($_POST["title"]))
 		{
@@ -387,7 +428,11 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 	 */
 	function deleteNodes($a_gui)
 	{
-		global $lng, $tpl, $ilCtrl, $ilTabs, $ilToolbar;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
+		$ilToolbar = $this->toolbar;
 
 		if(!isset($_POST["id"]))
 		{
@@ -504,7 +549,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 	 */
 	function confirmedDelete()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		// delete all selected objects
 		include_once("./Services/Skill/classes/class.ilSkillTreeNodeFactory.php");
@@ -543,7 +588,10 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 	 */
 	function test()
 	{
-		global $tpl, $lng, $ilCtrl, $ilTabs;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
 
 		$this->setTestSubTabs("test");
 
@@ -607,7 +655,10 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 	 */
 	function testCert()
 	{
-		global $tpl, $lng, $ilCtrl, $ilTabs;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
 
 		$this->setTestSubTabs("cert");
 		$ilTabs->activateTab("test");
@@ -670,7 +721,10 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 	 */
 	function testAllCert()
 	{
-		global $tpl, $lng, $ilCtrl, $ilTabs;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
 
 		$this->setTestSubTabs("all_cert");
 		$ilTabs->activateTab("test");
@@ -718,7 +772,10 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 	 */
 	function testLevels()
 	{
-		global $tpl, $lng, $ilCtrl, $ilTabs;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
 
 		$this->setTestSubTabs("levels");
 		$ilTabs->activateTab("test");
@@ -759,7 +816,8 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 	 */
 	function setTestSubtabs($a_act)
 	{
-		global $ilTabs, $ilCtrl;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
 
 		$ilTabs->addSubtab("test",
 			"getCompletionDateForTriggerRefId",
@@ -790,7 +848,10 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 	 */
 	function editSkillTemplates()
 	{
-		global $tpl, $ilTabs, $lng, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$ilTabs->activateTab("skill_templates");
 		$ilCtrl->setParameterByClass("ilobjskillmanagementgui", "obj_id", $this->skill_tree->getRootId());
@@ -807,7 +868,10 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 	 */
 	function showTree($a_templates, $a_gui = "", $a_gui_cmd = "")
 	{
-		global $ilUser, $tpl, $ilCtrl, $lng;
+		$ilUser = $this->user;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		if ($a_templates)
 		{

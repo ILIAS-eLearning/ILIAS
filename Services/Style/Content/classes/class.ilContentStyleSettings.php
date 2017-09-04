@@ -11,6 +11,11 @@
  */
 class ilContentStyleSettings
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	var $styles = array();
 
 	/**
@@ -18,6 +23,9 @@ class ilContentStyleSettings
 	 */
 	function __construct()
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		$this->read();
 	}
 
@@ -50,7 +58,7 @@ class ilContentStyleSettings
 	 */
 	public function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		// save styles of style folder
 		// note: there are no different style folders in ILIAS, only the one in the settings
@@ -72,7 +80,7 @@ class ilContentStyleSettings
 	 */
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		// get styles of style folder
 		$q = "SELECT * FROM style_folder_styles JOIN style_data ON (style_id = style_data.id)";

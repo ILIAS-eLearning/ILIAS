@@ -23,6 +23,9 @@ class ilObjSkillManagement extends ilObject
 	 */
 	function __construct($a_id = 0,$a_call_by_reference = true)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		$this->type = "skmg";
 		parent::__construct($a_id,$a_call_by_reference);
 	}
@@ -35,7 +38,7 @@ class ilObjSkillManagement extends ilObject
 	*/
 	function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if (!parent::update())
 		{			
@@ -50,7 +53,7 @@ class ilObjSkillManagement extends ilObject
 	*/
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		parent::read();
 

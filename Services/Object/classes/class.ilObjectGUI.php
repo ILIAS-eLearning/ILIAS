@@ -731,9 +731,6 @@ class ilObjectGUI
 	*/
 	public function confirmedDeleteObject()
 	{
-		$ilSetting = $this->settings;
-		$lng = $this->lng;
-		
 		if(isset($_POST["mref_id"]))
 		{
 			$_SESSION["saved_post"] = array_unique(array_merge($_SESSION["saved_post"], $_POST["mref_id"]));

@@ -10,6 +10,16 @@
  */
 class ilTaxMDGUI
 {
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
 	protected $md_rbac_id; // [int]
 	protected $md_obj_id; // [int]
 	protected $md_obj_type; // [string]
@@ -26,6 +36,10 @@ class ilTaxMDGUI
 	public function __construct($a_md_rbac_id, $a_md_obj_id, $a_md_obj_type, $a_ref_id)
 	{
 		global $DIC;
+
+		$this->obj_definition = $DIC["objDefinition"];
+		$this->tree = $DIC->repositoryTree();
+
 
 		$this->tabs = $DIC->tabs();
 		$this->ctrl = $DIC->ctrl();
@@ -126,7 +140,8 @@ class ilTaxMDGUI
 	 */
 	public function getSelectableTaxonomies()
 	{
-		global $objDefinition, $tree;
+		$objDefinition = $this->obj_definition;
+		$tree = $this->tree;
 		
 		if($this->ref_id > 0 && $objDefinition->isRBACObject($this->md_obj_type))
 		{

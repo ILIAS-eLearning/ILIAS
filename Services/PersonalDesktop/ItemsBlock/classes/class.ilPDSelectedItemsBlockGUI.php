@@ -17,10 +17,25 @@ require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 */
 class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandling
 {
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
 	/** @var string */
 	static $block_type = 'pditems';
 
-	/** @var ilPDSelectedItemsBlockSelectedItemsBlockViewSettings */
+	/** @var ilPDSelectedItemsBlockViewSettings */
 	protected $viewSettings;
 
 	/** @var ilPDSelectedItemsBlockViewGUI */
@@ -47,6 +62,10 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	public function __construct()
 	{
 		global $DIC;
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->settings = $DIC->settings();
+		$this->obj_definition = $DIC["objDefinition"];
+		$this->access = $DIC->access();
 
 		parent::__construct();
 
@@ -71,7 +90,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	protected function initViewSettings()
 	{
 		require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockViewSettings.php';
-		$this->viewSettings = new ilPDSelectedItemsBlockSelectedItemsBlockViewSettings($this->user, (int)$_GET['view']);
+		$this->viewSettings = new ilPDSelectedItemsBlockViewSettings($this->user, (int)$_GET['view']);
 		$this->viewSettings->parse();
 
 		require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockViewGUI.php';
@@ -82,7 +101,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	}
 
 	/**
-	 * @return ilPDSelectedItemsBlockSelectedItemsBlockViewSettings
+	 * @return ilPDSelectedItemsBlockViewSettings
 	 */
 	public function getViewSettings()
 	{
@@ -352,7 +371,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	protected function renderGroupedItems(ilTemplate $tpl, array $grouped_items, $show_header = false)
 	{
 		/** @var $rbacsystem ilRbacSystem */
-		global $rbacsystem;
+		$rbacsystem = $this->rbacsystem;
 
 		if(0 == count($grouped_items))
 		{
@@ -512,7 +531,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	function addStandardRow(&$a_tpl, $a_html, $a_item_ref_id = "", $a_item_obj_id = "",
 	$a_image_type = "", $a_related_header = "")
 	{
-		global $ilSetting;
+		$ilSetting = $this->settings;
 		
 		$this->cur_row_type = ($this->cur_row_type == "row_type_1")
 		? "row_type_2"
@@ -606,7 +625,10 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
 	function manageObject()
 	{	
-		global $ilUser, $objDefinition, $ilCtrl, $lng;
+		$ilUser = $this->user;
+		$objDefinition = $this->obj_definition;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$this->manage = true;
 		$this->setAvailableDetailLevels(1, 1);
@@ -645,7 +667,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	
 	public function confirmRemoveObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$ilCtrl->setParameter($this, 'view', $this->viewSettings->getCurrentView());
 		if(!sizeof($_POST["id"]))
@@ -689,7 +711,8 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		
 	public function confirmedRemove()
 	{
-		global $ilCtrl, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 		
 		if(!sizeof($_POST["ref_id"]))
 		{
@@ -710,7 +733,9 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	
 	public function confirmedUnsubscribe()
 	{
-		global $ilCtrl, $ilAccess, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$ilAccess = $this->access;
+		$ilUser = $this->user;
 		
 		if(!sizeof($_POST["ref_id"]))
 		{

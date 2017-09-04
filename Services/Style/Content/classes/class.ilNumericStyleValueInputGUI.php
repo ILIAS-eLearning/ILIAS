@@ -30,6 +30,11 @@
 */
 class ilNumericStyleValueInputGUI extends ilFormPropertyGUI
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	protected $value;
 	protected $allowpercentage = true;
 	
@@ -41,6 +46,10 @@ class ilNumericStyleValueInputGUI extends ilFormPropertyGUI
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("style_numeric");
 		
@@ -93,7 +102,7 @@ class ilNumericStyleValueInputGUI extends ilFormPropertyGUI
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$num_value = $_POST[$this->getPostVar()]["num_value"] = 
 			trim(ilUtil::stripSlashes($_POST[$this->getPostVar()]["num_value"]));
@@ -174,7 +183,7 @@ class ilNumericStyleValueInputGUI extends ilFormPropertyGUI
 	*/
 	function setValueByArray($a_values)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$this->setValue($a_values[$this->getPostVar()]["num_value"].
 			$a_values[$this->getPostVar()]["num_unit"]);

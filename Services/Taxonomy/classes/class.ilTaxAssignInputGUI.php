@@ -24,7 +24,10 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
 	function __construct($a_taxonomy_id, $a_multi = true, $a_title = "", $a_postvar = "",
 		$a_include_please_select = true)
 	{
-		global $lng;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$lng = $DIC->language();
 		
 		$lng->loadLanguageModule("tax");
 		$this->setMulti($a_multi);
@@ -88,7 +91,7 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
 	 */
 	function getOptions()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if ($this->include_please_select)
 		{

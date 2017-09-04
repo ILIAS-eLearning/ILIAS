@@ -18,6 +18,11 @@
 class ilTableGUI
 {
 	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
 	 * @var ilLanguage
 	 */
 	protected $lng;
@@ -91,10 +96,12 @@ class ilTableGUI
 	*/
 	function __construct($a_data = 0,$a_global_tpl = true)
 	{
-		global $ilias, $tpl, $lng;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
+		$lng = $DIC->language();
 
 		$this->global_tpl = $a_global_tpl;
-		$this->ilias = $ilias;
 		$this->header_vars = array();
 		$this->header_params = array();
 		$this->enabled["form"] = true;

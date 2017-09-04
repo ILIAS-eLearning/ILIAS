@@ -14,13 +14,31 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilRepDependenciesTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
 	
 	/**
 	* Constructor
 	*/
 	function __construct($a_deps)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
+		$lng = $DIC->language();
 		
 		parent::__construct(null, "");
 		$lng->loadLanguageModule("rep");
@@ -57,7 +75,7 @@ class ilRepDependenciesTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng;
+		$lng = $this->lng;
 		$this->tpl->setVariable("TXT_DEP_OBJ",
 			$lng->txt("obj_".ilObject::_lookupType($a_set["dep_obj"])).": ".ilObject::_lookupTitle($a_set["dep_obj"]));
 		$this->tpl->setVariable("TXT_DEL_OBJ",

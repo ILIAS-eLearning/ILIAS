@@ -15,12 +15,24 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 class ilTaxAssignedItemsTableGUI extends ilTable2GUI
 {
 	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
 	 * Constructor
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_node_id, $a_tax, $a_comp_id, $a_obj_id, $a_item_type,
 		$a_info_obj)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		$this->setId("tax_ass_it");
 		$this->setLimit(9999);
@@ -72,7 +84,8 @@ class ilTaxAssignedItemsTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$this->tpl->setVariable("ONODE_ID", $a_set["item_id"]);
 		$this->tpl->setVariable("ORDER_NR", (int) $a_set["order_nr"]);

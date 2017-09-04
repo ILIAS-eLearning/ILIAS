@@ -16,6 +16,16 @@ include_once("./Services/Link/classes/class.ilLink.php");
 class ilSkillLevelTableGUI extends ilTable2GUI
 {
 	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
 	 * @var bool
 	 */
 	protected $in_use = false;
@@ -25,7 +35,15 @@ class ilSkillLevelTableGUI extends ilTable2GUI
 	 */
 	function __construct($a_skill_id, $a_parent_obj, $a_parent_cmd, $a_tref_id = 0, $a_in_use = false)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
+		$lng = $DIC->language();
 
 		include_once("./Services/Skill/classes/class.ilBasicSkill.php");
 		$this->skill_id = $a_skill_id;
@@ -117,7 +135,8 @@ class ilSkillLevelTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		if ($this->tref_id == 0 && !$this->in_use)
 		{

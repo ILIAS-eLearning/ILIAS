@@ -97,8 +97,19 @@ class ilPropertyFormGUI extends ilFormGUI
 		$this->lng = $DIC->language();
 		$this->ctrl = $DIC->ctrl();
 		$this->tpl = $DIC["tpl"];
-		$this->user = $DIC->user();
-		$this->settings = $DIC->settings();
+
+		$this->user = null;
+		if (isset($DIC["ilUser"]))
+		{
+			$this->user = $DIC["ilUser"];
+		}
+
+		$this->settings = null;
+		if (isset($DIC["ilSetting"]))
+		{
+			$this->settings = $DIC["ilSetting"];
+		}
+
 		$lng = $DIC->language();
 		
 		$lng->loadLanguageModule("form");

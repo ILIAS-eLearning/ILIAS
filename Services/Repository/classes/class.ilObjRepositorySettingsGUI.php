@@ -14,8 +14,27 @@ include_once("./Services/Object/classes/class.ilObjectGUI.php");
  */
 class ilObjRepositorySettingsGUI extends ilObjectGUI
 {
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{		
+		global $DIC;
+
+		$this->error = $DIC["ilErr"];
+		$this->access = $DIC->access();
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->settings = $DIC->settings();
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->toolbar = $DIC->toolbar();
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
 		$this->type = 'reps';
@@ -25,7 +44,8 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 	
 	public function executeCommand()
 	{
-		global $ilErr, $ilAccess;
+		$ilErr = $this->error;
+		$ilAccess = $this->access;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -55,7 +75,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 	
 	public function getAdminTabs() 
 	{
-		global $rbacsystem;
+		$rbacsystem = $this->rbacsystem;
 		
 		$this->tabs_gui->addTab("settings",
 			$this->lng->txt("settings"),
@@ -91,7 +111,8 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 	
 	protected function initSettingsForm()
 	{				
-		global $ilSetting, $ilAccess;
+		$ilSetting = $this->settings;
+		$ilAccess = $this->access;
 		
 		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
 		$form = new ilPropertyFormGUI();
@@ -236,7 +257,8 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 	
 	public function saveSettings()
 	{
-		global $ilSetting, $ilAccess;
+		$ilSetting = $this->settings;
+		$ilAccess = $this->access;
 		
 		if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
@@ -306,7 +328,8 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 	
 	protected function initCustomIconsForm()
 	{
-		global $ilSetting, $ilAccess;
+		$ilSetting = $this->settings;
+		$ilAccess = $this->access;
 		
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		include_once "Services/Form/classes/class.ilCombinationInputGUI.php";
@@ -329,7 +352,8 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 	
 	public function saveCustomIcons()
 	{
-		global $ilSetting, $ilAccess;
+		$ilSetting = $this->settings;
+		$ilAccess = $this->access;
 		
 		if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
@@ -365,7 +389,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 	
 	protected function listModules()
 	{		
-		global $ilAccess;
+		$ilAccess = $this->access;
 		
 		$this->setModuleSubTabs("list_mods");
 				
@@ -379,7 +403,10 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 	
 	protected function saveModules()
 	{
-		global $ilSetting, $ilCtrl, $lng, $ilAccess;
+		$ilSetting = $this->settings;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilAccess = $this->access;
 		
 		if(!is_array($_POST["obj_grp"]) || 
 			!is_array($_POST["obj_pos"]) ||
@@ -437,7 +464,8 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 	
 	protected function listNewItemGroups()
 	{
-		global $ilToolbar, $ilAccess;
+		$ilToolbar = $this->toolbar;
+		$ilAccess = $this->access;
 		
 		$this->setModuleSubTabs("new_item_groups");
 		
@@ -609,7 +637,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 	
 	protected function saveNewItemGroupOrder()
 	{
-		global $ilSetting;
+		$ilSetting = $this->settings;
 		
 		if(is_array($_POST["grp_order"]))	
 		{
@@ -694,7 +722,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 	
 	public function addToExternalSettingsForm($a_form_id)
 	{				
-		global $ilSetting;
+		$ilSetting = $this->settings;
 		
 		switch($a_form_id)
 		{						

@@ -145,7 +145,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
 	{		
 		$tpl = $this->tpl;
 
-		$ilCtrl = $DIC->ctrl();
+		$ilCtrl = $this->ctrl;
 		
 		$html = array();		
 		foreach($this->providers as $provider)

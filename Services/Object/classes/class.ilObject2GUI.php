@@ -83,6 +83,16 @@ abstract class ilObject2GUI extends ilObjectGUI
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
 
+		// these are things that are initialised in ilObjectGUI constructor now
+		// and may miss here
+		//$this->locator = $DIC["ilLocator"];
+		$this->user = $DIC->user();
+		//$this->access = $DIC->access();
+		//$this->settings = $DIC->settings();
+		//$this->rbacreview = $DIC->rbac()->review();
+		//$this->toolbar = $DIC->toolbar();
+
+
 		$params = array();		
 		switch($this->id_type)
 		{

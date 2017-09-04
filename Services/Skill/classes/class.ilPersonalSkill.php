@@ -21,7 +21,9 @@ class ilPersonalSkill implements ilSkillUsageInfo
 	 */
 	static function getSelectedUserSkills($a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		include_once "Services/Skill/classes/class.ilSkillTreeNode.php";
 		
@@ -51,7 +53,9 @@ class ilPersonalSkill implements ilSkillUsageInfo
 	 */
 	static function addPersonalSkill($a_user_id, $a_skill_node_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT * FROM skl_personal_skill ".
 			" WHERE user_id = ".$ilDB->quote($a_user_id, "integer").
@@ -75,7 +79,9 @@ class ilPersonalSkill implements ilSkillUsageInfo
 	 */
 	static function removeSkill($a_user_id, $a_skill_node_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$ilDB->manipulate("DELETE FROM skl_personal_skill WHERE ".
 			" user_id = ".$ilDB->quote($a_user_id, "integer").
@@ -101,7 +107,9 @@ class ilPersonalSkill implements ilSkillUsageInfo
 	 */
 	static function assignMaterial($a_user_id, $a_top_skill, $a_tref_id, $a_basic_skill, $a_level, $a_wsp_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT * FROM skl_assigned_material ".
 			" WHERE user_id = ".$ilDB->quote($a_user_id, "integer").
@@ -134,7 +142,9 @@ class ilPersonalSkill implements ilSkillUsageInfo
 	 */
 	static function getAssignedMaterial($a_user_id, $a_tref_id, $a_level)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT * FROM skl_assigned_material ".
 			" WHERE level_id = ".$ilDB->quote($a_level, "integer").
@@ -158,7 +168,9 @@ class ilPersonalSkill implements ilSkillUsageInfo
 	 */
 	static function countAssignedMaterial($a_user_id, $a_tref_id, $a_level)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT count(*) as cnt FROM skl_assigned_material ".
 			" WHERE level_id = ".$ilDB->quote($a_level, "integer").
@@ -177,7 +189,9 @@ class ilPersonalSkill implements ilSkillUsageInfo
 	 */
 	static function removeMaterial($a_user_id, $a_tref_id, $a_level_id, $a_wsp_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$t = "DELETE FROM skl_assigned_material WHERE ".
 			" user_id = ".$ilDB->quote($a_user_id, "integer").
@@ -257,7 +271,9 @@ class ilPersonalSkill implements ilSkillUsageInfo
 	 */
 	static public function getUsageInfo($a_cskill_ids, &$a_usages)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		// material
 		include_once("./Services/Skill/classes/class.ilSkillUsage.php");

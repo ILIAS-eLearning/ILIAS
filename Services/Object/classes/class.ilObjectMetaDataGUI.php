@@ -11,6 +11,26 @@
 */
 class ilObjectMetaDataGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
 	protected $object; // [ilObject]
 	protected $ref_id;
 	protected $obj_id; // [int]
@@ -96,7 +116,7 @@ class ilObjectMetaDataGUI
 	
 	public function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd("edit");
@@ -306,7 +326,7 @@ class ilObjectMetaDataGUI
 	
 	public function getTab($a_base_class = null)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		if(!$a_base_class)
 		{
@@ -341,7 +361,9 @@ class ilObjectMetaDataGUI
 
 	public function setSubTabs($a_active)
 	{
-		global $ilTabs, $lng, $ilCtrl;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 				
 		if($this->isLOMAvailable())
 		{
@@ -399,7 +421,8 @@ class ilObjectMetaDataGUI
 	
 	protected function initEditForm()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -424,7 +447,7 @@ class ilObjectMetaDataGUI
 	
 	protected function edit(ilPropertyFormGUI $a_form = null)
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		if(!$a_form)
 		{
@@ -436,7 +459,8 @@ class ilObjectMetaDataGUI
 	
 	protected function update()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$form = $this->initEditForm();
 		if(
@@ -468,7 +492,7 @@ class ilObjectMetaDataGUI
 	
 	public function getBlockHTML(array $a_cmds = null, $a_callback = null)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$html = "";
 		

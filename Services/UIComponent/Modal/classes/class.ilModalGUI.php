@@ -185,7 +185,9 @@ class ilModalGUI
 	 */
 	static function initJS()
 	{
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 		$tpl->addJavascript("./Services/UIComponent/Modal/js/Modal.js");
 	}

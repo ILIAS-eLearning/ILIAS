@@ -30,6 +30,11 @@
 */
 class ilBackgroundPositionInputGUI extends ilFormPropertyGUI
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	protected $value;
 	
 	/**
@@ -40,6 +45,10 @@ class ilBackgroundPositionInputGUI extends ilFormPropertyGUI
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("border_width");
 		$this->dirs = array("horizontal", "vertical");
@@ -135,7 +144,7 @@ class ilBackgroundPositionInputGUI extends ilFormPropertyGUI
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		foreach ($this->dirs as $dir)
 		{
@@ -194,7 +203,7 @@ class ilBackgroundPositionInputGUI extends ilFormPropertyGUI
 	*/
 	function insert(&$a_tpl)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$layout_tpl = new ilTemplate("tpl.prop_hv_layout.html", true, true, "Services/Style/Content");
 		
@@ -280,7 +289,7 @@ class ilBackgroundPositionInputGUI extends ilFormPropertyGUI
 	*/
 	function setValueByArray($a_values)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		if ($a_values[$this->getPostVar()]["horizontal"]["type"] == "predefined")
 		{
