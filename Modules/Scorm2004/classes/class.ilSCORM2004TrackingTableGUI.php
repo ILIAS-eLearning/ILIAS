@@ -33,10 +33,21 @@ include_once("Services/Table/classes/class.ilTable2GUI.php");
 */
 class ilSCORM2004TrackingTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
 
 	function __construct($a_parent_obj, $a_parent_cmd = "")
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
@@ -56,7 +67,9 @@ class ilSCORM2004TrackingTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl, $ilAccess;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilAccess = $this->access;
 		
 		$this->tpl->setVariable("USER_NAME", $a_set["user_full_name"]);
 		$this->tpl->setVariable("USER_ID", $a_set["user_id"]);
