@@ -15,7 +15,7 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
  * @ingroup ingroup ModulesBlog
  */
 class ilBlogDataSet extends ilDataSet
-{	
+{
 	protected $current_blog;
 	
 	static public $style_map = array();
@@ -116,7 +116,7 @@ class ilBlogDataSet extends ilDataSet
 	 */
 	function readData($a_entity, $a_version, $a_ids, $a_field = "")
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if (!is_array($a_ids))
 		{

@@ -11,6 +11,11 @@ include_once './Services/Table/classes/class.ilTable2GUI.php';
  */
 class ilContributorTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilRbacReview
+	 */
+	protected $rbacreview;
+
 	protected $local_roles; // [array]	
 	
 	/**
@@ -22,7 +27,11 @@ class ilContributorTableGUI extends ilTable2GUI
 	 */
 	public function  __construct($a_parent_obj, $a_parent_cmd, array $a_roles)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->rbacreview = $DIC->rbac()->review();
+		$ilCtrl = $DIC->ctrl();
 				
 		$this->local_roles = $a_roles;
 		
@@ -55,7 +64,7 @@ class ilContributorTableGUI extends ilTable2GUI
 
 	protected function getItems()
 	{			
-		global $rbacreview;
+		$rbacreview = $this->rbacreview;
 		
 		$user_map = $assigned = array();		
 		foreach($this->local_roles as $id => $title)

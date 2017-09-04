@@ -87,10 +87,10 @@ abstract class ilObject2GUI extends ilObjectGUI
 		// and may miss here
 		//$this->locator = $DIC["ilLocator"];
 		$this->user = $DIC->user();
-		//$this->access = $DIC->access();
+		$this->access = $DIC->access();
 		//$this->settings = $DIC->settings();
 		//$this->rbacreview = $DIC->rbac()->review();
-		//$this->toolbar = $DIC->toolbar();
+		$this->toolbar = $DIC->toolbar();
 
 
 		$params = array();		

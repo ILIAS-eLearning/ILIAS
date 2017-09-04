@@ -927,10 +927,10 @@ exit;
 	*/
 	function displayLocator()
 	{
-		if(is_object($this->locator))
+		/*if(is_object($this->locator))
 		{
 			$this->locator->display();
-		}
+		}*/
 	}
 
 	/**
