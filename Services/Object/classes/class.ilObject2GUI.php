@@ -68,7 +68,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 		}
 		else
 		{
-			$this->ilErr =& $ilErr;
+			$this->ilErr = $ilErr;
 		}
 
 		$this->id_type = $a_id_type;
