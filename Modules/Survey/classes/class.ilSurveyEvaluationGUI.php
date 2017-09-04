@@ -14,6 +14,36 @@
 */
 class ilSurveyEvaluationGUI
 {	
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
 	const TYPE_XLS = "excel";
 	const TYPE_SPSS = "csv";
 	
@@ -35,7 +65,17 @@ class ilSurveyEvaluationGUI
 */
   function __construct($a_object)
   {
-		global $lng, $tpl, $ilCtrl;
+		global $DIC;
+
+		$this->tabs = $DIC->tabs();
+		$this->access = $DIC->access();
+		$this->user = $DIC->user();
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->tree = $DIC->repositoryTree();
+		$this->toolbar = $DIC->toolbar();
+		$lng = $DIC->language();
+		$tpl = $DIC["tpl"];
+		$ilCtrl = $DIC->ctrl();
 
 		$this->lng = $lng;
 		$this->tpl = $tpl;
@@ -91,8 +131,8 @@ class ilSurveyEvaluationGUI
 	*/
 	function setEvalSubtabs()
 	{
-		global $ilTabs;
-		global $ilAccess;
+		$ilTabs = $this->tabs;
+		$ilAccess = $this->access;
 
 		include_once("./Services/Skill/classes/class.ilSkillManagementSettings.php");
 		$skmg_set = new ilSkillManagementSettings();
@@ -153,7 +193,8 @@ class ilSurveyEvaluationGUI
 	 */
 	function determineAppraiseeId()
 	{
-		global $ilUser, $rbacsystem;
+		$ilUser = $this->user;
+		$rbacsystem = $this->rbacsystem;
 		
 		$appr_id = "";
 		
@@ -208,7 +249,7 @@ class ilSurveyEvaluationGUI
 	*/
 	function checkAnonymizedEvaluationAccess()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		if($this->object->getAnonymize() == 1 && 
 			$_SESSION["anon_evaluation_access"] == $_GET["ref_id"])
@@ -292,7 +333,8 @@ class ilSurveyEvaluationGUI
 	*/
 	function cancelEvaluationAccess()
 	{
-		global $ilCtrl, $tree;
+		$ilCtrl = $this->ctrl;
+		$tree = $this->tree;
 		$path = $tree->getPathFull($this->object->getRefID());
 		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id",
 			$path[count($path) - 2]["child"]);
@@ -677,7 +719,7 @@ class ilSurveyEvaluationGUI
 	
 	protected function buildExportModal($a_id, $a_cmd)
 	{					
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$form_id = "svymdfrm";
 		
@@ -719,7 +761,9 @@ class ilSurveyEvaluationGUI
 	
 	function evaluation($details = 0)
 	{
-		global $rbacsystem, $ilToolbar, $tree, $DIC;
+		$rbacsystem = $this->rbacsystem;
+		$ilToolbar = $this->toolbar;
+		$tree = $this->tree;
 
 		$ui_factory = $DIC->ui()->factory();
 		$ui_renderer = $DIC->ui()->renderer();
@@ -1125,7 +1169,8 @@ class ilSurveyEvaluationGUI
 	 */
 	function addApprSelectionToToolbar()
 	{
-		global $ilToolbar, $rbacsystem;
+		$ilToolbar = $this->toolbar;
+		$rbacsystem = $this->rbacsystem;
 		
 		if($this->object->get360Mode())
 		{
@@ -1401,7 +1446,8 @@ class ilSurveyEvaluationGUI
 	*/
 	function evaluationuser()
 	{
-		global $ilAccess, $ilToolbar;
+		$ilAccess = $this->access;
+		$ilToolbar = $this->toolbar;
 		
 		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
@@ -1529,7 +1575,12 @@ class ilSurveyEvaluationGUI
 	 */
 	function competenceEval()
 	{
-		global $ilUser, $lng, $ilCtrl, $ilToolbar, $tpl, $ilTabs;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilToolbar = $this->toolbar;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
 		
 		$survey = $this->object;
 		
