@@ -22,7 +22,7 @@ class ilPortfolioPageConfig extends ilPageConfig
 	 * @var ilRbacSystem
 	 */
 	protected $rbacsystem;
-	
+
 	/**
 	 * Init
 	 */

@@ -15,12 +15,69 @@ include_once('./Modules/Portfolio/classes/class.ilObjPortfolio.php');
  */
 class ilPortfolioRepositoryGUI 
 {	
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+	/**
+	 * @var ilLocatorGUI
+	 */
+	protected $locator;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
 	protected $user_id; // [int]
 	protected $access_handler; // [ilPortfolioAccessHandler]
 	
 	public function __construct()
 	{
-		global $lng, $ilUser;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$this->ctrl = $DIC->ctrl();
+		$this->tpl = $DIC["tpl"];
+		$this->tabs = $DIC->tabs();
+		$this->help = $DIC["ilHelp"];
+		$this->locator = $DIC["ilLocator"];
+		$this->toolbar = $DIC->toolbar();
+		$this->settings = $DIC->settings();
+		$lng = $DIC->language();
+		$ilUser = $DIC->user();
 
 		$lng->loadLanguageModule("prtf");
 		$lng->loadLanguageModule("user");
@@ -33,7 +90,10 @@ class ilPortfolioRepositoryGUI
 	
 	public function executeCommand()
 	{
-		global $ilCtrl, $lng, $tpl, $ilTabs;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
 
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd("show");
@@ -79,7 +139,10 @@ class ilPortfolioRepositoryGUI
 	
 	public function setTabs()
 	{
-		global $ilTabs, $lng, $ilCtrl, $ilHelp;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilHelp = $this->help;
 		
 		$ilHelp->setScreenIdComponent("prtf");
 		
@@ -94,7 +157,10 @@ class ilPortfolioRepositoryGUI
 
 	protected function setLocator()
 	{
-		global $ilLocator, $lng, $ilCtrl, $tpl;
+		$ilLocator = $this->locator;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
 		
 		$ilLocator->addItem($lng->txt("portfolio"),
 			$ilCtrl->getLinkTarget($this, "show"));
@@ -119,7 +185,10 @@ class ilPortfolioRepositoryGUI
 	
 	protected function show()
 	{
-		global $tpl, $lng, $ilToolbar, $ilCtrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilToolbar = $this->toolbar;
+		$ilCtrl = $this->ctrl;
 		
 		include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
 		$button = ilLinkButton::getInstance();
@@ -137,7 +206,8 @@ class ilPortfolioRepositoryGUI
 		
 	protected function saveTitles()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		foreach($_POST["title"] as $id => $title)
 		{
@@ -168,7 +238,9 @@ class ilPortfolioRepositoryGUI
 	
 	protected function confirmPortfolioDeletion()
 	{
-		global $ilCtrl, $tpl, $lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 
 		if (!is_array($_POST["prtfs"]) || count($_POST["prtfs"]) == 0)
 		{
@@ -195,7 +267,8 @@ class ilPortfolioRepositoryGUI
 
 	protected function deletePortfolios()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		if (is_array($_POST["prtfs"]))
 		{
@@ -223,7 +296,9 @@ class ilPortfolioRepositoryGUI
 	
 	protected function unsetDefault()
 	{
-		global $ilCtrl, $lng, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 
 		if($this->checkAccess("write"))
 		{
@@ -242,7 +317,11 @@ class ilPortfolioRepositoryGUI
 	 */
 	protected function setDefaultConfirmation()
 	{
-		global $ilCtrl, $lng, $tpl, $ilTabs, $ilSetting;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
+		$ilSetting = $this->settings;
 		
 		$prtf_id = (int)$_REQUEST["prt_id"];
 		
@@ -283,7 +362,7 @@ class ilPortfolioRepositoryGUI
 	
 	protected function setDefaultGlobal()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$prtf_id = (int)$_REQUEST["prt_id"];		
 		if($prtf_id && $this->checkAccess("write"))
@@ -296,7 +375,7 @@ class ilPortfolioRepositoryGUI
 	
 	protected function setDefaultRegistered()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$prtf_id = (int)$_REQUEST["prt_id"];		
 		if($prtf_id && $this->checkAccess("write"))
@@ -309,7 +388,9 @@ class ilPortfolioRepositoryGUI
 	
 	protected function setDefault($a_prtf_id)
 	{
-		global $ilCtrl, $lng, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 
 		if($a_prtf_id && $this->checkAccess("write"))
 		{
@@ -346,7 +427,8 @@ class ilPortfolioRepositoryGUI
 	
 	protected function showOther($a_load_data = true)
 	{		
-		global $tpl, $ilTabs;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
 		
 		$ilTabs->activateTab("otpf");
 		

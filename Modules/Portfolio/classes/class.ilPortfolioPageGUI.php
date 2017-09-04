@@ -17,6 +17,16 @@ include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
  */
 class ilPortfolioPageGUI extends ilPageObjectGUI
 {
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
 	const EMBEDDED_NO_OUTPUT = -99;
 	
 	protected $js_onload_code = array();
@@ -30,7 +40,16 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	 */
 	function __construct($a_portfolio_id, $a_id = 0, $a_old_nr = 0, $a_enable_comments = true)
 	{
-		global $tpl;
+		global $DIC;
+
+		$this->tpl = $DIC["tpl"];
+		$this->ctrl = $DIC->ctrl();
+		$this->user = $DIC->user();
+		$this->obj_definition = $DIC["objDefinition"];
+		$this->access = $DIC->access();
+		$this->tree = $DIC->repositoryTree();
+		$this->lng = $DIC->language();
+		$tpl = $DIC["tpl"];
 
 		$this->portfolio_id = (int)$a_portfolio_id;
 		$this->enable_comments = (bool)$a_enable_comments;
@@ -70,7 +89,8 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	 */
 	function executeCommand()
 	{
-		global $ilCtrl, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -122,7 +142,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	 */
 	function showPage()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		if(!$this->getPageObject())
 		{
@@ -299,7 +319,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	
 	protected function renderProfile($a_user_id, $a_type, array $a_fields = null)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$user_id = $this->getPageContentUserId($a_user_id);
 		
@@ -347,7 +367,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	
 	protected function renderVerification($a_user_id, $a_type, $a_id)
 	{
-		global $objDefinition;
+		$objDefinition = $this->obj_definition;
 		
 		// not used 
 		// $user_id = $this->getPageContentUserId($a_user_id);
@@ -420,7 +440,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	
 	protected function renderBlog($a_user_id, $a_blog_id, array $a_posting_ids = null)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 				
 		// not used 
 		// $user_id = $this->getPageContentUserId($a_user_id);
@@ -554,7 +574,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	
 	protected function renderConsultationHours($a_user_id, $a_mode, $a_group_ids)
 	{		
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		if($this->getOutputMode() == "preview")
 		{	
@@ -628,7 +648,9 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	
 	protected function renderMyCourses($a_user_id, $a_default_sorting)
 	{				
-		global $ilAccess, $ilUser, $ilCtrl;
+		$ilAccess = $this->access;
+		$ilUser = $this->user;
+		$ilCtrl = $this->ctrl;
 		
 		if($this->getOutputMode() == "preview")
 		{	
@@ -854,7 +876,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	
 	protected function getCoursesOfUser($a_user_id, $a_add_path = false)
 	{		
-		global $tree;
+		$tree = $this->tree;
 		
 		// see ilPDSelectedItemsBlockGUI
 		
@@ -1059,7 +1081,9 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	 */
 	function makePlaceHoldersClickable($a_html)
 	{
-		global $ilCtrl, $lng, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 
 		$c_pos = 0;
 		$start = strpos($a_html, "{{{{{PlaceHolder#");
