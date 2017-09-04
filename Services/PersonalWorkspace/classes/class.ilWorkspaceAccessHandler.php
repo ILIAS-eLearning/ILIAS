@@ -16,11 +16,44 @@ include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php"
  */
 class ilWorkspaceAccessHandler
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilRbacReview
+	 */
+	protected $rbacreview;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	protected $tree; // [ilTree]
 
 	public function __construct(ilTree $a_tree = null)
 	{
-		global $ilUser, $lng;
+		global $DIC;
+
+		$this->user = $DIC->user();
+		$this->lng = $DIC->language();
+		$this->rbacreview = $DIC->rbac()->review();
+		$this->settings = $DIC->settings();
+		$this->db = $DIC->database();
+		$ilUser = $DIC->user();
+		$lng = $DIC->language();
 
 		$lng->loadLanguageModule("wsp");
 		
@@ -53,7 +86,7 @@ class ilWorkspaceAccessHandler
 	 */
 	public function checkAccess($a_permission, $a_cmd, $a_node_id, $a_type = "")
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		return $this->checkAccessOfUser($this->tree, $ilUser->getId(),$a_permission, $a_cmd, $a_node_id, $a_type);
 	}
@@ -71,7 +104,9 @@ class ilWorkspaceAccessHandler
 	 */
 	public function checkAccessOfUser(ilTree $a_tree, $a_user_id, $a_permission, $a_cmd, $a_node_id, $a_type = "")
 	{
-		global $rbacreview, $ilUser, $ilSetting;
+		$rbacreview = $this->rbacreview;
+		$ilUser = $this->user;
+		$ilSetting = $this->settings;
 
 		// :TODO: create permission for parent node with type ?!
 
@@ -192,7 +227,8 @@ class ilWorkspaceAccessHandler
 	 */
 	public function addPermission($a_node_id, $a_object_id, $a_extended_data = null)
 	{
-		global $ilDB, $ilUser;
+		$ilDB = $this->db;
+		$ilUser = $this->user;
 
 		// tree owner must not be added
 		if($this->tree->getTreeId() == $ilUser->getId() &&
@@ -217,7 +253,7 @@ class ilWorkspaceAccessHandler
 	 */
 	public function removePermission($a_node_id, $a_object_id = null)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$query = "DELETE FROM acl_ws".
 			" WHERE node_id = ".$ilDB->quote($a_node_id, "integer");
@@ -249,7 +285,10 @@ class ilWorkspaceAccessHandler
 	 */
 	public static function _getPermissions($a_node_id)
 	{
-		global $ilDB, $ilSetting;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilSetting = $DIC->settings();
 		
 		$publish_enabled = $ilSetting->get("enable_global_profiles");
 		$publish_perm = array(ilWorkspaceAccessGUI::PERMISSION_ALL, 
@@ -270,7 +309,7 @@ class ilWorkspaceAccessHandler
 	
 	public function hasRegisteredPermission($a_node_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$set = $ilDB->query("SELECT object_id FROM acl_ws".
 			" WHERE node_id = ".$ilDB->quote($a_node_id, "integer").
@@ -280,7 +319,8 @@ class ilWorkspaceAccessHandler
 	
 	public function hasGlobalPermission($a_node_id)
 	{
-		global $ilDB, $ilSetting;
+		$ilDB = $this->db;
+		$ilSetting = $this->settings;
 		
 		if(!$ilSetting->get("enable_global_profiles"))
 		{
@@ -295,7 +335,8 @@ class ilWorkspaceAccessHandler
 	
 	public function hasGlobalPasswordPermission($a_node_id)
 	{
-		global $ilDB, $ilSetting;
+		$ilDB = $this->db;
+		$ilSetting = $this->settings;
 		
 		if(!$ilSetting->get("enable_global_profiles"))
 		{
@@ -310,7 +351,10 @@ class ilWorkspaceAccessHandler
 	
 	public static function getPossibleSharedTargets()
 	{
-		global $ilUser, $ilSetting;
+		global $DIC;
+
+		$ilUser = $DIC->user();
+		$ilSetting = $DIC->settings();
 		
 		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php";
 		include_once "Services/Membership/classes/class.ilParticipants.php";
@@ -332,7 +376,8 @@ class ilWorkspaceAccessHandler
 	
 	public function getSharedOwners()
 	{
-		global $ilUser, $ilDB;
+		$ilUser = $this->user;
+		$ilDB = $this->db;
 		
 		$obj_ids = $this->getPossibleSharedTargets();
 		
@@ -360,7 +405,7 @@ class ilWorkspaceAccessHandler
 	
 	public function getSharedObjects($a_owner_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$obj_ids = $this->getPossibleSharedTargets();
 		
@@ -382,7 +427,8 @@ class ilWorkspaceAccessHandler
 	
 	public function findSharedObjects(array $a_filter = null, array $a_crs_ids = null, array $a_grp_ids = null)
 	{
-		global $ilDB, $ilUser;
+		$ilDB = $this->db;
+		$ilUser = $this->user;
 		
 		if(!$a_filter["acl_type"])
 		{
@@ -499,7 +545,9 @@ class ilWorkspaceAccessHandler
 	
 	public static function getSharedNodePassword($a_node_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php";
 		
@@ -531,7 +579,8 @@ class ilWorkspaceAccessHandler
 	
 	public function getObjectsIShare()
 	{
-		global $ilDB, $ilUser;
+		$ilDB = $this->db;
+		$ilUser = $this->user;
 		
 		$res = array();
 		$set = $ilDB->query("SELECT ref.wsp_id,obj.obj_id".
@@ -550,7 +599,9 @@ class ilWorkspaceAccessHandler
 		
 	public static function getObjectDataFromNode($a_node_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT obj.obj_id, obj.type, obj.title".
 			" FROM object_reference_ws ref".
