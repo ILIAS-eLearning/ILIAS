@@ -16,6 +16,21 @@ include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
 */
 class ilUsersOnlineBlockGUI extends ilBlockGUI
 {
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
 	static $block_type = "pdusers";
 	
 	/**
@@ -23,7 +38,18 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 	*/
 	function __construct()
 	{
-		global $ilCtrl, $lng, $ilUser;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$this->tpl = $DIC["tpl"];
+		$this->settings = $DIC->settings();
+		$this->db = $DIC->database();
+		$this->rbacsystem = $DIC->rbac()->system();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilUser = $DIC->user();
 		
 		parent::__construct();
 		
@@ -60,7 +86,9 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 	*/
 	static function getScreenMode()
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC->ctrl();
 
 		if ($ilCtrl->getCmdClass() == "ilpublicuserprofilegui")
 		{
@@ -84,7 +112,8 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl, $tpl;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
 
 		$next_class = $ilCtrl->getNextClass();
 		$cmd = $ilCtrl->getCmd("getHTML");
@@ -106,7 +135,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 
 	function getHTML()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$this->users_online_pref = $ilUser->getPref("show_users_online");
 		
@@ -132,7 +161,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 	*/
 	function getUsers()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		if ($this->users_online_pref == "associated")
 		{
@@ -175,7 +204,9 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 	*/
 	function fillDataSection()
 	{
-		global $ilUser, $ilSetting, $ilCtrl;
+		$ilUser = $this->user;
+		$ilSetting = $this->settings;
+		$ilCtrl = $this->ctrl;
 		
 		$pd_set = new ilSetting("pd");
 		
@@ -204,7 +235,11 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 	*/
 	function getListRowData()
 	{
-		global $ilUser, $lng, $ilCtrl, $ilDB, $rbacsystem;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilDB = $this->db;
+		$rbacsystem = $this->rbacsystem;
 
 		$data = array();
 		
@@ -235,7 +270,11 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 	*/
 	function fillRow($a_set)
 	{
-		global $ilUser, $ilCtrl, $lng, $ilSetting, $rbacsetting, $rbacsystem;
+		$ilUser = $this->user;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilSetting = $this->settings;
+		$rbacsystem = $this->rbacsystem;
 		
 		// mail link
 		$a_set["mail_to"] = "";
@@ -270,7 +309,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 					$this->__showChatInvitation($a_set["id"]);
 				}
 				
-				global $rbacsystem;
+		$rbacsystem = $this->rbacsystem;
 				
 				include_once './Modules/Chatroom/classes/class.ilObjChatroom.php';
 				if($a_set["id"] == $ilUser->getId() &&
@@ -355,7 +394,9 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 	*/
 	function getOverview()
 	{
-		global $ilUser, $lng, $ilCtrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		// parse visitors text
 		if (empty($this->visitors) || $this->users_online_pref == "associated")
@@ -400,7 +441,8 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 
 	function __showActiveChatsOfUser($a_usr_id)
 	{
-		global $rbacsystem, $lng;
+		$rbacsystem = $this->rbacsystem;
+		$lng = $this->lng;
 		
 		// show chat info
 		/*
@@ -423,7 +465,9 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 	
 	function __showChatInvitation($a_usr_id)
 	{
-		global $rbacsystem,$ilUser,$lng;
+		$rbacsystem = $this->rbacsystem;
+		$ilUser = $this->user;
+		$lng = $this->lng;
 		
 		include_once './Modules/Chatroom/classes/class.ilObjChatroom.php';
 		

@@ -38,7 +38,14 @@ class ilPDContentBlockGUI extends ilBlockGUI
 	*/
 	function __construct()
 	{
-		global $ilCtrl, $lng, $ilUser;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilUser = $DIC->user();
 		
 		parent::__construct();
 		
@@ -110,7 +117,7 @@ class ilPDContentBlockGUI extends ilBlockGUI
 	*/
 	function fillDataSection()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$this->tpl->setVariable("BLOCK_ROW", $this->getContent());
 	}
@@ -121,7 +128,8 @@ class ilPDContentBlockGUI extends ilBlockGUI
 	function fillFooter()
 	{
 		//$this->fillFooterLinks();
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$footer = false;
 		

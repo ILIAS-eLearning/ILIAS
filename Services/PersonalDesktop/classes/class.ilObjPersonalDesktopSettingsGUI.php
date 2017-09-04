@@ -16,6 +16,16 @@ require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItem
 */
 class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 {
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
     private static $ERROR_MESSAGE;
 
 	/**
@@ -29,7 +39,15 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 	 */
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
-		global $lng;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->error = $DIC["ilErr"];
+		$this->access = $DIC->access();
+		$this->ctrl = $DIC->ctrl();
+		$this->settings = $DIC->settings();
+		$lng = $DIC->language();
 		
 		$this->type = 'pdts';
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
@@ -47,7 +65,9 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 	 */
 	public function executeCommand()
 	{
-		global $rbacsystem,$ilErr,$ilAccess;
+		$rbacsystem = $this->rbacsystem;
+		$ilErr = $this->error;
+		$ilAccess = $this->access;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -88,7 +108,8 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 	 */
 	public function getAdminTabs()
 	{
-		global $rbacsystem, $ilAccess;
+		$rbacsystem = $this->rbacsystem;
+		$ilAccess = $this->access;
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -114,7 +135,10 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 	*/
 	public function editSettings()
 	{
-		global $ilCtrl, $lng, $ilSetting, $ilAccess;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilSetting = $this->settings;
+		$ilAccess = $this->access;
 		
 		$pd_set = new ilSetting("pd");
 		
@@ -273,7 +297,9 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 	*/
 	public function saveSettings()
 	{
-		global $ilCtrl, $ilSetting, $ilAccess;
+		$ilCtrl = $this->ctrl;
+		$ilSetting = $this->settings;
+		$ilAccess = $this->access;
 		
 		if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
@@ -339,7 +365,10 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 	*/
 	public function editWsp()
 	{
-		global $ilCtrl, $lng, $ilSetting, $ilAccess;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilSetting = $this->settings;
+		$ilAccess = $this->access;
 		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -420,7 +449,9 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 	 */
 	public function saveWsp()
 	{
-		global $ilCtrl, $ilSetting, $ilAccess;
+		$ilCtrl = $this->ctrl;
+		$ilSetting = $this->settings;
+		$ilAccess = $this->access;
 		
 		if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
