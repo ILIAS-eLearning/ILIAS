@@ -9,6 +9,11 @@
 */
 class ilScorm2004Export
 {
+	/**
+	 * @var Logger
+	 */
+	protected $log;
+
 	private $err;			// error object
 	private $db;			// database object
 	private $cont_obj;		// content object (learning module or sco)
@@ -30,7 +35,13 @@ class ilScorm2004Export
 	*/
 	function __construct(&$a_cont_obj, $a_mode = "SCORM 2004 3rd")
 	{
-		global $ilErr, $ilDB, $ilSetting;
+		global $DIC;
+
+		$this->settings = $DIC->settings();
+		$this->log = $DIC["ilLog"];
+		$ilErr = $DIC["ilErr"];
+		$ilDB = $DIC->database();
+		$ilSetting = $DIC->settings();
 
 		$this->export_types = array("SCORM 2004 3rd","SCORM 2004 4th","SCORM 1.2","HTML","ISO","PDF",
 			"HTMLOne");
@@ -331,7 +342,7 @@ class ilScorm2004Export
 
 		fputs(fopen($this->export_dir."/".$this->subdir.'/temp.fo','w+'),$fo_string);
 
-		global $ilLog;
+		$ilLog = $this->log;
 		include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
 		try
 		{
@@ -354,7 +365,7 @@ class ilScorm2004Export
 	
 	function createExportDirectory()
 	{
-		global $ilErr;
+		$ilErr = $this->err;
 
 		$lm_data_dir = ilUtil::getDataDir()."/lm_data";
 		if(!is_writable($lm_data_dir))

@@ -45,9 +45,12 @@ class ilSCORM2004ExportTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd, $confirmdelete = false)
 	{
+		global $DIC;
+
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
-		global $lng, $ilCtrl;
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
 
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
@@ -108,7 +111,8 @@ class ilSCORM2004ExportTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($data)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		if (!$this->confirmdelete)
 		{

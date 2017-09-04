@@ -84,7 +84,7 @@ class ilSCORM2004Page extends ilPageObject
 	*/
 	function create()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// maybe we need an additional table here?
 		
@@ -117,7 +117,7 @@ class ilSCORM2004Page extends ilPageObject
 	*/
 	function update($a_validate = true, $a_no_history = false)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		// maybe we need an additional table here?
 		
@@ -131,7 +131,7 @@ class ilSCORM2004Page extends ilPageObject
 	*/
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// maybe we need an additional table here?
 		
@@ -147,7 +147,7 @@ class ilSCORM2004Page extends ilPageObject
 	*/
 	function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// maybe we need an additional table here?
 		
