@@ -29,7 +29,7 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
     private static $ERROR_MESSAGE;
 
 	/**
-	 * @var ilPDSelectedItemsBlockSelectedItemsBlockViewSettings
+	 * @var ilPDSelectedItemsBlockViewSettings
 	 */
 	protected $viewSettings; 
 	/**
@@ -54,7 +54,7 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 
 		$lng->loadLanguageModule("pd");
 
-		$this->viewSettings = new ilPDSelectedItemsBlockSelectedItemsBlockViewSettings($GLOBALS['DIC']->user());
+		$this->viewSettings = new ilPDSelectedItemsBlockViewSettings($GLOBALS['DIC']->user());
 	}
 
 	/**

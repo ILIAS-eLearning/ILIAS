@@ -35,7 +35,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	/** @var string */
 	static $block_type = 'pditems';
 
-	/** @var ilPDSelectedItemsBlockSelectedItemsBlockViewSettings */
+	/** @var ilPDSelectedItemsBlockViewSettings */
 	protected $viewSettings;
 
 	/** @var ilPDSelectedItemsBlockViewGUI */
@@ -90,7 +90,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	protected function initViewSettings()
 	{
 		require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockViewSettings.php';
-		$this->viewSettings = new ilPDSelectedItemsBlockSelectedItemsBlockViewSettings($this->user, (int)$_GET['view']);
+		$this->viewSettings = new ilPDSelectedItemsBlockViewSettings($this->user, (int)$_GET['view']);
 		$this->viewSettings->parse();
 
 		require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockViewGUI.php';
@@ -101,7 +101,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	}
 
 	/**
-	 * @return ilPDSelectedItemsBlockSelectedItemsBlockViewSettings
+	 * @return ilPDSelectedItemsBlockViewSettings
 	 */
 	public function getViewSettings()
 	{

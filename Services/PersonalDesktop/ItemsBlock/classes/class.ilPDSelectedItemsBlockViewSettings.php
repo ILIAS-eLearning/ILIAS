@@ -6,7 +6,7 @@ require_once 'Services/PersonalDesktop/ItemsBlock/interfaces/interface.ilPDSelec
 /**
  * Class ilPDSelectedItemsBlockViewSettings
  */
-class ilPDSelectedItemsBlockSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConstants
+class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConstants
 {
 	/**
 	 * @var array
