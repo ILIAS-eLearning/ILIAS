@@ -11,6 +11,21 @@ require_once 'Services/Repository/classes/class.ilRepositoryExplorer.php';
 */
 class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
 	const SEL_TYPE_CHECK = 1;
 	const SEL_TYPE_RADIO = 2;
 	
@@ -32,7 +47,13 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
 	*/
 	public function __construct($a_type, $a_target, $a_session_variable)
 	{
-		global $tree, $ilCtrl;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->error = $DIC["ilErr"];
+		$this->access = $DIC->access();
+		$tree = $DIC->repositoryTree();
+		$ilCtrl = $DIC->ctrl();
 
 		$this->setId("cont_paste_explorer");
 		
@@ -158,7 +179,8 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
 	
 	function formatObject($tpl, $a_node_id, $a_option, $a_obj_id = 0)
 	{		
-		global $lng, $ilErr;
+		$lng = $this->lng;
+		$ilErr = $this->error;
 		
 		if (!isset($a_node_id) or !is_array($a_option))
 		{
@@ -283,7 +305,8 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
 	*/
 	function formatHeader($tpl, $a_obj_id,$a_option)
 	{
-		global $lng, $tree;
+		$lng = $this->lng;
+		$tree = $this->tree;
 
 		// custom icons
 		$path = ilObject::_getIcon($a_obj_id, "tiny", "root");
@@ -313,7 +336,7 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
 	
 	function showChilds($a_ref_id,$a_obj_id = 0)
 	{
-		global $ilAccess;
+		$ilAccess = $this->access;
 
 		if ($a_ref_id == 0)
 		{
