@@ -21,7 +21,12 @@ class ilExGradesTableGUI extends ilTable2GUI
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd, $a_exc, $a_mem_obj)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		$this->exc = $a_exc;
 		$this->exc_id = $this->exc->getId();
@@ -117,7 +122,8 @@ class ilExGradesTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($d)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$user_id = $d["user_id"];
 		
