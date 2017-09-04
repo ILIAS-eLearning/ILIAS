@@ -44,7 +44,9 @@ class ilSurveyExport
 	*/
 	function __construct($a_survey_obj, $a_mode = "xml")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$this->survey_obj = $a_survey_obj;
 	

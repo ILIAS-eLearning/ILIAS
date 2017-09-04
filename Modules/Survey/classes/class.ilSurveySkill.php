@@ -11,6 +11,11 @@
  */
 class ilSurveySkill
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	protected $q_skill = array();	// key: question id, value:
 									// array("base_skill_id" =>..., "tref_id" =>... )
 	/**
@@ -26,6 +31,9 @@ class ilSurveySkill
 	 */
 	function __construct(ilObjSurvey $a_survey)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		$this->survey = $a_survey;
 		$this->read();
 		$this->log = ilLoggerFactory::getLogger("svy");
@@ -39,7 +47,7 @@ class ilSurveySkill
 	 */
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$set = $ilDB->query("SELECT * FROM svy_quest_skill ".
 			" WHERE survey_id = ".$ilDB->quote($this->survey->getId(), "integer")
@@ -103,7 +111,7 @@ class ilSurveySkill
 	 */
 	function addQuestionSkillAssignment($a_question_id, $a_base_skill_id, $a_tref_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$ilDB->replace("svy_quest_skill",
 			array("q_id" => array("integer", $a_question_id)),
@@ -130,7 +138,7 @@ class ilSurveySkill
 	 */
 	function removeQuestionSkillAssignment($a_question_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// read skills that are assigned to the quesiton
 		$set = $ilDB->query("SELECT * FROM svy_quest_skill ".
@@ -159,7 +167,9 @@ class ilSurveySkill
 	 */
 	static function handleQuestionDeletion($a_question_id, $a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		if (ilObject::_lookupType($a_obj_id) == "svy")
 		{
 			// mantis 11691
@@ -209,7 +219,7 @@ class ilSurveySkill
 	 */
 	function isSkillAssignedToQuestion($a_skill_id, $a_tref_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$set = $ilDB->query("SELECT * FROM svy_quest_skill ".
 			" WHERE base_skill_id = ".$ilDB->quote($a_skill_id, "integer").
