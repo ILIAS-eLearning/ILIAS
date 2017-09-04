@@ -462,11 +462,11 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*/
 	function pastePage()
 	{
-		global $ilUser;
+		global $ilUser, $ilErr;
 		
 		if (!$ilUser->clipboardHasObjectsOfType("pg"))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_page_in_clipboard"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("no_page_in_clipboard"), $ilErr->MESSAGE);
 		}
 
 		return $this->insertPageClip();

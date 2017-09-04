@@ -21,12 +21,6 @@ include_once ("./Modules/LearningModule/classes/class.ilEditClipboard.php");
 */
 class ilLMEditorGUI
 {
-	/**
-	* ilias object
-	* @var object ilias
-	* @access public
-	*/
-	var $ilias;
 	var $tpl;
 	var $lng;
 	var $objDefinition;
@@ -42,8 +36,8 @@ class ilLMEditorGUI
 	*/
 	function __construct()
 	{
-		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl,
-			$rbacsystem, $ilNavigationHistory;
+		global $tpl, $lng, $objDefinition, $ilCtrl,
+			$rbacsystem, $ilNavigationHistory, $ilErr;
 		
 		// init module (could be done in ilctrl)
 		//define("ILIAS_MODULE", "content");
@@ -52,7 +46,7 @@ class ilLMEditorGUI
 		// check write permission
 		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
 		{
-			$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($lng->txt("permission_denied"), $ilErr->MESSAGE);
 		}
 
 
@@ -62,14 +56,13 @@ class ilLMEditorGUI
 		$this->ctrl->saveParameter($this, array("ref_id", "transl"));
 
 		// initiate variables
-		$this->ilias = $ilias;
 		$this->tpl = $tpl;
 		$this->lng = $lng;
 		$this->objDefinition = $objDefinition;
 		$this->ref_id = $_GET["ref_id"];
 		$this->obj_id = $_GET["obj_id"];
 
-		$this->lm_obj = $this->ilias->obj_factory->getInstanceByRefId($this->ref_id);
+		$this->lm_obj = ilObjectFactory::getInstanceByRefId($this->ref_id);
 		$this->tree = new ilTree($this->lm_obj->getId());
 		$this->tree->setTableNames('lm_tree','lm_data');
 		$this->tree->setTreeTablePK("lm_id");

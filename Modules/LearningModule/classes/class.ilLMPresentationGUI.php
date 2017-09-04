@@ -22,7 +22,6 @@ require_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 */
 class ilLMPresentationGUI
 {
-	var $ilias;
 	var $lm;
 	var $tpl;
 	var $lng;
@@ -35,7 +34,7 @@ class ilLMPresentationGUI
 
 	function __construct()
 	{
-		global $ilUser, $lng, $tpl, $rbacsystem, $ilCtrl, $ilAccess;
+		global $ilUser, $lng, $tpl, $rbacsystem, $ilCtrl, $ilErr;
 
 		// load language vars
 		$lng->loadLanguageModule("content");
@@ -80,7 +79,7 @@ class ilLMPresentationGUI
 		{
 			if (!$this->lm->getOnline())
 			{
-				$ilias->raiseError($lng->txt("permission_denied"), $ilias->error_obj->WARNING);
+				$ilErr->raiseError($lng->txt("permission_denied"), $ilErr->WARNING);
 			}
 		}
 		
@@ -103,7 +102,7 @@ class ilLMPresentationGUI
 	*/
 	function executeCommand()
 	{
-		global $ilNavigationHistory, $ilAccess, $ilias, $lng, $ilCtrl, $ilUser;
+		global $ilNavigationHistory, $ilAccess, $lng, $ilCtrl, $ilUser;
 
 		// check read permission and parent conditions
 		// todo: replace all this by ilAccess call
@@ -111,7 +110,7 @@ class ilLMPresentationGUI
 			(!(($this->ctrl->getCmd() == "infoScreen" || $this->ctrl->getNextClass() == "ilinfoscreengui")
 			&& $ilAccess->checkAccess("visible", "", $_GET["ref_id"]))))
 		{
-			$ilias->raiseError($lng->txt("permission_denied"), $ilias->error_obj->WARNING);
+			$ilErr->raiseError($lng->txt("permission_denied"), $ilErr->WARNING);
 		}
 		
 		$next_class = $this->ctrl->getNextClass($this);

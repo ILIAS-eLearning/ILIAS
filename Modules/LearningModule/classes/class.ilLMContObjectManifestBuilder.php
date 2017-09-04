@@ -16,7 +16,6 @@ require_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 class ilLMContObjectManifestBuilder
 {
 	var $db;			// database object
-	var $ilias;			// ilias object
 	var $cont_obj;		// content object (learning module | digilib book)
 	var $inst_id;		// installation id
 
@@ -24,13 +23,12 @@ class ilLMContObjectManifestBuilder
 	* Constructor
 	* @access	public
 	*/
-	function __construct(&$a_cont_obj)
+	function __construct($a_cont_obj)
 	{
-		global $ilDB, $ilias;
+		global $ilDB;
 
 		$this->cont_obj = $a_cont_obj;
 
-		$this->ilias = $ilias;
 		$this->db = $ilDB;
 
 		$this->inst_id = IL_INST_ID;

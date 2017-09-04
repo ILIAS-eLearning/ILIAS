@@ -16,7 +16,6 @@ require_once("Services/MetaData/classes/class.ilMDLanguageItem.php");
 */
 class ilLMObject
 {
-	var $ilias;
 	var $lm_id;
 	var $type;
 	var $id;
@@ -198,9 +197,7 @@ class ilLMObject
 
 	function read()
 	{
-		global $ilBench, $ilDB;
-
-		$ilBench->start("ContentPresentation", "ilLMObject_read");
+		global $ilDB;
 
 		if(!isset($this->data_record))
 		{
@@ -215,9 +212,6 @@ class ilLMObject
 		$this->setTitle($this->data_record["title"]);
 		$this->setShortTitle($this->data_record["short_title"]);
 		$this->setLayout($this->data_record["layout"]);
-		//$this->setActive(ilUtil::yn2tf($this->data_record["active"]));
-
-		$ilBench->stop("ContentPresentation", "ilLMObject_read");
 	}
 
 
@@ -979,14 +973,14 @@ class ilLMObject
 	static function pasteTree($a_target_lm, $a_item_id, $a_parent_id, $a_target, $a_insert_time,
 		&$a_copied_nodes, $a_as_copy = false, $a_source_lm = null)
 	{
-		global $ilUser, $ilias, $ilLog;
+		global $ilUser, $ilLog;
 		
 		include_once("./Modules/LearningModule/classes/class.ilStructureObject.php");
 		include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
 		
 		$item_lm_id = ilLMObject::_lookupContObjID($a_item_id);
 		$item_type = ilLMObject::_lookupType($a_item_id);
-		$lm_obj = $ilias->obj_factory->getInstanceByObjId($item_lm_id);
+		$lm_obj = ilObjectFactory::getInstanceByObjId($item_lm_id);
 		if ($item_type == "st")
 		{
 			$item = new ilStructureObject($lm_obj, $a_item_id);

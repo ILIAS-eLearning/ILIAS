@@ -15,7 +15,6 @@
 */
 class ilLMObjectGUI
 {
-	var $ilias;
 	var $tpl;
 	var $lng;
 	var $obj;
@@ -31,9 +30,8 @@ class ilLMObjectGUI
 	*/
 	function __construct(&$a_content_obj)
 	{
-		global $ilias, $tpl, $lng, $ilCtrl;
+		global $tpl, $lng, $ilCtrl;
 
-		$this->ilias = $ilias;
 		$this->tpl = $tpl;
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;

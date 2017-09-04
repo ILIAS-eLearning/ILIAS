@@ -454,11 +454,13 @@ class ilObjContentObject extends ilObject
 	*/
 	function createImportDirectory()
 	{
+		global $ilErr;
+
 		$lm_data_dir = ilUtil::getDataDir()."/lm_data";
 		if(!is_writable($lm_data_dir))
 		{
-			$this->ilias->raiseError("Content object Data Directory (".$lm_data_dir
-				.") not writeable.",$this->ilias->error_obj->FATAL);
+			$ilErr->raiseError("Content object Data Directory (".$lm_data_dir
+				.") not writeable.", $ilErr->FATAL);
 		}
 
 		// create learning module directory (data_dir/lm_data/lm_<id>)
@@ -466,7 +468,7 @@ class ilObjContentObject extends ilObject
 		ilUtil::makeDir($lm_dir);
 		if(!@is_dir($lm_dir))
 		{
-			$this->ilias->raiseError("Creation of Learning Module Directory failed.",$this->ilias->error_obj->FATAL);
+			$ilErr->raiseError("Creation of Learning Module Directory failed.", $ilErr->FATAL);
 		}
 
 		// create import subdirectory (data_dir/lm_data/lm_<id>/import)
@@ -474,7 +476,7 @@ class ilObjContentObject extends ilObject
 		ilUtil::makeDir($import_dir);
 		if(!@is_dir($import_dir))
 		{
-			$this->ilias->raiseError("Creation of Import Directory failed.",$this->ilias->error_obj->FATAL);
+			$ilErr->raiseError("Creation of Import Directory failed.", $ilErr->FATAL);
 		}
 	}
 
@@ -528,18 +530,20 @@ class ilObjContentObject extends ilObject
 	*/
 	function createExportDirectory($a_type = "xml")
 	{
+		global $ilErr;
+
 		$lm_data_dir = ilUtil::getDataDir()."/lm_data";
 		if(!is_writable($lm_data_dir))
 		{
-			$this->ilias->raiseError("Content object Data Directory (".$lm_data_dir
-				.") not writeable.",$this->ilias->error_obj->FATAL);
+			$ilErr->raiseError("Content object Data Directory (".$lm_data_dir
+				.") not writeable.", $ilErr->FATAL);
 		}
 		// create learning module directory (data_dir/lm_data/lm_<id>)
 		$lm_dir = $lm_data_dir."/lm_".$this->getId();
 		ilUtil::makeDir($lm_dir);
 		if(!@is_dir($lm_dir))
 		{
-			$this->ilias->raiseError("Creation of Learning Module Directory failed.",$this->ilias->error_obj->FATAL);
+			$ilErr->raiseError("Creation of Learning Module Directory failed.", $ilErr->FATAL);
 		}
 		// create Export subdirectory (data_dir/lm_data/lm_<id>/Export)
 		switch ($a_type)
@@ -564,7 +568,7 @@ class ilObjContentObject extends ilObject
 
 		if(!@is_dir($export_dir))
 		{
-			$this->ilias->raiseError("Creation of Export Directory failed.",$this->ilias->error_obj->FATAL);
+			$ilErr->raiseError("Creation of Export Directory failed.", $ilErr->FATAL);
 		}
 	}
 
@@ -607,8 +611,6 @@ class ilObjContentObject extends ilObject
 	function delete()
 	{
 		global $ilDB;
-
-		global $ilBench;
 
 		// always call parent delete function first!!
 		if (!parent::delete())
@@ -739,7 +741,7 @@ class ilObjContentObject extends ilObject
 	*/
 	static function _moveLMStyles($a_from_style, $a_to_style)
 	{
-		global $ilDB, $ilias;
+		global $ilDB;
 
 		if ($a_from_style < 0)	// change / delete all individual styles
 		{
@@ -757,7 +759,7 @@ class ilObjContentObject extends ilObject
 				$ilDB->manipulate($q);
 				
 				// delete style
-				$style_obj = $ilias->obj_factory->getInstanceByObjId($style_rec["stylesheet"]);
+				$style_obj = ilObjectFactory::getInstanceByObjId($style_rec["stylesheet"]);
 				$style_obj->delete();
 			}
 		}
@@ -1563,8 +1565,6 @@ class ilObjContentObject extends ilObject
 	*/
 	function exportXML(&$a_xml_writer, $a_inst, $a_target_dir, &$expLog)
 	{
-		global $ilBench;
-
 		$attrs = array();
 		switch($this->getType())
 		{
@@ -1580,30 +1580,22 @@ class ilObjContentObject extends ilObject
 		// StructureObjects
 //echo "ContObj:".$a_inst.":<br>";
 		$expLog->write(date("[y-m-d H:i:s] ")."Start Export Structure Objects");
-		$ilBench->start("ContentObjectExport", "exportStructureObjects");
 		$this->exportXMLStructureObjects($a_xml_writer, $a_inst, $expLog);
-		$ilBench->stop("ContentObjectExport", "exportStructureObjects");
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export Structure Objects");
 
 		// PageObjects
 		$expLog->write(date("[y-m-d H:i:s] ")."Start Export Page Objects");
-		$ilBench->start("ContentObjectExport", "exportPageObjects");
 		$this->exportXMLPageObjects($a_xml_writer, $a_inst, $expLog);
-		$ilBench->stop("ContentObjectExport", "exportPageObjects");
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export Page Objects");
 
 		// MediaObjects
 		$expLog->write(date("[y-m-d H:i:s] ")."Start Export Media Objects");
-		$ilBench->start("ContentObjectExport", "exportMediaObjects");
 		$this->exportXMLMediaObjects($a_xml_writer, $a_inst, $a_target_dir, $expLog);
-		$ilBench->stop("ContentObjectExport", "exportMediaObjects");
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export Media Objects");
 
 		// FileItems
 		$expLog->write(date("[y-m-d H:i:s] ")."Start Export File Items");
-		$ilBench->start("ContentObjectExport", "exportFileItems");
 		$this->exportFileItems($a_target_dir, $expLog);
-		$ilBench->stop("ContentObjectExport", "exportFileItems");
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export File Items");
 
 		// Questions
@@ -1673,8 +1665,6 @@ class ilObjContentObject extends ilObject
 	*/
 	function exportXMLPageObjects(&$a_xml_writer, $a_inst, &$expLog)
 	{
-		global $ilBench;
-
 		include_once "./Modules/LearningModule/classes/class.ilLMPageObject.php";
 		include_once "./Modules/LearningModule/classes/class.ilLMPage.php";
 
@@ -2048,7 +2038,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function exportHTML($a_target_dir, $log, $a_zip_file = true, $a_export_format = "html", $a_lang = "")
 	{
-		global $tpl, $ilBench, $ilLocator, $ilUser, $ilObjDataCache, $ilias;
+		global $tpl, $ilLocator, $ilUser;
 
 		$user_lang = $ilUser->getLanguage();
 
@@ -2097,7 +2087,6 @@ class ilObjContentObject extends ilObject
 		$location_stylesheet = ilUtil::getStyleSheetLocation();
 		
 		// export content style sheet
-		$ilBench->start("ExportHTML", "exportContentStyle");
 		if ($this->getStyleSheetId() < 1)
 		{
 			$cont_stylesheet = "./Services/COPage/css/content.css";
@@ -2120,8 +2109,7 @@ class ilObjContentObject extends ilObject
 			$style->writeCSSFile($content_style_dir."/content.css", "images");
 			$style->copyImagesToDir($content_style_img_dir);
 		}
-		$ilBench->stop("ExportHTML", "exportContentStyle");
-		
+
 		// export syntax highlighting style
 		$syn_stylesheet = ilObjStyleSheet::getSyntaxStylePath();
 		copy($syn_stylesheet, $a_target_dir."/syntaxhighlight.css");
@@ -2184,19 +2172,14 @@ class ilObjContentObject extends ilObject
 			}
 
 			// export pages
-			$ilBench->start("ExportHTML", "exportHTMLPages");
 			// now: forward ("all" info to export files and links)
 			$this->exportHTMLPages($lm_gui, $a_target_dir, $lm_gui->lang, ($a_lang == "all"));
-			$ilBench->stop("ExportHTML", "exportHTMLPages");
 		}
 
 		// export glossary terms
-		$ilBench->start("ExportHTML", "exportHTMLGlossaryTerms");
 		$this->exportHTMLGlossaryTerms($lm_gui, $a_target_dir);
-		$ilBench->stop("ExportHTML", "exportHTMLGlossaryTerms");
 
 		// export all media objects
-		$ilBench->start("ExportHTML", "exportHTMLMediaObjects");
 		$linked_mobs = array();
 		foreach ($this->offline_mobs as $mob)
 		{
@@ -2216,15 +2199,12 @@ class ilObjContentObject extends ilObject
 		$_GET["obj_type"]  = "MediaObject";
 		$_GET["obj_id"]  = $a_mob_id;
 		$_GET["cmd"] = "";
-		$ilBench->stop("ExportHTML", "exportHTMLMediaObjects");
 
 		// export all file objects
-		$ilBench->start("ExportHTML", "exportHTMLFileObjects");
 		foreach ($this->offline_files as $file)
 		{
 			$this->exportHTMLFile($a_target_dir, $file);
 		}
-		$ilBench->stop("ExportHTML", "exportHTMLFileObjects");
 
 		// export questions (images)
 		if (count($this->q_ids) > 0)
@@ -2238,7 +2218,6 @@ class ilObjContentObject extends ilObject
 		}
 
 		// export table of contents
-		$ilBench->start("ExportHTML", "exportHTMLTOC");
 		$ilLocator->clearItems();
 		if ($this->isActiveTOC())
 		{
@@ -2257,10 +2236,8 @@ class ilObjContentObject extends ilObject
 			fwrite($fp, $content);
 			fclose($fp);
 		}
-		$ilBench->stop("ExportHTML", "exportHTMLTOC");
 
 		// export images
-		$ilBench->start("ExportHTML", "exportHTMLImages");
 		$image_dir = $a_target_dir."/images";
 		ilUtil::makeDir($image_dir);
 		ilUtil::makeDir($image_dir."/browser");
@@ -2284,8 +2261,6 @@ class ilObjContentObject extends ilObject
 			$image_dir."/nav_arr_L.png");
 		copy(ilUtil::getImagePath("nav_arr_R.png", false, "filesystem"),
 			$image_dir."/nav_arr_R.png");
-
-		$ilBench->stop("ExportHTML", "exportHTMLImages");
 
 		// export flv/mp3 player
 		$services_dir = $a_target_dir."/Services";
@@ -2604,7 +2579,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function exportHTMLPages(&$a_lm_gui, $a_target_dir, $a_lang = "", $a_all_languages = false)
 	{
-		global $tpl, $ilBench, $ilLocator;
+		global $ilLocator;
 				
 		$pages = ilLMPageObject::getPageList($this->getId());
 		
@@ -2647,11 +2622,8 @@ class ilObjContentObject extends ilObject
 			if (ilLMPage::_exists($this->getType(), $page["obj_id"]))
 			{
 				$ilLocator->clearItems();
-				$ilBench->start("ExportHTML", "exportHTMLPage");
-				$ilBench->start("ExportHTML", "exportPageHTML");
 				$this->exportPageHTML($a_lm_gui, $a_target_dir, $page["obj_id"],
 					"", $exp_id_map, $a_lang, $a_all_languages);
-				$ilBench->stop("ExportHTML", "exportPageHTML");
 
 				// get all snippets of page
 				$pcs = ilPageContentUsage::getUsagesOfPage($page["obj_id"], $this->getType().":pg", 0, false, $a_lang);
@@ -2697,7 +2669,6 @@ class ilObjContentObject extends ilObject
 					$this->q_ids[$q_id] = $q_id;
 				}
 
-				$ilBench->stop("ExportHTML", "exportHTMLPage");
 			}
 		}
 		foreach ($mobs as $m)
@@ -2718,7 +2689,7 @@ class ilObjContentObject extends ilObject
 	function exportPageHTML(&$a_lm_gui, $a_target_dir, $a_lm_page_id, $a_frame = "",
 		$a_exp_id_map = array(), $a_lang = "-", $a_all_languages = false)
 	{
-		global $tpl, $ilBench;
+		global $tpl;
 
 		$lang_suffix = "";
 		if ($a_lang != "-" && $a_lang != "" && $a_all_languages)
@@ -2808,8 +2779,6 @@ class ilObjContentObject extends ilObject
 	*/
 	function exportFO(&$a_xml_writer, $a_target_dir)
 	{
-		global $ilBench;
-
 		// fo:root (start)
 		$attrs = array();
 		$attrs["xmlns:fo"] = "http://www.w3.org/1999/XSL/Format";
@@ -2864,11 +2833,7 @@ class ilObjContentObject extends ilObject
 
 
 		// StructureObjects
-		//$expLog->write(date("[y-m-d H:i:s] ")."Start Export Structure Objects");
-		$ilBench->start("ContentObjectExport", "exportFOStructureObjects");
 		$this->exportFOStructureObjects($a_xml_writer, $expLog);
-		$ilBench->stop("ContentObjectExport", "exportFOStructureObjects");
-		//$expLog->write(date("[y-m-d H:i:s] ")."Finished Export Structure Objects");*/
 
 		// fo:flow (end)
 		$a_xml_writer->xmlEndTag("fo:flow");
@@ -3298,8 +3263,6 @@ class ilObjContentObject extends ilObject
 	 */
 	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
-		global $ilDB, $ilUser, $ilias;
-
 		$new_obj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
 		$this->cloneMetaData($new_obj);
 		//$new_obj->createProperties();
@@ -3347,7 +3310,7 @@ class ilObjContentObject extends ilObject
 		if ($style_id > 0 &&
 			!ilObjStyleSheet::_lookupStandard($style_id))
 		{
-			$style_obj = $ilias->obj_factory->getInstanceByObjId($style_id);
+			$style_obj = ilObjectFactory::getInstanceByObjId($style_id);
 			$new_id = $style_obj->ilClone();
 			$new_obj->setStyleSheetId($new_id);
 			$new_obj->update();

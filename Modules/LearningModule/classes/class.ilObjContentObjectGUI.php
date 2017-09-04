@@ -144,8 +144,6 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				$this->ctrl->saveParameter($this, array("obj_id"));
 				$this->addLocations();
 				$this->ctrl->setReturn($this, "chapters");
-//echo "!";
-				//$this->lm_obj =& $this->ilias->obj_factory->getInstanceByRefId($this->ref_id);
 
 				$pg_gui = new ilLMPageObjectGUI($this->object);
 				if ($_GET["obj_id"] != "")
@@ -426,7 +424,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function initPropertiesForm()
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $ilSetting;
 		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -534,7 +532,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$this->form->addItem($section);
 
 		// public notes
-		if (!$this->ilias->getSetting('disable_comments'))
+		if (!$ilSetting->get('disable_comments'))
 		{
 			$this->lng->loadLanguageModule("notes");
 			$pub_nodes = new ilCheckboxInputGUI($lng->txt("notes_comments"), "cobj_pub_notes");
@@ -625,7 +623,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function saveProperties()
 	{
-		global $lng, $ilUser;
+		global $lng, $ilUser, $ilSetting;
 
 		$valid = false;
 		$this->initPropertiesForm();
@@ -648,7 +646,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$this->object->setOnline($_POST["cobj_online"]);
 			$this->object->setActiveNumbering($_POST["cobj_act_number"]);
 			$this->object->setCleanFrames($_POST["cobj_clean_frames"]);
-			if (!$this->ilias->getSetting('disable_comments'))
+			if (!$ilSetting->get('disable_comments'))
 			{
 				$this->object->setPublicNotes($_POST["cobj_pub_notes"]);
 			}
@@ -945,8 +943,6 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function saveMenuProperties()
 	{
-		global $ilias;
-
 		$this->object->setActiveLMMenu((int) $_POST["cobj_act_lm_menu"]);
 		$this->object->setActiveTOC((int) $_POST["cobj_act_toc"]);
 		$this->object->setActivePrintView((int) $_POST["cobj_act_print"]);
@@ -969,7 +965,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function explorer()
 	{
-		global $ilUser, $ilias, $ilCtrl;
+		global $ilCtrl;
 
 		$gui_class = "ilobjlearningmodulegui";
 
@@ -1174,9 +1170,8 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function importFileObject($parent_id = NULL, $a_catch_errors = true)
 	{
-		global $_FILES, $rbacsystem, $ilDB, $tpl;
+		global $_FILES, $rbacsystem, $ilErr, $tpl;
 
-		$no_manifest = false;
 		try
 		{
 			// the new import
@@ -1200,7 +1195,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $_GET["new_type"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("no_create_permission"),  $ilErr->MESSAGE);
 			return;
 		}
 		$form = $this->initImportForm("lm");
@@ -1428,9 +1423,11 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function pastePage()
 	{
+		global $ilErr;
+
 		if(ilEditClipboard::getContentObjectType() != "pg")
 		{
-			$this->ilias->raiseError($this->lng->txt("no_page_in_clipboard"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("no_page_in_clipboard"), $ilErr->MESSAGE);
 		}
 
 		// paste selected object
@@ -1451,7 +1448,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			{
 				// get page from other content object into current content object
 				$lm_id = ilLMObject::_lookupContObjID(ilEditClipboard::getContentObjectId());
-				$lm_obj = $this->ilias->obj_factory->getInstanceByObjId($lm_id);
+				$lm_obj = ilObjectFactory::getInstanceByObjId($lm_id);
 				$lm_page = new ilLMPageObject($lm_obj, $id);
 				$copied_nodes = array();
 				$new_page = $lm_page->copyToOtherContObject($this->object, $copied_nodes);
@@ -1468,7 +1465,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				!= $this->object->getID())
 			{
 				$lm_id = ilLMObject::_lookupContObjID(ilEditClipboard::getContentObjectId());
-				$lm_obj = $this->ilias->obj_factory->getInstanceByObjId($lm_id);
+				$lm_obj = ilObjectFactory::getInstanceByObjId($lm_id);
 				$lm_page = new ilLMPageObject($lm_obj, $id);
 				$lm_page->setLMId($this->object->getID());
 				$lm_page->update();
@@ -1489,11 +1486,11 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function copyPage()
 	{
-		global $ilUser;
+		global $ilErr;
 		
 		if(!isset($_POST["id"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
 		}
 
 		$items = ilUtil::stripSlashesArray($_POST["id"]);
@@ -1514,14 +1511,16 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function delete($a_parent_subobj_id = 0)
 	{
+		global $ilErr;
+
 		if(!isset($_POST["id"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
 		}
 
 		if(count($_POST["id"]) == 1 && $_POST["id"][0] == IL_FIRST_NODE)
 		{
-			$this->ilias->raiseError($this->lng->txt("cont_select_item"), $this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("cont_select_item"),  $ilErr->MESSAGE);
 		}
 
 		if ($a_parent_subobj_id == 0)
@@ -1582,6 +1581,8 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function confirmedDelete($a_parent_subobj_id = 0)
 	{
+		global $ilErr;
+
 		$tree = new ilTree($this->object->getId());
 		$tree->setTableNames('lm_tree','lm_data');
 		$tree->setTreeTablePK("lm_id");
@@ -1589,7 +1590,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		// check number of objects
 		if (!$_POST["id"])
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
 		}
 
 		// delete all selected objects
@@ -1776,19 +1777,21 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function moveChapter($a_parent_subobj_id = 0)
 	{
+		global $ilErr;
+
 		if(!isset($_POST["id"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
 		}
 //echo "Hallo::"; exit;
 		if(count($_POST["id"]) > 1)
 		{
-			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("cont_select_max_one_item"), $ilErr->MESSAGE);
 		}
 
 		if(count($_POST["id"]) == 1 && $_POST["id"][0] == IL_FIRST_NODE)
 		{
-			$this->ilias->raiseError($this->lng->txt("cont_select_item"), $this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("cont_select_item"),  $ilErr->MESSAGE);
 		}
 
 		// SAVE POST VALUES
@@ -1824,11 +1827,11 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function movePage()
 	{
-		global $ilUser;
+		global $ilErr;
 		
 		if(!isset($_POST["id"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
 		}
 
 		ilUtil::sendInfo($this->lng->txt("cont_selected_items_have_been_cut"), true);
@@ -1948,14 +1951,16 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function downloadPDFFile()
 	{
+		global $ilErr;
+
 		if(!isset($_POST["file"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
 		}
 
 		if (count($_POST["file"]) > 1)
 		{
-			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("cont_select_max_one_item"), $ilErr->MESSAGE);
 		}
 
 
@@ -2037,7 +2042,6 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		
 		// Determine whether the view of a learning resource should
 		// be shown in the frameset of ilias, or in a separate window.
-		//$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
 		$showViewInFrameset = true;
 
 		if ($showViewInFrameset && !$a_offline)
@@ -2869,7 +2873,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 	function linkChecker()
 	{
-		global $ilias, $ilUser, $tpl;
+		global $ilUser, $tpl;
 
 		$this->__initLinkChecker();
 
@@ -3063,13 +3067,11 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		// check title and target
 		if (empty($_POST["title"]))
 		{
-			//$this->ilias->raiseError($this->lng->txt("please_enter_title"),$this->ilias->error_obj->MESSAGE);
 			ilUtil::sendFailure($this->lng->txt("please_enter_title") , true);
 			$ilCtrl->redirect($this, "addMenuEntry");
 		}
 		if (empty($_POST["target"]))
 		{
-			//$this->ilias->raiseError($this->lng->txt("please_enter_target"),$this->ilias->error_obj->MESSAGE);
 			ilUtil::sendFailure($this->lng->txt("please_enter_target"), true);
 			$ilCtrl->redirect($this, "addMenuEntry");
 		}
@@ -3095,9 +3097,11 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function deleteMenuEntry()
 	{
+		global $ilErr;
+
 		if (empty($_GET["menu_entry"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_menu_entry_id"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("no_menu_entry_id"), $ilErr->MESSAGE);
 		}
 
 		$this->__initLMMenuEditor();
@@ -3112,7 +3116,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function editMenuEntry()
 	{
-		global $ilToolbar, $ilCtrl, $ilTabs;
+		global $ilToolbar, $ilCtrl, $ilTabs, $ilErr;
 
 		$this->setTabs();
 
@@ -3122,7 +3126,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 		if (empty($_GET["menu_entry"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_menu_entry_id"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("no_menu_entry_id"), $ilErr->MESSAGE);
 		}
 
 		$ilCtrl->saveParameter($this, array("menu_entry"));
@@ -3138,19 +3142,21 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function updateMenuEntry()
 	{
+		global $ilErr;
+
 		if (empty($_REQUEST["menu_entry"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_menu_entry_id"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("no_menu_entry_id"), $ilErr->MESSAGE);
 		}
 
 		// check title and target
 		if (empty($_POST["title"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("please_enter_title"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("please_enter_title"), $ilErr->MESSAGE);
 		}
 		if (empty($_POST["target"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("please_enter_target"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("please_enter_target"), $ilErr->MESSAGE);
 		}
 
 		$this->__initLMMenuEditor();
@@ -3238,13 +3244,15 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function selectHeader()
 	{
+		global $ilErr;
+
 		if(!isset($_POST["id"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
 		}
 		if(count($_POST["id"]) > 1)
 		{
-			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("cont_select_max_one_item"), $ilErr->MESSAGE);
 		}
 		if ($_POST["id"][0] != $this->object->getHeaderPage())
 		{
@@ -3263,13 +3271,15 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function selectFooter()
 	{
+		global $ilErr;
+
 		if(!isset($_POST["id"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
 		}
 		if(count($_POST["id"]) > 1)
 		{
-			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("cont_select_max_one_item"), $ilErr->MESSAGE);
 		}
 		if ($_POST["id"][0] != $this->object->getFooterPage())
 		{
