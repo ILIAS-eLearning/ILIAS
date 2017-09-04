@@ -74,7 +74,7 @@ class ilUtil
 	*/
 	public static function getImagePath($img, $module_path = "", $mode = "output", $offline = false)
 	{
-		global $ilias, $styleDefinition, $ilCtrl, $ilUser;
+		global $styleDefinition;
 
 		if (is_int(strpos($_SERVER["PHP_SELF"], "setup.php")))
 		{
@@ -177,7 +177,7 @@ class ilUtil
 	*/
 	public static function getStyleSheetLocation($mode = "output", $a_css_name = "", $a_css_location = "")
 	{
-		global $ilias;
+		global $ilSetting;
 		
 		// add version as parameter to force reload for new releases
 		// use ilStyleDefinition instead of account to get the current style
@@ -204,7 +204,7 @@ class ilUtil
 		$vers = "";
 		if ($mode != "filesystem")
 		{
-			$vers = str_replace(" ", "-", $ilias->getSetting("ilias_version"));
+			$vers = str_replace(" ", "-", $ilSetting->get("ilias_version"));
 			$vers = "?vers=".str_replace(".", "-", $vers);
 		}
 		return $filename . $vers;
@@ -222,7 +222,7 @@ class ilUtil
 	*/
 	public static function getJSLocation($a_js_name, $a_js_location = "", $add_version = FALSE)
 	{
-		global $ilias;
+		global $ilSetting;
 
 		// add version as parameter to force reload for new releases
 		$js_name = $a_js_name;
@@ -242,7 +242,7 @@ class ilUtil
 		$vers = "";
 		if ($add_version)
 		{
-			$vers = str_replace(" ", "-", $ilias->getSetting("ilias_version"));
+			$vers = str_replace(" ", "-", $ilSetting->get("ilias_version"));
 			$vers = "?vers=".str_replace(".", "-", $vers);
 		}
 		return $filename . $vers;
@@ -257,8 +257,6 @@ class ilUtil
 	*/
 	public static function getP3PLocation()
 	{
-		global $ilias;
-
 		if (defined("ILIAS_MODULE"))
 		{
 			$base = '';
@@ -291,12 +289,12 @@ class ilUtil
 	*/
 	public static function getNewContentStyleSheetLocation($mode = "output")
 	{
-		global $ilias;
+		global $ilSetting;
 
 		// add version as parameter to force reload for new releases
 		if ($mode != "filesystem")
 		{
-			$vers = str_replace(" ", "-", $ilias->getSetting("ilias_version"));
+			$vers = str_replace(" ", "-", $ilSetting->get("ilias_version"));
 			$vers = "?vers=".str_replace(".", "-", $vers);
 		}
 
@@ -1619,21 +1617,19 @@ class ilUtil
 	 */
 	public static function getWebspaceDir($mode = "filesystem")
 	{
-		global $ilias;
-
 		if ($mode == "filesystem")
 		{
-			return "./".ILIAS_WEB_DIR."/".$ilias->client_id;
+			return "./".ILIAS_WEB_DIR."/".CLIENT_ID;
 		}
 		else
 		{
 			if (defined("ILIAS_MODULE"))
 			{
-				return "../".ILIAS_WEB_DIR."/".$ilias->client_id;
+				return "../".ILIAS_WEB_DIR."/".CLIENT_ID;
 			}
 			else
 			{
-				return "./".ILIAS_WEB_DIR."/".$ilias->client_id;
+				return "./".ILIAS_WEB_DIR."/".CLIENT_ID;
 			}
 		}
 	}
@@ -4305,7 +4301,7 @@ class ilUtil
 	*/
 	public static function _getObjectsByOperations($a_obj_type,$a_operation,$a_usr_id = 0,$limit = 0)
 	{
-		global $ilDB,$rbacreview,$ilAccess,$ilUser,$ilias,$tree;
+		global $ilDB,$rbacreview,$ilAccess,$ilUser,$ilSetting,$tree;
 
 		if(!is_array($a_obj_type))
 		{
@@ -4319,7 +4315,7 @@ class ilUtil
 		// limit number of results default is search result limit
 		if(!$limit)
 		{
-			$limit = $ilias->getSetting('search_max_hits',100);
+			$limit = $ilSetting->get('search_max_hits',100);
 		}
 		if($limit == -1)
 		{
@@ -4852,7 +4848,7 @@ class ilUtil
 
 	public static function infoPanel($a_keep = true)
 	{
-		global $tpl,$ilias,$lng;
+		global $tpl,$lng,$ilUser;
 
 		if (!empty($_SESSION["infopanel"]) and is_array($_SESSION["infopanel"]))
 		{
@@ -4875,7 +4871,7 @@ class ilUtil
 				$link .= "<td><a href=\"".$_SESSION["infopanel"]["link"]."\" target=\"".
 					ilFrameTargetInfo::_getFrame("MainContent").
 					"\">";
-				$link .= "<img src=\"".$ilias->tplPath.$ilias->account->prefs["skin"]."/images/".
+				$link .= "<img src=\""."./templates/".$ilUser->prefs["skin"]."/images/".
 					$_SESSION["infopanel"]["img"]."\" border=\"0\" vspace=\"0\"/>";
 				$link .= "</a></td>";
 			}

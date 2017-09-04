@@ -177,9 +177,9 @@ return;
 	*/
 	function getMaximumRecords()
 	{
-		global $ilias;
+		global $ilSetting;
 
-		return $ilias->getSetting("bench_max_records");
+		return $ilSetting->get("bench_max_records");
 	}
 
 
@@ -188,9 +188,9 @@ return;
 	*/
 	function setMaximumRecords($a_max)
 	{
-		global $ilias;
+		global $ilSetting;
 
-		$ilias->setSetting("bench_max_records", (int) $a_max);
+		return $ilSetting->get("bench_max_records", (int) $a_max);
 	}
 
 
@@ -215,15 +215,15 @@ return;
 	*/
 	function enable($a_enable)
 	{
-		global $ilias;
+		global $ilSetting;
 
 		if ($a_enable)
 		{
-			$ilias->setSetting("enable_bench", 1);
+			$ilSetting->get("enable_bench", 1);
 		}
 		else
 		{
-			$ilias->setSetting("enable_bench", 0);
+			$ilSetting->get("enable_bench", 0);
 		}
 	}
 
@@ -299,22 +299,22 @@ return;
 	 */
 	function enableDbBench($a_enable, $a_user = 0)
 	{
-		global $ilias;
+		global $ilSetting;
 
 		if ($a_enable)
 		{
-			$ilias->setSetting("enable_db_bench", 1);
+			$ilSetting->get("enable_db_bench", 1);
 			if ($a_user !== 0)
 			{
-				$ilias->setSetting("db_bench_user", $a_user);
+				$ilSetting->get("db_bench_user", $a_user);
 			}
 		}
 		else
 		{
-			$ilias->setSetting("enable_db_bench", 0);
+			$ilSetting->get("enable_db_bench", 0);
 			if ($a_user !== 0)
 			{
-				$ilias->setSetting("db_bench_user", $a_user);
+				$ilSetting->get("db_bench_user", $a_user);
 			}
 		}
 	}
