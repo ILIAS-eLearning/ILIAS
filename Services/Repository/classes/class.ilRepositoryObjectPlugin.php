@@ -28,10 +28,9 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
 	 */
 	function __construct()
 	{
-		parent::__construct();
 		global $DIC;
+		parent::__construct();
 
-		$this->lng = $DIC->language();
 		$this->db = $DIC->database();
 	}
 
@@ -110,7 +109,6 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
 	*/
 	protected function beforeActivation()
 	{
-		$lng = $this->lng;
 		$ilDB = $this->db;
 		
 		// before activating, we ensure, that the type exists in the ILIAS
