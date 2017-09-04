@@ -117,8 +117,9 @@ class ilUpdateUtils
 		}
 
 		// create directory with file permissions of parent directory
-		umask(0000);
-		return @mkdir($a_dir,fileperms($path));
+		umask(0022);
+		$access = 0755;
+		return mkdir($a_dir, $access);
 	}
 
 
@@ -160,7 +161,7 @@ class ilUpdateUtils
 			}
 		}
 
-		umask(0000);
+		umask(0022);
 		foreach ($dirs as $dirindex => $dir)
 		{
 			// starting with the longest existing path
@@ -175,7 +176,7 @@ class ilUpdateUtils
 						$dir = substr($dir,0,strlen($dir)-1);
 					}
 					
-					if (! mkdir($dir, $umask))
+					if (! mkdir($dir, 0755))
 					{
 						error_log("Can't make directory: $dir");
 						return false;
@@ -185,11 +186,6 @@ class ilUpdateUtils
 				{
 					error_log("$dir is not a directory");
 					return false;
-				}
-				else
-				{
-					// get umask of the last existing parent directory
-					$umask = fileperms($dir);
 				}
 			}
 		}
