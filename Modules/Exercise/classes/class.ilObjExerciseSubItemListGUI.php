@@ -16,13 +16,30 @@ include_once './Modules/Exercise/classes/class.ilExAssignment.php';
 class ilObjExerciseSubItemListGUI extends ilSubItemListGUI
 {
 	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct($a_cmd_class)
+	{
+		global $DIC;
+		parent::__construct($a_cmd_class);
+
+		$this->access = $DIC->access();
+	}
+
+	/**
 	 * Check if read access to assignments is granted
 	 * @param int assignment id
 	 * @return 
 	 */
 	protected function isAssignmentVisible($a_ass_id)
 	{
-		global $ilAccess;
+		$ilAccess = $this->access;
 		
 		if($ilAccess->checkAccess('write','',$this->getRefId()))
 		{
@@ -38,7 +55,7 @@ class ilObjExerciseSubItemListGUI extends ilSubItemListGUI
 	 */
 	public function getHTML()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$lng->loadLanguageModule('exc');
 		
