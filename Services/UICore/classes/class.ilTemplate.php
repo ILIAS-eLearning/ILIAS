@@ -23,35 +23,9 @@ class ilTemplate extends HTML_Template_ITX
 	protected $plugin_admin;
 
 	/**
-	 * @var ilLanguage
-	 */
-	protected $lng;
-
-	/**
 	 * @var ilTemplate
 	 */
 	protected $tpl;
-
-	/**
-	 * @var ilObjUser
-	 */
-	protected $user;
-
-	/**
-	 * @var ilSetting
-	 */
-	protected $settings;
-
-	/**
-	 * @var ilCtrl
-	 */
-	protected $ctrl;
-
-	/**
-	 * @var ilDB
-	 */
-	protected $db;
-
 
 	const MESSAGE_TYPE_FAILURE = 'failure';
 	const MESSAGE_TYPE_INFO = "info";
@@ -132,11 +106,6 @@ class ilTemplate extends HTML_Template_ITX
 
 		$this->error = $DIC["ilErr"];
 		$this->plugin_admin = $DIC["ilPluginAdmin"];
-		$this->lng = $DIC->language();
-		$this->user = $DIC->user();
-		$this->settings = $DIC->settings();
-		$this->ctrl = $DIC->ctrl();
-		$this->db = $DIC->database();
 
 		$ilErr = $DIC["ilErr"];
 //echo "<br>-".$file."-";
@@ -484,7 +453,9 @@ class ilTemplate extends HTML_Template_ITX
 	*/
 	public function getMessageHTML($a_txt, $a_type = "info")
 	{
-		$lng = $this->lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		$mtpl = new ilTemplate("tpl.message.html", true, true, "Services/Utilities");
 		$mtpl->setCurrentBlock($a_type."_message");
 		$mtpl->setVariable("TEXT", $a_txt);
@@ -673,8 +644,11 @@ class ilTemplate extends HTML_Template_ITX
 	 */
 	public function fillContentLanguage()
 	{
-		$ilUser = $this->user;
-		$lng = $this->lng;
+		global $DIC;
+
+		$lng = $DIC->language();
+		$ilUser = $DIC->user();
+
 	 	$contentLanguage = 'en';
 		$rtl = array('ar','fa','ur','he');//, 'de'); //make a list of rtl languages
 		/* rtl-review: add "de" for testing with ltr lang shown in rtl
@@ -701,7 +675,9 @@ class ilTemplate extends HTML_Template_ITX
 
 	function fillWindowTitle()
 	{
-		$ilSetting = $this->settings;
+		global $DIC;
+
+		$ilSetting = $DIC->settings();
 		
 		if ($this->header_page_title != "")
 		{
@@ -786,7 +762,9 @@ class ilTemplate extends HTML_Template_ITX
 	
 	function fillJavaScriptFiles($a_force = false)
 	{
-		$ilSetting = $this->settings;
+		global $DIC;
+
+		$ilSetting = $DIC->settings();
 
 		if (is_object($ilSetting))		// maybe this one can be removed
 		{
@@ -945,11 +923,13 @@ class ilTemplate extends HTML_Template_ITX
 	{
 		global $DIC;
 
-		$ilCtrl = $this->ctrl;
-		$ilDB = $this->db;
-		$lng = $this->lng;
-		$ilSetting = $this->settings;
-		
+		$ilSetting = $DIC->settings();
+
+		$lng = $DIC->language();
+
+		$ilCtrl = $DIC->ctrl();
+		$ilDB = $DIC->database();
+
 		if (!$this->getAddFooter())
 		{
 			return;
@@ -1565,7 +1545,13 @@ class ilTemplate extends HTML_Template_ITX
 	*/
 	function getTemplatePath($a_tplname, $a_in_module = false, $a_plugin = false)
 	{
-		$ilCtrl = $this->ctrl;
+		global $DIC;
+
+		$ilCtrl = null;
+		if (isset($DIC["ilCtrl"]))
+		{
+			$ilCtrl = $DIC->ctrl();
+		}
 		
 		$fname = "";
 		
@@ -1641,8 +1627,15 @@ class ilTemplate extends HTML_Template_ITX
 	 */
 	function getTemplateIdentifier($a_tplname, $a_in_module = false)
 	{
-		$ilCtrl = $this->ctrl;
-		
+		global $DIC;
+
+		$ilCtrl = null;
+		if (isset($DIC["ilCtrl"]))
+		{
+			$ilCtrl = $DIC->ctrl();
+		}
+
+
 		// if baseClass functionality is used (ilias.php):
 		// get template directory from ilCtrl
 		if (!empty($_GET["baseClass"]) && $a_in_module === true)
@@ -1781,10 +1774,10 @@ class ilTemplate extends HTML_Template_ITX
 	*/
 	private function fillHeader()
 	{
-		$lng = $this->lng;
-		$ilUser = $this->user;
-		$ilCtrl = $this->ctrl;
-		
+		global $DIC;
+
+		$lng = $DIC->language();
+
 		$icon = false;
 		if ($this->icon_path != "")
 		{
@@ -2139,8 +2132,6 @@ class ilTemplate extends HTML_Template_ITX
 	*/
 	function setUpperIcon($a_link, $a_frame = "")
 	{
-		$lng = $this->lng;
-		
 		$this->upper_icon = $a_link;
 		$this->upper_icon_frame = $a_frame;
 	}
@@ -2167,7 +2158,9 @@ class ilTemplate extends HTML_Template_ITX
 	*/
 	function fillScreenReaderFocus()
 	{
-		$ilUser = $this->user;
+		global $DIC;
+
+		$ilUser = $DIC->user();
 
 		if (is_object($ilUser) && $ilUser->getPref("screen_reader_optimization") && $this->blockExists("sr_focus"))
 		{
@@ -2180,9 +2173,12 @@ class ilTemplate extends HTML_Template_ITX
 	*/
 	function fillSideIcons()
 	{
-		$lng = $this->lng;
-		$ilSetting = $this->settings;
-		
+		global $DIC;
+
+		$ilSetting = $DIC->settings();
+
+		$lng = $DIC->language();
+
 		if ($this->upper_icon == "" && $this->tree_flat_link == ""
 			&& $this->mount_webfolder == "")
 		{
@@ -2281,8 +2277,6 @@ class ilTemplate extends HTML_Template_ITX
 	*/
 	function setMountWebfolderIcon($a_ref_id)
 	{
-		$lng = $this->lng;
-		
 		$this->mount_webfolder = $a_ref_id;
 	}
 	// END WebDAV: Mount webfolder icon.
@@ -2294,8 +2288,6 @@ class ilTemplate extends HTML_Template_ITX
 	*/
 	function setTreeFlatIcon($a_link, $a_mode)
 	{
-		$lng = $this->lng;
-
 		$this->tree_flat_link = $a_link;
 		$this->tree_flat_mode = $a_mode;
 	}
@@ -2457,7 +2449,9 @@ class ilTemplate extends HTML_Template_ITX
 	*/
 	function fillAdminPanel()
 	{
-		$lng = $this->lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 
 		$adm_view_cmp = $adm_cmds = $adm_view = false;
 		
