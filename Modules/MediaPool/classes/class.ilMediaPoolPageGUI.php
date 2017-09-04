@@ -19,11 +19,23 @@ include_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
 class ilMediaPoolPageGUI extends ilPageObjectGUI
 {
 	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
 	* Constructor
 	*/
 	function __construct($a_id = 0, $a_old_nr = 0, $a_prevent_get_id = false, $a_lang = "")
 	{
-		global $tpl;
+		global $DIC;
+
+		$this->tpl = $DIC["tpl"];
+		$this->ctrl = $DIC->ctrl();
+		$this->tabs = $DIC->tabs();
+		$this->access = $DIC->access();
+		$this->lng = $DIC->language();
+		$tpl = $DIC["tpl"];
 		
 		parent::__construct("mep", $a_id, $a_old_nr, $a_prevent_get_id, $a_lang);
 
@@ -38,7 +50,8 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl, $ilTabs;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -75,7 +88,9 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
 	*/
 	static function getGUIForTitle($a_media_pool_id, $a_title, $a_old_nr = 0)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		include_once("./Modules/MediaPool/classes/class.ilMediaPoolPage.php");
 		$id = ilMediaPoolPage::getPageIdForTitle($a_media_pool_id, $a_title);
@@ -89,7 +104,9 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
 	*/
 	function preview()
 	{
-		global $ilCtrl, $ilAccess, $lng;
+		$ilCtrl = $this->ctrl;
+		$ilAccess = $this->access;
+		$lng = $this->lng;
 		
 		return parent::preview();
 	}
@@ -99,7 +116,8 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
 	 */
 	function showPage($a_no_title = false)
 	{
-		global $tpl, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
 
 		// get raw page content is used for including into other pages
 		if (!$this->getRawPageContent())
@@ -128,7 +146,8 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
 
 	function getTabs($a_activate = "")
 	{
-		global $ilTabs, $ilCtrl;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
 
 		parent::getTabs($a_activate);		
 	}

@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Object/classes/class.ilObject2GUI.php");
 include_once("./Modules/MediaPool/classes/class.ilObjMediaPool.php");
@@ -13,8 +13,6 @@ include_once("./Services/Clipboard/classes/class.ilEditClipboardGUI.php");
 * User Interface class for media pool objects
 *
 * @author Alex Killing <alex.killing@gmx.de>
-*
-* $Id$
 *
 * @ilCtrl_Calls ilObjMediaPoolGUI: ilObjMediaObjectGUI, ilObjFolderGUI, ilEditClipboardGUI, ilPermissionGUI
 * @ilCtrl_Calls ilObjMediaPoolGUI: ilInfoScreenGUI, ilMediaPoolPageGUI, ilExportGUI, ilFileSystemGUI
@@ -492,7 +490,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		include_once("./Modules/MediaPool/classes/class.ilMediaPoolTableGUI.php");
 		$mep_table_gui = new ilMediaPoolTableGUI($this, "listMedia", $this->object, "mepitem_id");
 		$tpl->setContent($mep_table_gui->getHTML());
-//		$this->tpl->show();
 	}
 
 	/**
@@ -536,7 +533,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		}
 
 		$tpl->setContent($mep_table_gui->getHTML());
-//		$this->tpl->show();
 	}
 	
 	/**
@@ -734,13 +730,13 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	*/
 	function confirmRemove()
 	{
-		global $ilAccess, $ilCtrl, $lng;
+		global $ilCtrl, $lng, $ilErr;
 
 		$this->checkPermission("write");
 
 		if(!isset($_POST["id"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
 		}
 		
 		// display confirmation message
@@ -875,9 +871,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 							// copy content
 							$original->copy($page->getId(), $page->getParentType(), $page->getParentId(), true);
 
-							//$page->setXMLContent($original->copyXMLContent());
-							//$page->buildDom();
-							//$page->update();
 						}
 					}
 				}
@@ -1010,13 +1003,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
 		$this->initFolderForm("create");
 		$tpl->setContent($this->form->getHTML());
-
-/*		$folder_gui = new ilObjFolderGUI("", 0, false, false);
-		$this->ctrl->setParameterByClass("ilobjfoldergui", "obj_id", $_GET["obj_id"]);
-		$folder_gui->setFormAction("save",
-			$this->ctrl->getFormActionByClass("ilobjfoldergui"));
-		$folder_gui->createObject();*/
-//		$this->tpl->show();
 	}
 
 	/**
@@ -1564,13 +1550,13 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	*/
 	function infoScreen()
 	{
-		global $ilAccess;
+		global $ilAccess, $ilErr;
 
 		if (!$ilAccess->checkAccess("visible", "", $this->ref_id) &&
 			!$ilAccess->checkAccess("read", "", $this->ref_id) &&
 			!$ilAccess->checkAccess("write", "", $this->ref_id))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"), $ilErr->MESSAGE);
 		}
 		
 		if ($this->ctrl->getCmd() == "infoScreen")
@@ -1583,34 +1569,13 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		$info = new ilInfoScreenGUI($this);
 
 		$info->enablePrivateNotes();
-		
-		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
-		{
-			//$info->enableNews();
-		}
 
-		// no news editing for files, just notifications
-//		$info->enableNewsEditing(false);
-		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
-		{
-//			$news_set = new ilSetting("news");
-//			$enable_internal_rss = $news_set->get("enable_rss_for_internal");
-			
-//			if ($enable_internal_rss)
-//			{
-//				$info->setBlockProperty("news", "settings", true);
-//				$info->setBlockProperty("news", "public_notifications_option", true);
-//			}
-		}
 
-		
 		// standard meta data
 		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
 		
 		// forward the command
 		$this->ctrl->forwardCommand($info);
-		
-//		$this->tpl->show();
 	}
 
 

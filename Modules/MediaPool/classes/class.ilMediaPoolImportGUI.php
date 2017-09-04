@@ -11,6 +11,21 @@
  */
 class ilMediaPoolImportGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
 	protected $lm;
 
 	/**
@@ -18,6 +33,11 @@ class ilMediaPoolImportGUI
 	 */
 	function __construct($a_mep)
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->tpl = $DIC["tpl"];
 		$this->mep = $a_mep;
 	}
 	
@@ -26,7 +46,7 @@ class ilMediaPoolImportGUI
 	 */
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$cmd = $ilCtrl->getCmd("showTranslationImportForm");
 
@@ -44,7 +64,8 @@ class ilMediaPoolImportGUI
 	 */
 	function showTranslationImportForm()
 	{
-		global $lng, $tpl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
 
 		ilUtil::sendInfo($lng->txt("mep_trans_import_info"));
 		$form = $this->initTranslationImportForm();
@@ -56,7 +77,8 @@ class ilMediaPoolImportGUI
 	 */
 	public function initTranslationImportForm()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$lng->loadLanguageModule("meta");
 
@@ -96,7 +118,8 @@ class ilMediaPoolImportGUI
 	 */
 	function importTranslation()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		include_once("./Services/Export/classes/class.ilImport.php");
 		$imp = new ilImport();

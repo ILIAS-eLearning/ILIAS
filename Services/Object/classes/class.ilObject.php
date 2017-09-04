@@ -1363,9 +1363,6 @@ class ilObject
 		$tree = $this->tree;
 		$ilLog = $this->log;
 		$ilAppEventHandler = $this->app_event_handler;
-		/**
-		 * @var $ilAppEventHandler ilAppEventHandler
-		 */
 
 		$tree->insertNode($this->getRefId(), $a_parent_ref);
 		
