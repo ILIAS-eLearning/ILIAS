@@ -10,6 +10,21 @@ require_once('class.ilCachedCtrl.php');
  */
 class ilCtrl
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
+	/**
+	 * @var ilPluginAdmin
+	 */
+	protected $plugin_admin;
+
 	const IL_RTOKEN_NAME = 'rtoken';
 	
 	var $target_script;
@@ -27,10 +42,11 @@ class ilCtrl
 	 */
 	function __construct()
 	{
-		global $ilBench;
+		global $DIC;
 
-		$this->bench = $ilBench;
-		
+		$this->db = $DIC->database();
+		$this->obj_definition = $DIC["objDefinition"];
+		$this->plugin_admin = $DIC["ilPluginAdmin"];
 		// initialisation
 		$this->init();
 		
@@ -90,7 +106,7 @@ class ilCtrl
 	 */
 	function callBaseClass()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$baseClass = strtolower($_GET["baseClass"]);
 
@@ -583,7 +599,7 @@ class ilCtrl
 	 */
 	function readCallStructure($a_class, $a_nr = 0, $a_parent = 0)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$a_class = strtolower($a_class);
 
@@ -783,7 +799,7 @@ class ilCtrl
 	
 	protected function checkLPSettingsForward($a_gui_obj, $a_cmd_node)
 	{			
-		global $objDefinition;
+		$objDefinition = $this->obj_definition;
 		
 		// forward to learning progress settings if possible and accessible			
 		if($_GET["gotolp"] &&
@@ -906,7 +922,7 @@ class ilCtrl
 	 */
 	function lookupClassPath($a_class_name)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		$a_class_name = strtolower($a_class_name);
 
 		$cached_ctrl = ilCachedCtrl::getInstance();
@@ -1241,7 +1257,11 @@ class ilCtrl
 	 */
 	public function getRequestToken()
 	{
-		global $ilDB, $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC["ilUser"];
+		$ilDB = $this->db;
+
 		
 		if ($this->rtoken != "")
 		{
@@ -1300,7 +1320,11 @@ class ilCtrl
 	 */
 	private function verifyToken()
 	{
-		global $ilDB, $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC["ilUser"];
+
+		$ilDB = $this->db;
 
 		if (is_object($ilUser) && is_object($ilDB) && $ilUser->getId() > 0 &&
 			$ilUser->getId() != ANONYMOUS_USER_ID)
@@ -1389,14 +1413,8 @@ class ilCtrl
 	 */
 	public function redirect($a_gui_obj, $a_cmd = "", $a_anchor = "", $a_asynch = false)
 	{
-		global $ilBench;
-		
 		$script = $this->getLinkTargetByClass(strtolower(get_class($a_gui_obj)), $a_cmd,
 			"", $a_asynch, false);
-		if  (is_object($ilBench))
-		{
-			$ilBench->save();
-		}
 		if ($a_anchor != "")
 		{
 			$script = $script."#".$a_anchor;
@@ -1419,7 +1437,7 @@ class ilCtrl
 		}
 
 		// include the user interface hook
-		global $ilPluginAdmin;
+		$ilPluginAdmin = $this->plugin_admin;
 		if (is_object($ilPluginAdmin)) {
 			$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
 			foreach ($pl_names as $pl) {
@@ -1841,8 +1859,6 @@ class ilCtrl
 	 */
 	private function readCidInfo($a_cid)
 	{
-		global $ilDB;
-
 		if (isset($this->info_read_cid[$a_cid]))
 		{
 			return;
@@ -1851,10 +1867,6 @@ class ilCtrl
 		$cached_ctrl = ilCachedCtrl::getInstance();
 		$rec = $cached_ctrl->lookupCid($a_cid);
 
-//		$set = $ilDB->query("SELECT * FROM ctrl_classfile ".
-//			" WHERE cid = ".$ilDB->quote($a_cid, "text")
-//			);
-//		if ($rec  = $ilDB->fetchAssoc($set))
 		if($rec)
 		{
 			$this->cid_class[$a_cid] = $rec["class"];
@@ -1862,10 +1874,6 @@ class ilCtrl
 
 			$calls = $cached_ctrl->lookupCall($rec["class"]);
 
-			//			$set = $ilDB->query("SELECT * FROM ctrl_calls ".
-			//				" WHERE parent = ".$ilDB->quote($rec["class"], "text")
-			//				);
-			//			while ($rec2  = $ilDB->fetchAssoc($set))
 			foreach($calls as $rec2)
 			{
 				if (!isset($this->calls[$rec["class"]]) || !is_array($this->calls[$rec["class"]]) || !in_array($rec2["child"], $this->calls[$rec["class"]]))
@@ -1903,7 +1911,7 @@ class ilCtrl
 	 */
 	private function readClassInfo($a_class)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$a_class = strtolower($a_class);
 		if (isset($this->info_read_class[$a_class]))
@@ -1980,7 +1988,7 @@ class ilCtrl
 	 */
 	function insertCtrlCalls($a_parent, $a_child, $a_comp_prefix)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$a_parent = strtolower($a_parent);
 		$a_child = strtolower($a_child);

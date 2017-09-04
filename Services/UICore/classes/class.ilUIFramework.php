@@ -42,7 +42,9 @@ class ilUIFramework
 	 */
 	static function init($a_tpl = null)
 	{
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 		if ($a_tpl == null)
 		{
