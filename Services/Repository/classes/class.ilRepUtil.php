@@ -21,8 +21,10 @@ class ilRepUtil
 	*/
 	static public function deleteObjects($a_cur_ref_id, $a_ids)
 	{
-		global $ilAppEventHandler, $rbacsystem, $rbacadmin, $log, $ilUser, $tree, $lng,
+		global $ilAppEventHandler, $rbacsystem, $rbacadmin, $ilLog, $tree, $lng,
 			$ilSetting;
+
+		$log = $ilLog;
 		
 		include_once("./Services/Repository/exceptions/class.ilRepositoryException.php");
 		
@@ -177,8 +179,10 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 	*/
 	public static function removeObjectsFromSystem($a_ref_ids, $a_from_recovery_folder = false)
 	{
-		global $rbacsystem, $log, $ilAppEventHandler, $tree;
-		
+		global $ilLog, $ilAppEventHandler, $tree;
+
+		$log = $ilLog;
+
 		$affected_ids = array();
 		
 		// DELETE THEM
@@ -279,7 +283,9 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 	private static function removeDeletedNodes($a_node_id, $a_checked, $a_delete_objects,
 		&$a_affected_ids)
 	{
-		global $log, $ilDB, $tree;
+		global $ilLog, $ilDB, $tree;
+
+		$log = $ilLog;
 		
 		$q = "SELECT tree FROM tree WHERE parent= ".
 			$ilDB->quote($a_node_id, "integer")." AND tree < 0";
@@ -337,7 +343,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 	*/
 	static public function restoreObjects($a_cur_ref_id, $a_ref_ids)
 	{
-		global $rbacsystem, $log, $ilAppEventHandler, $lng, $tree;
+		global $rbacsystem, $ilAppEventHandler, $lng, $tree;
 
 		$cur_obj_id = ilObject::_lookupObjId($a_cur_ref_id);
 		
@@ -405,7 +411,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 	*/
 	private static function insertSavedNodes($a_source_id, $a_dest_id, $a_tree_id, &$a_affected_ids)
 	{
-		global $rbacadmin, $rbacreview, $log, $tree;
+		global $tree;
 
 		ilLoggerFactory::getLogger('rep')->debug('Restoring from trash: source_id: '. $a_source_id.', dest_id: '. $a_dest_id.', tree_id:'. $a_tree_id);
 		ilLoggerFactory::getLogger('rep')->info('Restoring ref_id  ' . $a_source_id . ' from trash.');

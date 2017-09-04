@@ -13,6 +13,29 @@ include_once("./Services/Component/classes/class.ilPlugin.php");
 abstract class ilRepositoryObjectPlugin extends ilPlugin
 {
 	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		parent::__construct();
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->db = $DIC->database();
+	}
+
+	/**
 	* Get Component Type
 	*
 	* @return        string        Component Type
@@ -87,7 +110,8 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
 	*/
 	protected function beforeActivation()
 	{
-		global $lng, $ilDB;
+		$lng = $this->lng;
+		$ilDB = $this->db;
 		
 		// before activating, we ensure, that the type exists in the ILIAS
 		// object database and that all permissions exist

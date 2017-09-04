@@ -28,6 +28,41 @@ include_once("./Services/Table/classes/class.ilTableGUI.php");
 */
 class ilRepositoryGUI
 {
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $objDefinition;
+
+	/**
+	 * @var Logger
+	 */
+	protected $log;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
 	var $lng;
 	var $tpl;
 	var $tree;
@@ -43,7 +78,23 @@ class ilRepositoryGUI
 	*/
 	function __construct()
 	{
-		global $lng, $tpl, $tree, $rbacsystem, $objDefinition, $ilCtrl, $ilLog, $ilUser, $ilSetting;
+		global $DIC;
+
+		$this->log = $DIC["ilLog"];
+		$this->user = $DIC->user();
+		$this->settings = $DIC->settings();
+		$this->help = $DIC["ilHelp"];
+		$this->error = $DIC["ilErr"];
+		$this->access = $DIC->access();
+		$lng = $DIC->language();
+		$tpl = $DIC["tpl"];
+		$tree = $DIC->repositoryTree();
+		$rbacsystem = $DIC->rbac()->system();
+		$objDefinition = $DIC["objDefinition"];
+		$ilCtrl = $DIC->ctrl();
+		$ilLog = $DIC["ilLog"];
+		$ilUser = $DIC->user();
+		$ilSetting = $DIC->settings();
 
 		$this->lng = $lng;
 		$this->tpl = $tpl;
@@ -174,7 +225,11 @@ class ilRepositoryGUI
 	*/
 	function executeCommand()
 	{
-		global $rbacsystem, $lng, $ilCtrl, $ilHelp, $ilErr;
+		$rbacsystem = $this->rbacsystem;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilHelp = $this->help;
+		$ilErr = $this->error;
 
 		// check creation mode
 		// determined by "new_type" parameter
@@ -355,7 +410,9 @@ class ilRepositoryGUI
 	*/
 	function frameset()
 	{
-		global $lng, $ilCtrl, $ilAccess;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilAccess = $this->access;
 		
 		$ilCtrl->redirectByClass("ilrepositorygui", "");
 	}
@@ -366,7 +423,10 @@ class ilRepositoryGUI
 	*/
 	function showTree()
 	{
-		global $ilCtrl, $tree, $ilSetting, $lng;
+		$ilCtrl = $this->ctrl;
+		$tree = $this->tree;
+		$ilSetting = $this->settings;
+		$lng = $this->lng;
 
 		$ilCtrl->setParameter($this, "active_node", $_GET["active_node"]);
 
