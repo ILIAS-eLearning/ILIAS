@@ -113,7 +113,8 @@ class ilObjGlossaryListGUI extends ilObjectListGUI
 	*/
 	function getProperties()
 	{
-		global $lng, $rbacsystem;
+		$lng = $this->lng;
+		$rbacsystem = $this->rbacsystem;
 
 		$props = array();
 

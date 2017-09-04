@@ -19,6 +19,11 @@ include_once("./Services/AdvancedMetaData/interfaces/interface.ilAdvancedMetaDat
 */
 class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 {
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
 
 	/**
 	 * @var ilDB
@@ -42,6 +47,8 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	function __construct($a_id = 0,$a_call_by_reference = true)
 	{
 		global $DIC;
+		$this->error = $DIC["ilErr"];
+		$this->tpl = $DIC["tpl"];
 
 		$this->db = $DIC->database();
 		$this->user = $DIC->user();
@@ -590,7 +597,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	function createImportDirectory()
 	{
-		global $ilErr;
+		$ilErr = $this->error;
 
 		$glo_data_dir = ilUtil::getDataDir()."/glo_data";
 		ilUtil::makeDir($glo_data_dir);
@@ -681,7 +688,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	function exportHTML($a_target_dir, $log)
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		// initialize temporary target directory
 		ilUtil::delDir($a_target_dir);
@@ -872,7 +879,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	function exportHTMLMOB($a_target_dir, &$a_glo_gui, $a_mob_id)
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		$mob_dir = $a_target_dir."/mobs";
 

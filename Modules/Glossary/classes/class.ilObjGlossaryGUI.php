@@ -26,6 +26,11 @@ require_once("./Services/COPage/classes/class.ilPCParagraph.php");
 */
 class ilObjGlossaryGUI extends ilObjectGUI
 {
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
 	var $admin_tabs;
 	var $mode;
 	var $term;
@@ -91,6 +96,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function __construct($a_data,$a_id = 0,$a_call_by_reference = true, $a_prepare_output = true)
 	{
+		$this->error = $DIC["ilErr"];
 		global $DIC;
 
 		$this->ctrl = $DIC->ctrl();
@@ -415,7 +421,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
-		global $ilErr;
+		$ilErr = $this->error;
 
 		$new_type = $_REQUEST["new_type"];
 
@@ -495,7 +501,10 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	 */
 	static function addUsagesToInfo($info, $glo_id)
 	{
-		global $lng, $ilAccess;
+		global $DIC;
+
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
 
 		$info->addSection($lng->txt("glo_usages"));
 		include_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php");
@@ -529,7 +538,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	
 	function viewObject()
 	{
-		global $ilErr;
+		$ilErr = $this->error;
 
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 		{
@@ -1081,7 +1090,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function publishExportFile()
 	{
-		global $ilErr;
+		$ilErr = $this->error;
 
 		if(!isset($_POST["file"]))
 		{
