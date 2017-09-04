@@ -27,7 +27,10 @@ class ilContObjectExport
 	*/
 	function __construct(&$a_cont_obj, $a_mode = "xml", $a_lang = "")
 	{
-		global $ilErr, $ilDB;
+		global $DIC;
+
+		$ilErr = $DIC["ilErr"];
+		$ilDB = $DIC->database();
 
 		$this->cont_obj = $a_cont_obj;
 

@@ -13,6 +13,11 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilExportIDTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
 	var $online_help_mode = false;
 	
 	
@@ -20,9 +25,17 @@ class ilExportIDTableGUI extends ilTable2GUI
 	 * Constructor
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_validation = false,
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
 		$a_oh_mode = false)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
+		$lng = $DIC->language();
 
 		$this->setOnlineHelpMode($a_oh_mode);
 		$this->setId("lm_expids");
@@ -82,7 +95,7 @@ class ilExportIDTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$this->tpl->setVariable("VAL_TITLE", $a_set["title"]);
 		$this->tpl->setVariable("PAGE_ID", $a_set["obj_id"]);
