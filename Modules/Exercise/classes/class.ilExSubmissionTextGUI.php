@@ -11,9 +11,32 @@
  */
 class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 {			
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct(ilObjExercise $a_exercise, ilExSubmission $a_submission)
+	{
+		global $DIC;
+
+		parent::__construct($a_exercise, $a_submission);
+		$this->user = $DIC->user();
+		$this->help = $DIC["ilHelp"];
+	}
+
 	public function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		if(!$this->assignment ||
 			$this->assignment->getType() != ilExAssignment::TYPE_TEXT ||
@@ -35,7 +58,10 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 	
 	public static function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission)
 	{
-		global $lng, $ilCtrl;
+		global $DIC;
+
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
 		
 		if($a_submission->canSubmit())
 		{
@@ -63,7 +89,8 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 	
 	protected function initAssignmentTextForm($a_read_only = false)
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();		
@@ -133,7 +160,8 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 	
 	function editAssignmentTextObject(ilPropertyFormGUI $a_form = null)
 	{
-		global $ilCtrl, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 
 		if(!$this->submission->canSubmit())				
 		{
@@ -163,7 +191,7 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 		
 		$this->handleTabs();
 
-		global $ilHelp;
+		$ilHelp = $this->help;
 		$ilHelp->setScreenIdComponent("exc");
 		$ilHelp->setScreenId("text_submission");
 
@@ -194,7 +222,7 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 	
 	function updateAssignmentTextObject($a_return = false)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		if(!$this->submission->canSubmit())
 		{

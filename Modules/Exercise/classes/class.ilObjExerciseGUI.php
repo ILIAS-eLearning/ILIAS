@@ -23,12 +23,32 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 class ilObjExerciseGUI extends ilObjectGUI
 {
 	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+	/**
 	* Constructor
 	* @access public
 	*/
 	function __construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
 	{
-		global $lng;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$this->ctrl = $DIC->ctrl();
+		$this->tabs = $DIC->tabs();
+		$this->help = $DIC["ilHelp"];
+		$this->locator = $DIC["ilLocator"];
+		$this->tpl = $DIC["tpl"];
+		$this->toolbar = $DIC->toolbar();
+		$lng = $DIC->language();
 		
 		$this->type = "exc";
 		parent::__construct($a_data,$a_id,$a_call_by_reference,false);
@@ -46,7 +66,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 	function executeCommand()
 	{
-  		global $ilUser,$ilCtrl, $ilTabs, $lng;
+		$ilUser = $this->user;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
   
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -180,7 +203,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	
 	protected function afterSave(ilObject $a_new_object)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$a_new_object->saveData();
 		
@@ -192,7 +215,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 	protected function listAssignmentsObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$this->checkPermissionBool("write");
 		
@@ -292,7 +315,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	*/
 	protected function getEditFormCustomValues(array &$a_values)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		$a_values["desc"] = $this->object->getLongDescription();
 		$a_values["show_submissions"] = $this->object->getShowSubmissions();
@@ -327,7 +350,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 	protected function updateCustom(ilPropertyFormGUI $a_form)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		$this->object->setShowSubmissions($a_form->getInput("show_submissions"));
 		$this->object->setPassMode($a_form->getInput("pass_mode"));		
 		if ($this->object->getPassMode() == "nr")
@@ -355,7 +378,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 	 */
 	function addContentSubTabs($a_activate)
 	{
-		global $ilTabs, $lng, $ilCtrl;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$ilTabs->addSubTab("content", $lng->txt("view"),
 			$ilCtrl->getLinkTarget($this, "showOverview"));
@@ -374,7 +399,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 	*/
 	function getTabs()
 	{
-		global $lng, $ilHelp;
+		$lng = $this->lng;
+		$ilHelp = $this->help;
   
 		$ilHelp->setScreenIdComponent("exc");
 		
@@ -468,7 +494,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 	*/
 	function infoScreen()
 	{
-		global $ilUser, $ilTabs, $lng;
+		$ilUser = $this->user;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
 		
 		$ilTabs->activateTab("info");
 
@@ -603,7 +631,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 	*/
 	public static function _goto($a_target, $a_raw)
 	{
-		global $ilErr, $lng, $ilAccess, $ilCtrl;
+		global $DIC;
+
+		$ilErr = $DIC["ilErr"];
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
+		$ilCtrl = $DIC->ctrl();
 
 		//we don't have baseClass here...
 		$ilCtrl->setTargetScript("ilias.php");
@@ -689,7 +722,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	*/
 	function addLocatorItems()
 	{
-		global $ilLocator;
+		$ilLocator = $this->locator;
 		
 		if (is_object($this->object))
 		{
@@ -708,7 +741,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 	 */
 	function showOverviewObject()
 	{
-		global $tpl, $ilTabs, $ilUser, $ilToolbar;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
+		$ilUser = $this->user;
+		$ilToolbar = $this->toolbar;
 		
 		$this->checkPermission("read");
 
@@ -787,7 +823,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	
 	function outCertificateObject()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 	
 		if($this->object->hasUserCertificate($ilUser->getId()))
 		{	

@@ -18,6 +18,11 @@ require_once "./Modules/Exercise/classes/class.ilExerciseMembers.php";
 */
 class ilObjExercise extends ilObject
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	var $file_obj;
 	var $members_obj;
 	var $files;
@@ -55,6 +60,12 @@ class ilObjExercise extends ilObject
 	*/
 	function __construct($a_id = 0,$a_call_by_reference = true)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
+		$this->app_event_handler = $DIC["ilAppEventHandler"];
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
 		$this->setPassMode("all");
 		$this->type = "exc";
 		parent::__construct($a_id,$a_call_by_reference);
@@ -191,7 +202,7 @@ class ilObjExercise extends ilObject
 	
 	function saveData()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$ilDB->insert("exc_data", array(
 			"obj_id" => array("integer", $this->getId()),
@@ -216,7 +227,7 @@ class ilObjExercise extends ilObject
 	 */
 	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// Copy settings
 	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
@@ -267,7 +278,8 @@ class ilObjExercise extends ilObject
 	*/
 	function delete()
 	{
-		global $ilDB, $ilAppEventHandler;
+		$ilDB = $this->db;
+		$ilAppEventHandler = $this->app_event_handler;
 
 		// always call parent delete function first!!
 		if (!parent::delete())
@@ -294,7 +306,7 @@ class ilObjExercise extends ilObject
 
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		parent::read();
 
@@ -327,7 +339,7 @@ class ilObjExercise extends ilObject
 
 	function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		parent::update();
 
@@ -362,7 +374,8 @@ class ilObjExercise extends ilObject
 	 */
 	function sendAssignment(ilExAssignment $a_ass, $a_members)
 	{
-		global $lng, $ilUser;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 		
 		$lng->loadLanguageModule("exc");
 		
@@ -450,7 +463,7 @@ class ilObjExercise extends ilObject
 	 */
 	function determinStatusOfUser($a_user_id = 0)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		if ($a_user_id == 0)
 		{
@@ -538,7 +551,7 @@ class ilObjExercise extends ilObject
 	 */
 	function updateUserStatus($a_user_id = 0)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		if ($a_user_id == 0)
 		{
@@ -782,7 +795,9 @@ class ilObjExercise extends ilObject
 	 */
 	public static function _lookupFinishedUserExercises($a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->query("SELECT obj_id, status FROM exc_members".
 			" WHERE usr_id = ".$ilDB->quote($a_user_id, "integer").
@@ -828,7 +843,7 @@ class ilObjExercise extends ilObject
 	*/
 	function saveCertificateVisibility($a_value)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$affectedRows = $ilDB->manipulateF("UPDATE exc_data SET certificate_visibility = %s WHERE obj_id = %s",
 			array('integer', 'integer'),
