@@ -491,7 +491,7 @@ class ilMathJax
 				}
 
 				// create the parent directories recursively
-				@mkdir(dirname($file), 0777, true);
+				mkdir(dirname($file), 0755, true);
 
 				// save a rendered image to the temp folder
 				file_put_contents($file, $response);

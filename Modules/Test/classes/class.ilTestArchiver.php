@@ -175,7 +175,7 @@ class ilTestArchiver
 									. self::DIR_SEP . self::QUESTION_PATH_COMPONENT_PREFIX . $question_fi;
 		if ( !is_dir( $pass_question_directory ) )
 		{
-			mkdir( $pass_question_directory , 0777, true );
+			mkdir( $pass_question_directory , 0755, true );
 		}
 
 		copy( $file_path, $pass_question_directory . self::DIR_SEP. $original_filename );
@@ -218,7 +218,7 @@ class ilTestArchiver
 		$best_solution_path = $this->getTestArchive() . self::DIR_SEP . self::TEST_BEST_SOLUTION_PATH_COMPONENT;
 		if ( !is_dir( $best_solution_path ) )
 		{
-			mkdir( $best_solution_path , 0777, true );
+			mkdir( $best_solution_path , 0755, true );
 		}
 
 		file_put_contents( $best_solution_path . self::DIR_SEP . self::HTML_BEST_SOLUTION_FILENAME,	$html_string );
@@ -248,19 +248,19 @@ class ilTestArchiver
 		$best_solution_path = $this->getTestArchive() . self::DIR_SEP . self::TEST_BEST_SOLUTION_PATH_COMPONENT;
 		if ( !is_dir( $best_solution_path ) )
 		{
-			mkdir( $best_solution_path , 0777, true);
+			mkdir( $best_solution_path , 0755, true);
 		}
 
 		$materials_path = $best_solution_path . self::DIR_SEP . self::TEST_MATERIALS_PATH_COMPONENT;
 		if ( !is_dir( $materials_path ) )
 		{
-			mkdir( $materials_path , 0777, true);
+			mkdir( $materials_path , 0755, true);
 		}
 
 		$question_materials_path = $materials_path . self::DIR_SEP . self::QUESTION_PATH_COMPONENT_PREFIX . $question_fi;
 		if ( !is_dir( $question_materials_path ) )
 		{
-			mkdir( $question_materials_path , 0777, true);
+			mkdir( $question_materials_path , 0755, true);
 		}
 
 		copy( $file_path, $question_materials_path . self::DIR_SEP . $orginial_filename );
@@ -332,7 +332,7 @@ class ilTestArchiver
 	protected function createArchiveForTest() 
 	{
 		ilUtil::makeDirParents($this->getTestArchive());
-		//mkdir( $this->getTestArchive(), 0777, true );
+		//mkdir( $this->getTestArchive(), 0755, true );
 	}
 
 	/**
@@ -421,7 +421,7 @@ class ilTestArchiver
 
 	protected function createZipExportDirectory()
 	{
-		mkdir($this->getZipExportDirectory(), 0777, true);
+		mkdir($this->getZipExportDirectory(), 0755, true);
 	}
 
 	/**
@@ -484,7 +484,7 @@ class ilTestArchiver
 	 */
 	protected function createPassDataDirectory($active_fi, $pass) 
 	{
-		mkdir($this->getPassDataDirectory($active_fi, $pass), 0777, true);
+		mkdir($this->getPassDataDirectory($active_fi, $pass), 0755, true);
 		return;
 	}
 	
@@ -614,7 +614,7 @@ class ilTestArchiver
 		$this->appendToArchiveDataIndex(
 			date('Y'), $active_fi, $pass, $user->getFirstname(), $user->getLastname(), $user->getMatriculation()
 		);
-		mkdir($this->getPassMaterialsDirectory($active_fi, $pass) , 0777, true );
+		mkdir($this->getPassMaterialsDirectory($active_fi, $pass) , 0755, true );
 	}
 
 	/**

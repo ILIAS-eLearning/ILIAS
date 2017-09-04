@@ -63,7 +63,7 @@ class ilFileDataMail extends ilFileData
 	{
 		if(is_writable($this->getPath()))
 		{
-			if(mkdir($this->getPath().'/'.MAILPATH))
+			if(mkdir($this->getPath().'/'.MAILPATH, 0755))
 			{
 				if(chmod($this->getPath().'/'.MAILPATH,0755))
 				{
