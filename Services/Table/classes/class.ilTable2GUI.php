@@ -15,6 +15,21 @@ require_once("Services/Table/classes/class.ilTableGUI.php");
 class ilTable2GUI extends ilTableGUI
 {
 	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
 	 * @var object
 	 */
 	protected $parent_obj;
@@ -98,7 +113,13 @@ class ilTable2GUI extends ilTableGUI
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd = "", $a_template_context = "")
 	{
-		global $lng;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$this->ctrl = $DIC->ctrl();
+		$this->tpl = $DIC["tpl"];
+		$lng = $DIC->language();
 
 		parent::__construct(0, false);
 		$this->unique_id = md5(uniqid());
@@ -182,7 +203,7 @@ class ilTable2GUI extends ilTableGUI
 	 */
 	function determineLimit()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		if ($this->limit_determined)
 		{
@@ -332,7 +353,7 @@ class ilTable2GUI extends ilTableGUI
 	 */
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
@@ -660,7 +681,7 @@ class ilTable2GUI extends ilTableGUI
 	 */
 	function addFilterItemByMetaType($id, $type = self::FILTER_TEXT, $a_optional = false, $caption = NULL)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		if(!$caption)
 		{
@@ -1348,7 +1369,8 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 
 	function setOrderLink($sort_field, $order_dir)
 	{
-		global $ilCtrl, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 
 		$hash = "";
 		if (is_object($ilUser) && $ilUser->getPref("screen_reader_optimization"))
@@ -1372,7 +1394,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 
 	function fillHeader()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$allcolumnswithwidth = true;
 		foreach ((array) $this->column as $idx => $column)
@@ -1505,7 +1527,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	*/
 	function determineOffsetAndOrder($a_omit_offset = false)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		if ($this->nav_determined)
 		{
@@ -1601,7 +1623,9 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	*/
 	public function getHTML()
 	{
-		global $lng, $ilCtrl, $ilUser;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 
 		if($this->getExportMode())
 		{
@@ -1752,7 +1776,8 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	*/
 	function render()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$this->tpl->setVariable("CSS_TABLE",$this->getStyle("table"));
 		$this->tpl->setVariable("DATA_TABLE", (int) $this->getIsDataTable());
@@ -1867,7 +1892,8 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	*/
 	private function renderFilter()
 	{
-		global $lng, $tpl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
 
 		$filter = $this->getFilterItems();
 		$opt_filter = $this->getFilterItems(true);
@@ -2087,7 +2113,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	*/
 	public function resetFilter()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$filter = $this->getFilterItems();
 		$opt_filter = $this->getFilterItems(true);
@@ -2133,7 +2159,9 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	*/
 	function fillFooter()
 	{
-		global $lng, $ilCtrl, $ilUser;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 
 		$footer = false;
 
@@ -2445,7 +2473,9 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	*/
 	function getLinkbar($a_num)
 	{
-		global $ilCtrl, $lng, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 
 		$hash = "";
 		if (is_object($ilUser) && $ilUser->getPref("screen_reader_optimization"))
@@ -2584,7 +2614,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	*/
 	function fillActionRow()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		// action row
 		$action_row = false;
@@ -2829,7 +2859,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	 */
 	function storeProperty($type, $value)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		if(is_object($ilUser) && $this->getId() != "")
 		{
@@ -2848,7 +2878,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	 */
 	function loadProperty($type)
     {
-		global $ilUser;
+		$ilUser = $this->user;
 
 		if(is_object($ilUser) && $this->getId() != "")
 		{
@@ -3022,7 +3052,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	 */
 	public function restoreTemplate($a_name)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		$a_name = ilUtil::stripSlashes($a_name);
 
@@ -3061,7 +3091,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	 */
 	public function saveTemplate($a_name)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		$a_name = ilUtil::prepareFormOutput($a_name, true);
 
@@ -3089,7 +3119,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	 */
 	public function deleteTemplate($a_name)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		$a_name = ilUtil::prepareFormOutput($a_name, true);
 
@@ -3395,7 +3425,9 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	 */
 	public static function getAllCommandLimit()
 	{
-		global $ilClientIniFile;
+		global $DIC;
+
+		$ilClientIniFile = $DIC["ilClientIniFile"];
 
 		$limit = $ilClientIniFile->readVariable("system", "TABLE_ACTION_ALL_LIMIT");
 		if(!$limit)
