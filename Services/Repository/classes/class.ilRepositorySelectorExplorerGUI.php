@@ -72,13 +72,13 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
 	 * @param string $a_selection_par selection parameter
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd, $a_selection_gui = null, $a_selection_cmd = "selectObject",
+								$a_selection_par = "sel_ref_id", $a_id = "rep_exp_sel")
+	{
 		global $DIC;
 
 		$this->tree = $DIC->repositoryTree();
 		$this->obj_definition = $DIC["objDefinition"];
 		$this->lng = $DIC->language();
-								$a_selection_par = "sel_ref_id", $a_id = "rep_exp_sel")
-	{
 		$tree = $DIC->repositoryTree();
 		$objDefinition = $DIC["objDefinition"];
 

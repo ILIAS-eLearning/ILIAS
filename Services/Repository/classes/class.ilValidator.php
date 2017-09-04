@@ -10,6 +10,41 @@
 */
 class ilValidator
 {
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var Logger
+	 */
+	protected $log;
+
+	/**
+	 * @var ilRbacAdmin
+	 */
+	protected $rbacadmin;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	protected $media_pool_ids = null;
 	
 	/**
@@ -115,7 +150,17 @@ class ilValidator
 	*/
 	function __construct($a_log = false)
 	{
-		global $objDefinition, $ilDB;
+		global $DIC;
+
+		$this->obj_definition = $DIC["objDefinition"];
+		$this->db = $DIC->database();
+		$this->lng = $DIC->language();
+		$this->log = $DIC["ilLog"];
+		$this->rbacadmin = $DIC->rbac()->admin();
+		$this->tree = $DIC->repositoryTree();
+		$this->user = $DIC->user();
+		$objDefinition = $DIC["objDefinition"];
+		$ilDB = $DIC->database();
 		
 		$this->db =& $ilDB;
 		$this->rbac_object_types = "'".implode("','",$objDefinition->getAllRBACObjects())."'";
@@ -264,7 +309,7 @@ class ilValidator
 	 */
 	function validate()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		// The validation summary.
 		$summary = "";
@@ -552,7 +597,7 @@ class ilValidator
 	*/
 	function findMissingObjects()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// check mode: analyze
 		if ($this->mode["scan"] !== true)
@@ -624,7 +669,7 @@ class ilValidator
 	*/
 	function findInvalidRolefolders()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// check mode: analyze
 		if ($this->mode["scan"] !== true)
@@ -706,7 +751,7 @@ class ilValidator
 	*/
 	function findInvalidRBACEntries()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// check mode: analyze
 		if ($this->mode["scan"] !== true)
@@ -805,7 +850,7 @@ class ilValidator
  	*/	
 	function findInvalidReferences()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// check mode: analyze
 		if ($this->mode["scan"] !== true)
@@ -868,7 +913,7 @@ class ilValidator
 	*/
 	function findInvalidChilds()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// check mode: analyze
 		if ($this->mode["scan"] !== true)
@@ -1092,8 +1137,8 @@ class ilValidator
 	*/
 	function removeInvalidReferences($a_invalid_refs = NULL)
 	{
-		global $ilLog;
-		global $ilDB;
+		$ilLog = $this->log;
+		$ilDB = $this->db;
 		
 		// check mode: clean
 		if ($this->mode["clean"] !== true)
@@ -1160,7 +1205,7 @@ removal starts here
 	*/
 	function removeInvalidChilds($a_invalid_childs = NULL)
 	{
-		global $ilLog;
+		$ilLog = $this->log;
 
 		// check mode: clean
 		if ($this->mode["clean"] !== true)
@@ -1225,7 +1270,7 @@ removal starts here
 	*/
 	function removeInvalidRolefolders($a_invalid_rolefolders = NULL)
 	{
-		global $ilLog;
+		$ilLog = $this->log;
 		
 		// check mode: clean
 		if ($this->mode["clean"] !== true)
@@ -1300,7 +1345,8 @@ removal starts here
 	*/
 	function restoreMissingObjects($a_missing_objects = NULL)
 	{
-		global $rbacadmin,$ilLog;
+		$rbacadmin = $this->rbacadmin;
+		$ilLog = $this->log;
 		
 		// check mode: restore
 		if ($this->mode["restore"] !== true)
@@ -1383,8 +1429,8 @@ restore starts here
 	*/
 	function restoreReference($a_obj_id)
 	{
-		global $ilLog;
-		global $ilDB;
+		$ilLog = $this->log;
+		$ilDB = $this->db;
 
 		if (empty($a_obj_id))
 		{
@@ -1417,7 +1463,7 @@ restore starts here
 	*/
 	function restoreUnboundObjects($a_unbound_objects = NULL)
 	{
-		global $ilLog;
+		$ilLog = $this->log;
 
 		// check mode: restore
 		if ($this->mode["restore"] !== true)
@@ -1458,7 +1504,7 @@ restore starts here
 	*/
 	function restoreTrash($a_deleted_objects = NULL)
 	{
-		global $ilLog;
+		$ilLog = $this->log;
 
 		// check mode: restore
 		if ($this->mode["restore_trash"] !== true)
@@ -1512,7 +1558,9 @@ restore starts here
 	*/
 	function restoreDeletedObjects($a_nodes)
 	{
-		global $tree,$rbacadmin,$ilLog;
+		$tree = $this->tree;
+		$rbacadmin = $this->rbacadmin;
+		$ilLog = $this->log;
 //vd($a_nodes);exit;
 		// handle wrong input
 		if (!is_array($a_nodes)) 
@@ -1573,7 +1621,9 @@ restore starts here
 	*/
 	function restoreSubTrees ($a_nodes)
 	{
-		global $tree,$rbacadmin,$ilLog;
+		$tree = $this->tree;
+		$rbacadmin = $this->rbacadmin;
+		$ilLog = $this->log;
 		
 		// handle wrong input
 		if (!is_array($a_nodes)) 
@@ -1673,7 +1723,7 @@ restore starts here
 	*/
 	function purgeTrash($a_nodes = NULL)
 	{
-		global $ilLog;
+		$ilLog = $this->log;
 
 		// check mode: purge_trash
 		if ($this->mode["purge_trash"] !== true)
@@ -1708,7 +1758,7 @@ restore starts here
 	*/
 	function purgeUnboundObjects($a_nodes = NULL)
 	{
-		global $ilLog;
+		$ilLog = $this->log;
 		
 		// check mode: purge
 		if ($this->mode["purge"] !== true)
@@ -1742,7 +1792,7 @@ restore starts here
 	*/
 	function purgeMissingObjects($a_nodes = NULL)
 	{
-		global $ilLog;
+		$ilLog = $this->log;
 		
 		// check mode: purge
 		if ($this->mode["purge"] !== true)
@@ -1774,7 +1824,8 @@ restore starts here
 	*/
 	function purgeObjects($a_nodes)
 	{
-		global $ilLog, $ilUser;
+		$ilLog = $this->log;
+		$ilUser = $this->user;
 
 		// Get purge limits
 		$count_limit = $ilUser->getPref("systemcheck_count_limit");
@@ -1876,7 +1927,8 @@ restore starts here
 	*/
 	function initGapsInTree()
 	{
-		global $tree,$ilLog;
+		$tree = $this->tree;
+		$ilLog = $this->log;
 		
 		$message = sprintf('%s::initGapsInTree(): Started...',
 						   get_class($this));
@@ -2043,7 +2095,7 @@ restore starts here
 	
 	function checkTreeStructure($a_startnode = null)
 	{
-		global $tree;
+		$tree = $this->tree;
 
 		$this->writeScanLogLine("\nchecking tree structure is disabled");
 		
@@ -2058,7 +2110,7 @@ restore starts here
  	*/	
 	function dumpTree()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$this->writeScanLogLine("BEGIN dumpTree:");
 
@@ -2489,7 +2541,7 @@ restore starts here
 	
 	protected function isMediaFolder($a_obj_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if(!is_array($this->media_pool_ids))
 		{
@@ -2526,7 +2578,7 @@ restore starts here
 	
 	protected function initWorkspaceObjects()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if($this->workspace_object_ids === null)
 		{
