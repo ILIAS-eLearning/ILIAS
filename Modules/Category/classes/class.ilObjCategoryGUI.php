@@ -20,6 +20,16 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 */
 class ilObjCategoryGUI extends ilContainerGUI
 {
+	/**
+	 * @var ilNavigationHistory
+	 */
+	protected $nav_history;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
 	var $ctrl;
 	
 	const CONTAINER_SETTING_TAXBLOCK = "tax_sblock_";
@@ -30,6 +40,23 @@ class ilObjCategoryGUI extends ilContainerGUI
 	*/
 	function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
+		global $DIC;
+
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->nav_history = $DIC["ilNavigationHistory"];
+		$this->access = $DIC->access();
+		$this->ctrl = $DIC->ctrl();
+		$this->tabs = $DIC->tabs();
+		$this->help = $DIC["ilHelp"];
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$this->tree = $DIC->repositoryTree();
+		$this->error = $DIC["ilErr"];
+		$this->settings = $DIC->settings();
+		$this->tpl = $DIC["tpl"];
+		$this->toolbar = $DIC->toolbar();
+		$this->rbacreview = $DIC->rbac()->review();
+		$this->rbacadmin = $DIC->rbac()->admin();
 		//global $ilCtrl;
 
 		// CONTROL OPTIONS
@@ -53,7 +80,11 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 	function executeCommand()
 	{
-		global $rbacsystem, $ilNavigationHistory, $ilAccess, $ilCtrl,$ilTabs;
+		$rbacsystem = $this->rbacsystem;
+		$ilNavigationHistory = $this->nav_history;
+		$ilAccess = $this->access;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -82,7 +113,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 				
 				$ilTabs->clearTargets();
 				$ilTabs->setBackTarget($this->lng->txt('backto_lua'), $this->ctrl->getLinkTarget($this,'listUsers'));
-				global $ilHelp;
+		$ilHelp = $this->help;
 				$ilHelp->setScreenIdComponent("cat");
 				$ilHelp->setScreenId("administrate_user");
 				$ilHelp->setSubScreenId($ilCtrl->getCmd());
@@ -98,7 +129,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 				$ilTabs->clearTargets();
 				$ilTabs->setBackTarget($this->lng->txt('backto_lua'), $this->ctrl->getLinkTarget($this,'listUsers'));
-				global $ilHelp;
+		$ilHelp = $this->help;
 				$ilHelp->setScreenIdComponent("cat");
 				$ilHelp->setScreenId("administrate_user");
 				$ilHelp->setSubScreenId($ilCtrl->getCmd());
@@ -350,7 +381,10 @@ class ilObjCategoryGUI extends ilContainerGUI
 	*/
 	function getTabs()
 	{
-		global $rbacsystem, $lng, $ilHelp, $ilAccess;
+		$rbacsystem = $this->rbacsystem;
+		$lng = $this->lng;
+		$ilHelp = $this->help;
+		$ilAccess = $this->access;
 
 		if ($this->ctrl->getCmd() == "editPageContent")
 		{
@@ -446,7 +480,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	*/
 	function renderObject()
 	{
-		global $ilTabs;
+		$ilTabs = $this->tabs;
 		
 		$ilTabs->activateTab("view_content");
 		$ret =  parent::renderObject();
@@ -473,7 +507,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 	protected function afterSave(ilObject $a_new_object)
 	{
-		global $ilUser, $tree;
+		$ilUser = $this->user;
+		$tree = $this->tree;
 		
 		// add default translation
 		$a_new_object->addTranslation($a_new_object->getTitle(),
@@ -521,7 +556,9 @@ class ilObjCategoryGUI extends ilContainerGUI
 	*/
 	function infoScreen()
 	{
-		global $ilAccess, $ilCtrl, $ilErr;
+		$ilAccess = $this->access;
+		$ilCtrl = $this->ctrl;
+		$ilErr = $this->error;
 
 		if (!$ilAccess->checkAccess("visible", "", $this->ref_id))
 		{
@@ -652,7 +689,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 	protected function setEditTabs($active_tab = "settings_misc")
 	{
-		global $ilSetting, $ilTabs;
+		$ilSetting = $this->settings;
+		$ilTabs = $this->tabs;
 		
 		$this->tabs_gui->addSubTab("settings_misc",
 			$this->lng->txt("settings"),
@@ -779,7 +817,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 	*/
 	function updateObject()
 	{
-		global $ilErr, $ilUser;
+		$ilErr = $this->error;
+		$ilUser = $this->user;
 
 		if (!$this->checkPermissionBool("write"))
 		{
@@ -844,7 +883,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	 */
 	function editTranslationsObject($a_get_post_values = false, $a_add = false)
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 	$this->ctrl->redirectByClass("ilobjecttranslationgui", "");
 
@@ -888,7 +927,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	 */
 	function saveTranslationsObject()
 	{
-		global $ilErr;
+		$ilErr = $this->error;
 
 		if (!$this->checkPermissionBool("write"))
 		{
@@ -997,7 +1036,11 @@ class ilObjCategoryGUI extends ilContainerGUI
 	*/
 	public static function _importCategoriesForm ($a_ref_id, &$a_tpl)
 	{
-		global $lng, $rbacreview, $ilCtrl;
+		global $DIC;
+
+		$lng = $DIC->language();
+		$rbacreview = $DIC->rbac()->review();
+		$ilCtrl = $DIC->ctrl();
 
 		$a_tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.cat_import_form.html",
 			"Modules/Category");
@@ -1092,7 +1135,10 @@ class ilObjCategoryGUI extends ilContainerGUI
 	
 	public static function _importCategories($a_ref_id, $withrol_tmp)	
 	{
-		global $lng, $ilCtrl;
+		global $DIC;
+
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
 
 		require_once("./Modules/Category/classes/class.ilCategoryImportParser.php");
 
@@ -1154,7 +1200,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	 */
 	protected function applyFilterObject()
 	{
-		global $ilTabs;
+		$ilTabs = $this->tabs;
 		
 		include_once("./Services/User/classes/class.ilUserTableGUI.php");
 		$utab = new ilUserTableGUI($this, "listUsers", ilUserTableGUI::MODE_LOCAL_USER);
@@ -1166,12 +1212,15 @@ class ilObjCategoryGUI extends ilContainerGUI
 	// METHODS for local user administration
 	function listUsersObject($show_delete = false)
 	{
-		global $ilUser, $ilErr, $ilToolbar;
+		$ilUser = $this->user;
+		$ilErr = $this->error;
+		$ilToolbar = $this->toolbar;
 
 		include_once './Services/User/classes/class.ilLocalUser.php';
 		include_once './Services/User/classes/class.ilObjUserGUI.php';
 
-		global $rbacsystem,$rbacreview;
+		$rbacsystem = $this->rbacsystem;
+		$rbacreview = $this->rbacreview;
 
 		if(!$rbacsystem->checkAccess("cat_administrate_users",$this->object->getRefId()))
 		{
@@ -1297,7 +1346,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 	function assignRolesObject()
 	{
-		global $rbacreview,$ilTabs;
+		$rbacreview = $this->rbacreview;
+		$ilTabs = $this->tabs;
 		
 		$this->checkPermission("cat_administrate_users");
 
@@ -1313,7 +1363,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($this->lng->txt('backto_lua'), $this->ctrl->getLinkTarget($this,'listUsers'));
-		global $ilHelp;
+		$ilHelp = $this->help;
 		$ilHelp->setScreenIdComponent("cat");
 		$ilHelp->setScreenId("administrate_user");
 		$ilHelp->setSubScreenId("assign_roles");
@@ -1364,7 +1414,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 	function assignSaveObject()
 	{
-		global $rbacreview,$rbacadmin;
+		$rbacreview = $this->rbacreview;
+		$rbacadmin = $this->rbacadmin;
 		$this->checkPermission("cat_administrate_users");
 
 		include_once './Services/User/classes/class.ilLocalUser.php';
@@ -1409,7 +1460,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 	// PRIVATE
 	function __getAssignableRoles()
 	{
-		global $rbacreview,$ilUser;
+		$rbacreview = $this->rbacreview;
+		$ilUser = $this->user;
 
 		// check local user
 		$tmp_obj =& ilObjectFactory::getInstanceByObjId($_REQUEST['obj_id']);
@@ -1432,7 +1484,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 	function __checkGlobalRoles($new_assigned)
 	{
-		global $rbacreview,$ilUser;
+		$rbacreview = $this->rbacreview;
+		$ilUser = $this->user;
 
 		$this->checkPermission("cat_administrate_users");
 
@@ -1476,7 +1529,11 @@ class ilObjCategoryGUI extends ilContainerGUI
 	
 	public static function _goto($a_target)
 	{
-		global $ilAccess, $ilErr, $lng;
+		global $DIC;
+
+		$ilAccess = $DIC->access();
+		$ilErr = $DIC["ilErr"];
+		$lng = $DIC->language();
 
 		if ($ilAccess->checkAccess("read", "", $a_target))
 		{
@@ -1503,7 +1560,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	 */
 	function editIconsObject($a_form = null)
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		$this->checkPermission('write');
 	
@@ -1538,7 +1595,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	*/
 	function updateIconsObject()
 	{
-		global $ilSetting;
+		$ilSetting = $this->settings;
 
 		$this->checkPermission('write');
 		
@@ -1582,7 +1639,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	
 	protected function getTaxonomiesForRefId()
 	{
-		global $tree;
+		$tree = $this->tree;
 		
 		include_once "Services/Object/classes/class.ilObjectServiceSettingsGUI.php";
 		include_once "Services/Taxonomy/classes/class.ilObjTaxonomy.php";
