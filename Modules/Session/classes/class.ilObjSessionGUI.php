@@ -1680,7 +1680,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 				$this->form->addCommandButton('save',$this->lng->txt('event_btn_add'));
 				$this->form->addCommandButton('saveAndAssignMaterials',$this->lng->txt('event_btn_add_edit'));
-				$this->form->addCommandButton('cancelEdit',$this->lng->txt('cancel'));
+				$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
 		
 				return true;
 			
