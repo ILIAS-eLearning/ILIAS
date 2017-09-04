@@ -14868,7 +14868,7 @@ while($row = $ilDB->fetchAssoc($set))
 	{
 		if(!is_dir($team_path))
 		{
-			mkdir($team_path);
+			mkdir($team_path, 0755);
 		}
 		$tfile = $team_path.basename($ufile);		
 		if(!file_exists($tfile))

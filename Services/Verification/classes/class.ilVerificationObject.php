@@ -288,7 +288,7 @@ abstract class ilVerificationObject extends ilObject2
 			
 			if(!is_dir($path))
 			{
-				mkdir($path);
+				mkdir($path, 0755);
 			}
 		}
 				

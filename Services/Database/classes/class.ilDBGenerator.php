@@ -616,7 +616,7 @@ class ilDBGenerator
 		$row = 0;
 
 		umask(0022);
-		mkdir($a_basedir . '/' . $a_table . '_inserts', fileperms($a_basedir));
+		mkdir($a_basedir . '/' . $a_table . '_inserts', 0755);
 
 		$filenum = 1;
 		while ($rec = $this->il_db->fetchAssoc($set))
