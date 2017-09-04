@@ -13,12 +13,44 @@
 class ilSurveySkillThresholdsGUI
 {
 	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
 	 * Constructor
 	 *
 	 * @param object $a_survey
 	 */
 	function __construct(ilObjSurvey $a_survey)
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->tpl = $DIC["tpl"];
+		$this->toolbar = $DIC->toolbar();
+		$this->lng = $DIC->language();
+		$this->tabs = $DIC->tabs();
 		$this->survey = $a_survey;
 	}
 	
@@ -27,7 +59,7 @@ class ilSurveySkillThresholdsGUI
 	 */
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$cmd = $ilCtrl->getCmd();
 		
@@ -48,7 +80,7 @@ class ilSurveySkillThresholdsGUI
 	 */
 	function listCompetences()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		include_once("./Modules/Survey/classes/class.ilSurveySkillTableGUI.php");
 		$tab = new ilSurveySkillTableGUI($this, "listCompetences", $this->survey);
@@ -61,7 +93,11 @@ class ilSurveySkillThresholdsGUI
 	 */
 	function listSkillThresholds()
 	{
-		global $tpl, $ilToolbar, $lng, $ilCtrl, $ilTabs;
+		$tpl = $this->tpl;
+		$ilToolbar = $this->toolbar;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
 		
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt("svy_back"),
@@ -81,7 +117,7 @@ class ilSurveySkillThresholdsGUI
 	 */
 	function selectSkill()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$o = explode(":", $_POST["skill"]);
 		$ilCtrl->setParameter($this, "sk_id", (int) $o[0]);
@@ -97,7 +133,8 @@ class ilSurveySkillThresholdsGUI
 	 */
 	function saveThresholds()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		include_once("./Modules/Survey/classes/class.ilSurveySkillThresholds.php");
 		$thres = new ilSurveySkillThresholds($this->survey);

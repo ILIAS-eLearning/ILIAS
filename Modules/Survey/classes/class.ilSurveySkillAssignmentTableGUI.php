@@ -15,11 +15,24 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 class ilSurveySkillAssignmentTableGUI extends ilTable2GUI
 {
 	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
 	 * Constructor
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_survey)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
+		$lng = $DIC->language();
 		
 		$this->object = $a_survey;
 		include_once("./Modules/Survey/classes/class.ilSurveySkill.php");
@@ -51,7 +64,8 @@ class ilSurveySkillAssignmentTableGUI extends ilTable2GUI
 	 */
 	function getQuestions()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$survey_questions = $this->object->getSurveyQuestions();
 
@@ -91,7 +105,8 @@ class ilSurveySkillAssignmentTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$ilCtrl->setParameter($this->parent_obj, "q_id", $a_set["id"]);
 
