@@ -13,16 +13,6 @@ include_once("./Services/UICore/lib/html-it/ITX.php");
 class ilTemplate extends HTML_Template_ITX
 {
 	/**
-	 * @var ilErrorHandling
-	 */
-	protected $error;
-
-	/**
-	 * @var ilPluginAdmin
-	 */
-	protected $plugin_admin;
-
-	/**
 	 * @var ilTemplate
 	 */
 	protected $tpl;
@@ -103,8 +93,6 @@ class ilTemplate extends HTML_Template_ITX
 		$plugin = false, $a_use_cache = true)
 	{
 		global $DIC;
-
-		$this->plugin_admin = $DIC["ilPluginAdmin"];
 
 //echo "<br>-".$file."-";
 
@@ -255,6 +243,8 @@ class ilTemplate extends HTML_Template_ITX
 		$handle_referer = false, $add_ilias_footer = false,
 		$add_standard_elements = false, $a_main_menu = true, $a_tabs = true)
 	{
+		global $DIC;
+
 		if ($add_error_mess)
 		{
 			$this->fillMessage();
@@ -341,7 +331,7 @@ class ilTemplate extends HTML_Template_ITX
 		}
 
 		// include the template output hook
-		$ilPluginAdmin = $this->plugin_admin;
+		$ilPluginAdmin = $DIC["ilPluginAdmin"];
 		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
 		foreach ($pl_names as $pl)
 		{
@@ -608,7 +598,7 @@ class ilTemplate extends HTML_Template_ITX
 				}
 
 				// include the template output hook
-		$ilPluginAdmin = $this->plugin_admin;
+				$ilPluginAdmin = $DIC["ilPluginAdmin"];
 				$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
 				foreach ($pl_names as $pl)
 				{
@@ -1446,6 +1436,8 @@ class ilTemplate extends HTML_Template_ITX
 	*/
 	function addBlockFile($var, $block, $tplname, $in_module = false)
 	{
+		global $DIC;
+
 		if (DEBUG)
 		{
 			echo "<br/>Template '".$this->tplPath."/".$tplname."'";
@@ -1462,7 +1454,7 @@ class ilTemplate extends HTML_Template_ITX
 		$template = $this->getFile($tplfile);
 		
 		// include the template input hook
-		$ilPluginAdmin = $this->plugin_admin;
+		$ilPluginAdmin = $DIC["ilPluginAdmin"];
 		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
 		foreach ($pl_names as $pl)
 		{
@@ -1499,6 +1491,8 @@ class ilTemplate extends HTML_Template_ITX
                                $removeUnknownVariables = true,
                                $removeEmptyBlocks = true )
     {
+    	global $DIC;
+
     	// copied from IT:loadTemplateFile
         $template = '';
         if (!$this->flagCacheTemplatefile ||
@@ -1510,7 +1504,7 @@ class ilTemplate extends HTML_Template_ITX
 		// copied.	
         
 		// new code to include the template input hook:
-		$ilPluginAdmin = $this->plugin_admin;
+		$ilPluginAdmin = $DIC["ilPluginAdmin"];
 		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
 		foreach ($pl_names as $pl)
 		{
@@ -2076,7 +2070,7 @@ class ilTemplate extends HTML_Template_ITX
 		$ilMainMenu = $DIC["ilMainMenu"];
 		$ilLocator = $DIC["ilLocator"];
 
-		$ilPluginAdmin = $this->plugin_admin;
+		$ilPluginAdmin = $DIC["ilPluginAdmin"];
 		
 		// blog/portfolio
 		if($ilMainMenu->getMode() == ilMainMenuGUI::MODE_TOPBAR_REDUCED ||
