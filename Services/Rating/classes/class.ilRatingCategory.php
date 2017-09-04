@@ -14,6 +14,11 @@
 */
 class ilRatingCategory
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	protected $id; // [int] sequence
 	protected $parent_id; // [int] parent object
 	protected $title; // [string]
@@ -27,6 +32,9 @@ class ilRatingCategory
 	 */
 	public function __construct($a_id = null)
 	{		
+		global $DIC;
+
+		$this->db = $DIC->database();
 		$this->read($a_id);		
 	}
 	
@@ -137,7 +145,7 @@ class ilRatingCategory
 	 */
 	protected function read($a_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$a_id = (int)$a_id;
 		if($a_id)
@@ -177,7 +185,7 @@ class ilRatingCategory
 	 */
 	public function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if($this->getId())
 		{			
@@ -193,7 +201,7 @@ class ilRatingCategory
 	 */
 	public function save()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$id = $ilDB->nextId("il_rating_cat");
 		$this->setId($id);
@@ -220,7 +228,9 @@ class ilRatingCategory
 	 */
 	public static function delete($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		if((int)$a_id)
 		{			
@@ -242,7 +252,9 @@ class ilRatingCategory
 	 */
 	public static function getAllForObject($a_parent_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$cats = array();
 		
