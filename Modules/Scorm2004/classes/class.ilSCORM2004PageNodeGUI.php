@@ -59,7 +59,6 @@ class ilSCORM2004PageNodeGUI extends ilSCORM2004NodeGUI
 				$this->setLocator();
 				// Determine whether the view of a learning resource should
 				// be shown in the frameset of ilias, or in a separate window.
-				//$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
 				$showViewInFrameset = true;
 
 				$ilCtrl->setReturn($this, "edit");

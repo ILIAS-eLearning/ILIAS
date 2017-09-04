@@ -902,32 +902,31 @@ die("deprecated");
 	
 	function importSave()
 	{
-		global $_FILES, $rbacsystem;
-		global $ilias, $lng;
+		global $_FILES, $lng, $ilErr;
 
 		// check if file was uploaded
 		$source = $_FILES["scormfile"]["tmp_name"];
 		if (($source == 'none') || (!$source))
 		{
-			$ilias->raiseError("No file selected!",$ilias->error_obj->MESSAGE);
+			$ilErr->raiseError("No file selected!",$ilErr->MESSAGE);
 		}
 		// get_cfg_var("upload_max_filesize"); // get the may filesize form t he php.ini
 		switch ($_FILES["scormfile"]["error"])
 		{
 			case UPLOAD_ERR_INI_SIZE:
-				$ilias->raiseError($lng->txt("err_max_file_size_exceeds"),$ilias->error_obj->MESSAGE);
+				$ilErr->raiseError($lng->txt("err_max_file_size_exceeds"),$ilErr->MESSAGE);
 				break;
 
 			case UPLOAD_ERR_FORM_SIZE:
-				$ilias->raiseError($lng->txt("err_max_file_size_exceeds"),$ilias->error_obj->MESSAGE);
+				$ilErr->raiseError($lng->txt("err_max_file_size_exceeds"),$ilErr->MESSAGE);
 				break;
 
 			case UPLOAD_ERR_PARTIAL:
-				$ilias->raiseError($lng->txt("err_partial_file_upload"),$ilias->error_obj->MESSAGE);
+				$ilErr->raiseError($lng->txt("err_partial_file_upload"),$ilErr->MESSAGE);
 				break;
 
 			case UPLOAD_ERR_NO_FILE:
-				$ilias->raiseError($lng->txt("err_no_file_uploaded"),$ilias->error_obj->MESSAGE);
+				$ilErr->raiseError($lng->txt("err_no_file_uploaded"),$ilErr->MESSAGE);
 				break;
 		}
 

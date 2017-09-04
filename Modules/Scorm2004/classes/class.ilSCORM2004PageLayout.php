@@ -45,8 +45,8 @@ class ilSCORM2004PageLayout
 	
 	
 	public function getXMLContent() {
-		global $ilias, $ilDB;
-         $r = $ilias->db->query("SELECT content FROM page_layout WHERE layout_id=".
+		global $ilDB;
+         $r = $ilDB->query("SELECT content FROM page_layout WHERE layout_id=".
 								 $ilDB->quote($this->layout_id));
 	     $row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 		return $row['content'];
@@ -60,7 +60,7 @@ class ilSCORM2004PageLayout
 	
 	
 	public function getTitle() {
-		global $ilias, $ilDB;
+		global $ilDB;
 
 		$r = $ilDB->queryF('SELECT title FROM page_layout WHERE layout_id = %s',
 		array('integer'),array($this->layout_id));

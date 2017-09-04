@@ -20,7 +20,6 @@ class ilQuestionExporter
 	static $media_files = array(); //json data for all files  (class variable)
 	
 	var $db;			// database object
-	var $ilias;			// ilias object
 	var $ref_id;		// reference ID
 	var $inst_id;		// installation id
 	var $q_gui;			// Question GUI object

@@ -72,11 +72,11 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	*/
 	function readObject()
 	{	
-		global $ilias, $lng ,$ilDB;
+		global $lng ,$ilErr, $DIC;
 		
 		//check for json_encode,json_decode 
 		if (!function_exists('json_encode') ||  !function_exists('json_decode') ) {
-			$ilias->raiseError($lng->txt('scplayer_phpmysqlcheck'),$ilias->error_obj->WARNING);
+			$ilErr->raiseError($lng->txt('scplayer_phpmysqlcheck'),$ilErr->WARNING);
 		}
 
 		$needs_convert = false;
@@ -93,7 +93,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		// if no manifestfile
 		if (!$check_for_manifest_file)
 		{
-			$this->ilias->raiseError($this->lng->txt("Manifestfile $manifest_file not found!"), $this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("Manifestfile $manifest_file not found!"), $ilErr->MESSAGE);
 			return;
 		}
 
@@ -157,8 +157,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 
 				if (!@is_file($manifest_file))
 				{
-					$this->ilias->raiseError($this->lng->txt("cont_no_manifest"),
-					$this->ilias->error_obj->WARNING);
+					$ilErr->raiseError($this->lng->txt("cont_no_manifest"), $ilErr->WARNING);
 				}
 			}
 			else
@@ -166,7 +165,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 				// gives out the specific error
 
 				if (!($check_disc_free > 1))
-					$this->ilias->raiseError($this->lng->txt("Not enough space left on device!"),$this->ilias->error_obj->MESSAGE);
+					$ilErr->raiseError($this->lng->txt("Not enough space left on device!"), $ilErr->MESSAGE);
 					return;
 			}
 
@@ -204,8 +203,8 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		{
 			if (!$this->validate($this->getDataDirectory()))
 			{
-				$this->ilias->raiseError("<b>Validation Error(s):</b><br>".$this->getValidationSummary(),
-					$this->ilias->error_obj->WARNING);
+				$ilErr->raiseError("<b>Validation Error(s):</b><br>".$this->getValidationSummary(),
+					$ilErr->WARNING);
 			}
 		}
 			
@@ -223,7 +222,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		}
 		else
 		{
-			return $newPack->il_import($this->getDataDirectory(),$this->getId(),$this->ilias,$_POST["validate"]);
+			return $newPack->il_import($this->getDataDirectory(),$this->getId(), $DIC["ilias"], $_POST["validate"]);
 		}
 	}
 
@@ -1396,8 +1395,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		// set xml header
 		$a_xml_writer->xmlHeader();
 
-		global $ilBench;
-
 		$a_xml_writer->xmlStartTag("ContentObject", array("Type"=>"SCORM2004LearningModule"));
 
 		// MetaData
@@ -1464,7 +1461,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	 
 	function exportHTML4PDF($a_inst, $a_target_dir, &$expLog)
 	{
-		global $ilBench;
 		$tree = new ilTree($this->getId());
 		$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 		$tree->setTreeTablePK("slm_id");
@@ -1480,7 +1476,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	
 	function exportPDF($a_inst, $a_target_dir, &$expLog)
 	{
-		global $ilBench;
 		$a_xml_writer = new ilXmlWriter;
 		$a_xml_writer->xmlStartTag("ContentObject", array("Type"=>"SCORM2004SCO"));
         $this->exportXMLMetaData($a_xml_writer);
@@ -1555,7 +1550,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		// set xml header
 //		$a_xml_writer->xmlHeader();
 
-//		global $ilBench;
 
 //		$a_xml_writer->xmlStartTag("ContentObject", array("Type"=>"SCORM2004LearningModule"));
 
@@ -1649,7 +1643,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	 */
 	function exportXMLScoObjects($a_inst, $a_target_dir, $ver, &$expLog)
 	{
-		global $ilBench;
 		$tree = new ilTree($this->getId());
 		$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 		$tree->setTreeTablePK("slm_id");
@@ -1682,8 +1675,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	 */
 	function exportHTMLScoObjects($a_inst, $a_target_dir, &$expLog, $a_one_file = "")
 	{
-		global $ilBench;
-		
 		$tree = new ilTree($this->getId());
 		$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 		$tree->setTreeTablePK("slm_id");
@@ -1925,14 +1916,12 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	 */
 	function copyAuthoredContent($a_new_obj)
 	{
-		global $ilias;
-		
 		// set/copy stylesheet
 		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$style_id = $this->getStyleSheetId();
 		if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id))
 		{
-			$style_obj = $ilias->obj_factory->getInstanceByObjId($style_id);
+			$style_obj = ilObjectFactory::getInstanceByObjId($style_id);
 			$new_id = $style_obj->ilClone();
 			$a_new_obj->setStyleSheetId($new_id);
 			$a_new_obj->update();

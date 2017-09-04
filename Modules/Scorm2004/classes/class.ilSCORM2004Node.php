@@ -199,7 +199,7 @@ class ilSCORM2004Node
 	*/
 	function read()
 	{
-		global $ilBench, $ilDB;
+		global $ilDB;
 
 		if(!isset($this->data_record))
 		{
@@ -938,7 +938,6 @@ class ilSCORM2004Node
 			// source lm id, item type and lm object
 			$item_slm_id = ilSCORM2004Node::_lookupSLMID($a_item_id);
 			$item_type = ilSCORM2004Node::_lookupType($a_item_id);
-			//$slm_obj = $ilias->obj_factory->getInstanceByObjId($item_slm_id);
 
 			include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
 			$slm_obj = new ilObjSCORM2004LearningModule($item_slm_id, false);

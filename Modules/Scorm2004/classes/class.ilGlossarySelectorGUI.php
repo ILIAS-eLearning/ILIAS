@@ -97,7 +97,7 @@ class ilGlossarySelectorGUI extends ilExplorer
 	*/
 	function formatHeader($tpl, $a_obj_id,$a_option)
 	{
-		global $lng, $ilias;
+		global $lng;
 		
 		$tpl->setCurrentBlock("icon");
 		$tpl->setVariable("ICON_IMAGE" , ilUtil::getImagePath("icon_root.svg"));

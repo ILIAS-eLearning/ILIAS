@@ -139,8 +139,6 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		// set xml header
 		$a_xml_writer->xmlHeader();
 
-		global $ilBench;
-
 		$a_xml_writer->xmlStartTag("ContentObject", array("Type"=>"SCORM2004SCO"));
 
 		$this->exportXMLMetaData($a_xml_writer);
@@ -280,13 +278,10 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 	function exportHTMLPageObjects($a_inst, $a_target_dir, &$expLog, $mode,
 		$a_asset_type = "sco", $a_one_file = "", $a_sco_tpl = null)
 	{
-		global $tpl, $ilCtrl, $ilBench,$ilLog, $lng;
-
 		include_once "./Modules/Scorm2004/classes/class.ilSCORM2004PageGUI.php";
 		include_once "./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModuleGUI.php";
 		include_once "./Services/MetaData/classes/class.ilMD.php";
 
-		$output = "";
 		$tree = new ilTree($this->slm_id);
 		$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 		$tree->setTreeTablePK("slm_id");
@@ -719,8 +714,6 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 
 	function exportXMLPageObjects($a_target_dir, &$a_xml_writer, $a_inst, &$expLog)
 	{
-		global $ilBench;
-
 		include_once "./Modules/Scorm2004/classes/class.ilSCORM2004PageNode.php";
 		include_once "./Modules/Scorm2004/classes/class.ilSCORM2004Page.php";
 

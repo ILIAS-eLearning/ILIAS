@@ -1279,7 +1279,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function showTree()
 	{
-		global $ilUser, $ilias, $ilCtrl, $lng;
+		global $ilCtrl, $lng;
 
 		$mtree = new ilTree($this->object->getId());
 		$mtree->setTableNames('sahs_sc13_tree','sahs_sc13_tree_node');
@@ -2438,11 +2438,11 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function deleteNodes($a_form_action = "")
 	{
-		global $lng, $tpl;
+		global $lng, $tpl, $ilErr;
 
 		if(!isset($_POST["id"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
 		}
 
 		// SAVE POST VALUES
@@ -2796,11 +2796,13 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 
 	function exportISO()
 	{
+		global $ilErr;
+
 		$export = new ilScorm2004Export($this->object,'ISO');
 		if(!$export->buildExportFile())
 		{
 			if(!PATH_TO_MKISOFS)
-				$this->ilias->raiseError($this->lng->txt("no_mkisofs_configured"),$this->ilias->error_obj->MESSAGE);
+				$ilErr->raiseError($this->lng->txt("no_mkisofs_configured"), $ilErr->MESSAGE);
 		}
 		$this->ctrl->redirect($this, "showExportList");
 	}
@@ -2890,13 +2892,15 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	*/
 	function publishExportFile()
 	{
+		global $ilErr;
+
 		if(!isset($_POST["file"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("no_checkbox"),$ilErr->MESSAGE);
 		}
 		if (count($_POST["file"]) > 1)
 		{
-			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("cont_select_max_one_item"), $ilErr->MESSAGE);
 		}
 
 		$export = new ilSCORM2004Export($this->object);
@@ -2920,8 +2924,8 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function preview()
 	{
-		global $ilias;
-		
+		global $DIC;
+
 		$export = new ilScorm2004Export($this->object,'SCORM 2004 3rd');
 		$zipfile = $export->buildExportFile();
 		$zipPathinfo = pathinfo($zipfile);
@@ -2935,7 +2939,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		
 		include_once ("./Modules/Scorm2004/classes/ilSCORM13Package.php");
 		$rte_pkg = new ilSCORM13Package();
-		$rte_pkg->il_import($this->object->getDataDirectory(),$this->object->getId(),$ilias,false,true);
+		$rte_pkg->il_import($this->object->getDataDirectory(),$this->object->getId(),$DIC["ilias"],false,true);
 
 		//increase module version is it necessary?
 		//$this->object->setModuleVersion($module_version+1);
