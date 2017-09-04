@@ -1225,7 +1225,7 @@ removal starts here
 	*/
 	function removeInvalidRolefolders($a_invalid_rolefolders = NULL)
 	{
-		global $ilias,$ilLog;
+		global $ilLog;
 		
 		// check mode: clean
 		if ($this->mode["clean"] !== true)
@@ -1278,7 +1278,7 @@ removal starts here
 			}
 
 			// now delete rolefolder
-			$obj_data =& $ilias->obj_factory->getInstanceByRefId($rolf["ref_id"]);
+			$obj_data = ilObjectFactory::getInstanceByRefId($rolf["ref_id"]);
 			$obj_data->delete();
 			unset($obj_data);
 			$removed = true;
@@ -1300,7 +1300,7 @@ removal starts here
 	*/
 	function restoreMissingObjects($a_missing_objects = NULL)
 	{
-		global $ilias,$rbacadmin,$ilLog;
+		global $rbacadmin,$ilLog;
 		
 		// check mode: restore
 		if ($this->mode["restore"] !== true)
@@ -1357,7 +1357,7 @@ restore starts here
 			if(!$this->isExcludedFromRecovery($missing_obj['type'],$missing_obj['obj_id']))
 			{
 				$rbacadmin->revokePermission($missing_obj["ref_id"]);
-				$obj_data =& $ilias->obj_factory->getInstanceByRefId($missing_obj["ref_id"]);
+				$obj_data = ilObjectFactory::getInstanceByRefId($missing_obj["ref_id"]);
 				$obj_data->putInTree(RECOVERY_FOLDER_ID);
 				$obj_data->setPermissions(RECOVERY_FOLDER_ID);
 				unset($obj_data);
@@ -1512,7 +1512,7 @@ restore starts here
 	*/
 	function restoreDeletedObjects($a_nodes)
 	{
-		global $tree,$rbacadmin,$ilias,$ilLog;
+		global $tree,$rbacadmin,$ilLog;
 //vd($a_nodes);exit;
 		// handle wrong input
 		if (!is_array($a_nodes)) 
@@ -1542,7 +1542,7 @@ restore starts here
 				// delete old tree entries
 				$tree->deleteTree($node);
 
-				$obj_data =& $ilias->obj_factory->getInstanceByRefId($node["child"]);
+				$obj_data = ilObjectFactory::getInstanceByRefId($node["child"]);
 				$obj_data->delete();
 				unset($a_nodes[$key]);
 			}	
@@ -1555,7 +1555,7 @@ restore starts here
 			$tree->deleteTree($node);
 			
 			$rbacadmin->revokePermission($node["child"]);
-			$obj_data =& $ilias->obj_factory->getInstanceByRefId($node["child"]);
+			$obj_data = ilObjectFactory::getInstanceByRefId($node["child"]);
 			$obj_data->putInTree(RECOVERY_FOLDER_ID);
 			$obj_data->setPermissions(RECOVERY_FOLDER_ID);
 		}
@@ -1573,7 +1573,7 @@ restore starts here
 	*/
 	function restoreSubTrees ($a_nodes)
 	{
-		global $tree,$rbacadmin,$ilias,$ilLog;
+		global $tree,$rbacadmin,$ilLog;
 		
 		// handle wrong input
 		if (!is_array($a_nodes)) 
@@ -1610,7 +1610,7 @@ restore starts here
 			// TODO process ROLE_FOLDER_ID
 			if ($topnode["type"] == "rolf")
 			{
-				$rolfObj = $ilias->obj_factory->getInstanceByRefId($topnode["child"]);
+				$rolfObj = ilObjectFactory::getInstanceByRefId($topnode["child"]);
 				$rolfObj->delete();
 				unset($top_node);
 				unset($rolfObj);
@@ -1631,7 +1631,7 @@ restore starts here
 
 			// first paste top_node ...
 			$rbacadmin->revokePermission($key);
-			$obj_data =& $ilias->obj_factory->getInstanceByRefId($key);
+			$obj_data = ilObjectFactory::getInstanceByRefId($key);
 			$obj_data->putInTree(RECOVERY_FOLDER_ID);
 			$obj_data->setPermissions(RECOVERY_FOLDER_ID);
 			
@@ -1646,7 +1646,7 @@ restore starts here
 				foreach ($subnode as $node)
 				{
 					$rbacadmin->revokePermission($node["child"]);
-					$obj_data =& $ilias->obj_factory->getInstanceByRefId($node["child"]);
+					$obj_data = ilObjectFactory::getInstanceByRefId($node["child"]);
 					$obj_data->putInTree($node["parent"]);
 					$obj_data->setPermissions($node["parent"]);
 					
@@ -1774,21 +1774,21 @@ restore starts here
 	*/
 	function purgeObjects($a_nodes)
 	{
-		global $ilias,$ilLog;
+		global $ilLog, $ilUser;
 
 		// Get purge limits
-		$count_limit = $ilias->account->getPref("systemcheck_count_limit");
+		$count_limit = $ilUser->getPref("systemcheck_count_limit");
 		if (! is_numeric($count_limit) || $count_limit < 0)
 		{
 			$count_limit = count($a_nodes);
 		}
 		$timestamp_limit = time();
-		$age_limit = $ilias->account->getPref("systemcheck_age_limit");
+		$age_limit = $ilUser->getPref("systemcheck_age_limit");
 		if (is_numeric($age_limit) && $age_limit > 0)
 		{
 			$timestamp_limit -= $age_limit * 60 * 60 * 24;
 		}
-		$type_limit = $ilias->account->getPref("systemcheck_type_limit");
+		$type_limit = $ilUser->getPref("systemcheck_type_limit");
 		if ($type_limit)
 		{
 			$type_limit = trim($type_limit);
@@ -1832,7 +1832,7 @@ restore starts here
 			}
 
 			$ref_id = ($node["child"]) ? $node["child"] : $node["ref_id"];
-			$node_obj =& $ilias->obj_factory->getInstanceByRefId($ref_id,false);
+			$node_obj = ilObjectFactory::getInstanceByRefId($ref_id,false);
 			
 			if ($node_obj === false)
 			{

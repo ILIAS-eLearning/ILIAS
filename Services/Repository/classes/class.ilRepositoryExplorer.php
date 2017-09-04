@@ -148,8 +148,6 @@ class ilRepositoryExplorer extends ilExplorer
 	*/
 	function buildFrameTarget($a_type, $a_child = 0, $a_obj_id = 0)
 	{
-		global $ilias;
-		
 		switch($a_type)
 		{
 			case "cat":
@@ -407,7 +405,7 @@ class ilRepositoryExplorer extends ilExplorer
 	*/
 	function formatHeader($tpl, $a_obj_id,$a_option)
 	{
-		global $lng, $ilias, $tree, $ilCtrl;
+		global $lng, $tree, $ilCtrl;
 
 		// custom icons
 		$path = ilObject::_getIcon($a_obj_id, "tiny", "root");

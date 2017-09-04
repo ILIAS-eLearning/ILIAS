@@ -29,7 +29,6 @@ include_once("./Services/Table/classes/class.ilTableGUI.php");
 class ilRepositoryGUI
 {
 	var $lng;
-	var $ilias;
 	var $tpl;
 	var $tree;
 	var $rbacsystem;
@@ -44,10 +43,9 @@ class ilRepositoryGUI
 	*/
 	function __construct()
 	{
-		global $lng, $ilias, $tpl, $tree, $rbacsystem, $objDefinition, $ilCtrl, $ilLog;
+		global $lng, $tpl, $tree, $rbacsystem, $objDefinition, $ilCtrl, $ilLog, $ilUser, $ilSetting;
 
 		$this->lng = $lng;
-		$this->ilias = $ilias;
 		$this->tpl = $tpl;
 		$this->tree = $tree;
 		$this->rbacsystem = $rbacsystem;
@@ -129,25 +127,25 @@ class ilRepositoryGUI
 		if (!empty($_GET["set_mode"]))
 		{
 			$_SESSION["il_rep_mode"] = $_GET["set_mode"];
-			if ($this->ilias->account->getId() != ANONYMOUS_USER_ID)
+			if ($ilUser->getId() != ANONYMOUS_USER_ID)
 			{
-				$this->ilias->account->writePref("il_rep_mode", $_GET["set_mode"]);
+				$ilUser->writePref("il_rep_mode", $_GET["set_mode"]);
 			}
 		}
 
 		// get user setting
 		if ($_SESSION["il_rep_mode"] == "")
 		{
-			if ($this->ilias->account->getId() != ANONYMOUS_USER_ID)
+			if ($ilUser->getId() != ANONYMOUS_USER_ID)
 			{
-				$_SESSION["il_rep_mode"] = $this->ilias->account->getPref("il_rep_mode");
+				$_SESSION["il_rep_mode"] = $ilUser->getPref("il_rep_mode");
 			}
 		}
 
 		// if nothing set, get default view
 		if ($_SESSION["il_rep_mode"] == "")
 		{
-			$_SESSION["il_rep_mode"] = $this->ilias->getSetting("default_repository_view");
+			$_SESSION["il_rep_mode"] = $ilSetting->get("default_repository_view");
 		}
 
 		$this->mode = ($_SESSION["il_rep_mode"] != "")
@@ -176,7 +174,7 @@ class ilRepositoryGUI
 	*/
 	function executeCommand()
 	{
-		global $rbacsystem, $ilias, $lng, $ilCtrl, $ilHelp;
+		global $rbacsystem, $lng, $ilCtrl, $ilHelp, $ilErr;
 
 		// check creation mode
 		// determined by "new_type" parameter
@@ -254,7 +252,6 @@ class ilRepositoryGUI
 
 		// commands that are always handled by repository gui
 		// to do: move to container
-		//if ($cmd == "showTree" || $cmd == "linkSelector" || $cmd == "linkChilds")
 		if ($cmd == "showTree")
 		{
 			$next_class = "";
@@ -330,7 +327,7 @@ class ilRepositoryGUI
 					if ($this->cur_ref_id > 0 && !$rbacsystem->checkAccess("read", $this->cur_ref_id))
 					{
 						$_SESSION["il_rep_ref_id"] = "";
-						$ilias->raiseError($lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
+						$ilErr->raiseError($lng->txt("permission_denied"), $ilErr->MESSAGE);
 						$this->tpl->show();
 					}
 					else
