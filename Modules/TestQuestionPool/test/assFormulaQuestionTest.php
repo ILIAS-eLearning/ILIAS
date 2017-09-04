@@ -90,6 +90,13 @@ class assFormulaQuestionTest extends PHPUnit_Framework_TestCase
 		$v2->setValue(6.6);
 		$v2->setIntprecision(1);
 
+		$v3 = clone $v1;
+		$v4 = clone $v2;
+		$v3->setUnit(null);
+		$v3->setVariable('$v3');
+		$v4->setUnit(null);
+		$v4->setVariable('$v4');
+
 		$r1 = new assFormulaQuestionResult(
 			'$r1', 0, 0, 0, $newtoncentimeter, '$v1 * $v2', $points, $precision, true, 33, 34, 33, assFormulaQuestionResult::RESULT_DEC
 		);
@@ -105,10 +112,15 @@ class assFormulaQuestionTest extends PHPUnit_Framework_TestCase
 		$r5 = new assFormulaQuestionResult(
 			'$r5', 0, 0, 0, null, '$v1 * $v2', $points, $precision, true, 33, 34, 33, assFormulaQuestionResult::RESULT_DEC
 		);
+		$r6 = new assFormulaQuestionResult(
+			'$r6', 0, 0, 0, null, '$v3 * $v4', $points, $precision, true, 33, 34, 33, assFormulaQuestionResult::RESULT_DEC
+		);
 
 		$variables = [
 			$v1->getVariable() => $v1,
-			$v2->getVariable() => $v2
+			$v2->getVariable() => $v2,
+			$v3->getVariable() => $v3,
+			$v4->getVariable() => $v4
 		];
 
 		$results = [
@@ -116,7 +128,8 @@ class assFormulaQuestionTest extends PHPUnit_Framework_TestCase
 			$r2->getResult() => $r2,
 			$r3->getResult() => $r3,
 			$r4->getResult() => $r4,
-			$r5->getResult() => $r5
+			$r5->getResult() => $r5,
+			$r6->getResult() => $r6
 		];
 
 		return [
@@ -124,7 +137,8 @@ class assFormulaQuestionTest extends PHPUnit_Framework_TestCase
 			[$r2, $variables, $results, '1.29', $newtonmetre],
 			[$r3, $variables, $results, '1.29', $newtonmetre],
 			[$r4, $variables, $results, '129.36', $newtoncentimeter],
-			[$r5, $variables, $results, '1.29']
+			[$r5, $variables, $results, '1.29'],
+			[$r6, $variables, $results, '129.36']
 		];
 	}
 }
