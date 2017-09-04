@@ -11,6 +11,26 @@
  */
 class ilLMTracker
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilPluginAdmin
+	 */
+	protected $plugin_admin;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	const NOT_ATTEMPTED = 0;
 	const IN_PROGRESS = 1;
 	const COMPLETED = 2;
@@ -45,6 +65,12 @@ class ilLMTracker
 	 */
 	private function __construct($a_id, $a_by_obj_id = false, $a_user_id)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
+		$this->lng = $DIC->language();
+		$this->plugin_admin = $DIC["ilPluginAdmin"];
+		$this->user = $DIC->user();
 		$this->user_id = $a_user_id;
 
 		if ($a_by_obj_id)
@@ -70,7 +96,9 @@ class ilLMTracker
 	 */
 	static function getInstance($a_ref_id, $a_user_id = 0)
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC->user();
 
 		if ($a_user_id == 0)
 		{
@@ -92,7 +120,9 @@ class ilLMTracker
 	 */
 	static function getInstanceByObjId($a_obj_id, $a_user_id = 0)
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC->user();
 
 		if ($a_user_id == 0)
 		{
@@ -151,7 +181,7 @@ class ilLMTracker
 	 */
 	function trackLastPageAccess($usr_id, $lm_id, $obj_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		// first check if an entry for this user and this lm already exist, when so, delete
 		$q = "DELETE FROM lo_access ".
@@ -178,7 +208,7 @@ class ilLMTracker
 	 */
 	protected function trackPageAndChapterAccess($a_page_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$now = time();
 
@@ -321,7 +351,7 @@ class ilLMTracker
 	 */
 	protected function loadLMTrackingData()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		// we must prevent loading tracking data multiple times during a request where possible
 		// please note that the dirty flag works only to a certain limit
@@ -596,7 +626,10 @@ class ilLMTracker
 	 */
 	function getBlockedUsersInformation()
 	{
-		global $ilDB, $lng, $ilPluginAdmin, $ilUser;
+		$ilDB = $this->db;
+		$lng = $this->lng;
+		$ilPluginAdmin = $this->plugin_admin;
+		$ilUser = $this->user;
 
 		$blocked_users = array();
 

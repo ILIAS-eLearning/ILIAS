@@ -19,6 +19,21 @@ require_once "Services/MetaData/classes/class.ilMDLanguageItem.php";
 */
 class ilObjContentObject extends ilObject
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilLocatorGUI
+	 */
+	protected $locator;
+
 	var $lm_tree;
 	var $meta_data;
 	var $layout;
@@ -44,6 +59,15 @@ class ilObjContentObject extends ilObject
 	*/
 	function __construct($a_id = 0,$a_call_by_reference = true)
 	{
+		global $DIC;
+
+		$this->user = $DIC->user();
+		$this->db = $DIC->database();
+		$this->tree = $DIC->repositoryTree();
+		$this->lng = $DIC->language();
+		$this->error = $DIC["ilErr"];
+		$this->tpl = $DIC["tpl"];
+		$this->locator = $DIC["ilLocator"];
 		// this also calls read() method! (if $a_id is set)
 		parent::__construct($a_id,$a_call_by_reference);
 
@@ -59,7 +83,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function create($a_no_meta_data = false)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		parent::create();
 		
@@ -81,7 +105,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		parent::read();
 #		echo "Content<br>\n";
@@ -280,7 +304,7 @@ class ilObjContentObject extends ilObject
 	 */
 	function updateAutoGlossaries()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// update auto glossaries
 		$ilDB->manipulate("DELETE FROM lm_glossaries WHERE ".
@@ -313,7 +337,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function putInTree($a_parent)
 	{
-		global $tree;
+		$tree = $this->tree;
 
 		// put this object in tree under $a_parent
 		parent::putInTree($a_parent);
@@ -393,7 +417,7 @@ class ilObjContentObject extends ilObject
 	 */
 	function addFirstChapterAndPage()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 		include_once("./Modules/LearningModule/classes/class.ilStructureObject.php");
@@ -454,7 +478,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function createImportDirectory()
 	{
-		global $ilErr;
+		$ilErr = $this->error;
 
 		$lm_data_dir = ilUtil::getDataDir()."/lm_data";
 		if(!is_writable($lm_data_dir))
@@ -530,7 +554,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function createExportDirectory($a_type = "xml")
 	{
-		global $ilErr;
+		$ilErr = $this->error;
 
 		$lm_data_dir = ilUtil::getDataDir()."/lm_data";
 		if(!is_writable($lm_data_dir))
@@ -610,7 +634,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		// always call parent delete function first!!
 		if (!parent::delete())
@@ -693,7 +717,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function writeStyleSheetId($a_style_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$q = "UPDATE content_object SET ".
 			" stylesheet = ".$ilDB->quote((int) $a_style_id, "integer").
@@ -711,7 +735,9 @@ class ilObjContentObject extends ilObject
 	 */
 	static function writeHeaderPage($a_lm_id, $a_page_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$ilDB->manipulate("UPDATE content_object SET ".
 			" header_page = ".$ilDB->quote($a_page_id, "integer").
@@ -727,7 +753,9 @@ class ilObjContentObject extends ilObject
 	 */
 	static function writeFooterPage($a_lm_id, $a_page_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$ilDB->manipulate("UPDATE content_object SET ".
 			" footer_page = ".$ilDB->quote($a_page_id, "integer").
@@ -741,7 +769,9 @@ class ilObjContentObject extends ilObject
 	*/
 	static function _moveLMStyles($a_from_style, $a_to_style)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		if ($a_from_style < 0)	// change / delete all individual styles
 		{
@@ -781,7 +811,10 @@ class ilObjContentObject extends ilObject
 	 */
 	static protected function _lookup($a_obj_id, $a_field)
 	{
-		global $ilDB, $ilLog;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilLog = $DIC["ilLog"];
 
 		$q = "SELECT ".$a_field." FROM content_object ".
 			" WHERE id = ".$ilDB->quote($a_obj_id, "integer");
@@ -808,7 +841,9 @@ class ilObjContentObject extends ilObject
 	*/
 	static function _lookupStyleSheetId($a_cont_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$q = "SELECT stylesheet FROM content_object ".
 			" WHERE id = ".$ilDB->quote($a_cont_obj_id, "integer");
@@ -823,7 +858,9 @@ class ilObjContentObject extends ilObject
 	*/
 	static function _lookupContObjIdByStyleId($a_style_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$q = "SELECT id FROM content_object ".
 			" WHERE stylesheet = ".$ilDB->quote($a_style_id, "integer");
@@ -841,7 +878,9 @@ class ilObjContentObject extends ilObject
 	 */
 	static function _lookupDisableDefaultFeedback($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$q = "SELECT disable_def_feedback FROM content_object ".
 			" WHERE id = ".$ilDB->quote($a_id, "integer");
@@ -856,7 +895,9 @@ class ilObjContentObject extends ilObject
 	 */
 	static function _lookupStoreTries($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$q = "SELECT store_tries FROM content_object ".
 			" WHERE id = ".$ilDB->quote($a_id, "integer");
@@ -874,7 +915,9 @@ class ilObjContentObject extends ilObject
 	*/
 	static function _getNrOfAssignedLMs($a_style_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$q = "SELECT count(*) as cnt FROM content_object ".
 			" WHERE stylesheet = ".$ilDB->quote($a_style_id, "integer");
@@ -890,7 +933,9 @@ class ilObjContentObject extends ilObject
 	*/
 	static function _getNrLMsIndividualStyles()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		// joining with style table (not perfectly nice)
 		$q = "SELECT count(*) as cnt FROM content_object, style_data ".
@@ -907,7 +952,9 @@ class ilObjContentObject extends ilObject
 	*/
 	static function _getNrLMsNoStyle()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$q = "SELECT count(*) as cnt FROM content_object ".
 			" WHERE stylesheet = ".$ilDB->quote(0, "integer");
@@ -924,7 +971,9 @@ class ilObjContentObject extends ilObject
 	*/
 	static function _deleteStyleAssignments($a_style_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$q = "UPDATE content_object SET ".
 			" stylesheet = ".$ilDB->quote(0, "integer").
@@ -1137,7 +1186,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function readProperties()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$q = "SELECT * FROM content_object WHERE id = ".
 			$ilDB->quote($this->getId(), "integer");
@@ -1184,7 +1233,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function updateProperties()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// force clean_frames to be set, if layout per page is activated
 		if ($this->getLayoutPerPage())
@@ -1234,7 +1283,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function createProperties()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$q = "INSERT INTO content_object (id) VALUES (".$ilDB->quote($this->getId(), "integer").")";
 		$ilDB->manipulate($q);
@@ -1251,7 +1300,9 @@ class ilObjContentObject extends ilObject
 	*/
 	static function _lookupOnline($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 //echo "class ilObjContentObject::_lookupOnline($a_id) called. Use Access class instead.";
 
@@ -1311,7 +1362,10 @@ class ilObjContentObject extends ilObject
 	*/
 	static function _checkPreconditionsOfPage($cont_ref_id,$cont_obj_id, $page_id)
 	{
-		global $ilUser,$ilErr;
+		global $DIC;
+
+		$ilUser = $DIC->user();
+		$ilErr = $DIC["ilErr"];
 
 		$lm_tree = new ilTree($cont_obj_id);
 		$lm_tree->setTableNames('lm_tree','lm_data');
@@ -1440,7 +1494,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function fixTree()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$tree = $this->getLMTree();
 		
@@ -2038,7 +2092,9 @@ class ilObjContentObject extends ilObject
 	*/
 	function exportHTML($a_target_dir, $log, $a_zip_file = true, $a_export_format = "html", $a_lang = "")
 	{
-		global $tpl, $ilLocator, $ilUser;
+		$tpl = $this->tpl;
+		$ilLocator = $this->locator;
+		$ilUser = $this->user;
 
 		$user_lang = $ilUser->getLanguage();
 
@@ -2457,7 +2513,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function exportHTMLMOB($a_target_dir, &$a_lm_gui, $a_mob_id, $a_frame, &$a_linked_mobs)
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		$mob_dir = $a_target_dir."/mobs";
 
@@ -2525,7 +2581,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function exportHTMLGlossaryTerms(&$a_lm_gui, $a_target_dir)
 	{
-		global $ilLocator;
+		$ilLocator = $this->locator;
 		
 		foreach($this->offline_int_links as $int_link)
 		{
@@ -2579,7 +2635,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function exportHTMLPages(&$a_lm_gui, $a_target_dir, $a_lang = "", $a_all_languages = false)
 	{
-		global $ilLocator;
+		$ilLocator = $this->locator;
 				
 		$pages = ilLMPageObject::getPageList($this->getId());
 		
@@ -2689,7 +2745,7 @@ class ilObjContentObject extends ilObject
 	function exportPageHTML(&$a_lm_gui, $a_target_dir, $a_lm_page_id, $a_frame = "",
 		$a_exp_id_map = array(), $a_lang = "-", $a_all_languages = false)
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		$lang_suffix = "";
 		if ($a_lang != "-" && $a_lang != "" && $a_all_languages)
@@ -3125,7 +3181,7 @@ class ilObjContentObject extends ilObject
 	function importFromZipFile($a_tmp_file, $a_filename, $a_validate = true,
 		$a_import_into_help_module = 0)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		// create import directory
 		$this->createImportDirectory();
@@ -3163,7 +3219,7 @@ class ilObjContentObject extends ilObject
 	function importFromDirectory($a_directory, $a_validate = true, $a_mapping = null)
 	// end-patch optes_lok_export
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$this->log->debug("import from directory ".$a_directory);
 		
@@ -3406,7 +3462,9 @@ class ilObjContentObject extends ilObject
 	 */
 	static function lookupAutoGlossaries($a_lm_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		// read auto glossaries
 		$set = $ilDB->query("SELECT * FROM lm_glossaries ".

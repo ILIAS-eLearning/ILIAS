@@ -1170,7 +1170,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function importFileObject($parent_id = NULL, $a_catch_errors = true)
 	{
-		global $_FILES, $rbacsystem, $ilErr, $tpl;
+		global $rbacsystem, $ilErr, $tpl;
 
 		try
 		{
