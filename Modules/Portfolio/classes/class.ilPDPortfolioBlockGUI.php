@@ -13,6 +13,11 @@ include_once 'Services/Block/classes/class.ilBlockGUI.php';
  */
 class ilPDPortfolioBlockGUI extends ilBlockGUI
 {
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
 	static $block_type = 'pdportf';
 	protected $default_portfolio = 0;
 
@@ -21,7 +26,13 @@ class ilPDPortfolioBlockGUI extends ilBlockGUI
 	 */
 	public function __construct()
 	{
-		global $lng;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+		$this->settings = $DIC->settings();
+		$this->user = $DIC->user();
+		$lng = $DIC->language();
 
 		parent::__construct();
 
@@ -69,7 +80,7 @@ class ilPDPortfolioBlockGUI extends ilBlockGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$cmd = $ilCtrl->getCmd('getHTML');
 
@@ -81,7 +92,10 @@ class ilPDPortfolioBlockGUI extends ilBlockGUI
 	 */
 	public function getHTML()
 	{
-		global $lng, $ilCtrl, $ilSetting, $ilUser;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilSetting = $this->settings;
+		$ilUser = $this->user;
 
 		if (!$ilSetting->get('user_portfolios'))
 		{
@@ -114,7 +128,7 @@ class ilPDPortfolioBlockGUI extends ilBlockGUI
 	 */
 	public function fillDataSection()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
 		$data = ilObjPortfolio::getPortfoliosOfUser($ilUser->getId());
@@ -145,7 +159,8 @@ class ilPDPortfolioBlockGUI extends ilBlockGUI
 	 */
 	public function fillRow($p)
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		if($this->getCurrentDetailLevel() > 1)
 		{
@@ -168,7 +183,8 @@ class ilPDPortfolioBlockGUI extends ilBlockGUI
 	 */
 	protected function getOverview()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		if (count($this->getData()) == 0)
 		{

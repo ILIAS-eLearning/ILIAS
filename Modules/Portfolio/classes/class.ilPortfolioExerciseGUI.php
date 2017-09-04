@@ -15,6 +15,16 @@ include_once "Modules/Exercise/classes/class.ilExSubmission.php";
 */
 class ilPortfolioExerciseGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	protected $user_id; // [int]
 	protected $obj_id; // [int]
 	protected $ass_id; // [int]
@@ -22,6 +32,10 @@ class ilPortfolioExerciseGUI
 	
 	public function __construct($a_user_id, $a_obj_id)
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
 		$this->user_id = $a_user_id;
 		$this->obj_id = $a_obj_id;
 		$this->ass_id = (int)$_GET["ass"];
@@ -30,7 +44,7 @@ class ilPortfolioExerciseGUI
 	
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		if(!$this->ass_id ||
 			!$this->user_id)
@@ -53,7 +67,9 @@ class ilPortfolioExerciseGUI
 	
 	public static function checkExercise($a_user_id, $a_obj_id, $a_add_submit = false)
 	{			
-		global $tree;
+		global $DIC;
+
+		$tree = $DIC->repositoryTree();
 		
 		$info = array();
 		
@@ -90,7 +106,10 @@ class ilPortfolioExerciseGUI
 	
 	protected static function getExerciseInfo($a_user_id, $a_assignment_id, $a_add_submit = false)
 	{				
-		global $lng, $ilCtrl;
+		global $DIC;
+
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
 		
 		include_once "Modules/Exercise/classes/class.ilExAssignment.php";			
 		$ass = new ilExAssignment($a_assignment_id);		
@@ -256,7 +275,8 @@ class ilPortfolioExerciseGUI
 	 */
 	protected function finalize()
 	{				
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		include_once "Modules/Exercise/classes/class.ilExSubmissionBaseGUI.php";
 		include_once "Modules/Exercise/classes/class.ilExSubmissionObjectGUI.php";		

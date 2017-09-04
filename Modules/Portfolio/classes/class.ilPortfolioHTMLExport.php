@@ -11,6 +11,11 @@
  */
 class ilPortfolioHTMLExport
 {
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
 	protected $portfolio_gui;
 	protected $export_material; 
 
@@ -22,6 +27,9 @@ class ilPortfolioHTMLExport
 	 */
 	function __construct($a_portfolio_gui, $a_object)
 	{
+		global $DIC;
+
+		$this->tabs = $DIC->tabs();
 		$this->portfolio_gui = $a_portfolio_gui;
 		$this->object = $a_object;
 		$this->export_material = array(); // #16571
@@ -198,7 +206,7 @@ class ilPortfolioHTMLExport
 	
 	function buildExportTemplate(array $a_js_files = null)
 	{
-		global $ilTabs;
+		$ilTabs = $this->tabs;
 		
 		$this->tpl = $this->co_page_html_export->getPreparedMainTemplate();		
 		$this->tpl->getStandardTemplate();

@@ -19,7 +19,7 @@ class ilPCConsultationHours extends ilPageContent
 	 * @var ilObjUser
 	 */
 	protected $user;
-	
+
 	var $dom;
 
 	/**

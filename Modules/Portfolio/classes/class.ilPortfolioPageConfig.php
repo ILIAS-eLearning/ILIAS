@@ -14,11 +14,27 @@ include_once("./Services/COPage/classes/class.ilPageConfig.php");
 class ilPortfolioPageConfig extends ilPageConfig
 {
 	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+	
+	/**
 	 * Init
 	 */
 	function init()
 	{
-		global $ilSetting, $rbacsystem;
+		global $DIC;
+
+		$this->settings = $DIC->settings();
+		$this->rbacsystem = $DIC->rbac()->system();
+
+		$ilSetting = $this->settings;
+		$rbacsystem = $this->rbacsystem;
 		
 		$prfa_set = new ilSetting("prfa");
 		$this->setPreventHTMLUnmasking(!(bool)$prfa_set->get("mask", false));
