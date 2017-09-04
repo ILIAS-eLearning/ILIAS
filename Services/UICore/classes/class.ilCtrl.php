@@ -15,10 +15,6 @@ class ilCtrl
 	 */
 	protected $db;
 
-	/**
-	 * @var ilObjectDefinition
-	 */
-	protected $obj_definition;
 
 	/**
 	 * @var ilPluginAdmin
@@ -42,11 +38,6 @@ class ilCtrl
 	 */
 	function __construct()
 	{
-		global $DIC;
-
-		$this->db = $DIC->database();
-		$this->obj_definition = $DIC["objDefinition"];
-		$this->plugin_admin = $DIC["ilPluginAdmin"];
 		// initialisation
 		$this->init();
 		
@@ -106,7 +97,9 @@ class ilCtrl
 	 */
 	function callBaseClass()
 	{
-		$ilDB = $this->db;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$baseClass = strtolower($_GET["baseClass"]);
 
@@ -599,7 +592,9 @@ class ilCtrl
 	 */
 	function readCallStructure($a_class, $a_nr = 0, $a_parent = 0)
 	{
-		$ilDB = $this->db;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$a_class = strtolower($a_class);
 
@@ -798,8 +793,10 @@ class ilCtrl
 	}
 	
 	protected function checkLPSettingsForward($a_gui_obj, $a_cmd_node)
-	{			
-		$objDefinition = $this->obj_definition;
+	{
+		global $DIC;
+
+		$objDefinition = $DIC["objDefinition"];
 		
 		// forward to learning progress settings if possible and accessible			
 		if($_GET["gotolp"] &&
@@ -922,7 +919,6 @@ class ilCtrl
 	 */
 	function lookupClassPath($a_class_name)
 	{
-		$ilDB = $this->db;
 		$a_class_name = strtolower($a_class_name);
 
 		$cached_ctrl = ilCachedCtrl::getInstance();
@@ -1260,7 +1256,7 @@ class ilCtrl
 		global $DIC;
 
 		$ilUser = $DIC["ilUser"];
-		$ilDB = $this->db;
+		$ilDB = $DIC->database();
 
 		
 		if ($this->rtoken != "")
@@ -1324,7 +1320,7 @@ class ilCtrl
 
 		$ilUser = $DIC["ilUser"];
 
-		$ilDB = $this->db;
+		$ilDB = $DIC->database();;
 
 		if (is_object($ilUser) && is_object($ilDB) && $ilUser->getId() > 0 &&
 			$ilUser->getId() != ANONYMOUS_USER_ID)
@@ -1427,6 +1423,10 @@ class ilCtrl
 	 * @param $a_script
 	 */
 	public function redirectToURL($a_script) {
+		global $DIC;
+
+		$ilPluginAdmin = $DIC["ilPluginAdmin"];
+
 		if (!is_int(strpos($a_script, "://"))) {
 			if (substr($a_script, 0, 1) != "/" && defined("ILIAS_HTTP_PATH")) {
 				if (is_int(strpos($_SERVER["PHP_SELF"], "/setup/"))) {
@@ -1437,7 +1437,6 @@ class ilCtrl
 		}
 
 		// include the user interface hook
-		$ilPluginAdmin = $this->plugin_admin;
 		if (is_object($ilPluginAdmin)) {
 			$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
 			foreach ($pl_names as $pl) {
@@ -1911,8 +1910,6 @@ class ilCtrl
 	 */
 	private function readClassInfo($a_class)
 	{
-		$ilDB = $this->db;
-
 		$a_class = strtolower($a_class);
 		if (isset($this->info_read_class[$a_class]))
 		{
@@ -1988,7 +1985,9 @@ class ilCtrl
 	 */
 	function insertCtrlCalls($a_parent, $a_child, $a_comp_prefix)
 	{
-		$ilDB = $this->db;
+		global $DIC;
+
+		$ilDB = $DIC->database();;
 
 		$a_parent = strtolower($a_parent);
 		$a_child = strtolower($a_child);
