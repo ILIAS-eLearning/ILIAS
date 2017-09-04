@@ -13,6 +13,16 @@
 class ilContentStyleSettingsGUI
 {
 	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
 	 * @var ilCtrl
 	 */
 	protected $ctrl;
@@ -53,6 +63,9 @@ class ilContentStyleSettingsGUI
 	function __construct(ilObjStyleSettingsGUI $a_parent_gui)
 	{
 		global $DIC;
+
+		$this->settings = $DIC->settings();
+		$this->tree = $DIC->repositoryTree();
 
 		$this->parent_gui = $a_parent_gui;
 		$this->dic = $DIC;
@@ -126,7 +139,7 @@ class ilContentStyleSettingsGUI
 	 */
 	function createStyle()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 	//	$ilCtrl->setParameterByClass("ilobjstylesheetgui", "new_type", "sty");
 		$ilCtrl->redirectByClass("ilobjstylesheetgui", "create");
@@ -299,8 +312,6 @@ class ilContentStyleSettingsGUI
 	 */
 	function confirmedDelete()
 	{
-		global $ilias;
-
 		$this->checkPermission("sty_write_content");
 
 		foreach($_POST["id"] as $id)
@@ -309,7 +320,8 @@ class ilContentStyleSettingsGUI
 			$set = new ilContentStyleSettings();
 			$set->removeStyle($id);
 			$set->update();
-			$style_obj = $ilias->obj_factory->getInstanceByObjId($id);
+
+			$style_obj = ilObjectFactory::getInstanceByObjId($id);
 			$style_obj->delete();
 		}
 
@@ -322,7 +334,8 @@ class ilContentStyleSettingsGUI
 	 */
 	function toggleGlobalDefault()
 	{
-		global $ilSetting, $lng;
+		$ilSetting = $this->settings;
+		$lng = $this->lng;
 
 		$this->checkPermission("sty_write_content");
 
@@ -349,7 +362,8 @@ class ilContentStyleSettingsGUI
 	 */
 	function toggleGlobalFixed()
 	{
-		global $ilSetting, $lng;
+		$ilSetting = $this->settings;
+		$lng = $this->lng;
 
 		$this->checkPermission("sty_write_content");
 
@@ -458,7 +472,8 @@ class ilContentStyleSettingsGUI
 	 */
 	function setScope()
 	{
-		global $tpl, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
 
 		$this->checkPermission("sty_write_content");
 
@@ -478,7 +493,7 @@ class ilContentStyleSettingsGUI
 	 */
 	function saveScope()
 	{
-		global $tree;
+		$tree = $this->tree;
 
 		$this->checkPermission("sty_write_content");
 

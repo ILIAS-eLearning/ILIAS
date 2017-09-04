@@ -30,6 +30,11 @@
 */
 class ilTRBLBorderWidthInputGUI extends ilFormPropertyGUI
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	protected $value;
 	
 	/**
@@ -40,6 +45,10 @@ class ilTRBLBorderWidthInputGUI extends ilFormPropertyGUI
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("border_width");
 		$this->dirs = array("all", "top", "bottom", "left", "right");
@@ -152,7 +161,7 @@ class ilTRBLBorderWidthInputGUI extends ilFormPropertyGUI
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		foreach ($this->dirs as $dir)
 		{
@@ -214,7 +223,7 @@ class ilTRBLBorderWidthInputGUI extends ilFormPropertyGUI
 	*/
 	function insert(&$a_tpl)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$layout_tpl = new ilTemplate("tpl.prop_trbl_layout.html", true, true, "Services/Style/Content");
 		
@@ -303,7 +312,7 @@ class ilTRBLBorderWidthInputGUI extends ilFormPropertyGUI
 	*/
 	function setValueByArray($a_values)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		if ($a_values[$this->getPostVar()]["all"]["type"] == "predefined")
 		{

@@ -33,6 +33,11 @@ include_once("Services/Block/classes/class.ilBlockGUI.php");
 */
 class ilPDTaggingBlockGUI extends ilBlockGUI
 {
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
 	static $block_type = "pdtag";
 	
 	/**
@@ -40,7 +45,16 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 	*/
 	function __construct()
 	{
-		global $ilCtrl, $lng, $ilUser;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$this->obj_definition = $DIC["objDefinition"];
+		$this->access = $DIC->access();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilUser = $DIC->user();
 		
 		parent::__construct();
 		
@@ -95,7 +109,7 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$next_class = $ilCtrl->getNextClass();
 		$cmd = $ilCtrl->getCmd("getHTML");
@@ -123,7 +137,7 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 	*/
 	function fillDataSection()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		include_once("./Services/Tagging/classes/class.ilTagging.php");
 		$this->tags = ilTagging::getTagsForUser($ilUser->getId(), 1000000);
@@ -147,7 +161,8 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 	*/
 	function getTagCloud()
 	{
-		global $ilCtrl, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 		
 		$showdetails = ($this->getCurrentDetailLevel() > 2);
 		$tpl = new ilTemplate("tpl.tag_cloud.html", true, true,
@@ -178,7 +193,10 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 	*/
 	function showResourcesForTag()
 	{
-		global $lng, $ilCtrl, $ilUser, $objDefinition;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
+		$objDefinition = $this->obj_definition;
 		
 		$_GET["tag"] = str_replace("-->","", $_GET["tag"]);
 		
@@ -273,7 +291,10 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 	 */
 	function removeTagsWithoutAccess()
 	{
-		global $ilCtrl, $ilAccess, $ilUser, $lng;
+		$ilCtrl = $this->ctrl;
+		$ilAccess = $this->access;
+		$ilUser = $this->user;
+		$lng = $this->lng;
 
 		// get resources
 		include_once("./Services/Tagging/classes/class.ilTagging.php");
@@ -322,7 +343,9 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 	*/
 	function fillFooter()
 	{
-		global $ilCtrl, $lng, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 
 		$this->setFooterLinks();
 		$this->fillFooterLinks();
@@ -339,7 +362,9 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 	*/
 	function setFooterLinks()
 	{
-		global $ilUser, $ilCtrl, $lng;
+		$ilUser = $this->user;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 return;
 /*
 		if ($this->num_bookmarks == 0 && $this->num_folders == 0)
@@ -385,7 +410,9 @@ return;
 	*/
 	function getOverview()
 	{
-		global $ilUser, $lng, $ilCtrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 				
 		return '<div class="small">'.$lng->txt("tagging_tag_info")."</div>";
 	}

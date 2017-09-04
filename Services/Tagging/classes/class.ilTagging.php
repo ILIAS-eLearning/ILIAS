@@ -15,6 +15,22 @@
 class ilTagging
 {
 	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		global $DIC;
+
+		$this->db = $DIC->database();
+	}
+
+	/**
 	* Write tags for a user and an object.
 	*
 	* @param	int			$a_obj_id			Object ID
@@ -27,7 +43,9 @@ class ilTagging
 	static function writeTagsForUserAndObject($a_obj_id, $a_obj_type, $a_sub_obj_id, $a_sub_obj_type,
 		$a_user_id, $a_tags)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		if ($a_sub_obj_type == "")
 		{
@@ -77,7 +95,9 @@ class ilTagging
 	static function getTagsForUserAndObject($a_obj_id, $a_obj_type, $a_sub_obj_id, $a_sub_obj_type,
 		$a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		if ($a_sub_obj_type == "")
 		{
@@ -112,7 +132,9 @@ class ilTagging
 	static function getTagsForObject($a_obj_id, $a_obj_type, $a_sub_obj_id, $a_sub_obj_type,
 		$a_only_online = true)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$online_str = ($a_only_online)
 			? $online_str = " AND is_offline = ".$ilDB->quote(0, "integer")." "
@@ -147,7 +169,9 @@ class ilTagging
 	*/
 	static function getTagsForUser($a_user_id, $a_max = 0, $a_only_online = true)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$online_str = ($a_only_online)
 			? $online_str = " AND is_offline = ".$ilDB->quote(0, "integer")." "
@@ -177,7 +201,9 @@ class ilTagging
 	*/
 	static function getObjectsForTagAndUser($a_user_id, $a_tag)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$q = "SELECT * FROM il_tag WHERE ".
 			"user_id = ".$ilDB->quote($a_user_id, "integer").
@@ -265,7 +291,9 @@ class ilTagging
 	static function setTagsOfObjectOffline($a_obj_id, $a_obj_type, $a_sub_obj_id, $a_sub_obj_type,
 		$a_offline = true)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		if ($a_sub_obj_type == "")
 		{
@@ -292,7 +320,9 @@ class ilTagging
 	 */
 	static function deleteTagsOfObject($a_obj_id, $a_obj_type, $a_sub_obj_id, $a_sub_obj_type)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		if ($a_sub_obj_type == "")
 		{
@@ -321,7 +351,9 @@ class ilTagging
 	 */
 	static function deleteTagOfObjectForUser($a_user_id, $a_obj_id, $a_obj_type, $a_sub_obj_id, $a_sub_obj_type, $a_tag)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		if ($a_sub_obj_type == "")
 		{
@@ -345,7 +377,7 @@ class ilTagging
 	 */
 	function getUsersForTag($a_tag)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$set = $ilDB->query("SELECT DISTINCT user_id, firstname, lastname FROM il_tag JOIN usr_data ON (user_id = usr_id) ".
 			" WHERE LOWER(tag) = LOWER(".$ilDB->quote($a_tag, "text").")".
@@ -367,7 +399,10 @@ class ilTagging
 	 */
 	static function _countTags($a_obj_ids, $a_all_users = false)
 	{
-		global $ilDB, $ilUser;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilUser = $DIC->user();
 		
 		$q = "SELECT count(*) c, obj_id FROM il_tag WHERE ".
 			$ilDB->in("obj_id", $a_obj_ids, false, "integer");
@@ -397,7 +432,9 @@ class ilTagging
 	 */
 	static function _getTagCloudForObjects(array $a_obj_ids, $a_user_id = null, $a_divide = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$res = array();
 		
@@ -453,7 +490,9 @@ class ilTagging
 	 */
 	static function _findObjectsByTag($a_tag, $a_user_id = null, $a_invert = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$res = array();
 		
@@ -490,7 +529,10 @@ class ilTagging
 	 */
 	static function _getListTagsForObjects(array $a_obj_ids, $a_user_id = null)
 	{
-		global $ilDB, $ilUser;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilUser = $DIC->user();
 		
 		$res = array();
 		
