@@ -36,7 +36,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
 	{
 		global $DIC;
 		parent::__construct($a_parent_ref_id, $a_parent_obj_id, $a_parent_obj_type);
-		
+
 		$this->lng = $DIC->language();
 		$this->user = $DIC->user();
 		$this->tree = $DIC->repositoryTree();

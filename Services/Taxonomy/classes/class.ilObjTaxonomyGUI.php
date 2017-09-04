@@ -17,6 +17,16 @@ include_once("./Services/Taxonomy/interfaces/interface.ilTaxAssignedItemInfo.php
  */
 class ilObjTaxonomyGUI extends ilObject2GUI
 {
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
 	protected $multiple = false;
 	protected $assigned_item_sorting = false;
 	
@@ -25,7 +35,17 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 	 */
 	function __construct($a_id = 0)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$this->tabs = $DIC->tabs();
+		$this->toolbar = $DIC->toolbar();
+		$this->tpl = $DIC["tpl"];
+		$this->help = $DIC["ilHelp"];
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		parent::__construct($a_id, ilObject2GUI::OBJECT_ID);
 		
@@ -125,7 +145,9 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 	 */
 	function executeCommand()
 	{
-		global $ilCtrl, $ilUser, $ilTabs;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
+		$ilTabs = $this->tabs;
 		
 		$next_class = $ilCtrl->getNextClass();
 
@@ -163,7 +185,9 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 	 */
 	function editAOTaxonomySettings()
 	{
-		global $ilToolbar, $ilCtrl, $lng;
+		$ilToolbar = $this->toolbar;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		
 //		if (count($tax_ids) != 0 && !$this->getMultiple())
@@ -225,7 +249,10 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 	 */
 	function listNodes()
 	{
-		global $tpl, $ilToolbar, $lng, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilToolbar = $this->toolbar;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$tax = $this->getCurrentTaxonomy();
 		
@@ -287,7 +314,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 	 */
 	function cancel()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		if ($this->getAssignedObject() > 0)
 		{
@@ -305,7 +332,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 	 */
 	function save()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		if ($this->getAssignedObject() > 0)
 		{
@@ -323,7 +350,8 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 	 */
 	protected function afterSave(ilObject $a_new_object)
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		if ($this->getAssignedObject() > 0)
 		{
@@ -340,7 +368,10 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 	 */
 	function showTree($a_ass_items = false)
 	{
-		global $ilUser, $tpl, $ilCtrl, $lng;
+		$ilUser = $this->user;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		$tax = $this->getCurrentTaxonomy();
 		
@@ -387,7 +418,8 @@ die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
 	 */
 	function createTaxNode()
 	{
-		global $tpl, $ilHelp;
+		$tpl = $this->tpl;
+		$ilHelp = $this->help;
 
 		$this->setTabs("list_items");
 		$ilHelp->setSubScreenId("create_node");
@@ -404,7 +436,8 @@ die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
 	 */
 	public function initTaxNodeForm($a_mode = "edit")
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -454,7 +487,9 @@ die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
 	 */
 	public function saveTaxNode()
 	{
-		global $tpl, $lng, $ilCtrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 	
 		$this->initTaxNodeForm("create");
 		if ($this->form->checkInput())
@@ -501,7 +536,9 @@ die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
 	 */
 	function updateTaxNode()
 	{
-		global $lng, $ilCtrl, $tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
 		
 		$this->initTaxNodeForm("edit");
 		if ($this->form->checkInput())
@@ -533,7 +570,11 @@ die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
 	 */
 	function deleteItems()
 	{
-		global $lng, $tpl, $ilCtrl, $ilTabs, $ilHelp;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
+		$ilHelp = $this->help;
 
 		if(!isset($_POST["id"]))
 		{
@@ -571,7 +612,7 @@ die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
 	 */
 	function confirmedDelete()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		include_once("./Services/Taxonomy/classes/class.ilTaxonomyNode.php");
 
@@ -607,7 +648,8 @@ die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
 	 */
 	function saveSorting()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		// save sorting
 		include_once("./Services/Taxonomy/classes/class.ilTaxonomyNode.php");
@@ -642,7 +684,11 @@ die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
 	 */
 	function moveItems()
 	{
-		global $tpl, $ilCtrl, $lng, $ilToolbar, $ilHelp;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilToolbar = $this->toolbar;
+		$ilHelp = $this->help;
 
 		if(!isset($_POST["id"]))
 		{
@@ -662,7 +708,10 @@ die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
 		{
 			$ilCtrl->setParameter($this, "move_ids", implode($_POST["id"], ","));
 			
-			global $ilUser, $tpl, $ilCtrl, $lng;
+		$ilUser = $this->user;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 			include_once("./Services/Taxonomy/classes/class.ilTaxonomyExplorerGUI.php");
 			$tax_exp = new ilTaxonomyExplorerGUI($this, "moveItems", $this->getCurrentTaxonomy()->getId(),
@@ -680,7 +729,8 @@ die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
 	 */
 	function pasteItems()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 //var_dump($_GET);
 //var_dump($_POST);
 		if ($_GET["move_ids"] != "")
@@ -727,7 +777,9 @@ die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
 	 */
 	function confirmDeleteTaxonomy()
 	{
-		global $ilCtrl, $tpl, $lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 
 		$tax = $this->getCurrentTaxonomy();
 		
@@ -751,7 +803,8 @@ die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
 	 */
 	function deleteTaxonomy()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$tax = $this->getCurrentTaxonomy();
 		$tax->delete();
@@ -768,7 +821,10 @@ die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
 	 */
 	function listTaxonomies()
 	{
-		global $tpl, $ilToolbar, $lng, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilToolbar = $this->toolbar;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$tax_ids = ilObjTaxonomy::getUsageOfObject($this->getAssignedObject());
 		if (count($tax_ids) == 0 || $this->getMultiple())
@@ -796,7 +852,11 @@ die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
 	 */
 	function setTabs($a_id = "")
 	{
-		global $ilTabs, $ilCtrl, $tpl, $lng, $ilHelp;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilHelp = $this->help;
 		
 		$ilTabs->clearTargets();
 
@@ -831,7 +891,7 @@ die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
 	 */
 	function editSettings()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$this->setTabs("settings");
 		
@@ -844,7 +904,8 @@ die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
 	 */
 	public function initSettingsForm()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 	
 		$tax = $this->getCurrentTaxonomy();
 		
@@ -895,7 +956,9 @@ die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
 	 */
 	public function updateSettings()
 	{
-		global $tpl, $lng, $ilCtrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 	
 		$form = $this->initSettingsForm();
 		if ($form->checkInput())
@@ -925,7 +988,10 @@ die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
 	 */
 	function listAssignedItems()
 	{
-		global $tpl, $ilToolbar, $lng, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilToolbar = $this->toolbar;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$tax = $this->getCurrentTaxonomy();
 		
@@ -951,7 +1017,8 @@ die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
 	 */
 	function saveAssignedItemsSorting()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
 		if (is_array($_POST["order"]))
