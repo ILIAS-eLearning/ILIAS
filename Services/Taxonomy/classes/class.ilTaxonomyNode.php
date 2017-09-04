@@ -13,6 +13,11 @@
  */
 class ilTaxonomyNode
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	var $type;
 	var $id;
 	var $title;
@@ -23,6 +28,9 @@ class ilTaxonomyNode
 	 */
 	function __construct($a_id = 0)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		$this->id = $a_id;
 		
 //		include_once("./Services/Taxonomy/classes/class.ilTaxonomyTree.php");
@@ -141,7 +149,7 @@ class ilTaxonomyNode
 	 */
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if(!isset($this->data_record))
 		{
@@ -161,7 +169,7 @@ class ilTaxonomyNode
 	 */
 	function create()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if ($this->getTaxonomyId() <= 0)
 		{
@@ -189,7 +197,7 @@ class ilTaxonomyNode
 	 */
 	function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$query = "UPDATE tax_node SET ".
 			" title = ".$ilDB->quote($this->getTitle(), "text").
@@ -204,7 +212,7 @@ class ilTaxonomyNode
 	 */
 	function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// delete all assignments of the node
 		include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
@@ -245,7 +253,9 @@ class ilTaxonomyNode
 	 */
 	protected static function _lookup($a_obj_id, $a_field)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$query = "SELECT $a_field FROM tax_node WHERE obj_id = ".
 			$ilDB->quote($a_obj_id, "integer");
@@ -263,7 +273,9 @@ class ilTaxonomyNode
 	 */
 	static function _lookupTitle($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		return self::_lookup($a_obj_id, "title");
 	}
@@ -316,7 +328,9 @@ class ilTaxonomyNode
 	 */
 	static function writeOrderNr($a_node_id, $a_order_nr)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$ilDB->manipulate("UPDATE tax_node SET ".
 			" order_nr = ".$ilDB->quote($a_order_nr, "integer").
@@ -332,7 +346,9 @@ class ilTaxonomyNode
 	 */
 	static function writeTitle($a_node_id, $a_title)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$ilDB->manipulate("UPDATE tax_node SET ".
 			" title = ".$ilDB->quote($a_title, "text").
