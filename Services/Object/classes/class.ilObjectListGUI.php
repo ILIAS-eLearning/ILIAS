@@ -22,6 +22,41 @@ require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 */
 class ilObjectListGUI
 {
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
 	const DETAILS_MINIMAL = 10;
 	const DETAILS_SEARCH = 20 ;
 	const DETAILS_ALL = 30;
@@ -136,6 +171,13 @@ class ilObjectListGUI
 	function __construct($a_context = self::CONTEXT_REPOSITORY)
 	{
 		global $DIC;
+		$this->access = $DIC->access();
+		$this->user = $DIC->user();
+		$this->obj_definition = $DIC["objDefinition"];
+		$this->tree = $DIC->repositoryTree();
+		$this->settings = $DIC->settings();
+		$this->tpl = $DIC["tpl"];
+
 
 		$this->ui = $DIC->ui();
 		$this->rbacsystem = $DIC->rbac()->system();
@@ -914,7 +956,7 @@ class ilObjectListGUI
 	 */
 	public function checkCommandAccess($a_permission,$a_cmd,$a_ref_id,$a_type,$a_obj_id="")
 	{
-		global $ilAccess;
+		$ilAccess = $this->access;
 		
 		// e.g: subitems should not be readable since their parent sesssion is readonly.
 		if($a_permission != 'visible' and $this->isVisibleOnlyForced())
@@ -1157,7 +1199,8 @@ class ilObjectListGUI
 	*/
 	public function getProperties()
 	{
-		global $lng, $ilUser;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 
 		$props = array();
 		// please list alert properties first
@@ -1366,7 +1409,8 @@ class ilObjectListGUI
 	*/
 	public function getCommands()
 	{
-		global $ilAccess, $ilUser;
+		$ilAccess = $this->access;
+		$ilUser = $this->user;
 
 		$ref_commands = array();
 		foreach($this->commands as $command)
@@ -1508,7 +1552,6 @@ class ilObjectListGUI
 				
 				// get context for access checks later on
 				$access_handler = null;
-				$context;
 				switch ($this->context)
 				{
 					case self::CONTEXT_WORKSPACE:
@@ -1519,7 +1562,7 @@ class ilObjectListGUI
 						break;	
 					
 					default:
-						global $ilAccess;
+						$ilAccess = $this->access;
 						$context = ilPreviewGUI::CONTEXT_REPOSITORY;
 						$access_handler = $ilAccess;
 						break;	
@@ -1652,8 +1695,7 @@ class ilObjectListGUI
 	 */
 	public function insertRelevance()
 	{
-		global $lng;
-		
+
 		if(!$this->enabledRelevance() or !(int) $this->getRelevance())
 		{
 			return false;
@@ -1722,7 +1764,9 @@ class ilObjectListGUI
 	*/
 	function insertProperties()
 	{
-		global $ilAccess, $lng, $ilUser;
+		$ilAccess = $this->access;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 		
 		$props = $this->getProperties();
 		$props = $this->getCustomProperties($props);
@@ -1910,7 +1954,9 @@ class ilObjectListGUI
 
 	protected function parseConditions($toggle_id,$conditions,$obligatory = true)
 	{
-		global $ilAccess, $lng, $objDefinition,$tree;
+		$lng = $this->lng;
+		$objDefinition = $this->obj_definition;
+		$tree = $this->tree;
 		
 		$num_required = ilConditionHandler::calculateRequiredTriggers($this->ref_id, $this->obj_id);
 		$num_optional_required =
@@ -2024,26 +2070,14 @@ class ilObjectListGUI
 	*/
 	function insertPreconditions()
 	{
-		global $ilAccess, $lng, $objDefinition,$tree;
-
 		include_once("./Services/AccessControl/classes/class.ilConditionHandler.php");
 
-		$missing_cond_exist = false;
-		
 		// do not show multi level conditions (messes up layout)
 		if ($this->condition_depth > 0)
 		{
 			return;
 		}
 
-		// Sort by title
-		/*
-		foreach(ilConditionHandler::_getConditionsOfTarget($this->ref_id, $this->obj_id) as $condition)
-		{
-			$condition['title'] = ilObject::_lookupTitle($condition['trigger_obj_id']);
-		}
-		*/
-			
 		if($this->condition_target)
 		{
 			$conditions = ilConditionHandler::_getConditionsOfTarget(
@@ -2174,7 +2208,7 @@ class ilObjectListGUI
 	*/
 	function insertLinkCommand()
 	{
-		global $objDefinition;
+		$objDefinition = $this->obj_definition;
 
 		if ($this->std_cmd_only)
 		{
@@ -2221,8 +2255,6 @@ class ilObjectListGUI
 	*/
 	function insertCutCommand($a_to_repository = false)
 	{
-		global $ilAccess;
-		
 		if ($this->std_cmd_only)
 		{
 			return;
@@ -2276,7 +2308,7 @@ class ilObjectListGUI
 	 */
 	public function insertCopyCommand($a_to_repository = false)
 	{
-		global $objDefinition;
+		$objDefinition = $this->obj_definition;
 		
 		if($this->std_cmd_only)
 		{
@@ -2321,7 +2353,7 @@ class ilObjectListGUI
 	 */
 	function insertPasteCommand()
 	{
-		global $ilAccess, $objDefinition;
+		$objDefinition = $this->obj_definition;
 		
 		if ($this->std_cmd_only)
 		{
@@ -2355,7 +2387,8 @@ class ilObjectListGUI
 	*/
 	function insertSubscribeCommand()
 	{
-		global $ilSetting, $ilUser;
+		$ilSetting = $this->settings;
+		$ilUser = $this->user;
 
 		if ($this->std_cmd_only)
 		{
@@ -2382,7 +2415,6 @@ class ilObjectListGUI
 			if (!$ilUser->isDesktopItem($this->getCommandId(), $type))
 			{
 				// Pass type and object ID to ilAccess to improve performance
-			    global $ilAccess;
     			if ($this->checkCommandAccess("read", "", $this->ref_id, $this->type, $this->obj_id))
 				{
 					if($this->getContainerObject() instanceof ilDesktopItemHandling)
@@ -2432,8 +2464,9 @@ class ilObjectListGUI
 	 */
 	function insertCommonSocialCommands($a_header_actions = false)
 	{
-		global $ilSetting, $lng, $ilUser, $tpl;
-		
+		$lng = $this->lng;
+		$ilUser = $this->user;
+
 		if ($this->std_cmd_only ||
 			($ilUser->getId() == ANONYMOUS_USER_ID))
 		{
@@ -2441,8 +2474,6 @@ class ilObjectListGUI
 		}
 		$lng->loadLanguageModule("notes");
 		$lng->loadLanguageModule("tagging");
-		$cmd_link = $this->getCommandLink("infoScreen")."#notes_top";
-		$cmd_tag_link = $this->getCommandLink("infoScreen");
 		$cmd_frame = $this->getCommandFrame("infoScreen");
 		include_once("./Services/Notes/classes/class.ilNoteGUI.php");
 		
@@ -2529,7 +2560,8 @@ class ilObjectListGUI
 	function insertCommands($a_use_asynch = false, $a_get_asynch_commands = false,
 		$a_asynch_url = "", $a_header_actions = false)
 	{
-		global $lng, $ilUser;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 
 		if (!$this->getCommandsStatus())
 		{
@@ -2742,7 +2774,7 @@ class ilObjectListGUI
 	 */
 	function enableComments($a_value, $a_enable_comments_settings = true)
 	{
-		global $ilSetting;
+		$ilSetting = $this->settings;
 		
 		// global switch
 		if($ilSetting->get("disable_comments"))
@@ -2761,7 +2793,7 @@ class ilObjectListGUI
 	 */
 	function enableNotes($a_value)
 	{
-		global $ilSetting;
+		$ilSetting = $this->settings;
 		
 		// global switch
 		if($ilSetting->get("disable_notes"))
@@ -2824,7 +2856,7 @@ class ilObjectListGUI
 	
 	function insertMultiDownloadCommand()
 	{
-		global $ilAccess, $objDefinition;
+		$objDefinition = $this->obj_definition;
 		
 		if ($this->std_cmd_only)
 			return;
@@ -2849,7 +2881,7 @@ class ilObjectListGUI
 	
 	function enableDownloadCheckbox($a_ref_id, $a_value)
 	{
-		global $ilAccess;
+		$ilAccess = $this->access;
 		
 		// TODO: delegate to list object class!
 		if (!$this->getContainerObject()->isActiveAdministrationPanel() || $_SESSION["clipboard"])
@@ -2880,7 +2912,9 @@ class ilObjectListGUI
 	 */
 	static function prepareJsLinks($a_redraw_url, $a_notes_url, $a_tags_url, $a_tpl = null)
 	{
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 		
 		if (is_null($a_tpl))
 		{
@@ -2968,7 +3002,9 @@ class ilObjectListGUI
 	 */
 	function getHeaderAction()
 	{
-		global $ilUser, $lng, $tpl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
 		
 		$htpl = new ilTemplate("tpl.header_action.html", true, true, "Services/Repository");	
 		
@@ -3157,8 +3193,6 @@ class ilObjectListGUI
 	*/
 	function appendRepositoryFrameParameter($a_link)
 	{
-		$script = substr(strrchr($_SERVER["PHP_SELF"],"/"),1);
-
 		// we should get rid of this nonsense with 4.4 (alex)
 		if ((strtolower($_GET["baseClass"]) != "ilrepositorygui") &&
 			is_int(strpos($a_link,"baseClass=ilRepositoryGUI")))
@@ -3225,7 +3259,7 @@ class ilObjectListGUI
 	*/
 	function insertPath()
 	{
-		global $tree, $lng;
+		$lng = $this->lng;
 		
 		if($this->getPathStatus() != false)
 		{
@@ -3266,7 +3300,8 @@ class ilObjectListGUI
 	*/
 	function insertIconsAndCheckboxes()
 	{
-		global $lng, $objDefinition;
+		$lng = $this->lng;
+		$objDefinition = $this->obj_definition;
 		
 		$cnt = 0;
 		if ($this->getCheckboxStatus())
@@ -3399,7 +3434,7 @@ class ilObjectListGUI
 	 */
 	function storeAccessCache()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		if($this->acache->getLastAccessStatus() == "miss" &&
 			!$this->prevent_access_caching)
 		{
@@ -3425,7 +3460,7 @@ class ilObjectListGUI
 	function getListItemHTML($a_ref_id, $a_obj_id, $a_title, $a_description,
 		$a_use_asynch = false, $a_get_asynch_commands = false, $a_asynch_url = "")
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		// this variable stores wheter any admin commands
 		// are included in the output
@@ -3696,7 +3731,11 @@ class ilObjectListGUI
 	 */
 	static function preloadCommonProperties($a_obj_ids, $a_context)
 	{
-		global $lng, $ilSetting, $ilUser;
+		global $DIC;
+
+		$lng = $DIC->language();
+		$ilSetting = $DIC->settings();
+		$ilUser = $DIC->user();
 		
 		if($a_context == self::CONTEXT_REPOSITORY)
 		{			

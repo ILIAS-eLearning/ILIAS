@@ -15,6 +15,16 @@ require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 class ilObjectDefinition// extends ilSaxParser
 {
 	/**
+	 * @var ilPluginAdmin
+	 */
+	protected $plugin_admin;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
 	* // TODO: var is not used
 	* object id of specific object
 	* @var obj_id
@@ -47,6 +57,10 @@ class ilObjectDefinition// extends ilSaxParser
 	*/
 	function __construct()
 	{
+		global $DIC;
+
+		$this->plugin_admin = $DIC["ilPluginAdmin"];
+		$this->settings = $DIC->settings();
 		$this->readDefinitionData();
 	}
 
@@ -108,7 +122,9 @@ class ilObjectDefinition// extends ilSaxParser
 
 
 	protected function readDefinitionDataFromDB() {
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$this->obj_data = array();
 
@@ -199,7 +215,9 @@ class ilObjectDefinition// extends ilSaxParser
 	 * @internal param $ilPluginAdmin
 	 */
 	protected static function getGroupedPluginObjectTypes($grouped_obj, $component, $slotName, $slotId) {
-		global $ilPluginAdmin;
+		global $DIC;
+
+		$ilPluginAdmin = $DIC["ilPluginAdmin"];
 		$pl_names = $ilPluginAdmin->getActivePluginsForSlot($component, $slotName, $slotId);
 		foreach ($pl_names as $pl_name) {
 			include_once("./Services/Component/classes/class.ilPlugin.php");
@@ -275,7 +293,9 @@ class ilObjectDefinition// extends ilSaxParser
 	*/
 	function getTranslationType($a_obj_name)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		if ($a_obj_name == "root")
 		{
@@ -390,7 +410,7 @@ class ilObjectDefinition// extends ilSaxParser
 	 * @return bool
 	 */
 	public function isActivePluginType($type) {
-		global $ilPluginAdmin;
+		$ilPluginAdmin = $this->plugin_admin;
 		$isRepoPlugin = $ilPluginAdmin->isActive(IL_COMP_SERVICE, "Repository", "robj",
 			ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $type));
 		$isOrguPlugin = $ilPluginAdmin->isActive(IL_COMP_MODULE, "OrgUnit", "orguext",
@@ -484,7 +504,7 @@ class ilObjectDefinition// extends ilSaxParser
 	*/
 	function getSubObjects($a_obj_type,$a_filter = true)
 	{
-		global $ilSetting;
+		$ilSetting = $this->settings;
 		
 		$subs = array();
 
@@ -535,7 +555,7 @@ class ilObjectDefinition// extends ilSaxParser
 	*/
 	function getSubObjectsRecursively($a_obj_type,$a_include_source_obj = true, $a_add_admin_objects = false)
 	{
-		global $ilSetting;
+		$ilSetting = $this->settings;
 		
 		// This associative array is used to collect all subobject types.
 		// key=>type, value=data
@@ -840,7 +860,9 @@ class ilObjectDefinition// extends ilSaxParser
 	static function getRepositoryObjectTypesForComponent($a_component_type,
 		$a_component_name)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->queryF("SELECT * FROM il_object_def WHERE component = %s",
 			array("text"), array($a_component_type."/".$a_component_name));
@@ -862,7 +884,9 @@ class ilObjectDefinition// extends ilSaxParser
 	*/
 	static function getComponentForType($a_obj_type)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->queryF("SELECT component FROM il_object_def WHERE id = %s",
 			array("text"), array($a_obj_type));
@@ -881,7 +905,9 @@ class ilObjectDefinition// extends ilSaxParser
 	 */
 	static function getGroupedRepositoryObjectTypes($a_parent_obj_type)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT * FROM il_object_group");
 		$groups = array();
@@ -1068,7 +1094,7 @@ class ilObjectDefinition// extends ilSaxParser
 	 */
 	function getPositionByType($a_type)
 	{
-		global $ilSetting;
+		$ilSetting = $this->settings;
 
 		return ($ilSetting->get("obj_add_new_pos_".$a_type) > 0)
 			? (int) $ilSetting->get("obj_add_new_pos_".$a_type)
@@ -1162,7 +1188,7 @@ class ilObjectDefinition// extends ilSaxParser
 	 * @param $isInAdministration, can the object be created in the administration?
 	 */
 	protected function parsePluginData($component, $slotName, $slotId, $isInAdministration) {
-		global $ilPluginAdmin;
+		$ilPluginAdmin = $this->plugin_admin;
 		$pl_names = $ilPluginAdmin->getActivePluginsForSlot($component, $slotName, $slotId);
 		foreach ($pl_names as $pl_name) {
 			include_once("./Services/Component/classes/class.ilPlugin.php");

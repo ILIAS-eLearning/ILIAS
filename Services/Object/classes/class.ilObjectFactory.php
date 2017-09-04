@@ -27,7 +27,9 @@ class ilObjectFactory
 	*/
 	function ObjectIdExists($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$query = "SELECT * FROM object_data ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer');
@@ -46,7 +48,9 @@ class ilObjectFactory
 	 */
 	function getObjectsForOwner ($object_type, $owner_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$query = "SELECT * FROM object_data,object_reference ".
 			"WHERE object_reference.obj_id = object_data.obj_id ".
@@ -71,7 +75,11 @@ class ilObjectFactory
 	*/
 	static function getInstanceByObjId($a_obj_id,$stop_on_error = true)
 	{
-		global $objDefinition, $ilDB, $ilErr;
+		global $DIC;
+
+		$objDefinition = $DIC["objDefinition"];
+		$ilDB = $DIC->database();
+		$ilErr = $DIC["ilErr"];
 
 		// check object id
 		if (!isset($a_obj_id))
@@ -139,7 +147,11 @@ class ilObjectFactory
 	*/
 	static function getInstanceByRefId($a_ref_id,$stop_on_error = true)
 	{
-		global $objDefinition, $ilDB, $ilErr;
+		global $DIC;
+
+		$objDefinition = $DIC["objDefinition"];
+		$ilDB = $DIC->database();
+		$ilErr = $DIC["ilErr"];
 
 		// check reference id
 		if (!isset($a_ref_id))
@@ -213,7 +225,10 @@ class ilObjectFactory
 	 */
 	public static function getTypeByRefId($a_ref_id, $stop_on_error = true)
 	{
-		global $ilErr, $ilDB;
+		global $DIC;
+
+		$ilErr = $DIC["ilErr"];
+		$ilDB = $DIC->database();
 
 		// check reference id
 		if (!isset($a_ref_id))
@@ -257,7 +272,9 @@ class ilObjectFactory
 	 */
 	public static function getClassByType($a_obj_type)
 	{
-		global $objDefinition;
+		global $DIC;
+
+		$objDefinition = $DIC["objDefinition"];
 
 		$location = $objDefinition->getLocation($a_obj_type);
 		$class_name = "ilObj".$objDefinition->getClassName($a_obj_type);

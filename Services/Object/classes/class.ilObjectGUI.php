@@ -12,6 +12,41 @@
 */
 class ilObjectGUI
 {
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $ilErr;
+
+	/**
+	 * @var ilLocatorGUI
+	 */
+	protected $locator;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
+	 * @var ilRbacReview
+	 */
+	protected $rbacreview;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
 	const COPY_WIZARD_NEEDS_PAGE = 1;
 	
 
@@ -92,7 +127,21 @@ class ilObjectGUI
 	*/
 	function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
 	{
-		global $objDefinition, $tpl, $tree, $ilCtrl, $ilErr, $lng, $ilTabs;
+		global $DIC;
+
+		$this->locator = $DIC["ilLocator"];
+		$this->user = $DIC->user();
+		$this->access = $DIC->access();
+		$this->settings = $DIC->settings();
+		$this->rbacreview = $DIC->rbac()->review();
+		$this->toolbar = $DIC->toolbar();
+		$objDefinition = $DIC["objDefinition"];
+		$tpl = $DIC["tpl"];
+		$tree = $DIC->repositoryTree();
+		$ilCtrl = $DIC->ctrl();
+		$ilErr = $DIC["ilErr"];
+		$lng = $DIC->language();
+		$ilTabs = $DIC->tabs();
 
 		global $DIC;
 		$this->ilias = $DIC["ilias"];
@@ -247,7 +296,9 @@ class ilObjectGUI
 	*/
 	public function prepareOutput($a_show_subobjects = true)
 	{
-		global $ilLocator, $tpl, $ilUser;
+		$ilLocator = $this->locator;
+		$tpl = $this->tpl;
+		$ilUser = $this->user;
 
 		$this->tpl->getStandardTemplate();
 		// administration prepare output
@@ -369,7 +420,7 @@ class ilObjectGUI
 	 */
 	protected function initHeaderAction($a_sub_type = null, $a_sub_id = null)
 	{
-		global $ilAccess; 
+		$ilAccess = $this->access;
 		
 		if(!$this->creation_mode && $this->object)
 		{
@@ -441,7 +492,7 @@ class ilObjectGUI
 	 */
 	protected function redrawHeaderActionObject()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$lg = $this->initHeaderAction();
 		echo $lg->getHeaderAction();		
@@ -455,7 +506,9 @@ class ilObjectGUI
 	// BEGIN WebDAV: Show Mount Webfolder Icon.
 	protected function showMountWebfolderIcon()
 	{
-		global $tree, $tpl, $objDefinition;
+		$tree = $this->tree;
+		$tpl = $this->tpl;
+		$objDefinition = $this->objDefinition;
 
 		if ($this->object->getRefId() == "")
 		{
@@ -490,7 +543,7 @@ class ilObjectGUI
 	*/
 	function getAdminTabs()
 	{
-		global $tree;
+		$tree = $this->tree;
 
 /*		if ($_GET["admin_mode"] == "repository")
 		{
@@ -580,7 +633,8 @@ class ilObjectGUI
 	*/
 	protected function setLocator()
 	{
-		global $ilLocator, $tpl;
+		$ilLocator = $this->locator;
+		$tpl = $this->tpl;
 		
 		if ($this->omit_locator)
 		{
@@ -641,7 +695,7 @@ class ilObjectGUI
 	*/
 	protected function addAdminLocatorItems($a_do_not_add_object = false)
 	{
-		global $ilLocator;
+		$ilLocator = $this->locator;
 		
 		if ($_GET["admin_mode"] == "settings")	// system settings
 		{		
@@ -677,7 +731,8 @@ class ilObjectGUI
 	*/
 	public function confirmedDeleteObject()
 	{
-		global $ilSetting, $lng;
+		$ilSetting = $this->settings;
+		$lng = $this->lng;
 		
 		if(isset($_POST["mref_id"]))
 		{
@@ -721,7 +776,8 @@ class ilObjectGUI
 	*/
 	public function createObject()
 	{
-		global $tpl, $ilErr;
+		$tpl = $this->tpl;
+		$ilErr = $this->ilErr;
 
 		$new_type = $_REQUEST["new_type"];
 
@@ -777,7 +833,7 @@ class ilObjectGUI
 	 */
 	final protected function getCreationFormsHTML(array $a_forms)
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		// #13168- sanity check
 		foreach($a_forms as $id => $form)
@@ -885,7 +941,7 @@ class ilObjectGUI
 	 */
 	protected function initDidacticTemplate(ilPropertyFormGUI $form)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$lng->loadLanguageModule('didactic');
 		$existing_exclusive = false;
@@ -988,7 +1044,7 @@ class ilObjectGUI
 	 */
 	public function cancelCreation()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$ilCtrl->redirectByClass("ilrepositorygui", "frameset");
 	}
@@ -1000,7 +1056,9 @@ class ilObjectGUI
 	*/
 	public function saveObject()
 	{
-		global $objDefinition, $tpl, $ilErr;
+		$objDefinition = $this->objDefinition;
+		$tpl = $this->tpl;
+		$ilErr = $this->ilErr;
 
 		$new_type = $_REQUEST["new_type"];
 
@@ -1082,7 +1140,9 @@ class ilObjectGUI
 	 */
 	public function putObjectInTree(ilObject $a_obj, $a_parent_node_id = null)
 	{
-		global $rbacreview, $ilUser, $objDefinition;
+		$rbacreview = $this->rbacreview;
+		$ilUser = $this->user;
+		$objDefinition = $this->objDefinition;
 
 		if(!$a_parent_node_id)
 		{
@@ -1151,7 +1211,9 @@ class ilObjectGUI
 	 */
 	public function editObject()
 	{
-		global $tpl, $ilTabs, $ilErr;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs_gui;
+		$ilErr = $this->ilErr;
 
 		if (!$this->checkPermissionBool("write"))
 		{
@@ -1184,7 +1246,8 @@ class ilObjectGUI
 	 */
 	protected function initEditForm()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$lng->loadLanguageModule($this->object->getType());
 
@@ -1252,7 +1315,9 @@ class ilObjectGUI
 	 */
 	public function updateObject()
 	{
-		global $ilTabs, $tpl, $ilErr;
+		$ilTabs = $this->tabs_gui;
+		$tpl = $this->tpl;
+		$ilErr = $this->ilErr;
 		
 		if (!$this->checkPermissionBool("write"))
 		{
@@ -1339,7 +1404,9 @@ class ilObjectGUI
 	 */
 	protected function importFileObject($parent_id = null, $a_catch_errors = true)
 	{
-		global $objDefinition, $tpl, $ilErr;
+		$objDefinition = $this->objDefinition;
+		$tpl = $this->tpl;
+		$ilErr = $this->ilErr;
 
 		if(!$parent_id)
 		{
@@ -1542,7 +1609,7 @@ class ilObjectGUI
 		$visible = $this->checkPermissionBool("visible,read", "", "", $a_ref_id);
 		
 		if ($visible && $a_type == 'crs') {
-			global $tree;
+		$tree = $this->tree;
 			if($crs_id = $tree->checkForParentType($a_ref_id,'crs'))
 			{
 				if(!$this->checkPermissionBool("write", "", "", $crs_id))
@@ -1570,7 +1637,8 @@ class ilObjectGUI
 	*/
 	public function viewObject()
 	{
-		global $tpl, $ilErr;
+		$tpl = $this->tpl;
+		$ilErr = $this->ilErr;
 
 		if (!$this->checkPermissionBool("visible,read"))
 		{
@@ -1579,7 +1647,7 @@ class ilObjectGUI
 		
 		// BEGIN ChangeEvent: record read event.
 		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-		global $ilUser;
+		$ilUser = $this->user;
 		ilChangeEvent::_recordReadEvent(
 			$this->object->getType(),
 			$this->object->getRefId(),
@@ -1605,7 +1673,7 @@ class ilObjectGUI
  	*/
 	public function deleteObject($a_error = false)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		if ($_GET["item_ref_id"] != "")
 		{
@@ -1716,7 +1784,7 @@ class ilObjectGUI
 	// PROTECTED
 	protected function __showButton($a_cmd,$a_text,$a_target = '')
 	{
-		global $ilToolbar;
+		$ilToolbar = $this->toolbar;
 		
 		$ilToolbar->addButton($a_text, $this->ctrl->getLinkTarget($this, $a_cmd), $a_target);
 	}
@@ -1821,7 +1889,8 @@ class ilObjectGUI
 		include_once('./Services/Link/classes/class.ilLink.php');
 		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
 		
-		global $ilErr,$ilUser;
+		$ilErr = $this->ilErr;
+		$ilUser = $this->user;
 		
 	 	$new_type = $_REQUEST['new_type'];
 	 	if(!$this->checkPermissionBool("create", "", $new_type))
@@ -1868,7 +1937,7 @@ class ilObjectGUI
 	*/
 	protected function getCenterColumnHTML()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		include_once("Services/Block/classes/class.ilColumnGUI.php");
 
@@ -1916,7 +1985,9 @@ class ilObjectGUI
 	*/
 	protected function getRightColumnHTML()
 	{
-		global $ilUser, $lng, $ilCtrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$obj_id = ilObject::_lookupObjId($this->object->getRefId());
 		$obj_type = ilObject::_lookupType($obj_id);
@@ -2029,7 +2100,7 @@ class ilObjectGUI
 	 */
 	protected function checkPermissionBool($a_perm, $a_cmd = "", $a_type = "", $a_ref_id = null)
 	{
-		global $ilAccess;
+		$ilAccess = $this->access;
 
 		if($a_perm == "create")
 		{
@@ -2062,7 +2133,11 @@ class ilObjectGUI
 	 */
 	static function _gotoRepositoryRoot($a_raise_error = false)
 	{
-		global $ilAccess, $ilErr, $lng;
+		global $DIC;
+
+		$ilAccess = $DIC->access();
+		$ilErr = $DIC["ilErr"];
+		$lng = $DIC->language();
 		
 		if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
 		{
@@ -2088,7 +2163,10 @@ class ilObjectGUI
 	 */
 	static function _gotoRepositoryNode($a_ref_id, $a_cmd = "frameset")
 	{
-		global $ilAccess, $ilErr;
+		global $DIC;
+
+		$ilAccess = $DIC->access();
+		$ilErr = $DIC["ilErr"];
 
 		$_GET["cmd"] = $a_cmd;
 		$_GET["target"] = "";
