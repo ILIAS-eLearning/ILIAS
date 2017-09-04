@@ -31,9 +31,16 @@
 */
 class ilLMMenuEditor
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	function __construct()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$this->db = $ilDB;
 		$this->link_type = "extern";
@@ -102,7 +109,7 @@ class ilLMMenuEditor
 
 	function create()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$id = $ilDB->nextId("lm_menu");
 		$q = "INSERT INTO lm_menu (id, lm_id,link_type,title,target,link_ref_id) ".
@@ -121,7 +128,7 @@ class ilLMMenuEditor
 	
 	function getMenuEntries($a_only_active = false)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$entries = array();
 		
@@ -156,7 +163,7 @@ class ilLMMenuEditor
 	 */
 	function delete($a_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if (!$a_id)
 		{
@@ -176,7 +183,7 @@ class ilLMMenuEditor
 	 */
 	function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$q = "UPDATE lm_menu SET ".
 			" link_type = ".$ilDB->quote($this->getLinkType(), "text").",".
@@ -191,7 +198,7 @@ class ilLMMenuEditor
 	
 	function readEntry($a_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if (!$a_id)
 		{
@@ -218,7 +225,7 @@ class ilLMMenuEditor
 	 */
 	function updateActiveStatus($a_entries)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if (!is_array($a_entries))
 		{

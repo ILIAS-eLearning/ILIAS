@@ -30,7 +30,11 @@ class ilLMObjectGUI
 	*/
 	function __construct(&$a_content_obj)
 	{
-		global $tpl, $lng, $ilCtrl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
 
 		$this->tpl = $tpl;
 		$this->lng = $lng;

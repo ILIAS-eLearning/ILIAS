@@ -21,6 +21,31 @@ include_once ("./Modules/LearningModule/classes/class.ilEditClipboard.php");
 */
 class ilLMEditorGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilNavigationHistory
+	 */
+	protected $nav_history;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
 	var $tpl;
 	var $lng;
 	var $objDefinition;
@@ -36,8 +61,19 @@ class ilLMEditorGUI
 	*/
 	function __construct()
 	{
-		global $tpl, $lng, $objDefinition, $ilCtrl,
-			$rbacsystem, $ilNavigationHistory, $ilErr;
+		global $DIC;
+
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->nav_history = $DIC["ilNavigationHistory"];
+		$this->error = $DIC["ilErr"];
+		$this->help = $DIC["ilHelp"];
+		$tpl = $DIC["tpl"];
+		$lng = $DIC->language();
+		$objDefinition = $DIC["objDefinition"];
+		$ilCtrl = $DIC->ctrl();
+		$rbacsystem = $DIC->rbac()->system();
+		$ilNavigationHistory = $DIC["ilNavigationHistory"];
+		$ilErr = $DIC["ilErr"];
 		
 		// init module (could be done in ilctrl)
 		//define("ILIAS_MODULE", "content");
@@ -78,7 +114,7 @@ class ilLMEditorGUI
 	function executeCommand()
 	{
 
-		global $ilHelp;
+		$ilHelp = $this->help;
 		
 		if ($_GET["to_page"]== 1)
 		{
@@ -148,7 +184,7 @@ class ilLMEditorGUI
 	 */
 	function showTree()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		include_once("./Modules/LearningModule/classes/class.ilLMEditorExplorerGUI.php");
 		$exp = new ilLMEditorExplorerGUI($this, "showTree", $this->lm_obj);
@@ -163,7 +199,7 @@ class ilLMEditorGUI
 	*/
 	function main_header($a_type)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$this->tpl->getStandardTemplate();
 
@@ -187,7 +223,7 @@ class ilLMEditorGUI
 	*/
 	function displayLocator()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html", "Services/Locator");
 

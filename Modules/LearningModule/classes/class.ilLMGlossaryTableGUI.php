@@ -15,11 +15,24 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 class ilLMGlossaryTableGUI extends ilTable2GUI
 {
 	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
 	 * Constructor
 	 */
 	function __construct($a_lm, $a_parent_obj, $a_parent_cmd)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
+		$lng = $DIC->language();
 		
 		$this->lm = $a_lm;
 		$this->id = "lm_glo";
@@ -48,7 +61,8 @@ class ilLMGlossaryTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$ilCtrl->setParameter($this->parent_obj, "glo_id", $a_set["glo_id"]);
 		$this->tpl->setCurrentBlock("cmd");

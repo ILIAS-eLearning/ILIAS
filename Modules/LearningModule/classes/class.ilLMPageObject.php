@@ -673,7 +673,10 @@ class ilLMPageObject extends ilLMObject
 	static function queryQuestionsOfLearningModule($a_lm_id, $a_order_field,
 		$a_order_dir, $a_offset, $a_limit)
 	{
-		global $ilDB, $rbacreview;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$rbacreview = $DIC->rbac()->review();
 
 
 		// count query

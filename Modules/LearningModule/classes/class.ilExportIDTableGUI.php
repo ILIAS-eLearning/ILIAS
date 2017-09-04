@@ -25,16 +25,15 @@ class ilExportIDTableGUI extends ilTable2GUI
 	 * Constructor
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_validation = false,
+		$a_oh_mode = false)
+	{
 		global $DIC;
 
 		$this->ctrl = $DIC->ctrl();
 		$this->lng = $DIC->language();
 		$this->access = $DIC->access();
-		$a_oh_mode = false)
-	{
+
 		$ilCtrl = $DIC->ctrl();
-		$lng = $DIC->language();
-		$ilAccess = $DIC->access();
 		$lng = $DIC->language();
 
 		$this->setOnlineHelpMode($a_oh_mode);
