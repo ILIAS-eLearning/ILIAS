@@ -76,6 +76,7 @@ class ilContext
 	{
 		global $DIC;
 
+		$ilCtrl = null;
 		if (isset($DIC["ilCtrl"]))
 		{
 			$ilCtrl = $DIC->ctrl();
