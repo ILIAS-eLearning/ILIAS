@@ -41,7 +41,7 @@ class ilObjWorkspaceRootFolderListGUI extends ilObjectListGUI
 	*/
 	function getCommandLink($a_cmd)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		// does this make any sense!?
 		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);

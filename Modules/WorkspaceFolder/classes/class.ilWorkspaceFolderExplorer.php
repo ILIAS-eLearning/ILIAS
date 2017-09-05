@@ -35,6 +35,11 @@ include_once("Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php");
 class ilWorkspaceFolderExplorer extends ilExplorer
 {
 	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
 	 * user_id
 	 * @var int uid
 	 * @access private
@@ -63,6 +68,11 @@ class ilWorkspaceFolderExplorer extends ilExplorer
 	*/
 	function __construct($a_target,$a_user_id)
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+		$this->tpl = $DIC["tpl"];
 		parent::__construct($a_target);
 		$this->tree = new ilWorkspaceTree($a_user_id);
 		$this->root_id = $this->tree->readRootId();
@@ -102,7 +112,7 @@ class ilWorkspaceFolderExplorer extends ilExplorer
 	*/
 	function setOutput($a_parent, $a_depth = 1, $a_obj_id = 0, $a_highlighted_subtree = false)
 	{
-		global $lng;
+		$lng = $this->lng;
 		static $counter = 0;
 
 		if ($objects =  $this->tree->getChilds($a_parent,"type DESC,title"))
@@ -176,7 +186,8 @@ class ilWorkspaceFolderExplorer extends ilExplorer
 	*/
 	function formatHeader($tpl, $a_obj_id, $a_option)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 	
 		$title = $lng->txt("wsp_personal_workspace");
 		
@@ -236,7 +247,7 @@ class ilWorkspaceFolderExplorer extends ilExplorer
 	*/
 	function buildLinkTarget($a_node_id, $a_type)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		switch ($a_type) 
 		{
@@ -299,7 +310,7 @@ class ilWorkspaceFolderExplorer extends ilExplorer
 	
 	function getImageAlt($a_def, $a_type = "", $a_obj_id = "")
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		return $lng->txt("icon")." ".$lng->txt($a_type);
 	}
@@ -316,7 +327,7 @@ class ilWorkspaceFolderExplorer extends ilExplorer
 	
 	function getOutput()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$html = parent::getOutput();	
 		$tpl->setBodyClass("std");
