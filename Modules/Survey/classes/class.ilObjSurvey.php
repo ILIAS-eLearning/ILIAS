@@ -1755,8 +1755,12 @@ class ilObjSurvey extends ilObject
 	{
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		$question = self::_instanciateQuestion($question_id);
-		$question->delete($question_id);
-		$this->removeConstraintsConcerningQuestion($question_id);
+		#20610 if no question found, do nothing.
+		if($question)
+		{
+			$question->delete($question_id);
+			$this->removeConstraintsConcerningQuestion($question_id);
+		}
 	}
 	
 /**
