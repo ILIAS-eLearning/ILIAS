@@ -29,4 +29,26 @@ interface Factory {
 	 * @return	\ILIAS\UI\Component\Input\Text
 	 */
 	public function text($label, $byline = null);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *      TBD
+	 *   composition: >
+	 *      TBD
+	 *   effect: >
+	 *      TBD
+	 * context: >
+	 *   TBD
+	 *
+	 * rules: []
+	 *
+	 * ---
+	 *
+	 * @param	string      $label
+	 * @param	string|null $byline
+	 * @return	\ILIAS\UI\Component\Input\Text
+	 */
+	public function numeric($label, $byline = null);
 }

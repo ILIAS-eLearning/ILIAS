@@ -36,13 +36,21 @@ function base() {
 		->withConstraint($valid_number)
 		->withTransformation($from_name);
 
-	$form = $ui->form()->standard("", 
+	$DIC->ctrl()->setParameterByClass(
+			'ilsystemstyledocumentationgui',
+			'example_name',
+			'base'
+	);
+	$form_action = $DIC->ctrl()->getFormActionByClass('ilsystemstyledocumentationgui');
+
+	$form = $ui->form()->standard($form_action,
 		[ $number_input->withLabel("Left")
 		, $number_input->withLabel("Right")
 		])
 		->withTransformation($sum);
 
-	if ($request->getMethod() == "POST") {
+	if ($request->getMethod() == "POST"
+			&& $request->getQueryParams()['example_name'] =='base') {
 		$form = $form->withRequest($request);
 		$result = $form->getData();
 	}

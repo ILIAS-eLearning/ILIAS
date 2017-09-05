@@ -86,6 +86,15 @@ class Factory {
 	}
 
 	/**
+	 * Get the constraint that some value is a number
+	 *
+	 * @return  Constraint
+	 */
+	public function isNumeric() {
+		return new Constraints\IsNumeric($this->data_factory);
+	}
+
+	/**
 	 * Get a custom constraint.
 	 *
 	 * If the provided value !$is_ok will either use the $error (if it is a string)

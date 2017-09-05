@@ -44,5 +44,9 @@ interface Form extends Component {
 	 */
 	public function getData();
 
+	/**
+	 * TODO: there should be a further method to attach the different submit buttons
+	 */
+
 	
 }
