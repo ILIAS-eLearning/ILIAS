@@ -18,6 +18,46 @@ require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 class ilObjSystemFolderGUI extends ilObjectGUI
 {
 	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilStyleDefinition
+	 */
+	protected $style_definition;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+	/**
+	 * @var ilIniFile
+	 */
+	protected $client_ini;
+
+	/**
 	* ILIAS3 object type abbreviation
 	* @var		string
 	* @access	public
@@ -30,6 +70,23 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	function __construct($a_data,$a_id,$a_call_by_reference)
 	{
+		global $DIC;
+
+		$this->tabs = $DIC->tabs();
+		$this->access = $DIC->access();
+		$this->ctrl = $DIC->ctrl();
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->user = $DIC->user();
+		$this->obj_definition = $DIC["objDefinition"];
+		$this->settings = $DIC->settings();
+		$this->error = $DIC["ilErr"];
+		$this->db = $DIC->database();
+		$this->style_definition = $DIC["styleDefinition"];
+		$this->lng = $DIC->language();
+		$this->tpl = $DIC["tpl"];
+		$this->help = $DIC["ilHelp"];
+		$this->toolbar = $DIC->toolbar();
+		$this->client_ini = $DIC["ilClientIniFile"];
 		$this->type = "adm";
 		parent::__construct($a_data,$a_id,$a_call_by_reference, false);
 
@@ -39,7 +96,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 	function executeCommand()
 	{
-		global $ilTabs;
+		$ilTabs = $this->tabs;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->prepareOutput();
@@ -110,7 +167,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	function viewObject()
 	{
-		global $ilAccess;
+		$ilAccess = $this->access;
 
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
@@ -129,7 +186,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	function setSystemCheckSubTabs($a_activate)
 	{
-		global $ilTabs, $ilCtrl;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
 		
 		$ilTabs->addSubTab("system_check_sub", $this->lng->txt("system_check"), 
 			$ilCtrl->getLinkTarget($this, "check"));
@@ -147,7 +205,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	function checkObject()
 	{
-		global $rbacsystem, $ilUser, $objDefinition, $ilSetting, $ilErr;
+		$rbacsystem = $this->rbacsystem;
+		$ilUser = $this->user;
+		$objDefinition = $this->obj_definition;
+		$ilSetting = $this->settings;
+		$ilErr = $this->error;
 		
 		$this->setSystemCheckSubTabs("system_check_sub");
 
@@ -252,7 +314,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			
 			$obj_types_in_tree = array();
 			
-			global $ilDB;
+		$ilDB = $this->db;
 			$set = $ilDB->query('SELECT type FROM object_data od'.
 				' JOIN object_reference ref ON (od.obj_id = ref.obj_id)'.
 				' JOIN tree ON (tree.child = ref.ref_id)'.
@@ -343,7 +405,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		else $value = 0;
 		$prefs['systemcheck_log_scan'] = $value;
 		
-		global $ilUser;
+		$ilUser = $this->user;
 		foreach($prefs as $key => $val)
 		{
 			$ilUser->writePref($key,$val);
@@ -352,7 +414,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	
 	private function saveCheckCronObject()
 	{
-		global $ilSetting;
+		$ilSetting = $this->settings;
 		
 		$systemcheck_cron = ($_POST['cronjob'] ? 1 : 0);
 		$ilSetting->set('systemcheck_cron',$systemcheck_cron);
@@ -368,7 +430,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	function changeHeaderTitleObject()
 	{
-		global $rbacsystem, $styleDefinition;
+		$rbacsystem = $this->rbacsystem;
+		$styleDefinition = $this->style_definition;
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.header_title_edit.html",
 			"Modules/SystemFolder");
@@ -501,7 +564,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	function saveHeaderTitleObject()
 	{
-		global $ilErr;
+		$ilErr = $this->error;
 
 		$data = $_POST;
 
@@ -592,7 +655,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 	function startValidator($a_mode,$a_log)
 	{
-		global $rbacsystem, $ilErr;
+		$rbacsystem = $this->rbacsystem;
+		$ilErr = $this->error;
 
 		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -666,7 +730,12 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	 */
 	function benchmarkObject()
 	{
-		global $rbacsystem, $lng, $ilCtrl, $ilSetting, $tpl, $ilErr;
+		$rbacsystem = $this->rbacsystem;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilSetting = $this->settings;
+		$tpl = $this->tpl;
+		$ilErr = $this->error;
 
 		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -741,7 +810,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	 */
 	function showDbBenchResults($a_mode)
 	{
-		global $DIC, $tpl;
+		$tpl = $this->tpl;
 
 		$ilBench = $DIC["ilBench"];
 		$rec = $ilBench->getDbBenchRecords();
@@ -759,7 +828,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	 */
 	function benchmarkSubTabs($a_current)
 	{
-		global $ilTabs, $lng, $ilCtrl, $DIC;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$ilBench = $DIC["ilBench"];
 		$ilTabs->activateTab("benchmarks"); // #18083
@@ -838,7 +909,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	// get tabs
 	function getAdminTabs()
 	{
-		global $rbacsystem, $ilHelp;
+		$rbacsystem = $this->rbacsystem;
+		$ilHelp = $this->help;
 		
 //		$ilHelp->setScreenIdComponent($this->object->getType());
 
@@ -899,7 +971,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	function setServerInfoSubTabs($a_activate)
 	{
-		global $ilTabs, $ilCtrl, $rbacsystem;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
+		$rbacsystem = $this->rbacsystem;
 				
 		$ilTabs->addSubTabTarget("server_data", $ilCtrl->getLinkTarget($this, "showServerInfo"));
 		
@@ -926,7 +1000,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		 * @var $ilCtrl    ilCtrl
 		 * @var $tpl       ilTemplate
 		 */
-		global $tpl, $ilCtrl, $ilToolbar, $lng;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$ilToolbar = $this->toolbar;
+		$lng = $this->lng;
 
 		require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
 		$button = ilLinkButton::getInstance();
@@ -950,7 +1027,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	public function initServerInfoForm()
 	{
-		global $lng, $ilClientIniFile, $ilSetting;
+		$lng = $this->lng;
+		$ilClientIniFile = $this->client_ini;
+		$ilSetting = $this->settings;
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -1057,7 +1136,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	function setGeneralSettingsSubTabs($a_activate)
 	{
-		global $ilTabs, $ilCtrl;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
 		
 		$ilTabs->addSubTabTarget("basic_settings", $ilCtrl->getLinkTarget($this, "showBasicSettings"));
 		$ilTabs->addSubTabTarget("header_title", $ilCtrl->getLinkTarget($this, "showHeaderTitle"));			
@@ -1079,7 +1159,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	function showBasicSettingsObject()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		$this->initBasicSettingsForm();
 		$this->setGeneralSettingsSubTabs("basic_settings");
@@ -1097,7 +1177,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		 * @var $lng ilLanguage
 		 * @var $ilSetting ilSetting
 		 */
-		global $lng, $ilSetting;
+		$lng = $this->lng;
+		$ilSetting = $this->settings;
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -1179,7 +1260,12 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	public function saveBasicSettingsObject()
 	{
-		global $tpl, $lng, $ilCtrl, $ilSetting, $rbacsystem, $ilErr;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilSetting = $this->settings;
+		$rbacsystem = $this->rbacsystem;
+		$ilErr = $this->error;
 	
 		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
@@ -1232,7 +1318,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	function showHeaderTitleObject($a_get_post_values = false)
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$this->setGeneralSettingsSubTabs("header_title");
 		include_once("./Services/Object/classes/class.ilObjectTranslationTableGUI.php");
@@ -1280,7 +1366,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	function saveHeaderTitlesObject()
 	{
-		global $ilCtrl, $lng, $rbacsystem, $ilErr;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$rbacsystem = $this->rbacsystem;
+		$ilErr = $this->error;
 
 		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
@@ -1330,7 +1419,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	function addHeaderTitleObject()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		if (is_array($_POST["title"]))
 		{
@@ -1346,7 +1436,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	function deleteHeaderTitlesObject()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 //var_dump($_POST);
 		foreach($_POST["title"] as $k => $v)
 		{
@@ -1405,7 +1496,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	function showContactInformationObject()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$this->initContactInformationForm();
 		$this->setGeneralSettingsSubTabs("contact_data");
@@ -1417,7 +1508,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	public function initContactInformationForm()
 	{
-		global $lng, $ilSetting;
+		$lng = $this->lng;
+		$ilSetting = $this->settings;
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -1553,7 +1645,12 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	public function saveContactInformationObject()
 	{
-		global $tpl, $lng, $ilCtrl, $ilSetting, $rbacsystem, $ilErr;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilSetting = $this->settings;
+		$rbacsystem = $this->rbacsystem;
+		$ilErr = $this->error;
 	
 		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
@@ -1596,7 +1693,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	function showWebServicesObject()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$this->initWebServicesForm();
 		$this->setServerInfoSubTabs("webservices");
@@ -1608,7 +1705,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	public function initWebServicesForm()
 	{
-		global $lng, $ilSetting;
+		$lng = $this->lng;
+		$ilSetting = $this->settings;
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -1653,7 +1751,12 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	public function saveWebServicesObject()
 	{
-		global $tpl, $lng, $ilCtrl, $ilSetting, $rbacsystem,$ilErr;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilSetting = $this->settings;
+		$rbacsystem = $this->rbacsystem;
+		$ilErr = $this->error;
 		
 		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
@@ -1689,7 +1792,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	function showJavaServerObject()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.java_settings.html','Modules/SystemFolder');
 		
@@ -1832,7 +1935,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	public function initJavaServerForm()
 	{
-		global $lng, $ilSetting;
+		$lng = $this->lng;
+		$ilSetting = $this->settings;
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -1883,7 +1987,12 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	public function saveJavaServerObject()
 	{
-		global $tpl, $lng, $ilCtrl, $ilSetting, $rbacsystem, $ilErr;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilSetting = $this->settings;
+		$rbacsystem = $this->rbacsystem;
+		$ilErr = $this->error;
 	
 		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
@@ -1918,7 +2027,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	 */
 	public function showProxyObject()
 	{
-		global $tpl, $ilAccess, $ilErr;
+		$tpl = $this->tpl;
+		$ilAccess = $this->access;
+		$ilErr = $this->error;
 		
 		if(!$ilAccess->checkAccess('write', '', $this->object->getRefId()))
 		{
@@ -1977,7 +2088,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	 */
 	public function saveProxyObject()
 	{
-		global $tpl, $ilAccess, $ilErr, $lng;
+		$tpl = $this->tpl;
+		$ilAccess = $this->access;
+		$ilErr = $this->error;
+		$lng = $this->lng;
 		
 		if(!$ilAccess->checkAccess('write', '', $this->object->getRefId()))
 		{
@@ -2042,7 +2156,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	 */
 	private function initProxyForm()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$this->setServerInfoSubTabs('proxy');
 		
@@ -2078,7 +2193,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	
 	public function showHTTPSObject()
 	{
-		global $tpl, $ilAccess, $ilErr;
+		$tpl = $this->tpl;
+		$ilAccess = $this->access;
+		$ilErr = $this->error;
 		
 		if(!$ilAccess->checkAccess('write', '', $this->object->getRefId()))
 		{
@@ -2091,7 +2208,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	
 	public function saveHTTPSObject()
 	{
-		global $tpl, $lng, $ilCtrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$form = $this->initHTTPSForm();
 		if($form->checkInput())
@@ -2116,7 +2235,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	
 	private function initHTTPSForm()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$this->setServerInfoSubTabs('adm_https');
 		
@@ -2164,7 +2284,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	 */
 	public static function _goto()
 	{
-		global $ilAccess, $ilErr, $lng;
+		global $DIC;
+
+		$ilAccess = $DIC->access();
+		$ilErr = $DIC["ilErr"];
+		$lng = $DIC->language();
 
 		$a_target = SYSTEM_FOLDER_ID;
 

@@ -36,6 +36,11 @@ require_once "./Services/Object/classes/class.ilObject.php";
 class ilObjSystemFolder extends ilObject
 {
 	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
 	* Constructor
 	* @access	public
 	* @param	integer	reference_id or object_id
@@ -43,6 +48,10 @@ class ilObjSystemFolder extends ilObject
 	*/
 	function __construct($a_id,$a_call_by_reference = true)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
+		$this->user = $DIC->user();
 		$this->type = "adm";
 		parent::__construct($a_id,$a_call_by_reference);
 	}
@@ -82,7 +91,7 @@ class ilObjSystemFolder extends ilObject
 		/**
 		 * @var $ilDB ilDB
 		 */
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$q = "SELECT * FROM object_translation WHERE obj_id = ".
 			$ilDB->quote($this->getId(),'integer')." ORDER BY lang_default DESC";
@@ -108,7 +117,7 @@ class ilObjSystemFolder extends ilObject
 	// remove all Translations of current category
 	function removeHeaderTitleTranslations()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$query = "DELETE FROM object_translation WHERE obj_id= ".
 			$ilDB->quote($this->getId(),'integer');
@@ -118,7 +127,7 @@ class ilObjSystemFolder extends ilObject
 	// add a new translation to current category
 	function addHeaderTitleTranslation($a_title,$a_desc,$a_lang,$a_lang_default)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$query = "INSERT INTO object_translation ".
 			 "(obj_id,title,description,lang_code,lang_default) ".
@@ -138,7 +147,9 @@ class ilObjSystemFolder extends ilObject
 		/**
 		 * @var $ilDB ilDB
 		 */
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$q   = "SELECT obj_id FROM object_data WHERE type = " . $ilDB->quote('adm', 'text');
 		$r   = $ilDB->query($q);
@@ -153,7 +164,10 @@ class ilObjSystemFolder extends ilObject
 		 * @var $ilDB ilDB
 		 * @var $ilUser ilObjUser
 		 */
-		global $ilDB, $ilUser;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilUser = $DIC->user();
 
 		$id = ilObjSystemFolder::_getId();
 
@@ -182,7 +196,8 @@ class ilObjSystemFolder extends ilObject
 
 	function _getHeaderTitleDescription()
 	{
-		global $ilDB, $ilUser;
+		$ilDB = $this->db;
+		$ilUser = $this->user;
 		
 		$id = ilObjSystemFolder::_getId();
 
