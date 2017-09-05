@@ -34,6 +34,31 @@
 abstract class SurveyQuestionGUI 
 {
 	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
 	 * @var ilTabsGUI
 	 */
 	protected $tabs;
@@ -53,7 +78,16 @@ abstract class SurveyQuestionGUI
 		
 	public function __construct($a_id = -1)
 	{
-		global $lng, $tpl, $ilCtrl, $DIC;
+		global $DIC;
+
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->user = $DIC->user();
+		$this->access = $DIC->access();
+		$this->tree = $DIC->repositoryTree();
+		$this->toolbar = $DIC->toolbar();
+		$lng = $DIC->language();
+		$tpl = $DIC["tpl"];
+		$ilCtrl = $DIC->ctrl();
 
 		$this->lng = $lng;
 		$this->tpl = $tpl;
@@ -159,7 +193,8 @@ abstract class SurveyQuestionGUI
 	
 	function setQuestionTabsForClass($guiclass)
 	{
-		global $rbacsystem,$ilTabs;
+		$rbacsystem = $this->rbacsystem;
+		$ilTabs = $this->tabs;
 		
 		$this->ctrl->setParameterByClass($guiclass, "sel_question_types", $this->getQuestionType());
 		$this->ctrl->setParameterByClass($guiclass, "q_id", $_GET["q_id"]);
@@ -305,7 +340,7 @@ abstract class SurveyQuestionGUI
 			
 	protected function editQuestion(ilPropertyFormGUI $a_form = null)
 	{
-		global $ilTabs;
+		$ilTabs = $this->tabs;
 		
 		$ilTabs->activateTab("edit_properties");
 		
@@ -356,7 +391,7 @@ abstract class SurveyQuestionGUI
 	
 	protected function save($a_return = false, $a_sync = false)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 					
 		if($this->saveForm())
 		{	
@@ -402,7 +437,7 @@ abstract class SurveyQuestionGUI
 		
 	protected function copySyncForm()
 	{
-		global $ilTabs;
+		$ilTabs = $this->tabs;
 		
 		$ilTabs->activateTab("edit_properties");
 		
@@ -414,7 +449,8 @@ abstract class SurveyQuestionGUI
 	
 	protected function syncCopies()
 	{
-		global $lng, $ilAccess;
+		$lng = $this->lng;
+		$ilAccess = $this->access;
 		
 		if(!sizeof($_POST["qid"]))
 		{
@@ -464,7 +500,7 @@ abstract class SurveyQuestionGUI
 	
 	protected function originalSyncForm()
 	{
-		global $ilTabs;
+		$ilTabs = $this->tabs;
 		
 		$ilTabs->activateTab("edit_properties");
 		
@@ -589,7 +625,7 @@ abstract class SurveyQuestionGUI
 	*/
 	function preview()
 	{
-		global $ilTabs;
+		$ilTabs = $this->tabs;
 		
 		$ilTabs->activateTab("preview");
 		
@@ -655,7 +691,8 @@ abstract class SurveyQuestionGUI
 	*/
 	public function material($checkonly = FALSE)
 	{
-		global $rbacsystem, $ilTabs;
+		$rbacsystem = $this->rbacsystem;
+		$ilTabs = $this->tabs;
 		
 		$ilTabs->activateTab("material");
 
@@ -738,7 +775,9 @@ abstract class SurveyQuestionGUI
 	*/
 	public function addMaterial()
 	{
-		global $tree, $ilTabs, $ilToolbar;
+		$tree = $this->tree;
+		$ilTabs = $this->tabs;
+		$ilToolbar = $this->toolbar;
 		
 		$ilTabs->activateTab("material");
 		
@@ -825,7 +864,7 @@ abstract class SurveyQuestionGUI
 	
 	function linkChilds()
 	{
-		global $ilTabs;
+		$ilTabs = $this->tabs;
 		
 		$selectable_items = array();
 		
@@ -972,7 +1011,7 @@ abstract class SurveyQuestionGUI
 	*/
 	protected function addPhrase(ilPropertyFormGUI $a_form = null) 
 	{		
-		global $ilTabs;
+		$ilTabs = $this->tabs;
 		
 		$ilTabs->activateTab("edit_properties");
 		
@@ -1039,7 +1078,8 @@ abstract class SurveyQuestionGUI
 	*/
 	function savePhrase($a_reload = false) 
 	{
-		global $ilTabs, $ilToolbar;
+		$ilTabs = $this->tabs;
+		$ilToolbar = $this->toolbar;
 		
 		$ilTabs->activateTab("edit_properties");
 		

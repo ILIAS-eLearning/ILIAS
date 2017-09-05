@@ -33,6 +33,16 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
 class ilSurveyQuestionsTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilRbacReview
+	 */
+	protected $rbacreview;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	protected $editable = true;
 	protected $writeAccess = false;
 	
@@ -45,12 +55,17 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd, $a_write_access = false)
 	{
+		global $DIC;
+
+		$this->rbacreview = $DIC->rbac()->review();
+		$this->user = $DIC->user();
 		$this->setId("spl");		
 		$this->setPrefix('q_id'); // #16982
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
-		global $lng, $ilCtrl;
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
 
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
@@ -121,7 +136,9 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
 	*/
 	function initFilter()
 	{
-		global $lng, $rbacreview, $ilUser;
+		$lng = $this->lng;
+		$rbacreview = $this->rbacreview;
+		$ilUser = $this->user;
 		
 		// title
 		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
@@ -172,7 +189,7 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
 
 	function getSelectableColumns()
 	{
-		global $lng;
+		$lng = $this->lng;
 		$cols["description"] = array(
 			"txt" => $lng->txt("description"),
 			"default" => true
