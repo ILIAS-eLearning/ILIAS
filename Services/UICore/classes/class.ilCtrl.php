@@ -1425,7 +1425,11 @@ class ilCtrl
 	public function redirectToURL($a_script) {
 		global $DIC;
 
-		$ilPluginAdmin = $DIC["ilPluginAdmin"];
+		$ilPluginAdmin = null;
+		if (isset($DIC["ilPluginAdmin"]))
+		{
+			$ilPluginAdmin = $DIC["ilPluginAdmin"];
+		}
 
 		if (!is_int(strpos($a_script, "://"))) {
 			if (substr($a_script, 0, 1) != "/" && defined("ILIAS_HTTP_PATH")) {
