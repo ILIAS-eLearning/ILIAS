@@ -269,6 +269,34 @@ class ilCachedCtrl {
 	public function getCtrlClassfileParent() {
 		return $this->ctrl_classfile_parent;
 	}
+
+
+	/**
+	 * Declares all fields which should be serialized by php.
+	 * This has to be done, because the PDO objects are not serializable.
+	 *
+	 * @return string[]
+	 */
+	public function __sleep() {
+		return [
+			'changed',
+			'loaded',
+			'module_classes',
+			'service_classes',
+			'ctrl_calls',
+			'ctrl_classfile',
+			'ctrl_classfile_parent'
+		];
+	}
+
+
+	/**
+	 * Restore database connection.
+	 */
+	public function __wakeup() {
+		global $DIC;
+
+		$this->db = $DIC->database();
+	}
 }
 
-?>
