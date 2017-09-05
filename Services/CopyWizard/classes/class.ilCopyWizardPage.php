@@ -149,20 +149,7 @@ class ilCopyWizardPage
 			return '';
 		}
 	}
-	
-	/**
-	 * init template
-	 *
-	 * @access protected
-	 */
-	protected function initTemplate()
-	{
-// alex I didn't find any use of this and the template contains a call setCheckedById()
-// that I just deleted, since it is also not used anywhere else
-die("ilCopyWizardPage->initTemplate. Deprecated.");
-		$this->tpl = new ilTemplate('tpl.copy_wizard_block.html',true,true,'Services/CopyWizard');
-	}
-	
+
 	/**
 	 * 
 	 *
@@ -170,7 +157,6 @@ die("ilCopyWizardPage->initTemplate. Deprecated.");
 	 */
 	protected function fillMainBlock()
 	{
-		
 		if(count($this->items) > 1)
 		{	
 			$this->tpl->setCurrentBlock('obj_options');

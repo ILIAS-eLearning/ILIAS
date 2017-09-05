@@ -96,7 +96,6 @@ class ilPropertyFormGUI extends ilFormGUI
 
 		$this->lng = $DIC->language();
 		$this->ctrl = $DIC->ctrl();
-		$this->tpl = $DIC["tpl"];
 
 		$this->user = null;
 		if (isset($DIC["ilUser"]))
@@ -622,9 +621,9 @@ class ilPropertyFormGUI extends ilFormGUI
 	*/
 	function getContent()
 	{
+		global $DIC;
 		$lng = $this->lng;
-		$tpl = $this->tpl;
-		$ilUser = $this->user;
+		$tpl = $DIC["tpl"];
 		$ilSetting = $this->settings;
 	
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
@@ -795,7 +794,8 @@ class ilPropertyFormGUI extends ilFormGUI
 
 	function insertItem($item, $a_sub_item = false)
 	{
-		$tpl = $this->tpl;
+		global $DIC;
+		$tpl = $DIC["tpl"];;
 		$lng = $this->lng;
 			
 		

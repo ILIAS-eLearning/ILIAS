@@ -297,8 +297,8 @@ class ilFileWizardInputGUI extends ilFileInputGUI
 		$a_tpl->setVariable("PROP_GENERIC", $tpl->get());
 		$a_tpl->parseCurrentBlock();
 		
-		$tpl = $this->tpl;
-		$tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
-		$tpl->addJavascript("./Services/Form/templates/default/filewizard.js");
+		$main_tpl = $this->tpl;
+		$main_tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
+		$main_tpl->addJavascript("./Services/Form/templates/default/filewizard.js");
 	}
 }
