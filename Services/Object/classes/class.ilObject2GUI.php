@@ -85,7 +85,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 
 		// these are things that are initialised in ilObjectGUI constructor now
 		// and may miss here
-		//$this->locator = $DIC["ilLocator"];
+		$this->locator = $DIC["ilLocator"];
 		$this->user = $DIC->user();
 		$this->access = $DIC->access();
 		//$this->settings = $DIC->settings();
