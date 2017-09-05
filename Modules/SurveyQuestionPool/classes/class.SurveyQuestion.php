@@ -104,13 +104,6 @@ class SurveyQuestion
 	var $obligatory;
 	
 	/**
-	* The reference to the ILIAS class
-	*
-	* @var object
-	*/
-	var $ilias;
-
-	/**
 	* The reference to the Template class
 	*
 	* @var object
@@ -161,9 +154,8 @@ class SurveyQuestion
 	*/
 	function __construct($title = "", $description = "", $author = "", $questiontext = "",	$owner = -1)
 	{
-		global $ilias, $lng, $tpl;
+		global $lng, $tpl, $ilUser;
 
-		$this->ilias = $ilias;
 		$this->lng = $lng;
 		$this->tpl = $tpl;
 		$this->complete = 0; 
@@ -174,12 +166,12 @@ class SurveyQuestion
 		$this->cumulated = array();
 		if (!$this->author) 
 		{
-			$this->author = $this->ilias->account->fullname;
+			$this->author = $ilUser->fullname;
 		}
 		$this->owner = $owner;
 		if ($this->owner == -1) 
 		{
-			$this->owner = $this->ilias->account->id;
+			$this->owner = $ilUser->getId();
 		}
 		$this->id = -1;
 		$this->survey_id = -1;
@@ -403,9 +395,11 @@ class SurveyQuestion
 	*/
 	function setAuthor($author = "") 
 	{
+		global $ilUser;
+
 		if (!$author) 
 		{
-			$author = $this->ilias->account->fullname;
+			$author = $ilUser->fullname;
 		}
 		$this->author = $author;
 	}
