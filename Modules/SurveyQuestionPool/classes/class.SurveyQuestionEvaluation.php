@@ -11,6 +11,16 @@ include_once "Modules/Survey/classes/class.ilSurveyEvaluationResults.php";
  */
 abstract class SurveyQuestionEvaluation
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	protected $question; // [SurveyQuestion]
 	protected $finished_ids; // [array]
 	protected $chart_width = 400;
@@ -25,6 +35,10 @@ abstract class SurveyQuestionEvaluation
 	 */
 	public function __construct(SurveyQuestion $a_question, array $a_finished_ids = null)
 	{		
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->db = $DIC->database();
 		$this->question = $a_question;
 		$this->finished_ids = $a_finished_ids;
 	}	
@@ -246,7 +260,7 @@ abstract class SurveyQuestionEvaluation
 	 */
 	public function getGrid($a_results, $a_abs = true, $a_perc = true)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if((bool)$a_abs && (bool)$a_perc)
 		{
@@ -413,7 +427,7 @@ abstract class SurveyQuestionEvaluation
 	
 	protected function getSurveyId()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// #18968
 		$set = $ilDB->query("SELECT survey_fi".
@@ -431,7 +445,7 @@ abstract class SurveyQuestionEvaluation
 	*/
 	protected function getNrOfParticipants()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if(is_array($this->finished_ids))
 		{
@@ -445,7 +459,7 @@ abstract class SurveyQuestionEvaluation
 	
 	protected function getAnswerData()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$res = array();
 		
@@ -519,7 +533,7 @@ abstract class SurveyQuestionEvaluation
 	 */
 	public function getExportGrid($a_results)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$res = array(
 			"cols" => array(

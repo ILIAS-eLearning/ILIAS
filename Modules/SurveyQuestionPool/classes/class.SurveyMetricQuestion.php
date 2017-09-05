@@ -36,6 +36,11 @@ include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 */
 class SurveyMetricQuestion extends SurveyQuestion 
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	const SUBTYPE_NON_RATIO = 3;
 	const SUBTYPE_RATIO_NON_ABSOLUTE = 4;
 	const SUBTYPE_RATIO_ABSOLUTE = 5;
@@ -76,6 +81,9 @@ class SurveyMetricQuestion extends SurveyQuestion
 */
 	function __construct($title = "", $description = "", $author = "", $questiontext = "",	$owner = -1, $subtype = self::SUBTYPE_NON_RATIO)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		parent::__construct($title, $description, $author, $questiontext, $owner);
 		
 		$this->subtype = $subtype;
@@ -184,7 +192,7 @@ class SurveyMetricQuestion extends SurveyQuestion
 	*/
 	function getQuestionDataArray($id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$result = $ilDB->queryF("SELECT svy_question.*, " . $this->getAdditionalTableName() . ".* FROM svy_question, " . $this->getAdditionalTableName() . " WHERE svy_question.question_id = %s AND svy_question.question_id = " . $this->getAdditionalTableName() . ".question_fi",
 			array('integer'),
@@ -208,7 +216,7 @@ class SurveyMetricQuestion extends SurveyQuestion
 */
 	function loadFromDb($id) 
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$result = $ilDB->queryF("SELECT svy_question.*, " . $this->getAdditionalTableName() . ".* FROM svy_question LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = svy_question.question_id WHERE svy_question.question_id = %s",
 			array('integer'),
@@ -283,7 +291,7 @@ class SurveyMetricQuestion extends SurveyQuestion
 */
   function saveToDb($original_id = "")
   {
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$affectedRows = parent::saveToDb($original_id);
 		if ($affectedRows == 1) 
@@ -447,7 +455,7 @@ class SurveyMetricQuestion extends SurveyQuestion
 	*/
 	function getQuestionTypeID()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		$result = $ilDB->queryF("SELECT questiontype_id FROM svy_qtype WHERE type_tag = %s",
 			array('text'),
 			array($this->getQuestionType())
@@ -551,7 +559,7 @@ class SurveyMetricQuestion extends SurveyQuestion
 	
 	function saveUserInput($post_data, $active_id, $a_return = false)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$entered_value = $post_data[$this->getId() . "_metric_question"];
 		

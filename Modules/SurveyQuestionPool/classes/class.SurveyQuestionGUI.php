@@ -32,7 +32,12 @@
 * @ingroup ModulesSurveyQuestionPool
 */
 abstract class SurveyQuestionGUI 
-{		
+{
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
 	protected $tpl;
 	protected $lng;
 	protected $ctrl;
@@ -48,14 +53,15 @@ abstract class SurveyQuestionGUI
 		
 	public function __construct($a_id = -1)
 	{
-		global $lng, $tpl, $ilCtrl;
+		global $lng, $tpl, $ilCtrl, $DIC;
 
 		$this->lng = $lng;
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
 		$this->ctrl->saveParameter($this, "q_id");
 		$this->ctrl->setParameterByClass($_GET["cmdClass"], "sel_question_types", $_GET["sel_question_types"]);		
-		$this->cumulated = array();	
+		$this->cumulated = array();
+		$this->tabs = $DIC->tabs();
 		
 		$this->initObject();
 		
