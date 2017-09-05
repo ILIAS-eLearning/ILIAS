@@ -142,8 +142,6 @@ class ilWikiHTMLExport
 	 */
 	function exportHTMLPages()
 	{
-		global $tpl, $ilBench, $ilLocator;
-
 		$pages = ilWikiPage::getAllWikiPages($this->wiki->getId());
 
 		include_once("./Services/COPage/classes/class.ilPageContentUsage.php");
@@ -159,7 +157,7 @@ class ilWikiHTMLExport
 				$this->log->debug("collect page elements");
 				$this->co_page_html_export->collectPageElements("wpg:pg", $page["id"]);
 			}
-//sleep(2);
+
 			if ($this->getMode() == self::MODE_USER)
 			{
 				$cnt++;

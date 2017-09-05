@@ -319,11 +319,11 @@ class ilObjWikiGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
-		global $tpl, $lng, $rbacsystem;
+		global $tpl, $lng, $ilErr;
 
 		if (!$this->checkPermissionBool("create", "", "wiki", $_GET["ref_id"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("permission_denied"),$ilErr->MESSAGE);
 		}
 
 		$this->initSettingsForm("create");
@@ -400,13 +400,13 @@ class ilObjWikiGUI extends ilObjectGUI
 	*/
 	function infoScreen()
 	{
-		global $ilAccess, $ilUser, $ilTabs, $lng;
+		global $ilAccess, $ilUser, $ilTabs, $lng,$ilErr;
 		
 		$ilTabs->activateTab("info_short");
 
 		if (!$ilAccess->checkAccess("visible", "", $this->object->getRefId()))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
 		}
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");

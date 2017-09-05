@@ -906,8 +906,6 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 	 */
 	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
-		global $ilDB, $ilUser, $ilias;
-
 		$new_obj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
 
 		//copy online status if object is not the root copy object
@@ -937,7 +935,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 		$style_id = $this->getStyleSheetId();
 		if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id))
 		{
-			$style_obj = $ilias->obj_factory->getInstanceByObjId($style_id);
+			$style_obj = ilObjectFactory::getInstanceByObjId($style_id);
 			$new_id = $style_obj->ilClone();
 			$new_obj->setStyleSheetId($new_id);
 			$new_obj->update();

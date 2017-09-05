@@ -36,7 +36,7 @@ class ilWikiHandlerGUI
 {
 	function __construct()
 	{
-		global $ilCtrl, $lng, $ilAccess, $ilias, $ilNavigationHistory;
+		global $ilCtrl;
 
 		// initialisation stuff
 		$this->ctrl =  $ilCtrl;
