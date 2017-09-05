@@ -182,10 +182,7 @@ class ilObjSystemFolder extends ilObject
 
 	function _getHeaderTitleDescription()
 	{
-		/**
-		 * @var $ilDB ilDB
-		 */
-		global $ilDB;
+		global $ilDB, $ilUser;
 		
 		$id = ilObjSystemFolder::_getId();
 
@@ -199,7 +196,7 @@ class ilObjSystemFolder extends ilObject
 		$q = "SELECT title,description FROM object_translation ".
 			"WHERE obj_id = ".$ilDB->quote($id,'integer')." ".
 			"AND lang_code = ".
-			$ilDB->quote($this->ilias->account->getPref("language"),'text')." ".
+			$ilDB->quote($ilUser->getPref("language"),'text')." ".
 			"AND NOT lang_default = 1";
 		$r = $ilDB->query($q);
 		$row = $ilDB->fetchObject($r);
