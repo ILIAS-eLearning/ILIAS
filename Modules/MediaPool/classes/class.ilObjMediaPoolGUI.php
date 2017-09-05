@@ -642,8 +642,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	 */
 	protected function showMedia()
 	{
-		$ilAccess = $this->access;
-
 		$this->checkPermission("read");
 
 		$item = new ilMediaPoolItem((int) $_GET["mepitem_id"]);
