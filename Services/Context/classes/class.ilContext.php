@@ -76,7 +76,10 @@ class ilContext
 	{
 		global $DIC;
 
-		$ilCtrl = $DIC->ctrl();
+		if (isset($DIC["ilCtrl"]))
+		{
+			$ilCtrl = $DIC->ctrl();
+		}
 		
 		// asynchronous calls must never be redirected
 		if($ilCtrl && $ilCtrl->isAsynch())
