@@ -34,6 +34,16 @@
 class SurveyQuestion
 {
 	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
 	* A unique question id
 	*
 	* @var integer
@@ -154,7 +164,13 @@ class SurveyQuestion
 	*/
 	function __construct($title = "", $description = "", $author = "", $questiontext = "",	$owner = -1)
 	{
-		global $lng, $tpl, $ilUser;
+		global $DIC;
+
+		$this->user = $DIC->user();
+		$this->db = $DIC->database();
+		$lng = $DIC->language();
+		$tpl = $DIC["tpl"];
+		$ilUser = $DIC->user();
 
 		$this->lng = $lng;
 		$this->tpl = $tpl;
@@ -216,7 +232,7 @@ class SurveyQuestion
 	*/
 	function questionTitleExists($title, $questionpool_object = "") 
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$refwhere = "";
 		if (strcmp($questionpool_object, "") != 0)
@@ -395,7 +411,7 @@ class SurveyQuestion
 	*/
 	function setAuthor($author = "") 
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		if (!$author) 
 		{
@@ -676,7 +692,7 @@ class SurveyQuestion
 	*/
 	function loadFromDb($question_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$result = $ilDB->queryF("SELECT * FROM svy_material WHERE question_fi = %s",
 			array('integer'),
@@ -709,7 +725,9 @@ class SurveyQuestion
 	*/
 	static function _isComplete($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$result = $ilDB->queryF("SELECT complete FROM svy_question WHERE question_id = %s",
 			array('integer'),
@@ -733,7 +751,7 @@ class SurveyQuestion
 	*/
 	function saveCompletionStatus($original_id = "")
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$question_id = $this->getId();
 		if (strlen($original_id))
@@ -761,7 +779,7 @@ class SurveyQuestion
 	*/
 	function saveToDb($original_id = "")
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// cleanup RTE images which are not inserted into the question text
 		include_once("./Services/RTE/classes/class.ilRTE.php");
@@ -819,7 +837,7 @@ class SurveyQuestion
 	*/
 	public function saveMaterial()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		include_once "./Services/Link/classes/class.ilInternalLink.php";
 
@@ -862,7 +880,7 @@ class SurveyQuestion
 	*/
 	public function createNewQuestion()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 				
 		$obj_id = $this->getObjId();
 		if ($obj_id > 0)
@@ -963,7 +981,8 @@ class SurveyQuestion
 	*/
 	function saveCategoryToDb($categorytext, $neutral = 0)
 	{
-		global $ilUser, $ilDB;
+		$ilUser = $this->user;
+		$ilDB = $this->db;
 		
 		$result = $ilDB->queryF("SELECT title, category_id FROM svy_category WHERE title = %s AND neutral = %s AND owner_fi = %s",
 			array('text','text','integer'),
@@ -1010,7 +1029,7 @@ class SurveyQuestion
 	*/
 	function deleteAdditionalTableData($question_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
         $this->log->debug("DELETE FROM ".$this->getAdditionalTableName());
 
@@ -1028,7 +1047,7 @@ class SurveyQuestion
 	*/
 	function delete($question_id) 
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if ($question_id < 1) return;
 
@@ -1140,7 +1159,9 @@ class SurveyQuestion
 	*/
 	static function _getQuestionType($question_id) 
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		if ($question_id < 1) return "";
 
@@ -1168,7 +1189,9 @@ class SurveyQuestion
 	*/
 	static function _getTitle($question_id) 
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		if ($question_id < 1) return "";
 
@@ -1196,7 +1219,9 @@ class SurveyQuestion
 	*/
 	static function _getOriginalId($question_id, $a_return_question_id_if_no_original = true)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		$result = $ilDB->queryF("SELECT * FROM svy_question WHERE question_id = %s",
 			array('integer'),
 			array($question_id)
@@ -1221,7 +1246,7 @@ class SurveyQuestion
 	
 	function syncWithOriginal()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if ($this->getOriginalId())
 		{
@@ -1269,7 +1294,7 @@ class SurveyQuestion
 	*/
 	function getPhrase($phrase_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$result = $ilDB->queryF("SELECT title FROM svy_phrase WHERE phrase_id = %s",
 			array('integer'),
@@ -1291,7 +1316,8 @@ class SurveyQuestion
 	*/
 	function phraseExists($title)
 	{
-		global $ilUser, $ilDB;
+		$ilUser = $this->user;
+		$ilDB = $this->db;
 		
 		$result = $ilDB->queryF("SELECT phrase_id FROM svy_phrase WHERE title = %s AND owner_fi = %s",
 			array('text', 'integer'),
@@ -1309,7 +1335,9 @@ class SurveyQuestion
 	*/
 	static function _questionExists($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		if ($question_id < 1)
 		{
@@ -1533,7 +1561,9 @@ class SurveyQuestion
 	
 	static function _resolveIntLinks($question_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		$resolvedlinks = 0;
 		$result = $ilDB->queryF("SELECT * FROM svy_material WHERE question_fi = %s",
 			array('integer'),
@@ -1584,7 +1614,9 @@ class SurveyQuestion
 	
 	static function _getInternalLinkHref($target = "", $a_parent_ref_id = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		$linktypes = array(
 			"lm" => "LearningModule",
 			"pg" => "PageObject",
@@ -1627,7 +1659,9 @@ class SurveyQuestion
 	*/
 	static function _isWriteable($question_id, $user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		if (($question_id < 1) || ($user_id < 1))
 		{
@@ -1659,7 +1693,7 @@ class SurveyQuestion
 	*/
 	function getQuestionTypeID()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		$result = $ilDB->queryF("SELECT questiontype_id FROM svy_qtype WHERE type_tag = %s",
 			array('text'),
 			array($this->getQuestionType())
@@ -1705,7 +1739,9 @@ class SurveyQuestion
 		}
 		else
 		{
-			global $ilPluginAdmin;
+		global $DIC;
+
+		$ilPluginAdmin = $DIC["ilPluginAdmin"];
 			$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "SurveyQuestionPool", "svyq");
 			foreach ($pl_names as $pl_name)
 			{
@@ -1730,12 +1766,16 @@ class SurveyQuestion
 	{
 		if (file_exists("./Modules/SurveyQuestionPool/classes/class.".$type_tag.".php"))
 		{
-			global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 			return $lng->txt($type_tag);
 		}
 		else
 		{
-			global $ilPluginAdmin;
+		global $DIC;
+
+		$ilPluginAdmin = $DIC["ilPluginAdmin"];
 			$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "SurveyQuestionPool", "svyq");
 			foreach ($pl_names as $pl_name)
 			{
@@ -2113,7 +2153,9 @@ class SurveyQuestion
 	 */
 	public static function _changeOriginalId($a_question_id, $a_original_id, $a_object_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$ilDB->manipulate("UPDATE svy_question".
 			" SET original_id = ".$ilDB->quote($a_original_id, "integer").",".
@@ -2123,7 +2165,7 @@ class SurveyQuestion
 	
 	public function getCopyIds($a_group_by_survey = false)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$set = $ilDB->query("SELECT q.question_id,s.obj_fi".
 			" FROM svy_question q".
@@ -2152,7 +2194,9 @@ class SurveyQuestion
 	
 	public static function _lookupSurveyObjId($a_question_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT svy_svy.obj_fi FROM svy_svy_qst".
 			" JOIN svy_svy ON (svy_svy.survey_id = svy_svy_qst.survey_fi)".
@@ -2172,7 +2216,9 @@ class SurveyQuestion
 	 */
 	static function lookupObjFi($a_qid)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->query("SELECT obj_fi FROM svy_question ".
 			" WHERE question_id = ".$ilDB->quote($a_qid, "integer")
