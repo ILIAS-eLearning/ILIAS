@@ -52,7 +52,6 @@ class ilObjForum extends ilObject
 
 	private $settings;
 	private $rbac;
-	private $db;
 	private $ilBench;
 	private $user;
 	private $logger;
