@@ -38,6 +38,11 @@ include_once "./Services/Object/classes/class.ilObjectGUI.php";
 class ilObjSurveyAdministrationGUI extends ilObjectGUI
 {
 	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
 	* Constructor
 	* @access public
 	*/
@@ -45,7 +50,14 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 
 	function __construct($a_data,$a_id,$a_call_by_reference)
 	{
-		global $lng;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->tabs = $DIC->tabs();
+		$this->tpl = $DIC["tpl"];
+		$this->access = $DIC->access();
+		$this->ctrl = $DIC->ctrl();
+		$lng = $DIC->language();
 
 		$this->type = "svyf";
 		$lng->loadLanguageModule("survey");
@@ -54,7 +66,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 	
 	function executeCommand()
 	{
-		global $ilTabs;
+		$ilTabs = $this->tabs;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -99,7 +111,8 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 	*/
 	function settingsObject(ilPropertyFormGUI $a_form = null)
 	{
-		global $tpl, $ilTabs;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
 		
 		$ilTabs->activateTab("settings");
 		
@@ -113,7 +126,9 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 	
 	protected function initSettingsForm()
 	{
-		global $ilAccess, $lng, $ilCtrl;
+		$ilAccess = $this->access;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$surveySetting = new ilSetting("survey");
 		$unlimited_invitation = array_key_exists("unlimited_invitation", $_GET) ? $_GET["unlimited_invitation"] : $surveySetting->get("unlimited_invitation");	
@@ -182,7 +197,8 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 	*/
 	function saveSettingsObject()
 	{
-		global $ilCtrl, $ilAccess;
+		$ilCtrl = $this->ctrl;
+		$ilAccess = $this->access;
 		
 		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId())) 
 		{
@@ -228,7 +244,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 	*/
 	function getTabs()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		if ($this->checkPermissionBool("read"))
 		{
@@ -265,7 +281,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 	 */
 	private function getSettingsTemplateConfig()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$lng->loadLanguageModule("survey");
 		include_once "Modules/Survey/classes/class.ilObjSurvey.php";

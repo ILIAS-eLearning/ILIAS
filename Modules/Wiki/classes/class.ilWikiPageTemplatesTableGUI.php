@@ -15,11 +15,24 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 class ilWikiPageTemplatesTableGUI extends ilTable2GUI
 {
 	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
 	 * Constructor
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_wiki_id)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
+		$lng = $DIC->language();
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		include_once("./Modules/Wiki/classes/class.ilWikiPageTemplate.php");

@@ -17,6 +17,37 @@ include_once('./Modules/Portfolio/classes/class.ilObjPortfolioBaseGUI.php');
  */
 class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 {					
+	/**
+	 * @var ilNavigationHistory
+	 */
+	protected $nav_history;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
+	{
+		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
+		global $DIC;
+
+		$this->nav_history = $DIC["ilNavigationHistory"];
+		$this->help = $DIC["ilHelp"];
+		$this->tabs = $DIC->tabs();
+		$this->toolbar = $DIC->toolbar();
+		$this->user = $DIC->user();
+	}
+
 	public function getType()
 	{
 		return "prtt";
@@ -24,7 +55,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 		
 	public function executeCommand()
 	{
-		global $ilNavigationHistory;
+		$ilNavigationHistory = $this->nav_history;
 				
 		// add entry to navigation history
 		if(!$this->getCreationMode() &&
@@ -121,7 +152,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 		
 	protected function setTabs()
 	{
-		global $ilHelp;	
+		$ilHelp = $this->help;
 		
 		$ilHelp->setScreenIdComponent("prtt");
 		
@@ -178,7 +209,8 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 	*/
 	function infoScreenForward()
 	{
-		global $ilTabs, $ilToolbar;
+		$ilTabs = $this->tabs;
+		$ilToolbar = $this->toolbar;
 		
 		$ilTabs->activateTab("id_info");
 
@@ -233,7 +265,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 
 	protected function initDidacticTemplate(ilPropertyFormGUI $a_form)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
 		$all = ilObjPortfolio::getPortfoliosOfUser($ilUser->getId());

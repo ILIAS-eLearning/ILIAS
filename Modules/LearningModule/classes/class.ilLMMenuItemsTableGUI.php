@@ -15,11 +15,24 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 class ilLMMenuItemsTableGUI extends ilTable2GUI
 {
 	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
 	 * Constructor
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_lmme)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
+		$lng = $DIC->language();
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
@@ -47,7 +60,8 @@ class ilLMMenuItemsTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($entry)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$ilCtrl->setParameter($this->parent_obj, "menu_entry", $entry["id"]);
 		

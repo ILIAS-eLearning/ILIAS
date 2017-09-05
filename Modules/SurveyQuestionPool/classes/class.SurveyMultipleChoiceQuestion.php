@@ -36,6 +36,11 @@ include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 */
 class SurveyMultipleChoiceQuestion extends SurveyQuestion 
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 /**
 * Categories contained in this question
 *
@@ -54,6 +59,10 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 */
 	function __construct($title = "", $description = "", $author = "", $questiontext = "", $owner = -1, $orientation = 0)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
+		$this->lng = $DIC->language();
 		parent::__construct($title, $description, $author, $questiontext, $owner);
 		
 		$this->orientation = $orientation;
@@ -70,7 +79,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 	*/
 	function getQuestionDataArray($id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$result = $ilDB->queryF("SELECT svy_question.*, " . $this->getAdditionalTableName() . ".* FROM svy_question, " . $this->getAdditionalTableName() . " WHERE svy_question.question_id = %s AND svy_question.question_id = " . $this->getAdditionalTableName() . ".question_fi",
 			array('integer'),
@@ -94,7 +103,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 */
 	function loadFromDb($id) 
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$result = $ilDB->queryF("SELECT svy_question.*, " . $this->getAdditionalTableName() . ".* FROM svy_question LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = svy_question.question_id WHERE svy_question.question_id = %s",
 			array('integer'),
@@ -166,7 +175,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 */
   function saveToDb($original_id = "")
   {
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$affectedRows = parent::saveToDb($original_id);
 		if ($affectedRows == 1) 
@@ -194,7 +203,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 
 	function saveCategoriesToDb()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_variable WHERE question_fi = %s",
 			array('integer'),
@@ -439,7 +448,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 	
 	function saveUserInput($post_data, $active_id, $a_return = false)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if($a_return)
 		{
@@ -564,7 +573,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 	*/
 	public function getPreconditionOptions()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$options = array();
 		for ($i = 0; $i < $this->categories->getCategoryCount(); $i++)

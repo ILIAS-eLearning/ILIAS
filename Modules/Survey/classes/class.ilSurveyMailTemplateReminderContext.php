@@ -11,6 +11,28 @@ include_once './Services/Mail/classes/class.ilMailTemplateContext.php';
  */
 class ilSurveyMailTemplateReminderContext extends ilMailTemplateContext
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilObjectDataCache
+	 */
+	protected $obj_data_cache;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->obj_data_cache = $DIC["ilObjDataCache"];
+	}
+
 	const ID = 'svy_context_rmd';
 	
 	/**
@@ -26,7 +48,7 @@ class ilSurveyMailTemplateReminderContext extends ilMailTemplateContext
 	 */
 	public function getTitle()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$lng->loadLanguageModule('survey');
 		
@@ -38,7 +60,7 @@ class ilSurveyMailTemplateReminderContext extends ilMailTemplateContext
 	 */
 	public function getDescription()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$lng->loadLanguageModule('survey');
 
@@ -54,7 +76,7 @@ class ilSurveyMailTemplateReminderContext extends ilMailTemplateContext
 		/**
 		 * @var $lng ilLanguage
 		 */
-		global $lng;
+		$lng = $this->lng;
 
 		$lng->loadLanguageModule('survey');
 
@@ -81,7 +103,7 @@ class ilSurveyMailTemplateReminderContext extends ilMailTemplateContext
 		/**
 		 * @var $ilObjDataCache ilObjectDataCache
 		 */
-		global $ilObjDataCache;
+		$ilObjDataCache = $this->obj_data_cache;
 
 		if('svy_title' == $placeholder_id)
 		{

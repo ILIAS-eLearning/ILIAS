@@ -17,6 +17,40 @@ include_once("./Services/Object/classes/class.ilObjectAccess.php");
 class ilObjGlossaryAccess extends ilObjectAccess
 {
 	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		global $DIC;
+
+		$this->user = $DIC->user();
+		$this->lng = $DIC->language();
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->access = $DIC->access();
+	}
+
+	/**
 	* checks wether a user may invoke a command or not
 	* (this method is called by ilAccessHandler::checkAccess)
 	*
@@ -31,7 +65,10 @@ class ilObjGlossaryAccess extends ilObjectAccess
 	*/
 	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
 	{
-		global $ilUser, $lng, $rbacsystem, $ilAccess;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$rbacsystem = $this->rbacsystem;
+		$ilAccess = $this->access;
 
 		if ($a_user_id == "")
 		{
@@ -98,7 +135,9 @@ class ilObjGlossaryAccess extends ilObjectAccess
 	*/
 	static function _lookupOnline($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$q = "SELECT * FROM glossary WHERE id = ".
 			$ilDB->quote($a_id, "integer");
@@ -113,7 +152,9 @@ class ilObjGlossaryAccess extends ilObjectAccess
 	*/
 	static function _checkGoto($a_target)
 	{
-		global $ilAccess;
+		global $DIC;
+
+		$ilAccess = $DIC->access();
 		
 		$t_arr = explode("_", $a_target);
 

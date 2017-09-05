@@ -17,10 +17,23 @@ include_once('./Modules/Portfolio/classes/class.ilObjPortfolioBaseGUI.php');
  */
 class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 {		
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
 	protected $ws_access; // [ilWorkspaceAccessHandler]
 	
 	public function __construct($a_id = 0)
 	{		
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->help = $DIC["ilHelp"];
+		$this->settings = $DIC->settings();
+		$this->access = $DIC->access();
+		$this->user = $DIC->user();
+		$this->ctrl = $DIC->ctrl();
 		parent::__construct($a_id, self::PORTFOLIO_OBJECT_ID, 0);
 
 		$this->ctrl->saveParameter($this, "exc_back_ref_id");
@@ -46,7 +59,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	
 	function executeCommand()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$this->checkPermission("read");
 
@@ -157,7 +170,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	
 	protected function setTabs()
 	{
-		global $ilHelp;	
+		$ilHelp = $this->help;
 		
 		$ilHelp->setScreenIdComponent("prtf");
 			
@@ -230,7 +243,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	
 	protected function initCreateForm($a_new_type)
 	{
-		global $ilSetting;
+		$ilSetting = $this->settings;
 		
 		$this->ctrl->setParameter($this, "new_type", $this->getType());
 		
@@ -419,7 +432,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	
 	protected function toRepository()
 	{		
-		global $ilAccess;
+		$ilAccess = $this->access;
 		
 		// return to exercise (portfolio assignment)
 		$exc_ref_id = (int)$_REQUEST["exc_id"];
@@ -721,7 +734,8 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	
 	protected function initCreatePortfolioFromTemplateForm($a_prtt_id, $a_title)
 	{					
-		global $ilSetting, $ilUser;
+		$ilSetting = $this->settings;
+		$ilUser = $this->user;
 				
 		if((int)$_REQUEST["exc_id"])
 		{
@@ -865,7 +879,9 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	
 	protected function createPortfolioFromTemplateProcess($a_process_form = true)
 	{
-		global $ilSetting, $ilUser, $ilAccess;
+		$ilSetting = $this->settings;
+		$ilUser = $this->user;
+		$ilAccess = $this->access;
 		
 		$title = trim($_REQUEST["pt"]);
 		$prtt_id = (int)$_REQUEST["prtt"];
@@ -963,7 +979,8 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
 	public function createPortfolioFromAssignment()
 	{
-		global $ilUser, $ilSetting;
+		$ilUser = $this->user;
+		$ilSetting = $this->settings;
 
 		include_once "Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";
 		include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";
@@ -1061,7 +1078,8 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
 	function linkPortfolioToAssignment($a_target_id)
 	{
-		global $ilAccess, $ilUser;
+		$ilAccess = $this->access;
+		$ilUser = $this->user;
 
 		$exc_ref_id = (int)$_REQUEST["exc_id"];
 		$ass_id = (int)$_REQUEST["ass_id"];
@@ -1138,7 +1156,8 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	 */
 	public function initPDFSelectionForm()
 	{
-		global $lng, $ilCtrl, $DIC;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$tabs = $DIC->tabs();
 
@@ -1221,7 +1240,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
 	public function printView($a_pdf_export = false)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$pages = ilPortfolioPage::getAllPortfolioPages($this->object->getId());
 

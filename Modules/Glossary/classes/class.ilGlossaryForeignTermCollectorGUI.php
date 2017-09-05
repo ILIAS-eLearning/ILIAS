@@ -123,7 +123,8 @@ class ilGlossaryForeignTermCollectorGUI
 	 */
 	function setForeignGlossary()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		$ref_id = (int) $_GET["fglo_ref_id"];
 

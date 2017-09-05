@@ -19,7 +19,12 @@ class ilSurveySkillTableGUI extends ilTable2GUI
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_survey)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		$this->survey = $a_survey;
 		
@@ -83,7 +88,8 @@ class ilSurveySkillTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$ilCtrl->setParameter($this->parent_obj, "sk_id", $a_set["base_skill"]);
 		$ilCtrl->setParameter($this->parent_obj, "tref_id", $a_set["tref_id"]);

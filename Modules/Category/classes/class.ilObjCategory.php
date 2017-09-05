@@ -26,6 +26,12 @@ class ilObjCategory extends ilContainer
 	*/
 	function __construct($a_id = 0,$a_call_by_reference = true)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
+		$this->app_event_handler = $DIC["ilAppEventHandler"];
+		$this->log = $DIC["ilLog"];
+		$this->user = $DIC->user();
 		$this->type = "cat";
 		parent::__construct($a_id,$a_call_by_reference);
 	}
@@ -38,7 +44,8 @@ class ilObjCategory extends ilContainer
 	*/
 	function delete()
 	{
-		global $ilDB,$ilAppEventHandler;
+		$ilDB = $this->db;
+		$ilAppEventHandler = $this->app_event_handler;
 		
 		// always call parent delete function first!!
 		if (!parent::delete())
@@ -80,11 +87,11 @@ class ilObjCategory extends ilContainer
 	*/
 	function getTranslations()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$q = "SELECT * FROM object_translation WHERE obj_id = ".
 			$ilDB->quote($this->getId(),'integer')." ORDER BY lang_default DESC";
-		$r = $this->ilias->db->query($q);
+		$r = $ilDB->query($q);
 		
 		$num = 0;
 
@@ -106,7 +113,7 @@ class ilObjCategory extends ilContainer
 	// remove all Translations of current category
 	function removeTranslations()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$query = "DELETE FROM object_translation WHERE obj_id= ".
 			$ilDB->quote($this->getId(),'integer');
@@ -116,7 +123,7 @@ class ilObjCategory extends ilContainer
 	// remove translations of current category
 	function deleteTranslation($a_lang)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$query = "DELETE FROM object_translation WHERE obj_id= ".
 			$ilDB->quote($this->getId(),'integer')." AND lang_code = ".
@@ -127,7 +134,7 @@ class ilObjCategory extends ilContainer
 	// add a new translation to current category
 	function addTranslation($a_title,$a_desc,$a_lang,$a_lang_default)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if (empty($a_title))
 		{
@@ -148,7 +155,8 @@ class ilObjCategory extends ilContainer
 	// update a translation to current category
 	function updateTranslation($a_title,$a_desc,$a_lang,$a_lang_default)
 	{
-		global $ilDB, $ilLog;
+		$ilDB = $this->db;
+		$ilLog = $this->log;
 		
 		if (empty($a_title))
 		{
@@ -177,7 +185,8 @@ class ilObjCategory extends ilContainer
 	 */
 	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
-		global $ilDB,$ilUser;
+		$ilDB = $this->db;
+		$ilUser = $this->user;
 		
 	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id,$a_omit_tree);
 

@@ -11,6 +11,16 @@
  */
 class ilLMChapterImportForm
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	protected $tree = null;
 	protected $node_id = null;
 	protected $confirm = false;
@@ -24,6 +34,10 @@ class ilLMChapterImportForm
 	 */
 	function __construct($a_slm, $a_node_id, $a_first_child, $a_confirm = false)
 	{
+		global $DIC;
+
+		$this->user = $DIC->user();
+		$this->lng = $DIC->language();
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tree.php");
 		$this->slm = $a_slm;
 		$this->tree = new ilSCORM2004Tree($this->slm->getId());
@@ -70,7 +84,7 @@ class ilLMChapterImportForm
 
 	function processHierarchy()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		$target = ($this->first_child)
 			? IL_FIRST_NODE
@@ -99,7 +113,7 @@ class ilLMChapterImportForm
 	 */
 	function getHTML()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		include_once("./Services/UIComponent/NestedList/classes/class.ilNestedList.php");
 		$this->list = new ilNestedList();
@@ -124,7 +138,8 @@ class ilLMChapterImportForm
 	 */
 	function addNode($a_node, $a_parent, $a_depth)
 	{
-		global $ilUser, $lng;
+		$ilUser = $this->user;
+		$lng = $this->lng;
 
 		//$tpl = new ilTemplate("tpl.lm_chap_import_node.html", true, true, "Modules/Scorm2004");
 		$lng->loadLanguageModule("content");

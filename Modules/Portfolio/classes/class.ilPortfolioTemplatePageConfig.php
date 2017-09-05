@@ -14,6 +14,9 @@ class ilPortfolioTemplatePageConfig extends ilPortfolioPageConfig
 {
 	public function init()
 	{
+		global $DIC;
+
+		$this->settings = $DIC->settings();
 		parent::init();
 		$this->setIntLinkHelpDefaultId($_GET["ref_id"]);
 		$this->addIntLinkFilter("PortfolioTemplatePage");
@@ -26,7 +29,7 @@ class ilPortfolioTemplatePageConfig extends ilPortfolioPageConfig
 	
 	public function getAvailablePlaceholderTypes()
 	{		
-		global $ilSetting;
+		$ilSetting = $this->settings;
 		
 		// no questions
 		$all = array(

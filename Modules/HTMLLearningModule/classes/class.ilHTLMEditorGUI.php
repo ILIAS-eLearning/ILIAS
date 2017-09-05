@@ -36,11 +36,30 @@
 class ilHTLMEditorGUI
 {
 	/**
-	* ilias object
-	* @var object ilias
-	* @access public
-	*/
-	var $ilias;
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilNavigationHistory
+	 */
+	protected $nav_history;
+
 	var $tpl;
 	var $lng;
 	var $objDefinition;
@@ -52,15 +71,25 @@ class ilHTLMEditorGUI
 	*/
 	function __construct()
 	{
-		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl,
-			$rbacsystem, $ilLocator;
+		global $DIC;
+
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->error = $DIC["ilErr"];
+		$this->access = $DIC->access();
+		$this->nav_history = $DIC["ilNavigationHistory"];
+		$tpl = $DIC["tpl"];
+		$lng = $DIC->language();
+		$objDefinition = $DIC["objDefinition"];
+		$ilCtrl = $DIC->ctrl();
+		$rbacsystem = $DIC->rbac()->system();
+		$ilErr = $DIC["ilErr"];
 		
 		$lng->loadLanguageModule("content");
 
 		// check write permission
 		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
 		{
-			$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($lng->txt("permission_denied"), $ilErr->MESSAGE);
 		}
 
 		$this->ctrl = $ilCtrl;
@@ -81,7 +110,10 @@ class ilHTLMEditorGUI
 	*/
 	function executeCommand()
 	{
-		global $tpl, $ilCtrl,$ilAccess, $ilNavigationHistory;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$ilAccess = $this->access;
+		$ilNavigationHistory = $this->nav_history;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd("");

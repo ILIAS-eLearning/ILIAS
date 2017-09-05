@@ -34,6 +34,26 @@
 */
 class ilSurveyExecutionGUI
 {
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
 	var $object;
 	var $lng;
 	var $tpl;
@@ -56,7 +76,16 @@ class ilSurveyExecutionGUI
 */
 	function __construct($a_object)
   	{
-		global $lng, $tpl, $ilCtrl, $tree;
+		global $DIC;
+
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->user = $DIC->user();
+		$this->help = $DIC["ilHelp"];
+		$this->toolbar = $DIC->toolbar();
+		$lng = $DIC->language();
+		$tpl = $DIC["tpl"];
+		$ilCtrl = $DIC->ctrl();
+		$tree = $DIC->repositoryTree();
 
 		$this->lng = $lng;
 		$this->tpl = $tpl;
@@ -109,7 +138,8 @@ class ilSurveyExecutionGUI
 	
 	protected function checkAuth($a_may_start = false, $a_ignore_status = false)
 	{
-		global $rbacsystem, $ilUser;
+		$rbacsystem = $this->rbacsystem;
+		$ilUser = $this->user;
 		
 		if($this->preview)
 		{
@@ -371,7 +401,7 @@ class ilSurveyExecutionGUI
 */
 	function outSurveyPage($activepage = NULL, $direction = NULL)
 	{		
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$this->checkAuth();			
 		
@@ -451,7 +481,7 @@ class ilSurveyExecutionGUI
 		}
 		else
 		{
-			global $ilHelp;
+		$ilHelp = $this->help;
 			$ilHelp->setScreenIdComponent("svy");
 			$ilHelp->setScreenId("quest_presentation");
 			
@@ -671,7 +701,7 @@ class ilSurveyExecutionGUI
 */
 	function saveActiveQuestionData(&$data)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		$question =& SurveyQuestion::_instanciateQuestion($data["question_id"]);
@@ -720,7 +750,8 @@ class ilSurveyExecutionGUI
 */
 	function runShowFinishedPage()
 	{		
-		global $ilToolbar, $ilUser;
+		$ilToolbar = $this->toolbar;
+		$ilUser = $this->user;
 		
 		$has_button = false;
 		
@@ -807,7 +838,7 @@ class ilSurveyExecutionGUI
 	
 	function backToRepository()
 	{
-		global $tree;
+		$tree = $this->tree;
 		
 		// #14971
 		if($this->object->get360Mode())
@@ -887,7 +918,7 @@ class ilSurveyExecutionGUI
 	
 	function viewUserResults()
 	{
-		global $ilToolbar;
+		$ilToolbar = $this->toolbar;
 		
 		if(!$this->object->hasViewOwnResults())
 		{
@@ -909,7 +940,7 @@ class ilSurveyExecutionGUI
 	
 	function mailUserResults()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		if(!$this->object->hasMailConfirmation())
 		{
@@ -940,7 +971,7 @@ class ilSurveyExecutionGUI
 	
 	function showFinishConfirmation()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$cgui = new ilConfirmationGUI();
@@ -955,7 +986,7 @@ class ilSurveyExecutionGUI
 	
 	function confirmedFinish()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		if(!$this->preview)
 		{

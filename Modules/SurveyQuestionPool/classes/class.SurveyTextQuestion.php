@@ -51,6 +51,9 @@ class SurveyTextQuestion extends SurveyQuestion
 */
 	function __construct($title = "", $description = "", $author = "", $questiontext = "",	$owner = -1)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		parent::__construct($title, $description, $author, $questiontext, $owner);
 		
 		$this->maxchars = 0;
@@ -67,7 +70,7 @@ class SurveyTextQuestion extends SurveyQuestion
 	*/
 	function getQuestionDataArray($id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		$result = $ilDB->queryF("SELECT svy_question.*, " . $this->getAdditionalTableName() . ".* FROM svy_question, " . $this->getAdditionalTableName() . " WHERE svy_question.question_id = %s AND svy_question.question_id = " . $this->getAdditionalTableName() . ".question_fi",
 			array('integer'),
 			array($id)
@@ -90,7 +93,7 @@ class SurveyTextQuestion extends SurveyQuestion
 */
 	function loadFromDb($id) 
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$result = $ilDB->queryF("SELECT svy_question.*, " . $this->getAdditionalTableName() . ".* FROM svy_question LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = svy_question.question_id WHERE svy_question.question_id = %s",
 			array('integer'),
@@ -169,7 +172,7 @@ class SurveyTextQuestion extends SurveyQuestion
 */
   function saveToDb($original_id = "")
   {
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$affectedRows = parent::saveToDb($original_id);
 		if ($affectedRows == 1) 
@@ -336,7 +339,7 @@ class SurveyTextQuestion extends SurveyQuestion
 	
 	function saveUserInput($post_data, $active_id, $a_return = false)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$entered_value = ilUtil::stripSlashes($post_data[$this->getId() . "_text_question"]);
 		$maxchars = $this->getMaxChars();

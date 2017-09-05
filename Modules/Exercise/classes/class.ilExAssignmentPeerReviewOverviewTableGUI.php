@@ -23,7 +23,10 @@ class ilExAssignmentPeerReviewOverviewTableGUI extends ilTable2GUI
 	 */
 	public function  __construct($a_parent_obj, $a_parent_cmd, ilExAssignment $a_ass)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$ilCtrl = $DIC->ctrl();
 				
 		$this->ass = $a_ass;
 		

@@ -68,7 +68,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 		}
 		else
 		{
-			$this->ilErr =& $ilErr;
+			$this->ilErr = $ilErr;
 		}
 
 		$this->id_type = $a_id_type;
@@ -85,12 +85,12 @@ abstract class ilObject2GUI extends ilObjectGUI
 
 		// these are things that are initialised in ilObjectGUI constructor now
 		// and may miss here
-		//$this->locator = $DIC["ilLocator"];
+		$this->locator = $DIC["ilLocator"];
 		$this->user = $DIC->user();
-		//$this->access = $DIC->access();
+		$this->access = $DIC->access();
 		//$this->settings = $DIC->settings();
 		//$this->rbacreview = $DIC->rbac()->review();
-		//$this->toolbar = $DIC->toolbar();
+		$this->toolbar = $DIC->toolbar();
 
 
 		$params = array();		

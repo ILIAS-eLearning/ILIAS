@@ -23,7 +23,13 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
 	*/
 	function __construct()
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		parent::__construct();
 		
@@ -67,7 +73,7 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$next_class = $ilCtrl->getNextClass();
 		$cmd = $ilCtrl->getCmd("getHTML");
@@ -84,7 +90,8 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
 	*/
 	function getHTML($a_export = false)
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		$this->export = $a_export;
 
@@ -104,7 +111,9 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
 	*/
 	function fillDataSection()
 	{
-		global $ilCtrl, $lng, $ilAccess;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilAccess = $this->access;
 		
 		$tpl = new ilTemplate("tpl.wiki_imp_pages_block.html", true, true, "Modules/Wiki");
 

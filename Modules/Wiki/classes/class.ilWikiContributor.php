@@ -45,7 +45,9 @@ class ilWikiContributor
 	*/
 	static function _lookupStatus($a_obj_id, $a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->queryF("SELECT status FROM il_wiki_contributor ".
 			"WHERE wiki_id = %s and user_id = %s",
@@ -67,7 +69,9 @@ class ilWikiContributor
 	*/
 	static function _lookupStatusTime($a_obj_id, $a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->queryF("SELECT status_time FROM il_wiki_contributor ".
 			"WHERE wiki_id = %s and user_id = %s",
@@ -91,7 +95,9 @@ class ilWikiContributor
 	*/
 	static function _writeStatus($a_obj_id, $a_user_id, $a_status)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$ilDB->manipulate("DELETE FROM il_wiki_contributor WHERE ".
 			" wiki_id = ".$ilDB->quote($a_obj_id, "integer").

@@ -11,6 +11,11 @@ include_once "./Services/Xml/classes/class.ilXmlWriter.php";
  */
 class ilCategoryXmlWriter extends ilXmlWriter
 {
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
 	const MODE_SOAP = 1;
 	const MODE_EXPORT = 2;
 	
@@ -27,8 +32,9 @@ class ilCategoryXmlWriter extends ilXmlWriter
 	*/
 	public function __construct(ilObjCategory $cat = null)
 	{
-		global $ilias;
+		global $DIC;
 
+		$this->settings = $DIC->settings();
 		parent::__construct();
 
 		$this->category = $cat;
@@ -99,7 +105,7 @@ class ilCategoryXmlWriter extends ilXmlWriter
 	 */
 	protected  function buildHeader()
 	{
-		global $ilSetting;
+		$ilSetting = $this->settings;
 
 		$this->xmlSetDtdDef("<!DOCTYPE category PUBLIC \"-//ILIAS//DTD Group//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_cat_4_5.dtd\">");
 		$this->xmlSetGenCmt("Export of ILIAS category ". $this->getCategory()->getId()." of installation ".$ilSetting->get('inst_id').".");

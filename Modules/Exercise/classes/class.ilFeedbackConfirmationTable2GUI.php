@@ -15,11 +15,31 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 class ilFeedbackConfirmationTable2GUI extends ilTable2GUI
 {
 	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
 	 * Constructor
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_ass)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng, $ilUser;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$this->user = $DIC->user();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
+		$lng = $DIC->language();
+		$ilUser = $DIC->user();
 		
 		$this->ass = $a_ass;
 		$this->setId("exc_mdf_upload");
@@ -47,7 +67,7 @@ class ilFeedbackConfirmationTable2GUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$this->tpl->setVariable("FIRSTNAME", $a_set["firstname"]);
 		$this->tpl->setVariable("LASTNAME", $a_set["lastname"]);

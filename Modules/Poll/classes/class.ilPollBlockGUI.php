@@ -27,7 +27,14 @@ class ilPollBlockGUI extends ilBlockGUI
 	*/
 	function __construct()
 	{
-		global $lng;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+		$this->user = $DIC->user();
+		$this->tpl = $DIC["tpl"];
+		$this->access = $DIC->access();
+		$lng = $DIC->language();
 		
 		parent::__construct();
 			
@@ -87,7 +94,7 @@ class ilPollBlockGUI extends ilBlockGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$next_class = $ilCtrl->getNextClass();
 		$cmd = $ilCtrl->getCmd("getHTML");
@@ -101,7 +108,10 @@ class ilPollBlockGUI extends ilBlockGUI
 	
 	function fillRow($a_poll)
 	{		
-		global $ilCtrl, $lng, $ilUser, $tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilUser = $this->user;
+		$tpl = $this->tpl;
 		
 		
 		// handle messages
@@ -359,7 +369,10 @@ class ilPollBlockGUI extends ilBlockGUI
 	*/
 	function getHTML()
 	{
-		global $ilCtrl, $lng, $ilAccess, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilAccess = $this->access;
+		$ilUser = $this->user;
 		
 		$this->poll_block->setRefId($this->getRefId());		
 		$this->may_write = $ilAccess->checkAccess("write", "", $this->getRefId());

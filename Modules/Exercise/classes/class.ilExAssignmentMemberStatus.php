@@ -9,6 +9,11 @@
  */
 class ilExAssignmentMemberStatus
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	protected $ass_id; // [int]
 	protected $user_id;  // [int]
 	protected $notice; // [string]
@@ -28,6 +33,9 @@ class ilExAssignmentMemberStatus
 	
 	public function __construct($a_ass_id, $a_user_id)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		$this->ass_id = $a_ass_id;
 		$this->user_id = $a_user_id;
 		
@@ -168,7 +176,7 @@ class ilExAssignmentMemberStatus
 	
 	protected function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$set = $ilDB->query("SELECT * FROM exc_mem_ass_status".
 			" WHERE ass_id = ".$ilDB->quote($this->ass_id, "integer").
@@ -212,7 +220,7 @@ class ilExAssignmentMemberStatus
 	
 	public function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$keys = array(
 			"ass_id" => array("integer", $this->ass_id)
@@ -241,7 +249,7 @@ class ilExAssignmentMemberStatus
 	
 	protected function postUpdateReturned()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// first upload => notification on submission?		
 		$set = $ilDB->query("SELECT fb_cron, fb_date, fb_file".
@@ -285,7 +293,9 @@ class ilExAssignmentMemberStatus
 	 */
 	public static function lookupAnyExerciseSent($a_ass_id)
 	{
-  		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
   		$q = "SELECT count(*) AS cnt".
 			" FROM exc_mem_ass_status".

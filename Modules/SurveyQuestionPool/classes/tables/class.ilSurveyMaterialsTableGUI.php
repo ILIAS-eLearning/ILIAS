@@ -39,7 +39,10 @@ class ilSurveyMaterialsTableGUI extends ilTable2GUI
 	
 	public function __construct($a_parent_obj, $a_parent_cmd, $a_write_access = false)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		

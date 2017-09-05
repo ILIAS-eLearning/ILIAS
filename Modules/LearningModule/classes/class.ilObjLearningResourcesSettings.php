@@ -42,6 +42,9 @@ class ilObjLearningResourcesSettings extends ilObject
 	*/
 	function __construct($a_id = 0,$a_call_by_reference = true)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		$this->type = "lrss";
 		parent::__construct($a_id,$a_call_by_reference);
 	}
@@ -54,7 +57,7 @@ class ilObjLearningResourcesSettings extends ilObject
 	*/
 	function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if (!parent::update())
 		{			
@@ -69,7 +72,7 @@ class ilObjLearningResourcesSettings extends ilObject
 	*/
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		parent::read();
 

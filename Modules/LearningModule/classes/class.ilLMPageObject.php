@@ -31,7 +31,6 @@ class ilLMPageObject extends ilLMObject
 	var $is_alias;
 	var $origin_id;
 	var $id;
-	var $ilias;
 	var $dom;
 	var $page_object;
 
@@ -41,10 +40,6 @@ class ilLMPageObject extends ilLMObject
 	*/
 	function __construct(&$a_content_obj, $a_id = 0, $a_halt = true)
 	{
-		global $ilias, $ilBench;
-
-		$ilBench->start("ContentPresentation", "ilLMPageObject_Constructor");
-
 		parent::__construct($a_content_obj, $a_id);
 		$this->setType("pg");
 		$this->id = $a_id;
@@ -59,8 +54,6 @@ class ilLMPageObject extends ilLMObject
 		{
 			$this->read();
 		}
-
-		$ilBench->stop("ContentPresentation", "ilLMPageObject_Constructor");
 	}
 
 	function __desctruct()
@@ -520,8 +513,6 @@ class ilLMPageObject extends ilLMObject
 	*/
 	function exportXML(&$a_xml_writer, $a_mode = "normal", $a_inst = 0)
 	{
-		global $ilBench;
-
 		$attrs = array();
 		$a_xml_writer->xmlStartTag("PageObject", $attrs);
 
@@ -529,14 +520,10 @@ class ilLMPageObject extends ilLMObject
 		{
 			case "normal":
 				// MetaData
-				$ilBench->start("ContentObjectExport", "exportPageObject_XML_Meta");
 				$this->exportXMLMetaData($a_xml_writer);
-				$ilBench->stop("ContentObjectExport", "exportPageObject_XML_Meta");
 
 				// PageContent
-				$ilBench->start("ContentObjectExport", "exportPageObject_XML_PageContent");
 				$this->exportXMLPageContent($a_xml_writer, $a_inst);
-				$ilBench->stop("ContentObjectExport", "exportPageObject_XML_PageContent");
 				break;
 
 			case "alias":
@@ -662,10 +649,6 @@ class ilLMPageObject extends ilLMObject
 	*/
 	function exportFO(&$a_xml_writer)
 	{
-		global $ilBench;
-
-		//$attrs = array();
-		//$a_xml_writer->xmlStartTag("PageObject", $attrs);
 		$title = ilLMPageObject::_getPresentationTitle($this->getId());
 		if ($title != "")
 		{
@@ -679,8 +662,6 @@ class ilLMPageObject extends ilLMObject
 		$this->page_object->buildDom();
 		$fo = $this->page_object->getFO();
 		$a_xml_writer->appendXML($fo);
-
-		//$a_xml_writer->xmlEndTag("PageObject");
 	}
 
 	/**
@@ -692,7 +673,10 @@ class ilLMPageObject extends ilLMObject
 	static function queryQuestionsOfLearningModule($a_lm_id, $a_order_field,
 		$a_order_dir, $a_offset, $a_limit)
 	{
-		global $ilDB, $rbacreview;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$rbacreview = $DIC->rbac()->review();
 
 
 		// count query

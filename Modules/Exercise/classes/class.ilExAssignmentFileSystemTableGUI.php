@@ -21,7 +21,9 @@ class ilExAssignmentFileSystemTableGUI extends ilFileSystemTableGUI
 						 $a_file_labels, $a_label_header = "", $a_commands = array(),
 						 $a_post_dir_path = false, $a_table_id = "")
 	{
-		global $lng;
+		global $DIC;
+
+		$this->lng = $DIC->language();
 
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_cur_dir,
 			$a_cur_subdir, $a_label_enable,

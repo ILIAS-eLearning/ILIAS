@@ -13,7 +13,16 @@ require_once("./Modules/Glossary/classes/class.ilGlossaryDefPage.php");
 */
 class ilGlossaryDefinition
 {
-	var $ilias;
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	var $lng;
 	var $tpl;
 
@@ -31,10 +40,14 @@ class ilGlossaryDefinition
 	*/
 	function __construct($a_id = 0)
 	{
-		global $lng, $ilias, $tpl;
+		global $DIC;
+
+		$this->db = $DIC->database();
+		$this->user = $DIC->user();
+		$lng = $DIC->language();
+		$tpl = $DIC["tpl"];
 
 		$this->lng = $lng;
-		$this->ilias = $ilias;
 		$this->tpl = $tpl;
 
 		$this->id = $a_id;
@@ -49,7 +62,7 @@ class ilGlossaryDefinition
 	*/
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$q = "SELECT * FROM glossary_definition WHERE id = ".
 			$ilDB->quote($this->id, "integer");
@@ -183,7 +196,7 @@ class ilGlossaryDefinition
 	 */
 	function create($a_upload = false, $a_omit_page_creation = false)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$term = new ilGlossaryTerm($this->getTermId());
 
@@ -240,7 +253,7 @@ class ilGlossaryDefinition
 
 	function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$ilAtomQuery = $ilDB->buildAtomQuery();
 		$ilAtomQuery->addTableLock("glossary_definition");
@@ -277,7 +290,7 @@ class ilGlossaryDefinition
 
 	function moveUp()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$ilAtomQuery = $ilDB->buildAtomQuery();
 		$ilAtomQuery->addTableLock('glossary_definition');
@@ -313,7 +326,7 @@ class ilGlossaryDefinition
 
 	function moveDown()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$ilAtomQuery = $ilDB->buildAtomQuery();
 		$ilAtomQuery->addTableLock('glossary_definition');
@@ -358,7 +371,7 @@ class ilGlossaryDefinition
 
 	function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$this->updateMetaData();
 
@@ -434,7 +447,9 @@ class ilGlossaryDefinition
 	*/
 	static function getDefinitionList($a_term_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 	    $defs = array();
 		$q = "SELECT * FROM glossary_definition WHERE term_id = ".
@@ -525,7 +540,7 @@ class ilGlossaryDefinition
 	{
 		include_once 'Services/MetaData/classes/class.ilMDCreator.php';
 
-		global $ilUser;
+		$ilUser = $this->user;
 
 		$glo_id = ilGlossaryTerm::_lookGlossaryID($this->getTermId());
 		$lang = ilGlossaryTerm::_lookLanguage($this->getTermId());
@@ -631,7 +646,9 @@ class ilGlossaryDefinition
 	*/
 	static function _lookupTermId($a_def_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$q = "SELECT * FROM glossary_definition WHERE id = ".
 			$ilDB->quote($a_def_id, "integer");
@@ -649,7 +666,9 @@ class ilGlossaryDefinition
 	 */
 	static function setShortTextsDirty($a_glo_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 		$term_ids = ilGlossaryTerm::getTermsOfGlossary($a_glo_id);

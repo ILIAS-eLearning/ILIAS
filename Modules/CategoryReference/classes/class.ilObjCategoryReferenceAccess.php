@@ -53,7 +53,9 @@ class ilObjCategoryReferenceAccess extends ilContainerReferenceAccess
 	 */
 	static function _getCommands($a_ref_id = null)
 	{
-		global $ilAccess;
+		global $DIC;
+
+		$ilAccess = $DIC->access();
 
 		if($ilAccess->checkAccess('write','',$a_ref_id))
 		{

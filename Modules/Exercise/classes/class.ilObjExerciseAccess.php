@@ -92,7 +92,9 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
 	
 	static function _lookupRemainingWorkingTimeString($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		// #14077 - mind peer deadline, too
 		
@@ -145,7 +147,9 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
 	*/
 	static function _checkGoto($a_target)
 	{
-		global $ilAccess;
+		global $DIC;
+
+		$ilAccess = $DIC->access();
 		
 		$t_arr = explode("_", $a_target);
 

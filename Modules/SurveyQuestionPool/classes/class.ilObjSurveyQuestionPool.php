@@ -36,6 +36,16 @@ include_once "./Services/Object/classes/class.ilObject.php";
 class ilObjSurveyQuestionPool extends ilObject
 {
 	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilPluginAdmin
+	 */
+	protected $plugin_admin;
+
+	/**
 	* Online status of questionpool
 	*
 	* @var string
@@ -50,6 +60,12 @@ class ilObjSurveyQuestionPool extends ilObject
 	*/
 	function __construct($a_id = 0,$a_call_by_reference = true)
 	{
+		global $DIC;
+
+		$this->log = $DIC["ilLog"];
+		$this->db = $DIC->database();
+		$this->user = $DIC->user();
+		$this->plugin_admin = $DIC["ilPluginAdmin"];
 		$this->type = "spl";
 		parent::__construct($a_id,$a_call_by_reference);
 	}
@@ -102,7 +118,7 @@ class ilObjSurveyQuestionPool extends ilObject
 	*/
 		function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 		{
-			global $ilLog;
+		$ilLog = $this->log;
 			$newObj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
 
 			//copy online status if object is not the root copy object
@@ -189,7 +205,7 @@ class ilObjSurveyQuestionPool extends ilObject
 	*/
 	function loadFromDb()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$result = $ilDB->queryF("SELECT * FROM svy_qpl WHERE obj_fi = %s",
 			array('integer'),
@@ -209,7 +225,7 @@ class ilObjSurveyQuestionPool extends ilObject
 */
   function saveToDb()
   {
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		parent::update();
 		
@@ -260,7 +276,7 @@ class ilObjSurveyQuestionPool extends ilObject
 
 	function deleteAllData()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		$result = $ilDB->queryF("SELECT question_id FROM svy_question WHERE obj_fi = %s AND original_id IS NULL",
 			array('integer'),
 			array($this->getId())
@@ -303,7 +319,7 @@ class ilObjSurveyQuestionPool extends ilObject
 */
 	function getQuestiontype($question_id) 
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		if ($question_id < 1) return;
 		$result = $ilDB->queryF("SELECT svy_qtype.type_tag FROM svy_question, svy_qtype WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id AND svy_question.question_id = %s",
 			array('integer'),
@@ -329,7 +345,7 @@ class ilObjSurveyQuestionPool extends ilObject
 */
 	function isInUse($question_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		// check out the already answered questions
 		$result = $ilDB->queryF("SELECT answer_id FROM svy_answer WHERE question_fi = %s",
 			array('integer'),
@@ -375,7 +391,7 @@ class ilObjSurveyQuestionPool extends ilObject
 */
 	function &getQuestionsInfo($question_array)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		$result_array = array();
 		$result = $ilDB->query("SELECT svy_question.*, svy_qtype.type_tag, svy_qtype.plugin FROM svy_question, svy_qtype WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id AND svy_question.tstamp > 0 AND " . $ilDB->in('svy_question.question_id', $question_array, false, 'integer'));
 		while ($row = $ilDB->fetchAssoc($result))
@@ -403,7 +419,7 @@ class ilObjSurveyQuestionPool extends ilObject
 	*/
 	function duplicateQuestion($question_id, $obj_id = "") 
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		$question = SurveyQuestion::_instanciateQuestion($question_id);
 		$suffix = "";
@@ -427,8 +443,8 @@ class ilObjSurveyQuestionPool extends ilObject
 	*/
 	function getQuestionsData($arrFilter)
 	{
-		global $ilUser;
-		global $ilDB;
+		$ilUser = $this->user;
+		$ilDB = $this->db;
 		$where = "";
 		if (is_array($arrFilter))
 		{
@@ -680,7 +696,7 @@ class ilObjSurveyQuestionPool extends ilObject
 
 	function &getQuestions()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		$questions = array();
 		$result = $ilDB->queryF("SELECT question_id FROM svy_question WHERE obj_fi = %s AND svy_question.tstamp > 0 AND original_id IS NULL",
 			array('integer'),
@@ -749,7 +765,9 @@ class ilObjSurveyQuestionPool extends ilObject
 
 	public static function _setOnline($a_obj_id, $a_online_status)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$status = "0";
 		switch ($a_online_status)
@@ -794,7 +812,9 @@ class ilObjSurveyQuestionPool extends ilObject
 	
 	static function _lookupOnline($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$result = $ilDB->queryF("SELECT isonline FROM svy_qpl WHERE obj_fi = %s",
 			array('integer'),
@@ -817,8 +837,12 @@ class ilObjSurveyQuestionPool extends ilObject
 	*/
 	static function _isWriteable($object_id, $user_id)
 	{
-		global $rbacsystem;
-		global $ilDB;
+		global $DIC;
+
+		$rbacsystem = $DIC->rbac()->system();
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$refs = ilObject::_getAllReferences($object_id);
 		$result = false;
@@ -840,8 +864,12 @@ class ilObjSurveyQuestionPool extends ilObject
 	*/
 	static function _getQuestiontypes()
 	{
-		global $ilDB;
-		global $lng;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		$lng->loadLanguageModule("survey");
 		$types = array();
@@ -855,7 +883,9 @@ class ilObjSurveyQuestionPool extends ilObject
 			}
 			else
 			{
-				global $ilPluginAdmin;
+		global $DIC;
+
+		$ilPluginAdmin = $DIC["ilPluginAdmin"];
 				$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "SurveyQuestionPool", "svyq");
 				foreach ($pl_names as $pl_name)
 				{					
@@ -913,10 +943,18 @@ class ilObjSurveyQuestionPool extends ilObject
 	
 	public static function _getQuestionTypeTranslations()
 	{
-		global $ilDB;
-		global $lng;
-		global $ilLog;
-		global $ilPluginAdmin;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		global $DIC;
+
+		$lng = $DIC->language();
+		global $DIC;
+
+		$ilLog = $DIC["ilLog"];
+		global $DIC;
+
+		$ilPluginAdmin = $DIC["ilPluginAdmin"];
 		
 		$lng->loadLanguageModule("survey");
 		$result = $ilDB->query("SELECT * FROM svy_qtype");
@@ -952,8 +990,12 @@ class ilObjSurveyQuestionPool extends ilObject
 	*/
 	static function _getAvailableQuestionpools($use_object_id = FALSE, $could_be_offline = FALSE, $showPath = FALSE, $permission = "read")
 	{
-		global $ilUser;
-		global $ilDB;
+		global $DIC;
+
+		$ilUser = $DIC->user();
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$result_array = array();
 		$qpls = ilUtil::_getObjectsByOperations("spl", $permission, $ilUser->getId(), -1);
@@ -990,7 +1032,7 @@ class ilObjSurveyQuestionPool extends ilObject
 	*/
 	function isPluginActive($a_pname)
 	{
-		global $ilPluginAdmin;
+		$ilPluginAdmin = $this->plugin_admin;
 		if ($ilPluginAdmin->isActive(IL_COMP_MODULE, "SurveyQuestionPool", "svyq", $a_pname))
 		{
 			return TRUE;
@@ -1009,7 +1051,7 @@ class ilObjSurveyQuestionPool extends ilObject
 	*/
 	public function getQuestionInfos($question_ids)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$found = array();
 		$query_result = $ilDB->query("SELECT svy_question.*, svy_qtype.type_tag FROM svy_question, svy_qtype " .
@@ -1037,7 +1079,8 @@ class ilObjSurveyQuestionPool extends ilObject
 	*/
 	public function purgeQuestions()
 	{
-		global $ilDB, $ilUser;
+		$ilDB = $this->db;
+		$ilUser = $this->user;
 		
 		$result = $ilDB->queryF("SELECT question_id FROM svy_question WHERE owner_fi = %s AND tstamp = %s", 
 			array("integer", "integer"),
@@ -1082,7 +1125,7 @@ class ilObjSurveyQuestionPool extends ilObject
 	*/
 	public function pasteFromClipboard()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if (array_key_exists("spl_clipboard", $_SESSION))
 		{
@@ -1143,7 +1186,7 @@ class ilObjSurveyQuestionPool extends ilObject
 	*/
 	function setObligatoryStates($obligatory_questions)
 	{				
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		foreach($this->getQuestions() as $question_id)
 		{

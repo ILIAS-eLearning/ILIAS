@@ -20,6 +20,16 @@ require_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Objective.
  */
 class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 {
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
 
 	/**
 	 * Constructor
@@ -30,7 +40,15 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 
 	function __construct($a_slm_obj, $a_node_id = 0)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->tpl = $DIC["tpl"];
+		$this->tabs = $DIC->tabs();
+		$this->lng = $DIC->language();
+		$this->help = $DIC["ilHelp"];
+		$this->error = $DIC["ilErr"];
+		$ilCtrl = $DIC->ctrl();
 
 		$ilCtrl->saveParameter($this, "obj_id");
 		$this->ctrl = &$ilCtrl;
@@ -51,7 +69,9 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 	 */
 	function executeCommand()
 	{
-		global $tpl, $ilCtrl, $ilTabs;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
 
 		$tpl->getStandardTemplate();
 
@@ -100,7 +120,10 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 	 */
 	function showProperties()
 	{
-		global $tpl, $lng, $ilTabs, $ilCtrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
 
 		$this->setTabs();
 		$this->setLocator();
@@ -173,7 +196,8 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 	 */
 	function updateProperties()
 	{
-		global $tpl,$lng;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 		$empty = false;
 
 		foreach ($_POST as $key=>$value) {
@@ -214,7 +238,9 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 
 	function sahs_questions()
 	{
-		global $tpl,$lng, $ilCtrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$this->setTabs();
 		$this->setLocator();
@@ -283,7 +309,11 @@ die("deprecated");
 	 */
 	function setTabs()
 	{
-		global $ilTabs, $ilCtrl, $tpl, $lng, $ilHelp;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilHelp = $this->help;
 
 		$ilHelp->setScreenIdComponent("sahsed");
 
@@ -345,7 +375,7 @@ die("deprecated");
 	 */
 	function proceedDragDrop()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		//echo "-".$_POST["il_hform_source_id"]."-".$_POST["il_hform_target_id"]."-".$_POST["il_hform_fc"]."-";
 		$this->slm_object->executeDragDrop($_POST["il_hform_source_id"], $_POST["il_hform_target_id"],
@@ -358,7 +388,9 @@ die("deprecated");
 	 */
 	function sco_preview()
 	{
-		global $tpl, $ilCtrl, $lng;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		// init main template
 		$tpl = new ilTemplate("tpl.main.html", true, true);
@@ -480,7 +512,9 @@ die("deprecated");
 	
 	function showExportList()
 	{
-		global $tpl, $ilCtrl, $lng;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$this->setTabs();
 		$this->setLocator();
@@ -582,7 +616,8 @@ die("deprecated");
 	*/
 	function confirmDeleteExportFile()
 	{
-		global $lng, $tpl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
 		
 		if(!isset($_POST["file"]))
 		{
@@ -629,7 +664,7 @@ die("deprecated");
 	*/
 	function deleteExportFile()
 	{
-		global $lng;
+		$lng = $this->lng;
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$export = new ilSCORM2004Export($this->node_object);
 		foreach($_POST['file'] as $idx => $file)
@@ -700,7 +735,9 @@ die("deprecated");
 	
 	function sco_resources()
 	{
-		global $tpl, $lng, $ilCtrl;;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$this->setTabs();
 		$this->setLocator();
@@ -851,7 +888,8 @@ die("deprecated");
 	
 	function import()
 	{
-		global $tpl, $lng;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 		
 		$this->setTabs();
 		$this->setLocator();
@@ -902,32 +940,32 @@ die("deprecated");
 	
 	function importSave()
 	{
-		global $_FILES, $rbacsystem;
-		global $ilias, $lng;
+		$lng = $this->lng;
+		$ilErr = $this->error;
 
 		// check if file was uploaded
 		$source = $_FILES["scormfile"]["tmp_name"];
 		if (($source == 'none') || (!$source))
 		{
-			$ilias->raiseError("No file selected!",$ilias->error_obj->MESSAGE);
+			$ilErr->raiseError("No file selected!",$ilErr->MESSAGE);
 		}
 		// get_cfg_var("upload_max_filesize"); // get the may filesize form t he php.ini
 		switch ($_FILES["scormfile"]["error"])
 		{
 			case UPLOAD_ERR_INI_SIZE:
-				$ilias->raiseError($lng->txt("err_max_file_size_exceeds"),$ilias->error_obj->MESSAGE);
+				$ilErr->raiseError($lng->txt("err_max_file_size_exceeds"),$ilErr->MESSAGE);
 				break;
 
 			case UPLOAD_ERR_FORM_SIZE:
-				$ilias->raiseError($lng->txt("err_max_file_size_exceeds"),$ilias->error_obj->MESSAGE);
+				$ilErr->raiseError($lng->txt("err_max_file_size_exceeds"),$ilErr->MESSAGE);
 				break;
 
 			case UPLOAD_ERR_PARTIAL:
-				$ilias->raiseError($lng->txt("err_partial_file_upload"),$ilias->error_obj->MESSAGE);
+				$ilErr->raiseError($lng->txt("err_partial_file_upload"),$ilErr->MESSAGE);
 				break;
 
 			case UPLOAD_ERR_NO_FILE:
-				$ilias->raiseError($lng->txt("err_no_file_uploaded"),$ilias->error_obj->MESSAGE);
+				$ilErr->raiseError($lng->txt("err_no_file_uploaded"),$ilErr->MESSAGE);
 				break;
 		}
 
@@ -973,7 +1011,9 @@ die("deprecated");
 	 */
 	static function getGloOverviewOv($a_sco)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		$tpl = new ilTemplate("tpl.sco_glossary_overview.html", true, true, "Modules/Scorm2004");
 		

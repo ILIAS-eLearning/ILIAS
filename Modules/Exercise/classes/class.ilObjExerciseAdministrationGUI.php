@@ -22,6 +22,12 @@ class ilObjExerciseAdministrationGUI extends ilObjectGUI
 	 */
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->settings = $DIC->settings();
+		$this->ctrl = $DIC->ctrl();
+		$this->access = $DIC->access();
 		$this->type = "excs";
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
@@ -91,7 +97,8 @@ class ilObjExerciseAdministrationGUI extends ilObjectGUI
 	*/
 	public function editSettings($a_form = null)
 	{
-		global $lng, $ilSetting;
+		$lng = $this->lng;
+		$ilSetting = $this->settings;
 		
 		$this->tabs_gui->setTabActive('settings');	
 		
@@ -108,7 +115,7 @@ class ilObjExerciseAdministrationGUI extends ilObjectGUI
 	*/
 	public function saveSettings()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$this->checkPermission("write");
 		
@@ -131,7 +138,7 @@ class ilObjExerciseAdministrationGUI extends ilObjectGUI
 	*/
 	public function cancel()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$ilCtrl->redirect($this, "view");
 	}
@@ -143,7 +150,8 @@ class ilObjExerciseAdministrationGUI extends ilObjectGUI
 	 */
 	protected function initFormSettings()
 	{
-	    global $lng, $ilAccess;
+		$lng = $this->lng;
+		$ilAccess = $this->access;
 		
 		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
 		$form = new ilPropertyFormGUI();

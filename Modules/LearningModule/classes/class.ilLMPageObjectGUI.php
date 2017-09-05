@@ -20,6 +20,16 @@ require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
 */
 class ilLMPageObjectGUI extends ilLMObjectGUI
 {
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
 	var $obj;
 
 	/**
@@ -30,6 +40,13 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	*/
 	function __construct(&$a_content_obj)
 	{
+		global $DIC;
+
+		$this->tpl = $DIC["tpl"];
+		$this->ctrl = $DIC->ctrl();
+		$this->tabs = $DIC->tabs();
+		$this->settings = $DIC->settings();
+		$this->lng = $DIC->language();
 		parent::__construct($a_content_obj);
 
 	}
@@ -49,7 +66,10 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	*/
 	function executeCommand()
 	{
-		global $tpl, $ilCtrl, $ilTabs, $ilSetting;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
+		$ilSetting = $this->settings;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -63,7 +83,6 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 
 				// Determine whether the view of a learning resource should
 				// be shown in the frameset of ilias, or in a separate window.
-				//$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
 				$showViewInFrameset = true;
 				$lm_set = new ilSetting("lm");
 
@@ -358,7 +377,12 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	 */
 	public static function _goto($a_target)
 	{
-		global $rbacsystem, $ilErr, $lng, $ilAccess;
+		global $DIC;
+
+		$rbacsystem = $DIC->rbac()->system();
+		$ilErr = $DIC["ilErr"];
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
 
 		$first = strpos($a_target, "_");
 		$second = strpos($a_target, "_", $first + 1);
@@ -434,7 +458,9 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	*/
 	function editLayout()
 	{
-		global $tpl, $ilCtrl, $ilTabs;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
 		
 		$page_gui = new ilLMPageGUI($this->obj->getId());
 		$page_gui->setEditPreview(true);
@@ -459,7 +485,8 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	*/
 	public function initEditLayoutForm()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -504,7 +531,9 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	*/
 	public function saveLayout()
 	{
-		global $tpl, $lng, $ilCtrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 	
 		$this->initEditLayoutForm();
 		if ($this->form->checkInput())
@@ -522,7 +551,8 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	*/
 	function addPageTabs()
 	{
-		global $ilTabs, $ilCtrl;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
 		
 		$ilTabs->addTarget("cont_layout",
 			 $ilCtrl->getLinkTarget($this, 'editLayout'), "editLayout");

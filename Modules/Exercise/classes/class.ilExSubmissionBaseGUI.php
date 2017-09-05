@@ -11,13 +11,38 @@
  */
 abstract class ilExSubmissionBaseGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs_gui;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
 	protected $exercise; // [ilObjExercise]
 	protected $submission; // [ilExSubmission]
 	protected $assignment; // [ilExAssignment]
 	
 	public function __construct(ilObjExercise $a_exercise, ilExSubmission $a_submission)
 	{
-		global $ilCtrl, $ilTabs, $lng, $tpl;
+		global $DIC;
+
+		$ilCtrl = $DIC->ctrl();
+		$ilTabs = $DIC->tabs();
+		$lng = $DIC->language();
+		$tpl = $DIC["tpl"];
 		
 		$this->exercise = $a_exercise;
 		$this->submission = $a_submission;

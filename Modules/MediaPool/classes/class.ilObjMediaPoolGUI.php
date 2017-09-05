@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Object/classes/class.ilObject2GUI.php");
 include_once("./Modules/MediaPool/classes/class.ilObjMediaPool.php");
@@ -14,8 +14,6 @@ include_once("./Services/Clipboard/classes/class.ilEditClipboardGUI.php");
 *
 * @author Alex Killing <alex.killing@gmx.de>
 *
-* $Id$
-*
 * @ilCtrl_Calls ilObjMediaPoolGUI: ilObjMediaObjectGUI, ilObjFolderGUI, ilEditClipboardGUI, ilPermissionGUI
 * @ilCtrl_Calls ilObjMediaPoolGUI: ilInfoScreenGUI, ilMediaPoolPageGUI, ilExportGUI, ilFileSystemGUI
 * @ilCtrl_Calls ilObjMediaPoolGUI: ilCommonActionDispatcherGUI, ilObjectCopyGUI, ilObjectTranslationGUI, ilMediaPoolImportGUI
@@ -25,6 +23,37 @@ include_once("./Services/Clipboard/classes/class.ilEditClipboardGUI.php");
 */
 class ilObjMediaPoolGUI extends ilObject2GUI
 {
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
+	{
+		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
+		global $DIC;
+
+		$this->tabs = $DIC->tabs();
+		$this->tree = $DIC->repositoryTree();
+		$this->error = $DIC["ilErr"];
+		$this->locator = $DIC["ilLocator"];
+		$this->help = $DIC["ilHelp"];
+	}
+
 	var $output_prepared;
 
 	/**
@@ -32,7 +61,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	*/
 	protected function afterConstructor()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$lng->loadLanguageModule("mep");
 		
@@ -62,7 +91,11 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	*/
 	function executeCommand()
 	{
-		global $ilTabs, $lng, $ilAccess, $tpl, $ilCtrl;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
+		$ilAccess = $this->access;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
 		
 		if ($this->ctrl->getRedirectSource() == "ilinternallinkgui")
 		{
@@ -446,7 +479,14 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	*/
 	function listMedia()
 	{
-		global $tree, $ilAccess, $tpl, $ilTabs, $ilCtrl, $ilToolbar, $lng, $ilErr;
+		$tree = $this->tree;
+		$ilAccess = $this->access;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
+		$ilToolbar = $this->toolbar;
+		$lng = $this->lng;
+		$ilErr = $this->error;
 		
 		$ilCtrl->setParameter($this, "mep_mode", "listMedia");
 
@@ -492,7 +532,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		include_once("./Modules/MediaPool/classes/class.ilMediaPoolTableGUI.php");
 		$mep_table_gui = new ilMediaPoolTableGUI($this, "listMedia", $this->object, "mepitem_id");
 		$tpl->setContent($mep_table_gui->getHTML());
-//		$this->tpl->show();
 	}
 
 	/**
@@ -500,7 +539,12 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	*/
 	function allMedia()
 	{
-		global $tree, $ilAccess, $tpl, $ilTabs, $ilCtrl,$ilUser;
+		$tree = $this->tree;
+		$ilAccess = $this->access;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 
 		$ilCtrl->setParameter($this, "mep_mode", "allMedia");
 
@@ -536,7 +580,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		}
 
 		$tpl->setContent($mep_table_gui->getHTML());
-//		$this->tpl->show();
 	}
 	
 	/**
@@ -599,7 +642,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	 */
 	protected function showMedia()
 	{
-		global $ilAccess;
+		$ilAccess = $this->access;
 
 		$this->checkPermission("read");
 
@@ -659,7 +702,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	 */
 	function showPage()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$tpl = new ilTemplate("tpl.main.html", true, true);
 
@@ -734,13 +777,15 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	*/
 	function confirmRemove()
 	{
-		global $ilAccess, $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilErr = $this->error;
 
 		$this->checkPermission("write");
 
 		if(!isset($_POST["id"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
 		}
 		
 		// display confirmation message
@@ -792,7 +837,8 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	*/
 	function openClipboard()
 	{
-		global $ilCtrl, $ilAccess;
+		$ilCtrl = $this->ctrl;
+		$ilAccess = $this->access;
 
 		$this->checkPermission("write");
 
@@ -808,7 +854,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	*/
 	function insertFromClipboard()
 	{
-		global $ilAccess;
+		$ilAccess = $this->access;
 
 		$this->checkPermission("write");
 
@@ -875,9 +921,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 							// copy content
 							$original->copy($page->getId(), $page->getParentType(), $page->getParentId(), true);
 
-							//$page->setXMLContent($original->copyXMLContent());
-							//$page->buildDom();
-							//$page->update();
 						}
 					}
 				}
@@ -905,7 +948,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	*/
 	function remove()
 	{
-		global $ilAccess;
+		$ilAccess = $this->access;
 
 		$this->checkPermission("write");
 
@@ -924,7 +967,8 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	*/
 	function copyToClipboard()
 	{
-		global $ilUser, $ilAccess;
+		$ilUser = $this->user;
+		$ilAccess = $this->access;
 
 		$this->checkPermission("write");		
 
@@ -965,7 +1009,8 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	*/
 	function addLocatorItems()
 	{
-		global $ilLocator, $ilAccess;
+		$ilLocator = $this->locator;
+		$ilAccess = $this->access;
 		
 		if (!$this->getCreationMode() && $this->ctrl->getCmd() != "explorer")
 		{
@@ -1004,19 +1049,13 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	*/
 	function createFolderForm()
 	{
-		global $ilAccess, $tpl;
+		$ilAccess = $this->access;
+		$tpl = $this->tpl;
 
 		$this->checkPermission("write");
 
 		$this->initFolderForm("create");
 		$tpl->setContent($this->form->getHTML());
-
-/*		$folder_gui = new ilObjFolderGUI("", 0, false, false);
-		$this->ctrl->setParameterByClass("ilobjfoldergui", "obj_id", $_GET["obj_id"]);
-		$folder_gui->setFormAction("save",
-			$this->ctrl->getFormActionByClass("ilobjfoldergui"));
-		$folder_gui->createObject();*/
-//		$this->tpl->show();
 	}
 
 	/**
@@ -1027,7 +1066,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	 */
 	function editFolder()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		$this->checkPermission("write");
 
@@ -1053,7 +1092,9 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	 */
 	public function saveFolder()
 	{
-		global $tpl, $lng, $ilCtrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$this->checkPermission("write");
 
@@ -1076,7 +1117,9 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	 */
 	function updateFolder()
 	{
-		global $lng, $ilCtrl, $tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
 
 		$this->checkPermission("write");
 
@@ -1103,7 +1146,8 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	 */
 	public function initFolderForm($a_mode = "edit")
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -1136,7 +1180,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	 */
 	function cancelFolderUpdate()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		$ilCtrl->setParameter($this, "mepitem_id",
 			$this->object->getTree()->getParentId($_GET["mepitem_id"]));
 		$ilCtrl->redirect($this, "listMedia");
@@ -1147,7 +1191,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	 */
 	function cancelSave()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		$ilCtrl->redirect($this, "listMedia");
 	}
 	
@@ -1160,7 +1204,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	 */
 	function createMediaPoolPage()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		$this->checkPermission("write");
 
@@ -1176,7 +1220,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	 */
 	function editMediaPoolPage()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		$this->checkPermission("write");
 
@@ -1196,7 +1240,9 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	 */
 	public function saveMediaPoolPage()
 	{
-		global $tpl, $lng, $ilCtrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$this->checkPermission("write");
 
@@ -1242,7 +1288,9 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	 */
 	function updateMediaPoolPage()
 	{
-		global $lng, $ilCtrl, $tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
 
 		$this->checkPermission("write");
 
@@ -1266,7 +1314,8 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	 */
 	public function initMediaPoolPageForm($a_mode = "edit")
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -1314,7 +1363,9 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	 */
 	function setMediaPoolPageTabs()
 	{
-		global $ilTabs, $ilCtrl, $lng;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 	
 		$ilTabs->clearTargets();
 		//$ilTabs->addTab("mep_pg_prop", $lng->txt("mep_page_properties"),
@@ -1342,7 +1393,10 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	 */
 	function showMediaPoolPageUsages($a_all = false)
 	{
-		global $ilTabs, $ilCtrl, $lng, $tpl;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
 
 		$this->checkPermission("write");
 
@@ -1392,7 +1446,8 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	 */
 	function setContentSubTabs($a_active)
 	{
-		global $ilTabs, $ilCtrl;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
 
 		$ilTabs->addSubTab("content", $this->lng->txt("objs_fold"), $this->ctrl->getLinkTarget($this, ""));
 
@@ -1413,7 +1468,10 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	*/
 	function setTabs()
 	{
-		global $ilAccess, $ilTabs, $ilCtrl, $ilHelp;
+		$ilAccess = $this->access;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
+		$ilHelp = $this->help;
 
 		$ilHelp->setScreenIdComponent("mep");
 		
@@ -1484,7 +1542,9 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	 */
 	function setSettingsSubTabs($a_active)
 	{
-		global $ilTabs, $lng, $ilAccess;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
+		$ilAccess = $this->access;
 
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
@@ -1509,7 +1569,11 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	*/
 	public static function _goto($a_target)
 	{
-		global $ilAccess, $ilErr, $lng;
+		global $DIC;
+
+		$ilAccess = $DIC->access();
+		$ilErr = $DIC["ilErr"];
+		$lng = $DIC->language();
 		
 		$targets = explode('_',$a_target);
 		if(count((array) $targets) > 1)
@@ -1564,13 +1628,14 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	*/
 	function infoScreen()
 	{
-		global $ilAccess;
+		$ilAccess = $this->access;
+		$ilErr = $this->error;
 
 		if (!$ilAccess->checkAccess("visible", "", $this->ref_id) &&
 			!$ilAccess->checkAccess("read", "", $this->ref_id) &&
 			!$ilAccess->checkAccess("write", "", $this->ref_id))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"), $ilErr->MESSAGE);
 		}
 		
 		if ($this->ctrl->getCmd() == "infoScreen")
@@ -1583,34 +1648,13 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		$info = new ilInfoScreenGUI($this);
 
 		$info->enablePrivateNotes();
-		
-		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
-		{
-			//$info->enableNews();
-		}
 
-		// no news editing for files, just notifications
-//		$info->enableNewsEditing(false);
-		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
-		{
-//			$news_set = new ilSetting("news");
-//			$enable_internal_rss = $news_set->get("enable_rss_for_internal");
-			
-//			if ($enable_internal_rss)
-//			{
-//				$info->setBlockProperty("news", "settings", true);
-//				$info->setBlockProperty("news", "public_notifications_option", true);
-//			}
-		}
 
-		
 		// standard meta data
 		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
 		
 		// forward the command
 		$this->ctrl->forwardCommand($info);
-		
-//		$this->tpl->show();
 	}
 
 
@@ -1623,7 +1667,11 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	 */
 	function selectUploadDirFiles($a_files = null)
 	{
-		global $tpl, $ilTabs, $lng, $ilCtrl, $ilToolbar;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilToolbar = $this->toolbar;
 		
 		if(!$a_files)
 		{
@@ -1747,7 +1795,11 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	 */
 	static function getPreviewModalHTML($a_mpool_ref_id, $a_tpl)
 	{
-		global $tpl, $ilCtrl, $lng;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 
 		require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
 		ilObjMediaObjectGUI::includePresentationJS($a_tpl);

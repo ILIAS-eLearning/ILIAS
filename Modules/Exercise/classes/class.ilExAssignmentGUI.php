@@ -10,6 +10,21 @@
  */
 class ilExAssignmentGUI
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
 	protected $exc; // [ilObjExercise]
 	protected $current_ass_id; // [int]
 	
@@ -18,6 +33,11 @@ class ilExAssignmentGUI
 	 */
 	function __construct(ilObjExercise $a_exc)
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$this->ctrl = $DIC->ctrl();
 		$this->exc = $a_exc;
 	}	
 	
@@ -26,7 +46,8 @@ class ilExAssignmentGUI
 	 */
 	function getOverviewHeader(ilExAssignment $a_ass)
 	{
-		global $lng, $ilUser;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 		
 		$lng->loadLanguageModule("exc");
 		
@@ -147,7 +168,7 @@ class ilExAssignmentGUI
 	
 	protected function addInstructions(ilInfoScreenGUI $a_info, ilExAssignment $a_ass)
 	{		
-		global $lng;
+		$lng = $this->lng;
 		
 		if (!$a_ass->notStartedYet())
 		{			
@@ -168,7 +189,8 @@ class ilExAssignmentGUI
 	
 	protected function addSchedule(ilInfoScreenGUI $a_info, ilExAssignment $a_ass)
 	{		
-		global $lng, $ilUser;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 		
 		$idl = $a_ass->getPersonalDeadline($ilUser->getId());		
 		
@@ -228,7 +250,7 @@ class ilExAssignmentGUI
 	
 	protected function addPublicSubmissions(ilInfoScreenGUI $a_info, ilExAssignment $a_ass)
 	{		
-		global $lng;
+		$lng = $this->lng;
 		
 		if ($a_ass->afterDeadline())
 		{				
@@ -247,7 +269,8 @@ class ilExAssignmentGUI
 	
 	protected function addFiles(ilInfoScreenGUI $a_info, ilExAssignment $a_ass)
 	{		
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$files = $a_ass->getFiles();
 
@@ -322,7 +345,9 @@ class ilExAssignmentGUI
 
 	protected function addSubmission(ilInfoScreenGUI $a_info, ilExAssignment $a_ass)
 	{		
-		global $lng, $ilCtrl, $ilUser;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 
 		$a_info->addSection($lng->txt("exc_submission"));
 
@@ -366,7 +391,7 @@ class ilExAssignmentGUI
 	
 	protected function addSubmissionFeedback(ilInfoScreenGUI $a_info, ilExAssignment $a_ass, $a_feedback_id, $a_show_global_feedback)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 
@@ -443,7 +468,7 @@ class ilExAssignmentGUI
 	 */
 	function getTimeString($a_deadline)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if ($a_deadline == 0)
 		{
@@ -464,7 +489,7 @@ class ilExAssignmentGUI
 	
 	protected function getSubmissionLink($a_cmd, array $a_params = null)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		if(is_array($a_params))
 		{

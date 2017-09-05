@@ -15,6 +15,16 @@ require_once("./Services/COPage/classes/class.ilPageContent.php");
 */
 class ilPCAMDPageList extends ilPageContent
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	var $dom;
 
 	/**
@@ -22,6 +32,10 @@ class ilPCAMDPageList extends ilPageContent
 	*/
 	function init()
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
+		$this->lng = $DIC->language();
 		$this->setType("amdpl");
 	}
 	
@@ -62,7 +76,7 @@ class ilPCAMDPageList extends ilPageContent
 	 */
 	function setData(array $a_fields_data, $a_mode = null)
 	{		
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$data_id = $this->amdpl_node->get_attribute("Id");		
 		if($data_id)
@@ -105,7 +119,7 @@ class ilPCAMDPageList extends ilPageContent
 	 */
 	function getFieldValues($a_data_id = null)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 			
 		$res = array();
 		
@@ -132,7 +146,9 @@ class ilPCAMDPageList extends ilPageContent
 	
 	static function handleCopiedContent(DOMDocument $a_domdoc, $a_self_ass = true, $a_clone_mobs = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		// #15688
 		
@@ -171,7 +187,7 @@ class ilPCAMDPageList extends ilPageContent
 	
 	protected function findPages($a_list_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$list_values = $this->getFieldValues($a_list_id);			
 		$wiki_id = $this->getPage()->getWikiId();
@@ -219,7 +235,7 @@ class ilPCAMDPageList extends ilPageContent
 	
 	function modifyPageContentPostXsl($a_html, $a_mode)
 	{			
-		global $lng;
+		$lng = $this->lng;
 		
 		if($this->getPage()->getParentType() != "wpg")
 		{
@@ -298,7 +314,9 @@ class ilPCAMDPageList extends ilPageContent
 	 */
 	public static function migrateField($a_obj_id, $a_field_id, $old_option, $new_option, $a_is_multi = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		// this does only work for select and select multi
 		

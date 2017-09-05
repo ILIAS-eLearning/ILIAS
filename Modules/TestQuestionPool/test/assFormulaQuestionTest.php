@@ -40,7 +40,7 @@ class assFormulaQuestionTest extends PHPUnit_Framework_TestCase
 		$precision = 2;
 
 		$meter = new assFormulaQuestionUnit();
-		$meter->initFormArray(array(
+		$meter->initFormArray([
 			'unit_id'        => 1,
 			'category'       => 1,
 			'sequence'       => 1,
@@ -48,10 +48,10 @@ class assFormulaQuestionTest extends PHPUnit_Framework_TestCase
 			'factor'         => 1,
 			'baseunit_fi'    => -1,
 			'baseunit_title' => ''
-		));
+		]);
 
 		$centimeter = new assFormulaQuestionUnit();
-		$centimeter->initFormArray(array(
+		$centimeter->initFormArray([
 			'unit_id'        => 2,
 			'category'       => 1,
 			'sequence'       => 2,
@@ -59,32 +59,68 @@ class assFormulaQuestionTest extends PHPUnit_Framework_TestCase
 			'factor'         => 0.01,
 			'baseunit_fi'    => 1,
 			'baseunit_title' => 'Meter'
-		));
+		]);
 
-		$v1 = new assFormulaQuestionVariable('$v1', 10, 10, $meter, $precision);
-		$v2 = new assFormulaQuestionVariable('$v2', 2, 2, $centimeter, $precision);
-		$v1->setValue(10);
-		$v2->setValue(2);
+		$newtonmetre = new assFormulaQuestionUnit();
+		$newtonmetre->initFormArray([
+			'unit_id'        => 3,
+			'category'       => 1,
+			'sequence'       => 3,
+			'unit'           => 'Newton Metre',
+			'factor'         => 1,
+			'baseunit_fi'    => -1,
+			'baseunit_title' => ''
+		]);
+
+		$newtoncentimeter = new assFormulaQuestionUnit();
+		$newtoncentimeter->initFormArray([
+			'unit_id'        => 4,
+			'category'       => 1,
+			'sequence'       => 4,
+			'unit'           => 'Newton Centimeter',
+			'factor'         => 0.01,
+			'baseunit_fi'    => 3,
+			'baseunit_title' => 'Newton Metre'
+		]);
+
+		$v1 = new assFormulaQuestionVariable('$v1', 1, 20, $newtonmetre, 1);
+		$v2 = new assFormulaQuestionVariable('$v2', 1, 10, $centimeter, 1);
+		$v1->setValue(19.6);
+		$v1->setIntprecision(1);
+		$v2->setValue(6.6);
+		$v2->setIntprecision(1);
+
+		$v3 = clone $v1;
+		$v4 = clone $v2;
+		$v3->setUnit(null);
+		$v3->setVariable('$v3');
+		$v4->setUnit(null);
+		$v4->setVariable('$v4');
 
 		$r1 = new assFormulaQuestionResult(
-			'$r1', 0, 0, 0, $centimeter, '$v1 + $v2', $points, $precision, true, 33, 34, 33, assFormulaQuestionResult::RESULT_DEC
+			'$r1', 0, 0, 0, $newtoncentimeter, '$v1 * $v2', $points, $precision, true, 33, 34, 33, assFormulaQuestionResult::RESULT_DEC
 		);
 		$r2 = new assFormulaQuestionResult(
-			'$r2', 0, 0, 0, $meter, '$v1 + $v2', $points, $precision, true, 33, 34, 33, assFormulaQuestionResult::RESULT_DEC
+			'$r2', 0, 0, 0, $newtonmetre, '$v1 * $v2', $points, $precision, true, 33, 34, 33, assFormulaQuestionResult::RESULT_DEC
 		);
 		$r3 = new assFormulaQuestionResult(
-			'$r3', 0, 0, 0, null, '$v1 + $v2', $points, $precision, true, 33, 34, 33, assFormulaQuestionResult::RESULT_DEC
+			'$r3', 0, 0, 0, null, '$v1 * $v2', $points, $precision, true, 33, 34, 33, assFormulaQuestionResult::RESULT_DEC
 		);
 		$r4 = new assFormulaQuestionResult(
-			'$r4', 0, 0, 0, null, '$v1 + $v2', $points, $precision, true, 33, 34, 33, assFormulaQuestionResult::RESULT_DEC
+			'$r4', 0, 0, 0, null, '$v1 * $v2', $points, $precision, true, 33, 34, 33, assFormulaQuestionResult::RESULT_DEC
 		);
 		$r5 = new assFormulaQuestionResult(
-			'$r5', 0, 0, 0, null, '$v1 + $v2', $points, $precision, true, 33, 34, 33, assFormulaQuestionResult::RESULT_DEC
+			'$r5', 0, 0, 0, null, '$v1 * $v2', $points, $precision, true, 33, 34, 33, assFormulaQuestionResult::RESULT_DEC
+		);
+		$r6 = new assFormulaQuestionResult(
+			'$r6', 0, 0, 0, null, '$v3 * $v4', $points, $precision, true, 33, 34, 33, assFormulaQuestionResult::RESULT_DEC
 		);
 
 		$variables = [
 			$v1->getVariable() => $v1,
-			$v2->getVariable() => $v2
+			$v2->getVariable() => $v2,
+			$v3->getVariable() => $v3,
+			$v4->getVariable() => $v4
 		];
 
 		$results = [
@@ -92,15 +128,17 @@ class assFormulaQuestionTest extends PHPUnit_Framework_TestCase
 			$r2->getResult() => $r2,
 			$r3->getResult() => $r3,
 			$r4->getResult() => $r4,
-			$r5->getResult() => $r5
+			$r5->getResult() => $r5,
+			$r6->getResult() => $r6
 		];
 
 		return [
-			[$r1, $variables, $results, '1002.00', $centimeter],
-			[$r2, $variables, $results, '10.02', $meter],
-			[$r3, $variables, $results, '10.02', $meter],
-			[$r4, $variables, $results, '1002.00', $centimeter],
-			[$r5, $variables, $results, '10.02']
+			[$r1, $variables, $results, '129.36', $newtoncentimeter],
+			[$r2, $variables, $results, '1.29', $newtonmetre],
+			[$r3, $variables, $results, '1.29', $newtonmetre],
+			[$r4, $variables, $results, '129.36', $newtoncentimeter],
+			[$r5, $variables, $results, '1.29'],
+			[$r6, $variables, $results, '129.36']
 		];
 	}
 }

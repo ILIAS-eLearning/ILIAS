@@ -86,7 +86,11 @@ class ilContObjParser extends ilMDSaxParser
 	*/
 	function __construct(&$a_content_object, $a_xml_file, $a_subdir, $a_import_dir = "")
 	{
-		global $lng, $tree;
+		global $DIC;
+
+		$this->log = $DIC["ilLog"];
+		$lng = $DIC->language();
+		$tree = $DIC->repositoryTree();
 
 		$this->log = ilLoggerFactory::getLogger('lm');
 
@@ -175,7 +179,7 @@ class ilContObjParser extends ilMDSaxParser
 	*/
 	function storeTree()
 	{
-		global $ilLog;
+		$ilLog = $this->log;
 
 //echo "<b>Storing the tree</b><br>";
 		foreach($this->st_into_tree as $st)

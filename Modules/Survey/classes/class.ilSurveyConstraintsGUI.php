@@ -13,9 +13,34 @@
 */
 class ilSurveyConstraintsGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
 	public function __construct(ilObjSurveyGUI $a_parent_gui)
 	{		
-		global $ilCtrl, $lng, $tpl;
+		global $DIC;
+
+		$this->access = $DIC->access();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$tpl = $DIC["tpl"];
 		
 		$this->parent_gui = $a_parent_gui;
 		$this->object = $this->parent_gui->object;
@@ -27,7 +52,7 @@ class ilSurveyConstraintsGUI
 	
 	public function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$cmd = $ilCtrl->getCmd("constraints");
 		$cmd .= "Object";
@@ -305,7 +330,7 @@ class ilSurveyConstraintsGUI
 	 */
 	protected function validateConstraintForEdit($a_id)
 	{
-		global $ilAccess;
+		$ilAccess = $this->access;
 		
 		if(ilObjSurvey::_hasDatasets($this->object->getSurveyId()))
 		{

@@ -4,7 +4,7 @@
 /**
 * Class ilForumModerators
 *
-* @author Nadia Ahmad <nahmad@databay.de>
+* @author Nadia Matuschek <nmatuschek@databay.de>
 *
 * @ingroup ModulesForum
 */
@@ -12,12 +12,14 @@ class ilForumModerators
 {
 	private $db = null;
 	private $ref_id = 0;
+	private $rbac;
 	
 	public function __construct($a_ref_id)
 	{
-		global $ilDB;
+		global $DIC;
 		
-		$this->db = $ilDB;
+		$this->db = $DIC->database();
+		$this->rbac = $DIC->rbac();
 		$this->ref_id = $a_ref_id;
 	}
 
@@ -36,11 +38,14 @@ class ilForumModerators
 	{
 		return $this->ref_id;
 	}
+	
+	/**
+	 * @param $a_usr_id
+	 * @return bool
+	 */
 	public function addModeratorRole($a_usr_id)
 	{
-		global $rbacreview, $rbacadmin;
-		
-		$role_list = $rbacreview->getRoleListByObject($this->getRefId());
+		$role_list = $this->rbac->review()->getRoleListByObject($this->getRefId());
 		foreach ($role_list as $role)
 		{
 			if(strpos($role['title'], 'il_frm_moderator') !== false)
@@ -52,18 +57,20 @@ class ilForumModerators
 		
 		if((int)$a_rol_id)
 		{		
-			$user = $rbacadmin->assignUser($a_rol_id, $a_usr_id);
+			$user = $this->rbac->admin()->assignUser($a_rol_id, $a_usr_id);
 			return true;
 		}		
 	
 		return false;	
 	}
 	
+	/**
+	 * @param $a_usr_id
+	 * @return bool
+	 */
 	public function detachModeratorRole($a_usr_id)
 	{
-		global $rbacreview, $rbacadmin;
-		
-		$role_list = $rbacreview->getRoleListByObject($this->getRefId());
+		$role_list = $this->rbac->review()->getRoleListByObject($this->getRefId());
 		foreach ($role_list as $role)
 		{
 			if(strpos($role['title'], 'il_frm_moderator') !== false)
@@ -75,40 +82,41 @@ class ilForumModerators
 		
 		if((int)$a_rol_id)
 		{		
-			$user = $rbacadmin->deassignUser($a_rol_id, $a_usr_id);
+			$user =  $this->rbac->admin()->deassignUser($a_rol_id, $a_usr_id);
 			return true;
 		}		
 	
 		return false;
 	}
 	
+	/**
+	 * @return array
+	 */
 	public function getCurrentModerators()
 	{
-		global $rbacreview;
-		
-		$roles = $rbacreview->getRoleListByObject($this->getRefId());
+		$roles = $this->rbac->review()->getRoleListByObject($this->getRefId());
 		foreach($roles as $role)
 		{
 			if(strpos($role['title'], 'il_frm_moderator') !== false)
 			{
-				$assigned_users = $rbacreview->assignedUsers($role['rol_id']);
+				$assigned_users = $this->rbac->review()->assignedUsers($role['rol_id']);
 				break;
 			}
 		}
 		return is_array($assigned_users) ? $assigned_users : array();
 	}
-
-
+	
+	/**
+	 * @return array
+	 */
 	public function getUsers()
 	{
-		global $rbacreview;
-		
-		$roles = $rbacreview->getRoleListByObject($this->getRefId());
+		$roles = $this->rbac->review()->getRoleListByObject($this->getRefId());
 		foreach($roles as $role)
 		{
 			if(strpos($role['title'], 'il_frm_moderator') !== false)
 			{
-				$assigned_users = $rbacreview->assignedUsers($role['rol_id']);
+				$assigned_users = $this->rbac->review()->assignedUsers($role['rol_id']);
 				//vd($assigned_users);
 				break;
 			}
@@ -116,5 +124,3 @@ class ilForumModerators
 		return is_array($assigned_users) ? $assigned_users : array();
 	}
 }
-
-?>

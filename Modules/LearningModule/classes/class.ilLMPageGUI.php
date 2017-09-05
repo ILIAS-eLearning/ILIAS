@@ -17,11 +17,22 @@ include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 class ilLMPageGUI extends ilPageObjectGUI
 {
 	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
 	 * Constructor
 	 */
-	function __construct($a_id = 0, $a_old_nr = 0,
-		$a_prevent_get_id = false, $a_lang = "")
+	function __construct($a_id = 0, $a_old_nr = 0, $a_prevent_get_id = false, $a_lang = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$this->db = $DIC->database();
+		$this->plugin_admin = $DIC["ilPluginAdmin"];
+		$this->log = $DIC["ilLog"];
 		parent::__construct("lm", $a_id, $a_old_nr, $a_prevent_get_id, $a_lang);
 
 		include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
@@ -33,7 +44,7 @@ class ilLMPageGUI extends ilPageObjectGUI
 	 */
 	function onFeedbackEditingForwarding()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		if (strtolower($_GET["cmdClass"]) == "ilassquestionfeedbackeditinggui")
 		{
@@ -54,7 +65,11 @@ class ilLMPageGUI extends ilPageObjectGUI
 	 */
 	function processAnswer()
 	{
-		global $ilUser, $ilDB, $lng, $ilPluginAdmin, $ilLog;
+		$ilUser = $this->user;
+		$ilDB = $this->db;
+		$lng = $this->lng;
+		$ilPluginAdmin = $this->plugin_admin;
+		$ilLog = $this->log;
 
 		parent::processAnswer();
 

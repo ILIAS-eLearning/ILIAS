@@ -46,7 +46,7 @@ class ilHtmlToPdfTransformerFactory
 		$job->addPage($src);
 		$job->setOutputMode($delivery_type);
 
-		/** @var ilPhantomJSRenderer $renderer */
+		/** @var ilPDFRenderer $renderer */
 		$renderer->generatePDF($service, $purpose, $config, $job);
 		$this->deliverPDF($output, $delivery_type);
 	}

@@ -10,6 +10,26 @@
 */
 class ilExAssignment
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilAppEventHandler
+	 */
+	protected $app_event_handler;
+
 	const TYPE_UPLOAD = 1;
 	const TYPE_BLOG = 2;
 	const TYPE_PORTFOLIO = 3;
@@ -62,6 +82,12 @@ class ilExAssignment
 	 */
 	function __construct($a_id = 0)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$this->app_event_handler = $DIC["ilAppEventHandler"];
 		$this->setType(self::TYPE_UPLOAD);
 		$this->setFeedbackDate(self::FEEDBACK_DATE_DEADLINE);
 
@@ -76,7 +102,9 @@ class ilExAssignment
 			
 	public static function getInstancesByExercise($a_exc_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT * FROM exc_assignment ".
 			" WHERE exc_id = ".$ilDB->quote($a_exc_id, "integer").
@@ -219,7 +247,7 @@ class ilExAssignment
 	 */
 	function getPersonalDeadline($a_user_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$is_team = false;
 		if($this->getType() == self::TYPE_UPLOAD_TEAM)
@@ -251,7 +279,7 @@ class ilExAssignment
 	 */
 	protected function getLastPersonalDeadline()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$set = $ilDB->query("SELECT MAX(tstamp) FROM exc_idl".
 			" WHERE ass_id = ".$ilDB->quote($this->getId(), "integer"));
@@ -799,7 +827,7 @@ class ilExAssignment
 	 */
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$set = $ilDB->query("SELECT * FROM exc_assignment ".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer")
@@ -857,7 +885,7 @@ class ilExAssignment
 	 */
 	function save()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if ($this->getOrderNr() == 0)
 		{
@@ -911,7 +939,7 @@ class ilExAssignment
 	 */
 	function update()
 	{		
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$ilDB->update("exc_assignment",
 			array(
@@ -958,7 +986,7 @@ class ilExAssignment
 	 */
 	function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$this->deleteGlobalFeedbackFile();
 		
@@ -977,7 +1005,9 @@ class ilExAssignment
 	 */
 	static function getAssignmentDataOfExercise($a_exc_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		// should be changed to self::getInstancesByExerciseId()
 		
@@ -1101,7 +1131,7 @@ class ilExAssignment
 	 */
 	public function getInstructionFilesOrder()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$set = $ilDB->query("SELECT filename, order_nr, id FROM exc_ass_file_order ".
 			" WHERE assignment_id  = ".$ilDB->quote($this->getId(), "integer")
@@ -1121,7 +1151,9 @@ class ilExAssignment
 	 */
 	static function lookupMaxOrderNrForEx($a_exc_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT MAX(order_nr) mnr FROM exc_assignment ".
 			" WHERE exc_id = ".$ilDB->quote($a_exc_id, "integer")
@@ -1140,7 +1172,9 @@ class ilExAssignment
 	 */
 	public static function lookupAssignmentOnline($a_ass_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$query = "SELECT id FROM exc_assignment ".
 			"WHERE start_time <= ".$ilDB->quote(time(),'integer').' '.
@@ -1157,7 +1191,9 @@ class ilExAssignment
 	 */
 	private static function lookup($a_id, $a_field)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT ".$a_field." FROM exc_assignment ".
 			" WHERE id = ".$ilDB->quote($a_id, "integer")
@@ -1189,7 +1225,9 @@ class ilExAssignment
 	 */
 	static function saveAssOrderOfExercise($a_ex_id, $a_order)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$result_order = array();
 		asort($a_order);
@@ -1211,7 +1249,7 @@ class ilExAssignment
 	 */
 	function orderAssByDeadline($a_ex_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$set = $ilDB->query("SELECT id FROM exc_assignment ".
 			" WHERE exc_id = ".$ilDB->quote($a_ex_id, "integer").
@@ -1233,7 +1271,9 @@ class ilExAssignment
 	 */
 	static function countMandatory($a_ex_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT count(*) cntm FROM exc_assignment ".
 			" WHERE exc_id = ".$ilDB->quote($a_ex_id, "integer").
@@ -1250,7 +1290,10 @@ class ilExAssignment
 	 */
 	static function lookupUpdatedSubmission($ass_id, $member_id)
 	{
-  		global $ilDB, $lng;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$lng = $DIC->language();
 		
 		// team upload?
 		$user_ids = self::getTeamMembersByAssignmentId($ass_id, $member_id);
@@ -1288,7 +1331,7 @@ class ilExAssignment
 	 */
 	function getMemberListData()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$mem = array();
 		
@@ -1338,7 +1381,9 @@ class ilExAssignment
 	 */
 	static function createNewUserRecords($a_user_id, $a_exc_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$ass_data = self::getAssignmentDataOfExercise($a_exc_id);
 		foreach ($ass_data as $ass)
@@ -1358,7 +1403,9 @@ class ilExAssignment
 	 */
 	static function createNewAssignmentRecords($a_ass_id, $a_exc)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		include_once("./Modules/Exercise/classes/class.ilExerciseMembers.php");
 		$exmem = new ilExerciseMembers($a_exc);
@@ -1453,7 +1500,8 @@ class ilExAssignment
 	 */
 	function uploadMultiFeedbackFile($a_file)
 	{
-		global $lng, $ilUser;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 		
 		include_once("./Modules/Exercise/exceptions/class.ilExerciseException.php");
 		if (!is_file($a_file["tmp_name"]))
@@ -1493,7 +1541,7 @@ class ilExAssignment
 	 */
 	function getMultiFeedbackFiles($a_user_id = 0)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		if ($a_user_id == 0)
 		{
@@ -1566,7 +1614,8 @@ class ilExAssignment
 	 */
 	function clearMultiFeedbackDirectory()
 	{
-		global $lng, $ilUser;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 		
 		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		$storage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
@@ -1647,7 +1696,7 @@ class ilExAssignment
 	 */
 	protected function handleCalendarEntries($a_event)
 	{		
-		global $ilAppEventHandler;
+		$ilAppEventHandler = $this->app_event_handler;
 		
 		$dl_id = $this->getId()."0";
 		$fbdl_id = $this->getId()."1";
@@ -1701,7 +1750,9 @@ class ilExAssignment
 	
 	public static function getPendingFeedbackNotifications()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$res = array();
 		
@@ -1725,7 +1776,9 @@ class ilExAssignment
 	
 	public static function sendFeedbackNotifications($a_ass_id, $a_user_id = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$ass = new self($a_ass_id);
 		
@@ -1780,7 +1833,7 @@ class ilExAssignment
 	
 	public function afterDeadline()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 				
 		// :TODO: always current user?
 		$idl = $this->getPersonalDeadline($ilUser->getId());
@@ -1868,7 +1921,7 @@ class ilExAssignment
 	 */
 	public function getMemberStatus($a_user_id = null)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		if(!$a_user_id)
 		{
@@ -1884,7 +1937,7 @@ class ilExAssignment
 	
 	public function recalculateLateSubmissions()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// see JF, 2015-05-11 
 				
@@ -1939,7 +1992,7 @@ class ilExAssignment
 	
 	public function setIndividualDeadline($id, ilDateTime $date)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$is_team = false;
 		if(!is_numeric($id))
@@ -1962,7 +2015,7 @@ class ilExAssignment
 	
 	public function getIndividualDeadlines()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$res = array();
 		

@@ -16,6 +16,11 @@ require_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004SeqNode.ph
  */
 class ilSCORM2004Item
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	//db fields
 	private $id = null;
 	private $seqNodeId = null;
@@ -42,6 +47,9 @@ class ilSCORM2004Item
 	 */
 	function __construct($a_treeid = null , $a_rootlevel = false)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		$this->log = ilLoggerFactory::getLogger("sc13");
 
 		//different handling for organization level
@@ -182,7 +190,10 @@ class ilSCORM2004Item
 	
 	public static function getAllowedActions($a_node_id)
 	{
-		global $ilDB,$ilLog;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilLog = $DIC["ilLog"];
 		$query = "SELECT * FROM sahs_sc13_seq_item WHERE sahs_sc13_tree_node_id = ".
 			$ilDB->quote($a_node_id, "integer").
 			" AND rootlevel = ".$ilDB->quote(false, "integer");
@@ -265,7 +276,7 @@ class ilSCORM2004Item
 	 */
 	public function loadItem()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		$query = "SELECT * FROM sahs_sc13_seq_item WHERE (sahs_sc13_tree_node_id = ".$ilDB->quote($this->treeNodeId, "integer").
 			" AND rootlevel =".$ilDB->quote($this->rootLevel, "integer").")";
 		$obj_set = $ilDB->query($query);
@@ -291,7 +302,7 @@ class ilSCORM2004Item
 	 */
 	public function delete($a_insert_node = false)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$query = "DELETE FROM sahs_sc13_seq_item"." WHERE (sahs_sc13_tree_node_id = ".$ilDB->quote($this->treeNodeId, "integer").
 				  " AND rootlevel=".$ilDB->quote($this->rootLevel, "integer").")";
@@ -303,7 +314,7 @@ class ilSCORM2004Item
 	 */
 	public function insert($import = false)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$ilDB->replace("sahs_sc13_seq_item",
 			array("sahs_sc13_tree_node_id" => array("integer", $this->treeNodeId),

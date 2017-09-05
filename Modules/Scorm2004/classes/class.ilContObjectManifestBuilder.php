@@ -17,7 +17,6 @@ include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 class ilContObjectManifestBuilder
 {
 	var $db;			// database object
-	var $ilias;			// ilias object
 	var $cont_obj;		// content object (learning module | digilib book)
 	var $inst_id;		// installation id
 	var $writer;
@@ -28,11 +27,12 @@ class ilContObjectManifestBuilder
 	 */
 	function __construct(&$a_cont_obj)
 	{
-		global $ilDB, $ilias;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$this->cont_obj = $a_cont_obj;
 
-		$this->ilias = $ilias;
 		$this->db = $ilDB;
 
 		$this->inst_id = IL_INST_ID;

@@ -143,7 +143,6 @@ class ilObjectGUI
 		$lng = $DIC->language();
 		$ilTabs = $DIC->tabs();
 
-		global $DIC;
 		$this->ilias = $DIC["ilias"];
 
 		/**

@@ -37,11 +37,21 @@ include_once "Services/Object/classes/class.ilObjectListGUI.php";
 class ilObjSurveyListGUI extends ilObjectListGUI
 {
 	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
 	* constructor
 	*
 	*/
 	function __construct()
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$this->rbacsystem = $DIC->rbac()->system();
 		parent::__construct();
 		$this->info_screen_enabled = true;
 	}
@@ -116,7 +126,9 @@ class ilObjSurveyListGUI extends ilObjectListGUI
 	*/
 	function getProperties()
 	{
-		global $lng, $ilUser, $rbacsystem;
+		$lng = $this->lng;
+		$ilUser = $this->user;
+		$rbacsystem = $this->rbacsystem;
 
 		$props = array();
 

@@ -17,7 +17,9 @@ class ilSCORM2004Tracking
 		
 die("Not Implemented: ilSCORM2004Tracking_getInProgress");
 /*
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		if(is_array($scorm_item_id))
 		{
@@ -50,7 +52,9 @@ die("Not Implemented: ilSCORM2004Tracking_getInProgress");
 
 	static function _getCompleted($scorm_item_id,$a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 die("Not Implemented: ilSCORM2004Tracking_getCompleted");
 /*
@@ -80,7 +84,9 @@ die("Not Implemented: ilSCORM2004Tracking_getCompleted");
 
 	static function _getFailed($scorm_item_id,$a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 die("Not Implemented: ilSCORM2004Tracking_getFailed");
 /*
@@ -116,7 +122,9 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 	 */
 	static function _getCountCompletedPerUser($a_scorm_item_ids, $a_obj_id, $a_omit_failed = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$in = $ilDB->in('cp_node.cp_node_id', $a_scorm_item_ids, false, 'integer');
 		
@@ -153,7 +161,9 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 	 */
 	static function _getProgressInfo($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$res = $ilDB->queryF('
 			SELECT user_id, status, satisfied FROM cmi_gobjective
@@ -193,7 +203,10 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 	 */
 	static function _getProgressInfoOfUser($a_obj_id, $a_user_id)
 	{
-		global $ilDB, $ilLog;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilLog = $DIC["ilLog"];
 
 		$res = $ilDB->queryF('
 			SELECT status, satisfied FROM cmi_gobjective
@@ -229,7 +242,10 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 	 */
 	static function _getTrackedUsers($a_obj_id)
 	{
-		global $ilDB, $ilLog;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilLog = $DIC["ilLog"];
 
 		$res = $ilDB->queryF('
 			SELECT DISTINCT user_id FROM cmi_gobjective
@@ -249,7 +265,9 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 
 	static function _getItemProgressInfo($a_scorm_item_ids, $a_obj_id, $a_omit_failed = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$in = $ilDB->in('cp_node.cp_node_id', $a_scorm_item_ids, false, 'integer');
 
@@ -292,7 +310,9 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 	
 	public static function _getCollectionStatus($a_scos, $a_obj_id, $a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$status = "not_attempted";
 
@@ -336,7 +356,9 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 	public static function _countCompleted($a_scos, $a_obj_id, $a_user_id,
 		$a_omit_failed = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		if (is_array($a_scos))
 		{
@@ -381,7 +403,9 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 	 */
 	static function _syncReadEvent($a_obj_id, $a_user_id, $a_type, $a_ref_id, $time_from_lms = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		//get condition to select time
 		$val_set = $ilDB->queryF(
@@ -454,7 +478,10 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 	 */
 	static function getSumTotalTimeSecondsFromScos($a_obj_id, $a_user_id, $a_write=false)
 	{
-		global $ilDB, $ilLog;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilLog = $DIC["ilLog"];
 		$scos = array();
 		$val_set = $ilDB->queryF(
 			'SELECT cp_node_id FROM cp_node 
