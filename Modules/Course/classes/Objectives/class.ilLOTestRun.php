@@ -191,7 +191,7 @@ class ilLOTestRun
 		$sum_points = 0;
 		foreach($this->questions as $qid => $points)
 		{
-			$sum_points += (int) $points;
+			$sum_points +=  $points;
 		}
 		
 		$percentage = 
