@@ -93,7 +93,6 @@ class ilMainMenuGUI
 		$this->user = $DIC->user();
 		$this->lng = $DIC->language();
 		$this->plugin_admin = $DIC["ilPluginAdmin"];
-		$this->tpl = $DIC["tpl"];
 		$this->tree = $DIC->repositoryTree();
 		$this->access = $DIC->access();
 		$this->nav_history = $DIC["ilNavigationHistory"];
@@ -168,25 +167,6 @@ class ilMainMenuGUI
 	}
 
 	/**
-	* set output template
-	*/
-	function setTemplate(&$tpl)
-	{
-		echo "ilMainMenu->setTemplate is deprecated. Use getHTML instead.";
-		return;
-		$this->tpl = $tpl;
-	}
-
-	/**
-	* get output template
-	*/
-	function getTemplate()
-	{
-		echo "ilMainMenu->getTemplate is deprecated. Use getHTML instead.";
-		return;
-	}
-
-	/**
 	 * Set target parameter for login (public sector).
 	 * This is used by the main menu
 	 */
@@ -238,11 +218,14 @@ class ilMainMenuGUI
 	*/
 	function setTemplateVars()
 	{
+		global $DIC;
+
 		$rbacsystem = $this->rbacsystem;
 		$lng = $this->lng;
 		$ilUser = $this->user;
 		$ilPluginAdmin = $this->plugin_admin;
-		
+		$main_tpl = $DIC["tpl"];
+
 		if($this->logo_only)
 		{		
 			$this->tpl->setVariable("HEADER_URL", $this->getHeaderURL());
@@ -343,11 +326,7 @@ class ilMainMenuGUI
 				$selection = self::getLanguageSelection();
 				if($selection)
 				{
-					// bs-patch start
-		$ilUser = $this->user;
-		$lng = $this->lng;
 					$this->tpl->setVariable("TXT_LANGSELECT", $lng->txt("language"));
-					// bs-patch end
 					$this->tpl->setVariable("LANG_SELECT", $selection);
 				}
 
@@ -370,11 +349,6 @@ class ilMainMenuGUI
 					$notificationSettings = new ilSetting('notifications');
 					$chatSettings = new ilSetting('chatroom');
 
-					/**
-					 * @var $tpl ilTemplate
-					 */
-		$tpl = $this->tpl;
-
 					$this->tpl->touchBlock('osd_container');
 
 					include_once "Services/jQuery/classes/class.iljQueryUtil.php";
@@ -382,9 +356,9 @@ class ilMainMenuGUI
 
 					include_once 'Services/MediaObjects/classes/class.ilPlayerUtil.php';
 					ilPlayerUtil::initMediaElementJs();
-					
-					$tpl->addJavaScript('Services/Notifications/templates/default/notifications.js');
-					$tpl->addCSS('Services/Notifications/templates/default/osd.css');
+
+					$main_tpl->addJavaScript('Services/Notifications/templates/default/notifications.js');
+					$main_tpl->addCSS('Services/Notifications/templates/default/osd.css');
 
 					require_once 'Services/Notifications/classes/class.ilNotificationOSDHandler.php';
 					require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';

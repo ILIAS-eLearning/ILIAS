@@ -750,16 +750,13 @@ class ilColumnGUI
 	 */
 	protected function addBlockSorting()
 	{
+		global $DIC;
+
 		if($this->getSide() == IL_COL_CENTER && $this->getEnableMovement())
 		{
-			/**
-			 * @var $ilBrowser ilBrowser
-			 * @var $tpl ilTemplate
-			 * @var $ilCtrl ilCtrl
-			 */
-		$ilBrowser = $this->browser;
-		$tpl = $this->tpl;
-		$ilCtrl = $this->ctrl;
+			$ilBrowser = $this->browser;
+			$main_tpl = $DIC["tpl"];
+			$ilCtrl = $this->ctrl;
 
 			include_once 'Services/jQuery/classes/class.iljQueryUtil.php';
 			iljQueryUtil::initjQuery();
@@ -767,9 +764,9 @@ class ilColumnGUI
 
 			if($ilBrowser->isMobile() || $ilBrowser->isIpad())
 			{
-				$tpl->addJavaScript('./libs/bower/bower_components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js');
+				$main_tpl->addJavaScript('./libs/bower/bower_components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js');
 			}
-			$tpl->addJavaScript('./Services/Block/js/block_sorting.js');
+			$main_tpl->addJavaScript('./Services/Block/js/block_sorting.js');
 
 			// set the col_side parameter to pass the ctrl structure flow
 			$ilCtrl->setParameter($this, 'col_side', IL_COL_CENTER);
