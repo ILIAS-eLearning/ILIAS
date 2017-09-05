@@ -33,6 +33,16 @@
 */
 class ilSurveyPhrases 
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	protected $arrData;
 	
 	/**
@@ -40,6 +50,10 @@ class ilSurveyPhrases
 	*/
 	function __construct()
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
+		$this->user = $DIC->user();
 		$this->arrData = array();
 	}
 	
@@ -51,9 +65,15 @@ class ilSurveyPhrases
 	*/
 	public static function _getAvailablePhrases($useronly = 0)
 	{
-		global $ilUser;
-		global $ilDB;
-		global $lng;
+		global $DIC;
+
+		$ilUser = $DIC->user();
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		$phrases = array();
 		$result = $ilDB->queryF("SELECT * FROM svy_phrase WHERE defaultvalue = %s OR owner_fi = %s ORDER BY title",
@@ -95,8 +115,12 @@ class ilSurveyPhrases
 	*/
 	public static function _getCategoriesForPhrase($phrase_id)
 	{
-		global $ilDB;
-		global $lng;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		$categories = array();
 		$result = $ilDB->queryF("SELECT svy_category.* FROM svy_category, svy_phrase_cat WHERE svy_phrase_cat.category_fi = svy_category.category_id AND svy_phrase_cat.phrase_fi = %s ORDER BY svy_phrase_cat.sequence",
@@ -124,7 +148,7 @@ class ilSurveyPhrases
 	*/
 	function deletePhrases($phrase_array)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if ((is_array($phrase_array)) && (count($phrase_array)))
 		{
@@ -142,8 +166,8 @@ class ilSurveyPhrases
 	*/
 	function updatePhrase($phrase_id)
 	{
-		global $ilUser;
-		global $ilDB;
+		$ilUser = $this->user;
+		$ilDB = $this->db;
 
 		$affectedRows = $ilDB->manipulateF("UPDATE svy_phrase SET title = %s, tstamp = %s WHERE phrase_id = %s",
 			array('text','integer','integer'),
@@ -179,8 +203,8 @@ class ilSurveyPhrases
 	*/
 	public function savePhrase()
 	{
-		global $ilUser;
-		global $ilDB;
+		$ilUser = $this->user;
+		$ilDB = $this->db;
 
 		$next_id = $ilDB->nextId('svy_phrase');
 		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_phrase (phrase_id, title, defaultvalue, owner_fi, tstamp) VALUES (%s, %s, %s, %s, %s)",
