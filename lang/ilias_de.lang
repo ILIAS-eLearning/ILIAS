@@ -377,6 +377,7 @@ assessment#:#essay_scoring_mode#:#Bewertungsmodus
 assessment#:#essay_scoring_mode_without_keywords#:#Keine automatische Bewertung
 assessment#:#essay_scoring_mode_without_keywords_desc#:#Es werden keine Punkte automatisiert vergeben. Die Punktevergabe ist nur mit manueller Bewertung möglich.
 assessment#:#essay_scoring_mode_keyword_relation_any#:#Automatische Bewertung bei Nennung einzelner Begriffe
+assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#Für jeden gefundenen Begriff werden die entsprechenden Punkte vergeben.
 assessment#:#essay_scoring_mode_keyword_relation_all#:#Automatische Bewertung bei Nennung aller Begriffe
 assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#Die Punkte werden automatisch vergeben, wenn alle Begriffe gefunden werden.
 assessment#:#essay_scoring_mode_keyword_relation_one#:#Automatische Bewertung bei Nennung eines Begriffs
