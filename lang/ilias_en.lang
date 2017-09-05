@@ -290,6 +290,7 @@ assessment#:#essay_scoring_mode#:#Scoring Mode
 assessment#:#essay_scoring_mode_without_keywords#:#No Automatic Scoring
 assessment#:#essay_scoring_mode_without_keywords_desc#:#No points are granted unless the tutor's manual scoring.
 assessment#:#essay_scoring_mode_keyword_relation_any#:#Automatic Scoring with Keywords on Finding ANY
+assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.
 assessment#:#essay_scoring_mode_keyword_relation_all#:#Automatic Scoring with Keywords on Finding ALL
 assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#The points are granted automatically, if all keywords are found.
 assessment#:#essay_scoring_mode_keyword_relation_one#:#Automatic Scoring with Keywords on Finding ONE
@@ -13999,3 +14000,4 @@ lti#:#lti_exited_info#:#LTI Session successfully closed
 blog#:#blog_nav_mode_month_list_num_month_with_post#:#Number of month with listed postings
 blog#:#blog_nav_mode_month_list_num_month_with_post_info#:#These months will be displayed with all their postings in the navigation block.
 orgu#:#org_op_access_enrolments#:#View Enrolments
+pdfgen#:#cleanup#:#Cleanup

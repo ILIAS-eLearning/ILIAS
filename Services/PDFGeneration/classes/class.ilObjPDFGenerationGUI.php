@@ -138,6 +138,13 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
 		}
 
 		$form->addCommandButton("saveSettings", $this->lng->txt("save"));
+		if(ilPDFCompInstaller::checkForMultipleServiceAndPurposeCombination())
+		{
+			$clean_btn = ilLinkButton::getInstance();
+			$clean_btn->setCaption('cleanup');
+			$clean_btn->setUrl($this->ctrl->getLinkTarget($this, 'doCleanUp'));
+			$this->toolbar->addButtonInstance($clean_btn);
+		}
 //		$form->addCommandButton("view", $this->lng->txt("cancel"));
 		$this->tpl->setContent($form->getHTML());
 		$this->setActiveTab('settings');
@@ -256,6 +263,13 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
 			$this->ctrl->redirect($this, "view");
 		}
 
+	}
+
+	protected function doCleanUp()
+	{
+		ilPDFCompInstaller::doCleanUp();
+		ilUtil::sendSuccess($this->lng->txt('config_saved'), true);
+		$this->ctrl->redirect($this, "view");
 	}
 
 	/**

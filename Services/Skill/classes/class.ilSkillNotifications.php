@@ -40,9 +40,18 @@ class ilSkillNotifications extends ilCronJob
 		global $DIC;
 
 		$this->lng = $DIC->language();
-		$this->user = $DIC->user();
-		$this->client_ini = $DIC["ilClientIniFile"];
-		$this->tree = $DIC->repositoryTree();
+		if (isset($DIC["ilUser"]))
+		{
+			$this->user = $DIC->user();
+		}
+		if (isset($DIC["ilClientIniFile"]))
+		{
+			$this->client_ini = $DIC["ilClientIniFile"];
+		}
+		if (isset($DIC["tree"]))
+		{
+			$this->tree = $DIC->repositoryTree();
+		}
 	}
 
 	public function getId()

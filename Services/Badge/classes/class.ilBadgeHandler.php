@@ -40,7 +40,10 @@ class ilBadgeHandler
 		global $DIC;
 
 		$this->db = $DIC->database();
-		$this->tree = $DIC->repositoryTree();
+		if (isset($DIC["tree"]))
+		{
+			$this->tree = $DIC->repositoryTree();
+		}
 		$this->lng = $DIC->language();
 		$this->settings = new ilSetting("bdga");
 	}

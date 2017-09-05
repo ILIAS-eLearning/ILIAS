@@ -30,7 +30,10 @@ class ilSurveyMailTemplateReminderContext extends ilMailTemplateContext
 		global $DIC;
 
 		$this->lng = $DIC->language();
-		$this->obj_data_cache = $DIC["ilObjDataCache"];
+		if (isset($DIC["ilObjDataCache"]))
+		{
+			$this->obj_data_cache = $DIC["ilObjDataCache"];
+		}
 	}
 
 	const ID = 'svy_context_rmd';
