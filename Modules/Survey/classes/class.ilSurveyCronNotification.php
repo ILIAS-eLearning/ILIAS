@@ -31,7 +31,10 @@ class ilSurveyCronNotification extends ilCronJob
 		global $DIC;
 
 		$this->lng = $DIC->language();
-		$this->tree = $DIC->repositoryTree();
+		if (isset($DIC["tree"]))
+		{
+			$this->tree = $DIC->repositoryTree();
+		}
 	}
 
 	public function getId()
