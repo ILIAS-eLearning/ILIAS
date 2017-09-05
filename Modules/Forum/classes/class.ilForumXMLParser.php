@@ -29,6 +29,7 @@ class ilForumXMLParser extends ilSaxParser
 	 */
 	protected $schema_version = null;
 
+	private $db;
     /**
 	 * Constructor
 	 *
@@ -38,10 +39,13 @@ class ilForumXMLParser extends ilSaxParser
 	 */
 	public function __construct($forum, $a_xml_data)
 	{
+		global $DIC;
+		
 		parent::__construct();
 		$this->forum = $forum;
 		$this->setXMLContent('<?xml version="1.0" encoding="utf-8"?>'.$a_xml_data);
 		$this->aobject = new ilObjUser(ANONYMOUS_USER_ID);
+		$this->db = $DIC->database();
 	}
 
 	/**
@@ -139,8 +143,6 @@ class ilForumXMLParser extends ilSaxParser
 	 */
 	public function handlerEndTag($a_xml_parser, $a_name)
 	{
-		global $ilDB, $ilUser;
-
 	    $this->cdata = trim($this->cdata);
 		$arrayname = strtolower($this->entity).'Array';
 		$x = &$this->$arrayname;
@@ -150,24 +152,24 @@ class ilForumXMLParser extends ilSaxParser
 			case 'Forum':
 				$query_num_posts = "SELECT COUNT(pos_pk) cnt
 										FROM frm_posts
-									WHERE pos_top_fk = ".$ilDB->quote(
+									WHERE pos_top_fk = ".$this->db->quote(
 										$this->lastHandledForumId, 'integer');
 
-				$res_pos	= $ilDB->query($query_num_posts);
-				$data_pos	= $ilDB->fetchAssoc($res_pos);
+				$res_pos	= $this->db->query($query_num_posts);
+				$data_pos	= $this->db->fetchAssoc($res_pos);
 				$num_posts  = $data_pos['cnt'];
 
 				$query_num_threads = "SELECT COUNT(thr_pk) cnt
 										FROM frm_threads
-									  WHERE thr_top_fk = ".$ilDB->quote(
+									  WHERE thr_top_fk = ".$this->db->quote(
 										$this->lastHandledForumId, 'integer');
 
-				$res_thr	  = $ilDB->query($query_num_threads);
-				$data_thr	  = $ilDB->fetchAssoc($res_thr);
+				$res_thr	  = $this->db->query($query_num_threads);
+				$data_thr	  = $this->db->fetchAssoc($res_thr);
 				$num_threads  = $data_thr['cnt'];
 
 				$update_str	  = "$this->lastHandledForumId#$this->lastHandledThreadId#$this->lastHandledPostId";
-				$ilDB->manipulateF(
+				$this->db->manipulateF(
 					"UPDATE frm_data 
 						SET top_last_post = %s,
 							top_num_posts = %s,
@@ -321,7 +323,7 @@ class ilForumXMLParser extends ilSaxParser
 
 			case 'Thread':
 				$update_str	  = "$this->lastHandledForumId#$this->lastHandledThreadId#$this->lastHandledPostId";
-				$ilDB->manipulateF(
+				$this->db->manipulateF(
 					"UPDATE frm_threads
 						SET thr_last_post = %s
 					WHERE thr_pk = %s",
@@ -498,8 +500,8 @@ class ilForumXMLParser extends ilSaxParser
 						$parentId = 0;
 					}
 
-					$postTreeNodeId = $ilDB->nextId('frm_posts_tree');
-					$ilDB->insert('frm_posts_tree', array(
+					$postTreeNodeId = $this->db->nextId('frm_posts_tree');
+					$this->db->insert('frm_posts_tree', array(
 						'fpt_pk'		=> array('integer', $postTreeNodeId),
 						'thr_fk'		=> array('integer', $this->lastHandledThreadId),
 						'pos_fk'		=> array('integer', $this->forumPost->getId()),
@@ -574,8 +576,6 @@ class ilForumXMLParser extends ilSaxParser
 
 	private function getIdAndAliasArray($imp_usr_id, $param = 'import')
 	{
-		global $ilDB;
-
 		$select = 'SELECT od.obj_id, ud.login
 					FROM object_data od
 						INNER JOIN usr_data ud
@@ -583,21 +583,21 @@ class ilForumXMLParser extends ilSaxParser
 
 		if($param == 'import')
 		{
-			$where = ' WHERE od.import_id = '.$ilDB->quote(
+			$where = ' WHERE od.import_id = '.$this->db->quote(
 						'il_'.$this->import_install_id.'_usr_'.$imp_usr_id, 'text'
 			);
 		}
 
 		if($param == 'user')
 		{
-			$where = ' WHERE ud.usr_id = '.$ilDB->quote(
+			$where = ' WHERE ud.usr_id = '.$this->db->quote(
 						$imp_usr_id, 'integer'
 			);
 		}
 
-		$query = $ilDB->query($select.$where);
+		$query = $this->db->query($select.$where);
 
-		while( $res = $ilDB->fetchAssoc($query) )
+		while( $res = $this->db->fetchAssoc($query) )
 		{
 			break;
 		}
@@ -626,8 +626,6 @@ class ilForumXMLParser extends ilSaxParser
 
 	private function getUserIdAndAlias($imp_usr_id, $imp_usr_alias = '')
 	{
-		global $ilDB;
-
 		if( (int)$imp_usr_id > 0 )
 		{
 			$newUsrId = -1;
@@ -746,13 +744,11 @@ class ilForumXMLParser extends ilSaxParser
 
 	private function getNewForumPk()
 	{
-		global $ilDB;
-
 		$query	= "SELECT top_pk FROM frm_data
-					WHERE top_frm_fk = ".$ilDB->quote(
+					WHERE top_frm_fk = ".$this->db->quote(
 						$this->forum->getId(), 'integer');
-		$res	= $ilDB->query($query);
-		$data	= $ilDB->fetchAssoc($res);
+		$res	= $this->db->query($query);
+		$data	= $this->db->fetchAssoc($res);
 
 		return $data['top_pk'];
 	}
