@@ -10,6 +10,26 @@
  */
 class ilWikiHTMLExport
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
 	protected $wiki;
 	const MODE_DEFAULT = "html";
 	const MODE_USER = "user_html";
@@ -28,6 +48,12 @@ class ilWikiHTMLExport
 	 */
 	function __construct($a_wiki)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
+		$this->user = $DIC->user();
+		$this->lng = $DIC->language();
+		$this->tabs = $DIC->tabs();
 		$this->wiki = $a_wiki;
 		$this->log = ilLoggerFactory::getLogger('wiki');
 	}
@@ -67,7 +93,8 @@ class ilWikiHTMLExport
 
 		if ($this->getMode() == self::MODE_USER)
 		{
-			global $ilDB, $ilUser;
+		$ilDB = $this->db;
+		$ilUser = $this->user;
 			include_once("./Modules/Wiki/classes/class.ilWikiUserHTMLExport.php");
 			$this->user_html_exp = new ilWikiUserHTMLExport($this->wiki, $ilDB, $ilUser);
 		}
@@ -188,7 +215,9 @@ class ilWikiHTMLExport
 	 */
 	function exportPageHTML($a_page_id)
 	{
-		global $ilUser, $lng, $ilTabs;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilTabs = $this->tabs;
 
 		$ilTabs->clearTargets();
 		
