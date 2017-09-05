@@ -43,9 +43,11 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
 		$this->ctrl = $DIC->ctrl();
 		$this->lng = $DIC->language();
-		global $DIC;
+
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("link");
 

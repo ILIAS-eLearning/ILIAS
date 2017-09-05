@@ -21304,3 +21304,7 @@ if(!$ilDB->tableColumnExists('il_blog','nav_list_mon_with_post'))
                                                                       ));
     }
 ?>
+<#5224>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
