@@ -113,7 +113,6 @@ class ilTable2GUI extends ilTableGUI
 
 		$this->lng = $DIC->language();
 		$this->ctrl = $DIC->ctrl();
-		$this->tpl = $DIC["tpl"];
 		$lng = $DIC->language();
 
 		parent::__construct(0, false);
@@ -1910,13 +1909,15 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	*/
 	private function renderFilter()
 	{
+		global $DIC;
+
 		$lng = $this->lng;
-		$tpl = $this->tpl;
+		$main_tpl = $DIC["tpl"];
 
 		$filter = $this->getFilterItems();
 		$opt_filter = $this->getFilterItems(true);
 
-		$tpl->addJavascript("./Services/Table/js/ServiceTable.js");
+		$main_tpl->addJavascript("./Services/Table/js/ServiceTable.js");
 
 		if (count($filter) == 0 && count($opt_filter) == 0)
 		{
