@@ -145,7 +145,6 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
 			$clean_btn->setUrl($this->ctrl->getLinkTarget($this, 'doCleanUp'));
 			$this->toolbar->addButtonInstance($clean_btn);
 		}
-//		$form->addCommandButton("view", $this->lng->txt("cancel"));
 		$this->tpl->setContent($form->getHTML());
 		$this->setActiveTab('settings');
 	}
