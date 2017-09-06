@@ -69,7 +69,7 @@ abstract class Form implements C\Form\Form, CI\Input\NameSource {
 	/**
 	 * @inheritdocs
 	 */
-	public function withTransformation(Transformation $trafo) {
+	public function withAdditionalTransformation(Transformation $trafo) {
 		$clone = clone $this;
 		$clone->transformation = $trafo;
 		return $clone;

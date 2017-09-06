@@ -184,13 +184,12 @@ abstract class Input implements C\Input\Input, InputInternal {
 	// input is processed.
 
 	/**
-	 * TODO: Should this not be "withAdditionalTransformation"?
 	 * Apply a transformation to the current or future content.
 	 *
 	 * @param	Transformation $trafo
 	 * @return	Input
 	 */
-	public function withTransformation(Transformation $trafo) {
+	public function withAdditionalTransformation(Transformation $trafo) {
 		$clone = clone $this;
 		$clone->operations[] = $trafo;
 		if ($clone->content !== null) {
@@ -200,13 +199,12 @@ abstract class Input implements C\Input\Input, InputInternal {
 	}
 
 	/**
-	 * TODO: Should this not be "withAdditionalConstraint"?
 	 * Apply a constraint to the current or the future content.
 	 *
 	 * @param	Constraint $constraint
 	 * @return 	Input
 	 */
-	public function withConstraint(Constraint $constraint) {
+	public function withAdditionalConstraint(Constraint $constraint) {
 		$clone = clone $this;
 		$clone->operations[] = $constraint;
 		if ($clone->content !== null) {

@@ -48,7 +48,7 @@ interface Factory {
 	 *
 	 * @param	string      $label
 	 * @param	string|null $byline
-	 * @return	\ILIAS\UI\Component\Input\Text
+	 * @return	\ILIAS\UI\Component\Input\Numeric
 	 */
 	public function numeric($label, $byline = null);
 }

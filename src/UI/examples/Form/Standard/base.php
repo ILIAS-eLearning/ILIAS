@@ -33,8 +33,8 @@ function base() {
 	});
 
 	$number_input = $ui->input()->text("number", "Put in the name of a number from one to ten.")
-		->withConstraint($valid_number)
-		->withTransformation($from_name);
+		->withAdditionalConstraint($valid_number)
+		->withAdditionalTransformation($from_name);
 
 	$DIC->ctrl()->setParameterByClass(
 			'ilsystemstyledocumentationgui',
@@ -47,7 +47,7 @@ function base() {
 		[ $number_input->withLabel("Left")
 		, $number_input->withLabel("Right")
 		])
-		->withTransformation($sum);
+		->withAdditionalTransformation($sum);
 
 	if ($request->getMethod() == "POST"
 			&& $request->getQueryParams()['example_name'] =='base') {

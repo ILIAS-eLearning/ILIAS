@@ -12,7 +12,7 @@ use ILIAS\Validation\Factory as ValidationFactory;
 /**
  * This implements commonalities between inputs.
  */
-class Numeric extends Input implements C\Input\Text {
+class Numeric extends Input implements C\Input\Numeric {
 
 	/**
 	 * Numeric constructor.

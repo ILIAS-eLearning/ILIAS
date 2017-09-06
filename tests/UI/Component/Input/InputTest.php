@@ -165,7 +165,7 @@ class InputTest extends ILIAS_UI_TestBase {
 		$values = new DefPostData([$name => $value]);
 
 		$input2 = $input
-			->withTransformation($this->transformation_factory->custom(function($v) use ($value, $transform_to) {
+			->withAdditionalTransformation($this->transformation_factory->custom(function($v) use ($value, $transform_to) {
 				$this->assertEquals($value, $v);
 				return $transform_to;
 			}))
@@ -189,7 +189,7 @@ class InputTest extends ILIAS_UI_TestBase {
 
 		$input2 = $input
 			->withInput($values)
-			->withTransformation($this->transformation_factory->custom(function($v) use ($value, $transform_to) {
+			->withAdditionalTransformation($this->transformation_factory->custom(function($v) use ($value, $transform_to) {
 				$this->assertEquals($value, $v);
 				return $transform_to;
 			}));
@@ -211,7 +211,7 @@ class InputTest extends ILIAS_UI_TestBase {
 		$values = new DefPostData([$name => $value]);
 
 		$input2 = $input
-			->withConstraint($this->validation_factory->custom(function($_) { return true; }, $error))
+			->withAdditionalConstraint($this->validation_factory->custom(function($_) { return true; }, $error))
 			->withInput($values);
 		$res = $input2->getContent();
 
@@ -232,7 +232,7 @@ class InputTest extends ILIAS_UI_TestBase {
 		$values = new DefPostData([$name => $value]);
 
 		$input2 = $input
-			->withConstraint($this->validation_factory->custom(function($_) { return false; }, $error))
+			->withAdditionalConstraint($this->validation_factory->custom(function($_) { return false; }, $error))
 			->withInput($values);
 		$res = $input2->getContent();
 
@@ -254,7 +254,7 @@ class InputTest extends ILIAS_UI_TestBase {
 
 		$input2 = $input
 			->withInput($values)
-			->withConstraint($this->validation_factory->custom(function($_) { return false; }, $error));
+			->withAdditionalConstraint($this->validation_factory->custom(function($_) { return false; }, $error));
 		$res = $input2->getContent();
 
 		$this->assertInstanceOf(Result::class, $res);
@@ -275,11 +275,11 @@ class InputTest extends ILIAS_UI_TestBase {
 		$values = new DefPostData([$name => $value]);
 
 		$input2 = $input
-			->withTransformation($this->transformation_factory->custom(function($v) use ($value, $transform_to) {
+			->withAdditionalTransformation($this->transformation_factory->custom(function($v) use ($value, $transform_to) {
 				$this->assertEquals($value, $v);
 				return $transform_to;
 			}))
-			->withConstraint($this->validation_factory->custom(function($v) use ($transform_to) {
+			->withAdditionalConstraint($this->validation_factory->custom(function($v) use ($transform_to) {
 				$this->assertEquals($transform_to, $v);
 				return true;
 			}, $error))
@@ -305,11 +305,11 @@ class InputTest extends ILIAS_UI_TestBase {
 
 		$input2 = $input
 			->withInput($values)
-			->withTransformation($this->transformation_factory->custom(function($v) use ($value, $transform_to) {
+			->withAdditionalTransformation($this->transformation_factory->custom(function($v) use ($value, $transform_to) {
 				$this->assertEquals($value, $v);
 				return $transform_to;
 			}))
-			->withConstraint($this->validation_factory->custom(function($v) use ($transform_to) {
+			->withAdditionalConstraint($this->validation_factory->custom(function($v) use ($transform_to) {
 				$this->assertEquals($transform_to, $v);
 				return true;
 			}, $error));
@@ -333,11 +333,11 @@ class InputTest extends ILIAS_UI_TestBase {
 		$values = new DefPostData([$name => $value]);
 
 		$input2 = $input
-			->withConstraint($this->validation_factory->custom(function($v) use ($value) {
+			->withAdditionalConstraint($this->validation_factory->custom(function($v) use ($value) {
 				$this->assertEquals($value, $v);
 				return true;
 			}, $error))
-			->withTransformation($this->transformation_factory->custom(function($v) use ($value, $transform_to) {
+			->withAdditionalTransformation($this->transformation_factory->custom(function($v) use ($value, $transform_to) {
 				$this->assertEquals($value, $v);
 				return $transform_to;
 			}))
@@ -362,11 +362,11 @@ class InputTest extends ILIAS_UI_TestBase {
 		$values = new DefPostData([$name => $value]);
 
 		$input2 = $input
-			->withConstraint($this->validation_factory->custom(function($v) use ($value) {
+			->withAdditionalConstraint($this->validation_factory->custom(function($v) use ($value) {
 				$this->assertEquals($value, $v);
 				return false;
 			}, $error))
-			->withTransformation($this->transformation_factory->custom(function($v) use ($value, $transform_to) {
+			->withAdditionalTransformation($this->transformation_factory->custom(function($v) use ($value, $transform_to) {
 				$this->assertFalse("This should not happen");
 				return $transform_to;
 			}))
@@ -392,11 +392,11 @@ class InputTest extends ILIAS_UI_TestBase {
 
 		$input2 = $input
 			->withInput($values)
-			->withConstraint($this->validation_factory->custom(function($v) use ($value) {
+			->withAdditionalConstraint($this->validation_factory->custom(function($v) use ($value) {
 				$this->assertEquals($value, $v);
 				return false;
 			}, $error))
-			->withTransformation($this->transformation_factory->custom(function($v) use ($value, $transform_to) {
+			->withAdditionalTransformation($this->transformation_factory->custom(function($v) use ($value, $transform_to) {
 				$this->assertFalse("This should not happen");
 				return $transform_to;
 			}));

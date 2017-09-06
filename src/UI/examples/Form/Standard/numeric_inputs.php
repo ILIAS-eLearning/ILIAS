@@ -26,7 +26,7 @@ function numeric_inputs() {
 		[ $number_input->withLabel("Left")
 		, $number_input->withLabel("Right")
 		])
-		->withTransformation($sum);
+		->withAdditionalTransformation($sum);
 
 	if ($request->getMethod() == "POST"
 			&& $request->getQueryParams()['example_name'] =='numeric_inputs') {
