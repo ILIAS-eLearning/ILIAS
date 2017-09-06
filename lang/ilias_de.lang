@@ -14000,3 +14000,4 @@ dateplaner#:#cal_batch_file_downloads#:#Batch file downloads in Calendar###31 08
 dateplaner#:#cal_batch_file_downloads_info#:#Activate button to download all files related to the current calendar/appointment view.###31 08 2017 new variable
 dateplaner#:#cal_download_files#:#Download Files###31 08 2017 new variable
 dateplaner#:#cal_calendar_download#:#Calendar Download###31 08 2017 new variable
+pdfgen#:#cleanup#:#Bereinigen

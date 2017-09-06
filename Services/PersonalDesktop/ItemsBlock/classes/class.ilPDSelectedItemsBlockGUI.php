@@ -256,11 +256,11 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			default:		
 				if(method_exists($this, $cmd))
 				{
-					$this->$cmd();
+					return $this->$cmd();
 				}
 				else
 				{
-					$this->{$cmd . 'Object'}();
+					return $this->{$cmd . 'Object'}();
 				}
 		}
 	}
@@ -529,7 +529,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	* @access	private
 	*/
 	function addStandardRow(&$a_tpl, $a_html, $a_item_ref_id = "", $a_item_obj_id = "",
-	$a_image_type = "", $a_related_header = "")
+		$a_image_type = "", $a_related_header = "")
 	{
 		$ilSetting = $this->settings;
 		
@@ -624,9 +624,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	}
 
 	function manageObject()
-	{	
-		$ilUser = $this->user;
-		$objDefinition = $this->obj_definition;
+	{
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 		
@@ -661,7 +659,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		$bot_tb->addStickyItem($button);
 		$bot_tb->addStickyItem($button2);
 		$bot_tb->setOpenFormTag(false);
-		
 		return $top_tb->getHTML().$this->getHTML().$bot_tb->getHTML();
 	}
 	

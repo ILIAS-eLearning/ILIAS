@@ -41,7 +41,6 @@ class ilQuestionExporter
 	{
 		global $DIC;
 
-		$this->tpl = $DIC["tpl"];
 		$ilDB = $DIC->database();
 		$lng = $DIC->language();
 
@@ -168,10 +167,10 @@ class ilQuestionExporter
 	}
 	
 	private function assMultipleChoice() {
-		
-		$tpl = $this->tpl;
-		$this->q_gui->populateJavascriptFilesRequiredForWorkForm($tpl);
-		$tpl->addCss('Modules/Test/templates/default/ta.css');
+		global $DIC;
+		$main_tpl = $DIC["tpl"];
+		$this->q_gui->populateJavascriptFilesRequiredForWorkForm($main_tpl);
+		$main_tpl->addCss('Modules/Test/templates/default/ta.css');
 		
 		$this->tpl->setCurrentBlock("multiplechoice");
 		$this->tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("cont_submit_answers"));
@@ -212,8 +211,10 @@ class ilQuestionExporter
 
 	private function assKprimChoice()
 	{
-		$tpl = $this->tpl;
-		$tpl->addCss('Modules/Test/templates/default/ta.css');
+		global $DIC;
+		$main_tpl = $DIC["tpl"];
+
+		$main_tpl->addCss('Modules/Test/templates/default/ta.css');
 		
 		$this->tpl->setCurrentBlock("kprimchoice");
 		
@@ -329,9 +330,11 @@ class ilQuestionExporter
 	}
 	
 	private function assMatchingQuestion() {
-		$tpl = $this->tpl;
-		$tpl->addJavaScript('Modules/TestQuestionPool/js/ilMatchingQuestion.js');
-		$tpl->addCss('Modules/TestQuestionPool/templates/default/test_javascript.css');
+		global $DIC;
+		$main_tpl = $DIC["tpl"];
+
+		$main_tpl->addJavaScript('Modules/TestQuestionPool/js/ilMatchingQuestion.js');
+		$main_tpl->addCss('Modules/TestQuestionPool/templates/default/test_javascript.css');
 		$this->tpl->setCurrentBlock("matchingquestion");
 		$this->tpl->setVariable("VAL_ID", $this->json_decoded->id);
 		$this->tpl->setVariable("BTN_LABEL_RESET", $this->lng->txt("reset_terms"));

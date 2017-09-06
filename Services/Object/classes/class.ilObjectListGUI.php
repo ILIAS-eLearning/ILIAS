@@ -176,8 +176,6 @@ class ilObjectListGUI
 		$this->obj_definition = $DIC["objDefinition"];
 		$this->tree = $DIC->repositoryTree();
 		$this->settings = $DIC->settings();
-		$this->tpl = $DIC["tpl"];
-
 
 		$this->ui = $DIC->ui();
 		$this->rbacsystem = $DIC->rbac()->system();
@@ -3002,9 +3000,11 @@ class ilObjectListGUI
 	 */
 	function getHeaderAction()
 	{
+		global $DIC;
+
 		$ilUser = $this->user;
 		$lng = $this->lng;
-		$tpl = $this->tpl;
+		$main_tpl = $DIC["tpl"];
 		
 		$htpl = new ilTemplate("tpl.header_action.html", true, true, "Services/Repository");	
 		
@@ -3100,8 +3100,8 @@ class ilObjectListGUI
 			{
 				// ???
 				$ajax_url = $this->ctrl->getLinkTargetByClass("ilRatingGUI", "saveRating", "", true, false);
-			}		
-			$tpl->addOnLoadCode("il.Object.setRatingUrl('".$ajax_url."');");
+			}
+			$main_tpl->addOnLoadCode("il.Object.setRatingUrl('".$ajax_url."');");
 			
 			$this->addHeaderIconHTML("rating", 
 				$rating_gui->getHtml(true, 

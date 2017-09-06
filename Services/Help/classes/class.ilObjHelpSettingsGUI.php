@@ -58,7 +58,7 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
 	function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
 	{
 		global $DIC;
-		parent::__construct($a_id = 0, $a_id_type, $a_parent_node_id);
+		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
 		$this->rbacsystem = $DIC->rbac()->system();
 		$this->error = $DIC["ilErr"];
@@ -91,7 +91,6 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
 		$ilErr = $this->error;
 		$ilAccess = $this->access;
 		$lng = $this->lng;
-		
 		$lng->loadLanguageModule("help");
 
 		$next_class = $this->ctrl->getNextClass($this);

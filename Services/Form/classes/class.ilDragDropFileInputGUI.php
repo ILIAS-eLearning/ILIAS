@@ -17,16 +17,6 @@ class ilDragDropFileInputGUI extends ilFileInputGUI
 	 */
 	protected $lng;
 
-	/**
-	 * @var ilTemplate
-	 */
-	protected $tpl;
-
-	/**
-	 * @var ilObjUser
-	 */
-	protected $user;
-
 	private $uniqueId = 0;
 	private $archive_suffixes = array();
 	private $submit_button_name = null;
@@ -50,8 +40,6 @@ class ilDragDropFileInputGUI extends ilFileInputGUI
 		global $DIC;
 
 		$this->lng = $DIC->language();
-		$this->tpl = $DIC["tpl"];
-		$this->user = $DIC->user();
 		parent::__construct($a_title, $a_postvar);
 		$this->uniqueId = self::getNextUniqueId();
 	}
@@ -88,9 +76,7 @@ class ilDragDropFileInputGUI extends ilFileInputGUI
 	function render($a_mode = "")
 	{
 		$lng = $this->lng;
-		$tpl = $this->tpl;
-		$ilUser = $this->user;
-					
+
 		$quota_exceeded = $quota_legend = false;
 		if(self::$check_wsp_quota)
 		{

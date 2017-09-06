@@ -66,7 +66,7 @@ class ilPDFGeneratorUtils
 
 		$purposes = array();
 
-		$result = $ilDB->query('SELECT service, purpose FROM pdfgen_purposes');
+		$result = $ilDB->query('SELECT service, purpose FROM pdfgen_purposes ORDER BY service, purpose');
 
 		while($row = $ilDB->fetchAssoc($result))
 		{
