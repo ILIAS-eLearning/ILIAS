@@ -6766,6 +6766,10 @@ button.close {
   padding: 2px 4px;
   visibility: hidden;
 }
+.glyphicon.glyphicon-chevron-left,
+.glyphicon.glyphicon-chevron-right {
+  font-weight: 100;
+}
 .il-panel-report .thumbnail {
   margin-bottom: 0;
 }
