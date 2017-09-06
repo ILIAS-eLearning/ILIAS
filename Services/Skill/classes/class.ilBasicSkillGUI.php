@@ -91,10 +91,8 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 	function executeCommand()
 	{
 		$ilCtrl = $this->ctrl;
-		$tpl = $this->tpl;
 		$ilTabs = $this->tabs;
-		$ilHelp = $this->help;
-		
+
 		//$tpl->getStandardTemplate();
 		
 		$next_class = $ilCtrl->getNextClass($this);
@@ -128,19 +126,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 		$this->setLocator();
 
 		$tpl->setContent("Properties");
-	}
-
-
-	/**
-	 * Perform drag and drop action
-	 */
-	function proceedDragDrop()
-	{
-		$ilCtrl = $this->ctrl;
-
-//		$this->slm_object->executeDragDrop($_POST["il_hform_source_id"], $_POST["il_hform_target_id"],
-//			$_POST["il_hform_fc"], $_POST["il_hform_as_subitem"]);
-//		$ilCtrl->redirect($this, "showOrganization");
 	}
 
 	/**
@@ -244,9 +229,17 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 		
 		// order nr
 		$ni = new ilNumberInputGUI($lng->txt("skmg_order_nr"), "order_nr");
+		$ni->setInfo($lng->txt("skmg_order_nr_info"));
 		$ni->setMaxLength(6);
 		$ni->setSize(6);
 		$ni->setRequired(true);
+		if ($a_mode == "create")
+		{
+			include_once("./Services/Skill/classes/class.ilSkillTree.php");
+			$tree = new ilSkillTree();
+			$max = $tree->getMaxOrderNr((int)$_GET["obj_id"]);
+			$ni->setValue($max + 10);
+		}
 		$this->form->addItem($ni);
 
 		// status

@@ -142,6 +142,25 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 	}
 
 	/**
+	 * Init form.
+	 *
+	 * @param string $a_mode edit mode
+	 */
+	public function initForm($a_mode = "edit")
+	{
+		$r = parent::initForm($a_mode);
+		if ($a_mode == "create")
+		{
+			$ni = $this->form->getItemByPostVar("order_nr");
+			include_once("./Services/Skill/classes/class.ilSkillTree.php");
+			$tree = new ilSkillTree();
+			$max = $tree->getMaxOrderNr((int)$_GET["obj_id"], true);
+			$ni->setValue($max + 10);
+		}
+		return $r;
+	}
+
+	/**
 	 * List items
 	 *
 	 * @param

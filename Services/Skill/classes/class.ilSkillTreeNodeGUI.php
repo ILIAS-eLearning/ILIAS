@@ -176,7 +176,6 @@ class ilSkillTreeNodeGUI
 	 */
 	function cutItems()
 	{
-		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 
 		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
@@ -528,9 +527,17 @@ class ilSkillTreeNodeGUI
 		
 		// order nr
 		$ni = new ilNumberInputGUI($lng->txt("skmg_order_nr"), "order_nr");
+		$ni->setInfo($lng->txt("skmg_order_nr_info"));
 		$ni->setMaxLength(6);
 		$ni->setSize(6);
 		$ni->setRequired(true);
+		if ($a_mode == "create")
+		{
+			include_once("./Services/Skill/classes/class.ilSkillTree.php");
+			$tree = new ilSkillTree();
+			$max = $tree->getMaxOrderNr((int)$_GET["obj_id"]);
+			$ni->setValue($max + 10);
+		}
 		$this->form->addItem($ni);
 		
 		// save and cancel commands
