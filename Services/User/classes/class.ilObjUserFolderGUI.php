@@ -119,6 +119,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				include_once("./Services/User/classes/class.ilUserStartingPointGUI.php");
 				$cf = new ilUserStartingPointGUI($this->ref_id);
 				$this->ctrl->forwardCommand($cf);
+				break;
 
 			case 'iluserprofileinfosettingsgui':
 				$this->tabs_gui->setTabActive('settings');

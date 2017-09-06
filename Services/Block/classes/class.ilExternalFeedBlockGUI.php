@@ -51,7 +51,6 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		$this->rbacsystem = $DIC->rbac()->system();
 		$this->obj_definition = $DIC["objDefinition"];
 		$this->tpl = $DIC["tpl"];
-		$ilCtrl = $DIC->ctrl();
 		$lng = $DIC->language();
 		
 		parent::__construct();
@@ -461,7 +460,6 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	function importFile()
 	{
 		$rbacsystem = $this->rbacsystem;
-		$objDefinition = $this->obj_definition;
 		$tpl = $this->tpl;
 		$lng = $this->lng;
 

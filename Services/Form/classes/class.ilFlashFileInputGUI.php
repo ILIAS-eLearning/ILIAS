@@ -15,11 +15,6 @@ class ilFlashFileInputGUI extends ilFileInputGUI
 	 */
 	protected $lng;
 
-	/**
-	 * @var ilTemplate
-	 */
-	protected $tpl;
-
 	protected $applet;
 	protected $applet_path_web;
 	protected $width;
@@ -37,7 +32,6 @@ class ilFlashFileInputGUI extends ilFileInputGUI
 		global $DIC;
 
 		$this->lng = $DIC->language();
-		$this->tpl = $DIC["tpl"];
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("flash_file");
 		$this->setSuffixes(array("swf"));
@@ -392,7 +386,6 @@ class ilFlashFileInputGUI extends ilFileInputGUI
 		$a_tpl->setVariable("PROP_GENERIC", $template->get());
 		$a_tpl->parseCurrentBlock();
 		
-		$tpl = $this->tpl;
 		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
 		ilYuiUtil::initConnectionWithAnimation();
 	}

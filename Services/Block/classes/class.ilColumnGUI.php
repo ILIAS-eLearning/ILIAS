@@ -655,7 +655,6 @@ class ilColumnGUI
 		$lng = $this->lng;
 		$ilUser = $this->user;
 		$ilCtrl = $this->ctrl;
-		$tpl = $this->tpl;
 
 		// show selector for hidden blocks
 		include_once("Services/Block/classes/class.ilBlockSetting.php");
