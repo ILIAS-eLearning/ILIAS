@@ -47,7 +47,6 @@ class ilObjectPluginAccess extends ilObjectAccess
 	 */
 	function __construct()
 	{
-		parent::__construct();
 		global $DIC;
 
 		$this->user = $DIC->user();
