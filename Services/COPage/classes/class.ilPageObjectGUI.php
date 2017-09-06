@@ -1634,9 +1634,12 @@ return;
 		// get title
 		$pg_title = $this->getPresentationTitle();
 
-		$col_path = ilUtil::getImagePath("col.svg");
-		$row_path = ilUtil::getImagePath("row.svg");
-		$item_path = ilUtil::getImagePath("item.svg");
+		if($this->getOutputMode() == "edit")
+		{
+			$col_path = ilUtil::getImagePath("col.svg");
+			$row_path = ilUtil::getImagePath("row.svg");
+			$item_path = ilUtil::getImagePath("item.svg");
+		}
 
 		if ($this->getOutputMode() != "offline")
 		{
