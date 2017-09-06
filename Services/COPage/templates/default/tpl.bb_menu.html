@@ -140,7 +140,9 @@ il.COPageBB = {
 		var t = il.COPageBB,
 				k = $(e).attr("accesskey"),
 				com = t.findCommandForKey(k);
-		t.applyCommand(com);
+		if (com != "iln") {
+			t.applyCommand(com);
+		}
 	},
 
 	applyCommand: function (com) {

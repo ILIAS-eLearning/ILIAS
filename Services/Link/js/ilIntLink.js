@@ -269,7 +269,7 @@ il.IntLink =
 		if (typeof ilCOPage != "undefined" && ($("#ilEditTableDataCl").length == 0))
 		{
 			ilCOPage.cmdIntLink(b, e);
-		} else if (il.Form) {
+		} else if (il.Form && $("#par_content").length == 0) {
 			il.Form.addInternalLink(b,e,this.id,ev);
 		} else if (addInternalLink) {
 			// old style, needs clean-up
