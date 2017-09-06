@@ -7373,7 +7373,7 @@ survey#:#users_skipped#:#Users Skipped
 survey#:#values#:#Values
 survey#:#vertical#:#Vertical
 survey#:#warning_question_not_complete#:#The question is not complete!
-survey#:#wrong_survey_code_used#:#You cannot enter the survey, because you tried to start it with an unauthorized survey code.
+survey#:#wrong_survey_code_used#:#No access to survey. Your survey code is invalid or has already been used.
 tagging#:#tagging_all_users#:#All Users
 tagging#:#tagging_edit_settings#:#Edit Settings
 tagging#:#tagging_enable_all_users_info#:#Adds a section ‘All Users’ to the info screens that lists all tags of all users attached to a resource.
