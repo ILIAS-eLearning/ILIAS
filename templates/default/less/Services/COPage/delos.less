@@ -472,3 +472,20 @@ a.ilCOPageSection {
 #ilAdvSelListAnchorText_char_style_selection > span {
 	min-width: auto;
 }
+
+div.ilc_answers.answer-table div.ilc_qanswer_Answer {
+	display: table-row;
+}
+
+div.ilc_answers.answer-table div.ilc_qanswer_Answer > div {
+	display: table-cell;
+}
+
+div.ilc_question_SingleChoice .answertext > p, div.ilc_question_MultipleChoice .answertext > p {
+	margin: 0 !important;
+}
+
+div.ilc_question_SingleChoice .ilc_qanswer_Answer > div:first-child,
+div.ilc_question_MultipleChoice .ilc_qanswer_Answer > div:first-child {
+	padding-right: 10px;
+}

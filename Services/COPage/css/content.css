@@ -502,23 +502,6 @@ div.ilc_qanswer_Answer
 	margin-bottom: 2px;
 }
 
-div.ilc_answers.answer-table div.ilc_qanswer_Answer {
-	display: table-row;
-}
-
-div.ilc_answers.answer-table div.ilc_qanswer_Answer > div {
-	display: table-cell;
-}
-
-div.ilc_question_SingleChoice .answertext > p, div.ilc_question_MultipleChoice .answertext > p {
-	margin: 0 !important;
-}
-
-div.ilc_question_SingleChoice .ilc_qanswer_Answer > div:first-child,
-div.ilc_question_MultipleChoice .ilc_qanswer_Answer > div:first-child {
-	padding-right: 10px;
-}
-
 div.ilc_qfeedw_FeedbackWrong
 {
 	margin: 10px 0px 10px 0px;
