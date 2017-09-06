@@ -14189,3 +14189,7 @@ file#:#file_suffix_custom_white_info#:#Diese Dateiendungen werden der obigen Pos
 file#:#file_suffix_overall_white#:#Effektive Positivliste
 file#:#file_suffix_overall_white_info#:#Dies ist die endgültige Liste akzeptierter Dateiendungen.
 wiki#:#wiki_change_notification_body_new#:#die folgende Wiki-Seite wurde neu angelegt
+sess#:#preview_crs_title#:#Beispielkurs
+sess#:#preview_crs_status#:#In Bearbeitung
+sess#:#preview_crs_mark#:#Unbekannt
+sess#:#preview_crs_time_spent#:#1 Stunde und 10 Minuten
