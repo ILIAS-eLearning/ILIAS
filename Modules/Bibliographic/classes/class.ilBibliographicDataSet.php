@@ -203,7 +203,7 @@ class ilBibliographicDataSet extends ilDataSet {
 			. "/Modules/Bibliographic/set_1/expDir_1/" . $this->import_bib_object->getFilename();
 		$new_id = $this->import_bib_object->getId();
 		$new_path = ilUtil::getDataDir() . "/bibl/" . $new_id;
-		mkdir($new_path);
+		mkdir($new_path, 0755);
 		copy($import_path, $new_path . "/" . $this->import_bib_object->getFilename());
 		// this will write the source file entry to db
 		$this->import_bib_object->update();

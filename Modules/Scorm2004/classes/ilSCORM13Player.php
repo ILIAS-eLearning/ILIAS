@@ -1412,7 +1412,7 @@ class ilSCORM13Player
 	{
 		$filename = $this->logDirectory()."/".$this->packageId.".tmp";
 		if (!file_exists($filename)) {
-			umask(0000);
+			umask(0022); //umask reset
 			$fHandle = fopen($filename, 'a') or die("can't open file");
 			fwrite($fHandle, $string);
 			fclose($fHandle);
@@ -1433,7 +1433,7 @@ class ilSCORM13Player
 		$retname = $filename."_".$adder.$suffix;
 		
 		if (!file_exists($retname)) {
-			umask(0000);
+			umask(0022); //umask reset
 			$fHandle = fopen($retname, 'a') or die("can't open file");
 			fwrite($fHandle, $string);
 			fclose($fHandle);
@@ -1450,7 +1450,7 @@ class ilSCORM13Player
 		$path_csv = $filename.".csv";
 		$path_txt = $filename.".html";
 		if (!file_exists($path_csv)) {
-			umask(0000);
+			umask(0022); //umask reset
 			$fHandle = fopen($path_csv, 'a') or die("can't open file");
 			$string = '"CourseId";"ScoId";"ScoTitle";"Timestamp";"Action";"Key";"Value";"Return Value";"Errorcode";"Timespan";"ErrorDescription"'."\n";
 			fwrite($fHandle, $string);
@@ -1460,7 +1460,7 @@ class ilSCORM13Player
 			if (file_exists($this->logTmpName())) {
 				unlink($this->logTmpName());
 			}
-			umask(0000);
+			umask(0022); //umask reset
 			$fHandle2 = fopen($path_txt, 'a') or die("can't open file");
 			$logtpl = $this->getLogTemplate();
 			$logtpl->setCurrentBlock('NewLog');
