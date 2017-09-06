@@ -93,6 +93,7 @@ il.Help = {
 					il.Accordion.initByIntId('oh_acc');
 					console.log("called init");
 				}
+				$('div#ilHelpPanel').css("overflow", "auto"); // Ensure overflow auto, see 20639
 			}
 		}
 	},
