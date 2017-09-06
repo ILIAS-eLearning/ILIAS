@@ -285,12 +285,13 @@ il.IntLink =
 
 	addInternalLink: function (b, e, ev, c)
 	{
-		if (typeof ilCOPage != "undefined" && ($("#ilEditTableDataCl").length == 0))
-		{
+		if (typeof ilCOPage != "undefined" && ($("#ilEditTableDataCl").length == 0)) {
 			ilCOPage.cmdIntLink(b, e, c);
-		} else if (il.Form) {
+		}
+		else if (il.Form && $("#par_content").length == 0) {
 			il.Form.addInternalLink(b,e,this.id,ev);
-		} else if (addInternalLink) {
+		}
+		else if (addInternalLink) {
 			// old style, needs clean-up
 			addInternalLink(b);
 		}
