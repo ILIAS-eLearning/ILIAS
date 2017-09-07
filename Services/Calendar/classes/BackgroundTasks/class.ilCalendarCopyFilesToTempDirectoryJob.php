@@ -42,9 +42,8 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
 	{
 		return 
 		[
-			new SingleType(
-				ilCalendarCopyDefinition::class
-			)
+			new SingleType(ilCalendarCopyDefinition::class),
+			new SingleType(StringValue::class)
 		];
 	}
 
