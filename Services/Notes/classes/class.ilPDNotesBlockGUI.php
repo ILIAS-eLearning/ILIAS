@@ -27,10 +27,8 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 		$this->ctrl = $DIC->ctrl();
 		$this->lng = $DIC->language();
 		$this->user = $DIC->user();
-		$ilCtrl = $DIC->ctrl();
 		$lng = $DIC->language();
-		$ilUser = $DIC->user();
-		
+
 		parent::__construct();
 		
 		$this->setLimit(5);
@@ -211,15 +209,8 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 			$this->note_gui->enableTargets();
 		}
 
-		//if ($this->getCurrentDetailLevel() > 2)
-		//{
-		//	$this->tpl->setVariable("VAL_SUBJECT", "<b>".$a_set["subject"]."</b>");
-		//}
-		//else
-		//{
-			$this->tpl->setVariable("VAL_SUBJECT", $a_set["subject"]);
-		//}
-		
+		$this->tpl->setVariable("VAL_SUBJECT", $a_set["subject"]);
+
 		// link subject to show note function
 		$ilCtrl->setParameter($this, "rel_obj", $a_set["rep_obj_id"]);
 		$ilCtrl->setParameter($this, "note_id", $a_set["id"]);

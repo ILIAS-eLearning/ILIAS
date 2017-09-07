@@ -43,16 +43,11 @@ class ilPDContentBlockGUI extends ilBlockGUI
 		$this->ctrl = $DIC->ctrl();
 		$this->lng = $DIC->language();
 		$this->user = $DIC->user();
-		$ilCtrl = $DIC->ctrl();
-		$lng = $DIC->language();
-		$ilUser = $DIC->user();
-		
+
 		parent::__construct();
 		
-		//$this->setTitle($lng->txt("selected_items"));
 		$this->setEnableNumInfo(false);
 		$this->setLimit(99999);
-		//$this->setColSpan(2);
 		$this->setBigMode(true);
 		$this->allow_moving = false;
 	}
@@ -117,8 +112,6 @@ class ilPDContentBlockGUI extends ilBlockGUI
 	*/
 	function fillDataSection()
 	{
-		$ilUser = $this->user;
-		
 		$this->tpl->setVariable("BLOCK_ROW", $this->getContent());
 	}
 
@@ -129,10 +122,7 @@ class ilPDContentBlockGUI extends ilBlockGUI
 	{
 		//$this->fillFooterLinks();
 		$lng = $this->lng;
-		$ilCtrl = $this->ctrl;
 
-		$footer = false;
-		
 		if (is_array($this->data))
 		{
 			$this->max_count = count($this->data);
@@ -148,7 +138,6 @@ class ilPDContentBlockGUI extends ilBlockGUI
 			{
 				$this->tpl->setVariable("NUMINFO", $numinfo);
 			}
-			$footer = true;
 			$this->fillFooterLinks(true, $numinfo);
 		}
 	}

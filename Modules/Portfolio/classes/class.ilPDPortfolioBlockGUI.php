@@ -32,7 +32,6 @@ class ilPDPortfolioBlockGUI extends ilBlockGUI
 		$this->ctrl = $DIC->ctrl();
 		$this->settings = $DIC->settings();
 		$this->user = $DIC->user();
-		$lng = $DIC->language();
 
 		parent::__construct();
 

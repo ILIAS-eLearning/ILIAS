@@ -57,7 +57,6 @@ class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		$this->user = $DIC->user();
 		$this->access = $DIC->access();
 		$this->settings = $DIC->settings();
-		$ilCtrl = $DIC->ctrl();
 		$lng = $DIC->language();
 		
 		parent::__construct();
@@ -182,11 +181,9 @@ class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 		$ilUser = $this->user;
-		$ilAccess = $this->access;
 		$ilSetting = $this->settings;
 		
-		$feed_set = new ilSetting("feed");
-		
+
 		if ($ilSetting->get("block_limit_pdfeed") == 0)
 		{
 			return "";
@@ -279,8 +276,7 @@ class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	function getJSEnabler()
 	{
 		$ilCtrl = $this->ctrl;
-		$lng = $this->lng;
-		
+
 		$ilCtrl->setParameterByClass("ilcolumngui", "block_id",
 			"block_pdfeed_".$this->getBlockId());
 
@@ -318,9 +314,7 @@ class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	*/
 	function fillRow($item)
 	{
-		$ilUser = $this->user;
 		$ilCtrl = $this->ctrl;
-		$lng = $this->lng;
 
 		$ilCtrl->setParameter($this, "feed_item_id", $item->getId());
 		$this->tpl->setVariable("VAL_TITLE", $item->getTitle());
@@ -334,10 +328,8 @@ class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	*/
 	function getOverview()
 	{
-		$ilUser = $this->user;
 		$lng = $this->lng;
-		$ilCtrl = $this->ctrl;
-		
+
 		$this->setEnableNumInfo(false);
 		return '<div class="small">'.((int) count($this->getData()))." ".$lng->txt("feed_feed_items")."</div>";
 	}

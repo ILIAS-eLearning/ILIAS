@@ -27,10 +27,8 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 		$this->ctrl = $DIC->ctrl();
 		$this->lng = $DIC->language();
 		$this->user = $DIC->user();
-		$ilCtrl = $DIC->ctrl();
 		$lng = $DIC->language();
-		$ilUser = $DIC->user();
-		
+
 		parent::__construct();
 		
 		$this->setImage(ilUtil::getImagePath("icon_bm.svg"));
@@ -163,10 +161,6 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 	*/
 	function fillFooter()
 	{
-		$ilCtrl = $this->ctrl;
-		$lng = $this->lng;
-		$ilUser = $this->user;
-
 		$this->setFooterLinks();
 		$this->fillFooterLinks();
 		$this->tpl->setVariable("FCOLSPAN", $this->getColSpan());

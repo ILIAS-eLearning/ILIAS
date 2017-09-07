@@ -47,7 +47,6 @@ class ilWikiSearchBlockGUI extends ilBlockGUI
 		$this->lng = $DIC->language();
 		$this->user = $DIC->user();
 		$this->access = $DIC->access();
-		$ilCtrl = $DIC->ctrl();
 		$lng = $DIC->language();
 		
 		parent::__construct();

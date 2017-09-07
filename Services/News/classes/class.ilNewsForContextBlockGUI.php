@@ -422,7 +422,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	*/
 	function fillRow($news)
 	{
-		$ilUser = $this->user;
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 
@@ -434,18 +433,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 					ilDatePresentation::formatDate(new ilDateTime($news["creation_date"],IL_CAL_DATETIME)));
 			$this->tpl->parseCurrentBlock();
 		}
-		
-		// notification
-		if ($news["priority"] == 0)
-		{
-/*
-			$this->tpl->setCurrentBlock("notification");
-			$this->tpl->setVariable("CHAR_NOT", $lng->txt("news_first_letter_of_word_notification"));
-			$this->tpl->parseCurrentBlock();
-*/
-		}
 
-		
 		// title image type
 		if ($news["ref_id"] > 0)
 		{

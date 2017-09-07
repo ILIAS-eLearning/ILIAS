@@ -27,8 +27,6 @@ class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
 	 */
 	public function __construct($a_title)
 	{
-		global $ilCtrl, $lng;
-		
 		parent::__construct();
 		
 		$this->setEnableNumInfo(false);
@@ -70,7 +68,7 @@ class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$next_class = $ilCtrl->getNextClass();
 		$cmd = $ilCtrl->getCmd("getHTML");
@@ -87,8 +85,6 @@ class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
 	 */
 	public function getHTML()
 	{
-		global $ilCtrl, $lng, $ilUser;
-
 		return parent::getHTML();
 	}
 
@@ -97,7 +93,8 @@ class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
 	 */
 	public function fillDataSection()
 	{
-		global $ilCtrl, $lng, $ilAccess;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		$tpl = new ilTemplate("tpl.search_search_block.html", true, true, 'Services/Search');
 
