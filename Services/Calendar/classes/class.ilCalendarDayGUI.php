@@ -334,16 +334,18 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 		$f = $this->ui_factory;
 		$r = $this->ui_renderer;
 
+		$event_tpl = new ilTemplate('tpl.day_event_view.html',true,true,'Services/Calendar');
+
 		// milestone icon
 		if ($a_app['event']->isMilestone())
 		{
-			$this->tpl->setCurrentBlock('fullday_ms_icon');
-			$this->tpl->setVariable('ALT_FD_MS', $this->lng->txt("cal_milestone"));
-			$this->tpl->setVariable('SRC_FD_MS', ilUtil::getImagePath("icon_ms.svg"));
-			$this->tpl->parseCurrentBlock();
+			$event_tpl->setCurrentBlock('fullday_ms_icon');
+			$event_tpl->setVariable('ALT_FD_MS', $this->lng->txt("cal_milestone"));
+			$event_tpl->setVariable('SRC_FD_MS', ilUtil::getImagePath("icon_ms.svg"));
+			$event_tpl->parseCurrentBlock();
 		}
 
-		$this->tpl->setCurrentBlock('fullday_app');
+		$event_tpl->setCurrentBlock('fullday_app');
 		
 		$compl = ($a_app['event']->isMilestone() && $a_app['event']->getCompletion() > 0)
 			? " (".$a_app['event']->getCompletion()."%)"
@@ -353,19 +355,25 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 
 		$title = ($new_title = $this->getContentByPlugins($a_app['event'], $a_app['dstart'], $shy))? $new_title : $shy;
 
-		$this->tpl->setVariable('F_APP_TITLE',$title.$compl);
+		$event_tpl->setVariable('F_APP_TITLE',$title.$compl);
 
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
-		$this->tpl->setVariable('F_APP_BGCOLOR',$color);
-		$this->tpl->setVariable('F_APP_FONTCOLOR',ilCalendarUtil::calculateFontColor($color));
+		$event_tpl->setVariable('F_APP_BGCOLOR',$color);
+		$event_tpl->setVariable('F_APP_FONTCOLOR',ilCalendarUtil::calculateFontColor($color));
 		
 		$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 		$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->seed->get(IL_CAL_DATE));
 		$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());
-		$this->tpl->setVariable('F_APP_EDIT_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','edit'));
-		
-		$this->tpl->parseCurrentBlock();
-		
+		$event_tpl->setVariable('F_APP_EDIT_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','edit'));
+
+		$event_html = $event_tpl->get();
+
+		if($event_html_by_plugin = $this->getContentByPlugins($item['event'], $item['dstart'], $event_html))
+		{
+			$event_html = $event_html_by_plugin;
+		}
+		$this->tpl->setVariable('CONTENT_EVENT', $event_html);
+
 		$this->num_appointments++;
 	}
 
@@ -378,18 +386,20 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 	protected function showAppointment($a_app)
 	{
 		$ilUser = $this->user;
-		
+
+		$event_tpl = new ilTemplate('tpl.day_event_view.html',true,true,'Services/Calendar');
+
 		if (!$ilUser->prefs["screen_reader_optimization"])
 		{
-			$this->tpl->setCurrentBlock('app');
+			$event_tpl->setCurrentBlock('app');
 		}
 		else
 		{
-			$this->tpl->setCurrentBlock('scrd_app');
+			$event_tpl->setCurrentBlock('scrd_app');
 		}
 
-		$this->tpl->setVariable('APP_ROWSPAN',$a_app['rowspan']);
-		$this->tpl->setVariable('APP_TITLE',$a_app['event']->getPresentationTitle(false));
+		$event_tpl->setVariable('APP_ROWSPAN',$a_app['rowspan']);
+		$event_tpl->setVariable('APP_TITLE',$a_app['event']->getPresentationTitle(false));
 
 		switch($this->user_settings->getTimeFormat())
 		{
@@ -422,23 +432,27 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 		$title = $shy;
 		$title = ($time != "")? $time." ".$title : $title;
 
-		$title = ($new_title = $this->getContentByPlugins($a_app['event'], $a_app['dstart'], $shy))? $new_title : $title;
-
-		$this->tpl->setVariable('APP_TITLE',$title);
+		$event_tpl->setVariable('APP_TITLE',$title);
 
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
-		$this->tpl->setVariable('APP_BGCOLOR',$color);
-		$this->tpl->setVariable('APP_COLOR',ilCalendarUtil::calculateFontColor($color));
-		$this->tpl->setVariable('APP_ADD_STYLES',$a_app['event']->getPresentationStyle());
+		$event_tpl->setVariable('APP_BGCOLOR',$color);
+		$event_tpl->setVariable('APP_COLOR',ilCalendarUtil::calculateFontColor($color));
+		$event_tpl->setVariable('APP_ADD_STYLES',$a_app['event']->getPresentationStyle());
 		
 		
 		$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 		$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->seed->get(IL_CAL_DATE));
 		$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());
-		$this->tpl->setVariable('APP_EDIT_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','edit'));
-		
-		$this->tpl->parseCurrentBlock();
-		
+		$event_tpl->setVariable('APP_EDIT_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','edit'));
+
+		$event_html = $event_tpl->get();
+
+		if($event_html_by_plugin = $this->getContentByPlugins($a_app['event'], $a_app['dstart'], $event_html))
+		{
+			$event_html = $event_html_by_plugin;
+		}
+		$this->tpl->setVariable("CONTENT_EVENT_NFD",$event_html);
+
 		$this->num_appointments++;
 	}
 	
