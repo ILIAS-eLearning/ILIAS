@@ -6757,8 +6757,10 @@ button.close {
 .glyph.highlighted:hover {
   color: #d15c05;
 }
-.glyph:hover {
+.glyph:hover,
+.glyph:focus {
   color: #3a4c65;
+  text-decoration: none;
 }
 .glyph .il-counter-spacer {
   margin-left: -4px;
@@ -10928,13 +10930,6 @@ a.callink:link,
 a.callink:visited {
   color: inherit;
   cursor: pointer;
-}
-.callink .glyphicon {
-  color: #b1c0d3;
-  cursor: pointer;
-}
-.callink .glyphicon:hover {
-  color: #557196;
 }
 .calevent .btn.btn-link,
 .il_calevent .btn.btn-link {

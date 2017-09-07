@@ -124,6 +124,14 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 	 */
 	public function show()
 	{
+		/**
+		 * @var ILIAS\DI\Container $DIC
+		 */
+		global $DIC;
+
+		$ui_factory = $DIC->ui()->factory();
+		$renderer = $DIC->ui()->renderer();
+
 		$this->tpl = new ilTemplate('tpl.month_view.html',true,true,'Services/Calendar');
 		
 		include_once('./Services/YUI/classes/class.ilYuiUtil.php');
@@ -193,8 +201,6 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 
 			if(!$no_add)
 			{
-				include_once "Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php";
-				
 				$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 				$this->ctrl->setParameterByClass('ilcalendarappointmentgui','idate',$date->get(IL_CAL_DATE));
 				$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->seed->get(IL_CAL_DATE));
@@ -209,7 +215,7 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 															
 					$this->tpl->setCurrentBlock("new_ms");
 					$this->tpl->setVariable('DD_ID', $date->get(IL_CAL_UNIX));
-					$this->tpl->setVariable('DD_TRIGGER', ilGlyphGUI::get(ilGlyphGUI::ADD));					
+					$this->tpl->setVariable('DD_TRIGGER', $renderer->render($ui_factory->glyph()->add()));
 					$this->tpl->setVariable('URL_DD_NEW_APP', $new_app_url);					
 					$this->tpl->setVariable('TXT_DD_NEW_APP', $this->lng->txt('cal_new_app'));					
 					$this->tpl->setVariable('URL_DD_NEW_MS', $new_ms_url);					
@@ -219,8 +225,7 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 				else 
 				{											
 					$this->tpl->setCurrentBlock("new_app");				
-					$this->tpl->setVariable('ADD_LINK', $new_app_url);				
-					$this->tpl->setVariable('NEW_SRC', ilGlyphGUI::get(ilGlyphGUI::ADD, $this->lng->txt('cal_new_app')));
+					$this->tpl->setVariable('NEW_GLYPH',  $renderer->render($ui_factory->glyph()->add($new_app_url)));
 					$this->tpl->parseCurrentBlock();
 				}
 			}

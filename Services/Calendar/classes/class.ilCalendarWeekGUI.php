@@ -107,9 +107,14 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 	 */
 	public function show()
 	{
-		global $ilUser, $lng;
-		
-		
+		/**
+		 * @var ILIAS\DI\Container $DIC
+		 */
+		global $ilUser, $lng, $DIC;
+
+		$ui_factory = $DIC->ui()->factory();
+		$renderer = $DIC->ui()->renderer();
+
 		// config
 		$raster = 15;	
 		if($this->user_settings->getDayStart())
@@ -178,8 +183,6 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 
 		include_once('Services/Calendar/classes/class.ilCalendarSettings.php');
 		$settings = ilCalendarSettings::_getInstance();
-		
-		include_once "Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php";
 
 		// Table header
 		$counter = 0;
@@ -200,7 +203,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 					
 					$this->tpl->setCurrentBlock("new_ms");
 					$this->tpl->setVariable('DD_ID', $date->get(IL_CAL_UNIX));
-					$this->tpl->setVariable('DD_TRIGGER', ilGlyphGUI::get(ilGlyphGUI::ADD));					
+					$this->tpl->setVariable('DD_TRIGGER', $renderer->render($ui_factory->glyph()->add()));
 					$this->tpl->setVariable('URL_DD_NEW_APP', $new_app_url);					
 					$this->tpl->setVariable('TXT_DD_NEW_APP', $this->lng->txt('cal_new_app'));					
 					$this->tpl->setVariable('URL_DD_NEW_MS', $new_ms_url);					
@@ -210,8 +213,10 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 				else
 				{
 					$this->tpl->setCurrentBlock("new_app");
-					$this->tpl->setVariable('NEW_APP_LINK',$new_app_url);					
-					$this->tpl->setVariable('NEW_APP_SRC',ilGlyphGUI::get(ilGlyphGUI::ADD, $this->lng->txt('cal_new_app')));
+					//$this->tpl->setVariable('NEW_APP_LINK',$new_app_url);
+					$this->tpl->setVariable('NEW_APP_GLYPH',$renderer->render(
+							$ui_factory->glyph()->add($new_app_url)
+					));
 					// $this->tpl->setVariable('NEW_APP_ALT',$this->lng->txt('cal_new_app'));
 					$this->tpl->parseCurrentBlock();
 				}
