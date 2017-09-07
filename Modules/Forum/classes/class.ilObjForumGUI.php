@@ -1254,11 +1254,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 	}
 	
-	
-	
 	public function showStatisticsObject() 
 	{
-		
 		/// if globally deactivated, skip!!! intrusion detected
 		if(!$this->settings->get('enable_fora_statistics', false))
 		{
@@ -2239,6 +2236,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function savePostObject()
 	{
+		
+	
 		if(!isset($_POST['del_file']) || !is_array($_POST['del_file'])) $_POST['del_file'] = array();
 
 		if($this->objCurrentTopic->isClosed())
@@ -2414,8 +2413,11 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 						}
 					}
 				}
-					
-				// if post has been edited posting mus be activated again by moderator
+				
+				// save old activation status for send_notification decision
+				$old_status_was_active = $this->objCurrentPost->isActivated();
+				
+				// if active post has been edited posting mus be activated again by moderator
 				$status = 1;
 				$send_activation_mail = 0;
 
@@ -2484,14 +2486,15 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					{
 						$oFDForum->unlinkFilesByMD5Filenames($file2delete);
 					}
-
+					
 					$GLOBALS['ilAppEventHandler']->raise(
 						'Modules/Forum',
 						'updatedPost',
 						array(
-							'ref_id'            => $this->object->getRefId(),
-							'post'              => $this->objCurrentPost,
-							'notify_moderators' => (bool)$send_activation_mail
+							'ref_id'                => $this->object->getRefId(),
+							'post'                  => $this->objCurrentPost,
+							'notify_moderators'     => (bool)$send_activation_mail,
+							'old_status_was_active' => (bool)$old_status_was_active
 						)
 					);
 	
@@ -2807,7 +2810,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			{
 				if(!$this->objCurrentTopic->isClosed() &&
 				   ($this->is_moderator ||
-					($this->objCurrentPost->isOwner($this->user->getId()) && !$this->objCurrentPost->hasReplies())) &&
+					   ($this->objCurrentPost->isOwner($this->user->getId()) && !$this->objCurrentPost->hasReplies())) &&
 				   $this->user->getId() != ANONYMOUS_USER_ID)
 				{
 					$frm = new ilForum();
@@ -2980,7 +2983,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					if(!$this->isTopLevelReplyCommand() && $this->objCurrentPost->getId() == $node->getId())
 					{
 						# actions for "active" post
-						if($this->is_moderator || $node->isActivated())
+						if($this->is_moderator || $node->isActivated() || $node->isOwner($this->user->getId()))
 						{
 							// reply/edit
 							if(
@@ -6089,7 +6092,7 @@ $this->doCaptchaCheck();
 					!$this->displayConfirmPostActivation())
 			)
 			{
-				if($this->is_moderator || $node->isActivated())
+				if($this->is_moderator || $node->isActivated() || $node->isOwner($this->user->getId()))
 				{
 					// button: reply
 					if(!$this->objCurrentTopic->isClosed() && $node->isActivated() &&
@@ -6112,7 +6115,7 @@ $this->doCaptchaCheck();
 					}
 					
 					// button: edit article
-					if(!$this->objCurrentTopic->isClosed() && $node->isActivated() &&
+					if(!$this->objCurrentTopic->isClosed() && 
 						($node->isOwner($this->user->getId()) || $this->is_moderator) &&
 						!$node->isCensored() &&
 						$this->user->getId() != ANONYMOUS_USER_ID
