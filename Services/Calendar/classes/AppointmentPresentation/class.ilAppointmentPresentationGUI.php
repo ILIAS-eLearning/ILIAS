@@ -613,15 +613,39 @@ class ilAppointmentPresentationGUI extends ilCalendarViewGUI implements ilCalend
 	}
 
 	/**
-	 * Download files from an appointment
+	 * Download files from an appointment ( Modals )
 	 */
 	function downloadFiles()
 	{
+		$appointment = $this->appointment;
+
+		//calendar in the sidebar (marginal calendar)
+		if(empty($appointment))
+		{
+			$entry_id = (int)$_GET['app_id'];
+			$entry = new ilCalendarEntry($entry_id);
+			//if the entry exists
+			if($entry->getStart())
+			{
+				$appointment = array(
+					"event" => $entry,
+					"dstart" => $entry->getStart(),
+					"dend"	=> $entry->getEnd(),
+					"fullday" => $entry->isFullday()
+				);
+			}
+			else
+			{
+				ilUtil::sendFailure($this->lng->txt("obj_not_found"), true);
+				$this->ctrl->returnToParent($this);
+			}
+		}
+
 		include_once './Services/Calendar/classes/BackgroundTasks/class.ilDownloadFilesBackgroundTask.php';
 		$download_job = new ilDownloadFilesBackgroundTask($this->user->getId());
 
-		$download_job->setBucketTitle($this->lng->txt("cal_calendar_download")." ".$this->appointment['event']->getTitle());
-		$download_job->setEvents(array($this->appointment));
+		$download_job->setBucketTitle($this->lng->txt("cal_calendar_download")." ".$appointment['event']->getTitle());
+		$download_job->setEvents(array($appointment));
 		$download_job->run();
 
 		$this->ctrl->returnToParent($this);

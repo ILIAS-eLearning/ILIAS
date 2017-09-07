@@ -340,8 +340,6 @@ class ilCalendarViewGUI
 		include_once './Services/Calendar/classes/BackgroundTasks/class.ilDownloadFilesBackgroundTask.php';
 		$download_job = new ilDownloadFilesBackgroundTask($GLOBALS['DIC']->user()->getId());
 
-		//$this->logger->debug("count events = ".count($this->getEvents()));
-
 		$download_job->setBucketTitle($this->getBucketTitle());
 		$download_job->setEvents($this->getEvents());
 		$download_job->run();
@@ -355,8 +353,6 @@ class ilCalendarViewGUI
 	 */
 	public function getBucketTitle()
 	{
-		//string from ilDate
-
 		$user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
 		$bucket_title = $this->lng->txt("cal_calendar_download");
 		switch ($this->presentation_type)
