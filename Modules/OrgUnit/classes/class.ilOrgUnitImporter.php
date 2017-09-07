@@ -126,13 +126,19 @@ class ilOrgUnitImporter extends ilXmlImporter {
 	 * @param $a_entity
 	 * @param $a_id
 	 * @param $a_xml
-	 * @param $a_mapping
+	 * @param $a_mapping ilImportMapping
 	 *
 	 * @return string|void
 	 *
 	 * @deprecated
 	 */
 	public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping) {
+		$container_mappings = $a_mapping->getMappingsOfEntity("Services/Container", "objs");
+		foreach($container_mappings as $old => $new) {
+			echo ilObject2::_lookupType($new);if (ilObject2::_lookupType($new) == "orgu") {
+				$a_mapping->addMapping("Modules/OrgUnit", "orgu", $old, $new);
+			}
+		}
 	}
 }
 
