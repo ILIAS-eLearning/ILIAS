@@ -34,7 +34,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 			case 'illplistofprogressgui':
 				include_once 'Services/Tracking/classes/repository_statistics/class.ilLPListOfProgressGUI.php';
 				
-				$ilHelp->setScreenIdComponent("lp");
+				$ilHelp->setScreenIdComponent("lp_".ilObject::_lookupType($this->getRefId(), true));
 
 				$this->__setSubTabs(self::LP_ACTIVE_PROGRESS);
 				$this->__setCmdClass('illplistofprogressgui');

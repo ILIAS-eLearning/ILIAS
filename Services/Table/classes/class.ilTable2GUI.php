@@ -681,7 +681,9 @@ class ilTable2GUI extends ilTableGUI
 	 */
 	function addFilterItemByMetaType($id, $type = self::FILTER_TEXT, $a_optional = false, $caption = NULL)
 	{
-		$lng = $this->lng;
+		global $DIC;
+
+		$lng = $DIC->language();	// constructor may not be called here, if initFilter is being called in subclasses before parent::__construct
 
 		if(!$caption)
 		{
