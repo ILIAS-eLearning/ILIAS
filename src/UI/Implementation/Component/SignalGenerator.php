@@ -24,6 +24,6 @@ class SignalGenerator implements SignalGeneratorInterface {
 	 * @return string
 	 */
 	protected function createId() {
-		return str_replace(".", "_", uniqid(self::PREFIX));
+		return str_replace(".", "_", uniqid(self::PREFIX, true));
 	}
 }
