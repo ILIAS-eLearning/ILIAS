@@ -20428,7 +20428,7 @@ $ilDB->modifyTableColumn(
 		'il_orgu_operations', 
 		'operation_string',
 		array(
-			"length" => 256
+			"length" => 127
 		)
 	);
 	ilOrgUnitOperation::resetDB();	
@@ -21308,4 +21308,16 @@ if(!$ilDB->tableColumnExists('il_blog','nav_list_mon_with_post'))
 <#5224>
 <?php
 $ilCtrlStructureReader->getStructure();
+?>
+<#5225>
+<?php
+if($ilDB->tableColumnExists('il_orgu_operations', 'operation_string')){
+	$ilDB->modifyTableColumn(
+		'il_orgu_operations', 
+		'operation_string',
+		array(
+			"length" => 127
+		)
+	);
+}
 ?>
