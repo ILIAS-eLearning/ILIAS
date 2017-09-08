@@ -27,10 +27,6 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 	private $parent_ref_id = 0;
 	
 
-	/**
-	 * @var ilCtrl
-	 */
-	private $ctrl = null;
 	
 	/**
 	 * @var ilLogger
@@ -51,7 +47,6 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_gui, ilObjSession $a_parent_obj, $a_parent_cmd)
 	{
-		$this->ctrl = $GLOBALS['DIC']->ctrl();
 		$this->logger = $GLOBALS['DIC']->logger()->sess();
 
 		$this->rep_object = $a_parent_obj;
