@@ -561,8 +561,8 @@ class ilDBGenerator {
 		$set = $this->il_db->query("SELECT * FROM `" . $a_table . "`");
 		$row = 0;
 
-		umask(0000);
-		mkdir($a_basedir . '/' . $a_table . '_inserts', fileperms($a_basedir));
+		umask(0022);
+		mkdir($a_basedir . '/' . $a_table . '_inserts', 0755);
 
 		$filenum = 1;
 		while ($rec = $this->il_db->fetchAssoc($set)) {

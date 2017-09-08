@@ -111,7 +111,7 @@ class ilSystemStyleSkinContainer {
 		}
 
 
-		mkdir($this->getSkinDirectory(),0777,true);
+		mkdir($this->getSkinDirectory(),0755,true);
 
 		foreach($this->getSkin()->getStyles() as $style){
 			$this->createResourceDirectory($this->getSystemStylesConf()->getDefaultImagesPath(),$style->getImageDirectory());
@@ -246,7 +246,7 @@ class ilSystemStyleSkinContainer {
 	protected function createResourceDirectory($source, $target){
 		$path = $this->getSkinDirectory().$target;
 
-		mkdir($path,0777,true);
+		mkdir($path,0755,true);
 
 		if($source != ""){
 			self::xCopy($source,$path);
@@ -278,7 +278,7 @@ class ilSystemStyleSkinContainer {
 					ilSystemStyleMessage::TYPE_SUCCESS
 				));
 		}else{
-			mkdir($absolut_new_dir,0777,true);
+			mkdir($absolut_new_dir,0755,true);
 			self::xCopy($absolut_old_dir, $absolut_new_dir);
 			$this->getMessageStack()->addMessage(
 				new ilSystemStyleMessage($this->lng->txt("dir_copied_from")." ".$absolut_old_dir." ".$this->lng->txt("to")." ".$absolut_new_dir,
@@ -401,7 +401,7 @@ class ilSystemStyleSkinContainer {
 				if (is_dir($src_file)) {
 					if (!file_exists($dest_file)) {
 						try {
-							mkdir($dest_file);
+							mkdir($dest_file, 0755);
 						} catch (Exception $e) {
 							throw new ilSystemStyleException(ilSystemStyleException::FOLDER_CREATION_FAILED, "Copy " . $src_file . " to " . $dest_file . " Error: " . $e);
 						}
@@ -539,7 +539,7 @@ class ilSystemStyleSkinContainer {
 
 		$new_skin_path = rtrim($this->getSkinDirectory(),"/").$new_skin_id_addon;
 
-		mkdir($new_skin_path,0777,true);
+		mkdir($new_skin_path,0755,true);
 		$this->xCopy($this->getSkinDirectory(),$new_skin_path);
 		$this->getMessageStack()->addMessage(new ilSystemStyleMessage($this->lng->txt("directory_created")." ".$new_skin_path,ilSystemStyleMessage::TYPE_SUCCESS));
 		return self::generateFromId($this->getSkin()->getId().$new_skin_id_addon,null,$this->getSystemStylesConf());
@@ -587,7 +587,7 @@ class ilSystemStyleSkinContainer {
 		}
 
 		$skin_path = $system_styles_conf->getCustomizingSkinPath().$skin_id;
-		mkdir($skin_path,0777,true);
+		mkdir($skin_path,0755,true);
 
 		$temp_zip_path = $skin_path."/".$name;
 		if($uploaded){

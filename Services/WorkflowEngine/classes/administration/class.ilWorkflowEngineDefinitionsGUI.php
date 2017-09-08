@@ -151,13 +151,13 @@ class ilWorkflowEngineDefinitionsGUI
 		$repo_dir_name = ilObjWorkflowEngine::getRepositoryDir() . '/';
 		if(!is_dir($repo_dir_name))
 		{
-			mkdir($repo_dir_name, 0777, true);
+			mkdir($repo_dir_name, 0755, true);
 		}
 
 		$temp_dir_name =  ilObjWorkflowEngine::getTempDir();
 		if(!is_dir($temp_dir_name))
 		{
-			mkdir($temp_dir_name, 0777, true);
+			mkdir($temp_dir_name, 0755, true);
 		}
 
 		$file_name = $_FILES['process_file']['name'];

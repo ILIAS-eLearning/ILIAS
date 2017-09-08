@@ -336,7 +336,7 @@ class ilBookingObject
 			
 			if(!is_dir($path))
 			{
-				mkdir($path);
+				mkdir($path, 0755);
 			}
 		}
 				

@@ -59,13 +59,13 @@ class ilDBUpdate5069
 							{
 								if(!is_dir($previous_dir_path.$row['giver_id']))
 								{
-									mkdir($previous_dir_path.$row['giver_id']);
+									mkdir($previous_dir_path.$row['giver_id'], 0755);
 //echo "1 make dir ".$previous_dir_path.$row['giver_id']."<br>";
 								}
 
 								if(!is_dir($previous_dir_path.$row['giver_id']."/".$row_crit['id']))
 								{
-									mkdir($previous_dir_path.$row['giver_id']."/".$row_crit['id']);
+									mkdir($previous_dir_path.$row['giver_id']."/".$row_crit['id'], 0755);
 //echo "2 make dir ".$previous_dir_path.$row['giver_id']."/".$row_crit['id']."<br>";
 								}
 

@@ -415,7 +415,7 @@ class ilFileDataForum extends ilFileData
 	{
 		if(is_writable($this->getPath()))
 		{
-			if(mkdir($this->getPath().'/'.FORUM_PATH))
+			if(mkdir($this->getPath().'/'.FORUM_PATH, 0755))
 			{
 				if(chmod($this->getPath().'/'.FORUM_PATH,0755))
 				{

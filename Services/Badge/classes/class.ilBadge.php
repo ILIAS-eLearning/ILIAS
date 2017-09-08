@@ -339,7 +339,7 @@ class ilBadge
 			
 			if(!is_dir($path))
 			{
-				mkdir($path);
+				mkdir($path, 0755);
 			}
 		}
 				
