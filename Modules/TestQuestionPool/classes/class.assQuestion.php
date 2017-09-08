@@ -5003,7 +5003,7 @@ abstract class assQuestion
 	{
 		foreach( $this->getSolutionValues($activeId, $passIndex, false) as $solutionRec )
 		{
-			if( empty($solutionRec['value1']) && empty($solutionRec['value2']) )
+			if( 0 == strlen($solutionRec['value1']) && 0 == strlen($solutionRec['value2']) )
 			{
 				$this->removeSolutionRecordById($solutionRec['solution_id']);
 			}
