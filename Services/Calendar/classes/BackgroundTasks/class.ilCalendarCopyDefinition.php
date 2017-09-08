@@ -21,6 +21,13 @@ class ilCalendarCopyDefinition extends AbstractValue
 	 * @param string[] 
 	 */
 	private $copy_definitions = [];
+
+	/**
+	 * Temporary directory using the normalized title of the bucket.
+	 * @var string
+	 */
+	private $temp_dir;
+
 	
 	
 	/**
@@ -39,6 +46,24 @@ class ilCalendarCopyDefinition extends AbstractValue
 	public function setCopyDefinitions($a_definitions)
 	{
 		$this->copy_definitions = $a_definitions;
+	}
+
+	/**
+	 * Get directory name located in /temp/ directory.
+	 * @return string
+	 */
+	public function getTempDir()
+	{
+		return $this->temp_dir;
+	}
+
+	/**
+	 * Set directory name located in /temp/ directory.
+	 * @param $temp_dir
+	 */
+	public function setTempDir($temp_dir)
+	{
+		$this->temp_dir = $temp_dir;
 	}
 	
 	/**
