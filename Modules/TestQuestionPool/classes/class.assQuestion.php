@@ -1019,7 +1019,10 @@ abstract class assQuestion
 						ilUtil::prepareFormOutput($solution['value']['name']),
 						$this->lng->txt('tst_show_solution_suggested')
 					)));
-					array_push($output, '<a href="' . $this->getSuggestedSolutionPathWeb() . $solution["value"]["name"] . '">' . $possible_texts[0] . '</a>');
+
+					require_once 'Services/WebAccessChecker/classes/class.ilWACSignedPath.php';
+					ilWACSignedPath::setTokenMaxLifetimeInSeconds(60);
+					array_push($output, '<a href="' . ilWACSignedPath::signFile($this->getSuggestedSolutionPathWeb() . $solution["value"]["name"]) . '">' . $possible_texts[0] . '</a>');
 					break;
 				case "text":
 					$solutionValue = $solution["value"];
