@@ -487,7 +487,7 @@ assessment#:#eval_search_users#:#Users###deprecated
 assessment#:#eval_search_userselection#:#Search the users you want to add to the statistical evaluation###deprecated 
 assessment#:#eval_selected_users#:#Evaluation for selected users###deprecated 
 assessment#:#exp_eval_data#:#Export Evaluation Data
-assessment#:#exp_type_certificate#:#Certificate (PDF)
+assessment#:#exp_type_certificate#:#Certificado (PDF)
 assessment#:#exp_type_excel#:#  Excel
 assessment#:#exp_type_spss#:#  SPSS
 assessment#:#export#:#Exportar
@@ -1319,54 +1319,54 @@ book#:#book_type_deleted#:#The booking type has been deleted.###deprecated
 book#:#book_type_updated#:#The booking type has been updated.###deprecated 
 book#:#book_type_warning#:#Currently, there are no booking objects available. To use the booking pool you need to create booking objects.
 certificate#:#certificate_a4#:#A4 (297 mm x 210 mm)
-certificate#:#certificate_a4_landscape#:#A4 Landscape (210 mm x 297 mm)
+certificate#:#certificate_a4_landscape#:#A4 Paisagem (210 mm x 297 mm)
 certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
-certificate#:#certificate_a5_landscape#:#A5 Landscape (148 mm x 210 mm)
-certificate#:#certificate_background_image#:#Background Image
-certificate#:#certificate_confirm_deletion_text#:#Do you really want to delete the certificate and all its related data?
+certificate#:#certificate_a5_landscape#:#A5 Paisagem (148 mm x 210 mm)
+certificate#:#certificate_background_image#:#Imagem do Fundo
+certificate#:#certificate_confirm_deletion_text#:#Você realmente deseja excluir o certificado e todos os seus dados relacionados?
 certificate#:#certificate_custom#:#Custom...
 certificate#:#certificate_edit#:#Create/Edit a Certificate Template
-certificate#:#certificate_enabled_scorm#:#Enabled
+certificate#:#certificate_enabled_scorm#:#ativado
 certificate#:#certificate_enabled_scorm_introduction#:#If checked, the certificate will be offered for all users who finished the SCORM learning module.
 certificate#:#certificate_error_import#:#An error occured during the import of a certificate!
 certificate#:#certificate_error_upload_bgimage#:#An error occured during the upload of the background image!
-certificate#:#certificate_export#:#Export Certificate
+certificate#:#certificate_export#:#Exportar Certificado
 certificate#:#certificate_failed#:#failed
-certificate#:#certificate_letter#:#Letter (11 inch x 8.5 inch)
-certificate#:#certificate_letter_landscape#:#Letter Landscape (8.5 inch x 11 inch)
+certificate#:#certificate_letter#:#Carta (11 inch x 8.5 inch)
+certificate#:#certificate_letter_landscape#:#Carta Paisagem (8.5 inch x 11 inch)
 certificate#:#certificate_margin_body#:#Body Margin
 certificate#:#certificate_not_well_formed#:#The certificate text is not well formed. Please enter valid XHTML for the certificate text!
 certificate#:#certificate_page_format#:#Page Format
 certificate#:#certificate_page_format_info#:#Please select the default page format for new certificates.
-certificate#:#certificate_pageheight#:#Page Height
-certificate#:#certificate_pagewidth#:#Page Width
+certificate#:#certificate_pageheight#:#Altura da página
+certificate#:#certificate_pagewidth#:#Largura da página
 certificate#:#certificate_passed#:#passed
-certificate#:#certificate_ph_birthday#:#Birthday of the user
-certificate#:#certificate_ph_city#:#City of the user's address
-certificate#:#certificate_ph_country#:#Country of the user's address
-certificate#:#certificate_ph_date#:#Actual date
-certificate#:#certificate_ph_date_completed#:#Date of completion
-certificate#:#certificate_ph_datetime#:#Actual date and time
-certificate#:#certificate_ph_datetime_completed#:#Date and time of completion
-certificate#:#certificate_ph_department#:#Department of the user
-certificate#:#certificate_ph_exercisetitle#:#Exercise Title
-certificate#:#certificate_ph_firstname#:#First name of the user
-certificate#:#certificate_ph_fullname#:#Full name of the user (title, firstname and lastname)
-certificate#:#certificate_ph_institution#:#Institution of the user
-certificate#:#certificate_ph_introduction#:#The following placeholders may be used
-certificate#:#certificate_ph_lastaccess#:#Last access date and time of the user
-certificate#:#certificate_ph_lastname#:#Last name of the user
+certificate#:#certificate_ph_birthday#:#Aniversário do usuário
+certificate#:#certificate_ph_city#:#Cidade do endereço do usuário
+certificate#:#certificate_ph_country#:#País do endereço do usuário
+certificate#:#certificate_ph_date#:#Data atual
+certificate#:#certificate_ph_date_completed#:#Data de conclusão
+certificate#:#certificate_ph_datetime#:#Data e hora atuais
+certificate#:#certificate_ph_datetime_completed#:#Data e hora de conclusão
+certificate#:#certificate_ph_department#:#Departamento do usuário
+certificate#:#certificate_ph_exercisetitle#:#Título do Exercício
+certificate#:#certificate_ph_firstname#:#Primeiro nome do usuário
+certificate#:#certificate_ph_fullname#:#Nome completo do usuário (título, primeiro nome e sobrenome)
+certificate#:#certificate_ph_institution#:#Instituição do usuário
+certificate#:#certificate_ph_introduction#:#Os seguintes códigos podem ser usados
+certificate#:#certificate_ph_lastaccess#:#Última data e hora de acesso do usuário
+certificate#:#certificate_ph_lastname#:#Sobrenome do usuário
 certificate#:#certificate_ph_login#:#Login
 certificate#:#certificate_ph_mark#:#Users mark
 certificate#:#certificate_ph_marklong#:#Users mark (official version)
 certificate#:#certificate_ph_markshort#:#Users mark (short version)
-certificate#:#certificate_ph_maxpoints#:#Maximum available points
+certificate#:#certificate_ph_maxpoints#:#Pontos máximos disponíveis
 certificate#:#certificate_ph_no_sco#:#If items are selected to determine the overall learning progress status, titles and points for these items could be displayed in certificate.
 certificate#:#certificate_ph_passed#:#"passed" or "failed", depending on the test results
 certificate#:#certificate_ph_passed_exercise#:#"Passed" or "Failed"
 certificate#:#certificate_ph_resultpercent#:#Reached percentage of the user
 certificate#:#certificate_ph_resultpoints#:#Reached points of the user
-certificate#:#certificate_ph_salutation#:#Salutation
+certificate#:#certificate_ph_salutation#:#Saudação
 certificate#:#certificate_ph_sco_points_max#:#placeholder<br/>for points<br/>max
 certificate#:#certificate_ph_sco_points_raw#:#placeholder<br/>for points
 certificate#:#certificate_ph_sco_points_scaled#:#placeholder<br/>for points<br/>in percent
