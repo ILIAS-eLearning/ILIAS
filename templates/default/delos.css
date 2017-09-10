@@ -13699,6 +13699,7 @@ div.ilPCMyCoursesPath {
 }
 #awareness-content .media-body {
   white-space: nowrap;
+  width: auto;
 }
 #awareness-content .media-body {
   padding-top: 8px;
