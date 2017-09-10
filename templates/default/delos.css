@@ -7146,6 +7146,8 @@ a.btn-link.ilSubmitInactive:hover {
 }
 .btn-link {
   padding: 0;
+  text-align: left;
+  white-space: normal;
 }
 .btn-tag {
   display: inline-block;
