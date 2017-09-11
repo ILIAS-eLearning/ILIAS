@@ -4175,6 +4175,12 @@ if(!$ilDB->tableColumnExists('reg_registration_codes','ext_enabled'))
 <#4383>
 <?php
 
+if($ilDB->tableColumnExists('reg_registration_codes','generated'))
+{
+	$ilDB->renameTableColumn('reg_registration_codes', "generated", 'generated_on');
+
+}
+
 $query = 'SELECT * FROM usr_account_codes ';
 $res = $ilDB->query($query);
 while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))

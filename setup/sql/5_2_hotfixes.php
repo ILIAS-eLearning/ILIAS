@@ -250,3 +250,11 @@ foreach ($services as $s) {
 	}
 }
 ?>
+<#15>
+<?php
+
+if($ilDB->tableColumnExists('reg_registration_codes','generated'))
+{
+	$ilDB->renameTableColumn('reg_registration_codes', "generated", 'generated_on');
+}
+?>
