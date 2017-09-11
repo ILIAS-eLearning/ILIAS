@@ -26,23 +26,21 @@ class ilBannedUsersTableGUI extends ilTable2GUI
 
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
 
-		global $lng;
-
-		$this->setTitle($lng->txt('ban_table_title'));
+		$this->setTitle($this->lng->txt('ban_table_title'));
 		$this->setExternalSegmentation(true);
 		$this->setExternalSorting(false);
 
 		$this->addColumn('', '', '', true);
-		$this->addColumn($lng->txt('login'), 'login');
-		$this->addColumn($lng->txt('firstname'), 'firstname');
-		$this->addColumn($lng->txt('lastname'), 'lastname');
-		$this->addColumn($lng->txt('chtr_ban_ts_tbl_head'), 'timestamp');
-		$this->addColumn($lng->txt('chtr_ban_actor_tbl_head'), 'actor');
+		$this->addColumn($this->lng->txt('login'), 'login');
+		$this->addColumn($this->lng->txt('firstname'), 'firstname');
+		$this->addColumn($this->lng->txt('lastname'), 'lastname');
+		$this->addColumn($this->lng->txt('chtr_ban_ts_tbl_head'), 'timestamp');
+		$this->addColumn($this->lng->txt('chtr_ban_actor_tbl_head'), 'actor');
 
 		$this->setSelectAllCheckbox('banned_user_id');
 		$this->setRowTemplate('tpl.banned_user_table_row.html', 'Modules/Chatroom');
 
-		$this->addMultiCommand('ban-delete', $lng->txt('unban'));
+		$this->addMultiCommand('ban-delete', $this->lng->txt('unban'));
 	}
 
 	/**
