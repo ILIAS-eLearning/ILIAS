@@ -438,7 +438,7 @@ abstract class ilParticipants
 		}
 		return 0;
 	}
-	
+		
 	/**
 	 * get current obj_id
 	 * @return type
@@ -951,7 +951,6 @@ abstract class ilParticipants
 		
 		$this->participants[] = $a_usr_id;
 		$rbacadmin->assignUser($this->role_data[$a_role],$a_usr_id);
-		$this->addDesktopItem($a_usr_id);
 		
 		// Delete subscription request
 		$this->deleteSubscriber($a_usr_id);
