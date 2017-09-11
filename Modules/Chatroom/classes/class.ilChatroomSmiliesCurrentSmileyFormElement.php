@@ -15,15 +15,14 @@ class ilChatroomSmiliesCurrentSmileyFormElement extends ilCustomInputGUI
 
 	/**
 	 * Returns template HTML.
-	 * @global ilLanguage $lng
 	 * @return string
 	 */
 	public function getHtml()
 	{
-		global $lng;
+		global $DIC;
 
 		$tpl = new ilTemplate("tpl.chatroom_current_smiley_image.html", true, true, "Modules/Chatroom");
-		$tpl->setVariable("IMAGE_ALT", $lng->txt("chatroom_current_smiley_image"));
+		$tpl->setVariable("IMAGE_ALT", $DIC->language()->txt("chatroom_current_smiley_image"));
 		$tpl->setVariable("IMAGE_PATH", $this->value);
 
 		return $tpl->get();
