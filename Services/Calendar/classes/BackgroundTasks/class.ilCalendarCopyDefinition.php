@@ -106,7 +106,13 @@ class ilCalendarCopyDefinition extends AbstractValue
 	 */
 	public function serialize()
 	{
-		return serialize($this->getCopyDefinitions());
+		return serialize(
+			[
+				"copy_definition" => $this->getCopyDefinitions(),
+				"temp_dir" => $this->getTempDir()
+			]
+		);
+
 	}
 
 	/**
@@ -124,7 +130,10 @@ class ilCalendarCopyDefinition extends AbstractValue
 	 */
 	public function unserialize($serialized)
 	{
-		$this->setCopyDefinitions(unserialize($serialized));
+		$elements = unserialize($serialized);
+
+		$this->setCopyDefinitions($elements["copy_definition"]);
+		$this->setTempDir($elements['temp_dir']);
 	}
 
 }
