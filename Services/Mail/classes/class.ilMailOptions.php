@@ -146,18 +146,18 @@ class ilMailOptions
 	{
 		$data = array(
 			'signature'           => array('text', $this->getSignature()),
-			'linebreak'           => array('integer', $this->getLinebreak()),
+			'linebreak'           => array('integer', (int)$this->getLinebreak()),
 			'incoming_type'       => array('integer', $this->getIncomingType()),
 			'mail_address_option' => array('integer', $this->getMailAddressOption())
 		);
 
 		if($this->settings->get('mail_notification'))
 		{
-			$data['cronjob_notification']  = array('integer', $this->getCronjobNotification());
+			$data['cronjob_notification']  = array('integer', (int)$this->getCronjobNotification());
 		}
 		else
 		{
-			$data['cronjob_notification']  = array('integer', self::lookupNotificationSetting($this->user_id));
+			$data['cronjob_notification']  = array('integer', (int)self::lookupNotificationSetting($this->user_id));
 		}
 
 		$this->db->replace(
