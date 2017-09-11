@@ -272,7 +272,6 @@ class ilCalendarUtil
 		$tpl->setCurrentBlock("CalendarJS");
 		$tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR", "./Services/Calendar/js/calendar.js");
 		$tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_SETUP", "./Services/Calendar/js/calendar-setup.js");
-		$tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_STYLESHEET", "./Services/Calendar/css/calendar.css");
 		$tpl->parseCurrentBlock();
 		
 		self::$init_done = "done";
