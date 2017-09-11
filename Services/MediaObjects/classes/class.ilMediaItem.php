@@ -15,6 +15,16 @@ require_once("Services/MediaObjects/classes/class.ilMapArea.php");
 */
 class ilMediaItem
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	var $id;
 	var $purpose;
 	var $location;
@@ -35,6 +45,10 @@ class ilMediaItem
 
 	function __construct($a_id = 0)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
+		$this->lng = $DIC->language();
 		$this->parameters = array();
 		$this->mapareas = array();
 		$this->map_cnt = 0;
@@ -125,7 +139,7 @@ class ilMediaItem
 	*/
 	function create()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$item_id = $ilDB->nextId("media_item");
 		$query = "INSERT INTO media_item (id,mob_id, purpose, location, ".
@@ -176,7 +190,7 @@ class ilMediaItem
 	*/
 	function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$query = "UPDATE media_item SET ".
 			" mob_id = ".$ilDB->quote($this->getMobId(), "integer").",".
@@ -217,7 +231,7 @@ class ilMediaItem
 	 */
 	function writeParameter($a_name, $a_value)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$query = "INSERT INTO mob_parameter (med_item_id, name, value) VALUES ".
 			"(".$ilDB->quote($this->getId(), "integer").",".
@@ -231,7 +245,7 @@ class ilMediaItem
 	*/
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$item_id = $this->getId();
 		$mob_id = $this->getMobId();
@@ -292,7 +306,7 @@ class ilMediaItem
 	*/
 	function writeThumbTried($a_tried)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$q = "UPDATE media_item SET tried_thumb = ".
 			$ilDB->quote($a_tried, "text").
@@ -309,7 +323,9 @@ class ilMediaItem
 	*/
 	static function _lookupLocationForMobId($a_mob_id, $a_purpose)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		// read media_object record
 		$query = "SELECT * FROM media_item WHERE mob_id = ".
@@ -331,7 +347,9 @@ class ilMediaItem
 	*/
 	static function _lookupMobId($a_med_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		// read media_object record
 		$query = "SELECT * FROM media_item WHERE id = ".
@@ -353,7 +371,9 @@ class ilMediaItem
 	*/
 	static function _getMediaItemsOfMObId($a_mobId, $a_purpose)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		// read media_object record
 		$query = "SELECT * FROM media_item WHERE mob_id = ".
@@ -375,7 +395,9 @@ class ilMediaItem
 	*/
 	static function _getMediaItemsOfMOb(&$a_mob)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		// read media_object record
 		$query = "SELECT * FROM media_item WHERE mob_id = ".
@@ -428,7 +450,9 @@ class ilMediaItem
 	 */
 	static function deleteAllItemsOfMob($a_mob_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		// iterate all media items ob mob
 		$query = "SELECT * FROM media_item WHERE mob_id = ".
@@ -846,7 +870,7 @@ class ilMediaItem
 	*/
 	function copyOriginal()
 	{
-		global $lng;
+		$lng = $this->lng;
 	    $this->createWorkDirectory();
 
 		$geom = ($this->getWidth() != "" && $this->getHeight() != "")
@@ -901,7 +925,7 @@ class ilMediaItem
 	*/
 	function makeMapWorkCopy($a_area_nr = 0, $a_exclude = false)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if (!$this->copyOriginal())
 		{
@@ -1125,7 +1149,9 @@ class ilMediaItem
 	*/
 	static function _resolveMapAreaLinks($a_mob_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 //echo "mediaItems::resolve<br>";
 		// read media_object record
@@ -1146,7 +1172,9 @@ class ilMediaItem
 	*/
 	static function _getMapAreasIntLinks($a_mob_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		// read media_items records
 		$query = "SELECT * FROM media_item WHERE mob_id = ".

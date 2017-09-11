@@ -11,6 +11,11 @@
  */
 class ilLMTree extends ilTree
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	static $instances = array();
 
 	/**
@@ -20,6 +25,9 @@ class ilLMTree extends ilTree
 	 */
 	function __construct($a_tree_id)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		parent::__construct($a_tree_id);
 		$this->setTableNames('lm_tree','lm_data');
 		$this->setTreeTablePK("lm_id");
@@ -57,7 +65,7 @@ class ilLMTree extends ilTree
 	
 	public function getLastActivePage()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$ilDB->setLimit(1);
 		

@@ -14,11 +14,27 @@ include_once("./Services/Badge/classes/class.ilBadge.php");
  */
 class ilObjectBadgeTableGUI extends ilTable2GUI
 {		
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
 	protected $has_write; // [bool]
 	
 	function __construct($a_parent_obj, $a_parent_cmd = "", $a_has_write = false)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		$this->setId("bdgobdg");
 		$this->has_write = (bool)$a_has_write;
@@ -62,7 +78,7 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
 	
 	public function initFilter()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$title = $this->addFilterItemByMetaType("title", self::FILTER_TEXT, false, $lng->txt("title"));		
 		$this->filter["title"] = $title->getValue();
@@ -92,7 +108,8 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
 	
 	function getItems()
 	{		
-		global $lng, $ilAccess;
+		$lng = $this->lng;
+		$ilAccess = $this->access;
 		
 		$data = $filter_types = array();
 		
@@ -145,7 +162,8 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
 	
 	protected function fillRow($a_set)
 	{					
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		if($a_set["container_url"])
 		{

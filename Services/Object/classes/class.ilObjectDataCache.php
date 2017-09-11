@@ -12,6 +12,7 @@
 */
 class ilObjectDataCache
 {
+
 	var $db = null;
 	var $reference_cache = array();
 	var $object_data_cache = array();
@@ -19,7 +20,9 @@ class ilObjectDataCache
 
 	function __construct()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$this->db = $ilDB;
 	}
@@ -144,7 +147,7 @@ class ilObjectDataCache
 	*/
 	function __storeReference($a_ref_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$query = "SELECT obj_id FROM object_reference WHERE ref_id = ".$ilDB->quote($a_ref_id,'integer');
 		$res = $this->db->query($query);
@@ -164,7 +167,11 @@ class ilObjectDataCache
 	*/
 	function __storeObjectData($a_obj_id, $a_lang = "")
 	{
-		global $ilDB, $objDefinition, $ilUser;
+		global $DIC;
+
+		$ilDB = $this->db;
+		$objDefinition = $DIC["objDefinition"];
+		$ilUser = $DIC["ilUser"];
 		
 		if (is_object($ilUser) && $a_lang == "")
 		{
@@ -227,8 +234,12 @@ class ilObjectDataCache
 	*/
 	function preloadObjectCache($a_obj_ids, $a_lang = "")
 	{
-		global $ilDB, $objDefinition, $ilUser, $tree;
-		
+		global $DIC;
+
+		$ilDB = $this->db;
+		$objDefinition = $DIC["objDefinition"];
+		$ilUser = $DIC["ilUser"];
+
 		if (is_object($ilUser) && $a_lang == "")
 		{
 			$a_lang = $ilUser->getLanguage();
@@ -279,7 +290,7 @@ class ilObjectDataCache
 	 */
 	function preloadTranslations($a_obj_ids, $a_lang)
 	{
-		global $ilDB, $tree;
+		$ilDB = $this->db;
 
 		$obj_ids = array();
 		foreach ($a_obj_ids as $id)
@@ -309,7 +320,7 @@ class ilObjectDataCache
 
 	function preloadReferenceCache($a_ref_ids, $a_incl_obj = true)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if (!is_array($a_ref_ids)) return;
 		if (count($a_ref_ids) == 0) return;

@@ -22,6 +22,11 @@ class ilPCQuestionOverviewGUI extends ilPageContentGUI
 	 */
 	function __construct(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->tpl = $DIC["tpl"];
+		$this->lng = $DIC->language();
 		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
 
@@ -60,7 +65,9 @@ class ilPCQuestionOverviewGUI extends ilPageContentGUI
 	 */
 	function edit($a_insert = false)
 	{
-		global $ilCtrl, $tpl, $lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 		
 		$this->displayValidationError();
 		

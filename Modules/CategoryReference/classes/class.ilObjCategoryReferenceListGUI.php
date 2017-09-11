@@ -46,6 +46,13 @@ class ilObjCategoryReferenceListGUI extends ilObjCategoryListGUI
 	 */
 	public function __construct()
 	{
+		global $DIC;
+
+		$this->access = $DIC->access();
+		$this->tree = $DIC->repositoryTree();
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$this->ctrl = $DIC->ctrl();
 	 	parent::__construct();
 	}
 	
@@ -111,7 +118,8 @@ class ilObjCategoryReferenceListGUI extends ilObjCategoryListGUI
 	*/
 	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "")
 	{
-		global $ilBench,$ilAccess,$tree;
+		$ilAccess = $this->access;
+		$tree = $this->tree;
 		
 		$this->reference_ref_id = $a_ref_id;
 		$this->reference_obj_id = $a_obj_id;
@@ -147,7 +155,9 @@ class ilObjCategoryReferenceListGUI extends ilObjCategoryListGUI
 	
 	function getProperties()
 	{
-		global $lng,$ilUser,$tree;
+		$lng = $this->lng;
+		$ilUser = $this->user;
+		$tree = $this->tree;
 
 		$props = parent::getProperties();
 		
@@ -198,7 +208,7 @@ class ilObjCategoryReferenceListGUI extends ilObjCategoryListGUI
 	 */
 	public function getCommandLink($a_cmd)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		switch($a_cmd)
 		{

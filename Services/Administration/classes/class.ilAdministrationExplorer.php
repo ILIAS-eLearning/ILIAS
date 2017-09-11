@@ -13,6 +13,21 @@ require_once("./Services/UIComponent/Explorer/classes/class.ilExplorer.php");
 
 class ilAdministrationExplorer extends ilExplorer
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
 
 	/**
 	 * id of root folder
@@ -30,7 +45,14 @@ class ilAdministrationExplorer extends ilExplorer
 	*/
 	function __construct($a_target)
 	{
-		global $tree,$ilCtrl,$lng;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->obj_definition = $DIC["objDefinition"];
+		$this->rbacsystem = $DIC->rbac()->system();
+		$tree = $DIC->repositoryTree();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 
 		$this->ctrl = $ilCtrl;
 
@@ -51,7 +73,8 @@ class ilAdministrationExplorer extends ilExplorer
 	*/
 	function formatHeader(&$tpl, $a_obj_id,$a_option)
 	{
-		global $lng, $ilias, $objDefinition;
+		$lng = $this->lng;
+		$objDefinition = $this->obj_definition;
 		
 		if ($_GET["admin_mode"] == "settings")
 		{
@@ -84,7 +107,8 @@ class ilAdministrationExplorer extends ilExplorer
 	*/
 	function buildLinkTarget($a_node_id, $a_type)
 	{
-		global $ilCtrl, $objDefinition;
+		$ilCtrl = $this->ctrl;
+		$objDefinition = $this->obj_definition;
 
 		if ($a_type == "" || $a_type == "xxx")
 		{
@@ -138,14 +162,14 @@ class ilAdministrationExplorer extends ilExplorer
 
 	function isClickable($a_type, $a_ref_id)
 	{
-		global $rbacsystem;
+		$rbacsystem = $this->rbacsystem;
 
 		return $rbacsystem->checkAccess('read',$a_ref_id);
 	}
 	
 	function isVisible($a_ref_id, $a_type)
 	{
-		global $rbacsystem, $ilBench;
+		$rbacsystem = $this->rbacsystem;
 
 		if ($this->tree->getParentId($a_ref_id) == ROOT_FOLDER_ID && $a_type != "adm" &&
 			$_GET["admin_mode"] != "repository")
@@ -160,14 +184,12 @@ class ilAdministrationExplorer extends ilExplorer
 			return false;
 		}
 		
-		$ilBench->start("Explorer", "setOutput_isVisible");
 		$visible = $rbacsystem->checkAccess('visible',$a_ref_id);
 		if ($a_type == "rolf" && $a_ref_id != ROLE_FOLDER_ID)
 		{
 			return false;
 		}
 
-		$ilBench->stop("Explorer", "setOutput_isVisible");
 		return $visible;
 	}
 	
@@ -176,7 +198,8 @@ class ilAdministrationExplorer extends ilExplorer
 	*/
 	function modifyChilds($a_parent_id, $a_objects)
 	{
-		global $lng,$rbacsystem;
+		$lng = $this->lng;
+		$rbacsystem = $this->rbacsystem;
 		
 		if ($a_parent_id == SYSTEM_FOLDER_ID)
 		{

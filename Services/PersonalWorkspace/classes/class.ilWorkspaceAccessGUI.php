@@ -14,6 +14,31 @@
  */
 class ilWorkspaceAccessGUI
 {
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
 	protected $ctrl;
 	protected $lng;
 	protected $node_id;
@@ -27,7 +52,15 @@ class ilWorkspaceAccessGUI
 	
 	function __construct($a_node_id, $a_access_handler, $a_is_portfolio = false, $a_footer = null)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->tabs = $DIC->tabs();
+		$this->tpl = $DIC["tpl"];
+		$this->toolbar = $DIC->toolbar();
+		$this->user = $DIC->user();
+		$this->settings = $DIC->settings();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
@@ -39,7 +72,8 @@ class ilWorkspaceAccessGUI
 	
 	function executeCommand()
 	{
-		global $ilTabs, $tpl;
+		$ilTabs = $this->tabs;
+		$tpl = $this->tpl;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -120,7 +154,7 @@ class ilWorkspaceAccessGUI
 	 */
 	protected function setObjectTitle()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		if(!$this->is_portfolio)
 		{
@@ -140,7 +174,10 @@ class ilWorkspaceAccessGUI
 	
 	protected function share()
 	{
-		global $ilToolbar, $tpl, $ilUser, $ilSetting;
+		$ilToolbar = $this->toolbar;
+		$tpl = $this->tpl;
+		$ilUser = $this->user;
+		$ilSetting = $this->settings;
 		
 		$options = array();
 		$options["user"] = $this->lng->txt("wsp_set_permission_single_user");
@@ -266,7 +303,7 @@ class ilWorkspaceAccessGUI
 	
 	protected function showPasswordForm(ilPropertyFormGUI $a_form = null)
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		if(!$a_form)
 		{

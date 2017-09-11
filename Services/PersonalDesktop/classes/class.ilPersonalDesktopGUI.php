@@ -25,10 +25,49 @@ include_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
 */
 class ilPersonalDesktopGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilMainMenuGUI
+	 */
+	protected $main_menu;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilPluginAdmin
+	 */
+	protected $plugin_admin;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
 	var $tpl;
 	var $lng;
-	var $ilias;
-	
+
 	var $cmdClass = '';
 
 	/**
@@ -41,12 +80,25 @@ class ilPersonalDesktopGUI
 	*/
 	function __construct()
 	{
-		global $ilias, $tpl, $lng, $rbacsystem, $ilCtrl, $ilMainMenu, $ilUser, $tree;
+		global $DIC;
+
+		$this->main_menu = $DIC["ilMainMenu"];
+		$this->user = $DIC->user();
+		$this->error = $DIC["ilErr"];
+		$this->settings = $DIC->settings();
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->plugin_admin = $DIC["ilPluginAdmin"];
+		$this->help = $DIC["ilHelp"];
+		$tpl = $DIC["tpl"];
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$ilMainMenu = $DIC["ilMainMenu"];
+		$ilUser = $DIC->user();
+		$ilErr = $DIC["ilErr"];
 		
 		
 		$this->tpl = $tpl;
 		$this->lng = $lng;
-		$this->ilias = $ilias;
 		$this->ctrl = $ilCtrl;
 		
 		$ilCtrl->setContext($ilUser->getId(),
@@ -59,7 +111,7 @@ class ilPersonalDesktopGUI
 		// catch hack attempts
 		if ($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID)
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_not_available_for_anon"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("msg_not_available_for_anon"), $ilErr->MESSAGE);
 		}
 		$this->cmdClass = $_GET['cmdClass'];
 		
@@ -73,7 +125,9 @@ class ilPersonalDesktopGUI
 	*/
 	function executeCommand()
 	{
-		global $ilSetting, $rbacsystem, $ilErr;
+		$ilSetting = $this->settings;
+		$rbacsystem = $this->rbacsystem;
+		$ilErr = $this->error;
 
 		$next_class = $this->ctrl->getNextClass();
 		$this->ctrl->setReturn($this, "show");
@@ -316,7 +370,8 @@ class ilPersonalDesktopGUI
  			 * @var $tpl ilTemplate
 			 * @var $lng ilLanguage
 			 */
-			global $tpl, $lng;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 
 			$this->action_menu->setAsynch(false);
 			$this->action_menu->setAsynchUrl('');
@@ -343,7 +398,8 @@ class ilPersonalDesktopGUI
 	*/
 	function getCenterColumnHTML()
 	{
-		global $ilCtrl, $ilPluginAdmin;
+		$ilCtrl = $this->ctrl;
+		$ilPluginAdmin = $this->plugin_admin;
 		
 		include_once("Services/Block/classes/class.ilColumnGUI.php");
 		$column_gui = new ilColumnGUI("pd", IL_COL_CENTER);
@@ -400,7 +456,10 @@ class ilPersonalDesktopGUI
 	*/
 	function getRightColumnHTML()
 	{
-		global $ilUser, $lng, $ilCtrl, $ilPluginAdmin;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilPluginAdmin = $this->plugin_admin;
 		
 		include_once("Services/Block/classes/class.ilColumnGUI.php");
 		$column_gui = new ilColumnGUI("pd", IL_COL_RIGHT);
@@ -443,7 +502,10 @@ class ilPersonalDesktopGUI
 	*/
 	function getLeftColumnHTML()
 	{
-		global $ilUser, $lng, $ilCtrl, $ilPluginAdmin;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilPluginAdmin = $this->plugin_admin;
 
 		include_once("Services/Block/classes/class.ilColumnGUI.php");
 		$column_gui = new ilColumnGUI("pd", IL_COL_LEFT);
@@ -493,20 +555,6 @@ class ilPersonalDesktopGUI
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd.svg"));
 		$this->tpl->setTitle($this->lng->txt("personal_desktop"));
 		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png", false));
-	}
-
-
-	/**
-	* copied from usr_personaldesktop.php
-	*/
-	function removeMember()
-	{
-		global $err_msg;
-		if (strlen($err_msg) > 0)
-		{
-			$this->ilias->raiseError($this->lng->txt($err_msg),$this->ilias->error_obj->MESSAGE);
-		}
-		$this->show();
 	}
 	
 	/**
@@ -566,7 +614,7 @@ class ilPersonalDesktopGUI
 	*/
 	function setTabs()
 	{
-		global $ilHelp;
+		$ilHelp = $this->help;
 		
 		$ilHelp->setScreenIdComponent("pd");
 	}
@@ -577,7 +625,7 @@ class ilPersonalDesktopGUI
 	public function jumpToMemberships()
 	{
 		require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockViewSettings.php';
-		$viewSettings = new ilPDSelectedItemsBlockSelectedItemsBlockViewSettings($GLOBALS['DIC']->user(), (int)$_GET['view']);
+		$viewSettings = new ilPDSelectedItemsBlockViewSettings($GLOBALS['DIC']->user(), (int)$_GET['view']);
 		if($viewSettings->enabledMemberships())
 		{
 			$_GET['view'] = $viewSettings->getMembershipsView();
@@ -591,7 +639,7 @@ class ilPersonalDesktopGUI
 	public function jumpToSelectedItems()
 	{
 		require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockViewSettings.php';
-		$viewSettings = new ilPDSelectedItemsBlockSelectedItemsBlockViewSettings($GLOBALS['DIC']->user(), (int)$_GET['view']);
+		$viewSettings = new ilPDSelectedItemsBlockViewSettings($GLOBALS['DIC']->user(), (int)$_GET['view']);
 		if($viewSettings->enabledSelectedItems())
 		{
 			$_GET['view'] = $viewSettings->getSelectedItemsView();
@@ -643,7 +691,9 @@ class ilPersonalDesktopGUI
 	*/
 	function jumpToBookmarks()
 	{
-		if ($this->ilias->getSetting("disable_bookmarks"))
+		$ilSetting = $this->settings;
+
+		if ($ilSetting->get("disable_bookmarks"))
 		{
 			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);					
 			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
@@ -658,7 +708,9 @@ class ilPersonalDesktopGUI
 	*/
 	function jumpToNotes()
 	{
-		if ($this->ilias->getSetting('disable_notes'))
+		$ilSetting = $this->settings;
+
+		if ($ilSetting->get('disable_notes'))
 		{
 			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);					
 			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
@@ -673,7 +725,9 @@ class ilPersonalDesktopGUI
 	 */
 	function jumpToComments()
 	{
-		if ($this->ilias->getSetting('disable_comments'))
+		$ilSetting = $this->settings;
+
+		if ($ilSetting->get('disable_comments'))
 		{
 			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
 			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');

@@ -36,7 +36,6 @@ include_once "Services/Object/classes/class.ilObjectListGUI.php";
 
 class ilObjFolderListGUI extends ilObjectListGUI
 {
-
 	/**
 	* initialisation
 	*/
@@ -57,8 +56,6 @@ class ilObjFolderListGUI extends ilObjectListGUI
 		$this->commands = ilObjFolderAccess::_getCommands();
 	}
 
-	// BEGIN WebDAV: Get parent properties
-	// BEGIN ChangeEvent: Get parent properties
 	/**
 	* Get item properties
 	*
@@ -69,16 +66,10 @@ class ilObjFolderListGUI extends ilObjectListGUI
 	*/
 	function getProperties()
 	{
-		global $lng, $ilUser, $ilias;
-
-		// BEGIN WebDAV get parent properties
 		$props = parent::getProperties();
-		// END WebDAV get parent properties
 
 		return $props;
 	}
-	// END ChangeEvent: Get parent properties
-	// END WebDAV: Get parent properties
 
 	/**
 	* Get command link url.
@@ -89,7 +80,7 @@ class ilObjFolderListGUI extends ilObjectListGUI
 	*/
 	function getCommandLink($a_cmd)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		// BEGIN WebDAV: Mount webfolder.
 		switch ($a_cmd) 

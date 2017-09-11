@@ -11,7 +11,11 @@
 */
 class ilGlossaryTerm
 {
-	var $ilias;
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	var $lng;
 	var $tpl;
 
@@ -28,10 +32,13 @@ class ilGlossaryTerm
 	*/
 	function __construct($a_id = 0)
 	{
-		global $lng, $ilias, $tpl;
+		global $DIC;
+
+		$this->db = $DIC->database();
+		$lng = $DIC->language();
+		$tpl = $DIC["tpl"];
 
 		$this->lng = $lng;
-		$this->ilias = $ilias;
 		$this->tpl = $tpl;
 
 		$this->id = $a_id;
@@ -47,7 +54,7 @@ class ilGlossaryTerm
 	*/
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$q = "SELECT * FROM glossary_term WHERE id = ".
 			$ilDB->quote($this->id, "integer");
@@ -70,7 +77,9 @@ class ilGlossaryTerm
 	*/
 	static function _getIdForImportId($a_import_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		if ($a_import_id == "")
 		{
@@ -105,7 +114,9 @@ class ilGlossaryTerm
 	*/
 	static function _exists($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		include_once("./Services/Link/classes/class.ilInternalLink.php");
 		if (is_int(strpos($a_id, "_")))
@@ -248,7 +259,7 @@ class ilGlossaryTerm
 	*/
 	function create()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$this->setId($ilDB->nextId("glossary_term"));
 		$ilDB->manipulate("INSERT INTO glossary_term (id, glo_id, term, language, import_id, create_date, last_update)".
@@ -268,7 +279,7 @@ class ilGlossaryTerm
 	*/
 	function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		require_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 		$defs = ilGlossaryDefinition::getDefinitionList($this->getId());
@@ -293,7 +304,7 @@ class ilGlossaryTerm
 	*/
 	function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$ilDB->manipulate("UPDATE glossary_term SET ".
 			" glo_id = ".$ilDB->quote($this->getGlossaryId(), "integer").", ".
@@ -309,7 +320,9 @@ class ilGlossaryTerm
 	*/
 	static function _lookGlossaryID($term_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$query = "SELECT * FROM glossary_term WHERE id = ".
 			$ilDB->quote($term_id, "integer");
@@ -324,7 +337,9 @@ class ilGlossaryTerm
 	*/
 	static function _lookGlossaryTerm($term_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$query = "SELECT * FROM glossary_term WHERE id = ".
 			$ilDB->quote($term_id, "integer");
@@ -339,7 +354,9 @@ class ilGlossaryTerm
 	*/
 	static function _lookLanguage($term_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$query = "SELECT * FROM glossary_term WHERE id = ".
 			$ilDB->quote($term_id, "integer");
@@ -360,7 +377,9 @@ class ilGlossaryTerm
 	static function getTermList($a_glo_id, $searchterm = "", $a_first_letter = "", $a_def = "",
 		$a_tax_node = 0, $a_add_amet_fields = false, array $a_amet_filter = null, $a_include_references = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$join = $in = "";
 
@@ -473,7 +492,9 @@ class ilGlossaryTerm
 	 */
 	static function getFirstLetters($a_glo_id, $a_tax_node = 0)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$terms = array();
 				
@@ -683,7 +704,9 @@ class ilGlossaryTerm
 	 */
 	static function getTermsOfGlossary($a_glo_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->query("SELECT id FROM glossary_term WHERE ".
 			" glo_id = ".$ilDB->quote($a_glo_id, "integer")

@@ -28,14 +28,26 @@ class ilForumExportGUI
 	 * @var ilForum
 	 */
 	protected $frm;
-
-	/**
-	 * 
-	 */
+	
+	public $ctrl;
+	public $lng;
+	public $access;
+	public $error;
+	public $user;
+	public $ilObjDataCache;
+	
 	public function __construct()
 	{
-		global $lng, $ilCtrl, $ilAccess;
-
+		global $DIC;
+		
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+		$this->access = $DIC->access();
+		$this->error = $DIC['ilErr'];
+		
+		$this->user = $DIC->user();
+		$this->ilObjDataCache = $DIC['ilObjDataCache'];
+		
 		$forum = new ilObjForum((int)$_GET['ref_id']);
 		$this->frm = $forum->Forum;
 		$this->objProperties = ilForumProperties::getInstance($forum->getId());
@@ -43,10 +55,9 @@ class ilForumExportGUI
 		$this->frm->setForumId($forum->getId());
 		$this->frm->setForumRefId($forum->getRefId());
 		
-		$this->ctrl = $ilCtrl;
-		$lng->loadLanguageModule('forum');
+		$this->lng->loadLanguageModule('forum');
 
-		$this->is_moderator = $ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']);
+		$this->is_moderator = $this->access->checkAccess('moderate_frm', '', $_GET['ref_id']);
 	}
 
 	/**
@@ -65,22 +76,11 @@ class ilForumExportGUI
 		}
 	}
 
-	/**
-	 * 
-	 */
 	public function printThread()
 	{
-		/**
-		 * @var $tpl      ilTemplate
-		 * @var $lng      ilLanguage
-		 * @var $ilAccess ilAccessHandler
-		 * @var $ilias    ILIAS
-		 */
-		global $tpl, $lng, $ilAccess, $ilias;
-
-		if(!$ilAccess->checkAccess('read,visible', '', $_GET['ref_id']))
+		if(!$this->access->checkAccess('read,visible', '', $_GET['ref_id']))
 		{
-			$ilias->raiseError($lng->txt('permission_denied'), $ilias->error_obj->MESSAGE);
+			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 		}
 		
         // fau: call prepare to init mathjax rendering
@@ -108,9 +108,9 @@ class ilForumExportGUI
 			$tpl->setVariable('TITLE', $topic->getSubject());
 			$tpl->setVariable(
 				'HEADLINE',
-				$lng->txt('forum') . ': ' . $frmData['top_name'] . ' > ' .
-				$lng->txt('forums_thread') . ': ' . $topic->getSubject() . ' > ' .
-				$lng->txt('forums_count_art') . ': ' . $num_posts);
+				$this->lng->txt('forum') . ': ' . $frmData['top_name'] . ' > ' .
+				$this->lng->txt('forums_thread') . ': ' . $topic->getSubject() . ' > ' .
+				$this->lng->txt('forums_count_art') . ': ' . $num_posts);
 
 			$z = 0;
 			foreach($post_collection as $post)
@@ -121,22 +121,11 @@ class ilForumExportGUI
 		$tpl->show();
 	}
 	
-	/**
-	 *
-	 */
 	public function printPost()
 	{
-		/**
-		 * @var $tpl      ilTemplate
-		 * @var $lng      ilLanguage
-		 * @var $ilAccess ilAccessHandler
-		 * @var $ilias    ILIAS
-		 */
-		global $tpl, $lng, $ilAccess, $ilias;
-
-		if(!$ilAccess->checkAccess('read,visible', '', $_GET['ref_id']))
+		if(!$this->access->checkAccess('read,visible', '', $_GET['ref_id']))
 		{
-			$ilias->raiseError($lng->txt('permission_denied'), $ilias->error_obj->MESSAGE);
+			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 		}
 
         // call prepare to init mathjax rendering
@@ -157,7 +146,7 @@ class ilForumExportGUI
 			$post = new ilForumPost((int)$_GET['print_post'], $this->is_moderator);
 
 			$tpl->setVariable('TITLE', $post->getThread()->getSubject());
-			$tpl->setVariable('HEADLINE', $lng->txt('forum').': '.$frmData['top_name'].' > '. $lng->txt('forums_thread').': '.$post->getThread()->getSubject());
+			$tpl->setVariable('HEADLINE', $this->lng->txt('forum').': '.$frmData['top_name'].' > '. $this->lng->txt('forums_thread').': '.$post->getThread()->getSubject());
 
 			$this->renderPostHtml($tpl, $post, 0, self::MODE_EXPORT_WEB);
 		}
@@ -169,17 +158,9 @@ class ilForumExportGUI
 	 */
 	public function exportHTML()
 	{
-		/**
-		 * @var $tpl      ilTemplate
-		 * @var $lng      ilLanguage
-		 * @var $ilAccess ilAccessHandler
-		 * @var $ilias    ILIAS
-		 */
-		global $lng, $tpl, $ilAccess, $ilias;
-
-		if(!$ilAccess->checkAccess('read,visible', '', $_GET['ref_id']))
+		if(!$this->access->checkAccess('read,visible', '', $_GET['ref_id']))
 		{
-			$ilias->raiseError($lng->txt('permission_denied'), $ilias->error_obj->MESSAGE);
+			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 		}
 
         // call prepare to init mathjax rendering
@@ -234,11 +215,11 @@ class ilForumExportGUI
 					$topic->getImportName()
 				);
 				$tpl->setVariable('T_AUTHOR', $authorinfo->getAuthorName());
-				$tpl->setVariable('T_TXT_FORUM', $lng->txt('forum') . ': ');
-				$tpl->setVariable('T_TXT_TOPIC', $lng->txt('forums_thread') . ': ');
-				$tpl->setVariable('T_TXT_AUTHOR', $lng->txt('forums_thread_create_from') . ': ');
-				$tpl->setVariable('T_TXT_NUM_POSTS', $lng->txt('forums_articles') . ': ');
-				$tpl->setVariable('T_TXT_NUM_VISITS', $lng->txt('visits') . ': ');
+				$tpl->setVariable('T_TXT_FORUM', $this->lng->txt('forum') . ': ');
+				$tpl->setVariable('T_TXT_TOPIC', $this->lng->txt('forums_thread') . ': ');
+				$tpl->setVariable('T_TXT_AUTHOR', $this->lng->txt('forums_thread_create_from') . ': ');
+				$tpl->setVariable('T_TXT_NUM_POSTS', $this->lng->txt('forums_articles') . ': ');
+				$tpl->setVariable('T_TXT_NUM_VISITS', $this->lng->txt('visits') . ': ');
 				$tpl->parseCurrentBlock();
 			}
 			
@@ -257,17 +238,9 @@ class ilForumExportGUI
 	 */
 	protected function renderPostHtml(ilTemplate $tpl, ilForumPost $post, $counter, $mode)
 	{
-		/**
-		 * @var $lng            ilLanguage
-		 * @var $rbacreview     ilRbacReview
-		 * @var $ilUser         ilObjUser
-		 * @var $ilObjDataCache ilObjectDataCache
-		 */
-		global $lng, $rbacreview, $ilUser, $ilObjDataCache;
-
 		$tpl->setCurrentBlock('posts_row');
 
-		if(ilForumProperties::getInstance($ilObjDataCache->lookupObjId($_GET['ref_id']))->getMarkModeratorPosts() == 1)
+		if(ilForumProperties::getInstance($this->ilObjDataCache->lookupObjId($_GET['ref_id']))->getMarkModeratorPosts() == 1)
 		{
 			if($post->getIsAuthorModerator() === null && $is_moderator = ilForum::_isModerator($_GET['ref_id'], $post->getPosAuthorId())  )
 			{
@@ -289,21 +262,16 @@ class ilForumExportGUI
 
 		$tpl->setVariable('ROWCOL', ' ' . $rowCol);
 
-		// post is censored
 		if($post->isCensored())
 		{
-			// display censorship advice
-			$tpl->setVariable('TXT_CENSORSHIP_ADVICE', $lng->txt('post_censored_comment_by_moderator'));
-			// highlight censored posts
+			$tpl->setVariable('TXT_CENSORSHIP_ADVICE', $this->lng->txt('post_censored_comment_by_moderator'));
 			$rowCol = 'tblrowmarked';
 		}
 
-		// set row color
 		$tpl->setVariable('ROWCOL', ' ' . $rowCol);
-		// if post is not activated display message for the owner
-		if(!$post->isActivated() && $post->isOwner($ilUser->getId()))
+		if(!$post->isActivated() && $post->isOwner($this->user->getId()))
 		{
-			$tpl->setVariable('POST_NOT_ACTIVATED_YET', $lng->txt('frm_post_not_activated_yet'));
+			$tpl->setVariable('POST_NOT_ACTIVATED_YET', $this->lng->txt('frm_post_not_activated_yet'));
 		}
 
 		$authorinfo = new ilForumAuthorInformation(
@@ -331,7 +299,7 @@ class ilForumExportGUI
 		{
 			if($authorinfo->getAuthor()->getPref('public_profile') != 'n')
 			{
-				$tpl->setVariable('TXT_REGISTERED', $lng->txt('registered_since'));
+				$tpl->setVariable('TXT_REGISTERED', $this->lng->txt('registered_since'));
 				$tpl->setVariable('REGISTERED_SINCE', $this->frm->convertDate($authorinfo->getAuthor()->getCreateDate()));
 			}
 			
@@ -345,7 +313,7 @@ class ilForumExportGUI
 				{
 					$num_posts = $this->frm->countActiveUserArticles($post->getDisplayUserId());
 				}
-				$tpl->setVariable('TXT_NUM_POSTS', $lng->txt('forums_posts'));
+				$tpl->setVariable('TXT_NUM_POSTS', $this->lng->txt('forums_posts'));
 				$tpl->setVariable('NUM_POSTS', $num_posts);
 			}
 		}
@@ -355,11 +323,11 @@ class ilForumExportGUI
 		{
 			if($authorinfo->getAuthor()->getGender() == 'f')
 			{
-				$tpl->setVariable('ROLE', $lng->txt('frm_moderator_f'));
+				$tpl->setVariable('ROLE', $this->lng->txt('frm_moderator_f'));
 			}
 			else if($authorinfo->getAuthor()->getGender() == 'm')
 			{
-				$tpl->setVariable('ROLE', $lng->txt('frm_moderator_m'));
+				$tpl->setVariable('ROLE', $this->lng->txt('frm_moderator_m'));
 			}
 		}
 
@@ -367,23 +335,12 @@ class ilForumExportGUI
 		if($post->getUpdateUserId() > 0)
 		{
 			$spanClass = '';
-
-			// last update from moderator?
-			$posMod = $this->frm->getModeratorFromPost($post->getId());
-
-			if(is_array($posMod) && $posMod['top_mods'] > 0)
+			if(ilForum::_isModerator((int)$_GET['ref_id'], $post->getUpdateUserId()))
 			{
-				$MODS = $rbacreview->assignedUsers($posMod['top_mods']);
-				if(is_array($MODS))
-				{
-					if(in_array($post->getUpdateUserId(), $MODS))
-						$spanClass = 'moderator_small';
-				}
+				$spanClass = 'moderator_small';
 			}
 
 			$post->setChangeDate($post->getChangeDate());
-
-			if($spanClass == '') $spanClass = 'small';
 
 			require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
 			$authorinfo = new ilForumAuthorInformation(
@@ -393,7 +350,7 @@ class ilForumExportGUI
 				''
 			);
 
-			$tpl->setVariable('POST_UPDATE_TXT', $lng->txt('edited_on') . ': ' . $this->frm->convertDate($post->getChangeDate()) . ' - ' . strtolower($lng->txt('by')));
+			$tpl->setVariable('POST_UPDATE_TXT', $this->lng->txt('edited_on') . ': ' . $this->frm->convertDate($post->getChangeDate()) . ' - ' . strtolower($this->lng->txt('by')));
 			$tpl->setVariable('UPDATE_AUTHOR', $authorinfo->getLinkedAuthorShortName());
 			if($authorinfo->getAuthorName(true) && !$this->objProperties->isAnonymized())
 			{
@@ -408,18 +365,10 @@ class ilForumExportGUI
 
 		if(!$post->isCensored())
 		{
-			// post from moderator?
-			$modAuthor = $this->frm->getModeratorFromPost($post->getId());
-
 			$spanClass = "";
-
-			if(is_array($modAuthor) && $modAuthor['top_mods'] > 0)
+			if(ilForum::_isModerator((int)$_GET['ref_id'], $post->getDisplayUserId()))
 			{
-				$MODS = $rbacreview->assignedUsers($modAuthor['top_mods']);
-				if(is_array($MODS) && in_array($post->getDisplayUserId(), $MODS))
-				{
-					$spanClass = 'moderator';
-				}
+				$spanClass = 'moderator';
 			}
 
 			// possible bugfix for mantis #8223

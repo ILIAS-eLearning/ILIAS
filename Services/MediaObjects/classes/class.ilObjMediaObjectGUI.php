@@ -18,6 +18,36 @@ require_once ("./Services/Object/classes/class.ilObjectGUI.php");
 */
 class ilObjMediaObjectGUI extends ilObjectGUI
 {
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	var $ctrl;
 	var $header;
 	var $target_script;
@@ -25,7 +55,17 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 	function __construct($a_data, $a_id = 0, $a_call_by_reference = false, $a_prepare_output = false)
 	{
-		global $lng, $ilCtrl;
+		global $DIC;
+
+		$this->tpl = $DIC["tpl"];
+		$this->access = $DIC->access();
+		$this->error = $DIC["ilErr"];
+		$this->help = $DIC["ilHelp"];
+		$this->tabs = $DIC->tabs();
+		$this->toolbar = $DIC->toolbar();
+		$this->user = $DIC->user();
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
 
 		$this->ctrl = $ilCtrl;
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
@@ -135,7 +175,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	*/
 	function executeCommand()
 	{
-		global $tpl, $ilAccess, $ilErr;
+		$tpl = $this->tpl;
+		$ilAccess = $this->access;
+		$ilErr = $this->error;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -209,7 +251,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	*/
 	function createObject()
 	{
-		global $tpl, $ilHelp;
+		$tpl = $this->tpl;
+		$ilHelp = $this->help;
 		
 		$ilHelp->setScreenId("create");
 		$this->initForm();
@@ -221,7 +264,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	*/
 	function initForm($a_mode = "create")
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		
@@ -598,7 +642,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
-		global $tpl, $lng;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 
 		$this->initForm();
 		if ($this->form_gui->checkInput())
@@ -820,7 +865,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	*/
 	function editObject()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$this->setPropertiesSubTabs("general");
 
@@ -919,7 +964,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	*/
 	function savePropertiesObject()
 	{
-		global $lng, $tpl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
 		
 		$this->initForm("edit");
 		if ($this->form_gui->checkInput())
@@ -1610,7 +1656,11 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	 */
 	function showUsagesObject($a_all = false)
 	{
-		global $tpl, $ilTabs, $ilTabs, $lng, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$ilTabs->addSubTab("current_usages", $lng->txt("cont_current_usages"),
 			$ilCtrl->getLinkTarget($this, "showUsages"));
@@ -1640,7 +1690,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	*/
 	static function _getMediaInfoHTML(&$a_mob)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 
 		$tpl = new ilTemplate("tpl.media_info.html", true, true, "Services/MediaObjects");
 		$types = array("Standard", "Fullscreen");
@@ -1764,7 +1816,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	*/
 	function getTabs()
 	{
-		global $ilHelp;
+		$ilHelp = $this->help;
 
 		$ilHelp->setScreenIdComponent("mob");
 		
@@ -1853,7 +1905,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	 */
 	function showVideoToolObject()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		include_once("./Services/MediaObjects/classes/class.ilFFmpeg.php");
 
@@ -1872,7 +1924,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	 */
 	static function includePresentationJS($a_tpl = null)
 	{
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 		if ($a_tpl == null)
 		{
@@ -1896,7 +1950,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	 */
 	function setPropertiesSubTabs($a_active)
 	{
-		global $ilTabs, $ilCtrl, $lng;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		$ilTabs->activateTab("cont_mob_def_prop");
 		
@@ -1923,7 +1979,11 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	 */
 	function listSubtitleFilesObject()
 	{
-		global $ilToolbar, $tpl, $ilCtrl, $lng, $ilUser;
+		$ilToolbar = $this->toolbar;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 		
 		$this->setPropertiesSubTabs("subtitles");
 		
@@ -1962,7 +2022,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	 */
 	function uploadSubtitleFileObject()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		if ($this->object->uploadSrtFile($_FILES["subtitle_file"]["tmp_name"], ilUtil::stripSlashes($_POST["language"])))
 		{
@@ -1976,7 +2037,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	 */
 	function confirmSrtDeletionObject()
 	{
-		global $ilCtrl, $tpl, $lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 			
 		$lng->loadLanguageModule("meta");
 		
@@ -2008,7 +2071,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	 */
 	function deleteSrtFilesObject()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		foreach ($_POST["srt"] as $i)
 		{
@@ -2029,7 +2093,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	 */
 	function uploadMultipleSubtitleFileFormObject()
 	{
-		global $ilToolbar, $lng, $ilCtrl;
+		$ilToolbar = $this->toolbar;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		ilUtil::sendInfo($lng->txt("mob_upload_multi_srt_howto"));
 
@@ -2068,7 +2134,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	 */
 	function showMultiSubtitleConfirmationTableObject()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		$this->setPropertiesSubTabs("subtitles");
 
@@ -2091,7 +2157,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	 */
 	function saveMultiSrtObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		$srt_files = $this->object->getMultiSrtFiles();
 		if (is_array($_POST["file"]))
 		{

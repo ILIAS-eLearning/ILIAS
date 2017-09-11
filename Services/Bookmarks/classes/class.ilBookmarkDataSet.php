@@ -12,6 +12,18 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
  */
 class ilBookmarkDataSet extends ilDataSet
 {	
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		global $DIC;
+
+		parent::__construct();
+		$this->db = $DIC->database();
+	}
+
 	/**
 	 * Get supported versions
 	 *
@@ -82,7 +94,7 @@ class ilBookmarkDataSet extends ilDataSet
 	 */
 	function readData($a_entity, $a_version, $a_ids, $a_field = "")
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if (!is_array($a_ids))
 		{

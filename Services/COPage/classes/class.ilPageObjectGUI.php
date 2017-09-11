@@ -1648,10 +1648,13 @@ return;
 		// get title
 		$pg_title = $this->getPresentationTitle();
 
-		$col_path = ilUtil::getImagePath("col.svg");
-		$row_path = ilUtil::getImagePath("row.svg");
-		$item_path = ilUtil::getImagePath("item.svg");
-		$cell_path = ilUtil::getImagePath("cell.svg");
+		if($this->getOutputMode() == "edit")
+		{
+			$col_path = ilUtil::getImagePath("col.svg");
+			$row_path = ilUtil::getImagePath("row.svg");
+			$item_path = ilUtil::getImagePath("item.svg");
+			$cell_path = ilUtil::getImagePath("cell.svg");
+		}
 
 		if ($this->getOutputMode() != "offline")
 		{
@@ -2610,7 +2613,7 @@ return;
 	 */
 	function displayMedia($a_fullscreen = false)
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		$tpl = new ilTemplate("tpl.fullscreen.html", true, true, "Modules/LearningModule");
 		$tpl->setCurrentBlock("ilMedia");
@@ -2996,7 +2999,7 @@ return;
 	 */
 	function insertJSAtPlaceholder()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		if ($_GET["pl_hier_id"] == "")
 		{

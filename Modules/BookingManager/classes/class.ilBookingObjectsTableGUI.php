@@ -13,6 +13,16 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilBookingObjectsTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	protected $ref_id; // [int]
 	protected $pool_id;	// [int]
 	protected $has_schedule;	// [bool]
@@ -34,7 +44,15 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id, $a_pool_id, $a_pool_has_schedule, $a_pool_overall_limit)
 	{
-		global $ilCtrl, $lng, $ilAccess;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$this->user = $DIC->user();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
 
 		$this->ref_id = $a_ref_id;
 		$this->pool_id = $a_pool_id;
@@ -88,7 +106,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 	
 	function initFilter()
 	{		
-		global $lng;
+		$lng = $this->lng;
 		
 		/* 
 		// preset period from parameters, e.g. course period
@@ -135,7 +153,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 	 */
 	function getItems()
 	{		
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
 		$data = ilBookingObject::getList($this->pool_id, $this->filter["title"]);
@@ -287,7 +305,9 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl, $ilUser;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 		
 		$has_booking = false;
 		$booking_possible = true;

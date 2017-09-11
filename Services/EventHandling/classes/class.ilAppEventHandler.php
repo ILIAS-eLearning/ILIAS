@@ -57,6 +57,11 @@ require_once './Services/WorkflowEngine/classes/class.ilWorkflowEngine.php';
 */
 class ilAppEventHandler
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	protected $listener; // [array]
 	
 	/**
@@ -64,6 +69,9 @@ class ilAppEventHandler
 	*/
 	public function __construct()
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		$this->initListeners();
 	}
 
@@ -78,7 +86,7 @@ class ilAppEventHandler
 			return;
 		}
 
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$this->listener = array();
 

@@ -10,6 +10,11 @@
  */
 class ilBadgeImageTemplate
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	protected $id; // [int]	
 	protected $title; // [string]
 	protected $image; // [string]
@@ -23,6 +28,9 @@ class ilBadgeImageTemplate
 	 */
 	public function __construct($a_id = null)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		if($a_id)
 		{
 			$this->read($a_id);
@@ -31,7 +39,9 @@ class ilBadgeImageTemplate
 	
 	public static function getInstances()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$res = array();
 		
@@ -177,7 +187,7 @@ class ilBadgeImageTemplate
 	
 	protected function read($a_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$set = $ilDB->query("SELECT * FROM badge_image_template".
 			" WHERE id = ".$ilDB->quote($a_id, "integer"));
@@ -191,7 +201,7 @@ class ilBadgeImageTemplate
 	
 	protected function readTypes($a_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$res = array();
 		
@@ -220,7 +230,7 @@ class ilBadgeImageTemplate
 	
 	public function create()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if($this->getId())
 		{
@@ -240,7 +250,7 @@ class ilBadgeImageTemplate
 	
 	public function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if(!$this->getId())
 		{
@@ -258,7 +268,7 @@ class ilBadgeImageTemplate
 	
 	public function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if(!$this->getId())
 		{
@@ -282,7 +292,7 @@ class ilBadgeImageTemplate
 	
 	protected function saveTypes()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if($this->getId())
 		{

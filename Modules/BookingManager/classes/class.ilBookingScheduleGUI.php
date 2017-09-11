@@ -12,11 +12,55 @@
 class ilBookingScheduleGUI
 {
 	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+	/**
+	 * @var ilObjectDataCache
+	 */
+	protected $obj_data_cache;
+
+	/**
 	 * Constructor
 	 * @param	object	$a_parent_obj
 	 */
 	function __construct($a_parent_obj)
 	{
+		global $DIC;
+
+		$this->tpl = $DIC["tpl"];
+		$this->tabs = $DIC->tabs();
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$this->help = $DIC["ilHelp"];
+		$this->obj_data_cache = $DIC["ilObjDataCache"];
 		$this->ref_id = $a_parent_obj->ref_id;
 	}
 
@@ -25,7 +69,9 @@ class ilBookingScheduleGUI
 	 */
 	function executeCommand()
 	{
-		global $tpl, $ilTabs, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
 
 		$next_class = $ilCtrl->getNextClass($this);
 
@@ -46,7 +92,10 @@ class ilBookingScheduleGUI
 	 */
 	function render()
 	{
-		global $tpl, $lng, $ilCtrl, $ilAccess;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilAccess = $this->access;
 
 		include_once 'Modules/BookingManager/classes/class.ilBookingSchedulesTableGUI.php';
 		$table = new ilBookingSchedulesTableGUI($this, 'render', $this->ref_id);
@@ -77,7 +126,11 @@ class ilBookingScheduleGUI
 	 */
 	function create()
     {
-		global $tpl, $ilCtrl, $ilTabs, $lng, $ilHelp;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
+		$ilHelp = $this->help;
 
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt('book_back_to_list'), $ilCtrl->getLinkTarget($this, 'render'));
@@ -94,7 +147,11 @@ class ilBookingScheduleGUI
 	 */
 	function edit()
     {
-		global $tpl, $ilCtrl, $ilTabs, $lng, $ilHelp;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
+		$ilHelp = $this->help;
 
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt('book_back_to_list'), $ilCtrl->getLinkTarget($this, 'render'));
@@ -114,7 +171,8 @@ class ilBookingScheduleGUI
 	 */
 	function initForm($a_mode = "create", $id = NULL)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$lng->loadLanguageModule("dateplaner");
 
@@ -240,7 +298,8 @@ class ilBookingScheduleGUI
 	 */
 	function save()
 	{
-		global $tpl, $lng;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 
 		$form = $this->initForm();
 		if($form->checkInput())
@@ -266,7 +325,8 @@ class ilBookingScheduleGUI
 	 */
 	function update()
 	{
-		global $tpl, $lng;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 
 		$form = $this->initForm('edit', (int)$_POST['schedule_id']);
 		if($form->checkInput())
@@ -326,7 +386,7 @@ class ilBookingScheduleGUI
 	 */
 	protected function formToObject($form, $schedule)
 	{
-		global $ilObjDataCache;
+		$ilObjDataCache = $this->obj_data_cache;
 		
 		$schedule->setTitle($form->getInput("title"));
 		$schedule->setPoolId($ilObjDataCache->lookupObjId($this->ref_id));
@@ -377,7 +437,11 @@ class ilBookingScheduleGUI
 	 */
 	function confirmDelete()
 	{
-		global $ilCtrl, $lng, $tpl, $ilTabs, $ilHelp;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
+		$ilHelp = $this->help;
 
 		$ilHelp->setSubScreenId("delete");
 
@@ -401,7 +465,8 @@ class ilBookingScheduleGUI
 	 */
 	function delete()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		include_once 'Modules/BookingManager/classes/class.ilBookingSchedule.php';
 		$obj = new ilBookingSchedule((int)$_POST['schedule_id']);

@@ -12,6 +12,23 @@ include_once "Modules/Exercise/classes/class.ilExcCriteria.php";
  */
 class ilExcCriteriaText extends ilExcCriteria
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		global $DIC;
+		parent::__construct();
+
+		$this->lng = $DIC->language();
+	}
+
 	public function getType()
 	{
 		return "text";
@@ -37,7 +54,7 @@ class ilExcCriteriaText extends ilExcCriteria
 	
 	public function initCustomForm(ilPropertyFormGUI $a_form)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$peer_char_tgl = new ilCheckboxInputGUI($lng->txt("exc_peer_review_min_chars_tgl"), "peer_char_tgl");
 		$a_form->addItem($peer_char_tgl);
@@ -74,7 +91,7 @@ class ilExcCriteriaText extends ilExcCriteria
 	
 	public function addToPeerReviewForm($a_value = null)
 	{		
-		global $lng;
+		$lng = $this->lng;
 		
 		$info = array();
 		if($this->getDescription())
@@ -103,7 +120,7 @@ class ilExcCriteriaText extends ilExcCriteria
 	
 	public function validate($a_value)
 	{				
-		global $lng;
+		$lng = $this->lng;
 		
 		if(!$this->hasValue($a_value) && 
 			!$this->isRequired())

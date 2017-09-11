@@ -45,7 +45,12 @@ class ilSCORM2004SeqChapterGUI extends ilSCORM2004ChapterGUI
 	*/
 	function __construct($a_slm_obj, $a_node_id = 0)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->tpl = $DIC["tpl"];
+		$this->lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
 		$ilCtrl->saveParameter($this, "obj_id");
 		parent::__construct($a_slm_obj, $a_node_id);
 		
@@ -54,7 +59,8 @@ class ilSCORM2004SeqChapterGUI extends ilSCORM2004ChapterGUI
 
 	function setTabs()
 	{
-		global $tpl,$lng;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 		
 		parent::setTabs();
 		$tpl->setTitleIcon(ilUtil::getImagePath("icon_seqc.svg"));

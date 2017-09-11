@@ -33,19 +33,32 @@ include_once("Services/Table/classes/class.ilTable2GUI.php");
 */
 class ilPDNewsTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 
 	function __construct($a_parent_obj, $a_parent_cmd = "", $a_contexts,
 		$a_selected_context)
 	{
-		global $ilCtrl, $lng;
-		
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$ilCtrl = $DIC->ctrl();
+
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
 		$this->contexts = $a_contexts;
 		$this->selected_context = $a_selected_context;
 		$this->addColumn("");
-		//$this->addColumn($lng->txt("date"), "creation_date", "1");
-		//$this->addColumn($lng->txt("news_news_item_content"), "");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.table_row_pd_news.html",
 			"Services/News");
@@ -62,7 +75,8 @@ class ilPDNewsTableGUI extends ilTable2GUI
 	*/
 	function initFilter()
 	{
-		global $lng, $ilUser;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 		
 		// period
 		$per = ($_SESSION["news_pd_news_per"] != "")
@@ -116,7 +130,8 @@ class ilPDNewsTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$news_set = new ilSetting("news");
 		$enable_internal_rss = $news_set->get("enable_rss_for_internal");

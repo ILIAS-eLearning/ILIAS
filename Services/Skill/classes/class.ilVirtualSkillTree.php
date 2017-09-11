@@ -12,6 +12,11 @@
  */
 class ilVirtualSkillTree
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	protected static $order_node_data = null;
 	protected $include_drafts = false;
 	protected $drafts = array();
@@ -23,6 +28,9 @@ class ilVirtualSkillTree
 	 */
 	public function __construct()
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		include_once("./Services/Skill/classes/class.ilSkillTree.php");
 		$this->tree = new ilSkillTree();
 	}
@@ -290,7 +298,7 @@ class ilVirtualSkillTree
 	 */
 	function getNodeTitle($a_node)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$a_parent_id_parts = explode(":", $a_node["id"]);
 		$a_parent_skl_tree_id = $a_parent_id_parts[0];

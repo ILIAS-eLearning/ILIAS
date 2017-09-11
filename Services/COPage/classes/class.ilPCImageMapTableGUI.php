@@ -15,6 +15,16 @@ include_once("Services/MediaObjects/classes/class.ilImageMapTableGUI.php");
 */
 class ilPCImageMapTableGUI extends ilImageMapTableGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
 	
 	/**
 	* Constructor
@@ -22,7 +32,11 @@ class ilPCImageMapTableGUI extends ilImageMapTableGUI
 	function __construct($a_parent_obj, $a_parent_cmd, $a_pc_media_object,
 		$a_parent_node_name)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
 
 		$this->parent_node_name = $a_parent_node_name;
 		$this->pc_media_object = $a_pc_media_object;
@@ -53,7 +67,9 @@ class ilPCImageMapTableGUI extends ilImageMapTableGUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl, $ilAccess;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilAccess = $this->access;
 
 		$i = $a_set["Nr"];
 		$this->tpl->setVariable("CHECKBOX",

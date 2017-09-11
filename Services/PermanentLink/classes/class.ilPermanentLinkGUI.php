@@ -16,6 +16,21 @@
 */
 class ilPermanentLinkGUI
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilObjectDataCache
+	 */
+	protected $obj_data_cache;
+
 	protected $align_center = true;
 	
 	/**
@@ -23,6 +38,11 @@ class ilPermanentLinkGUI
 	*/
 	function __construct($a_type, $a_id, $a_append = "", $a_target = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+		$this->obj_data_cache = $DIC["ilObjDataCache"];
 		$this->setType($a_type);
 		$this->setId($a_id);
 		$this->setAppend($a_append);
@@ -175,7 +195,9 @@ class ilPermanentLinkGUI
 	*/
 	function getHTML()
 	{
-		global $lng, $ilCtrl, $ilObjDataCache;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilObjDataCache = $this->obj_data_cache;
 		
 		$tpl = new ilTemplate("tpl.permanent_link.html", true, true,
 			"Services/PermanentLink");

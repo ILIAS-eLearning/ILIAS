@@ -7,7 +7,9 @@ require_once 'Services/Form/classes/class.ilCheckboxInputGUI.php';
 require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
 require_once 'Services/Form/classes/class.ilFormSectionHeaderGUI.php';
 require_once 'Services/Language/classes/class.ilLanguage.php';
-
+require_once 'libs/composer/vendor/pimple/pimple/src/Pimple/Container.php';
+require_once 'src/DI/Container.php';
+$GLOBALS["DIC"] = new \ILIAS\DI\Container();
 /**
  * Class ilPhantomJSRendererUiTest
  * @package ilPdfGenerator
@@ -23,8 +25,24 @@ class ilPhantomJSRendererUiTest  extends PHPUnit_Framework_TestCase
 	{
 		$this->form = new ilPhantomJSRenderer(true);
 		$this->callMethod($this->form, 'setLanguage', array($this->lng));
+		$this->setGlobalVariable('lng', $this->lng);
+		$this->setGlobalVariable('ilCtrl', null);
 	}
+	/**
+	 * @param string $name
+	 * @param mixed $value
+	 */
+	protected function setGlobalVariable($name, $value)
+	{
+		global $DIC;
 
+		$GLOBALS[$name] = $value;
+
+		unset($DIC[$name]);
+		$DIC[$name] = function ($c) use ($name) {
+			return $GLOBALS[$name];
+		};
+	}
 	/**
 	 * ilPhantomJSRenderer constructor.
 	 */

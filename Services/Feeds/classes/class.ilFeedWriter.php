@@ -24,6 +24,16 @@ include_once("Services/Feeds/classes/class.ilFeedItem.php");
 */
 class ilFeedWriter
 {
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	var $encoding = "UTF-8";
 	var $ch_about = "";
 	var $ch_title = "";
@@ -36,6 +46,10 @@ class ilFeedWriter
 	 */
 	function __construct()
 	{
+		global $DIC;
+
+		$this->tree = $DIC->repositoryTree();
+		$this->lng = $DIC->language();
 
 	}
 	
@@ -195,7 +209,8 @@ class ilFeedWriter
 
 	function getContextPath($a_ref_id)
 	{
-		global $tree, $lng;
+		$tree = $this->tree;
+		$lng = $this->lng;
 
 		$items = array();
 

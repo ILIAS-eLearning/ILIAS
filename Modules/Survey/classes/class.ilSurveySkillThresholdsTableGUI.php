@@ -20,7 +20,12 @@ class ilSurveySkillThresholdsTableGUI extends ilTable2GUI
 	function __construct($a_parent_obj, $a_parent_cmd, $a_survey,
 		$a_base_skill_id, $a_tref_id)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		$this->object = $a_survey;
 		$this->base_skill_id = $a_base_skill_id;
@@ -91,7 +96,8 @@ class ilSurveySkillThresholdsTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 	
 		$this->tpl->setVariable("LEVEL", $a_set["title"]);
 		$this->tpl->setVariable("LEVEL_ID", $a_set["id"]);

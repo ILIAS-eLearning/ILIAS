@@ -2149,9 +2149,15 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		return true;
 	}
 	
+	/**
+	 * Minimum members check
+	 * @global $ilDB $ilDB
+	 * @return array
+	 */
 	public static function findGroupsWithNotEnoughMembers()
 	{
-		global $ilDB;
+		$ilDB = $GLOBALS['DIC']->database();
+		$tree = $GLOBALS['DIC']->repositoryTree();
 		
 		$res = array();
 		
@@ -2167,11 +2173,18 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 				" AND leave_end < ".$ilDB->quote($now, "text").")".
 				" OR (leave_end IS NULL".
 				" AND registration_end IS NOT NULL".
-				" AND registration_end < ".$ilDB->quote($now, "text")."))"
-			// :TODO: there is no group start ?!
-			/* " AND (grp_start IS NULL OR grp_start > ".$ilDB->quote($now, "integer").")" */);
+				" AND registration_end < ".$ilDB->quote($now, "text")."))".
+			" AND (grp_start IS NULL OR grp_start > ".$ilDB->quote($now, "integer").")" );
 		while($row = $ilDB->fetchAssoc($set))
 		{
+			$refs = ilObject::_getAllReferences($row['obj_id']);
+			$ref = end($refs);
+			
+			if($tree->isDeleted($ref))
+			{
+				continue;
+			}
+			
 			$part = new ilGroupParticipants($row["obj_id"]);			
 			$reci = $part->getNotificationRecipients();
 			if(sizeof($reci))

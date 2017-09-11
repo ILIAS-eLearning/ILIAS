@@ -30,6 +30,11 @@
 */
 class ilCategoryWizardInputGUI extends ilTextInputGUI
 {
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
 	protected $values = array();
 	protected $allowMove = false;
 	protected $disabled_scale = true;
@@ -48,7 +53,11 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
-		global $lng;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->tpl = $DIC["tpl"];
+		$lng = $DIC->language();
 		
 		parent::__construct($a_title, $a_postvar);
 				
@@ -226,7 +235,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		if (is_array($_POST[$this->getPostVar()])) $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
 		$foundvalues = $_POST[$this->getPostVar()];
 		if (is_array($foundvalues))
@@ -306,7 +315,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 	*/
 	function insert($a_tpl)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$neutral_category = null;
 		$tpl = new ilTemplate("tpl.prop_categorywizardinput.html", true, true, "Modules/SurveyQuestionPool");
@@ -456,7 +465,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 		$a_tpl->setVariable("PROP_GENERIC", $tpl->get());
 		$a_tpl->parseCurrentBlock();
 		
-		global $tpl;
+		$tpl = $this->tpl;
 		$tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
 		$tpl->addJavascript("./Modules/SurveyQuestionPool/templates/default/categorywizard.js");
 	}

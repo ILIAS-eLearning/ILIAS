@@ -11,6 +11,21 @@
 */
 class ilObjectActivation
 {
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	protected $timing_type;
 	protected $timing_start;
 	protected $timing_end;
@@ -30,6 +45,11 @@ class ilObjectActivation
 	
 	function __construct()
 	{
+		global $DIC;
+
+		$this->error = $DIC["ilErr"];
+		$this->lng = $DIC->language();
+		$this->db = $DIC->database();
 		
 	}
 	
@@ -222,7 +242,8 @@ class ilObjectActivation
 	 */
 	function validateActivation()
 	{
-		global $ilErr, $lng;
+		$ilErr = $this->error;
+		$lng = $this->lng;
 		
 		$ilErr->setMessage('');
 
@@ -256,7 +277,7 @@ class ilObjectActivation
 	 */
 	function update($a_ref_id, $a_parent_id = null)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// #10110
 		$query = "UPDATE crs_items SET ".
@@ -290,7 +311,9 @@ class ilObjectActivation
 	 */
 	public static function preloadData(array $a_ref_ids)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$sql = "SELECT * FROM crs_items".
 			" WHERE ".$ilDB->in("obj_id", $a_ref_ids, "", "integer");		
@@ -309,7 +332,9 @@ class ilObjectActivation
 	 */
 	public static function getItem($a_ref_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		if(isset(self::$preloaded_data[$a_ref_id]))
 		{
@@ -339,7 +364,9 @@ class ilObjectActivation
 	 */
 	public static function addAdditionalSubItemInformation(array &$a_item)
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC->user();
 		
 		$item = self::getItem($a_item['ref_id']);
 		
@@ -410,7 +437,9 @@ class ilObjectActivation
 	 */
 	public static function addListGUIActivationProperty(ilObjectListGUI $a_list_gui, array &$a_item)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		self::addAdditionalSubItemInformation($a_item);
 		if(isset($a_item['timing_type']))
@@ -442,7 +471,9 @@ class ilObjectActivation
 			}
 			if ($activation != "")
 			{
-				global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 				$lng->loadLanguageModule('crs');
 				
 				$a_list_gui->addCustomProperty($lng->txt($a_item['activation_info']),
@@ -459,7 +490,10 @@ class ilObjectActivation
 	 */
 	protected static function createDefaultEntry($a_ref_id)
 	{
-		global $ilDB, $tree;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$tree = $DIC->repositoryTree();
 		
 		$parent_id = $tree->getParentId($a_ref_id);
 		if(!$parent_id)
@@ -531,7 +565,9 @@ class ilObjectActivation
 	 */
 	public static function deleteAllEntries($a_ref_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		if(!$a_ref_id)
 		{
@@ -558,7 +594,9 @@ class ilObjectActivation
 	 */
 	public static function cloneDependencies($a_ref_id,$a_target_id,$a_copy_id)
 	{
-	 	global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC["ilLog"];
 	 	
 		$ilLog->write(__METHOD__.': Begin course items...');
  				
@@ -625,7 +663,10 @@ class ilObjectActivation
 	 */
 	public static function hasTimings($a_ref_id)
 	{
-		global $tree, $ilDB;
+		global $DIC;
+
+		$tree = $DIC->repositoryTree();
+		$ilDB = $DIC->database();
 
 		$subtree = $tree->getSubTree($tree->getNodeData($a_ref_id));
 		$ref_ids = array();
@@ -649,7 +690,10 @@ class ilObjectActivation
 	 */
 	public static function hasChangeableTimings($a_ref_id)
 	{
-		global $tree, $ilDB;
+		global $DIC;
+
+		$tree = $DIC->repositoryTree();
+		$ilDB = $DIC->database();
 
 		$subtree = $tree->getSubTree($tree->getNodeData($a_ref_id));
 		$ref_ids = array();
@@ -674,7 +718,9 @@ class ilObjectActivation
 	 */
 	protected static function processListItems(array $a_ref_ids)
 	{
-		global $tree;
+		global $DIC;
+
+		$tree = $DIC->repositoryTree();
 		
 		$res = array();
 		
@@ -755,7 +801,9 @@ class ilObjectActivation
 	 */
 	public static function getItems($a_parent_id, $a_with_list_data = true)
 	{
-		global $tree;
+		global $DIC;
+
+		$tree = $DIC->repositoryTree();
 		
 		$items = array();	
 		
@@ -832,7 +880,9 @@ class ilObjectActivation
 	 */
 	public static function getTimingsItems($a_container_ref_id)
 	{
-		global $objDefinition;
+		global $DIC;
+
+		$objDefinition = $DIC["objDefinition"];
 		
 		$filtered = array();
 		

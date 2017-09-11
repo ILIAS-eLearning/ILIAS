@@ -15,14 +15,32 @@ define("IL_FM_NEGATIVE", 2);
 
 class ilExplorer
 {
-	var $id;
-	
 	/**
-	* ilias object
-	* @var object Ilias
-	* @access public
-	*/
-	var $ilias;
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	var $id;
 
 	/**
 	* output
@@ -167,11 +185,19 @@ class ilExplorer
 	*/
 	function __construct($a_target)
 	{
-		global $ilias, $objDefinition;
+		global $DIC;
+
+		$this->obj_definition = $DIC["objDefinition"];
+		$this->error = $DIC["ilErr"];
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->tpl = $DIC["tpl"];
+		$this->lng = $DIC->language();
+		$objDefinition = $DIC["objDefinition"];
+		$ilErr = $DIC["ilErr"];
 
 		if (!isset($a_target) or !is_string($a_target))
 		{
-			$this->ilias->raiseError(get_class($this)."::Constructor(): No target given!",$this->ilias->error_obj->WARNING);
+			$ilErr->raiseError(get_class($this)."::Constructor(): No target given!", $ilErr->WARNING);
 		}
 
 		// autofilter object types in devmode
@@ -188,7 +214,7 @@ class ilExplorer
 			}
 		}
 
-		$this->ilias = $ilias;
+		$this->ilias = $DIC["ilias"];
 		$this->output = array();
 		$this->expanded = array();
 		$this->target = $a_target;
@@ -362,9 +388,11 @@ class ilExplorer
 	*/
 	function setTargetGet($a_target_get)
 	{
+		$ilErr = $this->error;
+
 		if (!isset($a_target_get) or !is_string($a_target_get))
 		{
-			$this->ilias->raiseError(get_class($this)."::setTargetGet(): No target given!",$this->ilias->error_obj->WARNING);
+			$ilErr->raiseError(get_class($this)."::setTargetGet(): No target given!", $ilErr->WARNING);
 		}
 
 		$this->target_get = $a_target_get;
@@ -377,11 +405,13 @@ class ilExplorer
 	*/
 	function setParamsGet($a_params_get)
 	{
+		$ilErr = $this->error;
+
 		if (!isset($a_params_get) or !is_array($a_params_get))
 		{
-			$this->ilias->raiseError(get_class($this)."::setTargetGet(): No target given!",$this->ilias->error_obj->WARNING);
+			$ilErr->raiseError(get_class($this)."::setTargetGet(): No target given!", $ilErr->WARNING);
 		}
-
+		$str = "";
 		foreach ($a_params_get as $key => $val)
 		{
 			$str .= "&".$key."=".$val;
@@ -474,16 +504,14 @@ class ilExplorer
 
 	function isVisible($a_ref_id,$a_type)
 	{
-		global $rbacsystem, $ilBench;
+		$rbacsystem = $this->rbacsystem;
 		
 		if (!$this->rbac_check)
 		{
 			return true;
 		}
 		
-		$ilBench->start("Explorer", "setOutput_isVisible");
 		$visible = $rbacsystem->checkAccess('visible',$a_ref_id);
-		$ilBench->stop("Explorer", "setOutput_isVisible");
 
 		return $visible;
 	}
@@ -603,13 +631,11 @@ class ilExplorer
 	*/
 	function setOutput($a_parent_id, $a_depth = 1,$a_obj_id = 0, $a_highlighted_subtree = false)
 	{
-		global $rbacadmin, $rbacsystem, $ilBench;
-
-#echo 'ParentId: '.$a_parent_id.' depth: '.$a_depth.' obj_id: '.$a_obj_id;
+		$ilErr = $this->error;
 
 		if (!isset($a_parent_id))
 		{
-			$this->ilias->raiseError(get_class($this)."::setOutput(): No node_id given!",$this->ilias->error_obj->WARNING);
+			$ilErr->raiseError(get_class($this)."::setOutput(): No node_id given!", $ilErr->WARNING);
 		}
 
 		if ($this->showChilds($a_parent_id,$a_obj_id))
@@ -651,7 +677,6 @@ class ilExplorer
 				{
 					if ($this->isVisible($object['child'],$object['type']))
 					{
-						$ilBench->start("Explorer", "setOutput_setFormatOptions");
 						#echo 'CHILD getIndex() '.$object['child'].' parent: '.$this->getRoot();
 						if ($object["child"] != $this->getRoot())
 						{
@@ -726,8 +751,7 @@ class ilExplorer
 	//echo "-"."$parent_index"."-";
 	//var_dump($this->format_options["$parent_index"]);
 						++$this->counter;
-						$ilBench->stop("Explorer", "setOutput_setFormatOptions");
-						
+
 						// stop recursion if 2. level beyond expanded nodes is reached
 						if ($this->expand_all or in_array($object["parent"],$this->expanded) or ($object["parent"] == 0)
 							or $this->forceExpanded($object["child"]))
@@ -789,9 +813,8 @@ class ilExplorer
 	*/
 	function getOutput()
 	{
-		global $ilBench, $tpl, $lng;
-
-		$ilBench->start("Explorer", "getOutput");
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 
 		$this->format_options[0]["tab"] = array();
 
@@ -858,11 +881,9 @@ class ilExplorer
 			}
 						
 		}
-//if ($GLOBALS["ilUser"]->getLogin() == "alex") var_dump($this->format_options);
+
 		$this->handleListEndTags($tpl_tree, $cur_depth, -1);
 		
-		$ilBench->stop("Explorer", "getOutput");
-
 		$tpl_tree->setVariable("TREE_LEAD", "");
 		if ($this->tree_lead != "")
 		{
@@ -981,11 +1002,13 @@ class ilExplorer
 	*/
 	function formatObject($tpl, $a_node_id,$a_option,$a_obj_id = 0)
 	{
-		global $lng;
+		$lng = $this->lng;
+		$ilErr = $this->error;
+
 		if (!isset($a_node_id) or !is_array($a_option))
 		{
-			$this->ilias->raiseError(get_class($this)."::formatObject(): Missing parameter or wrong datatype! ".
-									"node_id: ".$a_node_id." options:".var_dump($a_option),$this->ilias->error_obj->WARNING);
+			$ilErr->raiseError(get_class($this)."::formatObject(): Missing parameter or wrong datatype! ".
+									"node_id: ".$a_node_id." options:".var_dump($a_option), $ilErr->WARNING);
 		}
 
 		$pic = false;
@@ -1211,10 +1234,12 @@ class ilExplorer
 	*/
 	function createTarget($a_type,$a_node_id,$a_highlighted_subtree = false, $a_append_anch = true)
 	{
+		$ilErr = $this->error;
+
 		if (!isset($a_type) or !is_string($a_type) or !isset($a_node_id))
 		{
-			$this->ilias->raiseError(get_class($this)."::createTarget(): Missing parameter or wrong datatype! ".
-									"type: ".$a_type." node_id:".$a_node_id,$this->ilias->error_obj->WARNING);
+			$ilErr->raiseError(get_class($this)."::createTarget(): Missing parameter or wrong datatype! ".
+									"type: ".$a_type." node_id:".$a_node_id, $ilErr->WARNING);
 		}
 
 		// SET expand parameter:
@@ -1339,8 +1364,6 @@ class ilExplorer
 		}
 		
 		return -1;
-		// exit on error
-		#$this->ilias->raiseError(get_class($this)."::getIndex(): Error in tree. No index found!",$this->ilias->error_obj->FATAL);
 	}
 
 	/**

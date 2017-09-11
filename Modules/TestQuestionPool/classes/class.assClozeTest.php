@@ -1580,6 +1580,18 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 
 		return $startrow + $i + 1;
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function getSelfAssessmentFormatter()
+	{
+		$formatter = parent::getSelfAssessmentFormatter();
+
+		$formatter->enabledMarkupCheck();
+
+		return $formatter;
+	}
 	
 	/**
 	* Returns a JSON representation of the question

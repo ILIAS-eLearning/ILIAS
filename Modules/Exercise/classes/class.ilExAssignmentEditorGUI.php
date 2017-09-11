@@ -15,6 +15,41 @@ include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 */
 class ilExAssignmentEditorGUI 
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
 	protected $exercise_id; // [int]
 	protected $assignment; // [ilExAssignment]
 	protected $enable_peer_review_completion; // [bool]
@@ -29,6 +64,15 @@ class ilExAssignmentEditorGUI
 	 */
 	public function __construct($a_exercise_id, $a_enable_peer_review_completion_settings, ilExAssignment $a_ass = null)
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->tabs = $DIC->tabs();
+		$this->lng = $DIC->language();
+		$this->tpl = $DIC["tpl"];
+		$this->toolbar = $DIC->toolbar();
+		$this->settings = $DIC->settings();
+		$this->help = $DIC["ilHelp"];
 		$this->exercise_id = $a_exercise_id;
 		$this->assignment = $a_ass;
 		$this->enable_peer_review_completion = (bool)$a_enable_peer_review_completion_settings;
@@ -36,7 +80,9 @@ class ilExAssignmentEditorGUI
 	
 	public function executeCommand()
 	{
-		global $ilCtrl, $ilTabs, $lng;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
 		
 		$class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd("listAssignments");		
@@ -86,7 +132,10 @@ class ilExAssignmentEditorGUI
 	 */
 	function listAssignmentsObject()
 	{
-		global $tpl, $ilToolbar, $lng, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilToolbar = $this->toolbar;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "addAssignment"));		
 		
@@ -110,7 +159,8 @@ class ilExAssignmentEditorGUI
 	 */
 	function addAssignmentObject()
 	{
-		global $tpl, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
 		
 		// #16163 - ignore ass id from request
 		$this->assignment = null;
@@ -131,7 +181,8 @@ class ilExAssignmentEditorGUI
 	 */
 	protected function getTypeDropdown()
 	{
-		global $ilSetting, $lng;
+		$ilSetting = $this->settings;
+		$lng = $this->lng;
 		
 		$types = array(
 			ilExAssignment::TYPE_UPLOAD => $lng->txt("exc_type_upload"),
@@ -160,7 +211,8 @@ class ilExAssignmentEditorGUI
 	*/
 	protected function initAssignmentForm($a_type, $a_mode = "create")
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$lng->loadLanguageModule("form");
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -371,7 +423,7 @@ class ilExAssignmentEditorGUI
 	 */
 	protected function processForm(ilPropertyFormGUI $a_form)
 	{
-		global $lng;
+		$lng = $this->lng;
 				
 		$protected_peer_review_groups = false;
 		
@@ -646,7 +698,9 @@ class ilExAssignmentEditorGUI
 	*/
 	public function saveAssignmentObject()
 	{
-		global $tpl, $lng, $ilCtrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		// #16163 - ignore ass id from request
 		$this->assignment = null;
@@ -689,7 +743,9 @@ class ilExAssignmentEditorGUI
 	 */
 	function editAssignmentObject()
 	{
-		global $tpl, $ilTabs, $tpl;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
+		$tpl = $this->tpl;
 		
 		$this->setAssignmentHeader();
 		$ilTabs->activateTab("ass_settings");
@@ -704,7 +760,8 @@ class ilExAssignmentEditorGUI
 	 */
 	public function getAssignmentValues(ilPropertyFormGUI $a_form)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$values = array();	
 		$values["type"] = $this->assignment->getType();
@@ -828,7 +885,10 @@ class ilExAssignmentEditorGUI
 	 */
 	public function updateAssignmentObject()
 	{
-		global $tpl, $lng, $ilCtrl, $ilTabs;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
 		
 		$form = $this->initAssignmentForm($this->assignment->getType(), "edit");
 		$input = $this->processForm($form);
@@ -868,7 +928,9 @@ class ilExAssignmentEditorGUI
 	*/
 	function confirmAssignmentsDeletionObject()
 	{
-		global $ilCtrl, $tpl, $lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 		
 		if (!is_array($_POST["id"]) || count($_POST["id"]) == 0)
 		{
@@ -898,7 +960,8 @@ class ilExAssignmentEditorGUI
 	 */
 	function deleteAssignmentsObject()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$delete = false;
 		if (is_array($_POST["id"]))
@@ -924,7 +987,8 @@ class ilExAssignmentEditorGUI
 	 */
 	function saveAssignmentOrderObject()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 				
 		ilExAssignment::saveAssOrderOfExercise($this->exercise_id, $_POST["order"]);
 		
@@ -937,7 +1001,8 @@ class ilExAssignmentEditorGUI
 	 */
 	function orderAssignmentsByDeadlineObject()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 				
 		ilExAssignment::orderAssByDeadline($this->exercise_id);
 		
@@ -950,7 +1015,11 @@ class ilExAssignmentEditorGUI
 	 */
 	function setAssignmentHeader()
 	{
-		global $ilTabs, $lng, $ilCtrl, $tpl, $ilHelp;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$ilHelp = $this->help;
 				
 		$tpl->setTitle($this->assignment->getTitle());
 		$tpl->setDescription("");
@@ -980,7 +1049,7 @@ class ilExAssignmentEditorGUI
 	
 	public function downloadGlobalFeedbackFileObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		if(!$this->assignment || 
 			!$this->assignment->getFeedbackFile())
@@ -998,7 +1067,8 @@ class ilExAssignmentEditorGUI
 	
 	protected function initPeerReviewForm()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();			
@@ -1114,7 +1184,9 @@ class ilExAssignmentEditorGUI
 			
 	public function editPeerReviewObject(ilPropertyFormGUI $a_form = null)
 	{
-		global $tpl, $ilTabs, $tpl;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
+		$tpl = $this->tpl;
 		
 		$this->setAssignmentHeader();
 		$ilTabs->activateTab("peer_settings");
@@ -1209,7 +1281,7 @@ class ilExAssignmentEditorGUI
 	
 	protected function processPeerReviewForm(ilPropertyFormGUI $a_form)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$protected_peer_review_groups = false;		
 		include_once "Modules/Exercise/classes/class.ilExPeerReview.php";
@@ -1323,7 +1395,10 @@ class ilExAssignmentEditorGUI
 	
 	protected function updatePeerReviewObject()
 	{				
-		global $tpl, $lng, $ilCtrl, $ilTabs;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
 		
 		$form = $this->initPeerReviewForm();
 		$input = $this->processPeerReviewForm($form);
@@ -1352,7 +1427,10 @@ class ilExAssignmentEditorGUI
 	
 	public function adoptTeamAssignmentsFormObject()
 	{
-		global $ilCtrl, $ilTabs, $lng, $tpl;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
 		
 		if(!$this->assignment)
 		{
@@ -1399,7 +1477,8 @@ class ilExAssignmentEditorGUI
 	
 	public function adoptTeamAssignmentsObject()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$src_ass_id = (int)$_POST["ass_adpt"];
 		

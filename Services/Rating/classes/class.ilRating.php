@@ -30,7 +30,9 @@ class ilRating
 	public static function writeRatingForUserAndObject($a_obj_id, $a_obj_type, $a_sub_obj_id, $a_sub_obj_type,
 		$a_user_id, $a_rating, $a_category_id = 0)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		if ($a_user_id == ANONYMOUS_USER_ID)
 		{
@@ -83,7 +85,9 @@ class ilRating
 	public static function resetRatingForUserAndObject($a_obj_id, $a_obj_type, $a_sub_obj_id, $a_sub_obj_type,
 		$a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$ilDB->manipulate("DELETE FROM il_rating WHERE ".
 			"user_id = ".$ilDB->quote($a_user_id, "integer")." AND ".
@@ -107,7 +111,9 @@ class ilRating
 	public static function getRatingForUserAndObject($a_obj_id, $a_obj_type, $a_sub_obj_id, $a_sub_obj_type,
 		$a_user_id, $a_category_id = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		if(is_array(self::$list_data))
 		{			
@@ -140,7 +146,9 @@ class ilRating
 	*/
 	public static function getOverallRatingForObject($a_obj_id, $a_obj_type, $a_sub_obj_id = null, $a_sub_obj_type = null, $a_category_id = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 	
 		if(is_array(self::$list_data))
 		{			
@@ -193,7 +201,9 @@ class ilRating
 	 */
 	public static function getExportData($a_obj_id, $a_obj_type, array $a_category_ids = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$res = array();
 		$q = "SELECT sub_obj_id, sub_obj_type, rating, category_id, user_id, tstamp ".
@@ -220,7 +230,10 @@ class ilRating
 	 */
 	public static function preloadListGUIData(array $a_obj_ids)
 	{
-		global $ilDB, $ilUser;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilUser = $DIC->user();
 		
 		$tmp = $res = $tmp_user = $res_user = array();
 		

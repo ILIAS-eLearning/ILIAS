@@ -11,6 +11,11 @@
 */
 class ilWidthHeightInputGUI extends ilFormPropertyGUI
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	protected $value;
 	
 	/**
@@ -21,6 +26,10 @@ class ilWidthHeightInputGUI extends ilFormPropertyGUI
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("width_height");
 		$this->dirs = array("width", "height");
@@ -93,7 +102,7 @@ class ilWidthHeightInputGUI extends ilFormPropertyGUI
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		foreach ($this->dirs as $dir)
 		{
@@ -129,7 +138,7 @@ class ilWidthHeightInputGUI extends ilFormPropertyGUI
 	*/
 	function insert($a_tpl)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$tpl = new ilTemplate("tpl.prop_width_height.html", true, true, "Services/MediaObjects");
 
@@ -170,7 +179,7 @@ class ilWidthHeightInputGUI extends ilFormPropertyGUI
 	*/
 	function setValueByArray($a_values)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 //var_dump($a_values[$this->getPostVar()]);
 		$this->setWidth($a_values[$this->getPostVar()]["width"]);
 		$this->setHeight($a_values[$this->getPostVar()]["height"]);

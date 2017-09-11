@@ -27,7 +27,9 @@ class ilPageMultiLang
 	 */
 	function __construct($a_parent_type, $a_parent_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$this->db = $ilDB;
 		

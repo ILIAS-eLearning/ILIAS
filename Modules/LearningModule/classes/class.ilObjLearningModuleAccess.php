@@ -18,6 +18,18 @@ require_once('./Services/Object/classes/class.ilObject2.php');
  */
 class ilObjLearningModuleAccess extends ilObjContentObjectAccess implements ilConditionHandling, ilWACCheckingClass {
 
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		global $DIC;
+		parent::__construct();
+
+		$this->access = $DIC->access();
+	}
+
+
 	static protected $lm_set = null;
 
 	/**
@@ -103,7 +115,7 @@ class ilObjLearningModuleAccess extends ilObjContentObjectAccess implements ilCo
 	 * @return bool
 	 */
 	public function canBeDelivered(ilWACPath $ilWACPath) {
-		global $ilAccess;
+		$ilAccess = $this->access;
 		/**
 		 * @var $ilAccess ilAccessHandler
 		 */

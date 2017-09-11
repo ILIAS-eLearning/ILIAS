@@ -21,7 +21,12 @@ class ilExAssignmentListTextTableGUI extends ilTable2GUI
 	
 	function __construct($a_parent_obj, $a_parent_cmd, ilExAssignment $a_ass, $a_show_peer_review = false, $a_disable_peer_review = false)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		$this->ass = $a_ass;
 		$this->show_peer_review = (bool)$a_show_peer_review;
@@ -108,7 +113,7 @@ class ilExAssignmentListTextTableGUI extends ilTable2GUI
 
 	protected function fillRow($a_set)
 	{				
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		if($this->show_peer_review)
 		{

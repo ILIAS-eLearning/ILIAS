@@ -15,6 +15,16 @@ include_once('./Modules/Portfolio/classes/class.ilPortfolioPage.php');
  */
 abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 {				
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+	/**
+	 * @var ilMainMenuGUI
+	 */
+	protected $main_menu;
+
 	protected $user_id; // [int]
 	protected $additional = array();
 	protected $perma_link; // [string]		
@@ -23,7 +33,17 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	
 	public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
 	{
-		global $ilUser;
+		global $DIC;
+
+		$this->user = $DIC->user();
+		$this->locator = $DIC["ilLocator"];
+		$this->toolbar = $DIC->toolbar();
+		$this->settings = $DIC->settings();
+		$this->tree = $DIC->repositoryTree();
+		$this->help = $DIC["ilHelp"];
+		$this->main_menu = $DIC["ilMainMenu"];
+		$this->tpl = $DIC["tpl"];
+		$ilUser = $DIC->user();
 		
 		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
@@ -35,7 +55,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	
 	protected function addLocatorItems()
 	{
-		global $ilLocator;
+		$ilLocator = $this->locator;
 		
 		if($this->object)
 		{									
@@ -267,7 +287,9 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	 */
 	public function view()
 	{
-		global $ilToolbar, $ilSetting, $tree;
+		$ilToolbar = $this->toolbar;
+		$ilSetting = $this->settings;
+		$tree = $this->tree;
 		
 		if(!$this->checkPermissionBool("write"))
 		{
@@ -326,7 +348,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	 */
 	protected function addPage()
 	{
-		global $ilHelp;
+		$ilHelp = $this->help;
 
 		$this->tabs_gui->clearTargets();
 		$this->tabs_gui->setBackTarget($this->lng->txt("back"),
@@ -439,7 +461,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	 */
 	protected function addBlog()
 	{
-		global $ilHelp;
+		$ilHelp = $this->help;
 
 		$this->tabs_gui->clearTargets();
 		$this->tabs_gui->setBackTarget($this->lng->txt("back"),
@@ -557,7 +579,8 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	 */
 	function preview($a_return = false, $a_content = false, $a_show_notes = true)
 	{				
-		global $ilSetting, $ilUser;
+		$ilSetting = $this->settings;
+		$ilUser = $this->user;
 		
 		$portfolio_id = $this->object->getId();
 		$user_id = $this->object->getOwner();
@@ -623,7 +646,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 				else
 				{
 					// #12819
-					global $tree;
+		$tree = $this->tree;
 					$parent_id = $tree->getParentId($this->node_id);
 					include_once "Services/Link/classes/class.ilLink.php";
 					$back = ilLink::_getStaticLink($parent_id);
@@ -646,7 +669,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 			}
 		}
 		
-		global $ilMainMenu;
+		$ilMainMenu = $this->main_menu;
 		$ilMainMenu->setMode(ilMainMenuGUI::MODE_TOPBAR_ONLY);	
 		if($back)
 		{
@@ -782,7 +805,9 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	 */
 	public static function renderFullscreenHeader($a_portfolio, $a_tpl, $a_user_id, $a_export = false)
 	{		
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC->user();
 		
 		if(!$a_export)
 		{			
@@ -943,7 +968,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	
 	function setContentStyleSheet($a_tpl = null)
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		if ($a_tpl != null)
 		{
@@ -973,7 +998,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	
 	function initStylePropertiesForm()
 	{
-		global $ilSetting;
+		$ilSetting = $this->settings;
 						
 		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->lng->loadLanguageModule("style");
@@ -1050,7 +1075,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 
 	function saveStyleSettings()
 	{
-		global $ilSetting;
+		$ilSetting = $this->settings;
 	
 		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		if ($ilSetting->get("fixed_content_style_id") <= 0 &&

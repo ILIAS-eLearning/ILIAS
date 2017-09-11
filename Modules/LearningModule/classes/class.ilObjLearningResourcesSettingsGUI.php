@@ -18,6 +18,16 @@ include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 */
 class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 {
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
     private static $ERROR_MESSAGE;
 	/**
 	 * Contructor
@@ -26,6 +36,14 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 	 */
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
+		global $DIC;
+
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->error = $DIC["ilErr"];
+		$this->access = $DIC->access();
+		$this->settings = $DIC->settings();
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
 		$this->type = 'lrss';
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
@@ -40,7 +58,9 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 	 */
 	public function executeCommand()
 	{
-		global $rbacsystem,$ilErr,$ilAccess;
+		$rbacsystem = $this->rbacsystem;
+		$ilErr = $this->error;
+		$ilAccess = $this->access;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -87,7 +107,9 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 	 */
 	public function getAdminTabs()
 	{
-		global $rbacsystem, $ilAccess, $ilSetting;
+		$rbacsystem = $this->rbacsystem;
+		$ilAccess = $this->access;
+		$ilSetting = $this->settings;
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -117,7 +139,9 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 	*/
 	public function editSettings()
 	{
-		global $ilCtrl, $lng, $ilSetting;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilSetting = $this->settings;
 
 		$lm_set = new ilSetting("lm");
 		$lic_set = new ilSetting("license");
@@ -241,7 +265,8 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 	*/
 	public function saveSettings()
 	{
-		global $ilCtrl, $ilSetting;
+		$ilCtrl = $this->ctrl;
+		$ilSetting = $this->settings;
 		
 		$lm_set = new ilSetting("lm");
 		$lm_set->set("time_scheduled_page_activation",

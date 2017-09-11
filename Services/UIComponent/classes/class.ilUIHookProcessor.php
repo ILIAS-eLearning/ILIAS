@@ -11,6 +11,11 @@
  */
 class ilUIHookProcessor
 {
+	/**
+	 * @var ilPluginAdmin
+	 */
+	protected $plugin_admin;
+
 	var $append = array();
 	var $prepend = array();
 	var $replace = "";
@@ -23,7 +28,10 @@ class ilUIHookProcessor
 	 */
 	function __construct($a_comp, $a_part, $a_pars)
 	{
-		global $ilPluginAdmin;
+		global $DIC;
+
+		$this->plugin_admin = $DIC["ilPluginAdmin"];
+		$ilPluginAdmin = $DIC["ilPluginAdmin"];
 		
 		include_once("./Services/UIComponent/classes/class.ilUIHookPluginGUI.php");
 		

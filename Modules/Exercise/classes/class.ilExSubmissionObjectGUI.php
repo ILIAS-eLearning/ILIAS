@@ -13,7 +13,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 {
 	public function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		if(!$this->submission->canView())
 		{
@@ -45,7 +45,10 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 	
 	protected static function getOverviewContentBlog(ilInfoScreenGUI $a_info, ilExSubmission $a_submission)
 	{
-		global $lng, $ilCtrl;
+		global $DIC;
+
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
 		
 		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";					
 		$wsp_tree = new ilWorkspaceTree($a_submission->getUserId());
@@ -120,7 +123,10 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 
 	protected static function getOverviewContentPortfolio(ilInfoScreenGUI $a_info, ilExSubmission $a_submission)
 	{
-		global $lng, $ilCtrl;
+		global $DIC;
+
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
 						
 		include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
 
@@ -579,7 +585,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 
 	protected function askUnlinkPortfolioObject()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		include_once "Services/Utilities/classes/class.ilConfirmationGUI.php";
 		$conf = new ilConfirmationGUI();
@@ -621,7 +627,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 	
 	protected function askDirectSubmissionObject()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		if (!$this->submission->canSubmit())
 		{
@@ -767,7 +773,9 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 	
 	public static function initGUIForSubmit($a_ass_id, $a_user_id = null)
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC->user();
 		
 		if(!$a_user_id)
 		{

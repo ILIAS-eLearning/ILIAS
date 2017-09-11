@@ -14,6 +14,16 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilSkillCatTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
 	const MODE_SCAT = 0;
 	const MODE_SCTP = 1;
 	protected $tref_id = 0;
@@ -24,7 +34,14 @@ class ilSkillCatTableGUI extends ilTable2GUI
 	function __construct($a_parent_obj, $a_parent_cmd, $a_obj_id,
 		$a_mode = self::MODE_SCAT, $a_tref_id = 0)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		$this->tref_id = $a_tref_id;
 		$ilCtrl->setParameter($a_parent_obj, "tmpmode", $a_mode);
@@ -89,7 +106,8 @@ class ilSkillCatTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		switch($a_set["type"])
 		{

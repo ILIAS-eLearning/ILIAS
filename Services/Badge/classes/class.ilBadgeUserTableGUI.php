@@ -13,12 +13,28 @@ include_once("Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilBadgeUserTableGUI extends ilTable2GUI
 {		
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
 	protected $award_badge; // [ilBadge]
 	protected $do_parent; // [bool]
 	
 	function __construct($a_parent_obj, $a_parent_cmd = "", $a_parent_ref_id, ilBadge $a_award_bagde = null, $a_parent_obj_id = null, $a_restrict_badge_id = null)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->tree = $DIC->repositoryTree();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		$this->setId("bdgusr");
 		$this->award_badge = $a_award_bagde;				
@@ -97,7 +113,7 @@ class ilBadgeUserTableGUI extends ilTable2GUI
 	
 	public function initFilter()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$name = $this->addFilterItemByMetaType("name", self::FILTER_TEXT, false, $lng->txt("name"));		
 		$this->filter["name"] = $name->getValue();		
@@ -105,7 +121,7 @@ class ilBadgeUserTableGUI extends ilTable2GUI
 	
 	function getItems($a_parent_ref_id, ilBadge $a_award_bagde = null, $a_parent_obj_id = null, $a_restrict_badge_id = null)
 	{		
-		global $tree;
+		$tree = $this->tree;
 		
 		$data = array();
 					
@@ -231,7 +247,7 @@ class ilBadgeUserTableGUI extends ilTable2GUI
 	
 	protected function fillRow($a_set)
 	{					
-		global $lng;
+		$lng = $this->lng;
 		
 		if($this->award_badge)
 		{

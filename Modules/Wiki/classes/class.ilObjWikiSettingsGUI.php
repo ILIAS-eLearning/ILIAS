@@ -16,6 +16,40 @@ include_once("./Services/Object/classes/class.ilObject2GUI.php");
  */
 class ilObjWikiSettingsGUI extends ilObject2GUI
 {
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
+	{
+		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
+		global $DIC;
+
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->error = $DIC["ilErr"];
+		$this->access = $DIC->access();
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+		$this->tabs = $DIC->tabs();
+		$this->toolbar = $DIC->toolbar();
+		$this->tpl = $DIC["tpl"];
+	}
+
 	
 	/**
 	 * Get type
@@ -37,7 +71,10 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
 	 */
 	public function executeCommand()
 	{
-		global $rbacsystem, $ilErr, $ilAccess, $lng;
+		$rbacsystem = $this->rbacsystem;
+		$ilErr = $this->error;
+		$ilAccess = $this->access;
+		$lng = $this->lng;
 		
 		$lng->loadLanguageModule("wiki");
 
@@ -77,7 +114,11 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
 	 */
 	protected function editSettings(ilPropertyFormGUI $form = null)
 	{
-		global $ilCtrl, $lng, $ilTabs, $ilToolbar, $tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilTabs = $this->tabs;
+		$ilToolbar = $this->toolbar;
+		$tpl = $this->tpl;
 		
 		$ilTabs->activateTab("settings");
 		
@@ -110,7 +151,8 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
 	 */
 	public function initForm($a_mode = "edit")
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -145,7 +187,8 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
 		 * @var $lng ilLanguage
 		 * @var $ilCtrl ilCtrl
 		 */
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		if(!$this->checkPermissionBool("write"))
 		{

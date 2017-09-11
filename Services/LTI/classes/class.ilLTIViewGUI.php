@@ -427,7 +427,7 @@ class ilLTIViewGUI extends ilBaseViewGUI
 	 */
 	function logout() 
 	{
-		//$DIC->logger()->root()->write("logout");
+		//$DIC->logger()->root()->debug("logout");
 		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);		
 		$this->dic['ilAuthSession']->logout();
 		// reset cookie

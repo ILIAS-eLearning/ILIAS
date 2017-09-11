@@ -11,6 +11,23 @@ include_once './Services/Mail/classes/class.ilMailNotification.php';
  */
 class ilLMMailNotification extends ilMailNotification
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct($a_is_personal_workspace = false)
+	{
+		global $DIC;
+		parent::__construct($a_is_personal_workspace);
+
+		$this->user = $DIC->user();
+	}
+
 	const TYPE_USER_BLOCKED = 10;
 
 	/**
@@ -39,7 +56,7 @@ class ilLMMailNotification extends ilMailNotification
 	 */
 	public function send()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		switch($this->getType())
 		{

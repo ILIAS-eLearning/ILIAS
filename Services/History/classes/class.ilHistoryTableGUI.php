@@ -27,7 +27,9 @@ class ilHistoryTableGUI extends ilTable2GUI
 	
 	function __construct($a_parent_obj, $a_parent_cmd, $a_obj_id, $a_obj_type = null)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC->ctrl();
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		$this->setObjId($a_obj_id);

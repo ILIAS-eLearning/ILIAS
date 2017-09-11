@@ -33,6 +33,18 @@ include_once "Services/Object/classes/class.ilObjectListGUI.php";
 */
 class ilObjCategoryListGUI extends ilObjectListGUI
 {
+
+	/**
+	 * Constructor
+	 */
+	function __construct($a_context = self::CONTEXT_REPOSITORY)
+	{
+		global $DIC;
+
+		parent::__construct($a_context);
+		$this->ctrl = $DIC->ctrl();
+	}
+
 	/**
 	* initialisation
 	*/
@@ -106,7 +118,7 @@ class ilObjCategoryListGUI extends ilObjectListGUI
 	*/
 	function getCommandLink($a_cmd)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		// BEGIN WebDAV
 		switch ($a_cmd) 

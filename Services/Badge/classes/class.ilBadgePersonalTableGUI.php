@@ -13,9 +13,33 @@ include_once("Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilBadgePersonalTableGUI extends ilTable2GUI
 {		
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
 	function __construct($a_parent_obj, $a_parent_cmd, $a_user_id = null)
 	{
-		global $lng, $ilUser, $ilCtrl, $tpl;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$this->ctrl = $DIC->ctrl();
+		$this->tpl = $DIC["tpl"];
+		$lng = $DIC->language();
+		$ilUser = $DIC->user();
+		$ilCtrl = $DIC->ctrl();
+		$tpl = $DIC["tpl"];
 		
 		if(!$a_user_id)
 		{
@@ -63,7 +87,7 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
 	
 	public function initFilters(array $a_parents)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$title = $this->addFilterItemByMetaType("title", self::FILTER_TEXT, false, $lng->txt("title"));		
 		$this->filter["title"] = $title->getValue();
@@ -83,7 +107,7 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
 	
 	function getItems($a_user_id)
 	{	
-		global $lng;
+		$lng = $this->lng;
 		
 		$data = $filter_parent = array();
 		
@@ -160,7 +184,8 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
 	
 	function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$this->tpl->setVariable("VAL_ID", $a_set["id"]);
 		$this->tpl->setVariable("PREVIEW", $a_set["renderer"]->getHTML());	

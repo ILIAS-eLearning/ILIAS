@@ -17,6 +17,28 @@ require_once('./Services/WebAccessChecker/interfaces/interface.ilWACCheckingClas
 */
 class ilObjBookingPoolAccess extends ilObjectAccess implements ilWACCheckingClass
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		global $DIC;
+
+		$this->user = $DIC->user();
+		$this->rbacsystem = $DIC->rbac()->system();
+	}
+
 
 	/**
 	 * get commands
@@ -45,7 +67,9 @@ class ilObjBookingPoolAccess extends ilObjectAccess implements ilWACCheckingClas
 	*/
 	static function _checkGoto($a_target)
 	{
-		global $ilAccess;
+		global $DIC;
+
+		$ilAccess = $DIC->access();
 		
 		$t_arr = explode("_", $a_target);
 
@@ -63,7 +87,8 @@ class ilObjBookingPoolAccess extends ilObjectAccess implements ilWACCheckingClas
 
 	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
 	{
-		global $ilUser, $rbacsystem;
+		$ilUser = $this->user;
+		$rbacsystem = $this->rbacsystem;
 
 		if ($a_user_id == "")
 		{

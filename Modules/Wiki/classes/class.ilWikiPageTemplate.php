@@ -11,6 +11,11 @@
  */
 class ilWikiPageTemplate
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	const TYPE_ALL = 0;
 	const TYPE_NEW_PAGES = 1;
 	const TYPE_ADD_TO_PAGE = 2;
@@ -25,7 +30,9 @@ class ilWikiPageTemplate
 	 */
 	function __construct($a_wiki_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$this->wiki_id = $a_wiki_id;
 		$this->db = $ilDB;

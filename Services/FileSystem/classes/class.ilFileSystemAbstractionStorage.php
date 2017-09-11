@@ -50,11 +50,15 @@ abstract class ilFileSystemAbstractionStorage {
 	 *
 	 * @access public
 	 *
-	 * @param int                        storage type
-	 * @param bool                       En/Disable automatic path conversion. If enabled files
-	 *                                              with id 123 will be stored in directory
-	 *                                              files/1/file_123
-	 * @param int                        object id of container (e.g file_id or mob_id)
+	 * @param int                                                         storage type
+	 * @param bool                                                        En/Disable automatic path
+	 *                                                                    conversion. If enabled
+	 *                                                                    files with id 123 will be
+	 *                                                                    stored in directory
+	 *                                                                    files/1/file_123
+	 * @param int                                                         object id of container
+	 *                                                                           (e.g file_id or
+	 *                                                                           mob_id)
 	 *
 	 */
 	public function __construct($a_storage_type, $a_path_conversion, $a_container_id) {
@@ -68,20 +72,24 @@ abstract class ilFileSystemAbstractionStorage {
 
 
 	/**
-	 * @param $path_to_file
+	 * @param $a_absolute_path
 	 *
 	 * @return bool
 	 */
-	public function fileExists($path_to_file) {
-		return $this->getFileSystemService()->has($path_to_file);
+	public function fileExists($a_absolute_path) {
+		$relative_path = $this->createRelativePathForFileSystem($a_absolute_path);
+
+		return $this->getFileSystemService()->has($relative_path);
 	}
 
 
 	/**
-	 * @return string
+	 * @param $relative_path
+	 *
+	 * @return array|mixed|null
 	 */
-	public function getLegacyFullAbsolutePath($path_to_file) {
-		$stream = $this->getFileSystemService()->readStream($path_to_file);
+	protected function getLegacyFullAbsolutePath($relative_path) {
+		$stream = $this->getFileSystemService()->readStream($relative_path);
 
 		return $stream->getMetadata('uri');
 	}
@@ -180,14 +188,10 @@ abstract class ilFileSystemAbstractionStorage {
 
 
 	/**
-	 * Get absolute path of storage directory (relative to te ilFileSystem)
-	 *
-	 * @access public
-	 *
+	 * @return string
 	 */
 	public function getAbsolutePath() {
 		return $this->getLegacyAbsolutePath();
-		return $this->path;
 	}
 
 
@@ -236,8 +240,9 @@ abstract class ilFileSystemAbstractionStorage {
 	 * @return bool
 	 */
 	public function writeToFile($a_data, $a_absolute_path) {
+		$relative_path = $this->createRelativePathForFileSystem($a_absolute_path);
 		try {
-			$this->getFileSystemService()->write($a_absolute_path, $a_data);
+			$this->getFileSystemService()->write($relative_path, $a_data);
 		} catch (Exception $e) {
 			return false;
 		}
@@ -247,15 +252,16 @@ abstract class ilFileSystemAbstractionStorage {
 
 
 	/**
-	 * @param $a_abs_name
+	 * @param $a_absolute_path
 	 *
 	 * @return bool
 	 */
-	public function deleteFile($a_abs_name) {
-		if ($this->getFileSystemService()->has($a_abs_name)) {
+	public function deleteFile($a_absolute_path) {
+		$relative_path = $this->createRelativePathForFileSystem($a_absolute_path);
+		if ($this->getFileSystemService()->has($relative_path)) {
 			try {
 
-				$this->getFileSystemService()->delete($a_abs_name);
+				$this->getFileSystemService()->delete($relative_path);
 			} catch (Exception $e) {
 				return false;
 			}
@@ -266,14 +272,15 @@ abstract class ilFileSystemAbstractionStorage {
 
 
 	/**
-	 * @param $a_abs_name
+	 * @param $a_absolute_path
 	 *
 	 * @return bool
 	 */
-	function deleteDirectory($a_abs_name) {
-		if ($this->getFileSystemService()->has($a_abs_name)) {
+	function deleteDirectory($a_absolute_path) {
+		$relative_path = $this->createRelativePathForFileSystem($a_absolute_path);
+		if ($this->getFileSystemService()->has($relative_path)) {
 			try {
-				$this->getFileSystemService()->deleteDir($a_abs_name);
+				$this->getFileSystemService()->deleteDir($relative_path);
 			} catch (Exception $e) {
 				return false;
 			}
@@ -304,9 +311,11 @@ abstract class ilFileSystemAbstractionStorage {
 	 * @return bool
 	 */
 	public function copyFile($a_from, $a_to) {
-		if ($this->getFileSystemService()->has($a_from)) {
+		$relative_path_from = $this->createRelativePathForFileSystem($a_from);
+		$relative_path_to = $this->createRelativePathForFileSystem($a_to);
+		if ($this->getFileSystemService()->has($relative_path_from)) {
 			try {
-				$this->getFileSystemService()->copy($a_from, $a_to);
+				$this->getFileSystemService()->copy($relative_path_from, $relative_path_to);
 			} catch (Exception $e) {
 				return false;
 			}
@@ -375,5 +384,17 @@ abstract class ilFileSystemAbstractionStorage {
 	 */
 	public function getPath() {
 		return $this->path;
+	}
+
+
+	/**
+	 * @param $a_absolute_path
+	 *
+	 * @return string
+	 */
+	private function createRelativePathForFileSystem($a_absolute_path) {
+		$relative_path = ILIAS\Filesystem\Util\LegacyPathHelper::createRelativePath($a_absolute_path);
+
+		return $relative_path;
 	}
 }

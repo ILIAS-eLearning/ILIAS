@@ -16,13 +16,45 @@ include_once("./Services/Skill/classes/class.ilSkillTemplateCategory.php");
  */
 class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
 
 	/**
 	 * Constructor
 	 */
 	function __construct($a_node_id = 0, $a_tref_id)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->tpl = $DIC["tpl"];
+		$this->tabs = $DIC->tabs();
+		$this->lng = $DIC->language();
+		$this->help = $DIC["ilHelp"];
+		$ilCtrl = $DIC->ctrl();
 		
 		$ilCtrl->saveParameter($this, "obj_id");
 		$this->tref_id = $a_tref_id;
@@ -43,7 +75,9 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 	 */
 	function executeCommand()
 	{
-		global $ilCtrl, $tpl, $ilTabs;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
 		
 		//$tpl->getStandardTemplate();
 		
@@ -63,7 +97,11 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 	 */
 	function setTabs($a_tab)
 	{
-		global $ilTabs, $ilCtrl, $tpl, $lng, $ilHelp;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilHelp = $this->help;
 
 		$ilTabs->clearTargets();
 		$ilHelp->setScreenIdComponent("skmg_sctp");
@@ -104,6 +142,25 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 	}
 
 	/**
+	 * Init form.
+	 *
+	 * @param string $a_mode edit mode
+	 */
+	public function initForm($a_mode = "edit")
+	{
+		$r = parent::initForm($a_mode);
+		if ($a_mode == "create")
+		{
+			$ni = $this->form->getItemByPostVar("order_nr");
+			include_once("./Services/Skill/classes/class.ilSkillTree.php");
+			$tree = new ilSkillTree();
+			$max = $tree->getMaxOrderNr((int)$_GET["obj_id"], true);
+			$ni->setValue($max + 10);
+		}
+		return $r;
+	}
+
+	/**
 	 * List items
 	 *
 	 * @param
@@ -111,7 +168,8 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 	 */
 	function listItems()
 	{
-		global $tpl, $lng;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 
 		if ($this->isInUse())
 		{
@@ -143,7 +201,12 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 	 */
 	static function addCreationButtons()
 	{
-		global $ilCtrl, $lng, $ilToolbar, $ilUser;
+		global $DIC;
+
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilToolbar = $DIC->toolbar();
+		$ilUser = $DIC->user();
 		
 		$ilCtrl->setParameterByClass("ilobjskillmanagementgui", "tmpmode", 1);
 		
@@ -236,7 +299,7 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 	 */
 	function showUsage()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		// (a) referenced skill template category in main tree
 		if ($this->tref_id > 0)

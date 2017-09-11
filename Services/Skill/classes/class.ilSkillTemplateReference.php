@@ -14,6 +14,11 @@ include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
  */
 class ilSkillTemplateReference extends ilSkillTreeNode
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	var $id;
 
 	/**
@@ -22,6 +27,9 @@ class ilSkillTemplateReference extends ilSkillTreeNode
 	 */
 	function __construct($a_id = 0)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		parent::__construct($a_id);
 		$this->setType("sktr");
 	}
@@ -51,7 +59,7 @@ class ilSkillTemplateReference extends ilSkillTreeNode
 	 */
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		parent::read();
 		
@@ -67,7 +75,7 @@ class ilSkillTemplateReference extends ilSkillTreeNode
 	 */
 	function create()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		parent::create();
 		
@@ -83,7 +91,7 @@ class ilSkillTemplateReference extends ilSkillTreeNode
 	 */
 	function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		parent::update();
 		
@@ -99,7 +107,7 @@ class ilSkillTemplateReference extends ilSkillTreeNode
 	 */
 	function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$ilDB->manipulate("DELETE FROM skl_templ_ref WHERE "
 			." skl_node_id = ".$ilDB->quote($this->getId(), "integer")
@@ -132,7 +140,9 @@ class ilSkillTemplateReference extends ilSkillTreeNode
 	 */
 	static function _lookupTemplateId($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$query = "SELECT templ_id FROM skl_templ_ref WHERE skl_node_id = ".
 			$ilDB->quote($a_obj_id, "integer");
@@ -150,7 +160,9 @@ class ilSkillTemplateReference extends ilSkillTreeNode
 	 */
 	static function _lookupTrefIdsForTopTemplateId($a_template_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->query("SELECT * FROM skl_templ_ref ".
 			" WHERE templ_id = ".$ilDB->quote($a_template_id, "integer")

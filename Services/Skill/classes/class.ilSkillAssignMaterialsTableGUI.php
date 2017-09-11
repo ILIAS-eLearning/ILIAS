@@ -14,6 +14,16 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
 	
 	/**
 	 * Constructor
@@ -21,7 +31,12 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
 	function __construct($a_parent_obj, $a_parent_cmd, $a_top_skill_id, $a_tref_id,
 		$a_basic_skill_id)
 	{
-		global $ilUser;
+		global $DIC;
+
+		$this->user = $DIC->user();
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+		$ilUser = $DIC->user();
 
 		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
@@ -94,7 +109,9 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl, $ilUser;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 
 		include_once("./Services/Skill/classes/class.ilPersonalSkill.php");
 		$mat = ilPersonalSkill::getAssignedMaterial($ilUser->getId(), $this->tref_id, $a_set["id"]);

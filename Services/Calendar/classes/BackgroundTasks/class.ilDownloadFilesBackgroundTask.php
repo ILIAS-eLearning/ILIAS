@@ -105,17 +105,20 @@ class ilDownloadFilesBackgroundTask
 		$bucket = new BasicBucket();
 		$bucket->setUserId($this->user_id);
 
+		$normalized_name = $this->normalizeFileName($this->getBucketTitle());
+
 		$definition = new ilCalendarCopyDefinition();
+
+		$definition->setTempDir($normalized_name);
 
 		$this->collectFiles($definition);
 		
 		
 		// move files from source dir to target directory
-		$copy_job = $this->task_factory->createTask(ilCalendarCopyFilesToTempDirectoryJob::class, [$definition, $this->normalizeFileName($this->getBucketTitle())]);
+		$copy_job = $this->task_factory->createTask(ilCalendarCopyFilesToTempDirectoryJob::class, [$definition]);
 		$zip_job = $this->task_factory->createTask(ilCalendarZipJob::class, [$copy_job]);
 		
 		$download_name = new StringValue();
-		$normalized_name = $this->normalizeFileName($this->getBucketTitle());
 
 		$this->logger->debug("Normalized name = ".$normalized_name);
 		$download_name->setValue($normalized_name.'.zip');
@@ -212,7 +215,7 @@ class ilDownloadFilesBackgroundTask
 			$this->logger->debug("Error when normalize filename.");
 			return $org;
 		}else {
-			$this->logger->debug("Filename normalized successfully");
+			//$this->logger->debug("Filename normalized successfully");
 			return $s;
 		}
 	}

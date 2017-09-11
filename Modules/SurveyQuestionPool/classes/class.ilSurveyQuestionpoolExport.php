@@ -41,7 +41,9 @@ class ilSurveyQuestionpoolExport
 	*/
 	function __construct($a_spl_obj, $a_mode = "xml")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$this->spl_obj = $a_spl_obj;
 	
@@ -89,10 +91,6 @@ class ilSurveyQuestionpoolExport
 	*/
 	function buildExportFileXML($questions = null)
 	{
-		global $ilBench;
-
-		$ilBench->start("SurveyQuestionpoolExport", "buildExportFile");
-
 		// create directories
 		$this->spl_obj->createExportDirectory();
 		ilUtil::makeDir($this->export_dir."/".$this->subdir);
@@ -114,7 +112,6 @@ class ilSurveyQuestionpoolExport
 			$this->export_dir."/".$this->subdir.".zip");
 
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export");
-		$ilBench->stop("SurveyQuestionpoolExport", "buildExportFile");
 
 		return $this->export_dir."/".$this->subdir.".zip";
 	}

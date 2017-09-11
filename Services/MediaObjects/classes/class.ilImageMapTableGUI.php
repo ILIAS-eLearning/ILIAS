@@ -14,13 +14,31 @@ include_once("Services/Table/classes/class.ilTable2GUI.php");
 */
 class ilImageMapTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
 	
 	/**
 	* Constructor
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd, $a_media_object)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
+		$lng = $DIC->language();
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->media_object = $a_media_object;
@@ -62,7 +80,7 @@ class ilImageMapTableGUI extends ilTable2GUI
 	 */
 	function initActions()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		// action commands
 		$this->addMultiCommand("deleteAreas", $lng->txt("delete"));
@@ -105,7 +123,9 @@ class ilImageMapTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl, $ilAccess;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilAccess = $this->access;
 
 		$area = $a_set["area"];
 		$i = $a_set["nr"];

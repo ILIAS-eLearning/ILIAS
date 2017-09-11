@@ -89,7 +89,7 @@ class ilPortfolioPage extends ilPageObject
 	 */
 	function getTitle()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		// because of migration of extended user profiles
 		if($this->title == "###-")
@@ -128,7 +128,9 @@ class ilPortfolioPage extends ilPageObject
 	 */
 	static function lookupMaxOrderNr($a_portfolio_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->query("SELECT MAX(order_nr) m FROM usr_portfolio_page".
 			" WHERE portfolio_id = ".$ilDB->quote($a_portfolio_id, "integer"));
@@ -156,7 +158,7 @@ class ilPortfolioPage extends ilPageObject
 	 */
 	function create($a_import = false)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if(!$a_import)
 		{
@@ -185,7 +187,7 @@ class ilPortfolioPage extends ilPageObject
 	 */
 	function update($a_validate = true, $a_no_history = false)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$id = $this->getId();
 		if($id)
@@ -205,7 +207,7 @@ class ilPortfolioPage extends ilPageObject
 	 */
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$query = "SELECT * FROM usr_portfolio_page".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
@@ -226,7 +228,7 @@ class ilPortfolioPage extends ilPageObject
 	 */
 	function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$id = $this->getId();
 		if($id)
@@ -254,7 +256,9 @@ class ilPortfolioPage extends ilPageObject
 	 */
 	protected static function lookupProperty($a_id, $a_prop)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->query("SELECT ".$a_prop.
 			" FROM usr_portfolio_page".
@@ -281,7 +285,10 @@ class ilPortfolioPage extends ilPageObject
 	 */
 	static function getAllPortfolioPages($a_portfolio_id)
 	{
-		global $ilDB, $lng;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$lng = $DIC->language();
 
 		$set = $ilDB->query("SELECT * FROM usr_portfolio_page".
 			" WHERE portfolio_id = ".$ilDB->quote($a_portfolio_id, "integer").
@@ -307,7 +314,9 @@ class ilPortfolioPage extends ilPageObject
 	 */
 	public static function fixOrdering($a_portfolio_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$pages = self::getAllPortfolioPages($a_portfolio_id);
 		$cnt = 10;

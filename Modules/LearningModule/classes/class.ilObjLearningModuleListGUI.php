@@ -15,15 +15,6 @@ include_once "Services/Object/classes/class.ilObjectListGUI.php";
 class ilObjLearningModuleListGUI extends ilObjectListGUI
 {
 	/**
-	* constructor
-	*
-	*/
-	function __construct()
-	{
-		parent::__construct();
-	}
-
-	/**
 	* initialisation
 	*
 	* this method should be overwritten by derived classes
@@ -65,7 +56,7 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 	*/
 	function getCommandLink($a_cmd)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		switch($a_cmd)
 		{
@@ -122,8 +113,6 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 	*/
 	function getCommandFrame($a_cmd)
 	{
-		global $ilias;
-
 		switch($a_cmd)
 		{
 			case "view":
@@ -160,7 +149,8 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 	*/
 	function getProperties()
 	{
-		global $lng, $rbacsystem;
+		$lng = $this->lng;
+		$rbacsystem = $this->rbacsystem;
 
 		$props = array();
 

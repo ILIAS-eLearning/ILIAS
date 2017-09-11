@@ -20,6 +20,21 @@ include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
 class ilWikiPageGUI extends ilPageObjectGUI
 {
 	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
 	 * @var ilObjWiki
 	 */
 	protected $wiki;
@@ -29,7 +44,18 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	*/
 	function __construct($a_id = 0, $a_old_nr = 0, $a_wiki_ref_id = 0)
 	{
-		global $tpl;
+		global $DIC;
+
+		$this->tpl = $DIC["tpl"];
+		$this->help = $DIC["ilHelp"];
+		$this->ctrl = $DIC->ctrl();
+		$this->tabs = $DIC->tabs();
+		$this->user = $DIC->user();
+		$this->access = $DIC->access();
+		$this->lng = $DIC->language();
+		$this->settings = $DIC->settings();
+		$this->toolbar = $DIC->toolbar();
+		$tpl = $DIC["tpl"];
 
 		// needed for notifications
 		$this->setWikiRefId($a_wiki_ref_id);
@@ -54,7 +80,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	 */
 	function setScreenIdComponent()
 	{
-		global $ilHelp;
+		$ilHelp = $this->help;
 		
 		$ilHelp->setScreenIdComponent("copgwpg");
 	}
@@ -94,7 +120,12 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl, $ilTabs, $ilUser, $ilAccess, $lng, $tpl;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
+		$ilUser = $this->user;
+		$ilAccess = $this->access;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -223,7 +254,9 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	*/
 	static function getGUIForTitle($a_wiki_id, $a_title, $a_old_nr = 0, $a_wiki_ref_id = 0)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
 		$id = ilWikiPage::getPageIdForTitle($a_wiki_id, $a_title);
@@ -240,7 +273,8 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	
 	function addHeaderAction($a_redraw = false)
 	{			
-		global $ilUser, $ilAccess;
+		$ilUser = $this->user;
+		$ilAccess = $this->access;
 		
 		$wiki_id = $this->getPageObject()->getParentId();
 		$page_id = $this->getPageObject()->getId();
@@ -334,7 +368,13 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	*/
 	function preview()
 	{
-		global $ilCtrl, $ilAccess, $lng, $tpl, $ilUser, $ilSetting, $ilToolbar;
+		$ilCtrl = $this->ctrl;
+		$ilAccess = $this->access;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
+		$ilUser = $this->user;
+		$ilSetting = $this->settings;
+		$ilToolbar = $this->toolbar;
 
 		// block/unblock
 		if ($this->getPageObject()->getBlocked())
@@ -419,7 +459,8 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	
 	function showPage()
 	{
-		global $tpl, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
 		
 		// content style
 /*		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
@@ -443,7 +484,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	
 	protected function increaseViewCount()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$this->getWikiPage()->increaseViewCnt();
 		
@@ -461,7 +502,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	*/
 	function postOutputProcessing($a_output)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 //echo htmlentities($a_output);
 		include_once("./Modules/Wiki/classes/class.ilWikiUtil.php");
@@ -494,7 +535,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	*/
 	function whatLinksHere()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		include_once("./Modules/Wiki/classes/class.ilWikiPagesTableGUI.php");
 		
@@ -507,7 +548,9 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
 	function getTabs($a_activate = "")
 	{
-		global $ilTabs, $ilCtrl, $ilAccess;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
+		$ilAccess = $this->access;
 
 		parent::getTabs($a_activate);
 		
@@ -540,7 +583,10 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	*/
 	function deleteWikiPageConfirmationScreen()
 	{
-		global $ilAccess, $tpl, $ilCtrl, $lng;
+		$ilAccess = $this->access;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		include_once("./Modules/Wiki/classes/class.ilWikiPerm.php");
 		if (ilWikiPerm::check("delete_wiki_pages", $_GET["ref_id"]))
@@ -607,7 +653,8 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	*/
 	function cancelWikiPageDeletion()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$ilCtrl->redirect($this, "preview");
 		
@@ -618,7 +665,10 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	*/
 	function confirmWikiPageDeletion()
 	{
-		global $ilAccess, $tpl, $ilCtrl, $lng;
+		$ilAccess = $this->access;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		include_once("./Modules/Wiki/classes/class.ilWikiPerm.php");
 		if (ilWikiPerm::check("delete_wiki_pages", $_GET["ref_id"]))
@@ -643,7 +693,11 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	 */
 	function printViewSelection()
 	{
-		global $ilUser, $lng, $ilToolbar, $ilCtrl, $tpl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilToolbar = $this->toolbar;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
 
 		/*$ilToolbar->setFormAction($ilCtrl->getFormActionByClass("ilobjwikigui", "printView"),
 			false, "print_view");
@@ -660,7 +714,8 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	 */
 	public function initPrintViewSelectionForm()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$pages = ilWikiPage::getAllWikiPages(ilObject::_lookupObjId($this->getWikiRefId()));
 
@@ -715,7 +770,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	
 	protected function printViewOrderList($a_pdf_export = false)
 	{
-		global $ilTabs;
+		$ilTabs = $this->tabs;
 		
 		$pg_ids = $all_pages = array();
 		
@@ -806,7 +861,10 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	 */
 	function blockWikiPage()
 	{
-		global $ilAccess, $tpl, $ilCtrl, $lng;
+		$ilAccess = $this->access;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		include_once("./Modules/Wiki/classes/class.ilWikiPerm.php");
 		if (ilWikiPerm::check("activate_wiki_protection", $_GET["ref_id"]))
@@ -825,7 +883,10 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	 */
 	function unblockWikiPage()
 	{
-		global $ilAccess, $tpl, $ilCtrl, $lng;
+		$ilAccess = $this->access;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		include_once("./Modules/Wiki/classes/class.ilWikiPerm.php");
 		if (ilWikiPerm::check("activate_wiki_protection", $_GET["ref_id"]))
@@ -849,7 +910,10 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	 */
 	function renameWikiPage()
 	{
-		global $ilAccess, $tpl, $ilCtrl, $lng;
+		$ilAccess = $this->access;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		if (($ilAccess->checkAccess("edit_content", "", $_GET["ref_id"]) && !$this->getPageObject()->getBlocked())
 			|| $ilAccess->checkAccess("write", "", $_GET["ref_id"]))
@@ -866,7 +930,8 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	 */
 	protected function initRenameForm()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -891,7 +956,10 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	 */
 	public function renamePage()
 	{
-		global $tpl, $lng, $ilCtrl, $ilAccess;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilAccess = $this->access;
 
 		$this->initRenameForm();
 		if ($this->form->checkInput())
@@ -931,7 +999,8 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	
 	function activateWikiPageRating()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$this->getPageObject()->setRating(true);
 		$this->getPageObject()->update();
@@ -942,7 +1011,8 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	
 	function deactivateWikiPageRating()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$this->getPageObject()->setRating(false);
 		$this->getPageObject()->update();
@@ -976,7 +1046,8 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	
 	protected function initAdvancedMetaDataForm()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 			
 		$page = $this->getWikiPage();
 		
@@ -1000,7 +1071,11 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		
 	function editAdvancedMetaData(ilPropertyFormGUI $a_form = null)
 	{
-		global $ilTabs, $lng, $ilCtrl, $tpl, $ilAccess;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$ilAccess = $this->access;
 
 		if (!$ilAccess->checkAccess("write", "", $this->wiki_ref_id) &&
 			!$ilAccess->checkAccess("edit_page_meta", "", $this->wiki_ref_id))
@@ -1023,7 +1098,9 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	
 	function updateAdvancedMetaData()
 	{		
-		global $ilCtrl, $lng, $ilAccess;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilAccess = $this->access;
 
 		if (!$ilAccess->checkAccess("write", "", $this->wiki_ref_id) &&
 			!$ilAccess->checkAccess("edit_page_meta", "", $this->wiki_ref_id))
@@ -1050,7 +1127,9 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	
 	function hideAdvancedMetaData()
 	{
-		global $ilCtrl, $lng, $ilAccess;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilAccess = $this->access;
 
 		if (!$ilAccess->checkAccess("write", "", $this->wiki_ref_id) &&
 			!$ilAccess->checkAccess("edit_page_meta", "", $this->wiki_ref_id))
@@ -1067,7 +1146,9 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	
 	function unhideAdvancedMetaData()
 	{
-		global $ilCtrl, $lng, $ilAccess;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilAccess = $this->access;
 
 		if (!$ilAccess->checkAccess("write", "", $this->wiki_ref_id) &&
 			!$ilAccess->checkAccess("edit_page_meta", "", $this->wiki_ref_id))
@@ -1090,7 +1171,8 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	 */
 	function edit()
 	{
-		global $tpl, $lng;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 
 		self::initEditingJS($tpl);
 
@@ -1104,7 +1186,9 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	 */
 	static function initEditingJS(ilTemplate $a_tpl)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 
 		$a_tpl->addJavascript("./Modules/Wiki/js/WikiEdit.js");
 		$a_tpl->addOnLoadCode("il.Wiki.Edit.txt.page_exists = '".$lng->txt("wiki_page_exists")."';");
@@ -1117,7 +1201,8 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	 */
 	function insertWikiLink()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -1190,7 +1275,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	 */
 	function searchWikiLinkAC()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$lng->loadLanguageModule("wiki");
 

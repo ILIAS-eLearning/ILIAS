@@ -33,6 +33,21 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
 class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilRbacReview
+	 */
+	protected $rbacreview;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
 	protected $editable = true;
 	protected $writeAccess = false;
 	protected $browsercolumns = array();
@@ -47,9 +62,15 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd, $a_object, $a_write_access = false)
 	{
+		global $DIC;
+
+		$this->rbacreview = $DIC->rbac()->review();
+		$this->user = $DIC->user();
+		$this->access = $DIC->access();
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
-		global $lng, $ilCtrl;
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
 
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
@@ -126,7 +147,9 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
 	*/
 	function initFilter()
 	{
-		global $lng, $rbacreview, $ilUser;
+		$lng = $this->lng;
+		$rbacreview = $this->rbacreview;
+		$ilUser = $this->user;
 		
 		// title
 		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
@@ -206,7 +229,8 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($data)
 	{
-		global $ilUser,$ilAccess;
+		$ilUser = $this->user;
+		$ilAccess = $this->access;
 		
 		$this->tpl->setVariable('QUESTION_ID', $data["question_id"]);
 		$this->tpl->setVariable("QUESTION_TITLE", ilUtil::prepareFormOutput($data["title"]));

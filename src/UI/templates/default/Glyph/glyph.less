@@ -8,8 +8,9 @@
 		}
 	}
 
-	&:hover{
+	&:hover, &:focus{
 		color: @il-glyph-hover-color;
+		text-decoration: none;
 	}
 
 	.il-counter-spacer {
@@ -17,5 +18,11 @@
 		font-size: @il-counter-font-size;
 		padding: @il-counter-padding;
 		visibility: hidden;
+	}
+}
+
+.glyphicon{
+	&.glyphicon-chevron-left, &.glyphicon-chevron-right{
+		font-weight: 100;
 	}
 }

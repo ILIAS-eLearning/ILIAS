@@ -10,6 +10,11 @@
  */
 class ilSettingsTemplate
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	private $id;
 	private $type;
 	private $title;
@@ -34,6 +39,9 @@ class ilSettingsTemplate
 	 */
 	function __construct($a_id = 0, $config = null)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		if ($a_id > 0)
 		{
                         if ($config)
@@ -250,7 +258,7 @@ class ilSettingsTemplate
 	 */
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		// read template
 		$set = $ilDB->query("SELECT * FROM adm_settings_template WHERE ".
@@ -289,7 +297,7 @@ class ilSettingsTemplate
 	 */
 	function create()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$this->setId($ilDB->nextId("adm_settings_template"));
 
@@ -316,7 +324,7 @@ class ilSettingsTemplate
 	 */
 	public function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		// update template
 		$ilDB->update("adm_settings_template", array(
@@ -348,7 +356,7 @@ class ilSettingsTemplate
 	 */
 	private function insertSettings()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		foreach ($this->getSettings() as $s => $set)
 		{
@@ -367,7 +375,7 @@ class ilSettingsTemplate
 	 */
 	function insertHiddenTabs()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		foreach ($this->getHiddenTabs() as $tab_id)
 		{
@@ -384,7 +392,7 @@ class ilSettingsTemplate
 	 */
 	function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$ilDB->manipulate("DELETE FROM adm_settings_template WHERE "
 			." id = ".$ilDB->quote($this->getId(), "integer")
@@ -404,7 +412,9 @@ class ilSettingsTemplate
 	 */
 	static function getAllSettingsTemplates($a_type, $a_include_auto_generated = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		// begin-patch lok
 		if($a_include_auto_generated)
@@ -439,7 +449,9 @@ class ilSettingsTemplate
 	 */
 	protected static function lookupProperty($a_id, $a_prop)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->query("SELECT $a_prop FROM adm_settings_template WHERE ".
 			" id = ".$ilDB->quote($a_id, "integer")

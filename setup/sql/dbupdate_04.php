@@ -13777,6 +13777,7 @@ if (!$ilDB->tableExists('obj_stat_tmp'))
 	));
 	$ilDB->addPrimaryKey('obj_stat_tmp', array('log_id'));
 	$ilDB->addIndex('obj_stat_tmp',array('obj_id', 'obj_type', 'yyyy', 'mm', 'dd', 'hh'),'i1');
+	$ilDB->createSequence('obj_stat_tmp');
 }
 ?>
 <#4845>
@@ -20141,6 +20142,10 @@ $fields = array(
 		'length' => '1',
 
 	),
+	'core_identifier' => array(
+			'type' => 'integer',
+			'length' => '1',
+		),
 
 );
 if (! $ilDB->tableExists('il_orgu_positions')) {
@@ -20590,6 +20595,7 @@ if (! $ilDB->tableExists('il_dcl_sel_opts')) {
 ?>
 <#5194>
 <?php
+
 if(!$ilDB->tableColumnExists('il_orgu_positions','core_identifier'))
 {
 	$ilDB->addTableColumn(
@@ -20603,7 +20609,6 @@ if(!$ilDB->tableColumnExists('il_orgu_positions','core_identifier'))
 	);
 	$ilDB->query("UPDATE il_orgu_positions SET core_identifier = 0");
 }
-
 $employee = ilOrgUnitPosition::where(['title'=>"Employees", 'core_position'=>true])->first();
 $employee->setCoreIdentifier(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
 $employee->update();
@@ -20829,8 +20834,7 @@ if (!$ilDB->tableExists('lti2_consumer'))
 		)
 	));
 	$ilDB->addPrimaryKey('lti2_consumer',array('consumer_pk'));
-	$ilDB->addUniqueConstraint('lti2_consumer', array('consumer_key256'), 'u1');
-	$ilDB->createSequence('lti2_consumer');  
+	$ilDB->createSequence('lti2_consumer');
 }
 ?>
 <#5202>
@@ -21300,4 +21304,8 @@ if(!$ilDB->tableColumnExists('il_blog','nav_list_mon_with_post'))
                                                                       "length" => 1
                                                                       ));
     }
+?>
+<#5224>
+<?php
+$ilCtrlStructureReader->getStructure();
 ?>

@@ -163,7 +163,7 @@ class ilWikiPage extends ilPageObject
 	 */
 	function createFromXML()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		// ilWikiDataset creates wiki pages without copage objects
 		// (see create function in this class, parameter $a_prevent_page_creation)
@@ -186,7 +186,7 @@ class ilWikiPage extends ilPageObject
 	*/
 	function create($a_prevent_page_creation = false)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$id = $ilDB->nextId("il_wiki_page");
 		$this->setId($id);
@@ -266,7 +266,7 @@ class ilWikiPage extends ilPageObject
 	*/
 	function update($a_validate = true, $a_no_history = false)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// update wiki page data
 		$query = "UPDATE il_wiki_page SET ".
@@ -299,7 +299,7 @@ class ilWikiPage extends ilPageObject
 	*/
 	function read($a_omit_page_read = false)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$query = "SELECT * FROM il_wiki_page WHERE id = ".
 			$ilDB->quote($this->getId(), "integer");
@@ -327,7 +327,7 @@ class ilWikiPage extends ilPageObject
 	*/
 	function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// get other pages that link to this page
 		$linking_pages = ilWikiPage::getLinksToPage($this->getWikiId(),
@@ -379,7 +379,9 @@ class ilWikiPage extends ilPageObject
 	*/
 	static function deleteAllPagesOfWiki($a_wiki_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		// delete record of table il_wiki_data
 		$query = "SELECT * FROM il_wiki_page".
@@ -400,7 +402,9 @@ class ilWikiPage extends ilPageObject
 	*/
 	static function exists($a_wiki_id, $a_title)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$a_title = ilWikiUtil::makeDbTitle($a_title);
 		
@@ -421,7 +425,9 @@ class ilWikiPage extends ilPageObject
 	 */
 	static function getIdForPageTitle($a_wiki_id, $a_title)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$a_title = ilWikiUtil::makeDbTitle($a_title);
 
@@ -442,7 +448,9 @@ class ilWikiPage extends ilPageObject
 	*/
 	static function getPageIdForTitle($a_wiki_id, $a_title)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$a_title = ilWikiUtil::makeDbTitle($a_title);
 		
@@ -463,7 +471,9 @@ class ilWikiPage extends ilPageObject
 	*/
 	static function lookupTitle($a_page_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$query = "SELECT * FROM il_wiki_page".
 			" WHERE id = ".$ilDB->quote($a_page_id, "integer");
@@ -481,7 +491,9 @@ class ilWikiPage extends ilPageObject
 	 */
 	static function lookupWikiId($a_page_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$query = "SELECT wiki_id FROM il_wiki_page".
 			" WHERE id = ".$ilDB->quote($a_page_id, "integer");
@@ -501,7 +513,9 @@ class ilWikiPage extends ilPageObject
 	*/
 	static function getAllWikiPages($a_wiki_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$pages = parent::getAllPages("wpg", $a_wiki_id);
 		
@@ -528,7 +542,9 @@ class ilWikiPage extends ilPageObject
 	*/
 	static function getLinksToPage($a_wiki_id, $a_page_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		include_once("./Services/Link/classes/class.ilInternalLink.php");
 		$sources = ilInternalLink::_getSourcesOfTarget("wpg", $a_page_id, 0);
@@ -566,7 +582,9 @@ class ilWikiPage extends ilPageObject
 	*/
 	static function getOrphanedPages($a_wiki_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$pages = ilWikiPage::getAllWikiPages($a_wiki_id);
 		
@@ -608,7 +626,9 @@ class ilWikiPage extends ilPageObject
 	*/
 	static function _wikiPageExists($a_wiki_id, $a_title)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$a_title = ilWikiUtil::makeDbTitle($a_title);
 		
@@ -633,7 +653,9 @@ class ilWikiPage extends ilPageObject
 	*/
 	static function getWikiContributors($a_wiki_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$contributors = parent::getParentObjectContributors("wpg", $a_wiki_id);
 		
@@ -647,7 +669,9 @@ class ilWikiPage extends ilPageObject
 	*/
 	static function getWikiPageContributors($a_page_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$contributors = parent::getPageContributors("wpg", $a_page_id);
 		
@@ -662,7 +686,7 @@ class ilWikiPage extends ilPageObject
 	*/
 	function saveInternalLinks($a_domdoc)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		
 		// *** STEP 1: Standard Processing ***
@@ -732,7 +756,9 @@ class ilWikiPage extends ilPageObject
 	*/
 	static function _getPageIdForWikiTitle($a_wiki_id, $a_title)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$query = "SELECT id FROM il_wiki_page".
 			" WHERE wiki_id = ".$ilDB->quote($a_wiki_id, "integer").
@@ -753,7 +779,9 @@ class ilWikiPage extends ilPageObject
 	*/
 	static function getPopularPages($a_wiki_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$query = "SELECT wp.*, po.view_cnt as cnt FROM il_wiki_page wp, page_object po".
 			" WHERE wp.wiki_id = ".$ilDB->quote($a_wiki_id, "integer").
@@ -778,7 +806,9 @@ class ilWikiPage extends ilPageObject
 	*/
 	static function countPages($a_wiki_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		// delete record of table il_wiki_data
 		$query = "SELECT count(*) as cnt FROM il_wiki_page".
@@ -796,7 +826,9 @@ class ilWikiPage extends ilPageObject
 	*/
 	static function getRandomPage($a_wiki_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$cnt = ilWikiPage::countPages($a_wiki_id);
 		
@@ -824,7 +856,9 @@ class ilWikiPage extends ilPageObject
 	*/
 	static function getNewWikiPages($a_wiki_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$pages = parent::getNewPages("wpg", $a_wiki_id);
 		
@@ -845,7 +879,9 @@ class ilWikiPage extends ilPageObject
 	 */
 	public static function lookupObjIdByPage($a_page_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$query = "SELECT wiki_id FROM il_wiki_page".
 			" WHERE id = ".$ilDB->quote($a_page_id, "integer");
@@ -863,7 +899,7 @@ class ilWikiPage extends ilPageObject
 	 */
 	function rename($a_new_name)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// replace unallowed characters
 		$a_new_name = str_replace(array("<", ">"), '', $a_new_name);
@@ -957,7 +993,7 @@ class ilWikiPage extends ilPageObject
 	 */
 	function updateNews($a_update = false)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		$news_set = new ilSetting("news");
 		$default_visibility = ($news_set->get("default_visibility") != "")
@@ -1065,7 +1101,9 @@ class ilWikiPage extends ilPageObject
 	 */
 	static function getPagesForSearch($a_wiki_id, $a_term)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->query("SELECT DISTINCT title FROM il_wiki_page".
 			" WHERE wiki_id = ".$ilDB->quote($a_wiki_id, "integer").
@@ -1082,7 +1120,9 @@ class ilWikiPage extends ilPageObject
 	
 	public static function lookupAdvancedMetadataHidden($a_page_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$query = "SELECT * FROM il_wiki_page".
 			" WHERE id = ".$ilDB->quote($a_page_id, "integer");

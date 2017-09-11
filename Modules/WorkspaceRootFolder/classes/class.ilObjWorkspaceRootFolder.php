@@ -14,6 +14,18 @@ require_once "Services/Object/classes/class.ilObject2.php";
 */
 class ilObjWorkspaceRootFolder extends ilObject2
 {
+
+	/**
+	 * Constructor
+	 */
+	function __construct($a_id = 0, $a_reference = true)
+	{
+		global $DIC;
+		parent::__construct($a_id, $a_reference);
+
+		$this->db = $DIC->database();
+	}
+
 	function initType()
 	{
 		$this->type = "wsrt";
@@ -27,7 +39,7 @@ class ilObjWorkspaceRootFolder extends ilObject2
 	*/
 	function getTranslations()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$q = "SELECT * FROM object_translation WHERE obj_id = ".
 			$ilDB->quote($this->getId(),'integer')." ORDER BY lang_default DESC";
@@ -54,7 +66,7 @@ class ilObjWorkspaceRootFolder extends ilObject2
 	// remove all Translations of current category
 	function removeTranslations()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$query = "DELETE FROM object_translation WHERE obj_id= ".
 			$ilDB->quote($this->getId(),'integer');
@@ -64,7 +76,7 @@ class ilObjWorkspaceRootFolder extends ilObject2
 	// add a new translation to current category
 	function addTranslation($a_title,$a_desc,$a_lang,$a_lang_default)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if (empty($a_title))
 		{

@@ -386,6 +386,15 @@ interface ilDBInterface {
 	 */
 	public function substr($a_exp);
 
+	/**
+	 * Prepare a query (SELECT) statement to be used with execute.
+	 *
+	 * @param	string $a_query
+	 *
+	 * @return	\ilDBStatement
+	 */
+	public function prepare($a_query, $a_types = null, $a_result_types = null);
+
 
 	/**
 	 * @param $a_query

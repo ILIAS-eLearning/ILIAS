@@ -466,7 +466,6 @@ class ilSCORM13Package
 	
 	function importGlossary($slm, $packageFolder)
 	{
-		global $ilias;
 		// create and insert object in objecttree
 		include_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
 		$newObj = new ilObjGlossary();

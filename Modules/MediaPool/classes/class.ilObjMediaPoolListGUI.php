@@ -14,7 +14,6 @@ include_once "Services/Object/classes/class.ilObjectListGUI.php";
 */
 class ilObjMediaPoolListGUI extends ilObjectListGUI
 {
-
 	/**
 	* initialisation
 	*/
@@ -84,7 +83,8 @@ class ilObjMediaPoolListGUI extends ilObjectListGUI
 	*/
 	function getProperties()
 	{
-		global $lng, $ilUser;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 
 		$props = array();
 

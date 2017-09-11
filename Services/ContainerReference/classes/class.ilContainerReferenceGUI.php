@@ -34,6 +34,36 @@ include_once('./Services/Object/classes/class.ilObjectGUI.php');
 */
 class ilContainerReferenceGUI extends ilObjectGUI
 {
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilLocatorGUI
+	 */
+	protected $locator;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
 	const MAX_SELECTION_ENTRIES = 50;
 	
 	const MODE_CREATE = 1;
@@ -54,7 +84,17 @@ class ilContainerReferenceGUI extends ilObjectGUI
 	 */
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
-		global $lng; 
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+		$this->tabs = $DIC->tabs();
+		$this->locator = $DIC["ilLocator"];
+		$this->user = $DIC->user();
+		$this->access = $DIC->access();
+		$this->error = $DIC["ilErr"];
+		$this->settings = $DIC->settings();
+		$lng = $DIC->language();
 		parent::__construct($a_data, $a_id,$a_call_by_reference,$a_prepare_output);
 
 		$lng->loadLanguageModule('objref');
@@ -70,7 +110,8 @@ class ilContainerReferenceGUI extends ilObjectGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilCtrl,$ilTabs;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
 
 
 		if(isset($_GET['creation_mode']) && $_GET['creation_mode'] == self::MODE_CREATE)
@@ -114,7 +155,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
 	 */
 	protected function addLocatorItems()
 	{
-		global $ilLocator;
+		$ilLocator = $this->locator;
 		
 		if($this->object instanceof ilObject)
 		{
@@ -128,7 +169,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
 	 */
 	public function redirectObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->object->getTargetRefId());
 		$ilCtrl->redirectByClass("ilrepositorygui", "");
@@ -141,7 +182,10 @@ class ilContainerReferenceGUI extends ilObjectGUI
 	 */
 	public function createObject()
 	{
-		global $ilUser,$ilAccess,$ilErr,$ilSetting;
+		$ilUser = $this->user;
+		$ilAccess = $this->access;
+		$ilErr = $this->error;
+		$ilSetting = $this->settings;
 		
 		$new_type = $_REQUEST["new_type"];
 		if(!$ilAccess->checkAccess("create_".$this->getReferenceType(),'',$_GET["ref_id"], $new_type))
@@ -162,7 +206,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
 	 */
 	public function saveObject()
 	{
-		global $ilAccess;
+		$ilAccess = $this->access;
 		
 		if(!(int) $_REQUEST['target_id'])
 		{
@@ -227,7 +271,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
 	 */
 	public function editObject(ilPropertyFormGUI $form = null)
 	{
-		global $ilTabs;
+		$ilTabs = $this->tabs;
 
 		$ilTabs->setTabActive('settings');
 		
@@ -331,7 +375,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
 	 */
 	public function updateObject()
 	{
-		global $ilAccess;
+		$ilAccess = $this->access;
 		$form = $this->initForm();
 		if($form->checkInput())
 		{

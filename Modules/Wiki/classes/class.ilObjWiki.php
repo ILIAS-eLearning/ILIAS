@@ -19,6 +19,11 @@ include_once "./Services/AdvancedMetaData/interfaces/interface.ilAdvancedMetaDat
  */
 class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	protected $online = false;
 	protected $public_notes = true;
 	protected $empty_page_templ = true;
@@ -32,6 +37,10 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	function __construct($a_id = 0,$a_call_by_reference = true)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
+		$this->user = $DIC->user();
 		$this->type = "wiki";
 		parent::__construct($a_id,$a_call_by_reference);
 	}
@@ -347,7 +356,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	function create($a_prevent_start_page_creation = false)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		parent::create();
 		
@@ -387,7 +396,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	function update($a_prevent_start_page_creation = false)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if (!parent::update())
 		{			
@@ -435,7 +444,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		parent::read();
 		
@@ -473,7 +482,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// always call parent delete function first!!
 		if (!parent::delete())
@@ -501,7 +510,9 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	static function checkShortTitleAvailability($a_short_title)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$res = $ilDB->queryF("SELECT id FROM il_wiki_data WHERE short = %s",
 			array("text"), array($a_short_title));
@@ -595,7 +606,9 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	private static function _lookup($a_wiki_id, $a_field)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$query = "SELECT $a_field FROM il_wiki_data WHERE id = ".
 			$ilDB->quote($a_wiki_id, "integer");
@@ -621,7 +634,9 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 	 */
 	static function writeStartPage($a_id, $a_name)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		include_once("./Modules/Wiki/classes/class.ilWikiUtil.php");
 		$ilDB->manipulate("UPDATE il_wiki_data SET ".
@@ -694,7 +709,9 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 	 */
 	static function _lookupImportantPagesList($a_wiki_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->query("SELECT * FROM il_wiki_imp_pages WHERE ".
 			" wiki_id = ".$ilDB->quote($a_wiki_id, "integer")." ORDER BY ord ASC "
@@ -717,7 +734,9 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 	 */
 	static function _lookupMaxOrdNrImportantPages($a_wiki_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->query("SELECT MAX(ord) as m FROM il_wiki_imp_pages WHERE ".
 			" wiki_id = ".$ilDB->quote($a_wiki_id, "integer")
@@ -735,7 +754,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 	 */
 	function addImportantPage($a_page_id, $a_nr = 0, $a_indent = 0)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if (!$this->isImportantPage($a_page_id))
 		{
@@ -762,7 +781,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 	 */
 	function isImportantPage($a_page_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$set = $ilDB->query("SELECT * FROM il_wiki_imp_pages WHERE ".
 			" wiki_id = ".$ilDB->quote($this->getId(), "integer")." AND ".
@@ -782,7 +801,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 	 */
 	function removeImportantPage($a_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$ilDB->manipulate("DELETE FROM il_wiki_imp_pages WHERE "
 			." wiki_id = ".$ilDB->quote($this->getId(), "integer")
@@ -800,7 +819,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 	 */
 	function saveOrderingAndIndentation($a_ord, $a_indent)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$ipages = ilObjWiki::_lookupImportantPagesList($this->getId());
 
@@ -851,7 +870,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 	 */
 	function fixImportantPagesNumbering()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$ipages = ilObjWiki::_lookupImportantPagesList($this->getId());
 
@@ -906,8 +925,6 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 	 */
 	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
-		global $ilDB, $ilUser, $ilias;
-
 		$new_obj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
 
 		//copy online status if object is not the root copy object
@@ -937,7 +954,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 		$style_id = $this->getStyleSheetId();
 		if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id))
 		{
-			$style_obj = $ilias->obj_factory->getInstanceByObjId($style_id);
+			$style_obj = ilObjectFactory::getInstanceByObjId($style_id);
 			$new_id = $style_obj->ilClone();
 			$new_obj->setStyleSheetId($new_id);
 			$new_obj->update();
@@ -1073,7 +1090,9 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 
 	public static function getAdvMDSubItemTitle($a_obj_id, $a_sub_type, $a_sub_id)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 	
 		if($a_sub_type == "wpg")
 		{
@@ -1091,7 +1110,8 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 	 */
 	function initUserHTMLExport()
 	{
-		global $ilDB, $ilUser;
+		$ilDB = $this->db;
+		$ilUser = $this->user;
 
 		include_once("./Modules/Wiki/classes/class.ilWikiUserHTMLExport.php");
 
@@ -1107,7 +1127,8 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 	 */
 	function startUserHTMLExport()
 	{
-		global $ilDB, $ilUser;
+		$ilDB = $this->db;
+		$ilUser = $this->user;
 
 		include_once("./Modules/Wiki/classes/class.ilWikiUserHTMLExport.php");
 
@@ -1122,7 +1143,8 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 	 */
 	function getUserHTMLExportProgress()
 	{
-		global $ilDB, $ilUser;
+		$ilDB = $this->db;
+		$ilUser = $this->user;
 
 		include_once("./Modules/Wiki/classes/class.ilWikiUserHTMLExport.php");
 
@@ -1135,7 +1157,8 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 	 */
 	function deliverUserHTMLExport()
 	{
-		global $ilDB, $ilUser;
+		$ilDB = $this->db;
+		$ilUser = $this->user;
 
 		include_once("./Modules/Wiki/classes/class.ilWikiUserHTMLExport.php");
 

@@ -11,12 +11,17 @@
 */
 class ilTabsGUI
 {
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
 	var $target_script;
 	var $obj_type;
 	var $tpl;
 	var $lng;
 	var $tabs;
-	var $objDefinition;
 	var $target = array();
 	var $sub_target = array();
 	var $non_tabbed_link = array();
@@ -28,11 +33,14 @@ class ilTabsGUI
 	*/
 	function __construct()
 	{
-		global $tpl, $objDefinition, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$tpl = $DIC["tpl"];
+		$lng = $DIC->language();
 
 		$this->tpl = $tpl;
 		$this->lng = $lng;
-		$this->objDefinition = $objDefinition;
 		$this->manual_activation = false;
 		$this->subtab_manual_activation = false;
 		$this->temp_var = "TABS";
@@ -209,7 +217,13 @@ class ilTabsGUI
 	*/
 	function clearTargets()
 	{
-		global $ilHelp;
+		global $DIC;
+
+		$ilHelp = null;
+		if (isset($DIC["ilHelp"]))
+		{
+			$ilHelp = $DIC["ilHelp"];
+		}
 		
 		if (!$this->getSetupMode())
 		{
@@ -397,7 +411,26 @@ class ilTabsGUI
 	 */
 	function __getHTML($a_get_sub_tabs,$a_manual, $a_after_tabs_anchor = false)
 	{
-		global $ilCtrl, $lng, $ilUser, $ilPluginAdmin, $ilHelp;
+		global $DIC;
+
+		$ilHelp = null;
+		if (isset($DIC["ilHelp"]))
+		{
+			$ilHelp = $DIC["ilHelp"];
+		}
+
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilUser = null;
+		if (isset($DIC["ilUser"]))
+		{
+			$ilUser = $DIC->user();
+		}
+		$ilPluginAdmin = null;
+		if (isset($DIC["ilPluginAdmin"]))
+		{
+			$ilPluginAdmin = $DIC["ilPluginAdmin"];
+		}
 
 		// user interface hook [uihk]
 		if (!$this->getSetupMode())

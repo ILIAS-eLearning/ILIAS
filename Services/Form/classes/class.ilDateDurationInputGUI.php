@@ -13,6 +13,16 @@ include_once 'Services/Table/interfaces/interface.ilTableFilterItem.php';
 */
 class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	protected $start = null;
 	protected $startyear = null;	
 	protected $start_text = null;
@@ -32,6 +42,10 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 	*/
 	public function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("dateduration");
 	}
@@ -249,7 +263,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 	*/	
 	public function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if($this->getDisabled())
 		{
@@ -396,7 +410,8 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 	*/
 	public function render()
 	{
-		global $ilUser, $lng;
+		$ilUser = $this->user;
+		$lng = $this->lng;
 		
 		$tpl = new ilTemplate("tpl.prop_datetime_duration.html", true, true, "Services/Form");
 		

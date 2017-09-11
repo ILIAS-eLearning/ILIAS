@@ -14,6 +14,11 @@ include_once("./Services/UIComponent/Explorer2/classes/class.ilTreeExplorerGUI.p
 class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
 {
 	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
 	 * Constructor
 	 *
 	 * @param
@@ -22,6 +27,9 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
 	function __construct($a_parent_obj, $a_parent_cmd, $a_tax_id,
 		$a_target_gui, $a_target_cmd, $a_id = "")
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
 		include_once("./Services/Taxonomy/classes/class.ilTaxonomyTree.php");
 		$this->tax_tree = new ilTaxonomyTree($a_tax_id);
 		if ($a_id != "")
@@ -76,7 +84,7 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function getNodeHref($a_node)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		if(!$this->onclick)
 		{

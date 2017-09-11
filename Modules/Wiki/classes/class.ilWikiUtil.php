@@ -118,14 +118,6 @@ class ilWikiUtil
 			$prefix = '';
 //		}
 
-/*		if($wgContLang->hasVariants()) {
-			$selflink = $wgContLang->convertLinkToAllVariants($this->mTitle->getPrefixedText());
-		} else {
-			$selflink = array($this->mTitle->getPrefixedText());
-		}
-		$useSubpages = $this->areSubpagesAllowed();
-		wfProfileOut( $fname.'-setup' );
-*/
 		$useSubpages = false;
 		
 		# Loop for each link
@@ -133,21 +125,6 @@ class ilWikiUtil
 		{
 			$line = $a[$k];
 
-/*			if ( $useLinkPrefixExtension ) {
-				wfProfileIn( $fname.'-prefixhandling' );
-				if ( preg_match( $e2, $s, $m ) ) {
-					$prefix = $m[2];
-					$s = $m[1];
-				} else {
-					$prefix='';
-				}
-				# first link
-				if($first_prefix) {
-					$prefix = $first_prefix;
-					$first_prefix = false;
-				}
-				wfProfileOut( $fname.'-prefixhandling' );
-			}*/
 
 			$might_be_img = false;
 
@@ -440,7 +417,9 @@ class ilWikiUtil
 	static function makeLink( &$nt, $a_wiki_id, $text = '', $query = '', $trail = '', $prefix = '',
 		$a_offline = false)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC->ctrl();
 
 		//wfProfileIn( __METHOD__ );
 		if ( ! is_object($nt) ) {
@@ -619,11 +598,6 @@ class ilWikiUtil
 	// from Linker.php
 	static function splitTrail( $trail )
 	{
-		/*static $regex = false;
-		if ( $regex === false ) {
-			global $wgContLang;
-			$regex = $wgContLang->linkTrail();
-		}*/
 		$regex = '/^([a-z]+)(.*)$/sD';
 		
 		$inside = '';
@@ -641,7 +615,11 @@ class ilWikiUtil
 
 	static function sendNotification($a_action, $a_type, $a_wiki_ref_id, $a_page_id, $a_comment = null)
 	{
-		global $ilUser, $ilObjDataCache, $ilAccess;
+		global $DIC;
+
+		$ilUser = $DIC->user();
+		$ilObjDataCache = $DIC["ilObjDataCache"];
+		$ilAccess = $DIC->access();
 
 		include_once "./Services/Notification/classes/class.ilNotification.php";
 		include_once "./Modules/Wiki/classes/class.ilObjWiki.php";

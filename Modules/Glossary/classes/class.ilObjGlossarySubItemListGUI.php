@@ -37,12 +37,30 @@ include_once './Services/Link/classes/class.ilLink.php';
 class ilObjGlossarySubItemListGUI extends ilSubItemListGUI
 {
 	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct($a_cmd_class)
+	{
+		global $DIC;
+
+		parent::__construct($a_cmd_class);
+		$this->user = $DIC->user();
+	}
+
+	/**
 	 * get html 
 	 * @return
 	 */
 	public function getHTML()
 	{
-		global $lng,$ilUser;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 		
 		$lng->loadLanguageModule('content');
 		foreach($this->getSubItemIds(true) as $sub_item)

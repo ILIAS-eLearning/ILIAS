@@ -18,11 +18,22 @@ include_once './Services/COPage/classes/class.ilPCLoginPageElement.php';
 class ilPCLoginPageElementGUI extends ilPageContentGUI
 {
 	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
+	/**
 	* Constructor
 	* @access	public
 	*/
 	public function __construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->tpl = $DIC["tpl"];
+		$this->lng = $DIC->language();
+		$this->obj_definition = $DIC["objDefinition"];
 		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 
 		if(!is_object($this->content_obj))
@@ -74,7 +85,10 @@ class ilPCLoginPageElementGUI extends ilPageContentGUI
 	*/
 	public function edit($a_insert = false)
 	{
-		global $ilCtrl, $tpl, $lng, $objDefinition;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$objDefinition = $this->obj_definition;
 		
 		$this->displayValidationError();
 		

@@ -565,7 +565,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 	*/
 	function layout()
 	{
-		global $ilTabs;
+		$ilTabs = $this->tabs;
 		
 		$ilTabs->activateTab("layout");
 		

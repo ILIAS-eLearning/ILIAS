@@ -45,7 +45,9 @@ class ilAdministrationSettingsFormHandler
 	
 	protected static function initObjectMap()
 	{		
-		global $tree;
+		global $DIC;
+
+		$tree = $DIC->repositoryTree();
 		
 		$map = array("adm" => SYSTEM_FOLDER_ID);
 		foreach($tree->getChilds(SYSTEM_FOLDER_ID) as $obj)
@@ -67,7 +69,10 @@ class ilAdministrationSettingsFormHandler
 	
 	public static function getSettingsGUIInstance($a_settings_obj_type)
 	{				
-		global $objDefinition, $ilCtrl;
+		global $DIC;
+
+		$objDefinition = $DIC["objDefinition"];
+		$ilCtrl = $DIC->ctrl();
 		
 		$ref_id = self::getRefId($a_settings_obj_type);		
 		$obj_type = ilObject::_lookupType($ref_id, true);
@@ -171,7 +176,9 @@ class ilAdministrationSettingsFormHandler
 	
 	protected static function parseFieldValue($a_field_type, &$a_field_value)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		switch($a_field_type)
 		{
@@ -197,7 +204,12 @@ class ilAdministrationSettingsFormHandler
 	
 	protected static function parseFieldDefinition($a_type, ilPropertyFormGUI $a_form, ilObjectGUI $a_gui, $a_data)
 	{
-		global $lng, $rbacsystem, $ilCtrl, $ilAccess;
+		global $DIC;
+
+		$lng = $DIC->language();
+		$rbacsystem = $DIC->rbac()->system();
+		$ilCtrl = $DIC->ctrl();
+		$ilAccess = $DIC->access();
 		
 		if(!is_array($a_data))
 		{

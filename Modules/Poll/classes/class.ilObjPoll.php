@@ -44,6 +44,9 @@ class ilObjPoll extends ilObject2
 	
 	function __construct($a_id = 0, $a_reference = true) 
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		// default
 		$this->setOnline(false);
 		$this->setViewResults(self::VIEW_RESULTS_AFTER_VOTE);
@@ -220,7 +223,7 @@ class ilObjPoll extends ilObject2
 
 	protected function doRead()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$set = $ilDB->query("SELECT * FROM il_poll".
 				" WHERE id = ".$ilDB->quote($this->getId(), "integer"));
@@ -276,7 +279,7 @@ class ilObjPoll extends ilObject2
 
 	protected function doCreate()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if($this->getId())
 		{
@@ -301,7 +304,7 @@ class ilObjPoll extends ilObject2
 		
 	protected function doUpdate()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 	
 		if($this->getId())
 		{
@@ -329,7 +332,7 @@ class ilObjPoll extends ilObject2
 	
 	protected function doDelete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if($this->getId())
 		{		
@@ -528,7 +531,7 @@ class ilObjPoll extends ilObject2
 	
 	function getAnswers()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$res = array();
 		
@@ -545,7 +548,7 @@ class ilObjPoll extends ilObject2
 	
 	function getAnswer($a_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$sql = "SELECT * FROM il_poll_answer".
 			" WHERE id = ".$ilDB->quote($a_id, "integer");
@@ -555,7 +558,7 @@ class ilObjPoll extends ilObject2
 	
 	function saveAnswer($a_text, $a_pos = null)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if(!trim($a_text))
 		{
@@ -588,7 +591,7 @@ class ilObjPoll extends ilObject2
 	
 	function updateAnswer($a_id, $a_text)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 					
 		$ilDB->update("il_poll_answer",
 			array("answer" => array("text", $a_text)),
@@ -610,7 +613,7 @@ class ilObjPoll extends ilObject2
 	
 	function updateAnswerPositions(array $a_pos)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		asort($a_pos);
 		
@@ -627,7 +630,7 @@ class ilObjPoll extends ilObject2
 	
 	function deleteAnswer($a_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if($a_id)
 		{
@@ -641,7 +644,7 @@ class ilObjPoll extends ilObject2
 	
 	protected function deleteAllAnswers()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if($this->getId())
 		{
@@ -654,7 +657,7 @@ class ilObjPoll extends ilObject2
 	
 	public function deleteAllVotes()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if($this->getId())
 		{
@@ -725,7 +728,7 @@ class ilObjPoll extends ilObject2
 	
 	function saveVote($a_user_id, $a_answers)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if($this->hasUserVoted($a_user_id))
 		{
@@ -748,7 +751,7 @@ class ilObjPoll extends ilObject2
 	
 	function hasUserVoted($a_user_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$sql = "SELECT user_id".
 			" FROM il_poll_vote".
@@ -761,7 +764,7 @@ class ilObjPoll extends ilObject2
 	
 	function countVotes()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$sql = "SELECT COUNT(DISTINCT(user_id)) cnt".
 			" FROM il_poll_vote".
@@ -773,7 +776,7 @@ class ilObjPoll extends ilObject2
 	
 	function getVotePercentages()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$res = array();
 		$cnt = 0;
@@ -799,7 +802,7 @@ class ilObjPoll extends ilObject2
 	
 	public function getVotesByUsers()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$res = array();
 		

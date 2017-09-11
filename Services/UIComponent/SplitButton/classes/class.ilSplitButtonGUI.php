@@ -33,10 +33,12 @@ class ilSplitButtonGUI extends ilButtonBase
 	 */
 	public function __construct($a_type)
 	{
+		global $DIC;
+
 		/**
 		 * @var $lng ilLanguage
 		 */
-		global $lng;
+		$lng = $DIC->language();
 
 		$this->lng = $lng;
 

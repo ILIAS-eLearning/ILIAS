@@ -16,6 +16,11 @@ require_once('./Services/UIComponent/Button/classes/class.ilLinkButton.php');
  */
 class ilToolbarGUI
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 
 	/**
 	 * @var int
@@ -88,6 +93,7 @@ class ilToolbarGUI
 	public function __construct()
 	{
 		global $DIC;
+		$this->lng = $DIC->language();
 
 		$this->ui = $DIC->ui();
 
@@ -419,7 +425,7 @@ class ilToolbarGUI
 	 */
 	public function getHTML()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$this->applyAutoStickyToSingleElement();
 

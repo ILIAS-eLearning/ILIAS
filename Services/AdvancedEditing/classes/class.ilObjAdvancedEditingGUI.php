@@ -16,6 +16,31 @@ include_once "./Services/Object/classes/class.ilObjectGUI.php";
  */
 class ilObjAdvancedEditingGUI extends ilObjectGUI
 {
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilRbacAdmin
+	 */
+	protected $rbacadmin;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
 	var $conditions;
 
 	/**
@@ -23,7 +48,17 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	 */
 	function __construct($a_data,$a_id,$a_call_by_reference)
 	{
-		global $rbacsystem;
+		global $DIC;
+
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->rbacadmin = $DIC->rbac()->admin();
+		$this->ctrl = $DIC->ctrl();
+		$this->tabs = $DIC->tabs();
+		$this->tpl = $DIC["tpl"];
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$this->settings = $DIC->settings();
+		$rbacsystem = $DIC->rbac()->system();
 
 		$this->type = "adve";
 		parent::__construct($a_data,$a_id,$a_call_by_reference,false);
@@ -70,7 +105,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
-		global $rbacadmin;
+		$rbacadmin = $this->rbacadmin;
 
 		// create and insert forum in objecttree
 		$newObj = parent::saveObject();
@@ -95,7 +130,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	*/
 	function addSubtabs()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		if ($ilCtrl->getNextClass() != "ilpermissiongui" &&
 			!in_array($ilCtrl->getCmd(), array("showPageEditorSettings",
@@ -129,7 +164,8 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	*/
 	function addPageEditorSettingsSubtabs()
 	{
-		global $ilCtrl, $ilTabs;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
 
 		$ilTabs->addSubTabTarget("adve_pe_general",
 			 $ilCtrl->getLinkTarget($this, "showGeneralPageEditorSettings"),
@@ -155,7 +191,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	*/
 	function getTabs()
 	{
-		global $rbacsystem;
+		$rbacsystem = $this->rbacsystem;
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -186,7 +222,9 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	 */
 	function settingsObject()
 	{
-		global $tpl, $ilCtrl, $lng;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$editor = $this->object->_getRichTextEditor();
 		
@@ -294,7 +332,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	
 	protected function initTagsForm($a_id, $a_cmd, $a_title)
 	{
-		global $ilAccess;
+		$ilAccess = $this->access;
 		
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();
@@ -348,7 +386,9 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	*/
 	function showPageEditorSettingsObject()
 	{
-		global $tpl, $ilTabs, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
 		
 		$this->addPageEditorSettingsSubTabs();
 		
@@ -375,7 +415,8 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	*/
 	public function initPageEditorForm($a_mode = "edit")
 	{
-		global $lng, $ilSetting;
+		$lng = $this->lng;
+		$ilSetting = $this->settings;
 		
 		$lng->loadLanguageModule("content");
 		
@@ -445,7 +486,10 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	*/
 	public function savePageEditorSettingsObject()
 	{
-		global $tpl, $lng, $ilCtrl, $ilSetting;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilSetting = $this->settings;
 	
 		$this->initPageEditorForm();
 		if ($this->form->checkInput())
@@ -481,7 +525,8 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	 */
 	function showGeneralPageEditorSettingsObject()
 	{
-		global $tpl, $ilTabs;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
 
 		$this->addPageEditorSettingsSubTabs();
 		$ilTabs->activateTab("adve_page_editor_settings");
@@ -495,7 +540,8 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	 */
 	public function initGeneralPageSettingsForm()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -542,7 +588,9 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	 */
 	function saveGeneralPageSettingsObject()
 	{
-		global $ilCtrl, $lng, $tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
 		
 		$form = $this->initGeneralPageSettingsForm();
 		if ($form->checkInput())
@@ -572,7 +620,8 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	 */
 	public function initCharSelectorSettingsForm(ilCharSelectorGUI $char_selector)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -590,7 +639,9 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	 */
 	function showCharSelectorSettingsObject()
 	{
-		global $ilTabs, $ilSetting, $tpl;
+		$ilTabs = $this->tabs;
+		$ilSetting = $this->settings;
+		$tpl = $this->tpl;
 
 		$ilTabs->activateTab("adve_char_selector_settings");
 				
@@ -609,7 +660,10 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	 */
 	function saveCharSelectorSettingsObject()
 	{
-		global $ilSetting, $ilCtrl, $lng, $tpl;
+		$ilSetting = $this->settings;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
 		
 		require_once 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php';
 		$char_selector = new ilCharSelectorGUI(ilCharSelectorConfig::CONTEXT_ADMIN);

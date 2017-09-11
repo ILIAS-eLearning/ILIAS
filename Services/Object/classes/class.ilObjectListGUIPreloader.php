@@ -11,6 +11,31 @@ include_once("./Services/Object/classes/class.ilObjectListGUI.php");
  */
 class ilObjectListGUIPreloader
 {
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
+	 * @var ilObjectDataCache
+	 */
+	protected $obj_data_cache;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
 	protected $context; // [int]
 	protected $obj_ids; // [array]
 	protected $obj_ids_by_type; // [array]
@@ -20,6 +45,13 @@ class ilObjectListGUIPreloader
 	
 	public function __construct($a_context)
 	{
+		global $DIC;
+
+		$this->obj_definition = $DIC["objDefinition"];
+		$this->tree = $DIC->repositoryTree();
+		$this->obj_data_cache = $DIC["ilObjDataCache"];
+		$this->user = $DIC->user();
+		$this->rbacsystem = $DIC->rbac()->system();
 		$this->context = $a_context;		
 	}
 	
@@ -38,7 +70,11 @@ class ilObjectListGUIPreloader
 	
 	public function preload()
 	{						
-		global $objDefinition, $tree, $ilObjDataCache, $ilUser, $rbacsystem;
+		$objDefinition = $this->obj_definition;
+		$tree = $this->tree;
+		$ilObjDataCache = $this->obj_data_cache;
+		$ilUser = $this->user;
+		$rbacsystem = $this->rbacsystem;
 								
 		if(!$this->obj_ids)
 		{

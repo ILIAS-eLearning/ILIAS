@@ -24,7 +24,7 @@ class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI
 	
 	protected function getPageContentUserId($a_user_id)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		// user 
 		if(!$this->may_write)

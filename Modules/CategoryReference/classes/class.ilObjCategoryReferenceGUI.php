@@ -33,6 +33,11 @@ include_once('./Services/ContainerReference/classes/class.ilContainerReferenceGU
 */
 class ilObjCategoryReferenceGUI extends ilContainerReferenceGUI
 {
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
 	protected $target_type = 'cat';
 	protected $reference_type = 'catr';
 
@@ -43,6 +48,10 @@ class ilObjCategoryReferenceGUI extends ilContainerReferenceGUI
 	 */
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
+		global $DIC;
+
+		$this->access = $DIC->access();
+		$this->help = $DIC["ilHelp"];
 		 parent::__construct($a_data, $a_id,true,false);
 	}
 
@@ -66,7 +75,8 @@ class ilObjCategoryReferenceGUI extends ilContainerReferenceGUI
 	 */
 	public function getTabs()
 	{
-		global $ilAccess, $ilHelp;
+		$ilAccess = $this->access;
+		$ilHelp = $this->help;
 
 		$ilHelp->setScreenIdComponent("catr");
 		
@@ -93,7 +103,11 @@ class ilObjCategoryReferenceGUI extends ilContainerReferenceGUI
 	 */
 	 public static function _goto($a_target)
 	 {
-		global $ilAccess, $ilErr, $lng;
+		global $DIC;
+
+		$ilAccess = $DIC->access();
+		$ilErr = $DIC["ilErr"];
+		$lng = $DIC->language();
 		
 		include_once('./Services/ContainerReference/classes/class.ilContainerReference.php');
 		$target_ref_id = ilContainerReference::_lookupTargetRefId(ilObject::_lookupObjId($a_target));

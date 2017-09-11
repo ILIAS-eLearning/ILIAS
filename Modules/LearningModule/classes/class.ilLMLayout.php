@@ -33,7 +33,6 @@
 */
 class ilLMLayout
 {
-	var $ilias;
 	var $keep_with_previous;
 	var $keep_with_next;
 	var $css_url;
@@ -49,9 +48,6 @@ class ilLMLayout
 	*/
 	function __construct()
 	{
-		global $ilias;
-
-		$this->ilias = $ilias;
 	}
 
 	/**

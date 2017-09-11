@@ -11,6 +11,16 @@ include_once("./Services/Block/classes/class.ilCustomBlock.php");
 */
 class ilExternalFeedBlock extends ilCustomBlock
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var Logger
+	 */
+	protected $log;
+
 
 	protected $feed_url;
 
@@ -21,6 +31,10 @@ class ilExternalFeedBlock extends ilCustomBlock
 	*/
 	public function __construct($a_id = 0)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
+		$this->log = $DIC["ilLog"];
 		if ($a_id > 0)
 		{
 			$this->setId($a_id);
@@ -55,7 +69,8 @@ class ilExternalFeedBlock extends ilCustomBlock
 	*/
 	public function create()
 	{
-		global $ilDB, $ilLog;
+		$ilDB = $this->db;
+		$ilLog = $this->log;
 		
 		parent::create();
 		
@@ -75,7 +90,7 @@ class ilExternalFeedBlock extends ilCustomBlock
 	*/
 	public function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		parent::read();
 		
@@ -94,7 +109,7 @@ class ilExternalFeedBlock extends ilCustomBlock
 	*/
 	public function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		parent::update();
 		
@@ -112,7 +127,7 @@ class ilExternalFeedBlock extends ilCustomBlock
 	*/
 	public function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		parent::delete();
 		

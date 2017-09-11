@@ -1457,10 +1457,10 @@ class ilInitialisation
 	protected static function initLTI()
 	{
 		global $ilUser, $DIC;
-		$DIC->logger()->root()->write("auth_mode: " . $ilUser->auth_mode);
+		$DIC->logger()->root()->debug("auth_mode: " . $ilUser->auth_mode);
 		// production
 		if (strpos($ilUser->auth_mode, 'lti') !== false) {
-			$DIC->logger()->root()->write("LTI Mode!");
+			$DIC->logger()->root()->debug("LTI Mode!");
 			require_once "./Services/LTI/classes/class.ilLTIViewGUI.php";
 			ilLTIViewGUI::getInstance()->activate(); 
 		}
@@ -1476,7 +1476,7 @@ class ilInitialisation
 			//$_SESSION['lti_launch_css_url'] = 'http://ltiapps.net/test/css/tc.css';
 			//$_SESSION['lti_launch_presentation_return_url'] = 'http://ltiapps.net/test/tc-return.php';
 			
-			$DIC->logger()->root()->write("LTI Mode!");
+			$DIC->logger()->root()->debug("LTI Mode!");
 			require_once "./Services/LTI/classes/class.ilLTIViewGUI.php";
 			ilLTIViewGUI::getInstance()->activate();
 			//ilLTIViewGUI::getInstance()->checkMessages();

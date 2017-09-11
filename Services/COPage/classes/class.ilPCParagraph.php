@@ -15,9 +15,13 @@ require_once("./Services/COPage/classes/class.ilPageContent.php");
 */
 class ilPCParagraph extends ilPageContent
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	var $dom;
 	var $par_node;			// node of Paragraph element
-
 
 	static protected $bb_tags = array(
 			"com" => "Comment",
@@ -38,6 +42,9 @@ class ilPCParagraph extends ilPageContent
 	*/
 	function init()
 	{
+		global $DIC;
+
+		$this->user = $DIC->user();
 		$this->setType("par");
 	}
 
@@ -688,7 +695,9 @@ echo htmlentities($a_text);*/
 	 */
 	static function intLinks2xml($a_text)
 	{
-		global $objDefinition;
+		global $DIC;
+
+		$objDefinition = $DIC["objDefinition"];
 
 		$rtypes = $objDefinition->getAllRepositoryTypes();
 
@@ -1467,7 +1476,7 @@ if (!$a_wysiwyg)
 	 */
 	function saveJS($a_pg_obj, $a_content, $a_char, $a_pc_id, $a_insert_at = "")
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		$this->log->debug("step 1: ".substr($a_content, 0, 1000));
 		$t = self::handleAjaxContent($a_content);
@@ -2011,7 +2020,9 @@ if (!$a_wysiwyg)
 	 */
 	static function _deleteAnchors($a_parent_type, $a_page_id, $a_page_lang)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$ilDB->manipulate("DELETE FROM page_anchor WHERE ".
 			" page_parent_type = ".$ilDB->quote($a_parent_type, "text").
@@ -2025,7 +2036,9 @@ if (!$a_wysiwyg)
 	 */
 	static function _saveAnchor($a_parent_type, $a_page_id, $a_page_lang, $a_anchor_name)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$ilDB->manipulate("INSERT INTO page_anchor ".
 			"(page_parent_type, page_id, page_lang, anchor_name) VALUES (".
@@ -2041,7 +2054,9 @@ if (!$a_wysiwyg)
 	 */
 	static function _readAnchors($a_parent_type, $a_page_id, $a_page_lang = "-")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$and_lang = ($a_page_lang != "")
 			? " AND page_lang = ".$ilDB->quote($a_page_lang, "text")

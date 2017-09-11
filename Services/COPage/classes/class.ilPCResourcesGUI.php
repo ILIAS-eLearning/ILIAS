@@ -16,6 +16,16 @@ require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
 */
 class ilPCResourcesGUI extends ilPageContentGUI
 {
+	/**
+	 * @var ilTree
+	 */
+	protected $rep_tree;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
 
 	/**
 	* Constructor
@@ -23,7 +33,13 @@ class ilPCResourcesGUI extends ilPageContentGUI
 	*/
 	function __construct(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
-		global $tree;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->tpl = $DIC["tpl"];
+		$this->lng = $DIC->language();
+		$this->obj_definition = $DIC["objDefinition"];
+		$tree = $DIC->repositoryTree();
 		
 		$this->rep_tree = $tree;
 		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
@@ -63,7 +79,10 @@ class ilPCResourcesGUI extends ilPageContentGUI
 	*/
 	function edit($a_insert = false)
 	{
-		global $ilCtrl, $tpl, $lng, $objDefinition;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$objDefinition = $this->obj_definition;
 		
 		$this->displayValidationError();
 		
@@ -238,7 +257,11 @@ class ilPCResourcesGUI extends ilPageContentGUI
 	 */
 	static function insertResourcesIntoPageContent($a_content)
 	{
-		global $objDefinition, $tree, $lng;
+		global $DIC;
+
+		$objDefinition = $DIC["objDefinition"];
+		$tree = $DIC->repositoryTree();
+		$lng = $DIC->language();
 
 		$ref_id = (int) $_GET["ref_id"];
 		$obj_id = (int) ilObject::_lookupObjId($ref_id);

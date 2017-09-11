@@ -18,6 +18,51 @@
 */
 class ilPersonalWorkspaceGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilMainMenuGUI
+	 */
+	protected $main_menu;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilLocatorGUI
+	 */
+	protected $locator;
+
 	protected $tree; // [ilTree]
 	protected $node_id; // [int]
 	
@@ -26,7 +71,20 @@ class ilPersonalWorkspaceGUI
 	 */
 	public function __construct()
 	{
-		global $ilCtrl, $lng, $ilHelp;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->help = $DIC["ilHelp"];
+		$this->obj_definition = $DIC["objDefinition"];
+		$this->tpl = $DIC["tpl"];
+		$this->main_menu = $DIC["ilMainMenu"];
+		$this->user = $DIC->user();
+		$this->tabs = $DIC->tabs();
+		$this->locator = $DIC["ilLocator"];
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilHelp = $DIC["ilHelp"];
 
 		$lng->loadLanguageModule("wsp");
 
@@ -46,7 +104,10 @@ class ilPersonalWorkspaceGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilCtrl, $objDefinition, $tpl, $ilMainMenu;
+		$ilCtrl = $this->ctrl;
+		$objDefinition = $this->obj_definition;
+		$tpl = $this->tpl;
+		$ilMainMenu = $this->main_menu;
 
 		$ilCtrl->setReturn($this, "render");		
 		$cmd = $ilCtrl->getCmd();
@@ -108,7 +169,7 @@ class ilPersonalWorkspaceGUI
 	 */
 	protected function initTree()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		$user_id = $ilUser->getId();
 
@@ -122,7 +183,10 @@ class ilPersonalWorkspaceGUI
 
 	protected function renderBack()
 	{
-		global $lng, $ilTabs, $ilCtrl, $ilUser;
+		$lng = $this->lng;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 		
 		$root = $this->tree->getNodeData($this->node_id);
 		if($root["type"] != "wfld" && $root["type"] != "wsrt")
@@ -167,7 +231,11 @@ class ilPersonalWorkspaceGUI
 	 */
 	protected function renderLocator()
 	{
-		global $lng, $ilCtrl, $ilLocator, $tpl, $objDefinition;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilLocator = $this->locator;
+		$tpl = $this->tpl;
+		$objDefinition = $this->obj_definition;
 
 		$ilLocator->clearItems();
 		

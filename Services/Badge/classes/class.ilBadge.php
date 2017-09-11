@@ -11,6 +11,16 @@
  */
 class ilBadge
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	protected $id; // [int]
 	protected $parent_id; // [int]
 	protected $type_id; // [string]
@@ -30,6 +40,10 @@ class ilBadge
 	 */
 	public function __construct($a_id = null)
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->db = $DIC->database();
 		if($a_id)
 		{
 			$this->read($a_id);
@@ -38,7 +52,9 @@ class ilBadge
 	
 	public static function getInstancesByParentId($a_parent_id, array $a_filter = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$res = array();
 		
@@ -71,7 +87,9 @@ class ilBadge
 	
 	public static function getInstancesByType($a_type_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$res = array();
 		
@@ -100,7 +118,7 @@ class ilBadge
 	
 	public function copy($a_new_parent_id)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$this->setTitle($this->getTitle()." ".$lng->txt("copy_of_suffix"));
 		$this->setParentId($a_new_parent_id);
@@ -123,7 +141,9 @@ class ilBadge
 	
 	public static function getObjectInstances(array $a_filter = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$res = $raw = array();
 		
@@ -353,7 +373,7 @@ class ilBadge
 	
 	protected function read($a_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$set = $ilDB->query("SELECT * FROM badge_badge".
 			" WHERE id = ".$ilDB->quote($a_id, "integer"));
@@ -382,7 +402,7 @@ class ilBadge
 	
 	public function create()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if($this->getId())
 		{
@@ -403,7 +423,7 @@ class ilBadge
 	
 	public function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if(!$this->getId())
 		{
@@ -419,7 +439,7 @@ class ilBadge
 	
 	public function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if(!$this->getId())
 		{
@@ -543,7 +563,9 @@ class ilBadge
 	
 	public static function getExtendedTypeCaption(ilBadgeType $a_type)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		return $a_type->getCaption()." (".
 			($a_type instanceof ilBadgeAuto

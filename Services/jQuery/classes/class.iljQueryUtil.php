@@ -23,7 +23,9 @@ class iljQueryUtil {
 	 * @param \ilTemplate $a_tpl global $tpl is used when null
 	 */
 	public static function initjQuery($a_tpl = null) {
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 		// self::$min = DEVMODE ? "" : ".min";
 		self::$min = "";
@@ -32,6 +34,7 @@ class iljQueryUtil {
 		}
 
 		$a_tpl->addJavaScript(self::getLocaljQueryPath(), true, 1);
+		$a_tpl->addJavaScript('./libs/bower/bower_components/jquery-migrate/jquery-migrate.min.js', true, 1);
 	}
 
 
@@ -40,7 +43,9 @@ class iljQueryUtil {
 	 * (see included_components.txt for included components)
 	 */
 	public static function initjQueryUI() {
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 		$tpl->addJavaScript(self::getLocaljQueryUIPath(), true, 1);
 	}
@@ -69,7 +74,9 @@ class iljQueryUtil {
 	 * Inits and add maphilight to the general template
 	 */
 	public static function initMaphilight() {
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 		$tpl->addJavaScript(self::getLocalMaphilightPath(), true, 1);
 	}

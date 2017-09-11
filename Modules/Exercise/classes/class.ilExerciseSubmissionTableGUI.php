@@ -16,6 +16,11 @@ include_once("./Services/UIComponent/Modal/classes/class.ilModalGUI.php");
  */
 abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 {	
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
 	protected $exc; // [ilObjExercise]
 	protected $mode; // [int]
 	protected $filter; // [array]
@@ -42,7 +47,15 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, ilObjExercise $a_exc, $a_item_id)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->access = $DIC->access();
+		$this->tpl = $DIC["tpl"];
+		$this->lng = $DIC->language();
+
+
+		$ilCtrl = $DIC->ctrl();
 		
 		$this->exc = $a_exc;
 		
@@ -210,7 +223,8 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 	
 	protected function parseRow($a_user_id, ilExAssignment $a_ass, array $a_row)
 	{
-		global $ilCtrl, $ilAccess;
+		$ilCtrl = $this->ctrl;
+		$ilAccess = $this->access;
 		
 		$has_no_team_yet = ($a_ass->hasTeam() &&
 			!ilExAssignmentTeam::getTeamId($a_ass->getId(), $a_user_id));
@@ -583,7 +597,8 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 		
 	public function render()
 	{
-		global $ilCtrl, $tpl;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
 		
 		$url = $ilCtrl->getLinkTarget($this->getParentObject(), "saveCommentForLearners", "", true, false);		
 		

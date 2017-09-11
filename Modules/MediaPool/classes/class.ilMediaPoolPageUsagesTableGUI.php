@@ -14,13 +14,26 @@ include_once("Services/Table/classes/class.ilTable2GUI.php");
 */
 class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
 	
 	/**
 	* Constructor
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd, $a_page, $a_incl_hist)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
+		$lng = $DIC->language();
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->page = $a_page;
@@ -79,7 +92,9 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl, $ilAccess;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilAccess = $this->access;
 
 		$usage = $a_set;
 		
@@ -263,7 +278,7 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
 
 	function getFirstWritableRefId($a_obj_id)
 	{
-		global $ilAccess;
+		$ilAccess = $this->access;
 		
 		$ref_ids = ilObject::_getAllReferences($a_obj_id);
 		foreach ($ref_ids as $ref_id)

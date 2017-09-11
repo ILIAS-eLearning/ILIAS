@@ -30,6 +30,9 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		parent::__construct($a_title, $a_postvar);
 		$this->setRetype(true);
 		$this->setSkipSyntaxCheck(false);
@@ -253,7 +256,7 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if($this->getUseStripSlashes())
 		{
@@ -313,7 +316,7 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
 	*/
 	function render()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$ptpl = new ilTemplate("tpl.prop_password.html", true, true, "Services/Form");
 		

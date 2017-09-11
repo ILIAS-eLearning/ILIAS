@@ -14,6 +14,11 @@ include_once "Services/Cron/classes/class.ilCronJob.php";
 class ilCronPersonalWorkspaceRecalculateQuota extends ilCronJob
 {
 	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
 	 * @var ilDB
 	 */
 	protected $db;
@@ -28,7 +33,10 @@ class ilCronPersonalWorkspaceRecalculateQuota extends ilCronJob
 	 */
 	function __construct()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$ilDB = $DIC->database();
 
 		$this->db = $ilDB;
 	}
@@ -47,7 +55,7 @@ class ilCronPersonalWorkspaceRecalculateQuota extends ilCronJob
 	 */
 	public function getTitle()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		return $lng->txt("pwsp_recalculate_disk_quota");
 	}
@@ -57,7 +65,7 @@ class ilCronPersonalWorkspaceRecalculateQuota extends ilCronJob
 	 */
 	public function getDescription()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		return $lng->txt("pwsp_recalculate_disk_quota_desc");
 	}

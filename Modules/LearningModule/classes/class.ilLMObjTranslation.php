@@ -11,6 +11,11 @@
  */
 class ilLMObjTranslation
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	protected $lang;
 	protected $title;
 	protected $short_title;
@@ -25,6 +30,9 @@ class ilLMObjTranslation
 	 */
 	function __construct($a_id = 0, $a_lang = "")
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		if ($a_id > 0 && $a_lang != "")
 		{
 			$this->setId($a_id);
@@ -138,7 +146,7 @@ class ilLMObjTranslation
 	 */
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$set = $ilDB->query("SELECT * FROM lm_data_transl ".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer").
@@ -156,7 +164,7 @@ class ilLMObjTranslation
 	 */
 	function save()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if (!self::exists($this->getId(), $this->getLang()))
 		{
@@ -191,7 +199,9 @@ class ilLMObjTranslation
 	 */
 	static function exists($a_id, $a_lang)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT * FROM lm_data_transl ".
 			" WHERE id = ".$ilDB->quote($a_id, "integer").
@@ -212,7 +222,9 @@ class ilLMObjTranslation
 	 */
 	static function copy($a_source_id, $a_target_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->query("SELECT * FROM lm_data_transl ".
 			" WHERE id = ".$ilDB->quote($a_source_id, "integer")

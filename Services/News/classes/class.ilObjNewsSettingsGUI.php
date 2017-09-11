@@ -15,6 +15,26 @@ include_once("./Services/Object/classes/class.ilObjectGUI.php");
 */
 class ilObjNewsSettingsGUI extends ilObjectGUI
 {
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
     private static $ERROR_MESSAGE;
 	/**
 	 * Contructor
@@ -23,6 +43,14 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 	 */
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
+		global $DIC;
+
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->error = $DIC["ilErr"];
+		$this->access = $DIC->access();
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->settings = $DIC->settings();
 		$this->type = 'nwss';
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
@@ -39,7 +67,9 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 	 */
 	public function executeCommand()
 	{
-		global $rbacsystem,$ilErr,$ilAccess;
+		$rbacsystem = $this->rbacsystem;
+		$ilErr = $this->error;
+		$ilAccess = $this->access;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -80,7 +110,8 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 	 */
 	public function getAdminTabs()
 	{
-		global $rbacsystem, $ilAccess;
+		$rbacsystem = $this->rbacsystem;
+		$ilAccess = $this->access;
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -102,7 +133,10 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 	*/
 	public function editSettings()
 	{
-		global $ilCtrl, $lng, $ilSetting, $ilAccess;;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilSetting = $this->settings;
+		$ilAccess = $this->access;
 		
 		$news_set = new ilSetting("news");
 		$feed_set = new ilSetting("feed");
@@ -292,7 +326,9 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 	*/
 	public function saveSettings()
 	{
-		global $ilCtrl, $ilSetting, $ilAccess;
+		$ilCtrl = $this->ctrl;
+		$ilSetting = $this->settings;
+		$ilAccess = $this->access;
 		
 		if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{

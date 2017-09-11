@@ -16,6 +16,16 @@ require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
  */
 class ilPCTableGUI extends ilPageContentGUI
 {
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 
 	/**
 	* Constructor
@@ -23,6 +33,13 @@ class ilPCTableGUI extends ilPageContentGUI
 	*/
 	function __construct(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
+		global $DIC;
+
+		$this->tabs = $DIC->tabs();
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->tpl = $DIC["tpl"];
+		$this->user = $DIC->user();
 		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 		$this->setCharacteristics(array("StandardTable" => $this->lng->txt("cont_StandardTable")));
 
@@ -66,7 +83,9 @@ class ilPCTableGUI extends ilPageContentGUI
 	*/
 	function setTabs()
 	{
-		global $ilTabs, $ilCtrl, $lng;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		$ilTabs->setBackTarget($lng->txt("pg"),
 			$this->ctrl->getParentReturn($this));
@@ -86,7 +105,9 @@ class ilPCTableGUI extends ilPageContentGUI
 	*/
 	function setCellPropertiesSubTabs()
 	{
-		global $ilTabs, $ilCtrl, $lng;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		$ilTabs->addSubTabTarget("cont_style",
 			$ilCtrl->getLinkTarget($this, "editCellStyle"), "editCellStyle",
@@ -119,7 +140,9 @@ class ilPCTableGUI extends ilPageContentGUI
 	*/
 	function edit()
 	{
-		global $ilCtrl, $lng, $tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
 		
 		$this->displayValidationError();
 		$this->setTabs();
@@ -136,7 +159,10 @@ class ilPCTableGUI extends ilPageContentGUI
 	*/
 	function initPropertiesForm($a_mode = "edit")
 	{
-		global $ilCtrl, $lng, $tpl, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
+		$ilUser = $this->user;
 		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -422,7 +448,9 @@ class ilPCTableGUI extends ilPageContentGUI
 	*/
 	static function _renderTable($content, $a_mode = "table_edit", $a_submode = "", $a_table_obj = null)
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC->user();
 		
 		$content = "<dummy>".$content."</dummy>";
 
@@ -477,7 +505,9 @@ class ilPCTableGUI extends ilPageContentGUI
 	 */
 	static function _addStyleCheckboxes($a_output, $a_table)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		$classes = $a_table->getAllCellClasses();
 		
@@ -505,7 +535,9 @@ class ilPCTableGUI extends ilPageContentGUI
 	 */
 	static function _addAlignmentCheckboxes($a_output, $a_table)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 
 		$classes = $a_table->getAllCellAlignments();
 
@@ -529,7 +561,9 @@ class ilPCTableGUI extends ilPageContentGUI
 	*/
 	static function _addWidthInputs($a_output, $a_table)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		$widths = $a_table->getAllCellWidths();
 		
@@ -549,7 +583,9 @@ class ilPCTableGUI extends ilPageContentGUI
 	*/
 	static function _addSpanInputs($a_output, $a_table)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		$spans = $a_table->getAllCellSpans();
 		
@@ -589,7 +625,10 @@ class ilPCTableGUI extends ilPageContentGUI
 	 */
 	function editCellStyle()
 	{
-		global $ilCtrl, $tpl, $lng, $ilTabs;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilTabs = $this->tabs;
 		
 		$this->displayValidationError();
 		$this->setTabs();
@@ -635,7 +674,10 @@ class ilPCTableGUI extends ilPageContentGUI
 	*/
 	function editCellWidth()
 	{
-		global $ilCtrl, $tpl, $lng, $ilTabs;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilTabs = $this->tabs;
 		
 		$this->displayValidationError();
 		$this->setTabs();
@@ -659,7 +701,10 @@ class ilPCTableGUI extends ilPageContentGUI
 	*/
 	function editCellSpan()
 	{
-		global $ilCtrl, $tpl, $lng, $ilTabs;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilTabs = $this->tabs;
 		
 		$this->displayValidationError();
 		$this->setTabs();
@@ -683,7 +728,7 @@ class ilPCTableGUI extends ilPageContentGUI
 	 */
 	function setStyles()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if (is_array($_POST["target"]))
 		{
@@ -707,7 +752,7 @@ class ilPCTableGUI extends ilPageContentGUI
 	*/
 	function setWidths()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if (is_array($_POST["width"]))
 		{
@@ -728,7 +773,7 @@ class ilPCTableGUI extends ilPageContentGUI
 	*/
 	function setSpans()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if (is_array($_POST["colspan"]))
 		{
@@ -854,7 +899,10 @@ class ilPCTableGUI extends ilPageContentGUI
 	*/
 	function insert()
 	{
-		global $ilUser, $ilCtrl, $tpl, $lng;
+		$ilUser = $this->user;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 		
 		$this->displayValidationError();
 
@@ -946,7 +994,10 @@ class ilPCTableGUI extends ilPageContentGUI
 	 */
 	function editCellAlignment()
 	{
-		global $ilCtrl, $tpl, $lng, $ilTabs;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilTabs = $this->tabs;
 
 		$this->displayValidationError();
 		$this->setTabs();
@@ -987,7 +1038,7 @@ class ilPCTableGUI extends ilPageContentGUI
 	 */
 	function setAlignment()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		if (is_array($_POST["target"]))
 		{

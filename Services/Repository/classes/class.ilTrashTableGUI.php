@@ -14,13 +14,37 @@ require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 */
 class ilTrashTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
 	
 	/**
 	* Constructor
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$this->obj_definition = $DIC["objDefinition"];
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
+		$lng = $DIC->language();
 		
 		$this->ref_id = $a_ref_id;
 		
@@ -51,7 +75,8 @@ class ilTrashTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $lng, $objDefinition;
+		$lng = $this->lng;
+		$objDefinition = $this->obj_definition;
 		
 		$img = ilObject::_getIcon($obj_id, "small", $a_set["type"]);
 		if (is_file($img))

@@ -31,7 +31,10 @@ abstract class ilAwarenessUserProvider
 	 */
 	function __construct()
 	{
-		global $lng, $ilDB;
+		global $DIC;
+
+		$lng = $DIC->language();
+		$ilDB = $DIC->database();
 
 		$this->lng = $lng;
 		$this->db = $ilDB;

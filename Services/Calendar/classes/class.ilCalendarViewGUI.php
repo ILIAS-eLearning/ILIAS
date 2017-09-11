@@ -91,19 +91,11 @@ class ilCalendarViewGUI
 	 */
 	function getEvents()
 	{
-//		$cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($cat_id);
-//		initialize($a_mode,$a_source_ref_id = 0,$a_use_cache = false)
 		$schedule = new ilCalendarSchedule(new ilDate(time(),IL_CAL_UNIX),ilCalendarSchedule::TYPE_PD_UPCOMING);
-
-		//$this->logger->debug("*seed = ".$this->seed);
-		$seed_string = $this->getCleanSeedString($this->seed);
 
 		switch ($this->presentation_type)
 		{
 			case self::CAL_PRESENTATION_AGENDA_LIST:
-				//$this->logger->debug("- This->Seed ===> ".$this->seed);
-				//$this->logger->debug("- clean seed ===> ".$seed_string);
-				//$this->logger->debug("- This->period_end_day ==> ".$this->period_end_day);
 
 				if($this->period_end_day == "")
 				{
@@ -113,7 +105,7 @@ class ilCalendarViewGUI
 						$this->period = $qp["cal_agenda_per"];
 					}
 
-					$end_date = new ilDate($seed_string." 00:00:00", IL_CAL_DATETIME);
+					$end_date = new ilDate($this->seed->get(IL_CAL_DATE)." 00:00:00", IL_CAL_DATETIME);
 
 					switch ($this->period)
 					{
@@ -140,10 +132,7 @@ class ilCalendarViewGUI
 					$this->period_end_day = $end_date->get(IL_CAL_DATE);
 				}
 
-				$this->logger->debug("- set period with this current seed ===> ".$this->seed);
-				$this->logger->debug("- set period with this current end day ==> ".$this->period_end_day);
-
-				$schedule->setPeriod(new ilDate($seed_string, IL_CAL_DATE),
+				$schedule->setPeriod(new ilDate($this->seed->get(IL_CAL_DATE), IL_CAL_DATE),
 					new ilDate($this->period_end_day, IL_CAL_DATE));
 				break;
 			case self::CAL_PRESENTATION_DAY:
@@ -210,14 +199,15 @@ class ilCalendarViewGUI
 				$dates = $this->getDatesForItem($item);
 				// content of modal
 				include_once("./Services/Calendar/classes/class.ilCalendarAppointmentPresentationGUI.php");
-				$next_gui = ilCalendarAppointmentPresentationGUI::_getInstance(new ilDate($this->seed, IL_CAL_DATE), $item);
+				$next_gui = ilCalendarAppointmentPresentationGUI::_getInstance($this->seed, $item);
 				$content = $ctrl->getHTML($next_gui);
 
-				if($_GET['modal_title'] != "") {
-					$modal = $f->modal()->roundtrip(rawurldecode($_GET['modal_title']) ,$f->legacy($content));
-				} else {
-					$modal = $f->modal()->roundtrip(ilDatePresentation::formatPeriod($dates["start"], $dates["end"]),$f->legacy($content));
-				}
+				//plugins can change the modal title.
+
+				$modal_title = ilDatePresentation::formatPeriod($dates["start"], $dates["end"]);
+				$modal_title = $this->getModalTitleByPlugins($modal_title);
+				$modal = $f->modal()->roundtrip($modal_title,$f->legacy($content));
+
 				echo $r->renderAsync($modal);
 			}
 		}
@@ -228,10 +218,9 @@ class ilCalendarViewGUI
 	 * @param $a_calendar_entry
 	 * @param $a_dstart
 	 * @param string $a_title_forced  //used in plugins to rename the shy button title.
-	 * @param string $a_new_modal_title
 	 * @return string  shy button html
 	 */
-	function getAppointmentShyButton($a_calendar_entry, $a_dstart, $a_title_forced = "", $a_new_modal_title = "")
+	function getAppointmentShyButton($a_calendar_entry, $a_dstart, $a_title_forced = "")
 	{
 		$f = $this->ui_factory;
 		$r = $this->ui_renderer;
@@ -239,15 +228,10 @@ class ilCalendarViewGUI
 		$this->ctrl->setParameter($this, "app_id", $a_calendar_entry->getEntryId());
 		$this->ctrl->setParameter($this,'dt',$a_dstart);
 		$this->ctrl->setParameter($this,'seed',$this->seed->get(IL_CAL_DATE));
-		if($a_new_modal_title != "")
-		{
-			$this->ctrl->setParameter($this,'modal_title',rawurlencode($a_new_modal_title));
-		}
 		$url = $this->ctrl->getLinkTarget($this, "getModalForApp", "", true, false);
 		$this->ctrl->setParameter($this, "app_id", $_GET["app_id"]);
 		$this->ctrl->setParameter($this, "dt", $_GET["dt"]);
 		$this->ctrl->setParameter($this,'seed',$_GET["seed"]);
-		$this->ctrl->setParameter($this,'modal_title',$_GET["modal_title"]);
 
 		$modal = $f->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
 
@@ -274,14 +258,14 @@ class ilCalendarViewGUI
 		return $res;
 	}
 
-	public function getModalTitleByPlugins()
+	public function getModalTitleByPlugins($a_current_title)
 	{
-		$modal_title = "";
+		$modal_title = $a_current_title;
 		//demo of plugin execution.
 		//"capm" is the plugin slot id for Appointment presentations (modals)
 		foreach($this->getActivePlugins("capm") as $plugin)
 		{
-			$modal_title = ($new_title = $plugin->editModalTitle())? $new_title : "";
+			$modal_title = ($new_title = $plugin->editModalTitle($a_current_title))? $new_title : "";
 		}
 		return $modal_title;
 	}
@@ -299,7 +283,7 @@ class ilCalendarViewGUI
 		foreach($this->getActivePlugins("capg") as $plugin)
 		{
 			$plugin->setAppointment($a_cal_entry, new ilDateTime($a_start_date));
-			if($new_content = $plugin->replaceContent())
+			if($new_content = $plugin->replaceContent($a_title))
 			{
 				$content = $new_content;
 			}
@@ -356,8 +340,6 @@ class ilCalendarViewGUI
 		include_once './Services/Calendar/classes/BackgroundTasks/class.ilDownloadFilesBackgroundTask.php';
 		$download_job = new ilDownloadFilesBackgroundTask($GLOBALS['DIC']->user()->getId());
 
-		//$this->logger->debug("count events = ".count($this->getEvents()));
-
 		$download_job->setBucketTitle($this->getBucketTitle());
 		$download_job->setEvents($this->getEvents());
 		$download_job->run();
@@ -371,43 +353,29 @@ class ilCalendarViewGUI
 	 */
 	public function getBucketTitle()
 	{
-		//string from ilDate
-		$seed_string = $this->getCleanSeedString($this->seed);
-
 		$user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
 		$bucket_title = $this->lng->txt("cal_calendar_download");
 		switch ($this->presentation_type)
 		{
 			case self::CAL_PRESENTATION_DAY:
 				//$start = ilCalendarUtil::_numericDayToString($this->seed->get(IL_CAL_FKT_DATE,'w'));
-				$bucket_title .= " ".$seed_string;
+				$bucket_title .= " ".$this->seed->get(IL_CAL_DATE);
 				break;
 			case self::CAL_PRESENTATION_WEEK:
 				$weekday_list = ilCalendarUtil::_buildWeekDayList($this->seed,$user_settings->getWeekStart())->get();
-				$start = $this->getCleanSeedString(current($weekday_list));
-				$end = $this->getCleanSeedString(end($weekday_list));
-				$bucket_title .= " ".$start." to ".$end;
+				$start = current($weekday_list);
+				$end = end($weekday_list);
+				$bucket_title .= " ".$start->get(IL_CAL_DATE)." to ".$end->get(IL_CAL_DATE);
 				break;
 			case self::CAL_PRESENTATION_MONTH:
 				$bucket_title .= " ".$this->lng->txt('month_'.$this->seed->get(IL_CAL_FKT_DATE,'m').'_long').
 					' '.$this->seed->get(IL_CAL_FKT_DATE,'Y');
 				break;
 			case self::CAL_PRESENTATION_AGENDA_LIST:
-				$bucket_title .= " Agenda ".$seed_string;
+				$bucket_title .= " Agenda ".$this->seed->get(IL_CAL_DATE);
 				break;
 		}
 
 		return $bucket_title;
-	}
-
-	/**
-	 * TODO: Temporary solution. We should find in ilDate this <br> and delete it if possible.
-	 * Remove the <br> at the end of the seed.
-	 * @param string $a_seed
-	 * @return string
-	 */
-	private function getCleanSeedString($a_seed)
-	{
-		return preg_replace("/[^0-9\-]/", "", $a_seed);
 	}
 }

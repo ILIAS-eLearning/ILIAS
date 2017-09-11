@@ -21,7 +21,12 @@ class ilSurveySkillChangesTableGUI extends ilTable2GUI
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_survey, $a_appraisee)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		$this->survey = $a_survey;
 		$this->appraisee = $a_appraisee;
@@ -67,7 +72,7 @@ class ilSurveySkillChangesTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng;
+		$lng = $this->lng;
 //var_dump($a_set);
 		$this->tpl->setVariable("SKILL", $a_set["skill_title"]);
 		$this->tpl->setVariable("MEAN_SUM", $a_set["mean_sum"]);

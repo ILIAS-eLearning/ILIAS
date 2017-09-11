@@ -58,8 +58,12 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 			$this->period = $qp["cal_agenda_per"];
 		}
 
-		$this->seed = $qp["seed"];
-		$end_date = new ilDate($this->seed." 00:00:00", IL_CAL_DATETIME);
+		$get_seed = $qp["seed"];
+
+		$this->seed = new ilDate($get_seed." 00:00:00", IL_CAL_DATE);
+
+		$end_date = new ilDate($get_seed." 00:00:00", IL_CAL_DATETIME);
+
 		switch ($this->period)
 		{
 			case self::PERIOD_DAY:
@@ -94,7 +98,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 			case "ilcalendarappointmentpresentationgui":
 				$this->ctrl->setReturn($this, "");
 				include_once("./Services/Calendar/classes/class.ilCalendarAppointmentPresentationGUI.php");
-				$gui = ilCalendarAppointmentPresentationGUI::_getInstance(new ilDate($this->seed, IL_CAL_DATE), $this->getCurrentApp());
+				$gui = ilCalendarAppointmentPresentationGUI::_getInstance(new ilDate($this->seed->get(IL_CAL_DATE), IL_CAL_DATE), $this->getCurrentApp());
 				$this->ctrl->forwardCommand($gui);
 				break;
 
@@ -115,7 +119,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 	 */
 	function getHTML()
 	{
-		$navigation = new ilCalendarHeaderNavigationGUI($this,new ilDate($this->seed, IL_CAL_DATE),ilDateTime::DAY);
+		$navigation = new ilCalendarHeaderNavigationGUI($this,new ilDate($this->seed->get(IL_CAL_DATE), IL_CAL_DATE),ilDateTime::DAY);
 		$navigation->getHTML();
 
 		// set return now (after header navigation) to the list (e.g. for profile links)
@@ -159,15 +163,12 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 			 * ilCalendarViewGUI refactoring the method getAppointmentShyButton or
 			 * if we want extend this class from ilCalendarInboxGUI we can just keep it here.
 			 */
-			//plugins can change the modal title.
-			$modal_title = $this->getModalTitleByPlugins();
+
 			// shy button for title
 			$this->ctrl->setParameter($this, 'app_id', $e["event"]->getEntryId());
 			$this->ctrl->setParameter($this,'dt',$e['dstart']);
-			$this->ctrl->setParameter($this, 'seed', $this->seed);
-			if($modal_title != "") {
-				$this->ctrl->setParameter($this,'modal_title',rawurlencode($modal_title));
-			}
+			$this->ctrl->setParameter($this, 'seed', $this->seed->get(IL_CAL_DATE));
+
 			$url = $this->ctrl->getLinkTarget($this, "getModalForApp", "", true, false);
 			$this->ctrl->setParameter($this, "app_id", $_GET["app_id"]);
 			$this->ctrl->setParameter($this, "dt", $_GET["dt"]);
@@ -190,7 +191,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 
 			// add type specific actions/properties
 			include_once("./Services/Calendar/classes/class.ilCalendarAppointmentPresentationGUI.php");
-			$app_gui = ilCalendarAppointmentPresentationGUI::_getInstance(new ilDate($this->seed, IL_CAL_DATE), $e);
+			$app_gui = ilCalendarAppointmentPresentationGUI::_getInstance(new ilDate($this->seed->get(IL_CAL_DATE), IL_CAL_DATE), $e);
 			$app_gui->setListItemMode($li);
 			$this->ctrl->getHTML($app_gui);
 			$items[] = $app_gui->getListItem();
@@ -216,7 +217,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 
 		$actions = $this->ui_factory->dropdown()->standard($items)->withLabel($this->lng->txt("days"));
 
-		$list_title = $this->lng->txt("cal_agenda").": ".ilDatePresentation::formatDate(new ilDate($this->seed, IL_CAL_DATE));
+		$list_title = $this->lng->txt("cal_agenda").": ".ilDatePresentation::formatDate(new ilDate($this->seed->get(IL_CAL_DATE), IL_CAL_DATE));
 		if ($this->period != self::PERIOD_DAY)
 		{
 			$list_title.= " - ".ilDatePresentation::formatDate(new ilDate($this->period_end_day, IL_CAL_DATE));

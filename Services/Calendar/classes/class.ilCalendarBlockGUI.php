@@ -65,7 +65,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
-		$tpl = $this->tpl;
+		$tpl = $this->main_tpl;
 		$ilUser = $this->user;
 		$ilHelp = $DIC["ilHelp"];
 

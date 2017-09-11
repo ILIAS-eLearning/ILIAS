@@ -14,6 +14,16 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 class ilBookingSchedulesTableGUI extends ilTable2GUI
 {
 	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilObjectDataCache
+	 */
+	protected $obj_data_cache;
+
+	/**
 	 * Constructor
 	 * @param	object	$a_parent_obj
 	 * @param	string	$a_parent_cmd
@@ -21,7 +31,17 @@ class ilBookingSchedulesTableGUI extends ilTable2GUI
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng, $ilObjDataCache;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$this->obj_data_cache = $DIC["ilObjDataCache"];
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
+		$lng = $DIC->language();
+		$ilObjDataCache = $DIC["ilObjDataCache"];
 
 		$this->ref_id = $a_ref_id;
 		$this->setId("bksd");
@@ -59,7 +79,9 @@ class ilBookingSchedulesTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilAccess, $ilCtrl;
+		$lng = $this->lng;
+		$ilAccess = $this->access;
+		$ilCtrl = $this->ctrl;
 
 	    $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
 

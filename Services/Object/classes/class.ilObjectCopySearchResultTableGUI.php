@@ -36,6 +36,21 @@ require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
  */
 class ilObjectCopySearchResultTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
 	private $type = '';
 	private $selected_reference = null;
 	
@@ -47,7 +62,14 @@ class ilObjectCopySearchResultTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_class,$a_parent_cmd,$a_type)
 	{
-		global $lng,$ilCtrl,$ilUser,$objDefinition;
+		global $DIC;
+
+		$this->user = $DIC->user();
+		$this->obj_definition = $DIC["objDefinition"];
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$ilUser = $DIC->user();
+		$objDefinition = $DIC["objDefinition"];
 		
 		$this->setId('obj_copy_'.$a_type);
 		parent::__construct($a_parent_class,$a_parent_cmd);

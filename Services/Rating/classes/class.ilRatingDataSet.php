@@ -14,7 +14,7 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
  * @ingroup ingroup ServicesRating
  */
 class ilRatingDataSet extends ilDataSet
-{	
+{
 	/**
 	 * Get supported versions
 	 *
@@ -68,7 +68,7 @@ class ilRatingDataSet extends ilDataSet
 	 */
 	function readData($a_entity, $a_version, $a_ids, $a_field = "")
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if (!is_array($a_ids))
 		{

@@ -174,7 +174,7 @@ abstract class ilDataSet
 	 */
 	function getDirectDataFromQuery($a_query, $a_convert_to_leading_upper = true)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$set = $ilDB->query($a_query);
 		$this->data = array();

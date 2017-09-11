@@ -10,6 +10,11 @@
 */
 class ilAccordionGUI
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	protected $items = array();
 	protected $force_open = array();
 	protected static $accordion_cnt = 0;
@@ -33,6 +38,9 @@ class ilAccordionGUI
 	*/
 	function __construct()
 	{
+		global $DIC;
+
+		$this->user = $DIC->user();
 		$this->setOrientation(ilAccordionGUI::VERTICAL);
 	}
 	
@@ -325,7 +333,9 @@ class ilAccordionGUI
 	*/
 	static function addJavaScript()
 	{
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
@@ -345,7 +355,9 @@ class ilAccordionGUI
 	*/
 	static function addCss()
 	{
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 		foreach (self::getLocalCssFiles() as $f)
 		{
@@ -402,7 +414,7 @@ class ilAccordionGUI
 	*/
 	function getHTML()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		self::$accordion_cnt++;
 		

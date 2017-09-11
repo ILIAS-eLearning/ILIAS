@@ -15,12 +15,35 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 class ilSkillLevelResourcesTableGUI extends ilTable2GUI
 {
 	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
 	 * Constructor
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_skill_id, $a_tref_id,
 		$a_level_id)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$this->tree = $DIC->repositoryTree();
+
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		$this->level_id = $a_level_id;
 		
@@ -50,7 +73,8 @@ class ilSkillLevelResourcesTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng, $tree;
+		$lng = $this->lng;
+		$tree = $this->tree;
 
 		$ref_id = $a_set["rep_ref_id"];
 		$obj_id = ilObject::_lookupObjId($ref_id);

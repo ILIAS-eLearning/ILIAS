@@ -74,7 +74,13 @@ class ilContext
 	 */
 	public static function supportsRedirects()
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = null;
+		if (isset($DIC["ilCtrl"]))
+		{
+			$ilCtrl = $DIC->ctrl();
+		}
 		
 		// asynchronous calls must never be redirected
 		if($ilCtrl && $ilCtrl->isAsynch())

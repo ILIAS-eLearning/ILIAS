@@ -13,6 +13,11 @@ include_once("./Services/Skill/interfaces/interface.ilSkillUsageInfo.php");
  */
 class ilSkillProfile implements ilSkillUsageInfo
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	protected $id;
 	protected $title;
 	protected $description;
@@ -25,6 +30,9 @@ class ilSkillProfile implements ilSkillUsageInfo
 	 */
 	function __construct($a_id = 0)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		if ($a_id > 0)
 		{
 			$this->setId($a_id);
@@ -146,7 +154,7 @@ class ilSkillProfile implements ilSkillUsageInfo
 	 */
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$set = $ilDB->query("SELECT * FROM skl_profile ".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer")
@@ -170,7 +178,7 @@ class ilSkillProfile implements ilSkillUsageInfo
 	 */
 	function create()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// profile
 		$this->setId($ilDB->nextId("skl_profile"));
@@ -199,7 +207,7 @@ class ilSkillProfile implements ilSkillUsageInfo
 	 */
 	function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// profile
 		$ilDB->manipulate("UPDATE skl_profile SET ".
@@ -237,7 +245,7 @@ class ilSkillProfile implements ilSkillUsageInfo
 	 */
 	function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// profile levels
 		$ilDB->manipulate("DELETE FROM skl_profile_level WHERE ".
@@ -259,7 +267,9 @@ class ilSkillProfile implements ilSkillUsageInfo
 	 */
 	static function getProfiles()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT * FROM skl_profile ".
 			" ORDER BY title "
@@ -281,7 +291,9 @@ class ilSkillProfile implements ilSkillUsageInfo
 	 */
 	static protected function lookup($a_id, $a_field)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT ".$a_field." FROM skl_profile ".
 			" WHERE id = ".$ilDB->quote($a_id, "integer")
@@ -310,7 +322,7 @@ class ilSkillProfile implements ilSkillUsageInfo
 	 */
 	function getAssignedUsers()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$set = $ilDB->query("SELECT * FROM skl_profile_user ".
 			" WHERE profile_id = ".$ilDB->quote($this->getId(), "integer")
@@ -336,7 +348,7 @@ class ilSkillProfile implements ilSkillUsageInfo
 	 */
 	function addUserToProfile($a_user_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$ilDB->replace("skl_profile_user", 
 			array("profile_id" => array("integer", $this->getId()),
@@ -353,7 +365,7 @@ class ilSkillProfile implements ilSkillUsageInfo
 	 */
 	function removeUserFromProfile($a_user_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$ilDB->manipulate("DELETE FROM skl_profile_user WHERE ".
 			" profile_id = ".$ilDB->quote($this->getId(), "integer").
@@ -368,7 +380,9 @@ class ilSkillProfile implements ilSkillUsageInfo
 	 */
 	static function getProfilesOfUser($a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$profiles = array();
 		$set = $ilDB->query("SELECT p.id, p.title FROM skl_profile_user u JOIN skl_profile p ".
@@ -388,7 +402,9 @@ class ilSkillProfile implements ilSkillUsageInfo
 	 */
 	static function countUsers($a_profile_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT count(*) ucnt FROM skl_profile_user ".
 			" WHERE profile_id = ".$ilDB->quote($a_profile_id, "integer")
@@ -405,7 +421,9 @@ class ilSkillProfile implements ilSkillUsageInfo
 	 */
 	static public function getUsageInfo($a_cskill_ids, &$a_usages)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		include_once("./Services/Skill/classes/class.ilSkillUsage.php");
 		ilSkillUsage::getUsageInfoGeneric($a_cskill_ids, $a_usages, ilSkillUsage::PROFILE,

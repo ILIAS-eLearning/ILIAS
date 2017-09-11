@@ -11,9 +11,39 @@
  */
 class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 {		
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct(ilObjExercise $a_exercise, ilExSubmission $a_submission)
+	{
+		global $DIC;
+
+		parent::__construct($a_exercise, $a_submission);
+
+		$this->toolbar = $DIC->toolbar();
+		$this->help = $DIC["ilHelp"];
+		$this->user = $DIC->user();
+	}
+
 	public function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		if(!$this->submission->canView())
 		{
@@ -33,7 +63,10 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 	
 	public static function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission)
 	{		
-		global $lng, $ilCtrl;
+		global $DIC;
+
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
 		
 		$titles = array();
 		foreach($a_submission->getFiles() as $file)
@@ -83,7 +116,9 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 	*/
 	function submissionScreenObject()
 	{
-		global $ilToolbar, $ilHelp, $ilUser;
+		$ilToolbar = $this->toolbar;
+		$ilHelp = $this->help;
+		$ilUser = $this->user;
 
 
 		$this->handleTabs();
@@ -148,7 +183,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 		$this->tabs_gui->setBackTarget($this->lng->txt("back"), 
 			$this->ctrl->getLinkTarget($this, "submissionScreen"));
 
-		global $ilHelp;
+		$ilHelp = $this->help;
 		$ilHelp->setScreenIdComponent("exc");
 		$ilHelp->setScreenId("upload_submission");
 
@@ -185,7 +220,8 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 	 */
 	protected function initUploadForm()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -211,7 +247,8 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 	 */
 	protected function initZipUploadForm()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -236,7 +273,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
  	 */
 	function uploadFileObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		// #15322
 		if (!$this->submission->canSubmit())
@@ -286,7 +323,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 	 */
 	function uploadZipObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 	
 		// #15322
 		if (!$this->submission->canSubmit())
@@ -319,7 +356,9 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 	 */
 	function confirmDeleteDeliveredObject()
 	{
-		global $ilCtrl, $tpl, $lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 		
 		if (!$this->submission->canSubmit())
 		{
@@ -373,7 +412,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 	 */
 	function deleteDeliveredObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		if (!$this->submission->canSubmit())
 		{
@@ -398,7 +437,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 	 */
 	function downloadReturnedObject($a_only_new = false)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$peer_review_mask_filename = false;
 		
@@ -437,7 +476,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 	 */
 	function downloadObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		if(!$this->submission->canView())
 		{

@@ -16,12 +16,22 @@ include_once("./Services/Object/classes/class.ilObjectGUI.php");
 class ilObjAwarenessAdministrationGUI extends ilObjectGUI
 {
 	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
 	 * Contructor
 	 *
 	 * @access public
 	 */
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
+		global $DIC;
+
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
 		$this->type = "awra";
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
@@ -79,7 +89,7 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
 	 */
 	public function getAdminTabs()
 	{
-		global $rbacsystem;
+		$rbacsystem = $this->rbacsystem;
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -137,7 +147,7 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
 	 */
 	public function saveSettings()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$this->checkPermission("write");
 		
@@ -180,7 +190,7 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
 	 */
 	public function cancel()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$ilCtrl->redirect($this, "view");
 	}
@@ -192,7 +202,7 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
 	 */
 	protected function initFormSettings()
 	{
-	    global $lng;
+		$lng = $this->lng;
 		
 		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
 		$form = new ilPropertyFormGUI();
