@@ -15,7 +15,6 @@ class ilBannedUsersTableGUI extends ilTable2GUI
 	 * Constructor
 	 * Calls parent constructor.
 	 * Prepares ilBannedUsersTableGUI.
-	 * @global ilLanguage      $lng
 	 * @param ilObjChatroomGUI $a_parent_obj
 	 * @param string           $a_parent_cmd
 	 * @param string           $a_template_context
