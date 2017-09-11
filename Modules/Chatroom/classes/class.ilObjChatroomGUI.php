@@ -53,12 +53,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
 	 */
 	public static function _goto($params)
 	{
-		/**
-		 * @var $rbacsystem ilRbacSystem
-		 * @var $ilError    ilErrorHandling
-		 * @var $lng        ilLanguage
-		 */
-		global $rbacsystem, $ilErr, $lng;
+		global $DIC;
 
 		$parts  = explode('_', $params);
 		$ref_id = $parts[0];
@@ -73,14 +68,14 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
 			include_once 'Services/Object/classes/class.ilObjectGUI.php';
 			ilObjectGUI::_gotoRepositoryNode($ref_id, 'view');
 		}
-		else if($rbacsystem->checkAccess('read', ROOT_FOLDER_ID))
+		else if($DIC->rbac()->system()->checkAccess('read', ROOT_FOLDER_ID))
 		{
-			ilUtil::sendInfo(sprintf($lng->txt('msg_no_perm_read_item'), ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id))), true);
+			ilUtil::sendInfo(sprintf($DIC->language()->txt('msg_no_perm_read_item'), ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id))), true);
 			include_once 'Services/Object/classes/class.ilObjectGUI.php';
 			ilObjectGUI::_gotoRepositoryNode(ROOT_FOLDER_ID, '');
 		}
 
-		$ilErr->raiseError(sprintf($lng->txt('msg_no_perm_read_item'), ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id))), $ilErr->FATAL);
+		$DIC['ilErr']->raiseError(sprintf($DIC->language()->txt('msg_no_perm_read_item'), ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id))), $DIC['ilErr']->FATAL);
 	}
 
 	/**
@@ -108,14 +103,11 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
 
 	protected function addLocatorItems()
 	{
-		/**
-		 * @var $ilLocator ilLocatorGUI
-		 */
-		global $ilLocator;
+		global $DIC;
 
 		if(is_object($this->object))
 		{
-			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, 'view'), '', $this->getRefId());
+			$DIC['ilLocator']->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, 'view'), '', $this->getRefId());
 		}
 	}
 
