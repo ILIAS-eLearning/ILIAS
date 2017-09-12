@@ -17,24 +17,18 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
 	 */
 	public function delete()
 	{
-		/**
-		 * @var $ilCtrl ilCtrl
-		 * @var $lng    ilLanguage
-		 */
-		global $ilCtrl, $lng;
-
 		$users = $_REQUEST['banned_user_id'];
 
 		if(!is_array($users))
 		{
-			ilUtil::sendInfo($lng->txt('no_checkbox'), true);
-			$ilCtrl->redirect($this->gui, 'ban-show');
+			ilUtil::sendInfo($this->ilLng->txt('no_checkbox'), true);
+			$this->ilCtrl->redirect($this->gui, 'ban-show');
 		}
 
 		$room = ilChatroom::byObjectId($this->gui->object->getId());
 		$room->unbanUser($users);
 
-		$ilCtrl->redirect($this->gui, 'ban-show');
+		$this->ilCtrl->redirect($this->gui, 'ban-show');
 	}
 
 	/**
