@@ -10938,76 +10938,73 @@ a.callink:visited {
   color: inherit;
 }
 table.calstd {
-  color: #222222;
+  margin-top: 6px;
+  color: #777777;
   width: 100%;
-  background-color: #FFFFFF;
-  border-spacing: 0px;
-  border-collapse: collapse;
-  border-width: 0px;
-  border-style: solid;
-  border-color: #D6D6D6;
+  border: none;
   font-size: 100%;
 }
 .calheader {
-  color: #222222;
+  color: #777777;
   font-weight: normal;
   background-color: #F9F9F9;
 }
 th.calstd {
   text-align: center;
   border-spacing: 0px;
-  background-color: #F9F9F9;
-  border-collapse: collapse;
-  border-width: 1px;
-  border-style: solid;
-  border-color: #D6D6D6;
+  background-color: #f0f0f0;
   font-weight: normal;
 }
 td.calheadertime {
   width: 6em;
   text-align: center;
-  border-spacing: 0px;
-  background-color: #FFFFFF;
-  border-collapse: collapse;
-  border-width: 1px;
-  border-style: solid;
-  border-color: #D6D6D6;
+  background-color: #f0f0f0;
   font-size: 90%;
   padding: 3px;
 }
-td.calempty {
-  background-color: #ffffff;
+tr.calstdtime:first-of-type td {
+  background-color: black;
+}
+.calstdtime td {
   border-spacing: 0px;
-  border-bottom-width: 1px;
-  border-bottom-style: dotted;
-  border-bottom-color: #D6D6D6;
+  border-right-width: 1px;
+  border-right-style: solid;
+  border-right-color: #ddd;
+}
+td.calempty,
+th.calempty {
+  background-color: #ffffff;
 }
 td.calempty_border {
   background-color: #ffffff;
   border-spacing: 0px;
   border-bottom-width: 1px;
   border-bottom-style: solid;
-  border-bottom-color: #D6D6D6;
-}
-th.calempty {
-  background-color: #ffffff;
-}
-td.calrightborder {
-  border-spacing: 0px;
-  border-right-width: 1px;
-  border-right-style: solid;
-  border-right-color: #D6D6D6;
+  border-bottom-color: #ddd;
 }
 tr.calstd {
   background-color: inherit;
   height: 6em;
+}
+table.il-cal-day tr.calstd + tr.calstdtime td.calempty,
+table.il-cal-week tr.calstd + tr.calstdtime td.calempty {
+  background-color: #f9f9f9;
+}
+table.il-cal-day tr.calstd,
+table.il-cal-week tr.calstd {
+  border-collapse: collapse;
+  border-color: #ddd;
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+  border-top-width: 2px;
+  border-top-style: solid;
 }
 tr.calstdtime {
   height: 1.2em;
   background-color: inherit;
   border-right-width: 1px;
   border-right-style: solid;
-  border-right-color: #D6D6D6;
+  border-right-color: #ddd;
 }
 td.calstd {
   vertical-align: top;
@@ -11016,7 +11013,7 @@ td.calstd {
   border-collapse: collapse;
   border-width: 1px;
   border-style: solid;
-  border-color: #D6D6D6;
+  border-color: #ddd;
   padding: 2px 0px;
 }
 td.caltoday {
@@ -11026,7 +11023,7 @@ td.caltoday {
   border-collapse: collapse;
   border-width: 1px;
   border-style: solid;
-  border-color: #D6D6D6;
+  border-color: #ddd;
 }
 td.calnow {
   vertical-align: top;
@@ -11035,7 +11032,7 @@ td.calnow {
   border-collapse: collapse;
   border-width: 1px;
   border-style: solid;
-  border-color: #D6D6D6;
+  border-color: #ddd;
 }
 td.calnext {
   vertical-align: top;
@@ -11044,7 +11041,7 @@ td.calnext {
   border-collapse: collapse;
   border-width: 1px;
   border-style: solid;
-  border-color: #D6D6D6;
+  border-color: #ddd;
 }
 td.calprev {
   vertical-align: top;
@@ -11053,7 +11050,7 @@ td.calprev {
   border-collapse: collapse;
   border-width: 1px;
   border-style: solid;
-  border-color: #D6D6D6;
+  border-color: #ddd;
 }
 p.il_calevent {
   color: white;
@@ -11075,7 +11072,7 @@ td.calevent {
   border-collapse: collapse;
   border-width: 1px;
   border-style: solid;
-  border-color: #D6D6D6;
+  border-color: #ddd;
   font-size: 90%;
 }
 div.calevent {
@@ -11120,7 +11117,7 @@ td.calministd {
   border-spacing: 0px;
   border-width: 1px;
   border-style: solid;
-  border-color: #D6D6D6;
+  border-color: #ddd;
   font-size: 90%;
   text-align: center;
   vertical-align: middle;
@@ -11130,7 +11127,7 @@ td.calminitoday {
   background-color: #FFE79C;
   border-width: 1px;
   border-style: solid;
-  border-color: #D6D6D6;
+  border-color: #ddd;
   font-size: 90%;
   text-align: center;
   vertical-align: middle;
@@ -11140,7 +11137,7 @@ td.calmininow {
   background-color: #FFF0C4;
   border-width: 1px;
   border-style: solid;
-  border-color: #D6D6D6;
+  border-color: #ddd;
   font-size: 90%;
   text-align: center;
   vertical-align: middle;
@@ -11150,7 +11147,7 @@ td.calmininext {
   background-color: #F9F9F9;
   border-width: 1px;
   border-style: solid;
-  border-color: #D6D6D6;
+  border-color: #ddd;
   font-size: 90%;
   text-align: center;
   vertical-align: middle;
@@ -11160,7 +11157,7 @@ td.calminiprev {
   background-color: #F9F9F9;
   border-width: 1px;
   border-style: solid;
-  border-color: #D6D6D6;
+  border-color: #ddd;
   font-size: 90%;
   text-align: center;
   vertical-align: middle;

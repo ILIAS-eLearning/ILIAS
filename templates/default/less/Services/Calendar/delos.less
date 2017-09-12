@@ -148,19 +148,15 @@ a.callink:hover {
 
 //** Moved from Services/Calendar/templates/calendar.css
 table.calstd {
-	color:#222222;
+	margin-top: @padding-large-vertical;
+	color:@headings-small-color;
 	width:100%;
-	background-color:#FFFFFF;
-	border-spacing:0px;
-	border-collapse:collapse;
-	border-width:0px;
-	border-style:solid;
-	border-color:#D6D6D6;
+	border: none;
 	font-size: 100%;
 }
 
 .calheader {
-	color:#222222;
+	color:@headings-small-color;
 	font-weight: normal;
 	background-color: #F9F9F9;
 }
@@ -169,33 +165,30 @@ table.calstd {
 th.calstd {
 	text-align: center;
 	border-spacing:0px;
-	background-color: #F9F9F9;
-	border-collapse:collapse;
-	border-width:1px;
-	border-style:solid;
-	border-color:#D6D6D6;
+	background-color: @body-bg;
 	font-weight: normal;
 }
 
 td.calheadertime {
 	width: 6em;
 	text-align: center;
-	border-spacing:0px;
-	background-color: #FFFFFF;
-	border-collapse:collapse;
-	border-width:1px;
-	border-style: solid;
-	border-color:#D6D6D6;
+	background-color: @body-bg;
 	font-size: 90%;
 	padding: 3px;
 }
 
-td.calempty {
+tr.calstdtime:first-of-type td{
+	background-color: black;
+}
+.calstdtime td {
+	border-spacing: 0px;
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-right-color: @table-border-color;
+}
+
+td.calempty,  th.calempty{
 	background-color:#ffffff;
-	border-spacing:0px;
-	border-bottom-width:1px;
-	border-bottom-style:dotted;
-	border-bottom-color:#D6D6D6;
 }
 
 td.calempty_border {
@@ -203,24 +196,28 @@ td.calempty_border {
 	border-spacing:0px;
 	border-bottom-width:1px;
 	border-bottom-style:solid;
-	border-bottom-color:#D6D6D6;
+	border-bottom-color:@table-border-color;
 }
 
-th.calempty {
-	background-color:#ffffff;
-}
-
-td.calrightborder {
-	border-spacing:0px;
-	border-right-width:1px;
-	border-right-style:solid;
-	border-right-color:#D6D6D6;
-}
-
-
-tr.calstd {
+tr.calstd{
 	background-color: inherit;
 	height: 6em;
+}
+
+table.il-cal-day tr.calstd + tr.calstdtime td.calempty,
+table.il-cal-week  tr.calstd + tr.calstdtime td.calempty{
+	background-color: @il-secondary-container-bg;
+}
+
+table.il-cal-day tr.calstd , table.il-cal-week tr.calstd {
+	border-collapse:collapse;
+	border-color:@table-border-color;
+
+	border-bottom-width:2px;
+	border-bottom-style:solid;
+
+	border-top-width:2px;
+	border-top-style:solid;
 }
 
 tr.calstdtime {
@@ -228,7 +225,7 @@ tr.calstdtime {
 	background-color: inherit;
 	border-right-width:1px;
 	border-right-style:solid;
-	border-right-color:#D6D6D6;
+	border-right-color:@table-border-color;
 }
 
 
@@ -239,7 +236,7 @@ td.calstd {
 	border-collapse:collapse;
 	border-width:1px;
 	border-style:solid;
-	border-color:#D6D6D6;
+	border-color:@table-border-color;
 	padding: 2px 0px;
 }
 
@@ -250,7 +247,7 @@ td.caltoday {
 	border-collapse:collapse;
 	border-width:1px;
 	border-style:solid;
-	border-color:#D6D6D6;
+	border-color:@table-border-color;
 }
 
 
@@ -261,7 +258,7 @@ td.calnow {
 	border-collapse:collapse;
 	border-width:1px;
 	border-style:solid;
-	border-color:#D6D6D6;
+	border-color:@table-border-color;
 }
 
 td.calnext {
@@ -271,7 +268,7 @@ td.calnext {
 	border-collapse:collapse;
 	border-width:1px;
 	border-style:solid;
-	border-color:#D6D6D6;
+	border-color:@table-border-color;
 }
 
 td.calprev {
@@ -281,7 +278,7 @@ td.calprev {
 	border-collapse:collapse;
 	border-width:1px;
 	border-style:solid;
-	border-color:#D6D6D6;
+	border-color:@table-border-color;
 }
 
 p.il_calevent {
@@ -306,7 +303,7 @@ td.calevent {
 	border-collapse:collapse;
 	border-width:1px;
 	border-style: solid;
-	border-color: #D6D6D6;
+	border-color: @table-border-color;
 	font-size:90%;
 }
 
@@ -365,7 +362,7 @@ td.calministd {
 	border-spacing:0px;
 	border-width:1px;
 	border-style:solid;
-	border-color:#D6D6D6;
+	border-color:@table-border-color;
 	font-size:90%;
 	text-align:center;
 	vertical-align:middle;
@@ -376,7 +373,7 @@ td.calminitoday {
 	background-color:#FFE79C;
 	border-width:1px;
 	border-style:solid;
-	border-color:#D6D6D6;
+	border-color:@table-border-color;
 	font-size:90%;
 	text-align:center;
 	vertical-align:middle;
@@ -387,7 +384,7 @@ td.calmininow {
 	background-color:#FFF0C4;
 	border-width:1px;
 	border-style:solid;
-	border-color:#D6D6D6;
+	border-color:@table-border-color;
 	font-size:90%;
 	text-align:center;
 	vertical-align:middle;
@@ -398,7 +395,7 @@ td.calmininext {
 	background-color:#F9F9F9;
 	border-width:1px;
 	border-style:solid;
-	border-color:#D6D6D6;
+	border-color:@table-border-color;
 	font-size:90%;
 	text-align:center;
 	vertical-align:middle;
@@ -409,7 +406,7 @@ td.calminiprev {
 	background-color:#F9F9F9;
 	border-width:1px;
 	border-style:solid;
-	border-color:#D6D6D6;
+	border-color:@table-border-color;
 	font-size:90%;
 	text-align:center;
 	vertical-align:middle;
