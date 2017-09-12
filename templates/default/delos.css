@@ -6778,6 +6778,9 @@ button.close {
 .il-panel-report > .panel-body > .panel {
   margin-bottom: 10px;
 }
+.il-panel-report .panel-heading {
+  height: 34px;
+}
 .panel-heading > h3 {
   float: left;
 }
