@@ -167,7 +167,7 @@ class ilObjBibliographic extends ilObject2 {
 	 * @param \ILIAS\FileUpload\FileUpload $upload
 	 */
 	protected function moveUploadedFile(\ILIAS\FileUpload\FileUpload $upload) {
-		$result = $upload->getResults()[0];
+		$result = array_values($upload->getResults())[0];
 		if ($result->getStatus() == \ILIAS\FileUpload\DTO\ProcessingStatus::OK) {
 			$this->deleteFile();
 			$upload->moveFilesTo($this->getFileDirectory(), \ILIAS\FileUpload\Location::STORAGE);
