@@ -130,6 +130,7 @@ class ilInitialisation
 		define ("URL_TO_LATEX",$ilIliasIniFile->readVariable("tools","latex"));
 		define ("PATH_TO_FOP",$ilIliasIniFile->readVariable("tools","fop"));
 		define ("PATH_TO_LESSC",$ilIliasIniFile->readVariable("tools","lessc"));
+		define ("PATH_TO_PHANTOMJS",$ilIliasIniFile->readVariable("tools","phantomjs"));
 
 		// read virus scanner settings
 		switch ($ilIliasIniFile->readVariable("tools", "vscantype"))
