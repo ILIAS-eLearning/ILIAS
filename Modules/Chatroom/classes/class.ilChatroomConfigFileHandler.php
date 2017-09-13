@@ -32,13 +32,12 @@ class ilChatroomConfigFileHandler
 	 */
 	protected function getClientFileContent(array $settings)
 	{
-		/** @var $ilClientIniFile ilIniFile */
-		global $ilClientIniFile;
+		global $DIC;
 
 		// Dirty configuration swap: Ilias differentiates between InnoDB and MyISAM.
 		// MyISAM is configured as mysql, InnoDB as innodb.
 		// The client config file only needs information about driver not engine
-		$type = $a_type = $ilClientIniFile->readVariable('db', 'type');
+		$type = $a_type = $DIC['ilClientIniFile']->readVariable('db', 'type');
 		if(in_array($type, array(
 			ilDBConstants::TYPE_MYSQL,
 			ilDBConstants::TYPE_INNODB,
@@ -52,11 +51,11 @@ class ilChatroomConfigFileHandler
 
 		$settings['database'] = array(
 			'type' => $type,
-			'host' => $ilClientIniFile->readVariable('db', 'host'),
-			'port' => (int)$ilClientIniFile->readVariable('db', 'port'),
-			'name' => $ilClientIniFile->readVariable('db', 'name'),
-			'user' => $ilClientIniFile->readVariable('db', 'user'),
-			'pass' => $ilClientIniFile->readVariable('db', 'pass')
+			'host' => $DIC['ilClientIniFile']->readVariable('db', 'host'),
+			'port' => (int)$DIC['ilClientIniFile']->readVariable('db', 'port'),
+			'name' => $DIC['ilClientIniFile']->readVariable('db', 'name'),
+			'user' => $DIC['ilClientIniFile']->readVariable('db', 'user'),
+			'pass' => $DIC['ilClientIniFile']->readVariable('db', 'pass')
 		);
 
 		return json_encode($settings, JSON_PRETTY_PRINT);

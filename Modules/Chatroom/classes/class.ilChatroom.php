@@ -1085,9 +1085,9 @@ class ilChatroom
 	}
 
 	/**
-	 * @global ilCtrl $ilCtrl
-	 * @param <type> $gui
-	 * @param <type> $scope_id
+	 * @param         $gui
+	 * @param integer $scope_id
+	 * @return string
 	 */
 	public function getChatURL($gui, $scope_id = 0)
 	{

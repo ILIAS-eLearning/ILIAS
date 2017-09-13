@@ -75,7 +75,6 @@ class ilChatroomFormFactory
 	}
 
 	/**
-	 * @global ilLanguage $lng
 	 * @return ilPropertyFormGUI
 	 */
 	public function getSettingsForm()
