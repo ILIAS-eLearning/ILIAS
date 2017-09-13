@@ -14002,3 +14002,8 @@ dateplaner#:#cal_download_files#:#Download Files###31 08 2017 new variable
 dateplaner#:#cal_calendar_download#:#Calendar Download###31 08 2017 new variable
 pdfgen#:#cleanup#:#Bereinigen
 skmg#:#skmg_order_nr_info#:#Platziert die Kompetenz in der Liste der Kompetenzen.
+common#:#position_permission_settings#:#Rechte nach Positionen
+common#:#org_permission_settings#:#Rechte der Positionen in Organisationseinheiten
+common#:#org_op_read_learning_progress#:#Lernfortschritt untergeordneter Benutzer einsehen
+common#:#org_op_manage_members#:#Untergeordnete Mitglieder verwalten
+common#:#org_op_access_enrolments#:#Teilnehmer-Status einsehen

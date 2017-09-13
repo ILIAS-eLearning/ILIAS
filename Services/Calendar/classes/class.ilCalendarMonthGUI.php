@@ -124,6 +124,14 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 	 */
 	public function show()
 	{
+		/**
+		 * @var ILIAS\DI\Container $DIC
+		 */
+		global $DIC;
+
+		$ui_factory = $DIC->ui()->factory();
+		$renderer = $DIC->ui()->renderer();
+
 		$this->tpl = new ilTemplate('tpl.month_view.html',true,true,'Services/Calendar');
 		
 		include_once('./Services/YUI/classes/class.ilYuiUtil.php');
@@ -193,8 +201,6 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 
 			if(!$no_add)
 			{
-				include_once "Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php";
-				
 				$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 				$this->ctrl->setParameterByClass('ilcalendarappointmentgui','idate',$date->get(IL_CAL_DATE));
 				$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->seed->get(IL_CAL_DATE));
@@ -209,7 +215,7 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 															
 					$this->tpl->setCurrentBlock("new_ms");
 					$this->tpl->setVariable('DD_ID', $date->get(IL_CAL_UNIX));
-					$this->tpl->setVariable('DD_TRIGGER', ilGlyphGUI::get(ilGlyphGUI::ADD));					
+					$this->tpl->setVariable('DD_TRIGGER', $renderer->render($ui_factory->glyph()->add()));
 					$this->tpl->setVariable('URL_DD_NEW_APP', $new_app_url);					
 					$this->tpl->setVariable('TXT_DD_NEW_APP', $this->lng->txt('cal_new_app'));					
 					$this->tpl->setVariable('URL_DD_NEW_MS', $new_ms_url);					
@@ -219,8 +225,7 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 				else 
 				{											
 					$this->tpl->setCurrentBlock("new_app");				
-					$this->tpl->setVariable('ADD_LINK', $new_app_url);				
-					$this->tpl->setVariable('NEW_SRC', ilGlyphGUI::get(ilGlyphGUI::ADD, $this->lng->txt('cal_new_app')));
+					$this->tpl->setVariable('NEW_GLYPH',  $renderer->render($ui_factory->glyph()->add($new_app_url)));
 					$this->tpl->parseCurrentBlock();
 				}
 			}
@@ -317,21 +322,23 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 
 		foreach($this->scheduler->getByDay($date,$this->timezone) as $item)
 		{
+			$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
+			$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$item['event']->getEntryId());
+
+			$event_tpl = new ilTemplate('tpl.month_event_view.html',true,true,'Services/Calendar');
 			// milestone icon
 			if ($item['event']->isMilestone())
 			{
-				$this->tpl->setCurrentBlock('fullday_ms_icon');
-				$this->tpl->setVariable('ALT_FD_MS', $this->lng->txt("cal_milestone"));
-				$this->tpl->setVariable('SRC_FD_MS', ilUtil::getImagePath("icon_ms.svg"));
-				$this->tpl->parseCurrentBlock();
+				$event_tpl->setCurrentBlock('fullday_ms_icon');
+				$event_tpl->setVariable('ALT_FD_MS', $this->lng->txt("cal_milestone"));
+				$event_tpl->setVariable('SRC_FD_MS', ilUtil::getImagePath("icon_ms.svg"));
+				$event_tpl->parseCurrentBlock();
 			}
 
-			$this->tpl->setCurrentBlock('il_event');
+			$event_tpl->setCurrentBlock('il_event');
 
-			$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
-			$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$item['event']->getEntryId());
-			$this->tpl->setVariable('EVENT_EDIT_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','edit'));
-			$this->tpl->setVariable('EVENT_NUM',$item['event']->getEntryId());
+			$event_tpl->setVariable('EVENT_EDIT_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','edit'));
+			$event_tpl->setVariable('EVENT_NUM',$item['event']->getEntryId());
 			
 			$compl = ($item['event']->isMilestone() && $item['event']->getCompletion() > 0)
 				? " (".$item['event']->getCompletion()."%)"
@@ -356,17 +363,22 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 
 			$title = ($time != "")? $time." ".$shy : $shy;
 
-			$title = ($new_title = $this->getContentByPlugins($item['event'], $item['dstart'], $shy))? $new_title : $title;
-			
-			$this->tpl->setVariable('EVENT_TITLE',$title.$compl);
+			$event_tpl->setVariable('EVENT_CONTENT',$title.$compl);
 
 			$color = $this->app_colors->getColorByAppointment($item['event']->getEntryId());
-			$this->tpl->setVariable('EVENT_BGCOLOR',$color);
-			$this->tpl->setVariable('EVENT_ADD_STYLES',$item['event']->getPresentationStyle());
-			$this->tpl->setVariable('EVENT_FONTCOLOR',ilCalendarUtil::calculateFontColor($color));
-			
-			$this->tpl->parseCurrentBlock();
-			
+			$event_tpl->setVariable('EVENT_BGCOLOR',$color);
+			$event_tpl->setVariable('EVENT_ADD_STYLES',$item['event']->getPresentationStyle());
+			$event_tpl->setVariable('EVENT_FONTCOLOR',ilCalendarUtil::calculateFontColor($color));
+
+			$event_html = $event_tpl->get();
+
+			if($event_html_by_plugin = $this->getContentByPlugins($item['event'], $item['dstart'], $event_html))
+			{
+				$event_html = $event_html_by_plugin;
+			}
+
+			$this->tpl->setVariable("EVENT_CONTENT", $event_html);
+
 			$this->num_appointments++;
 			$count++;
 		}

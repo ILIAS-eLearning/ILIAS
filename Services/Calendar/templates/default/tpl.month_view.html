@@ -24,7 +24,7 @@
 			</div>
 			<div style="float:right">
 				<p class="il_cal_navigation">
-					<!-- BEGIN new_app --><a href="{ADD_LINK}">{NEW_SRC}</a><!-- END new_app -->					
+					<!-- BEGIN new_app -->{NEW_GLYPH}<!-- END new_app -->
 					<!-- BEGIN new_ms -->	
 					<div class="btn-group">
 						<div class="dropdown-toggle callink" data-toggle="dropdown" data-container="body" id="add_dd_tr_{DD_ID}" type="button">
@@ -40,14 +40,7 @@
 			</div>
 			<div style="clear:both" />
 			</div>
-
-			<!-- BEGIN il_event -->
-				<p class="il_calevent"
-					style="background-color:{EVENT_BGCOLOR};color:{EVENT_FONTCOLOR};{EVENT_ADD_STYLES}">
-					<!-- BEGIN fullday_ms_icon --><img alt="{ALT_FD_MS}" title="{ALT_FD_MS}" src="{SRC_FD_MS}" /><!-- END fullday_ms_icon -->
-					{EVENT_TITLE}
-				</p>
-			<!-- END il_event -->
+			{EVENT_CONTENT}
 		</td>
 		<!-- END month_col -->
 	</tr>

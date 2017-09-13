@@ -19,16 +19,16 @@ class assFormulaQuestionTest extends PHPUnit_Framework_TestCase
 	 * @param assFormulaQuestionResult     $result
 	 * @param assFormulaQuestionVariable[] $variables
 	 * @param assFormulaQuestionUnit[]     $results
-	 * @param string                        $userResult
+	 * @param string                       $userResult
 	 * @param assFormulaQuestionUnit|null  $userResultUnit
+	 * @param bool                         $expectedResult
 	 */
 	public function testSimpleRatedFormulaQuestionWithTwoVariables(
-		assFormulaQuestionResult $result, array $variables, array $results, $userResult, assFormulaQuestionUnit $userResultUnit = null
+		assFormulaQuestionResult $result, array $variables, array $results, $userResult, $userResultUnit, $expectedResult
 	)
 	{
 		$isCorrect = $result->isCorrect($variables, $results, $userResult, $userResultUnit);
-
-		$this->assertTrue($isCorrect);
+		$this->assertEquals($isCorrect, $expectedResult);
 	}
 
 	/**
@@ -96,7 +96,7 @@ class assFormulaQuestionTest extends PHPUnit_Framework_TestCase
 		$v3->setVariable('$v3');
 		$v4->setUnit(null);
 		$v4->setVariable('$v4');
-
+		
 		$r1 = new assFormulaQuestionResult(
 			'$r1', 0, 0, 0, $newtoncentimeter, '$v1 * $v2', $points, $precision, true, 33, 34, 33, assFormulaQuestionResult::RESULT_DEC
 		);
@@ -115,12 +115,68 @@ class assFormulaQuestionTest extends PHPUnit_Framework_TestCase
 		$r6 = new assFormulaQuestionResult(
 			'$r6', 0, 0, 0, null, '$v3 * $v4', $points, $precision, true, 33, 34, 33, assFormulaQuestionResult::RESULT_DEC
 		);
+		
+		// RESULT_FRAC
+		$v5 = new assFormulaQuestionVariable('$v5', 1, 20, null, 1);
+		$v6 = new assFormulaQuestionVariable('$v6', 1, 10, null, 1);
+		$v5->setValue(1);
+		$v6->setValue(3);
+		
+		$v7 = new assFormulaQuestionVariable('$v7', 1, 20, null, 1);
+		$v8 = new assFormulaQuestionVariable('$v8', 1, 10, null, 1);
+		$v7->setValue(2);
+		$v8->setValue(4);
+		
+		$r7 = new assFormulaQuestionResult(
+			'$r7', 0, 0, 0, null, '$v5/$v6', $points, $precision, true, 33, 34, 33, assFormulaQuestionResult::RESULT_FRAC
+		);
+		
+		$r8 = new assFormulaQuestionResult(
+			'$r8', 0, 0, 0, null, '$v7/$v8', $points, $precision, true, 33, 34, 33, assFormulaQuestionResult::RESULT_FRAC
+		);
+		
+		// RESULT_CO_FRAC
+		$v9 = clone $v7;
+		$v9->setVariable('$v9');
+		$v10 = clone $v8;
+		$v10->setVariable('$v10');
+		
+		$v11 = clone $v7;
+		$v11->setVariable('$v11');
+		$v12 = clone $v8;
+		$v12->setVariable('$v12');
+		
+		$r9 = new assFormulaQuestionResult(
+			'$r9', 0, 0, 0, null, '$v9/$v10', $points, $precision, true, 33, 34, 33, assFormulaQuestionResult::RESULT_CO_FRAC
+		);
+		
+		$r10 = new assFormulaQuestionResult(
+			'$r10', 0, 0, 0, null, '$v11/$v12', $points, $precision, true, 33, 34, 33, assFormulaQuestionResult::RESULT_CO_FRAC
+		);
 
+		// RESULT_NO_SELECTION
+		$v13 = new assFormulaQuestionVariable('$v13', 1, 20, null, 1);
+		$v14 = new assFormulaQuestionVariable('$v14', 1, 10, null, 1);
+		$v13->setValue(1);
+		$v14->setValue(3);
+		$r11 = new assFormulaQuestionResult(
+			'$r11', 0, 0, 0, null, '$v13/$v14', $points, $precision, true, 33, 34, 33, assFormulaQuestionResult::RESULT_NO_SELECTION);
+		
 		$variables = [
 			$v1->getVariable() => $v1,
 			$v2->getVariable() => $v2,
 			$v3->getVariable() => $v3,
-			$v4->getVariable() => $v4
+			$v4->getVariable() => $v4,
+			$v5->getVariable() => $v5,
+			$v6->getVariable() => $v6,
+			$v7->getVariable() => $v7,
+			$v8->getVariable() => $v8,
+			$v9->getVariable() => $v9,
+			$v10->getVariable() => $v10,
+			$v11->getVariable() => $v11,
+			$v12->getVariable() => $v12,
+			$v13->getVariable() => $v13,
+			$v14->getVariable() => $v14,
 		];
 
 		$results = [
@@ -129,16 +185,30 @@ class assFormulaQuestionTest extends PHPUnit_Framework_TestCase
 			$r3->getResult() => $r3,
 			$r4->getResult() => $r4,
 			$r5->getResult() => $r5,
-			$r6->getResult() => $r6
+			$r6->getResult() => $r6,
+			$r7->getResult() => $r7,
+			$r8->getResult() => $r8,
+			$r9->getResult() => $r9,
+			$r10->getResult() => $r10,
+			$r11->getResult() => $r11,
 		];
 
 		return [
-			[$r1, $variables, $results, '129.36', $newtoncentimeter],
-			[$r2, $variables, $results, '1.29', $newtonmetre],
-			[$r3, $variables, $results, '1.29', $newtonmetre],
-			[$r4, $variables, $results, '129.36', $newtoncentimeter],
-			[$r5, $variables, $results, '1.29'],
-			[$r6, $variables, $results, '129.36']
+			//result, all variables, all results, user solution, unit chosen by user for solution
+			[$r1, $variables, $results, '129.36', $newtoncentimeter, true],
+			[$r2, $variables, $results, '1.29', $newtonmetre, true],
+			[$r3, $variables, $results, '1.29', $newtonmetre, true],
+			[$r4, $variables, $results, '129.36', $newtoncentimeter, true],
+			[$r5, $variables, $results, '1.29', null, true],
+			[$r6, $variables, $results, '129.36', null, true],
+			// RESULT_FRAC
+			[$r7, $variables, $results, '1/3', null, true],
+			[$r8, $variables, $results, '4/8', null, true],
+			// RESULT_CO_FRAC
+			[$r9, $variables, $results, '1/2', null, true],
+			[$r10, $variables, $results, '4/8', null, false],
+		    // RESULT_NO_SELECTION
+			[$r11, $variables, $results, '1/3', null, true],
 		];
 	}
 }

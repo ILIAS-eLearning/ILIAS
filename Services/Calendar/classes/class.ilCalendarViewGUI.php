@@ -276,14 +276,15 @@ class ilCalendarViewGUI
 	 * @param $a_title
 	 * @return string
 	 */
-	public function getContentByPlugins($a_cal_entry, $a_start_date, $a_title)
+	public function getContentByPlugins($a_cal_entry, $a_start_date, $a_content)
 	{
-		$content = $a_title;
+		$content = $a_content;
+
 		//"capg" is the plugin slot id for AppointmentCustomGrid
 		foreach($this->getActivePlugins("capg") as $plugin)
 		{
 			$plugin->setAppointment($a_cal_entry, new ilDateTime($a_start_date));
-			if($new_content = $plugin->replaceContent($a_title))
+			if($new_content = $plugin->replaceContent($a_content))
 			{
 				$content = $new_content;
 			}
@@ -299,9 +300,13 @@ class ilCalendarViewGUI
 
 				if($more_content = $plugin->addExtraContent())
 				{
-					$content .= " ".$more_content;
+					$content = $content." ".$more_content;
 				}
 			}
+		}
+		if($content == $a_content)
+		{
+			return false;
 		}
 
 		return $content;

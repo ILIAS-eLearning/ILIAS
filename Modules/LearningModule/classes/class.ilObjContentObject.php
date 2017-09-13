@@ -83,8 +83,6 @@ class ilObjContentObject extends ilObject
 	*/
 	function create($a_no_meta_data = false)
 	{
-		$ilUser = $this->user;
-
 		parent::create();
 		
 		// meta data will be created by
@@ -2325,7 +2323,7 @@ class ilObjContentObject extends ilObject
 		ilUtil::makeDir($media_service_dir);
 		include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
 		$flv_dir = $a_target_dir."/".ilPlayerUtil::getFlashVideoPlayerDirectory();
-		ilUtil::makeDir($flv_dir);
+		ilUtil::makeDirParents($flv_dir);
 		$mp3_dir = $media_service_dir."/flash_mp3_player";
 		ilUtil::makeDir($mp3_dir);
 //		copy(ilPlayerUtil::getFlashVideoPlayerFilename(true),
@@ -2344,10 +2342,10 @@ class ilObjContentObject extends ilObject
 		{
 			if ($f["source"] != "")
 			{
+				ilUtil::makeDirParents(dirname($f["target"]));
 				copy($f["source"], $f["target"]);
 			}
 		}
-		
 		// template workaround: reset of template 
 		$tpl = new ilTemplate("tpl.main.html", true, true);
 		$tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);

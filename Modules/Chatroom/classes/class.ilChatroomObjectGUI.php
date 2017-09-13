@@ -59,10 +59,7 @@ abstract class ilChatroomObjectGUI extends ilObjectGUI
 	 */
 	public function getAdminTabs()
 	{
-		/**
-		 * @var $tree ilTree
-		 */
-		global $tree;
+		global $DIC;
 
 		if(isset($_GET['admin_mode']) && $_GET['admin_mode'] == 'repository')
 		{
@@ -74,7 +71,7 @@ abstract class ilChatroomObjectGUI extends ilObjectGUI
 			);
 			$this->ctrl->setParameterByClass('iladministrationgui', 'admin_mode', 'repository');
 		}
-		if($tree->getSavedNodeData($this->object->getRefId()))
+		if($DIC->repositoryTree()->getSavedNodeData($this->object->getRefId()))
 		{
 			$this->tabs_gui->addTarget('trash', $this->ctrl->getLinkTarget($this, 'trash'), 'trash', get_class($this));
 		}

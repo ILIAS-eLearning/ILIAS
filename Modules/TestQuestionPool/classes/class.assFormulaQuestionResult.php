@@ -333,7 +333,10 @@ class assFormulaQuestionResult
 		{
 			$check_valid_chars = false;
 		}
-		else if($matches[2] == '/' && strtolower($matches[4]) == "e" && (!strlen($matches[1]) || !strlen($matches[3]) || $matches[3] == 0))
+		else if(
+			(isset($matches[2]) && $matches[2] == '/') &&
+			(isset($matches[4]) && strtolower($matches[4]) == "e") &&
+			(!isset($matches[1]) || !strlen($matches[1]) || !isset($matches[3]) || !strlen($matches[3]) || $matches[3] == 0))
 		{
 			$check_valid_chars = false;
 		}

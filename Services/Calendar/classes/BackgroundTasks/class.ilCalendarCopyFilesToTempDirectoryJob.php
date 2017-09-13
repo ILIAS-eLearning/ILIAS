@@ -42,8 +42,7 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
 	{
 		return 
 		[
-			new SingleType(ilCalendarCopyDefinition::class),
-			new SingleType(StringValue::class)
+			new SingleType(ilCalendarCopyDefinition::class)
 		];
 	}
 
@@ -68,16 +67,20 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
 	 */
 	public function run(array $input, Observer $observer)
 	{
+		$cal_copy_def = $input[0];
+
 		$this->logger->info('Called copy files job');
 
-		$this->target_directory = $input[1]->getValue();
+		$this->target_directory = $cal_copy_def->getTempDir();
+		//$this->target_directory = $input[1]->getValue();
 
 		// create temp directory 
 		$tmpdir = $this->createUniqueTempDirectory();
 		$targetdir = $this->createTargetDirectory($tmpdir);
 		
 		// copy files from source to temp directory
-		$this->copyFiles($targetdir, $input[0]);
+		//$this->copyFiles($targetdir, $input[0]);
+		$this->copyFiles($targetdir, $cal_copy_def);
 		
 		// zip 
 		

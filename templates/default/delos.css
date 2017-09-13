@@ -6757,8 +6757,10 @@ button.close {
 .glyph.highlighted:hover {
   color: #d15c05;
 }
-.glyph:hover {
+.glyph:hover,
+.glyph:focus {
   color: #3a4c65;
+  text-decoration: none;
 }
 .glyph .il-counter-spacer {
   margin-left: -4px;
@@ -6775,6 +6777,9 @@ button.close {
 }
 .il-panel-report > .panel-body > .panel {
   margin-bottom: 10px;
+}
+.il-panel-report .panel-heading {
+  height: 34px;
 }
 .panel-heading > h3 {
   float: left;
@@ -7144,6 +7149,8 @@ a.btn-link.ilSubmitInactive:hover {
 }
 .btn-link {
   padding: 0;
+  text-align: left;
+  white-space: normal;
 }
 .btn-tag {
   display: inline-block;
@@ -7214,7 +7221,7 @@ hr.il-divider-with-label {
   margin: 0 0 10px 0;
   border: 0 none;
   background: none;
-  border-bottom: dashed 2px #E0E0E0;
+  border-bottom: dashed 0.5px #E0E0E0;
 }
 .il-item .dropdown {
   float: right;
@@ -10929,13 +10936,6 @@ a.callink:visited {
   color: inherit;
   cursor: pointer;
 }
-.callink .glyphicon {
-  color: #b1c0d3;
-  cursor: pointer;
-}
-.callink .glyphicon:hover {
-  color: #557196;
-}
 .calevent .btn.btn-link,
 .il_calevent .btn.btn-link {
   color: inherit;
@@ -13704,6 +13704,7 @@ div.ilPCMyCoursesPath {
 }
 #awareness-content .media-body {
   white-space: nowrap;
+  width: auto;
 }
 #awareness-content .media-body {
   padding-top: 8px;

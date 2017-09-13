@@ -4175,6 +4175,13 @@ if(!$ilDB->tableColumnExists('reg_registration_codes','ext_enabled'))
 <#4383>
 <?php
 
+if($ilDB->tableColumnExists('reg_registration_codes','generated'))
+{
+	$ilDB->renameTableColumn('reg_registration_codes', "generated", 'generated_on');
+
+}
+
+
 $query = 'SELECT * FROM usr_account_codes ';
 $res = $ilDB->query($query);
 while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
@@ -4203,12 +4210,12 @@ while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	
 	$next_id = $ilDB->nextId('reg_registration_codes');
 	$query = 'INSERT INTO reg_registration_codes '.
-			'(code_id, code, role, generated, used, role_local, alimit, alimitdt, reg_enabled, ext_enabled ) '.
+			'(code_id, code, role, generated_on, used, role_local, alimit, alimitdt, reg_enabled, ext_enabled ) '.
 			'VALUES ( '.
 			$ilDB->quote($next_id,'integer').', '.
 			$ilDB->quote($row->code,'text').', '.
 			$ilDB->quote(0,'integer').', '.
-			$ilDB->quote($row->generated,'integer').', '.
+			$ilDB->quote($row->generated_on,'integer').', '.
 			$ilDB->quote($row->used,'integer').', '.
 			$ilDB->quote('','text').', '.
 			$ilDB->quote($alimit,'text').', '.
@@ -21308,4 +21315,12 @@ if(!$ilDB->tableColumnExists('il_blog','nav_list_mon_with_post'))
 <#5224>
 <?php
 $ilCtrlStructureReader->getStructure();
+?>
+<#5225>
+<?php
+
+if($ilDB->tableColumnExists('reg_registration_codes','generated'))
+{
+	$ilDB->renameTableColumn('reg_registration_codes', "generated", 'generated_on');
+}
 ?>

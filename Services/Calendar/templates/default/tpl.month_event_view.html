@@ -1,0 +1,46 @@
+<!-- month view -->
+
+<!-- BEGIN il_event -->
+<p class="il_calevent"
+   style="background-color:{EVENT_BGCOLOR};color:{EVENT_FONTCOLOR};{EVENT_ADD_STYLES}">
+	<!-- BEGIN fullday_ms_icon --><img alt="{ALT_FD_MS}" title="{ALT_FD_MS}" src="{SRC_FD_MS}" /><!-- END fullday_ms_icon -->
+	{EVENT_CONTENT}
+</p>
+<!-- END il_event -->
+
+<!-- week view full day-->
+
+<!-- BEGIN fullday_app -->
+<p id="show_{F_DAY_ID}" class="il_calevent"
+   style="background-color:{F_APP_BGCOLOR}; color:{F_APP_FONTCOLOR};">
+	<!-- BEGIN week_fullday_ms_icon --><img alt="{ALT_FD_MS}" title="{ALT_FD_MS}" src="{SRC_FD_MS}" /><!-- END week_fullday_ms_icon -->
+	{F_APP_TITLE}
+</p>
+<!-- END fullday_app -->
+
+<!-- week view not full day 1-->
+<!-- BEGIN scrd_day_cell -->
+<td id="show_{DAY_CELL_NUM}" class="{TD_CLASS}" style="{TD_STYLE}" valign="top" rowspan="{TD_ROWSPAN}"
+	onmouseover="showNewAppLink({DAY_ID})">
+	<!-- BEGIN scrd_not_empty -->
+	<div class="calevent" style="{DIV_STYLE}">
+		{APP_TITLE}
+	</div>
+	<!-- END scrd_not_empty -->
+</td>
+<!-- END scrd_day_cell -->
+
+<!-- week view not full day 2-->
+<!-- BEGIN day_cell -->
+<td id="show_{DAY_CELL_NUM}" class="{TD_CLASS}" style="{TD_STYLE}" valign="top" rowspan="{TD_ROWSPAN}"
+	onmouseover="showNewAppLink({DAY_ID})" onmouseout="hideNewAppLink()">
+	<!-- BEGIN new_app_link -->
+	<div id="new_link_{DAY_NEW_ID}" style="float: right;visibility: hidden">
+		<a href="{DAY_NEW_APP_LINK}" class="callink">{DAY_NEW_APP_SRC}</a>
+	</div>
+	<!-- END new_app_link -->
+	<!-- BEGIN not_empty -->
+	{APP_TITLE}
+	<!-- END not_empty -->
+</td>
+<!-- END day_cell -->
