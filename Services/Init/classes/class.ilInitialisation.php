@@ -1066,7 +1066,7 @@ class ilInitialisation
 	 */
 	protected static function initClient()
 	{
-		global $https, $ilias;
+		global $https, $ilias, $DIC;
 
 		self::setCookieConstants();
 
@@ -1102,7 +1102,7 @@ class ilInitialisation
 		// we must prevent that ilPluginAdmin is initialized twice in
 		// this case, since this won't get the values out of plugin.php the
 		// second time properly
-		if (!is_object($GLOBALS["ilPluginAdmin"]))
+		if (!isset($DIC["ilPluginAdmin"]) || !$DIC["ilPluginAdmin"] instanceof ilPluginAdmin)
 		{
 			self::initGlobal("ilPluginAdmin", "ilPluginAdmin",
 				"./Services/Component/classes/class.ilPluginAdmin.php");
