@@ -438,7 +438,7 @@ class ilFileSystemGUI
 			$this->ctrl->redirect($this, "listFiles");
 		}
 
-		$cur_subdir = str_replace(".", "", ilUtil::stripSlashes($_GET["cdir"]));
+		$cur_subdir = $this->sanitizeCurrentDirectory();
 
 		// collect files and
 		$files = array();
@@ -597,8 +597,8 @@ class ilFileSystemGUI
 		global $DIC;
 		$lng = $DIC['lng'];
 		$ilCtrl = $DIC['ilCtrl'];
-		
-		$cur_subdir = str_replace(".", "", ilUtil::stripSlashes($_GET["cdir"]));
+
+		$cur_subdir = $this->sanitizeCurrentDirectory();
 		$file = $this->main_dir."/".$a_file;
 
 		$this->ctrl->setParameter($this, "old_name", basename($a_file));
@@ -654,7 +654,7 @@ class ilFileSystemGUI
 			$this->ctrl->redirect($this, "listFiles");
 		}
 
-		$cur_subdir = str_replace(".", "", ilUtil::stripSlashes($_GET["cdir"]));
+		$cur_subdir = $this->sanitizeCurrentDirectory();
 		$dir = (!empty($cur_subdir))
 			? $this->main_dir."/".$cur_subdir."/"
 			: $this->main_dir."/";
@@ -694,7 +694,7 @@ class ilFileSystemGUI
 		$lng = $DIC['lng'];
 		
 		// determine directory
-		$cur_subdir = str_replace(".", "", ilUtil::stripSlashes($_GET["cdir"]));
+		$cur_subdir = $this->sanitizeCurrentDirectory();
 		$cur_dir = (!empty($cur_subdir))
 			? $this->main_dir."/".$cur_subdir
 			: $this->main_dir;
@@ -729,7 +729,7 @@ class ilFileSystemGUI
 		$lng = $DIC['lng'];
 		
 		// determine directory
-		$cur_subdir = str_replace(".", "", ilUtil::stripSlashes($_GET["cdir"]));
+		$cur_subdir = $this->sanitizeCurrentDirectory();
 		$cur_dir = (!empty($cur_subdir))
 			? $this->main_dir."/".$cur_subdir
 			: $this->main_dir;
@@ -847,7 +847,7 @@ class ilFileSystemGUI
 				break;
 			}
 
-			$cur_subdir = str_replace(".", "", ilUtil::stripSlashes($_GET["cdir"]));
+			$cur_subdir = $this->sanitizeCurrentDirectory();
 			$cur_dir = (!empty($cur_subdir))
 				? $this->main_dir."/".$cur_subdir
 				: $this->main_dir;
@@ -895,9 +895,9 @@ class ilFileSystemGUI
 			isset($_GET["upfile"]))
 		{
 			$a_file = basename($_GET["upfile"]);
-		}		
-		
-		$cur_subdir = str_replace(".", "", ilUtil::stripSlashes($_GET["cdir"]));
+		}
+
+		$cur_subdir = $this->sanitizeCurrentDirectory();
 		$cur_dir = (!empty($cur_subdir))
 			? $this->main_dir."/".$cur_subdir
 			: $this->main_dir;
@@ -1053,5 +1053,14 @@ class ilFileSystemGUI
 		);
 	}
 
+
+	/**
+	 * @return string
+	 */
+	private function sanitizeCurrentDirectory() {
+		$cur_subdir = str_replace("..", "", ilUtil::stripSlashes($_GET["cdir"]));
+
+		return $cur_subdir;
+	}
 }
 ?>
