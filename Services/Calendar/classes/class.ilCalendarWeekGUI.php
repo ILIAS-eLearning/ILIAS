@@ -224,32 +224,23 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 				$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');				
 			}
 
-			$dayname = ilCalendarUtil::_numericDayToString($date->get(IL_CAL_FKT_DATE,'w'),true);
-			$daydate = $date_info['mday'].' '.ilCalendarUtil::_numericMonthToString($date_info['mon'],false);
+			$dayname = ilCalendarUtil::_numericDayToString($date->get(IL_CAL_FKT_DATE,'w'),false);
+			$daydate = $dayname.' '.$date_info['mday'].'.';
 
 			if(!$disable_empty || $num_apps[$date->get(IL_CAL_DATE)] > 0)
 			{
 				$link = $this->ctrl->getLinkTargetByClass('ilcalendardaygui','');
 				$this->ctrl->clearParametersByClass('ilcalendardaygui');
 
-				$this->tpl->setCurrentBlock("day_view1_link");
+				$this->tpl->setCurrentBlock("day_view_link");
 				$this->tpl->setVariable('HEADER_DATE',$daydate);
-				$this->tpl->setVariable('DAY_VIEW_LINK',$link);
-				$this->tpl->parseCurrentBlock();
-
-				$this->tpl->setCurrentBlock("day_view2_link");
-				$this->tpl->setVariable('DAYNAME',$dayname);
 				$this->tpl->setVariable('DAY_VIEW_LINK',$link);
 				$this->tpl->parseCurrentBlock();
 			}
 			else
 			{
-				$this->tpl->setCurrentBlock("day_view1_no_link");
+				$this->tpl->setCurrentBlock("day_view_no_link");
 				$this->tpl->setVariable('HEADER_DATE',$daydate);
-				$this->tpl->parseCurrentBlock();
-
-				$this->tpl->setCurrentBlock("day_view2_no_link");
-				$this->tpl->setVariable('DAYNAME',$dayname);
 				$this->tpl->parseCurrentBlock();
 			}
 
@@ -372,16 +363,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 						$empty_border = ' calempty_border';						
 					}
 
-					if($i == ($hour['apps_num'] + 1))
-					{
-						$event_tpl->setVariable('TD_CLASS','calempty calrightborder'.$empty_border);
-						$event_tpl->setVariable('TD_STYLE',$add_style);
-					}
-					else
-					{
-						$event_tpl->setVariable('TD_CLASS','calempty'.$empty_border);
-						$event_tpl->setVariable('TD_STYLE',$add_style);
-					}
+					$event_tpl->setVariable('TD_CLASS','calempty'.$empty_border);
 
 					if(!$hour['apps_num'])
 					{
