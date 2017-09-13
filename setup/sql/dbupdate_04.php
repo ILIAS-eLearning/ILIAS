@@ -20435,7 +20435,7 @@ $ilDB->modifyTableColumn(
 		'il_orgu_operations', 
 		'operation_string',
 		array(
-			"length" => 256
+			"length" => 127
 		)
 	);
 	ilOrgUnitOperation::resetDB();	
@@ -21318,9 +21318,20 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#5225>
 <?php
-
 if($ilDB->tableColumnExists('reg_registration_codes','generated'))
 {
 	$ilDB->renameTableColumn('reg_registration_codes', "generated", 'generated_on');
+}
+?>
+<#5226>
+<?php
+if($ilDB->tableColumnExists('il_orgu_operations', 'operation_string')){
+	$ilDB->modifyTableColumn(
+		'il_orgu_operations', 
+		'operation_string',
+		array(
+			"length" => 127
+		)
+	);
 }
 ?>
