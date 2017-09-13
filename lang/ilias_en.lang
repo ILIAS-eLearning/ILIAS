@@ -4693,9 +4693,9 @@ crs#:#tutor_name#:#Name
 crs#:#tutor_phone#:#Phone
 crs#:#user_fields#:#User Fields
 dateplaner#:#add_appointment#:#Add Appointment
-dateplaner#:#app_day#:#Day View
-dateplaner#:#app_month#:#Month View
-dateplaner#:#app_week#:#Week View
+dateplaner#:#app_day#:#Day
+dateplaner#:#app_month#:#Month
+dateplaner#:#app_week#:#Week
 dateplaner#:#apply#:#Apply
 dateplaner#:#back#:#Back
 dateplaner#:#c_date#:#Create Event

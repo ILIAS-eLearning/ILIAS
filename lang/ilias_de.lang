@@ -5464,9 +5464,9 @@ crs#:#tutor_phone#:#Telefon
 crs#:#user_fields#:#Benutzerdaten
 dateplaner#:#add_appointment#:#Termin hinzufügen
 dateplaner#:#app_consultation_hours#:#Sprechstundenverwaltung
-dateplaner#:#app_day#:#Tagesansicht
-dateplaner#:#app_month#:#Monatsansicht
-dateplaner#:#app_week#:#Wochenansicht
+dateplaner#:#app_day#:#Tag
+dateplaner#:#app_month#:#Monat
+dateplaner#:#app_week#:#Woche
 dateplaner#:#apply#:#übernehmen
 dateplaner#:#back#:#zurück
 dateplaner#:#c_date#:#erstelle Termin
