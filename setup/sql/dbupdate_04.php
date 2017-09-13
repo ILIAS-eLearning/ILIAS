@@ -21335,3 +21335,7 @@ if($ilDB->tableColumnExists('il_orgu_operations', 'operation_string')){
 	);
 }
 ?>
+<#5227>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

@@ -34,4 +34,7 @@
 		<event type="raise" id="deleteAssignment" />		
 		<event type="raise" id="delete" />		
 	</events>
+	<web_access_checker>
+		<secure_path path="ilExercise" checking-class="ilObjExerciseAccess" />
+	</web_access_checker>
 </module>
