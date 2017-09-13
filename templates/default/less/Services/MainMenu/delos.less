@@ -333,10 +333,10 @@ input.ilOpenIDBox {
 		}
 	}
 	> header > .row > a.navbar-brand {
-		height: auto;//@il-logo-height;
+		height: auto;
 		display: inline-block;
 		padding: 0;
-		margin: 15px 15px 0;
+		margin: @il-logo-margin;
 		@media only screen and (max-width: @grid-float-breakpoint-max) {
 			height: 0;
 			padding: 0;
@@ -349,8 +349,8 @@ input.ilOpenIDBox {
 				position: fixed;
 				top: 0;
 				left: 0;
-				height: 40px;
-				width: 40px;
+				height: @il-logo-resp-height;
+				width: @il-logo-resp-width;
 			}
 		}
 	}

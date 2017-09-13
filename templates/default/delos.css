@@ -8637,6 +8637,11 @@ html,
 body {
   height: 100%;
 }
+@media only screen and (max-width: 767px) {
+  html {
+    -webkit-text-size-adjust: none;
+  }
+}
 /* see bug ILIAS bug #17589 and http://stackoverflow.com/questions/17045132/scrollbar-overlay-in-ie10-how-do-you-stop-that */
 body {
   -ms-overflow-style: scrollbar;
@@ -8662,9 +8667,20 @@ div.ilFrame {
   background-color: #f9f9f9;
   min-height: 100%;
 }
+@media only screen and (max-width: 767px) {
+  div.ilFrame {
+    margin: 0;
+    width: 100%;
+  }
+}
 .ilContainerWidth {
   max-width: 1400px;
   padding: 0 30px;
+}
+@media only screen and (max-width: 767px) {
+  .ilContainerWidth {
+    padding: 0 15px;
+  }
 }
 /*
 	it would be good to limit the content width in some cases
@@ -8700,9 +8716,10 @@ div.ilFrame {
   position: fixed;
   top: 117px;
 }
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 767px) {
   .ilLeftNav {
-    width: 100%;
+    /* at last temporary, since it overlaps content */
+    display: none;
   }
 }
 [dir="rtl"] .ilLeftNav {
@@ -8771,9 +8788,9 @@ a {
   text-decoration: none;
   cursor: pointer;
   /* BEGIN WebDAV: Enable links with AnchorClick behavior for Internet Explorer.
- * All skins which want to support mounting of Webfolders using Internet Explorer
- * must explicitly enable AnchorClick behavior.
- */
+	 * All skins which want to support mounting of Webfolders using Internet Explorer
+	 * must explicitly enable AnchorClick behavior.
+	 */
   behavior: url(#default#AnchorClick);
   /* END WebDAV: Enable links with AnchorClick behavior for Internet Explorer. */
 }
@@ -8792,6 +8809,17 @@ table {
 img {
   vertical-align: middle;
 }
+@media only screen and (max-width: 767px) {
+  img {
+    /* height: auto; messes e.g. survey progress bar */
+    max-width: 100%;
+  }
+}
+@media only screen and (max-width: 767px) {
+  img.olTileImage {
+    max-width: none;
+  }
+}
 tr,
 td {
   vertical-align: top;
@@ -8808,6 +8836,22 @@ code {
 }
 ::-moz-selection {
   background: #dce2eb;
+}
+@media only screen and (max-width: 767px) {
+  textarea {
+    max-width: 100%;
+  }
+}
+@media only screen and (max-width: 767px) {
+  input,
+  select {
+    max-width: 100%;
+  }
+}
+@media only screen and (max-width: 767px) {
+  div.ilc_Mob img {
+    height: auto !important;
+  }
 }
 @media print {
   h1,
@@ -8909,6 +8953,17 @@ div.input:focus {
 }
 input[type=text].numeric {
   text-align: right;
+}
+@media only screen and (max-width: 767px) {
+  div.ilTableOuter {
+    max-width: 100%;
+    overflow: auto;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .table-responsive .dropdown-menu {
+    position: relative;
+  }
 }
 /* -------------------- table formatting ------------------ */
 div.ilCommandRow {
@@ -9166,11 +9221,21 @@ a#il_mhead_t_focus {
   font-size: 26px;
   cursor: default;
 }
+@media only screen and (max-width: 767px) {
+  a#il_mhead_t_focus {
+    font-size: 20px;
+  }
+}
 a#il_mhead_t_focus[href] {
   cursor: pointer;
 }
 h1.ilHeader {
   padding: 10px 0 0;
+}
+@media only screen and (max-width: 767px) {
+  h1.ilHeader {
+    padding-top: 5px;
+  }
 }
 h3.ilHeader {
   font-weight: normal;
@@ -9187,6 +9252,14 @@ h3.ilHeader {
   margin-top: 3px;
   margin-right: 10px;
   float: left;
+}
+@media only screen and (max-width: 767px) {
+  #headerimage {
+    width: 35px;
+    height: 35px;
+    margin-top: 2px;
+    margin-right: 7px;
+  }
 }
 [dir="rtl"] #headerimage {
   margin-right: 0;
@@ -9224,12 +9297,17 @@ div.ilHeaderAlert {
   color: #fa8228;
 }
 div.il_HeaderInner {
-  padding: 15px 15px;
+  padding: 15px;
   margin-bottom: 5px;
   overflow: visible;
 }
+@media only screen and (max-width: 767px) {
+  div.il_HeaderInner {
+    color: #222;
+  }
+}
 div.il_HeaderInner.media {
-  margin-top: 0px;
+  margin-top: 0;
 }
 div.il_TreeIcons {
   padding: 15px 15px 0 0;
@@ -9543,6 +9621,13 @@ div.ilFrameFixedWidthHeader {
   overflow: hidden;
   padding: 0 15px;
 }
+@media only screen and (max-width: 767px) {
+  .ilFrameFixedWidthHeader div.ilHeaderBanner {
+    max-width: 100%;
+    height: 40px !important;
+    padding: 0;
+  }
+}
 div.ilHeaderBanner img.ilHeaderImg {
   width: 100%;
 }
@@ -9567,6 +9652,11 @@ div.ilTopBar {
 }
 div.ilTopBar a {
   color: #f5f5f5;
+}
+div.ilTopBar a:hover,
+div.ilTopBar a:active,
+div.ilTopBar a:focus {
+  color: white;
 }
 div.ilTopBarLeft {
   float: left;
@@ -10058,6 +10148,12 @@ a.ilTreeView {
   box-shadow: 1px 1px 2px #b9b9b9;
   width: 6px;
 }
+@media only screen and (max-width: 767px) {
+  a.ilTreeView {
+    /* at last temporary, since it overlaps content */
+    display: none;
+  }
+}
 a.ilTreeView > img {
   display: inline-block;
   margin-left: -2px;
@@ -10303,6 +10399,12 @@ div.ilForumQuoteHead {
   margin-top: 15px;
   font-size: 120%;
 }
+@media only screen and (max-width: 767px) {
+  .ilFrmPostTitle {
+    margin-top: 5px;
+    font-size: 100%;
+  }
+}
 div.ilFrmPostHeader span.small {
   color: #909090;
 }
@@ -10311,22 +10413,40 @@ div.ilFrmPostHeader span.small {
   width: 80%;
   float: left;
 }
+@media only screen and (max-width: 767px) {
+  .ilFrmPostContentContainer {
+    width: 100%;
+  }
+}
 .ilFrmPostContent {
   margin-top: 20px;
-}
-.ilFrmPostRow div.ilForm {
-  width: 100%;
-  max-width: 1000px;
 }
 .ilFrmPostRow {
   padding: 3px;
   border-top: 1px solid #f0f0f0;
+}
+.ilFrmPostRow div.ilForm {
+  width: 100%;
+  max-width: 1000px;
 }
 .ilFrmPostRow div.ilForm div.ilFormValue {
   width: auto;
 }
 .ilFrmPostRow div.ilForm div.ilFormOption {
   width: 150px;
+}
+@media only screen and (max-width: 767px) {
+  .ilFrmPostRow div.ilForm,
+  .ilFrmPostRow div.ilForm input[type=text],
+  .ilFrmPostRow div.ilForm textarea {
+    width: 100%;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .ilFrmPostRow img.ilUserIcon {
+    width: 50px;
+    height: 50px;
+  }
 }
 .ilFrmPostCensorshipAdvice {
   margin: 0;
@@ -10536,6 +10656,14 @@ div.ilTinyMenuSection {
   padding: 0 10px 4px 0;
   margin-right: 10px;
 }
+@media only screen and (max-width: 767px) {
+  div.ilTinyMenuSection {
+    height: 28px;
+    margin: 3px 3px 3px 0px;
+    padding: 0 10px 0 0;
+    border-right: 0 none;
+  }
+}
 [dir="rtl"] div.ilTinyMenuSection {
   float: right;
   border-right: none;
@@ -10547,6 +10675,14 @@ div.ilTinyMenuSection {
 #ilTinyMenuButtons {
   padding-bottom: 15px;
   zoom: 1;
+}
+@media only screen and (max-width: 767px) {
+  #ilTinyMenuButtons {
+    height: 28px;
+    margin: 3px 3px 3px 0;
+    padding: 0 10px 0 0;
+    border-right: 0 none;
+  }
 }
 #iltinymenu .bd div.last {
   float: left;
@@ -10565,12 +10701,25 @@ div.ilTinyMenuSection {
   -webkit-box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.176);
   box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.176);
 }
-#iltinymenu_bd {
-  padding: 10px;
+#iltinymenu .bd div.last {
+  float: left;
+  white-space: nowrap;
+  padding: 0 10px 2px 0;
+  border-right: 0;
+  margin: 0;
 }
 #iltinymenu .bd div .small {
   color: #909090;
   font-style: italic;
+}
+#iltinymenu .btn-default .mce-ico {
+  color: inherit !important;
+}
+#iltinymenu a.btn {
+  min-width: 30px;
+}
+#iltinymenu_bd {
+  padding: 10px;
 }
 #ilsaving {
   position: fixed;
@@ -10733,12 +10882,6 @@ a.nostyle:hover {
 #ilEditorPanel_c {
   z-index: 3000 !important;
 }
-#iltinymenu .mce-ico {
-  color: white !important;
-}
-#iltinymenu a.btn {
-  min-width: 30px;
-}
 #error_panel_c {
   z-index: 2000 !important;
 }
@@ -10811,6 +10954,11 @@ div.ilc_question_MultipleChoice .answertext > p {
 div.ilc_question_SingleChoice .ilc_qanswer_Answer > div:first-child,
 div.ilc_question_MultipleChoice .ilc_qanswer_Answer > div:first-child {
   padding-right: 10px;
+}
+@media only screen and (max-width: 767px) {
+  .ilTinyInfo {
+    display: none;
+  }
 }
 /* Services/Calendar */
 td.even {
@@ -13134,28 +13282,40 @@ div.ilInfoScreenSec h3.ilHeader {
   padding: 15px;
 }
 /* Services/Init */
-/*
-div#il_startup_content {
-	padding: 40px 20px 35px;
-	box-shadow: inset 0 2px 2px #D0D0D0;
-	background-color: #F9F9F9;
-}
-*/
-#il_startup_content form table {
-  /* out-commented due to http://www.ilias.de/mantis/view.php?id=10264 */
-  /* width: 500px; */
+@media only screen and (max-width: 767px) {
+  div.ilStartupFrame {
+    width: 100%;
+  }
 }
 .ilStartupSection {
   padding-top: 25px;
+}
+@media only screen and (max-width: 767px) {
+  .ilStartupSection {
+    padding-top: 15px;
+  }
 }
 div.ilStartupSection form.form-horizontal {
   text-align: left;
   width: 40em;
 }
+@media only screen and (max-width: 767px) {
+  div.ilStartupSection form.form-horizontal {
+    width: auto;
+  }
+}
 div#il_startup_logo img {
-  width: 50px;
   height: 50px;
-  margin: 15px;
+  width: 50px;
+  margin: 15px 15px 0;
+}
+@media only screen and (max-width: 767px) {
+  div#il_startup_logo img {
+    margin: 10px;
+    max-width: 100%;
+    height: 40px;
+    width: 40px;
+  }
 }
 /* Services/Bookmarks */
 #block_pdbookm_0 #tree_div {
@@ -13365,6 +13525,11 @@ span.ilNewsRssIcon:hover {
   left: 50%;
   margin-left: -1.5px;
 }
+@media only screen and (max-width: 767px) {
+  .ilTimeline:before {
+    left: 90%;
+  }
+}
 .ilTimeline > li {
   margin-bottom: 20px;
   position: relative;
@@ -13377,36 +13542,18 @@ span.ilNewsRssIcon:hover {
 .ilTimeline > li:after {
   clear: both;
 }
-.ilTimeline > li:before,
-.ilTimeline > li:after {
-  content: " ";
-  display: table;
-}
-.ilTimeline > li:after {
-  clear: both;
-}
 .ilTimeline > li > .ilTimelinePanel {
   width: 44%;
   float: left;
-  /*border: 1px solid #d4d4d4;
-	border-radius: 2px;*/
   padding: 20px;
   position: relative;
   background: white;
-  /* -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
-	box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);*/
 }
-/*.timeline > li > .timeline-panel:before {
-	position: absolute;
-	top: 26px;
-	right: -15px;
-	display: inline-block;
-	border-top: 15px solid transparent;
-	border-left: 15px solid #ccc;
-	border-right: 0 solid #ccc;
-	border-bottom: 15px solid transparent;
-	content: " ";
-}*/
+@media only screen and (max-width: 767px) {
+  .ilTimeline > li > .ilTimelinePanel {
+    width: 80%;
+  }
+}
 .ilTimeline > li > .ilTimelinePanel:after {
   position: absolute;
   top: 27px;
@@ -13434,6 +13581,11 @@ span.ilNewsRssIcon:hover {
   z-index: 100;
   border-radius: 50%;
 }
+@media only screen and (max-width: 767px) {
+  .ilTimeline > li > .ilTimelineBadge {
+    left: 90%;
+  }
+}
 .ilTimeline > li > .ilTimelineBadge > .ilTimelineDay {
   font-size: 1.3em;
 }
@@ -13447,17 +13599,42 @@ span.ilNewsRssIcon:hover {
 .ilTimeline > li:nth-child(even) > .ilTimelinePanel {
   float: right;
 }
+@media only screen and (max-width: 767px) {
+  .ilTimeline > li:nth-child(even) > .ilTimelinePanel {
+    float: left;
+  }
+}
 .ilTimeline > li:nth-child(even) > .ilTimelinePanel:before {
   border-left-width: 0;
   border-right-width: 15px;
   left: -15px;
   right: auto;
 }
+@media only screen and (max-width: 767px) {
+  .ilTimeline > li:nth-child(even) > .ilTimelinePanel:before {
+    border-left-width: 15px;
+    border-right-width: 0;
+    right: auto;
+    right: -15px;
+  }
+}
 .ilTimeline > li:nth-child(even) > .ilTimelinePanel:after {
   border-left-width: 0;
   border-right-width: 14px;
   left: -14px;
   right: auto;
+}
+@media only screen and (max-width: 767px) {
+  .ilTimeline > li:nth-child(even) > .ilTimelinePanel:after {
+    border-left-width: 14px;
+    border-right-width: 0;
+    left: auto;
+    right: -14px;
+  }
+}
+.ilTimeline .media-heading {
+  clear: right;
+  margin-top: 8px;
 }
 .ilNewsTimelineTruncatedText {
   overflow: hidden;
@@ -13471,10 +13648,6 @@ span.ilNewsRssIcon:hover {
 .ilNewsTimelinePlayer {
   position: relative;
   z-index: 500;
-}
-.ilTimeline .media-heading {
-  clear: right;
-  margin-top: 8px;
 }
 .ilNewsTimelineUserImage {
   float: left;
@@ -14702,166 +14875,26 @@ table.mceToolbar td {
     margin: 0;
   }
 }
-/* basic responsiveness (beta)
-
-   The following section targets smartphones.
-
-   iPads come with a device width of 768, the iPhone with 320, most smartphones seem to
-   use a width under 640px, so 640 seems to be a good choice here.
-   If you make any changes in this query, please add a reason to this comment and if possible an url that
-   backs this decision.
-
-   List of common devices width values: http://cssmediaqueries.com/target/
-   Google recommending 640px: https://developers.google.com/webmasters/smartphone-sites/details
-
-   */
 @media only screen and (max-width: 767px) {
-  html {
-    -webkit-text-size-adjust: none;
-  }
-  .ilContainerWidth {
-    padding: 0 15px;
-  }
-  div.il_HeaderInner {
-    color: #222;
-    margin-bottom: 5px;
-    padding: 15px;
-  }
-  textarea {
-    max-width: 100%;
-  }
-  input,
-  select {
-    max-width: 100%;
-  }
-  /* height: auto; messes e.g. survey progress bar */
-  img {
-    max-width: 100%;
-  }
-  div.ilc_Mob img {
-    height: auto !important;
-  }
-  img.olTileImage {
-    max-width: none;
-  }
-  div.ilFrame {
-    margin: 0;
-    width: 100%;
-  }
-  .ilFrameFixedWidthHeader div.ilHeaderBanner {
-    max-width: 100%;
-    height: 40px !important;
-    padding: 0;
-  }
-  div.ilTableOuter {
-    max-width: 100%;
-    overflow: auto;
-  }
-  .table-responsive .dropdown-menu {
-    position: relative;
-  }
-  a#il_mhead_t_focus {
-    font-size: 20px;
-  }
-  h1.ilHeader {
-    padding-top: 5px;
-  }
-  #headerimage {
-    width: 35px;
-    height: 35px;
-    margin-top: 2px;
-    margin-right: 7px;
-  }
-  /* Modules/Forum */
-  .ilFrmPostRow div.ilForm,
-  .ilFrmPostRow div.ilForm input[type=text],
-  .ilFrmPostRow div.ilForm textarea {
-    width: 100%;
-  }
-  .ilFrmPostRow div.ilForm div.ilFormValue {
-    width: auto;
-  }
-  .ilFrmPostRow img.ilUserIcon {
-    width: 50px;
-    height: 50px;
-  }
-  .ilFrmPostTitle {
-    margin-top: 5px;
-    font-size: 100%;
-  }
-  .ilFrmPostContentContainer {
-    width: 100%;
-  }
-  /* Services/Init */
-  div#il_startup_logo img {
-    margin: 10px;
-    max-width: 100%;
-  }
-  div.ilStartupFrame {
-    width: 100%;
-  }
-  div#il_startup_content {
-    padding: 10px;
-  }
-  #il_startup_content form table {
-    width: auto;
-  }
-  div.ilStartupSection form.form-horizontal {
-    width: auto;
-  }
-  .ilStartupSection {
-    padding-top: 15px;
-  }
-  /* --- Services/COPage ---*/
-  .ilTinyInfo {
-    display: none;
-  }
-  div.ilTinyMenuSection,
-  #ilTinyMenuButtons {
-    border-right: 0px;
-    margin: 3px 3px 3px 0px;
-    float: left;
-    height: 28px;
-    padding: 0 10px 0 0;
-  }
-  /* Services/News */
-  .ilTimeline:before {
-    left: 90%;
-  }
-  .ilTimeline > li > .ilTimelinePanel {
-    width: 80%;
-  }
-  .ilTimeline > li > .ilTimelineBadge {
-    left: 90%;
-  }
-  .ilTimeline > li:nth-child(even) > .ilTimelinePanel {
-    float: left;
-  }
-  .ilTimeline > li:nth-child(even) > .ilTimelinePanel:before {
-    border-left-width: 15px;
-    border-right-width: 0;
-    right: auto;
-    right: -15px;
-  }
-  .ilTimeline > li:nth-child(even) > .ilTimelinePanel:after {
-    border-left-width: 14px;
-    border-right-width: 0;
-    left: auto;
-    right: -14px;
-  }
   div.ilGoogleMap {
     max-width: 100%;
   }
-  /* at last temporary, since it overlaps content */
-  a.ilTreeView,
-  .ilLeftNav {
-    display: none;
-  }
-  /* no idea why needed, but this one fixes the drop downs in the small media view (e.g. main menu) */
+}
+@media only screen and (max-width: 767px) {
   .navbar-nav {
     margin: 7.5px 0px;
   }
 }
+/* basic responsiveness (beta)
+	no more specific section. no more delos_sm.less data (treated as bug)
+	"Responsive" code has to be inserted like:
+	.myClass {
+		...
+		@media only screen and (max-width: @grid-float-breakpoint-max) {
+			...
+		}
+	}
+*/
 /* print css */
 @media print {
   * {

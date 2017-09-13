@@ -230,6 +230,7 @@ class ilMainMenuGUI
 		{		
 			$this->tpl->setVariable("HEADER_URL", $this->getHeaderURL());
 			$this->tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.svg"));
+			$this->tpl->setVariable("HEADER_ICON_RESPONSIVE", ilUtil::getImagePath("HeaderIconResponsive.svg"));
 			
 			// #15759
 			include_once("./Modules/SystemFolder/classes/class.ilObjSystemFolder.php");
@@ -424,6 +425,7 @@ class ilMainMenuGUI
 			// $this->tpl->setVariable("TXT_LOGOUT", $lng->txt("logout"));
 			$this->tpl->setVariable("HEADER_URL", $this->getHeaderURL());
 			$this->tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.svg"));
+			$this->tpl->setVariable("HEADER_ICON_RESPONSIVE", ilUtil::getImagePath("HeaderIconResponsive.svg"));
 		}
 		
 		include_once("./Modules/SystemFolder/classes/class.ilObjSystemFolder.php");
