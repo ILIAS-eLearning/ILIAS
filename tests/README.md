@@ -1,10 +1,45 @@
 # ILIAS Unit Testing investigation
 ## Definition
+Unit testing is the process of testing the smallest testable part of an application, called units.
+Units are usually one method of a class or one logical concept of the method.
+
+Unit tests fulfil the following criteria:
+- Able to be **fully automated**
+- **Isolated** (Dependencies of the class under test are mocked)
+- Runnable in **any order**, if the test is part of many other tests
+- **In memory** (no db or filesystem access)
+- **Consistent** results (Should always return the same, no random numbers)
+- Runs **fast** (Test should at most take 1min to finish)
+- Tests a **single logical unit**
+- **Readable**
+- **Maintainable**
+- **Trustworthy** (The result of the test must be correct)
+
+### Role in ILIAS
+
+All unit tests in ILIAS are automated and help to verify that all units behave as intended.
+Furthermore, unit tests enable the community to tackle bugs much faster and in an earlier state of development.
+Due to a faster handling of side effects and other bugs, more time is left to actually refactor and improve the current code base. 
+ 
 //describe what unit tests are and how they improve ILIAS. Also refer to the goals set by the community as well as the CI server
 ## Tools
 ### PHP Unit
+PHP Unit is a collection of tools (PHP classes and executables) which makes not only testing easy, but also helps to gain 
+insight into the test results and how much of the code base remains untested.
+ 
 ### Mockery
-//describe mockery and php unit
+Mockery is a lightweight and flexible mocking object framework which is used for unit testing with PHP Unit and other unit testing frameworks.
+It it designed as a drop in replacement for the PHP Unit mock functionality, but can also work alongside with the PHP Unit mock objects.
+
+#### Mock Objects
+In unit tests mock objects are used to simulate a specific behaviour of real objects. The primary usage of mock objects is to isolate the
+object under test. However there are also other use cases for example some times there is no actual implementation of classes which are required
+for the class under test.
+
+The benefit of mocking frameworks are the dynamic creation of such mock objects and stubs. They enable developers to describe the behaviour 
+of the mock objects with a flexible API. The API also aims to be as close as possible to natural language descriptions to make the test code
+even more expressive.
+
 ## Setup test environment
 ### Setup
 //Show how to setup the tools described in the previous chapter
@@ -76,8 +111,12 @@ than the *src* directory where the actual implementation lives.
 [PHP Unit Documentation](https://phpunit.de/manual/5.7/en/index.html)
 
 [Mockery Documentation](http://docs.mockery.io/en/latest/)
+
+[ILIAS CI Server](https://ci.ilias.de/)
+
 ## Old Documentation
 [Old ILIAS Unit Test Guide](https://www.ilias.de/docu/goto_docu_pg_29759_42.html)
+
 
 //Refer to obsolete documentation
 
