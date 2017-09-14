@@ -2340,7 +2340,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$this->object->markPostRead($this->user->getId(), (int) $this->objCurrentTopic->getId(), (int) $this->objCurrentPost->getId());
 
 				// copy temporary media objects (frm~)
-				ilForumUtil::moveMediaObjects($oReplyEditForm->getInput('message'), 'frm~:html', $this->user->getId(), 'frm:html', $this->user->getId());
+				ilForumUtil::moveMediaObjects($oReplyEditForm->getInput('message'), 'frm~:html', $this->user->getId(), 'frm:html', $newPost);
 
 				if($this->objProperties->isFileUploadAllowed())
 				{
