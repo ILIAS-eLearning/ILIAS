@@ -11278,6 +11278,13 @@ bibl#:#bib_default_cite#:#Bib Cite
 bibl#:#bib_default_note#:#Note
 bibl#:#bib_default_month#:#Month
 bibl#:#bib_default_abstract#:#Abstract
+bibl#:#bib_default_address#:#Address
+bibl#:#bib_default_publisher#:#Publisher
+bibl#:#bib_default_edition#:#Edition
+bibl#:#bib_default_howpublished#:#Published as
+bibl#:#bib_default_type#:#Type
+bibl#:#bib_default_series#:#Series
+bibl#:#bib_default_organization#:#Organizaton
 bibl#:#ris_default_ti#:#Book title
 bibl#:#ris_default_au#:#Author
 bibl#:#ris_default_py#:#Publication year

@@ -11213,6 +11213,13 @@ bibl#:#bib_default_cite#:#Bib Cite
 bibl#:#bib_default_note#:#Notiz
 bibl#:#bib_default_month#:#Monat
 bibl#:#bib_default_abstract#:#Abstract
+bibl#:#bib_default_address#:#Adresse
+bibl#:#bib_default_publisher#:#Verleger
+bibl#:#bib_default_edition#:#Auflage
+bibl#:#bib_default_howpublished#:#Publikations-Typ
+bibl#:#bib_default_type#:#Typ
+bibl#:#bib_default_series#:#Serie
+bibl#:#bib_default_organization#:#Organisation
 bibl#:#ris_default_ti#:#Buchtitel
 bibl#:#ris_default_au#:#Autor
 bibl#:#ris_default_py#:#Erscheinungsjahr
