@@ -276,12 +276,11 @@ class ilObjFile extends ilObject2 {
 			ilUtil::makeDirParents($this->getDirectory($this->getVersion()));
 		}
 
-//		$file = $this->getDirectory($this->getVersion()) . "/" . $a_filename;
 		$target_directory = $this->getDirectory($this->getVersion()) . "/";
 		$relative_path_to_file = LegacyPathHelper::createRelativePath($target_directory);
 
-	if ($upload->hasUploads()) {
-			if($upload->hasBeenProcessed() !== true) {
+		if ($upload->hasUploads()) {
+			if ($upload->hasBeenProcessed() !== true) {
 				if (PATH_TO_GHOSTSCRIPT !== "") {
 					$upload->register(new ilCountPDFPagesPreProcessors());
 				}
