@@ -1616,7 +1616,7 @@ class ilUtil
 					continue;
 
 				$itemPath = $targetDir . '/' . substr($item->getPath(), strlen($sourceDir));
-				$stream = $sourceFS->readStream($sourceDir);
+				$stream = $sourceFS->readStream($item->getPath());
 				$targetFS->writeStream($itemPath, $stream);
 			}
 			return true;
