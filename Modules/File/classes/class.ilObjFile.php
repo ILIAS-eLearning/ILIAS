@@ -1,6 +1,7 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Filesystem\Util\LegacyPathHelper;
 use ILIAS\FileUpload\Location;
 
 require_once("Services/Object/classes/class.ilObject2.php");
@@ -271,25 +272,26 @@ class ilObjFile extends ilObject2 {
 
 		$this->setVersion($this->getVersion() + 1);
 
-		if (@!is_dir($this->getDirectory($this->getVersion()))) {
+		if (!is_dir($this->getDirectory($this->getVersion()))) {
 			ilUtil::makeDirParents($this->getDirectory($this->getVersion()));
 		}
 
-//		$file = $this->getDirectory($this->getVersion()) . "/" . $a_filename;
 		$target_directory = $this->getDirectory($this->getVersion()) . "/";
-		$relative_path_to_file = \ILIAS\Filesystem\Util\LegacyPathHelper::createRelativePath($target_directory);
-
-		if (PATH_TO_GHOSTSCRIPT != "") {
-			$upload->register(new ilCountPDFPagesPreProcessors());
-		}
+		$relative_path_to_file = LegacyPathHelper::createRelativePath($target_directory);
 
 		if ($upload->hasUploads()) {
-			$upload->process();
+			if ($upload->hasBeenProcessed() !== true) {
+				if (PATH_TO_GHOSTSCRIPT !== "") {
+					$upload->register(new ilCountPDFPagesPreProcessors());
+				}
+				$upload->process();
+			}
+
 			$result = $upload->getResults()[$a_upload_file];
 
-			$md = $result->getMetaData()->toArray();
-			if ($md[ilCountPDFPagesPreProcessors::PAGE_COUNT]) {
-				$this->setPageCount($md[ilCountPDFPagesPreProcessors::PAGE_COUNT]);
+			$metadata = $result->getMetaData();
+			if ($metadata->has(ilCountPDFPagesPreProcessors::PAGE_COUNT)) {
+				$this->setPageCount($metadata->get(ilCountPDFPagesPreProcessors::PAGE_COUNT));
 				$this->doUpdate();
 			}
 
