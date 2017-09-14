@@ -4712,6 +4712,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$questionInstance->setNewOriginalId($newId);
 		}
 
+		ilUtil::sendSuccess($this->lng->txt('tst_qst_added_to_pool_' . (count($result->ids) > 1 ? 'p' : 's')), true);
 		$this->ctrl->redirect($this, 'questions');
 	}
 
