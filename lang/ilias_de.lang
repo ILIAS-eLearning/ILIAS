@@ -11230,6 +11230,18 @@ bibl#:#ris_default_sn#:#ISSN/ISBN/ASIN
 bibl#:#ris_default_m3#:#Misc. 3
 bibl#:#ris_default_ur#:#URL
 bibl#:#ris_default_l3#:#Ähnliche Datensätze
+bibl#:#ris_default_a2#:#Zweiter Autor
+bibl#:#ris_default_av#:#Standort
+bibl#:#ris_default_cy#:#Herausgabeort
+bibl#:#ris_default_id#:#Referenz-ID
+bibl#:#ris_default_kw#:#Stichworte
+bibl#:#ris_default_m1#:#Nummer
+bibl#:#ris_default_n1#:#Notizen
+bibl#:#ris_default_n2#:#Abstract
+bibl#:#ris_default_t1#:#Haupttitel
+bibl#:#ris_default_t2#:#Zweittitel
+bibl#:#ris_default_t3#:#Dritter Titel
+bibl#:#ris_default_u2#:#Benutzerdefiniert
 bibl#:#bibl_copy#:#Literaturliste kopieren
 mail#:#mail_filter#:#Filter
 mail#:#mail_filter_sender#:#Sender

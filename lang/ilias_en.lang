@@ -11295,6 +11295,17 @@ bibl#:#ris_default_sn#:#ISSN/ISBN/ASIN
 bibl#:#ris_default_m3#:#Misc. 3
 bibl#:#ris_default_ur#:#URL
 bibl#:#ris_default_l3#:#Related records
+bibl#:#ris_default_a2#:#Location in Archives
+bibl#:#ris_default_cy#:#Place Published
+bibl#:#ris_default_id#:#Reference ID
+bibl#:#ris_default_kw#:#Keywords
+bibl#:#ris_default_m1#:#Number
+bibl#:#ris_default_n1#:#Notes
+bibl#:#ris_default_n2#:#Abstract
+bibl#:#ris_default_t1#:#Primary Title
+bibl#:#ris_default_t2#:#Secondary Title
+bibl#:#ris_default_t3#:#Tertiary Title
+bibl#:#ris_default_u2#:#User Defined
 mail#:#mail_filter#:#Filter
 mail#:#mail_filter_sender#:#Sender
 mail#:#mail_filter_recipients#:#Recipients
