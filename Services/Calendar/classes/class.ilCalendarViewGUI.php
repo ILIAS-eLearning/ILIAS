@@ -322,7 +322,7 @@ class ilCalendarViewGUI
 	function addToolbarActions()
 	{
 		$settings = ilCalendarSettings::_getInstance();
-		if($settings->isBatchFileDownloadsEnabled())
+		if($settings->isBatchFileDownloadsEnabled() && !empty($this->getEvents()))
 		{
 			$toolbar = $this->toolbar;
 			$f = $this->ui_factory;
