@@ -366,9 +366,14 @@ FromLineOverride=YES
 <a name="install-other-depedencies"></a>
 ## Install other Depedencies
 
-On Debian/Ubuntu execute: 
+On Debian/Ubuntu 14.04 execute:
 ```
 apt-get install zip unzip php5-gd php5-mysql php-xsl imagemagick openjdk-7-jdk phantomjs
+```
+
+On Ubuntu 16.04 execute:
+```
+apt-get install zip unzip php7.0-gd php7.0-mysql php7.0-xsl php7.0-zip imagemagick openjdk-8-jdk phantomjs
 ```
 
 On RHEL/CentOS execute: 
