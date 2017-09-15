@@ -21339,3 +21339,12 @@ if($ilDB->tableColumnExists('il_orgu_operations', 'operation_string')){
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#5229>
+<?php
+	    if (!$ilDB->tableColumnExists('il_bt_bucket', 'last_heartbeat')) {
+        $ilDB->addTableColumn('il_bt_bucket', 'last_heartbeat', array(
+                                                                      "type" => "integer",
+                                                                      "length" => 4
+                                                                      ));
+    }
+?>
