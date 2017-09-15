@@ -388,6 +388,7 @@ Depending on your use case, you MAY want to install further dependencies (exact 
 * php-ldap
 * php-mbstring
 * ffmpeg
+* mimetex
 
 <a name="installation-wizard"></a>
 ## Installation Wizard
