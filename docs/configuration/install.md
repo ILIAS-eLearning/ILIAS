@@ -380,6 +380,15 @@ On RHEL/CentOS execute:
 ```
 yum install zip unzip php-gd libxslt ImageMagick java-1.7.0-openjdk phantomjs
 ```
+
+Depending on your use case, you MAY want to install further dependencies (exact package names vary by distribution):
+* php-curl
+* php-xmlrpc
+* php-soap
+* php-ldap
+* php-mbstring
+* ffmpeg
+
 <a name="installation-wizard"></a>
 ## Installation Wizard
 
