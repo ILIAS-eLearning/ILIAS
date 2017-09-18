@@ -55,11 +55,16 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->parseCurrentBlock();
 		}
 
+		if ($component->isRequired()) {
+			$tpl->touchBlock("required");
+		}
+
 		if ($component->getError() !== null) {
 			$tpl->setCurrentBlock("error");
 			$tpl->setVariable("ERROR", $component->getError());
 			$tpl->parseCurrentBlock();
 		}
+
 		return $tpl->get();
 	}
 

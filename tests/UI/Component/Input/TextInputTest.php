@@ -117,4 +117,30 @@ class TextInputTest extends ILIAS_UI_TestBase {
 				"</div>";
 		$this->assertEquals($expected, $html);
 	}
+
+	public function test_render_required() {
+	    $f = $this->buildFactory();
+		$label = "label";
+		$name = "name_0";
+		$text = $f->text($label)
+			->withNameFrom($this->name_source)
+			->withRequirement(true);
+
+		$r = $this->getDefaultRenderer();
+		$html = $this->normalizeHTML($r->render($text));
+
+		$expected =
+				"<div class=\"form-group row\">".
+				"	<label for=\"$name\" class=\"control-label col-sm-3\">".
+				        "$label".
+				        "<span class=\"asterisk\">*</span>".
+				        "</label>".
+				"	<div class=\"col-sm-9\">".
+				"		<input type=\"text\" name=\"$name\" class=\"form-control form-control-sm\" />".
+				"		".
+				"		".
+				"	</div>".
+				"</div>";
+		$this->assertEquals($expected, $html);
+	}
 }
