@@ -1110,11 +1110,18 @@ class ilSurveyEvaluationGUI
 			$card_table_tpl->setVariable("QUESTION_STATISTIC_VALUE", $value);
 			$card_table_tpl->parseCurrentBlock();
 		}
-		//anchor in title. Used in TOC
+
+		// patch BGHW: added anchor
 		$anchor_id = "svyrdq".$question->getId();
 		$title = "<span id='$anchor_id'>$qst_title</span>";
 		$panel_qst_card = $ui_factory->panel()->sub($title, $ui_factory->legacy($svy_text))
 			->withCard($ui_factory->card()->standard($svy_type_title)->withSections(array($ui_factory->legacy($card_table_tpl->get()))));
+
+		//commit 715c28815 from phantom patch
+		//$anchor = "<a name='".$anchor_id."'></a>";
+		//$panel_qst_card = $ui_factory->panel()->sub($anchor.$qst_title, $ui_factory->legacy($svy_text))
+			//->withCard($ui_factory->card($svy_type_title)->withSections(array($ui_factory->legacy($card_table_tpl->get()))));
+		
 		array_push($this->array_panels, $panel_qst_card);
 
 		// grid		
@@ -1171,6 +1178,7 @@ class ilSurveyEvaluationGUI
 			{
 				include_once "Services/Accordion/classes/class.ilAccordionGUI.php";
 				$acc = new ilAccordionGUI();
+				// patch BGHW: fixed accordion in pdf output
 				if ($_GET["pdf"] == 1)
 				{
 					$acc->setBehaviour(ilAccordionGUI::FORCE_ALL_OPEN);
@@ -1234,6 +1242,7 @@ class ilSurveyEvaluationGUI
 
 			}
 		}
+
 		$panel = $ui_factory->panel()->sub("", $ui_factory->legacy($a_tpl->get()));
 		array_push($this->array_panels, $panel);
 	}
