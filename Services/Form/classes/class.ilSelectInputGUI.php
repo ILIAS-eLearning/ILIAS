@@ -28,6 +28,9 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("select");
 	}
@@ -99,7 +102,7 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$valid = true;
 		if(!$this->getMulti())

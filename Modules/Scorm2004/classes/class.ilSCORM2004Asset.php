@@ -15,6 +15,21 @@ require_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
  */
 class ilSCORM2004Asset extends ilSCORM2004Node
 {
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
 	var $q_media = null;		// media files in questions
 
 	/**
@@ -22,6 +37,11 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 	 */
 	function __construct($a_slm_object, $a_id = 0)
 	{
+		global $DIC;
+
+		$this->tpl = $DIC["tpl"];
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
 		parent::__construct($a_slm_object, $a_id);
 		$this->setType("ass");
 	}
@@ -139,8 +159,6 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		// set xml header
 		$a_xml_writer->xmlHeader();
 
-		global $ilBench;
-
 		$a_xml_writer->xmlStartTag("ContentObject", array("Type"=>"SCORM2004SCO"));
 
 		$this->exportXMLMetaData($a_xml_writer);
@@ -202,7 +220,9 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 
 	function exportPDF($a_inst, $a_target_dir, &$expLog)
 	{
-		global $tpl, $lng, $ilCtrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		$a_xml_writer = new ilXmlWriter;
 		$a_xml_writer->xmlStartTag("ContentObject", array("Type"=>"SCORM2004SCO"));
 		$this->exportPDFPrepareXmlNFiles($a_inst, $a_target_dir, $expLog,$a_xml_writer);
@@ -239,7 +259,9 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 	{
 
 		$this->exportHTML4PDF($a_inst, $a_target_dir, $expLog);
-		global $tpl, $lng, $ilCtrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		$this->exportXMLPageObjects($a_target_dir, $a_xml_writer, $a_inst, $expLog);
 		$this->exportXMLMediaObjects($a_xml_writer, $a_inst, $a_target_dir, $expLog);
 		$this->exportFileItems($a_target_dir,$expLog);
@@ -280,13 +302,10 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 	function exportHTMLPageObjects($a_inst, $a_target_dir, &$expLog, $mode,
 		$a_asset_type = "sco", $a_one_file = "", $a_sco_tpl = null)
 	{
-		global $tpl, $ilCtrl, $ilBench,$ilLog, $lng;
-
 		include_once "./Modules/Scorm2004/classes/class.ilSCORM2004PageGUI.php";
 		include_once "./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModuleGUI.php";
 		include_once "./Services/MetaData/classes/class.ilMD.php";
 
-		$output = "";
 		$tree = new ilTree($this->slm_id);
 		$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 		$tree->setTreeTablePK("slm_id");
@@ -574,7 +593,9 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 	 */
 	static function renderNavigation($a_tpl, $a_spacer_img = "", $a_lang = "")
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		if ($a_spacer_img == "")
 		{
@@ -607,7 +628,9 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 	 */
 	static function renderMetaPage($a_tpl, $a_sco, $a_asset_type = "", $mode = "")
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		if ($a_sco->getType() != "sco" || $a_sco->getHideObjectivePage())
 		{
@@ -719,8 +742,6 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 
 	function exportXMLPageObjects($a_target_dir, &$a_xml_writer, $a_inst, &$expLog)
 	{
-		global $ilBench;
-
 		include_once "./Modules/Scorm2004/classes/class.ilSCORM2004PageNode.php";
 		include_once "./Modules/Scorm2004/classes/class.ilSCORM2004Page.php";
 

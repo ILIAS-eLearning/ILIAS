@@ -167,7 +167,7 @@ class ilObjBibliographic extends ilObject2 {
 	 * @param \ILIAS\FileUpload\FileUpload $upload
 	 */
 	protected function moveUploadedFile(\ILIAS\FileUpload\FileUpload $upload) {
-		$result = $upload->getResults()[0];
+		$result = array_values($upload->getResults())[0];
 		if ($result->getStatus() == \ILIAS\FileUpload\DTO\ProcessingStatus::OK) {
 			$this->deleteFile();
 			$upload->moveFilesTo($this->getFileDirectory(), \ILIAS\FileUpload\Location::STORAGE);
@@ -176,8 +176,12 @@ class ilObjBibliographic extends ilObject2 {
 	}
 
 
-	public function copyFile($file_to_copy) {
-		$this->getFileSystem()->copy($file_to_copy, $this->getFilePath(true));
+	/**
+	 * @param $file_to_copy
+	 */
+	private function copyFile($file_to_copy) {
+		$target = $this->getFileDirectory() . '/' . basename($file_to_copy);
+		$this->getFileSystem()->copy($file_to_copy, $target);
 	}
 
 
@@ -245,10 +249,17 @@ class ilObjBibliographic extends ilObject2 {
 
 	/**
 	 * @return string returns the absolute filepath of the bib/ris file. it's build as follows:
-	 *                $ILIAS-data-folder/bibl/$id/$filename
+	 *                /bibl/$id/$filename
 	 */
 	public function getFileAbsolutePath() {
 		return $this->getFileDirectory() . DIRECTORY_SEPARATOR . $this->getFilename();
+	}
+
+
+	public function getLegacyAbsolutePath() {
+		$stream = $this->getFileSystem()->readStream($this->getFileAbsolutePath());
+
+		return $stream->getMetadata('uri');
 	}
 
 
@@ -257,12 +268,13 @@ class ilObjBibliographic extends ilObject2 {
 	 */
 	public function getFiletype() {
 		//return bib for filetype .bibtex:
-		if (strtolower(substr($this->getFilename(), - 6)) == "bibtex") {
+		$filename = $this->getFilename();
+		if (strtolower(substr($filename, - 6)) == "bibtex") {
 			return self::FILETYPE_BIB;
 		}
 
 		//else return its true filetype
-		return strtolower(substr($this->getFilename(), - 3));
+		return strtolower(substr($filename, - 3));
 	}
 
 
@@ -320,11 +332,13 @@ class ilObjBibliographic extends ilObject2 {
 	 */
 	public function cloneStructure($original_id) {
 		$original = new ilObjBibliographic($original_id);
-		$this->copyFile($original->getFilePath());
+		$this->setFilename($original->getFilename());
+		$this->copyFile($original->getFileAbsolutePath());
 		$this->setDescription($original->getDescription());
 		$this->setTitle($original->getTitle());
 		$this->setType($original->getType());
 		$this->doUpdate();
+		$this->writeSourcefileEntriesToDb();
 	}
 
 
@@ -351,7 +365,8 @@ class ilObjBibliographic extends ilObject2 {
 	public function writeSourcefileEntriesToDb() {
 		//Read File
 		$entries_from_file = array();
-		switch ($this->getFiletype()) {
+		$filetype = $this->getFiletype();
+		switch ($filetype) {
 			case(self::FILETYPE_RIS):
 				$ilRis = new ilRis();
 				$ilRis->readContent($this->getFileAbsolutePath());

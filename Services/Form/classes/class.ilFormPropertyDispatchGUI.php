@@ -13,6 +13,22 @@
 class ilFormPropertyDispatchGUI
 {
 	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+	}
+
+	/**
 	* Set item
 	*
 	* @param	object		item
@@ -37,7 +53,7 @@ class ilFormPropertyDispatchGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();

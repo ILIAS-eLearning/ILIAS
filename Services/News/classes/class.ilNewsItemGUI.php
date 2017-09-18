@@ -19,6 +19,31 @@ define("IL_FORM_RE_CREATE", 3);
  */
 class ilNewsItemGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
 	protected $enable_edit = 0;
 	protected $context_obj_id;
 	protected $context_obj_type;
@@ -32,7 +57,14 @@ class ilNewsItemGUI
 	 */
 	function __construct()
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->tabs = $DIC->tabs();
+		$this->user = $DIC->user();
+		$this->toolbar = $DIC->toolbar();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		$this->ctrl = $ilCtrl;
 
@@ -65,7 +97,8 @@ class ilNewsItemGUI
 	 */
 	function getHTML()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$lng->LoadLanguageModule("news");
 		
@@ -78,7 +111,7 @@ class ilNewsItemGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		// get next class and command
 		$next_class = $this->ctrl->getNextClass($this);
@@ -246,7 +279,7 @@ class ilNewsItemGUI
 	 */
 	protected function initFormNewsItem($a_mode)
 	{
-		global $ilTabs;
+		$ilTabs = $this->tabs;
 
 		$ilTabs->clearTargets();
 		$form = self::getEditForm($a_mode, (int) $_GET["ref_id"]);
@@ -263,7 +296,9 @@ class ilNewsItemGUI
 	 */
 	static public function getEditForm($a_mode, $a_ref_id)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 
 		$lng->loadLanguageModule("news");
 
@@ -363,7 +398,7 @@ class ilNewsItemGUI
 	 */
 	function saveNewsItem()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		if (!$this->getEnableEdit())
 		{
@@ -412,7 +447,7 @@ class ilNewsItemGUI
 
 	function exitSaveNewsItem()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		if ($_GET["add_mode"] == "block")
 		{
@@ -430,7 +465,7 @@ class ilNewsItemGUI
 	*/
 	function updateNewsItem()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		if (!$this->getEnableEdit())
 		{
@@ -462,7 +497,7 @@ class ilNewsItemGUI
 
 	function exitUpdateNewsItem()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$ilCtrl->redirect($this, "editNews");
 	}
@@ -482,7 +517,7 @@ class ilNewsItemGUI
 	*/
 	function cancelSaveNewsItem()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		if ($_GET["add_mode"] == "block")
 		{
@@ -501,7 +536,10 @@ class ilNewsItemGUI
 	 */
 	function editNews()
 	{
-		global $ilTabs, $ilToolbar, $lng, $ilCtrl;
+		$ilTabs = $this->tabs;
+		$ilToolbar = $this->toolbar;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$this->setTabs();
 
@@ -528,7 +566,9 @@ class ilNewsItemGUI
 	*/
 	function confirmDeletionNewsItems()
 	{
-		global $ilCtrl, $lng, $ilTabs;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilTabs = $this->tabs;
 
 		if (!$this->getEnableEdit())
 		{
@@ -588,7 +628,7 @@ class ilNewsItemGUI
 	 */
 	public function getNewsForContextBlock()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		include_once("Services/News/classes/class.ilNewsForContextBlockGUI.php");
 		$block_gui = new ilNewsForContextBlockGUI(get_class($this));
@@ -625,7 +665,7 @@ class ilNewsItemGUI
 	 */
 	public function getNewsForContextTable()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$news_item = new ilNewsItem();
 		$news_item->setContextObjId($this->getContextObjId());
@@ -679,7 +719,9 @@ class ilNewsItemGUI
 	 */
 	function setTabs()
 	{
-		global $ilTabs, $ilCtrl, $lng;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt("back"),

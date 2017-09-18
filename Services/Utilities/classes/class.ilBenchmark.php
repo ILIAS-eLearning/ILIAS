@@ -11,6 +11,13 @@
 */
 class ilBenchmark
 {
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+	}
+
 	var $bench = array();
 
 	/**
@@ -32,7 +39,8 @@ class ilBenchmark
 	*/
 	function clearData()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 
 		$q = "DELETE FROM benchmark";
 		$ilDB->manipulate($q);
@@ -77,7 +85,10 @@ return;
 	*/
 	function save()
 	{
-		global $ilDB, $ilUser;
+		global $DIC;
+		$ilDB = $DIC->database();
+
+		$ilUser = $DIC->user();
 
 		if ($this->isDbBenchEnabled() && is_object($ilUser) &&
 			$this->db_enabled_user == $ilUser->getLogin())
@@ -109,7 +120,7 @@ return;
 			$diff = $t2[0] - $t1[0] + $t2[1] - $t1[1];
 			if ($diff > SLOW_REQUEST_TIME)
 			{
-				global $ilIliasIniFile;
+				$ilIliasIniFile = $DIC["ilIliasIniFile"];
 				
 				$diff = round($diff, 4);
 				
@@ -137,7 +148,7 @@ return;
 	*/
 	function getEvaluation($a_module)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$q = "SELECT COUNT(*) AS cnt, AVG(duration) AS avg_dur, benchmark,".
 			" MIN(duration) AS min_dur, MAX(duration) AS max_dur".
@@ -162,7 +173,8 @@ return;
 	*/
 	function getCurrentRecordNumber()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 
 		$q = "SELECT COUNT(*) AS cnt FROM benchmark";
 		$cnt_set = $ilDB->query($q);
@@ -177,9 +189,10 @@ return;
 	*/
 	function getMaximumRecords()
 	{
-		global $ilias;
+		global $DIC;
+		$ilSetting = $DIC->settings();
 
-		return $ilias->getSetting("bench_max_records");
+		return $ilSetting->get("bench_max_records");
 	}
 
 
@@ -188,9 +201,10 @@ return;
 	*/
 	function setMaximumRecords($a_max)
 	{
-		global $ilias;
+		global $DIC;
+		$ilSetting = $DIC->settings();
 
-		$ilias->setSetting("bench_max_records", (int) $a_max);
+		return $ilSetting->get("bench_max_records", (int) $a_max);
 	}
 
 
@@ -199,7 +213,9 @@ return;
 	*/
 	function isEnabled()
 	{
-		global $ilSetting;
+		global $DIC;
+		$ilSetting = $DIC->settings();
+
 
 		if (!is_object($ilSetting))
 		{
@@ -215,15 +231,17 @@ return;
 	*/
 	function enable($a_enable)
 	{
-		global $ilias;
+		global $DIC;
+		$ilSetting = $DIC->settings();
+
 
 		if ($a_enable)
 		{
-			$ilias->setSetting("enable_bench", 1);
+			$ilSetting->get("enable_bench", 1);
 		}
 		else
 		{
-			$ilias->setSetting("enable_bench", 0);
+			$ilSetting->get("enable_bench", 0);
 		}
 	}
 
@@ -233,7 +251,9 @@ return;
 	*/
 	function getMeasuredModules()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
+
 
 		$q = "SELECT DISTINCT module FROM benchmark";
 		$mod_set = $ilDB->query($q);
@@ -274,7 +294,9 @@ return;
 	 */
 	function isDbBenchEnabled()
 	{
-		global $ilSetting;
+		global $DIC;
+		$ilSetting = $DIC->settings();
+
 
 		if (isset($this->db_enabled))
 		{
@@ -299,22 +321,24 @@ return;
 	 */
 	function enableDbBench($a_enable, $a_user = 0)
 	{
-		global $ilias;
+		global $DIC;
+		$ilSetting = $DIC->settings();
+
 
 		if ($a_enable)
 		{
-			$ilias->setSetting("enable_db_bench", 1);
+			$ilSetting->get("enable_db_bench", 1);
 			if ($a_user !== 0)
 			{
-				$ilias->setSetting("db_bench_user", $a_user);
+				$ilSetting->get("db_bench_user", $a_user);
 			}
 		}
 		else
 		{
-			$ilias->setSetting("enable_db_bench", 0);
+			$ilSetting->get("enable_db_bench", 0);
 			if ($a_user !== 0)
 			{
-				$ilias->setSetting("db_bench_user", $a_user);
+				$ilSetting->get("db_bench_user", $a_user);
 			}
 		}
 	}
@@ -328,7 +352,9 @@ return;
 	 */
 	function startDbBench($a_sql)
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC->user();;
 
 		if ($this->isDbBenchEnabled() && is_object($ilUser) &&
 			$this->db_enabled_user == $ilUser->getLogin() &&
@@ -347,7 +373,9 @@ return;
 	 */
 	function stopDbBench()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC->user();
 
 		if ($this->isDbBenchEnabled() && is_object($ilUser) &&
 			$this->db_enabled_user == $ilUser->getLogin() &&
@@ -367,7 +395,8 @@ return;
 	 */
 	function getDbBenchRecords()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->query("SELECT * FROM benchmark");
 		$b = array();

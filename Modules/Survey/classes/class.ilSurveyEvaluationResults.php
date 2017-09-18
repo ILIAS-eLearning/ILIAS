@@ -9,6 +9,11 @@
  */
 class ilSurveyEvaluationResults
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	protected $question; // [SurveyQuestion]
 	protected $users_answered; // [int]
 	protected $users_skipped; // [int]
@@ -21,6 +26,9 @@ class ilSurveyEvaluationResults
 	
 	public function __construct(SurveyQuestion $a_question)
 	{		
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		$this->question = $a_question;
 	}
 	
@@ -114,7 +122,7 @@ class ilSurveyEvaluationResults
 	
 	public function getMedianAsText()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if($this->median === null)
 		{

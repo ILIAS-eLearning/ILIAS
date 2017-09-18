@@ -29,6 +29,9 @@ class ilObjBookingPool extends ilObject
 	*/
 	function __construct($a_id = 0,$a_call_by_reference = true)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		$this->type = "book";
 		$this->setScheduleType(self::TYPE_FIX_SCHEDULE);
 		parent::__construct($a_id,$a_call_by_reference);
@@ -56,7 +59,7 @@ class ilObjBookingPool extends ilObject
 	*/
 	function create()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$new_id = parent::create();
 		
@@ -74,7 +77,7 @@ class ilObjBookingPool extends ilObject
 	*/
 	function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if (!parent::update())
 		{			
@@ -93,7 +96,7 @@ class ilObjBookingPool extends ilObject
 
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		parent::read();
 
@@ -117,7 +120,7 @@ class ilObjBookingPool extends ilObject
 	*/
 	function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$id = $this->getId();
 
@@ -258,7 +261,9 @@ class ilObjBookingPool extends ilObject
 	 */
 	public static function _lookupOnline($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT pool_offline".
 			" FROM booking_settings".

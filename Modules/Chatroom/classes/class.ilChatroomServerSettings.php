@@ -25,14 +25,11 @@ class ilChatroomServerSettings
 
 	public static function loadDefault()
 	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
+		global $DIC;
 
 		$query = 'SELECT * FROM chatroom_admconfig';
-		$rset  = $ilDB->query($query);
-		$row   = $ilDB->fetchAssoc($rset);
+		$rset  = $DIC->database()->query($query);
+		$row   = $DIC->database()->fetchAssoc($rset);
 
 		$client_settings = json_decode($row['client_settings']);
 		$server_settings = json_decode($row['server_settings']);

@@ -14,9 +14,22 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilTaxonomyAdministrationRepositoryTableGUI extends ilTable2GUI
 {	
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
 	function __construct($a_parent_obj, $a_parent_cmd, ilObjTaxonomyAdministration $a_obj)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
+		$lng = $DIC->language();
 		
 		$this->obj = $a_obj;
 		

@@ -1,0 +1,34 @@
+{
+  "name": "jquery-dragster",
+  "version": "1.0.3",
+  "homepage": "https://github.com/catmanjan/jquery-dragster",
+  "authors": [
+    "catmanjan"
+  ],
+  "description": "Unified drag and drop listener",
+  "main": "jquery.dragster.js",
+  "keywords": [
+    "jquery",
+    "dragster",
+    "dragenter",
+    "dragleave",
+    "drop"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "1.0.3",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.0.3",
+    "commit": "6f39b9f7f640bb364d22d1ecb6a13386713b9681"
+  },
+  "_source": "https://github.com/catmanjan/jquery-dragster.git",
+  "_target": "1.0.3",
+  "_originalSource": "jquery-dragster"
+}

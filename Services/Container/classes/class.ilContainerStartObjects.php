@@ -11,12 +11,38 @@
  */
 class ilContainerStartObjects
 {	
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilObjectDataCache
+	 */
+	protected $obj_data_cache;
+
+	/**
+	 * @var Logger
+	 */
+	protected $log;
+
 	protected $ref_id;
 	protected $obj_id;
 	protected $start_objs = array();
 
 	public function __construct($a_object_ref_id, $a_object_id)
 	{		
+		global $DIC;
+
+		$this->tree = $DIC->repositoryTree();
+		$this->db = $DIC->database();
+		$this->obj_data_cache = $DIC["ilObjDataCache"];
+		$this->log = $DIC["ilLog"];
 		$this->setRefId($a_object_ref_id);
 		$this->setObjId($a_object_id);
 
@@ -50,7 +76,8 @@ class ilContainerStartObjects
 		
 	protected function __read()
 	{
-		global $tree, $ilDB;
+		$tree = $this->tree;
+		$ilDB = $this->db;
 
 		$this->start_objs = array();
 
@@ -80,7 +107,7 @@ class ilContainerStartObjects
 	 */
 	public function delete($a_crs_start_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$query = "DELETE FROM crs_start".
 			" WHERE crs_start_id = ".$ilDB->quote($a_crs_start_id, 'integer').
@@ -95,7 +122,7 @@ class ilContainerStartObjects
 	 */
 	public function deleteItem($a_item_ref_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$query = "DELETE FROM crs_start".
 			" WHERE crs_id = ".$ilDB->quote($this->getObjId(), 'integer').
@@ -106,7 +133,7 @@ class ilContainerStartObjects
 
 	public function exists($a_item_ref_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$query = "SELECT * FROM crs_start".
 			" WHERE crs_id = ".$ilDB->quote($this->getObjId(), 'integer').
@@ -118,7 +145,7 @@ class ilContainerStartObjects
 
 	public function add($a_item_ref_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if($a_item_ref_id)
 		{
@@ -144,7 +171,7 @@ class ilContainerStartObjects
 
 	public function __deleteAll()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$query = "DELETE FROM crs_start".
 			" WHERE crs_id = ".$ilDB->quote($this->getObjId(), 'integer');
@@ -154,7 +181,7 @@ class ilContainerStartObjects
 		
 	public function setObjectPos($a_start_id, $a_pos)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if(!(int)$a_start_id || !(int)$a_pos)
 		{
@@ -199,7 +226,7 @@ class ilContainerStartObjects
 
 	public function isFullfilled($a_user_id, $a_item_id)
 	{
-		global $ilObjDataCache;
+		$ilObjDataCache = $this->obj_data_cache;
 
 		$obj_id = $ilObjDataCache->lookupObjId($a_item_id);
 		$type = $ilObjDataCache->lookupType($obj_id);
@@ -247,7 +274,8 @@ class ilContainerStartObjects
 		
 	public function cloneDependencies($a_target_id, $a_copy_id)
 	{
-		global $ilObjDataCache, $ilLog;
+		$ilObjDataCache = $this->obj_data_cache;
+		$ilLog = $this->log;
 		
 		$ilLog->write(__METHOD__.': Begin course start objects...');
 		
@@ -283,7 +311,9 @@ class ilContainerStartObjects
 	 */
 	public static function isStartObject($a_container_id, $a_item_ref_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$query = 'SELECT crs_start_id FROM crs_start '.
 			'WHERE crs_id = '.$ilDB->quote($a_container_id,'integer').' '.

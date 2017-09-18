@@ -12,6 +12,41 @@ require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
  */
 class ilObjectAddNewItemGUI
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
 	protected $mode; // [int]
 	protected $parent_ref_id; // [int]	
 	protected $disabled_object_types; // [array]
@@ -27,7 +62,16 @@ class ilObjectAddNewItemGUI
 	 */
 	public function __construct($a_parent_ref_id)
 	{
-		global $lng;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->obj_definition = $DIC["objDefinition"];
+		$this->settings = $DIC->settings();
+		$this->access = $DIC->access();
+		$this->ctrl = $DIC->ctrl();
+		$this->toolbar = $DIC->toolbar();
+		$this->tpl = $DIC["tpl"];
+		$lng = $DIC->language();
 		
 		$this->parent_ref_id = (int)$a_parent_ref_id;
 		$this->mode = ilObjectDefinition::MODE_REPOSITORY;
@@ -80,7 +124,9 @@ class ilObjectAddNewItemGUI
 	 */
 	protected function parsePersonalWorkspace()
 	{
-		global $objDefinition, $lng, $ilSetting;
+		$objDefinition = $this->obj_definition;
+		$lng = $this->lng;
+		$ilSetting = $this->settings;
 		
 		$this->sub_objects = array();
 		
@@ -121,7 +167,9 @@ class ilObjectAddNewItemGUI
 	 */
 	protected function parseRepository()
 	{
-		global $objDefinition, $lng, $ilAccess;
+		$objDefinition = $this->obj_definition;
+		$lng = $this->lng;
+		$ilAccess = $this->access;
 		
 		$this->sub_objects = array();
 		
@@ -273,7 +321,7 @@ class ilObjectAddNewItemGUI
 	 */
 	protected function getHTML()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 				
 		if($this->mode != ilObjectDefinition::MODE_WORKSPACE && !isset($this->url_creation))
 		{
@@ -340,7 +388,9 @@ class ilObjectAddNewItemGUI
 	 */
 	public function render()
 	{
-		global $ilToolbar, $tpl, $lng;
+		$ilToolbar = $this->toolbar;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 						
 		if($this->mode == ilObjectDefinition::MODE_WORKSPACE)
 		{

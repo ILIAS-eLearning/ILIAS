@@ -13,6 +13,11 @@ require_once "./Services/Object/classes/class.ilObject.php";
 */
 class ilObjAccessibilitySettings extends ilObject
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	
 	/**
 	* Constructor
@@ -22,6 +27,9 @@ class ilObjAccessibilitySettings extends ilObject
 	*/
 	function __construct($a_id = 0,$a_call_by_reference = true)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		$this->type = "accs";
 		parent::__construct($a_id,$a_call_by_reference);
 	}
@@ -34,7 +42,7 @@ class ilObjAccessibilitySettings extends ilObject
 	*/
 	function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if (!parent::update())
 		{			
@@ -49,7 +57,7 @@ class ilObjAccessibilitySettings extends ilObject
 	*/
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		parent::read();
 

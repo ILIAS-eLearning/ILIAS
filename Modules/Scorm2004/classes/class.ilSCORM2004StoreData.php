@@ -13,7 +13,9 @@ class ilSCORM2004StoreData
 {
 	public static function scormPlayerUnload($userId=null, $packageId, $time_from_lms)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 				
 		$data = json_decode(is_string($data) ? $data : file_get_contents('php://input'));
 		if (!$data) return;
@@ -35,7 +37,9 @@ class ilSCORM2004StoreData
 			);
 			if ($time_from_lms==true) {
 				self::ensureObjectDataCacheExistence();
-				global $ilObjDataCache;
+		global $DIC;
+
+		$ilObjDataCache = $DIC["ilObjDataCache"];
 				// sync access number and time in read event table
 				include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
 				ilSCORM2004Tracking::_syncReadEvent($packageId, $userId, "sahs", (int)$_GET['ref_id'], $time_from_lms);
@@ -57,7 +61,9 @@ class ilSCORM2004StoreData
 
 	public static function persistCMIData($userId=null, $packageId, $defaultLessonMode, $comments, $interactions, $objectives, $time_from_lms, $data = null)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC["ilLog"];
 
 		if ($defaultLessonMode == "browse") {return;}
 
@@ -102,7 +108,9 @@ class ilSCORM2004StoreData
 	}
 
 	public static function checkIfAllowed($packageId,$userId,$hash){
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		$res = $ilDB->queryF('select hash from sahs_user where obj_id=%s AND user_id=%s AND hash_end>%s',
 			array('integer','integer','timestamp'),
 			array($packageId,$userId,date('Y-m-d H:i:s'))
@@ -113,7 +121,10 @@ class ilSCORM2004StoreData
 	}
 
 	public static function setCMIData($userId, $packageId, $data,$getComments,$getInteractions,$getObjectives) {
-		global $ilDB, $ilLog;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilLog = $DIC["ilLog"];
 
 		$result = array();
 
@@ -348,7 +359,9 @@ class ilSCORM2004StoreData
 
 
 	protected static function setGlobalObjectives($userId, $packageId, $data) {
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC["ilLog"];
 		$changed_seq_utilities=$data->changed_seq_utilities;
 		$ilLog->write("SCORM2004 adl_seq_utilities changed: ".$changed_seq_utilities);
 		if ($changed_seq_utilities == 1) {
@@ -358,7 +371,10 @@ class ilSCORM2004StoreData
 
 	public static function syncGlobalStatus($userId, $packageId, $data, $new_global_status, $time_from_lms) {
 
-		global $ilDB, $ilLog;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilLog = $DIC["ilLog"];
 		$saved_global_status=$data->saved_global_status;
 		$ilLog->write("saved_global_status=".$saved_global_status);
 
@@ -371,7 +387,9 @@ class ilSCORM2004StoreData
 			array($totalTime, $new_global_status, $data->percentageCompleted, $packageId, $userId));
 
 		self::ensureObjectDataCacheExistence();
-		global $ilObjDataCache;
+		global $DIC;
+
+		$ilObjDataCache = $DIC["ilObjDataCache"];
 
 		// update learning progress
 		if ($new_global_status != null) {//could only happen when synchronising from SCORM Offline Player
@@ -396,7 +414,10 @@ class ilSCORM2004StoreData
 	//$dowrite only if changed adl_seq_utilities
 	public static function writeGObjective($g_data, $user, $package)
 	{
-		global $ilDB, $ilLog;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilLog = $DIC["ilLog"];
 		$ilLog->write("SCORM2004 writeGObjective");
 
 		$returnAr=array(null,null,null);
@@ -592,7 +613,9 @@ class ilSCORM2004StoreData
 		/**
 		 * @var $ilObjDataCache ilObjectDataCache
 		 */
-		global $ilObjDataCache;
+		global $DIC;
+
+		$ilObjDataCache = $DIC["ilObjDataCache"];
 
 		if($ilObjDataCache instanceof ilObjectDataCache)
 		{

@@ -11,6 +11,36 @@
  */
 class ilExSubmissionTeamGUI
 {	
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs_gui;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	protected $exercise; // [ilObjExercise]
 	protected $assignment; // [ilExAssignment]
 	protected $submission; // [ilExSubmission]
@@ -18,7 +48,14 @@ class ilExSubmissionTeamGUI
 	
 	public function __construct(ilObjExercise $a_exercise, ilExSubmission $a_submission)
 	{
-		global $ilCtrl, $ilTabs, $lng, $tpl;
+		global $DIC;
+
+		$this->toolbar = $DIC->toolbar();
+		$this->user = $DIC->user();
+		$ilCtrl = $DIC->ctrl();
+		$ilTabs = $DIC->tabs();
+		$lng = $DIC->language();
+		$tpl = $DIC["tpl"];
 		
 		$this->exercise = $a_exercise;
 		$this->submission = $a_submission;
@@ -33,7 +70,7 @@ class ilExSubmissionTeamGUI
 	
 	public function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd("submissionScreenTeam");		
@@ -70,7 +107,10 @@ class ilExSubmissionTeamGUI
 	
 	public static function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission)
 	{		
-		global $lng, $ilCtrl;
+		global $DIC;
+
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
 		
 		if(!$a_submission->getAssignment()->hasTeam())
 		{
@@ -156,7 +196,11 @@ class ilExSubmissionTeamGUI
 	
 	public static function handleTabs()
 	{		
-		global $ilTabs, $ilCtrl, $lng;
+		global $DIC;
+
+		$ilTabs = $DIC->tabs();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		$ilTabs->addTab("team", $lng->txt("exc_team"), 
 			$ilCtrl->getLinkTargetByClass("ilExSubmissionTeamGUI", "submissionScreenTeam"));
@@ -179,7 +223,7 @@ class ilExSubmissionTeamGUI
 	*/
 	function submissionScreenTeamObject()
 	{
-		global $ilToolbar;
+		$ilToolbar = $this->toolbar;
 						
 		// #13414
 		$read_only = !$this->canEditTeam();
@@ -276,7 +320,8 @@ class ilExSubmissionTeamGUI
 	
 	public function confirmRemoveTeamMemberObject($a_full_delete = false)
 	{
-		global $ilUser, $tpl;
+		$ilUser = $this->user;
+		$tpl = $this->tpl;
 		
 		if(!$this->submission->isTutor())
 		{
@@ -351,7 +396,7 @@ class ilExSubmissionTeamGUI
 	
 	public function removeTeamMemberObject($a_full_delete = false)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$cancel_cmd = $this->submission->isTutor()
 			? "returnToParent"
@@ -451,7 +496,10 @@ class ilExSubmissionTeamGUI
 		
 	public function createTeamObject()
 	{		
-		global $ilCtrl, $ilUser, $lng, $tpl;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
 		
 		if($this->submission->canSubmit())
 		{			
@@ -524,7 +572,9 @@ class ilExSubmissionTeamGUI
 	
 	public function createAdoptedTeamObject()
 	{
-		global $ilCtrl, $ilUser, $lng;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
 		
 		if($this->submission->canSubmit())
 		{	

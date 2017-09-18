@@ -307,7 +307,7 @@ class ilMimeMail
 	 */
 	public function getImages()
 	{
-		return $this->images;
+		return array_values($this->images);
 	}
 
 	/**
@@ -385,25 +385,33 @@ class ilMimeMail
 	 */
 	protected function buildHtmlInlineImages($skin)
 	{
-		$directory = './Services/Mail/templates/default/img';
+		$this->gatherImagesFromDirectory('./Services/Mail/templates/default/img');
+
 		if($skin != 'default')
 		{
 			$skinDirectory = './Customizing/global/skin/' . $skin . '/Services/Mail/img';
 			if(is_dir($skinDirectory) && is_readable($skinDirectory))
 			{
-				$directory = $skinDirectory;
+				$this->gatherImagesFromDirectory($skinDirectory);
 			}
 		}
+	}
 
+	/**
+	 * @param string $directory
+	 */
+	protected function gatherImagesFromDirectory($directory)
+	{
 		foreach(new \RegexIterator(new \DirectoryIterator($directory), '/\.jpg$/i') as $file)
 		{
 			/**
 			 * @var $file \SplFileInfo
 			 */
+			$cid = 'img/' . $file->getFilename();
 
-			$this->images[] = array(
+			$this->images[$cid] = array(
 				'path' => $file->getPathname(),
-				'cid'  => 'img/' . $file->getFilename(),
+				'cid'  => $cid,
 				'name' => $file->getFilename()
 			);
 		}
@@ -411,6 +419,7 @@ class ilMimeMail
 
 	/**
 	 * @param $transport \ilMailMimeTransport|null
+	 * @return bool A boolean flag whether or not the transport might be successful
 	 */
 	public function Send($transport = null)
 	{
@@ -420,6 +429,7 @@ class ilMimeMail
 		}
 
 		$this->build();
-		$transport->send($this);
+
+		return $transport->send($this);
 	}
 }

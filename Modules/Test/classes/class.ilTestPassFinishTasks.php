@@ -31,8 +31,8 @@ class ilTestPassFinishTasks
 	{
 		if( !$this->testSession->isSubmitted() )
 		{
-			$this->testSession->setSubmitted(1);
-			$this->testSession->setSubmittedTimestamp(date('Y-m-d H:i:s'));
+			$this->testSession->setSubmitted();
+			$this->testSession->setSubmittedTimestamp();
 			$this->testSession->saveToDb();
 		}
 	}

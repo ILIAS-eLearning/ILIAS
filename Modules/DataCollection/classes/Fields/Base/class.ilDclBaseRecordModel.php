@@ -349,7 +349,7 @@ class ilDclBaseRecordModel {
 	}
 
 	/**
-	 * @param $excel
+	 * @param $excel ilExcel
 	 * @param $row
 	 * @param $col
 	 * @param $field ilDclBaseFieldModel
@@ -360,6 +360,19 @@ class ilDclBaseRecordModel {
 		return $this->recordfields[$field->getId()]->getValueFromExcel($excel, $row, $col);
 	}
 
+
+	/**
+	 * @param $excel ilExcel
+	 * @param $row
+	 * @param $col
+	 * @param $field ilDclStandardField
+	 */
+	public function setStandardFieldValueFromExcel($excel, $row, $col, $field) {
+		$value = $field->getValueFromExcel($excel, $row, $col);
+		if ($value) {
+			$this->{$field->getId()} = $value;
+		}
+	}
 
 	/**
 	 * @deprecated
@@ -420,8 +433,16 @@ class ilDclBaseRecordModel {
 	public function fillRecordFieldExcelExport(ilExcel $worksheet, &$row, &$col, $field_id) {
 		$this->loadRecordFields();
 		if (ilDclStandardField::_isStandardField($field_id)) {
-			$worksheet->setCell($row, $col, $this->getStandardFieldHTML($field_id));
-			$col++;
+			if ($field_id == 'owner') {
+				$worksheet->setCell($row, $col, ilObjUser::_lookupLogin($this->getOwner()));
+				$col++;
+				$name_array = ilObjUser::_lookupName($this->getOwner());
+				$worksheet->setCell($row, $col, $name_array['lastname'] . ', ' . $name_array['firstname']);
+				$col++;
+			} else {
+				$worksheet->setCell($row, $col, $this->getStandardFieldHTML($field_id));
+				$col++;
+			}
 		} else {
 			$this->recordfields[$field_id]->fillExcelExport($worksheet, $row, $col);
 		}

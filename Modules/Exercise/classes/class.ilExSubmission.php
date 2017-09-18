@@ -9,6 +9,26 @@
  */
 class ilExSubmission
 {	
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
 	protected $assignment; // [ilExAssignment]
 	protected $user_id; // [int]
 	protected $team; // [ilExAssignmentTeam]
@@ -18,7 +38,13 @@ class ilExSubmission
 	
 	public function __construct(ilExAssignment $a_ass, $a_user_id, ilExAssignmentTeam $a_team = null, $a_is_tutor = false, $a_public_submissions = false)
 	{				
-		global $ilUser;
+		global $DIC;
+
+		$this->user = $DIC->user();
+		$this->db = $DIC->database();
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+		$ilUser = $DIC->user();
 		
 		$this->assignment = $a_ass;
 		$this->user_id = $a_user_id;	
@@ -157,7 +183,7 @@ class ilExSubmission
 	
 	public function canView()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		if($this->canSubmit() ||
 			$this->isTutor() ||
@@ -200,7 +226,7 @@ class ilExSubmission
 	
 	public function isInTeam($a_user_id = null)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		if(!$a_user_id)
 		{
@@ -211,7 +237,7 @@ class ilExSubmission
 	
 	public function isOwner()
 	{		
-		global $ilUser;		
+		$ilUser = $this->user;
 		
 		return ($ilUser->getId() == $this->getUserId());
 	}	
@@ -261,13 +287,13 @@ class ilExSubmission
 	 */
 	function uploadFile($a_http_post_files, $unzip = false)
 	{
-		global $ilDB;
-		
+		$ilDB = $this->db;
+
 		if(!$this->canAddFile())
 		{
 			return false;
 		}
-			
+
 		$deliver_result = $this->initStorage()->uploadFile($a_http_post_files, $this->getUserId(), $unzip);
 
 		if ($deliver_result)
@@ -304,7 +330,7 @@ class ilExSubmission
 	*/
 	function processUploadedZipFile($fileTmp)
 	{		
-		global $lng; 
+		$lng = $this->lng;
 		
 		// Create unzip-directory
 		$newDir = ilUtil::ilTempnam();
@@ -328,7 +354,7 @@ class ilExSubmission
 				if($current_num + $zip_num > $max_num)
 				{
 					$success = false;
-					ilUtil::sendFailure($lng->txt("exc_upload_error"), true);
+					ilUtil::sendFailure($lng->txt("exc_upload_error")." [Zip1]", true);
 				}
 			}
 			
@@ -345,7 +371,7 @@ class ilExSubmission
 					if(!$this->uploadFile($a_http_post_files, true))
 					{
 						$success = false;
-						ilUtil::sendFailure($lng->txt("exc_upload_error"), true);
+						ilUtil::sendFailure($lng->txt("exc_upload_error")." [Zip2]", true);
 					}		
 				}			
 			}
@@ -362,7 +388,9 @@ class ilExSubmission
 	
 	public static function hasAnySubmissions($a_ass_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$query = "SELECT * FROM exc_returned".
 			" WHERE ass_id = ".$ilDB->quote($a_ass_id, "integer").
@@ -374,7 +402,9 @@ class ilExSubmission
 	
 	public static function getAllAssignmentFiles($a_exc_id, $a_ass_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		$storage = new ilFSStorageExercise($a_exc_id, $a_ass_id);
@@ -396,7 +426,7 @@ class ilExSubmission
 
 	function getFiles(array $a_file_ids = null, $a_only_valid = false, $a_min_timestamp = null)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$sql = "SELECT * FROM exc_returned".
 			" WHERE ass_id = ".$ilDB->quote($this->getAssignment()->getId(), "integer").
@@ -447,18 +477,25 @@ class ilExSubmission
 	/**
 	 * Check how much files have been uploaded by the learner
 	 * after the last download of the tutor.
+	 * @param tutor integer
+	 * @return array
 	 */
-	function lookupNewFiles()
+	function lookupNewFiles($a_tutor = null)
 	{
-  		global $ilDB, $ilUser;
-		
+		$ilDB = $this->db;
+		$ilUser = $this->user;
+
+  		$tutor = ($a_tutor)
+			? $a_tutor
+			: $ilUser->getId();
+
   		$q = "SELECT exc_returned.returned_id AS id ".
 			"FROM exc_usr_tutor, exc_returned ".
 			"WHERE exc_returned.ass_id = exc_usr_tutor.ass_id ".
 			" AND exc_returned.user_id = exc_usr_tutor.usr_id ".
 			" AND exc_returned.ass_id = ".$ilDB->quote($this->getAssignment()->getId(), "integer").
 			" AND ".$ilDB->in("exc_returned.user_id", $this->getUserIds(), "", "integer").
-			" AND exc_usr_tutor.tutor_id = ".$ilDB->quote($ilUser->getId(), "integer").
+			" AND exc_usr_tutor.tutor_id = ".$ilDB->quote($tutor, "integer").
 			" AND exc_usr_tutor.download_time < exc_returned.ts ";
 
   		$new_up_set = $ilDB->query($q);
@@ -471,7 +508,7 @@ class ilExSubmission
 
 		return $new_up;
 	}
-	
+
 	/**
 	 * Get exercise from submission id (used in ilObjMediaObject)
 	 * 
@@ -480,7 +517,9 @@ class ilExSubmission
 	 */
 	public static function lookupExerciseIdForReturnedId($a_returned_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT obj_id".
 			" FROM exc_returned".
@@ -499,7 +538,9 @@ class ilExSubmission
 	 */
 	public static function findUserFiles($a_user_id, $a_filetitle)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT obj_id, ass_id".
 			" FROM exc_returned".
@@ -534,7 +575,7 @@ class ilExSubmission
 	*/
 	function deleteSelectedFiles(array $file_id_array)
 	{		
-		global $ilDB;
+		$ilDB = $this->db;
 				
 		$user_ids = $this->getUserIds();
 		if(!$user_ids || 
@@ -615,7 +656,8 @@ class ilExSubmission
 	
 	protected function getLastDownloadTime(array $a_user_ids)
 	{
-		global $ilDB, $ilUser;
+		$ilDB = $this->db;
+		$ilUser = $this->user;
 	
 		$q = "SELECT download_time FROM exc_usr_tutor WHERE ".
 			" ass_id = ".$ilDB->quote($this->getAssignment()->getId(), "integer")." AND ".
@@ -628,7 +670,8 @@ class ilExSubmission
 	
 	function downloadFiles(array $a_file_ids = null, $a_only_new = false, $a_peer_review_mask_filename = false)
 	{			
-		global $ilUser, $lng;
+		$ilUser = $this->user;
+		$lng = $this->lng;
 		
 		$user_ids = $this->getUserIds();
 		$is_team = $this->assignment->hasTeam();
@@ -739,7 +782,8 @@ class ilExSubmission
 	// Update the timestamp of the last download of current user (=tutor)	
 	public function updateTutorDownloadTime()
 	{
-		global $ilUser, $ilDB;
+		$ilUser = $this->user;
+		$ilDB = $this->db;
 				
 		$exc_id = $this->assignment->getExerciseId();
 		$ass_id = $this->assignment->getId();
@@ -768,7 +812,7 @@ class ilExSubmission
 
 	protected function downloadMultipleFiles($a_filenames, $a_user_id, $a_multi_user = false)
 	{					
-		global $lng;
+		$lng = $this->lng;
 		
 		$path = $this->initStorage()->getAbsoluteSubmissionPath();
 		
@@ -877,7 +921,9 @@ class ilExSubmission
 	 */
 	public static function downloadAllAssignmentFiles(ilExAssignment $a_ass, array $members)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		
@@ -1056,7 +1102,7 @@ class ilExSubmission
 	 */
 	function getLastSubmission()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 	
 		$ilDB->setLimit(1);
 
@@ -1084,7 +1130,7 @@ class ilExSubmission
 	 */
 	function addResourceObject($a_wsp_id, $a_text = null)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 	
 		$next_id = $ilDB->nextId("exc_returned");
 		$query = sprintf("INSERT INTO exc_returned ".
@@ -1111,7 +1157,7 @@ class ilExSubmission
 	 */
 	public function deleteResourceObject($a_returned_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$ilDB->manipulate("DELETE FROM exc_returned".
 			" WHERE obj_id = ".$ilDB->quote($this->assignment->getExerciseId(), "integer").
@@ -1128,7 +1174,7 @@ class ilExSubmission
 	 */
 	function updateTextSubmission($a_text)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$files = $this->getFiles();
 		
@@ -1168,7 +1214,8 @@ class ilExSubmission
 	
 	public function getDownloadedFilesInfoForTableGUIS($a_parent_obj, $a_parent_cmd = null)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$result = array();
 		$result["files"]["count"] = "---";

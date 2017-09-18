@@ -14,12 +14,13 @@ include_once("./Modules/Exercise/classes/class.ilExerciseSubmissionTableGUI.php"
  */
 class ilExerciseMemberTableGUI extends ilExerciseSubmissionTableGUI
 {
+
 	protected $ass; // [ilExAssignment]
 	protected $teams = array();
 
 	protected function initMode($a_item_id)
 	{		
-		global $lng;
+		$lng = $this->lng;
 		
 		$this->mode = self::MODE_BY_ASSIGNMENT;
 		
@@ -37,7 +38,22 @@ class ilExerciseMemberTableGUI extends ilExerciseSubmissionTableGUI
 	{
 		$this->addCommandButton("saveStatusAll", $this->lng->txt("exc_save_all"));													
 		
-		$data = $this->ass->getMemberListData();
+		$tmp_data = $this->ass->getMemberListData();
+		
+		// filter user access
+		$usr_ids = array_keys($tmp_data);
+		$filtered_usr_ids = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+			'etit_submissions_grades',
+			'edit_submissions_grades',
+			$this->exc->getRefId(),
+			$usr_ids
+		);
+		$data = [];
+		foreach($filtered_usr_ids as $usr_id)
+		{
+			$data[$usr_id] = $tmp_data[$usr_id]; 
+		}
+		
 		
 		$idl = $this->ass->getIndividualDeadlines();			
 		
@@ -229,7 +245,7 @@ class ilExerciseMemberTableGUI extends ilExerciseSubmissionTableGUI
 	
 	protected function fillRow($member)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$member_id = $member["usr_id"];
 		

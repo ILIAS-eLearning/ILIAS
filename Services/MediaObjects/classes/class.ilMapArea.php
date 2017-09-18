@@ -35,6 +35,11 @@ define("IL_TF_NEW", "New");
 */
 class ilMapArea
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	const HL_NONE = "";
 	const HL_HOVER = "Hover";
 	const HL_ALWAYS = "Always";
@@ -63,6 +68,9 @@ class ilMapArea
 	*/
 	function __construct($a_item_id = 0, $a_nr = 0)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		$this->title = "";
 		if ($a_item_id !=0 && $a_nr != 0)
 		{
@@ -77,7 +85,7 @@ class ilMapArea
 	*/
 	function create()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$q = "INSERT INTO map_area (item_id, nr, shape, ".
 			"coords, link_type, title, href, target, type, highlight_mode, highlight_class, target_frame) ".
@@ -106,7 +114,9 @@ class ilMapArea
 	*/
 	static function _getMaxNr($a_item_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$q = "SELECT max(nr) AS max_nr FROM map_area WHERE item_id = ".
 			$ilDB->quote($a_item_id, "integer");
@@ -121,7 +131,7 @@ class ilMapArea
 	*/
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$q = "SELECT * FROM map_area WHERE item_id = ".
 			$ilDB->quote($this->getItemId(), "integer").
@@ -149,7 +159,7 @@ class ilMapArea
 	*/
 	function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$q = "UPDATE map_area SET shape = ".$ilDB->quote($this->getShape(), "text").
 			", coords = ".$ilDB->quote($this->getCoords(), "text").
@@ -171,7 +181,9 @@ class ilMapArea
 	*/
 	static function _resolveIntLinks($a_item_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 //echo "maparea::resolve<br>";
 		$q = "SELECT * FROM map_area WHERE item_id = ".
@@ -206,7 +218,9 @@ class ilMapArea
 	*/
 	static function _getIntLinks($a_item_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$q = "SELECT * FROM map_area WHERE item_id = ".
 			$ilDB->quote($a_item_id, "integer");
@@ -235,7 +249,9 @@ class ilMapArea
 	*/
 	static function _getMobsForTarget($a_type, $a_target)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$q = "SELECT * FROM map_area WHERE ".
 			" link_type = ".$ilDB->quote($a_type, "text").
@@ -260,7 +276,9 @@ class ilMapArea
 	 */
 	static function getAllHighlightModes()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		return array(
 			self::HL_NONE => $lng->txt("cont_none"),
@@ -298,7 +316,9 @@ class ilMapArea
 	 */
 	static function getAllHighlightClasses()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		return array(
 			self::HLCL_ACCENTED => $lng->txt("cont_accented"),

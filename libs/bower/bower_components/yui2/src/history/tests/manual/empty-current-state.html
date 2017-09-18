@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd"> 
+ 
+<html lang="en"> 
+<head> 
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+	<title>Empty current state bug</title> 
+	<meta name="author" content="Eric Artzt"> 
+	<!-- Date: 2010-05-14 --> 
+
+    <script src="../../../../build/yahoo/yahoo.js"></script>
+    <script src="../../../../build/dom/dom.js"></script>
+    <script src="../../../../build/event/event.js"></script>
+    <script src="../../../../build/history/history.js"></script>
+</head> 
+<body> 
+  <iframe id="yui-history-iframe" src="blank.html" style="width: 1px; height: 1px; position: absolute; left: -20px"></iframe> 
+  <input id="yui-history-field" type="hidden"> 
+  <p><a href="#" onclick="YAHOO.util.History.navigate('filterbox', ''); return false;">Set to empty string</a></p> 
+  <p><a href="#" onclick="YAHOO.util.History.navigate('filterbox', 'some new value'); return false;">Set to "some new value"</a></p> 
+  <p>filterbox is now [<span id="current_value"></span>]</p> 
+<div id="scripts"> 
+  <script type="text/javascript" charset="utf-8"> 
+    console.log('init start');
+    var initial = YAHOO.util.History.getBookmarkedState("filterbox")||"";
+    console.log('initial value is ['+initial+']');
+    function setState(state) {
+      console.log('setState begin')
+      var el = document.getElementById("current_value");
+      el.innerHTML = state;
+      console.log('setState done')
+    }
+    YAHOO.util.History.initialize("yui-history-field", "yui-history-iframe");
+    YAHOO.util.History.register("filterbox", initial, function (state) { 
+      console.log('filterbox callback with state='+state);
+      setState(state); 
+    });
+    YAHOO.util.History.onReady(function () {
+      console.log('onReady');
+      setState(initial);
+    });
+    console.log('init completed');
+  </script> 
+</div> 
+</body> 
+</html>

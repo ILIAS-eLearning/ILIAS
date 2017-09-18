@@ -32,6 +32,28 @@ include_once("./Services/Object/classes/class.ilObjectAccess.php");
 class ilObjectPluginAccess extends ilObjectAccess
 {
 	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		global $DIC;
+
+		$this->user = $DIC->user();
+		$this->access = $DIC->access();
+	}
+
+	/**
 	* Checks wether a user may invoke a command or not
 	* (this method is called by ilAccessHandler::checkAccess)
 	*
@@ -48,7 +70,8 @@ class ilObjectPluginAccess extends ilObjectAccess
 	*/
 	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
 	{
-		global $ilUser, $ilAccess;
+		$ilUser = $this->user;
+		$ilAccess = $this->access;
 
 		if ($a_user_id == "")
 		{
@@ -79,7 +102,9 @@ class ilObjectPluginAccess extends ilObjectAccess
 	*/
 	static function _checkGoto($a_target)
 	{
-		global $ilAccess;
+		global $DIC;
+
+		$ilAccess = $DIC->access();
 		
 		$t_arr = explode("_", $a_target);
 

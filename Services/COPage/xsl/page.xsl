@@ -47,6 +47,7 @@
 <xsl:param name="enlarge_path"/>
 <xsl:param name="img_col"/>
 <xsl:param name="img_row"/>
+<xsl:param name="img_cell"/>
 <xsl:param name="img_item"/>
 <xsl:param name="img_path"/>
 <xsl:param name="med_disabled_path"/>
@@ -657,6 +658,12 @@
 		<xsl:with-param name="langvar">ed_insert_list</xsl:with-param>
 	</xsl:call-template>
 
+	<!-- insert grid -->
+	<xsl:call-template name="EditMenuItem">
+		<xsl:with-param name="command">insert_grid</xsl:with-param>
+		<xsl:with-param name="langvar">ed_insert_grid</xsl:with-param>
+	</xsl:call-template>
+
 	<!-- insert section -->
 	<xsl:call-template name="EditMenuItem">
 		<xsl:with-param name="command">insert_sec</xsl:with-param>
@@ -901,7 +908,7 @@
 	<xsl:choose>
 		<xsl:when test="@Characteristic = 'Headline1'">
 		<!-- Label -->
-		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/></xsl:with-param></xsl:call-template>
+		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/> (<xsl:value-of select="@Characteristic"/>)</xsl:with-param></xsl:call-template>
 		<a><xsl:attribute name="name">ilPageTocA1<xsl:number count="Paragraph" level="any"/></xsl:attribute><xsl:comment>ilPageTocH1<xsl:number count="Paragraph" level="any"/></xsl:comment></a><h1>
 			<xsl:call-template name="ShowParagraph"/>
 			<xsl:comment>Break</xsl:comment>
@@ -909,7 +916,7 @@
 		</xsl:when>
 		<xsl:when test="@Characteristic = 'Headline2'">
 		<!-- Label -->
-		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/></xsl:with-param></xsl:call-template>
+		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/> (<xsl:value-of select="@Characteristic"/>)</xsl:with-param></xsl:call-template>
 		<a><xsl:attribute name="name">ilPageTocA2<xsl:number count="Paragraph" level="any"/></xsl:attribute><xsl:comment>ilPageTocH2<xsl:number count="Paragraph" level="any"/></xsl:comment></a><h2>
 			<xsl:call-template name="ShowParagraph"/>
 			<xsl:comment>Break</xsl:comment>
@@ -917,7 +924,7 @@
 		</xsl:when>
 		<xsl:when test="@Characteristic = 'Headline3'">
 		<!-- Label -->
-		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/></xsl:with-param></xsl:call-template>
+		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/> (<xsl:value-of select="@Characteristic"/>)</xsl:with-param></xsl:call-template>
 		<a><xsl:attribute name="name">ilPageTocA3<xsl:number count="Paragraph" level="any"/></xsl:attribute><xsl:comment>ilPageTocH3<xsl:number count="Paragraph" level="any"/></xsl:comment></a><h3>
 			<xsl:call-template name="ShowParagraph"/>
 			<xsl:comment>Break</xsl:comment>
@@ -925,7 +932,7 @@
 		</xsl:when>
 		<xsl:when test="not (@Characteristic) or @Characteristic != 'Code'">
 		<!-- Label -->
-		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/></xsl:with-param></xsl:call-template>
+		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/>  (<xsl:value-of select="@Characteristic"/>)</xsl:with-param></xsl:call-template>
 		<div>
 			<xsl:call-template name="ShowParagraph"/>
 			<xsl:comment>Break</xsl:comment>
@@ -1357,10 +1364,10 @@
 <xsl:template match="Table">
 	<!-- Label -->
 	<xsl:if test="@DataTable != 'y' or not(@DataTable)">
-	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_tab']/@value"/></xsl:with-param></xsl:call-template>
+	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_tab']/@value"/> <xsl:if test="@Template"> (<xsl:value-of select="@Template"/>)</xsl:if></xsl:with-param></xsl:call-template>
 	</xsl:if>
 	<xsl:if test="@DataTable = 'y'">
-	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_dtab']/@value"/></xsl:with-param></xsl:call-template>
+	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_dtab']/@value"/> <xsl:if test="@Template"> (<xsl:value-of select="@Template"/>)</xsl:if></xsl:with-param></xsl:call-template>
 	</xsl:if>	
 	
 	<!-- <xsl:value-of select="@HierId"/> -->
@@ -1765,7 +1772,7 @@
 <!-- Lists -->
 <xsl:template match="List">
 	<!-- Label -->
-	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_list']/@value"/></xsl:with-param></xsl:call-template>
+	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_list']/@value"/> <xsl:if test="@Class != 'NumberedList' and @Class != 'BulletedList'"> (<xsl:value-of select="@Class"/>)</xsl:if></xsl:with-param></xsl:call-template>
 
 	<!-- <xsl:value-of select="..@HierId"/> -->
 	<xsl:call-template name="EditReturnAnchors"/>
@@ -2376,6 +2383,10 @@
 	<xsl:param name="data"/>
 	<xsl:param name="inline"/>
 	<img border="0" style="width:100%">
+		<!-- see 0020796 -->
+		<xsl:if test = "name(..) != 'Paragraph'">
+			<xsl:attribute name="style">width:100%</xsl:attribute>
+		</xsl:if>
 		<xsl:if test = "$map_item = '' or $cmobid != concat('il__mob_',$map_mob_id)">
 			<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
 		</xsl:if>
@@ -2977,7 +2988,7 @@
 <xsl:template match="MediaObject">
 	<!-- Label -->
 	<xsl:if test="./MediaAlias">
-	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_mob']/@value"/></xsl:with-param></xsl:call-template>
+	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_mob']/@value"/> <xsl:if test="./MediaAlias/@Class"> (<xsl:value-of select="./MediaAlias/@Class"/>)</xsl:if></xsl:with-param></xsl:call-template>
 	</xsl:if>
 	<xsl:apply-templates select="MediaAlias"/>
 </xsl:template>
@@ -3153,7 +3164,7 @@
 <!-- Section -->
 	<xsl:template match="Section">
 		<!-- Label -->
-		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_sec']/@value"/></xsl:with-param></xsl:call-template>
+		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_sec']/@value"/> <xsl:if test="@Characteristic"> (<xsl:value-of select="@Characteristic"/>)</xsl:if></xsl:with-param></xsl:call-template>
 		<xsl:if test="($mode = 'edit') or ((not(@ActiveFrom) or (@ActiveFrom &lt; $current_ts)) and (not(@ActiveTo) or (@ActiveTo &gt; $current_ts)))">
 			<xsl:if test="@PermissionRefId">
 				{{{{{Section;Access;PermissionRefId;<xsl:value-of select="@PermissionRefId"/>;Permission;<xsl:value-of select="@Permission"/>}}}}}
@@ -3368,13 +3379,13 @@
 <xsl:template match="Tabs">
 	<!-- Label -->
 	<xsl:if test="@Type = 'VerticalAccordion'">
-	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_vacc']/@value"/></xsl:with-param></xsl:call-template>
+	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_vacc']/@value"/> <xsl:if test="@Template != 'VerticalAccordion'"> (<xsl:value-of select="@Template"/>)</xsl:if></xsl:with-param></xsl:call-template>
 	</xsl:if>
 	<xsl:if test="@Type = 'HorizontalAccordion'">
-		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_hacc']/@value"/></xsl:with-param></xsl:call-template>
+		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_hacc']/@value"/><xsl:if test="@Template != 'HorizontalAccordion'"> (<xsl:value-of select="@Template"/>)</xsl:if></xsl:with-param></xsl:call-template>
 	</xsl:if>
 	<xsl:if test="@Type = 'Carousel'">
-		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_carousel']/@value"/></xsl:with-param></xsl:call-template>
+		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_carousel']/@value"/><xsl:if test="@Template != 'Carousel'"> (<xsl:value-of select="@Template"/>)</xsl:if></xsl:with-param></xsl:call-template>
 	</xsl:if>
 	<xsl:variable name="ttemp" select="@Template"/>
 	<xsl:call-template name="EditReturnAnchors"/>
@@ -3711,7 +3722,7 @@
 				</xsl:if>
 			</xsl:when>
 			</xsl:choose>
-			<xsl:attribute name="style"><xsl:value-of select="$cstyle" /></xsl:attribute>
+			<xsl:attribute name="style"><xsl:value-of select="$cstyle" /><xsl:if test="$mode = 'edit'"> overflow:visible;</xsl:if></xsl:attribute>
 			<xsl:if test="$mode != 'edit'">
 				<!-- <xsl:attribute name="id">tab<xsl:number count="Tab" level="any"/></xsl:attribute> -->
 			</xsl:if>
@@ -3750,6 +3761,105 @@
 	</div>
 	<div style="clear:both;"><xsl:comment>Break</xsl:comment></div>
 	</div>
+</xsl:template>
+
+
+<!-- Grid -->
+<xsl:template match="Grid">
+	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_grid']/@value"/></xsl:with-param></xsl:call-template>
+	<xsl:call-template name="EditReturnAnchors"/>
+	<div class="row row-flex row-flex-wrap">
+		<xsl:apply-templates select="GridCell"/>
+		<xsl:if test="$mode = 'edit'">
+			<!-- <xsl:value-of select="../@HierId"/> -->
+			<xsl:if test = "$javascript='disable'">
+				<input type="checkbox" name="target[]">
+					<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>:<xsl:value-of select="../@PCID"/>
+					</xsl:attribute>
+				</input>
+			</xsl:if>
+			<xsl:call-template name="EditMenu">
+				<xsl:with-param name="hier_id" select="../@HierId" />
+				<xsl:with-param name="pc_id" select="../@PCID" />
+				<xsl:with-param name="edit">y</xsl:with-param>
+			</xsl:call-template>
+			<xsl:if test = "$javascript='disable'">
+				<br/>
+			</xsl:if>
+		</xsl:if>
+	</div>
+</xsl:template>
+
+<!-- GridCell -->
+<xsl:template match="GridCell">
+	<div>
+		<xsl:if test="$mode = 'edit'">
+			<xsl:attribute name="style">border:dashed 1px #C0C0C0;</xsl:attribute>
+		</xsl:if>
+		<xsl:attribute name="class">
+			<xsl:if test="@WIDTH_S != ''"> col-xs-<xsl:value-of select="@WIDTH_S"/></xsl:if>
+			<xsl:if test="@WIDTH_M != ''"> col-sm-<xsl:value-of select="@WIDTH_M"/></xsl:if>
+			<xsl:if test="@WIDTH_L != ''"> col-md-<xsl:value-of select="@WIDTH_L"/></xsl:if>
+			<xsl:if test="@WIDTH_XL != ''"> col-lg-<xsl:value-of select="@WIDTH_XL"/></xsl:if>
+			<xsl:if test="@WIDTH_S = '' and @WIDTH_M = '' and @WIDTH_L = '' and @WIDTH_XL = ''">col-xs-12</xsl:if>
+		</xsl:attribute>
+		<div class="flex-col flex-grow">
+			<xsl:if test="$mode = 'edit'">
+				<xsl:call-template name="EditReturnAnchors"/>
+				<xsl:call-template name="Icon">
+					<xsl:with-param name="img_src"><xsl:value-of select="$img_cell"/></xsl:with-param>
+					<xsl:with-param name="img_id">CONTENTg<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/></xsl:with-param>
+				</xsl:call-template>
+				<div class="ilOverlay il_editmenu ilNoDisplay">
+					<xsl:attribute name="id">contextmenu_g<xsl:value-of select="@HierId"/></xsl:attribute>
+					<xsl:call-template name="GridCellMenu"/>
+				</div>
+			</xsl:if>
+			<!-- insert commands -->
+			<!-- <xsl:value-of select="@HierId"/> -->
+			<xsl:if test="$mode = 'edit'">
+				<!-- drop area (js) -->
+				<xsl:if test="$javascript = 'enable'">
+					<xsl:call-template name="DropArea">
+						<xsl:with-param name="hier_id"><xsl:value-of select="@HierId"/></xsl:with-param>
+						<xsl:with-param name="pc_id"><xsl:value-of select="@PCID"/></xsl:with-param>
+					</xsl:call-template>
+				</xsl:if>
+				<!-- insert dropdown (no js) -->
+				<xsl:if test= "$javascript = 'disable'">
+					<select size="1" class="ilEditSelect">
+						<xsl:attribute name="name">command<xsl:value-of select="@HierId"/>
+						</xsl:attribute>
+						<xsl:call-template name="EditMenuInsertItems"/>
+					</select>
+					<input class="ilEditSubmit" type="submit">
+						<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
+						<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>]</xsl:attribute>
+					</input>
+					<br/>
+				</xsl:if>
+			</xsl:if>
+			<xsl:apply-templates select="PageContent"/>
+			<xsl:comment>End of Grid Cell</xsl:comment>
+		</div>
+	</div>
+</xsl:template>
+
+<!-- GridCellMenu -->
+<xsl:template name="GridCellMenu">
+	<xsl:variable name="ni"><xsl:number from="Grid" level="single" count="GridCell"/></xsl:variable>
+	<xsl:if test= "$ni != 1">
+		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">moveCellLeft</xsl:with-param>
+			<xsl:with-param name="langvar">ed_cell_left</xsl:with-param></xsl:call-template>
+	</xsl:if>
+
+	<xsl:if test= "../GridCell[number($ni + 1)]">
+		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">moveCellRight</xsl:with-param>
+			<xsl:with-param name="langvar">ed_cell_right</xsl:with-param></xsl:call-template>
+	</xsl:if>
+
+	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">deleteCell</xsl:with-param>
+		<xsl:with-param name="langvar">ed_delete_cell</xsl:with-param></xsl:call-template>
 </xsl:template>
 
 <!-- Plugged -->
@@ -3846,7 +3956,7 @@
 				</xsl:if>	
 			</xsl:attribute>
 			<xsl:if test = "$enable_placeholder != 'y'">
-				<xsl:value-of select="//LVs/LV[@name='media_placeh']/@value"/>
+				{{{{{PlaceHolder#<xsl:value-of select="../@PCID"/>#<xsl:value-of select="../@HierId"/>#<xsl:value-of select="@ContentClass"/>}}}}}
 			</xsl:if>
 			<xsl:if test = "$enable_placeholder = 'y'">
 				<xsl:value-of select="//LVs/LV[@name='media_placehl']/@value"/>
@@ -3865,7 +3975,7 @@
 				</xsl:if>
 			</xsl:attribute>
 			<xsl:if test = "$enable_placeholder != 'y'">
-				<xsl:value-of select="//LVs/LV[@name='text_placeh']/@value"/>
+				{{{{{PlaceHolder#<xsl:value-of select="../@PCID"/>#<xsl:value-of select="../@HierId"/>#<xsl:value-of select="@ContentClass"/>}}}}}
 			</xsl:if>
 			<xsl:if test = "$enable_placeholder = 'y'">
 				<xsl:value-of select="//LVs/LV[@name='text_placehl']/@value"/>
@@ -3884,7 +3994,7 @@
 				</xsl:if>
 				</xsl:attribute>
 			<xsl:if test = "$enable_placeholder != 'y'">
-				<xsl:value-of select="//LVs/LV[@name='question_placeh']/@value"/>
+				{{{{{PlaceHolder#<xsl:value-of select="../@PCID"/>#<xsl:value-of select="../@HierId"/>#<xsl:value-of select="@ContentClass"/>}}}}}
 			</xsl:if>
 			<xsl:if test = "$enable_placeholder = 'y'">
 				<xsl:value-of select="//LVs/LV[@name='question_placehl']/@value"/>
@@ -3904,7 +4014,7 @@
 				</xsl:if>
 			</xsl:attribute>
 			<xsl:if test = "$enable_placeholder != 'y'">
-				<xsl:value-of select="//LVs/LV[@name='verification_placeh']/@value"/>
+				{{{{{PlaceHolder#<xsl:value-of select="../@PCID"/>#<xsl:value-of select="../@HierId"/>#<xsl:value-of select="@ContentClass"/>}}}}}
 			</xsl:if>
 			<xsl:if test = "$enable_placeholder = 'y'">
 				<xsl:value-of select="//LVs/LV[@name='verification_placehl']/@value"/>

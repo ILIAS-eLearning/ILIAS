@@ -14,6 +14,26 @@
  */
 class ilItemGroupItems
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_def;
+
+	/**
+	 * @var ilObjectDataCache
+	 */
+	protected $obj_data_cache;
+
+	/**
+	 * @var Logger
+	 */
+	protected $log;
+
 	var $ilDB;
 	var $tree;
 	var $lng;
@@ -29,7 +49,14 @@ class ilItemGroupItems
 	 */
 	function __construct($a_item_group_ref_id = 0)
 	{
-		global $ilDB, $lng, $tree, $objDefinition;
+		global $DIC;
+
+		$this->obj_data_cache = $DIC["ilObjDataCache"];
+		$this->log = $DIC["ilLog"];
+		$ilDB = $DIC->database();
+		$lng = $DIC->language();
+		$tree = $DIC->repositoryTree();
+		$objDefinition = $DIC["objDefinition"];
 
 		$this->db  = $ilDB;
 		$this->lng = $lng;
@@ -172,7 +199,7 @@ class ilItemGroupItems
 	 */
 	function getAssignableItems()
 	{
-		global $objDefinition;
+		$objDefinition = $this->obj_def;
 	
 		if ($this->getItemGroupRefId() <= 0)
 		{
@@ -249,7 +276,8 @@ class ilItemGroupItems
 	 */
 	public function cloneItems($a_source_id,$a_copy_id)
 	{
-		global $ilObjDataCache,$ilLog;
+		$ilObjDataCache = $this->obj_data_cache;
+		$ilLog = $this->log;
 		
 		$ilLog->write(__METHOD__.': Begin cloning item group materials ... -'.$a_source_id.'-');
 		
@@ -280,7 +308,10 @@ class ilItemGroupItems
 	
 	static function _getItemsOfContainer($a_ref_id)
 	{
-		global $ilDB,$tree;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$tree = $DIC->repositoryTree();
 		
 		$itgr_nodes = $tree->getChildsByType($a_ref_id,'itgr');
 		foreach ($itgr_nodes as $node)

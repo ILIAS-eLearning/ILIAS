@@ -43,7 +43,9 @@ class ilObjectTranslation
 	 */
 	private function __construct($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$this->db = $ilDB;
 

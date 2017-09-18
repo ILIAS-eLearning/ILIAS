@@ -41,7 +41,9 @@ class ilSurveyLP extends ilObjectLP
 
 	protected static function isLPMember(array &$a_res, $a_usr_id, $a_obj_ids)
 	{		
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		// if active id
 		$set = $ilDB->query("SELECT ss.obj_fi".

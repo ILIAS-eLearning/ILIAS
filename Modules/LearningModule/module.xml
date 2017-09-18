@@ -11,7 +11,7 @@
 	<objects>
 		<object id="lm" class_name="LearningModule" dir="classes" checkbox="1"
 			inherit="1" translate="db" allow_link="1" allow_copy="1" rbac="1" group="lres"
-			default_pos="120" export="1">
+			default_pos="120" export="1" lti_provider="1">
 			<parent id="cat">cat</parent>
 			<parent id="crs">crs</parent>
 			<parent id="fold">fold</parent>

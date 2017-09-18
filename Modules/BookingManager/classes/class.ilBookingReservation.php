@@ -11,6 +11,11 @@
  */
 class ilBookingReservation
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	protected $id;			// int
 	protected $object_id;	// int
 	protected $user_id;		// int
@@ -31,6 +36,9 @@ class ilBookingReservation
 	 */
 	function __construct($a_id = NULL)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		$this->id = (int)$a_id;
 		$this->read();
 	}
@@ -178,7 +186,7 @@ class ilBookingReservation
 	 */
 	protected function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if($this->id)
 		{
@@ -201,7 +209,7 @@ class ilBookingReservation
 	 */
 	function save()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if($this->id)
 		{
@@ -227,7 +235,7 @@ class ilBookingReservation
 	 */
 	function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if(!$this->id)
 		{
@@ -260,7 +268,7 @@ class ilBookingReservation
 	 */
 	function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if($this->id)
 		{
@@ -275,7 +283,9 @@ class ilBookingReservation
 	 */
 	public static function getNewGroupId()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		return $ilDB->nextId('booking_reservation_group');
 	}
@@ -290,7 +300,9 @@ class ilBookingReservation
 	 */
 	static function getAvailableObject(array $a_ids, $a_from, $a_to, $a_return_single = true, $a_return_counter = false)
 	{
-		global $ilDB;				
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$nr_map = ilBookingObject::getNrOfItemsForObjects($a_ids);
 		
@@ -370,7 +382,9 @@ class ilBookingReservation
 	
 	static function isObjectAvailableInPeriod($a_obj_id, ilBookingSchedule $a_schedule, $a_from, $a_to)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 			
 		if(!$a_from)
 		{
@@ -454,7 +468,9 @@ class ilBookingReservation
 	
 	static function isObjectAvailableNoSchedule($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$all = ilBookingObject::getNrOfItemsForObjects(array($a_obj_id));
 		$all = (int)$all[$a_obj_id];
@@ -477,7 +493,9 @@ class ilBookingReservation
 	 */
 	static function getCurrentOrUpcomingReservation($a_object_id)
     {
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$now = $ilDB->quote(time(), 'integer');
 
@@ -495,7 +513,9 @@ class ilBookingReservation
 	
 	static function getObjectReservationForUser($a_object_id, $a_user_id, $a_multi = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query('SELECT booking_reservation_id FROM booking_reservation'.
 			' WHERE user_id = '.$ilDB->quote($a_user_id, 'integer').
@@ -528,7 +548,9 @@ class ilBookingReservation
 	 */
 	static function getList($a_object_ids, $a_limit = 10, $a_offset = 0, array $filter)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$sql = 'SELECT r.*,o.title'.
 			' FROM booking_reservation r'.
@@ -595,7 +617,9 @@ class ilBookingReservation
 	 */
 	static function getListByDate($a_has_schedule, array $a_object_ids, array $filter = null)
 	{		
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$res = array();
 		
@@ -735,7 +759,9 @@ class ilBookingReservation
 	 */
 	public static function getUserFilter(array $a_object_ids)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$res = array();
 		
@@ -1011,7 +1037,9 @@ class ilBookingReservation
 	 */
 	static function changeStatus(array $a_ids, $a_status)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		if(self::isValidStatus($a_status))
 		{
@@ -1024,7 +1052,7 @@ class ilBookingReservation
 	
 	function getCalendarEntry()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		include_once 'Services/Calendar/classes/class.ilCalendarCategory.php';
 		
@@ -1051,7 +1079,9 @@ class ilBookingReservation
 	 */
 	public static function getCancelDetails($a_obj_id, $a_user_id, $a_from, $a_to)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$res = array();
 		

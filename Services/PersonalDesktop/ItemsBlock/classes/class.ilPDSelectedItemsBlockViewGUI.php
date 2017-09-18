@@ -9,7 +9,7 @@ require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItem
 abstract class ilPDSelectedItemsBlockViewGUI
 {
 	/**
-	 * @var ilPDSelectedItemsBlockSelectedItemsBlockViewSettings
+	 * @var ilPDSelectedItemsBlockViewSettings
 	 */
 	protected $viewSettings;
 
@@ -35,10 +35,10 @@ abstract class ilPDSelectedItemsBlockViewGUI
 
 	/**
 	 * ilPDSelectedItemsBlockViewGUI constructor.
-	 * @param ilPDSelectedItemsBlockSelectedItemsBlockViewSettings $viewSettings
+	 * @param ilPDSelectedItemsBlockViewSettings $viewSettings
 	 * @param ilPDSelectedItemsBlockProvider                       $provider
 	 */
-	final private function __construct(ilPDSelectedItemsBlockSelectedItemsBlockViewSettings $viewSettings, ilPDSelectedItemsBlockProvider $provider)
+	final private function __construct(ilPDSelectedItemsBlockViewSettings $viewSettings, ilPDSelectedItemsBlockProvider $provider)
 	{
 		global $DIC;
 
@@ -101,10 +101,10 @@ abstract class ilPDSelectedItemsBlockViewGUI
 	}
 
 	/**
-	 * @param ilPDSelectedItemsBlockSelectedItemsBlockViewSettings $viewSettings
+	 * @param ilPDSelectedItemsBlockViewSettings $viewSettings
 	 * @return self
 	 */
-	public static function bySettings(ilPDSelectedItemsBlockSelectedItemsBlockViewSettings $viewSettings)
+	public static function bySettings(ilPDSelectedItemsBlockViewSettings $viewSettings)
 	{
 		if($viewSettings->isMembershipsViewActive())
 		{

@@ -36,6 +36,9 @@ class ilSkillDataSet extends ilDataSet
 	 */
 	function __construct()
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		parent::__construct();
 		include_once("./Services/Skill/classes/class.ilSkillTree.php");
 		$this->skill_tree = new ilSkillTree();
@@ -233,7 +236,7 @@ class ilSkillDataSet extends ilDataSet
 	 */
 	function readData($a_entity, $a_version, $a_ids, $a_field = "")
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$this->data = array();
 
@@ -374,7 +377,7 @@ class ilSkillDataSet extends ilDataSet
 	 */
 	protected function getDependencies($a_entity, $a_version, $a_rec, $a_ids)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
 

@@ -11,6 +11,11 @@
  */
 class ilChecklistGUI
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	protected $items = array();
 
 	const STATUS_OK = "ok";
@@ -19,6 +24,9 @@ class ilChecklistGUI
 
 	function __construct()
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 
 	}
 
@@ -63,7 +71,7 @@ class ilChecklistGUI
 	 */
 	function getHTML()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		include_once("./Services/UIComponent/Panel/classes/class.ilPanelGUI.php");
 		$panel = ilPanelGUI::getInstance();

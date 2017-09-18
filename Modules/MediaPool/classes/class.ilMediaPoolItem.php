@@ -10,6 +10,11 @@
  */
 class ilMediaPoolItem
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	protected $import_id;
 
 	/**
@@ -19,6 +24,9 @@ class ilMediaPoolItem
 	 */
 	function __construct($a_id = 0)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		if ($a_id > 0)
 		{
 			$this->setId($a_id);
@@ -131,7 +139,7 @@ class ilMediaPoolItem
 	 */
 	function create()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$nid = $ilDB->nextId("mep_item");
 		$ilDB->manipulate("INSERT INTO mep_item ".
@@ -150,7 +158,7 @@ class ilMediaPoolItem
 	 */
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$set = $ilDB->query("SELECT * FROM mep_item WHERE ".
 			"obj_id = ".$ilDB->quote($this->getId(), "integer")
@@ -172,7 +180,7 @@ class ilMediaPoolItem
 	 */
 	function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 	
 		$ilDB->manipulate("UPDATE mep_item SET ".
 			" type = ".$ilDB->quote($this->getType(), "text").",".
@@ -191,7 +199,7 @@ class ilMediaPoolItem
 	 */
 	function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 	
 		$ilDB->manipulate("DELETE FROM mep_item WHERE "
 			." obj_id = ".$ilDB->quote($this->getId(), "integer")
@@ -206,7 +214,9 @@ class ilMediaPoolItem
 	 */
 	private static function lookup($a_id, $a_field)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT ".$a_field." FROM mep_item WHERE ".
 			" obj_id = ".$ilDB->quote($a_id, "integer"));
@@ -255,7 +265,9 @@ class ilMediaPoolItem
 	 */
 	static function updateObjectTitle($a_obj)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		if (ilObject::_lookupType($a_obj) == "mob")
 		{
@@ -273,7 +285,9 @@ class ilMediaPoolItem
 	 */
 	static function getPoolForItemId($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT * FROM mep_tree ".
 			" WHERE child = ".$ilDB->quote($a_id, "integer")
@@ -294,7 +308,9 @@ class ilMediaPoolItem
 	 */
 	static function getIdsForType($a_id, $a_type)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->query("SELECT mep_tree.child as id".
 			" FROM mep_tree JOIN mep_item ON (mep_tree.child = mep_item.obj_id) WHERE ".

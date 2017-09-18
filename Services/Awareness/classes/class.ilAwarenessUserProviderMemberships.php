@@ -13,6 +13,19 @@ include_once("./Services/Awareness/classes/class.ilAwarenessUserProvider.php");
  */
 class ilAwarenessUserProviderMemberships extends ilAwarenessUserProvider
 {
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		global $DIC;
+
+		parent::__construct();
+		
+		$this->db = $DIC->database();
+	}
+
 	/**
 	 * Get provider id
 	 *
@@ -52,7 +65,7 @@ class ilAwarenessUserProviderMemberships extends ilAwarenessUserProvider
 	 */
 	function getInitialUserSet()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 
 		include_once("./Services/Membership/classes/class.ilParticipants.php");

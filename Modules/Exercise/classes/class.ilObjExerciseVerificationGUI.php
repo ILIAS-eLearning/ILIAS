@@ -26,7 +26,7 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
 	 */
 	public function create()
 	{
-		global $ilTabs;
+		$ilTabs = $this->tabs_gui;
 		
 		if($this->id_type == self::WORKSPACE_NODE_ID)
 		{
@@ -54,7 +54,7 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
 	 */
 	public function save()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$exercise_id = $_REQUEST["exc_id"];
 		if($exercise_id)
@@ -101,7 +101,8 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
 	 */
 	public function render($a_return = false, $a_url = false)
 	{
-		global $ilUser, $lng;
+		$ilUser = $this->user;
+		$lng = $this->lng;
 		
 		if(!$a_return)
 		{					

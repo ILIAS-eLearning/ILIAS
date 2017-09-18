@@ -18,9 +18,24 @@ include_once("./Services/Feeds/classes/class.ilFeedWriter.php");
 */
 class ilObjectFeedWriter extends ilFeedWriter
 {
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	function __construct($a_ref_id, $a_userid = false, $a_purpose = false)
 	{
-		global $ilSetting, $lng;
+		global $DIC;
+
+		$this->settings = $DIC->settings();
+		$this->lng = $DIC->language();
+		$ilSetting = $DIC->settings();
+		$lng = $DIC->language();
 		
 		parent::__construct();
 		

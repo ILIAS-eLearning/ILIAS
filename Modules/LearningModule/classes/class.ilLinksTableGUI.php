@@ -37,7 +37,12 @@ class ilLinksTableGUI extends ilTable2GUI
 	function __construct($a_parent_obj, $a_parent_cmd,
 		$a_lm_id, $a_lm_type)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
@@ -69,7 +74,8 @@ class ilLinksTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$this->tpl->setVariable("TXT_PAGE_TITLE", $a_set["title"]);
 		$ilCtrl->setParameterByClass("illmpageobjectgui", "obj_id",

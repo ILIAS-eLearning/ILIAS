@@ -11,6 +11,41 @@ require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 */
 class ilRepUtilGUI
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
 
 	/**
 	* Constructor
@@ -20,6 +55,15 @@ class ilRepUtilGUI
 	*/
 	function __construct($a_parent_gui, $a_parent_cmd = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->settings = $DIC->settings();
+		$this->ctrl = $DIC->ctrl();
+		$this->tpl = $DIC["tpl"];
+		$this->obj_definition = $DIC["objDefinition"];
+		$this->access = $DIC->access();
+		$this->tree = $DIC->repositoryTree();
 		$this->parent_gui = $a_parent_gui;
 		$this->parent_cmd = $a_parent_cmd;
 	}
@@ -30,7 +74,11 @@ class ilRepUtilGUI
 	*/
 	function showDeleteConfirmation($a_ids, $a_supress_message = false)
 	{
-		global $lng, $ilSetting, $ilCtrl, $tpl, $objDefinition;
+		$lng = $this->lng;
+		$ilSetting = $this->settings;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$objDefinition = $this->obj_definition;
 
 		if (!is_array($a_ids) || count($a_ids) == 0)
 		{
@@ -103,7 +151,9 @@ class ilRepUtilGUI
 	 */
 	function handleMultiReferences($a_obj_id, $a_ref_id, $a_form_name)
 	{			
-		global $lng, $ilAccess, $tree;
+		$lng = $this->lng;
+		$ilAccess = $this->access;
+		$tree = $this->tree;
 								
 		// process
 	
@@ -212,7 +262,9 @@ class ilRepUtilGUI
 	*/
 	function showTrashTable($a_ref_id)
 	{
-		global $tpl, $tree, $lng;
+		$tpl = $this->tpl;
+		$tree = $this->tree;
+		$lng = $this->lng;
 		
 		$objects = $tree->getSavedNodeData($a_ref_id);
 		
@@ -236,7 +288,7 @@ class ilRepUtilGUI
 	*/
 	function restoreObjects($a_cur_ref_id, $a_ref_ids)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if (!is_array($a_ref_ids) || count($a_ref_ids) == 0)
 		{
@@ -265,7 +317,8 @@ class ilRepUtilGUI
 	*/
 	function deleteObjects($a_cur_ref_id, $a_ref_ids)
 	{
-		global $ilSetting, $lng;
+		$ilSetting = $this->settings;
+		$lng = $this->lng;
 		
 		if (!is_array($a_ref_ids) || count($a_ref_ids) == 0)
 		{
@@ -300,7 +353,7 @@ class ilRepUtilGUI
 	*/
 	function removeObjectsFromSystem($a_ref_ids, $a_from_recovery_folder = false)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if (!is_array($a_ref_ids) || count($a_ref_ids) == 0)
 		{
@@ -333,7 +386,7 @@ class ilRepUtilGUI
 	 */
 	protected function buildPath($ref_ids)
 	{
-		global $tree;
+		$tree = $this->tree;
 
 		include_once 'Services/Link/classes/class.ilLink.php';
 		
@@ -378,7 +431,10 @@ class ilRepUtilGUI
 	 */
 	public function confirmRemoveFromSystemObject($a_ids)
 	{
-		global $ilCtrl, $lng, $objDefinition, $tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$objDefinition = $this->obj_definition;
+		$tpl = $this->tpl;
 		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 
 		if(!is_array($a_ids))

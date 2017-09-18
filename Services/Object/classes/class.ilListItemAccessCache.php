@@ -12,6 +12,11 @@ include_once("./Services/Cache/classes/class.ilCache.php");
  */
 class ilListItemAccessCache extends ilCache
 {
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
 	static $disabled = false;
 	
 	/**
@@ -22,7 +27,10 @@ class ilListItemAccessCache extends ilCache
 	 */
 	function __construct()
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$this->settings = $DIC->settings();
+		$ilSetting = $DIC->settings();
 		parent::__construct("ServicesObject", "CheckAccess", false);
 //		$this->setExpiresAfter($ilSetting->get("rep_cache") * 60);
 		$this->setExpiresAfter(0);

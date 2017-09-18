@@ -13,7 +13,7 @@ require_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php")
 * @ilCtrl_Calls ilObjLearningModuleGUI: ilLMPageObjectGUI, ilStructureObjectGUI, ilObjStyleSheetGUI, ilObjectMetaDataGUI
 * @ilCtrl_Calls ilObjLearningModuleGUI: ilLearningProgressGUI, ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI
 * @ilCtrl_Calls ilObjLearningModuleGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilPageMultiLangGUI, ilObjectTranslationGUI
-* @ilCtrl_Calls ilObjLearningModuleGUI: ilLMMultiSrtUploadGUI, ilLMImportGUI
+* @ilCtrl_Calls ilObjLearningModuleGUI: ilMobMultiSrtUploadGUI, ilLMImportGUI, ilLMEditShortTitlesGUI, ilLTIProviderObjectSettingGUI
 *
 * @ingroup ModulesLearningModule
 */

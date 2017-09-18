@@ -9,6 +9,16 @@
  */
 class ilExAssignmentTeam
 {	
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	protected $id; // [int]
 	protected $assignment_id; // [int]
 	protected $members = array(); // [array]
@@ -21,6 +31,10 @@ class ilExAssignmentTeam
 	
 	public function __construct($a_id = null)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
+		$this->user = $DIC->user();
 		if($a_id)
 		{
 			$this->read($a_id);			
@@ -61,7 +75,7 @@ class ilExAssignmentTeam
 	
 	protected function read($a_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// #18094
 		$this->members = array();
@@ -92,7 +106,9 @@ class ilExAssignmentTeam
 	 */
 	public static function getTeamId($a_assignment_id, $a_user_id, $a_create_on_demand = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$sql = "SELECT id FROM il_exc_team".
 			" WHERE ass_id = ".$ilDB->quote($a_assignment_id, "integer").
@@ -135,7 +151,7 @@ class ilExAssignmentTeam
 	 */
 	function getMembersOfAllTeams()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$ids = array();
 		
@@ -159,7 +175,7 @@ class ilExAssignmentTeam
 	 */
 	function addTeamMember($a_user_id, $a_exc_ref_id = null)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if(!$this->id)
 		{
@@ -198,7 +214,7 @@ class ilExAssignmentTeam
 	 */
 	function removeTeamMember($a_user_id, $a_exc_ref_id = null)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if(!$this->id)
 		{
@@ -230,7 +246,9 @@ class ilExAssignmentTeam
 	 */
 	public static function getAssignmentTeamMap($a_ass_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$map = array();
 		
@@ -259,7 +277,10 @@ class ilExAssignmentTeam
 	 */
 	public static function writeTeamLog($a_team_id, $a_action, $a_details = null)
 	{
-		global $ilDB, $ilUser;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilUser = $DIC->user();
 		$id = $ilDB->nextId('il_exc_team_log');
 
 		$fields = array(
@@ -282,7 +303,7 @@ class ilExAssignmentTeam
 	 */
 	public function getLog()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$this->cleanLog();
 		
@@ -306,7 +327,7 @@ class ilExAssignmentTeam
 	 */
 	protected function cleanLog()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// #18179
 		
@@ -340,7 +361,7 @@ class ilExAssignmentTeam
 	 */
 	public function sendNotification($a_exc_ref_id, $a_user_id, $a_action)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		// no need to notify current user
 		if(!$a_exc_ref_id ||
@@ -491,7 +512,9 @@ class ilExAssignmentTeam
 	
 	public static function getAdoptableGroups($a_exc_ref_id)
 	{
-		global $tree;
+		global $DIC;
+
+		$tree = $DIC->repositoryTree();
 		
 		$res = array();
 				

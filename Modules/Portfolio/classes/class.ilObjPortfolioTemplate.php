@@ -180,7 +180,10 @@ class ilObjPortfolioTemplate extends ilObjPortfolioBase
 	
 	public static function getAvailablePortfolioTemplates($a_permission = "read")
 	{
-		global $ilUser, $ilAccess;
+		global $DIC;
+
+		$ilUser = $DIC->user();
+		$ilAccess = $DIC->access();
 		
 		$res = array();
 		

@@ -1,0 +1,46 @@
+.il-orgunit .multi_icons_wrapper {
+  display: inline-block;
+  vertical-align: bottom;
+  float: right;
+}
+.il-orgunit .multi_icon {
+  display: inline-block;
+}
+.il-orgunit .multi_input_line {
+  border-top: 1px solid #EDEDED;
+  padding-top: 10px;
+}
+.il-orgunit .multi_input_line:nth-child(2) {
+  border-top: none;
+  padding-top: 0;
+}
+.il-orgunit .multi_input_line .input {
+  display: inline-block;
+  border: none;
+  vertical-align: top;
+}
+#il_expl2_jstree_cont_orgu_explorer img {
+  width: 16px;
+  height: 16px;
+}
+.multi_icons_wrapper {
+  display: inline-block;
+  vertical-align: bottom;
+  float: right;
+}
+.multi_icon {
+  display: inline-block;
+}
+.multi_input_line {
+  border-top: 1px solid #EDEDED;
+  padding-top: 10px;
+}
+.multi_input_line:nth-child(2) {
+  border-top: none;
+  padding-top: 0;
+}
+.multi_input_line .input {
+  display: inline-block;
+  border: none;
+  vertical-align: top;
+}

@@ -37,10 +37,7 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
 	 */
 	public static function _checkGoto($a_target)
 	{
-		/**
-		 * @var $rbacsystem ilRbacSystem
-		 */
-		global $rbacsystem;
+		global $DIC;
 
 		if(is_string($a_target))
 		{
@@ -51,7 +48,7 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
 				return false;
 			}
 
-			if($rbacsystem->checkAccess("read", $t_arr[1]))
+			if($DIC->rbac()->system()->checkAccess("read", $t_arr[1]))
 			{
 				return true;
 			}

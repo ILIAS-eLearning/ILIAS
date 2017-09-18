@@ -34,9 +34,34 @@
 */
 class ilExternalFeedHandlerGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
 	function __construct()
 	{
-		global $ilCtrl, $lng, $ilAccess, $ilias, $ilNavigationHistory;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$this->tpl = $DIC["tpl"];
+		$ilCtrl = $DIC->ctrl();
 
 		// initialisation stuff
 		$this->ctrl =  $ilCtrl;
@@ -48,7 +73,9 @@ class ilExternalFeedHandlerGUI
 	*/
 	function executeCommand()
 	{
-		global $lng, $ilAccess, $tpl;
+		$lng = $this->lng;
+		$ilAccess = $this->access;
+		$tpl = $this->tpl;
 		
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);

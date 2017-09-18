@@ -38,6 +38,16 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 class ilObjObjectFolderGUI extends ilObjectGUI
 {
 	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
 	* Constructor
 	*
 	* @param	array	basic object data
@@ -47,6 +57,10 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 	*/
 	function __construct($a_data,$a_id,$a_call_by_reference)
 	{
+		global $DIC;
+
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->error = $DIC["ilErr"];
 		$this->type = "objf";
 		parent::__construct($a_data,$a_id,$a_call_by_reference,false);
 	}
@@ -58,11 +72,12 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 	*/
 	function viewObject()
 	{
-		global $rbacsystem;
+		$rbacsystem = $this->rbacsystem;
+		$ilErr = $this->error;
 
 		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->MESSAGE);
 		}
 
 		//prepare objectlist
@@ -267,7 +282,7 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 	*/
 	function getTabs()
 	{
-		global $rbacsystem;
+		$rbacsystem = $this->rbacsystem;
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{

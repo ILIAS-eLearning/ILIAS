@@ -272,7 +272,6 @@ class ilCalendarUtil
 		$tpl->setCurrentBlock("CalendarJS");
 		$tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR", "./Services/Calendar/js/calendar.js");
 		$tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_SETUP", "./Services/Calendar/js/calendar-setup.js");
-		$tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_STYLESHEET", "./Services/Calendar/css/calendar.css");
 		$tpl->parseCurrentBlock();
 		
 		self::$init_done = "done";
@@ -581,11 +580,11 @@ class ilCalendarUtil
 		
 		if(!self::$init_datetimepicker)
 		{			
-			$tpl->addJavaScript("./libs/composer/vendor/moment/moment/min/moment-with-locales.min.js");	
+			$tpl->addJavaScript("./libs/bower/bower_components/moment/min/moment-with-locales.min.js");
 			
 			// unminified version does not work with jQuery 3.0
 			// https://github.com/Eonasdan/bootstrap-datetimepicker/issues/1684			
-			$tpl->addJavaScript("./Services/Calendar/lib/bootstrap3_datepicker/bootstrap-datetimepicker.min.js");		
+			$tpl->addJavaScript("./libs/bower/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js");
 			
 			$tpl->addJavaScript("Services/Form/js/Form.js"); // see ilPropertyFormGUI	
 		

@@ -38,14 +38,22 @@ class ilMemberViewGUI
 	 */
 	public static function showMemberViewSwitch($a_ref_id)
 	{
-		global $ilAccess, $ilCtrl;
+		global $DIC;
+
+		$ilAccess = $DIC->access();
+		$ilCtrl = $DIC->ctrl();
 		
 		$settings = ilMemberViewSettings::getInstance();
 		if(!$settings->isEnabled())
 		{
 			return false;
 		}
-		global $tpl,$tree,$lng,$ilTabs;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
+		$tree = $DIC->repositoryTree();
+		$lng = $DIC->language();
+		$ilTabs = $DIC->tabs();
 		
 		// No course or group in path => aborting
 		if(!$tree->checkForParentType($a_ref_id, 'crs') and

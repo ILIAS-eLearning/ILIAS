@@ -41,7 +41,13 @@ class ilWikiSearchBlockGUI extends ilBlockGUI
 	*/
 	function __construct()
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$this->access = $DIC->access();
+		$lng = $DIC->language();
 		
 		parent::__construct();
 		
@@ -85,7 +91,7 @@ class ilWikiSearchBlockGUI extends ilBlockGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$next_class = $ilCtrl->getNextClass();
 		$cmd = $ilCtrl->getCmd("getHTML");
@@ -102,7 +108,9 @@ class ilWikiSearchBlockGUI extends ilBlockGUI
 	*/
 	function getHTML()
 	{
-		global $ilCtrl, $lng, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 		
 		return parent::getHTML();
 	}
@@ -112,7 +120,9 @@ class ilWikiSearchBlockGUI extends ilBlockGUI
 	*/
 	function fillDataSection()
 	{
-		global $ilCtrl, $lng, $ilAccess;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilAccess = $this->access;
 		
 		$tpl = new ilTemplate("tpl.wiki_search_block.html", true, true, "Modules/Wiki");
 		

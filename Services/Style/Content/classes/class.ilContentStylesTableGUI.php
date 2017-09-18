@@ -15,11 +15,34 @@ include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvan
 class ilContentStylesTableGUI extends ilTable2GUI
 {
 	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
 	 * Constructor
 	 */
 	function __construct(ilContentStyleSettingsGUI $a_parent_obj, $a_parent_cmd, $a_data, $a_style_settings)
 	{
-		global $ilCtrl, $lng, $ilSetting;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->settings = $DIC->settings();
+		$this->rbacsystem = $DIC->rbac()->system();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilSetting = $DIC->settings();
 
 		$this->fixed_style = $ilSetting->get("fixed_content_style_id");
 		$this->default_style = $ilSetting->get("default_content_style_id");
@@ -53,7 +76,9 @@ class ilContentStylesTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl, $rbacsystem;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$rbacsystem = $this->rbacsystem;
 
 		if ($a_set["id"] > 0)
 		{

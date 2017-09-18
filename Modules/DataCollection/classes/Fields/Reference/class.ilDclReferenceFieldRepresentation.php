@@ -55,7 +55,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation {
 					$options[$record->getId()] = $value;
 					break;
 				default:
-					$options[$record->getId()] = $record->getRecordFieldValue($fieldref);
+					$options[$record->getId()] = $record->getRecordFieldExportValue($fieldref);
 					break;
 			}
 		}

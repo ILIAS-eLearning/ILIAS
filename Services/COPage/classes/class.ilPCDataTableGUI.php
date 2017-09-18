@@ -17,6 +17,11 @@ require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
  */
 class ilPCDataTableGUI extends ilPCTableGUI
 {
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
 
 	/**
 	* Constructor
@@ -24,6 +29,11 @@ class ilPCDataTableGUI extends ilPCTableGUI
 	*/
 	function __construct(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+		$this->tabs = $DIC->tabs();
 		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 		$this->setCharacteristics(array("StandardTable" => $this->lng->txt("cont_StandardTable")));
 	}
@@ -61,7 +71,8 @@ class ilPCDataTableGUI extends ilPCTableGUI
 	*/
 	function editDataCl()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 //var_dump($_GET);
 //var_dump($_POST);
 
@@ -271,9 +282,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 	 */
 	function update($a_redirect = true)
 	{
-		global $ilBench, $lng;
-
-		$ilBench->start("Editor","Data_Table_update");
+		$lng = $this->lng;
 
 		// handle input data
 		include_once("./Services/COPage/classes/class.ilPCParagraph.php");
@@ -300,13 +309,11 @@ class ilPCDataTableGUI extends ilPCTableGUI
 
 		if ($this->updated !== true)
 		{
-			$ilBench->stop("Editor","Data_Table_update");
 			$this->editData();
 			return;
 		}
 
 		$this->updated = $this->pg_obj->update();
-		$ilBench->stop("Editor","Data_Table_update");
 
 		if ($a_redirect)
 		{
@@ -320,7 +327,8 @@ class ilPCDataTableGUI extends ilPCTableGUI
 	 */
 	function updateJS()
 	{
-		global $ilBench, $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 				
 		if ($_POST["cancel_update"])
 		{
@@ -414,7 +422,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 	*/
 	function afterCreation()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$this->pg_obj->stripHierIDs();
 		$this->pg_obj->addHierIDs();
@@ -431,7 +439,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 	*/
 	function tableAction()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$this->update(false);
 		$this->pg_obj->addHierIDs();
@@ -453,7 +461,8 @@ class ilPCDataTableGUI extends ilPCTableGUI
 	*/
 	function setTabs()
 	{
-		global $ilCtrl, $ilTabs;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
 		
 		parent::setTabs();
 		
@@ -473,7 +482,8 @@ class ilPCDataTableGUI extends ilPCTableGUI
 	 */
 	function editData()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 
 		if (!ilPageEditorGUI::_doJSEditing())

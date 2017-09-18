@@ -122,13 +122,13 @@ class ilAdvancedSelectionListGUI
 	*/
 	function addItem($a_title, $a_value = "", $a_link = "", $a_img = "", $a_alt = "", $a_frame = "",
 		$a_html = "", $a_prevent_background_click = false, $a_onclick = "", $a_ttip = "",
-		$a_tt_my = "right center", $a_tt_at = "left center", $a_tt_use_htmlspecialchars = true)
+		$a_tt_my = "right center", $a_tt_at = "left center", $a_tt_use_htmlspecialchars = true, $a_data = array())
 	{
 		$this->items[] = array("title" => $a_title, "value" => $a_value,
 			"link" => $a_link, "img" => $a_img, "alt" => $a_alt, "frame" => $a_frame,
 			"html" => $a_html, "prevent_background_click" => $a_prevent_background_click,
 			"onclick" => $a_onclick, "ttip" => $a_ttip, "tt_my" => $a_tt_my, "tt_at" => $a_tt_at,
-			"tt_use_htmlspecialchars" => $a_tt_use_htmlspecialchars);
+			"tt_use_htmlspecialchars" => $a_tt_use_htmlspecialchars, "data" => $a_data);
 	}
 	
 	/**
@@ -636,6 +636,17 @@ class ilAdvancedSelectionListGUI
 							$tpl->parseCurrentBlock();
 						}
 
+						if (is_array($item["data"]))
+						{
+							foreach ($item["data"] as $k => $v)
+							{
+								$tpl->setCurrentBlock("f_data");
+								$tpl->setVariable("DATA_KEY", $k);
+								$tpl->setVariable("DATA_VAL", ilUtil::prepareFormOutput($v));
+								$tpl->parseCurrentBlock();
+							}
+						}
+
 						$tpl->setCurrentBlock("href_s");
 						$tpl->setVariable("HREF_ITEM",'href="'.$item["link"].'"');
 						$tpl->setVariable("ID_ITEM", $this->getId()."_".$item["value"]);
@@ -834,17 +845,17 @@ class ilAdvancedSelectionListGUI
 		switch ($this->getStyle())
 		{
 			case self::STYLE_DEFAULT:
-				$tpl->setVariable("BTN_CLASS", "btn btn-sm btn-default");
+				$tpl->setVariable("BTN_CLASS", "btn btn-default");
 				$tpl->setVariable("TAG", "button");
 				break;
 
 			case self::STYLE_EMPH:
-				$tpl->setVariable("BTN_CLASS", "btn btn-sm btn-primary");
+				$tpl->setVariable("BTN_CLASS", "btn btn-primary");
 				$tpl->setVariable("TAG", "button");
 				break;
 
 			case self::STYLE_LINK_BUTTON:
-				$tpl->setVariable("BTN_CLASS", "btn btn-sm btn-link");
+				$tpl->setVariable("BTN_CLASS", "btn btn-link");
 				$tpl->setVariable("TAG", "button");
 				break;
 

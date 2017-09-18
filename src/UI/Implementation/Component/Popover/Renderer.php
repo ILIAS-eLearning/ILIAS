@@ -18,29 +18,40 @@ class Renderer extends AbstractComponentRenderer {
 	/**
 	 * @inheritdoc
 	 */
-	public function render(Component\Component $component, RendererInterface $default_renderer) {
-		$this->checkComponent($component);
+	public function render(Component\Component $popover, RendererInterface $default_renderer) {
+		$this->checkComponent($popover);
 		$tpl = $this->getTemplate('tpl.popover.html', true, true);
 		$tpl->setVariable('FORCE_RENDERING', '');
-		/** @var Component\Popover\Popover $component */
+		/** @var Component\Popover\Popover $popover */
 
-		$options = array(
-			'title'     => $this->escape($component->getTitle()),
-			'placement' => $component->getPosition(),
-			'multi'     => true,
-			'template'  => str_replace('"', '\"', $tpl->get()),
+		$replacement = array(
+			'"'=> '\"',
+			"\n"=>"",
+			"\t"=>"",
+			"\r"=>"",
 		);
 
-		$is_async = $component->getAsyncContentUrl();
-		if ($is_async) {
-			$options['type'] = 'async';
-			$options['url'] = $component->getAsyncContentUrl();
+		$options = array(
+			'title'     => $this->escape($popover->getTitle()),
+			'placement' => $popover->getPosition(),
+			'multi'     => true,
+			'template'  => str_replace(array_keys($replacement), array_values($replacement), $tpl->get()),
+		);
+
+		if($popover->isFixedPosition()) {
+			$options['style'] = "fixed";
 		}
 
-		$show = $component->getShowSignal();
-		$replace = $component->getReplaceContentSignal();
+		$is_async = $popover->getAsyncContentUrl();
+		if ($is_async) {
+			$options['type'] = 'async';
+			$options['url'] = $popover->getAsyncContentUrl();
+		}
 
-		$component = $component->withAdditionalOnLoadCode(function($id) use ($options, $show, $replace, $is_async) {
+		$show = $popover->getShowSignal();
+		$replace = $popover->getReplaceContentSignal();
+
+		$popover = $popover->withAdditionalOnLoadCode(function($id) use ($options, $show, $replace, $is_async) {
 			if (!$is_async) {
 				$options["url"] = "#{$id}";
 			}
@@ -55,17 +66,17 @@ class Renderer extends AbstractComponentRenderer {
 				});";
 		});
 
-		$id = $this->bindJavaScript($component);
+		$id = $this->bindJavaScript($popover);
 
-		if ($component->getAsyncContentUrl()) {
+		if ($popover->getAsyncContentUrl()) {
 			return '';
 		}
 
-		if ($component instanceof Component\Popover\Standard) {
-			return $this->renderStandardPopover($component, $default_renderer, $id);
+		if ($popover instanceof Component\Popover\Standard) {
+			return $this->renderStandardPopover($popover, $default_renderer, $id);
 		} else {
-			if ($component instanceof Component\Popover\Listing) {
-				return $this->renderListingPopover($component, $default_renderer, $id);
+			if ($popover instanceof Component\Popover\Listing) {
+				return $this->renderListingPopover($popover, $default_renderer, $id);
 			}
 		}
 

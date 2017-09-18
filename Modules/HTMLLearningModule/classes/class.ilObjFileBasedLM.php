@@ -31,6 +31,9 @@ class ilObjFileBasedLM extends ilObject
 	*/
 	function __construct($a_id = 0,$a_call_by_reference = true)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		// this also calls read() method! (if $a_id is set)
 		$this->type = "htlm";
 		parent::__construct($a_id,$a_call_by_reference);
@@ -46,7 +49,7 @@ class ilObjFileBasedLM extends ilObject
 	*/
 	function update($a_skip_meta = false)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if (!$a_skip_meta)
 		{
@@ -66,7 +69,7 @@ class ilObjFileBasedLM extends ilObject
 	*/
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		parent::read();
 
@@ -84,7 +87,7 @@ class ilObjFileBasedLM extends ilObject
 	*/
 	function create($a_skip_meta = false)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		parent::create();
 		$this->createDataDirectory();
@@ -141,7 +144,9 @@ class ilObjFileBasedLM extends ilObject
 	*/
 	static function _lookupOnline($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$q = "SELECT * FROM file_based_lm WHERE id = ".$ilDB->quote($a_id, "integer");
 		$lm_set = $ilDB->query($q);
@@ -176,7 +181,7 @@ class ilObjFileBasedLM extends ilObject
 	*/
 	function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		// always call parent delete function first!!
 		if (!parent::delete())
@@ -225,8 +230,6 @@ class ilObjFileBasedLM extends ilObject
 	 */
 	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
-		global $ilDB, $ilUser, $ilias;
-
 		$new_obj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
 	 	$this->cloneMetaData($new_obj);
 

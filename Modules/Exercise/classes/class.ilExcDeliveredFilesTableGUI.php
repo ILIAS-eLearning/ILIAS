@@ -20,7 +20,12 @@ class ilExcDeliveredFilesTableGUI extends ilTable2GUI
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd, ilExSubmission $a_submission)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 			
 		$this->submission = $a_submission;
 		
@@ -68,7 +73,7 @@ class ilExcDeliveredFilesTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($file)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$this->tpl->setVariable("FILE_ID", $file["returned_id"]);
 		$this->tpl->setVariable("DELIVERED_FILE", $file["filetitle"]);

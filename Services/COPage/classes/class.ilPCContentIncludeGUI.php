@@ -16,6 +16,16 @@ require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
 */
 class ilPCContentIncludeGUI extends ilPageContentGUI
 {
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
 
 	/**
 	* Constructor
@@ -23,6 +33,13 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
 	*/
 	function __construct(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->access = $DIC->access();
+		$this->tabs = $DIC->tabs();
+		$this->tpl = $DIC["tpl"];
+		$this->lng = $DIC->language();
 		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
 
@@ -73,7 +90,11 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
 	*/
 	function insertFromPool($a_post_cmd = "edpost", $a_submit_cmd = "create_mob")
 	{
-		global $ilCtrl, $ilAccess, $ilTabs, $tpl, $lng;
+		$ilCtrl = $this->ctrl;
+		$ilAccess = $this->access;
+		$ilTabs = $this->tabs;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 		
 
 		if ($_SESSION["cont_media_pool"] != "" &&
@@ -114,7 +135,8 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
 	*/
 	function poolSelection()
 	{
-		global $tpl, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
 
 //		$this->getTabs($ilTabs, true);
 //		$ilTabs->setSubTabActive("cont_mob_from_media_pool");
@@ -138,7 +160,8 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
 	*/
 	function create()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		if (is_array($_POST["id"]))
 		{
@@ -169,7 +192,7 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
 	*/
 	function selectPool()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$_SESSION["cont_media_pool"] = $_GET["pool_ref_id"];
 		$ilCtrl->setParameter($this, "subCmd", "insertFromPool");

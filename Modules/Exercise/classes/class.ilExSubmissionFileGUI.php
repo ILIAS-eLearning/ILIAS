@@ -11,9 +11,39 @@
  */
 class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 {		
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct(ilObjExercise $a_exercise, ilExSubmission $a_submission)
+	{
+		global $DIC;
+
+		parent::__construct($a_exercise, $a_submission);
+
+		$this->toolbar = $DIC->toolbar();
+		$this->help = $DIC["ilHelp"];
+		$this->user = $DIC->user();
+	}
+
 	public function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		if(!$this->submission->canView())
 		{
@@ -33,14 +63,17 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 	
 	public static function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission)
 	{		
-		global $lng, $ilCtrl;
+		global $DIC;
+
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
 		
 		$titles = array();
 		foreach($a_submission->getFiles() as $file)
 		{
 			$titles[] = $file["filetitle"];
 		}
-		$files_str = implode($titles, ", ");
+		$files_str = implode($titles, "<br>");
 		if ($files_str == "")
 		{
 			$files_str = $lng->txt("message_no_delivered_files");
@@ -59,7 +92,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 				$button->setPrimary(true);
 				$button->setCaption($title, false);
 				$button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionFileGUI"), "submissionScreen"));							
-				$files_str.= " ".$button->render();								
+				$files_str.= "<br><br>".$button->render();
 			}
 			else
 			{
@@ -68,14 +101,14 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 					$button = ilLinkButton::getInstance();								
 					$button->setCaption("already_delivered_files");
 					$button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionFileGUI"), "submissionScreen"));											
-					$files_str.= " ".$button->render();
+					$files_str.= "<br>".$button->render();
 				}
 			}
 		}
 
 		$a_info->addProperty($lng->txt("exc_files_returned"), $files_str);	
 	}
-	
+
 	/**
 	* Displays a form which allows members to deliver their solutions
 	*
@@ -83,7 +116,9 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 	*/
 	function submissionScreenObject()
 	{
-		global $ilToolbar, $ilHelp, $ilUser;
+		$ilToolbar = $this->toolbar;
+		$ilHelp = $this->help;
+		$ilUser = $this->user;
 
 
 		$this->handleTabs();
@@ -148,7 +183,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 		$this->tabs_gui->setBackTarget($this->lng->txt("back"), 
 			$this->ctrl->getLinkTarget($this, "submissionScreen"));
 
-		global $ilHelp;
+		$ilHelp = $this->help;
 		$ilHelp->setScreenIdComponent("exc");
 		$ilHelp->setScreenId("upload_submission");
 
@@ -185,7 +220,8 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 	 */
 	protected function initUploadForm()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -211,7 +247,8 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 	 */
 	protected function initZipUploadForm()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -236,7 +273,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
  	 */
 	function uploadFileObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		// #15322
 		if (!$this->submission->canSubmit())
@@ -263,7 +300,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 					);
 				if(!$this->submission->uploadFile($file))
 				{
-					ilUtil::sendFailure($this->lng->txt("exc_upload_error"), true);
+					ilUtil::sendFailure($this->lng->txt("exc_upload_error")." [Single File]", true);
 				}
 				else
 				{
@@ -286,7 +323,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 	 */
 	function uploadZipObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 	
 		// #15322
 		if (!$this->submission->canSubmit())
@@ -319,7 +356,9 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 	 */
 	function confirmDeleteDeliveredObject()
 	{
-		global $ilCtrl, $tpl, $lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 		
 		if (!$this->submission->canSubmit())
 		{
@@ -373,7 +412,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 	 */
 	function deleteDeliveredObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		if (!$this->submission->canSubmit())
 		{
@@ -397,7 +436,9 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 	 * Download submitted files of user.
 	 */
 	function downloadReturnedObject($a_only_new = false)
-	{		
+	{
+		$lng = $this->lng;
+
 		$peer_review_mask_filename = false;
 		
 		if($this->submission->canView())
@@ -410,7 +451,12 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 			return;
 		}		
 		
-		$this->submission->downloadFiles(null, $a_only_new, $peer_review_mask_filename);			
+		$this->submission->downloadFiles(null, $a_only_new, $peer_review_mask_filename);
+		// we only get here, if no files have been found for download
+		if ($a_only_new)
+		{
+			ilUtil::sendInfo($lng->txt("exc_all_new_files_offered_already"), true);
+		}
 		$this->returnToParentObject();
 	}
 
@@ -430,7 +476,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 	 */
 	function downloadObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		if(!$this->submission->canView())
 		{

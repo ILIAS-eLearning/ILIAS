@@ -17,12 +17,41 @@ include_once("./Services/Object/classes/class.ilObjectGUI.php");
 class ilObjAccessibilitySettingsGUI extends ilObjectGUI
 {
 	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
 	 * Contructor
 	 *
 	 * @access public
 	 */
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
+		global $DIC;
+
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->error = $DIC["ilErr"];
+		$this->access = $DIC->access();
+		$this->tabs = $DIC->tabs();
+		$this->tpl = $DIC["tpl"];
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
 		$this->type = 'accs';
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
@@ -37,7 +66,9 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
 	 */
 	public function executeCommand()
 	{
-		global $rbacsystem,$ilErr,$ilAccess;
+		$rbacsystem = $this->rbacsystem;
+		$ilErr = $this->error;
+		$ilAccess = $this->access;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -111,7 +142,9 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
 	 */
 	public function getAdminTabs()
 	{
-		global $rbacsystem, $ilAccess, $ilTabs;
+		$rbacsystem = $this->rbacsystem;
+		$ilAccess = $this->access;
+		$ilTabs = $this->tabs;
 
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
@@ -138,7 +171,7 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
 	*/
 	function editAccessKeys()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		$this->tabs_gui->setTabActive('acc_access_keys');
 		
@@ -153,7 +186,9 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
 	*/
 	function saveAccessKeys()
 	{
-		global $ilCtrl, $lng, $ilAccess;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilAccess = $this->access;
 		
 		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
 		{

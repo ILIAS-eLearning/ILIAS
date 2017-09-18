@@ -17,6 +17,16 @@ require_once("./Services/MetaData/classes/class.ilMDLanguageItem.php");
  */
 class ilSCORM2004Node
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	var $slm_id;
 	var $type;
 	var $id;
@@ -27,6 +37,10 @@ class ilSCORM2004Node
 	*/
 	function __construct($a_slm_object, $a_id = 0)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
+		$this->user = $DIC->user();
 		$this->id = $a_id;
 		$this->setSLMObject($a_slm_object);
 		$this->setSLMId($a_slm_object->getId());
@@ -199,7 +213,7 @@ class ilSCORM2004Node
 	*/
 	function read()
 	{
-		global $ilBench, $ilDB;
+		$ilDB = $this->db;
 
 		if(!isset($this->data_record))
 		{
@@ -259,7 +273,7 @@ class ilSCORM2004Node
 	*/
 	function createMetaData()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		include_once 'Services/MetaData/classes/class.ilMDCreator.php';
 		$md_creator = new ilMDCreator($this->getSLMId(), $this->getId(), $this->getType());
@@ -326,7 +340,9 @@ class ilSCORM2004Node
 	*/
 	static function _lookupTitle($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$query = "SELECT * FROM sahs_sc13_tree_node WHERE obj_id = ".
 			$ilDB->quote($a_obj_id, "integer");
@@ -344,7 +360,9 @@ class ilSCORM2004Node
 	*/
 	static function _lookupType($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$query = "SELECT * FROM sahs_sc13_tree_node WHERE obj_id = ".
 			$ilDB->quote($a_obj_id, "integer");
@@ -362,7 +380,9 @@ class ilSCORM2004Node
 	*/
 	static function _writeTitle($a_obj_id, $a_title)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$query = "UPDATE sahs_sc13_tree_node SET ".
 			" title = ".$ilDB->quote($a_title, "text").
@@ -378,7 +398,9 @@ class ilSCORM2004Node
 	*/
 	static function _writeImportId($a_id, $a_import_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$q = "UPDATE sahs_sc13_tree_node ".
 			"SET ".
@@ -396,7 +418,7 @@ class ilSCORM2004Node
 	*/
 	function create($a_upload = false)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		// insert object data
 		$id = $ilDB->nextId("sahs_sc13_tree_node");
@@ -422,7 +444,7 @@ class ilSCORM2004Node
 	*/
 	function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$this->updateMetaData();
 
@@ -439,7 +461,7 @@ class ilSCORM2004Node
 	*/
 	function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$query = "DELETE FROM sahs_sc13_tree_node WHERE obj_id= ".
 			$ilDB->quote($this->getId(), "integer");
@@ -461,7 +483,9 @@ class ilSCORM2004Node
 	*/
 	static function _getIdForImportId($a_import_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$ilDB->setLimit(1);
 		$q = "SELECT * FROM sahs_sc13_tree_node WHERE import_id = ".
@@ -491,7 +515,9 @@ class ilSCORM2004Node
 	*/
 	static function _exists($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		include_once("./Services/Link/classes/class.ilInternalLink.php");
 		if (is_int(strpos($a_id, "_")))
@@ -521,7 +547,9 @@ class ilSCORM2004Node
 	*/
 	static function _deleteAllSLMNodes($a_slm_object)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$query = "SELECT * FROM sahs_sc13_tree_node ".
 			"WHERE slm_id = ".$ilDB->quote($a_slm_object->getId(), "integer")." ";
@@ -546,7 +574,9 @@ class ilSCORM2004Node
 	*/
 	static function _lookupSLMID($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$query = "SELECT * FROM sahs_sc13_tree_node WHERE obj_id = ".
 			$ilDB->quote($a_id, "integer")."";
@@ -618,7 +648,9 @@ class ilSCORM2004Node
 	*/
 	static function clipboardCopy($a_slm_obj_id, $a_ids)
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC->user();
 		
 		$tree = ilSCORM2004Node::getTree($a_slm_obj_id);
 		
@@ -730,7 +762,9 @@ class ilSCORM2004Node
 	*/
 	static function insertPageClip($a_slm_obj)
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC->user();
 		
 		// @todo: move this to a service since it can be used here, too
 		include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
@@ -790,7 +824,10 @@ class ilSCORM2004Node
 	 */
 	static function insertAssetClip($a_slm_obj, $a_type = "ass")
 	{
-		global $ilCtrl, $ilUser;
+		global $DIC;
+
+		$ilCtrl = $DIC->ctrl();
+		$ilUser = $DIC->user();
 		
 		// @todo: move this to a service since it can be used here, too
 		include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
@@ -848,7 +885,11 @@ class ilSCORM2004Node
 	*/
 	static function insertChapterClip($a_slm_obj, $a_as_sub = false)
 	{
-		global $ilUser, $ilCtrl, $ilLog;
+		global $DIC;
+
+		$ilUser = $DIC->user();
+		$ilCtrl = $DIC->ctrl();
+		$ilLog = $DIC["ilLog"];
 		
 		// @todo: move this to a service since it can be used here, too
 		include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
@@ -929,7 +970,10 @@ class ilSCORM2004Node
 	static function pasteTree($a_target_slm, $a_item_id, $a_parent_id, $a_target, $a_insert_time,
 		&$a_copied_nodes, $a_as_copy = false, $a_from_clipboard = true, $a_source_parent_type = "")
 	{
-		global $ilUser, $ilLog;
+		global $DIC;
+
+		$ilUser = $DIC->user();
+		$ilLog = $DIC["ilLog"];
 
 		$item_type = "";
 
@@ -938,7 +982,6 @@ class ilSCORM2004Node
 			// source lm id, item type and lm object
 			$item_slm_id = ilSCORM2004Node::_lookupSLMID($a_item_id);
 			$item_type = ilSCORM2004Node::_lookupType($a_item_id);
-			//$slm_obj = $ilias->obj_factory->getInstanceByObjId($item_slm_id);
 
 			include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
 			$slm_obj = new ilObjSCORM2004LearningModule($item_slm_id, false);

@@ -42,7 +42,10 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd, array $a_results)
 	{	
-		global $lng, $ilCtrl;
+		global $DIC;
+
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
 
 		$this->setId("svy_cum");
 		parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -72,7 +75,7 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 
 	function getSelectableColumns()
 	{
-		global $lng;
+		$lng = $this->lng;
 		$cols["question"] = array(
 			"txt" => $lng->txt("question"),
 			"default" => true

@@ -12,13 +12,16 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 * @version $Id$
 * 
 * @ilCtrl_Calls ilObjUserFolderGUI: ilPermissionGUI, ilUserTableGUI
-* @ilCtrl_Calls ilObjUserFolderGUI: ilAccountCodesGUI, ilCustomUserFieldsGUI, ilRepositorySearchGUI
+* @ilCtrl_Calls ilObjUserFolderGUI: ilAccountCodesGUI, ilCustomUserFieldsGUI, ilRepositorySearchGUI, ilUserStartingPointGUI
+* @ilCtrl_Calls ilObjUserFolderGUI: ilUserProfileInfoSettingsGUI
 *
 * @ingroup ServicesUser
 */
 class ilObjUserFolderGUI extends ilObjectGUI
 {
 	var $ctrl;
+
+	protected $log;
 
 	/**
 	* Constructor
@@ -38,6 +41,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->lng->loadLanguageModule("user");
 
 		$ilCtrl->saveParameter($this, "letter");
+
+		$this->log = ilLoggerFactory::getLogger("user");
 	}
 
 	function setUserOwnerId($a_id)
@@ -107,13 +112,30 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				$this->ctrl->forwardCommand($cf);
 				break;
 
+			case 'iluserstartingpointgui':
+				$this->tabs_gui->setTabActive('settings');
+				$this->setSubTabs("settings");
+				$ilTabs->activateSubTab("starting_points");
+				include_once("./Services/User/classes/class.ilUserStartingPointGUI.php");
+				$cf = new ilUserStartingPointGUI($this->ref_id);
+				$this->ctrl->forwardCommand($cf);
+				break;
+
+			case 'iluserprofileinfosettingsgui':
+				$this->tabs_gui->setTabActive('settings');
+				$this->setSubTabs("settings");
+				$ilTabs->activateSubTab("user_profile_settings");
+				include_once("./Services/User/classes/class.ilUserProfileInfoSettingsGUI.php");
+				$ps = new ilUserProfileInfoSettingsGUI();
+				$this->ctrl->forwardCommand($ps);
+				break;
+
 			default:
 				if(!$cmd)
 				{
 					$cmd = "view";
 				}
 				$cmd .= "Object";
-				
 				$this->$cmd();
 
 				break;
@@ -242,7 +264,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	{
 		include_once './Services/User/classes/class.ilUserAutoComplete.php';
 		$auto = new ilUserAutoComplete();
-		$auto->setSearchFields(array('login','firstname','lastname','email'));
+		$auto->setSearchFields(array('login','firstname','lastname','email', 'second_email'));
 		$auto->enableFieldSearchableCheck(false);
 		$auto->setMoreLinkAvailable(true);
 
@@ -1446,6 +1468,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				'login_max_attempts' => $security->getLoginMaxAttempts(),				
 				'ps_prevent_simultaneous_logins' => (int)$security->isPreventionOfSimultaneousLoginsEnabled(),
 				'password_assistance' => (bool)$ilSetting->get("password_assistance")
+				,'letter_avatars' => (int)$ilSetting->get('letter_avatars')
 			)
 		);
 						
@@ -1548,7 +1571,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 					}	
 				}		
 				// END SESSION SETTINGS												
-				
+				$ilSetting->set('letter_avatars', (int)$this->form->getInput('letter_avatars'));
 				ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
 			}
 			else
@@ -1811,7 +1834,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$chbChangeBlockingTime->setSize(10);
 		$chbChangeBlockingTime->setMaxLength(10);
 		$chbChangeLogin->addSubItem($chbChangeBlockingTime);		
-		
+
+		$la = new ilCheckboxInputGUI($this->lng->txt('usr_letter_avatars'), 'letter_avatars');
+		$la->setValue(1);
+		$la->setInfo($this->lng->txt('usr_letter_avatars_info'));
+		$this->form->addItem($la);
+
 		$this->form->addCommandButton('saveGeneralSettings', $this->lng->txt('save'));
 	}
 
@@ -2355,13 +2383,13 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	function newAccountMailObject()
 	{
 		global $lng;
-		
+
 		$this->setSubTabs('settings');
 		$this->tabs_gui->setTabActive('settings');
 		$this->tabs_gui->setSubTabActive('user_new_account_mail');
-				
-		$form = $this->initNewAccountMailForm();	
-		
+
+		$form = $this->initNewAccountMailForm();
+
 		$ftpl = new ilTemplate('tpl.usrf_new_account_mail.html', true, true, 'Services/User');
 		$ftpl->setVariable("FORM", $form->getHTML());
 		unset($form);
@@ -2382,10 +2410,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$ftpl->setVariable("TXT_TARGET", $lng->txt("mail_nacc_target"));
 		$ftpl->setVariable("TXT_TARGET_TITLE", $lng->txt("mail_nacc_target_title"));
 		$ftpl->setVariable("TXT_TARGET_TYPE", $lng->txt("mail_nacc_target_type"));
-		$ftpl->setVariable("TXT_TARGET_BLOCK", $lng->txt("mail_nacc_target_block"));	
-		$ftpl->setVariable("TXT_IF_TIMELIMIT", $lng->txt("mail_nacc_if_timelimit"));	
-		$ftpl->setVariable("TXT_TIMELIMIT", $lng->txt("mail_nacc_timelimit"));	
-		
+		$ftpl->setVariable("TXT_TARGET_BLOCK", $lng->txt("mail_nacc_target_block"));
+		$ftpl->setVariable("TXT_IF_TIMELIMIT", $lng->txt("mail_nacc_if_timelimit"));
+		$ftpl->setVariable("TXT_TIMELIMIT", $lng->txt("mail_nacc_timelimit"));
+
 		$this->tpl->setContent($ftpl->get());
 	}
 
@@ -2503,7 +2531,17 @@ class ilObjUserFolderGUI extends ilObjectGUI
 												 "listUserDefinedFields",get_class($this));
 				$this->tabs_gui->addSubTabTarget("user_new_account_mail",
 												 $this->ctrl->getLinkTarget($this,'newAccountMail'),
-												 "newAccountMail",get_class($this));				
+												 "newAccountMail",get_class($this));
+
+				$this->tabs_gui->addSubTabTarget("starting_points",
+												$this->ctrl->getLinkTargetByClass("iluserstartingpointgui", "startingPoints"),
+												"startingPoints", get_class($this));
+
+
+				$this->tabs_gui->addSubTabTarget("user_profile_info",
+					$this->ctrl->getLinkTargetByClass("ilUserProfileInfoSettingsGUI",''),
+					"","ilUserProfileInfoSettingsGUI");
+
 				#$this->tabs_gui->addSubTab("account_codes", $this->lng->txt("user_account_codes"),
 				#							 $this->ctrl->getLinkTargetByClass("ilaccountcodesgui"));												 
 				break;
@@ -2864,7 +2902,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				return array(array("generalSettings", $fields));	
 		}		
 	}
-	
+
 	protected function addToClipboardObject()
 	{
 		$users = (array) $_POST['id'];

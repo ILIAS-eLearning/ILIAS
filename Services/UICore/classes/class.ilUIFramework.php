@@ -11,14 +11,18 @@
  */
 class ilUIFramework
 {
+
+	const BOWER_BOOTSTRAP_JS = "libs/bower/bower_components/bootstrap/dist/js/bootstrap.min.js";
+
+
 	/**
 	 * Get javascript files
 	 *
 	 * @return array array of files
 	 */
-	static function getJSFiles()
+	public static function getJSFiles()
 	{
-		return array("./Services/UICore/lib/bootstrap-3.2.0/dist/js/bootstrap.min.js");
+		return array( "./" . self::BOWER_BOOTSTRAP_JS );
 	}
 
 	/**
@@ -28,7 +32,7 @@ class ilUIFramework
 	 */
 	static function getCssFiles()
 	{
-		return array("./Services/UICore/lib/yamm3/yamm/yamm.css");
+		return array("./libs/bower/bower_components/Yamm3/yamm/yamm.css");
 	}
 
 	/**
@@ -38,7 +42,9 @@ class ilUIFramework
 	 */
 	static function init($a_tpl = null)
 	{
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 		if ($a_tpl == null)
 		{
@@ -56,5 +62,3 @@ class ilUIFramework
 	}
 
 }
-
-?>

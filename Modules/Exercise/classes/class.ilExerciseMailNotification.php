@@ -11,6 +11,11 @@ include_once './Services/Mail/classes/class.ilMailNotification.php';
  */
 class ilExerciseMailNotification extends ilMailNotification
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	const TYPE_FEEDBACK_FILE_ADDED = 20;
 	const TYPE_SUBMISSION_UPLOAD = 30;
 	const TYPE_FEEDBACK_TEXT_ADDED = 40;
@@ -20,6 +25,9 @@ class ilExerciseMailNotification extends ilMailNotification
 	 */
 	public function __construct()
 	{
+		global $DIC;
+
+		$this->user = $DIC->user();
 		parent::__construct();
 	}
 	
@@ -49,8 +57,7 @@ class ilExerciseMailNotification extends ilMailNotification
 	 */
 	public function send()
 	{
-		global $ilUser;
-		
+		$ilUser = $this->user;
 		// parent::send();
 		
 		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
@@ -114,6 +121,32 @@ class ilExerciseMailNotification extends ilMailNotification
 					$this->appendBody("\n\n");
 					$this->appendBody(sprintf($this->getLanguageText('exc_submission_notification_link'),
 						$this->createPermanentLink()));
+
+					if (ilExAssignment::lookupType($this->getAssignmentId()) ==	ilExAssignment::TYPE_UPLOAD)
+					{
+						$this->appendBody("\n\n");
+
+						//new files uploaded
+						$assignment = new ilExAssignment($this->getAssignmentId());
+						$submission = new ilExSubmission($assignment,$ilUser->getId());
+
+						// since mails are sent immediately after upload the files should always be new
+						//if($submission->lookupNewFiles($submission->getTutor()))
+						//{
+							$this->appendBody(sprintf($this->getLanguageText('exc_submission_downloads_notification_link'),
+								$this->createPermanentLink(array(),"_".$this->getAssignmentId()."_".$ilUser->getId()."_setdownload")));
+						//}
+						//else
+						//{
+						//	$this->appendBody(sprintf($this->getLanguageText('exc_submission_downloads_notification_link'),
+						//		$this->getLanguageText("exc_submission_no_new_files")));
+						//}
+					}
+
+					$this->appendBody("\n\n");
+					$this->appendBody(sprintf($this->getLanguageText('exc_submission_and_grades_notification_link'),
+						$this->createPermanentLink(array(), "_".$this->getAssignmentId()."_grades")));
+
 					$this->getMail()->appendInstallationSignature(true);
 
 					$this->sendMail(array($rcp),array('system'));

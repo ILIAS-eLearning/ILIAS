@@ -136,7 +136,9 @@ class ilSCORM2004MapInfo extends ilSCORM2004SeqNode
 	
 	static function fetchmapInfo($a_seq_node_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$sql = "SELECT *  FROM sahs_sc13_seq_mapinfo WHERE seqnodeid=".
 			$ilDB->quote($a_seq_node_id, "integer").";";

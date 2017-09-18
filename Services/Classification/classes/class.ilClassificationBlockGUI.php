@@ -15,6 +15,16 @@ include_once("Services/Block/classes/class.ilBlockGUI.php");
  */
 class ilClassificationBlockGUI extends ilBlockGUI
 {		
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
 	protected $parent_obj_type; // [string]
 	protected $parent_obj_id; // [int]
 	protected $parent_ref_id; // [int]		
@@ -25,7 +35,14 @@ class ilClassificationBlockGUI extends ilBlockGUI
 	
 	public function __construct()
 	{		
-		global $lng;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+		$this->obj_definition = $DIC["objDefinition"];
+		$this->tree = $DIC->repositoryTree();
+		$this->access = $DIC->access();
+		$lng = $DIC->language();
 		
 		parent::__construct();
 							
@@ -50,7 +67,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
 	
 	public function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$cmd = $ilCtrl->getCmd();
 		$next_class = $ilCtrl->getNextClass($this);
@@ -73,7 +90,9 @@ class ilClassificationBlockGUI extends ilBlockGUI
 	
 	static function getScreenMode()
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC->ctrl();
 		
 		if($ilCtrl->isAsynch())
 		{
@@ -89,7 +108,8 @@ class ilClassificationBlockGUI extends ilBlockGUI
 	
 	public function getHTML()
 	{			
-		global $tpl, $ilCtrl;
+		$tpl = $this->main_tpl;
+		$ilCtrl = $this->ctrl;
 		
 		if(!$ilCtrl->isAsynch())
 		{
@@ -110,7 +130,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
 	
 	public function getAjax()
 	{
-		global $tpl;
+		$tpl = $this->main_tpl;
 		
 		$this->initProviders(true);		
 		
@@ -122,7 +142,9 @@ class ilClassificationBlockGUI extends ilBlockGUI
 	
 	public function fillDataSection()
 	{		
-		global $ilCtrl, $tpl;
+		$tpl = $this->main_tpl;
+
+		$ilCtrl = $this->ctrl;
 		
 		$html = array();		
 		foreach($this->providers as $provider)
@@ -137,9 +159,15 @@ class ilClassificationBlockGUI extends ilBlockGUI
 		$ajax_content_id = "il_center_col";
 		$ajax_content_url = $ilCtrl->getLinkTarget($this, "filterContainer", "", true, false);
 
+		$tabs = new ilTabsGUI();
+		$tabs->setBackTarget($this->lng->txt("clsfct_back_to_cat"), $ilCtrl->getParentReturn($this));
+		$tabs->addTab("sel_objects", $this->lng->txt("clsfct_selected_objects"), "#");
+		$tabs_html = $tabs->getHTML();
+
+
 		// #15008 - always load regardless of content (because of redraw)
 		$tpl->addOnLoadCode('il.Classification.setAjax("'.$ajax_block_id.'", "'.
-			$ajax_block_url.'", "'.$ajax_content_id.'", "'.$ajax_content_url.'");');
+			$ajax_block_url.'", "'.$ajax_content_id.'", "'.$ajax_content_url.'", '.json_encode($tabs_html).');');
 			
 		if(sizeof($html))
 		{
@@ -164,7 +192,11 @@ class ilClassificationBlockGUI extends ilBlockGUI
 	
 	protected function filterContainer()
 	{
-		global $objDefinition, $lng, $tree, $ilAccess, $ilCtrl;
+		$objDefinition = $this->obj_definition;
+		$lng = $this->lng;
+		$tree = $this->tree;
+		$ilAccess = $this->access;
+		$tpl = $this->main_tpl;
 		
 		$this->initProviders();
 			
@@ -223,8 +255,30 @@ class ilClassificationBlockGUI extends ilBlockGUI
 						!$tree->isDeleted($item["ref_id"]) &&
 						$ilAccess->checkAccess("read", "", $item["ref_id"]))
 					{
-						$valid_objects[] = $item;
-						
+						// group all valid items in blocks
+						// by their parent group/course or category
+						$block_ref_id = 0;
+						$block_title = "";
+						foreach ($tree->getPathFull($item["ref_id"]) as $p)
+						{
+							if (in_array($p["type"], array("root", "cat", "crs", "grp")))
+							{
+								$block_ref_id = $p["ref_id"];
+								$block_title = $p["title"];
+							}
+						}
+						if ($block_ref_id > 0)
+						{
+							if (!is_array($valid_objects[$block_ref_id]))
+							{
+								$valid_objects[$block_ref_id] = array(
+									"title" => 	$block_title,
+									"items" => array()
+								);
+							}
+							$valid_objects[$block_ref_id]["items"][] = $item;
+						}
+
 						$preloader->addItem($item["obj_id"], $item["type"], $item["ref_id"]);					
 					}
 				}	
@@ -238,73 +292,69 @@ class ilClassificationBlockGUI extends ilBlockGUI
 					// see ilPDTaggingBlockGUI::showResourcesForTag()
 
 					$this->item_list_gui = array();
-					foreach($valid_objects as $obj)
+					foreach($valid_objects as $block)
 					{
-						$type = $obj["type"];
-
-						// get list gui class for each object type
-						if (empty($this->item_list_gui[$type]))
+						foreach ($block["items"] as $obj)
 						{
-							$class = $objDefinition->getClassName($type);
-							$location = $objDefinition->getLocation($type);
+							$type = $obj["type"];
 
-							$full_class = "ilObj".$class."ListGUI";
-
-							include_once($location."/class.".$full_class.".php");
-							$this->item_list_gui[$type] = new $full_class();
-							$this->item_list_gui[$type]->enableDelete(false);
-							$this->item_list_gui[$type]->enablePath(true, $this->parent_ref_id); // relative path
-							$this->item_list_gui[$type]->enableCut(false);
-							$this->item_list_gui[$type]->enableCopy(false);
-							$this->item_list_gui[$type]->enableSubscribe(false);
-							$this->item_list_gui[$type]->enableLink(false);
-							$this->item_list_gui[$type]->enableIcon(true);
-							
-							// :TOOD: for each item or just for each list?
-							foreach($this->providers as $provider)
+							// get list gui class for each object type
+							if (empty($this->item_list_gui[$type]))
 							{
-								$provider->initListGUI($this->item_list_gui[$type]);
-							}							
+								$class = $objDefinition->getClassName($type);
+								$location = $objDefinition->getLocation($type);
+
+								$full_class = "ilObj" . $class . "ListGUI";
+
+								include_once($location . "/class." . $full_class . ".php");
+								$this->item_list_gui[$type] = new $full_class();
+								$this->item_list_gui[$type]->enableDelete(false);
+								$this->item_list_gui[$type]->enablePath(true, $this->parent_ref_id); // relative path
+								$this->item_list_gui[$type]->enableLinkedPath(true);
+								$this->item_list_gui[$type]->enableCut(false);
+								$this->item_list_gui[$type]->enableCopy(false);
+								$this->item_list_gui[$type]->enableSubscribe(false);
+								$this->item_list_gui[$type]->enableLink(false);
+								$this->item_list_gui[$type]->enableIcon(true);
+
+								// :TOOD: for each item or just for each list?
+								foreach ($this->providers as $provider)
+								{
+									$provider->initListGUI($this->item_list_gui[$type]);
+								}
+							}
+
+							$html = $this->item_list_gui[$type]->getListItemHTML(
+								$obj["ref_id"],
+								$obj["obj_id"],
+								$obj["title"],
+								$obj["description"]);
+
+							if ($html != "")
+							{
+								$ltpl->setCurrentBlock("res_row");
+								$ltpl->setVariable("RESOURCE_HTML", $html);
+								$ltpl->parseCurrentBlock();
+							}
 						}
-
-						$html = $this->item_list_gui[$type]->getListItemHTML(
-							$obj["ref_id"],
-							$obj["obj_id"], 
-							$obj["title"],
-							$obj["description"]);
-
-						if ($html != "")
-						{
-							$css = ($css != "tblrow1") ? "tblrow1" : "tblrow2";
-
-							$ltpl->setCurrentBlock("res_row");
-							$ltpl->setVariable("ROWCLASS", $css);
-							$ltpl->setVariable("RESOURCE_HTML", $html);
-							$ltpl->setVariable("ALT_TYPE", $lng->txt("obj_".$type));
-							$ltpl->setVariable("IMG_TYPE",
-								ilUtil::getImagePath("icon_".$type.".svg"));
-							$ltpl->parseCurrentBlock();
-						}
+						$ltpl->setCurrentBlock("block");
+						$ltpl->setVariable("BLOCK_TITLE", $block["title"]);
+						$ltpl->parseCurrentBlock();
 					}
 				}
 			}				
 		}	
-			
-		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
-		$content_block = new ilPDContentBlockGUI();		
-		$content_block->setTitle($lng->txt("clsfct_content_title"));		
-		$content_block->addHeaderCommand($ilCtrl->getParentReturn($this), "", true);
-				
+
 		if($has_content)
 		{
-			$content_block->setContent($ltpl->get());
+			echo $ltpl->get();
 		}
 		else
 		{
-			$content_block->setContent($lng->txt("clsfct_content_no_match"));
+			//$content_block->setContent($lng->txt("clsfct_content_no_match"));
+			echo $tpl->getMessageHTML($lng->txt("clsfct_content_no_match"), "info");
 		}
-				
-		echo $content_block->getHTML();
+
 		exit();
 	}	
 	

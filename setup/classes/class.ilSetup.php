@@ -1175,6 +1175,7 @@ class ilSetup
 		$this->ini->setVariable("tools", "cleancommand", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["clean_command"])));
 		$this->ini->setVariable("tools", "enable_system_styles_management", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["enable_system_styles_management"])));
 		$this->ini->setVariable("tools", "lessc", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["lessc_path"])));
+		$this->ini->setVariable("tools", "phantomjs", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["phantomjs_path"])));
 
 		$this->ini->setVariable("setup", "pass", md5($a_formdata["setup_pass"]));
 		$this->ini->setVariable("log", "path", $log_path);
@@ -1221,6 +1222,7 @@ class ilSetup
 		$clean_command = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["clean_command"]));
 		$enable_system_styles_management = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["enable_system_styles_management"]));
 		$lessc_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["lessc_path"]));
+		$phantomjs_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["phantomjs_path"]));
 
 		$this->ini->setVariable("tools", "convert", $convert_path);
 		$this->ini->setVariable("tools", "zip", $zip_path);
@@ -1236,6 +1238,7 @@ class ilSetup
 		$this->ini->setVariable("tools", "cleancommand", $clean_command);
 		$this->ini->setVariable("tools", "lessc", $lessc_path);
 		$this->ini->setVariable("tools", "enable_system_styles_management", $enable_system_styles_management);
+		$this->ini->setVariable("tools", "phantomjs", $phantomjs_path);
 
 		$form_log_path = preg_replace("/\\\\/","/",ilFile::deleteTrailingSlash(ilUtil::stripSlashes($a_formdata["log_path"])));
 		$log_path = substr($form_log_path,0,strrpos($form_log_path,"/"));

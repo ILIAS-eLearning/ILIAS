@@ -15,6 +15,15 @@ require_once("./Services/COPage/classes/class.ilPageContent.php");
 */
 
 class ilPCPlaceHolder extends ilPageContent {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
 	
 	//class of placeholder
 	
@@ -27,6 +36,10 @@ class ilPCPlaceHolder extends ilPageContent {
 	*/
 	function init()
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
 		$this->setType("plach");
 	}
 	
@@ -127,6 +140,69 @@ class ilPCPlaceHolder extends ilPageContent {
 			"verification_placeh", "verification_placehl");
 	}
 
-	
-	
+
+	/**
+	 * Modify page content after xsl
+	 *
+	 * @param string $a_html
+	 * @return string
+	 */
+	function modifyPageContentPostXsl($a_html, $a_mode)
+	{
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+
+		//
+		// Note: this standard output is "overwritten", e.g. by ilPortfolioPageGUI::postOutputProcessing
+		//
+
+		$c_pos = 0;
+		$start = strpos($a_html, "{{{{{PlaceHolder#");
+		if (is_int($start))
+		{
+			$end = strpos($a_html, "}}}}}", $start);
+		}
+		$i = 1;
+		while ($end > 0)
+		{
+			$param = substr($a_html, $start + 17, $end - $start - 17);
+			$param = explode("#", $param);
+
+			$html = $param[2];
+			switch ($param[2])
+			{
+				case "Text":
+					$html = $lng->txt("cont_text_placeh");
+					break;
+
+				case "Media":
+					$html = $lng->txt("cont_media_placeh");
+					break;
+
+				case "Question":
+					$html = $lng->txt("cont_question_placeh");
+					break;
+
+				case "Verification":
+					$html = $lng->txt("cont_verification_placeh");
+					break;
+			}
+
+			$h2 = substr($a_html, 0, $start).
+				$html.
+				substr($a_html, $end + 5);
+			$a_html = $h2;
+			$i++;
+
+			$start = strpos($a_html, "{{{{{PlaceHolder#", $start + 5);
+			$end = 0;
+			if (is_int($start))
+			{
+				$end = strpos($a_html, "}}}}}", $start);
+			}
+		}
+		return $a_html;
+	}
+
+
 }

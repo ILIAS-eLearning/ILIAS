@@ -13,16 +13,50 @@ include_once "Modules/Exercise/classes/class.ilExcCriteriaCatalogue.php";
  */
 class ilExcCriteriaCatalogueGUI
 {	
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
 	protected $exc_obj; // [ilObjExercise]
 	
 	public function __construct(ilObjExercise $a_exc_obj)
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->tabs = $DIC->tabs();
+		$this->lng = $DIC->language();
+		$this->toolbar = $DIC->toolbar();
+		$this->tpl = $DIC["tpl"];
 		$this->exc_obj = $a_exc_obj;
 	}
 	
 	public function executeCommand()
 	{  		
-		global $ilCtrl, $ilTabs, $lng;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd("view");
@@ -51,7 +85,10 @@ class ilExcCriteriaCatalogueGUI
 	
 	protected function view()
 	{
-		global $ilToolbar, $ilCtrl, $lng, $tpl;
+		$ilToolbar = $this->toolbar;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
 		
 		$ilToolbar->addButton($lng->txt("exc_add_criteria_catalogue"),
 			$ilCtrl->getLinkTarget($this, "add"));
@@ -63,7 +100,8 @@ class ilExcCriteriaCatalogueGUI
 	
 	protected function saveOrder()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$all_cat = ilExcCriteriaCatalogue::getInstancesByParentId($this->exc_obj->getId());
 				
@@ -85,7 +123,9 @@ class ilExcCriteriaCatalogueGUI
 	
 	protected function confirmDeletion()
 	{
-		global $ilCtrl, $lng, $tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
 		
 		$ids = $_POST["id"];
 		if(!sizeof($ids))
@@ -114,7 +154,8 @@ class ilExcCriteriaCatalogueGUI
 	
 	protected function delete()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$ids = $_POST["id"];
 		if(!sizeof($ids))
@@ -141,7 +182,8 @@ class ilExcCriteriaCatalogueGUI
 	
 	protected function initForm(ilExcCriteriaCatalogue $a_cat_obj = null)
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";		
 		$form = new ilPropertyFormGUI();
@@ -171,7 +213,7 @@ class ilExcCriteriaCatalogueGUI
 	
 	protected function add(ilPropertyFormGUI $a_form = null)
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		if(!$a_form)
 		{
@@ -188,7 +230,8 @@ class ilExcCriteriaCatalogueGUI
 	
 	protected function importForm(ilExcCriteriaCatalogue $a_cat_obj = null)
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$is_edit = ($a_cat_obj !== null);
 		
@@ -227,7 +270,7 @@ class ilExcCriteriaCatalogueGUI
 	
 	protected function getCurrentCatalogue()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$id = (int)$_REQUEST["cat_id"];
 		if($id)
@@ -245,7 +288,7 @@ class ilExcCriteriaCatalogueGUI
 	
 	protected function edit(ilPropertyFormGUI $a_form = null)
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$cat_obj = $this->getCurrentCatalogue();
 		

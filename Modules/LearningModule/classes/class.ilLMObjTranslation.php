@@ -11,8 +11,14 @@
  */
 class ilLMObjTranslation
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	protected $lang;
 	protected $title;
+	protected $short_title;
 	protected $create_date;
 	protected $last_update;
 
@@ -24,6 +30,9 @@ class ilLMObjTranslation
 	 */
 	function __construct($a_id = 0, $a_lang = "")
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		if ($a_id > 0 && $a_lang != "")
 		{
 			$this->setId($a_id);
@@ -71,17 +80,17 @@ class ilLMObjTranslation
 	{
 		return $this->lang;
 	}
-	
+
 	/**
 	 * Set title
 	 *
-	 * @param string $a_val title	
+	 * @param string $a_val title
 	 */
 	function setTitle($a_val)
 	{
 		$this->title = $a_val;
 	}
-	
+
 	/**
 	 * Get title
 	 *
@@ -91,7 +100,27 @@ class ilLMObjTranslation
 	{
 		return $this->title;
 	}
-	
+
+	/**
+	 * Set short title
+	 *
+	 * @param string $a_val short title
+	 */
+	function setShortTitle($a_val)
+	{
+		$this->short_title = $a_val;
+	}
+
+	/**
+	 * Get short title
+	 *
+	 * @return string short title
+	 */
+	function getShortTitle()
+	{
+		return $this->short_title;
+	}
+
 	/**
 	 * Get create date
 	 *
@@ -117,7 +146,7 @@ class ilLMObjTranslation
 	 */
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$set = $ilDB->query("SELECT * FROM lm_data_transl ".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer").
@@ -125,6 +154,7 @@ class ilLMObjTranslation
 			);
 		$rec  = $ilDB->fetchAssoc($set);
 		$this->setTitle($rec["title"]);
+		$this->setShortTitle($rec["short_title"]);
 		$this->create_date = $rec["create_date"];
 		$this->last_update = $rec["last_update"];
 	}
@@ -134,15 +164,16 @@ class ilLMObjTranslation
 	 */
 	function save()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if (!self::exists($this->getId(), $this->getLang()))
 		{
 			$ilDB->manipulate("INSERT INTO lm_data_transl ".
-				"(id, lang, title, create_date, last_update) VALUES (".
+				"(id, lang, title, short_title, create_date, last_update) VALUES (".
 				$ilDB->quote($this->getId(), "integer").",".
 				$ilDB->quote($this->getLang(), "text").",".
 				$ilDB->quote($this->getTitle(), "text").",".
+				$ilDB->quote($this->getShortTitle(), "text").",".
 				$ilDB->now().",".
 				$ilDB->now().
 				")");
@@ -151,6 +182,7 @@ class ilLMObjTranslation
 		{
 			$ilDB->manipulate("UPDATE lm_data_transl SET ".
 				" title = ".$ilDB->quote($this->getTitle(), "text").",".
+				" short_title = ".$ilDB->quote($this->getShortTitle(), "text").",".
 				" last_update = ".$ilDB->now().
 				" WHERE id = ".$ilDB->quote($this->getId(), "integer").
 				" AND lang = ".$ilDB->quote($this->getLang(), "text")
@@ -167,7 +199,9 @@ class ilLMObjTranslation
 	 */
 	static function exists($a_id, $a_lang)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT * FROM lm_data_transl ".
 			" WHERE id = ".$ilDB->quote($a_id, "integer").
@@ -188,7 +222,9 @@ class ilLMObjTranslation
 	 */
 	static function copy($a_source_id, $a_target_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->query("SELECT * FROM lm_data_transl ".
 			" WHERE id = ".$ilDB->quote($a_source_id, "integer")
@@ -197,6 +233,7 @@ class ilLMObjTranslation
 		{
 			$lmobjtrans = new ilLMObjTranslation($a_target_id, $rec["lang"]);
 			$lmobjtrans->setTitle($rec["title"]);
+			$lmobjtrans->setShortTitle($rec["short_title"]);
 			$lmobjtrans->save();
 		}
 	}

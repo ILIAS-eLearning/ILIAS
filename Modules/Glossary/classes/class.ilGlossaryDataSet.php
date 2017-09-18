@@ -28,6 +28,9 @@ class ilGlossaryDataSet extends ilDataSet
 	 */
 	function __construct()
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		$this->log = ilLoggerFactory::getLogger('glo');
 		parent::__construct();
 	}
@@ -133,7 +136,7 @@ class ilGlossaryDataSet extends ilDataSet
 	 */
 	function readData($a_entity, $a_version, $a_ids, $a_field = "")
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if (!is_array($a_ids))
 		{

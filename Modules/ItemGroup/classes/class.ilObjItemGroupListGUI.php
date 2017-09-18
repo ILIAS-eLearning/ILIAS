@@ -19,7 +19,11 @@ class ilObjItemGroupListGUI extends ilObjectListGUI
 	 */
 	public function __construct()
 	{
-		global $lng;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		$lng->loadLanguageModule('itgr');
 		parent::__construct();
@@ -82,7 +86,7 @@ class ilObjItemGroupListGUI extends ilObjectListGUI
 	*/
 	public function getCommandLink($a_cmd)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		// separate method for this line
 		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
@@ -112,7 +116,9 @@ class ilObjItemGroupListGUI extends ilObjectListGUI
 	 */
 	protected static function lookupAssignedMaterials($a_sess_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 return array();
 /*

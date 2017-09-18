@@ -15,11 +15,6 @@ class ilChatroomCreateGUI extends ilChatroomGUIHandler
 	 */
 	public function save()
 	{
-		/**
-		 * @var $ilCtrl ilCtrl
-		 */
-		global $ilCtrl;
-
 		require_once 'Modules/Chatroom/classes/class.ilChatroomFormFactory.php';
 		$formFactory = new ilChatroomFormFactory();
 		$form        = $formFactory->getCreationForm();
@@ -32,8 +27,8 @@ class ilChatroomCreateGUI extends ilChatroomGUIHandler
 			$connector = $this->gui->getConnector();
 			$response  = $connector->sendCreatePrivateRoom($room->getRoomId(), 0, $roomObj->getOwner(), $roomObj->getTitle());
 
-			$ilCtrl->setParameter($this->gui, 'ref_id', $this->gui->getRefId());
-			$ilCtrl->redirect($this->gui, 'settings-general');
+			$this->ilCtrl->setParameter($this->gui, 'ref_id', $this->gui->getRefId());
+			$this->ilCtrl->redirect($this->gui, 'settings-general');
 		}
 		else
 		{
@@ -47,6 +42,7 @@ class ilChatroomCreateGUI extends ilChatroomGUIHandler
 	public function executeDefault($method)
 	{
 		$this->gui->switchToVisibleMode();
-		return $this->gui->createObject();
+		$this->gui->createObject();
+		return;
 	}
 }

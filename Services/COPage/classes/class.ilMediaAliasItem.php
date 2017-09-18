@@ -15,6 +15,11 @@ include_once("./Services/Utilities/classes/class.ilDOMUtil.php");
 */
 class ilMediaAliasItem
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	var $dom;
 	var $hier_id;
 	var $purpose;
@@ -23,6 +28,9 @@ class ilMediaAliasItem
 	function __construct(&$a_dom, $a_hier_id, $a_purpose, $a_pc_id = "",
 		$a_parent_node_name = "MediaObject")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		$this->dom = $a_dom;
 		$this->parent_node_name = $a_parent_node_name;
 		$this->hier_id = $a_hier_id;
@@ -782,7 +790,7 @@ class ilMediaAliasItem
 	function makeMapWorkCopy($a_st_item, $a_area_nr = 0, $a_exclude = false,
 		$a_output_new_area, $a_area_type, $a_coords)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if (!$a_st_item->copyOriginal())
 		{

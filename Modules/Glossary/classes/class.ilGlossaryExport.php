@@ -34,9 +34,13 @@ require_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
 */
 class ilGlossaryExport
 {
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
 	var $err;			// error object
 	var $db;			// database object
-	var $ilias;			// ilias object
 	var $glo_obj;		// glossary
 	var $inst_id;		// installation id
 
@@ -46,16 +50,20 @@ class ilGlossaryExport
 	*/
 	function __construct(&$a_glo_obj, $a_mode = "xml")
 	{
-		global $ilErr, $ilDB, $ilias;
+		global $DIC;
+
+		$this->settings = $DIC->settings();
+		$ilErr = $DIC["ilErr"];
+		$ilDB = $DIC->database();
+		$ilSetting = $DIC->settings();
 
 		$this->glo_obj = $a_glo_obj;
 
 		$this->err = $ilErr;
-		$this->ilias = $ilias;
 		$this->db = $ilDB;
 		$this->mode = $a_mode;
 
-		$settings = $this->ilias->getAllSettings();
+		$settings = $ilSetting->getAll();
 		// The default '0' is required for the directory structure (smeyer)
 		$this->inst_id = $settings["inst_id"] ? $settings['inst_id'] : 0;
 
@@ -109,9 +117,6 @@ class ilGlossaryExport
 	*/
 	function buildExportFileXML()
 	{
-		global $ilBench;
-
-		$ilBench->start("GlossaryExport", "buildExportFile");
 
 		require_once("./Services/Xml/classes/class.ilXmlWriter.php");
 
@@ -141,37 +146,23 @@ class ilGlossaryExport
 		$expLog->write(date("[y-m-d H:i:s] ")."Start Export");
 
 		// get xml content
-//echo "ContObjExport:".$this->inst_id.":<br>";
-		$ilBench->start("GlossaryExport", "buildExportFile_getXML");
 		$this->glo_obj->exportXML($this->xml, $this->inst_id,
 			$this->export_dir."/".$this->subdir, $expLog);
-		$ilBench->stop("GlossaryExport", "buildExportFile_getXML");
 
-		// dump xml document to screen (only for debugging reasons)
-		/*
-		echo "<PRE>";
-		echo htmlentities($this->xml->xmlDumpMem($format));
-		echo "</PRE>";
-		*/
 
 
 		// dump xml document to file
-		$ilBench->start("GlossaryExport", "buildExportFile_dumpToFile");
 		$this->xml->xmlDumpFile($this->export_dir."/".$this->subdir."/".$this->filename
 			, false);
-		$ilBench->stop("GlossaryExport", "buildExportFile_dumpToFile");
 
 		// zip the file
-		$ilBench->start("GlossaryExport", "buildExportFile_zipFile");
 		ilUtil::zip($this->export_dir."/".$this->subdir,
 			$this->export_dir."/".$this->subdir.".zip");
-		$ilBench->stop("GlossaryExport", "buildExportFile_zipFile");
 
 		// destroy writer object
 		$this->xml->_XmlWriter;
 
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export");
-		$ilBench->stop("GlossaryExport", "buildExportFile");
 
 		return $this->export_dir."/".$this->subdir.".zip";
 	}
@@ -181,8 +172,6 @@ class ilGlossaryExport
 	*/
 	function buildExportFileHTML()
 	{
-		global $ilBench;
-
 		// create directories
 		$this->glo_obj->createExportDirectory("html");
 

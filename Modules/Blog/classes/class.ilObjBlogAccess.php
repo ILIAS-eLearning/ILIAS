@@ -15,6 +15,28 @@ require_once('./Services/WebAccessChecker/interfaces/interface.ilWACCheckingClas
 class ilObjBlogAccess extends ilObjectAccess implements ilWACCheckingClass
 {
 	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		global $DIC;
+
+		$this->user = $DIC->user();
+		$this->access = $DIC->access();
+	}
+
+	/**
 	 * get commands
 	 * 
 	 * this method returns an array of all possible commands/permission combinations
@@ -45,7 +67,9 @@ class ilObjBlogAccess extends ilObjectAccess implements ilWACCheckingClass
 	*/
 	static function _checkGoto($a_target)
 	{		
-		global $ilAccess;
+		global $DIC;
+
+		$ilAccess = $DIC->access();
 		
 		$t_arr = explode("_", $a_target);		
 		
@@ -74,7 +98,8 @@ class ilObjBlogAccess extends ilObjectAccess implements ilWACCheckingClass
 	 * @return bool
 	 */
 	public function canBeDelivered(ilWACPath $ilWACPath) {		
-		global $ilUser, $ilAccess;
+		$ilUser = $this->user;
+		$ilAccess = $this->access;
 		
 		if(preg_match("/\\/blog_([\\d]*)\\//uism", $ilWACPath->getPath(), $results))
 		{

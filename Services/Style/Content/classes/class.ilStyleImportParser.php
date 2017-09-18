@@ -15,6 +15,11 @@ require_once("./Services/Xml/classes/class.ilSaxParser.php");
 */
 class ilStyleImportParser extends ilSaxParser
 {
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
 
 	/**
 	* Constructor
@@ -26,7 +31,12 @@ class ilStyleImportParser extends ilSaxParser
 	*/
 	function __construct($a_xml_file, &$a_style_obj)
 	{
-		global $lng, $tree;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->tree = $DIC->repositoryTree();
+		$lng = $DIC->language();
+		$tree = $DIC->repositoryTree();
 
 		$this->style_obj = $a_style_obj;
 

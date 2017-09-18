@@ -175,7 +175,26 @@ il.IntLink =
 			//{
 			//}
 			il.IntLink.insertPanelHTML(o.responseText);
+//console.log("search search form");
+//console.log($("#form_link_user_search_form").length);
+			il.IntLink.initEvents();
 		}
+	},
+
+	initEvents: function () {
+		$("#form_link_user_search_form").on("submit", function(e) {
+			e.preventDefault();
+			var sUrl = il.IntLink.getInternalLinkUrl() + "&cmd=showLinkHelp";
+			$.ajax({type: "POST",
+				url: sUrl,
+				data: $(this).serializeArray(),
+				success: function(o) {
+					il.IntLink.insertPanelHTML(o);
+					il.IntLink.initEvents();
+				}
+			});
+			console.log("search user");
+		});
 	},
 
 	handleAjaxUpload: function(o)
@@ -264,14 +283,15 @@ il.IntLink =
 		return false;
 	},
 
-	addInternalLink: function (b, e, ev)
+	addInternalLink: function (b, e, ev, c)
 	{
-		if (typeof ilCOPage != "undefined" && ($("#ilEditTableDataCl").length == 0))
-		{
-			ilCOPage.cmdIntLink(b, e);
-		} else if (il.Form) {
+		if (typeof ilCOPage != "undefined" && ($("#ilEditTableDataCl").length == 0)) {
+			ilCOPage.cmdIntLink(b, e, c);
+		}
+		else if (il.Form && $("#par_content").length == 0) {
 			il.Form.addInternalLink(b,e,this.id,ev);
-		} else if (addInternalLink) {
+		}
+		else if (addInternalLink) {
 			// old style, needs clean-up
 			addInternalLink(b);
 		}

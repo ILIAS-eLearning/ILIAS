@@ -48,7 +48,9 @@ class ilSCORM2004SeqNode
 	*/
 	function __construct()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		$this->db = $ilDB;
 	}
 	

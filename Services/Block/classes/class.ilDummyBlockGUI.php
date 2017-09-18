@@ -34,6 +34,11 @@ include_once("./Services/Block/classes/class.ilBlockGUI.php");
 */
 class ilDummyBlockGUI extends ilBlockGUI
 {
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
 	static $block_type = "";
 	
 	/**
@@ -41,8 +46,14 @@ class ilDummyBlockGUI extends ilBlockGUI
 	*/
 	function __construct()
 	{
-		global $ilCtrl, $lng;
-		
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$this->access = $DIC->access();
+		$this->settings = $DIC->settings();
+
 		parent::__construct();
 		
 		$this->setLimit(5);
@@ -85,7 +96,9 @@ class ilDummyBlockGUI extends ilBlockGUI
 	*/
 	static function getScreenMode()
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC->ctrl();
 		
 		return IL_SCREEN_SIDE;
 	}
@@ -102,7 +115,7 @@ class ilDummyBlockGUI extends ilBlockGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$next_class = $ilCtrl->getNextClass();
 		$cmd = $ilCtrl->getCmd("getHTML");
@@ -119,7 +132,7 @@ class ilDummyBlockGUI extends ilBlockGUI
 	*/
 	function fillDataSection()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$this->setDataSection($lng->txt("invisible_block_mess"));
 	}
@@ -129,7 +142,11 @@ class ilDummyBlockGUI extends ilBlockGUI
 	*/
 	function getHTML()
 	{
-		global $ilCtrl, $lng, $ilUser, $ilAccess, $ilSetting;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilUser = $this->user;
+		$ilAccess = $this->access;
+		$ilSetting = $this->settings;
 		
 		return parent::getHTML();
 	}

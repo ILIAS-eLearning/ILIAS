@@ -21,6 +21,7 @@ require_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php");
 * @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilLicenseGUI
 * @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilSCORMOfflineModeUsersTableGUI
 * @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilSCORMTrackingItemsPerScoFilterGUI, ilSCORMTrackingItemsPerUserFilterGUI, ilSCORMTrackingItemsTableGUI
+* @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilLTIProviderObjectSettingGUI
 *
 * @ingroup ModulesScormAicc
 */
@@ -298,6 +299,43 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$cb->setChecked($this->object->getCheck_values());
 		$cb->setInfo($this->lng->txt("cont_check_values_info"));
 		$this->form->addItem($cb);
+
+		// auto cmi.core.exit to suspend
+		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_auto_suspend"), "cobj_auto_suspend");
+		$cb->setValue("y");
+		$cb->setChecked($this->object->getAutoSuspend());
+		$cb->setInfo($this->lng->txt("cont_auto_suspend_info"));
+		$this->form->addItem($cb);
+		
+		// settings for student_id
+		$options = array(
+			0 => $this->lng->txt("cont_sc_id_setting_user_id"),
+			1 => $this->lng->txt("cont_sc_id_setting_user_login"),
+			2 => $this->lng->txt("cont_sc_id_setting_user_id_plus_ref_id"),
+			3 => $this->lng->txt("cont_sc_id_setting_user_login_plus_ref_id"),
+			4 => $this->lng->txt("cont_sc_id_setting_user_id_plus_obj_id"),
+			5 => $this->lng->txt("cont_sc_id_setting_user_login_plus_obj_id")
+			);
+		$si = new ilSelectInputGUI($this->lng->txt("cont_sc_id_setting"), "id_setting");
+		$si->setOptions($options);
+		$si->setValue($this->object->getIdSetting());
+		$si->setInfo($this->lng->txt("cont_sc_id_setting_info"));
+		$this->form->addItem($si);
+
+		// settings for student_name
+		$options = array(
+			0 => $this->lng->txt("cont_sc_name_setting_last_firstname"),
+			1 => $this->lng->txt("cont_sc_name_setting_first_lastname"),
+			2 => $this->lng->txt("cont_sc_name_setting_fullname"),
+			3 => $this->lng->txt("cont_sc_name_setting_salutation_lastname"),
+			4 => $this->lng->txt("cont_sc_name_setting_first_name"),
+			9 => $this->lng->txt("cont_sc_name_setting_no_name")
+			);
+		$si = new ilSelectInputGUI($this->lng->txt("cont_sc_name_setting"), "name_setting");
+		$si->setOptions($options);
+		$si->setValue($this->object->getNameSetting());
+		$si->setInfo($this->lng->txt("cont_sc_name_setting_info"));
+		$this->form->addItem($si);
 
 		//
 		// debugging
@@ -578,7 +616,10 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$this->object->setObjectives(ilUtil::yn2tf($_POST["cobj_objectives"]));
 		$this->object->setTime_from_lms(ilUtil::yn2tf($_POST["cobj_time_from_lms"]));
 		$this->object->setCheck_values(ilUtil::yn2tf($_POST["cobj_check_values"]));
+		$this->object->setAutoSuspend(ilUtil::yn2tf($_POST["cobj_auto_suspend"]));
 		$this->object->setDebug(ilUtil::yn2tf($_POST["cobj_debug"]));
+		$this->object->setIdSetting($_POST["id_setting"]);
+		$this->object->setNameSetting($_POST["name_setting"]);
 		$this->object->update();
 		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "properties");

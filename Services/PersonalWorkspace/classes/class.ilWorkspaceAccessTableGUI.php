@@ -13,6 +13,11 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilWorkspaceAccessTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
 	protected $node_id; // [int]
 	protected $handler; // [ilWorkspaceAccessHandler]
 
@@ -26,7 +31,12 @@ class ilWorkspaceAccessTableGUI extends ilTable2GUI
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_node_id, $a_handler)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 
 		$this->node_id = $a_node_id;
 		$this->handler = $a_handler;
@@ -120,7 +130,7 @@ class ilWorkspaceAccessTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		// properties
 		$this->tpl->setVariable("TITLE", $a_set["caption"]);

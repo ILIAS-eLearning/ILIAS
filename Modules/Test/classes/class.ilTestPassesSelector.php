@@ -191,7 +191,7 @@ class ilTestPassesSelector
 	{
 		if( $this->getLastFinishedPass() === null )
 		{
-			return ilTestException('invalid object state: last finished pass was not set!');
+			throw new ilTestException('invalid object state: last finished pass was not set!');
 		}
 	}
 	

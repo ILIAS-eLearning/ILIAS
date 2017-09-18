@@ -35,13 +35,19 @@ require_once("./Services/COPage/classes/class.ilPageContent.php");
 */
 class ilPCBlog extends ilPageContent
 {
-	var $dom;
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
 
 	/**
 	* Init page content component.
 	*/
 	function init()
 	{
+		global $DIC;
+
+		$this->user = $DIC->user();
 		$this->setType("blog");
 	}
 
@@ -76,7 +82,7 @@ class ilPCBlog extends ilPageContent
 	 */
 	function setData($a_blog_id, array $a_posting_ids = null)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$this->blog_node->set_attribute("Id", $a_blog_id);
 		$this->blog_node->set_attribute("User", $ilUser->getId());

@@ -17,9 +17,36 @@ require_once "./Services/Object/classes/class.ilObject2GUI.php";
 */
 class ilObjPollGUI extends ilObject2GUI
 {	
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilNavigationHistory
+	 */
+	protected $nav_history;
+
 	function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
 	{
-		global $lng;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+		$this->help = $DIC["ilHelp"];
+		$this->tpl = $DIC["tpl"];
+		$this->tabs = $DIC->tabs();
+		$this->nav_history = $DIC["ilNavigationHistory"];
+		$this->toolbar = $DIC->toolbar();
+		$this->user = $DIC->user();
+		$this->tree = $DIC->repositoryTree();
+		$this->locator = $DIC["ilLocator"];
+		$lng = $DIC->language();
 		
 	    parent::__construct($a_id, $a_id_type, $a_parent_node_id);		
 		
@@ -33,7 +60,7 @@ class ilObjPollGUI extends ilObject2GUI
 	
 	protected function afterSave(ilObject $a_new_object)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		ilUtil::sendSuccess($this->lng->txt("object_added"), true);		
 		$ilCtrl->redirect($this, "render");
@@ -41,7 +68,7 @@ class ilObjPollGUI extends ilObject2GUI
 
 	protected function initEditCustomForm(ilPropertyFormGUI $a_form)
 	{
-		global $lng;					
+		$lng = $this->lng;
 		
 		// activation
 		
@@ -141,8 +168,8 @@ class ilObjPollGUI extends ilObject2GUI
 	
 	protected function validateCustom(ilPropertyFormGUI $a_form)
 	{
-		// #14606
-		if(!$a_form->getInput("period") &&
+		#20594
+		if(!$a_form->getInput("voting_period") &&
 			$a_form->getInput("results") == ilObjPoll::VIEW_RESULTS_AFTER_PERIOD)
 		{		
 			ilUtil::sendFailure($this->lng->txt("form_input_not_valid"));
@@ -188,7 +215,8 @@ class ilObjPollGUI extends ilObject2GUI
 
 	function setTabs()
 	{
-		global $lng, $ilHelp;
+		$lng = $this->lng;
+		$ilHelp = $this->help;
 
 		$ilHelp->setScreenIdComponent("poll");
 
@@ -220,7 +248,10 @@ class ilObjPollGUI extends ilObject2GUI
 
 	function executeCommand()
 	{
-		global $ilCtrl, $tpl, $ilTabs, $ilNavigationHistory;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
+		$ilNavigationHistory = $this->nav_history;
 
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
@@ -288,7 +319,12 @@ class ilObjPollGUI extends ilObject2GUI
 	 */
 	function render($a_form = null)
 	{
-		global $tpl, $ilTabs, $ilCtrl, $lng, $ilToolbar, $ilUser;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilToolbar = $this->toolbar;
+		$ilUser = $this->user;
 		
 		if(!$this->checkPermissionBool("write"))
 		{
@@ -317,7 +353,8 @@ class ilObjPollGUI extends ilObject2GUI
 	
 	protected function initQuestionForm($a_read_only = false)
 	{
-		global $lng, $ilCtrl;				
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -425,7 +462,9 @@ class ilObjPollGUI extends ilObject2GUI
 	
 	protected function setParticipantsSubTabs($a_active)
 	{
-		global $ilTabs, $lng, $ilCtrl;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		if(!$this->object->getNonAnonymous())
 		{
@@ -442,7 +481,9 @@ class ilObjPollGUI extends ilObject2GUI
 	
 	function showParticipants()
 	{
-		global $lng, $ilTabs, $tpl;
+		$lng = $this->lng;
+		$ilTabs = $this->tabs;
+		$tpl = $this->tpl;
 		
 		if(!$this->checkPermissionBool("write"))
 		{
@@ -460,7 +501,9 @@ class ilObjPollGUI extends ilObject2GUI
 	
 	function showParticipantVotes()
 	{
-		global $ilTabs, $lng, $tpl;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
 		
 		if(!$this->checkPermissionBool("write") || 
 			!$this->object->getNonAnonymous())
@@ -479,7 +522,9 @@ class ilObjPollGUI extends ilObject2GUI
 	
 	function confirmDeleteAllVotes()
 	{
-		global $lng, $tpl, $ilTabs;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
 		
 		if(!$this->checkPermissionBool("write"))
 		{
@@ -502,7 +547,8 @@ class ilObjPollGUI extends ilObject2GUI
 	
 	function deleteAllVotes()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		if(!$this->checkPermissionBool("write"))
 		{
@@ -517,7 +563,8 @@ class ilObjPollGUI extends ilObject2GUI
 				
 	function vote()
 	{
-		global $tree, $ilUser;
+		$tree = $this->tree;
+		$ilUser = $this->user;
 		
 		$valid = true;
 		if($this->object->getMaxNumberOfAnswers() > 1)
@@ -557,7 +604,9 @@ class ilObjPollGUI extends ilObject2GUI
 	
 	function subscribe()
 	{
-		global $ilUser, $tree, $lng;
+		$ilUser = $this->user;
+		$tree = $this->tree;
+		$lng = $this->lng;
 		
 		include_once "./Services/Notification/classes/class.ilNotification.php";
 		ilNotification::setNotification(ilNotification::TYPE_POLL, $ilUser->getId(), $this->object->getId(), true);
@@ -569,7 +618,9 @@ class ilObjPollGUI extends ilObject2GUI
 	
 	function unsubscribe()
 	{
-		global $ilUser, $tree, $lng;
+		$ilUser = $this->user;
+		$tree = $this->tree;
+		$lng = $this->lng;
 		
 		include_once "./Services/Notification/classes/class.ilNotification.php";
 		ilNotification::setNotification(ilNotification::TYPE_POLL, $ilUser->getId(), $this->object->getId(), false);
@@ -581,7 +632,7 @@ class ilObjPollGUI extends ilObject2GUI
 	
 	protected function sendNotifications()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		// recipients
 		include_once "./Services/Notification/classes/class.ilNotification.php";		
@@ -624,7 +675,7 @@ class ilObjPollGUI extends ilObject2GUI
 	
 	function addLocatorItems()
 	{
-		global $ilLocator;
+		$ilLocator = $this->locator;
 		
 		if (is_object($this->object))
 		{
@@ -639,7 +690,10 @@ class ilObjPollGUI extends ilObject2GUI
 	 */
 	public static function _goto($a_target)
 	{						
-		global $tree, $ilAccess;
+		global $DIC;
+
+		$tree = $DIC->repositoryTree();
+		$ilAccess = $DIC->access();
 		
 		$id = explode("_", $a_target);		
 		$ref_id = $id[0];

@@ -16,17 +16,17 @@ class ilObjSCORMValidator {
 
 		function validateXML($file)
 		{
-			exec(ilUtil::getJavaPath()." -jar ".ilUtil::escapeShellArg(ILIAS_ABSOLUTE_PATH."/Modules/ScormAicc/validation/vali.jar")." ".ilUtil::escapeShellArg($file)." 2>&1", $error);
-			if (count($error) != 0)
-			{
-				$this->summary[] = "";
-				$this->summary[] = "<b>File: $file</b>";
-				foreach($error as $line)
-				{
-					$this->summary[] = $line;
-//echo "<br><b>".$line."</b>";
-				}
-			}
+			// exec(ilUtil::getJavaPath()." -jar ".ilUtil::escapeShellArg(ILIAS_ABSOLUTE_PATH."/Modules/ScormAicc/validation/vali.jar")." ".ilUtil::escapeShellArg($file)." 2>&1", $error);
+			// if (count($error) != 0)
+			// {
+				// $this->summary[] = "";
+				// $this->summary[] = "<b>File: $file</b>";
+				// foreach($error as $line)
+				// {
+					// $this->summary[] = $line;
+// //echo "<br><b>".$line."</b>";
+				// }
+			// }
 		}
 
 		function searchDir($dir) {

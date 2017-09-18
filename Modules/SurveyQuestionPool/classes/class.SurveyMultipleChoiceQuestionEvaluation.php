@@ -18,7 +18,7 @@ class SurveyMultipleChoiceQuestionEvaluation extends SurveyQuestionEvaluation
 	
 	public function getUserSpecificVariableTitles(array &$a_title_row, array &$a_title_row2, $a_do_title, $a_do_label)
 	{		
-		global $lng;
+		$lng = $this->lng;
 		
 		$categories = $this->question->getCategories();		
 		for ($i = 0; $i < $categories->getCategoryCount(); $i++)

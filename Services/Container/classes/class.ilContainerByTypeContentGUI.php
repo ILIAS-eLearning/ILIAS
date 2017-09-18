@@ -32,6 +32,16 @@ include_once("./Services/Container/classes/class.ilContainerContentGUI.php");
 */
 class ilContainerByTypeContentGUI extends ilContainerContentGUI
 {
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	protected $force_details;
 	
 	/**
@@ -40,6 +50,10 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 	*/
 	function __construct($container_gui_obj)
 	{
+		global $DIC;
+
+		$this->access = $DIC->access();
+		$this->user = $DIC->user();
 		parent::__construct($container_gui_obj);
 		$this->initDetails();
 	}
@@ -77,16 +91,14 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 	*/
 	function getMainContent()
 	{
-		global $ilBench, $ilAccess;
+		$ilAccess = $this->access;
 
 		$tpl = new ilTemplate("tpl.container_page.html", true, true,
 			"Services/Container");
 		
 		// get all sub items
-		$ilBench->start("ilContainerGUI", "0100_getSubItems");
 		$this->items = $this->getContainerObject()->getSubItems(
 			$this->getContainerGUI()->isActiveAdministrationPanel());
-		$ilBench->stop("ilContainerGUI", "0100_getSubItems");
 
 		// Show introduction, if repository is empty
 		// @todo: maybe we move this
@@ -169,7 +181,7 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 	 */
 	protected function initDetails()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		if($_GET['expand'])
 		{

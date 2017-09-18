@@ -49,7 +49,9 @@ class ilSkillUsage implements ilSkillUsageInfo
 	 */
 	static function setUsage($a_obj_id, $a_skill_id, $a_tref_id, $a_use = true)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		if ($a_use)
 		{
@@ -82,7 +84,9 @@ class ilSkillUsage implements ilSkillUsageInfo
 	 */
 	static function getUsages($a_skill_id, $a_tref_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT obj_id FROM skl_usage ".
 			" WHERE skill_id = ".$ilDB->quote($a_skill_id, "integer").
@@ -105,7 +109,9 @@ class ilSkillUsage implements ilSkillUsageInfo
 	 */
 	static public function getUsageInfo($a_cskill_ids, &$a_usages)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		self::getUsageInfoGeneric($a_cskill_ids, $a_usages, ilSkillUsage::TYPE_GENERAL,
 				"skl_usage", "obj_id");
@@ -120,7 +126,9 @@ class ilSkillUsage implements ilSkillUsageInfo
 	static function getUsageInfoGeneric($a_cskill_ids, &$a_usages, $a_usage_type, $a_table, $a_key_field,
 			$a_skill_field = "skill_id", $a_tref_field = "tref_id")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		if (count($a_cskill_ids) == 0)
 		{
@@ -244,7 +252,9 @@ class ilSkillUsage implements ilSkillUsageInfo
 	 */
 	static function getTypeInfoString($a_type)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		return $lng->txt("skmg_usage_type_info_".$a_type);
 	}
@@ -257,7 +267,9 @@ class ilSkillUsage implements ilSkillUsageInfo
 	 */
 	static function getObjTypeString($a_type)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		switch ($a_type)
 		{

@@ -21,7 +21,14 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 	 */
 	function __construct($a_tref_id = 0)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->tpl = $DIC["tpl"];
+		$this->tabs = $DIC->tabs();
+		$this->lng = $DIC->language();
+		$this->help = $DIC["ilHelp"];
+		$ilCtrl = $DIC->ctrl();
 		
 		$ilCtrl->saveParameter($this, "obj_id");
 		$ilCtrl->saveParameter($this, "tref_id");
@@ -48,7 +55,9 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 	 */
 	function executeCommand()
 	{
-		global $ilCtrl, $tpl, $ilTabs;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
 		
 		//$tpl->getStandardTemplate();
 		
@@ -68,7 +77,11 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 	 */
 	function setTabs($a_tab = "")
 	{
-		global $ilTabs, $ilCtrl, $tpl, $lng, $ilHelp;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilHelp = $this->help;
 
 		$ilTabs->clearTargets();
 		$ilHelp->setScreenIdComponent("skmg_sktr");
@@ -127,7 +140,8 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 	 */
 	function insert()
 	{
-		global $ilCtrl, $tpl;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
 		
 		$ilCtrl->saveParameter($this, "parent_id");
 		$ilCtrl->saveParameter($this, "target");
@@ -141,7 +155,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 	 */
 	function editProperties()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		$this->setTabs("properties");
 		
@@ -157,7 +171,8 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 	 */
 	public function initForm($a_mode = "edit")
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -173,9 +188,17 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 		
 		// order nr
 		$ni = new ilNumberInputGUI($lng->txt("skmg_order_nr"), "order_nr");
+		$ni->setInfo($lng->txt("skmg_order_nr_info"));
 		$ni->setMaxLength(6);
 		$ni->setSize(6);
 		$ni->setRequired(true);
+		if ($a_mode == "create")
+		{
+			include_once("./Services/Skill/classes/class.ilSkillTree.php");
+			$tree = new ilSkillTree();
+			$max = $tree->getMaxOrderNr((int)$_GET["obj_id"]);
+			$ni->setValue($max + 10);
+		}
 		$this->form->addItem($ni);
 
 		// template
@@ -265,7 +288,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 	 */
 	function afterSave()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$ilCtrl->setParameterByClass("ilskilltemplatereferencegui", "tref_id",
 			$this->node_object->getId());
@@ -279,7 +302,9 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 	 */
 	function updateSkillTemplateReference()
 	{
-		global $lng, $ilCtrl, $tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
 
 		if (!$this->checkPermissionBool("write"))
 		{
@@ -313,7 +338,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 	 */
 	function cancel()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$ilCtrl->redirectByClass("ilobjskillmanagementgui", "editSkills");
 	}
@@ -323,7 +348,8 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 	 */
 	function listItems()
 	{
-		global $tpl, $lng;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 
 		if ($this->isInUse())
 		{

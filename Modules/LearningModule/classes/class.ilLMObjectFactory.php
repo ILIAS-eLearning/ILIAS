@@ -38,7 +38,9 @@ class ilLMObjectFactory
 {
 	static function getInstance(&$a_content_obj, $a_id = 0, $a_halt = true)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$query = "SELECT * FROM lm_data WHERE obj_id = ".
 			$ilDB->quote($a_id, "integer");

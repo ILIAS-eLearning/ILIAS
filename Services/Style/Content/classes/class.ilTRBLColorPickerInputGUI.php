@@ -43,6 +43,9 @@ class ilTRBLColorPickerInputGUI extends ilTextInputGUI
 	*/
 	public function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("trbl_color");
 		$this->dirs = array("all", "top", "bottom", "left", "right");
@@ -263,7 +266,7 @@ class ilTRBLColorPickerInputGUI extends ilTextInputGUI
 	*/
 	function insert($a_tpl)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		include_once('./Services/YUI/classes/class.ilYuiUtil.php');
 		ilYuiUtil::initColorPicker();

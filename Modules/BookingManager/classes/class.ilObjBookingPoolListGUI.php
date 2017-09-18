@@ -19,6 +19,10 @@ class ilObjBookingPoolListGUI extends ilObjectListGUI
 	*/
 	function __construct()
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
 		parent::__construct();
 	}
 
@@ -72,7 +76,7 @@ class ilObjBookingPoolListGUI extends ilObjectListGUI
 	*/
 	function getCommandLink($a_cmd)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		switch ($a_cmd) 
 		{
@@ -88,7 +92,7 @@ class ilObjBookingPoolListGUI extends ilObjectListGUI
 	
 	function getProperties()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		// #11193
 

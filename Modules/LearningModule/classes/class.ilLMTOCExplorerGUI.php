@@ -29,6 +29,9 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 	function __construct($a_parent_obj, $a_parent_cmd, ilLMPresentationGUI $a_lm_pres, $a_lang = "-",
 		$a_focus_id = 0, $export_all_languages = false)
 	{
+		global $DIC;
+
+		$this->user = $DIC->user();
 		$this->lm_pres = $a_lm_pres;
 		$this->lm = $this->lm_pres->lm;
 		$exp_id = (!$this->getOfflineMode() && $this->lm->getProgressIcons())
@@ -134,24 +137,17 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 		if ($a_node["type"] == "st")
 		{
 			return ilStructureObject::_getPresentationTitle($a_node["child"], IL_CHAPTER_TITLE,
-				$this->lm->isActiveNumbering(), false, false, $this->lm->getId(), $this->lang);
+				$this->lm->isActiveNumbering(), false, false, $this->lm->getId(), $this->lang, true);
 		}
 		else if ($a_node["type"] == "pg")
 		{
 			return ilLMPageObject::_getPresentationTitle($a_node["child"],
 				$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
-				$this->lm_set->get("time_scheduled_page_activation"), true, $this->lm->getId(), $this->lang);
+				$this->lm_set->get("time_scheduled_page_activation"), true, $this->lm->getId(), $this->lang, true);
 		}
 		else if ($a_node["child"] == $this->getNodeId($this->getRootNode()))
 		{
 			return $this->lm->getTitle();
-		}
-
-		if ($a_node["type"] == "pg")
-		{
-			return ilLMPageObject::_getPresentationTitle($a_node["child"],
-				$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
-				$this->lm_set->get("time_scheduled_page_activation"), true, $this->lm->getId(), $this->lang);
 		}
 
 		return $a_node["title"];
@@ -222,7 +218,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 	 */
 	function isNodeClickable($a_node)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		$orig_node_id = $a_node["child"];
 

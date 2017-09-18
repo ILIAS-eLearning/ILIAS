@@ -17,12 +17,15 @@ define ("AUTH_HTTP",8);
 define ("AUTH_ECS",9);
 
 define ("AUTH_APACHE",11);
+define ("AUTH_SAML", 12);
 
 define ("AUTH_INACTIVE",18);
 
 define('AUTH_MULTIPLE',20);
 
 define ('AUTH_SESSION', 21);
+
+define('AUTH_PROVIDER_LTI', 22);
 
 define('AUTH_SOAP_NO_ILIAS_USER', -100);
 define('AUTH_LDAP_NO_ILIAS_USER',-200);
@@ -32,7 +35,7 @@ define('AUTH_RADIUS_NO_ILIAS_USER',-300);
 // maybe no (valid) certificate or
 // username could not be extracted
 define('AUTH_APACHE_FAILED', -500);
-
+define('AUTH_SAML_FAILED', -501);
 
 define('AUTH_MODE_INACTIVE',-1000);
 
@@ -449,6 +452,10 @@ class ilAuthUtils
 				return ilLDAPServer::getKeyByAuthMode($a_auth_mode);
 				// end-patch ldap_multiple
 				
+			case 'lti':
+				include_once './Services/LTI/classes/InternalProvider/class.ilAuthProviderLTI.php';
+				return ilAuthProviderLTI::getKeyByAuthMode($a_auth_mode);
+				
 			case "radius":
 				return AUTH_RADIUS;
 				break;
@@ -460,6 +467,10 @@ class ilAuthUtils
 			case "shibboleth":
 				return AUTH_SHIBBOLETH;
 				break;
+
+			case 'saml':
+				require_once 'Services/Saml/classes/class.ilSamlIdp.php';
+				return ilSamlIdp::getKeyByAuthMode($a_auth_mode);
 
 			case "cas":
 				return AUTH_CAS;
@@ -498,6 +509,10 @@ class ilAuthUtils
 				return ilLDAPServer::getAuthModeByKey($a_auth_key);
 				// end-patch ldap_multiple
 				
+			case AUTH_PROVIDER_LTI:
+				include_once './Services/LTI/classes/InternalProvider/class.ilAuthProviderLTI.php';
+				return ilAuthProviderLTI::getAuthModeByKey($a_auth_key);
+				
 			case AUTH_RADIUS:
 				return "radius";
 				break;
@@ -514,6 +529,10 @@ class ilAuthUtils
 				return "shibboleth";
 				break;
 
+			case AUTH_SAML:
+				require_once 'Services/Saml/classes/class.ilSamlIdp.php';
+				return ilSamlIdp::getAuthModeByKey($a_auth_key);
+
 			case AUTH_SOAP:
 				return "soap";
 				break;
@@ -523,6 +542,10 @@ class ilAuthUtils
 
 			case AUTH_APACHE:
 				return 'apache';
+
+			case AUTH_PROVIDER_LTI:
+				return "lti";
+				break;
 
 			default:
 				return "default";
@@ -544,6 +567,13 @@ class ilAuthUtils
 		{
 			$modes['ldap_'.$sid] = (AUTH_LDAP.'_'.$sid);
 		}
+		
+		include_once './Services/LTI/classes/InternalProvider/class.ilAuthProviderLTI.php';
+		foreach(ilAuthProviderLTI::getAuthModes() as $sid)
+		{
+			$modes['lti_'.$sid] = (AUTH_PROVIDER_LTI.'_'.$sid);
+		}
+		
 		// end-patch ldap_multiple
 		if ($ilSetting->get("radius_active")) $modes['radius'] = AUTH_RADIUS;
 		if ($ilSetting->get("shib_active")) $modes['shibboleth'] = AUTH_SHIBBOLETH;
@@ -556,6 +586,12 @@ class ilAuthUtils
 		if(ilECSServerSettings::getInstance()->activeServerExists())
 		{
 			$modes['ecs'] = AUTH_ECS;
+		}
+
+		require_once 'Services/Saml/classes/class.ilSamlIdp.php';
+		foreach(ilSamlIdp::getActiveIdpList() as $idp)
+		{
+			$modes['saml_'. $idp->getIdpId()] = AUTH_SAML  . '_' . $idp->getIdpId();
 		}
 
 		// begin-path auth_plugin
@@ -579,22 +615,45 @@ class ilAuthUtils
 			AUTH_LOCAL,
 			AUTH_LDAP,
 			AUTH_SHIBBOLETH,
+			AUTH_SAML,
 			AUTH_CAS,
 			AUTH_SOAP,
 			AUTH_RADIUS,
 			AUTH_ECS,
+			AUTH_PROVIDER_LTI,
 			AUTH_OPENID,
 			AUTH_APACHE
 		);
 		$ret = array();
 		foreach($modes as $mode)
 		{
+			if($mode = AUTH_PROVIDER_LTI)
+			{
+				include_once './Services/LTI/classes/InternalProvider/class.ilAuthProviderLTI.php';
+				foreach(ilAuthProviderLTI::getAuthModes() as $sid)
+				{
+					$id = AUTH_PROVIDER_LTI.'_'.$sid;
+					$ret[$id] = ilAuthUtils::_getAuthModeName($id);
+				}
+				continue;
+			}
+
 			// multi ldap implementation
 			if($mode == AUTH_LDAP)
 			{
 				foreach(ilLDAPServer::_getServerList() as $ldap_id)
 				{
 					$id = AUTH_LDAP . '_' . $ldap_id;
+					$ret[$id] = ilAuthUtils::_getAuthModeName($id);
+				}
+				continue;
+			}
+			else if($mode == AUTH_SAML)
+			{
+				require_once 'Services/Saml/classes/class.ilSamlIdp.php';
+				foreach(ilSamlIdp::getAllIdps() as $idp)
+				{
+					$id = AUTH_SAML . '_' . $idp->getIdpId();
 					$ret[$id] = ilAuthUtils::_getAuthModeName($id);
 				}
 				continue;
@@ -780,6 +839,18 @@ class ilAuthUtils
 			return true;
 		}
 		
+		include_once './Services/LTI/classes/InternalProvider/class.ilAuthProviderLTI.php';
+		if(count(ilAuthProviderLTI::getActiveAuthModes()))
+		{
+			return true;
+		}
+		
+		require_once 'Services/Saml/classes/class.ilSamlIdp.php';
+		if(count(ilSamlIdp::getActiveIdpList()) > 0)
+		{
+			return true;
+		}
+
 		// begin-path auth_plugin
 		foreach(self::getAuthPlugins() as $pl)
 		{
@@ -813,6 +884,7 @@ class ilAuthUtils
 			case AUTH_LDAP:
 			case AUTH_RADIUS:
 			case AUTH_ECS:
+			case AUTH_PROVIDER_LTI:
 				return false;
 			default:
 				return true;
@@ -862,7 +934,13 @@ class ilAuthUtils
 			case AUTH_RADIUS:
 			case AUTH_ECS:
 			case AUTH_SCRIPT:
+			case AUTH_PROVIDER_LTI:
 				return false;
+
+			case AUTH_SAML:
+				require_once 'Services/Saml/classes/class.ilSamlIdp.php';
+				$idp = ilSamlIdp::getInstanceByIdpId(ilSamlIdp::getIdpIdByAuthMode($a_authmode));
+				return $idp->isActive() && $idp->allowLocalAuthentication();
 			
 			// Always for and local
 			case AUTH_LOCAL:
@@ -896,6 +974,7 @@ class ilAuthUtils
 				return ilAuthUtils::LOCAL_PWV_FULL;
 			
 			case AUTH_SHIBBOLETH:
+			case AUTH_SAML:
 			case AUTH_SOAP:
 			case AUTH_CAS:
 				if(!ilAuthUtils::isPasswordModificationEnabled($a_authmode))
@@ -904,6 +983,7 @@ class ilAuthUtils
 				}
 				return ilAuthUtils::LOCAL_PWV_USER;
 				
+			case AUTH_PROVIDER_LTI:
 			case AUTH_ECS:
 			case AUTH_SCRIPT:
 			case AUTH_APACHE:
@@ -954,6 +1034,18 @@ class ilAuthUtils
 				$server = ilLDAPServer::getInstanceByServerId($sid);
 				return $server->getName();
 				
+			case AUTH_PROVIDER_LTI:
+				include_once './Services/LTI/classes/InternalProvider/class.ilAuthProviderLTI.php';
+				$sid = ilAuthProviderLTI::getServerIdByAuthMode($a_auth_key);
+				return ilAuthProviderLTI::lookupConsumer($sid);
+				
+
+			case AUTH_SAML:
+				require_once 'Services/Saml/classes/class.ilSamlIdp.php';
+				$idp_id = ilSamlIdp::getIdpIdByAuthMode($a_auth_key);
+				$idp = ilSamlIdp::getInstanceByIdpId($idp_id);
+				return $idp->getEntityId();
+
 			default:
 				return $lng->txt('auth_'.self::_getAuthModeName($a_auth_key));
 		}

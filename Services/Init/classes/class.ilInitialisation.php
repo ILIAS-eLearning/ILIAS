@@ -130,6 +130,7 @@ class ilInitialisation
 		define ("URL_TO_LATEX",$ilIliasIniFile->readVariable("tools","latex"));
 		define ("PATH_TO_FOP",$ilIliasIniFile->readVariable("tools","fop"));
 		define ("PATH_TO_LESSC",$ilIliasIniFile->readVariable("tools","lessc"));
+		define ("PATH_TO_PHANTOMJS",$ilIliasIniFile->readVariable("tools","phantomjs"));
 
 		// read virus scanner settings
 		switch ($ilIliasIniFile->readVariable("tools", "vscantype"))
@@ -748,7 +749,7 @@ class ilInitialisation
 		
 		// if target given, try to go there
 		if(strlen($_GET["target"]))
-		{	
+		{
 			// when we are already "inside" goto.php no redirect is needed
 			$current_script = substr(strrchr($_SERVER["PHP_SELF"], "/"), 1);	
 			if($current_script == "goto.php")
@@ -836,8 +837,8 @@ class ilInitialisation
 		self::initGlobal("rbacadmin", "ilRbacAdmin",
 			 "./Services/AccessControl/classes/class.ilRbacAdmin.php");
 		
-		self::initGlobal("ilAccess", "ilAccessHandler", 
-			 "./Services/AccessControl/classes/class.ilAccessHandler.php");
+		self::initGlobal("ilAccess", "ilAccess",
+			 "./Services/AccessControl/classes/class.ilAccess.php");
 		
 		require_once "./Services/AccessControl/classes/class.ilConditionHandler.php";
 	}
@@ -1065,7 +1066,7 @@ class ilInitialisation
 	 */
 	protected static function initClient()
 	{
-		global $https, $ilias;
+		global $https, $ilias, $DIC;
 
 		self::setCookieConstants();
 
@@ -1101,7 +1102,7 @@ class ilInitialisation
 		// we must prevent that ilPluginAdmin is initialized twice in
 		// this case, since this won't get the values out of plugin.php the
 		// second time properly
-		if (!is_object($GLOBALS["ilPluginAdmin"]))
+		if (!isset($DIC["ilPluginAdmin"]) || !$DIC["ilPluginAdmin"] instanceof ilPluginAdmin)
 		{
 			self::initGlobal("ilPluginAdmin", "ilPluginAdmin",
 				"./Services/Component/classes/class.ilPluginAdmin.php");
@@ -1231,6 +1232,7 @@ class ilInitialisation
 				// :TODO: should be moved to context?!
 				$mandatory_auth = ($current_script != "shib_login.php"
 						&& $current_script != "shib_logout.php"
+						&& $current_script != "saml.php"
 						&& $current_script != "error.php"
 						&& $current_script != "chat.php"
 						&& $current_script != "wac.php"
@@ -1283,7 +1285,7 @@ class ilInitialisation
 			ilLoggerFactory::getLogger('init')->debug('Expired session found -> redirect to login page');
 			return self::goToLogin();
 		}
-		if($ilSetting->get('pub_section'))
+		if(ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME']))
 		{
 			ilLoggerFactory::getLogger('init')->debug('Redirect to public section.');
 			return self::goToPublicSection();
@@ -1361,6 +1363,9 @@ class ilInitialisation
 		
 		if(ilContext::hasUser())
 		{
+			// LTI
+			self::initLTI();
+			
 			// load style definitions
 			// use the init function with plugin hook here, too
 			self::initStyle();
@@ -1368,8 +1373,19 @@ class ilInitialisation
 
 		self::initUIFramework($GLOBALS["DIC"]);
 
-		// $tpl
-		$tpl = new ilTemplate("tpl.main.html", true, true);
+		// LTI
+		if (isset($_SESSION['il_lti_mode'])) 
+		{
+			require_once "./Services/LTI/classes/class.ilTemplate.php";
+			$tpl = new LTI\ilTemplate("tpl.main.html", true, true, "Services/LTI");
+			//$tpl = new ilTemplate("tpl.main.html", true, true);
+		}
+		else 
+		{
+			// $tpl
+			$tpl = new ilTemplate("tpl.main.html", true, true);
+		}
+		
 		self::initGlobal("tpl", $tpl);
 		
 		// load style sheet depending on user's settings
@@ -1398,12 +1414,21 @@ class ilInitialisation
 
 		if(ilContext::hasUser())
 		{
+			// LTI
 			// $ilMainMenu
-			include_once './Services/MainMenu/classes/class.ilMainMenuGUI.php';
-			$ilMainMenu = new ilMainMenuGUI("_top");
+			if (isset($_SESSION['il_lti_mode'])) 
+			{
+				include_once './Services/LTI/classes/class.ilMainMenuGUI.php';
+				$ilMainMenu = new LTI\ilMainMenuGUI("_top");
+			}
+			else 
+			{
+				include_once './Services/MainMenu/classes/class.ilMainMenuGUI.php';
+				$ilMainMenu = new ilMainMenuGUI("_top");
+			}
+			
 			self::initGlobal("ilMainMenu", $ilMainMenu);
 			unset($ilMainMenu);
-	
 
 			// :TODO: tableGUI related
 
@@ -1427,6 +1452,40 @@ class ilInitialisation
 			// several code parts rely on ilObjUser being always included
 			include_once "Services/User/classes/class.ilObjUser.php";
 		}
+	}
+	
+	// LTI
+	protected static function initLTI()
+	{
+		global $ilUser, $DIC;
+		$DIC->logger()->root()->debug("auth_mode: " . $ilUser->auth_mode);
+		// production
+		if (strpos($ilUser->auth_mode, 'lti') !== false) {
+			$DIC->logger()->root()->debug("LTI Mode!");
+			require_once "./Services/LTI/classes/class.ilLTIViewGUI.php";
+			ilLTIViewGUI::getInstance()->activate(); 
+		}
+		else {
+			unset($_SESSION['il_lti_mode']);
+		}
+		 
+		// fake lti env
+		/*
+		if ($ilUser->getFirstname() == "LTI") 
+		{
+			$_SESSION['lti_context_id'] = "73";
+			//$_SESSION['lti_launch_css_url'] = 'http://ltiapps.net/test/css/tc.css';
+			//$_SESSION['lti_launch_presentation_return_url'] = 'http://ltiapps.net/test/tc-return.php';
+			
+			$DIC->logger()->root()->debug("LTI Mode!");
+			require_once "./Services/LTI/classes/class.ilLTIViewGUI.php";
+			ilLTIViewGUI::getInstance()->activate();
+			//ilLTIViewGUI::getInstance()->checkMessages();
+		}
+		else {
+			unset($_SESSION['il_lti_mode']);
+		}
+		*/ 
 	}
 	
 	/**
@@ -1469,7 +1528,16 @@ class ilInitialisation
 			ilLoggerFactory::getLogger('init')->debug('Blocked authentication for shibboleth request.');
 			return true;
 		}
-		
+		if(ilContext::getType() == ilContext::CONTEXT_LTI_PROVIDER)
+		{
+			ilLoggerFactory::getLogger('init')->debug('Blocked authentication for lti provider requests.');
+			return true;
+		}
+		if(ilContext::getType() == ilContext::CONTEXT_SAML)
+		{
+			ilLoggerFactory::getLogger('init')->debug('Blocked authentication for SAML request.');
+			return true;
+		}
 		if(
 			$a_current_script == "register.php" || 
 			$a_current_script == "pwassist.php" ||
@@ -1684,13 +1752,15 @@ class ilInitialisation
 		// for password change and incomplete profile 
 		// see ilPersonalDesktopGUI
 		if(!$_GET["target"])
-		{										
+		{	
+			ilLoggerFactory::getLogger('init')->debug('Redirect to default starting page');
 			// Redirect here to switch back to http if desired
 			include_once './Services/User/classes/class.ilUserUtil.php';						
 			ilUtil::redirect(ilUserUtil::getStartingPointAsUrl());
 		}
 		else
 		{
+			ilLoggerFactory::getLogger('init')->debug('Redirect to target: ' . $_GET['target']);
 			ilUtil::redirect("goto.php?target=".$_GET["target"]);
 		}
 	}

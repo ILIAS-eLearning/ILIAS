@@ -13,6 +13,41 @@ include_once("./Services/Badge/classes/class.ilBadgeHandler.php");
  */
 class ilBadgeManagementGUI
 {	
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	protected $parent_ref_id; // [int]
 	protected $parent_obj_id; // [int]
 	protected $parent_obj_type; // [string]
@@ -29,7 +64,16 @@ class ilBadgeManagementGUI
 	 */
 	public function __construct($a_parent_ref_id, $a_parent_obj_id = null, $a_parent_obj_type = null)
 	{
-		global $lng;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+		$this->tabs = $DIC->tabs();
+		$this->access = $DIC->access();
+		$this->toolbar = $DIC->toolbar();
+		$this->tpl = $DIC["tpl"];
+		$this->user = $DIC->user();
+		$lng = $DIC->language();
 		
 		$this->parent_ref_id = $a_parent_ref_id;
 		$this->parent_obj_id = $a_parent_obj_id
@@ -49,7 +93,9 @@ class ilBadgeManagementGUI
 	
 	public function executeCommand()
 	{
-		global $ilCtrl, $ilTabs, $lng;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd("listBadges");
@@ -108,7 +154,9 @@ class ilBadgeManagementGUI
 	
 	protected function setTabs($a_active)
 	{
-		global $ilTabs, $lng, $ilCtrl;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$ilTabs->addSubTab("badges", 
 			$lng->txt("obj_bdga"),
@@ -123,13 +171,16 @@ class ilBadgeManagementGUI
 	
 	protected function hasWrite()
 	{
-		global $ilAccess;
+		$ilAccess = $this->access;
 		return $ilAccess->checkAccess("write", "", $this->parent_ref_id);
 	}
 	
 	protected function listBadges()
 	{
-		global $ilToolbar, $lng, $ilCtrl, $tpl;
+		$ilToolbar = $this->toolbar;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
 		
 		$this->setTabs("badges");
 		
@@ -225,7 +276,8 @@ class ilBadgeManagementGUI
 	
 	protected function addBadge(ilPropertyFormGUI $a_form = null)
 	{				
-		global $ilCtrl, $tpl;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
 		
 		$type_id = $_REQUEST["type"];
 		if(!$type_id || 
@@ -253,7 +305,8 @@ class ilBadgeManagementGUI
 	
 	protected function initBadgeForm($a_mode, ilBadgeType $a_type, $a_type_unique_id)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();
@@ -354,7 +407,8 @@ class ilBadgeManagementGUI
 	
 	protected function saveBadge()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$type_id = $_REQUEST["type"];
 		if(!$type_id || 
@@ -416,7 +470,9 @@ class ilBadgeManagementGUI
 	
 	protected function editBadge(ilPropertyFormGUI $a_form = null)
 	{				
-		global $ilCtrl, $tpl, $lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 		
 		$badge_id = $_REQUEST["bid"];
 		if(!$badge_id || 
@@ -466,7 +522,8 @@ class ilBadgeManagementGUI
 	
 	protected function updateBadge()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$badge_id = $_REQUEST["bid"];
 		if(!$badge_id || 
@@ -516,7 +573,10 @@ class ilBadgeManagementGUI
 	
 	protected function confirmDeleteBadges()
 	{
-		global $ilCtrl, $lng, $tpl, $ilTabs;	
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
 								
 		$badge_ids = $this->getBadgesFromMultiAction();
 				
@@ -545,7 +605,8 @@ class ilBadgeManagementGUI
 	
 	protected function deleteBadges()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$badge_ids = $this->getBadgesFromMultiAction();
 		
@@ -567,7 +628,7 @@ class ilBadgeManagementGUI
 			
 	protected function getBadgesFromMultiAction()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$badge_ids = $_REQUEST["id"];
 		if(!$badge_ids ||
@@ -581,7 +642,7 @@ class ilBadgeManagementGUI
 	
 	protected function copyBadges()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$badge_ids = $this->getBadgesFromMultiAction();		
 
@@ -594,7 +655,7 @@ class ilBadgeManagementGUI
 	
 	protected function clearClipboard()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		unset($_SESSION[self::CLIPBOARD_ID]);
 		$ilCtrl->redirect($this, "listBadges");
@@ -621,7 +682,7 @@ class ilBadgeManagementGUI
 	
 	protected function pasteBadges()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		if(!$this->hasWrite() ||
 			!is_array($_SESSION[self::CLIPBOARD_ID]))
@@ -639,7 +700,8 @@ class ilBadgeManagementGUI
 		
 	protected function toggleBadges($a_status)
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$badge_ids = $this->getBadgesFromMultiAction();
 		
@@ -672,7 +734,10 @@ class ilBadgeManagementGUI
 	
 	protected function listUsers()
 	{
-		global $lng, $ilCtrl, $ilToolbar, $tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilToolbar = $this->toolbar;
+		$tpl = $this->tpl;
 		
 		$this->setTabs("users");
 		
@@ -716,7 +781,10 @@ class ilBadgeManagementGUI
 	
 	protected function awardBadgeUserSelection()
 	{
-		global $ilCtrl, $tpl, $ilTabs, $lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
 		
 		$bid = (int)$_REQUEST["bid"];
 		if(!$bid || 
@@ -772,7 +840,9 @@ class ilBadgeManagementGUI
 	
 	protected function assignBadge()
 	{
-		global $ilCtrl, $ilUser, $lng;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
 		
 		$user_ids = $_POST["id"];
 		$badge_id = $_REQUEST["bid"];
@@ -805,7 +875,10 @@ class ilBadgeManagementGUI
 	
 	protected function confirmDeassignBadge()
 	{
-		global $ilCtrl, $lng, $tpl, $ilTabs;	
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
 						
 		$user_ids = $_POST["id"];
 		$badge_id = $_REQUEST["bid"];
@@ -853,7 +926,8 @@ class ilBadgeManagementGUI
 	
 	protected function deassignBadge()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$user_ids = $_POST["id"];
 		$badge_id = $_REQUEST["bid"];

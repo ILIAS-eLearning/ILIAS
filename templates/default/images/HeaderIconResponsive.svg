@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 15.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="44px" height="44px" viewBox="0 0 277.795 277.795" enable-background="new 0 0 277.795 277.795"
+	 xml:space="preserve">
+<radialGradient id="SVGID_1_" cx="0.6865" cy="1.4966" r="205.4639" gradientTransform="matrix(1 0 0 1 0 -3.051758e-04)" gradientUnits="userSpaceOnUse">
+	<stop  offset="0" style="stop-color:#466488"/>
+	<stop  offset="0.9904" style="stop-color:#003C65"/>
+</radialGradient>
+<polygon fill="url(#SVGID_1_)" points="0,0 277.796,0 277.796,277.795 0,277.795 0,0 "/>
+<g>
+	<polygon fill="#FFFFFF" points="38.764,234.134 51.467,234.134 51.467,176.364 38.764,176.364 38.764,234.134 	"/>
+	<polygon fill="#FFFFFF" points="62.63,234.134 103.49,234.134 103.49,223.453 75.333,223.453 75.333,176.364 62.63,176.364 
+		62.63,234.134 	"/>
+	<polygon fill="#FFFFFF" points="113.673,234.134 126.375,234.134 126.375,176.364 113.673,176.364 113.673,234.134 	"/>
+	<path fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" d="M133.438,234.134h12.865l4.532-12.865h21.601l4.371,12.865h13.187
+		l-21.602-57.77h-13.026L133.438,234.134L133.438,234.134z M161.675,190.604h0.162l7.281,21.198h-14.967L161.675,190.604
+		L161.675,190.604z"/>
+	<path fill="#FFFFFF" d="M196.162,214.958c-0.162,14.239,11.812,20.551,24.599,20.551c15.696,0,24.029-7.929,24.029-18.528
+		c0-13.107-12.945-15.776-17.151-16.829c-14.484-3.722-17.235-4.288-17.235-8.738c0-4.854,4.694-6.554,8.739-6.554
+		c6.066,0,11.002,1.78,11.408,8.738h12.298c0-13.351-11.085-18.608-23.141-18.608c-10.437,0-21.603,5.663-21.603,17.477
+		c0,10.842,8.658,14.158,17.234,16.424c8.496,2.266,17.151,3.317,17.151,9.547c0,5.907-6.796,7.201-11.247,7.201
+		c-6.796,0-12.783-2.994-12.783-10.68H196.162L196.162,214.958z"/>
+</g>
+</svg>

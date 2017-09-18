@@ -10,6 +10,7 @@ require_once 'class.ilPDFGenerationJob.php';
  * 
  * @author Maximilian Becker <mbecker@databay.de>
  * @version $Id$
+ * @deprecated   
  * 
  */
 class ilPDFGeneration 

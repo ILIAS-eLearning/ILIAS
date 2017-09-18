@@ -35,6 +35,16 @@ include_once './Services/Search/classes/class.ilSearchSettings.php';
 */
 abstract class ilSubItemListGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	protected static $MAX_SUBITEMS = 5;
 	
 	protected $cmdClass = null;
@@ -57,6 +67,10 @@ abstract class ilSubItemListGUI
 	 */
 	public function __construct($a_cmd_class)
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
 		
 		$this->cmdClass = $a_cmd_class;
 		self::$MAX_SUBITEMS = ilSearchSettings::getInstance()->getMaxSubitems();
@@ -204,7 +218,8 @@ abstract class ilSubItemListGUI
 	 */
 	protected function showDetailsLink()
 	{
-		global $ilCtrl,$lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		if(count($this->getSubItemIds()) <= self::$MAX_SUBITEMS)
 		{

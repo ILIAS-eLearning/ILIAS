@@ -16,7 +16,8 @@ class ilAdvancedMDRecordGUI
 	const MODE_EDITOR = 1;
 	const MODE_SEARCH = 2;
 	const MODE_INFO = 3;
-	
+	const MODE_APP_PRESENTATION = 8;
+
 	// glossary
 	const MODE_REC_SELECTION = 4;		// record selection (per object)
 	const MODE_FILTER = 5;				// filter (as used e.g. in tables)
@@ -29,6 +30,7 @@ class ilAdvancedMDRecordGUI
 	private $obj_type;
 	private $sub_type;
 	private $obj_id;
+	private $ref_id = null;
 	
 	private $form;
 	private $search_values = array();
@@ -53,6 +55,13 @@ class ilAdvancedMDRecordGUI
 	 	$this->obj_id = $a_obj_id;
 	 	$this->sub_type = $a_sub_type;
 	 	$this->sub_id = $a_sub_id;
+		
+		if($a_obj_id)
+		{
+			$refs = ilObject::_getAllReferences($a_obj_id);
+			$this->ref_id = end($refs);
+		}
+		
 	}
 	
 	/**
@@ -110,7 +119,10 @@ class ilAdvancedMDRecordGUI
 	 		
 	 		case self::MODE_INFO:
 	 			return $this->parseInfoPage();
-	 			
+
+			case self::MODE_APP_PRESENTATION:
+				return $this->parseAppointmentPresentation();
+
 	 		case self::MODE_REC_SELECTION:
 	 			return $this->parseRecordSelection();
 	 			
@@ -378,9 +390,50 @@ class ilAdvancedMDRecordGUI
 				}
 			}
 		}						
-	} 
-	
-					
+	}
+
+	// Used by list of calendars
+	private function parseAppointmentPresentation()
+	{
+		//include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
+		//include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
+		//include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDSubstitution.php');
+		//include_once('Services/ADT/classes/class.ilADTFactory.php');
+		//todo: try to refactor this positions
+		$sub = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->obj_type);
+
+		$definitions = ilAdvancedMDFieldDefinition::getInstancesByObjType($this->obj_type);
+		$definitions = $sub->sortDefinitions($definitions);
+
+		$positions = array();
+		foreach ($definitions as $position => $value)
+		{
+			$positions[$value->getFieldId()] = $position;
+		}
+
+		$array_elements = array();
+		foreach(ilAdvancedMDValues::getInstancesForObjectId($this->obj_id, $this->obj_type, $this->sub_type, $this->sub_id) as $record_id => $a_values)
+		{
+			// this correctly binds group and definitions
+			$a_values->read();
+
+			$defs = $a_values->getDefinitions();
+			foreach($a_values->getADTGroup()->getElements() as $element_id => $element)
+			{
+				if(!$element->isNull())
+				{
+					$array_elements[$positions[$element_id]] = array(
+						"title" => $defs[$element_id]->getTitle(),
+						"value" => ilADTFactory::getInstance()->getPresentationBridgeForInstance($element)->getHTML()
+					);
+				}
+			}
+		}
+
+		ksort($array_elements);
+		return $array_elements;
+	}
+
 	//
 	// :TODO: ECS
 	// 
@@ -639,7 +692,7 @@ class ilAdvancedMDRecordGUI
 	protected function getActiveRecords()
 	{
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
-		return ilAdvancedMDRecord::_getSelectedRecordsByObject($this->obj_type, $this->obj_id, $this->sub_type);
+		return ilAdvancedMDRecord::_getSelectedRecordsByObject($this->obj_type, $this->ref_id, $this->sub_type);
 	}
 	
 	/**

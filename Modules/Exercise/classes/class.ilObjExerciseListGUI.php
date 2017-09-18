@@ -79,7 +79,8 @@ class ilObjExerciseListGUI extends ilObjectListGUI
 	*/
 	function getProperties()
 	{
-		global $lng, $ilUser;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 
 		$props = array();
 		$rem = ilObjExerciseAccess::_lookupRemainingWorkingTimeString($this->obj_id);		

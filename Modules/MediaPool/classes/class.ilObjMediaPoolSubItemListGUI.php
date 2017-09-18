@@ -41,7 +41,7 @@ class ilObjMediaPoolSubItemListGUI extends ilSubItemListGUI
 	 */
 	public function getHTML()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$lng->loadLanguageModule('content');
 		foreach($this->getSubItemIds(true) as $sub_item)

@@ -14,6 +14,11 @@ require_once("Services/Table/classes/class.ilTableGUI.php");
 */
 class ilConfirmationGUI
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	private $hidden_item = array();
 	private $item = array();
 	private $use_images = false;
@@ -26,6 +31,9 @@ class ilConfirmationGUI
 	*/
 	public function __construct()
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 	}
 
 	final public function setFormAction($a_form_action)
@@ -133,7 +141,7 @@ class ilConfirmationGUI
 	*/
 	final public function getHTML()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		ilUtil::sendQuestion($this->getHeaderText());
 		

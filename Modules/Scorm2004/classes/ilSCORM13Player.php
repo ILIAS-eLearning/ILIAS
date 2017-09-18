@@ -119,14 +119,13 @@ class ilSCORM13Player
 	public $packageId;
 	public $jsMode;
 	
-	var $ilias;
 	var $slm;
 	var $tpl;
 	
 	function __construct()
 	{
 		
-		global $ilias, $tpl, $ilCtrl, $ilUser, $lng;
+		global $tpl, $ilCtrl, $ilUser, $lng;
 
 		//erase next?
 		if ($_REQUEST['learnerId']) {
@@ -142,7 +141,6 @@ class ilSCORM13Player
 		$this->slm = new ilObjSCORM2004LearningModule($_GET["ref_id"], true);
 		
 			
-		$this->ilias = $ilias;
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
 				
@@ -163,14 +161,14 @@ class ilSCORM13Player
 	 */
 	function &executeCommand()
 	{
-		global $ilAccess, $ilLog, $ilUser, $lng, $ilias;
+		global $ilAccess, $lng, $ilErr;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
 		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
-			$ilias->raiseError($lng->txt("permission_denied"), $ilias->error_obj->WARNING);
+			$ilErr->raiseError($lng->txt("permission_denied"), $ilErr->WARNING);
 		}
 		
 //$ilLog->write("SCORM2004 Player cmd: ".$cmd);
@@ -281,27 +279,23 @@ class ilSCORM13Player
 	{
 		$webdir=str_replace("/ilias.php","",$_SERVER["SCRIPT_NAME"]);	
 		//load ressources always with absolute URL..relative URLS fail on innersco navigation on certain browsers
-		$lm_dir=$webdir."/".ILIAS_WEB_DIR."/".$this->ilias->client_id ."/lm_data"."/lm_".$this->packageId;
+		$lm_dir=$webdir."/".ILIAS_WEB_DIR."/".CLIENT_ID."/lm_data"."/lm_".$this->packageId;
 		return $lm_dir;
 	}
 		
 	//config data also used for SOP
 	public function getConfigForPlayer()
 	{
-		global $ilUser,$ilias,$ilSetting;
+		global $ilUser;
+
 		$initSuspendData = null;
-		$cmi_learner_id = (string) $ilUser->getID();
-		$lm_set = new ilSetting("lm");
-		if($lm_set->get("scorm_login_as_learner_id") == 1) {
-			$cmi_learner_id = (string) $ilUser->getLogin();
-		}
 		$config = array
 		(
 			'scope'=>$this->getScope(),
 			'learner_id' => (string) $ilUser->getID(),
-			'cmi_learner_id' => $cmi_learner_id,
+			'cmi_learner_id' => (string) $this->slm->getApiStudentId(),
 			'course_id' => (string) $this->packageId,
-			'learner_name' => $ilUser->getFirstname()." ".$ilUser->getLastname(),
+			'learner_name' => (string) $this->slm->getApiStudentName(),
 			'mode' => $this->slm->getDefaultLessonMode(),
 			'credit' => $this->slm->getCreditMode(),
 			'auto_review' => $this->slm->getAutoReviewChar(),
@@ -338,7 +332,7 @@ class ilSCORM13Player
 
 	public function getPlayer()
 	{
-		global $ilUser,$lng, $ilias, $ilSetting;
+		global $lng, $ilSetting;
 		
 		//WAC
 		require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
@@ -373,8 +367,8 @@ class ilSCORM13Player
 		$store_url = 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=cmi&ref_id='.$_GET["ref_id"];
 		$unload_url = 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=scormPlayerUnload&ref_id='.$_GET["ref_id"];
 		if ($this->slm->getSessionDeactivated()){
-			$store_url = 'storeScorm2004.php?package_id='.$this->packageId.'&ref_id='.$_GET["ref_id"].'&client_id='.$this->ilias->client_id.'&do=store';
-			$unload_url = 'storeScorm2004.php?package_id='.$this->packageId.'&ref_id='.$_GET["ref_id"].'&client_id='.$this->ilias->client_id.'&do=unload';
+			$store_url = 'storeScorm2004.php?package_id='.$this->packageId.'&ref_id='.$_GET["ref_id"].'&client_id='.CLIENT_ID.'&do=store';
+			$unload_url = 'storeScorm2004.php?package_id='.$this->packageId.'&ref_id='.$_GET["ref_id"].'&client_id='.CLIENT_ID.'&do=unload';
 		}
 		$config['cp_url']				= 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=cp&ref_id='.$_GET["ref_id"];
 		$config['cmi_url']				= 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=cmi&ref_id='.$_GET["ref_id"];
@@ -1606,7 +1600,7 @@ class ilSCORM13Player
 	{
 		$webdir=str_replace("/ilias.php","",$_SERVER["SCRIPT_NAME"]);	
 		//load ressources always with absolute URL..relative URLS fail on innersco navigation on certain browsers
-		$lm_dir=$webdir."/".ILIAS_WEB_DIR."/".$this->ilias->client_id ."/lm_data"."/lm_".$this->packageId;
+		$lm_dir=$webdir."/".ILIAS_WEB_DIR."/".CLIENT_ID."/lm_data"."/lm_".$this->packageId;
 		return $lm_dir;
 	}
 

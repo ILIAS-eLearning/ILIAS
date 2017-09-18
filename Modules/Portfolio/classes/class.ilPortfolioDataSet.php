@@ -86,7 +86,7 @@ class ilPortfolioDataSet extends ilDataSet
 	 */
 	function readData($a_entity, $a_version, $a_ids, $a_field = "")
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if (!is_array($a_ids))
 		{

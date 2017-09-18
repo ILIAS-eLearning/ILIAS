@@ -15,9 +15,24 @@ include_once "Services/Table/classes/class.ilTable2GUI.php";
 
 class ilObjWorkspaceFolderTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
 	function __construct($a_parent_obj, $a_parent_cmd, $a_node_id, $a_access_handler)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->user = $DIC->user();
+		$this->obj_definition = $DIC["objDefinition"];
+		$ilCtrl = $DIC->ctrl();
 		
 		$this->node_id = $a_node_id;
 		$this->setId("tbl_wfld");
@@ -42,7 +57,7 @@ class ilObjWorkspaceFolderTableGUI extends ilTable2GUI
 
 	protected function getItems()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 		$tree = new ilWorkspaceTree($ilUser->getId());
@@ -67,7 +82,8 @@ class ilObjWorkspaceFolderTableGUI extends ilTable2GUI
 
 	protected function fillRow($node)
 	{
-		global $objDefinition, $ilCtrl;
+		$objDefinition = $this->obj_definition;
+		$ilCtrl = $this->ctrl;
 		
 		$class = $objDefinition->getClassName($node["type"]);
 		$location = $objDefinition->getLocation($node["type"]);

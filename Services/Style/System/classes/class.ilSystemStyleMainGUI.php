@@ -61,6 +61,9 @@ class ilSystemStyleMainGUI
 	 */
 	function __construct()
 	{
+		/**
+		 * @var ILIAS\DI\Container $DIC
+		 */
 		global $DIC;
 
 		$this->ctrl = $DIC->ctrl();
@@ -81,7 +84,16 @@ class ilSystemStyleMainGUI
 	 */
 	function executeCommand()
 	{
+		/**
+		 * @var ilHelpGUI $ilHelp
+		 */
+		global $ilHelp;
+
 		$next_class = $this->ctrl->getNextClass($this);
+
+		$ilHelp->setScreenIdComponent("sty");
+		$ilHelp->setScreenId("system_styles");
+
 
 		$this->ctrl->setParameterByClass('ilsystemstylesettingsgui','skin_id',$_GET["skin_id"]);
 		$this->ctrl->setParameterByClass('ilsystemstylesettingsgui','style_id',$_GET["style_id"]);
@@ -97,6 +109,7 @@ class ilSystemStyleMainGUI
 			{
 
 				case "ilsystemstylesettingsgui":
+					$ilHelp->setSubScreenId("settings");
 					$this->checkPermission("sty_management");
 					$this->setUnderworldTabs('settings');
 					$this->setUnderworldTitle();
@@ -105,6 +118,7 @@ class ilSystemStyleMainGUI
 					$this->ctrl->forwardCommand($system_styles_settings);
 					break;
 				case "ilsystemstylelessgui":
+					$ilHelp->setSubScreenId("less");
 					$this->checkPermission("sty_management");
 					$this->setUnderworldTabs('less');
 					$this->setUnderworldTitle();
@@ -113,6 +127,7 @@ class ilSystemStyleMainGUI
 					$this->ctrl->forwardCommand($system_styles_less);
 					break;
 				case "ilsystemstyleiconsgui":
+					$ilHelp->setSubScreenId("icons");
 					$this->checkPermission("sty_management");
 					$this->setUnderworldTabs('icons');
 					$this->setUnderworldTitle();
@@ -121,15 +136,17 @@ class ilSystemStyleMainGUI
 					$this->ctrl->forwardCommand($system_styles_icons);
 					break;
 				case "ilsystemstyledocumentationgui":
-					$this->checkPermission("sty_management");
+					$ilHelp->setSubScreenId("documentation");
+					$read_only = !$this->checkPermission("sty_management",false);
 					$this->setUnderworldTabs('documentation');
 					$this->setUnderworldTitle();
 					include_once("Documentation/class.ilSystemStyleDocumentationGUI.php");
-					$system_styles_documentation = new ilSystemStyleDocumentationGUI();
+					$system_styles_documentation = new ilSystemStyleDocumentationGUI($read_only);
 					$this->ctrl->forwardCommand($system_styles_documentation);
 					break;
 				case "ilsystemstyleoverviewgui":
 				default:
+					$ilHelp->setSubScreenId("overview");
 					$this->checkPermission("visible,read");
 					include_once("Overview/class.ilSystemStyleOverviewGUI.php");
 					$system_styles_overview = new ilSystemStyleOverviewGUI(!$this->checkPermission("sty_write_system",false)
@@ -145,6 +162,39 @@ class ilSystemStyleMainGUI
 			$system_styles_overview = new ilSystemStyleOverviewGUI(!$this->checkPermission("sty_write_system",false),$this->checkPermission("sty_management",false));
 			$this->ctrl->forwardCommand($system_styles_overview);
 		}
+	}
+
+	/**
+	 * @param $id
+	 */
+	public static function _goto($ref_id,$params){
+		/**
+		 * @var ILIAS\DI\Container $DIC
+		 */
+		global $DIC;
+
+		$node_id = $params[2];
+		$skin_id = $params[3];
+		$style_id = $params[4];
+
+		$DIC->ctrl()->setParameterByClass('ilSystemStyleDocumentationGUI','skin_id', $skin_id);
+		$DIC->ctrl()->setParameterByClass('ilSystemStyleDocumentationGUI','style_id',
+				$style_id);
+		$DIC->ctrl()->setParameterByClass('ilSystemStyleDocumentationGUI','node_id',$node_id);
+		$DIC->ctrl()->setParameterByClass('ilSystemStyleDocumentationGUI','ref_id', $ref_id);
+
+		$_GET['baseClass']= 'ilAdministrationGUI';
+
+		$cmd = "entries";
+		$cmd_classes = [
+				"ilAdministrationGUI",
+				"ilObjStyleSettingsGUI",
+				"ilSystemStyleMainGUI",
+				'ilSystemStyleDocumentationGUI'
+		];
+
+		$DIC->ctrl()->setTargetScript("ilias.php");
+		$DIC->ctrl()->redirectByClass($cmd_classes,$cmd);
 	}
 
 	/**
@@ -194,8 +244,17 @@ class ilSystemStyleMainGUI
 	 * @param string $active
 	 */
 	protected function setUnderworldTabs($active = "") {
+		/**
+		 * @var ilHelpGUI $ilHelp
+		 */
+		global $ilHelp;
 		$this->tabs->clearTargets();
 
+		/**
+		 * Since clearTargets also clears the help screen ids
+		 */
+		$ilHelp->setScreenIdComponent("sty");
+		$ilHelp->setScreenId("system_styles");
 		$this->tabs->setBackTarget($this->lng->txt("back"),$this->ctrl->getLinkTarget($this));
 		$this->tabs->addTab('settings', $this->lng->txt('settings'), $this->ctrl->getLinkTargetByClass('ilsystemstylesettingsgui'));
 		$this->tabs->addTab('less', $this->lng->txt('less'), $this->ctrl->getLinkTargetByClass('ilsystemstylelessgui'));

@@ -16,6 +16,16 @@ include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Page.php");
 */
 class ilPageLayoutGUI extends ilPageObjectGUI
 {
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
 	protected $layout_object = null;
 
 
@@ -24,7 +34,14 @@ class ilPageLayoutGUI extends ilPageObjectGUI
 	*/
 	function __construct($a_parent_type, $a_id = 0, $a_old_nr = 0, $a_prevent_get_id = false, $a_lang = "")
 	{
-		global $tpl;
+		global $DIC;
+
+		$this->tpl = $DIC["tpl"];
+		$this->ctrl = $DIC->ctrl();
+		$this->tabs = $DIC->tabs();
+		$this->lng = $DIC->language();
+		$this->settings = $DIC->settings();
+		$tpl = $DIC["tpl"];
 	
 		parent::__construct($a_parent_type, $a_id, $a_old_nr, $a_prevent_get_id, $a_lang);
 
@@ -57,7 +74,7 @@ class ilPageLayoutGUI extends ilPageObjectGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -89,7 +106,7 @@ die("ilPageLayoutGUI forward to ilpageobjectgui error.");
 	 */
 	function properties($a_mode="save", $a_form = null)
 	{
-		global $ilTabs;
+		$ilTabs = $this->tabs;
 	
 		$ilTabs->setTabActive('properties');
 		
@@ -103,7 +120,9 @@ die("ilPageLayoutGUI forward to ilpageobjectgui error.");
 	
 	function initForm($a_mode)
 	{
-		global $ilCtrl, $lng, $ilSetting;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilSetting = $this->settings;
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form_gui = new ilPropertyFormGUI();
@@ -173,7 +192,7 @@ die("ilPageLayoutGUI forward to ilpageobjectgui error.");
 	 */
 	function updateProperties()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$form = $this->initForm("save");
 		if(!$form->checkInput())
@@ -197,7 +216,10 @@ die("ilPageLayoutGUI forward to ilpageobjectgui error.");
 	*/
 	function setTabs($a_tabs = "")
 	{
-		global $ilTabs, $ilCtrl, $tpl, $lng;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 
 		$ilCtrl->setParameterByClass("ilpagelayoutgui", "obj_id", $this->obj->id);
 		$ilTabs->addTarget("properties",

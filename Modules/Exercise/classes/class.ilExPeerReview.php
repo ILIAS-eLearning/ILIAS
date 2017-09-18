@@ -9,18 +9,32 @@
  */
 class ilExPeerReview
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	protected $assignment; // [$a_assignment]
 	protected $assignment_id; // [int]
 		
 	public function __construct(ilExAssignment $a_assignment)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
+		$this->user = $DIC->user();
 		$this->assignment = $a_assignment;
 		$this->assignment_id = $a_assignment->getId();
 	}
 	
 	public function hasPeerReviewGroups()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$set = $ilDB->query("SELECT count(*) cnt".
 			" FROM exc_assignment_peer".
@@ -31,7 +45,7 @@ class ilExPeerReview
 	
 	protected function getValidPeerReviewUsers()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$user_ids = array();
 		
@@ -49,7 +63,7 @@ class ilExPeerReview
 	
 	protected function initPeerReviews()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 				
 		if(!$this->hasPeerReviewGroups())
 		{
@@ -135,7 +149,7 @@ class ilExPeerReview
 	
 	public function resetPeerReviews()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$all = array();
 		
@@ -256,7 +270,7 @@ class ilExPeerReview
 	
 	public function getPeerReviewsByGiver($a_user_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$res = array();
 		
@@ -338,7 +352,7 @@ class ilExPeerReview
 	
 	public function getPeerReviewsByPeerId($a_user_id, $a_only_valid = false)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$res = array();
 		
@@ -365,7 +379,7 @@ class ilExPeerReview
 	
 	public function getAllPeerReviews($a_only_valid = true)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$res = array();
 
@@ -388,7 +402,8 @@ class ilExPeerReview
 	
 	public function hasPeerReviewAccess($a_peer_id)
 	{
-		global $ilDB, $ilUser;
+		$ilDB = $this->db;
+		$ilUser = $this->user;
 		
 		$set = $ilDB->query("SELECT ass_id".
 			" FROM exc_assignment_peer".			
@@ -401,7 +416,8 @@ class ilExPeerReview
 	
 	public function updatePeerReviewTimestamp($a_peer_id)
 	{
-		global $ilDB, $ilUser;
+		$ilDB = $this->db;
+		$ilUser = $this->user;
 		
 		$ilDB->manipulate("UPDATE exc_assignment_peer".
 			" SET tstamp = ".$ilDB->quote(ilUtil::now(), "timestamp").
@@ -412,7 +428,8 @@ class ilExPeerReview
 	
 	public function updatePeerReview($a_peer_id, array $a_values)
 	{
-		global $ilDB, $ilUser;
+		$ilDB = $this->db;
+		$ilUser = $this->user;
 		
 		$sql = "UPDATE exc_assignment_peer".
 			" SET tstamp = ".$ilDB->quote(ilUtil::now(), "timestamp").
@@ -426,7 +443,8 @@ class ilExPeerReview
 	
 	public function countGivenFeedback($a_validate = true, $a_user_id = null)
 	{
-		global $ilDB, $ilUser;
+		$ilDB = $this->db;
+		$ilUser = $this->user;
 		
 		if(!$a_user_id)
 		{
@@ -455,7 +473,7 @@ class ilExPeerReview
 	
 	protected function getMaxPossibleFeedbacks()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// check if number of returned assignments is lower than assignment peer min
 		$set = $ilDB->query("SELECT COUNT(DISTINCT(user_id)) cnt".

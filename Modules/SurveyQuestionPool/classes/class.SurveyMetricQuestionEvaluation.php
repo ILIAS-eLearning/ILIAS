@@ -42,7 +42,7 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
 	
 	public function getGrid($a_results, $a_abs = true, $a_perc = true)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if((bool)$a_abs && (bool)$a_perc)
 		{
@@ -111,7 +111,7 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
 	
 	public function getChart($a_results)
 	{
-		global $lng; 
+		$lng = $this->lng;
 		
 		include_once "Services/Chart/classes/class.ilChart.php";
 		$chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, $a_results->getQuestion()->getId());
@@ -164,7 +164,7 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
 	 */
 	public function getExportGrid($a_results)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$res = array(
 			"cols" => array(

@@ -1,0 +1,14 @@
+{
+  "name": "jquery-mousewheel",
+  "homepage": "https://github.com/jquery/jquery-mousewheel",
+  "version": "3.1.3",
+  "_release": "3.1.3",
+  "_resolution": {
+    "type": "version",
+    "tag": "3.1.3",
+    "commit": "61d8ef360591e3890e706305557011f50e902943"
+  },
+  "_source": "https://github.com/jquery/jquery-mousewheel.git",
+  "_target": "3.1.3",
+  "_originalSource": "jquery-mousewheel"
+}

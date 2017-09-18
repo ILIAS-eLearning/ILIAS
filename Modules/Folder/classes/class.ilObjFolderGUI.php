@@ -22,6 +22,11 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 
 class ilObjFolderGUI extends ilContainerGUI
 {
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
 	var $folder_tree;		// folder tree
 
 	/**
@@ -30,6 +35,19 @@ class ilObjFolderGUI extends ilContainerGUI
 	*/
 	public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = false)
 	{
+		global $DIC;
+
+		$this->tree = $DIC->repositoryTree();
+		$this->tabs = $DIC->tabs();
+		$this->user = $DIC->user();
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->help = $DIC["ilHelp"];
+		$this->error = $DIC["ilErr"];
+		$this->tpl = $DIC["tpl"];
+		$this->settings = $DIC->settings();
 		$this->type = "fold";
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output, false);
 	}
@@ -40,7 +58,7 @@ class ilObjFolderGUI extends ilContainerGUI
 	*/
 	function viewObject()
 	{
-		global $tree;
+		$tree = $this->tree;
 		
 		$this->checkPermission('read');
 
@@ -65,7 +83,7 @@ class ilObjFolderGUI extends ilContainerGUI
 	*/
 	function renderObject()
 	{
-		global $ilTabs;
+		$ilTabs = $this->tabs;
 		
 		$this->checkPermission('read');
 
@@ -76,7 +94,8 @@ class ilObjFolderGUI extends ilContainerGUI
 
 	function executeCommand()
 	{
-		global $ilUser,$ilCtrl;
+		$ilUser = $this->user;
+		$ilCtrl = $this->ctrl;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -211,7 +230,7 @@ class ilObjFolderGUI extends ilContainerGUI
      */
 	public function importFileObject($parent_id = null, $a_catch_errors = true)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if(parent::importFileObject($parent_id, $a_catch_errors))
 		{
@@ -295,7 +314,7 @@ class ilObjFolderGUI extends ilContainerGUI
 	*/
 	function infoScreen()
 	{
-		global $ilAccess;
+		$ilAccess = $this->access;
 
 		if (!$ilAccess->checkAccess("visible", "", $this->ref_id))
 		{
@@ -342,7 +361,11 @@ class ilObjFolderGUI extends ilContainerGUI
 	*/
 	function getTabs()
 	{
-		global $rbacsystem, $lng, $ilCtrl,$ilAccess, $ilHelp;
+		$rbacsystem = $this->rbacsystem;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilAccess = $this->access;
+		$ilHelp = $this->help;
 
 		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
 		
@@ -414,7 +437,11 @@ class ilObjFolderGUI extends ilContainerGUI
 	*/
 	public static function _goto($a_target)
 	{
-		global $ilAccess, $ilErr, $lng;
+		global $DIC;
+
+		$ilAccess = $DIC->access();
+		$ilErr = $DIC["ilErr"];
+		$lng = $DIC->language();
 
 		if ($ilAccess->checkAccess("read", "", $a_target))
 		{
@@ -425,7 +452,9 @@ class ilObjFolderGUI extends ilContainerGUI
 
 
 	public function downloadFolderObject () {
-		global $ilAccess, $ilErr, $lng;
+		$ilAccess = $this->access;
+		$ilErr = $this->error;
+		$lng = $this->lng;
 			
 		if (!$ilAccess->checkAccess("read", "", $this->ref_id))
 		{
@@ -444,7 +473,7 @@ class ilObjFolderGUI extends ilContainerGUI
 	 */
 	public function modifyItemGUI($a_item_list_gui, $a_item_data, $a_show_path)
 	{
-		global $tree;
+		$tree = $this->tree;
 
 		// if folder is in a course, modify item list gui according to course requirements
 		if ($course_ref_id = $tree->checkForParentType($this->object->getRefId(),'crs'))
@@ -467,7 +496,7 @@ class ilObjFolderGUI extends ilContainerGUI
 	
 	protected function forwardToTimingsView()
 	{
-		global $tree;
+		$tree = $this->tree;
 		
 		if(!$crs_ref = $tree->checkForParentType($this->ref_id, 'crs'))
 		{
@@ -501,7 +530,8 @@ class ilObjFolderGUI extends ilContainerGUI
 	 */
 	public function editObject()
 	{
-		global $ilTabs, $ilErr;
+		$ilTabs = $this->tabs;
+		$ilErr = $this->error;
 		
 		$this->setSubTabs("settings");
 		$ilTabs->activateTab("settings");
@@ -526,7 +556,8 @@ class ilObjFolderGUI extends ilContainerGUI
 	 */
 	function setSubTabs($a_tab)
 	{
-		global $ilTabs, $lng;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
 		
 		$ilTabs->addSubTab("settings",
 			$lng->txt("fold_settings"),
@@ -554,7 +585,7 @@ class ilObjFolderGUI extends ilContainerGUI
 	 */
 	function editIconsObject($a_form = null)
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		$this->checkPermission('write');
 	
@@ -589,7 +620,7 @@ class ilObjFolderGUI extends ilContainerGUI
 	*/
 	function updateIconsObject()
 	{
-		global $ilSetting;
+		$ilSetting = $this->settings;
 
 		$this->checkPermission('write');
 		
