@@ -9164,7 +9164,7 @@ common#:#enable_sahs_protocol_data_desc#:#Show Protocol Data (SCORM)
 search#:#lucene_max_fs#:#Maximum File Size (in MB)
 search#:#lucene_max_fs_info#:#Defines the file size limit. Bigger files will not be included in the index.
 trac#:#trac_determines_learning_progress#:#Determines Learning Progress
-content#:#cont_scorm_ed_properties#:#Learning Module Properties / Glossary
+content#:#cont_scorm_ed_properties#:#Learning Module Properties
 content#:#sahs_empty_objectives_are_not_allowed#:#Please enter a learning objective.
 style#:#sty_type_rte_drag#:#Drag Bar
 style#:#sty_type_rte_tclink#:#Tree Control Link
