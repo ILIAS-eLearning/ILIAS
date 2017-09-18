@@ -33,6 +33,11 @@ abstract class Input implements C\Input\Input, InputInternal {
 	protected $byline;
 
 	/**
+	 * @var	bool
+	 */
+	protected $is_required;
+
+	/**
 	 * This is the value contained in the input as displayed
 	 * client side.
 	 *
@@ -72,6 +77,7 @@ abstract class Input implements C\Input\Input, InputInternal {
 		}
 		$this->label = $label;
 		$this->byline= $byline;
+		$this->is_required = false;
 		$this->value = null;
 		$this->name = null;
 		$this->error = null;
@@ -112,6 +118,23 @@ abstract class Input implements C\Input\Input, InputInternal {
 		$this->checkStringArg("byline", $byline);
 		$clone = clone $this;
 		$clone->byline = $byline;
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function isRequired() {
+		return $this->is_required;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withRequirement($state) {
+		$this->checkBoolArg("state", $state);
+		$clone = clone $this;
+		$clone->is_required = $state;
 		return $clone;
 	}
 

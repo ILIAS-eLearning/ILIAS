@@ -51,9 +51,24 @@ interface Input extends Component {
 	 * Get an input like this, but with an additional/replaced label.
 	 *
 	 * @param	string|null $byline
-	 * @return	Button
+	 * @return	Input
 	 */
 	public function withByline($byline);
+
+	/**
+	 * Is this field required?
+	 *
+	 * @return	bool
+	 */
+	public function isRequired();
+
+	/**
+	 * Get an input like this, but set the requirement (or not).
+	 *
+	 * @param	bool	$state
+	 * @return	Input
+	 */
+	public function withRequirement($state);
 
 	/**
 	 * Get the value that is displayed in the input client side.

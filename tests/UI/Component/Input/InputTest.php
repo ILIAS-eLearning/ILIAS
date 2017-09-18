@@ -85,6 +85,14 @@ class InputTest extends ILIAS_UI_TestBase {
 		$this->assertNotSame($this->input, $input);
 	}
 
+	public function test_withRequirement() {
+		$this->assertFalse($this->input->isRequired());
+		$input = $this->input->withRequirement(true);
+		$this->assertTrue($input->isRequired());
+		$input = $input->withRequirement(false);
+		$this->assertFalse($input->isRequired());
+	}
+
 	public function test_withValue() {
 		$value = "some value";
 		$input = $this->input->withValue($value);
