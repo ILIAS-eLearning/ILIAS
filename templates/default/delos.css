@@ -8241,7 +8241,7 @@ ul.breadcrumb li:hover {
   overflow: scroll;
 }
 .il-popover i.icon-refresh {
-  background: url("../../src/UI/templates/libs/node_modules/webui-popover/img/loading.gif") no-repeat;
+  background: url("../../libs/bower/bower_components/webui-popover/img/loading.gif") no-repeat;
   height: 30px;
 }
 .il-popover .il-popover-title-container {
