@@ -2836,7 +2836,7 @@ common#:#next#:#Next
 common#:#no_access_item_public#:#To access this item you need to be logged in and to have appropriate permissions.
 common#:#no_access_item#:#You have no permission to access this item.
 common#:#no_agreement_description#:#There is currently no terms of service text provided with this installation. Please contact the <a href="%1$s">system administrator</a>.
-common#:#no_checkbox#:#Please select at least one item.
+common#:#no_checkbox#:#You did not select any item.
 common#:#no_condition_selected#:#Please select one precondition.
 common#:#no_date#:#No date
 common#:#no_global_role_left#:#Every user has to be assigned to one role.
