@@ -34,7 +34,7 @@ interface Form extends Component {
 	 * @param	Transformation $trafo
 	 * @return	Input
 	 */
-	public function withTransformation(Transformation $trafo);
+	public function withAdditionalTransformation(Transformation $trafo);
 
 	/**
 	 * Get the data in the form if all inputs are ok, where the
@@ -43,6 +43,10 @@ interface Form extends Component {
 	 * @return	mixed|null
 	 */
 	public function getData();
+
+	/**
+	 * TODO: there should be a further method to attach the different submit buttons
+	 */
 
 	
 }

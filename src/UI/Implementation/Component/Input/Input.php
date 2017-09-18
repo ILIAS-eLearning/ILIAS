@@ -60,9 +60,19 @@ abstract class Input implements C\Input\Input, InputInternal {
 	private $content;
 
 	/**
+	 * TODO: There must be a way to access those in order to one day get the constraints
+	 * for possible client side checks. Also, I guess the required attribute would also
+	 * be handled by passing a "NotNull" constraint, correct? If yes the renderer needs
+	 * to be able to check if such a constraint is passed for possible special labeling
+	 * of required fields.
+	 * Also, note that the operations can not be attached in the constructor due to
+	 * clone in method withConstraints.
+	 *
+	 * ==> currently changed to protected
+	 *
 	 * @var (Transformation|Constraint)[]
 	 */
-	private $operations;
+	protected $operations;
 
 	public function __construct(DataFactory $data_factory, $label, $byline) {
 		$this->data_factory = $data_factory;
@@ -179,7 +189,7 @@ abstract class Input implements C\Input\Input, InputInternal {
 	 * @param	Transformation $trafo
 	 * @return	Input
 	 */
-	public function withTransformation(Transformation $trafo) {
+	public function withAdditionalTransformation(Transformation $trafo) {
 		$clone = clone $this;
 		$clone->operations[] = $trafo;
 		if ($clone->content !== null) {
@@ -194,7 +204,7 @@ abstract class Input implements C\Input\Input, InputInternal {
 	 * @param	Constraint $constraint
 	 * @return 	Input
 	 */
-	public function withConstraint(Constraint $constraint) {
+	public function withAdditionalConstraint(Constraint $constraint) {
 		$clone = clone $this;
 		$clone->operations[] = $constraint;
 		if ($clone->content !== null) {

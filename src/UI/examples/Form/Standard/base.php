@@ -33,16 +33,24 @@ function base() {
 	});
 
 	$number_input = $ui->input()->text("number", "Put in the name of a number from one to ten.")
-		->withConstraint($valid_number)
-		->withTransformation($from_name);
+		->withAdditionalConstraint($valid_number)
+		->withAdditionalTransformation($from_name);
 
-	$form = $ui->form()->standard("", 
+	$DIC->ctrl()->setParameterByClass(
+			'ilsystemstyledocumentationgui',
+			'example_name',
+			'base'
+	);
+	$form_action = $DIC->ctrl()->getFormActionByClass('ilsystemstyledocumentationgui');
+
+	$form = $ui->form()->standard($form_action,
 		[ $number_input->withLabel("Left")
 		, $number_input->withLabel("Right")
 		])
-		->withTransformation($sum);
+		->withAdditionalTransformation($sum);
 
-	if ($request->getMethod() == "POST") {
+	if ($request->getMethod() == "POST"
+			&& $request->getQueryParams()['example_name'] =='base') {
 		$form = $form->withRequest($request);
 		$result = $form->getData();
 	}

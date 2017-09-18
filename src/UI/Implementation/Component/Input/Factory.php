@@ -24,4 +24,11 @@ class Factory implements I\Factory {
 	public function text($label, $byline = null) {
 		return new Text($this->data_factory, $label, $byline);
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function numeric($label, $byline = null) {
+		return new Numeric($this->data_factory, $label, $byline);
+	}
 }

@@ -237,7 +237,7 @@ class FormTest extends ILIAS_UI_TestBase {
 		$this->assertEquals(null, $form->getData());
 	}
 
-	public function test_withTransformation() {
+	public function test_withAdditionalTransformation() {
 		$df = $this->buildDataFactory();
 
 		$request = \Mockery::mock(ServerRequestInterface::class);
@@ -256,7 +256,7 @@ class FormTest extends ILIAS_UI_TestBase {
 		$form = new ConcreteForm([]);
 		$form->setInputs([$input_1, $input_2]);
 
-		$form2 = $form->withTransformation($this->buildTransformation(function ($v) {
+		$form2 = $form->withAdditionalTransformation($this->buildTransformation(function ($v) {
 			return "transformed";
 		}));
 

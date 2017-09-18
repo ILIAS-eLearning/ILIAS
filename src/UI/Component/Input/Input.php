@@ -93,7 +93,7 @@ interface Input extends Component {
 	 * @param	Transformation $trafo
 	 * @return	Input
 	 */
-	public function withTransformation(Transformation $trafo);
+	public function withAdditionalTransformation(Transformation $trafo);
 
 	/**
 	 * Apply a constraint to the content of the input.
@@ -101,5 +101,5 @@ interface Input extends Component {
 	 * @param	Constraint $constraint
 	 * @return 	Input
 	 */
-	public function withConstraint(Constraint $constraint);
+	public function withAdditionalConstraint(Constraint $constraint);
 }
