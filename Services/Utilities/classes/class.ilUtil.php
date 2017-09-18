@@ -4209,7 +4209,7 @@ class ilUtil
 			return false;
 		}
 
-		$upload->moveOneFileTo($UploadResult, $targetDir, $targetFilesystem, $targetFilename);
+		$upload->moveOneFileTo($UploadResult, $targetDir, $targetFilesystem, $targetFilename, true);
 
 		return true;
 	}
