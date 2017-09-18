@@ -1752,20 +1752,18 @@ class ilLMPresentationGUI
 		include_once("./Services/Repository/classes/class.ilRepositoryExplorer.php");
 		foreach($conds as $cond)
 		{
-			$obj_link = ilRepositoryExplorer::buildLinkTarget($cond["trigger_ref_id"],$cond["trigger_type"]);
-			$obj_frame = ilRepositoryExplorer::buildFrameTarget($cond["trigger_type"],$cond["trigger_ref_id"],$cond["trigger_obj_id"]);
+			include_once("./Services/Link/classes/class.ilLink.php");
+			$obj_link = ilLink::_getLink($cond["trigger_ref_id"]);
 			$this->tpl->setCurrentBlock("condition");
-			$this->tpl->setVariable("ROWCOL", $rc = ($rc != "tblrow2") ? "tblrow2" : "tblrow1");
 			$this->tpl->setVariable("VAL_ITEM", ilObject::_lookupTitle($cond["trigger_obj_id"]));
 			$this->tpl->setVariable("LINK_ITEM", $obj_link);
-			$this->tpl->setVariable("FRAME_ITEM", $obj_frame);
 			if ($cond["operator"] == "passed")
 			{
 				$cond_str = $this->lng->txt("passed");
 			}
 			else
 			{
-				$cond_str = $cond["operator"];
+				$cond_str = $this->lng->txt("condition_".$cond["operator"]);
 			}
 			$this->tpl->setVariable("VAL_CONDITION", $cond_str." ".$cond["value"]);
 			$this->tpl->parseCurrentBlock();
@@ -1775,7 +1773,7 @@ class ilLMPresentationGUI
 		$this->tpl->setVariable("TXT_MISSING_PRECONDITIONS", 
 			sprintf($this->lng->txt("cont_missing_preconditions"),
 			ilLMObject::_lookupTitle($topchap)));
-		$this->tpl->setVariable("TXT_ITEM", $this->lng->txt("item"));
+		$this->tpl->setVariable("TXT_ITEM", $this->lng->txt("object"));
 		$this->tpl->setVariable("TXT_CONDITION", $this->lng->txt("condition"));
 		
 		// output skip chapter link
