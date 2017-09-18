@@ -15,7 +15,7 @@ require_once 'Modules/Forum/classes/class.ilForumProperties.php';
 class ilObjForumAdministrationGUI extends ilObjectGUI
 {
 	private $rbac;
-	private $settings;
+	protected $settings;
 	
 	/**
 	 * Contructor
