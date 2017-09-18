@@ -191,11 +191,24 @@ abstract class Input implements C\Input\Input, InputInternal {
 	 */
 	public function withAdditionalTransformation(Transformation $trafo) {
 		$clone = clone $this;
-		$clone->operations[] = $trafo;
-		if ($clone->content !== null) {
-			$clone->content = $clone->content->map($trafo);
-		}
+		$clone->setAdditionalTransformation($trafo);
 		return $clone;	
+	}
+
+	/**
+	 * Apply a transformation to the current or future content.
+	 *
+	 * ATTENTION: This is a real setter, i.e. it modifies $this! Use this only if
+	 * `withAdditionalTransformation` does not work, i.e. in the constructor.
+	 *
+	 * @param	Transformation	$trafo
+	 * @return	void
+	 */
+	protected function setAdditionalTransformation(Transformation $trafo) {
+		$this->operations[] = $trafo;
+		if ($this->content !== null) {
+			$this->content = $this->content->map($trafo);
+		}
 	}
 
 	/**
