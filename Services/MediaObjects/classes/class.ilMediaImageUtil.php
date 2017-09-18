@@ -40,6 +40,8 @@ class ilMediaImageUtil
 					}
 					$c->setOpt(CURLOPT_PROXY, $proxy);
 				}
+				$c->setOpt(CURLOPT_SSL_VERIFYHOST, 0);
+				$c->setOpt(CURLOPT_SSL_VERIFYPEER, 0);
 				$c->setOpt(CURLOPT_MAXREDIRS, 3);
 				$c->setOpt(CURLOPT_HEADER, 0);
 				$c->setOpt(CURLOPT_RETURNTRANSFER, 1);
