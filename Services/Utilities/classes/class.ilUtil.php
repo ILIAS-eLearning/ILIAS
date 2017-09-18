@@ -3617,7 +3617,14 @@ class ilUtil
 	 */
 	public static function redirect($a_script)
 	{
-		$GLOBALS['DIC']->ctrl()->redirectToURL($a_script);
+		global $DIC;
+
+		if (!isset($DIC['ilCtrl']) || !$DIC['ilCtrl'] instanceof ilCtrl) {
+			$ctrl = new ilCtrl();
+		} else {
+			$ctrl = $DIC->ctrl();
+		}
+		$ctrl->redirectToURL($a_script);
 	}
 
 	/**
@@ -4202,7 +4209,7 @@ class ilUtil
 			return false;
 		}
 
-		$upload->moveOneFileTo($UploadResult, $targetDir, $targetFilesystem, $targetFilename);
+		$upload->moveOneFileTo($UploadResult, $targetDir, $targetFilesystem, $targetFilename, true);
 
 		return true;
 	}

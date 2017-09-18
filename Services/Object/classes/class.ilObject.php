@@ -2048,7 +2048,8 @@ class ilObject
 				$file_name = $cont_dir."/icon_custom.svg";
 				if (is_file($file_name))
 				{
-					return $file_name;
+					// prevent caching
+					return $file_name."?tmp=".filemtime($file_name);
 				}
 			}
 		}

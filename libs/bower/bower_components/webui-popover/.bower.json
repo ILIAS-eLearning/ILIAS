@@ -1,0 +1,39 @@
+{
+  "name": "webui-popover",
+  "version": "1.2.18",
+  "authors": [
+    "sandywalker <sanddywalker@gmail.com>"
+  ],
+  "description": "webui popover",
+  "keywords": [
+    "jquery",
+    "plugins"
+  ],
+  "license": "MIT",
+  "private": false,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "main": [
+    "dist/jquery.webui-popover.css",
+    "dist/jquery.webui-popover.js"
+  ],
+  "dependencies": {
+    "jquery": ">=1.7.0"
+  },
+  "homepage": "https://github.com/sandywalker/webui-popover",
+  "_release": "1.2.18",
+  "_resolution": {
+    "type": "version",
+    "tag": "1.2.18",
+    "commit": "b02d6ba8ea9d2ced5ce0333d7ddb1eec6f9eb3ae"
+  },
+  "_source": "https://github.com/sandywalker/webui-popover.git",
+  "_target": "1.2.18",
+  "_originalSource": "webui-popover",
+  "_direct": true
+}

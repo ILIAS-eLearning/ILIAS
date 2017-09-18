@@ -489,8 +489,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	*/
 	function setTitleAndDescription()
 	{
-		$ilSetting = $this->settings;
-
 		if (!ilContainer::_lookupContainerSetting($this->object->getId(), "hide_header_icon_and_title"))
 		{
 			$this->tpl->setTitle($this->object->getTitle());
@@ -498,15 +496,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	
 			// set tile icon
 			$icon = ilObject::_getIcon($this->object->getId(), "big", $this->object->getType());
-			if ($ilSetting->get("custom_icons") &&
-				in_array($this->object->getType(), array("cat","grp","crs", "root")))
-			{
-				require_once("./Services/Container/classes/class.ilContainer.php");
-				if (($path = ilContainer::_lookupIconPath($this->object->getId(), "big")) != "")
-				{
-					$icon = $path;
-				}
-			}
 			$this->tpl->setTitleIcon($icon, $this->lng->txt("obj_".$this->object->getType()));
 						
 			include_once './Services/Object/classes/class.ilObjectListGUIFactory.php';
@@ -2679,6 +2668,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$caption = $this->lng->txt("cont_custom_icon");
 				$icon = new ilImageFileInputGUI($caption, "cont_icon");
 				$icon->setSuffixes(array("svg"));
+				$icon->setUseCache(false);
 				$icon->setImage($custom_icon);
 				if($a_as_section)
 				{
