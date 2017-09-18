@@ -46,14 +46,15 @@ interface FileUpload {
 	/**
 	 * Moves a single UploadResult to the given destination.
 	 *
-	 * @param UploadResult $UploadResult    Which upload result do you want to move?
-	 * @param string       $destination     Where do you want to move the file?
-	 * @param int          $location        Location::[STORAGE|WEB|CUSTOMIZING]
-	 * @param string       $file_name       Do you want to rename the file?
+	 * @param UploadResult $UploadResult Which upload result do you want to move?
+	 * @param string       $destination  Where do you want to move the file?
+	 * @param int          $location     Location::[STORAGE|WEB|CUSTOMIZING]
+	 * @param string       $file_name    Do you want to rename the file?
+	 * @param bool         $override_existing Override existing file with same name
 	 *
 	 * @return void
 	 */
-	public function moveOneFileTo(UploadResult $UploadResult, $destination, $location = Location::STORAGE, $file_name = '');
+	public function moveOneFileTo(UploadResult $UploadResult, $destination, $location = Location::STORAGE, $file_name = '', $override_existing = false);
 
 
 	/**
