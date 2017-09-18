@@ -418,4 +418,25 @@ class InputTest extends ILIAS_UI_TestBase {
 		$this->assertEquals($value, $input2->getValue());
 		$this->assertEquals($error, $input2->getError());
 	}
+
+	public function test_withInput_null_transformation_and_constraint() {
+		$values = new DefPostData([]);
+
+		$input = $this->input
+			->withNameFrom($this->name_source)
+			// This currently is the default, but we set it anyway to make out point.
+			->withRequirement(false)
+			->withAdditionalTransformation($this->transformation_factory->custom(function($v) {
+				$this->assertFalse(true); // not called, because there is no input
+			}))
+			->withAdditionalConstraint($this->validation_factory->custom(function($v) {
+				$this->assertFalse(true); // not called, because there is no input
+			}, ""))
+			->withInput($values);
+		$res = $input->getContent();
+
+		$this->assertInstanceOf(Result::class, $res);
+		$this->assertTrue($res->isOk());
+		$this->assertEquals(null, $res->value());
+	}
 }

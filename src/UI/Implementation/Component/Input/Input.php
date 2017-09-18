@@ -298,7 +298,7 @@ abstract class Input implements C\Input\Input, InputInternal {
 			throw new \LogicException("Can only collect if input has a name.");
 		}
 
-		$value = $input->get($this->getName());
+		$value = $input->getOr($this->getName(), null);
 		$clone = $this->withValue($value);
 		$clone->content = $this->applyOperationsTo($value);
 		if ($clone->content->isError()) {
@@ -314,6 +314,10 @@ abstract class Input implements C\Input\Input, InputInternal {
 	 * @return	Result
 	 */
 	private function applyOperationsTo($res) {
+		if ($res === null && !$this->isRequired()) {
+			return $this->data_factory->ok($res);
+		}
+
 		$res = $this->data_factory->ok($res);
 		foreach ($this->operations as $op) {
 			if ($res->isError()) {
