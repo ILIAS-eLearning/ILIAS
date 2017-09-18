@@ -1,0 +1,400 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<head>
+  <link rel="stylesheet" href="../src/jquery.webui-popover.css" />
+  <script src="jquery.js" ></script>
+  <script src="../src/jquery.webui-popover.js" ></script>
+   <!--<script src="../dist/jquery.webui-popover.min.js" ></script>-->
+   <!--<script src="http://sandywalker.github.io/webui-popover/dist/jquery.webui-popover.min.js" ></script>-->
+  
+  <style type="text/css">
+  body{
+    background-color: #eee;
+    padding:0;
+    margin:0;
+  }
+  #popover_test{
+    width: 500px;
+    height: 400px;
+    background: #00ccff;
+    border: 1px solid gray;
+    margin-left:200px;
+    margin-top:100px;
+  }
+   #popover_test2{
+    width: 120px;
+    height: 120px;
+    background: #00ccff;
+    border: 1px solid gray;
+    margin-left:200px;
+  }
+
+  .test-pop{
+    width: 200px;
+    height: 35px;
+    background: #eee;
+    border: 1px solid gray;
+    margin-left:200px;  
+    margin-top:10px;
+    cursor:pointer;
+  }
+
+
+  #inline_test {
+    width: 200px;
+    height: 20px;
+    background: #00ccff;
+    border: 1px solid gray;
+    margin-left:200px; 
+  }
+
+  .pull-left{
+    float:left;
+  }
+  .pull-right{
+    float:right;
+  }
+
+  .hide{
+    display: none;
+  }
+  </style>
+  
+</head>
+<body>
+
+    <div class="myLink">
+<a href="#" class="trigger">trigger 1</a>
+<a href="#" class="trigger">trigger 2</a>
+<a href="#" class="trigger">trigger 3</a>
+<a href="#" class="trigger">trigger 4</a>
+</div>
+<div id="myPopup">
+<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+</div>
+
+
+    <a href="#" id="popRtl" data-title="Rtl Title" >Pop with layout right to left </a>
+    <div class="webui-popover-content">
+       <h1>Hi there</h1>
+       <p>This is next element!<a href="#" id="linkInPop" class="link-in-pop">clickMe</a> </p>
+    </div>
+  
+
+    <div style="text-align:center">
+      <a href="#" class="border-pos pull-left" data-placement="right-bottom">a <br /> a <br /> </a>
+      <a href="#" class="border-pos" data-placement="">aa</a>
+      <a href="#" class="border-pos pull-right" data-placement="left-bottom" >a</a>
+    </div>
+    <button id="btn"> btn click</button>  <button id="btnHide"> btn hide</button>
+
+    <div id="popover_test"></div>
+    <div id="popover_test2"></div>
+    
+
+    <div style="text-align:center">
+      <a href="#" class="border-pos pull-left" >a</a>
+      <a href="#" class="border-pos" data-placement="auto">a</a>
+      <a href="#" class="border-pos pull-right" >a</a>
+    </div>
+    <!-- <img class="img-hover" data-hover="http://stylonica.com/wp-content/uploads/2014/03/cherry-blossom-spring1.jpg" src="https://avatars1.githubusercontent.com/u/8475219?v=3&s=96"> -->
+
+    <div id="inline_test"></div>
+
+    <a href="#" id="popInline" data-content="<h1>Hi there</h1><p>This is next element </p>">Pop inline</a>
+    <a href="#" id="popNext" >Pop next element</a>
+    <div class="webui-popover-content mycontent">
+       <h1>Hi there</h1>
+       <p>This is next element <a href="#" id="linkInPop" class="link-in-pop">clickMe</a> </p>
+    </div>
+    <a id="hidePop" href="#">hide</a>
+    <a href="#" class="popByUrl" data-url="#url1" >Pop by url1 </a>
+    <a href="#" class="popByUrl" data-url="#url2">Pop by url1 </a>
+
+    <div id="url1" class="hide">
+      This is content of url1.
+    </div>
+    <div id="url2" class="hide">
+      This is content of url2.
+    </div>
+
+    <form action="">
+      <input type="text" id="input" class="editor" data-content="input message1" data-placement="right"  data-trigger="manual"/>
+      <p>&nbsp;</p>
+      <input type="text" id="input2" class="editor" data-content="input message2" data-placement="right" data-trigger="manual"/>
+    </form>
+
+    <div id="popover_test3" class="test-pop"></div>
+
+    <a href="#!" id="aLink" style="float:right;" data-content="my content" data-title="mytitle" data-placement="auto-bottom" data-trigger="click" class="captcha-reload help-popover">d</a>  |
+ 
+    <a href="#!" id="aLink" data-content="my content" data-title="mytitle" data-placement="auto-bottom" data-trigger="click" class="captcha-reload help-popover2">dismissible true</a>  
+
+  
+    <a href="#" id="popoverWithInput" data-offset-top="-50" data-offset-left="50">show input popover</a>
+
+    <p><a href="#" id="popById" >popById</a></p>
+    sdfjdslfjsdlfjsldfjdslfjdslfjdsjflsdjfldsjsdklfjsdljfldsjfldsjfldsjfldsjfjdsljf
+    <a href="#" id="arrowPos" data-placement="top">arrowPosFix</a>
+    <div class="webui-popover-content">
+       <h1>Arrow Position</h1>
+       <p>This is  element <a href="#" id="arrowPosLink" >clickMe</a> <span id="arrSpan" class="hide">sfjsdfjlsdjfdlsfjdlsf</span> </p>
+       <div class="hide" id="arrContent">
+         <p>Some content ...</p>
+         <p>Some content ...</p>
+    </div>
+       
+    </div>
+    <p>
+      <a href="#" class="inline-content" data-content="<span>aaaa </span><span>aaaa </span><span>aaaa </span><span>aaaa </span><span>aaaa </span><span>aaaa </span><span>aaaa </span>">inline-content</a>
+    </p>
+    <p>&nbsp;</p>
+
+    
+ 
+
+ <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+
+ <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+
+
+
+    <div style="text-align:center">
+      <a href="#" class="border-pos pull-left" data-placement="right-top">a</a>
+      <a href="#" class="border-pos" data-placement="auto">a</a>
+      <a href="#" class="border-pos pull-right" data-placement="left-top" >a<br>a<br>a</a>
+    </div>
+
+    
+
+    <div class="hide" id="idContent">
+      <h1>Url Selector</h1>
+      <p>set url with jquery selector! <a href="#" class="link-in-pop">clickMe</a></p>
+    </div>
+
+    <div id="dynamic">
+       <p>ddddd</p>
+    </div>
+    <button id="changeDynamic">change dynamic content</button>
+
+    <button id="hideAllGlobal">hide All</button>
+    <button id="showGlobal">show global</button>
+    <button id="hideGlobal">hide global</button>
+
+    <script type="text/javascript">
+    $(document).ready(function(){
+
+        $('.trigger').webuiPopover({url:'#myPopup'});
+
+
+         $('#popover_test').webuiPopover({
+                constrains: 'horizontal', 
+                trigger:'click',
+                multi: true,
+                closeable:true,
+                placement:'right-bottom',
+                width:100,
+                animation:'pop',
+                content: 'content<br>dddd<br>dddd<br>dsfsdfsdf'
+        });
+
+         //console.log($('#popover_test').data('plugin_webuiPopover').getTriggerElement();
+        
+
+        $('#popover_test2').webuiPopover({
+                constrains: 'horizontal', 
+                trigger:'hover',
+                multi: true,
+                placement:'right-bottom',
+                content: 'content<br>dddd<br>dddd<br>dsfsdfsdf<br>dddd<br>dddd<br>dsfsdfsdf'
+        });
+
+
+        var
+            asyncSettings = { width:'auto',
+                      height:'200',
+                      closeable:true,
+                      padding:false,
+                      cache:false,
+                      url:'https://api.github.com/',
+                      type:'async',
+                      content:function(data){
+                        var html = '<ul class="list-group">';
+                        for(var key in data){
+                          html+='<li class="list-group-item"><a href="'+ data[key] +'" target="_blank">'
+                          + '<i class="glyphicon glyphicon-leaf"></i> '+ key+'</a>'+'</li>';  
+                        }
+                        html+='</ul>';
+                        return html;
+                      }};
+
+        $('#popover_test3').webuiPopover('destroy').webuiPopover($.extend({},asyncSettings));
+
+        $('#popover_test2').on('click',function(e){
+            e.preventDefault();
+            alert(1);
+        });
+
+        $(document.body).on('click','.captcha-reload',function(e){
+            e.preventDefault();
+            alert(2);
+        });
+
+        $('.help-popover').webuiPopover({
+              placement: 'auto-right',
+              multi: false,
+              cache:false,
+              dismissible: false
+        });
+
+        $('.help-popover2').webuiPopover({
+              placement: 'auto-right',
+              multi: false,
+              cache:false,
+              dismissible: true
+        });
+
+      
+
+         $('#inline_test').webuiPopover({
+                constrains: 'horizontal', 
+                trigger:'click',
+                multi: true,
+                placement:'auto',
+                type:'async',
+                url:'/demo/text.txt',
+                cache:false,
+                content: function(data){
+                  return data;
+                }
+        });
+
+        $('.img-hover').webuiPopover({
+                          type: 'html',
+                          content: function(data) {
+                            var img = $("<img />").attr('src', $(this).attr('data-hover'))
+                                  .load(function() {
+                                      if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+                                          alert('broken image!');
+                                      } else {
+                                          console.log('abc');
+                                          return img;
+                                      }
+                                  });
+                          },
+                          placement: 'auto',
+                          trigger: 'hover',
+                          constrains: 'vertical',
+                          delay: 1,
+                          multi: false,
+                          arrow: true,
+                          closeable: false,
+                          padding: true
+        });
+
+
+        $('#popoverWithInput').webuiPopover({
+            content:'<form action="" id="myForm"><input type="text" id="in"/></form>'
+        }).on('shown.webui.popover',function(){
+           $('#in').focus();
+        });
+
+        $('.editor').webuiPopover({multi:false});
+        $('.editor').on('click',function(){
+            $(this).webuiPopover('show');
+        });
+
+        $('.border-pos').webuiPopover({
+            width:500,
+           title:'',
+           closeable:true,
+           content:'dfdffff'
+        });
+
+        $('.link-in-pop').on('click',function(e){
+            e.preventDefault();
+            $('#popNext').webuiPopover('hide');
+            //alert(1);
+        });
+
+        $('#popNext').webuiPopover({trigger:'click',animation:'pop','closeable':true}).webuiPopover('show');
+
+        $('#hidePop').on('click',function(e){
+            e.preventDefault();
+            $('#popNext').webuiPopover('hide');
+        });
+
+        $('#popInline').webuiPopover({trigger:'hover',animation:'pop'});
+
+        $('#popById').webuiPopover({url:'#idContent',cache:false});
+
+        $('#dynamic').on('change',function(e){
+          alert(1);
+        });
+
+        $('#btn').on('click',function(e){
+          $('#btn').webuiPopover('hideAll');
+          //alert(1);
+        });
+
+        $('#btnHide').on('click',function(e){
+            $('#popNext').webuiPopover('hide');
+        });
+
+
+
+
+        $('#changeDynamic').on('click',function(e){
+            $('#dynamic').html('aaaa');
+        });
+
+        $('.popByUrl').webuiPopover();
+
+        $('#arrowPosLink').on('click',function(e){
+            e.preventDefault();
+           // $('#arrContent').toggle();
+            $('#arrSpan').toggle();
+        });
+
+        $('#arrowPos').webuiPopover();
+
+        $('.manyPops').webuiPopover({animation:'pop'});
+
+        $('.inline-content').webuiPopover({
+          placement:'auto-top',
+          width:150,
+          height:50
+        });
+
+        $('body').on('submit','#myForm',function(e){
+            //console.log(e);
+            e.preventDefault();
+        });
+
+        $('#popRtl').webuiPopover({direction:'rtl'});
+
+        $('#hideAllGlobal').on('click',function(e){
+            WebuiPopovers.hideAll();
+        });
+
+        $('#showGlobal').on('click',function(e){
+            e.stopPropagation();
+            WebuiPopovers.show('#popNext');
+        });
+
+        $('#hideGlobal').on('click',function(e){
+            e.stopPropagation();
+            WebuiPopovers.hide('#popNext');
+        });
+      
+    }); 
+  </script>
+
+    
+</body>
+</html>
