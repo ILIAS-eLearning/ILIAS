@@ -64,8 +64,8 @@ class ilContentStyleSettingsGUI
 	{
 		global $DIC;
 
-		$this->settings = $DIC->settings();
 		$this->tree = $DIC->repositoryTree();
+		$this->settings = $DIC->settings();
 
 		$this->parent_gui = $a_parent_gui;
 		$this->dic = $DIC;
@@ -79,7 +79,7 @@ class ilContentStyleSettingsGUI
 
 		
 		include_once("./Services/Style/Content/classes/class.ilContentStyleSettings.php");
-		$this->settings = new ilContentStyleSettings();
+		$this->cs_settings = new ilContentStyleSettings();
 	}
 
 	/**
@@ -157,7 +157,7 @@ class ilContentStyleSettingsGUI
 		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 
 		$from_styles = $to_styles = $data = array();
-		$styles = $this->settings->getStyles();
+		$styles = $this->cs_settings->getStyles();
 		foreach($styles as $style)
 		{
 			$style["active"] = ilObjStyleSheet::_lookupActive($style["id"]);
@@ -215,7 +215,7 @@ class ilContentStyleSettingsGUI
 		}
 
 		include_once("./Services/Style/Content/classes/class.ilContentStylesTableGUI.php");
-		$table = new ilContentStylesTableGUI($this, "edit", $data, $this->settings);
+		$table = new ilContentStylesTableGUI($this, "edit", $data, $this->cs_settings);
 		$this->tpl->setContent($table->getHTML());
 
 	}
@@ -391,7 +391,7 @@ class ilContentStyleSettingsGUI
 	function saveActiveStyles()
 	{
 		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
-		$styles = $this->settings->getStyles();
+		$styles = $this->cs_settings->getStyles();
 		foreach($styles as $style)
 		{
 			if ($_POST["std_".$style["id"]] == 1)

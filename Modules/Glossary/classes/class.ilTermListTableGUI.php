@@ -254,10 +254,19 @@ class ilTermListTableGUI extends ilTable2GUI
 		{
 			$def = $defs[$j];
 
+
 			// text
 			$this->tpl->setCurrentBlock("definition");
 			$short_str = $def["short_text"];
-			
+
+			if ($def["short_text_dirty"])
+			{
+				// #18022
+				$def_obj = new ilGlossaryDefinition($def["id"]);
+				$def_obj->updateShortText();
+				$short_str = $def_obj->getShortText();
+			}
+
 			// replace tex
 			// if a tex end tag is missing a tex end tag
 			$ltexs = strrpos($short_str, "[tex]");

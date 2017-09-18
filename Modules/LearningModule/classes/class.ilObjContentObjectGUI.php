@@ -800,6 +800,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$this->form = new ilPropertyFormGUI();
 		
 		$fixed_style = $ilSetting->get("fixed_content_style_id");
+		$def_style = $ilSetting->get("default_content_style_id");
 		$style_id = $this->object->getStyleSheetId();
 
 		if ($fixed_style > 0)
@@ -814,7 +815,14 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$st_styles = ilObjStyleSheet::_getStandardStyles(true, false,
 				$_GET["ref_id"]);
 
-			$st_styles[0] = $this->lng->txt("default");
+			if ($def_style > 0)
+			{
+				$st_styles[0] = ilObject::_lookupTitle($def_style)." (".$this->lng->txt("default").")";
+			}
+			else
+			{
+				$st_styles[0] = $this->lng->txt("default");
+			}
 			ksort($st_styles);
 
 			if ($style_id > 0)
