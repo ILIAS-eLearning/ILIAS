@@ -60,19 +60,9 @@ abstract class Input implements C\Input\Input, InputInternal {
 	private $content;
 
 	/**
-	 * TODO: There must be a way to access those in order to one day get the constraints
-	 * for possible client side checks. Also, I guess the required attribute would also
-	 * be handled by passing a "NotNull" constraint, correct? If yes the renderer needs
-	 * to be able to check if such a constraint is passed for possible special labeling
-	 * of required fields.
-	 * Also, note that the operations can not be attached in the constructor due to
-	 * clone in method withConstraints.
-	 *
-	 * ==> currently changed to protected
-	 *
 	 * @var (Transformation|Constraint)[]
 	 */
-	protected $operations;
+	private $operations;
 
 	public function __construct(DataFactory $data_factory, $label, $byline) {
 		$this->data_factory = $data_factory;
@@ -174,10 +164,20 @@ abstract class Input implements C\Input\Input, InputInternal {
 	 * @return	Input
 	 */
 	public function withError($error) {
-		$this->checkStringArg("error", $error);
 		$clone = clone $this;
-		$clone->error = $error;
+		$clone->setError($error);
 		return $clone;
+	}
+
+	/**
+	 * Set an error on this input.
+	 *
+	 * @param	string
+	 * @return	void
+	 */
+	private function setError($error) {
+		$this->checkStringArg("error", $error);
+		$this->error = $error;
 	}
 
 	// These are the ways in which a consumer can define how client side
@@ -206,14 +206,27 @@ abstract class Input implements C\Input\Input, InputInternal {
 	 */
 	public function withAdditionalConstraint(Constraint $constraint) {
 		$clone = clone $this;
-		$clone->operations[] = $constraint;
-		if ($clone->content !== null) {
-			$clone->content = $constraint->restrict($clone->content);
-			if ($clone->content->isError()) {
-				return $clone->withError("".$clone->content->error());
+		$clone->setAdditionalConstraint($constraint);
+		return $clone;
+	}
+
+	/**
+	 * Apply a constraint to the current or the future content.
+	 *
+	 * ATTENTION: This is a real setter, i.e. it modifies $this! Use this only if
+	 * `withAdditionalConstraint` does not work, i.e. in the constructor.
+	 *
+	 * @param	Constraint	$constraint
+	 * @return	void
+	 */
+	protected function setAdditionalConstraint(Constraint $constraint) {
+		$this->operations[] = $constraint;
+		if ($this->content !== null) {
+			$this->content = $constraint->restrict($this->content);
+			if ($this->content->isError()) {
+				$this->setError("".$this->content->error());
 			}
 		}
-		return $clone;
 	}
 
 	// Implementation of InputInternal
