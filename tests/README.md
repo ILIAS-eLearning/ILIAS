@@ -174,8 +174,41 @@ zend_extension="/usr/local/php/modules/xdebug.so"
 Please ignore all prompts to add "extension=xdebug.so" to php.ini because this will cause problems.
 
 //Show how to setup the tools described in the previous chapter
+
 ### Run tests with PHPStorm
+
 ### Run tests with CLI
+- Change into the ILIAS web root
+
+#### Execute ILIAS installation bound tests
+```bash
+./libs/composer/vendor/bin/phpunit ./Services/PHPUnit/test/ilGlobalSuite.php \
+	--colors=always \
+	--no-globals-backup \
+	--report-useless-tests \
+	--disallow-todo-tests \
+	--group needsInstalledILIAS
+``` 
+
+####Execute all tests
+```bash
+./libs/composer/vendor/bin/phpunit ./Services/PHPUnit/test/ilGlobalSuite.php \
+	--colors=always \
+	--report-useless-tests \
+    --disallow-todo-tests \
+	--no-globals-backup
+``` 
+
+####Execute only installation unbound tests
+```bash
+./libs/composer/vendor/bin/phpunit ./Services/PHPUnit/test/ilGlobalSuite.php \
+	--colors=always \
+	--no-globals-backup \
+	--report-useless-tests \
+    --disallow-todo-tests \
+	--exclude-group needsInstalledILIAS
+``` 
+
 ## Guidelines
 // Right-BICEP and CORRECT
 // what should be tested and how
