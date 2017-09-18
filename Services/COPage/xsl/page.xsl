@@ -1709,8 +1709,11 @@
 		<xsl:with-param name="langvar">ed_row_down</xsl:with-param></xsl:call-template>
 	</xsl:if>
 
-	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">deleteRow</xsl:with-param>
-	<xsl:with-param name="langvar">ed_delete_row</xsl:with-param></xsl:call-template>
+	<xsl:if test= "count(../../TableRow) != 1">
+		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">deleteRow</xsl:with-param>
+		<xsl:with-param name="langvar">ed_delete_row</xsl:with-param></xsl:call-template>
+	</xsl:if>
+
 </xsl:template>
 
 <!-- Table Col Menu -->
@@ -1732,9 +1735,11 @@
 		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">moveColRight</xsl:with-param>
 		<xsl:with-param name="langvar">ed_col_right</xsl:with-param></xsl:call-template>
 	</xsl:if>
-	
-	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">deleteCol</xsl:with-param>
-	<xsl:with-param name="langvar">ed_delete_col</xsl:with-param></xsl:call-template>
+
+	<xsl:if test= "count(../TableData) != 1">
+		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">deleteCol</xsl:with-param>
+			<xsl:with-param name="langvar">ed_delete_col</xsl:with-param></xsl:call-template>
+	</xsl:if>
 </xsl:template>
 
 <!-- Table Menu -->
