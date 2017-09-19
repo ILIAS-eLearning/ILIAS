@@ -1920,7 +1920,7 @@ function extractHierId(id)
  */
 function doMouseClick(e, id, type, char)
 {
-	console.log(ilCOPage);
+	//console.log(ilCOPage);
 	if (ilCOPage.getInsertStatus())
 	{
 		return;
@@ -2284,6 +2284,7 @@ function editParagraph(div_id, mode, switched)
 			},
 
 			setup : function(ed) {
+
 				ed.on('KeyUp', function(ev)
 				{
 					var ed = tinyMCE.get('tinytarget');
@@ -2346,6 +2347,7 @@ function editParagraph(div_id, mode, switched)
 //console.log("onNodeChange");
 //console.log("----");
 //console.trace();
+
 					// clean content after paste (has this really an effect?)
 					// (yes, it does, at least splitSpans is important here #13019)
 					if (ilCOPage.pasting) {
@@ -2392,6 +2394,14 @@ function editParagraph(div_id, mode, switched)
 				ed.on('init', function(evt)
 				{
 					var ed = tinyMCE.get('tinytarget');
+
+					// see https://www.tinymce.com/docs/api/tinymce/tinymce.shortcuts/
+					// removing does not seem to work, also the functions do not
+					// seem to be executed, but this way the shortcut is at least disabled
+					// on chrome/mac, see also 0008662
+					ed.shortcuts.add('meta+b', function() {tinymce.activeEditor.formatter.toggle("Strong");});
+					ed.shortcuts.add('meta+u', function() {console.log("test 1");});
+					ed.shortcuts.add('meta+i', function() {console.log("test 2");});
 
 					ilCOPage.setEditFrameSize(width, height);
 					if (mode == 'edit')
