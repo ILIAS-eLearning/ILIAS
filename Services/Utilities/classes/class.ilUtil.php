@@ -20,6 +20,8 @@ use ILIAS\Filesystem\MetadataType;
 */
 class ilUtil
 {
+	static protected $db_supports_distinct_umlauts;
+
 	/**
 	* Builds an html image tag
 	* TODO: function still in use, but in future use getImagePath and move HTML-Code to your template file
@@ -5387,6 +5389,29 @@ class ilUtil
 	{
 		return  $a_value / (pow(self::_getSizeMagnitude(), 2));
 	}
+
+	/**
+	 * Only temp fix for #8603, should go to db classes
+	 *
+	 * @param
+	 * @deprecated
+	 * @return bool
+	 */
+	static function dbSupportsDisctinctUmlauts()
+	{
+		global $DIC;
+
+		if (!isset(self::$db_supports_distinct_umlauts))
+		{
+			$ilDB = $DIC->database();
+			$set = $ilDB->query("SELECT (" . $ilDB->quote("A", "text") . " = " . $ilDB->quote("Ä", "text") . ") t FROM DUAL ");
+			$rec = $ilDB->fetchAssoc($set);
+			self::$db_supports_distinct_umlauts = !(bool)$rec["t"];
+		}
+
+		return self::$db_supports_distinct_umlauts;
+	}
+
 
 
 } // END class.ilUtil
