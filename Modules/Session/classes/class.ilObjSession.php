@@ -446,20 +446,18 @@ class ilObjSession extends ilObject
 	 */
 	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
-		global $ilDB,$ilUser,$ilAppEventHandler;
-		
 	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
-	 	
+
 	 	$this->read();
 	 	
-		// Copy settings
 		$this->cloneSettings($new_obj);
 	 	$this->cloneMetaData($new_obj);
+	 	
 		
 		// Clone appointment
 		$new_app = $this->getFirstAppointment()->cloneObject($new_obj->getId());
 		$new_obj->setAppointments(array($new_app));
-		$new_obj->update();
+		$new_obj->update(true);
 
 		// Clone session files
 		foreach($this->files as $file)
@@ -503,7 +501,7 @@ class ilObjSession extends ilObject
 		$new_obj->setRegistrationMinUsers($this->getRegistrationMinUsers());
 		$new_obj->setRegistrationMaxUsers($this->getRegistrationMaxUsers());
 		
-		$new_obj->update();
+		$new_obj->update(true);
 		
 		return true;
 	}
