@@ -206,16 +206,27 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 		}
 
 		// list actions
+		if($cal_agenda_per = (int) $_GET['cal_agenda_per']) {
+			$images = array_fill(1, 4, "<span class=\"ilAdvNoImg\"></span>");
+			$images[$cal_agenda_per] = "<img src='./templates/default/images/icon_checked.svg' alt='Month'>";
+		}
+		else{
+			$images = array_fill(2, 4, "<span class=\"ilAdvNoImg\"></span>");
+			$images[1] = "<img src='./templates/default/images/icon_checked.svg' alt='Month'>";
+		}
+
+
 		$items = array();
 		$this->ctrl->setParameter($this, "cal_agenda_per", self::PERIOD_DAY);
-		$items[] = $this->ui_factory->button()->shy("1 ".$this->lng->txt("day"), $this->ctrl->getLinkTarget($this, "getHTML"));
+		$items[] = $this->ui_factory->button()->shy($images[1]."1 ".$this->lng->txt("day"), $this->ctrl->getLinkTarget($this, "getHTML"));
 		$this->ctrl->setParameter($this, "cal_agenda_per", self::PERIOD_WEEK);
-		$items[] = $this->ui_factory->button()->shy("1 ".$this->lng->txt("week"), $this->ctrl->getLinkTarget($this, "getHTML"));
+		$items[] = $this->ui_factory->button()->shy($images[2]."1 ".$this->lng->txt("week"), $this->ctrl->getLinkTarget($this, "getHTML"));
 		$this->ctrl->setParameter($this, "cal_agenda_per", self::PERIOD_MONTH);
-		$items[] = $this->ui_factory->button()->shy("1 ".$this->lng->txt("month"), $this->ctrl->getLinkTarget($this, "getHTML"));
+		$items[] = $this->ui_factory->button()->shy($images[3]."1 ".$this->lng->txt("month"), $this->ctrl->getLinkTarget($this, "getHTML"));
 		$this->ctrl->setParameter($this, "cal_agenda_per", self::PERIOD_HALF_YEAR);
-		$items[] = $this->ui_factory->button()->shy("6 ".$this->lng->txt("months"), $this->ctrl->getLinkTarget($this, "getHTML"));
+		$items[] = $this->ui_factory->button()->shy($images[4]."6 ".$this->lng->txt("months"), $this->ctrl->getLinkTarget($this, "getHTML"));
 		$this->ctrl->setParameter($this, "cal_agenda_per", $this->period);
+
 
 		$actions = $this->ui_factory->dropdown()->standard($items)->withLabel($this->lng->txt("days"));
 
