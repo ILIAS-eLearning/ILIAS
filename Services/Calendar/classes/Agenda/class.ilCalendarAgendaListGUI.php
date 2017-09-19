@@ -206,13 +206,12 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 		}
 
 		// list actions
+		$images = array_fill(1, 4, "<span class=\"ilAdvNoImg\"></span>");
 		if($cal_agenda_per = (int) $_GET['cal_agenda_per']) {
-			$images = array_fill(1, 4, "<span class=\"ilAdvNoImg\"></span>");
 			$images[$cal_agenda_per] = "<img src='./templates/default/images/icon_checked.svg' alt='Month'>";
 		}
 		else{
-			$images = array_fill(2, 4, "<span class=\"ilAdvNoImg\"></span>");
-			$images[1] = "<img src='./templates/default/images/icon_checked.svg' alt='Month'>";
+			$images[$this->period] = "<img src='./templates/default/images/icon_checked.svg' alt='Month'>";
 		}
 
 
