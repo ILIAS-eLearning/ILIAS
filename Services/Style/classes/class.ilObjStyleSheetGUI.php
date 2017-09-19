@@ -212,9 +212,11 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 
 		if ($_SESSION["sty_copy"] != "")
 		{
+
 			$style_cp = explode(":::", $_SESSION["sty_copy"]);
-			if ($style_cp[1] == $_GET["style_type"])
+			if ($style_cp[1] == $style_type)
 			{
+
 				if ($expandable)
 				{
 					$ilToolbar->addSeparator();
