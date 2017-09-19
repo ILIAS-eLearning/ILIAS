@@ -300,7 +300,89 @@ help of mocks.
 If there is the need to clean up resources, a fourth step should be added.
 - **After** Ensures the cleanup of the used resources.
 
-All parts should be visually separated by a blank line to highlight the different parts. 
+All parts should be visually separated by a blank line to highlight the different parts.
+
+Example ILIAS Filesystem service (LegacyPathHelperTest):
+```php
+<?php
+	/**
+	 * @Test
+	 * @small
+	 */
+	public function testCreateRelativePathWithWebTargetWhichShouldSucceed() {
+		$expectedPath = 'testtarget/subdir';
+		$target = $this->webPath . '/' . $expectedPath;
+
+		$result = LegacyPathHelper::createRelativePath($target);
+		
+		$this->assertEquals($expectedPath, $result);
+	}
+```
+
+### Good tests are FIRST
+Many problems while unit testing can be avoided by following the FIRST principles.
+- **F**ast
+- **I**solated
+- **R**epeatable
+- **S**elf-validating
+- **T**imely
+
+#### Fast
+Keep the unit tests as fast as possible. They will be run multiple times a day to verify the
+behaviour of all the classes. 
+
+The small grade between fast and slow test can be sometimes a bit blurred, however if the tested part 
+of the code opens database connection or operates with files on a real filesystem the test are always slow.
+
+A lot of slow unit tests are usually an indicator of not so well designed component. Because all the code 
+is tightly coupled to the slow parts or operation of a system.   
+
+#### Isolated
+Unit-Test focus on small junks of code. So called single *unit*. The more code a test involves the
+more likely it is that the test fails out of unreasonably circumstances.
+
+For example the code which is under test might interact with other code which connects and interacts with
+a database. The database it self needs an entire host. So, in fact the test depends on that database and the
+structure as well as the data. If the datasource is shared between developers the result of the tests are 
+no longer reliable because of external changes which are out of control for each individual developer.
+
+Good unit tests also don't depend on other unit tests. For example, all unit tests depend on each other to 
+safe some time creating expensive objects. After some time something goes wrong, there will be a 
+massive amount of time spend to found the actual cause because everything is failing 
+due to the high coupling between each test.
+
+Therefore, unit test must be executable any time in any possible order.
+
+The single Responsibility Principle (SRP) of the SOLID class design principle describes that class should be 
+small and only serve one purpose. This principe is also really good for unit tests because if a test can for more than one
+reason. It's the best to split the test in multiple cases. If a focused test breaks it is normally obvious why.
+
+#### Repeatable
+A repeatable test is one which creates the same results all the time. In order to accomplish that, the test must be *isolated*.
+Each system will interact with elements which are not under the control of the developers. For example, if a system has to deal with
+dates or time. That means this test have to deal with additional problem which makes writing them more difficult.
+
+In such situations mock objects are used to isolate the class from the outer world. If the dependencies are not mockable there is
+usually something wrong with the design of the component. 
+
+#### Self-Validating
+Test always assert that something went as expected. Unit test are used to save time and not the other way around.
+If a test result sometimes must be verified manual it is not useful at all.
+
+On a larger scale there are continues integration server like team city, bamboo or jenkins which are running the unit test if changes on the monitored
+branches are detected. For example ILIAS is automatically tested by a team city server. 
+The server is located at [ci.ilias.de](http://ci.ilias.de/).
+
+#### Timely
+Unit test can be written at any time for each part of the system. However unit tests are better written in a timely fashion.
+It will immediately pay off if the unit test are written along with the production code because odd behaviours can be spotted as
+early as possible which minimized the possibility of expensive bug hunts in the future.
+
+There are developers which even develop the unit test before they write the actual code this technique is called test driven development or short
+(TDD).
+
+### Right-BICEP
+#### Write CORRECT tests
  
 ## Test Examples
 //show different test scenarios and how they are looking in ILIAS
