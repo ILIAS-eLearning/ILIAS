@@ -1,33 +1,28 @@
 <?php
 
 use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionOption;
-
-require_once("./Services/BackgroundTasks/classes/class.ilBTPopOverGUI.php");
+use ILIAS\Modules\OrgUnit\ARHelper\DIC;
 
 /**
  * Class ilBTControllerGUI
  *
  * @author Oskar Truffer <ot@studer-raimann.ch>
- *
+ * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilBTControllerGUI {
 
+	use DIC;
+	const FROM_URL = 'from_url';
+	const OBSERVER_ID = 'observer_id';
+	const SELECTED_OPTION = 'selected_option';
+	const REPLACE_SIGNAL = 'replaceSignal';
 	const CMD_QUIT = 'quitBucket';
 	const CMD_GET_POPOVER_CONTENT = 'getPopoverContent';
 	const CMD_USER_INTERACTION = 'userInteraction';
-	/** @var  ilCtrl */
-	protected $ctrl;
-
-
-	public function __construct() {
-		global $ilCtrl;
-
-		$this->ctrl = $ilCtrl;
-	}
 
 
 	public function executeCommand() {
-		switch ($this->ctrl->getCmdClass()) {
+		switch ($this->ctrl()->getCmdClass()) {
 			default:
 				$this->performCommand();
 		}
@@ -35,7 +30,7 @@ class ilBTControllerGUI {
 
 
 	protected function performCommand() {
-		$cmd = $this->ctrl->getCmd();
+		$cmd = $this->ctrl()->getCmd();
 		switch ($cmd) {
 			case self::CMD_USER_INTERACTION:
 			case self::CMD_GET_POPOVER_CONTENT:
@@ -46,48 +41,43 @@ class ilBTControllerGUI {
 
 
 	protected function userInteraction() {
-		global $DIC;
+		$observer_id = (int)$this->http()->request()->getQueryParams()[self::OBSERVER_ID];
+		$selected_option = $this->http()->request()->getQueryParams()[self::SELECTED_OPTION];
+		$from_url = urldecode($this->http()->request()->getQueryParams()[self::FROM_URL]);
 
-		$observer_id = (int)$_GET['observer_id'];
-		$selected_option = $_GET['selected_option'];
-		$from_url = urldecode($_GET['from_url']);
-
-		$observer = $DIC->backgroundTasks()->persistence()->loadBucket($observer_id);
+		$observer = $this->dic()->backgroundTasks()->persistence()->loadBucket($observer_id);
 		$option = new UserInteractionOption("", $selected_option);
-		$DIC->backgroundTasks()->taskManager()->continueTask($observer, $option);
+		$this->dic()->backgroundTasks()->taskManager()->continueTask($observer, $option);
 
-		ilUtil::redirect($from_url);
+		$this->ctrl()->redirectToURL($from_url);
 	}
 
 
 	protected function quitBucket() {
-		global $DIC;
+		$observer_id = (int)$this->http()->request()->getQueryParams()[self::OBSERVER_ID];
+		$from_url = urldecode($this->http()->request()->getQueryParams()[self::FROM_URL]);
 
-		$observer_id = (int)$_GET['observer_id'];
-		$from_url = urldecode($_GET['from_url']);
+		$bucket = $this->dic()->backgroundTasks()->persistence()->loadBucket($observer_id);
 
-		$bucket = $DIC->backgroundTasks()->persistence()->loadBucket($observer_id);
+		$this->dic()->backgroundTasks()->taskManager()->quitBucket($bucket);
 
-		$DIC->backgroundTasks()->taskManager()->quitBucket($bucket);
-
-		ilUtil::redirect($from_url);
+		$this->ctrl()->redirectToURL($from_url);
 	}
 
 
 	protected function getPopoverContent() {
-		global $DIC;
-
 		/** @var ilBTPopOverGUI $gui */
-		$gui = $DIC->backgroundTasks()->injector()->createInstance(ilBTPopOverGUI::class);
-		$signalId = $_GET['replaceSignal'];
-		//		$replaceSignal = new \ILIAS\UI\Implementation\Component\Popover\ReplaceContentSignal($signalId);
-		$DIC->ctrl()->setParameterByClass(ilBTControllerGUI::class, 'replaceSignal', $signalId);
-		$redirect_url = $_GET['from_url'];
-		$replace_url = $DIC->ctrl()
-		                   ->getLinkTargetByClass([ ilBTControllerGUI::class ], self::CMD_GET_POPOVER_CONTENT, "", true);
+		$gui = $this->dic()->backgroundTasks()->injector()->createInstance(ilBTPopOverGUI::class);
+		$signal_id = $this->http()->request()->getQueryParams()[self::REPLACE_SIGNAL];
 
-		echo $DIC->ui()->renderer()->renderAsync($gui->getPopOverContent($DIC->user()
-		                                                                     ->getId(), $redirect_url, $replace_url));
+		$this->ctrl()
+		     ->setParameterByClass(ilBTControllerGUI::class, self::REPLACE_SIGNAL, $signal_id);
+		$redirect_url = $this->http()->request()->getQueryParams()[self::FROM_URL];
+		$replace_url = $this->ctrl()
+		                    ->getLinkTargetByClass([ ilBTControllerGUI::class ], self::CMD_GET_POPOVER_CONTENT, "", true);
+
+		echo $this->ui()->renderer()->renderAsync($gui->getPopOverContent($this->user()
+		                                                                       ->getId(), $redirect_url, $replace_url));
 	}
 
 
