@@ -640,19 +640,23 @@ abstract class ilECSObjectSettings
 		return true;	
 	}
 	
+	/**
+	 * Handle permission update
+	 * @param ilECSSetting $server
+	 */
 	protected function handlePermissionUpdate(ilECSSetting $server)
 	{
-		if($this->content_obj->getType() == 'crs')
+		if(
+			($this->content_obj->getType() == 'crs') ||
+			($this->content_obj->getType() == 'grp')
+		)
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Permission update');
-			if($this->content_obj->getType() == 'crs')
-			{
-				$GLOBALS['rbacadmin']->grantPermission(
-					$server->getGlobalRole(),
-					ilRbacReview::_getOperationIdsByName(array('join','visible')),
-					$this->content_obj->getRefId()
-				);
-			}
+			$GLOBALS['ilLog']->write(__METHOD__.': Permission update for courses/groups');
+			$GLOBALS['rbacadmin']->grantPermission(
+				$server->getGlobalRole(),
+				ilRbacReview::_getOperationIdsByName(array('join','visible')),
+				$this->content_obj->getRefId()
+			);
 		}
 	}
 	
