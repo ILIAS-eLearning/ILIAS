@@ -23,9 +23,9 @@ class iljQueryUtil {
 	 * @param \ilTemplate $a_tpl global $tpl is used when null
 	 */
 	public static function initjQuery($a_tpl = null) {
-		global $tpl;
-		//global $DIC;			// see comment in initjQueryUI
-		//$tpl = $DIC["tpl"];
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 		// self::$min = DEVMODE ? "" : ".min";
 		self::$min = "";
@@ -42,15 +42,16 @@ class iljQueryUtil {
 	 * inits and adds the jQuery-UI JS-File to the global template
 	 * (see included_components.txt for included components)
 	 */
-	public static function initjQueryUI() {
-		global $tpl;
+	public static function initjQueryUI($a_tpl = null) {
+		global $DIC;
 
-		// using DIC here results in an error in learning modules (autocomplete not found)
-		// I am not sure, why, but please do not change this unless the learning module presentation is ok
-		//global $DIC;
-		//$tpl = $DIC->ui()->mainTemplate();
+		$tpl = $DIC["tpl"];
 
-		$tpl->addJavaScript(self::getLocaljQueryUIPath(), true, 1);
+		if ($a_tpl == null) {
+			$a_tpl = $tpl;
+		}
+
+		$a_tpl->addJavaScript(self::getLocaljQueryUIPath(), true, 1);
 	}
 
 
@@ -77,9 +78,9 @@ class iljQueryUtil {
 	 * Inits and add maphilight to the general template
 	 */
 	public static function initMaphilight() {
-		global $tpl;
-		//global $DIC;			// see comment in initjQueryUI
-		//$tpl = $DIC["tpl"];
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 		$tpl->addJavaScript(self::getLocalMaphilightPath(), true, 1);
 	}

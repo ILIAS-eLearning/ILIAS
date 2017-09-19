@@ -97,7 +97,6 @@ class ilLMPresentationGUI
 		$this->nav_history = $DIC["ilNavigationHistory"];
 		$this->access = $DIC->access();
 		$this->settings = $DIC->settings();
-		$this->main_menu = $DIC["ilMainMenu"];
 		$this->locator = $DIC["ilLocator"];
 		$this->tree = $DIC->repositoryTree();
 		$this->help = $DIC["ilHelp"];
@@ -410,6 +409,8 @@ class ilLMPresentationGUI
 	*/
 	function layout($a_xml = "main.xml", $doShow = true)
 	{
+		global $DIC;
+
 		$tpl = $this->tpl;
 		$ilSetting = $this->settings;
 		$ilCtrl = $this->ctrl;
@@ -661,6 +662,7 @@ class ilLMPresentationGUI
 				// from main menu
 //				$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
 				$this->tpl->addJavascript("./Services/Navigation/js/ServiceNavigation.js");
+				ilYuiUtil::initConnection($this->tpl);
 				$this->tpl->fillJavaScriptFiles();
 				$this->tpl->fillScreenReaderFocus();
 
@@ -764,6 +766,8 @@ class ilLMPresentationGUI
 
 	function glossary()
 	{
+		global $DIC;
+
 		$ilUser = $this->user;
 		
 		if ($_GET["frame"] != "_blank")
@@ -804,7 +808,7 @@ class ilLMPresentationGUI
 	*/
 	function ilMainMenu()
 	{
-		$ilMainMenu = $this->main_menu;
+		$ilMainMenu = new ilMainMenuGUI("_top", false, $this->tpl);
 
 		if ($this->offlineMode())
 		{
@@ -839,6 +843,7 @@ class ilLMPresentationGUI
 	{
 		include_once("./Modules/LearningModule/classes/class.ilLMTOCExplorerGUI.php");
 		$exp = new ilLMTOCExplorerGUI($this, "ilTOC", $this, $this->lang, $this->focus_id, $this->export_all_languages);
+		$exp->setMainTemplate($this->tpl);
 		$exp->setTracker($this->getTracker());
 		if (!$exp->handleCommand())
 		{
@@ -2847,6 +2852,7 @@ class ilLMPresentationGUI
 
 		include_once("./Modules/LearningModule/classes/class.ilLMTableOfContentsExplorerGUI.php");
 		$exp = new ilLMTableOfContentsExplorerGUI($this, "showTableOfContents", $this, $this->lang, $this->export_all_languages);
+		$exp->setMainTemplate($this->tpl);
 		$exp->setTracker($this->getTracker());
 		if (!$exp->handleCommand())
 		{
