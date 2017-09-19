@@ -86,6 +86,7 @@ class BasicPersistence implements Persistence {
 		$bucketContainer->setTotalNumberoftasks(count($bucket->getTask()->unfoldTask()));
 		$bucketContainer->setPercentage($bucket->getOverallPercentage());
 		$bucketContainer->setTitle($bucket->getTitle());
+		$bucketContainer->setLastHeartbeat($bucket->getLastHeartbeat());
 		$bucketContainer->setDescription($bucket->getDescription());
 		$bucketContainer->setCurrentTaskid($this->getTaskContainerId($bucket->getCurrentTask()));
 		$bucketContainer->setRootTaskid($this->getTaskContainerId($bucket->getTask()));
@@ -357,6 +358,7 @@ class BasicPersistence implements Persistence {
 		$bucket->setTitle($bucketContainer->getTitle());
 		$bucket->setDescription($bucketContainer->getDescription());
 		$bucket->setOverallPercentage($bucketContainer->getPercentage());
+		$bucket->setLastHeartbeat($bucketContainer->getLastHeartbeat());
 		$bucket->setTask($this->loadTask($bucketContainer->getRootTaskid(), $bucket, $bucketContainer));
 
 		$this->bucketHashToObserverContainerId[spl_object_hash($bucket)] = $bucket_id;

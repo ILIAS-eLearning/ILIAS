@@ -32,6 +32,7 @@ class PersistingObserver implements Observer {
 	 */
 	public function notifyState($state) {
 		$this->bucket->setState($state);
+		$this->bucket->heartbeat();
 		$this->persistence->updateBucket($this->bucket);
 	}
 
@@ -43,6 +44,7 @@ class PersistingObserver implements Observer {
 	 */
 	public function notifyPercentage(Task $task, $percentage) {
 		$this->bucket->setPercentage($task, $percentage);
+		$this->bucket->heartbeat();
 		$this->persistence->updateBucket($this->bucket);
 	}
 
@@ -52,6 +54,19 @@ class PersistingObserver implements Observer {
 	 */
 	public function notifyCurrentTask(Task $task) {
 		$this->bucket->setCurrentTask($task);
+		$this->bucket->heartbeat();
+		$this->persistence->updateBucket($this->bucket);
+	}
+
+
+	/**
+	 * I'm still alive! If your calculation takes a really long time don't forget to use the heartbeat. Otherwise
+	 * the bucket might be killed while still running. All notify tasks of the observer also trigger a heartbeat.
+	 *
+	 * @return void
+	 */
+	public function heartbeat() {
+		$this->bucket->heartbeat();
 		$this->persistence->updateBucket($this->bucket);
 	}
 }

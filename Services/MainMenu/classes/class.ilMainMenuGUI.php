@@ -1172,15 +1172,15 @@ class ilMainMenuGUI
 		                   ->withTitle($DIC->language()->txt("background_tasks_running")); // needs to have empty content
 		$DIC->ctrl()->clearParametersByClass(ilBTControllerGUI::class);
 		$DIC->ctrl()->setParameterByClass(ilBTControllerGUI::class,
-			"from_url",
+			ilBTControllerGUI::FROM_URL,
 			urlencode(ilUtil::_getHttpPath())
 		);
 		$DIC->ctrl()->setParameterByClass(ilBTControllerGUI::class,
-			"replaceSignal",
+			ilBTControllerGUI::REPLACE_SIGNAL,
 			$popover->getReplaceContentSignal()->getId()
 		);
 
-		$url = $DIC->ctrl()->getLinkTargetByClass([ ilBTControllerGUI::class ], "getPopoverContent", "", true);
+		$url = $DIC->ctrl()->getLinkTargetByClass([ ilBTControllerGUI::class ], ilBTControllerGUI::CMD_GET_POPOVER_CONTENT, "", true);
 		$popover = $popover->withAsyncContentUrl($url);
 
 		$glyph = $factory->glyph()
