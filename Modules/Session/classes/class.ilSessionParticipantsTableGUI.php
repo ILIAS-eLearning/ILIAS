@@ -26,6 +26,12 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 	 */
 	private $parent_ref_id = 0;
 	
+	/**
+	 * Ref id of parent member object course/group
+	 * @var type 
+	 */
+	private $member_ref_id = 0;
+	
 
 	
 	/**
@@ -44,6 +50,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 	 * @param object $a_parent_gui
 	 * @param ilObjSession $a_parent_obj
 	 * @param string $a_parent_cmd
+	 * @throws \InvalidArgumentException
 	 */
 	public function __construct($a_parent_gui, ilObjSession $a_parent_obj, $a_parent_cmd)
 	{
@@ -60,6 +67,20 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 		$this->parent_ref_id = $GLOBALS['DIC']->repositoryTree()->getParentId(
 			$this->getRepositoryObject()->getRefId()
 		);
+		
+		$tree = $GLOBALS['DIC']->repositoryTree();
+		if($member_ref = $tree->checkForParentType($this->parent_ref_id, 'grp'))
+		{
+			$this->member_ref_id = $member_ref;
+		}
+		else if($member_ref = $tree->checkForParentType($this->parent_ref_id, 'crs'))
+		{
+			$this->member_ref_id = $member_ref;
+		}
+		else
+		{
+			throw new \InvalidArgumentException("Error in tree structure. Session has no parent course/group ref_id: " . $this->getRepositoryObject()->getRefId());
+		}
 	}
 	
 	
@@ -170,7 +191,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 				'roles',
 				ilTable2GUI::FILTER_SELECT,
 				false,
-				$this->lng->txt('objs_'.ilObject::_lookupType(ilObject::_lookupObjId($this->parent_ref_id)).'_role')
+				$this->lng->txt('objs_'.ilObject::_lookupType(ilObject::_lookupObjId($this->member_ref_id)).'_role')
 			);
 
 			$options = array();
@@ -280,7 +301,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 	 */
 	protected function collectParticipants()
 	{
-		$part = ilParticipants::getInstance($this->parent_ref_id);
+		$part = ilParticipants::getInstance($this->member_ref_id);
 		if(!$part instanceof ilParticipants)
 		{
 			return $this->getParticipants()->getParticipants();
@@ -377,12 +398,12 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 	protected function getParentLocalRoles()
 	{
 		$part = null;
-		$type = ilObject::_lookupType($this->parent_ref_id, true);
+		$type = ilObject::_lookupType($this->member_ref_id, true);
 		switch($type)
 		{
 			case 'crs':
 			case 'grp':
-				$part = ilParticipants::getInstance($this->parent_ref_id);
+				$part = ilParticipants::getInstance($this->member_ref_id);
 			default:
 				
 		}
@@ -393,7 +414,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 		
 		$review = $GLOBALS['DIC']->rbac()->review();
 		
-		$local_parent_roles = $review->getLocalRoles($this->parent_ref_id);
+		$local_parent_roles = $review->getLocalRoles($this->member_ref_id);
 		$this->logger->dump($local_parent_roles);
 		
 		$local_roles_info = [];
