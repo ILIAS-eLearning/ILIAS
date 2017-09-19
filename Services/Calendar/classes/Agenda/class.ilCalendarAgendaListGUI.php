@@ -62,6 +62,8 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 
 		$this->seed = new ilDate($get_seed." 00:00:00", IL_CAL_DATE);
 
+		$this->ctrl->setParameterByClass("ilcalendarinboxgui","seed",$this->seed->get(IL_CAL_DATE));
+
 		$end_date = new ilDate($get_seed." 00:00:00", IL_CAL_DATETIME);
 
 		switch ($this->period)
