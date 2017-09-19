@@ -64,6 +64,27 @@ class ilBTPopOverGUI {
 
 		foreach ($observers as $observer) {
 			if ($observer->getState() != State::USER_INTERACTION) {
+				if ($observer->getLastHeartbeat() < (time() - $observer->getCurrentTask()
+				                                                       ->getExpectedTimeOfTaksInSeconds())) {
+					$bucket->setCurrentBlock('failed');
+					$bucket->setVariable("ALERT", $this->lng->txt('task_might_be_failed'));
+					// Close Action
+					$this->ctrl->setParameterByClass(ilBTControllerGUI::class, "observer_id", $persistence->getBucketContainerId($observer));
+					$this->ctrl->setParameterByClass(ilBTControllerGUI::class, "from_url", urlencode($redirect_uri));
+					$close_action = $this->ctrl->getLinkTargetByClass([ ilBTControllerGUI::class ], ilBTControllerGUI::CMD_QUIT);
+					$remove = $r->render($f->button()
+					                       ->close()
+					                       ->withAdditionalOnLoadCode(function ($id) use ($close_action) {
+						                       return "$($id).on('click', function() { 
+						                            var url = '$close_action';
+						                            var replacer = new RegExp('amp;', 'g');
+                                                    url = url.replace(replacer, '');
+						                            window.location=url
+						                       });";
+					                       }));
+					$bucket->setVariable("CLOSE_BUTTON", $remove);
+					$bucket->parseCurrentBlock();
+				}
 				$bucket->setVariable("CONTENT", $r->render($this->getDefaultCardContent($observer)));
 			} else {
 				$bucket->setVariable("CONTENT", $r->render($this->getProgressbar($observer)));
@@ -93,7 +114,9 @@ class ilBTPopOverGUI {
 	 * @return \ILIAS\UI\Component\Legacy\Legacy
 	 */
 	public function getDefaultCardContent(Bucket $observer) {
-		return $this->getProgressbar($observer);
+		$progressbar = $this->getProgressbar($observer);
+
+		return $progressbar;
 	}
 
 
@@ -122,7 +145,7 @@ class ilBTPopOverGUI {
 			$this->ctrl->setParameterByClass(ilBTControllerGUI::class, "from_url", urlencode($redirect_uri));
 
 			return $renderer->render($factory->button()
-			                                 ->standard($language->txt($option->getLangVar()), $this->ctrl->getLinkTargetByClass([ ilBTControllerGUI::class ], "userInteraction")));
+			                                 ->standard($language->txt($option->getLangVar()), $this->ctrl->getLinkTargetByClass([ ilBTControllerGUI::class ], ilBTControllerGUI::CMD_USER_INTERACTION)));
 		}, $options);
 
 		$options = implode(" ", $buttons);

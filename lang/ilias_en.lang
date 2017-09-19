@@ -13741,6 +13741,7 @@ background_tasks#:#dismiss#:#Quit
 background_tasks#:#completed#:#Completed
 background_tasks#:#waiting#:#Waiting
 background_tasks#:#proceed_job#:#Proceed
+background_tasks#:#task_might_be_failed#:#This Task has not responded for a while, you can quit it if needed.
 grp#:#grp_period#:#Period of Event
 grp#:#grp_period_info#:#Information about the start and end date of the event, which is supported by the group
 exc#:#exc_settings_feedback_mail_info#:#Tutors enter their evaluation into a mail form. The evaluation is sent to participants.

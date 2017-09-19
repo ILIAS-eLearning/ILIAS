@@ -1180,7 +1180,7 @@ class ilMainMenuGUI
 			$popover->getReplaceContentSignal()->getId()
 		);
 
-		$url = $DIC->ctrl()->getLinkTargetByClass([ ilBTControllerGUI::class ], "getPopoverContent", "", true);
+		$url = $DIC->ctrl()->getLinkTargetByClass([ ilBTControllerGUI::class ], ilBTControllerGUI::CMD_GET_POPOVER_CONTENT, "", true);
 		$popover = $popover->withAsyncContentUrl($url);
 
 		$glyph = $factory->glyph()

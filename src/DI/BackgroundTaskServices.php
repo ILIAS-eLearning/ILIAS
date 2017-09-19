@@ -20,6 +20,7 @@ class BackgroundTaskServices {
 		$this->container = $container;
 	}
 
+
 	/**
 	 * @return TaskFactory
 	 */
@@ -42,6 +43,8 @@ class BackgroundTaskServices {
 	public function taskManager() {
 		return $this->container['bt.task_manager'];
 	}
+
+
 	/**
 	 * @return \ILIAS\BackgroundTasks\Dependencies\Injector
 	 */

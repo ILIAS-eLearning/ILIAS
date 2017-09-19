@@ -138,4 +138,12 @@ class BasicTaskManager implements TaskManager {
 			$this->persistence->deleteBucket($bucket);
 		}
 	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function quitBucket(Bucket $bucket) {
+		$this->persistence->deleteBucket($bucket);
+	}
 }

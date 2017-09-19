@@ -21,6 +21,15 @@
   .il-popover-inner {
 	max-height: @popover-max-height;
 	overflow:   scroll;
+	.close {
+	  margin: 0;
+	  &::after {
+		content: "";
+		width:   0em;
+		height:  0em;
+		padding: 0;
+	  }
+	}
   }
   i.icon-refresh {
 	background: url("@{uibase}/../../../../../libs/bower/bower_components/webui-popover/img/loading.gif") no-repeat;
