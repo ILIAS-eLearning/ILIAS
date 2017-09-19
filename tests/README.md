@@ -1,7 +1,7 @@
 # ILIAS Unit Testing investigation
 ## Definition
 Unit testing is the process of testing the smallest testable part of an application, called units.
-Units are usually one method or behaviour of a class or one logical concept of a method.
+Units are usually one behaviour of a class or one logical concept of a method.
 
 Unit tests fulfil the following criteria:
 - Able to be **fully automated**
@@ -195,7 +195,7 @@ Please ignore all prompts to add "extension=xdebug.so" to php.ini because this w
 ./libs/composer/vendor/bin/phpunit ./Services/PHPUnit/test/ilGlobalSuite.php \
 	--colors=always \
 	--report-useless-tests \
-    --disallow-todo-tests \
+	--disallow-todo-tests \
 	--no-globals-backup
 ``` 
 
@@ -205,18 +205,40 @@ Please ignore all prompts to add "extension=xdebug.so" to php.ini because this w
 	--colors=always \
 	--no-globals-backup \
 	--report-useless-tests \
-    --disallow-todo-tests \
+	--disallow-todo-tests \
 	--exclude-group needsInstalledILIAS
 ``` 
 
 ## Guidelines
 // Right-BICEP and CORRECT
 // what should be tested and how
+
 ### Naming
+"Rework test names and code to tell stories."
+
+#### Class
 The filename of the test class should always be named like *\<class name of the implementation\>Test.php*. 
 Furthermore, the test class should always be named as the class which is tested by the unit test class.
 For example the real class is called *Car* the corresponding test class would be named *CarTest* and the filename
  *CarTest.php*.
+ 
+#### Unit-Test (Method)
+The method name must describe what your test is doing. For example the name "testSomeBasics" is not really saying
+much about the test. It is also possible that the test is actually testing multiple behaviours because of the
+generic name.
+
+Some good, more descriptive names have the following forms:
+- doingSomeOperationGeneratesSomeResult
+- someResultOccursUnderSomeCondition
+- whenDoingSomeBehaviourThenSomeResultOccurs
+
+#### Further improvements
+If the test code is still hard to understand following improvements could be made after
+the test have more meaningful names.
+- Improve any local variable names
+- Use meaningful constants
+- split large test into more specific ones to make them more meaningful.
+- Move the test clutter into setUp and helper methods.  
 
 ### Directory structure
 #### Old parts
@@ -265,7 +287,20 @@ than the *src* directory where the actual implementation lives.
       ------> <other services>/
 ```
 
+### Unit-Test structure
+Each unit test is usually structured into three parts: arrange, act and assert. This are also known as
+the triple-A.
 
+- **Arrange** A proper system state is created by creating objects and interacting with them.
+- **Act** Invoke the part of the code which should be tested. This is usually one method call.
+- **Assert** Verify that the executed code behaves as expected. For example the verification of a return value
+or state of any objects involved. It can also involve verifications of interactions between objects with the 
+help of mocks.
+
+If there is the need to clean up resources, a fourth step should be added.
+- **After** Ensures the cleanup of the used resources.
+
+All parts should be visually separated by a blank line to highlight the different parts. 
  
 ## Test Examples
 //show different test scenarios and how they are looking in ILIAS
