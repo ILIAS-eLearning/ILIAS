@@ -2208,6 +2208,7 @@ function editParagraph(div_id, mode, switched)
 			cleanup_on_startup : true,
 			cleanup: true,
 			paste_auto_cleanup_on_paste : true,
+			branding: false,
 
 
 			/**
