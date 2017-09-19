@@ -14445,7 +14445,7 @@ administration#:#language_delete_local_additions_info#:#Löscht alle Einträge i
 administration#:#language_merge_local_changes_info#:#Mischt alle lokalen Änderungen oder Ergänzungen in die Standard-Sprachdatei lang/ilias_%s.lang. Der Web-Server muss Schreibrecht auf dieser Datei besitzen.
 administration#:#language_remove_local_file_info#:#Entfernt die Datei Customizing/global/lang/ilias_%s.lang.local und setzt den Status der Sprache von "Mit lokaler Version installiert" auf "Installiert". Die Einträge in der Datenbank sind davon nicht betroffen.
 administration#:#language_save_dist#:#Backup der Standard-Sprachdatei erzeugen
-administration#:#language_save_dist_info#:#Erzeugt ein Backup der Standard-Sprachdatei im ILIAS-Datenverzeichnis. Dies hilft nach einem ILIAS-Update, Koflikte von eingenen Änderungen mit aktualisierten Sprachvariablen zu finden.
+administration#:#language_save_dist_info#:#Erzeugt ein Backup der Standard-Sprachdatei im externen ILIAS-Datenverzeichnis. Dies hilft nach einem ILIAS-Update, Konflikte von eigenen Änderungen mit aktualisierten Sprachvariablen zu finden.
 administration#:#language_saved_dist#:#Das Backup der Standard-Sprachdatei wurde erzeugt.
 administration#:#language_save_dist_failed#:#Das Backup der Standard-Sprachdatei konnte nicht geschrieben werden.
 crs#:#crs_loc_type_initial_all_info#:#Anhand der Ergebnisse des Einstiegstests empfiehlt ILIAS Lerninhalte für die  noch nicht erreichten Lernziele. Ein Qualifizierender Test prüft zum Abschluss  die Erreichung aller Lernziele.
