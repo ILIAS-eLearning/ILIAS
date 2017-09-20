@@ -44,6 +44,13 @@ class ilIndividualAssessmentDataSet extends ilDataSet {
 					"description" => "text",
 					"content" => "text",
 					"recordTemplate" => "text",
+					"eventTimePlaceRequired" => "integer",
+					"file_required" => "integer",
+					"contact" => "text",
+					"responsibility" => "text",
+					"phone" => "text",
+					"mails" => "text",
+					"consultation_hours" => "text"
 				);
 			default:
 				return array();
@@ -91,12 +98,21 @@ class ilIndividualAssessmentDataSet extends ilDataSet {
 				foreach ($ids as $iass_id) {
 					if (ilObject::_lookupType($iass_id) == 'iass') {
 						$obj = new ilObjIndividualAssessment($iass_id, false);
+						$settings = $obj->getSettings();
+						$info = $obj->getInfoSettings();
 						$data = array(
 							'id' => $iass_id,
 							'title' => $obj->getTitle(),
 							'description' => $obj->getDescription(),
-							'content' => $obj->getSettings()->content(),
-							'recordTemplate' => $obj->getSettings()->recordTemplate(),
+							'content' => $settings->content(),
+							'recordTemplate' => $settings->recordTemplate(),
+							'eventTimePlaceRequired' => (int)$settings->eventTimePlaceRequired(),
+							'file_required' => (int)$settings->fileRequired(),
+							"contact" => $info->contact(),
+							"responsibility" => $info->responsibility(),
+							"phone" => $info->phone(),
+							"mails" => $info->mails(),
+							"consultation_hours" => $info->consultationHours()
 						);
 						$this->data[] = $data;
 					}
@@ -114,7 +130,7 @@ class ilIndividualAssessmentDataSet extends ilDataSet {
 	 * @param 	array 										$rec
 	 * @param 	ilImportMapping 							$mapping
 	 * @param 	string 										$schema_version
-	 * @return void
+	 * @return 	void
 	 */
 	public function importRecord($entity, $types, array $rec, ilImportMapping $mapping, $schema_version)
 	{
@@ -134,11 +150,27 @@ class ilIndividualAssessmentDataSet extends ilDataSet {
 					$newObj = new ilObjIndividualAssessment();
 					$newObj->create();
 				}
-				$settings = new ilIndividualAssessmentSettings($newObj, $rec["content"], $rec["recordTemplate"]);
+				$settings = new ilIndividualAssessmentSettings($newObj,
+															   $rec["content"],
+															   $rec["recordTemplate"],
+															   $rec['file_required'],
+															   $rec['eventTimePlaceRequired']
+															   );
+
+				$info = new ilIndividualAssessmentInfoSettings($newObj,
+															   $rec['contact'],
+															   $rec['responsibility'],
+															   $rec['phone'],
+															   $rec['mails'],
+															   $rec['consultation_hours']
+															   );
+
 				$newObj->setTitle($rec["title"]);
 				$newObj->setDescription($rec["description"]);
 				$newObj->setSettings($settings);
+				$newObj->setInfoSettings($info);
 				$newObj->update();
+				$newObj->updateInfo();
 
 				$mapping->addMapping("Modules/IndividualAssessment", "iass", $rec["Id"], $newObj->getId());
 				break;
