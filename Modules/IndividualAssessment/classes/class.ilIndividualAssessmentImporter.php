@@ -13,7 +13,7 @@ class ilIndividualAssessmentImporter extends ilXmlImporter
 	/**
 	 * Init
 	 */
-	function init()
+	public function init()
 	{
 		$this->ds = new ilIndividualAssessmentDataSet();
 		$this->ds->setImportDirectory($this->getImportDirectory());
