@@ -31,7 +31,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI {
 	const TAB_EXPORT = 'export';
 	public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true) {
 
-		global $DIC;
+		global $DIC, $ilHelp;
 		$this->ilNavigationHistory = $DIC['ilNavigationHistory'];
 		$this->type = 'iass';
 		$this->tpl = $DIC['tpl'];
@@ -43,6 +43,8 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI {
 		$this->lng->loadLanguageModule('iass');
 		$this->tpl->getStandardTemplate();
 		$this->locator = $DIC['ilLocator'];
+		$this->g_help = $ilHelp;
+		$this->setScreenId("iass", "", "");
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 	}
 
@@ -318,5 +320,12 @@ public function getTabs() {
 				$this->ilNavigationHistory->addItem($_GET['ref_id'], $link, 'iass');
 			}
 		}
+	}
+
+	public function setScreenId($component, $id, $sub_id)
+	{
+		$this->g_help->setScreenIdComponent($component);
+		$this->g_help->setScreenId($id);
+		$this->g_help->setSubScreenId($sub_id);
 	}
 }
