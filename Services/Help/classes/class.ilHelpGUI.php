@@ -410,9 +410,9 @@ class ilHelpGUI
 			{
 				$a_tpl->addOnLoadCode("il.Help.showCurrentPage(".ilSession::get("help_pg").");", 3);
 			}
+			$a_tpl->addJavascript("./Services/Help/js/ilHelp.js");
 			if ($ilUser->getPref("hide_help_tt"))
 			{
-				$a_tpl->addJavascript("./Services/Help/js/ilHelp.js");
 				$a_tpl->addOnLoadCode("if (il && il.Help) {il.Help.switchTooltips();}", 3);
 			}
 		}
