@@ -1252,6 +1252,8 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$ilErr = $this->error;
 		$tpl = $this->tpl;
 
+		$form = $this->initImportForm("lm");
+
 		try
 		{
 			// the new import
@@ -1262,6 +1264,14 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		{
 			// we just run through in this case.
 			$no_manifest = true;
+		}
+		catch (ilException $e)
+		{
+			// display message and form again
+			ilUtil::sendFailure($this->lng->txt("obj_import_file_error")." <br />".$e->getMessage());
+			$form->setValuesByPost();
+			$tpl->setContent($form->getHtml());
+			return;
 		}
 
 		if (!$no_manifest)
@@ -1278,7 +1288,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$ilErr->raiseError($this->lng->txt("no_create_permission"),  $ilErr->MESSAGE);
 			return;
 		}
-		$form = $this->initImportForm("lm");
+
 		if ($form->checkInput())
 		{
 			// create and insert object in objecttree
