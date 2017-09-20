@@ -14030,3 +14030,4 @@ common#:#org_op_read_learning_progress#:#Lernfortschritt untergeordneter Benutze
 common#:#org_op_manage_members#:#Untergeordnete Mitglieder verwalten
 common#:#org_op_access_enrolments#:#Teilnehmer-Status einsehen
 sahs#:#sahs_add#:#SCORM-Lernmodul anlegen
+sahs#:#sahs_copy#:#SCORM-Lernmodul kopieren
