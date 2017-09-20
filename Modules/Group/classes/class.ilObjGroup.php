@@ -67,7 +67,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	protected $waiting_list = false;
 	protected $auto_fill_from_waiting; // [bool]
 	protected $leave_end; // [ilDate]
-	protected $show_members;
+	protected $show_members = 1;
 	
 	
 	// Map
