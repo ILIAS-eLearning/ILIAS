@@ -14029,3 +14029,4 @@ common#:#org_op_read_learning_progress#:#View Learning Progress of Subordinate U
 common#:#org_op_manage_members#:#Manage Subordinate Members
 common#:#org_op_access_enrolments#:#View Enrolment-Status
 dateplaner#:#cal_down_no_files#:#Nothing to download, the events listed do not contain files.
+sahs#:#sahs_add#:#Create SCORM Learning Module
