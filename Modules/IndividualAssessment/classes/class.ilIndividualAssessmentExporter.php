@@ -14,7 +14,6 @@ class ilindividualAssessmentExporter extends ilXmlExporter {
 	 * initialize the exporter
 	 */
 	public function init() {
-		global $DIC;
 		$this->ds = new ilIndividualAssessmentDataSet();
 	}
 
@@ -33,11 +32,11 @@ class ilindividualAssessmentExporter extends ilXmlExporter {
 	 */
 	public function getValidSchemaVersions($a_entity) {
 		return array (
-			"5.2.0" => array(
-				"namespace" => "http://www.ilias.de/Modules/IndividualAssessment/iass/5_2",
-				"xsd_file" => "ilias_exc_5_2.xsd",
+			"5.3.0" => array(
+				"namespace" => "http://www.ilias.de/Modules/IndividualAssessment/iass/5_3",
+				"xsd_file" => "ilias_export_4_1.xsd",
 				"uses_dataset" => true,
-				"min" => "5.2.0",
+				"min" => "5.3.0",
 				"max" => "")
 		);
 	}
