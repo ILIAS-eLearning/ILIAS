@@ -63,6 +63,14 @@ class ilObjIndividualAssessment extends ilObject {
 		return $this->settings;
 	}
 
+	/**
+	 * Set the settings
+	 */
+	public function setSettings(ilIndividualAssessmentSettings $settings)
+	{
+		$this->settings = $settings;
+	}
+
 	public function getInfoSettings() {
 		if(!$this->info_settings) {
 			$this->info_settings = $this->settings_storage->loadInfoSettings($this);
