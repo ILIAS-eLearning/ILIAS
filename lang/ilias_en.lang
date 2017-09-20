@@ -14031,3 +14031,4 @@ common#:#org_op_access_enrolments#:#View Enrolment-Status
 dateplaner#:#cal_down_no_files#:#Nothing to download, the events listed do not contain files.
 sahs#:#sahs_add#:#Create SCORM Learning Module
 sahs#:#sahs_copy#:#Copy SCORM Learning Module
+sahs#:#sahs_glo_info#:#Please note that internal links in glossary terms are not supported.
