@@ -10,7 +10,7 @@ require_once("./Services/FileSystem/classes/class.ilFileSystemGUI.php");
 * $Id$
 *
 * @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilPermissionGUI, ilInfoScreenGUI, ilLearningProgressGUI
-* @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilLicenseGUI, ilCommonActionDispatcherGUI, ilExportGUI
+* @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilLicenseGUI, ilCommonActionDispatcherGUI, ilExportGUI, ilObjectCopyGUI
 *
 * @ingroup ModulesScormAicc
 */
@@ -183,6 +183,16 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 					$this->ctrl->redirectByClass("ilobjstylesheetgui", "edit");
 				}
 				break;
+
+
+			case 'ilobjectcopygui':
+				$this->prepareOutput();
+				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+				$cp = new ilObjectCopyGUI($this);
+				$cp->setType('sahs');
+				$this->ctrl->forwardCommand($cp);
+				break;
+
 			default:
 				if ($this->object && !$this->object->getEditable())
 				{
@@ -252,6 +262,8 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
 		$this->initCreationForm();
 		$forms[self::CFORM_NEW] = $this->form;
+
+		$forms[self::CFORM_CLONE] = $this->fillCloneTemplate(null, $a_new_type);
 	
 		return $forms;
 	}
