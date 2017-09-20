@@ -912,7 +912,7 @@ die("deprecated");
 			$ilias->raiseError("No file selected!",$ilias->error_obj->MESSAGE);
 		}
 		// check create permission
-		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], "sahs"))
+		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
 		{
 			$ilias->raiseError($lng->txt("no_create_permission"), $ilias->error_obj->WARNING);
 		}
