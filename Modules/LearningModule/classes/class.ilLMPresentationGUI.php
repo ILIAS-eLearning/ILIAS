@@ -2063,9 +2063,11 @@ class ilLMPresentationGUI
 					case "File":
 						if (!$this->offlineMode())
 						{
+							$ilCtrl->setParameter($this, "obj_id", $this->getCurrentPageId());
 							$ilCtrl->setParameter($this, "file_id", "il__file_".$target_id);
 							$href = $ilCtrl->getLinkTarget($this, "downloadFile");
 							$ilCtrl->setParameter($this, "file_id", "");
+							$ilCtrl->setParameter($this, "obj_id", $_GET["obj_id"]);
 						}
 						break;
 
