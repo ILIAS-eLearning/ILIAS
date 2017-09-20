@@ -77,7 +77,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 		$lng->loadLanguageModule("mep");
 		
 		$this->media_pool = $a_media_pool;
-		$this->tree = ilObjMediaPool::getPoolTree($this->media_pool->getId());
+		$this->tree = ilObjMediaPool::_getPoolTree($this->media_pool->getId());
 		$this->folder_par = $a_folder_par;
 		
 		if ($this->all_objects)
