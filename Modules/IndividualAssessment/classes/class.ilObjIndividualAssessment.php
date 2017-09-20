@@ -79,6 +79,14 @@ class ilObjIndividualAssessment extends ilObject {
 	}
 
 	/**
+	 * Set info settings
+	 */
+	public function setInfoSettings(ilIndividualAssessmentInfoSettings $info)
+	{
+		$this->info_settings = $info;
+	}
+
+	/**
 	 * Get the members object associated with this.
 	 *
 	 * @return	ilIndividualAssessmentMembers
