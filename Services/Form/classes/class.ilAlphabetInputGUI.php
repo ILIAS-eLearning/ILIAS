@@ -145,7 +145,9 @@ class ilAlphabetInputGUI extends ilFormPropertyGUI implements ilToolbarItem
 		$this->highlight = true;
 		$this->highlight_letter = $a_high_letter;
 	}
-	
+
+
+
 	/**
 	* Get HTML for toolbar
 	*/
