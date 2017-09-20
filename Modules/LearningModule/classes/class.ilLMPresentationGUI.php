@@ -1953,9 +1953,11 @@ class ilLMPresentationGUI
 					case "File":
 						if (!$this->offlineMode())
 						{
+							$ilCtrl->setParameter($this, "obj_id", $this->getCurrentPageId());
 							$ilCtrl->setParameter($this, "file_id", "il__file_".$target_id);
 							$href = $ilCtrl->getLinkTarget($this, "downloadFile");
 							$ilCtrl->setParameter($this, "file_id", "");
+							$ilCtrl->setParameter($this, "obj_id", $_GET["obj_id"]);
 						}
 						break;
 				}
@@ -3701,12 +3703,21 @@ class ilLMPresentationGUI
 	*/
 	function downloadFile()
 	{
-		$file = explode("_", $_GET["file_id"]);
-		$file_id = (int) $file[count($file) - 1];
-		require_once("./Modules/File/classes/class.ilObjFile.php");
-		$fileObj = new ilObjFile($file_id, false);
-		$fileObj->sendFile();
-		exit;
+		$pg_obj = $this->getLMPage($this->getCurrentPageId());
+		$pg_obj->buildDom();
+		$int_links = $pg_obj->getInternalLinks();
+		foreach ($int_links as $il)
+		{
+			if ($il["Target"] == str_replace("_file_", "_dfile_", $_GET["file_id"]))
+			{
+				$file = explode("_", $_GET["file_id"]);
+				$file_id = (int) $file[count($file) - 1];
+				require_once("./Modules/File/classes/class.ilObjFile.php");
+				$fileObj = new ilObjFile($file_id, false);
+				$fileObj->sendFile();
+				exit;
+			}
+		}
 	}
 
 	/**
