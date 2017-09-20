@@ -8657,19 +8657,20 @@ ul.ilCalSel li {
   border-bottom: 1px solid #f0f0f0;
   min-height: 25px;
 }
-span.ilCalColSpan {
-  padding: 2px 0;
-  display: block;
-  margin-left: -48px;
-  width: 24px;
-  height: 25px;
-  float: left;
-}
 ul.ilCalSel li img {
   margin-top: 6px;
   display: block;
   float: left;
   margin-left: -20px;
+}
+span.ilCalColSpan {
+  float: left;
+  display: inline-block;
+  width: 24px;
+  height: 25px;
+  margin-left: -48px;
+  padding: 2px 0;
+  text-align: center;
 }
 div.ilCalSelTitle {
   padding: 5px 3px 3px;
