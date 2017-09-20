@@ -1887,7 +1887,7 @@ $this->ctrl->redirect($this, "properties");
 	*/
 	function getNotesHTML($a_mode = "")
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilAccess, $ilSetting;
 		
 		// notes
 		$ilCtrl->setParameter($this, "nodes_mode", $a_mode);
@@ -1900,10 +1900,10 @@ $this->ctrl->redirect($this, "properties");
 
 		$notes_gui = new ilNoteGUI($this->object->getId(),
 			(int) $node_id, $node_type);
-//		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
-//		{
-//			$notes_gui->enablePublicNotesDeletion(true);
-//		}
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]) && $ilSetting->get("comments_del_tutor", 1))
+		{
+			$notes_gui->enablePublicNotesDeletion(true);
+		}
 		$notes_gui->enablePrivateNotes();
 		$notes_gui->enablePublicNotes();
 		
