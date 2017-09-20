@@ -42,12 +42,16 @@ class iljQueryUtil {
 	 * inits and adds the jQuery-UI JS-File to the global template
 	 * (see included_components.txt for included components)
 	 */
-	public static function initjQueryUI() {
+	public static function initjQueryUI($a_tpl = null) {
 		global $DIC;
 
 		$tpl = $DIC["tpl"];
 
-		$tpl->addJavaScript(self::getLocaljQueryUIPath(), true, 1);
+		if ($a_tpl == null) {
+			$a_tpl = $tpl;
+		}
+
+		$a_tpl->addJavaScript(self::getLocaljQueryUIPath(), true, 1);
 	}
 
 

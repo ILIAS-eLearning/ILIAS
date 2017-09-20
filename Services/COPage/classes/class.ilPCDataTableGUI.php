@@ -707,7 +707,8 @@ class ilPCDataTableGUI extends ilPCTableGUI
 		ilYuiUtil::initDragDrop();
 		ilYuiUtil::initConnection();
 		ilYuiUtil::initPanel(false);
-		$GLOBALS["tpl"]->addJavascript("Services/COPage/tiny/4_2_4/tinymce.js");
+		//$GLOBALS["tpl"]->addJavascript("Services/COPage/tiny/4_2_4/tinymce.js");
+		$GLOBALS["tpl"]->addJavascript("./libs/bower/bower_components/tinymce/tinymce.min.js");
 		$GLOBALS["tpl"]->addJavaScript("./Services/COPage/js/ilcopagecallback.js");
 		$GLOBALS["tpl"]->addJavascript("Services/COPage/js/page_editing.js");
 
@@ -720,15 +721,6 @@ class ilPCDataTableGUI extends ilPCTableGUI
 				");
 
 		$cfg = $this->getPageConfig();
-		/*$tpl->setVariable("IL_TINY_MENU",
-			self::getTinyMenu(
-				$this->getPageObject()->getParentType(),
-				$cfg->getEnableInternalLinks(),
-				$cfg->getEnableWikiLinks(),
-				$cfg->getEnableKeywords(),
-				$this->getStyleId(), true, true,
-				$cfg->getEnableAnchors()
-			));*/
 
 		$dtpl->setVariable("IL_TINY_MENU",
 			ilPageObjectGUI::getTinyMenu(

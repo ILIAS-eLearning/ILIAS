@@ -282,7 +282,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		$this->form->addItem($ta);
 		
 	
-		$this->form->addCommandButton("save", $lng->txt("create"));
+		$this->form->addCommandButton("save", $lng->txt("sahs_add"));
 		$this->form->addCommandButton("cancel", $lng->txt("cancel"));
 	                
 		$this->form->setTitle($lng->txt("scorm_new"));

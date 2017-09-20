@@ -62,4 +62,13 @@ interface Task {
 	 *                this tasks, the following his dependencies.
 	 */
 	public function unfoldTask();
+
+
+	/**
+	 * @return int the amount of seconds this task usually taskes. If your task-duration scales
+	 *             with the the amount of data, try to set a possible high value of try to
+	 *             calculate it. If a task duration exceeds this value, it will be displayed as
+	 *             "possibly failed" to the user
+	 */
+	public function getExpectedTimeOfTaksInSeconds();
 }

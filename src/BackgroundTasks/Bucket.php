@@ -118,4 +118,27 @@ interface Bucket extends BucketMeta {
 	 * @return string
 	 */
 	public function getTitle();
+
+
+	/**
+	 * There was something going on in the bucket, it's still working.
+	 *
+	 * @return void
+	 */
+	public function heartbeat();
+
+
+	/**
+	 * @param $timestamp int
+	 *
+	 * @return void
+	 */
+	public function setLastHeartbeat($timestamp);
+
+	/**
+	 * When was the last time that something happened on this bucket?
+	 *
+	 * @return int Timestamp.
+	 */
+	public function getLastHeartbeat();
 }

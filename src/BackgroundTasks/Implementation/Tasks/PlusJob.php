@@ -66,4 +66,11 @@ class PlusJob extends AbstractJob {
 	public function isStateless() {
 		return true;
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getExpectedTimeOfTaksInSeconds() {
+		return 1;
+	}
 }

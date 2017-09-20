@@ -15,10 +15,17 @@ class ilYuiUtil {
 	/**
 	 * Init YUI Connection module
 	 */
-	static function initConnection() {
+	static function initConnection(ilTemplate $a_main_tpl = null) {
 		global $DIC;
 
-		$tpl = $DIC["tpl"];
+		if ($a_main_tpl == null)
+		{
+			$tpl = $DIC["tpl"];
+		}
+		else
+		{
+			$tpl = $a_main_tpl;
+		}
 		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
 		$tpl->addJavaScript(self::YUI_BASE . "/connection/connection-min.js");
 	}

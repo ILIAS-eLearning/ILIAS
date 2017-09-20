@@ -51,11 +51,11 @@ lti#:#lti_consumer#:#Released for
 orgu#:#orgu_global_set_form#:#Globale Einstellungen
 orgu#:#orgu_global_set_positions#:#Anzeige von Benutzerdaten nach Positionen in Organisationseinheiten
 orgu#:#orgu_global_set_positions_type_active#:#Positionen in 
-orgu#:#orgu_global_set_type_changeable#:#Aktivierung
-orgu#:#orgu_global_set_type_changeable_object#:#De/Aktivierung auf Objektebene
-orgu#:#orgu_global_set_type_changeable_no#:#Nicht deaktivierbar
+orgu#:#orgu_global_set_type_changeable#:#Verhalten neuer Objekte
+orgu#:#orgu_global_set_type_changeable_object#:#Änderbare Einstellung im Objekt
+orgu#:#orgu_global_set_type_changeable_no#:#Positionen sind im Objekt nicht deaktivierbar
 orgu#:#orgu_global_set_type_default#:#Standardwert
-orgu#:#orgu_global_set_type_default_info#:#Legen Sie den Standardwert für neue Objekte fest.
+orgu#:#orgu_global_set_type_default_info#:#Positionen sind im Reiter 'Einstellungen' des Objektes standardmäßig aktiviert.
 rbac#:#il_sess_participant#:#Sitzungsteilnehmer
 rbac#:#il_sess_status_closed#:#Nicht-Teilnehmer geschlossene Sitzung
 meta#:#md_adv_scope#:#Gültigkeitsbereich
@@ -665,7 +665,7 @@ assessment#:#insert_before#:#Einfügen vor
 assessment#:#internal_links#:#Interne Verweise
 assessment#:#javaapplet#:#Java-Applet
 assessment#:#kiosk#:#Prüfungsansicht
-assessment#:#kiosk_description#:#Die Prüfungsansicht zeigt den Test im Kiosk-Modus. Dabei werden alle Bildschirm- und Navigationselemente, die nicht zum Test gehören, ausgeblendet. Um Teilnehmer effektiv daran zu hindern, während des Tests andere Webseiten zu öffnen, setzen bitte Sie einen hierfür spezialisierten Browser, z.B. Safe Exam Browser.
+assessment#:#kiosk_description#:#Die Prüfungsansicht zeigt den Test im Kiosk-Modus. Dabei werden alle Bildschirmelemente, die nicht zum Test gehören, ausgeblendet. Um Teilnehmer effektiv daran zu hindern, während des Tests andere Webseiten zu öffnen, setzen bitte Sie einen hierfür spezialisierten Browser ein (z.B. den Safe Exam Browser).
 assessment#:#kiosk_options#:#Angezeigte Informationen
 assessment#:#kiosk_options_desc#:#Die ausgewählten Informationen werden im Kopfbereich der Seite angezeigt.
 assessment#:#kiosk_show_participant#:#Name des Teilnehmers
@@ -987,7 +987,7 @@ assessment#:#next_question#:#Weiter
 assessment#:#previous_question#:#Zurück
 assessment#:#submit_answer#:#Speichern und weiter
 assessment#:#skip_question#:#Nicht antworten und weiter
-assessment#:#discard_answer#:#Antwort löschen###fau: testNav
+assessment#:#discard_answer#:#Antwort löschen
 assessment#:#discard_answer_confirmation#:#Ihre Antwort wird vollständig und endgültig gelöscht. Zu einem späteren Zeitpunkt können Sie die Frage aber erneut beantworten.<br /><br />Soll Ihre Antwort endgültig gelöscht werden?
 assessment#:#tst_nav_while_edit_modal_header#:#Entscheidung über Antworten
 assessment#:#tst_nav_while_edit_modal_text#:#Was soll mit den Antworten dieser Frage geschehen, die Sie ggfs. bereits gegeben haben?
@@ -2283,7 +2283,7 @@ common#:#chat_invite_public_room_tooltip#:#In den öffentlichen Chatraum einlade
 chatroom#:#chat_settings#:#Chat-Einstellungen
 common#:#chat_users_active#:#Aktive Benutzer
 common#:#check#:#Rückmeldung anfordern
-assessment#:#submit_and_check#:#Speichern und prüfen
+assessment#:#submit_and_check#:#Antwort speichern und Rückmeldung anfordern
 common#:#check_all#:#Alle auswählen
 common#:#check_langfile#:#Bitte überprüfen Sie die Sprachdatei!
 common#:#check_languages#:#Alle Sprachen überprüfen
@@ -12203,7 +12203,7 @@ administration#:#language_delete_local_additions_info#:#Löscht alle Einträge i
 administration#:#language_merge_local_changes_info#:#Mischt alle lokalen Änderungen oder Ergänzungen in die Standard-Sprachdatei lang/ilias_%s.lang. Der Web-Server muss Schreibrecht auf dieser Datei besitzen.
 administration#:#language_remove_local_file_info#:#Entfernt die Datei Customizing/global/lang/ilias_%s.lang.local und setzt den Status der Sprache von "Mit lokaler Version installiert" auf "Installiert". Die Einträge in der Datenbank sind davon nicht betroffen.
 administration#:#language_save_dist#:#Backup der Standard-Sprachdatei erzeugen
-administration#:#language_save_dist_info#:#Erzeugt ein Backup der Standard-Sprachdatei im ILIAS-Datenverzeichnis. Dies hilft nach einem ILIAS-Update, Koflikte von eingenen Änderungen mit aktualisierten Sprachvariablen zu finden.
+administration#:#language_save_dist_info#:#Erzeugt ein Backup der Standard-Sprachdatei im externen ILIAS-Datenverzeichnis. Dies hilft nach einem ILIAS-Update, Konflikte von eigenen Änderungen mit aktualisierten Sprachvariablen zu finden.
 administration#:#language_saved_dist#:#Das Backup der Standard-Sprachdatei wurde erzeugt.
 administration#:#language_save_dist_failed#:#Das Backup der Standard-Sprachdatei konnte nicht geschrieben werden.
 crs#:#crs_loc_type_initial_all_info#:#Anhand der Ergebnisse des Einstiegstests empfiehlt ILIAS Lerninhalte für die  noch nicht erreichten Lernziele. Ein Qualifizierender Test prüft zum Abschluss  die Erreichung aller Lernziele.
@@ -12791,14 +12791,14 @@ rbac#:#cadm_read#:#Administration für Benutzerkontakte lesen
 rbac#:#cadm_write#:#Administration für Benutzerkontakte editieren
 rbac#:#cadm_edit_permission#:#Rechteeinstellungen der Administration für Benutzerkontakte ändern
 common#:#no_gallery_users_available#:#Aktuell befinden sich keine Benutzer in der Galerie.
-crs#:#crs_mem_contact#:#Kursbetreuung
+crs#:#crs_mem_contact#:#Tutorielle Betreuung
 awrn#:#awareness_now_online#:#Jetzt online
 awrn#:#awareness_now_online_users#:#[ONLINE_USER_NAMES]
 common#:#obj_awra_desc#:#„Wer ist online?“-Anzeige administrieren
 common#:#obj_awra#:#„Wer ist online?“-Anzeige
 awrn#:#awareness_settings#:#Einstellungen
 awrn#:#awrn_enable#:#Aktiviere „Wer ist online?“-Anzeige
-crs#:#crs_mem_contacts#:#Kursbetreuung
+crs#:#crs_mem_contacts#:#Tutorielle Betreuung
 user#:#user_awrn_all_users#:#Alle Benutzer
 user#:#user_awrn_all_users_info#:#Alle Benutzer der Plattform werden aufgelistet.
 crs#:#crs_awrn_support_contacts#:#Kursbetreuung
@@ -13730,6 +13730,7 @@ background_tasks#:#dismiss#:#Beenden
 background_tasks#:#completed#:#Abgeschlossen
 background_tasks#:#waiting#:#Warten
 background_tasks#:#proceed_job#:#Weiter
+background_tasks#:#task_might_be_failed#:#Diese Aufgabe hat seit einiger Zeit nicht geantwortet, Sie können sie beenden, falls nötig.
 grp#:#grp_period#:#Veranstaltungszeitraum
 grp#:#grp_period_info#:#Information zum Start und Ende der Veranstaltung, die mit der Gruppe unterstützt werden soll.
 exc#:#exc_settings_feedback_mail_info#:#Tutoren geben ihre Rückmeldungen zur Abgabe in ein Mail-Formular ein. Die Mail wird dem entsprechenden Teilnehmer gesendet.
@@ -13981,16 +13982,16 @@ prtf#:#prtf_portfolio_created_from_template#:#Dies ist die Vorschau Ihres neuen 
 style#:#open_documentation#:#Dokumentation öffnen
 style#:#ks_documentation_of_style#:#Kitchen Sink Dokumentation von Style:
 style#:#ks_documentation_of_substyle#:#Kitchen Sink Dokumentation von Sub Style:
-prtf#:#prtf_pdf#:#PDF
-prtf#:#prtf_print_selection#:#Seitenauswahl
-prtf#:#prtf_all_pages#:#Alle Seiten
-prtf#:#prtf_selected_pages#:#Ausgewählte Seiten
-prtf#:#prtf_print_options#:#Optionen
+prtf#:#prtf_pdf#:#PDF erzeugen
+prtf#:#prtf_print_selection#:#Auswahl
+prtf#:#prtf_all_pages#:#Gesamtes Portfolio
+prtf#:#prtf_selected_pages#:#Ausgewählte Teile des Portfolios
+prtf#:#prtf_print_options#:#Auswahl zum PDF
 prtf#:#prtf_author#:#Autor
 prtf#:#prtf_link#:#Link
 prtf#:#prtf_date_of_print#:#Datum des Ausdrucks
-prtf#:#prtf_signature#:#Unterschriftsfeld
-prtf#:#prtf_signature_info#:#Fügt ein Feld für die Unterschrift des Autors hinzu.
+prtf#:#prtf_signature#:#Feld für Unterschrift
+prtf#:#prtf_signature_info#:#Das PDF enthält ein Feld, in welchem die Benutzer unterschreiben können.
 prtf#:#prtf_signature_date#:#Datum, Unterschrift
 lti#:#lti_not_allowed#:#Zugriff nicht erlaubt. Sie wurden in den ursprünglichen LTI Bereich umgeleitet.
 lti#:#lti_navigation#:#Navigation
@@ -14019,12 +14020,12 @@ survey#:#sub_tab_dashboard#:#Dashboard###31 08 2017 new variable
 survey#:#svy_print_show_labels#:#Show labels###31 08 2017 new variable
 survey#:#svy_print_hide_labels#:#Hide labels###31 08 2017 new variable
 content#:#cont_grid_width_m#:#Medium###31 08 2017 new variable
-grp#:#grp_created_and_user_been_added#:#Die Gruppe wurde erstellt und der Benutzer hinzugefügt.###31 08 2017 new variable
-cont#:#cont_assign_skills#:#Assign Competences###31 08 2017 new variable
+grp#:#grp_created_and_user_been_added#:#Die Gruppe wurde erstellt und der Benutzer hinzugefügt.
+cont#:#cont_assign_skills#:#Kompetenzen zuweisen
 dateplaner#:#cal_batch_file_downloads#:#Batch file downloads in Calendar###31 08 2017 new variable
 dateplaner#:#cal_batch_file_downloads_info#:#Activate button to download all files related to the current calendar/appointment view.###31 08 2017 new variable
-dateplaner#:#cal_download_files#:#Download Files###31 08 2017 new variable
-dateplaner#:#cal_calendar_download#:#Calendar Download###31 08 2017 new variable
+dateplaner#:#cal_download_files#:#Dateien herunterladen
+dateplaner#:#cal_calendar_download#:#Kalender herunterladen
 pdfgen#:#cleanup#:#Bereinigen
 skmg#:#skmg_order_nr_info#:#Platziert die Kompetenz in der Liste der Kompetenzen.
 common#:#position_permission_settings#:#Rechte nach Positionen
@@ -14032,3 +14033,4 @@ common#:#org_permission_settings#:#Rechte der Positionen in Organisationseinheit
 common#:#org_op_read_learning_progress#:#Lernfortschritt untergeordneter Benutzer einsehen
 common#:#org_op_manage_members#:#Untergeordnete Mitglieder verwalten
 common#:#org_op_access_enrolments#:#Teilnehmer-Status einsehen
+sahs#:#sahs_add#:#SCORM-Lernmodul anlegen

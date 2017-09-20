@@ -87,7 +87,11 @@ class ilRegistrationCode
 		$sql = "SELECT * FROM ".self::DB_TABLE.$where;
 		if($order_field)
 		{
-			$sql .= " ORDER BY `".$order_field."` ".$order_direction;
+			if($order_field == 'generated')
+			{
+				$order_field = 'generated_on';
+			}
+			$sql .= " ORDER BY ".$order_field." ".$order_direction;
 		}
 		
 		// set query
@@ -96,6 +100,7 @@ class ilRegistrationCode
 		$result = array();
 		while($rec = $ilDB->fetchAssoc($set))
 		{
+			$rec['generated'] = $rec['generated_on'];
 			$result[] = $rec;
 		}
 		return array("cnt" => $cnt, "set" => $result);

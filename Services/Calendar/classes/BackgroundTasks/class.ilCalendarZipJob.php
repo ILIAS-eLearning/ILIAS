@@ -72,5 +72,10 @@ class ilCalendarZipJob extends AbstractJob
 		return $zip_file_name;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function getExpectedTimeOfTaksInSeconds() {
+		return 30;
+	}
 }
-?>

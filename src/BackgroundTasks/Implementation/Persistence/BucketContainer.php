@@ -86,6 +86,13 @@ class BucketContainer extends \ActiveRecord {
 	 * @con_length     255
 	 */
 	protected $description;
+	/**
+	 * @var int
+	 *
+	 * @con_has_field  true
+	 * @con_fieldtype  timestamp
+	 */
+	protected $last_heartbeat;
 
 
 	/**
@@ -229,5 +236,21 @@ class BucketContainer extends \ActiveRecord {
 	 */
 	public function setDescription ($description) {
 		$this->description = $description;
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getLastHeartbeat() {
+		return $this->last_heartbeat;
+	}
+
+
+	/**
+	 * @param int $last_heartbeat
+	 */
+	public function setLastHeartbeat($last_heartbeat) {
+		$this->last_heartbeat = $last_heartbeat;
 	}
 }
