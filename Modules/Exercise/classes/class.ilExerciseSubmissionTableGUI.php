@@ -597,8 +597,9 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 		
 	public function render()
 	{
+		global $DIC;
 		$ilCtrl = $this->ctrl;
-		$tpl = $this->tpl;
+		$tpl = $DIC->ui()->mainTemplate();
 		
 		$url = $ilCtrl->getLinkTarget($this->getParentObject(), "saveCommentForLearners", "", true, false);		
 		
