@@ -40,157 +40,77 @@ class ilFulltextAdvancedSearch extends ilAdvancedSearch
 	function __createTaxonWhereCondition()
 	{
 		// IN BOOLEAN MODE
-		if($this->db->isMysql4_0OrHigher())
+		$query .= " WHERE MATCH(taxon) AGAINST('";
+		foreach($this->query_parser->getQuotedWords(true) as $word)
 		{
-			$query .= " WHERE MATCH(taxon) AGAINST('";
-			foreach($this->query_parser->getQuotedWords(true) as $word)
-			{
-				$query .= $word;
-				$query .= '* ';
-			}
-			$query .= "' IN BOOLEAN MODE) ";
+			$query .= $word;
+			$query .= '* ';
 		}
-		else
-		{
-			$query .= " WHERE MATCH (taxon) AGAINST(' ";
-			foreach($this->query_parser->getQuotedWords(true) as $word)
-			{
-				$query .= $word;
-				$query .= ' ';
-			}
-			$query .= "') ";
-		}
+		$query .= "' IN BOOLEAN MODE) ";
 		return $query;
 	}		
 	function __createKeywordWhereCondition()
 	{
 		// IN BOOLEAN MODE
-		if($this->db->isMysql4_0OrHigher())
+		$query .= " WHERE MATCH(keyword) AGAINST('";
+		foreach($this->query_parser->getQuotedWords(true) as $word)
 		{
-			$query .= " WHERE MATCH(keyword) AGAINST('";
-			foreach($this->query_parser->getQuotedWords(true) as $word)
-			{
-				$query .= $word;
-				$query .= '* ';
-			}
-			$query .= "' IN BOOLEAN MODE) ";
+			$query .= $word;
+			$query .= '* ';
 		}
-		else
-		{
-			$query .= " WHERE MATCH (keyword) AGAINST(' ";
-			foreach($this->query_parser->getQuotedWords(true) as $word)
-			{
-				$query .= $word;
-				$query .= ' ';
-			}
-			$query .= "') ";
-		}
+		$query .= "' IN BOOLEAN MODE) ";
 		return $query;
 	}
 
 	function __createLifecycleWhereCondition()
 	{
 		// IN BOOLEAN MODE
-		if($this->db->isMysql4_0OrHigher())
+		$query .= " WHERE MATCH(meta_version) AGAINST('";
+		foreach($this->query_parser->getQuotedWords(true) as $word)
 		{
-			$query .= " WHERE MATCH(meta_version) AGAINST('";
-			foreach($this->query_parser->getQuotedWords(true) as $word)
-			{
-				$query .= $word;
-				$query .= '* ';
-			}
-			$query .= "' IN BOOLEAN MODE) ";
+			$query .= $word;
+			$query .= '* ';
 		}
-		else
-		{
-			$query .= " WHERE MATCH (meta_version) AGAINST(' ";
-			foreach($this->query_parser->getQuotedWords(true) as $word)
-			{
-				$query .= $word;
-				$query .= ' ';
-			}
-			$query .= "') ";
-		}
+		$query .= "' IN BOOLEAN MODE) ";
 		return $query;
 	}		
 
 	function __createEntityWhereCondition()
 	{
 		// IN BOOLEAN MODE
-		if($this->db->isMysql4_0OrHigher())
+		$query .= " WHERE MATCH(entity) AGAINST('";
+		foreach($this->query_parser->getQuotedWords(true) as $word)
 		{
-			$query .= " WHERE MATCH(entity) AGAINST('";
-			foreach($this->query_parser->getQuotedWords(true) as $word)
-			{
-				$query .= $word;
-				$query .= '* ';
-			}
-			$query .= "' IN BOOLEAN MODE) ";
+			$query .= $word;
+			$query .= '* ';
 		}
-		else
-		{
-			$query .= " WHERE MATCH (entity) AGAINST(' ";
-			foreach($this->query_parser->getQuotedWords(true) as $word)
-			{
-				$query .= $word;
-				$query .= ' ';
-			}
-			$query .= "') ";
-		}
+		$query .= "' IN BOOLEAN MODE) ";
 		return $query;
 	}		
 	function __createCoverageAndCondition()
 	{
 		// IN BOOLEAN MODE
-		if($this->db->isMysql4_0OrHigher())
+		$query .= " AND MATCH(coverage) AGAINST('";
+		foreach($this->query_parser->getQuotedWords(true) as $word)
 		{
-			$query .= " AND MATCH(coverage) AGAINST('";
-			foreach($this->query_parser->getQuotedWords(true) as $word)
-			{
-				$query .= $word;
-				$query .= '* ';
-			}
-			$query .= "' IN BOOLEAN MODE) ";
+			$query .= $word;
+			$query .= '* ';
 		}
-		else
-		{
-			$query .= " AND MATCH (coverage) AGAINST(' ";
-			foreach($this->query_parser->getQuotedWords(true) as $word)
-			{
-				$query .= $word;
-				$query .= ' ';
-			}
-			$query .= "') ";
-		}
+		$query .= "' IN BOOLEAN MODE) ";
 		return $query;
 	}	
 
 	function __createTitleDescriptionWhereCondition()
 	{
 		// IN BOOLEAN MODE
-		if($this->db->isMysql4_0OrHigher())
+		$query .= " WHERE MATCH(title,description) AGAINST('";
+		foreach($this->query_parser->getQuotedWords(true) as $word)
 		{
-			$query .= " WHERE MATCH(title,description) AGAINST('";
-			foreach($this->query_parser->getQuotedWords(true) as $word)
-			{
-				$query .= $word;
-				$query .= '* ';
-			}
-			$query .= "' IN BOOLEAN MODE) ";
+			$query .= $word;
+			$query .= '* ';
 		}
-		else
-		{
-			$query .= " WHERE MATCH (title,description) AGAINST(' ";
-			foreach($this->query_parser->getQuotedWords(true) as $word)
-			{
-				$query .= $word;
-				$query .= ' ';
-			}
-			$query .= "') ";
-		}
+		$query .= "' IN BOOLEAN MODE) ";
 		return $query;
 	}		
-	
-	// Private
 }
 ?>

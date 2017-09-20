@@ -40,27 +40,13 @@ class ilFulltextTestSearch extends ilTestSearch
 	function __createWhereCondition($a_field_str)
 	{
 		// IN BOOLEAN MODE
-		if($this->db->isMysql4_0OrHigher())
+		$query .= " WHERE MATCH(".$a_field_str.") AGAINST('";
+		foreach($this->query_parser->getQuotedWords(true) as $word)
 		{
-			$query .= " WHERE MATCH(".$a_field_str.") AGAINST('";
-			foreach($this->query_parser->getQuotedWords(true) as $word)
-			{
-				$query .= $word;
-				$query .= '* ';
-			}
-			$query .= "' IN BOOLEAN MODE) ";
+			$query .= $word;
+			$query .= '* ';
 		}
-		else
-		{
-			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
-			$query .= " WHERE MATCH (".$a_field_str.") AGAINST(' ";
-			foreach($this->query_parser->getQuotedWords(true) as $word)
-			{
-				$query .= $word;
-				$query .= ' ';
-			}
-			$query .= "') ";
-		}
+		$query .= "' IN BOOLEAN MODE) ";
 		return $query;
 	}
 }
