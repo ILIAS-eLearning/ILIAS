@@ -3150,15 +3150,22 @@ class ilObjectListGUI
 							$htpl->parseCurrentBlock();
 						}
 
-						if (!$attr["href"])
-						{
-							$attr["href"] = "#";
-						}
 
 						$htpl->setCurrentBlock("prop");
+						if ($attr["href"] || $attr["onclick"])
+						{
+							$htpl->setVariable("TAG", "a");
+						}
+						else
+						{
+							$htpl->setVariable("TAG", "span");
+						}
 						$htpl->setVariable("PROP_ID", $id);
 						$htpl->setVariable("IMG", ilUtil::img($attr["img"]));
-						$htpl->setVariable("PROP_HREF", $attr["href"]);
+						if ($attr["href"] != "")
+						{
+							$htpl->setVariable("PROP_HREF", ' href="'.$attr["href"].'" ');
+						}
 						$htpl->parseCurrentBlock();
 
 						if ($attr["tooltip"])

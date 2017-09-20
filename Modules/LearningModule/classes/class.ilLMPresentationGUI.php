@@ -97,7 +97,6 @@ class ilLMPresentationGUI
 		$this->nav_history = $DIC["ilNavigationHistory"];
 		$this->access = $DIC->access();
 		$this->settings = $DIC->settings();
-		$this->main_menu = $DIC["ilMainMenu"];
 		$this->locator = $DIC["ilLocator"];
 		$this->tree = $DIC->repositoryTree();
 		$this->help = $DIC["ilHelp"];
@@ -410,6 +409,8 @@ class ilLMPresentationGUI
 	*/
 	function layout($a_xml = "main.xml", $doShow = true)
 	{
+		global $DIC;
+
 		$tpl = $this->tpl;
 		$ilSetting = $this->settings;
 		$ilCtrl = $this->ctrl;
@@ -661,6 +662,7 @@ class ilLMPresentationGUI
 				// from main menu
 //				$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
 				$this->tpl->addJavascript("./Services/Navigation/js/ServiceNavigation.js");
+				ilYuiUtil::initConnection($this->tpl);
 				$this->tpl->fillJavaScriptFiles();
 				$this->tpl->fillScreenReaderFocus();
 
@@ -764,6 +766,8 @@ class ilLMPresentationGUI
 
 	function glossary()
 	{
+		global $DIC;
+
 		$ilUser = $this->user;
 		
 		if ($_GET["frame"] != "_blank")
@@ -804,7 +808,7 @@ class ilLMPresentationGUI
 	*/
 	function ilMainMenu()
 	{
-		$ilMainMenu = $this->main_menu;
+		$ilMainMenu = new ilMainMenuGUI("_top", false, $this->tpl);
 
 		if ($this->offlineMode())
 		{
@@ -839,6 +843,7 @@ class ilLMPresentationGUI
 	{
 		include_once("./Modules/LearningModule/classes/class.ilLMTOCExplorerGUI.php");
 		$exp = new ilLMTOCExplorerGUI($this, "ilTOC", $this, $this->lang, $this->focus_id, $this->export_all_languages);
+		$exp->setMainTemplate($this->tpl);
 		$exp->setTracker($this->getTracker());
 		if (!$exp->handleCommand())
 		{
@@ -2058,9 +2063,11 @@ class ilLMPresentationGUI
 					case "File":
 						if (!$this->offlineMode())
 						{
+							$ilCtrl->setParameter($this, "obj_id", $this->getCurrentPageId());
 							$ilCtrl->setParameter($this, "file_id", "il__file_".$target_id);
 							$href = $ilCtrl->getLinkTarget($this, "downloadFile");
 							$ilCtrl->setParameter($this, "file_id", "");
+							$ilCtrl->setParameter($this, "obj_id", $_GET["obj_id"]);
 						}
 						break;
 
@@ -2847,6 +2854,7 @@ class ilLMPresentationGUI
 
 		include_once("./Modules/LearningModule/classes/class.ilLMTableOfContentsExplorerGUI.php");
 		$exp = new ilLMTableOfContentsExplorerGUI($this, "showTableOfContents", $this, $this->lang, $this->export_all_languages);
+		$exp->setMainTemplate($this->tpl);
 		$exp->setTracker($this->getTracker());
 		if (!$exp->handleCommand())
 		{
@@ -3840,12 +3848,21 @@ class ilLMPresentationGUI
 	*/
 	function downloadFile()
 	{
-		$file = explode("_", $_GET["file_id"]);
-		$file_id = (int) $file[count($file) - 1];
-		require_once("./Modules/File/classes/class.ilObjFile.php");
-		$fileObj = new ilObjFile($file_id, false);
-		$fileObj->sendFile();
-		exit;
+		$pg_obj = $this->getLMPage($this->getCurrentPageId());
+		$pg_obj->buildDom();
+		$int_links = $pg_obj->getInternalLinks();
+		foreach ($int_links as $il)
+		{
+			if ($il["Target"] == str_replace("_file_", "_dfile_", $_GET["file_id"]))
+			{
+				$file = explode("_", $_GET["file_id"]);
+				$file_id = (int) $file[count($file) - 1];
+				require_once("./Modules/File/classes/class.ilObjFile.php");
+				$fileObj = new ilObjFile($file_id, false);
+				$fileObj->sendFile();
+				exit;
+			}
+		}
 	}
 
 	/**

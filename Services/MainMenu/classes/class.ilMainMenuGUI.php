@@ -66,10 +66,19 @@ class ilMainMenuGUI
 	 */
 	protected $help;
 
+	/**
+	 * @var ilTemplate
+	 */
 	var $tpl;
+
 	var $target;
 	var $start_template;
 	var $mail; // [bool]
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $main_tpl;
 	
 	protected $mode; // [int]
 	protected $topbar_back_url; // [stringt]
@@ -85,9 +94,18 @@ class ilMainMenuGUI
 	* @param	boolean		$a_use_start_template	true means: target scripts should
 	*												be called through start template
 	*/
-	function __construct($a_target = "_top", $a_use_start_template = false)
+	function __construct($a_target = "_top", $a_use_start_template = false, ilTemplate $a_main_tpl = null)
 	{
 		global $DIC;
+
+		if ($a_main_tpl != null)
+		{
+			$this->main_tpl = $a_main_tpl;
+		}
+		else
+		{
+			$this->main_tpl = $DIC["tpl"];
+		}
 
 		$this->rbacsystem = $DIC->rbac()->system();
 		$this->user = $DIC->user();
@@ -189,9 +207,6 @@ class ilMainMenuGUI
 
 		$lng = $DIC->language();
 
-		global $DIC;
-
-		$ilUser = $DIC->user();
 		include_once("./Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php");
 		$gr_list = new ilGroupedListGUI();
 		$gr_list->setAsDropDown(true);
@@ -218,13 +233,11 @@ class ilMainMenuGUI
 	*/
 	function setTemplateVars()
 	{
-		global $DIC;
-
 		$rbacsystem = $this->rbacsystem;
 		$lng = $this->lng;
 		$ilUser = $this->user;
 		$ilPluginAdmin = $this->plugin_admin;
-		$main_tpl = $DIC["tpl"];
+		$main_tpl = $this->main_tpl;
 
 		if($this->logo_only)
 		{		

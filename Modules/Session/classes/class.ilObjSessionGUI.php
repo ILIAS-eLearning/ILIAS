@@ -839,7 +839,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$new_obj->getFirstAppointment()->setStartingTime($date->get(IL_CAL_UNIX));
 			$new_obj->getFirstAppointment()->setEndingTime($date->get(IL_CAL_UNIX) + $period_diff);
 			$new_obj->getFirstAppointment()->update();
-			$new_obj->update();
+			$new_obj->update(true);
 			
 			// #14547 - active is default
 			if(!$a_activate_lp)

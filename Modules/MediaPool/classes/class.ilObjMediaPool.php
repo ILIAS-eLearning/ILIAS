@@ -118,7 +118,7 @@ class ilObjMediaPool extends ilObject
 			$this->setDefaultHeight($rec["default_height"]);
 			$this->setForTranslation($rec["for_translation"]);
 		}
-		$this->mep_tree = ilObjMediaPool::getPoolTree($this->getId());
+		$this->mep_tree = ilObjMediaPool::_getPoolTree($this->getId());
 	}
 
 
@@ -129,7 +129,7 @@ class ilObjMediaPool extends ilObject
 	*
 	* @return	object	Tree object of media pool
 	*/
-	static function getPoolTree($a_obj_id)
+	static function _getPoolTree($a_obj_id)
 	{
 		$tree = new ilTree($a_obj_id);
 		$tree->setTreeTablePK("mep_id");
@@ -137,6 +137,17 @@ class ilObjMediaPool extends ilObject
 		
 		return $tree;
 	}
+	
+	/**
+	 * Get pool tree
+	 *
+	 * @return object
+	 */
+	function getPoolTree()
+	{
+		return self::_getPoolTree($this->getId());
+	}
+	
 	
 	/**
 	* create new media pool

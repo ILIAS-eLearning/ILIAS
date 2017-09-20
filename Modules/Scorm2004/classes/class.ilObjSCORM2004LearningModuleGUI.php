@@ -721,8 +721,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	{
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
-		$tree = $this->tree;
-		$rbacsystem = $this->rbacsystem;
 		$ilSetting = $this->settings;
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -745,6 +743,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 
 		// glossary
 		$ne = new ilNonEditableValueGUI($lng->txt("obj_glo"), "glossary");
+		$ne->setInfo($lng->txt("sahs_glo_info"));
 		$this->form->addItem($ne);
 		
 		// style

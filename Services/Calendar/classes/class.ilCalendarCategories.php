@@ -21,9 +21,6 @@
         +-----------------------------------------------------------------------------+
 */
 
-include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
-include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
-include_once './Services/Calendar/classes/class.ilCalendarCache.php';
 
 /**
 * class for calendar categories
