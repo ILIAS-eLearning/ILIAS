@@ -15,8 +15,7 @@ require_once 'Modules/Forum/classes/class.ilForumProperties.php';
 class ilObjForumAdministrationGUI extends ilObjectGUI
 {
 	private $rbac;
-	private $settings;
-	
+
 	/**
 	 * Contructor
 	 * @access public
@@ -25,8 +24,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 	{
 		global $DIC;
 		$this->rbac = $DIC->rbac();
-		$this->settings = $DIC->settings();
-		
+
 		$this->type = 'frma';
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 		$this->lng->loadLanguageModule('forum');
