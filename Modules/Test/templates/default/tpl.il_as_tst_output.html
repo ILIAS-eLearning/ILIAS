@@ -101,18 +101,17 @@
 	}
 	function charCounter(e)
 	{
-		if(e.type == 'keyup')
-		{
-			content = tinyMCE.selectedInstance.getDoc().body.innerHTML;
-			content = content.replace(/&lt;/ig, "<");
-			content = content.replace(/&gt;/ig, ">");
-			stripped = content.replace(/(<([^>]+)>)/ig,"");
+		if(e.type == 'keydown' || e.type == 'keyup') {
+			content = $("#TEXT").val();
+			content = stripAndDecode(content);
+
+			counter = YAHOO.util.Dom.get("myCounter");
+
 			counterblock = YAHOO.util.Dom.get("charcounter");
 			if (counterblock != null)
 			{
 				counterblock.style.visibility = 'visible';
-				counter = YAHOO.util.Dom.get("myCounter");
-				if (maxL > 0) counter.value = maxL - stripped.length;
+				if (maxL > 0) counter.value = maxL - content.length;
 			}
 			
 		}
@@ -120,17 +119,27 @@
 	
 	function initCharCounter()
 	{
-		content = YAHOO.util.Dom.get("TEXT").innerHTML;
-		content = content.replace(/&lt;/ig, "<");
-		content = content.replace(/&gt;/ig, ">");
-		stripped = content.replace(/(<([^>]+)>)/ig,"");
+		content = $("#TEXT").val();
+		content = stripAndDecode(content);
+
 		counterblock = YAHOO.util.Dom.get("charcounter");
 		if (counterblock != null)
 		{
 			counterblock.style.visibility = 'visible';
 			counter = YAHOO.util.Dom.get("myCounter");
-			if (maxL > 0) counter.value = maxL - stripped.length;
+			if (maxL > 0) counter.value = maxL - content.length;
 		}
+	}
+
+	function stripAndDecode(string)
+	{
+		return string
+			.replace(/(<([^>]+)>)/ig, "")
+			.replace(/&lt;/ig, "<")
+			.replace(/&gt;/ig, ">")
+			.replace(/\r?\n|\r/g, '')
+			.replace(/&nbsp;/gi, " ")
+			.replace(/&amp;/gi, " ");
 	}
 
 <!-- fau: testNav - moved auto saver to ilTestPlayerQuestionEditControl.js -->
