@@ -6,7 +6,7 @@
 include_once './Modules/Course/classes/class.ilCourseMailTemplateTutorContext.php';
 
 /**
- * Preiview context for course mail template
+ * Preview context for course mail template
  *
  * @author Stefan Hecken 	<concepts-and-training.de>
  */

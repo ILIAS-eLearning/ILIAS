@@ -125,9 +125,7 @@ class ilMailTemplateTableGUI extends ilTable2GUI
 				$this->ctrl->getLinkTarget($this->parent_obj, 'confirmDeleteTemplate'));
 		}
 		// cat-tms-patch start
-		if ($this->contexts[$row["context"]] instanceof ilCourseMailTemplateTutorContext) {
-			$actions->addItem($this->lng->txt('preview'), '', $this->ctrl->getLinkTarget($this->parent_obj, 'showPreview'));
-		}
+		$actions->addItem($this->lng->txt('preview'), '', $this->ctrl->getLinkTarget($this->parent_obj, 'showPreview'));
 		// cat-tms-patch end
 		$this->tpl->setVariable('VAL_ACTION', $actions->getHTML());
 		$this->ctrl->clearParameters($this->getParentObject());

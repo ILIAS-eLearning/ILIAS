@@ -7438,6 +7438,7 @@ prtf#:#prtf_existing_portfolio#:#Vorhandenes Portfolio
 prtf#:#prtf_finalize_portfolio#:#Portfolio abschließen und abgeben
 prtf#:#prtf_finalized#:#Das Portfolio wurde abgegeben.
 prtf#:#prtf_first_page_title#:#Beginnt mit:
+prtf#:#prtf_font_color#:#Schriftfarbe###deprecated
 prtf#:#prtf_new_portfolio#:#Neues Portfolio
 prtf#:#prtf_no_blogs_info#:#Wenn Sie im Bereich "%s" einen Blog anlegen, können Sie dieses auch als Teil Ihres Portfolios verwenden.
 prtf#:#prtf_page_created#:#Seite wurde hinzugefügt
@@ -14193,3 +14194,7 @@ sess#:#preview_crs_title#:#Beispielkurs
 sess#:#preview_crs_status#:#In Bearbeitung
 sess#:#preview_crs_mark#:#Unbekannt
 sess#:#preview_crs_time_spent#:#1 Stunde und 10 Minuten
+crs#:#crs_mail_context_invitation_title#:#Einladungsmail an Kurs-Mitglieder
+crs#:#crs_mail_context_invitation_info#:#Einladungsmail für die Mitglieder eines Kurses.
+crs#:#crs_mail_context_automatic_title#:#Automatische Mail an Kurs-Mitglieder
+crs#:#crs_mail_context_automatic_info#:#Weitere, automatische Mails im Kontext des Kurses (Austritt, Absage, Storno, etc.)
