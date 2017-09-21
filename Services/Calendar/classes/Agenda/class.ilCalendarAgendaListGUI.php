@@ -179,10 +179,14 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 			$shy = $this->ui_factory->button()->shy($e["event"]->getPresentationTitle(), "")->withOnClick($modal->getShowSignal());
 
 			$modals[] = $modal;
-
+			if($e['event']->isFullDay()) {
+				$lead_text = $this->lng->txt("cal_fullday_title");
+			} else {
+				$lead_text = ilDatePresentation::formatPeriod($begin, $end, true);
+			}
 			$li = $this->ui_factory->item()->standard($shy)
 				->withDescription("".$e["event"]->getDescription())
-				->withLeadText(ilDatePresentation::formatPeriod($begin, $end, true))
+				->withLeadText($lead_text)
 				->withProperties($properties)
 				->withColor($df->color('#'.$cat_info["color"]));
 
