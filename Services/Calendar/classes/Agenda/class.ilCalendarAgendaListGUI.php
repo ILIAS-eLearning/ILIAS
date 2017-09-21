@@ -180,7 +180,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 
 			$modals[] = $modal;
 			if($e['event']->isFullDay()) {
-				$lead_text = $this->lng->txt("cal_fullday_title");
+				$lead_text = $this->lng->txt("cal_all_day");
 			} else {
 				$lead_text = ilDatePresentation::formatPeriod($begin, $end, true);
 			}
