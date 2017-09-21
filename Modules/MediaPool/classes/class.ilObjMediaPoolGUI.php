@@ -1734,8 +1734,26 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				$media_item->setPurpose("Standard");
 
 				$file = $mob_dir."/".basename($fullpath);
-				ilUtil::moveUploadedFile($fullpath,
-					basename($fullpath), $file, false, $_POST["action"]);
+
+				// virus handling
+				$vir = ilUtil::virusHandling($fullpath, basename($fullpath));
+				if (!$vir[0])
+				{
+					ilUtil::sendFailure($this->lng->txt("file_is_infected")."<br />".$vir[1], true);
+					ilUtil::redirect("ilias.php?baseClass=ilMediaPoolPresentationGUI&cmd=listMedia&ref_id=".
+						$_GET["ref_id"]."&mepitem_id=".$_GET["mepitem_id"]);
+				}
+
+				switch ($_POST["action"])
+				{
+					case "rename":
+						rename($fullpath, $file);
+						break;
+
+					case "copy":
+						copy($fullpath, $file);
+						break;
+				}
 
 				// get mime type
 				$format = ilObjMediaObject::getMimeType($file);
