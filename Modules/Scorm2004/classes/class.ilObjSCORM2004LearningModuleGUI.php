@@ -2518,6 +2518,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		}
 		if ($a_redirect)
 		{
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "showOrganization");
 		}
 	}

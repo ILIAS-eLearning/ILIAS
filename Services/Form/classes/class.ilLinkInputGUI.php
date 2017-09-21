@@ -323,7 +323,8 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 		}
 		if (!$this->getRequired())
 		{
-			$has_radio = true;
+			// see #0021274
+//			$has_radio = true;
 		}
 		
 		// external
