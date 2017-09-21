@@ -1529,8 +1529,7 @@ class ilInitialisation
 		// fallback, should never happen
 		if ($ilUser->getId() == ANONYMOUS_USER_ID)
 		{
-			ilInitialisation::goToPublicSection();
-			return true;
+			throw new ilException('Can not redirect anonymous user to landing page');
 		}
 		
 		require_once 'Services/User/classes/class.ilUserRequestTargetAdjustment.php';
