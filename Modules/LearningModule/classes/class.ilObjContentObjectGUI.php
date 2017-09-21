@@ -3435,7 +3435,8 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$ilCtrl = $this->ctrl;
 		
 		ilLMObject::saveTitles($this->object, ilUtil::stripSlashesArray($_POST["title"]), $_GET["transl"]);
-		
+
+		ilUtil::sendSuccess($this->lng->txt("lm_save_titles"), true);
 		$ilCtrl->redirect($this, "chapters");
 	}
 

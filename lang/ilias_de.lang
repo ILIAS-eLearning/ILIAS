@@ -14032,3 +14032,4 @@ common#:#org_op_access_enrolments#:#Teilnehmer-Status einsehen
 sahs#:#sahs_add#:#SCORM-Lernmodul anlegen
 sahs#:#sahs_copy#:#SCORM-Lernmodul kopieren
 sahs#:#sahs_glo_info#:#Bitte beachten Sie, daß interne Links in Glossarbegriffen nicht unterstützt werden.
+lm#:#lm_save_titles#:#Titel wurden gespeichert.
