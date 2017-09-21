@@ -10527,6 +10527,9 @@ a.mailunread:visited {
 .iosMailFilter .checkbox input[type="checkbox"] {
   margin-left: -15px !important;
 }
+#block_pdmail_0 .pdMailRow img {
+  max-width: 30px;
+}
 /* --- Services/COPage ---*/
 a.ilEditSubmit {
   background: url("images/ButtonsBack.png") repeat-x bottom white;
