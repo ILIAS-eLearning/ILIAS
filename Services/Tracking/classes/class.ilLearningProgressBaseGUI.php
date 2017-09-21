@@ -506,6 +506,7 @@ class ilLearningProgressBaseGUI
 			case 'sahs':
 			case 'grp':
 			case 'iass':
+			case 'sess':
 				// display status as image
 				include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
 				$status = $this->__readStatus($item_id,$user_id);
