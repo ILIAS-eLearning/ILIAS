@@ -252,14 +252,15 @@ class assFormulaQuestionResult
 		{
 			return false;
 		}
-		$value=str_replace(' ', '',$value);
-		
+
+		$value = str_replace(' ', '',$value);
+
 		include_once "./Services/Math/classes/class.EvalMath.php";
 		include_once "./Services/Math/classes/class.ilMath.php";
+
 		$formula = $this->substituteFormula($variables, $results);
 
 		$check_valid_chars = true;
-		
 		if(preg_match_all("/(\\\$v\\d+)/ims", $formula, $matches))
 		{
 			foreach($matches[1] as $variable)
@@ -295,8 +296,38 @@ class assFormulaQuestionResult
 		$math->suppress_errors = false;
 		$result                = $math->evaluate($formula); // baseunit-result!!
 
-		$result = ilMath::_round($result, $this->getPrecision());
-		
+		$resultWithRespectedUnit = $result; 
+		if(is_object($this->getUnit()))
+		{
+			//there is a "fix" result_unit defined!
+
+			// if expected resultunit != baseunit convert to "fix" result_unit
+			if($this->getUnit()->getBaseUnit() != -1)
+			{
+				$resultWithRespectedUnit = ilMath::_div($result, $this->getUnit()->getFactor(), $this->getPrecision());
+			}
+			else
+			{
+				//if resultunit == baseunit calculate to get correct precision
+				$resultWithRespectedUnit = ilMath::_mul($result, 1, $this->getPrecision());
+			}
+		}
+		else if($this->getUnit() == NULL && $unit != NULL)
+		{
+			// there is no "fix" result_unit defined, but the user has selected a unit ... 
+			// so .... there are "available resultunits" in multi-selectbox selected
+			// -> check if selected user-unit is baseunit
+			if($unit->getFactor() == 1 && strlen(trim($unit->getFactor())) == 1)
+			{
+				// result is already calculated to baseunit.... -> get correct precision..
+				$resultWithRespectedUnit = ilMath::_mul($result, 1, $this->getPrecision());
+			}
+			else
+			{
+				$resultWithRespectedUnit = ilMath::_div($result, $unit->getFactor(), $this->getPrecision());
+			}
+		}
+
 		//	check for valid chars ("0-9",",|.|/","0-9","e|E","+|-","0-9")
 		$has_valid_chars = preg_match("/^-?([0-9]*)(,|\\.|\\/){0,1}([0-9]*)([eE][\\+|-]([0-9])+)?$/", $value, $matches);
 		if(!$has_valid_chars)
@@ -311,6 +342,15 @@ class assFormulaQuestionResult
 		switch($this->getResultType())
 		{
 			case assFormulaQuestionResult::RESULT_DEC:
+				if(substr_count($value, '/') > 0)
+				{
+					$check_fraction = FALSE;
+				}
+				else
+				{
+					$check_fraction = TRUE;
+				}
+
 				if(substr_count($value, '.') == 1 || substr_count($value, ',') == 1)
 				{
 					$exp_val    = $value;
@@ -320,17 +360,8 @@ class assFormulaQuestionResult
 				{
 					$frac_value = $value;
 				}
-				
-				$frac_value =  ilMath::_round($frac_value, $this->getPrecision());
 
-				if(substr_count($value, '/') >= 1)
-				{
-					$check_fraction = FALSE;
-				}
-				else
-				{
-					$check_fraction = TRUE;	
-				}	
+				$frac_value = ilMath::_round($frac_value, $this->getPrecision());
 				break;
 			
 			case assFormulaQuestionResult::RESULT_FRAC: 
@@ -339,7 +370,7 @@ class assFormulaQuestionResult
 				if(count($exp_val) == 1)
 				{	
 					$frac_value = ilMath::_div($exp_val[0], 1, $this->getPrecision());
-					if( ilMath::_equals($frac_value, $result, $this->getPrecision()) )
+					if(ilMath::_equals($frac_value, $resultWithRespectedUnit, $this->getPrecision()))
 					{
 						$check_fraction = TRUE;
 					}
@@ -354,11 +385,11 @@ class assFormulaQuestionResult
 					$frac_value = ilMath::_round($frac_value, $this->getPrecision());
 					$frac_value = str_replace(',', '.', $frac_value);
 
-					if( ilMath::_equals($frac_value, $result, $this->getPrecision()) )
+					if(ilMath::_equals($frac_value, $resultWithRespectedUnit, $this->getPrecision()) )
 					{
 						$check_fraction = TRUE;
 					}
-					
+
 					if($this->getResultType() == assFormulaQuestionResult::RESULT_CO_FRAC)
 					{
 						if(!self::isCoprimeFraction($exp_val[0], $exp_val[1]))
@@ -367,8 +398,8 @@ class assFormulaQuestionResult
 						}
 					}
 				}
-				
-				if(substr_count($value, '.') >= 1 || substr_count($value, ',') >= 1)
+
+				if(substr_count($value, '.') > 0 || substr_count($value, ',') > 0)
 				{
 					$check_fraction = FALSE;
 				}
@@ -394,38 +425,6 @@ class assFormulaQuestionResult
 			break;
 		}
 
-		// result unit!!
-		if(is_object($this->getUnit()))
-		{
-			//there is a "fix" result_unit defined!
-			
-			// if expected resultunit != baseunit convert to "fix" result_unit
-			if($this->getUnit()->getBaseUnit() != -1)
-			{
-				$result = ilMath::_div($result, $this->getUnit()->getFactor(), $this->getPrecision());
-			}
-			else
-			{
-				//if resultunit == baseunit calculate to get correct precision
-				$result = ilMath::_mul($result, $this->getUnit()->getFactor(), $this->getPrecision());
-			}
-		}
-		else if($this->getUnit() == NULL && $unit != NULL)
-		{
-			// there is no "fix" result_unit defined, but the user has selected a unit ... 
-			// so .... there are "available resultunits" in multi-selectbox selected
-			// -> check if selected user-unit is baseunit
-			
-			if((int)$unit->getFactor() == 1)
-			{
-				// result is already calculated to baseunit.... -> get correct precision..
-				$result = ilMath::_mul($result, 1, $this->getPrecision());
-			}
-			else
-			{
-				$result = ilMath::_div($result, $unit->getFactor(), 100);
-			}
-		}
 		if(is_object($unit))
 		{
 			if(isset($frac_value))
@@ -437,14 +436,14 @@ class assFormulaQuestionResult
 		$checkvalue = FALSE;
 		if(isset($frac_value))
 		{			
-			if($this->isInTolerance($frac_value, $result, $this->getTolerance()))
+			if($this->isInTolerance($frac_value, $resultWithRespectedUnit, $this->getTolerance()))
 			{
 				$checkvalue = TRUE;
 			}
 		}
 		else
 		{
-			if($this->isInTolerance($value, $result, $this->getTolerance()))
+			if($this->isInTolerance($value, $resultWithRespectedUnit, $this->getTolerance()))
 			{
 				$checkvalue = TRUE;
 			}
