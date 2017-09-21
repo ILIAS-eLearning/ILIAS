@@ -21356,3 +21356,10 @@ if($ilDB->tableColumnExists('il_orgu_operations', 'operation_string')){
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#5231>
+<?php
+if(!$ilDB->indexExistsByFields('style_parameter',array('style_id')))
+{
+	$ilDB->addIndex('style_parameter',array('style_id'),'i1');
+}
+?>
