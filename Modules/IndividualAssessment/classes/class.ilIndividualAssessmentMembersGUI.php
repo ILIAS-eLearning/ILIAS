@@ -145,6 +145,7 @@ class ilIndividualAssessmentMembersGUI {
 		if(!$this->object->accessHandler()->checkAccessToObj($this->object,'edit_members')) {
 			$a_parent_gui->handleAccessViolation();
 		}
+		$this->parent_gui->setScreenId("iass", "members", "removeUserConfirmation");
 		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$confirm = new ilConfirmationGUI();
 		$confirm->addItem('usr_id',$_GET['usr_id'], ilObjUser::_lookupFullname($_GET['usr_id']));
