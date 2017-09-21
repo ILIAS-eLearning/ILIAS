@@ -308,6 +308,7 @@ class ilSCORM2004NodeGUI
 		$ilCtrl = $this->ctrl;
 		
 		$this->getParentGUI()->saveAllTitles(false);
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		$ilCtrl->redirect($this, "showOrganization");
 	}
 

@@ -8240,8 +8240,17 @@ ul.breadcrumb li:hover {
   max-height: 500px;
   overflow: scroll;
 }
+.il-popover .il-popover-inner .close {
+  margin: 0;
+}
+.il-popover .il-popover-inner .close::after {
+  content: "";
+  width: 0em;
+  height: 0em;
+  padding: 0;
+}
 .il-popover i.icon-refresh {
-  background: url("../../src/UI/templates/libs/node_modules/webui-popover/img/loading.gif") no-repeat;
+  background: url("../../libs/bower/bower_components/webui-popover/img/loading.gif") no-repeat;
   height: 30px;
 }
 .il-popover .il-popover-title-container {

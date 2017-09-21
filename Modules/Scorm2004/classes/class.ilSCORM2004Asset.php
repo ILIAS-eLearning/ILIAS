@@ -526,11 +526,9 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		if($mode=='pdf')
 			$output = preg_replace("/<div class=\"ilc_page_title_PageTitle\">(.*?)<\/div>/i","<h2>$1</h2>",$output);
 
-		//$output = preg_replace("/\.\/mobs\/mm_(\d+)\/([^\"]+)/i","./objects/il_".IL_INST_ID."_mob_$1/$2",$output);
 		$output = preg_replace("/mobs\/mm_(\d+)\/([^\"]+)/i","./objects/il_".IL_INST_ID."_mob_$1/$2",$output);
 		$output = preg_replace("/\.\/files\/file_(\d+)\/([^\"]+)/i","./objects/il_".IL_INST_ID."_file_$1/$2",$output);
 		$output = preg_replace("/\.\/Services\/MediaObjects\/flash_mp3_player/i","./players",$output);
-//		$output = preg_replace("/\.\/".str_replace("/", "\/", ilPlayerUtil::getFlashVideoPlayerDirectory())."/i","./players",$output);
 		$output = preg_replace("/file=..\/..\/..\/.\//i","file=../",$output);
 
 		if($mode!='pdf')
@@ -539,8 +537,6 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 			// this one is for fullscreen in glossary entries
 			$output = preg_replace_callback("/href=\"fullscreen_(\d+)\.html\"/",array(get_class($this), 'fixFullscreeenLink'),$output);
 			$output = preg_replace_callback("/{{{{{(Question;)(il__qst_[0-9]+)}}}}}/",array(get_class($this), 'insertQuestion'),$output);
-//			$output = preg_replace("/&#123;/","",$output);
-//			$output = preg_replace("/&#125;/","",$output);
 			$q_handling = file_get_contents('./Modules/Scorm2004/scripts/questions/question_handling.js');
 			fputs(fopen($a_target_dir.'/js/questions_'.$this->getId().'.js','w+'),ilQuestionExporter::questionsJS().$q_handling);
 			copy("./Modules/Scorm2004/templates/default/question_handling.css",

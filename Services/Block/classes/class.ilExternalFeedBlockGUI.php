@@ -138,7 +138,6 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 
 		$next_class = $ilCtrl->getNextClass();
 		$cmd = $ilCtrl->getCmd("getHTML");
-
 		switch ($next_class)
 		{
 			default:
@@ -552,6 +551,7 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	*/
 	public function prepareSaveFeedBlock(&$a_feed_block)
 	{
+		$this->getGuiObject()->save($a_feed_block);
 		$a_feed_block->setType($this->getBlockType());
 	}
 	

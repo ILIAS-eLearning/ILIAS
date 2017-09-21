@@ -166,7 +166,7 @@ class ilMediaPoolPage extends ilPageObject
 	*/
 	function getUsages($a_incl_hist = true)
 	{
-		return $this->lookupUsages($this->getId(), $a_incl_hist);
+		return self::lookupUsages($this->getId(), $a_incl_hist);
 	}
 	
 	/**
@@ -174,9 +174,11 @@ class ilMediaPoolPage extends ilPageObject
 	*
 	* @todo: This should be all in one context -> mob id table
 	*/
-	function lookupUsages($a_id, $a_incl_hist = true)
+	static function lookupUsages($a_id, $a_incl_hist = true)
 	{
-		$ilDB = $this->db;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		// get usages in pages
 		$q = "SELECT * FROM page_pc_usage WHERE pc_id = ".

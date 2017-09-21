@@ -252,6 +252,7 @@ class ilGlossaryPresentationGUI
 			// alphabetical navigation
 			include_once("./Services/Form/classes/class.ilAlphabetInputGUI.php");
 			$ai = new ilAlphabetInputGUI($lng->txt("glo_quick_navigation"), "first");
+			$ai->setFixDBUmlauts(true);
 			$ai->setLetters($this->glossary->getFirstLetters($this->tax_node));
 			$ai->setParentCommand($this, "chooseLetter");
 			$ai->setHighlighted($_GET["letter"]);

@@ -236,14 +236,13 @@ class ilPCDataTableGUI extends ilPCTableGUI
 							"moveColRight" => "cont_ed_col_right",
 							"deleteCol" => "cont_ed_delete_col")
 		);
-
 		foreach($types as $type)
 		{
 			foreach($moves as $move)
 			{
 				foreach($commands[$type] as $command => $lang_var)
 				{
-					if ($move == "none" && (substr($command, 0, 4) == "move"))
+					if ($move == "none" && (substr($command, 0, 4) == "move" || substr($command, 0, 6) == "delete"))
 					{
 						continue;
 					}
@@ -383,6 +382,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 		// perform table action? (move...?)
 		//$this->update(false);
 		$this->pg_obj->addHierIDs();
+		$failed = false;
 		if ($_POST["tab_cmd"] != "")
 		{
 			$cell_hier_id = ($_POST["tab_cmd_type"] == "col")
@@ -393,11 +393,19 @@ class ilPCDataTableGUI extends ilPCTableGUI
 			{
 				$tab_cmd = $_POST["tab_cmd"];
 				$cell_obj->$tab_cmd();
-				$_SESSION["il_pg_error"] = $this->pg_obj->update();
+				$ret = $this->pg_obj->update();
+				if ($ret !== true)
+				{
+					ilUtil::sendFailure($ret[0][1], true);
+					$failed = true;
+				}
 			}
 		}
-		
-		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+
+		if (!$failed)
+		{
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		}
 		if ($_POST["save_return"])
 		{
 			$this->ctrl->returnToParent($this, "jump".$this->hier_id);
@@ -667,7 +675,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 			{
 				foreach($commands[$type] as $command => $lang_var)
 				{
-					if ($move == "none" && (substr($command, 0, 4) == "move"))
+					if ($move == "none" && (substr($command, 0, 4) == "move" || substr($command, 0, 6) == "delete"))
 					{
 						continue;
 					}
@@ -699,7 +707,8 @@ class ilPCDataTableGUI extends ilPCTableGUI
 		ilYuiUtil::initDragDrop();
 		ilYuiUtil::initConnection();
 		ilYuiUtil::initPanel(false);
-		$GLOBALS["tpl"]->addJavascript("Services/COPage/tiny/4_2_4/tinymce.js");
+		//$GLOBALS["tpl"]->addJavascript("Services/COPage/tiny/4_2_4/tinymce.js");
+		$GLOBALS["tpl"]->addJavascript("./libs/bower/bower_components/tinymce/tinymce.min.js");
 		$GLOBALS["tpl"]->addJavaScript("./Services/COPage/js/ilcopagecallback.js");
 		$GLOBALS["tpl"]->addJavascript("Services/COPage/js/page_editing.js");
 
@@ -712,15 +721,6 @@ class ilPCDataTableGUI extends ilPCTableGUI
 				");
 
 		$cfg = $this->getPageConfig();
-		/*$tpl->setVariable("IL_TINY_MENU",
-			self::getTinyMenu(
-				$this->getPageObject()->getParentType(),
-				$cfg->getEnableInternalLinks(),
-				$cfg->getEnableWikiLinks(),
-				$cfg->getEnableKeywords(),
-				$this->getStyleId(), true, true,
-				$cfg->getEnableAnchors()
-			));*/
 
 		$dtpl->setVariable("IL_TINY_MENU",
 			ilPageObjectGUI::getTinyMenu(

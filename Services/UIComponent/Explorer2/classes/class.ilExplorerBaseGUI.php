@@ -69,6 +69,17 @@ abstract class ilExplorerBaseGUI
 
 		$this->nodeOnclickEnabled = true;
 	}
+	
+	/**
+	 * Set main template (that is responsible for adding js/css)
+	 *
+	 * @param ilTemplate|null $a_main_tpl
+	 */
+	function setMainTemplate(ilTemplate $a_main_tpl = null)
+	{
+		$this->tpl = $a_main_tpl;
+	}
+	
 
 	/**
 	 * Get local path of explorer js
@@ -629,14 +640,21 @@ abstract class ilExplorerBaseGUI
 	/**
 	 * Init JS
 	 */
-	static function init()
+	static function init($a_main_tpl = null)
 	{
 		global $DIC;
 
-		$tpl = $DIC["tpl"];
+		if ($a_main_tpl == null)
+		{
+			$tpl = $DIC["tpl"];
+		}
+		else
+		{
+			$tpl = $a_main_tpl;
+		}
 
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
-		iljQueryUtil::initjQuery();
+		iljQueryUtil::initjQuery($tpl);
 
 		$tpl->addJavascript(self::getLocalExplorerJsPath());
 		$tpl->addJavascript(self::getLocalJsTreeJsPath());
@@ -653,7 +671,7 @@ abstract class ilExplorerBaseGUI
 
 		$this->beforeRendering();
 
-		self::init();
+		self::init($tpl);
 		$container_id = $this->getContainerId();
 		$container_outer_id = "il_expl2_jstree_cont_out_".$this->getId();
 

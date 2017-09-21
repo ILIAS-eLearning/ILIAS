@@ -464,13 +464,9 @@ die("deprecated");
 		//insert questions
 		require_once './Modules/Scorm2004/classes/class.ilQuestionExporter.php';
 		$output = preg_replace_callback("/{{{{{(Question;)(il__qst_[0-9]+)}}}}}/",array(get_class($this), 'insertQuestion'),$output);
-//		$output = preg_replace("/&#123;/","",$output);
-//		$output = preg_replace("/&#125;/","",$output);
 		$output = "<script>var ScormApi=null;".ilQuestionExporter::questionsJS()."</script>".$output;
 		
 		$lk = ilObjSAHSLearningModule::getAffectiveLocalization($this->node_object->getSLMId());
-//		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004PageGUI.php");
-//		ilSCORM2004PageGUI::addPreparationJavascript($tpl, $lk);
 
 		$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/question_handling.js");
 		$tpl->addCss("./Modules/Scorm2004/templates/default/question_handling.css");

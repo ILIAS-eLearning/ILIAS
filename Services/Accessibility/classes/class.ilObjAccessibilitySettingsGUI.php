@@ -75,7 +75,7 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
 
 		$this->prepareOutput();
 
-		if(!$ilAccess->checkAccess('read','',$this->object->getRefId()))
+		if(!$rbacsystem->checkAccess('read',$this->object->getRefId()))
 		{
 			$ilErr->raiseError($this->lng->txt('no_permission'),$ilErr->WARNING);
 		}
@@ -146,19 +146,19 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
 		$ilAccess = $this->access;
 		$ilTabs = $this->tabs;
 
-		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		if ($rbacsystem->checkAccess("read", $this->object->getRefId()))
 		{
 			$ilTabs->addTab('acc_settings', $this->lng->txt('settings'), $this->ctrl->getLinkTarget($this, 'editAccessibilitySettings'));
 		}
 
-		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		if ($rbacsystem->checkAccess("read", $this->object->getRefId()))
 		{
 			$ilTabs->addTarget("acc_access_keys",
 				$this->ctrl->getLinkTarget($this, "editAccessKeys"),
 				array("editAccessKeys", "view"));
 		}
 
-		if ($ilAccess->checkAccess('edit_permission', "", $this->object->getRefId()))
+		if ($rbacsystem->checkAccess("edit_permission", $this->object->getRefId()))
 		{
 			$ilTabs->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass('ilpermissiongui',"perm"),

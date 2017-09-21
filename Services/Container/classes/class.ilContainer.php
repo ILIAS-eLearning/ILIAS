@@ -501,12 +501,6 @@ class ilContainer extends ilObject
 	*/
 	static function _lookupIconPath($a_id, $a_size = "big")
 	{
-		if ($a_size == "")
-		{
-			$a_size = "big";
-		}
-		$size = $a_size;
-		
 		if (ilContainer::_lookupContainerSetting($a_id, "icon_custom"))
 		{
 			$cont_dir = ilContainer::_getContainerDirectory($a_id);
@@ -526,14 +520,15 @@ class ilContainer extends ilObject
 	*/
 	function saveIcons($a_custom_icon)
 	{
-		$ilDB = $this->db;
-		
 		$this->createContainerDirectory();
 		$cont_dir = $this->getContainerDirectory();
-		
-		$file_name = "";
+
 		if ($a_custom_icon != "")
 		{
+			if (is_file($cont_dir."/icon_custom.svg"))
+			{
+				unlink($cont_dir . "/icon_custom.svg");
+			}
 			$file_name = $cont_dir."/icon_custom.svg";
 			ilUtil::moveUploadedFile($a_custom_icon, "icon_custom.svg", $file_name);
 

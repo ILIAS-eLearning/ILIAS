@@ -82,7 +82,7 @@ final class FileUploadImpl implements FileUpload {
 	/**
 	 * @inheritdoc
 	 */
-	public function moveOneFileTo(UploadResult $uploadResult, $destination, $location = Location::STORAGE, $file_name = '') {
+	public function moveOneFileTo(UploadResult $uploadResult, $destination, $location = Location::STORAGE, $file_name = '', $override_existing = false) {
 		if($this->processed === false) {
 			throw new \RuntimeException('Can not move unprocessed files.');
 		}
@@ -95,6 +95,9 @@ final class FileUploadImpl implements FileUpload {
 
 		try {
 			$path = $destination . '/' . ($file_name == '' ? $uploadResult->getName() : $file_name);
+			if ($override_existing && $filesystem->has($path)) {
+				$filesystem->delete($path);
+			}
 			$filesystem->writeStream($path, Streams::ofPsr7Stream($this->uploadStreams[$uploadResult->getPath()]));
 			$tempResults[] = $this->regenerateUploadResultWithPath($uploadResult, $path);
 		}

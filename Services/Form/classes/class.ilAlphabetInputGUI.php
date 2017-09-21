@@ -31,6 +31,11 @@ class ilAlphabetInputGUI extends ilFormPropertyGUI implements ilToolbarItem
 	protected $highlight_letter;
 
 	/**
+	 * @var bool
+	 */
+	protected $fix_db_umlauts = false;
+
+	/**
 	* Constructor
 	*
 	* @param	string	$a_title	Title
@@ -117,6 +122,42 @@ class ilAlphabetInputGUI extends ilFormPropertyGUI implements ilToolbarItem
 	}
 	
 	/**
+	 * Set fix db umlauts
+	 *
+	 * @param bool $a_val fix db umlauts	
+	 */
+	function setFixDBUmlauts($a_val)
+	{
+		$this->fix_db_umlauts = $a_val;
+	}
+	
+	/**
+	 * Get fix db umlauts
+	 *
+	 * @return bool fix db umlauts
+	 */
+	function getFixDBUmlauts()
+	{
+		return $this->fix_db_umlauts;
+	}
+	
+	/**
+	 * Fix db umlauts
+	 *
+	 * @param
+	 * @return
+	 */
+	function fixDBUmlauts($l)
+	{
+		if ($this->fix_db_umlauts && !ilUtil::dbSupportsDisctinctUmlauts())
+		{
+			$l = str_replace (array("Ä", "Ö", "Ü", "ä", "ö", "ü"), array("A", "O", "U", "a", "o", "u"), $l);
+		}
+		return $l;
+	}
+	
+	
+	/**
 	* Render item
 	*/
 	protected function render($a_mode = "")
@@ -173,6 +214,7 @@ class ilAlphabetInputGUI extends ilFormPropertyGUI implements ilToolbarItem
 		$tpl = new ilTemplate("tpl.prop_alphabet.html", true, true, "Services/Form");
 		foreach ((array)$this->getLetters() as $l)
 		{
+			$l = $this->fixDBUmlauts($l);
 			$tpl->setCurrentBlock("letter");
 			$tpl->setVariable("TXT_LET", $l);
 			$ilCtrl->setParameter($this->parent_object, "letter", rawurlencode($l));

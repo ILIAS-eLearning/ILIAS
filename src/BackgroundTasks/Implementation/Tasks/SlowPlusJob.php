@@ -11,6 +11,9 @@ use ILIAS\BackgroundTasks\Types\Type;
 
 class SlowPlusJob extends AbstractJob {
 
+	const SLEEP_SECONDS = 10;
+
+
 	/**
 	 * PlusJob constructor.
 	 *
@@ -52,13 +55,13 @@ class SlowPlusJob extends AbstractJob {
 		/** @var IntegerValue $b */
 		$b = $input[1];
 
-		sleep(3);
+		sleep(self::SLEEP_SECONDS);
 		$observer->notifyPercentage($this, 20);
-		sleep(3);
+		sleep(self::SLEEP_SECONDS);
 		$observer->notifyPercentage($this, 40);
-		sleep(3);
+		sleep(self::SLEEP_SECONDS);
 		$observer->notifyPercentage($this, 60);
-		sleep(3);
+		sleep(self::SLEEP_SECONDS);
 		$observer->notifyPercentage($this, 80);
 
 		$output = new IntegerValue();
@@ -74,5 +77,12 @@ class SlowPlusJob extends AbstractJob {
 	 */
 	public function isStateless() {
 		return true;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getExpectedTimeOfTaksInSeconds() {
+		return 2;
 	}
 }

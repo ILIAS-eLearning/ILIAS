@@ -2836,7 +2836,7 @@ common#:#next#:#Next
 common#:#no_access_item_public#:#To access this item you need to be logged in and to have appropriate permissions.
 common#:#no_access_item#:#You have no permission to access this item.
 common#:#no_agreement_description#:#There is currently no terms of service text provided with this installation. Please contact the <a href="%1$s">system administrator</a>.
-common#:#no_checkbox#:#Please select at least one item.
+common#:#no_checkbox#:#You did not select any item.
 common#:#no_condition_selected#:#Please select one precondition.
 common#:#no_date#:#No date
 common#:#no_global_role_left#:#Every user has to be assigned to one role.
@@ -9164,7 +9164,7 @@ common#:#enable_sahs_protocol_data_desc#:#Show Protocol Data (SCORM)
 search#:#lucene_max_fs#:#Maximum File Size (in MB)
 search#:#lucene_max_fs_info#:#Defines the file size limit. Bigger files will not be included in the index.
 trac#:#trac_determines_learning_progress#:#Determines Learning Progress
-content#:#cont_scorm_ed_properties#:#Learning Module Properties / Glossary
+content#:#cont_scorm_ed_properties#:#Learning Module Properties
 content#:#sahs_empty_objectives_are_not_allowed#:#Please enter a learning objective.
 style#:#sty_type_rte_drag#:#Drag Bar
 style#:#sty_type_rte_tclink#:#Tree Control Link
@@ -13741,6 +13741,7 @@ background_tasks#:#dismiss#:#Quit
 background_tasks#:#completed#:#Completed
 background_tasks#:#waiting#:#Waiting
 background_tasks#:#proceed_job#:#Proceed
+background_tasks#:#task_might_be_failed#:#This Task has not responded for a while, you can quit it if needed.
 grp#:#grp_period#:#Period of Event
 grp#:#grp_period_info#:#Information about the start and end date of the event, which is supported by the group
 exc#:#exc_settings_feedback_mail_info#:#Tutors enter their evaluation into a mail form. The evaluation is sent to participants.
@@ -14027,3 +14028,8 @@ common#:#org_permission_settings#:#Permissions of Positions in Organisational Un
 common#:#org_op_read_learning_progress#:#View Learning Progress of Subordinate Users
 common#:#org_op_manage_members#:#Manage Subordinate Members
 common#:#org_op_access_enrolments#:#View Enrolment-Status
+dateplaner#:#cal_down_no_files#:#Nothing to download, the events listed do not contain files.
+sahs#:#sahs_add#:#Create SCORM Learning Module
+sahs#:#sahs_copy#:#Copy SCORM Learning Module
+sahs#:#sahs_glo_info#:#Please note that internal links in glossary terms are not supported.
+lm#:#lm_save_titles#:#Titles saved.

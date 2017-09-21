@@ -75,9 +75,8 @@ class ilLMEditorGUI
 		$ilNavigationHistory = $DIC["ilNavigationHistory"];
 		$ilErr = $DIC["ilErr"];
 		
-		// init module (could be done in ilctrl)
-		//define("ILIAS_MODULE", "content");
 		$lng->loadLanguageModule("content");
+		$lng->loadLanguageModule("lm");
 
 		// check write permission
 		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))

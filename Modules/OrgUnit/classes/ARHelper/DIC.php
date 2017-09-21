@@ -57,4 +57,28 @@ trait DIC {
 	protected function tabs() {
 		return $this->dic()->tabs();
 	}
+
+
+	/**
+	 * @return \ILIAS\DI\UIServices
+	 */
+	protected function ui() {
+		return $this->dic()->ui();
+	}
+
+
+	/**
+	 * @return \ilObjUser
+	 */
+	protected function user() {
+		return $this->dic()->user();
+	}
+
+
+	/**
+	 * @return \ILIAS\DI\HTTPServices
+	 */
+	protected function http() {
+		return $this->dic()->http();
+	}
 }

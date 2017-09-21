@@ -48,7 +48,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		global $DIC;
 
 		$this->tabs = $DIC->tabs();
-		$this->tree = $DIC->repositoryTree();
 		$this->error = $DIC["ilErr"];
 		$this->locator = $DIC["ilLocator"];
 		$this->help = $DIC["ilHelp"];
@@ -479,15 +478,13 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	*/
 	function listMedia()
 	{
-		$tree = $this->tree;
 		$ilAccess = $this->access;
 		$tpl = $this->tpl;
 		$ilTabs = $this->tabs;
 		$ilCtrl = $this->ctrl;
 		$ilToolbar = $this->toolbar;
 		$lng = $this->lng;
-		$ilErr = $this->error;
-		
+
 		$ilCtrl->setParameter($this, "mep_mode", "listMedia");
 
 		$this->checkPermission("read");
@@ -539,8 +536,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	*/
 	function allMedia()
 	{
-		$tree = $this->tree;
-		$ilAccess = $this->access;
 		$tpl = $this->tpl;
 		$ilTabs = $this->tabs;
 		$ilCtrl = $this->ctrl;
@@ -626,8 +621,8 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		{
 			return "";
 		}
-		$par_id = $this->object->tree->getParentId($_GET["mepitem_id"]);
-		if ($par_id != $this->object->tree->getRootId())
+		$par_id = $this->object->getPoolTree()->getParentId($_GET["mepitem_id"]);
+		if ($par_id != $this->object->getPoolTree()->getRootId())
 		{
 			return $par_id;
 		}
@@ -1372,7 +1367,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 			"editMediaPoolPage", get_class($this));
 		$ilTabs->addTarget("cont_usage", $ilCtrl->getLinkTarget($this, "showMediaPoolPageUsages"),
 			array("showMediaPoolPageUsages", "showAllMediaPoolPageUsages"), get_class($this));
-		$ilCtrl->setParameter($this, "mepitem_id", $this->object->tree->getParentId($_GET["mepitem_id"]));
+		$ilCtrl->setParameter($this, "mepitem_id", $this->object->getPoolTree()->getParentId($_GET["mepitem_id"]));
 		$ilTabs->setBackTarget($lng->txt("mep_folder"), $ilCtrl->getLinkTarget($this, "listMedia"));
 		$ilCtrl->setParameter($this, "mepitem_id", $_GET["mepitem_id"]);
 	}
