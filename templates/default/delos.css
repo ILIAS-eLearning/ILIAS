@@ -4682,7 +4682,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   color: #444;
 }
 .breadcrumb {
-  padding: 6px 6px;
+  padding: 0 15px;
   margin-bottom: 20px;
   list-style: none;
   background-color: transparent;
@@ -8587,6 +8587,17 @@ ul.breadcrumb li:hover {
 span.ilAlert {
   color: #fa8228;
 }
+/* Breadcrumb */
+.breadcrumb {
+  margin: 0.8em 0 20px 0;
+  font-size: 90%;
+}
+@media only screen and (max-width: 767px) {
+  .breadcrumb {
+    margin: 0 0 0 0;
+    padding: 0 5px;
+  }
+}
 /* Drop Downs */
 .dropdown-header {
   padding: 3px 10px;
@@ -11772,6 +11783,7 @@ div.ilTopMemberView h3 {
 @media only screen and (max-width: 767px) {
   .ilFixedTopSpacer {
     margin-top: 40px;
+    padding-top: 0;
   }
 }
 .ilFixedTopSpacerBarOnly {
@@ -11780,6 +11792,7 @@ div.ilTopMemberView h3 {
 @media only screen and (max-width: 767px) {
   .ilFixedTopSpacerBarOnly {
     margin-top: 40px;
+    padding-top: 0;
   }
 }
 /* Services/UIComponent/Tabs */
