@@ -13542,6 +13542,10 @@ iass#:#iass_notify#:#Teilnehmer nach abschließender Bewertung benachrichtigen
 iass#:#iass_finalize#:#Abschließen
 iass#:#il_iass_member#:#Teilnehmer
 iass#:#il_iass_members#:#Teilnehmer
+iass#:#iass_event_time_place_required#:#Zeit und Ort sind Pflichtangaben.
+iass#:#iass_event_time_place_required_info#:#Zeit und Ort müssen mit angegeben werden.
+iass#:#iass_file_required#:#Datei ist eine Pflichtangabe.
+iass#:#iass_file_required_info#:#Eine Datei muss beiligen.
 iass#:#iass_may_not_finalize#:#Status kann nicht finalisiert werden.
 iass#:#iass_subj_notification_completed#:#%s: Individuelle Bewertung erfolgreich abgeschlossen.
 iass#:#iass_subj_notification_failed#:#%s: Individuelle Bewertung nicht erfolgreich.
