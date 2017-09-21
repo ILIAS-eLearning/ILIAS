@@ -73,6 +73,7 @@ class ilWebAccessChecker {
 	protected $applied_checking_methods = array();
 
 
+
 	/**
 	 * ilWebAccessChecker constructor.
 	 *
@@ -194,10 +195,10 @@ class ilWebAccessChecker {
 			$this->checkUser();
 		} catch (Exception $e) {
 			if ($e instanceof ilWACException) {
-				throw  $e;
+				throw $e;
 			}
 			if ($e instanceof Exception && $e->getMessage() == 'Authentication failed.') {
-				include_once './Services/Context/classes/class.ilContext.php';
+				require_once './Services/Context/classes/class.ilContext.php';
 				ilContext::init(ilContext::CONTEXT_WEB_ACCESS_CHECK);
 				require_once("Services/Init/classes/class.ilInitialisation.php");
 				$GLOBALS['DIC']['ilAuthSession']->setAuthenticated(false, ANONYMOUS_USER_ID);
@@ -207,6 +208,7 @@ class ilWebAccessChecker {
 			}
 		}
 		$this->setInitialized(true);
+		return true;
 	}
 
 
@@ -221,7 +223,7 @@ class ilWebAccessChecker {
 
 	protected function checkUser() {
 		global $ilUser;
-		if (!$ilUser instanceof ilObjUser || ($ilUser->getId() == 0 && strpos($_SERVER['HTTP_REFERER'], 'login.php') === false)) {
+		if (!$ilUser instanceof ilObjUser || (!is_null($ilUser->getId()) && intval($ilUser->getId()) === 0) === false) {
 			throw new ilWACException(ilWACException::ACCESS_DENIED_NO_LOGIN);
 		}
 	}
