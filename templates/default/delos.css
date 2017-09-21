@@ -14236,6 +14236,9 @@ div.ilPCMyCoursesPath {
   right: auto;
   width: 0px;
 }
+.ilAwarenessItem > div {
+  cursor: pointer;
+}
 [data-onscreenchat-inact-userid] {
   opacity: .3 !important;
 }
