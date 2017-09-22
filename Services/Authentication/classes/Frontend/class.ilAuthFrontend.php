@@ -117,6 +117,9 @@ class ilAuthFrontend
 		}
 		
 		$user->setAuthMode(ilSession::get(static::MIG_DESIRED_AUTHMODE));
+		
+		$this->getLogger()->debug('new auth mode is: ' . ilSession::get(self::MIG_DESIRED_AUTHMODE));
+		
 		$user->setExternalAccount(ilSession::get(static::MIG_EXTERNAL_ACCOUNT));
 		$user->update();
 		
@@ -132,10 +135,14 @@ class ilAuthFrontend
 				$this->getStatus(),
 				$user->getLogin()
 			);
-			$this->handleAuthenticationSuccess($provider);
-			break;
+			switch($this->getStatus()->getStatus())
+			{
+				case ilAuthStatus::STATUS_AUTHENTICATED:
+					return $this->handleAuthenticationSuccess($provider);
+					
+			}
 		}
-		return true;
+		return $this->handleAuthenticationFail();
 	}
 	
 	/**
@@ -145,6 +152,11 @@ class ilAuthFrontend
 	{
 		foreach($this->providers as $provider)
 		{
+			if(!$provider instanceof ilAuthProviderAccountMigrationInterface)
+			{
+				$this->logger->warning('Provider: ' . get_class($provider) .' does not support account migration.');
+				throw new InvalidArgumentException('Invalid auth provider given.');
+			}
 			$provider->createNewAccount($this->getStatus());
 
 			switch($this->getStatus()->getStatus())
