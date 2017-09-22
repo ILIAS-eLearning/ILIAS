@@ -213,7 +213,7 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
 	/**
 	 * @inheritdoc
 	 */
-	public function migrateAccount(ilAuthStatus $status, $a_usr_id)
+	public function migrateAccount(ilAuthStatus $status)
 	{
 		$this->force_new_account = true;
 		

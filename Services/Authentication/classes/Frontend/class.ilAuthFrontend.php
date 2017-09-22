@@ -131,10 +131,7 @@ class ilAuthFrontend
 				throw new InvalidArgumentException('Invalid auth provider given.');
 			}
 			$this->getCredentials()->setUsername(ilSession::get(static::MIG_EXTERNAL_ACCOUNT));
-			$provider->migrateAccount(
-				$this->getStatus(),
-				$user->getLogin()
-			);
+			$provider->migrateAccount($this->getStatus());
 			switch($this->getStatus()->getStatus())
 			{
 				case ilAuthStatus::STATUS_AUTHENTICATED:

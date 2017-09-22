@@ -39,9 +39,8 @@ interface ilAuthProviderAccountMigrationInterface
 	/**
 	 * Create new account
 	 * @param ilAuthStatus
-	 * @param int usr_id of existing migrated account
 	 */
-	public function migrateAccount(ilAuthStatus $status, $a_usr_id);
+	public function migrateAccount(ilAuthStatus $status);
 	
 	
 	/**
