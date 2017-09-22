@@ -3620,6 +3620,7 @@ abstract class assQuestion
 				{
 					// import an mediaobject which was inserted using tiny mce
 					if (!is_array($_SESSION["import_mob_xhtml"])) $_SESSION["import_mob_xhtml"] = array();
+					
 					array_push($_SESSION["import_mob_xhtml"], array("mob" => $matimage->getLabel(), "uri" => $matimage->getUri()));
 				}
 			}
