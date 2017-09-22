@@ -213,17 +213,21 @@ class ilWebAccessChecker {
 
 
 	protected function checkPublicSection() {
-		global $ilSetting, $ilUser;
-		if (!$ilSetting instanceof ilSetting || ($ilUser->getId() == ANONYMOUS_USER_ID && !$ilSetting->get('pub_section'))) {
+		global $DIC;
+		if (!$DIC['ilSetting'] instanceof ilSetting || ($DIC->user()->getId() == ANONYMOUS_USER_ID && !$DIC['ilSetting']->get('pub_section'))) {
 			ilWACLog::getInstance()->write('public section not activated');
 			throw new ilWACException(ilWACException::ACCESS_DENIED_NO_PUB);
 		}
 	}
 
 
+
+	
+
 	protected function checkUser() {
-		global $ilUser;
-		if (!$ilUser instanceof ilObjUser || (!is_null($ilUser->getId()) && intval($ilUser->getId()) === 0) === false) {
+		global $DIC;
+
+		if (!$DIC->user() instanceof ilObjUser || is_null($DIC->user()->getId())) {
 			throw new ilWACException(ilWACException::ACCESS_DENIED_NO_LOGIN);
 		}
 	}
