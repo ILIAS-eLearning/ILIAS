@@ -453,7 +453,6 @@ class ilCalendarPresentationGUI
 	 */
 	protected function forwardToClass($a_class)
 	{
-		die("asdf");
 		$ilUser = $this->user;
 
 		switch($a_class)
