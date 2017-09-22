@@ -3797,9 +3797,9 @@ content#:#cont_characteristic#:#Style Class
 content#:#cont_choose_characteristic_section#:#Sections
 content#:#cont_choose_characteristic_text#:#Text Elements
 content#:#cont_choose_characteristic#:#Choose Characteristic
-content#:#cont_choose_cont_obj#:#Choose Content Object
-content#:#cont_choose_glossary#:#Choose Glossary
-content#:#cont_choose_media_source#:#Choose Media Source
+content#:#cont_choose_lm#:#Choose Learning Module
+content#:#cont_choose_glo#:#Choose Glossary
+content#:#cont_choose_mep#:#Choose Media Pool
 content#:#cont_choose_pages_or_chapters_only#:#Please select either pages or chapters only.
 content#:#cont_Circle#:#Circle
 content#:#cont_citation_selection_not_valid#:#You're selection is not valid
