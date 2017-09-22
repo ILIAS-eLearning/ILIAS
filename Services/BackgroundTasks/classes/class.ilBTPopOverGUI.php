@@ -67,40 +67,31 @@ class ilBTPopOverGUI {
 		$bucket = new ilTemplate("tpl.bucket.html", true, true, "Services/BackgroundTasks");
 
 		foreach ($observers as $observer) {
-			if ($observer->getState() != State::USER_INTERACTION) {
-				if ($observer->getLastHeartbeat() < (time() - $observer->getCurrentTask()
-				                                                       ->getExpectedTimeOfTaksInSeconds())) {
-					$bucket->setCurrentBlock('failed');
-					$bucket->setVariable("ALERT", $this->lng()->txt('task_might_be_failed'));
-					// Close Action
-					$this->ctrl()
-					     ->setParameterByClass(ilBTControllerGUI::class, "observer_id", $persistence->getBucketContainerId($observer));
-					$this->ctrl()
-					     ->setParameterByClass(ilBTControllerGUI::class, "from_url", urlencode($redirect_uri));
-					$close_action = $this->ctrl()
-					                     ->getLinkTargetByClass([ ilBTControllerGUI::class ], ilBTControllerGUI::CMD_QUIT);
-					$remove = $r->render($f->button()
-					                       ->close()
-					                       ->withAdditionalOnLoadCode(function ($id) use ($close_action) {
-						                       return "$($id).on('click', function() { 
-						                            var url = '$close_action';
-						                            var replacer = new RegExp('amp;', 'g');
-                                                    url = url.replace(replacer, '');
-						                            window.location=url
-						                       });";
-					                       }));
-					$bucket->setVariable("CLOSE_BUTTON", $remove);
-					$bucket->parseCurrentBlock();
-				}
-				$bucket->setVariable("CONTENT", $r->render($this->getDefaultCardContent($observer)));
-			} else {
-				$bucket->setVariable("CONTENT", $r->render($this->getProgressbar($observer)));
-				$bucket->setVariable("INTERACTIONS", $r->render([
-					$this->getUserInteractionContent($observer, $redirect_uri),
-				]));
+			$state = (int)$observer->getState();
+			$expected = (int)$observer->getCurrentTask()->getExpectedTimeOfTaksInSeconds();
+			$possibly_failed = (bool)($observer->getLastHeartbeat() < (time() - $expected));
+			switch ($state) {
+				case State::USER_INTERACTION:
+					$bucket->setVariable("CONTENT", $r->render($this->getProgressbar($observer)));
+					$bucket->setVariable("INTERACTIONS", $r->render([
+						$this->getUserInteractionContent($observer, $redirect_uri),
+					]));
+					break;
+				default:
+					if ($possibly_failed) {
+						$bucket->setCurrentBlock('failed');
+						$bucket->setVariable("ALERT", $this->lng()->txt('task_might_be_failed'));
+						$bucket->parseCurrentBlock();
+					}
+					$bucket->setVariable("CONTENT", $r->render($this->getDefaultCardContent($observer)));
+					break;
 			}
+			if ($possibly_failed || $state === State::USER_INTERACTION) {
+				$this->addCloseButton($redirect_uri, $bucket, $persistence, $observer);
+			}
+
 			$bucket->setCurrentBlock("bucket");
-			$bucket_title = $observer->getTitle() . ($observer->getState()
+			$bucket_title = $observer->getTitle() . ($state
 			                                         == State::SCHEDULED ? " ({$this->lng()->txt("scheduled")})" : "");
 			$bucket->setVariable("BUCKET_TITLE", $bucket_title);
 			if ($observer->getDescription()) {
@@ -194,5 +185,40 @@ class ilBTPopOverGUI {
                         {$content}
                     </div>
 				</div> ");
+	}
+
+
+	/**
+	 * @param $redirect_uri
+	 * @param $bucket
+	 * @param $persistence
+	 * @param $observer
+	 */
+	protected function addCloseButton($redirect_uri, $bucket, $persistence, $observer) {
+		$r = $this->ui()->renderer();
+		$f = $this->ui()->factory();
+		// Close Action
+		$bucket->setCurrentBlock('close_button');
+		$this->ctrl()
+		     ->setParameterByClass(ilBTControllerGUI::class, "observer_id", $persistence->getBucketContainerId($observer));
+		$this->ctrl()
+		     ->setParameterByClass(ilBTControllerGUI::class, "from_url", urlencode($redirect_uri));
+		$close_action = $this->ctrl()
+		                     ->getLinkTargetByClass([ ilBTControllerGUI::class ], ilBTControllerGUI::CMD_QUIT);
+
+		$remove = $r->render($f->button()
+		                       ->close()
+		                       ->withAdditionalOnLoadCode(function ($id) use ($close_action) {
+			                       return "$($id).on('click', function() { 
+						                            var url = '$close_action';
+						                            var replacer = new RegExp('amp;', 'g');
+                                                    url = url.replace(replacer, '');
+						                            window.location=url
+						                       });";
+		                       }));
+
+		$remove = $r->render($f->glyph() ->remove($close_action));
+		$bucket->setVariable("CLOSE_BUTTON", $remove);
+		$bucket->parseCurrentBlock();
 	}
 }
