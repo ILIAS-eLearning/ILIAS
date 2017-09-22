@@ -10511,6 +10511,7 @@ common#:#hide_all_details#:#Hide all details
 common#:#show_all_details#:#Show all details
 common#:#select_files_from_computer#:#Select Files
 common#:#drag_files_here#:#Drag-and-drop your files here
+common#:#drag_file_here#:#Drag-and-drop your file here
 common#:#selected_files#:#Selected files
 common#:#num_of_selected_files#:#%s file(s) selected
 common#:#cancel_file_upload#:#Do you really want to cancel all pending uploads?
