@@ -68,3 +68,16 @@
 	);
 	// cat-tms-patch end
 ?>
+<#6>
+<?php
+	// cat-tms-patch start
+	if (!$ilDB->tableColumnExists("event_appointment", "days_offset"))
+	{
+		$ilDB->addTableColumn("event_appointment", "days_offset", array(
+			"type" => "integer",
+			"notnull" => false,
+			"length" => 4,
+			"default" => null));
+	}
+	// cat-tms-patch end
+?>

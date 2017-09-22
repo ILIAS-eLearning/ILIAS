@@ -48,7 +48,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
 	{
-		global $ilCtrl, $lng, $tpl;
+		// cat-tms-patch start
+		global $ilCtrl, $lng, $tpl, $DIC;
 
 		$this->type = "sess";
 		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
@@ -64,6 +65,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->ctrl = $ilCtrl;
 
 		$this->logger = $GLOBALS['DIC']->logger()->sess();
+		$this->g_user = $DIC->user();
+		// cat-tms-patch end
 	}
 
 
@@ -773,7 +776,13 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		// create appointment
 		$this->object->getFirstAppointment()->setSessionId($this->object->getId());
-		$this->object->getFirstAppointment()->create();
+		$event_start_time = $_POST["event_start_time"];
+		$hour_start = (int)$event_start_time["hh"];
+		$minute_start = (int)$event_start_time["mm"];
+		$event_end_time = $_POST["event_end_time"];
+		$hour_end = (int)$event_end_time["hh"];
+		$minute_end = (int)$event_end_time["mm"];
+		$this->object->getFirstAppointment()->create($hour_start, $minute_start, $hour_end, $minute_end);
 
 		$this->handleFileUpload();
 
@@ -1464,10 +1473,10 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$this->form = $this->initDidacticTemplate($this->form);
 		}
 		
+		// cat-tms-patch start
 		$this->lng->loadLanguageModule('dateplaner');
 		include_once './Services/Form/classes/class.ilDateDurationInputGUI.php';
 		$dur = new ilDateDurationInputGUI($this->lng->txt('cal_fullday'),'event');
-		$dur->setRequired(true);
 		$dur->enableToggleFullTime(
 			$this->lng->txt('event_fulltime_info'),
 			$this->object->getFirstAppointment()->enabledFulltime() ? true : false
@@ -1476,7 +1485,73 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$dur->setStart($this->object->getFirstAppointment()->getStart());
 		$dur->setEnd($this->object->getFirstAppointment()->getEnd());
 
-		$this->form->addItem($dur);
+		// Start dirty
+		$get = $_GET;
+		$ref_id = $this->object->getRefId();
+		if($ref_id === null)
+		{
+			$ref_id = $get['ref_id'];
+		}
+		// End dirty
+
+		if($this->object->isCourseOrCourseChild($ref_id) !== null)
+		{
+			$datetime_opt = new ilRadioGroupInputGUI($this->lng->txt('event_planer'), "event_radio_grp");
+			$datetime_opt->setRequired(true);
+			$datetime_opt_list = new ilRadioOption($this->lng->txt('event_static_date'), "event_radio_btn_static");
+
+			$datetime_opt_list->addSubItem($dur);
+			$datetime_opt->addOption($datetime_opt_list);
+
+			$datetime_opt_list = new ilRadioOption($this->lng->txt('event_relativ_to_crs_date'), "event_radio_btn_relative");
+
+			$app = $this->object->getFirstAppointment();
+
+			$ti = new ilNumberInputGUI($this->lng->txt("event_days_offset"), "event_days_offset");
+			if ($app && $app->getDaysOffset()) {
+				$ti->setValue($app->getDaysOffset());
+			}
+			$datetime_opt_list->addSubItem($ti);
+
+			$sess_dur = new ilSessionDurationInputGUI($this->lng->txt('event_start_time'),'event_start_time');
+			$sess_dur->setMinuteStepSize(5);
+			$sess_dur->setShowMonths(false);
+			$sess_dur->setShowDays(false);
+			if ($app) {
+				$start = $app->getStart();
+				$p = $start->get(IL_CAL_FKT_GETDATE,'',$this->g_user->getTimeZone());
+				$sess_dur->setHours($p["hours"]);
+				$sess_dur->setMinutes($p["minutes"]);
+			}
+			$datetime_opt_list->addSubItem($sess_dur);
+
+			$sess_dur = new ilSessionDurationInputGUI($this->lng->txt('event_end_time'),'event_end_time');
+			$sess_dur->setMinuteStepSize(5);
+			$sess_dur->setShowMonths(false);
+			$sess_dur->setShowDays(false);
+			if ($app) {
+				$end = $app->getEnd();
+				$p = $end->get(IL_CAL_FKT_GETDATE,'',$this->g_user->getTimeZone());
+				$sess_dur->setHours($p["hours"]);
+				$sess_dur->setMinutes($p["minutes"]);
+			}
+			$datetime_opt_list->addSubItem($sess_dur);
+
+			$datetime_opt->addOption($datetime_opt_list);
+			if ($app && $app->getDaysOffset() !== null) {
+				$datetime_opt->setValue("event_radio_btn_relative");
+			}
+			else {
+				$datetime_opt->setValue("event_radio_btn_static");
+			}
+
+			$this->form->addItem($datetime_opt);
+		}
+		else
+		{
+			$this->form->addItem($dur);
+		}
+		// cat-tms-patch end
 
 		/*
 		// start
@@ -1683,6 +1758,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		return true;
 	}
 
+	// cat-tms-patch start
 	/**
 	 * load settings
 	 *
@@ -1692,14 +1768,36 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	protected function load()
 	{
-		$event = $this->form->getItemByPostVar('event');
-		if($event->getStart() && $event->getEnd())
+		$radio_grp = $_POST['event_radio_grp'];
+		if($radio_grp === null || $radio_grp === "event_radio_btn_static")
 		{
-			$this->object->getFirstAppointment()->setStartingTime($event->getStart()->get(IL_CAL_UNIX));
-			$this->object->getFirstAppointment()->setEndingTime($event->getStart()->get(IL_CAL_UNIX));
-			$this->object->getFirstAppointment()->setStart($event->getStart());
-			$this->object->getFirstAppointment()->setEnd($event->getEnd());
-			$this->object->getFirstAppointment()->toggleFulltime($event->getStart() instanceof ilDate);
+			$event = $this->form->getItemByPostVar('event');
+			if($event->getStart() && $event->getEnd())
+			{
+				$this->object->getFirstAppointment()->setDaysOffset(null);
+				$this->object->getFirstAppointment()->setStartingTime($event->getStart()->get(IL_CAL_UNIX));
+				$this->object->getFirstAppointment()->setEndingTime($event->getStart()->get(IL_CAL_UNIX));
+				$this->object->getFirstAppointment()->setStart($event->getStart());
+				$this->object->getFirstAppointment()->setEnd($event->getEnd());
+				$this->object->getFirstAppointment()->toggleFulltime($event->getStart() instanceof ilDate);
+			}
+		}
+		else
+		{
+			$offset = $_POST['event_days_offset'];
+			$event_start_time = $_POST["event_start_time"];
+			$hour_start = (int)$event_start_time["hh"];
+			$minute_start = (int)$event_start_time["mm"];
+			$event_end_time = $_POST["event_end_time"];
+			$hour_end = (int)$event_end_time["hh"];
+			$minute_end = (int)$event_end_time["mm"];
+			list($start, $end) = $this->object->getStartTimeDependingOnCourse($offset, $hour_start, $minute_start, $hour_end, $minute_end);
+			$this->object->getFirstAppointment()->setDaysOffset((int)$offset);
+			$this->object->getFirstAppointment()->setStart($start);
+			$this->object->getFirstAppointment()->setEnd($end);
+			$this->object->getFirstAppointment()->setStartingTime($start->getUnixTime());
+			$this->object->getFirstAppointment()->setEndingTime($end->getUnixTime());
+			$this->object->getFirstAppointment()->toggleFulltime(false);
 		}
 
 		$this->object->setTitle(ilUtil::stripSlashes($_POST['title']));
@@ -1710,7 +1808,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->object->setEmail(ilUtil::stripSlashes($_POST['tutor_email']));
 		$this->object->setDetails(ilUtil::stripSlashes($_POST['details']));
 
-		// cat-tms-patch start
 		$this->object->setTutorSource((int)ilUtil::stripSlashes($_POST[self::INPUT_TUTOR_SOURCE]));
 		if($this->object->getTutorSource() === \ilObjSession::TUTOR_CFG_FROMCOURSE) {
 			$tids = $_POST[self::INPUT_TUTOR_SELECTION];

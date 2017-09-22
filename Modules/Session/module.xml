@@ -18,5 +18,8 @@
 		<event type="raise" id="delete" />
 		<event type="raise" id="addToWaitingList" />
 		<event type="raise" id="addSubscriber" />
+		<!-- cat-tms-patch start -->
+		<event type="listen" id="Modules/Course" />
+		<!-- cat-tms-patch end -->
 	</events>
 </module>

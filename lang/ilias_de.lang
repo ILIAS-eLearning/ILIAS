@@ -8189,6 +8189,12 @@ search#:#search_user#:#Benutzer
 search#:#search_user_extended#:#Erweiterte Benutzersuche
 search#:#search_users#:#Benutzer suchen
 search#:#until#:#bis
+sess#:#event_static_date#:#Festes Datum
+sess#:#event_relativ_to_crs_date#:#Relativ zum Veranstaltungszeitraum
+sess#:#event_start_time#:#Startzeit
+sess#:#event_end_time#:#Endzeit
+sess#:#event_days_offset#:#Veranstaltungstag
+sess#:#event_planer#:#Datum/Uhrzeit
 sess#:#sess_import#:#Sitzung importieren
 sess#:#sess_no_tutor_select#:#Es wurde kein Tutor ausgewählt.
 shib#:#shib_add_missing#:#Fehlende Rollen zuordnen

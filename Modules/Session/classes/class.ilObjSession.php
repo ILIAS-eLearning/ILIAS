@@ -74,9 +74,12 @@ class ilObjSession extends ilObject
 		
 		$this->session_logger = $GLOBALS['DIC']->logger()->sess();
 
+		// cat-tms-patch start
 		$this->db = $ilDB;
 		$this->type = "sess";
+		$this->g_user = $GLOBALS['DIC']->user();
 		parent::__construct($a_id,$a_call_by_reference);
+		// cat-tms-patch end
 	}
 
 	/**
@@ -945,6 +948,132 @@ class ilObjSession extends ilObject
 	
 
 	// cat-tms-patch start
+	/**
+	 * Checks whether this object is a child element of a course object.
+	 * If there is an group object first in tree it returns false.
+	 *
+	 * @return int | null
+	 */
+	public function isCourseOrCourseChild($ref_id)
+	{
+		global $DIC;
+		$g_tree = $DIC->repositoryTree();
+		$tree = array_reverse($g_tree->getPathFull($ref_id));
+		foreach ($tree as $leaf)
+		{
+			if($leaf['type'] === "grp")
+			{
+				return null;
+			}
+			if($leaf['type'] === "crs")
+			{
+				return $leaf['ref_id'];
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Calculate the start and endtime of a session object
+	 * depending on parent course and offset
+	 *
+	 * @param int $offset - 1 means first day of course
+	 * @param int $hour_start
+	 * @param int $minute_start
+	 * @param int $hour_end
+	 * @param int $minute_end
+	 * @return 	ilDateTime[]
+	 */
+	public function getStartTimeDependingOnCourse($offset, $hour_start, $minute_start, $hour_end, $minute_end)
+	{
+		$ref_id = $this->getRefId();
+		//during creation:
+		if(! $ref_id) {
+			$ref_id = $_GET['ref_id'];
+		}
+		$crs_id = $this->isCourseOrCourseChild($ref_id);
+		$crs = ilObjectFactory::getInstanceByRefId($crs_id);
+		$start = $crs->getCourseStart();
+		if($start === null)
+		{
+			return $this->getTodayWithTimes($hour_start, $minute_start, $hour_end, $minute_end);
+		}
+		return $this->calcCourseDateTime($start, $offset, $hour_start, $minute_start, $hour_end, $minute_end);
+	}
+
+	/**
+	 * Get start and end date of today
+	 *
+	 * @param int 	$hour_start
+	 * @param int 	$minute_start
+	 * @param int 	$hour_end
+	 * @param int 	$minute_end
+	 *
+	 * @return ilDateTime[]
+	 */
+	protected function getTodayWithTimes($hour_start, $minute_start, $hour_end, $minute_end) {
+		$start = $this->getDateWithTime(date("Y-m-d"), $hour_start, $minute_start);
+		$end = $this->getDateWithTime(date("Y-m-d"), $hour_end, $minute_end);
+
+		return [$start, $end];
+	}
+
+	/**
+	 * Calculate the start and endtime of a session object
+	 * depending on days_offset
+	 *
+	 * @param ilDateTime 	$start
+	 * @param ilDateTime 	$end
+	 * @param int $offset - 1 means first day of course
+	 * @param int 	$hour_start
+	 * @param int 	$minute_start
+	 * @param int 	$hour_end
+	 * @param int 	$minute_end
+	 *
+	 * @return ilDateTime[]
+	 */
+	private function calcCourseDateTime(ilDateTime $start, $offset, $hour_start, $minute_start, $hour_end, $minute_end)
+	{
+		$offset--;
+
+		$start = $this->getDateWithTime($start->get(IL_CAL_FKT_DATE, "Y-m-d"), $hour_start, $minute_start);
+		$end = $this->getDateWithTime($start->get(IL_CAL_FKT_DATE, "Y-m-d"), $hour_end, $minute_end);
+
+		if ($offset != 0) {
+			$start->increment(ilDateTime::DAY, $offset);
+			$end->increment(ilDateTime::DAY, $offset);
+		}
+
+		return [$start, $end];
+	}
+
+	/**
+	 * Create a datetime with times
+	 *
+	 * @param string 	$date
+	 * @param int 	$hour
+	 * @param int 	$minute
+	 *
+	 * @return ilDateTime
+	 */
+	protected function getDateWithTime($date, $hour, $minute) {
+		$start_datetime = $date." ".$this->addLeading($hour).":".$this->addLeading($minute).":00";
+		return new ilDateTime($start_datetime, IL_CAL_DATETIME, $this->g_user->getTimeZone());
+	}
+
+	/**
+	 * Adds leading 0
+	 *
+	 * @param string | int	$value
+	 * @param string 	$leading
+	 *
+	 * @return string
+	 */
+	protected function addLeading($value) {
+		return str_pad((string)$value, 2, "0", STR_PAD_LEFT);
+	}
+	// cat-tms-patch end
+
 	/**
 	 * How should the tutors be configured?
 	 *
