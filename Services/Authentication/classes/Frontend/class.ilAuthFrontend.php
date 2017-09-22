@@ -92,11 +92,12 @@ class ilAuthFrontend
 	}
 	
 	/**
-	 * Migrate Account
+	 * Migrate Account to existing user account
 	 * @param ilAuthSession $session
 	 * @param type $a_username
 	 * @param type $a_auth_mode
 	 * @param type $a_desired_authmode
+	 * @throws \InvalidArgumentException if current auth provider does not support account migration
 	 */
 	public function migrateAccount(ilAuthSession $session)
 	{

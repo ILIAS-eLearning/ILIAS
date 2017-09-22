@@ -38,13 +38,15 @@ interface ilAuthProviderAccountMigrationInterface
 	
 	/**
 	 * Create new account
+	 * @param ilAuthStatus
+	 * @param int usr_id of existing migrated account
 	 */
-	public function migrateAccount($a_usr_id);
+	public function migrateAccount(ilAuthStatus $status, $a_usr_id);
 	
 	
 	/**
 	 * Create new ILIAS account for external_account
-	 * @param type $a_ext_account
+	 * @param ilAuthStatus
 	 */
 	public function createNewAccount(ilAuthStatus $status);
 	

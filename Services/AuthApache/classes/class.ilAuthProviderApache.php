@@ -118,9 +118,10 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
 	/**
 	 * Migrate existing account
 	 * Maybe ldap sync has to be performed here
+	 * @param ilAuthStatus $status
 	 * @param int $a_usr_id
 	 */
-	public function migrateAccount($a_usr_id)
+	public function migrateAccount(\ilAuthStatus $status, $a_usr_id)
 	{
 		$this->force_new_account = true;
 		if($this->getSettings()->get('apache_enable_ldap'))
