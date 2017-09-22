@@ -338,7 +338,6 @@ class ilObjBibliographic extends ilObject2 {
 		$this->setTitle($original->getTitle());
 		$this->setType($original->getType());
 		$this->doUpdate();
-		$this->writeSourcefileEntriesToDb();
 	}
 
 
