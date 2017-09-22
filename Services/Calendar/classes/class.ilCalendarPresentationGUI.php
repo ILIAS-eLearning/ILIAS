@@ -82,7 +82,6 @@ class ilCalendarPresentationGUI
 	{
 		global $DIC;
 
-
 		$this->ctrl = $DIC->ctrl();
 		$this->lng = $DIC->language();
 		$this->lng->loadLanguageModule('dateplaner');
@@ -164,6 +163,9 @@ class ilCalendarPresentationGUI
 	{
 		$ilUser = $this->user;
 
+		$cmd = $this->ctrl->getCmd();
+		$next_class = $this->getNextClass();
+
 		include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
 		if(!ilCalendarSettings::_getInstance()->isEnabled())
 		{
@@ -174,9 +176,9 @@ class ilCalendarPresentationGUI
 		$this->initSeed();
 		$this->prepareOutput();
 
-		if ($this->ctrl->getNextClass() == "")
+		if ($next_class == "")
 		{
-			switch ($this->ctrl->getCmd())
+			switch ($cmd)
 			{
 				case "selectCHCalendarOfUser":
 					include_once("./Services/Calendar/classes/class.ilCalendarVisibility.php");
@@ -199,17 +201,18 @@ class ilCalendarPresentationGUI
 			}
 		}
 
-		$next_class = $this->getNextClass();
-
 		switch($next_class)
 		{
 			case 'ilcalendarinboxgui':
 				$this->tabs_gui->activateTab('cal_agenda');
 				$inbox_gui = $this->forwardToClass('ilcalendarinboxgui');
-				$this->showViewSelection("cal_list");
-				$this->showSideBlocks();
-				// this would require ilcalendarinboxgui being derived from ilCalendarViewGUI, not ilCalendarAgendaListGUI
-				$inbox_gui->addToolbarActions();
+				if($cmd != "askDelete"){
+					$this->showViewSelection("cal_list");
+					$this->showSideBlocks();
+					// this would require ilcalendarinboxgui being derived from ilCalendarViewGUI, not ilCalendarAgendaListGUI
+					$inbox_gui->addToolbarActions();
+				}
+
 				break;
 				
 			case 'ilconsultationhoursgui':
@@ -231,25 +234,33 @@ class ilCalendarPresentationGUI
 			case 'ilcalendarmonthgui':
 				$this->tabs_gui->activateTab('cal_agenda');
 				$month_gui = $this->forwardToClass('ilcalendarmonthgui');
-				$this->showViewSelection("app_month");
-				$this->showSideBlocks();
-				$month_gui->addToolbarActions();
+
+				if($cmd != "askDelete"){
+					$this->showViewSelection("app_month");
+					$this->showSideBlocks();
+					$month_gui->addToolbarActions();
+				}
 				break;
 				
 			case 'ilcalendarweekgui':
 				$this->tabs_gui->activateTab('cal_agenda');
 				$week_gui = $this->forwardToClass('ilcalendarweekgui');
-				$this->showViewSelection("app_week");
-				$this->showSideBlocks();
-				$week_gui->addToolbarActions();
+				if($cmd != "askDelete"){
+					$this->showViewSelection("app_week");
+					$this->showSideBlocks();
+					$week_gui->addToolbarActions();
+				}
+
 				break;
 
 			case 'ilcalendardaygui':
 				$this->tabs_gui->activateTab('cal_agenda');
 				$day_gui = $this->forwardToClass('ilcalendardaygui');
-				$this->showViewSelection("app_day");
-				$this->showSideBlocks();
-				$day_gui->addToolbarActions();
+				if($cmd != "askDelete"){
+					$this->showViewSelection("app_day");
+					$this->showSideBlocks();
+					$day_gui->addToolbarActions();
+				}
 				break;
 
 			case 'ilcalendarusersettingsgui':
@@ -442,6 +453,7 @@ class ilCalendarPresentationGUI
 	 */
 	protected function forwardToClass($a_class)
 	{
+		die("asdf");
 		$ilUser = $this->user;
 
 		switch($a_class)
