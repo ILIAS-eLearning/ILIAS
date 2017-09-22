@@ -92,11 +92,12 @@ class ilAuthFrontend
 	}
 	
 	/**
-	 * Migrate Account
+	 * Migrate Account to existing user account
 	 * @param ilAuthSession $session
 	 * @param type $a_username
 	 * @param type $a_auth_mode
 	 * @param type $a_desired_authmode
+	 * @throws \InvalidArgumentException if current auth provider does not support account migration
 	 */
 	public function migrateAccount(ilAuthSession $session)
 	{
@@ -119,8 +120,21 @@ class ilAuthFrontend
 		$user->setExternalAccount(ilSession::get(static::MIG_EXTERNAL_ACCOUNT));
 		$user->update();
 		
-		// @todo call provider and update account data, role assignment, ...
-		
+		foreach($this->getProviders() as $provider)
+		{
+			if(!$provider instanceof ilAuthProviderAccountMigrationInterface)
+			{
+				$this->logger->warning('Provider: ' . get_class($provider) .' does not support account migration.');
+				throw new InvalidArgumentException('Invalid auth provider given.');
+			}
+			$this->getCredentials()->setUsername(ilSession::get(static::MIG_EXTERNAL_ACCOUNT));
+			$provider->migrateAccount(
+				$this->getStatus(),
+				$user->getLogin()
+			);
+			$this->handleAuthenticationSuccess($provider);
+			break;
+		}
 		return true;
 	}
 	
