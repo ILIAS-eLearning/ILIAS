@@ -33,7 +33,7 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel {
 	public function __construct(ilDclBaseRecordModel $record, ilDclBaseFieldModel $field) {
 		parent::__construct($record, $field);
 		$dclTable = ilDclCache::getTableCache($this->getField()->getTableId());
-		$this->dcl_obj_id = $dclTable->getCollectionObject()->getId();
+		$this->dcl_obj_id = $dclTable->getObjId();
 	}
 
 	/**

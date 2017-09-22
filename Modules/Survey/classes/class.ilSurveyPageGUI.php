@@ -601,7 +601,8 @@ class ilSurveyPageGUI
 				$max = 0;
 				foreach($titles as $existing_title)
 				{
-					if(preg_match("/".preg_quote($title)." \(([0-9]+)\)$/", $existing_title, $match))
+					#21278 preg_quote with delimiter
+					if(preg_match("/".preg_quote($title, "/")." \(([0-9]+)\)$/", $existing_title, $match))
 					{
 						$max = max($match[1], $max);						
 					}
