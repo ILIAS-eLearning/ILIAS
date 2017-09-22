@@ -74,7 +74,7 @@ sess#:#sess_print_list#:#Generate List
 crs#:#crs_show_member_export_settings#:#Participants List
 crs#:#crs_show_member_export#:#Participants List
 crs#:#crs_show_member_export_info#:#Course Members may print a list of participants.
-mem#:#mmbr_gallery_user_actions#:#Benutzeraktionen in Mitgliedergalerie
+mem#:#mmbr_gallery_user_actions#:#User actions in members gallery
 forum#:#delete_drafts_successfully#:#The drafts were deleted successfully.
 forum#:#sure_delete_drafts#:#Are you sure, you want to delete the selected drafts?
 forum#:#restore#:#Restore
