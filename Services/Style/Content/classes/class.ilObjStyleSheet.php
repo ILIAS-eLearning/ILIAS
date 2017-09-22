@@ -3806,11 +3806,8 @@ class ilObjStyleSheet extends ilObject
 			{
 				$obj_ids[] = $rec["obj_id"];
 			}
-
-			return $obj_ids;
 		}
-
-		return 0;
+		return $obj_ids;
 	}
 
 

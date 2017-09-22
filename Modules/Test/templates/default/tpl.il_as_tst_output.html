@@ -119,22 +119,15 @@
 	function charCounter(e, textinput)
 	{
 		if(e.type == 'keydown' || e.type == 'keyup') {
-			if (typeof tinyMCE !== 'undefined') {
-				content = tinyMCE.selectedInstance.getDoc().body.innerHTML;
-			} else {
-				content = textinput.value;
-			}
+			content = $("#TEXT").val();
+			content = stripAndDecode(content);
 
 			counter = YAHOO.util.Dom.get("myCounter");
 
-			content = content.replace(/&lt;/ig, "<");
-			content = content.replace(/&gt;/ig, ">");
-			stripped = content.replace(/(<([^>]+)>)/ig, "");
-			stripped = stripped.replace(/&nbsp;/gi, " ");
 			counterblock = YAHOO.util.Dom.get("charcounter");
 			if (counterblock != null && (counter.value > 0 || e.keyCode == 8 || e.keyCode == 46 || (e.ctrlKey && e.keyCode == 88))) {
 				counterblock.style.visibility = 'visible';
-				if (maxL > 0) counter.value = maxL - stripped.length;
+				if (maxL > 0) counter.value = maxL - content.length;
 			}
 
 			// prevent user from entering more characters than allowed
@@ -148,19 +141,27 @@
 	
 	function initCharCounter()
 	{
-		content = YAHOO.util.Dom.get("TEXT").innerHTML;
-		content = content.replace(/&lt;/ig, "<");
-		content = content.replace(/&gt;/ig, ">");
-		stripped = content.replace(/(<([^>]+)>)/ig, "");
-		stripped = stripped.replace(/(?:\r\n|\r|\n)/g, '');
-		stripped = stripped.replace(/&nbsp;/gi, " ");
+		content = $("#TEXT").val();
+		content = stripAndDecode(content);
+
 		counterblock = YAHOO.util.Dom.get("charcounter");
 		if (counterblock != null)
 		{
 			counterblock.style.visibility = 'visible';
 			counter = YAHOO.util.Dom.get("myCounter");
-			if (maxL > 0) counter.value = maxL - stripped.length;
+			if (maxL > 0) counter.value = maxL - content.length;
 		}
+	}
+
+	function stripAndDecode(string)
+	{
+		return string
+			.replace(/(<([^>]+)>)/ig, "")
+			.replace(/&lt;/ig, "<")
+			.replace(/&gt;/ig, ">")
+			.replace(/\r?\n|\r/g, '')
+			.replace(/&nbsp;/gi, " ")
+			.replace(/&amp;/gi, " ");
 	}
 
 <!-- fau: testNav - moved auto saver to ilTestPlayerQuestionEditControl.js -->
