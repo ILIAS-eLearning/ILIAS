@@ -55,16 +55,16 @@ class ilSurveyEvaluationGUI
 	var $ctrl;
 	var $appr_id = null;
 	
-/**
-* ilSurveyEvaluationGUI constructor
-*
-* The constructor takes possible arguments an creates an instance of the ilSurveyEvaluationGUI object.
-*
-* @param object $a_object Associated ilObjSurvey class
-* @access public
-*/
-  function __construct($a_object)
-  {
+	/**
+	 * ilSurveyEvaluationGUI constructor
+	 *
+	 * The constructor takes possible arguments an creates an instance of the ilSurveyEvaluationGUI object.
+	 *
+	 * @param object $a_object Associated ilObjSurvey class
+	 * @access public
+	 */
+	function __construct($a_object)
+	{
 		global $DIC;
 
 		$this->tabs = $DIC->tabs();
@@ -73,6 +73,7 @@ class ilSurveyEvaluationGUI
 		$this->rbacsystem = $DIC->rbac()->system();
 		$this->tree = $DIC->repositoryTree();
 		$this->toolbar = $DIC->toolbar();
+		$this->ui = $DIC->ui();
 		$lng = $DIC->language();
 		$tpl = $DIC["tpl"];
 		$ilCtrl = $DIC->ctrl();
@@ -82,7 +83,7 @@ class ilSurveyEvaluationGUI
 		$this->ctrl = $ilCtrl;
 		$this->object = $a_object;
 		$this->log = ilLoggerFactory::getLogger("svy");
-	  	$this->array_panels = array();
+		$this->array_panels = array();
 
 		if ($this->object->get360Mode())
 		{
@@ -764,9 +765,10 @@ class ilSurveyEvaluationGUI
 		$rbacsystem = $this->rbacsystem;
 		$ilToolbar = $this->toolbar;
 		$tree = $this->tree;
+		$ui = $this->ui;
 
-		$ui_factory = $DIC->ui()->factory();
-		$ui_renderer = $DIC->ui()->renderer();
+		$ui_factory = $ui->factory();
+		$ui_renderer = $ui->renderer();
 
 		// auth
 		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
@@ -994,9 +996,7 @@ class ilSurveyEvaluationGUI
 	//protected function renderDetails($a_details_parts, $a_details_figure, ilTemplate $a_tpl, array $a_qdata, SurveyQuestionEvaluation $a_eval, $a_results)
 	protected function renderDetails($a_details_parts, $a_details_figure, array $a_qdata, SurveyQuestionEvaluation $a_eval, $a_results)
 	{
-		global $DIC;
-
-		$ui_factory = $DIC->ui()->factory();
+		$ui_factory = $this->ui->factory();
 		$a_tpl = new ilTemplate("tpl.svy_results_details_panel.html", true, true, "Modules/Survey");
 
 		$question_res = $a_results;
