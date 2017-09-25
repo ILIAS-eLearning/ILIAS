@@ -45,6 +45,11 @@ class ValidationFactoryTest extends PHPUnit_Framework_TestCase {
 		$this->assertInstanceOf(Validation\Constraint::class, $lt);
 	}
 
+	public function testHasMinLength() {
+		$min = $this->f->hasMinLength(1);
+		$this->assertInstanceOf(Validation\Constraint::class, $min);
+	}
+
 	public function testCustom() {
 		$custom = $this->f->custom(function ($value) { return "This was fault";}, 5);
 		$this->assertInstanceOf(Validation\Constraint::class, $custom);
