@@ -378,7 +378,7 @@ class ilAuthUtils
 		$ret = array();
 		foreach($modes as $mode)
 		{
-			if($mode = AUTH_PROVIDER_LTI)
+			if($mode == AUTH_PROVIDER_LTI)
 			{
 				include_once './Services/LTI/classes/InternalProvider/class.ilAuthProviderLTI.php';
 				foreach(ilAuthProviderLTI::getAuthModes() as $sid)
