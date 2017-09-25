@@ -17,6 +17,10 @@ class ilSCORM2004TrackingItemsPerScoFilterGUI extends ilPropertyFormGUI
 	 */
 	public function __construct($a_parent_obj,$a_parent_cmd)
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
 		$this->parent_obj = $a_parent_obj;
 		$this->parent_cmd = $a_parent_cmd;
 		parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -24,7 +28,8 @@ class ilSCORM2004TrackingItemsPerScoFilterGUI extends ilPropertyFormGUI
 
 	public function parse($scoSelected,$report,$reports)
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		$lng->loadLanguageModule("scormtrac");
 		$this->form = new ilPropertyFormGUI();
 		$this->form->setFormAction($ilCtrl->getFormAction($this->parent_obj));

@@ -4,7 +4,7 @@
     "second_maintainer": "bheyser(14300)",
     "implicit_maintainers": [],
     "coordinator": "",
-    "tester": "",
+    "tester": "kunkel(115)",
     "testcase_writer": "kunkel(115)",
     "path": "Services/Cron",
     "belong_to_component": "Cron Service",

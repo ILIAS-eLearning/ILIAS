@@ -1,39 +1,15 @@
 /* Services/UIComponent/Tooltip */
-
-.ui-tooltip-rounded,
-.ui-tooltip-rounded .ui-tooltip-content,
-.ui-tooltip-tipsy,
-.ui-tooltip-tipsy .ui-tooltip-content,
-.ui-tooltip-youtube,
-.ui-tooltip-youtube .ui-tooltip-content{
-    -webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
-	border-radius: 4px;
-}
-
-.ui-tooltip-shadow {
-	.box-shadow(1px 1px 3px 1px rgba(0, 0, 0, 0.15));
-}
-
 .qtip-default {
 	font-size: @font-size-small;
 	line-height: @line-height-small;
-}
 
-/*.qtip-default {
-	background-color: lighten(@brand-warning, 25%);
-	border-color: lighten(@brand-warning, 25%);
-	color: #303030;
-}
+	background-color: @il-tooltip-bg-color;
+	border-color: @il-tooltip-border-color;
+	color: @il-tooltip-color;
 
-.qtip-default {
-	background-color: darken(@brand-secondary, 10%);
-	border-color: darken(@brand-secondary, 10%);
-	color: white;
-}*/
+	.box-shadow(@il-tooltip-shadow);
 
-.qtip-default {
-	background-color: lighten(@brand-primary, 10%);
-	border-color: lighten(@brand-primary, 10%);
-	color: white;
+	-webkit-border-radius: @il-tooltip-border-radius;
+	-moz-border-radius: @il-tooltip-border-radius;
+	border-radius: @il-tooltip-border-radius;
 }

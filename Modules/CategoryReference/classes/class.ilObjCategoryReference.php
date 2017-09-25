@@ -42,7 +42,10 @@ class ilObjCategoryReference extends ilContainerReference
 	 */
 	public function __construct($a_id = 0,$a_call_by_reference = true)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$this->db = $DIC->database();
+		$ilDB = $DIC->database();
 
 		 $this->type = 'catr';
 		 parent::__construct($a_id,$a_call_by_reference);

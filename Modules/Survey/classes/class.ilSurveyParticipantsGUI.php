@@ -13,6 +13,51 @@
 */
 class ilSurveyParticipantsGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var Logger
+	 */
+	protected $log;
+
 	protected $parent_gui; // [ilObjSurveyGUI]
 	protected $object; // [ilObjSurvey]
 	protected $ref_id; // [int]
@@ -20,7 +65,17 @@ class ilSurveyParticipantsGUI
 	
 	public function __construct(ilObjSurveyGUI $a_parent_gui, $a_has_write_access)
 	{		
-		global $ilCtrl, $lng, $tpl;
+		global $DIC;
+
+		$this->tabs = $DIC->tabs();
+		$this->toolbar = $DIC->toolbar();
+		$this->access = $DIC->access();
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->user = $DIC->user();
+		$this->log = $DIC["ilLog"];
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$tpl = $DIC["tpl"];
 		
 		$this->parent_gui = $a_parent_gui;
 		$this->object = $this->parent_gui->object;
@@ -43,7 +98,8 @@ class ilSurveyParticipantsGUI
 	
 	public function executeCommand()
 	{
-		global $ilCtrl, $ilTabs;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
 		
 		$cmd = $ilCtrl->getCmd("maintenance");		
 		$next_class = $this->ctrl->getNextClass($this);
@@ -119,7 +175,7 @@ class ilSurveyParticipantsGUI
 	*/
 	public function maintenanceObject()
 	{
-		global $ilToolbar;
+		$ilToolbar = $this->toolbar;
 		
 		if($this->object->get360Mode())
 		{
@@ -188,12 +244,12 @@ class ilSurveyParticipantsGUI
 	*/
 	function setCodesSubtabs()
 	{
-		global $ilTabs;
+		$ilTabs = $this->tabs;
 		
 		// not used in 360° mode
 	
 		// maintenance
-		$ilTabs->addSubTabTarget("results",
+		$ilTabs->addSubTabTarget("sub_tab_dashboard",
 			 $this->ctrl->getLinkTarget($this,'maintenance'),
 			 array("maintenance", "deleteAllUserData"),					 
 			 "");
@@ -321,10 +377,10 @@ class ilSurveyParticipantsGUI
 	*/
 	public function inviteObject()
 	{
-		global $ilAccess;
-		global $rbacsystem;
-		global $ilToolbar;
-		global $lng;
+		$ilAccess = $this->access;
+		$rbacsystem = $this->rbacsystem;
+		$ilToolbar = $this->toolbar;
+		$lng = $this->lng;
 		
 		$this->handleWriteAccess();		
 		$this->setCodesSubtabs();
@@ -491,7 +547,7 @@ class ilSurveyParticipantsGUI
 	{
 		if (strcmp($_POST["lang"], "-1") != 0)
 		{
-			global $ilUser;
+		$ilUser = $this->user;
 			$ilUser->writePref("survey_code_language", $_POST["lang"]);
 		}
 		ilUtil::sendSuccess($this->lng->txt('language_changed'), true);
@@ -503,7 +559,8 @@ class ilSurveyParticipantsGUI
 	*/
 	public function codesObject()
 	{
-		global $ilUser, $ilToolbar;
+		$ilUser = $this->user;
+		$ilToolbar = $this->toolbar;
 		
 		$this->handleWriteAccess();
 		$this->setCodesSubtabs();
@@ -839,7 +896,7 @@ class ilSurveyParticipantsGUI
 		{
 			if ($form_gui->getSavedMessages()->getValue() > 0)
 			{
-				global $ilUser;
+		$ilUser = $this->user;
 				$settings = $this->object->getUserSettings($ilUser->getId(), 'savemessage');
 				$form_gui->getMailMessage()->setValue($settings[$form_gui->getSavedMessages()->getValue()]['value']);
 				ilUtil::sendSuccess($this->lng->txt('msg_message_inserted'));
@@ -851,7 +908,7 @@ class ilSurveyParticipantsGUI
 		}
 		catch (Exception $e)
 		{
-			global $ilLog;
+		$ilLog = $this->log;
 			$ilLog->write('Error: ' + $e->getMessage());
 		}
 		$this->tpl->setVariable("ADM_CONTENT", $form_gui->getHTML());
@@ -881,7 +938,7 @@ class ilSurveyParticipantsGUI
 		}
 		catch (Exception $e)
 		{
-			global $ilLog;
+		$ilLog = $this->log;
 			$ilLog->write('Error: ' + $e->getMessage());
 		}
 		$this->tpl->setVariable("ADM_CONTENT", $form_gui->getHTML());
@@ -904,7 +961,7 @@ class ilSurveyParticipantsGUI
 	
 	public function sendCodesMailObject()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$this->handleWriteAccess();
 		$this->setCodesSubtabs();
@@ -923,7 +980,7 @@ class ilSurveyParticipantsGUI
 			{
 				if ($_POST['savemessage'] == 1)
 				{
-					global $ilUser;
+		$ilUser = $this->user;
 					$title = (strlen($_POST['savemessagetitle'])) ? $_POST['savemessagetitle'] : ilStr::substr($_POST['m_message'], 0, 40) . '...';
 					$this->object->saveUserSettings($ilUser->getId(), 'savemessage', $title, $_POST['m_message']);
 				}
@@ -1101,7 +1158,7 @@ class ilSurveyParticipantsGUI
 	
 	function importExternalMailRecipientsFromFileFormObject()
 	{		
-		global $ilAccess;
+		$ilAccess = $this->access;
 		
 		$this->handleWriteAccess();
 		$this->setCodesSubtabs();
@@ -1128,7 +1185,7 @@ class ilSurveyParticipantsGUI
 
 	function importExternalMailRecipientsFromTextFormObject()
 	{
-		global $ilAccess;
+		$ilAccess = $this->access;
 		
 		$this->handleWriteAccess();
 		$this->setCodesSubtabs();
@@ -1184,7 +1241,9 @@ class ilSurveyParticipantsGUI
 	
 	public function listAppraiseesObject()
 	{
-		global $ilToolbar, $lng, $ilCtrl;
+		$ilToolbar = $this->toolbar;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$this->handleWriteAccess();
 		
@@ -1241,7 +1300,7 @@ class ilSurveyParticipantsGUI
 	
 	public function confirmDeleteAppraiseesObject()
 	{
-		global $ilTabs;
+		$ilTabs = $this->tabs;
 		
 		if(!sizeof($_POST["appr_id"]))
 		{
@@ -1306,7 +1365,8 @@ class ilSurveyParticipantsGUI
 	
 	 function handleRatersAccess()
 	{
-		global $ilAccess, $ilUser;
+		$ilAccess = $this->access;
+		$ilUser = $this->user;
 		
 		if ($ilAccess->checkAccess("write", "", $this->ref_id)) 
 		{
@@ -1329,7 +1389,9 @@ class ilSurveyParticipantsGUI
 	
 	public function editRatersObject()
 	{
-		global $ilTabs, $ilToolbar, $ilAccess;
+		$ilTabs = $this->tabs;
+		$ilToolbar = $this->toolbar;
+		$ilAccess = $this->access;
 		
 		$appr_id = $_REQUEST["appr_id"] = $this->handleRatersAccess();		
 				
@@ -1375,7 +1437,8 @@ class ilSurveyParticipantsGUI
 	
 	public function addExternalRaterFormObject(ilPropertyFormGUI $a_form = null)
 	{	
-		global $ilTabs, $ilAccess;
+		$ilTabs = $this->tabs;
+		$ilAccess = $this->access;
 		
 		$appr_id = $this->handleRatersAccess();				
 		$this->ctrl->setParameter($this, "appr_id", $appr_id);
@@ -1457,7 +1520,8 @@ class ilSurveyParticipantsGUI
 	
 	public function addRater($a_user_ids)
 	{		
-		global $ilAccess, $ilUser;
+		$ilAccess = $this->access;
+		$ilUser = $this->user;
 		
 		$appr_id = $this->handleRatersAccess();
 		
@@ -1483,7 +1547,7 @@ class ilSurveyParticipantsGUI
 	
 	public function confirmDeleteRatersObject()
 	{
-		global $ilTabs;
+		$ilTabs = $this->tabs;
 		
 		$appr_id = $this->handleRatersAccess();		
 		$this->ctrl->setParameter($this, "appr_id", $appr_id);
@@ -1553,7 +1617,7 @@ class ilSurveyParticipantsGUI
 	
 	function addSelfAppraiseeObject()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		if($this->object->get360SelfAppraisee() && 
 			!$this->object->isAppraisee($ilUser->getId()))
@@ -1632,7 +1696,7 @@ class ilSurveyParticipantsGUI
 	
 	function mailRatersObject(ilPropertyFormGUI $a_form = null)
 	{		
-		global $ilTabs;
+		$ilTabs = $this->tabs;
 		
 		if(!$a_form)
 		{
@@ -1657,7 +1721,7 @@ class ilSurveyParticipantsGUI
 	
 	function mailRatersActionObject()
 	{						
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$appr_id = $this->handleRatersAccess();		
 		$this->ctrl->setParameter($this, "appr_id", $appr_id);
@@ -1738,7 +1802,9 @@ class ilSurveyParticipantsGUI
    
    function confirmAppraiseeCloseObject()
    {
-		global $ilUser, $tpl, $ilTabs;
+		$ilUser = $this->user;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
 		
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($this->lng->txt("menuback"),
@@ -1767,7 +1833,7 @@ class ilSurveyParticipantsGUI
    
    function appraiseeCloseObject()
    {
-		global $ilUser;
+		$ilUser = $this->user;
 
 		if(!$this->object->isAppraisee($ilUser->getId()))
 		{
@@ -1781,7 +1847,7 @@ class ilSurveyParticipantsGUI
    
    function confirmAdminAppraiseesCloseObject()
    {
-		global $tpl;
+		$tpl = $this->tpl;
 	   
 		$this->handleWriteAccess();
 	   
@@ -1837,7 +1903,7 @@ class ilSurveyParticipantsGUI
    
     protected function listParticipantsObject()
    {
-		global $ilToolbar;
+		$ilToolbar = $this->toolbar;
 		
 	    if(!$this->isAnonymousListActive())
 	    {

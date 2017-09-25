@@ -35,7 +35,7 @@ class ilObjPortfolioTemplateListGUI extends ilObjectListGUI
 	
 	public function getProperties()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$props = array();
 

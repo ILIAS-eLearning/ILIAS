@@ -68,8 +68,11 @@ class ilObjDefReader extends ilSaxParser
 		$ilDB->manipulate("DELETE FROM il_pluginslot");
 		
 		$ilDB->manipulate("DELETE FROM il_component");
-		
-		$ilDB->manipulate("DELETE FROM il_event_handling");
+
+		// Keep the plugin listeners in the table
+		// This avoids reading them in the setup
+		// ilPluginReader is called in the plugin administration
+		$ilDB->manipulate("DELETE FROM il_event_handling WHERE component NOT LIKE 'Plugins/%'");
 		
 		$ilDB->manipulate("DELETE FROM il_object_sub_type");
 		
@@ -138,10 +141,10 @@ class ilObjDefReader extends ilSaxParser
 					$this->current_object = $a_attribs["id"];
 					$ilDB->manipulateF("INSERT INTO il_object_def (id, class_name, component,location,".
 						"checkbox,inherit,translate,devmode,allow_link,allow_copy,rbac,default_pos,".
-						"default_pres_pos,sideblock,grp,system,export,repository,workspace,administration,amet) VALUES ".
-						"(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+						"default_pres_pos,sideblock,grp,system,export,repository,workspace,administration,amet,orgunit_permissions,lti_provider) VALUES ".
+						"(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
 						array("text", "text", "text", "text", "integer", "integer", "text", "integer","integer","integer",
-							"integer","integer","integer","integer", "text", "integer", "integer", "integer", "integer",'integer','integer'),
+							"integer","integer","integer","integer", "text", "integer", "integer", "integer", "integer",'integer','integer','integer','integer'),
 						array(
 							$a_attribs["id"],
 							$a_attribs["class_name"],
@@ -163,7 +166,9 @@ class ilObjDefReader extends ilSaxParser
 							(int) $a_attribs["repository"],
 							(int) $a_attribs["workspace"],
 							(int) $a_attribs['administration'],
-							(int) $a_attribs['amet']
+							(int) $a_attribs['amet'],
+							(int) $a_attribs['orgunit_permissions'],
+							(int) $a_attribs['lti_provider']
 						));
 					break;
 				
@@ -261,7 +266,7 @@ class ilObjDefReader extends ilSaxParser
 				
 				case 'systemcheck_task':
 					include_once './Services/SystemCheck/classes/class.ilSCGroups.php';
-					$group_id = ilSCGroups::lookupGroupByComponentId($this->getComponentId());
+					$group_id = ilSCGroups::getInstance()->lookupGroupByComponentId($this->getComponentId());
 					
 					include_once './Services/SystemCheck/classes/class.ilSCTasks.php';
 					$tasks = ilSCTasks::getInstanceByGroupId($group_id);
@@ -292,6 +297,11 @@ class ilObjDefReader extends ilSaxParser
 					include_once "Services/Badge/classes/class.ilBadgeHandler.php";
 					ilBadgeHandler::updateFromXML($this->getComponentId());
 					$this->has_badges[] = $this->getComponentId();
+					break;
+
+				case 'pdfpurpose':
+					require_once './Services/PDFGeneration/classes/class.ilPDFCompInstaller.php';
+					ilPDFCompInstaller::updateFromXML($this->current_component, $a_attribs['name'], $a_attribs['preferred']);
 					break;
 			}
 		}

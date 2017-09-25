@@ -16,6 +16,20 @@ require_once "Modules/WorkspaceFolder/classes/class.ilObjWorkspaceFolderGUI.php"
 */
 class ilObjWorkspaceRootFolderGUI extends ilObjWorkspaceFolderGUI
 {
+
+	/**
+	 * Constructor
+	 */
+	function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
+	{
+		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
+		global $DIC;
+
+		$this->help = $DIC["ilHelp"];
+		$this->tpl = $DIC["tpl"];
+		$this->lng = $DIC->language();
+	}
+
 	function getType()
 	{
 		return "wsrt";
@@ -23,7 +37,7 @@ class ilObjWorkspaceRootFolderGUI extends ilObjWorkspaceFolderGUI
 	
 	function setTabs($a_show_settings = false)
 	{
-		global $ilHelp;
+		$ilHelp = $this->help;
 
 		parent::setTabs(false);
 		$ilHelp->setScreenIdComponent("wsrt");
@@ -31,7 +45,8 @@ class ilObjWorkspaceRootFolderGUI extends ilObjWorkspaceFolderGUI
 	
 	protected function setTitleAndDescription()
 	{
-		global $tpl, $lng;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 		
 		$tpl->setTitle($lng->txt("wsp_personal_workspace"));
 		$tpl->setTitleIcon(ilUtil::getImagePath("icon_wsrt.svg"), $title);

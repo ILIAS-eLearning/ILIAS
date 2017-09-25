@@ -38,7 +38,9 @@ class ilDesktopItemGUI
 	 */
 	public static function addToDesktop()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC->user();
 		
 		if ($_GET["item_ref_id"] and $_GET["type"])
 		{
@@ -64,7 +66,9 @@ class ilDesktopItemGUI
 	 */
 	public static function removeFromDesktop()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC->user();
 
 		if ($_GET["item_ref_id"] and $_GET["type"])
 		{

@@ -1,0 +1,13 @@
+{
+  "name": "jstree",
+  "homepage": "https://github.com/vakata/jstree",
+  "_release": "50b70b4ff5",
+  "_resolution": {
+    "type": "branch",
+    "branch": "v.pre1.0",
+    "commit": "50b70b4ff58483609a497ca475e6d799b537feff"
+  },
+  "_source": "https://github.com/vakata/jstree.git",
+  "_target": "v.pre1.0",
+  "_originalSource": "jstree"
+}

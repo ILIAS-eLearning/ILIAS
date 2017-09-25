@@ -36,11 +36,25 @@
 class ilHTLMPresentationGUI
 {
 	/**
-	* ilias object
-	* @var object ilias
-	* @access public
-	*/
-	var $ilias;
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
+	 * @var ilNavigationHistory
+	 */
+	protected $nav_history;
+
 	var $tpl;
 	var $lng;
 	var $objDefinition;
@@ -52,15 +66,24 @@ class ilHTLMPresentationGUI
 	*/
 	function __construct()
 	{
-		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl,
-			$rbacsystem, $ilAccess;
+		global $DIC;
+
+		$this->access = $DIC->access();
+		$this->error = $DIC["ilErr"];
+		$this->nav_history = $DIC["ilNavigationHistory"];
+		$tpl = $DIC["tpl"];
+		$lng = $DIC->language();
+		$objDefinition = $DIC["objDefinition"];
+		$ilCtrl = $DIC->ctrl();
+		$ilAccess = $DIC->access();
+		$ilErr = $DIC["ilErr"];
 		
 		$lng->loadLanguageModule("content");
 
 		// check write permission
 		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
-			$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($lng->txt("permission_denied"), $ilErr->MESSAGE);
 		}
 
 
@@ -70,7 +93,6 @@ class ilHTLMPresentationGUI
 		$this->ctrl->saveParameter($this, array("ref_id"));
 
 		// initiate variables
-		$this->ilias = $ilias;
 		$this->tpl = $tpl;
 		$this->lng = $lng;
 		$this->objDefinition = $objDefinition;
@@ -83,7 +105,10 @@ class ilHTLMPresentationGUI
 	*/
 	function executeCommand()
 	{
-		global $tpl, $ilCtrl,$ilAccess, $ilNavigationHistory;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$ilAccess = $this->access;
+		$ilNavigationHistory = $this->nav_history;
 
 		// add entry to navigation history
 		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))

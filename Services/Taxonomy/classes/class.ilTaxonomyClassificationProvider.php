@@ -83,7 +83,9 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
 	
 	protected static function getActiveTaxonomiesForParentRefId($a_parent_ref_id)
 	{
-		global $tree;
+		global $DIC;
+
+		$tree = $DIC->repositoryTree();
 		
 		if(!isset(self::$valid_tax_map[$a_parent_ref_id]))
 		{				

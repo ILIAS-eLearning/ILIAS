@@ -11,6 +11,26 @@
  */
 class ilContainerStartObjectsContentGUI 
 {	
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	protected $start_object; // [ilContainerStartObjects]	
 	protected $enable_desktop; // [bool]
 	protected $parent_gui; // [ilContainerGUI]
@@ -23,6 +43,12 @@ class ilContainerStartObjectsContentGUI
 	 */
 	public function __construct($a_gui, ilContainer $a_parent_obj)
 	{			
+		global $DIC;
+
+		$this->tpl = $DIC["tpl"];
+		$this->lng = $DIC->language();
+		$this->settings = $DIC->settings();
+		$this->user = $DIC->user();
 		include_once "Services/Container/classes/class.ilContainerStartObjects.php";
 		$this->parent_gui = $a_gui;
 		$this->parent_obj = $a_parent_obj;
@@ -53,7 +79,8 @@ class ilContainerStartObjectsContentGUI
 	 */
 	public function getHTML()
 	{		
-		global $tpl, $lng;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 		
 		$lng->loadLanguageModule("crs");
 		
@@ -78,7 +105,9 @@ class ilContainerStartObjectsContentGUI
 	 */
 	protected function getPageHTML()
 	{
-		global $tpl, $ilSetting, $ilUser;
+		$tpl = $this->tpl;
+		$ilSetting = $this->settings;
+		$ilUser = $this->user;
 		
 		if (!$ilSetting->get("enable_cat_page_edit"))
 		{

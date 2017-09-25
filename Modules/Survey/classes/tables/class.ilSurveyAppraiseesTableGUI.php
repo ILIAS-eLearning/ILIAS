@@ -45,9 +45,12 @@ class ilSurveyAppraiseesTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd, $a_raters_mode = false, $a_may_delete_rater = false, $a_fallback_url = null)
 	{
+		global $DIC;
+
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
-		global $lng, $ilCtrl;
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
 		
 		$this->raters_mode = (bool)$a_raters_mode;
 		$this->fallback_url = trim($a_fallback_url);
@@ -116,7 +119,7 @@ class ilSurveyAppraiseesTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($data)
 	{
-		global $lng;
+		$lng = $this->lng;
 				
 		if(!$this->raters_mode)
 		{

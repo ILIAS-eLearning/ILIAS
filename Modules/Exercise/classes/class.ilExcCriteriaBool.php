@@ -12,6 +12,23 @@ include_once "Modules/Exercise/classes/class.ilExcCriteria.php";
  */
 class ilExcCriteriaBool extends ilExcCriteria
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		global $DIC;
+
+		parent::__construct();
+		$this->lng = $DIC->language();
+	}
+
 	public function getType()
 	{
 		return "bool";
@@ -22,7 +39,7 @@ class ilExcCriteriaBool extends ilExcCriteria
 	
 	public function addToPeerReviewForm($a_value = null)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if(!$this->isRequired())
 		{
@@ -61,7 +78,7 @@ class ilExcCriteriaBool extends ilExcCriteria
 	
 	public function getHTML($a_value)
 	{
-		global $lng;
+		$lng = $this->lng;
 	
 		$caption = null;
 		if($this->isRequired() && $a_value < 0)

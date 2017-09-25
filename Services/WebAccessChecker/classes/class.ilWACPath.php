@@ -42,6 +42,7 @@ class ilWACPath {
 		'mp3',
 		'aiff',
 		'aif',
+		'm4a',
 		'wav',
 	);
 	/**

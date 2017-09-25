@@ -13,13 +13,31 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilPasteStyleCharacteristicTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
 
 	/**
 	 * Constructor
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
+		$lng = $DIC->language();
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->setTitle($lng->txt("sty_paste_characteristics"));
@@ -49,7 +67,7 @@ class ilPasteStyleCharacteristicTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$char = explode(".", $a_set);
 		$this->tpl->setVariable("CHAR", $a_set);

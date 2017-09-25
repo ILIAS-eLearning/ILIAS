@@ -20,7 +20,10 @@ class ilImageFileInputGUI extends ilFileInputGUI
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
-		global $lng;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$lng = $DIC->language();
 
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("image_file");
@@ -115,7 +118,7 @@ class ilImageFileInputGUI extends ilFileInputGUI
 	*/
 	function insert($a_tpl)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$quota_exceeded = $quota_legend = false;
 		if(self::$check_wsp_quota)

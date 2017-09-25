@@ -15,6 +15,18 @@ class ilBookmarkMoveExplorerGUI extends ilBookmarkExplorerGUI
 {
 
 	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		global $DIC;
+
+		parent::__construct();
+		$this->ctrl = $DIC->ctrl();
+	}
+
+
+	/**
 	 * Is node highlighted?
 	 *
 	 * @param mixed $a_node node object/array
@@ -33,7 +45,7 @@ class ilBookmarkMoveExplorerGUI extends ilBookmarkExplorerGUI
 	 */
 	function getNodeHref($a_node)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		switch($a_node["type"])
 		{

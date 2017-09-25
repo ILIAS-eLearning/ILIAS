@@ -12,13 +12,45 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
  */
 class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilObjectDataCache
+	 */
+	protected $obj_data_cache;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
 	protected $start_object; // [ilContainerStartObjects]
 	protected $item_list_guis; // [array]
 	protected $enable_desktop; // [bool]
 	
 	public function __construct($a_parent_obj, $a_parent_cmd, ilContainerStartObjects $a_start_objects, $a_enable_desktop = true)
 	{
-	 	global $lng, $ilCtrl;
+		global $DIC;
+
+		$this->user = $DIC->user();
+		$this->obj_data_cache = $DIC["ilObjDataCache"];
+		$this->access = $DIC->access();
+		$this->obj_definition = $DIC["objDefinition"];
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
 		
 	 	$this->lng = $lng;	
 	 	$this->ctrl = $ilCtrl;
@@ -47,7 +79,9 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
 	
 	protected function getItems()
 	{
-		global $ilUser, $ilObjDataCache, $ilAccess;
+		$ilUser = $this->user;
+		$ilObjDataCache = $this->obj_data_cache;
+		$ilAccess = $this->access;
 		
 		include_once './Modules/Course/classes/class.ilCourseLMHistory.php';
 		include_once './Services/Link/classes/class.ilLink.php';
@@ -162,7 +196,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
 	 */	
 	protected function getItemListGUI($a_type)
 	{
-		global $objDefinition;
+		$objDefinition = $this->obj_definition;
 
 		if (!isset($this->item_list_guis[$a_type]))
 		{

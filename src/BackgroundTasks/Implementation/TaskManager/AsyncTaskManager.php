@@ -24,6 +24,7 @@ class AsyncTaskManager extends BasicTaskManager {
 		global $DIC;
 
 		$bucket->setState(State::SCHEDULED);
+		$bucket->setCurrentTask($bucket->getTask());
 		$DIC->backgroundTasks()->persistence()->saveBucketAndItsTasks($bucket);
 
 		$DIC->logger()->root()->info("[BackgroundTasks] Trying to call webserver");
@@ -80,6 +81,8 @@ class AsyncTaskManager extends BasicTaskManager {
 				$persistence->deleteBucket($bucket);
 				$DIC->logger()->root()->info("[BackgroundTasks] Exception while async computing: "
 				                             . $e->getMessage());
+				$DIC->logger()->root()->info("[BackgroundTasks] Stack Trace: "
+					. $e->getTraceAsString());
 			}
 		}
 

@@ -18,12 +18,35 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 {
 	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilRbacReview
+	 */
+	protected $rbacreview;
+
+	/**
 	* Constructor
 	* @access public
 	*/
 	function __construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
 	{
-		global $lng;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->access = $DIC->access();
+		$this->rbacreview = $DIC->rbac()->review();
+		$this->ctrl = $DIC->ctrl();
+		$this->tpl = $DIC["tpl"];
+		$lng = $DIC->language();
 		
 		$this->type = "extt";
 		parent::__construct($a_data,$a_id,$a_call_by_reference,false);
@@ -45,7 +68,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 	*/
 	function getTabs()
 	{
-		global $rbacsystem;
+		$rbacsystem = $this->rbacsystem;
 
 		$this->ctrl->setParameter($this,"ref_id",$this->object->getRefId());
 
@@ -69,7 +92,11 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 	 */
 	function editMathJaxObject()
 	{
-		global $ilAccess, $rbacreview, $lng, $ilCtrl, $tpl;
+		$ilAccess = $this->access;
+		$rbacreview = $this->rbacreview;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
 		
 		$mathJaxSetting = new ilSetting("MathJax");
 		$path_to_mathjax = $mathJaxSetting->get("path_to_mathjax");
@@ -184,7 +211,9 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 	 */
 	function saveMathJaxObject()
 	{
-		global $ilCtrl, $lng, $ilAccess;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilAccess = $this->access;
 		
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
@@ -219,7 +248,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 	 */
 	function clearMathJaxCacheObject()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		include_once './Services/MathJax/classes/class.ilMathJax.php';
 		ilMathJax::getInstance()->clearCache();
@@ -237,7 +266,10 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 	{
 		require_once("Services/Maps/classes/class.ilMapUtil.php");
 		
-		global $ilAccess, $lng, $ilCtrl, $tpl;
+		$ilAccess = $this->access;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
 		
 		$this->__initSubTabs("editMaps");
 		$std_latitude = ilMapUtil::getStdLatitude();
@@ -308,7 +340,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 	{
 		require_once("Services/Maps/classes/class.ilMapUtil.php");
 		
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		if(ilUtil::stripSlashes($_POST["type"]) == 'openlayers' && 'openlayers' == ilMapUtil::getType()) {
 			ilMapUtil::setStdTileServers(ilUtil::stripSlashes($_POST["tile"]));
 			ilMapUtil::setStdGeolocationServer(ilUtil::stripSlashes($_POST["geolocation"]));
@@ -338,7 +370,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 	
 	function executeCommand()
 	{
-		global $ilAccess;
+		$ilAccess = $this->access;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();

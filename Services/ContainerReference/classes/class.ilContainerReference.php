@@ -33,6 +33,11 @@ include_once './Services/Object/classes/class.ilObject.php';
 */
 class ilContainerReference extends ilObject
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	const TITLE_TYPE_REUSE = 1;
 	const TITLE_TYPE_CUSTOM = 2;
 	
@@ -49,7 +54,11 @@ class ilContainerReference extends ilObject
 	 */
 	public function __construct($a_id = 0,$a_call_by_reference = true)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$this->db = $DIC->database();
+		$this->user = $DIC->user();
+		$ilDB = $DIC->database();
 
 		parent::__construct($a_id,$a_call_by_reference);
 	}
@@ -64,7 +73,9 @@ class ilContainerReference extends ilObject
 	 */
 	public static function _lookupTargetId($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$query = "SELECT * FROM container_reference ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ";
@@ -84,7 +95,9 @@ class ilContainerReference extends ilObject
 	 */
 	 public static function _lookupTargetRefId($a_obj_id)
 	 {
-	 	global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 	 	
 	 	$query = "SELECT ref_id FROM object_reference obr ".
 	 		"JOIN container_reference cr ON obr.obj_id = cr.target_obj_id ".
@@ -104,7 +117,9 @@ class ilContainerReference extends ilObject
 	  */
 	 public static function _lookupTitle($a_obj_id)
 	 {
-		 global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		 
 		 $query = 'SELECT title,title_type FROM container_reference cr '.
 				 'JOIN object_data od ON cr.obj_id = od.obj_id '.
@@ -128,7 +143,9 @@ class ilContainerReference extends ilObject
 	 */
 	 public static function _lookupTargetTitle($a_obj_id)
 	 {
-	 	global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 	 	
 	 	$query = "SELECT title FROM object_data od ".
 	 		"JOIN container_reference cr ON target_obj_id = od.obj_id ".
@@ -150,7 +167,9 @@ class ilContainerReference extends ilObject
 	 */
 	 public static function _lookupSourceId($a_target_id)
 	 {
-	 	global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 	 	
 	 	$query = "SELECT * FROM container_reference ".
 	 		"WHERE target_obj_id = ".$ilDB->quote($a_target_id,'integer')." ";
@@ -172,7 +191,9 @@ class ilContainerReference extends ilObject
 	 */
 	public static function _lookupSourceIds($a_target_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$query = "SELECT * FROM container_reference ".
 			"WHERE target_obj_id = ".$ilDB->quote($a_target_id,'integer')." ";
@@ -259,7 +280,7 @@ class ilContainerReference extends ilObject
 	 */
 	public function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		parent::read();
 		
@@ -307,7 +328,7 @@ class ilContainerReference extends ilObject
 	 */
 	public function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		parent::update();
 		
@@ -333,7 +354,7 @@ class ilContainerReference extends ilObject
 	 */
 	public function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if(!parent::delete())
 		{
@@ -357,7 +378,8 @@ class ilContainerReference extends ilObject
 	 */
 	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
-		global $ilDB,$ilUser;
+		$ilDB = $this->db;
+		$ilUser = $this->user;
 		
 	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
 	 	

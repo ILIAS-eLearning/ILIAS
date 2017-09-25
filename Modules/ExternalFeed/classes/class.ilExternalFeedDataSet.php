@@ -11,7 +11,7 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
  * @ingroup ingroup ModulesExternalFeed
  */
 class ilExternalFeedDataSet extends ilDataSet
-{	
+{
 	/**
 	 * Get supported versions
 	 *
@@ -64,7 +64,7 @@ class ilExternalFeedDataSet extends ilDataSet
 	 */
 	function readData($a_entity, $a_version, $a_ids)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if (!is_array($a_ids))
 		{

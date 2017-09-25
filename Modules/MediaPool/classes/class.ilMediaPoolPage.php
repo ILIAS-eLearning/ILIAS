@@ -31,7 +31,7 @@ class ilMediaPoolPage extends ilPageObject
 	*/
 	function update($a_validate = true, $a_no_history = false)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 				parent::update($a_validate, $a_no_history);
 
 		return true;
@@ -42,7 +42,7 @@ class ilMediaPoolPage extends ilPageObject
 	*/
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// get co page
 		parent::read();
@@ -56,7 +56,7 @@ class ilMediaPoolPage extends ilPageObject
 	*/
 	function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 
 		// delete internal links information to this page
@@ -77,7 +77,9 @@ class ilMediaPoolPage extends ilPageObject
 	*/
 	static function deleteAllPagesOfMediaPool($a_media_pool_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 // todo
 /*
@@ -98,7 +100,9 @@ class ilMediaPoolPage extends ilPageObject
 	*/
 	static function exists($a_media_pool_id, $a_title)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 // todo
 /*
@@ -120,7 +124,9 @@ class ilMediaPoolPage extends ilPageObject
 	*/
 	static function lookupTitle($a_page_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 	
 		include_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
 		return ilMediaPoolItem::lookupTitle($a_page_id);
@@ -136,7 +142,9 @@ class ilMediaPoolPage extends ilPageObject
 	*/
 	static function _mediaPoolPageExists($a_media_pool_id, $a_title)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 // todo
 /*		
 		$query = "SELECT id FROM il_media_pool_page".
@@ -158,7 +166,7 @@ class ilMediaPoolPage extends ilPageObject
 	*/
 	function getUsages($a_incl_hist = true)
 	{
-		return $this->lookupUsages($this->getId(), $a_incl_hist);
+		return self::lookupUsages($this->getId(), $a_incl_hist);
 	}
 	
 	/**
@@ -166,9 +174,11 @@ class ilMediaPoolPage extends ilPageObject
 	*
 	* @todo: This should be all in one context -> mob id table
 	*/
-	function lookupUsages($a_id, $a_incl_hist = true)
+	static function lookupUsages($a_id, $a_incl_hist = true)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		// get usages in pages
 		$q = "SELECT * FROM page_pc_usage WHERE pc_id = ".

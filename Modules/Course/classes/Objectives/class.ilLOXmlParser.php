@@ -264,15 +264,14 @@ class ilLOXmlParser
 					continue;
 				}
 				
-				include_once './Modules/Course/classes/Objectives/class.ilLORandomTestQuestionPools.php';
 				$rnd = new ilLORandomTestQuestionPools(
 					$this->getCourse()->getId(),
 					$a_objective_id,
-					(int) (string) $tst->attributes()->testType
+					(int) (string) $tst->attributes()->testType,
+					(string) $new_qpl_id
 				);
 				$rnd->setTestId($mapping_id);
 				$rnd->setLimit((string) $tst->attributes()->limit);
-				$rnd->setQplSequence($new_qpl_id);
 				$rnd->create();
 			}
 			else

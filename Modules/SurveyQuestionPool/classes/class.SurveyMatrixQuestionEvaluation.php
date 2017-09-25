@@ -49,7 +49,7 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 	
 	public function getGrid($a_results, $a_abs = true, $a_perc = true)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$res = array(
 			"cols" => array(),
@@ -128,7 +128,7 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 	
 	public function getChart($a_results)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		include_once "Services/Chart/classes/class.ilChart.php";
 		$chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, $a_results[0][1]->getQuestion()->getId());				
@@ -268,7 +268,7 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 	
 	public function getUserSpecificVariableTitles(array &$a_title_row, array &$a_title_row2, $a_do_title, $a_do_label)
 	{		
-		global $lng;
+		$lng = $this->lng;
 		
 		for ($i = 0; $i < $this->question->getRowCount(); $i++)
 		{

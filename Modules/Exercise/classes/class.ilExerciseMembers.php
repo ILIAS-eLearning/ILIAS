@@ -11,6 +11,11 @@
 */
 class ilExerciseMembers
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	var $ref_id;
 	var $obj_id;
 	var $members;
@@ -22,6 +27,9 @@ class ilExerciseMembers
 
 	function __construct($a_exc)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		$this->exc = $a_exc;
 		$this->obj_id = $a_exc->getId();
 		$this->ref_id = $a_exc->getRefId();
@@ -75,7 +83,7 @@ class ilExerciseMembers
 	*/
 	function assignMember($a_usr_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if($this->exc->hasAddToDesktop())
 		{
@@ -149,7 +157,7 @@ class ilExerciseMembers
 	 */
 	function deassignMember($a_usr_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$tmp_user = ilObjectFactory::getInstanceByObjId($a_usr_id);
 		$tmp_user->dropDesktopItem($this->getRefId(),"exc");
@@ -197,7 +205,7 @@ class ilExerciseMembers
 	 */
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$tmp_arr_members = array();
 
@@ -217,7 +225,7 @@ class ilExerciseMembers
 // @todo: clone also assignments
 	function ilClone($a_new_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$data = array();
 
@@ -254,7 +262,7 @@ class ilExerciseMembers
 // @todo: delete also assignments
 	function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$query = "DELETE FROM exc_members WHERE obj_id = ".
 			$ilDB->quote($this->getObjId(), "integer");
@@ -268,7 +276,9 @@ class ilExerciseMembers
 
 	static function _getMembers($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		// #14963 - see ilExAssignment::getMemberListData()
 		$query = "SELECT DISTINCT(excm.usr_id) ud".
@@ -298,7 +308,9 @@ class ilExerciseMembers
 	 */
 	static function _lookupStatus($a_obj_id, $a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$query = "SELECT status FROM exc_members ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer").
@@ -326,7 +338,9 @@ class ilExerciseMembers
 	 */
 	static function _writeStatus($a_obj_id, $a_user_id, $a_status)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$ilDB->manipulate("UPDATE exc_members SET ".
 			" status = ".$ilDB->quote($a_status, "text").
@@ -352,7 +366,9 @@ class ilExerciseMembers
 	 */
 	static function _writeReturned($a_obj_id, $a_user_id, $a_status)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$ilDB->manipulate("UPDATE exc_members SET ".
 			" returned = ".$ilDB->quote($a_status, "text").
@@ -375,7 +391,9 @@ class ilExerciseMembers
 	 */
 	static function _getReturned($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$query = "SELECT DISTINCT(usr_id) as ud FROM exc_members ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer")." ".
@@ -399,7 +417,9 @@ class ilExerciseMembers
 	 */
 	static function _hasReturned($a_obj_id, $a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 	
 		$set = $ilDB->query("SELECT DISTINCT(usr_id) FROM exc_members WHERE ".
 			" obj_id = ".$ilDB->quote($a_obj_id, "integer")." AND ".
@@ -418,7 +438,9 @@ class ilExerciseMembers
 	 */
 	static function _getPassedUsers($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$query = "SELECT DISTINCT(usr_id) FROM exc_members ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer")." ".
@@ -436,7 +458,9 @@ class ilExerciseMembers
 	 */
 	static function _getFailedUsers($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$query = "SELECT DISTINCT(usr_id) FROM exc_members ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer")." ".

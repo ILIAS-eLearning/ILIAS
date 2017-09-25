@@ -60,7 +60,6 @@ final class UploadResult {
 	 * @since 5.3
 	 */
 	public function __construct($name, $size, $mimeType, ImmutableStringMap $metaData, ProcessingStatus $status, $path) {
-
 		$this->stringTypeCheck($name, "name");
 		$this->stringTypeCheck($mimeType, "mimeType");
 		$this->stringTypeCheck($path, "path");

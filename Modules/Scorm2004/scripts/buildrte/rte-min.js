@@ -1,4 +1,4 @@
-// Build: 20151022020047 
+// Build: 2017826164616 
 
 function ADLAuxiliaryResource()
 {}
@@ -2487,20 +2487,14 @@ this._ie=!e&&w.event;this._event=e||w.event;this.keyCode=this._ie?w.event.keyCod
 this.UIEvent=UIEvent;UIEvent.prototype.getIdElement=function(){return getAncestor(this.srcElement,'id',true);};UIEvent.prototype.getHrefElement=function(){return getAncestor(this.srcElement,'href',true);};UIEvent.prototype.stop=function(){var e=this._event;if(e.preventDefault)
 {e.preventDefault();e.stopPropagation();}
 else
-{e.returnValue=false;e.cancelBubble=true;}};function attachUIEvent(obj,name,func)
-{if(window.Event)
-{obj.addEventListener(name,func,false);}
-else if(obj.attachEvent)
-{obj.attachEvent('on'+name,func);}
-else
-{obj[name]=func;}}
-function detachUIEvent(obj,name,func)
-{if(window.Event)
-{obj.removeEventListener(name,func,false);}
-else if(obj.attachEvent)
-{obj.detachEvent('on'+name,func);}
-else
-{obj[name]='';}}
+{e.returnValue=false;e.cancelBubble=true;}};function attachUIEvent(obj,name,func){if(window.Event){if(obj.addEventListener){obj.addEventListener(name,func,false);}
+else if(obj.attachEvent){obj.attachEvent('on'+name,func);}
+else{obj.addEventListener(name,func,false);}}
+else{obj[name]=func;}}
+function detachUIEvent(obj,name,func){if(window.Event){if(obj.removeEventListener){obj.removeEventListener(name,func,false);}
+else if(obj.attachEvent){obj.detachEvent('on'+name,func);}
+else{obj.removeEventListener(name,func,false);}}
+else{obj[name]='';}}
 function getCurrentStyle(elm,prop)
 {var doc=elm.ownerDocument;if(elm.currentStyle){return elm.currentStyle[prop];}else if(doc.defaultView&&doc.defaultView.getComputedStyle){return doc.defaultView.getComputedStyle(elm,'').getPropertyValue(fromCamelCase(prop));}else if(elm.style&&elm.style[prop]){return elm.style[prop];}else{return null;}}
 function getAncestor(elm,attr,pattern,includeSelf)
@@ -2933,7 +2927,7 @@ function onItemDeliverDo(item,wasSuspendAll)
 {SCOterminated=false;var data=getAPI(item.foreignId);if(this.config.fourth_edition)loadSharedData(item.cp_node_id);data.adl={nav:{request_valid:{}}};var validRequests=msequencer.mSeqTree.getValidRequests();data.adl.nav.request_valid['continue']=String(validRequests['mContinue']);data.adl.nav.request_valid['previous']=String(validRequests['mPrevious']);var adlcpData=Array();for(ds in sharedData)
 {var dat=Array();dat["id"]=ds;dat["store"]=sharedData[ds].store;dat["readable"]=sharedData[ds].readSharedData;dat["writeable"]=sharedData[ds].writeSharedData;adlcpData.push(dat);}
 data.adl.data=adlcpData;var choice=validRequests['mChoice'];for(var k in choice){}
-item.accesscount++;data.cmi.learner_name=globalAct.learner_name;data.cmi.learner_id=this.config.cmi_learner_id;data.cmi.cp_node_id=item.foreignId;data.scoid=item.id;data.cmi.session_time=undefined;data.cmi.completion_threshold=item.completionThreshold;data.cmi.launch_data=item.dataFromLMS;data.cmi.time_limit_action=item.timeLimitAction;data.cmi.max_time_allowed=item.attemptAbsoluteDurationLimit;data.cmi.entry="";data.cmi.learner_preference={audio_level:(item.audio_level)?item.audio_level:1,delivery_speed:(item.delivery_speed)?item.delivery_speed:1,language:item.language,audio_captioning:item.audio_captioning};if(item.objectives)
+item.accesscount++;data.cmi.learner_name=this.config.learner_name;data.cmi.learner_id=this.config.cmi_learner_id;data.cmi.cp_node_id=item.foreignId;data.scoid=item.id;data.cmi.session_time=undefined;data.cmi.completion_threshold=item.completionThreshold;data.cmi.launch_data=item.dataFromLMS;data.cmi.time_limit_action=item.timeLimitAction;data.cmi.max_time_allowed=item.attemptAbsoluteDurationLimit;data.cmi.entry="";data.cmi.learner_preference={audio_level:(item.audio_level)?item.audio_level:1,delivery_speed:(item.delivery_speed)?item.delivery_speed:1,language:item.language,audio_captioning:item.audio_captioning};if(item.objectives)
 {for(k in item.objectives){v=item.objectives[k];if(v.primary==true){if(v.satisfiedByMeasure&&v.minNormalizedMeasure!==undefined)
 {v=v.minNormalizedMeasure;if(typeof this.config.lesson_mastery_score!="undefined"&&this.config.lesson_mastery_score!=null)v=this.config.lesson_mastery_score/100;}
 else if(v.satisfiedByMeasure)
@@ -3039,7 +3033,7 @@ if(data.adl&&data.adl.nav){var m=String(data.adl.nav.request).match(/^(\{target=
 if(navReq)
 {if(navReq.type!="suspend"){adlnavreq=true;if(navReq.type=="Choice"||navReq.type=="Jump"){launchTarget(navReq.target,(navReq.type=="Jump"));}else{launchNavType(navReq.type);}}}
 updateNavForSequencing();if(!this.config.sequencing_enabled)updateNav();return true;}
-var apiIndents={'cmi':{'score':['raw','min','max','scaled'],'learner_preference':['audio_captioning','audio_level','delivery_speed','language']},'objective':{'score':['raw','min','max','scaled']}};function updateNav(ignore){function signActNode(){if(elm&&activities[tree[i].mActivityID].href&&guiItemId==elm.id){removeClass(elm.parentNode,"ilc_rte_status_RTENotAttempted",1);removeClass(elm.parentNode,"ilc_rte_status_RTEIncomplete",1);removeClass(elm.parentNode,"ilc_rte_status_RTECompleted",1);removeClass(elm.parentNode,"ilc_rte_status_RTEFailed",1);removeClass(elm.parentNode,"ilc_rte_status_RTEPassed",1);toggleClass(elm,"ilc_rte_tlink_RTETreeCurrent",1);toggleClass(elm.parentNode,"ilc_rte_status_RTERunning",1);}else{removeClass(elm,"ilc_rte_tlink_RTETreeCurrent");removeClass(elm.parentNode,"ilc_rte_status_RTERunning");}}
+var apiIndents={'cmi':{'score':['raw','min','max','scaled'],'learner_preference':['audio_captioning','audio_level','delivery_speed','language']},'objective':{'score':['raw','min','max','scaled']}};function updateNav(ignore){function signActNode(){if(elm){if(activities[tree[i].mActivityID].href&&guiItemId==elm.id){removeClass(elm.parentNode,"ilc_rte_status_RTENotAttempted",1);removeClass(elm.parentNode,"ilc_rte_status_RTEIncomplete",1);removeClass(elm.parentNode,"ilc_rte_status_RTECompleted",1);removeClass(elm.parentNode,"ilc_rte_status_RTEFailed",1);removeClass(elm.parentNode,"ilc_rte_status_RTEPassed",1);toggleClass(elm,"ilc_rte_tlink_RTETreeCurrent",1);toggleClass(elm.parentNode,"ilc_rte_status_RTERunning",1);}else{removeClass(elm,"ilc_rte_tlink_RTETreeCurrent");removeClass(elm.parentNode,"ilc_rte_status_RTERunning");}}}
 if(!all("treeView")){return;}
 if(ignore!=true){setToc();}
 var tree=msequencer.mSeqTree.mActivityMap;var disable;var first=true;for(i in tree){var disable=true;var disabled_str="";var test=null;if(mlaunch.mNavState.mChoice!=null){test=mlaunch.mNavState.mChoice[i];}

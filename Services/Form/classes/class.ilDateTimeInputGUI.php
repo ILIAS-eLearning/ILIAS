@@ -13,6 +13,16 @@ include_once("./Services/Table/interfaces/interface.ilTableFilterItem.php");
 */
 class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem, ilToolbarItem
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	protected $date;
 	protected $time = "00:00:00";
 	protected $showtime = false;
@@ -29,6 +39,10 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("datetime");
 	}
@@ -176,7 +190,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if ($this->getDisabled())
 		{
@@ -267,7 +281,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 	*/
 	function render()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$tpl = new ilTemplate("tpl.prop_datetime.html", true, true, "Services/Form");
 

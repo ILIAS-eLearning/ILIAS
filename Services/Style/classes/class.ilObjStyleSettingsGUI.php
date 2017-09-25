@@ -17,6 +17,11 @@ include_once("./Services/COPage/Layout/classes/class.ilPageLayout.php");
  */
 class ilObjStyleSettingsGUI extends ilObjectGUI
 {
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
 	//page_layout editing
 	var $pg_id = null;
 
@@ -51,6 +56,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	function __construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
 	{
 		global $DIC;
+		$this->rbacsystem = $DIC->rbac()->system();
 
 		$this->type = "stys";
 
@@ -155,7 +161,9 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	*/
 	function getTabs()
 	{
-		global $rbacsystem, $lng, $ilTabs;
+		$rbacsystem = $this->rbacsystem;
+		$lng = $this->lng;
+		$ilTabs = $this->tabs;
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{

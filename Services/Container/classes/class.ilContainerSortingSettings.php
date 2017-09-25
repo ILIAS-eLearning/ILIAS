@@ -34,6 +34,11 @@ include_once './Services/Container/classes/class.ilContainer.php';
 */
 class ilContainerSortingSettings
 {
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
 	private static $instances = array();
 	
 	protected $obj_id;
@@ -53,7 +58,10 @@ class ilContainerSortingSettings
 	 */
 	public function __construct($a_obj_id = 0)
 	{
-	 	global $ilDB;
+		global $DIC;
+
+		$this->tree = $DIC->repositoryTree();
+		$ilDB = $DIC->database();
 	 	
 	 	$this->obj_id = $a_obj_id;
 	 	$this->db = $ilDB;
@@ -110,7 +118,7 @@ class ilContainerSortingSettings
 	 */
 	public function getInheritedSettings($a_container_obj_id)
 	{
-		global $tree;
+		$tree = $this->tree;
 		
 		if(!$a_container_obj_id)
 		{
@@ -145,7 +153,9 @@ class ilContainerSortingSettings
 
 	public static function _readSortMode($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$query = "SELECT * FROM container_sorting_set ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
@@ -169,7 +179,11 @@ class ilContainerSortingSettings
 	 */
 	public static function _lookupSortMode($a_obj_id)
 	{
-		global $tree, $ilDB, $objDefinition;
+		global $DIC;
+
+		$tree = $DIC->repositoryTree();
+		$ilDB = $DIC->database();
+		$objDefinition = $DIC["objDefinition"];
 		
 		// Try to read from table
 		$query = "SELECT * FROM container_sorting_set ".
@@ -209,7 +223,9 @@ class ilContainerSortingSettings
 	 */
 	public static function _cloneSettings($a_old_id,$a_new_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$query = "SELECT sort_mode,sort_direction,new_items_position,new_items_order ".
 			"FROM container_sorting_set ".
@@ -320,7 +336,7 @@ class ilContainerSortingSettings
 	 */
 	public function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$query = "DELETE FROM container_sorting_set ".
 			"WHERE obj_id = ".$ilDB->quote($this->obj_id,'integer');
@@ -337,7 +353,7 @@ class ilContainerSortingSettings
 	 */
 	public function save()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$query = "INSERT INTO container_sorting_set ".
 			"(obj_id,sort_mode, sort_direction, new_items_position, new_items_order) ".
@@ -357,7 +373,7 @@ class ilContainerSortingSettings
 	 */
 	public function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$query = 'DELETE FROM container_sorting_set WHERE obj_id = '.$ilDB->quote($this->obj_id,'integer');
 		$ilDB->query($query);
@@ -398,7 +414,9 @@ class ilContainerSortingSettings
 	 */
 	public static function sortModeToString($a_sort_mode)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		$lng->loadLanguageModule('crs');
 		switch($a_sort_mode)

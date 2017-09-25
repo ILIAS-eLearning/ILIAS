@@ -36,11 +36,25 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 class ilObjRecoveryFolderGUI extends ilContainerGUI
 {
 	/**
+	 * @var ilRbacAdmin
+	 */
+	protected $rbacadmin;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
 	* Constructor
 	* @access public
 	*/
 	function __construct($a_data,$a_id,$a_call_by_reference)
 	{
+		global $DIC;
+
+		$this->rbacadmin = $DIC->rbac()->admin();
+		$this->rbacsystem = $DIC->rbac()->system();
 		$this->type = "recf";
 		parent::__construct($a_data,$a_id,$a_call_by_reference,false);
 	}
@@ -51,7 +65,7 @@ class ilObjRecoveryFolderGUI extends ilContainerGUI
 	*/
 	function saveObject()
 	{
-		global $rbacadmin;
+		$rbacadmin = $this->rbacadmin;
 
 		// create and insert forum in objecttree
 		$newObj = parent::saveObject();
@@ -65,7 +79,7 @@ class ilObjRecoveryFolderGUI extends ilContainerGUI
 
 	function removeFromSystemObject()
 	{
-		global $rbacsystem;
+		$rbacsystem = $this->rbacsystem;
 		
 		include_once("./Services/Repository/classes/class.ilRepUtilGUI.php");
 		$ru = new ilRepUtilGUI($this);

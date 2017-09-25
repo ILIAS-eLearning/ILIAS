@@ -46,7 +46,7 @@ class ilObjFileBasedLMListGUI extends ilObjectListGUI
 	*/
 	function getCommandLink($a_cmd)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		switch($a_cmd)
 		{
@@ -78,8 +78,6 @@ class ilObjFileBasedLMListGUI extends ilObjectListGUI
 	*/
 	function getCommandFrame($a_cmd)
 	{
-		global $ilias;
-
 		switch($a_cmd)
 		{
 			case "view":
@@ -109,7 +107,8 @@ class ilObjFileBasedLMListGUI extends ilObjectListGUI
 	*/
 	function getProperties()
 	{
-		global $lng, $rbacsystem;
+		$lng = $this->lng;
+		$rbacsystem = $this->rbacsystem;
 
 		$props = array();
 

@@ -15,11 +15,20 @@
 class ilMediaPoolPresentationGUI
 {
 	/**
-	* ilias object
-	* @var object ilias
-	* @access public
-	*/
-	var $ilias;
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilNavigationHistory
+	 */
+	protected $nav_history;
+
 	var $tpl;
 	var $lng;
 	var $objDefinition;
@@ -30,15 +39,20 @@ class ilMediaPoolPresentationGUI
 	*/
 	function __construct()
 	{
-		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl,
-			$rbacsystem;
+		global $DIC;
+
+		$this->access = $DIC->access();
+		$this->nav_history = $DIC["ilNavigationHistory"];
+		$tpl = $DIC["tpl"];
+		$lng = $DIC->language();
+		$objDefinition = $DIC["objDefinition"];
+		$ilCtrl = $DIC->ctrl();
 		
 		$lng->loadLanguageModule("content");
 
 		$this->ctrl = $ilCtrl;
 
 		// initiate variables
-		$this->ilias = $ilias;
 		$this->tpl = $tpl;
 		$this->lng = $lng;
 		$this->objDefinition = $objDefinition;
@@ -49,7 +63,10 @@ class ilMediaPoolPresentationGUI
 	*/
 	function executeCommand()
 	{
-		global $tpl, $ilCtrl, $ilAccess, $ilNavigationHistory;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$ilAccess = $this->access;
+		$ilNavigationHistory = $this->nav_history;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd("");

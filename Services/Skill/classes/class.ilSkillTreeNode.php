@@ -14,6 +14,11 @@ include_once("./Services/Skill/classes/class.ilSkillTree.php");
  */
 class ilSkillTreeNode
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	const STATUS_PUBLISH = 0;
 	const STATUS_DRAFT = 1;
 	const STATUS_OUTDATED = 2;
@@ -26,6 +31,9 @@ class ilSkillTreeNode
 	*/
 	function __construct($a_id = 0)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		$this->id = $a_id;
 		
 		$this->skill_tree = new ilSkillTree();
@@ -183,7 +191,9 @@ class ilSkillTreeNode
 	 */
 	static function getAllStatus()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 
 		return array(
 			self::STATUS_DRAFT => $lng->txt("skmg_status_draft"),
@@ -200,7 +210,9 @@ class ilSkillTreeNode
 	 */
 	static function getStatusInfo($a_status)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 
 		switch($a_status)
 		{
@@ -216,7 +228,7 @@ class ilSkillTreeNode
 	*/
 	function read()
 	{
-		global $ilBench, $ilDB;
+		$ilDB = $this->db;
 
 		if(!isset($this->data_record))
 		{
@@ -250,7 +262,9 @@ class ilSkillTreeNode
 	 */
 	protected static function _lookup($a_obj_id, $a_field)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$query = "SELECT $a_field FROM skl_tree_node WHERE obj_id = ".
 			$ilDB->quote($a_obj_id, "integer");
@@ -268,7 +282,9 @@ class ilSkillTreeNode
 	 */
 	static function _lookupTitle($a_obj_id, $a_tref_id = 0)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
 		if ($a_tref_id > 0 && ilSkillTemplateReference::_lookupTemplateId($a_tref_id) == $a_obj_id)
@@ -286,7 +302,9 @@ class ilSkillTreeNode
 	 */
 	static function _lookupSelfEvaluation($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		return self::_lookup($a_obj_id, "self_eval");
 	}
@@ -299,7 +317,9 @@ class ilSkillTreeNode
 	 */
 	static function _lookupStatus($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		return self::_lookup($a_obj_id, "status");
 	}
@@ -312,7 +332,9 @@ class ilSkillTreeNode
 	*/
 	static function _lookupType($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$query = "SELECT * FROM skl_tree_node WHERE obj_id = ".
 			$ilDB->quote($a_obj_id, "integer");
@@ -350,7 +372,9 @@ class ilSkillTreeNode
 	 */
 	static function _writeTitle($a_obj_id, $a_title)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$query = "UPDATE skl_tree_node SET ".
 			" title = ".$ilDB->quote($a_title, "text").
@@ -367,7 +391,9 @@ class ilSkillTreeNode
 	 */
 	static function _writeOrderNr($a_obj_id, $a_nr)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$query = "UPDATE skl_tree_node SET ".
 			" order_nr = ".$ilDB->quote($a_nr, "integer").
@@ -382,7 +408,7 @@ class ilSkillTreeNode
 	*/
 	function create()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		// insert object data
 		$id = $ilDB->nextId("skl_tree_node");
@@ -407,7 +433,7 @@ class ilSkillTreeNode
 	*/
 	function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$query = "UPDATE skl_tree_node SET ".
 			" title = ".$ilDB->quote($this->getTitle(), "text").
@@ -425,7 +451,7 @@ class ilSkillTreeNode
 	*/
 	function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$query = "DELETE FROM skl_tree_node WHERE obj_id= ".
 			$ilDB->quote($this->getId(), "integer");
@@ -575,7 +601,9 @@ class ilSkillTreeNode
 	 */
 	static function clipboardCopy($a_tree_id, $a_ids)
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC->user();
 		
 		self::clearClipboard();
 		include_once("./Services/Skill/classes/class.ilSkillTree.php");
@@ -615,7 +643,10 @@ class ilSkillTreeNode
 	 */
 	static function insertItemsFromClip($a_type, $a_obj_id)
 	{
-		global $ilCtrl, $ilUser;
+		global $DIC;
+
+		$ilCtrl = $DIC->ctrl();
+		$ilUser = $DIC->user();
 		
 		// @todo: move this to a service since it can be used here, too
 		include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
@@ -660,7 +691,9 @@ class ilSkillTreeNode
 	 */
 	static function clearClipboard()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC->user();
 		
 		$ilUser->clipboardDeleteObjectsOfType("skll");
 		$ilUser->clipboardDeleteObjectsOfType("scat");
@@ -678,7 +711,11 @@ class ilSkillTreeNode
 	static function pasteTree($a_item_id, $a_parent_id, $a_target, $a_insert_time,
 		&$a_copied_nodes, $a_as_copy = false, $a_add_suffix = false)
 	{
-		global $ilUser, $ilias, $ilLog, $lng;
+		global $DIC;
+
+		$ilUser = $DIC->user();
+		$ilLog = $DIC["ilLog"];
+		$lng = $DIC->language();
 
 		$item_type = ilSkillTreeNode::_lookupType($a_item_id);
 
@@ -767,7 +804,9 @@ class ilSkillTreeNode
 	 */
 	static function getAllSelfEvaluationNodes()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->query("SELECT obj_id, title FROM skl_tree_node WHERE ".
 			" self_eval = ".$ilDB->quote(true, "integer")." ORDER BY TITLE "
@@ -802,7 +841,9 @@ class ilSkillTreeNode
 	 */
 	static function getSelectableSkills()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT * FROM skl_tree_node ".
 			" WHERE self_eval = ".$ilDB->quote(1, "integer")
@@ -911,7 +952,9 @@ class ilSkillTreeNode
 	 */
 	public static function findSkills($a_term)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$res = array();
 		$candidates = array();

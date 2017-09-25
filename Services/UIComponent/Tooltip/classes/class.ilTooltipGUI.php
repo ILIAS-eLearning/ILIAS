@@ -20,7 +20,9 @@ class ilTooltipGUI
 	static function addTooltip($a_el_id, $a_text, $a_container = "",
 		$a_my = "bottom center", $a_at = "top center", $a_use_htmlspecialchars = true)
 	{
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 		
 		self::initLibrary();		
 		if (!self::$initialized)
@@ -75,13 +77,15 @@ class ilTooltipGUI
 	 */
 	static function initLibrary()
 	{
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 		
 		if (self::$library_initialized)
 			return;
 
-		$tpl->addCss("./Services/UIComponent/Tooltip/lib/qtip_3_0_3/jquery.qtip.min.css");		
-		$tpl->addJavascript("./Services/UIComponent/Tooltip/lib/qtip_3_0_3/jquery.qtip.min.js");
+		$tpl->addCss("./libs/bower/bower_components/qtip2/dist/jquery.qtip.min.css");
+		$tpl->addJavascript("./libs/bower/bower_components/qtip2/dist/jquery.qtip.min.js");
 		
 		self::$library_initialized = true;
 	}

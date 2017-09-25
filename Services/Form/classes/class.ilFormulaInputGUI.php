@@ -13,6 +13,18 @@ include_once("./Services/Math/classes/class.EvalMath.php");
 */
 class ilFormulaInputGUI extends ilTextInputGUI
 {
+
+	/**
+	 * Constructor
+	 */
+	function __construct($a_title = "", $a_postvar = "")
+	{
+		global $DIC;
+		parent::__construct($a_title, $a_postvar);
+
+		$this->lng = $DIC->language();
+	}
+
 	/**
 	* Set Value.
 	*
@@ -30,7 +42,7 @@ class ilFormulaInputGUI extends ilTextInputGUI
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
 		if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "")

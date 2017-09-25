@@ -10,7 +10,7 @@ require_once("./Services/FileSystem/classes/class.ilFileSystemGUI.php");
 * $Id$
 *
 * @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilPermissionGUI, ilInfoScreenGUI, ilLearningProgressGUI
-* @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilLicenseGUI, ilCommonActionDispatcherGUI, ilExportGUI
+* @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilLicenseGUI, ilCommonActionDispatcherGUI, ilExportGUI, ilObjectCopyGUI
 *
 * @ingroup ModulesScormAicc
 */
@@ -58,6 +58,16 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
 		switch($next_class)
 		{
+			case 'illtiproviderobjectsettinggui':
+				$this->setSettingsSubTabs();
+				$ilTabs->setSubTabActive('lti_provider');
+				$lti_gui = new ilLTIProviderObjectSettingGUI($this->object->getRefId());
+				$lti_gui->setCustomRolesForSelection($GLOBALS['DIC']->rbac()->review()->getLocalRoles($this->object->getRefId()));
+				$lti_gui->offerLTIRolesForSelection(false);
+				$this->ctrl->forwardCommand($lti_gui);
+				break;
+			
+			
 			case 'ilobjectmetadatagui':
 				if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
 				{
@@ -173,6 +183,16 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 					$this->ctrl->redirectByClass("ilobjstylesheetgui", "edit");
 				}
 				break;
+
+
+			case 'ilobjectcopygui':
+				$this->prepareOutput();
+				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+				$cp = new ilObjectCopyGUI($this);
+				$cp->setType('sahs');
+				$this->ctrl->forwardCommand($cp);
+				break;
+
 			default:
 				if ($this->object && !$this->object->getEditable())
 				{
@@ -242,6 +262,8 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
 		$this->initCreationForm();
 		$forms[self::CFORM_NEW] = $this->form;
+
+		$forms[self::CFORM_CLONE] = $this->fillCloneTemplate(null, $a_new_type);
 	
 		return $forms;
 	}
@@ -272,7 +294,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		$this->form->addItem($ta);
 		
 	
-		$this->form->addCommandButton("save", $lng->txt("create"));
+		$this->form->addCommandButton("save", $lng->txt("sahs_add"));
 		$this->form->addCommandButton("cancel", $lng->txt("cancel"));
 	                
 		$this->form->setTitle($lng->txt("scorm_new"));
@@ -588,7 +610,10 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		$newObj->createDataDirectory();
 		$newObj->createScorm2004Tree();
 		ilUtil::sendInfo( $this->lng->txt($newObj->getType()."_added"), true);
-		ilUtil::redirect("ilias.php?baseClass=ilSAHSEditGUI&ref_id=".$newObj->getRefId());
+
+		// #7375
+		$this->ctrl->setParameterByClass("ilObjSCORM2004LearningModuleGUI", "ref_id", $newObj->getRefId());
+		$this->ctrl->redirectByClass(array("ilSAHSEditGUI", "ilObjSCORM2004LearningModuleGUI"), "showOrganization");
 	}
 
 
@@ -854,6 +879,15 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				"certificate",
 				$this->ctrl->getLinkTargetByClass("ilcertificategui", "certificateeditor"),
 				"", "ilcertificategui");					
+		}
+		
+		$lti_settings = new ilLTIProviderObjectSettingGUI($this->object->getRefId());
+		if($lti_settings->hasSettingsAccess())
+		{
+			$ilTabs->addSubTabTarget(
+				'lti_provider',
+				$this->ctrl->getLinkTargetByClass(ilLTIProviderObjectSettingGUI::class)
+			);
 		}
 
 		$ilTabs->setTabActive('settings');

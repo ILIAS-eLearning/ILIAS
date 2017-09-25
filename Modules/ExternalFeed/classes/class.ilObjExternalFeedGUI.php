@@ -15,11 +15,30 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 class ilObjExternalFeedGUI extends ilObjectGUI
 {
 	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+	/**
 	* Constructor
 	* @access public
 	*/
 	function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
 	{
+		global $DIC;
+
+		$this->tpl = $DIC["tpl"];
+		$this->tabs = $DIC->tabs();
+		$this->ctrl = $DIC->ctrl();
+		$this->tree = $DIC->repositoryTree();
+		$this->access = $DIC->access();
+		$this->lng = $DIC->language();
+		$this->help = $DIC["ilHelp"];
 		$this->type = "feed";
 		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 	}
@@ -27,7 +46,8 @@ class ilObjExternalFeedGUI extends ilObjectGUI
 	
 	function executeCommand()
 	{
-		global $tpl, $ilTabs;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		
@@ -80,7 +100,7 @@ class ilObjExternalFeedGUI extends ilObjectGUI
 
 	function createObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		$ilCtrl->setCmdClass("ilexternalfeedblockgui");
 		$ilCtrl->setCmd("create");
 		return $this->executeCommand();
@@ -117,7 +137,7 @@ class ilObjExternalFeedGUI extends ilObjectGUI
 	*/
 	public function exitSave()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		// always send a message
 		ilUtil::sendSuccess($this->lng->txt("object_added"), true);
@@ -141,7 +161,7 @@ class ilObjExternalFeedGUI extends ilObjectGUI
 	*/
 	public function cancelUpdate()
 	{
-		global $tree;
+		$tree = $this->tree;
 
 		$par = $tree->getParentId($_GET["ref_id"]);
 		$_GET["ref_id"] = $par;
@@ -154,7 +174,7 @@ class ilObjExternalFeedGUI extends ilObjectGUI
 	*/
 	public function afterUpdate()
 	{
-		global $tree;
+		$tree = $this->tree;
 
 		$par = $tree->getParentId($_GET["ref_id"]);
 		$_GET["ref_id"] = $par;
@@ -167,7 +187,11 @@ class ilObjExternalFeedGUI extends ilObjectGUI
 	*/
 	function setTabs()
 	{
-		global $ilAccess, $ilCtrl, $ilTabs, $lng, $ilHelp;
+		$ilAccess = $this->access;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
+		$ilHelp = $this->help;
 		
 		if (in_array($ilCtrl->getCmd(), array("create", "saveFeedBlock")))
 		{
@@ -205,7 +229,9 @@ class ilObjExternalFeedGUI extends ilObjectGUI
 	
 	public static function _goto($a_target)
 	{						
-		global $tree;
+		global $DIC;
+
+		$tree = $DIC->repositoryTree();
 		
 		$id = explode("_", $a_target);		
 		$ref_id = $id[0];

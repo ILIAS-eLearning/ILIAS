@@ -14,11 +14,21 @@ include_once("./Services/UIComponent/Explorer2/classes/class.ilTreeExplorerGUI.p
 class ilSCORM2004EditorExplorerGUI extends ilTreeExplorerGUI
 {
 	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd, $a_slm)
 	{
-		global $ilUser;
+		global $DIC;
+
+		$this->user = $DIC->user();
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+		$ilUser = $DIC->user();
 		
 		$this->slm = $a_slm;
 		
@@ -41,7 +51,7 @@ class ilSCORM2004EditorExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function getNodeContent($a_node)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		if ($a_node["child"] == $this->getNodeId($this->getRootNode()))
 		{
@@ -79,7 +89,7 @@ class ilSCORM2004EditorExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function getNodeIconAlt($a_node)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		if ($a_node["child"] == $this->getNodeId($this->getRootNode()))
 		{
@@ -113,7 +123,7 @@ class ilSCORM2004EditorExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function getNodeHref($a_node)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		if ($a_node["child"] == $this->getNodeId($this->getRootNode()))
 		{

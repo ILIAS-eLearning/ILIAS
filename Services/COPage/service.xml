@@ -33,6 +33,8 @@
 		<pagecontent pc_type="src" name="SourceCode" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="1"/>
 		<pagecontent pc_type="templ" name="ContentTemplate" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0"/>
 		<pageobject parent_type="stys" class_name="ilPageLayoutPage" directory="Layout/classes"/>
+		<pagecontent pc_type="grid" name="Grid" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="1"/>
+		<pagecontent pc_type="gcell" name="GridCell" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="1"/>
 	</copage>
 	<logging />
 </service>

@@ -11,6 +11,11 @@
  */
 class ilGroupedListGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
 	protected $multi_column = false;
 	protected $items = array();
 	protected $as_dropdown = false;
@@ -21,6 +26,9 @@ class ilGroupedListGUI
 	 */
 	function __construct()
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
 	}
 	
 	/**
@@ -99,7 +107,7 @@ class ilGroupedListGUI
 	 */
 	function getHTML()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$tpl = new ilTemplate("tpl.grouped_list.html", true, true, "Services/UIComponent/GroupedList");
 		$tt_calls = "";

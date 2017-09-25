@@ -542,8 +542,20 @@ class ilUserImportParser extends ilSaxParser
 					{
 						case "default":
 						case "local":
+						case "saml":
 						case "ldap":
-							
+							if(strcmp('saml', $a_attribs['type']) === 0)
+							{
+								require_once './Services/Saml/classes/class.ilSamlIdp.php';
+								$list = ilSamlIdp::getActiveIdpList();
+								if(count($list) == 1)
+								{
+									$this->auth_mode_set = true;
+									$ldap_id = current($list);
+									$this->userObj->setAuthMode('saml_' . $ldap_id);
+								}
+								break;
+							}
 							if(strcmp('ldap', $a_attribs['type']) === 0)
 							{
 								// no server id provided => use default server
@@ -684,8 +696,20 @@ class ilUserImportParser extends ilSaxParser
 					{
 						case "default":
 						case "local":
+						case "saml":
 						case "ldap":
-							
+							if(strcmp('saml', $a_attribs['type']) === 0)
+							{
+								require_once './Services/Saml/classes/class.ilSamlIdp.php';
+								$list = ilSamlIdp::getActiveIdpList();
+								if(count($list) != 1)
+								{
+									$this->logFailure(
+										$this->userObj->getImportId(),
+										sprintf($lng->txt("usrimport_xml_attribute_value_illegal"),"AuthMode","type",$a_attribs['type']));
+								}
+								break;
+							}
 							if(strcmp('ldap', $a_attribs['type']) === 0)
 							{
 								// no server id provided
@@ -1280,6 +1304,7 @@ class ilUserImportParser extends ilSaxParser
 							if (! is_null($this->userObj->getUTitle())) $updateUser->setUTitle($this->userObj->getUTitle());
 							if (! is_null($this->userObj->getGender())) $updateUser->setGender($this->userObj->getGender());
 							if (! is_null($this->userObj->getEmail())) $updateUser->setEmail($this->userObj->getEmail());
+							if (! is_null($this->userObj->getSecondEmail())) $updateUser->setSecondEmail($this->userObj->getSecondEmail());
 							if (! is_null($this->userObj->getBirthday())) $updateUser->setBirthday($this->userObj->getBirthday());
 							if (! is_null($this->userObj->getInstitution())) $updateUser->setInstitution($this->userObj->getInstitution());
 							if (! is_null($this->userObj->getStreet())) $updateUser->setStreet($this->userObj->getStreet());
@@ -1473,7 +1498,9 @@ class ilUserImportParser extends ilSaxParser
 			case "Email":
 				$this->userObj->setEmail($this->cdata);
 				break;
-
+			case "SecondEmail":
+				$this->userObj->setSecondEmail($this->cdata);
+				break;
 			case "Birthday":
 				$timestamp = strtotime($this->cdata);
 				if ($timestamp !== false)
@@ -1876,7 +1903,9 @@ class ilUserImportParser extends ilSaxParser
 			case "Email":
 				$this->userObj->setEmail($this->cdata);
 				break;
-
+			case "SecondEmail":
+				$this->userObj->setSecondEmail($this->cdata);
+				break;
 			case "Institution":
 				$this->userObj->setInstitution($this->cdata);
 				break;
@@ -2397,6 +2426,7 @@ class ilUserImportParser extends ilSaxParser
 			case 'public_country':
 			case 'public_department':
 			case 'public_email':
+			case 'public_second_email':
 			case 'public_fax':
 			case 'public_hobby':
 			case 'public_institution':
@@ -2471,12 +2501,11 @@ class ilUserImportParser extends ilSaxParser
 	    {
 	        include_once("Services/Mail/classes/class.ilMailOptions.php"); 
 	        $mailOptions = new ilMailOptions($usr_id);
-	        $mailOptions->updateOptions(    
-	            array_key_exists("mail_signature", $this->prefs) ? $this->prefs["mail_signature"] : $mailOptions->getSignature(),
-	            array_key_exists("mail_linebreak", $this->prefs) ? $this->prefs["mail_linebreak"] : $mailOptions->getLinebreak(),
-	            array_key_exists("mail_incoming_type", $this->prefs) ? $this->prefs["mail_incoming_type"] : $mailOptions->getIncomingType(),
-	            $mailOptions->getCronjobNotification()
-	         );
+
+			$mailOptions->setLinebreak(array_key_exists("mail_linebreak", $this->prefs) ? $this->prefs["mail_linebreak"] : $mailOptions->getLinebreak());
+			$mailOptions->setSignature(array_key_exists("mail_signature", $this->prefs) ? $this->prefs["mail_signature"] : $mailOptions->getSignature());
+			$mailOptions->setIncomingType(array_key_exists("mail_incoming_type", $this->prefs) ? $this->prefs["mail_incoming_type"] : $mailOptions->getIncomingType());
+			$mailOptions->updateOptions();
 	    }
 	}
 

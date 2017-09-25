@@ -8,7 +8,7 @@
 	</objectgroups>
 	<objects>
 		<object id="grp" class_name="Group" dir="classes" default_pos="50" default_pres_pos="70"
-			checkbox="1" inherit="1" translate="0" rbac="1" allow_copy="1" export="1">
+			checkbox="1" inherit="1" translate="0" rbac="1" allow_copy="1" export="1" orgunit_permissions="1" lti_provider="1">
 			<parent id="cat">cat</parent>
 			<parent id="crs">crs</parent>
 			<parent id="grp">grp</parent>

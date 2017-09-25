@@ -13,6 +13,31 @@
  */
 class ilMultilingualismGUI
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	protected $obj_trans;
 	protected $title_descr_only = true;
 	protected $start_title = "";
@@ -25,7 +50,13 @@ class ilMultilingualismGUI
 	 */
 	function __construct($a_obj_id, $a_type)
 	{
-		global $lng, $ilCtrl, $tpl;
+		global $DIC;
+
+		$this->toolbar = $DIC->toolbar();
+		$this->user = $DIC->user();
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$tpl = $DIC["tpl"];
 
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
@@ -123,7 +154,7 @@ class ilMultilingualismGUI
 
 	function addToolbar()
 	{
-		global $ilToolbar;
+		$ilToolbar = $this->toolbar;
 		if ($this->getTitleDescrOnlyMode())
 		{
 			$ilToolbar->addButton($this->lng->txt("obj_add_languages"),
@@ -217,7 +248,10 @@ class ilMultilingualismGUI
 	 */
 	function getMultiLangForm($a_add = false)
 	{
-		global $tpl, $lng, $ilCtrl, $ilUser;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -274,7 +308,9 @@ class ilMultilingualismGUI
 	 */
 	function confirmDeactivateContentMultiLang()
 	{
-		global $ilCtrl, $tpl, $lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 
 		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$cgui = new ilConfirmationGUI();
@@ -298,7 +334,7 @@ class ilMultilingualismGUI
 	 */
 	function addLanguages(ilPropertyFormGUI $form = null)
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		if(!$form instanceof ilPropertyFormGUI)
 		{
@@ -312,7 +348,8 @@ class ilMultilingualismGUI
 	 */
 	function saveLanguages()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		ilLoggerFactory::getLogger('otpl')->debug('Save languages');
 
@@ -360,7 +397,9 @@ class ilMultilingualismGUI
 	 */
 	function confirmRemoveLanguages()
 	{
-		global $ilCtrl, $tpl, $lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 
 		$lng->loadLanguageModule("meta");
 
@@ -392,7 +431,8 @@ class ilMultilingualismGUI
 	 */
 	function removeLanguages()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		if (is_array($_POST["lang"]))
 		{

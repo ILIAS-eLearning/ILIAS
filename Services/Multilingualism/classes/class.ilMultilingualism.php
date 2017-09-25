@@ -28,6 +28,11 @@
  */
 class ilMultilingualism
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	protected $db;
 	protected $obj_id;
 	protected $languages = array();
@@ -43,7 +48,10 @@ class ilMultilingualism
 	 */
 	private function __construct($a_obj_id, $a_type)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$ilDB = $DIC->database();
 
 		$this->db = $ilDB;
 
@@ -134,7 +142,7 @@ class ilMultilingualism
 	
 	public function getDefaultLanguage()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		foreach($this->languages as $k => $v)
 		{

@@ -13,6 +13,12 @@ class ilIndependentTemplate extends ilTemplate implements \ILIAS\UI\Implementati
 	// This makes PHP happy, baseclass needs that
 	protected $blockparents = null;
 
+	function __construct($file,$flag1,$flag2,$in_module = false, $vars = "DEFAULT",
+		$plugin = false, $a_use_cache = true)
+	{
+		parent::__construct($file, $flag1, $flag2, $in_module, $vars, $plugin, false);
+	}
+
 	/**
 	 * Reads a file from disk and returns its content.
 	 *

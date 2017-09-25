@@ -15,7 +15,22 @@
  */
 abstract class ilExplorerBaseGUI
 {
-	protected static $js_tree_path = "./Services/UIComponent/Explorer2/lib/jstree-v.pre1.0/jquery.jstree.js";
+	/**
+	 * @var Logger
+	 */
+	protected $log;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	protected static $js_tree_path = "./libs/bower/bower_components/jstree/jquery.jstree.js";
 	protected static $js_expl_path = "./Services/UIComponent/Explorer2/js/Explorer2.js";
 	protected $skip_root_node = false;
 	protected $ajax = false;
@@ -33,6 +48,11 @@ abstract class ilExplorerBaseGUI
 	 */
 	public function __construct($a_expl_id, $a_parent_obj, $a_parent_cmd)
 	{
+		global $DIC;
+
+		$this->log = $DIC["ilLog"];
+		$this->ctrl = $DIC->ctrl();
+		$this->tpl = $DIC["tpl"];
 		$this->id = $a_expl_id;
 		$this->parent_obj = $a_parent_obj;
 		$this->parent_cmd = $a_parent_cmd;
@@ -49,6 +69,17 @@ abstract class ilExplorerBaseGUI
 
 		$this->nodeOnclickEnabled = true;
 	}
+	
+	/**
+	 * Set main template (that is responsible for adding js/css)
+	 *
+	 * @param ilTemplate|null $a_main_tpl
+	 */
+	function setMainTemplate(ilTemplate $a_main_tpl = null)
+	{
+		$this->tpl = $a_main_tpl;
+	}
+	
 
 	/**
 	 * Get local path of explorer js
@@ -465,7 +496,7 @@ abstract class ilExplorerBaseGUI
 	 */
 	function openNode()
 	{
-		global $ilLog;
+		$ilLog = $this->log;
 		
 		$id = $this->getNodeIdForDomNodeId($_GET["node_id"]);
 		if (!in_array($id, $this->open_nodes))
@@ -481,7 +512,7 @@ abstract class ilExplorerBaseGUI
 	 */
 	function closeNode()
 	{
-		global $ilLog;
+		$ilLog = $this->log;
 		
 		$id = $this->getNodeIdForDomNodeId($_GET["node_id"]);
 		if (in_array($id, $this->open_nodes))
@@ -531,7 +562,7 @@ abstract class ilExplorerBaseGUI
 	 */
 	function getOnLoadCode()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$container_id = $this->getContainerId();
 		$container_outer_id = "il_expl2_jstree_cont_out_".$this->getId();
@@ -609,12 +640,21 @@ abstract class ilExplorerBaseGUI
 	/**
 	 * Init JS
 	 */
-	static function init()
+	static function init($a_main_tpl = null)
 	{
-		global $tpl;
+		global $DIC;
+
+		if ($a_main_tpl == null)
+		{
+			$tpl = $DIC["tpl"];
+		}
+		else
+		{
+			$tpl = $a_main_tpl;
+		}
 
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
-		iljQueryUtil::initjQuery();
+		iljQueryUtil::initjQuery($tpl);
 
 		$tpl->addJavascript(self::getLocalExplorerJsPath());
 		$tpl->addJavascript(self::getLocalJsTreeJsPath());
@@ -626,11 +666,12 @@ abstract class ilExplorerBaseGUI
 	 */
 	function getHTML()
 	{
-		global $tpl, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
 
 		$this->beforeRendering();
 
-		self::init();
+		self::init($tpl);
 		$container_id = $this->getContainerId();
 		$container_outer_id = "il_expl2_jstree_cont_out_".$this->getId();
 

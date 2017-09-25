@@ -20,7 +20,12 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd, $a_exc_id)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		$this->exc_id = $a_exc_id;
 		$this->setId("excass".$this->exc_id);
@@ -107,7 +112,8 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($d)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$this->tpl->setVariable("ID", $d["id"]);
 		if ($d["deadline"] > 0)

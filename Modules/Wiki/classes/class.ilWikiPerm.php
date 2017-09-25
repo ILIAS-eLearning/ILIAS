@@ -20,7 +20,9 @@ class ilWikiPerm
 	 */
 	static function check($a_perm, $a_ref_id, $a_cmd = "")
 	{
-		global $ilAccess;
+		global $DIC;
+
+		$ilAccess = $DIC->access();
 		switch ($a_perm)
 		{
 			case "edit_wiki_navigation":

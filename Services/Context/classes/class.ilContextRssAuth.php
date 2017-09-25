@@ -51,7 +51,7 @@ class ilContextRssAuth implements ilContextTemplate
 	 */
 	public static function hasHTML()
 	{
-		return false;
+		return true;
 	}
 	
 	/**

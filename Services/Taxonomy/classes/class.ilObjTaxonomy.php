@@ -25,6 +25,9 @@ class ilObjTaxonomy extends ilObject2
 	 */
 	function __construct($a_id = 0)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		$this->type = "tax";
 		parent::__construct($a_id, false);
 	}
@@ -114,7 +117,7 @@ class ilObjTaxonomy extends ilObject2
 	 */
 	function doCreate()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// create tax data record
 		$ilDB->manipulate("INSERT INTO tax_data ".
@@ -144,8 +147,6 @@ class ilObjTaxonomy extends ilObject2
 	 */
 	function doCloneObject($a_new_obj, $a_target_id, $a_copy_id = null)
 	{
-		global $log, $lng;
-		
 		$a_new_obj->setTitle($this->getTitle());
 		$a_new_obj->setDescription($this->getDescription());
 		$a_new_obj->setSortingMode($this->getSortingMode());
@@ -195,7 +196,7 @@ class ilObjTaxonomy extends ilObject2
 	 */
 	function doDelete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		// delete usages
 		self::deleteUsagesOfTaxonomy($this->getId());
@@ -234,7 +235,7 @@ class ilObjTaxonomy extends ilObject2
 	 */
 	function doRead()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$set = $ilDB->query("SELECT * FROM tax_data ".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer")
@@ -249,7 +250,7 @@ class ilObjTaxonomy extends ilObject2
 	 */
 	function doUpdate()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$ilDB->manipulate($t = "UPDATE tax_data SET ".
 			" sorting_mode = ".$ilDB->quote((int) $this->getSortingMode(), "integer").", ".
@@ -266,7 +267,9 @@ class ilObjTaxonomy extends ilObject2
 	 */
 	static function loadLanguageModule()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		$lng->loadLanguageModule("tax");
 	}
@@ -280,7 +283,9 @@ class ilObjTaxonomy extends ilObject2
 	 */
 	static function saveUsage($a_tax_id, $a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		if ($a_tax_id > 0 &&  $a_obj_id > 0)
 		{
@@ -301,7 +306,9 @@ class ilObjTaxonomy extends ilObject2
 	 */
 	static function getUsageOfObject($a_obj_id, $a_include_titles = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT tax_id FROM tax_usage ".
 			" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer")
@@ -331,7 +338,9 @@ class ilObjTaxonomy extends ilObject2
 	 */
 	static function deleteUsagesOfTaxonomy($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$ilDB->manipulate("DELETE FROM tax_usage WHERE ".
 			" tax_id = ".$ilDB->quote($a_id, "integer")
@@ -369,7 +378,9 @@ class ilObjTaxonomy extends ilObject2
 	 */
 	static protected function lookup($a_field, $a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->query("SELECT ".$a_field." FROM tax_data ".
 			" WHERE id = ".$ilDB->quote($a_id, "integer")

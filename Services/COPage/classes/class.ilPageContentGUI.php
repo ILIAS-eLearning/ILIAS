@@ -13,8 +13,12 @@ require_once("./Services/COPage/classes/class.ilPageContent.php");
 */
 class ilPageContentGUI
 {
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
 	var $content_obj;
-	var $ilias;
 	var $tpl;
 	var $lng;
 
@@ -52,11 +56,15 @@ class ilPageContentGUI
 	*/
 	function __construct($a_pg_obj, $a_content_obj, $a_hier_id = 0, $a_pc_id = "")
 	{
-		global $ilias, $tpl, $lng, $ilCtrl;
+		global $DIC;
+
+		$this->error = $DIC["ilErr"];
+		$tpl = $DIC["tpl"];
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
 
 		$this->log = ilLoggerFactory::getLogger('copg');
 
-		$this->ilias = $ilias;
 		$this->tpl = $tpl;
 		$this->lng = $lng;
 		$this->pg_obj = $a_pg_obj;
@@ -256,7 +264,8 @@ class ilPageContentGUI
 	*/
 	function getBBMenu($a_ta_name = "par_content")
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		include_once("./Services/COPage/classes/class.ilPageEditorSettings.php");
 		
@@ -364,16 +373,18 @@ class ilPageContentGUI
 	*/
 	function moveAfter()
 	{
+		$ilErr = $this->error;
+
 		// check if a target is selected
 		if(!isset($_POST["target"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("no_checkbox"),$ilErr->MESSAGE);
 		}
 
 		// check if only one target is selected
 		if(count($_POST["target"]) > 1)
 		{
-			$this->ilias->raiseError($this->lng->txt("only_one_target"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("only_one_target"),$ilErr->MESSAGE);
 		}
 
 		$a_hid = explode(":", $_POST["target"][0]);
@@ -382,14 +393,14 @@ class ilPageContentGUI
 		// check if target is within source
 		if($this->hier_id == substr($a_hid[0], 0, strlen($this->hier_id)))
 		{
-			$this->ilias->raiseError($this->lng->txt("cont_target_within_source"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("cont_target_within_source"),$ilErr->MESSAGE);
 		}
 
 		// check whether target is allowed
 		$curr_node = $this->pg_obj->getContentNode($a_hid[0], $a_hid[1]);
 		if (is_object($curr_node) && $curr_node->node_name() == "FileItem")
 		{
-			$this->ilias->raiseError($this->lng->txt("cont_operation_not_allowed"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("cont_operation_not_allowed"),$ilErr->MESSAGE);
 		}
 
 		// strip "c" "r" of table ids from hierarchical id
@@ -412,7 +423,7 @@ class ilPageContentGUI
 		{
 			unset($_SESSION["il_pg_error"]);
 		}
-
+		$this->log->debug("return to parent jump".$this->hier_id);
 		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 	}
 
@@ -421,16 +432,18 @@ class ilPageContentGUI
 	*/
 	function moveBefore()
 	{
+		$ilErr = $this->error;
+
 		// check if a target is selected
 		if(!isset($_POST["target"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("no_checkbox"),$ilErr->MESSAGE);
 		}
 
 		// check if target is within source
 		if(count($_POST["target"]) > 1)
 		{
-			$this->ilias->raiseError($this->lng->txt("only_one_target"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("only_one_target"),$ilErr->MESSAGE);
 		}
 
 		$a_hid = explode(":", $_POST["target"][0]);
@@ -438,14 +451,14 @@ class ilPageContentGUI
 		// check if target is within source
 		if($this->hier_id == substr($a_hid[0], 0, strlen($this->hier_id)))
 		{
-			$this->ilias->raiseError($this->lng->txt("cont_target_within_source"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("cont_target_within_source"),$ilErr->MESSAGE);
 		}
 
 		// check whether target is allowed
 		$curr_node = $this->pg_obj->getContentNode($a_hid[0], $a_hid[1]);
 		if (is_object($curr_node) && $curr_node->node_name() == "FileItem")
 		{
-			$this->ilias->raiseError($this->lng->txt("cont_operation_not_allowed"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("cont_operation_not_allowed"),$ilErr->MESSAGE);
 		}
 
 		// strip "c" "r" of table ids from hierarchical id
@@ -477,7 +490,7 @@ class ilPageContentGUI
 	*/
 	function splitPage()
 	{
-		global $ilErr;
+		$ilErr = $this->error;
 		
 		if ($this->pg_obj->getParentType() != "lm")
 		{
@@ -502,7 +515,7 @@ class ilPageContentGUI
 	*/
 	function splitPageNext()
 	{
-		global $ilErr;
+		$ilErr = $this->error;
 		
 		if ($this->pg_obj->getParentType() != "lm")
 		{
@@ -605,7 +618,7 @@ class ilPageContentGUI
 	 */
 	function cut() 
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$obj = $this->content_obj;
 		
@@ -619,7 +632,8 @@ class ilPageContentGUI
 			unset($_SESSION["il_pg_error"]);
 		}
 	
-		ilUtil::sendSuccess($lng->txt("cont_sel_el_cut_use_paste"), true);
+		//ilUtil::sendSuccess($lng->txt("cont_sel_el_cut_use_paste"), true);
+		$this->log->debug("return to parent jump".$this->hier_id);
 	 	$this->ctrl->returnToParent($this, "jump".$this->hier_id);	 	
 	}
 
@@ -628,11 +642,11 @@ class ilPageContentGUI
 	 */
 	function copy() 
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$obj = $this->content_obj;
 		
-		ilUtil::sendSuccess($lng->txt("cont_sel_el_copied_use_paste"), true);
+		//ilUtil::sendSuccess($lng->txt("cont_sel_el_copied_use_paste"), true);
   		$this->pg_obj->copyContents(array($this->hier_id.":".$this->pc_id));
   
 	 	$this->ctrl->returnToParent($this, "jump".$this->hier_id);	 	

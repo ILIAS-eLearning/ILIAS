@@ -14,6 +14,31 @@ include_once("./Services/Awareness/classes/class.ilAwarenessUserProvider.php");
 class ilAwarenessUserProviderCurrentCourse extends ilAwarenessUserProvider
 {
 	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		global $DIC;
+
+		parent::__construct();
+
+		$this->db = $DIC->database();
+		$this->tree = $DIC->repositoryTree();
+		$this->access = $DIC->access();
+	}
+
+	/**
 	 * Get provider id
 	 *
 	 * @return string provider id
@@ -52,7 +77,9 @@ class ilAwarenessUserProviderCurrentCourse extends ilAwarenessUserProvider
 	 */
 	function getInitialUserSet()
 	{
-		global $ilDB, $tree, $ilAccess;
+		$ilDB = $this->db;
+		$tree = $this->tree;
+		$ilAccess = $this->access;
 
 		$ub = array();
 

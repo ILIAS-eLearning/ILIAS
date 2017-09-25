@@ -561,7 +561,11 @@ class ilTestServiceGUI
 
 		$tableGUI = $this->buildPassDetailsOverviewTableGUI($targetGUI, $targetCMD);
 
-		$tableGUI->setAnswerListAnchorEnabled($questionAnchorNav);
+		if(!$this->isPdfDeliveryRequest())
+		{
+			$tableGUI->setAnswerListAnchorEnabled($questionAnchorNav);
+		}
+
 		$tableGUI->setSingleAnswerScreenCmd($questionDetailsCMD);
 		$tableGUI->setShowHintCount($this->object->isOfferingQuestionHintsEnabled());
 

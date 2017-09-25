@@ -14,6 +14,11 @@ include_once './Services/Export/classes/class.ilExportOptions.php';
 */
 class ilContainerXmlWriter extends ilXmlWriter
 {
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
 	protected $exp_options = null;
 	private $source = 0;
 
@@ -22,6 +27,9 @@ class ilContainerXmlWriter extends ilXmlWriter
 	 */
 	public function __construct($a_ref_id)
 	{
+		global $DIC;
+
+		$this->tree = $DIC->repositoryTree();
 		parent::__construct();
 		$this->source = $a_ref_id;
 		$this->exp_options = ilExportOptions::getInstance();
@@ -48,7 +56,7 @@ class ilContainerXmlWriter extends ilXmlWriter
 	 */
 	protected function writeSubitems($a_ref_id)
 	{
-		global $tree;
+		$tree = $this->tree;
 	
 		// because of the co-page-stuff (incl. styles) we also need to process the container itself
 		if($a_ref_id != $this->source)

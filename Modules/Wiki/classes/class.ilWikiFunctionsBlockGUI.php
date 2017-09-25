@@ -21,7 +21,13 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 	*/
 	function __construct()
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$this->access = $DIC->access();
+		$lng = $DIC->language();
 		
 		parent::__construct();
 		
@@ -65,7 +71,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$next_class = $ilCtrl->getNextClass();
 		$cmd = $ilCtrl->getCmd("getHTML");
@@ -102,7 +108,9 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 	*/
 	function getHTML()
 	{
-		global $ilCtrl, $lng, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 		
 		return parent::getHTML();
 	}
@@ -112,7 +120,9 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 	*/
 	function fillDataSection()
 	{
-		global $ilCtrl, $lng, $ilAccess;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilAccess = $this->access;
 		
 		$tpl = new ilTemplate("tpl.wiki_side_block_content.html", true, true, "Modules/Wiki");
 		
@@ -195,21 +205,24 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
 		{
 			// rating
-			if(ilObjWiki::_lookupRating($this->getPageObject()->getWikiId()))
-			{			
-				if(!$this->getPageObject()->getRating())
+			if (ilObjWiki::_lookupRating($this->getPageObject()->getWikiId()))
+			{
+				if (!$this->getPageObject()->getRating())
 				{
 					$list->addItem($lng->txt("wiki_activate_page_rating"), "",
 						$ilCtrl->getLinkTargetByClass("ilwikipagegui", "activateWikiPageRating"));
-				}
-				else
-				{			
+				} else
+				{
 					$list->addItem($lng->txt("wiki_deactivate_page_rating"), "",
 						$ilCtrl->getLinkTargetByClass("ilwikipagegui", "deactivateWikiPageRating"));
 				}
 			}
-		
-			// unhide advmd?		
+		}
+
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]) ||
+			$ilAccess->checkAccess("edit_page_meta", "", $_GET["ref_id"]))
+		{
+			// unhide advmd?
 			include_once 'Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php';
 			if((bool)sizeof(ilAdvancedMDRecord::_getSelectedRecordsByObject("wiki", $this->getPageObject()->getWikiId(), "wpg")) &&
 				ilWikiPage::lookupAdvancedMetadataHidden($this->getPageObject()->getId()))

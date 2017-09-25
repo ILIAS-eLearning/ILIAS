@@ -6,29 +6,36 @@ use ILIAS\BackgroundTasks\Implementation\UI\StateTranslator;
 use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\BackgroundTasks\Persistence;
 use ILIAS\BackgroundTasks\Task\UserInteraction;
-use ILIAS\UI\Component\Listing\Descriptive;
+use ILIAS\Modules\OrgUnit\ARHelper\DIC;
 use ILIAS\UI\Factory;
 
-require_once("./Services/BackgroundTasks/classes/StateTranslator.php");
-
+/**
+ * Class ilBTPopOverGUI
+ *
+ * @author Oskar Truffer <ot@studer-raimann.ch>
+ * @author Fabian Schmid <fs@studer-raimann.ch>
+ */
 class ilBTPopOverGUI {
 
+	use DIC;
 	use StateTranslator;
-	/** @var Factory */
-	protected $uiFactory;
-	/** @var  Persistence */
+	/**
+	 * @var  Persistence
+	 */
 	protected $btPersistence;
-	/** @var \ilLanguage */
-	protected $lng;
-	/** @var  ilCtrl */
-	protected $ctrl;
 
 
+	/**
+	 * ilBTPopOverGUI constructor.
+	 *
+	 * @param \ILIAS\UI\Factory                  $uiFactory
+	 * @param \ILIAS\BackgroundTasks\Persistence $btPersistence
+	 * @param \ilLanguage                        $lng
+	 * @param \ilCtrl                            $ctrl
+	 */
 	public function __construct(Factory $uiFactory, Persistence $btPersistence, \ilLanguage $lng, ilCtrl $ctrl) {
-		$this->uiFactory = $uiFactory;
 		$this->btPersistence = $btPersistence;
-		$this->lng = $lng;
-		$this->ctrl = $ctrl;
+		$this->lng()->loadLanguageModule('background_tasks');
 	}
 
 
@@ -40,59 +47,74 @@ class ilBTPopOverGUI {
 	 *
 	 * @return \ILIAS\UI\Component\Component[]
 	 */
-	public function getPopOverContent($user_id, $redirect_uri) {
-		assert(is_int($user_id));
-
-		global $DIC;
-
-		$renderer = $DIC->ui()->renderer();
-		$factory = $DIC->ui()->factory();
-		$persistence = $DIC->backgroundTasks()->persistence();
+	public function getPopOverContent($user_id, $redirect_uri, $replace_url = '') {
+		$r = $this->ui()->renderer();
+		$f = $this->ui()->factory();
+		$persistence = $this->dic()->backgroundTasks()->persistence();
 
 		$observer_ids = $this->btPersistence->getBucketIdsOfUser($user_id);
 		$observers = $this->btPersistence->loadBuckets($observer_ids);
 
-		$metas = $persistence->getBucketMetaOfUser($DIC->user()->getId());
-		$numberOfUserInteractions = count(array_filter($metas, function (BucketMeta $meta) {
+		$metas = $persistence->getBucketMetaOfUser($this->user()->getId());
+		$user_inter = count(array_filter($metas, function (BucketMeta $meta) {
 			return $meta->getState() == State::USER_INTERACTION;
 		}));
 
-		$template = new ilTemplate("tpl.popover_content.html", true, true, "Services/BackgroundTasks");
-		$template->setVariable("BACKGROUND_TASKS_TOTAL", count($metas));
-		$template->setVariable("BACKGROUND_TASKS_USER_INTERACTION", $numberOfUserInteractions);
+		$po_content = new ilTemplate("tpl.popover_content.html", true, true, "Services/BackgroundTasks");
+		$po_content->setVariable("BACKGROUND_TASKS_TOTAL", count($metas));
+		$po_content->setVariable("BACKGROUND_TASKS_USER_INTERACTION", $user_inter);
 
-		// TODO implement the content with UI-Service components
+		$bucket = new ilTemplate("tpl.bucket.html", true, true, "Services/BackgroundTasks");
+
 		foreach ($observers as $observer) {
-			if ($observer->getState() != State::USER_INTERACTION) {
-				$content = $this->getDefaultCardContent($observer);
-			} else {
-				$content = $this->getUserInteractionContent($observer, $redirect_uri);
+			$state = (int)$observer->getState();
+			$expected = (int)$observer->getCurrentTask()->getExpectedTimeOfTaksInSeconds();
+			$possibly_failed = (bool)($observer->getLastHeartbeat() < (time() - $expected));
+			switch ($state) {
+				case State::USER_INTERACTION:
+					$bucket->setVariable("CONTENT", $r->render($this->getProgressbar($observer)));
+					$bucket->setVariable("INTERACTIONS", $r->render([
+						$this->getUserInteractionContent($observer, $redirect_uri),
+					]));
+					break;
+				default:
+					if ($possibly_failed) {
+						$bucket->setCurrentBlock('failed');
+						$bucket->setVariable("ALERT", $this->lng()->txt('task_might_be_failed'));
+						$bucket->parseCurrentBlock();
+					}
+					$bucket->setVariable("CONTENT", $r->render($this->getDefaultCardContent($observer)));
+					break;
 			}
-			$template->setCurrentBlock("bucket");
-			$bucket_title = $observer->getTitle() . ($observer->getState()
-			                                         == State::SCHEDULED ? " ({$this->lng->txt("scheduled")})" : "");
-			$template->setVariable("BUCKET_TITLE", $bucket_title);
-			$template->setVariable("BUCKET_CONTENT", $renderer->render($content));
-			$template->parseCurrentBlock();
+			if ($possibly_failed || $state === State::USER_INTERACTION) {
+				$this->addCloseButton($redirect_uri, $bucket, $persistence, $observer);
+			}
+
+			$bucket->setCurrentBlock("bucket");
+			$bucket_title = $observer->getTitle() . ($state
+			                                         == State::SCHEDULED ? " ({$this->lng()->txt("scheduled")})" : "");
+			$bucket->setVariable("BUCKET_TITLE", $bucket_title);
+			if ($observer->getDescription()) {
+				$bucket->setVariable("BUCKET_DESCRIPTION", $observer->getDescription());
+			}
+			$bucket->parseCurrentBlock();
 		}
-		$uiElement = $factory->legacy($template->get());
+		$po_content->setVariable("CONTENT", $bucket->get());
+		$uiElement = $f->legacy($po_content->get());
 
 		return [ $uiElement ];
 	}
 
 
+	/**
+	 * @param \ILIAS\BackgroundTasks\Bucket $observer
+	 *
+	 * @return \ILIAS\UI\Component\Legacy\Legacy
+	 */
 	public function getDefaultCardContent(Bucket $observer) {
-		global $DIC;
-		$running = $observer->getState() == State::RUNNING;
+		$progressbar = $this->getProgressbar($observer);
 
-		$overallPercentage = $observer->getOverallPercentage();
-
-		return $DIC->ui()->factory()->legacy(" <div class=\"progress\">
-                    <div class=\"progress-bar\" role=\"progressbar\" aria-valuenow=\"{$overallPercentage}\"
-                        aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width:{$overallPercentage}%\">
-                        {$overallPercentage}%
-                    </div>
-				</div> ");
+		return $progressbar;
 	}
 
 
@@ -100,30 +122,103 @@ class ilBTPopOverGUI {
 	 * @param Bucket $observer
 	 * @param        $redirect_uri
 	 *
-	 * @return Descriptive|null
+	 * @return \ILIAS\UI\Component\Legacy\Legacy
 	 */
 	public function getUserInteractionContent(Bucket $observer, $redirect_uri) {
-		global $DIC;
-		$factory = $DIC->ui()->factory();
-		$renderer = $DIC->ui()->renderer();
-		$persistence = $DIC->backgroundTasks()->persistence();
+
+		$factory = $this->ui()->factory();
+		$renderer = $this->ui()->renderer();
+		$language = $this->lng();
+		$persistence = $this->dic()->backgroundTasks()->persistence();
 		if (!$observer->getCurrentTask() instanceof UserInteraction) {
-			return null;
+			return $factory->legacy("");
 		}
 		/** @var UserInteraction $userInteraction */
 		$userInteraction = $observer->getCurrentTask();
 		$options = $userInteraction->getOptions($userInteraction->getInput());
-		$buttons = array_map(function (UserInteraction\Option $option) use ($factory, $renderer, $observer, $persistence, $redirect_uri) {
+		$buttons = array_map(function (UserInteraction\Option $option) use ($factory, $renderer, $observer, $persistence, $redirect_uri, $language) {
 
-			$this->ctrl->setParameterByClass(ilBTControllerGUI::class, "selected_option", $option->getValue());
-			$this->ctrl->setParameterByClass(ilBTControllerGUI::class, "observer_id", $persistence->getBucketContainerId($observer));
-			$this->ctrl->setParameterByClass(ilBTControllerGUI::class, "from_url", urlencode($redirect_uri));
+			$this->ctrl()
+			     ->setParameterByClass(ilBTControllerGUI::class, "selected_option", $option->getValue());
+			$this->ctrl()
+			     ->setParameterByClass(ilBTControllerGUI::class, "observer_id", $persistence->getBucketContainerId($observer));
+			$this->ctrl()
+			     ->setParameterByClass(ilBTControllerGUI::class, "from_url", urlencode($redirect_uri));
 
-			return $renderer->render($factory->button()->standard($option->getLangVar(), $this->ctrl->getLinkTargetByClass([ ilBTControllerGUI::class ], "userInteraction")));
+			return $renderer->render($factory->button()
+			                                 ->standard($language->txt($option->getLangVar()), $this->ctrl()
+			                                                                                        ->getLinkTargetByClass([ ilBTControllerGUI::class ], ilBTControllerGUI::CMD_USER_INTERACTION)));
 		}, $options);
 
 		$options = implode(" ", $buttons);
 
 		return $factory->legacy($options);
+	}
+
+
+	/**
+	 * @param \ILIAS\BackgroundTasks\Bucket $observer
+	 *
+	 * @return \ILIAS\UI\Component\Legacy\Legacy
+	 */
+	protected function getProgressbar(Bucket $observer) {
+		$percentage = $observer->getOverallPercentage();
+
+		switch (true) {
+			case ((int)$percentage === 100):
+				$running = "";
+				$content = $this->lng()->txt("completed");
+				break;
+			case ((int)$observer->getState() === State::USER_INTERACTION):
+				$running = "";
+				$content = $this->lng()->txt("waiting");
+				break;
+			default:
+				$running = "active";
+				$content = "{$percentage}%";
+				break;
+		}
+
+		return $this->ui()->factory()->legacy(" <div class='progress'>
+                    <div class='progress-bar progress-bar-striped {$running}' role='progressbar' aria-valuenow='{$percentage}'
+                        aria-valuemin='0' aria-valuemax='100' style='width:{$percentage}%'>
+                        {$content}
+                    </div>
+				</div> ");
+	}
+
+
+	/**
+	 * @param $redirect_uri
+	 * @param $bucket
+	 * @param $persistence
+	 * @param $observer
+	 */
+	protected function addCloseButton($redirect_uri, $bucket, $persistence, $observer) {
+		$r = $this->ui()->renderer();
+		$f = $this->ui()->factory();
+		// Close Action
+		$bucket->setCurrentBlock('close_button');
+		$this->ctrl()
+		     ->setParameterByClass(ilBTControllerGUI::class, "observer_id", $persistence->getBucketContainerId($observer));
+		$this->ctrl()
+		     ->setParameterByClass(ilBTControllerGUI::class, "from_url", urlencode($redirect_uri));
+		$close_action = $this->ctrl()
+		                     ->getLinkTargetByClass([ ilBTControllerGUI::class ], ilBTControllerGUI::CMD_QUIT);
+
+		$remove = $r->render($f->button()
+		                       ->close()
+		                       ->withAdditionalOnLoadCode(function ($id) use ($close_action) {
+			                       return "$($id).on('click', function() { 
+						                            var url = '$close_action';
+						                            var replacer = new RegExp('amp;', 'g');
+                                                    url = url.replace(replacer, '');
+						                            window.location=url
+						                       });";
+		                       }));
+
+		$remove = $r->render($f->glyph() ->remove($close_action));
+		$bucket->setVariable("CLOSE_BUTTON", $remove);
+		$bucket->parseCurrentBlock();
 	}
 }

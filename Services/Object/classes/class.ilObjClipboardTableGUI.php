@@ -15,11 +15,21 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 class ilObjClipboardTableGUI extends ilTable2GUI
 {
 	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
 	 * Constructor
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->setTitle($lng->txt("clipboard"));
@@ -37,7 +47,7 @@ class ilObjClipboardTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng;
+		$lng = $this->lng;
 //var_dump($a_set);
 		$this->tpl->setVariable("ICON", ilUtil::img(ilObject::_getIcon($a_set["obj_id"], "tiny"),
 			$a_set["type_txt"]));

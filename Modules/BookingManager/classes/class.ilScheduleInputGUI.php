@@ -12,6 +12,11 @@ include_once "Services/Form/classes/class.ilFormPropertyGUI.php";
 */
 class ilScheduleInputGUI extends ilFormPropertyGUI
 {
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
 	protected $value;
 	
 	/**
@@ -22,6 +27,10 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->tpl = $DIC["tpl"];
 		parent::__construct($a_title, $a_postvar);
 	}
 
@@ -77,7 +86,7 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$data = self::getPostData($this->getPostVar(), false);
 		if(sizeof($data))
@@ -172,7 +181,7 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
 	*/
 	protected function render($a_mode = "")
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$tpl = new ilTemplate("tpl.schedule_input.html", true, true, "Modules/BookingManager");
 		
@@ -260,7 +269,7 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
 	*/
 	function insert(&$a_tpl)
 	{
-		global $tpl;		
+		$tpl = $this->tpl;
 		
 		$tpl->addJavascript("Modules/BookingManager/js/ScheduleInput.js");
 		

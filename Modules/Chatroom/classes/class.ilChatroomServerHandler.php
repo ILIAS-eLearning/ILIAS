@@ -90,11 +90,11 @@ class ilChatroomServerHandler
 
 	private function getUserInformation($user_ids)
 	{
-		global $ilDB;
+		global $DIC;
 
-		$rset  = $ilDB->query('SELECT userdata FROM chatroom_users WHERE ' . $ilDB->in('user_id', $user_ids, false, 'integer'));
+		$rset  = $DIC->database()->query('SELECT userdata FROM chatroom_users WHERE ' . $DIC->database()->in('user_id', $user_ids, false, 'integer'));
 		$users = array();
-		while($row = $ilDB->fetchAssoc($rset))
+		while($row = $DIC->database()->fetchAssoc($rset))
 		{
 			$users[] = json_decode($row['userdata']);
 		}

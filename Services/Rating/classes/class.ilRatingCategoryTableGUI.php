@@ -14,6 +14,11 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 class ilRatingCategoryTableGUI extends ilTable2GUI
 {
 	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
 	 * Constructor
 	 * @param	object	$a_parent_obj
 	 * @param	string	$a_parent_cmd
@@ -21,7 +26,12 @@ class ilRatingCategoryTableGUI extends ilTable2GUI
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_parent_id)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 
 		$this->setId("rtgcat");
 
@@ -61,7 +71,8 @@ class ilRatingCategoryTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 	    $this->tpl->setVariable("VAL_ID", $a_set["id"]);
 	    $this->tpl->setVariable("VAL_POS", $a_set["pos"]);

@@ -12,6 +12,11 @@ include_once './libs/composer/vendor/autoload.php';
 class ilExcel
 {
 	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
 	 * @var PHPExcel
 	 */
 	protected $workbook; // [PHPExcel]
@@ -31,6 +36,9 @@ class ilExcel
 	 */
 	public function __construct()
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		$this->setFormat(self::FORMAT_XML);		
 		$this->workbook = new PHPExcel();	
 		$this->workbook->removeSheetByIndex(0);
@@ -153,7 +161,7 @@ class ilExcel
 	 */
 	protected function prepareValue($a_value)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		// :TODO: does this make sense?
 		if(is_bool($a_value))
@@ -198,7 +206,7 @@ class ilExcel
 	 */
 	protected function prepareBooleanValue($a_value)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		return $a_value ? $lng->txt('yes') : $lng->txt('no');
 	}
@@ -410,13 +418,12 @@ class ilExcel
 				$a_mime_type = ilMimeTypeUtil::APPLICATION__OCTET_STREAM;
 				break;
 		}
-		$ilPHPOutputDelivery = new ilPHPOutputDelivery();
-		$ilPHPOutputDelivery->start($a_file_name, $a_mime_type);
+		$tmp_name = ilUtil::ilTempnam();
 
 		$writer = PHPExcel_IOFactory::createWriter($this->workbook, $this->format);
-		$writer->save(ilFileDelivery::DIRECT_PHP_OUTPUT);
+		$writer->save($tmp_name);
 
-		$ilPHPOutputDelivery->stop();
+		ilFileDelivery::deliverFileAttached($tmp_name, $a_file_name, $a_mime_type, true);
 	}
 	
 	/**

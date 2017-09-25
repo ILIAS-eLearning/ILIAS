@@ -47,8 +47,6 @@ class ilCourseParticipants extends ilParticipants
 	 */
 	public function __construct($a_obj_id)
 	{
-		$this->type = 'crs';
-		
 		$this->NOTIFY_DISMISS_SUBSCRIBER = 1;
 		$this->NOTIFY_ACCEPT_SUBSCRIBER = 2;
 		$this->NOTIFY_DISMISS_MEMBER = 3;
@@ -61,9 +59,11 @@ class ilCourseParticipants extends ilParticipants
 		
 		$this->NOTIFY_REGISTERED = 10;
 		$this->NOTIFY_UNSUBSCRIBE = 11;
-		$this->NOTIFY_WAITING_LIST = 12; 
+		$this->NOTIFY_WAITING_LIST = 12;
 		
-		parent::__construct(self::COMPONENT_NAME,$a_obj_id);
+		// ref based constructor 
+		$refs = ilObject::_getAllReferences($a_obj_id);
+		parent::__construct(self::COMPONENT_NAME,  array_pop($refs));
 	}
 
 	/**
@@ -81,6 +81,21 @@ class ilCourseParticipants extends ilParticipants
 			return self::$instances[$a_obj_id];
 		}
 		return self::$instances[$a_obj_id] = new ilCourseParticipants($a_obj_id);
+	}
+	
+	/**
+	 * Add user to role
+	 * @param int $a_usr_id
+	 * @param int $a_role
+	 */
+	public function add($a_usr_id, $a_role)
+	{
+		if(parent::add($a_usr_id, $a_role))
+		{
+			$this->addDesktopItem($a_usr_id);
+			return true;
+		}
+		return false;
 	}
 	
 	/**
@@ -143,21 +158,28 @@ class ilCourseParticipants extends ilParticipants
 
 		return self::_updatePassed($this->obj_id, $a_usr_id, $a_passed, $a_manual, $a_no_origin);
 	}
-	
+
+
 	/**
 	 * Update passed status (static)
 	 *
 	 * @access public
-	 * @param int $obj_id
-	 * @param int $usr_id
-	 * @param bool $passed
+	 *
+	 * @param int  $a_obj_id
+	 * @param int  $a_usr_id
+	 * @param bool $a_passed
 	 * @param bool $a_manual
 	 * @param bool $a_no_origin
+	 *
+	 * @return bool
 	 */
 	public static function _updatePassed($a_obj_id, $a_usr_id, $a_passed, $a_manual = false, $a_no_origin = false)
 	{
-		global $ilDB, $ilUser;
-		
+		global $ilDB, $ilUser, $ilAppEventHandler;
+		/**
+		 * @var $ilAppEventHandler ilAppEventHandler
+		 */
+
 		// #11600
 		$origin = -1;
 		if($a_manual)
@@ -169,6 +191,7 @@ class ilCourseParticipants extends ilParticipants
 		"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
 		"AND usr_id = ".$ilDB->quote($a_usr_id,'integer');
 		$res = $ilDB->query($query);
+		$update_query = '';
 		if($res->numRows())
 		{
 			// #9284 - only needs updating when status has changed
@@ -205,11 +228,17 @@ class ilCourseParticipants extends ilParticipants
 				$ilDB->quote(0,'integer').", ".
 				$ilDB->quote(0,'integer').", ".
 				$ilDB->quote($origin,'integer').", ".
-				$ilDB->quote($origin_ts,'integer').")";					
+				$ilDB->quote($origin_ts,'integer').")";
 		}
 		if(strlen($update_query))
 		{
 			$ilDB->manipulate($update_query);
+			if ($a_passed) {
+				$ilAppEventHandler->raise('Modules/Course', 'participantHasPassedCourse', array(
+					'obj_id' => $a_obj_id,
+					'usr_id' => $a_usr_id,
+				));
+			}
 		}
 		return true;	
 	}

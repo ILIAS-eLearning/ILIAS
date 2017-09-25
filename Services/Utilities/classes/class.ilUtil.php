@@ -20,6 +20,8 @@ use ILIAS\Filesystem\MetadataType;
 */
 class ilUtil
 {
+	static protected $db_supports_distinct_umlauts;
+
 	/**
 	* Builds an html image tag
 	* TODO: function still in use, but in future use getImagePath and move HTML-Code to your template file
@@ -32,7 +34,9 @@ class ilUtil
 	*/
 	public static function getImageTagByType($a_type, $a_path, $a_big = false)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 
 		$size = ($a_big)
 			? "big"
@@ -74,7 +78,13 @@ class ilUtil
 	*/
 	public static function getImagePath($img, $module_path = "", $mode = "output", $offline = false)
 	{
-		global $ilias, $styleDefinition, $ilCtrl, $ilUser;
+		global $DIC;
+
+		$styleDefinition = null;
+		if (isset($DIC["styleDefinition"]))
+		{
+			$styleDefinition = $DIC["styleDefinition"];
+		}
 
 		if (is_int(strpos($_SERVER["PHP_SELF"], "setup.php")))
 		{
@@ -177,7 +187,9 @@ class ilUtil
 	*/
 	public static function getStyleSheetLocation($mode = "output", $a_css_name = "", $a_css_location = "")
 	{
-		global $ilias;
+		global $DIC;
+
+		$ilSetting = $DIC->settings();
 		
 		// add version as parameter to force reload for new releases
 		// use ilStyleDefinition instead of account to get the current style
@@ -204,7 +216,7 @@ class ilUtil
 		$vers = "";
 		if ($mode != "filesystem")
 		{
-			$vers = str_replace(" ", "-", $ilias->getSetting("ilias_version"));
+			$vers = str_replace(" ", "-", $ilSetting->get("ilias_version"));
 			$vers = "?vers=".str_replace(".", "-", $vers);
 		}
 		return $filename . $vers;
@@ -222,7 +234,9 @@ class ilUtil
 	*/
 	public static function getJSLocation($a_js_name, $a_js_location = "", $add_version = FALSE)
 	{
-		global $ilias;
+		global $DIC;
+
+		$ilSetting = $DIC->settings();
 
 		// add version as parameter to force reload for new releases
 		$js_name = $a_js_name;
@@ -242,7 +256,7 @@ class ilUtil
 		$vers = "";
 		if ($add_version)
 		{
-			$vers = str_replace(" ", "-", $ilias->getSetting("ilias_version"));
+			$vers = str_replace(" ", "-", $ilSetting->get("ilias_version"));
 			$vers = "?vers=".str_replace(".", "-", $vers);
 		}
 		return $filename . $vers;
@@ -257,8 +271,6 @@ class ilUtil
 	*/
 	public static function getP3PLocation()
 	{
-		global $ilias;
-
 		if (defined("ILIAS_MODULE"))
 		{
 			$base = '';
@@ -291,12 +303,14 @@ class ilUtil
 	*/
 	public static function getNewContentStyleSheetLocation($mode = "output")
 	{
-		global $ilias;
+		global $DIC;
+
+		$ilSetting = $DIC->settings();
 
 		// add version as parameter to force reload for new releases
 		if ($mode != "filesystem")
 		{
-			$vers = str_replace(" ", "-", $ilias->getSetting("ilias_version"));
+			$vers = str_replace(" ", "-", $ilSetting->get("ilias_version"));
 			$vers = "?vers=".str_replace(".", "-", $vers);
 		}
 
@@ -344,7 +358,9 @@ class ilUtil
 	public static function formSelect($selected,$varname,$options,$multiple = false,$direct_text = false, $size = "0",
 		$style_class = "", $attribs = "",$disabled = false)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 
 		if ($multiple == true)
 		{
@@ -898,7 +914,9 @@ class ilUtil
 	*/
 	public static function makeDateSelect($prefix, $year = "", $month = "", $day = "", $startyear = "",$a_long_month = true,$a_further_options = array(), $emptyoption = false)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 
 		$disabled = '';
 		if(isset($a_further_options['disabled']) and $a_further_options['disabled'])
@@ -1027,7 +1045,10 @@ class ilUtil
 	*/
 	public static function makeTimeSelect($prefix, $short = true, $hour = "", $minute = "", $second = "",$a_use_default = true,$a_further_options = array())
 	{
-		global $lng, $ilUser;
+		global $DIC;
+
+		$lng = $DIC->language();
+		$ilUser = $DIC->user();
 
 		$minute_steps = 1;
 		$disabled = '';
@@ -1129,7 +1150,9 @@ class ilUtil
 	*/
 	public static function is_email($a_email)
 	{
-		global $ilErr;
+		global $DIC;
+
+		$ilErr = $DIC["ilErr"];
 
 		// additional check for ilias object is needed,
 		// otherwise setup will fail with this if branch
@@ -1174,7 +1197,9 @@ class ilUtil
 	*/
 	public static function isPassword($a_passwd, &$customError = null)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
 		$security = ilSecuritySettings::_getInstance();
@@ -1356,7 +1381,9 @@ class ilUtil
 	 */
 	public static function getPasswordRequirementsInfo()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 
 		include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
 		$security = ilSecuritySettings::_getInstance();
@@ -1587,11 +1614,11 @@ class ilUtil
 
 			foreach($sourceList as $item)
 			{
-				if(strcmp($item->getType(), MetadataType::DIRECTORY) === 0)
+				if($item->isDir())
 					continue;
 
 				$itemPath = $targetDir . '/' . substr($item->getPath(), strlen($sourceDir));
-				$stream = $sourceFS->readStream($sourceDir);
+				$stream = $sourceFS->readStream($item->getPath());
 				$targetFS->writeStream($itemPath, $stream);
 			}
 			return true;
@@ -1619,21 +1646,19 @@ class ilUtil
 	 */
 	public static function getWebspaceDir($mode = "filesystem")
 	{
-		global $ilias;
-
 		if ($mode == "filesystem")
 		{
-			return "./".ILIAS_WEB_DIR."/".$ilias->client_id;
+			return "./".ILIAS_WEB_DIR."/".CLIENT_ID;
 		}
 		else
 		{
 			if (defined("ILIAS_MODULE"))
 			{
-				return "../".ILIAS_WEB_DIR."/".$ilias->client_id;
+				return "../".ILIAS_WEB_DIR."/".CLIENT_ID;
 			}
 			else
 			{
-				return "./".ILIAS_WEB_DIR."/".$ilias->client_id;
+				return "./".ILIAS_WEB_DIR."/".CLIENT_ID;
 			}
 		}
 	}
@@ -2917,7 +2942,9 @@ class ilUtil
 
 	public static function maskAttributeTag($a_str, $tag, $tag_att)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC["ilLog"];
 
 		$ws = "[\s]*";
 		$att = $ws."[^>]*".$ws;
@@ -2942,7 +2969,9 @@ class ilUtil
 
 	public static function unmaskAttributeTag($a_str, $tag, $tag_att)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC["ilLog"];
 
 		while (preg_match('/&lt;('.$tag.' '.$tag_att.$tag_att.'="(([$@!*()~;,_0-9A-z\/:=%.&#?+\-])*)")&gt;/i',
 			$a_str, $found))
@@ -3364,7 +3393,6 @@ class ilUtil
 		// END WebDAV Provide a 'stable' sort algorithm
 
 		global $array_sortby,$array_sortorder;
-
 		$array_sortby = $a_array_sortby;
 
 		if ($a_array_sortorder == "desc")
@@ -3585,55 +3613,20 @@ class ilUtil
 
 
 	/**
-	* http redirect to other script
-	*
-	* @param	string		$a_script		target script
-	* @static
-	* 
-	*/
+	 * @param $a_script
+	 *
+	 * @deprecated Use $DIC->ctrl()->redirectToURL() instead
+	 */
 	public static function redirect($a_script)
 	{
-		global $log, $PHP_SELF;
-		
-//echo "<br>".$a_script;
-		if (!is_int(strpos($a_script, "://")))
-		{
-			if (substr($a_script, 0, 1) != "/" && defined("ILIAS_HTTP_PATH"))
-			{
-				if (is_int(strpos($_SERVER["PHP_SELF"], "/setup/")))
-				{
-					$a_script = "setup/".$a_script;
-				}
-				$a_script = ILIAS_HTTP_PATH."/".$a_script;
-			}
+		global $DIC;
+
+		if (!isset($DIC['ilCtrl']) || !$DIC['ilCtrl'] instanceof ilCtrl) {
+			$ctrl = new ilCtrl();
+		} else {
+			$ctrl = $DIC->ctrl();
 		}
-//echo "<br>".$a_script; exit;
-
-  		// include the user interface hook
-		global $ilPluginAdmin;
-		if (is_object($ilPluginAdmin))
-		{
-			$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
-			foreach ($pl_names as $pl)
-			{
-				$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
-				$gui_class = $ui_plugin->getUIClassInstance();
-				$resp = $gui_class->getHTML("Services/Utilities", "redirect", array("html" => $a_script));
-				if ($resp["mode"] != ilUIHookPluginGUI::KEEP)
-				{
-					$a_script = $gui_class->modifyHTML($a_script, $resp);
-				}
-			}
-		}
-
-        // Manually trigger to write and close the session. This has the advantage that if an exception is thrown
-        // during the writing of the session (ILIAS writes the session into the database by default) we get an exception
-        // if the session_write_close() is triggered by exit() then the exception will be dismissed but the session
-        // is never written, which is a nightmare to develop with.
-        session_write_close();
-
-		header("Location: ".$a_script);
-		exit();
+		$ctrl->redirectToURL($a_script);
 	}
 
 	/**
@@ -3666,7 +3659,15 @@ class ilUtil
 	*/
 	public static function groupNameExists($a_group_name,$a_id = 0)
 	{
-		global $ilDB,$ilErr;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
+		$ilErr = null;
+		if (isset($DIC["ilErr"]))
+		{
+			$ilErr = $DIC["ilErr"];
+		}
 
 		if (empty($a_group_name))
 		{
@@ -3758,7 +3759,7 @@ class ilUtil
 	 */
 	public static function execQuoted($cmd, $args = NULL)
 	{
-		global $ilLog;
+		global $DIC;
 		
 		if(ilUtil::isWindows() && strpos($cmd, " ") !== false && substr($cmd, 0, 1) !== '"')
 		{
@@ -3784,10 +3785,11 @@ class ilUtil
 		{
 			$cmd .= " ".$args;
 		}
-//ilUtil::printBacktrace(5);
-//echo "<br>".$cmd; exit;
+
 		exec($cmd, $arr);
-//		$ilLog->write("ilUtil::execQuoted: ".$cmd.".");
+
+		$DIC->logger()->root()->debug("ilUtil::execQuoted: ".$cmd.".");
+
 		return $arr;
 	}
 
@@ -3855,6 +3857,44 @@ class ilUtil
 		{
 			ilUtil::rRenameSuffix($a_dir, trim($def), "sec");
 		}
+	}
+
+	/**
+	 * @param string $a_initial_filename
+	 * @return mixed|string
+	 */
+	public static function getSafeFilename($a_initial_filename)
+	{
+		$file_peaces = explode('.', $a_initial_filename);
+
+		$file_extension = array_pop($file_peaces);
+
+		if(SUFFIX_REPL_ADDITIONAL)
+		{
+			$string_extensions = SUFFIX_REPL_DEFAULT.",".SUFFIX_REPL_ADDITIONAL;
+		}
+		else
+		{
+			$string_extensions = SUFFIX_REPL_DEFAULT;
+		}
+
+		$sufixes = explode(",", $string_extensions);
+
+		if (in_array($file_extension, $sufixes)) {
+			$file_extension = "sec";
+		}
+
+		array_push($file_peaces, $file_extension);
+
+		$safe_filename = "";
+		foreach ($file_peaces as $piece) {
+			$safe_filename .= "$piece";
+			if ($piece != end($file_peaces)) {
+				$safe_filename .= ".";
+			}
+		}
+
+		return $safe_filename;
 	}
 
 	/**
@@ -4073,7 +4113,9 @@ class ilUtil
 	*/
 	public static function virusHandling($a_file, $a_orig_name = "", $a_clean = true)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 
 		if (IL_VIRUS_SCANNER != "None")
 		{
@@ -4135,32 +4177,17 @@ class ilUtil
 	public static function moveUploadedFile($a_file, $a_name, $a_target, $a_raise_errors = true, $a_mode = "move_uploaded")
 	{
 		global $DIC;
+		$targetFilename = basename($a_target);
+
+		// Make sure the target is in a valid subfolder. (e.g. no uploads to ilias/setup/....)
+		list($targetFilesystem, $targetDir) = self::sanitateTargetPath($a_target);
 
 		$upload = $DIC->upload();
 
-		$preProcessor = new \ILIAS\FileUpload\Processor\FilenameOverridePreProcessor($a_name ? $a_name : basename($a_target));
-		$upload->register($preProcessor);
-
-		switch(true) {
-			case strpos($a_target, ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
-			case strpos($a_target, './' . ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
-			case strpos($a_target, CLIENT_WEB_DIR) === 0:
-				$targetFilesystem =  \ILIAS\FileUpload\Location::WEB;
-				break;
-			case strpos($a_target, CLIENT_DATA_DIR) === 0:
-				$targetFilesystem =  \ILIAS\FileUpload\Location::STORAGE;
-				break;
-			case strpos($a_target, ILIAS_ABSOLUTE_PATH . '/Customizing') === 0:
-				$targetFilesystem =  \ILIAS\FileUpload\Location::CUSTOMIZING;
-				break;
-			default:
-				throw new InvalidArgumentException("Can not move files to \"$a_target\" because path can not be mapped to web, storage or customizing location.");
+		// If the upload has not yet been processed make sure he gets processed now.
+		if(!$upload->hasBeenProcessed()) {
+			$upload->process();
 		}
-
-		$absTargetDir = dirname($a_target);
-		$targetDir = LegacyPathHelper::createRelativePath($absTargetDir);
-
-		$upload->process();
 
 		try {
 			if (!$upload->hasUploads()) {
@@ -4169,7 +4196,7 @@ class ilUtil
 			/**
 			 * @var \ILIAS\FileUpload\DTO\UploadResult $UploadResult
 			 */
-			$UploadResult = $upload->getResults()[0];
+			$UploadResult = $upload->getResults()[$a_file];
 			$ProcessingStatus = $UploadResult->getStatus();
 			if ($ProcessingStatus->getCode() === ProcessingStatus::REJECTED) {
 				throw new ilException($ProcessingStatus->getMessage());
@@ -4184,7 +4211,7 @@ class ilUtil
 			return false;
 		}
 
-		$upload->moveFilesTo($targetDir, $targetFilesystem);
+		$upload->moveOneFileTo($UploadResult, $targetDir, $targetFilesystem, $targetFilename, true);
 
 		return true;
 	}
@@ -4323,7 +4350,14 @@ class ilUtil
 	*/
 	public static function _getObjectsByOperations($a_obj_type,$a_operation,$a_usr_id = 0,$limit = 0)
 	{
-		global $ilDB,$rbacreview,$ilAccess,$ilUser,$ilias,$tree;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$rbacreview = $DIC->rbac()->review();
+		$ilAccess = $DIC->access();
+		$ilUser = $DIC->user();
+		$ilSetting = $DIC->settings();
+		$tree = $DIC->repositoryTree();
 
 		if(!is_array($a_obj_type))
 		{
@@ -4337,7 +4371,7 @@ class ilUtil
 		// limit number of results default is search result limit
 		if(!$limit)
 		{
-			$limit = $ilias->getSetting('search_max_hits',100);
+			$limit = $ilSetting->get('search_max_hits',100);
 		}
 		if($limit == -1)
 		{
@@ -4425,6 +4459,36 @@ class ilUtil
 		}
 		return $ref_ids ? $ref_ids : array();
 	}
+
+
+	/**
+	 * @param $a_target
+	 * @internal
+	 * @return array
+	 */
+	protected static function sanitateTargetPath($a_target) {
+		switch (true) {
+			case strpos($a_target, ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
+			case strpos($a_target, './' . ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
+			case strpos($a_target, CLIENT_WEB_DIR) === 0:
+				$targetFilesystem = \ILIAS\FileUpload\Location::WEB;
+				break;
+			case strpos($a_target, CLIENT_DATA_DIR) === 0:
+				$targetFilesystem = \ILIAS\FileUpload\Location::STORAGE;
+				break;
+			case strpos($a_target, ILIAS_ABSOLUTE_PATH . '/Customizing') === 0:
+				$targetFilesystem = \ILIAS\FileUpload\Location::CUSTOMIZING;
+				break;
+			default:
+				throw new InvalidArgumentException("Can not move files to \"$a_target\" because path can not be mapped to web, storage or customizing location.");
+		}
+
+		$absTargetDir = dirname($a_target);
+		$targetDir = LegacyPathHelper::createRelativePath($absTargetDir);
+
+		return array( $targetFilesystem, $targetDir );
+	}
+
 
 	/**
 	 * Include Mathjax
@@ -4543,7 +4607,9 @@ class ilUtil
 	*/
 	public static function period2String(ilDateTime $a_from, $a_to = null)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		if (!$a_to)
 		{
@@ -4593,7 +4659,9 @@ class ilUtil
 			self::getUploadSizeLimitBytes()
 		);
 		
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		/*
 		// get the value for the maximal uploadable filesize from the php.ini (if available)
 		$umf=get_cfg_var("upload_max_filesize");
@@ -4717,7 +4785,9 @@ class ilUtil
 	*/
 	public static function _sortIds($a_ids,$a_table,$a_field,$a_id_name)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		if(!$a_ids)
 		{
@@ -4752,7 +4822,9 @@ class ilUtil
 	*/
 	public static function getMySQLTimestamp($a_ts)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		return $a_ts;
 	}
@@ -4765,7 +4837,9 @@ class ilUtil
 	*/
 	public static function quoteArray($a_array)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 
 		if(!is_array($a_array) or !count($a_array))
@@ -4791,7 +4865,9 @@ class ilUtil
 	*/
 	public static function sendInfo($a_info = "",$a_keep = false)
 	{
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 		$tpl->setMessage("info", $a_info, $a_keep);
 	}
 
@@ -4805,8 +4881,9 @@ class ilUtil
 	*/
 	public static function sendFailure($a_info = "",$a_keep = false)
 	{
-		global $tpl;
+		global $DIC;
 
+		$tpl = $DIC["tpl"];
 		if(is_object($tpl))
 		{
 			$tpl->setMessage("failure", $a_info, $a_keep);
@@ -4821,7 +4898,9 @@ class ilUtil
 	* @static	*/
 	public static function sendQuestion($a_info = "",$a_keep = false)
 	{
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 		$tpl->setMessage("question", $a_info, $a_keep);
 	}
 
@@ -4835,13 +4914,19 @@ class ilUtil
 	*/
 	public static function sendSuccess($a_info = "",$a_keep = false)
 	{
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 		$tpl->setMessage("success", $a_info, $a_keep);
 	}
 
 	public static function infoPanel($a_keep = true)
 	{
-		global $tpl,$ilias,$lng;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
+		$lng = $DIC->language();
+		$ilUser = $DIC->user();
 
 		if (!empty($_SESSION["infopanel"]) and is_array($_SESSION["infopanel"]))
 		{
@@ -4864,7 +4949,7 @@ class ilUtil
 				$link .= "<td><a href=\"".$_SESSION["infopanel"]["link"]."\" target=\"".
 					ilFrameTargetInfo::_getFrame("MainContent").
 					"\">";
-				$link .= "<img src=\"".$ilias->tplPath.$ilias->account->prefs["skin"]."/images/".
+				$link .= "<img src=\""."./templates/".$ilUser->prefs["skin"]."/images/".
 					$_SESSION["infopanel"]["img"]."\" border=\"0\" vspace=\"0\"/>";
 				$link .= "</a></td>";
 			}
@@ -4956,7 +5041,9 @@ class ilUtil
 	
 	public static function _getHttpPath()
 	{
-		global $ilIliasIniFile;
+		global $DIC;
+
+		$ilIliasIniFile = $DIC["ilIliasIniFile"];
 		
 		if($_SERVER['SHELL'] || php_sapi_name() == 'cli' ||
 			// fallback for windows systems, useful in crons
@@ -5197,7 +5284,9 @@ class ilUtil
 	*/
 	protected static function fmtFloat($a_float, $a_decimals=0, $a_dec_point = null, $a_thousands_sep = null, $a_suppress_dot_zero=false)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 
 		if ($a_dec_point == null) {
 			{
@@ -5248,7 +5337,9 @@ class ilUtil
 	 */
 	public static function formatSize($size, $a_mode = 'short', $a_lng = null)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		if ($a_lng == null) {
 			$a_lng = $lng;
 		}
@@ -5298,6 +5389,29 @@ class ilUtil
 	{
 		return  $a_value / (pow(self::_getSizeMagnitude(), 2));
 	}
+
+	/**
+	 * Only temp fix for #8603, should go to db classes
+	 *
+	 * @param
+	 * @deprecated
+	 * @return bool
+	 */
+	static function dbSupportsDisctinctUmlauts()
+	{
+		global $DIC;
+
+		if (!isset(self::$db_supports_distinct_umlauts))
+		{
+			$ilDB = $DIC->database();
+			$set = $ilDB->query("SELECT (" . $ilDB->quote("A", "text") . " = " . $ilDB->quote("Ä", "text") . ") t FROM DUAL ");
+			$rec = $ilDB->fetchAssoc($set);
+			self::$db_supports_distinct_umlauts = !(bool)$rec["t"];
+		}
+
+		return self::$db_supports_distinct_umlauts;
+	}
+
 
 
 } // END class.ilUtil

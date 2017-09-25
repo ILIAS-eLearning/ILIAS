@@ -41,6 +41,7 @@ class ilSubEnabledFormPropertyGUI extends ilFormPropertyGUI
 	*/
 	function addSubItem($a_item)
 	{
+		$a_item->setParent($this);
 		$this->sub_items[] = $a_item;
 	}
 

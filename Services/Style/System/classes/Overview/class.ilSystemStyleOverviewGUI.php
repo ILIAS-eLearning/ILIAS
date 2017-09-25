@@ -349,11 +349,14 @@ class ilSystemStyleOverviewGUI
 		global $ilHelp, $DIC;
 
 		$DIC->tabs()->clearTargets();
+		/**
+		 * Since clearTargets also clears the help screen ids
+		 */
+		$ilHelp->setScreenIdComponent("sty");
+		$ilHelp->setScreenId("system_styles");
+		$ilHelp->setSubScreenId("create");
 
 		$forms = array();
-
-		$ilHelp->setScreenIdComponent("sty");
-		$ilHelp->setDefaultScreenId(ilHelpGUI::ID_PART_SCREEN, "system_style_create");
 
 		$forms[] = $this->createSystemStyleForm();
 		$forms[] = $this->importSystemStyleForm();
@@ -669,8 +672,12 @@ class ilSystemStyleOverviewGUI
 		global $ilHelp, $DIC;
 
 		$DIC->tabs()->clearTargets();
+		/**
+		 * Since clearTargets also clears the help screen ids
+		 */
 		$ilHelp->setScreenIdComponent("sty");
-		$ilHelp->setDefaultScreenId(ilHelpGUI::ID_PART_SCREEN, "system_sub_style_create");
+		$ilHelp->setScreenId("system_styles");
+		$ilHelp->setSubScreenId("create_sub");
 
 		$form = $this->addSubStyleForms();
 
@@ -786,4 +793,6 @@ class ilSystemStyleOverviewGUI
 	{
 		$this->management_enabled = $management_enabled;
 	}
+
+
 }

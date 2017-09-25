@@ -20,12 +20,9 @@ abstract class ilMailTemplateContext
 	 */
 	public function getLanguage()
 	{
-		/**
-		 * @var $lng ilLanguage
-		 */
-		global $lng;
+		global $DIC;
 
-		return $this->language ? $this->language : $lng;
+		return $this->language ? $this->language : $DIC->language();
 	}
 
 	/**
@@ -59,40 +56,37 @@ abstract class ilMailTemplateContext
 	 */
 	final private static function getGenericPlaceholders()
 	{
-		/**
-		 * @var $lng ilLanguage
-		 */
-		global $lng;
+		global $DIC;
 
 		return array(
 			'mail_salutation' => array(
 				'placeholder' => 'MAIL_SALUTATION',
-				'label'       => $lng->txt('mail_nacc_salutation')
+				'label'       => $DIC->language()->txt('mail_nacc_salutation')
 			),
 			'first_name'      => array(
 				'placeholder' => 'FIRST_NAME',
-				'label'       => $lng->txt('firstname')
+				'label'       => $DIC->language()->txt('firstname')
 			),
 			'last_name'       => array(
 				'placeholder' => 'LAST_NAME',
-				'label'       => $lng->txt('lastname')
+				'label'       => $DIC->language()->txt('lastname')
 			),
 			'login'           => array(
 				'placeholder' => 'LOGIN',
-				'label'       => $lng->txt('mail_nacc_login')
+				'label'       => $DIC->language()->txt('mail_nacc_login')
 			),
 			'title'           => array(
 				'placeholder'       => 'TITLE',
-				'label'             => $lng->txt('mail_nacc_title'),
+				'label'             => $DIC->language()->txt('mail_nacc_title'),
 				'supportsCondition' => true
 			),
 			'ilias_url'       => array(
 				'placeholder' => 'ILIAS_URL',
-				'label'       => $lng->txt('mail_nacc_ilias_url')
+				'label'       => $DIC->language()->txt('mail_nacc_ilias_url')
 			),
 			'client_name'     => array(
 				'placeholder' => 'CLIENT_NAME',
-				'label'       => $lng->txt('mail_nacc_client_name')
+				'label'       => $DIC->language()->txt('mail_nacc_client_name')
 			)
 		);
 	}

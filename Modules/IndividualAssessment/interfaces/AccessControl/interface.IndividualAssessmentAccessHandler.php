@@ -10,12 +10,10 @@ interface IndividualAssessmentAccessHandler {
 	/**
 	 * Can an user perform an operation on some Individual assessment? 
 	 *
-	 * @param	ilObjUser	$usr
-	 * @param	ilObjIndividualAssessment	$iass
 	 * @param	string	$operation
 	 * @return bool
 	 */
-	public function checkAccessOfUserToObj(ilObjUser $usr, ilObjIndividualAssessment $iass, $operation);
+	public function checkAccessToObj($operation);
 
 	/**
 	 * Create default roles at an object

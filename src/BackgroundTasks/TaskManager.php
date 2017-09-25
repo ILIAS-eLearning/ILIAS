@@ -49,4 +49,12 @@ interface TaskManager {
 	 * @return mixed
 	 */
 	public function continueTask(Bucket $bucket, Option $option);
+
+
+	/**
+	 * Quits and deletes a Bucket with all it's Jobs
+	 *
+	 * @param \ILIAS\BackgroundTasks\Bucket $bucket
+	 */
+	public function quitBucket(Bucket $bucket);
 }

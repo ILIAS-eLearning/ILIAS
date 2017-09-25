@@ -12,6 +12,34 @@ include_once("./Services/Object/classes/class.ilObjectFactory.php");
 */
 class ilRepUtil
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		global $DIC;
+
+		$this->db = $DIC->database();
+		$this->tree = $DIC->repositoryTree();
+		$this->settings = $DIC->settings();
+	}
+
 
 	/**
 	* Delete objects. Move them to trash (if trash feature is enabled).
@@ -21,8 +49,17 @@ class ilRepUtil
 	*/
 	static public function deleteObjects($a_cur_ref_id, $a_ids)
 	{
-		global $ilAppEventHandler, $rbacsystem, $rbacadmin, $log, $ilUser, $tree, $lng,
-			$ilSetting;
+		global $DIC;
+
+		$ilAppEventHandler = $DIC["ilAppEventHandler"];
+		$rbacsystem = $DIC->rbac()->system();
+		$rbacadmin = $DIC->rbac()->admin();
+		$ilLog = $DIC["ilLog"];
+		$tree = $DIC->repositoryTree();
+		$lng = $DIC->language();
+		$ilSetting = $DIC->settings();
+
+		$log = $ilLog;
 		
 		include_once("./Services/Repository/exceptions/class.ilRepositoryException.php");
 		
@@ -177,8 +214,14 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 	*/
 	public static function removeObjectsFromSystem($a_ref_ids, $a_from_recovery_folder = false)
 	{
-		global $rbacsystem, $log, $ilAppEventHandler, $tree;
-		
+		global $DIC;
+
+		$ilLog = $DIC["ilLog"];
+		$ilAppEventHandler = $DIC["ilAppEventHandler"];
+		$tree = $DIC->repositoryTree();
+
+		$log = $ilLog;
+
 		$affected_ids = array();
 		
 		// DELETE THEM
@@ -200,7 +243,10 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 			// BEGIN ChangeEvent: Record remove from system.
 			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
 			// Record write event
-			global $ilUser, $tree;
+		global $DIC;
+
+		$ilUser = $DIC->user();
+		$tree = $DIC->repositoryTree();
 			$parent_data = $tree->getParentNodeData($node_data['ref_id']);
 			ilChangeEvent::_recordWriteEvent($node_data['obj_id'], $ilUser->getId(), 'purge', 
 				$parent_data['obj_id']);			
@@ -279,7 +325,13 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 	private static function removeDeletedNodes($a_node_id, $a_checked, $a_delete_objects,
 		&$a_affected_ids)
 	{
-		global $log, $ilDB, $tree;
+		global $DIC;
+
+		$ilLog = $DIC["ilLog"];
+		$ilDB = $DIC->database();
+		$tree = $DIC->repositoryTree();
+
+		$log = $ilLog;
 		
 		$q = "SELECT tree FROM tree WHERE parent= ".
 			$ilDB->quote($a_node_id, "integer")." AND tree < 0";
@@ -337,7 +389,12 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 	*/
 	static public function restoreObjects($a_cur_ref_id, $a_ref_ids)
 	{
-		global $rbacsystem, $log, $ilAppEventHandler, $lng, $tree;
+		global $DIC;
+
+		$rbacsystem = $DIC->rbac()->system();
+		$ilAppEventHandler = $DIC["ilAppEventHandler"];
+		$lng = $DIC->language();
+		$tree = $DIC->repositoryTree();
 
 		$cur_obj_id = ilObject::_lookupObjId($a_cur_ref_id);
 		
@@ -375,7 +432,9 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 			
 			// BEGIN ChangeEvent: Record undelete. 
 			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-			global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC->user();
 
 			
 			ilChangeEvent::_recordWriteEvent(
@@ -405,7 +464,9 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 	*/
 	private static function insertSavedNodes($a_source_id, $a_dest_id, $a_tree_id, &$a_affected_ids)
 	{
-		global $rbacadmin, $rbacreview, $log, $tree;
+		global $DIC;
+
+		$tree = $DIC->repositoryTree();
 
 		ilLoggerFactory::getLogger('rep')->debug('Restoring from trash: source_id: '. $a_source_id.', dest_id: '. $a_dest_id.', tree_id:'. $a_tree_id);
 		ilLoggerFactory::getLogger('rep')->info('Restoring ref_id  ' . $a_source_id . ' from trash.');
@@ -455,7 +516,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 	
 	protected function findTypeInTrash($a_type)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$res = array();
 		
@@ -475,7 +536,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 	
 	protected function getObjectTypeId($a_type)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$set = $ilDB->query("SELECT obj_id".
 			" FROM object_data ".
@@ -487,7 +548,9 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 							
 	public function deleteObjectType($a_type)
 	{
-		global $ilDB, $tree, $ilSetting;
+		$ilDB = $this->db;
+		$tree = $this->tree;
+		$ilSetting = $this->settings;
 		
 		// delete object instances (repository/trash)
 		

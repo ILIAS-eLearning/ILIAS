@@ -368,12 +368,12 @@ FromLineOverride=YES
 
 On Debian/Ubuntu execute: 
 ```
-apt-get install zip unzip php5-gd php5-mysql php-xsl imagemagick openjdk-7-jdk
+apt-get install zip unzip php5-gd php5-mysql php-xsl imagemagick openjdk-7-jdk phantomjs
 ```
 
 On RHEL/CentOS execute: 
 ```
-yum install zip unzip php-gd libxslt ImageMagick java-1.7.0-openjdk
+yum install zip unzip php-gd libxslt ImageMagick java-1.7.0-openjdk phantomjs
 ```
 <a name="installation-wizard"></a>
 ## Installation Wizard

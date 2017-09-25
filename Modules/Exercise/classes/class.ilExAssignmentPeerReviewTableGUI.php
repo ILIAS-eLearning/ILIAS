@@ -30,7 +30,10 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 	 */
 	public function  __construct($a_parent_obj, $a_parent_cmd, ilExAssignment $a_ass, $a_user_id, array $a_peer_data)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$ilCtrl = $DIC->ctrl();
 				
 		$this->ass = $a_ass;
 		$this->user_id = $a_user_id;
@@ -155,7 +158,7 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 
 	protected function fillRow($a_set)
 	{		
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 					
 		if(isset($a_set["seq"]))
 		{

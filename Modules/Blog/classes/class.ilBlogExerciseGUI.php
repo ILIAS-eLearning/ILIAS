@@ -15,12 +15,32 @@ include_once "Modules/Exercise/classes/class.ilExSubmission.php";
 */
 class ilBlogExerciseGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	protected $node_id; // [int]
 	protected $ass_id; // [int]
 	protected $file; // [string]
 	
 	public function __construct($a_node_id)
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->user = $DIC->user();
+		$this->lng = $DIC->language();
 		$this->node_id = $a_node_id;
 		$this->ass_id = (int)$_GET["ass"];
 		$this->file = trim($_GET["file"]);
@@ -28,7 +48,7 @@ class ilBlogExerciseGUI
 	
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		if(!$this->ass_id)
 		{
@@ -50,7 +70,10 @@ class ilBlogExerciseGUI
 	
 	public static function checkExercise($a_node_id)
 	{			
-		global $tree, $ilUser;
+		global $DIC;
+
+		$tree = $DIC->repositoryTree();
+		$ilUser = $DIC->user();
 	
 		$exercises = ilExSubmission::findUserFiles($ilUser->getId(), $a_node_id);
 		if($exercises)
@@ -86,7 +109,11 @@ class ilBlogExerciseGUI
 
 	protected static function getExerciseInfo($a_assignment_id)
 	{		
-		global $lng, $ilCtrl, $ilUser;
+		global $DIC;
+
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$ilUser = $DIC->user();
 					
 		$ass = new ilExAssignment($a_assignment_id);		
 		$exercise_id = $ass->getExerciseId();		
@@ -220,7 +247,7 @@ class ilBlogExerciseGUI
 	
 	protected function downloadExcSubFile()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 				
 		$ass = new ilExAssignment($this->ass_id);
 		$submission = new ilExSubmission($ass, $ilUser->getId());
@@ -245,7 +272,8 @@ class ilBlogExerciseGUI
 	 */
 	protected function finalize()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		include_once "Modules/Exercise/classes/class.ilExSubmissionBaseGUI.php";
 		include_once "Modules/Exercise/classes/class.ilExSubmissionObjectGUI.php";		

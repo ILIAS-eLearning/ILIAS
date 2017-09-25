@@ -27,6 +27,7 @@ class ilUserUtil
 	const START_PD_SETTINGS = 14;
 	const START_REPOSITORY= 15;
 	const START_REPOSITORY_OBJ= 16;
+	const START_PD_MYSTAFF = 17;
 	
 	/**
 	 * Default behaviour is:
@@ -41,10 +42,16 @@ class ilUserUtil
 	 */
 	static function getNamePresentation($a_user_id, 
 		$a_user_image = false, $a_profile_link = false, $a_profile_back_link = "",
-		$a_force_first_lastname = false, $a_omit_login = false, $a_sortable = true, $a_return_data_array = false)
+		$a_force_first_lastname = false, $a_omit_login = false, $a_sortable = true, $a_return_data_array = false,
+		$a_ctrl_path = "ilpublicuserprofilegui")
 	{
 		global $lng, $ilCtrl, $ilDB;
-		
+
+		if (!is_array($a_ctrl_path))
+		{
+			$a_ctrl_path = array($a_ctrl_path);
+		}
+
 		if (!($return_as_array = is_array($a_user_id)))
 			$a_user_id = array($a_user_id);
 		
@@ -118,13 +125,13 @@ class ilUserUtil
 
 			if ($a_profile_link && $has_public_profile)
 			{
-				$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $row->usr_id);
+				$ilCtrl->setParameterByClass(end($a_ctrl_path), "user_id", $row->usr_id);
 				if ($a_profile_back_link != "")
 				{
-					$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "back_url",
+					$ilCtrl->setParameterByClass(end($a_ctrl_path), "back_url",
 						rawurlencode($a_profile_back_link));
 				}
-				$link = $ilCtrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML");
+				$link = $ilCtrl->getLinkTargetByClass($a_ctrl_path, "getHTML");
 				$pres = '<a href="'.$link.'">'.$pres.'</a>';
 				$d["link"] = $link;
 			}
@@ -132,7 +139,7 @@ class ilUserUtil
 			if ($a_user_image)
 			{
 				$img = ilObjUser::_getPersonalPicturePath($row->usr_id, "xxsmall");
-				$pres = '<img border="0" src="'.$img.'" alt="'.$lng->txt("icon").
+				$pres = '<img class="ilUserXXSmall" border="0" src="'.$img.'" alt="'.$lng->txt("icon").
 					" ".$lng->txt("user_picture").'" /> '.$pres;
 				$d["img"] = $img;
 			}
@@ -224,6 +231,10 @@ class ilUserUtil
 		{
 			$all[self::START_PD_SUBSCRIPTION] = 'my_courses_groups';
 		}
+
+		if(ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff()) {
+			$all[self::START_PD_MYSTAFF] = 'my_staff';
+		}
 	
 		if($a_force_all || !$ilSetting->get("disable_personal_workspace"))
 		{
@@ -234,10 +245,10 @@ class ilUserUtil
 		$settings = ilCalendarSettings::_getInstance();
 		if($a_force_all || $settings->isEnabled())
 		{
-			$all[self::START_PD_CALENDAR] = 'calendar';		
+			$all[self::START_PD_CALENDAR] = 'calendar';
 		}
 
-		$all[self::START_REPOSITORY] = 'repository';		
+		$all[self::START_REPOSITORY] = 'repository';
 		
 		foreach($all as $idx => $lang)
 		{
@@ -322,12 +333,15 @@ class ilUserUtil
 	 */
 	public static function getStartingPointAsUrl()
 	{	
-		global $tree, $ilUser;
+		global $tree, $ilUser, $rbacreview;
 		
 		$ref_id = 1;
+		$by_default = true;
+
+		//configuration by user preference
 		if(self::hasPersonalStartingPoint())
 		{
-			$current = self::getPersonalStartingPoint();	
+			$current = self::getPersonalStartingPoint();
 			if($current == self::START_REPOSITORY_OBJ)
 			{
 				$ref_id = self::getPersonalStartingObject();
@@ -335,15 +349,56 @@ class ilUserUtil
 		}
 		else
 		{
-			$current = self::getStartingPoint();
-			if($current == self::START_REPOSITORY_OBJ)
+			include_once './Services/AccessControl/classes/class.ilStartingPoint.php';
+
+			if(ilStartingPoint::ROLE_BASED)
 			{
-				$ref_id = self::getStartingObject();
+				//getting all roles with starting points and store them in array
+				$roles = ilStartingPoint::getRolesWithStartingPoint();
+
+				$roles_ids = array_keys($roles);
+
+				$gr = array();
+				foreach($rbacreview->getGlobalRoles() as $role_id)
+				{
+					if($rbacreview->isAssigned($ilUser->getId(),$role_id))
+					{
+						if(in_array($role_id,$roles_ids))
+						{
+							$gr[$roles[$role_id]['position']] = array(
+								"point" => $roles[$role_id]['starting_point'],
+								"object" => $roles[$role_id]['starting_object']
+							);
+						}
+					}
+				}
+				if(!empty($gr))
+				{
+					krsort($gr);	// ak: if we use array_pop (last element) we need to reverse sort, since we want the one with the smallest number
+					$role_point = array_pop($gr);
+					$current = $role_point['point'];
+					$ref_id = $role_point['object'];
+					$by_default = false;
+
+				}
 			}
+			if($by_default)
+			{
+				$current = self::getStartingPoint();
+
+				if($current == self::START_REPOSITORY_OBJ)
+				{
+					$ref_id = self::getStartingObject();
+				}
+			}
+
 		}
+
 		switch($current)
-		{			
+		{
 			case self::START_REPOSITORY:
+				$ref_id = $tree->readRootId();
+
 			case self::START_REPOSITORY_OBJ:
 				if($ref_id &&
 					ilObject::_lookupObjId($ref_id) && 
@@ -355,7 +410,7 @@ class ilUserUtil
 				// invalid starting object, overview is fallback
 				$current = self::START_PD_OVERVIEW;
 				// fallthrough
-			
+
 			default:
 				$map = array(
 					self::START_PD_OVERVIEW => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSelectedItems',
@@ -371,7 +426,8 @@ class ilUserUtil
 					// self::START_PD_MAIL => 'ilias.php?baseClass=ilMailGUI',
 					// self::START_PD_CONTACTS => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToContacts',
 					// self::START_PD_PROFILE => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToProfile',
-					// self::START_PD_SETTINGS => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSettings'			
+					// self::START_PD_SETTINGS => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSettings'
+					self::START_PD_MYSTAFF => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToMyStaff'
 				);				
 				return $map[$current];		
 		}		

@@ -30,6 +30,16 @@
 */
 class ilFileWizardInputGUI extends ilFileInputGUI
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
 	protected $filenames = array();
 	protected $allowMove = false;
 	protected $imagepath_web = "";
@@ -42,6 +52,10 @@ class ilFileWizardInputGUI extends ilFileInputGUI
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->tpl = $DIC["tpl"];
 		parent::__construct($a_title, $a_postvar);
 	}
 
@@ -112,7 +126,7 @@ class ilFileWizardInputGUI extends ilFileInputGUI
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		// see ilFileInputGUI
 		// if no information is received, something went wrong
@@ -227,7 +241,7 @@ class ilFileWizardInputGUI extends ilFileInputGUI
 	*/
 	function insert($a_tpl)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$tpl = new ilTemplate("tpl.prop_filewizardinput.html", true, true, "Services/Form");
 
@@ -283,8 +297,8 @@ class ilFileWizardInputGUI extends ilFileInputGUI
 		$a_tpl->setVariable("PROP_GENERIC", $tpl->get());
 		$a_tpl->parseCurrentBlock();
 		
-		global $tpl;		
-		$tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
-		$tpl->addJavascript("./Services/Form/templates/default/filewizard.js");
+		$main_tpl = $this->tpl;
+		$main_tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
+		$main_tpl->addJavascript("./Services/Form/templates/default/filewizard.js");
 	}
 }

@@ -15,12 +15,61 @@
 */
 class ilSurveyEditorGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
 	protected $parent_gui; // [ilObjSurveyGUI]
 	protected $object; // [ilObjSurvey]
 	
 	public function __construct(ilObjSurveyGUI $a_parent_gui)
 	{
-		global $ilCtrl, $lng, $tpl;
+		global $DIC;
+
+		$this->tabs = $DIC->tabs();
+		$this->help = $DIC["ilHelp"];
+		$this->toolbar = $DIC->toolbar();
+		$this->user = $DIC->user();
+		$this->tree = $DIC->repositoryTree();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$tpl = $DIC["tpl"];
 		
 		$this->parent_gui = $a_parent_gui;
 		$this->object = $this->parent_gui->object;
@@ -34,7 +83,7 @@ class ilSurveyEditorGUI
 	
 	public function executeCommand()
 	{				
-		global $ilTabs;
+		$ilTabs = $this->tabs;
 		
 		$cmd = $this->ctrl->getCmd("questions");
 									
@@ -74,7 +123,7 @@ class ilSurveyEditorGUI
 					$q_gui = SurveyQuestionGUI::_getQuestionGUI(null, $_REQUEST["q_id"]);
 					if (is_object($q_gui->object))
 					{
-						global $ilHelp;
+		$ilHelp = $this->help;
 						$ilHelp->setScreenIdComponent("spl_qt".$q_gui->object->getQuestionTypeId());
 					}
 					// $q_gui->object->setObjId($this->object->getId());
@@ -99,7 +148,7 @@ class ilSurveyEditorGUI
 
 	protected function questionsSubtabs($a_cmd)
 	{
-		global $ilTabs;		
+		$ilTabs = $this->tabs;
 		
 		if($a_cmd == "questions" && $_REQUEST["pgov"])
 		{
@@ -154,7 +203,8 @@ class ilSurveyEditorGUI
 	
 	public function questionsObject() 
 	{
-		global $ilToolbar, $ilUser;
+		$ilToolbar = $this->toolbar;
+		$ilUser = $this->user;
 		
 		
 		// insert new questions?
@@ -738,7 +788,7 @@ class ilSurveyEditorGUI
 	
 	protected function createQuestionPool($name = "dummy")
 	{
-		global $tree;
+		$tree = $this->tree;
 		
 		$parent_ref = $tree->getParentId($this->object->getRefId());
 		
@@ -764,7 +814,9 @@ class ilSurveyEditorGUI
 	
 	protected function setBrowseForQuestionsSubtabs()
 	{
-		global $ilTabs, $ilToolbar, $ilUser;
+		$ilTabs = $this->tabs;
+		$ilToolbar = $this->toolbar;
+		$ilUser = $this->user;
 				
 		if(!isset($_REQUEST["pgov"]))
 		{
@@ -791,7 +843,7 @@ class ilSurveyEditorGUI
 
 	public function changeDatatypeObject()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$ilUser->writePref('svy_insert_type', $_POST['datatype']);
 
@@ -1263,7 +1315,7 @@ class ilSurveyEditorGUI
 	*/
 	function printViewObject()
 	{	
-		global $ilToolbar;
+		$ilToolbar = $this->toolbar;
 		
 		$this->questionsSubtabs("print");
 			
@@ -1275,11 +1327,13 @@ class ilSurveyEditorGUI
 		
 		include_once "Services/Form/classes/class.ilSelectInputGUI.php";
 		$label = new ilSelectInputGUI($this->lng->txt("title")."/".$this->lng->txt("label"), "export_label");
+
+		#19448 comment none and label only options.
 		$label->setOptions(array(
-			0 => $this->lng->txt('none'), 
-			1 => $this->lng->txt('svy_print_title_only'), 
-			2 => $this->lng->txt('svy_print_label_only'), 			
-			3 => $this->lng->txt('svy_print_title_label')
+			//0 => $this->lng->txt('none'),
+			1 => $this->lng->txt('svy_print_hide_labels'),
+			//2 => $this->lng->txt('svy_print_label_only'),
+			3 => $this->lng->txt('svy_print_show_labels')
 			));
 		$label->setValue($current_title);
 		$ilToolbar->addStickyItem($label, true);

@@ -86,8 +86,8 @@ class Renderer extends AbstractComponentRenderer {
 	public function registerResources(\ILIAS\UI\Implementation\Render\ResourceRegistry $registry) {
 		parent::registerResources($registry);
 		$registry->register('./src/UI/templates/js/Button/button.js');
-		$registry->register("./libs/composer/vendor/moment/moment/min/moment-with-locales.min.js");
-		$registry->register("./Services/Calendar/lib/bootstrap3_datepicker/bootstrap-datetimepicker.min.js");
+		$registry->register("./libs/bower/bower_components/moment/min/moment-with-locales.min.js");
+		$registry->register("./libs/bower/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js");
 	}
 
 	protected function renderClose($component) {
@@ -101,11 +101,6 @@ class Renderer extends AbstractComponentRenderer {
 
 	protected function maybeRenderId(Component\Component $component, $tpl) {
 		$id = $this->bindJavaScript($component);
-		// Check if the button is acting as triggerer
-		if ($component instanceof Component\Triggerer && count($component->getTriggeredSignals())) {
-			$id = ($id === null) ? $this->createId() : $id;
-			$this->triggerRegisteredSignals($component, $id);
-		}
 		if ($id !== null) {
 			$tpl->setCurrentBlock("with_id");
 			$tpl->setVariable("ID", $id);
@@ -125,14 +120,20 @@ class Renderer extends AbstractComponentRenderer {
 
 		$month = explode("-", $def);
 		$tpl->setVariable("DEFAULT_LABEL", $this->txt("month_".str_pad($month[0], 2, "0", STR_PAD_LEFT)."_long")." ".$month[1]);
+		$tpl->setVariable("DEF_DATE", $month[0]."/1/".$month[1]);
+		// see https://github.com/moment/moment/tree/develop/locale
+		$lang_key = in_array($this->getLangKey(), array("ar", "bg", "cs", "da", "de", "el", "en", "es", "et", "fa", "fr", "hu", "it",
+			"ja", "ka", "lt", "nl", "pl", "pt", "ro", "ru", "sk", "sq", "sr", "tr", "uk", "vi", "zh"))
+			? $this->getLangKey()
+			: "en";
+		if ($lang_key == "zh")
+		{
+			$lang_key = "zh-cn";
+		}
+		$tpl->setVariable("LANG", $lang_key);
 
 		$id = $this->bindJavaScript($component);
 
-		// Check if the button is acting as triggerer
-		if ($component instanceof Component\Triggerer && count($component->getTriggeredSignals())) {
-			$id = ($id === null) ? $this->createId() : $id;
-			$this->triggerRegisteredSignals($component, $id);
-		}
 		if ($id !== null) {
 			$tpl->setCurrentBlock("with_id");
 			$tpl->setVariable("ID", $id);

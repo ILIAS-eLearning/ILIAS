@@ -6,6 +6,10 @@ il.Accordion = {
 
 	data: {},
 
+	initAll: function () {
+		$
+	},
+
 	/**
 	 * Add accordion element
 	 *
@@ -417,7 +421,7 @@ il.Accordion = {
 			// set the currently shown accordion
 			a.last_opened_acc = a.clicked_acc;
 
-			il.Accordion.rerenderMathJax(a.clicked_acc);
+			il.Accordion.afterOpening(a.clicked_acc);
 
 			il.Accordion.saveOpenedTabs(a, id);
 
@@ -439,6 +443,11 @@ il.Accordion = {
 		}
 	},
 
+	afterOpening: function (acc_el) {
+		$(acc_el).trigger("il.accordion.opened", [acc_el]);
+		il.Accordion.rerenderMathJax(acc_el);
+	},
+
 	rerenderMathJax: function(acc_el) {
 		if (typeof MathJax != "undefined") {
 			MathJax.Hub.Queue(["Reprocess",MathJax.Hub, acc_el[0]]);
@@ -447,3 +456,9 @@ il.Accordion = {
 	}
 
 };
+
+(function ($, il){
+	$(function () {
+		il.Accordion.initAll();
+	});
+}($, il));

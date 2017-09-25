@@ -12,6 +12,21 @@
 */
 class ilNavigationHistoryGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilNavigationHistory
+	 */
+	protected $nav_history;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 
 	private $items;
 
@@ -21,6 +36,11 @@ class ilNavigationHistoryGUI
 	 */
 	public function __construct()
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->nav_history = $DIC["ilNavigationHistory"];
+		$this->lng = $DIC->language();
 	}
 
 	/**
@@ -28,7 +48,7 @@ class ilNavigationHistoryGUI
 	 */
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$next_class = $ilCtrl->getNextClass();
 		$cmd = $ilCtrl->getCmd();
@@ -46,7 +66,8 @@ class ilNavigationHistoryGUI
 	*/
 	function getHTML()
 	{
-		global $ilNavigationHistory, $lng;
+		$ilNavigationHistory = $this->nav_history;
+		$lng = $this->lng;
 		
 		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		$selection = new ilAdvancedSelectionListGUI();
@@ -95,7 +116,8 @@ class ilNavigationHistoryGUI
 	*/
 	function handleNavigationRequest()
 	{
-		global $ilNavigationHistory, $ilCtrl;
+		$ilNavigationHistory = $this->nav_history;
+		$ilCtrl = $this->ctrl;
 		
 		if ($_GET["target"] == "navi_request")
 		{
@@ -132,7 +154,7 @@ class ilNavigationHistoryGUI
 	 */
 	function removeEntries()
 	{
-		global $ilNavigationHistory;
+		$ilNavigationHistory = $this->nav_history;
 		
 		$ilNavigationHistory->deleteDBEntries();
 		$ilNavigationHistory->deleteSessionEntries();

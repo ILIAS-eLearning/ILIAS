@@ -106,6 +106,9 @@ class ilOnScreenChatGUI
 	{
 		global $DIC;
 
+		require_once 'Services/Authentication/classes/class.ilSession.php';
+		ilSession::enableWebAccessWithoutSession(true);
+
 		echo json_encode(array(
 			'loggedIn' => $DIC->user() && !$DIC->user()->isAnonymous()
 		));
@@ -185,6 +188,9 @@ class ilOnScreenChatGUI
 			);
 		}
 
+		require_once 'Services/Authentication/classes/class.ilSession.php';
+		ilSession::enableWebAccessWithoutSession(true);
+
 		echo json_encode($response);
 		exit();
 	}
@@ -260,8 +266,8 @@ class ilOnScreenChatGUI
 			require_once 'Services/Link/classes/class.ilLinkifyUtil.php';
 			ilLinkifyUtil::initLinkify();
 
-			$DIC['tpl']->addJavaScript('./Services/jQuery/js/jquery.outside.events.min.js');
-			$DIC['tpl']->addJavaScript('./Services/jQuery/js/jquery.ui.touch-punch.min.js');
+			$DIC['tpl']->addJavaScript('./libs/bower/bower_components/jquery-outside-events/jquery.ba-outside-events.min.js');
+			$DIC['tpl']->addJavaScript('./libs/bower/bower_components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js');
 			$DIC['tpl']->addJavascript('./Services/UIComponent/Modal/js/Modal.js');
 			$DIC['tpl']->addJavascript('./libs/composer/components/moment/min/moment-with-locales.js');
 			$DIC['tpl']->addJavascript('./Services/OnScreenChat/js/moment.js');

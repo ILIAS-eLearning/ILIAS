@@ -10,7 +10,7 @@ div.ilBlogListItem {
 	padding: 1px 1px 5px;
 	margin-bottom: 35px;
 	&.ilBlogListItemDraft {
-		padding: 3px;
+		padding: 8px;
 	}
 }
 
@@ -82,7 +82,16 @@ div.ilBlogSideBlockNavigationSelection {
 }
 
 .ilBlogListItemDraft {
-	border: 2px dotted red;
+	border: 2px dotted @brand-warning;
+}
+
+.ilBlogDraftText {
+	color: @brand-warning;
+	position: absolute;
+	font-size: @font-size-small;
+	margin-top: -20px;
+	padding: 2px 5px;
+	background-color: @il-primary-container-bg;
 }
 
 .ilBlogNavigationItemDraft {

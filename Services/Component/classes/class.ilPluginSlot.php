@@ -40,15 +40,7 @@ class ilPluginSlot
 	function read()
 	{
 		$cached_component = ilCachedComponentData::getInstance();
-
 		$rec = $cached_component->lookupPluginSlotById($this->getSlotId());
-		//global $ilDB;
-
-		//$q = "SELECT * FROM il_pluginslot WHERE component = ".
-		//	$ilDB->quote($this->getComponentType()."/".$this->getComponentName(), "text").
-		//	" AND id = ".$ilDB->quote($this->getSlotId(), "text");
-		//$set = $ilDB->query($q);
-		//$rec = $ilDB->fetchAssoc($set);
 		$this->setSlotName($rec["name"]);
 	}
 	
@@ -236,37 +228,28 @@ class ilPluginSlot
 			{
 				// directories
 				if (@is_dir($pl_dir."/".$file) && substr($file, 0, 1) != "." &&
-					is_file($pl_dir."/".$file."/plugin.php"))
-				{
-					
-					
+					$this->checkPluginPhpFileAvailability($file)
+				) {
 					$plugin = array();
-					
+
 					$plugin = ilPlugin::lookupStoredData($this->getComponentType(),
 						$this->getComponentName(), $this->getSlotId(), $file);
-						
+
 					// create record in il_plugin table (if not existing)
-					ilPlugin::createPluginRecord($this->getComponentType(),
-						$this->getComponentName(), $this->getSlotId(), $file);
-					
+					if(count($plugin) == 0) {
+						ilPlugin::createPluginRecord($this->getComponentType(),
+							$this->getComponentName(), $this->getSlotId(), $file);
+					}
+
 					$pdata = $ilPluginAdmin->getAllData($this->getComponentType(),
 						$this->getComponentName(), $this->getSlotId(), $file);
 
-					$plugin["version"] = $pdata["version"];
-					$plugin["id"] = $pdata["id"];
-					$plugin["is_active"] = $pdata["is_active"];
-					$plugin["inactive_reason"] = $pdata["inactive_reason"];
-					$plugin["needs_update"] = $pdata["needs_update"];
-					$plugin["ilias_min_version"] = $pdata["ilias_min_version"];
-					$plugin["ilias_max_version"] = $pdata["ilias_max_version"];
-					$plugin["activation_possible"] = $pdata["activation_possible"];
-					$plugin["responsible"] = $pdata["responsible"];
-					$plugin["responsible_mail"] = $pdata["responsible_mail"];
-					
+					$plugin = array_merge($plugin, $pdata);
+
 					$plugin["name"] = $file;
 					$plugin["plugin_php_file_status"] = $this->checkPluginPhpFileAvailability($file);
 					$plugin["class_file_status"] = $this->checkClassFileAvailability($file);
-					$plugin["class_file"] = "class.il".$plugin["name"]."Plugin.php";
+					$plugin["class_file"] = $this->getPluginClassFileName($file);
 					
 					$plugins[] = $plugin;
 				}
@@ -285,15 +268,6 @@ class ilPluginSlot
 		$rec = $cached_component->lookupPluginSlotByName($a_slot_name);
 
 		return $rec['id'];
-
-		//global $ilDB;
-
-		//$q = "SELECT * FROM il_pluginslot WHERE component = ".
-		//	$ilDB->quote($a_ctype."/".$a_cname, "text").
-		//	" AND name = ".$ilDB->quote($a_slot_name, "text");
-		//$set = $ilDB->query($q);
-		//$rec = $ilDB->fetchAssoc($set);
-		//return $rec["id"];
 	}
 
 	/**
@@ -305,15 +279,6 @@ class ilPluginSlot
 		$rec = $cached_component->lookupPluginSlotById($a_slot_id);
 
 		return $rec['name'];
-
-		//global $ilDB;
-
-		//	$q = "SELECT * FROM il_pluginslot WHERE component = ".
-		//		$ilDB->quote($a_ctype."/".$a_cname, "text").
-		//	" AND id = ".$ilDB->quote($a_slot_id, "text");
-		//$set = $ilDB->query($q);
-		//$rec = $ilDB->fetchAssoc($set);
-		//return $rec["name"];
 	}
 
 	/**
@@ -336,11 +301,6 @@ class ilPluginSlot
 		$cached_component = ilCachedComponentData::getInstance();
 		$recs = $cached_component->getIlPluginslotById();
 
-		//global $ilDB;
-		
-		//$set = $ilDB->query("SELECT * FROM il_pluginslot ");
-		//$slots = array();
-		//while ($rec  = $ilDB->fetchAssoc($set))
 		foreach($recs as $rec)
 		{
 			$pos = strpos($rec["component"], "/");

@@ -210,9 +210,29 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
 	
 	
 
-	public function migrateAccount($a_usr_id)
+	/**
+	 * @inheritdoc
+	 */
+	public function migrateAccount(ilAuthStatus $status)
 	{
+		$this->force_new_account = true;
 		
+		try 
+		{
+			include_once './Services/LDAP/classes/class.ilLDAPQuery.php';
+			$query = new ilLDAPQuery($this->getServer());
+			$query->bind(IL_LDAP_BIND_DEFAULT);
+		}
+		catch(ilLDAPQueryException $e)
+		{
+			$this->getLogger()->error('Cannot bind to LDAP server... '. $e->getMessage());
+			$this->handleAuthenticationFail($status, 'auth_err_ldap_exception');
+			return false;
+		}
+		
+		$users = $query->fetchUser($this->getCredentials()->getUsername());
+		$this->updateAccount($status, $users[$this->changeKeyCase($this->getCredentials()->getUsername())]);
+		return true;
 	}
 
 	/**

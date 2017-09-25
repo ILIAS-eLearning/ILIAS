@@ -41,7 +41,7 @@ require_once './Modules/Test/classes/class.ilTestExpressPage.php';
  * @ilCtrl_Calls ilObjTestGUI: ilTestSkillAdministrationGUI, ilTestSkillEvaluationGUI
  * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionPreviewGUI
  * @ilCtrl_Calls ilObjTestGUI: assKprimChoiceGUI, assLongMenuGUI
- * @ilCtrl_Calls ilObjTestGUI: ilTestQuestionBrowserTableGUI, ilTestInfoScreenToolbarGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilTestQuestionBrowserTableGUI, ilTestInfoScreenToolbarGUI, ilLTIProviderObjectSettingGUI
  *
  * @ingroup ModulesTest
  */
@@ -160,6 +160,19 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		switch($next_class)
 		{
+			case 'illtiproviderobjectsettinggui':
+				$this->prepareOutput();
+				$this->addHeaderAction();
+				$this->getSettingsSubTabs();
+				$GLOBALS['DIC']->tabs()->activateTab('settings');
+				$GLOBALS['DIC']->tabs()->activateSubTab('lti_provider');
+				$lti_gui = new ilLTIProviderObjectSettingGUI($this->object->getRefId());
+				$lti_gui->setCustomRolesForSelection($GLOBALS['DIC']->rbac()->review()->getLocalRoles($this->object->getRefId()));
+				$lti_gui->offerLTIRolesForSelection(false);
+				$this->ctrl->forwardCommand($lti_gui);
+				break;
+			
+			
 			case 'iltestexportgui':
 				if(!$ilAccess->checkAccess('write', '', $this->ref_id))
 				{
@@ -899,7 +912,7 @@ class ilObjTestGUI extends ilObjectGUI
 			require_once 'class.ilTestPDFGenerator.php';
 
 			ilTestPDFGenerator::generatePDF(
-				$template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle()
+				$template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle(), PDF_USER_RESULT
 			);
 		}
 		else
@@ -3232,7 +3245,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if( $isPdfDeliveryRequest )
 		{
 			require_once 'class.ilTestPDFGenerator.php';
-			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle());
+			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle(), PDF_PRINT_VIEW_QUESTIONS);
 		}
 		else
 		{
@@ -3311,7 +3324,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if($isPdfDeliveryRequest)
 		{
 			require_once 'class.ilTestPDFGenerator.php';
-			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle());
+			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle(), PDF_PRINT_VIEW_QUESTIONS);
 		}
 		else
 		{
@@ -3991,6 +4004,17 @@ class ilObjTestGUI extends ilObjectGUI
                             array("", "ilobjtestgui", "ilcertificategui")
                     );
                 }
+		
+		$lti_settings = new ilLTIProviderObjectSettingGUI($this->object->getRefId());
+		if($lti_settings->hasSettingsAccess())
+		{
+			$this->tabs_gui->addSubTabTarget(
+				'lti_provider',
+				$this->ctrl->getLinkTargetByClass(ilLTIProviderObjectSettingGUI::class),
+				'',
+				[ilLTIProviderObjectSettingGUI::class]
+			);
+		}
 	}
 
 	function getParticipantsSubTabs()
@@ -4712,6 +4736,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$questionInstance->setNewOriginalId($newId);
 		}
 
+		ilUtil::sendSuccess($this->lng->txt('tst_qst_added_to_pool_' . (count($result->ids) > 1 ? 'p' : 's')), true);
 		$this->ctrl->redirect($this, 'questions');
 	}
 

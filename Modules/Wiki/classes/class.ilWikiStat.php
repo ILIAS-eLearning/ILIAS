@@ -134,7 +134,9 @@ class ilWikiStat
 	 */
 	public static function handleEvent($a_event, ilWikiPage $a_page_obj, $a_user_id = null, array $a_additional_data = null)
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC->user();
 		
 		if(!$a_user_id)
 		{
@@ -194,7 +196,9 @@ class ilWikiStat
 	 */
 	protected static function writeData($a_table, array $a_primary, array $a_values)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$tstamp = self::getTimestamp();		
 		$a_primary["ts"] = array("timestamp", $tstamp);
@@ -454,7 +458,9 @@ class ilWikiStat
 	 */
 	public static function handlePageDeletion(ilWikiPage $a_page_obj, $a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		// copy last entry to have deletion timestamp
 		$sql = "SELECT * ".						
@@ -542,7 +548,9 @@ class ilWikiStat
 
 	protected static function getWikiAggr($a_wiki_id, $a_day_from, $a_day_to, $a_table, $a_field, $a_aggr_value, $a_sub_field = null, $a_sub_id = null, $a_build_full_period = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$res = array();		
 		$deleted = null;
@@ -617,7 +625,9 @@ class ilWikiStat
 	
 	protected static function getWikiLast($a_wiki_id, $a_day_from, $a_table, $a_field, $a_sub_field = null, $a_sub_id = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		// get last existing value before period (zero is valid)
 		$sql = "SELECT MAX(".$a_field.") latest".
@@ -638,7 +648,9 @@ class ilWikiStat
 	
 	protected static function getWikiAggrSub($a_wiki_id, $a_day_from, $a_day_to, $a_table, $a_field, $a_aggr_by, $a_aggr_value, $a_aggr_sub, $a_sub_field = null, $a_sub_id = null, $a_build_full_period = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$res = array();
 		
@@ -851,7 +863,9 @@ class ilWikiStat
 	
 	protected static function getWikiEditPagesSum($a_wiki_id, $a_day_from, $a_day_to)
 	{		
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$res = array();
 		
@@ -875,7 +889,9 @@ class ilWikiStat
 	
 	protected static function getWikiEditPagesAvg($a_wiki_id, $a_day_from, $a_day_to)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$res = array();
 		
@@ -904,7 +920,9 @@ class ilWikiStat
 	
 	protected static function getWikiUserEditPages($a_wiki_id, $a_day_from, $a_day_to, $a_sub_field = null, $a_sub_id = null)
 	{		
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$res = array();
 		
@@ -932,7 +950,9 @@ class ilWikiStat
 	
 	protected static function getWikiUserEditPagesAvg($a_wiki_id, $a_day_from, $a_day_to)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$res = array();
 		
@@ -1094,7 +1114,9 @@ class ilWikiStat
 
 	public static function getAvailableMonths($a_wiki_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$res = array();
 		
@@ -1157,7 +1179,9 @@ class ilWikiStat
 	
 	public static function getFigureTitle($a_figure)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		$map = array(		
 			// wiki

@@ -15,6 +15,19 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
 {
 
 	/**
+	 * Constructor
+	 */
+	function __construct($a_parent_obj, $a_parent_cmd, ilObjContentObject $a_lm, $a_id = "")
+	{
+		global $DIC;
+		parent::__construct($a_parent_obj, $a_parent_cmd, $a_lm, $a_id);
+
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+	}
+
+
+	/**
 	 * Get node icon
 	 *
 	 * @param array $a_node node array
@@ -73,7 +86,7 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
 	 */
 	function getNodeIconAlt($a_node)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 
@@ -114,7 +127,7 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
 	 */
 	function getNodeHref($a_node)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		switch($a_node["type"])
 		{

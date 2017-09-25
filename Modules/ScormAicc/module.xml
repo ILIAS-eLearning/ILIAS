@@ -7,7 +7,7 @@
 	</baseclasses>
 	<objects>
 		<object id="sahs" class_name="SAHSLearningModule" dir="classes" default_pos="140"
-			checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1" group="lres" allow_copy="1" export="1">
+			checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1" group="lres" allow_copy="1" export="1" lti_provider="1">
 			<parent id="cat">cat</parent>
 			<parent id="crs">crs</parent>
 			<parent id="fold">fold</parent>

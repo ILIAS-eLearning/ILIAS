@@ -131,12 +131,12 @@ class ilCalendarScheduleFilterExercise implements ilCalendarScheduleFilter
 		
 		if($category->getType() != ilCalendarCategory::TYPE_OBJ)
 		{
-			$this->getLogger()->debug('Not modifying calendar for non object type');
+			//$this->getLogger()->debug('Not modifying calendar for non object type');
 			return false;
 		}
 		if($category->getObjType() != 'exc')
 		{
-			$this->getLogger()->debug('Category object type is != folder => category event not modified');
+			//$this->getLogger()->debug('Category object type is != folder => category event not modified');
 			return false;
 		}		
 		

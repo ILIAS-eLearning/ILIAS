@@ -58,7 +58,7 @@ class ilPDSelectedItemsBlockSelectedItemsViewGUI extends ilPDSelectedItemsBlockV
 		require_once 'Services/Link/classes/class.ilLink.php';
 		$tpl->setVariable('TXT_INTRO_2', sprintf(
 			$this->lng->txt('pdesk_intro3'),
-			'<a href="' . ilLink::_getStaticLink(1,' root', true) . '">' . $this->getRepositoryTitle() . '</a>'
+			'<a href="' . ilLink::_getStaticLink(1,'root', true) . '">' . $this->getRepositoryTitle() . '</a>'
 		));
 		$tpl->setVariable('TXT_INTRO_3', $this->lng->txt('pdesk_intro4'));
 

@@ -51,6 +51,10 @@ class BasicBucket implements Bucket {
 	 * @var int
 	 */
 	protected $percentage = 0;
+	/**
+	 * @var int
+	 */
+	protected $lastHeartbeat = 0;
 
 
 	/**
@@ -108,7 +112,6 @@ class BasicBucket implements Bucket {
 	public function setTask(Task $task) {
 		$this->tasks = $task->unfoldTask();
 		$this->totalNumberOfTasks = count($this->tasks);
-		$this->currentTask = $task;
 		$this->rootTask = $task;
 		foreach ($this->tasks as $subTask) {
 			$this->percentages[spl_object_hash($subTask)] = 0;
@@ -122,12 +125,19 @@ class BasicBucket implements Bucket {
 	 * @return int
 	 */
 	public function calculateOverallPercentage() {
-		// TODO: Task percentage up to first user interaction.
-		//		global $ilLog;
-		//		$tasks = array_slice($this->rootTask->unfoldTask(), 1);
-		//		$percentages = array_map(function($task) { return $this->percentages[spl_object_hash($task)]; }, $tasks);
+		$countable_tasks = 0;
+		/**
+		 * @var $task Task\UserInteraction\
+		 */
+		foreach ($this->tasks as $task) {
+			switch (true) {
+				case ($task instanceof Task\Job):
+					$countable_tasks ++;
+					break;
+			}
+		}
 
-		$this->percentage = array_sum($this->percentages) / $this->totalNumberOfTasks;
+		$this->percentage = array_sum($this->percentages) / $countable_tasks;
 	}
 
 
@@ -209,7 +219,7 @@ class BasicBucket implements Bucket {
 		$inputs = $currentTask->getInput();
 		$resulting_value = $currentTask->interaction($inputs, $option, $this);
 
-		if ($currentTask == $this->rootTask) {
+		if ($currentTask === $this->rootTask) {
 			// If this user interaction was the last thing to do, we set the state to finished. We can throw away the resulting value.
 			$this->setState(State::FINISHED);
 		} else {
@@ -272,5 +282,38 @@ class BasicBucket implements Bucket {
 	 */
 	public function setDescription($description) {
 		$this->description = $description;
+	}
+
+
+	/**
+	 * There was something going on in the bucket, it's still working.
+	 *
+	 * @return void
+	 */
+	public function heartbeat() {
+		$timezone_identifier = ini_get('date.timezone');
+		date_default_timezone_set($timezone_identifier ? $timezone_identifier : 'UTC');
+		$now = new \DateTime();
+		$this->lastHeartbeat = $now->getTimestamp();
+	}
+
+
+	/**
+	 * @param $timestamp int
+	 *
+	 * @return void
+	 */
+	public function setLastHeartbeat($timestamp) {
+		$this->lastHeartbeat = $timestamp;
+	}
+
+
+	/**
+	 * When was the last time that something happened on this bucket?
+	 *
+	 * @return int Timestamp.
+	 */
+	public function getLastHeartbeat() {
+		return $this->lastHeartbeat;
 	}
 }

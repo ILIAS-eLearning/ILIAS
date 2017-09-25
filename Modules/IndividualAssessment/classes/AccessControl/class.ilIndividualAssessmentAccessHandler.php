@@ -7,36 +7,59 @@ require_once 'Services/AccessControl/classes/class.ilObjRole.php';
  */
 class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessHandler {
 
+	/**
+	 * @var ilObjIndividualAssessment
+	 */
+	protected $iass;
+
+	/**
+	 * @var ilAccessHandler
+	 */
 	protected $handler;
+
+	/**
+	 * @var ilRbacAdmin
+	 */
 	protected $admin;
+
+	/**
+	 * ilRbacReview
+	 */
 	protected $review;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var string[]
+	 */
+	protected $mass_global_permissions_cache;
 
 	const DEFAULT_ROLE = 'il_iass_member';
 
-	public function __construct(ilAccessHandler $handler, ilRbacAdmin $admin, ilRbacReview $review, ilObjUser $usr) {
+	public function __construct(ilObjIndividualAssessment $iass, ilAccessHandler $handler, ilRbacAdmin $admin, ilRbacReview $review, ilObjUser $usr) {
+		$this->iass = $iass;
 		$this->handler = $handler;
 		$this->admin = $admin;
 		$this->review = $review;
 		$this->usr = $usr;
-	}
-
-	/**
-	 * Can the current ilias user perform an operation on some Individual assessment? 
-	 *
-	 * @param	ilObjIndividualAssessment	$iass
-	 * @param	string	$operation
-	 * @return bool
-	 */
-	public function checkAccessToObj(ilObjIndividualAssessment $iass, $operation) {
-		return $this->checkAccessOfUserToObj($this->usr,$iass,$operation);
+		$this->mass_global_permissions_cache = array();
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function checkAccessOfUserToObj(ilObjUser $usr, ilObjIndividualAssessment $iass, $operation) {
+	public function checkAccessToObj($operation) {
+		if ($operation == "read_learning_progress") {
+			return $this->handler->checkRbacOrPositionPermissionAccess("read_learning_progress", "read_learning_progress", $this->iass->getRefId());
+		}
+		if ($operation == "edit_learning_progress") {
+			return $this->handler->checkRbacOrPositionPermissionAccess("edit_learning_progress", "write_learning_progress", $this->iass->getRefId());
+		}
 
-		return $this->handler->checkAccessOfUser($usr->getId(), $operation, '', $iass->getRefId(), 'iass');
+		return $this->handler->checkAccessOfUser($this->usr->getId(), $operation, '', $this->iass->getRefId(), 'iass');
 	}
 
 	/**
@@ -71,5 +94,148 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
 
 	protected function getMemberRoleIdForObj(ilObjIndividualAssessment $iass) {
 		return current($this->review->getLocalRoles($iass->getRefId()));
+	}
+
+	/**
+	 * User view iass object
+	 *
+	 * @param bool 	$use_cache
+	 *
+	 * @return bool
+	 */
+	public function mayViewObject($use_cache = true)
+	{
+		if ($use_cache) {
+			return $this->cacheCheckAccessToObj('read');
+		}
+
+		return $this->checkAccessToObj('read');
+	}
+
+	/**
+	 * User edit iass
+	 *
+	 * @param bool 	$use_cache
+	 *
+	 * @return bool
+	 */
+	public function mayEditObject($use_cache = true)
+	{
+		if ($use_cache) {
+			return $this->cacheCheckAccessToObj('write');
+		}
+
+		return $this->checkAccessToObj('write');
+	}
+
+	/**
+	 * User edit permissions
+	 *
+	 * @param bool 	$use_cache
+	 *
+	 * @return bool
+	 */
+	public function mayEditPermissions($use_cache = true)
+	{
+		if ($use_cache) {
+			return $this->cacheCheckAccessToObj('edit_permission');
+		}
+
+		return $this->checkAccessToObj('edit_permission');
+	}
+
+	/**
+	 * User may edit members
+	 *
+	 * @param bool 	$use_cache
+	 *
+	 * @return bool
+	 */
+	public function mayEditMembers($use_cache = true)
+	{
+		if ($use_cache) {
+			return $this->cacheCheckAccessToObj('edit_members');
+		}
+
+		return $this->checkAccessToObj('edit_members');
+	}
+
+	/**
+	 * User may view gradings
+	 *
+	 * @param bool 	$use_cache
+	 *
+	 * @return bool
+	 */
+	public function mayViewUser($use_cache = true)
+	{
+		if ($use_cache) {
+			return $this->cacheCheckAccessToObj('read_learning_progress');
+		}
+
+		return $this->checkAccessToObj('read_learning_progress');
+	}
+
+	/**
+	 * User may grade
+	 *
+	 * @param bool 	$use_cache
+	 *
+	 * @return bool
+	 */
+	public function mayGradeUser($use_cache = true)
+	{
+		if ($use_cache) {
+			return $this->cacheCheckAccessToObj('edit_learning_progress');
+		}
+
+		return $this->checkAccessToObj('edit_learning_progress');
+	}
+
+	/**
+	 * User may grade
+	 *
+	 * @param  int	$a_user_id
+	 *
+	 * @return bool
+	 */
+	public function mayGradeUserById($a_user_id)
+	{
+		return count($this->handler->filterUserIdsByRbacOrPositionOfCurrentUser("edit_learning_progress", "set_lp", $this->iass->getRefId(), [$a_user_id])) > 0;
+	}
+
+	/**
+	 * User may Amend grading
+	 *
+	 * @param bool 	$use_cache
+	 *
+	 * @return bool
+	 */
+	public function mayAmendGradeUser($use_cache = true) {
+		if ($use_cache) {
+			return $this->cacheCheckAccessToObj('amend_grading');
+		}
+
+		return $this->checkAccessToObj('amend_grading');
+	}
+
+	/**
+	 * Get permission state from cache
+	 *
+	 * @param string 	$operation
+	 *
+	 * @return bool
+	 */
+	protected function cacheCheckAccessToObj($operation)
+	{
+		$iass_id = $this->iass->getId();
+		$user_id = $this->usr->getId();
+
+		if (!isset($this->mass_global_permissions_cache[$iass_id][$user_id][$operation])) {
+			$this->mass_global_permissions_cache[$iass_id][$user_id][$operation]
+				= $this->checkAccessToObj($operation);
+		}
+
+		return $this->mass_global_permissions_cache[$iass_id][$user_id][$operation];
 	}
 }

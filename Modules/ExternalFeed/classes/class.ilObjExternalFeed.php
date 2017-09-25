@@ -20,6 +20,10 @@ class ilObjExternalFeed extends ilObject
 	*/
 	function __construct($a_id = 0,$a_call_by_reference = true)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
+		$this->log = $DIC["ilLog"];
 		$this->type = "feed";
 		parent::__construct($a_id,$a_call_by_reference);
 	}
@@ -52,7 +56,8 @@ class ilObjExternalFeed extends ilObject
 	 */
 	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
-		global $ilDB, $ilLog;
+		$ilDB = $this->db;
+		$ilLog = $this->log;
 		
 	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
 	 	$fb = $this->getFeedBlock();
@@ -114,7 +119,7 @@ class ilObjExternalFeed extends ilObject
 
 	function getFeedBlock()
 	{
-		global $ilLog;
+		$ilLog = $this->log;
 		
 		// delete feed block
 		include_once("./Services/Block/classes/class.ilCustomBlock.php");

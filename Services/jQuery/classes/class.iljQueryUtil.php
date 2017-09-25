@@ -4,100 +4,92 @@
 /**
  * jQuery utilities
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author  Alex Killing <alex.killing@gmx.de>
  * @version $Id$
+ *
+ *
  */
-class iljQueryUtil
-{		
-	private static $ver = "2_2_4"; 
-	// private static $ver = "3_1_0"; 
-	
-	private static $ui_ver = "1_12_0";
-	private static $maphilight_ver = "14_03_20";
-	private static $min = "-min";
-	
+class iljQueryUtil {
+
 	/**
-	 * Init jQuery
+	 * @var string Suffix for minified File
 	 */
-	static function initjQuery($a_tpl = null)
-	{
-		global $tpl;
-	
-		/*
-		self::$ver = DEVMODE 
-			? "3_1_0"
-			: "2_2_4";		 
-		*/
-		self::$min = DEVMODE
-			? ""
-			: "-min";
-		
-		if ($a_tpl == null)
-		{
+	private static $min = ".min";
+
+
+	/**
+	 * inits and adds the jQuery JS-File to the global or a passed template
+	 *
+	 * @param \ilTemplate $a_tpl global $tpl is used when null
+	 */
+	public static function initjQuery($a_tpl = null) {
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
+
+		// self::$min = DEVMODE ? "" : ".min";
+		self::$min = "";
+		if ($a_tpl == null) {
 			$a_tpl = $tpl;
 		}
 
 		$a_tpl->addJavaScript(self::getLocaljQueryPath(), true, 1);
-		
-		/*
-		// adding jquery-migrate for >= 1.9.x
-		$major = explode("_", self::$ver);
-		$major = $major[0]*100+$major[1];
-		if($major >= 109)
-		{
-			$path = str_replace("jquery", "jquery-migrate", self::getLocaljQueryPath());			
-			$a_tpl->addJavaScript($path, true, 1);
+		$a_tpl->addJavaScript('./libs/bower/bower_components/jquery-migrate/jquery-migrate.min.js', true, 1);
+	}
+
+
+	/**
+	 * inits and adds the jQuery-UI JS-File to the global template
+	 * (see included_components.txt for included components)
+	 */
+	public static function initjQueryUI($a_tpl = null) {
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
+
+		if ($a_tpl == null) {
+			$a_tpl = $tpl;
 		}
-		*/
+
+		$a_tpl->addJavaScript(self::getLocaljQueryUIPath(), true, 1);
 	}
-	
+
+
 	/**
-	 * Init jQuery UI (see included_components.txt for included components)
+	 * @return string local path of jQuery file
 	 */
-	static function initjQueryUI()
-	{
-		global $tpl;
-			
-		$tpl->addJavaScript(self::getLocaljQueryUIPath(), true, 1);
+	public static function getLocaljQueryPath() {
+		return "./libs/bower/bower_components/jquery/dist/jquery" . self::$min . ".js";
 	}
-	
+
+
 	/**
-	 * Get local path of jQuery file
+	 * @return string local path of jQuery UI file
 	 */
-	static function getLocaljQueryPath()
-	{		
-		return "./Services/jQuery/js/".self::$ver."/jquery".self::$min.".js";
- 	}
-
- 	/**
-	 * Get local path of jQuery UI file 
-	 */
-	static function getLocaljQueryUIPath()
-	{
-		return "./Services/jQuery/js/ui_".self::$ui_ver."/jquery-ui".self::$min.".js";
- 	}
-
- 	//
- 	// Maphilight plugin
- 	//
- 	
- 	/**
-	 * Init maphilight
-	 */
-	static function initMaphilight()
-	{
-		global $tpl;
-		
-		 $tpl->addJavaScript(self::getLocalMaphilightPath(), true, 1);
+	public static function getLocaljQueryUIPath() {
+		return "./libs/bower/bower_components/jquery-ui/jquery-ui" . self::$min . ".js";
 	}
 
- 	 /**
-	 * Get local path of maphilight file 
-	 */
-	static function getLocalMaphilightPath()
-	{
-		return "./Services/jQuery/js/maphilight_".self::$maphilight_ver."/maphilight.js";
- 	}
+	//
+	// Maphilight plugin
+	//
 
+	/**
+	 * Inits and add maphilight to the general template
+	 */
+	public static function initMaphilight() {
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
+
+		$tpl->addJavaScript(self::getLocalMaphilightPath(), true, 1);
+	}
+
+
+	/**
+	 * Get local path of maphilight file
+	 */
+	public static function getLocalMaphilightPath() {
+		return "./libs/bower/bower_components/maphilight/jquery.maphilight.min.js";
+	}
 }
-?>

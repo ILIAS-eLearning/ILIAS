@@ -16,12 +16,20 @@ include_once("./Services/Object/classes/class.ilObjectGUI.php");
 class ilObjTaxonomyAdministrationGUI extends ilObjectGUI
 {
 	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
 	 * Contructor
 	 *
 	 * @return self
 	 */
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
+		global $DIC;
+
+		$this->rbacsystem = $DIC->rbac()->system();
 		$this->type = "taxs";
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
@@ -64,7 +72,7 @@ class ilObjTaxonomyAdministrationGUI extends ilObjectGUI
 	 */
 	public function getAdminTabs()
 	{
-		global $rbacsystem;
+		$rbacsystem = $this->rbacsystem;
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{			

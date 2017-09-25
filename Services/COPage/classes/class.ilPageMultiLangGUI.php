@@ -14,6 +14,16 @@ include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
  */
 class ilPageMultiLangGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	protected $single_page_mode = false;
 
 	/**
@@ -25,6 +35,10 @@ class ilPageMultiLangGUI
 	 */
 	function __construct($a_parent_type, $a_parent_id, $a_single_page_mode = false)
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
 		//$this->ml = new ilPageMultiLang($a_parent_type, $a_parent_id);
 
 		// object translation
@@ -39,7 +53,7 @@ class ilPageMultiLangGUI
 	 */
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$next_class = $ilCtrl->getNextClass();
 		
@@ -62,7 +76,7 @@ class ilPageMultiLangGUI
 	 */
 	function getMultiLangInfo($a_page_lang = "-")
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if ($a_page_lang == "")
 		{

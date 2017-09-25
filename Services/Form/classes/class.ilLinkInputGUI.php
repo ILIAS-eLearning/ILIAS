@@ -44,6 +44,10 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 	function __construct($a_title = "", $a_postvar = "")
 	{
 		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("link");
 
@@ -137,8 +141,9 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl, $lng;
-		
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
 
@@ -155,7 +160,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 				}
 				$link_gui->setFilterWhiteList($this->getFilterWhiteList());
 				$link_gui->setMode("asynch");
-			
+
 				$ret = $ilCtrl->forwardCommand($link_gui);
 				break;
 
@@ -229,7 +234,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		// debugging
 		// return false;
@@ -295,7 +300,8 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 	*/
 	function render()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		// parse settings
 		$has_int = $has_ext = $has_radio = false;
@@ -317,7 +323,8 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 		}
 		if (!$this->getRequired())
 		{
-			$has_radio = true;
+			// see #0021274
+//			$has_radio = true;
 		}
 		
 		// external
@@ -497,7 +504,9 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 	
 	public static function getTranslatedValue($a_value)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		$value = explode("|", $a_value);
 		

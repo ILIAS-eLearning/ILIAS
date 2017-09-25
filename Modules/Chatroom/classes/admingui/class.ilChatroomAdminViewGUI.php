@@ -34,11 +34,11 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 	 */
 	public function __construct(ilChatroomObjectGUI $gui)
 	{
-		global $tpl;
+		global $DIC;
 
 		parent::__construct($gui);
 		$this->commonSettings = new ilSetting('common');
-		$this->ilTpl          = $tpl;
+		$this->ilTpl          = $DIC->ui()->mainTemplate();
 	}
 
 	/**

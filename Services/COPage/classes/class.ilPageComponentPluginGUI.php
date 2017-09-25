@@ -12,6 +12,22 @@
  */
 abstract class ilPageComponentPluginGUI
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+	}
+
 	protected $plugin;
 	protected $pc_gui;
 	protected $pc;
@@ -156,7 +172,7 @@ abstract class ilPageComponentPluginGUI
 	 */
 	final protected function addCreationButton($a_form)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$a_form->addCommandButton("create_plug", $lng->txt("save"));
 	}

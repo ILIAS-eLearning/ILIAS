@@ -21,6 +21,9 @@ class ilCategoryReferenceXmlWriter extends ilContainerReferenceXmlWriter
 	*/
 	public function __construct(ilObjCategoryReference $ref = null)
 	{
+		global $DIC;
+
+		$this->settings = $DIC->settings();
 		parent::__construct($ref);
 	}
 
@@ -31,7 +34,7 @@ class ilCategoryReferenceXmlWriter extends ilContainerReferenceXmlWriter
 	 */
 	protected  function buildHeader()
 	{
-		global $ilSetting;
+		$ilSetting = $this->settings;
 
 		$this->xmlSetDtdDef("<!DOCTYPE category reference PUBLIC \"-//ILIAS//DTD Group//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_category_reference_4_3.dtd\">");
 		$this->xmlSetGenCmt("Export of ILIAS category reference ". $this->getReference()->getId()." of installation ".$ilSetting->get('inst_id').".");

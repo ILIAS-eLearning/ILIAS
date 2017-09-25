@@ -22,7 +22,10 @@ class ilExAssignmentTeamLogTableGUI extends ilTable2GUI
 	 */
 	public function  __construct($a_parent_obj, $a_parent_cmd, ilExAssignmentTeam $a_team)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$ilCtrl = $DIC->ctrl();
 						
 		$this->team = $a_team;
 		

@@ -24,11 +24,17 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 	 */
 	function __construct()
 	{
-		global $ilCtrl, $lng, $ilUser, $ilBench, $ilAccess, $ilCtrl;
+		global $DIC;
 
-		$ilBench->start("News", "ilPDNewsBlockGUI_Constructor");
-		$news_set = new ilSetting("news");
-		
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$this->access = $DIC->access();
+		$this->ctrl = $DIC->ctrl();
+		$this->settings = $DIC->settings();
+		$lng = $DIC->language();
+		$ilUser = $DIC->user();
+		$ilAccess = $DIC->access();
+
 		// NOT ilNewsForContextBlockGUI::__construct() !
 		ilBlockGUI::__construct();
 		
@@ -39,13 +45,6 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		$this->setAvailableDetailLevels(3);
 
 		$this->dynamic = false;
-
-		// store current access check results
-//		$this->acc_results = $ilAccess->getResults();
-		
-		// read access cache
-//		$this->acc_cache_hit = $ilAccess->readCache(
-//			((int) $news_set->get("acc_cache_mins")) * 60);
 
 		include_once("./Services/News/classes/class.ilNewsCache.php");
 		$this->acache = new ilNewsCache();
@@ -91,8 +90,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		
 		// reset access check results
 		$ilAccess->setResults($this->acc_results);
-		
-		$ilBench->stop("News", "ilPDNewsBlockGUI_Constructor");
+
 	}
 	
 	/**
@@ -100,7 +98,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 	*/
 	function getNewsData()
 	{
-		global $ilUser, $ilAccess;
+		$ilUser = $this->user;
 
 		include_once("./Services/News/classes/class.ilNewsCache.php");
 		$this->acache = new ilNewsCache();
@@ -108,10 +106,6 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		$per = ilNewsItem::_lookupUserPDPeriod($ilUser->getId());
 		$data = ilNewsItem::_getNewsItemsOfUser($ilUser->getId(), false,
 			false, $per);
-//		if (!$this->acc_cache_hit)
-//		{
-//			$ilAccess->storeCache();
-//		}
 
 		$this->acache->storeEntry($ilUser->getId().":0",
 			serialize($data));
@@ -144,7 +138,9 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 	*/
 	static function getScreenMode()
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC->ctrl();
 		
 		$cmd = $_GET["cmd"];
 		if($cmd == "post" && is_array($_POST["cmd"]))
@@ -170,7 +166,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$next_class = $ilCtrl->getNextClass();
 		$cmd = $ilCtrl->getCmd("getHTML");
@@ -187,17 +183,14 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 	*/
 	function fillDataSection()
 	{
-		global $ilBench;
-		
+
 		if ($this->dynamic)
 		{
 			$this->setDataSection($this->getDynamicReload());
 		}
 		else if ($this->getCurrentDetailLevel() > 1 && count($this->getData()) > 0)
 		{
-			$ilBench->start("News", "ilPDNewsBlockGUI_fillDataSection");
 			parent::fillDataSection();
-			$ilBench->stop("News", "ilPDNewsBlockGUI_fillDataSection");
 		}
 		else
 		{
@@ -215,7 +208,9 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 	*/
 	function getHTML()
 	{
-		global $ilCtrl, $lng, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 		
 		// set footer info
 		$this->setFooterInfo($lng->txt("news_block_information"), true);
@@ -288,7 +283,10 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 	*/
 	function showFeedUrl()
 	{
-		global $lng, $ilCtrl, $ilUser, $ilSetting;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
+		$ilSetting = $this->settings;
 
 		$news_set = new ilSetting("news");
 		
@@ -346,7 +344,8 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 
 	function addCloseCommand($a_content_block)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$a_content_block->addHeaderCommand($ilCtrl->getParentReturn($this),
 			$lng->txt("selected_items_back"));
@@ -372,7 +371,10 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 	*/
 	function editSettings(ilPropertyFormGUI $a_private_form = null)
 	{
-		global $ilUser, $lng, $ilCtrl, $ilSetting;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilSetting = $this->settings;
 		
 		$news_set = new ilSetting("news");
 		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
@@ -452,7 +454,9 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 	
 	protected function initPrivateSettingsForm()
 	{
-		global $ilCtrl, $lng, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$feed_form = new ilPropertyFormGUI();
@@ -481,7 +485,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 	*/
 	function cancelSettings()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$ilCtrl->returnToParent($this);
 	}
@@ -491,7 +495,8 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 	*/
 	function saveSettings()
 	{
-		global $ilCtrl, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 		
 		$news_set = new ilSetting("news");
 		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
@@ -512,7 +517,9 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 	*/
 	function changeFeedSettings()
 	{
-		global $ilCtrl, $lng, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 		
 		$form = $this->initPrivateSettingsForm();
 		if($form->checkInput())

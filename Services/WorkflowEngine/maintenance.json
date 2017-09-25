@@ -4,7 +4,7 @@
     "second_maintainer": "",
     "implicit_maintainers": [],
     "coordinator": "",
-    "tester": "",
+    "tester": "richtera(41247)",
     "testcase_writer": "mbecker(27266)",
     "path": "Services/WorkflowEngine",
     "belong_to_component": "Workflow Engine",

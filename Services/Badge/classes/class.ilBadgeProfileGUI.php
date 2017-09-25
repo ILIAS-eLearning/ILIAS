@@ -12,11 +12,53 @@ include_once "Services/Badge/classes/class.ilBadgeHandler.php";
  */
 class ilBadgeProfileGUI
 {	
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->tpl = $DIC["tpl"];
+		$this->tabs = $DIC->tabs();
+		$this->user = $DIC->user();
+	}
+
 	const BACKPACK_EMAIL = "badge_mozilla_bp";
 	
 	function executeCommand()
 	{
-		global $ilCtrl, $lng, $tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
 		
 		$lng->loadLanguageModule("badge");
 		
@@ -35,7 +77,9 @@ class ilBadgeProfileGUI
 	
 	protected function setTabs()
 	{
-		global $ilTabs, $lng, $ilCtrl;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		if(ilBadgeHandler::getInstance()->isObiActive())
 		{
@@ -56,7 +100,9 @@ class ilBadgeProfileGUI
 	
 	protected function getSubTabs($a_active)
 	{
-		global $ilTabs, $lng, $ilCtrl;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		if(ilBadgeHandler::getInstance()->isObiActive())
 		{
@@ -84,7 +130,8 @@ class ilBadgeProfileGUI
 	
 	protected function listBadges()
 	{
-		global $tpl, $ilUser;
+		$tpl = $this->tpl;
+		$ilUser = $this->user;
 			
 		$this->getSubTabs("list");
 		
@@ -131,7 +178,7 @@ class ilBadgeProfileGUI
 	
 	protected function manageBadges()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 			
 		$this->getSubTabs("manage");
 		
@@ -161,7 +208,9 @@ class ilBadgeProfileGUI
 	
 	protected function getMultiSelection()
 	{
-		global $lng, $ilCtrl, $ilUser;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 		
 		$ids = $_POST["badge_id"];
 		if(!$ids && is_numeric($_GET["badge_id"]))
@@ -193,7 +242,8 @@ class ilBadgeProfileGUI
 	
 	protected function activate()
 	{		
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		foreach($this->getMultiSelection() as $ass)
 		{
@@ -211,7 +261,8 @@ class ilBadgeProfileGUI
 	
 	protected function deactivate()
 	{		
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		foreach($this->getMultiSelection() as $ass)
 		{
@@ -234,7 +285,10 @@ class ilBadgeProfileGUI
 	
 	protected function addToBackpackMulti()
 	{		
-		global $tpl, $ilTabs, $ilCtrl, $lng;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$res = array();
 		foreach($this->getMultiSelection() as $ass)
@@ -263,7 +317,9 @@ class ilBadgeProfileGUI
 	
 	protected function setBackpackSubTabs()
 	{
-		global $ilTabs, $lng, $ilCtrl;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$ilTabs->addSubTab("backpack_badges",
 			$lng->txt("obj_bdga"),
@@ -278,7 +334,10 @@ class ilBadgeProfileGUI
 	
 	protected function listBackpackGroups()
 	{
-		global $lng, $tpl, $ilCtrl, $ilTabs;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
 		
 		if(!ilBadgeHandler::getInstance()->isObiActive())
 		{
@@ -340,7 +399,7 @@ class ilBadgeProfileGUI
 	
 	protected function prepareBadge($a_badge_id)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		// check if current user has given badge
 		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
@@ -366,7 +425,7 @@ class ilBadgeProfileGUI
 	
 	protected function addToBackpack()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		if(!$ilCtrl->isAsynch() ||
 			!ilBadgeHandler::getInstance()->isObiActive())
@@ -405,7 +464,7 @@ class ilBadgeProfileGUI
 	
 	protected function getBackpackMail()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$mail = $ilUser->getPref(self::BACKPACK_EMAIL);
 		if(!$mail)
@@ -417,7 +476,8 @@ class ilBadgeProfileGUI
 	
 	protected function initSettingsForm()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();
@@ -437,7 +497,9 @@ class ilBadgeProfileGUI
 	
 	protected function editSettings(ilPropertyFormGUI $a_form = null)
 	{
-		global $tpl, $ilCtrl, $ilTabs;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
 		
 		if(!ilBadgeHandler::getInstance()->isObiActive())
 		{
@@ -457,7 +519,9 @@ class ilBadgeProfileGUI
 	
 	protected function saveSettings()
 	{
-		global $ilUser, $lng, $ilCtrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$form = $this->initSettingsForm();
 		if($form->checkInput())

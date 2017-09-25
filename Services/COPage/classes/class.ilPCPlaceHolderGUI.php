@@ -36,6 +36,9 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 	*/
 	public function __construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		$this->pg_obj = $a_pg_obj;
 		$this->content_obj = $a_content_obj;
 		$this->hier_id = $a_hier_id;
@@ -219,7 +222,7 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 	*/
 	protected function propertyGUI($a_action,$a_type,$a_height,$a_mode) 
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form_gui = new ilPropertyFormGUI();
@@ -255,7 +258,7 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 	*/	
 	protected function textCOSelectionGUI() 
 	{		
-		global $lng;
+		$lng = $this->lng;
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form_gui = new ilPropertyFormGUI();
@@ -375,7 +378,7 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 	
 	protected function getTypeCaptions()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		return array(
 				self::TYPE_TEXT => $lng->txt("cont_ed_plachtext"), 

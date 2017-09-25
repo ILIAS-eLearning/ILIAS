@@ -23,6 +23,11 @@ class ilPCListGUI extends ilPageContentGUI
 	*/
 	function __construct(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
+		global $DIC;
+
+		$this->tpl = $DIC["tpl"];
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
 		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
 
@@ -65,7 +70,9 @@ class ilPCListGUI extends ilPageContentGUI
 	*/
 	public function create()
 	{
-		global $tpl, $lng, $ilCtrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 	
 		$this->initListForm("create");
 		if ($this->form->checkInput())
@@ -112,7 +119,9 @@ class ilPCListGUI extends ilPageContentGUI
 	*/
 	function saveProperties()
 	{
-		global $lng, $ilCtrl, $tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
 		
 		$this->initListForm("edit");
 		if ($this->form->checkInput())
@@ -147,7 +156,7 @@ class ilPCListGUI extends ilPageContentGUI
 	*/
 	public function initListForm($a_mode = "edit")
 	{
-		global $lng;
+		$lng = $this->lng;
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 	
@@ -279,7 +288,7 @@ class ilPCListGUI extends ilPageContentGUI
 	*/
 	public function getValues()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$values = array();
 	

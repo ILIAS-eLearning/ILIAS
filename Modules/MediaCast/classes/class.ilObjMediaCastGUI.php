@@ -17,6 +17,26 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 */
 class ilObjMediaCastGUI extends ilObjectGUI
 {
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var Logger
+	 */
+	protected $log;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
     
     private $additionalPurposes = array ("VideoPortable", "AudioPortable");
     private $purposeSuffixes = array ();
@@ -28,7 +48,21 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	*/
 	function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$this->tabs = $DIC->tabs();
+		$this->tpl = $DIC["tpl"];
+		$this->access = $DIC->access();
+		$this->toolbar = $DIC->toolbar();
+		$this->log = $DIC["ilLog"];
+		$this->error = $DIC["ilErr"];
+		$this->help = $DIC["ilHelp"];
+		$this->locator = $DIC["ilLocator"];
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 
 		$this->type = "mcst";
 		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
@@ -58,7 +92,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	
 	function executeCommand()
 	{
-  		global $ilUser, $ilTabs;
+		$ilUser = $this->user;
+		$ilTabs = $this->tabs;
   
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -162,7 +197,11 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	*/
 	function listItemsObject($a_presentation_mode = false)
 	{
-		global $tpl, $lng, $ilAccess, $ilTabs, $ilToolbar;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilAccess = $this->access;
+		$ilTabs = $this->tabs;
+		$ilToolbar = $this->toolbar;
 		
 		$this->checkPermission("read");
 		
@@ -216,7 +255,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	 */
 	function getFeedIconsHTML()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$html = "";
 		
@@ -301,7 +340,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	*/
 	function addCastItemObject()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$this->checkPermission("write");
 		
@@ -314,7 +353,9 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	*/
 	function editCastItemObject()
 	{
-		global $tpl, $ilToolbar, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilToolbar = $this->toolbar;
+		$ilCtrl = $this->ctrl;
 		
 		$this->checkPermission("write");
 		
@@ -399,7 +440,9 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	*/
 	function initAddCastItemForm($a_mode = "create")
 	{
-		global $lng, $ilCtrl, $ilTabs;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
 		
 		$this->checkPermission("write");
 		$ilTabs->activateTab("edit_content");
@@ -522,7 +565,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	*/
 	public function getCastItemValues()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		// get mob
 		$this->mcst_item = new ilNewsItem($_GET["item_id"]);
@@ -574,7 +617,11 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	*/
 	function saveCastItemObject()
 	{
-		global $tpl, $ilCtrl, $ilUser, $lng, $ilTabs;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilTabs = $this->tabs;
 
 		$this->checkPermission("write");
 		$ilTabs->activateTab("edit_content");
@@ -794,7 +841,9 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	*/
 	function updateCastItemObject()
 	{
-		global $tpl, $lng, $ilCtrl, $ilUser, $log;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
+		$ilLog = $this->log;
 		
 		$this->checkPermission("write");
 		
@@ -817,7 +866,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			    if ($this->form_gui->getInput("delete_".$purpose)) 
 			    {
 			        $mob->removeMediaItem($purpose);
-			        $log->write ("Mcst: deleting purpose $purpose");
+					$ilLog->write ("Mcst: deleting purpose $purpose");
 			        continue;
 			    }
 			    $media_item = $mob->getMediaItem($purpose);			    
@@ -899,7 +948,10 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	*/
 	function confirmDeletionItemsObject()
 	{
-		global $ilCtrl, $lng, $tpl, $ilTabs;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
 		
 		$this->checkPermission("write");
 		$ilTabs->activateTab("edit_content");
@@ -936,7 +988,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	*/
 	function deleteItemsObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$this->checkPermission("write");
 		
@@ -955,7 +1007,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	 */
 	function downloadItemObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		$this->checkPermission("read");		
 		
 		$news_item = new ilNewsItem($_GET["item_id"]);
@@ -965,7 +1017,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		}
 		else
 		{
-			global $ilUser;
+		$ilUser = $this->user;
 			$this->object->handleLPUpdate($ilUser->getId(), $news_item->getMobId());
 		}
 		exit;
@@ -976,7 +1028,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	*/
 	function determinePlaytimeObject()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$mc_item = new ilNewsItem($_GET["item_id"]);
 		$mob = $mc_item->getMobId();
@@ -1018,28 +1071,22 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	*/
 	function infoScreen()
 	{
-		global $ilAccess, $ilUser, $ilTabs;
+		$ilAccess = $this->access;
+		$ilErr = $this->error;
+		$ilTabs = $this->tabs;
 		
 		$ilTabs->activateTab("id_info");
 
 		if (!$ilAccess->checkAccess("visible", "", $this->object->getRefId()))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"), $ilErr->MESSAGE);
 		}
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 		
 		$info->enablePrivateNotes();
-		
-		/*
-		$info->enableNews();
-		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
-		{
-			//$info->enableNewsEditing();
-			$info->setBlockProperty("news", "settings", true);
-		}*/
-		
+
 		// general information
 		$this->lng->loadLanguageModule("meta");
 		$this->lng->loadLanguageModule("mcst");
@@ -1070,7 +1117,10 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	*/
 	function setTabs()
 	{
-		global $ilAccess, $ilTabs, $lng, $ilHelp;
+		$ilAccess = $this->access;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
+		$ilHelp = $this->help;
 		
 		$ilHelp->setScreenIdComponent("mcst");
 		
@@ -1133,7 +1183,9 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	 */
 	function addContentSubTabs($a_active = "content")
 	{
-		global $ilTabs, $ilAccess, $lng;
+		$ilTabs = $this->tabs;
+		$ilAccess = $this->access;
+		$lng = $this->lng;
 		
 		$ilTabs->addSubTab("content",
 			$lng->txt("view"),
@@ -1163,7 +1215,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	*/
 	function editSettingsObject()
 	{
-		global $tpl, $ilTabs;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
 		
 		$this->checkPermission("write");
 		$ilTabs->activateTab("id_settings");
@@ -1177,7 +1230,9 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	*/
 	function initSettingsForm()
 	{
-		global $tpl, $lng, $ilCtrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$lng->loadLanguageModule("mcst");
 		
@@ -1305,7 +1360,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	*/
 	function saveSettingsObject()
 	{
-		global $ilCtrl, $ilTabs;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
 		
 		$this->checkPermission("write");
 		$ilTabs->activateTab("id_settings");
@@ -1355,7 +1411,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	// add media cast to locator
 	function addLocatorItems()
 	{
-		global $ilLocator;
+		$ilLocator = $this->locator;
 		
 		if (is_object($this->object))
 		{
@@ -1365,7 +1421,11 @@ class ilObjMediaCastGUI extends ilObjectGUI
 
 	public static function _goto($a_target)
 	{
-		global $ilAccess, $ilErr, $lng;
+		global $DIC;
+
+		$ilAccess = $DIC->access();
+		$ilErr = $DIC["ilErr"];
+		$lng = $DIC->language();
 
 		if ($ilAccess->checkAccess("read", "", $a_target))
 		{
@@ -1433,7 +1493,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	
 	private function populateFormFromPost() 
 	{
-	    global $tpl;
+		$tpl = $this->tpl;
 	    //issue: we have to display the current settings
 	    // problem: POST does not contain values of disabled textfields
 	    // solution: use hidden field and label to display-> here we need to synchronize the labels
@@ -1452,7 +1512,9 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	
 	protected function editOrderObject()
 	{		
-		global $ilTabs, $lng, $tpl;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
 		
 		$this->checkPermission("write");
 		$ilTabs->activateTab("edit_content");
@@ -1485,7 +1547,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	
 	function saveOrderObject()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		asort($_POST["item_id"]);
 		
@@ -1512,7 +1574,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	 */
 	function showContentObject()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		// need read events for parent for LP statistics
 		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';						
@@ -1531,7 +1593,9 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	
 	function showGallery()
 	{
-		global $tpl, $ilTabs, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
 		
 		$tpl->addJavascript("./Modules/MediaCast/js/MediaCast.js");
 		
@@ -1631,7 +1695,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	 */
 	function convertFileObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$this->checkPermission("write");
 		
@@ -1691,7 +1755,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	 */
 	function extractPreviewImageObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$this->checkPermission("write");
 		
@@ -1760,7 +1824,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			$mob_id = $item->getMobId();
 			if($mob_id)
 			{						
-				global $ilUser;
+		$ilUser = $this->user;
 				$this->object->handleLPUpdate($ilUser->getId(), $mob_id);
 			}
 		}

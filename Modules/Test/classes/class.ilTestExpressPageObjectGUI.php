@@ -90,13 +90,17 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
                     'q_id' => $_GET['q_id'],
                     'cmd' => $_GET['cmd'],
                     'cmdClass' => $_GET['cmdClass'],
-                    'cmdNode' => $nodeParts[count($nodeParts) - 2] . ':' . $nodeParts[count($nodeParts) - 1],
                     'baseClass' => 'ilObjQuestionPoolGUI',
                     'test_express_mode' => '1'
                 );
-				
-                ilUtil::redirect('ilias.php?' . http_build_query($params, null, '&'));
-				
+
+				ilUtil::redirect(
+					'ilias.php' . ilUtil::appendUrlParameterString(
+						'?' . http_build_query($params, null, '&'),
+						'cmdNode=' . ($nodeParts[count($nodeParts) - 2] . ':' . $nodeParts[count($nodeParts) - 1])
+					)
+				);
+
                 break;
 
             case "ilpageeditorgui":
@@ -127,6 +131,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 				if($cmd == 'view')
 				{
 					$cmd = 'showPage';
+					$ilCtrl->setCmd($cmd);
 				}
 
 				$q_gui = assQuestionGUI::_getQuestionGUI('', (int)$_REQUEST["q_id"]);

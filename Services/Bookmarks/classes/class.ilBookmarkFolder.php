@@ -14,19 +14,21 @@
 class ilBookmarkFolder
 {
 	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
 	* tree
 	* @var object
 	* @access private
 	*/
 	var $tree;
-
-	/**
-	* ilias object
-	* @var object ilias
-	* @access private
-	*/
-	var $ilias;
-
 	var $id;
 	var $title;
 	var $parent;
@@ -38,10 +40,11 @@ class ilBookmarkFolder
 	*/
 	function __construct($a_bmf_id = 0, $a_tree_id = 0)
 	{
-		global $ilias;
+		global $DIC;
 
+		$this->db = $DIC->database();
+		$this->error = $DIC["ilErr"];
 		// Initiate variables
-		$this->ilias = $ilias;
 		if ($a_tree_id == 0)
 		{
 			$a_tree_id = $GLOBALS['DIC']['ilUser']->getId();
@@ -62,7 +65,8 @@ class ilBookmarkFolder
 	*/
 	function read()
 	{
-		global $ilias, $ilDB;
+		$ilDB = $this->db;
+		$ilErr = $this->error;
 
 		$q = "SELECT * FROM bookmark_data WHERE obj_id = ".
 			$ilDB->quote($this->getId(), "integer");
@@ -70,7 +74,7 @@ class ilBookmarkFolder
 		if ($ilDB->numRows($bmf_set) == 0)
 		{
 			$message = "ilBookmarkFolder::read(): Bookmark Folder with id ".$this->getId()." not found!";
-			$ilias->raiseError($message,$ilias->error_obj->WARNING);
+			$ilErr->raiseError($message, $ilErr->WARNING);
 		}
 		else
 		{
@@ -85,7 +89,7 @@ class ilBookmarkFolder
 	*/
 	function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$q = "DELETE FROM bookmark_data WHERE obj_id = ".$ilDB->quote($this->getId(), "integer");
 		$ilDB->query($q);
@@ -96,7 +100,7 @@ class ilBookmarkFolder
 	*/
 	function createNewBookmarkTree()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		/*
 		$q = "INSERT INTO bookmark_data (user_id, title, target, type) ".
@@ -113,7 +117,7 @@ class ilBookmarkFolder
 	*/
 	function create()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$this->setId($ilDB->nextId("bookmark_data"));
 		$q = sprintf(
@@ -134,7 +138,7 @@ class ilBookmarkFolder
 	*/
 	function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$q = sprintf(
 				"UPDATE bookmark_data SET title=%s ".
@@ -181,7 +185,9 @@ class ilBookmarkFolder
 	*/
 	static function _lookupTitle($a_bmf_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$q = "SELECT * FROM bookmark_data WHERE obj_id = ".
 			$ilDB->quote($a_bmf_id, "integer");

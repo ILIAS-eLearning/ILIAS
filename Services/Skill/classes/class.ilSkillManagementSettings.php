@@ -39,6 +39,25 @@ class ilSkillManagementSettings extends ilSetting
 		return $this->get("enable_skmg");
 	}
 	
+	/**
+	 * Set hide profile values before self evaluations
+	 *
+	 * @param bool $a_val hide profile	
+	 */
+	function setHideProfileBeforeSelfEval($a_val)
+	{
+		$this->set("hide_profile_self_eval", (int) $a_val);
+	}
+	
+	/**
+	 * Get hide profile values before self evaluations
+	 *
+	 * @return bool hide profile
+	 */
+	function getHideProfileBeforeSelfEval()
+	{
+		return $this->get("hide_profile_self_eval");
+	}
 }
 
 ?>

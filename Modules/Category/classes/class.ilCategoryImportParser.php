@@ -33,6 +33,21 @@ require_once("./Services/Xml/classes/class.ilSaxParser.php");
 */
 class ilCategoryImportParser extends ilSaxParser
 {
+	/**
+	 * @var ilRbacAdmin
+	 */
+	protected $rbacadmin;
+
+	/**
+	 * @var ilRbacReview
+	 */
+	protected $rbacreview;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
 	var $parent;		// current parent ref id
 	var $withrol;          // must have value '1' when creating a hierarchy of local roles
 
@@ -48,6 +63,11 @@ class ilCategoryImportParser extends ilSaxParser
 	*/
 	public function __construct($a_xml_file, $a_parent,$withrol)
 	{
+		global $DIC;
+
+		$this->rbacadmin = $DIC->rbac()->admin();
+		$this->rbacreview = $DIC->rbac()->review();
+		$this->rbacsystem = $DIC->rbac()->system();
 		$this->parent_cnt = 0;
 		$this->parent[$this->parent_cnt] = $a_parent;
 		$this->parent_cnt++;
@@ -111,7 +131,9 @@ class ilCategoryImportParser extends ilSaxParser
 	  
  	{
 	  
-	  global $rbacadmin, $rbacreview, $rbacsystem;
+		$rbacadmin = $this->rbacadmin;
+		$rbacreview = $this->rbacreview;
+		$rbacsystem = $this->rbacsystem;
 	  
 	  switch($a_name)
 		{
@@ -142,8 +164,6 @@ class ilCategoryImportParser extends ilSaxParser
 	*/
 	function handlerEndTag($a_xml_parser, $a_name)
 	{
-		global $ilias, $rbacadmin;
-
 		switch($a_name)
 		{
 			case "Category":

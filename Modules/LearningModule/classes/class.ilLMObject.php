@@ -16,7 +16,11 @@ require_once("Services/MetaData/classes/class.ilMDLanguageItem.php");
 */
 class ilLMObject
 {
-	var $ilias;
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	var $lm_id;
 	var $type;
 	var $id;
@@ -24,16 +28,25 @@ class ilLMObject
 	var $data_record;		// assoc array of lm_data record
 	var $content_object;
 	var $title;
+	var $short_title;
 	var $description;
 	var $active = true;
 	static protected $data_records = array();
+
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
 
 	/**
 	* @param	object		$a_content_obj		content object (digi book or learning module)
 	*/
 	function __construct($a_content_obj, $a_id = 0)
 	{
-		global $ilias;
+		global $DIC;
+		$this->user = $DIC->user();
+
+		$this->db = $DIC->database();
 
 		$this->id = $a_id;
 		$this->setContentObject($a_content_obj);
@@ -127,7 +140,7 @@ class ilLMObject
 	{
 		include_once 'Services/MetaData/classes/class.ilMDCreator.php';
 
-		global $ilUser;
+		$ilUser = $this->user;
 
 		$md_creator = new ilMDCreator($this->getLMId(), $this->getId(), $this->getType());
 		$md_creator->setTitle($this->getTitle());
@@ -190,9 +203,7 @@ class ilLMObject
 
 	function read()
 	{
-		global $ilBench, $ilDB;
-
-		$ilBench->start("ContentPresentation", "ilLMObject_read");
+		$ilDB = $this->db;
 
 		if(!isset($this->data_record))
 		{
@@ -205,10 +216,8 @@ class ilLMObject
 		$this->type = $this->data_record["type"];
 		$this->setImportId($this->data_record["import_id"]);
 		$this->setTitle($this->data_record["title"]);
+		$this->setShortTitle($this->data_record["short_title"]);
 		$this->setLayout($this->data_record["layout"]);
-		//$this->setActive(ilUtil::yn2tf($this->data_record["active"]));
-
-		$ilBench->stop("ContentPresentation", "ilLMObject_read");
 	}
 
 
@@ -220,7 +229,9 @@ class ilLMObject
 	 */
 	static function preloadDataByLM($a_lm_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->query("SELECT * FROM lm_data ".
 			" WHERE lm_id = ".$ilDB->quote($a_lm_id, "integer")
@@ -234,48 +245,92 @@ class ilLMObject
 
 
 	/**
-	* set title of lm object
-	*
-	* @param	string		$a_title	title of chapter or page
-	*/
+	 * set title of lm object
+	 *
+	 * @param	string		$a_title	title of chapter or page
+	 */
 	function setTitle($a_title)
 	{
 		$this->title = $a_title;
 	}
 
 	/**
-	* get title of lm object
-	*
-	* @return	string		title of chapter or page
-	*/
+	 * get title of lm object
+	 *
+	 * @return	string		title of chapter or page
+	 */
 	function getTitle()
 	{
 		return $this->title;
 	}
 
+	/**
+	 * set short title of lm object
+	 *
+	 * @param	string		$a_title	short title of chapter or page
+	 */
+	function setShortTitle($a_title)
+	{
+		$this->short_title = $a_title;
+	}
 
 	/**
-	* Lookup title
-	*
-	* @param	int		lm object id
-	*/
-	static function _lookupTitle($a_obj_id)
+	 * get short title of lm object
+	 *
+	 * @return	string		short title of chapter or page
+	 */
+	function getShortTitle()
 	{
-		global $ilDB;
+		return $this->short_title;
+	}
+
+
+	/**
+	 * Lookup title
+	 *
+	 * @param	int		lm object id
+	 */
+	protected static function _lookup($a_obj_id, $a_field)
+	{
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		if (isset(self::$data_records[$a_obj_id]))
 		{
-			return self::$data_records[$a_obj_id]["title"];
+			return self::$data_records[$a_obj_id][$a_field];
 		}
 
-		$query = "SELECT title FROM lm_data WHERE obj_id = ".
+		$query = "SELECT ".$a_field." FROM lm_data WHERE obj_id = ".
 			$ilDB->quote($a_obj_id, "integer");
 		$obj_set = $ilDB->query($query);
 		$obj_rec = $ilDB->fetchAssoc($obj_set);
 
-		return $obj_rec["title"];
+		return $obj_rec[$a_field];
 	}
-	
+
+	/**
+	 * Lookup title
+	 *
+	 * @param int $a_obj_id object id
+	 * @return string
+	 */
+	static function _lookupTitle($a_obj_id)
+	{
+		return self::_lookup($a_obj_id, "title");
+	}
+
+	/**
+	 * Lookup short title
+	 *
+	 * @param int $a_obj_id object id
+	 * @return string
+	 */
+	static function _lookupShortTitle($a_obj_id)
+	{
+		return self::_lookup($a_obj_id, "short_title");
+	}
+
 	/**
 	* Lookup type
 	*
@@ -284,7 +339,9 @@ class ilLMObject
 	*/
 	static function _lookupType($a_obj_id, $a_lm_id = 0)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		if (isset(self::$data_records[$a_obj_id]))
 		{
@@ -309,7 +366,9 @@ class ilLMObject
 
 	static function _writeTitle($a_obj_id, $a_title)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$query = "UPDATE lm_data SET ".
 			" title = ".$ilDB->quote($a_title, "text").
@@ -408,7 +467,9 @@ class ilLMObject
 	*/
 	static function _writeImportId($a_id, $a_import_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$q = "UPDATE lm_data ".
 			"SET ".
@@ -421,18 +482,19 @@ class ilLMObject
 
 	function create($a_upload = false)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		// insert object data
 		$this->setId($ilDB->nextId("lm_data"));
-		$query = "INSERT INTO lm_data (obj_id, title, type, layout, lm_id, import_id, create_date) ".
+		$query = "INSERT INTO lm_data (obj_id, title, type, layout, lm_id, import_id, short_title, create_date) ".
 			"VALUES (".
 			$ilDB->quote($this->getId(), "integer").",".
 			$ilDB->quote($this->getTitle(), "text").",".
 			$ilDB->quote($this->getType(), "text").", ".
 			$ilDB->quote($this->getLayout(), "text").", ".
 			$ilDB->quote($this->getLMId(), "integer").",".
-			$ilDB->quote($this->getImportId(), "text").
+			$ilDB->quote($this->getImportId(), "text").",".
+			$ilDB->quote($this->getShortTitle(), "text").
 			", ".$ilDB->now().")";
 		$ilDB->manipulate($query);
 
@@ -453,13 +515,14 @@ class ilLMObject
 	*/
 	function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$this->updateMetaData();
 
 		$query = "UPDATE lm_data SET ".
 			" lm_id = ".$ilDB->quote($this->getLMId(), "integer").
 			" ,title = ".$ilDB->quote($this->getTitle(), "text").
+			" ,short_title = ".$ilDB->quote($this->getShortTitle(), "text").
 			" ,layout = ".$ilDB->quote($this->getLayout(), "text").
 			" WHERE obj_id = ".$ilDB->quote($this->getId(), "integer");
 
@@ -477,7 +540,11 @@ class ilLMObject
 	*/
 	static function _writePublicAccessStatus($a_pages,$a_cont_obj_id)
 	{
-		global $ilDB,$ilLog,$ilErr,$ilTree;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilLog = $DIC["ilLog"];
+		$ilErr = $DIC["ilErr"];
 		
 		if (!is_array($a_pages))
 		{$a_pages = array(0);
@@ -538,7 +605,10 @@ class ilLMObject
 	
 	static function _isPagePublic($a_node_id,$a_check_public_mode = false)
 	{
-		global $ilDB,$ilLog;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilLog = $DIC["ilLog"];
 
 		if (empty($a_node_id))
 		{
@@ -575,7 +645,7 @@ class ilLMObject
 	*/
 	function delete($a_delete_meta_data = true)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$query = "DELETE FROM lm_data WHERE obj_id = ".
 			$ilDB->quote($this->getId(), "integer");
@@ -597,7 +667,9 @@ class ilLMObject
 	*/
 	static function _getIdForImportId($a_import_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$q = "SELECT obj_id FROM lm_data WHERE import_id = ".
 			$ilDB->quote($a_import_id, "text")." ".
@@ -631,7 +703,9 @@ class ilLMObject
 	*/
 	static function _getAllObjectsForImportId($a_import_id, $a_in_lm = 0)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$where = ($a_in_lm > 0)
 			? " AND lm_id = ".$ilDB->quote($a_in_lm, "integer")." "
@@ -665,7 +739,9 @@ class ilLMObject
 	*/
 	static function _exists($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		include_once("./Services/Link/classes/class.ilInternalLink.php");
 		if (is_int(strpos($a_id, "_")))
@@ -692,7 +768,9 @@ class ilLMObject
 	*/
 	static function getObjectList($lm_id, $type = "")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$type_str = ($type != "")
 			? "AND type = ".$ilDB->quote($type, "text")." "
@@ -720,7 +798,9 @@ class ilLMObject
 	*/
 	static function _deleteAllObjectData(&$a_cobj)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$query = "SELECT * FROM lm_data ".
 			"WHERE lm_id= ".$ilDB->quote($a_cobj->getId(), "integer");
@@ -745,7 +825,9 @@ class ilLMObject
 	*/
 	static function _lookupContObjID($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		if (isset(self::$data_records[$a_id]))
 		{
@@ -765,7 +847,9 @@ class ilLMObject
 	*/
 	static function putInTree($a_obj, $a_parent_id = "", $a_target_node_id = "")
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC["ilLog"];
 		
 		$tree = new ilTree($a_obj->getContentObject()->getId());
 		$tree->setTableNames('lm_tree', 'lm_data');
@@ -884,7 +968,9 @@ class ilLMObject
 	*/
 	static function clipboardCopy($a_cont_obj_id, $a_ids)
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC->user();
 		
 		$tree = ilLMObject::getTree($a_cont_obj_id);
 		
@@ -926,14 +1012,17 @@ class ilLMObject
 	static function pasteTree($a_target_lm, $a_item_id, $a_parent_id, $a_target, $a_insert_time,
 		&$a_copied_nodes, $a_as_copy = false, $a_source_lm = null)
 	{
-		global $ilUser, $ilias, $ilLog;
+		global $DIC;
+
+		$ilUser = $DIC->user();
+		$ilLog = $DIC["ilLog"];
 		
 		include_once("./Modules/LearningModule/classes/class.ilStructureObject.php");
 		include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
 		
 		$item_lm_id = ilLMObject::_lookupContObjID($a_item_id);
 		$item_type = ilLMObject::_lookupType($a_item_id);
-		$lm_obj = $ilias->obj_factory->getInstanceByObjId($item_lm_id);
+		$lm_obj = ilObjectFactory::getInstanceByObjId($item_lm_id);
 		if ($item_type == "st")
 		{
 			$item = new ilStructureObject($lm_obj, $a_item_id);
@@ -1279,7 +1368,9 @@ class ilLMObject
 	*/
 	static function writeLayout($a_obj_id, $a_layout, $a_lm = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$t = ilLMObject::_lookupType($a_obj_id);
 		
@@ -1317,7 +1408,9 @@ class ilLMObject
 	*/
 	static function lookupLayout($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$query = "SELECT layout FROM lm_data WHERE obj_id = ".
 			$ilDB->quote($a_obj_id, "integer");
@@ -1354,7 +1447,9 @@ class ilLMObject
 	 */
 	static function _getAllLMObjectsOfLM($a_lm_id, $a_type = "")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$and = ($a_type != "")
 			? " AND type = ".$ilDB->quote($a_type, "text")
@@ -1384,7 +1479,9 @@ class ilLMObject
 	 */
 	public static function saveExportId($a_lm_id, $a_lmobj_id, $a_exp_id, $a_type = "pg")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		include_once("Services/MetaData/classes/class.ilMDIdentifier.php");
 
@@ -1537,6 +1634,65 @@ class ilLMObject
 		}
 	}
 
-	
+	/**
+	 * Get short titles
+	 *
+	 * @param
+	 * @return array
+	 */
+	static function getShortTitles($a_lm_id, $a_lang = "-")
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+
+		$title_data = array();
+		if ($a_lang == "-")
+		{
+			$set = $db->query("SELECT t.child, d.obj_id, d.title, d.short_title FROM lm_data d LEFT JOIN lm_tree t ON (d.obj_id = t.child) WHERE d.lm_id = " .
+				$db->quote($a_lm_id, "integer") . " ORDER BY t.lft, d.title");
+		}
+		else
+		{
+			$set = $db->query("SELECT t.child, d.obj_id, tr.title, tr.short_title, d.title default_title, d.short_title default_short_title FROM lm_data d ".
+				" LEFT JOIN lm_tree t ON (d.obj_id = t.child) ".
+				" LEFT JOIN lm_data_transl tr ON (tr.id = d.obj_id AND tr.lang=".$db->quote($a_lang, "text").") WHERE d.lm_id = " .
+				$db->quote($a_lm_id, "integer") . " ORDER BY t.lft, d.title");
+		}
+		while ($rec = $db->fetchAssoc($set))
+		{
+			$title_data[] = $rec;
+		}
+		return $title_data;
+	}
+
+	/**
+	 * Write short title
+	 *
+	 * @param integer $a_id object id
+	 * @param string $a_short_title short title
+	 */
+	static function writeShortTitle($a_id, $a_short_title, $a_lang = "-")
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+
+		if ($a_lang != "-" && $a_lang != "")
+		{
+			$trans = new ilLMObjTranslation($a_id, $a_lang);
+			$trans->setShortTitle($a_short_title);
+			$trans->save();
+		}
+		else
+		{
+			$db->manipulate("UPDATE lm_data SET " .
+				" short_title = " . $db->quote($a_short_title, "text") .
+				" WHERE obj_id = " . $db->quote($a_id, "integer")
+			);
+		}
+	}
+
+
 }
 ?>

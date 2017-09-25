@@ -43,6 +43,9 @@ class ilObjAdvancedEditing extends ilObject
 	*/
 	function __construct($a_id = 0,$a_call_by_reference = true)
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		include_once "./Services/Administration/classes/class.ilSetting.php";
 		$this->setting = new ilSetting("advanced_editing");
 		$this->type = "adve";
@@ -240,7 +243,7 @@ class ilObjAdvancedEditing extends ilObject
 	*/
 	function setUsedHTMLTags($a_html_tags, $a_module)
 	{
-		global $lng;		
+		$lng = $this->lng;
 		
 		if (strlen($a_module))
 		{
@@ -440,7 +443,9 @@ class ilObjAdvancedEditing extends ilObject
 	*/
 	public static function _setRichTextEditorUserState($a_state)
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC->user();
 		$ilUser->writePref("show_rte", $a_state);
 	}
 
@@ -454,7 +459,9 @@ class ilObjAdvancedEditing extends ilObject
 	*/
 	public static function _getRichTextEditorUserState()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC->user();
 		if (strlen($ilUser->getPref("show_rte")) > 0)
 		{
 			return $ilUser->getPref("show_rte");

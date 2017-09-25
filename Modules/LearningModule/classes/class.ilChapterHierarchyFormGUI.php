@@ -16,12 +16,22 @@ include_once("./Modules/LearningModule/classes/class.ilLMObjTranslation.php");
 class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 {
 	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
 	* Constructor
 	*
 	* @param
 	*/
 	function __construct($a_lm_type, $a_lang = "-")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$this->ctrl = $DIC->ctrl();
 		$this->lm_type = $a_lm_type;
 
 		$this->lang = ($a_lang == "")
@@ -67,7 +77,8 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 	*/
 	function getMenuItems($a_node, $a_depth, $a_first_child = false, $a_next_sibling = null, $a_childs = null)
 	{
-		global $lng, $ilUser;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 		
 		$cmds = array();
 		
@@ -164,7 +175,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 	*/
 	function manageDragAndDrop($a_node, $a_depth, $a_first_child_drop_area = false, $a_next_sibling = null, $a_childs = null)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$this->makeDragContent($a_node["node_id"], "grp_".$a_node["type"]);
 		
@@ -265,7 +276,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 	*/
 	function getChildIconAlt($a_item)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 		
@@ -300,7 +311,8 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 	*/
 	function getChildCommands($a_item)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$lm_class = "ilobjlearningmodulegui";
 		
