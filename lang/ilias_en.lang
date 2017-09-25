@@ -7479,6 +7479,7 @@ trac#:#trac_visits_info#:#A click counts as new visit only after %s seconds.
 trac#:#trac_visits#:#Required Number of Visits
 trac#:#view_mode#:#View Mode
 user#:#clipboard_add_btn#:#Add to Clipboard
+user#:#clipboard_add_from_btn#:#Add from Clipboard
 user#:#clipboard_user_added#:#Added selected users to clipboard.
 user#:#clipboard_table_title#:#Clipboard (User Accounts)
 user#:#clipboard_remove_btn#:#Remove from Clipboard
