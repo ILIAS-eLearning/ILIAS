@@ -12561,6 +12561,12 @@ table.mceToolbar td {
   }
   [dir="rtl"] #ilTopNav .navbar-nav {
     margin-right: 0;
+    padding-right: 0;
+  }
+  [dir="rtl"] #ilTopNav .navbar-nav > li > a {
+    float: right;
+    width: 100%;
+    margin: 0;
   }
   [dir="rtl"] #ilTopNav button.navbar-toggle {
     left: auto;
