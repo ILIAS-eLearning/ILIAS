@@ -9333,6 +9333,7 @@ trac#:#vm_access_of_users#:#Access of Users###deprecated
 trac#:#vm_days_of_period#:#Days of Period###deprecated 
 trac#:#vm_times_of_day#:#Times of Days###deprecated 
 user#:#clipboard_add_btn#:#Add to Clipboard
+user#:#clipboard_add_from_btn#:#Add from Clipboard
 user#:#clipboard_user_added#:#Added selected users to clipboard.
 user#:#clipboard_table_title#:#Clipboard (User Accounts)
 user#:#clipboard_remove_btn#:#Remove from Clipboard
