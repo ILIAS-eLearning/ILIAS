@@ -141,9 +141,17 @@
 		margin-right: 70px;
 		@media only screen and (max-width: @grid-float-breakpoint-max) {
 			margin-right: 0;
+			padding-right: 0;
 		}
 		> li {
-		margin: 0 10px 0 0;
+			margin: 0 10px 0 0;
+			> a {
+				@media only screen and (max-width: @grid-float-breakpoint-max) {
+					float: right;
+					width: 100%;
+					margin: 0;
+				}
+			}
 		}
 	}
 	&.navbar > .navbar-collapse {

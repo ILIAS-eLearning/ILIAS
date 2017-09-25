@@ -11525,10 +11525,18 @@ li.ilWikiBlockItem {
 @media only screen and (max-width: 767px) {
   [dir="rtl"] #ilTopNav .navbar-nav {
     margin-right: 0;
+    padding-right: 0;
   }
 }
 [dir="rtl"] #ilTopNav .navbar-nav > li {
   margin: 0 10px 0 0;
+}
+@media only screen and (max-width: 767px) {
+  [dir="rtl"] #ilTopNav .navbar-nav > li > a {
+    float: right;
+    width: 100%;
+    margin: 0;
+  }
 }
 [dir="rtl"] #ilTopNav.navbar > .navbar-collapse {
   padding: 0 5px 0 0;
