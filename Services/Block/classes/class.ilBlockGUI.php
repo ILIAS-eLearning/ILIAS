@@ -41,9 +41,14 @@ abstract class ilBlockGUI
 	protected $dropdown;
 
 	/**
-	 * @var ilTemplate|null
+	 * @var ilTemplate|null block template
 	 */
 	protected $tpl;
+
+	/**
+	 * @var ilTemplate|null main template
+	 */
+	protected $main_tpl;
 
 	/**
 	 * @var ilObjUser
@@ -83,12 +88,12 @@ abstract class ilBlockGUI
 		$this->ctrl = $DIC->ctrl();
 		$this->access = $DIC->access();
 		$this->lng = $DIC->language();
-		$this->tpl = $DIC["tpl"];
+		$this->main_tpl = $DIC["tpl"];
 		$this->obj_def = $DIC["objDefinition"];
 
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		ilYuiUtil::initConnection();
-		$this->tpl->addJavaScript("./Services/Block/js/ilblockcallback.js");
+		$this->main_tpl->addJavaScript("./Services/Block/js/ilblockcallback.js");
 
 		$this->setLimit($this->user->getPref("hits_per_page"));
 	}

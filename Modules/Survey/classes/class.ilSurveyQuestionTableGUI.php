@@ -24,7 +24,12 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, ilObjSurvey $a_survey_obj, $a_read_only = false)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 
 		$this->object = $a_survey_obj;
 		$this->read_only = (bool)$a_read_only;
@@ -89,7 +94,8 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 	 */
 	protected function importData()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$survey_questions = $this->object->getSurveyQuestions();
 		if (count($survey_questions) > 0)
@@ -207,7 +213,8 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		switch($a_set["type"])
 		{

@@ -23,9 +23,48 @@ require_once("./Services/COPage/classes/class.ilPCParagraph.php");
 */
 class ilGlossaryPresentationGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs_gui;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
+	 * @var ilNavigationHistory
+	 */
+	protected $nav_history;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
 	var $admin_tabs;
 	var $glossary;
-	var $ilias;
 	var $tpl;
 	var $lng;
 
@@ -35,12 +74,22 @@ class ilGlossaryPresentationGUI
 	*/
 	function __construct()
 	{
-		global $lng, $ilias, $tpl, $ilCtrl, $ilTabs;
+		global $DIC;
+
+		$this->access = $DIC->access();
+		$this->error = $DIC["ilErr"];
+		$this->nav_history = $DIC["ilNavigationHistory"];
+		$this->toolbar = $DIC->toolbar();
+		$this->user = $DIC->user();
+		$this->help = $DIC["ilHelp"];
+		$lng = $DIC->language();
+		$tpl = $DIC["tpl"];
+		$ilCtrl = $DIC->ctrl();
+		$ilTabs = $DIC->tabs();
 
 		$this->tabs_gui = $ilTabs;
 		$this->tpl = $tpl;
 		$this->lng = $lng;
-		$this->ilias = $ilias;
 		$this->ctrl = $ilCtrl;
 		$this->offline = false;
 		$this->ctrl->saveParameter($this, array("ref_id", "letter", "tax_node"));
@@ -118,7 +167,9 @@ class ilGlossaryPresentationGUI
 	 */
 	function executeCommand()
 	{
-		global $lng, $ilAccess, $ilias;
+		$lng = $this->lng;
+		$ilAccess = $this->access;
+		$ilErr = $this->error;
 		
 		$lng->loadLanguageModule("content");
 
@@ -130,7 +181,7 @@ class ilGlossaryPresentationGUI
 			!($ilAccess->checkAccess("visible", "", $_GET["ref_id"]) &&
 				($cmd == "infoScreen" || strtolower($next_class) == "ilinfoscreengui")))
 		{
-			$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($lng->txt("permission_denied"), $ilErr->MESSAGE);
 		}
 		
 		if ($cmd != "listDefinitions")
@@ -179,12 +230,18 @@ class ilGlossaryPresentationGUI
 	 */
 	function listTerms()
 	{
-		global $ilNavigationHistory, $ilAccess, $ilias, $lng, $ilToolbar, $ilCtrl, $ilTabs;
+		$ilNavigationHistory = $this->nav_history;
+		$ilAccess = $this->access;
+		$lng = $this->lng;
+		$ilToolbar = $this->toolbar;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs_gui;
+		$ilErr = $this->error;
 
 		
 		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
-			$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($lng->txt("permission_denied"), $ilErr->MESSAGE);
 		}
 		
 		if (!$this->offlineMode())
@@ -195,6 +252,7 @@ class ilGlossaryPresentationGUI
 			// alphabetical navigation
 			include_once("./Services/Form/classes/class.ilAlphabetInputGUI.php");
 			$ai = new ilAlphabetInputGUI($lng->txt("glo_quick_navigation"), "first");
+			$ai->setFixDBUmlauts(true);
 			$ai->setLetters($this->glossary->getFirstLetters($this->tax_node));
 			$ai->setParentCommand($this, "chooseLetter");
 			$ai->setHighlighted($_GET["letter"]);
@@ -218,11 +276,14 @@ class ilGlossaryPresentationGUI
 	*/
 	function listTermByGiven()
 	{
-		global $ilCtrl, $ilAccess, $ilias, $lng, $tpl;
+		$ilCtrl = $this->ctrl;
+		$ilAccess = $this->access;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
 		
 		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
-			$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($lng->txt("permission_denied"), $ilErr->MESSAGE);
 		}
 
 		$this->lng->loadLanguageModule("meta");
@@ -297,7 +358,7 @@ class ilGlossaryPresentationGUI
 	 */
 	function applyFilter()
 	{
-		global $ilTabs;
+		$ilTabs = $this->tabs_gui;
 
 		$prtab = $this->getPresentationTable();
 		$prtab->resetOffset();
@@ -323,7 +384,10 @@ class ilGlossaryPresentationGUI
 	*/
 	function listDefinitions($a_ref_id = 0, $a_term_id = 0, $a_get_html = false, $a_page_mode = IL_PAGE_PRESENTATION)
 	{
-		global $ilUser, $ilAccess, $ilias, $lng, $ilCtrl;
+		$ilUser = $this->user;
+		$ilAccess = $this->access;
+		$lng = $this->lng;
+		$ilErr = $this->error;
 
 		if ($a_ref_id == 0)
 		{
@@ -344,7 +408,7 @@ class ilGlossaryPresentationGUI
 		
 		if (!$ilAccess->checkAccess("read", "", $ref_id))
 		{
-			$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($lng->txt("permission_denied"), $ilErr->MESSAGE);
 		}
 
 		// tabs
@@ -588,7 +652,10 @@ class ilGlossaryPresentationGUI
 	 */
 	function showDefinitionTabs($a_act)
 	{
-		global $ilTabs, $lng, $ilCtrl, $ilHelp;
+		$ilTabs = $this->tabs_gui;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilHelp = $this->help;
 
 		if (!$this->offlineMode())
 		{
@@ -718,11 +785,13 @@ class ilGlossaryPresentationGUI
 	*/
 	function showDownloadList()
 	{
-		global $ilBench, $ilAccess, $ilias, $lng, $ilTabs;
+		$ilAccess = $this->access;
+		$lng = $this->lng;
+		$ilTabs = $this->tabs_gui;
 
 		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
-			$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($lng->txt("permission_denied"), $ilErr->MESSAGE);
 		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.glo_download_list.html", "Modules/Glossary");
@@ -837,11 +906,13 @@ class ilGlossaryPresentationGUI
 	*/
 	function downloadExportFile()
 	{
-		global $ilAccess, $ilias, $lng;
+		$ilAccess = $this->access;
+		$ilErr = $this->error;
+		$lng = $this->lng;
 		
 		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
-			$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($lng->txt("permission_denied"), $ilErr->error_obj->MESSAGE);
 		}
 
 		$file = $this->glossary->getPublicExportFile($_GET["type"]);
@@ -854,7 +925,7 @@ class ilGlossaryPresentationGUI
 				exit;
 			}
 		}
-		$this->ilias->raiseError($this->lng->txt("file_not_found"),$this->ilias->error_obj->MESSAGE);
+		$ilErr->raiseError($this->lng->txt("file_not_found"),$ilErr->MESSAGE);
 	}
 
 	/**
@@ -885,11 +956,13 @@ class ilGlossaryPresentationGUI
 	*/
 	function downloadFile()
 	{
-		global $ilAccess, $ilias, $lng;
+		$ilAccess = $this->access;
+		$ilErr = $this->error;
+		$lng = $this->lng;
 		
 		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
-			$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($lng->txt("permission_denied"), $ilErr->MESSAGE);
 		}
 
 		$file = explode("_", $_GET["file_id"]);
@@ -1138,7 +1211,12 @@ class ilGlossaryPresentationGUI
 	 */
 	function printViewSelection()
 	{
-		global $ilUser, $lng, $ilToolbar, $ilCtrl, $tpl, $ilTabs;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilToolbar = $this->toolbar;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs_gui;
 
 		$ilCtrl->saveParameter($this, "term_id");
 		
@@ -1165,7 +1243,8 @@ class ilGlossaryPresentationGUI
 	 */
 	public function initPrintViewSelectionForm()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$terms = $this->glossary->getTermList();
 
@@ -1238,7 +1317,8 @@ class ilGlossaryPresentationGUI
 	 */
 	function printView()
 	{
-		global $ilAccess, $tpl;
+		$ilAccess = $this->access;
+		$tpl = $this->tpl;
 
 		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
@@ -1327,7 +1407,10 @@ class ilGlossaryPresentationGUI
 	*/
 	function getTabs()
 	{
-		global $ilAccess, $lng, $ilCtrl, $ilHelp;
+		$ilAccess = $this->access;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilHelp = $this->help;
 		
 		$ilHelp->setScreenIdComponent("glo");
 		
@@ -1420,7 +1503,8 @@ class ilGlossaryPresentationGUI
 	*/
 	function outputInfoScreen()
 	{
-		global $ilBench, $ilAccess, $ilTabs;
+		$ilAccess = $this->access;
+		$ilTabs = $this->tabs_gui;
 
 		$this->setTabs();
 		$ilTabs->activateTab("info");
@@ -1487,7 +1571,7 @@ class ilGlossaryPresentationGUI
 	 */
 	function chooseLetter()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$ilCtrl->redirect($this, "listTerms");
 	}
@@ -1500,7 +1584,8 @@ class ilGlossaryPresentationGUI
 	 */
 	function showTaxonomy()
 	{
-		global $tpl, $lng;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 		if (!$this->offlineMode() && $this->glossary->getShowTaxonomy())
 		{
 			include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");

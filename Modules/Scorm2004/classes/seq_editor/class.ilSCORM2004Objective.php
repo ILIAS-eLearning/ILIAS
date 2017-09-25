@@ -155,7 +155,9 @@ class ilSCORM2004Objective extends ilSCORM2004Item
 	
 	static function fetchAllObjectives($a_slm_object,$a_tree_node_id) 
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$objectives = array();
 		$seq_item = new ilSCORM2004Item($a_tree_node_id);

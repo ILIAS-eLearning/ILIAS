@@ -20,11 +20,46 @@ include_once("./Modules/ItemGroup/classes/class.ilObjItemGroup.php");
 class ilObjItemGroupGUI extends ilObject2GUI
 {
 	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
+	{
+		global $DIC;
+		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
+
+		$this->lng = $DIC->language();
+		$this->tabs = $DIC->tabs();
+		$this->access = $DIC->access();
+		$this->tpl = $DIC["tpl"];
+		$this->ctrl = $DIC->ctrl();
+		$this->locator = $DIC["ilLocator"];
+		$this->tree = $DIC->repositoryTree();
+		$this->help = $DIC["ilHelp"];
+		$this->error = $DIC["ilErr"];
+	}
+
+	/**
 	 * Initialisation
 	 */
 	protected function afterConstructor()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$lng->loadLanguageModule("itgr");
 		
@@ -44,7 +79,12 @@ class ilObjItemGroupGUI extends ilObject2GUI
 	*/
 	function executeCommand()
 	{
-		global $ilTabs, $lng, $ilAccess, $tpl, $ilCtrl, $ilLocator;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
+		$ilAccess = $this->access;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$ilLocator = $this->locator;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -89,7 +129,8 @@ class ilObjItemGroupGUI extends ilObject2GUI
 	 */
 	public function addLocatorItems()
 	{
-		global $ilLocator, $ilAccess;
+		$ilLocator = $this->locator;
+		$ilAccess = $this->access;
 		
 		if (is_object($this->object) && $ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
@@ -141,7 +182,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
 	 */
 	protected function afterSave(ilObject $a_new_object)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		ilUtil::sendSuccess($this->lng->txt("object_added"), true);		
 		$ilCtrl->redirect($this, "listMaterials");
@@ -156,7 +197,9 @@ class ilObjItemGroupGUI extends ilObject2GUI
 	 */
 	public function listMaterials()
 	{
-		global $tree, $ilTabs, $tpl;
+		$tree = $this->tree;
+		$ilTabs = $this->tabs;
+		$tpl = $this->tpl;
 		
 		$this->checkPermission("write");
 		
@@ -180,7 +223,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
 	 */
 	public function saveItemAssignment()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$this->checkPermission("write");
 
@@ -213,7 +256,12 @@ class ilObjItemGroupGUI extends ilObject2GUI
 	 */
 	function setTabs()
 	{
-		global $ilAccess, $ilTabs, $ilCtrl, $ilHelp, $lng, $tree;
+		$ilAccess = $this->access;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
+		$ilHelp = $this->help;
+		$lng = $this->lng;
+		$tree = $this->tree;
 		
 		$ilHelp->setScreenIdComponent("itgr");
 		
@@ -252,7 +300,12 @@ class ilObjItemGroupGUI extends ilObject2GUI
 	 */
 	public static function _goto($a_target)
 	{
-		global $ilAccess, $ilErr, $lng, $tree;
+		global $DIC;
+
+		$ilAccess = $DIC->access();
+		$ilErr = $DIC["ilErr"];
+		$lng = $DIC->language();
+		$tree = $DIC->repositoryTree();
 		
 		$targets = explode('_',$a_target);
 		$ref_id = $targets[0];
@@ -279,7 +332,10 @@ class ilObjItemGroupGUI extends ilObject2GUI
 	 */
 	function gotoParent()
 	{
-		global $ilAccess, $ilErr, $lng, $tree;
+		$ilAccess = $this->access;
+		$ilErr = $this->error;
+		$lng = $this->lng;
+		$tree = $this->tree;
 		
 		$ref_id = $this->object->getRefId();
 		$par_id = $tree->getParentId($ref_id);
@@ -330,6 +386,20 @@ class ilObjItemGroupGUI extends ilObject2GUI
 			? $a_form->getInput("behaviour")
 			: ilItemGroupBehaviour::ALWAYS_OPEN;
 		$this->object->setBehaviour($behaviour);
+	}
+
+	/**
+	 * Init object creation form
+	 *
+	 * @param	string	$a_new_type
+	 * @return	ilPropertyFormGUI
+	 */
+	protected function initCreateForm($a_new_type)
+	{
+		$form = parent::initCreateForm($a_new_type);
+		$ta = $form->getItemByPostVar("desc");
+		$ta->setInfo($this->lng->txt("itgr_desc_info"));
+		return $form;
 	}
 
 

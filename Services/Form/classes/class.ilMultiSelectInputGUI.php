@@ -77,6 +77,9 @@ class ilMultiSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterIt
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("multi_select");
 		$this->setValue(array());
@@ -195,7 +198,7 @@ class ilMultiSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterIt
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if (is_array($_POST[$this->getPostVar()]))
 		{
@@ -223,7 +226,7 @@ class ilMultiSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterIt
 	*/
 	function render()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$tpl = new ilTemplate("tpl.prop_multi_select.html", true, true, "Services/Form");
 		$values = $this->getValue();

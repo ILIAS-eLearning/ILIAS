@@ -23,7 +23,10 @@ class ilContainerPageGUI extends ilPageObjectGUI
 	*/
 	function __construct($a_id = 0, $a_old_nr = 0, $a_lang = "")
 	{
-		global $tpl;
+		global $DIC;
+
+		$this->tpl = $DIC["tpl"];
+		$tpl = $DIC["tpl"];
 
 		parent::__construct("cont", $a_id, $a_old_nr, false, $a_lang);
 	}

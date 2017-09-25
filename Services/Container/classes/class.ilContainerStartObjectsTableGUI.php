@@ -12,11 +12,19 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
  */
 class ilContainerStartObjectsTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
 	protected $start_obj; // [ilContainerStartObjects]
 	
 	public function __construct($a_parent_obj, $a_parent_cmd, ilContainerStartObjects $a_start_objects)
 	{
-	 	global $lng, $ilCtrl;
+		global $DIC;
+
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
 		
 	 	$this->lng = $lng;	
 	 	$this->ctrl = $ilCtrl;

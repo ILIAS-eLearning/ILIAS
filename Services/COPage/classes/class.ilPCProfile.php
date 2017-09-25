@@ -17,6 +17,11 @@ require_once("./Services/COPage/classes/class.ilPageContent.php");
 */
 class ilPCProfile extends ilPageContent
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	var $dom;
 
 	/**
@@ -24,6 +29,9 @@ class ilPCProfile extends ilPageContent
 	*/
 	function init()
 	{
+		global $DIC;
+
+		$this->user = $DIC->user();
 		$this->setType("prof");
 	}
 
@@ -58,7 +66,7 @@ class ilPCProfile extends ilPageContent
 	 */
 	function setFields($a_mode, array $a_fields = null)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$this->prof_node->set_attribute("Mode", $a_mode);
 		$this->prof_node->set_attribute("User", $ilUser->getId());

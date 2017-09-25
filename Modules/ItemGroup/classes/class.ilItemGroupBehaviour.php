@@ -22,7 +22,9 @@ class ilItemGroupBehaviour
 	 */
 	static function getAll()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 
 		return array(
 			self::ALWAYS_OPEN => $lng->txt("itgr_always_open"),

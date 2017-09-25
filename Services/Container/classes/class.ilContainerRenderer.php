@@ -10,6 +10,21 @@ require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 */
 class ilContainerRenderer
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
 	// switches
 	protected $enable_manage_select_all; // [bool]
 	protected $enable_multi_download; // [bool]	
@@ -47,6 +62,11 @@ class ilContainerRenderer
 	 */
 	public function __construct($a_enable_manage_select_all = false, $a_enable_multi_download = false, $a_active_block_ordering = false, array $a_block_custom_positions = null)
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->settings = $DIC->settings();
+		$this->obj_definition = $DIC["objDefinition"];
 		$this->enable_manage_select_all = (bool)$a_enable_manage_select_all;
 		$this->enable_multi_download = (bool)$a_enable_multi_download;				
 		$this->active_block_ordering = (bool)$a_active_block_ordering;			
@@ -548,7 +568,9 @@ class ilContainerRenderer
 	 */
 	protected function addHeaderRow(ilTemplate $a_tpl, $a_type = "", $a_text = "", array $a_types_in_block = null, $a_commands_html = null, $a_order_id = null, $a_data = array())
 	{
-		global $lng, $ilSetting, $objDefinition;
+		$lng = $this->lng;
+		$ilSetting = $this->settings;
+		$objDefinition = $this->obj_definition;
 
 		$a_tpl->setVariable("CB_ID", ' id="bl_cntr_'.(++$this->bl_cnt).'"');
 
@@ -675,7 +697,7 @@ class ilContainerRenderer
 	 */
 	protected function renderSelectAllBlock(ilTemplate $a_tpl)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$a_tpl->setCurrentBlock("select_all_row");
 		$a_tpl->setVariable("CHECKBOXNAME", "bl_cb_".$this->bl_cnt);
@@ -722,7 +744,7 @@ class ilContainerRenderer
 	 */
 	public function renderDetails(ilTemplate $a_tpl)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if(sizeof($this->details))
 		{

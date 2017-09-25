@@ -16,7 +16,11 @@ require_once("Services/MetaData/classes/class.ilMDLanguageItem.php");
 */
 class ilLMObject
 {
-	var $ilias;
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	var $lm_id;
 	var $type;
 	var $id;
@@ -40,6 +44,7 @@ class ilLMObject
 	function __construct($a_content_obj, $a_id = 0)
 	{
 		global $DIC;
+		$this->user = $DIC->user();
 
 		$this->db = $DIC->database();
 
@@ -135,7 +140,7 @@ class ilLMObject
 	{
 		include_once 'Services/MetaData/classes/class.ilMDCreator.php';
 
-		global $ilUser;
+		$ilUser = $this->user;
 
 		$md_creator = new ilMDCreator($this->getLMId(), $this->getId(), $this->getType());
 		$md_creator->setTitle($this->getTitle());
@@ -198,9 +203,7 @@ class ilLMObject
 
 	function read()
 	{
-		global $ilBench, $ilDB;
-
-		$ilBench->start("ContentPresentation", "ilLMObject_read");
+		$ilDB = $this->db;
 
 		if(!isset($this->data_record))
 		{
@@ -215,9 +218,6 @@ class ilLMObject
 		$this->setTitle($this->data_record["title"]);
 		$this->setShortTitle($this->data_record["short_title"]);
 		$this->setLayout($this->data_record["layout"]);
-		//$this->setActive(ilUtil::yn2tf($this->data_record["active"]));
-
-		$ilBench->stop("ContentPresentation", "ilLMObject_read");
 	}
 
 
@@ -229,7 +229,9 @@ class ilLMObject
 	 */
 	static function preloadDataByLM($a_lm_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->query("SELECT * FROM lm_data ".
 			" WHERE lm_id = ".$ilDB->quote($a_lm_id, "integer")
@@ -290,7 +292,9 @@ class ilLMObject
 	 */
 	protected static function _lookup($a_obj_id, $a_field)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		if (isset(self::$data_records[$a_obj_id]))
 		{
@@ -335,7 +339,9 @@ class ilLMObject
 	*/
 	static function _lookupType($a_obj_id, $a_lm_id = 0)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		if (isset(self::$data_records[$a_obj_id]))
 		{
@@ -360,7 +366,9 @@ class ilLMObject
 
 	static function _writeTitle($a_obj_id, $a_title)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$query = "UPDATE lm_data SET ".
 			" title = ".$ilDB->quote($a_title, "text").
@@ -459,7 +467,9 @@ class ilLMObject
 	*/
 	static function _writeImportId($a_id, $a_import_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$q = "UPDATE lm_data ".
 			"SET ".
@@ -472,7 +482,7 @@ class ilLMObject
 
 	function create($a_upload = false)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		// insert object data
 		$this->setId($ilDB->nextId("lm_data"));
@@ -505,7 +515,7 @@ class ilLMObject
 	*/
 	function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$this->updateMetaData();
 
@@ -530,7 +540,11 @@ class ilLMObject
 	*/
 	static function _writePublicAccessStatus($a_pages,$a_cont_obj_id)
 	{
-		global $ilDB,$ilLog,$ilErr,$ilTree;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilLog = $DIC["ilLog"];
+		$ilErr = $DIC["ilErr"];
 		
 		if (!is_array($a_pages))
 		{$a_pages = array(0);
@@ -591,7 +605,10 @@ class ilLMObject
 	
 	static function _isPagePublic($a_node_id,$a_check_public_mode = false)
 	{
-		global $ilDB,$ilLog;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilLog = $DIC["ilLog"];
 
 		if (empty($a_node_id))
 		{
@@ -628,7 +645,7 @@ class ilLMObject
 	*/
 	function delete($a_delete_meta_data = true)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$query = "DELETE FROM lm_data WHERE obj_id = ".
 			$ilDB->quote($this->getId(), "integer");
@@ -650,7 +667,9 @@ class ilLMObject
 	*/
 	static function _getIdForImportId($a_import_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$q = "SELECT obj_id FROM lm_data WHERE import_id = ".
 			$ilDB->quote($a_import_id, "text")." ".
@@ -684,7 +703,9 @@ class ilLMObject
 	*/
 	static function _getAllObjectsForImportId($a_import_id, $a_in_lm = 0)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$where = ($a_in_lm > 0)
 			? " AND lm_id = ".$ilDB->quote($a_in_lm, "integer")." "
@@ -718,7 +739,9 @@ class ilLMObject
 	*/
 	static function _exists($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		include_once("./Services/Link/classes/class.ilInternalLink.php");
 		if (is_int(strpos($a_id, "_")))
@@ -745,7 +768,9 @@ class ilLMObject
 	*/
 	static function getObjectList($lm_id, $type = "")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$type_str = ($type != "")
 			? "AND type = ".$ilDB->quote($type, "text")." "
@@ -773,7 +798,9 @@ class ilLMObject
 	*/
 	static function _deleteAllObjectData(&$a_cobj)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$query = "SELECT * FROM lm_data ".
 			"WHERE lm_id= ".$ilDB->quote($a_cobj->getId(), "integer");
@@ -798,7 +825,9 @@ class ilLMObject
 	*/
 	static function _lookupContObjID($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		if (isset(self::$data_records[$a_id]))
 		{
@@ -818,7 +847,9 @@ class ilLMObject
 	*/
 	static function putInTree($a_obj, $a_parent_id = "", $a_target_node_id = "")
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC["ilLog"];
 		
 		$tree = new ilTree($a_obj->getContentObject()->getId());
 		$tree->setTableNames('lm_tree', 'lm_data');
@@ -937,7 +968,9 @@ class ilLMObject
 	*/
 	static function clipboardCopy($a_cont_obj_id, $a_ids)
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC->user();
 		
 		$tree = ilLMObject::getTree($a_cont_obj_id);
 		
@@ -979,14 +1012,17 @@ class ilLMObject
 	static function pasteTree($a_target_lm, $a_item_id, $a_parent_id, $a_target, $a_insert_time,
 		&$a_copied_nodes, $a_as_copy = false, $a_source_lm = null)
 	{
-		global $ilUser, $ilias, $ilLog;
+		global $DIC;
+
+		$ilUser = $DIC->user();
+		$ilLog = $DIC["ilLog"];
 		
 		include_once("./Modules/LearningModule/classes/class.ilStructureObject.php");
 		include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
 		
 		$item_lm_id = ilLMObject::_lookupContObjID($a_item_id);
 		$item_type = ilLMObject::_lookupType($a_item_id);
-		$lm_obj = $ilias->obj_factory->getInstanceByObjId($item_lm_id);
+		$lm_obj = ilObjectFactory::getInstanceByObjId($item_lm_id);
 		if ($item_type == "st")
 		{
 			$item = new ilStructureObject($lm_obj, $a_item_id);
@@ -1332,7 +1368,9 @@ class ilLMObject
 	*/
 	static function writeLayout($a_obj_id, $a_layout, $a_lm = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$t = ilLMObject::_lookupType($a_obj_id);
 		
@@ -1370,7 +1408,9 @@ class ilLMObject
 	*/
 	static function lookupLayout($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$query = "SELECT layout FROM lm_data WHERE obj_id = ".
 			$ilDB->quote($a_obj_id, "integer");
@@ -1407,7 +1447,9 @@ class ilLMObject
 	 */
 	static function _getAllLMObjectsOfLM($a_lm_id, $a_type = "")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$and = ($a_type != "")
 			? " AND type = ".$ilDB->quote($a_type, "text")
@@ -1437,7 +1479,9 @@ class ilLMObject
 	 */
 	public static function saveExportId($a_lm_id, $a_lmobj_id, $a_exp_id, $a_type = "pg")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		include_once("Services/MetaData/classes/class.ilMDIdentifier.php");
 

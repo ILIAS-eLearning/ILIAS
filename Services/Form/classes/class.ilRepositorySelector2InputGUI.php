@@ -28,7 +28,10 @@ class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
 	 */
 	function __construct($a_title, $a_postvar, $a_multi = false)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$ilCtrl = $DIC->ctrl();
 
 		$this->multi_nodes = $a_multi;
 		$this->postvar = $a_postvar;
@@ -119,7 +122,7 @@ class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
 	 */
 	function getHTML()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		$ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $this->postvar);
 		$html = parent::getHTML();
 		$ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $_REQUEST["postvar"]);
@@ -131,7 +134,7 @@ class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
 	 */
 	function render($a_mode = "property_form")
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		$ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $this->postvar);
 		return parent::render($a_mode);
 		$ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $_REQUEST["postvar"]);

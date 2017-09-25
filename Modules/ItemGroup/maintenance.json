@@ -4,8 +4,8 @@
     "second_maintainer": "",
     "implicit_maintainers": [],
     "coordinator": "",
-    "tester": "",
-    "testcase_writer": "",
+    "tester": "berggold(22199)",
+    "testcase_writer": "berggold(22199)",
     "path": "Modules/ItemGroup",
     "belong_to_component": "ItemGroup",
     "used_in_components": []

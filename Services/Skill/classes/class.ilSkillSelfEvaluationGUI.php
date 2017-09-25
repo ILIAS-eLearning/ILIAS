@@ -12,6 +12,31 @@
 class ilSkillSelfEvaluationGUI
 {
 	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
 	 * Constructor
 	 *
 	 * @param
@@ -19,7 +44,15 @@ class ilSkillSelfEvaluationGUI
 	 */
 	function __construct()
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->tpl = $DIC["tpl"];
+		$this->toolbar = $DIC->toolbar();
+		$this->user = $DIC->user();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 
 		$ilCtrl->saveParameter($this, array("se_id", "sn_id"));
 		$lng->loadLanguageModule("skmg");
@@ -38,7 +71,7 @@ class ilSkillSelfEvaluationGUI
 	 */
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$cmd = $ilCtrl->getCmd("listSelfEvaluations");
 		$this->$cmd();
@@ -60,7 +93,10 @@ class ilSkillSelfEvaluationGUI
 	 */
 	function listSelfEvaluations()
 	{
-		global $tpl, $ilToolbar, $ilCtrl, $lng;
+		$tpl = $this->tpl;
+		$ilToolbar = $this->toolbar;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
 
@@ -99,7 +135,9 @@ class ilSkillSelfEvaluationGUI
 	 */
 	function confirmSelfEvaluationDeletion()
 	{
-		global $ilCtrl, $tpl, $lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 
 		if (!is_array($_POST["id"]) || count($_POST["id"]) == 0)
 		{
@@ -138,7 +176,9 @@ class ilSkillSelfEvaluationGUI
 	 */
 	function deleteSelfEvaluation()
 	{
-		global $ilCtrl, $lng, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 
 		include_once("./Services/Skill/classes/class.ilSkillSelfEvaluation.php");
 		if (is_array($_POST["id"]))
@@ -165,7 +205,9 @@ class ilSkillSelfEvaluationGUI
 	 */
 	function startSelfEvaluation($a_mode = "create")
 	{
-		global $tpl, $ilCtrl, $lng;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		$se = null;
 		if ($a_mode == "edit")
@@ -231,7 +273,9 @@ class ilSkillSelfEvaluationGUI
 	 */
 	function saveSelfEvaluation()
 	{
-		global $ilUser, $lng, $ilCtrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		include_once("./Services/Skill/classes/class.ilSkillSelfEvaluation.php");
 		
@@ -290,7 +334,9 @@ class ilSkillSelfEvaluationGUI
 	 */
 	function updateSelfEvaluation($a_back = false)
 	{
-		global $ilUser, $lng, $ilCtrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		include_once("./Services/Skill/classes/class.ilSkillSelfEvaluation.php");
 		$se = new ilSkillSelfEvaluation((int) $_GET["se_id"]);
@@ -355,7 +401,8 @@ class ilSkillSelfEvaluationGUI
 	 */
 	public function setSelfEvaluationPresentationForm($se)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();

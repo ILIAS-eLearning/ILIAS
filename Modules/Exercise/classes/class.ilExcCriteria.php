@@ -10,6 +10,11 @@
  */
 abstract class ilExcCriteria
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	protected $id; // [int]
 	protected $parent; // [int]
 	protected $title; // [string]
@@ -25,12 +30,17 @@ abstract class ilExcCriteria
 	
 	protected function __construct()
 	{	
+		global $DIC;
+
+		$this->db = $DIC->database();
 		
 	}
 	
 	public static function getInstanceById($a_id)			
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT *".
 			" FROM exc_crit".
@@ -46,7 +56,9 @@ abstract class ilExcCriteria
 	
 	public static function getInstancesByParentId($a_parent_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$res = array();
 		
@@ -71,7 +83,9 @@ abstract class ilExcCriteria
 	
 	public static function getTypesMap()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		return array(
 			"bool" => $lng->txt("exc_criteria_type_bool")
@@ -222,7 +236,7 @@ abstract class ilExcCriteria
 	}
 	protected function getLastPosition()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if(!$this->getParent())
 		{
@@ -238,7 +252,7 @@ abstract class ilExcCriteria
 	
 	public function save()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if($this->id)
 		{
@@ -259,7 +273,7 @@ abstract class ilExcCriteria
 	
 	public function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if(!$this->id)
 		{
@@ -272,7 +286,7 @@ abstract class ilExcCriteria
 	
 	public function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if(!$this->id)
 		{
@@ -285,7 +299,9 @@ abstract class ilExcCriteria
 	
 	public static function deleteByParent($a_parent_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		if(!(int)$a_parent_id)
 		{

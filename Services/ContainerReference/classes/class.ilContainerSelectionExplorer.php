@@ -34,6 +34,16 @@ include_once('./Services/UIComponent/Explorer/classes/class.ilExplorer.php');
 */
 class ilContainerSelectionExplorer extends ilExplorer
 {
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	protected $target_type;
 	
 	/**
@@ -41,7 +51,11 @@ class ilContainerSelectionExplorer extends ilExplorer
 	 */
 	public function __construct($a_target)
 	{
-		global $tree;
+		global $DIC;
+
+		$this->access = $DIC->access();
+		$this->lng = $DIC->language();
+		$tree = $DIC->repositoryTree();
 		
 		parent::__construct($a_target);
 		 
@@ -93,7 +107,7 @@ class ilContainerSelectionExplorer extends ilExplorer
 	 */
 	public function isClickable($a_type,$a_id = 0)
 	{
-		global $ilAccess;
+		$ilAccess = $this->access;
 		
 		if($this->getTargetType() == $a_type)
 		{
@@ -113,7 +127,7 @@ class ilContainerSelectionExplorer extends ilExplorer
 	 */
 	public function isVisible($a_ref_id, $a_type)
 	{
-		global $ilAccess;
+		$ilAccess = $this->access;
 		
 		return $ilAccess->checkAccess('visible','',$a_ref_id);
 	}
@@ -123,11 +137,10 @@ class ilContainerSelectionExplorer extends ilExplorer
 	* @access	public
 	* @param	integer obj_id
 	* @param	integer array options
-	* @return	string
 	*/
 	function formatHeader($a_tpl, $a_obj_id,$a_option)
 	{
-		global $lng, $ilias;
+		$lng = $this->lng;
 
 		$tpl = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
 
@@ -135,11 +148,6 @@ class ilContainerSelectionExplorer extends ilExplorer
 		$tpl->setVariable("OBJ_TITLE", $lng->txt("repository"));
 		$tpl->parseCurrentBlock();
 
-		/*
-		$tpl->setCurrentBlock("row");
-		$tpl->parseCurrentBlock();
-		*/
-		
 		$this->output[] = $tpl->get();
 	}
 	

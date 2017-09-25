@@ -14,9 +14,19 @@ include_once("./Services/Badge/classes/class.ilBadgeHandler.php");
  */
 class ilBadgeTypesTableGUI extends ilTable2GUI
 {		
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
 	function __construct($a_parent_obj, $a_parent_cmd = "", $a_has_write)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		$this->setId("bdgtps");
 				
@@ -83,7 +93,7 @@ class ilBadgeTypesTableGUI extends ilTable2GUI
 	
 	protected function fillRow($a_set)
 	{					
-		global $lng;
+		$lng = $this->lng;
 		
 		$this->tpl->setVariable("VAL_ID", $a_set["id"]);
 		$this->tpl->setVariable("TXT_COMP", $a_set["comp"]);

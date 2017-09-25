@@ -18,7 +18,16 @@ require_once ("./Modules/Glossary/classes/class.ilGlossaryDefPageGUI.php");
 */
 class ilTermDefinitionEditorGUI
 {
-	var $ilias;
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs_gui;
+
 	var $tpl;
 	var $lng;
 	var $glossary;
@@ -31,10 +40,14 @@ class ilTermDefinitionEditorGUI
 	*/
 	function __construct()
 	{
-		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl, $ilTabs;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$ilTabs = $DIC->tabs();
 
 		// initiate variables
-		$this->ilias = $ilias;
 		$this->tpl = $tpl;
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
@@ -50,7 +63,9 @@ class ilTermDefinitionEditorGUI
 
 	function executeCommand()
 	{
-		global $tpl, $ilCtrl, $lng;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -162,7 +177,7 @@ class ilTermDefinitionEditorGUI
 	*/
 	function main_header($a_header_title)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$this->tpl->getStandardTemplate();
 		$this->tpl->setTitle($a_header_title);

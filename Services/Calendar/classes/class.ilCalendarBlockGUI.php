@@ -65,7 +65,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
-		$tpl = $this->tpl;
+		$tpl = $this->main_tpl;
 		$ilUser = $this->user;
 		$ilHelp = $DIC["ilHelp"];
 
@@ -133,10 +133,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
 		$this->settings = ilCalendarSettings::_getInstance();
 		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId());
-		
-		$tpl->addCSS("./Services/Calendar/css/calendar.css");
-		// @todo: this must work differently...
-		$tpl->addCSS("./Services/Calendar/templates/default/delos.css");
 		
 		$mode = $ilUser->getPref("il_pd_cal_mode");
 		$this->display_mode = $mode ? $mode : "mmon";

@@ -12,6 +12,10 @@ include_once("./Services/UICore/lib/html-it/ITX.php");
 */
 class ilTemplate extends HTML_Template_ITX
 {
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
 
 	const MESSAGE_TYPE_FAILURE = 'failure';
 	const MESSAGE_TYPE_INFO = "info";
@@ -88,7 +92,8 @@ class ilTemplate extends HTML_Template_ITX
 	function __construct($file,$flag1,$flag2,$in_module = false, $vars = "DEFAULT",
 		$plugin = false, $a_use_cache = true)
 	{
-		global $ilias;
+		global $DIC;
+
 //echo "<br>-".$file."-";
 
 		$this->activeBlock = "__global__";
@@ -108,7 +113,11 @@ class ilTemplate extends HTML_Template_ITX
 		$this->contenttype = "text/html";
 		if (!file_exists($fname))
 		{
-			$ilias->raiseError("template ".$fname." was not found.", $ilias->error_obj->FATAL);
+			if (isset($DIC["ilErr"]))
+			{
+				$ilErr = $DIC["ilErr"];
+				$ilErr->raiseError("template " . $fname . " was not found.", $ilErr->FATAL);
+			}
 			return false;
 		}
 
@@ -234,6 +243,8 @@ class ilTemplate extends HTML_Template_ITX
 		$handle_referer = false, $add_ilias_footer = false,
 		$add_standard_elements = false, $a_main_menu = true, $a_tabs = true)
 	{
+		global $DIC;
+
 		if ($add_error_mess)
 		{
 			$this->fillMessage();
@@ -320,7 +331,7 @@ class ilTemplate extends HTML_Template_ITX
 		}
 
 		// include the template output hook
-		global $ilPluginAdmin;
+		$ilPluginAdmin = $DIC["ilPluginAdmin"];
 		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
 		foreach ($pl_names as $pl)
 		{
@@ -434,7 +445,9 @@ class ilTemplate extends HTML_Template_ITX
 	*/
 	public function getMessageHTML($a_txt, $a_type = "info")
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		$mtpl = new ilTemplate("tpl.message.html", true, true, "Services/Utilities");
 		$mtpl->setCurrentBlock($a_type."_message");
 		$mtpl->setVariable("TEXT", $a_txt);
@@ -479,6 +492,7 @@ class ilTemplate extends HTML_Template_ITX
 	public function show($part = "DEFAULT", $a_fill_tabs = true, $a_skip_main_menu = false)
 	{
 		global $DIC;
+
 		$http = $DIC->http();
 		switch ($http->request()->getHeaderLine('Accept')) {
 			case 'application/json':
@@ -525,7 +539,7 @@ class ilTemplate extends HTML_Template_ITX
 
 					if($this->blockExists("content") && $this->variableExists('MAINMENU'))
 					{
-						global $tpl;
+						$tpl = $DIC["tpl"];
 
 						include_once 'Services/Authentication/classes/class.ilSessionReminderGUI.php';
 						$session_reminder_gui = new ilSessionReminderGUI(ilSessionReminder::createInstanceWithCurrentUserSession());
@@ -584,7 +598,7 @@ class ilTemplate extends HTML_Template_ITX
 				}
 
 				// include the template output hook
-				global $ilPluginAdmin;
+				$ilPluginAdmin = $DIC["ilPluginAdmin"];
 				$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
 				foreach ($pl_names as $pl)
 				{
@@ -622,7 +636,11 @@ class ilTemplate extends HTML_Template_ITX
 	 */
 	public function fillContentLanguage()
 	{
-	 	global $ilUser,$lng;
+		global $DIC;
+
+		$lng = $DIC->language();
+		$ilUser = $DIC->user();
+
 	 	$contentLanguage = 'en';
 		$rtl = array('ar','fa','ur','he');//, 'de'); //make a list of rtl languages
 		/* rtl-review: add "de" for testing with ltr lang shown in rtl
@@ -649,7 +667,9 @@ class ilTemplate extends HTML_Template_ITX
 
 	function fillWindowTitle()
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC->settings();
 		
 		if ($this->header_page_title != "")
 		{
@@ -677,7 +697,9 @@ class ilTemplate extends HTML_Template_ITX
 	 */
 	function getTabsHTML()
 	{
-		global $ilTabs;
+		global $DIC;
+
+		$ilTabs = $DIC["ilTabs"];
 		
 		if ($this->blockExists("tabs_outer_start"))
 		{
@@ -689,8 +711,6 @@ class ilTemplate extends HTML_Template_ITX
 	
 	function fillTabs()
 	{
-		global $ilias,$ilTabs;
-
 		if ($this->blockExists("tabs_outer_start"))
 		{
 			$this->touchBlock("tabs_outer_start");
@@ -708,7 +728,9 @@ class ilTemplate extends HTML_Template_ITX
 	
 	function fillToolbar()
 	{
-		global $ilToolbar;
+		global $DIC;
+
+		$ilToolbar = $DIC["ilToolbar"];;
 
 		$thtml = $ilToolbar->getHTML();
 		if ($thtml != "")
@@ -732,7 +754,9 @@ class ilTemplate extends HTML_Template_ITX
 	
 	function fillJavaScriptFiles($a_force = false)
 	{
-		global $ilias, $ilTabs, $ilSetting, $ilUser;
+		global $DIC;
+
+		$ilSetting = $DIC->settings();
 
 		if (is_object($ilSetting))		// maybe this one can be removed
 		{
@@ -851,7 +875,9 @@ class ilTemplate extends HTML_Template_ITX
 	
 	function getMainMenu()
 	{
-		global $ilMainMenu;
+		global $DIC;
+
+		$ilMainMenu = $DIC["ilMainMenu"];
 
 		if($this->variableExists('MAINMENU'))
 		{
@@ -863,7 +889,8 @@ class ilTemplate extends HTML_Template_ITX
 	
 	function fillMainMenu()
 	{
-		global $tpl;
+		global $DIC;
+		$tpl = $DIC["tpl"];
 		if($this->variableExists('MAINMENU'))
 		{
 			$tpl->setVariable("MAINMENU", $this->main_menu);
@@ -873,9 +900,6 @@ class ilTemplate extends HTML_Template_ITX
 
 	/**
 	 * Init help
-	 *
-	 * @param
-	 * @return
 	 */
 	function initHelp()
 	{
@@ -889,11 +913,20 @@ class ilTemplate extends HTML_Template_ITX
 	*/
 	function addILIASFooter()
 	{
-		global $ilAuth;
-		
-		if (!$this->getAddFooter()) return;
-		global $ilias, $ilClientIniFile, $ilCtrl, $ilDB, $ilSetting, $lng;
-		
+		global $DIC;
+
+		$ilSetting = $DIC->settings();
+
+		$lng = $DIC->language();
+
+		$ilCtrl = $DIC->ctrl();
+		$ilDB = $DIC->database();
+
+		if (!$this->getAddFooter())
+		{
+			return;
+		}
+
 		$ftpl = new ilTemplate("tpl.footer.html", true, true, "Services/UICore");
 
 		$php = "";
@@ -901,7 +934,7 @@ class ilTemplate extends HTML_Template_ITX
 		{
 			$php = ", PHP ".phpversion();
 		}
-		$ftpl->setVariable("ILIAS_VERSION", $ilias->getSetting("ilias_version").$php);
+		$ftpl->setVariable("ILIAS_VERSION", $ilSetting->get("ilias_version").$php);
 		
 		$link_items = array();
 		
@@ -1052,7 +1085,7 @@ class ilTemplate extends HTML_Template_ITX
 
 		// BEGIN Usability: Non-Delos Skins can display the elapsed time in the footer
 		// The corresponding $ilBench->start invocation is in inc.header.php
-		global $ilBench;
+		$ilBench = $DIC["ilBench"];
 		$ilBench->stop("Core", "ElapsedTimeUntilFooter");
 		$ftpl->setVariable("ELAPSED_TIME",
 			", ".number_format($ilBench->getMeasuredTime("Core", "ElapsedTimeUntilFooter"),1).' seconds');
@@ -1395,6 +1428,8 @@ class ilTemplate extends HTML_Template_ITX
 	*/
 	function addBlockFile($var, $block, $tplname, $in_module = false)
 	{
+		global $DIC;
+
 		if (DEBUG)
 		{
 			echo "<br/>Template '".$this->tplPath."/".$tplname."'";
@@ -1411,7 +1446,7 @@ class ilTemplate extends HTML_Template_ITX
 		$template = $this->getFile($tplfile);
 		
 		// include the template input hook
-		global $ilPluginAdmin;
+		$ilPluginAdmin = $DIC["ilPluginAdmin"];
 		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
 		foreach ($pl_names as $pl)
 		{
@@ -1448,6 +1483,8 @@ class ilTemplate extends HTML_Template_ITX
                                $removeUnknownVariables = true,
                                $removeEmptyBlocks = true )
     {
+    	global $DIC;
+
     	// copied from IT:loadTemplateFile
         $template = '';
         if (!$this->flagCacheTemplatefile ||
@@ -1459,7 +1496,7 @@ class ilTemplate extends HTML_Template_ITX
 		// copied.	
         
 		// new code to include the template input hook:
-		global $ilPluginAdmin;
+		$ilPluginAdmin = $DIC["ilPluginAdmin"];
 		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
 		foreach ($pl_names as $pl)
 		{
@@ -1496,7 +1533,13 @@ class ilTemplate extends HTML_Template_ITX
 	*/
 	function getTemplatePath($a_tplname, $a_in_module = false, $a_plugin = false)
 	{
-		global $ilias, $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = null;
+		if (isset($DIC["ilCtrl"]))
+		{
+			$ilCtrl = $DIC->ctrl();
+		}
 		
 		$fname = "";
 		
@@ -1511,7 +1554,6 @@ class ilTemplate extends HTML_Template_ITX
 		{
 			$module_path = "";
 			
-			//$fname = $ilias->tplPath;
 			if ($a_in_module)
 			{
 				if ($a_in_module === true)
@@ -1573,8 +1615,15 @@ class ilTemplate extends HTML_Template_ITX
 	 */
 	function getTemplateIdentifier($a_tplname, $a_in_module = false)
 	{
-		global $ilCtrl;
-		
+		global $DIC;
+
+		$ilCtrl = null;
+		if (isset($DIC["ilCtrl"]))
+		{
+			$ilCtrl = $DIC->ctrl();
+		}
+
+
 		// if baseClass functionality is used (ilias.php):
 		// get template directory from ilCtrl
 		if (!empty($_GET["baseClass"]) && $a_in_module === true)
@@ -1713,8 +1762,10 @@ class ilTemplate extends HTML_Template_ITX
 	*/
 	private function fillHeader()
 	{
-		global $lng, $ilUser, $ilCtrl;
-		
+		global $DIC;
+
+		$lng = $DIC->language();
+
 		$icon = false;
 		if ($this->icon_path != "")
 		{
@@ -2006,7 +2057,12 @@ class ilTemplate extends HTML_Template_ITX
 	*/
 	function setLocator()
 	{
-		global $ilLocator, $lng, $ilPluginAdmin, $ilMainMenu;
+		global $DIC;
+
+		$ilMainMenu = $DIC["ilMainMenu"];
+		$ilLocator = $DIC["ilLocator"];
+
+		$ilPluginAdmin = $DIC["ilPluginAdmin"];
 		
 		// blog/portfolio
 		if($ilMainMenu->getMode() == ilMainMenuGUI::MODE_TOPBAR_REDUCED ||
@@ -2064,8 +2120,6 @@ class ilTemplate extends HTML_Template_ITX
 	*/
 	function setUpperIcon($a_link, $a_frame = "")
 	{
-		global $lng;
-		
 		$this->upper_icon = $a_link;
 		$this->upper_icon_frame = $a_frame;
 	}
@@ -2092,7 +2146,9 @@ class ilTemplate extends HTML_Template_ITX
 	*/
 	function fillScreenReaderFocus()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC->user();
 
 		if (is_object($ilUser) && $ilUser->getPref("screen_reader_optimization") && $this->blockExists("sr_focus"))
 		{
@@ -2105,8 +2161,12 @@ class ilTemplate extends HTML_Template_ITX
 	*/
 	function fillSideIcons()
 	{
-		global $lng, $ilSetting;
-		
+		global $DIC;
+
+		$ilSetting = $DIC->settings();
+
+		$lng = $DIC->language();
+
 		if ($this->upper_icon == "" && $this->tree_flat_link == ""
 			&& $this->mount_webfolder == "")
 		{
@@ -2205,8 +2265,6 @@ class ilTemplate extends HTML_Template_ITX
 	*/
 	function setMountWebfolderIcon($a_ref_id)
 	{
-		global $lng;
-		
 		$this->mount_webfolder = $a_ref_id;
 	}
 	// END WebDAV: Mount webfolder icon.
@@ -2218,8 +2276,6 @@ class ilTemplate extends HTML_Template_ITX
 	*/
 	function setTreeFlatIcon($a_link, $a_mode)
 	{
-		global $lng;
-
 		$this->tree_flat_link = $a_link;
 		$this->tree_flat_mode = $a_mode;
 	}
@@ -2381,8 +2437,10 @@ class ilTemplate extends HTML_Template_ITX
 	*/
 	function fillAdminPanel()
 	{
-		global $lng, $ilHelp;
-		
+		global $DIC;
+
+		$lng = $DIC->language();
+
 		$adm_view_cmp = $adm_cmds = $adm_view = false;
 		
 		$toolb = new ilToolbarGUI();
@@ -2564,7 +2622,10 @@ class ilTemplate extends HTML_Template_ITX
 	 */
 	public static function buildLoginTarget()
 	{
-		global $tree, $ilUser;
+		global $DIC;
+
+		$tree = $DIC->repositoryTree();
+		$ilUser = $DIC->user();
 				
 		$target_str = "";
 		

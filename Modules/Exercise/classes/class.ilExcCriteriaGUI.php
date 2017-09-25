@@ -13,16 +13,42 @@ include_once "Modules/Exercise/classes/class.ilExcCriteria.php";
  */
 class ilExcCriteriaGUI
 {	
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
 	protected $cat_id; // [int]
 	
 	public function __construct($a_cat_id)
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->toolbar = $DIC->toolbar();
+		$this->lng = $DIC->language();
+		$this->tpl = $DIC["tpl"];
 		$this->cat_id = $a_cat_id;
 	}
 	
 	public function executeCommand()
 	{  		
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd("view");
@@ -42,7 +68,10 @@ class ilExcCriteriaGUI
 	
 	protected function view()
 	{
-		global $ilToolbar, $ilCtrl, $lng, $tpl;
+		$ilToolbar = $this->toolbar;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
 	
 		$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "add"));
 			
@@ -64,7 +93,8 @@ class ilExcCriteriaGUI
 	
 	protected function saveOrder()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$all_cat = ilExcCriteria::getInstancesByParentId($this->cat_id);
 				
@@ -86,7 +116,9 @@ class ilExcCriteriaGUI
 	
 	protected function confirmDeletion()
 	{
-		global $ilCtrl, $lng, $tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
 		
 		$ids = $_POST["id"];
 		if(!sizeof($ids))
@@ -115,7 +147,8 @@ class ilExcCriteriaGUI
 	
 	protected function delete()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$ids = $_POST["id"];
 		if(!sizeof($ids))
@@ -142,7 +175,8 @@ class ilExcCriteriaGUI
 	
 	protected function initForm(ilExcCriteria $a_crit_obj)
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";		
 		$form = new ilPropertyFormGUI();
@@ -184,7 +218,8 @@ class ilExcCriteriaGUI
 	
 	protected function add(ilPropertyFormGUI $a_form = null)
 	{
-		global $tpl, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
 		
 		$new_type = trim($_REQUEST["type"]);		
 		if(!$new_type)
@@ -214,7 +249,8 @@ class ilExcCriteriaGUI
 	
 	protected function importForm(ilExcCriteria $a_crit_obj)
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$is_edit = (bool)$a_crit_obj->getId();
 		
@@ -247,7 +283,7 @@ class ilExcCriteriaGUI
 	
 	protected function create()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$new_type = trim($_REQUEST["type"]);		
 		if(!$new_type)
@@ -261,7 +297,7 @@ class ilExcCriteriaGUI
 	
 	protected function getCurrentCritera()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$id = (int)$_REQUEST["crit_id"];
 		if($id)
@@ -279,7 +315,7 @@ class ilExcCriteriaGUI
 	
 	protected function edit(ilPropertyFormGUI $a_form = null)
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$crit_obj = $this->getCurrentCritera();
 		

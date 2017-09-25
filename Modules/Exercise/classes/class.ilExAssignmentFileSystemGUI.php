@@ -15,6 +15,9 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
 
 	function __construct($a_main_directory)
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
 		parent::__construct($a_main_directory);
 
 	}
@@ -53,7 +56,7 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
 	 */
 	public function saveFilesOrder()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		if($_GET["ass_id"])
 		{

@@ -15,6 +15,16 @@ include_once("./Services/Skill/interfaces/interface.ilSkillUsageInfo.php");
  */
 class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	const ACHIEVED = 1;
 	const NOT_ACHIEVED = 0;
 
@@ -30,6 +40,10 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 	 */
 	function __construct($a_id = 0)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
+		$this->user = $DIC->user();
 		parent::__construct($a_id);
 		$this->setType("skll");
 	}
@@ -56,7 +70,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 	 */
 	function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$ilDB->manipulate("DELETE FROM skl_level WHERE "
 			." skill_id = ".$ilDB->quote($this->getId(), "integer")
@@ -108,7 +122,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 	 */
 	function addLevel($a_title, $a_description, $a_import_id = "")
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$nr = $this->getMaxLevelNr();
 		$nid = $ilDB->nextId("skl_level");
@@ -131,7 +145,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 	 */
 	function getMaxLevelNr()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$set = $ilDB->query("SELECT MAX(nr) mnr FROM skl_level WHERE ".
 			" skill_id = ".$ilDB->quote($this->getId(), "integer")
@@ -147,7 +161,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 	 */
 	function getLevelData($a_id = 0)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if ($a_id > 0)
 		{
@@ -179,7 +193,9 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 	 */
 	protected static function lookupLevelProperty($a_id, $a_prop)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->query("SELECT $a_prop FROM skl_level WHERE ".
 			" id = ".$ilDB->quote($a_id, "integer")
@@ -229,7 +245,9 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 	 */
 	static protected function writeLevelProperty($a_id, $a_prop, $a_value, $a_type)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$ilDB->update("skl_level", array(
 			$a_prop => array($a_type, $a_value),
@@ -268,7 +286,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 	 */
 	function updateLevelOrder($order)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		asort($order);
 
@@ -291,7 +309,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 	 */
 	function deleteLevel($a_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$ilDB->manipulate("DELETE FROM skl_level WHERE "
 			." id = ".$ilDB->quote($a_id, "integer")
@@ -307,7 +325,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 	 */
 	function fixLevelNumbering()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$set = $ilDB->query("SELECT id, nr FROM skl_level WHERE ".
 			" skill_id = ".$ilDB->quote($this->getId(), "integer").
@@ -332,7 +350,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 	 */
 	function getSkillForLevelId($a_level_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$set = $ilDB->query("SELECT * FROM skl_level WHERE ".
 			" id = ".$ilDB->quote($a_level_id, "integer")
@@ -521,7 +539,9 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 		$a_trigger_ref_id, $a_tref_id = 0, $a_status = ilBasicSkill::ACHIEVED, $a_force = false,
 		$a_self_eval = false, $a_unique_identifier = "")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$skill_id = ilBasicSkill::lookupLevelSkillId($a_level_id);
 		$trigger_ref_id = $a_trigger_ref_id;
@@ -674,7 +694,8 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 	 */
 	function getMaxLevelPerType($a_tref_id, $a_type, $a_user_id = 0, $a_self_eval = 0)
 	{
-		global $ilDB, $ilUser;
+		$ilDB = $this->db;
+		$ilUser = $this->user;
 		
 		if ($a_user_id == 0)
 		{
@@ -713,7 +734,8 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 	 */
 	function getAllLevelEntriesOfUser($a_tref_id, $a_user_id = 0, $a_self_eval = 0)
 	{
-		global $ilDB, $ilUser;
+		$ilDB = $this->db;
+		$ilUser = $this->user;
 		
 		if ($a_user_id == 0)
 		{
@@ -744,7 +766,8 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 	 */
 	function getAllHistoricLevelEntriesOfUser($a_tref_id, $a_user_id = 0, $a_eval_by = 0)
 	{
-		global $ilDB, $ilUser;
+		$ilDB = $this->db;
+		$ilUser = $this->user;
 
 		if ($a_user_id == 0)
 		{
@@ -779,7 +802,8 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 	 */
 	function getMaxLevelPerObject($a_tref_id, $a_object_id, $a_user_id = 0, $a_self_eval = 0)
 	{
-		global $ilDB, $ilUser;
+		$ilDB = $this->db;
+		$ilUser = $this->user;
 
 		if ($a_user_id == 0)
 		{
@@ -846,7 +870,8 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 	 */
 	function getLastLevelPerObject($a_tref_id, $a_object_id, $a_user_id = 0, $a_self_eval = 0)
 	{
-		global $ilDB, $ilUser;
+		$ilDB = $this->db;
+		$ilUser = $this->user;
 
 		if ($a_user_id == 0)
 		{
@@ -876,7 +901,8 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 	 */
 	function getLastUpdatePerObject($a_tref_id, $a_object_id, $a_user_id = 0, $a_self_eval = 0)
 	{
-		global $ilDB, $ilUser;
+		$ilDB = $this->db;
+		$ilUser = $this->user;
 
 		if ($a_user_id == 0)
 		{
@@ -954,7 +980,9 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 	 */
 	static public function getUsageInfo($a_cskill_ids, &$a_usages)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		include_once("./Services/Skill/classes/class.ilSkillUsage.php");
 		ilSkillUsage::getUsageInfoGeneric($a_cskill_ids, $a_usages, ilSkillUsage::USER_ASSIGNED,
@@ -971,7 +999,9 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 	 */
 	static function getCommonSkillIdForImportId($a_source_inst_id, $a_skill_import_id, $a_tref_import_id = 0)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		include_once("./Services/Skill/classes/class.ilSkillTree.php");
 		include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
@@ -1045,7 +1075,9 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 	 */
 	static function getLevelIdForImportId($a_source_inst_id, $a_level_import_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->query("SELECT * FROM skl_level l JOIN skl_tree t ON (l.skill_id = t.child) " .
 				" WHERE l.import_id = " . $ilDB->quote("il_" . ((int)$a_source_inst_id) . "_sklv_" . $a_level_import_id, "text") .

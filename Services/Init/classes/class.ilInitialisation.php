@@ -130,6 +130,7 @@ class ilInitialisation
 		define ("URL_TO_LATEX",$ilIliasIniFile->readVariable("tools","latex"));
 		define ("PATH_TO_FOP",$ilIliasIniFile->readVariable("tools","fop"));
 		define ("PATH_TO_LESSC",$ilIliasIniFile->readVariable("tools","lessc"));
+		define ("PATH_TO_PHANTOMJS",$ilIliasIniFile->readVariable("tools","phantomjs"));
 
 		// read virus scanner settings
 		switch ($ilIliasIniFile->readVariable("tools", "vscantype"))
@@ -1065,7 +1066,7 @@ class ilInitialisation
 	 */
 	protected static function initClient()
 	{
-		global $https, $ilias;
+		global $https, $ilias, $DIC;
 
 		self::setCookieConstants();
 
@@ -1101,7 +1102,7 @@ class ilInitialisation
 		// we must prevent that ilPluginAdmin is initialized twice in
 		// this case, since this won't get the values out of plugin.php the
 		// second time properly
-		if (!is_object($GLOBALS["ilPluginAdmin"]))
+		if (!isset($DIC["ilPluginAdmin"]) || !$DIC["ilPluginAdmin"] instanceof ilPluginAdmin)
 		{
 			self::initGlobal("ilPluginAdmin", "ilPluginAdmin",
 				"./Services/Component/classes/class.ilPluginAdmin.php");
@@ -1457,10 +1458,10 @@ class ilInitialisation
 	protected static function initLTI()
 	{
 		global $ilUser, $DIC;
-		$DIC->logger()->root()->write("auth_mode: " . $ilUser->auth_mode);
+		$DIC->logger()->root()->debug("auth_mode: " . $ilUser->auth_mode);
 		// production
 		if (strpos($ilUser->auth_mode, 'lti') !== false) {
-			$DIC->logger()->root()->write("LTI Mode!");
+			$DIC->logger()->root()->debug("LTI Mode!");
 			require_once "./Services/LTI/classes/class.ilLTIViewGUI.php";
 			ilLTIViewGUI::getInstance()->activate(); 
 		}
@@ -1476,7 +1477,7 @@ class ilInitialisation
 			//$_SESSION['lti_launch_css_url'] = 'http://ltiapps.net/test/css/tc.css';
 			//$_SESSION['lti_launch_presentation_return_url'] = 'http://ltiapps.net/test/tc-return.php';
 			
-			$DIC->logger()->root()->write("LTI Mode!");
+			$DIC->logger()->root()->debug("LTI Mode!");
 			require_once "./Services/LTI/classes/class.ilLTIViewGUI.php";
 			ilLTIViewGUI::getInstance()->activate();
 			//ilLTIViewGUI::getInstance()->checkMessages();

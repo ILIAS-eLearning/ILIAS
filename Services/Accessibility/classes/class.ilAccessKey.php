@@ -76,7 +76,9 @@ class ilAccessKey
 	*/
 	static function getFunctionName($a_func_id)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 
 		return $lng->txt(self::$func_def[$a_func_id]["lang"]);
 	}
@@ -86,7 +88,9 @@ class ilAccessKey
 	*/
 	static function getComponentNames($a_func_id)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 
 		$c_str = $lim = "";
 		foreach (self::$func_def[$a_func_id]["component"] as $c)
@@ -105,7 +109,9 @@ class ilAccessKey
 	*/
 	static function getKeys($lang_key = "0", $a_ignore_default = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$keys = ilAccessKey::getAllKeysEmpty();
 		
@@ -134,7 +140,9 @@ class ilAccessKey
 	*/
 	static function getKey($a_func_id, $lang_key = "0", $a_ignore_default = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$key = "";
 		
@@ -164,7 +172,9 @@ class ilAccessKey
 	*/
 	static function writeKeys($a_keys, $a_lang_key = "0")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$ilDB->manipulate("DELETE FROM acc_access_key WHERE ".
 			"lang_key = ".$ilDB->quote($a_lang_key, "text")

@@ -39,7 +39,10 @@ class ilBlockSetting
 	 */
 	public static function _lookup($a_type, $a_setting, $a_user = 0, $a_block_id = 0)
 	{
-		global $ilDB, $ilSetting;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilSetting = $DIC->settings();
 		
 		$key = $a_type.":".$a_setting.":".$a_user.":".$a_block_id;
 		if (isset(self::$setting[$key]))
@@ -81,7 +84,9 @@ class ilBlockSetting
 	 */
 	public static function _setDefaultSetting($a_type, $a_setting, $a_value)
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC->settings();
 		$ilSetting->set('block_default_setting_'.$a_type.'_'.$a_setting, $a_value);
 	}
 
@@ -95,7 +100,9 @@ class ilBlockSetting
 	 */
 	public static function _unsetDefaultSetting($a_type, $a_setting)
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC->settings();
 		$ilSetting->delete('block_default_setting_'.$a_type.'_'.$a_setting);
 	}
 	
@@ -107,7 +114,10 @@ class ilBlockSetting
 	 */
 	static function preloadPDBlockSettings()
 	{
-		global $ilDB, $ilUser;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilUser = $DIC->user();
 
 		if (!self::$pd_preloaded)
 		{
@@ -154,7 +164,9 @@ class ilBlockSetting
 	*/
 	public static function _write($a_type, $a_setting, $a_value, $a_user = 0, $a_block_id = 0)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$ilDB->manipulate(sprintf("DELETE FROM il_block_setting WHERE type = %s AND user_id = %s AND block_id = %s AND setting = %s",
 			$ilDB->quote($a_type, "text"),
@@ -242,7 +254,9 @@ class ilBlockSetting
 	*/
 	public static function _deleteSettingsOfUser($a_user)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		if ($a_user > 0)
 		{
@@ -257,7 +271,9 @@ class ilBlockSetting
 	*/
 	public static function _deleteSettingsOfBlock($a_block_id, $a_block_type)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		if ($a_block_id > 0)
 		{

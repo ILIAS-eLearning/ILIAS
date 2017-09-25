@@ -1,6 +1,7 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Filesystem\Util\LegacyPathHelper;
 use ILIAS\FileUpload\Location;
 
 require_once("Services/Object/classes/class.ilObject2.php");
@@ -243,7 +244,9 @@ class ilObjFile extends ilObject2 {
 			$this->initFileStorage();
 		}
 
-		return $this->file_storage->getAbsolutePath() . '/' . $version_subdir;
+		$str = $this->file_storage->getAbsolutePath() . '/' . $version_subdir;
+
+		return $str;
 	}
 
 
@@ -269,27 +272,30 @@ class ilObjFile extends ilObject2 {
 
 		$this->setVersion($this->getVersion() + 1);
 
-		if (@!is_dir($this->getDirectory($this->getVersion()))) {
+		if (!is_dir($this->getDirectory($this->getVersion()))) {
 			ilUtil::makeDirParents($this->getDirectory($this->getVersion()));
 		}
 
-		$file = $this->getDirectory($this->getVersion()) . "/" . $a_filename;
-
-		if (PATH_TO_GHOSTSCRIPT != "") {
-			$upload->register(new ilCountPDFPagesPreProcessors());
-		}
+		$target_directory = $this->getDirectory($this->getVersion()) . "/";
+		$relative_path_to_file = LegacyPathHelper::createRelativePath($target_directory);
 
 		if ($upload->hasUploads()) {
-			$upload->process();
+			if ($upload->hasBeenProcessed() !== true) {
+				if (PATH_TO_GHOSTSCRIPT !== "") {
+					$upload->register(new ilCountPDFPagesPreProcessors());
+				}
+				$upload->process();
+			}
+
 			$result = $upload->getResults()[$a_upload_file];
 
-			$md = $result->getMetaData()->toArray();
-			if ($md[ilCountPDFPagesPreProcessors::PAGE_COUNT]) {
-				$this->setPageCount($md[ilCountPDFPagesPreProcessors::PAGE_COUNT]);
+			$metadata = $result->getMetaData();
+			if ($metadata->has(ilCountPDFPagesPreProcessors::PAGE_COUNT)) {
+				$this->setPageCount($metadata->get(ilCountPDFPagesPreProcessors::PAGE_COUNT));
 				$this->doUpdate();
 			}
 
-			$upload->moveOneFileTo($result, $file, Location::STORAGE, $a_filename);
+			$upload->moveOneFileTo($result, $relative_path_to_file, Location::STORAGE, $a_filename);
 		}
 
 		$this->handleQuotaUpdate($this);
@@ -675,7 +681,7 @@ class ilObjFile extends ilObject2 {
 			 * @var $ilClientIniFile ilIniFile
 			 */
 
-			$ilFileDelivery = new ilFileDelivery($this->file_storage->getLegacyFullAbsolutePath($file));
+			$ilFileDelivery = new ilFileDelivery($file);
 			$ilFileDelivery->setDisposition($this->isInline() ? ilFileDelivery::DISP_INLINE : ilFileDelivery::DISP_ATTACHMENT);
 			$ilFileDelivery->setMimeType($this->guessFileType($file));
 			$ilFileDelivery->setConvertFileNameToAsci(true);

@@ -63,7 +63,16 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
 				$input->setValue(array_keys($options)[0]);
 				break;
 			case ilDclSelectionFieldModel::SELECTION_TYPE_MULTI:
+//				global $DIC;
+//				$DIC->ui()->mainTemplate()->addOnLoadCode('$("#field_' . $this->getField()->getId() . '").removeClass("input")');
 				$input = new ilMultiSelectInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
+
+
+				$input->setHeight(100);
+				$input->setHeightUnit('%; max-height: 150px');
+				$input->setWidth(100);
+				$input->setWidthUnit('%');
+
 				$array = array();
 				foreach ($options as $opt) {
 					$array[$opt->getOptId()] = $opt->getValue();

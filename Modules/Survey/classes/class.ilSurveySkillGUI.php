@@ -13,12 +13,44 @@
 class ilSurveySkillGUI
 {
 	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
 	 * Constructor
 	 *
 	 * @param object $a_survey
 	 */
 	function __construct(ilObjSurvey $a_survey)
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->tpl = $DIC["tpl"];
+		$this->user = $DIC->user();
+		$this->lng = $DIC->language();
+		$this->tabs = $DIC->tabs();
 		$this->survey = $a_survey;
 	}
 	
@@ -27,7 +59,7 @@ class ilSurveySkillGUI
 	 */
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$cmd = $ilCtrl->getCmd();
 		$next_class = $ilCtrl->getNextClass();
@@ -58,7 +90,7 @@ class ilSurveySkillGUI
 	 */
 	function listQuestionAssignment()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		include_once("./Modules/Survey/classes/class.ilSurveySkillAssignmentTableGUI.php");
 		$tab = new ilSurveySkillAssignmentTableGUI($this, "listQuestionAssignment",
@@ -71,7 +103,11 @@ class ilSurveySkillGUI
 	 */
 	function assignSkillToQuestion()
 	{
-		global $ilUser, $tpl, $ilCtrl, $lng, $ilTabs;
+		$ilUser = $this->user;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilTabs = $this->tabs;
 
 		$ilCtrl->saveParameter($this, "q_id");
 		
@@ -122,7 +158,8 @@ return;
 	 */
 	function selectSkillForQuestion()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		include_once("./Modules/Survey/classes/class.ilSurveySkill.php");
 		$skill_survey = new ilSurveySkill($this->survey);
@@ -139,7 +176,8 @@ return;
 	 */
 	function removeSkillFromQuestion()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		include_once("./Modules/Survey/classes/class.ilSurveySkill.php");
 		$skill_survey = new ilSurveySkill($this->survey);
@@ -156,7 +194,9 @@ return;
 	 */
 	function setSubTabs($a_activate)
 	{
-		global $ilTabs, $lng, $ilCtrl;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$ilTabs->addSubtab("survey_skill_assign",
 			$lng->txt("survey_skill_assign"),

@@ -13,6 +13,11 @@
  */
 class ilObjectServiceSettingsGUI 
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
 	// unfortunately the following constants are not stored
 	// in a non-GUI class, other classes are currently directly
 	// accessing these, see ilObjectDataSet (changes should be
@@ -27,7 +32,6 @@ class ilObjectServiceSettingsGUI
 	const TAG_CLOUD = 'cont_tag_cloud';
 	const CUSTOM_METADATA = 'cont_custom_md';
 	const BADGES = 'cont_badges';
-	const LTI_RELEASE = 'obj_lti_settings';
 	const ORGU_POSITION_ACCESS = 'obj_orgunit_positions';
 	const SKILLS = 'cont_skills';
 	
@@ -41,6 +45,9 @@ class ilObjectServiceSettingsGUI
 	 */
 	public function __construct($a_parent_gui, $a_obj_id, $a_modes)
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
 		$this->gui = $a_parent_gui;
 		$this->modes = $a_modes;
 		$this->obj_id = $a_obj_id;
@@ -54,7 +61,7 @@ class ilObjectServiceSettingsGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd('editSettings');
@@ -74,7 +81,10 @@ class ilObjectServiceSettingsGUI
 	 */
 	public static function initServiceSettingsForm($a_obj_id, ilPropertyFormGUI $form, $services)
 	{
-		global $ilSetting, $ilCtrl;
+		global $DIC;
+
+		$ilSetting = $DIC->settings();
+		$ilCtrl = $DIC->ctrl();
 		
 		// info tab
 		if(in_array(self::INFO_TAB_VISIBILITY, $services))
@@ -357,27 +367,6 @@ class ilObjectServiceSettingsGUI
 			{
 				include_once './Services/Container/classes/class.ilContainer.php';
 				ilContainer::_writeContainerSetting($a_obj_id,self::BADGES,(int) $form->getInput(self::BADGES));
-			}
-		}
-		// lti
-		if(in_array(self::LTI_RELEASE, $services))
-		{
-			ilLoggerFactory::getLogger('lti')->dump($_POST);
-			
-			include_once './Services/LTI/classes/class.ilObjLTIAdministration.php';
-			if(ilObjLTIAdministration::isEnabledForType(ilObject::_lookupType($a_obj_id)))
-			{
-				foreach(ilObjLTIAdministration::getEnabledConsumersForType(ilObject::_lookupType($a_obj_id)) as $consumer)
-				{
-					ilLoggerFactory::getLogger('lti')->debug($form->getInput('lti_active['.$consumer->getId().']'));
-					
-					$consumer_settings = new illTIProviderObjectSetting($a_obj_id, $consumer->getId());
-					$consumer_settings->setEnabled($form->getInput('lti_active_'.$consumer->getId()));
-					$consumer_settings->enableAdminAssignment($form->getInput('lti_admin_'.$consumer->getId()));
-					$consumer_settings->enableTutorAssignment($form->getInput('lti_tutor_'.$consumer->getId()));
-					$consumer_settings->enableMemberAssignment($form->getInput('lti_member_'.$consumer->getId()));
-					$consumer_settings->save();
-				}
 			}
 		}
 		

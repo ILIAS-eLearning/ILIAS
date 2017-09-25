@@ -13,6 +13,23 @@ include_once("./Services/Export/classes/class.ilXmlImporter.php");
 class ilSurveyImporter extends ilXmlImporter
 {
 	/**
+	 * @var Logger
+	 */
+	protected $log;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		parent::__construct();
+		global $DIC;
+
+		$this->log = $DIC["ilLog"];
+	}
+
+	/**
 	 * @var ilObjSurvey
 	 */
 	protected static $survey;
@@ -109,7 +126,7 @@ class ilSurveyImporter extends ilXmlImporter
 						$newObj->setOutro(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $newObj->getOutro()));
 					} else
 					{
-						global $ilLog;
+		$ilLog = $this->log;
 						$ilLog->write("Error: Could not open XHTML mob file for test introduction during test import. File $importfile does not exist!");
 					}
 				}

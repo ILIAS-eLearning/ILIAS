@@ -11,6 +11,11 @@
  */
 class ilSurveySkillThresholds
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	
 	/**
 	 * Constructor
@@ -20,6 +25,9 @@ class ilSurveySkillThresholds
 	 */
 	function __construct(ilObjSurvey $a_survey)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		$this->survey = $a_survey;
 		$this->read();
 	}
@@ -32,7 +40,7 @@ class ilSurveySkillThresholds
 	 */
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$set = $ilDB->query("SELECT * FROM svy_skill_threshold ".
 			" WHERE survey_id = ".$ilDB->quote($this->survey->getId(), "integer")
@@ -63,7 +71,7 @@ class ilSurveySkillThresholds
 	 */
 	function writeThreshold($a_base_skill_id, $a_tref_id, $a_level_id, $a_threshold)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$ilDB->replace("svy_skill_threshold",
 			array("survey_id" => array("integer", $this->survey->getId()),

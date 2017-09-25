@@ -12,6 +12,22 @@ include_once "Services/Cron/classes/class.ilCronJob.php";
  */
 class ilExcCronFeedbackNotification extends ilCronJob
 {			
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+	}
+
 	public function getId()
 	{
 		return "exc_feedback_notification";
@@ -19,7 +35,7 @@ class ilExcCronFeedbackNotification extends ilCronJob
 	
 	public function getTitle()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$lng->loadLanguageModule("exc");
 		return $lng->txt("exc_global_feedback_file_cron");
@@ -27,7 +43,7 @@ class ilExcCronFeedbackNotification extends ilCronJob
 	
 	public function getDescription()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$lng->loadLanguageModule("exc");
 		return $lng->txt("exc_global_feedback_file_cron_info");

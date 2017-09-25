@@ -15,6 +15,11 @@ include_once("./Modules/Portfolio/classes/class.ilPortfolioPage.php");
  */
 class ilPortfolioPageTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	protected $portfolio; // [ilObjPortfolio]
 	protected $is_template; // [bool]
 	protected $page_gui; // [string]
@@ -24,7 +29,13 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 	 */
 	function __construct(ilObjPortfolioBaseGUI $a_parent_obj, $a_parent_cmd)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -56,7 +67,7 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 
 	function getItems()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 			
 		$data = ilPortfolioPage::getAllPortfolioPages($this->portfolio->getId());
 		$this->setData($data);
@@ -89,7 +100,9 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng, $lng, $ilCtrl;
+		$lng = $this->lng;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		switch($a_set["type"])
 		{

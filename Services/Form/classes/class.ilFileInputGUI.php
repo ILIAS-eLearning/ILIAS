@@ -13,6 +13,11 @@ include_once("./Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
 */
 class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarItem
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	private $filename;
 	private $filename_post;
 	protected $size = 40;
@@ -34,7 +39,10 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
-		global $lng;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$lng = $DIC->language();
 		
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("file");
@@ -240,7 +248,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		// #18756
 		if($this->getDisabled())
@@ -358,7 +366,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 	*/
 	function render($a_mode = "")
 	{
-		global $lng;		
+		$lng = $this->lng;
 		
 		$quota_exceeded = $quota_legend = false;
 		if(self::$check_wsp_quota)
@@ -480,7 +488,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 
 	protected function outputSuffixes($a_tpl, $a_block = "allowed_suffixes")
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if (is_array($this->getSuffixes()) && count($this->getSuffixes()) > 0)
 		{

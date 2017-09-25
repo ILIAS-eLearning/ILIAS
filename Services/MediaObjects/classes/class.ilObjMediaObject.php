@@ -25,6 +25,16 @@ include_once "./Services/Object/classes/class.ilObject.php";
 */
 class ilObjMediaObject extends ilObject
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilAppEventHandler
+	 */
+	protected $app_event_handler;
+
 	var $is_alias;
 	var $origin_id;
 	var $id;
@@ -37,6 +47,11 @@ class ilObjMediaObject extends ilObject
 	*/
 	function __construct($a_id = 0)
 	{
+		global $DIC;
+
+		$this->user = $DIC->user();
+		$this->app_event_handler = $DIC["ilAppEventHandler"];
+		$this->lng = $DIC->language();
 		$this->is_alias = false;
 		$this->media_items = array();
 		$this->contains_int_link = false;
@@ -83,7 +98,9 @@ class ilObjMediaObject extends ilObject
 	*/
 	public static function _exists($a_id, $a_reference = false, $a_type = NULL)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		include_once("./Services/Link/classes/class.ilInternalLink.php");
 		if (is_int(strpos($a_id, "_")))
@@ -216,7 +233,7 @@ class ilObjMediaObject extends ilObject
 	{
 		include_once 'Services/MetaData/classes/class.ilMDCreator.php';
 
-		global $ilUser;
+		$ilUser = $this->user;
 
 		$md_creator = new ilMDCreator(0, $this->getId(), $this->getType());
 		$md_creator->setTitle($this->getTitle());
@@ -473,7 +490,7 @@ class ilObjMediaObject extends ilObject
 
 		self::handleQuotaUpdate($this);	
 
-		global $ilAppEventHandler;
+		$ilAppEventHandler = $this->app_event_handler;
 		$ilAppEventHandler->raise('Services/MediaObjects',
 		'create',
 		array('object' => $this,
@@ -517,7 +534,7 @@ class ilObjMediaObject extends ilObject
 		}
 		
 		self::handleQuotaUpdate($this);		
-		global $ilAppEventHandler;
+		$ilAppEventHandler = $this->app_event_handler;
 		$ilAppEventHandler->raise('Services/MediaObjects',
         	'update',
 		array('object' => $this,
@@ -528,7 +545,9 @@ class ilObjMediaObject extends ilObject
 	
 	protected static function handleQuotaUpdate(ilObjMediaObject $a_mob)
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC->settings();
 
 		// if neither workspace nor portfolios are activated, we skip
 		// the quota update here. this due to performance reasons on installations
@@ -685,7 +704,7 @@ class ilObjMediaObject extends ilObject
 	*/
 	function getXML($a_mode = IL_MODE_FULL, $a_inst = 0)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		// TODO: full implementation of all parameters
 //echo "-".$a_mode."-";
@@ -1016,7 +1035,9 @@ class ilObjMediaObject extends ilObject
 	*/
 	static function _deleteAllUsages($a_type, $a_id, $a_usage_hist_nr = 0, $a_lang = "-")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$and_hist = "";
 		if ($a_usage_hist_nr !== false)
@@ -1053,7 +1074,9 @@ class ilObjMediaObject extends ilObject
 	*/
 	static function _getMobsOfObject($a_type, $a_id, $a_usage_hist_nr = 0, $a_lang = "-")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$lstr = "";
 		if ($a_lang != "")
@@ -1088,7 +1111,9 @@ class ilObjMediaObject extends ilObject
 	*/
 	static function _saveUsage($a_mob_id, $a_type, $a_id, $a_usage_hist_nr = 0, $a_lang = "-")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$ilDB->replace("mob_usage",
 			array(
@@ -1109,7 +1134,9 @@ class ilObjMediaObject extends ilObject
 	*/
 	static function _removeUsage($a_mob_id, $a_type, $a_id, $a_usage_hist_nr = 0, $a_lang = "-")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$q = "DELETE FROM mob_usage WHERE ".
 			" id = ".$ilDB->quote((int) $a_mob_id, "integer")." AND ".
@@ -1137,7 +1164,9 @@ class ilObjMediaObject extends ilObject
 	*/
 	static function lookupUsages($a_id, $a_include_history = true)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$hist_str = "";
 		if ($a_include_history)
@@ -1514,7 +1543,9 @@ class ilObjMediaObject extends ilObject
 		$a_file, $a_reference, $a_constrain_proportions, $a_use_original,
 		$a_user_width, $a_user_height)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		// determine width and height of known image types
 		$width = 640;
@@ -2052,7 +2083,8 @@ class ilObjMediaObject extends ilObject
 	 */
 	function uploadMultipleSubtitleFile($a_file)
 	{
-		global $lng, $ilUser;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 
 		include_once("./Services/MediaObjects/exceptions/class.ilMediaObjectsException.php");
 		if (!is_file($a_file["tmp_name"]))

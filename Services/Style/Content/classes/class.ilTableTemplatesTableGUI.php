@@ -34,11 +34,36 @@ include_once("Services/Table/classes/class.ilTable2GUI.php");
 class ilTableTemplatesTableGUI extends ilTable2GUI
 {
 	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
 	* Constructor
 	*/
 	function __construct($a_temp_type, $a_parent_obj, $a_parent_cmd, $a_style_obj)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng, $rbacsystem;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$this->rbacsystem = $DIC->rbac()->system();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
+		$lng = $DIC->language();
+		$rbacsystem = $DIC->rbac()->system();
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
@@ -88,7 +113,10 @@ class ilTableTemplatesTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl, $ilAccess, $rbacsystem;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilAccess = $this->access;
+		$rbacsystem = $this->rbacsystem;
 		
 		$this->tpl->setVariable("T_PREVIEW", 
 			$this->style_obj->lookupTemplatePreview($a_set["id"]));

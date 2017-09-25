@@ -38,13 +38,12 @@ div.ilForumQuoteHead {
 	float: left;
 	width: 100px;
 	overflow: hidden;
-}
-
-.ilFrmPostImage img {
-	vertical-align: top;
-	padding: 5px 20px 5px 5px;
-	border: none;
-	max-width: 100%;
+	img {
+		vertical-align: top;
+		padding: 5px 20px 5px 5px;
+		border: none;
+		max-width: 100%;
+	}
 }
 
 .ilFrmPostClear {
@@ -57,6 +56,10 @@ div.ilForumQuoteHead {
 .ilFrmPostTitle {
 	margin-top: 15px;
 	font-size: 120%;
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		margin-top: 5px;
+		font-size: 100%;
+	}
 }
 
 div.ilFrmPostHeader span.small {
@@ -67,28 +70,39 @@ div.ilFrmPostHeader span.small {
 	margin: 0 0 10px;
 	width: 80%;
 	float: left;
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		width: 100%;
+	}
 }
 
 .ilFrmPostContent {
 	margin-top: 20px;
 }
 
-.ilFrmPostRow div.ilForm {
-	width: 100%;
-	max-width: 1000px;
-}
-
 .ilFrmPostRow {
 	padding: 3px;
 	border-top: 1px solid #f0f0f0;
-}
-
-.ilFrmPostRow div.ilForm div.ilFormValue {
-	width: auto;
-}
-
-.ilFrmPostRow div.ilForm div.ilFormOption {
-	width: 150px;
+	div.ilForm {
+		width: 100%;
+		max-width: 1000px;
+		div.ilFormValue {
+			width: auto;
+		}
+		div.ilFormOption {
+			width: 150px;
+		}
+		&, input[type=text], textarea {
+			@media only screen and (max-width: @grid-float-breakpoint-max) {
+				width: 100%;
+			}
+		}
+	}
+	img.ilUserIcon {
+		@media only screen and (max-width: @grid-float-breakpoint-max) {
+			width: 50px;
+			height: 50px;
+		}
+	}
 }
 
 .ilFrmPostCensorshipAdvice {
@@ -100,14 +114,12 @@ div.ilFrmPostHeader span.small {
 .ilFrmPostAttachmentsContainer {
 	margin: 20px 0 0;
 	font-weight: bold;
-}
-
-.ilFrmPostAttachmentsContainer a {
-	font-weight: normal;
-}
-
-.ilFrmPostAttachmentsContainer img {
-	vertical-align: middle;
+	a {
+		font-weight: normal;
+	}
+	img {
+		vertical-align: middle;
+	}
 }
 
 .ilFrmPostCommands {

@@ -88,20 +88,23 @@ class ilLPStatusEvent extends ilLPStatus
 
 	static function _getStatusInfo($a_obj_id)
 	{
-		global $tree;
-
-		include_once './Modules/Session/classes/class.ilEventParticipants.php';
-		include_once('./Modules/Session/classes/class.ilObjSession.php');
-		include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
+		$tree = $GLOBALS['DIC']->repositoryTree();
 
 		$references	= ilObject::_getAllReferences($a_obj_id);	
 		$ref_id = end($references);
 		
-		$course_ref_id = $tree->checkForParentType($ref_id,'crs');
-		$course_obj_id = ilObject::_lookupObjId($course_ref_id);
+		$member_ref_id = null;
+		if($id = $tree->checkForParentType($ref_id, 'grp'))
+		{
+			$member_ref_id = $id;
+		}
+		elseif($id = $tree->checkForParentType($ref_id, 'crs'))
+		{
+			$member_ref_id = $id;
+		}
 		
 		$status_info = array();
-		$status_info['crs_id'] = $course_obj_id;
+		$status_info['crs_id'] = ilObject::_lookupObjId($member_ref_id);
 		$status_info['registration'] = ilObjSession::_lookupRegistrationEnabled($a_obj_id);
 		$status_info['title'] = ilObject::_lookupTitle($a_obj_id);
 		$status_info['description'] = ilObject::_lookupDescription($a_obj_id);
@@ -166,23 +169,35 @@ class ilLPStatusEvent extends ilLPStatus
 	 * @return array
 	 */
 	protected static function getMembers($a_obj_id, $a_is_crs_id = false)
-	{		
-		// find course in path
+	{
 		if(!$a_is_crs_id)
 		{
+			$tree = $GLOBALS['DIC']->repositoryTree();
 			$references	= ilObject::_getAllReferences($a_obj_id);	
-			$ref_id = end($references);		
-			$course_ref_id = $tree->checkForParentType($ref_id,'crs');
-			$course_obj_id = ilObject::_lookupObjId($course_ref_id);
+			$ref_id = end($references);
+			
+			$member_ref_id = null;
+			if($id = $tree->checkForParentType($ref_id, 'grp'))
+			{
+				$member_ref_id = $id;
+			}
+			elseif($id = $tree->checkForParentType($ref_id, 'crs'))
+			{
+				$member_ref_id = $id;
+			}
+			else
+			{
+				return [];
+			}
+			$member_obj_id = ilObject::_lookupObjId($member_ref_id);
 		}
 		else
 		{
-			$course_obj_id = $a_obj_id;
+			$member_obj_id = $a_obj_id;
 		}
 		
-		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
-		$member_obj = ilCourseParticipants::_getInstanceByObjId($course_obj_id);
-		return $member_obj->getMembers();						
+		$member_obj = ilParticipants::getInstanceByObjId($member_obj_id);
+		return $member_obj->getMembers();
 	}
 	
 	/**

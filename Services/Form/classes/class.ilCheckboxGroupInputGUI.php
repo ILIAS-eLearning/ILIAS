@@ -32,6 +32,11 @@ include_once("./Services/Form/classes/class.ilCheckboxOption.php");
 */
 class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem, ilToolbarItem
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	protected $options = array();
 	protected $value;
 	protected $use_values_as_keys = false;
@@ -45,6 +50,9 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilT
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("checkboxgroup");
 	}
@@ -151,7 +159,7 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilT
 	*/
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		if ($this->getRequired() && count($_POST[$this->getPostVar()]) == 0)
 		{

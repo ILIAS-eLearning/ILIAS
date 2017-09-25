@@ -23,7 +23,10 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
 	 */
 	function __construct($a_title, $a_postvar, $a_explorer_gui, $a_multi = false)
 	{
-		global $lng;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$lng = $DIC->language();
 		
 		$this->multi_nodes = $a_multi;
 		$this->explorer_gui = $a_explorer_gui;
@@ -110,7 +113,7 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
 	 */	
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		// sanitize
 		if ($this->multi_nodes)
@@ -149,7 +152,7 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
 	 */
 	function render($a_mode = "property_form")
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		ilYuiUtil::initPanel();

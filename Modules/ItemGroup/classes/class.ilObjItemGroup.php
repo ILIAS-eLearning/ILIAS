@@ -18,6 +18,11 @@ include_once("./Modules/ItemGroup/classes/class.ilItemGroupAR.php");
  */
 class ilObjItemGroup extends ilObject2
 {
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_def;
+
 	protected $access_type; // [int]
 	protected $access_begin; // [timestamp]
 	protected $access_end; // [timestamp]
@@ -33,7 +38,12 @@ class ilObjItemGroup extends ilObject2
 	 */
 	function __construct($a_id = 0, $a_reference = true) 
 	{
-		global $tree, $objDefinition, $ilDB;
+		global $DIC;
+
+		$this->log = $DIC["ilLog"];
+		$tree = $DIC->repositoryTree();
+		$objDefinition = $DIC["objDefinition"];
+		$ilDB = $DIC->database();
 		
 		$this->tree = $tree;
 		$this->obj_def = $objDefinition;
@@ -165,7 +175,7 @@ class ilObjItemGroup extends ilObject2
 	 */
 	function cloneDependencies($a_target_id,$a_copy_id)
 	{
-		global $ilLog;
+		$ilLog = $this->log;
 		
 		$ilLog->write(__METHOD__.': Cloning item group dependencies -'.$a_source_id.'-');
 		
@@ -186,7 +196,9 @@ class ilObjItemGroup extends ilObject2
 	 */
 	static function fixContainerItemGroupRefsAfterCloning($a_source_container, $a_copy_id)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC["ilLog"];
 		
 		$ilLog->write(__METHOD__.': Fix item group references in '.$a_source_container->getType());
 		
@@ -243,7 +255,9 @@ class ilObjItemGroup extends ilObject2
 	 */
 	protected static function lookup($a_id, $a_key)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->query("SELECT ".$a_key." FROM itgr_data ".
 			" WHERE id = ".$ilDB->quote($a_id, "integer")

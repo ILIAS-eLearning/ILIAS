@@ -30,6 +30,9 @@ class ilPoolSelectorGUI extends ilRepositorySelectorExplorerGUI
 	function __construct($a_parent_obj, $a_parent_cmd, $a_selection_gui = null, $a_selection_cmd = "insert",
 						 $a_selection_subcmd = "selectPool", $a_selection_par = "pool_ref_id")
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
 		if($a_selection_gui == null)
 		{
 			$a_selection_gui = $a_parent_obj;
@@ -50,7 +53,7 @@ class ilPoolSelectorGUI extends ilRepositorySelectorExplorerGUI
 	 */
 	function getNodeHref($a_node)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$ilCtrl->setParameterByClass($this->selection_gui, "subCmd", $this->selection_subcmd);
 		$link = parent::getNodeHref($a_node);

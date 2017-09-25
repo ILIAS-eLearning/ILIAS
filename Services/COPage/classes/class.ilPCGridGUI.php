@@ -26,7 +26,11 @@ class ilPCGridGUI extends ilPageContentGUI
 	 */
 	function __construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
-		global $ilToolbar, $ilTabs;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$ilToolbar = $DIC->toolbar();
+		$ilTabs = $DIC->tabs();
 
 		$this->toolbar = $ilToolbar;
 		$this->tabs = $ilTabs;
@@ -266,7 +270,7 @@ class ilPCGridGUI extends ilPageContentGUI
 	 */
 	function deleteCells()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		if (is_array($_POST["tid"]))
 		{

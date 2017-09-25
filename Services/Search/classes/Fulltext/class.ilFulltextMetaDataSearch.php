@@ -40,105 +40,49 @@ class ilFulltextMetaDataSearch extends ilMetaDataSearch
 	function __createKeywordWhereCondition()
 	{
 		// IN BOOLEAN MODE
-		if($this->db->isMysql4_0OrHigher())
+		$query .= " WHERE MATCH(keyword) AGAINST('";
+		foreach($this->query_parser->getQuotedWords(true) as $word)
 		{
-			$query .= " WHERE MATCH(keyword) AGAINST('";
-			foreach($this->query_parser->getQuotedWords(true) as $word)
-			{
-				$query .= $word;
-				$query .= '* ';
-			}
-			$query .= "' IN BOOLEAN MODE) ";
+			$query .= $word;
+			$query .= '* ';
 		}
-		else
-		{
-			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
-			$query .= " WHERE MATCH (keyword) AGAINST(' ";
-			foreach($this->query_parser->getQuotedWords(true) as $word)
-			{
-				$query .= $word;
-				$query .= ' ';
-			}
-			$query .= "') ";
-		}
+		$query .= "' IN BOOLEAN MODE) ";
 		return $query;
 	}		
 	function __createContributeWhereCondition()
 	{
 		// IN BOOLEAN MODE
-		if($this->db->isMysql4_0OrHigher())
+		$query .= " WHERE MATCH(entity) AGAINST('";
+		foreach($this->query_parser->getQuotedWords(true) as $word)
 		{
-			$query .= " WHERE MATCH(entity) AGAINST('";
-			foreach($this->query_parser->getQuotedWords(true) as $word)
-			{
-				$query .= $word;
-				$query .= '* ';
-			}
-			$query .= "' IN BOOLEAN MODE) ";
+			$query .= $word;
+			$query .= '* ';
 		}
-		else
-		{
-			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
-			$query .= " WHERE MATCH (entity) AGAINST(' ";
-			foreach($this->query_parser->getQuotedWords(true) as $word)
-			{
-				$query .= $word;
-				$query .= ' ';
-			}
-			$query .= "') ";
-		}
+		$query .= "' IN BOOLEAN MODE) ";
 		return $query;
 	}		
 	function __createTitleWhereCondition()
 	{
 		// IN BOOLEAN MODE
-		if($this->db->isMysql4_0OrHigher())
+		$query .= " WHERE MATCH(title,coverage) AGAINST('";
+		foreach($this->query_parser->getQuotedWords(true) as $word)
 		{
-			$query .= " WHERE MATCH(title,coverage) AGAINST('";
-			foreach($this->query_parser->getQuotedWords(true) as $word)
-			{
-				$query .= $word;
-				$query .= '* ';
-			}
-			$query .= "' IN BOOLEAN MODE) ";
+			$query .= $word;
+			$query .= '* ';
 		}
-		else
-		{
-			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
-			$query .= " WHERE MATCH (title,coverage) AGAINST(' ";
-			foreach($this->query_parser->getQuotedWords(true) as $word)
-			{
-				$query .= $word;
-				$query .= ' ';
-			}
-			$query .= "') ";
-		}
+		$query .= "' IN BOOLEAN MODE) ";
 		return $query;
 	}		
 	function __createDescriptionWhereCondition()
 	{
 		// IN BOOLEAN MODE
-		if($this->db->isMysql4_0OrHigher())
+		$query .= " WHERE MATCH(description) AGAINST('";
+		foreach($this->query_parser->getQuotedWords(true) as $word)
 		{
-			$query .= " WHERE MATCH(description) AGAINST('";
-			foreach($this->query_parser->getQuotedWords(true) as $word)
-			{
-				$query .= $word;
-				$query .= '* ';
-			}
-			$query .= "' IN BOOLEAN MODE) ";
+			$query .= $word;
+			$query .= '* ';
 		}
-		else
-		{
-			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
-			$query .= " WHERE MATCH (description) AGAINST(' ";
-			foreach($this->query_parser->getQuotedWords(true) as $word)
-			{
-				$query .= $word;
-				$query .= ' ';
-			}
-			$query .= "') ";
-		}
+		$query .= "' IN BOOLEAN MODE) ";
 		return $query;
 	}		
 }

@@ -440,21 +440,21 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		if(ilEventParticipants::_isRegistered($ilUser->getId(), $this->getCurrentObject()->getId()))
 		{
-			$btn_attend->setCaption($this->lng->txt("event_unregister"));
+			$btn_attend->setCaption($this->lng->txt("event_unregister"), false);
 			$btn_attend->setUrl($this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjSessionGUI"), "unregister"));
 			$ilToolbar->addButtonInstance($btn_attend);
 			return TRUE;
 		}
 		elseif($part->isSubscriber($ilUser->getId()))
 		{
-			$btn_attend->setCaption($this->lng->txt("event_unregister"));
+			$btn_attend->setCaption($this->lng->txt("event_unregister"), false);
 			$btn_attend->setUrl($this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjSessionGUI"), "unregister"));
 			$ilToolbar->addButtonInstance($btn_attend);
 			return TRUE;
 		}
 		elseif(ilSessionWaitingList::_isOnList($ilUser->getId(), $this->getCurrentObject()->getId()))
 		{
-			$btn_attend->setCaption($this->lng->txt("leave_waiting_list"));
+			$btn_attend->setCaption($this->lng->txt("leave_waiting_list"), false);
 			$btn_attend->setUrl($this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjSessionGUI"), "unregister"));
 			$ilToolbar->addButtonInstance($btn_attend);
 			return TRUE;
@@ -471,7 +471,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			if($this->getCurrentObject()->isRegistrationWaitingListEnabled())
 			{
 				ilUtil::sendInfo($this->lng->txt('sess_reg_max_users_exceeded_wl'));
-				$btn_attend->setCaption($this->lng->txt("mem_add_to_wl"));
+				$btn_attend->setCaption($this->lng->txt("mem_add_to_wl"), false);
 				$btn_attend->setUrl($this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjSessionGUI"), "register"));
 				$ilToolbar->addButtonInstance($btn_attend);
 				return TRUE;
@@ -487,7 +487,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			if(!isset($_SESSION['sess_hide_info']))
 			{
 				ilUtil::sendInfo($this->lng->txt('sess_join_info'));
-				$btn_attend->setCaption($this->lng->txt("join_session"));
+				$btn_attend->setCaption($this->lng->txt("join_session"), false);
 				$btn_attend->setUrl($this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjSessionGUI"), "register"));
 				$ilToolbar->addButtonInstance($btn_attend);
 				return TRUE;
@@ -839,7 +839,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$new_obj->getFirstAppointment()->setStartingTime($date->get(IL_CAL_UNIX));
 			$new_obj->getFirstAppointment()->setEndingTime($date->get(IL_CAL_UNIX) + $period_diff);
 			$new_obj->getFirstAppointment()->update();
-			$new_obj->update();
+			$new_obj->update(true);
 			
 			// #14547 - active is default
 			if(!$a_activate_lp)
@@ -1576,7 +1576,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 				$this->form->addCommandButton('save',$this->lng->txt('event_btn_add'));
 				$this->form->addCommandButton('saveAndAssignMaterials',$this->lng->txt('event_btn_add_edit'));
-				$this->form->addCommandButton('cancelEdit',$this->lng->txt('cancel'));
+				$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
 		
 				return true;
 			

@@ -32,6 +32,11 @@ include_once("./Services/Container/classes/class.ilContainerContentGUI.php");
 */
 class ilContainerSessionsContentGUI extends ilContainerContentGUI
 {
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
 	protected $force_details = array();
 	
 	/**
@@ -40,7 +45,12 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 	*/
 	function __construct($container_gui_obj)
 	{
-		global $lng;
+		global $DIC;
+
+		$this->tabs = $DIC->tabs();
+		$this->user = $DIC->user();
+		$this->ctrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		parent::__construct($container_gui_obj);
 		$this->lng = $lng;
@@ -81,7 +91,8 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 	*/
 	function getMainContent()
 	{
-		global $lng,$ilTabs;
+		$lng = $this->lng;
+		$ilTabs = $this->tabs;
 
 		// see bug #7452
 //		$ilTabs->setSubTabActive($this->getContainerObject()->getType().'_content');
@@ -112,7 +123,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 	*/
 	function __showMaterials($a_tpl)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$this->items = $this->getContainerObject()->getSubItems($this->getContainerGUI()->isActiveAdministrationPanel());
 		$this->clearAdminCommandsDetermination();
@@ -199,7 +210,9 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 	 */
 	protected function renderSessionLimitLink($a_previous = true)
 	{
-		global $lng, $ilUser, $ilCtrl;
+		$lng = $this->lng;
+		$ilUser = $this->user;
+		$ilCtrl = $this->ctrl;
 		
 		$lng->loadLanguageModule('crs');
 
@@ -261,7 +274,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 	 */
 	public function addFooterRow($tpl)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
 		
@@ -279,7 +292,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 	 */
 	protected function initDetails()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		if($_GET['expand'])
 		{

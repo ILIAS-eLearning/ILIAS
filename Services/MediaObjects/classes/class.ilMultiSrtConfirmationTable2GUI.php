@@ -14,6 +14,21 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilMultiSrtConfirmationTable2GUI extends ilTable2GUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	protected $mob;
 
 	/**
@@ -21,7 +36,17 @@ class ilMultiSrtConfirmationTable2GUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng, $ilUser;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$this->user = $DIC->user();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
+		$lng = $DIC->language();
+		$ilUser = $DIC->user();
 
 		$this->mob = $a_parent_obj->object;
 		$lng->loadLanguageModule("meta");
@@ -49,7 +74,7 @@ class ilMultiSrtConfirmationTable2GUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		if ($a_set["lang"] != "")
 		{

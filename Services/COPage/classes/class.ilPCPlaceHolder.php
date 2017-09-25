@@ -15,6 +15,15 @@ require_once("./Services/COPage/classes/class.ilPageContent.php");
 */
 
 class ilPCPlaceHolder extends ilPageContent {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
 	
 	//class of placeholder
 	
@@ -27,6 +36,10 @@ class ilPCPlaceHolder extends ilPageContent {
 	*/
 	function init()
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
 		$this->setType("plach");
 	}
 	
@@ -136,7 +149,8 @@ class ilPCPlaceHolder extends ilPageContent {
 	 */
 	function modifyPageContentPostXsl($a_html, $a_mode)
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		//
 		// Note: this standard output is "overwritten", e.g. by ilPortfolioPageGUI::postOutputProcessing

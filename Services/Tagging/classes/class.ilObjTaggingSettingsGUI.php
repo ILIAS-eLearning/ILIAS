@@ -15,6 +15,21 @@ include_once("./Services/Object/classes/class.ilObjectGUI.php");
 */
 class ilObjTaggingSettingsGUI extends ilObjectGUI
 {
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
     private static $ERROR_MESSAGE;
 	/**
 	 * Contructor
@@ -23,6 +38,17 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
 	 */
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
+		global $DIC;
+
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->error = $DIC["ilErr"];
+		$this->access = $DIC->access();
+		$this->tabs = $DIC->tabs();
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+		$this->settings = $DIC->settings();
+		$this->tpl = $DIC["tpl"];
+		$this->toolbar = $DIC->toolbar();
 		$this->type = 'tags';
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
@@ -37,7 +63,9 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
 	 */
 	public function executeCommand()
 	{
-		global $rbacsystem,$ilErr,$ilAccess;
+		$rbacsystem = $this->rbacsystem;
+		$ilErr = $this->error;
+		$ilAccess = $this->access;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -78,7 +106,8 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
 	 */
 	public function getAdminTabs()
 	{
-		global $rbacsystem, $ilAccess;
+		$rbacsystem = $this->rbacsystem;
+		$ilAccess = $this->access;
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -100,7 +129,10 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
 	 */
 	function addSubTabs()
 	{
-		global $ilTabs, $lng, $ilCtrl, $ilAccess;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilAccess = $this->access;
 		
 		$tags_set = new ilSetting("tags");
 		if ($tags_set->get("enable"))
@@ -125,7 +157,7 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
 	*/
 	public function editSettings()
 	{
-		global $ilTabs;
+		$ilTabs = $this->tabs;
 		
 		$this->tabs_gui->setTabActive('tagging_edit_settings');
 		$this->addSubTabs();
@@ -139,7 +171,8 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
 	*/
 	public function saveSettings()
 	{
-		global $ilCtrl, $ilSetting;
+		$ilCtrl = $this->ctrl;
+		$ilSetting = $this->settings;
 		
 		$this->checkPermission("write");
 
@@ -157,7 +190,7 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
 	*/
 	public function cancel()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$ilCtrl->redirect($this, "view");
 	}
@@ -169,7 +202,8 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
 	 */
 	protected function initFormSettings()
 	{
-	    global $lng, $ilAccess;
+		$lng = $this->lng;
+		$ilAccess = $this->access;
 		
 		$tags_set = new ilSetting("tags");
 		
@@ -221,7 +255,8 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
 	 */
 	function editForbiddenTags()
 	{
-		global $ilTabs, $tpl;
+		$ilTabs = $this->tabs;
+		$tpl = $this->tpl;
 		
 		$this->addSubTabs();
 		$ilTabs->activateSubTab("forbidden_tags");
@@ -236,7 +271,8 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
 	 */
 	public function initForbiddenTagsForm()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 	
 		$tags_set = new ilSetting("tags");
 		$forbidden = $tags_set->get("forbidden_tags");
@@ -269,7 +305,9 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
 	*/
 	public function saveForbiddenTags()
 	{
-		global $tpl, $lng, $ilCtrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$this->initForbiddenTagsForm();
 		$this->form->checkInput();
@@ -309,7 +347,11 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
 	 */
 	function showUsers($a_search = false)
 	{
-		global $ilTabs, $tpl, $ilToolbar, $lng, $ilCtrl;
+		$ilTabs = $this->tabs;
+		$tpl = $this->tpl;
+		$ilToolbar = $this->toolbar;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$this->checkPermission("write");
 		

@@ -31,7 +31,7 @@ class ilContextRss implements ilContextTemplate
 	 */
 	public static function hasUser()
 	{
-		return false;
+		return true;
 	}
 	
 	/**
@@ -51,7 +51,7 @@ class ilContextRss implements ilContextTemplate
 	 */
 	public static function hasHTML()
 	{
-		return false;
+		return true;
 	}
 	
 	/**

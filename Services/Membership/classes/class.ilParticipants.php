@@ -18,6 +18,11 @@ define('IL_GRP_MEMBER',5);
 
 define('IL_SESS_MEMBER', 6);
 
+define("IL_ROLE_POSITION_ADMIN",1);
+define("IL_ROLE_POSITION_TUTOR",2);
+define("IL_ROLE_POSITION_MEMBER",3);
+
+
 abstract class ilParticipants
 {
 	protected $component = '';
@@ -433,7 +438,7 @@ abstract class ilParticipants
 		}
 		return 0;
 	}
-	
+		
 	/**
 	 * get current obj_id
 	 * @return type
@@ -946,7 +951,6 @@ abstract class ilParticipants
 		
 		$this->participants[] = $a_usr_id;
 		$rbacadmin->assignUser($this->role_data[$a_role],$a_usr_id);
-		$this->addDesktopItem($a_usr_id);
 		
 		// Delete subscription request
 		$this->deleteSubscriber($a_usr_id);
@@ -1617,5 +1621,19 @@ abstract class ilParticipants
 		return $res;
 	}
 
+	public function setRoleOrderPosition($a_user_id)
+	{
+		if($this->isAdmin($a_user_id))
+		{
+			return IL_ROLE_POSITION_ADMIN;
+		}
+		else if($this->isTutor($a_user_id))
+		{
+			return IL_ROLE_POSITION_TUTOR;
+		}
+
+		return IL_ROLE_POSITION_MEMBER;
+
+	}
 }
 ?>

@@ -20,6 +20,26 @@ require_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 */
 class ilStructureObjectGUI extends ilLMObjectGUI
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var Logger
+	 */
+	protected $log;
+
 	var $obj;	// structure object
 	var $tree;
 
@@ -29,6 +49,16 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*/
 	function __construct(&$a_content_obj, &$a_tree)
 	{
+		global $DIC;
+
+		$this->tree = $DIC->repositoryTree();
+		$this->user = $DIC->user();
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->error = $DIC["ilErr"];
+		$this->tabs = $DIC->tabs();
+		$this->log = $DIC["ilLog"];
+		$this->tpl = $DIC["tpl"];
 		parent::__construct($a_content_obj);
 		$this->tree = $a_tree;
 	}
@@ -75,7 +105,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 				break;
 
 			case "ilconditionhandlergui":
-				global $ilTabs;
+		$ilTabs = $this->tabs;
 				include_once './Services/AccessControl/classes/class.ilConditionHandlerGUI.php';
 
 				$this->setTabs();
@@ -128,7 +158,10 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*/
 	function view()
 	{
-		global $tree, $ilUser, $ilCtrl, $lng;
+		$tree = $this->tree;
+		$ilUser = $this->user;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		$this->showHierarchy();
 	}
@@ -139,7 +172,8 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*/
 	function showHierarchy()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$this->setTabs();
 		
@@ -182,7 +216,8 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*/
 	function cutItems($a_return = "view")
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$items = ilUtil::stripSlashesArray($_POST["id"]);
 		if (!is_array($items))
@@ -223,7 +258,8 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*/
 	function copyItems($a_return = "view")
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$items = ilUtil::stripSlashesArray($_POST["id"]);
 		if (!is_array($items))
@@ -263,10 +299,11 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*/
 	function saveAllTitles()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		ilLMObject::saveTitles($this->content_object, ilUtil::stripSlashesArray($_POST["title"]), $_GET["transl"]);
-		
+
+		ilUtil::sendSuccess($this->lng->txt("lm_save_titles"), true);
 		$ilCtrl->redirect($this, "showHierarchy");
 	}
 	
@@ -275,7 +312,10 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*/
 	function subchap()
 	{
-		global $tree, $ilCtrl, $lng, $ilUser;
+		$tree = $this->tree;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 
 		$this->setTabs();
 
@@ -462,11 +502,12 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*/
 	function pastePage()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
+		$ilErr = $this->error;
 		
 		if (!$ilUser->clipboardHasObjectsOfType("pg"))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_page_in_clipboard"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("no_page_in_clipboard"), $ilErr->MESSAGE);
 		}
 
 		return $this->insertPageClip();
@@ -494,7 +535,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*/
 	function pasteChapter()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		return $this->insertChapterClip(false, "subchap");
 	}
@@ -504,7 +545,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*/
 	function activatePages()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 		if (is_array($_POST["id"]))
@@ -601,7 +642,9 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*/
 	function setTabs()
 	{
-		global $ilTabs, $ilUser, $lng;
+		$ilTabs = $this->tabs;
+		$ilUser = $this->user;
+		$lng = $this->lng;
 
 		// subelements
 		$ilTabs->addTarget("cont_pages_and_subchapters",
@@ -640,7 +683,12 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*/
 	public static function _goto($a_target, $a_target_ref_id = "")
 	{
-		global $rbacsystem, $ilErr, $lng, $ilAccess;
+		global $DIC;
+
+		$rbacsystem = $DIC->rbac()->system();
+		$ilErr = $DIC["ilErr"];
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
 
 		// determine learning object
 		$lm_id = ilLMObject::_lookupContObjID($a_target);
@@ -686,7 +734,8 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*/
 	function insertChapter($a_as_sub = false)
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		include_once("./Modules/LearningModule/classes/class.ilChapterHierarchyFormGUI.php");
 		
@@ -737,7 +786,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*/
 	function insertSubchapter()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$this->insertChapter(true);
 	}
@@ -747,7 +796,9 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*/
 	function insertChapterClip($a_as_sub = false, $a_return = "view")
 	{
-		global $ilUser, $ilCtrl, $ilLog;
+		$ilUser = $this->user;
+		$ilCtrl = $this->ctrl;
+		$ilLog = $this->log;
 		
 		$ilLog->write("Insert Chapter From Clipboard");
 		
@@ -829,7 +880,8 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*/
 	function insertPage()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		include_once("./Modules/LearningModule/classes/class.ilChapterHierarchyFormGUI.php");
 		
@@ -865,7 +917,8 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*/
 	function insertPageClip()
 	{
-		global $ilCtrl, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 		
 		include_once("./Modules/LearningModule/classes/class.ilChapterHierarchyFormGUI.php");
 		
@@ -911,7 +964,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*/
 	function proceedDragDrop()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 //echo "-".$_POST["il_hform_source_id"]."-".$_POST["il_hform_target_id"]."-".$_POST["il_hform_fc"]."-";
 		$this->content_object->executeDragDrop($_POST["il_hform_source_id"], $_POST["il_hform_target_id"],
@@ -928,7 +981,9 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	 */
 	function setPageLayout()
 	{
-		global $tpl, $ilCtrl, $lng;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		if (!is_array($_POST["id"]))
 		{
@@ -946,7 +1001,8 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	 */
 	public function initSetPageLayoutForm()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -978,7 +1034,8 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	 */
 	function savePageLayout()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		foreach ($_POST["id"] as $id)
 		{
@@ -999,7 +1056,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	 */
 	function editMasterLanguage()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$ilCtrl->setParameter($this, "transl", "");
 		$ilCtrl->redirect($this, "showHierarchy");
@@ -1013,7 +1070,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	 */
 	function switchToLanguage()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$ilCtrl->setParameter($this, "transl", $_GET["totransl"]); 
 		$ilCtrl->redirect($this, "showHierarchy");

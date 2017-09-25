@@ -36,6 +36,40 @@ include_once './Services/AccessControl/interfaces/interface.ilConditionHandling.
 */
 class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		global $DIC;
+
+		$this->user = $DIC->user();
+		$this->lng = $DIC->language();
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->access = $DIC->access();
+	}
+
 	
 	/**
 	 * Get possible conditions operators
@@ -96,7 +130,10 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 	*/
 	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
 	{
-		global $ilUser, $lng, $rbacsystem, $ilAccess;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$rbacsystem = $this->rbacsystem;
+		$ilAccess = $this->access;
 
 		if ($a_user_id == "")
 		{
@@ -192,7 +229,9 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 	*/
 	static function _lookupCreationComplete($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$result = $ilDB->queryF("SELECT * FROM svy_svy WHERE obj_fi=%s",
 			array('integer'),
@@ -215,7 +254,9 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 	*/
 	static function _lookupEvaluationAccess($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$result = $ilDB->queryF("SELECT * FROM svy_svy WHERE obj_fi=%s",
 			array('integer'),
@@ -231,7 +272,9 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 	
 	static function _isSurveyParticipant($user_id, $survey_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$result = $ilDB->queryF("SELECT finished_id FROM svy_finished WHERE user_fi = %s AND survey_fi = %s",
 			array('integer','integer'),
@@ -242,7 +285,9 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 	
 	static function _lookupAnonymize($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$result = $ilDB->queryF("SELECT anonymize FROM svy_svy WHERE obj_fi = %s",
 			array('integer'),
@@ -289,7 +334,9 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 					// access is only granted with the survey access code
 					if (ilObjSurveyAccess::_lookupAnonymize($a_obj_id) == 1) return true;
 
-					global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 					$result = $ilDB->queryF("SELECT survey_id FROM svy_svy WHERE obj_fi = %s",
 						array('integer'),
 						array($a_obj_id)
@@ -332,7 +379,9 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 	*/
 	static function _lookupOnline($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$result = $ilDB->queryF("SELECT * FROM svy_svy WHERE obj_fi=%s",
 			array('integer'),
@@ -352,7 +401,10 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 	*/
 	static function _lookupFinished($a_obj_id, $a_user_id = "")
 	{
-		global $ilDB, $ilUser;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilUser = $DIC->user();
 
 		$finished = "";
 		if (!strlen($a_user_id)) $a_user_id = $ilUser->getId();
@@ -392,7 +444,9 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 	
 	static function _lookup360Mode($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$result = $ilDB->queryF("SELECT mode_360 FROM svy_svy".
 			" WHERE obj_fi = %s AND mode_360 = %s",
@@ -407,7 +461,9 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 	*/
 	static function _checkGoto($a_target)
 	{
-		global $ilAccess;
+		global $DIC;
+
+		$ilAccess = $DIC->access();
 		
 		$t_arr = explode("_", $a_target);
 

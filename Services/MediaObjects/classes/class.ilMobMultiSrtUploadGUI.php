@@ -11,6 +11,26 @@
  */
 class ilMobMultiSrtUploadGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
 	public $multi_srt;
 
 	/**
@@ -20,7 +40,12 @@ class ilMobMultiSrtUploadGUI
 	 */
 	public function __construct(ilMobMultiSrtInt $a_multi_srt)
 	{
-		global $ilCtrl, $lng, $ilToolbar, $tpl;
+		global $DIC;
+
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilToolbar = $DIC->toolbar();
+		$tpl = $DIC["tpl"];
 
 		$this->tpl = $tpl;
 		$this->lng = $lng;

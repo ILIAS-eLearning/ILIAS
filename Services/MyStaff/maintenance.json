@@ -1,8 +1,10 @@
 {
-    "maintenance_model": "classic",
-    "first_maintainer": "fschmid",
-    "second_maintainer": "",
-    "implicit_maintainers": ["mstuder"],
+    "maintenance_model": "Classic",
+    "first_maintainer": "fschmid(21087)",
+    "second_maintainer": "rklees(34047)",
+    "implicit_maintainers": [
+        "mstuder(8473)"
+    ],
     "coordinator": "",
     "tester": "",
     "testcase_writer": "",

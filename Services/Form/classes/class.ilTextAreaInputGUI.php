@@ -129,6 +129,9 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("textarea");
 		$this->setRteTagSet("standard");
@@ -420,7 +423,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		include_once("./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php");
 		
 		if($this->usePurifier() && $this->getPurifier())
@@ -484,7 +487,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 	*/
 	function insert($a_tpl)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$ttpl = new ilTemplate("tpl.prop_textarea.html", true, true, "Services/Form");
 		

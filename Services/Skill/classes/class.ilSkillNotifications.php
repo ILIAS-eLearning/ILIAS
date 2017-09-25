@@ -11,6 +11,49 @@ include_once "Services/Cron/classes/class.ilCronJob.php";
  */
 class ilSkillNotifications extends ilCronJob
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilIniFile
+	 */
+	protected $client_ini;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		if (isset($DIC["ilUser"]))
+		{
+			$this->user = $DIC->user();
+		}
+		if (isset($DIC["ilClientIniFile"]))
+		{
+			$this->client_ini = $DIC["ilClientIniFile"];
+		}
+		if (isset($DIC["tree"]))
+		{
+			$this->tree = $DIC->repositoryTree();
+		}
+	}
+
 	public function getId()
 	{
 		return "skll_notification";
@@ -18,14 +61,14 @@ class ilSkillNotifications extends ilCronJob
 
 	public function getTitle()
 	{
-		global $lng;
+		$lng = $this->lng;
 		$lng->loadLanguageModule("skll");
 		return $lng->txt("skll_skill_notification");
 	}
 
 	public function getDescription()
 	{
-		global $lng;
+		$lng = $this->lng;
 		$lng->loadLanguageModule("skll");
 		return $lng->txt("skll_skill_notification_desc");
 	}
@@ -131,7 +174,10 @@ class ilSkillNotifications extends ilCronJob
 	 */
 	protected function sendMail($a_user_id, array $a_achievements, $a_last_run)
 	{
-		global $lng, $ilUser, $ilClientIniFile, $tree;
+		$lng = $this->lng;
+		$ilUser = $this->user;
+		$ilClientIniFile = $this->client_ini;
+		$tree = $this->tree;
 
 		include_once "./Services/Notification/classes/class.ilSystemNotification.php";
 		$ntf = new ilSystemNotification();

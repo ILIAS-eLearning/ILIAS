@@ -14,6 +14,31 @@
 
 class ilPDNewsGUI
 {
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 
 	/**
 	* Constructor
@@ -22,7 +47,14 @@ class ilPDNewsGUI
 	*/
 	function __construct()
 	{
-		global $tpl, $lng, $ilCtrl, $ilHelp;
+		global $DIC;
+
+		$this->help = $DIC["ilHelp"];
+		$this->user = $DIC->user();
+		$tpl = $DIC["tpl"];
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$ilHelp = $DIC["ilHelp"];
 
 		$ilHelp->setScreenIdComponent("news");
 		
@@ -72,7 +104,10 @@ class ilPDNewsGUI
 	*/
 	function view()
 	{
-		global $ilUser, $lng, $tpl, $ilCtrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
 
 		$ref_ids = array();
 		$obj_ids = array();
@@ -150,7 +185,7 @@ class ilPDNewsGUI
 	*/
 	function applyFilter()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$this->ctrl->setParameter($this, "news_ref_id", $_POST["news_ref_id"]);
 		$ilUser->writePref("news_sel_ref_id", $_POST["news_ref_id"]);
@@ -166,7 +201,7 @@ class ilPDNewsGUI
 	*/
 	function resetFilter()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		$this->ctrl->setParameter($this, "news_ref_id", 0);
 		$ilUser->writePref("news_sel_ref_id", 0);
 		$_SESSION["news_pd_news_per"] = "";

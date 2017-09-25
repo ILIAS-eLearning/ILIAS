@@ -40,27 +40,13 @@ class ilFulltextLMContentSearch extends ilLMContentSearch
 	function __createWhereCondition()
 	{
 		// IN BOOLEAN MODE
-		if($this->db->isMysql4_0OrHigher())
+		$where .= " WHERE MATCH(content) AGAINST('";
+		foreach($this->query_parser->getQuotedWords(true) as $word)
 		{
-			$where .= " WHERE MATCH(content) AGAINST('";
-			foreach($this->query_parser->getQuotedWords(true) as $word)
-			{
-				$where .= $word;
-				$where .= '* ';
-			}
-			$where .= "' IN BOOLEAN MODE) ";
+			$where .= $word;
+			$where .= '* ';
 		}
-		else
-		{
-			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
-			$where .= " WHERE MATCH (content) AGAINST(' ";
-			foreach($this->query_parser->getQuotedWords(true) as $word)
-			{
-				$where .= $word;
-				$where .= ' ';
-				}
-			$where .= "') ";
-		}
+		$where .= "' IN BOOLEAN MODE) ";
 		return $where;
 	}		
 }

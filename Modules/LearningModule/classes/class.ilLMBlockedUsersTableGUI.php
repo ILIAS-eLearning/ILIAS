@@ -15,11 +15,24 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 class ilLMBlockedUsersTableGUI extends ilTable2GUI
 {
 	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
 	 * Constructor
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_lm)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
+		$lng = $DIC->language();
 
 		$this->lm = $a_lm;
 
@@ -61,7 +74,7 @@ class ilLMBlockedUsersTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$this->tpl->setVariable("USER_QUEST_ID", $a_set["qst_id"].":".$a_set["user_id"]);
 		$this->tpl->setVariable("USER_NAME", $a_set["user_name"]);

@@ -18,7 +18,11 @@ class ilHelp
 	 */
 	static function getTooltipPresentationText($a_tt_id)
 	{
-		global $ilDB, $ilSetting, $ilUser;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilSetting = $DIC->settings();
+		$ilUser = $DIC->user();
 		
 		
 		if ($ilUser->getLanguage() != "de")
@@ -115,7 +119,9 @@ class ilHelp
 	 */
 	static function getAllTooltips($a_comp = "", $a_module_id = 0)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$q = "SELECT * FROM help_tooltip";
 		$q.= " WHERE module_id = ".$ilDB->quote($a_module_id, "integer");
@@ -141,7 +147,9 @@ class ilHelp
 	 */
 	static function addTooltip($a_tt_id, $a_text, $a_module_id = 0)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$fu = strpos($a_tt_id, "_");
 		$comp = substr($a_tt_id, 0, $fu);
@@ -165,7 +173,9 @@ class ilHelp
 	 */
 	static function updateTooltip($a_id, $a_text, $a_tt_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$fu = strpos($a_tt_id, "_");
 		$comp = substr($a_tt_id, 0, $fu);
@@ -187,7 +197,10 @@ class ilHelp
 	 */
 	static function getTooltipComponents($a_module_id = 0)
 	{
-		global $ilDB, $lng;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$lng = $DIC->language();
 		
 		$set = $ilDB->query("SELECT DISTINCT comp FROM help_tooltip ".
 			" WHERE module_id = ".$ilDB->quote($a_module_id, "integer").
@@ -208,7 +221,9 @@ class ilHelp
 	 */
 	static function deleteTooltip($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$ilDB->manipulate("DELETE FROM help_tooltip WHERE ".
 			" id = ".$ilDB->quote($a_id, "integer")
@@ -223,7 +238,9 @@ class ilHelp
 	 */
 	static function deleteTooltipsOfModule($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$ilDB->manipulate("DELETE FROM help_tooltip WHERE ".
 			" module_id = ".$ilDB->quote($a_id, "integer")
@@ -238,7 +255,9 @@ class ilHelp
 	 */
 	static function getHelpLMId()
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC->settings();
 
 		$lm_id = 0;
 

@@ -798,7 +798,10 @@ class ilMail
 						|| $tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL
 						|| $tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_BOTH)
 					{
-						$as_email = $as_email + ilMailOptions::getExternalEmailsByUser($tmp_user, $tmp_mail_options);
+						$as_email = array_unique(array_merge(
+							ilMailOptions::getExternalEmailsByUser($tmp_user, $tmp_mail_options),
+							$as_email
+						));
 
 						if($tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL)
 						{
@@ -939,8 +942,11 @@ class ilMail
 						|| $tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL
 						|| $tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_BOTH)
 					{
-						$as_email = $as_email + ilMailOptions::getExternalEmailsByUser($tmp_user, $tmp_mail_options);
-						
+						$as_email = array_unique(array_merge(
+							ilMailOptions::getExternalEmailsByUser($tmp_user, $tmp_mail_options),
+							$as_email
+						));
+
 						if($tmp_mail_options->getIncomingType() == ilMailOptions::INCOMING_EMAIL)
 						{
 							continue;

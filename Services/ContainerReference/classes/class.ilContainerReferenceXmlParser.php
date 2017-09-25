@@ -37,6 +37,11 @@ include_once('./Services/Calendar/classes/class.ilDateTime.php');
  */
 class ilContainerReferenceXmlParser extends ilSaxParser
 {
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
 	const MODE_CREATE = 1;
 	const MODE_UPDATE = 2;
 	
@@ -53,6 +58,9 @@ class ilContainerReferenceXmlParser extends ilSaxParser
 
 	public function __construct($a_xml, $a_parent_id = 0)
 	{
+		global $DIC;
+
+		$this->error = $DIC["ilErr"];
 		parent::__construct(null);
 
 		$this->mode = ilContainerReferenceXmlParser::MODE_CREATE;
@@ -100,7 +108,7 @@ class ilContainerReferenceXmlParser extends ilSaxParser
 	 */
 	public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
 	{
-		global $ilErr;
+		$ilErr = $this->error;
 
 		switch($a_name)
 		{

@@ -30,6 +30,11 @@
 */
 class ilDurationInputGUI extends ilFormPropertyGUI
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	protected $months = 0;
 	protected $days = 0;
 	protected $hours = 0;
@@ -49,6 +54,9 @@ class ilDurationInputGUI extends ilFormPropertyGUI
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("duration");
 	}
@@ -278,7 +286,7 @@ class ilDurationInputGUI extends ilFormPropertyGUI
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$_POST[$this->getPostVar()]["MM"] = 
 			ilUtil::stripSlashes($_POST[$this->getPostVar()]["MM"]);
@@ -314,7 +322,7 @@ class ilDurationInputGUI extends ilFormPropertyGUI
 	*/
 	function render()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$tpl = new ilTemplate("tpl.prop_duration.html", true, true, "Services/Form");
 		

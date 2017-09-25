@@ -15,11 +15,26 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 class ilItemGroupItemsTableGUI extends ilTable2GUI
 {
 	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_def;
+
+	/**
 	 * Constructor
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd)
 	{
-		global $lng, $ilCtrl, $tree, $objDefinition;
+		global $DIC;
+
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$tree = $DIC->repositoryTree();
+		$objDefinition = $DIC["objDefinition"];
 		
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
@@ -73,7 +88,7 @@ class ilItemGroupItemsTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$this->tpl->setVariable("ITEM_REF_ID", $a_set["child"]);
 		$this->tpl->setVariable("TITLE", $a_set["title"]);

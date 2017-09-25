@@ -20,7 +20,10 @@ class ilRoleAutoCompleteInputGUI extends ilTextInputGUI
 	*/
 	function __construct($a_title, $a_postvar, $a_class, $a_autocomplete_cmd)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$ilCtrl = $DIC->ctrl();
 		
 		if (is_object($a_class))
 		{

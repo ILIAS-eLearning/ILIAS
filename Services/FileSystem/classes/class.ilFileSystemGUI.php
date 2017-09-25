@@ -14,7 +14,7 @@ class ilFileSystemGUI
 	var $ctrl;
 
 	protected $use_upload_directory = false;
-
+	const CDIR = "cdir";
 	/**
 	 * @var array
 	 */
@@ -44,7 +44,7 @@ class ilFileSystemGUI
 
 		$this->file_labels = array();
 		$this->label_enable = false;
-		$this->ctrl->saveParameter($this, "cdir");
+		$this->ctrl->saveParameter($this, self::CDIR);
 		$lng->loadLanguageModule("content");
 		$this->setAllowDirectories(true);
 		$this->setAllowDirectoryCreation(true);
@@ -321,7 +321,7 @@ class ilFileSystemGUI
 		// FIXME: I have to call stripSlashes here twice, because I could not
 		//        determine where the second layer of slashes is added to the
 		//        URL Parameter
-		$cur_subdir = ilUtil::stripSlashes(ilUtil::stripSlashes($_GET["cdir"]));
+		$cur_subdir = ilUtil::stripSlashes(ilUtil::stripSlashes($_GET[self::CDIR]));
 		$new_subdir = ilUtil::stripSlashes(ilUtil::stripSlashes($_GET["newdir"]));
 
 		if($new_subdir == "..")
@@ -438,7 +438,7 @@ class ilFileSystemGUI
 			$this->ctrl->redirect($this, "listFiles");
 		}
 
-		$cur_subdir = str_replace(".", "", ilUtil::stripSlashes($_GET["cdir"]));
+		$cur_subdir = $this->sanitizeCurrentDirectory();
 
 		// collect files and
 		$files = array();
@@ -518,7 +518,7 @@ class ilFileSystemGUI
 		
 		$dir = $this->parseCurrentDirectory();
 		
-		$this->ctrl->setParameter($this, "cdir", $dir["subdir"]);
+		$this->ctrl->setParameter($this, self::CDIR, $dir["subdir"]);
 		
 		// toolbar for adding files/directories
 		$ilToolbar->setFormAction($ilCtrl->getFormAction($this), true);
@@ -597,12 +597,12 @@ class ilFileSystemGUI
 		global $DIC;
 		$lng = $DIC['lng'];
 		$ilCtrl = $DIC['ilCtrl'];
-		
-		$cur_subdir = str_replace(".", "", ilUtil::stripSlashes($_GET["cdir"]));
+
+		$cur_subdir = $this->sanitizeCurrentDirectory();
 		$file = $this->main_dir."/".$a_file;
 
 		$this->ctrl->setParameter($this, "old_name", basename($a_file));
-		$this->ctrl->setParameter($this, "cdir", ilUtil::stripSlashes($_GET["cdir"]));
+		$this->ctrl->setParameter($this, self::CDIR, ilUtil::stripSlashes($_GET[self::CDIR]));
 			
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -654,7 +654,7 @@ class ilFileSystemGUI
 			$this->ctrl->redirect($this, "listFiles");
 		}
 
-		$cur_subdir = str_replace(".", "", ilUtil::stripSlashes($_GET["cdir"]));
+		$cur_subdir = $this->sanitizeCurrentDirectory();
 		$dir = (!empty($cur_subdir))
 			? $this->main_dir."/".$cur_subdir."/"
 			: $this->main_dir."/";
@@ -694,7 +694,7 @@ class ilFileSystemGUI
 		$lng = $DIC['lng'];
 		
 		// determine directory
-		$cur_subdir = str_replace(".", "", ilUtil::stripSlashes($_GET["cdir"]));
+		$cur_subdir = $this->sanitizeCurrentDirectory();
 		$cur_dir = (!empty($cur_subdir))
 			? $this->main_dir."/".$cur_subdir
 			: $this->main_dir;
@@ -715,7 +715,7 @@ class ilFileSystemGUI
 		{
 			ilUtil::sendFailure($lng->txt("cont_enter_a_dir_name"), true);
 		}
-		$this->ctrl->saveParameter($this, "cdir");
+		$this->ctrl->saveParameter($this, self::CDIR);
 		$this->ctrl->redirect($this, 'listFiles');
 	}
 
@@ -729,7 +729,7 @@ class ilFileSystemGUI
 		$lng = $DIC['lng'];
 		
 		// determine directory
-		$cur_subdir = str_replace(".", "", ilUtil::stripSlashes($_GET["cdir"]));
+		$cur_subdir = $this->sanitizeCurrentDirectory();
 		$cur_dir = (!empty($cur_subdir))
 			? $this->main_dir."/".$cur_subdir
 			: $this->main_dir;
@@ -794,7 +794,7 @@ class ilFileSystemGUI
 				array("name" => substr($tgt_file, strlen($this->main_dir)+1)));		
 		}
 
-		$this->ctrl->saveParameter($this, "cdir");
+		$this->ctrl->saveParameter($this, self::CDIR);
 
 		ilUtil::renameExecutables($this->main_dir);
 
@@ -847,7 +847,7 @@ class ilFileSystemGUI
 				break;
 			}
 
-			$cur_subdir = str_replace(".", "", ilUtil::stripSlashes($_GET["cdir"]));
+			$cur_subdir = $this->sanitizeCurrentDirectory();
 			$cur_dir = (!empty($cur_subdir))
 				? $this->main_dir."/".$cur_subdir
 				: $this->main_dir;
@@ -866,7 +866,7 @@ class ilFileSystemGUI
 			}
 		}
 
-		$this->ctrl->saveParameter($this, "cdir");
+		$this->ctrl->saveParameter($this, self::CDIR);
 		if ($is_dir)
 		{
 			ilUtil::sendSuccess($lng->txt("cont_dir_deleted"), true);
@@ -895,9 +895,9 @@ class ilFileSystemGUI
 			isset($_GET["upfile"]))
 		{
 			$a_file = basename($_GET["upfile"]);
-		}		
-		
-		$cur_subdir = str_replace(".", "", ilUtil::stripSlashes($_GET["cdir"]));
+		}
+
+		$cur_subdir = $this->sanitizeCurrentDirectory();
 		$cur_dir = (!empty($cur_subdir))
 			? $this->main_dir."/".$cur_subdir
 			: $this->main_dir;
@@ -968,7 +968,7 @@ class ilFileSystemGUI
 
 		ilUtil::renameExecutables($this->main_dir);
 
-		$this->ctrl->saveParameter($this, "cdir");
+		$this->ctrl->saveParameter($this, self::CDIR);
 		ilUtil::sendSuccess($lng->txt("cont_file_unzipped"), true);
 		$this->ctrl->redirect($this, "listFiles");
 	}
@@ -987,7 +987,7 @@ class ilFileSystemGUI
 		}
 		else
 		{
-			$this->ctrl->saveParameter($this, "cdir");
+			$this->ctrl->saveParameter($this, self::CDIR);
 			$this->ctrl->redirect($this, "listFiles");
 		}
 	}
@@ -1053,5 +1053,14 @@ class ilFileSystemGUI
 		);
 	}
 
+
+	/**
+	 * @return string
+	 */
+	private function sanitizeCurrentDirectory() {
+		global $DIC;
+
+		return  str_replace("..", "", ilUtil::stripSlashes($DIC->http()->request()->getQueryParams()[self::CDIR]));
+	}
 }
-?>
+

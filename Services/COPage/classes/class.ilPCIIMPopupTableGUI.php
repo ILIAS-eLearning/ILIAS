@@ -13,14 +13,23 @@ include_once("Services/Table/classes/class.ilTable2GUI.php");
 */
 class ilPCIIMPopupTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
 
 	/**
 	 * Constructor
 	 */
-	function __construct($a_parent_obj, $a_parent_cmd,
-		$a_content_obj)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_content_obj)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
@@ -45,7 +54,8 @@ class ilPCIIMPopupTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$this->tpl->setVariable("TID", $a_set["hier_id"].":".$a_set["pc_id"]);
 		$this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($a_set["title"]));

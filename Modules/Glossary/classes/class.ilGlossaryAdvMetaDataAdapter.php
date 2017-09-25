@@ -12,10 +12,24 @@
 class ilGlossaryAdvMetaDataAdapter
 {
 	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
 	 * Constructor
 	 */
 	function __construct($a_glo_id)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
+		$this->lng = $DIC->language();
 		$this->glo_id = $a_glo_id;
 	}
 	
@@ -53,7 +67,8 @@ class ilGlossaryAdvMetaDataAdapter
 	 */
 	function getColumnOrder()
 	{
-		global $ilDB, $lng;
+		$ilDB = $this->db;
+		$lng = $this->lng;
 		
 		$columns = array();
 		
@@ -110,7 +125,7 @@ class ilGlossaryAdvMetaDataAdapter
 	 */
 	function saveColumnOrder($a_cols)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$ilDB->manipulate("DELETE FROM glo_advmd_col_order WHERE ".
 			" glo_id = ".$ilDB->quote($this->glo_id, "integer")
@@ -142,7 +157,9 @@ class ilGlossaryAdvMetaDataAdapter
 	 */
 	static function writeColumnOrder($a_glo_id, $a_field_id, $a_order_nr)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$ilDB->replace("glo_advmd_col_order",
 			array("glo_id" => array("integer", $a_glo_id),

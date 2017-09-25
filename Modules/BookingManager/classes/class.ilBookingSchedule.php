@@ -11,6 +11,11 @@
  */
 class ilBookingSchedule
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	protected $id;			// int
 	protected $title;		// string
 	protected $pool_id;		// int
@@ -32,6 +37,9 @@ class ilBookingSchedule
 	 */
 	function __construct($a_id = NULL)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		$this->id = (int)$a_id;
 		$this->read();
 	}
@@ -225,7 +233,7 @@ class ilBookingSchedule
 	 */
 	protected function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if($this->id)
 		{
@@ -265,7 +273,7 @@ class ilBookingSchedule
 	 */
 	function save()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if($this->id)
 		{
@@ -301,7 +309,7 @@ class ilBookingSchedule
 	 */
 	function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if(!$this->id)
 		{
@@ -351,7 +359,7 @@ class ilBookingSchedule
 	 */
 	protected function saveDefinition()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if(!$this->id)
 		{
@@ -388,7 +396,9 @@ class ilBookingSchedule
 	 */
 	static function hasExistingSchedules($a_pool_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->query("SELECT booking_schedule_id".
 			" FROM booking_schedule".
@@ -403,7 +413,9 @@ class ilBookingSchedule
 	 */
 	static function getList($a_pool_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->query('SELECT s.booking_schedule_id,s.title,'.
 			'MAX(o.schedule_id) AS object_has_schedule'.
@@ -434,7 +446,7 @@ class ilBookingSchedule
 	 */
 	function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if($this->id)
 		{

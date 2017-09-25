@@ -12,6 +12,31 @@ include_once './Services/CopyWizard/classes/class.ilCopyWizardOptions.php';
  */
 class ilObjectCopySelectionTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
 	private $type = '';
 	private $selected_reference = null;
 	
@@ -23,7 +48,16 @@ class ilObjectCopySelectionTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_class,$a_parent_cmd,$a_type,$a_back_cmd)
 	{
-		global $lng,$ilCtrl,$ilUser,$objDefinition;
+		global $DIC;
+
+		$this->user = $DIC->user();
+		$this->obj_definition = $DIC["objDefinition"];
+		$this->tree = $DIC->repositoryTree();
+		$this->access = $DIC->access();
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$ilUser = $DIC->user();
+		$objDefinition = $DIC["objDefinition"];
 		
 		parent::__construct($a_parent_class,$a_parent_cmd);
 		$this->type = $a_type;
@@ -68,7 +102,9 @@ class ilObjectCopySelectionTableGUI extends ilTable2GUI
 	 */
 	public function parseSource($a_source)
 	{
-		global $tree,$objDefinition, $ilAccess;
+		$tree = $this->tree;
+		$objDefinition = $this->obj_definition;
+		$ilAccess = $this->access;
 		
 		$first = true;
 		foreach($tree->getSubTree($root = $tree->getNodeData($a_source)) as $node)

@@ -84,7 +84,7 @@ class ilSCORM2004Page extends ilPageObject
 	*/
 	function create()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// maybe we need an additional table here?
 		
@@ -117,7 +117,7 @@ class ilSCORM2004Page extends ilPageObject
 	*/
 	function update($a_validate = true, $a_no_history = false)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		// maybe we need an additional table here?
 		
@@ -131,7 +131,7 @@ class ilSCORM2004Page extends ilPageObject
 	*/
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// maybe we need an additional table here?
 		
@@ -147,7 +147,7 @@ class ilSCORM2004Page extends ilPageObject
 	*/
 	function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// maybe we need an additional table here?
 		
@@ -167,8 +167,6 @@ class ilSCORM2004Page extends ilPageObject
 	 */
 	function exportXML(&$a_xml_writer, $a_mode = "normal", $a_inst = 0)
 	{
-		global $ilBench;
-
 		$attrs = array();
 		$a_xml_writer->xmlStartTag("PageObject", $attrs);
 
@@ -176,14 +174,10 @@ class ilSCORM2004Page extends ilPageObject
 		{
 			case "normal":
 				// MetaData
-				$ilBench->start("ContentObjectExport", "exportPageObject_XML_Meta");
 				$this->exportXMLMetaData($a_xml_writer);
-				$ilBench->stop("ContentObjectExport", "exportPageObject_XML_Meta");
 
 				// PageContent
-				$ilBench->start("ContentObjectExport", "exportPageObject_XML_PageContent");
 				$this->exportXMLPageContent($a_xml_writer, $a_inst);
-				$ilBench->stop("ContentObjectExport", "exportPageObject_XML_PageContent");
 				break;
 
 			case "alias":

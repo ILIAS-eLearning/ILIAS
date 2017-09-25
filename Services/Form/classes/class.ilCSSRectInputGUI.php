@@ -30,6 +30,11 @@
 */
 class ilCSSRectInputGUI extends ilSubEnabledFormPropertyGUI
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	protected $top;
 	protected $left;
 	protected $right;
@@ -45,6 +50,9 @@ class ilCSSRectInputGUI extends ilSubEnabledFormPropertyGUI
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		parent::__construct($a_title, $a_postvar);
 		$this->size = 6;
 		$this->useUnits = TRUE;
@@ -187,7 +195,7 @@ class ilCSSRectInputGUI extends ilSubEnabledFormPropertyGUI
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$_POST[$this->getPostVar()]["top"] = ilUtil::stripSlashes($_POST[$this->getPostVar()]["top"]);
 		$_POST[$this->getPostVar()]["right"] = ilUtil::stripSlashes($_POST[$this->getPostVar()]["right"]);
@@ -219,7 +227,7 @@ class ilCSSRectInputGUI extends ilSubEnabledFormPropertyGUI
 	*/
 	function insert($a_tpl)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if (strlen($this->getTop()))
 		{

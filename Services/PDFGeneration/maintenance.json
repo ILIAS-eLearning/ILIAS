@@ -1,10 +1,8 @@
 {
     "maintenance_model": "Classic",
-    "first_maintainer": "",
+    "first_maintainer": "gvollbach(25234)",
     "second_maintainer": "",
-    "implicit_maintainers": [
-        "smeyer(191)"
-    ],
+    "implicit_maintainers": [],
     "coordinator": "",
     "tester": "",
     "testcase_writer": "",

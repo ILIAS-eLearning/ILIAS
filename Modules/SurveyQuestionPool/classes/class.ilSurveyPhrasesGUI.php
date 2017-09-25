@@ -34,12 +34,26 @@
 */
 class ilSurveyPhrasesGUI
 {
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	var $object;
 	var $gui_object;
 	var $lng;
 	var $tpl;
 	var $ctrl;
-	var $ilias;
 	var $tree;
 	var $ref_id;
 	
@@ -49,13 +63,20 @@ class ilSurveyPhrasesGUI
 	*/
 	function __construct($a_object)
 	{
-		global $lng, $tpl, $ilCtrl, $ilias, $tree;
+		global $DIC;
+
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->toolbar = $DIC->toolbar();
+		$this->db = $DIC->database();
+		$lng = $DIC->language();
+		$tpl = $DIC["tpl"];
+		$ilCtrl = $DIC->ctrl();
+		$tree = $DIC->repositoryTree();
 
 		include_once "./Modules/SurveyQuestionPool/classes/class.ilSurveyPhrases.php";
 		$this->lng = $lng;
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
-		$this->ilias = $ilias;
 		$this->gui_object = $a_object;
 		$this->object = new ilSurveyPhrases();
 		$this->tree = $tree;
@@ -118,7 +139,8 @@ class ilSurveyPhrasesGUI
 	*/
 	public function phrases()
 	{
-		global $rbacsystem, $ilToolbar;
+		$rbacsystem = $this->rbacsystem;
+		$ilToolbar = $this->toolbar;
 		
 		$this->ctrl->setParameter($this, "p_id", "");
 		
@@ -169,7 +191,7 @@ class ilSurveyPhrasesGUI
 
 	protected function getCategoriesForPhrase($phrase_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyCategories.php";
 		$categories = new SurveyCategories();
@@ -189,7 +211,7 @@ class ilSurveyPhrasesGUI
 	
 	protected function getPhraseTitle($phrase_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$result = $ilDB->queryF("SELECT svy_phrase.title FROM svy_phrase WHERE svy_phrase.phrase_id = %s",
 			array('integer'),
@@ -256,7 +278,7 @@ class ilSurveyPhrasesGUI
 	*/
 	function writePostData($always = false)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		$hasErrors = (!$always) ? $this->phraseEditor(true) : false;
 		if (!$hasErrors)
 		{

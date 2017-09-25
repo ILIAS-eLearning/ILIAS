@@ -13,6 +13,11 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilPortfolioTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	protected $user_id;
 
 	/**
@@ -20,7 +25,13 @@ class ilPortfolioTableGUI extends ilTable2GUI
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_user_id)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 
 		$this->user_id = (int)$a_user_id;
 	
@@ -49,7 +60,7 @@ class ilPortfolioTableGUI extends ilTable2GUI
 
 	protected function getItems()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		include_once "Modules/Portfolio/classes/class.ilPortfolioAccessHandler.php";
 		$access_handler = new ilPortfolioAccessHandler();
@@ -67,7 +78,8 @@ class ilPortfolioTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$this->tpl->setCurrentBlock("title_form");
 		$this->tpl->setVariable("VAL_ID", $a_set["id"]);

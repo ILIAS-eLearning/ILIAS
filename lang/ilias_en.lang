@@ -50,7 +50,7 @@ lti#:#lti_released_objects#:#Objekt-Freigaben
 lti#:#lti_consumer#:#Freigabe für
 orgu#:#orgu_global_set_form#:#Global Organisational Unit Settings
 orgu#:#orgu_global_set_positions#:#Show User Data according to Organisational Unit Positions
-orgu#:#orgu_global_set_positions_type_active#:#Active for:
+orgu#:#orgu_global_set_positions_type_active#:#Positions in
 orgu#:#orgu_global_set_type_changeable#:#Changeable
 orgu#:#orgu_global_set_type_changeable_object#:#Setting is changeable on object level
 orgu#:#orgu_global_set_type_changeable_no#:#Setting is not changeable
@@ -74,7 +74,7 @@ sess#:#sess_print_list#:#Generate List
 crs#:#crs_show_member_export_settings#:#Participants List
 crs#:#crs_show_member_export#:#Participants List
 crs#:#crs_show_member_export_info#:#Course Members may print a list of participants.
-mem#:#mmbr_gallery_user_actions#:#Benutzeraktionen in Mitgliedergalerie
+mem#:#mmbr_gallery_user_actions#:#User actions in members gallery
 forum#:#delete_drafts_successfully#:#The drafts were deleted successfully.
 forum#:#sure_delete_drafts#:#Are you sure, you want to delete the selected drafts?
 forum#:#restore#:#Restore
@@ -290,6 +290,7 @@ assessment#:#essay_scoring_mode#:#Scoring Mode
 assessment#:#essay_scoring_mode_without_keywords#:#No Automatic Scoring
 assessment#:#essay_scoring_mode_without_keywords_desc#:#No points are granted unless the tutor's manual scoring.
 assessment#:#essay_scoring_mode_keyword_relation_any#:#Automatic Scoring with Keywords on Finding ANY
+assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.
 assessment#:#essay_scoring_mode_keyword_relation_all#:#Automatic Scoring with Keywords on Finding ALL
 assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#The points are granted automatically, if all keywords are found.
 assessment#:#essay_scoring_mode_keyword_relation_one#:#Automatic Scoring with Keywords on Finding ONE
@@ -835,7 +836,7 @@ assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Existing taxonomies 
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Show Taxonomies
 assessment#:#qpl_paste_no_objects#:#There are no questions in the clipboard. Please copy or move a question into the clipboard.
 assessment#:#qpl_paste_success#:#The question(s) have been pasted into the question pool
-assessment#:#qpl_paste_error#:#At least one question could not pe pasted into the question pool. Possible reason: You tried to move the question into the same question pool.
+assessment#:#qpl_paste_error#:#At least one question could not be pasted into the question pool. Possible reason: You tried to move the question into the same question pool.
 assessment#:#qpl_question_is_in_use#:#The question you are about to edit exists in %s test(s). If you change this question, you will NOT change the question(s) in the test(s), because the system creates a copy of a question when it is inserted in a test!
 assessment#:#qpl_questions_deleted#:#Question(s) removed.
 assessment#:#qpl_qst_inp_matching_mode#:#Matching Mode
@@ -1395,6 +1396,8 @@ assessment#:#sign_submission#:#Digitally Sign Test Submissions
 assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be requested to digitally sign their submissions.
 assessment#:#preserve_manscoring#:#Preserve manual scorings
 assessment#:#preserve_manscoring_info#:#Changes in the scoring of a question may make it necessary to void manual scorings. This option allows to void ALL manual scorings in the test and should be used only in rare occasions.
+assessment#:#tst_qst_added_to_pool_s#:#Successfully added the question to the selected pool.
+assessment#:#tst_qst_added_to_pool_p#:#Successfully added the questions to the selected pool.
 auth#:#auth_account_migration_keep#:#Migrate Existing User Account
 auth#:#auth_account_migration_name#:#Migration
 auth#:#auth_account_migration_new#:#Create New User Account
@@ -2833,7 +2836,7 @@ common#:#next#:#Next
 common#:#no_access_item_public#:#To access this item you need to be logged in and to have appropriate permissions.
 common#:#no_access_item#:#You have no permission to access this item.
 common#:#no_agreement_description#:#There is currently no terms of service text provided with this installation. Please contact the <a href="%1$s">system administrator</a>.
-common#:#no_checkbox#:#Please select at least one item.
+common#:#no_checkbox#:#You did not select any item.
 common#:#no_condition_selected#:#Please select one precondition.
 common#:#no_date#:#No date
 common#:#no_global_role_left#:#Every user has to be assigned to one role.
@@ -2902,6 +2905,7 @@ common#:#obj_facs#:#Files
 common#:#obj_feed#:#Web Feed
 common#:#obj_file_inline#:#Learning Module File
 common#:#obj_file#:#File
+common#:#obj_file_duplicate#:#Duplicate File
 common#:#obj_fold#:#Folder
 common#:#obj_frm_duplicate#:#Copy Forum
 common#:#obj_frm#:#Forum
@@ -3793,9 +3797,9 @@ content#:#cont_characteristic#:#Style Class
 content#:#cont_choose_characteristic_section#:#Sections
 content#:#cont_choose_characteristic_text#:#Text Elements
 content#:#cont_choose_characteristic#:#Choose Characteristic
-content#:#cont_choose_cont_obj#:#Choose Content Object
-content#:#cont_choose_glossary#:#Choose Glossary
-content#:#cont_choose_media_source#:#Choose Media Source
+content#:#cont_choose_lm#:#Choose Learning Module
+content#:#cont_choose_glo#:#Choose Glossary
+content#:#cont_choose_mep#:#Choose Media Pool
 content#:#cont_choose_pages_or_chapters_only#:#Please select either pages or chapters only.
 content#:#cont_Circle#:#Circle
 content#:#cont_citation_selection_not_valid#:#You're selection is not valid
@@ -4691,9 +4695,9 @@ crs#:#tutor_name#:#Name
 crs#:#tutor_phone#:#Phone
 crs#:#user_fields#:#User Fields
 dateplaner#:#add_appointment#:#Add Appointment
-dateplaner#:#app_day#:#Day View
-dateplaner#:#app_month#:#Month View
-dateplaner#:#app_week#:#Week View
+dateplaner#:#app_day#:#Day
+dateplaner#:#app_month#:#Month
+dateplaner#:#app_week#:#Week
 dateplaner#:#apply#:#Apply
 dateplaner#:#back#:#Back
 dateplaner#:#c_date#:#Create Event
@@ -7371,7 +7375,7 @@ survey#:#users_skipped#:#Users Skipped
 survey#:#values#:#Values
 survey#:#vertical#:#Vertical
 survey#:#warning_question_not_complete#:#The question is not complete!
-survey#:#wrong_survey_code_used#:#You cannot enter the survey, because you tried to start it with an unauthorized survey code.
+survey#:#wrong_survey_code_used#:#No access to survey. Your survey code is invalid or has already been used.
 tagging#:#tagging_all_users#:#All Users
 tagging#:#tagging_edit_settings#:#Edit Settings
 tagging#:#tagging_enable_all_users_info#:#Adds a section ‘All Users’ to the info screens that lists all tags of all users attached to a resource.
@@ -7475,6 +7479,7 @@ trac#:#trac_visits_info#:#A click counts as new visit only after %s seconds.
 trac#:#trac_visits#:#Required Number of Visits
 trac#:#view_mode#:#View Mode
 user#:#clipboard_add_btn#:#Add to Clipboard
+user#:#clipboard_add_from_btn#:#Add from Clipboard
 user#:#clipboard_user_added#:#Added selected users to clipboard.
 user#:#clipboard_table_title#:#Clipboard (User Accounts)
 user#:#clipboard_remove_btn#:#Remove from Clipboard
@@ -9160,7 +9165,7 @@ common#:#enable_sahs_protocol_data_desc#:#Show Protocol Data (SCORM)
 search#:#lucene_max_fs#:#Maximum File Size (in MB)
 search#:#lucene_max_fs_info#:#Defines the file size limit. Bigger files will not be included in the index.
 trac#:#trac_determines_learning_progress#:#Determines Learning Progress
-content#:#cont_scorm_ed_properties#:#Learning Module Properties / Glossary
+content#:#cont_scorm_ed_properties#:#Learning Module Properties
 content#:#sahs_empty_objectives_are_not_allowed#:#Please enter a learning objective.
 style#:#sty_type_rte_drag#:#Drag Bar
 style#:#sty_type_rte_tclink#:#Tree Control Link
@@ -10507,6 +10512,7 @@ common#:#hide_all_details#:#Hide all details
 common#:#show_all_details#:#Show all details
 common#:#select_files_from_computer#:#Select Files
 common#:#drag_files_here#:#Drag-and-drop your files here
+common#:#drag_file_here#:#Drag-and-drop your file here
 common#:#selected_files#:#Selected files
 common#:#num_of_selected_files#:#%s file(s) selected
 common#:#cancel_file_upload#:#Do you really want to cancel all pending uploads?
@@ -11274,6 +11280,13 @@ bibl#:#bib_default_cite#:#Bib Cite
 bibl#:#bib_default_note#:#Note
 bibl#:#bib_default_month#:#Month
 bibl#:#bib_default_abstract#:#Abstract
+bibl#:#bib_default_address#:#Address
+bibl#:#bib_default_publisher#:#Publisher
+bibl#:#bib_default_edition#:#Edition
+bibl#:#bib_default_howpublished#:#Published as
+bibl#:#bib_default_type#:#Type
+bibl#:#bib_default_series#:#Series
+bibl#:#bib_default_organization#:#Organizaton
 bibl#:#ris_default_ti#:#Book title
 bibl#:#ris_default_au#:#Author
 bibl#:#ris_default_py#:#Publication year
@@ -11284,6 +11297,17 @@ bibl#:#ris_default_sn#:#ISSN/ISBN/ASIN
 bibl#:#ris_default_m3#:#Misc. 3
 bibl#:#ris_default_ur#:#URL
 bibl#:#ris_default_l3#:#Related records
+bibl#:#ris_default_a2#:#Location in Archives
+bibl#:#ris_default_cy#:#Place Published
+bibl#:#ris_default_id#:#Reference ID
+bibl#:#ris_default_kw#:#Keywords
+bibl#:#ris_default_m1#:#Number
+bibl#:#ris_default_n1#:#Notes
+bibl#:#ris_default_n2#:#Abstract
+bibl#:#ris_default_t1#:#Primary Title
+bibl#:#ris_default_t2#:#Secondary Title
+bibl#:#ris_default_t3#:#Tertiary Title
+bibl#:#ris_default_u2#:#User Defined
 mail#:#mail_filter#:#Filter
 mail#:#mail_filter_sender#:#Sender
 mail#:#mail_filter_recipients#:#Recipients
@@ -13719,6 +13743,7 @@ background_tasks#:#dismiss#:#Quit
 background_tasks#:#completed#:#Completed
 background_tasks#:#waiting#:#Waiting
 background_tasks#:#proceed_job#:#Proceed
+background_tasks#:#task_might_be_failed#:#This Task has not responded for a while, you can quit it if needed.
 grp#:#grp_period#:#Period of Event
 grp#:#grp_period_info#:#Information about the start and end date of the event, which is supported by the group
 exc#:#exc_settings_feedback_mail_info#:#Tutors enter their evaluation into a mail form. The evaluation is sent to participants.
@@ -13997,3 +14022,16 @@ lti#:#lti_exited#:#LTI Session closed
 lti#:#lti_exited_info#:#LTI Session successfully closed
 blog#:#blog_nav_mode_month_list_num_month_with_post#:#Number of month with listed postings
 blog#:#blog_nav_mode_month_list_num_month_with_post_info#:#These months will be displayed with all their postings in the navigation block.
+orgu#:#org_op_access_enrolments#:#View Enrolments
+pdfgen#:#cleanup#:#Cleanup
+skmg#:#skmg_order_nr_info#:#Positions competence in the list of competences.
+common#:#position_permission_settings#:#Orgunit-Specific Permissions
+common#:#org_permission_settings#:#Permissions of Positions in Organisational Units
+common#:#org_op_read_learning_progress#:#View Learning Progress of Subordinate Users
+common#:#org_op_manage_members#:#Manage Subordinate Members
+common#:#org_op_access_enrolments#:#View Enrolment-Status
+dateplaner#:#cal_down_no_files#:#Nothing to download, the events listed do not contain files.
+sahs#:#sahs_add#:#Create SCORM Learning Module
+sahs#:#sahs_copy#:#Copy SCORM Learning Module
+sahs#:#sahs_glo_info#:#Please note that internal links in glossary terms are not supported.
+lm#:#lm_save_titles#:#Titles saved.

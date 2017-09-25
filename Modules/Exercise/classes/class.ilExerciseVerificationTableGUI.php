@@ -12,6 +12,11 @@ include_once './Services/Table/classes/class.ilTable2GUI.php';
 class ilExerciseVerificationTableGUI extends ilTable2GUI
 {
 	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
 	 * Constructor
 	 *
 	 * @param ilObject $a_parent_obj
@@ -19,7 +24,11 @@ class ilExerciseVerificationTableGUI extends ilTable2GUI
 	 */
 	public function  __construct($a_parent_obj, $a_parent_cmd = "")
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->user = $DIC->user();
+		$ilCtrl = $DIC->ctrl();
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -41,7 +50,7 @@ class ilExerciseVerificationTableGUI extends ilTable2GUI
 	 */
 	protected function getItems()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		include_once "Modules/Exercise/classes/class.ilObjExercise.php";
 		include_once "./Modules/Exercise/classes/class.ilExerciseCertificateAdapter.php";
@@ -74,7 +83,7 @@ class ilExerciseVerificationTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("PASSED", ($a_set["passed"]) ? $this->lng->txt("yes") :

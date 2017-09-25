@@ -15,6 +15,11 @@ include_once("./Services/Help/classes/class.ilHelpMapping.php");
  */
 class ilHelpMappingTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
 	var $online_help_mode = false;
 	
 	
@@ -23,7 +28,15 @@ class ilHelpMappingTableGUI extends ilTable2GUI
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_validation = false)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
+		$lng = $DIC->language();
 
 		$this->setId("lm_help_map");
 		$this->validation = $a_validation;
@@ -78,7 +91,7 @@ class ilHelpMappingTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$this->tpl->setVariable("VAL_TITLE", $a_set["title"]);
 		$this->tpl->setVariable("PAGE_ID", $a_set["obj_id"]);

@@ -14,6 +14,21 @@ include_once 'Services/Table/classes/class.ilTable2GUI.php';
 class ilBookmarkAdministrationTableGUI extends ilTable2GUI
 {
 	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
 	* @param object	the object to which this table refers
 	*/
 	
@@ -21,7 +36,15 @@ class ilBookmarkAdministrationTableGUI extends ilTable2GUI
 	
 	public function __construct($a_ref)
 	{
-		global $lng, $ilCtrl, $ilHelp;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+		$this->help = $DIC["ilHelp"];
+		$this->user = $DIC->user();
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$ilHelp = $DIC["ilHelp"];
 		
 		
 		$ilHelp->setScreenIdComponent("bookm");
@@ -55,7 +78,9 @@ class ilBookmarkAdministrationTableGUI extends ilTable2GUI
 
 	public function fillRow($a_data)
 	{
-		global $lng, $ilCtrl, $ilUser;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 		
 		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		$current_selection_list = new ilAdvancedSelectionListGUI();

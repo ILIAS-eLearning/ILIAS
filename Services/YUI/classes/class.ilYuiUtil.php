@@ -15,8 +15,17 @@ class ilYuiUtil {
 	/**
 	 * Init YUI Connection module
 	 */
-	static function initConnection() {
-		global $tpl;
+	static function initConnection(ilTemplate $a_main_tpl = null) {
+		global $DIC;
+
+		if ($a_main_tpl == null)
+		{
+			$tpl = $DIC["tpl"];
+		}
+		else
+		{
+			$tpl = $a_main_tpl;
+		}
 		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
 		$tpl->addJavaScript(self::YUI_BASE . "/connection/connection-min.js");
 	}
@@ -26,7 +35,9 @@ class ilYuiUtil {
 	 * Init YUI Event
 	 */
 	static function initEvent() {
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
 	}
@@ -36,7 +47,9 @@ class ilYuiUtil {
 	 * Init YUI Dom
 	 */
 	static function initDom() {
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
 	}
@@ -46,7 +59,9 @@ class ilYuiUtil {
 	 * Init YUI Animation
 	 */
 	static function initAnimation() {
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
 		$tpl->addJavaScript(self::YUI_BASE . "/animation/animation-min.js");
@@ -57,7 +72,9 @@ class ilYuiUtil {
 	 * Init YUI Drag and Drop
 	 */
 	static function initDragDrop() {
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
 		$tpl->addJavaScript(self::YUI_BASE . "/dragdrop/dragdrop-min.js");
@@ -69,7 +86,9 @@ class ilYuiUtil {
 	 * Init YUI DomEvent
 	 */
 	static function initDomEvent() {
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
 	}
@@ -85,7 +104,9 @@ class ilYuiUtil {
 	 * @return void
 	 */
 	static function initPanel($a_resize = false) {
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
 		$tpl->addJavaScript(self::YUI_BASE . "/container/container-min.js");
@@ -104,7 +125,9 @@ class ilYuiUtil {
 	 * Init YUI Connection module
 	 */
 	static function initConnectionWithAnimation() {
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
 		$tpl->addJavaScript(self::YUI_BASE . "/animation/animation-min.js");
@@ -116,7 +139,9 @@ class ilYuiUtil {
 	 * Init YUI Menu module
 	 */
 	static function initMenu() {
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
 		$tpl->addJavaScript(self::YUI_BASE . "/container/container_core.js");
@@ -129,7 +154,9 @@ class ilYuiUtil {
 	 * Init YUI Overlay module
 	 */
 	static function initOverlay() {
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
 		$tpl->addJavaScript(self::YUI_BASE . "/container/container_core-min.js");
@@ -141,7 +168,9 @@ class ilYuiUtil {
 	 * Init YUI Simple Dialog
 	 */
 	static function initSimpleDialog() {
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
 		$tpl->addJavaScript(self::YUI_BASE . "/container/container-min.js");
@@ -155,7 +184,9 @@ class ilYuiUtil {
 	 * Init assessment wizard
 	 */
 	static function initAssessmentWizard() {
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
 		$tpl->addJavaScript(self::YUI_BASE . "/element/element-min.js");
@@ -170,7 +201,9 @@ class ilYuiUtil {
 	 * init drag & drop list
 	 */
 	static function initDragDropList() {
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
 		$tpl->addJavaScript(self::YUI_BASE . "/animation/animation-min.js");
@@ -183,7 +216,9 @@ class ilYuiUtil {
 	 * init drag & drop and animation
 	 */
 	static function initDragDropAnimation() {
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
 		$tpl->addJavaScript(self::YUI_BASE . "/animation/animation-min.js");
@@ -195,7 +230,9 @@ class ilYuiUtil {
 	 * init element selection
 	 */
 	static function initElementSelection() {
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
 		$tpl->addJavaScript(self::YUI_BASE . "/element/element-min.js");
@@ -237,7 +274,10 @@ class ilYuiUtil {
 
 
 	static function addYesNoDialog($dialogname, $headertext, $message, $yesaction, $noaction, $defaultyes, $icon = "help") {
-		global $tpl, $lng;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
+		$lng = $DIC->language();
 
 		self::initSimpleDialog();
 
@@ -289,7 +329,9 @@ class ilYuiUtil {
 	 * @static
 	 */
 	static function initCalendar() {
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
 		$tpl->addJavaScript(self::YUI_BASE . "/calendar/calendar-min.js");
@@ -308,7 +350,9 @@ class ilYuiUtil {
 	 * @static
 	 */
 	static function initButtonControl() {
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
 		$tpl->addJavaScript(self::YUI_BASE . "/element/element-min.js");
@@ -331,7 +375,9 @@ class ilYuiUtil {
 	 * @static
 	 */
 	static function initColorPicker() {
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 		self::initButtonControl();
 
@@ -348,7 +394,9 @@ class ilYuiUtil {
 	 * Init YUI TabView component
 	 */
 	static function initTabView() {
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 		$tpl->addCss(self::YUI_BASE . "/tabview/assets/skins/sam/tabview.css");
 		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
@@ -363,7 +411,9 @@ class ilYuiUtil {
 	 * @author jposselt@databay.de
 	 */
 	static function initJson() {
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
 		$tpl->addJavaScript(self::YUI_BASE . "/json/json-min.js");
 	}
@@ -373,7 +423,9 @@ class ilYuiUtil {
 	 * Init layout (alpha!)
 	 */
 	static function initLayout() {
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 		$tpl->addCss(self::YUI_BASE . "/assets/skins/sam/resize.css");
 		$tpl->addCss(self::YUI_BASE . "/assets/skins/sam/layout.css");
@@ -391,7 +443,9 @@ class ilYuiUtil {
 	 * Init treeView
 	 */
 	static function initTreeView() {
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 		$tpl->addJavaScript(self::getLocalPath() . '/yahoo/yahoo-min.js');
 		$tpl->addJavaScript(self::getLocalPath() . '/event/event-min.js');
@@ -403,7 +457,9 @@ class ilYuiUtil {
 	 * Init YUI Event
 	 */
 	static function initTooltip() {
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 		self::addContainerCss();
 		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
@@ -419,7 +475,9 @@ class ilYuiUtil {
 		/**
 		 * @var $tpl ilTemplate
 		 */
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 		$tpl->addJavaScript(self::YUI_BASE . "/cookie/cookie.js");
 	}
@@ -437,7 +495,9 @@ class ilYuiUtil {
 	 * Add container css
 	 */
 	protected static function addContainerCss() {
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 		$tpl->addCss(self::getLocalPath("container/assets/skins/sam/container.css"));
 	}

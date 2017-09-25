@@ -13,13 +13,26 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilTermQuickListTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
 	
 	/**
 	 * Constructor
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
+		$lng = $DIC->language();
 		
 		$this->glossary = $a_parent_obj->glossary;
 		$this->setId("gloqtl".$this->glossary->getId());
@@ -43,7 +56,8 @@ class ilTermQuickListTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($term)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$defs = ilGlossaryDefinition::getDefinitionList($term["id"]);
 		$ilCtrl->setParameterByClass("ilglossarytermgui", "term_id", $term["id"]);

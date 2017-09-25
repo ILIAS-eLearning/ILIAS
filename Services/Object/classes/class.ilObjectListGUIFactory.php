@@ -15,7 +15,9 @@ class ilObjectListGUIFactory
 {
 	static function _getListGUIByType($a_type, $a_context = ilObjectListGUI::CONTEXT_REPOSITORY)
 	{
-		global $objDefinition;
+		global $DIC;
+
+		$objDefinition = $DIC["objDefinition"];
 		
 		$class = $objDefinition->getClassName($a_type);
 		$location = $objDefinition->getLocation($a_type);

@@ -30,6 +30,11 @@
 */
 class ilTRBLNumericStyleValueInputGUI extends ilFormPropertyGUI
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	protected $value;
 	protected $allowpercentage = true;
 	
@@ -41,6 +46,10 @@ class ilTRBLNumericStyleValueInputGUI extends ilFormPropertyGUI
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("style_numeric");
 		$this->dirs = array("all", "top", "bottom", "left", "right");
@@ -173,7 +182,7 @@ class ilTRBLNumericStyleValueInputGUI extends ilFormPropertyGUI
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		foreach ($this->dirs as $dir)
 		{
@@ -217,7 +226,7 @@ class ilTRBLNumericStyleValueInputGUI extends ilFormPropertyGUI
 	*/
 	function insert(&$a_tpl)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$layout_tpl = new ilTemplate("tpl.prop_trbl_layout.html", true, true, "Services/Style/Content");
 		
@@ -281,7 +290,7 @@ class ilTRBLNumericStyleValueInputGUI extends ilFormPropertyGUI
 	*/
 	function setValueByArray($a_values)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$this->setAllValue($a_values[$this->getPostVar()]["all"]["num_value"].
 			$a_values[$this->getPostVar()]["all"]["num_unit"]);

@@ -145,7 +145,7 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
 				$taxonomy = new ilObjTaxonomy($taxId);
 				$taxLabel = sprintf($this->lng->txt('tst_inp_source_pool_filter_tax_x'), $taxonomy->getTitle());
 				
-				$taxCheckbox = new ilCheckboxInputGUI($taxLabel,"filter_tax_id_ $taxId");
+				$taxCheckbox = new ilCheckboxInputGUI($taxLabel,"filter_tax_id_$taxId");
 				
 				
 				

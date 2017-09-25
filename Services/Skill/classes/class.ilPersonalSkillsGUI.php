@@ -229,7 +229,7 @@ class ilPersonalSkillsGUI
 	 */
 	function determineCurrentProfile()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		if (count($this->user_profiles) == 0)
 		{
@@ -1091,7 +1091,9 @@ class ilPersonalSkillsGUI
 	 */
 	function showProfileSelectorToolbar()
 	{
-		global $ilToolbar, $lng, $ilCtrl;
+		$ilToolbar = $this->toolbar;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$options = array();
 		if (is_array($this->obj_skills) && $this->obj_id > 0)
@@ -1868,7 +1870,7 @@ class ilPersonalSkillsGUI
 	 */
 	function listAssignedProfile()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		$this->setTabs("profile");
 

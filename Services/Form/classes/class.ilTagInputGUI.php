@@ -10,6 +10,11 @@
 */
 class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
 {
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
 	protected $options 					= array();
 	protected $max_tags					= 0;
 	protected $max_chars				= 0;
@@ -131,9 +136,13 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->tpl = $DIC["tpl"];
+		$this->lng = $DIC->language();
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("tag_input");
-		global $tpl;
+		$tpl = $DIC["tpl"];
 		$tpl->addJavaScript('./Services/Form/js/bootstrap-tagsinput_2015_25_03.js');
 		$tpl->addJavaScript('./Services/Form/js/typeahead_0.11.1.js');
 		$tpl->addCss('./Services/Form/css/bootstrap-tagsinput_2015_25_03.css');
@@ -161,7 +170,7 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$valid = true;
 		if(array_key_exists($this->getPostVar(), $_POST))

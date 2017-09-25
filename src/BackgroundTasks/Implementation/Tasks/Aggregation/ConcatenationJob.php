@@ -65,4 +65,11 @@ class ConcatenationJob extends AbstractJob {
 	public function getOutputType() {
 		return new SingleType(StringValue::class);
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getExpectedTimeOfTaksInSeconds() {
+		return 1;
+	}
 }

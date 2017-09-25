@@ -18,7 +18,12 @@ class SurveyConstraintsTableGUI extends ilTable2GUI
 	
 	function __construct($a_parent_obj, $a_parent_cmd = "", ilObjSurvey $a_survey, $a_read_only)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		$this->read_only = (bool)$a_read_only;
 		
@@ -52,7 +57,7 @@ class SurveyConstraintsTableGUI extends ilTable2GUI
 	
 	protected function initItems(ilObjSurvey $a_survey)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$this->structure = array();		
 		$tbl_data = array();
@@ -155,7 +160,8 @@ class SurveyConstraintsTableGUI extends ilTable2GUI
 	
 	protected function fillRow($a_set)
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		// $ilCtrl->setParameterByClass("ilObjSurveyAdministrationGUI", "item_id", $a_set["usr_id"]);
 		

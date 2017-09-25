@@ -17,6 +17,11 @@ include_once("./Services/Taxonomy/exceptions/class.ilTaxonomyException.php");
 class ilTaxNodeAssignment
 {
 	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
 	 * Constructor
 	 *
 	 * @param string $a_component_id component id (e.g. "glo" for Modules/Glossary)
@@ -27,6 +32,9 @@ class ilTaxNodeAssignment
 	 */
 	function __construct($a_component_id, $a_obj_id, $a_item_type, $a_tax_id)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		if ($a_component_id == "")
 		{
 			throw new ilTaxonomyException('No component ID passed to ilTaxNodeAssignment.');
@@ -136,7 +144,7 @@ class ilTaxNodeAssignment
 	 */
 	final public function getAssignmentsOfNode($a_node_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if (is_array($a_node_id))
 		{
@@ -177,7 +185,7 @@ class ilTaxNodeAssignment
 	 */
 	final public function getAssignmentsOfItem($a_item_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$set = $ilDB->query("SELECT * FROM tax_node_assignment".
 			" WHERE component = ".$ilDB->quote($this->getComponentId(), "text").
@@ -204,7 +212,7 @@ class ilTaxNodeAssignment
 	 */
 	function addAssignment($a_node_id, $a_item_id, $a_order_nr = 0)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// nothing to do, if not both IDs are greater 0
 		if ((int) $a_node_id == 0 || (int) $a_item_id == 0)
@@ -266,7 +274,7 @@ class ilTaxNodeAssignment
 	 */
 	function deleteAssignment($a_node_id, $a_item_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		// nothing to do, if not both IDs are greater 0
 		if ((int) $a_node_id == 0 || (int) $a_item_id == 0)
@@ -302,7 +310,7 @@ class ilTaxNodeAssignment
 	 */
 	function getMaxOrderNr($a_node_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$set = $ilDB->query("SELECT max(order_nr) mnr FROM tax_node_assignment ".
 			" WHERE component = ".$ilDB->quote($this->getComponentId(), "text").
@@ -324,7 +332,7 @@ class ilTaxNodeAssignment
 	 */
 	function setOrderNr($a_node_id, $a_item_id, $a_order_nr)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$ilDB->manipulate("UPDATE tax_node_assignment SET ".
 			" order_nr = ".$ilDB->quote($a_order_nr, "integer").
@@ -345,7 +353,7 @@ class ilTaxNodeAssignment
 	 */
 	function deleteAssignmentsOfItem($a_item_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$ilDB->manipulate("DELETE FROM tax_node_assignment WHERE ".
 			" component = ".$ilDB->quote($this->getComponentId(), "text").
@@ -363,7 +371,7 @@ class ilTaxNodeAssignment
 	 */
 	function deleteAssignmentsOfNode($a_node_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$ilDB->manipulate("DELETE FROM tax_node_assignment WHERE ".
 			" node_id = ".$ilDB->quote($a_node_id, "integer").
@@ -380,7 +388,9 @@ class ilTaxNodeAssignment
 	 */
 	static function deleteAllAssignmentsOfNode($a_node_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$ilDB->manipulate("DELETE FROM tax_node_assignment WHERE ".
 			" node_id = ".$ilDB->quote($a_node_id, "integer")
@@ -392,7 +402,7 @@ class ilTaxNodeAssignment
 	 */
 	function fixOrderNr($a_node_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$set = $ilDB->query("SELECT * FROM tax_node_assignment ".
 			" WHERE component = ".$ilDB->quote($this->getComponentId(), "text").
@@ -430,7 +440,9 @@ class ilTaxNodeAssignment
 	 */
 	static function findObjectsByNode($a_tax_id, array $a_node_ids, $a_item_type)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$res = array();
 	

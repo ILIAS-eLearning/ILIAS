@@ -13,7 +13,9 @@ class ilSCORM2004DeleteData
 {
 	public static function removeCMIDataForPackage($packageId)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$res = $ilDB->queryF('
 			SELECT cmi_node.cmi_node_id 
@@ -53,7 +55,9 @@ class ilSCORM2004DeleteData
 
 	public static function removeCMIDataForUser($user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		//get all cmi_nodes to delete
 		$res = $ilDB->queryF('
@@ -96,7 +100,9 @@ class ilSCORM2004DeleteData
 	
 	public static function removeCMIDataForUserAndPackage($user_id,$packageId)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		//get all cmi_nodes to delete
 		$res = $ilDB->queryF('
@@ -146,7 +152,9 @@ class ilSCORM2004DeleteData
 	
 	public static function removeCMIDataForNodes($cmi_node_values)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		//cmi interaction nodes
 		$cmi_inode_values = array();
@@ -192,7 +200,9 @@ class ilSCORM2004DeleteData
 	}
 	
 	public static function getGlobalToSystemObjectiveIdStringForPackage($packageId) {
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$existing_key_template = "";
 		$global_to_system = 1;

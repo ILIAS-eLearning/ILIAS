@@ -12,6 +12,46 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
  */
 class ilBookingObjectGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+	/**
+	 * @var ilObjectDataCache
+	 */
+	protected $obj_data_cache;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	protected $ref_id; // [int]
 	protected $pool_id; // [int]
 	protected $pool_has_schedule; // [bool]
@@ -23,6 +63,16 @@ class ilBookingObjectGUI
 	 */
 	function __construct($a_parent_obj)
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->tpl = $DIC["tpl"];
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$this->tabs = $DIC->tabs();
+		$this->help = $DIC["ilHelp"];
+		$this->obj_data_cache = $DIC["ilObjDataCache"];
+		$this->user = $DIC->user();
 		$this->ref_id = $a_parent_obj->ref_id;
 		$this->pool_id = $a_parent_obj->object->getId();		
 		$this->pool_has_schedule = 
@@ -37,7 +87,7 @@ class ilBookingObjectGUI
 	 */
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 				
 		$next_class = $ilCtrl->getNextClass($this);
 		
@@ -58,7 +108,10 @@ class ilBookingObjectGUI
 	 */
 	function render()
 	{
-		global $tpl, $ilCtrl, $lng, $ilAccess;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilAccess = $this->access;
 
 		if ($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
@@ -98,7 +151,10 @@ class ilBookingObjectGUI
 	 */
 	function create(ilPropertyFormGUI $a_form = null)
 	{
-		global $ilCtrl, $tpl, $lng, $ilTabs;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilTabs = $this->tabs;
 		
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt('book_back_to_list'), $ilCtrl->getLinkTarget($this, 'render'));
@@ -117,7 +173,10 @@ class ilBookingObjectGUI
 	 */
 	function edit(ilPropertyFormGUI $a_form = null)
     {
-		global $tpl, $ilCtrl, $ilTabs, $lng;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
 
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt('book_back_to_list'), $ilCtrl->getLinkTarget($this, 'render'));
@@ -133,7 +192,7 @@ class ilBookingObjectGUI
 	
 	protected function setHelpId($a_id)
 	{
-		global $ilHelp; 
+		$ilHelp = $this->help;
 		
 		$object_subtype = $this->pool_has_schedule
 			? '-schedule'
@@ -152,7 +211,9 @@ class ilBookingObjectGUI
 	 */
 	function initForm($a_mode = "create", $id = NULL)
 	{
-		global $lng, $ilCtrl, $ilObjDataCache;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilObjDataCache = $this->obj_data_cache;
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 
@@ -253,7 +314,8 @@ class ilBookingObjectGUI
 	 */
 	function save()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		$form = $this->initForm();
 		if($form->checkInput())
@@ -323,7 +385,8 @@ class ilBookingObjectGUI
 	 */
 	function update()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$form = $this->initForm('edit', (int)$_POST['object_id']);
 		if($form->checkInput())
@@ -390,7 +453,10 @@ class ilBookingObjectGUI
 	 */
 	function confirmDelete()
 	{
-		global $ilCtrl, $lng, $tpl, $ilTabs;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
 		
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt('book_back_to_list'), $ilCtrl->getLinkTarget($this, 'render'));
@@ -414,7 +480,8 @@ class ilBookingObjectGUI
 	 */
 	function delete()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
 		$obj = new ilBookingObject((int)$_POST['object_id']);
@@ -426,7 +493,9 @@ class ilBookingObjectGUI
 		
 	function rsvConfirmCancelUser()
 	{
-		global $ilCtrl, $lng, $tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
 		
 		$id = (int)$_GET["object_id"];
 		if(!$id)
@@ -452,7 +521,9 @@ class ilBookingObjectGUI
 	
 	function rsvCancelUser()
 	{
-		global $ilCtrl, $ilUser, $lng;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
 		
 		$id = (int)$_REQUEST["object_id"];
 		if(!$id)
@@ -495,7 +566,10 @@ class ilBookingObjectGUI
 	
 	public function displayPostInfo()
 	{
-		global $tpl, $ilUser, $lng, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$id = (int)$_GET["object_id"];
 		if(!$id)
@@ -588,7 +662,7 @@ class ilBookingObjectGUI
 	
 	public function deliverPostFile()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$id = (int)$_GET["object_id"];
 		if(!$id)

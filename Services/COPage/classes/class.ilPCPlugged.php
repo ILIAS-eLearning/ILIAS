@@ -15,6 +15,16 @@ require_once("./Services/COPage/classes/class.ilPageContent.php");
 */
 class ilPCPlugged extends ilPageContent
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilPluginAdmin
+	 */
+	protected $plugin_admin;
+
 	var $dom;
 	var $plug_node;
 
@@ -23,6 +33,10 @@ class ilPCPlugged extends ilPageContent
 	*/
 	function init()
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->plugin_admin = $DIC["ilPluginAdmin"];
 		$this->setType("plug");
 	}
 
@@ -269,7 +283,8 @@ class ilPCPlugged extends ilPageContent
 	 */
 	function modifyPageContentPostXsl($a_html, $a_mode)
 	{
-		global $lng, $ilPluginAdmin;
+		$lng = $this->lng;
+		$ilPluginAdmin = $this->plugin_admin;
 		
 		$c_pos = 0;
 		$start = strpos($a_html, "{{{{{Plugged<pl");
@@ -336,7 +351,7 @@ class ilPCPlugged extends ilPageContent
 	 */
 	function getJavascriptFiles($a_mode)
 	{
-		global $ilPluginAdmin;
+		$ilPluginAdmin = $this->plugin_admin;
 		
 		$js_files = array();
 		
@@ -371,7 +386,7 @@ class ilPCPlugged extends ilPageContent
 	 */
 	function getCssFiles($a_mode)
 	{
-		global $ilPluginAdmin;
+		$ilPluginAdmin = $this->plugin_admin;
 		
 		$css_files = array();
 		

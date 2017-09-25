@@ -24,13 +24,47 @@ include_once "./Services/Object/classes/class.ilObjectGUI.php";
 class ilObjSurveyGUI extends ilObjectGUI
 {
 	/**
+	 * @var ilNavigationHistory
+	 */
+	protected $nav_history;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
 	 * @var ilLogger
 	 */
 	protected $log;
 
 	public function __construct()
 	{
-		global $lng, $ilCtrl;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->nav_history = $DIC["ilNavigationHistory"];
+		$this->tabs = $DIC->tabs();
+		$this->user = $DIC->user();
+		$this->help = $DIC["ilHelp"];
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->tree = $DIC->repositoryTree();
+		$this->tpl = $DIC["tpl"];
+		$this->toolbar = $DIC->toolbar();
+		$this->access = $DIC->access();
+		$this->locator = $DIC["ilLocator"];
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
 
 		$this->type = "svy";
 		$lng->loadLanguageModule("survey");
@@ -45,7 +79,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 	
 	public function executeCommand()
 	{
-		global $ilNavigationHistory, $ilTabs;
+		$ilNavigationHistory = $this->nav_history;
+		$ilTabs = $this->tabs;
 
 		$this->external_rater_360 = false;
 		if(!$this->creation_mode &&
@@ -320,7 +355,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function getTabs()
 	{
-		global $ilUser, $ilHelp;
+		$ilUser = $this->user;
+		$ilHelp = $this->help;
 		
 		if($this->object instanceof ilObjSurveyQuestionPool)
 		{
@@ -481,7 +517,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function savePropertiesObject()
 	{		
-		global $rbacsystem;
+		$rbacsystem = $this->rbacsystem;
 		
 		$form = $this->initPropertiesForm();
 		if ($form->checkInput())
@@ -1068,7 +1104,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if(!$this->object->get360Mode())
 		{						
 			// parent course?
-			global $tree;
+		$tree = $this->tree;
 			$has_parent = $tree->checkForParentType($this->object->getRefId(), "grp");
 			if(!$has_parent)
 			{
@@ -1379,7 +1415,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function propertiesObject(ilPropertyFormGUI $a_form = null)
 	{
-		global $ilTabs, $ilHelp;
+		$ilTabs = $this->tabs;
+		$ilHelp = $this->help;
 		
 		$this->checkPermission("write");
 		
@@ -1498,7 +1535,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function importSurveyObject()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		$parent_id = $_GET["ref_id"];
 		$new_type = $_REQUEST["new_type"];
@@ -1541,7 +1578,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$templates = ilSettingsTemplate::getAllSettingsTemplates("svy");
 			if($templates)
 			{
-				global $tpl;
+		$tpl = $this->tpl;
 				$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery.js");
 				// $tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery-ui-min.js");
 
@@ -1599,7 +1636,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function infoScreen()
 	{
-		global $ilTabs, $ilUser, $ilToolbar, $ilAccess;
+		$ilTabs = $this->tabs;
+		$ilUser = $this->user;
+		$ilToolbar = $this->toolbar;
+		$ilAccess = $this->access;
 		
 		if (!$this->external_rater_360)
 		{
@@ -1985,7 +2025,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 						
 	function addLocatorItems()
 	{
-		global $ilLocator;
+		$ilLocator = $this->locator;
 		switch ($this->ctrl->getCmd())
 		{
 			case "next":
@@ -2038,7 +2078,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	public static function _goto($a_target, $a_access_code = "")
 	{
-		global $ilAccess, $lng;
+		global $DIC;
+
+		$ilAccess = $DIC->access();
+		$lng = $DIC->language();
 		
 		// see ilObjSurveyAccess::_checkGoto()
 		if (strlen($a_access_code))
@@ -2124,7 +2167,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 	
 	protected function viewUserResultsObject()
 	{
-		global $ilUser, $tpl, $ilTabs;
+		$ilUser = $this->user;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
 		
 		$anonymous_code = $_SESSION["anonymous_id"][$this->object->getId()];
 		$active_id = $this->object->getActiveID($ilUser->getId(), $anonymous_code, 0);
@@ -2263,7 +2308,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	
 	public function sendUserResultsMail($a_active_id, $a_recipient)
 	{		
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$finished = $this->object->getSurveyParticipants(array($a_active_id));
 		$finished = array_pop($finished);
@@ -2306,7 +2351,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		
 	function mailUserResultsObject()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$anonymous_code = $_SESSION["anonymous_id"][$this->object->getId()];
 		$active_id = $this->object->getActiveID($ilUser->getId(), $anonymous_code, 0);

@@ -16,6 +16,21 @@ require_once("./Services/COPage/classes/class.ilPageContent.php");
 */
 class ilPCSection extends ilPageContent
 {
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	var $dom;
 	var $sec_node;
 
@@ -24,6 +39,11 @@ class ilPCSection extends ilPageContent
 	*/
 	function init()
 	{
+		global $DIC;
+
+		$this->access = $DIC->access();
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
 		$this->setType("sec");
 	}
 
@@ -348,7 +368,7 @@ class ilPCSection extends ilPageContent
 	 */
 	function handleAccess($a_html, $a_mode)
 	{
-		global $ilAccess;
+		$ilAccess = $this->access;
 
 		while (($start = strpos($a_html, "{{{{{Section;Access;")) > 0)
 		{
@@ -383,7 +403,9 @@ class ilPCSection extends ilPageContent
 	 */
 	static function saveTimings($a_page)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$ilDB->manipulate("DELETE FROM copg_section_timings WHERE ".
 			" page_id = ".$ilDB->quote($a_page->getId(), "integer").
@@ -435,7 +457,9 @@ class ilPCSection extends ilPageContent
 	 */
 	static function getCacheTriggerString($a_page)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->query("SELECT * FROM copg_section_timings ".
 			" WHERE page_id = ".$ilDB->quote($a_page->getId(), "integer").
@@ -465,7 +489,8 @@ class ilPCSection extends ilPageContent
 	 */
 	function insertTimings($a_html)
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		$c_pos = 0;
 		$start = strpos($a_html, "{{{{{Section;ActiveFrom");

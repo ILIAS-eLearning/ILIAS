@@ -14,6 +14,21 @@ include_once("./Services/UIComponent/Explorer/classes/class.ilExplorer.php");
 class ilGlossarySelectorGUI extends ilExplorer
 {
 	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
 	* Constructor
 	* @access	public
 	* @param	string	scriptname
@@ -21,7 +36,14 @@ class ilGlossarySelectorGUI extends ilExplorer
 	*/
 	function __construct($a_target, $a_par_class = "")
 	{
-		global $tree,$ilCtrl;
+		global $DIC;
+
+		$this->tree = $DIC->repositoryTree();
+		$this->user = $DIC->user();
+		$this->access = $DIC->access();
+		$this->lng = $DIC->language();
+		$tree = $DIC->repositoryTree();
+		$ilCtrl = $DIC->ctrl();
 
 		$this->ctrl = $ilCtrl;
 		$this->parent_class = $a_par_class;
@@ -40,7 +62,7 @@ class ilGlossarySelectorGUI extends ilExplorer
 	
 	function buildLinkTarget($a_node_id, $a_type)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		//$ilCtrl->setParameterByClass($this->parent_class, "subCmd", "selectGlossary");
 		$ilCtrl->setParameterByClass($this->parent_class, "glo_ref_id", $a_node_id);
@@ -55,7 +77,8 @@ class ilGlossarySelectorGUI extends ilExplorer
 	*/
 	function isClickable($a_type, $a_ref_id = 0)
 	{
-		global $ilUser, $ilAccess;
+		$ilUser = $this->user;
+		$ilAccess = $this->access;
 		
 		if ($a_type == "glo" &&
 			$ilAccess->checkAccess("read", "", $a_ref_id))
@@ -70,7 +93,7 @@ class ilGlossarySelectorGUI extends ilExplorer
 	*/
 	function showChilds($a_ref_id)
 	{
-		global $ilAccess;
+		$ilAccess = $this->access;
 
 		if ($a_ref_id == 0)
 		{
@@ -97,7 +120,7 @@ class ilGlossarySelectorGUI extends ilExplorer
 	*/
 	function formatHeader($tpl, $a_obj_id,$a_option)
 	{
-		global $lng, $ilias;
+		$lng = $this->lng;
 		
 		$tpl->setCurrentBlock("icon");
 		$tpl->setVariable("ICON_IMAGE" , ilUtil::getImagePath("icon_root.svg"));

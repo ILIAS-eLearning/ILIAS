@@ -22,7 +22,61 @@ require_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 */
 class ilLMPresentationGUI
 {
-	var $ilias;
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
+	 * @var ilNavigationHistory
+	 */
+	protected $nav_history;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
+	 * @var ilMainMenuGUI
+	 */
+	protected $main_menu;
+
+	/**
+	 * @var ilLocatorGUI
+	 */
+	protected $locator;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
 	var $lm;
 	var $tpl;
 	var $lng;
@@ -35,7 +89,23 @@ class ilLMPresentationGUI
 
 	function __construct()
 	{
-		global $ilUser, $lng, $tpl, $rbacsystem, $ilCtrl, $ilAccess;
+		global $DIC;
+
+		$this->user = $DIC->user();
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->error = $DIC["ilErr"];
+		$this->nav_history = $DIC["ilNavigationHistory"];
+		$this->access = $DIC->access();
+		$this->settings = $DIC->settings();
+		$this->locator = $DIC["ilLocator"];
+		$this->tree = $DIC->repositoryTree();
+		$this->help = $DIC["ilHelp"];
+		$ilUser = $DIC->user();
+		$lng = $DIC->language();
+		$tpl = $DIC["tpl"];
+		$rbacsystem = $DIC->rbac()->system();
+		$ilCtrl = $DIC->ctrl();
+		$ilErr = $DIC["ilErr"];
 
 		// load language vars
 		$lng->loadLanguageModule("content");
@@ -80,7 +150,7 @@ class ilLMPresentationGUI
 		{
 			if (!$this->lm->getOnline())
 			{
-				$ilias->raiseError($lng->txt("permission_denied"), $ilias->error_obj->WARNING);
+				$ilErr->raiseError($lng->txt("permission_denied"), $ilErr->WARNING);
 			}
 		}
 		
@@ -103,7 +173,11 @@ class ilLMPresentationGUI
 	*/
 	function executeCommand()
 	{
-		global $ilNavigationHistory, $ilAccess, $ilias, $lng, $ilCtrl, $ilUser;
+		$ilNavigationHistory = $this->nav_history;
+		$ilAccess = $this->access;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 
 		// check read permission and parent conditions
 		// todo: replace all this by ilAccess call
@@ -111,7 +185,7 @@ class ilLMPresentationGUI
 			(!(($this->ctrl->getCmd() == "infoScreen" || $this->ctrl->getNextClass() == "ilinfoscreengui")
 			&& $ilAccess->checkAccess("visible", "", $_GET["ref_id"]))))
 		{
-			$ilias->raiseError($lng->txt("permission_denied"), $ilias->error_obj->WARNING);
+			$ilErr->raiseError($lng->txt("permission_denied"), $ilErr->WARNING);
 		}
 		
 		$next_class = $this->ctrl->getNextClass($this);
@@ -312,7 +386,7 @@ class ilLMPresentationGUI
 	
 	function resume()
 	{		
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		if ($ilUser->getId() != ANONYMOUS_USER_ID && $_GET["focus_id"] == "")
 		{
@@ -335,7 +409,12 @@ class ilLMPresentationGUI
 	*/
 	function layout($a_xml = "main.xml", $doShow = true)
 	{
-		global $tpl, $ilSetting, $ilCtrl, $ilUser;
+		global $DIC;
+
+		$tpl = $this->tpl;
+		$ilSetting = $this->settings;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 
 		$layout = $this->determineLayout();
 
@@ -583,6 +662,7 @@ class ilLMPresentationGUI
 				// from main menu
 //				$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
 				$this->tpl->addJavascript("./Services/Navigation/js/ServiceNavigation.js");
+				ilYuiUtil::initConnection($this->tpl);
 				$this->tpl->fillJavaScriptFiles();
 				$this->tpl->fillScreenReaderFocus();
 
@@ -686,7 +766,9 @@ class ilLMPresentationGUI
 
 	function glossary()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $this->user;
 		
 		if ($_GET["frame"] != "_blank")
 		{
@@ -726,7 +808,7 @@ class ilLMPresentationGUI
 	*/
 	function ilMainMenu()
 	{
-		global $ilMainMenu;
+		$ilMainMenu = new ilMainMenuGUI("_top", false, $this->tpl);
 
 		if ($this->offlineMode())
 		{
@@ -761,6 +843,7 @@ class ilLMPresentationGUI
 	{
 		include_once("./Modules/LearningModule/classes/class.ilLMTOCExplorerGUI.php");
 		$exp = new ilLMTOCExplorerGUI($this, "ilTOC", $this, $this->lang, $this->focus_id, $this->export_all_languages);
+		$exp->setMainTemplate($this->tpl);
 		$exp->setTracker($this->getTracker());
 		if (!$exp->handleCommand())
 		{
@@ -873,7 +956,7 @@ class ilLMPresentationGUI
 	*/
 	function ilLMSubMenu()
 	{
-		global $rbacsystem;
+		$rbacsystem = $this->rbacsystem;
 		
 		if ($this->abstract)
 		{
@@ -958,7 +1041,8 @@ class ilLMPresentationGUI
 	 */
 	function addHeaderAction($a_redraw = false)
 	{			
-		global $ilAccess, $tpl;
+		$ilAccess = $this->access;
+		$tpl = $this->tpl;
 		
 		include_once "Services/Object/classes/class.ilCommonActionDispatcherGUI.php";
 		$dispatcher = new ilCommonActionDispatcherGUI(ilCommonActionDispatcherGUI::TYPE_REPOSITORY, 
@@ -997,7 +1081,8 @@ class ilLMPresentationGUI
 	*/
 	function ilLMNotes()
 	{
-		global $ilAccess, $ilSetting;
+		$ilAccess = $this->access;
+		$ilSetting = $this->settings;
 		
 		
 		// no notes in offline (export) mode
@@ -1068,7 +1153,9 @@ class ilLMPresentationGUI
 	*/
 	function ilLocator($a_std_templ_loaded = false)
 	{
-		global $ilLocator, $tree, $ilCtrl;
+		$ilLocator = $this->locator;
+		$tree = $this->tree;
+		$ilCtrl = $this->ctrl;
 
 		require_once("./Modules/LearningModule/classes/class.ilStructureObject.php");
 
@@ -1190,7 +1277,7 @@ class ilLMPresentationGUI
 	 */
 	function getCurrentPageId()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		if (!$this->offlineMode() && $this->current_page_id !== false)
 		{
@@ -1331,10 +1418,11 @@ class ilLMPresentationGUI
 	 */
 	function ilPage(&$a_page_node, $a_page_id = 0)
 	{
-		global $ilUser, $ilHelp;
+		$ilUser = $this->user;
+		$ilHelp = $this->help;
 
 
-		global $ilHelp;
+		$ilHelp = $this->help;
 		$ilHelp->setScreenIdComponent("lm");
 		$ilHelp->setScreenId("content");
 		$ilHelp->setSubScreenId("content");
@@ -1679,7 +1767,7 @@ class ilLMPresentationGUI
 	
 	function updatePageRating()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$pg_id = $_GET["pgid"];		
 		if(!$this->ctrl->isAsynch() || !$pg_id)
@@ -1766,20 +1854,18 @@ class ilLMPresentationGUI
 		include_once("./Services/Repository/classes/class.ilRepositoryExplorer.php");
 		foreach($conds as $cond)
 		{
-			$obj_link = ilRepositoryExplorer::buildLinkTarget($cond["trigger_ref_id"],$cond["trigger_type"]);
-			$obj_frame = ilRepositoryExplorer::buildFrameTarget($cond["trigger_type"],$cond["trigger_ref_id"],$cond["trigger_obj_id"]);
+			include_once("./Services/Link/classes/class.ilLink.php");
+			$obj_link = ilLink::_getLink($cond["trigger_ref_id"]);
 			$this->tpl->setCurrentBlock("condition");
-			$this->tpl->setVariable("ROWCOL", $rc = ($rc != "tblrow2") ? "tblrow2" : "tblrow1");
 			$this->tpl->setVariable("VAL_ITEM", ilObject::_lookupTitle($cond["trigger_obj_id"]));
 			$this->tpl->setVariable("LINK_ITEM", $obj_link);
-			$this->tpl->setVariable("FRAME_ITEM", $obj_frame);
 			if ($cond["operator"] == "passed")
 			{
 				$cond_str = $this->lng->txt("passed");
 			}
 			else
 			{
-				$cond_str = $cond["operator"];
+				$cond_str = $this->lng->txt("condition_".$cond["operator"]);
 			}
 			$this->tpl->setVariable("VAL_CONDITION", $cond_str." ".$cond["value"]);
 			$this->tpl->parseCurrentBlock();
@@ -1789,7 +1875,7 @@ class ilLMPresentationGUI
 		$this->tpl->setVariable("TXT_MISSING_PRECONDITIONS", 
 			sprintf($this->lng->txt("cont_missing_preconditions"),
 			ilLMObject::_lookupTitle($topchap)));
-		$this->tpl->setVariable("TXT_ITEM", $this->lng->txt("item"));
+		$this->tpl->setVariable("TXT_ITEM", $this->lng->txt("object"));
 		$this->tpl->setVariable("TXT_CONDITION", $this->lng->txt("condition"));
 		
 		// output skip chapter link
@@ -1829,7 +1915,7 @@ class ilLMPresentationGUI
 	*/
 	function getLinkXML($a_int_links, $a_layoutframes)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		// Determine whether the view of a learning resource should
 		// be shown in the frameset of ilias, or in a separate window.
@@ -1977,9 +2063,11 @@ class ilLMPresentationGUI
 					case "File":
 						if (!$this->offlineMode())
 						{
+							$ilCtrl->setParameter($this, "obj_id", $this->getCurrentPageId());
 							$ilCtrl->setParameter($this, "file_id", "il__file_".$target_id);
 							$href = $ilCtrl->getLinkTarget($this, "downloadFile");
 							$ilCtrl->setParameter($this, "file_id", "");
+							$ilCtrl->setParameter($this, "obj_id", $_GET["obj_id"]);
 						}
 						break;
 
@@ -2046,7 +2134,7 @@ class ilLMPresentationGUI
 	*/
 	function ilGlossary()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		require_once("./Modules/Glossary/classes/class.ilGlossaryTermGUI.php");
 		$term_gui = new ilGlossaryTermGUI($_GET["obj_id"]);
@@ -2104,7 +2192,7 @@ class ilLMPresentationGUI
 	*/
 	function ilMedia()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		$this->tpl->setCurrentBlock("ContentStyle");
 		if (!$this->offlineMode())
@@ -2228,7 +2316,7 @@ class ilLMPresentationGUI
 	 */
 	function getSuccessorPage()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		$page_id = $this->getCurrentPageId();
 
@@ -2306,7 +2394,7 @@ class ilLMPresentationGUI
 	*/
 	function ilLMNavigation()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 		
@@ -2717,7 +2805,7 @@ class ilLMPresentationGUI
 	*/
 	function showTableOfContents()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		if (!$this->lm->isActiveTOC() || !$this->lm->isActiveLMMenu())
 		{
@@ -2766,6 +2854,7 @@ class ilLMPresentationGUI
 
 		include_once("./Modules/LearningModule/classes/class.ilLMTableOfContentsExplorerGUI.php");
 		$exp = new ilLMTableOfContentsExplorerGUI($this, "showTableOfContents", $this, $this->lang, $this->export_all_languages);
+		$exp->setMainTemplate($this->tpl);
 		$exp->setTracker($this->getTracker());
 		if (!$exp->handleCommand())
 		{
@@ -2839,7 +2928,9 @@ class ilLMPresentationGUI
 	
 	protected function initScreenHead($a_active_tab = "info")
 	{
-		global $ilAccess, $ilLocator, $ilUser;
+		$ilAccess = $this->access;
+		$ilLocator = $this->locator;
+		$ilUser = $this->user;
 		
 		$this->renderPageTitle();
 		
@@ -2878,7 +2969,7 @@ class ilLMPresentationGUI
 	*/
 	function outputInfoScreen($a_standard_locator = false)
 	{
-		global $ilAccess;
+		$ilAccess = $this->access;
 
 		$this->initScreenHead();
 		
@@ -2943,7 +3034,8 @@ class ilLMPresentationGUI
 	*/
 	function showPrintViewSelection()
 	{
-		global $ilUser, $lng;
+		$ilUser = $this->user;
+		$lng = $this->lng;
 		
 		include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 		if (!$this->lm->isActivePrintView() || !$this->lm->isActiveLMMenu())
@@ -3124,7 +3216,8 @@ class ilLMPresentationGUI
 	 */
 	public function initPrintViewSelectionForm()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -3160,7 +3253,9 @@ class ilLMPresentationGUI
 	*/
 	function showPrintView()
 	{
-		global $ilUser,$lng,$ilCtrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 		
@@ -3753,13 +3848,32 @@ class ilLMPresentationGUI
 	*/
 	function downloadFile()
 	{
-		$file = explode("_", $_GET["file_id"]);
-		$file_id = (int) $file[count($file) - 1];
-		require_once("./Modules/File/classes/class.ilObjFile.php");
-		$fileObj = new ilObjFile($file_id, false);
-		$fileObj->sendFile();
-		exit;
+		$pg_obj = $this->getLMPage($this->getCurrentPageId());
+		$pg_obj->buildDom();
+		$int_links = $pg_obj->getInternalLinks();
+		foreach ($int_links as $il)
+		{
+			if ($il["Target"] == str_replace("_file_", "_dfile_", $_GET["file_id"]))
+			{
+				$file = explode("_", $_GET["file_id"]);
+				$file_id = (int)$file[count($file) - 1];
+				require_once("./Modules/File/classes/class.ilObjFile.php");
+				$fileObj = new ilObjFile($file_id, false);
+				$fileObj->sendFile();
+				exit;
+			}
+		}
+		if (in_array($_GET["file_id"], $pg_obj->getAllFileObjIds()))
+		{
+			require_once("./Modules/File/classes/class.ilObjFile.php");
+			$file = explode("_", $_GET["file_id"]);
+			$file_id = (int)$file[count($file) - 1];
+			$fileObj = new ilObjFile($file_id, false);
+			$fileObj->sendFile();
+			exit;
+		}
 	}
+
 
 	/**
 	* download source code paragraph
@@ -3889,7 +4003,7 @@ class ilLMPresentationGUI
 	function getLink($a_ref_id, $a_cmd = "", $a_obj_id = "", $a_frame = "", $a_type = "",
 		$a_back_link = "append", $a_anchor = "", $a_srcstring = "")
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		if ($a_cmd == "")
 		{

@@ -17,6 +17,31 @@ include_once "Modules/Exercise/classes/class.ilExSubmissionBaseGUI.php";
 */
 class ilExerciseManagementGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs_gui;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
 	protected $exercise; // [ilObjExercise]
 	protected $assignment; // [ilExAssignment]
 	
@@ -32,7 +57,13 @@ class ilExerciseManagementGUI
 	 */
 	public function __construct(ilObjExercise $a_exercise, ilExAssignment $a_ass = null)
 	{		
-		global $ilCtrl, $ilTabs, $lng, $tpl;
+		global $DIC;
+
+		$this->toolbar = $DIC->toolbar();
+		$ilCtrl = $DIC->ctrl();
+		$ilTabs = $DIC->tabs();
+		$lng = $DIC->language();
+		$tpl = $DIC["tpl"];
 		
 		$this->exercise = $a_exercise;
 		$this->assignment = $a_ass;
@@ -48,7 +79,9 @@ class ilExerciseManagementGUI
 	
 	public function executeCommand()
 	{
-		global $ilCtrl, $lng, $ilTabs;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilTabs = $this->tabs_gui;
 		
 		$class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd("listPublicSubmissions");		
@@ -196,7 +229,9 @@ class ilExerciseManagementGUI
 	*/
 	function addSubTabs($a_activate)
 	{
-		global $ilTabs, $lng, $ilCtrl;
+		$ilTabs = $this->tabs_gui;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$ass_id = $_GET["ass_id"];
 		$part_id = $_GET["part_id"];
@@ -220,7 +255,8 @@ class ilExerciseManagementGUI
 
 	public function waitingDownloadObject()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$ilCtrl->setParameterByClass("ilExSubmissionFileGUI", "member_id", (int) $_GET["member_id"]);
 		$url = $ilCtrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilExerciseHandlerGUI", "ilObjExerciseGUI", "ilExerciseManagementGUI", "ilExSubmissionFileGUI"),"downloadNewReturned");
@@ -234,7 +270,10 @@ class ilExerciseManagementGUI
 	 */
 	function membersObject()
 	{
-		global $tpl, $ilToolbar, $ilCtrl, $lng;
+		$tpl = $this->tpl;
+		$ilToolbar = $this->toolbar;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
 	
@@ -375,7 +414,8 @@ class ilExerciseManagementGUI
 	 */
 	function saveGradesObject()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 				
 		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
 		
@@ -403,7 +443,10 @@ class ilExerciseManagementGUI
 	
 	function listTextAssignmentObject($a_show_peer_review = false)
 	{
-		global $tpl, $ilCtrl, $ilTabs, $lng;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs_gui;
+		$lng = $this->lng;
 				
 		if(!$this->assignment || $this->assignment->getType() != ilExAssignment::TYPE_TEXT)
 		{
@@ -519,7 +562,10 @@ class ilExerciseManagementGUI
 	 */
 	function showParticipantObject()
 	{
-		global $tpl, $ilToolbar, $ilCtrl, $lng;
+		$tpl = $this->tpl;
+		$ilToolbar = $this->toolbar;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		$this->addSubTabs("participant");
 		$this->ctrl->setParameter($this, "ass_id", "");
@@ -641,7 +687,10 @@ class ilExerciseManagementGUI
 	 */
 	function showGradesOverviewObject()
 	{
-		global $tpl, $ilToolbar, $ilCtrl, $lng;
+		$tpl = $this->tpl;
+		$ilToolbar = $this->toolbar;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$this->addSubTabs("grades");
 		
@@ -857,7 +906,9 @@ class ilExerciseManagementGUI
 	*/
 	function confirmDeassignMembersObject()
 	{
-		global $ilCtrl, $tpl, $lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 			
 		$members = $this->getMultiActionUserIds();		
 		
@@ -883,7 +934,8 @@ class ilExerciseManagementGUI
 	 */
 	function deassignMembersObject()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$members = $this->getMultiActionUserIds();
 		
@@ -913,7 +965,7 @@ class ilExerciseManagementGUI
 	 */
 	function saveStatusParticipantObject(array $a_selected = null)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$member_id = (int)$_GET["part_id"];
 		$data = array();
@@ -998,7 +1050,7 @@ class ilExerciseManagementGUI
 	 */
 	protected function saveStatus(array $a_data)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 				
 		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 		
@@ -1110,7 +1162,7 @@ class ilExerciseManagementGUI
 	
 	function createTeamsObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$members = $this->getMultiActionUserIds(true);
 				
@@ -1167,7 +1219,7 @@ class ilExerciseManagementGUI
 	
 	function dissolveTeamsObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$members = $this->getMultiActionUserIds(true);
 						
@@ -1202,7 +1254,10 @@ class ilExerciseManagementGUI
 	
 	function adoptTeamsFromGroupObject(ilPropertyFormGUI $a_form = null)
 	{
-		global $ilCtrl, $ilTabs, $lng, $tpl;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs_gui;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
 		
 		$ilTabs->clearTargets();				
 		$ilTabs->setBackTarget($lng->txt("back"),
@@ -1217,7 +1272,7 @@ class ilExerciseManagementGUI
 	
 	protected function initGroupForm()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();				
@@ -1270,7 +1325,7 @@ class ilExerciseManagementGUI
 	
 	function createTeamsFromGroupsObject()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$form = $this->initGroupForm();
 		if($form->checkInput())
@@ -1396,7 +1451,7 @@ class ilExerciseManagementGUI
 	
 	function initMultiFeedbackForm($a_ass_id)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -1423,7 +1478,9 @@ class ilExerciseManagementGUI
 	 */
 	function showMultiFeedbackObject(ilPropertyFormGUI $a_form = null)
 	{
-		global $ilToolbar, $lng, $tpl;
+		$ilToolbar = $this->toolbar;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
 		
 		ilUtil::sendInfo($lng->txt("exc_multi_feedb_info"));
 		
@@ -1486,7 +1543,7 @@ class ilExerciseManagementGUI
 	 */
 	function showMultiFeedbackConfirmationTableObject()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$this->addSubTabs("assignment");
 				
@@ -1522,7 +1579,8 @@ class ilExerciseManagementGUI
 	
 	protected function initIndividualDeadlineModal()
 	{
-		global $lng, $tpl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
 		
 		// prepare modal+
 		include_once "./Services/UIComponent/Modal/classes/class.ilModalGUI.php";
@@ -1577,7 +1635,7 @@ class ilExerciseManagementGUI
 	
 	protected function handleIndividualDeadlineCallsObject()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$this->ctrl->saveParameter($this, "part_id");			
 		

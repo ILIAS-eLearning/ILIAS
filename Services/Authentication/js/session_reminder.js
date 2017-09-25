@@ -147,7 +147,7 @@
 					var properties = internals.properties;
 					var cookie_prefix = "il_sr_" + properties.client_id + "_";
 
-					$(window).unload(function() {
+					$(window).on('beforeunload', function () {
 						if (session_reminder_locked) {
 							YAHOO.util.Cookie.set(cookie_prefix + "status", "unlocked");
 							internals.log("Unlocked session reminder on unload event");

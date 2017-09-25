@@ -27,6 +27,8 @@
  */
 class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbarItem {
 
+	use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
+
 	const ASYNC_FILEUPLOAD = "async_fileupload";
 	/**
 	 * @var int if there are more than one  ilFileStandardDropzoneInputGUI in the same Form, this
@@ -135,13 +137,13 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbar
 	 * @inheritdoc
 	 */
 	public function render($a_mode = "") {
-		global $DIC;
-
 		$this->handleUploadURL();
 		$this->handleSuffixes();
 
-		$f = $DIC->ui()->factory();
-		$r = $DIC->ui()->renderer();
+		$f = $this->ui()->factory();
+		$r = $this->ui()->renderer();
+
+		$this->initDropzoneMessage();
 
 		$dropzone = $f->dropzone()
 		              ->file()
@@ -160,10 +162,9 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbar
 		$n = ++ self::$count;
 		$out = "<div id='ilFileStandardDropzoneInputGUIWrapper{$n}'>" . $render . '</div>';
 		// We need some javascript magic
-		/** @var ilTemplate $tpl */
-		$tpl = $DIC['tpl'];
-		$tpl->addJavaScript('./Services/Form/js/ilFileStandardDropzoneInputGUI.js');
-		$tpl->addOnLoadCode("ilFileStandardDropzoneInputGUI.init('ilFileStandardDropzoneInputGUIWrapper{$n}');");
+
+		$this->ui()->mainTemplate()->addJavaScript('./Services/Form/js/ilFileStandardDropzoneInputGUI.js');
+		$this->ui()->mainTemplate()->addOnLoadCode("ilFileStandardDropzoneInputGUI.init('ilFileStandardDropzoneInputGUIWrapper{$n}');");
 
 		return $out;
 	}
@@ -173,9 +174,7 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbar
 	 * @inheritdoc
 	 */
 	public function checkInput() {
-		global $DIC;
-
-		$hasUploads = $DIC->upload()->hasUploads();
+		$hasUploads = $this->dic()->upload()->hasUploads();
 		if ($this->getRequired() && !$hasUploads) {
 			return false; // No file uploaded but is was required
 		}
@@ -225,5 +224,16 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbar
 		}
 
 		return $dropzone;
+	}
+
+
+	protected function initDropzoneMessage() {
+		if (!$this->getDropzoneMessage()) {
+			if ($this->getMaxFiles() === 1) {
+				$this->setDropzoneMessage($this->lng()->txt('drag_file_here'));
+			} else {
+				$this->setDropzoneMessage($this->lng()->txt('drag_files_here'));
+			}
+		}
 	}
 }

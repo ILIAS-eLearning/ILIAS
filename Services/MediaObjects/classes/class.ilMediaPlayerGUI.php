@@ -12,6 +12,16 @@
 */
 class ilMediaPlayerGUI
 {
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	protected $file;
 	protected $displayHeight = "480";
 	protected $displayWidth = "640";
@@ -26,6 +36,10 @@ class ilMediaPlayerGUI
 
 	function __construct($a_id = "", $a_event_callback_url = "")
 	{
+		global $DIC;
+
+		$this->tpl = $DIC["tpl"];
+		$this->lng = $DIC->language();
 		$this->id = $a_id;
 		$this->event_callback_url = $a_event_callback_url;
 		$this->current_nr = self::$nr;
@@ -241,7 +255,9 @@ class ilMediaPlayerGUI
 	 */
 	public static function initJavascript($a_tpl = null)
 	{
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 		if ($a_tpl == null)
 		{
@@ -263,7 +279,8 @@ class ilMediaPlayerGUI
 	*/
 	function getMp3PlayerHtml($a_preview = false)
 	{
-		global $tpl, $lng;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 
 		self::initJavascript($tpl);
 

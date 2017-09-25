@@ -118,7 +118,13 @@ class ilStr
 	*/
 	static function strCmp($a, $b)
 	{
-		global $ilCollator;
+		global $DIC;
+
+		$ilCollator = null;
+		if (isset($DIC["ilCollator"]))
+		{
+			$ilCollator = $DIC["ilCollator"];
+		}
 
 		if (is_object($ilCollator))
 		{

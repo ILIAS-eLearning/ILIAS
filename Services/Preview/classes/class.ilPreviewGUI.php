@@ -375,7 +375,7 @@ class ilPreviewGUI
 		ilTooltipGUI::initLibrary();
 		
 		// needed scripts & styles
-		$tpl->addJavaScript("./Services/Preview/js/jquery.mousewheel.js");
+		$tpl->addJavaScript("./libs/bower/bower_components/jquery-mousewheel/jquery.mousewheel.js");
 		$tpl->addJavaScript("./Services/Preview/js/ilPreview.js");
 		$tpl->addCss(ilUtil::getStyleSheetLocation("filesystem", "preview.css", "Services/Preview"));
 		

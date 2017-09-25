@@ -250,7 +250,15 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 	public function getDefaultConfig($service, $purpose)
 	{
 		$config = array();
-		$config['path'] = '/usr/local/bin/phantomjs';
+		if(PATH_TO_PHANTOMJS !== '')
+		{
+			$config['path'] = PATH_TO_PHANTOMJS;
+		}
+		else
+		{
+			$config['path'] = '/usr/local/bin/phantomjs';
+		}
+
 		$config['page_size'] = 'A4';
 		$config['margin'] = '1cm';
 		$config['javascript_delay'] = 200;

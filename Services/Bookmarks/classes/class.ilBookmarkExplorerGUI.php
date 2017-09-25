@@ -14,11 +14,31 @@ include_once("./Services/UIComponent/Explorer2/classes/class.ilTreeExplorerGUI.p
 class ilBookmarkExplorerGUI extends ilTreeExplorerGUI
 {
 	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd, $a_user_id = 0)
 	{
-		global $ilUser;
+		global $DIC;
+
+		$this->user = $DIC->user();
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+		$ilUser = $DIC->user();
 		
 		if ($a_user_id == 0)
 		{
@@ -43,7 +63,7 @@ class ilBookmarkExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function getNodeContent($a_node)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if ($a_node["child"] == $this->getNodeId($this->getRootNode()))
 		{
@@ -74,7 +94,7 @@ class ilBookmarkExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function getNodeIconAlt($a_node)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		return $lng->txt("icon")." ".$lng->txt($a_node["type"]);
 	}
@@ -104,7 +124,7 @@ class ilBookmarkExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function getNodeHref($a_node)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		switch($a_node["type"])
 		{

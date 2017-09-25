@@ -38,7 +38,11 @@ class ilMaterialExplorer extends ilTreeExplorerGUI
 	
 	function __construct($a_parent_obj, $a_parent_cmd, $a_selectable_type)
 	{
-		global $tree;
+		global $DIC;
+
+		$this->tree = $DIC->repositoryTree();
+		$this->ctrl = $DIC->ctrl();
+		$tree = $DIC->repositoryTree();
 				
 		parent::__construct("rep_exp", $a_parent_obj, $a_parent_cmd, $tree);
 		
@@ -62,7 +66,7 @@ class ilMaterialExplorer extends ilTreeExplorerGUI
 	
 	function getNodeHref($a_node)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$ilCtrl->setParameter($this->parent_obj, 'source_id', $a_node["child"]);
 		return $ilCtrl->getLinkTarget($this->parent_obj, 'linkChilds');

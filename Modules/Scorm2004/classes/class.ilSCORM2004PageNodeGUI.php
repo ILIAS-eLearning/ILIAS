@@ -25,7 +25,13 @@ class ilSCORM2004PageNodeGUI extends ilSCORM2004NodeGUI
 	*/
 	function __construct($a_slm_obj, $a_node_id = 0)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->tpl = $DIC["tpl"];
+		$this->tabs = $DIC->tabs();
+		$this->lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
 		
 		$ilCtrl->saveParameter($this, "obj_id");
 		
@@ -45,7 +51,8 @@ class ilSCORM2004PageNodeGUI extends ilSCORM2004NodeGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl, $tpl;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
@@ -59,7 +66,6 @@ class ilSCORM2004PageNodeGUI extends ilSCORM2004NodeGUI
 				$this->setLocator();
 				// Determine whether the view of a learning resource should
 				// be shown in the frameset of ilias, or in a separate window.
-				//$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
 				$showViewInFrameset = true;
 
 				$ilCtrl->setReturn($this, "edit");
@@ -123,7 +129,7 @@ class ilSCORM2004PageNodeGUI extends ilSCORM2004NodeGUI
 	*/
 	function edit()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$ilCtrl->setCmdClass("ilscorm2004pagegui");
 		$ilCtrl->setCmd("edit");
@@ -135,7 +141,10 @@ class ilSCORM2004PageNodeGUI extends ilSCORM2004NodeGUI
 	*/
 	function setTabs()
 	{
-		global $ilTabs, $ilCtrl, $tpl, $lng;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 
 		// metadata
 /*		$ilTabs->addTarget("meta_data",

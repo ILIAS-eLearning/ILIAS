@@ -14,12 +14,13 @@ include_once("./Modules/Exercise/classes/class.ilExerciseSubmissionTableGUI.php"
  */
 class ilExerciseMemberTableGUI extends ilExerciseSubmissionTableGUI
 {
+
 	protected $ass; // [ilExAssignment]
 	protected $teams = array();
 
 	protected function initMode($a_item_id)
 	{		
-		global $lng;
+		$lng = $this->lng;
 		
 		$this->mode = self::MODE_BY_ASSIGNMENT;
 		
@@ -244,7 +245,7 @@ class ilExerciseMemberTableGUI extends ilExerciseSubmissionTableGUI
 	
 	protected function fillRow($member)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$member_id = $member["usr_id"];
 		

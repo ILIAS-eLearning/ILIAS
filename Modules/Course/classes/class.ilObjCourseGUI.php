@@ -969,7 +969,6 @@ class ilObjCourseGUI extends ilContainerGUI
 				ilObjectServiceSettingsGUI::TAG_CLOUD,
 				ilObjectServiceSettingsGUI::CUSTOM_METADATA,
 				ilObjectServiceSettingsGUI::BADGES,
-				ilObjectServiceSettingsGUI::LTI_RELEASE,
 				ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS,
 				ilObjectServiceSettingsGUI::SKILLS
 			)
@@ -1468,16 +1467,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		$ecs = new ilECSCourseSettings($this->object);		
 		$ecs->addSettingsToForm($form, 'crs');
 		
-		include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
-		ilObjectServiceSettingsGUI::initServiceSettingsForm(
-				$this->object->getId(),
-				$form,
-				array(
-					ilObjectServiceSettingsGUI::LTI_RELEASE
-				)
-			);
-		
-
 		return $form;
 	}
 

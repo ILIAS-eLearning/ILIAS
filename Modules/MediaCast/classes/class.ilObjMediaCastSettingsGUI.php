@@ -36,6 +36,16 @@ include_once("./Services/Object/classes/class.ilObjectGUI.php");
 */
 class ilObjMediaCastSettingsGUI extends ilObjectGUI
 {
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
     private static $ERROR_MESSAGE;
 	/**
 	 * Contructor
@@ -44,6 +54,13 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
 	 */
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
+		global $DIC;
+
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->error = $DIC["ilErr"];
+		$this->access = $DIC->access();
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
 		$this->type = 'mcts';
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
@@ -59,7 +76,9 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
 	 */
 	public function executeCommand()
 	{
-		global $rbacsystem,$ilErr,$ilAccess;
+		$rbacsystem = $this->rbacsystem;
+		$ilErr = $this->error;
+		$ilAccess = $this->access;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -100,7 +119,8 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
 	 */
 	public function getAdminTabs()
 	{
-		global $rbacsystem, $ilAccess;
+		$rbacsystem = $this->rbacsystem;
+		$ilAccess = $this->access;
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -132,7 +152,8 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
 	*/
 	public function saveSettings()
 	{
-		global $ilCtrl, $ilAccess;
+		$ilCtrl = $this->ctrl;
+		$ilAccess = $this->access;
 		
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
@@ -157,7 +178,7 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
 	*/
 	public function cancel()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$ilCtrl->redirect($this, "view");
 	}
@@ -179,7 +200,8 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
 	 */
 	protected function initFormSettings()
 	{
-	    global $lng, $ilAccess;
+		$lng = $this->lng;
+		$ilAccess = $this->access;
 		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
 		
 		$form = new ilPropertyFormGUI();

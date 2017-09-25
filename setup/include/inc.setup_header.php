@@ -175,4 +175,5 @@ $DIC["http"] = function ($c) {
 		$c['http.response_factory']
 	);
 };
+$DIC['ilCtrl'] = new ilCtrl();
 ?>

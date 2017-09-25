@@ -13,11 +13,12 @@ include_once("./Modules/Exercise/classes/class.ilExerciseSubmissionTableGUI.php"
 */
 class ilExParticipantTableGUI extends ilExerciseSubmissionTableGUI
 {
+
 	protected $user; // [ilObjUser]
 	
 	protected function initMode($a_item_id)
 	{				
-		global $lng;
+		$lng = $this->lng;
 		
 		$this->mode = self::MODE_BY_USER;
 		
@@ -41,7 +42,8 @@ class ilExParticipantTableGUI extends ilExerciseSubmissionTableGUI
 	
 	protected function parseData()
 	{
-		global $ilAccess, $ilCtrl;
+		$ilAccess = $this->access;
+		$ilCtrl = $this->ctrl;
 		
 		$this->addCommandButton("saveStatusParticipant", $this->lng->txt("save"));		
 		
@@ -153,7 +155,7 @@ class ilExParticipantTableGUI extends ilExerciseSubmissionTableGUI
 	
 	protected function fillRow($a_item)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$ilCtrl->setParameter($this->parent_obj, "member_id", $this->user->getId());
 		$ilCtrl->setParameter($this->parent_obj, "ass_id", $a_item["ass"]->getId());

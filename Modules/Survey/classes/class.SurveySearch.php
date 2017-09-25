@@ -33,6 +33,11 @@
 */
 class SurveySearch 
 {
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
 	const CONCAT_AND = 0;
 	const CONCAT_OR = 1;
 	
@@ -104,7 +109,10 @@ class SurveySearch
 	*/
 	function __construct($search_text = "", $concatenation = self::CONCAT_AND, $search_field = "all", $search_type = "all")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$this->rbacsystem = $DIC->rbac()->system();
+		$ilDB = $DIC->database();
 
 		$this->ilDB = $ilDB;
 
@@ -124,7 +132,7 @@ class SurveySearch
 	*/
 	function search()
 	{
-		global $ilDB;
+		$ilDB = $this->ilDB;
 		
 		$where = "";
 		$fields = array();
@@ -176,7 +184,7 @@ class SurveySearch
 			"AND svy_question.original_id IS NULL AND svy_question.obj_fi = object_reference.obj_id AND ".
 			"svy_question.obj_fi > 0$str_where");
 		$result_array = array();
-		global $rbacsystem;
+		$rbacsystem = $this->rbacsystem;
 		if ($result->numRows() > 0) 
 		{
 			while ($row = $ilDB->fetchAssoc($result))

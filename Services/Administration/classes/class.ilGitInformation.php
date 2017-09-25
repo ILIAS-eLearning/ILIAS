@@ -19,10 +19,9 @@ class ilGitInformation implements ilVersionControlInformation
 	 */
 	private static function detect()
 	{
-		/**
-		 * @var $lng ilLanguage
-		 */
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 
 		if(null !== self::$revision_information)
 		{

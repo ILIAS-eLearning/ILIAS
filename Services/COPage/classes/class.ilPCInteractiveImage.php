@@ -14,6 +14,12 @@ require_once("./Services/COPage/classes/class.ilPageContent.php");
  */
 class ilPCInteractiveImage extends ilPageContent
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+
 	var $dom;
 	var $iim_node;
 	
@@ -25,6 +31,9 @@ class ilPCInteractiveImage extends ilPageContent
 	 */
 	function init()
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		$this->setType("iim");
 	}
 
@@ -258,7 +267,7 @@ die("pcinteractiveimage: setstyleclass");
 	 */
 	function addContentPopup()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$max = 0;
 		$popups = $this->getPopups();
@@ -463,7 +472,7 @@ die("pcinteractiveimage: setstyleclass");
 	 */
 	function addTriggerMarker()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$max = 0;
 		$triggers = $this->getTriggers();

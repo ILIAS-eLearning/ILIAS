@@ -14,13 +14,49 @@ require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 */
 class ilAdminSubItemsTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
 	
 	/**
 	* Constructor
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->obj_definition = $DIC["objDefinition"];
+		$this->tree = $DIC->repositoryTree();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
+		$lng = $DIC->language();
 		
 		$this->ref_id = $a_ref_id;
 		
@@ -84,7 +120,9 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
 	*/
 	function getItems()
 	{
-		global $rbacsystem, $objDefinition, $tree;
+		$rbacsystem = $this->rbacsystem;
+		$objDefinition = $this->obj_definition;
+		$tree = $this->tree;
 		
 		$items = array();
 		$childs = $tree->getChilds($this->ref_id);
@@ -122,7 +160,9 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $lng, $objDefinition, $ilCtrl;
+		$lng = $this->lng;
+		$objDefinition = $this->obj_definition;
+		$ilCtrl = $this->ctrl;
 
 //		$this->tpl->setVariable("", );
 		

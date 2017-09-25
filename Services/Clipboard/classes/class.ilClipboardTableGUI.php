@@ -14,13 +14,36 @@ include_once("Services/Table/classes/class.ilTable2GUI.php");
 */
 class ilClipboardTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 
 	/**
 	* Constructor
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd)
 	{
-		global $ilCtrl, $lng, $ilAccess;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$this->user = $DIC->user();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$lng->loadLanguageModule("mep");
@@ -54,7 +77,7 @@ class ilClipboardTableGUI extends ilTable2GUI
 	*/
 	function getItems()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$objs = $ilUser->getClipboardObjects("mob");
 		$objs2 = $ilUser->getClipboardObjects("incl");
@@ -70,7 +93,9 @@ class ilClipboardTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl, $ilAccess;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilAccess = $this->access;
 
 		if ($a_set["type"] == "mob")
 		{

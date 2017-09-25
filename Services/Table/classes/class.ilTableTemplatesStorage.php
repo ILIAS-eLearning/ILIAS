@@ -12,6 +12,22 @@
 class ilTableTemplatesStorage
 {
 	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		global $DIC;
+
+		$this->db = $DIC->database();
+	}
+
+	/**
 	 * Store table template
 	 *
 	 * @param	string	$a_context
@@ -21,7 +37,7 @@ class ilTableTemplatesStorage
 	 */
 	function store($a_context, $a_user_id, $a_name, array $a_state)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if ($a_context == "" || $a_name == "")
 		{
@@ -47,7 +63,7 @@ class ilTableTemplatesStorage
 	 */
 	function load($a_context, $a_user_id, $a_name)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if ($a_context == "" || $a_name == "")
 		{
@@ -72,7 +88,7 @@ class ilTableTemplatesStorage
 	 */
 	function delete($a_context, $a_user_id, $a_name)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if ($a_context == "" || $a_name == "")
 		{
@@ -95,7 +111,7 @@ class ilTableTemplatesStorage
 	 */
 	function getNames($a_context, $a_user_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if ($a_context == "")
 		{

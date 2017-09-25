@@ -13,13 +13,39 @@ include_once("./Services/Rating/classes/class.ilRatingCategory.php");
  */
 class ilRatingCategoryGUI
 {	
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
 	protected $parent_id; // [int]
 	protected $export_callback; // [string|array]
 	protected $export_subobj_title; // [string]
 	
 	function __construct($a_parent_id, $a_export_callback = null, $a_export_subobj_title = null)
 	{
-		global $lng;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+		$this->tpl = $DIC["tpl"];
+		$this->toolbar = $DIC->toolbar();
+		$lng = $DIC->language();
 		
 		$this->parent_id = (int)$a_parent_id;
 		$this->export_callback = $a_export_callback;
@@ -42,7 +68,7 @@ class ilRatingCategoryGUI
 	 */
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd("listCategories");
@@ -57,7 +83,10 @@ class ilRatingCategoryGUI
 	
 	protected function listCategories()
 	{
-		global $tpl, $ilToolbar, $lng, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilToolbar = $this->toolbar;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 	
 		$ilToolbar->addButton($lng->txt("rating_add_category"), 
 			$ilCtrl->getLinkTarget($this, "add"));
@@ -75,7 +104,8 @@ class ilRatingCategoryGUI
 	
 	protected function initCategoryForm($a_id = null)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 				
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -115,7 +145,7 @@ class ilRatingCategoryGUI
 	
 	protected function add($a_form = null)
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		if(!$a_form)
 		{
@@ -127,7 +157,8 @@ class ilRatingCategoryGUI
 	
 	protected function save()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$form = $this->initCategoryForm("create");
 		if($form->checkInput())
@@ -149,7 +180,8 @@ class ilRatingCategoryGUI
 	
 	protected function edit($a_form = null)
 	{
-		global $tpl, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
 				
 		$ilCtrl->setParameter($this, "cat_id", $this->cat_id);
 		
@@ -163,7 +195,8 @@ class ilRatingCategoryGUI
 	
 	protected function update()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$form = $this->initCategoryForm($this->cat_id);
 		if($form->checkInput())
@@ -184,7 +217,8 @@ class ilRatingCategoryGUI
 	
 	protected function updateOrder()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$order = $_POST["pos"];
 		asort($order);
@@ -207,7 +241,9 @@ class ilRatingCategoryGUI
 	
 	protected function confirmDelete()
 	{
-		global $tpl, $ilCtrl, $lng;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		if(!$this->cat_id)
 		{
@@ -231,7 +267,8 @@ class ilRatingCategoryGUI
 	
 	protected function delete()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		if($this->cat_id)
 		{
@@ -255,7 +292,7 @@ class ilRatingCategoryGUI
 	
 	protected function export()
 	{		
-		global $lng;
+		$lng = $this->lng;
 	
 		include_once "./Services/Excel/classes/class.ilExcel.php";
 		$excel = new ilExcel();

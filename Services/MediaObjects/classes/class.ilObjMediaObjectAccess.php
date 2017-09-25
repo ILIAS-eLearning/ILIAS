@@ -9,6 +9,34 @@ require_once('./Services/MediaObjects/classes/class.ilObjMediaObject.php');
  * @version 1.0.0
  */
 class ilObjMediaObjectAccess implements ilWACCheckingClass {
+	/**
+	 * @var ilObjectDataCache
+	 */
+	protected $obj_data_cache;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		global $DIC;
+
+		$this->obj_data_cache = $DIC["ilObjDataCache"];
+		$this->user = $DIC->user();
+		$this->access = $DIC->access();
+	}
+
 
 	/**
 	 * @param ilWACPath $ilWACPath
@@ -70,7 +98,8 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass {
 		/**
 		 * @var $ilObjDataCache ilObjectDataCache
 		 */
-		global $ilObjDataCache, $ilUser;
+		$ilObjDataCache = $this->obj_data_cache;
+		$ilUser = $this->user;
 		$user_id = $ilUser->getId();
 
 		switch ($usage['type']) {
@@ -194,7 +223,8 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass {
 	 * @return   boolean     access given (true/false)
 	 */
 	protected function checkAccessObject($obj_id, $obj_type = '') {
-		global $ilAccess, $ilUser;
+		$ilAccess = $this->access;
+		$ilUser = $this->user;
 		$user_id = $ilUser->getId();
 
 		if (! $obj_type) {
@@ -224,7 +254,7 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass {
 	 * @return   boolean     access given (true/false)
 	 */
 	protected function checkAccessTestQuestion($obj_id, $usage_id = 0) {
-		global $ilAccess;
+		$ilAccess = $this->access;
 
 		// give access if direct usage is readable
 		if ($this->checkAccessObject($obj_id)) {
@@ -310,7 +340,7 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass {
 	 * @return   boolean     access given (true/false)
 	 */
 	protected function checkAccessPortfolioPage($obj_id, $page_id) {
-		global $ilUser;
+		$ilUser = $this->user;
 		include_once "Modules/Portfolio/classes/class.ilPortfolioAccessHandler.php";
 		$access_handler = new ilPortfolioAccessHandler();
 		if ($access_handler->checkAccessOfUser($ilUser->getId(), "read", "view", $obj_id, "prtf")) {
@@ -330,7 +360,7 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass {
 	 * @return   boolean     access given (true/false)
 	 */
 	protected function checkAccessBlogPage($obj_id) {
-		global $ilUser;
+		$ilUser = $this->user;
 		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 		$tree = new ilWorkspaceTree(0);
 		$node_id = $tree->lookupNodeId($obj_id);

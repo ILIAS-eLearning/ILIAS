@@ -16,13 +16,41 @@ include_once("Services/Notes/classes/class.ilNote.php");
 */
 class ilPDNotesGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
 
 	/**
-	* ilias object
-	* @var object ilias
-	* @access public
-	*/
-	var $ilias;
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
 	var $tpl;
 	var $lng;
 	
@@ -36,14 +64,26 @@ class ilPDNotesGUI
 	*/
 	function __construct()
 	{
-		global $ilias, $tpl, $lng, $ilCtrl, $ilUser, $ilTabs, $ilHelp;
+		global $DIC;
+
+		$this->user = $DIC->user();
+		$this->tabs = $DIC->tabs();
+		$this->help = $DIC["ilHelp"];
+		$this->settings = $DIC->settings();
+		$this->access = $DIC->access();
+		$this->toolbar = $DIC->toolbar();
+		$tpl = $DIC["tpl"];
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$ilUser = $DIC->user();
+		$ilTabs = $DIC->tabs();
+		$ilHelp = $DIC["ilHelp"];
 
 		$ilHelp->setScreenIdComponent("note");
 
 		$lng->loadLanguageModule("notes");
 		
 		// initiate variables
-		$this->ilias = $ilias;
 		$this->tpl = $tpl;
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
@@ -100,14 +140,14 @@ class ilPDNotesGUI
 	*/
 	function displayHeader()
 	{
-		global $ilSetting;
+		$ilSetting = $this->settings;
 
 		$t = $this->lng->txt("notes");
-		if (!$this->ilias->getSetting("disable_notes") && !$ilSetting->get("disable_comments"))
+		if (!$ilSetting->get("disable_notes") && !$ilSetting->get("disable_comments"))
 		{
 			$t = $this->lng->txt("notes_and_comments");
 		}
-		if ($this->ilias->getSetting("disable_notes"))
+		if ($ilSetting->get("disable_notes"))
 		{
 			$t = $this->lng->txt("notes_comments");
 		}
@@ -125,7 +165,11 @@ class ilPDNotesGUI
 	*/
 	function view()
 	{
-		global $ilUser, $lng, $ilSetting, $ilAccess, $ilToolbar;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilSetting = $this->settings;
+		$ilAccess = $this->access;
+		$ilToolbar = $this->toolbar;
 
 		//$this->tpl->addBlockFile("ADM_CONTENT", "objects", "tpl.table.html")
 		include_once("Services/Notes/classes/class.ilNoteGUI.php");
@@ -263,7 +307,7 @@ class ilPDNotesGUI
 	*/
 	function changeRelatedObject()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$ilUser->writePref("pd_notes_rel_obj".$this->getMode(), $_POST["rel_obj"]);				
 		$this->ctrl->redirect($this);
@@ -275,7 +319,9 @@ class ilPDNotesGUI
 	*/
 	function setTabs()
 	{
-		global $ilTabs, $ilSetting, $ilCtrl;
+		$ilTabs = $this->tabs;
+		$ilSetting = $this->settings;
+		$ilCtrl = $this->ctrl;
 
 		if(!$ilSetting->get("disable_notes"))
 		{
@@ -297,7 +343,8 @@ class ilPDNotesGUI
 	*/
 	function showPrivateNotes()
 	{
-		global $ilUser, $ilCtrl;
+		$ilUser = $this->user;
+		$ilCtrl = $this->ctrl;
 		
 		$ilUser->writePref("pd_notes_mode", ilPDNotesGUI::PRIVATE_NOTES);
 		$ilCtrl->redirect($this, "");
@@ -308,7 +355,9 @@ class ilPDNotesGUI
 	*/
 	function showPublicComments()
 	{
-		global $ilUser, $ilCtrl, $ilSetting;
+		$ilUser = $this->user;
+		$ilCtrl = $this->ctrl;
+		$ilSetting = $this->settings;
 		
 		if($ilSetting->get("disable_comments"))
 		{
@@ -324,7 +373,8 @@ class ilPDNotesGUI
 	*/
 	function getMode()
 	{
-		global $ilUser, $ilSetting;
+		$ilUser = $this->user;
+		$ilSetting = $this->settings;
 		
 		if ($ilUser->getPref("pd_notes_mode") == ilPDNotesGUI::PUBLIC_COMMENTS &&
 			!$ilSetting->get("disable_comments"))

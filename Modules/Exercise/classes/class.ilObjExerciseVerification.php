@@ -39,7 +39,9 @@ class ilObjExerciseVerification extends ilVerificationObject
 	 */
 	public static function createFromExercise(ilObjExercise $a_exercise, $a_user_id)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		$lng->loadLanguageModule("exercise");
 		

@@ -12,12 +12,19 @@ require_once('./Services/UIComponent/classes/class.ilUIHookProcessor.php');
  * @ingroup ServicesRouter
  */
 class ilUIPluginRouterGUI {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
 
     /** @var  ilCtrl */
     protected $ilCtrl;
 
     function __construct() {
-        global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC->ctrl();
 
         $this->ctrl = $ilCtrl;
     }

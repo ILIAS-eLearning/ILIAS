@@ -14,10 +14,16 @@ include_once("./Services/Repository/classes/class.ilRepositorySelectorExplorerGU
 class ilLinkTargetObjectExplorerGUI extends ilRepositorySelectorExplorerGUI
 {
 	/**
+	 * @var string
+	 */
+	protected $link_type;
+
+	/**
 	 * Constructor
 	 */
-	function __construct($a_parent_obj, $a_parent_cmd)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_link_type)
 	{
+		$this->link_type = $a_link_type;
 		parent::__construct($a_parent_obj, $a_parent_cmd, null, "", "");
 	}
 
@@ -46,7 +52,7 @@ class ilLinkTargetObjectExplorerGUI extends ilRepositorySelectorExplorerGUI
 	 */
 	function getNodeOnClick($a_node)
 	{
-		return "il.IntLink.selectLinkTargetObject('".$a_node["type"]."','".$a_node["child"]."'); return(false);";
+		return "il.IntLink.selectLinkTargetObject('".$a_node["type"]."','".$a_node["child"]."','".$this->link_type."'); return(false);";
 	}
 
 	/**
