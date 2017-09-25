@@ -5522,5 +5522,26 @@ abstract class ilPageObject
 		return $min;
 	}
 
+	/**
+	 * Get all file object ids
+	 *
+	 * @return array
+	 */
+	function getAllFileObjIds()
+	{
+		$file_obj_ids = array();
+
+		// insert inst id file item identifier entries
+		$xpc = xpath_new_context($this->dom);
+		$path = "//FileItem/Identifier";
+		$res = xpath_eval($xpc, $path);
+		for($i = 0; $i < count($res->nodeset); $i++)
+		{
+			$file_obj_ids[] = $res->nodeset[$i]->get_attribute("Entry");
+		}
+		unset($xpc);
+		return $file_obj_ids;
+	}
+
 }
 ?>
