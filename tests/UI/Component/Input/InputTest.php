@@ -18,6 +18,10 @@ class DefInput extends Input {
 	protected function isClientSideValueOk($value) {
 		return $this->value_ok;
 	}
+	public $requirement_constraint = null;
+	protected function getConstraintForRequirement() {
+		return $this->requirement_constraint;
+	}
 }
 
 class DefNamesource implements NameSource {
@@ -62,7 +66,7 @@ class InputTest extends ILIAS_UI_TestBase {
 		$this->data_factory = new DataFactory();
 		$this->transformation_factory = new TransformationFactory();
 		$this->validation_factory = new ValidationFactory($this->data_factory);
-		$this->input = new DefInput($this->data_factory, "label", "byline");
+		$this->input = new DefInput($this->data_factory, $this->validation_factory, $this->transformation_factory, "label", "byline");
 		$this->name_source = new DefNamesource();
 	}
 
@@ -419,24 +423,46 @@ class InputTest extends ILIAS_UI_TestBase {
 		$this->assertEquals($error, $input2->getError());
 	}
 
-	public function test_withInput_null_transformation_and_constraint() {
-		$values = new DefPostData([]);
+	public function test_withInput_requirement_constraint() {
+		$name = "name_0";
+		$value = "value";
+		$error = "an error";
+		$input = $this->input->withNameFrom($this->name_source);
+		$values = new DefPostData([$name => $value]);
 
-		$input = $this->input
-			->withNameFrom($this->name_source)
-			// This currently is the default, but we set it anyway to make out point.
-			->withRequirement(false)
-			->withAdditionalTransformation($this->transformation_factory->custom(function($v) {
-				$this->assertFalse(true); // not called, because there is no input
-			}))
-			->withAdditionalConstraint($this->validation_factory->custom(function($v) {
-				$this->assertFalse(true); // not called, because there is no input
-			}, ""))
+		$input->requirement_constraint = $this->validation_factory->custom(function($_) { return false; }, $error);
+
+		$input2 = $input
+			->withRequirement(true)
 			->withInput($values);
-		$res = $input->getContent();
+		$res = $input2->getContent();
 
 		$this->assertInstanceOf(Result::class, $res);
-		$this->assertTrue($res->isOk());
-		$this->assertEquals(null, $res->value());
+		$this->assertTrue($res->isError());
+		$this->assertEquals($error, $res->error());
+
+		$this->assertNotSame($input, $input2);
+		$this->assertEquals($value, $input2->getValue());
+		$this->assertEquals($error, $input2->getError());
+	}
+
+	public function test_withInput_toggle_requirement() {
+		$name = "name_0";
+		$value = "value";
+		$error = "an error";
+		$input = $this->input->withNameFrom($this->name_source);
+		$values = new DefPostData([$name => $value]);
+
+		$input->requirement_constraint = $this->validation_factory->custom(function($_) { return false; }, $error);
+
+		$input2 = $input
+			->withRequirement(true)
+			->withRequirement(false)
+			->withInput($values);
+		$res = $input2->getContent();
+
+		$this->assertInstanceOf(Result::class, $res);
+		$this->assertFalse($res->isError());
+		$this->assertEquals($value, $res->value());
 	}
 }
