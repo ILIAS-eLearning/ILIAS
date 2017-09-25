@@ -13805,17 +13805,17 @@ if ($ilDB->tableExists('obj_stat_tmp') && $ilDB->tableExists('obj_stat_tmp_old')
 						  "(log_id, obj_id, obj_type, tstamp,  yyyy, mm, dd, hh, read_count, childs_read_count, spent_seconds, childs_spent_seconds) ".
 						  "VALUES ( ".
 						  $ilDB->quote($id ,'integer').', '.
-						  $ilDB->quote($data['obj_id'] ,'integer').', '.
-						  $ilDB->quote($data['obj_type'] ,'text').', '.
-						  $ilDB->quote($data['tstamp'] ,'integer').', '.
-						  $ilDB->quote($data['yyyy'] ,'integer').', '.
-						  $ilDB->quote($data['mm'] ,'integer').', '.
-						  $ilDB->quote($data['dd'] ,'integer').', '.
-						  $ilDB->quote($data['hh'] ,'integer').', '.
-						  $ilDB->quote($data['read_count'] ,'integer').', '.
-						  $ilDB->quote($data['childs_read_count'] ,'integer').', '.
-						  $ilDB->quote($data['spent_seconds'] ,'integer').', '.
-						  $ilDB->quote($data['childs_spent_seconds'] ,'integer').
+						  $ilDB->quote($row['obj_id'] ,'integer').', '.
+						  $ilDB->quote($row['obj_type'] ,'text').', '.
+						  $ilDB->quote($row['tstamp'] ,'integer').', '.
+						  $ilDB->quote($row['yyyy'] ,'integer').', '.
+						  $ilDB->quote($row['mm'] ,'integer').', '.
+						  $ilDB->quote($row['dd'] ,'integer').', '.
+						  $ilDB->quote($row['hh'] ,'integer').', '.
+						  $ilDB->quote($row['read_count'] ,'integer').', '.
+						  $ilDB->quote($row['childs_read_count'] ,'integer').', '.
+						  $ilDB->quote($row['spent_seconds'] ,'integer').', '.
+						  $ilDB->quote($row['childs_spent_seconds'] ,'integer').
 						  ")"
 		);
 
