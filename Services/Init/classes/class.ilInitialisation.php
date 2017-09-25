@@ -586,6 +586,17 @@ class ilInitialisation
 	}
 
 	/**
+	 * @param \ILIAS\DI\Container $c
+	 */
+	protected static function initAvatar(\ILIAS\DI\Container $c)
+	{
+		$c["user.avatar.factory"] = function ($c) {
+			require_once 'Services/User/Avatar/classes/class.ilUserAvatarFactory.php';
+			return new ilUserAvatarFactory($c);
+		};
+	}
+
+	/**
 	 * initialise $ilSettings object and define constants
 	 * 
 	 * Used in Soap
@@ -1112,6 +1123,7 @@ class ilInitialisation
 
 		self::initSettings();
 		self::initMail($GLOBALS['DIC']);
+		self::initAvatar($GLOBALS['DIC']);
 		
 		
 		// --- needs settings	
