@@ -109,8 +109,6 @@ Command output should look like this, if the installation was successful.
 Composer version 1.5.1 2017-08-09 16:07:22
 ```
 
-
-
 ### Setup ILIAS
 Install ILIAS on your favourite operation system with the provided [installation guide](docs/configuration/install.md).
 Make sure that all dev and prod dependencies are installed with composer.
@@ -382,8 +380,52 @@ There are developers which even develop the unit test before they write the actu
 (TDD).
 
 ### Right-BICEP
-#### Write CORRECT tests
- 
+### Write CORRECT tests
+Found bugs are often involve so called boundary conditions. These are the edges of the sane-path where many problems appear.
+The CORRECT acronym can be used to think of possible problems while writing unit tests.
+- **C**onformance (Is the value conform with an expected format ?)
+- **O**rdering (Is the collection of values ordered or unordered as expected ?)
+- **R**ange (Is the value between the expected min and max value ?)
+- **R**eference (Does the code reference external things which is not under direct control of the code it self ?)
+- **E**xistence (Does a value exist or is it null or empty present into a collection or not and so on ?)
+- **C**ardinality (Are there exactly enough values ?)
+- **T**ime (Is everything happening in order ? At the right time and in time ?)
+
+#### Conformance
+Many data structures must conform to a certain format. A well known format is the email or the ip address.
+
+For example a system has a data import format which consists of head multiple body entries and a trailing entry.
+Some of the boundary conditions would be:
+- Just data
+- Just header
+- Just trailing entry
+- Just a header and data
+- Just a header and a trailing entry
+- Just data and the trailing entry
+
+Brainstorming about these boundary conditions is helpful to find different kind of problems within a system. However, unit tests
+should not be written for cases which will never happen at all. This introduces the question at which point are unit tests no longer
+useful?
+
+For example someone passed an email address into a system because that person changed the provider. That email will be passed 
+through countless methods of the system. However, if the email address is validated at the entry point of the system, the address 
+can be threaded as safe in each underlying method and subsequent validations are not needed at all. Therefore, it would be useless
+to test the underlying methods in terms of the format validity because the will never receive an invalid email address.
+
+To summarize, it is very important to understand the data flow in the system to reduce unnecessary unit tests.
+
+#### Ordering
+The order of data or the position of specific data in larger collections are often a point were something 
+goes wrong within a system.
+
+#### Range
+The the 64bit integer of PHP has far more capacity than needed. For example the age of a dog will never exceed a certain point but
+if something went wrong the dog is in a sudden 2 pow 64 years old.
+
+The excessive use of primitive  
+
+   
+
 ## Test Examples
 //show different test scenarios and how they are looking in ILIAS
 //filesystem test
@@ -403,6 +445,8 @@ There are developers which even develop the unit test before they write the actu
 
 
 //Refer to obsolete documentation
+
+// talk about the correct usage of the DIC (Dependency inversion etc)
 
 ## FAQ
 ### What needs to be tested ?
