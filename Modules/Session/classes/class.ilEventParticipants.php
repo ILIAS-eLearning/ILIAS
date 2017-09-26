@@ -397,10 +397,6 @@ class ilEventParticipants
 	{
 		global $ilDB;
 
-		include_once "Services/Tracking/classes/class.ilLPMarks.php";
-		
-		
-		
 		$query = "SELECT * FROM event_participants ".
 			"WHERE event_id = ".$ilDB->quote($this->getEventId())." ";
 		$res = $this->db->query($query);
