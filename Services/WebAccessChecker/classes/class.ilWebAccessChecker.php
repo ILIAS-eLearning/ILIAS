@@ -124,9 +124,8 @@ class ilWebAccessChecker {
 		// Fallback, have to initiate ILIAS
 		$this->initILIAS();
 
-		$checkingInstance = NULL;
+		if(ilWACSecurePath::hasCheckingInstanceRegistered($this->getPathObject())) {
 
-		try {
 			// Maybe the path has been registered, lets check
 			$checkingInstance = ilWACSecurePath::getCheckingInstance($this->getPathObject());
 			$this->addAppliedCheckingMethod(self::CM_CHECKINGINSTANCE);
@@ -146,9 +145,7 @@ class ilWebAccessChecker {
 				return false;
 			}
 		}
-		catch (ilWACException $ex) {
-			//NOP no checking instance found or the path to the checking instance has been invalid.
-		}
+
 
 		// none of the checking mechanisms could have been applied. no access
 		$this->setChecked(true);
