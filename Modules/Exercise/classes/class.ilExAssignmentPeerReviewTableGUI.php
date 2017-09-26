@@ -55,8 +55,8 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 		else 
 		{
 			$this->addColumn($this->lng->txt("exc_peer_review_recipient"), "name");
-			#21260 tstamp as default field order.
-			$this->setDefaultOrderField("tstamp");
+			#21260
+			$this->setDefaultOrderField("name");
 		}					
 		$this->addColumn($this->lng->txt("last_update"), "tstamp");		
 		$this->addColumn($this->lng->txt("valid"), "valid");		
