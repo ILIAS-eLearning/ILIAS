@@ -375,7 +375,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 				}
 				$event_html = $event_tpl->get();
 				$this->tpl->setCurrentBlock("not_full_day_event");
-				$this->tpl->setVariable(CONTENT_EVENT, $event_html);
+				$this->tpl->setVariable("CONTENT_EVENT", $event_html);
 				$this->tpl->parseCurrentBlock();
 
 			}
@@ -435,7 +435,11 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 		{
 			$event_html = $event_html_by_plugin;
 		}
+
+		$this->tpl->setCurrentBlock("content_fd");
 		$this->tpl->setVariable("CONTENT_EVENT_FD",$event_html);
+		$this->tpl->parseCurrentBlock();
+
 		$this->num_appointments++;
 	}
 	
@@ -464,8 +468,6 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 		
 		$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 		$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());
-		//not used
-		$this->tpl->setVariable('APP_EDIT_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','edit'));
 
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
 		$style = 'background-color: '.$color.';';
@@ -509,12 +511,6 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 
 		//calendar plugins
 		$event_tpl->setVariable('APP_TITLE', $title);
-
-		//not used
-		$this->tpl->setVariable('LINK_NUM',$this->num_appointments);
-		//not used
-		$this->tpl->setVariable('LINK_STYLE',$style);
-
 		
 		if (!$ilUser->prefs["screen_reader_optimization"])
 		{
