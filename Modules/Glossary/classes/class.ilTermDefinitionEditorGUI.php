@@ -134,7 +134,9 @@ class ilTermDefinitionEditorGUI
 				$page_gui->setFullscreenLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;cmd=fullscreen&amp;ref_id=".$_GET["ref_id"]);
 				$page_gui->setTemplateTargetVar("ADM_CONTENT");
 				$page_gui->setOutputMode("edit");
-				$page_gui->setStyleId($this->term_glossary->getStyleSheetId());
+
+				$page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
+					$this->term_glossary->getStyleSheetId(), "glo"));
 				$page_gui->setLocator($gloss_loc);
 				$page_gui->setIntLinkReturn($this->ctrl->getLinkTargetByClass("ilobjglossarygui", "quickList",
 					"", false, false));
