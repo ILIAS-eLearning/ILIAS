@@ -451,7 +451,9 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 		{
 			$event_html = $event_html_by_plugin;
 		}
+		$this->tpl->setCurrentBlock("event_nfd");
 		$this->tpl->setVariable("CONTENT_EVENT_NFD",$event_html);
+		$this->tpl->parseCurrentBlock();
 
 		$this->num_appointments++;
 	}
