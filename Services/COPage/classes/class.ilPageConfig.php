@@ -16,7 +16,7 @@ abstract class ilPageConfig
 	 */
 	protected $lng;
 
-	protected $int_link_filter = array("File", "PortfolioPage");
+	protected $int_link_filter = array("File", "PortfolioPage", "PortfolioTemplatePage");
 	protected $prevent_rte_usage = false;
 	protected $use_attached_content = false;
 	protected $pc_defs = array();

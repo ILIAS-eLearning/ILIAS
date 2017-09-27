@@ -155,7 +155,8 @@ class ilInternalLinkGUI
 			"PortfolioPage" => "prtf",
 			"PortfolioTemplatePage" => "prtt",
 			"File" => "",
-			"RepositoryItem" => ""
+			"RepositoryItem" => "",
+			"User" => ""
 		);
 
 		// filter link types
@@ -338,11 +339,16 @@ class ilInternalLinkGUI
 			(($this->parent_ref_id > 0) &&
 			!in_array(ilObject::_lookupType($this->parent_ref_id, true), array($parent_type))))
 		{
-			$this->changeTargetObject($parent_type);
+			if ($parent_type != "")
+			{
+				$this->changeTargetObject($parent_type);
+			}
 		}
 		if ($ilCtrl->isAsynch())
 		{
 			$tpl = new ilTemplate("tpl.link_help_asynch.html", true, true, "Services/Link");
+			$tpl->setVariable("NEW_LINK_URL", $this->ctrl->getLinkTarget($this,
+				"", false, true, false));
 		}
 		else
 		{
@@ -852,6 +858,13 @@ class ilInternalLinkGUI
 		$ctrl = $this->ctrl;
 
 		$ctrl->setParameter($this, "link_type", $_GET["link_type"]);
+		$base_type = explode("_", $_GET["link_type"])[0];
+		if ($this->parent_type[$base_type] != ilObject::_lookupType($this->parent_ref_id, true))
+		{
+			$ctrl->setParameter($this, "link_par_ref_id", 0);
+			$ctrl->setParameter($this, "link_par_obj_id", 0);
+		}
+
 		$ctrl->redirect($this, "showLinkHelp", "", true);
 	}
 
@@ -931,7 +944,7 @@ class ilInternalLinkGUI
 			{
 				$tpl->setVariable("LINK_CLIPBOARD", "#");
 				$tpl->setVariable("CLIPBOARD_ONCLICK",
-					" onclick=\"return il.IntLink.selectLinkTargetObject('mep', 0);\" ");
+					" onclick=\"return il.IntLink.selectLinkTargetObject('mep', 0, '".$this->link_type."');\" ");
 				
 			}
 			else

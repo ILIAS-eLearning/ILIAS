@@ -18,7 +18,23 @@ il.IntLink =
 	},
 
 	getURLParameter: function(url, name) {
-		return decodeURIComponent((new RegExp("[?|&]" + name + "=" + "([^&;]+?)(&|#|;|$)").exec(url.search) || [null, ""])[1].replace(/\+/g, "%20")) || null;
+		return decodeURIComponent((new RegExp("[?|&]" + name + "=" + "([^&;]+?)(&|#|;|$)").exec(window.location.search) || [null, ""])[1].replace(/\+/g, "%20")) || null;
+	},
+
+	getUrlParameters: function (url) {
+		var match,
+			pl     = /\+/g,  // Regex for replacing addition symbol with a space
+			search = /([^&=]+)=?([^&]*)/g,
+			decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+			query;
+
+		query = url.substring(url.indexOf("?") + 1);
+
+		var urlParams = {};
+		while (match = search.exec(query)) {
+			urlParams[decode(match[1])] = decode(match[2]);
+		}
+		return urlParams;
 	},
 
 	replaceUrlParam: function (url, paramName, paramValue) {
@@ -71,9 +87,14 @@ il.IntLink =
 	setInternalLinkUrl: function(url) {
 		var p;
 		var t = il.IntLink;
+		var pars = t.getUrlParameters(url);
 
+		console.log("setInternalLinkUrl: " + url);
 		for (p in t.save_pars) {
-			t.save_pars[p] = t.getURLParameter(t.int_link_url, p);
+			t.save_pars[p] = "";
+			if (pars[p]) {
+				t.save_pars[p] = pars[p];
+			}
 		}
 		t.int_link_url = url;
 	},
@@ -141,9 +162,10 @@ il.IntLink =
 			//sUrl = this.getInternalLinkUrl() + "&cmd=changeLinkType";
 
 			this.save_pars.link_type = $("#ilIntLinkTypeSelector").val();
-			this.save_pars.link_par_ref_id = "";
-			this.save_pars.link_par_obj_id = "";
+			//this.save_pars.link_par_ref_id = "";
+			//this.save_pars.link_par_obj_id = "";
 			sUrl = this.replaceSavePars(sUrl);
+			console.log(this.save_pars);
 			console.log("Select Type: " + sUrl);
 			il.Util.sendAjaxGetRequestToUrl(sUrl, {}, {}, this.handleAjaxSuccess);
 		}
