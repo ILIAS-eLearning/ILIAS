@@ -196,6 +196,8 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	 */
 	function preview($a_mode = null)
 	{
+		global $DIC;
+
 		$ilCtrl = $this->ctrl;
 		$tpl = $this->tpl;
 		$ilSetting = $this->settings;
