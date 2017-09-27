@@ -23,10 +23,15 @@ class ilWACSecurePath extends ActiveRecord {
 
 
 	/**
-	 * @param ilWACPath $ilWACPath
+	 * Searches a checking instance for the given wac path. If a checking instance is found, wac will try to create a instance of the found checker.
+	 * The path concatenation pattern for the inclusion is {ComponentDirectory}/classes/class.{CheckingClass}.php. Furthermore the included
+	 * class must implement the ilWACCeckingClass interface.
 	 *
-	 * @return ilWACCheckingClass
-	 * @throws ilWACException
+	 * @param ilWACPath $ilWACPath  The wac path which should be used to search a checking instance.
+	 *
+	 * @return ilWACCheckingClass The newly created checking instance.
+	 *
+	 * @throws ilWACException Thrown if the the checking instance is not found or if the concatenated path is not valid to the checking instance.
 	 */
 	public static function getCheckingInstance(ilWACPath $ilWACPath)  {
 		/**
@@ -46,6 +51,19 @@ class ilWACSecurePath extends ActiveRecord {
 		$class_name = $obj->getCheckingClass();
 
 		return new $class_name();
+	}
+
+
+	/**
+	 * Searches a checking instance for the given wac path.
+	 *
+	 * @param ilWACPath $ilWACPath The wac path which should be used to search the checking instance.
+	 *
+	 * @return bool true if a checking instance is found otherwise false.
+	 */
+	public static function hasCheckingInstanceRegistered(ilWACPath $ilWACPath) {
+		$obj = self::find($ilWACPath->getModuleType());
+		return !is_null($obj);
 	}
 
 
