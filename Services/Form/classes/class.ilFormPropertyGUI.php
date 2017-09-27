@@ -495,6 +495,23 @@ class ilFormPropertyGUI
 		return str_replace("\x0B", "", $a_text);
 	}
 
+	/**
+	 * Strip slashes with add space fallback, see https://www.ilias.de/mantis/view.php?id=19727
+	 *
+	 * @param string $a_str string
+	 * @return string
+	 */
+	function stripSlashesAddSpaceFallback($a_str)
+	{
+		$str = ilUtil::stripSlashes($a_str);
+		if ($str != $a_str)
+		{
+			$str = ilUtil::stripSlashes(str_replace("<", "< ", $a_str));
+		}
+		return $str;
+	}
+
+
 }
 
 ?>
