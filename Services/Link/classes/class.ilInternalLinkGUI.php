@@ -121,7 +121,7 @@ class ilInternalLinkGUI
 
 		// current parent object
 		$this->parent_ref_id = (int) $_GET["link_par_ref_id"];
-		$this->parent_fold_ud = (int) $_GET["link_par_fold_id"];		// e.g. media pool folder
+		$this->parent_fold_id = (int) $_GET["link_par_fold_id"];		// e.g. media pool folder
 		if ($this->parent_ref_id > 0)
 		{
 			$this->parent_obj_id = ilObject::_lookupObjId($this->parent_ref_id);
@@ -155,7 +155,8 @@ class ilInternalLinkGUI
 			"PortfolioPage" => "prtf",
 			"PortfolioTemplatePage" => "prtt",
 			"File" => "",
-			"RepositoryItem" => ""
+			"RepositoryItem" => "",
+			"User" => ""
 		);
 
 		// filter link types
@@ -338,11 +339,16 @@ class ilInternalLinkGUI
 			(($this->parent_ref_id > 0) &&
 			!in_array(ilObject::_lookupType($this->parent_ref_id, true), array($parent_type))))
 		{
-			$this->changeTargetObject($parent_type);
+			if ($parent_type != "")
+			{
+				$this->changeTargetObject($parent_type);
+			}
 		}
 		if ($ilCtrl->isAsynch())
 		{
 			$tpl = new ilTemplate("tpl.link_help_asynch.html", true, true, "Services/Link");
+			$tpl->setVariable("NEW_LINK_URL", $this->ctrl->getLinkTarget($this,
+				"", false, true, false));
 		}
 		else
 		{
@@ -365,10 +371,7 @@ class ilInternalLinkGUI
 		$tpl->setVariable("CMD_CLOSE", "closeLinkHelp");
 		$tpl->setVariable("BTN_CLOSE", $this->lng->txt("close"));
 
-		$chapterRowBlock = "chapter_row";
-		$anchor_row_block = "anchor_link";
-
-		$chapterRowBlock .= "_js";
+		$chapterRowBlock = "chapter_row_js";
 
 		// switch link type
 		switch($this->base_link_type)
@@ -398,9 +401,8 @@ class ilInternalLinkGUI
 				{
 					if($node["type"] == "st")
 					{
-						$tpl->setCurrentBlock("chapter_row");
-						$tpl->setVariable("TXT_CHAPTER", $node["title"]);
-						$tpl->setVariable("ROWCLASS", "tblrow1");
+						$tpl->setCurrentBlock("header_row");
+						$tpl->setVariable("TXT_HEADER", $node["title"]);
 						$tpl->parseCurrentBlock();
 						$tpl->setCurrentBlock("row");
 						$tpl->parseCurrentBlock();
@@ -852,6 +854,13 @@ class ilInternalLinkGUI
 		$ctrl = $this->ctrl;
 
 		$ctrl->setParameter($this, "link_type", $_GET["link_type"]);
+		$base_type = explode("_", $_GET["link_type"])[0];
+		if ($this->parent_type[$base_type] != ilObject::_lookupType($this->parent_ref_id, true))
+		{
+			$ctrl->setParameter($this, "link_par_ref_id", 0);
+			$ctrl->setParameter($this, "link_par_obj_id", 0);
+		}
+
 		$ctrl->redirect($this, "showLinkHelp", "", true);
 	}
 
@@ -931,7 +940,7 @@ class ilInternalLinkGUI
 			{
 				$tpl->setVariable("LINK_CLIPBOARD", "#");
 				$tpl->setVariable("CLIPBOARD_ONCLICK",
-					" onclick=\"return il.IntLink.selectLinkTargetObject('mep', 0);\" ");
+					" onclick=\"return il.IntLink.selectLinkTargetObject('mep', 0, '".$this->link_type."');\" ");
 				
 			}
 			else
@@ -1024,10 +1033,8 @@ class ilInternalLinkGUI
 	function renderLink($tpl, $a_title, $a_obj_id, $a_type, $a_type_short, $a_bb_type,
 		$a_anchors = array(), $a_link_content = "")
 	{
-		$chapterRowBlock = "chapter_row";
-		$anchor_row_block = "anchor_link";
-		$chapterRowBlock .= "_js";
-		$anchor_row_block .= "_js";
+		$chapterRowBlock = "chapter_row_js";
+		$anchor_row_block = "anchor_link_js";
 
 		$target_str = ($this->link_target == "")
 			? ""
@@ -1037,12 +1044,29 @@ class ilInternalLinkGUI
 		{
 			foreach ($a_anchors as $anchor)
 			{
-				$tpl->setCurrentBlock($anchor_row_block);
-				$tpl->setVariable("ALINK_BEGIN",
-					$this->prepareJavascriptOutput("[iln ".$a_bb_type."=\"".$a_obj_id."\"".$target_str." anchor=\"$anchor\"]"));
-				$tpl->setVariable("ALINK_END", "[/iln]");
-				$tpl->setVariable("TXT_LINK", "#".$anchor);
-				$tpl->parseCurrentBlock();
+				if ($this->getSetLinkTargetScript() != "")
+				{
+					// not implemented yet (anchors that work with map areas)
+
+					/*$tpl->setCurrentBlock("anchor_link");
+					$tpl->setVariable("ALINK",
+						ilUtil::appendUrlParameterString($this->getSetLinkTargetScript(),
+							"linktype=".$a_type.
+							"&linktarget=il__".$a_type_short."_".$a_obj_id.
+							"&linktargetframe=".$this->link_target).
+							"&linkanchor=".$anchor);
+					$tpl->setVariable("TXT_ALINK", "#" . $anchor);
+					$tpl->parseCurrentBlock();*/
+				}
+				else
+				{
+					$tpl->setCurrentBlock($anchor_row_block);
+					$tpl->setVariable("ALINK_BEGIN",
+						$this->prepareJavascriptOutput("[iln " . $a_bb_type . "=\"" . $a_obj_id . "\"" . $target_str . " anchor=\"$anchor\"]"));
+					$tpl->setVariable("ALINK_END", "[/iln]");
+					$tpl->setVariable("TXT_LINK", "#" . $anchor);
+					$tpl->parseCurrentBlock();
+				}
 			}
 		}
 
@@ -1121,12 +1145,10 @@ class ilInternalLinkGUI
 		$form = new ilPropertyFormGUI();
 		$form->setId("link_user_search_form");
 
-		//
+		// user search
 		$ti = new ilTextInputGUI($this->lng->txt("obj_user"), "usr_search_str");
 		$ti->setValue($_POST["usr_search_str"]);
-		//$ti->setInfo($this->lng->txt("cont_usr_search_"));
 		$form->addItem($ti);
-
 
 		$form->addCommandButton("searchUser", $this->lng->txt("search"));
 

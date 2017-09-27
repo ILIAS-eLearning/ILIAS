@@ -14012,20 +14012,20 @@ orgu#:#confirm_deletion_button#:#Delete###31 08 2017 new variable
 orgu#:#msg_deleted#:#Deleted###31 08 2017 new variable
 common#:#scorm_login_as_learner_id#:#SCORM 2004: set ILIAS Username as cmi.learner_id###31 08 2017 new variable
 common#:#scorm_login_as_learner_id_info#:#If enabled, the Username instead of the User ID is set for cmi.learner_id.###31 08 2017 new variable
-iass#:#iass_upload_file#:#Upload a file###31 08 2017 new variable
-iass#:#iass_file_visible_examinee#:#File visible for participant###31 08 2017 new variable
-iass#:#iass_usr_download_attachment#:#Download Attachment###31 08 2017 new variable
+iass#:#iass_upload_file#:#Prüfungsblatt
+iass#:#iass_file_visible_examinee#:#Datei für Teilnehmer sichtbar
+iass#:#iass_usr_download_attachment#:#Datei herunterladen
 iass#:#iass_save_amend#:#Save Amend###31 08 2017 new variable
 dateplaner#:#cal_exc_inst_files#:#Instruction Files###31 08 2017 new variable
-dateplaner#:#cal_repo_obj#:#Repository Objects###31 08 2017 new variable
+dateplaner#:#cal_repo_obj#:#Magazinobjekt
 survey#:#sub_tab_dashboard#:#Dashboard###31 08 2017 new variable
 survey#:#svy_print_show_labels#:#Show labels###31 08 2017 new variable
 survey#:#svy_print_hide_labels#:#Hide labels###31 08 2017 new variable
-content#:#cont_grid_width_m#:#Medium###31 08 2017 new variable
+content#:#cont_grid_width_m#:#Medium
 grp#:#grp_created_and_user_been_added#:#Die Gruppe wurde erstellt und der Benutzer hinzugefügt.
 cont#:#cont_assign_skills#:#Kompetenzen zuweisen
-dateplaner#:#cal_batch_file_downloads#:#Batch file downloads in Calendar###31 08 2017 new variable
-dateplaner#:#cal_batch_file_downloads_info#:#Activate button to download all files related to the current calendar/appointment view.###31 08 2017 new variable
+dateplaner#:#cal_batch_file_downloads#:#Datei-Downloads aus Kalender stapelweise verarbeiten
+dateplaner#:#cal_batch_file_downloads_info#:#Erlaubt Herunterladen aller Dateien zu Einträgen in der gewählten Kalenderansicht
 dateplaner#:#cal_download_files#:#Dateien herunterladen
 dateplaner#:#cal_calendar_download#:#Kalender herunterladen
 pdfgen#:#cleanup#:#Bereinigen
