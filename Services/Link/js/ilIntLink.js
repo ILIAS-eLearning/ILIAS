@@ -206,6 +206,7 @@ il.IntLink =
 			sUrl = this.getInternalLinkUrl() + "&cmd=setMedPoolFolder&mep_fold=" +
 				cfg.mep_fold;
 			sUrl = this.replaceSavePars(sUrl);
+			console.log("Set mep folder: " + cfg.mep_fold);
 			il.Util.sendAjaxGetRequestToUrl(sUrl, {}, {}, this.handleAjaxSuccess);
 		}
 		else
