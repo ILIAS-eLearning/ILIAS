@@ -46,14 +46,14 @@ Composer is a dependency manager for PHP packages / libraries.
 #### Linux
 - Download the latest composer version [here](https://getcomposer.org/download/).
 - Run the command to install the composer command globally
-```bash
-mv composer.phar /usr/local/bin/composer
-```
+  ```bash
+  mv composer.phar /usr/local/bin/composer
+  ```
 - Check that the path */usr/local/bin* is in your *PATH*.
 - Verify your installation with the following command
-```bash
-composer -V
-```
+  ```bash
+  composer -V
+  ```
 Command output should look like this, if the installation was successful. 
 ```text
 Composer version 1.5.1 2017-08-09 16:07:22
@@ -62,18 +62,18 @@ Composer version 1.5.1 2017-08-09 16:07:22
 #### macOS
 - Download the latest composer version [here](https://getcomposer.org/download/).
 - Verify that the path */usr/local/bin* exists otherwise created it with the command
-```bash
-mkdir -p /usr/local/bin
-```
+  ```bash
+  mkdir -p /usr/local/bin
+  ```
 - Run the command to install the composer command globally
-```bash
-mv composer.phar /usr/local/bin/composer
-```
+  ```bash
+  mv composer.phar /usr/local/bin/composer
+  ```
 - Check that the path */usr/local/bin* is in your *PATH*.
 - Verify your installation with the following command
-```bash
-composer -V
-```
+  ```bash
+  composer -V
+  ```
 Command output should look like this, if the installation was successful.  
 ```text
 Composer version 1.5.1 2017-08-09 16:07:22
@@ -84,13 +84,13 @@ Composer version 1.5.1 2017-08-09 16:07:22
 - Change into a directory which is in your *PATH*
 - Download the composer phar [here](https://getcomposer.org/download/).
 - Create a composer .bat alongside the composer.phar with the following command
-```bash
-echo @php "%~dp0composer.phar" %*>composer.bat
-```
+  ```bash
+  echo @php "%~dp0composer.phar" %*>composer.bat
+  ```
 - Open a **new** terminal to verify the composer installation with the following command
-```bash
-composer -V
-```
+  ```bash
+  composer -V
+  ```
 Command output should look like this, if the installation was successful. 
 ```text
 Composer version 1.5.1 2017-08-09 16:07:22
@@ -101,9 +101,9 @@ Composer version 1.5.1 2017-08-09 16:07:22
 - Download the composer setup [here](https://getcomposer.org/Composer-Setup.exe).
 - Run the setup and follow the displayed steps
 - Open a **new** terminal to verify the composer installation with the following command
-```bash
-composer -V
-```
+  ```bash
+  composer -V
+  ```
 Command output should look like this, if the installation was successful. 
 ```text
 Composer version 1.5.1 2017-08-09 16:07:22
@@ -128,27 +128,28 @@ unit test quite a bit.
 
 #### Setup for Ubuntu
 - Run the following command or use your own package manager to install the following package.
-```bash
-# trusty
-sudo apt-get install php5-xdebug
+  ```bash
+  # trusty
+  sudo apt-get install php5-xdebug
 
-# xenial
-sudo apt-get install php-xdebug
-```
+  # xenial
+  sudo apt-get install php-xdebug
+  ```
+
 #### Setup for macOS
 - Install the following package with brew or your own favourite package manager.
-```bash
-# brew install homebrew/php/<php-version>-xdebug
-brew install homebrew/php/php71-xdebug
-```
+  ```bash
+  # brew install homebrew/php/<php-version>-xdebug
+  brew install homebrew/php/php71-xdebug
+  ```
 
 #### Windows
 - Open the browser and navigate to the [xdebug installation wizard](https://xdebug.org/wizard.php).
 - Copy the output of the following command into the wizard.
-```bash
-# Output is redirected to the clipboard. 
-php -i | clip
-```
+  ```bash
+  # Output is redirected to the clipboard.
+  php -i | clip
+  ```
 The xdebug wizard will provide a link to the correct xdebug binary and further installation steps.
 
 #### Configure
@@ -188,7 +189,7 @@ Please ignore all prompts to add "extension=xdebug.so" to php.ini because this w
 	--group needsInstalledILIAS
 ``` 
 
-####Execute all tests
+#### Execute all tests
 ```bash
 ./libs/composer/vendor/bin/phpunit ./Services/PHPUnit/test/ilGlobalSuite.php \
 	--colors=always \
@@ -197,7 +198,7 @@ Please ignore all prompts to add "extension=xdebug.so" to php.ini because this w
 	--no-globals-backup
 ``` 
 
-####Execute only installation unbound tests
+#### Execute only installation unbound tests
 ```bash
 ./libs/composer/vendor/bin/phpunit ./Services/PHPUnit/test/ilGlobalSuite.php \
 	--colors=always \
