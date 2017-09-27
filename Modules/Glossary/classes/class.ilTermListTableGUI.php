@@ -212,7 +212,8 @@ class ilTermListTableGUI extends ilTable2GUI
 		// actions drop down
 		//if ($this->glossary->getId() == $term["glo_id"])
 
-		if ($this->term_perm->checkPermission("write", $term["id"]))
+		if ($this->term_perm->checkPermission("write", $term["id"]) ||
+			$this->term_perm->checkPermission("edit_content", $term["id"]))
 		{
 			include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 			include_once("./Modules/Glossary/classes/class.ilGlossaryTermReferences.php");
