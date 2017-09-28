@@ -395,7 +395,7 @@ class ilObjSession extends ilObject
 	 * get first appointment
 	 *
 	 * @access public
-	 * @return object ilSessionAppointment
+	 * @return  ilSessionAppointment
 	 */
 	public function getFirstAppointment()
 	{
