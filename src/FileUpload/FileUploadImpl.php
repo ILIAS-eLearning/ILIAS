@@ -323,16 +323,10 @@ final class FileUploadImpl implements FileUpload {
 		if ($this->moved) {
 			return false;
 		}
-		$size = 0;
-		/**
-		 * @var $uploadedFile UploadedFileInterface
-		 */
-		$collectFilesFromNestedFields = $this->flattenUploadedFiles($this->globalHttpState->request()->getUploadedFiles());
-		foreach ($collectFilesFromNestedFields as $uploadedFile) {
-			$size += $uploadedFile->getSize();
-		}
 
-		return ($size > 0);
+		$uploadedFiles = $this->flattenUploadedFiles($this->globalHttpState->request()->getUploadedFiles());
+
+		return (count($uploadedFiles) > 0);
 	}
 
 
