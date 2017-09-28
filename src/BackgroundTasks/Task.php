@@ -2,6 +2,7 @@
 
 namespace ILIAS\BackgroundTasks;
 
+use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
 use ILIAS\BackgroundTasks\Types\Type;
 
 /**
@@ -71,4 +72,14 @@ interface Task {
 	 *             "possibly failed" to the user
 	 */
 	public function getExpectedTimeOfTaksInSeconds();
+
+
+	/**
+	 * @return Option An Option to dismiss the current task and do some cleanup if possible. This
+	 *                Option is diplayed if the Job is possibly failed or if a Bucket is completed.
+	 *                You do not have to provide an additional Option to dismiss in your
+	 *                UserInteraction, the dismiss-Option is added to the list of Options (last
+	 *                position)
+	 */
+	public function getDismissOption();
 }

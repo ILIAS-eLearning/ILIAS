@@ -5,6 +5,7 @@ namespace ILIAS\BackgroundTasks\Implementation\Tasks;
 use ILIAS\BackgroundTasks\Implementation\Bucket\BucketMock;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue;
 use ILIAS\BackgroundTasks\Observer;
+use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
 use ILIAS\BackgroundTasks\Value;
 use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Types\Type;
@@ -66,6 +67,7 @@ class PlusJob extends AbstractJob {
 	public function isStateless() {
 		return true;
 	}
+
 
 	/**
 	 * @inheritdoc

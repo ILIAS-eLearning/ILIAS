@@ -2,6 +2,7 @@
 
 use ILIAS\BackgroundTasks\BucketMeta;
 use ILIAS\BackgroundTasks\Implementation\Bucket\State;
+use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractTask;
 use ILIAS\BackgroundTasks\Implementation\UI\StateTranslator;
 use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\BackgroundTasks\Persistence;
@@ -87,7 +88,7 @@ class ilBTPopOverGUI {
 					break;
 			}
 			if ($possibly_failed || $state === State::USER_INTERACTION) {
-				$this->addCloseButton($redirect_uri, $bucket, $persistence, $observer);
+				$this->addCloseButton($redirect_uri, $bucket, $observer);
 			}
 
 			$bucket->setCurrentBlock("bucket");
@@ -194,30 +195,35 @@ class ilBTPopOverGUI {
 	 * @param $persistence
 	 * @param $observer
 	 */
-	protected function addCloseButton($redirect_uri, $bucket, $persistence, $observer) {
+	protected function addCloseButton($redirect_uri, ilTemplate $bucket, Bucket $observer) {
 		$r = $this->ui()->renderer();
 		$f = $this->ui()->factory();
+		$persistence = $this->dic()->backgroundTasks()->persistence();
 		// Close Action
 		$bucket->setCurrentBlock('close_button');
+
+		//$remove = $r->render($f->glyph() ->remove($close_action));
+
 		$this->ctrl()
 		     ->setParameterByClass(ilBTControllerGUI::class, "observer_id", $persistence->getBucketContainerId($observer));
 		$this->ctrl()
 		     ->setParameterByClass(ilBTControllerGUI::class, "from_url", urlencode($redirect_uri));
-		$close_action = $this->ctrl()
-		                     ->getLinkTargetByClass([ ilBTControllerGUI::class ], ilBTControllerGUI::CMD_QUIT);
 
-		$remove = $r->render($f->button()
-		                       ->close()
-		                       ->withAdditionalOnLoadCode(function ($id) use ($close_action) {
-			                       return "$($id).on('click', function() { 
-						                            var url = '$close_action';
-						                            var replacer = new RegExp('amp;', 'g');
-                                                    url = url.replace(replacer, '');
-						                            window.location=url
-						                       });";
-		                       }));
+		$dismiss = $observer->getCurrentTask()->getDismissOption();
+		if ($dismiss->getValue() == AbstractTask::MAIN_DISMISS) {
+			$action = $this->ctrl()
+			               ->getLinkTargetByClass([ ilBTControllerGUI::class ], ilBTControllerGUI::CMD_QUIT);
+		} else {
+			$this->ctrl()
+			     ->setParameterByClass(ilBTControllerGUI::class, "selected_option", $dismiss->getValue());
+			$action = $this->ctrl()
+			               ->getLinkTargetByClass([ ilBTControllerGUI::class ], ilBTControllerGUI::CMD_USER_INTERACTION);
+		}
 
-		$remove = $r->render($f->glyph() ->remove($close_action));
+		$label = $this->lng()->txt($dismiss->getLangVar());
+
+		$remove = $r->render($f->button()->standard($label, $action));
+
 		$bucket->setVariable("CLOSE_BUTTON", $remove);
 		$bucket->parseCurrentBlock();
 	}
