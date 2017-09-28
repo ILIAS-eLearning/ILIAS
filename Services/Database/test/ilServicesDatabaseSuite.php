@@ -45,8 +45,8 @@ class ilServicesDatabaseSuite extends PHPUnit_Framework_TestSuite {
 		require_once('./Services/Database/test/Implementations/ilDatabaseImplementationSuite.php');
 		$suite->addTestSuite("ilDatabaseImplementationSuite");
 
-		require_once('./Services/Database/test/Basic/ilDatabaseReservedWordsTest.php');
-		$suite->addTestSuite("ilDatabaseReservedWordsTest");
+		//require_once('./Services/Database/test/Basic/ilDatabaseReservedWordsTest.php');
+		//$suite->addTestSuite("ilDatabaseReservedWordsTest");
 
 		return $suite;
 	}
