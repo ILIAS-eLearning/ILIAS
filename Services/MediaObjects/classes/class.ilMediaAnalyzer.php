@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-use \GetId3\GetId3Core as GetId3;
+//use \GetId3\GetId3Core as GetId3;
 
 /**
 * Analyzes media files. Wrapper for getid3 library.
@@ -42,7 +42,7 @@ class ilMediaAnalyzer
 		//include_once("./libs/composer/vendor/phansys/getid3/GetId3/GetId3.php");
 		//include_once("./Services/MediaObjects/getid3/getid3/getid3.php");
 		//$this->getid3 = new GetId3_GetId3();
-		$this->getid3 = new GetId3();
+		$this->getid3 = new getID3();
 	}
 
 	/**
