@@ -198,7 +198,6 @@ class ilInternalLinkGUI
 			}
 			$this->ltypes = $ltypes;
 		}
-
 		// determine link type and target
 		$this->link_type = ($_GET["link_type"] == "")
 			? $this->default_link_type

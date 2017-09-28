@@ -260,6 +260,10 @@ abstract class ilPageConfig
 	function setIntLinkFilterWhiteList($a_white_list)
 	{
 		$this->link_filter_white_list = $a_white_list;
+		if ($a_white_list)
+		{
+			$this->int_link_filter = array();
+		}
 	}
 
 	/**
