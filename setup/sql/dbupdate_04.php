@@ -21363,3 +21363,25 @@ if(!$ilDB->indexExistsByFields('style_parameter',array('style_id')))
 	$ilDB->addIndex('style_parameter',array('style_id'),'i1');
 }
 ?>
+<#5232>
+<?php
+include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+ilDBUpdate3136::addStyleClass("OrderListHorizontal", "qordul", "ul",
+					array("margin" => "0px",
+    					"padding" => "0px",
+    					"list-style" => "none",
+    					"list-style-position" => "outside"
+    					));
+ilDBUpdate3136::addStyleClass("OrderListItemHorizontal", "qordli", "li",
+					array(
+    					"float" => "left",
+    					"margin-top" => "5px",
+    					"margin-bottom" => "5px",
+    					"margin-right" => "10px",
+    					"border-width" => "1px",
+    					"border-style" => "solid",
+    					"border-color" => "#D0D0FF",
+    					"padding" => "10px",
+    					"cursor" => "move"
+    					));
+?>
