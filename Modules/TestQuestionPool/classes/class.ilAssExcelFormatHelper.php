@@ -34,6 +34,49 @@ class ilAssExcelFormatHelper extends ilExcel
 	}
 
 	/**
+	 * @inheritdoc
+	 */
+	public function setCellByCoordinates($a_coords, $a_value)
+	{
+		if(is_string($a_value) && $a_value{0} == '=')
+		{
+			$cell = $this->workbook->getActiveSheet()->setCellValueExplicit(
+				$a_coords,
+				$this->prepareValue($a_value),
+				PHPExcel_Cell_DataType::TYPE_STRING,
+				true
+			);
+			$this->setDateFormat($cell, $a_value);
+		}
+		else
+		{
+			parent::setCellByCoordinates($a_coords, $a_value);
+		}
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function setCell($a_row, $a_col, $a_value)
+	{
+		if(is_string($a_value) && $a_value{0} == '=')
+		{
+			$cell = $this->workbook->getActiveSheet()->setCellValueExplicitByColumnAndRow(
+				$a_col,
+				$a_row,
+				$this->prepareValue($a_value),
+				PHPExcel_Cell_DataType::TYPE_STRING,
+				true
+			);
+			$this->setDateFormat($cell, $a_value);
+		}
+		else
+		{
+			parent::setCell($a_row, $a_col, $a_value);
+		}
+	}
+
+	/**
 	 * @param string $a_value
 	 * @return string
 	 */
