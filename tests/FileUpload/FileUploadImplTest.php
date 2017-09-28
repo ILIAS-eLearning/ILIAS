@@ -146,6 +146,7 @@ class FileUploadImplTest extends TestCase {
 			->shouldReceive('getError')
 			->once()
 			->andReturn(UPLOAD_ERR_PARTIAL)
+			->getMock()
 			->shouldReceive('getStream')
 			->twice()
 			->andReturn(Streams::ofString("Text file content."));
