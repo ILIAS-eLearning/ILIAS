@@ -790,10 +790,39 @@ class ButtonTest extends ILIAS_UI_TestBase {
 }
 ```
 
+### Test Examples
+
+#### Template
+#### Normal test
+#### Fat legacy class
+#### Disable constructor
+#### Fluent interfaces
 //show different test scenarios and how they are looking in ILIAS
 //filesystem test
 //mocking tests (normal, fat legacy classes, disable constructor, fluent interfaces)
-//DI erwähnen
+
+### Rise testability
+#### SOLID
+Robert C. Martin gathered 5 principles for object oriented class design, for building maintainable object oriented system.
+##### Single Responsibility Principle (SRP)
+Classes should have one reason to change. Keep the classes small and single-purposed.
+##### Open-Closed Principle (OCP)
+Classes should be design to be open for extension but closed for modification. The need to make changes to existing classes
+should be minimized.
+##### Liskov Substitution Principle (LSP) 
+Subtypes should be substitutable for their base types. From a clients perspective overriding methods should not break
+functionality.
+##### Interface Segregation Principle (ISP)
+Clients should not be forced to depend on methods they don't use. Split a larger interface into 
+a number of smaller interfaces.
+##### Dependency Inversion Principal (DIP)
+High-level modules should not depend on low-level modules; both should depend on abstractions.
+Abstractions should not depend on details; details should depend on abstractions.
+
+#### A SOLID way to use the DIC
+
+
+//DIP erwähnen mit beispiel
 ## External documentation
 [PHP Unit Documentation](https://phpunit.de/manual/5.7/en/index.html)
 
