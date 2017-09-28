@@ -1405,6 +1405,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	{
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 		
 		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
 		$wtpl = new ilTemplate("tpl.blog_list.html", true, true, "Modules/Blog");
@@ -1412,8 +1413,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		// quick editing in portfolio
 		if($_REQUEST["prt_id"] && 
 			stristr($a_cmd, "embedded"))
-		{		
-		$ilUser = $this->user;
+		{
 			if(ilObject::_lookupOwner($_REQUEST["prt_id"]) == $ilUser->getId())
 			{	
 				// see ilPortfolioPageTableGUI::fillRow()
@@ -1638,7 +1638,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$wtpl->parseCurrentBlock();
 			}
 			
-			$wtpl->setCurrentBlock("posting");
+
 			
 			if(!$is_active)
 			{
@@ -1647,6 +1647,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$wtpl->parseCurrentBlock();
 				$wtpl->setVariable("DRAFT_CLASS", " ilBlogListItemDraft");
 			}
+
+			$wtpl->setCurrentBlock("posting");
 			
 			$author = "";
 			if($this->id_type == self::REPOSITORY_NODE_ID)
