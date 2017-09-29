@@ -153,10 +153,10 @@ abstract class Input implements C\Input\Input, InputInternal {
 	/**
 	 * @inheritdoc
 	 */
-	public function withRequirement($state) {
-		$this->checkBoolArg("state", $state);
+	public function withRequired($is_required) {
+		$this->checkBoolArg("is_required", $is_required);
 		$clone = clone $this;
-		$clone->is_required = $state;
+		$clone->is_required = $is_required;
 		return $clone;
 	}
 
@@ -369,7 +369,7 @@ abstract class Input implements C\Input\Input, InputInternal {
 	/**
 	 * Get the operations that should be performed on the input.
 	 *
-	 * @return (Transformation|Constraint)[]
+	 * @return \Generator <Transformation|Constraint>
 	 */
 	private function getOperations() {
 		if ($this->isRequired()) {

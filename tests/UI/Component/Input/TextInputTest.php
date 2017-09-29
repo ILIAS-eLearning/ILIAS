@@ -124,7 +124,7 @@ class TextInputTest extends ILIAS_UI_TestBase {
 		$name = "name_0";
 		$text = $f->text($label)
 			->withNameFrom($this->name_source)
-			->withRequirement(true);
+			->withRequired(true);
 
 		$r = $this->getDefaultRenderer();
 		$html = $this->normalizeHTML($r->render($text));
@@ -150,7 +150,7 @@ class TextInputTest extends ILIAS_UI_TestBase {
 		$name = "name_0";
 		$text = $f->text($label)
 			->withNameFrom($this->name_source)
-			->withRequirement(true);
+			->withRequired(true);
 
 		$text1 = $text->withInput(new DefPostData([$name => "0"]));
 		$value1 = $text1->getContent();

@@ -63,12 +63,12 @@ interface Input extends Component {
 	public function isRequired();
 
 	/**
-	 * Get an input like this, but set the requirement (or not).
+	 * Get an input like this, but set the field to be required (or not).
 	 *
-	 * @param	bool	$state
+	 * @param	bool	$is_required
 	 * @return	Input
 	 */
-	public function withRequirement($state);
+	public function withRequired($is_required);
 
 	/**
 	 * Get the value that is displayed in the input client side.
