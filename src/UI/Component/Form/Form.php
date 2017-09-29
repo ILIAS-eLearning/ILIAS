@@ -37,8 +37,8 @@ interface Form extends Component {
 	public function withAdditionalTransformation(Transformation $trafo);
 
 	/**
-	 * Get the data in the form if all inputs are ok, where the
-	 * transformation is applied if one was added.
+	 * Get the data in the form if all inputs are ok, where the transformation
+	 * is applied if one was added. If data was not ok, this will return null.
 	 *
 	 * @return	mixed|null
 	 */
