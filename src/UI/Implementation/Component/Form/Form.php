@@ -7,6 +7,7 @@ namespace ILIAS\UI\Implementation\Component\Form;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component as CI;
+use ILIAS\UI\Implementation\Component\Input;
 use ILIAS\Transformation\Transformation;
 
 use Psr\Http\Message\ServerRequestInterface;
@@ -18,9 +19,9 @@ abstract class Form implements C\Form\Form, CI\Input\NameSource {
 	use ComponentHelper;
 
 	/**
-	 * @var	C\Input\Input[]
+	 * @var	C\Input\Group
      */
-	protected $inputs;
+	protected $input_group;
 
 	/**
 	 * @var Transformation|null
@@ -34,10 +35,15 @@ abstract class Form implements C\Form\Form, CI\Input\NameSource {
 	 */
 	private $count = 0;
 
+	/**
+	 * Form constructor.
+	 * @param array $input
+	 */
 	public function __construct(array $inputs) {
 		$classes = [CI\Input\Input::class];
 		$this->checkArgListElements("input", $inputs, $classes);
-		$this->inputs = $this->nameInputs($inputs);
+		$input_factory = new Input\Factory();
+		$this->input_group = $input_factory->group($inputs)->withNameFrom($this);
 		$this->transformation = null;
 	}
 
@@ -45,7 +51,14 @@ abstract class Form implements C\Form\Form, CI\Input\NameSource {
 	 * @inheritdocs
 	 */
 	public function getInputs() {
-		return $this->inputs;
+		return $this->getInputGroup()->getInputs();
+	}
+
+	/**
+	 * @inheritdocs
+	 */
+	public function getInputGroup() {
+		return $this->input_group;
 	}
 
 	/**
@@ -58,10 +71,7 @@ abstract class Form implements C\Form\Form, CI\Input\NameSource {
 		$post_data = $this->extractPostData($request);
 
 		$clone = clone $this;
-		$clone->inputs = [];
-		foreach ($this->getInputs() as $key => $input) {
-			$clone->inputs[$key] = $input->withInput($post_data);
-		}
+		$clone->input_group = $this->getInputGroup()->withInput($post_data);
 
 		return $clone;
 	}
@@ -71,7 +81,7 @@ abstract class Form implements C\Form\Form, CI\Input\NameSource {
 	 */
 	public function withAdditionalTransformation(Transformation $trafo) {
 		$clone = clone $this;
-		$clone->transformation = $trafo;
+		$clone->input_group = $clone->getInputGroup()->withAdditionalTransformation($trafo);
 		return $clone;
 	}
 
@@ -79,35 +89,11 @@ abstract class Form implements C\Form\Form, CI\Input\NameSource {
 	 * @inheritdocs
 	 */
 	public function getData() {
-		$data = [];
-		foreach ($this->getInputs() as $key => $input) {
-			$content = $input->getContent();
-			if (!$content->isok()) {
-				return null;
-			}
-			$data[$key] = $content->value();
+		$content = $this->getInputGroup()->getContent();
+		if (!$content->isok()) {
+			return null;
 		}
-		if ($this->transformation !== null) {
-			return $this->transformation->transform($data);
-		}
-		return $data;
-	}
-
-	/**
-	 * Assign names to the inputs.
-	 *
-	 * @param	CI\Input\Input
-	 * @return	CI\Input\Input
-	 */
-	protected function nameInputs(array $inputs) {
-		$named_inputs = [];
-		foreach($inputs as $key => $input) {
-			$named_inputs[$key] = $input->withNameFrom($this);
-		}
-		// TODO: This might be cached, as it will mostly be used
-		// twice on every request, once for rendering, once for
-		// input retrieval.
-		return $named_inputs;
+		return $content->value();
 	}
 
 	/**
@@ -135,7 +121,7 @@ abstract class Form implements C\Form\Form, CI\Input\NameSource {
 	// Implementation of NameSource
 
 	public function getNewName() {
-		$name = "name_{$this->count}";
+		$name = "form_input_{$this->count}";
 		$this->count++;
 		return $name;
 	}

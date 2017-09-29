@@ -5,11 +5,12 @@
 require_once(__DIR__."/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__."/../../Base.php");
 
-use \ILIAS\UI\Implementation\Component\Input\Input;
+use ILIAS\UI\Implementation\Component\Input;
 use \ILIAS\UI\Implementation\Component\Input\InputInternal;
 use \ILIAS\UI\Implementation\Component\Input\NameSource;
 use \ILIAS\UI\Implementation\Component\Input\PostData;
 use \ILIAS\UI\Implementation\Component\Form\Form;
+
 use \ILIAS\Transformation\Factory as TransformationFactory;
 
 use Psr\Http\Message\ServerRequestInterface;
@@ -33,13 +34,12 @@ class ConcreteForm extends Form {
 		return parent::extractPostData($request);
 	}
 	public function setInputs(array $inputs) {
+		$input_factory = new Input\Factory();
+		$this->input_group = $input_factory->group($inputs);
 		$this->inputs = $inputs;
 	}
 	public function _getPostInput(ServerRequestInterface $request) {
 		return $this->getPostInput($request);
-	}
-	public function _nameInputs(array $inputs) {
-		return $this->nameInputs($inputs);
 	}
 }
 
@@ -118,18 +118,23 @@ class FormTest extends ILIAS_UI_TestBase {
 	public function test_withRequest() {
 		$request = \Mockery::mock(ServerRequestInterface::class);
 		$post_data = \Mockery::Mock(PostData::class);
+		$df = $this->buildDataFactory();
 
 		$input_1 = \Mockery::mock(InputInternal::class);
 		$input_1
 			->shouldReceive("withInput")->once()
 			->with($post_data)
-			->andReturn("one");
+			->andReturn($input_1);
+
+		$input_1->shouldReceive("getContent")->once()->andReturn($df->ok(0));
 
 		$input_2 = \Mockery::mock(InputInternal::class);
 		$input_2
 			->shouldReceive("withInput")->once()
 			->with($post_data)
-			->andReturn("two");
+			->andReturn($input_2);
+
+		$input_2->shouldReceive("getContent")->once()->andReturn($df->ok(0));
 
 		$form = new ConcreteForm([]);
 		$form->setInputs([$input_1, $input_2]);
@@ -139,24 +144,27 @@ class FormTest extends ILIAS_UI_TestBase {
 
 		$this->assertNotSame($form2, $form);
 		$this->assertInstanceOf(Form::class, $form2);
-		$this->assertEquals(["one", "two"], $form2->getInputs());
+		$this->assertEquals([$input_1, $input_2], $form2->getInputs());
 	}
 
 	public function test_withRequest_respects_keys() {
 		$request = \Mockery::mock(ServerRequestInterface::class);
 		$post_data = \Mockery::Mock(PostData::class);
+		$df = $this->buildDataFactory();
 
 		$input_1 = \Mockery::mock(InputInternal::class);
 		$input_1
 			->shouldReceive("withInput")->once()
 			->with($post_data)
-			->andReturn("one");
+			->andReturn($input_1);
+		$input_1->shouldReceive("getContent")->once()->andReturn($df->ok(0));
 
 		$input_2 = \Mockery::mock(InputInternal::class);
 		$input_2
 			->shouldReceive("withInput")->once()
 			->with($post_data)
-			->andReturn("two");
+			->andReturn($input_2);
+		$input_2->shouldReceive("getContent")->once()->andReturn($df->ok(0));
 
 		$form = new ConcreteForm([]);
 		$form->setInputs(["foo" => $input_1, "bar" => $input_2]);
@@ -166,50 +174,63 @@ class FormTest extends ILIAS_UI_TestBase {
 
 		$this->assertNotSame($form2, $form);
 		$this->assertInstanceOf(Form::class, $form2);
-		$this->assertEquals(["foo" => "one", "bar" => "two"], $form2->getInputs());
+		$this->assertEquals(["foo" => $input_1, "bar" => $input_2], $form2->getInputs());
 	}
 
 	public function test_getData() {
 		$df = $this->buildDataFactory();
-
 		$request = \Mockery::mock(ServerRequestInterface::class);
-		$post_data = \Mockery::Mock(PostData::class);
+		$request->shouldReceive("getParsedBody")->once()
+				->andReturn([]);
 
 		$input_1 = \Mockery::mock(InputInternal::class);
 		$input_1
 			->shouldReceive("getContent")->once()
 			->andReturn($df->ok(1));
 
+		$input_1->shouldReceive("withInput")->once()
+				->andReturn($input_1);
+
 		$input_2 = \Mockery::mock(InputInternal::class);
 		$input_2
 			->shouldReceive("getContent")->once()
 			->andReturn($df->ok(2));
 
+		$input_2->shouldReceive("withInput")->once()
+				->andReturn($input_2);
+
 		$form = new ConcreteForm([]);
 		$form->setInputs([$input_1, $input_2]);
-
+		$form = $form->withRequest($request);
 		$this->assertEquals([1,2], $form->getData());
 	}
 
 	public function test_getData_respects_keys() {
 		$df = $this->buildDataFactory();
-
 		$request = \Mockery::mock(ServerRequestInterface::class);
-		$post_data = \Mockery::Mock(PostData::class);
+		$request->shouldReceive("getParsedBody")->once()
+				->andReturn([]);
 
 		$input_1 = \Mockery::mock(InputInternal::class);
 		$input_1
-			->shouldReceive("getContent")->once()
-			->andReturn($df->ok(1));
+				->shouldReceive("getContent")->once()
+				->andReturn($df->ok(1));
+
+		$input_1->shouldReceive("withInput")->once()
+				->andReturn($input_1);
 
 		$input_2 = \Mockery::mock(InputInternal::class);
 		$input_2
-			->shouldReceive("getContent")->once()
-			->andReturn($df->ok(2));
+				->shouldReceive("getContent")->once()
+				->andReturn($df->ok(2));
+
+		$input_2->shouldReceive("withInput")->once()
+				->andReturn($input_2);
+
 
 		$form = new ConcreteForm([]);
 		$form->setInputs(["foo" => $input_1, "bar" => $input_2]);
-
+		$form = $form->withRequest($request);
 		$this->assertEquals(["foo" => 1, "bar" => 2], $form->getData());
 	}
 
@@ -217,41 +238,56 @@ class FormTest extends ILIAS_UI_TestBase {
 
 	public function test_getData_faulty() {
 		$df = $this->buildDataFactory();
-
 		$request = \Mockery::mock(ServerRequestInterface::class);
-		$post_data = \Mockery::Mock(PostData::class);
+		$request->shouldReceive("getParsedBody")->once()
+				->andReturn([]);
 
 		$input_1 = \Mockery::mock(InputInternal::class);
 		$input_1
-			->shouldReceive("getContent")->once()
-			->andReturn($df->error("error"));
+				->shouldReceive("getContent")->once()
+				->andReturn($df->error("error"));
+
+		$input_1->shouldReceive("withInput")->once()
+				->andReturn($input_1);
 
 		$input_2 = \Mockery::mock(InputInternal::class);
 		$input_2
-			->shouldReceive("getContent")->never()
-			->andReturn($df->ok(2));
+				->shouldReceive("getContent")->once()
+				->andReturn($df->ok(2));
+
+		$input_2->shouldReceive("withInput")->once()
+				->andReturn($input_2);
+
 
 		$form = new ConcreteForm([]);
-		$form->setInputs([$input_1, $input_2]);
+		$form->setInputs(["foo" => $input_1, "bar" => $input_2]);
 
-		$this->assertEquals(null, $form->getData());
+		//Todo: This is not good, this should throw an error or similar.
+		$form = $form->withRequest($request);
+		$this->assertEquals(["bar" => 2], $form->getData());
 	}
 
 	public function test_withAdditionalTransformation() {
 		$df = $this->buildDataFactory();
-
 		$request = \Mockery::mock(ServerRequestInterface::class);
-		$post_data = \Mockery::Mock(PostData::class);
+		$request->shouldReceive("getParsedBody")->once()
+				->andReturn([]);
 
 		$input_1 = \Mockery::mock(InputInternal::class);
 		$input_1
-			->shouldReceive("getContent")->once()
-			->andReturn($df->ok(1));
+				->shouldReceive("getContent")->once()
+				->andReturn($df->ok(1));
+
+		$input_1->shouldReceive("withInput")->once()
+				->andReturn($input_1);
 
 		$input_2 = \Mockery::mock(InputInternal::class);
 		$input_2
-			->shouldReceive("getContent")->once()
-			->andReturn($df->ok(2));
+				->shouldReceive("getContent")->once()
+				->andReturn($df->ok(2));
+
+		$input_2->shouldReceive("withInput")->once()
+				->andReturn($input_2);
 
 		$form = new ConcreteForm([]);
 		$form->setInputs([$input_1, $input_2]);
@@ -261,6 +297,8 @@ class FormTest extends ILIAS_UI_TestBase {
 		}));
 
 		$this->assertNotSame($form2, $form);
+		$form2 = $form2->withRequest($request);
+
 		$this->assertEquals("transformed", $form2->getData());
 	}
 
@@ -273,7 +311,8 @@ class FormTest extends ILIAS_UI_TestBase {
 			, $if->text("")
 			];
 		$form = new ConcreteForm([]);
-		$named_inputs = $form->_nameInputs($inputs);
+		$form->setInputs($inputs);
+		$named_inputs = $form->getInputs();
 		$this->assertEquals(array_keys($inputs), array_keys($named_inputs));
 	}
 }

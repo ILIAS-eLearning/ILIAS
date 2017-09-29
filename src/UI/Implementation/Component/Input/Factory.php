@@ -45,4 +45,18 @@ class Factory implements I\Factory {
 	public function numeric($label, $byline = null) {
 		return new Numeric($this->data_factory, $this->validation_factory, $this->transformation_factory, $label, $byline);
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function group(array $inputs) {
+		return new Group($this->data_factory,$this->validation_factory,$this->transformation_factory,$inputs, "", "");
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function section(array $inputs, $label, $byline = null) {
+		return new Section($this->data_factory,$this->validation_factory,$this->transformation_factory,$inputs, $label, $byline);
+	}
 }

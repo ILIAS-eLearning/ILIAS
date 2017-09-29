@@ -11,7 +11,7 @@ use ILIAS\Validation\Factory as ValidationFactory;
 use ILIAS\Transformation\Factory as TransformationFactory;
 
 /**
- * This implements commonalities between inputs.
+ * This implements the numeric input.
  */
 class Numeric extends Input implements C\Input\Numeric {
 

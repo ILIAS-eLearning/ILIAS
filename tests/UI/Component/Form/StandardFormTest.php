@@ -6,8 +6,6 @@ require_once(__DIR__."/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__."/../../Base.php");
 require_once(__DIR__."/FormTest.php");
 
-use \ILIAS\UI\Implementation\Component\Input\Input;
-use \ILIAS\UI\Implementation\Component\Input\NameSource;
 
 class WithButtonNoUIFactory extends NoUIFactory {
 	protected $button_factory;
@@ -62,7 +60,7 @@ class StandardFormTest extends ILIAS_UI_TestBase {
 		$html = $this->normalizeHTML($r->render($form));
 
 		$button = $this->normalizeHTML(str_replace('">', '" id="id_1">', $r->render($bf->standard("save", "#"))));
-		$name_source->name = "name_0";
+		$name_source->name = "form_input_0";
 		$input = $this->normalizeHTML($r->render($if->text("label", "byline")->withNameFrom($name_source)));
 
 		$expected =

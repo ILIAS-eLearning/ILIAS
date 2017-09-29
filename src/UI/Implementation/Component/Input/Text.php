@@ -7,7 +7,7 @@ namespace ILIAS\UI\Implementation\Component\Input;
 use ILIAS\UI\Component as C;
 
 /**
- * This implements commonalities between inputs.
+ * This implements the text input.
  */
 class Text extends Input implements C\Input\Text {
 	/**

@@ -74,13 +74,21 @@ abstract class Input implements C\Input\Input, InputInternal {
 	 *
 	 * @var	Result|null
 	 */
-	private $content;
+	protected $content;
 
 	/**
 	 * @var (Transformation|Constraint)[]
 	 */
 	private $operations;
 
+	/**
+	 * Input constructor.
+	 * @param DataFactory $data_factory
+	 * @param ValidationFactory $validation_factory
+	 * @param TransformationFactory $transformation_factory
+	 * @param $label
+	 * @param $byline
+	 */
 	public function __construct(DataFactory $data_factory, ValidationFactory $validation_factory, TransformationFactory $transformation_factory, $label, $byline) {
 		$this->data_factory = $data_factory;
 		$this->validation_factory = $validation_factory;
@@ -303,7 +311,7 @@ abstract class Input implements C\Input\Input, InputInternal {
 	/**
 	 * @inheritdoc
 	 */
-	final public function withNameFrom(NameSource $source) {
+	public function withNameFrom(NameSource $source) {
 		$clone = clone $this;
 		$clone->name = $source->getNewName();
 		return $clone;
@@ -315,7 +323,7 @@ abstract class Input implements C\Input\Input, InputInternal {
 	 *
 	 * @inheritdoc
 	 */
-	final public function withInput(PostData $input) {
+	public function withInput(PostData $input) {
 		if ($this->name === null) {
 			throw new \LogicException("Can only collect if input has a name.");
 		}
@@ -335,7 +343,7 @@ abstract class Input implements C\Input\Input, InputInternal {
 	 * @param	mixed	$res
 	 * @return	Result
 	 */
-	private function applyOperationsTo($res) {
+	protected function applyOperationsTo($res) {
 		if ($res === null && !$this->isRequired()) {
 			return $this->data_factory->ok($res);
 		}

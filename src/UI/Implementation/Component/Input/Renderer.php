@@ -20,6 +20,14 @@ class Renderer extends AbstractComponentRenderer {
 	public function render(Component\Component $component, RendererInterface $default_renderer) {
 		$this->checkComponent($component);
 
+		if ($component instanceof Component\Input\Group) {
+			$inputs = "";
+			foreach($component->getInputs() as $input) {
+				$inputs .= $default_renderer->render($input);
+			}
+			return $inputs;
+		}
+
 		$input_tpl = null;
 		if ($component instanceof Component\Input\Text) {
 			$input_tpl = $this->getTemplate("tpl.text.html", true, true);
@@ -90,7 +98,8 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function getComponentInterfaceName() {
 		return array
-		( Component\Input\Text::class,Component\Input\Numeric::class
+		( Component\Input\Text::class,Component\Input\Numeric::class,
+				Component\Input\Group::class,Component\Input\Section::class
 		);
 	}
 }
