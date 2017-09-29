@@ -116,6 +116,7 @@ class ilSCORM2004Sco extends ilSCORM2004Asset
 	{
 		$sco = new ilSCORM2004Sco($a_target_slm);
 		$sco->setTitle($this->getTitle());
+		$sco->setHideObjectivePage($this->getHideObjectivePage());
 		if ($this->getSLMId() != $a_target_slm->getId())
 		{
 			$sco->setImportId("il__sco_".$this->getId());
