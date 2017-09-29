@@ -56,13 +56,15 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *      Input groups are an unlabeled collection of inputs to be used to build logical units.
+	 *      Input groups are an unlabeled collection of inputs
+     *      to be used to build logical units.
 	 *   composition: >
-	 *      Groups are composed of inputs. They do not contain a label. The grouping remains invisible for the client.
+	 *      Groups are composed of inputs. They do not contain a label.
+     *      The grouping remains invisible for the client.
 	 *   effect: >
 	 *      TBD
-	 * 	 rivals: >
-	 *      Sections are used to generate visible separations among labeled groups.
+	 *   rivals:
+	 *      Sections: Sections are used to generate visible separations among labeled groups.
 	 *
 	 * context: >
 	 *   TBD
@@ -73,7 +75,8 @@ interface Factory {
 	 *
 	 *
 	 * @param	array<mixed,\ILIAS\UI\Component\Input\Input>	$inputs
-	 */
+     * @return	\ILIAS\UI\Component\Input\Group
+     */
 	public function group(array $inputs);
 
 	/**
