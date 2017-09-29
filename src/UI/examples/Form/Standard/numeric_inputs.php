@@ -6,8 +6,7 @@ function numeric_inputs() {
 	$request = $DIC->http()->request();
 	$trafo = new \ILIAS\Transformation\Factory();
 
-	$number_input = $ui->input()->numeric("number", "Put in the name of a number from one
-	 to ten.");
+	$number_input = $ui->input()->numeric("number", "Put in a number.");
 
 	$sum = $trafo->custom(function($vs) {
 		list($l, $r) = $vs;
