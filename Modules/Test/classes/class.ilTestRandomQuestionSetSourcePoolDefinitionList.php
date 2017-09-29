@@ -409,7 +409,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 	
 	public function getNonAvailablePools()
 	{
-		echo get_class($this->getTrashedPools()[0]);
+		//echo get_class($this->getTrashedPools()[0]);
 		return array_merge($this->getTrashedPools(), $this->getLostPools());
 	}
 	
