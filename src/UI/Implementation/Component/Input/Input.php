@@ -361,7 +361,7 @@ abstract class Input implements C\Input\Input, InputInternal {
 	/**
 	 * Get the operations that should be performed on the input.
 	 *
-	 * @return (Transformation|Constraint)[]
+	 * @return \Generator <Transformation|Constraint>
 	 */
 	private function getOperations() {
 		if ($this->isRequired()) {
