@@ -27,7 +27,13 @@ class StandardConstraintsTest extends PHPUnit_Framework_TestCase {
 				array($f->isNumeric(),
 					//Values from http://php.net/manual/de/function.is-numeric.php
 						[0,"1",1, 0x102, 0102, 0b101, 192e0,9.1],
-						[null,"is numeric",[],[1]])
+						[null,"is numeric",[],[1]]),
+				array($f->hasMinLength(10),
+						["0123456789", "01234567890"],
+						["", "012345678"]),
+				array($f->hasMinLength(1),
+						["0", "01234567890"],
+						[""])
 		);
 	}
 

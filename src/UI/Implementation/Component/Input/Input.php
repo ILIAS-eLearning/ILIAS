@@ -9,7 +9,9 @@ use ILIAS\Data\Result;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\Transformation\Transformation;
+use ILIAS\Transformation\Factory as TransformationFactory;
 use ILIAS\Validation\Constraint;
+use ILIAS\Validation\Factory as ValidationFactory;
 
 /**
  * This implements commonalities between inputs.
@@ -21,6 +23,16 @@ abstract class Input implements C\Input\Input, InputInternal {
 	 * @var DataFactory
 	 */
 	protected $data_factory;
+
+	/**
+	 * @var	ValidationFactory
+	 */
+	protected $validation_factory;
+
+	/**
+	 * @var TransformationFactory
+	 */
+	protected $transformation_factory;
 
 	/**
 	 * @var string
@@ -69,8 +81,10 @@ abstract class Input implements C\Input\Input, InputInternal {
 	 */
 	private $operations;
 
-	public function __construct(DataFactory $data_factory, $label, $byline) {
+	public function __construct(DataFactory $data_factory, ValidationFactory $validation_factory, TransformationFactory $transformation_factory, $label, $byline) {
 		$this->data_factory = $data_factory;
+		$this->validation_factory = $validation_factory;
+		$this->transformation_factory = $transformation_factory;
 		$this->checkStringArg("label", $label);
 		if ($byline !== null) {
 			$this->checkStringArg("byline", $byline);
@@ -137,6 +151,14 @@ abstract class Input implements C\Input\Input, InputInternal {
 		$clone->is_required = $state;
 		return $clone;
 	}
+
+	/**
+	 * This may return a constraint that will be checked first if the field is
+	 * required.
+	 *
+	 * @return	Constraint|null
+	 */
+	abstract protected function getConstraintForRequirement();
 
 	/**
 	 * Get the value that is displayed in the input client side.
@@ -298,7 +320,7 @@ abstract class Input implements C\Input\Input, InputInternal {
 			throw new \LogicException("Can only collect if input has a name.");
 		}
 
-		$value = $input->getOr($this->getName(), null);
+		$value = $input->get($this->getName());
 		$clone = $this->withValue($value);
 		$clone->content = $this->applyOperationsTo($value);
 		if ($clone->content->isError()) {
@@ -319,7 +341,7 @@ abstract class Input implements C\Input\Input, InputInternal {
 		}
 
 		$res = $this->data_factory->ok($res);
-		foreach ($this->operations as $op) {
+		foreach ($this->getOperations() as $op) {
 			if ($res->isError()) {
 				return $res;
 			}
@@ -334,6 +356,24 @@ abstract class Input implements C\Input\Input, InputInternal {
 			}
 		}
 		return $res;
+	}
+
+	/**
+	 * Get the operations that should be performed on the input.
+	 *
+	 * @return (Transformation|Constraint)[]
+	 */
+	private function getOperations() {
+		if ($this->isRequired()) {
+			$op = $this->getConstraintForRequirement();
+			if ($op !== null) {
+				yield $op;
+			}
+		}
+
+		foreach ($this->operations as $op) {
+			yield $op;
+		}
 	}
 
 	/**

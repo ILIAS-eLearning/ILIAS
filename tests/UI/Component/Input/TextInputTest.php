@@ -143,4 +143,22 @@ class TextInputTest extends ILIAS_UI_TestBase {
 				"</div>";
 		$this->assertEquals($expected, $html);
 	}
+
+	public function test_value_required() {
+	    $f = $this->buildFactory();
+		$label = "label";
+		$name = "name_0";
+		$text = $f->text($label)
+			->withNameFrom($this->name_source)
+			->withRequirement(true);
+
+		$text1 = $text->withInput(new DefPostData([$name => "0"]));
+		$value1 = $text1->getContent();
+		$this->assertTrue($value1->isOk());
+		$this->assertEquals("0", $value1->value());
+
+		$text2 = $text->withInput(new DefPostData([$name => ""]));
+		$value2 = $text2->getContent();
+		$this->assertTrue($value2->isError());
+	}
 }

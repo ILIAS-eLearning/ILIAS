@@ -8,6 +8,7 @@ namespace ILIAS\UI\Implementation\Component\Input;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Component as C;
 use ILIAS\Validation\Factory as ValidationFactory;
+use ILIAS\Transformation\Factory as TransformationFactory;
 
 /**
  * This implements commonalities between inputs.
@@ -20,22 +21,27 @@ class Numeric extends Input implements C\Input\Numeric {
 	 * @param $label
 	 * @param $byline
 	 */
-	public function __construct(DataFactory $data_factory, $label, $byline) {
+	public function __construct(DataFactory $data_factory, ValidationFactory $validation_factory, TransformationFactory $transformation_factory, $label, $byline) {
 
-		parent::__construct($data_factory, $label, $byline);
-
-		$validation_factory = new ValidationFactory($this->data_factory);
+		parent::__construct($data_factory, $validation_factory, $transformation_factory, $label, $byline);
 
 		//TODO: Is there a better way to do this? Note, that "withConstraint" is not
 		// usable here (clone).
-		$this->operations[] = $validation_factory->isNumeric();
+		$this->setAdditionalConstraint($this->validation_factory->isNumeric());
 	}
-
 
 	/**
 	 * @inheritdoc
 	 */
 	protected function isClientSideValueOk($value) {
 		return is_string($value);
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function getConstraintForRequirement() {
+		throw new \LogicException("NYI: What could 'required' mean here?");
 	}
 }
