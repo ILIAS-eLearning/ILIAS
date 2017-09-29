@@ -5869,14 +5869,15 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB, $ilAccess;
 		
-		$now = time();		
+		$now = time();
+		$now_with_format = date("YmdHis", $now);
 		$today = date("Y-m-d");
 		
 		// object settings / participation period
 		if($this->isOffline() ||
 			!$this->getReminderStatus() ||
-			($this->getStartDate() && $now < $this->getStartDate()) ||
-			($this->getEndDate() && $now > $this->getEndDate()))
+			($this->getStartDate() && $now_with_format < $this->getStartDate()) ||
+			($this->getEndDate() && $now_with_format > $this->getEndDate()))
 		{
 			return false;
 		}
