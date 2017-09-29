@@ -19,6 +19,7 @@ il.CopyRedirection = {
 				console.log(completed[i].id);
 			}
 			if(allCompleted == true && (completed.length > 0)) {
+				clearInterval(done);
 				setTimeout(function() {
 					$(location).attr('href', il.CopyRedirection.url);
 				},3000);
