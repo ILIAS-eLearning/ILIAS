@@ -284,7 +284,8 @@ class ilSoapUtils extends ilSoapAdministration
 				break;
 			
 			case ilCopyWizardOptions::COPY_WIZARD_LINK:
-				ilLoggerFactory::getLogger('obj')->debug(': Nothing to do for node: '.$node['obj_id'].', '.$node['title'].', '.$node['type']);
+				ilLoggerFactory::getLogger('obj')->debug(': Start cloning dependencies for node: '.$node['obj_id'].', '.$node['title'].', '.$node['type']);
+				$this->cloneDependencies($node, $cp_options);
 				$this->callNextDependency($sid,$cp_options);
 				break;
 				
