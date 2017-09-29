@@ -319,6 +319,16 @@ class ilPCResourcesGUI extends ilPageContentGUI
 				{
 					$it_obj_id = ilObject::_lookupObjId($it_ref_id);
 					$it_title = ilObject::_lookupTitle($it_obj_id);
+					$it_type = ilObject::_lookupType($it_obj_id);
+
+					// TODO: Handle this switch by module.xml definitions
+					if(in_array($it_type, array("catr", "crsr", "grpr")))
+					{
+						include_once('./Services/ContainerReference/classes/class.ilContainerReference.php');
+						$it_title = ilContainerReference::_lookupTitle($it_obj_id);
+					}
+
+
 					$tpl->setCurrentBlock("row");
 					$tpl->setVariable("IMG", ilUtil::img(ilObject::_getIcon($it_obj_id, "small")));
 					$tpl->setVariable("TITLE", $it_title);
