@@ -40,6 +40,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 	 * @var string
 	 */
 	protected $seed;
+	
 
 	/**
 	 * Constructor
@@ -86,7 +87,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 		}
 		$this->period_end_day = $end_date->get(IL_CAL_DATE);
 	}
-
+	
 	/**
 	 * Execute command
 	 */
@@ -135,25 +136,56 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 		$items = array();
 		$groups = array();
 		$modals = array();
-		$cday = "";
+		$group_date = new ilDate(0, IL_CAL_UNIX);
 		foreach ($events as $e)
 		{
-			$begin = new ilDatetime($e['dstart'],IL_CAL_UNIX);
-			$end = new ilDatetime($e['dend'],IL_CAL_UNIX);
-			$day = ilDatePresentation::formatDate(new ilDate($e['dstart'],IL_CAL_UNIX), false, true);
-
-			// new group starts
-			if ($cday != $day)
+			if($e['event']->isFullDay())
 			{
-				// terminate preceding group
-				if ($cday != "")
-				{
-					$groups[] = $this->ui_factory->item()->group($cday, $items);
-				}
-				$cday = $day;
-				$items = array();
+				// begin/end is Date (without timzone)
+				$begin = new ilDate($e['dstart'], IL_CAL_UNIX);
+				$end = new ilDate($e['dend'],IL_CAL_UNIX);
 			}
-
+			else
+			{
+				// begin/end is DateTime (with timezone conversion)
+				$begin = new ilDateTime($e['dstart'],IL_CAL_UNIX);
+				$end = new ilDateTime($e['dend'],IL_CAL_UNIX);
+			}
+			
+			//  if the begin is before seed date (due to timezone conversion) => continue
+			if(ilDateTime::_before(
+				$begin, 
+				$this->seed,  
+				ilDateTime::DAY,
+				$GLOBALS['DIC']->user()->getTimezone()))
+			{
+				continue;
+			}
+			
+			// initialize group date for first iteration
+			if($group_date->isNull())
+			{
+				$group_date = new ilDate(
+					$begin->get(IL_CAL_DATE,'',$GLOBALS['DIC']->user()->getTimezone()),
+					IL_CAL_DATE
+				);
+			}
+			
+			if(!ilDateTime::_equals($group_date, $begin, IL_CAL_DAY, $GLOBALS['DIC']->user()->getTimezone()))
+			{
+				// create new group
+				$groups[] = $this->ui_factory->item()->group(
+					ilDatePresentation::formatDate($group_date, false, true),
+					$items
+				);
+				
+				$group_date = new ilDate(
+					$begin->get(IL_CAL_DATE,'',$GLOBALS['DIC']->user()->getTimezone()),
+					IL_CAL_DATE
+				);
+				$items = [];
+			}
+			
 			// get calendar
 			$cat_id = ilCalendarCategoryAssignments::_lookupCategory($e["event"]->getEntryId());
 			$cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($cat_id);
@@ -204,9 +236,11 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 
 		}
 		// terminate last group
-		if ($cday != "")
+		if(!$group_date->isNull())
 		{
-			$groups[] = $this->ui_factory->item()->group($cday, $items);
+			$groups[] = $this->ui_factory->item()->group(
+				ilDatePresentation::formatDate($group_date, false, true),
+				$items);
 		}
 
 		// list actions

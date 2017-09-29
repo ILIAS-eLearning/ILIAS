@@ -87,7 +87,7 @@ class ilCalendarViewGUI
 	 * Get events
 	 *
 	 * @param
-	 * @return
+	 * @return 
 	 */
 	function getEvents()
 	{
