@@ -89,11 +89,11 @@ class InputTest extends ILIAS_UI_TestBase {
 		$this->assertNotSame($this->input, $input);
 	}
 
-	public function test_withRequirement() {
+	public function test_withRequired() {
 		$this->assertFalse($this->input->isRequired());
-		$input = $this->input->withRequirement(true);
+		$input = $this->input->withRequired(true);
 		$this->assertTrue($input->isRequired());
-		$input = $input->withRequirement(false);
+		$input = $input->withRequired(false);
 		$this->assertFalse($input->isRequired());
 	}
 
@@ -433,7 +433,7 @@ class InputTest extends ILIAS_UI_TestBase {
 		$input->requirement_constraint = $this->validation_factory->custom(function($_) { return false; }, $error);
 
 		$input2 = $input
-			->withRequirement(true)
+			->withRequired(true)
 			->withInput($values);
 		$res = $input2->getContent();
 
@@ -456,8 +456,8 @@ class InputTest extends ILIAS_UI_TestBase {
 		$input->requirement_constraint = $this->validation_factory->custom(function($_) { return false; }, $error);
 
 		$input2 = $input
-			->withRequirement(true)
-			->withRequirement(false)
+			->withRequired(true)
+			->withRequired(false)
 			->withInput($values);
 		$res = $input2->getContent();
 
