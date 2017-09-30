@@ -2,14 +2,14 @@
 
 /* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-require_once(__DIR__."/../../../../libs/composer/vendor/autoload.php");
-require_once(__DIR__."/../../Base.php");
+require_once(__DIR__."/../../../../../../libs/composer/vendor/autoload.php");
+require_once(__DIR__."/../../../../Base.php");
 
 use ILIAS\UI\Implementation\Component\Input;
-use \ILIAS\UI\Implementation\Component\Input\InputInternal;
+use \ILIAS\UI\Implementation\Component\Input\Field\InputInternal;
 use \ILIAS\UI\Implementation\Component\Input\NameSource;
 use \ILIAS\UI\Implementation\Component\Input\PostData;
-use \ILIAS\UI\Implementation\Component\Form\Form;
+use \ILIAS\UI\Implementation\Component\Input\Container\Form\Form;
 
 use \ILIAS\Transformation\Factory as TransformationFactory;
 
@@ -48,11 +48,11 @@ class ConcreteForm extends Form {
  */
 class FormTest extends ILIAS_UI_TestBase {
 	protected function buildFactory() {
-		return new ILIAS\UI\Implementation\Component\Form\Factory;
+		return new ILIAS\UI\Implementation\Component\Input\Container\Form\Factory;
 	}
 
 	protected function buildInputFactory() {
-		return new ILIAS\UI\Implementation\Component\Input\Factory;
+		return new ILIAS\UI\Implementation\Component\Input\Field\Factory;
 	}
 
 	protected function buildButtonFactory() {

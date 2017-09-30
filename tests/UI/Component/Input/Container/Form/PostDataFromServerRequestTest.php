@@ -2,9 +2,9 @@
 
 /* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-require_once(__DIR__."/../../../../libs/composer/vendor/autoload.php");
+require_once(__DIR__."/../../../../../../libs/composer/vendor/autoload.php");
 
-use \ILIAS\UI\Implementation\Component\Form\PostDataFromServerRequest;
+use \ILIAS\UI\Implementation\Component\Input\Container\Form\PostDataFromServerRequest;
 
 use Psr\Http\Message\ServerRequestInterface;
 

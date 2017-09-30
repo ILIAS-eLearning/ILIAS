@@ -2,7 +2,7 @@
 
 require_once 'tests/UI/AbstractFactoryTest.php';
 
-use \ILIAS\UI\Component\Form;
+use \ILIAS\UI\Component\Input\Container\Form;
 
 class FormFactoryTest extends AbstractFactoryTest {
 	public $kitchensink_info_settings = array
@@ -12,7 +12,7 @@ class FormFactoryTest extends AbstractFactoryTest {
 	public $factory_title = 'ILIAS\\UI\\Component\\Form\\Factory';
 
 	final public function buildFactory() {
-		return new \ILIAS\UI\Implementation\Component\Form\Factory;
+		return new \ILIAS\UI\Implementation\Component\Input\Container\Form\Factory;
 	}
 
 	public function test_implements_factory_interface() {

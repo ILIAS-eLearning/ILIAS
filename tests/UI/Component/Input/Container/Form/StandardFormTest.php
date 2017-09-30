@@ -2,9 +2,9 @@
 
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-require_once(__DIR__."/../../../../libs/composer/vendor/autoload.php");
-require_once(__DIR__."/../../Base.php");
-require_once(__DIR__."/FormTest.php");
+require_once(__DIR__."/../../../../../../libs/composer/vendor/autoload.php");
+require_once(__DIR__."/../../../../Base.php");
+require_once(__DIR__ . "/FormTest.php");
 
 
 class WithButtonNoUIFactory extends NoUIFactory {
@@ -22,11 +22,11 @@ class WithButtonNoUIFactory extends NoUIFactory {
  */
 class StandardFormTest extends ILIAS_UI_TestBase {
 	protected function buildFactory() {
-		return new ILIAS\UI\Implementation\Component\Form\Factory;
+		return new ILIAS\UI\Implementation\Component\Input\Container\Form\Factory;
 	}
 
 	protected function buildInputFactory() {
-		return new ILIAS\UI\Implementation\Component\Input\Factory;
+		return new ILIAS\UI\Implementation\Component\Input\Field\Factory;
 	}
 
 	protected function buildButtonFactory() {

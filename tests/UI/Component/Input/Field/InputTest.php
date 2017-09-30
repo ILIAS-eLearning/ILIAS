@@ -2,10 +2,10 @@
 
 /* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-require_once(__DIR__."/../../../../libs/composer/vendor/autoload.php");
-require_once(__DIR__."/../../Base.php");
+require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
+require_once(__DIR__ . "/../../../Base.php");
 
-use \ILIAS\UI\Implementation\Component\Input\Input;
+use \ILIAS\UI\Implementation\Component\Input\Field\Input;
 use \ILIAS\UI\Implementation\Component\Input\NameSource;
 use \ILIAS\UI\Implementation\Component\Input\PostData;
 use \ILIAS\Data\Factory as DataFactory;

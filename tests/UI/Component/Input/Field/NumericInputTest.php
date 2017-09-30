@@ -2,8 +2,8 @@
 
 /* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-require_once(__DIR__."/../../../../libs/composer/vendor/autoload.php");
-require_once(__DIR__."/../../Base.php");
+require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
+require_once(__DIR__ . "/../../../Base.php");
 require_once(__DIR__."/InputTest.php");
 
 class NumericInputTest extends ILIAS_UI_TestBase {
@@ -12,7 +12,7 @@ class NumericInputTest extends ILIAS_UI_TestBase {
 	}
 
 	protected function buildFactory() {
-		return new ILIAS\UI\Implementation\Component\Input\Factory;
+		return new ILIAS\UI\Implementation\Component\Input\Field\Factory;
 	}
 
 	public function test_implements_factory_interface() {
