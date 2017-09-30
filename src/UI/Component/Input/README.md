@@ -3,12 +3,12 @@
 The model used for implementing inputs in the UI-framework is build by five basic
 blocks:
 
-* A *field* defines, which visual input elements a user can see, which constrains
-  are put on those fields and which values developers on the server side retrive
+* A *field* defines, which visual input elements a user can see, which constraints
+  are put on those fields and which values developers on the server side retrieve
   from these inputs.
 * A *container*  defines, which means of submitting the forms are used and how
   the fields are displayed together.
-* A *constraints* puts some restriction on the values supplied by the user.
+* A *constraint* puts some restriction on the values supplied by the user.
   Constraints can also be used independently from the UI-framework, as they are
   [implemented in their own library](src/Validation/README.md).
 * A *transformation* defines, how a value supplied by the user should be processed.
