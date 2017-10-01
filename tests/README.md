@@ -172,9 +172,40 @@ zend_extension="/usr/local/php/modules/xdebug.so"
 ```
 Please ignore all prompts to add "extension=xdebug.so" to php.ini because this will cause problems.
 
-//Show how to setup the tools described in the previous chapter
-
 ### Run tests with PHPStorm
+
+#### Configure Testframework
+- Enter the PHPStorm settings.
+- Navigate to "Language & Frameworks -> PHP -> Testframeworks"
+- Select your interpreter 
+- Select composer within the PHPUnit library section
+- Enter the path to the composer autoload.php -> {ILIAS root}/libs/composer/vendor/autoload.php
+- Hit the Ok button to save the changes.
+
+#### Create run configuration
+- Navigate to "Run -> Edit Configurations..."
+- Hit the plus button and select PHPUnit to create a new configuration
+- Name it properly like global test suite.
+- Select the radio option -> Class
+- Class name -> ilGlobalSuite
+- File path -> {ILIAS root}/Services/Object/test/ilObject2Test.php
+- Set the path custom working directory to the ILIAS root.
+- Hit the OK button to save the changes
+
+#### Run the tests
+Select the test in the top right corner and press the play button to let the global suite run.
+
+#### Exclude ILIAS bound tests
+- Navigate to "Run -> Edit Configurations..."
+- Select your PHPUnit run configuration
+- Add "--exclude-group needInstalledILIAS" to the Test runner options.
+- Hit OK to save the changes 
+
+#### Run only ILIAS bound tests
+- Navigate to "Run -> Edit Configurations..."
+- Select your PHPUnit run configuration
+- Add "--group needsInstalledILIAS" to the Test runner options.
+- Hit OK to save the changes
 
 ### Run tests with CLI
 - Change into the ILIAS web root
@@ -1166,24 +1197,49 @@ actually work together are called integration tests.
 
 [xDebug Documentation](https://xdebug.org/docs/)
 
+[Dicto.php](https://github.com/lechimp-p/dicto.php)
+
 ## Old Documentation
 [Old ILIAS Unit Test Guide](https://www.ilias.de/docu/goto_docu_pg_29759_42.html)
 
-
-//Refer to obsolete documentation
-
-// talk about the correct usage of the DIC (Dependency inversion etc)
-
 ## FAQ
 ### What needs to be tested ?
+Basically behaviour has be tested which is the smallest testable unit of a class.
+A class should be tested within an isolated environment without external dependencies like a database 
+or filesystem. New or refactored code should be unit tested.
+If something is updated the unit test must be updated as well.
 
 ### How is a local test environment set up ?
-### How do I start the ILIAS unit tests in PHPStorm ? 
-### How do I start the ILIAS unit tests in CLI ?
-### Where do I put my unit tests ?
-### What is the ILIAS CI-Server and how can I benefit from it in terms of unit tests ?
-### What do I need to consider concerning unit tests before pushing code to the ILIAS repo ?
+Please refer to the chapter "Setup test environment". 
 
-//optional
-### How do I increase the readability of my unit tests ?
-//talk about testability
+### How do I start the ILIAS unit tests in PHPStorm ?
+Please refer to the chapter "Run tests with PHPStorm". 
+
+### How do I start the ILIAS unit tests in CLI ?
+Please refer to the chapter "Run tests with CLI".
+
+### Where do I put my unit tests ?
+Please refer to the chapter "Directory structure" within the guidelines.
+
+### What is the ILIAS CI-Server and how can I benefit from it in terms of unit tests ?
+The ILIAS continues integration server provides a clean supported environment to run different tests against 
+the latest ILIAS version.
+
+Currently there are three different test suites:
+- ILIAS test suite which runs all ILIAS unbound unit tests
+- ILIAS performance tests
+- ILIAS static code analysis (done with Dicto.php)
+
+There are several benefits, first the tests are running in clean defined environment carefully monitored
+and maintained by the community, second all developer are informed about the actual condition of ILIAS which 
+allows to react fast to emerging problems. 
+
+### What do I need to consider concerning unit tests before pushing code to the ILIAS repo ?
+- Are the unit test in the correct location ?
+- Are the unit test named probably ?
+- Are they testing actual behaviour (getter / setter / single new is not a behaviour) ? If not remove them.
+- Do they require a database / direct filesystem access / network access ? If yes remove them.
+- Are they requiring ILIAS ? If yes remove them.
+- Run the test, the red ones must be fixed for the modified service / module.
+- Create / update tests for the modified and new parts of the service / module.  
+
