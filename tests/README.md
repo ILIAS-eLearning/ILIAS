@@ -900,9 +900,70 @@ class FlySystemFileAccessTest extends TestCase {
 }
 ``` 
 
-#### Fat legacy class
+#### Fat legacy class with parent
+Fat legacy classes especially in ILIAS extend each other to do some work. 
+For example the ilObject2 has a create method which depends on the create method of the ilObject.
+The ilObject create method writes the data to the database which is not desirable in unit tests of ilObject2.
+Therefore ilObject should be replaced with a stub and ilObject2 should operate on that stub which has
+proper expectation in place to test the behaviour.
 
-#### Disable constructor
+This requires an autoload "hack" which loads the base class mock (ilObject) before the partial mock
+ilObject2 is created. Important is that all expectation are set on the ilObject mock before the 
+ilObject2 instance is created otherwise the expectations have no effect.
+
+```php
+<?php
+require_once './libs/composer/vendor/autoload.php';
+
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * Class ilObject2Test
+ *
+ * @author  Nicolas Schäfli <ns@studer-raimann.ch>
+ *
+ * @runTestsInSeparateProcesses 
+ * @preserveGlobalState    disabled
+ * @backupGlobals          disabled
+ * @backupStaticAttributes disabled
+ */
+class ilObject2Test extends TestCase {
+
+	use MockeryPHPUnitIntegration;
+	/**
+	 * @var ilObject2 $subject
+	 */
+	private $subject;
+	/**
+	 * @var ilObject | \Mockery\MockInterface $subjectParent
+	 */
+	private $subjectParent;
+
+	/**
+	 * @test
+	 * @small
+	 */
+	public function testCreateWithoutCloneModeWhichShouldSucceed() {
+
+		//expectations must be set before the child class is loaded
+		$expectedId = 5;
+		$this->subjectParent = Mockery::mock('overload:' . ilObject::class);
+		$this->subjectParent->shouldReceive('create')
+			->once()
+			->andReturn($expectedId);
+		$this->subject = Mockery::mock(ilObject2::class . '[]', []);
+
+		$result = $this->subject->create();
+
+		$this->assertSame($expectedId, $result);
+	}
+	
+	//test other cases ...
+}
+```   
+In cases as shown above, each test has to be run in a separate PHP process because of the specially loaded
+classes. This can be done with the *@runTestsInSeparateProcesses* annotation.
 
 #### Mock static calls
 In some situation it is necessary to mock an entire class due to static method access or a new call.
