@@ -1018,6 +1018,38 @@ a class would lead to a fatal error. PHPUnit has a build in function which does 
 annotated with *@runTestsInSeparateProcesses* will spawn a new PHP process for each unit test. 
 
 #### Fluent interfaces
+Fluent interfaces or long call chains might be easy to read and leverage but kind of hard to test because
+a lot of expectation have to be set on many mocks which are not really interesting for the test at all.
+PHPUnit has a feature which simplifies this process a lot.
+
+For example file upload test have to mock the http service. The http service has methods like request and response and subsequent methods 
+to interact with them. To avoid to create unneeded expectations on the http mock the request mock is generated on the fly
+with the expectation set on it. The pattern is *{method name}->{method name}* the last method gets the actual expectations defined after the 
+*shouldReceive* call.
+
+```php
+<?php
+//class FileUploadImplTest
+	/**
+	 * @Test
+	 * @small
+	 */
+	public function testRegisterWithProcessedFilesWhichShouldFail() {
+		$processorMock = \Mockery::mock(PreProcessor::class);
+		//create a request mock on the fly and set an expectation on it with the arrows (->). 
+		$this->globalHttpStateMock->shouldReceive('request->getUploadedFiles')
+			->once()
+			->andReturn([]);
+
+		$this->expectException(IllegalStateException::class);
+		$this->expectExceptionMessage('Can not register processor after the upload was processed.');
+
+		$this->subject->process();
+		$this->subject->register($processorMock);
+	}
+```
+
+
 //show different test scenarios and how they are looking in ILIAS
 //filesystem test
 //mocking tests (normal, fat legacy classes, disable constructor, fluent interfaces)
