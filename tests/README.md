@@ -848,8 +848,63 @@ class TemplateUnitTest extends TestCase {
 }
 ```
 #### Normal test
+
 #### Fat legacy class
+
 #### Disable constructor
+
+#### Mock static calls
+In some situation it is necessary to mock an entire class due to static method access or a new call.
+Mockery provides a convenient way to load a class alias which replaces the class entirely. The following 
+example illustrates mocking of static method calls to test the Stream class within the filesystem service.
+
+The concrete problem within the filesystem service was that, this service have to interact with php build in 
+functions to manipulate the underlying resource of the stream. PHP has no functionality to autoload functions,
+which makes them difficult to mock. The solution of the author was to wrap the PHP functions with a 
+helper class which can be replaced.
+
+```php
+<?php
+	/**
+	 * @Test
+	 * @small
+	 */
+	public function testReadWithFailingFreadCallWhichShouldFail() {
+
+		//Arrange
+		$content = 'awesome content stream';
+		$mode = 'r';
+		$length = 3;
+		$resource = $this->createResource($content, $mode);
+
+		$subject = new Stream($resource);
+
+		//load mock class
+		$functionMock = Mockery::mock('alias:' . PHPStreamFunctions::class);
+
+		$functionMock->shouldReceive('fread')
+			->once()
+			->withArgs([$resource, $length])
+			->andReturn(false);
+
+		$functionMock->shouldReceive('fclose')
+			->once()
+			->with($resource);
+
+		//set the exception assertion
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage('Unable to read from stream');
+
+		//act
+		$subject->read($length);
+	}
+```  
+The prefix *alias* before the class name tells mockery to load an empty class with the same name.
+Afterwards exceptions are placed on the empty mock alias. It is important that these tests must run in
+separate PHP processes because PHP has no functionality to unload classes. Therefore, a redefinition of 
+a class would lead to a fatal error. PHPUnit has a build in function which does that. Every class which is
+annotated with *@runTestsInSeparateProcesses* will spawn a new PHP process for each unit test. 
+
 #### Fluent interfaces
 //show different test scenarios and how they are looking in ILIAS
 //filesystem test
