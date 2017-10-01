@@ -848,6 +848,57 @@ class TemplateUnitTest extends TestCase {
 }
 ```
 #### Normal test
+This example is from the Filesystem service which tests the
+file access of the implementation which is base upon fly system.
+The example should only illustrate a possible usage of template above.
+Comments were added in comparison to the original to show the triple A structure explained in an earlier chapter.
+
+```php
+<?php
+class FlySystemFileAccessTest extends TestCase {
+
+	use MockeryPHPUnitIntegration;
+
+	/**
+	 * @var FlySystemFileAccess $subject
+	 */
+	private $subject;
+	/**
+	 * @var Filesystem | MockInterface
+	 */
+	private $filesystemMock;
+
+
+	/**
+	 * This method is called before a test is executed.
+	 */
+	protected function setUp() {
+		parent::setUp();
+		date_default_timezone_set('Africa/Lagos');
+		$this->filesystemMock = Mockery::mock(FilesystemInterface::class);
+		$this->subject = new FlySystemFileAccess($this->filesystemMock);
+	}
+
+
+	/**
+	 * @Test
+	 * @small
+	 */
+	public function testReadWhichShouldSucceed() {
+		//Arrange
+		$fileContent = 'Test file content.';
+		$this->filesystemMock->shouldReceive('read')
+			->once()
+			->andReturn($fileContent);
+
+		//Act
+		$actualContent = $this->subject->read('/path/to/your/file');
+		
+		//Assert
+		$this->assertSame($fileContent, $actualContent);
+	}
+}
+``` 
 
 #### Fat legacy class
 
