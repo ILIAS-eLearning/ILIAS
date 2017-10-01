@@ -209,8 +209,6 @@ Please ignore all prompts to add "extension=xdebug.so" to php.ini because this w
 ``` 
 
 ## Guidelines
-// Right-BICEP and CORRECT
-// what should be tested and how
 
 ### Naming
 "Rework test names and code to tell stories."
@@ -380,7 +378,6 @@ early as possible which minimized the possibility of expensive bug hunts in the 
 There are developers which even develop the unit test before they write the actual code this technique is called test driven development or short
 (TDD).
 
-### Right-BICEP
 ### Write CORRECT tests
 Found bugs are often involve so called boundary conditions. These are the edges of the sane-path where many problems appear.
 The CORRECT acronym can be used to think of possible problems while writing unit tests.
@@ -639,7 +636,7 @@ class ButtonTest extends ILIAS_UI_TestBase {
 ```
 
 ##### Example solution
-The proposed solution would be to remove the test entirely. However, if the author wishes to keep the 
+The proposed solution would be to remove the test entirely because they test if the new keyword works. However, if the author wishes to keep the 
 tests. They could be moved into the ButtonFactoryTest class and split up in smaller more precise tests.
 As a result the developer which runs the test is now able to see which part of the factory failed.
 
@@ -710,7 +707,7 @@ class ButtonFactoryTest extends AbstractFactoryTest {
 ```
 
 
-#### Useless test / Naming
+#### Useless test / Generic naming
 Unit tests should always have an assertion of the result, because of that PHPUnit 6 started to mark such 
 tests as useless. Useless test are always threaded as failed. Furthermore, the test name *test_button_label_or_glyph_only*
 is not really telling whats exactly tested.
@@ -790,9 +787,66 @@ class ButtonTest extends ILIAS_UI_TestBase {
 }
 ```
 
+#### Test regression
+Many tests in ILIAS were not updated with the production source code. For example some of the RBAC classes are gone
+but still tested.
+
+```php
+<?php
+class ilRBACTest extends PHPUnit_Framework_TestCase {
+		/**
+    	 * @group IL_Init
+    	 */
+    	public function testCache()
+    	{
+    		//the ilAccessHandler does not exist anymore
+    		include_once './Services/AccessControl/classes/class.ilAccessHandler.php';
+    		
+    		//ilAccessHandler is an interface located in './Services/AccessControl/interfaces/interface.ilAccessHandler.php'
+    		$handler = new ilAccessHandler();
+    		$handler->setResults(array(1,2,3));
+    		$handler->storeCache();
+    		$handler->readCache();
+    		$res = $handler->getResults();
+    		
+    		$this->assertEquals(array(1,2,3),$res);	
+    	}
+    	
+    	//more tests ...
+}
+```
+
+Test like this should be removed because they have a negative impact on the global test suite due to the fact that this
+tests require a full bootstrapped ILIAS. Furthermore, all RBAC are in the wrong test class which should be moved 
+as described in chapter (guidelines -> naming -> class).
+
 ### Test Examples
 
 #### Template
+This is just a normal template how a basic unit test class could look like without any additions.
+```php
+<?php 
+use\PHPUnit\Framework\TestCase;
+use\Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+
+
+class TemplateUnitTest extends TestCase {
+	use MockeryPHPUnitIntegration;
+	
+	/**
+	 @inheritDoc
+	*/
+	protected function setUp()
+    {
+        parent::setUp();
+        
+        //prepare your stuff which is needed all the time here
+	}
+	
+	//create your unit test here
+	
+}
+```
 #### Normal test
 #### Fat legacy class
 #### Disable constructor
@@ -820,9 +874,90 @@ High-level modules should not depend on low-level modules; both should depend on
 Abstractions should not depend on details; details should depend on abstractions.
 
 #### A SOLID way to use the DIC
+A good way to improve the testability of new and old classes are the inversion of the dependencies.
+For example the classic way to use another class is:
+```php
+<?php
+class Car {
+	
+	private $breaks;
+	
+	public function __construct() {
+		$this->breaks = new StandardBreaks();
+	}
+	
+	public function stop() { /* use the breaks ... */}
+}
+```
+To verify that a car is able to stop, the breaks have to be replaced to verify the behaviour because the
+stop function has no return value. However there is no way to replace the hardwired dependency to the breaks
+except to load a class with the same name before actual class is loaded which could be considered a hack.
+
+In order to increase the testability the hardwired dependency has to be inverted (DIP).
+- First a Breaks interface is created for the StandardBreaks.
+- The Breaks will be passed to the Car at construction time. (The factories from Audi etc. do the same.)
+
+After these changes the car don't care about the actual implementation because it only depends on
+the breaks abstraction. This changes allows the car developers to finally test the class because the breaks can be 
+exchanged at test time without hassle.
+
+```php
+<?php
+class Car {
+	
+	private $breaks;
+	
+	public function __construct(Breaks $breaks) {
+		$this->breaks = $breaks;
+	}
+	
+	public function stop() { /* use the breaks ... */}
+}
+```
+
+The corresponding test class would look like this:
+```php
+<?php
+use \PHPUnit\Framework\TestCase;
+use \Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration; 
+
+class CarTest extends TestCase {
+	
+	use MockeryPHPUnitIntegration;
+	
+	private $subject, $breaks;
+	/**
+     * @inheritDoc
+	 */
+	protected function setUp()
+    {
+        parent::setUp();
+        
+        $this->breaks = Mockery::mock(Breaks::class);
+        $this->subject = new Car($this->breaks);
+	}
+	
+	/**
+	 * @test 
+     */
+	public function testStopCarWhileDriving() { /* use the breaks mock to verify behaviour ... */}
+}
+```
+
+This principle could improve the current situation in ILIAS a lot because many classes are hardwired and therefore
+not testable at all. In almost any part in the old code structures in ILIAS serves the DIC as nothing more as a service locator
+which is technically the same than the globals used before.
+The usage of service locators are even discouraged by the [PHP-FIG](http://www.php-fig.org/psr/psr-11/meta/#4-recommended-usage-container-psr-and-the-service-locator).   
+
+Services in the /src directory use the DIP to break dependencies and improve the testability and maintainability.
+
+#### Distinction between unit and integration tests
+In ILIAS there are a lot of test which test a bunch of classes together which is useful in its own 
+but these are no unit tests. Tests which combine multiple unit tested classes to test their behaviour when they
+actually work together are called integration tests.
 
 
-//DIP erwähnen mit beispiel
+
 ## External documentation
 [PHP Unit Documentation](https://phpunit.de/manual/5.7/en/index.html)
 
@@ -851,5 +986,5 @@ Abstractions should not depend on details; details should depend on abstractions
 ### What do I need to consider concerning unit tests before pushing code to the ILIAS repo ?
 
 //optional
-### How do I inrease the readability of my unit tests ?
+### How do I increase the readability of my unit tests ?
 //talk about testability
