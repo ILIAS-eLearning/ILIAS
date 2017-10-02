@@ -6,7 +6,7 @@ require_once(__DIR__."/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__."/../../Base.php");
 require_once(__DIR__."/InputTest.php");
 
-class TextInputTest extends ILIAS_UI_TestBase {
+class NumericInputTest extends ILIAS_UI_TestBase {
 	public function setUp() {
 		$this->name_source = new DefNamesource();
 	}
@@ -16,27 +16,27 @@ class TextInputTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_implements_factory_interface() {
-	    $f = $this->buildFactory();
+		$f = $this->buildFactory();
 
-		$text = $f->text("label", "byline");
+		$numeric = $f->numeric("label", "byline");
 	}
 
 	public function test_render() {
-	    $f = $this->buildFactory();
+		$f = $this->buildFactory();
 		$label = "label";
 		$byline = "byline";
 		$name = "name_0";
-		$text = $f->text($label, $byline)
+		$numeric = $f->numeric($label, $byline)
 			->withNameFrom($this->name_source);
 
 		$r = $this->getDefaultRenderer();
-		$html = $this->normalizeHTML($r->render($text));
+		$html = $this->normalizeHTML($r->render($numeric));
 
 		$expected =
 				"<div class=\"form-group row\">".
 				"	<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>".
 				"	<div class=\"col-sm-9\">".
-				"		<input type=\"text\" name=\"$name\" class=\"form-control form-control-sm\" />".
+				"		<input type=\"number\" name=\"$name\" class=\"form-control form-control-sm\" />".
 				"		<div class=\"help-block\">$byline</div>".
 				"		".
 				"	</div>".
@@ -45,23 +45,23 @@ class TextInputTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_render_error() {
-	    $f = $this->buildFactory();
+		$f = $this->buildFactory();
 		$label = "label";
 		$byline = "byline";
 		$name = "name_0";
 		$error = "an_error";
-		$text = $f->text($label, $byline)
+		$numeric = $f->numeric($label, $byline)
 			->withNameFrom($this->name_source)
 			->withError($error);
 
 		$r = $this->getDefaultRenderer();
-		$html = $this->normalizeHTML($r->render($text));
+		$html = $this->normalizeHTML($r->render($numeric));
 
 		$expected =
 				"<div class=\"form-group row\">".
 				"	<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>".
 				"	<div class=\"col-sm-9\">".
-				"		<input type=\"text\" name=\"$name\" class=\"form-control form-control-sm\" />".
+				"		<input type=\"number\" name=\"$name\" class=\"form-control form-control-sm\" />".
 				"		<div class=\"help-block\">$byline</div>".
 				"		<div class=\"help-block alert alert-danger\" role=\"alert\">".
 				"			<img border=\"0\" src=\"./templates/default/images/icon_alert.svg\" alt=\"alert\">".
@@ -73,20 +73,20 @@ class TextInputTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_render_no_byline() {
-	    $f = $this->buildFactory();
+		$f = $this->buildFactory();
 		$label = "label";
 		$name = "name_0";
-		$text = $f->text($label)
+		$numeric = $f->numeric($label)
 			->withNameFrom($this->name_source);
 
 		$r = $this->getDefaultRenderer();
-		$html = $this->normalizeHTML($r->render($text));
+		$html = $this->normalizeHTML($r->render($numeric));
 
 		$expected =
 				"<div class=\"form-group row\">".
 				"	<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>".
 				"	<div class=\"col-sm-9\">".
-				"		<input type=\"text\" name=\"$name\" class=\"form-control form-control-sm\" />".
+				"		<input type=\"number\" name=\"$name\" class=\"form-control form-control-sm\" />".
 				"		".
 				"		".
 				"	</div>".
@@ -95,70 +95,26 @@ class TextInputTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_render_value() {
-	    $f = $this->buildFactory();
+		$f = $this->buildFactory();
 		$label = "label";
 		$value = "value";
 		$name = "name_0";
-		$text = $f->text($label)
+		$numeric = $f->numeric($label)
 			->withValue($value)
 			->withNameFrom($this->name_source);
 
 		$r = $this->getDefaultRenderer();
-		$html = $this->normalizeHTML($r->render($text));
+		$html = $this->normalizeHTML($r->render($numeric));
 
 		$expected =
 				"<div class=\"form-group row\">".
 				"	<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>".
 				"	<div class=\"col-sm-9\">".
-				"		<input type=\"text\" value=\"$value\" name=\"$name\" class=\"form-control form-control-sm\" />".
+				"		<input type=\"number\" value=\"$value\" name=\"$name\" class=\"form-control form-control-sm\" />".
 				"		".
 				"		".
 				"	</div>".
 				"</div>";
 		$this->assertEquals($expected, $html);
-	}
-
-	public function test_render_required() {
-	    $f = $this->buildFactory();
-		$label = "label";
-		$name = "name_0";
-		$text = $f->text($label)
-			->withNameFrom($this->name_source)
-			->withRequired(true);
-
-		$r = $this->getDefaultRenderer();
-		$html = $this->normalizeHTML($r->render($text));
-
-		$expected =
-				"<div class=\"form-group row\">".
-				"	<label for=\"$name\" class=\"control-label col-sm-3\">".
-				        "$label".
-				        "<span class=\"asterisk\">*</span>".
-				        "</label>".
-				"	<div class=\"col-sm-9\">".
-				"		<input type=\"text\" name=\"$name\" class=\"form-control form-control-sm\" />".
-				"		".
-				"		".
-				"	</div>".
-				"</div>";
-		$this->assertEquals($expected, $html);
-	}
-
-	public function test_value_required() {
-	    $f = $this->buildFactory();
-		$label = "label";
-		$name = "name_0";
-		$text = $f->text($label)
-			->withNameFrom($this->name_source)
-			->withRequired(true);
-
-		$text1 = $text->withInput(new DefPostData([$name => "0"]));
-		$value1 = $text1->getContent();
-		$this->assertTrue($value1->isOk());
-		$this->assertEquals("0", $value1->value());
-
-		$text2 = $text->withInput(new DefPostData([$name => ""]));
-		$value2 = $text2->getContent();
-		$this->assertTrue($value2->isError());
 	}
 }

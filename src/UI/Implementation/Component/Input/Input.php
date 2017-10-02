@@ -9,7 +9,9 @@ use ILIAS\Data\Result;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\Transformation\Transformation;
+use ILIAS\Transformation\Factory as TransformationFactory;
 use ILIAS\Validation\Constraint;
+use ILIAS\Validation\Factory as ValidationFactory;
 
 /**
  * This implements commonalities between inputs.
@@ -23,6 +25,16 @@ abstract class Input implements C\Input\Input, InputInternal {
 	protected $data_factory;
 
 	/**
+	 * @var	ValidationFactory
+	 */
+	protected $validation_factory;
+
+	/**
+	 * @var TransformationFactory
+	 */
+	protected $transformation_factory;
+
+	/**
 	 * @var string
 	 */
 	protected $label;
@@ -31,6 +43,11 @@ abstract class Input implements C\Input\Input, InputInternal {
 	 * @var string
 	 */
 	protected $byline;
+
+	/**
+	 * @var	bool
+	 */
+	protected $is_required;
 
 	/**
 	 * This is the value contained in the input as displayed
@@ -64,14 +81,17 @@ abstract class Input implements C\Input\Input, InputInternal {
 	 */
 	private $operations;
 
-	public function __construct(DataFactory $data_factory, $label, $byline) {
+	public function __construct(DataFactory $data_factory, ValidationFactory $validation_factory, TransformationFactory $transformation_factory, $label, $byline) {
 		$this->data_factory = $data_factory;
+		$this->validation_factory = $validation_factory;
+		$this->transformation_factory = $transformation_factory;
 		$this->checkStringArg("label", $label);
 		if ($byline !== null) {
 			$this->checkStringArg("byline", $byline);
 		}
 		$this->label = $label;
 		$this->byline= $byline;
+		$this->is_required = false;
 		$this->value = null;
 		$this->name = null;
 		$this->error = null;
@@ -114,6 +134,31 @@ abstract class Input implements C\Input\Input, InputInternal {
 		$clone->byline = $byline;
 		return $clone;
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function isRequired() {
+		return $this->is_required;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withRequired($is_required) {
+		$this->checkBoolArg("is_required", $is_required);
+		$clone = clone $this;
+		$clone->is_required = $is_required;
+		return $clone;
+	}
+
+	/**
+	 * This may return a constraint that will be checked first if the field is
+	 * required.
+	 *
+	 * @return	Constraint|null
+	 */
+	abstract protected function getConstraintForRequirement();
 
 	/**
 	 * Get the value that is displayed in the input client side.
@@ -164,10 +209,20 @@ abstract class Input implements C\Input\Input, InputInternal {
 	 * @return	Input
 	 */
 	public function withError($error) {
-		$this->checkStringArg("error", $error);
 		$clone = clone $this;
-		$clone->error = $error;
+		$clone->setError($error);
 		return $clone;
+	}
+
+	/**
+	 * Set an error on this input.
+	 *
+	 * @param	string
+	 * @return	void
+	 */
+	private function setError($error) {
+		$this->checkStringArg("error", $error);
+		$this->error = $error;
 	}
 
 	// These are the ways in which a consumer can define how client side
@@ -179,13 +234,26 @@ abstract class Input implements C\Input\Input, InputInternal {
 	 * @param	Transformation $trafo
 	 * @return	Input
 	 */
-	public function withTransformation(Transformation $trafo) {
+	public function withAdditionalTransformation(Transformation $trafo) {
 		$clone = clone $this;
-		$clone->operations[] = $trafo;
-		if ($clone->content !== null) {
-			$clone->content = $clone->content->map($trafo);
-		}
+		$clone->setAdditionalTransformation($trafo);
 		return $clone;	
+	}
+
+	/**
+	 * Apply a transformation to the current or future content.
+	 *
+	 * ATTENTION: This is a real setter, i.e. it modifies $this! Use this only if
+	 * `withAdditionalTransformation` does not work, i.e. in the constructor.
+	 *
+	 * @param	Transformation	$trafo
+	 * @return	void
+	 */
+	protected function setAdditionalTransformation(Transformation $trafo) {
+		$this->operations[] = $trafo;
+		if ($this->content !== null) {
+			$this->content = $this->content->map($trafo);
+		}
 	}
 
 	/**
@@ -194,16 +262,29 @@ abstract class Input implements C\Input\Input, InputInternal {
 	 * @param	Constraint $constraint
 	 * @return 	Input
 	 */
-	public function withConstraint(Constraint $constraint) {
+	public function withAdditionalConstraint(Constraint $constraint) {
 		$clone = clone $this;
-		$clone->operations[] = $constraint;
-		if ($clone->content !== null) {
-			$clone->content = $constraint->restrict($clone->content);
-			if ($clone->content->isError()) {
-				return $clone->withError("".$clone->content->error());
+		$clone->setAdditionalConstraint($constraint);
+		return $clone;
+	}
+
+	/**
+	 * Apply a constraint to the current or the future content.
+	 *
+	 * ATTENTION: This is a real setter, i.e. it modifies $this! Use this only if
+	 * `withAdditionalConstraint` does not work, i.e. in the constructor.
+	 *
+	 * @param	Constraint	$constraint
+	 * @return	void
+	 */
+	protected function setAdditionalConstraint(Constraint $constraint) {
+		$this->operations[] = $constraint;
+		if ($this->content !== null) {
+			$this->content = $constraint->restrict($this->content);
+			if ($this->content->isError()) {
+				$this->setError("".$this->content->error());
 			}
 		}
-		return $clone;
 	}
 
 	// Implementation of InputInternal
@@ -255,8 +336,12 @@ abstract class Input implements C\Input\Input, InputInternal {
 	 * @return	Result
 	 */
 	private function applyOperationsTo($res) {
+		if ($res === null && !$this->isRequired()) {
+			return $this->data_factory->ok($res);
+		}
+
 		$res = $this->data_factory->ok($res);
-		foreach ($this->operations as $op) {
+		foreach ($this->getOperations() as $op) {
 			if ($res->isError()) {
 				return $res;
 			}
@@ -271,6 +356,24 @@ abstract class Input implements C\Input\Input, InputInternal {
 			}
 		}
 		return $res;
+	}
+
+	/**
+	 * Get the operations that should be performed on the input.
+	 *
+	 * @return \Generator <Transformation|Constraint>
+	 */
+	private function getOperations() {
+		if ($this->isRequired()) {
+			$op = $this->getConstraintForRequirement();
+			if ($op !== null) {
+				yield $op;
+			}
+		}
+
+		foreach ($this->operations as $op) {
+			yield $op;
+		}
 	}
 
 	/**

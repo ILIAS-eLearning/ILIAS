@@ -51,9 +51,24 @@ interface Input extends Component {
 	 * Get an input like this, but with an additional/replaced label.
 	 *
 	 * @param	string|null $byline
-	 * @return	Button
+	 * @return	Input
 	 */
 	public function withByline($byline);
+
+	/**
+	 * Is this field required?
+	 *
+	 * @return	bool
+	 */
+	public function isRequired();
+
+	/**
+	 * Get an input like this, but set the field to be required (or not).
+	 *
+	 * @param	bool	$is_required
+	 * @return	Input
+	 */
+	public function withRequired($is_required);
 
 	/**
 	 * Get the value that is displayed in the input client side.
@@ -93,7 +108,7 @@ interface Input extends Component {
 	 * @param	Transformation $trafo
 	 * @return	Input
 	 */
-	public function withTransformation(Transformation $trafo);
+	public function withAdditionalTransformation(Transformation $trafo);
 
 	/**
 	 * Apply a constraint to the content of the input.
@@ -101,5 +116,5 @@ interface Input extends Component {
 	 * @param	Constraint $constraint
 	 * @return 	Input
 	 */
-	public function withConstraint(Constraint $constraint);
+	public function withAdditionalConstraint(Constraint $constraint);
 }

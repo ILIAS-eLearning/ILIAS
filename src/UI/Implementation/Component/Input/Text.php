@@ -16,4 +16,11 @@ class Text extends Input implements C\Input\Text {
 	protected function isClientSideValueOk($value) {
 		return is_string($value);
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function getConstraintForRequirement() {
+		return $this->validation_factory->hasMinLength(1);
+	}
 }
