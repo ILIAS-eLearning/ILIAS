@@ -120,19 +120,28 @@ class Group extends Input implements C\Input\Field\Group{
 		$clone = clone $this;
 		$inputs = [];
 		$values = [];
+        $error = false;
 		foreach($this->getInputs() as $key => $input){
 			$inputs[$key] = $input->withInput($post_input);
 			//Todo: Is this correct here or should it be getValue? Design decision...
 			$content = $inputs[$key]->getContent();
 			if( $content->isOk()){
 				$values[$key] = $content->value();
-			}
+			}else{
+                $error = true;
+            }
 		}
-		$clone->inputs = $inputs;
+        $clone->inputs = $inputs;
+        if($error){
+            //Todo: Improve this error message on the group
+            $clone->content = $this->data_factory->error("Error on Group");
+            return $clone;
+        }
+
 		$clone->content = $clone->applyOperationsTo($values);
 
 		if ($clone->content->isError()) {
-			return $clone->withError("".$clone->content->error());
+			return $clone->content->withError("".$clone->content->error());
 		}
 		return $clone;
 	}
