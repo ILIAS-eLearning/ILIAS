@@ -32,10 +32,10 @@ function base() {
 		throw new \LogicException("PANIC!");
 	});
 
-	$number_input = $ui->input()
+	$number_input = $ui->input()->field()
 		->text("number", "Put in the name of a number from one to ten.")
-		->withConstraint($valid_number)
-		->withTransformation($from_name);
+		->withAdditionalConstraint($valid_number)
+		->withAdditionalTransformation($from_name);
 
 	$DIC->ctrl()->setParameterByClass(
 			'ilsystemstyledocumentationgui',
