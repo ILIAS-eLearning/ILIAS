@@ -899,7 +899,8 @@ class ilObjGroupGUI extends ilContainerGUI
 			$all_prtf = ilObjPortfolio::getAvailablePortfolioLinksForUserIds($ids,
 				$this->ctrl->getLinkTarget($this, "members"));
 		}
-
+		
+		$profile_data = ilObjUser::_readUsersProfileData($ids);
 		foreach($ids as $usr_id)
 		{
 			$name = ilObjUser::_lookupName($usr_id);
@@ -909,6 +910,11 @@ class ilObjGroupGUI extends ilContainerGUI
 			$tmp_data['notification'] = $this->object->members_obj->isNotificationEnabled($usr_id) ? 1 : 0;
 			$tmp_data['usr_id'] = $usr_id;
 			$tmp_data['login'] = ilObjUser::_lookupLogin($usr_id);
+			
+			foreach((array) $profile_data[$usr_id] as $field => $value)
+			{
+				$tmp_data[$field] = $value;
+			}
 
 			if($this->show_tracking)
 			{
