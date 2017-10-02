@@ -20,7 +20,11 @@ class Renderer extends AbstractComponentRenderer {
 	public function render(Component\Component $component, RendererInterface $default_renderer) {
 		$this->checkComponent($component);
 
-		if ($component instanceof Component\Input\Field\Group) {
+        //Process groups
+        if ($component instanceof Component\Input\Field\Section) {
+            return $this->renderSection($component, $default_renderer);
+        }
+        else if ($component instanceof Component\Input\Field\Group) {
 			$inputs = "";
 			foreach($component->getInputs() as $input) {
 				$inputs .= $default_renderer->render($input);
@@ -28,7 +32,8 @@ class Renderer extends AbstractComponentRenderer {
 			return $inputs;
 		}
 
-		$input_tpl = null;
+        //Process basic inputs
+		$input_tpl = null;		$input_tpl = null;
 		if ($component instanceof Component\Input\Field\Text) {
 			$input_tpl = $this->getTemplate("tpl.text.html", true, true);
 		}else if($component instanceof Component\Input\Field\Numeric){
@@ -45,7 +50,36 @@ class Renderer extends AbstractComponentRenderer {
 				$default_renderer);
 	}
 
-	/**
+    /**
+     * @param Component\Input\Field\Input $component
+     * @param RendererInterface $default_renderer
+     * @return string
+     */
+    protected function renderSection(Component\Input\Field\Input $component, RendererInterface $default_renderer){
+        $tpl = $this->getTemplate("tpl.section.html", true, true);
+        $tpl->setVariable("LABEL", $component->getLabel());
+        if ($component->getByline() !== null) {
+            $tpl->setCurrentBlock("byline");
+            $tpl->setVariable("BYLINE", $component->getByline());
+            $tpl->parseCurrentBlock();
+        }
+
+        if ($component->getError() !== null) {
+            $tpl->setCurrentBlock("error");
+            $tpl->setVariable("ERROR", $component->getError());
+            $tpl->parseCurrentBlock();
+        }
+        $inputs = "";
+        foreach($component->getInputs() as $input) {
+            $inputs .= $default_renderer->render($input);
+        }
+        $tpl->setVariable("INPUTS", $inputs);
+
+        return $tpl->get();
+
+    }
+
+        /**
 	 * @param $input_html
 	 * @param Component\Input\Field\Input $component
 	 * @param RendererInterface $default_renderer
