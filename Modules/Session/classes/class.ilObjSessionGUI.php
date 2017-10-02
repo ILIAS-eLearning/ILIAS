@@ -80,7 +80,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$GLOBALS['DIC']->access()->checkAccess('read','', $_GET['ref_id'])
 		)
 		{
-			include_once("./Services/Link/classes/class.ilLink.php");
 			$GLOBALS['DIC']['ilNavigationHistory']->addItem(
 				(int) $_GET['ref_id'],
 				ilLink::_getLink((int) $_GET['ref_id'], 'sess'),
