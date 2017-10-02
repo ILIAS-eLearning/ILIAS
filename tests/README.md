@@ -21,7 +21,6 @@ All unit tests in ILIAS are automated and help to verify that all units behave a
 Furthermore, unit tests enable the community to tackle bugs much faster and in an earlier state of development.
 Due to a faster handling of side effects and other bugs, more time is left to actually refactor and improve the current code base. 
  
-//describe what unit tests are and how they improve ILIAS. Also refer to the goals set by the community as well as the CI server
 ## Tools
 ### PHP Unit
 PHP Unit is a collection of tools (PHP classes and executables) which makes not only testing easy, but also helps to gain 
@@ -101,9 +100,9 @@ Composer version 1.5.1 2017-08-09 16:07:22
 - Download the composer setup [here](https://getcomposer.org/Composer-Setup.exe).
 - Run the setup and follow the displayed steps
 - Open a **new** terminal to verify the composer installation with the following command
-  ```bash
-  composer -V
-  ```
+```bash
+composer -V
+```
 Command output should look like this, if the installation was successful. 
 ```text
 Composer version 1.5.1 2017-08-09 16:07:22
@@ -128,28 +127,28 @@ unit test quite a bit.
 
 #### Setup for Ubuntu
 - Run the following command or use your own package manager to install the following package.
-  ```bash
-  # trusty
-  sudo apt-get install php5-xdebug
+```bash
+# trusty
+sudo apt-get install php5-xdebug
 
-  # xenial
-  sudo apt-get install php-xdebug
-  ```
+# xenial
+sudo apt-get install php-xdebug
+```
 
 #### Setup for macOS
 - Install the following package with brew or your own favourite package manager.
-  ```bash
-  # brew install homebrew/php/<php-version>-xdebug
-  brew install homebrew/php/php71-xdebug
-  ```
+```bash
+# brew install homebrew/php/<php-version>-xdebug
+brew install homebrew/php/php71-xdebug
+```
 
 #### Windows
 - Open the browser and navigate to the [xdebug installation wizard](https://xdebug.org/wizard.php).
 - Copy the output of the following command into the wizard.
-  ```bash
-  # Output is redirected to the clipboard.
-  php -i | clip
-  ```
+```bash
+# Output is redirected to the clipboard.
+php -i | clip
+```
 The xdebug wizard will provide a link to the correct xdebug binary and further installation steps.
 
 #### Configure
@@ -696,44 +695,44 @@ class ButtonFactoryTest extends AbstractFactoryTest {
 	 * @small
 	 */
 	public function test_creation_of_standard_button() {
-		$this->assertInstanceOf
-        			( Standard::class
-        			, $this->subject->standard("label", "http://www.ilias.de")
-        			);
+	$this->assertInstanceOf
+				( Standard::class
+				, $this->subject->standard("label", "http://www.ilias.de")
+				);
 	}
 	
 	/**
-     * @test 
-     * @small
-     */
-    public function test_creation_of_primary_button() {
-        $this->assertInstanceOf
-                    ( Primary::class
-                    , $this->subject->primary("label", "http://www.ilias.de")
-                    );
-    }
-    
-    /**
-     * @test 
-     * @small
-     */
-    public function test_creation_of_Shy_button() {
-        $this->assertInstanceOf
-                    ( Shy::class
-                    , $this->subject->shy("label", "http://www.ilias.de")
-                    );
-    }
-    
-    /**
-     * @test 
-     * @small
-     */
-    public function test_creation_of_close_button() {
-        $this->assertInstanceOf
-                    ( Close::class
-                    , $this->subject->close("label", "http://www.ilias.de")
-                    );
-    }
+	 * @test 
+	 * @small
+	 */
+	public function test_creation_of_primary_button() {
+		$this->assertInstanceOf
+					( Primary::class
+					, $this->subject->primary("label", "http://www.ilias.de")
+					);
+	}
+	
+	/**
+	 * @test 
+	 * @small
+	 */
+	public function test_creation_of_Shy_button() {
+		$this->assertInstanceOf
+					( Shy::class
+					, $this->subject->shy("label", "http://www.ilias.de")
+					);
+	}
+	
+	/**
+	 * @test 
+	 * @small
+	 */
+	public function test_creation_of_close_button() {
+		$this->assertInstanceOf
+					( Close::class
+					, $this->subject->close("label", "http://www.ilias.de")
+					);
+	}
 }
 ```
 
@@ -756,17 +755,17 @@ this part has to be tested within the test class of the specific button subclass
 class ButtonTest extends ILIAS_UI_TestBase {
 	
 	public function getButtonFactory() {
-    		return new \ILIAS\UI\Implementation\Component\Button\Factory();
-    }
-    
-    public function button_type_provider() {
-    		return array
-    			( array("standard")
-    			, array("primary")
-    			, array("shy")
-    			, array("tag")
-    			);
-    }
+			return new \ILIAS\UI\Implementation\Component\Button\Factory();
+	}
+	
+	public function button_type_provider() {
+			return array
+				( array("standard")
+				, array("primary")
+				, array("shy")
+				, array("tag")
+				);
+	}
 	
 	/**
 	 * @dataProvider button_type_provider
@@ -826,24 +825,24 @@ but still tested.
 <?php
 class ilRBACTest extends PHPUnit_Framework_TestCase {
 		/**
-    	 * @group IL_Init
-    	 */
-    	public function testCache()
-    	{
-    		//the ilAccessHandler does not exist anymore
-    		include_once './Services/AccessControl/classes/class.ilAccessHandler.php';
-    		
-    		//ilAccessHandler is an interface located in './Services/AccessControl/interfaces/interface.ilAccessHandler.php'
-    		$handler = new ilAccessHandler();
-    		$handler->setResults(array(1,2,3));
-    		$handler->storeCache();
-    		$handler->readCache();
-    		$res = $handler->getResults();
-    		
-    		$this->assertEquals(array(1,2,3),$res);	
-    	}
-    	
-    	//more tests ...
+		 * @group IL_Init
+		 */
+		public function testCache()
+		{
+			//the ilAccessHandler does not exist anymore
+			include_once './Services/AccessControl/classes/class.ilAccessHandler.php';
+			
+			//ilAccessHandler is an interface located in './Services/AccessControl/interfaces/interface.ilAccessHandler.php'
+			$handler = new ilAccessHandler();
+			$handler->setResults(array(1,2,3));
+			$handler->storeCache();
+			$handler->readCache();
+			$res = $handler->getResults();
+			
+			$this->assertEquals(array(1,2,3),$res);	
+		}
+		
+		//more tests ...
 }
 ```
 
@@ -868,10 +867,10 @@ class TemplateUnitTest extends TestCase {
 	 @inheritDoc
 	*/
 	protected function setUp()
-    {
-        parent::setUp();
-        
-        //prepare your stuff which is needed all the time here
+	{
+		parent::setUp();
+		
+		//prepare your stuff which is needed all the time here
 	}
 	
 	//create your unit test here
@@ -1157,19 +1156,19 @@ class CarTest extends TestCase {
 	
 	private $subject, $breaks;
 	/**
-     * @inheritDoc
+	 * @inheritDoc
 	 */
 	protected function setUp()
-    {
-        parent::setUp();
-        
-        $this->breaks = Mockery::mock(Breaks::class);
-        $this->subject = new Car($this->breaks);
+	{
+		parent::setUp();
+		
+		$this->breaks = Mockery::mock(Breaks::class);
+		$this->subject = new Car($this->breaks);
 	}
 	
 	/**
 	 * @test 
-     */
+	 */
 	public function testStopCarWhileDriving() { /* use the breaks mock to verify behaviour ... */}
 }
 ```
