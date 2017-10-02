@@ -40,6 +40,7 @@ function numeric_inputs() {
 		$result = "No result yet.";
 	}
 
+    //Return the rendered form
     return 
 		"<pre>".print_r($result, true)."</pre><br/>".
 		$renderer->render($form);
