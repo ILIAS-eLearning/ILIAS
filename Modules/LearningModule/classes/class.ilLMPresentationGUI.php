@@ -1052,7 +1052,8 @@ class ilLMPresentationGUI
 		include_once "Services/Object/classes/class.ilObjectListGUI.php";
 		ilObjectListGUI::prepareJSLinks($this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true), 			
 			$this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "ilnotegui"), "", "", true, false), 
-			$this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false));
+			$this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false),
+			$this->tpl);
 
 		$lg = $dispatcher->initHeaderAction();
 		$lg->enableNotes(true);
@@ -1066,7 +1067,7 @@ class ilLMPresentationGUI
 		
 		if(!$a_redraw)
 		{
-			$this->tpl->setVariable("HEAD_ACTION", $lg->getHeaderAction());
+			$this->tpl->setVariable("HEAD_ACTION", $lg->getHeaderAction($this->tpl));
 		}
 		else
 		{
@@ -1738,7 +1739,7 @@ class ilLMPresentationGUI
 		// rating
 		$rating = "";
 		if($this->lm->hasRatingPages())
-		{														
+		{
 			include_once("./Services/Rating/classes/class.ilRatingGUI.php");			
 			$rating_gui = new ilRatingGUI();
 			$rating_gui->setObject($this->lm->getId(), "lm", $page_id, "lm");	
