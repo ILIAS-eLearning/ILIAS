@@ -88,19 +88,7 @@ php -i | clip
 ```
 The xdebug wizard will provide a link to the correct xdebug binary and further installation steps.
 
-#### Configure
-Append the following to your php.ini or xdebug.ini and complete / enhance the config as needed.
-```ini
-[Xdebug]
-xdebug.remote_connect_back = 1
-xdebug.idekey = PHPSTORM
-xdebug.profiler_output_dir = {Writeable output dir for profiler}
-xdebug.remote_log = /var/log/xdebug.log
-xdebug.profiler_enable_trigger = 1
-xdebug.remote_enable = 1
-xdebug.remote_port = 9000
-```
-
+#### Configuration
 Please make sure to add the xdebug extension to one of your php.ini files.
 
 ### Run tests with PHPStorm
