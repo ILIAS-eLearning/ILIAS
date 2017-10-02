@@ -98,6 +98,13 @@ they were defined:
 The facility to fill in the yet unknown value `?` with client input then belongs
 to the container which will be explained in the following.
 
+This model allows for easily building new inputs from existing ones by adding new
+constraints or transformations to them. Since the data processing is bound to the
+fields, it can be exchanged with them and makes it easy to share components in the
+system. This will allow for fields that contain tightly defined or even complex
+datastructures without the burden on the users of the field to know about the
+details of the data retrieval from the client.
+
 ## Containers
 
 
