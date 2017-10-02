@@ -56,9 +56,7 @@ box, so you cannot open it to inspect the value:
 
 ```
 *---*
-|   |
 | ? |
-|   |
 *---*
 ```
 
@@ -67,9 +65,7 @@ to it via `withAdditionalTransformation`:
 
 ```
 *---*                                      *------*
-|   |                                      |      |
 | ? |->withAdditionalTransformation(f) =>  | f(?) |
-|   |                                      |      |
 *---*                                      *------*
 ```
 
@@ -83,16 +79,12 @@ they were defined:
 
 ```
 *---*
-|   |
 | ? |->withAdditionalTransformation(f)->withAdditionalContraint(c)->withAdditionalTransformation(g)
-|   |
 *---*
 
-   *------------*
-   |            |
-=> | g(c(f(?))) |
-   |            |
-   *------------*
+   *--------------*
+=> | g(c(f( ? ))) |
+   *--------------*
 ```
 
 The facility to fill in the yet unknown value `?` with client input then belongs
