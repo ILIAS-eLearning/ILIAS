@@ -17,96 +17,33 @@ Unit tests fulfil the following criteria:
 
 ### Role in ILIAS
 
-All unit tests in ILIAS are automated and help to verify that all units behave as intended.
+All unit tests in ILIAS are fully automated with the goal to verify that all units behave as intended.
 Furthermore, unit tests enable the community to tackle bugs much faster and in an earlier state of development.
-Due to a faster handling of side effects and other bugs, more time is left to actually refactor and improve the current code base. 
- 
+Due to a faster handling of side effects and other bugs, more time is left to actually refactor and improve the current code base.
+
 ## Tools
 ### PHP Unit
-PHP Unit is a collection of tools (PHP classes and executables) which makes not only testing easy, but also helps to gain 
+PHP Unit is a collection of tools (PHP classes and executables) which makes not only testing easy, but also helps to gain
 insight into the test results and how much of the code base remains untested.
- 
+
 ### Mockery
 Mockery is a lightweight and flexible mocking object framework which is used for unit testing with PHP Unit and other unit testing frameworks.
-It it designed as a drop in replacement for the PHP Unit mock functionality, but can also work alongside with the PHP Unit mock objects.
+It is designed as a drop in replacement for the PHP Unit mock functionality, but can also work alongside with the PHP Unit mock objects.
 
 #### Mock Objects
 In unit tests mock objects are used to simulate a specific behaviour of real objects. The primary usage of mock objects is to isolate the
-object under test. However there are also other use cases for example some times there is no actual implementation of classes which are required
-for the class under test.
+object under test. However there are also other use cases, for example some times no implementation of a class is present at test time, this
+missing implementation can be replaced by a mock object.
 
-The benefit of mocking frameworks are the dynamic creation of such mock objects and stubs. They enable developers to describe the behaviour 
+The benefit of mocking frameworks are the dynamic creation of such mock objects and stubs. They enable developers to describe the behaviour
 of the mock objects with a flexible API. The API also aims to be as close as possible to natural language descriptions to make the test code
 even more expressive.
 
 ## Setup test environment
 ### Setup composer
 Composer is a dependency manager for PHP packages / libraries.
-#### Linux
-- Download the latest composer version [here](https://getcomposer.org/download/).
-- Run the command to install the composer command globally
-  ```bash
-  mv composer.phar /usr/local/bin/composer
-  ```
-- Check that the path */usr/local/bin* is in your *PATH*.
-- Verify your installation with the following command
-  ```bash
-  composer -V
-  ```
-Command output should look like this, if the installation was successful. 
-```text
-Composer version 1.5.1 2017-08-09 16:07:22
-```
-
-#### macOS
-- Download the latest composer version [here](https://getcomposer.org/download/).
-- Verify that the path */usr/local/bin* exists otherwise created it with the command
-  ```bash
-  mkdir -p /usr/local/bin
-  ```
-- Run the command to install the composer command globally
-  ```bash
-  mv composer.phar /usr/local/bin/composer
-  ```
-- Check that the path */usr/local/bin* is in your *PATH*.
-- Verify your installation with the following command
-  ```bash
-  composer -V
-  ```
-Command output should look like this, if the installation was successful.  
-```text
-Composer version 1.5.1 2017-08-09 16:07:22
-```
-
-#### Windows
-##### Manual
-- Change into a directory which is in your *PATH*
-- Download the composer phar [here](https://getcomposer.org/download/).
-- Create a composer .bat alongside the composer.phar with the following command
-  ```bash
-  echo @php "%~dp0composer.phar" %*>composer.bat
-  ```
-- Open a **new** terminal to verify the composer installation with the following command
-  ```bash
-  composer -V
-  ```
-Command output should look like this, if the installation was successful. 
-```text
-Composer version 1.5.1 2017-08-09 16:07:22
-```
-
-
-##### Automatic (recommended)
-- Download the composer setup [here](https://getcomposer.org/Composer-Setup.exe).
-- Run the setup and follow the displayed steps
-- Open a **new** terminal to verify the composer installation with the following command
-```bash
-composer -V
-```
-Command output should look like this, if the installation was successful. 
-```text
-Composer version 1.5.1 2017-08-09 16:07:22
-```
+The composer [installation guide](https://getcomposer.org/doc/00-intro.md#installation-linux-unix-osx)
+provides all necessary steps for the setup.
 
 ### Setup ILIAS
 Install ILIAS on your favourite operation system with the provided [installation guide](docs/configuration/install.md).
@@ -164,19 +101,14 @@ xdebug.remote_enable = 1
 xdebug.remote_port = 9000
 ```
 
-Please make sure to add the xdebug extension to one of your php.ini files. The entry should look like this. 
-However, the path may be different depending on the setup. 
-```bash
-zend_extension="/usr/local/php/modules/xdebug.so"
-```
-Please ignore all prompts to add "extension=xdebug.so" to php.ini because this will cause problems.
+Please make sure to add the xdebug extension to one of your php.ini files.
 
 ### Run tests with PHPStorm
 
 #### Configure Testframework
 - Enter the PHPStorm settings.
 - Navigate to "Language & Frameworks -> PHP -> Testframeworks"
-- Select your interpreter 
+- Select your interpreter
 - Select composer within the PHPUnit library section
 - Enter the path to the composer autoload.php -> {ILIAS root}/libs/composer/vendor/autoload.php
 - Hit the Ok button to save the changes.
@@ -198,7 +130,7 @@ Select the test in the top right corner and press the play button to let the glo
 - Navigate to "Run -> Edit Configurations..."
 - Select your PHPUnit run configuration
 - Add "--exclude-group needInstalledILIAS" to the Test runner options.
-- Hit OK to save the changes 
+- Hit OK to save the changes
 
 #### Run only ILIAS bound tests
 - Navigate to "Run -> Edit Configurations..."
@@ -217,7 +149,7 @@ Select the test in the top right corner and press the play button to let the glo
 	--report-useless-tests \
 	--disallow-todo-tests \
 	--group needsInstalledILIAS
-``` 
+```
 
 #### Execute all tests
 ```bash
@@ -226,7 +158,7 @@ Select the test in the top right corner and press the play button to let the glo
 	--report-useless-tests \
 	--disallow-todo-tests \
 	--no-globals-backup
-``` 
+```
 
 #### Execute only installation unbound tests
 ```bash
@@ -236,7 +168,7 @@ Select the test in the top right corner and press the play button to let the glo
 	--report-useless-tests \
 	--disallow-todo-tests \
 	--exclude-group needsInstalledILIAS
-``` 
+```
 
 ## Guidelines
 
@@ -244,11 +176,11 @@ Select the test in the top right corner and press the play button to let the glo
 "Rework test names and code to tell stories."
 
 #### Class
-The filename of the test class should always be named like *\<class name of the implementation\>Test.php*. 
+The filename of the test class should always be named like *\<class name of the implementation\>Test.php*.
 Furthermore, the test class should always be named as the class which is tested by the unit test class.
 For example the real class is called *Car* the corresponding test class would be named *CarTest* and the filename
  *CarTest.php*.
- 
+
 #### Unit-Test (Method)
 The method name must describe what your test is doing. For example the name "testSomeBasics" is not really saying
 much about the test. It is also possible that the test is actually testing multiple behaviours because of the
@@ -287,8 +219,8 @@ WAC/
                    -----> SecurePath
 ```
 #### New parts (/src)
-The test source for the new parts of ILIAS are located in the *tests* directory, 
-which is located in the web root directory of ILIAS. The structure should be the same 
+The test source for the new parts of ILIAS are located in the *tests* directory,
+which is located in the web root directory of ILIAS. The structure should be the same
 than the *src* directory where the actual implementation lives.
 ```
 <webroot>/
@@ -321,7 +253,7 @@ the triple-A.
 - **Arrange** A proper system state is created by creating objects and interacting with them.
 - **Act** Invoke the part of the code which should be tested. This is usually one method call.
 - **Assert** Verify that the executed code behaves as expected. For example the verification of a return value
-or state of any objects involved. It can also involve verifications of interactions between objects with the 
+or state of any objects involved. It can also involve verifications of interactions between objects with the
 help of mocks.
 
 If there is the need to clean up resources, a fourth step should be added.
@@ -341,27 +273,27 @@ Example ILIAS Filesystem service (LegacyPathHelperTest):
 		$target = $this->webPath . '/' . $expectedPath;
 
 		$result = LegacyPathHelper::createRelativePath($target);
-		
+
 		$this->assertEquals($expectedPath, $result);
 	}
 ```
 
 ### Good tests are FIRST
 Many problems while unit testing can be avoided by following the FIRST principles.
-- **F**ast
-- **I**solated
-- **R**epeatable
-- **S**elf-validating
-- **T**imely
+- **F** ast
+- **I** solated
+- **R** epeatable
+- **S** elf-validating
+- **T** imely
 
 #### Fast
 Keep the unit tests as fast as possible. They will be run multiple times a day to verify the
-behaviour of all the classes. 
+behaviour of all the classes.
 
-The small grade between fast and slow test can be sometimes a bit blurred, however if the tested part 
+The small grade between fast and slow test can be sometimes a bit blurred, however if the tested part
 of the code opens database connection or operates with files on a real filesystem the test are always slow.
 
-A lot of slow unit tests are usually an indicator of not so well designed component. Because all the code 
+A lot of slow unit tests are usually an indicator of not so well designed component. Because all the code
 is tightly coupled to the slow parts or operation of a system.   
 
 #### Isolated
@@ -370,17 +302,17 @@ more likely it is that the test fails out of unreasonably circumstances.
 
 For example the code which is under test might interact with other code which connects and interacts with
 a database. The database it self needs an entire host. So, in fact the test depends on that database and the
-structure as well as the data. If the datasource is shared between developers the result of the tests are 
+structure as well as the data. If the datasource is shared between developers the result of the tests are
 no longer reliable because of external changes which are out of control for each individual developer.
 
-Good unit tests also don't depend on other unit tests. For example, all unit tests depend on each other to 
-safe some time creating expensive objects. After some time something goes wrong, there will be a 
-massive amount of time spend to found the actual cause because everything is failing 
+Good unit tests also don't depend on other unit tests. For example, all unit tests depend on each other to
+safe some time creating expensive objects. After some time something goes wrong, there will be a
+massive amount of time spend to found the actual cause because everything is failing
 due to the high coupling between each test.
 
 Therefore, unit test must be executable any time in any possible order.
 
-The single Responsibility Principle (SRP) of the SOLID class design principle describes that class should be 
+The single Responsibility Principle (SRP) of the SOLID class design principle describes that class should be
 small and only serve one purpose. This principe is also really good for unit tests because if a test can for more than one
 reason. It's the best to split the test in multiple cases. If a focused test breaks it is normally obvious why.
 
@@ -390,14 +322,14 @@ Each system will interact with elements which are not under the control of the d
 dates or time. That means this test have to deal with additional problem which makes writing them more difficult.
 
 In such situations mock objects are used to isolate the class from the outer world. If the dependencies are not mockable there is
-usually something wrong with the design of the component. 
+usually something wrong with the design of the component.
 
 #### Self-Validating
 Test always assert that something went as expected. Unit test are used to save time and not the other way around.
 If a test result sometimes must be verified manual it is not useful at all.
 
 On a larger scale there are continues integration server like team city, bamboo or jenkins which are running the unit test if changes on the monitored
-branches are detected. For example ILIAS is automatically tested by a team city server. 
+branches are detected. For example ILIAS is automatically tested by a team city server.
 The server is located at [ci.ilias.de](http://ci.ilias.de/).
 
 #### Timely
@@ -411,13 +343,13 @@ There are developers which even develop the unit test before they write the actu
 ### Write CORRECT tests
 Found bugs are often involve so called boundary conditions. These are the edges of the sane-path where many problems appear.
 The CORRECT acronym can be used to think of possible problems while writing unit tests.
-- **C**onformance (Is the value conform with an expected format ?)
-- **O**rdering (Is the collection of values ordered or unordered as expected ?)
-- **R**ange (Is the value between the expected min and max value ?)
-- **R**eference (Does the code reference external things which is not under direct control of the code it self ?)
-- **E**xistence (Does a value exist or is it null or empty present into a collection or not and so on ?)
-- **C**ardinality (Are there exactly enough values ?)
-- **T**ime (Is everything happening in order ? At the right time and in time ?)
+- **C** onformance (Is the value conform with an expected format ?)
+- **O** rdering (Is the collection of values ordered or unordered as expected ?)
+- **R** ange (Is the value between the expected min and max value ?)
+- **R** eference (Does the code reference external things which is not under direct control of the code it self ?)
+- **E** xistence (Does a value exist or is it null or empty present into a collection or not and so on ?)
+- **C** ardinality (Are there exactly enough values ?)
+- **T** ime (Is everything happening in order ? At the right time and in time ?)
 
 #### Conformance
 Many data structures must conform to a certain format. A well known format is the email or the ip address.
@@ -435,22 +367,22 @@ Brainstorming about these boundary conditions is helpful to find different kind 
 should not be written for cases which will never happen at all. This introduces the question at which point are unit tests no longer
 useful?
 
-For example someone passed an email address into a system because that person changed the provider. That email will be passed 
-through countless methods of the system. However, if the email address is validated at the entry point of the system, the address 
+For example someone passed an email address into a system because that person changed the provider. That email will be passed
+through countless methods of the system. However, if the email address is validated at the entry point of the system, the address
 can be threaded as safe in each underlying method and subsequent validations are not needed at all. Therefore, it would be useless
 to test the underlying methods in terms of the format validity because the will never receive an invalid email address.
 
 To summarize, it is very important to understand the data flow in the system to reduce unnecessary unit tests.
 
 #### Ordering
-The order of data or the position of specific data in larger collections are often a point were something 
+The order of data or the position of specific data in larger collections are often a point were something
 goes wrong within a system.
 
 #### Range
 The the 64bit integer of PHP has far more capacity than needed. For example the age of a dog will never exceed a certain point but
 if something went wrong the dog is in a sudden 2 pow 64 years old.
 
-The excessive use of primitives is known as a code smell known as *primitive obsession*. One of the primal benefit of PHP is that data 
+The excessive use of primitives is known as a code smell known as *primitive obsession*. One of the primal benefit of PHP is that data
 can be abstracted with its own logic. For example a dog has at most four legs and its age is between 1 second and 30 years.  
 
 To abstract these values and test the constraints of the abstraction makes the rest of the application more resistant again such errors.
@@ -462,9 +394,9 @@ When a method is tested the following criteria should be considered:
 - If the method depends on objects being in a specific state
 - Other conditions which must exist for the method
 
-If assumptions are made about a state, the code should be tested that it is not behaving in a wrong way 
+If assumptions are made about a state, the code should be tested that it is not behaving in a wrong way
 when the assumption is not true. For example a plain has to expand the wheels before landing or the plain will most likely be destroyed
-after the landing. Therefore, a plain must transition into the right state before doing a certain action. This situations must be 
+after the landing. Therefore, a plain must transition into the right state before doing a certain action. This situations must be
 tested or it is almost certain that something goes wrong in the future.
 
 ```php
@@ -473,15 +405,15 @@ tested or it is almost certain that something goes wrong in the future.
  * @Test
  */
 public function testPlainLandingWithExpandedWheelsWhichShouldSucceed() {
-	
+
 	//arrange (preconditions)
 	$plain = new Plain();
 	$plain->start();
 	$plain->expandWheels();
-	
+
 	//act
 	$plain->land();
-	
+
 	//assert (postconditions)
 	$this->assertSame(0, $plain->getSpeed());
 }
@@ -489,7 +421,7 @@ public function testPlainLandingWithExpandedWheelsWhichShouldSucceed() {
 
 #### Existence
 A potentially large sum of defects could be discovered by asking the question "Does something given thing exist?" For a method which has parameters
-or accessing fields should be thought about if they can be null and how the code should behave in such a case. 
+or accessing fields should be thought about if they can be null and how the code should behave in such a case.
 
 Sadly, at the time a null value gets into the wrong place it is often not easy to tell where the actual problems are. Using exceptions
 to tell the consumer of code what went wrong greatly simplifies the search after a problem.
@@ -498,18 +430,18 @@ to tell the consumer of code what went wrong greatly simplifies the search after
 Often errors arise due to incorrect counting. For example the fencepost which can be illustrated with the following question:
 "If you build a straight fence 30 meter long with posts spaced 3 meters apart, how many posts do you need?"
 
-Of course the answer 10 is wrong because it needs 11 posts for 10 sections. Basically the count of sets of values are interesting in 
+Of course the answer 10 is wrong because it needs 11 posts for 10 sections. Basically the count of sets of values are interesting in
 the following cases.
 - Zero
 - One
 - Many (more than one element)
 
-Some developers refer to this as the 0-1-n rule. Zero is important as already mentioned in the *Existence* part. 
+Some developers refer to this as the 0-1-n rule. Zero is important as already mentioned in the *Existence* part.
 To have only one element of its kind is also important in some situations. In collections the exact amount of items is normally not
-really important because the code is the same if there are ten or 1 billion elements, with some exceptions of course. 
+really important because the code is the same if there are ten or 1 billion elements, with some exceptions of course.
 
 As an example the best 10 students should be displayed within a test as a ordered list top best to bottom which is still very good.
-Every time a student takes the test the list gets updated. Here are a list of things which should be considered corresponding to 
+Every time a student takes the test the list gets updated. Here are a list of things which should be considered corresponding to
 the cardinality:
 - Producing a list without students
 - Producing a list with exactly one student
@@ -525,11 +457,11 @@ In general test should focus on boundary conditions with 0, 1 and n.
 There are several things which should be considered regarding the walk clock time. If some portion of code
 rely on time for example a timestamp. The unit test may work 1 or 2 times but will break in the future because time it self is
 not under the control of the test and developer. Therefore, the standard time sources must be faked with more controllable ones
-to make the tests repeatable (FI**R**ST). 
+to make the tests repeatable (FI**R**ST).
 
 An other aspect are timezones which are normally not a problem in PHP, but there are some edge cases with switching hours which should
 be considered. A short example from [stackoverflow](https://stackoverflow.com/a/19004000) illustrates the error in a simple way.
- 
+
  | Europe/Warsaw time  |   offset |  UTC                |    php2utc conversion |  php offset  |
  | ------------------- | -------- | ------------------- | --------------------- | ------------ |
  | 2013-10-27 01:00:00 |    +2    | 2013-10-26 23:00:00 |   2013-10-26 23:00:00 | +2           |
@@ -537,16 +469,16 @@ be considered. A short example from [stackoverflow](https://stackoverflow.com/a/
  | 2013-10-27 02:00:00 |    +2    | 2013-10-27 00:00:00 |   2013-10-27 01:00:00 | **+1**       |
  | 2013-10-27 02:30:00 |    +2    | 2013-10-27 00:30:00 |   2013-10-27 01:30:00 | **+1**       |
  | 2013-10-27 02:59:00 |    +2    | 2013-10-27 00:59:00 |   2013-10-27 01:59:00 | **+1**       |
- 
- 3am -> 2am .....................................summer time changes to standard(winter) time @3am we subtract 1h so 3am becomes 2am 
- 
+
+ 3am -> 2am .....................................summer time changes to standard(winter) time @3am we subtract 1h so 3am becomes 2am
+
  | Europe/Warsaw time  |   offset |  UTC                  |    php2utc conversion  |  php offset  |
  | ------------------- | -------- | --------------------- | ---------------------- | ------------ |
  | 2013-10-27 02:00:00 |    +1    | 2013-10-27 01:00:00   | 2013-10-27 01:00:00    | +1           |
  | 2013-10-27 02:30:00 |    +1    | 2013-10-27 01:30:00   | 2013-10-27 01:30:00    | +1           |
  | 2013-10-27 03:00:00 |    +1    | 2013-10-27 02:00:00   | 2013-10-27 02:00:00    | +1           |
  | 2013-10-27 03:30:00 |    +1    | 2013-10-27 02:30:00   | 2013-10-27 02:30:00    | +1           |
- 
+
 
 ## Test Examples
 This test section will show good and bad unit tests in ILIAS.
@@ -557,7 +489,7 @@ it is really important to understand that only the code is wrong. The statements
 in the present. "It's just code!"
 
 #### Wrong Location and Bloated
-The test shown below is the only test of the course module. However the code actually test the 
+The test shown below is the only test of the course module. However the code actually test the
 *ilMemberAgreement* class which is part of the Membership service.
 
 In addition this test tests more than one thing:
@@ -583,40 +515,40 @@ skipped on the CI server which leads to the final question if test is ever execu
 	public function testMemberAgreement()
 	{
 		include_once 'Services/Membership/classes/class.ilMemberAgreement.php';
-		
+
 		global $ilDB;
-		
-		
+
+
 		$agree = new ilMemberAgreement(9999,8888);
 		$agree->read();
 		$agree->setAccepted(true);
 		$agree->save();
-		
+
 		$agree = new ilMemberAgreement(9999,8888);
 		$agree->read();
 		$sta = $agree->isAccepted();
 		$this->assertEquals($sta,true);
 		$agree->delete();
-		
+
 		$agree = new ilMemberAgreement(9999,8888);
 		$agree->read();
 		$sta = $agree->isAccepted();
 		$this->assertEquals($sta,false);
-		
+
 		$sta = ilMemberAgreement::_hasAccepted(9999,8888);
 		$this->assertEquals($sta,false);
-		
+
 		$agree = new ilMemberAgreement(9999,8888);
 		$agree->read();
 		$agree->setAccepted(true);
 		$agree->save();
-		
+
 		$sta = ilMemberAgreement::_hasAgreementsByObjId(8888);
 		$this->assertEquals($sta,true);
-		
+
 		$sta = ilMemberAgreement::_hasAgreements();
 		$this->assertEquals($sta,true);
-		
+
 		ilMemberAgreement::_deleteByUser(9999);
 	}
 ```
@@ -624,7 +556,7 @@ skipped on the CI server which leads to the final question if test is ever execu
 #### Testing PHP behaviour / Wrong class
 The Button test contains tests which belongs into another class and testing PHP behaviour.
 In the case of the *test_implements_factory_interface* test the only thing which is tested is the *Factory* class
-which is living in the "\ILIAS\UI\Implementation\Component\Button\" namespace. In addition the only 
+which is living in the "\ILIAS\UI\Implementation\Component\Button\" namespace. In addition the only
 tested logic is the instantiation of the concrete button implementations.
 
 Furthermore this test checks 4 different things:
@@ -636,7 +568,7 @@ Furthermore this test checks 4 different things:
 ```php
 <?php
 class ButtonTest extends ILIAS_UI_TestBase {
-	
+
 	public function getButtonFactory() {
 		return new \ILIAS\UI\Implementation\Component\Button\Factory();
 	}
@@ -666,7 +598,7 @@ class ButtonTest extends ILIAS_UI_TestBase {
 ```
 
 ##### Example solution
-The proposed solution would be to remove the test entirely because they test if the new keyword works. However, if the author wishes to keep the 
+The proposed solution would be to remove the test entirely because they test if the new keyword works. However, if the author wishes to keep the
 tests. They could be moved into the ButtonFactoryTest class and split up in smaller more precise tests.
 As a result the developer which runs the test is now able to see which part of the factory failed.
 
@@ -679,19 +611,19 @@ use \ILIAS\UI\Component\Button\Shy;
 use \ILIAS\UI\Component\Button\Close;
 
 class ButtonFactoryTest extends AbstractFactoryTest {
-	
+
 	private $subject;
-	
+
 	public function setUp() {
 		parent::setUp();
-		
+
 		$this->subject = new Factory();
 	}
-	
+
 	// ... other parts of the test class ...
-	
+
 	/**
-	 * @test 
+	 * @test
 	 * @small
 	 */
 	public function test_creation_of_standard_button() {
@@ -700,9 +632,9 @@ class ButtonFactoryTest extends AbstractFactoryTest {
 				, $this->subject->standard("label", "http://www.ilias.de")
 				);
 	}
-	
+
 	/**
-	 * @test 
+	 * @test
 	 * @small
 	 */
 	public function test_creation_of_primary_button() {
@@ -711,9 +643,9 @@ class ButtonFactoryTest extends AbstractFactoryTest {
 					, $this->subject->primary("label", "http://www.ilias.de")
 					);
 	}
-	
+
 	/**
-	 * @test 
+	 * @test
 	 * @small
 	 */
 	public function test_creation_of_Shy_button() {
@@ -722,9 +654,9 @@ class ButtonFactoryTest extends AbstractFactoryTest {
 					, $this->subject->shy("label", "http://www.ilias.de")
 					);
 	}
-	
+
 	/**
-	 * @test 
+	 * @test
 	 * @small
 	 */
 	public function test_creation_of_close_button() {
@@ -738,26 +670,26 @@ class ButtonFactoryTest extends AbstractFactoryTest {
 
 
 #### Useless test / Generic naming
-Unit tests should always have an assertion of the result, because of that PHPUnit 6 started to mark such 
+Unit tests should always have an assertion of the result, because of that PHPUnit 6 started to mark such
 tests as useless. Useless test are always threaded as failed. Furthermore, the test name *test_button_label_or_glyph_only*
 is not really telling whats exactly tested.
 
 Another aspect of the whole *ButtonTest* class is that a factory is used to create concrete instances of
-the Buttons. But the factory nor the concrete subclasses of the Button class is a test subject here only the 
+the Buttons. But the factory nor the concrete subclasses of the Button class is a test subject here only the
 Button class it self. Of course to test all button instances is not really effective. However, the button can
 also be created with the help of mockery which subclasses the button dynamically within the tests. This allows
-to test the Button class in a dedicated way. If logic is added to one of the specific implementations only 
+to test the Button class in a dedicated way. If logic is added to one of the specific implementations only
 this part has to be tested within the test class of the specific button subclass for example the primary button.
- 
+
 
 ```php
 <?php
 class ButtonTest extends ILIAS_UI_TestBase {
-	
+
 	public function getButtonFactory() {
 			return new \ILIAS\UI\Implementation\Component\Button\Factory();
 	}
-	
+
 	public function button_type_provider() {
 			return array
 				( array("standard")
@@ -766,7 +698,7 @@ class ButtonTest extends ILIAS_UI_TestBase {
 				, array("tag")
 				);
 	}
-	
+
 	/**
 	 * @dataProvider button_type_provider
 	 */
@@ -784,10 +716,10 @@ class ButtonTest extends ILIAS_UI_TestBase {
 ##### Example solution
 The proposed solution of this example would be to remove the test because the trait should be tested in a separate
 class dedicated to the trait. However, if the author decides to test the class which use the trait in stead of the trait it self
-the solution would look like this. 
+the solution would look like this.
 
 First the *Factory* was removed because this class is meant for the *Button* class.
-Second the data provider has been removed due to the fact that the button it self will be tested and not 
+Second the data provider has been removed due to the fact that the button it self will be tested and not
 the children of the button.
 Third the try catch was replaced with the phpunit construct which is designed to test exception occurrence.
 Finally the *Button* class has been partial mocked with a full method delegation which means that the test code
@@ -800,17 +732,17 @@ which remained unchanged to get same result as before.
 use ILIAS\UI\Implementation\Component\Button\Button;  
 
 class ButtonTest extends ILIAS_UI_TestBase {
-	
+
 	use \Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
-	
+
 	/**
 	 * @test
 	 * @small
 	 */
 	public function test_button_creation_with_invalid_argument_which_should_fail() {
-		
+
 		$this->expectException(InvalidArgumentException::class);
-		
+
 		//create a partial mock because the button is abstract
 		Mockery::mock(Button::class . '[]', [$this, 'http://www.ilias.de']);
 	}
@@ -831,23 +763,23 @@ class ilRBACTest extends PHPUnit_Framework_TestCase {
 		{
 			//the ilAccessHandler does not exist anymore
 			include_once './Services/AccessControl/classes/class.ilAccessHandler.php';
-			
+
 			//ilAccessHandler is an interface located in './Services/AccessControl/interfaces/interface.ilAccessHandler.php'
 			$handler = new ilAccessHandler();
 			$handler->setResults(array(1,2,3));
 			$handler->storeCache();
 			$handler->readCache();
 			$res = $handler->getResults();
-			
-			$this->assertEquals(array(1,2,3),$res);	
+
+			$this->assertEquals(array(1,2,3),$res);
 		}
-		
+
 		//more tests ...
 }
 ```
 
 Test like this should be removed because they have a negative impact on the global test suite due to the fact that this
-tests require a full bootstrapped ILIAS. Furthermore, all RBAC are in the wrong test class which should be moved 
+tests require a full bootstrapped ILIAS. Furthermore, all RBAC are in the wrong test class which should be moved
 as described in chapter (guidelines -> naming -> class).
 
 ### Test Examples
@@ -855,26 +787,26 @@ as described in chapter (guidelines -> naming -> class).
 #### Template
 This is just a normal template how a basic unit test class could look like without any additions.
 ```php
-<?php 
+<?php
 use\PHPUnit\Framework\TestCase;
 use\Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
 
 class TemplateUnitTest extends TestCase {
 	use MockeryPHPUnitIntegration;
-	
+
 	/**
-	 @inheritDoc
-	*/
+	 * @inheritDoc
+	 */
 	protected function setUp()
 	{
 		parent::setUp();
-		
+
 		//prepare your stuff which is needed all the time here
 	}
-	
+
 	//create your unit test here
-	
+
 }
 ```
 #### Normal test
@@ -923,22 +855,22 @@ class FlySystemFileAccessTest extends TestCase {
 
 		//Act
 		$actualContent = $this->subject->read('/path/to/your/file');
-		
+
 		//Assert
 		$this->assertSame($fileContent, $actualContent);
 	}
 }
-``` 
+```
 
 #### Fat legacy class with parent
-Fat legacy classes especially in ILIAS extend each other to do some work. 
+Fat legacy classes especially in ILIAS extend each other to do some work.
 For example the ilObject2 has a create method which depends on the create method of the ilObject.
 The ilObject create method writes the data to the database which is not desirable in unit tests of ilObject2.
 Therefore ilObject should be replaced with a stub and ilObject2 should operate on that stub which has
 proper expectation in place to test the behaviour.
 
 This requires an autoload "hack" which loads the base class mock (ilObject) before the partial mock
-ilObject2 is created. Important is that all expectation are set on the ilObject mock before the 
+ilObject2 is created. Important is that all expectation are set on the ilObject mock before the
 ilObject2 instance is created otherwise the expectations have no effect.
 
 ```php
@@ -953,7 +885,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
  *
- * @runTestsInSeparateProcesses 
+ * @runTestsInSeparateProcesses
  * @preserveGlobalState    disabled
  * @backupGlobals          disabled
  * @backupStaticAttributes disabled
@@ -988,7 +920,7 @@ class ilObject2Test extends TestCase {
 
 		$this->assertSame($expectedId, $result);
 	}
-	
+
 	//test other cases ...
 }
 ```   
@@ -997,12 +929,12 @@ classes. This can be done with the *@runTestsInSeparateProcesses* annotation.
 
 #### Mock static calls
 In some situation it is necessary to mock an entire class due to static method access or a new call.
-Mockery provides a convenient way to load a class alias which replaces the class entirely. The following 
+Mockery provides a convenient way to load a class alias which replaces the class entirely. The following
 example illustrates mocking of static method calls to test the Stream class within the filesystem service.
 
-The concrete problem within the filesystem service was that, this service have to interact with php build in 
+The concrete problem within the filesystem service was that, this service have to interact with php build in
 functions to manipulate the underlying resource of the stream. PHP has no functionality to autoload functions,
-which makes them difficult to mock. The solution of the author was to wrap the PHP functions with a 
+which makes them difficult to mock. The solution of the author was to wrap the PHP functions with a
 helper class which can be replaced.
 
 ```php
@@ -1043,18 +975,18 @@ helper class which can be replaced.
 ```  
 The prefix *alias* before the class name tells mockery to load an empty class with the same name.
 Afterwards exceptions are placed on the empty mock alias. It is important that these tests must run in
-separate PHP processes because PHP has no functionality to unload classes. Therefore, a redefinition of 
+separate PHP processes because PHP has no functionality to unload classes. Therefore, a redefinition of
 a class would lead to a fatal error. PHPUnit has a build in function which does that. Every class which is
-annotated with *@runTestsInSeparateProcesses* will spawn a new PHP process for each unit test. 
+annotated with *@runTestsInSeparateProcesses* will spawn a new PHP process for each unit test.
 
 #### Fluent interfaces
 Fluent interfaces or long call chains might be easy to read and leverage but kind of hard to test because
 a lot of expectation have to be set on many mocks which are not really interesting for the test at all.
 PHPUnit has a feature which simplifies this process a lot.
 
-For example file upload test have to mock the http service. The http service has methods like request and response and subsequent methods 
+For example file upload test have to mock the http service. The http service has methods like request and response and subsequent methods
 to interact with them. To avoid to create unneeded expectations on the http mock the request mock is generated on the fly
-with the expectation set on it. The pattern is *{method name}->{method name}* the last method gets the actual expectations defined after the 
+with the expectation set on it. The pattern is *{method name}->{method name}* the last method gets the actual expectations defined after the
 *shouldReceive* call.
 
 ```php
@@ -1066,7 +998,7 @@ with the expectation set on it. The pattern is *{method name}->{method name}* th
 	 */
 	public function testRegisterWithProcessedFilesWhichShouldFail() {
 		$processorMock = \Mockery::mock(PreProcessor::class);
-		//create a request mock on the fly and set an expectation on it with the arrows (->). 
+		//create a request mock on the fly and set an expectation on it with the arrows (->).
 		$this->globalHttpStateMock->shouldReceive('request->getUploadedFiles')
 			->once()
 			->andReturn([]);
@@ -1092,11 +1024,11 @@ Classes should have one reason to change. Keep the classes small and single-purp
 ##### Open-Closed Principle (OCP)
 Classes should be design to be open for extension but closed for modification. The need to make changes to existing classes
 should be minimized.
-##### Liskov Substitution Principle (LSP) 
+##### Liskov Substitution Principle (LSP)
 Subtypes should be substitutable for their base types. From a clients perspective overriding methods should not break
 functionality.
 ##### Interface Segregation Principle (ISP)
-Clients should not be forced to depend on methods they don't use. Split a larger interface into 
+Clients should not be forced to depend on methods they don't use. Split a larger interface into
 a number of smaller interfaces.
 ##### Dependency Inversion Principal (DIP)
 High-level modules should not depend on low-level modules; both should depend on abstractions.
@@ -1108,13 +1040,13 @@ For example the classic way to use another class is:
 ```php
 <?php
 class Car {
-	
+
 	private $breaks;
-	
+
 	public function __construct() {
 		$this->breaks = new StandardBreaks();
 	}
-	
+
 	public function stop() { /* use the breaks ... */}
 }
 ```
@@ -1127,19 +1059,19 @@ In order to increase the testability the hardwired dependency has to be inverted
 - The Breaks will be passed to the Car at construction time. (The factories from Audi etc. do the same.)
 
 After these changes the car don't care about the actual implementation because it only depends on
-the breaks abstraction. This changes allows the car developers to finally test the class because the breaks can be 
+the breaks abstraction. This changes allows the car developers to finally test the class because the breaks can be
 exchanged at test time without hassle.
 
 ```php
 <?php
 class Car {
-	
+
 	private $breaks;
-	
+
 	public function __construct(Breaks $breaks) {
 		$this->breaks = $breaks;
 	}
-	
+
 	public function stop() { /* use the breaks ... */}
 }
 ```
@@ -1148,12 +1080,12 @@ The corresponding test class would look like this:
 ```php
 <?php
 use \PHPUnit\Framework\TestCase;
-use \Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration; 
+use \Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
 class CarTest extends TestCase {
-	
+
 	use MockeryPHPUnitIntegration;
-	
+
 	private $subject, $breaks;
 	/**
 	 * @inheritDoc
@@ -1161,13 +1093,13 @@ class CarTest extends TestCase {
 	protected function setUp()
 	{
 		parent::setUp();
-		
+
 		$this->breaks = Mockery::mock(Breaks::class);
 		$this->subject = new Car($this->breaks);
 	}
-	
+
 	/**
-	 * @test 
+	 * @test
 	 */
 	public function testStopCarWhileDriving() { /* use the breaks mock to verify behaviour ... */}
 }
@@ -1181,7 +1113,7 @@ The usage of service locators are even discouraged by the [PHP-FIG](http://www.p
 Services in the /src directory use the DIP to break dependencies and improve the testability and maintainability.
 
 #### Distinction between unit and integration tests
-In ILIAS there are a lot of test which test a bunch of classes together which is useful in its own 
+In ILIAS there are a lot of test which test a bunch of classes together which is useful in its own
 but these are no unit tests. Tests which combine multiple unit tested classes to test their behaviour when they
 actually work together are called integration tests.
 
@@ -1203,16 +1135,15 @@ actually work together are called integration tests.
 
 ## FAQ
 ### What needs to be tested ?
-Basically behaviour has be tested which is the smallest testable unit of a class.
-A class should be tested within an isolated environment without external dependencies like a database 
-or filesystem. New or refactored code should be unit tested.
-If something is updated the unit test must be updated as well.
+Basically behaviour has to be tested which is the smallest testable unit of a class.
+A class should be tested within an isolated environment without external dependencies like a database, filesystem or network.
+New or refactored code should be unit tested. If something is updated the unit test must be updated as well.
 
 ### How is a local test environment set up ?
-Please refer to the chapter "Setup test environment". 
+Please refer to the chapter "Setup test environment".
 
 ### How do I start the ILIAS unit tests in PHPStorm ?
-Please refer to the chapter "Run tests with PHPStorm". 
+Please refer to the chapter "Run tests with PHPStorm".
 
 ### How do I start the ILIAS unit tests in CLI ?
 Please refer to the chapter "Run tests with CLI".
@@ -1221,7 +1152,7 @@ Please refer to the chapter "Run tests with CLI".
 Please refer to the chapter "Directory structure" within the guidelines.
 
 ### What is the ILIAS CI-Server and how can I benefit from it in terms of unit tests ?
-The ILIAS continues integration server provides a clean supported environment to run different tests against 
+The ILIAS continues integration server provides a clean supported environment to run different tests against
 the latest ILIAS version.
 
 Currently there are three different test suites:
@@ -1230,8 +1161,8 @@ Currently there are three different test suites:
 - ILIAS static code analysis (done with Dicto.php)
 
 There are several benefits, first the tests are running in clean defined environment carefully monitored
-and maintained by the community, second all developer are informed about the actual condition of ILIAS which 
-allows to react fast to emerging problems. 
+and maintained by the community, second all developer are informed about the actual condition of ILIAS which
+allows to react fast to emerging problems.
 
 ### What do I need to consider concerning unit tests before pushing code to the ILIAS repo ?
 - Are the unit test in the correct location ?
@@ -1241,4 +1172,3 @@ allows to react fast to emerging problems.
 - Are they requiring ILIAS ? If yes remove them.
 - Run the test, the red ones must be fixed for the modified service / module.
 - Create / update tests for the modified and new parts of the service / module.  
-
