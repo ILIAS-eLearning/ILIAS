@@ -1557,8 +1557,8 @@ assessment#:#saved_adjustment#:#Veränderung gespeichert.
 assessment#:#sign_submission#:#Digitale Signatur
 assessment#:#sign_submission_info#:#Das Signatur-Plugin muss installiert und aktiviert sein, damit Teilnehmer aufgefordert werden, ihre Testabgabe zu signieren.
 assessment#:#preserve_manscoring#:#Manuelle Bewertungen erhalten
-assessment#:#preserve_manscoring_info#:#Aufgrund von Veränderungen in der Fragebewertung kann es erforderlich sein, bislang erfolgte manuelle Bewertungen zu verwerfen. Dieser Schalter gestattet die Entwertung ALLER manuellen Bewertungen in einem Test und sollte nur in Ausnahmefällen genutzt werden. 
-assessment#:#tst_qst_added_to_pool_s#:#Die Frage wurde erfolgreich in den Fragenpool übernommen. 
+assessment#:#preserve_manscoring_info#:#Aufgrund von Veränderungen in der Fragebewertung kann es erforderlich sein, bislang erfolgte manuelle Bewertungen zu verwerfen. Dieser Schalter gestattet die Entwertung ALLER manuellen Bewertungen in einem Test und sollte nur in Ausnahmefällen genutzt werden.
+assessment#:#tst_qst_added_to_pool_s#:#Die Frage wurde erfolgreich in den Fragenpool übernommen.
 assessment#:#tst_qst_added_to_pool_p#:#Die Fragen wurden erfolgreich in den Fragenpool übernommen.
 auth#:#auth_account_code#:#Code
 auth#:#auth_account_code_info#:#Um Ihr Benutzerkonto zu reaktivieren, können Sie einen ILIAS-Benutzerkonten-Code benutzen.
@@ -9038,6 +9038,7 @@ survey#:#values#:#Werte
 survey#:#vertical#:#vertikal
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#workingtime#:#Bearbeitungsdauer
+survey#:#wrong_categories_selected_for_insert#:#ILIAS konnte die geplante Aktion nicht durchführen. Bitte stellen Sie sicher, dass nur genau eine Antwort als Zielposition ausgewählt wurde!###deprecated
 survey#:#wrong_survey_code_used#:#Kein Zugriff auf die Umfrage. Ihr Zugangsschlüssel ist ungültig oder wurde bereits verwendet.
 tagging#:#tagging_all_users#:#Alle Benutzer
 tagging#:#tagging_edit_settings#:#Einstellungen
@@ -14204,3 +14205,31 @@ crs#:#crs_mail_context_invitation_title#:#Einladungsmail an Kurs-Mitglieder
 crs#:#crs_mail_context_invitation_info#:#Einladungsmail für die Mitglieder eines Kurses.
 crs#:#crs_mail_context_automatic_title#:#Automatische Mail an Kurs-Mitglieder
 crs#:#crs_mail_context_automatic_info#:#Weitere, automatische Mails im Kontext des Kurses (Austritt, Absage, Storno, etc.)
+common#:#training_search#:#Trainingssuche
+tms#:#header#:#Trainingssuche
+tms#:#available_slots#:#freie Plätze
+tms#:#target_groups#:#Zielgruppen
+tms#:#goals#:#Ziele und Nutzen
+tms#:#topics#:#Trainingsthemen
+tms#:#detail_information#:#Details
+tms#:#location#:#Ort
+tms#:#date#:#Datum
+tms#:#fee#:#Kosten
+tms#:#book_course#:#Buchen
+tms#:#title#:#Titel
+tms#:#type#:#Trainingstyp
+tms#:#topic#:#Trainingsthema
+tms#:#target_group#:#Zielgruppe
+tms#:#city#:#Ort
+tms#:#provider#:#Anbieter
+tms#:#duration#:#Zeitraum
+tms#:#not_min_member#:#Nur Trainings anzeigen, deren Mindestteilnehmerzahl noch nicht erreicht wurde.
+tms#:#filter#:#Erweiterte Suche
+tms#:#search#:#Suchen
+tms#:#booking_aborted#:#Ihr Buchungsvorgang wurde abgebrochen.
+common#:#cockpit#:#Cockpit
+tms#:#no_detail_infos#:#<strong><i>Es liegen keine weiteren Informationen zu diesem Angebot vor.</i></strong>
+tms#:#overview_header#:#Zusammenfassung
+tms#:#no_trainings_available#:#Derzeit stehen für Sie keine Trainings zur Buchung zur Verfügung.
+tms#:#waitinglist#:#Warteliste
+tms#:#member#:#Teilnehmer

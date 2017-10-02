@@ -467,12 +467,9 @@ class ilMainMenuGUI
 		// personal desktop
 		if ($GLOBALS['DIC']['ilUser']->getId() != ANONYMOUS_USER_ID)
 		{
-			// $this->renderEntry($a_tpl, "desktop",
-			// 	$lng->txt("personal_desktop"), "#");
-
 			$link = $this->ctrl->getLinkTargetByClass(
 				array("ilPersonalDesktopGUI", "ilTrainingSearchGUI"),
-				"show",
+				"",
 				"",
 				false,
 				false
@@ -480,6 +477,30 @@ class ilMainMenuGUI
 
 			$this->renderEntry($a_tpl, "training_search",
 				$lng->txt("training_search"), $link);
+
+			require_once("Services/Component/classes/class.ilPluginAdmin.php");
+			if(ilPluginAdmin::isPluginActive('cockpit')) {
+				$plugin = ilPluginAdmin::getPluginObjectById('cockpit');
+				$basic_links = $plugin->getActions()->read();
+				$link = null;
+
+				foreach($basic_links as $basic_link) {
+					$ref_id = $basic_link->getRefId();
+					if($ilAccess->checkAccess('visible','', $ref_id)
+						&& $ilAccess->checkAccess('read','', $ref_id)
+					) {
+						include_once('./Services/Link/classes/class.ilLink.php');
+						$link = ilLink::_getStaticLink($ref_id);
+						$link .= "&cockpit";
+						break;
+					}
+				}
+
+				if($link !== null) {
+					$this->renderEntry($a_tpl, "training_search",
+					$lng->txt("cockpit"), $link);
+				}
+			}
 		}
 		// cat-tms-patch end
 
