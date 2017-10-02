@@ -38,15 +38,14 @@ class ilAssExcelFormatHelper extends ilExcel
 	 */
 	public function setCellByCoordinates($a_coords, $a_value)
 	{
-		if(is_string($a_value) && $a_value{0} == '=')
+		if(is_string($a_value) && !is_numeric($a_value))
 		{
-			$cell = $this->workbook->getActiveSheet()->setCellValueExplicit(
+			$this->workbook->getActiveSheet()->setCellValueExplicit(
 				$a_coords,
 				$this->prepareValue($a_value),
 				PHPExcel_Cell_DataType::TYPE_STRING,
 				true
 			);
-			$this->setDateFormat($cell, $a_value);
 		}
 		else
 		{
@@ -59,16 +58,15 @@ class ilAssExcelFormatHelper extends ilExcel
 	 */
 	public function setCell($a_row, $a_col, $a_value)
 	{
-		if(is_string($a_value) && $a_value{0} == '=')
+		if(is_string($a_value) && !is_numeric($a_value))
 		{
-			$cell = $this->workbook->getActiveSheet()->setCellValueExplicitByColumnAndRow(
+			$this->workbook->getActiveSheet()->setCellValueExplicitByColumnAndRow(
 				$a_col,
 				$a_row,
 				$this->prepareValue($a_value),
 				PHPExcel_Cell_DataType::TYPE_STRING,
 				true
 			);
-			$this->setDateFormat($cell, $a_value);
 		}
 		else
 		{
