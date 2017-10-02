@@ -701,25 +701,6 @@ interface Factory {
 	 *     1: TBD
 	 *
 	 * ---
-	 * @return  \ILIAS\UI\Component\Form\Factory
-	 */
-	public function form();
-
-	/**
-	 * ---
-	 * description:
-	 *   purpose: >
-	 *      TBD
-	 *   composition: >
-	 *      TBD
-	 *   effect: >
-	 *      TBD
-	 *
-	 * rules:
-	 *   wording:
-	 *     1: TBD
-	 *
-	 * ---
 	 * @return  \ILIAS\UI\Component\Input\Factory
 	 */
 	public function input();

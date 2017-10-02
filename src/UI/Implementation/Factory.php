@@ -181,14 +181,6 @@ class Factory implements \ILIAS\UI\Factory
 	/**
 	 * @inheritdoc
 	 */
-	public function form()
-	{
-		return new Component\Form\Factory();
-	}
-
-	/**
-	 * @inheritdoc
-	 */
 	public function input()
 	{
 		return new Component\Input\Factory();
