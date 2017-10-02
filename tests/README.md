@@ -695,7 +695,7 @@ class ButtonFactoryTest extends AbstractFactoryTest {
 	 * @small
 	 */
 	public function test_creation_of_standard_button() {
-	$this->assertInstanceOf
+		$this->assertInstanceOf
 				( Standard::class
 				, $this->subject->standard("label", "http://www.ilias.de")
 				);
@@ -805,7 +805,7 @@ class ButtonTest extends ILIAS_UI_TestBase {
 	
 	/**
 	 * @test
-     * @small
+	 * @small
 	 */
 	public function test_button_creation_with_invalid_argument_which_should_fail() {
 		
