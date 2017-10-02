@@ -41,7 +41,6 @@ class NoUIFactory implements Factory {
 	public function viewControl() {}
 	public function breadcrumbs(array $crumbs) {}
 	public function chart() {}
-	public function form() {}
 	public function input() {}
 }
 
