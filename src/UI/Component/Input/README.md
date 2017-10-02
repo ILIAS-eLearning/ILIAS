@@ -43,6 +43,60 @@ as two things, glued together:
 * The look of the field, which is defined by the renderer belonging to the field
   in the same way as this is defined for other UI components. Most of the methods
   in the `Input`-interface account to that part of the model.
+* The content of the field, which is roughly the thing the user supplied to the
+  input field, but in a more abstract way.
+
+Since the first part is similar to other UI components, we focus on the second
+part. The `field`-model allows developers to talk about the input of users
+without knowing the actual value the user supplied, which together with
+`Transformation` and `Constraint` is a powerful abstraction to compose forms.
+
+Think of the input as a box containing a value, but do not have the key to the
+box, so you cannot open it to inspect the value:
+
+```
+*---*
+|   |
+| ? |
+|   |
+*---*
+```
+
+You still have the possibility to modify that value by applying a transformation
+to it via `withAdditionalTransformation`:
+
+```
+*---*                                      *------*
+|   |                                      |      |
+| ? |->withAdditionalTransformation(f) =>  | f(?) |
+|   |                                      |      |
+*---*                                      *------*
+```
+
+The box now contains another value, i.e. the (still unknown) value one would
+get after applying the known transformation to the previous (unknown) value.
+It is of course possible to stack multiple transformation onto each other.
+
+One also could define constraints the value needs to define via `withAdditionalConstraint`.
+The constraints are the interleaved with the transformations in the order
+they were defined:
+
+```
+*---*
+|   |
+| ? |->withAdditionalTransformation(f)->withAdditionalContraint(c)->withAdditionalTransformation(g)
+|   |
+*---*
+
+   *------------*
+   |            |
+=> | g(c(f(?))) |
+   |            |
+   *------------*
+```
+
+The facility to fill in the yet unknown value `?` with client input then belongs
+to the container which will be explained in the following.
 
 ## Containers
 
