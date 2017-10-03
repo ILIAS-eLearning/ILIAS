@@ -129,19 +129,25 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel {
 	 * @param $value
 	 */
 	public function setProperty($key, $value) {
+		$is_update = $this->getProperty($key);
 		switch ($key) {
 			case static::PROP_SELECTION_OPTIONS:
+
 				ilDclSelectionOption::flushOptions($this->getId());
 				$sorting = 1;
 				foreach ($value as $id => $val) {
 					ilDclSelectionOption::storeOption($this->getId(), $id, $sorting, $val);
 					$sorting++;
 				}
-				$this->reorderExistingValues();
+				// if the field is not being created reorder the options in the existing record fields
+				if ($is_update) {
+					$this->reorderExistingValues();
+				}
 				break;
 			case static::PROP_SELECTION_TYPE:
 				$will_be_multi = ($value == self::SELECTION_TYPE_MULTI);
-				if ($this->getProperty($key) && ($this->isMulti() && !$will_be_multi || !$this->isMulti() && $will_be_multi)) {
+				// if the "Multi" property has changed, adjust the record field values
+				if ($is_update && ($this->isMulti() && !$will_be_multi || !$this->isMulti() && $will_be_multi)) {
 					$this->multiPropertyChanged($will_be_multi);
 				}
 				parent::setProperty($key, $value)->store();
@@ -179,7 +185,9 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel {
 
 
 	/**
-	 * @param $new_value
+	 * changes the values of all record fields, since the property "multi" has changed
+	 *
+	 * @param $is_multi_now
 	 */
 	protected function multiPropertyChanged($is_multi_now) {
 		foreach (ilDclCache::getTableCache($this->getTableId())->getRecords() as $record) {
