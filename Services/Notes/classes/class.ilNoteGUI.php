@@ -1664,24 +1664,31 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 	/**
 	 * Init javascript
 	 */
-	static function initJavascript($a_ajax_url, $a_type = IL_NOTE_PRIVATE)
+	static function initJavascript($a_ajax_url, $a_type = IL_NOTE_PRIVATE, ilTemplate $a_main_tpl = null)
 	{
 		global $DIC;
 
-		$tpl = $DIC["tpl"];
+		if ($a_main_tpl != null)
+		{
+			$tpl = $a_main_tpl;
+		}
+		else
+		{
+			$tpl = $DIC["tpl"];
+		}
 		$lng = $DIC->language();
 
 		$lng->loadLanguageModule("notes");
 
 		include_once("./Services/UIComponent/Modal/classes/class.ilModalGUI.php");
-		ilModalGUI::initJS();
+		ilModalGUI::initJS($tpl);
 
-		$lng->toJs(array("private_notes", "notes_public_comments"));
+		$lng->toJs(array("private_notes", "notes_public_comments"), $tpl);
 
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
-		ilYuiUtil::initPanel();
+		ilYuiUtil::initPanel(false, $tpl);
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
-		iljQueryUtil::initjQuery();
+		iljQueryUtil::initjQuery($tpl);
 		$tpl->addJavascript("./Services/Notes/js/ilNotes.js");
 
 		$tpl->addOnLoadCode("ilNotes.setAjaxUrl('".$a_ajax_url."');");

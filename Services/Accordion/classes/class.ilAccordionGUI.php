@@ -331,18 +331,24 @@ class ilAccordionGUI
 	/**
 	* Add javascript files that are necessary to run accordion
 	*/
-	static function addJavaScript()
+	static function addJavaScript(ilTemplate $main_tpl = null)
 	{
 		global $DIC;
 
-		$tpl = $DIC["tpl"];
-
+		if ($main_tpl != null)
+		{
+			$tpl = $main_tpl;
+		}
+		else
+		{
+			$tpl = $DIC["tpl"];
+		}
 
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
-		ilYuiUtil::initConnection();
+		ilYuiUtil::initConnection($tpl);
 
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
-		iljQueryUtil::initjQueryUI();
+		iljQueryUtil::initjQueryUI($tpl);
 
 		foreach (self::getLocalJavascriptFiles() as $f)
 		{
