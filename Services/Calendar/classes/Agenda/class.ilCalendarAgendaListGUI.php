@@ -300,8 +300,15 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 
 		$comps = array_merge($modals, array($list));
 
-		return $this->ui_renderer->render($comps);
+		$html =  $this->ui_renderer->render($comps);
 
+		if (count($groups) == 0)
+		{
+			$tpl = $this->ui->mainTemplate();
+			$html.= $tpl->getMessageHTML($this->lng->txt("cal_no_events_info"));
+		}
+
+		return $html;
 	}
 
 	/**
