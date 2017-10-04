@@ -118,6 +118,21 @@ Please make sure to add the xdebug extension to one of your php.ini files.
 #### Run the tests
 Select the test in the top right corner and press the play button to let the global suite run.
 
+#### Configure ILIAS bound tests
+The ILIAS bound test uses a configuration located in {ILIAS root}/Services/PHPUnit/config/cfg.phpunit.php. If the file doesn't exist the template
+file must be copied and configured as shown bellow. The location of the template
+file is {ILIAS root}/Services/PHPUnit/config/cfg.phpunit.template.php.
+
+Rename the template *cfg.phpunit.template.php* to *cfg.phpunit.php*.
+
+```
+$_SESSION["AccountId"] = '6';
+$_POST["username"] = 'admin';
+$_GET["client_id"] = 'default';
+```
+
+The values should be set accordingly to the ILIAS setup.
+
 #### Exclude ILIAS bound tests
 - Navigate to "Run -> Edit Configurations..."
 - Select your PHPUnit run configuration
@@ -215,6 +230,24 @@ WAC/
                    |
                    -----> SecurePath
 ```
+
+##### Collector ilGlobalSuite
+The old part of the global test suite searches the code in the Service and Module
+directory. Afterwards it loops over each directory and searches after a nested folder
+named test. The test suite must be named accordingly to be found by the global suite.
+
+For module test suites the following pattern is applied:
+
+```
+ilModule{Module name}Suite.php
+```
+
+For service test suites the following pattern is applied:
+
+```
+ilService{Service name}Suite.php
+```
+
 #### New parts (/src)
 The test source for the new parts of ILIAS are located in the *tests* directory,
 which is located in the web root directory of ILIAS. The structure should be the same
@@ -242,6 +275,12 @@ than the *src* directory where the actual implementation lives.
       |
       ------> <other services>/
 ```
+
+##### Collector ilGlobalSuite
+The new tests are loaded from the *tests* directory which is located at the ILIAS web root. Each class which extends the *PHPUnit_Framework_TestCase* is loaded as test class.
+
+The new collector part must be updated with the PHPUnit 6 migration because the *TestCase* class no longer extends the legacy class *PHPUnit_Framework_TestCase*.
+The legacy class *PHPUnit_Framework_TestCase* will be entirely removed with PHPUnit 6.
 
 ### Unit-Test structure
 Each unit test is usually structured into three parts: arrange, act and assert. This are also known as
@@ -376,7 +415,7 @@ goes wrong within a system.
 #### Range
 The the 64bit integer of PHP has far more capacity than needed. For example the age of a dog will never exceed a certain point, however if something went wrong the dog gets 2 pow 64 years old.
 
-The excessive use of primitives is known as a code smell known as *primitive obsession*. One of the primal benefit of PHP is that data can be abstracted with its own logic. For example a dog has at most four legs and its age is between 1 second and 30 years.  
+The excessive usage of primitives is known as a code smell with the name *primitive obsession*. One of the primal benefit of PHP is that data can be abstracted with its own logic. For example a dog has at most four legs and its age is between 1 second and 30 years.  
 
 To abstract these values and test the constraints of the abstraction makes the rest of the application more resistant again such errors.
 
