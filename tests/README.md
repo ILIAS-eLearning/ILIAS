@@ -194,7 +194,7 @@ on the market which describe modern unit testing with PHPUnit.
 
 ### Naming
 "Rework test names and code to tell stories." (Langr 2015)
-This means to treat the test as a specification which tells everything
+This means to treat the tests as a specification which tells everything
 about the behaviours of a class.
 
 #### Class
@@ -212,6 +212,16 @@ Some good, more descriptive names have the following forms:
 - doingSomeOperationGeneratesSomeResult
 - someResultOccursUnderSomeCondition
 - whenDoingSomeBehaviourThenSomeResultOccurs
+
+##### Current state
+The style how methods are named in the tests are different the most common two
+are lower camel case and snake case.
+
+###### Proposal
+A more or less recent study has shown that *snake_case* and *CamelCase* provide the same readability.
+However the new class names in ILIAS are *CamelCase* and the old ones *lowerCamelCase*.
+Therefore, the new test methods should be written in lower camel case to match the
+camel case class names in a more consistent way.
 
 #### Further improvements
 If the test code is still hard to understand following improvements could be made after
