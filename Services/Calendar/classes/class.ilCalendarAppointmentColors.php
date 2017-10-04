@@ -110,8 +110,15 @@ class ilCalendarAppointmentColors
 	{
 		$cat_id = $this->cat_app_ass[$a_cal_id];
 		$cat_id = $this->cat_substitutions[$cat_id];
-		
-		return isset($this->appointment_colors[$cat_id]) ? $this->appointment_colors[$cat_id] : 'red';
+
+		#21078
+		if(isset($this->appointment_colors[$cat_id])) {
+			return $this->appointment_colors[$cat_id];
+		} else if(isset($this->cat_substitutions_colors[$cat_id])) {
+			return $this->cat_substitutions_colors[$cat_id];
+		} else {
+			return 'red';
+		}
 	}
 	
 	/**
@@ -137,6 +144,8 @@ class ilCalendarAppointmentColors
 				
 			}
 			$this->cat_substitutions[$c_data['cat_id']] = $c_data['cat_id'];
+			#21078
+			$this->cat_substitutions_colors[$c_data['cat_id']] = $c_data['color'];
 		}
 		
 		$query = "SELECT cat.cat_id,cat.color, ass.cal_id  FROM cal_categories cat ".
