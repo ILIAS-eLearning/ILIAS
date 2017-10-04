@@ -32,7 +32,9 @@ class ilOverlayGUI
 	{
 		global $DIC;
 
-		$this->tpl = $DIC["tpl"];
+		// please check learning modules (e.g. rating) before removing this globals
+		// use (they do not use standard template)
+		$this->tpl = $GLOBALS["tpl"];
 		$this->overlay_el_id = $a_overlay_el_id;
 	}
 
@@ -194,10 +196,10 @@ class ilOverlayGUI
 	{
 		global $DIC;
 
-		$tpl = $DIC["tpl"];
+		$tpl = $GLOBALS["tpl"];
 		
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
-		ilYuiUtil::initOverlay();
+		ilYuiUtil::initOverlay($tpl);
 		$tpl->addJavascript("./Services/UIComponent/Overlay/js/ilOverlay.js");
 	}
 	

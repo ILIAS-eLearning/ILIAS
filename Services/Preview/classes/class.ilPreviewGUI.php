@@ -372,7 +372,7 @@ class ilPreviewGUI
 		
 		// load qtip
 		include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
-		ilTooltipGUI::initLibrary();
+		ilTooltipGUI::init();
 		
 		// needed scripts & styles
 		$tpl->addJavaScript("./libs/bower/bower_components/jquery-mousewheel/jquery.mousewheel.js");

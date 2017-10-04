@@ -1024,6 +1024,7 @@ class ilMainMenuGUI
 		$tpl = $this->tpl;
 		$ilSetting = $this->settings;
 		$ilUser = $this->user;
+		$main_tpl = $this->main_tpl;
 
 		// screen id
 		if ((defined("OH_REF_ID") && OH_REF_ID > 0) || DEVMODE == 1)
@@ -1053,10 +1054,10 @@ class ilMainMenuGUI
 			//$this->tpl->setCurrentBlock("help_icon");
 
 			// add javascript needed by help (to do: move to help class)
-			$tpl->addJavascript("./Services/Help/js/ilHelp.js");
+			$main_tpl->addJavascript("./Services/Help/js/ilHelp.js");
 			include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
 			$acc = new ilAccordionGUI();
-			$acc->addJavascript();
+			$acc->addJavascript($main_tpl);
 			$acc->addCss();
 
 			include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
@@ -1072,7 +1073,7 @@ class ilMainMenuGUI
 			$help_active = true;
 			
 			$lng->loadLanguageModule("help");
-			$tpl->addJavascript("./Services/Help/js/ilHelp.js");
+			$main_tpl->addJavascript("./Services/Help/js/ilHelp.js");
 
 			include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
 			ilTooltipGUI::addTooltip("help_tt", $lng->txt("help_toggle_tooltips"), "",
@@ -1167,6 +1168,10 @@ class ilMainMenuGUI
 	protected function renderBackgroundTasks()
 	{
 		global $DIC;
+
+		$main_tpl = $this->main_tpl;
+
+
 		$DIC->language()->loadLanguageModule("background_tasks");
 		$factory = $DIC->ui()->factory();
 		$persistence = $DIC->backgroundTasks()->persistence();
@@ -1202,7 +1207,7 @@ class ilMainMenuGUI
 		                 ->withCounter($factory->counter()->novelty($numberOfUserInteractions))
 		                 ->withCounter($factory->counter()->status($numberOfNotUserInteractions));
 
-		$DIC['tpl']->addJavascript('./Services/BackgroundTasks/js/background_task_refresh.js');
+		$main_tpl->addJavascript('./Services/BackgroundTasks/js/background_task_refresh.js');
 
 		$this->tpl->setVariable('BACKGROUNDTASKS',
 			$DIC->ui()->renderer()->render([$glyph, $popover])

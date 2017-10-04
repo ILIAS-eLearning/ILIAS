@@ -463,7 +463,7 @@ class ilDclTable {
 			}
 			$this->fields = $fields;
 
-			ilDclCache::preloadFieldProperties(array_keys($fields));
+			ilDclCache::preloadFieldProperties($fields);
 		}
 	}
 

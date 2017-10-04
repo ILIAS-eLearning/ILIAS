@@ -74,8 +74,19 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
   
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
-
 		
+		if(
+			!$this->getCreationMode() &&
+			$GLOBALS['DIC']->access()->checkAccess('read','', $_GET['ref_id'])
+		)
+		{
+			$GLOBALS['DIC']['ilNavigationHistory']->addItem(
+				(int) $_GET['ref_id'],
+				ilLink::_getLink((int) $_GET['ref_id'], 'sess'),
+				'sess'
+			);
+		}
+
 		$this->prepareOutput();
   		switch($next_class)
 		{
