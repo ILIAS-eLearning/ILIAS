@@ -184,8 +184,18 @@ The commands bellow must be run from the ILIAS web root directory.
 
 ## Guidelines
 
+### Foreword
+May the reader is asking him self why this guidelines refer to a book
+which writes about JUnit testing in Java 8.
+
+The reason for this is that unit testing in his very nature is the same in
+every language. The second reason is that no recently written books are
+on the market which describe modern unit testing with PHPUnit.
+
 ### Naming
 "Rework test names and code to tell stories." (Langr 2015)
+This means to treat the test as a specification which tells everything
+about the behaviours of a class.
 
 #### Class
 The filename of the test class should always be named like *\<class name of the implementation\>Test.php*.
