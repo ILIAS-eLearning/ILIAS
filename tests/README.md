@@ -473,6 +473,9 @@ public function testPlaneLandingWithExpandedWheelsWhichShouldSucceed() {
 }
 ```
 
+A fun fact of this unit test, if the *expandWheels* method is not behaving well in case of failure
+and just ignores the fact that the wheels can't be used. The plane would crash and the speed would also equals zero. Therefore, a green unit test is displayed, the plane landed but not as expected! However if the class is fully tested some or at least one of the *expandWheels* tests will fail and the error is easily spotted and fixed.
+
 #### Existence
 A potentially large sum of defects could be discovered by asking the question "Does something given exist?" For a method which has parameters
 or accessing fields should be thought about if they can be null and how the code should behave in such a case.
