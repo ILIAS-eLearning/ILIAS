@@ -190,8 +190,8 @@ class ilWebAccessChecker {
 		try {
 			ilWACLog::getInstance()->write('init ILIAS');
 			ilInitialisation::initILIAS();
-			$this->checkPublicSection();
 			$this->checkUser();
+			$this->checkPublicSection();
 		} catch (Exception $e) {
 			if ($e instanceof ilWACException
 			    && $e->getCode() !== ilWACException::ACCESS_DENIED_NO_LOGIN) {
@@ -200,6 +200,8 @@ class ilWebAccessChecker {
 			if (($e instanceof Exception && $e->getMessage() == 'Authentication failed.')
 			    || $e->getCode() === ilWACException::ACCESS_DENIED_NO_LOGIN) {
 				$this->initAnonymousSession();
+				$this->checkUser();
+				$this->checkPublicSection();
 			}
 		}
 		$this->setInitialized(true);
@@ -207,9 +209,13 @@ class ilWebAccessChecker {
 
 
 	protected function checkPublicSection() {
-		global $ilSetting, $ilUser;
-		if (!$ilSetting instanceof ilSetting || ($ilUser->getId() == ANONYMOUS_USER_ID && !$ilSetting->get('pub_section'))) {
-			ilWACLog::getInstance()->write('public section not activated');
+		global $DIC;
+		$is_anonymous = ((int)$DIC->user()->getId() === (int)ANONYMOUS_USER_ID);
+		$is_null_user = ($DIC->user()->getId() === 0);
+		$pub_section_activated = (bool)$DIC['ilSetting']->get('pub_section');
+		$isset = isset($DIC['ilSetting']);
+		$instanceof = $DIC['ilSetting'] instanceof ilSetting;
+		if (!$isset || !$instanceof || (!$pub_section_activated && ($is_anonymous || $is_null_user))) {
 			throw new ilWACException(ilWACException::ACCESS_DENIED_NO_PUB);
 		}
 	}
@@ -443,7 +449,5 @@ class ilWebAccessChecker {
 		$ilAuthSession->setUserId($a_id);
 		$ilAuthSession->setAuthenticated(false, $a_id);
 		$DIC->user()->setId($a_id);
-		$this->checkPublicSection();
-		$this->checkUser();
 	}
 }
