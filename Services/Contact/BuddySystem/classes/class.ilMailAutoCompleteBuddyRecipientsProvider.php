@@ -15,8 +15,6 @@ class ilMailAutoCompleteBuddyRecipientsProvider extends ilMailAutoCompleteUserPr
 	{
 		$joins = array();
 
-		$this->user_id;
-
 		$joins[] = '
 			INNER JOIN buddylist
 			ON (
