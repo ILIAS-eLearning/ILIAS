@@ -247,7 +247,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 			
 			if( !$this->questionOBJ->isAdditionalContentEditingModePageObject() )
 			{
-				$areaInp->setValue(	ilUtil::prepareTextareaOutput($questionHint->getText(), true) );
+				$areaInp->setValue($questionHint->getText());
 			}
 			
 			$numInp->setValue($questionHint->getPoints());
