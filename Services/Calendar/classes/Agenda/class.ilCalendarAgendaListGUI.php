@@ -35,6 +35,11 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 	 * @var int
 	 */
 	protected $period = self::PERIOD_WEEK;
+	
+	/**
+	 * @var ilDate
+	 */
+	protected $period_end_day = null;
 
 	/**
 	 * @var string
@@ -61,11 +66,11 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 
 		$get_seed = $qp["seed"];
 
-		$this->seed = new ilDate($get_seed." 00:00:00", IL_CAL_DATE);
+		$this->seed = new ilDate($get_seed, IL_CAL_DATE);
 
 		$this->ctrl->setParameterByClass("ilcalendarinboxgui","seed",$this->seed->get(IL_CAL_DATE));
 
-		$end_date = new ilDate($get_seed." 00:00:00", IL_CAL_DATETIME);
+		$end_date = new ilDate($get_seed, IL_CAL_DATE);
 
 		switch ($this->period)
 		{
@@ -137,6 +142,8 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 		$groups = array();
 		$modals = array();
 		$group_date = new ilDate(0, IL_CAL_UNIX);
+		$end_day = new ilDate($this->period_end_day,IL_CAL_DATE);
+		$end_day->increment(ilDateTime::DAY,-1);
 		foreach ($events as $e)
 		{
 			if($e['event']->isFullDay())
@@ -161,6 +168,17 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 			{
 				continue;
 			}
+			
+			if(ilDateTime::_after(
+				$begin,
+				$end_day,
+				ilDateTime::DAY,
+				$GLOBALS['DIC']->user()->getTimezone())
+			)
+			{
+				break;
+			}
+				
 			
 			// initialize group date for first iteration
 			if($group_date->isNull())
@@ -267,10 +285,13 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 
 		$actions = $this->ui_factory->dropdown()->standard($items)->withLabel($this->lng->txt("days"));
 
-		$list_title = $this->lng->txt("cal_agenda").": ".ilDatePresentation::formatDate(new ilDate($this->seed->get(IL_CAL_DATE), IL_CAL_DATE));
+		$list_title = 
+			$this->lng->txt("cal_agenda").": ".ilDatePresentation::formatDate(new ilDate($this->seed->get(IL_CAL_DATE), IL_CAL_DATE));
 		if ($this->period != self::PERIOD_DAY)
 		{
-			$list_title.= " - ".ilDatePresentation::formatDate(new ilDate($this->period_end_day, IL_CAL_DATE));
+			$end_day = new ilDate($this->period_end_day, IL_CAL_DATE);
+			$end_day->increment(ilDateTime::DAY, -1);
+			$list_title.= " - ".ilDatePresentation::formatDate($end_day);
 		}
 
 		$list = $this->ui_factory->panel()->listing()->standard($list_title, $groups)

@@ -157,7 +157,7 @@ class ilDateTime
 	{
 		if($start->isNull() || $end->isNull())
 		{
-			return;
+			return false;
 		}
 		
 		switch($a_compare_field)
@@ -231,7 +231,7 @@ class ilDateTime
 	{
 		if($start->isNull() || $end->isNull())
 		{
-			return;
+			return false;
 		}
 		
 		switch($a_compare_field)
