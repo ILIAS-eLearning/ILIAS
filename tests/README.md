@@ -215,6 +215,7 @@ the test have more meaningful names.
 #### Old parts
 Each module / service has its own test folder which should have the same structure as the classes directory.
 For example:
+
 ```
 WAC/
 |
@@ -252,6 +253,7 @@ ilService{Service name}Suite.php
 The test source for the new parts of ILIAS are located in the *tests* directory,
 which is located in the web root directory of ILIAS. The structure should be the same
 than the *src* directory where the actual implementation lives.
+
 ```
 <webroot>/
 |
@@ -966,8 +968,26 @@ class ilObject2Test extends TestCase {
 	//test other cases ...
 }
 ```   
-In cases as shown above, each test has to be run in a separate PHP process because of the specially loaded
-classes. This can be done with the *@runTestsInSeparateProcesses* annotation.
+In cases as shown above, each test has to be run in a separate PHP process because of the specially loaded classes. This can be done with the *@runTestsInSeparateProcesses* annotation.
+
+##### Partial mocks
+On the line with the suspicious looking string concatenation of the class name with
+empty brackets:
+
+```
+$this->subject = Mockery::mock(ilObject2::class . '[]', []);
+```
+
+This is directly creating a partial mock without any mocked methods. That is
+useful to test abstract classes without an actual implementation. The second parameter
+is used to pass additional constructor arguments.
+
+##### Class overload
+The string concatenation with overload string and the classname tells mockery to replace the class. This is possible with an autoloader trick which loads the mock class instead of the real implementation.
+
+```
+$this->subjectParent = Mockery::mock('overload:' . ilObject::class);
+```
 
 #### Mock static calls
 In some situation it is necessary to mock an entire class due to static method access or a new call.
