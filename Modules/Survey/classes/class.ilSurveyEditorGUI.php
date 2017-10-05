@@ -1317,12 +1317,17 @@ class ilSurveyEditorGUI
 		$ilToolbar = $this->toolbar;
 		
 		$this->questionsSubtabs("print");
-			
-		if(!isset($_POST["export_label"]))
-		{
+
+		#21023 and #19448
+		if(!$current_title = (int) $_REQUEST['export_label']) {
+			$current_title = $this->object->getShowQuestionTitles();
+		}
+		/*if(!isset($_POST["export_label"]))
+		{fir
 			$_POST["export_label"] = $this->object->getShowQuestionTitles();
 		}
 		$current_title = (int)$_REQUEST["export_label"];
+		*/
 		
 		include_once "Services/Form/classes/class.ilSelectInputGUI.php";
 		$label = new ilSelectInputGUI($this->lng->txt("title")."/".$this->lng->txt("label"), "export_label");
