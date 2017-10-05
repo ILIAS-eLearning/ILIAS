@@ -31,7 +31,7 @@ class ilTooltipGUI
 
 		$code = self::getTooltip($a_el_id, $a_text, $a_container, $a_my, $a_at,
 			$a_use_htmlspecialchars);
-		$tpl->addOnLoadCode($code); 
+		$tpl->addOnLoadCode($code);
 	}
 	
 	/**
@@ -85,6 +85,7 @@ class ilTooltipGUI
 			$tpl->addJavascript("./libs/bower/bower_components/qtip2/dist/jquery.qtip.min.js");
 			$tpl->addJavascript("./Services/UIComponent/Tooltip/js/ilTooltip.js");
 			$tpl->addOnLoadCode('il.Tooltip.init();', 3);
+			self::$initialized = true;
 		}
 	}
 }
