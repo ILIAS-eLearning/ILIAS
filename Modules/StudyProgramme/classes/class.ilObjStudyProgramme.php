@@ -2,6 +2,8 @@
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
+use ILIAS\Filesystem\Util\LegacyPathHelper;
+
 require_once("./Services/Container/classes/class.ilContainer.php");
 require_once('./Services/Container/classes/class.ilContainerSorting.php');
 require_once("./Modules/StudyProgramme/classes/model/class.ilStudyProgramme.php");
@@ -1337,16 +1339,15 @@ class ilObjStudyProgramme extends ilContainer {
 	function saveIcons($a_custom_icon)
 	{
 		global $DIC;
-		$ilDB = $DIC['ilDB'];
 
 		$this->createContainerDirectory();
 		$cont_dir = $this->getContainerDirectory();
-		$file_name = "";
+
 		if ($a_custom_icon != "")
 		{
 			$file_name = $cont_dir."/icon_custom.svg";
 
-			ilUtil::moveUploadedFile($a_custom_icon, "icon_custom.svg", $file_name, true, "copy");
+			$DIC->filesystem()->web()->copy(LegacyPathHelper::createRelativePath($a_custom_icon), LegacyPathHelper::createRelativePath($file_name));
 
 			if ($file_name != "" && is_file($file_name))
 			{
@@ -1359,5 +1360,3 @@ class ilObjStudyProgramme extends ilContainer {
 		}
 	}
 }
-
-?>

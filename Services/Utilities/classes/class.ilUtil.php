@@ -4166,7 +4166,6 @@ class ilUtil
 	 * @param string $a_name
 	 * @param string $a_target
 	 * @param bool   $a_raise_errors
-	 * @param string $a_mode
 	 *
 	 * @return bool
 	 *
@@ -4174,7 +4173,7 @@ class ilUtil
 	 *
 	 * @see \ILIAS\DI\Container::upload()
 	 */
-	public static function moveUploadedFile($a_file, $a_name, $a_target, $a_raise_errors = true, $a_mode = "move_uploaded")
+	public static function moveUploadedFile($a_file, $a_name, $a_target, $a_raise_errors = true)
 	{
 		global $DIC;
 		$targetFilename = basename($a_target);
