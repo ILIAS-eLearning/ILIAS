@@ -48,7 +48,11 @@ class ilObjSurvey extends ilObject
 	const ANONYMIZE_CODE_ALL = 3; // personalized, codes
 	
 	const QUESTIONTITLES_HIDDEN = 0;
-	const QUESTIONTITLES_VISIBLE = 1;	
+	const QUESTIONTITLES_VISIBLE = 1;
+
+	// constants to define the print view values.
+	const PRINT_HIDE_LABELS = 1; // Show only the titles in "print" and "PDF Export"
+	const PRINT_SHOW_LABELS = 3; // Show titles and labels in "print" and "PDF Export"
 	
 	/**
 	* A unique positive numerical ID which identifies the survey.

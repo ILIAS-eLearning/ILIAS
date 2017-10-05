@@ -87,9 +87,9 @@ class ilSurveyEditorGUI
 
 		$this->print_options = array (
 			//0 => $this->lng->txt('none'),
-			1 => $this->lng->txt('svy_print_hide_labels'),
+			ilObjSurvey::PRINT_HIDE_LABELS => $this->lng->txt('svy_print_hide_labels'),
 			//2 => $this->lng->txt('svy_print_label_only'),
-			3 => $this->lng->txt('svy_print_show_labels')
+			ilObjSurvey::PRINT_SHOW_LABELS => $this->lng->txt('svy_print_show_labels')
 		);
 
 	}
