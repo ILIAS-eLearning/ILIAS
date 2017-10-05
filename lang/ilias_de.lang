@@ -13726,8 +13726,8 @@ form#:#form_msg_file_type_is_not_allowed#:#Dieser Dateityp ist nicht erlaubt.
 common#:#file_no_valid_file_type#:#Dieser Dateityp ist nicht erlaubt.
 common#:#file_some_invalid_file_types_removed#:#Einige Dateitypen sind nicht erlaubt und wurden entfernt.
 ecs#:#ecs_member_auth_type#:#Authentifizierungsmethode für Kursmitglieder
-background_tasks#:#background_tasks#:#Hintergrundaufgaben
-background_tasks#:#background_tasks_running#:#Laufende Aufgaben
+background_tasks#:#background_tasks#:#Background Tasks
+background_tasks#:#background_tasks_running#:#Background Tasks
 background_tasks#:#scheduled#:#Geplant
 background_tasks#:#dismiss#:#Beenden
 background_tasks#:#completed#:#Abgeschlossen
