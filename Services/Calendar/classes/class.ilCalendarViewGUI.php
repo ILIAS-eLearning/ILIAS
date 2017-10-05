@@ -45,6 +45,11 @@ class ilCalendarViewGUI
 	protected $logger;
 
 	/**
+	 * @var \ILIAS\UI
+	 */
+	protected $ui;
+
+	/**
 	 * View initialization
 	 * @param integer $a_calendar_presentation_type
 	 */
@@ -53,6 +58,7 @@ class ilCalendarViewGUI
 		global $DIC;
 		$this->ui_factory = $DIC->ui()->factory();
 		$this->ui_renderer = $DIC->ui()->renderer();
+		$this->ui = $DIC->ui();
 		$this->ctrl = $DIC->ctrl();
 		$this->lng = $DIC->language();
 		$this->user = $DIC->user();

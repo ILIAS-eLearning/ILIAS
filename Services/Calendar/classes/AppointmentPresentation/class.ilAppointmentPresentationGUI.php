@@ -489,7 +489,7 @@ class ilAppointmentPresentationGUI extends ilCalendarViewGUI implements ilCalend
 	function addEventLocation($a_app)
 	{
 		if ($a_app['event']->getLocation()) {
-			$this->addInfoProperty($this->lng->txt("location"), $a_app['event']->getLocation());
+			$this->addInfoProperty($this->lng->txt("cal_where"), $a_app['event']->getLocation());
 			$this->addListItemProperty($this->lng->txt("location"), $a_app['event']->getLocation());
 		}
 	}

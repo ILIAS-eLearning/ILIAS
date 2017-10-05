@@ -13726,8 +13726,8 @@ form#:#form_msg_file_type_is_not_allowed#:#Dieser Dateityp ist nicht erlaubt.
 common#:#file_no_valid_file_type#:#Dieser Dateityp ist nicht erlaubt.
 common#:#file_some_invalid_file_types_removed#:#Einige Dateitypen sind nicht erlaubt und wurden entfernt.
 ecs#:#ecs_member_auth_type#:#Authentifizierungsmethode für Kursmitglieder
-background_tasks#:#background_tasks#:#Hintergrundaufgaben
-background_tasks#:#background_tasks_running#:#Laufende Aufgaben
+background_tasks#:#background_tasks#:#Background Tasks
+background_tasks#:#background_tasks_running#:#Background Tasks
 background_tasks#:#scheduled#:#Geplant
 background_tasks#:#dismiss#:#Beenden
 background_tasks#:#completed#:#Abgeschlossen
@@ -14041,3 +14041,5 @@ sahs#:#sahs_copy#:#SCORM-Lernmodul kopieren
 sahs#:#sahs_glo_info#:#Bitte beachten Sie, daß interne Links in Glossarbegriffen nicht unterstützt werden.
 lm#:#lm_save_titles#:#Titel wurden gespeichert.
 dateplaner#:#cal_down_no_files#:#Nichts zum Herunterladen, die aufgeführten Veranstaltungen enthalten keine Dateien.
+assessment#:#question_browse_area_info#:#Wählen sie bitte ein Objekt aus dem sie Fragen importieren wollen.
+dateplaner#:#cal_no_events_info#:#Für den angegebenen Zeitraum sind keine Termine für Sie vorhanden.

@@ -76,8 +76,9 @@ class ilWebAccessChecker {
 	/**
 	 * ilWebAccessChecker constructor.
 	 *
-	 * @param GlobalHttpState $httpState
-	 * @param CookieFactory $cookieFactory
+	 * <<<<<<< HEAD
+	 * @param GlobalHttpState            $httpState
+	 * @param CookieFactory              $cookieFactory
 	 */
 	public function __construct(GlobalHttpState $httpState, CookieFactory $cookieFactory) {
 		$this->setPathObject(new ilWACPath($httpState->request()->getRequestTarget()));
@@ -124,8 +125,7 @@ class ilWebAccessChecker {
 		// Fallback, have to initiate ILIAS
 		$this->initILIAS();
 
-		if(ilWACSecurePath::hasCheckingInstanceRegistered($this->getPathObject())) {
-
+		if (ilWACSecurePath::hasCheckingInstanceRegistered($this->getPathObject())) {
 			// Maybe the path has been registered, lets check
 			$checkingInstance = ilWACSecurePath::getCheckingInstance($this->getPathObject());
 			$this->addAppliedCheckingMethod(self::CM_CHECKINGINSTANCE);
@@ -146,7 +146,6 @@ class ilWebAccessChecker {
 			}
 		}
 
-
 		// none of the checking mechanisms could have been applied. no access
 		$this->setChecked(true);
 		if ($this->getPathObject()->isInSecFolder()) {
@@ -163,6 +162,7 @@ class ilWebAccessChecker {
 
 	/**
 	 * @param string $message
+	 *
 	 * @return void
 	 */
 	protected function sendHeader($message) {
@@ -181,34 +181,31 @@ class ilWebAccessChecker {
 
 		$GLOBALS['COOKIE_PATH'] = '/';
 
-		$cookie = $this->cookieFactory->create('ilClientId', $this->getPathObject()->getClient())->withPath('/')->withExpires(0);
+		$cookie = $this->cookieFactory->create('ilClientId', $this->getPathObject()->getClient())
+		                              ->withPath('/')
+		                              ->withExpires(0);
 
-		$response = $this->http->cookieJar()->with($cookie)->renderIntoResponseHeader($this->http->response());
+		$response = $this->http->cookieJar()
+		                       ->with($cookie)
+		                       ->renderIntoResponseHeader($this->http->response());
 
 		$this->http->saveResponse($response);
 
 		ilContext::init(ilContext::CONTEXT_WAC);
 		try {
 			ilInitialisation::initILIAS();
-			$this->checkPublicSection();
 			$this->checkUser();
+			$this->checkPublicSection();
 		} catch (Exception $e) {
-			if ($e instanceof Exception && $e->getMessage() == 'Authentication failed.') {
-				$request = $this->http->request();
-				$queries = $request->getQueryParams();
-				$queries["baseClass"] = "ilStartUpGUI";
-				$_REQUEST["baseClass"] = "ilStartUpGUI";
-				// @todo authentication: fix request show login
-				$queries["cmd"] = "showLoginPage";
-				$_REQUEST["cmd"] = "showLoginPage";
-				$request = $request->withQueryParams($queries);
-
-				$this->http->saveRequest($request);
-
-				ilInitialisation::reinitILIAS();
-				$GLOBALS['DIC']['ilAuthSession']->setAuthenticated(true, ANONYMOUS_USER_ID);
-				$this->checkPublicSection();
+			if ($e instanceof ilWACException
+			    && $e->getCode() !== ilWACException::ACCESS_DENIED_NO_LOGIN) {
+				throw  $e;
+			}
+			if (($e instanceof Exception && $e->getMessage() == 'Authentication failed.')
+			    || $e->getCode() === ilWACException::ACCESS_DENIED_NO_LOGIN) {
+				$this->initAnonymousSession();
 				$this->checkUser();
+				$this->checkPublicSection();
 			}
 		}
 		$this->setInitialized(true);
@@ -220,27 +217,25 @@ class ilWebAccessChecker {
 	 * @throws ilWACException
 	 */
 	protected function checkPublicSection() {
-		global $ilSetting, $ilUser;
-		if (!$ilSetting instanceof ilSetting
-		    || ($ilUser->getId() === ANONYMOUS_USER_ID
-		        && !$ilSetting->get('pub_section'))
-		) {
+		global $DIC;
+		$is_anonymous = ((int)$DIC->user()->getId() === (int)ANONYMOUS_USER_ID);
+		$is_null_user = ($DIC->user()->getId() === 0);
+		$pub_section_activated = (bool)$DIC['ilSetting']->get('pub_section');
+		$isset = isset($DIC['ilSetting']);
+		$instanceof = $DIC['ilSetting'] instanceof ilSetting;
+		if (!$isset || !$instanceof || (!$pub_section_activated && ($is_anonymous || $is_null_user))) {
 			throw new ilWACException(ilWACException::ACCESS_DENIED_NO_PUB);
 		}
 	}
 
 
-	/**
-	 * @return void
-	 * @throws ilWACException
-	 */
 	protected function checkUser() {
-		global $ilUser;
+		global $DIC;
 		$referrer = !is_null($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
-		if (!$ilUser instanceof ilObjUser
-		    || ($ilUser->getId() === 0
-		        && strpos($referrer, 'login.php') === false)
-		) {
+		$is_user = $DIC->user() instanceof ilObjUser;
+		$user_id_is_zero = ($DIC->user()->getId() === 0);
+		$not_on_login_page = strpos($referrer, 'login.php') === false;
+		if (!$is_user || ($user_id_is_zero && $not_on_login_page)) {
 			throw new ilWACException(ilWACException::ACCESS_DENIED_NO_LOGIN);
 		}
 	}
@@ -256,6 +251,7 @@ class ilWebAccessChecker {
 
 	/**
 	 * @param boolean $checked
+	 *
 	 * @return void
 	 */
 	public function setChecked($checked) {
@@ -274,6 +270,7 @@ class ilWebAccessChecker {
 
 	/**
 	 * @param ilWACPath $path_object
+	 *
 	 * @return void
 	 */
 	public function setPathObject(ilWACPath $path_object) {
@@ -291,6 +288,7 @@ class ilWebAccessChecker {
 
 	/**
 	 * @param string $disposition
+	 *
 	 * @return void
 	 */
 	public function setDisposition($disposition) {
@@ -309,6 +307,7 @@ class ilWebAccessChecker {
 
 	/**
 	 * @param string $override_mimetype
+	 *
 	 * @return void
 	 */
 	public function setOverrideMimetype($override_mimetype) {
@@ -344,6 +343,7 @@ class ilWebAccessChecker {
 
 	/**
 	 * @param bool $send_status_code
+	 *
 	 * @return void
 	 */
 	public function setSendStatusCode($send_status_code) {
@@ -362,6 +362,7 @@ class ilWebAccessChecker {
 
 	/**
 	 * @param bool $revalidate_folder_tokens
+	 *
 	 * @return void
 	 */
 	public function setRevalidateFolderTokens($revalidate_folder_tokens) {
@@ -380,6 +381,7 @@ class ilWebAccessChecker {
 
 	/**
 	 * @param bool $use_seperate_logfile
+	 *
 	 * @return void
 	 */
 	public static function setUseSeperateLogfile($use_seperate_logfile) {
@@ -398,6 +400,7 @@ class ilWebAccessChecker {
 
 	/**
 	 * @param int[] $applied_checking_methods
+	 *
 	 * @return void
 	 */
 	public function setAppliedCheckingMethods(array $applied_checking_methods) {
@@ -407,10 +410,30 @@ class ilWebAccessChecker {
 
 	/**
 	 * @param int $method
+	 *
 	 * @return void
 	 */
 	protected function addAppliedCheckingMethod($method) {
 		assert(is_int($method));
 		$this->applied_checking_methods[] = $method;
+	}
+
+
+	protected function initAnonymousSession() {
+		global $DIC;
+		include_once './Services/Context/classes/class.ilContext.php';
+		ilContext::init(ilContext::CONTEXT_WAC);
+		require_once("Services/Init/classes/class.ilInitialisation.php");
+		ilInitialisation::reinitILIAS();
+		/**
+		 * @var $ilAuthSession \ilAuthSession
+		 */
+		$ilAuthSession = $DIC['ilAuthSession'];
+		$ilAuthSession->init();
+		$ilAuthSession->regenerateId();
+		$a_id = (int)ANONYMOUS_USER_ID;
+		$ilAuthSession->setUserId($a_id);
+		$ilAuthSession->setAuthenticated(false, $a_id);
+		$DIC->user()->setId($a_id);
 	}
 }

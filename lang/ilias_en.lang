@@ -14040,3 +14040,5 @@ sahs#:#sahs_add#:#Create SCORM Learning Module
 sahs#:#sahs_copy#:#Copy SCORM Learning Module
 sahs#:#sahs_glo_info#:#Please note that internal links in glossary terms are not supported.
 lm#:#lm_save_titles#:#Titles saved.
+assessment#:#question_browse_area_info#:#Please select an object from which you want to import questions.
+dateplaner#:#cal_no_events_info#:#No events found for the selected time period.
