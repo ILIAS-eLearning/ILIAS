@@ -103,8 +103,17 @@ class ilStartUpGUI
 		 * @var ilAuthSession
 		 */
 		$auth_session = $GLOBALS['DIC']['ilAuthSession'];
-		
-		if(strcmp($_GET['cmd'], 'force_login') === 0)
+
+		$force_login = false;
+		if(
+			!is_array($_REQUEST['cmd']) &&
+			strcmp($_REQUEST['cmd'], 'force_login') === 0
+		)
+		{
+			$force_login = true;
+		}
+
+		if($force_login)
 		{
 			$this->logger->debug('Force login');
 			if($auth_session->isValid())
