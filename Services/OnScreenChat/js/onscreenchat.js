@@ -252,11 +252,6 @@
 				getModule().container.append(conversationWindow);
 				getModule().addMessagesOnOpen(conversation);
 
-				conversationWindow.find('[data-toggle="tooltip"]').tooltip({
-					container: 'body',
-					viewport: { selector: 'body', padding: 10 }
-				});
-
 				var emoticonPanel = conversationWindow.find('[data-onscreenchat-emoticons-panel]'),
 					messageField = conversationWindow.find('[data-onscreenchat-message]');
 
@@ -338,13 +333,11 @@
 			$template.find('[href="addUser"]').attr({
 				"title":                 il.Language.txt('chat_osc_add_user'),
 				"data-onscreenchat-add": conversation.id,
-				"data-toggle":           "tooltip",
 				"data-placement":        "auto"
 			});
 			$template.find('.close').attr({
 				"title":                   il.Language.txt('close'),
 				"data-onscreenchat-close": conversation.id,
-				"data-toggle":             "tooltip",
 				"data-placement":          "auto"
 			});
 
