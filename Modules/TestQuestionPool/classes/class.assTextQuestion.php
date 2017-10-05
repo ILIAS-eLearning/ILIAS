@@ -1100,7 +1100,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 			$stripped = str_replace("&gt;", '>', $stripped);
 			$stripped = str_replace("&amp;", '&', $stripped);
 
-			$char_count = ilStr::strLen($stripped, "UTF-8");
+			$char_count = ilStr::strLen(trim($stripped), "UTF-8");
 
 			if($char_count > $max_chars)
 			{
