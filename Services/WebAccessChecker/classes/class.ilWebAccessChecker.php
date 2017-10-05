@@ -76,7 +76,6 @@ class ilWebAccessChecker {
 	/**
 	 * ilWebAccessChecker constructor.
 	 *
-	 * <<<<<<< HEAD
 	 * @param GlobalHttpState            $httpState
 	 * @param CookieFactory              $cookieFactory
 	 */
@@ -218,12 +217,13 @@ class ilWebAccessChecker {
 	 */
 	protected function checkPublicSection() {
 		global $DIC;
+		$not_on_login_page = $this->isRequestNotFromLoginPage();
 		$is_anonymous = ((int)$DIC->user()->getId() === (int)ANONYMOUS_USER_ID);
 		$is_null_user = ($DIC->user()->getId() === 0);
 		$pub_section_activated = (bool)$DIC['ilSetting']->get('pub_section');
 		$isset = isset($DIC['ilSetting']);
 		$instanceof = $DIC['ilSetting'] instanceof ilSetting;
-		if (!$isset || !$instanceof || (!$pub_section_activated && ($is_anonymous || $is_null_user))) {
+		if (!$isset || !$instanceof || (!$pub_section_activated && ($is_anonymous || ($is_null_user && $not_on_login_page)))) {
 			throw new ilWACException(ilWACException::ACCESS_DENIED_NO_PUB);
 		}
 	}
@@ -231,10 +231,10 @@ class ilWebAccessChecker {
 
 	protected function checkUser() {
 		global $DIC;
-		$referrer = !is_null($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+
 		$is_user = $DIC->user() instanceof ilObjUser;
-		$user_id_is_zero = ($DIC->user()->getId() === 0);
-		$not_on_login_page = strpos($referrer, 'login.php') === false;
+		$user_id_is_zero = ((int)$DIC->user()->getId() === 0);
+		$not_on_login_page = $this->isRequestNotFromLoginPage();
 		if (!$is_user || ($user_id_is_zero && $not_on_login_page)) {
 			throw new ilWACException(ilWACException::ACCESS_DENIED_NO_LOGIN);
 		}
@@ -435,5 +435,17 @@ class ilWebAccessChecker {
 		$ilAuthSession->setUserId($a_id);
 		$ilAuthSession->setAuthenticated(false, $a_id);
 		$DIC->user()->setId($a_id);
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	protected function isRequestNotFromLoginPage() {
+		$referrer = !is_null($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+		$not_on_login_page = (strpos($referrer, 'login.php') === false
+		                      && strpos($referrer, '&baseClass=ilStartUpGUI') === false);
+
+		return $not_on_login_page;
 	}
 }
