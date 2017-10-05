@@ -2,6 +2,7 @@
 require_once('./Services/Logging/classes/class.ilLog.php');
 require_once('./Services/Init/classes/class.ilIniFile.php');
 require_once('./Services/WebAccessChecker/classes/class.ilWACLogDummy.php');
+require_once('./Services/WebAccessChecker/classes/class.ilWebAccessChecker.php');
 
 /**
  * Class ilWACLog
