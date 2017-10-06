@@ -13742,7 +13742,7 @@ common#:#file_no_valid_file_type#:#This file type is not allowed.
 common#:#file_some_invalid_file_types_removed#:#Some file types are not allowed and have been removed.
 ecs#:#ecs_member_auth_type#:#Course Member Auth Mode
 background_tasks#:#background_tasks#:#Background Tasks
-background_tasks#:#background_tasks_running#:#Running Tasks
+background_tasks#:#background_tasks_running#:#Background Tasks
 background_tasks#:#scheduled#:#Scheduled
 background_tasks#:#dismiss#:#Quit
 background_tasks#:#completed#:#Completed
