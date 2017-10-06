@@ -368,7 +368,7 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 
 		$event_html = $event_tpl->get();
 
-		if($event_html_by_plugin = $this->getContentByPlugins($item['event'], $item['dstart'], $event_html))
+		if($event_html_by_plugin = $this->getContentByPlugins($a_app['event'], $a_app['dstart'], $event_html))
 		{
 			$event_html = $event_html_by_plugin;
 		}
