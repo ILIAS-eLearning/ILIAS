@@ -1360,6 +1360,16 @@ class ilObjStudyProgramme extends ilContainer {
 			}
 		}
 	}
+
+	/**
+	* Get the container directory.
+	*
+	* @return	string	container directory
+	*/
+	function getContainerDirectory()
+	{
+		return "container_data/obj_".$this->getId();
+	}
 }
 
 ?>
