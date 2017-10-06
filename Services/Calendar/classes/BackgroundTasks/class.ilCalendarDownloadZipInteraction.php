@@ -71,8 +71,8 @@ class ilCalendarDownloadZipInteraction extends AbstractUserInteraction {
 	 */
 	public function interaction(array $input, Option $user_selected_option, Bucket $bucket) {
 		global $DIC;
-		$zip_name = $input[0];
-		$download_name = $input[1];
+		$zip_name = $input[1];
+		$download_name = $input[0];
 
 		$this->logger->debug('User interaction download zip ' . $input[0]->getValue() . ' as '
 		                     . $input[1]->getValue());
