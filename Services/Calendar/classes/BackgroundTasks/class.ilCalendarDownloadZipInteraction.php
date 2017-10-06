@@ -7,6 +7,7 @@ use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
 use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionOption;
 use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
 use ILIAS\BackgroundTasks\Bucket;
+use ILIAS\Filesystem\Util\LegacyPathHelper;
 
 /**
  * Description of class class
@@ -81,8 +82,13 @@ class ilCalendarDownloadZipInteraction extends AbstractUserInteraction {
 			$this->logger->info('Download canceled');
 			// delete zip file
 			$filesystem = $DIC->filesystem()->temp();
-			$path = \ILIAS\Filesystem\Util\LegacyPathHelper::createRelativePath($zip_name->getValue());
-			if ($filesystem->has($path)) {
+
+			try {
+				$path = LegacyPathHelper::createRelativePath($zip_name->getValue());
+			} catch (InvalidArgumentException $e) {
+				$path = null;
+			}
+			if (!is_null($path) && $filesystem->has($path)) {
 				$filesystem->deleteDir(dirname($path));
 			}
 
