@@ -99,6 +99,72 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		return $this->login($client, $username, $password);
 	}
 
+	/**
+	 * login as user for studip mode
+	 * @deprecated
+	 * @param string $sid
+	 * @param int $user_id
+	 * @return string $sid
+	 */
+	public function loginStudipUser($sid, $user_id)
+	{
+		global $rbacreview, $ilUser, $ilIliasIniFile;
+
+		$this->initAuth($sid);
+		$this->initIlias();
+		list($admin_sid,$client) = $this->__explodeSid($sid);
+
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
+		}
+
+		if (!$ilIliasIniFile->readVariable('server', 'studip'))
+		{
+			return $this->__raiseError('Stud.IP mode not active.','Server');
+		}
+
+		if(!$rbacreview->isAssigned($ilUser->getId(),SYSTEM_ROLE_ID))
+		{
+			return $this->__raiseError('No permission to initialize user session.','Server');
+		}
+		
+		if($ilUser->getLoginByUserId($user_id))
+		{
+			$tmp_user =& ilObjectFactory::getInstanceByObjId($user_id);
+				
+			global $ilAuth;
+			$ilAuth->logout();
+			session_destroy();
+    		
+			unset($_COOKIE['PHPSESSID']);
+			$_COOKIE['ilClientId'] = $client;
+			$_POST['username'] = $tmp_user->getLogin();
+			$_POST['password'] = $tmp_user->getPasswd();
+    		
+			try
+			{
+				require_once("Services/Init/classes/class.ilInitialisation.php");
+				ilInitialisation::reinitILIAS();
+			}
+
+			catch(Exception $e)
+			{
+				return $this->__raiseError($e->getMessage(), 'Server');
+			}
+    		
+			ilUtil::setCookie('ilClientId',$client);
+
+			if($ilUser->hasToAcceptTermsOfService())
+			{
+				return $this->__raiseError('User agreement not accepted', 'Server');
+			}
+
+			return (session_id().'::'.$client);
+		}
+		return $this->__raiseError('User does not exist','Client');
+	}
+
 	function logout($sid)
 	{
 		$this->initAuth($sid);
