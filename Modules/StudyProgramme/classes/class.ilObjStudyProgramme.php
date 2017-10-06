@@ -54,6 +54,7 @@ class ilObjStudyProgramme extends ilContainer {
 		global $DIC;
 		$tree = $DIC['tree'];
 		$ilUser = $DIC['ilUser'];
+		$this->g_webdir = $DIC->filesystem()->web();
 		$this->tree = $tree;
 		$this->ilUser = $ilUser;
 
