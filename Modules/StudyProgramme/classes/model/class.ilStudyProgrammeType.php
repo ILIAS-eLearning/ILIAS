@@ -580,15 +580,10 @@ class ilStudyProgrammeType extends ActiveRecord {
 		{
 			$this->g_webdir->delete($this->getIconPath(true));
 		}
-		try
-		{
-			$stream = $this->g_tmpdir->readStream(explode("/", $file_data["tmp_name"])[2]);
-			$this->g_webdir->writeStream($this->getIconPath(true), $stream);
-		}
-		catch(Exception $e)
-		{
-			throw $e;
-		}
+
+		$stream = Streams::ofResource(fopen($file_data["tmp_name"], "r"));
+		$this->g_webdir->writeStream($this->getIconPath(true), $stream);
+
 		return true;
 	}
 
