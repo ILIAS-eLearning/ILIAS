@@ -18,6 +18,9 @@ class ilAuthSession
 	
 	private static $instance = null;
 	
+	/**
+	 * @var ilLogger
+	 */
 	private $logger = null;
 	
 	private $id = '';
@@ -27,29 +30,31 @@ class ilAuthSession
 	
 	/**
 	 * Consctructor
+	 * @param \ilLogger
 	 */
-	private function __construct()
+	private function __construct(\ilLogger $logger)
 	{
-		$this->logger = ilLoggerFactory::getLogger('auth');
+		$this->logger = $logger;
 	}
 	
 	/**
 	 * Get instance
+	 * @param \ilLogger
 	 * @return ilAuthSession
 	 */
-	public static function getInstance()
+	public static function getInstance(\ilLogger $logger)
 	{
 		if(self::$instance)
 		{
 			return self::$instance;
 		}
-		return self::$instance = new self();
+		return self::$instance = new self($logger);
 	}
 	
 	/**
 	 * @return ilLogger
 	 */
-	public function getLogger()
+	protected function getLogger()
 	{
 		return $this->logger;
 	}
@@ -195,11 +200,19 @@ class ilAuthSession
 		return true;
 	}
 	
-	public function setId($a_id)
+	/**
+	 * Set id
+	 * @param string $a_id
+	 */
+	protected function setId($a_id)
 	{
 		$this->id = $a_id;
 	}
 	
+	/**
+	 * get session id
+	 * @return string
+	 */
 	public function getId()
 	{
 		return $this->id;
