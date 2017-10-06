@@ -581,7 +581,7 @@ class ilStudyProgrammeType extends ActiveRecord {
 			$this->g_webdir->delete($this->getIconPath(true));
 		}
 
-		$stream = Streams::ofResource(fopen($file_data["tmp_name"], "r"));
+		$stream = ILIAS\Filesystem\Stream\Streams::ofResource(fopen($file_data["tmp_name"], "r"));
 		$this->g_webdir->writeStream($this->getIconPath(true), $stream);
 
 		return true;
