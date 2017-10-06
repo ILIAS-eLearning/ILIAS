@@ -41,6 +41,7 @@ class ilStudyProgrammeTypeCustomIconsFormGUI extends ilPropertyFormGUI {
 		$tpl = $DIC['tpl'];
 		$ilCtrl = $DIC['ilCtrl'];
 		$lng = $DIC['lng'];
+		$this->g_webdir = $DIC->filesystem()->web();
 		$this->parent_gui = $parent_gui;
 		$this->type = $type;
 		$this->tpl = $tpl;
@@ -82,8 +83,9 @@ class ilStudyProgrammeTypeCustomIconsFormGUI extends ilPropertyFormGUI {
 		$item = new ilImageFileInputGUI($this->lng->txt('icon'), 'icon');
 		$item->setSuffixes(array( 'svg' ));
 		$item->setInfo($this->lng->txt('prg_type_custom_icon_info'));
-		if (is_file($this->type->getIconPath(true))) {
-			$item->setImage($this->type->getIconPath(true));
+		if ($this->g_webdir->has($this->type->getIconPath(true))) {
+			// TODO: that´s horrible, try to avoid ilUtil in future
+			$item->setImage(ilUtil::getWebspaceDir().'/'.$this->type->getIconPath(true));
 		}
 		$this->addItem($item);
 		$this->addCommandButton('updateCustomIcons', $this->lng->txt('save'));
