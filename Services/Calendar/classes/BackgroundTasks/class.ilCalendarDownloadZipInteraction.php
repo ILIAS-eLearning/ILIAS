@@ -4,59 +4,64 @@
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractUserInteraction;
 use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
-use ILIAS\BackgroundTasks\Value;
 use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionOption;
 use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
 use ILIAS\BackgroundTasks\Bucket;
 
 /**
- * Description of class class 
+ * Description of class class
  *
- * @author Stefan Meyer <smeyer.ilias@gmx.de> 
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
  *
  */
-class ilCalendarDownloadZipInteraction extends \ILIAS\BackgroundTasks\Implementation\Tasks\AbstractUserInteraction
-{
+class ilCalendarDownloadZipInteraction extends AbstractUserInteraction {
+
 	const OPTION_DOWNLOAD = 'download';
 	const OPTION_CANCEL = 'cancel';
-	
+	/**
+	 * @var \Monolog\Logger
+	 */
 	private $logger = null;
-	
-	public function __construct()
-	{
+
+
+	public function __construct() {
 		$this->logger = $GLOBALS['DIC']->logger()->cal();
 	}
-	
-	
+
+
 	/**
 	 * @inheritdoc
 	 */
-	public function getInputTypes()
-	{
-		return 
-		[
+	public function getInputTypes() {
+		return [
 			new SingleType(StringValue::class),
-			new SingleType(StringValue::class)
+			new SingleType(StringValue::class),
 		];
 	}
+
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getOutputType()
-	{
+	public function getDismissOption() {
+		return new UserInteractionOption('cancel', self::OPTION_CANCEL);
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getOutputType() {
 		return new SingleType(StringValue::class);
 	}
 
+
 	/**
 	 * @inheritDoc
 	 */
-	public function getOptions(array $input)
-	{
-		return 
-		[
-			new UserInteractionOption('download',self::OPTION_DOWNLOAD),
-			new UserInteractionOption('cancel',self::OPTION_CANCEL)
+	public function getOptions(array $input) {
+		return [
+			new UserInteractionOption('download', self::OPTION_DOWNLOAD),
 		];
 	}
 
@@ -64,32 +69,30 @@ class ilCalendarDownloadZipInteraction extends \ILIAS\BackgroundTasks\Implementa
 	/**
 	 * @inheritDoc
 	 */
-	public function interaction(array $input, Option $user_selected_option, Bucket $bucket)
-	{
-		$zip_name = $input[1];
-		$download_name = $input[0];
+	public function interaction(array $input, Option $user_selected_option, Bucket $bucket) {
+		global $DIC;
+		$zip_name = $input[0];
+		$download_name = $input[1];
 
-		$this->logger->debug('User interaction download zip '. $input[0]->getValue().' as '. $input[1]->getValue());
+		$this->logger->debug('User interaction download zip ' . $input[0]->getValue() . ' as '
+		                     . $input[1]->getValue());
 
-		if($user_selected_option->getValue() != self::OPTION_DOWNLOAD)
-		{
+		if ($user_selected_option->getValue() != self::OPTION_DOWNLOAD) {
 			$this->logger->info('Download canceled');
 			// delete zip file
-			if(file_exists($zip_name->getValue()))
-			{
-				unlink($zip_name->getValue());
+			$filesystem = $DIC->filesystem()->temp();
+			$path = \ILIAS\Filesystem\Util\LegacyPathHelper::createRelativePath($zip_name->getValue());
+			if ($filesystem->has($path)) {
+				$filesystem->deleteDir(dirname($path));
 			}
-			return $zip_name->getValue();
+
+			return $input;
 		}
 
 		$this->logger->info("Delivering File.");
-		ilUtil::deliverFile(
-			$zip_name->getValue(),
-			$download_name->getValue()
-		);
-		
-		return $zip_name->getValue();
-	}
 
+		ilFileDelivery::deliverFileAttached($download_name->getValue(), $zip_name->getValue());
+
+		return $input;
+	}
 }
-?>
