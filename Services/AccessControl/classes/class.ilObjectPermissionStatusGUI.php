@@ -457,6 +457,13 @@ class ilObjectPermissionStatusGUI
 		foreach ($this->valid_roles as $role)
 		{
 			$result_set[$counter]["img"] = in_array($role['obj_id'],$this->user_roles) ? self::IMG_OK : self::IMG_NOT_OK;
+
+			if(is_subclass_of($this->object->plugin, 'ilPlugin') && $role["parent"] == $this->object->getRefId()) {
+				$result_set[$counter][] = ilPlugin::lookupTxtById($this->object->getType(), ilObjRole::_removeObjectId($role["title"]));
+			} else {
+				$result_set[$counter][] = str_replace(" ","&nbsp;",ilObjRole::_getTranslation($role["title"]));
+			}
+
 			$result_set[$counter]["role"] = str_replace(" ","&nbsp;",ilObjRole::_getTranslation($role["title"]));
 
 			if ($role['role_type'] != "linked")

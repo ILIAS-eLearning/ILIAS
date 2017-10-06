@@ -596,7 +596,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 	 */
 	protected function createTooltip($role)
 	{
-		global $rbacreview,$tree;
+		global $rbacreview,$tree, $objDefinition;
 		
 		#vd($role);
 		$protected_status = $rbacreview->isProtected($role['parent'], $role['obj_id']) ? 'protected_' : '';
@@ -622,9 +622,18 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 			$obj = $rbacreview->getObjectOfRole($role['obj_id']);
 			if($obj)
 			{
+				$type = ilObject::_lookupType($this->getRefId(), true);
+				if($objDefinition->isPlugin($type))
+				{
+					$type_text = ilPlugin::lookupTxtById($type, 'obj_'.$type);
+				} else {
+					$type_text = $this->lng->txt('obj_'.ilObject::_lookupType($obj));
+				}
+
 				$tp .= sprintf(
 					$this->lng->txt('perm_role_path_info_created'),
-					$this->lng->txt('obj_'.ilObject::_lookupType($obj)),ilObject::_lookupTitle($obj)
+					$type_text,
+					ilObject::_lookupTitle($obj)
 				);
 				$inheritance_seperator = ', ';
 			}
@@ -665,23 +674,33 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 	 */
 	protected function createTitle($role)
 	{
-		global $ilCtrl;
+		global $ilCtrl, $objDefinition;
 		
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
-		$role['title'] = ilObjRole::_getTranslation($role['title']);
+		$role_title = ilObjRole::_getTranslation($role['title']);
 		
 		// No local policies
 		if($role['parent'] != $this->getRefId())
 		{
-			return $role['title'];
-		} 
+			return $role_title;
+		}
+
+		$type = ilObject::_lookupType($this->getRefId(), true);
+		if($objDefinition->isPlugin($type))
+		{
+			if (preg_match("/^il_./", $role["title"]))
+			{
+				$role_title = ilPlugin::lookupTxtById($type, ilObjRole::_removeObjectId($role["title"]));
+			}
+		}
+
 		if($role['blocked'])
 		{
-			return $role['title'];
+			return $role_title;
 		}
 		$ilCtrl->setParameterByClass('ilobjrolegui', 'obj_id', $role['obj_id']);
 		
-		return '<a class="tblheader" href="'.$ilCtrl->getLinkTargetByClass('ilobjrolegui','').'" >'.$role['title'].'</a>';
+		return '<a class="tblheader" href="'.$ilCtrl->getLinkTargetByClass('ilobjrolegui','').'" >'.$role_title.'</a>';
 	}
 }
 ?>
