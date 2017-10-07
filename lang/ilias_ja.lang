@@ -1,18 +1,17 @@
-/* Copyright (c) 1998-2015 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2017 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
-* ILIAS language file (All entries)
+* ILIAS language file
 *
 * @module       language file Japanese
 * @modulegroup  language
-* @author       Shiro Tamoto <tamoto@chic.ocn.ne.jp>
-* @version      $Id:
+* @author       Shiro Tamoto <tech@oberon.nagaokaut.ac.jp>
+* @version      $Id: ilias_ja.lang 23415 2010-09-15 16:08:17Z akill $
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 // NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
-// to the corresponding mode! 
-// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
+// to the corresponding mode!
 <!-- language file start -->
 acc#:#acc_access_key#:#アクセスキー
 acc#:#acc_access_keys#:#アクセスキー
@@ -498,6 +497,7 @@ assessment#:#ass_process_lock_mode_file#:#ファイルロックシステムを�
 assessment#:#ass_process_lock_mode_file_desc#:#このロックメカニズムはファイルシステム内に空のファイルのロックを要求します。同一ユーザの同一テスト/問題用の平行プロセスは他のプロセスがそのロックを開放するまで待ちます。
 assessment#:#ass_question#:#問題
 assessment#:#ass_size#:#サイズ
+assessment#:#ass_skl_import_fails_remove_btn#:#このヒントを削除
 assessment#:#assClozeTest#:#穴埋め問題
 assessment#:#assErrorText#:#エラーテキスト
 assessment#:#assessment_eval_settings#:#全ユーザの評価結果を次の欄に表示
@@ -760,7 +760,6 @@ assessment#:#extratime#:#延長時間
 assessment#:#factor#:#要因
 assessment#:#failed_official#:#不合格です
 assessment#:#failed_short#:#不合格
-assessment#:#false#:#False
 assessment#:#feedback_all#:#全解答の特定フィードバックの回答を表示
 assessment#:#feedback_answers#:#問題の各答案に対するフィードバック
 assessment#:#feedback_checked#:#全選択または選択された解答の特定のフィードバック解答を表示
@@ -1372,7 +1371,6 @@ assessment#:#toplist_col_score#:#点数
 assessment#:#toplist_col_wtime#:#処理時間
 assessment#:#toplist_top_n_results#:#上位%sの結果
 assessment#:#toplist_your_result#:#順位
-assessment#:#true#:#True
 assessment#:#tst_access_code_created#:#テスト結果への恒久アクセスと、このテストを再開可能性を提供するためにユニークなテストのアクセス コードが作成されました。以降のアクションはこのコードを使って書いてください。
 assessment#:#tst_activate_skill_service#:#能力サービスを有効化
 assessment#:#tst_activate_skill_service_desc#:#新規タブ'能力'が表示されます。このタブには問題が能力へ割り当てられてしきい値は能力の一定レベル達成用に帰属します。
@@ -1493,6 +1491,8 @@ assessment#:#tst_extratime_added#:#受験者の回答時間が%s分増えまし�
 assessment#:#tst_extratime_info#:#解答時間を同じ受験者へ掛け算したい場合は追加したい合計時間を挿入してください。
 assessment#:#tst_extratime_nodata#:#選択した受験者のエントリーがありません。
 assessment#:#tst_extratime_notavailable#:#延長時間は1回のテストと最長所要時間のみに追加することができます。
+assessment#:#tst_failed_imp_qst_skl_assign#:#次のコンピーテンスへの問題の割当ては作成することができませんでした。習得のコンピーテンスはローカルシステム内で識別することができませんでした。
+assessment#:#tst_failed_imp_skl_thresholds#:#ローカルシステムに沿ったコンピーテンスはレベルの別リストと一緒に構成されるので、次のコンピーテンスのスレッショールドのインポートはスキップされました。
 assessment#:#tst_feedback#:#フィードバック
 assessment#:#tst_filter_tax_node#:#分類基準モード
 assessment#:#tst_filter_taxonomy#:#分類基準フィルタ
@@ -2114,6 +2114,8 @@ assessment#:#upload_image#:#イメージをアップロート
 assessment#:#upload_imagemap#:#イメージマップをアップロード
 assessment#:#uploaded_material#:#アップロードされた教材
 assessment#:#use_ects_fx#:# 'FX' 評価を使用
+assessment#:#use_previous_solution#:#前の解答を使用します
+assessment#:#use_previous_solution_advice#:#その問題に示された解答は前と同じです。何も変更しないでそれを使用したい場合は解答の採択を確認する必要があります。
 assessment#:#user_has_finished_a_test#:#受験者はテストを終了しました。
 assessment#:#user_not_invited#:#このテストのサポート資格がありません。
 assessment#:#user_wrong_clientip#:#テストに使用する正しいIPがありません。
@@ -2386,14 +2388,14 @@ block_html#:#block_html_block_head#:#HTMLブロック
 block_html#:#block_html_block_title#:#タイトル
 blog#:#blog_abstract_image#:#抄録へイメージを追加
 blog#:#blog_abstract_image_height#:#高さ
-blog#:#blog_abstract_image_info#:#未使用のより小さいイメージ.
+blog#:#blog_abstract_image_info#:#小さすぎるイメージは使用されません。
 blog#:#blog_abstract_image_pixels#:#Px
 blog#:#blog_abstract_image_width#:#幅
 blog#:#blog_abstract_shorten#:#短い抄録
 blog#:#blog_abstract_shorten_characters#:#文字
 blog#:#blog_abstract_shorten_length#:#最大長
 blog#:#blog_add#:#ブログを作成
-blog#:#blog_add_contributor#:#貢献者を追加
+blog#:#blog_add_contributor#:#投稿者を追加
 blog#:#blog_add_posting#:#投稿を追加
 blog#:#blog_admin_inactive_info#:#パーソナルデスクトップ管理の中のブログ機能をアクティブにできます。
 blog#:#blog_admin_toggle_info#:#パーソナルデスクトップ管理のブログ機能を完全にオフする事ができます。
@@ -2416,9 +2418,9 @@ blog#:#blog_change_notification_salutation#:#こんにちは"%"さん,
 blog#:#blog_change_notification_subject#:#ブログ"%"が更新されました。
 blog#:#blog_changed_by#:#最終変更者
 blog#:#blog_comments#:#コメント
-blog#:#blog_confirm_delete_contributors#:#本当に次の貢献者を削除しますか?
-blog#:#blog_contribute_other_roles#:#次の割り当てには"貢献者"のアクセス権を設定:%s
-blog#:#blog_contributors#:#貢献者
+blog#:#blog_confirm_delete_contributors#:#本当に次の投稿者を削除しますか?
+blog#:#blog_contribute_other_roles#:#次の割り当てには"投稿者"のアクセス権を設定:%s
+blog#:#blog_contributors#:#ブログ投稿者
 blog#:#blog_copy#:#ブログをコピー
 blog#:#blog_draft#:#Draft
 blog#:#blog_draft_info#:#この投稿ドラフトは作者のみしか表示されません。
@@ -2499,7 +2501,7 @@ blog#:#blog_show_latest#:#最終投稿/ドラフトを表示
 blog#:#blog_style#:#ブログスタイル
 blog#:#blog_toggle_draft#:#告知を取り消す
 blog#:#blog_toggle_draft_admin#:#ブログ投稿を解除
-blog#:#blog_toggle_final#:#投稿の発行
+blog#:#blog_toggle_final#:#投稿を公開
 book#:#book_add#:#予約集を追加
 book#:#book_add_object#:#オブジェクトを追加
 book#:#book_add_schedule#:#スケジュールを追加
@@ -2513,7 +2515,7 @@ book#:#book_booking_types#:#タイプ
 book#:#book_cal_entry#:#予約名:
 book#:#book_change_status#:#ステータス変更
 book#:#book_confirm_booking#:#予約確認
-book#:#book_confirm_booking_no_schedule#:#次のオブジェクトを本当に世やl区しますか?
+book#:#book_confirm_booking_no_schedule#:#次のオブジェクトを本当に予約しますか?
 book#:#book_confirm_booking_schedule_number_of_objects#:#予約確認
 book#:#book_confirm_booking_schedule_number_of_objects_info#:#予約するにはオブジェクト数を宣言してください。
 book#:#book_confirm_cancel#:#本当に次の予約をキャンセルしますか?
@@ -2592,7 +2594,7 @@ book#:#book_schedule_type#:#タイプ
 book#:#book_schedule_type_fix#:#確定
 book#:#book_schedule_type_fix_info#:#時間スロットにあるものだけ予約できます
 book#:#book_schedule_type_fixed#:#確定予定
-book#:#book_schedule_type_fixed_info#:#このタイプはルームやビーム等に使用されます。
+book#:#book_schedule_type_fixed_info#:#このタイプは部屋やビデオプロジェクター等に使用されます。
 book#:#book_schedule_type_flexible#:#変更可能
 book#:#book_schedule_type_flexible_info#:#日と時間を自由に予約できます
 book#:#book_schedule_type_none#:#予定なし
@@ -2785,6 +2787,15 @@ chatroom#:#chat_ban#:#禁止する
 chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b>は チャットルームを退室 ---
 chatroom#:#chat_connection_established#:#+++ <b>#username#</b> はチャットルームへ参加 +++
 chatroom#:#chat_create_private_room_button#:#プライベートルームを作成
+chatroom#:#chat_deletion_disabled#:#無効
+chatroom#:#chat_deletion_interval#:#インターバル
+chatroom#:#chat_deletion_interval_info#:#選択するとオンスクリーンチャット会話上のチャットリポジトリ内のメッセージはスレッショールドを定義した後に削除されます。
+chatroom#:#chat_deletion_interval_run_at#:#Time
+chatroom#:#chat_deletion_interval_run_at_info#:#サーバがメッセージ削除プロセスをする時の時刻(フォーマット:HH)を定義してください。
+chatroom#:#chat_deletion_interval_unit#:#ユニット
+chatroom#:#chat_deletion_interval_value#:#値
+chatroom#:#chat_deletion_ival_max_val#:#選択されたユニット'%'の最大値: %s
+chatroom#:#chat_deletion_section_head#:#古いメッセージの削除
 chatroom#:#chat_enable_autoscroll#:#オートスクロールON
 chatroom#:#chat_error_log_info#:#チャットサーバのエラーログファイルの絶対チャットサーバパスを定義してください。(例: /var/www/ilias/data/chat_error.log). パスが規定されていない場合は、チャットサーバはチャットサーバディレクトリ内にファイルを作成します。
 chatroom#:#chat_https_cert_info#:#SSL認定ファイルへの絶対サーバパスを定義してください(例: /etc/ssl/certs/server.pem)
@@ -3451,10 +3462,10 @@ common#:#cat_undo_last_page_changes#:#最終ページの変更取消し
 common#:#cat_wizard_page#:#コピーカテゴリ (Step 2/2)
 common#:#categories#:#カテゴリ
 common#:#categories_imported#:#カテゴリのインポートを完了
-common#:#catr#:#カテゴリレファレンス
-common#:#catr_edit#:#カテゴリレファレンスを編集
-common#:#catr_edit_info#:#新しいレファレンスを作成するためにカテゴリを一つ選択してください。
-common#:#catr_new#:#新しいカテゴリレファレンスを作成
+common#:#catr#:#カテゴリリンク
+common#:#catr_edit#:#カテゴリリンクを編集
+common#:#catr_edit_info#:#新しいリンクを作成するためにカテゴリを一つ選択してください。
+common#:#catr_new#:#新しいカテゴリリンクを作成
 common#:#cc#:#CC
 common#:#censorship#:#検閲
 common#:#certificate#:#証明書
@@ -3652,10 +3663,10 @@ common#:#crs_subscribers_assigned#:#新規ユーザの割当て
 common#:#crs_title#:#コースタイトル
 common#:#crs_unsubscribe#:#コースから削除
 common#:#crs_wizard_page#:#コースをコピー (Step 2/2)
-common#:#crsr#:#コース参照
-common#:#crsr_edit#:#コース参照を編集
-common#:#crsr_edit_info#:#新規に参照を作成するにはコースを一つ選択してください。
-common#:#crsr_new#:#新コース参照を作成
+common#:#crsr#:#コースリンク
+common#:#crsr_edit#:#コースリンクを編集
+common#:#crsr_edit_info#:#新規にリンクを作成するにはコースを一つ選択してください。
+common#:#crsr_new#:#新コースリンクを作成
 common#:#csv_export#:#CSVエクスポート
 common#:#cumulative_time#:#累計時間
 common#:#cur_number_rec#:#現在の記録番号
@@ -4220,7 +4231,7 @@ common#:#grp_select_one_file_only#:#正確に一つファイルを選択して�
 common#:#grp_wizard_page#:#コピーグループ(Step 2/2)
 common#:#grpr#:#Group Reference
 common#:#grpr_edit#:#Group Referenceを編集
-common#:#grpr_edit_info#:#新しいレファレンス用にグループを一つ選択してください。
+common#:#grpr_edit_info#:#新しいグループリンク用にグループを一つ選択してください。
 common#:#grpr_new#:#Group Referenceを編集生成
 common#:#guest#:#ゲスト
 common#:#guests#:#ゲスト
@@ -4303,8 +4314,8 @@ common#:#il_astpl_loc_initial#:#初期テスト
 common#:#il_astpl_loc_initial_desc#:#学習目標志向コースの初期テスト用テンプレート設定
 common#:#il_astpl_loc_qualified#:#資格テスト
 common#:#il_astpl_loc_qualified_desc#:#学習目標志向コースの資格テスト用テンプレート設定
-common#:#il_blog_contributor#:#ブログ貢献者
-common#:#il_blog_editor#:#ブログエディタ
+common#:#il_blog_contributor#:#ブログ著者
+common#:#il_blog_editor#:#ブログ編集者
 common#:#il_chat_moderator#:#チャットモデレータ
 common#:#il_chat_moderator_moderate#:#チャットルームをモデレート
 common#:#il_chat_moderator_read#:#チャットルームへの読み込アクセス権
@@ -4954,7 +4965,7 @@ common#:#obj_cals_desc#:#カレンダー全般設定
 common#:#obj_cat#:#カテゴリ
 common#:#obj_cat_duplicate#:#カテゴリをコピー
 common#:#obj_cat_select#:#-- カテゴリを一つ選択--
-common#:#obj_catr#:#カテゴリレファレンス
+common#:#obj_catr#:#カテゴリリンク
 common#:#obj_cen#:#中枢行事
 common#:#obj_cert#:#証明書
 common#:#obj_cert_desc#:#証明書設定
@@ -4971,7 +4982,7 @@ common#:#obj_cmps_desc#:#リポジトリーモジュール、サービス、プ�
 common#:#obj_crs#:#コース
 common#:#obj_crs_duplicate#:#コースをコピー
 common#:#obj_crs_select#:#-- コースを一つ選択 --
-common#:#obj_crsr#:#コースレファレンス
+common#:#obj_crsr#:#コースリンク
 common#:#obj_crss#:#コース
 common#:#obj_crss_desc#:#コースの全般設定
 common#:#obj_crsv#:#コース証明書
@@ -5179,13 +5190,13 @@ common#:#objs_bibl#:#著者目録
 common#:#objs_blog#:#ブログ
 common#:#objs_book#:#予約集
 common#:#objs_cat#:#カテゴリ
-common#:#objs_catr#:#カテゴリレファレンス
+common#:#objs_catr#:#カテゴリリンク
 common#:#objs_chat#:#チャット
 common#:#objs_chtr#:#チャット
 common#:#objs_cld#:#クラウドオブジェクトを追加
 common#:#objs_confirm#:#アクション確認
 common#:#objs_crs#:#コース
-common#:#objs_crsr#:#コースレファレンス
+common#:#objs_crsr#:#コースリンク
 common#:#objs_dbk#:#Digilibブック
 common#:#objs_dcl#:#データ収集
 common#:#objs_delete#:#オブジェクトを削除
@@ -5452,7 +5463,7 @@ common#:#readcount_users#:#非匿名読込アクセス数
 common#:#recf_edit#:#リカバリーフォルダを編集
 common#:#recipient#:#受信者
 common#:#reference_deleted#:#行き先(目的リンク）利用不可
-common#:#reference_of#:#参照
+common#:#reference_of#:#参照:
 common#:#referral_comment#:#ILIASに関する評判はいかがでしたか?
 common#:#refresh#:#リフレッシュ
 common#:#refresh_languages#:#全ての言語をリフレッシュ
@@ -7303,7 +7314,7 @@ content#:#cont_unlocked#:#解除中
 content#:#cont_Unordered#:#未指示
 content#:#cont_update#:#更新
 content#:#cont_update_amd_page_list#:#ページリストを編集
-content#:#cont_update_blog#:#ブログを編集
+content#:#cont_update_blog#:#投稿ブログを編集
 content#:#cont_update_consultation_hours#:#相談時間を編集
 content#:#cont_update_login_page#:#ログインページ要素を編集
 content#:#cont_update_login_page_element#:#ログインページ要素を更新
@@ -7509,7 +7520,7 @@ cron#:#cron_result_status_invalid_configuration#:#不正な構成
 cron#:#cron_result_status_no_action#:#Ok, 処理中なし
 cron#:#cron_result_status_ok#:#Ok
 cron#:#cron_result_status_reset#:#リセット
-cron#:#cron_running_since#:#稼働時間
+cron#:#cron_running_since#:#開始時間
 cron#:#cron_schedule#:#予定
 cron#:#cron_schedule_daily#:#毎日
 cron#:#cron_schedule_in_days#:#%s日間隔
@@ -8171,7 +8182,7 @@ crs#:#crs_users_already_assigned#:#ユーザはこのコースに割当て済で
 crs#:#crs_users_removed_from_list#:#選択したユーザはマチリストから削除されました
 crs#:#crs_usr_agreement#:#ユーザ許諾書
 crs#:#crs_view_archive#:#アーカイブビュー
-crs#:#crs_view_info_objective#:#個別化学習用のコース:ラーニングモジュールのパフォーマンスが取組を管理します。配置テストの個別パフォーマンスベースを推奨する内容となることがあります。最終テストは学習目標習熟の証明に使用されます。
+crs#:#crs_view_info_objective#:#個別取組みコース:ラーニングモジュールのパフォーマンスが取組状況を管理します。初期テストの個別パフォーマンスベースを推奨する内容となることがあります。最終テストは学習目標習熟度の把握に使用することができます。
 crs#:#crs_view_info_timing#:#タイミング事前設定の説明モード
 crs#:#crs_view_mode#:#コースプレゼンテーション
 crs#:#crs_view_objective#:#学習目標指向型コース
@@ -8812,7 +8823,7 @@ dcl#:#dcl_deleted_records#:#%sレコードが正しく削除されました
 dcl#:#dcl_desc#:#降順 (DESC)
 dcl#:#dcl_description#:#フィールド説明
 dcl#:#dcl_detailed_view#:#詳細ビュー
-dcl#:#dcl_display_action_menu#:#コピーまたは参照モジュールへのリンクの可能性を利用可能にする
+dcl#:#dcl_display_action_menu#:#コピーまたはリンクモジュールへのリンクの可能性を利用可能にする
 dcl#:#dcl_display_action_menu_desc#:#ユーザがアクセス権をそのように設定すると目標はコピーまたはリンクできます。
 dcl#:#dcl_display_record_alt#:#エントリーを表示
 dcl#:#dcl_edit#:#データ収集を編集
@@ -8996,6 +9007,7 @@ dcl#:#dcl_table_list_fields#:#選択したテーブルのフィールド
 dcl#:#dcl_table_list_tables#:#利用可能なテーブル
 dcl#:#dcl_table_settings#:#テーブル設定
 dcl#:#dcl_table_settings_saved#:#テーブル設定は保存されました。
+dcl#:#dcl_table_title_not_matching#:#Excelシートのタイトルとデータ収集テーブルが一致しません。正しくインポートするにはシートを別名にします。
 dcl#:#dcl_table_title_unique#:#このタイトルですでにテーブルが存在します。タイトルはユニークである必要があります。
 dcl#:#dcl_tableorder#:#テーブル順番
 dcl#:#dcl_tables#:#テーブル
@@ -9323,7 +9335,7 @@ exc#:#exc_assignment_view#:#課題表示(Assignment View)
 exc#:#exc_assignments#:#課題（Assignment）
 exc#:#exc_assignments_deleted#:#課題は削除されました。
 exc#:#exc_blog_created#:#ブログが作成されました。
-exc#:#exc_blog_returned#:#課題ブログ
+exc#:#exc_blog_returned#:#割当てブログ
 exc#:#exc_blog_selected#:#ブログが割当てられました。
 exc#:#exc_comment_for_learner_edit#:#コメントとしてテキストフィールドへ入力
 exc#:#exc_comment_for_learner_info#:#ユーザへ通知が送られてフィードバックはユーザの課題表示内に一覧表示されます。
@@ -9815,6 +9827,7 @@ forum#:#forums_the_post#:#記事
 forum#:#forums_thread#:#トピック
 forum#:#forums_thread_create_from#:#作成者
 forum#:#forums_thread_deleted#:#全ての投稿を含む選択されたスレッドは削除されました。
+forum#:#forums_thread_drafts_deleted#:#全ての投稿とドラフトを含む選択されたスレッドは削除されました。
 forum#:#forums_thread_marked#:#トピックは既読としてマークされました。
 forum#:#forums_thread_new_entry#:#新しいトピックが作成されました
 forum#:#forums_threads_deleted#:#全ての投稿を含む選択されたスレッドは削除されました。
@@ -11465,7 +11478,7 @@ mob#:#mob_subtitles#:#字幕
 mob#:#mob_upload_multi_srt#:#ZIPとしてアップロード
 mob#:#mob_upload_multi_srt_howto#:#.zipファイルはサブディレクトリへ含められないので全ての.srtファイルはトップレベル上に位置するようにしなければなりません。langコードは"en","it","de"の例のようにファイル名が"_&lt;lang code&gt;.srt"で終了するようにする必要があります。
 news#:#finish_publishing_date#:#発行を終了します
-news#:#new_test_online#:#テストはオンラインにされていされていました。
+news#:#new_test_online#:#現在オフラインです。
 news#:#news_1_file_created#:#ファイルが1個追加されました。
 news#:#news_1_file_updated#:#ファイルが1個更新されました。
 news#:#news_1_postings#:#投稿が1個追加されました。
@@ -11899,7 +11912,7 @@ prg#:#prg_new#:#新しい学習プログラム
 prg#:#prg_no_members_not_active#:#このプログラムはアクティブではないのでメンバーを追加できません。
 prg#:#prg_not_allowed_node_to_delete#:#このノードの削除権がありません。
 prg#:#prg_open_node#:#このノードへ切替
-prg#:#prg_please_select_a_course_for_creating_a_leaf#:#コースレファレンスリーフ作成中のコースを選択してください。
+prg#:#prg_please_select_a_course_for_creating_a_leaf#:#コースリンクリーフ作成中のコースを選択してください。
 prg#:#prg_points#:#ポイント
 prg#:#prg_points_current#:#現在のポイント
 prg#:#prg_points_reachable#:#入手可能な点数
@@ -12270,11 +12283,11 @@ rbac#:#cat_read#:#ユーザはカテゴリへの読込アクセス権があり�
 rbac#:#cat_read_users#:#ユーザはこのカテゴリに作成されたローカルユーザアカウントを読込むことができます
 rbac#:#cat_visible#:#カテゴリを表示
 rbac#:#cat_write#:#ユーザはカテゴリ設定編集と内容管理ができます
-rbac#:#catr_copy#:#カテゴリ参照をコピー
-rbac#:#catr_delete#:#カテゴリ参照を削除
+rbac#:#catr_copy#:#カテゴリリンクをコピー
+rbac#:#catr_delete#:#カテゴリリンクを削除
 rbac#:#catr_edit_permission#:#アクセス権限設定を変更
-rbac#:#catr_visible#:#カテゴリ参照を表示
-rbac#:#catr_write#:#カテゴリレファレンスを編集
+rbac#:#catr_visible#:#カテゴリリンクを表示
+rbac#:#catr_write#:#カテゴリリンクを編集
 rbac#:#cert_edit_permission#:#ユーザは証明書管理のアクセス権設定を変更できます
 rbac#:#cert_read#:#ユーザは証明書管理への読込アクセス権があります
 rbac#:#cert_visible#:#証明書管理を表示
@@ -12325,11 +12338,11 @@ rbac#:#crs_read#:#ユーザはコースの読込アクセス権があります
 rbac#:#crs_read_learning_progress#:#ユーザは他のユーザの学習進捗を表示できます。
 rbac#:#crs_visible#:#コースを表示
 rbac#:#crs_write#:#ユーザはコース設定編集と内容管理ができます
-rbac#:#crsr_copy#:#コース参照をコピー
-rbac#:#crsr_delete#:#コース参照を削除
+rbac#:#crsr_copy#:#コースリンクをコピー
+rbac#:#crsr_delete#:#コースリンクを削除
 rbac#:#crsr_edit_permission#:#アクセス権限設定を変更
-rbac#:#crsr_visible#:#コース参照を表示
-rbac#:#crsr_write#:#コースレファレンスを編集
+rbac#:#crsr_visible#:#コースリンクを表示
+rbac#:#crsr_write#:#コースリンクを編集
 rbac#:#crss_edit_permission#:#ユーザはコース管理のアクセス権設定変更ができます
 rbac#:#crss_read#:#ユーザはコース管理への読み込みアクセス権があります
 rbac#:#crss_visible#:#コース管理を表示
@@ -12439,11 +12452,11 @@ rbac#:#grp_read#:#ユーザはグループへの読込アクセス権があり�
 rbac#:#grp_read_learning_progress#:#ユーザは他のユーザの学習進捗を表示できます
 rbac#:#grp_visible#:#グループを表示
 rbac#:#grp_write#:#ユーザはグループ設定編集と内容の管理ができます
-rbac#:#grpr_copy#:#ユーザはグループレファレンスをコピーできます
-rbac#:#grpr_delete#:#ユーザはグループレファレンスを移動または削除できます
+rbac#:#grpr_copy#:#ユーザはグループリンクをコピーできます
+rbac#:#grpr_delete#:#ユーザはグループリンクを移動または削除できます
 rbac#:#grpr_edit_permission#:#ユーザはアクセス権設定を変更できます
-rbac#:#grpr_visible#:#グループレファレンスを表示します
-rbac#:#grpr_write#:#ユーザはグループレファレンスの設定を編集できます
+rbac#:#grpr_visible#:#グループリンクを表示します
+rbac#:#grpr_write#:#ユーザはグループリンクの設定を編集できます
 rbac#:#grps_edit_permission#:#ユーザはグループ管理のアクセス権設定変更ができます
 rbac#:#grps_read#:#ユーザはグループ管理への読み込みアクセス権があります
 rbac#:#grps_visible#:#グループ管理を表示
@@ -12649,11 +12662,11 @@ rbac#:#rbac_create_bibl#:#著者目録を作成
 rbac#:#rbac_create_blog#:#ブログ作成
 rbac#:#rbac_create_book#:#予約集を作成
 rbac#:#rbac_create_cat#:#カテゴリを表示作成
-rbac#:#rbac_create_catr#:#カテゴリ参照を作成
+rbac#:#rbac_create_catr#:#カテゴリリンクを作成
 rbac#:#rbac_create_chtr#:#チャットルームを作成
 rbac#:#rbac_create_cld#:#新規クラウドオブジェクトを作成
 rbac#:#rbac_create_crs#:#コースを作成
-rbac#:#rbac_create_crsr#:#コースレファレンスを作成
+rbac#:#rbac_create_crsr#:#コースリンクを作成
 rbac#:#rbac_create_dcl#:#データ収集作成
 rbac#:#rbac_create_exc#:#演習問題を作成
 rbac#:#rbac_create_feed#:#Webフィードを作成
@@ -12662,7 +12675,7 @@ rbac#:#rbac_create_fold#:#フォルダ作成
 rbac#:#rbac_create_frm#:#フォーラムを作成
 rbac#:#rbac_create_glo#:#用語集を作成
 rbac#:#rbac_create_grp#:#グループを作成
-rbac#:#rbac_create_grpr#:#グループレファレンスを作成
+rbac#:#rbac_create_grpr#:#グループリンクを作成
 rbac#:#rbac_create_htlm#:#HTMLラーニングモジュールを作成
 rbac#:#rbac_create_iass#:#個別アセスメントを作成
 rbac#:#rbac_create_itgr#:#アイテムグループ作成
@@ -15921,19 +15934,8 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
-assessment#:#tst_failed_imp_skl_thresholds#:#The Import of thresholds for the following competences were skipped, because the according competences within the local system are configured with a different list of levels.###13 07 2017 new variable
-assessment#:#tst_failed_imp_qst_skl_assign#:#The question's assignments to the following competences could not be created. The accoring competences could not be identified within the local system.###13 07 2017 new variable
-assessment#:#ass_skl_import_fails_remove_btn#:#Remove this Hint###13 07 2017 new variable
-assessment#:#use_previous_solution_advice#:#The shown solution for the question is your previously given one. You have to confirm the adoption of the solution, if you like to use it without any change. ###13 07 2017 new variable
-assessment#:#use_previous_solution#:#Use Previous Solution###13 07 2017 new variable
-dcl#:#dcl_table_title_not_matching#:#The titles of the excel sheet and the Data Collection table do not match. Rename the sheet for a successfull import.###13 07 2017 new variable
-chatroom#:#chat_deletion_section_head#:#Deletion of old Messages###13 07 2017 new variable
-chatroom#:#chat_deletion_disabled#:#Disabled###13 07 2017 new variable
-chatroom#:#chat_deletion_interval#:#Interval###13 07 2017 new variable
-chatroom#:#chat_deletion_interval_info#:#If chosen, messages in the repository chat on On-Screen-Chat conversations will be deleted after the defined threshold.###13 07 2017 new variable
-chatroom#:#chat_deletion_interval_unit#:#Unit###13 07 2017 new variable
-chatroom#:#chat_deletion_interval_value#:#Value###13 07 2017 new variable
-chatroom#:#chat_deletion_ival_max_val#:#The maximum value for the chose unit '%s' is: %s###13 07 2017 new variable
-chatroom#:#chat_deletion_interval_run_at_info#:#Please define the time (format: HH:MM) when the server should process the message deletion.###13 07 2017 new variable
-forum#:#forums_thread_drafts_deleted#:#The selected thread including all postings and drafts have been deleted.###25 08 2017 new variable
-chatroom#:#chat_deletion_interval_run_at#:#Time###25 08 2017 new variable
+assessment#:#ass_txt_char_lim_exhausted_hint#:#Your answer has %s characters and exceeds the character limit of %s characters!###22 09 2017 new variable
+assessment#:#false#:#False###22 09 2017 new variable
+assessment#:#true#:#True###22 09 2017 new variable
+assessment#:#tst_qst_added_to_pool_s#:#Successfully added the question to the selected pool.###22 09 2017 new variable
+assessment#:#tst_qst_added_to_pool_p#:#Successfully added the questions to the selected pool.###22 09 2017 new variable

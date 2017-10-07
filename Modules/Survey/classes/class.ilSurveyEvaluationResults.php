@@ -176,8 +176,26 @@ class ilSurveyEvaluationResults
 				}
 			}				
 		}
-	}		
-	
+	}
+
+	protected function getCatTitle($a_value)
+	{
+		if(!sizeof($this->variables))
+		{
+			return $a_value;
+		}
+		else
+		{
+			foreach($this->variables as $var)
+			{
+				if($var->cat->scale == $a_value)
+				{
+					return $var->cat->title;
+				}
+			}
+		}
+	}
+
 	public function getMappedTextAnswers()
 	{
 		$res = array();
@@ -207,7 +225,8 @@ class ilSurveyEvaluationResults
 					$res[] = array(
 						$this->getScaleText($answer->value), 
 						$answer->text,
-						$answer->value
+						$answer->value,
+						$this->getCatTitle($answer->value)
 					);
 				}
 			}

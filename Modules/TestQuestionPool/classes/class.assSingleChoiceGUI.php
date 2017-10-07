@@ -315,7 +315,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 			$template->setCurrentBlock("answer_row");
 			$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
 			
-			if( $this->renderPurposeSupportsFormHtml() )
+			if( $this->renderPurposeSupportsFormHtml() || $this->isRenderPurposePrintPdf() )
 			{
 				if (strcmp($user_solution, $answer_id) == 0)
 				{

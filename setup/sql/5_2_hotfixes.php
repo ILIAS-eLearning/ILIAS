@@ -250,3 +250,18 @@ foreach ($services as $s) {
 	}
 }
 ?>
+<#15>
+<?php
+
+if($ilDB->tableColumnExists('reg_registration_codes','generated'))
+{
+	$ilDB->renameTableColumn('reg_registration_codes', "generated", 'generated_on');
+}
+?>
+<#16>
+<?php
+if(!$ilDB->indexExistsByFields('style_parameter',array('style_id')))
+{
+	$ilDB->addIndex('style_parameter',array('style_id'),'i1');
+}
+?>

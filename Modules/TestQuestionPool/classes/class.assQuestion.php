@@ -1019,7 +1019,10 @@ abstract class assQuestion
 						ilUtil::prepareFormOutput($solution['value']['name']),
 						$this->lng->txt('tst_show_solution_suggested')
 					)));
-					array_push($output, '<a href="' . $this->getSuggestedSolutionPathWeb() . $solution["value"]["name"] . '">' . $possible_texts[0] . '</a>');
+
+					require_once 'Services/WebAccessChecker/classes/class.ilWACSignedPath.php';
+					ilWACSignedPath::setTokenMaxLifetimeInSeconds(60);
+					array_push($output, '<a href="' . ilWACSignedPath::signFile($this->getSuggestedSolutionPathWeb() . $solution["value"]["name"]) . '">' . $possible_texts[0] . '</a>');
 					break;
 				case "text":
 					$solutionValue = $solution["value"];
@@ -4349,21 +4352,18 @@ abstract class assQuestion
 	 * @param
 	 * @return
 	 */
-	function formatSAQuestion($a_q)
+	public function formatSAQuestion($a_q)
 	{
-		include_once("./Services/RTE/classes/class.ilRTE.php");
-		$a_q = nl2br((string) ilRTE::_replaceMediaObjectImageSrc($a_q, 0));
-		$a_q = str_replace("</li><br />", "</li>", $a_q);
-		$a_q = str_replace("</li><br>", "</li>", $a_q);
+		return $this->getSelfAssessmentFormatter()->format($a_q);
+	}
 
-		include_once './Services/MathJax/classes/class.ilMathJax.php';
-		$a_q = ilMathJax::getInstance()->insertLatexImages($a_q, "\[tex\]", "\[\/tex\]");
-		$a_q = ilMathJax::getInstance()->insertLatexImages($a_q, "\<span class\=\"latex\">", "\<\/span>");
-
-		$a_q = str_replace('{', '&#123;', $a_q);
-		$a_q = str_replace('}', '&#125;', $a_q);
-		
-		return $a_q;
+	/**
+	 * @return \ilAssSelfAssessmentQuestionFormatter
+	 */
+	protected function getSelfAssessmentFormatter()
+	{
+		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssSelfAssessmentQuestionFormatter.php';
+		return new \ilAssSelfAssessmentQuestionFormatter();
 	}
 
 	// scorm2004-start ???
@@ -5003,7 +5003,7 @@ abstract class assQuestion
 	{
 		foreach( $this->getSolutionValues($activeId, $passIndex, false) as $solutionRec )
 		{
-			if( empty($solutionRec['value1']) && empty($solutionRec['value2']) )
+			if( 0 == strlen($solutionRec['value1']) && 0 == strlen($solutionRec['value2']) )
 			{
 				$this->removeSolutionRecordById($solutionRec['solution_id']);
 			}

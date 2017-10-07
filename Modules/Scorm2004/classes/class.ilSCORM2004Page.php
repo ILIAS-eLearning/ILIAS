@@ -293,6 +293,14 @@ class ilSCORM2004Page extends ilPageObject
 	 */
 	function performAutomaticModifications()
 	{
+		// disabled this due to #0011195
+		// this does not really work well. Besides creating duplicates, it does not ensure that all
+		// glossary terms are in the assigned glossary. Copying whole pages does not trigger
+		// this procedure. Moreover if no glossary is attached copying pages will still create links
+		// in the target SCORM LM. The SCORM Export seesm to work well, even if terms are in other glossaries
+
+		return;
+
 		if ($this->getGlossaryId() > 0)
 		{
 			// we fix glossary links here

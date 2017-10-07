@@ -245,7 +245,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 				
 				case 'roles':
 					$this->tpl->setCurrentBlock('custom_fields');
-					$this->tpl->setVariable('VAL_CUST', (string) $a_set['roles']);
+					$this->tpl->setVariable('VAL_CUST', (string) $a_set['roles_label']);
 					$this->tpl->parseCurrentBlock();
 					break;
 					
@@ -482,8 +482,10 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 				}
 			}
 			$a_user_data[$user_id] = array_merge($ud,$course_user_data[$user_id]);
-			$a_user_data[$user_id]['roles'] = implode('<br />', $roles);
-			
+			$a_user_data[$user_id]['roles_label'] = implode('<br />', $roles);
+
+			$a_user_data[$user_id]['roles'] = $this->participants->setRoleOrderPosition($user_id);
+
 			if($this->show_lp_status_sync)
 			{								
 				// #9912 / #13208

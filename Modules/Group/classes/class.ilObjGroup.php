@@ -67,7 +67,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	protected $waiting_list = false;
 	protected $auto_fill_from_waiting; // [bool]
 	protected $leave_end; // [ilDate]
-	protected $show_members;
+	protected $show_members = 1;
 	
 	
 	// Map
@@ -1565,33 +1565,6 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			return false;
 		}
 	}
-	
-	/**
-	 * This method is called before "initDefaultRoles".
-	 * Therefore now local course roles are created.
-	 * 
-	 * Grants permissions on the course object for all parent roles.
-	 * Each permission is granted by computing the intersection of the 
-	 * template il_crs_non_member and the permission template of the parent role.
-	 * @param type $a_parent_ref
-	 */
-	public function setParentRolePermissions($a_parent_ref)
-	{
-		global $rbacadmin, $rbacreview;
-		
-		$parent_roles = $rbacreview->getParentRoleIds($a_parent_ref);
-		foreach((array) $parent_roles as $parent_role)
-		{
-			$rbacadmin->initIntersectionPermissions(
-				$this->getRefId(),
-				$parent_role['obj_id'],
-				$parent_role['parent'],
-				$this->getGrpStatusOpenTemplateId(),
-				ROLE_FOLDER_ID
-			);
-		}
-	}
-	
 	/**
 	* init default roles settings
 	* @access	public

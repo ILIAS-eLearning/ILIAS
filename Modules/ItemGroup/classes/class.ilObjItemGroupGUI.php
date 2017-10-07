@@ -319,6 +319,20 @@ class ilObjItemGroupGUI extends ilObject2GUI
 		$this->object->setHideTitle($a_form->getInput("hide_title"));
 	}
 
+	/**
+	 * Init object creation form
+	 *
+	 * @param	string	$a_new_type
+	 * @return	ilPropertyFormGUI
+	 */
+	protected function initCreateForm($a_new_type)
+	{
+		$form = parent::initCreateForm($a_new_type);
+		$ta = $form->getItemByPostVar("desc");
+		$ta->setInfo($this->lng->txt("itgr_desc_info"));
+		return $form;
+	}
+
 
 }
 ?>

@@ -74,8 +74,20 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
   
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
-
 		
+		if(
+			!$this->getCreationMode() &&
+			$GLOBALS['DIC']->access()->checkAccess('read','', $_GET['ref_id'])
+		)
+		{
+			include_once("./Services/Link/classes/class.ilLink.php");
+			$GLOBALS['DIC']['ilNavigationHistory']->addItem(
+				(int) $_GET['ref_id'],
+				ilLink::_getLink((int) $_GET['ref_id'], 'sess'),
+				'sess'
+			);
+		}
+
 		$this->prepareOutput();
   		switch($next_class)
 		{
@@ -1698,7 +1710,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 				$this->form->addCommandButton('save',$this->lng->txt('event_btn_add'));
 				$this->form->addCommandButton('saveAndAssignMaterials',$this->lng->txt('event_btn_add_edit'));
-				$this->form->addCommandButton('cancelEdit',$this->lng->txt('cancel'));
+				$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
 		
 				return true;
 			

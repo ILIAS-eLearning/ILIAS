@@ -323,6 +323,7 @@ assessment#:#ass_mc_sel_lim_hint#:#Bitte wählen Sie %s von %s Antworten!
 assessment#:#ass_mc_sel_lim_exhausted_hint#:#Bitte wählen Sie nicht mehr als %s von %s Antworten!
 assessment#:#ass_mc_sel_lim_setting#:#Antwortbeschränkung
 assessment#:#ass_mc_sel_lim_setting_desc#:#Mit dieser Einstellung lässt sich die Anzahl durch den Teilnehmer wählbarer Antworten einschränken.
+assessment#:#ass_txt_char_lim_exhausted_hint#:#Ihre Eingabe überschreitet mit %s Zeichen die Zeichenbeschränkung von %s Zeichen!
 assessment#:#essay_scoring_mode#:#Bewertungsmodus
 assessment#:#essay_scoring_mode_without_keywords#:#Keine automatische Bewertung
 assessment#:#essay_scoring_mode_without_keywords_desc#:#Es werden keine Punkte automatisiert vergeben. Die Punktevergabe ist nur mit manueller Bewertung möglich.
@@ -1800,6 +1801,8 @@ assessment#:#sign_submission#:#Digitale Signatur
 assessment#:#sign_submission_info#:#Das Signatur-Plugin muss installiert und aktiviert sein, damit Teilnehmer aufgefordert werden, ihre Testabgabe zu signieren.
 assessment#:#preserve_manscoring#:#Manuelle Bewertungen erhalten
 assessment#:#preserve_manscoring_info#:#Aufgrund von Veränderungen in der Fragebewertung kann es erforderlich sein, bislang erfolgte manuelle Bewertungen zu verwerfen. Dieser Schalter gestattet die Entwertung ALLER manuellen Bewertungen in einem Test und sollte nur in Ausnahmefällen genutzt werden. 
+assessment#:#tst_qst_added_to_pool_s#:#Die Frage wurde erfolgreich in den Fragenpool übernommen. 
+assessment#:#tst_qst_added_to_pool_p#:#Die Fragen wurden erfolgreich in den Fragenpool übernommen.
 auth#:#auth_account_code#:#Code
 auth#:#auth_account_code_info#:#Um Ihr Benutzerkonto zu reaktivieren, können Sie einen ILIAS-Benutzerkonten-Code benutzen.
 auth#:#auth_account_code_title#:#Benutzerkonten-Code
@@ -10956,7 +10959,7 @@ survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#workingtime#:#Bearbeitungsdauer
 survey#:#wrong_categories_selected_for_insert#:#ILIAS konnte die geplante Aktion nicht durchführen. Bitte stellen Sie sicher, dass nur genau eine Antwort als Zielposition ausgewählt wurde!###deprecated 
-survey#:#wrong_survey_code_used#:#Sie können diese Umfrage nicht starten, da Sie versucht haben, einen ungültigen Zugangsschlüssel zu verwenden.
+survey#:#wrong_survey_code_used#:#Kein Zugriff auf die Umfrage. Ihr Zugangsschlüssel ist ungültig oder wurde bereits verwendet.
 tagging#:#tagging_all_users#:#Alle Benutzer
 tagging#:#tagging_edit_settings#:#Einstellungen
 tagging#:#tagging_enable_all_users#:#Zeige Tags aller Benutzer
@@ -11232,6 +11235,7 @@ trac#:#vm_times_of_day#:#Tageszeiten innerhalb des Zeitraums###deprecated
 tstv#:#tstv_create#:#Testzertifikat erstellen
 tstv#:#tstv_create_info#:#Wählen Sie einen Test, für den Sie ein Zertifikat benötigen
 user#:#clipboard_add_btn#:#Der Zwischenablage hinzufügen
+user#:#clipboard_add_from_btn#:#Aus der Zwischenablage hinzufügen
 user#:#clipboard_user_added#:#Die ausgewählten Benutzer wurden der Zwischenablage hinzugefügt.
 user#:#clipboard_table_title#:#Zwischenablage (Benutzerkonten)
 user#:#enable_local_user_administration#:#Lokale Benutzerverwaltung aktivieren
@@ -14442,7 +14446,7 @@ administration#:#language_delete_local_additions_info#:#Löscht alle Einträge i
 administration#:#language_merge_local_changes_info#:#Mischt alle lokalen Änderungen oder Ergänzungen in die Standard-Sprachdatei lang/ilias_%s.lang. Der Web-Server muss Schreibrecht auf dieser Datei besitzen.
 administration#:#language_remove_local_file_info#:#Entfernt die Datei Customizing/global/lang/ilias_%s.lang.local und setzt den Status der Sprache von "Mit lokaler Version installiert" auf "Installiert". Die Einträge in der Datenbank sind davon nicht betroffen.
 administration#:#language_save_dist#:#Backup der Standard-Sprachdatei erzeugen
-administration#:#language_save_dist_info#:#Erzeugt ein Backup der Standard-Sprachdatei im ILIAS-Datenverzeichnis. Dies hilft nach einem ILIAS-Update, Koflikte von eingenen Änderungen mit aktualisierten Sprachvariablen zu finden.
+administration#:#language_save_dist_info#:#Erzeugt ein Backup der Standard-Sprachdatei im externen ILIAS-Datenverzeichnis. Dies hilft nach einem ILIAS-Update, Konflikte von eigenen Änderungen mit aktualisierten Sprachvariablen zu finden.
 administration#:#language_saved_dist#:#Das Backup der Standard-Sprachdatei wurde erzeugt.
 administration#:#language_save_dist_failed#:#Das Backup der Standard-Sprachdatei konnte nicht geschrieben werden.
 crs#:#crs_loc_type_initial_all_info#:#Anhand der Ergebnisse des Einstiegstests empfiehlt ILIAS Lerninhalte für die  noch nicht erreichten Lernziele. Ein Qualifizierender Test prüft zum Abschluss  die Erreichung aller Lernziele.
@@ -14533,7 +14537,7 @@ scormtrac#:#student_response#:#student_response: Antwort
 scormtrac#:#ostatus#:#Status des Lernziels
 prtf#:#prtf_blog_page_created#:#Blog wurde hinzugefügt.
 wiki#:#wiki_adv_md_hidden#:#Dieser Block wird aktuell nicht präsentiert.###deprecated 
-wiki#:#wiki_page_list_form_info#:#Fügt eine Liste mit Wiki-Seiten hinzu, die nachfolgenden Metadaten zugeordnet sind.
+wiki#:#wiki_page_list_form_info#:#Fügt eine Liste mit Wiki-Seiten hinzu, die nachfolgenden Metadaten zugeordnet sind. Es werden nur durchsuchbare Metadatenfelder aus den Metadatensätzen des Wikis angeboten.
 content#:#cont_pc_amdpl#:#Seitenliste
 meta#:#udf_type_selectmulti#:#Auswahlliste (Mehrfachauswahl)
 wiki#:#wiki_no_page_found#:#Es wurden keine Seiten zum Suchbegriff '$1' gefunden.
@@ -15937,3 +15941,4 @@ exc#:#exc_settings_feedback_mail_info#:#Tutoren geben ihre Rückmeldungen zur Ab
 exc#:#exc_settings_feedback_file_info#:#Tutoren laden ihre Datei hoch. Der jeweilige Teilnehmer erhält eine Benachrichtigung und die Datei wird ihm in der Übungseinheiten-Übersicht angezeigt.
 exc#:#exc_settings_feedback_text_info#:#Tutoren geben ihre Rückmeldungen in ein Textfeld ein. Der jeweilige Teilnehmer erhält eine Benachrichtigung und der Text wird ihm in der Übungseinheiten-Übersicht angezeigt.
 chatroom#:#chat_deletion_interval_run_at#:#Time###25 08 2017 new variable
+wiki#:#wiki_pg_list_no_search_fields#:#Es befinden sich keine durchsuchbaren Metadatenfelder in den Metadatensätzen des Wikis.

@@ -39,27 +39,13 @@ class ilFulltextMediaCastSearch extends ilMediaCastSearch
 	function __createWhereCondition()
 	{
 		// IN BOOLEAN MODE
-		if($this->db->isMysql4_0OrHigher())
+		$query .= " WHERE context_obj_type='mcst' AND MATCH(title,content) AGAINST('";
+		foreach($this->query_parser->getQuotedWords(true) as $word)
 		{
-			$query .= " WHERE context_obj_type='mcst' AND MATCH(title,content) AGAINST('";
-			foreach($this->query_parser->getQuotedWords(true) as $word)
-			{
-				$query .= $word;
-				$query .= '* ';
-			}
-			$query .= "' IN BOOLEAN MODE) ";
+			$query .= $word;
+			$query .= '* ';
 		}
-		else
-		{
-			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
-			$query .= " WHERE  context_obj_type='mcst' AND MATCH (title,content) AGAINST(' ";
-			foreach($this->query_parser->getQuotedWords(true) as $word)
-			{
-				$query .= $word;
-				$query .= ' ';
-			}
-			$query .= "') ";
-		}
+		$query .= "' IN BOOLEAN MODE) ";
 		return $query;
 	}
 }

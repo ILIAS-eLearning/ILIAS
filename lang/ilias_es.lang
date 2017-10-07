@@ -15930,7 +15930,7 @@ assessment#:#use_previous_solution_advice#:#La solución que se muestra para la 
 assessment#:#use_previous_solution#:#Utilizar la solución anterior
 dcl#:#dcl_table_title_not_matching#:#Los títulos de la hoja de cálculo Excel y de la colección de datos no son iguales. Cambie el nombre de la hoja para que la importación pueda realizarse.
 chatroom#:#chat_deletion_section_head#:#Borrado de mensajes antiguos
-chatroom#:#chat_deletion_disabled#:#Desactiado
+chatroom#:#chat_deletion_disabled#:#Desactivado
 chatroom#:#chat_deletion_interval#:#Intervalo
 chatroom#:#chat_deletion_interval_info#:#Si se selecciona, los mensajes en el repositorio del chat en conversaciones en el Chat en pantalla serán borrados después del intervalo definido.
 chatroom#:#chat_deletion_interval_unit#:#Unidades
@@ -15939,3 +15939,6 @@ chatroom#:#chat_deletion_ival_max_val#:#El valor máximo para las unidades selec
 chatroom#:#chat_deletion_interval_run_at_info#:#Por favor, indique el horario (formato: HH:MM) cuando el servidor realizará el borrado de mensajes.
 forum#:#forums_thread_drafts_deleted#:#El hilo seleccionado incluyendo todos los envíos y borradores ha sido borrado.
 chatroom#:#chat_deletion_interval_run_at#:#Tiempo
+assessment#:#ass_txt_char_lim_exhausted_hint#:#Tu respuesta tiene %s caracteres y supera el límite de %s caracteres!
+assessment#:#tst_qst_added_to_pool_s#:#La pregunta se añadió con éxito al banco de preguntas seleccionado
+assessment#:#tst_qst_added_to_pool_p#:#Las preguntas se añadieron con éxito al banco de preguntas seleccionado

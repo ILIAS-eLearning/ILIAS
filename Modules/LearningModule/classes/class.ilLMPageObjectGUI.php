@@ -303,6 +303,13 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 						$t_frame = ilFrameTargetInfo::_getFrame("MainContent", $obj_type);
 						$ltarget = $t_frame;
 						break;
+
+					case "File":
+						$this->ctrl->setParameter($this, "file_id", "il__file_".$target_id);
+						$href = $this->ctrl->getLinkTarget($this, "downloadFile");
+						$this->ctrl->setParameter($this, "file_id", "");
+						break;
+
 				}
 
 				if ($href != "")
@@ -504,6 +511,28 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		
 		$ilTabs->addTarget("cont_layout",
 			 $ilCtrl->getLinkTarget($this, 'editLayout'), "editLayout");
+	}
+
+	/**
+	 * download file of file lists
+	 */
+	function downloadFile()
+	{
+		$pg_obj = $this->obj->getPageObject();
+		$pg_obj->buildDom();
+		$int_links = $pg_obj->getInternalLinks();
+		foreach ($int_links as $il)
+		{
+			if ($il["Target"] == str_replace("_file_", "_dfile_", $_GET["file_id"]))
+			{
+				$file = explode("_", $_GET["file_id"]);
+				$file_id = (int) $file[count($file) - 1];
+				require_once("./Modules/File/classes/class.ilObjFile.php");
+				$fileObj = new ilObjFile($file_id, false);
+				$fileObj->sendFile();
+				exit;
+			}
+		}
 	}
 
 }

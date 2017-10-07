@@ -7616,8 +7616,17 @@ select.form-control {
   margin-left: -20px;
   margin-top: 0;
   min-height: 24px;
+  min-width: 13px;
   vertical-align: top;
   line-height: 24px;
+}
+@media only screen and (max-width: 767px) {
+  .radio input[type="radio"],
+  .radio-inline input[type="radio"],
+  .checkbox input[type="checkbox"],
+  .checkbox-inline input[type="checkbox"] {
+    min-width: 16px;
+  }
 }
 [dir="rtl"] .form-horizontal .control-label {
   text-align: left;
@@ -8591,6 +8600,20 @@ a.ilCOPageSection {
 #ilAdvSelListAnchorText_char_style_selection > span {
   min-width: auto;
 }
+div.ilc_answers.answer-table div.ilc_qanswer_Answer {
+  display: table-row;
+}
+div.ilc_answers.answer-table div.ilc_qanswer_Answer > div {
+  display: table-cell;
+}
+div.ilc_question_SingleChoice .answertext > p,
+div.ilc_question_MultipleChoice .answertext > p {
+  margin: 0 !important;
+}
+div.ilc_question_SingleChoice .ilc_qanswer_Answer > div:first-child,
+div.ilc_question_MultipleChoice .ilc_qanswer_Answer > div:first-child {
+  padding-right: 10px;
+}
 /* Services/Calendar */
 td.even {
   color: #222;
@@ -8643,19 +8666,20 @@ ul.ilCalSel li {
   border-bottom: 1px solid #f0f0f0;
   min-height: 25px;
 }
-span.ilCalColSpan {
-  padding: 2px 0;
-  display: block;
-  margin-left: -48px;
-  width: 24px;
-  height: 25px;
-  float: left;
-}
 ul.ilCalSel li img {
   margin-top: 6px;
   display: block;
   float: left;
   margin-left: -20px;
+}
+span.ilCalColSpan {
+  float: left;
+  display: inline-block;
+  width: 24px;
+  height: 25px;
+  margin-left: -48px;
+  padding: 2px 0;
+  text-align: center;
 }
 div.ilCalSelTitle {
   padding: 5px 3px 3px;
@@ -11446,7 +11470,7 @@ div.ilPCMyCoursesPath {
   width: 100%;
 }
 .ilAwarenessDropDown .media-left {
-  width: 45px;
+  width: 55px;
 }
 .ilAwarenessDropDown .media-body {
   /* background-image: url('./templates/default/images/scorm/not_attempted.svg'); */
@@ -12546,6 +12570,12 @@ table.mceToolbar td {
   }
   [dir="rtl"] #ilTopNav .navbar-nav {
     margin-right: 0;
+    padding-right: 0;
+  }
+  [dir="rtl"] #ilTopNav .navbar-nav > li > a {
+    float: right;
+    width: 100%;
+    margin: 0;
   }
   [dir="rtl"] #ilTopNav button.navbar-toggle {
     left: auto;

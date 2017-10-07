@@ -399,7 +399,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 			}
 			$_POST[$this->getPostVar()] = ($this->getUseRte() || !$this->getUseTagsForRteOnly())
 				? ilUtil::stripSlashes($_POST[$this->getPostVar()], true, $allowed)
-				: ilUtil::stripSlashes($_POST[$this->getPostVar()]);
+				: $this->stripSlashesAddSpaceFallback($_POST[$this->getPostVar()]);
 		}
 
 		$_POST[$this->getPostVar()] = self::removeProhibitedCharacters($_POST[$this->getPostVar()]);

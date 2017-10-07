@@ -76,7 +76,7 @@ class ilWebAccessChecker {
 	/**
 	 * ilWebAccessChecker constructor.
 	 *
-	 * @param $path
+	 * @param                            $path
 	 * @param \ilWACCookieInterface|null $ilWACCookieInterface
 	 */
 	public function __construct($path, ilWACCookieInterface $ilWACCookieInterface = null, ilWACHeaderInterface $ilWACHeaderInterface = null) {
@@ -190,20 +190,18 @@ class ilWebAccessChecker {
 		try {
 			ilWACLog::getInstance()->write('init ILIAS');
 			ilInitialisation::initILIAS();
-			$this->checkPublicSection();
 			$this->checkUser();
+			$this->checkPublicSection();
 		} catch (Exception $e) {
-			if ($e instanceof ilWACException) {
+			if ($e instanceof ilWACException
+			    && $e->getCode() !== ilWACException::ACCESS_DENIED_NO_LOGIN) {
 				throw  $e;
 			}
-			if ($e instanceof Exception && $e->getMessage() == 'Authentication failed.') {
-				include_once './Services/Context/classes/class.ilContext.php';
-				ilContext::init(ilContext::CONTEXT_WEB_ACCESS_CHECK);
-				require_once("Services/Init/classes/class.ilInitialisation.php");
-				$GLOBALS['DIC']['ilAuthSession']->setAuthenticated(true, ANONYMOUS_USER_ID);
-				ilInitialisation::reinitILIAS();
-				$this->checkPublicSection();
+			if (($e instanceof Exception && $e->getMessage() == 'Authentication failed.')
+			    || $e->getCode() === ilWACException::ACCESS_DENIED_NO_LOGIN) {
+				$this->initAnonymousSession();
 				$this->checkUser();
+				$this->checkPublicSection();
 			}
 		}
 		$this->setInitialized(true);
@@ -211,17 +209,26 @@ class ilWebAccessChecker {
 
 
 	protected function checkPublicSection() {
-		global $ilSetting, $ilUser;
-		if (!$ilSetting instanceof ilSetting || ($ilUser->getId() == ANONYMOUS_USER_ID && !$ilSetting->get('pub_section'))) {
-			ilWACLog::getInstance()->write('public section not activated');
+		global $DIC;
+		$not_on_login_page = $this->isRequestNotFromLoginPage();
+		$is_anonymous = ((int)$DIC->user()->getId() === (int)ANONYMOUS_USER_ID);
+		$is_null_user = ($DIC->user()->getId() === 0);
+		$pub_section_activated = (bool)$DIC['ilSetting']->get('pub_section');
+		$isset = isset($DIC['ilSetting']);
+		$instanceof = $DIC['ilSetting'] instanceof ilSetting;
+		if (!$isset || !$instanceof || (!$pub_section_activated && ($is_anonymous || ($is_null_user && $not_on_login_page)))) {
 			throw new ilWACException(ilWACException::ACCESS_DENIED_NO_PUB);
 		}
 	}
 
 
 	protected function checkUser() {
-		global $ilUser;
-		if (!$ilUser instanceof ilObjUser || ($ilUser->getId() == 0 && strpos($_SERVER['HTTP_REFERER'], 'login.php') === false)) {
+		global $DIC;
+
+		$is_user = $DIC->user() instanceof ilObjUser;
+		$user_id_is_zero = ((int)$DIC->user()->getId() === 0);
+		$not_on_login_page = $this->isRequestNotFromLoginPage();
+		if (!$is_user || ($user_id_is_zero && $not_on_login_page)) {
 			throw new ilWACException(ilWACException::ACCESS_DENIED_NO_LOGIN);
 		}
 	}
@@ -424,5 +431,36 @@ class ilWebAccessChecker {
 	 */
 	public function setHeader($header) {
 		$this->header = $header;
+	}
+
+
+	protected function initAnonymousSession() {
+		global $DIC;
+		include_once './Services/Context/classes/class.ilContext.php';
+		ilContext::init(ilContext::CONTEXT_WAC);
+		require_once("Services/Init/classes/class.ilInitialisation.php");
+		ilInitialisation::reinitILIAS();
+		/**
+		 * @var $ilAuthSession \ilAuthSession
+		 */
+		$ilAuthSession = $DIC['ilAuthSession'];
+		$ilAuthSession->init();
+		$ilAuthSession->regenerateId();
+		$a_id = (int)ANONYMOUS_USER_ID;
+		$ilAuthSession->setUserId($a_id);
+		$ilAuthSession->setAuthenticated(false, $a_id);
+		$DIC->user()->setId($a_id);
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	protected function isRequestNotFromLoginPage() {
+		$referrer = !is_null($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+		$not_on_login_page = (strpos($referrer, 'login.php') === false
+		                      && strpos($referrer, '&baseClass=ilStartUpGUI') === false);
+
+		return $not_on_login_page;
 	}
 }

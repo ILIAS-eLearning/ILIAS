@@ -477,7 +477,7 @@ class ilLMPresentationGUI
 				{
 					case "ilMainMenu":
 						$this->ilMainMenu();
-						$this->renderPageTitle();
+						//$this->renderPageTitle();
 						break;
 
 					case "ilTOC":
@@ -485,6 +485,7 @@ class ilLMPresentationGUI
 						break;
 
 					case "ilPage":
+						$this->renderPageTitle();
 						switch($this->lm->getType())
 						{
 							case "lm":
@@ -1752,20 +1753,18 @@ class ilLMPresentationGUI
 		include_once("./Services/Repository/classes/class.ilRepositoryExplorer.php");
 		foreach($conds as $cond)
 		{
-			$obj_link = ilRepositoryExplorer::buildLinkTarget($cond["trigger_ref_id"],$cond["trigger_type"]);
-			$obj_frame = ilRepositoryExplorer::buildFrameTarget($cond["trigger_type"],$cond["trigger_ref_id"],$cond["trigger_obj_id"]);
+			include_once("./Services/Link/classes/class.ilLink.php");
+			$obj_link = ilLink::_getLink($cond["trigger_ref_id"]);
 			$this->tpl->setCurrentBlock("condition");
-			$this->tpl->setVariable("ROWCOL", $rc = ($rc != "tblrow2") ? "tblrow2" : "tblrow1");
 			$this->tpl->setVariable("VAL_ITEM", ilObject::_lookupTitle($cond["trigger_obj_id"]));
 			$this->tpl->setVariable("LINK_ITEM", $obj_link);
-			$this->tpl->setVariable("FRAME_ITEM", $obj_frame);
 			if ($cond["operator"] == "passed")
 			{
 				$cond_str = $this->lng->txt("passed");
 			}
 			else
 			{
-				$cond_str = $cond["operator"];
+				$cond_str = $this->lng->txt("condition_".$cond["operator"]);
 			}
 			$this->tpl->setVariable("VAL_CONDITION", $cond_str." ".$cond["value"]);
 			$this->tpl->parseCurrentBlock();
@@ -1775,7 +1774,7 @@ class ilLMPresentationGUI
 		$this->tpl->setVariable("TXT_MISSING_PRECONDITIONS", 
 			sprintf($this->lng->txt("cont_missing_preconditions"),
 			ilLMObject::_lookupTitle($topchap)));
-		$this->tpl->setVariable("TXT_ITEM", $this->lng->txt("item"));
+		$this->tpl->setVariable("TXT_ITEM", $this->lng->txt("object"));
 		$this->tpl->setVariable("TXT_CONDITION", $this->lng->txt("condition"));
 		
 		// output skip chapter link
@@ -1963,9 +1962,11 @@ class ilLMPresentationGUI
 					case "File":
 						if (!$this->offlineMode())
 						{
+							$ilCtrl->setParameter($this, "obj_id", $this->getCurrentPageId());
 							$ilCtrl->setParameter($this, "file_id", "il__file_".$target_id);
 							$href = $ilCtrl->getLinkTarget($this, "downloadFile");
 							$ilCtrl->setParameter($this, "file_id", "");
+							$ilCtrl->setParameter($this, "obj_id", $_GET["obj_id"]);
 						}
 						break;
 				}
@@ -3717,13 +3718,32 @@ class ilLMPresentationGUI
 	*/
 	function downloadFile()
 	{
-		$file = explode("_", $_GET["file_id"]);
-		$file_id = (int) $file[count($file) - 1];
-		require_once("./Modules/File/classes/class.ilObjFile.php");
-		$fileObj = new ilObjFile($file_id, false);
-		$fileObj->sendFile();
-		exit;
+		$pg_obj = $this->getLMPage($this->getCurrentPageId());
+		$pg_obj->buildDom();
+		$int_links = $pg_obj->getInternalLinks();
+		foreach ($int_links as $il)
+		{
+			if ($il["Target"] == str_replace("_file_", "_dfile_", $_GET["file_id"]))
+			{
+				$file = explode("_", $_GET["file_id"]);
+				$file_id = (int)$file[count($file) - 1];
+				require_once("./Modules/File/classes/class.ilObjFile.php");
+				$fileObj = new ilObjFile($file_id, false);
+				$fileObj->sendFile();
+				exit;
+			}
+		}
+		if (in_array($_GET["file_id"], $pg_obj->getAllFileObjIds()))
+		{
+			require_once("./Modules/File/classes/class.ilObjFile.php");
+			$file = explode("_", $_GET["file_id"]);
+			$file_id = (int)$file[count($file) - 1];
+			$fileObj = new ilObjFile($file_id, false);
+			$fileObj->sendFile();
+			exit;
+		}
 	}
+
 
 	/**
 	* download source code paragraph

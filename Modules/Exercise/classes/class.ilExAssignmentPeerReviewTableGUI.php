@@ -46,16 +46,18 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 		if(!$this->ass->hasPeerReviewPersonalized())
 		{
 			$this->addColumn($this->lng->txt("id"), "seq");
+			#21260
+			$this->setDefaultOrderField("seq");
 		}
 		else 
 		{
-			$this->addColumn($this->lng->txt("exc_peer_review_recipient"), "name");			
+			$this->addColumn($this->lng->txt("exc_peer_review_recipient"), "name");
+			#21260
+			$this->setDefaultOrderField("name");
 		}					
 		$this->addColumn($this->lng->txt("last_update"), "tstamp");		
 		$this->addColumn($this->lng->txt("valid"), "valid");		
 		$this->addColumn($this->lng->txt("action"), "");
-		
-		$this->setDefaultOrderField("tstamp");
 						
 		$this->setRowTemplate("tpl.exc_peer_review_row.html", "Modules/Exercise");
 		

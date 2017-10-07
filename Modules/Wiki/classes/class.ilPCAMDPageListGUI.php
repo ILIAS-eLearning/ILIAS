@@ -125,15 +125,27 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
 		}
 		
 		$this->record_gui->parse();
-		
+
+		$no_fields = (count($form->getItems()) == 1);
+		if ($no_fields)
+		{
+			ilUtil::sendFailure($this->lng->txt("wiki_pg_list_no_search_fields"));
+		}
+
 		if ($a_insert)
-		{		
-			$form->addCommandButton("create_amd_page_list", $this->lng->txt("select"));
+		{
+			if (!$no_fields)
+			{
+				$form->addCommandButton("create_amd_page_list", $this->lng->txt("select"));
+			}
 			$form->addCommandButton("cancelCreate", $this->lng->txt("cancel"));
 		}
 		else
-		{					
-			$form->addCommandButton("update", $this->lng->txt("select"));
+		{
+			if (!$no_fields)
+			{
+				$form->addCommandButton("update", $this->lng->txt("select"));
+			}
 			$form->addCommandButton("cancelUpdate", $this->lng->txt("cancel"));
 		}
 

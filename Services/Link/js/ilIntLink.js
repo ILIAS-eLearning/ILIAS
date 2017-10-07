@@ -266,12 +266,17 @@ il.IntLink =
 
 	addInternalLink: function (b, e, ev)
 	{
+		console.log(b);
+		console.log(e);
 		if (typeof ilCOPage != "undefined" && ($("#ilEditTableDataCl").length == 0))
 		{
+			console.log("1");
 			ilCOPage.cmdIntLink(b, e);
-		} else if (il.Form) {
+		} else if (il.Form && $("#par_content").length == 0 && $("#cell_0_0").length == 0) {
+			console.log("2");
 			il.Form.addInternalLink(b,e,this.id,ev);
 		} else if (addInternalLink) {
+			console.log("3");
 			// old style, needs clean-up
 			addInternalLink(b);
 		}

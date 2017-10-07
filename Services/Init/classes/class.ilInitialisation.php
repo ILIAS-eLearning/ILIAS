@@ -1319,6 +1319,11 @@ class ilInitialisation
 	 */
 	protected static function blockedAuthentication($a_current_script)
 	{
+		if(ilContext::getType() == ilContext::CONTEXT_WAC)
+		{
+			ilLoggerFactory::getLogger('init')->debug('Blocked authentication for WAC request.');
+			return true;
+		}
 		if(ilContext::getType() == ilContext::CONTEXT_APACHE_SSO)
 		{
 			ilLoggerFactory::getLogger('init')->debug('Blocked authentication for sso request.');

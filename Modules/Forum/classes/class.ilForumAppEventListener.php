@@ -94,6 +94,11 @@ class ilForumAppEventListener
 						require_once 'Modules/Forum/classes/class.ilForumMailNotification.php';
 						require_once 'Modules/Forum/classes/class.ilObjForumNotificationDataProvider.php';
 
+						if(!$a_parameter['old_status_was_active'])
+						{
+							return;
+						}
+
 						$post              = $a_parameter['post'];
 						$notify_moderators = $a_parameter['notify_moderators'];
 
