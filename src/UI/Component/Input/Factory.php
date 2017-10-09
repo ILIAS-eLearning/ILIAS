@@ -25,8 +25,6 @@ interface Factory {
      *      interface.
 	 *   effect: >
 	 *      TBD
-	 * context: >
-	 *   TBD
 	 *
 	 * rules: []
 	 *
@@ -45,8 +43,6 @@ interface Factory {
 	 *      TBD
 	 *   effect: >
 	 *      TBD
-	 * context: >
-	 *   TBD
 	 *
 	 * rules: []
 	 *

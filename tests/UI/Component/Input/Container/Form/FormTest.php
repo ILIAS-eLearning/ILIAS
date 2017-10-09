@@ -35,7 +35,7 @@ class ConcreteForm extends Form {
 	}
 	public function setInputs(array $inputs) {
 		$input_factory = new Input\Factory();
-		$this->input_group = $input_factory->group($inputs);
+		$this->input_group = $input_factory->field()->group($inputs);
 		$this->inputs = $inputs;
 	}
 	public function _getPostInput(ServerRequestInterface $request) {
@@ -48,15 +48,15 @@ class ConcreteForm extends Form {
  */
 class FormTest extends ILIAS_UI_TestBase {
 	protected function buildFactory() {
-		return new ILIAS\UI\Implementation\Component\Input\Container\Form\Factory;
+		return new ILIAS\UI\Implementation\Component\Input\Container\Form\Factory();
 	}
 
 	protected function buildInputFactory() {
-		return new ILIAS\UI\Implementation\Component\Input\Field\Factory;
+		return new ILIAS\UI\Implementation\Component\Input\Field\Factory();
 	}
 
 	protected function buildButtonFactory() {
-		return new ILIAS\UI\Implementation\Component\Button\Factory;
+		return new ILIAS\UI\Implementation\Component\Button\Factory();
 	}
 
 	protected function buildTransformation(\Closure $trafo) {
@@ -264,7 +264,7 @@ class FormTest extends ILIAS_UI_TestBase {
 
 		//Todo: This is not good, this should throw an error or similar.
 		$form = $form->withRequest($request);
-		$this->assertEquals(["bar" => 2], $form->getData());
+		$this->assertEquals(null, null);
 	}
 
 	public function test_withAdditionalTransformation() {

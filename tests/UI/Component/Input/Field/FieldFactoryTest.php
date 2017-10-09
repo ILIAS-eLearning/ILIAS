@@ -4,12 +4,11 @@ require_once 'tests/UI/AbstractFactoryTest.php';
 
 use \ILIAS\UI\Component\Input\Field;
 
-class InputFactoryTest extends AbstractFactoryTest {
-	public $kitchensink_info_settings = array
-		(
-		);
+class FieldFactoryTest extends AbstractFactoryTest {
+	public $kitchensink_info_settings = array();
 
-	public $factory_title = 'ILIAS\\UI\\Component\\Input\\Factory';
+
+	public $factory_title = 'ILIAS\\UI\\Component\\Input\\Field\\Factory';
 
 	final public function buildFactory() {
 		return new \ILIAS\UI\Implementation\Component\Input\Field\Factory;
@@ -26,7 +25,7 @@ class InputFactoryTest extends AbstractFactoryTest {
         $this->assertInstanceOf(Field\Input::class, $text);
         $this->assertInstanceOf(Field\Numeric::class, $text);
 
-        $text = $f->section("label", "byline", []);
+        $text = $f->section([], "label", "byline");
         $this->assertInstanceOf(Field\Input::class, $text);
         $this->assertInstanceOf(Field\Group::class, $text);
         $this->assertInstanceOf(Field\Section::class, $text);
