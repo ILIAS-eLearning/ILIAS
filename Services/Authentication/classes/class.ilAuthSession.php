@@ -16,8 +16,6 @@ class ilAuthSession
 	const SESSION_AUTH_USER_ID = '_authsession_user_id';
 	const SESSION_AUTH_EXPIRED = '_authsession_expired';
 	
-	private static $instance = null;
-	
 	private $logger = null;
 	
 	private $id = '';
@@ -28,28 +26,15 @@ class ilAuthSession
 	/**
 	 * Consctructor
 	 */
-	private function __construct()
+	public function __construct(\ilLogger $logger)
 	{
-		$this->logger = ilLoggerFactory::getLogger('auth');
-	}
-	
-	/**
-	 * Get instance
-	 * @return ilAuthSession
-	 */
-	public static function getInstance()
-	{
-		if(self::$instance)
-		{
-			return self::$instance;
-		}
-		return self::$instance = new self();
+		$this->logger = $logger;
 	}
 	
 	/**
 	 * @return ilLogger
 	 */
-	public function getLogger()
+	protected function getLogger()
 	{
 		return $this->logger;
 	}
@@ -92,17 +77,6 @@ class ilAuthSession
 	public function isValid()
 	{
 		return !$this->isExpired() && $this->isAuthenticated();
-	}
-	
-	/**
-	 * Regenerate id
-	 */
-	public function regenerateId()
-	{
-		$old_session_id = session_id();
-		session_regenerate_id(true);
-		$this->setId(session_id());
-		$this->getLogger()->info('Session regenrate id: ['.substr($old_session_id,0,5).'] -> ['.  substr($this->getId(),0,5).']');
 	}
 	
 	/**
@@ -195,15 +169,14 @@ class ilAuthSession
 		return true;
 	}
 	
-	public function setId($a_id)
+	protected function setId($a_id)
 	{
 		$this->id = $a_id;
 	}
-	
+
 	public function getId()
 	{
 		return $this->id;
 	}
 	
 }
-?>
