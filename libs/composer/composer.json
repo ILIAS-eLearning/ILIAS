@@ -18,7 +18,7 @@
 		"tecnickcom/tcpdf": "^6.2.12",
 		"pimple/pimple" : "^3.0",
 		"symfony/yaml": "^3.1",
-                "imsglobal/lti": "^3.0",
+		"imsglobal/lti": "^3.0",
 		"guzzlehttp/psr7": "^1.4",
 		"psr/http-message": "^1.0",
 		"dflydev/fig-cookies": "^1.0",
