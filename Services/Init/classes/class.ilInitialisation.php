@@ -194,7 +194,7 @@ class ilInitialisation
 
 		$DIC['filesystem.temp'] = function ($c) use ($delegatingFactory) {
 			//temp
-			$tempConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(sys_get_temp_dir());
+			$tempConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_DATA_DIR.'/'.CLIENT_ID.'/temp');
 			return $delegatingFactory->getLocal($tempConfiguration);
 		};
 

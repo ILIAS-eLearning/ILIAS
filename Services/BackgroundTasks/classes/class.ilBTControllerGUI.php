@@ -48,7 +48,6 @@ class ilBTControllerGUI {
 		$observer = $this->dic()->backgroundTasks()->persistence()->loadBucket($observer_id);
 		$option = new UserInteractionOption("", $selected_option);
 		$this->dic()->backgroundTasks()->taskManager()->continueTask($observer, $option);
-
 		$this->ctrl()->redirectToURL($from_url);
 	}
 
