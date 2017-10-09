@@ -94,4 +94,30 @@ interface Factory {
 	 */
 	public function sortation(array $options);
 
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *      Data with a larger amount of entries might be displayed in parts
+	 *      by limiting the number of visible entries for a view.
+	 *      The pagination enables the user to select a range of entries.
+	 *      This control applies to all sorts of _structured_ data, like tables and lists.
+	 *   composition: >
+	 *      Pagination is a collection of shy-buttons.
+	 *   effect: >
+	 *      A click on an option will change the offset of the displayed data-list.
+	 *
+	 * rules:
+	 *   usage:
+	 *      1: A Pagination MUST NOT be used standalone.
+	 *      2: Paginations MUST BE visually close to the list or table their operation will have effect upon.
+	 *   accessibility:
+	 *      1: Pagination MUST be operable via keyboard only.
+	 *
+	 * ---
+	 * @param
+	 *
+	 * @return \ILIAS\UI\Component\ViewControl\Pagination
+	 */
+	public function pagination();
 }
