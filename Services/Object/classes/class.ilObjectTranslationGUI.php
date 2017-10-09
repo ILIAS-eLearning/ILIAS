@@ -11,6 +11,31 @@
  */
 class ilObjectTranslationGUI
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	protected $obj_trans;
 	protected $title_descr_only = true;
 	
@@ -19,7 +44,13 @@ class ilObjectTranslationGUI
 	 */
 	function __construct($a_obj_gui)
 	{
-		global $lng, $ilCtrl, $tpl;
+		global $DIC;
+
+		$this->toolbar = $DIC->toolbar();
+		$this->user = $DIC->user();
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$tpl = $DIC["tpl"];
 
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
@@ -78,7 +109,7 @@ class ilObjectTranslationGUI
 	 */
 	function listTranslations($a_get_post_values = false, $a_add = false)
 	{
-		global $ilToolbar;
+		$ilToolbar = $this->toolbar;
 
 		$this->lng->loadLanguageModule(ilObject::_lookupType($this->obj->getId()));
 
@@ -251,7 +282,8 @@ class ilObjectTranslationGUI
 	 */
 	function activateContentMultilinguality()
 	{
-		global $tpl, $lng;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 
 		ilUtil::sendInfo($lng->txt("obj_select_master_lang"));
 
@@ -264,7 +296,10 @@ class ilObjectTranslationGUI
 	 */
 	function getMultiLangForm($a_add = false)
 	{
-		global $tpl, $lng, $ilCtrl, $ilUser;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -321,7 +356,7 @@ class ilObjectTranslationGUI
 	 */
 	function saveContentTranslationActivation()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 //		include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
 
@@ -374,7 +409,9 @@ class ilObjectTranslationGUI
 	 */
 	function confirmDeactivateContentMultiLang()
 	{
-		global $ilCtrl, $tpl, $lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 
 		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$cgui = new ilConfirmationGUI();
@@ -398,7 +435,8 @@ class ilObjectTranslationGUI
 	 */
 	function deactivateContentMultiLang()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		if (!$this->getTitleDescrOnlyMode())
 		{
@@ -425,7 +463,7 @@ class ilObjectTranslationGUI
 	 */
 	function addLanguages()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		$form = $this->getMultiLangForm(true);
 		$tpl->setContent($form->getHTML());
@@ -436,7 +474,9 @@ class ilObjectTranslationGUI
 	 */
 	function saveLanguages()
 	{
-		global $ilCtrl, $lng, $tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
 
 		$form = $this->getMultiLangForm(true);
 		if($form->checkInput())
@@ -468,7 +508,9 @@ class ilObjectTranslationGUI
 	 */
 	function confirmRemoveLanguages()
 	{
-		global $ilCtrl, $tpl, $lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 
 		$lng->loadLanguageModule("meta");
 
@@ -500,7 +542,8 @@ class ilObjectTranslationGUI
 	 */
 	function removeLanguages()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		if (is_array($_POST["lang"]))
 		{

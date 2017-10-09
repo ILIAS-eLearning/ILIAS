@@ -1,0 +1,92 @@
+.btn {
+  font-size: @il-button-font-size;
+}
+
+input.btn{
+  display: inline-block;
+  min-width: @il-button-min-width;
+  vertical-align: top;
+
+  @media (max-width: @grid-float-breakpoint-max){
+    min-width: 0;
+  }
+}
+
+.btn-default {
+  .button-variant(@il-btn-standard-color; @il-btn-standard-bg; @il-btn-standard-border);
+}
+
+.btn-primary {
+  .button-variant(@il-btn-primary-color; @il-btn-primary-bg; @il-btn-primary-border);
+}
+
+.btn {
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    &,
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+      background-color: @il-disabled-btn-bg;
+      border-color: @il-disabled-btn-border;
+      color: @il-disabled-btn-color;
+      cursor: default;
+    }
+  }
+}
+
+// #16322
+button > .glyphicon {
+  pointer-events: none;
+}
+
+a.btn-link.ilSubmitInactive, a.btn-link.ilSubmitInactive:hover {
+	background-color: @il-disabled-btn-bg;;
+	color: @il-disabled-btn-color;
+    border-color: @il-disabled-btn-border;
+    padding: 0;
+}
+
+.il-btn-month .dropdown-menu {
+  min-width:250px;
+}
+.btn-tag {
+    display: inline-block;
+    white-space: nowrap;
+    padding: @padding-xs-vertical @padding-xs-horizontal;
+    margin: @btn-tag-margin;
+    border-radius: @btn-tag-border-radius;
+
+	&.btn-tag-inactive {
+		cursor: default !important;
+	}
+	&.btn-tag-relevance-verylow {
+		background-color: @btn-tag-bg-relevance-verylow;
+		color: @btn-tag-fg-relevance-verylow;
+	}
+	&.btn-tag-relevance-low {
+    background-color: @btn-tag-bg-relevance-low;
+    color: @btn-tag-fg-relevance-low;
+	}
+	&.btn-tag-relevance-middle {
+    background-color: @btn-tag-bg-relevance-middle;
+    color: @btn-tag-fg-relevance-middle;
+	}
+	&.btn-tag-relevance-high {
+    background-color: @btn-tag-bg-relevance-high;
+    color: @btn-tag-fg-relevance-high;
+	}
+	&.btn-tag-relevance-veryhigh {
+    background-color: @btn-tag-bg-relevance-veryhigh;
+    color: @btn-tag-fg-relevance-veryhigh;
+	}
+}
+
+// shy buttons
+.btn-link {
+	padding: 0;
+	text-align: left;
+	white-space: normal;
+}

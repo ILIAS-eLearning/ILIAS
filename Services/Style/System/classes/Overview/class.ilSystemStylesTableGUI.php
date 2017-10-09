@@ -38,6 +38,11 @@ class ilSystemStylesTableGUI extends ilTable2GUI
 	protected $management_enabled = false;
 
 	/**
+	 * @var bool
+	 */
+	protected $read_documentation = true;
+
+	/**
 	 * ilSystemStylesTableGUI constructor.
 	 * @param int $a_parent_obj
 	 * @param string $a_parent_cmd
@@ -54,10 +59,12 @@ class ilSystemStylesTableGUI extends ilTable2GUI
 		$this->getStyles();
 
 		$this->setLimit(9999);
+		$this->setTitle($this->lng->txt("manage_system_styles"));
 		$this->addColumn($this->lng->txt(""));
 		$this->addColumn($this->lng->txt("style_name"),"style_name");
 		$this->addColumn($this->lng->txt("skin_name"),"style_id");
 		$this->addColumn($this->lng->txt("sty_substyle_of"));
+		$this->addColumn($this->lng->txt("scope"));
 		$this->addColumn($this->lng->txt("default"));
 		$this->addColumn($this->lng->txt("active"));
 		$this->addColumn($this->lng->txt("users"),"users");
@@ -69,17 +76,22 @@ class ilSystemStylesTableGUI extends ilTable2GUI
 
 	/**
 	 * @param $management_enabled
+	 * @param bool|true $read_documentation
 	 */
-	public function addActions($management_enabled){
-		$this->setWithActions(true);
+	public function addActions($management_enabled, $read_documentation = true){
 		$this->setManagementEnabled($management_enabled);
+		$this->setReadDocumentation($read_documentation);
 
 		$this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
 		$this->addCommandButton("saveStyleSettings", $this->lng->txt("save"));
 		$this->setRowTemplate("tpl.sys_styles_row_with_actions.html", "Services/Style/System");
 
-		if($management_enabled){
+		if($read_documentation || $management_enabled){
+			$this->setWithActions(true);
+
 			$this->addColumn($this->lng->txt("actions"));
+		}
+		if($management_enabled){
 			$this->addMultiCommand("deleteStyles",$this->lng->txt("delete"));
 		}
 	}
@@ -180,7 +192,6 @@ class ilSystemStylesTableGUI extends ilTable2GUI
 		}
 
 		if($is_substyle){
-			$this->tpl->setCurrentBlock("substyle");
 			$this->tpl->setVariable("SUB_STYLE_OF", $a_set["substyle_of_name"]);
 
 			$assignments = ilSystemStyleSettings::getSubStyleCategoryAssignments(
@@ -196,45 +207,67 @@ class ilSystemStylesTableGUI extends ilTable2GUI
 			}
 
 			$listing = $DIC->ui()->factory()->listing()->unordered($categories);
-			$this->tpl->setVariable("CATEGORIES",$DIC->ui()->renderer()->render($listing) );
-			$this->tpl->parseCurrentBlock();
+			$this->tpl->setVariable("CATEGORIES",$this->lng->txt("local").$DIC->ui()
+					->renderer()
+					->render
+			($listing));
+		}else{
+			$this->tpl->setVariable("SUB_STYLE_OF", "");
+			$this->tpl->setVariable("CATEGORIES", $this->lng->txt("global"));
 		}
 
-		if($this->isWithActions() && $this->isManagementEnabled()){
-			if($a_set["skin_id"]!="default" && $a_set["skin_id"]!="other"){
-				$this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI','skin_id',$a_set["skin_id"]);
-				$this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI','style_id',$a_set["style_id"]);
-
-				$this->ctrl->setParameterByClass('ilSystemStyleOverviewGUI','skin_id',$a_set["skin_id"]);
-				$this->ctrl->setParameterByClass('ilSystemStyleOverviewGUI','style_id',$a_set["style_id"]);
-
-				$selection_list = new ilAdvancedSelectionListGUI();
-				$selection_list->setId("id_action_list_" . $a_set["id"]);
-				$selection_list->setListTitle($this->lng->txt("actions"));
-
-
-				$this->tpl->setCurrentBlock("multi_actions");
-				$this->tpl->setVariable("MULTI_ACTIONS_ID", $a_set["id"]);
-				$this->tpl->parseCurrentBlock();
-
-				$selection_list->addItem($this->lng->txt('edit'),'edit',$this->ctrl->getLinkTargetByClass('ilSystemStyleSettingsGUI'));
-				$selection_list->addItem($this->lng->txt('delete'),'delete',$this->ctrl->getLinkTargetByClass('ilSystemStyleOverviewGUI','deleteStyle'));
-
-				if(!$is_substyle){
-					$selection_list->addItem($this->lng->txt('export'),'export',$this->ctrl->getLinkTargetByClass('ilSystemStyleOverviewGUI','export'));
-				}
-
-				$this->tpl->setCurrentBlock("actions");
-				$this->tpl->setVariable("ACTIONS", $selection_list->getHTML());
-				$this->tpl->parseCurrentBlock();
-
-
-			}else{
+		if($this->isWithActions()){
+			if($a_set["skin_id"]=="other"){
 				$this->tpl->setCurrentBlock("actions");
 				$this->tpl->setVariable("ACTIONS", "");
 				$this->tpl->parseCurrentBlock();
 			}
+			else {
+				$action_list = new ilAdvancedSelectionListGUI();
+				$action_list->setId("id_action_list_" . $a_set["id"]);
+				$action_list->setListTitle($this->lng->txt("actions"));
+
+				if($this->isReadDocumentation()){
+					$DIC->ctrl()->setParameterByClass('ilSystemStyleDocumentationGUI','skin_id', $a_set["skin_id"]);
+					$DIC->ctrl()->setParameterByClass('ilSystemStyleDocumentationGUI','style_id', $a_set["style_id"]);
+					$action_list->addItem($this->lng->txt('open_documentation'),
+							'documentation', $this->ctrl->getLinkTargetByClass('ilSystemStyleDocumentationGUI', 'entries'));
+				}
+
+				if ($this->isManagementEnabled()) {
+
+					$this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'skin_id', $a_set["skin_id"]);
+					$this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'style_id', $a_set["style_id"]);
+
+					$this->ctrl->setParameterByClass('ilSystemStyleOverviewGUI', 'skin_id', $a_set["skin_id"]);
+					$this->ctrl->setParameterByClass('ilSystemStyleOverviewGUI', 'style_id', $a_set["style_id"]);
+
+					if ($a_set["skin_id"] != "default") {
+						$this->addManagementActionsToList($action_list);
+						$this->addMultiActions($a_set["id"]);
+					}
+					if (!$is_substyle && $a_set["skin_id"] != "default") {
+						$action_list->addItem($this->lng->txt('export'), 'export', $this->ctrl->getLinkTargetByClass('ilSystemStyleOverviewGUI', 'export'));
+					}
+				}
+
+
+				$this->tpl->setCurrentBlock("actions");
+				$this->tpl->setVariable("ACTIONS", $action_list->getHTML());
+				$this->tpl->parseCurrentBlock();
+			}
 		}
+	}
+
+	protected function addManagementActionsToList(ilAdvancedSelectionListGUI $action_list){
+		$action_list->addItem($this->lng->txt('edit'),'edit',$this->ctrl->getLinkTargetByClass('ilSystemStyleSettingsGUI'));
+		$action_list->addItem($this->lng->txt('delete'),'delete',$this->ctrl->getLinkTargetByClass('ilSystemStyleOverviewGUI','deleteStyle'));
+	}
+
+	protected function addMultiActions($id){
+		$this->tpl->setCurrentBlock("multi_actions");
+		$this->tpl->setVariable("MULTI_ACTIONS_ID", $id);
+		$this->tpl->parseCurrentBlock();
 	}
 
 	/**
@@ -269,5 +302,19 @@ class ilSystemStylesTableGUI extends ilTable2GUI
 		$this->management_enabled = $management_enabled;
 	}
 
+	/**
+	 * @return boolean
+	 */
+	public function isReadDocumentation()
+	{
+		return $this->read_documentation;
+	}
 
+	/**
+	 * @param boolean $read_documentation
+	 */
+	public function setReadDocumentation($read_documentation)
+	{
+		$this->read_documentation = $read_documentation;
+	}
 }

@@ -15,6 +15,26 @@ require_once "./Services/Style/Content/classes/class.ilObjStyleSheet.php";
  */
 class ilObjStyleSheetGUI extends ilObjectGUI
 {
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
 	var $cmd_update;
 	var $cmd_new_par;
 	var $cmd_refresh;
@@ -26,7 +46,19 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function __construct($a_data,$a_id,$a_call_by_reference, $a_prep = true)
 	{
-		global $ilCtrl, $lng, $tpl;
+		global $DIC;
+
+		$this->tpl = $DIC["tpl"];
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->help = $DIC["ilHelp"];
+		$this->tabs = $DIC->tabs();
+		$this->toolbar = $DIC->toolbar();
+		$this->locator = $DIC["ilLocator"];
+		$this->tree = $DIC->repositoryTree();
+		$this->obj_definition = $DIC["objDefinition"];
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$tpl = $DIC["tpl"];
 
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
@@ -77,7 +109,10 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function createObject()
 	{
-		global $rbacsystem, $lng, $tpl, $ilHelp;
+		$rbacsystem = $this->rbacsystem;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
+		$ilHelp = $this->help;
 		
 		$forms = array();
 		
@@ -172,7 +207,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	 */
 	public function checkWrite()
 	{
-		global $rbacsystem;
+		$rbacsystem = $this->rbacsystem;
 
 		return ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"])
 		 || $rbacsystem->checkAccess("sty_write_content", (int) $_GET["ref_id"]));
@@ -184,7 +219,12 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function editObject()
 	{
-		global $rbacsystem, $lng, $ilTabs, $ilCtrl, $ilToolbar, $tpl;
+		$rbacsystem = $this->rbacsystem;
+		$lng = $this->lng;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
+		$ilToolbar = $this->toolbar;
+		$tpl = $this->tpl;
 
 		$this->setSubTabs();
 		
@@ -229,7 +269,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		if ($_SESSION["sty_copy"] != "")
 		{
 			$style_cp = explode(":::", $_SESSION["sty_copy"]);
-			if ($style_cp[1] == $_GET["style_type"])
+			if ($style_cp[1] == $style_type)
 			{
 				if ($expandable)
 				{
@@ -256,7 +296,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function propertiesObject()
 	{
-		global $rbacsystem, $lng, $ilToolbar;
+		$rbacsystem = $this->rbacsystem;
+		$lng = $this->lng;
+		$ilToolbar = $this->toolbar;
 
 		// set style sheet
 		$this->tpl->setCurrentBlock("ContentStyle");
@@ -295,7 +337,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	public function initPropertiesForm($a_mode = "edit")
 	{
-		global $lng, $rbacsystem;
+		$lng = $this->lng;
+		$rbacsystem = $this->rbacsystem;
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -343,7 +386,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function updateObject()
 	{
-		global $lng, $ilCtrl, $tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
 		
 		$this->initPropertiesForm("edit");
 		if ($this->form->checkInput())
@@ -368,7 +413,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function refreshTagStyleObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$cur = explode(".",$_GET["tag"]);
 		$cur_tag = $cur[0];
@@ -393,7 +438,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function updateTagStyleObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$cur = explode(".",$_GET["tag"]);
 		$cur_tag = $cur[0];
@@ -532,7 +577,10 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function editTagStyleObject()
 	{
-		global $tpl, $ilToolbar, $lng, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilToolbar = $this->toolbar;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		// media query selector
 		$mqs = $this->object->getMediaQueries();
@@ -581,7 +629,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	 */
 	function switchMQueryObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$ilCtrl->setParameter($this, "mq_id", (int) $_POST["mq_id"]);
 		$ilCtrl->redirect($this, "editTagStyle");
@@ -593,7 +641,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function outputTagStyleEditScreen()
 	{
-		global $tpl, $ilCtrl, $lng;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		// set style sheet
 		$tpl->setCurrentBlock("ContentStyle");
@@ -625,7 +675,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	public function initTagStyleForm($a_mode, $a_cur_tag)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$ilCtrl->saveParameter($this, array("mq_id"));
 
@@ -934,8 +985,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function confirmedDeleteObject()
 	{
-		global $ilias;
-		
 		$this->object->delete();
 		
 		$this->ctrl->returnToParent($this);
@@ -1004,11 +1053,11 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function copyStyleObject()
 	{
-		global $ilias;
-		
 		if ($_POST["source_style"] > 0)
-		$style_obj = $ilias->obj_factory->getInstanceByObjId($_POST["source_style"]);
-		$new_id = $style_obj->ilClone();
+		{
+			$style_obj = ilObjectFactory::getInstanceByObjId($_POST["source_style"]);
+			$new_id = $style_obj->ilClone();
+		}
 
 		// assign style to style sheet folder,
 		// if parent is style sheet folder
@@ -1104,7 +1153,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function cancelObject()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		ilUtil::sendInfo($lng->txt("msg_cancel"), true);
 		$this->ctrl->returnToParent($this);
@@ -1123,7 +1172,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function setTabs()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$this->getTabs($this->tabs_gui);
 
@@ -1144,7 +1193,10 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function getTabs()
 	{
-		global $lng, $ilCtrl, $ilTabs, $ilHelp;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
+		$ilHelp = $this->help;
 		
 		$ilHelp->setScreenIdComponent("sty");
 		
@@ -1236,7 +1288,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function setSubTabs()
 	{
-		global $lng, $ilTabs, $ilCtrl;
+		$lng = $this->lng;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
 		
 		$types = ilObjStyleSheet::_getStyleSuperTypes();
 		
@@ -1259,7 +1313,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function setTemplatesSubTabs()
 	{
-		global $lng, $ilTabs, $ilCtrl;
+		$lng = $this->lng;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
 		
 		$types = ilObjStyleSheet::_getTemplateClassTypes();
 		
@@ -1280,7 +1336,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function addAdminLocatorItems($a_do_not_add_object = false)
 	{
-		global $ilLocator;
+		$ilLocator = $this->locator;
 
 		if ($_GET["admin_mode"] == "settings")	// system settings
 		{		
@@ -1305,7 +1361,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	
 	function showUpperIcon()
 	{
-		global $tree, $tpl, $objDefinition;
+		$tree = $this->tree;
+		$tpl = $this->tpl;
+		$objDefinition = $this->obj_definition;
 		
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 		{
@@ -1324,7 +1382,11 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function listImagesObject()
 	{
-		global $tpl, $ilToolbar, $ilCtrl, $lng, $rbacsystem;
+		$tpl = $this->tpl;
+		$ilToolbar = $this->toolbar;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$rbacsystem = $this->rbacsystem;
 		
 		if ($this->checkWrite())
 		{
@@ -1344,7 +1406,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function addImageObject()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$this->initImageForm();
 		$tpl->setContent($this->form_gui->getHTML());
@@ -1355,7 +1417,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function cancelUploadObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$ilCtrl->redirect($this, "listImages");
 	}
@@ -1365,7 +1427,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function uploadImageObject()
 	{
-		global $tpl, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
 		
 		$this->initImageForm();
 		
@@ -1387,7 +1450,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function initImageForm()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form_gui = new ilPropertyFormGUI();
@@ -1408,7 +1472,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function deleteImageObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$images = $this->object->getImages();
 		
@@ -1427,7 +1491,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function deleteCharacteristicConfirmationObject()
 	{
-		global $ilCtrl, $tpl, $lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 		
 //var_dump($_POST);
 
@@ -1474,7 +1540,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	 */
 	function deleteCoreCharMessage()
 	{
-		global $ilCtrl, $tpl, $lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 		
 		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$cgui = new ilConfirmationGUI();
@@ -1520,7 +1588,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function cancelCharacteristicDeletionObject()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		ilUtil::sendInfo($lng->txt("action_aborted"), true);
 		$ilCtrl->redirect($this, "edit");
@@ -1531,7 +1600,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function deleteCharacteristicObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		if (is_array($_POST["char"]))
 		{
@@ -1554,7 +1623,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function addCharacteristicFormObject()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$this->initCharacteristicForm("create");
 		$tpl->setContent($this->form_gui->getHTML());
@@ -1565,7 +1634,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function saveCharacteristicObject()
 	{
-		global $ilCtrl, $tpl, $lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 		
 		$this->initCharacteristicForm("create");
 
@@ -1597,7 +1668,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	public function initCharacteristicForm($a_mode)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form_gui = new ilPropertyFormGUI();
@@ -1645,7 +1717,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	static function getStyleExampleHTML($a_type, $a_class)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		$c = explode(":", $a_class);
 		$a_class = $c[0];
@@ -1684,7 +1758,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function saveHideStatusObject()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		//var_dump($_POST);
 		
@@ -1707,7 +1782,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	 */
 	function copyCharacteristicsObject()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 	
 		if (!is_array($_POST["char"]) || count($_POST["char"]) == 0)
 		{
@@ -1731,7 +1807,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	 */
 	function pasteCharacteristicsOverviewObject()
 	{
-		global $tpl, $ilTabs;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
 
 		$ilTabs->clearTargets();
 
@@ -1749,7 +1826,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	 */
 	function pasteCharacteristicsObject()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		if (is_array($_POST["title"]))
 		{
@@ -1781,7 +1859,10 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function listColorsObject()
 	{
-		global $tpl, $rbacsystem, $ilToolbar, $ilCtrl;
+		$tpl = $this->tpl;
+		$rbacsystem = $this->rbacsystem;
+		$ilToolbar = $this->toolbar;
+		$ilCtrl = $this->ctrl;
 		
 		if ($this->checkWrite())
 		{
@@ -1801,7 +1882,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function addColorObject()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$this->initColorForm();
 		$tpl->setContent($this->form_gui->getHTML());
@@ -1812,7 +1893,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function editColorObject()
 	{
-		global $tpl, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
 		
 		$ilCtrl->setParameter($this, "c_name", $_GET["c_name"]);
 		$this->initColorForm("edit");
@@ -1826,7 +1908,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function initColorForm($a_mode = "create")
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form_gui = new ilPropertyFormGUI();
@@ -1879,7 +1962,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function cancelColorSavingObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$ilCtrl->redirect($this, "listColors");
 	}
@@ -1889,7 +1972,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function saveColorObject()
 	{
-		global $tpl, $ilCtrl, $lng;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$this->initColorForm();
 		
@@ -1916,7 +2001,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function updateColorObject()
 	{
-		global $tpl, $ilCtrl, $lng;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$this->initColorForm("edit");
 		
@@ -1945,7 +2032,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function deleteColorConfirmationObject()
 	{
-		global $ilCtrl, $tpl, $lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 		
 		if (!is_array($_POST["color"]) || count($_POST["color"]) == 0)
 		{
@@ -1975,7 +2064,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function cancelColorDeletionObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$ilCtrl->redirect($this, "listColors");
 	}
@@ -1985,7 +2074,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function deleteColorObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		if (is_array($_POST["color"]))
 		{
@@ -2007,7 +2096,10 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	 */
 	function listMediaQueriesObject()
 	{
-		global $tpl, $rbacsystem, $ilToolbar, $ilCtrl;
+		$tpl = $this->tpl;
+		$rbacsystem = $this->rbacsystem;
+		$ilToolbar = $this->toolbar;
+		$ilCtrl = $this->ctrl;
 
 		if ($this->checkWrite())
 		{
@@ -2026,7 +2118,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	 */
 	function addMediaQueryObject()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		$this->initMediaQueryForm();
 		$tpl->setContent($this->form_gui->getHTML());
@@ -2037,7 +2129,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	 */
 	function editMediaQueryObject()
 	{
-		global $tpl, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
 
 		$ilCtrl->setParameter($this, "mq_id", $_GET["mq_id"]);
 		$this->initMediaQueryForm("edit");
@@ -2051,7 +2144,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	 */
 	function initMediaQueryForm($a_mode = "create")
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form_gui = new ilPropertyFormGUI();
@@ -2100,7 +2194,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	 */
 	function saveMediaQueryObject()
 	{
-		global $tpl, $ilCtrl, $lng;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		$this->initMediaQueryForm();
 
@@ -2118,7 +2214,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	 */
 	function updateMediaQueryObject()
 	{
-		global $tpl, $ilCtrl, $lng;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		$this->initMediaQueryForm("edit");
 
@@ -2137,7 +2235,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	 */
 	function deleteMediaQueryConfirmationObject()
 	{
-		global $ilCtrl, $tpl, $lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 			
 		if (!is_array($_POST["mq_id"]) || count($_POST["mq_id"]) == 0)
 		{
@@ -2171,7 +2271,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	 */
 	function deleteMediaQueriesObject()
 	{
-		global $ilCtrl, $rbacsystem;
+		$ilCtrl = $this->ctrl;
+		$rbacsystem = $this->rbacsystem;
 
 		if ($this->checkWrite() && is_array($_POST["mq_id"]))
 		{
@@ -2191,7 +2292,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	 */
 	function saveMediaQueryOrderObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		if (is_array($_POST["order"]))
 		{
@@ -2210,7 +2311,10 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function listTemplatesObject()
 	{
-		global $tpl, $ilTabs, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
+		$ilToolbar = $this->toolbar;
 		
 		$ctype = $_GET["temp_type"];
 		if ($ctype == "")
@@ -2222,7 +2326,21 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		
 		$this->setTemplatesSubTabs();
 		$ilTabs->setSubTabActive("sty_".$ctype."_templates");
-		
+
+		// action commands
+		if ($this->checkWrite())
+		{
+			if ($ctype == "table")
+			{
+				$ilToolbar->addButton($this->lng->txt("sty_generate_template"),
+					$ilCtrl->getLinkTarget($this, "generateTemplate"));
+			}
+			$ilToolbar->addButton($this->lng->txt("sty_add_template"),
+				$ilCtrl->getLinkTarget($this, "addTemplate"));
+		}
+
+
+
 		$this->includeCSS();
 		include_once("./Services/Style/Content/classes/class.ilTableTemplatesTableGUI.php");
 		$table_gui = new ilTableTemplatesTableGUI($ctype, $this, "listTemplates",
@@ -2236,7 +2354,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function addTemplateObject()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$this->initTemplateForm();
 		$tpl->setContent($this->form_gui->getHTML());
@@ -2247,7 +2365,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function editTemplateObject()
 	{
-		global $tpl, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
 
 		$ilCtrl->setParameter($this, "t_id", $_GET["t_id"]);
 		$this->initTemplateForm("edit");
@@ -2270,7 +2389,10 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	static function _getTemplatePreview($a_style, $a_type, $a_t_id, $a_small_mode = false)
 	{
-		global $lng, $tpl;
+		global $DIC;
+
+		$lng = $DIC->language();
+		$tpl = $DIC["tpl"];
 
 		$kr = $kc = 7;
 		if ($a_small_mode)
@@ -2402,7 +2524,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function initTemplateForm($a_mode = "create")
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form_gui = new ilPropertyFormGUI();
@@ -2459,7 +2582,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function cancelTemplateSavingObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$ilCtrl->redirect($this, "listTemplates");
 	}
@@ -2470,7 +2593,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function saveTemplateObject()
 	{
-		global $tpl, $ilCtrl, $lng;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$this->initTemplateForm();
 		
@@ -2503,7 +2628,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function updateTemplateObject($a_refresh = false)
 	{
-		global $tpl, $ilCtrl, $lng;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$ilCtrl->setParameter($this, "t_id", $_GET["t_id"]);
 		$this->initTemplateForm("edit");
@@ -2544,7 +2671,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function displayTemplateEditForm()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$a_tpl = new ilTemplate("tpl.template_edit.html", true, true,
 			"Services/Style/Content");
@@ -2586,7 +2713,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function deleteTemplateConfirmationObject()
 	{
-		global $ilCtrl, $tpl, $lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 		
 		if (!is_array($_POST["tid"]) || count($_POST["tid"]) == 0)
 		{
@@ -2635,7 +2764,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function cancelTemplateDeletionObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$ilCtrl->redirect($this, "listTemplates");
 	}
@@ -2645,7 +2774,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function deleteTemplateKeepClassesObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		if (is_array($_POST["tid"]))
 		{
@@ -2663,7 +2792,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function deleteTemplateObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		if (is_array($_POST["tid"]))
 		{
@@ -2688,7 +2817,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function generateTemplateObject()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$this->initTemplateGenerationForm();
 		$tpl->setContent($this->form_gui->getHTML());
@@ -2699,7 +2828,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function initTemplateGenerationForm()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form_gui = new ilPropertyFormGUI();
@@ -2773,7 +2903,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function templateGenerationObject()
 	{
-		global $tpl, $ilCtrl, $lng;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$this->initTemplateGenerationForm();
 		
@@ -2912,7 +3044,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 
 	function accordiontestObject()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
 		
@@ -2934,7 +3066,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function returnToUpperContextObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		/*if ($_GET["baseClass"] == "ilAdministrationGUI")
 		{

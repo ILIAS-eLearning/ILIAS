@@ -19,7 +19,7 @@ class ilObjWikiSearchResultTableGUI extends ilRepositoryObjectSearchResultTableG
 	 */
 	public function parse()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$rows = array();
 		foreach($this->getResults()->getResults() as $result_set)

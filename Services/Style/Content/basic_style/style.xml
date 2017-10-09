@@ -263,6 +263,23 @@
 	<StyleParameter Name="padding" Value="10px"/>
 	<StyleParameter Name="cursor" Value="move"/>
 </Style>
+<Style Tag="ul" Type="qordul" Class="OrderListHorizontal">
+	<StyleParameter Name="list-style" Value="none"/>
+	<StyleParameter Name="list-style-position" Value="outside"/>
+	<StyleParameter Name="padding" Value="0px"/>
+	<StyleParameter Name="margin" Value="0px"/>
+</Style>
+<Style Tag="li" Type="qordli" Class="OrderListItemHorizontal">
+	<StyleParameter Name="float" Value="left"/>
+	<StyleParameter Name="border-width" Value="1px"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+	<StyleParameter Name="border-color" Value="#D0D0FF"/>
+	<StyleParameter Name="padding" Value="10px"/>
+	<StyleParameter Name="margin-top" Value="5px"/>
+	<StyleParameter Name="margin-bottom" Value="5px"/>
+	<StyleParameter Name="margin-right" Value="10px"/>
+	<StyleParameter Name="cursor" Value="move"/>
+</Style>
 <Style Tag="a" Type="qetitem" Class="ErrorTextItem">
 	<StyleParameter Name="text-decoration" Value="none"/>
 	<StyleParameter Name="color" Value="#000000"/>

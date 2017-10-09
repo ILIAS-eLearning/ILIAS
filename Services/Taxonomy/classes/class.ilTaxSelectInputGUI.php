@@ -24,7 +24,12 @@ class ilTaxSelectInputGUI extends ilExplorerSelectInputGUI
 	 */
 	function __construct($a_taxonomy_id, $a_postvar, $a_multi = false)
 	{
-		global $lng, $ilCtrl;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
 		
 		$lng->loadLanguageModule("tax");
 		$this->multi_nodes = $a_multi;

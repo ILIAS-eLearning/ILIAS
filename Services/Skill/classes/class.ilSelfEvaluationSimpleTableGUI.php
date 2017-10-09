@@ -14,6 +14,21 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilSelfEvaluationSimpleTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	
 	/**
 	 * Constructor
@@ -21,7 +36,16 @@ class ilSelfEvaluationSimpleTableGUI extends ilTable2GUI
 	function __construct($a_parent_obj, $a_parent_cmd, $a_top_skill_id, $a_tref_id,
 		$a_basic_skill_id)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng, $ilUser;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$this->user = $DIC->user();
+
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilUser = $DIC->user();
 		
 		$this->top_skill_id = $a_top_skill_id;
 		$this->tref_id = (int) $a_tref_id;
@@ -71,7 +95,7 @@ class ilSelfEvaluationSimpleTableGUI extends ilTable2GUI
 	 */
 	function getLevels()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		include_once("./Services/Skill/classes/class.ilSkillTreeNodeFactory.php");
 		$this->skill = ilSkillTreeNodeFactory::getInstance($this->basic_skill_id);
@@ -89,7 +113,9 @@ class ilSelfEvaluationSimpleTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl, $ilUser;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 
 		include_once("./Services/Skill/classes/class.ilPersonalSkill.php");
 

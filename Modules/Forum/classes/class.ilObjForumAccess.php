@@ -58,10 +58,7 @@ class ilObjForumAccess extends ilObjectAccess
 	 */
 	public static function _checkGoto($a_target)
 	{
-		/**
-		 * @var $ilAccess ilAccessHandler
-		 */
-		global $ilAccess;
+		global $DIC;
 
 		$t_arr = explode('_', $a_target);
 
@@ -70,7 +67,7 @@ class ilObjForumAccess extends ilObjectAccess
 			return false;
 		}
 
-		if($ilAccess->checkAccess('read', '', $t_arr[1]))
+		if($DIC->access()->checkAccess('read', '', $t_arr[1]))
 		{
 			return true;
 		}
@@ -86,10 +83,8 @@ class ilObjForumAccess extends ilObjectAccess
 	 */
 	public static function _getThreadForPosting($a_pos_id)
 	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
+		global $DIC; 
+		$ilDB = $DIC->database();
 
 		$res = $ilDB->queryF(
 			'SELECT pos_thr_fk FROM frm_posts WHERE pos_pk = %s',
@@ -110,10 +105,8 @@ class ilObjForumAccess extends ilObjectAccess
 	 */
 	public static function _lookupDiskUsage($a_obj_id)
 	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 
 		require_once 'Modules/Forum/classes/class.ilFileDataForum.php';
 
@@ -201,7 +194,7 @@ class ilObjForumAccess extends ilObjectAccess
 	 */
 	public static function getCachedUserInstance($usr_id)
 	{
-		if(!isset(self::$userInstanceCache[$usr_id]))
+		if(!isset(self::$userInstanceCache[$usr_id]) && ilObjUser::userExists([$usr_id]))
 		{
 			self::$userInstanceCache[$usr_id] = ilObjectFactory::getInstanceByObjId($usr_id, false);
 		}

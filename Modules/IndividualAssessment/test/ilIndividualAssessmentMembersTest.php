@@ -5,6 +5,13 @@ require_once 'Modules/IndividualAssessment/classes/Members/class.ilIndividualAss
 require_once 'Modules/IndividualAssessment/classes/Settings/class.ilIndividualAssessmentSettings.php';
 require_once 'Modules/IndividualAssessment/interfaces/AccessControl/interface.IndividualAssessmentAccessHandler.php';
 require_once 'Modules/IndividualAssessment/interfaces/Notification/interface.ilIndividualAssessmentNotificator.php';
+
+class RiggedMembers extends \ilIndividualAssessmentMembers {
+	public function setMemberRecords(array $records) {
+		$this->member_records = $records;
+	}
+}
+
 /**
  * @backupGlobals disabled
  * @group needsInstalledILIAS
@@ -47,11 +54,11 @@ class ilIndividualAssessmentMembersTest extends PHPUnit_Framework_TestCase {
 	}
 
 	protected function rbacHandlerMock() {
-		return $this->getMock('IndividualAssessmentAccessHandler');
+		return $this->createMock('IndividualAssessmentAccessHandler');
 	}
 
 	protected function notificaterMock() {
-		return $this->getMock('ilIndividualAssessmentNotificator');
+		return $this->createMock('ilIndividualAssessmentNotificator');
 	}
 
 	public function test_init_iass() {
@@ -195,6 +202,72 @@ class ilIndividualAssessmentMembersTest extends PHPUnit_Framework_TestCase {
 		$iass = $args[1];
 		$storage = $args[2];
 		$storage->loadMember($iass,current($usrs))->withFinalized();
+	}
+
+	public function test_withOnlyUsersByIds() {
+		$obj = $this
+			->getMockBuilder(\ilObjIndividualAssessment::class)
+			->disableOriginalConstructor()
+			->getMock();
+
+		$members = new RiggedMembers($obj);
+
+		$records = [1 => 1, 2 => 2, 3 => 3, 23 => 23, 42 => 42, 1337 => 1337];
+
+		$members->setMemberRecords($records);
+
+		$members = $members->withOnlyUsersByIds([3,42]);
+
+		$this->assertEquals([3, 42], $members->membersIds());
+	}
+
+	public function test_withAccessHandling() {
+		$ah = $this
+			->getMockBuilder(\ilOrgUnitPositionAndRBACAccessHandler::class)
+			->setMethods(["filterUserIdsByRbacOrPositionOfCurrentUser", "checkRbacOrPositionPermissionAccess"])
+			->getMock();
+
+		$obj = $this
+			->getMockBuilder(\ilObjIndividualAssessment::class)
+			->disableOriginalConstructor()
+			->setMethods(["getRefId"])
+			->getMock();
+
+		$members = $this
+			->getMockBuilder(\ilIndividualAssessmentMembers::class)
+			->setMethods(["withOnlyUsersByIds", "membersIds", "referencedObject"])
+			->disableOriginalConstructor()
+			->getMock();
+
+		$ref_id = 1985;
+
+		$obj->method("getRefId")->willReturn($ref_id);
+
+		$user_ids = [1,2,3,23,42,1337];
+		$keep_user_ids = [3, 23];
+
+		$members
+			->expects($this->once())
+			->method("membersIds")
+			->willReturn($user_ids);
+
+		$members
+			->expects($this->once())
+			->method("referencedObject")
+			->willReturn($obj);
+
+		$ah
+			->expects($this->once())
+			->method("filterUserIdsByRbacOrPositionOfCurrentUser")
+			->with("read_learning_progress", "read_learning_progress", $ref_id, $user_ids)
+			->willReturn($keep_user_ids);
+
+		$members
+			->expects($this->once())
+			->method("withOnlyUsersByIds")
+			->with($keep_user_ids);
+
+		$members->withAccessHandling($ah);
 	}
 
 	public static function tearDownAfterClass() {

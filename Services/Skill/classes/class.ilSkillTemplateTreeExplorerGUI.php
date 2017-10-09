@@ -14,6 +14,16 @@ include_once("./Services/UIComponent/Explorer2/classes/class.ilTreeExplorerGUI.p
 class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
 {
 	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
 	 * Constructor
 	 *
 	 * @param object $a_parent_obj parent gui object
@@ -21,6 +31,10 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd)
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
 		include_once("./Services/Skill/classes/class.ilSkillTree.php");
 		$tree = new ilSkillTree();
 		parent::__construct("skill_exp", $a_parent_obj, $a_parent_cmd, $tree);
@@ -78,7 +92,7 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function getNodeContent($a_node)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		// title
 		$title = $a_node["title"];
@@ -158,7 +172,7 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function getNodeHref($a_node)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		switch($a_node["type"])
 		{

@@ -11,6 +11,11 @@
 */
 class ilTRBLBorderStyleInputGUI extends ilFormPropertyGUI
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	protected $value;
 	
 	/**
@@ -21,6 +26,10 @@ class ilTRBLBorderStyleInputGUI extends ilFormPropertyGUI
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("border_style");
 		$this->dirs = array("all", "top", "bottom", "left", "right");
@@ -133,7 +142,7 @@ class ilTRBLBorderStyleInputGUI extends ilFormPropertyGUI
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		foreach ($this->dirs as $dir)
 		{
@@ -172,7 +181,7 @@ class ilTRBLBorderStyleInputGUI extends ilFormPropertyGUI
 	*/
 	function insert(&$a_tpl)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$layout_tpl = new ilTemplate("tpl.prop_trbl_layout.html", true, true, "Services/Style/Content");
 		
@@ -222,7 +231,7 @@ class ilTRBLBorderStyleInputGUI extends ilFormPropertyGUI
 	*/
 	function setValueByArray($a_values)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$this->setAllValue($a_values[$this->getPostVar()]["all"]["pre_value"]);
 		$this->setBottomValue($a_values[$this->getPostVar()]["bottom"]["pre_value"]);

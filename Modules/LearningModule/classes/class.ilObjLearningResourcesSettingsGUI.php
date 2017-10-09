@@ -18,6 +18,16 @@ include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 */
 class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 {
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
     private static $ERROR_MESSAGE;
 	/**
 	 * Contructor
@@ -26,6 +36,14 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 	 */
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
+		global $DIC;
+
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->error = $DIC["ilErr"];
+		$this->access = $DIC->access();
+		$this->settings = $DIC->settings();
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
 		$this->type = 'lrss';
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
@@ -40,7 +58,9 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 	 */
 	public function executeCommand()
 	{
-		global $rbacsystem,$ilErr,$ilAccess;
+		$rbacsystem = $this->rbacsystem;
+		$ilErr = $this->error;
+		$ilAccess = $this->access;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -87,7 +107,9 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 	 */
 	public function getAdminTabs()
 	{
-		global $rbacsystem, $ilAccess, $ilSetting;
+		$rbacsystem = $this->rbacsystem;
+		$ilAccess = $this->access;
+		$ilSetting = $this->settings;
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -117,7 +139,9 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 	*/
 	public function editSettings()
 	{
-		global $ilCtrl, $lng, $ilSetting;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilSetting = $this->settings;
 
 		$lm_set = new ilSetting("lm");
 		$lic_set = new ilSetting("license");
@@ -142,6 +166,17 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 		$cb_prop->setInfo($lng->txt("cont_enable_time_scheduled_page_activation_info"));
 		$cb_prop->setChecked($lm_set->get("time_scheduled_page_activation"));
 		$form->addItem($cb_prop);
+
+		// lm starting point
+		$options = array(
+			"" => $this->lng->txt("cont_last_visited_page"),
+			"first" => $this->lng->txt("cont_first_page")
+			);
+		$si = new ilSelectInputGUI($this->lng->txt("cont_lm_starting_point"), "lm_starting_point");
+		$si->setOptions($options);
+		$si->setValue($lm_set->get("lm_starting_point"));
+		$si->setInfo($this->lng->txt("cont_lm_starting_point_info"));
+		$form->addItem($si);
 
 		// Activate replace media object function
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("cont_replace_mob_feature"),
@@ -184,13 +219,6 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("scormdebug_global_activate"),"scormdebug_global_activate");
 		$cb_prop->setInfo($lng->txt("scormdebug_global_activate_info"));
 		$cb_prop->setChecked($lm_set->get("scormdebug_global_activate"));
-		$form->addItem($cb_prop);
-
-		// scorm2004 login instead of userId for cmi.learner_id
-		$cb_prop = new ilCheckboxInputGUI($lng->txt("scorm_login_as_learner_id"),
-			"scorm_login_as_learner_id");
-		$cb_prop->setInfo($lng->txt("scorm_login_as_learner_id_info"));
-		$cb_prop->setChecked($lm_set->get("scorm_login_as_learner_id"));
 		$form->addItem($cb_prop);
 
 		// scorm2004 disableRTECaching
@@ -237,11 +265,14 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 	*/
 	public function saveSettings()
 	{
-		global $ilCtrl, $ilSetting;
+		$ilCtrl = $this->ctrl;
+		$ilSetting = $this->settings;
 		
 		$lm_set = new ilSetting("lm");
 		$lm_set->set("time_scheduled_page_activation",
 			ilUtil::stripSlashes($_POST["time_scheduled_page_activation"]));
+		$lm_set->set("lm_starting_point",
+			ilUtil::stripSlashes($_POST["lm_starting_point"]));
 		$lm_set->set("page_history",
 			(int) ilUtil::stripSlashes($_POST["page_history"]));
 		$lm_set->set("replace_mob_feature",

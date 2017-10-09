@@ -43,7 +43,7 @@ class ilObjPollListGUI extends ilObjectListGUI
 	*/
 	function getProperties()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		// BEGIN WebDAV: Get parent properties
 		// BEGIN ChangeEvent: Get parent properties

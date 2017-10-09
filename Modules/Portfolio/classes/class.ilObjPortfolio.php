@@ -96,7 +96,9 @@ class ilObjPortfolio extends ilObjPortfolioBase
 	 */
 	public static function setUserDefault($a_user_id, $a_portfolio_id = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$all = array();
 		foreach(self::getPortfoliosOfUser($a_user_id) as $item)
@@ -126,7 +128,9 @@ class ilObjPortfolio extends ilObjPortfolioBase
 	 */
 	static function getPortfoliosOfUser($a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->query("SELECT up.*,od.title,od.description".
 			" FROM usr_portfolio up".
@@ -150,7 +154,10 @@ class ilObjPortfolio extends ilObjPortfolioBase
 	 */
 	static function getDefaultPortfolio($a_user_id)
 	{
-		global $ilDB, $ilSetting;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilSetting = $DIC->settings();
 		
 		if(!$ilSetting->get('user_portfolios'))
 		{
@@ -211,7 +218,7 @@ class ilObjPortfolio extends ilObjPortfolioBase
 	}
 	
 	protected function handleQuotaUpdate()
-	{										
+	{
 		include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
 		ilDiskQuotaHandler::handleUpdatedSourceObject($this->getType(), 
 			$this->getId(),

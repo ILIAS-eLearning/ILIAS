@@ -22,8 +22,13 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 	*/
 	function __construct()
 	{
-		global $ilCtrl, $lng, $ilUser;
-		
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$lng = $DIC->language();
+
 		parent::__construct();
 		
 		$this->setLimit(5);
@@ -73,7 +78,7 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$next_class = $ilCtrl->getNextClass();
 		$cmd = $ilCtrl->getCmd("getHTML");
@@ -98,7 +103,7 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 	*/
 	function fillDataSection()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		include_once("Services/Notes/classes/class.ilNote.php");
 		$this->notes = ilNote::_getLastNotesOfUser();
@@ -127,7 +132,9 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 	*/
 	function getListRowData()
 	{
-		global $ilUser, $lng, $ilCtrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$data = array();
 		
@@ -191,7 +198,9 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 	*/
 	function fillRow($a_set)
 	{
-		global $ilUser, $ilCtrl, $lng;
+		$ilUser = $this->user;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		include_once("Services/Notes/classes/class.ilNoteGUI.php");
 		if (!is_object($this->note_gui))
@@ -200,15 +209,8 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 			$this->note_gui->enableTargets();
 		}
 
-		//if ($this->getCurrentDetailLevel() > 2)
-		//{
-		//	$this->tpl->setVariable("VAL_SUBJECT", "<b>".$a_set["subject"]."</b>");
-		//}
-		//else
-		//{
-			$this->tpl->setVariable("VAL_SUBJECT", $a_set["subject"]);
-		//}
-		
+		$this->tpl->setVariable("VAL_SUBJECT", $a_set["subject"]);
+
 		// link subject to show note function
 		$ilCtrl->setParameter($this, "rel_obj", $a_set["rep_obj_id"]);
 		$ilCtrl->setParameter($this, "note_id", $a_set["id"]);
@@ -254,7 +256,9 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 	*/
 	function getOverview()
 	{
-		global $ilUser, $lng, $ilCtrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 				
 		return '<div class="small">'.((int) count($this->notes))." ".$lng->txt("notes")."</div>";
 	}
@@ -264,7 +268,8 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 	*/
 	function showNote()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		include_once("./Services/Notes/classes/class.ilNoteGUI.php");
 		$note_gui = new ilNoteGUI();

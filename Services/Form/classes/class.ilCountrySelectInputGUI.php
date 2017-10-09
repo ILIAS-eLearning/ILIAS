@@ -14,6 +14,11 @@ include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
  */
 class ilCountrySelectInputGUI extends ilSelectInputGUI
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	
 	/**
 	* Constructor
@@ -23,6 +28,9 @@ class ilCountrySelectInputGUI extends ilSelectInputGUI
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("cselect");
 	}
@@ -34,7 +42,7 @@ class ilCountrySelectInputGUI extends ilSelectInputGUI
 	 */
 	public function getOptions()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$lng->loadLanguageModule("meta");
 		$lng->loadLanguageModule("form");

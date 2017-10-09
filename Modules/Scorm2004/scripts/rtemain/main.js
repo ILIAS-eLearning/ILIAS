@@ -3148,7 +3148,8 @@ function onItemDeliverDo(item, wasSuspendAll) // onDeliver called from sequencin
 		//TODO:JP - add valid jump requests?
 		item.accesscount++;
 		// add some global values for all sco's in package
-		data.cmi.learner_name = globalAct.learner_name;
+		// data.cmi.learner_name = globalAct.learner_name;
+		data.cmi.learner_name = this.config.learner_name;
 		data.cmi.learner_id = this.config.cmi_learner_id;
 		data.cmi.cp_node_id = item.foreignId;
 		data.scoid = item.id;

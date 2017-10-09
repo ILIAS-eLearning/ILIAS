@@ -17,6 +17,16 @@ require_once("./Services/UIComponent/Explorer/classes/class.ilExplorer.php");
 class ilSurveySkillExplorer extends ilExplorer
 {
 	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
 	 * id of root folder
 	 * @var int root folder id
 	 * @access private
@@ -33,6 +43,11 @@ class ilSurveySkillExplorer extends ilExplorer
 	*/
 	function __construct($a_target, $a_templates = false)
 	{
+		global $DIC;
+
+		$this->user = $DIC->user();
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
 		$this->templates = $a_templates;
 		
 		parent::__construct($a_target);
@@ -114,7 +129,7 @@ class ilSurveySkillExplorer extends ilExplorer
 	*/
 	function isClickable($a_type, $a_obj_id = 0)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		if ($a_type == "skll")
 		{
 			return true;
@@ -127,7 +142,7 @@ class ilSurveySkillExplorer extends ilExplorer
 	*/
 	function buildLinkTarget($a_node_id, $a_type)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$ilCtrl->setParameterByClass("ilsurveyskillgui", "obj_id", $a_node_id);
 		$ret = $ilCtrl->getLinkTargetByClass("ilsurveyskillgui", "selectSkillForQuestion");
@@ -141,7 +156,7 @@ class ilSurveySkillExplorer extends ilExplorer
 	 */
 	function buildTitle($a_title, $a_id, $a_type)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if ($a_type == "sktr")
 		{

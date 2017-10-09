@@ -5,8 +5,6 @@
 require_once './Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecordFieldModel.php';
 require_once './Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecordModel.php';
 require_once './Modules/DataCollection/classes/Fields/Base/class.ilDclBaseFieldModel.php';
-require_once("./Services/Link/classes/class.ilLink.php");
-require_once("./Modules/DataCollection/classes/class.ilDataCollectionImporter.php");
 
 /**
  * Class ilDclBaseFieldModel
@@ -33,7 +31,7 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel {
 	public function __construct(ilDclBaseRecordModel $record, ilDclBaseFieldModel $field) {
 		parent::__construct($record, $field);
 		$dclTable = ilDclCache::getTableCache($this->getField()->getTableId());
-		$this->dcl_obj_id = $dclTable->getCollectionObject()->getId();
+		$this->dcl_obj_id = $dclTable->getObjId();
 	}
 
 	/**
@@ -57,7 +55,7 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel {
 
 					}
 				}
-				return implode(', ', $names);
+				return implode('; ', $names);
 			} else {
 				$ref_rec = ilDclCache::getRecordCache($this->getValue());
 				$ref_record_field = $ref_rec->getRecordField($this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
@@ -104,7 +102,8 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel {
 	 * @return int[]
 	 */
 	protected function getReferencesFromString($stringValues) {
-		$slicedStrings = explode(", ", $stringValues);
+		$delimiter = strpos($stringValues, '; ') ? '; ' : ', ';
+		$slicedStrings = explode($delimiter, $stringValues);
 		$slicedReferences = array();
 		$resolved = 0;
 		for($i = 0; $i < count($slicedStrings); $i++) {

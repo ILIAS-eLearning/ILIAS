@@ -95,4 +95,33 @@ interface Factory {
 	 */
 	public function report($title,$sub_panels);
 
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       Listing Panels are used to list items following all one
+	 *       single template.
+	 *   composition: >
+	 *       Listing Panels are composed of several titled Item Groups.
+	 *       They further may contain a filter.
+	 *   effect: >
+	 *       The List Items of Listing Panels may contain a dropdown
+	 *       offering options to interact with the item. Further Listing Panels
+	 *       may be filtered and the number of sections or items to be displayed
+	 *       may be configurable.
+	 *   rivals:
+	 *      Report Panels: >
+	 *        Report Panels contain sections as Sub Panels each displaying
+	 *        different aspects of one item.
+	 *
+	 * rules:
+	 *   usage:
+	 *      1: >
+	 *         Listing Panels SHOULD be used, if a large number of items using
+	 *         the same template are to be displayed in an inviting way
+	 *         not using a Table.
+	 * ---
+	 * @return \ILIAS\UI\Component\Panel\Listing\Factory
+	 */
+	public function listing();
 }

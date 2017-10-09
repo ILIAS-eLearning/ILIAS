@@ -44,7 +44,9 @@ class ilSurveyExport
 	*/
 	function __construct($a_survey_obj, $a_mode = "xml")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$this->survey_obj = $a_survey_obj;
 	
@@ -91,9 +93,6 @@ class ilSurveyExport
 	*/
 	function buildExportFileXML()
 	{
-		global $ilBench;
-
-		$ilBench->start("SurveyExport", "buildExportFile");
 
 		// create directories
 		$this->survey_obj->createExportDirectory();
@@ -117,9 +116,7 @@ class ilSurveyExport
 		$this->exportXHTMLMediaObjects($this->export_dir."/".$this->subdir);
 
 		// zip the file
-		$ilBench->start("SurveyExport", "buildExportFileXML_zipFile");
 		ilUtil::zip($this->export_dir."/".$this->subdir, $this->export_dir."/".$this->subdir.".zip");
-		$ilBench->stop("SurveyExport", "buildExportFileXML_zipFile");
 
 		if (@file_exists($this->export_dir."/".$this->subdir.".zip"))
 		{
@@ -130,15 +127,12 @@ class ilSurveyExport
 			}
 		}
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export");
-		$ilBench->stop("SurveyExport", "buildExportFile");
 
 		return $this->export_dir."/".$this->subdir.".zip";
 	}
 
 	function exportXHTMLMediaObjects($a_export_dir)
 	{
-		global $ilBench;
-		$ilBench->start("SurveyExport", "exportXHTMLMediaObjects");
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 
 		$mobs = ilObjMediaObject::_getMobsOfObject("svy:html", $this->survey_obj->getId());
@@ -159,7 +153,6 @@ class ilSurveyExport
 				unset($mob_obj);
 			}
 		}
-		$ilBench->stop("SurveyExport", "exportXHTMLMediaObjects");
 	}
 
 }

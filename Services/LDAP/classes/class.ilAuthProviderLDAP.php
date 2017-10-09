@@ -60,7 +60,9 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
 		try 
 		{
 			// Read user data, which does ensure a sucessful authentication.
-			$users = $query->fetchUser($this->getCredentials()->getUsername());
+			$users = $query->fetchUser(
+				$this->getCredentials()->getUsername()
+			);
 			
 			if(!$users)
 			{
@@ -71,6 +73,16 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
 			{
 				$this->getLogger()->warning('Cannot find user: '. $this->changeKeyCase($this->getCredentials()->getUsername()));
 				$this->handleAuthenticationFail($status, 'auth_err_ldap_exception');
+				return false;
+			}
+			
+			// check group membership
+			if(!$query->checkGroupMembership(
+				$this->getCredentials()->getUsername(),
+				$users[$this->changeKeyCase($this->getCredentials()->getUsername())]
+			))
+			{
+				$this->handleAuthenticationFail($status, 'err_wrong_login');
 				return false;
 			}
 		} 
@@ -172,7 +184,9 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
 		try 
 		{
 			// fetch user
-			$users = $query->fetchUser($this->getCredentials()->getUsername());
+			$users = $query->fetchUser(
+				$this->getCredentials()->getUsername()
+			);
 			if(!$users)
 			{
 				$this->handleAuthenticationFail($status, 'err_wrong_login');
@@ -196,9 +210,29 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
 	
 	
 
-	public function migrateAccount($a_usr_id)
+	/**
+	 * @inheritdoc
+	 */
+	public function migrateAccount(ilAuthStatus $status)
 	{
+		$this->force_new_account = true;
 		
+		try 
+		{
+			include_once './Services/LDAP/classes/class.ilLDAPQuery.php';
+			$query = new ilLDAPQuery($this->getServer());
+			$query->bind(IL_LDAP_BIND_DEFAULT);
+		}
+		catch(ilLDAPQueryException $e)
+		{
+			$this->getLogger()->error('Cannot bind to LDAP server... '. $e->getMessage());
+			$this->handleAuthenticationFail($status, 'auth_err_ldap_exception');
+			return false;
+		}
+		
+		$users = $query->fetchUser($this->getCredentials()->getUsername());
+		$this->updateAccount($status, $users[$this->changeKeyCase($this->getCredentials()->getUsername())]);
+		return true;
 	}
 
 	/**

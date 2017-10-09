@@ -27,14 +27,12 @@ class ilChatroomBlockGUI extends ilBlockGUI
 	 */
 	public function __construct()
 	{
-		global $lng;
-
 		parent::__construct();
 
-		$lng->loadLanguageModule('chatroom');
+		$this->lng->loadLanguageModule('chatroom');
 
 		$this->setImage(ilUtil::getImagePath('icon_chat.svg'));
-		$this->setTitle($lng->txt('chat_chatviewer'));
+		$this->setTitle($this->lng->txt('chat_chatviewer'));
 		$this->setAvailableDetailLevels(1, 0);
 		$this->allow_moving = true;
 	}
@@ -67,12 +65,7 @@ class ilChatroomBlockGUI extends ilBlockGUI
 	 */
 	public function executeCommand()
 	{
-		/**
-		 * @var $ilCtrl ilCtrl
-		 */
-		global $ilCtrl;
-
-		$cmd = $ilCtrl->getCmd('getHTML');
+		$cmd = $this->ctrl->getCmd('getHTML');
 
 		return $this->$cmd();
 	}
@@ -100,32 +93,25 @@ class ilChatroomBlockGUI extends ilBlockGUI
 	 */
 	public function fillDataSection()
 	{
-		/**
-		 * @var $tpl    ilTemplate
-		 * @var $lng    ilLanguage
-		 * @var $ilCtrl ilCtrl
-		 */
-		global $tpl, $lng, $ilCtrl;
 
-		//@todo: Dirty hack
-		if($ilCtrl->isAsynch() && isset($_GET['chatBlockCmd']))
+		if($this->ctrl->isAsynch() && isset($_GET['chatBlockCmd']))
 		{
 			return $this->dispatchAsyncCommand($_GET['chatBlockCmd']);
 		}
 
-		$tpl->addJavascript('./Modules/Chatroom/js/chatviewer.js');
-		$tpl->addCss('./Modules/Chatroom/templates/default/style.css');
+		$this->main_tpl->addJavascript('./Modules/Chatroom/js/chatviewer.js');
+		$this->main_tpl->addCss('./Modules/Chatroom/templates/default/style.css');
 
 		$body_tpl = new ilTemplate('tpl.chatroom_block_message_body.html', true, true, 'Modules/Chatroom');
 
-		$body_tpl->setVariable('TXT_ENABLE_AUTOSCROLL', $lng->txt('chat_enable_autoscroll'));
+		$body_tpl->setVariable('TXT_ENABLE_AUTOSCROLL', $this->lng->txt('chat_enable_autoscroll'));
 		$body_tpl->setVariable('LOADER_PATH', ilUtil::getImagePath('loader.svg'));
 
-		$ilCtrl->setParameterByClass('ilcolumngui', 'block_id', 'block_' . $this->getBlockType() . '_' . (int)$this->getBlockId());
-		$ilCtrl->setParameterByClass('ilcolumngui', 'ref_id', '#__ref_id');
-		$body_tpl->setVariable('CHATBLOCK_BASE_URL', $ilCtrl->getLinkTargetByClass('ilcolumngui', 'updateBlock', '', true));
-		$ilCtrl->setParameterByClass('ilcolumngui', 'block_id', '');
-		$ilCtrl->setParameterByClass('ilcolumngui', 'ref_id', '');
+		$this->ctrl->setParameterByClass('ilcolumngui', 'block_id', 'block_' . $this->getBlockType() . '_' . (int)$this->getBlockId());
+		$this->ctrl->setParameterByClass('ilcolumngui', 'ref_id', '#__ref_id');
+		$body_tpl->setVariable('CHATBLOCK_BASE_URL', $this->ctrl->getLinkTargetByClass('ilcolumngui', 'updateBlock', '', true));
+		$this->ctrl->setParameterByClass('ilcolumngui', 'block_id', '');
+		$this->ctrl->setParameterByClass('ilcolumngui', 'ref_id', '');
 
 		$smilieys = array();
 		$settings = ilChatroomServerSettings::loadDefault();
@@ -167,7 +153,7 @@ class ilChatroomBlockGUI extends ilBlockGUI
 		);
 		foreach($js_translations as $placeholder => $lng_variable)
 		{
-			$body_tpl->setVariable($placeholder, json_encode($lng->txt($lng_variable)));
+			$body_tpl->setVariable($placeholder, json_encode($this->lng->txt($lng_variable)));
 		}
 
 		$content = $body_tpl->get();
@@ -209,12 +195,7 @@ class ilChatroomBlockGUI extends ilBlockGUI
 	 */
 	protected function getMessages()
 	{
-		/**
-		 * @var $rbacsystem ilRbacSystem
-		 * @var $ilUser     ilObjUser
-		 * @var $lng        ilLanguage
-		 */
-		global $rbacsystem, $ilUser, $lng;
+		global $DIC;
 
 		$result     = new stdClass();
 		$result->ok = false;
@@ -229,15 +210,15 @@ class ilChatroomBlockGUI extends ilBlockGUI
 		 * @var $object ilObjChatroom
 		 */
 		$object = ilObjectFactory::getInstanceByRefId((int)$_REQUEST['ref_id'], false);
-		if(!$object || !$rbacsystem->checkAccess('read', (int)$_REQUEST['ref_id']))
+		if(!$object || !ilChatroom::checkUserPermissions('read', (int)$_REQUEST['ref_id'], false))
 		{
 			ilObjUser::_writePref
 			(
-				$ilUser->getId(), 'chatviewer_last_selected_room',
+				$DIC->user()->getId(), 'chatviewer_last_selected_room',
 				0
 			);
 
-			$result->errormsg = $lng->txt('msg_no_perm_read');
+			$result->errormsg = $DIC->language()->txt('msg_no_perm_read');
 			echo ilJsonUtil::encode($result);
 			exit();
 		}
@@ -248,14 +229,14 @@ class ilChatroomBlockGUI extends ilBlockGUI
 		$block = new ilChatroomBlock();
 		$msg   = $block->getMessages($room);
 
-		$ilUser->setPref
+		$DIC->user()->setPref
 		(
 			'chatviewer_last_selected_room',
 			$object->getRefId()
 		);
 		ilObjUser::_writePref
 		(
-			$ilUser->getId(), 'chatviewer_last_selected_room',
+			$DIC->user()->getId(), 'chatviewer_last_selected_room',
 			$object->getRefId()
 		);
 

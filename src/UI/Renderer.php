@@ -24,6 +24,15 @@ interface Renderer {
 	public function render($component);
 
 	/**
+	 * Same as render, except that this version also returns any javascript code bound to the on load event,
+	 * wrapped in a script tag.
+	 *
+	 * @param Component\Component|Component\Component[] $component
+	 * @return string
+	 */
+	public function renderAsync($component);
+
+	/**
 	 * Get a new renderer with an additional context.
 	 *
 	 * A context makes it possible to use another renderer for (some) components when

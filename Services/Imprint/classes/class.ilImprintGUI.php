@@ -17,11 +17,28 @@ require_once("./Services/Imprint/classes/class.ilImprint.php");
 class ilImprintGUI extends ilPageObjectGUI
 {
 	/**
+	 * @var ilLocatorGUI
+	 */
+	protected $locator;
+
+	/**
+	 * @var ilMainMenuGUI
+	 */
+	protected $main_menu;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct()
 	{
-		global $tpl;
+		global $DIC;
+
+		$this->tpl = $DIC["tpl"];
+		$this->ctrl = $DIC->ctrl();
+		$this->locator = $DIC["ilLocator"];
+		$this->lng = $DIC->language();
+		$this->main_menu = $DIC["ilMainMenu"];
+		$tpl = $DIC["tpl"];
 		
 		if(!ilImprint::_exists("impr", 1))
 		{
@@ -52,7 +69,9 @@ class ilImprintGUI extends ilPageObjectGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl, $ilLocator, $lng;
+		$ilCtrl = $this->ctrl;
+		$ilLocator = $this->locator;
+		$lng = $this->lng;
 		
 		if($_REQUEST["baseClass"] == "ilImprintGUI")
 		{
@@ -81,7 +100,7 @@ class ilImprintGUI extends ilPageObjectGUI
 	
 	function postOutputProcessing($a_output) 
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if($this->getOutputMode() == IL_PAGE_PREVIEW)
 		{
@@ -96,7 +115,9 @@ class ilImprintGUI extends ilPageObjectGUI
 	
 	protected function renderFullscreen()
 	{
-		global $tpl, $lng, $ilMainMenu;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilMainMenu = $this->main_menu;
 		
 		if(!ilImprint::isActive())
 		{

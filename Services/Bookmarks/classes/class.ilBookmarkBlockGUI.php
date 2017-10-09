@@ -22,8 +22,13 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 	*/
 	function __construct()
 	{
-		global $ilCtrl, $lng, $ilUser;
-		
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$lng = $DIC->language();
+
 		parent::__construct();
 		
 		$this->setImage(ilUtil::getImagePath("icon_bm.svg"));
@@ -76,7 +81,7 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$next_class = $ilCtrl->getNextClass();
 		$cmd = $ilCtrl->getCmd("getHTML");
@@ -103,7 +108,7 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 	*/
 	function fillDataSection()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		include_once("./Services/Bookmarks/classes/class.ilBookmarkFolder.php");
 		$bm_items = ilBookmarkFolder::_getNumberOfObjects();
@@ -140,7 +145,8 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 	*/
 	function getPDBookmarkListHTMLTree()
 	{
-		global $ilCtrl, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 		
 		include_once("./Services/Bookmarks/classes/class.ilBookmarkBlockExplorerGUI.php");
 		$exp = new ilBookmarkBlockExplorerGUI($this, "getPDBookmarkListHTMLTree");
@@ -155,8 +161,6 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 	*/
 	function fillFooter()
 	{
-		global $ilCtrl, $lng, $ilUser;
-
 		$this->setFooterLinks();
 		$this->fillFooterLinks();
 		$this->tpl->setVariable("FCOLSPAN", $this->getColSpan());
@@ -172,7 +176,9 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 	*/
 	function setFooterLinks()
 	{
-		global $ilUser, $ilCtrl, $lng;
+		$ilUser = $this->user;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		if ($this->num_bookmarks == 0 && $this->num_folders == 0)
 		{
@@ -202,7 +208,9 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 	*/
 	function getListRowData()
 	{
-		global $ilUser, $lng, $ilCtrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		include_once("./Services/Bookmarks/classes/class.ilBookmarkFolder.php");
 
@@ -267,7 +275,7 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 	*/
 	function fillRow($a_set)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$this->tpl->setVariable("IMG_BM", $a_set["img"]);
 		$this->tpl->setVariable("IMG_ALT", $a_set["alt"]);
@@ -290,7 +298,9 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 	*/
 	function getOverview()
 	{
-		global $ilUser, $lng, $ilCtrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 				
 		return '<div class="small">'.$this->num_bookmarks." ".$lng->txt("bm_num_bookmarks").", ".
 			$this->num_folders." ".$lng->txt("bm_num_bookmark_folders")."</div>";
@@ -301,7 +311,8 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 	*/
 	function setPdFlatMode()
 	{
-		global $ilCtrl, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 
 		$ilUser->writePref("il_pd_bkm_mode", 'flat');
 		if ($ilCtrl->isAsynch())
@@ -320,7 +331,8 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 	*/
 	function setPdTreeMode()
 	{
-		global $ilCtrl, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 		
 		$ilUser->writePref("il_pd_bkm_mode", 'tree');
 		if ($ilCtrl->isAsynch())
@@ -339,7 +351,7 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 	*/
 	function setCurrentBookmarkFolder()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$_SESSION["ilCurBMFolder"] = $_GET["curBMFolder"];
 		$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");

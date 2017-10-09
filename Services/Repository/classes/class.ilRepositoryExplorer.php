@@ -13,6 +13,41 @@ require_once("./Services/UIComponent/Explorer/classes/class.ilExplorer.php");
  */
 class ilRepositoryExplorer extends ilExplorer
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
 
 	/**
 	 * id of root folder
@@ -30,7 +65,20 @@ class ilRepositoryExplorer extends ilExplorer
 	*/
 	function __construct($a_target, $a_top_node = 0)
 	{
-		global $tree, $ilCtrl, $lng, $ilSetting, $objDefinition;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->settings = $DIC->settings();
+		$this->obj_definition = $DIC["objDefinition"];
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->db = $DIC->database();
+		$this->user = $DIC->user();
+		$this->access = $DIC->access();
+		$tree = $DIC->repositoryTree();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilSetting = $DIC->settings();
+		$objDefinition = $DIC["objDefinition"];
 
 		$this->ctrl = $ilCtrl;
 
@@ -80,7 +128,7 @@ class ilRepositoryExplorer extends ilExplorer
 	*/
 	function buildLinkTarget($a_node_id, $a_type)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$ilCtrl->setTargetScript("ilias.php");
 
@@ -148,8 +196,6 @@ class ilRepositoryExplorer extends ilExplorer
 	*/
 	function buildFrameTarget($a_type, $a_child = 0, $a_obj_id = 0)
 	{
-		global $ilias;
-		
 		switch($a_type)
 		{
 			case "cat":
@@ -204,7 +250,11 @@ class ilRepositoryExplorer extends ilExplorer
 
 	function isClickable($a_type, $a_ref_id = 0,$a_obj_id = 0)
 	{
-		global $rbacsystem,$tree,$ilDB,$ilUser,$ilAccess;
+		$rbacsystem = $this->rbacsystem;
+		$tree = $this->tree;
+		$ilDB = $this->db;
+		$ilUser = $this->user;
+		$ilAccess = $this->access;
 
 		if(!ilConditionHandler::_checkAllConditionsOfTarget($a_ref_id,$a_obj_id))
 		{
@@ -328,7 +378,8 @@ class ilRepositoryExplorer extends ilExplorer
 
 	function showChilds($a_ref_id,$a_obj_id = 0)
 	{
-		global $rbacsystem,$tree;
+		$rbacsystem = $this->rbacsystem;
+		$tree = $this->tree;
 //vd($a_ref_id);
 
 		if ($a_ref_id == 0)
@@ -351,7 +402,9 @@ class ilRepositoryExplorer extends ilExplorer
 
 	function isVisible($a_ref_id,$a_type)
 	{
-		global $ilAccess,$tree,$ilSetting;
+		$ilAccess = $this->access;
+		$tree = $this->tree;
+		$ilSetting = $this->settings;
 
 		if(!$ilAccess->checkAccess('visible', '', $a_ref_id))
 		{
@@ -407,7 +460,9 @@ class ilRepositoryExplorer extends ilExplorer
 	*/
 	function formatHeader($tpl, $a_obj_id,$a_option)
 	{
-		global $lng, $ilias, $tree, $ilCtrl;
+		$lng = $this->lng;
+		$tree = $this->tree;
+		$ilCtrl = $this->ctrl;
 
 		// custom icons
 		$path = ilObject::_getIcon($a_obj_id, "tiny", "root");
@@ -446,7 +501,7 @@ class ilRepositoryExplorer extends ilExplorer
 	 */
 	public function sortNodes($a_nodes,$a_parent_obj_id)
 	{
-		global $objDefinition;
+		$objDefinition = $this->obj_definition;
 
 		if ($a_parent_obj_id > 0)
 		{

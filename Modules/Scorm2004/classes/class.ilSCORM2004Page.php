@@ -84,7 +84,7 @@ class ilSCORM2004Page extends ilPageObject
 	*/
 	function create()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// maybe we need an additional table here?
 		
@@ -117,7 +117,7 @@ class ilSCORM2004Page extends ilPageObject
 	*/
 	function update($a_validate = true, $a_no_history = false)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		// maybe we need an additional table here?
 		
@@ -131,7 +131,7 @@ class ilSCORM2004Page extends ilPageObject
 	*/
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// maybe we need an additional table here?
 		
@@ -147,7 +147,7 @@ class ilSCORM2004Page extends ilPageObject
 	*/
 	function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// maybe we need an additional table here?
 		
@@ -167,8 +167,6 @@ class ilSCORM2004Page extends ilPageObject
 	 */
 	function exportXML(&$a_xml_writer, $a_mode = "normal", $a_inst = 0)
 	{
-		global $ilBench;
-
 		$attrs = array();
 		$a_xml_writer->xmlStartTag("PageObject", $attrs);
 
@@ -176,14 +174,10 @@ class ilSCORM2004Page extends ilPageObject
 		{
 			case "normal":
 				// MetaData
-				$ilBench->start("ContentObjectExport", "exportPageObject_XML_Meta");
 				$this->exportXMLMetaData($a_xml_writer);
-				$ilBench->stop("ContentObjectExport", "exportPageObject_XML_Meta");
 
 				// PageContent
-				$ilBench->start("ContentObjectExport", "exportPageObject_XML_PageContent");
 				$this->exportXMLPageContent($a_xml_writer, $a_inst);
-				$ilBench->stop("ContentObjectExport", "exportPageObject_XML_PageContent");
 				break;
 
 			case "alias":
@@ -293,6 +287,14 @@ class ilSCORM2004Page extends ilPageObject
 	 */
 	function performAutomaticModifications()
 	{
+		// disabled this due to #0011195
+		// this does not really work well. Besides creating duplicates, it does not ensure that all
+		// glossary terms are in the assigned glossary. Copying whole pages does not trigger
+		// this procedure. Moreover if no glossary is attached copying pages will still create links
+		// in the target SCORM LM. The SCORM Export seesm to work well, even if terms are in other glossaries
+
+		return;
+
 		if ($this->getGlossaryId() > 0)
 		{
 			// we fix glossary links here

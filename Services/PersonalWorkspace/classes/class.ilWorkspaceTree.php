@@ -12,8 +12,16 @@ include_once "Services/Tree/classes/class.ilTree.php";
  */
 class ilWorkspaceTree extends ilTree
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	public function __construct($a_tree_id, $a_root_id = 0)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		parent::__construct($a_tree_id, $a_root_id);
 		
 		$this->setTableNames('tree_workspace', 'object_data', 'object_reference_ws');
@@ -36,7 +44,7 @@ class ilWorkspaceTree extends ilTree
 	 */
 	public function createReference($a_object_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$next_id = $ilDB->nextId($this->table_obj_reference);
 
@@ -56,7 +64,7 @@ class ilWorkspaceTree extends ilTree
 	 */
 	public function lookupObjectId($a_node_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$set = $ilDB->query("SELECT ".$this->obj_pk.
 			" FROM ".$this->table_obj_reference.
@@ -77,7 +85,7 @@ class ilWorkspaceTree extends ilTree
 	 */
 	public function lookupNodeId($a_obj_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$set = $ilDB->query("SELECT ".$this->ref_pk.
 			" FROM ".$this->table_obj_reference.
@@ -95,7 +103,7 @@ class ilWorkspaceTree extends ilTree
 	 */
 	public function lookupOwner($a_node_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$set = $ilDB->query("SELECT tree".
 			" FROM ".$this->table_obj_reference.
@@ -128,7 +136,7 @@ class ilWorkspaceTree extends ilTree
 	 */
 	public function deleteReference($a_node_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$query = "DELETE FROM ".$this->table_obj_reference.
 			" WHERE ".$this->ref_pk." = ".$ilDB->quote($a_node_id, "integer");
@@ -173,13 +181,14 @@ class ilWorkspaceTree extends ilTree
 	 * Get all workspace objects of specific type
 	 * 
 	 * @param string $a_type
+	 * @param bool $a_with_data
 	 * @return array
 	 */
-	public function getObjectsFromType($a_type)
+	public function getObjectsFromType($a_type, $a_with_data = false)
 	{
 		return $this->getSubTree(
-			$this->getNodeData($this->getRootId()), 
-			false, $a_type);		
+			$this->getNodeData($this->getRootId()),
+			$a_with_data, $a_type);
 	}
 	
 	/**

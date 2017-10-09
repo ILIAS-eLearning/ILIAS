@@ -13,12 +13,38 @@
 class ilSurveySkillDeterminationGUI
 {
 	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
 	 * Constructor
 	 *
 	 * @param object $a_survey
 	 */
 	function __construct(ilObjSurvey $a_survey)
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->tpl = $DIC["tpl"];
+		$this->toolbar = $DIC->toolbar();
+		$this->lng = $DIC->language();
 		$this->survey = $a_survey;
 	}
 	
@@ -27,7 +53,7 @@ class ilSurveySkillDeterminationGUI
 	 */
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$cmd = $ilCtrl->getCmd("listSkillChanges");
 		
@@ -44,7 +70,10 @@ class ilSurveySkillDeterminationGUI
 	 */
 	function listSkillChanges()
 	{
-		global $tpl, $ilToolbar, $lng, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilToolbar = $this->toolbar;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		include_once("./Modules/Survey/classes/class.ilSurveySkillChangesTableGUI.php");
 
@@ -78,7 +107,8 @@ class ilSurveySkillDeterminationGUI
 	 */
 	function writeSkills()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 return;
 		include_once("./Modules/Survey/classes/class.ilSurveySkill.php");
 		$sskill = new ilSurveySkill($this->survey);

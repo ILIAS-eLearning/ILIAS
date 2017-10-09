@@ -22,15 +22,11 @@ class ilChatroomSmiliesGUI
 
 	/**
 	 * Instantiates ilChatroomSmiliesTableGUI and returns its table's HTML.
-	 * @global ilLanguage           $lng
-	 * @global ilCtrl2              $ilCtrl
 	 * @param ilObjChatroomAdminGUI $a_ref
 	 * @return string
 	 */
 	public static function _getExistingSmiliesTable($a_ref)
 	{
-		global $lng, $ilCtrl;
-
 		include_once "Modules/Chatroom/classes/class.ilChatroomSmiliesTableGUI.php";
 
 		$table = new ilChatroomSmiliesTableGUI($a_ref, 'smiley');

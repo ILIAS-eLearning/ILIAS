@@ -88,6 +88,7 @@ class ilObjUser extends ilObject
 	var $phone_mobile;
 	var $fax;
 	var $email;
+	protected $second_email = null;
 	var $hobby;
 	var $matriculation;
 	var $referral_comment;
@@ -372,6 +373,7 @@ class ilObjUser extends ilObject
 		$this->setFax($a_data["fax"]);
 		$this->setMatriculation($a_data["matriculation"]);
 		$this->setEmail($a_data["email"]);
+		$this->setSecondEmail($a_data["second_email"]);
 		$this->setHobby($a_data["hobby"]);
 		$this->setClientIP($a_data["client_ip"]);
 		$this->setPasswordEncodingType($a_data['passwd_enc_type']);
@@ -471,6 +473,7 @@ class ilObjUser extends ilObject
 			"title" => array("text", $this->utitle),
 			"gender" => array("text", $this->gender),
 			"email" => array("text", trim($this->email)),
+			"second_email" => array("text", trim($this->second_email)),
 			"hobby" => array("text", (string) $this->hobby),
 			"institution" => array("text", $this->institution),
 			"department" => array("text", $this->department),
@@ -564,6 +567,7 @@ class ilObjUser extends ilObject
 			"firstname" => array("text", $this->firstname),
 			"lastname" => array("text", $this->lastname),
 			"email" => array("text", trim($this->email)),
+			"second_email" => array("text", trim($this->second_email)),
 			"birthday" => array('date', $this->getBirthday()),
 			"hobby" => array("text", $this->hobby),
 			"institution" => array("text", $this->institution),
@@ -711,6 +715,16 @@ class ilObjUser extends ilObject
 	static function _lookupEmail($a_user_id)
 	{
 		return ilObjUser::_lookup($a_user_id, "email");
+	}
+	
+	/**
+	 * Lookup second e-mail
+	 * @param $a_user_id
+	 * @return null|string
+	 */
+	static function _lookupSecondEmail($a_user_id)
+	{
+		return ilObjUser::_lookup($a_user_id, "second_email");
 	}
 
 	/**
@@ -1894,7 +1908,23 @@ class ilObjUser extends ilObject
 	{
 		return $this->email;
 	}
-
+	
+	/**
+	 * @return null|string
+	 */
+	public function getSecondEmail()
+	{
+		return $this->second_email;
+	}
+	
+	/**
+	 * @param null|string $second_email
+	 */
+	public function setSecondEmail($second_email)
+	{
+		$this->second_email = $second_email;
+	}
+	
 	/**
 	* set hobby
 	* @access	public
@@ -3722,47 +3752,53 @@ class ilObjUser extends ilObject
 	*
 	* @static
 	*/
-	public static function _checkExternalAuthAccount($a_auth, $a_account)
+	public static function _checkExternalAuthAccount($a_auth, $a_account, $tryFallback = true)
 	{
-		global $ilDB,$ilSetting;
+		$db       = $GLOBALS['DIC']->database();
+		$settings = $GLOBALS['DIC']->settings();
 
 		// Check directly with auth_mode
-		$r = $ilDB->queryF("SELECT * FROM usr_data WHERE ".
+		$r = $db->queryF("SELECT * FROM usr_data WHERE ".
 			" ext_account = %s AND auth_mode = %s",
 			array("text", "text"),
 			array($a_account, $a_auth));
-		if ($usr = $ilDB->fetchAssoc($r))
+		if ($usr = $db->fetchAssoc($r))
 		{
 			return $usr["login"];
 		}
 
+		if(!$tryFallback)
+		{
+			return false;
+		}
+
 		// For compatibility, check for login (no ext_account entry given)
-		$res = $ilDB->queryF("SELECT login FROM usr_data ".
+		$res = $db->queryF("SELECT login FROM usr_data ".
 			"WHERE login = %s AND auth_mode = %s AND ext_account IS NULL ",
 			array("text", "text"),
 			array($a_account, $a_auth));
-		if($usr = $ilDB->fetchAssoc($res))
+		if($usr = $db->fetchAssoc($res))
 		{
 			return $usr['login'];
 		}
 
 		// If auth_default == $a_auth => check for login
-		if(ilAuthUtils::_getAuthModeName($ilSetting->get('auth_mode')) == $a_auth)
+		if(ilAuthUtils::_getAuthModeName($settings->get('auth_mode')) == $a_auth)
 		{
-			$res = $ilDB->queryF("SELECT login FROM usr_data WHERE ".
+			$res = $db->queryF("SELECT login FROM usr_data WHERE ".
 				" ext_account = %s AND auth_mode = %s",
 				array("text", "text"),
 				array($a_account, "default"));
-			if ($usr = $ilDB->fetchAssoc($res))
+			if ($usr = $db->fetchAssoc($res))
 			{
 				return $usr["login"];
 			}
 			// Search for login (no ext_account given)
-			$res = $ilDB->queryF("SELECT login FROM usr_data ".
+			$res = $db->queryF("SELECT login FROM usr_data ".
 				"WHERE login = %s AND (ext_account IS NULL OR ext_account = '') AND auth_mode = %s",
 				array("text", "text"),
 				array($a_account, "default"));
-			if($usr = $ilDB->fetchAssoc($res))
+			if($usr = $db->fetchAssoc($res))
 			{
 				return $usr["login"];
 			}
@@ -3891,16 +3927,24 @@ class ilObjUser extends ilObject
 	public static function _getPersonalPicturePath($a_usr_id,$a_size = "small", $a_force_pic = false,
 		$a_prevent_no_photo_image = false)
 	{
-		global $ilDB;
+		global $DIC;
 
-		// BEGIN DiskQuota: Fetch all user preferences in a single query
-		$res = $ilDB->queryF("SELECT * FROM usr_pref WHERE ".
-			"keyword IN (%s,%s) ".
-			"AND usr_id = %s",
-			array("text", "text", "integer"),
-			array('public_upload', 'public_profile', $a_usr_id));
-		while ($row = $ilDB->fetchAssoc($res))
+		$login = $firstname = $lastname = '';
+		$upload = $profile              = false;
+
+		$in  = $DIC->database()->in('usr_pref.keyword', array('public_upload', 'public_profile'), false, 'text');
+		$res = $DIC->database()->queryF("
+			SELECT usr_pref.*, ud.login, ud.firstname, ud.lastname
+			FROM usr_data ud LEFT JOIN usr_pref ON usr_pref.usr_id = ud.usr_id AND $in
+			WHERE ud.usr_id = %s",
+			array("integer"),
+			array($a_usr_id));
+		while ($row = $DIC->database()->fetchAssoc($res))
 		{
+			$login     = $row['login'];
+			$firstname = $row['firstname'];
+			$lastname  = $row['lastname'];
+
 			switch ($row['keyword'])
 			{
 				case 'public_upload' :
@@ -3946,8 +3990,23 @@ class ilObjUser extends ilObject
 				if($a_size == "small" || $a_size == "big")
 				{
 					$a_size = "xsmall";
-				}				
-				$file = ilUtil::getImagePath("no_photo_".$a_size.".jpg");
+				}
+
+				if($profile)
+				{
+					$short = ilStr::subStr($firstname, 0, 1) . ilStr::subStr($lastname, 0, 1);
+				}
+				else
+				{
+					$short = ilStr::subStr($login, 0, 2);
+				}
+
+				/** @var $avatar ilUserAvatarBase */
+				$avatar = $DIC["user.avatar.factory"]->avatar($a_size);
+				$avatar->setName($short);
+				$avatar->setUsrId($a_usr_id);
+
+				return $avatar->getUrl();
 			}
 		}
 
@@ -4232,6 +4291,10 @@ class ilObjUser extends ilObject
 		if(strlen($this->getEmail()))
 		{
 			$body .= ($language->txt("email").": ".$this->getEmail()."\n");
+		}
+		if(strlen($this->getSecondEmail()))
+		{
+			$body .= ($language->txt("second_email").": ".$this->getSecondEmail()."\n");
 		}
 		if(strlen($this->getHobby()))
 		{

@@ -15,22 +15,18 @@ class ilChatroomBlock
 	 */
 	public function getRoomSelect()
 	{
-		/**
-		 * @var $lng    ilLanguage
-		 * @var $ilUser ilObjUser
-		 */
-		global $lng, $ilUser;
+		global $DIC;
 
 		$readable = $this->getReadableAreas();
 		$tpl      = new ilTemplate('tpl.chatroom_block_room_select.html', true, true, 'Modules/Chatroom');
-		$tpl->setVariable('TXT_SELECT_ROOM', $lng->txt('chat_select_room'));
+		$tpl->setVariable('TXT_SELECT_ROOM', $DIC->language()->txt('chat_select_room'));
 		foreach($readable as $room)
 		{
 			$tpl->setCurrentBlock('select_room_row');
 			$tpl->setVariable('ROW_VALUE', $room['ref_id']);
-			$tpl->setVariable('ROW_CAPTION', sprintf($lng->txt('room_in_container'), $room['title'], $room['parent_title']));
+			$tpl->setVariable('ROW_CAPTION', sprintf($DIC->language()->txt('room_in_container'), $room['title'], $room['parent_title']));
 
-			if($ilUser->getPref('chatviewer_last_selected_room') == $room['ref_id'])
+			if($DIC->user()->getPref('chatviewer_last_selected_room') == $room['ref_id'])
 				$tpl->setVariable('ROW_SELECTED', 'selected="selected"');
 
 			$tpl->parseCurrentBlock();
@@ -44,11 +40,7 @@ class ilChatroomBlock
 	 */
 	private function getReadableAreas()
 	{
-		/**
-		 * @var $ilUser     ilObjUser
-		 * @var $rbacsystem ilRbacSystem
-		 */
-		global $ilUser, $rbacsystem;
+		global $DIC;
 
 		$readable_rooms = array();
 
@@ -62,10 +54,10 @@ class ilChatroomBlock
 				continue;
 			}
 
-			if($rbacsystem->checkAccess('read', '', $object['ref_id']))
+			if(ilChatroom::checkUserPermissions('read', $object['ref_id'], false))
 			{
 				$room = ilChatroom::byObjectId($object['obj_id']);
-				if($room && !$room->isUserBanned($ilUser->getId()))
+				if($room && !$room->isUserBanned($DIC->user()->getId()))
 				{
 					$readable_rooms[$object['obj_id']] = array(
 						'ref_id'       => $object['ref_id'],
@@ -94,13 +86,14 @@ class ilChatroomBlock
 	 */
 	public function getMessages(ilChatroom $room)
 	{
-		/**
-		 * @var $ilUser ilObjUser
-		 */
-		global $ilUser;
+		global $DIC;
 
 		include 'Modules/Chatroom/classes/class.ilChatroomUser.php';
-		$messages = $room->getLastMessagesForChatViewer($room->getSetting('display_past_msgs'), new ilChatroomUser($ilUser, $room));
+		$messages = $room->getLastMessagesForChatViewer(
+			$room->getSetting('display_past_msgs'),
+			new ilChatroomUser($DIC->user(),
+			$room)
+		);
 
 		$output_messages = array();
 

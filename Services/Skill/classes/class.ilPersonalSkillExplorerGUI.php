@@ -14,6 +14,16 @@ include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
  */
 class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	protected $selectable = array();
 	protected $selectable_child_nodes = array();
 	protected $has_selectable_nodes = false;
@@ -23,6 +33,10 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd, $a_select_gui, $a_select_cmd, $a_select_par = "obj_id")
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
 		
 		$this->select_gui = (is_object($a_select_gui))
 			? strtolower(get_class($a_select_gui))
@@ -149,7 +163,7 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function getNodeHref($a_node)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$skill_id = $a_node["child"];
 		
@@ -168,7 +182,7 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function getNodeContent($a_node)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		// title
 		$title = $a_node["title"];

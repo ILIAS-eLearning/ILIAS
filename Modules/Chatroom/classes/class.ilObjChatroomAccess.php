@@ -37,10 +37,7 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
 	 */
 	public static function _checkGoto($a_target)
 	{
-		/**
-		 * @var $rbacsystem ilRbacSystem
-		 */
-		global $rbacsystem;
+		global $DIC;
 
 		if(is_string($a_target))
 		{
@@ -51,7 +48,7 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
 				return false;
 			}
 
-			if($rbacsystem->checkAccess("read", $t_arr[1]))
+			if($DIC->rbac()->system()->checkAccess("read", $t_arr[1]))
 			{
 				return true;
 			}
@@ -65,29 +62,110 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
 	 */
 	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
 	{
-		/**
-		 * @var $ilUser     ilObjUser
-		 * @var $rbacsystem ilRbacSystem
-		 */
-		global $ilUser, $rbacsystem;
+		if($a_user_id == '')
+		{
+			$a_user_id = $GLOBALS['DIC']->user()->getId();
+		}
 
+		return self::checkRoomAccess($a_permission, $a_ref_id, $a_obj_id, $a_user_id);
+	}
+	
+	
+	public static function checkRoomAccess($a_permission, $a_ref_id, $a_obj_id, $a_user_id)
+	{
 		if(self::$chat_enabled === null)
 		{
 			$chatSetting        = new ilSetting('chatroom');
 			self::$chat_enabled = (boolean)$chatSetting->get('chat_enabled');
 		}
 
-		if($a_user_id == "")
-		{
-			$a_user_id = $ilUser->getId();
-		}
-
-		if($rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id))
+		if($GLOBALS['DIC']->rbac()->system()->checkAccessOfUser($a_user_id, 'write', $a_ref_id))
 		{
 			return true;
 		}
 
+		switch($a_permission)
+		{
+			case 'visible':
+				$visible = null;
+
+				$active           = self::isActivated($a_ref_id, $a_obj_id, $visible);
+				$hasWriteAccess   = $GLOBALS['DIC']->rbac()->system()->checkAccessOfUser($a_user_id, 'write', $a_ref_id);
+
+				if(!$active)
+				{
+					$GLOBALS['DIC']->access()->addInfoItem(IL_NO_OBJECT_ACCESS, $GLOBALS['DIC']->language()->txt('offline'));
+				}
+
+				if(!$hasWriteAccess && !$active && !$visible)
+				{
+					return false;
+				}
+				break;
+
+			case 'read':
+				$hasWriteAccess = $GLOBALS['DIC']->rbac()->system()->checkAccessOfUser($a_user_id, 'write', $a_ref_id);
+				if($hasWriteAccess)
+				{
+					return true;
+				}
+
+				$active = self::isActivated($a_ref_id, $a_obj_id);
+				if(!$active)
+				{
+					$GLOBALS['DIC']->access()->addInfoItem(IL_NO_OBJECT_ACCESS, $GLOBALS['DIC']->language()->txt('offline'));
+					return false;
+				}
+				break;
+		}
+
 		return self::$chat_enabled;
+	}
+
+	/**
+	 * @param int $refId
+	 * @param int $objId
+	 * @param null $a_visible_flag
+	 * @return bool
+	 */
+	public static function isActivated($refId, $objId, &$a_visible_flag = null)
+	{
+		if(!self::lookupOnline($objId))
+		{
+			$a_visible_flag = false;
+			return false;
+		}
+
+		$a_visible_flag = true;
+
+		require_once 'Services/Object/classes/class.ilObjectActivation.php';
+		$item = ilObjectActivation::getItem($refId);
+		switch($item['timing_type'])
+		{
+			case ilObjectActivation::TIMINGS_ACTIVATION:
+				if(time() < $item['timing_start'] || time() > $item['timing_end'])
+				{
+					$a_visible_flag = $item['visible'];
+					return false;
+				}
+
+			default:
+				return true;
+		}
+	}
+
+	/**
+	 * @param int $a_obj_id
+	 * @return bool
+	 */
+	public static function lookupOnline($a_obj_id)
+	{
+		global $DIC;
+
+		$res = $DIC->database()->query("SELECT online_status FROM chatroom_settings WHERE object_id = " . $DIC->database()->quote($a_obj_id, 'integer'));
+		$row = $DIC->database()->fetchAssoc($res);
+
+		return (bool)$row['online_status'];
 	}
 
 	/**

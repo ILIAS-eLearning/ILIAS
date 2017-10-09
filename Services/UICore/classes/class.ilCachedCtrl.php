@@ -7,6 +7,11 @@
  * @version 1.0.0
  */
 class ilCachedCtrl {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 
 	/**
 	 * @var bool
@@ -76,6 +81,9 @@ class ilCachedCtrl {
 
 
 	protected function __construct() {
+		global $DIC;
+
+		$this->db = $DIC->database();
 		$this->global_cache = ilGlobalCache::getInstance(ilGlobalCache::COMP_ILCTRL);
 		$this->readFromDB();
 	}
@@ -89,7 +97,7 @@ class ilCachedCtrl {
 
 
 	protected function readFromDB() {
-		global $ilDB;
+		$ilDB = $this->db;
 		/**
 		 * @var $ilDB ilDB
 		 */
@@ -261,6 +269,34 @@ class ilCachedCtrl {
 	public function getCtrlClassfileParent() {
 		return $this->ctrl_classfile_parent;
 	}
+
+
+	/**
+	 * Declares all fields which should be serialized by php.
+	 * This has to be done, because the PDO objects are not serializable.
+	 *
+	 * @return string[]
+	 */
+	public function __sleep() {
+		return [
+			'changed',
+			'loaded',
+			'module_classes',
+			'service_classes',
+			'ctrl_calls',
+			'ctrl_classfile',
+			'ctrl_classfile_parent'
+		];
+	}
+
+
+	/**
+	 * Restore database connection.
+	 */
+	public function __wakeup() {
+		global $DIC;
+
+		$this->db = $DIC->database();
+	}
 }
 
-?>

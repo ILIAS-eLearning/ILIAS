@@ -13,6 +13,21 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilWorkspaceShareTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	protected $handler; // [ilWorkspaceAccessHandler]
 	protected $parent_node_id; // [int]
 	protected $filter; // [array]
@@ -31,7 +46,14 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_handler, $a_parent_node_id = null, $a_load_data = false)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->settings = $DIC->settings();
+		$this->user = $DIC->user();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 
 		$this->handler = $a_handler;
 		
@@ -114,7 +136,9 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 	
 	public function initFilter()
 	{		
-		global $lng, $ilSetting, $ilUser;
+		$lng = $this->lng;
+		$ilSetting = $this->settings;
+		$ilUser = $this->user;
 				
 		include_once "Services/Membership/classes/class.ilParticipants.php";
 		$this->crs_ids = ilParticipants::_getMembershipByType($ilUser->getId(), "crs");
@@ -229,7 +253,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 	
 	protected function importData()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$data = array();
 		
@@ -279,7 +303,8 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($node)
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 				
 		$this->tpl->setVariable("LASTNAME", $node["lastname"]);
 		$this->tpl->setVariable("FIRSTNAME", $node["firstname"]);		

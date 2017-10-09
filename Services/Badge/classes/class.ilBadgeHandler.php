@@ -11,6 +11,21 @@
  */
 class ilBadgeHandler
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	protected $settings; // [ilSetting]
 	
 	protected static $instance; // [ilBadgeHandler]
@@ -22,6 +37,14 @@ class ilBadgeHandler
 	 */
 	protected function __construct()
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
+		if (isset($DIC["tree"]))
+		{
+			$this->tree = $DIC->repositoryTree();
+		}
+		$this->lng = $DIC->language();
 		$this->settings = new ilSetting("bdga");
 	}
 	
@@ -126,7 +149,7 @@ class ilBadgeHandler
 	
 	protected function getComponent($a_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// see ilCtrl
 		$set = $ilDB->query("SELECT * FROM il_component".
@@ -425,7 +448,7 @@ class ilBadgeHandler
 	
 	public function getUserIds($a_parent_ref_id, $a_parent_obj_id = null, $a_parent_type = null)
 	{
-		global $tree;
+		$tree = $this->tree;
 				
 		if(!$a_parent_obj_id)
 		{
@@ -576,7 +599,7 @@ class ilBadgeHandler
 	
 	public function sendNotification(array $a_user_map, $a_parent_ref_id = null)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$badges = array();
 		

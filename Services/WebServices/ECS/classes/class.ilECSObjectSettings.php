@@ -12,7 +12,15 @@
 */
 abstract class ilECSObjectSettings
 {
+	/**
+	 * @var ilObject
+	 */
 	protected $content_obj; // [ilObj]
+	
+	/**
+	 * @var ilLogger
+	 */
+	private $logger = null;
 	
 	const MAIL_SENDER = 6;
 	
@@ -23,6 +31,7 @@ abstract class ilECSObjectSettings
 	 */
 	public function __construct(ilObject $a_content_object)
 	{
+		$this->logger = $GLOBALS['DIC']->logger()->obj();
 		$this->content_obj = $a_content_object;
 	}
 	
@@ -92,9 +101,9 @@ abstract class ilECSObjectSettings
 		include_once('./Services/WebServices/ECS/classes/class.ilECSServerSettings.php');
 		if(ilECSServerSettings::getInstance()->activeServerExists())
 		{
-			// imported objects cannot be exported
-			include_once('./Services/WebServices/ECS/classes/class.ilECSImport.php');
-			if(!ilECSImport::lookupServerId($this->content_obj->getId()))
+			// imported objects cannot be exported => why not
+			#include_once('./Services/WebServices/ECS/classes/class.ilECSImport.php');
+			#if(!ilECSImport::lookupServerId($this->content_obj->getId()))
 			{
 				return true;			
 			}
@@ -114,8 +123,10 @@ abstract class ilECSObjectSettings
 	{
 		global $lng;
 		
+		$this->logger->debug('Show ecs settings.');
 		if(!$this->isActive($a_type))
 		{
+			$this->logger->debug('Object type is not active. => no settings.');
 			return;
 		}
 		
@@ -127,12 +138,14 @@ abstract class ilECSObjectSettings
 		
 		if(!$this->getContentObject()->withReferences())
 		{
+			$this->logger->debug('Called withot references. => no settings.');
 			return TRUE;
 		}
 
 		$exportablePart = ilECSParticipantSettings::getExportableParticipants($a_type);
 		if(!$exportablePart and !ilECSExport::_isExported($obj_id))
 		{
+			$this->logger->debug('Object type is not exportable. => no settings.');
 			return true;
 		}
 		if(
@@ -140,6 +153,7 @@ abstract class ilECSObjectSettings
 			$GLOBALS['tree']->checkForParentType($GLOBALS['tree']->getParentId($this->getContentObject()->getRefId()),'grp',false)
 		)
 		{
+			$this->logger->debug('Parent crs/grp in path. => no settings.');
 			return true;
 		}
 
@@ -626,19 +640,23 @@ abstract class ilECSObjectSettings
 		return true;	
 	}
 	
+	/**
+	 * Handle permission update
+	 * @param ilECSSetting $server
+	 */
 	protected function handlePermissionUpdate(ilECSSetting $server)
 	{
-		if($this->content_obj->getType() == 'crs')
+		if(
+			($this->content_obj->getType() == 'crs') ||
+			($this->content_obj->getType() == 'grp')
+		)
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Permission update');
-			if($this->content_obj->getType() == 'crs')
-			{
-				$GLOBALS['rbacadmin']->grantPermission(
-					$server->getGlobalRole(),
-					ilRbacReview::_getOperationIdsByName(array('join','visible')),
-					$this->content_obj->getRefId()
-				);
-			}
+			$GLOBALS['ilLog']->write(__METHOD__.': Permission update for courses/groups');
+			$GLOBALS['rbacadmin']->grantPermission(
+				$server->getGlobalRole(),
+				ilRbacReview::_getOperationIdsByName(array('join','visible')),
+				$this->content_obj->getRefId()
+			);
 		}
 	}
 	

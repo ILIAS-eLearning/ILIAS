@@ -18,6 +18,11 @@ include_once("./Modules/ItemGroup/classes/class.ilItemGroupAR.php");
  */
 class ilObjItemGroup extends ilObject2
 {
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_def;
+
 	protected $access_type; // [int]
 	protected $access_begin; // [timestamp]
 	protected $access_end; // [timestamp]
@@ -33,7 +38,12 @@ class ilObjItemGroup extends ilObject2
 	 */
 	function __construct($a_id = 0, $a_reference = true) 
 	{
-		global $tree, $objDefinition, $ilDB;
+		global $DIC;
+
+		$this->log = $DIC["ilLog"];
+		$tree = $DIC->repositoryTree();
+		$objDefinition = $DIC["objDefinition"];
+		$ilDB = $DIC->database();
 		
 		$this->tree = $tree;
 		$this->obj_def = $objDefinition;
@@ -81,6 +91,26 @@ class ilObjItemGroup extends ilObject2
 	function getHideTitle()
 	{
 		return $this->item_data_ar->getHideTitle();
+	}
+
+	/**
+	 * Set behaviour (see ilItemGroupBehaviour)
+	 *
+	 * @param int $a_val behaviour
+	 */
+	function setBehaviour($a_val)
+	{
+		$this->item_data_ar->setBehaviour($a_val);
+	}
+
+	/**
+	 * Get hide title
+	 *
+	 * @return int behaviour
+	 */
+	function getBehaviour()
+	{
+		return $this->item_data_ar->getBehaviour();
 	}
 
 	/**
@@ -133,7 +163,8 @@ class ilObjItemGroup extends ilObject2
 	 */
 	protected function doCloneObject($new_obj, $a_target_id, $a_copy_id = null, $a_omit_tree = false)
 	{
-		
+		$new_obj->setHideTitle($this->getHideTitle());
+		$new_obj->update();
 	}
 
 	/**
@@ -144,7 +175,7 @@ class ilObjItemGroup extends ilObject2
 	 */
 	function cloneDependencies($a_target_id,$a_copy_id)
 	{
-		global $ilLog;
+		$ilLog = $this->log;
 		
 		$ilLog->write(__METHOD__.': Cloning item group dependencies -'.$a_source_id.'-');
 		
@@ -165,7 +196,9 @@ class ilObjItemGroup extends ilObject2
 	 */
 	static function fixContainerItemGroupRefsAfterCloning($a_source_container, $a_copy_id)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC["ilLog"];
 		
 		$ilLog->write(__METHOD__.': Fix item group references in '.$a_source_container->getType());
 		
@@ -200,14 +233,39 @@ class ilObjItemGroup extends ilObject2
 	 */
 	static function lookupHideTitle($a_id)
 	{
-		global $ilDB;
-
-		$set = $ilDB->query("SELECT hide_title FROM itgr_data ".
-			" WHERE id = ".$ilDB->quote($a_id, "integer")
-			);
-		$rec = $ilDB->fetchAssoc($set);
-		return $rec["hide_title"];
+		return self::lookup($a_id, "hide_title");
 	}
+
+	/**
+	 * Lookup behaviour
+	 *
+	 * @param int $a_id ID
+	 * @return int
+	 */
+	static function lookupBehaviour($a_id)
+	{
+		return self::lookup($a_id, "behaviour");
+	}
+
+	/**
+	 * Lookup hide title
+	 *
+	 * @param int $a_id ID
+	 * @return bool
+	 */
+	protected static function lookup($a_id, $a_key)
+	{
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
+		$set = $ilDB->query("SELECT ".$a_key." FROM itgr_data ".
+			" WHERE id = ".$ilDB->quote($a_id, "integer")
+		);
+		$rec = $ilDB->fetchAssoc($set);
+		return $rec[$a_key];
+	}
+
 
 }
 

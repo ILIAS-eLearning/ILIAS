@@ -17,11 +17,34 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 class ilObjBookingPoolGUI extends ilObjectGUI
 {
 	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilNavigationHistory
+	 */
+	protected $nav_history;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+	/**
 	* Constructor
 	*
 	*/
 	function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
 	{
+		global $DIC;
+
+		$this->tpl = $DIC["tpl"];
+		$this->tabs = $DIC->tabs();
+		$this->nav_history = $DIC["ilNavigationHistory"];
+		$this->help = $DIC["ilHelp"];
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
 		$this->type = "book";
 		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 		$this->lng->loadLanguageModule("book");
@@ -32,7 +55,10 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	 */
 	function executeCommand()
 	{
-		global $tpl, $ilTabs, $ilNavigationHistory, $ilUser;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
+		$ilNavigationHistory = $this->nav_history;
+		$ilUser = $this->user;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -250,7 +276,8 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	*/
 	function setTabs()
 	{
-		global $ilHelp, $ilUser;
+		$ilHelp = $this->help;
+		$ilUser = $this->user;
 		
 		if (in_array($this->ctrl->getCmd(), array("create", "save")) && !$this->ctrl->getNextClass())
 		{
@@ -316,7 +343,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	
 	protected function setHelpId($a_id)
 	{
-		global $ilHelp; 
+		$ilHelp = $this->help;
 		
 		$object_subtype = ($this->object->getScheduleType() == ilObjBookingPool::TYPE_FIX_SCHEDULE)
 			? '-schedule'
@@ -332,7 +359,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	 */
 	function bookObject()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$this->tabs_gui->clearTargets();
 		$this->tabs_gui->setBackTarget($this->lng->txt('book_back_to_list'), $this->ctrl->getLinkTarget($this, 'render'));
@@ -370,7 +397,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
 	protected function renderSlots(ilBookingSchedule $schedule, array $object_ids, $title)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		// fix
 		if(!$schedule->getRaster())
@@ -566,7 +593,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	
 	protected function buildDatesBySchedule($week_start, array $hours, $schedule, array $object_ids, $seed, array &$dates)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		include_once 'Services/Calendar/classes/class.ilCalendarUserSettings.php';			
 		$user_settings = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId());		
@@ -724,7 +751,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	 */
 	function confirmedBookingObject()
 	{				
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
 		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';		
@@ -986,7 +1013,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	
 	function confirmBookingNumbers(array $a_objects_counter, $a_group_id, ilPropertyFormGUI $a_form = null)
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$this->tabs_gui->clearTargets();
 		$this->tabs_gui->setBackTarget($this->lng->txt('book_back_to_list'), $this->ctrl->getLinkTarget($this, 'render'));
@@ -1162,7 +1189,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	 */
 	function processBooking($a_object_id, $a_from = null, $a_to = null, $a_group_id = null)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		// #11995
 		$this->checkPermission('read');		
@@ -1207,7 +1234,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	 */
 	function logObject()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		$this->tabs_gui->setTabActive('log');
 				
@@ -1229,7 +1256,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	
 	function logDetailsObject()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		$this->tabs_gui->clearTargets();
 		$this->tabs_gui->setBackTarget($this->lng->txt("back"),
@@ -1308,7 +1335,10 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
 	public static function _goto($a_target)
 	{
-		global $ilAccess, $lng;
+		global $DIC;
+
+		$ilAccess = $DIC->access();
+		$lng = $DIC->language();
 
 		if ($ilAccess->checkAccess("read", "", $a_target))
 		{
@@ -1336,7 +1366,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
 	function infoScreen()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$this->tabs_gui->setTabActive('info');
 		
@@ -1391,7 +1421,10 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	
 	function rsvConfirmCancelObject()
 	{
-		global $ilCtrl, $lng, $tpl, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
+		$ilUser = $this->user;
 	
 		$ids = $this->getLogReservationIds();
 		if(!sizeof($ids))
@@ -1562,7 +1595,9 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	
 	function rsvConfirmCancelAggregationObject(array $a_ids = null)
 	{
-		global $tpl, $ilCtrl, $lng;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$this->tabs_gui->clearTargets();
 		$this->tabs_gui->setBackTarget($lng->txt("back"),
@@ -1580,7 +1615,10 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
 	function rsvCancelObject()
 	{
-		global $ilUser, $tpl, $lng, $ilCtrl;
+		$ilUser = $this->user;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 				
 		$ids = $_POST["rsv_id"];
 		
@@ -1692,7 +1730,8 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
 	function showProfileObject()
 	{
-		global $tpl, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
 		
 		$this->tabs_gui->clearTargets();
 		
@@ -1706,7 +1745,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	
 	public function addLocatorItems()
 	{
-		global $ilLocator;
+		$ilLocator = $this->locator;
 		
 		if (is_object($this->object))
 		{

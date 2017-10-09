@@ -18,7 +18,9 @@ class ilSystemSupportContacts
 	 */
 	static function getList()
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC->settings();
 
 		return $ilSetting->get("adm_support_contacts");
 	}
@@ -30,7 +32,9 @@ class ilSystemSupportContacts
 	 */
 	static function setList($a_list)
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC->settings();
 
 		$list = explode(",", $a_list);
 		$accounts = array();

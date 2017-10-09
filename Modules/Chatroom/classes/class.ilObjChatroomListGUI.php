@@ -56,10 +56,7 @@ class ilObjChatroomListGUI extends ilObjectListGUI
 	 */
 	public function getProperties()
 	{
-		/**
-		 * @var $lng ilLanguage
-		 */
-		global $lng;
+		global $DIC;
 
 		$props = array();
 
@@ -68,13 +65,13 @@ class ilObjChatroomListGUI extends ilObjectListGUI
 		if($room)
 		{
 			$props[] = array(
-				'alert' => false, 'property' => $lng->txt('chat_users_active'),
+				'alert' => false, 'property' => $DIC->language()->txt('chat_users_active'),
 				'value' => $room->countActiveUsers()
 			);
 
 			if($this->obj_id == self::$publicRoomObjId)
 			{
-				$props[] = array('alert' => false, 'property' => $lng->txt('notice'), 'value' => $lng->txt('public_room'));
+				$props[] = array('alert' => false, 'property' => $DIC->language()->txt('notice'), 'value' => $DIC->language()->txt('public_room'));
 			}
 
 			if(self::$chat_enabled === null)
@@ -85,7 +82,13 @@ class ilObjChatroomListGUI extends ilObjectListGUI
 
 			if(!self::$chat_enabled)
 			{
-				$props[] = array('alert' => true, 'property' => $lng->txt('status'), 'value' => $lng->txt('server_disabled'));
+				$props[] = array('alert' => true, 'property' => $DIC->language()->txt('chtr_server_status'), 'value' => $DIC->language()->txt('server_disabled'));
+			}
+
+			if(!$room->getSetting('online_status'))
+			{
+				$props[] = array('alert' => true, 'property' => $DIC->language()->txt('status'),
+								 'value' => $DIC->language()->txt('offline'));
 			}
 		}
 

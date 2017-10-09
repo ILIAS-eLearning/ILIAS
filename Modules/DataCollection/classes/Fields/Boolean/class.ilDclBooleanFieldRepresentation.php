@@ -1,6 +1,4 @@
 <?php
-require_once ('./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseFieldRepresentation.php');
-require_once('./Modules/DataCollection/classes/Helpers/class.ilDclCheckboxInputGUI.php');
 
 /**
  * Class ilDclFileuploadFieldRepresentaion

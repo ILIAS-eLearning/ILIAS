@@ -40,15 +40,13 @@ class Factory {
 	 * Color is a data type representing a color in HTML.
 	 * Construct a color with a hex-value or list of RGB-values.
 	 *
-	 * @param  string|int[]
+	 * @param  string|int[] 	$value
 	 * @return Color
 	 */
 	public function color($value) {
 		if(! $this->colorfactory) {
-			$this->colorfactory = new Color\ColorFactory();
+			$this->colorfactory = new Color\Factory();
 		}
 		return $this->colorfactory->build($value);
 	}
-
-
 }

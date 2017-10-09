@@ -31,13 +31,7 @@ class ilChatroomUploadFileGUI extends ilChatroomGUIHandler
 	 */
 	public function uploadFile()
 	{
-		global $ilCtrl;
-
-		if(!ilChatroom::checkUserPermissions('read', $this->gui->ref_id))
-		{
-			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", ROOT_FOLDER_ID);
-			$ilCtrl->redirectByClass("ilrepositorygui", "");
-		}
+		$this->redirectIfNoPermission('read');
 
 		$upload_path = $this->getUploadPath();
 

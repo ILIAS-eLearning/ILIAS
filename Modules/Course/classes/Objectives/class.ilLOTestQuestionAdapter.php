@@ -592,6 +592,11 @@ class ilLOTestQuestionAdapter
 		}
 	}
 	
+	/**
+	 * update random questions
+	 * @param ilTestSession $session
+	 * @param ilTestSequenceRandomQuestionSet $seq
+	 */
 	protected function updateRandomQuestions(ilTestSession $session, ilTestSequenceRandomQuestionSet $seq)
 	{
 		include_once './Modules/Course/classes/Objectives/class.ilLORandomTestQuestionPools.php';
@@ -601,18 +606,21 @@ class ilLOTestQuestionAdapter
 		{
 			// Clear questions of previous run
 			$tst_run->clearQuestions();
-			$rnd = new ilLORandomTestQuestionPools(
-					$this->container_id, 
-					$tst_run->getObjectiveId(),
-					($this->getSettings()->getQualifiedTest() == $session->getRefId() ? 
-						ilLOSettings::TYPE_TEST_QUALIFIED : 
-						ilLOSettings::TYPE_TEST_INITIAL)
+			
+			$sequences = ilLORandomTestQuestionPools::lookupSequencesByType(
+				$this->container_id,
+				$tst_run->getObjectiveId(),
+				ilObject::_lookupObjId($session->getRefId()),
+				(($this->getSettings()->getQualifiedTest() == $session->getRefId()) ?
+					ilLOSettings::TYPE_TEST_QUALIFIED : 
+					ilLOSettings::TYPE_TEST_INITIAL
+				)
 			);
-			$stored_sequence_id = $rnd->getQplSequence();
+			
 			$points = 0;
 			foreach($seq->getQuestionIds() as $qst)
 			{
-				if($stored_sequence_id  == $seq->getResponsibleSourcePoolDefinitionId($qst))
+				if(in_array($seq->getResponsibleSourcePoolDefinitionId($qst), $sequences))
 				{
 					$tst_run->addQuestion($qst);
 					$points += ilCourseObjectiveQuestion::_lookupMaximumPointsOfQuestion($qst);

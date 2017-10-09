@@ -1,4 +1,4 @@
-// Build: 20151022020047 
+// Build: 2017826164616 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -11789,34 +11789,36 @@ UIEvent.prototype.stop = function () {
 /* User Interface Methods (DOM, Events, CSS, crossbrowser) */
 
 
-function attachUIEvent (obj, name, func) 
-{
-	if (window.Event) 
-	{
-		obj.addEventListener(name, func, false);
-	} 
-	else if (obj.attachEvent) 
-	{
-		obj.attachEvent('on'+name, func);
-	} 
-	else 
-	{
+function attachUIEvent (obj, name, func) {
+	if (window.Event) {
+		if (obj.addEventListener) {
+			obj.addEventListener(name, func, false);
+		}
+		else if (obj.attachEvent) {
+			obj.attachEvent('on'+name, func);
+		}
+		else {
+			obj.addEventListener(name, func, false);
+		}
+	}
+	else {
 		obj[name] = func;
 	}
 }
 	
-function detachUIEvent(obj, name, func) 
-{
-	if (window.Event) 
-	{
-		obj.removeEventListener(name, func, false);
-	} 
-	else if (obj.attachEvent) 
-	{
-		obj.detachEvent('on'+name, func);
-	} 
-	else 
-	{
+function detachUIEvent(obj, name, func) {
+	if (window.Event) {
+		if (obj.removeEventListener) {
+			obj.removeEventListener(name, func, false);
+		}
+		else if (obj.attachEvent) {
+			obj.detachEvent('on'+name, func);
+		}
+		else {
+			obj.removeEventListener(name, func, false);
+		}
+	}
+	else {
 		obj[name] = '';
 	}
 }
@@ -13931,7 +13933,8 @@ function onItemDeliverDo(item, wasSuspendAll) // onDeliver called from sequencin
 		//TODO:JP - add valid jump requests?
 		item.accesscount++;
 		// add some global values for all sco's in package
-		data.cmi.learner_name = globalAct.learner_name;
+		// data.cmi.learner_name = globalAct.learner_name;
+		data.cmi.learner_name = this.config.learner_name;
 		data.cmi.learner_id = this.config.cmi_learner_id;
 		data.cmi.cp_node_id = item.foreignId;
 		data.scoid = item.id;
@@ -14549,17 +14552,19 @@ var apiIndents = // for mapping internal to api representaiton
 function updateNav(ignore) {
 
 	function signActNode() {
-		if(elm && activities[tree[i].mActivityID].href && guiItemId == elm.id) {
-			removeClass(elm.parentNode,"ilc_rte_status_RTENotAttempted",1);
-			removeClass(elm.parentNode,"ilc_rte_status_RTEIncomplete",1);
-			removeClass(elm.parentNode,"ilc_rte_status_RTECompleted",1);
-			removeClass(elm.parentNode,"ilc_rte_status_RTEFailed",1);
-			removeClass(elm.parentNode,"ilc_rte_status_RTEPassed",1);
-			toggleClass(elm, "ilc_rte_tlink_RTETreeCurrent",1);
-			toggleClass(elm.parentNode,"ilc_rte_status_RTERunning",1);
-		} else {
-			removeClass(elm, "ilc_rte_tlink_RTETreeCurrent");
-			removeClass(elm.parentNode, "ilc_rte_status_RTERunning");
+		if (elm) {
+			if(activities[tree[i].mActivityID].href && guiItemId == elm.id) {
+				removeClass(elm.parentNode,"ilc_rte_status_RTENotAttempted",1);
+				removeClass(elm.parentNode,"ilc_rte_status_RTEIncomplete",1);
+				removeClass(elm.parentNode,"ilc_rte_status_RTECompleted",1);
+				removeClass(elm.parentNode,"ilc_rte_status_RTEFailed",1);
+				removeClass(elm.parentNode,"ilc_rte_status_RTEPassed",1);
+				toggleClass(elm, "ilc_rte_tlink_RTETreeCurrent",1);
+				toggleClass(elm.parentNode,"ilc_rte_status_RTERunning",1);
+			} else {
+				removeClass(elm, "ilc_rte_tlink_RTETreeCurrent");
+				removeClass(elm.parentNode, "ilc_rte_status_RTERunning");
+			}
 		}
 	}
 

@@ -17,7 +17,21 @@ require_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 */
 class ilGlossaryTermGUI
 {
-	var $ilias;
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs_gui;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
 	var $lng;
 	var $tpl;
 	var $glossary;
@@ -35,10 +49,15 @@ class ilGlossaryTermGUI
 	*/
 	function __construct($a_id = 0)
 	{
-		global $lng, $ilias, $tpl, $ilCtrl, $ilTabs;
+		global $DIC;
+
+		$this->help = $DIC["ilHelp"];
+		$lng = $DIC->language();
+		$tpl = $DIC["tpl"];
+		$ilCtrl = $DIC->ctrl();
+		$ilTabs = $DIC->tabs();
 
 		$this->lng = $lng;
-		$this->ilias = $ilias;
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
 		$this->ctrl->saveParameter($this, array("term_id"));
@@ -59,7 +78,7 @@ class ilGlossaryTermGUI
 	*/
 	function executeCommand()
 	{
-		global $ilTabs;
+		$ilTabs = $this->tabs_gui;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -157,7 +176,8 @@ class ilGlossaryTermGUI
 	 */
 	function editTerm(ilPropertyFormGUI $a_form = null)
 	{
-		global $ilTabs, $ilCtrl;
+		$ilTabs = $this->tabs_gui;
+		$ilCtrl = $this->ctrl;
 
 //		$this->getTemplate();
 		$this->displayLocator();
@@ -185,7 +205,8 @@ class ilGlossaryTermGUI
 	 */
 	function getEditTermForm()
 	{
-		global $ilTabs, $ilCtrl;
+		$ilTabs = $this->tabs_gui;
+		$ilCtrl = $this->ctrl;
 		
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();
@@ -284,7 +305,7 @@ class ilGlossaryTermGUI
 	 */
 	function getOverlayHTML($a_close_el_id, $a_glo_ov_id = "", $a_lang = "", $a_outputmode = "offline")
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if ($a_lang == "")
 		{
@@ -420,7 +441,7 @@ class ilGlossaryTermGUI
 	*/
 	function listDefinitions()
 	{
-		global $ilTabs;
+		$ilTabs = $this->tabs_gui;
 		
 //		$this->getTemplate();
 		$this->displayLocator();
@@ -525,7 +546,7 @@ class ilGlossaryTermGUI
 	*/
 	function confirmDefinitionDeletion()
 	{
-		global $ilTabs;
+		$ilTabs = $this->tabs_gui;
 
 		//$this->getTemplate();
 		$this->displayLocator();
@@ -615,7 +636,7 @@ class ilGlossaryTermGUI
 	*/
 	function addDefinition()
 	{
-		global $ilTabs;
+		$ilTabs = $this->tabs_gui;
 
 		//$this->getTemplate();
 		$this->displayLocator();
@@ -692,7 +713,8 @@ class ilGlossaryTermGUI
 	*/
 	function getTabs()
 	{
-		global $lng, $ilHelp;
+		$lng = $this->lng;
+		$ilHelp = $this->help;
 		
 		
 		$ilHelp->setScreenIdComponent("glo_term");
@@ -747,7 +769,12 @@ class ilGlossaryTermGUI
 	*/
 	public static function _goto($a_target, $a_ref_id = "")
 	{
-		global $rbacsystem, $ilErr, $lng, $ilAccess;
+		global $DIC;
+
+		$rbacsystem = $DIC->rbac()->system();
+		$ilErr = $DIC["ilErr"];
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
 
 		$glo_id = ilGlossaryTerm::_lookGlossaryID($a_target);//::_lookupContObjID($a_target);
 		
@@ -791,7 +818,8 @@ class ilGlossaryTermGUI
 	 */
 	function listUsages()
 	{
-		global $ilTabs, $tpl;
+		$ilTabs = $this->tabs_gui;
+		$tpl = $this->tpl;
 
 		//$this->displayLocator();
 //		$this->getTemplate();
@@ -815,7 +843,8 @@ class ilGlossaryTermGUI
 	 */
 	function quickList()
 	{
-		global $tpl, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
 		
 		//$tpl->setLeftNavUrl($ilCtrl->getLinkTarget($this, "showQuickList"));
 		

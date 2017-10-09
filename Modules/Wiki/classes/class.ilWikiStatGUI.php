@@ -13,18 +13,44 @@ include_once "Modules/Wiki/classes/class.ilWikiStat.php";
  */
 class ilWikiStatGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
 	protected $wiki_id; // [integer]
 	protected $page_id; // [integer]
 	
 	public function __construct($a_wiki_id, $a_page_id = null)
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->toolbar = $DIC->toolbar();
+		$this->lng = $DIC->language();
+		$this->tpl = $DIC["tpl"];
 		$this->wiki_id = (int)$a_wiki_id;
 		$this->page_id = (int)$a_page_id;
 	}
 	
 	public function executeCommand()
 	{  		
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd("view");
@@ -39,7 +65,9 @@ class ilWikiStatGUI
 	
 	protected function viewToolbar($a_is_initial = false)
 	{
-		global $ilToolbar, $lng, $ilCtrl;
+		$ilToolbar = $this->toolbar;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$current_figure = (int)$_POST["fig"];
 		$current_time_frame = (string)$_POST["tfr"];
@@ -123,7 +151,7 @@ class ilWikiStatGUI
 	
 	protected function export()
 	{		
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$params = $this->viewToolbar();
 		if($params)
@@ -175,7 +203,8 @@ class ilWikiStatGUI
 	
 	protected function view($a_is_initial = false)
 	{	
-		global $tpl, $lng;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 		
 		$params = $this->viewToolbar($a_is_initial);
 		if(is_array($params))

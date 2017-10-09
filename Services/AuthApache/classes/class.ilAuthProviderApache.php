@@ -1,5 +1,4 @@
 <?php
-
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Services/Authentication/classes/Provider/class.ilAuthProvider.php';
@@ -7,7 +6,7 @@ include_once './Services/Authentication/interfaces/interface.ilAuthProviderInter
 include_once './Services/Authentication/interfaces/interface.ilAuthProviderAccountMigrationInterface.php';
 
 /**
- * Description of class class 
+ * Apache auth provider
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de> 
  *
@@ -17,12 +16,13 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
 	const APACHE_AUTH_TYPE_DIRECT_MAPPING = 1;
 	const APACHE_AUTH_TYPE_EXTENDED_MAPPING = 2;
 	const APACHE_AUTH_TYPE_BY_FUNCTION = 3;
-	
+
 	private $settings = null;
-	
+
 	private $migration_account = '';
+	private $force_new_account = false;
 	
-	
+
 	/**
 	 * Constructor
 	 * @param \ilAuthCredentials $credentials
@@ -34,7 +34,7 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
 		include_once './Services/Administration/classes/class.ilSetting.php';
 		$this->settings = new ilSetting('apache_auth');
 	}
-	
+
 	/**
 	 * Get setings
 	 * @return \ilSetting
@@ -43,10 +43,10 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
 	{
 		return $this->settings;
 	}
-	
+
 	/**
-	 * Do apache auth
 	 * @param \ilAuthStatus $status
+	 * @return bool
 	 */
 	public function doAuthentication(\ilAuthStatus $status)
 	{
@@ -56,7 +56,7 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
 			$this->handleAuthenticationFail($status, 'apache_auth_err_disabled');
 			return false;
 		}
-		
+
 		if(
 			!$this->getSettings()->get('apache_auth_indicator_name') ||
 			!$this->getSettings()->get('apache_auth_indicator_value')
@@ -66,7 +66,7 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
 			$this->handleAuthenticationFail($status, 'apache_auth_err_indicator_match_failure');
 			return false;
 		}
-		
+
 		if(
 			!in_array(
 				$_SERVER[$this->getSettings()->get('apache_auth_indicator_name')],
@@ -78,7 +78,7 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
 			$this->handleAuthenticationFail($status, 'err_wrong_login');
 			return false;
 		}
-		
+
 		include_once './Services/Utilities/classes/class.ilUtil.php';
 		if(!ilUtil::isLogin($this->getCredentials()->getUsername()))
 		{
@@ -86,7 +86,7 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
 			$this->handleAuthenticationFail($status, 'apache_auth_err_invalid_login');
 			return false;
 		}
-		
+
 		if(!strlen($this->getCredentials()->getUsername()))
 		{
 			$this->getLogger()->info('No username given');
@@ -94,7 +94,14 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
 			return false;
 		}
 		
-		$login = ilObjUser::_checkExternalAuthAccount('apache', $this->getCredentials()->getUsername());
+		// Apache with ldap as data source
+		include_once './Services/LDAP/classes/class.ilLDAPServer.php';
+		if($this->getSettings()->get('apache_enable_ldap'))
+		{
+			return $this->handleLDAPDataSource($status);
+		}
+		
+		$login  = ilObjUser::_checkExternalAuthAccount('apache', $this->getCredentials()->getUsername());
 		$usr_id = ilObjUser::_lookupId($login);
 		if(!$usr_id)
 		{
@@ -102,7 +109,7 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
 			$this->handleAuthenticationFail($status, 'err_wrong_login');
 			return false;
 		}
-		
+
 		$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
 		$status->setAuthenticatedUserId($usr_id);
 		return true;
@@ -111,11 +118,16 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
 	/**
 	 * Migrate existing account
 	 * Maybe ldap sync has to be performed here
+	 * @param ilAuthStatus $status
 	 * @param int $a_usr_id
 	 */
-	public function migrateAccount($a_usr_id)
+	public function migrateAccount(\ilAuthStatus $status)
 	{
-		
+		$this->force_new_account = true;
+		if($this->getSettings()->get('apache_enable_ldap'))
+		{
+			return $this->handleLDAPDataSource($status);
+		}
 	}
 
 	/**
@@ -124,16 +136,29 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
 	 */
 	public function createNewAccount(\ilAuthStatus $status)
 	{
-		
+		$this->force_new_account = true;
+		if($this->getSettings()->get('apache_enable_ldap'))
+		{
+			return $this->handleLDAPDataSource($status);
+		}
 	}
-
-
+	
 	/**
-	 * Return the login name for auth type apache
+	 * Get external account name
+	 * @return string
 	 */
 	public function getExternalAccountName()
 	{
-		
+		return $this->migration_account;
+	}
+	
+	/**
+	 * Set external account name
+	 * @param string $a_name
+	 */
+	public function setExternalAccountName($a_name)
+	{
+		$this->migration_account = $a_name;
 	}
 
 	/**
@@ -145,13 +170,62 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
 	}
 
 	/**
-	 * apache or ldap_1 ?
+	 * Get user auth mode name
 	 */
 	public function getUserAuthModeName()
 	{
-		
+		if($this->getSettings()->get('apache_ldap_sid'))
+		{
+			return 'ldap_'.(string) $this->getSettings()->get('apache_ldap_sid');
+		}
+		return 'apache';
 	}
+	
+	/**
+	 * Handle ldap as data source
+	 * @param Auth $auth
+	 * @param string $ext_account
+	 */
+	protected function handleLDAPDataSource(ilAuthStatus $status)
+	{
+		include_once './Services/LDAP/classes/class.ilLDAPServer.php';
+		$server = ilLDAPServer::getInstanceByServerId(
+			$this->getSettings()->get('apache_ldap_sid')
+		);
+		
+		$this->getLogger()->debug('Using ldap data source with server configuration: ' . $server->getName());
 
-
+		include_once './Services/LDAP/classes/class.ilLDAPUserSynchronisation.php';
+		$sync = new ilLDAPUserSynchronisation('ldap_'.$server->getServerId(), $server->getServerId());
+		$sync->setExternalAccount($this->getCredentials()->getUsername());
+		$sync->setUserData(array());
+		$sync->forceCreation($this->force_new_account);
+		$sync->forceReadLdapData(true);
+		
+		try {
+			$internal_account = $sync->sync();
+			$this->getLogger()->debug('Internal account: ' . $internal_account);
+		}
+		catch(UnexpectedValueException $e) {
+			$this->getLogger()->info('Login failed with message: ' . $e->getMessage());
+			$this->handleAuthenticationFail($status, 'err_wrong_login');
+			return false;
+		}
+		catch(ilLDAPSynchronisationForbiddenException $e) {
+			// No syncronisation allowed => create Error
+			$this->getLogger()->info('Login failed with message: ' . $e->getMessage());
+			$this->handleAuthenticationFail($status, 'err_auth_ldap_no_ilias_user');
+			return false;
+		}
+		catch(ilLDAPAccountMigrationRequiredException $e) {
+			// Account migration required
+			$this->setExternalAccountName($this->getCredentials()->getUsername());
+			$this->getLogger()->info('Authentication failed: account migration required for external account: ' . $this->getCredentials()->getUsername());
+			$status->setStatus(ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED);
+			return false;
+		}
+		$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
+		$status->setAuthenticatedUserId(ilObjUser::_lookupId($internal_account));
+		return true;
+	}
 }
-?>

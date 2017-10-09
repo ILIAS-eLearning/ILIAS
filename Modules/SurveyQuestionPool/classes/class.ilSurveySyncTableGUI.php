@@ -14,6 +14,16 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 class ilSurveySyncTableGUI extends ilTable2GUI
 {
 	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
 	 * Constructor
 	 *
 	 * @param object $a_parent_obj parent gui object
@@ -22,7 +32,14 @@ class ilSurveySyncTableGUI extends ilTable2GUI
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, SurveyQuestion $a_question)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$this->tree = $DIC->repositoryTree();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 
 		$this->question = $a_question;
 		
@@ -54,7 +71,8 @@ class ilSurveySyncTableGUI extends ilTable2GUI
 	 */
 	protected function importData()
 	{
-		global $ilAccess, $lng;
+		$ilAccess = $this->access;
+		$lng = $this->lng;
 		
 		include_once "Modules/Survey/classes/class.ilObjSurvey.php";
 		
@@ -122,7 +140,8 @@ class ilSurveySyncTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$this->tpl->setVariable("TXT_PATH", $lng->txt("path"));
 		
@@ -154,7 +173,8 @@ class ilSurveySyncTableGUI extends ilTable2GUI
 	 */
 	protected function buildPath($ref_ids)
 	{
-		global $tree, $ilCtrl;
+		$tree = $this->tree;
+		$ilCtrl = $this->ctrl;
 
 		include_once './Services/Link/classes/class.ilLink.php';
 		

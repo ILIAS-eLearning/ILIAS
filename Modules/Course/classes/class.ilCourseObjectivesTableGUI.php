@@ -130,8 +130,6 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($a_set,TRUE));
-		
 		$this->tpl->setVariable('VAL_ID',$a_set['id']);
 		$this->tpl->setVariable('VAL_POSITION',$a_set['position']);
 		
@@ -388,6 +386,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 		{
 			$objective = new ilCourseObjective($this->course_obj,$objective_id);
 			
+			$objective_data = [];
 			$objective_data['id'] = $objective_id;
 			$objective_data['position'] = sprintf("%.1f",$position++) * 10;
 			$objective_data['title'] = $objective->getTitle();
@@ -448,19 +447,23 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 				elseif(ilLOUtils::lookupRandomTest(ilObject::_lookupObjId($this->getSettings()->getInitialTest())))
 				{
 					$test = array();
-					include_once './Modules/Course/classes/Objectives/class.ilLORandomTestQuestionPools.php';
-					$rnd = new ilLORandomTestQuestionPools(
-							$this->course_obj->getId(),
-							$objective_id,
-							ilLOSettings::TYPE_TEST_INITIAL
-					);
-					$test['obj_id'] = ilObject::_lookupObjId($this->getSettings()->getInitialTest());
-					$qst = ilLOUtils::lookupQplBySequence($this->getSettings()->getInitialTest(), $rnd->getQplSequence());
-					if($qst)
+					$objective_data['self'] = [];
+					foreach(ilLORandomTestQuestionPools::lookupSequencesByType(
+						$this->course_obj->getId(),
+						$objective_id,
+						ilObject::_lookupObjId($this->getSettings()->getInitialTest()),
+						ilLOSettings::TYPE_TEST_INITIAL
+						) as $sequence_id
+					)
 					{
-						$test['questions'][] = array('title' => $qst);
+						$test['obj_id'] = ilObject::_lookupObjId($this->getSettings()->getInitialTest());
+						$qst = ilLOUtils::lookupQplBySequence($this->getSettings()->getInitialTest(), $sequence_id);
+						if($qst)
+						{
+							$test['questions'][] = array('title' => $qst);
+						}
+						$objective_data['self'] = array($test);
 					}
-					$objective_data['self'] = array($test);
 				}
 				else
 				{
@@ -510,19 +513,22 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 				if(ilLOUtils::lookupRandomTest(ilObject::_lookupObjId($this->getSettings()->getQualifiedTest())))
 				{
 					$test = array();
-					include_once './Modules/Course/classes/Objectives/class.ilLORandomTestQuestionPools.php';
-					$rnd = new ilLORandomTestQuestionPools(
-							$this->course_obj->getId(),
-							$objective_id,
-							ilLOSettings::TYPE_TEST_QUALIFIED
-					);
-					$test['obj_id'] = ilObject::_lookupObjId($this->getSettings()->getQualifiedTest());
-					$qst = ilLOUtils::lookupQplBySequence($this->getSettings()->getQualifiedTest(), $rnd->getQplSequence());
-					if($qst)
+					foreach(ilLORandomTestQuestionPools::lookupSequencesByType(
+						$this->course_obj->getId(),
+						$objective_id,
+						ilObject::_lookupObjId($this->getSettings()->getQualifiedTest()),
+						ilLOSettings::TYPE_TEST_QUALIFIED
+						) as $sequence_id
+					)
 					{
-						$test['questions'][] = array('title' => $qst);
+						$test['obj_id'] = ilObject::_lookupObjId($this->getSettings()->getQualifiedTest());
+						$qst = ilLOUtils::lookupQplBySequence($this->getSettings()->getQualifiedTest(), $sequence_id);
+						if($qst)
+						{
+							$test['questions'][] = array('title' => $qst);
+						}
+						$objective_data['final'] = array($test);
 					}
-					$objective_data['final'] = array($test);
 				}
 				else
 				{

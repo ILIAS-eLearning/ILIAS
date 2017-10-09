@@ -15,6 +15,26 @@ include_once ("Services/Help/classes/class.ilHelp.php");
 */
 class ilHelpGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	var $help_sections = array();
 	const ID_PART_SCREEN = "screen";
 	const ID_PART_SUB_SCREEN = "sub_screen";
@@ -27,7 +47,12 @@ class ilHelpGUI
 	*/
 	function __construct()
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$this->settings = $DIC->settings();
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$ilCtrl = $DIC->ctrl();
 				
 		$this->ctrl = $ilCtrl;
 	}
@@ -127,7 +152,7 @@ class ilHelpGUI
 	 */
 	function hasSections()
 	{
-		global $ilSetting;
+		$ilSetting = $this->settings;
 		
 		include_once("./Services/Help/classes/class.ilHelpMapping.php");
 		return ilHelpMapping::hasScreenIdSections($this->getScreenId());
@@ -153,7 +178,7 @@ class ilHelpGUI
 	 */
 	function setCtrlPar()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		/*$h_ids = $sep = "";
 		foreach ($this->getHelpSections() as $hs)
@@ -186,7 +211,7 @@ class ilHelpGUI
 	 */
 	function showHelp()
 	{
-		global $ilHelp, $lng, $ilSetting;
+		$lng = $this->lng;
 
 		if ($_GET["help_screen_id"] != "")
 		{
@@ -262,7 +287,7 @@ class ilHelpGUI
 	 */
 	function showPage()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$page_id = (int) $_GET["help_page"];
 		
@@ -353,7 +378,7 @@ class ilHelpGUI
 	 */
 	function getTabTooltipText($a_tab_id)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		include_once("./Services/Help/classes/class.ilHelp.php");
 		if ($this->screen_id_component != "")
@@ -372,7 +397,10 @@ class ilHelpGUI
 	 */
 	static function initHelp($a_tpl)
 	{
-		global $ilUser, $ilSetting;
+		global $DIC;
+
+		$ilUser = $DIC->user();
+		$ilSetting = $DIC->settings();
 
 		$module_id = (int) $ilSetting->get("help_module");
 
@@ -382,9 +410,9 @@ class ilHelpGUI
 			{
 				$a_tpl->addOnLoadCode("il.Help.showCurrentPage(".ilSession::get("help_pg").");", 3);
 			}
+			$a_tpl->addJavascript("./Services/Help/js/ilHelp.js");
 			if ($ilUser->getPref("hide_help_tt"))
 			{
-				$a_tpl->addJavascript("./Services/Help/js/ilHelp.js");
 				$a_tpl->addOnLoadCode("if (il && il.Help) {il.Help.switchTooltips();}", 3);
 			}
 		}
@@ -398,7 +426,7 @@ class ilHelpGUI
 	 */
 	function deactivateTooltips()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$ilUser->writePref("hide_help_tt", "1");
 	}
@@ -411,7 +439,7 @@ class ilHelpGUI
 	 */
 	function activateTooltips()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$ilUser->writePref("hide_help_tt", "0");
 	}
@@ -421,7 +449,7 @@ class ilHelpGUI
 	 */
 	function getLinkXML($a_int_links)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$link_info = "<IntLinkInfos>";
 		foreach ($a_int_links as $int_link)
@@ -486,7 +514,7 @@ class ilHelpGUI
 	 */
 	function search()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$term = $_GET["term"];
 

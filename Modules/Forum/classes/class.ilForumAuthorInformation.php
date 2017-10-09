@@ -141,12 +141,8 @@ class ilForumAuthorInformation
 	 */
 	protected function isCurrentUserSessionLoggedIn()
 	{
-		/**
-		 * @var $ilUser ilObjUser
-		 */
-		global $ilUser;
-
-		return !$ilUser->isAnonymous();
+		global $DIC;
+		return !$DIC->user()->isAnonymous();
 	}
 
 	/**
@@ -186,10 +182,8 @@ class ilForumAuthorInformation
 	 */
 	protected function init()
 	{
-		/**
-		 * @var $lng ilLanguage
-		 */
-		global $lng;
+		global $DIC; 
+		$lng = $DIC->language();
 
 		include_once 'Modules/Forum/classes/class.ilObjForumAccess.php';
 
@@ -213,7 +207,10 @@ class ilForumAuthorInformation
 				}
 				else
 				{
-					$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
+					$this->profilePicture = $this->getAvatarImageSource(
+						ilStr::subStr($this->getAuthor()->getFirstname(), 0, 1) . ilStr::subStr($this->getAuthor()->getLastname(), 0, 1),
+						$this->getAuthor()->getId()
+					);
 				}
 
 				if($this->getAuthor()->getPref('public_gender') != 'y')
@@ -228,7 +225,7 @@ class ilForumAuthorInformation
 				$this->getAuthor()->setGender('');
 				$this->author_short_name = $this->author_name = $this->getAuthor()->getLogin();
 				$this->buildAuthorProfileLink(false);
-				$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
+				$this->profilePicture = $this->getAvatarImageSource($this->author_short_name);
 			}
 		}
 		else if($this->display_id > 0 && !$this->doesAuthorAccountExists() && strlen($this->alias))
@@ -238,7 +235,7 @@ class ilForumAuthorInformation
 			$this->author_short_name = $this->author_name = $this->alias . ' (' . $lng->txt('deleted') . ')';
 			$this->suffix            = $lng->txt('deleted');
 			$this->buildAuthorProfileLink(false);
-			$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
+			$this->profilePicture = $this->getAvatarImageSource($this->author_short_name);
 		}
 		else if(strlen($this->import_name))
 		{
@@ -246,7 +243,7 @@ class ilForumAuthorInformation
 			$this->author_short_name = $this->author_name = $this->import_name . ' (' . $lng->txt('imported') . ')';
 			$this->suffix            = $lng->txt('imported');
 			$this->buildAuthorProfileLink(false);
-			$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
+			$this->profilePicture = $this->getAvatarImageSource($this->author_short_name);
 		}
 		else if(strlen($this->alias))
 		{
@@ -254,15 +251,32 @@ class ilForumAuthorInformation
 			$this->author_short_name = $this->author_name = $this->alias . ' (' . $lng->txt('frm_pseudonym') . ')';
 			$this->suffix            = $lng->txt('frm_pseudonym');
 			$this->buildAuthorProfileLink(false);
-			$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
+			$this->profilePicture = $this->getAvatarImageSource($this->author_short_name);
 		}
 		else
 		{
 			// If we did not find a pseudonym, the author could not be determined
 			$this->author_short_name = $this->author_name = $lng->txt('forums_anonymous');
 			$this->buildAuthorProfileLink(false);
-			$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
+			$this->profilePicture = $this->getAvatarImageSource($this->author_short_name);
 		}
+	}
+
+	/**
+	 * @param string $name
+	 * @param int $usrId
+	 * @return string
+	 */
+	protected function getAvatarImageSource($name, $usrId = ANONYMOUS_USER_ID)
+	{
+		global $DIC;
+
+		/** @var ilUserAvatar $avatar */
+		$avatar = $DIC["user.avatar.factory"]->avatar('xsmall');
+		$avatar->setUsrId($usrId);
+		$avatar->setName(ilStr::subStr($name, 0, 2));
+
+		return $avatar->getUrl();
 	}
 
 	/**

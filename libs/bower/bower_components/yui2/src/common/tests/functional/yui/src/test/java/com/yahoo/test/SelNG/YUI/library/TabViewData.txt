@@ -1,0 +1,36 @@
+tabData = {
+  containers : [ {
+    container : {
+      locator : "containerId",
+      tabs : [ {
+        tabLocator : "tabId",
+        contentLocator : "contentId",
+	selected : false
+      } ] 
+    }
+  } ]
+}
+
+
+tabDataTv =
+  containers : [ {
+    container : {
+      locator : "update-tab",
+      tabs : [ 
+       {
+        tabLocator : "[a@href='updates-con']",
+        contentLocator : "updates-con",
+        selected : false;
+       } 
+       {
+        tabLocator : "[a@href='updates-everyone']",
+        contentLocator : "updates-everyone",
+        selected : true;
+       } 
+      ] 
+    }
+  } ]
+}
+
+
+

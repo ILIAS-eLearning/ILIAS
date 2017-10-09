@@ -13,6 +13,16 @@ include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
  */
 class ilObjectLP
 {	
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	protected $obj_id; // [int]
 	protected $collection_instance; // [ilLPCollection]
 	protected $mode; // [int]
@@ -21,6 +31,10 @@ class ilObjectLP
 	
 	protected function __construct($a_obj_id)
 	{		
+		global $DIC;
+
+		$this->tree = $DIC->repositoryTree();
+		$this->db = $DIC->database();
 		$this->obj_id = (int)$a_obj_id;
 	}
 	
@@ -49,7 +63,9 @@ class ilObjectLP
 			
 	public static function getTypeClass($a_type)
 	{
-		global $objDefinition;
+		global $DIC;
+
+		$objDefinition = $DIC["objDefinition"];
 		
 		if(self::isSupportedObjectType($a_type))
 		{
@@ -129,7 +145,9 @@ class ilObjectLP
 		
 	public static function isSupportedObjectType($a_type)
 	{
-		global $objDefinition;
+		global $DIC;
+
+		$objDefinition = $DIC["objDefinition"];
 		
 		$valid = array("crs", "grp", "fold", "lm", "htlm", "sahs", "tst", "exc", "sess", "svy", "file", "mcst", "prg", "iass");
 		
@@ -257,7 +275,7 @@ class ilObjectLP
 	
 	public function getMembers($a_search = true)
 	{		
-		global $tree;
+		$tree = $this->tree;
 		
 		if(!$a_search)
 		{
@@ -350,7 +368,10 @@ class ilObjectLP
 		
 	final static public function handleMove($a_source_ref_id)
 	{	
-		global $tree, $ilDB;
+		global $DIC;
+
+		$tree = $DIC->repositoryTree();
+		$ilDB = $DIC->database();
 		
 		$ref_ids = $tree->getSubTreeIds($a_source_ref_id);
 		$ref_ids[] = $a_source_ref_id;
@@ -430,7 +451,7 @@ class ilObjectLP
 	
 	final protected function updateParentCollections()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
 		
@@ -484,7 +505,9 @@ class ilObjectLP
 	 */
 	protected static function findMembershipsByPath(array &$a_res, $a_usr_id, $a_parent_ref_id, array $a_obj_ids, $a_mapped_ref_ids = false)
 	{
-		global $tree;
+		global $DIC;
+
+		$tree = $DIC->repositoryTree();
 		
 		$found = array();
 				
@@ -549,7 +572,10 @@ class ilObjectLP
 	 */
 	public static function getLPMemberships($a_usr_id, array $a_obj_ids, $a_parent_ref_id = null, $a_mapped_ref_ids = false)
 	{
-		global $ilDB, $tree;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$tree = $DIC->repositoryTree();
 		
 		// see ilTrQuery::getParticipantsForObject() [single object only]
 		// this is optimized for larger number of objects, e.g. list GUIs
@@ -708,7 +734,9 @@ class ilObjectLP
 	
 	protected static function getTypeDefaultFromDB($a_type)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		if(!is_array(self::$type_defaults))
 		{
@@ -724,7 +752,9 @@ class ilObjectLP
 	
 	public static function saveTypeDefaults(array $a_data)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$ilDB->manipulate("DELETE FROM ut_lp_defaults");
 		foreach($a_data as $type => $mode)

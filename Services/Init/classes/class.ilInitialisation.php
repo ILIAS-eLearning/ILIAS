@@ -1,6 +1,12 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+// TODO:
+use ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager;
+use ILIAS\BackgroundTasks\Implementation\Tasks\BasicTaskFactory;
+use ILIAS\BackgroundTasks\Dependencies\DependencyMap\BaseDependencyMap;
+use ILIAS\BackgroundTasks\Dependencies\Injector;
+
 require_once("libs/composer/vendor/autoload.php");
 
 // needed for slow queries, etc.
@@ -124,6 +130,7 @@ class ilInitialisation
 		define ("URL_TO_LATEX",$ilIliasIniFile->readVariable("tools","latex"));
 		define ("PATH_TO_FOP",$ilIliasIniFile->readVariable("tools","fop"));
 		define ("PATH_TO_LESSC",$ilIliasIniFile->readVariable("tools","lessc"));
+		define ("PATH_TO_PHANTOMJS",$ilIliasIniFile->readVariable("tools","phantomjs"));
 
 		// read virus scanner settings
 		switch ($ilIliasIniFile->readVariable("tools", "vscantype"))
@@ -154,6 +161,84 @@ class ilInitialisation
 		include_once './Services/Calendar/classes/class.ilTimeZone.php';
 		$tz = ilTimeZone::initDefaultTimeZone($ilIliasIniFile);
 		define ("IL_TIMEZONE", $tz);
+	}
+
+	/**
+	 * Bootstraps the ILIAS filesystem abstraction.
+	 * The bootstrapped abstraction are:
+	 *  - temp
+	 *  - web
+	 *  - storage
+	 *  - customizing
+	 *
+	 * @return void
+	 * @since 5.3
+	 */
+	public static function bootstrapFilesystems() {
+
+		global $DIC;
+
+		$delegatingFactory = new \ILIAS\Filesystem\Provider\DelegatingFilesystemFactory();
+
+		$DIC['filesystem.web'] = function ($c) use ($delegatingFactory) {
+			//web
+			$webConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_ABSOLUTE_PATH . '/' . ILIAS_WEB_DIR . '/' . CLIENT_ID);
+			return $delegatingFactory->getLocal($webConfiguration);
+		};
+
+		$DIC['filesystem.storage'] = function ($c) use ($delegatingFactory) {
+			//storage
+			$storageConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_DATA_DIR.'/'.CLIENT_ID);
+			return $delegatingFactory->getLocal($storageConfiguration);
+		};
+
+		$DIC['filesystem.temp'] = function ($c) use ($delegatingFactory) {
+			//temp
+			$tempConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_DATA_DIR.'/'.CLIENT_ID.'/temp');
+			return $delegatingFactory->getLocal($tempConfiguration);
+		};
+
+		$DIC['filesystem.customizing'] = function ($c) use ($delegatingFactory) {
+			//customizing
+			$customizingConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_ABSOLUTE_PATH . '/' . 'Customizing');
+			return $delegatingFactory->getLocal($customizingConfiguration);
+		};
+
+		$DIC['filesystem'] = function($c) {
+			return new \ILIAS\Filesystem\FilesystemsImpl(
+				$c['filesystem.storage'],
+				$c['filesystem.web'],
+				$c['filesystem.temp'],
+				$c['filesystem.customizing']
+			);
+		};
+	}
+
+
+	/**
+	 * Initializes the file upload service.
+	 * This service requires the http and filesystem service.
+	 *
+	 * @param \ILIAS\DI\Container $dic The dependency container which should be used to load the file upload service.
+	 *
+	 * @return void
+	 */
+	public static function initFileUploadService(\ILIAS\DI\Container $dic) {
+		$dic['upload.processor-manager'] = function ($c) {
+			return new \ILIAS\FileUpload\Processor\PreProcessorManagerImpl();
+		};
+
+		$dic['upload'] = function ($c) {
+			$fileUploadImpl = new \ILIAS\FileUpload\FileUploadImpl($c['upload.processor-manager'], $c['filesystem'], $c['http']);
+			$fileUploadImpl->register(new \ILIAS\FileUpload\Processor\BlacklistExtensionPreProcessor(array( "exe" )));
+			//	$fileUploadImpl->register(new \ILIAS\FileUpload\Processor\BlacklistMimeTypePreProcessor(array("exe")));
+			//	$fileUploadImpl->register(new \ILIAS\FileUpload\Processor\BlacklistFileHeaderPreProcessor(array("exe")));
+			if (IL_VIRUS_SCANNER != "None") {
+				$fileUploadImpl->register(new \ILIAS\FileUpload\Processor\VirusScannerPreProcessor(ilVirusScannerFactory::_getInstance()));
+			}
+
+			return $fileUploadImpl;
+		};
 	}
 
 	/**
@@ -293,7 +378,6 @@ class ilInitialisation
 		$ini_file = "./".ILIAS_WEB_DIR."/".CLIENT_ID."/client.ini.php";
 
 		// get settings from ini file
-		require_once("./Services/Init/classes/class.ilIniFile.php");
 		$ilClientIniFile = new ilIniFile($ini_file);		
 		$ilClientIniFile->read();
 		
@@ -355,7 +439,6 @@ class ilInitialisation
 			define ("IL_DB_TYPE", $val);
 		}
 
-		require_once('./Services/GlobalCache/classes/Settings/class.ilGlobalCacheSettings.php');
 		$ilGlobalCacheSettings = new ilGlobalCacheSettings();
 		$ilGlobalCacheSettings->readFromIniFile($ilClientIniFile);
 		ilGlobalCache::setup($ilGlobalCacheSettings);
@@ -485,6 +568,32 @@ class ilInitialisation
 		session_set_cookie_params(
 			IL_COOKIE_EXPIRE, IL_COOKIE_PATH, IL_COOKIE_DOMAIN, IL_COOKIE_SECURE, IL_COOKIE_HTTPONLY
 		);
+	}
+
+	/**
+	 * @param \ILIAS\DI\Container $c
+	 */
+	protected static function initMail(\ILIAS\DI\Container $c)
+	{
+		$c["mail.mime.transport.factory"] = function ($c) {
+			require_once 'Services/Mail/classes/Mime/Transport/class.ilMailMimeTransportFactory.php';
+			return new ilMailMimeTransportFactory($c["ilSetting"]);
+		};
+		$c["mail.mime.sender.factory"] = function ($c) {
+			require_once 'Services/Mail/classes/Mime/Sender/class.ilMailMimeSenderFactory.php';
+			return new ilMailMimeSenderFactory($c["ilSetting"]);
+		};
+	}
+
+	/**
+	 * @param \ILIAS\DI\Container $c
+	 */
+	protected static function initAvatar(\ILIAS\DI\Container $c)
+	{
+		$c["user.avatar.factory"] = function ($c) {
+			require_once 'Services/User/Avatar/classes/class.ilUserAvatarFactory.php';
+			return new ilUserAvatarFactory($c);
+		};
 	}
 
 	/**
@@ -651,7 +760,7 @@ class ilInitialisation
 		
 		// if target given, try to go there
 		if(strlen($_GET["target"]))
-		{	
+		{
 			// when we are already "inside" goto.php no redirect is needed
 			$current_script = substr(strrchr($_SERVER["PHP_SELF"], "/"), 1);	
 			if($current_script == "goto.php")
@@ -739,8 +848,8 @@ class ilInitialisation
 		self::initGlobal("rbacadmin", "ilRbacAdmin",
 			 "./Services/AccessControl/classes/class.ilRbacAdmin.php");
 		
-		self::initGlobal("ilAccess", "ilAccessHandler", 
-			 "./Services/AccessControl/classes/class.ilAccessHandler.php");
+		self::initGlobal("ilAccess", "ilAccess",
+			 "./Services/AccessControl/classes/class.ilAccess.php");
 		
 		require_once "./Services/AccessControl/classes/class.ilConditionHandler.php";
 	}
@@ -866,6 +975,7 @@ class ilInitialisation
 		if(ilContext::initClient())
 		{
 			self::initClient();
+			self::initFileUploadService($GLOBALS["DIC"]);
 			self::initSession();
 			
 			if (ilContext::hasUser())
@@ -885,6 +995,9 @@ class ilInitialisation
 			self::initLanguage();
 			$GLOBALS['DIC']['tree']->initLangCode();
 
+			self::initInjector($GLOBALS['DIC']);
+			self::initBackgroundTasks($GLOBALS['DIC']);
+
 			if(ilContext::hasHTML())
 			{													
 				include_once('./Services/WebServices/ECS/classes/class.ilECSTaskScheduler.php');
@@ -896,14 +1009,18 @@ class ilInitialisation
 	}
 	
 	/**
-	 * Init session
+	 * Init auth session.
 	 */
 	protected static function initSession()
 	{
-		include_once './Services/Authentication/classes/class.ilAuthSession.php';
-		self::initGlobal('ilAuthSession', ilAuthSession::getInstance());
-		
-		$GLOBALS['DIC']['ilAuthSession']->init();
+		$GLOBALS["DIC"]["ilAuthSession"] = function ($c) 
+		{
+			$auth_session = ilAuthSession::getInstance(
+				$c['ilLoggerFactory']->getLogger('auth')
+			);
+			$auth_session->init();
+			return $auth_session;
+		};
 	}
 
 
@@ -964,11 +1081,13 @@ class ilInitialisation
 	 */
 	protected static function initClient()
 	{
-		global $https, $ilias;
+		global $https, $ilias, $DIC;
 
 		self::setCookieConstants();
 
 		self::determineClient();
+
+		self::bootstrapFilesystems();
 
 		self::initClientIniFile();
 				
@@ -998,7 +1117,7 @@ class ilInitialisation
 		// we must prevent that ilPluginAdmin is initialized twice in
 		// this case, since this won't get the values out of plugin.php the
 		// second time properly
-		if (!is_object($GLOBALS["ilPluginAdmin"]))
+		if (!isset($DIC["ilPluginAdmin"]) || !$DIC["ilPluginAdmin"] instanceof ilPluginAdmin)
 		{
 			self::initGlobal("ilPluginAdmin", "ilPluginAdmin",
 				"./Services/Component/classes/class.ilPluginAdmin.php");
@@ -1007,6 +1126,8 @@ class ilInitialisation
 		self::setSessionHandler();
 
 		self::initSettings();
+		self::initMail($GLOBALS['DIC']);
+		self::initAvatar($GLOBALS['DIC']);
 		
 		
 		// --- needs settings	
@@ -1127,6 +1248,7 @@ class ilInitialisation
 				// :TODO: should be moved to context?!
 				$mandatory_auth = ($current_script != "shib_login.php"
 						&& $current_script != "shib_logout.php"
+						&& $current_script != "saml.php"
 						&& $current_script != "error.php"
 						&& $current_script != "chat.php"
 						&& $current_script != "wac.php"
@@ -1179,7 +1301,7 @@ class ilInitialisation
 			ilLoggerFactory::getLogger('init')->debug('Expired session found -> redirect to login page');
 			return self::goToLogin();
 		}
-		if($ilSetting->get('pub_section'))
+		if(ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME']))
 		{
 			ilLoggerFactory::getLogger('init')->debug('Redirect to public section.');
 			return self::goToPublicSection();
@@ -1266,6 +1388,9 @@ class ilInitialisation
 		
 		if(ilContext::hasUser())
 		{
+			// LTI
+			self::initLTI();
+			
 			// load style definitions
 			// use the init function with plugin hook here, too
 			self::initStyle();
@@ -1273,8 +1398,19 @@ class ilInitialisation
 
 		self::initUIFramework($GLOBALS["DIC"]);
 
-		// $tpl
-		$tpl = new ilTemplate("tpl.main.html", true, true);
+		// LTI
+		if (isset($_SESSION['il_lti_mode'])) 
+		{
+			require_once "./Services/LTI/classes/class.ilTemplate.php";
+			$tpl = new LTI\ilTemplate("tpl.main.html", true, true, "Services/LTI");
+			//$tpl = new ilTemplate("tpl.main.html", true, true);
+		}
+		else 
+		{
+			// $tpl
+			$tpl = new ilTemplate("tpl.main.html", true, true);
+		}
+		
 		self::initGlobal("tpl", $tpl);
 		
 		// load style sheet depending on user's settings
@@ -1303,12 +1439,21 @@ class ilInitialisation
 
 		if(ilContext::hasUser())
 		{
+			// LTI
 			// $ilMainMenu
-			include_once './Services/MainMenu/classes/class.ilMainMenuGUI.php';
-			$ilMainMenu = new ilMainMenuGUI("_top");
+			if (isset($_SESSION['il_lti_mode'])) 
+			{
+				include_once './Services/LTI/classes/class.ilMainMenuGUI.php';
+				$ilMainMenu = new LTI\ilMainMenuGUI("_top");
+			}
+			else 
+			{
+				include_once './Services/MainMenu/classes/class.ilMainMenuGUI.php';
+				$ilMainMenu = new ilMainMenuGUI("_top");
+			}
+			
 			self::initGlobal("ilMainMenu", $ilMainMenu);
 			unset($ilMainMenu);
-	
 
 			// :TODO: tableGUI related
 
@@ -1332,6 +1477,40 @@ class ilInitialisation
 			// several code parts rely on ilObjUser being always included
 			include_once "Services/User/classes/class.ilObjUser.php";
 		}
+	}
+	
+	// LTI
+	protected static function initLTI()
+	{
+		global $ilUser, $DIC;
+		$DIC->logger()->root()->debug("auth_mode: " . $ilUser->auth_mode);
+		// production
+		if (strpos($ilUser->auth_mode, 'lti') !== false) {
+			$DIC->logger()->root()->debug("LTI Mode!");
+			require_once "./Services/LTI/classes/class.ilLTIViewGUI.php";
+			ilLTIViewGUI::getInstance()->activate(); 
+		}
+		else {
+			unset($_SESSION['il_lti_mode']);
+		}
+		 
+		// fake lti env
+		/*
+		if ($ilUser->getFirstname() == "LTI") 
+		{
+			$_SESSION['lti_context_id'] = "73";
+			//$_SESSION['lti_launch_css_url'] = 'http://ltiapps.net/test/css/tc.css';
+			//$_SESSION['lti_launch_presentation_return_url'] = 'http://ltiapps.net/test/tc-return.php';
+			
+			$DIC->logger()->root()->debug("LTI Mode!");
+			require_once "./Services/LTI/classes/class.ilLTIViewGUI.php";
+			ilLTIViewGUI::getInstance()->activate();
+			//ilLTIViewGUI::getInstance()->checkMessages();
+		}
+		else {
+			unset($_SESSION['il_lti_mode']);
+		}
+		*/ 
 	}
 	
 	/**
@@ -1359,6 +1538,11 @@ class ilInitialisation
 	 */
 	protected static function blockedAuthentication($a_current_script)
 	{
+		if(ilContext::getType() == ilContext::CONTEXT_WAC)
+		{
+			ilLoggerFactory::getLogger('init')->debug('Blocked authentication for WAC request.');
+			return true;
+		}
 		if(ilContext::getType() == ilContext::CONTEXT_APACHE_SSO)
 		{
 			ilLoggerFactory::getLogger('init')->debug('Blocked authentication for sso request.');
@@ -1374,7 +1558,16 @@ class ilInitialisation
 			ilLoggerFactory::getLogger('init')->debug('Blocked authentication for shibboleth request.');
 			return true;
 		}
-		
+		if(ilContext::getType() == ilContext::CONTEXT_LTI_PROVIDER)
+		{
+			ilLoggerFactory::getLogger('init')->debug('Blocked authentication for lti provider requests.');
+			return true;
+		}
+		if(ilContext::getType() == ilContext::CONTEXT_SAML)
+		{
+			ilLoggerFactory::getLogger('init')->debug('Blocked authentication for SAML request.');
+			return true;
+		}
 		if(
 			$a_current_script == "register.php" || 
 			$a_current_script == "pwassist.php" ||
@@ -1589,14 +1782,60 @@ class ilInitialisation
 		// for password change and incomplete profile 
 		// see ilPersonalDesktopGUI
 		if(!$_GET["target"])
-		{										
+		{	
+			ilLoggerFactory::getLogger('init')->debug('Redirect to default starting page');
 			// Redirect here to switch back to http if desired
 			include_once './Services/User/classes/class.ilUserUtil.php';						
 			ilUtil::redirect(ilUserUtil::getStartingPointAsUrl());
 		}
 		else
 		{
+			ilLoggerFactory::getLogger('init')->debug('Redirect to target: ' . $_GET['target']);
 			ilUtil::redirect("goto.php?target=".$_GET["target"]);
 		}
+	}
+
+
+	private static function initBackgroundTasks(\ILIAS\DI\Container $c) {
+		global $ilIliasIniFile;
+
+		$n_of_tasks = $ilIliasIniFile->readVariable("background_tasks", "number_of_concurrent_tasks");
+		$sync = $ilIliasIniFile->readVariable("background_tasks", "concurrency");
+
+		$n_of_tasks = $n_of_tasks ? $n_of_tasks : 5;
+		$sync = $sync ? $sync : 'sync'; // The default value is sync.
+
+		$c["bt.task_factory"] = function ($c) {
+			return new \ILIAS\BackgroundTasks\Implementation\Tasks\BasicTaskFactory($c["di.injector"]);
+		};
+
+		$c["bt.persistence"] = function ($c) {
+			return new \ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence();
+		};
+
+		$c["bt.injector"] = function ($c) {
+			return new \ILIAS\BackgroundTasks\Dependencies\Injector($c, new BaseDependencyMap());
+		};
+
+		$c["bt.task_manager"] = function ($c) use ($sync) {
+			if ($sync == 'sync') {
+				return new \ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager($c["bt.persistence"]);
+			} elseif ($sync == 'async') {
+				return new \ILIAS\BackgroundTasks\Implementation\TaskManager\AsyncTaskManager($c["bt.persistence"]);
+			} else {
+				throw new ilException("The supported Background Task Managers are sync and async. $sync given.");
+			}
+		};
+	}
+
+
+	private static function initInjector(\ILIAS\DI\Container $c) {
+		$c["di.dependency_map"] = function ($c) {
+			return new \ILIAS\BackgroundTasks\Dependencies\DependencyMap\BaseDependencyMap();
+		};
+
+		$c["di.injector"] = function ($c) {
+			return new \ILIAS\BackgroundTasks\Dependencies\Injector($c, $c["di.dependency_map"]);
+		};
 	}
 }

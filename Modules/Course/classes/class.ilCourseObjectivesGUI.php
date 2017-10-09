@@ -55,6 +55,11 @@ class ilCourseObjectivesGUI
 	// end-patch lok
 	
 	/**
+	 * @var ilLogger
+	 */
+	private $logger = null;
+	
+	/**
 	 * Constructor
 	 * @param int $a_course_id
 	 */
@@ -67,6 +72,7 @@ class ilCourseObjectivesGUI
 		$this->ctrl = $ilCtrl;
 		$this->ctrl->saveParameter($this,array("ref_id"));
 
+		$this->logger = $GLOBALS['DIC']->logger()->crs();
 		$this->ilErr = $ilErr;
 		$this->lng = $lng;
 		$this->lng->loadLanguageModule('crs');
@@ -999,13 +1005,6 @@ class ilCourseObjectivesGUI
 	 */
 	protected function initFormRandom()
 	{
-		include_once './Modules/Course/classes/Objectives/class.ilLORandomTestQuestionPools.php';
-		$rnd = new ilLORandomTestQuestionPools(
-				$this->course_obj->getId(),
-				(int) $_REQUEST['objective_id'],
-				$this->test_type
-		);
-		
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
@@ -1029,19 +1028,30 @@ class ilCourseObjectivesGUI
 		$options->addOption($ass_qpl);
 		
 		$qpl = new ilSelectInputGUI($this->lng->txt('crs_loc_rand_qpl'),'qpl');
+		$qpl->setRequired(true);
+		$qpl->setMulti(true, false);
 		$qpl->setOptions($this->getRandomTestQplOptions());
-		$qpl->setValue($rnd->getQplSequence());
-		$ass_qpl->addSubItem($qpl);
 		
-		#$num = new ilNumberInputGUI($this->lng->txt('crs_loc_num_qst'),'num_qst');
-		#$num->setSize(3);
-		#$num->setMinValue(1);
-		#$num->setRequired(true);
-		#$ass_qpl->addSubItem($num);
+		$sequences = ilLORandomTestQuestionPools::lookupSequencesByType(
+			$this->course_obj->getId(),
+			(int) $_REQUEST['objective_id'],
+			ilObject::_lookupObjId($this->getSettings()->getTestByType($this->test_type)),
+			$this->test_type
+		);
+		
+		$qpl->setValue($sequences[0]);
+		$qpl->setMultiValues($sequences);
+		$ass_qpl->addSubItem($qpl);
 		
 		// points
 		$per = new ilNumberInputGUI($this->lng->txt('crs_loc_perc'),'per');
-		$per->setValue($rnd->getLimit());
+		$per->setValue(
+			ilLORandomTestQuestionPools::lookupLimit(
+				$this->course_obj->getId(),
+				(int) $_REQUEST['objective_id'],
+				$this->test_type
+			)
+		);
 		$per->setSize(3);
 		$per->setMinValue(1);
 		$per->setMaxValue(100);
@@ -1085,17 +1095,27 @@ class ilCourseObjectivesGUI
 		$options[0] = $this->lng->txt('select_one');
 		foreach ($list as $definition)
 		{
+			/** @var ilTestRandomQuestionSetSourcePoolDefinition $definition */
 			$title = $definition->getPoolTitle();
-			$tax_id = $definition->getMappedFilterTaxId();
-			if($tax_id)
+			// fau: taxFilter/typeFilter - get title for extended filter conditions
+			$filterTitle = array();
+			$filterTitle[] = $translater->getTaxonomyFilterLabel($definition->getMappedTaxonomyFilter());
+			$filterTitle[] = $translater->getTypeFilterLabel($definition->getTypeFilter());
+			if (!empty($filterTitle))
 			{
-				$title .= (' -> '. $translater->getTaxonomyTreeLabel($tax_id));
+				$title .= ' -> '.implode(' / ', $filterTitle);
 			}
-			$tax_node = $definition->getMappedFilterTaxNodeId();
-			if($tax_node)
-			{
-				$title .= (' -> ' .$translater->getTaxonomyNodeLabel($tax_node));
-			}
+			#$tax_id = $definition->getMappedFilterTaxId();
+			#if($tax_id)
+			#{
+			#	$title .= (' -> '. $translater->getTaxonomyTreeLabel($tax_id));
+			#}
+			#$tax_node = $definition->getMappedFilterTaxNodeId();
+			#if($tax_node)
+			#{
+			#	$title .= (' -> ' .$translater->getTaxonomyNodeLabel($tax_node));
+			#}
+			// fau.
 			$options[$definition->getId()] = $title;
 		}
 		return $options;
@@ -1112,8 +1132,18 @@ class ilCourseObjectivesGUI
 		$this->test_type = (int) $_REQUEST['tt'];
 		
 		$form = $this->initFormRandom();
+		
+		
+		
+		
 		if($form->checkInput())
 		{
+			ilLORandomTestQuestionPools::deleteForObjectiveAndTestType(
+				$this->course_obj->getId(),
+				(int) $_REQUEST['objective_id'], 
+				$this->test_type
+			);
+
 			$qst = $this->__initQuestionObject((int) $_GET['objective_id']);
 			$qst->deleteByTestType(
 					($this->test_type == ilLOSettings::TYPE_TEST_INITIAL) ?
@@ -1121,18 +1151,19 @@ class ilCourseObjectivesGUI
 					ilCourseObjectiveQuestion::TYPE_FINAL_TEST
 			);
 			$ref_id = $this->getSettings()->getTestByType($this->test_type);
-			
-			include_once './Modules/Course/classes/Objectives/class.ilLORandomTestQuestionPools.php';
-			$rnd = new ilLORandomTestQuestionPools(
+			foreach(array_unique((array) $form->getInput('qpl')) as $qpl_id)
+			{
+				include_once './Modules/Course/classes/Objectives/class.ilLORandomTestQuestionPools.php';
+				$rnd = new ilLORandomTestQuestionPools(
 					$this->course_obj->getId(),
 					(int) $_REQUEST['objective_id'],
-					$this->test_type
-			);
-			$rnd->delete();
-			$rnd->setLimit($form->getInput('per'));
-			$rnd->setQplSequence($form->getInput('qpl'));
-			$rnd->setTestId(ilObject::_lookupObjId($ref_id));
-			$rnd->create();
+					$this->test_type,
+					$qpl_id
+				);
+				$rnd->setLimit($form->getInput('per'));
+				$rnd->setTestId(ilObject::_lookupObjId($ref_id));
+				$rnd->create();
+			}
 		}
 		else
 		{

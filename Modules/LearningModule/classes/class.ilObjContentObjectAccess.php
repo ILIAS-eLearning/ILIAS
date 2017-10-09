@@ -16,6 +16,40 @@ include_once("./Services/Object/classes/class.ilObjectAccess.php");
  */
 class ilObjContentObjectAccess extends ilObjectAccess
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		global $DIC;
+
+		$this->user = $DIC->user();
+		$this->lng = $DIC->language();
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->access = $DIC->access();
+	}
+
 	static $online;
 	static $lo_access;
 	
@@ -33,7 +67,10 @@ class ilObjContentObjectAccess extends ilObjectAccess
 	*/
 	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
 	{
-		global $ilUser, $lng, $rbacsystem, $ilAccess;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$rbacsystem = $this->rbacsystem;
+		$ilAccess = $this->access;
 
 		if ($a_user_id == "")
 		{
@@ -120,7 +157,9 @@ class ilObjContentObjectAccess extends ilObjectAccess
 	*/
 	static function _lookupOnline($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		if (isset(self::$online[$a_id]))
 		{
@@ -143,7 +182,10 @@ class ilObjContentObjectAccess extends ilObjectAccess
 	*/
 	static function _getLastAccessedPage($a_ref_id, $a_user_id = "")
 	{
-		global $ilDB, $ilUser;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilUser = $DIC->user();
 		
 		if ($a_user_id == "")
 		{
@@ -184,7 +226,9 @@ class ilObjContentObjectAccess extends ilObjectAccess
 	*/
 	static function _checkGoto($a_target)
 	{
-		global $ilAccess;
+		global $DIC;
+
+		$ilAccess = $DIC->access();
 		
 		$t_arr = explode("_", $a_target);
 
@@ -250,7 +294,10 @@ class ilObjContentObjectAccess extends ilObjectAccess
 	 */
 	static function _preloadData($a_obj_ids, $a_ref_ids)
 	{
-		global $ilDB, $ilUser;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilUser = $DIC->user();
 		
 		$q = "SELECT id, is_online FROM content_object WHERE ".
 			$ilDB->in("id", $a_obj_ids, false, "integer");

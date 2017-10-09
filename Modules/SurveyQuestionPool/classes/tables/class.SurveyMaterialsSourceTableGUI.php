@@ -36,7 +36,12 @@ class SurveyMaterialsSourceTableGUI extends ilTable2GUI
 {	
 	public function __construct($a_parent_obj, $a_parent_cmd, $a_cancel_cmd)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 				
@@ -61,7 +66,8 @@ class SurveyMaterialsSourceTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($data)
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$url_cmd = "add".strtoupper($data["item_type"]);
 		$url_type = strtolower($data["item_type"]);

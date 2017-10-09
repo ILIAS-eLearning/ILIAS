@@ -30,6 +30,11 @@
 */
 class ilLocationInputGUI extends ilFormPropertyGUI
 {
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
 	protected $latitude;
 	protected $longitude;
 	protected $zoom;
@@ -43,6 +48,10 @@ class ilLocationInputGUI extends ilFormPropertyGUI
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->rbacsystem = $DIC->rbac()->system();
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("location");
 	}
@@ -148,7 +157,7 @@ class ilLocationInputGUI extends ilFormPropertyGUI
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$_POST[$this->getPostVar()]["latitude"] = 
 			ilUtil::stripSlashes($_POST[$this->getPostVar()]["latitude"]);
@@ -170,7 +179,8 @@ class ilLocationInputGUI extends ilFormPropertyGUI
 	*/
 	function insert($a_tpl)
 	{
-		global $lng, $rbacsystem;
+		$lng = $this->lng;
+		$rbacsystem = $this->rbacsystem;
 		
 		$lng->loadLanguageModule("maps");
 		$tpl = new ilTemplate("tpl.prop_location.html", true, true, "Services/Form");

@@ -1,6 +1,5 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once("./Modules/OrgUnit/classes/class.ilOrgUnitImporter.php");
 /**
  * Class ilOrgUnitSimpleImport
  *
@@ -65,12 +64,11 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter {
 				$this->addError("ou_id_not_valid", $ou_id?$ou_id:$external_id, $action);
 				return;
 			}
-			include_once("./Services/Repository/classes/class.ilRepUtil.php");
 			$ru = new ilRepUtil($this);
 			try{
 				$ru->deleteObjects($parent_ref_id, array($ref_id)) !== false;
 				$this->stats["deleted"]++;
-			}catch(Excpetion $e){
+			}catch(Exception $e){
 				$this->addWarning("orgu_already_deleted", $ou_id?$ou_id:$external_id, $action);
 			}
 			return;

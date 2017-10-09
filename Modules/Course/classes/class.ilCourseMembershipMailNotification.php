@@ -77,7 +77,9 @@ class ilCourseMembershipMailNotification extends ilMailNotification
 
 			if( $obj->getAutoNotification() == false )
 			{
-				return false;
+				if(!$this->force_sending_mail) {
+					return false;
+				}
 			}
 		}
 

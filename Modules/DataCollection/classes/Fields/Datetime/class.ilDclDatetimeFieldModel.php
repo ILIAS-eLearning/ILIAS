@@ -1,6 +1,4 @@
 <?php
-require_once("./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseFieldModel.php");
-require_once("./Modules/DataCollection/classes/Helpers/class.ilDclRecordQueryObject.php");
 
 /**
  * Class ilDclBooleanFieldModel
@@ -47,8 +45,8 @@ class ilDclDatetimeFieldModel extends ilDclBaseFieldModel {
 
 		if ($this->isUnique()) {
 			$table = ilDclCache::getTableCache($this->getTableId());
+			$datestring = $value . ' 00:00:00';
 			foreach ($table->getRecords() as $record) {
-				$datestring = $value["date"] . " " . $value["time"];//["y"]."-".$value["date"]['m']."-".$value["date"]['d']." 00:00:00";
 
 				if ($record->getRecordFieldValue($this->getId()) == $datestring && ($record->getId() != $record_id || $record_id == 0)) {
 					throw new ilDclInputException(ilDclInputException::UNIQUE_EXCEPTION);

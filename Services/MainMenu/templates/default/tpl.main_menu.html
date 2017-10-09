@@ -23,6 +23,7 @@
 					<!-- END help_tt_icon -->
 					{ONSCREENCHAT}
 					{AWARENESS}
+					<li class="mm_background_tasks" refresh-uri="{BACKGROUNDTASKS_REFRESH_URI}">{BACKGROUNDTASKS}</li>
 					<!-- BEGIN search_box -->{SEARCHBOX}<!-- END search_box -->
 					<!-- BEGIN help -->
 					<li id="mm_help" class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -84,7 +85,9 @@
 	<header class="container-fluid ilContainerWidth">
 		<div class="row">
 			<a class="navbar-brand" href="{HEADER_URL}" target="_top">
-				<img src="{HEADER_ICON}" alt="Logo" class="noMirror" /></a>
+				<img class="hidden-xs noMirror" alt="Logo" src="{HEADER_ICON}" />
+				<img class="visible-xs-inline-block noMirror" alt="Logo" src="{HEADER_ICON_RESPONSIVE}">
+			</a>
 		</div>
 	</header>
 </div>

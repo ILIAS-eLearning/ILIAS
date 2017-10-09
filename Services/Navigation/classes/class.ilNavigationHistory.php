@@ -11,6 +11,31 @@
 */
 class ilNavigationHistory
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
+	/**
+	 * @var ilPluginAdmin
+	 */
+	protected $plugin_admin;
+
 
 	private $items;
 
@@ -21,6 +46,13 @@ class ilNavigationHistory
 	*/
 	public function __construct()
 	{
+		global $DIC;
+
+		$this->user = $DIC->user();
+		$this->db = $DIC->database();
+		$this->tree = $DIC->repositoryTree();
+		$this->obj_definition = $DIC["objDefinition"];
+		$this->plugin_admin = $DIC["ilPluginAdmin"];
 		$this->items = array();
 		$items = null;
 		if (isset($_SESSION["il_nav_history"]))
@@ -40,7 +72,8 @@ class ilNavigationHistory
 	public function addItem($a_ref_id, $a_link, $a_type, $a_title = "", $a_sub_obj_id = "",
 		$a_goto_link = "")
 	{
-		global $ilUser, $ilDB;
+		$ilUser = $this->user;
+		$ilDB = $this->db;
 
 		// never store?
 		if ($ilUser->prefs["store_last_visited"] == 2)
@@ -103,7 +136,11 @@ class ilNavigationHistory
 	*/
 	public function getItems()
 	{
-		global $tree, $ilDB, $ilUser, $objDefinition, $ilPluginAdmin;
+		$tree = $this->tree;
+		$ilDB = $this->db;
+		$ilUser = $this->user;
+		$objDefinition = $this->obj_definition;
+		$ilPluginAdmin = $this->plugin_admin;
 		
 		$items = array();
 		
@@ -173,7 +210,8 @@ class ilNavigationHistory
 	 */
 	function deleteDBEntries()
 	{
-		global $ilUser, $ilDB;
+		$ilUser = $this->user;
+		$ilDB = $this->db;
 		
 		// update entries in db
 		$ilDB->update("usr_data",

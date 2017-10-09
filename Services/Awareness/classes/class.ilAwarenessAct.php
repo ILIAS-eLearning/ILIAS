@@ -11,6 +11,11 @@
  */
 class ilAwarenessAct
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	protected static $instances = array();
 	protected $user_id;
 	protected $ref_id = 0;
@@ -23,6 +28,9 @@ class ilAwarenessAct
 	 */
 	protected function __construct($a_user_id)
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		$this->user_id = $a_user_id;
 	}
 
@@ -94,7 +102,7 @@ class ilAwarenessAct
 	 */
 	function notifyOnNewOnlineContacts()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$awrn_set = new ilSetting("awrn");
 		if (!$awrn_set->get("use_osd", true))

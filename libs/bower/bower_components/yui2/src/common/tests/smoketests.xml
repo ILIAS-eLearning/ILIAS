@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<yuitest version="2">
+    <tests base="@TEST_ARTIFACTS_BASE@" timeout="500000">
+        <url>autocomplete/tests/autocomplete.html</url>
+        <url>calendar/tests/calendar.html</url>
+        <url>container/tests/config.html</url>
+        <url>container/tests/module.html</url>
+        <url>datasource/tests/datasource.html</url>
+        <url>datatable/tests/datatable.html</url>
+        <url>dom/tests/dom.html</url>
+        <url>event/tests/focusin-focusout.html</url>
+        <url>event-delegate/tests/delegation.html</url>
+        <url>selector/tests/selector.html</url>
+        <url>yahoo/tests/yahoo.html</url>
+        <url>yuiloader/tests/yuiloader.html</url>
+    </tests>
+</yuitest>

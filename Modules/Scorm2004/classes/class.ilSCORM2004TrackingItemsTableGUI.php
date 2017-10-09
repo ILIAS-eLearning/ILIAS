@@ -12,6 +12,16 @@ include_once './Modules/Scorm2004/classes/class.ilSCORM2004TrackingItems.php';
  */
 class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
     private $obj_id = 0;
 	private $user_id = 0;
 	private $bySCO = false;
@@ -25,8 +35,18 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_obj_id, $a_parent_obj, $a_parent_cmd, $a_userSelected, $a_scosSelected, $a_report)
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$this->rbacsystem = $DIC->rbac()->system();
 	
-		global $ilCtrl, $lng, $ilAccess, $lng, $rbacsystem;
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
+		$lng = $DIC->language();
+		$rbacsystem = $DIC->rbac()->system();
 		$lng->loadLanguageModule("scormtrac");
 	
 		$this->obj_id = $a_obj_id;
@@ -134,7 +154,7 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
 
 
 	function getItems() {
-		global $lng;
+		$lng = $this->lng;
 
 		$this->determineOffsetAndOrder();
 		$ilSCORM2004TrackingItems = new ilSCORM2004TrackingItems();
@@ -174,7 +194,7 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
 	}
 	protected function parseValue($id, $value, $type)
 	{
-		global $lng;
+		$lng = $this->lng;
 		$lng->loadLanguageModule("trac");
 		switch($id)
 		{
@@ -195,7 +215,8 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($data)
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		foreach ($this->getSelectedColumns() as $c)
 		{
 			$this->tpl->setCurrentBlock("user_field");
@@ -219,7 +240,7 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
 
 	protected function fillRowExcel(ilExcel $worksheet, &$a_row, $a_set)
 	{
-		global $lng;
+		$lng = $this->lng;
 		$lng->loadLanguageModule("trac");
 		include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
 		$cnt = 0;
@@ -251,7 +272,7 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
 
 	protected function fillRowCSV($a_csv, $a_set)
 	{
-		global $lng;
+		$lng = $this->lng;
 		$lng->loadLanguageModule("trac");
 		include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
 		foreach ($this->getSelectedColumns() as $c)

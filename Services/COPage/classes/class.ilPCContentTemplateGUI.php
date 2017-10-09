@@ -25,6 +25,11 @@ class ilPCContentTemplateGUI extends ilPageContentGUI
 	 */
 	function __construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
+		global $DIC;
+
+		$this->tpl = $DIC["tpl"];
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
 		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
 
@@ -54,7 +59,7 @@ class ilPCContentTemplateGUI extends ilPageContentGUI
 	 */
 	function insert()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$this->displayValidationError();
 		$form = $this->initForm();
@@ -66,7 +71,8 @@ class ilPCContentTemplateGUI extends ilPageContentGUI
 	 */
 	function initForm()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		// edit form
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -98,7 +104,7 @@ class ilPCContentTemplateGUI extends ilPageContentGUI
 	 */
 	function create()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$form = $this->initForm();
 		if ($form->checkInput())

@@ -48,10 +48,9 @@ class DefaultRenderer implements Renderer {
 	/**
 	 * @inheritdoc
 	 */
-	public function withAdditionalContext(Component $context) {
-		$clone = clone $this;
-		$clone->contexts[] = $context;
-		return $clone;
+	public function renderAsync($component) {
+		$out = $this->render($component) . $this->js_binding->getOnLoadCodeAsync();
+		return $out;
 	}
 
 	/**
@@ -66,6 +65,15 @@ class DefaultRenderer implements Renderer {
 	 */
 	protected function getRendererFor(Component $component) {
 		return $this->component_renderer_loader->getRendererFor($component, $this->getContexts());
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withAdditionalContext(Component $context) {
+		$clone = clone $this;
+		$clone->contexts[] = $context;
+		return $clone;
 	}
 
 	/**

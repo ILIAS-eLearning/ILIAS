@@ -1,0 +1,14 @@
+{
+  "name": "mediaelement",
+  "homepage": "https://github.com/johndyer/mediaelement",
+  "version": "2.14.2",
+  "_release": "2.14.2",
+  "_resolution": {
+    "type": "version",
+    "tag": "2.14.2",
+    "commit": "cb415db2b46b9b61ae5002712fd2bbb244adc6b7"
+  },
+  "_source": "https://github.com/johndyer/mediaelement.git",
+  "_target": "2.14.2",
+  "_originalSource": "mediaelement"
+}

@@ -34,6 +34,16 @@ include_once("./Services/Container/classes/class.ilContainerContentGUI.php");
 */
 class ilContainerObjectiveGUI extends ilContainerContentGUI
 {
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
 	protected $force_details = 0;
 	protected $loc_settings; // [ilLOSettings]
 	
@@ -53,7 +63,15 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 	 */
 	public function __construct($a_container_gui)
 	{
-		global $lng;
+		global $DIC;
+
+		$this->tabs = $DIC->tabs();
+		$this->access = $DIC->access();
+		$this->user = $DIC->user();
+		$this->settings = $DIC->settings();
+		$this->ctrl = $DIC->ctrl();
+		$this->toolbar = $DIC->toolbar();
+		$lng = $DIC->language();
 		
 		$this->lng = $lng;
 		parent::__construct($a_container_gui);
@@ -102,7 +120,10 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 	 */
 	public function getMainContent()
 	{
-		global $lng,$ilTabs,$ilAccess,$ilUser;
+		$lng = $this->lng;
+		$ilTabs = $this->tabs;
+		$ilAccess = $this->access;
+		$ilUser = $this->user;
 
 		// see bug #7452
 //		$ilTabs->setSubTabActive($this->getContainerObject()->getType().'_content');
@@ -214,7 +235,8 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 	 */
 	public function showStatus($tpl)
 	{
-		global $ilUser,$lng;
+		$ilUser = $this->user;
+		$lng = $this->lng;
 		
 		include_once('./Modules/Course/classes/class.ilCourseObjectiveResultCache.php');		
 		
@@ -237,7 +259,8 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 	 */
 	public function showObjectives($a_tpl, $a_is_order = false)
 	{
-		global $lng,$ilSetting;
+		$lng = $this->lng;
+		$ilSetting = $this->settings;
 		
 		$this->clearAdminCommandsDetermination();
 		
@@ -364,7 +387,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		return;
 		
 		/*
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 				
 		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->getContainerObject()->getRefId());
 		$ilCtrl->setParameterByClass("ilrepositorygui", "details_level", "1");
@@ -381,11 +404,12 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 	
 	protected function renderTest($a_test_ref_id, $a_objective_id, $a_is_initial = false, $a_add_border = false, $a_lo_result = array())
 	{
+		$node_data = [];
 		if($a_test_ref_id)
 		{
 			$node_data = $GLOBALS['tree']->getNodeData($a_test_ref_id);
 		}
-		else
+		if(!$node_data['child'])
 		{
 			return '';
 		}
@@ -440,7 +464,8 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 	 */
 	public function showMaterials($a_tpl,$a_mode = null,$a_is_manage = false,$a_as_accordion = false)
 	{
-		global $ilAccess, $lng;
+		$ilAccess = $this->access;
+		$lng = $this->lng;
 
 		$this->clearAdminCommandsDetermination();
 		
@@ -616,7 +641,8 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 	
 	protected function addItemDetails(ilObjectListGUI $a_item_list_gui, array $a_item)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 						
 		$item_ref_id = $a_item["ref_id"];
 		
@@ -809,7 +835,8 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 	 */
 	protected function renderObjective($a_objective_id, &$a_has_lo_page, ilAccordionGUI $a_accordion = null, array $a_lo_result = null)
 	{
-		global $ilUser,$lng;
+		$ilUser = $this->user;
+		$lng = $this->lng;
 		
 		include_once('./Modules/Course/classes/class.ilCourseObjective.php');
 		$objective = new ilCourseObjective($this->getContainerObject(),$a_objective_id);
@@ -1025,7 +1052,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 	 */
 	protected function initDetails()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 				
 		// no details
 		return;
@@ -1045,7 +1072,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 	 */
 	protected function parseLOUserResults()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$res = array();		
 				
@@ -1182,7 +1209,9 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 	 */
 	public static function buildObjectiveProgressBar($a_has_initial_test, $a_objective_id, array $a_lo_result, $a_list_mode = false, $a_sub = false, $a_tt_suffix = null)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		// tooltip (has to be unique!)
 		
@@ -1331,7 +1360,8 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 	 */
 	protected function showButton($a_cmd,$a_text,$a_target = '', $a_id = "")
 	{
-		global $ilToolbar, $ilCtrl;
+		$ilToolbar = $this->toolbar;
+		$ilCtrl = $this->ctrl;
 		
 		// #11842
 		$ilToolbar->addButton($a_text,

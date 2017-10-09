@@ -33,6 +33,11 @@ require_once('./Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php');
  */
 class ilCustomInputGUI extends ilSubEnabledFormPropertyGUI 
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	protected $html;
 	
 	/**
@@ -43,6 +48,9 @@ class ilCustomInputGUI extends ilSubEnabledFormPropertyGUI
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("custom");
 	}
@@ -98,7 +106,7 @@ class ilCustomInputGUI extends ilSubEnabledFormPropertyGUI
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if($this->getPostVar())
 		{		

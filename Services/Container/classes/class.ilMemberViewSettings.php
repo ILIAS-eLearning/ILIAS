@@ -28,6 +28,16 @@
  */
 class ilMemberViewSettings
 {
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
 	private static $instance = null;
 	
 	private $active = false;
@@ -43,6 +53,10 @@ class ilMemberViewSettings
 	 */
 	private function __construct()
 	{
+		global $DIC;
+
+		$this->tree = $DIC->repositoryTree();
+		$this->settings = $DIC->settings();
 		$this->read();
 	}
 	
@@ -95,7 +109,7 @@ class ilMemberViewSettings
 	 */
 	public function isActive()
 	{
-		global $tree;
+		$tree = $this->tree;
 		
 		if(!$this->active)
 		{
@@ -197,7 +211,8 @@ class ilMemberViewSettings
 	 */
 	protected function read()
 	{
-		global $ilSetting,$tree;
+		$ilSetting = $this->settings;
+		$tree = $this->tree;
 		
 		$this->findEffectiveRefId();
 		

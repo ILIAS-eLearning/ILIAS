@@ -12,6 +12,11 @@ include_once("./Services/Cache/classes/class.ilCache.php");
  */
 class ilNewsCache extends ilCache
 {
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
 	static $disabled = false;
 	
 	/**
@@ -22,7 +27,10 @@ class ilNewsCache extends ilCache
 	 */
 	function __construct()
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$this->settings = $DIC->settings();
+		$ilSetting = $DIC->settings();
 		
 		$news_set = new ilSetting("news");
 		$news_set->get("acc_cache_mins");
@@ -64,7 +72,7 @@ class ilNewsCache extends ilCache
 	function storeEntry($a_id, $a_value, $a_int_key1 = null, $a_int_key2 = null,
 						$a_text_key1 = null, $a_text_key2 = null)
 	{
-		global $ilSetting;
+		$ilSetting = $this->settings;
 		if(!$this->isDisabled())
 		{
 			parent::storeEntry($a_id, $a_value);

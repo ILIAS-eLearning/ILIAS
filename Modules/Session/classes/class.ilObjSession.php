@@ -15,6 +15,8 @@ include_once './Services/Membership/classes/class.ilMembershipRegistrationSettin
 */
 class ilObjSession extends ilObject
 {
+	const LOCAL_ROLE_PARTICIPANT_PREFIX = 'il_sess_participant';
+	
 	const CAL_REG_START = 1;
 	
 	protected $db;
@@ -37,6 +39,11 @@ class ilObjSession extends ilObject
 	protected $appointments;
 	protected $files = array();
 	
+	/**
+	 * @var ilLogger
+	 */
+	protected $session_logger = null;
+	
 
 	
 	/**
@@ -48,6 +55,8 @@ class ilObjSession extends ilObject
 	public function __construct($a_id = 0,$a_call_by_reference = true)
 	{
 		global $ilDB;
+		
+		$this->session_logger = $GLOBALS['DIC']->logger()->sess();
 
 		$this->db = $ilDB;
 		$this->type = "sess";
@@ -120,7 +129,26 @@ class ilObjSession extends ilObject
 
 	}
 	
-	
+	/**
+	 * Create local session participant role
+	 */
+	public function initDefaultRoles()
+	{
+		include_once './Services/AccessControl/classes/class.ilObjRole.php';
+		$role = ilObjRole::createDefaultRole(
+			self::LOCAL_ROLE_PARTICIPANT_PREFIX.'_'.$this->getRefId(),
+			'Participant of session obj_no.'.$this->getId(),
+			self::LOCAL_ROLE_PARTICIPANT_PREFIX,
+			$this->getRefId()
+		);
+		
+		if(!$role instanceof ilObjRole)
+		{
+			$this->session_logger->warning('Could not create default session role.');
+			$this->session_logger->logStack(ilLogLevel::WARNING);
+		}
+		return array();
+	}
 	
 	/**
 	 * sget event id
@@ -367,7 +395,7 @@ class ilObjSession extends ilObject
 	 * get first appointment
 	 *
 	 * @access public
-	 * @return object ilSessionAppointment
+	 * @return  ilSessionAppointment
 	 */
 	public function getFirstAppointment()
 	{
@@ -418,19 +446,18 @@ class ilObjSession extends ilObject
 	 */
 	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
-		global $ilDB,$ilUser,$ilAppEventHandler;
-		
 	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
-	 	
+
 	 	$this->read();
 	 	
-		// Copy settings
 		$this->cloneSettings($new_obj);
+	 	$this->cloneMetaData($new_obj);
+	 	
 		
 		// Clone appointment
 		$new_app = $this->getFirstAppointment()->cloneObject($new_obj->getId());
 		$new_obj->setAppointments(array($new_app));
-		$new_obj->update();
+		$new_obj->update(true);
 
 		// Clone session files
 		foreach($this->files as $file)
@@ -474,7 +501,7 @@ class ilObjSession extends ilObject
 		$new_obj->setRegistrationMinUsers($this->getRegistrationMinUsers());
 		$new_obj->setRegistrationMaxUsers($this->getRegistrationMaxUsers());
 		
-		$new_obj->update();
+		$new_obj->update(true);
 		
 		return true;
 	}
@@ -508,13 +535,18 @@ class ilObjSession extends ilObject
 	 *
 	 * @access public
 	 */
-	public function create()
+	public function create($a_skip_meta_data = false)
 	{
 		global $ilDB;
 		global $ilAppEventHandler;
 	
 		parent::create();
 		
+		if(!$a_skip_meta_data)
+		{
+			$this->createMetaData();
+		}
+
 		$next_id = $ilDB->nextId('event');
 		$query = "INSERT INTO event (event_id,obj_id,location,tutor_name,tutor_phone,tutor_email,details,registration, ".
 			'reg_type, reg_limit_users, reg_limited, reg_waiting_list, reg_min_users, reg_auto_wait) '.
@@ -553,7 +585,7 @@ class ilObjSession extends ilObject
 	 * @param
 	 * @return bool success
 	 */
-	public function update()
+	public function update($a_skip_meta_update = false)
 	{
 		global $ilDB;
 		global $ilAppEventHandler;
@@ -562,6 +594,11 @@ class ilObjSession extends ilObject
 		{
 			return false;
 		}
+		if(!$a_skip_meta_update)
+		{
+			$this->updateMetaData();
+		}
+		
 		$query = "UPDATE event SET ".
 			"location = ".$this->db->quote($this->getLocation() ,'text').",".
 			"tutor_name = ".$this->db->quote($this->getName() ,'text').", ".
@@ -601,6 +638,10 @@ class ilObjSession extends ilObject
 		{
 			return false;
 		}
+		
+		// delete meta data
+		$this->deleteMetaData();
+		
 		$query = "DELETE FROM event ".
 			"WHERE obj_id = ".$this->db->quote($this->getId() ,'integer')." ";
 		$res = $ilDB->manipulate($query);
@@ -767,6 +808,45 @@ class ilObjSession extends ilObject
 			}
 		}		
 	}
+	
+	/**
+	 * Get mail to members type
+	 * @return int
+	 */
+	public function getMailToMembersType()
+	{
+		return false;
+	}
+	
+	/**
+	 * init participants object
+	 * 
+	 *
+	 * @access protected
+	 * @return
+	 */
+	protected function initParticipants()
+	{
+		include_once('./Modules/Session/classes/class.ilSessionParticipants.php');
+		$this->members_obj = ilSessionParticipants::_getInstanceByObjId($this->getId());
+	}
+	
+	/**
+	 * Get members objects
+	 * 
+	 * @return ilGroupParticipants
+	 */
+	public function getMembersObject()
+	{
+		// #17886
+		if(!$this->members_obj instanceof ilGroupParticipants)
+		{
+			$this->initParticipants();
+		}
+		return $this->members_obj;
+	}
+	
+
 }
 
 ?>

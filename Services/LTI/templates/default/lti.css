@@ -1,0 +1,78 @@
+body.ltiExit {
+	background-color: #f0f0f0;
+}
+
+ol.breadcrumb {
+	margin-left: 10px;
+}
+
+a.ilTreeView {
+	top : 40px;
+}
+
+.ilLeftNav {
+	height: 100%;
+	top : 40px;
+}
+
+footer {
+	display:none;
+}
+
+.ltiHeader {
+	padding: 0;
+	height: 40px;
+	top: 0;
+	z-index: 1040;
+	background-color: #444;
+	color: white;
+	position: fixed;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 0;
+}
+
+.ltiHeaderTitle {
+	float: left;
+	font-weight: 400;
+	padding: 0 0 0 15px;
+	white-space: nowrap;
+	line-height: 40px;
+	font-family: 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+}
+
+.ilHeadAction {
+	display: none;
+}
+
+a.ltiExit,  a.ltiExit > button,  a.ltiExit > button > a.ltiExit > button > span:first-child {
+	padding: 0 !important;
+	box-sizing: border-box !important;
+	display: block !important;
+	width: 100% !important;
+	height: 100%;
+}
+
+a.ltiExit > button {
+	color: #fff;
+	text-shadow: 0 2px 0 black;
+	opacity: 0.5;
+}
+
+div.ltiExitContent {
+	margin-top: 50px;
+	padding: 50px;
+}
+/*
+#view_nav {
+	margin-right: 50px;
+}
+*/ 
+/*
+div.ilMainHeader {
+	top: 0px;
+	display: none;
+}
+*/

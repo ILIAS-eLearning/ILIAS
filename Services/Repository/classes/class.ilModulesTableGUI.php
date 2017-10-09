@@ -15,12 +15,40 @@ require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
  */
 class ilModulesTableGUI extends ilTable2GUI
 {	
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
+	 * @var ilPluginAdmin
+	 */
+	protected $plugin_admin;
+
 	protected $pos_group_options; // [array]
 	protected $old_grp_id; // [int]
 	
 	function __construct($a_parent_obj, $a_parent_cmd = "", $a_has_write = false)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->obj_definition = $DIC["objDefinition"];
+		$this->settings = $DIC->settings();
+		$this->plugin_admin = $DIC["ilPluginAdmin"];
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 				
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
@@ -56,7 +84,10 @@ class ilModulesTableGUI extends ilTable2GUI
 	*/
 	function getComponents()
 	{
-		global $objDefinition, $ilSetting, $lng, $ilPluginAdmin;
+		$objDefinition = $this->obj_definition;
+		$ilSetting = $this->settings;
+		$lng = $this->lng;
+		$ilPluginAdmin = $this->plugin_admin;
 		
 		// unassigned objects should be last
 		$this->pos_group_options = array(0 => $lng->txt("rep_new_item_group_unassigned"));
@@ -228,7 +259,8 @@ class ilModulesTableGUI extends ilTable2GUI
 	 * @return mixed
 	 */
 	protected function getPluginComponents($obj_types, $component, $slotName, $slotId) {
-		global $ilPluginAdmin, $lng;
+		$ilPluginAdmin = $this->plugin_admin;
+		$lng = $this->lng;
 		include_once("./Services/Component/classes/class.ilPlugin.php");
 		$pl_names = $ilPluginAdmin->getActivePluginsForSlot($component, $slotName, $slotId);
 		foreach ($pl_names as $pl_name) {

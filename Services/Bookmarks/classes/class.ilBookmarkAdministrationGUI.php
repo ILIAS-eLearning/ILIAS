@@ -19,6 +19,31 @@ require_once ("./Services/Table/classes/class.ilTableGUI.php");
 class ilBookmarkAdministrationGUI
 {
 	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
 	 * User Id
 	 * @var integer
 	 * @access public
@@ -30,7 +55,6 @@ class ilBookmarkAdministrationGUI
 	 * @var object ilias
 	 * @access public
 	 */
-	var $ilias;
 	var $tpl;
 	var $lng;
 
@@ -46,7 +70,16 @@ class ilBookmarkAdministrationGUI
 	 */
 	function __construct()
 	{
-		global $ilias, $tpl, $lng, $ilCtrl, $ilUser;
+		global $DIC;
+
+		$this->user = $DIC->user();
+		$this->toolbar = $DIC->toolbar();
+		$this->error = $DIC["ilErr"];
+		$this->tabs = $DIC->tabs();
+		$tpl = $DIC["tpl"];
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$ilUser = $DIC->user();
 
 //		$tpl->enableAdvancedColumnLayout(true, false);
 
@@ -59,7 +92,6 @@ class ilBookmarkAdministrationGUI
 			: $_GET["bmf_id"];
 	
 		// initiate variables
-		$this->ilias = $ilias;
 		$this->tpl   = $tpl;
 		$this->lng   = $lng;
 		$this->ctrl  = $ilCtrl;
@@ -132,7 +164,7 @@ class ilBookmarkAdministrationGUI
 	 */
 	function explorer()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		include_once("./Services/Bookmarks/classes/class.ilBookmarkExplorerGUI.php");
 		$exp = new ilBookmarkExplorerGUI($this, "explorer");
@@ -166,7 +198,7 @@ class ilBookmarkAdministrationGUI
 	*/
 	function view()
 	{		
-		global $ilToolbar;
+		$ilToolbar = $this->toolbar;
 		
 		if($this->id > 0 && !$this->tree->isInTree($this->id))
 		{
@@ -213,7 +245,7 @@ class ilBookmarkAdministrationGUI
 	 */
 	function displayLocator()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		if(empty($this->id))
 		{
@@ -305,7 +337,9 @@ class ilBookmarkAdministrationGUI
 	 */
 	private function initFormBookmarkFolder($action = 'createBookmarkFolder')
 	{
-		global $lng, $ilCtrl, $ilUser;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 
 		if(!$this->tree->isInTree($this->id))
 		{
@@ -376,7 +410,9 @@ class ilBookmarkAdministrationGUI
 	 */
 	private function initFormBookmark($action = 'createBookmark')
 	{
-		global $lng, $ilCtrl, $ilUser;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 
 		if(!$this->tree->isInTree($this->id))
 		{
@@ -456,7 +492,9 @@ class ilBookmarkAdministrationGUI
 	 */
 	private function initImportBookmarksForm()
 	{
-		global $lng, $ilCtrl, $ilUser;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 
 		if(!$this->tree->isInTree($this->id))
 		{
@@ -512,7 +550,8 @@ class ilBookmarkAdministrationGUI
 	 */
 	function editFormBookmark()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		if(!$this->tree->isInTree($_GET["obj_id"]))
 		{
@@ -564,7 +603,7 @@ class ilBookmarkAdministrationGUI
 
 			ilUtil::sendSuccess($this->lng->txt("bkm_fold_created"), true);
 
-			global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 			$ilCtrl->saveParameter($this, 'bmf_id');
 			$ilCtrl->redirect($this, 'view');
 		}
@@ -596,7 +635,7 @@ class ilBookmarkAdministrationGUI
 			$bmf->setTitle(ilUtil::stripSlashes($_POST["title"]));
 			$bmf->update();
 
-			global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 			$ilCtrl->saveParameter($this, 'bmf_id');
 			$ilCtrl->redirect($this, 'view');
 		}
@@ -608,7 +647,8 @@ class ilBookmarkAdministrationGUI
 	 */
 	function createBookmark()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		if(!$this->tree->isInTree($this->id))
 		{
@@ -690,10 +730,13 @@ class ilBookmarkAdministrationGUI
 	 */
 	function export($deliver = true)
 	{
+		$ilErr = $this->error;
+		$ilUser = $this->user;
+
 		$bm_ids = $_GET['bm_id'] ? array($_GET['bm_id']) : $_POST['bm_id'];
 		if(!$bm_ids)
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"), $this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
 		}
 		$export_ids = array();
 		foreach($bm_ids as $id)
@@ -708,7 +751,7 @@ class ilBookmarkAdministrationGUI
 
 		require_once ("./Services/Bookmarks/classes/class.ilBookmarkImportExport.php");
 		$html_content = ilBookmarkImportExport::_exportBookmark($export_ids, true,
-			$this->lng->txt("bookmarks_of") . " " . $this->ilias->account->getFullname());
+			$this->lng->txt("bookmarks_of") . " " . $ilUser->getFullname());
 
 		if($deliver)
 		{
@@ -725,7 +768,7 @@ class ilBookmarkAdministrationGUI
 	 */
 	function sendmail()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		include_once './Services/Mail/classes/class.ilFileDataMail.php';
 		require_once "Services/Mail/classes/class.ilFormatMail.php";
 		$mfile = new ilFileDataMail($ilUser->getId());
@@ -752,10 +795,12 @@ class ilBookmarkAdministrationGUI
 	 */
 	function delete()
 	{
+		$ilErr = $this->error;
+
 		$bm_ids = $_GET['bm_id'] ? array($_GET['bm_id']) : $_POST['bm_id'];
 		if(!$bm_ids)
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"), $this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
 		}
 
 		$this->ctrl->setParameter($this, "bmf_id", $this->id);
@@ -823,11 +868,12 @@ class ilBookmarkAdministrationGUI
 	 */
 	function confirm()
 	{
-		global $tree, $rbacsystem, $rbacadmin;
+		$ilErr = $this->error;
+
 		// AT LEAST ONE OBJECT HAS TO BE CHOSEN.
 		if(!$_POST["id"])
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"), $this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
 		}
 
 		// FOR ALL SELECTED OBJECTS
@@ -1017,7 +1063,9 @@ class ilBookmarkAdministrationGUI
 
 	function move()
 	{
-		global $ilUser, $ilTabs, $tpl;
+		$ilUser = $this->user;
+		$ilTabs = $this->tabs;
+		$tpl = $this->tpl;
 
 		$bm_ids = $_REQUEST['bm_id'];
 		if(!$bm_ids && $_GET["bm_id_tgt"] == "")
@@ -1041,7 +1089,7 @@ class ilBookmarkAdministrationGUI
 
 	function confirmedMove()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		$tgt    = (int)$_REQUEST["bmfmv_id"];
 		$bm_ids = explode(";", $_REQUEST['bm_id_tgt']);

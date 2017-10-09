@@ -10,6 +10,22 @@
  */
 class ilScormEditorDBMigrationUtil
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		global $DIC;
+
+		$this->db = $DIC->database();
+	}
+
 
 	/**
 	 * Create style class GlossaryLink, link, IntLink
@@ -19,7 +35,9 @@ class ilScormEditorDBMigrationUtil
 	 */
 	static function copyStyleClass($a_orig_class, $a_class, $a_type, $a_tag, $a_hide = 0)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 	
 		$set = $ilDB->query("SELECT * FROM object_data WHERE type = 'sty'");
 		while ($rec = $ilDB->fetchAssoc($set))	// all styles
@@ -71,7 +89,7 @@ class ilScormEditorDBMigrationUtil
 	 */
 	function addStyleClass($a_class, $a_type, $a_tag, $a_parameters = "", $a_hide = 0)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if ($a_parameters == "")
 		{

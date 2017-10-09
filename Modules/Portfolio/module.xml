@@ -34,5 +34,7 @@
 	<web_access_checker>
 		<secure_path path="ilPortfolio" checking-class="ilPortfolioAccessHandler" in-sec-folder='1'/>
 	</web_access_checker>
-
+	<pdfpurposes>
+		<pdfpurpose name="ContentExport" preferred="PhantomJS" />
+	</pdfpurposes>
 </module>

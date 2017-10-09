@@ -14,12 +14,9 @@ class ilChatroomAdminSmiliesGUI extends ilChatroomGUIHandler
 	 */
 	public function executeDefault($method)
 	{
-		/**
-		 * @var $tpl ilT
-		 */
-		global $tpl;
+		global $DIC;
 
 		$this->gui->switchToVisibleMode();
-		$tpl->setVariable('ADM_CONTENT', '');
+		$DIC->ui()->mainTemplate()->setVariable('ADM_CONTENT', '');
 	}
 }

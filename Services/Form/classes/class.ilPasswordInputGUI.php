@@ -15,6 +15,7 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
 	protected $validateauthpost = "";
 	protected $requiredonauth = false;
 	protected $maxlength = false;
+	protected $use_strip_slashes = true;
 
 	/**
 	 * @var bool Flag whether the html autocomplete attribute should be set to "off" or not
@@ -29,6 +30,9 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		parent::__construct($a_title, $a_postvar);
 		$this->setRetype(true);
 		$this->setSkipSyntaxCheck(false);
@@ -226,16 +230,39 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
 	}
 	
 	/**
+	 * En/disable use of stripslashes. e.g on login screen.
+	 * Otherwise passwords containing "<" are stripped and therefor authentication 
+	 * fails against external authentication services.
+	 * @param type $a_stat
+	 */
+	public function setUseStripSlashes($a_stat)
+	{
+		$this->use_strip_slashes = $a_stat;
+	}
+	
+	/**
+	 * 
+	 * @return type
+	 */
+	public function getUseStripSlashes()
+	{
+		return $this->use_strip_slashes;
+	}
+	
+	/**
 	* Check input, strip slashes etc. set alert, if input is not ok.
 	*
 	* @return	boolean		Input ok, true/false
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
-		$_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
-		$_POST[$this->getPostVar()."_retype"] = ilUtil::stripSlashes($_POST[$this->getPostVar()."_retype"]);
+		if($this->getUseStripSlashes())
+		{
+			$_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
+			$_POST[$this->getPostVar()."_retype"] = ilUtil::stripSlashes($_POST[$this->getPostVar()."_retype"]);
+		}
 		if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "")
 		{
 			$this->setAlert($lng->txt("msg_input_is_required"));
@@ -289,7 +316,7 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
 	*/
 	function render()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$ptpl = new ilTemplate("tpl.prop_password.html", true, true, "Services/Form");
 		

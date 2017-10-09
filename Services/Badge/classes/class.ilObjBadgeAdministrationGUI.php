@@ -17,8 +17,37 @@ include_once("./Services/Badge/classes/class.ilBadgeHandler.php");
  */
 class ilObjBadgeAdministrationGUI extends ilObjectGUI
 {	
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
+		global $DIC;
+
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->ctrl = $DIC->ctrl();
+		$this->access = $DIC->access();
+		$this->lng = $DIC->language();
+		$this->toolbar = $DIC->toolbar();
+		$this->tpl = $DIC["tpl"];
+		$this->tabs = $DIC->tabs();
 		$this->type = "bdga";
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
@@ -63,7 +92,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 
 	public function getAdminTabs()
 	{
-		global $rbacsystem;
+		$rbacsystem = $this->rbacsystem;
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -126,7 +155,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 
 	protected function saveSettings()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$this->checkPermission("write");
 		
@@ -156,7 +185,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 
 	protected function initFormSettings()
 	{
-	    global $ilAccess;
+		$ilAccess = $this->access;
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -214,7 +243,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 	
 	protected function listTypes()
 	{
-		global $ilAccess;
+		$ilAccess = $this->access;
 		
 		$this->assertActive();
 		$this->tabs_gui->setTabActive("types");	
@@ -227,7 +256,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 	
 	protected function activateTypes()
 	{	
-		global $lng;
+		$lng = $this->lng;
 		
 		$this->assertActive();
 		
@@ -253,7 +282,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 	
 	protected function deactivateTypes()
 	{	
-		global $lng;
+		$lng = $this->lng;
 		
 		$this->assertActive();
 		
@@ -277,7 +306,10 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 	
 	protected function listImageTemplates()
 	{
-		global $ilAccess, $lng, $ilToolbar, $ilCtrl;
+		$ilAccess = $this->access;
+		$lng = $this->lng;
+		$ilToolbar = $this->toolbar;
+		$ilCtrl = $this->ctrl;
 			
 		$this->assertActive();
 		$this->tabs_gui->setTabActive("imgtmpl");	
@@ -296,7 +328,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 	
 	protected function addImageTemplate(ilPropertyFormGUI $a_form = null)
 	{				
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$this->checkPermission("write");
 		
@@ -313,7 +345,8 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 	
 	protected function initImageTemplateForm($a_mode)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();
@@ -367,7 +400,8 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 	
 	protected function saveImageTemplate()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$this->checkPermission("write");
 		
@@ -392,7 +426,8 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 	
 	protected function editImageTemplate(ilPropertyFormGUI $a_form = null)
 	{				
-		global $ilCtrl, $tpl;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
 		
 		$this->checkPermission("write");
 		
@@ -438,7 +473,8 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 	
 	protected function updateImageTemplate()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$this->checkPermission("write");
 		
@@ -482,7 +518,10 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 	
 	protected function confirmDeleteImageTemplates()
 	{
-		global $ilCtrl, $lng, $tpl, $ilTabs;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
 		
 		$this->checkPermission("write");
 		
@@ -515,7 +554,8 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 	
 	protected function deleteImageTemplates()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$this->checkPermission("write");
 		
@@ -542,7 +582,8 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 	
 	protected function listObjectBadges()
 	{
-		global $ilAccess, $tpl;
+		$ilAccess = $this->access;
+		$tpl = $this->tpl;
 		
 		$this->assertActive();
 		$this->tabs_gui->setTabActive("obj_badges");				
@@ -555,7 +596,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 	
 	protected function applyObjectFilter()
 	{
-		global $ilAccess;
+		$ilAccess = $this->access;
 		
 		include_once "Services/Badge/classes/class.ilObjectBadgeTableGUI.php";
 		$tbl = new ilObjectBadgeTableGUI($this, "listObjectBadges",
@@ -567,7 +608,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 	
 	protected function resetObjectFilter()
 	{
-		global $ilAccess;
+		$ilAccess = $this->access;
 		
 		include_once "Services/Badge/classes/class.ilObjectBadgeTableGUI.php";
 		$tbl = new ilObjectBadgeTableGUI($this, "listObjectBadges",
@@ -579,7 +620,9 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 	
 	protected function listObjectBadgeUsers()
 	{
-		global $ilCtrl, $lng, $tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
 		
 		$parent_obj_id = $_REQUEST["pid"];
 		if(!$parent_obj_id)
@@ -625,7 +668,8 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 	
 	protected function getObjectBadgesFromMultiAction()
 	{
-		global $ilAccess, $ilCtrl;
+		$ilAccess = $this->access;
+		$ilCtrl = $this->ctrl;
 		
 		$badge_ids = $_REQUEST["id"];
 		if(!$badge_ids ||
@@ -639,7 +683,8 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 	
 	protected function toggleObjectBadges($a_status)
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$badge_ids = $this->getObjectBadgesFromMultiAction();
 		
@@ -667,7 +712,10 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 	
 	protected function confirmDeleteObjectBadges()
 	{
-		global $ilCtrl, $lng, $tpl, $ilTabs;	
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
 								
 		$badge_ids = $this->getObjectBadgesFromMultiAction();
 				
@@ -712,7 +760,8 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 	
 	protected function deleteObjectBadges()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$badge_ids = $this->getObjectBadgesFromMultiAction();
 		

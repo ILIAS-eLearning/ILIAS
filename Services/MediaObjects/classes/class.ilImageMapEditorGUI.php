@@ -14,10 +14,36 @@
 class ilImageMapEditorGUI
 {
 	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
 	* Constructor
 	*/
 	function __construct($a_media_object)
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->tpl = $DIC["tpl"];
+		$this->lng = $DIC->language();
+		$this->toolbar = $DIC->toolbar();
 		$this->media_object = $a_media_object;
 	}
 	
@@ -26,7 +52,8 @@ class ilImageMapEditorGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl, $tpl;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
@@ -36,12 +63,10 @@ class ilImageMapEditorGUI
 			case "ilinternallinkgui":
 				require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
 				$link_gui = new ilInternalLinkGUI("Media_Media", 0);
-				$link_gui->setMode("link");
 				$link_gui->setSetLinkTargetScript(
 					$ilCtrl->getLinkTarget($this,
 					"setInternalLink"));
 				$link_gui->filterLinkType("File");
-				$link_gui->setMode("asynch");
 				$ret = $ilCtrl->forwardCommand($link_gui);
 				break;
 
@@ -66,7 +91,9 @@ class ilImageMapEditorGUI
 	*/
 	function editMapAreas()
 	{
-		global $ilCtrl, $lng, $ilToolbar;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilToolbar = $this->toolbar;
 		
 		$_SESSION["il_map_edit_target_script"] = $ilCtrl->getLinkTarget($this, "addArea",
 			"", false, false);
@@ -96,7 +123,9 @@ class ilImageMapEditorGUI
 	 */
 	function getToolbar()
 	{
-		global $ilCtrl, $lng, $tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
 		
 		// toolbar
 		$tb = new ilToolbarGUI();
@@ -143,7 +172,7 @@ class ilImageMapEditorGUI
 	 */
 	function getEditorTitle()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		return $lng->txt("cont_imagemap");
 	}
@@ -199,7 +228,8 @@ class ilImageMapEditorGUI
 	*/
 	function updateAreas()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$st_item = $this->media_object->getMediaItem("Standard");
 		$max = ilMapArea::_getMaxNr($st_item->getId());
@@ -375,7 +405,9 @@ class ilImageMapEditorGUI
 	function editMapArea($a_get_next_coordinate = false, $a_output_new_area = false,
 		$a_save_form = false, $a_edit_property = "", $a_area_nr = 0)
 	{
-		global $ilCtrl, $lng, $tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
 		
 		$area_type = $_SESSION["il_map_edit_area_type"];
 		$coords = $_SESSION["il_map_edit_coords"];
@@ -472,7 +504,8 @@ class ilImageMapEditorGUI
 	 */
 	public function initAreaEditingForm($a_edit_property)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -598,7 +631,7 @@ class ilImageMapEditorGUI
 	*/
 	function getImageMapOutput($a_map_edit_mode = "")
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$st_item = $this->media_object->getMediaItem("Standard");
 		
@@ -672,7 +705,7 @@ class ilImageMapEditorGUI
 	*/
 	function getMapAreaLinkString($a_target, $a_type, $a_frame)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$t_arr = explode("_", $a_target);
 		if ($a_frame != "")
@@ -755,7 +788,8 @@ class ilImageMapEditorGUI
 	*/
 	function saveArea()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		switch ($_SESSION["il_map_edit_mode"])
 		{
@@ -849,6 +883,7 @@ class ilImageMapEditorGUI
 
 		$_SESSION["il_map_il_target"] = $_GET["linktarget"];
 		$_SESSION["il_map_il_targetframe"] = $_GET["linktargetframe"];
+		$_SESSION["il_map_il_anchor"] = $_GET["linkanchor"];
 		switch ($_SESSION["il_map_edit_mode"])
 		{
 			case "edit_link":
@@ -866,7 +901,8 @@ class ilImageMapEditorGUI
 	*/
 	function setLink($a_handle = true)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		if($a_handle)
 		{
@@ -966,7 +1002,8 @@ class ilImageMapEditorGUI
 	*/
 	function deleteAreas()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		if (!isset($_POST["area"]))
 		{
@@ -1055,7 +1092,8 @@ class ilImageMapEditorGUI
 	*/
 	function setShape($a_handle = true)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		if($a_handle)
 		{
@@ -1159,7 +1197,8 @@ class ilImageMapEditorGUI
 	 */
 	function setHighlight()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$st_item = $this->media_object->getMediaItem("Standard");
 		$st_item->setHighlightMode(ilUtil::stripSlashes($_POST["highlight_mode"]));

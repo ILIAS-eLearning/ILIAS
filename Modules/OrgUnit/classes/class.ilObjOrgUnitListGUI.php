@@ -1,6 +1,5 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once("./Services/Object/classes/class.ilObjectListGUI.php");
 
 /**
  * Class ilObjOrgUnitListGUI
@@ -43,7 +42,6 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI {
 		$this->gui_class_name = "ilobjorgunitgui";
 
 		// general commands array
-		include_once('./Modules/OrgUnit/classes/class.ilObjOrgUnitAccess.php');
 		$this->commands = ilObjOrgUnitAccess::_getCommands();
 	}
 
@@ -138,4 +136,3 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI {
 	}
 }
 
-?>

@@ -17,6 +17,21 @@ include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
  */
 class ilBlogPostingGUI extends ilPageObjectGUI
 {
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilLocatorGUI
+	 */
+	protected $locator;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
 	protected $node_id; // [int]
 	protected $access_handler; // [object]
 	protected $enable_public_notes; // [bool]
@@ -35,7 +50,14 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	 */
 	function __construct($a_node_id, $a_access_handler = null, $a_id = 0, $a_old_nr = 0, $a_enable_public_notes = true, $a_may_contribute = true, $a_style_sheet_id = 0)
 	{
-		global $tpl, $lng;
+		global $DIC;
+
+		$this->tabs = $DIC->tabs();
+		$this->locator = $DIC["ilLocator"];
+		$this->settings = $DIC->settings();
+		$this->user = $DIC->user();
+		$tpl = $DIC["tpl"];
+		$lng = $DIC->language();
 
 		$lng->loadLanguageModule("blog");
 
@@ -47,6 +69,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 
 		// needed for notification
 		$this->getBlogPosting()->setBlogNodeId($this->node_id, $this->isInWorkspace());
+		$this->getBlogPosting()->getPageConfig()->setEditLockSupport(!$this->isInWorkspace());
 		
 		// #11151
 		$this->may_contribute = (bool)$a_may_contribute;
@@ -75,7 +98,10 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl, $ilTabs, $ilLocator, $tpl;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
+		$ilLocator = $this->locator;
+		$tpl = $this->tpl;
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
@@ -108,6 +134,14 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 			default:
 				if($posting)
 				{
+					if($_REQUEST["cmd"] == "deactivatePageToList")
+					{
+						ilUtil::sendSuccess($this->lng->txt("blog_draft_info"), true);
+					}
+					else if($_REQUEST["cmd"] == "activatePageToList")
+					{
+						ilUtil::sendSuccess($this->lng->txt("blog_new_posting_info"), true);
+					}
 					$this->setPresentationTitle($posting->getTitle());
 					
 					$tpl->setTitle(ilObject::_lookupTitle($this->getBlogPosting()->getBlogId()).": ". // #15017
@@ -162,8 +196,14 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	 */
 	function preview($a_mode = null)
 	{
-		global $ilCtrl, $tpl, $ilSetting;
-		
+		global $DIC;
+
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$ilSetting = $this->settings;
+
+		$toolbar = $DIC->toolbar();
+
 		$this->getBlogPosting()->increaseViewCnt();
 		
 		$wtpl = new ilTemplate("tpl.blog_page_view_main_column.html",
@@ -198,7 +238,9 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 			
 			$may_delete_comments = ($this->checkAccess("contribute") &&
 				$ilSetting->get("comments_del_tutor", 1));
-			
+
+			$wtpl->setVariable("TOOLBAR", $toolbar->getHTML());
+
 			$wtpl->setVariable("NOTES", $this->getNotesHTML($this->getBlogPosting(),
 				false, $this->enable_public_notes, $may_delete_comments, $callback));
 		}
@@ -332,7 +374,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	 */
 	function getTabs($a_activate = "")
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$ilCtrl->setParameterByClass("ilobjbloggui", "blpg", $this->getBlogPosting()->getId());
 
@@ -344,7 +386,9 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	 */
 	function deleteBlogPostingConfirmationScreen()
 	{
-		global $tpl, $ilCtrl, $lng;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		if ($this->checkAccess("write") || $this->checkAccess("contribute"))
 		{
@@ -379,7 +423,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	 */
 	function cancelBlogPostingDeletion()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$ilCtrl->redirect($this, "preview");
 	}
@@ -389,7 +433,8 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	*/
 	function confirmBlogPostingDeletion()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		if ($this->checkAccess("write") || $this->checkAccess("contribute"))
 		{			
@@ -411,7 +456,8 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	
 	function editTitle($a_form = null)
 	{
-		global $tpl, $ilTabs;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
 		
 		$ilTabs->activateTab("edit");
 		
@@ -425,7 +471,8 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	
 	function updateTitle()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$form = $this->initTitleForm();
 		if($form->checkInput())
@@ -446,7 +493,8 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	
 	function initTitleForm()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
 		$form = new ilPropertyFormGUI();
@@ -467,7 +515,8 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	
 	function editDate($a_form = null)
 	{
-		global $tpl, $ilTabs;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
 		
 		$ilTabs->activateTab("edit");
 		
@@ -481,7 +530,8 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	
 	function updateDate()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$form = $this->initDateForm();
 		if($form->checkInput())
@@ -503,7 +553,8 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	
 	function initDateForm()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
 		$form = new ilPropertyFormGUI();
@@ -537,7 +588,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	
 	protected function getActivationCaptions()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		return array("deactivatePage" => $lng->txt("blog_toggle_draft"),
 				"activatePage" => $lng->txt("blog_toggle_final"));
@@ -590,7 +641,8 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	
 	function editKeywords(ilPropertyFormGUI $a_form = null)
 	{
-		global $ilTabs, $tpl;
+		$ilTabs = $this->tabs;
+		$tpl = $this->tpl;
 		
 		if (!$this->checkAccess("contribute"))
 		{
@@ -609,7 +661,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	
 	protected function initKeywordsForm()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();		
@@ -857,7 +909,19 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 			(int)round($src_width*$shrink_ratio), 
 			(int)round($src_height*$shrink_ratio)
 		);
-	}	
+	}
+
+	/**
+	 * Get disabled text
+	 *
+	 * @param
+	 * @return
+	 */
+	function getDisabledText()
+	{
+		return $this->lng->txt("blog_draft_text");
+	}
+
 }
 
 ?>

@@ -1,11 +1,5 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once "./Services/Container/classes/class.ilContainer.php";
-require_once("./Modules/OrgUnit/classes/class.ilOrgUnitImporter.php");
-require_once('./Modules/OrgUnit/classes/Types/class.ilOrgUnitType.php');
-require_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
-require_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
-require_once('./Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php');
 
 /**
  * Class ilObjOrgUnit
@@ -478,11 +472,13 @@ class ilObjOrgUnit extends ilContainer {
 		global $DIC;
 		$ilAppEventHandler = $DIC['ilAppEventHandler'];
 
-		include_once './Services/AccessControl/classes/class.ilObjRole.php';
-		$role_emp = ilObjRole::createDefaultRole('il_orgu_employee_'
-		                                         . $this->getRefId(), "Emplyee of org unit obj_no."
-		                                                              . $this->getId(), 'il_orgu_superior', $this->getRefId());
 
+        $role_emp = new ilObjRole();
+        $role_emp->setTitle("il_orgu_employee_" . $this->getRefId());
+        $role_emp->setDescription("Emplyee of org unit obj_no." . $this->getId());
+        $role_emp->create();
+        $GLOBALS['rbacadmin']->assignRoleToFolder($role_emp->getId(),$this->getRefId(),'y');
+        
 		$role_sup = ilObjRole::createDefaultRole('il_orgu_superior_'
 		                                         . $this->getRefId(), "Superior of org unit obj_no."
 		                                                              . $this->getId(), 'il_orgu_superior', $this->getRefId());
@@ -585,7 +581,6 @@ class ilObjOrgUnit extends ilContainer {
 		}
 
 		// put here category specific stuff
-		include_once('./Services/User/classes/class.ilObjUserFolder.php');
 		ilObjUserFolder::_updateUserFolderAssignment($this->ref_id, USER_FOLDER_ID);
 
 		$query = "DELETE FROM object_translation WHERE obj_id = "

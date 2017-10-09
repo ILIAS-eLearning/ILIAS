@@ -12,6 +12,29 @@ include_once "Modules/Exercise/classes/class.ilExcCriteria.php";
  */
 class ilExcCriteriaFile extends ilExcCriteria
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		global $DIC;
+		parent::__construct();
+
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+	}
+
 	public function getType()
 	{
 		return "file";
@@ -85,7 +108,7 @@ class ilExcCriteriaFile extends ilExcCriteria
 		
 	public function validate($a_value)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		// because of deletion flag we have to also check ourselves
 		if($this->isRequired())
@@ -119,7 +142,7 @@ class ilExcCriteriaFile extends ilExcCriteria
 	
 	public function getHTML($a_value)
 	{		
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$crit_id = $this->getId()
 			? $this->getId()

@@ -29,6 +29,10 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
 	*/
 	function __construct(ilAdvancedMDRecord $a_record, $a_decorator_callback = null)
 	{		
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
 		parent::__construct();
 						
 		$this->record = $a_record;		
@@ -79,7 +83,7 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$next_class = $ilCtrl->getNextClass();
 		$cmd = $ilCtrl->getCmd("getHTML");
@@ -96,7 +100,7 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
 	*/
 	function fillDataSection()
 	{		
-		global $lng;
+		$lng = $this->lng;
 		
 		$btpl = new ilTemplate("tpl.advmd_block.html", true, true, "Services/Object");		
 		

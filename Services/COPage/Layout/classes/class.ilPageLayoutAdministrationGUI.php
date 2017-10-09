@@ -418,7 +418,8 @@ class ilPageLayoutAdministrationGUI
 	 */
 	function savePageLayoutTypes()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		include_once("./Services/COPage/Layout/classes/class.ilPageLayout.php");
 

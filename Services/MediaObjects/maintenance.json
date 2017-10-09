@@ -4,8 +4,8 @@
     "second_maintainer": "",
     "implicit_maintainers": [],
     "coordinator": "",
-    "tester": "",
-    "testcase_writer": "",
+    "tester": "kunkel(115)",
+    "testcase_writer": "kunkel(115)",
     "path": "Services/MediaObjects",
     "belong_to_component": "Media Objects",
     "used_in_components": []

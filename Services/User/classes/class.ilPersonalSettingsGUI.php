@@ -6,7 +6,7 @@
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
- * @ilCtrl_Calls ilPersonalSettingsGUI:
+ * @ilCtrl_Calls ilPersonalSettingsGUI: ilMailOptionsGUI
  */
 class ilPersonalSettingsGUI
 {
@@ -44,12 +44,27 @@ class ilPersonalSettingsGUI
 	*/
 	function executeCommand()
 	{
-		global $ilUser, $ilCtrl, $tpl, $ilTabs, $lng;
-		
+		global $DIC;
+
 		$next_class = $this->ctrl->getNextClass();
 
 		switch($next_class)
 		{
+			case 'ilmailoptionsgui':
+				require_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
+				if(!$DIC->rbac()->system()->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId()))
+				{
+					$this->ilias->raiseError($DIC->language()->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+				}
+
+				$this->__initSubTabs('showMailOptions');
+				$DIC->tabs()->activateTab('mail_settings');
+				$this->setHeader();
+
+				require_once 'Services/Mail/classes/class.ilMailOptionsGUI.php';
+				$this->ctrl->forwardCommand(new ilMailOptionsGUI());
+				break;
+
 			case 'ilpersonalchatsettingsformgui':
 				$this->__initSubTabs($this->ctrl->getCmd());
 				$this->setHeader();
@@ -67,186 +82,6 @@ class ilPersonalSettingsGUI
 		return true;
 	}
 
-	/** 
-	 * Called if the user pushes the submit button of the mail options form.
-	 * Passes the post data to the mail options model instance to store them.
-	 */
-	public function saveMailOptions()
-	{
-		/**
-		 * @var $ilTabs ilTabsGUI
-		 * @var $lng ilLanguage
-		 * @var $rbacsystem ilRbacSystem
-		 * @var $ilUser ilObjUser
-		 * @var $ilSetting ilSetting
-		 */
-		global $ilUser, $lng, $ilTabs, $ilSetting, $rbacsystem;
-
-		include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
-		if(!$rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId()))
-		{
-			$this->ilias->raiseError($lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
-		}
-		
-		$lng->loadLanguageModule('mail');
-		
-		$this->__initSubTabs('showMailOptions');
-		$ilTabs->activateTab('mail_settings');
-		
-		$this->setHeader();
-		
-		require_once 'Services/Mail/classes/class.ilMailOptions.php';
-		$mailOptions = new ilMailOptions($ilUser->getId());
-		if($ilSetting->get('usr_settings_hide_mail_incoming_mail') != '1' && 
-		   $ilSetting->get('usr_settings_disable_mail_incoming_mail') != '1')
-		{
-			$incoming_type = (int)$_POST['incoming_type'];
-		}
-		else
-		{
-			$incoming_type = $mailOptions->getIncomingType();
-		}			
-		
-		$this->initMailOptionsForm();
-		if($this->form->checkInput())
-		{		
-			$mailOptions->updateOptions(
-				ilUtil::stripSlashes($_POST['signature']),
-				(int)$_POST['linebreak'],
-				$incoming_type,
-				(int)$_POST['cronjob_notification']
-			);
-			
-			ilUtil::sendSuccess($lng->txt('mail_options_saved'));			
-		}
-		
-		if(!isset($_POST['incoming_type']))
-		{
-			$_POST['incoming_type'] = $mailOptions->getIncomingType();
-		}
-		
-		$this->form->setValuesByPost();
-		
-		$this->tpl->setContent($this->form->getHTML());
-		$this->tpl->show();
-	}
-
-	/** 
-	 * Initialises the mail options form
-	 */
-	private function initMailOptionsForm()
-	{
-		global $ilCtrl, $ilSetting, $lng, $ilUser;	
-		
-		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-		$this->form = new ilPropertyFormGUI();
-		
-		$this->form->setFormAction($ilCtrl->getFormAction($this, 'saveMailOptions'));
-		$this->form->setTitle($lng->txt('mail_settings'));
-			
-		// BEGIN INCOMING
-		include_once 'Services/Mail/classes/class.ilMailOptions.php';
-		if($ilSetting->get('usr_settings_hide_mail_incoming_mail') != '1')
-		{
-			$options = array(
-				IL_MAIL_LOCAL => $this->lng->txt('mail_incoming_local'), 
-				IL_MAIL_EMAIL => $this->lng->txt('mail_incoming_smtp'),
-				IL_MAIL_BOTH => $this->lng->txt('mail_incoming_both')
-			);
-			$si = new ilSelectInputGUI($lng->txt('mail_incoming'), 'incoming_type');
-			$si->setOptions($options);
-			if(!strlen(ilObjUser::_lookupEmail($ilUser->getId())) ||
-			   $ilSetting->get('usr_settings_disable_mail_incoming_mail') == '1')
-			{
-				$si->setDisabled(true);	
-			}
-			$this->form->addItem($si);
-		}
-		
-		// BEGIN LINEBREAK_OPTIONS
-		$options = array();
-		for($i = 50; $i <= 80; $i++)
-		{
-			$options[$i] = $i; 
-		}	
-		$si = new ilSelectInputGUI($lng->txt('linebreak'), 'linebreak');
-		$si->setOptions($options);			
-		$this->form->addItem($si);
-		
-		// BEGIN SIGNATURE
-		$ta = new ilTextAreaInputGUI($lng->txt('signature'), 'signature');
-		$ta->setRows(10);
-		$ta->setCols(60);			
-		$this->form->addItem($ta);
-		
-		// BEGIN CRONJOB NOTIFICATION
-		if($ilSetting->get('mail_notification'))
-		{
-			$cb = new ilCheckboxInputGUI($lng->txt('cron_mail_notification'), 'cronjob_notification');			
-			$cb->setInfo($lng->txt('mail_cronjob_notification_info'));
-			$cb->setValue(1);
-			$this->form->addItem($cb);
-		}		
-		
-		$this->form->addCommandButton('saveMailOptions', $lng->txt('save'));
-	}
-	
-	/** 
-	 * Fetches data from model and loads this data into form
-	 */
-	private function setMailOptionsValuesByDB()
-	{
-		global $ilUser, $ilSetting;		
-		
-		require_once 'Services/Mail/classes/class.ilMailOptions.php';
-		$mailOptions = new ilMailOptions($ilUser->getId());
-		
-		$data = array(
-			'linebreak' => $mailOptions->getLinebreak(),
-			'signature' => $mailOptions->getSignature(),
-			'cronjob_notification' => $mailOptions->getCronjobNotification()
-		);
-		
-		if($ilSetting->get('usr_settings_hide_mail_incoming_mail') != '1')
-		{		
-			$data['incoming_type'] = $mailOptions->getIncomingType();
-		}
-		
-		$this->form->setValuesByArray($data);
-	}
-
-	/** 
-	 * Called to display the mail options form
-	 */
-	public function showMailOptions()
-	{
-		/**
-		 * @var $ilTabs ilTabsGUI
-		 * @var $lng ilLanguage
-		 * @var $rbacsystem ilRbacSystem
-		 */
-		global $ilTabs, $lng, $rbacsystem;
-
-		include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
-		if(!$rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId()))
-		{
-			$this->ilias->raiseError($lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
-		}
-		
-		$lng->loadLanguageModule('mail');
-		
-		$this->__initSubTabs('showMailOptions');
-		$ilTabs->activateTab('mail_settings');
-
-		$this->setHeader();
-
-		$this->initMailOptionsForm();
-		$this->setMailOptionsValuesByDB();
-
-		$this->tpl->setContent($this->form->getHTML());
-		$this->tpl->show();
-	}
-
 	// init sub tabs
 	function __initSubTabs($a_cmd)
 	{
@@ -259,7 +94,6 @@ class ilPersonalSettingsGUI
 		
 		$showPassword = ($a_cmd == 'showPassword') ? true : false;
 		$showGeneralSettings = ($a_cmd == 'showGeneralSettings') ? true : false;
-		$showMailOptions = ($a_cmd == 'showMailOptions') ? true : false;
 
 		// old profile
 
@@ -268,16 +102,19 @@ class ilPersonalSettingsGUI
 			"", "", "", $showGeneralSettings);
 
 		// password
-		if ($this->allowPasswordChange())
+		if ($this->allowPasswordChange() && !ilSession::get('used_external_auth'))
 		{
 			$ilTabs->addTarget("password", $this->ctrl->getLinkTarget($this, "showPassword"),
 				"", "", "", $showPassword);
 		}
 
-		include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
+		require_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
 		if($rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId()))
 		{
-			$ilTabs->addTarget("mail_settings", $this->ctrl->getLinkTarget($this, "showMailOptions"), "", "", "", $showMailOptions);
+			$ilTabs->addTarget(
+				"mail_settings",
+				$this->ctrl->getLinkTargetByClass('ilMailOptionsGUI'), "", array('ilMailOptionsGUI')
+			);
 		}
 
 		require_once 'Modules/Chatroom/classes/class.ilPersonalChatSettingsFormGUI.php';
@@ -594,12 +431,8 @@ class ilPersonalSettingsGUI
 	*/
 	function showGeneralSettings($a_no_init = false)
 	{
-		global $ilTabs, $ilToolbar, $ilCtrl;
-		
-		// test to other base class
-//		$ilToolbar->addButton("test",
-//			$ilCtrl->getLinkTargetByClass(array("ilmailgui","ilmailformgui"), "mailUser"));
-		
+		global $ilTabs;
+
 		$this->__initSubTabs("showPersonalData");
 		$ilTabs->activateTab("general_settings");
 

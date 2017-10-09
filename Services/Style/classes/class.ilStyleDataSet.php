@@ -39,6 +39,9 @@ class ilStyleDataSet extends ilDataSet
 	 */
 	function __construct()
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		parent::__construct();
 		$this->log = ilLoggerFactory::getLogger('styl');
 		$this->log->debug("constructed");
@@ -240,7 +243,7 @@ class ilStyleDataSet extends ilDataSet
 	 */
 	function readData($a_entity, $a_version, $a_ids, $a_field = "")
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if (!is_array($a_ids))
 		{

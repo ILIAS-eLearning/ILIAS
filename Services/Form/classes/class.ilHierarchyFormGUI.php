@@ -14,13 +14,34 @@ include_once("./Services/Form/classes/class.ilFormGUI.php");
 class ilHierarchyFormGUI extends ilFormGUI
 {
 	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
 	* Constructor
 	*
 	* @param
 	*/
 	function __construct()
 	{
-		global $lng, $tpl;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->tpl = $DIC["tpl"];
+		$this->ctrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$tpl = $DIC["tpl"];
 		
 		$this->maxdepth = -1;
 		$this->multi_commands = array();
@@ -504,7 +525,7 @@ class ilHierarchyFormGUI extends ilFormGUI
 	*/
 	function getContent()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if ($this->getExpandVariable() != "")
 		{
@@ -702,7 +723,7 @@ class ilHierarchyFormGUI extends ilFormGUI
 	 */
 	function getLegend()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
 
@@ -746,7 +767,7 @@ class ilHierarchyFormGUI extends ilFormGUI
 	*/
 	function getLevelHTML($a_par_node, $a_depth, &$a_childs)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if ($this->getMaxDepth() > -1 && $this->getMaxDepth() < $a_depth)
 		{
@@ -855,7 +876,7 @@ class ilHierarchyFormGUI extends ilFormGUI
 	*/
 	function renderChild($a_tpl, $a_child, $a_depth, $next_sibling = null)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		// image
 		$a_tpl->setCurrentBlock("img");
@@ -1056,7 +1077,7 @@ class ilHierarchyFormGUI extends ilFormGUI
 	*/
 	function getChildIconAlt($a_item)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		return $lng->txt($a_item["type"]);
 	}

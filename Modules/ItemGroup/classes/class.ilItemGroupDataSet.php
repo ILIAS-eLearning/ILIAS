@@ -76,7 +76,7 @@ class ilItemGroupDataSet extends ilDataSet
 	 */
 	function readData($a_entity, $a_version, $a_ids, $a_field = "")
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if (!is_array($a_ids))
 		{
@@ -151,10 +151,6 @@ class ilItemGroupDataSet extends ilDataSet
 	 */
 	function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
 	{
-		global $ilLog;
-		
-//echo $a_entity;
-//var_dump($a_rec);
 
 		switch ($a_entity)
 		{
@@ -189,7 +185,6 @@ class ilItemGroupDataSet extends ilDataSet
 					$itgri->setItemGroupId($this->current_obj->getId());
 					$itgri->read();
 					$itgri->addItem($ref_id);
-//$ilLog->write("Adding item with ref id -".$ref_id."- to group with id -".$this->current_obj->getId()."-.");
 					$itgri->update();
 				}
 				break;

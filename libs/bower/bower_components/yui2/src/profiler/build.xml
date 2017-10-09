@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="YuiBuildProfiler" default="local">
+    <description>Profiler Build File</description>
+    <property file="build.properties" />
+    <import file="${builddir}/2.x/bootstrap.xml" />
+</project>

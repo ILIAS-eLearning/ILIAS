@@ -11,6 +11,11 @@
  */
 class ilBookingObject
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	protected $id;			// int
 	protected $pool_id;		// int
 	protected $title;		// string
@@ -30,6 +35,9 @@ class ilBookingObject
 	 */
 	function __construct($a_id = NULL)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		$this->id = (int)$a_id;
 		$this->read();
 	}
@@ -348,7 +356,7 @@ class ilBookingObject
 	 */
 	protected function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if($this->id)
 		{
@@ -392,7 +400,7 @@ class ilBookingObject
 	 */
 	function save()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if($this->id)
 		{
@@ -414,7 +422,7 @@ class ilBookingObject
 	 */
 	function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if(!$this->id)
 		{
@@ -435,7 +443,9 @@ class ilBookingObject
 	 */
 	static function getList($a_pool_id, $a_title = null)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$sql = 'SELECT *'.
 			' FROM booking_object'.
@@ -464,7 +474,7 @@ class ilBookingObject
 	 */
 	function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if($this->id)
 		{
@@ -482,7 +492,9 @@ class ilBookingObject
 	 */
 	static function getNrOfItemsForObjects(array $a_obj_ids)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$map = array();
 		

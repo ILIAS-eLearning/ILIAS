@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="YuiBuildSimpleEditor" default="local">
+
+    <description>SimpleEditor Build File</description>
+    <property file="build.simple.properties" />
+    <import file="${builddir}/2.x/bootstrap.xml" />
+
+    <target name="simpleeditor_build_subtask" depends="build, minify" />
+
+    <target name="-concatskins">
+        <concatsource destfile="${component.builddir}/assets/skins/sam/${component}.css" sourcedir="${component.assets.base}" sourcefiles="editor-core.css, skins/sam/editor-skin.css" />
+        <yuicompress src="${component.builddir}/assets/skins/sam/${component}.css" dest="${component.builddir}/assets/skins/sam/${component}.css" args="${yuicompressor.css.args.internal}" />
+    </target>
+
+    <target name="simpleeditor_deployskins_subtask">
+        <copy file="${global.build.component.assets}/skins/sam/editor-skin.css" 
+          tofile="${global.build.component.assets}/skins/sam/${component}-skin.css" preservelastmodified="true" />
+
+        <copy file="${global.build.component.assets}/editor-core.css" 
+          tofile="${global.build.component.assets}/${component}-core.css" preservelastmodified="true" />
+
+        <copy file="${component.builddir}/assets/skins/sam/${component}.css" 
+          tofile="${global.build.component.assets}/skins/sam/${component}.css" preservelastmodified="true" />
+    </target>
+</project>

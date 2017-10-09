@@ -1,7 +1,4 @@
 <?php
-require_once ('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
-require_once('./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecordRepresentation.php');
-require_once('./Modules/DataCollection/classes/Fields/Fileupload/class.ilDclFileuploadRecordRepresentation.php');
 
 /**
  * Class ilDclMobRecordRepresentation

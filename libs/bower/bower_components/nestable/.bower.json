@@ -1,0 +1,13 @@
+{
+  "name": "nestable",
+  "homepage": "https://github.com/dbushell/Nestable",
+  "_release": "9132dea0d6",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "9132dea0d69b280178522668c78193a72c1bb5e9"
+  },
+  "_source": "https://github.com/dbushell/Nestable.git",
+  "_target": "*",
+  "_originalSource": "nestable"
+}

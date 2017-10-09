@@ -12,6 +12,12 @@
  */
 class ilVirtualSkillTree
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	protected static $order_node_data = null;
 	protected $include_drafts = false;
 	protected $drafts = array();
 	protected $include_outdated = false;
@@ -22,6 +28,9 @@ class ilVirtualSkillTree
 	 */
 	public function __construct()
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		include_once("./Services/Skill/classes/class.ilSkillTree.php");
 		$this->tree = new ilSkillTree();
 	}
@@ -289,7 +298,7 @@ class ilVirtualSkillTree
 	 */
 	function getNodeTitle($a_node)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$a_parent_id_parts = explode(":", $a_node["id"]);
 		$a_parent_skl_tree_id = $a_parent_id_parts[0];
@@ -388,6 +397,104 @@ class ilVirtualSkillTree
 	function isOutdated($a_node_id)
 	{
 		return in_array($a_node_id, $this->outdated);
+	}
+
+	/**
+	 * Get ordererd nodeset for common skill ids
+	 *
+	 * @param string[]|array[] $c_skill_ids string of "skill_id:tref_id" skill ids or an array
+	 * @param string $a_skill_id_key if first parameter is array[], this string identifies the key of the basic skill id
+	 * @param string $a_tref_id_key if first parameter is array[], this string identifies the key of the tref id
+	 * @return string[]|array[]
+	 */
+	function getOrderedNodeset($c_skill_ids, $a_skill_id_key = "", $a_tref_id_key = "")
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+
+		if (self::$order_node_data == null)
+		{
+			$node_data = array();
+			$set = $db->query("SELECT t.child, t.parent, t.lft, n.order_nr FROM skl_tree t JOIN skl_tree_node n ON (t.child = n.obj_id)");
+			while ($rec = $db->fetchAssoc($set))
+			{
+				$node_data[$rec["child"]] = array(
+					"parent" => $rec["parent"],
+					"lft" => $rec["lft"],
+					"order_nr" => $rec["order_nr"],
+				);
+			}
+			self::$order_node_data = $node_data;
+		}
+		else
+		{
+			$node_data = self::$order_node_data;
+		}
+
+		uasort($c_skill_ids, function ($a, $b) use ($node_data, $a_skill_id_key, $a_tref_id_key) {
+
+			// normalize to cskill strings
+			if (is_array($a))
+			{
+				$cskilla = $a[$a_skill_id_key].":".$a[$a_tref_id_key];
+				$cskillb = $b[$a_skill_id_key].":".$b[$a_tref_id_key];
+			}
+			else
+			{
+				$cskilla = $a;
+				$cskillb = $b;
+			}
+
+			// get vtree ids
+			$vida = explode(":", $this->getVTreeIdForCSkillId($cskilla));
+			$vidb = explode(":", $this->getVTreeIdForCSkillId($cskillb));
+
+			$ua = $this->getFirstUncommonAncestors($vida[0], $vidb[0], $node_data);
+			if (is_array($ua))
+			{
+				return ($node_data[$ua[0]]["order_nr"] - $node_data[$ua[1]]["order_nr"]);
+			}
+			// if we did not find a first uncommon ancestor, we are in the same node in the
+			// main tree, here, if we have tref ids, we let the template tree decide
+			if ($vida[1] > 0 && $vidb[1] > 0)
+			{
+				$ua = $this->getFirstUncommonAncestors($vida[1], $vidb[1], $node_data);
+				if (is_array($ua))
+				{
+					return ($node_data[$ua[0]]["order_nr"] - $node_data[$ua[1]]["order_nr"]);
+				}
+			}
+
+			return 0;
+		});
+		
+		return $c_skill_ids;
+	}
+
+	// get path in node data
+	protected function getPath($a, $node_data) {
+		$path[] = $a;
+		while($node_data[$a]["parent"] != 0)
+		{
+			$a = $node_data[$a]["parent"];
+			$path[] = $a;
+		}
+		return array_reverse($path);
+	}
+
+	// get first uncommon ancestors of $a and $b in $node_data
+	protected function getFirstUncommonAncestors($a, $b, $node_data) {
+		$path_a = $this->getPath($a, $node_data);
+		$path_b = $this->getPath($b, $node_data);
+		foreach ($path_a as $k => $v)
+		{
+			if ($v != $path_b[$k])
+			{
+				return array($v, $path_b[$k]);
+			}
+		}
+		return false;
 	}
 
 }

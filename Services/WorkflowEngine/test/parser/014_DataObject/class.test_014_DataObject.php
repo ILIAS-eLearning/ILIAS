@@ -1,13 +1,15 @@
 <?php
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Services/WorkflowEngine/test/ilWorkflowEngineBaseTest.php';
+
 /**
  * @author Maximilian Becker <mbecker@databay.de>
  * @version $Id$
  *
  * @ingroup Services/WorkflowEngine
  */
-class test_014_DataObject extends PHPUnit_Framework_TestCase
+class test_014_DataObject extends ilWorkflowEngineBaseTest
 {
 	#region Helper
 	public $base_path = './Services/WorkflowEngine/test/parser/';
@@ -32,6 +34,8 @@ class test_014_DataObject extends PHPUnit_Framework_TestCase
 	{
 		chdir( dirname( __FILE__ ) );
 		chdir( '../../../../../' );
+
+		parent::setUp();
 
 		require_once './Services/WorkflowEngine/classes/parser/class.ilBPMN2Parser.php';
 	}

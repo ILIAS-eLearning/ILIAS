@@ -16,7 +16,7 @@ require_once 'Modules/Chatroom/classes/class.ilChatroomConfigFileHandler.php';
 class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 {
 
-	const CHATROOM_README_PATH = '/Modules/Chatroom/chat/README.txt';
+	const CHATROOM_README_PATH = '/Modules/Chatroom/chat/README.md';
 
 	/**
 	 * @var ilSetting
@@ -34,11 +34,11 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 	 */
 	public function __construct(ilChatroomObjectGUI $gui)
 	{
-		global $tpl;
+		global $DIC;
 
 		parent::__construct($gui);
 		$this->commonSettings = new ilSetting('common');
-		$this->ilTpl          = $tpl;
+		$this->ilTpl          = $DIC->ui()->mainTemplate();
 	}
 
 	/**
@@ -100,7 +100,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 	 */
 	public function serversettings(ilPropertyFormGUI $form = null)
 	{
-		ilChatroom::checkUserPermissions('read', $this->gui->ref_id);
+		$this->redirectIfNoPermission('read');
 
 		$this->defaultActions();
 		$this->gui->switchToVisibleMode();
@@ -274,7 +274,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 	 */
 	public function clientsettings(ilPropertyFormGUI $form = null)
 	{
-		ilChatroom::checkUserPermissions('read', $this->gui->ref_id);
+		$this->redirectIfNoPermission('read');
 
 		$this->defaultActions();
 		$this->gui->switchToVisibleMode();

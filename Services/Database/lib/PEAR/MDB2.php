@@ -1409,7 +1409,13 @@ class MDB2_Driver_Common extends PEAR
      * @access  public
      * @see     PEAR_Error
      */
-    function &raiseError($code = null, $mode = null, $options = null, $userinfo = null, $method = null)
+    function &raiseError($message = null,
+	    $code = null,
+	    $mode = null,
+	    $options = null,
+	    $userinfo = null,
+	    $error_class = null,
+	    $skipmsg = false)
     {
         $userinfo = "[Error message: $userinfo]\n";
         // The error is yet a MDB2 error object

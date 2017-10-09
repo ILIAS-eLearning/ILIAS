@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Table/classes/class.ilTable2GUI.php';
-
 /**
  * Settings for LO courses
  * 
@@ -171,8 +169,6 @@ class ilObjectTableGUI extends ilTable2GUI
 			$set[$counter]['title'] = ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id));
 			$counter++;
 		}
-		$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($set,TRUE));
-		
 		$this->setData($set);
 	}
 }

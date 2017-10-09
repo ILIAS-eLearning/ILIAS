@@ -59,19 +59,15 @@ class ilForumExplorerGUI extends ilExplorerBaseGUI
 	 */
 	public function __construct($a_expl_id, $a_parent_obj, $a_parent_cmd)
 	{
-		/**
-		 * @var $tpl    ilTemplate
-		 * @var $ilCtrl ilCtrl
-		 */
-		global $tpl, $ilCtrl;
+		global $DIC;
 
 		parent::__construct($a_expl_id, $a_parent_obj, $a_parent_cmd);
 
 		$this->setSkipRootNode(false);
 		$this->setAjax(true);
 
-		$this->tpl  = $tpl;
-		$this->ctrl = $ilCtrl;
+		$this->tpl  = $DIC->ui()->mainTemplate();
+		$this->ctrl = $DIC->ctrl();
 
 		$frm               = new ilForum();
 		$this->max_entries = (int)$frm->getPageHits();

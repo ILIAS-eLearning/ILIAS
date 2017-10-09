@@ -53,17 +53,22 @@ class ilSoapUtils extends ilSoapAdministration
 		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
-		}			
-
-		include_once 'Services/Mail/classes/class.ilMimeMail.php';
-
-		if(strpos($sender, '#:#') !== false)
-		{
-			$sender = explode('#:#', $sender);
 		}
 
+		/** @var ilMailMimeSenderFactory $senderFactory */
+		$senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
+
+		if(is_numeric($sender))
+		{
+			$sender = $senderFactory->getSenderByUsrId($sender);
+		}
+		else
+		{
+			$sender = $senderFactory->userByEmailAddress($sender);
+		}
+
+		require_once 'Services/Mail/classes/class.ilMimeMail.php';
 		$mmail = new ilMimeMail();
-		$mmail->autoCheck(false);
 		$mmail->From($sender);
 		$mmail->To(explode(',',$to));
 		$mmail->Subject($subject);
@@ -284,7 +289,8 @@ class ilSoapUtils extends ilSoapAdministration
 				break;
 			
 			case ilCopyWizardOptions::COPY_WIZARD_LINK:
-				ilLoggerFactory::getLogger('obj')->debug(': Nothing to do for node: '.$node['obj_id'].', '.$node['title'].', '.$node['type']);
+				ilLoggerFactory::getLogger('obj')->debug(': Start cloning dependencies for node: '.$node['obj_id'].', '.$node['title'].', '.$node['type']);
+				$this->cloneDependencies($node, $cp_options);
 				$this->callNextDependency($sid,$cp_options);
 				break;
 				

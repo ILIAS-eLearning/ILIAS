@@ -54,7 +54,9 @@ class ilFileUtils
 	 
 	public static function processZipFile ($a_directory, $a_file, $structure, $ref_id = null, $containerType = null, $tree = null, $access_handler = null) {
 
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		self::$new_files = array();
 				
@@ -152,7 +154,9 @@ class ilFileUtils
 	 */	
 	public static function recursive_dirscan($dir, &$arr)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 
 		$dirlist = opendir($dir);
 	  	while (false !== ($file = readdir ($dirlist)))
@@ -240,7 +244,7 @@ class ilFileUtils
 	 * @param string $containerType Fold or Cat
 	 * @return integer ref_id of containerobject
 	 */
-	function createContainer($name, $ref_id, $containerType, $tree = null, $access_handler = null) 
+	public static function createContainer($name, $ref_id, $containerType, $tree = null, $access_handler = null)
 	{
 		switch($containerType)
 		{
@@ -274,7 +278,9 @@ class ilFileUtils
 			
 			if ($newObj->getType() == "cat") 
 			{
-				global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 				$newObj->addTranslation($name,"", $lng->getLangKey(), $lng->getLangKey());
 			}
 			
@@ -303,7 +309,11 @@ class ilFileUtils
 	 */
 	public static function createFile ($filename, $path, $ref_id, $tree = null, $access_handler = null)
 	{
-		global $rbacsystem, $lng, $ilErr;
+		global $DIC;
+
+		$rbacsystem = $DIC->rbac()->system();
+		$lng = $DIC->language();
+		$ilErr = $DIC["ilErr"];
 		
 		if(!$access_handler)
 		{

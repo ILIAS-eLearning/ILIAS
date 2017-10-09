@@ -9,9 +9,13 @@
 */
 class ilScorm2004Export
 {
+	/**
+	 * @var Logger
+	 */
+	protected $log;
+
 	private $err;			// error object
 	private $db;			// database object
-	private $ilias;			// ilias object
 	private $cont_obj;		// content object (learning module or sco)
 	private $cont_obj_id;	// content object id (learning module or sco)
 	private $inst_id;		// installation id
@@ -31,7 +35,13 @@ class ilScorm2004Export
 	*/
 	function __construct(&$a_cont_obj, $a_mode = "SCORM 2004 3rd")
 	{
-		global $ilErr, $ilDB, $ilias;
+		global $DIC;
+
+		$this->settings = $DIC->settings();
+		$this->log = $DIC["ilLog"];
+		$ilErr = $DIC["ilErr"];
+		$ilDB = $DIC->database();
+		$ilSetting = $DIC->settings();
 
 		$this->export_types = array("SCORM 2004 3rd","SCORM 2004 4th","SCORM 1.2","HTML","ISO","PDF",
 			"HTMLOne");
@@ -42,11 +52,10 @@ class ilScorm2004Export
 		$this->cont_obj = $a_cont_obj;
 
 		$this->err = $ilErr;
-		$this->ilias = $ilias;
 		$this->db = $ilDB;
 		$this->mode = $a_mode;
 
-		$settings = $this->ilias->getAllSettings();
+		$settings = $ilSetting->getAll();
 
 		$this->inst_id = IL_INST_ID;
 
@@ -157,9 +166,6 @@ class ilScorm2004Export
 	*/
 	function buildExportFileSCORM($ver)
 	{
-		global $ilBench;
-
-		$ilBench->start("ContentObjectExport", "buildExportFile");
 
         // init the mathjax rendering for HTML export
 		include_once './Services/MathJax/classes/class.ilMathJax.php';
@@ -181,19 +187,14 @@ class ilScorm2004Export
 
 		// get xml content
 		
-		$ilBench->start("ContentObjectExport", "buildExportFile_getXML");
 		$this->cont_obj->exportScorm($this->inst_id, $this->export_dir."/".$this->subdir, $ver, $expLog);
-		$ilBench->stop("ContentObjectExport", "buildExportFile_getXML");
 
 		// zip the file
-		$ilBench->start("ContentObjectExport", "buildExportFile_zipFile");
 		ilUtil::zip($this->export_dir."/".$this->subdir, $this->export_dir."/".$this->subdir.".zip", true);
-		$ilBench->stop("ContentObjectExport", "buildExportFile_zipFile");
-		
+
 		ilUtil::delDir($this->export_dir."/".$this->subdir);
 		
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export");
-		$ilBench->stop("ContentObjectExport", "buildExportFile");
 
 		return $this->export_dir."/".$this->subdir.".zip";
 	}
@@ -272,9 +273,7 @@ class ilScorm2004Export
 	
 	function buildExportFileISO()
 	{
-		global $ilBench;
 		$result = "";
-		$ilBench->start("ContentObjectExport", "buildExportFile");
 
         // init the mathjax rendering for HTML export
 		include_once './Services/MathJax/classes/class.ilMathJax.php';
@@ -296,38 +295,23 @@ class ilScorm2004Export
 
 		// get xml content
 		
-		$ilBench->start("ContentObjectExport", "buildExportFile_getXML");
 		$this->cont_obj->exportHTML($this->inst_id, $this->export_dir."/".$this->subdir, $expLog);
-		$ilBench->stop("ContentObjectExport", "buildExportFile_getXML");
 
 		// zip the file
-		$ilBench->start("ContentObjectExport", "buildExportFile_zipFile");
 		if(ilUtil::CreateIsoFromFolder($this->export_dir."/".$this->subdir, $this->export_dir."/".$this->subdir.".iso"))
 		{
 			$result = $this->export_dir."/".$this->subdir.".iso";
 		}
-		$ilBench->stop("ContentObjectExport", "buildExportFile_zipFile");
-		
+
 		ilUtil::delDir($this->export_dir."/".$this->subdir);
 		
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export");
-		$ilBench->stop("ContentObjectExport", "buildExportFile");
 
 		return $result;
 	}
 	
 	function buildExportFilePDF()
 	{
-		global $ilBench;
-		/*include_once('./Services/WebServices/RPC/classes/class.ilRPCServerSettings.php');
-		$pp = ilRPCServerSettings::getInstance();
-		if(!$pp->isEnabled()||!$pp->pingServer())
-		{
-			$this->ilias->raiseError("Xml Rpc Server is not running. Check Administration/Webservices/Java-Server settings", $this->ilias->error_obj->MESSAGE);
-			return;
-		}*/
-
-		$ilBench->start("ContentObjectExport", "buildExportFile");
 
         // don't render mathjax before fo code is generated
 		include_once './Services/MathJax/classes/class.ilMathJax.php';
@@ -347,7 +331,6 @@ class ilScorm2004Export
 		$expLog->setLogFormat("");
 		$expLog->write(date("[y-m-d H:i:s] ")."Start Export");
 
-		$ilBench->start("ContentObjectExport", "buildExportFile_getXML");
 		$fo_string = $this->cont_obj->exportPDF($this->inst_id, $this->export_dir."/".$this->subdir, $expLog);
 		
         // now render mathjax for pdf generation
@@ -356,12 +339,10 @@ class ilScorm2004Export
 			->setRendering(ilMathJax::RENDER_PNG_AS_FO_FILE)
 			->insertLatexImages($fo_string);
 
-		$ilBench->stop("ContentObjectExport", "buildExportFile_getXML");
 
-		$ilBench->start("ContentObjectExport", "buildExportFile_pdfFile");
 		fputs(fopen($this->export_dir."/".$this->subdir.'/temp.fo','w+'),$fo_string);
 
-		global $ilLog;
+		$ilLog = $this->log;
 		include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
 		try
 		{
@@ -374,29 +355,29 @@ class ilScorm2004Export
 			ilUtil::sendFailure($e->getMessage(),true);
 			return false;
 		}   		
-		$ilBench->stop("ContentObjectExport", "buildExportFile_pdfFile");
-		
+
 		ilUtil::delDir($this->export_dir."/".$this->subdir);
 		
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export");
-		$ilBench->stop("ContentObjectExport", "buildExportFile");
 
 		return $this->export_dir."/".$this->subdir.".pdf";
 	}
 	
 	function createExportDirectory()
 	{
+		$ilErr = $this->err;
+
 		$lm_data_dir = ilUtil::getDataDir()."/lm_data";
 		if(!is_writable($lm_data_dir))
 		{
-			$this->ilias->raiseError("Content object Data Directory (".$lm_data_dir.") not writeable.",$this->ilias->error_obj->FATAL);
+			$ilErr->raiseError("Content object Data Directory (".$lm_data_dir.") not writeable.",$ilErr->FATAL);
 		}
 		// create learning module directory (data_dir/lm_data/lm_<id>)
 		$lm_dir = $lm_data_dir."/lm_".$this->module_id;
 		ilUtil::makeDir($lm_dir);
 		if(!@is_dir($lm_dir))
 		{
-			$this->ilias->raiseError("Creation of Learning Module Directory failed.",$this->ilias->error_obj->FATAL);
+			$ilErr->raiseError("Creation of Learning Module Directory failed.",$ilErr->FATAL);
 		}
 		
 		//$export_dir = $lm_dir."/export_".$this->mode;
@@ -404,7 +385,7 @@ class ilScorm2004Export
 
 		if(!@is_dir($this->export_dir))
 		{
-			$this->ilias->raiseError("Creation of Export Directory failed.",$this->ilias->error_obj->FATAL);
+			$ilErr->raiseError("Creation of Export Directory failed.",$ilErr->FATAL);
 		}
 	}
 	

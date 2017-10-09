@@ -6,12 +6,11 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'SimpleSAML' => array($vendorDir . '/simplesamlphp/simplesamlphp/lib'),
+    'SAML2_' => array($vendorDir . '/simplesamlphp/saml2/src'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log'),
     'Pimple' => array($vendorDir . '/pimple/pimple/src'),
     'PHPExcel' => array($vendorDir . '/phpoffice/phpexcel/Classes'),
     'LibRIS' => array($vendorDir . '/technosophos/LibRIS/src'),
     'HTMLPurifier' => array($vendorDir . '/ezyang/htmlpurifier/library'),
-    'GetId3' => array($vendorDir . '/phansys/getid3'),
-    'ComponentInstaller' => array($vendorDir . '/robloach/component-installer/src'),
-    'Assetic' => array($vendorDir . '/kriswallsmith/assetic/src'),
 );

@@ -18,16 +18,32 @@ require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
  */
 class ilPCPluggedGUI extends ilPageContentGUI
 {
+	/**
+	 * @var ilPluginAdmin
+	 */
+	protected $plugin_admin;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
 	protected $current_plugin = null;
 	
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function __construct(&$a_pg_obj, &$a_content_obj, $a_hier_id,
-		$a_plugin_name = "", $a_pc_id = "")
+	function __construct(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_plugin_name = "", $a_pc_id = "")
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->plugin_admin = $DIC["ilPluginAdmin"];
+		$this->tabs = $DIC->tabs();
+		$this->lng = $DIC->language();
+		$this->tpl = $DIC["tpl"];
+
 		$this->setPluginName($a_plugin_name);
 		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
@@ -57,7 +73,10 @@ class ilPCPluggedGUI extends ilPageContentGUI
 	*/
 	function executeCommand()
 	{
-		global $ilPluginAdmin, $ilTabs, $lng, $ilCtrl;
+		$ilPluginAdmin = $this->plugin_admin;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$ilTabs->setBackTarget($lng->txt("pg"), $ilCtrl->getLinkTarget($this, "returnToParent"));
 		
@@ -74,6 +93,7 @@ class ilPCPluggedGUI extends ilPageContentGUI
 			{
 				$plugin = $ilPluginAdmin->getPluginObject(IL_COMP_SERVICE,
 					"COPage", "pgcp", $pl_name);
+				$plugin->setPageObj($this->getPage());
 				$this->current_plugin = $plugin;
 				$this->setPluginName($pl_name);
 				$gui_obj = $plugin->getUIClassInstance();
@@ -106,7 +126,10 @@ class ilPCPluggedGUI extends ilPageContentGUI
 	 */
 	function edit($a_insert = false)
 	{
-		global $ilCtrl, $tpl, $lng, $ilPluginAdmin;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilPluginAdmin = $this->plugin_admin;
 		
 		$this->displayValidationError();
 		
@@ -123,6 +146,7 @@ class ilPCPluggedGUI extends ilPageContentGUI
         {
 			$plugin_obj = $ilPluginAdmin->getPluginObject(IL_COMP_SERVICE, "COPage",
 				"pgcp", $plugin_name);
+			$plugin_obj->setPageObj($this->getPage());
 			$gui_obj = $plugin_obj->getUIClassInstance();
 			$gui_obj->setPCGUI($this);
 			if ($a_insert)

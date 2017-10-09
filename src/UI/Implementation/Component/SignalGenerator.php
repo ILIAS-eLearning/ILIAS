@@ -14,14 +14,16 @@ class SignalGenerator implements SignalGeneratorInterface {
 	/**
 	 * @inheritdoc
 	 */
-	public function create() {
-		return new Signal($this->createId());
+	public function create($class = '') {
+		$id = $this->createId();
+		$instance = ($class) ? new $class($id) : new Signal($id);
+		return $instance;
 	}
 
 	/**
 	 * @return string
 	 */
 	protected function createId() {
-		return str_replace(".", "_", uniqid(self::PREFIX));
+		return str_replace(".", "_", uniqid(self::PREFIX, true));
 	}
 }

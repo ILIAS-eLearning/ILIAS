@@ -34,7 +34,9 @@ class ilPageEditorSettings
 	*/
 	static function writeSetting($a_grp, $a_name, $a_value)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$ilDB->manipulate("DELETE FROM page_editor_settings WHERE ".
 			"settings_grp = ".$ilDB->quote($a_grp, "text").
@@ -54,7 +56,9 @@ class ilPageEditorSettings
 	*/
 	static function lookupSetting($a_grp, $a_name, $a_default = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT value FROM page_editor_settings ".
 			" WHERE settings_grp = ".$ilDB->quote($a_grp, "text").

@@ -45,6 +45,11 @@ define ("IL_NO_HEADER", "none");
  */
 abstract class ilPageObject
 {
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
 	static $exists = array();
 
 	/**
@@ -75,7 +80,7 @@ abstract class ilPageObject
 	var $xml;
 	var $encoding;
 	var $node;
-	var $cur_dtd = "ilias_pg_5_2.dtd";
+	var $cur_dtd = "ilias_pg_5_3.dtd";
 	var $contains_int_link;
 	var $needs_parsing;
 	var $parent_type;
@@ -128,7 +133,7 @@ abstract class ilPageObject
 	final public function __construct($a_id = 0, $a_old_nr = 0, $a_lang = "-")
 	{
 		global $DIC;
-
+		$this->obj_definition = $DIC["objDefinition"];
 		$this->db = $DIC->database();
 		$this->user = $DIC->user();
 		$this->lng = $DIC->language();
@@ -153,7 +158,7 @@ abstract class ilPageObject
 		$this->encoding = "UTF-8";		
 		$this->id_elements =
 			array("PageContent", "TableRow", "TableData", "ListItem", "FileItem",
-				"Section", "Tab", "ContentPopup");
+				"Section", "Tab", "ContentPopup", "GridCell");
 		$this->setActive(true);
 		$this->show_page_act_info = false;
 		
@@ -1134,11 +1139,56 @@ abstract class ilPageObject
 		{
 			ilCOPagePCDef::requirePCClassByName($def["name"]);
 			$cl = $def["pc_class"];
-			$cl::handleCopiedContent($a_dom, $a_self_ass, $a_clone_mobs);
+			if ($cl == 'ilPCPlugged')
+			{
+				// the page object is provided for ilPageComponentPlugin
+				ilPCPlugged::handleCopiedPluggedContent($this, $a_dom);
+			}
+			else
+			{
+				$cl::handleCopiedContent($a_dom, $a_self_ass, $a_clone_mobs);
+			}
 		}
 		
 	}
-	
+
+	/**
+	 * Handle content before deletion
+	 * This currently treats only plugged content
+	 * If no node is given, then the whole dom will be scanned
+	 *
+	 * @param php4DOMNode|DOMNode|null	$a_node
+	 */
+	function handleDeleteContent($a_node = null)
+	{
+		if (!isset($a_node))
+		{
+			$xpc = xpath_new_context($this->dom);
+			$path = "//PageContent";
+			$res = xpath_eval($xpc, $path);
+			$nodes = $res->nodeset;
+		}
+		else
+		{
+			$nodes = array($a_node);
+		}
+
+		require_once('Services/COPage/classes/class.ilPCPlugged.php');
+		foreach ($nodes as $node)
+		{
+			if ($node instanceof php4DOMNode)
+			{
+				$node = $node->myDOMNode;
+			}
+
+			/** @var DOMElement $node */
+			if ($node->firstChild->nodeName == 'Plugged')
+			{
+				ilPCPlugged::handleDeletedPluggedNode($this, $node->firstChild);
+			}
+		}
+	}
+
 	/**
 	 * Replaces media objects in interactive images
 	 * with copies of the interactive images
@@ -2079,6 +2129,8 @@ abstract class ilPageObject
 			$old_id = $res->nodeset[$i]->get_attribute("OriginId");
 			$old_id = explode("_", $old_id);
 			$old_id = $old_id[count($old_id) - 1];
+			$new_id = "";
+			$import_id = "";
 			// get the new id from the current mapping
 			if ($a_mapping[$old_id] > 0)
 			{
@@ -2092,28 +2144,28 @@ abstract class ilPageObject
 					{
 						$new_id = $imp[3];
 					}
-
-					// now check, if the translation has been done just by changing text in the exported
-					// translation file
-					if ($import_id == "")
-					{
-						// if the old_id is also referred by the page content of the default language
-						// we assume that this media object is unchanged
-						include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-						$med_of_def_lang = ilObjMediaObject::_getMobsOfObject("lm:pg", $this->getId(), 0, "-");
-						if (in_array($old_id, $med_of_def_lang))
-						{
-							$new_id = $old_id;
-						}
-					}
 				}
-
+			}
+			// now check, if the translation has been done just by changing text in the exported
+			// translation file
+			if ($import_id == "" && $a_reuse_existing_by_import)
+			{
+				// if the old_id is also referred by the page content of the default language
+				// we assume that this media object is unchanged
+				include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+				$med_of_def_lang = ilObjMediaObject::_getMobsOfObject($this->getParentType().":pg", $this->getId(), 0, "-");
+				if (in_array($old_id, $med_of_def_lang))
+				{
+					$new_id = $old_id;
+				}
+			}
+			if ($new_id != "")
+			{
 				$res->nodeset[$i]->set_attribute("OriginId", "il__mob_".$new_id);
 				$changed = true;
 			}
 		}
 		unset($xpc);
-
 		return $changed;
 	}
 
@@ -2235,6 +2287,11 @@ abstract class ilPageObject
 				if ($type == "StructureObject" && ilLMObject::_lookupType($a_from_to[$obj_id]) == "st")
 				{
 					$res->nodeset[$i]->set_attribute("Target", "il__st_".$a_from_to[$obj_id]);
+					$changed = true;
+				}
+				if ($type == "PortfolioPage")
+				{
+					$res->nodeset[$i]->set_attribute("Target", "il__ppage_".$a_from_to[$obj_id]);
 					$changed = true;
 				}
 			}
@@ -2440,6 +2497,9 @@ abstract class ilPageObject
 	 */
 	function handleRepositoryLinksOnCopy($a_mapping, $a_source_ref_id)
 	{
+		$tree = $this->tree;
+		$objDefinition = $this->obj_definition;
+
 		$this->buildDom();
 		$this->log->debug("Handle repository links...");
 
@@ -2488,6 +2548,106 @@ abstract class ilPageObject
 			}
 		}
 		unset($xpc);
+
+		// resolve normal external links
+		$ilias_url = parse_url(ILIAS_HTTP_PATH);
+		$xpc = xpath_new_context($this->dom);
+		$path = "//ExtLink";
+		$res = xpath_eval($xpc, $path);
+		for($i = 0; $i < count($res->nodeset); $i++)
+		{
+			$href = $res->nodeset[$i]->get_attribute("Href");
+			$this->log->debug("Href: ".$href);
+
+			$url = parse_url($href);
+
+			// only handle links on same host
+			$this->log->debug("Host: ".$url["host"]);
+			if ($url["host"] != "" && $url["host"] != $ilias_url["host"])
+			{
+				continue;
+			}
+
+			// get parameters
+			$par = array();
+			foreach (explode("&", $url["query"]) as $p)
+			{
+				$p = explode("=", $p);
+				$par[$p[0]] = $p[1];
+			}
+
+			$target_client_id = $par["client_id"];
+			if ($target_client_id != "" && $target_client_id != CLIENT_ID)
+			{
+				continue;
+			}
+
+			// get ref id
+			$ref_id = 0;
+			if (is_int(strpos($href, "goto.php")))
+			{
+				$t = explode("_", $par["target"]);
+				if ($objDefinition->isRBACObject($t[0]))
+				{
+					$ref_id = (int) $t[1];
+					$type = $t[0];
+				}
+			}
+			else if (is_int(strpos($href, "ilias.php")))
+			{
+				$ref_id = (int) $par["ref_id"];
+			}
+
+
+			if ($ref_id > 0)
+			{
+				if (isset($a_mapping[$ref_id]))
+				{
+					$new_ref_id = $a_mapping[$ref_id];
+					$new_href = "";
+					// we have a mapping -> replace the ID
+					if (is_int(strpos($href, "goto.php")))
+					{
+						$nt = str_replace($type."_".$ref_id, $type."_".$new_ref_id, $par["target"]);
+						$new_href = str_replace("target=".$par["target"], "target=".$nt, $href);
+					}
+					else if (is_int(strpos($href, "ilias.php")))
+					{
+						$new_href = str_replace("ref_id=".$par["ref_id"], "ref_id=".$new_ref_id, $href);
+					}
+					if ($new_href != "")
+					{
+						$this->log->debug("... ext link replace " . $href . " with " . $new_href . ".");
+						$res->nodeset[$i]->set_attribute("Href", $new_href);
+					}
+				}
+				else if ($tree->isGrandChild($a_source_ref_id, $ref_id))
+				{
+					// we have no mapping, but the linked object is child of the original node -> remove link
+					$this->log->debug("... remove ext links.");
+					if ($res->nodeset[$i]->parent_node()->node_name() == "MapArea")	// simply remove map areas
+					{
+						$parent = $res->nodeset[$i]->parent_node();
+						$parent->unlink_node($parent);
+					}
+					else	// replace link by content of the link for other internal links
+					{
+						$source_node = $res->nodeset[$i];
+						$new_node = $source_node->clone_node(true);
+						$new_node->unlink_node($new_node);
+						$childs = $new_node->child_nodes();
+						for ($j = 0; $j < count($childs); $j++)
+						{
+							$this->log->debug("... move node $j " . $childs[$j]->node_name() . " before " . $source_node->node_name());
+							$source_node->insert_before($childs[$j], $source_node);
+						}
+						$source_node->unlink_node($source_node);
+					}
+				}
+			}
+		}
+		unset($xpc);
+
 	}
 
 
@@ -2819,6 +2979,9 @@ abstract class ilPageObject
 
 		$this->__beforeDelete();
 
+		// treat plugged content
+		$this->handleDeleteContent();
+
 		// delete style usages
 		$this->deleteStyleUsages(false);
 
@@ -3121,6 +3284,10 @@ abstract class ilPageObject
 					$t_type = "wpage";
 					break;
 
+				case "PortfolioPage":
+					$t_type = "ppage";
+					break;
+
 				case "User":
 					$t_type = "user";
 					break;
@@ -3166,6 +3333,7 @@ abstract class ilPageObject
 	function deleteContent($a_hid, $a_update = true, $a_pcid = "")
 	{
 		$curr_node = $this->getContentNode($a_hid, $a_pcid);
+		$this->handleDeleteContent($curr_node);
 		$curr_node->unlink_node($curr_node);
 		if ($a_update)
 		{
@@ -3202,6 +3370,7 @@ abstract class ilPageObject
 					$parent_node = $curr_node->parent_node();
 					if ($parent_node->node_name() != "TableRow")
 					{
+						$this->handleDeleteContent($curr_node);
 						$curr_node->unlink_node($curr_node);
 					}
 				}
@@ -3402,6 +3571,7 @@ abstract class ilPageObject
 				if ($hier_id != "pg" && $hier_id >= $a_hid)
 				{
 					$curr_node = $this->getContentNode($hier_id);
+					$this->handleDeleteContent($curr_node);
 					$curr_node->unlink_node($curr_node);
 				}
 			}
@@ -3432,6 +3602,7 @@ abstract class ilPageObject
 				if ($hier_id != "pg" && $hier_id < $a_hid)
 				{
 					$curr_node = $this->getContentNode($hier_id);
+					$this->handleDeleteContent($curr_node);
 					$curr_node->unlink_node($curr_node);
 				}
 			}
@@ -3517,7 +3688,8 @@ abstract class ilPageObject
 		// @todo: try to generalize this
 		if (($curr_name == "TableData") || ($curr_name == "PageObject") ||
 			($curr_name == "ListItem") || ($curr_name == "Section")
-			|| ($curr_name == "Tab") || ($curr_name == "ContentPopup"))
+			|| ($curr_name == "Tab") || ($curr_name == "ContentPopup")
+			|| ($curr_name == "GridCell"))
 		{
 			$a_mode = IL_INSERT_CHILD;
 		}
@@ -3622,7 +3794,8 @@ abstract class ilPageObject
 		// @todo: try to generalize
 		if (($curr_name == "TableData") || ($curr_name == "PageObject") ||
 			($curr_name == "ListItem") || ($curr_name == "Section")
-			|| ($curr_name == "Tab") || ($curr_name == "ContentPopup"))
+			|| ($curr_name == "Tab") || ($curr_name == "ContentPopup")
+			|| ($curr_name == "GridCell"))
 		{
 			$a_mode = IL_INSERT_CHILD;
 		}
@@ -5058,13 +5231,10 @@ abstract class ilPageObject
 	function getEditLock()
 	{
 		$db = $this->db;
-
-		//return false;
-		$aset = new ilSetting("adve");
 		$user = $this->user;
 		
-		$min = (int) $aset->get("block_mode_minutes") ;
-		if ($min > 0)
+		$min = (int)$this->getEffectiveEditLockTime();
+		if($min > 0)
 		{
 			// try to set the lock for the user
 			$ts = time();
@@ -5337,6 +5507,40 @@ abstract class ilPageObject
 		$rec = $db->fetchAssoc($set);
 
 		return $rec["last_change"];
+	}
+
+	public function getEffectiveEditLockTime()
+	{
+		if($this->getPageConfig()->getEditLockSupport() == false)
+		{
+			return 0;
+		}
+		
+		$aset = new ilSetting("adve");
+		$min = (int)$aset->get("block_mode_minutes") ;
+
+		return $min;
+	}
+
+	/**
+	 * Get all file object ids
+	 *
+	 * @return array
+	 */
+	function getAllFileObjIds()
+	{
+		$file_obj_ids = array();
+
+		// insert inst id file item identifier entries
+		$xpc = xpath_new_context($this->dom);
+		$path = "//FileItem/Identifier";
+		$res = xpath_eval($xpc, $path);
+		for($i = 0; $i < count($res->nodeset); $i++)
+		{
+			$file_obj_ids[] = $res->nodeset[$i]->get_attribute("Entry");
+		}
+		unset($xpc);
+		return $file_obj_ids;
 	}
 
 }

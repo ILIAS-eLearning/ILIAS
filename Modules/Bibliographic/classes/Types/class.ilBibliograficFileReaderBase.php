@@ -1,5 +1,4 @@
 <?php
-require_once('./Modules/Bibliographic/interfaces/interface.ilBibliograficFileReader.php');
 
 /**
  * Class ilBibliograficFileReaderBase
@@ -23,27 +22,32 @@ abstract class ilBibliograficFileReaderBase implements ilBibliograficFileReader 
 
 	/**
 	 * @param $path_to_file
+	 *
 	 * @return bool
 	 */
 	public function readContent($path_to_file) {
+		global $DIC;
+		/**
+		 * @var $filesystem \ILIAS\Filesystem\Filesystems
+		 */
+		$filesystem = $DIC["filesystem"];
 		$this->setPathToFile($path_to_file);
-		//		$this->convertFiletoUTF8();
-		$this->setFileContent($this->convertStringToUTF8(file_get_contents($path_to_file)));
+		$this->setFileContent($this->convertStringToUTF8($filesystem->storage()->read($path_to_file)));
 
 		return true;
 	}
 
-
-	protected function convertFiletoUTF8() {
-		file_put_contents($this->getPathToFile(), $this->convertStringToUTF8(file_get_contents($this->getPathToFile())));
-	}
-
-
 	/**
 	 * @param $string
+	 *
 	 * @return string
 	 */
 	protected function convertStringToUTF8($string) {
+		if (!function_exists('mb_detect_encoding') || !function_exists('mb_detect_order')
+		    || !function_exists("mb_convert_encoding")
+		) {
+			return $string;
+		}
 		ob_end_clean();
 		$mb_detect_encoding = mb_detect_encoding($string);
 		mb_detect_order(array( self::ENCODING_UTF_8, self::ENCODING_ISO_8859_1 ));

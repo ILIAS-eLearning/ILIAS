@@ -193,7 +193,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 				
 				case 'roles':
 					$this->tpl->setCurrentBlock('custom_fields');
-					$this->tpl->setVariable('VAL_CUST', (string) $a_set['roles']);
+					$this->tpl->setVariable('VAL_CUST', (string) $a_set['roles_label']);
 					$this->tpl->parseCurrentBlock();
 					break;
 					
@@ -273,6 +273,13 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 		$this->determineOffsetAndOrder(true);
 		
 		$part = ilGroupParticipants::_getInstanceByObjId($this->getRepositoryObject()->getId())->getParticipants();
+		
+		$part = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+			'manage_members', 
+			'manage_members', 
+			$this->getRepositoryObject()->getRefId(),
+			$part
+		);			
 		
 		if(!$part)
 		{
@@ -370,7 +377,10 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 					$roles[] = $role_name;
 				}
 			}
-			$a_user_data[$user_id]['roles'] = implode('<br />', $roles);
+			$a_user_data[$user_id]['roles_label'] = implode('<br />', $roles);
+
+			$a_user_data[$user_id]['roles'] = $this->participants->setRoleOrderPosition($user_id);
+
 		}
 
 		// Custom user data fields

@@ -26,6 +26,9 @@ class ilAnswerWizardInputGUITest extends PHPUnit_Framework_TestCase
 		}
 	}
 
+	/**
+	 * 
+	 */
 	public function test_instantiateObject_shouldReturnInstance()
 	{
 		// Arrange
@@ -33,9 +36,12 @@ class ilAnswerWizardInputGUITest extends PHPUnit_Framework_TestCase
 		require_once './Modules/TestQuestionPool/classes/class.ilAnswerWizardInputGUI.php';
 
 
+		
+		$this->markTestIncomplete(
+			'Needs mocks.'
+		);
 		// Act
-		$instance = new ilAnswerWizardInputGUI();
-
-		$this->assertInstanceOf('ilAnswerWizardInputGUI', $instance);
+		#$instance = new ilAnswerWizardInputGUI();
+		#$this->assertInstanceOf('ilAnswerWizardInputGUI', $instance);
 	}
 }

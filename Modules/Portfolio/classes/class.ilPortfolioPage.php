@@ -89,7 +89,7 @@ class ilPortfolioPage extends ilPageObject
 	 */
 	function getTitle()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		// because of migration of extended user profiles
 		if($this->title == "###-")
@@ -128,7 +128,9 @@ class ilPortfolioPage extends ilPageObject
 	 */
 	static function lookupMaxOrderNr($a_portfolio_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->query("SELECT MAX(order_nr) m FROM usr_portfolio_page".
 			" WHERE portfolio_id = ".$ilDB->quote($a_portfolio_id, "integer"));
@@ -156,7 +158,7 @@ class ilPortfolioPage extends ilPageObject
 	 */
 	function create($a_import = false)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if(!$a_import)
 		{
@@ -185,7 +187,7 @@ class ilPortfolioPage extends ilPageObject
 	 */
 	function update($a_validate = true, $a_no_history = false)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$id = $this->getId();
 		if($id)
@@ -205,7 +207,7 @@ class ilPortfolioPage extends ilPageObject
 	 */
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$query = "SELECT * FROM usr_portfolio_page".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
@@ -226,7 +228,7 @@ class ilPortfolioPage extends ilPageObject
 	 */
 	function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$id = $this->getId();
 		if($id)
@@ -254,7 +256,9 @@ class ilPortfolioPage extends ilPageObject
 	 */
 	protected static function lookupProperty($a_id, $a_prop)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->query("SELECT ".$a_prop.
 			" FROM usr_portfolio_page".
@@ -281,7 +285,10 @@ class ilPortfolioPage extends ilPageObject
 	 */
 	static function getAllPortfolioPages($a_portfolio_id)
 	{
-		global $ilDB, $lng;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$lng = $DIC->language();
 
 		$set = $ilDB->query("SELECT * FROM usr_portfolio_page".
 			" WHERE portfolio_id = ".$ilDB->quote($a_portfolio_id, "integer").
@@ -307,7 +314,9 @@ class ilPortfolioPage extends ilPageObject
 	 */
 	public static function fixOrdering($a_portfolio_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$pages = self::getAllPortfolioPages($a_portfolio_id);
 		$cnt = 10;
@@ -331,5 +340,163 @@ class ilPortfolioPage extends ilPageObject
 	{
 		return self::lookupProperty($a_page_id, "portfolio_id");
 	}
+
+	/**
+	 * Get goto href for internal wiki page link target
+	 *
+	 * @param
+	 * @return string
+	 */
+	static function getGotoForPortfolioPageTarget($a_target, $a_offline = false)
+	{
+		global $DIC;
+
+		$pid = self::findPortfolioForPage((int) $a_target);
+		$type = ilObject::_lookupType($pid);
+		if ($type == "prtt")
+		{
+			$ctrl = $DIC->ctrl();
+			$ctrl->setParameterByClass("ilobjportfoliotemplategui", "user_page", $a_target);
+			$href = $ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjPortfolioTemplateGUI", "ilobjportfoliotemplategui"), "preview");
+		}
+		else
+		{
+			if (!$a_offline)
+			{
+				$href = "./goto.php?client_id=" . CLIENT_ID . "&amp;target=prtf_" . $pid . "_" . $a_target;
+			} else
+			{
+				$href = "prtf_".$a_target.".html";
+			}
+		}
+		return $href;
+	}
+
+	/**
+	 * Update internal links, after multiple pages have been copied
+	 */
+	static function updateInternalLinks($a_copied_nodes, ilObjPortfolioBase $a_target_obj)
+	{
+//		var_dump($a_copied_nodes);
+		$all_fixes = array();
+		foreach($a_copied_nodes as $original_id => $copied_id)
+		{
+			$pid = self::findPortfolioForPage((int) $copied_id);
+
+			//
+			// 1. Outgoing links from the copied page.
+			//
+			//$targets = ilInternalLink::_getTargetsOfSource($a_parent_type.":pg", $copied_id);
+			if ($a_target_obj->getType() == "prtf")
+			{
+				$tpg = new ilPortfolioPage($copied_id);
+			}
+			if ($a_target_obj->getType() == "prtt")
+			{
+				$tpg = new ilPortfolioTemplatePage($copied_id);
+			}
+			$tpg->buildDom();
+			$il = $tpg->getInternalLinks();
+//			var_dump($il);
+			$targets = array();
+			foreach($il as $l)
+			{
+				$targets[] = array("type" => ilInternalLink::_extractTypeOfTarget($l["Target"]),
+					"id" => (int) ilInternalLink::_extractObjIdOfTarget($l["Target"]),
+					"inst" => (int) ilInternalLink::_extractInstOfTarget($l["Target"]));
+			}
+			$fix = array();
+			foreach($targets as $target)
+			{
+				if (($target["inst"] == 0 || $target["inst"] = IL_INST_ID) &&
+					($target["type"] == "ppage"))
+				{
+					// first check, whether target is also within the copied set
+					if ($a_copied_nodes[$target["id"]] > 0)
+					{
+						$fix[$target["id"]] = $a_copied_nodes[$target["id"]];
+					}
+				}
+			}
+//			var_dump($fix);
+			// outgoing links to be fixed
+			if (count($fix) > 0)
+			{
+				$t = ilObject::_lookupType($pid);
+				if (is_array($all_fixes[$t.":".$copied_id]))
+				{
+					$all_fixes[$t.":".$copied_id] += $fix;
+				}
+				else
+				{
+					$all_fixes[$t.":".$copied_id] = $fix;
+				}
+			}
+		}
+//		var_dump($all_fixes);
+		foreach ($all_fixes as $pg => $fixes)
+		{
+			$pg = explode(":", $pg);
+			include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
+			$page = ilPageObjectFactory::getInstance($pg[0], $pg[1]);
+			if ($page->moveIntLinks($fixes))
+			{
+				$page->update(true, true);
+			}
+		}
+	}
+
+	/**
+	 * Fix internal portfolio links
+	 *
+	 * @param array
+	 */
+	static function fixLinksOnTitleChange($a_port_id, $a_title_changes)
+	{
+		foreach(ilPortfolioPage::getAllPortfolioPages($a_port_id) as $page)
+		{
+			$page = new ilPortfolioPage($page);
+			if ($page->renameLinksOnTitleChange($a_title_changes))
+			{
+				$page->update(true, true);
+			}
+		}
+	}
+
+	/**
+	 * @param $a_title_changes
+	 */
+	function renameLinksOnTitleChange($a_title_changes)
+	{
+		$this->buildDom();
+
+		$changed = false;
+
+		// resolve normal internal links
+		$xpc = xpath_new_context($this->dom);
+		$path = "//IntLink";
+		$res = xpath_eval($xpc, $path);
+		for ($i = 0; $i < count($res->nodeset); $i++)
+		{
+			$target = $res->nodeset[$i]->get_attribute("Target");
+			$type = $res->nodeset[$i]->get_attribute("Type");
+			$obj_id = ilInternalLink::_extractObjIdOfTarget($target);
+			if (isset($a_title_changes[$obj_id]) && is_int(strpos($target, "__")))
+			{
+				if ($type == "PortfolioPage")
+				{
+					if ($res->nodeset[$i]->get_content() == $a_title_changes[$obj_id]["old"])
+					{
+						$res->nodeset[$i]->set_content($a_title_changes[$obj_id]["new"]);
+						$changed = true;
+					}
+				}
+			}
+		}
+		unset($xpc);
+
+		return $changed;
+	}
+
 }
 ?>

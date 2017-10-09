@@ -44,10 +44,13 @@ class ilSurveyResultsUserTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd, $is_anonymized)
 	{
+		global $DIC;
+
 		$this->setId("svy_usr");
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
-		global $lng, $ilCtrl;
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
 
 		$this->is_anonymized = $is_anonymized;
 		$this->lng = $lng;

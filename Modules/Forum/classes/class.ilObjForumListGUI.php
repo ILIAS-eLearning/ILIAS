@@ -11,12 +11,23 @@ include_once 'Services/Object/classes/class.ilObjectListGUI.php';
  */
 class ilObjForumListGUI extends ilObjectListGUI
 {
+	public $lng;
+	public $user;
+	public $access;
+	public $settings;
+	
 	/**
 	 * Constructor
 	 */
 	public function __construct()
 	{
 		parent::__construct();
+		
+		global $DIC;
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$this->access = $DIC->access();
+		$this->settings = $DIC->settings();
 	}
 
 	/**
@@ -57,20 +68,12 @@ class ilObjForumListGUI extends ilObjectListGUI
 	 */
 	public function getProperties()
 	{
-		/**
-		 * @var $lng	  ilLanguage
-		 * @var $ilUser   ilObjUser
-		 * @var $ilAccess ilAccessHandler
-		 * @var $ilSetting ilSetting
-		 */
-		global $lng, $ilUser, $ilAccess, $ilSetting;
-
-		if(!$ilAccess->checkAccess('read', '', $this->ref_id))
+		if(!$this->access->checkAccess('read', '', $this->ref_id))
 		{
 			return array();
 		}
 
-		$lng->loadLanguageModule('forum');
+		$this->lng->loadLanguageModule('forum');
 
 		$props = array();
 
@@ -87,7 +90,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 			$num_drafts_total = $drafts_statistics['total'];
 		}	
 
-		$frm_overview_setting = (int)$ilSetting::_lookupValue('frma','forum_overview');
+		$frm_overview_setting = (int)$this->settings->get('forum_overview');
 		$num_new_total = 0;
 		if($frm_overview_setting == ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS)
 		{
@@ -96,14 +99,14 @@ class ilObjForumListGUI extends ilObjectListGUI
 		
 		$last_post        = ilObjForumAccess::getLastPostByRefId($this->ref_id);
 
-		if(!$ilUser->isAnonymous())
+		if(!$this->user->isAnonymous())
 		{
 			if($this->getDetailsLevel() == ilObjectListGUI::DETAILS_ALL)
 			{
 				$alert   = ($num_unread_total > 0) ? true : false;
 				$props[] = array(
 					'alert'	=> $alert,
-					'property' => $lng->txt('forums_articles') . ' (' . $lng->txt('unread') . ')',
+					'property' => $this->lng->txt('forums_articles') . ' (' . $this->lng->txt('unread') . ')',
 					'value'	=> $num_posts_total . ' (' . $num_unread_total . ')'
 				);
 				if($frm_overview_setting == ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS)
@@ -113,7 +116,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 						// New
 						$alert   = ($num_new_total > 0) ? true : false;
 						$props[] = array(
-							'alert' => $alert, 'property' => $lng->txt('forums_new_articles'), 'value' => $num_new_total
+							'alert' => $alert, 'property' => $this->lng->txt('forums_new_articles'), 'value' => $num_new_total
 						);
 					}
 				}
@@ -123,7 +126,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 			{
 				$props[] = array(
 					'alert'    => ($num_drafts_total > 0) ? true : false,
-					'property' => $lng->txt('drafts'),
+					'property' => $this->lng->txt('drafts'),
 					'value'    => $num_drafts_total
 				);
 			}
@@ -132,7 +135,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 		{
 			$props[] = array(
 				'alert'	=> false,
-				'property' => $lng->txt('forums_articles'),
+				'property' => $this->lng->txt('forums_articles'),
 				'value'	=> $num_posts_total
 			);
 		}
@@ -145,8 +148,8 @@ class ilObjForumListGUI extends ilObjectListGUI
 				$props[] = array(
 					'alert'	=> false,
 					'newline'  => false,
-					'property' => $lng->txt('forums_anonymized'),
-					'value'	=> $lng->txt('yes')
+					'property' => $this->lng->txt('forums_anonymized'),
+					'value'	=> $this->lng->txt('yes')
 				);
 			}
 		}
@@ -159,7 +162,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 				$last_post['pos_pk'] . "&amp;thr_pk=" . $last_post['pos_thr_fk'] . "&amp;ref_id=" .
 				$this->ref_id . "#" . $last_post["pos_pk"] . "\">" .
 				ilObjForumAccess::prepareMessageForLists($last_post['pos_message']) . "</a> " .
-				strtolower($lng->txt('from')) . "&nbsp;";
+				strtolower($this->lng->txt('from')) . "&nbsp;";
 
 			require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
 			$authorinfo = new ilForumAuthorInformation(
@@ -179,7 +182,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 			$props[] = array(
 				'alert'	=> false,
 				'newline'  => true,
-				'property' => $lng->txt('forums_last_post'),
+				'property' => $this->lng->txt('forums_last_post'),
 				'value'	=> $lpCont
 			);
 		}

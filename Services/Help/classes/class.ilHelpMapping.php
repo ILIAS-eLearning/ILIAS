@@ -12,6 +12,22 @@
 class ilHelpMapping
 {
 	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		global $DIC;
+
+		$this->db = $DIC->database();
+	}
+
+	/**
 	 * Save screen ids for chapter
 	 *
 	 * @param
@@ -19,7 +35,7 @@ class ilHelpMapping
 	 */
 	function saveScreenIdsForChapter($a_chap, $a_ids)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		self::removeScreenIdsOfChapter($a_chap);
 		if (is_array($a_ids))
@@ -67,7 +83,9 @@ class ilHelpMapping
 	static function saveMappingEntry($a_chap, $a_comp, $a_screen_id,
 		$a_screen_sub_id, $a_perm, $a_module_id = 0)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$ilDB->replace("help_map",
 			array("chap" => array("integer", $a_chap),
@@ -90,7 +108,9 @@ class ilHelpMapping
 	 */
 	static function removeScreenIdsOfChapter($a_chap, $a_module_id = 0)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$ilDB->manipulate("DELETE FROM help_map WHERE ".
 			" chap = ".$ilDB->quote($a_chap, "integer").
@@ -106,7 +126,7 @@ class ilHelpMapping
 	 */
 	function getScreenIdsOfChapter($a_chap, $a_module_id = 0)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$set = $ilDB->query("SELECT * FROM help_map ".
 			" WHERE chap = ".$ilDB->quote($a_chap, "integer").
@@ -142,7 +162,14 @@ class ilHelpMapping
 	 */
 	static function getHelpSectionsForId($a_screen_id, $a_ref_id)
 	{
-		global $ilDB, $ilAccess, $ilSetting, $rbacreview, $ilUser, $ilObjDataCache;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilAccess = $DIC->access();
+		$ilSetting = $DIC->settings();
+		$rbacreview = $DIC->rbac()->review();
+		$ilUser = $DIC->user();
+		$ilObjDataCache = $DIC["ilObjDataCache"];
 
 		if (OH_REF_ID > 0)
 		{
@@ -239,7 +266,12 @@ class ilHelpMapping
 	 */
 	static function hasScreenIdSections($a_screen_id)
 	{
-		global $ilDB, $ilAccess, $ilSetting, $ilUser;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilAccess = $DIC->access();
+		$ilSetting = $DIC->settings();
+		$ilUser = $DIC->user();
 		
 		if ($ilUser->getLanguage() != "de")
 		{
@@ -312,7 +344,9 @@ class ilHelpMapping
 	 */
 	static function deleteEntriesOfModule($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$ilDB->manipulate("DELETE FROM help_map WHERE ".
 			" module_id = ".$ilDB->quote($a_id, "integer"));

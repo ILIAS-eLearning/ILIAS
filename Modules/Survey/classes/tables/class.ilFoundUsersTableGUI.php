@@ -37,7 +37,12 @@ class ilFoundUsersTableGUI extends ilTable2GUI
 
 	function __construct($a_parent_obj, $a_parent_cmd = "")
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
@@ -57,7 +62,7 @@ class ilFoundUsersTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		$ilCtrl->setParameterByClass("ilObjSurveyAdministrationGUI", "item_id", $a_set["usr_id"]);
 		$this->tpl->setVariable("USER_ID", $a_set["usr_id"]);
 		$this->tpl->setVariable("LOGIN", $a_set["login"]);

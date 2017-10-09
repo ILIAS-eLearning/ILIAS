@@ -263,12 +263,11 @@ class ilRbacAdmin
 
 	/**
 	 * Assigns an user to a role. Update of table rbac_ua
-	 * TODO: remove deprecated 3rd parameter sometime
-	 * @access	public
-	 * @param	integer	object_id of role
-	 * @param	integer	object_id of user
-	 * @param	boolean	true means default role (optional
-	 * @return	boolean
+	 *
+	 * @param    int $a_rol_id Object-ID of role
+	 * @param    int $a_usr_id Object-ID of user
+	 *
+	 * @return    boolean
 	 */
 	public function assignUser($a_rol_id,$a_usr_id)
 	{
@@ -321,12 +320,14 @@ class ilRbacAdmin
 		return TRUE;
 	}
 
+
 	/**
 	 * Deassigns a user from a role. Update of table rbac_ua
-	 * @access	public
-	 * @param	integer	object id of role
-	 * @param	integer	object id of user
-	 * @return	boolean	true on success
+	 *
+	 * @param    int $a_rol_id Object-ID of role
+	 * @param    int $a_usr_id Object-ID of user
+	 *
+	 * @return    boolean    true on success
 	 */
 	public function deassignUser($a_rol_id,$a_usr_id)
 	{
@@ -347,24 +348,23 @@ class ilRbacAdmin
 
 		include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMapping.php');
 		$mapping = ilLDAPRoleGroupMapping::_getInstance();
-		$mapping->deassign($a_rol_id,$a_usr_id); 
-		
-		$ref_id = $GLOBALS['rbacreview']->getObjectReferenceOfRole($a_rol_id);
-		$obj_id = ilObject::_lookupObjId($ref_id);
-		$type = ilObject::_lookupType($obj_id);
-		
-		ilLoggerFactory::getInstance()->getLogger('ac')->debug('Raise event deassign user');
-		$GLOBALS['ilAppEventHandler']->raise(
-				'Services/AccessControl',
-				'deassignUser',
-				array(
-					'obj_id' => $obj_id,
-					'usr_id' => $a_usr_id,
+		$mapping->deassign($a_rol_id, $a_usr_id);
+
+		if ($res) {
+			$ref_id = $GLOBALS['rbacreview']->getObjectReferenceOfRole($a_rol_id);
+			$obj_id = ilObject::_lookupObjId($ref_id);
+			$type = ilObject::_lookupType($obj_id);
+
+			ilLoggerFactory::getInstance()->getLogger('ac')->debug('Raise event deassign user');
+			$GLOBALS['ilAppEventHandler']->raise('Services/AccessControl', 'deassignUser', array(
+					'obj_id'  => $obj_id,
+					'usr_id'  => $a_usr_id,
 					'role_id' => $a_rol_id,
-					'type' => $type
-				)
-		);
-		return TRUE;
+					'type'    => $type,
+			));
+		}
+
+		return true;
 	}
 
 	/**

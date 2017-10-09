@@ -27,12 +27,14 @@ class ilObjectFactory
 	*/
 	function ObjectIdExists($a_obj_id)
 	{
-		global $ilias, $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$query = "SELECT * FROM object_data ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 
-		$res = $ilias->db->query($query);
+		$res = $ilDB->query($query);
 		
 		return $res->numRows() ? true : false;
 	}
@@ -46,7 +48,9 @@ class ilObjectFactory
 	 */
 	function getObjectsForOwner ($object_type, $owner_id)
 	{
-		global $ilias, $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$query = "SELECT * FROM object_data,object_reference ".
 			"WHERE object_reference.obj_id = object_data.obj_id ".
@@ -67,11 +71,15 @@ class ilObjectFactory
 	* get an instance of an Ilias object by object id
 	*
 	* @param	int		$obj_id		object id
-	* @return	object	instance of Ilias object (i.e. derived from ilObject)
+	* @return	object|bool	instance of Ilias object (i.e. derived from ilObject)
 	*/
 	static function getInstanceByObjId($a_obj_id,$stop_on_error = true)
 	{
-		global $ilias, $objDefinition, $ilDB;
+		global $DIC;
+
+		$objDefinition = $DIC["objDefinition"];
+		$ilDB = $DIC->database();
+		$ilErr = $DIC["ilErr"];
 
 		// check object id
 		if (!isset($a_obj_id))
@@ -79,10 +87,9 @@ class ilObjectFactory
 			$message = "ilObjectFactory::getInstanceByObjId(): No obj_id given!";
 			if ($stop_on_error === true)
 			{
-				$ilias->raiseError($message,$ilias->error_obj->WARNING);
+				$ilErr->raiseError($message,$ilErr->WARNING);
 				exit();
 			}
-			#var_dump("<pre>",$message,"<pre>");
 
 			return false;
 		}
@@ -90,17 +97,16 @@ class ilObjectFactory
 		// read object data
 		$q = "SELECT * FROM object_data ".
 			 "WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer');
-		$object_set = $ilias->db->query($q);
+		$object_set = $ilDB->query($q);
 		// check number of records
 		if ($object_set->numRows() == 0)
 		{
 			$message = "ilObjectFactory::getInstanceByObjId(): Object with obj_id: ".$a_obj_id." not found!";
 			if ($stop_on_error === true)
 			{
-				$ilias->raiseError($message,$ilias->error_obj->WARNING);
+				$ilErr->raiseError($message, $ilErr->WARNING);
 				exit();
 			}
-			#var_dump("<pre>",$message,"<pre>");
 			return false;
 		}
 
@@ -114,7 +120,7 @@ class ilObjectFactory
 				"class for type".$object_rec["type"].".";
 			if ($stop_on_error === true)
 			{
-				$ilias->raiseError($message,$ilias->error_obj->WARNING);
+				$ilErr->raiseError($message, $ilErr->WARNING);
 				exit();
 			}
 			return false;
@@ -137,11 +143,15 @@ class ilObjectFactory
 	* get an instance of an Ilias object by reference id
 	*
 	* @param	int		$obj_id		object id
-	* @return	object	instance of Ilias object (i.e. derived from ilObject)
+	* @return	object|bool	instance of Ilias object (i.e. derived from ilObject)
 	*/
 	static function getInstanceByRefId($a_ref_id,$stop_on_error = true)
 	{
-		global $ilias, $objDefinition, $ilDB;
+		global $DIC;
+
+		$objDefinition = $DIC["objDefinition"];
+		$ilDB = $DIC->database();
+		$ilErr = $DIC["ilErr"];
 
 		// check reference id
 		if (!isset($a_ref_id))
@@ -149,7 +159,7 @@ class ilObjectFactory
 			if ($stop_on_error === true)
 			{
 				$message = "ilObjectFactory::getInstanceByRefId(): No ref_id given!";
-				$ilias->raiseError($message,$ilias->error_obj->WARNING);
+				$ilErr->raiseError($message, $ilErr->WARNING);
 				exit();
 			}
 			
@@ -169,7 +179,7 @@ class ilObjectFactory
 			if ($stop_on_error === true)
 			{
 				$message = "ilObjectFactory::getInstanceByRefId(): Object with ref_id ".$a_ref_id." not found!";
-				$ilias->raiseError($message,$ilias->error_obj->WARNING);
+				$ilErr->raiseError($message, $ilErr->WARNING);
 				exit();
 			}
 			
@@ -186,7 +196,7 @@ class ilObjectFactory
 			{
 				$message = "ilObjectFactory::getInstanceByRefId(): Not able to determine object ".
 						   "class for type".$object_rec["type"].".";
-				$ilias->raiseError($message,$ilias->error_obj->WARNING);
+				$ilErr->raiseError($message,$ilErr->WARNING);
 				exit();
 			}
 			
@@ -206,14 +216,19 @@ class ilObjectFactory
 	}
 
 	/**
-	* get object type by reference id
-	*
-	* @param	int		$obj_id		object id
-	* @return	string	object type
-	*/
-	function getTypeByRefId($a_ref_id,$stop_on_error = true)
+	 * get object type by reference id
+	 *
+	 * @param	int		$obj_id		object id
+	 * @return	string	object type
+	 * @deprecated since version 5.3
+	 * 
+	 */
+	public static function getTypeByRefId($a_ref_id, $stop_on_error = true)
 	{
-		global $ilias, $objDefinition, $ilDB;
+		global $DIC;
+
+		$ilErr = $DIC["ilErr"];
+		$ilDB = $DIC->database();
 
 		// check reference id
 		if (!isset($a_ref_id))
@@ -221,7 +236,7 @@ class ilObjectFactory
 			if ($stop_on_error === true)
 			{
 				$message = "ilObjectFactory::getTypeByRefId(): No ref_id given!";
-				$ilias->raiseError($message,$ilias->error_obj->WARNING);
+				$ilErr->raiseError($message, $ilErr->WARNING);
 				exit();
 			}
 			
@@ -232,14 +247,14 @@ class ilObjectFactory
 		$q = "SELECT * FROM object_data ".
 			 "LEFT JOIN object_reference ON object_data.obj_id=object_reference.obj_id ".
 			 "WHERE object_reference.ref_id=".$ilDB->quote($a_ref_id,'integer');
-		$object_set = $ilias->db->query($q);
+		$object_set = $ilDB->query($q);
 
 		if ($object_set->numRows() == 0)
 		{
 			if ($stop_on_error === true)
 			{
 				$message = "ilObjectFactory::getTypeByRefId(): Object with ref_id ".$a_ref_id." not found!";
-				$ilias->raiseError($message,$ilias->error_obj->WARNING);
+				$ilErr->raiseError($message,$ilErr->WARNING);
 				exit();
 			}
 			
@@ -257,7 +272,9 @@ class ilObjectFactory
 	 */
 	public static function getClassByType($a_obj_type)
 	{
-		global $objDefinition;
+		global $DIC;
+
+		$objDefinition = $DIC["objDefinition"];
 
 		$location = $objDefinition->getLocation($a_obj_type);
 		$class_name = "ilObj".$objDefinition->getClassName($a_obj_type);

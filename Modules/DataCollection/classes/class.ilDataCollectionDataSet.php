@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/DataSet/classes/class.ilDataSet.php");
-require_once('./Modules/DataCollection/classes/Helpers/class.ilDclCache.php');
-require_once('class.ilObjDataCollection.php');
 
 /**
  * DataCollection dataset class
@@ -51,6 +48,7 @@ class ilDataCollectionDataSet extends ilDataSet {
 		'il_dcl_table' => array(),
 		'il_dcl_field' => array(),
 		'il_dcl_field_prop' => array(),
+		'il_dcl_sel_opts' => array(),
 		'il_dcl_record' => array(),
 		'il_dcl_record_field' => array(),
 		'il_dcl_stloc1_value' => array(),
@@ -309,6 +307,17 @@ class ilDataCollectionDataSet extends ilDataSet {
 
 				}
 				break;
+			case 'il_dcl_sel_opts':
+				$new_field_id = $a_mapping->getMapping('Modules/DataCollection', 'il_dcl_field', $a_rec['field_id']);
+				if ($new_field_id) {
+					$opt = new ilDclSelectionOption();
+					$opt->setFieldId($new_field_id);
+					$opt->setOptId($a_rec['opt_id']);
+					$opt->setSorting($a_rec['sorting']);
+					$opt->setValue($a_rec['value']);
+					$opt->store();
+				}
+				break;
 			case 'il_dcl_field_prop':
 				$new_field_id = $a_mapping->getMapping('Modules/DataCollection', 'il_dcl_field', $a_rec['field_id']);
 				if ($new_field_id) {
@@ -540,6 +549,14 @@ class ilDataCollectionDataSet extends ilDataSet {
 					'name' => 'text',
 					'value' => 'integer',
 				);
+			case 'il_dcl_sel_opts':
+				return array(
+					'id' => 'integer',
+					'field_id' => 'integer',
+					'opt_id' => 'integer',
+					'sorting' => 'integer',
+					'value' => 'text',
+				);
 			case 'il_dcl_record':
 				return array(
 					'id' => 'integer',
@@ -616,10 +633,14 @@ class ilDataCollectionDataSet extends ilDataSet {
 				);
 			case 'il_dcl_field':
 				$set = $this->db->query('SELECT * FROM il_dcl_field_prop WHERE field_id = ' . $this->db->quote($a_rec['id'], 'integer'));
-				$ids = $this->buildCache('il_dcl_field_prop', $set);
+				$prop_ids = $this->buildCache('il_dcl_field_prop', $set);
+
+				$set = $this->db->query('SELECT * FROM il_dcl_sel_opts WHERE field_id = ' . $this->db->quote($a_rec['id'], 'integer'));
+				$opt_ids = $this->buildCache('il_dcl_sel_opts', $set);
 
 				return array(
-					'il_dcl_field_prop' => array( 'ids' => $ids ),
+					'il_dcl_field_prop' => array( 'ids' => $prop_ids ),
+					'il_dcl_sel_opts' => array( 'ids' => $opt_ids ),
 				);
 			case 'il_dcl_record':
 				$sql = 'SELECT rf.*, d.storage_location FROM il_dcl_record_field AS rf' . ' INNER JOIN il_dcl_field AS f ON (f.id = rf.field_id)'

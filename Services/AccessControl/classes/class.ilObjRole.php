@@ -35,7 +35,6 @@ class ilObjRole extends ilObject
 	/** The disk quota in bytes */
 	var $disk_quota;
 	var $wsp_disk_quota;
-
 	/**
 	* Constructor
 	* @access	public
@@ -508,24 +507,28 @@ class ilObjRole extends ilObject
 	static function _getTranslation($a_role_title)
 	{
 		global $lng;
-		
-		$test_str = explode('_',$a_role_title);
 
-		if ($test_str[0] == 'il') 
+		$role_title = self::_removeObjectId($a_role_title);
+
+		if (preg_match("/^il_./", $role_title))
 		{
-			$test2 = (int) $test_str[3];
-			if ($test2 > 0)
-			{
-				unset($test_str[3]);
-			}
-
-			return $lng->txt(implode('_',$test_str));
+			return $lng->txt($role_title);
 		}
 		
 		return $a_role_title;
 	}
 	
-	
+	public static function _removeObjectId($a_role_title) {
+		$role_title_parts = explode('_',$a_role_title);
+
+		$test2 = (int) $role_title_parts[3];
+		if ($test2 > 0)
+		{
+			unset($role_title_parts[3]);
+		}
+
+		return implode('_',$role_title_parts);
+	}
 	
 	static function _updateAuthMode($a_roles)
 	{
@@ -1050,6 +1053,5 @@ class ilObjRole extends ilObject
 			}
 			return true;
 	}
-	
 } // END class.ilObjRole
 ?>

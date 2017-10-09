@@ -23,6 +23,26 @@ require_once("./Services/FileSystem/classes/class.ilFileSystemGUI.php");
 
 class ilObjFileBasedLMGUI extends ilObjectGUI
 {
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
 	var $output_prepared;
 
 	/**
@@ -32,7 +52,21 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	function __construct($a_data,$a_id = 0,$a_call_by_reference = true, $a_prepare_output = true)
 	{
-		global $lng, $ilCtrl;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$this->locator = $DIC["ilLocator"];
+		$this->tabs = $DIC->tabs();
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->tree = $DIC->repositoryTree();
+		$this->tpl = $DIC["tpl"];
+		$this->access = $DIC->access();
+		$this->error = $DIC["ilErr"];
+		$this->toolbar = $DIC->toolbar();
+		$this->help = $DIC["ilHelp"];
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
 
 		$this->ctrl = $ilCtrl;
 		$this->ctrl->saveParameter($this, array("ref_id"));
@@ -51,7 +85,9 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	function executeCommand()
 	{
-		global $ilUser, $ilLocator, $ilTabs;
+		$ilUser = $this->user;
+		$ilLocator = $this->locator;
+		$ilTabs = $this->tabs;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -222,7 +258,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	final function cancelCreationObject($in_rep = false)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$ilCtrl->redirectByClass("ilrepositorygui", "frameset");
 	}
@@ -234,7 +270,10 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	function properties()
 	{
-		global $rbacsystem, $tree, $tpl, $ilTabs;
+		$rbacsystem = $this->rbacsystem;
+		$tree = $this->tree;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
 		
 		$ilTabs->activateTab("id_settings");
 
@@ -248,7 +287,9 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	 */
 	public function initSettingsForm()
 	{
-		global $lng, $ilCtrl, $ilAccess;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilAccess = $this->access;
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -330,7 +371,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	 */
 	function toFilesystem()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$ilCtrl->redirectByClass("ilfilesystemgui", "listFiles");
 	}
@@ -340,7 +381,9 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	 */
 	public function saveProperties()
 	{
-		global $tpl, $ilAccess, $ilTabs;
+		$tpl = $this->tpl;
+		$ilAccess = $this->access;
+		$ilTabs = $this->tabs;
 		
 		$this->initSettingsForm("");
 		if ($this->form->checkInput())
@@ -366,11 +409,12 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	function editObject()
 	{
-		global $rbacsystem, $tree, $tpl;
+		$rbacsystem = $this->rbacsystem;
+		$ilErr = $this->error;
 
 		if (!$rbacsystem->checkAccess("visible,write",$this->object->getRefId()))
 		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->MESSAGE);
 		}
 
 	}
@@ -483,7 +527,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	function frameset()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$ilCtrl->setCmdClass("ilfilesystemgui");
 		$ilCtrl->setCmd("listFiles");
@@ -495,14 +539,14 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	function getTemplate()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$this->tpl->getStandardTemplate();
 	}
 
 	function showLearningModule()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		// #9483
 		if ($ilUser->getId() != ANONYMOUS_USER_ID)
@@ -549,7 +593,9 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	function outputInfoScreen($a_standard_locator = true)
 	{
-		global $ilToolbar, $ilAccess, $ilTabs;
+		$ilToolbar = $this->toolbar;
+		$ilAccess = $this->access;
+		$ilTabs = $this->tabs;
 
 		$ilTabs->activateTab('id_info');
 		
@@ -611,7 +657,11 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	function getTabs()
 	{
-		global $ilUser, $ilAccess, $ilTabs, $lng, $ilHelp;
+		$ilUser = $this->user;
+		$ilAccess = $this->access;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
+		$ilHelp = $this->help;
 
 		$ilHelp->setScreenIdComponent("htlm");
 		
@@ -695,7 +745,12 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	public static function _goto($a_target)
 	{
-		global $rbacsystem, $ilErr, $lng, $ilAccess;
+		global $DIC;
+
+		$rbacsystem = $DIC->rbac()->system();
+		$ilErr = $DIC["ilErr"];
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
 
 		if ($ilAccess->checkAccess("read", "", $a_target) ||
 			$ilAccess->checkAccess("visible", "", $a_target))
@@ -714,7 +769,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
 	function addLocatorItems()
 	{
-		global $ilLocator;
+		$ilLocator = $this->locator;
 		
 		if (is_object($this->object))
 		{		
@@ -751,7 +806,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	 */
 	function createFromDirectory($a_dir)
 	{
-		global $ilErr;
+		$ilErr = $this->error;
 		
 		if (!$this->checkPermissionBool("create", "", "htlm") || $a_dir == "")
 		{

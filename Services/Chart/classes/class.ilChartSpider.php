@@ -69,7 +69,7 @@ class ilChartSpider extends ilChart
 	
 	protected function addCustomJS()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$tpl->addJavascript("Services/Chart/js/flot/jquery.flot.highlighter.js");
 		$tpl->addJavascript("Services/Chart/js/flot/jquery.flot.spider.js");

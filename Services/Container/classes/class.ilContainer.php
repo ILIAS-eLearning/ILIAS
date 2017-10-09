@@ -38,6 +38,46 @@ require_once "./Services/Object/classes/class.ilObject.php";
 */
 class ilContainer extends ilObject
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var Logger
+	 */
+	protected $log;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
 	protected $order_type = 0;
 	protected $hiddenfilesfound = false;
 	protected $news_timeline = false;
@@ -83,6 +123,16 @@ class ilContainer extends ilObject
 	{
 		global $DIC;
 
+		$this->db = $DIC->database();
+		$this->log = $DIC["ilLog"];
+		$this->access = $DIC->access();
+		$this->error = $DIC["ilErr"];
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->tree = $DIC->repositoryTree();
+		$this->user = $DIC->user();
+		$this->obj_definition = $DIC["objDefinition"];
+
+
 		$this->setting = $DIC["ilSetting"];
 		parent::__construct($a_id, $a_reference);
 
@@ -94,8 +144,6 @@ class ilContainer extends ilObject
 	*/
 	function createContainerDirectory()
 	{
-		global $DIC;
-
 		$webspace_dir = ilUtil::getWebspaceDir();
 		$cont_dir = $webspace_dir."/container_data";
 		if (!is_dir($cont_dir))
@@ -319,7 +367,9 @@ class ilContainer extends ilObject
 	*/
 	static function _lookupContainerSetting($a_id, $a_keyword, $a_default_value = NULL)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$q = "SELECT * FROM container_settings WHERE ".
 				" id = ".$ilDB->quote($a_id ,'integer')." AND ".
@@ -345,7 +395,9 @@ class ilContainer extends ilObject
 	 */
 	public static function _writeContainerSetting($a_id, $a_keyword, $a_value)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$query = "DELETE FROM container_settings WHERE ".
 			"id = ".$ilDB->quote($a_id,'integer')." ".
@@ -366,7 +418,9 @@ class ilContainer extends ilObject
 	
 	public static function _getContainerSettings($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$res = array();
 		
@@ -383,7 +437,9 @@ class ilContainer extends ilObject
 	
 	public static function _deleteContainerSettings($a_id, $a_keyword = null, $a_keyword_like = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		if(!$a_id)
 		{
@@ -445,12 +501,6 @@ class ilContainer extends ilObject
 	*/
 	static function _lookupIconPath($a_id, $a_size = "big")
 	{
-		if ($a_size == "")
-		{
-			$a_size = "big";
-		}
-		$size = $a_size;
-		
 		if (ilContainer::_lookupContainerSetting($a_id, "icon_custom"))
 		{
 			$cont_dir = ilContainer::_getContainerDirectory($a_id);
@@ -470,14 +520,15 @@ class ilContainer extends ilObject
 	*/
 	function saveIcons($a_custom_icon)
 	{
-		global $ilDB;
-		
 		$this->createContainerDirectory();
 		$cont_dir = $this->getContainerDirectory();
-		
-		$file_name = "";
+
 		if ($a_custom_icon != "")
 		{
+			if (is_file($cont_dir."/icon_custom.svg"))
+			{
+				unlink($cont_dir . "/icon_custom.svg");
+			}
 			$file_name = $cont_dir."/icon_custom.svg";
 			ilUtil::moveUploadedFile($a_custom_icon, "icon_custom.svg", $file_name);
 
@@ -513,7 +564,7 @@ class ilContainer extends ilObject
 	 */
 	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
-		global $ilLog;
+		$ilLog = $this->log;
 
 		$new_obj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
 	
@@ -529,7 +580,19 @@ class ilContainer extends ilObject
 			$orig_page = new ilContainerPage($this->getId());
 			$orig_page->copy($new_obj->getId(), "cont", $new_obj->getId());			
 		}
-		
+
+		// #20614 - copy style
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
+		$style_id = $this->getStyleSheetId();
+		if ($style_id > 0 &&
+			!ilObjStyleSheet::_lookupStandard($style_id))
+		{
+			$style_obj = ilObjectFactory::getInstanceByObjId($style_id);
+			$new_id = $style_obj->ilClone();
+			$new_obj->setStyleSheetId($new_id);
+			$new_obj->update();
+		}
+
 		// #10271 - copy start objects page
 		include_once("./Services/Container/classes/class.ilContainerStartObjectsPage.php");
 		if (ilContainerStartObjectsPage::_exists("cstr",
@@ -574,7 +637,7 @@ class ilContainer extends ilObject
 	 */
 	public function cloneDependencies($a_target_id,$a_copy_id)
 	{
-		global $ilLog;
+		$ilLog = $this->log;
 		
 		parent::cloneDependencies($a_target_id, $a_copy_id);
 
@@ -615,12 +678,16 @@ class ilContainer extends ilObject
 	 */
 	public function cloneAllObject($session_id, $client_id, $new_type, $ref_id, $clone_source, $options, $soap_call = false, $a_submode = 1)
 	{
-		global $ilLog;
+		$ilLog = $this->log;
 		
 		include_once('./Services/Link/classes/class.ilLink.php');
 		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
 		
-		global $ilAccess,$ilErr,$rbacsystem,$tree,$ilUser;
+		$ilAccess = $this->access;
+		$ilErr = $this->error;
+		$rbacsystem = $this->rbacsystem;
+		$tree = $this->tree;
+		$ilUser = $this->user;
 			
 		// Save wizard options
 		$copy_id = ilCopyWizardOptions::_allocateCopyId();
@@ -710,8 +777,8 @@ class ilContainer extends ilObject
 	*/
 	public function getSubItems($a_admin_panel_enabled = false, $a_include_side_block = false, $a_get_single = 0)
 	{
-		global $objDefinition, $ilBench, $tree, $ilObjDataCache, $ilUser, $rbacsystem,
-			$ilSetting;
+		$objDefinition = $this->obj_definition;
+		$tree = $this->tree;
 
 		// Caching
 		if (is_array($this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block]) &&
@@ -867,7 +934,7 @@ class ilContainer extends ilObject
 	*/
 	function getGroupedObjTypes()
 	{
-		global $objDefinition;
+		$objDefinition = $this->obj_definition;
 		
 		if (empty($this->type_grps))
 		{
@@ -881,7 +948,7 @@ class ilContainer extends ilObject
 	*/
 	function enablePageEditing()
 	{
-		global $ilSetting;
+		$ilSetting = $this->setting;
 		
 		// @todo: this will need a more general approach
 		if ($ilSetting->get("enable_cat_page_edit"))
@@ -987,7 +1054,10 @@ class ilContainer extends ilObject
 	 */
 	public static function getCompleteDescriptions(array $objects)
 	{
-		global $ilSetting, $ilObjDataCache;
+		global $DIC;
+
+		$ilSetting = $DIC->settings();
+		$ilObjDataCache = $DIC["ilObjDataCache"];
 		// using long descriptions?
 		$short_desc = $ilSetting->get("rep_shorten_description");
 		$short_desc_max_length = $ilSetting->get("rep_shorten_description_length");

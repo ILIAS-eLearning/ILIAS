@@ -15,12 +15,16 @@ require_once("./Modules/TestQuestionPool/classes/class.assQuestionGUI.php");
  */
 class ilQuestionExporter
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	static $exported = array(); //json data for all exported questions (class variable)
 	static $mobs = array(); //json data for all mobs  (class variable)
 	static $media_files = array(); //json data for all files  (class variable)
 	
 	var $db;			// database object
-	var $ilias;			// ilias object
 	var $ref_id;		// reference ID
 	var $inst_id;		// installation id
 	var $q_gui;			// Question GUI object
@@ -35,7 +39,10 @@ class ilQuestionExporter
 	 */
 	public function __construct($a_preview_mode = false)
 	{
-		global $ilDB, $lng;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$lng = $DIC->language();
 
 		$this->db = $ilDB;
 		$this->lng = $lng;
@@ -160,10 +167,9 @@ class ilQuestionExporter
 	}
 	
 	private function assMultipleChoice() {
-		
-		global $tpl;
-		$this->q_gui->populateJavascriptFilesRequiredForWorkForm($tpl);
-		$tpl->addCss('Modules/Test/templates/default/ta.css');
+		$main_tpl = $GLOBALS["tpl"];
+		$this->q_gui->populateJavascriptFilesRequiredForWorkForm($main_tpl);
+		$main_tpl->addCss('Modules/Test/templates/default/ta.css');
 		
 		$this->tpl->setCurrentBlock("multiplechoice");
 		$this->tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("cont_submit_answers"));
@@ -204,8 +210,10 @@ class ilQuestionExporter
 
 	private function assKprimChoice()
 	{
-		global $tpl;
-		$tpl->addCss('Modules/Test/templates/default/ta.css');
+		global $DIC;
+		$main_tpl = $DIC["tpl"];
+
+		$main_tpl->addCss('Modules/Test/templates/default/ta.css');
 		
 		$this->tpl->setCurrentBlock("kprimchoice");
 		
@@ -220,7 +228,7 @@ class ilQuestionExporter
 		if( $this->json_decoded->path )
 		{
 			$this->tpl->setVariable("HANDLE_IMAGES",
-				"ilias.questions.handleMCImages(".$this->json_decoded->id.");");
+				"ilias.questions.handleKprimImages(".$this->json_decoded->id.");");
 		}
 		
 		$this->tpl->setVariable('OPTION_LABEL_TRUE', $this->json_decoded->trueOptionLabel);
@@ -230,13 +238,21 @@ class ilQuestionExporter
 		$this->tpl->setVariable('VALUE_FALSE', 0);
 		
 		$this->tpl->parseCurrentBlock();
-		
+
 		foreach( $this->json_decoded->answers as $answer )
 		{
-			if( $answer->image != "" )
+			if( is_object($answer->image) )
 			{
 				self::$media_files[] = $answer->getImageFsPath();
 				self::$media_files[] = $answer->getThumbFsPath();
+			}
+			else if( is_string($answer->image) )
+			{
+				self::$media_files[] = $this->q_gui->object->getImagePath() . $answer->image;
+				if (is_file($this->q_gui->object->getImagePath()."thumb.".$answer->image))
+				{
+					self::$media_files[] = $this->q_gui->object->getImagePath() . "thumb." . $answer->image;
+				}
 			}
 		}
 		
@@ -313,9 +329,11 @@ class ilQuestionExporter
 	}
 	
 	private function assMatchingQuestion() {
-		global $tpl;
-		$tpl->addJavaScript('Modules/TestQuestionPool/js/ilMatchingQuestion.js');
-		$tpl->addCss('Modules/TestQuestionPool/templates/default/test_javascript.css');
+		global $DIC;
+		$main_tpl = $DIC["tpl"];
+
+		$main_tpl->addJavaScript('Modules/TestQuestionPool/js/ilMatchingQuestion.js');
+		$main_tpl->addCss('Modules/TestQuestionPool/templates/default/test_javascript.css');
 		$this->tpl->setCurrentBlock("matchingquestion");
 		$this->tpl->setVariable("VAL_ID", $this->json_decoded->id);
 		$this->tpl->setVariable("BTN_LABEL_RESET", $this->lng->txt("reset_terms"));

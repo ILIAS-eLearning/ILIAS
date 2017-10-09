@@ -3,11 +3,12 @@ il.Classification = {
 	ajax_block_url: "",
 	ajax_content_id: "",
 	ajax_content_url: "",
-	setAjax: function(block_id, block_url, content_id, content_url) {
+	setAjax: function(block_id, block_url, content_id, content_url, tabs_html) {
 		this.ajax_block_id = block_id;
 		this.ajax_block_url = block_url;
 		this.ajax_content_id = content_id;
 		this.ajax_content_url = content_url;
+		this.tabs_html = tabs_html;
 		
 		$(document).on('il_classification_redraw',  this.redraw);
 	},
@@ -22,7 +23,9 @@ il.Classification = {
 	},
 	toggleReloadRender: function(o) {	
 		if(o.responseText !== "")
-		{			
+		{
+			$('#ilSubTab').remove();
+			$('#ilTab').replaceWith(il.Classification.tabs_html);
 			$('#' + o.argument.el_id).html(o.responseText);			
 		}
 		else

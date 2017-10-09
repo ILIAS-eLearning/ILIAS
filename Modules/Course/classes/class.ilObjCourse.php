@@ -74,6 +74,11 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	protected $leave_end; // [ilDate]
 	protected $min_members; // [int]
 	protected $auto_fill_from_waiting; // [bool]
+
+	/**
+	 * @var bool
+	 */
+	protected $member_export = false;
 	
 	/**
 	 *
@@ -136,6 +141,16 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		return false;
 	}
 	
+	public function getShowMembersExport()
+	{
+		return $this->member_export;
+	}
+	
+	public function setShowMembersExport($a_mem_export)
+	{
+		$this->member_export = $a_mem_export;
+	}
+
 	/**
 	 * get access code
 	 * @return 
@@ -1260,6 +1275,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			"waiting_list = ".$ilDB->quote($this->enabledWaitingList() ,'integer').", ".
 			"important = ".$ilDB->quote($this->getImportantInformation() ,'text').", ".
 			"show_members = ".$ilDB->quote($this->getShowMembers() ,'integer').", ".
+			"show_members_export = ".$ilDB->quote($this->getShowMembersExport() ,'integer').", ".
 			"latitude = ".$ilDB->quote($this->getLatitude() ,'text').", ".
 			"longitude = ".$ilDB->quote($this->getLongitude() ,'text').", ".
 			"location_zoom = ".$ilDB->quote($this->getLocationZoom() ,'integer').", ".
@@ -1338,6 +1354,9 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$new_obj->enableWaitingList($this->enabledWaitingList());
 		$new_obj->setImportantInformation($this->getImportantInformation());
 		$new_obj->setShowMembers($this->getShowMembers());
+		// patch mem_exp
+		$new_obj->setShowMembersExport($this->getShowMembersExport());
+		// patch mem_exp
 		$new_obj->enableSessionLimit($this->isSessionLimitEnabled());
 		$new_obj->setNumberOfPreviousSessions($this->getNumberOfPreviousSessions());
 		$new_obj->setNumberOfNextSessions($this->getNumberOfNextSessions());
@@ -1373,7 +1392,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			"contact_phone,contact_email,contact_consultation,activation_type,activation_start,".
 			"activation_end,sub_limitation_type,sub_start,sub_end,sub_type,sub_password,sub_mem_limit,".
 			"sub_max_members,sub_notify,view_mode,abo," .
-			"latitude,longitude,location_zoom,enable_course_map,waiting_list,show_members, ".
+			"latitude,longitude,location_zoom,enable_course_map,waiting_list,show_members,show_members_export, ".
 			"session_limit,session_prev,session_next, reg_ac_enabled, reg_ac, auto_notification, status_dt,mail_members_type) ".
 			"VALUES( ".
 			$ilDB->quote($this->getId() ,'integer').", ".
@@ -1403,6 +1422,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			#"objective_view = '0', ".
 			"1, ".
 			"1,".
+			'1,'.
 			$ilDB->quote($this->isSessionLimitEnabled(),'integer').', '.
 			$ilDB->quote($this->getNumberOfPreviousSessions(),'integer').', '.
 			$ilDB->quote($this->getNumberOfPreviousSessions(),'integer').', '.
@@ -1452,6 +1472,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			$this->enableWaitingList($row->waiting_list);
 			$this->setImportantInformation($row->important);
 			$this->setShowMembers($row->show_members);
+			$this->setShowMembersExport($row->show_members_export);
 			$this->setLatitude($row->latitude);
 			$this->setLongitude($row->longitude);
 			$this->setLocationZoom($row->location_zoom);
@@ -2163,7 +2184,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$this->course_logger->debug('Max members: ' . $max);
 		$this->course_logger->debug('Current members: ' . $now);
 		
-		if($now < $max)
+		if($max <= $now)
 		{
 			return;
 		}
@@ -2224,9 +2245,15 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		return true;
 	}
 	
+	/**
+	 * Minimum members check
+	 * @global type $ilDB
+	 * @return array
+	 */
 	public static function findCoursesWithNotEnoughMembers()
 	{
-		global $ilDB;
+		$ilDB = $GLOBALS['DIC']->database();
+		$tree = $GLOBALS['DIC']->repositoryTree();
 		
 		$res = array();
 		
@@ -2246,6 +2273,14 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			" AND (crs_start IS NULL OR crs_start > ".$ilDB->quote($now, "integer").")");
 		while($row = $ilDB->fetchAssoc($set))
 		{
+			$refs = ilObject::_getAllReferences($row['obj_id']);
+			$ref = end($refs);
+			
+			if($tree->isDeleted($ref))
+			{
+				continue;
+			}
+			
 			$part = new ilCourseParticipants($row["obj_id"]);
 			$reci = $part->getNotificationRecipients();
 			if(sizeof($reci))

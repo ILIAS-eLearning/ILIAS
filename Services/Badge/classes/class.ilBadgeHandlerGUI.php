@@ -12,9 +12,25 @@
  */
 class ilBadgeHandlerGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+	}
+
 	public function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		if($ilCtrl->isAsynch())
 		{

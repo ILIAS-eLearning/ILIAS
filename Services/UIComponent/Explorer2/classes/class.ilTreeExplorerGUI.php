@@ -13,6 +13,11 @@ include_once("./Services/UIComponent/Explorer2/classes/class.ilExplorerBaseGUI.p
  */
 abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	protected $tree = null;
 	protected $order_field = "";
 	protected $order_field_numeric = false;
@@ -29,6 +34,9 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI
 	 */
 	public function __construct($a_expl_id, $a_parent_obj, $a_parent_cmd, $a_tree)
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		parent::__construct($a_expl_id, $a_parent_obj, $a_parent_cmd);
 		$this->tree = $a_tree;
 	}
@@ -271,7 +279,7 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI
 	 */
 	function getNodeIconAlt($a_node)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		return $lng->txt("icon")." ".$lng->txt("obj_".$a_node["type"]);
 	}

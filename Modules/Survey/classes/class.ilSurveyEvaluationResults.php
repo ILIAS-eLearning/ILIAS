@@ -9,6 +9,11 @@
  */
 class ilSurveyEvaluationResults
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	protected $question; // [SurveyQuestion]
 	protected $users_answered; // [int]
 	protected $users_skipped; // [int]
@@ -21,6 +26,9 @@ class ilSurveyEvaluationResults
 	
 	public function __construct(SurveyQuestion $a_question)
 	{		
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		$this->question = $a_question;
 	}
 	
@@ -114,7 +122,7 @@ class ilSurveyEvaluationResults
 	
 	public function getMedianAsText()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if($this->median === null)
 		{
@@ -176,8 +184,26 @@ class ilSurveyEvaluationResults
 				}
 			}				
 		}
-	}		
-	
+	}
+
+	protected function getCatTitle($a_value)
+	{
+		if(!sizeof($this->variables))
+		{
+			return $a_value;
+		}
+		else
+		{
+			foreach($this->variables as $var)
+			{
+				if($var->cat->scale == $a_value)
+				{
+					return $var->cat->title;
+				}
+			}
+		}
+	}
+
 	public function getMappedTextAnswers()
 	{
 		$res = array();
@@ -207,7 +233,8 @@ class ilSurveyEvaluationResults
 					$res[] = array(
 						$this->getScaleText($answer->value), 
 						$answer->text,
-						$answer->value
+						$answer->value,
+						$this->getCatTitle($answer->value)
 					);
 				}
 			}

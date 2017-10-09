@@ -1,6 +1,4 @@
 <?php
-require_once('./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecordRepresentation.php');
-require_once("./Services/Rating/classes/class.ilRatingGUI.php");
 
 /**
  * Class ilDclMobRecordRepresentation

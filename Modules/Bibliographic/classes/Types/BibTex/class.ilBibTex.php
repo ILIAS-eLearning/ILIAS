@@ -1,5 +1,4 @@
 <?php
-require_once('./Modules/Bibliographic/classes/Types/class.ilBibliograficFileReaderBase.php');
 
 /**
  * Class ilBibTex
@@ -39,7 +38,9 @@ class ilBibTex extends ilBibliograficFileReaderBase implements ilBibliograficFil
 		$this->normalizeContent();
 
 		// get entries
-		$objects = preg_split("/\\@([\\w]*)/uix", $this->getFileContent(), null, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+		$subject = $this->getFileContent();
+		$objects = preg_split("/\\@([\\w]*)/uix", $subject, null, PREG_SPLIT_DELIM_CAPTURE
+		                                                          | PREG_SPLIT_NO_EMPTY);
 
 		if (in_array($objects[0], self::$ignored_keywords)) {
 			$objects = array_splice($objects, 2);
@@ -82,9 +83,9 @@ class ilBibTex extends ilBibliograficFileReaderBase implements ilBibliograficFil
 
 
 	protected function normalizeContent() {
-		$result = $this->getFileContent();
+		$result = $this->removeBomUtf8($this->getFileContent());
 		// remove emty newlines
-		$result = preg_replace("/^\\n/um", "", $result);
+		$result = preg_replace("/^\n/um", "", $result);
 		// Remove lines with only whitespaces
 		$result = preg_replace("/^[\\s]*$/um", "\n", $result);
 		$result = preg_replace("/\\n\\n\\n/um", "\n\n", $result);
@@ -96,13 +97,16 @@ class ilBibTex extends ilBibliograficFileReaderBase implements ilBibliograficFil
 		$result = preg_replace("/^[ ]+/um", "\t", $result);
 		$result = preg_replace("/^([\\w])/um", "\t$1", $result);
 
+		// replace newline-braktes with brakets
+		$result = preg_replace('/\\n}/uimx', '}', $result);
+
 		// move last bracket on newline
 		$result = preg_replace("/}[\\s]*$/um", "\n}", $result);
 
 		// Support long lines (not working at the moment)
-		$re = "/(\"[^\"\\n]*)\\r?\\n(?!(([^\"]*\"){2})*[^\"]*$)/";
-		$subst = "$1";
-		$result = preg_replace($re, $subst, $result);
+		//		$re = "/(\"[^\"\\n]*)\\r?\\n(?!(([^\"]*\"){2})*[^\"]*$)/";
+		//		$subst = "$1";
+		//		$result = preg_replace($re, $subst, $result);
 
 		$this->setFileContent($result);
 	}
@@ -165,6 +169,8 @@ class ilBibTex extends ilBibliograficFileReaderBase implements ilBibliograficFil
 		$bibtex_special_chars['Ñ'] = '{\~N}';
 		$bibtex_special_chars['ń'] = "{\\'n}";
 		$bibtex_special_chars['l'] = "{\\'n}";
+		$bibtex_special_chars['&'] = "{\&}";
+		$bibtex_special_chars['@'] = "{\@}";
 
 		$this->setFileContent(str_replace(array_values($bibtex_special_chars), array_keys($bibtex_special_chars), $this->getFileContent()));
 	}
@@ -239,5 +245,19 @@ class ilBibTex extends ilBibliograficFileReaderBase implements ilBibliograficFil
 	 */
 	public static function isEntryType($entry_ype) {
 		return in_array($entry_ype, self::$entry_types);
+	}
+
+
+	/**
+	 * @param $s
+	 *
+	 * @return bool|string
+	 */
+	protected function removeBomUtf8($s) {
+		if (substr($s, 0, 3) == chr(hexdec('EF')) . chr(hexdec('BB')) . chr(hexdec('BF'))) {
+			return substr($s, 3);
+		} else {
+			return $s;
+		}
 	}
 }

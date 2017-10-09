@@ -13,7 +13,8 @@ include_once('./Modules/Bibliographic/classes/Admin/class.ilObjBibliographicAdmi
  * @author       Martin Studer <ms@studer-raimann.ch>
  * @author       Fabian Schmid <fs@studer-raimann.ch>
  *
- * @ilCtrl_Calls ilObjBibliographicAdminGUI: ilPermissionGUI, ilObjBibliographicAdminLibrariesGUI, ilObjBibliographicAdminAttributeOrderGUI
+ * @ilCtrl_Calls ilObjBibliographicAdminGUI: ilPermissionGUI, ilObjBibliographicAdminLibrariesGUI
+ * @ilCtrl_Calls ilObjBibliographicAdminGUI: ilObjBibliographicAdminAttributeOrderGUI
  *
  * @ingroup      ModulesBibliographic
  */

@@ -14,7 +14,9 @@ class ilPageUtil
 	*/
 	static function _existsAndNotEmpty($a_parent_type, $a_id, $a_lang = "-")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		// language must be set at least to "-"
 		if ($a_lang == "")

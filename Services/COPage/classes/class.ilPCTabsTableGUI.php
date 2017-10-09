@@ -13,11 +13,21 @@ include_once("Services/Table/classes/class.ilTable2GUI.php");
 */
 class ilPCTabsTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
 
 	function __construct($a_parent_obj, $a_parent_cmd,
 		$a_tabs)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
@@ -46,7 +56,8 @@ class ilPCTabsTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$this->pos += 10;
 		$this->tpl->setVariable("POS", ilUtil::prepareFormOutput($this->pos));

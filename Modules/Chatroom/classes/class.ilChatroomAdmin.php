@@ -44,16 +44,13 @@ class ilChatroomAdmin
 	 */
 	public static function getDefaultConfiguration()
 	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
+		global $DIC;
 
-		$ilDB->setLimit(1);
+		$DIC->database()->setLimit(1);
 		$query = 'SELECT * FROM ' . self::$settingsTable;
 
-		$rset = $ilDB->query($query);
-		if($row = $ilDB->fetchObject($rset))
+		$rset = $DIC->database()->query($query);
+		if($row = $DIC->database()->fetchObject($rset))
 		{
 			return new self((int)$row->instance_id, $row);
 		}
@@ -76,12 +73,9 @@ class ilChatroomAdmin
 	 */
 	public function saveGeneralSettings(stdClass $settings)
 	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
+		global $DIC;
 
-		$res = $ilDB->queryF("
+		$res = $DIC->database()->queryF("
 				SELECT 	* 
 				FROM 	chatroom_admconfig
 				WHERE	instance_id = %s",
@@ -89,9 +83,9 @@ class ilChatroomAdmin
 			array($this->config_id)
 		);
 
-		$row = $ilDB->fetchAssoc($res);
+		$row = $DIC->database()->fetchAssoc($res);
 
-		$ilDB->manipulateF("
+		$DIC->database()->manipulateF("
 			DELETE 
 			FROM 	chatroom_admconfig
 			WHERE	instance_id = %s",
@@ -102,7 +96,7 @@ class ilChatroomAdmin
 		$row['default_config'] !== null ? $def_conf = $row['default_config'] : $def_conf = "{}";
 		$row['client_settings'] !== null ? $clnt_set = $row['client_settings'] : $clnt_set = "{}";
 
-		$ilDB->manipulateF("
+		$DIC->database()->manipulateF("
 			INSERT INTO		chatroom_admconfig
 							(instance_id, server_settings, default_config, client_settings)
 			VALUES			(%s, %s, %s, %s)",
@@ -117,12 +111,9 @@ class ilChatroomAdmin
 	 */
 	public function saveClientSettings(stdClass $settings)
 	{
-		/**
-		 * @var $ilDB
-		 */
-		global $ilDB;
+		global $DIC;
 
-		$res = $ilDB->queryF("
+		$res = $DIC->database()->queryF("
 				SELECT 	* 
 				FROM 	chatroom_admconfig
 				WHERE	instance_id = %s",
@@ -130,9 +121,9 @@ class ilChatroomAdmin
 			array($this->config_id)
 		);
 
-		$row = $ilDB->fetchAssoc($res);
+		$row = $DIC->database()->fetchAssoc($res);
 
-		$ilDB->manipulateF("
+		$DIC->database()->manipulateF("
 			DELETE 
 			FROM 	chatroom_admconfig
 			WHERE	instance_id = %s",
@@ -143,7 +134,7 @@ class ilChatroomAdmin
 		$row['default_config'] !== null ? $def_conf = $row['default_config'] : $def_conf = "{}";
 		$row['server_settings'] !== null ? $srv_set = $row['server_settings'] : $srv_set = "{}";
 
-		$ilDB->manipulateF("
+		$DIC->database()->manipulateF("
 			INSERT INTO		chatroom_admconfig
 							(instance_id, server_settings, default_config, client_settings)
 			VALUES			(%s, %s, %s, %s)",
@@ -168,14 +159,11 @@ class ilChatroomAdmin
 	 */
 	public function loadGeneralSettings()
 	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
+		global $DIC;
 
-		$query = 'SELECT * FROM ' . self::$settingsTable . ' WHERE instance_id = ' . $ilDB->quote($this->config_id, 'integer');
+		$query = 'SELECT * FROM ' . self::$settingsTable . ' WHERE instance_id = ' . $DIC->database()->quote($this->config_id, 'integer');
 
-		if(($row = $ilDB->fetchAssoc($ilDB->query($query))) && $row['server_settings'])
+		if(($row = $DIC->database()->fetchAssoc($DIC->database()->query($query))) && $row['server_settings'])
 		{
 			$settings = json_decode($row['server_settings'], true);
 
@@ -196,13 +184,10 @@ class ilChatroomAdmin
 	 */
 	public function loadClientSettings()
 	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
+		global $DIC;
 
-		$query = 'SELECT * FROM ' . self::$settingsTable . ' WHERE instance_id = ' . $ilDB->quote($this->config_id, 'integer');
-		if(($row = $ilDB->fetchAssoc($ilDB->query($query))) && $row['client_settings'])
+		$query = 'SELECT * FROM ' . self::$settingsTable . ' WHERE instance_id = ' . $DIC->database()->quote($this->config_id, 'integer');
+		if(($row = $DIC->database()->fetchAssoc($DIC->database()->query($query))) && $row['client_settings'])
 		{
 			$settings = json_decode($row['client_settings'], true);
 

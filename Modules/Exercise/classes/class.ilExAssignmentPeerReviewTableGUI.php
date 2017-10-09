@@ -30,7 +30,10 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 	 */
 	public function  __construct($a_parent_obj, $a_parent_cmd, ilExAssignment $a_ass, $a_user_id, array $a_peer_data)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$ilCtrl = $DIC->ctrl();
 				
 		$this->ass = $a_ass;
 		$this->user_id = $a_user_id;
@@ -46,16 +49,18 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 		if(!$this->ass->hasPeerReviewPersonalized())
 		{
 			$this->addColumn($this->lng->txt("id"), "seq");
+			#21260
+			$this->setDefaultOrderField("seq");
 		}
 		else 
 		{
-			$this->addColumn($this->lng->txt("exc_peer_review_recipient"), "name");			
+			$this->addColumn($this->lng->txt("exc_peer_review_recipient"), "name");
+			#21260
+			$this->setDefaultOrderField("name");
 		}					
 		$this->addColumn($this->lng->txt("last_update"), "tstamp");		
 		$this->addColumn($this->lng->txt("valid"), "valid");		
 		$this->addColumn($this->lng->txt("action"), "");
-		
-		$this->setDefaultOrderField("tstamp");
 						
 		$this->setRowTemplate("tpl.exc_peer_review_row.html", "Modules/Exercise");
 		
@@ -155,7 +160,7 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 
 	protected function fillRow($a_set)
 	{		
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 					
 		if(isset($a_set["seq"]))
 		{

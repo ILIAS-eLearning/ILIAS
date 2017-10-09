@@ -13,6 +13,21 @@ include_once("Services/Table/classes/class.ilTable2GUI.php");
 */
 class ilMediaPoolTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilRbacReview
+	 */
+	protected $rbacreview;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	const IL_MEP_SELECT = "select";
 	const IL_MEP_EDIT = "edit";
 	const IL_MEP_SELECT_CONTENT = "selectc";
@@ -27,7 +42,17 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 		$a_media_pool, $a_folder_par = "obj_id",
 		$a_mode = ilMediaPoolTableGUI::IL_MEP_EDIT, $a_all_objects = false, $a_parent_tpl = null)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$this->rbacreview = $DIC->rbac()->review();
+		$this->user = $DIC->user();
+
+		$ilCtrl = $DIC->ctrl();
+		$ilAccess = $DIC->access();
+		$lng = $DIC->language();
 
 		if ($a_parent_tpl == null)
 		{
@@ -52,7 +77,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 		$lng->loadLanguageModule("mep");
 		
 		$this->media_pool = $a_media_pool;
-		$this->tree = ilObjMediaPool::getPoolTree($this->media_pool->getId());
+		$this->tree = ilObjMediaPool::_getPoolTree($this->media_pool->getId());
 		$this->folder_par = $a_folder_par;
 		
 		if ($this->all_objects)
@@ -173,7 +198,9 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 	*/
 	function initFilter()
 	{
-		global $lng, $rbacreview, $ilUser;
+		$lng = $this->lng;
+		$rbacreview = $this->rbacreview;
+		$ilUser = $this->user;
 		
 		// title/description
 		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
@@ -295,7 +322,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 	 */
 	function prepareOutput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if ($this->getMode() == ilMediaPoolTableGUI::IL_MEP_SELECT ||
 			$this->getMode() == ilMediaPoolTableGUI::IL_MEP_SELECT_CONTENT)
@@ -311,7 +338,9 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl, $ilAccess;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilAccess = $this->access;
 
 		$this->tpl->setCurrentBlock("link");
 		
@@ -464,7 +493,8 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 	 */
 	function render()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$mtpl = new ilTemplate("tpl.media_sel_table.html", true, true, "Modules/MediaPool");
 		

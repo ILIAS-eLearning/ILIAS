@@ -26,6 +26,11 @@ require_once("./Services/COPage/classes/class.ilPCParagraph.php");
 */
 class ilObjGlossaryGUI extends ilObjectGUI
 {
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
 	var $admin_tabs;
 	var $mode;
 	var $term;
@@ -91,6 +96,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function __construct($a_data,$a_id = 0,$a_call_by_reference = true, $a_prepare_output = true)
 	{
+		$this->error = $DIC["ilErr"];
 		global $DIC;
 
 		$this->ctrl = $DIC->ctrl();
@@ -168,7 +174,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				break;
 			
 			case "ilglossarytermgui":
-				if (!$this->term_perm->checkPermission("write", $this->term_id))
+				if (!$this->term_perm->checkPermission("edit_content", $this->term_id) &&
+					!$this->term_perm->checkPermission("write", $this->term_id))
 				{
 					include_once("./Modules/Glossary/exceptions/class.ilGlossaryException.php");
 					throw new ilGlossaryException("No permission.");
@@ -415,12 +422,14 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
+		$ilErr = $this->error;
+
 		$new_type = $_REQUEST["new_type"];
 
 		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
 		if (!$this->checkPermissionBool("create", "", $new_type))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("no_create_permission"), $ilErr->MESSAGE);
 		}
 
 		$this->lng->loadLanguageModule($new_type);
@@ -493,7 +502,10 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	 */
 	static function addUsagesToInfo($info, $glo_id)
 	{
-		global $lng, $ilAccess;
+		global $DIC;
+
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
 
 		$info->addSection($lng->txt("glo_usages"));
 		include_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php");
@@ -527,6 +539,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	
 	function viewObject()
 	{
+		$ilErr = $this->error;
+
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 		{
 			parent::viewObject();
@@ -535,7 +549,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		if (!$this->rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->MESSAGE);
 		}
 
 	}
@@ -1077,13 +1091,15 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function publishExportFile()
 	{
+		$ilErr = $this->error;
+
 		if(!isset($_POST["file"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
 		}
 		if (count($_POST["file"]) > 1)
 		{
-			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("cont_select_max_one_item"), $ilErr->MESSAGE);
 		}
 		
 		$file = explode(":", $_POST["file"][0]);

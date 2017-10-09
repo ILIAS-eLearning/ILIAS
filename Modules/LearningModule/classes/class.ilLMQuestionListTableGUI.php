@@ -16,13 +16,33 @@ include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
  */
 class ilLMQuestionListTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
 
 	/**
 	* Constructor
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd, $a_lm)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng, $rbacsystem;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$this->rbacsystem = $DIC->rbac()->system();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
+		$lng = $DIC->language();
+		$rbacsystem = $DIC->rbac()->system();
 
 		$this->lm = $a_lm;
 
@@ -65,7 +85,7 @@ class ilLMQuestionListTableGUI extends ilTable2GUI
 	*/
 	function getItems()
 	{
-		global $lng;
+		$lng = $this->lng;
 //if ($GLOBALS["kk"]++ == 1) nj();
 
 		$this->determineOffsetAndOrder();
@@ -102,7 +122,8 @@ class ilLMQuestionListTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		$this->tpl->setVariable("PAGE_TITLE",
 			ilLMObject::_lookupTitle($a_set["page_id"]));

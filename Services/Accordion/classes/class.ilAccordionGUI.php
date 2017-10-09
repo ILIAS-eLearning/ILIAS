@@ -10,6 +10,11 @@
 */
 class ilAccordionGUI
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	protected $items = array();
 	protected $force_open = array();
 	protected static $accordion_cnt = 0;
@@ -33,6 +38,9 @@ class ilAccordionGUI
 	*/
 	function __construct()
 	{
+		global $DIC;
+
+		$this->user = $DIC->user();
 		$this->setOrientation(ilAccordionGUI::VERTICAL);
 	}
 	
@@ -323,16 +331,24 @@ class ilAccordionGUI
 	/**
 	* Add javascript files that are necessary to run accordion
 	*/
-	static function addJavaScript()
+	static function addJavaScript(ilTemplate $main_tpl = null)
 	{
-		global $tpl;
+		global $DIC;
 
+		if ($main_tpl != null)
+		{
+			$tpl = $main_tpl;
+		}
+		else
+		{
+			$tpl = $DIC["tpl"];
+		}
 
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
-		ilYuiUtil::initConnection();
+		ilYuiUtil::initConnection($tpl);
 
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
-		iljQueryUtil::initjQueryUI();
+		iljQueryUtil::initjQueryUI($tpl);
 
 		foreach (self::getLocalJavascriptFiles() as $f)
 		{
@@ -345,7 +361,9 @@ class ilAccordionGUI
 	*/
 	static function addCss()
 	{
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 		foreach (self::getLocalCssFiles() as $f)
 		{
@@ -402,7 +420,7 @@ class ilAccordionGUI
 	*/
 	function getHTML()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		self::$accordion_cnt++;
 		

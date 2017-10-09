@@ -16,11 +16,25 @@ include_once("./Services/Bookmarks/classes/class.ilBookmarkExplorerGUI.php");
 class ilBookmarkBlockExplorerGUI extends ilBookmarkExplorerGUI
 {
 	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd, $a_user_id = 0)
 	{
-		global $ilUser;
+		global $DIC;
+
+		$this->user = $DIC->user();
+		$this->ctrl = $DIC->ctrl();
+		$ilUser = $DIC->user();
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_user_id);
 
@@ -48,7 +62,7 @@ class ilBookmarkBlockExplorerGUI extends ilBookmarkExplorerGUI
 	 */
 	function getNodeHref($a_node)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		switch($a_node["type"])
 		{

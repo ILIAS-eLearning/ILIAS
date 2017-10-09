@@ -1,11 +1,4 @@
 <?php
-require_once('./Modules/DataCollection/classes/Fields/Reference/class.ilDclReferenceRecordFieldModel.php');
-require_once('./Modules/DataCollection/classes/Fields/Rating/class.ilDclRatingRecordFieldModel.php');
-require_once('./Modules/DataCollection/classes/Fields/IliasReference/class.ilDclIliasReferenceRecordFieldModel.php');
-require_once('./Modules/DataCollection/classes/Fields/Formula/class.ilDclFormulaRecordFieldModel.php');
-require_once('./Modules/DataCollection/classes/Fields/Text/class.ilDclTextRecordFieldModel.php');
-require_once('./Modules/DataCollection/classes/Fields/NReference/class.ilDclNReferenceRecordFieldModel.php');
-require_once('./Modules/DataCollection/classes/Fields/class.ilDclFieldFactory.php');
 
 /**
  * Class ilDclCache
@@ -245,22 +238,26 @@ class ilDclCache {
 
 	/**
 	 * Preloads field properties
-	 * @param array $field_ids
+	 * @param ilDclBaseFieldModel[] $fields
 	 */
-	public static function preloadFieldProperties(array $field_ids) {
-		foreach($field_ids as $field_key => $field_id) {
-			if(isset(self::$field_properties_cache[$field_id])) {
-				unset($field_ids[$field_key]);
+	public static function preloadFieldProperties(array $fields) {
+		foreach($fields as $field_key => $field) {
+			if(isset(self::$field_properties_cache[$field->getId()])) {
+				unset($fields[$field_key]);
 			}
 		}
 
-		if(count($field_ids) > 0) {
+		if(count($fields) > 0) {
+			$field_ids = array();
+			foreach ($fields as $field) {
+				$field_ids[] = $field->getId();
+			}
 			$result = ilDclFieldProperty::where(array('field_id'=>$field_ids), 'IN')->get();
 			foreach($result as $prop) {
-				if(!isset(self::$field_properties_cache[$result['field_id']])) {
-					self::$field_properties_cache[$result['field_id']] = array();
+				if(!isset(self::$field_properties_cache[$prop->getFieldId()])) {
+					self::$field_properties_cache[$prop->getFieldId()] = array();
 				}
-				self::$field_properties_cache[$result['field_id']][$prop->getName()] = $prop;
+				self::$field_properties_cache[$prop->getFieldId()][$prop->getName()] = $prop;
 			}
 		}
 	}

@@ -17,6 +17,11 @@ require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
  */
 class ilPCDataTableGUI extends ilPCTableGUI
 {
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
 
 	/**
 	* Constructor
@@ -24,6 +29,11 @@ class ilPCDataTableGUI extends ilPCTableGUI
 	*/
 	function __construct(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+		$this->tabs = $DIC->tabs();
 		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 		$this->setCharacteristics(array("StandardTable" => $this->lng->txt("cont_StandardTable")));
 	}
@@ -61,7 +71,8 @@ class ilPCDataTableGUI extends ilPCTableGUI
 	*/
 	function editDataCl()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 //var_dump($_GET);
 //var_dump($_POST);
 
@@ -225,14 +236,13 @@ class ilPCDataTableGUI extends ilPCTableGUI
 							"moveColRight" => "cont_ed_col_right",
 							"deleteCol" => "cont_ed_delete_col")
 		);
-
 		foreach($types as $type)
 		{
 			foreach($moves as $move)
 			{
 				foreach($commands[$type] as $command => $lang_var)
 				{
-					if ($move == "none" && (substr($command, 0, 4) == "move"))
+					if ($move == "none" && (substr($command, 0, 4) == "move" || substr($command, 0, 6) == "delete"))
 					{
 						continue;
 					}
@@ -271,9 +281,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 	 */
 	function update($a_redirect = true)
 	{
-		global $ilBench, $lng;
-
-		$ilBench->start("Editor","Data_Table_update");
+		$lng = $this->lng;
 
 		// handle input data
 		include_once("./Services/COPage/classes/class.ilPCParagraph.php");
@@ -300,13 +308,11 @@ class ilPCDataTableGUI extends ilPCTableGUI
 
 		if ($this->updated !== true)
 		{
-			$ilBench->stop("Editor","Data_Table_update");
 			$this->editData();
 			return;
 		}
 
 		$this->updated = $this->pg_obj->update();
-		$ilBench->stop("Editor","Data_Table_update");
 
 		if ($a_redirect)
 		{
@@ -320,7 +326,8 @@ class ilPCDataTableGUI extends ilPCTableGUI
 	 */
 	function updateJS()
 	{
-		global $ilBench, $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 				
 		if ($_POST["cancel_update"])
 		{
@@ -375,6 +382,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 		// perform table action? (move...?)
 		//$this->update(false);
 		$this->pg_obj->addHierIDs();
+		$failed = false;
 		if ($_POST["tab_cmd"] != "")
 		{
 			$cell_hier_id = ($_POST["tab_cmd_type"] == "col")
@@ -385,11 +393,19 @@ class ilPCDataTableGUI extends ilPCTableGUI
 			{
 				$tab_cmd = $_POST["tab_cmd"];
 				$cell_obj->$tab_cmd();
-				$_SESSION["il_pg_error"] = $this->pg_obj->update();
+				$ret = $this->pg_obj->update();
+				if ($ret !== true)
+				{
+					ilUtil::sendFailure($ret[0][1], true);
+					$failed = true;
+				}
 			}
 		}
-		
-		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+
+		if (!$failed)
+		{
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		}
 		if ($_POST["save_return"])
 		{
 			$this->ctrl->returnToParent($this, "jump".$this->hier_id);
@@ -414,7 +430,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 	*/
 	function afterCreation()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$this->pg_obj->stripHierIDs();
 		$this->pg_obj->addHierIDs();
@@ -431,7 +447,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 	*/
 	function tableAction()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$this->update(false);
 		$this->pg_obj->addHierIDs();
@@ -453,7 +469,8 @@ class ilPCDataTableGUI extends ilPCTableGUI
 	*/
 	function setTabs()
 	{
-		global $ilCtrl, $ilTabs;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
 		
 		parent::setTabs();
 		
@@ -473,7 +490,8 @@ class ilPCDataTableGUI extends ilPCTableGUI
 	 */
 	function editData()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 
 		if (!ilPageEditorGUI::_doJSEditing())
@@ -657,7 +675,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 			{
 				foreach($commands[$type] as $command => $lang_var)
 				{
-					if ($move == "none" && (substr($command, 0, 4) == "move"))
+					if ($move == "none" && (substr($command, 0, 4) == "move" || substr($command, 0, 6) == "delete"))
 					{
 						continue;
 					}
@@ -689,7 +707,8 @@ class ilPCDataTableGUI extends ilPCTableGUI
 		ilYuiUtil::initDragDrop();
 		ilYuiUtil::initConnection();
 		ilYuiUtil::initPanel(false);
-		$GLOBALS["tpl"]->addJavascript("Services/COPage/tiny/4_2_4/tinymce.js");
+		//$GLOBALS["tpl"]->addJavascript("Services/COPage/tiny/4_2_4/tinymce.js");
+		$GLOBALS["tpl"]->addJavascript("./libs/bower/bower_components/tinymce/tinymce.min.js");
 		$GLOBALS["tpl"]->addJavaScript("./Services/COPage/js/ilcopagecallback.js");
 		$GLOBALS["tpl"]->addJavascript("Services/COPage/js/page_editing.js");
 
@@ -702,15 +721,6 @@ class ilPCDataTableGUI extends ilPCTableGUI
 				");
 
 		$cfg = $this->getPageConfig();
-		/*$tpl->setVariable("IL_TINY_MENU",
-			self::getTinyMenu(
-				$this->getPageObject()->getParentType(),
-				$cfg->getEnableInternalLinks(),
-				$cfg->getEnableWikiLinks(),
-				$cfg->getEnableKeywords(),
-				$this->getStyleId(), true, true,
-				$cfg->getEnableAnchors()
-			));*/
 
 		$dtpl->setVariable("IL_TINY_MENU",
 			ilPageObjectGUI::getTinyMenu(

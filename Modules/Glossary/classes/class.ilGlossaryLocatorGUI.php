@@ -12,6 +12,16 @@
  */
 class ilGlossaryLocatorGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilLocatorGUI
+	 */
+	protected $locator;
+
 	var $mode;
 	var $temp_var;
 	var $tree;
@@ -22,7 +32,13 @@ class ilGlossaryLocatorGUI
 
 	function __construct()
 	{
-		global $lng, $tpl, $tree;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->locator = $DIC["ilLocator"];
+		$lng = $DIC->language();
+		$tpl = $DIC["tpl"];
+		$tree = $DIC->repositoryTree();
 
 		$this->mode = "edit";
 		$this->temp_var = "LOCATOR";
@@ -61,7 +77,10 @@ class ilGlossaryLocatorGUI
 	*/
 	function display()
 	{
-		global $lng, $ilCtrl, $ilLocator, $tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilLocator = $this->locator;
+		$tpl = $this->tpl;
 		
 		// repository links
 		$ilLocator->addRepositoryItems();

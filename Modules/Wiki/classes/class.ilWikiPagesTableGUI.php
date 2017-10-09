@@ -24,7 +24,12 @@ class ilWikiPagesTableGUI extends ilTable2GUI
 	function __construct($a_parent_obj, $a_parent_cmd = "",
 		$a_wiki_id, $a_mode = IL_WIKI_ALL_PAGES, $a_page_id = 0)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->pg_list_mode = $a_mode;
@@ -146,7 +151,8 @@ class ilWikiPagesTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		if ($this->pg_list_mode == IL_WIKI_NEW_PAGES)
 		{

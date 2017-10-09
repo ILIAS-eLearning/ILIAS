@@ -15,6 +15,7 @@ abstract class ilChatroomObjectGUI extends ilObjectGUI
 	 * Loads end executes given $gui.
 	 * @param string $gui
 	 * @param string $method
+	 * @return boolean A boolean flag whether or not the request could be dispatched
 	 */
 	protected function dispatchCall($gui, $method)
 	{
@@ -27,7 +28,10 @@ abstract class ilChatroomObjectGUI extends ilObjectGUI
 			$definition->loadGUI($gui);
 			$guiHandler = $definition->buildGUI($gui, $this);
 			$guiHandler->execute($method);
+			return true;
 		}
+
+		return false;
 	}
 
 	/**
@@ -55,10 +59,7 @@ abstract class ilChatroomObjectGUI extends ilObjectGUI
 	 */
 	public function getAdminTabs()
 	{
-		/**
-		 * @var $tree ilTree
-		 */
-		global $tree;
+		global $DIC;
 
 		if(isset($_GET['admin_mode']) && $_GET['admin_mode'] == 'repository')
 		{
@@ -70,7 +71,7 @@ abstract class ilChatroomObjectGUI extends ilObjectGUI
 			);
 			$this->ctrl->setParameterByClass('iladministrationgui', 'admin_mode', 'repository');
 		}
-		if($tree->getSavedNodeData($this->object->getRefId()))
+		if($DIC->repositoryTree()->getSavedNodeData($this->object->getRefId()))
 		{
 			$this->tabs_gui->addTarget('trash', $this->ctrl->getLinkTarget($this, 'trash'), 'trash', get_class($this));
 		}

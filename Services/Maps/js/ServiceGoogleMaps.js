@@ -1,5 +1,6 @@
 ilMapData = Array();
 ilMap = Array();
+ilMapOptions = [];
 ilCM = Array();
 ilMapUserMarker = Array();
 
@@ -81,10 +82,19 @@ function ilInitMap(id, latitude, longitude, zoom, type_control,
 	}
 
 	ilMap[id] = map;
+	ilMapOptions[id] = mapOptions;
 	
 	// if map is in subform we have to redraw on subform activation
 	$("#"+id).closest("form").on("subform_activated", function() {
 		google.maps.event.trigger(map, 'resize');
+	});
+}
+
+// re-render all maps in element
+function ilMapRerender(el) {
+	$(el).find(".ilGoogleMap").each(function (o) {
+		google.maps.event.trigger(ilMap[this.id],'resize');
+		ilMap[this.id].setCenter(ilMapOptions[this.id].center);
 	});
 }
 

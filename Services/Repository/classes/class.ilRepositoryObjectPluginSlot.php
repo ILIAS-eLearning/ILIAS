@@ -15,7 +15,9 @@ class ilRepositoryObjectPluginSlot
 	*/
 	static function addCreatableSubObjects($a_obj_array)
 	{
-		global $ilPluginAdmin;
+		global $DIC;
+
+		$ilPluginAdmin = $DIC["ilPluginAdmin"];
 		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "Repository", "robj");
 		foreach ($pl_names as $pl)
 		{
@@ -34,7 +36,9 @@ class ilRepositoryObjectPluginSlot
 	*/
 	static function isTypePlugin($a_type, $a_active_status = true)
 	{
-		global $ilPluginAdmin;
+		global $DIC;
+
+		$ilPluginAdmin = $DIC["ilPluginAdmin"];
 		
 		include_once("./Services/Component/classes/class.ilPlugin.php");
 		$pname = ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $a_type);
@@ -63,7 +67,9 @@ class ilRepositoryObjectPluginSlot
 	 */
 	static function isTypePluginWithLP($a_type, $a_active_status = true)
 	{
-		global $ilPluginAdmin;
+		global $DIC;
+
+		$ilPluginAdmin = $DIC["ilPluginAdmin"];
 		
 		include_once("./Services/Component/classes/class.ilPlugin.php");
 		$pname = ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $a_type);

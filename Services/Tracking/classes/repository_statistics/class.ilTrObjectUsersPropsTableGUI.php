@@ -99,7 +99,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		{
 			$this->addColumn($this->lng->txt("actions"), "");
 		}
-
+		$this->setSelectAllCheckbox('uid');
 		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);
 		$this->setEnableHeader(true);
@@ -198,7 +198,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 			$check_agreement,
 			$this->user_fields
 			);
-			
+		
 		if (count($tr_data["set"]) == 0 && $this->getOffset() > 0)
 		{
 			$this->resetOffset();

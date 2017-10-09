@@ -27,15 +27,24 @@ class ilLORandomTestQuestionPools
 	 * @param type $a_container_id
 	 * @param type $a_objective_id
 	 */
-	public function __construct($a_container_id, $a_objective_id, $a_test_type)
+	public function __construct($a_container_id, $a_objective_id, $a_test_type, $a_qpl_sequence)
 	{
 		$this->container_id = $a_container_id;
 		$this->objective_id = $a_objective_id;
 		$this->test_type = $a_test_type;
+		$this->qpl_seq = $a_qpl_sequence;
 		
 		$this->read();
 	}
 	
+	/**
+	 * lookup limit
+	 * @global type $ilDB
+	 * @param int $a_container_id
+	 * @param int $a_objective_id
+	 * @param int $a_test_type
+	 * @return int
+	 */
 	public static function lookupLimit($a_container_id, $a_objective_id, $a_test_type)
 	{
 		global $ilDB;
@@ -51,8 +60,16 @@ class ilLORandomTestQuestionPools
 		}
 		return 0;
 	}
-	
-	public static function lookupSequence($a_container_id, $a_objective_id, $a_test_id)
+
+	/**
+	 * Lookup sequence ids
+	 * @global type $ilDB
+	 * @param int $a_container_id
+	 * @param int $a_objective_id
+	 * @param int $a_test_id
+	 * @return int[]
+	 */
+	public static function lookupSequences($a_container_id, $a_objective_id, $a_test_id)
 	{
 		global $ilDB;
 		
@@ -60,17 +77,51 @@ class ilLORandomTestQuestionPools
 				'WHERE container_id = '.$ilDB->quote($a_container_id,'integer').' '.
 				'AND objective_id = '.$ilDB->quote($a_objective_id,'integer').' '.
 				'AND tst_id = '.$ilDB->quote($a_test_id,'integer');
+		
 		$res = $ilDB->query($query);
+		$sequences = [];
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
-			return $row->qp_seq;
+			$sequences[] = $row->qp_seq;
 		}
-		return 0;
-		
+		return (array) $sequences;
 	}
 	
 	/**
-	 * Lookup objective id by sequence
+	 * Lookup sequence ids
+	 * @global type $ilDB
+	 * @param int $a_container_id
+	 * @param int $a_objective_id
+	 * @param int $a_test_id
+	 * @param int $a_test_type
+	 * @return int[]
+	 */
+	public static function lookupSequencesByType($a_container_id, $a_objective_id, $a_test_id, $a_test_type)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT * FROM loc_rnd_qpl '.
+			'WHERE container_id = '.$ilDB->quote($a_container_id,'integer').' '.
+			'AND objective_id = '.$ilDB->quote($a_objective_id,'integer').' '.
+			'AND tst_id = '.$ilDB->quote($a_test_id,'integer').' '.
+			'AND tst_type = '.$ilDB->quote($a_test_type,'integer');
+		
+		$res = $ilDB->query($query);
+		$sequences = [];
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+		{
+			$sequences[] = $row->qp_seq;
+		}
+		return (array) $sequences;
+	}
+	
+
+	/**
+	 * Lookup objective ids by sequence_id
+	 * @global type $ilDB
+	 * @param int $a_container_id
+	 * @param int $a_seq_id
+	 * @return int[]
 	 */
 	public static function lookupObjectiveIdsBySequence($a_container_id, $a_seq_id)
 	{
@@ -160,63 +211,73 @@ class ilLORandomTestQuestionPools
 		$options = ilCopyWizardOptions::_getInstance($a_copy_id);
 		$mappings = $options->getMappings();
 		
-		$new_ass = new self(
-			$a_new_course_id,
-			$a_new_objective_id,
-			$this->getTestType()
-		);
-		$new_ass->setLimit($this->getLimit());
-
-		$mapped_id = 0;
-		$test_ref_id = 0;
-		foreach((array) ilObject::_getAllReferences($this->getTestId()) as $tmp => $ref_id)
+		foreach(self::lookupSequences($this->getContainerId(), $this->getContainerId(), $this->getTestId()) as $sequence)
 		{
-			ilLoggerFactory::getLogger('crs')->debug($tmp .' ' . $ref_id);
-			$test_ref_id = $ref_id;
-			$mapped_id = $mappings[$ref_id];
-			if($mapped_id)
+			// not nice
+			$this->setQplSequence($sequence);
+			$this->read();
+			
+			
+			$mapped_id = 0;
+			$test_ref_id = 0;
+			foreach((array) ilObject::_getAllReferences($this->getTestId()) as $tmp => $ref_id)
 			{
+				$test_ref_id = $ref_id;
+				$mapped_id = $mappings[$ref_id];
+				if($mapped_id)
+				{
+					continue;
+				}
+			}
+			if(!$mapped_id)
+			{
+				ilLoggerFactory::getLogger('crs')->debug('No test mapping found for random question pool assignment: ' . $this->getTestId().' '. $sequence);
 				continue;
 			}
+
+			// Mapping for sequence
+			$new_question_info = $mappings[$test_ref_id.'_rndSelDef_'.$this->getQplSequence()];
+			$new_question_arr = explode('_',$new_question_info);
+			if(!isset($new_question_arr[2]) or !$new_question_arr[2])
+			{
+				//ilLoggerFactory::getLogger('crs')->debug(print_r($mappings,TRUE));
+				ilLoggerFactory::getLogger('crs')->debug('Found invalid or no mapping format of random question id mapping: ' . print_r($new_question_arr,TRUE));
+				continue;
+			}
+
+			$new_ass = new self(
+				$a_new_course_id,
+				$a_new_objective_id,
+				$this->getTestType(),
+				$new_question_arr[2]
+			);
+			$new_ass->setTestId($mapped_id);
+			$new_ass->setLimit($this->getLimit());
+			$new_ass->create();
 		}
-		
-		if(!$mapped_id)
-		{
-			ilLoggerFactory::getLogger('crs')->debug('No test mapping found for random question pool assignment: ' . $this->getTestId());
-			return FALSE;
-		}
-		$new_ass->setTestId($mapped_id);
-		
-		// Mapping for sequence
-		$new_question_info = $mappings[$test_ref_id.'_rndSelDef_'.$this->getQplSequence()];
-		$new_question_arr = explode('_',$new_question_info);
-		if(!isset($new_question_arr[2]) or !$new_question_arr[2])
-		{
-			ilLoggerFactory::getLogger('crs')->debug(print_r($mappings,TRUE));
-			ilLoggerFactory::getLogger('crs')->debug('Found invalid or no mapping format of random question id mapping: ' . print_r($new_question_arr,TRUE));
-			return FALSE;
-		}
-		
-		$new_ass->setQplSequence($new_question_arr[2]);
-		$new_ass->create();
 	}
 	
 	
+	/**
+	 * read settings
+	 * @global type $ilDB
+	 * @return boolean
+	 */
 	public function read()
 	{
 		global $ilDB;
 		
 		$query = 'SELECT * FROM loc_rnd_qpl '.
-				'WHERE container_id = '.$ilDB->quote($this->getContainerId(),'integer').' '.
-				'AND objective_id = '.$ilDB->quote($this->getObjectiveId(),'integer').' '.
-				'AND tst_type = '.$ilDB->quote($this->getTestType(),'integer');
+			'WHERE container_id = '.$ilDB->quote($this->getContainerId(),'integer').' '.
+			'AND objective_id = '.$ilDB->quote($this->getObjectiveId(),'integer').' '.
+			'AND tst_type = '.$ilDB->quote($this->getTestType(),'integer').' '.
+			'AND qp_seq = '.$ilDB->quote($this->getQplSequence(),'integer');
 		
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setLimit($row->percentage);
 			$this->setTestId($row->tst_id);
-			$this->setQplSequence($row->qp_seq);
 		}
 		return true;
 	}
@@ -226,10 +287,29 @@ class ilLORandomTestQuestionPools
 		global $ilDB;
 
 		$query = 'DELETE FROM loc_rnd_qpl '.
-				'WHERE container_id = '.$ilDB->quote($this->getContainerId(),'integer').' '.
-				'AND objective_id = '.$ilDB->quote($this->getObjectiveId(),'integer').' '.
-				'AND tst_type = '.$ilDB->quote($this->getTestType(),'integer');
+			'WHERE container_id = '.$ilDB->quote($this->getContainerId(),'integer').' '.
+			'AND objective_id = '.$ilDB->quote($this->getObjectiveId(),'integer').' '.
+			'AND tst_type = '.$ilDB->quote($this->getTestType(),'integer').' '.
+			'AND qp_seq = '. $ilDB->quote($this->getQplSequence(),'integer');
 		$ilDB->manipulate($query);
+	}
+
+	/**
+	 * Delete assignment for objective id and test type
+	 * @param int $a_course_id
+	 * @param int $a_objective_id
+	 * @param int $a_tst_type
+	 */
+	public function deleteForObjectiveAndTestType($a_course_id, $a_objective_id, $a_tst_type)
+	{
+		$db = $GLOBALS['DIC']->database();
+
+		$query = 'DELETE FROM loc_rnd_qpl '.
+				'WHERE container_id = '.$db->quote($a_course_id,'integer').' '.
+				'AND objective_id = '.$db->quote($a_objective_id,'integer').' '.
+				'AND tst_type = '.$db->quote($a_tst_type,'integer');
+		$db->manipulate($query);
+		
 	}
 	
 	public function create()

@@ -16,7 +16,12 @@ class ilExcCriteriaTableGUI extends ilTable2GUI
 
 	public function __construct($a_parent_obj, $a_parent_cmd, $a_cat_id)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		$this->cat_id = $a_cat_id;
 		$this->setId("exccrit".$this->cat_id);
@@ -77,7 +82,8 @@ class ilExcCriteriaTableGUI extends ilTable2GUI
 	
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$this->tpl->setVariable("ID", $a_set["id"]);
 		$this->tpl->setVariable("POS", $a_set["pos"]);

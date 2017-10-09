@@ -23,6 +23,10 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
 	*/
 	function __construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
+		global $DIC;
+
+		$this->tpl = $DIC["tpl"];
+		$this->ctrl = $DIC->ctrl();
 		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
 
@@ -54,7 +58,7 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
 	 */
 	function insert(ilPropertyFormGUI $a_form = null)
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$this->displayValidationError();
 
@@ -72,7 +76,7 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
 	 */
 	function edit(ilPropertyFormGUI $a_form = null)
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		$this->displayValidationError();
 
@@ -91,7 +95,7 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
 	 */
 	protected function initForm($a_insert = false)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -125,15 +129,27 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
 		}
 		
 		$this->record_gui->parse();
-		
+
+		$no_fields = (count($form->getItems()) == 1);
+		if ($no_fields)
+		{
+			ilUtil::sendFailure($this->lng->txt("wiki_pg_list_no_search_fields"));
+		}
+
 		if ($a_insert)
-		{		
-			$form->addCommandButton("create_amd_page_list", $this->lng->txt("select"));
+		{
+			if (!$no_fields)
+			{
+				$form->addCommandButton("create_amd_page_list", $this->lng->txt("select"));
+			}
 			$form->addCommandButton("cancelCreate", $this->lng->txt("cancel"));
 		}
 		else
-		{					
-			$form->addCommandButton("update", $this->lng->txt("select"));
+		{
+			if (!$no_fields)
+			{
+				$form->addCommandButton("update", $this->lng->txt("select"));
+			}
 			$form->addCommandButton("cancelUpdate", $this->lng->txt("cancel"));
 		}
 

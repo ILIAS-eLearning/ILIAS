@@ -17,6 +17,11 @@ require_once("./Services/COPage/classes/class.ilPageContent.php");
 */
 class ilPCSkills extends ilPageContent
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	var $dom;
 
 	/**
@@ -24,6 +29,9 @@ class ilPCSkills extends ilPageContent
 	*/
 	function init()
 	{
+		global $DIC;
+
+		$this->user = $DIC->user();
 		$this->setType("skills");
 	}
 
@@ -57,7 +65,7 @@ class ilPCSkills extends ilPageContent
 	 */
 	function setData($a_skill_id)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$this->skill_node->set_attribute("Id", $a_skill_id);
 		$this->skill_node->set_attribute("User", $ilUser->getId());

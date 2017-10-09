@@ -32,6 +32,11 @@
 class ilSetting
 {
 	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
 	* cache for the read settings
 	* ilSetting is instantiated more than once per request for some modules
 	* The cache avoids reading them from the DB with each instance
@@ -54,7 +59,10 @@ class ilSetting
 	*/
 	function __construct($a_module = "common", $a_disabled_cache = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$this->db = $DIC->database();
+		$ilDB = $DIC->database();
 		
 		$this->cache_disabled = $a_disabled_cache;
 		$this->module = $a_module;
@@ -79,7 +87,7 @@ class ilSetting
 	*/
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		// get the settings from the cache if they exist.
 		// The setting array of the class is a reference to the cache.
@@ -144,7 +152,7 @@ class ilSetting
 	 */
 	public function deleteAll()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$query = "DELETE FROM settings WHERE module = ".$ilDB->quote($this->module, "text");
 		$ilDB->manipulate($query);
@@ -162,7 +170,7 @@ class ilSetting
 	 */
 	public function deleteLike($a_like)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$query = "SELECT keyword FROM settings".
 			" WHERE module = ".$ilDB->quote($this->module, "text").
@@ -184,7 +192,7 @@ class ilSetting
 	*/
 	function delete($a_keyword)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$st = $ilDB->manipulate("DELETE FROM settings WHERE keyword = ".
 			$ilDB->quote($a_keyword, "text")." AND module = ".
@@ -216,7 +224,10 @@ class ilSetting
 	*/
 	function set($a_key, $a_val)
 	{
-		global $lng, $ilDB;
+		global $DIC;
+
+		$lng = $DIC["lng"];
+		$ilDB = $this->db;
 		
 		$this->delete($a_key);
 
@@ -243,7 +254,7 @@ class ilSetting
 	
 	function setScormDebug($a_key, $a_val)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		if ($a_val != "1") {
 			$ilDB->query("UPDATE sahs_lm SET debug = 'n'");
 		}
@@ -253,7 +264,9 @@ class ilSetting
 	
 	public static function _lookupValue($a_module, $a_keyword)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$query = "SELECT value FROM settings WHERE module = %s AND keyword = %s";
 		$res = $ilDB->queryF($query, array('text', 'text'), array($a_module, $a_keyword));
@@ -296,7 +309,9 @@ class ilSetting
 	*/
     public static function _changeValueType($a_new_type = 'text')
 	{
-	    global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 	    $old_type = self::_getValueType();
 
@@ -346,7 +361,9 @@ class ilSetting
 	*/
     public static function _getLongerSettings($a_limit = '4000')
 	{
-	    global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$settings = array();
 

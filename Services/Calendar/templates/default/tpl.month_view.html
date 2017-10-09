@@ -1,40 +1,5 @@
 {NAVIGATION}
-<script type="text/javascript"> 
-	function redirectTo(link)
-	{
-		window.location = link;
-	}
-	
-		
-    function init() 
-    { 
-
-		<!-- BEGIN panel_code -->
-		myPanel = new YAHOO.widget.Panel("panel_{NUM}", { width:"40em", visible:false, draggable:true, close:true, constraintoviewport:true} );
-		myPanel.render();
-		
-		YAHOO.util.Event.addListener("show_{NUM}","click",onPanelClick,myPanel,true);
-		YAHOO.util.Event.addListener("link_{NUM}","click",onEditLinkClick,myPanel,true);
-		<!-- END panel_code -->
-
-		function onEditLinkClick(event,panel) 
-		{
-			document.getElementById(panel.id).style.display = '';
-			panel.show();
-			YAHOO.util.Event.stopEvent(event);
-			return true;
-		}
-		
-		function onPanelClick(event,panel)
-		{
-			document.getElementById(panel.id).style.display = '';
-			panel.show();
-		}	
-		
-	}
-	YAHOO.util.Event.onDOMReady(init);
-</script> 
-<table class="calstd">
+<table class="calstd il-cal-month">
 	<thead>
 	<tr class="calheader">
 		<!-- BEGIN month_header_col -->
@@ -59,7 +24,7 @@
 			</div>
 			<div style="float:right">
 				<p class="il_cal_navigation">
-					<!-- BEGIN new_app --><a href="{ADD_LINK}">{NEW_SRC}</a><!-- END new_app -->					
+					<!-- BEGIN new_app -->{NEW_GLYPH}<!-- END new_app -->
 					<!-- BEGIN new_ms -->	
 					<div class="btn-group">
 						<div class="dropdown-toggle callink" data-toggle="dropdown" data-container="body" id="add_dd_tr_{DD_ID}" type="button">
@@ -75,20 +40,9 @@
 			</div>
 			<div style="clear:both" />
 			</div>
-
-			<!-- BEGIN il_event -->
-				{PANEL_DATA}
-				<p id="show_{PANEL_NUM}" 
-					class="il_calevent" 
-					style="background-color:{EVENT_BGCOLOR};{EVENT_ADD_STYLES}">
-					<font class="small">
-						<!-- BEGIN fullday_ms_icon --><img alt="{ALT_FD_MS}" title="{ALT_FD_MS}" src="{SRC_FD_MS}" /><!-- END fullday_ms_icon -->
-						<a id="link_{PANEL_NUM}" class="callink" href="{EVENT_EDIT_LINK}" style="color:{EVENT_FONTCOLOR}">
-							{EVENT_TITLE}
-						</a>
-					</font>
-				</p>
-			<!-- END il_event -->
+			<!-- BEGIN event_nfd -->
+			{EVENT_CONTENT}
+			<!-- END event_nfd -->
 		</td>
 		<!-- END month_col -->
 	</tr>

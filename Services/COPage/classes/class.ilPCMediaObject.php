@@ -15,13 +15,21 @@ require_once("./Services/COPage/classes/class.ilPageContent.php");
 */
 class ilPCMediaObject extends ilPageContent
 {
-	var $mob_node;
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	protected $mob_node;
 	
 	/**
 	* Init page content component.
 	*/
 	function init()
 	{
+		global $DIC;
+
+		$this->user = $DIC->user();
 		$this->setType("media");
 	}
 
@@ -431,7 +439,7 @@ class ilPCMediaObject extends ilPageContent
 	 */
 	function modifyPageContentPostXsl($a_html, $a_mode)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		if ($a_mode == "offline")
 		{

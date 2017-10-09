@@ -10,6 +10,11 @@
  */
 class ilExcCriteriaCatalogue
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	protected $id; // [int]
 	protected $parent; // [int]
 	protected $title; // [string]
@@ -17,12 +22,17 @@ class ilExcCriteriaCatalogue
 	
 	public function __construct($a_id = null)
 	{	
+		global $DIC;
+
+		$this->db = $DIC->database();
 		$this->read($a_id);		
 	}
 	
 	public static function getInstancesByParentId($a_parent_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$res = array();
 		
@@ -111,7 +121,7 @@ class ilExcCriteriaCatalogue
 	}
 	protected function getLastPosition()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if(!$this->getParent())
 		{
@@ -127,7 +137,7 @@ class ilExcCriteriaCatalogue
 	
 	protected function read($a_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$a_id = (int)$a_id;		
 		if($a_id)
@@ -145,7 +155,7 @@ class ilExcCriteriaCatalogue
 	
 	public function save()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if($this->id)
 		{
@@ -164,7 +174,7 @@ class ilExcCriteriaCatalogue
 	
 	public function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if(!$this->id)
 		{
@@ -177,7 +187,7 @@ class ilExcCriteriaCatalogue
 	
 	public function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if(!$this->id)
 		{
@@ -193,7 +203,9 @@ class ilExcCriteriaCatalogue
 	
 	public static function deleteByParent($a_parent_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		if(!(int)$a_parent_id)
 		{

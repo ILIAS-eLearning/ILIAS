@@ -14,10 +14,24 @@ include_once("./Services/Skill/classes/class.ilVirtualSkillTreeExplorerGUI.php")
 class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
 {
 	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd)
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
 		parent::__construct("skill_exp", $a_parent_obj, $a_parent_cmd);
 		
 		$this->setSkipRootNode(false);
@@ -35,7 +49,7 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
 	 */
 	function getNodeContent($a_node)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$a_parent_id_parts = explode(":", $a_node["id"]);
 		$a_parent_skl_tree_id = $a_parent_id_parts[0];
@@ -153,7 +167,7 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
 	 */
 	function getNodeHref($a_node)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$id_parts = explode(":", $a_node["id"]);
 		if ($id_parts[1] == 0)

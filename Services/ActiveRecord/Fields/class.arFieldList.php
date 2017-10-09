@@ -258,7 +258,7 @@ class arFieldList {
 	 * @return bool
 	 */
 	protected static function checkAttributes(array $attributes) {
-		if ($attributes[self::HAS_FIELD] === 'true') {
+		if (isset($attributes[self::HAS_FIELD]) && $attributes[self::HAS_FIELD] === 'true') {
 			foreach (array_keys($attributes) as $atr) {
 				if (!self::isAllowedAttribute($atr)) {
 					return false;

@@ -34,6 +34,7 @@ The chat server is tested and runs with the following versions of NodeJs:
   * v0.12.10
   * 4.5.0 (LTS)
   * 6.5.0
+  * 6.11.2
 
 ## HTTPS
 
@@ -66,13 +67,12 @@ node Modules/Chatroom/chat/chat [PATH_TO_EXTERNAL_DATA_DIRECTORY]/[ANY_CLIENT_ID
 # Configuration
 
 The basic configuration is done in the ILIAS Chatroom configuration in the ILIAS
-Administration. After saving the ```Server settings``` and ```Client Settings``` two
-config files (```server.cfg``` and ```client.cfg```) are created in your ILIAS
+Administration. After saving the `Server settings` and `Client Settings` two
+config files (`server.cfg` and `client.cfg`) are created in your ILIAS
 external data directory in the subfolder chatroom. These files must be addressed
 when starting the NodeJs chat server.
 
-If you want to handle multiple ILIAS clients with one chat server multiple
-```client.cfg``` can be passed as start parameters.
+If you want to handle multiple ILIAS clients with one chat server multiple `client.cfg` can be passed as start parameters.
 
 After you made changes, the chat server must be restarted.
 
@@ -97,18 +97,18 @@ Examples:
 
 The port to be bound to the chat server
 
-  * e.g. ```8080```
+  * e.g. `8080`
 
 <a name="sub-directory"></a>
 #### Sub-Directory
 
-There may be configurations where the chat server is not directly located in the document root and the URL to the chat server looks like: ```http(s)://[IP/DOMAIN]/[PATH]/[TO]/[CHAT]```.
+There may be configurations where the chat server is not directly located in the document root and the URL to the chat server looks like: `http(s)://[IP/DOMAIN]/[PATH]/[TO]/[CHAT]`.
 Because of some technical requirements, it is important to define the relative path in this case.
 
 Examples:
 
-  * Your configuration: http(s)://myilias.de/servers/chat (e.g ```/servers/chat```)
-  * Your configuration: http(s)://myilias.de (e.g. ```empty string```)
+  * Your configuration: http(s)://myilias.de/servers/chat (e.g `/servers/chat`)
+  * Your configuration: http(s)://myilias.de (e.g. `empty string`)
 
 <a name="protocol"></a>
 #### Protocol
@@ -119,11 +119,11 @@ HTTPS: chat server opens an ssl encrypted http socket
 
 For an HTTPS setup you must specify the following settings:
 
-  * Certificate: Path to the ssl certificate file (e.g. ```/etc/ssl/certs/server.pem```)
-  * Key: Path to the private key file of ssl (e.g. ```/etc/ssl/private/server.key```)
-  * Diffie-Hellman Parameter: Path to Diffie-Hellman parameter file (e.g. ```/etc/ssl/private/dhparam.pem```)
+  * Certificate: Path to the ssl certificate file (e.g. `/etc/ssl/certs/server.pem`)
+  * Key: Path to the private key file of ssl (e.g. `/etc/ssl/private/server.key`)
+  * Diffie-Hellman Parameter: Path to Diffie-Hellman parameter file (e.g. `/etc/ssl/private/dhparam.pem`)
 
-    To generate ```dhparam.pem``` use ```openssl dhparam -out /etc/ssl/private/dhparam.pem 2048```
+    To generate `dhparam.pem` use `openssl dhparam -out /etc/ssl/private/dhparam.pem 2048`
 
 <a name="logging"></a>
 #### Logging
@@ -132,8 +132,8 @@ You can configure optional a path for log and error_log. By default the chat ser
 
 Example:
 
-  * ```Chat Server Log = /srv/www/logs/ilias_chat.log```
-  * ```Chat Server ErrorLog = /srv/www/logs/ilias_error_chat.log```
+  * `Chat Server Log = /srv/www/logs/ilias_chat.log`
+  * `Chat Server ErrorLog = /srv/www/logs/ilias_error_chat.log`
 
 <a name="ilias-to-server-connection"></a>
 #### ILIAS to Server Connection

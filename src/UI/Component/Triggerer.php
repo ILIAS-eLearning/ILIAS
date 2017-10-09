@@ -11,7 +11,7 @@ use ILIAS\UI\Implementation\Component\TriggeredSignalInterface;
  *
  * @package ILIAS\UI\Component
  */
-interface Triggerer {
+interface Triggerer extends JavaScriptBindable {
 
 	/**
 	 * Get a component like this but reset any triggered signals of other components
@@ -26,5 +26,4 @@ interface Triggerer {
 	 * @return TriggeredSignalInterface[]
 	 */
 	public function getTriggeredSignals();
-
 }

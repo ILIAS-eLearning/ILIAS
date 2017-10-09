@@ -14,13 +14,31 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilSkillUsageTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
 
 	/**
 	 * Constructor
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_cskill_id, $a_usage)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
+		$lng = $DIC->language();
 
 		$id_parts = explode(":", $a_cskill_id);
 		$this->skill_id = $id_parts[0];
@@ -58,7 +76,7 @@ class ilSkillUsageTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng;
+		$lng = $this->lng;
 //var_dump($a_set);
 		$this->tpl->setVariable("TYPE_INFO", ilSkillUsage::getTypeInfoString($a_set["type"]));
 		$this->tpl->setVariable("NUMBER", count($a_set["usages"]));

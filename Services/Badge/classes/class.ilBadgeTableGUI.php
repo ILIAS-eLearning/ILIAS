@@ -14,12 +14,22 @@ include_once("./Services/Badge/classes/class.ilBadge.php");
  */
 class ilBadgeTableGUI extends ilTable2GUI
 {		
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
 	protected $has_write; // [bool]
 	protected $parent_type; // [string]
 	
 	function __construct($a_parent_obj, $a_parent_cmd = "", $a_parent_obj_id, $a_has_write = false)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		$this->setId("bdgbdg");
 		$this->has_write = (bool)$a_has_write;
@@ -66,7 +76,7 @@ class ilBadgeTableGUI extends ilTable2GUI
 	
 	public function initFilter()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$title = $this->addFilterItemByMetaType("title", self::FILTER_TEXT, false, $lng->txt("title"));		
 		$this->filter["title"] = $title->getValue();
@@ -116,7 +126,8 @@ class ilBadgeTableGUI extends ilTable2GUI
 	
 	protected function fillRow($a_set)
 	{					
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		if($this->has_write)
 		{	

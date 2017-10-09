@@ -33,8 +33,7 @@ class ilChatroomKickGUI extends ilChatroomGUIHandler
 
 	/**
 	 * Displays window box to kick a user fetched from $_REQUEST['user'].
-	 * @global ilObjUser $ilUser
-	 * @param string     $method
+	 * @inheritdoc
 	 */
 	public function executeDefault($method)
 	{
@@ -80,22 +79,19 @@ class ilChatroomKickGUI extends ilChatroomGUIHandler
 
 	/**
 	 * Kicks user from subroom into mainroom
-	 * @global ilObjUser $ilUser
 	 */
 	public function sub()
 	{
-		global $ilUser, $ilCtrl;
-
 		$room = ilChatroom::byObjectId($this->gui->object->getId());
 
 		if($room)
 		{
-			if(!$room->isOwnerOfPrivateRoom($ilUser->getId(), $_REQUEST['sub']))
+			if(!$room->isOwnerOfPrivateRoom($this->ilUser->getId(), $_REQUEST['sub']))
 			{
-				if(!ilChatroom::checkPermissionsOfUser($ilUser->getId(), array('read', 'moderate'), $this->gui->ref_id))
+				if(!ilChatroom::checkUserPermissions(array('read', 'moderate'), $this->gui->ref_id))
 				{
-					$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", ROOT_FOLDER_ID);
-					$ilCtrl->redirectByClass("ilrepositorygui", "");
+					$this->ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", ROOT_FOLDER_ID);
+					$this->ilCtrl->redirectByClass("ilrepositorygui", "");
 				}
 			}
 
@@ -109,36 +105,6 @@ class ilChatroomKickGUI extends ilChatroomGUIHandler
 				$response  = $connector->sendKick($roomId, $subRoomId, $userToKick);
 				$this->sendResponse($response);
 			}
-
-			/*
-			if( $responseObject->success == true && $room->getSetting( 'enable_history' ) )
-			{
-			//$room->addHistoryEntry( $message, $recipient, $publicMessage );
-			}
-
-
-
-			$message = json_encode(array(
-										'type'  => 'userjustkicked',
-										'user'  => $params['user'],
-										'sub'   => $params['sub']
-								   ));
-
-			$connector->sendMessage($room->getRoomId(), $message, array(
-																	   'public'  => 1,
-																	   'sub'     => 0
-																  ));
-		}
-		else
-		{
-			$response = json_encode(array(
-										 'success'  => true,
-										 'message'  => 'was not in room'
-									));
-		}
-
-		echo $response;
-		exit;*/
 		}
 	}
 }

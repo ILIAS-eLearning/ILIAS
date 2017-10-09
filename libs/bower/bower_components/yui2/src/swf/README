@@ -1,0 +1,13 @@
+SWF Utility - Release Notes
+
+2.9.0
+    * Bug fixes
+        * Added escapes to all non-HTML text written to innerHTML.
+        * Fixed regression that causes absence of Flash to cause an error.
+        * Updated the list of possible attributes to include all standard parameters allowed for the Flash Player object.
+
+2.8.1
+    * No change
+	
+2.8.0
+    * Initial Release

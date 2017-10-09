@@ -151,4 +151,29 @@ include_once("./Services/Database/classes/class.ilDBAnalyzer.php");
 include_once("./Services/Database/classes/class.ilMySQLAbstraction.php");
 include_once("./Services/Database/classes/class.ilDBGenerator.php");
 
+// HTTP Services
+$DIC['http.request_factory'] = function ($c) {
+	return new \ILIAS\HTTP\Request\RequestFactoryImpl();
+};
+
+$DIC['http.response_factory'] = function ($c) {
+	return new \ILIAS\HTTP\Response\ResponseFactoryImpl();
+};
+
+$DIC['http.cookie_jar_factory'] = function ($c) {
+	return new \ILIAS\HTTP\Cookies\CookieJarFactoryImpl();
+};
+
+$DIC['http.response_sender_strategy'] = function ($c) {
+	return new \ILIAS\HTTP\Response\Sender\DefaultResponseSenderStrategy();
+};
+$DIC["http"] = function ($c) {
+	return new \ILIAS\DI\HTTPServices(
+		$c['http.response_sender_strategy'],
+		$c['http.cookie_jar_factory'],
+		$c['http.request_factory'],
+		$c['http.response_factory']
+	);
+};
+$DIC['ilCtrl'] = new ilCtrl();
 ?>

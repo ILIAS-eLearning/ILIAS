@@ -138,6 +138,7 @@ div.ilContainerListItemContentCB {
 div.il_ContainerListItem {
 	margin: 2px 0;
 	padding-left: 8px;
+	width:100%;
 }
 
 [dir="rtl"] div.il_ContainerListItem {
@@ -150,6 +151,29 @@ div.il_ContainerListItem {
 	padding: 5px 10px;
 	text-align: left;
 	vertical-align: middle;
+}
+
+.ilContainerBlockHeaderExpanded, .ilContainerBlockHeaderCollapsed {
+	background-repeat: no-repeat;
+	background-position: 20px 8px;
+	padding-left: 50px;
+	/* padding-top: 6px; */
+	background-color: @il-secondary-container-bg;
+	cursor: pointer;
+	margin-bottom: 1px;
+}
+
+.ilContainerBlockHeaderExpanded {
+	background-image: url("images/tree_exp.svg");
+}
+
+.ilContainerBlockHeaderCollapsed {
+	background-image: url("images/tree_col.svg");
+	/* background-color: @il-secondary-container-bg; */
+}
+
+.ilContainerBlockHeaderExpanded:hover, .ilContainerBlockHeaderCollapsed:hover {
+	background-color: @il-highlight-bg;
 }
 
 [dir="rtl"] .ilContainerBlockHeader {

@@ -42,7 +42,7 @@ div.ilCalSelSelAll {
 }
 
 div.ilCalSelList {
-	max-height: 250px;
+	max-height: 300px;
 	overflow: auto;
 }
 
@@ -59,25 +59,34 @@ ul.ilCalSel {
 
 ul.ilCalSel li {
 	margin: 0;
-	padding: 0 0 0 48px;
+	/* padding: 0 0 0 48px; */
+	margin: 0;
 	border-bottom: 1px solid #f0f0f0;
-	min-height: 25px;
+	/* min-height: 25px; */
 }
 
-span.ilCalColSpan {
-	padding: 2px 0;
-	display: block;
-	margin-left: -48px;
-	width: 24px;
-	height: 25px;
-	float: left;
+ul.ilCalSel li > div {
+	display:table-row;
+}
+
+ul.ilCalSel li > div > div {
+	display:table-cell;
+	padding: 2px;
+}
+
+ul.ilCalSel li > div > div.ilCalColSpan {
+	border-left: 5px solid;
+	padding: 2px 5px;
 }
 
 ul.ilCalSel li img {
-	margin-top: 6px;
-	display: block;
-	float: left;
-	margin-left: -20px;
+}
+
+div.ilCalSelList h6 {
+	padding-left: 5px;
+	font-size: @font-size-small;
+	margin-top: 16px;
+	margin-bottom: 8px;
 }
 
 div.ilCalSelTitle {
@@ -102,19 +111,20 @@ table.calmini {
 		color: lighten(@mid-gray, 45%);
 		background-color: transparent;
 	}
+	tr:nth-child(odd) {
+		background-color: @il-secondary-container-bg;
+	}
 	tr:nth-child(even) {
-		background-color: lighten(@mid-gray, 65%);
+		background-color: @il-primary-container-bg;
 	}
 	th.calmini, th.calminiweek {
 		font-weight: 600;
-		color: @brand-primary;
 		font-size: 90%;
 	}
 	td.calministd > .il_calmini_monthday > a {
-		color: lighten(@mid-gray, 15%);
 	}
 	td.calminitoday {
-		background-color: lighten(@brand-primary, 15%);
+		background-color: @brand-warning;
 		> .il_calmini_monthday > a {
 			color: white;
 		}
@@ -122,6 +132,7 @@ table.calmini {
 	td.calminiprev > .il_calmini_monthday > a,
 	td.calmininext > .il_calmini_monthday > a {
 		color: lighten(@mid-gray, 40%);
+		display:none;
 	}
 }
 
@@ -131,11 +142,284 @@ a.callink:link, a.callink:visited {
 }
 a.callink:hover {
 }
-.callink .glyphicon {
-	color: lighten(@link-color, 30%);
-	cursor: pointer;
+.calevent .btn.btn-link, .il_calevent .btn.btn-link {
+	color:inherit;
 }
 
-.callink .glyphicon:hover {
-	color: @link-color;
+//** Moved from Services/Calendar/templates/calendar.css
+table.calstd {
+	margin-top: @padding-large-vertical;
+	color:@headings-small-color;
+	width:100%;
+	border: none;
+	font-size: 100%;
+}
+
+.calheader {
+	color:@headings-small-color;
+	font-weight: normal;
+	background-color: #F9F9F9;
+}
+
+
+th.calstd {
+	text-align: center;
+	border-spacing:0px;
+	background-color: @body-bg;
+	font-weight: normal;
+}
+
+td.calheadertime {
+	width: 6em;
+	text-align: center;
+	background-color: @body-bg;
+	font-size: 90%;
+	padding: 3px;
+}
+
+tr.calstdtime:first-of-type td{
+	background-color: black;
+}
+.calstdtime td {
+	border-spacing: 0px;
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-right-color: @table-border-color;
+}
+
+td.calempty,  th.calempty{
+	background-color:#ffffff;
+}
+
+td.calempty_border {
+	background-color:#ffffff;
+	border-spacing:0px;
+	border-bottom-width:1px;
+	border-bottom-style:solid;
+	border-bottom-color:@table-border-color;
+}
+
+tr.calstd{
+	background-color: inherit;
+	height: 6em;
+}
+
+table.il-cal-day tr.calstd + tr.calstdtime td.calempty,
+table.il-cal-week  tr.calstd + tr.calstdtime td.calempty{
+	background-color: @il-secondary-container-bg;
+}
+
+table.il-cal-day tr.calstd , table.il-cal-week tr.calstd {
+	border-collapse:collapse;
+	border-color:@table-border-color;
+
+	border-bottom-width:2px;
+	border-bottom-style:solid;
+
+	border-top-width:2px;
+	border-top-style:solid;
+}
+
+tr.calstdtime {
+	height: 1.2em;
+	background-color: inherit;
+	border-right-width:1px;
+	border-right-style:solid;
+	border-right-color:@table-border-color;
+}
+
+
+td.calstd {
+	vertical-align: top;
+	background-color:#ffffff;
+	border-spacing:0px;
+	border-collapse:collapse;
+	border-width:1px;
+	border-style:solid;
+	border-color:@table-border-color;
+	padding: 2px 0px;
+}
+
+td.caltoday {
+	vertical-align: top;
+	background-color:#FFE79C;
+	border-spacing:0px;
+	border-collapse:collapse;
+	border-width:1px;
+	border-style:solid;
+	border-color:@table-border-color;
+}
+
+
+td.calnow {
+	vertical-align: top;
+	background-color:#FFF0C4;
+	border-spacing:0px;
+	border-collapse:collapse;
+	border-width:1px;
+	border-style:solid;
+	border-color:@table-border-color;
+}
+
+td.calnext {
+	vertical-align: top;
+	background-color:#F9F9F9;
+	border-spacing:0px;
+	border-collapse:collapse;
+	border-width:1px;
+	border-style:solid;
+	border-color:@table-border-color;
+}
+
+td.calprev {
+	vertical-align: top;
+	background-color:#F9F9F9;
+	border-spacing:0px;
+	border-collapse:collapse;
+	border-width:1px;
+	border-style:solid;
+	border-color:@table-border-color;
+}
+
+p.il_calevent {
+	color:white;
+	margin: 2px 0 0 0;
+	padding: 2px;
+	border-spacing: 0px;
+	font-size: 90%;
+
+	.btn-link{
+		margin:0 auto;
+		width: 100%;
+		text-align: center;
+	}
+}
+
+td.calevent {
+	color:white;
+	vertical-align: top;
+	padding: 3px;
+	border-spacing:0px;
+	border-collapse:collapse;
+	border-width:1px;
+	border-style: solid;
+	border-color: @table-border-color;
+	font-size:90%;
+}
+
+div.calevent {
+	font-size:90%;
+	padding: 3px;
+	margin: 3px;
+}
+
+p.il_cal_monthday {
+	padding: 2px;
+	margin: 0px;
+	font-weight: normal;
+}
+
+p.il_cal_navigation {
+	padding: 0px 3px 0px 0px;
+	margin: 0px;
+}
+
+
+table.calmini
+{
+	width:100%;
+
+}
+
+.calminiheader {
+	color:#222222;
+	background-color: #F9F9F9;
+}
+
+th.calmini {
+	text-align: center;
+	font-size:90%;
+	font-weight:normal;
+	background-color: #FFFFFF;
+}
+
+tr.calmini {
+}
+
+a.calminiapp {
+	font-weight: bold;
+}
+
+p.il_calmini_monthday, div.il_calmini_monthday {
+	margin: 1px;
+	text-align:center;
+}
+
+td.calministd {
+	vertical-align: top;
+	border-collapse:collapse;
+	background-color:#ffffff;
+	border-spacing:0px;
+	border-width:1px;
+	border-style:solid;
+	border-color:@table-border-color;
+	font-size:90%;
+	text-align:center;
+	vertical-align:middle;
+}
+
+td.calminitoday {
+	vertical-align: top;
+	background-color:#FFE79C;
+	border-width:1px;
+	border-style:solid;
+	border-color:@table-border-color;
+	font-size:90%;
+	text-align:center;
+	vertical-align:middle;
+}
+
+td.calmininow {
+	vertical-align: top;
+	background-color:#FFF0C4;
+	border-width:1px;
+	border-style:solid;
+	border-color:@table-border-color;
+	font-size:90%;
+	text-align:center;
+	vertical-align:middle;
+}
+
+td.calmininext {
+	vertical-align: top;
+	background-color:#F9F9F9;
+	border-width:1px;
+	border-style:solid;
+	border-color:@table-border-color;
+	font-size:90%;
+	text-align:center;
+	vertical-align:middle;
+}
+
+td.calminiprev {
+	vertical-align: top;
+	background-color:#F9F9F9;
+	border-width:1px;
+	border-style:solid;
+	border-color:@table-border-color;
+	font-size:90%;
+	text-align:center;
+	vertical-align:middle;
+}
+
+td.calminiweek, th.calminiweek {
+	vertical-align: top;
+	background-color: #FFFFFF;
+	font-size:60%;
+	text-align:center;
+	vertical-align:middle;
+}
+
+span.calminiinactive {
+	color: #CCCCCC;
 }

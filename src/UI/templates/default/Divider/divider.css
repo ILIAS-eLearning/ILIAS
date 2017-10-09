@@ -1,0 +1,12 @@
+/* not final */
+h6.il-divider {
+  padding: 3px 10px;
+  background-color: #f0f0f0;
+  display: block;
+  font-size: 12px;
+  line-height: 1.42857143;
+  color: #777777;
+}
+hr.il-divider-with-label {
+  display: none;
+}

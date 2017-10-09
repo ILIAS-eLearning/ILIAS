@@ -19,6 +19,11 @@ include_once("./Services/AdvancedMetaData/interfaces/interface.ilAdvancedMetaDat
 */
 class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 {
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
 
 	/**
 	 * @var ilDB
@@ -42,6 +47,8 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	function __construct($a_id = 0,$a_call_by_reference = true)
 	{
 		global $DIC;
+		$this->error = $DIC["ilErr"];
+		$this->tpl = $DIC["tpl"];
 
 		$this->db = $DIC->database();
 		$this->user = $DIC->user();
@@ -590,12 +597,14 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	function createImportDirectory()
 	{
+		$ilErr = $this->error;
+
 		$glo_data_dir = ilUtil::getDataDir()."/glo_data";
 		ilUtil::makeDir($glo_data_dir);
 		if(!is_writable($glo_data_dir))
 		{
-			$this->ilias->raiseError("Glossary Data Directory (".$glo_data_dir
-				.") not writeable.",$this->ilias->error_obj->FATAL);
+			$ilErr->raiseError("Glossary Data Directory (".$glo_data_dir
+				.") not writeable.",$ilErr->error_obj->FATAL);
 		}
 
 		// create glossary directory (data_dir/glo_data/glo_<id>)
@@ -603,14 +612,14 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		ilUtil::makeDir($glo_dir);
 		if(!@is_dir($glo_dir))
 		{
-			$this->ilias->raiseError("Creation of Glossary Directory failed.",$this->ilias->error_obj->FATAL);
+			$ilErr->raiseError("Creation of Glossary Directory failed.",$ilErr->FATAL);
 		}
 		// create Import subdirectory (data_dir/glo_data/glo_<id>/import)
 		$import_dir = $glo_dir."/import";
 		ilUtil::makeDir($import_dir);
 		if(!@is_dir($import_dir))
 		{
-			$this->ilias->raiseError("Creation of Export Directory failed.",$this->ilias->error_obj->FATAL);
+			$ilErr->raiseError("Creation of Export Directory failed.",$ilErr->FATAL);
 		}
 	}
 
@@ -679,7 +688,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	function exportHTML($a_target_dir, $log)
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		// initialize temporary target directory
 		ilUtil::delDir($a_target_dir);
@@ -870,7 +879,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	function exportHTMLMOB($a_target_dir, &$a_glo_gui, $a_mob_id)
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		$mob_dir = $a_target_dir."/mobs";
 
@@ -1266,9 +1275,11 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		}
 		
 		// copy terms
+		$term_mappings = array();
 		foreach (ilGlossaryTerm::getTermList($this->getId()) as $term)
 		{
 			$new_term_id = ilGlossaryTerm::_copyTerm($term["id"], $new_obj->getId());
+			$term_mappings[$term["id"]] = $new_term_id;
 			
 			// copy tax node assignments
 			if ($tax_id > 0)
@@ -1283,6 +1294,13 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 				}
 			}
 		}
+
+		// add mapping of term_ids to copy wizard options
+		if (!empty($term_mappings))
+		{
+			$cp_options->appendMapping($this->getRefId().'_glo_terms', (array) $term_mappings);
+		}
+
 
 		return $new_obj;
 	}

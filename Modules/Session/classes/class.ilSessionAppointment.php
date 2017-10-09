@@ -376,7 +376,7 @@ class ilSessionAppointment implements ilDatePeriod
 		return ilSessionAppointment::_delete($this->getAppointmentId());
 	}
 
-	function _delete($a_appointment_id)
+	public static function _delete($a_appointment_id)
 	{
 		global $ilDB;
 
@@ -387,7 +387,7 @@ class ilSessionAppointment implements ilDatePeriod
 		return true;
 	}
 
-	function _deleteBySession($a_event_id)
+	public static function _deleteBySession($a_event_id)
 	{
 		global $ilDB;
 
@@ -398,7 +398,7 @@ class ilSessionAppointment implements ilDatePeriod
 		return true;
 	}
 
-	static function _readAppointmentsBySession($a_event_id)
+	public static function _readAppointmentsBySession($a_event_id)
 	{
 		global $ilDB;
 

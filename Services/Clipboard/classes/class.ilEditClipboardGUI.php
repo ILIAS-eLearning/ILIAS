@@ -18,12 +18,63 @@ require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
 class ilEditClipboardGUI
 {
 	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
 	* Constructor
 	* @access	public
 	*/
 	function __construct()
 	{
-		global $lng, $ilCtrl;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+		$this->user = $DIC->user();
+		$this->tabs = $DIC->tabs();
+		$this->tree = $DIC->repositoryTree();
+		$this->tpl = $DIC["tpl"];
+		$this->toolbar = $DIC->toolbar();
+		$this->error = $DIC["ilErr"];
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
 		
 		$this->multiple = false;
 		$this->page_back_title = $lng->txt("cont_back");
@@ -47,7 +98,10 @@ class ilEditClipboardGUI
 	*/
 	function executeCommand()
 	{
-		global $ilUser, $ilCtrl, $ilTabs, $lng;
+		$ilUser = $this->user;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
@@ -112,7 +166,7 @@ class ilEditClipboardGUI
 	*/
 	function getInsertButtonTitle()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if ($this->insertbuttontitle == "")
 		{
@@ -127,7 +181,12 @@ class ilEditClipboardGUI
 	*/
 	function view()
 	{
-		global $tree, $ilUser, $ilCtrl, $lng, $tpl, $ilToolbar;
+		$tree = $this->tree;
+		$ilUser = $this->user;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
+		$ilToolbar = $this->toolbar;
 
 		include_once("./Services/UIComponent/Button/classes/class.ilLinkButton.php");
 		$but = ilLinkButton::getInstance();
@@ -156,12 +215,15 @@ class ilEditClipboardGUI
 	*/
 	function remove()
 	{
-		global $ilias, $ilUser, $lng, $ilCtrl;
+		$ilErr = $this->error;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		// check number of objects
 		if (!isset($_POST["id"]))
 		{
-			$ilias->raiseError($lng->txt("no_checkbox"),$ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($lng->txt("no_checkbox"), $ilErr->MESSAGE);
 		}
 
 		foreach($_POST["id"] AS $obj_id)
@@ -187,19 +249,20 @@ class ilEditClipboardGUI
 	*/
 	function insert()
 	{
-		global $ilias, $lng;
+		$lng = $this->lng;
+		$ilErr = $this->error;
 		
 		// check number of objects
 		if (!isset($_POST["id"]))
 		{
-			$ilias->raiseError($lng->txt("no_checkbox"),$ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($lng->txt("no_checkbox"), $ilErr->MESSAGE);
 		}
 		
 		if (!$this->getMultipleSelections())
 		{
 			if(count($_POST["id"]) > 1)
 			{
-				$ilias->raiseError($lng->txt("cont_select_max_one_item"),$ilias->error_obj->MESSAGE);
+				$ilErr->raiseError($lng->txt("cont_select_max_one_item"), $ilErr->MESSAGE);
 			}
 		}
 
@@ -217,7 +280,9 @@ class ilEditClipboardGUI
 	*/
 	function setTabs()
 	{
-		global $ilTabs, $lng, $tpl;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
 
 		$tpl->setTitle($lng->txt("clipboard"));
 		$this->getTabs($ilTabs);
@@ -238,7 +303,7 @@ class ilEditClipboardGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		// back to upper context
 		$tabs_gui->setBackTarget($this->page_back_title,

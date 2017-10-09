@@ -53,6 +53,9 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 
 	public function __construct() {
 		global $DIC;
+
+		parent::__construct();
+
 		$lng = $DIC['lng'];
 		$ilUser = $DIC['ilUser'];
 		$ilAccess = $DIC['ilAccess'];
@@ -168,7 +171,7 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 
 	protected function readToShowInfoMessage() {
 		require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockViewSettings.php';
-		$viewSettings = new ilPDSelectedItemsBlockSelectedItemsBlockViewSettings($GLOBALS['DIC']->user(), (int)$_GET['view']);
+		$viewSettings = new ilPDSelectedItemsBlockViewSettings($GLOBALS['DIC']->user(), (int)$_GET['view']);
 		$this->show_info_message = $viewSettings->isStudyProgrammeViewActive();
 	}
 
@@ -185,7 +188,11 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 	}
 	
 	protected function shouldShowThisList() {
-		return $_GET["cmd"] == "jumpToSelectedItems" && !$_GET["expand"];
+		global $DIC;
+		$ctrl = $DIC->ctrl();
+		return ($_GET["cmd"] == "jumpToSelectedItems" ||
+				($ctrl->getCmdClass() == "ilpersonaldesktopgui" && $ctrl->getCmd() == "show")
+			) && !$_GET["expand"];
 	}
 	
 	protected function readUsersAssignments() {

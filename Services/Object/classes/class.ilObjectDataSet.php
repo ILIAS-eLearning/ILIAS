@@ -15,7 +15,7 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
  * @ingroup ingroup ServicesObject
  */
 class ilObjectDataSet extends ilDataSet
-{	
+{
 	/**
 	 * Get supported versions
 	 *
@@ -95,7 +95,7 @@ class ilObjectDataSet extends ilDataSet
 	 */
 	function readData($a_entity, $a_version, $a_ids, $a_field = "")
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if (!is_array($a_ids))
 		{
@@ -252,7 +252,7 @@ class ilObjectDataSet extends ilDataSet
 				$new_id = $a_mapping->getMapping('Services/Container','objs',$a_rec['ObjId']);
 				if (!$new_id)
 				{
-					$new_id = $a_mapping->getMapping('Services/Object','obj',$a_rec['ObjId']);
+					$new_id = $a_mapping->getMapping('Services/Object','objs',$a_rec['ObjId']);
 				}
 				if ($new_id > 0)
 				{

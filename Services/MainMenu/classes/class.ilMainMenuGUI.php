@@ -2,6 +2,10 @@
 
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\BackgroundTasks\BucketMeta;
+use ILIAS\BackgroundTasks\Implementation\Bucket\State;
+use ILIAS\UI\Implementation\Component\Popover\ReplaceContentSignal;
+
 include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
 
 /**
@@ -13,15 +17,68 @@ include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
 class ilMainMenuGUI
 {
 	/**
-	* ilias objectm
-	* @var		object ilias
-	* @access	private
-	*/
-	var $ilias;
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilPluginAdmin
+	 */
+	protected $plugin_admin;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilNavigationHistory
+	 */
+	protected $nav_history;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+	/**
+	 * @var ilTemplate
+	 */
 	var $tpl;
+
 	var $target;
 	var $start_template;
 	var $mail; // [bool]
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $main_tpl;
 	
 	protected $mode; // [int]
 	protected $topbar_back_url; // [stringt]
@@ -37,13 +94,35 @@ class ilMainMenuGUI
 	* @param	boolean		$a_use_start_template	true means: target scripts should
 	*												be called through start template
 	*/
-	function __construct($a_target = "_top", $a_use_start_template = false)
+	function __construct($a_target = "_top", $a_use_start_template = false, ilTemplate $a_main_tpl = null)
 	{
-		global $ilias, $rbacsystem, $ilUser;
+		global $DIC;
+
+		if ($a_main_tpl != null)
+		{
+			$this->main_tpl = $a_main_tpl;
+		}
+		else
+		{
+			$this->main_tpl = $DIC["tpl"];
+		}
+
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->user = $DIC->user();
+		$this->lng = $DIC->language();
+		$this->plugin_admin = $DIC["ilPluginAdmin"];
+		$this->tree = $DIC->repositoryTree();
+		$this->access = $DIC->access();
+		$this->nav_history = $DIC["ilNavigationHistory"];
+		$this->settings = $DIC->settings();
+		$this->ctrl = $DIC->ctrl();
+		$this->help = $DIC["ilHelp"];
+		$this->ui = $DIC->ui();
+		$rbacsystem = $DIC->rbac()->system();
+		$ilUser = $DIC->user();
 		
 		$this->tpl = new ilTemplate("tpl.main_menu.html", true, true,
 			"Services/MainMenu");
-		$this->ilias = $ilias;
 		$this->target = $a_target;
 		$this->start_template = $a_use_start_template;
 		
@@ -106,25 +185,6 @@ class ilMainMenuGUI
 	}
 
 	/**
-	* set output template
-	*/
-	function setTemplate(&$tpl)
-	{
-		echo "ilMainMenu->setTemplate is deprecated. Use getHTML instead.";
-		return;
-		$this->tpl = $tpl;
-	}
-
-	/**
-	* get output template
-	*/
-	function getTemplate()
-	{
-		echo "ilMainMenu->getTemplate is deprecated. Use getHTML instead.";
-		return;
-	}
-
-	/**
 	 * Set target parameter for login (public sector).
 	 * This is used by the main menu
 	 */
@@ -143,9 +203,10 @@ class ilMainMenuGUI
 	
 	static function getLanguageSelection($a_in_topbar = false)
 	{
-		global $lng;
+		global $DIC;
 
-		global $ilUser;
+		$lng = $DIC->language();
+
 		include_once("./Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php");
 		$gr_list = new ilGroupedListGUI();
 		$gr_list->setAsDropDown(true);
@@ -172,12 +233,17 @@ class ilMainMenuGUI
 	*/
 	function setTemplateVars()
 	{
-		global $rbacsystem, $lng, $ilias, $tree, $ilUser, $ilSetting, $ilPluginAdmin;
-		
+		$rbacsystem = $this->rbacsystem;
+		$lng = $this->lng;
+		$ilUser = $this->user;
+		$ilPluginAdmin = $this->plugin_admin;
+		$main_tpl = $this->main_tpl;
+
 		if($this->logo_only)
 		{		
 			$this->tpl->setVariable("HEADER_URL", $this->getHeaderURL());
 			$this->tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.svg"));
+			$this->tpl->setVariable("HEADER_ICON_RESPONSIVE", ilUtil::getImagePath("HeaderIconResponsive.svg"));
 			
 			// #15759
 			include_once("./Modules/SystemFolder/classes/class.ilObjSystemFolder.php");
@@ -230,6 +296,7 @@ class ilMainMenuGUI
 			$this->renderOnScreenChatMenu();
 			$this->populateWithBuddySystem();
 			$this->populateWithOnScreenChat();
+			$this->renderBackgroundTasks();
 			$this->renderAwareness();
 		}
 
@@ -265,7 +332,7 @@ class ilMainMenuGUI
 				{
 					$this->tpl->setCurrentBlock("registration_link");
 					$this->tpl->setVariable("TXT_REGISTER",$lng->txt("register"));
-					$this->tpl->setVariable("LINK_REGISTER", $link_dir."register.php?client_id=".rawurlencode(CLIENT_ID)."&lang=".$ilias->account->getCurrentLanguage());
+					$this->tpl->setVariable("LINK_REGISTER", $link_dir."register.php?client_id=".rawurlencode(CLIENT_ID)."&lang=".$ilUser->getCurrentLanguage());
 					$this->tpl->parseCurrentBlock();
 				}
 
@@ -273,10 +340,7 @@ class ilMainMenuGUI
 				$selection = self::getLanguageSelection();
 				if($selection)
 				{
-					// bs-patch start
-					global $ilUser, $lng;
 					$this->tpl->setVariable("TXT_LANGSELECT", $lng->txt("language"));
-					// bs-patch end
 					$this->tpl->setVariable("LANG_SELECT", $selection);
 				}
 
@@ -289,7 +353,7 @@ class ilMainMenuGUI
 					? $this->getLoginTargetPar()
 					: ilTemplate::buildLoginTarget();				
 				$this->tpl->setVariable("LINK_LOGIN",
-					$link_dir."login.php?target=".$target_str."&client_id=".rawurlencode(CLIENT_ID)."&cmd=force_login&lang=".$ilias->account->getCurrentLanguage());
+					$link_dir."login.php?target=".$target_str."&client_id=".rawurlencode(CLIENT_ID)."&cmd=force_login&lang=".$ilUser->getCurrentLanguage());
 				$this->tpl->parseCurrentBlock();
 			}
 			else
@@ -299,11 +363,6 @@ class ilMainMenuGUI
 					$notificationSettings = new ilSetting('notifications');
 					$chatSettings = new ilSetting('chatroom');
 
-					/**
-					 * @var $tpl ilTemplate
-					 */
-					global $tpl;
-
 					$this->tpl->touchBlock('osd_container');
 
 					include_once "Services/jQuery/classes/class.iljQueryUtil.php";
@@ -311,9 +370,9 @@ class ilMainMenuGUI
 
 					include_once 'Services/MediaObjects/classes/class.ilPlayerUtil.php';
 					ilPlayerUtil::initMediaElementJs();
-					
-					$tpl->addJavaScript('Services/Notifications/templates/default/notifications.js');
-					$tpl->addCSS('Services/Notifications/templates/default/osd.css');
+
+					$main_tpl->addJavaScript('Services/Notifications/templates/default/notifications.js');
+					$main_tpl->addCSS('Services/Notifications/templates/default/osd.css');
 
 					require_once 'Services/Notifications/classes/class.ilNotificationOSDHandler.php';
 					require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
@@ -327,19 +386,19 @@ class ilMainMenuGUI
 
 				$this->tpl->setCurrentBlock("userisloggedin");
 				$this->tpl->setVariable("TXT_LOGIN_AS",$lng->txt("login_as"));
-				$user_img_src = $ilias->account->getPersonalPicturePath("small", true);
-				$user_img_alt = $ilias->account->getFullname();
+				$user_img_src = $ilUser->getPersonalPicturePath("small", true);
+				$user_img_alt = $ilUser->getFullname();
 				$this->tpl->setVariable("USER_IMG", ilUtil::img($user_img_src, $user_img_alt));
 				$this->tpl->setVariable("USR_LINK_PROFILE", "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToProfile");
 				$this->tpl->setVariable("USR_TXT_PROFILE", $lng->txt("personal_profile"));
 				$this->tpl->setVariable("USR_LINK_SETTINGS", "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSettings");
 				$this->tpl->setVariable("USR_TXT_SETTINGS", $lng->txt("personal_settings"));
 				$this->tpl->setVariable("TXT_LOGOUT2",$lng->txt("logout"));
-				$this->tpl->setVariable("LINK_LOGOUT2", $link_dir."logout.php?lang=".$ilias->account->getCurrentLanguage());
-				$this->tpl->setVariable("USERNAME",$ilias->account->getFullname());
-				$this->tpl->setVariable("LOGIN",$ilias->account->getLogin());
-				$this->tpl->setVariable("MATRICULATION",$ilias->account->getMatriculation());
-				$this->tpl->setVariable("EMAIL",$ilias->account->getEmail());
+				$this->tpl->setVariable("LINK_LOGOUT2", $link_dir."logout.php?lang=".$ilUser->getCurrentLanguage());
+				$this->tpl->setVariable("USERNAME",$ilUser->getFullname());
+				$this->tpl->setVariable("LOGIN",$ilUser->getLogin());
+				$this->tpl->setVariable("MATRICULATION",$ilUser->getMatriculation());
+				$this->tpl->setVariable("EMAIL",$ilUser->getEmail());
 				$this->tpl->parseCurrentBlock();
 			}
 		}
@@ -379,6 +438,7 @@ class ilMainMenuGUI
 			// $this->tpl->setVariable("TXT_LOGOUT", $lng->txt("logout"));
 			$this->tpl->setVariable("HEADER_URL", $this->getHeaderURL());
 			$this->tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.svg"));
+			$this->tpl->setVariable("HEADER_ICON_RESPONSIVE", ilUtil::getImagePath("HeaderIconResponsive.svg"));
 		}
 		
 		include_once("./Modules/SystemFolder/classes/class.ilObjSystemFolder.php");
@@ -386,6 +446,7 @@ class ilMainMenuGUI
 		$this->tpl->setVariable("TXT_MAIN_MENU", $lng->txt("main_menu"));
 		
 		$this->tpl->parseCurrentBlock();
+
 	}
 	
 	/**
@@ -393,9 +454,9 @@ class ilMainMenuGUI
 	 */
 	public function renderStatusBox($a_tpl)
 	{
-		global $ilUser, $DIC;
-		$ui_factory = $DIC->ui()->factory();
-		$ui_renderer = $DIC->ui()->renderer();
+		$ilUser = $this->user;
+		$ui_factory = $this->ui->factory();
+		$ui_renderer = $this->ui->renderer();
 
 		if ($this->mail) {
 			$new_mails = ilMailGlobalServices::getNumberOfNewMailsByUserId($ilUser->getId());
@@ -422,7 +483,9 @@ class ilMainMenuGUI
 	 */
 	function renderMainMenuListEntries($a_tpl, $a_call_get = true)
 	{
-		global $rbacsystem, $lng, $ilias, $tree, $ilUser, $ilSetting, $ilAccess;
+		$lng = $this->lng;
+		$tree = $this->tree;
+		$ilAccess = $this->access;
 
 		// personal desktop
 		if ($GLOBALS['DIC']['ilUser']->getId() != ANONYMOUS_USER_ID)
@@ -471,7 +534,10 @@ class ilMainMenuGUI
 	 */
 	function renderEntry($a_tpl, $a_id, $a_txt, $a_script, $a_target = "_top")
 	{
-		global $lng, $ilNavigationHistory, $ilSetting, $rbacsystem, $ilCtrl;
+		$lng = $this->lng;
+		$ilNavigationHistory = $this->nav_history;
+		$ilSetting = $this->settings;
+		$ilCtrl = $this->ctrl;
 	
 		$id = strtolower($a_id);
 		$id_up = strtoupper($a_id);
@@ -541,7 +607,7 @@ class ilMainMenuGUI
 					"left center", "right center", false);
 
 			require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockViewSettings.php';
-			$pdItemsViewSettings = new ilPDSelectedItemsBlockSelectedItemsBlockViewSettings($GLOBALS['DIC']->user());
+			$pdItemsViewSettings = new ilPDSelectedItemsBlockViewSettings($GLOBALS['DIC']->user());
 
 			// my groups and courses, if both is available
 			if($pdItemsViewSettings->allViewsEnabled())
@@ -553,7 +619,7 @@ class ilMainMenuGUI
 			}
 			
 			// bookmarks
-			if (!$this->ilias->getSetting("disable_bookmarks"))
+			if (!$ilSetting->get("disable_bookmarks"))
 			{
 				$gl->addEntry($lng->txt("bookmarks"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToBookmarks",
 					"_top", "", "", "mm_pd_bookm", ilHelp::getMainMenuTooltip("mm_pd_bookm"),
@@ -561,16 +627,16 @@ class ilMainMenuGUI
 			}
 			
 			// private notes
-			if (!$this->ilias->getSetting("disable_notes") || !$ilSetting->get("disable_comments"))
+			if (!$ilSetting->get("disable_notes") || !$ilSetting->get("disable_comments"))
 			{
 				$lng->loadLanguageModule("notes");
 				$t = $lng->txt("notes");
 				$c = "jumpToNotes";
-				if (!$this->ilias->getSetting("disable_notes") && !$ilSetting->get("disable_comments"))
+				if (!$ilSetting->get("disable_notes") && !$ilSetting->get("disable_comments"))
 				{
 					$t = $lng->txt("notes_and_comments");
 				}
-				if ($this->ilias->getSetting("disable_notes"))
+				if ($ilSetting->get("disable_notes"))
 				{
 					$t = $lng->txt("notes_comments");
 					$c = "jumpToComments";
@@ -592,6 +658,15 @@ class ilMainMenuGUI
 			$gl->addSeparator();
 			
 			$separator = false;
+
+            if($ilSetting->get("enable_my_staff") and ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff() == true)
+            {
+                // my staff
+                $gl->addEntry($lng->txt("my_staff"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToMyStaff",
+                    "_top", "", "", "mm_pd_mst", ilHelp::getMainMenuTooltip("mm_pd_mst"),
+                    "left center", "right center", false);
+                $separator = true;
+            }
 			
 			if(!$ilSetting->get("disable_personal_workspace"))
 			{
@@ -602,7 +677,8 @@ class ilMainMenuGUI
 				
 				$separator = true;
 			}
-			
+
+
 			// portfolio
 			if ($ilSetting->get('user_portfolios'))
 			{
@@ -623,6 +699,18 @@ class ilMainMenuGUI
 				
 				$separator = true;
 			}
+
+			require_once 'Services/Badge/classes/class.ilBadgeHandler.php';
+			if(ilBadgeHandler::getInstance()->isActive())
+			{
+				$gl->addEntry($lng->txt('obj_bdga'),
+					'ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToBadges', '_top'
+					, "", "", "mm_pd_contacts", ilHelp::getMainMenuTooltip("mm_pd_badges"),
+					"left center", "right center", false);
+
+				$separator = true;
+			}
+
 
 			// Learning Progress
 			include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
@@ -678,32 +766,7 @@ class ilMainMenuGUI
 				
 				$separator = true;
 			}
-			
-			if($separator)
-			{
-				$gl->addSeparator();
-			}
-			
-			require_once 'Services/Badge/classes/class.ilBadgeHandler.php';
-			if(ilBadgeHandler::getInstance()->isActive())
-			{
-				$gl->addEntry($lng->txt('obj_bdga'),
-					'ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToBadges', '_top'
-					, "", "", "mm_pd_contacts", ilHelp::getMainMenuTooltip("mm_pd_badges"),
-					"left center", "right center", false);
-				
-				$gl->addSeparator();
-			}
-			
-			// profile
-			$gl->addEntry($lng->txt("personal_profile"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToProfile",
-				"_top", "", "", "mm_pd_profile", ilHelp::getMainMenuTooltip("mm_pd_profile"),
-					"left center", "right center", false);
 
-			// settings
-			$gl->addEntry($lng->txt("personal_settings"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToSettings",
-				"_top", "", "", "mm_pd_sett", ilHelp::getMainMenuTooltip("mm_pd_sett"),
-					"left center", "right center", false);
 
 			$a_tpl->setVariable("DESK_CONT_OV", $gl->getHTML());
 		}
@@ -713,14 +776,9 @@ class ilMainMenuGUI
 		$a_tpl->setVariable("TARGET_".$id_up, $a_target);
 		if ($this->active == $a_id || ($this->active == "" && $a_id == "repository"))
 		{
-			//$a_tpl->setVariable("MM_CLASS", "MMActive");
 			$a_tpl->setVariable("SEL", '<span class="ilAccHidden">('.$lng->txt("stat_selected").')</span>');
 		}
-		else
-		{
-			//$a_tpl->setVariable("MM_CLASS", "MMInactive");
-		}
-		
+
 		if($a_id == "repository")
 		{
 			include_once("./Services/Accessibility/classes/class.ilAccessKey.php");
@@ -760,7 +818,9 @@ class ilMainMenuGUI
 
 	static function _checkAdministrationPermission()
 	{
-		global $rbacsystem;
+		global $DIC;
+
+		$rbacsystem = $DIC->rbac()->system();
 
 		//if($rbacsystem->checkAccess("visible,read", SYSTEM_FOLDER_ID))
 		if($rbacsystem->checkAccess("visible", SYSTEM_FOLDER_ID))
@@ -790,7 +850,7 @@ class ilMainMenuGUI
 	 */
 	protected function initMemberView()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		include_once './Services/Container/classes/class.ilMemberViewSettings.php';
 		$ref_id = ilMemberViewSettings::getInstance()->getCurrentRefId();
@@ -814,14 +874,13 @@ class ilMainMenuGUI
 	 * GetDropDownHTML
 	 *
 	 * @param
-	 * @return
 	 */
 	function renderDropDown($a_tpl, $a_id)
 	{
-		global $lng, $ilSetting, $rbacsystem;
+		$lng = $this->lng;
+		$ilSetting = $this->settings;
 
 		$id = strtolower($a_id);
-		$id_up = strtoupper($a_id);
 		$a_tpl->setCurrentBlock("entry_".$id);
 		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		$selection = new ilAdvancedSelectionListGUI();
@@ -917,14 +976,14 @@ class ilMainMenuGUI
 				}
 
 				// private notes
-				if (!$this->ilias->getSetting("disable_notes"))
+				if (!$ilSetting->get("disable_notes"))
 				{
 					$selection->addItem($lng->txt("notes_and_comments"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToNotes",
 						"", "", "_top");
 				}
 
 				// bookmarks
-				if (!$this->ilias->getSetting("disable_bookmarks"))
+				if (!$ilSetting->get("disable_bookmarks"))
 				{
 					$selection->addItem($lng->txt("bookmarks"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToBookmarks",
 						"", "", "_top");
@@ -942,27 +1001,11 @@ class ilMainMenuGUI
 				$selection->setId("dd_adm");
 				$selection->setAsynch(true);
 				$selection->setAsynchUrl("ilias.php?baseClass=ilAdministrationGUI&cmd=getDropDown&cmdMode=asynch");
-							//$this->renderEntry($a_tpl, "administration",
-			//	$lng->txt("administration"),
-			//	$this->getScriptTarget("ilias.php?baseClass=ilAdministrationGUI"),
-			//	$this->target);
-
 				break;
 
 		}
 
-//		$selection->setTriggerEvent("mouseover");
-//		$selection->setAutoHide(true);
-
-		// bs-patch start
-		global $ilUser;
 		$a_tpl->setVariable("TXT_ADMINISTRATION", $lng->txt("administration"));
-		$a_tpl->parseCurrentBlock();
-		return;
-		// bs-patch end
-
-		$html = $selection->getHTML();
-		$a_tpl->setVariable($id_up."_DROP_DOWN", $html);
 		$a_tpl->parseCurrentBlock();
 	}
 
@@ -975,7 +1018,13 @@ class ilMainMenuGUI
 	 */
 	function renderHelpButtons()
 	{
-		global $ilHelp, $lng, $ilCtrl, $tpl, $ilSetting, $ilUser;
+		$ilHelp = $this->help;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$ilSetting = $this->settings;
+		$ilUser = $this->user;
+		$main_tpl = $this->main_tpl;
 
 		// screen id
 		if ((defined("OH_REF_ID") && OH_REF_ID > 0) || DEVMODE == 1)
@@ -1005,10 +1054,10 @@ class ilMainMenuGUI
 			//$this->tpl->setCurrentBlock("help_icon");
 
 			// add javascript needed by help (to do: move to help class)
-			$tpl->addJavascript("./Services/Help/js/ilHelp.js");
+			$main_tpl->addJavascript("./Services/Help/js/ilHelp.js");
 			include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
 			$acc = new ilAccordionGUI();
-			$acc->addJavascript();
+			$acc->addJavascript($main_tpl);
 			$acc->addCss();
 
 			include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
@@ -1024,7 +1073,7 @@ class ilMainMenuGUI
 			$help_active = true;
 			
 			$lng->loadLanguageModule("help");
-			$tpl->addJavascript("./Services/Help/js/ilHelp.js");
+			$main_tpl->addJavascript("./Services/Help/js/ilHelp.js");
 
 			include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
 			ilTooltipGUI::addTooltip("help_tt", $lng->txt("help_toggle_tooltips"), "",
@@ -1044,7 +1093,7 @@ class ilMainMenuGUI
 			$ilCtrl->setTargetScript("ilias.php");
 
 			$ilHelp->setCtrlPar();
-			$tpl->addOnLoadCode("il.Help.setAjaxUrl('".
+			$this->main_tpl->addOnLoadCode("il.Help.setAjaxUrl('".
 				$ilCtrl->getLinkTargetByClass("ilhelpgui", "", "", true)
 				."');");
 			$ilCtrl->setTargetScript($ts);
@@ -1114,7 +1163,58 @@ class ilMainMenuGUI
 		}
 		
 		return $url;
-	}	
+	}
+
+	protected function renderBackgroundTasks()
+	{
+		global $DIC;
+
+		$main_tpl = $this->main_tpl;
+
+
+		$DIC->language()->loadLanguageModule("background_tasks");
+		$factory = $DIC->ui()->factory();
+		$persistence = $DIC->backgroundTasks()->persistence();
+		$metas = $persistence->getBucketMetaOfUser($DIC->user()->getId());
+		if(!count($metas))
+			return;
+
+		$numberOfUserInteractions = count(array_filter($metas, function(BucketMeta $meta) {
+			return $meta->getState() == State::USER_INTERACTION;
+		}));
+		$numberOfNotUserInteractions = count($metas) - $numberOfUserInteractions;
+
+		$popover = $factory->popover()
+		                   ->listing(array())
+		                   ->withFixedPosition()
+		                   ->withTitle($DIC->language()->txt("background_tasks_running")); // needs to have empty content
+		$DIC->ctrl()->clearParametersByClass(ilBTControllerGUI::class);
+		$DIC->ctrl()->setParameterByClass(ilBTControllerGUI::class,
+			ilBTControllerGUI::FROM_URL,
+			urlencode($_SERVER['HTTP_REFERER'])
+		);
+		$DIC->ctrl()->setParameterByClass(ilBTControllerGUI::class,
+			ilBTControllerGUI::REPLACE_SIGNAL,
+			$popover->getReplaceContentSignal()->getId()
+		);
+
+		$url = $DIC->ctrl()->getLinkTargetByClass([ ilBTControllerGUI::class ], ilBTControllerGUI::CMD_GET_POPOVER_CONTENT, "", true);
+		$popover = $popover->withAsyncContentUrl($url);
+
+		$glyph = $factory->glyph()
+		                 ->briefcase()
+		                 ->withOnClick($popover->getShowSignal())
+		                 ->withCounter($factory->counter()->novelty($numberOfUserInteractions))
+		                 ->withCounter($factory->counter()->status($numberOfNotUserInteractions));
+
+		$main_tpl->addJavascript('./Services/BackgroundTasks/js/background_task_refresh.js');
+
+		$this->tpl->setVariable('BACKGROUNDTASKS',
+			$DIC->ui()->renderer()->render([$glyph, $popover])
+		);
+
+		$this->tpl->setVariable('BACKGROUNDTASKS_REFRESH_URI', $url);
+	}
 }
 
 ?>

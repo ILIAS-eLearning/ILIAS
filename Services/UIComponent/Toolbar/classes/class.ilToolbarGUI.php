@@ -5,17 +5,22 @@ require_once('./Services/UIComponent/Button/classes/class.ilLinkButton.php');
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Toolbar. The toolbar currently only supports a list of buttons as links.
-*
-* A default toolbar object is available in the $ilToolbar global object.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @author Stefan Wanzenried <sw@studer-raimann.ch>
-* @version $Id$
-* @ingroup ServicesUIComponent
-*/
+ * Toolbar. The toolbar currently only supports a list of buttons as links.
+ *
+ * A default toolbar object is available in the $ilToolbar global object.
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @author Stefan Wanzenried <sw@studer-raimann.ch>
+ * @version $Id$
+ * @ingroup ServicesUIComponent
+ */
 class ilToolbarGUI
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 
 	/**
 	 * @var int
@@ -87,6 +92,11 @@ class ilToolbarGUI
 
 	public function __construct()
 	{
+		global $DIC;
+		$this->lng = $DIC->language();
+
+		$this->ui = $DIC->ui();
+
 		self::$instances++;
 	}
 
@@ -103,7 +113,7 @@ class ilToolbarGUI
 		$this->multipart = $a_multipart;
 		$this->form_target = $a_target;
 	}
-	
+
 	/**
 	 * Get form action
 	 *
@@ -125,17 +135,17 @@ class ilToolbarGUI
 	{
 		$this->lead_img = array("img" => $a_img, "alt" => $a_alt);
 	}
-	
+
 	/**
 	 * Set hidden
 	 *
-	 * @param boolean $a_val hidden	
+	 * @param boolean $a_val hidden
 	 */
 	public function setHidden($a_val)
 	{
 		$this->hidden = $a_val;
 	}
-	
+
 	/**
 	 * Get hidden
 	 *
@@ -145,17 +155,17 @@ class ilToolbarGUI
 	{
 		return $this->hidden;
 	}
-	
+
 	/**
 	 * Set id
 	 *
-	 * @param string $a_val id	
+	 * @param string $a_val id
 	 */
 	public function setId($a_val)
 	{
 		$this->id = $a_val;
 	}
-	
+
 	/**
 	 * Get id
 	 *
@@ -185,19 +195,19 @@ class ilToolbarGUI
 	{
 		return $this->prevent_double_submission;
 	}
-	
+
 	/**
-	* Add button to toolbar
-	* 
-	* @deprecated use addButtonInstance() instead! 
-	*
-	* @param	string		text
-	* @param	string		link href / submit command
-	* @param	string		frame target
-	* @param	string		access key
-	*/
+	 * Add button to toolbar
+	 *
+	 * @deprecated use addButtonInstance() instead!
+	 *
+	 * @param	string		text
+	 * @param	string		link href / submit command
+	 * @param	string		frame target
+	 * @param	string		access key
+	 */
 	public function addButton($a_txt, $a_cmd, $a_target = "", $a_acc_key = "", $a_additional_attrs = '',
-		$a_id = "", $a_class = 'submit')
+							  $a_id = "", $a_class = 'submit')
 	{
 		$this->items[] = array("type" => "button", "txt" => $a_txt, "cmd" => $a_cmd,
 			"target" => $a_target, "acc_key" => $a_acc_key, 'add_attrs' => $a_additional_attrs,
@@ -205,16 +215,16 @@ class ilToolbarGUI
 	}
 
 	/**
-	* Add form button to toolbar
-	* 
-	* @deprecated use addButtonInstance() instead!
-	*
-	* @param	string		text
-	* @param	string		link href / submit command
-	* @param	string		access key
-	* @param	bool		primary action
-	* @param	string		css class
-	*/
+	 * Add form button to toolbar
+	 *
+	 * @deprecated use addButtonInstance() instead!
+	 *
+	 * @param	string		text
+	 * @param	string		link href / submit command
+	 * @param	string		access key
+	 * @param	bool		primary action
+	 * @param	string		css class
+	 */
 	function addFormButton($a_txt, $a_cmd, $a_acc_key = "", $a_primary = false, $a_class = false)
 	{
 		if ($a_primary) {
@@ -251,14 +261,14 @@ class ilToolbarGUI
 	 * @param bool $a_output_label
 	 */
 	public function addStickyItem(ilToolbarItem $a_item, $a_output_label = false)
-	{		
+	{
 		$this->sticky_items[] = array("item"=>$a_item, "label"=>$a_output_label);
 	}
 
 
 	/**
 	 * Add button instance
-	  
+
 	 * @param ilButtonBase $a_button
 	 */
 	public function addButtonInstance(ilButtonBase $a_button)
@@ -281,8 +291,8 @@ class ilToolbarGUI
 	// bs-patch end
 
 	/**
-	* Add separator
-	*/
+	 * Add separator
+	 */
 	public function addSeparator()
 	{
 		$this->items[] = array("type" => "separator");
@@ -290,21 +300,28 @@ class ilToolbarGUI
 	}
 
 	/**
-	* Add text
-	*/
+	 * Add text
+	 */
 	public function addText($a_text)
 	{
 		$this->items[] = array("type" => "text", "text" => $a_text);
 	}
 
 	/**
-	* Add spacer
-	*/
+	 * Add spacer
+	 */
 	public function addSpacer($a_width = null)
 	{
 		$this->items[] = array("type" => "spacer", "width" => $a_width);
 	}
- 
+
+	/**
+	 * Add component
+	 */
+	function addComponent(\ILIAS\UI\Component\Component $a_comp)
+	{
+		$this->items[] = array("type" => "component", "component" => $a_comp);
+	}
 
 	/**
 	 * Add link
@@ -404,11 +421,11 @@ class ilToolbarGUI
 	}
 
 	/**
-	* Get toolbar html
-	*/
+	 * Get toolbar html
+	 */
 	public function getHTML()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$this->applyAutoStickyToSingleElement();
 
@@ -534,6 +551,12 @@ class ilToolbarGUI
 							$tpl_items->touchBlock("item");
 							break;
 
+						case "component":
+							$tpl_items->setCurrentBlock("component");
+							$tpl_items->setVariable("COMPONENT", $this->ui->renderer()->render($item["component"]));
+							$tpl_items->touchBlock("item");
+							break;
+
 						case "spacer":
 							$tpl_items->touchBlock("spacer");
 							if(!$item["width"])
@@ -571,18 +594,18 @@ class ilToolbarGUI
 			$tpl->setVariable("TXT_FUNCTIONS", $lng->txt("functions"));
 			if ($this->lead_img["img"] != "")
 			{
-				$tpl->setCurrentBlock("lead_image");				
+				$tpl->setCurrentBlock("lead_image");
 				$tpl->setVariable("IMG_SRC", $this->lead_img["img"]);
 				$tpl->setVariable("IMG_ALT", $this->lead_img["alt"]);
 				$tpl->parseCurrentBlock();
 			}
-			
+
 			// form?
 			if ($this->getFormAction() != "")
 			{
 				// #18947
 				$GLOBALS["tpl"]->addJavaScript("Services/Form/js/Form.js");
-				
+
 				if ($this->getOpenFormTag())
 				{
 					$tpl->setCurrentBlock("form_open");
@@ -611,13 +634,13 @@ class ilToolbarGUI
 					$tpl->touchBlock("form_close");
 				}
 			}
-			
+
 			// id
 			if ($this->getId() != "")
 			{
 				$tpl->setVariable("ID", ' id="'.$this->getId().'" ');
 			}
-			
+
 			// hidden style
 			if ($this->getHidden())
 			{

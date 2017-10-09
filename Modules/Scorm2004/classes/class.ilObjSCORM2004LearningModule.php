@@ -14,6 +14,16 @@ require_once "./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php";
 */
 class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
 	var $validator;
 //	var $meta_data;
 	
@@ -29,6 +39,14 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	*/
 	function __construct($a_id = 0, $a_call_by_reference = true)
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->error = $DIC["ilErr"];
+		$this->db = $DIC->database();
+		$this->log = $DIC["ilLog"];
+		$this->user = $DIC->user();
+		$this->tabs = $DIC->tabs();
 		$this->type = "sahs";
 		parent::__construct($a_id,$a_call_by_reference);
 	}
@@ -72,11 +90,12 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	*/
 	function readObject()
 	{	
-		global $ilias, $lng ,$ilDB;
+		$lng = $this->lng;
+		$ilErr = $this->error;
 		
 		//check for json_encode,json_decode 
 		if (!function_exists('json_encode') ||  !function_exists('json_decode') ) {
-			$ilias->raiseError($lng->txt('scplayer_phpmysqlcheck'),$ilias->error_obj->WARNING);
+			$ilErr->raiseError($lng->txt('scplayer_phpmysqlcheck'),$ilErr->WARNING);
 		}
 
 		$needs_convert = false;
@@ -93,7 +112,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		// if no manifestfile
 		if (!$check_for_manifest_file)
 		{
-			$this->ilias->raiseError($this->lng->txt("Manifestfile $manifest_file not found!"), $this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("Manifestfile $manifest_file not found!"), $ilErr->MESSAGE);
 			return;
 		}
 
@@ -157,8 +176,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 
 				if (!@is_file($manifest_file))
 				{
-					$this->ilias->raiseError($this->lng->txt("cont_no_manifest"),
-					$this->ilias->error_obj->WARNING);
+					$ilErr->raiseError($this->lng->txt("cont_no_manifest"), $ilErr->WARNING);
 				}
 			}
 			else
@@ -166,7 +184,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 				// gives out the specific error
 
 				if (!($check_disc_free > 1))
-					$this->ilias->raiseError($this->lng->txt("Not enough space left on device!"),$this->ilias->error_obj->MESSAGE);
+					$ilErr->raiseError($this->lng->txt("Not enough space left on device!"), $ilErr->MESSAGE);
 					return;
 			}
 
@@ -204,8 +222,8 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		{
 			if (!$this->validate($this->getDataDirectory()))
 			{
-				$this->ilias->raiseError("<b>Validation Error(s):</b><br>".$this->getValidationSummary(),
-					$this->ilias->error_obj->WARNING);
+				$ilErr->raiseError("<b>Validation Error(s):</b><br>".$this->getValidationSummary(),
+					$ilErr->WARNING);
 			}
 		}
 			
@@ -223,7 +241,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		}
 		else
 		{
-			return $newPack->il_import($this->getDataDirectory(),$this->getId(),$this->ilias,$_POST["validate"]);
+			return $newPack->il_import($this->getDataDirectory(),$this->getId(), $DIC["ilias"], $_POST["validate"]);
 		}
 	}
 
@@ -238,7 +256,8 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	
 	
 	public function convert_1_2_to_2004($manifest) {
-		global $ilDB, $ilLog;
+		$ilDB = $this->db;
+		$ilLog = $this->log;
 		
 		##check manifest-file for version. Check for schemaversion as this is a required element for SCORM 2004
 		##accept 2004 3rd Edition an CAM 1.3 as valid schemas
@@ -314,7 +333,9 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	*/
 	public static function _lookupLastAccess($a_obj_id, $a_usr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 	
 		$result = $ilDB->queryF('
 			SELECT MAX(c_timestamp) last_access 
@@ -383,7 +404,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 
 	function deleteTrackingDataOfUsers($a_users)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004DeleteData.php");
 		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
 		include_once("./Services/Tracking/classes/class.ilChangeEvent.php");
@@ -402,7 +423,9 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	*/
 	function getTrackedItems()
 	{
-		global $ilUser, $ilDB, $ilUser;
+		$ilUser = $this->user;
+		$ilDB = $this->db;
+		$ilUser = $this->user;
 
 		$sco_set = $ilDB->queryF('
 		SELECT DISTINCT cmi_node.cp_node_id id
@@ -428,7 +451,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	
 	function getTrackingDataAgg($a_user_id, $raw = false)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
       
 		$scos = array();
 		$data = array();
@@ -480,7 +503,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 					if ($data_rec["scaled"] != null) $score .= ($data_rec["scaled"]*100)."%";
 					$title = self::_lookupItemTitle($data_rec["cp_node_id"]);
 					$last_access=ilDatePresentation::formatDate(new ilDateTime($data_rec['last_access'],IL_CAL_DATETIME));
-					$data[] = array("user_id" => $data_rec["user_id"], "sco_id"=>$data_rec["cp_node_id"],
+					$data[] = array("sco_id"=>$data_rec["cp_node_id"],
 						"score" => $score, "time" => $time, "status" => $status,"last_access"=>$last_access,"title"=>$title);
 				}
 				else
@@ -499,7 +522,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	* get number of atttempts for a certain user and package
 	*/
 	function getAttemptsForUser($a_user_id){
-		global $ilDB;
+		$ilDB = $this->db;
 		$val_set = $ilDB->queryF('SELECT package_attempts FROM sahs_user WHERE user_id = %s AND obj_id = %s',
 		array('integer','integer'),
 		array($a_user_id, $this->getId()));
@@ -518,7 +541,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	* get module version that tracking data for a user was recorded on
 	*/
 	function getModuleVersionForUser($a_user_id){
-		global $ilDB;
+		$ilDB = $this->db;
 		$val_set = $ilDB->queryF('SELECT module_version FROM sahs_user WHERE user_id = %s AND obj_id = %s',
 		array('integer','integer'),
 		array($a_user_id, $this->getId()));
@@ -541,7 +564,8 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	
 	
 	function importSuccess($a_file) {
-		global $ilDB, $ilUser;
+		$ilDB = $this->db;
+		$ilUser = $this->user;
 		include_once("./Services/Tracking/classes/class.ilLPStatus.php");
 		$scos = array();
 		//get all SCO's of this object ONLY RELEVANT!
@@ -722,7 +746,8 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	
 	function getCourseCompletionForUser($a_user) 
 	{
-		global $ilDB, $ilUser;
+		$ilDB = $this->db;
+		$ilUser = $this->user;
 		
 	 	$scos = array();
 		 //get all SCO's of this object		
@@ -782,7 +807,10 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	*/
 	public static function _getCourseCompletionForUser($a_id, $a_user) 
 	{
-		global $ilDB, $ilUser;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilUser = $DIC->user();
 	 	$scos = array();
 		 //get all SCO's of the object
 
@@ -839,7 +867,10 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	*/
 	public static function _getUniqueScaledScoreForUser($a_id, $a_user) 
 	{
-		global $ilDB, $ilUser;		
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilUser = $DIC->user();
 		$scos = array();
 		
 		$val_set = $ilDB->queryF("SELECT cp_node.cp_node_id FROM cp_node,cp_resource,cp_item WHERE".
@@ -879,7 +910,9 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	*/
 	static function _getTrackingItems($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 
 		$item_set = $ilDB->queryF('
@@ -920,7 +953,9 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 
 	static function _getStatus($a_obj_id, $a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$status_set = $ilDB->queryF('
 			SELECT * FROM cmi_gobjective 
@@ -941,7 +976,9 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 
 	static function _getSatisfied($a_obj_id, $a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 
 		$status_set = $ilDB->queryF('
@@ -963,7 +1000,9 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 
 	static function _getMeasure($a_obj_id, $a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$status_set = $ilDB->queryF('
 			SELECT * FROM cmi_gobjective 
@@ -984,7 +1023,9 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	
 	static function _lookupItemTitle($a_node_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$r = $ilDB->queryF('
 			SELECT * FROM cp_item
@@ -1029,7 +1070,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	
 	function getSequencingSettings(){
 		
-		global $ilTabs;
+		$ilTabs = $this->tabs;
 		$ilTabs->setTabActive("sequencing");
 		
 		include_once ("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Sequencing.php");
@@ -1396,8 +1437,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		// set xml header
 		$a_xml_writer->xmlHeader();
 
-		global $ilBench;
-
 		$a_xml_writer->xmlStartTag("ContentObject", array("Type"=>"SCORM2004LearningModule"));
 
 		// MetaData
@@ -1464,7 +1503,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	 
 	function exportHTML4PDF($a_inst, $a_target_dir, &$expLog)
 	{
-		global $ilBench;
 		$tree = new ilTree($this->getId());
 		$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 		$tree->setTreeTablePK("slm_id");
@@ -1480,7 +1518,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	
 	function exportPDF($a_inst, $a_target_dir, &$expLog)
 	{
-		global $ilBench;
 		$a_xml_writer = new ilXmlWriter;
 		$a_xml_writer->xmlStartTag("ContentObject", array("Type"=>"SCORM2004SCO"));
         $this->exportXMLMetaData($a_xml_writer);
@@ -1555,7 +1592,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		// set xml header
 //		$a_xml_writer->xmlHeader();
 
-//		global $ilBench;
 
 //		$a_xml_writer->xmlStartTag("ContentObject", array("Type"=>"SCORM2004LearningModule"));
 
@@ -1649,7 +1685,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	 */
 	function exportXMLScoObjects($a_inst, $a_target_dir, $ver, &$expLog)
 	{
-		global $ilBench;
 		$tree = new ilTree($this->getId());
 		$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 		$tree->setTreeTablePK("slm_id");
@@ -1682,8 +1717,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	 */
 	function exportHTMLScoObjects($a_inst, $a_target_dir, &$expLog, $a_one_file = "")
 	{
-		global $ilBench;
-		
 		$tree = new ilTree($this->getId());
 		$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 		$tree->setTreeTablePK("slm_id");
@@ -1852,7 +1885,9 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	 */
 	public static function _getMaxScoreForUser($a_id, $a_user) 
 	{
-		global $ilDB;		
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$scos = array();
 		
@@ -1898,7 +1933,9 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	}	
 
 	public static function _getScores2004ForUser($a_cp_node_id, $a_user) {
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		$retAr = array("raw" => null, "max" => null, "scaled" => null);
 		$val_set = $ilDB->queryF("SELECT c_raw, c_max, scaled FROM cmi_node WHERE (user_id = %s AND cp_node_id = %s)",
 			array('integer', 'integer'),
@@ -1925,14 +1962,12 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	 */
 	function copyAuthoredContent($a_new_obj)
 	{
-		global $ilias;
-		
 		// set/copy stylesheet
 		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$style_id = $this->getStyleSheetId();
 		if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id))
 		{
-			$style_obj = $ilias->obj_factory->getInstanceByObjId($style_id);
+			$style_obj = ilObjectFactory::getInstanceByObjId($style_id);
 			$new_id = $style_obj->ilClone();
 			$a_new_obj->setStyleSheetId($new_id);
 			$a_new_obj->update();

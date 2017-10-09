@@ -15,6 +15,46 @@ include_once("./Services/UIComponent/Explorer2/classes/class.ilTreeExplorerGUI.p
  */
 class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 {
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	protected $type_grps = array();
 	protected $session_materials = array();
 	
@@ -23,7 +63,20 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd)
 	{
-		global $tree, $ilSetting, $objDefinition;
+		global $DIC;
+
+		$this->tree = $DIC->repositoryTree();
+		$this->settings = $DIC->settings();
+		$this->obj_definition = $DIC["objDefinition"];
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+		$this->access = $DIC->access();
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->db = $DIC->database();
+		$this->user = $DIC->user();
+		$tree = $DIC->repositoryTree();
+		$ilSetting = $DIC->settings();
+		$objDefinition = $DIC["objDefinition"];
 
 		$this->cur_ref_id = (int) $_GET["ref_id"];
 		
@@ -46,6 +99,11 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 			
 		}
 		
+		// LTI
+		if (isset($_SESSION['lti_tree_root_id'])) 
+		{
+			$this->top_node_id = $_SESSION['lti_tree_root_id'];
+		}
 		parent::__construct("rep_exp", $a_parent_obj, $a_parent_cmd, $tree);
 
 		$this->setSkipRootNode(false);
@@ -101,7 +159,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function getNodeContent($a_node)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$title = $a_node["title"];
 						
@@ -144,7 +202,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function getNodeIconAlt($a_node)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		if ($a_node["child"] == $this->getNodeId($this->getRootNode()))
 		{
@@ -184,7 +242,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function getNodeHref($a_node)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		switch($a_node["type"])
 		{
@@ -238,7 +296,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 
 			case 'prg':
 				$ilCtrl->setParameterByClass("ilobjstudyprogrammegui", "ref_id", $a_node["child"]);
-				$link = $ilCtrl->getLinkTargetByClass("ilobjstudyprogrammegui", "view");
+				$link = $ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjstudyprogrammegui"), "view");
 				$ilCtrl->setParameterByClass("ilobjstudyprogrammegui", "ref_id", $_GET["ref_id"]);
 				return $link;
 
@@ -257,7 +315,9 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function isNodeVisible($a_node)
 	{
-		global $ilAccess,$tree,$ilSetting;
+		$ilAccess = $this->access;
+		$tree = $this->tree;
+		$ilSetting = $this->settings;
 
 		if (!$ilAccess->checkAccess('visible', '', $a_node["child"]))
 		{
@@ -302,7 +362,8 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function sortChilds($a_childs, $a_parent_node_id)
 	{
-		global $objDefinition, $ilAccess;
+		$objDefinition = $this->obj_definition;
+		$ilAccess = $this->access;
 
 		$parent_obj_id = ilObject::_lookupObjId($a_parent_node_id);
 		if ($parent_obj_id > 0)
@@ -494,7 +555,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function getChildsOfNode($a_parent_node_id)
 	{
-		global $rbacsystem;
+		$rbacsystem = $this->rbacsystem;
 		
 		if (!$rbacsystem->checkAccess("read", $a_parent_node_id))
 		{
@@ -518,7 +579,11 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function isNodeClickable($a_node)
 	{
-		global $rbacsystem,$tree,$ilDB,$ilUser,$ilAccess;
+		$rbacsystem = $this->rbacsystem;
+		$tree = $this->tree;
+		$ilDB = $this->db;
+		$ilUser = $this->user;
+		$ilAccess = $this->access;
 
 		$obj_id = ilObject::_lookupObjId($a_node["child"]);
 		if (!ilConditionHandler::_checkAllConditionsOfTarget($a_node["child"], $obj_id))

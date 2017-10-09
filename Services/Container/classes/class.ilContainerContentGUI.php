@@ -15,6 +15,56 @@
 */
 abstract class ilContainerContentGUI
 {
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilPluginAdmin
+	 */
+	protected $plugin_admin;
+
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
 	const DETAILS_DEACTIVATED = 0;
 	const DETAILS_TITLE = 1;
 	const DETAILS_ALL = 2;
@@ -30,13 +80,37 @@ abstract class ilContainerContentGUI
 	var $container_obj;
 
 	/**
+	 * @var ilLogger
+	 */
+	protected $log;
+
+	/**
 	* Constructor
 	*
 	*/
 	function __construct(&$container_gui_obj)
 	{
+		global $DIC;
+
+		$this->tpl = $DIC["tpl"];
+		$this->ctrl = $DIC->ctrl();
+		$this->user = $DIC->user();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$this->plugin_admin = $DIC["ilPluginAdmin"];
+		$this->db = $DIC->database();
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->settings = $DIC->settings();
+		$this->obj_definition = $DIC["objDefinition"];
+		$tpl = $DIC["tpl"];
+
 		$this->container_gui = $container_gui_obj;
 		$this->container_obj = $this->container_gui->object;
+
+		$tpl->addJavaScript("./Services/Container/js/Container.js");
+
+		$this->log = ilLoggerFactory::getLogger('cont');
+
 	}
 	
 	/**
@@ -79,7 +153,8 @@ abstract class ilContainerContentGUI
 	*/
 	public function setOutput()
 	{
-		global $tpl, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
 
 		// note: we do not want to get the center html in case of
 		// asynchronous calls to blocks in the right column (e.g. news)
@@ -92,7 +167,7 @@ abstract class ilContainerContentGUI
 		
 		// BEGIN ChangeEvent: record read event.
 		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-		global $ilUser;
+		$ilUser = $this->user;
 //global $log;
 //$log->write("setOutput");
 
@@ -121,7 +196,11 @@ abstract class ilContainerContentGUI
 	*/
 	protected function getRightColumnHTML()
 	{
-		global $ilUser, $lng, $ilCtrl, $ilAccess, $ilPluginAdmin;;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilAccess = $this->access;
+		$ilPluginAdmin = $this->plugin_admin;
 
 		$ilCtrl->saveParameterByClass("ilcolumngui", "col_return");
 
@@ -171,13 +250,15 @@ abstract class ilContainerContentGUI
 	*/
 	protected function getCenterColumnHTML()
 	{
-		global $ilCtrl, $tpl, $ilDB;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$ilDB = $this->db;
 		
 		$ilCtrl->saveParameterByClass("ilcolumngui", "col_return");
 		
 		$tpl->addOnLoadCode("il.Object.setRedrawListItemUrl('".
 			$ilCtrl->getLinkTarget($this->container_gui, "redrawListItem", "", true)."');");
-		
+
 		$tpl->addOnLoadCode("il.Object.setRatingUrl('".
 			$ilCtrl->getLinkTargetByClass(array(get_class($this->container_gui), "ilcommonactiondispatchergui", "ilratinggui"), 
 				"saveRating", "", true, false)."');");
@@ -227,7 +308,8 @@ abstract class ilContainerContentGUI
 	*/
 	final private function __forwardToColumnGUI()
 	{
-		global $ilCtrl, $ilAccess;
+		$ilCtrl = $this->ctrl;
+		$ilAccess = $this->access;
 		
 		include_once("Services/Block/classes/class.ilColumnGUI.php");
 
@@ -279,7 +361,7 @@ abstract class ilContainerContentGUI
 	*/
 	protected function determineAdminCommands($a_ref_id, $a_admin_com_included_in_list = false)
 	{
-		global $rbacsystem;
+		$rbacsystem = $this->rbacsystem;
 		
 //echo "-".$a_admin_com_included_in_list."-";
 		
@@ -398,7 +480,7 @@ abstract class ilContainerContentGUI
 	*/
 	function renderPageEmbeddedBlocks()
 	{
-		global $lng;
+		$lng = $this->lng;
 				
 		// item groups
 		if (is_array($this->embedded_block["itgr"]))
@@ -462,7 +544,9 @@ abstract class ilContainerContentGUI
 	*/
 	function renderItem($a_item_data,$a_position = 0,$a_force_icon = false, $a_pos_prefix = "")
 	{
-		global $ilSetting,$ilAccess,$ilCtrl;
+		$ilSetting = $this->settings;
+		$ilAccess = $this->access;
+		$ilCtrl = $this->ctrl;
 		
 		// Pass type, obj_id and tree to checkAccess method to improve performance
 		if(!$ilAccess->checkAccess('visible','',$a_item_data['ref_id'],$a_item_data['type'],$a_item_data['obj_id'],$a_item_data['tree']))
@@ -665,7 +749,7 @@ abstract class ilContainerContentGUI
 	*/
 	function getGroupedObjTypes()
 	{
-		global $objDefinition;
+		$objDefinition = $this->obj_definition;
 		
 		if (empty($this->type_grps))
 		{
@@ -680,7 +764,9 @@ abstract class ilContainerContentGUI
 	*/
 	function getIntroduction()
 	{
-		global $ilUser, $lng, $ilCtrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$lng->loadLanguageModule("rep");
 		
@@ -728,7 +814,8 @@ abstract class ilContainerContentGUI
 	 */
 	function renderItemGroup($a_itgr)
 	{
-		global $ilAccess;
+		$ilAccess = $this->access;
+		$ilUser = $this->user;
 		
 		// #16493
 		$perm_ok = ($ilAccess->checkAccess("visible", "", $a_itgr['ref_id']) &&
@@ -756,17 +843,34 @@ abstract class ilContainerContentGUI
 		$item_list_gui->enableTimings(false);
 		$item_list_gui->getListItemHTML($a_itgr["ref_id"], $a_itgr["obj_id"],
 			$a_itgr["title"], $a_itgr["description"]);
-		$commands_html = $item_list_gui->getCommandsHTML(); 
+		$commands_html = $item_list_gui->getCommandsHTML();
 
+		// determine behaviour
 		include_once("./Modules/ItemGroup/classes/class.ilObjItemGroup.php");
+		include_once("./Modules/ItemGroup/classes/class.ilItemGroupBehaviour.php");
+		$beh = ilObjItemGroup::lookupBehaviour($a_itgr["obj_id"]);
+		include_once("./Services/Container/classes/class.ilContainerBlockPropertiesStorage.php");
+		$stored_val = ilContainerBlockPropertiesStorage::getProperty("itgr_".$a_itgr["ref_id"], $ilUser->getId(), "opened");
+		if ($stored_val !== false)
+		{
+			$beh = ($stored_val == "1")
+				? ilItemGroupBehaviour::EXPANDABLE_OPEN
+				: ilItemGroupBehaviour::EXPANDABLE_CLOSED;
+		}
+
+		$data = array(
+			"behaviour" => $beh,
+			"store-url" => "./ilias.php?baseClass=ilcontainerblockpropertiesstorage&cmd=store".
+				"&cont_block_id=itgr_".$a_itgr['ref_id']
+		);
 		if (ilObjItemGroup::lookupHideTitle($a_itgr["obj_id"]) &&
 			!$this->getContainerGUI()->isActiveAdministrationPanel())
 		{
-			$this->renderer->addCustomBlock($a_itgr["ref_id"], "", $commands_html);
+			$this->renderer->addCustomBlock($a_itgr["ref_id"], "", $commands_html, $data);
 		}
 		else
 		{
-			$this->renderer->addCustomBlock($a_itgr["ref_id"], $a_itgr["title"], $commands_html);
+			$this->renderer->addCustomBlock($a_itgr["ref_id"], $a_itgr["title"], $commands_html, $data);
 		}
 	
 		

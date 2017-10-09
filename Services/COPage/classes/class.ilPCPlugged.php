@@ -15,6 +15,16 @@ require_once("./Services/COPage/classes/class.ilPageContent.php");
 */
 class ilPCPlugged extends ilPageContent
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilPluginAdmin
+	 */
+	protected $plugin_admin;
+
 	var $dom;
 	var $plug_node;
 
@@ -23,6 +33,10 @@ class ilPCPlugged extends ilPageContent
 	*/
 	function init()
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->plugin_admin = $DIC["ilPluginAdmin"];
 		$this->setType("plug");
 	}
 
@@ -176,6 +190,92 @@ class ilPCPlugged extends ilPageContent
 	}
 
 	/**
+	 * Handle copied plugged content. This function must, e.g. create copies of
+	 * objects referenced within the content (e.g. question objects)
+	 *
+	 * @param ilPageObject	$a_page			the current page object
+	 * @param DOMDocument 	$a_domdoc 		dom document
+	 */
+	static function handleCopiedPluggedContent(ilPageObject $a_page, DOMDocument $a_domdoc)
+	{
+		global $DIC;
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
+
+		$xpath = new DOMXPath($a_domdoc);
+		$nodes = $xpath->query("//Plugged");
+
+		/** @var DOMElement $node */
+		foreach($nodes as $node)
+		{
+			$plugin_name = $node->getAttribute('PluginName');
+			$plugin_version = $node->getAttribute('PluginVersion');
+
+			if ($ilPluginAdmin->isActive(IL_COMP_SERVICE, "COPage", "pgcp", $plugin_name))
+			{
+				/** @var ilPageComponentPlugin $plugin_obj */
+				$plugin_obj = $ilPluginAdmin->getPluginObject(IL_COMP_SERVICE, "COPage", "pgcp", $plugin_name);
+				$plugin_obj->setPageObj($a_page);
+
+				$properties = array();
+				/** @var DOMElement $child */
+				foreach($node->childNodes as $child)
+				{
+					$properties[$child->getAttribute('Name')] = $child->nodeValue;
+				}
+
+				// let the plugin copy additional content
+				// and allow it to modify the saved parameters
+				$plugin_obj->onClone($properties, $plugin_version);
+
+				foreach($node->childNodes as $child)
+				{
+					$node->removeChild($child);
+				}
+				foreach ($properties as $name => $value)
+				{
+					$child = new DOMElement('PluggedProperty', $value);
+					$node->appendChild($child);
+					$child->setAttribute('Name',$name);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Handle deleted plugged content. This function must, e.g. delete
+	 * objects referenced within the content (e.g. question objects)
+	 *
+	 * @param ilPageObject	$a_page			the current page object
+	 * @param DOMDocument 	$a_node 		dom node
+	 */
+	static function handleDeletedPluggedNode(ilPageObject $a_page, DOMNode $a_node)
+	{
+		global $DIC;
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
+
+		$plugin_name = $a_node->getAttribute('PluginName');
+		$plugin_version = $a_node->getAttribute('PluginVersion');
+
+		if ($ilPluginAdmin->isActive(IL_COMP_SERVICE, "COPage", "pgcp", $plugin_name))
+		{
+			/** @var ilPageComponentPlugin $plugin_obj */
+			$plugin_obj = $ilPluginAdmin->getPluginObject(IL_COMP_SERVICE, "COPage", "pgcp", $plugin_name);
+			$plugin_obj->setPageObj($a_page);
+
+			$properties = array();
+			/** @var DOMElement $child */
+			foreach($a_node->childNodes as $child)
+			{
+				$properties[$child->getAttribute('Name')] = $child->nodeValue;
+			}
+
+			// let the plugin delete additional content
+			$plugin_obj->onDelete($properties, $plugin_version);
+		}
+	}
+
+
+	/**
 	 * Modify page content after xsl
 	 *
 	 * @param string $a_output
@@ -183,7 +283,8 @@ class ilPCPlugged extends ilPageContent
 	 */
 	function modifyPageContentPostXsl($a_html, $a_mode)
 	{
-		global $lng, $ilPluginAdmin;
+		$lng = $this->lng;
+		$ilPluginAdmin = $this->plugin_admin;
 		
 		$c_pos = 0;
 		$start = strpos($a_html, "{{{{{Plugged<pl");
@@ -218,6 +319,7 @@ class ilPCPlugged extends ilPageContent
 	        {
 				$plugin_obj = $ilPluginAdmin->getPluginObject(IL_COMP_SERVICE, "COPage",
 					"pgcp", $plugin_name);
+				$plugin_obj->setPageObj($this->getPage());
 				$gui_obj = $plugin_obj->getUIClassInstance();
 				$plugin_html = $gui_obj->getElementHTML($a_mode, $properties, $plugin_version);
 			}
@@ -249,7 +351,7 @@ class ilPCPlugged extends ilPageContent
 	 */
 	function getJavascriptFiles($a_mode)
 	{
-		global $ilPluginAdmin;
+		$ilPluginAdmin = $this->plugin_admin;
 		
 		$js_files = array();
 		
@@ -259,6 +361,7 @@ class ilPCPlugged extends ilPageContent
 		{
 			$plugin = $ilPluginAdmin->getPluginObject(IL_COMP_SERVICE,
 				"COPage", "pgcp", $pl_name);
+			$plugin->setPageObj($this->getPage());
 			$pl_dir = $plugin->getDirectory();
 			
 			$pl_js_files = $plugin->getJavascriptFiles($a_mode);
@@ -283,7 +386,7 @@ class ilPCPlugged extends ilPageContent
 	 */
 	function getCssFiles($a_mode)
 	{
-		global $ilPluginAdmin;
+		$ilPluginAdmin = $this->plugin_admin;
 		
 		$css_files = array();
 		
@@ -293,6 +396,7 @@ class ilPCPlugged extends ilPageContent
 		{
 			$plugin = $ilPluginAdmin->getPluginObject(IL_COMP_SERVICE,
 				"COPage", "pgcp", $pl_name);
+			$plugin->setPageObj($this->getPage());
 			$pl_dir = $plugin->getDirectory();
 			
 			$pl_css_files = $plugin->getCssFiles($a_mode);

@@ -13,6 +13,36 @@
 */
 class ilSCORM2004NodeGUI
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilLocatorGUI
+	 */
+	protected $locator;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	var $node_object;
 	var $slm_object;
 
@@ -23,6 +53,14 @@ class ilSCORM2004NodeGUI
 	*/
 	function __construct($a_slm_obj, $a_node_id = 0)
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+		$this->tpl = $DIC["tpl"];
+		$this->tabs = $DIC->tabs();
+		$this->locator = $DIC["ilLocator"];
+		$this->user = $DIC->user();
 		$this->slm_object = $a_slm_obj;
 		$this->node_object = null;
 
@@ -160,7 +198,10 @@ class ilSCORM2004NodeGUI
 	*/
 	function showOrganization()
 	{
-		global $lng, $ilCtrl, $tpl, $ilTabs;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
 		
 		$this->setTabs();
 		$ilTabs->setTabActive("sahs_organization");
@@ -176,7 +217,7 @@ class ilSCORM2004NodeGUI
 	*/
 	function insertChapter()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$res = $this->getParentGUI()->insertChapter(false);
 		$ilCtrl->setParameter($this, "highlight", $res["items"]);
@@ -188,7 +229,7 @@ class ilSCORM2004NodeGUI
 	 */
 	function insertSco()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$res = $this->getParentGUI()->insertSco(false);
 		$ilCtrl->setParameter($this, "highlight", $res["items"]);
@@ -200,7 +241,7 @@ class ilSCORM2004NodeGUI
 	 */
 	function insertAsset()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$res = $this->getParentGUI()->insertAsset(false);
 		$ilCtrl->setParameter($this, "highlight", $res["items"]);
@@ -212,7 +253,7 @@ class ilSCORM2004NodeGUI
 	*/
 	function insertPage()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$res = $this->getParentGUI()->insertPage(false);
 		$ilCtrl->setParameter($this, "highlight", $res["items"]);
@@ -224,7 +265,7 @@ class ilSCORM2004NodeGUI
 	 */
 	function insertTemplateGUI()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		$this->getParentGUI()->insertTemplateGUI(true);
 	}
 	
@@ -233,7 +274,7 @@ class ilSCORM2004NodeGUI
 	 */
 	function insertSpecialPage()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		$this->getParentGUI()->insertSpecialPage(true);
 	}
 	
@@ -242,7 +283,7 @@ class ilSCORM2004NodeGUI
 	*/
 	function collapseAll()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$this->getParentGUI()->collapseAll(false);
 		$ilCtrl->redirect($this, "showOrganization");
@@ -253,7 +294,7 @@ class ilSCORM2004NodeGUI
 	*/
 	function ExpandAll()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$this->getParentGUI()->expandAll(false);
 		$ilCtrl->redirect($this, "showOrganization");
@@ -264,9 +305,10 @@ class ilSCORM2004NodeGUI
 	*/
 	function saveAllTitles()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$this->getParentGUI()->saveAllTitles(false);
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		$ilCtrl->redirect($this, "showOrganization");
 	}
 
@@ -275,7 +317,7 @@ class ilSCORM2004NodeGUI
 	*/
 	function deleteNodes()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$ilCtrl->setParameter($this, "backcmd", $_GET["backcmd"]);
 		$this->getParentGUI()->deleteNodes($ilCtrl->getFormAction($this));
@@ -286,7 +328,7 @@ class ilSCORM2004NodeGUI
 	*/
 	function cancelDelete()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		$ilCtrl->redirect($this, "showOrganization");
 	}
 
@@ -295,7 +337,7 @@ class ilSCORM2004NodeGUI
 	*/
 	function confirmedDelete()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$this->getParentGUI()->confirmedDelete(false);
 		$ilCtrl->redirect($this, "showOrganization");
@@ -306,7 +348,9 @@ class ilSCORM2004NodeGUI
 	*/
 	function setLocator()
 	{
-		global $ilLocator, $tpl, $ilCtrl;
+		$ilLocator = $this->locator;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
 		
 		$ilLocator->addRepositoryItems($_GET["ref_id"]);
 		$this->getParentGUI()->addLocatorItems();
@@ -379,7 +423,7 @@ class ilSCORM2004NodeGUI
 	 */
 	function setContentStyle()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		// content styles
 		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
@@ -401,7 +445,8 @@ class ilSCORM2004NodeGUI
 	*/
 	function copyItems($a_return = "showOrganization")
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		$items = ilUtil::stripSlashesArray($_POST["id"]);
 		$todel = array();				// delete IDs < 0 (needed for non-js editing)
@@ -436,7 +481,8 @@ class ilSCORM2004NodeGUI
 	*/
 	function cutItems($a_return = "showOrganization")
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$items = ilUtil::stripSlashesArray($_POST["id"]);
 		$todel = array();			// delete IDs < 0 (needed for non-js editing)
@@ -473,7 +519,8 @@ class ilSCORM2004NodeGUI
 	*/
 	function insertPageClip()
 	{
-		global $ilCtrl, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 		
 		ilSCORM2004Node::insertPageClip($this->slm_object);
 		
@@ -486,7 +533,8 @@ class ilSCORM2004NodeGUI
 	 */
 	function insertScoClip()
 	{
-		global $ilCtrl, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 		
 		ilSCORM2004Node::insertScoClip($this->slm_object);
 		
@@ -499,7 +547,8 @@ class ilSCORM2004NodeGUI
 	 */
 	function insertAssetClip()
 	{
-		global $ilCtrl, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 		
 		ilSCORM2004Node::insertAssetClip($this->slm_object);
 		
@@ -512,7 +561,8 @@ class ilSCORM2004NodeGUI
 	 */
 	function insertLMChapterClip()
 	{
-		global $ilCtrl, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 
 		$this->setLocator();
 		$this->setTabs();

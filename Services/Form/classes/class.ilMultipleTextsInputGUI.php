@@ -29,6 +29,9 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
 	 */
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		parent::__construct($a_title, $a_postvar);
 		$this->validationRegexp = "";
 	}
@@ -72,7 +75,7 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
 	 */
 	function onCheckInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$submittedElements = $_POST[$this->getPostVar()];
 		

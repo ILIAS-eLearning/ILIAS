@@ -14,15 +14,22 @@ class ilPortfolioTemplatePageConfig extends ilPortfolioPageConfig
 {
 	public function init()
 	{
+		global $DIC;
+
+		$this->settings = $DIC->settings();
 		parent::init();
-				
+		$this->setIntLinkHelpDefaultId($_GET["ref_id"]);
+		$this->addIntLinkFilter("PortfolioTemplatePage");
+		$this->removeIntLinkFilter("PortfolioPage");
+		$this->setIntLinkHelpDefaultType("PortfolioTemplatePage");
+
 		$this->setEnablePCType("Verification", false);
 		$this->setEnablePCType("PlaceHolder", true);		
 	}
 	
 	public function getAvailablePlaceholderTypes()
 	{		
-		global $ilSetting;
+		$ilSetting = $this->settings;
 		
 		// no questions
 		$all = array(

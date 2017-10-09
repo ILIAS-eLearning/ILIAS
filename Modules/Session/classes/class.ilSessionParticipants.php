@@ -1,39 +1,17 @@
 <?php
-/*
-        +-----------------------------------------------------------------------------+
-        | ILIAS open source                                                           |
-        +-----------------------------------------------------------------------------+
-        | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-        |                                                                             |
-        | This program is free software; you can redistribute it and/or               |
-        | modify it under the terms of the GNU General Public License                 |
-        | as published by the Free Software Foundation; either version 2              |
-        | of the License, or (at your option) any later version.                      |
-        |                                                                             |
-        | This program is distributed in the hope that it will be useful,             |
-        | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-        | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-        | GNU General Public License for more details.                                |
-        |                                                                             |
-        | You should have received a copy of the GNU General Public License           |
-        | along with this program; if not, write to the Free Software                 |
-        | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-        +-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once('./Services/Membership/classes/class.ilParticipants.php');
 include_once './Modules/Session/classes/class.ilEventParticipants.php';
 
 /**
-* 
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesGroup
-*/
-
-
+ * Session participation handling.
+ *
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @version $Id$
+ *
+ * @ingroup ModulesSession
+ */
 class ilSessionParticipants extends ilParticipants
 {
 	const COMPONENT_NAME = 'Modules/Session';
@@ -46,41 +24,59 @@ class ilSessionParticipants extends ilParticipants
 	 * Constructor
 	 *
 	 * @access protected
-	 * @param int obj_id of container
+	 * @param int ref_id of object
 	 */
-	public function __construct($a_obj_id)
+	public function __construct($a_ref_id)
 	{
-		$this->type = 'sess';
-		$this->event_part = new ilEventParticipants($a_obj_id);
-		parent::__construct(self::COMPONENT_NAME,$a_obj_id);
-		
+		$this->event_part = new ilEventParticipants(ilObject::_lookupObjId($a_ref_id));
+		parent::__construct(self::COMPONENT_NAME,$a_ref_id);
 	}
 	
+	
 	/**
-	 * Get singleton instance
-	 *
-	 * @access public
-	 * @static
-	 *
-	 * @param int obj_id
-	 * @return object ilGroupParticipants
+	 * Get instance
+	 * @param int $a_ref_id
+	 * @return ilSessionParticipants
 	 */
 	public static function _getInstanceByObjId($a_obj_id)
 	{
-		if(isset(self::$instances[$a_obj_id]) and self::$instances[$a_obj_id])
-		{
-			return self::$instances[$a_obj_id];
-		}
-		return self::$instances[$a_obj_id] = new ilSessionParticipants($a_obj_id);
+		$refs = ilObject::_getAllReferences($a_obj_id);
+		return self::getInstance(array_pop($refs));
 	}
 
+
+	
 	/**
-	 * 
+	 * Get instance
+	 * @param int $a_ref_id
+	 * @return ilSessionParticipants
+	 */
+	public static function getInstance($a_ref_id)
+	{
+		if(self::$instances[$a_ref_id] instanceof self)
+		{
+			return self::$instances[$a_ref_id];
+		}
+		return self::$instances[$a_ref_id] = new self($a_ref_id);
+	}
+	
+	/**
+	 * Get event particpants object
 	 * @return ilEventParticipants
 	 */
 	public function getEventParticipants()
 	{
 		return $this->event_part;
+	}
+	
+	/**
+	 * no last admin restrictions for sessions
+	 * @param int[] $a_usr_ids
+	 * @return boolean
+	 */
+	public function checkLastAdmin($a_usr_ids)
+	{
+		return false;
 	}
 	
 	/**
@@ -96,15 +92,7 @@ class ilSessionParticipants extends ilParticipants
 		$obj_id = ilObject::_lookupObjId($a_ref_id);
 		return ilEventParticipants::_isRegistered($a_usr_id, $obj_id);
 	}
-	
-	/**
-	 * read Participants
-	 */
-	public function readParticipants()
-	{
-		$this->participants = $this->members = $this->getEventParticipants()->getRegistered();
-	}
-	
+		
 	/**
 	 * read participant status
 	 */
@@ -120,21 +108,54 @@ class ilSessionParticipants extends ilParticipants
 	}
 	
 	/**
-	 * Add user
-	 * @param type $a_usr_id
+	 * Add user to session member role. Additionally the status registered or participated must be set manually
+	 * @param int $a_usr_id
+	 * @param int $a_role
 	 */
 	public function add($a_usr_id, $a_role = "")
 	{
+		if(parent::add($a_usr_id, $a_role))
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Register user
+	 * @param int $a_usr_id
+	 * @return boolean
+	 */
+	public function register($a_usr_id)
+	{
+		$this->logger->debug('Registering user: ' . $a_usr_id. ' for session: ' . $this->getObjId());
+		$this->add($a_usr_id, IL_SESS_MEMBER);
+		// in any (already participant since status attended) case register user.
 		$this->getEventParticipants()->register($a_usr_id);
+		return true;
 	}
 	
 	/**
 	 * Unregister user
-	 * @param type $a_usr_id
+	 * @param int $a_usr_id
+	 * @return boolean
 	 */
-	public function delete($a_usr_id)
+	public function unregister($a_usr_id)
 	{
-		$this->getEventParticipants()->unregister($a_usr_id);
+		// participated users are not dropped from role
+		if($this->getEventParticipants()->hasParticipated($a_usr_id))
+		{
+			$this->getEventParticipants()->unregister($a_usr_id);
+			return true;
+		}
+		else
+		{
+			$this->delete($a_usr_id);
+			$this->getEventParticipants()->unregister($a_usr_id);
+			return true;
+		}
+		return false;
 	}
+
 }
 ?>

@@ -36,6 +36,26 @@ require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
 */
 class ilPCFileItemGUI extends ilPageContentGUI
 {
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
 
 	/**
 	* Constructor
@@ -43,6 +63,15 @@ class ilPCFileItemGUI extends ilPageContentGUI
 	*/
 	function __construct(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->tabs = $DIC->tabs();
+		$this->ctrl = $DIC->ctrl();
+		$this->user = $DIC->user();
+		$this->tpl = $DIC["tpl"];
+		$this->tree = $DIC->repositoryTree();
+		$this->settings = $DIC->settings();
 		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
 
@@ -71,7 +100,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
 	*/
 	function newFileItem()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if ($_FILES["file"]["name"] == "")
 		{
@@ -109,7 +138,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
 	 */
 	function newItemAfter()
 	{
-		global $ilTabs;
+		$ilTabs = $this->tabs;
 		
 		if ($_GET["subCmd"] == "insertNew")
 		{
@@ -177,7 +206,9 @@ break;
 	 */
 	public function initAddFileForm($a_before = true)
 	{
-		global $lng, $ilCtrl, $ilUser;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -210,7 +241,9 @@ break;
 	*/
 	function insertFromRepository($a_cmd)
 	{
-		global $ilTabs, $ilCtrl, $tpl;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
 
 		$this->setTabs($a_cmd);
 		$ilTabs->setSubTabActive("cont_file_from_repository");
@@ -230,7 +263,11 @@ break;
 	*/
 	function insertFromWorkspace($a_cmd = "insert")
 	{
-		global $ilTabs, $tree, $ilCtrl, $tpl, $ilUser;
+		$ilTabs = $this->tabs;
+		$tree = $this->tree;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$ilUser = $this->user;
 
 		$this->setTabs($a_cmd);
 		$ilTabs->setSubTabActive("cont_file_from_workspace");
@@ -286,7 +323,7 @@ break;
 	*/
 	function insertNewItemAfter($a_file_ref_id = 0)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$res = true;
 		if(isset($_GET["fl_wsp_id"]))
@@ -328,7 +365,7 @@ break;
 	*/
 	function newItemBefore()
 	{
-		global $ilTabs;
+		$ilTabs = $this->tabs;
 		
 		if ($_GET["subCmd"] == "insertNew")
 		{
@@ -397,7 +434,7 @@ break;
 	*/
 	function insertNewItemBefore($a_file_ref_id = 0)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$res = true;
 		if(isset($_GET["fl_wsp_id"]))
@@ -449,7 +486,9 @@ break;
 	*/
 	function setTabs($a_cmd = "")
 	{
-		global $ilTabs, $ilCtrl, $ilSetting;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
+		$ilSetting = $this->settings;
 
 		$ilTabs->addTarget("cont_back",
 			$this->ctrl->getParentReturn($this), "",

@@ -15,13 +15,26 @@ include_once("./Services/Help/classes/class.ilHelpMapping.php");
  */
 class ilHelpTooltipTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
 	
 	/**
 	 * Constructor
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_comp)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
+		$lng = $DIC->language();
 
 		$this->setId("lm_help_tooltips");
 
@@ -50,7 +63,7 @@ class ilHelpTooltipTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$this->tpl->setVariable("ID", $a_set["id"]);
 		$this->tpl->setVariable("TEXT", ilUtil::prepareFormOutput($a_set["text"]));
