@@ -8,7 +8,7 @@ production and dev dependencies.
 
 The production dependencies are saved in the *require* section of the composer.json
 configuration. These are used by the production code of ILIAS. Tests and other development
-logic don't use this libraries directly.
+logic don't use this libraries directly. 
 
 The dev dependencies are saved in the *require-dev* section of the compser.json configuration.
 These are libraries and tools dedicated to aid the development process. For example
@@ -33,9 +33,8 @@ PHPUnit to run and create unit tests.
 
 ### Dependencies for development
 - Add a new library using composer, e.g. "composer require --dev phpunit/phpunit" 
-- Add all directories that are newly added by the installation also to the .gitignore file located 
-in /libs
-- commit changes of composer.json and composer.lock
+- Do not add the installed dependencies in /libs/composer/vendor to the repository. 
+- Commit changes of composer.json and composer.lock 
 
 ### Update a single dependency
 - Search the name of dependency you like to update.
