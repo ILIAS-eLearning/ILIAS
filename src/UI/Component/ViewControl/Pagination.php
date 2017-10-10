@@ -46,12 +46,50 @@ interface Pagination extends C\Component, JavaScriptBindable, Triggerer {
 	public function withCurrentPage($page);
 
 	/**
+	 * Get the currently slected page.
+	 *
+	 * @return int
+	 */
+	public function getCurrentPage();
+
+	/**
 	 * Get the data's offset according to current page and page size.
 	 *
 	 * @return int
 	 */
 	public function getOffset();
 
+	/**
+	 * Register a signal with the control.
+	 *
+	 * @param ILIAS\UI\Component\Signal $signal
+	 *
+	 * @return \Pagination
+	 */
+	public function withOnSelect(C\Signal $signal);
 
+	/**
+	 * Calculate the total number of pages.
+	 *
+	 * @return int
+	 */
+	public function getNumberOfPages();
+
+	/**
+	 * Layout; define, how many entries are shown (max).
+	 *
+	 * @param int 	$entries
+	 *
+	 * @return \Pagination
+	 */
+	public function withMaxPageEntries($entries);
+
+	/**
+	 * Get the maximum amount of page-entries (not records per page!)
+	 * to be shown.
+	 *
+	 * @return int
+	 */
+	public function getMaxPageEntries();
 
 }
