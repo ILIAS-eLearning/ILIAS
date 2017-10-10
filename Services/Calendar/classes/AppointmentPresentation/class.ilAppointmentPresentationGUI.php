@@ -233,7 +233,7 @@ class ilAppointmentPresentationGUI extends ilCalendarViewGUI implements ilCalend
 						$infoscreen->addSection($i["txt"]);
 						break;
 					case "property":
-						$infoscreen->addProperty($i["txt"], $i["val"]);
+						$infoscreen->addProperty($i["txt"], nl2br($i["val"]));
 						break;
 				}
 			}
