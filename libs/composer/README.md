@@ -67,6 +67,9 @@ $ composer dump-autoload
 ```
 
 # Create library patch
+
+**New patches in dependencies MUST be confirmed by the Technical Board of the ILIAS society.**
+
 The composer plugin cweagans/composer-patches provides a way to apply patches to dependencies.
 - First a patch has to be created with git which contains all the required changes. After the 
 has to be moved to the .libs/composer/patches directory.
