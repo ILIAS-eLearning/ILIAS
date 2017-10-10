@@ -32,6 +32,9 @@ class Renderer extends AbstractComponentRenderer
 		if ($component instanceof Component\ViewControl\Sortation) {
 			return $this->renderSortation($component, $default_renderer);
 		}
+		if ($component instanceof Component\ViewControl\Pagination) {
+			return $this->renderPagination($component, $default_renderer);
+		}
 	}
 
 	protected function renderMode(Component\ViewControl\Mode $component, RendererInterface $default_renderer)
@@ -181,9 +184,129 @@ class Renderer extends AbstractComponentRenderer
 			->withLabel($init_label);
 
 		$tpl->setVariable('SORTATION_DROPDOWN', $default_renderer->render($dd));
-	    return $tpl->get();
+		return $tpl->get();
 	}
 
+
+	protected function renderPagination(Component\ViewControl\Pagination $component, RendererInterface $default_renderer) {
+		$tpl = $this->getTemplate("tpl.pagination.html", true, true);
+
+		$component = $component->withResetSignals();
+		$triggeredSignals = $component->getTriggeredSignals();
+		if($triggeredSignals) {
+			$signal_select = $component->getSelectSignal();
+			$signal = $triggeredSignals[0]->getSignal();
+			$options = json_encode($signal->getOptions());
+
+			$component = $component->withOnLoadCode(function($id) use ($signal_select, $signal, $options) {
+				return "
+				$(document).on('{$signal_select}', function(event, signalData) {
+
+					var triggerer = signalData.triggerer[0], 			//the shy-button
+						param = triggerer.getAttribute('data-action'), 	//the pagination-value
+						id = '{$id}',									//id of pagination control to be used
+																		//as triggerer for others
+						pagination = $('#' + id);
+
+					//trigger select-signal
+					pagination.trigger('{$signal}',
+						{
+							'id' : '{$signal}', 'event' : 'select',
+							'triggerer' : pagination,
+							'options' : options
+						}
+					);
+					return false;
+				});
+				";
+
+			});
+			$id = $this->bindJavaScript($component);
+			$tpl->setVariable('ID', $id);
+		}
+
+		$prev = $component->getCurrentPage() - 1;
+		if($prev < 0) {$prev = 0;}
+		$shy_left = $this->getPaginationShyButton(
+			(string)$prev,
+			$component,
+			'<span class="glyphicon glyphicon-chevron-left"></span>'
+		);
+		if($component->getCurrentPage() === 0) {
+			$shy_left = $shy_left->WithUnavailableAction();
+		}
+
+		$next = $component->getCurrentPage() + 1;
+		$shy_right = $this->getPaginationShyButton(
+			(string)$next,
+			$component,
+			'<span class="glyphicon glyphicon-chevron-right"></span>'
+		);
+		if($component->getCurrentPage() === $component->getNumberOfPages()) {
+			$shy_right = $shy_right->WithUnavailableAction();
+		}
+
+		$tpl->setCurrentBlock("entry");
+		$tpl->setVariable('BUTTON',	$default_renderer->render($shy_left));
+		$tpl->parseCurrentBlock();
+
+
+		if(! $component->getMaxPageEntries()) {
+			$range = range(0, $component->getNumberOfPages());
+		} else {
+
+
+			$start = (int) ($component->getCurrentPage() - floor($component->getMaxPageEntries() / 2));
+			if($start < 0) {
+				$start = 0;
+			}
+			$range = range($start, $start + $component->getMaxPageEntries() - 1);
+		}
+
+
+		foreach ($range as $entry) {
+			$shy = $this->getPaginationShyButton($entry, $component);
+			if((int)$entry === $component->getCurrentPage()) {
+				$shy = $shy->withUnavailableAction();
+			}
+
+			$tpl->setCurrentBlock("entry");
+			$tpl->setVariable('BUTTON',	$default_renderer->render($shy));
+			$tpl->parseCurrentBlock();
+		}
+
+		$tpl->setCurrentBlock("entry");
+		$tpl->setVariable('BUTTON',	$default_renderer->render($shy_right));
+		$tpl->parseCurrentBlock();
+
+		return $tpl->get();
+	}
+
+	/**
+	 * @param string 	$val
+	 * @param bool 	$use_signal
+	 * @param string 	$label
+	 *
+	 * @return \ILIAS\UI\Component\Button\Shy
+	 */
+	protected function getPaginationShyButton($val, $component, $label='') {
+		$f = new \ILIAS\UI\Implementation\Factory(
+			new \ILIAS\UI\Implementation\Component\SignalGenerator()
+		);
+		if($label === '') {
+			$label = (string)($val+1);
+		}
+
+		if($component->getTriggeredSignals()) {
+			$shy = $f->button()->shy($label, (string)$val)->withOnClick($component->getSelectSignal());
+		} else {
+			$url = $component->getTargetURL();
+			$url .= (strpos($url, '?') === false) ?  '?' : '&';
+			$url .= $component->getParameterName() .'=' .$val;
+			$shy = $f->button()->shy($label, $url);
+		}
+		return $shy;
+	}
 
 	protected function maybeRenderId(Component\Component $component, $tpl, $block, $template_var) {
 		$id = $this->bindJavaScript($component);
@@ -195,13 +318,14 @@ class Renderer extends AbstractComponentRenderer
 	}
 
 	/**
-	 * @inheritdocs
+	 * @inheritdoc
 	 */
 	protected function getComponentInterfaceName() {
 		return array(
 			Component\ViewControl\Mode::class,
 			Component\ViewControl\Section::class,
-			Component\ViewControl\Sortation::class
+			Component\ViewControl\Sortation::class,
+			Component\ViewControl\Pagination::class
 		);
 
 	}
