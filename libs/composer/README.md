@@ -33,7 +33,8 @@ PHPUnit to run and create unit tests.
 
 ### Dependencies for development
 - Add a new library using composer, e.g. "composer require --dev phpunit/phpunit" 
-- Ignore all directories which are added by installation (uncomment existing)
+- Add all directories that are newly added by the installation also to the .gitignore file located 
+in /libs
 - commit changes of composer.json and composer.lock
 
 ### Update a single dependency
