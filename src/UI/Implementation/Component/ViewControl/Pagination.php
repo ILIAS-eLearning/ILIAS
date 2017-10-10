@@ -168,7 +168,7 @@ class Pagination implements C\ViewControl\Pagination  {
 	 * @inheritdoc
 	 */
 	public function getNumberOfPages() {
-		$pages = floor($this->total_entries / $this->page_size);
+		$pages = ceil($this->total_entries / $this->page_size);
 		return (int)$pages;
 	}
 

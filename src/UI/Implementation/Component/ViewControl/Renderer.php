@@ -252,7 +252,7 @@ class Renderer extends AbstractComponentRenderer
 
 
 		if(! $component->getMaxPageEntries()) {
-			$range = range(0, $component->getNumberOfPages());
+			$range = range(0, $component->getNumberOfPages() - 1);
 		} else {
 
 
