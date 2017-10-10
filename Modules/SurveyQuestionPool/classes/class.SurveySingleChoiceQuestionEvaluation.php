@@ -45,8 +45,9 @@ class SurveySingleChoiceQuestionEvaluation extends SurveyQuestionEvaluation
 			$cat = $categories->getCategory($i);
 			if ($cat->other)
 			{
-				$other[] = $cat->scale;	
-				break;	
+				$other[] = $cat->scale;
+				// outcommented due to #0021525
+//				break;
 			}
 		}
 		
