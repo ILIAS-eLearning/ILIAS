@@ -86,7 +86,13 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 		$this->addMultiCommand("saveStatusSelected", $this->lng->txt("exc_save_selected"));
 			
 		$this->setFormName("ilExcIDlForm");
-		$this->addMultiCommand("setIndividualDeadline", $this->lng->txt("exc_individual_deadline_action"));
+
+		// see 0021530 and parseRow here with similar action per user
+		if ($this->ass->hasActiveIDl() &&
+			!$this->ass->hasReadOnlyIDl())
+		{
+			$this->addMultiCommand("setIndividualDeadline", $this->lng->txt("exc_individual_deadline_action"));
+		}
 	
 		if($this->exc->hasTutorFeedbackMail() &&
 			$this->mode == self::MODE_BY_ASSIGNMENT)
