@@ -7202,6 +7202,11 @@ function getAnswerFeedbackPoints()
 		$newObj->setResultFilterTaxIds($this->getResultFilterTaxIds());
 		$newObj->setInstantFeedbackAnswerFixationEnabled($this->isInstantFeedbackAnswerFixationEnabled());
 		$newObj->setForceInstantFeedbackEnabled($this->isForceInstantFeedbackEnabled());
+		$newObj->setAutosave($this->getAutosave());
+		$newObj->setAutosaveIval($this->getAutosaveIval());
+		$newObj->setOfferingQuestionHintsEnabled($this->isOfferingQuestionHintsEnabled());
+		$newObj->setSpecificAnswerFeedback($this->getSpecificAnswerFeedback());
+		$newObj->setObligationsEnabled($this->areObligationsEnabled());
 		$newObj->saveToDb();
 		
 		// clone certificate
