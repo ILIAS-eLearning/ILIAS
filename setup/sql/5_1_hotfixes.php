@@ -351,3 +351,27 @@ while ($rec = $ilDB->fetchAssoc($set))
         array('text','text'), array($new, $old)
     );
 ?>
+<#30>
+<?php
+if($ilDB->tableColumnExists('wiki_stat', 'del_pages'))
+{
+	$ilDB->modifyTableColumn('wiki_stat', 'del_pages', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true,
+		'default' => 0
+	));
+}
+?>
+<#31>
+<?php
+if($ilDB->tableColumnExists('wiki_stat', 'avg_rating'))
+{
+	$ilDB->modifyTableColumn('wiki_stat', 'avg_rating', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true,
+		'default' => 0
+	));
+}
+?>
