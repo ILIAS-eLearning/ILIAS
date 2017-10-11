@@ -647,7 +647,7 @@ class ilMediaItem
 	*/
 	function setParameter($a_name, $a_value)
 	{
-		if ($this->checkParameter($a_name, $a_value))
+		if (self::checkParameter($a_name, $a_value))
 		{
 			$this->parameters[$a_name] = $a_value;
 		}
@@ -686,7 +686,7 @@ class ilMediaItem
 	 * @param string $a_val value
 	 * @return bool
 	 */
-	function checkParameter($a_par, $a_val)
+	static function checkParameter($a_par, $a_val)
 	{
 		// do not allow event attributes
 		if (substr(strtolower(trim($a_par)), 0, 2) == "on")
