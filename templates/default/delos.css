@@ -11123,9 +11123,11 @@ a.callink:visited {
   color: inherit;
   cursor: pointer;
 }
-.calevent .btn.btn-link,
-.il_calevent .btn.btn-link {
+.il_calevent > .btn.btn-link {
   color: inherit;
+}
+.cal_modal_infoscreen .il_InfoScreenPropertyValue .btn-link {
+  text-align: left;
 }
 table.calstd {
   margin-top: 6px;

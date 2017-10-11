@@ -4728,11 +4728,13 @@ dateplaner#:#cal_created_milestone#:#Added milestone.
 dateplaner#:#cal_daily#:#Daily
 dateplaner#:#cal_date_format_info#:#Please choose a format for the input of dates.
 dateplaner#:#cal_day_end#:#Day End
+dateplaner#:#cal_def_day_end#:#Default Day End
 dateplaner#:#cal_day_of_month#:#Day of the month
 dateplaner#:#cal_day_overview#:#Day Overview
 dateplaner#:#cal_day_s#:#Day(s)
 dateplaner#:#cal_day_selection#:#Select Day
 dateplaner#:#cal_day_start#:#Day Start
+dateplaner#:#cal_def_day_start#:#Default Day Start
 dateplaner#:#cal_day_week_view#:#Day/Week View Settings
 dateplaner#:#cal_deadline#:#Deadline
 dateplaner#:#cal_declined#:#Declined
@@ -4742,7 +4744,7 @@ dateplaner#:#cal_def_time_format_info#:#Please choose a format for the input and
 dateplaner#:#cal_def_time_format#:#Default Time Format
 dateplaner#:#cal_def_timezone_info#:#Please choose a default timezone for the presentation of appointments.
 dateplaner#:#cal_def_timezone#:#Default Timezone
-dateplaner#:#cal_def_week_start#:#Week Start
+dateplaner#:#cal_def_week_start#:#Default Week Start
 dateplaner#:#cal_default_calendar#:#Personal Appointments
 dateplaner#:#cal_del_app_sure#:#Do you really want to delete the selected appointments?
 dateplaner#:#cal_del_cal_sure#:#Do you really want to delete the chosen calendars?
@@ -13823,6 +13825,7 @@ book#:#book_open#:#Open Booking Pool
 book#:#book_booking_information#:#Information
 sess#:#sess_open#:#Open Session
 dateplaner#:#cal_show_weeks#:#Show Weeks
+dateplaner#:#cal_def_show_weeks#:#Default Show Weeks
 dateplaner#:#cal_show_weeks_info#:#Activates weeks column in calendar side block. Users can deactivate the column in their settings.
 dateplaner#:#cal_usr_show_weeks#:#Show Week Column
 dateplaner#:#cal_usr_show_weeks_info#:#Activates weeks column in calendar side block.
@@ -14000,7 +14003,7 @@ rbac#:#wiki_edit_page_meta#:#Edit Wiki Page Metadata
 content#:#cont_user#:#User
 content#:#cont_user_search_did_not_match#:#Your search did not match any users.
 blog#:#blog_latest_posting#:#Latest Posting
-dateplaner#:#cal_batch_file_downloads#:#Batch file downloads in Calendar
+dateplaner#:#cal_batch_file_downloads#:#Batch File Downloads in Calendar
 dateplaner#:#cal_batch_file_downloads_info#:#Activate button to download all files related to the current calendar/appointment view.
 dateplaner#:#cal_download_files#:#Download Files
 dateplaner#:#cal_calendar_download#:#Calendar Download

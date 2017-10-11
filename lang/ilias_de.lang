@@ -5556,11 +5556,13 @@ dateplaner#:#cal_daily#:#Täglich
 dateplaner#:#cal_date_booked#:#gebucht
 dateplaner#:#cal_date_format_info#:#Bitte wählen Sie ein Format für die Eingabe eines Datums aus.
 dateplaner#:#cal_day_end#:#Tagesende
+dateplaner#:#cal_def_day_end#:#Default-Tagesende
 dateplaner#:#cal_day_of_month#:#Tag des Monats
 dateplaner#:#cal_day_overview#:#Tagesübersicht
 dateplaner#:#cal_day_s#:#Tag(e)
 dateplaner#:#cal_day_selection#:#Tagesauswahl
 dateplaner#:#cal_day_start#:#Tagesbeginn
+dateplaner#:#cal_def_day_start#:#Default-Tagesbeginn
 dateplaner#:#cal_day_week_view#:#Einstellungen Tages-/Wochenansicht
 dateplaner#:#cal_deadline#:#Endtermin
 dateplaner#:#cal_declined#:#Abgelehnt
@@ -5570,7 +5572,7 @@ dateplaner#:#cal_def_time_format#:#Default-Zeitformat
 dateplaner#:#cal_def_time_format_info#:#Bitte wählen Sie ein Format für die Eingabe und Darstellung der Zeit aus.
 dateplaner#:#cal_def_timezone#:#Default-Zeitzone
 dateplaner#:#cal_def_timezone_info#:#Bitte wählen Sie eine Zeitzone für die Anzeige von Terminen aus.
-dateplaner#:#cal_def_week_start#:#Wochenbeginn
+dateplaner#:#cal_def_week_start#:#Default-Wochenbeginn
 dateplaner#:#cal_default_calendar#:#Persönliche Termine
 dateplaner#:#cal_del_app_sure#:#Sind Sie sicher, dass Sie die folgenden Termine löschen möchten?
 dateplaner#:#cal_del_cal_sure#:#Möchten Sie wirklich die ausgewählten Kalender löschen?
@@ -13807,6 +13809,7 @@ book#:#book_open#:#Buchungspool öffnen
 book#:#book_booking_information#:#Information
 sess#:#sess_open#:#Sitzung öffnen
 dateplaner#:#cal_show_weeks#:#Anzeige Wochenspalte
+dateplaner#:#cal_def_show_weeks#:#Default-Anzeige Wochenspalte
 dateplaner#:#cal_show_weeks_info#:#Zeigt die Wochen im Seitenblock "Kalender" an. Benutzer können die Anzeige deaktivieren.
 dateplaner#:#cal_usr_show_weeks#:#Anzeige Wochenspalte
 dateplaner#:#cal_usr_show_weeks_info#:#Zeigt die Wochen im Seitenblock "Kalender" an.
