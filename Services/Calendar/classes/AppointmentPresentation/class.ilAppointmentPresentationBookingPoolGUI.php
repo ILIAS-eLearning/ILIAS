@@ -92,9 +92,6 @@ class ilAppointmentPresentationBookingPoolGUI extends ilAppointmentPresentationG
 
 		}
 
-		//example download all files
-		//$this->addAction($this->lng->txt("cal_download_all_files"), "www.ilias.de");
-
 		if (count($refs) > 0)
 		{
 			$this->addAction($this->lng->txt("book_open"), ilLink::_getStaticLink(current($refs)));

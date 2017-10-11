@@ -50,12 +50,12 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 
 		if($crs->getImportantInformation())
 		{
-			$this->addInfoProperty($this->lng->txt("crs_important_info"), $crs->getImportantInformation());
+			$this->addInfoProperty($this->lng->txt("crs_important_info"), ilUtil::makeClickable(nl2br($crs->getImportantInformation())));
 		}
 
 		if($crs->getSyllabus())
 		{
-			$this->addInfoProperty($this->lng->txt("crs_syllabus"), $crs->getSyllabus());
+			$this->addInfoProperty($this->lng->txt("crs_syllabus"), ilUtil::makeClickable(nl2br($crs->getSyllabus())));
 		}
 
 		if (count($files)) {

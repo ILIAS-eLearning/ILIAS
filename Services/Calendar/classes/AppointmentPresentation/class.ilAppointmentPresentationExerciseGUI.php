@@ -49,7 +49,7 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 		$assignment = new ilExAssignment($ass_id);
 		if($assignment->getInstruction() != "")
 		{
-			$this->addInfoProperty($this->lng->txt("exc_instruction"), $assignment->getInstruction());
+			$this->addInfoProperty($this->lng->txt("exc_instruction"), ilUtil::makeClickable(nl2br($assignment->getInstruction())));
 		}
 		$files = $assignment->getFiles();
 		if(count($files) > 0)

@@ -35,11 +35,8 @@ class ilAppointmentPresentationGroupGUI extends ilAppointmentPresentationGUI imp
 		if($grp->getInformation())
 		{
 			$this->addInfoSection($this->lng->txt("cal_grp_info"));
-			$this->addInfoProperty($this->lng->txt("grp_information"), $grp->getInformation());
+			$this->addInfoProperty($this->lng->txt("grp_information"), ilUtil::makeClickable(nl2br($grp->getInformation())));
 		}
-
-		//example download all files
-		//$this->addAction($this->lng->txt("cal_download_all_files"), "www.ilias.de");
 
 		$this->addAction($this->lng->txt("grp_grp_open"), ilLink::_getStaticLink($grp_ref_id, "grp"));
 	}
