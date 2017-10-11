@@ -91,8 +91,7 @@ class ilWebAccessChecker {
 	 * @throws ilWACException
 	 */
 	public function check() {
-		ilWACLog::getInstance()->write('Checking File: ' . $this->getPathObject()
-		                                                        ->getPathWithoutQuery());
+		ilWACLog::getInstance()->write('Checking File: ' . $this->getPathObject()->getPathWithoutQuery());
 		if (!$this->getPathObject()) {
 			throw new ilWACException(ilWACException::CODE_NO_PATH);
 		}
@@ -132,8 +131,7 @@ class ilWebAccessChecker {
 		$checkingInstance = ilWACSecurePath::getCheckingInstance($this->getPathObject());
 		if ($checkingInstance instanceof ilWACCheckingClass) {
 			$this->addAppliedCheckingMethod(self::CM_CHECKINGINSTANCE);
-			ilWACLog::getInstance()->write('has checking instance: '
-			                               . get_class($checkingInstance));
+			ilWACLog::getInstance()->write('has checking instance: ' . get_class($checkingInstance));
 			$canBeDelivered = $checkingInstance->canBeDelivered($this->getPathObject());
 			if ($canBeDelivered) {
 				ilWACLog::getInstance()->write('checked using fallback');
@@ -155,8 +153,7 @@ class ilWebAccessChecker {
 
 		// none of the checking mechanisms could have been applied. no access
 		$this->setChecked(true);
-		ilWACLog::getInstance()
-		        ->write('none of the checking mechanisms could have been applied. access depending on sec folder');
+		ilWACLog::getInstance()->write('none of the checking mechanisms could have been applied. access depending on sec folder');
 		if ($this->getPathObject()->isInSecFolder()) {
 			$this->addAppliedCheckingMethod(self::CM_SECFOLDER);
 			ilWACLog::getInstance()->write('file is in sec-folder, no delivery');
@@ -208,25 +205,18 @@ class ilWebAccessChecker {
 			}
 		}
 		$this->setInitialized(true);
-
-		return true;
 	}
 
 
 	protected function checkPublicSection() {
 		global $DIC;
-
 		$not_on_login_page = $this->isRequestNotFromLoginPage();
 		$is_anonymous = ((int)$DIC->user()->getId() === (int)ANONYMOUS_USER_ID);
 		$is_null_user = ($DIC->user()->getId() === 0);
 		$pub_section_activated = (bool)$DIC['ilSetting']->get('pub_section');
 		$isset = isset($DIC['ilSetting']);
 		$instanceof = $DIC['ilSetting'] instanceof ilSetting;
-		if (!$isset || !$instanceof
-		    || (!$pub_section_activated
-		        && ($is_anonymous
-		            || ($is_null_user
-		                && $not_on_login_page)))) {
+		if (!$isset || !$instanceof || (!$pub_section_activated && ($is_anonymous || ($is_null_user && $not_on_login_page)))) {
 			throw new ilWACException(ilWACException::ACCESS_DENIED_NO_PUB);
 		}
 	}
