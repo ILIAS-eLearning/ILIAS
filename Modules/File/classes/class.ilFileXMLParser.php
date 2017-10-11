@@ -404,7 +404,7 @@ class ilFileXMLParser extends ilSaxParser
 			$path = preg_replace('#\p{C}+|^\./#u', '', $path);
 		}
 
-		$parts = [];
+		$parts = array();
 		foreach (explode('/', $path) as $part) {
 			switch ($part) {
 				case '':
