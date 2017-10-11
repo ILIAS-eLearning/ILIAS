@@ -13646,6 +13646,9 @@ chatroom#:#chat_osc_dont_accept_msg#:#You currently cannot be invited to convers
 chatroom#:#chat_osc_doesnt_accept_msg#:#Conversations not possible
 chatroom#:#chtr_activation_online_info#:#Set the chat online to make it visible and available for partcipants. If not, only users with 'Edit Settings' permission will have access to it.
 chatroom#:#chtr_activation_limited_visibility_info#:#If checked, the title of the chat will be visible even outside of the given availability. The chat however can not be accessed.
+chatroom#:#chat_osc_subs_rej_msgs#:#Currently it is not possible to continue this conversation. Your chat-partner must activate chats in the chat-settings.
+chatroom#:#chat_osc_subs_rej_msgs_p#:#The following chat partners of your conversation do not want to receive messages anymore: %s
+chatroom#:#chat_osc_self_rej_msgs#:#You currently cannot take part in this conversation because you suppressed receiving messages in your settings.
 chatroom#:#chtr_server_status#:#Server Status
 chatroom#:#chtr_ban_actor_tbl_head#:#Akteur
 chatroom#:#chtr_ban_ts_tbl_head#:#Timestamp

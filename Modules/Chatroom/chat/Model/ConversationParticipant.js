@@ -24,6 +24,13 @@ function Participant(id, name) {
 	var _online = false;
 
 	/**
+	 * 
+	 * @type {boolean}
+	 * @private
+	 */
+	var _acceptsMessages = true;
+
+	/**
 	 * @type {Array}
 	 * @private
 	 */
@@ -66,6 +73,20 @@ function Participant(id, name) {
 		_online = isOnline;
 	};
 
+	/**
+	 * @param {boolean} status
+	 */
+	this.setAcceptsMessages = function(status) {
+		_acceptsMessages = status;
+	};
+
+	/**
+	 * @returns {boolean}
+	 */
+	this.getAcceptsMessages = function() {
+		return _acceptsMessages;
+	};
+
 	this.removeSocket = function(socket) {
 		var index = _sockets.indexOf(socket);
 		if(index > -1) {
@@ -79,7 +100,6 @@ function Participant(id, name) {
 
 	this.emit = function(event, data) {
 		forSockets(function(socket){
-			//console.log("emit", event, data);
 			socket.emit(event, data);
 		})
 	};

@@ -21385,3 +21385,7 @@ ilDBUpdate3136::addStyleClass("OrderListItemHorizontal", "qordli", "li",
     					"cursor" => "move"
     					));
 ?>
+<#5233>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
