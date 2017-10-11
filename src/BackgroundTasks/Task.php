@@ -75,11 +75,20 @@ interface Task {
 
 
 	/**
-	 * @return Option An Option to dismiss the current task and do some cleanup if possible. This
-	 *                Option is diplayed if the Job is possibly failed or if a Bucket is completed.
-	 *                You do not have to provide an additional Option to dismiss in your
-	 *                UserInteraction, the dismiss-Option is added to the list of Options (last
-	 *                position)
+	 * @return Option   An Option to dismiss the current task and do some cleanup if possible. This
+	 *                  Option is displayed if the Bucket is completed. You do not have to provide
+	 *                  an additional Option to dismiss in your UserInteraction, the dismiss-Option
+	 *                  is added to the list of Options (last position)
+	 *
+	 * @see self::getAbortOption();
 	 */
 	public function getDismissOption();
+
+
+	/**
+	 * @return Option   In case a Job is failed or did not respond for some time, an Abort-Option
+	 *                  is displayed. There is already a Standard-Abort-Option registered, you can
+	 *                  override with your own and do some cleanup if possible.
+	 */
+	public function getAbortOption();
 }

@@ -21,6 +21,7 @@ abstract class AbstractTask implements Task {
 
 	use BasicScalarValueFactory;
 	const MAIN_DISMISS = 'bt_main_dismiss';
+	const MAIN_ABORT = 'bt_main_abort';
 	/**
 	 * @var Value[]
 	 */
@@ -151,5 +152,13 @@ abstract class AbstractTask implements Task {
 	 */
 	public function getDismissOption() {
 		return new UserInteractionOption('dismiss', self::MAIN_DISMISS);
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getAbortOption() {
+		return new UserInteractionOption('abort', self::MAIN_ABORT);
 	}
 }
