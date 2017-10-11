@@ -201,6 +201,14 @@ var Database = function Database(config) {
 		})
 	};
 
+	this.getMessageAcceptanceStatusForUsers = function(onResult, onEnd) {
+		_onQueryEvents(
+			_pool.query('SELECT usr_id FROM usr_pref WHERE keyword = ? AND value = ?', ["chat_osc_accept_msg", "y"]),
+			onResult,
+			onEnd
+		);
+	};
+
 	this.clearChatMessagesProcess = function (bound, namespaceName, callback) {
 		bound = parseInt(bound / 1000);
 
@@ -253,7 +261,7 @@ var Database = function Database(config) {
 
 			callback();
 		});
-	}
+	};
 
 	this.trackActivity = function(conversationId, userId, timestamp) {
 		var emptyResult = true;

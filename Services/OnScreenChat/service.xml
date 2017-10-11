@@ -3,4 +3,7 @@
 	<baseclasses>
 		<baseclass name="ilOnScreenChatGUI" dir="classes" />
 	</baseclasses>
+	<events>
+		<event type="listen" id="Services/User" />
+	</events>
 </service>
