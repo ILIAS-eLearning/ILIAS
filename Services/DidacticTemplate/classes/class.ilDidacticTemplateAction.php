@@ -18,6 +18,11 @@ abstract class ilDidacticTemplateAction
 	const FILTER_PARENT_ROLES = 3;
 
 	const PATTERN_PARENT_TYPE = 'action';
+	
+	/**
+	 * @var ilLogger
+	 */
+	private $logger = null;
 
 	private $action_id = 0;
 	private $tpl_id = 0;
@@ -32,8 +37,19 @@ abstract class ilDidacticTemplateAction
 	 */
 	public function __construct($action_id = 0)
 	{
+		$this->logger = $GLOBALS['DIC']->logger()->otpl();
+		
 		$this->setActionId($action_id);
 		$this->read();
+	}
+	
+	/**
+	 * Get logger
+	 * @return type
+	 */
+	public function getLogger()
+	{
+		return $this->logger;
 	}
 
 	/**

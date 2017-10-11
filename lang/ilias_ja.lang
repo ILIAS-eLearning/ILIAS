@@ -2135,8 +2135,6 @@ assessment#:#worked_through#:#答案済
 assessment#:#working_time#:#答案時間
 assessment#:#working_time_avg#:#平均答案時間
 assessment#:#you_received_a_of_b_points#:#点数は配点%s中の%s です。
-assessment#:#FALSE#:#FALSE
-assessment#:#TRUE#:#TRUE
 auth#:#auth_account_code#:#コード
 auth#:#auth_account_code_info#:#アカウントを再設定するとILIASアカウントコードを利用できます。
 auth#:#auth_account_code_title#:#アカウントコード
@@ -15936,3 +15934,8 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
+assessment#:#ass_txt_char_lim_exhausted_hint#:#Your answer has %s characters and exceeds the character limit of %s characters!###22 09 2017 new variable
+assessment#:#false#:#False###22 09 2017 new variable
+assessment#:#true#:#True###22 09 2017 new variable
+assessment#:#tst_qst_added_to_pool_s#:#Successfully added the question to the selected pool.###22 09 2017 new variable
+assessment#:#tst_qst_added_to_pool_p#:#Successfully added the questions to the selected pool.###22 09 2017 new variable

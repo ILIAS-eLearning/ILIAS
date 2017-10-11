@@ -263,7 +263,8 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 		
 		if(!$this->getMulti())
 		{		
-			$_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
+			//$_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
+			$_POST[$this->getPostVar()] = $this->stripSlashesAddSpaceFallback($_POST[$this->getPostVar()]);
 			if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "")
 			{
 				$this->setAlert($lng->txt("msg_input_is_required"));
@@ -292,7 +293,8 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 			}			
 			foreach($_POST[$this->getPostVar()] as $idx => $value)
 			{
-				$_POST[$this->getPostVar()][$idx] = ilUtil::stripSlashes($value);
+				//$_POST[$this->getPostVar()][$idx] = ilUtil::stripSlashes($value);
+				$_POST[$this->getPostVar()][$idx] = $this->stripSlashesAddSpaceFallback($value);
 			}		
 			$_POST[$this->getPostVar()] = array_unique($_POST[$this->getPostVar()]);
 			

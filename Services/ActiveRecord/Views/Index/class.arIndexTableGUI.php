@@ -5,6 +5,8 @@ require_once('./Services/ActiveRecord/Views/Index/class.arIndexTableField.php');
 require_once('./Services/ActiveRecord/Views/Index/class.arIndexTableFields.php');
 require_once('./Services/ActiveRecord/Views/Index/class.arIndexTableAction.php');
 require_once('./Services/ActiveRecord/Views/Index/class.arIndexTableActions.php');
+require_once('./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php');
+
 
 /**
  * GUI-Class arIndexTableGUI

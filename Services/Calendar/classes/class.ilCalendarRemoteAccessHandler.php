@@ -163,6 +163,12 @@ class ilCalendarRemoteAccessHandler
 			$GLOBALS['DIC']->logger()->cal()->info('No user id found for calendar synchronisation');
 			return false;
 		}
+		include_once './Services/User/classes/class.ilObjUser.php';
+		if(!ilObjUser::_exists($this->getTokenHandler()->getUserId()))
+		{
+			$GLOBALS['DIC']->logger()->cal()->notice('No valid user id found for calendar synchronisation');
+			return false;
+		}
 		
 		include_once './Services/Init/classes/class.ilInitialisation.php';
 		$GLOBALS['DIC']['ilAuthSession']->setAuthenticated(true, $this->getTokenHandler()->getUserId());

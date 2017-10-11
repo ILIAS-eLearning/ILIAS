@@ -168,7 +168,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				break;
 			
 			case "ilglossarytermgui":
-				if (!$this->term_perm->checkPermission("write", $this->term_id))
+				if (!$this->term_perm->checkPermission("edit_content", $this->term_id) &&
+					!$this->term_perm->checkPermission("write", $this->term_id))
 				{
 					include_once("./Modules/Glossary/exceptions/class.ilGlossaryException.php");
 					throw new ilGlossaryException("No permission.");

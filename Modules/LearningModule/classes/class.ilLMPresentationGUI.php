@@ -477,7 +477,7 @@ class ilLMPresentationGUI
 				{
 					case "ilMainMenu":
 						$this->ilMainMenu();
-						$this->renderPageTitle();
+						//$this->renderPageTitle();
 						break;
 
 					case "ilTOC":
@@ -485,6 +485,7 @@ class ilLMPresentationGUI
 						break;
 
 					case "ilPage":
+						$this->renderPageTitle();
 						switch($this->lm->getType())
 						{
 							case "lm":
@@ -3725,14 +3726,24 @@ class ilLMPresentationGUI
 			if ($il["Target"] == str_replace("_file_", "_dfile_", $_GET["file_id"]))
 			{
 				$file = explode("_", $_GET["file_id"]);
-				$file_id = (int) $file[count($file) - 1];
+				$file_id = (int)$file[count($file) - 1];
 				require_once("./Modules/File/classes/class.ilObjFile.php");
 				$fileObj = new ilObjFile($file_id, false);
 				$fileObj->sendFile();
 				exit;
 			}
 		}
+		if (in_array($_GET["file_id"], $pg_obj->getAllFileObjIds()))
+		{
+			require_once("./Modules/File/classes/class.ilObjFile.php");
+			$file = explode("_", $_GET["file_id"]);
+			$file_id = (int)$file[count($file) - 1];
+			$fileObj = new ilObjFile($file_id, false);
+			$fileObj->sendFile();
+			exit;
+		}
 	}
+
 
 	/**
 	* download source code paragraph

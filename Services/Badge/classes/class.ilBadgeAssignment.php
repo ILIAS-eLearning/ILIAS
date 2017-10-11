@@ -418,7 +418,8 @@ class ilBadgeAssignment
 	}
 	
 	public function getStaticUrl()
-	{							
+	{
+		include_once("./Services/Badge/classes/class.ilBadgeHandler.php");
 		$path = ilBadgeHandler::getInstance()->getInstancePath($this);
 		
 		$url = ILIAS_HTTP_PATH.substr($path, 1);
@@ -435,8 +436,9 @@ class ilBadgeAssignment
 	public function deleteStaticFiles()
 	{
 		// remove instance files
+		include_once("./Services/Badge/classes/class.ilBadgeHandler.php");
 		$path = ilBadgeHandler::getInstance()->getInstancePath($this);				
-		$path = str_replace(".json", ".*", $path);		
+		$path = str_replace(".json", ".*", $path);
 		array_map("unlink", glob($path));
 	}
 		

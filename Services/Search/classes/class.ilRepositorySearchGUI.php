@@ -202,7 +202,8 @@ class ilRepositorySearchGUI
 			include_once './Services/UIComponent/Button/classes/class.ilLinkButton.php';
 			$clip_button = ilSubmitButton::getInstance();
 			$clip_button->addCSSClass('btn btndefault');
-			$clip_button->setCaption('Add from clipboard', false);
+			$GLOBALS['DIC']->language()->loadLanguageModule('user');
+			$clip_button->setCaption($GLOBALS['DIC']->language()->txt('clipboard_add_from_btn'), false);
 			$clip_button->setCommand('showClipboard');
 
 			$action_button->addMenuItem(new ilButtonToSplitButtonMenuItemAdapter($clip_button));
