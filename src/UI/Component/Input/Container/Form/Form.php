@@ -29,7 +29,7 @@ interface Form extends Component {
 	public function withRequest(ServerRequestInterface $request);
 
 	/**
-	 * Apply a transformation o the data of the form.
+	 * Apply a transformation to the data of the form.
 	 *
 	 * @param	Transformation $trafo
 	 * @return	Input
@@ -48,5 +48,4 @@ interface Form extends Component {
 	 * TODO: there should be a further method to attach the different submit buttons
 	 */
 
-	
 }

@@ -20,7 +20,7 @@ use ILIAS\Validation\Constraint;
  *
  * When the the term "value" is used, it references the content of the input
  * as it is shown to the client. The term "content" on the other hand means
- * the value that is contained in the input after the client send it to the
+ * the value that is contained in the input after the client sends it to the
  * server.
  *
  * The latter, i.e. the content, can be validated via constraints and transformed
@@ -29,14 +29,14 @@ use ILIAS\Validation\Constraint;
  */
 interface Input extends Component {
 	/**
-	 * Get the label off the input.
+	 * Get the label of the input.
 	 *
 	 * @return	string
 	 */
 	public function getLabel();
 
 	/**
-	 * Get an input like this, but with an replaced label.
+	 * Get an input like this, but with a replaced label.
 	 *
 	 * @param	string	$label
 	 * @return	Input
@@ -44,7 +44,7 @@ interface Input extends Component {
 	public function withLabel($label);
 
 	/**
-	 * Get the byline off the input.
+	 * Get the byline of the input.
 	 *
 	 * @return	string|null
 	 */
