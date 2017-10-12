@@ -193,7 +193,8 @@ class ilExAssignment
 			$team_id = ilExAssignmentTeam::getTeamId($this->getId(), $a_user_id);
 			if(!$team_id)
 			{
-				return;
+				// #0021043
+				$this->getDeadline();
 			}
 			$a_user_id = $team_id;
 			$is_team = true;
