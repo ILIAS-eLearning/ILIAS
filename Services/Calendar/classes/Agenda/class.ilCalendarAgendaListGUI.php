@@ -226,7 +226,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 			$this->ctrl->setParameter($this, "dt", $_GET["dt"]);
 			$this->ctrl->setParameter($this,'modal_title',$_GET["modal_title"]);
 			$modal = $this->ui_factory->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
-			$shy = $this->ui_factory->button()->shy($e["event"]->getPresentationTitle(), "")->withOnClick($modal->getShowSignal());
+			$shy = $this->ui_factory->button()->shy($e["event"]->getPresentationTitle(false), "")->withOnClick($modal->getShowSignal());
 
 			$modals[] = $modal;
 			if($e['event']->isFullDay()) {

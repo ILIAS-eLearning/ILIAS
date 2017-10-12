@@ -241,7 +241,13 @@ class ilCalendarViewGUI
 
 		$modal = $f->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
 
-		$title = ($a_title_forced == "")? $a_calendar_entry->getPresentationTitle() : $a_title_forced;
+		//Day view presents the titles with the full length.(agenda:class.ilCalendarAgendaListGUI.php)
+		if($this->presentation_type == self::CAL_PRESENTATION_DAY) {
+			$title = ($a_title_forced == "")? $a_calendar_entry->getPresentationTitle(false) : $a_title_forced;
+		} else {
+			$title = ($a_title_forced == "")? $a_calendar_entry->getPresentationTitle() : $a_title_forced;
+		}
+
 
 		$comps = [$f->button()->shy($title, "")->withOnClick($modal->getShowSignal()), $modal];
 
