@@ -265,3 +265,27 @@ if(!$ilDB->indexExistsByFields('style_parameter',array('style_id')))
 	$ilDB->addIndex('style_parameter',array('style_id'),'i1');
 }
 ?>
+<#17>
+<?php
+if($ilDB->tableColumnExists('wiki_stat', 'del_pages'))
+{
+	$ilDB->modifyTableColumn('wiki_stat', 'del_pages', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true,
+		'default' => 0
+	));
+}
+?>
+<#18>
+<?php
+if($ilDB->tableColumnExists('wiki_stat', 'avg_rating'))
+{
+	$ilDB->modifyTableColumn('wiki_stat', 'avg_rating', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true,
+		'default' => 0
+	));
+}
+?>

@@ -647,7 +647,10 @@ class ilMediaItem
 	*/
 	function setParameter($a_name, $a_value)
 	{
-		$this->parameters[$a_name] = $a_value;
+		if (self::checkParameter($a_name, $a_value))
+		{
+			$this->parameters[$a_name] = $a_value;
+		}
 	}
 
 	/**
@@ -674,6 +677,34 @@ class ilMediaItem
 				$this->setParameter($par, $val);
 			}
 		}
+	}
+
+	/**
+	 * Check parameter (filter javascript related and other unsafe parameters/values)
+	 *
+	 * @param string $a_par parameter
+	 * @param string $a_val value
+	 * @return bool
+	 */
+	static function checkParameter($a_par, $a_val)
+	{
+		// do not allow event attributes
+		if (substr(strtolower(trim($a_par)), 0, 2) == "on")
+		{
+			return false;
+		}
+		// no javascript in value
+		if (is_int(strpos(strtolower($a_val), "javascript")))
+		{
+			return false;
+		}
+		// do not allow to change the src attribute
+		if (in_array(strtolower(trim($a_par)), array("src")))
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 

@@ -761,6 +761,14 @@ class ilSurveyEvaluationGUI
 			$this->addApprSelectionToToolbar();
 		}
 
+		if($details)
+		{
+			$dtmpl = new ilTemplate("tpl.il_svy_svy_results_details.html", true, true, "Modules/Survey");
+			$toc_tpl = new ilTemplate("tpl.svy_results_table_contents.html", true, true, "Modules/Survey");
+			$this->lng->loadLanguageModule("content");
+			$toc_tpl->setVariable("TITLE_TOC", $this->lng->txt('cont_toc'));
+		}
+
 		$results = array();
 		if(!$this->object->get360Mode() || $appr_id)
 		{							
@@ -824,14 +832,6 @@ class ilSurveyEvaluationGUI
 				}
 			}
 			
-			if($details)
-			{
-				$dtmpl = new ilTemplate("tpl.il_svy_svy_results_details.html", true, true, "Modules/Survey");
-				$toc_tpl = new ilTemplate("tpl.svy_results_table_contents.html", true, true, "Modules/Survey");
-				$this->lng->loadLanguageModule("content");
-				$toc_tpl->setVariable("TITLE_TOC", $this->lng->txt('cont_toc'));
-			}
-			
 			$details_figure = $_POST["cp"]
 				? $_POST["cp"]
 				: "ap";
@@ -881,7 +881,7 @@ class ilSurveyEvaluationGUI
 			$table_gui = new ilSurveyResultsCumulatedTableGUI($this, $details ? 'evaluationdetails' : 'evaluation', $results);	
 			$this->tpl->setVariable('CUMULATED', $table_gui->getHTML());
 		}
-		else
+		elseif ($appr_id)
 		{
 			//TABLE OF CONTENTS
 			$panel_toc = $ui_factory->panel()->standard("", $ui_factory->legacy($toc_tpl->get()));
@@ -893,7 +893,6 @@ class ilSurveyEvaluationGUI
 			$panel_report = $ui_factory->panel()->report($report_title, $this->array_panels);
 			$render_report = $ui_renderer->render($panel_report);
 			$dtmpl->setVariable("PANEL_REPORT",$render_report);
-
 
 			//print the main template
 			$this->tpl->setVariable('DETAIL', $dtmpl->get());

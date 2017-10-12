@@ -370,24 +370,23 @@ class ilMediaAliasItem
 	{
 		$par_nodes = $this->getParameterNodes($this->hier_id, $this->purpose,
 			$this->getPcId());
-		$par_arr = array();
 		for($i=0; $i < count($par_nodes); $i++)
 		{
 			$par_node = $par_nodes[$i];
 			$par_node->unlink_node($par_node);
 		}
 
+		include_once("./Services/MediaObjects/classes/class.ilMediaItem.php");
 		if (is_array($a_par_array))
 		{
 			foreach($a_par_array as $par => $val)
 			{
-				$attributes = array ("Name" => $par, "Value" => $val);
-				ilDOMUtil::addElementToList($this->dom, $this->item_node,
-					"Parameter", array("MapArea"), "", $attributes);
-				/* $par_node = $this->dom->create_element("Parameter");
-				$par_node = $this->item_node->append_child($par_node);
-				$par_node->set_attribute("Name", $par);
-				$par_node->set_attribute("Value", $val); */
+				if (ilMediaItem::checkParameter($par, $val))
+				{
+					$attributes = array("Name" => $par, "Value" => $val);
+					ilDOMUtil::addElementToList($this->dom, $this->item_node,
+						"Parameter", array("MapArea"), "", $attributes);
+				}
 			}
 		}
 	}
