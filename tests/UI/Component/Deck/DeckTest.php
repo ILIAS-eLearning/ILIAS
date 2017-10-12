@@ -60,22 +60,22 @@ class DeckTest extends ILIAS_UI_TestBase {
 		$c = $f->card("Card Title");
 		$d = $f->deck(array($c));
 
-		$d = $d->withExtraSmallCards();
+		$d = $d->withExtraSmallCardsSize();
 		$this->assertEquals($d->getCardsSize(), C\Deck\Deck::SIZE_XS);
 
-		$d = $d->withSmallCards();
+		$d = $d->withSmallCardsSize();
 		$this->assertEquals($d->getCardsSize(), C\Deck\Deck::SIZE_S);
 
-		$d = $d->withNormalCards();
+		$d = $d->withNormalCardsSize();
 		$this->assertEquals($d->getCardsSize(), C\Deck\Deck::SIZE_M);
 
-		$d = $d->withLargeCards();
+		$d = $d->withLargeCardsSize();
 		$this->assertEquals($d->getCardsSize(), C\Deck\Deck::SIZE_L);
 
-		$d = $d->withExtraLargeCards();
+		$d = $d->withExtraLargeCardsSize();
 		$this->assertEquals($d->getCardsSize(), C\Deck\Deck::SIZE_XL);
 
-		$d = $d->withFullSizedCards();
+		$d = $d->withFullSizedCardsSize();
 		$this->assertEquals($d->getCardsSize(), C\Deck\Deck::SIZE_FULL);
 	}
 
@@ -85,7 +85,7 @@ class DeckTest extends ILIAS_UI_TestBase {
 		$c = $f->card("Card Title");
 		$d = $f->deck(array($c));
 
-		$d = $d->withCards(array($c,$c,$c,$c,$c,$c,$c))->withLargeCards();
+		$d = $d->withCards(array($c,$c,$c,$c,$c,$c,$c))->withLargeCardsSize();
 
 		$html = $r->render($d);
 

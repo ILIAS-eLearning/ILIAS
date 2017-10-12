@@ -29,7 +29,7 @@ function xl_card() {
 	));
 
 	//Define the extra large deck
-	$deck = $f->deck(array($card,$card,$card))->withExtraLargeCards();
+	$deck = $f->deck(array($card,$card,$card))->withExtraLargeCardsSize();
 
 	//Render
 	return $renderer->render($deck);

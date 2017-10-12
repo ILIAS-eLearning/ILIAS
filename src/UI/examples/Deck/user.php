@@ -26,7 +26,7 @@ function user() {
 	)->withSections(array($address,$f->button()->standard("Request Contact","")));
 
 	//Create a deck with large cards
-	$deck = $f->deck(array($card,$card,$card,$card,$card,$card,$card))->withLargeCards();
+	$deck = $f->deck(array($card,$card,$card,$card,$card,$card,$card))->withLargeCardsSize();
 
 	//Render
 	return $renderer->render($deck);

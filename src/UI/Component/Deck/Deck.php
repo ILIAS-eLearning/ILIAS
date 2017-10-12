@@ -37,7 +37,7 @@ interface Deck extends \ILIAS\UI\Component\Component {
 	 * @param int Size of the card
 	 * @return Deck
 	 */
-	public function withExtraSmallCards();
+	public function withExtraSmallCardsSize();
 
 	/**
 	 * Set the cards size to small:
@@ -48,7 +48,7 @@ interface Deck extends \ILIAS\UI\Component\Component {
 	 * @param int Size of the card
 	 * @return Deck
 	 */
-	public function withSmallCards();
+	public function withSmallCardsSize();
 
 	/**
 	 * Set the cards size to normal:
@@ -59,7 +59,7 @@ interface Deck extends \ILIAS\UI\Component\Component {
 	 * @param int Size of the card
 	 * @return Deck
 	 */
-	public function withNormalCards();
+	public function withNormalCardsSize();
 
 	/**
 	 * Set the cards size to large:
@@ -70,7 +70,7 @@ interface Deck extends \ILIAS\UI\Component\Component {
 	 * @param int Size of the card
 	 * @return Deck
 	 */
-	public function withLargeCards();
+	public function withLargeCardsSize();
 
 	/**
 	 * Set the cards size to extra large:
@@ -81,7 +81,7 @@ interface Deck extends \ILIAS\UI\Component\Component {
 	 * @param int Size of the card
 	 * @return Deck
 	 */
-	public function withExtraLargeCards();
+	public function withExtraLargeCardsSize();
 
 	/**
 	 * Set the cards size to full:
@@ -92,7 +92,7 @@ interface Deck extends \ILIAS\UI\Component\Component {
 	 * @param int Size of the card
 	 * @return Deck
 	 */
-	public function withFullSizedCards();
+	public function withFullSizedCardsSize();
 
 	/**
 	 * Get the cards size. Note that this size tells how much space the card is using.
