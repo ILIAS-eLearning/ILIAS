@@ -251,16 +251,16 @@ class Renderer extends AbstractComponentRenderer
 		$tpl->parseCurrentBlock();
 
 
-		if(! $component->getMaxPageEntries()) {
+		if(! $component->getMaxPaginiationButtons()) {
 			$range = range(0, $component->getNumberOfPages() - 1);
 		} else {
 
 
-			$start = (int) ($component->getCurrentPage() - floor($component->getMaxPageEntries() / 2));
+			$start = (int) ($component->getCurrentPage() - floor($component->getMaxPaginiationButtons() / 2));
 			if($start < 0) {
 				$start = 0;
 			}
-			$range = range($start, $start + $component->getMaxPageEntries() - 1);
+			$range = range($start, $start + $component->getMaxPaginiationButtons() - 1);
 		}
 
 

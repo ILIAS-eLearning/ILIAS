@@ -76,13 +76,13 @@ interface Pagination extends C\Component, JavaScriptBindable, Triggerer {
 	public function getNumberOfPages();
 
 	/**
-	 * Layout; define, how many entries are shown (max).
+	 * Layout; define, how many page-options are shown (max).
 	 *
-	 * @param int 	$entries
+	 * @param int 	$amount
 	 *
 	 * @return \Pagination
 	 */
-	public function withMaxPageEntries($entries);
+	public function withMaxPaginiationButtons($amount);
 
 	/**
 	 * Get the maximum amount of page-entries (not records per page!)
@@ -90,6 +90,6 @@ interface Pagination extends C\Component, JavaScriptBindable, Triggerer {
 	 *
 	 * @return int
 	 */
-	public function getMaxPageEntries();
+	public function getMaxPaginiationButtons();
 
 }

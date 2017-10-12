@@ -38,7 +38,7 @@ class PaginationTest extends ILIAS_UI_TestBase {
 		//$select_signal;
 		$target_url = 'http://testurl';
 		$paramter_name = "param_name";
-		$max_entries = 10;
+		$max_page_options = 10;
 
 		$f = $this->getFactory();
 		$p = $f->pagination()
@@ -46,17 +46,15 @@ class PaginationTest extends ILIAS_UI_TestBase {
 			->withTotalEntries($total_entries)
 			->withPageSize($page_size)
 			->withCurrentPage($current_page)
-			->withMaxPageEntries($max_entries)
+			->withMaxPaginiationButtons($max_page_options)
 			;
 
 		$this->assertEquals($target_url, $p->getTargetURL());
 		$this->assertEquals($paramter_name, $p->getParameterName());
 		$this->assertEquals($page_size, $p->getPageSize());
 		$this->assertEquals($current_page, $p->getCurrentPage());
-		$this->assertEquals($max_entries, $p->getMaxPageEntries());
+		$this->assertEquals($max_page_options, $p->getMaxPaginiationButtons());
 		$this->assertEquals(2, $p->getNumberOfPages());
 		$this->assertEquals(11, $p->getPageLength());
-
-
 	}
 }

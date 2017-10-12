@@ -47,7 +47,7 @@ class Pagination implements C\ViewControl\Pagination  {
 	/**
 	 * @var int | null
 	 */
-	protected $max_entries;
+	protected $max_pages_shown;
 
 
 	public function __construct(SignalGeneratorInterface $signal_generator) {
@@ -175,18 +175,18 @@ class Pagination implements C\ViewControl\Pagination  {
 	/**
 	 * @inheritdoc
 	 */
-	public function withMaxPageEntries($entries) {
-		$this->checkIntArg("entries", $entries);
+	public function withMaxPaginiationButtons($amount) {
+		$this->checkIntArg("amount", $amount);
 		$clone = clone $this;
-		$clone->max_entries = $entries;
+		$clone->max_pages_shown = $amount;
 		return $clone;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getMaxPageEntries() {
-		return $this->max_entries;
+	public function getMaxPaginiationButtons() {
+		return $this->max_pages_shown;
 	}
 
 	/**
