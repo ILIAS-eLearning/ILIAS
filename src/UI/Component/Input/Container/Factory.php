@@ -5,22 +5,21 @@ docs/LICENSE */
 namespace ILIAS\UI\Component\Input\Container;
 
 /**
- * This is how a factory for inputs looks like.
+ * This is what a factory for input containers looks like.
  */
 interface Factory {
     /**
      * ---
      * description:
      *   purpose: >
-     *      TBD
+     *      Forms are used to have the user enter or modify data, validate the
+     *      input and submit it to the system.
+     *      Forms rather arrange their contents (i.e. fields) in a explanationary
+     *      than space-saving way.
      *   composition: >
-     *      TBD
-     *   effect: >
-     *      TBD
-     *
-     * rules:
-     *   wording:
-     *     1: TBD
+     *      Forms are composed of input fields, displaying their labels and bylines.
+     *   rivals:
+     *      filter: Filters are used to limit search results; they never modify content.
      *
      * ---
      * @return  \ILIAS\UI\Component\Input\Container\Form\Factory
