@@ -13826,7 +13826,7 @@ mail#:#mail_first_email#:#Erste E-Mail-Adresse
 mail#:#mail_second_email#:#Zweite E-Mail-Adresse
 mail#:#mail_both_email#:#Beide E-Mail-Adressen
 common#:#second_email#:#Zweite E-Mail
-iass#:#iass_usr_amend#:#Dokumentation nach abschliessender Bewertung ändern
+iass#:#iass_usr_amend#:#Prüfungsdaten nachträglich ändern
 iass#:#iass_place#:#Ort der Prüfung
 iass#:#iass_event_time#:#Datum der Prüfung
 skmg#:#skmg_assigned_profiles#:#Zugewiesene Profile
