@@ -214,9 +214,14 @@ systemctl restart httpd.service
 <a name="php-installationconfiguration"></a>
 ## PHP Installation/Configuration
 
-On Debian/Ubuntu execute: 
+On Debian/Ubuntu 14.04 execute:
 ```
 apt-get install libapache2-mod-php5
+```
+
+On Ubuntu 16.04 execute:
+```
+apt-get install libapache2-mod-php7
 ```
 
 On RHEL/CentOS execute: 
