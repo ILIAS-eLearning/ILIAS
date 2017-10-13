@@ -225,38 +225,31 @@ class Renderer extends AbstractComponentRenderer
 			$tpl->setVariable('ID', $id);
 		}
 
-
-
 		if(! $component->getMaxPaginationButtons()) {
 			$range = range(0, $component->getNumberOfPages() - 1);
 		} else {
-
 			$start = (int) ($component->getCurrentPage() - floor($component->getMaxPaginationButtons() / 2));
-			if($start < 0) {
-				$start = 0;
-			}
+			$start = max($start, 0); //0, if negative
 
 			$stop = $start + $component->getMaxPaginationButtons() - 1;
 			if($stop > $component->getNumberOfPages() - 1) {
-
-
-				//TODO: this is wrong
 				$stop = $component->getNumberOfPages() - 1;
-
-				//also, move chevron-button to template.
-
+				$start = $stop - $component->getMaxPaginationButtons();
+				$start = max($start, 0); //0, if negative
 			}
 			$range = range($start, $stop);
 
-			if(! in_array(1, $range)) {
-				$tpl->setVariable('FIRST',	'1');
+			// If the number of pagination-buttons is limited, there should be
+			// a jump to the first and last page.
+			if(! in_array(0, $range)) {
+				$shy = $this->getPaginationShyButton(0, $component);
+				$tpl->setVariable('FIRST', $default_renderer->render($shy));
 			}
-			$last = $component->getNumberOfPages();
+			$last = $component->getNumberOfPages() - 1;
 			if(! in_array($last, $range)) {
-
-				$tpl->setVariable('LAST',	(string)$last);
+				$shy = $this->getPaginationShyButton($component->getNumberOfPages() - 1, $component);
+				$tpl->setVariable('LAST', $default_renderer->render($shy));
 			}
-
 		}
 
 		foreach ($range as $entry) {
@@ -292,14 +285,23 @@ class Renderer extends AbstractComponentRenderer
 			$shy = $f->button()->shy($label, (string)$val)->withOnClick($component->getSelectSignal());
 		} else {
 			$url = $component->getTargetURL();
-			$url .= (strpos($url, '?') === false) ?  '?' : '&';
-			$url .= $component->getParameterName() .'=' .$val;
+			if(strpos($url, '?') === false) {
+				$url .= '?' .$component->getParameterName() .'=' .$val;
+			} else {
+				$base = substr($url, 0, strpos($url, '?') + 1);
+				$query = parse_url($url, PHP_URL_QUERY);
+				parse_str($query, $params);
+				$params[$component->getParameterName()] = $val;
+				$url = $base .http_build_query($params);
+			}
 			$shy = $f->button()->shy($label, $url);
 		}
 		return $shy;
 	}
 
 	/**
+	 * Add chevron-rockers to the template for left/right navigation in pagination
+	 *
 	 * @param Component\ViewControl\Pagination 	$component
 	 * @param RendererInterface $default_renderer 	$tpl
 	 * @param ILIAS\UI\Implementation\Render\Template 	$tpl
@@ -324,14 +326,13 @@ class Renderer extends AbstractComponentRenderer
 			$component,
 			'<span class="glyphicon glyphicon-chevron-right"></span>'
 		);
-		if($component->getCurrentPage() === $component->getNumberOfPages()) {
+		if($component->getCurrentPage() === $component->getNumberOfPages()-1) {
 			$shy_right = $shy_right->WithUnavailableAction();
 		}
 
 		$tpl->setVariable('ROCKER_PREVIOUS', $default_renderer->render($shy_left));
 		$tpl->setVariable('ROCKER_NEXT', $default_renderer->render($shy_right));
 	}
-
 
 	protected function maybeRenderId(Component\Component $component, $tpl, $block, $template_var) {
 		$id = $this->bindJavaScript($component);
