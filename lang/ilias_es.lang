@@ -15942,3 +15942,5 @@ chatroom#:#chat_deletion_interval_run_at#:#Tiempo
 assessment#:#ass_txt_char_lim_exhausted_hint#:#Tu respuesta tiene %s caracteres y supera el límite de %s caracteres!
 assessment#:#tst_qst_added_to_pool_s#:#La pregunta se añadió con éxito al banco de preguntas seleccionado
 assessment#:#tst_qst_added_to_pool_p#:#Las preguntas se añadieron con éxito al banco de preguntas seleccionado
+user#:#clipboard_add_from_btn#:#Add from Clipboard###13 10 2017 new variable
+wiki#:#wiki_pg_list_no_search_fields#:#No searchable meta data fields found in the metadata sets of the wiki.###13 10 2017 new variable
