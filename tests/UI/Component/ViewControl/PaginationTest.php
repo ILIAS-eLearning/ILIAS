@@ -31,7 +31,6 @@ class PaginationTest extends ILIAS_UI_TestBase {
 	}
 
 	public function testAttributes() {
-
 		$total_entries = 111;
 		$page_size = 100;
 		$current_page = 1;
@@ -56,5 +55,174 @@ class PaginationTest extends ILIAS_UI_TestBase {
 		$this->assertEquals($max_page_options, $p->getMaxPaginationButtons());
 		$this->assertEquals(2, $p->getNumberOfPages());
 		$this->assertEquals(11, $p->getPageLength());
+	}
+
+	public function testRenderUnlimited() {
+		$p = $this->getFactory()->pagination()
+			->withTotalEntries(2)
+			->withPageSize(1);
+
+		//two entries, first one inactive
+		//rocker left disabled
+		$expected_html = <<<EOT
+<div class="il-viewcontrol-pagination">
+	<span class="rocker previous">
+		<a class="btn btn-link ilSubmitInactive disabled" data-action="?pagination_offset=0">
+			<span class="glyphicon glyphicon-chevron-left"></span>
+		</a>
+	</span>
+
+	<a class="btn btn-link ilSubmitInactive disabled" data-action="?pagination_offset=0">1</a>
+	<a class="btn btn-link" href="?pagination_offset=1" data-action="?pagination_offset=1">2</a>
+
+	<span class="rocker next">
+		<a class="btn btn-link" href="?pagination_offset=1" data-action="?pagination_offset=1">
+			<span class="glyphicon glyphicon-chevron-right"></span>
+		</a>
+	</span>
+</div>
+EOT;
+
+		$html = $this->getDefaultRenderer()->render($p);
+		$this->assertHTMLEquals($expected_html, $html);
+	}
+
+	public function testRenderWithCurrentPage() {
+		$p = $this->getFactory()->pagination()
+			->withTotalEntries(2)
+			->withPageSize(1)
+			->withCurrentPage(1);
+
+		//two entries, second one inactive
+		//rocker right disabled
+		$expected_html = <<<EOT
+<div class="il-viewcontrol-pagination">
+	<span class="rocker previous">
+		<a class="btn btn-link" href="?pagination_offset=0" data-action="?pagination_offset=0">
+			<span class="glyphicon glyphicon-chevron-left"></span>
+		</a>
+	</span>
+
+	<a class="btn btn-link" href="?pagination_offset=0" data-action="?pagination_offset=0">1</a>
+	<a class="btn btn-link ilSubmitInactive disabled" data-action="?pagination_offset=1">2</a>
+
+	<span class="rocker next">
+		<a class="btn btn-link ilSubmitInactive disabled" data-action="?pagination_offset=2">
+			<span class="glyphicon glyphicon-chevron-right"></span>
+		</a>
+	</span>
+</div>
+EOT;
+
+		$html = $this->getDefaultRenderer()->render($p);
+		$this->assertHTMLEquals($expected_html, $html);
+	}
+
+	public function testRenderLimited() {
+		$p = $this->getFactory()->pagination()
+			->withTotalEntries(3)
+			->withPageSize(1)
+			->withMaxPaginationButtons(1);
+
+		//one entry,
+		//rocker left disabled
+		//boundary-button right
+		$expected_html = <<<EOT
+<div class="il-viewcontrol-pagination">
+	<span class="rocker previous">
+		<a class="btn btn-link ilSubmitInactive disabled" data-action="?pagination_offset=0">
+			<span class="glyphicon glyphicon-chevron-left"></span>
+		</a>
+	</span>
+
+	<a class="btn btn-link ilSubmitInactive disabled" data-action="?pagination_offset=0">1</a>
+
+	<span class="last">
+		<a class="btn btn-link" href="?pagination_offset=2" data-action="?pagination_offset=2">3</a>
+	</span>
+
+	<span class="rocker next">
+		<a class="btn btn-link" href="?pagination_offset=1" data-action="?pagination_offset=1">
+			<span class="glyphicon glyphicon-chevron-right"></span>
+		</a>
+	</span>
+</div>
+EOT;
+		$html = $this->getDefaultRenderer()->render($p);
+		$this->assertHTMLEquals($expected_html, $html);
+	}
+
+	public function testRenderLimitedWithCurrentPage() {
+		$p = $this->getFactory()->pagination()
+			->withTotalEntries(3)
+			->withPageSize(1)
+			->withMaxPaginationButtons(1)
+			->withCurrentPage(1);
+
+		//one entry,
+		//both rockers enabled
+		//both boundary-buttons
+		$expected_html = <<<EOT
+<div class="il-viewcontrol-pagination">
+	<span class="rocker previous">
+		<a class="btn btn-link" href="?pagination_offset=0" data-action="?pagination_offset=0">
+			<span class="glyphicon glyphicon-chevron-left"></span>
+		</a>
+	</span>
+
+	<span class="first">
+		<a class="btn btn-link" href="?pagination_offset=0" data-action="?pagination_offset=0">1</a>
+	</span>
+
+	<a class="btn btn-link ilSubmitInactive disabled" data-action="?pagination_offset=1">2</a>
+
+	<span class="last">
+		<a class="btn btn-link" href="?pagination_offset=2" data-action="?pagination_offset=2">3</a>
+	</span>
+
+	<span class="rocker next">
+		<a class="btn btn-link" href="?pagination_offset=2" data-action="?pagination_offset=2">
+			<span class="glyphicon glyphicon-chevron-right"></span>
+		</a>
+	</span>
+</div>
+EOT;
+		$html = $this->getDefaultRenderer()->render($p);
+		$this->assertHTMLEquals($expected_html, $html);
+	}
+
+	public function testRenderLimitedWithCurrentPage2() {
+		$p = $this->getFactory()->pagination()
+			->withTotalEntries(3)
+			->withPageSize(1)
+			->withMaxPaginationButtons(1)
+			->withCurrentPage(2);
+
+		//one entry,
+		//rocker right disabled
+		//boundary-button left only
+		$expected_html = <<<EOT
+<div class="il-viewcontrol-pagination">
+	<span class="rocker previous">
+		<a class="btn btn-link" href="?pagination_offset=1" data-action="?pagination_offset=1">
+			<span class="glyphicon glyphicon-chevron-left"></span>
+		</a>
+	</span>
+
+	<span class="first">
+		<a class="btn btn-link" href="?pagination_offset=0" data-action="?pagination_offset=0">1</a>
+	</span>
+
+	<a class="btn btn-link ilSubmitInactive disabled" data-action="?pagination_offset=2">3</a>
+
+	<span class="rocker next">
+		<a class="btn btn-link ilSubmitInactive disabled" data-action="?pagination_offset=3">
+			<span class="glyphicon glyphicon-chevron-right"></span>
+		</a>
+	</span>
+</div>
+EOT;
+		$html = $this->getDefaultRenderer()->render($p);
+		$this->assertHTMLEquals($expected_html, $html);
 	}
 }
