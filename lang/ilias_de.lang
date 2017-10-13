@@ -13551,7 +13551,7 @@ iass#:#iass_event_time_place_required#:#Pflichtangabe Datum und Ort
 iass#:#iass_event_time_place_required_info#:#Ort und Datum der Prüfung müssen eingetragen werden.
 iass#:#iass_file_required#:#Pflichtangabe Prüfungsblatt
 iass#:#iass_file_required_info#:#Ein Prüfungsblatt muss hochgeladen werden
-iass#:#iass_may_not_finalize#:#Status kann nicht finalisiert werden.
+iass#:#iass_may_not_finalize#:#Prüfung kann noch nicht abschließend bewertet werden.
 iass#:#iass_subj_notification_completed#:#%s: Individuelle Bewertung erfolgreich abgeschlossen.
 iass#:#iass_subj_notification_failed#:#%s: Individuelle Bewertung nicht erfolgreich.
 trac#:#trac_mode_individual_assessment#:#Individuelle Bewertung durch Tutor/Trainer
@@ -13559,7 +13559,7 @@ common#:#obj_iass#:#Individuelle Bewertung
 common#:#objs_iass#:#Individuelle Bewertungen
 common#:#obj_iass_duplicate#:#Individuelle Bewertung kopieren
 common#:#obj_iass_select#:#-- Wählen Sie eine Individuelle Bewertung aus --
-trac#:#trac_mode_individual_assessment_info#:#Der Eintrag des Benutzers muss finalisiert werden, damit der Benutzer einen Lernfortschritt erhält.
+trac#:#trac_mode_individual_assessment_info#:#Der Teilnehmer muss abschließend bewertet werden, damit für diesen der Lernfortschritt gesetzt wird.
 common#:#il_iass_member#:#Teilnehmer einer Individuellen Bewertung
 common#:#iass_new#:#Neue Individuelle Bewertung anlegen
 common#:#iass_import#:#Individuelle Bewertung importieren
@@ -13579,7 +13579,7 @@ iass#:#iass_membership_finalized#:#Bewertung abgeschlossen.
 iass#:#iass_membership_saved#:#Bewertung wurde gespeichert aber noch nicht final abgeschlossen.
 iass#:#iass_return#:#Zurück zur Übersicht
 iass#:#iass_remove_user_qst#:#Soll der Teilnehmer wirklich entfernt werden?
-iass#:#iass_finalize_user_qst#:#Soll die Bewertung des Teilnehmers wirklich abgeschlossen werden? Änderungen an der Bewertung sind hinterher nicht mehr möglich.
+iass#:#iass_finalize_user_qst#:#Soll die Bewertung des Teilnehmers wirklich final abgeschlossen werden? Änderungen an der Bewertung sind hinterher nicht mehr möglich.
 iass#:#iass_settings_saved#:#Einstellungen gespeichert.
 iass#:#iass_add_user_failure#:#Einer oder mehrere Benutzer konnten nicht hinzugefügt werden.
 iass#:#iass_add_user_success#:#Benutzer als Teilnehmer hinzugefügt.
@@ -13826,7 +13826,7 @@ mail#:#mail_first_email#:#Erste E-Mail-Adresse
 mail#:#mail_second_email#:#Zweite E-Mail-Adresse
 mail#:#mail_both_email#:#Beide E-Mail-Adressen
 common#:#second_email#:#Zweite E-Mail
-iass#:#iass_usr_amend#:#Dokumentation nach Finalisierung ändern
+iass#:#iass_usr_amend#:#Dokumentation nach abschliessender Bewertung ändern
 iass#:#iass_place#:#Ort der Prüfung
 iass#:#iass_event_time#:#Datum der Prüfung
 skmg#:#skmg_assigned_profiles#:#Zugewiesene Profile
