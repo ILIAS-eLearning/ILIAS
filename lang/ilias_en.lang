@@ -4841,8 +4841,8 @@ dateplaner#:#cal_where#:#Location
 dateplaner#:#cal_year_s#:#Year(s)
 dateplaner#:#cal_yearly#:#Yearly
 dateplaner#:#created#:#Created
-dateplaner#:#crs_cal_activation_end#:#Course End
-dateplaner#:#crs_cal_activation_start#:#Course Start
+dateplaner#:#crs_cal_activation_end#:#Course Availability ends
+dateplaner#:#crs_cal_activation_start#:#Course Availability starts
 dateplaner#:#crs_cal_reg_end#:#Registration End
 dateplaner#:#crs_cal_reg_start#:#Registration Start
 dateplaner#:#date_format#:#m/d/Y H:i
@@ -14051,3 +14051,7 @@ assessment#:#question_browse_area_info#:#Please select an object from which you 
 dateplaner#:#cal_no_events_info#:#No events found for the selected time period.
 wiki#:#wiki_pg_list_no_search_fields#:#No searchable meta data fields found in the metadata sets of the wiki.
 iass#:#iass_amend_saved#:#Amended record has been saved.
+dateplaner#:#crs_start#:#Course starts
+dateplaner#:#crs_end#:#Course ends
+dateplaner#:#grp_start#:#Group starts
+dateplaner#:#grp_end#:#Group ends
