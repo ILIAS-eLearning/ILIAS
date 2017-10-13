@@ -121,8 +121,8 @@ class Renderer extends AbstractComponentRenderer
 
 		$component = $component->withResetSignals();
 		$triggeredSignals = $component->getTriggeredSignals();
-		if($triggeredSignals) {
 
+		if($triggeredSignals) {
 			$signal_select = $component->getSelectSignal();
 			$signal = $triggeredSignals[0]->getSignal();
 			$options = json_encode($signal->getOptions());
@@ -194,33 +194,15 @@ class Renderer extends AbstractComponentRenderer
 		$component = $component->withResetSignals();
 		$triggeredSignals = $component->getTriggeredSignals();
 		if($triggeredSignals) {
-			$signal_select = $component->getSelectSignal();
+			$internal_signal = $component->getInternalSignal();
 			$signal = $triggeredSignals[0]->getSignal();
-			$options = json_encode($signal->getOptions());
-
-			$component = $component->withOnLoadCode(function($id) use ($signal_select, $signal, $options) {
-				return "
-				$(document).on('{$signal_select}', function(event, signalData) {
-
-					var triggerer = signalData.triggerer[0], 			//the shy-button
-						param = triggerer.getAttribute('data-action'), 	//the pagination-value
-						id = '{$id}',									//id of pagination control to be used
-																		//as triggerer for others
-						pagination = $('#' + id);
-
-					//trigger select-signal
-					pagination.trigger('{$signal}',
-						{
-							'id' : '{$signal}', 'event' : 'select',
-							'triggerer' : pagination,
-							'options' : options
-						}
-					);
-					return false;
-				});
-				";
-
+			$component = $component->withOnLoadCode(function($id) use ($internal_signal, $signal) {
+				return "$(document).on('{$internal_signal}', function(event, signalData) {
+							il.UI.viewcontrol.pagination.onInternalSelect(event, signalData, '{$signal}', '{$id}');
+							return false;
+						})";
 			});
+
 			$id = $this->bindJavaScript($component);
 			$tpl->setVariable('ID', $id);
 		}
@@ -282,7 +264,7 @@ class Renderer extends AbstractComponentRenderer
 		}
 
 		if($component->getTriggeredSignals()) {
-			$shy = $f->button()->shy($label, (string)$val)->withOnClick($component->getSelectSignal());
+			$shy = $f->button()->shy($label, (string)$val)->withOnClick($component->getInternalSignal());
 		} else {
 			$url = $component->getTargetURL();
 			if(strpos($url, '?') === false) {
@@ -332,6 +314,15 @@ class Renderer extends AbstractComponentRenderer
 		$tpl->setVariable('ROCKER_PREVIOUS', $default_renderer->render($shy_left));
 		$tpl->setVariable('ROCKER_NEXT', $default_renderer->render($shy_right));
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function registerResources(\ILIAS\UI\Implementation\Render\ResourceRegistry $registry) {
+		parent::registerResources($registry);
+		$registry->register('./src/UI/templates/js/ViewControl/pagination.js');
+	}
+
 
 	protected function maybeRenderId(Component\Component $component, $tpl, $block, $template_var) {
 		$id = $this->bindJavaScript($component);
