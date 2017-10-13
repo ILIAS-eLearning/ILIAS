@@ -14023,7 +14023,7 @@ common#:#scorm_login_as_learner_id_info#:#If enabled, the Username instead of th
 iass#:#iass_upload_file#:#Prüfungsblatt
 iass#:#iass_file_visible_examinee#:#Datei für Teilnehmer sichtbar
 iass#:#iass_usr_download_attachment#:#Datei herunterladen
-iass#:#iass_save_amend#:#Save Amend###31 08 2017 new variable
+iass#:#iass_save_amend#:#Geänderte Prüfungsdaten speichern
 dateplaner#:#cal_exc_inst_files#:#Instruction Files###31 08 2017 new variable
 dateplaner#:#cal_repo_obj#:#Magazinobjekt
 survey#:#sub_tab_dashboard#:#Dashboard###31 08 2017 new variable

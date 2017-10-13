@@ -13606,7 +13606,7 @@ iass#:#iass_mails#:#E-Mail
 iass#:#iass_place#:#Place of assessment
 iass#:#iass_event_time#:#Date of assessment
 iass#:#iass_usr_amend#:#Amend Grading
-iass#:#iass_save_amend#:#Save Amend
+iass#:#iass_save_amend#:#Save Amended Record
 iass#:#iass_info_emails_expl#:#You may provide several addresses separated by comma.
 iass#:#iass_consultation_hours#:#Consultation hours
 iass#:#iass_edit_info#:#Info Settings
