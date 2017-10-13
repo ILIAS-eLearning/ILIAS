@@ -82,7 +82,7 @@ interface Pagination extends C\Component, JavaScriptBindable, Triggerer {
 	 *
 	 * @return \Pagination
 	 */
-	public function withMaxPaginiationButtons($amount);
+	public function withMaxPaginationButtons($amount);
 
 	/**
 	 * Get the maximum amount of page-entries (not records per page!)
@@ -90,6 +90,6 @@ interface Pagination extends C\Component, JavaScriptBindable, Triggerer {
 	 *
 	 * @return int
 	 */
-	public function getMaxPaginiationButtons();
+	public function getMaxPaginationButtons();
 
 }

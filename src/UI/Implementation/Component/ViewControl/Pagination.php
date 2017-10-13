@@ -175,7 +175,7 @@ class Pagination implements C\ViewControl\Pagination  {
 	/**
 	 * @inheritdoc
 	 */
-	public function withMaxPaginiationButtons($amount) {
+	public function withMaxPaginationButtons($amount) {
 		$this->checkIntArg("amount", $amount);
 		$clone = clone $this;
 		$clone->max_pages_shown = $amount;
@@ -185,7 +185,7 @@ class Pagination implements C\ViewControl\Pagination  {
 	/**
 	 * @inheritdoc
 	 */
-	public function getMaxPaginiationButtons() {
+	public function getMaxPaginationButtons() {
 		return $this->max_pages_shown;
 	}
 

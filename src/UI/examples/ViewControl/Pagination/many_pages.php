@@ -13,7 +13,7 @@ function many_pages() {
 		->withTargetURL($url, $parameter_name)
 		->withTotalEntries(1000)
 		->withPageSize(2)
-		->withMaxPaginiationButtons(5)
+		->withMaxPaginationButtons(5)
 		->withCurrentPage($current_page);
 
 	$start = $pagination->getOffset();

@@ -46,14 +46,14 @@ class PaginationTest extends ILIAS_UI_TestBase {
 			->withTotalEntries($total_entries)
 			->withPageSize($page_size)
 			->withCurrentPage($current_page)
-			->withMaxPaginiationButtons($max_page_options)
+			->withMaxPaginationButtons($max_page_options)
 			;
 
 		$this->assertEquals($target_url, $p->getTargetURL());
 		$this->assertEquals($paramter_name, $p->getParameterName());
 		$this->assertEquals($page_size, $p->getPageSize());
 		$this->assertEquals($current_page, $p->getCurrentPage());
-		$this->assertEquals($max_page_options, $p->getMaxPaginiationButtons());
+		$this->assertEquals($max_page_options, $p->getMaxPaginationButtons());
 		$this->assertEquals(2, $p->getNumberOfPages());
 		$this->assertEquals(11, $p->getPageLength());
 	}
