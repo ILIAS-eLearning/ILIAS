@@ -225,66 +225,57 @@ class Renderer extends AbstractComponentRenderer
 			$tpl->setVariable('ID', $id);
 		}
 
-		$prev = $component->getCurrentPage() - 1;
-		if($prev < 0) {$prev = 0;}
-		$shy_left = $this->getPaginationShyButton(
-			(string)$prev,
-			$component,
-			'<span class="glyphicon glyphicon-chevron-left"></span>'
-		);
-		if($component->getCurrentPage() === 0) {
-			$shy_left = $shy_left->WithUnavailableAction();
-		}
-
-		$next = $component->getCurrentPage() + 1;
-		$shy_right = $this->getPaginationShyButton(
-			(string)$next,
-			$component,
-			'<span class="glyphicon glyphicon-chevron-right"></span>'
-		);
-		if($component->getCurrentPage() === $component->getNumberOfPages()) {
-			$shy_right = $shy_right->WithUnavailableAction();
-		}
-
-		$tpl->setCurrentBlock("entry");
-		$tpl->setVariable('BUTTON',	$default_renderer->render($shy_left));
-		$tpl->parseCurrentBlock();
 
 
-		if(! $component->getMaxPaginiationButtons()) {
+		if(! $component->getMaxPaginationButtons()) {
 			$range = range(0, $component->getNumberOfPages() - 1);
 		} else {
 
-
-			$start = (int) ($component->getCurrentPage() - floor($component->getMaxPaginiationButtons() / 2));
+			$start = (int) ($component->getCurrentPage() - floor($component->getMaxPaginationButtons() / 2));
 			if($start < 0) {
 				$start = 0;
 			}
-			$range = range($start, $start + $component->getMaxPaginiationButtons() - 1);
-		}
 
+			$stop = $start + $component->getMaxPaginationButtons() - 1;
+			if($stop > $component->getNumberOfPages() - 1) {
+
+
+				//TODO: this is wrong
+				$stop = $component->getNumberOfPages() - 1;
+
+				//also, move chevron-button to template.
+
+			}
+			$range = range($start, $stop);
+
+			if(! in_array(1, $range)) {
+				$tpl->setVariable('FIRST',	'1');
+			}
+			$last = $component->getNumberOfPages();
+			if(! in_array($last, $range)) {
+
+				$tpl->setVariable('LAST',	(string)$last);
+			}
+
+		}
 
 		foreach ($range as $entry) {
 			$shy = $this->getPaginationShyButton($entry, $component);
 			if((int)$entry === $component->getCurrentPage()) {
 				$shy = $shy->withUnavailableAction();
 			}
-
 			$tpl->setCurrentBlock("entry");
 			$tpl->setVariable('BUTTON',	$default_renderer->render($shy));
 			$tpl->parseCurrentBlock();
 		}
 
-		$tpl->setCurrentBlock("entry");
-		$tpl->setVariable('BUTTON',	$default_renderer->render($shy_right));
-		$tpl->parseCurrentBlock();
-
+		$this->setPaginationRockers($component, $default_renderer, $tpl);
 		return $tpl->get();
 	}
 
 	/**
 	 * @param string 	$val
-	 * @param bool 	$use_signal
+	 * @param Component\ViewControl\Pagination 	$component
 	 * @param string 	$label
 	 *
 	 * @return \ILIAS\UI\Component\Button\Shy
@@ -307,6 +298,40 @@ class Renderer extends AbstractComponentRenderer
 		}
 		return $shy;
 	}
+
+	/**
+	 * @param Component\ViewControl\Pagination 	$component
+	 * @param RendererInterface $default_renderer 	$tpl
+	 * @param ILIAS\UI\Implementation\Render\Template 	$tpl
+	 *
+	 * @return void
+	 */
+	protected function setPaginationRockers($component, $default_renderer, &$tpl) {
+		$prev = $component->getCurrentPage() - 1;
+		if($prev < 0) {$prev = 0;}
+		$shy_left = $this->getPaginationShyButton(
+			(string)$prev,
+			$component,
+			'<span class="glyphicon glyphicon-chevron-left"></span>'
+		);
+		if($component->getCurrentPage() === 0) {
+			$shy_left = $shy_left->WithUnavailableAction();
+		}
+
+		$next = $component->getCurrentPage() + 1;
+		$shy_right = $this->getPaginationShyButton(
+			(string)$next,
+			$component,
+			'<span class="glyphicon glyphicon-chevron-right"></span>'
+		);
+		if($component->getCurrentPage() === $component->getNumberOfPages()) {
+			$shy_right = $shy_right->WithUnavailableAction();
+		}
+
+		$tpl->setVariable('ROCKER_PREVIOUS', $default_renderer->render($shy_left));
+		$tpl->setVariable('ROCKER_NEXT', $default_renderer->render($shy_right));
+	}
+
 
 	protected function maybeRenderId(Component\Component $component, $tpl, $block, $template_var) {
 		$id = $this->bindJavaScript($component);
