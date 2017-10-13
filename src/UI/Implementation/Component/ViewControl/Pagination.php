@@ -32,7 +32,7 @@ class Pagination implements C\ViewControl\Pagination  {
 	/**
 	 * @var Signal
 	 */
-	protected $select_signal;
+	protected $internal_signal;
 
 	/**
 	 * @var string
@@ -65,17 +65,21 @@ class Pagination implements C\ViewControl\Pagination  {
 	}
 
 	/**
-	 * Set the signals for this component
+	 * Set the internal signals for this component
+	 *
+	 * @return void
 	 */
 	protected function initSignals() {
-		$this->select_signal = $this->signal_generator->create();
+		$this->internal_signal = $this->signal_generator->create();
 	}
 
 	/**
-	 * @inheritdoc
+	 * get the internal signal that is triggered on click of a button
+	 *
+	 * @return Signal
 	 */
-	public function getSelectSignal() {
-		return $this->select_signal;
+	public function getInternalSignal() {
+		return $this->internal_signal;
 	}
 
 	/**
