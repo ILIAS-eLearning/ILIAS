@@ -9,6 +9,7 @@ require_once("Services/TMS/TrainingSearch/classes/Helper.php");
  * Displays the TMS training search
  *
  * @author Stefan Hecken 	<stefan.hecken@concepts-and-training.de>
+ * @ilCtrl_Calls	ilTrainingSearchGUI: ilTMSBookingGUI
  */
 class ilTrainingSearchGUI {
 	const CMD_SHOW = "show";
@@ -57,7 +58,7 @@ class ilTrainingSearchGUI {
 	}
 
 	public function executeCommand() {
-		$cmd = $this->g_ctrl->getCmd(self::CMD_SHOW);
+		$next_class = $this->g_ctrl->getNextClass();
 
 		switch ($next_class) {
 			case "iltmsbookinggui":
@@ -66,7 +67,17 @@ class ilTrainingSearchGUI {
 				$this->g_ctrl->forwardCommand($gui);
 				break;
 			default:
-				throw new Exception("Unknown command: ".$cmd);
+				$cmd = $this->g_ctrl->getCmd(self::CMD_SHOW);
+				switch($cmd) {
+					case self::CMD_SHOW:
+						$this->show();
+						break;
+					case self::CMD_FILTER:
+						$this->filter();
+						break;
+					default:
+						throw new Exception("Unknown command: ".$cmd);
+				}
 		}
 	}
 

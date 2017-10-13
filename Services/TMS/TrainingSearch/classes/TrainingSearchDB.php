@@ -18,6 +18,7 @@ interface TrainingSearchDB {
 	/**
 	 * Create new bookable course
 	 *
+	 * @param int		$ref_id
 	 * @param string 	$crs_title
 	 * @param string 	$type
 	 * @param ilDateTime 	$start_date
@@ -32,7 +33,8 @@ interface TrainingSearchDB {
 	 *
 	 * @return BookableCourse
 	 */
-	public function getBookableCourse($crs_title,
+	public function getBookableCourse($ref_id,
+				$crs_title,
 				$type,
 				ilDateTime $start_date,
 				$bookings_available,

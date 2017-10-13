@@ -47,7 +47,8 @@ class ilTrainingSearchDB implements TrainingSearchDB {
 	/**
 	 * @inheritdoc
 	 */
-	public function getBookableCourse($crs_title,
+	public function getBookableCourse($ref_id,
+				$crs_title,
 				$type,
 				ilDateTime $start_date,
 				$bookings_available,
@@ -61,6 +62,7 @@ class ilTrainingSearchDB implements TrainingSearchDB {
 	) {
 		require_once("Services/TMS/TrainingSearch/classes/BookableCourse.php");
 		return new BookableCourse(
+				$ref_id,
 				$crs_title,
 				$type,
 				$start_date,

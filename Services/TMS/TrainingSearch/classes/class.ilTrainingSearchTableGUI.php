@@ -68,17 +68,19 @@ class ilTrainingSearchTableGUI {
 		$ptable = $f->table()->presentation(
 			$this->g_lng->txt("header"), //title
 			array(),
-			function ($row, $record, $ui_factory, $environment) { //mapping-closure
+			function ($row, BookableCourse $record, $ui_factory, $environment) { //mapping-closure
 				return $row
 					->withTitle($record->getTitleValue())
 					->withSubTitle($record->getSubTitleValue())
 					->withImportantFields($record->getImportantFields())
 					->withContent($ui_factory->listing()->descriptive($record->getDetailFields()))
-					->withFurtherFieldsHeadline($this->g_lng->txt("detail_information"))
 					->withFurtherFields($record->getFurtherFields())
 					->withButtons(
 						array(
-							$ui_factory->button()->standard($this->g_lng->txt("book_course"), '#')
+							$ui_factory->button()->standard
+								( $this->g_lng->txt("book_course")
+								, $this->parent->getBookingLink($record)
+								)
 						)
 					);
 			}
