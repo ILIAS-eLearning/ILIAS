@@ -7,7 +7,7 @@ ILIAS is a powerful Open Source Learning Management System for developing and re
 
 ### Installation
 
-Installation of ILIAS is well documented on [our official Installation manual](http://www.ilias.de/docu/goto_docu_lm_367.html) and the documentation contained inside this repo: [/docs/configuration/install.md](/docs/configuration/install.md)
+Installation of ILIAS is well documented on [our official Installation manual](http://www.ilias.de/docu/goto_docu_lm_367.html) and in the documentation contained inside this repo: [/docs/configuration/install.md](/docs/configuration/install.md)
 
 ### Plugins
 
