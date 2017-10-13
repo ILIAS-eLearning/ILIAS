@@ -13602,21 +13602,21 @@ iass#:#iass_notify_explanation#:#The examinee will be notified via email after f
 iass#:#iass_contact#:#Name
 iass#:#iass_responsibility#:#Responsibility
 iass#:#iass_phone#:#Phone
-iass#:#iass_mails#:#Mails
-iass#:#iass_place#:#Event location
-iass#:#iass_event_time#:#Event time
+iass#:#iass_mails#:#E-Mail
+iass#:#iass_place#:#Place of assessment
+iass#:#iass_event_time#:#Date of assessment
 iass#:#iass_usr_amend#:#Amend Grading
 iass#:#iass_save_amend#:#Save Amend
-iass#:#iass_info_emails_expl#:#You may provide several addresses separated by a coma.
-iass#:#iass_consultation_hours#:#Consultation Hours
+iass#:#iass_info_emails_expl#:#You may provide several addresses separated by comma.
+iass#:#iass_consultation_hours#:#Consultation hours
 iass#:#iass_edit_info#:#Info Settings
 iass#:#iass_mess_notification_completed#:#You passed the assessment %s. Please check the following record for details:
 iass#:#iass_mess_notification_failed#:#You failed the assessment %s. Please check the following record for details:
 iass#:#iass_contact_info#:#Contact information
 iass#:#iass_added#:#Individual Assessment added
-iass#:#iass_event_time_place_required#:#Time and Place Required
-iass#:#iass_event_time_place_required_info#:#Time and place of assessment have to be added to each participant record.
-iass#:#iass_file_required#:#Record File Required
+iass#:#iass_event_time_place_required#:#Date and Place Required
+iass#:#iass_event_time_place_required_info#:#Date and place of assessment have to be added to each participant record.
+iass#:#iass_file_required#:#Record file required
 iass#:#iass_file_required_info#:#A record file has to be uploaded to each participant record.
 registration#:#reg_mail_body_activation#:#to activate your account and confirm ownership of this email address, click the link below:
 chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for authentication purposes when sending requests to the chat server. You can automatically create these strings by clicking the corresponding button. Please note that the chat server is able to communicate with multiple ILIAS clients, but each client id has to be <b>unique</b>.
