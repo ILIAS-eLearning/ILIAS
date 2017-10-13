@@ -105,6 +105,11 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
 		$usr_id = ilObjUser::_lookupId($login);
 		if(!$usr_id)
 		{
+			// try to create user
+			if($this->createNewAccount($status))
+			{
+				return true;
+			}
 			$this->getLogger()->info('Cannot find user id for external account: ' . $this->getCredentials()->getUsername());
 			$this->handleAuthenticationFail($status, 'err_wrong_login');
 			return false;
@@ -141,6 +146,41 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
 		{
 			return $this->handleLDAPDataSource($status);
 		}
+		// create new account
+		if(
+			$this->getSettings()->get('apache_enable_local') && 
+			$this->getSettings()->get('apache_local_autocreate')
+		)
+		{
+			$this->getLogger()->info('Creating new apache auth account');
+			include_once './Services/User/classes/class.ilObjUser.php';
+			$user = new ilObjUser();
+			
+			$login = ilAuthUtils::_generateLogin($this->getCredentials()->getUsername());
+			$user->setLogin($login);
+			$user->setExternalAccount($this->getCredentials()->getUsername());
+			$user->setProfileIncomplete(true);
+			$user->create();
+			$user->setAuthMode('apache');
+			// set a timestamp for last_password_change
+			// this ts is needed by ilSecuritySettings
+			$user->setLastPasswordChangeTS(time());
+			$user->setTimeLimitUnlimited(1);
+
+			$user->setActive(1);
+			//insert user data in table user_data
+			$user->saveAsNew();
+			$user->writePrefs();
+			$GLOBALS['DIC']->rbac()->admin()->assignUser(
+				$this->getSettings()->get('apache_default_role', 4),
+				$user->getId(),
+				true
+			);
+			$status->setAuthenticatedUserId($user->getId());
+			$status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
+			return true;
+		}
+		return false;
 	}
 	
 	/**
