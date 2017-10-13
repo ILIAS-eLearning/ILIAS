@@ -221,7 +221,7 @@ apt-get install libapache2-mod-php5
 
 On Ubuntu 16.04 execute:
 ```
-apt-get install libapache2-mod-php7
+apt-get install libapache2-mod-php7.0
 ```
 
 On RHEL/CentOS execute: 
