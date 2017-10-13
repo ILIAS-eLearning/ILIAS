@@ -226,14 +226,14 @@ class Renderer extends AbstractComponentRenderer
 		}
 
 		if(! $component->getMaxPaginationButtons()) {
-			$range = range(0, $component->getNumberOfPages() - 1);
+			$range = range(0, max($component->getNumberOfPages() - 1, 0));
 		} else {
 			$start = (int) ($component->getCurrentPage() - floor($component->getMaxPaginationButtons() / 2));
 			$start = max($start, 0); //0, if negative
 
 			$stop = $start + $component->getMaxPaginationButtons() - 1;
 			if($stop > $component->getNumberOfPages() - 1) {
-				$stop = $component->getNumberOfPages() - 1;
+				$stop = max($component->getNumberOfPages() - 1, 0);
 				$start = $stop - $component->getMaxPaginationButtons();
 				$start = max($start, 0); //0, if negative
 			}
@@ -245,7 +245,7 @@ class Renderer extends AbstractComponentRenderer
 				$shy = $this->getPaginationShyButton(0, $component);
 				$tpl->setVariable('FIRST', $default_renderer->render($shy));
 			}
-			$last = $component->getNumberOfPages() - 1;
+			$last = max($component->getNumberOfPages() - 1, 0);
 			if(! in_array($last, $range)) {
 				$shy = $this->getPaginationShyButton($component->getNumberOfPages() - 1, $component);
 				$tpl->setVariable('LAST', $default_renderer->render($shy));
@@ -309,8 +309,7 @@ class Renderer extends AbstractComponentRenderer
 	 * @return void
 	 */
 	protected function setPaginationRockers($component, $default_renderer, &$tpl) {
-		$prev = $component->getCurrentPage() - 1;
-		if($prev < 0) {$prev = 0;}
+		$prev = max(0, $component->getCurrentPage() - 1);
 		$shy_left = $this->getPaginationShyButton(
 			(string)$prev,
 			$component,
@@ -326,7 +325,7 @@ class Renderer extends AbstractComponentRenderer
 			$component,
 			'<span class="glyphicon glyphicon-chevron-right"></span>'
 		);
-		if($component->getCurrentPage() === $component->getNumberOfPages()-1) {
+		if($component->getCurrentPage() >= $component->getNumberOfPages()-1) {
 			$shy_right = $shy_right->WithUnavailableAction();
 		}
 
