@@ -13576,7 +13576,7 @@ iass#:#lp_inactive#:#Beachten Sie: die Lernfortschrittsbestimmung für dieses Ob
 iass#:#iass_edit#:#Einstellungen
 iass#:#iass_add#:#Individuelle Bewertung anlegen
 iass#:#iass_membership_finalized#:#Bewertung abgeschlossen.
-iass#:#iass_membership_saved#:#Bewertung gespeichert, jedoch noch nicht abgeschlossen.
+iass#:#iass_membership_saved#:#Bewertung wurde gespeichert aber noch nicht final abgeschlossen.
 iass#:#iass_return#:#Zurück zur Übersicht
 iass#:#iass_remove_user_qst#:#Soll der Teilnehmer wirklich entfernt werden?
 iass#:#iass_finalize_user_qst#:#Soll die Bewertung des Teilnehmers wirklich abgeschlossen werden? Änderungen an der Bewertung sind hinterher nicht mehr möglich.
