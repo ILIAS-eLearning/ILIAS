@@ -16238,3 +16238,4 @@ wsp#:#search_no_match#:#Su búsqueda no encontró ningún resultado
 wsp#:#element_shared#:#Elemento compartido
 wsp#:#share#:#Compartir
 assessment#:#use_previous_solution_advice#:#La solución que se muestra para la pregunta es la que has dado previamente. Debes guardar la solución preparada sin cambiar o modificada para utilizarla en la realización actual.
+wiki#:#wiki_pg_list_no_search_fields#:#No searchable meta data fields found in the metadata sets of the wiki.###13 10 2017 new variable
