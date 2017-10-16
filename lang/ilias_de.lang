@@ -13110,8 +13110,8 @@ wiki#:#wiki_page_list_mode_ordered#:#Nummeriert
 blog#:#blog_news_posting_updated#:#Ein Blogbeitrag wurde aktualisiert von %s.
 blog#:#blog_news_posting_published#:#Ein neuer Blogbeitrag wurde veröffentlicht von %s.
 blog#:#blog_news_posting_authors#:#Beteiligte Autoren: %s
-book#:#book_reservation_filter_period#:#Filter „Zeitraum“
-book#:#book_reservation_filter_period_info#:#Der Default-Wert für den Zeitraum-Filter in Tagen ab dem aktuellem Datum.
+book#:#book_reservation_filter_period#:#Filter „Datumsbereich“
+book#:#book_reservation_filter_period_info#:#Der Default-Wert für den Datumsbereich-Filter in Tagen ab dem aktuellem Datum.
 book#:#book_filter_past_reservations#:#Abgelaufene Reservierungen anzeigen
 book#:#book_deadline_options#:#Spätester Buchungszeitpunkt
 book#:#book_deadline_hours#:#Bis n Stunden vor Beginn des Zeitfensters
