@@ -21425,3 +21425,8 @@ if($ilDB->tableColumnExists('wiki_stat', 'avg_rating'))
 	$ilDB->addPrimaryKey('loc_rnd_qpl',['container_id', 'objective_id', 'tst_type', 'tst_id', 'qp_seq']);
 
 ?>
+<#5238>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
