@@ -428,9 +428,8 @@ class ilInternalLinkGUI
 				}
 				if(count($free_pages) > 0)
 				{
-					$tpl->setCurrentBlock(str_replace("_js","",$chapterRowBlock));
-					$tpl->setVariable("TXT_CHAPTER", $this->lng->txt("cont_free_pages"));
-					$tpl->setVariable("ROWCLASS", "tblrow1");
+					$tpl->setCurrentBlock("header_row");
+					$tpl->setVariable("TXT_HEADER", $this->lng->txt("cont_free_pages"));
 					$tpl->parseCurrentBlock();
 
 					foreach ($free_pages as $node)
