@@ -171,6 +171,7 @@ class ilDclContentExporter
 		file_put_contents($in_progress_file, "");
 
 		$data_available = false;
+		$fields_available = false;
 		switch ($format) {
 			case self::EXPORT_EXCEL:
 				require_once "./Services/Excel/classes/class.ilExcel.php";
@@ -180,6 +181,8 @@ class ilDclContentExporter
 					ilDclCache::resetCache();
 
 					$list = $table->getPartialRecords(null, null, null, 0, $this->filter);
+					$data_available = $data_available || ($list['total'] > 0);
+					$fields_available = $fields_available || (count($table->getExportableFields()) > 0);
 					if ($list['total'] > 0 && count($table->getExportableFields()) > 0) {
 						// only 31 character-long table-titles are allowed
 						$title = substr($table->getTitle(), 0, 31);
@@ -206,12 +209,19 @@ class ilDclContentExporter
 				break;
 		}
 		
-		if(file_exists($in_progress_file)) {
+		if (file_exists($in_progress_file)) {
 			unlink($in_progress_file);
 		}
 
-		if(!$data_available) {
-			ilUtil::sendInfo($this->lng->txt('dcl_no_export_data_available'));
+		if (!$data_available) {
+			ilUtil::sendInfo($this->lng->txt('dcl_no_export_content_available'));
+			return false;
+		}
+
+		if (!$fields_available) {
+			global $ilCtrl;
+			ilUtil::sendInfo(sprintf($this->lng->txt('dcl_no_export_fields_available'),
+				$ilCtrl->getLinkTargetByClass(array('ilDclTableListGUI', 'ilDclTableEditGUI', 'ilDclFieldListGUI'), 'listFields')));
 			return false;
 		}
 
