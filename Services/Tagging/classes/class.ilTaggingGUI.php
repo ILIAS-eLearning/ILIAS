@@ -14,6 +14,34 @@ include_once("./Services/Tagging/classes/class.ilTagging.php");
 */
 class ilTaggingGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->user = $DIC->user();
+		$this->lng = $DIC->language();
+	}
+
 	
 	/**
 	 * Execute command
@@ -23,7 +51,7 @@ class ilTaggingGUI
 	 */
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$next_class = $ilCtrl->getNextClass();
 		switch($next_class)
@@ -46,7 +74,7 @@ class ilTaggingGUI
 	*/
 	function setObject($a_obj_id, $a_obj_type, $a_sub_obj_id = 0, $a_sub_obj_type = "")
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		$this->obj_id = $a_obj_id;
 		$this->obj_type = $a_obj_type;
@@ -135,7 +163,8 @@ class ilTaggingGUI
 	*/
 	function getTaggingInputHTML()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$ttpl = new ilTemplate("tpl.tags_input.html", true, true, "Services/Tagging");
 		$tags = ilTagging::getTagsForUserAndObject($this->obj_id, $this->obj_type,
@@ -155,7 +184,7 @@ class ilTaggingGUI
 	*/
 	function saveInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$input = ilUtil::stripSlashes($_POST[$this->getInputFieldName()]);
 		$input = str_replace("\r", "\n", $input);
@@ -202,7 +231,8 @@ class ilTaggingGUI
 	*/
 	function getAllUserTagsForObjectHTML()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$ttpl = new ilTemplate("tpl.tag_cloud.html", true, true, "Services/Tagging");
 		$tags = ilTagging::getTagsForObject($this->obj_id, $this->obj_type,
@@ -237,17 +267,28 @@ class ilTaggingGUI
 	/**
 	 * Init javascript
 	 */
-	static function initJavascript($a_ajax_url)
+	static function initJavascript($a_ajax_url, ilTemplate $a_main_tpl = null)
 	{
-		global $tpl, $lng;
+		global $DIC;
+
+		if ($a_main_tpl != null)
+		{
+			$tpl = $a_main_tpl;
+		}
+		else
+		{
+			$tpl = $DIC["tpl"];
+		}
+
+		$lng = $DIC->language();
 
 		$lng->loadLanguageModule("tagging");
-		$lng->toJs("tagging_tags");
+		$lng->toJs("tagging_tags", $tpl);
 
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
-		ilYuiUtil::initPanel();
+		ilYuiUtil::initPanel(false, $tpl);
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
-		iljQueryUtil::initjQuery();
+		iljQueryUtil::initjQuery($tpl);
 		$tpl->addJavascript("./Services/Tagging/js/ilTagging.js");
 		
 		$tpl->addOnLoadCode("ilTagging.setAjaxUrl('".$a_ajax_url."');");
@@ -262,7 +303,9 @@ class ilTaggingGUI
 	 */
 	static function getListTagsJSCall($a_hash, $a_update_code = null)
 	{
-		global $tpl;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 		
 		if ($a_update_code === null)
 		{
@@ -284,7 +327,8 @@ class ilTaggingGUI
 	 */
 	function getHTML()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$lng->loadLanguageModule("tagging");
 		$tpl = new ilTemplate("tpl.edit_tags.html", true, true, "Services/Tagging");

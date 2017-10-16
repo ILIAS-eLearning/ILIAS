@@ -11,6 +11,11 @@
  */
 class ilLightboxGUI
 {
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
 	protected $id = "";
 	
 	/**
@@ -21,6 +26,9 @@ class ilLightboxGUI
 	 */
 	function __construct($a_id)
 	{
+		global $DIC;
+
+		$this->tpl = $DIC["tpl"];
 		$this->setId($a_id);
 	}
 	
@@ -77,7 +85,7 @@ class ilLightboxGUI
 	 */
 	public function addLightbox($a_tpl = null)
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		if ($a_tpl == null)
 		{

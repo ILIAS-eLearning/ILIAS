@@ -11,6 +11,23 @@ include_once("./Services/Block/classes/class.ilCustomBlock.php");
 */
 class ilPollBlock extends ilCustomBlock
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct($a_id = 0)
+	{
+		global $DIC;
+
+		parent::__construct($a_id);
+		$this->lng = $DIC->language();
+	}
+
 	protected $poll; // [ilObjPoll]
 	protected $answers; // [array]
 	protected $visible; // [bool]
@@ -135,7 +152,7 @@ class ilPollBlock extends ilCustomBlock
 	
 	public function getMessage($a_user_id)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if(!sizeof($this->answers))
 		{

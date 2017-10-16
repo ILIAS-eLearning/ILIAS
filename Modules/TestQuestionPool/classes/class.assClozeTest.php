@@ -1031,6 +1031,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		if($this->gap_combinations_exists)
 		{
 			$this->copyGapCombination($sourceQuestionId, $clone->getId());
+			$clone->saveToDb();
 		}
 		// copy question page content
 		$clone->copyPageOfQuestion($sourceQuestionId);
@@ -1579,6 +1580,18 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		}
 
 		return $startrow + $i + 1;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function getSelfAssessmentFormatter()
+	{
+		$formatter = parent::getSelfAssessmentFormatter();
+
+		$formatter->enabledMarkupCheck();
+
+		return $formatter;
 	}
 	
 	/**

@@ -12,12 +12,55 @@
  */
 class ilContainerStartObjectsGUI 
 {	
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs_gui;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
 	protected $object; // [ilObject]
 	protected $start_object; // [ilContainerStartObjects]
 	
 	public function __construct(ilObject $a_parent_obj)
 	{
-		global $ilCtrl, $ilTabs, $lng, $tpl;
+		global $DIC;
+
+		$this->access = $DIC->access();
+		$this->settings = $DIC->settings();
+		$this->toolbar = $DIC->toolbar();
+		$ilCtrl = $DIC->ctrl();
+		$ilTabs = $DIC->tabs();
+		$lng = $DIC->language();
+		$tpl = $DIC["tpl"];
 		
 		$this->ctrl = $ilCtrl;
 		$this->tabs_gui = $ilTabs;
@@ -83,7 +126,7 @@ class ilContainerStartObjectsGUI
 	
 	protected function checkPermission($a_cmd)
 	{
-		global $ilAccess;
+		$ilAccess = $this->access;
 		
 		$ref_id = $this->object->getRefId();		
 		if(!$ilAccess->checkAccess($a_cmd, "", $ref_id))
@@ -95,7 +138,7 @@ class ilContainerStartObjectsGUI
 	
 	public function setTabs($a_active = "manage")
 	{
-		global $ilSetting;
+		$ilSetting = $this->settings;
 		
 		$this->tabs_gui->addSubTab("manage",
 			$this->lng->txt("cntr_manage"),
@@ -114,7 +157,7 @@ class ilContainerStartObjectsGUI
 
 	protected function listStructureObject()
 	{		
-		global $ilToolbar;
+		$ilToolbar = $this->toolbar;
 		
 		$this->checkPermission('write');
 		$this->setTabs();

@@ -20,17 +20,32 @@ include_once ("./Services/COPage/classes/class.ilPageObjectGUI.php");
 * @ilCtrl_Calls ilPageEditorGUI: ilPCInteractiveImageGUI, ilPCProfileGUI, ilPCVerificationGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCBlogGUI, ilPCQuestionOverviewGUI, ilPCSkillsGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCConsultationHoursGUI, ilPCMyCoursesGUI, ilPCAMDPageListGUI
+* @ilCtrl_Calls ilPageEditorGUI: ilPCGridGUI, ilPCGridCellGUI
 *
 * @ingroup ServicesCOPage
 */
 class ilPageEditorGUI
 {
 	/**
-	* ilias object
-	* @var object ilias
-	* @access public
-	*/
-	var $ilias;
+	 * @var ilTabsGUI
+	 */
+	protected $tabs_gui;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
 	var $tpl;
 	var $lng;
 	var $ctrl;
@@ -57,12 +72,20 @@ class ilPageEditorGUI
 	*/
 	function __construct(&$a_page_object, &$a_page_object_gui)
 	{
-		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl,$ilTabs;
+		global $DIC;
+
+		$this->help = $DIC["ilHelp"];
+		$this->user = $DIC->user();
+		$this->access = $DIC->access();
+		$tpl = $DIC["tpl"];
+		$lng = $DIC->language();
+		$objDefinition = $DIC["objDefinition"];
+		$ilCtrl = $DIC->ctrl();
+		$ilTabs = $DIC->tabs();
 
 		$this->log = ilLoggerFactory::getLogger('copg');
 
 		// initiate variables
-		$this->ilias = $ilias;
 		$this->ctrl = $ilCtrl;
 		$this->tpl = $tpl;
 		$this->lng = $lng;
@@ -129,7 +152,8 @@ class ilPageEditorGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl, $ilHelp;;
+		$ilCtrl = $this->ctrl;
+		$ilHelp = $this->help;
 
 		$this->log->debug("ilPageEditorGUI: executeCommand begin");
 
@@ -190,12 +214,14 @@ class ilPageEditorGUI
 		$first_hier_character = substr($hier_id, 0, 1);
 		if ($first_hier_character == "c" ||
 			$first_hier_character == "r" ||
+			$first_hier_character == "g" ||
 			$first_hier_character == "i")
 		{
 			$hier_id = substr($hier_id, 1);
 		}
 		$this->page->buildDom();
 		$this->page->addHierIDs();
+
 
 		// determine command and content object
 		if ($cmdClass != "ilfilesystemgui")
@@ -206,9 +232,16 @@ class ilPageEditorGUI
 		
 
 		$next_class = $this->ctrl->getNextClass($this);
+		$this->log->debug("next class: ".$next_class);
 
+		// special case: placeholders from preview mode come without hier_id
+		if ($next_class == "ilpcplaceholdergui" && $hier_id == "" && $_GET["pl_pc_id"] != "")
+		{
+			$hid = $this->page->getHierIdsForPCIds(array($_GET["pl_pc_id"]));
+			$hier_id = $hid[$_GET["pl_pc_id"]];
+		}
 
-		// determine content type
+			// determine content type
 		if ($com[0] == "insert" || $com[0] == "create")
 		{
 			$cmd = $com[0];
@@ -306,6 +339,8 @@ exit;
 //$this->ctrl->debug("+next_class:".$next_class."+");
 //echo("+next_class:".$next_class."+".$ctype."+"); exit;
 
+		$this->log->debug("(2) next class: ".$next_class.", ctype: ".$ctype);
+
 		if ($next_class == "")
 		{
 			include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
@@ -331,21 +366,15 @@ exit;
 			case "ilinternallinkgui":
 				$link_gui = new ilInternalLinkGUI(
 					$this->page_gui->getPageConfig()->getIntLinkHelpDefaultType(),
-					$this->page_gui->getPageConfig()->getIntLinkHelpDefaultId());
-				$link_gui->setMode("normal");
+					$this->page_gui->getPageConfig()->getIntLinkHelpDefaultId(),
+					$this->page_gui->getPageConfig()->getIntLinkHelpDefaultIdIsRef());
 				$link_gui->setFilterWhiteList(
 					$this->page_gui->getPageConfig()->getIntLinkFilterWhiteList());
 				foreach ($this->page_gui->getPageConfig()->getIntLinkFilters() as $filter)
 				{
 					$link_gui->filterLinkType($filter);
 				}
-//				$link_gui->setSetLinkTargetScript(
-//					$this->ctrl->getLinkTarget($this, "setInternalLink"));
 				$link_gui->setReturn($this->int_link_return);
-				if ($ilCtrl->isAsynch())
-				{
-					$link_gui->setMode("asynch");
-				}
 
 				$ret = $this->ctrl->forwardCommand($link_gui);
 				break;
@@ -462,7 +491,9 @@ exit;
 	*/
 	static function _doJSEditing()
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC->user();
 
 		if ($ilUser->getPref("ilPageEditor_JavaScript") != "disable"
 			&& ilPageEditorGUI::_isBrowserJSEditCapable())
@@ -495,7 +526,7 @@ exit;
 	*/
 	function setMediaMode()
 	{
-		global $ilUser, $ilias;
+		$ilUser = $this->user;
 
 		$ilUser->writePref("ilPageEditor_MediaMode", $_POST["media_mode"]);
 		$ilUser->writePref("ilPageEditor_HTMLMode", $_POST["html_mode"]);
@@ -525,7 +556,7 @@ exit;
 	*/
 	function copyLinkedMediaToClipboard()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		ilUtil::sendSuccess($this->lng->txt("copied_to_clipboard"), true);
 		$ilUser->addObjectToClipboard($_POST["mob_id"], "mob", ilObject::_lookupTitle($_POST["mob_id"]));
@@ -537,7 +568,7 @@ exit;
 	*/
 	function copyLinkedMediaToMediaPool()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$this->ctrl->setParameterByClass("ilmediapooltargetselector", "mob_id", $_POST["mob_id"]); 
 		$this->ctrl->redirectByClass("ilmediapooltargetselector", "listPools");
@@ -561,7 +592,9 @@ exit;
 	 */
 	function deleteSelected()
 	{
-		global $ilCtrl, $tpl, $lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 
 		$targets = explode(";", $_POST["target"][0]);
 
@@ -623,7 +656,7 @@ exit;
 	 */
 	function copySelected()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if (is_int(strpos($_POST["target"][0], ";")))
 		{
@@ -642,7 +675,7 @@ exit;
 	 */
 	function cutSelected()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if (is_int(strpos($_POST["target"][0], ";")))
 		{
@@ -669,10 +702,10 @@ exit;
 	 */
 	function paste($a_hier_id)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		$this->page->pasteContents($a_hier_id, $this->page_gui->getPageConfig()->getEnableSelfAssessment());
 		include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
-		ilEditClipboard::setAction("");
+		//ilEditClipboard::setAction("");
 		$this->ctrl->returnToParent($this);
 	}
 
@@ -706,7 +739,8 @@ exit;
 	*/
 	function assignCharacteristicForm()
 	{
-		global $tpl, $lng;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 		
 		if (is_int(strpos($_POST["target"][0], ";")))
 		{
@@ -753,7 +787,8 @@ exit;
 	 */
 	function initCharacteristicForm($a_target, $a_types)
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		
 		// edit form
@@ -833,7 +868,7 @@ exit;
 	*/
 	function pasteFromClipboard($a_hier_id)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 //var_dump($a_hier_id);
 		$ilCtrl->setParameter($this, "hier_id", $a_hier_id);
 		$ilCtrl->setParameterByClass("ilEditClipboardGUI", "returnCommand",
@@ -892,10 +927,10 @@ exit;
 	*/
 	function displayLocator()
 	{
-		if(is_object($this->locator))
+		/*if(is_object($this->locator))
 		{
 			$this->locator->display();
-		}
+		}*/
 	}
 
 	/**
@@ -903,7 +938,10 @@ exit;
 	*/
 	function showSnippetInfo()
 	{
-		global $tpl, $lng, $ilAccess, $ilCtrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilAccess = $this->access;
+		$ilCtrl = $this->ctrl;
 		
 		$stpl = new ilTemplate("tpl.snippet_info.html", true, true, "Services/COPage");
 		

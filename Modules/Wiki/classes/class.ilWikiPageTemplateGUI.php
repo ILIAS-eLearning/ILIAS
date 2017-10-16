@@ -11,6 +11,16 @@
  */
 class ilWikiPageTemplateGUI
 {
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	protected $wiki_gui;
 	protected $ctrl;
 	protected $tpl;
@@ -22,7 +32,12 @@ class ilWikiPageTemplateGUI
 	 */
 	function __construct(ilObjWikiGUI $a_wiki_gui)
 	{
-		global $ilCtrl, $tpl, $ilToolbar, $lng;
+		global $DIC;
+
+		$ilCtrl = $DIC->ctrl();
+		$tpl = $DIC["tpl"];
+		$ilToolbar = $DIC->toolbar();
+		$lng = $DIC->language();
 
 		$this->wiki_gui = $a_wiki_gui;
 		$this->wiki = $this->wiki_gui->object;

@@ -13,6 +13,18 @@ require_once "Services/Object/classes/class.ilObject2.php";
  */
 abstract class ilObjPortfolioBase extends ilObject2
 {
+
+	/**
+	 * Constructor
+	 */
+	function __construct($a_id = 0, $a_reference = true)
+	{
+		global $DIC;
+		parent::__construct($a_id, $a_reference);
+
+		$this->db = $DIC->database();
+	}
+
 	protected $online; // [bool]
 	protected $comments; // [bool]
 	protected $bg_color; // [string]
@@ -53,7 +65,9 @@ abstract class ilObjPortfolioBase extends ilObject2
 	 */
 	public static function lookupOnline($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT is_online".
 			" FROM usr_portfolio".
@@ -197,7 +211,7 @@ abstract class ilObjPortfolioBase extends ilObject2
 	
 	protected function doRead()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$set = $ilDB->query("SELECT * FROM usr_portfolio".
 				" WHERE id = ".$ilDB->quote($this->id, "integer"));
@@ -226,7 +240,7 @@ abstract class ilObjPortfolioBase extends ilObject2
 
 	protected function doCreate()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$ilDB->manipulate("INSERT INTO usr_portfolio (id,is_online)".
 			" VALUES (".$ilDB->quote($this->id, "integer").",".
@@ -235,7 +249,7 @@ abstract class ilObjPortfolioBase extends ilObject2
 	
 	protected function doUpdate()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$fields = array(
 			"is_online" => array("integer", $this->isOnline()),			
@@ -264,7 +278,7 @@ abstract class ilObjPortfolioBase extends ilObject2
 
 	protected function doDelete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$this->deleteAllPages();
 		$this->deleteImage();
@@ -440,7 +454,10 @@ abstract class ilObjPortfolioBase extends ilObject2
 	 */
 	public static function clonePagesAndSettings(ilObjPortfolioBase $a_source, ilObjPortfolioBase $a_target, array $a_recipe = null)
 	{
-		global $lng, $ilUser;
+		global $DIC;
+
+		$lng = $DIC->language();
+		$ilUser = $DIC->user();
 		
 		$source_id = $a_source->getId();
 		$target_id = $a_target->getId();
@@ -469,6 +486,7 @@ abstract class ilObjPortfolioBase extends ilObject2
 		// copy pages
 		$blog_count = 0;
 		include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";
+		$page_map = array();
 		foreach(ilPortfolioPage::getAllPortfolioPages($source_id) as $page)
 		{
 			$page_id = $page["id"];	
@@ -605,8 +623,11 @@ abstract class ilObjPortfolioBase extends ilObject2
 				{
 					$target_page->update();	// handle mob usages!
 				}
+				$page_map[$source_page->getId()] = $target_page->getId();
 			}		
 		}
+
+		ilPortfolioPage::updateInternalLinks($page_map, $a_target);
 	}
 		
 	protected static function updateDomNodes($a_dom, $a_xpath, $a_attr_id, $a_attr_value)
@@ -621,7 +642,9 @@ abstract class ilObjPortfolioBase extends ilObject2
 	
 	protected static function createBlogInPersonalWorkspace($a_title)
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC->user();
 		
 		static $ws_access = null;
 		

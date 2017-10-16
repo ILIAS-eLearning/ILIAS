@@ -15,13 +15,69 @@
  */
 class ilSharedResourceGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilMainMenuGUI
+	 */
+	protected $main_menu;
+
+	/**
+	 * @var ilLocatorGUI
+	 */
+	protected $locator;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	protected $node_id;
 	protected $portfolio_id;
 	protected $access_handler;	
 
 	function __construct()
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->tpl = $DIC["tpl"];
+		$this->main_menu = $DIC["ilMainMenu"];
+		$this->locator = $DIC["ilLocator"];
+		$this->user = $DIC->user();
+		$this->lng = $DIC->language();
+		$this->obj_definition = $DIC["objDefinition"];
+		$this->tabs = $DIC->tabs();
+		$this->db = $DIC->database();
+		$ilCtrl = $DIC->ctrl();
 		
 		$ilCtrl->saveParameter($this, "wsp_id");
 		$ilCtrl->saveParameter($this, "prt_id");
@@ -31,7 +87,12 @@ class ilSharedResourceGUI
 	
 	function executeCommand()
 	{
-		global $ilCtrl, $tpl, $ilMainMenu, $ilLocator, $ilUser, $lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$ilMainMenu = $this->main_menu;
+		$ilLocator = $this->locator;
+		$ilUser = $this->user;
+		$lng = $this->lng;
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
@@ -153,7 +214,10 @@ class ilSharedResourceGUI
 	
 	public static function hasAccess($a_node_id, $a_is_portfolio = false)
 	{
-		global $ilUser, $ilSetting;				
+		global $DIC;
+
+		$ilUser = $DIC->user();
+		$ilSetting = $DIC->settings();
 	
 		// if we have current user - check with normal access handler
 		if($ilUser->getId() != ANONYMOUS_USER_ID)
@@ -228,7 +292,8 @@ class ilSharedResourceGUI
 	
 	protected function redirectToResource($a_node_id, $a_is_portfolio = false)
 	{
-		global $ilCtrl, $objDefinition;
+		$ilCtrl = $this->ctrl;
+		$objDefinition = $this->obj_definition;
 				
 		if(!$a_is_portfolio)
 		{
@@ -287,7 +352,8 @@ class ilSharedResourceGUI
 	
 	protected function passwordForm($form = null)
 	{
-		global $tpl, $lng;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 		
 		$lng->loadLanguageModule("wsp");
 		
@@ -304,7 +370,10 @@ class ilSharedResourceGUI
 	
 	protected function initPasswordForm()
 	{
-		global $ilCtrl, $lng, $ilUser, $ilTabs;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilUser = $this->user;
+		$ilTabs = $this->tabs;
 		
 		if($this->node_id)
 		{			
@@ -340,7 +409,7 @@ class ilSharedResourceGUI
 	
 	protected function cancelPassword()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		if($ilUser->getId() && $ilUser->getId() != ANONYMOUS_USER_ID)
 		{		
@@ -364,7 +433,8 @@ class ilSharedResourceGUI
 	
 	protected function checkPassword()
 	{
-		global $ilDB, $lng;
+		$ilDB = $this->db;
+		$lng = $this->lng;
 		
 		$lng->loadLanguageModule("wsp");
 		 

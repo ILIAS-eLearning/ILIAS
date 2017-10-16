@@ -12,12 +12,20 @@
 class ilSkillSelfEvaluation
 {
 	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
 	 * Constructor
 	 *
 	 * @param
 	 */
 	function __construct($a_id = 0)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		if ($a_id > 0)
 		{
 			$this->setId($a_id);
@@ -166,7 +174,7 @@ class ilSkillSelfEvaluation
 	 */
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$set = $ilDB->query("SELECT * FROM skl_self_eval WHERE ".
 			" id = ".$ilDB->quote($this->getId(), "integer")
@@ -197,7 +205,7 @@ class ilSkillSelfEvaluation
 	 */
 	function create()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$this->setId($ilDB->nextId("skl_self_eval"));
 
@@ -230,7 +238,7 @@ class ilSkillSelfEvaluation
 	 */
 	function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$ilDB->manipulate("UPDATE skl_self_eval SET ".
 			" user_id = ".$ilDB->quote($this->getUserId(), "integer").
@@ -263,7 +271,7 @@ class ilSkillSelfEvaluation
 	 */
 	function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$ilDB->manipulate("DELETE FROM skl_self_eval WHERE "
 			." id = ".$ilDB->quote($this->getId(), "integer")
@@ -279,7 +287,9 @@ class ilSkillSelfEvaluation
 	 */
 	static function getAllSelfEvaluationsOfUser($a_user, $a_one_per_top_skill = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->query("SELECT * FROM skl_self_eval WHERE user_id = ".
 			$ilDB->quote($a_user, "integer")." ".
@@ -309,7 +319,9 @@ class ilSkillSelfEvaluation
 	 */
 	protected static function lookupProperty($a_id, $a_prop)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->query("SELECT $a_prop FROM skl_self_eval WHERE ".
 			" id = ".$ilDB->quote($a_id, "integer")
@@ -326,7 +338,9 @@ class ilSkillSelfEvaluation
 	 */
 	static function getAverageLevel($a_se_id, $a_user_id, $a_top_skill_id)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 
 		$lng->loadLanguageModule("skmg");
 

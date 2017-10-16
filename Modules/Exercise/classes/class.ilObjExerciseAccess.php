@@ -92,7 +92,9 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
 	
 	static function _lookupRemainingWorkingTimeString($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		// #14077 - mind peer deadline, too
 		
@@ -145,7 +147,9 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
 	*/
 	static function _checkGoto($a_target)
 	{
-		global $ilAccess;
+		global $DIC;
+
+		$ilAccess = $DIC->access();
 		
 		$t_arr = explode("_", $a_target);
 
@@ -158,6 +162,32 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
 		{
 			return true;
 		}
+		return false;
+	}
+
+	/**
+	 * @param ilWACPath $ilWACPath
+	 *
+	 * @return bool
+	 */
+	public function canBeDelivered(ilWACPath $ilWACPath) {
+		global $ilAccess;
+
+		return true;
+
+		// to do: check the path, extract the IDs from the path
+		// determine the object ID of the corresponding exercise
+		// get all ref IDs of the exercise from the object id and check if use
+		// has read access to any of these ref ids (if yes, return true)
+
+		preg_match("/\\/poll_([\\d]*)\\//uism", $ilWACPath->getPath(), $results);
+
+		foreach (ilObject2::_getAllReferences($results[1]) as $ref_id) {
+			if ($ilAccess->checkAccess('read', '', $ref_id)) {
+				return true;
+			}
+		}
+
 		return false;
 	}
 }

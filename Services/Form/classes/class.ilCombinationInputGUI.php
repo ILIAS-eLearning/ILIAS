@@ -30,6 +30,23 @@
 */
 class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct($a_title = "", $a_postvar = "")
+	{
+		parent::__construct($a_title, $a_postvar);
+		global $DIC;
+
+		$this->lng = $DIC->language();
+	}
+
 	protected $items = array();
 	protected $labels;
 	protected $comparison;
@@ -317,7 +334,7 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
 	*/
 	function render()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$tpl = new ilTemplate("tpl.prop_combination.html", true, true, "Services/Form");
 

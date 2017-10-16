@@ -1,219 +1,266 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
-* Yahoo YUI Library Utility functions
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*/
-class ilYuiUtil
-{
-	//private static $ver = "2_8_1";
-	private static $ver = "2_9_0";
-	
-	/**
-	* Init YUI Connection module
-	*/
-	static function initConnection()
-	{
-		global $tpl;
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/connection/connection-min.js");
-	}
-	
-	/**
-	* Init YUI Event
-	*/
-	static function initEvent()
-	{
-		global $tpl;
+ * Yahoo YUI Library Utility functions
+ *
+ * @author  Alex Killing <alex.killing@gmx.de>
+ * @version $Id$
+ */
+class ilYuiUtil {
 
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
-	}
+	const YUI_BASE = "./libs/bower/bower_components/yui2/build";
+
 
 	/**
-	* Init YUI Dom
-	*/
-	static function initDom()
-	{
-		global $tpl;
+	 * Init YUI Connection module
+	 */
+	static function initConnection(ilTemplate $a_main_tpl = null) {
+		global $DIC;
 
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
-
+		if ($a_main_tpl == null)
+		{
+			$tpl = $DIC["tpl"];
+		}
+		else
+		{
+			$tpl = $a_main_tpl;
+		}
+		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript(self::YUI_BASE . "/connection/connection-min.js");
 	}
+
 
 	/**
-	* Init YUI Animation
-	*/
-	static function initAnimation()
-	{
-		global $tpl;
+	 * Init YUI Event
+	 */
+	static function initEvent() {
+		global $DIC;
 
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/animation/animation-min.js");
+		$tpl = $DIC["tpl"];
+
+		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
 	}
+
 
 	/**
-	* Init YUI Drag and Drop
-	*/
-	static function initDragDrop()
-	{
-		global $tpl;
+	 * Init YUI Dom
+	 */
+	static function initDom() {
+		global $DIC;
 
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/dragdrop/dragdrop-min.js");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/element/element-min.js");
+		$tpl = $DIC["tpl"];
+
+		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
 	}
-	
+
+
 	/**
-	* Init YUI DomEvent
-	*/
-	static function initDomEvent()
-	{
-		global $tpl;
+	 * Init YUI Animation
+	 */
+	static function initAnimation() {
+		global $DIC;
 
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl = $DIC["tpl"];
+
+		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript(self::YUI_BASE . "/animation/animation-min.js");
 	}
-	
+
+
+	/**
+	 * Init YUI Drag and Drop
+	 */
+	static function initDragDrop() {
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
+
+		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript(self::YUI_BASE . "/dragdrop/dragdrop-min.js");
+		$tpl->addJavaScript(self::YUI_BASE . "/element/element-min.js");
+	}
+
+
+	/**
+	 * Init YUI DomEvent
+	 */
+	static function initDomEvent() {
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
+
+		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
+	}
+
+
 	/**
 	 * Init yui panel
 	 *
 	 * @access public
+	 *
 	 * @param void
+	 *
 	 * @return void
 	 */
-	static function initPanel($a_resize = false)
-	{
-		global $tpl;
-		
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/container/container-min.js");
-		self::addContainerCss();
+	static function initPanel($a_resize = false, ilTemplate $a_main_tpl = null) {
+		global $DIC;
+
+		if ($a_main_tpl != null)
+		{
+			$tpl = $a_main_tpl;
+		}
+		else
+		{
+			$tpl = $DIC["tpl"];
+		}
+
+		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript(self::YUI_BASE . "/container/container-min.js");
+		self::addContainerCss($tpl);
 		$tpl->addCss("./Services/Calendar/css/panel_min.css");
 
-		if ($a_resize)
-		{
-			$tpl->addCss("./Services/YUI/js/".self::$ver."/resize/assets/skins/sam/resize.css");
-			$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/utilities/utilities-min.js");
-			$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/resize/resize-min.js");
+		if ($a_resize) {
+			$tpl->addCss(self::YUI_BASE . "/resize/assets/skins/sam/resize.css");
+			$tpl->addJavaScript(self::YUI_BASE . "/utilities/utilities-min.js");
+			$tpl->addJavaScript(self::YUI_BASE . "/resize/resize-min.js");
 		}
-		
 	}
 
-	/**
-	* Init YUI Connection module
-	*/
-	static function initConnectionWithAnimation()
-	{
-		global $tpl;
-		
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/animation/animation-min.js");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/connection/connection-min.js");
-	}
 
 	/**
-	* Init YUI Menu module
-	*/
-	static function initMenu()
-	{
-		global $tpl;
-		
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/container/container_core.js");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/menu/menu-min.js");
-		$tpl->addCss("./Services/YUI/js/".self::$ver."/menu/assets/menu.css");
+	 * Init YUI Connection module
+	 */
+	static function initConnectionWithAnimation() {
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
+
+		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript(self::YUI_BASE . "/animation/animation-min.js");
+		$tpl->addJavaScript(self::YUI_BASE . "/connection/connection-min.js");
 	}
 
-	/**
-	* Init YUI Overlay module
-	*/
-	static function initOverlay()
-	{
-		global $tpl;
-		
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/container/container_core-min.js");
-		self::addContainerCss();
-	}
-	
-	/**
-	* Init YUI Simple Dialog
-	*/
-	static function initSimpleDialog()
-	{
-		global $tpl;
 
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/container/container-min.js");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/dragdrop/dragdrop-min.js");
+	/**
+	 * Init YUI Menu module
+	 */
+	static function initMenu() {
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
+
+		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript(self::YUI_BASE . "/container/container_core.js");
+		$tpl->addJavaScript(self::YUI_BASE . "/menu/menu-min.js");
+		$tpl->addCss(self::YUI_BASE . "/menu/assets/menu.css");
+	}
+
+
+	/**
+	 * Init YUI Overlay module
+	 */
+	static function initOverlay(ilTemplate $a_main_tpl = null) {
+		global $DIC;
+
+		if ($a_main_tpl == null)
+		{
+			$tpl = $DIC["tpl"];
+		}
+		else
+		{
+			$tpl = $a_main_tpl;
+		}
+
+		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript(self::YUI_BASE . "/container/container_core-min.js");
+		self::addContainerCss($tpl);
+	}
+
+
+	/**
+	 * Init YUI Simple Dialog
+	 */
+	static function initSimpleDialog() {
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
+
+		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript(self::YUI_BASE . "/container/container-min.js");
+		$tpl->addJavaScript(self::YUI_BASE . "/dragdrop/dragdrop-min.js");
 		self::addContainerCss();
 		$tpl->addCss("./Services/YUI/templates/default/tpl.simpledialog.css");
 	}
-	
-	/**
-	* Init assessment wizard
-	*/
-	static function initAssessmentWizard()
-	{
-		global $tpl;
 
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/element/element-min.js");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/button/button-min.js");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/container/container-min.js");
-		$tpl->addCss("./Services/YUI/js/".self::$ver."/button/assets/skins/sam/button.css");
+
+	/**
+	 * Init assessment wizard
+	 */
+	static function initAssessmentWizard() {
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
+
+		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript(self::YUI_BASE . "/element/element-min.js");
+		$tpl->addJavaScript(self::YUI_BASE . "/button/button-min.js");
+		$tpl->addJavaScript(self::YUI_BASE . "/container/container-min.js");
+		$tpl->addCss(self::YUI_BASE . "/button/assets/skins/sam/button.css");
 		self::addContainerCss();
 	}
-	
-	/**
-	* init drag & drop list
-	*/
-	static function initDragDropList()
-	{
-		global $tpl;
 
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/animation/animation-min.js");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/dragdrop/dragdrop-min.js");
+
+	/**
+	 * init drag & drop list
+	 */
+	static function initDragDropList() {
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
+
+		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript(self::YUI_BASE . "/animation/animation-min.js");
+		$tpl->addJavaScript(self::YUI_BASE . "/dragdrop/dragdrop-min.js");
 		$tpl->addCss("./Services/YUI/templates/default/DragDropList.css");
 	}
-	
-	/**
-	* init drag & drop and animation
-	*/
-	static function initDragDropAnimation()
-	{
-		global $tpl;
 
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/animation/animation-min.js");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/dragdrop/dragdrop-min.js");
-	}
-	
-	/**
-	* init element selection
-	*/
-	static function initElementSelection()
-	{
-		global $tpl;
 
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/element/element-min.js");
-	}
-	
 	/**
-	* get a drag & drop list
-	*/
-	static function getDragDropList($id_source, $title_source, $source, $id_dest, $title_dest, $dest)
-	{
+	 * init drag & drop and animation
+	 */
+	static function initDragDropAnimation() {
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
+
+		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript(self::YUI_BASE . "/animation/animation-min.js");
+		$tpl->addJavaScript(self::YUI_BASE . "/dragdrop/dragdrop-min.js");
+	}
+
+
+	/**
+	 * init element selection
+	 */
+	static function initElementSelection() {
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
+
+		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript(self::YUI_BASE . "/element/element-min.js");
+	}
+
+
+	/**
+	 * get a drag & drop list
+	 */
+	static function getDragDropList($id_source, $title_source, $source, $id_dest, $title_dest, $dest) {
 		self::initDragDropList();
-		
-		$template = new ilTemplate("tpl.dragdroplist.html", TRUE, TRUE, "Services/YUI");
-		foreach ($source as $id => $name)
-		{
+
+		$template = new ilTemplate("tpl.dragdroplist.html", true, true, "Services/YUI");
+		foreach ($source as $id => $name) {
 			$template->setCurrentBlock("source_element");
 			$template->setVariable("ELEMENT_ID", $id);
 			$template->setVariable("ELEMENT_NAME", $name);
@@ -222,8 +269,7 @@ class ilYuiUtil
 			$template->setVariable("ELEMENT_ID", $id);
 			$template->parseCurrentBlock();
 		}
-		foreach ($dest as $id => $name)
-		{
+		foreach ($dest as $id => $name) {
 			$template->setCurrentBlock("dest_element");
 			$template->setVariable("ELEMENT_ID", $id);
 			$template->setVariable("ELEMENT_NAME", $name);
@@ -236,16 +282,20 @@ class ilYuiUtil
 		$template->setVariable("TITLE_LIST_2", $title_dest);
 		$template->setVariable("LIST_1", $id_source);
 		$template->setVariable("LIST_2", $id_dest);
+
 		return $template->get();
 	}
-	
-	static function addYesNoDialog($dialogname, $headertext, $message, $yesaction, $noaction, $defaultyes, $icon = "help")
-	{
-		global $tpl, $lng;
-		
+
+
+	static function addYesNoDialog($dialogname, $headertext, $message, $yesaction, $noaction, $defaultyes, $icon = "help") {
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
+		$lng = $DIC->language();
+
 		self::initSimpleDialog();
-		
-		$template = new ilTemplate("tpl.yes_no_dialog.js", TRUE, TRUE, "Services/YUI");
+
+		$template = new ilTemplate("tpl.yes_no_dialog.js", true, true, "Services/YUI");
 		$template->setVariable("DIALOGNAME", $dialogname);
 		$template->setVariable("YES_ACTION", $yesaction);
 		$template->setVariable("NO_ACTION", $noaction);
@@ -253,8 +303,7 @@ class ilYuiUtil
 		$template->setVariable("DIALOG_MESSAGE", $message);
 		$template->setVariable("TEXT_YES", $lng->txt("yes"));
 		$template->setVariable("TEXT_NO", $lng->txt("no"));
-		switch ($icon)
-		{
+		switch ($icon) {
 			case "warn":
 				$template->setVariable("ICON", "YAHOO.widget.SimpleDialog.ICON_WARN");
 				break;
@@ -275,19 +324,17 @@ class ilYuiUtil
 				$template->setVariable("ICON", "YAHOO.widget.SimpleDialog.ICON_HELP");
 				break;
 		}
-		if ($defaultyes)
-		{
+		if ($defaultyes) {
 			$template->touchBlock("isDefaultYes");
-		}
-		else
-		{
+		} else {
 			$template->touchBlock("isDefaultNo");
 		}
 		$tpl->setCurrentBlock("HeadContent");
 		$tpl->setVariable("CONTENT_BLOCK", $template->get());
 		$tpl->parseCurrentBlock();
 	}
-	
+
+
 	/**
 	 * init calendar
 	 *
@@ -295,17 +342,19 @@ class ilYuiUtil
 	 * @return
 	 * @static
 	 */
-	static function initCalendar()
-	{
-		global $tpl;
-		
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/calendar/calendar-min.js");
-			
-		$tpl->addCss("./Services/YUI/js/".self::$ver."/calendar/assets/skins/sam/calendar.css");
+	static function initCalendar() {
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
+
+		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript(self::YUI_BASE . "/calendar/calendar-min.js");
+
+		$tpl->addCss(self::YUI_BASE . "/calendar/assets/skins/sam/calendar.css");
 		$tpl->addCss("./Services/Calendar/css/calendar.css");
 	}
-	
+
+
 	/**
 	 * init button control
 	 * In the moment used for calendar color picker button
@@ -314,22 +363,24 @@ class ilYuiUtil
 	 * @return void
 	 * @static
 	 */
-	static function initButtonControl()
-	{
-		global $tpl;
-		
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/element/element-min.js");
-		
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/container/container_core-min.js");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/menu/menu-min.js");
-		
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/button/button-min.js");
+	static function initButtonControl() {
+		global $DIC;
 
-		$tpl->addCss("./Services/YUI/js/".self::$ver."/button/assets/skins/sam/button.css");
-		$tpl->addCss("./Services/YUI/js/".self::$ver."/menu/assets/skins/sam/menu.css");
+		$tpl = $DIC["tpl"];
+
+		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript(self::YUI_BASE . "/element/element-min.js");
+
+		$tpl->addJavaScript(self::YUI_BASE . "/container/container_core-min.js");
+		$tpl->addJavaScript(self::YUI_BASE . "/menu/menu-min.js");
+
+		$tpl->addJavaScript(self::YUI_BASE . "/button/button-min.js");
+
+		$tpl->addCss(self::YUI_BASE . "/button/assets/skins/sam/button.css");
+		$tpl->addCss(self::YUI_BASE . "/menu/assets/skins/sam/menu.css");
 	}
-	
+
+
 	/**
 	 * init color picker button
 	 *
@@ -337,118 +388,138 @@ class ilYuiUtil
 	 * @return void
 	 * @static
 	 */
-	static function initColorPicker()
-	{
-		global $tpl;
+	static function initColorPicker() {
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
 
 		self::initButtonControl();
-		
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/dragdrop/dragdrop-min.js");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/slider/slider-min.js");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/colorpicker/colorpicker-min.js");
+
+		$tpl->addJavaScript(self::YUI_BASE . "/dragdrop/dragdrop-min.js");
+		$tpl->addJavaScript(self::YUI_BASE . "/slider/slider-min.js");
+		$tpl->addJavaScript(self::YUI_BASE . "/colorpicker/colorpicker-min.js");
 
 		$tpl->addCss('./Services/Form/css/color_picker.css');
-		$tpl->addCss("./Services/YUI/js/".self::$ver."/colorpicker/assets/skins/sam/colorpicker.css");
-	}
-	
-	/**
-	* Init YUI TabView component
-	*/
-	static function initTabView()
-	{
-		global $tpl;
-		
-		$tpl->addCss("./Services/YUI/js/".self::$ver."/tabview/assets/skins/sam/tabview.css");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/element/element-min.js");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/tabview/tabview-min.js");
-	}
-	
-	 /**
-	  * Init YUI JSON component
-	  * @author jposselt@databay.de
-	  */
-	 static function initJson()
-	 {
-		global $tpl;
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");		
-	 	$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/json/json-min.js");
-	 }
-	 
-	/**
-	* Init layout (alpha!)
-	*/
-	static function initLayout()
-	{
-		global $tpl;
-		
-		$tpl->addCss("./Services/YUI/js/".self::$ver."/assets/skins/sam/resize.css");
-		$tpl->addCss("./Services/YUI/js/".self::$ver."/assets/skins/sam/layout.css");
-		
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/dragdrop/dragdrop-min.js");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/element/element-min.js");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/animation/animation-min.js");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/resize/resize-min.js");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/layout/layout-min.js");
-	}
-	
-	/**
-	* Init treeView
-	*/
-	static function initTreeView()
-	{
-		global $tpl;
-		
-		$tpl->addJavaScript(self::getLocalPath().'/yahoo/yahoo-min.js');
-		$tpl->addJavaScript(self::getLocalPath().'/event/event-min.js');
-		$tpl->addJavaScript(self::getLocalPath().'/treeview/treeview.js');
-	}
-	
-	/**
-	* Init YUI Event
-	*/
-	static function initTooltip()
-	{
-		global $tpl;
-		
-		self::addContainerCss();
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/animation/animation-min.js");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/container/container-min.js");
+		$tpl->addCss(self::YUI_BASE . "/colorpicker/assets/skins/sam/colorpicker.css");
 	}
 
+
 	/**
-	 * 
+	 * Init YUI TabView component
 	 */
-	public static function initCookie()
-	{
+	static function initTabView() {
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
+
+		$tpl->addCss(self::YUI_BASE . "/tabview/assets/skins/sam/tabview.css");
+		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript(self::YUI_BASE . "/element/element-min.js");
+		$tpl->addJavaScript(self::YUI_BASE . "/tabview/tabview-min.js");
+	}
+
+
+	/**
+	 * Init YUI JSON component
+	 *
+	 * @author jposselt@databay.de
+	 */
+	static function initJson() {
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
+		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript(self::YUI_BASE . "/json/json-min.js");
+	}
+
+
+	/**
+	 * Init layout (alpha!)
+	 */
+	static function initLayout() {
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
+
+		$tpl->addCss(self::YUI_BASE . "/assets/skins/sam/resize.css");
+		$tpl->addCss(self::YUI_BASE . "/assets/skins/sam/layout.css");
+
+		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript(self::YUI_BASE . "/dragdrop/dragdrop-min.js");
+		$tpl->addJavaScript(self::YUI_BASE . "/element/element-min.js");
+		$tpl->addJavaScript(self::YUI_BASE . "/animation/animation-min.js");
+		$tpl->addJavaScript(self::YUI_BASE . "/resize/resize-min.js");
+		$tpl->addJavaScript(self::YUI_BASE . "/layout/layout-min.js");
+	}
+
+
+	/**
+	 * Init treeView
+	 */
+	static function initTreeView() {
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
+
+		$tpl->addJavaScript(self::getLocalPath() . '/yahoo/yahoo-min.js');
+		$tpl->addJavaScript(self::getLocalPath() . '/event/event-min.js');
+		$tpl->addJavaScript(self::getLocalPath() . '/treeview/treeview.js');
+	}
+
+
+	/**
+	 * Init YUI Event
+	 */
+	static function initTooltip() {
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
+
+		self::addContainerCss();
+		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript(self::YUI_BASE . "/animation/animation-min.js");
+		$tpl->addJavaScript(self::YUI_BASE . "/container/container-min.js");
+	}
+
+
+	/**
+	 *
+	 */
+	public static function initCookie() {
 		/**
 		 * @var $tpl ilTemplate
 		 */
-		global $tpl;
+		global $DIC;
 
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/cookie/cookie.js");
+		$tpl = $DIC["tpl"];
+
+		$tpl->addJavaScript(self::YUI_BASE . "/cookie/cookie.js");
 	}
-	
+
+
 	/**
-	* Get local path of a YUI js file
-	*/
-	static function getLocalPath($a_name = "")
-	{
-		return "./Services/YUI/js/".self::$ver."/".$a_name;
+	 * Get local path of a YUI js file
+	 */
+	static function getLocalPath($a_name = "") {
+		return self::YUI_BASE . "/" . $a_name;
 	}
-	
+
+
 	/**
 	 * Add container css
 	 */
-	protected static function addContainerCss()
-	{
-		global $tpl;
-		
+	protected static function addContainerCss(ilTemplate $a_main_tpl = null) {
+		global $DIC;
+
+		if ($a_main_tpl == null)
+		{
+			$tpl = $DIC["tpl"];
+		}
+		else
+		{
+			$tpl = $a_main_tpl;
+		}
+
 		$tpl->addCss(self::getLocalPath("container/assets/skins/sam/container.css"));
 	}
-	
-
-} // END class.ilUtil
-?>
+}

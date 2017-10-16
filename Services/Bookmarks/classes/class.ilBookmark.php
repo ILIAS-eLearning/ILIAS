@@ -17,6 +17,16 @@
 class ilBookmark
 {
 	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
 	* User Id
 	* @var integer
 	* @access public
@@ -28,7 +38,6 @@ class ilBookmark
 	* @var object ilias
 	* @access public
 	*/
-	var $ilias;
 	var $tree;
 
 	var $title;
@@ -44,10 +53,11 @@ class ilBookmark
 	*/
 	function __construct($a_bm_id = 0, $a_tree_id = 0)
 	{
-		global $ilias;
+		global $DIC;
 
+		$this->db = $DIC->database();
+		$this->error = $DIC["ilErr"];
 		// Initiate variables
-		$this->ilias = $ilias;
 		if ($a_tree_id == 0)
 		{
 			$a_tree_id = $GLOBALS['DIC']['ilUser']->getId();
@@ -71,7 +81,8 @@ class ilBookmark
 	*/
 	function read()
 	{
-		global $ilias, $ilDB;
+		$ilDB = $this->db;
+		$ilErr = $this->error;
 
 		$q = "SELECT * FROM bookmark_data WHERE obj_id = ".
 			$ilDB->quote($this->getId(), "integer");
@@ -79,7 +90,7 @@ class ilBookmark
 		if ($ilDB->numRows($bm_set) == 0)
 		{
 			$message = "ilBookmark::read(): Bookmark with id ".$this->id." not found!";
-			$ilias->raiseError($message,$ilias->error_obj->WARNING);
+			$ilErr->raiseError($message, $ilErr->WARNING);
 		}
 		else
 		{
@@ -96,7 +107,7 @@ class ilBookmark
 	*/
 	function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if ($this->getId() != 1)
 		{
@@ -112,7 +123,7 @@ class ilBookmark
 	*/
 	function create()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$this->setId($ilDB->nextId("bookmark_data"));
 		$q = sprintf(
@@ -135,7 +146,7 @@ class ilBookmark
 	*/
 	function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$q = sprintf(
 				"UPDATE bookmark_data SET title=%s,description=%s,target=%s ".
@@ -225,7 +236,9 @@ class ilBookmark
 	*/
 	public static function _getTypeOfId($a_id)
 	{
-		global $ilias, $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$q = "SELECT * FROM bookmark_data WHERE obj_id = ".
 			$ilDB->quote($a_id, "integer");

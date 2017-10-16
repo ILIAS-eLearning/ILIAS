@@ -16,6 +16,7 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
  */
 class ilMediaPoolDataSet extends ilDataSet
 {
+
 	protected $master_lang_only = false;
 	protected $transl_into = false;
 	protected $transl_into_lm = null;
@@ -175,7 +176,7 @@ class ilMediaPoolDataSet extends ilDataSet
 	 */
 	function readData($a_entity, $a_version, $a_ids, $a_field = "")
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if (!is_array($a_ids))
 		{

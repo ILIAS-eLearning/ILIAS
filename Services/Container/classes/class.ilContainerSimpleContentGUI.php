@@ -32,6 +32,11 @@ include_once("./Services/Container/classes/class.ilContainerContentGUI.php");
 */
 class ilContainerSimpleContentGUI extends ilContainerContentGUI
 {
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
 	protected $force_details;
 	
 	/**
@@ -40,6 +45,12 @@ class ilContainerSimpleContentGUI extends ilContainerContentGUI
 	*/
 	function __construct($container_gui_obj)
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->tabs = $DIC->tabs();
+		$this->access = $DIC->access();
+		$this->user = $DIC->user();
 		parent::__construct($container_gui_obj);
 		$this->initDetails();
 	}
@@ -50,7 +61,8 @@ class ilContainerSimpleContentGUI extends ilContainerContentGUI
 	*/
 	function getMainContent()
 	{
-		global $lng,$ilTabs;
+		$lng = $this->lng;
+		$ilTabs = $this->tabs;
 
 		// see bug #7452
 //		$ilTabs->setSubTabActive($this->getContainerObject()->getType().'_content');
@@ -74,7 +86,8 @@ class ilContainerSimpleContentGUI extends ilContainerContentGUI
 	*/
 	function __showMaterials($a_tpl)
 	{
-		global $ilAccess, $lng;
+		$ilAccess = $this->access;
+		$lng = $this->lng;
 
 		$this->items = $this->getContainerObject()->getSubItems($this->getContainerGUI()->isActiveAdministrationPanel());
 		$this->clearAdminCommandsDetermination();
@@ -124,7 +137,7 @@ class ilContainerSimpleContentGUI extends ilContainerContentGUI
 	 */
 	protected function initDetails()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		if($_GET['expand'])
 		{

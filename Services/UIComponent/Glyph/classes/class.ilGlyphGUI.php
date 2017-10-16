@@ -55,7 +55,9 @@ class ilGlyphGUI
 	 */
 	static function get($a_glyph, $a_text = "")
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 
 		$html = "";
 		$text = ($a_text == "")

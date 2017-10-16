@@ -14,10 +14,18 @@ include_once("./Services/Skill/classes/class.ilVirtualSkillTreeExplorerGUI.php")
 class ilSkillSelectorGUI extends ilVirtualSkillTreeExplorerGUI
 {
 	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd, $a_select_gui, $a_select_cmd, $a_select_par = "selected_skill")
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
 		parent::__construct("skill_sel", $a_parent_obj, $a_parent_cmd);
 		$this->select_gui = (is_object($a_select_gui))
 			? strtolower(get_class($a_select_gui))
@@ -62,7 +70,7 @@ class ilSkillSelectorGUI extends ilVirtualSkillTreeExplorerGUI
 	 */
 	function getNodeHref($a_node)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		// we have a tree id like <skl_tree_id>:<skl_template_tree_id>
 		// and make a "common" skill id in format <skill_id>:<tref_id>

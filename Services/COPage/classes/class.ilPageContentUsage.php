@@ -16,7 +16,9 @@ class ilPageContentUsage
 	*/
 	static function saveUsage($a_pc_type, $a_pc_id, $a_usage_type, $a_usage_id, $a_usage_hist_nr = 0, $a_lang = "-")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$ilDB->replace("page_pc_usage", array (
 			"pc_type" => array("text", $a_pc_type),
@@ -33,7 +35,9 @@ class ilPageContentUsage
 	*/
 	static function deleteAllUsages($a_pc_type, $a_usage_type, $a_usage_id, $a_usage_hist_nr = 0, $a_lang = "-")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$and_hist = ($a_usage_hist_nr !== false)
 			? " AND usage_hist_nr = ".$ilDB->quote((int) $a_usage_hist_nr, "integer")
@@ -52,7 +56,9 @@ class ilPageContentUsage
 	*/
 	static function getUsages($a_pc_type, $a_pc_id, $a_incl_hist = true)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$q = "SELECT * FROM page_pc_usage ".
 			" WHERE pc_type = ".$ilDB->quote($a_pc_type, "text").
@@ -80,7 +86,9 @@ class ilPageContentUsage
 	 */
 	static function getUsagesOfPage($a_usage_id, $a_usage_type, $a_hist_nr = 0, $a_all_hist_nrs = false, $a_lang = "-")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		if (!$a_all_hist_nrs)
 		{

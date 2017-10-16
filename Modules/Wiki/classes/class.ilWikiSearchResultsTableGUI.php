@@ -37,7 +37,12 @@ class ilWikiSearchResultsTableGUI extends ilTable2GUI
 	function __construct($a_parent_obj, $a_parent_cmd = "",
 		$a_wiki_id, $a_results, $a_term)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->wiki_id = $a_wiki_id;
@@ -60,7 +65,8 @@ class ilWikiSearchResultsTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
 		$title = ilWikiPage::lookupTitle($a_set["page_id"]);

@@ -36,7 +36,9 @@ class ilObjRepositorySettings extends ilObject
 	
 	public static function addNewItemGroupSeparator()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		// append
 		$pos = $ilDB->query("SELECT max(pos) mpos FROM il_new_item_grp");
@@ -57,7 +59,9 @@ class ilObjRepositorySettings extends ilObject
 	
 	public static function addNewItemGroup(array $a_titles)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		// append
 		$pos = $ilDB->query("SELECT max(pos) mpos FROM il_new_item_grp");
@@ -79,7 +83,9 @@ class ilObjRepositorySettings extends ilObject
 	
 	public static function updateNewItemGroup($a_id, array $a_titles)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$ilDB->manipulate("UPDATE il_new_item_grp".
 			" SET titles = ".$ilDB->quote(serialize($a_titles), "text").
@@ -89,7 +95,10 @@ class ilObjRepositorySettings extends ilObject
 	
 	public static function deleteNewItemGroup($a_id)
 	{
-		global $ilDB, $ilSetting;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilSetting = $DIC->settings();
 		
 		// move subitems to unassigned
 		$sub_items = self::getNewItemGroupSubItems();
@@ -115,7 +124,11 @@ class ilObjRepositorySettings extends ilObject
 	
 	public static function getNewItemGroups()
 	{
-		global $ilDB, $lng, $ilUser;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$lng = $DIC->language();
+		$ilUser = $DIC->user();
 		
 		$def_lng = $lng->getDefaultLanguage();
 		$usr_lng = $ilUser->getLanguage();
@@ -153,7 +166,9 @@ class ilObjRepositorySettings extends ilObject
 
 	public static function updateNewItemGroupOrder(array $a_order)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		asort($a_order);
 		$pos = 0;
@@ -169,7 +184,10 @@ class ilObjRepositorySettings extends ilObject
 	
 	protected static function getAllObjTypes()
 	{
-		global $ilPluginAdmin, $objDefinition;
+		global $DIC;
+
+		$ilPluginAdmin = $DIC["ilPluginAdmin"];
+		$objDefinition = $DIC["objDefinition"];
 		
 		$res = array();
 		
@@ -220,7 +238,9 @@ class ilObjRepositorySettings extends ilObject
 	
 	public static function getNewItemGroupSubItems()
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC->settings();
 		
 		$res = array();
 		
@@ -235,7 +255,9 @@ class ilObjRepositorySettings extends ilObject
 	
 	public static function getDefaultNewItemGrouping()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		$res = array();
 								
@@ -290,7 +312,9 @@ class ilObjRepositorySettings extends ilObject
 	
 	public static function deleteObjectType($a_type)
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$ilSetting = $DIC->settings();
 		
 		// see ilObjRepositorySettingsGUI::saveModules()
 		$ilSetting->delete("obj_dis_creation_".$a_type);

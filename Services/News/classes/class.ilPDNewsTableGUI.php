@@ -33,19 +33,32 @@ include_once("Services/Table/classes/class.ilTable2GUI.php");
 */
 class ilPDNewsTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 
 	function __construct($a_parent_obj, $a_parent_cmd = "", $a_contexts,
 		$a_selected_context)
 	{
-		global $ilCtrl, $lng;
-		
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$ilCtrl = $DIC->ctrl();
+
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
 		$this->contexts = $a_contexts;
 		$this->selected_context = $a_selected_context;
 		$this->addColumn("");
-		//$this->addColumn($lng->txt("date"), "creation_date", "1");
-		//$this->addColumn($lng->txt("news_news_item_content"), "");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.table_row_pd_news.html",
 			"Services/News");
@@ -62,7 +75,8 @@ class ilPDNewsTableGUI extends ilTable2GUI
 	*/
 	function initFilter()
 	{
-		global $lng, $ilUser;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 		
 		// period
 		$per = ($_SESSION["news_pd_news_per"] != "")
@@ -116,7 +130,8 @@ class ilPDNewsTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$news_set = new ilSetting("news");
 		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
@@ -210,7 +225,10 @@ class ilPDNewsTableGUI extends ilTable2GUI
 		if ($a_set["content"] != "")
 		{
 			$this->tpl->setCurrentBlock("content");
-			$this->tpl->setVariable("VAL_CONTENT", ilUtil::makeClickable($a_set["content"], true));
+			$this->tpl->setVariable("VAL_CONTENT",
+				nl2br($this->makeClickable(
+					ilNewsItem::determineNewsContent($a_set["context_obj_type"], $a_set["content"], $a_set["content_text_is_lang_var"])
+				)));
 			$this->tpl->parseCurrentBlock();
 		}
 		if ($a_set["content_long"] != "")
@@ -241,8 +259,49 @@ class ilPDNewsTableGUI extends ilTable2GUI
 				$add = "_".$thread."_".$pos;
 			}
 		}
+
+		// file hack, not nice
+		if ($obj_type == "file")
+		{
+			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_set["ref_id"]);
+			$url = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "sendfile");
+			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+
+			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+			$button = ilLinkButton::getInstance();
+			$button->setUrl($url);
+			$button->setCaption("download");
+
+			$this->tpl->setCurrentBlock("download");
+			$this->tpl->setVariable("BUTTON_DOWNLOAD", $button->render());
+			$this->tpl->parseCurrentBlock();
+		}
+
+		// wiki hack, not nice
+		if ($obj_type == "wiki" && $a_set["context_sub_obj_type"] == "wpg"
+			&& $a_set["context_sub_obj_id"] > 0)
+		{
+			include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
+			$wptitle = ilWikiPage::lookupTitle($a_set["context_sub_obj_id"]);
+			if ($wptitle != "")
+			{
+				$add = "_".ilWikiUtil::makeUrlTitle($wptitle);
+			}
+		}
+
+
 		$url_target = "./goto.php?client_id=".rawurlencode(CLIENT_ID)."&target=".
 			$obj_type."_".$a_set["ref_id"].$add;
+
+		// lm page hack, not nice
+		if (in_array($obj_type, array("dbk", "lm")) && $a_set["context_sub_obj_type"] == "pg"
+			&& $a_set["context_sub_obj_id"] > 0)
+		{
+			$url_target = "./goto.php?client_id=".rawurlencode(CLIENT_ID)."&target=".
+				"pg_".$a_set["context_sub_obj_id"]."_".$a_set["ref_id"];
+		}
+
+
 		$this->tpl->setCurrentBlock("context");
 		$cont_loc = new ilLocatorGUI();
 		$cont_loc->addContextItems($a_set["ref_id"], true);
@@ -275,5 +334,24 @@ class ilPDNewsTableGUI extends ilTable2GUI
 
 		$this->tpl->parseCurrentBlock();
 	}
+
+	/**
+	 * Make clickable
+	 *
+	 * @param
+	 * @return
+	 */
+	function makeClickable($a_str)
+	{
+		// this fixes bug 8744. We assume that strings that contain < and >
+		// already contain html, we do not handle these
+		if (is_int(strpos($a_str, ">")) && is_int(strpos($a_str, "<")))
+		{
+			return $a_str;
+		}
+
+		return ilUtil::makeClickable($a_str);
+	}
+
 }
 ?>

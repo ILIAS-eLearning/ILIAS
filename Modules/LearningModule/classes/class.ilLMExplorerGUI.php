@@ -15,6 +15,11 @@ include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
  */
 class ilLMExplorerGUI extends ilTreeExplorerGUI
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	protected $lp_cache; // [array]
 	protected $cnt_lmobj; // number of items (chapters and pages) in the explorer
 
@@ -27,6 +32,9 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd, ilObjContentObject $a_lm, $a_id = "")
 	{
+		global $DIC;
+
+		$this->user = $DIC->user();
 		$this->lm = $a_lm;
 
 		include_once("./Modules/LearningModule/classes/class.ilLMTree.php");
@@ -123,7 +131,7 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
 	 */
 	protected function checkLPIcon($a_id)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		// do it once for all chapters
 		if($this->lp_cache[$this->lm->getId()] === null)

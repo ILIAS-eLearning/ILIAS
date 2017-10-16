@@ -167,6 +167,24 @@ class ilStudyProgrammeUserProgress {
 	}
 
 	/**
+	 * Get the deadline of this node.
+	 *
+	 * @return ilDateTime | null
+	 */
+	public function getDeadline() {
+		return $this->progress->getDeadline();
+	}
+
+	/**
+	 * Set the deadline of this node.
+	 *
+	 * @param ilDateTime | null 	$deadline
+	 */
+	public function setDeadline($deadline) {
+		return $this->progress->setDeadline($deadline);
+	}
+
+	/**
 	 * Delete the assignment from database.
 	 */
 	public function delete() {
@@ -224,6 +242,57 @@ class ilStudyProgrammeUserProgress {
 		$this->refreshLPStatus();
 
 		$this->updateParentStatus();
+		return $this;
+	}
+
+	/**
+	 * Mark this progress as failed.
+	 *
+	 * Throws when status is not STATUS_COMPLETED, STATUS_ACCREDITED, STATUS_NOT_RELEVANT.
+	 *
+	 * @throws ilException
+	 * @param int $a_user_id The user who performed the operation.
+	 * @return $this
+	 */
+	public function markFailed($a_user_id) {
+		$status = array(ilStudyProgrammeProgress::STATUS_COMPLETED
+			, ilStudyProgrammeProgress::STATUS_ACCREDITED
+			, ilStudyProgrammeProgress::STATUS_NOT_RELEVANT
+		);
+
+		if (in_array($this->getStatus(), $status)) {
+			throw new ilException("Can't mark as failed since program is passed.");
+		}
+
+		$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_FAILED)
+			->setLastChangeBy($a_user_id)
+			->update();
+
+		$this->refreshLPStatus();
+
+		return $this;
+	}
+
+	/**
+	 * Set the node to in progress.
+	 *
+	 * Throws when status is not FAILED.
+	 *
+	 * @throws ilException
+	 * @return $this
+	 */
+	public function markNotFailed() {
+		if ($this->progress->getStatus() != ilStudyProgrammeProgress::STATUS_FAILED) {
+			throw new ilException("Expected status FAILED.");
+		}
+
+		$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_IN_PROGRESS)
+					   ->setCompletionBy(null)
+					   ->setLastChangeBy($a_user_id)
+					   ->update();
+
+		$this->refreshLPStatus();
+
 		return $this;
 	}
 
@@ -370,6 +439,32 @@ class ilStudyProgrammeUserProgress {
 
 		return $status == ilStudyProgrammeProgress::STATUS_ACCREDITED
 			|| $status == ilStudyProgrammeProgress::STATUS_COMPLETED;
+	}
+
+	/**
+	 * Check wether user as failed on this node
+	 *
+	 * @return bool
+	 */
+	public function isFailed() {
+		$status = $this->getStatus();
+
+		return $status == ilStudyProgrammeProgress::STATUS_FAILED;
+	}
+
+	/**
+	 * Recalculates the status according to deadline
+	 *
+	 * @return viod
+	 */
+	public function recalculateFailedToDeadline() {
+		$deadline = $this->getDeadline();
+		$today = date("Y-m-d");
+
+		if($deadline && $deadline->get(IL_CAL_DATE) < $today) {
+			$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_FAILED)
+				->update();
+		}
 	}
 
 	/**
@@ -612,6 +707,18 @@ class ilStudyProgrammeUserProgress {
 	protected function refreshLPStatus() {
 		require_once("Services/Tracking/classes/class.ilLPStatusWrapper.php");
 		ilLPStatusWrapper::_refreshStatus($this->getStudyProgramme()->getId(), array($this->getUserId()));
+	}
+
+	/**
+	 * Updates current progress
+	 *
+	 * @param int 	$user_id
+	 *
+	 * @return void
+	 */
+	public function updateProgress($user_id) {
+		$this->progress->setLastChangeBy($user_id)
+			->update();
 	}
 }
 

@@ -17,6 +17,16 @@ include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
  */
 class ilPortfolioPageGUI extends ilPageObjectGUI
 {
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
 	const EMBEDDED_NO_OUTPUT = -99;
 	
 	protected $js_onload_code = array();
@@ -30,7 +40,16 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	 */
 	function __construct($a_portfolio_id, $a_id = 0, $a_old_nr = 0, $a_enable_comments = true)
 	{
-		global $tpl;
+		global $DIC;
+
+		$this->tpl = $DIC["tpl"];
+		$this->ctrl = $DIC->ctrl();
+		$this->user = $DIC->user();
+		$this->obj_definition = $DIC["objDefinition"];
+		$this->access = $DIC->access();
+		$this->tree = $DIC->repositoryTree();
+		$this->lng = $DIC->language();
+		$tpl = $DIC["tpl"];
 
 		$this->portfolio_id = (int)$a_portfolio_id;
 		$this->enable_comments = (bool)$a_enable_comments;
@@ -49,6 +68,8 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		$tpl->setCurrentBlock("ContentStyle");
 		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath(0));
+		$tpl->setVariable("LOCATION_ADDITIONAL_STYLESHEET",
+			ilObjStyleSheet::getPlaceHolderStylePath());
 		$tpl->parseCurrentBlock();
 	}
 	
@@ -68,7 +89,8 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	 */
 	function executeCommand()
 	{
-		global $ilCtrl, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -120,7 +142,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	 */
 	function showPage()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		if(!$this->getPageObject())
 		{
@@ -270,7 +292,9 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 				}
 			}
 		}
-		
+
+		$a_output = $this->makePlaceHoldersClickable($a_output);
+
 		return $a_output;
 	}
 	
@@ -295,7 +319,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	
 	protected function renderProfile($a_user_id, $a_type, array $a_fields = null)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$user_id = $this->getPageContentUserId($a_user_id);
 		
@@ -343,7 +367,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	
 	protected function renderVerification($a_user_id, $a_type, $a_id)
 	{
-		global $objDefinition;
+		$objDefinition = $this->obj_definition;
 		
 		// not used 
 		// $user_id = $this->getPageContentUserId($a_user_id);
@@ -416,7 +440,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	
 	protected function renderBlog($a_user_id, $a_blog_id, array $a_posting_ids = null)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 				
 		// not used 
 		// $user_id = $this->getPageContentUserId($a_user_id);
@@ -505,16 +529,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			$gui->setOfflineMode("./files/");
 		}		
 		$html = $gui->getSkillHTML($a_skills_id, $user_id);
-		
-		if($this->getOutputMode() == "offline")
-		{
-			$js = $gui->getTooltipsJs();
-			if(sizeof($js))
-			{
-				$this->js_onload_code = array_merge($this->js_onload_code, $js);
-			}
-		}
-			
+					
 		return $html;
 	}
 	
@@ -559,7 +574,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	
 	protected function renderConsultationHours($a_user_id, $a_mode, $a_group_ids)
 	{		
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		if($this->getOutputMode() == "preview")
 		{	
@@ -633,7 +648,9 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	
 	protected function renderMyCourses($a_user_id, $a_default_sorting)
 	{				
-		global $ilAccess, $ilUser, $ilCtrl;
+		$ilAccess = $this->access;
+		$ilUser = $this->user;
+		$ilCtrl = $this->ctrl;
 		
 		if($this->getOutputMode() == "preview")
 		{	
@@ -859,7 +876,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	
 	protected function getCoursesOfUser($a_user_id, $a_add_path = false)
 	{		
-		global $tree;
+		$tree = $this->tree;
 		
 		// see ilPDSelectedItemsBlockGUI
 		
@@ -1055,6 +1072,122 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	{
 		return $this->export_material;
 	}
+
+	/**
+	 * Modify page content after xsl
+	 *
+	 * @param string $a_html
+	 * @return string
+	 */
+	function makePlaceHoldersClickable($a_html)
+	{
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilUser = $this->user;
+
+		$c_pos = 0;
+		$start = strpos($a_html, "{{{{{PlaceHolder#");
+		if (is_int($start))
+		{
+			$end = strpos($a_html, "}}}}}", $start);
+		}
+		$i = 1;
+		while ($end > 0)
+		{
+			$param = substr($a_html, $start + 17, $end - $start - 17);
+			$param = explode("#", $param);
+
+			$html = $param[2];
+			switch ($param[2])
+			{
+				case "Text":
+					$html = $lng->txt("cont_text_placeh");
+					break;
+
+				case "Media":
+					$html = $lng->txt("cont_media_placeh");
+					break;
+
+				case "Question":
+					$html = $lng->txt("cont_question_placeh");
+					break;
+
+				case "Verification":
+					$html = $lng->txt("cont_verification_placeh");
+					break;
+			}
+
+			// only if not owner
+			if ($ilUser->getId() == ilObjPortfolio::_lookupOwner($this->portfolio_id)
+				&& $this->getOutputMode() == "presentation")
+			{
+				switch ($param[2])
+				{
+					case "Text":
+						$ilCtrl->setParameterByClass("ilportfoliopagegui", "prt_id", $_GET["prt_id"]);
+						$ilCtrl->setParameterByClass("ilportfoliopagegui", "ppage", $this->getId());
+						$ilCtrl->setParameterByClass("ilportfoliopagegui", "pl_pc_id", $param[0]);
+						$ilCtrl->setParameterByClass("ilportfoliopagegui", "pl_hier_id", $param[1]);
+						$href = $ilCtrl->getLinkTargetByClass("ilportfoliopagegui", "insertJSAtPlaceholder");
+						$html = "<a href='" . $href . "'>" . $html . "</a>";
+						break;
+
+					case "Media":
+						$ilCtrl->setParameterByClass("ilpcmediaobjectgui", "prt_id", $_GET["prt_id"]);
+						$ilCtrl->setParameterByClass("ilpcmediaobjectgui", "ppage", $this->getId());
+						$ilCtrl->setParameterByClass("ilpcmediaobjectgui", "pl_pc_id", $param[0]);
+						$ilCtrl->setParameterByClass("ilpcmediaobjectgui", "pl_hier_id", $param[1]);
+						$ilCtrl->setParameterByClass("ilpcmediaobjectgui", "subCmd", "insertNew");
+						$href = $ilCtrl->getLinkTargetByClass(array("ilPortfolioPageGUI", "ilPageEditorGUI", "ilPCPlaceHolderGUI", "ilpcmediaobjectgui"), "insert");
+						$html = "<a href='" . $href . "'>" . $html . "</a>";
+						break;
+				}
+			}
+
+			$h2 = substr($a_html, 0, $start).
+				$html.
+				substr($a_html, $end + 5);
+			$a_html = $h2;
+			$i++;
+
+			$start = strpos($a_html, "{{{{{PlaceHolder#", $start + 5);
+			$end = 0;
+			if (is_int($start))
+			{
+				$end = strpos($a_html, "}}}}}", $start);
+			}
+		}
+		return $a_html;
+	}
+
+	/**
+	 * Get view page link
+	 *
+	 * @param
+	 * @return
+	 */
+	function getViewPageLink()
+	{
+		global $DIC;
+
+		$ctrl = $DIC->ctrl();
+
+		$ctrl->setParameterByClass("ilobjportfoliogui", "user_page", $_GET["ppage"]);
+		return $ctrl->getLinkTargetByClass("ilobjportfoliogui", "preview");
+	}
+
+	/**
+	 * Get view page link
+	 *
+	 * @param
+	 * @return
+	 */
+	function getViewPageText()
+	{
+		return $this->lng->txt("preview");
+	}
+
+	
 }
 
 ?>

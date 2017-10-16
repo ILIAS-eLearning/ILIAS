@@ -88,6 +88,7 @@ class ilMemberExportGUI
 	{
 		global $ilAccess,$rbacsystem;
 
+		
 		include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 		if(!ilPrivacySettings::_getInstance()->checkExportAccess($this->ref_id))
 		{

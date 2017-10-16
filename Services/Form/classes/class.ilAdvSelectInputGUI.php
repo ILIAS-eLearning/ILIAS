@@ -13,6 +13,11 @@
 */
 class ilAdvSelectInputGUI extends ilFormPropertyGUI
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	protected $options = array();
 	protected $value;
 	
@@ -24,6 +29,9 @@ class ilAdvSelectInputGUI extends ilFormPropertyGUI
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("advselect");
 	}
@@ -86,7 +94,7 @@ class ilAdvSelectInputGUI extends ilFormPropertyGUI
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$_POST[$this->getPostVar()] = 
 			ilUtil::stripSlashes($_POST[$this->getPostVar()]);

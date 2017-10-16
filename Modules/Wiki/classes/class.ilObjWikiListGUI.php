@@ -16,14 +16,6 @@ include_once "Services/Object/classes/class.ilObjectListGUI.php";
 class ilObjWikiListGUI extends ilObjectListGUI
 {
 	/**
-	* constructor
-	*/
-	function __construct()
-	{
-		parent::__construct();
-	}
-
-	/**
 	* initialisation
 	*/
 	function init()
@@ -88,7 +80,8 @@ class ilObjWikiListGUI extends ilObjectListGUI
 	*/
 	function getProperties()
 	{
-		global $lng, $ilUser;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 
 		$props = array();
 

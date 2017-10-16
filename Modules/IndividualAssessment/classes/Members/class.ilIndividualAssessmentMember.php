@@ -33,6 +33,8 @@ class ilIndividualAssessmentMember {
 		$this->notification_ts = $data[ilIndividualAssessmentMembers::FIELD_NOTIFICATION_TS];
 		$this->place = $data[ilIndividualAssessmentMembers::FIELD_PLACE];
 		$this->event_time = new ilDateTime($data[ilIndividualAssessmentMembers::FIELD_EVENTTIME], IL_CAL_UNIX);
+		$this->file_name = $data[ilIndividualAssessmentMembers::FIELD_FILE_NAME];
+		$this->view_file = $data[ilIndividualAssessmentMembers::FIELD_USER_VIEW_FILE];
 		$this->iass = $iass;
 		$this->usr = $usr;
 	}
@@ -132,6 +134,9 @@ class ilIndividualAssessmentMember {
 	 * @return	bool
 	 */
 	public function mayBeFinalized() {
+		if($this->iass->getSettings()->fileRequired() && (string)$this->file_name === '') {
+			return false;
+		}
 		return ((string)$this->lp_status === (string)ilIndividualAssessmentMembers::LP_COMPLETED
 				||(string)$this->lp_status === (string)ilIndividualAssessmentMembers::LP_FAILED)
 				&& !$this->finalized();
@@ -145,12 +150,9 @@ class ilIndividualAssessmentMember {
 	 */
 	public function withRecord($record) {
 		assert('is_string($record) || $record === null');
-		if(!$this->finalized()) {
-			$clone = clone $this;
-			$clone->record = $record;
-			return $clone;
-		}
-		throw new ilIndividualAssessmentException('user allready finalized');
+		$clone = clone $this;
+		$clone->record = $record;
+		return $clone;
 	}
 
 	/**
@@ -161,12 +163,9 @@ class ilIndividualAssessmentMember {
 	 */
 	public function withInternalNote($internal_note) {
 		assert('is_string($internal_note) || $internal_note === null');
-		if(!$this->finalized()) {
-			$clone = clone $this;
-			$clone->internal_note = $internal_note;
-			return $clone;
-		}
-		throw new ilIndividualAssessmentException('user allready finalized');
+		$clone = clone $this;
+		$clone->internal_note = $internal_note;
+		return $clone;
 	}
 
 	/**
@@ -205,13 +204,10 @@ class ilIndividualAssessmentMember {
 	 */
 	public function withExaminerId($examiner_id) {
 		assert('is_numeric($examiner_id)');
-		if(!$this->finalized()) {
-			assert('ilObjUser::_exists($examiner_id)');
-			$clone = clone $this;
-			$clone->examiner_id = $examiner_id;
-			return $clone;
-		}
-		throw new ilIndividualAssessmentException('user allready finalized');
+		assert('ilObjUser::_exists($examiner_id)');
+		$clone = clone $this;
+		$clone->examiner_id = $examiner_id;
+		return $clone;
 	}
 
 	/**
@@ -222,12 +218,9 @@ class ilIndividualAssessmentMember {
 	 */
 	public function withNotify($notify) {
 		assert('is_bool($notify)');
-		if(!$this->finalized()) {
-			$clone = clone $this;
-			$clone->notify = (bool)$notify;
-			return $clone;
-		}
-		throw new ilIndividualAssessmentException('user allready finalized');
+		$clone = clone $this;
+		$clone->notify = (bool)$notify;
+		return $clone;
 	}
 
 	protected function LPStatusValid($lp_status) {
@@ -244,7 +237,7 @@ class ilIndividualAssessmentMember {
 	 * @return	ilIndividualAssessmentMember
 	 */
 	public function withLPStatus($lp_status) {
-		if(!$this->finalized() && $this->LPStatusValid($lp_status)) {
+		if($this->LPStatusValid($lp_status)) {
 			$clone = clone $this;
 			$clone->lp_status = $lp_status;
 			return $clone;
@@ -338,5 +331,54 @@ class ilIndividualAssessmentMember {
 	public function eventTime()
 	{
 		return $this->event_time;
+	}
+		/**
+	 * Get the name of the uploaded file
+	 *
+	 * @return string
+	 */
+	public function fileName()
+	{
+		return $this->file_name;
+	}
+
+	/**
+	 * Set the name of the file
+	 *
+	 * @param string 	$file_name
+	 *
+	 * @return ilManualAssessmentMember
+	 */
+	public function withFileName($file_name)
+	{
+		assert('is_string($file_name)');
+		$clone = clone $this;
+		$clone->file_name = $file_name;
+		return $clone;
+	}
+
+	/**
+	 * Can user see the uploaded file
+	 *
+	 * @return boolean
+	 */
+	public function viewFile()
+	{
+		return $this->view_file;
+	}
+
+	/**
+	 * Set user can view uploaded file
+	 *
+	 * @param boolean 	$view_file
+	 *
+	 * @return ilManualAssessmentMember
+	 */
+	public function withViewFile($view_file)
+	{
+		assert('is_bool($view_file)');
+		$clone = clone $this;
+		$clone->view_file = $view_file;
+		return $clone;
 	}
 }

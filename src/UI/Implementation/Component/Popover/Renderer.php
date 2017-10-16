@@ -38,6 +38,10 @@ class Renderer extends AbstractComponentRenderer {
 			'template'  => str_replace(array_keys($replacement), array_values($replacement), $tpl->get()),
 		);
 
+		if($popover->isFixedPosition()) {
+			$options['style'] = "fixed";
+		}
+
 		$is_async = $popover->getAsyncContentUrl();
 		if ($is_async) {
 			$options['type'] = 'async';
@@ -85,7 +89,7 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	public function registerResources(ResourceRegistry $registry) {
 		parent::registerResources($registry);
-		$registry->register('./src/UI/templates/libs/node_modules/webui-popover/dist/jquery.webui-popover.min.js');
+		$registry->register('./libs/bower/bower_components/webui-popover/dist/jquery.webui-popover.js');
 		$registry->register('./src/UI/templates/js/Popover/popover.js');
 	}
 

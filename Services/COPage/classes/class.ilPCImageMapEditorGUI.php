@@ -17,10 +17,24 @@ include_once("./Services/MediaObjects/classes/class.ilImageMapEditorGUI.php");
 class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 {
 	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
 	* Constructor
 	*/
 	function __construct($a_content_obj, $a_page)
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
 		$this->content_obj = $a_content_obj;
 		$this->page = $a_page;
 		parent::__construct($a_content_obj->getMediaObject());
@@ -56,7 +70,8 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 	*/
 	function saveArea()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		switch ($_SESSION["il_map_edit_mode"])
 		{
@@ -140,7 +155,8 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 	*/
 	function deleteAreas()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		if (!isset($_POST["area"]))
 		{
@@ -221,7 +237,8 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 	*/
 	function updateAreas()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 //		$std_alias_item = new ilMediaAliasItem($this->content_obj->dom,
 //			$this->content_obj->hier_id, "Standard", $this->content_obj->getPcId());

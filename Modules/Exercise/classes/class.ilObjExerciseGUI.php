@@ -23,12 +23,32 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 class ilObjExerciseGUI extends ilObjectGUI
 {
 	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+	/**
 	* Constructor
 	* @access public
 	*/
 	function __construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
 	{
-		global $lng;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$this->ctrl = $DIC->ctrl();
+		$this->tabs = $DIC->tabs();
+		$this->help = $DIC["ilHelp"];
+		$this->locator = $DIC["ilLocator"];
+		$this->tpl = $DIC["tpl"];
+		$this->toolbar = $DIC->toolbar();
+		$lng = $DIC->language();
 		
 		$this->type = "exc";
 		parent::__construct($a_data,$a_id,$a_call_by_reference,false);
@@ -46,7 +66,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 	function executeCommand()
 	{
-  		global $ilUser,$ilCtrl, $ilTabs, $lng;
+		$ilUser = $this->user;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
   
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -133,7 +156,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 				break;
 			
 			case "ilexercisemanagementgui":
-				$this->checkPermission("write");
+				// rbac or position access
+				$GLOBALS['DIC']->access()->checkRbacOrPositionPermissionAccess(
+					'edit_submissions_grades',
+					'edit_submissions_grades',
+					$this->object->getRefId()
+				);
 				$ilTabs->activateTab("grades");				
 				include_once("./Modules/Exercise/classes/class.ilExerciseManagementGUI.php");
 				$mgmt_gui = new ilExerciseManagementGUI($this->object, $this->ass);
@@ -175,7 +203,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	
 	protected function afterSave(ilObject $a_new_object)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$a_new_object->saveData();
 		
@@ -187,7 +215,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 	protected function listAssignmentsObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$this->checkPermissionBool("write");
 		
@@ -287,7 +315,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	*/
 	protected function getEditFormCustomValues(array &$a_values)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		$a_values["desc"] = $this->object->getLongDescription();
 		$a_values["show_submissions"] = $this->object->getShowSubmissions();
@@ -322,7 +350,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 	protected function updateCustom(ilPropertyFormGUI $a_form)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		$this->object->setShowSubmissions($a_form->getInput("show_submissions"));
 		$this->object->setPassMode($a_form->getInput("pass_mode"));		
 		if ($this->object->getPassMode() == "nr")
@@ -350,7 +378,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 	 */
 	function addContentSubTabs($a_activate)
 	{
-		global $ilTabs, $lng, $ilCtrl;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$ilTabs->addSubTab("content", $lng->txt("view"),
 			$ilCtrl->getLinkTarget($this, "showOverview"));
@@ -369,7 +399,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 	*/
 	function getTabs()
 	{
-		global $lng, $ilHelp;
+		$lng = $this->lng;
+		$ilHelp = $this->help;
   
 		$ilHelp->setScreenIdComponent("exc");
 		
@@ -399,6 +430,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$lng->txt("settings"),
 				$this->ctrl->getLinkTarget($this, 'edit'));
 			
+		}
+		if($GLOBALS['DIC']->access()->checkRbacOrPositionPermissionAccess(
+			'edit_submissions_grades',
+			'edit_submissions_grades', 
+			$this->object->getRefId()))
+		{
 			$this->tabs_gui->addTab("grades",
 				$lng->txt("exc_submissions_and_grades"),
 				$this->ctrl->getLinkTargetByClass("ilexercisemanagementgui", "members"));
@@ -457,7 +494,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 	*/
 	function infoScreen()
 	{
-		global $ilUser, $ilTabs, $lng;
+		$ilUser = $this->user;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
 		
 		$ilTabs->activateTab("info");
 
@@ -592,34 +631,83 @@ class ilObjExerciseGUI extends ilObjectGUI
 	*/
 	public static function _goto($a_target, $a_raw)
 	{
-		global $lng, $ilAccess;
+		global $DIC;
 
-		$ass_id = null;
-		$parts = explode("_", $a_raw);
-		if(sizeof($parts) == 2)
+		$ilErr = $DIC["ilErr"];
+		$lng = $DIC->language();
+		$ilAccess = $DIC->access();
+		$ilCtrl = $DIC->ctrl();
+
+		//we don't have baseClass here...
+		$ilCtrl->setTargetScript("ilias.php");
+		$ilCtrl->initBaseClass("ilRepositoryGUI");
+
+		//ilExerciseMailNotification has links to:
+		// "Assignments", "Submission and Grades" and Downnoad the NEW files if the assignment type is "File Upload".
+		$ass_id = $_GET['ass_id'];
+		if(!$ass_id)
 		{
-			$ass_id = (int)$parts[1];
+			$ass_id = null;
+			$action = null;
+			$parts = explode("_", $a_raw);
+
+			switch(end($parts))
+			{
+				case "download":
+					$action = $parts[3];
+					$member = $parts[2];
+					$ass_id = $parts[1];
+					break;
+
+				case "setdownload":
+					$action = $parts[3];
+					$member = $parts[2];
+					$ass_id = $parts[1];
+					break;
+
+				case "grades":
+					$action= $parts[2];
+					$ass_id = $parts[1];
+					break;
+			}
 		}
-		
+
+		$ilCtrl->setParameterByClass("ilExerciseHandlerGUI", "ref_id", $a_target);
+
 		if ($ilAccess->checkAccess("read", "", $a_target))
 		{
-			if($ass_id)
-			{
-				$_GET["ass_id_goto"] = $ass_id;
+			$ilCtrl->setParameterByClass("ilExerciseHandlerGUI", "target", $a_raw);
+
+			if($ass_id){
+				$ilCtrl->setParameterByClass("ilExerciseManagementGUI", "ass_id", $ass_id);
 			}
-			$_GET["ref_id"] = $a_target;
-			$_GET["cmd"] = "showOverview";
-			$_GET["baseClass"] = "ilExerciseHandlerGUI";
-			include("ilias.php");
-			exit;
+
+			switch($action)
+			{
+				case "grades":
+					$ilCtrl->redirectByClass(array("ilRepositoryGUI", "ilExerciseHandlerGUI", "ilObjExerciseGUI", "ilExerciseManagementGUI"), "members");
+					break;
+
+				/*case "download":
+					$ilCtrl->setParameterByClass("ilExerciseHandlerGUI", "member_id", $member);
+					$ilCtrl->redirectByClass(array("ilRepositoryGUI", "ilExerciseHandlerGUI", "ilObjExerciseGUI", "ilExerciseManagementGUI", "ilExSubmissionFileGUI"),"downloadNewReturned");
+					break;*/
+
+				case "setdownload":
+					$ilCtrl->setParameterByClass("ilExerciseHandlerGUI", "member_id", $member);
+					$ilCtrl->redirectByClass(array("ilRepositoryGUI", "ilExerciseHandlerGUI", "ilObjExerciseGUI", "ilExerciseManagementGUI"),"waitingDownload");
+					break;
+
+				default:
+					$ilCtrl->redirectByClass(array("ilRepositoryGUI", "ilExerciseHandlerGUI", "ilObjExerciseGUI"), "showOverview");
+					break;
+
+			}
+
 		}
 		else if ($ilAccess->checkAccess("visible", "", $a_target))
 		{
-			$_GET["ref_id"] = $a_target;
-			$_GET["cmd"] = "infoScreen";
-			$_GET["baseClass"] = "ilExerciseHandlerGUI";
-			include("ilias.php");
-			exit;
+			$ilCtrl->redirectByClass(array("ilRepositoryGUI", "ilExerciseHandlerGUI", "ilObjExerciseGUI"), "infoScreen");
 		}
 		else if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
 		{
@@ -634,7 +722,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	*/
 	function addLocatorItems()
 	{
-		global $ilLocator;
+		$ilLocator = $this->locator;
 		
 		if (is_object($this->object))
 		{
@@ -653,9 +741,14 @@ class ilObjExerciseGUI extends ilObjectGUI
 	 */
 	function showOverviewObject()
 	{
-		global $tpl, $ilTabs, $ilUser, $ilToolbar;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
+		$ilUser = $this->user;
+		$ilToolbar = $this->toolbar;
 		
 		$this->checkPermission("read");
+
+		$tpl->addJavaScript("./Modules/Exercise/js/ilExcPresentation.js");
 		
 		include_once("./Services/Tracking/classes/class.ilLearningProgress.php");
 		ilLearningProgress::_tracProgress($ilUser->getId(),$this->object->getId(),
@@ -709,8 +802,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{
 			$acc->setUseSessionStorage(true);
 		}
-		
-		$tpl->setContent($acc->getHTML());
+
+		$mtpl = new ilTemplate("tpl.exc_ass_overview.html", true, true, "Modules/Exercise");
+		$mtpl->setVariable("CONTENT", $acc->getHTML());
+
+		$tpl->setContent($mtpl->get());
 	}
 	
 	function certificateObject()
@@ -727,7 +823,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	
 	function outCertificateObject()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 	
 		if($this->object->hasUserCertificate($ilUser->getId()))
 		{	

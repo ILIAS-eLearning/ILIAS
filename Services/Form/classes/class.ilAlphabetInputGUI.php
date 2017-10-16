@@ -14,11 +14,26 @@ include_once 'Services/UIComponent/Toolbar/interfaces/interface.ilToolbarItem.ph
 */
 class ilAlphabetInputGUI extends ilFormPropertyGUI implements ilToolbarItem
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
 	protected $letters;
 	protected $parent_object;
 	protected $parent_cmd;
 	protected $highlight;
 	protected $highlight_letter;
+
+	/**
+	 * @var bool
+	 */
+	protected $fix_db_umlauts = false;
 
 	/**
 	* Constructor
@@ -28,6 +43,10 @@ class ilAlphabetInputGUI extends ilFormPropertyGUI implements ilToolbarItem
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
 		parent::__construct($a_title, $a_postvar);
 	}
 
@@ -89,7 +108,7 @@ class ilAlphabetInputGUI extends ilFormPropertyGUI implements ilToolbarItem
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
 		if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "")
@@ -101,6 +120,42 @@ class ilAlphabetInputGUI extends ilFormPropertyGUI implements ilToolbarItem
 		
 		return true;
 	}
+	
+	/**
+	 * Set fix db umlauts
+	 *
+	 * @param bool $a_val fix db umlauts	
+	 */
+	function setFixDBUmlauts($a_val)
+	{
+		$this->fix_db_umlauts = $a_val;
+	}
+	
+	/**
+	 * Get fix db umlauts
+	 *
+	 * @return bool fix db umlauts
+	 */
+	function getFixDBUmlauts()
+	{
+		return $this->fix_db_umlauts;
+	}
+	
+	/**
+	 * Fix db umlauts
+	 *
+	 * @param
+	 * @return
+	 */
+	function fixDBUmlauts($l)
+	{
+		if ($this->fix_db_umlauts && !ilUtil::dbSupportsDisctinctUmlauts())
+		{
+			$l = str_replace (array("Ä", "Ö", "Ü", "ä", "ö", "ü"), array("A", "O", "U", "a", "o", "u"), $l);
+		}
+		return $l;
+	}
+	
 	
 	/**
 	* Render item
@@ -151,13 +206,15 @@ class ilAlphabetInputGUI extends ilFormPropertyGUI implements ilToolbarItem
 	*/
 	function getToolbarHTML()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$lng->loadLanguageModule("form");
 
 		$tpl = new ilTemplate("tpl.prop_alphabet.html", true, true, "Services/Form");
 		foreach ((array)$this->getLetters() as $l)
 		{
+			$l = $this->fixDBUmlauts($l);
 			$tpl->setCurrentBlock("letter");
 			$tpl->setVariable("TXT_LET", $l);
 			$ilCtrl->setParameter($this->parent_object, "letter", rawurlencode($l));

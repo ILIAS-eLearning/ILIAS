@@ -16,6 +16,16 @@
 
 class ilSCORM2004Utilities 
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var Logger
+	 */
+	protected $log;
+
 	
 	
 	private $id = null;
@@ -26,6 +36,10 @@ class ilSCORM2004Utilities
 	*/
 	function __construct($a_id)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
+		$this->log = $DIC["ilLog"];
 		$this->id = $a_id;
 	}
 	
@@ -33,7 +47,8 @@ class ilSCORM2004Utilities
 	{
 		require_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004SeqTemplate.php");
 		
-		global $ilDB,$ilLog;
+		$ilDB = $this->db;
+		$ilLog = $this->log;
 		$has_template = false;
 			
 		$mtree = new ilTree($a_slm_id);
@@ -66,7 +81,8 @@ class ilSCORM2004Utilities
 	
 	public function getLeftRightInfo() 
 	{
-		global $ilDB,$ilLog;
+		$ilDB = $this->db;
+		$ilLog = $this->log;
 		$ilLog->write("SCORM: getLeftRightInfo");
 		$query = "SELECT * FROM sahs_sc13_seq_tree WHERE (child = ".
 			$ilDB->quote($this->getSeqNodeId(), "integer").
@@ -80,7 +96,8 @@ class ilSCORM2004Utilities
 	
 	protected function getSeqNodeId() 
 	{
-		global $ilDB,$ilLog;
+		$ilDB = $this->db;
+		$ilLog = $this->log;
 		$all_props = $this->getAllSequencingProperties();
 		$ilLog->write("SCORM: getSeqNodeId: ".$all_props["seqnodeid"]);
 		return $all_props["seqnodeid"];
@@ -88,7 +105,8 @@ class ilSCORM2004Utilities
 	
 	private function getSequencingId() 
 	{
-		global $ilDB,$ilLog;
+		$ilDB = $this->db;
+		$ilLog = $this->log;
 		$ilLog->write("SCORM: getSequencingId for".$this->getId());
 		$query = "SELECT * FROM sahs_sc13_seq_item WHERE sahs_sc13_tree_node_id = ".
 			$ilDB->quote($this->getId(), "integer");
@@ -99,7 +117,8 @@ class ilSCORM2004Utilities
 	
 	private function getItemId() 
 	{
-		global $ilDB,$ilLog;
+		$ilDB = $this->db;
+		$ilLog = $this->log;
 		$ilLog->write("SCORM: getSequencingId for".$this->getId);
 		$query = "SELECT * FROM sahs_sc13_seq_item WHERE sahs_sc13_tree_node_id = ".
 			$ilDB->quote($this->getId(), "integer");
@@ -110,7 +129,8 @@ class ilSCORM2004Utilities
 	
 	public function getImportIdent() 
 	{
-		global $ilDB,$ilLog;
+		$ilDB = $this->db;
+		$ilLog = $this->log;
 		$ilLog->write("SCORM: getImportIdent for".$this->getId);
 		$query = "SELECT * FROM sahs_sc13_seq_item WHERE sahs_sc13_tree_node_id = ".
 			$ilDB->quote($this->getId(), "integer");
@@ -128,7 +148,8 @@ class ilSCORM2004Utilities
 	
 	public function getAllowedActions()
 	{
-		global $ilDB,$ilLog;
+		$ilDB = $this->db;
+		$ilLog = $this->log;
 		$ilLog->write("SCORM: getAllowedActions for".$this->tree_node_id);
 		$query = "SELECT * FROM sahs_sc13_seq_item WHERE sahs_sc13_tree_node_id = ".
 			$ilDB->quote($this->getId(), "integer");
@@ -139,7 +160,7 @@ class ilSCORM2004Utilities
 	
 	public function getControlModeProperties()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		$query = "SELECT * FROM sahs_sc13_seq_seq WHERE id = ".
 			$ilDB->quote($this->getSequencingId(), "text");
 		$obj_set = $ilDB->query($query);
@@ -154,7 +175,8 @@ class ilSCORM2004Utilities
 	
 	public function getAllSequencingProperties()
 	{
-		global $ilDB,$ilLog;
+		$ilDB = $this->db;
+		$ilLog = $this->log;
 		$query = "SELECT * FROM sahs_sc13_seq_seq WHERE (id = ".
 			$ilDB->quote($this->getSequencingId(), "text").
 			" AND importid=".$ilDB->quote($this->getImportIdent(), "text").")";

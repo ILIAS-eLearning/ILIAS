@@ -3752,47 +3752,53 @@ class ilObjUser extends ilObject
 	*
 	* @static
 	*/
-	public static function _checkExternalAuthAccount($a_auth, $a_account)
+	public static function _checkExternalAuthAccount($a_auth, $a_account, $tryFallback = true)
 	{
-		global $ilDB,$ilSetting;
+		$db       = $GLOBALS['DIC']->database();
+		$settings = $GLOBALS['DIC']->settings();
 
 		// Check directly with auth_mode
-		$r = $ilDB->queryF("SELECT * FROM usr_data WHERE ".
+		$r = $db->queryF("SELECT * FROM usr_data WHERE ".
 			" ext_account = %s AND auth_mode = %s",
 			array("text", "text"),
 			array($a_account, $a_auth));
-		if ($usr = $ilDB->fetchAssoc($r))
+		if ($usr = $db->fetchAssoc($r))
 		{
 			return $usr["login"];
 		}
 
+		if(!$tryFallback)
+		{
+			return false;
+		}
+
 		// For compatibility, check for login (no ext_account entry given)
-		$res = $ilDB->queryF("SELECT login FROM usr_data ".
+		$res = $db->queryF("SELECT login FROM usr_data ".
 			"WHERE login = %s AND auth_mode = %s AND ext_account IS NULL ",
 			array("text", "text"),
 			array($a_account, $a_auth));
-		if($usr = $ilDB->fetchAssoc($res))
+		if($usr = $db->fetchAssoc($res))
 		{
 			return $usr['login'];
 		}
 
 		// If auth_default == $a_auth => check for login
-		if(ilAuthUtils::_getAuthModeName($ilSetting->get('auth_mode')) == $a_auth)
+		if(ilAuthUtils::_getAuthModeName($settings->get('auth_mode')) == $a_auth)
 		{
-			$res = $ilDB->queryF("SELECT login FROM usr_data WHERE ".
+			$res = $db->queryF("SELECT login FROM usr_data WHERE ".
 				" ext_account = %s AND auth_mode = %s",
 				array("text", "text"),
 				array($a_account, "default"));
-			if ($usr = $ilDB->fetchAssoc($res))
+			if ($usr = $db->fetchAssoc($res))
 			{
 				return $usr["login"];
 			}
 			// Search for login (no ext_account given)
-			$res = $ilDB->queryF("SELECT login FROM usr_data ".
+			$res = $db->queryF("SELECT login FROM usr_data ".
 				"WHERE login = %s AND (ext_account IS NULL OR ext_account = '') AND auth_mode = %s",
 				array("text", "text"),
 				array($a_account, "default"));
-			if($usr = $ilDB->fetchAssoc($res))
+			if($usr = $db->fetchAssoc($res))
 			{
 				return $usr["login"];
 			}
@@ -3921,16 +3927,24 @@ class ilObjUser extends ilObject
 	public static function _getPersonalPicturePath($a_usr_id,$a_size = "small", $a_force_pic = false,
 		$a_prevent_no_photo_image = false)
 	{
-		global $ilDB;
+		global $DIC;
 
-		// BEGIN DiskQuota: Fetch all user preferences in a single query
-		$res = $ilDB->queryF("SELECT * FROM usr_pref WHERE ".
-			"keyword IN (%s,%s) ".
-			"AND usr_id = %s",
-			array("text", "text", "integer"),
-			array('public_upload', 'public_profile', $a_usr_id));
-		while ($row = $ilDB->fetchAssoc($res))
+		$login = $firstname = $lastname = '';
+		$upload = $profile              = false;
+
+		$in  = $DIC->database()->in('usr_pref.keyword', array('public_upload', 'public_profile'), false, 'text');
+		$res = $DIC->database()->queryF("
+			SELECT usr_pref.*, ud.login, ud.firstname, ud.lastname
+			FROM usr_data ud LEFT JOIN usr_pref ON usr_pref.usr_id = ud.usr_id AND $in
+			WHERE ud.usr_id = %s",
+			array("integer"),
+			array($a_usr_id));
+		while ($row = $DIC->database()->fetchAssoc($res))
 		{
+			$login     = $row['login'];
+			$firstname = $row['firstname'];
+			$lastname  = $row['lastname'];
+
 			switch ($row['keyword'])
 			{
 				case 'public_upload' :
@@ -3976,8 +3990,23 @@ class ilObjUser extends ilObject
 				if($a_size == "small" || $a_size == "big")
 				{
 					$a_size = "xsmall";
-				}				
-				$file = ilUtil::getImagePath("no_photo_".$a_size.".jpg");
+				}
+
+				if($profile)
+				{
+					$short = ilStr::subStr($firstname, 0, 1) . ilStr::subStr($lastname, 0, 1);
+				}
+				else
+				{
+					$short = ilStr::subStr($login, 0, 2);
+				}
+
+				/** @var $avatar ilUserAvatarBase */
+				$avatar = $DIC["user.avatar.factory"]->avatar($a_size);
+				$avatar->setName($short);
+				$avatar->setUsrId($a_usr_id);
+
+				return $avatar->getUrl();
 			}
 		}
 
@@ -5793,5 +5822,57 @@ class ilObjUser extends ilObject
 		
 		return $res;
 	}
+
+	/**
+	 * Get profile status
+	 *
+	 * @param array[int] $a_user_ids user ids
+	 * @return array[] 	array["global"] => all user ids having their profile global (www) activated,
+	 * 					array["local"] => all user ids having their profile only locally (logged in users) activated,
+	 * 					array["public"] => all user ids having their profile either locally or globally activated,
+	 * 					array["not_public"] => all user ids having their profile deactivated
+	 */
+	static function getProfileStatusOfUsers($a_user_ids)
+	{
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
+		$set = $ilDB->query("SELECT * FROM usr_pref ".
+				" WHERE keyword = ".$ilDB->quote("public_profile", "text").
+				" AND ".$ilDB->in("usr_id",$a_user_ids , false, "integer")
+			);
+		$r = array(
+			"global" => array(),
+			"local" => array(),
+			"public" => array(),
+			"not_public" => array()
+		);
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			if ($rec["value"] == "g")
+			{
+				$r["global"][] = $rec["usr_id"];
+				$r["public"][] = $rec["usr_id"];
+			}
+			if ($rec["value"] == "y")
+			{
+				$r["local"][] = $rec["usr_id"];
+				$r["public"][] = $rec["usr_id"];
+			}
+		}
+		foreach ($a_user_ids as $id)
+		{
+			if (!in_array($id, $r["public"]))
+			{
+				$r["not_public"][] = $id;
+			}
+		}
+
+		return $r;
+	}
+
+
+
 } // END class ilObjUser
 ?>

@@ -11,7 +11,12 @@
  */
 abstract class ilPageConfig
 {
-	protected $int_link_filter = array("File");
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	protected $int_link_filter = array("File", "PortfolioPage", "PortfolioTemplatePage");
 	protected $prevent_rte_usage = false;
 	protected $use_attached_content = false;
 	protected $pc_defs = array();
@@ -36,6 +41,8 @@ abstract class ilPageConfig
 	protected $use_stored_tries = false;
 	protected $enable_user_links = false;
 
+	protected $edit_lock_support = true;
+
 	/**
 	 * @var bool
 	 */
@@ -49,6 +56,9 @@ abstract class ilPageConfig
 	 */
 	final public function __construct()
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		// load pc_defs
 		include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
 		$this->pc_defs = ilCOPagePCDef::getPCDefinitions();
@@ -152,23 +162,26 @@ abstract class ilPageConfig
 	}
 
 	/**
-	 * Set enable user links
-	 *
-	 * @param boolean $a_val enable user links	
-	 */
-	function setEnableUserLinks($a_val)
-	{
-		$this->enable_user_links = $a_val;
-	}
-	
-	/**
 	 * Get enable user links
 	 *
 	 * @return boolean enable user links
 	 */
 	function getEnableUserLinks()
 	{
-		return $this->enable_user_links;
+		if (!$this->getEnableInternalLinks())
+		{
+			return false;
+		}
+		if ($this->getIntLinkFilterWhiteList() && in_array("User", $this->int_link_filter))
+		{
+			return true;
+		}
+		if (!$this->getIntLinkFilterWhiteList() && !in_array("User", $this->int_link_filter))
+		{
+			return true;
+		}
+
+		return false;
 	}
 	
 	/**
@@ -198,7 +211,7 @@ abstract class ilPageConfig
 	 */
 	function addIntLinkFilter($a_val)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$this->setLocalizationLanguage($lng->getLangKey());
 		if (is_array($a_val))
@@ -247,6 +260,10 @@ abstract class ilPageConfig
 	function setIntLinkFilterWhiteList($a_white_list)
 	{
 		$this->link_filter_white_list = $a_white_list;
+		if ($a_white_list)
+		{
+			$this->int_link_filter = array();
+		}
 	}
 
 	/**
@@ -344,9 +361,10 @@ abstract class ilPageConfig
 	 *
 	 * @param int $a_val default object if	
 	 */
-	function setIntLinkHelpDefaultId($a_val)
+	function setIntLinkHelpDefaultId($a_val, $a_is_ref = true)
 	{
 		$this->int_link_def_id = $a_val;
+		$this->int_link_def_id_is_ref = $a_is_ref;
 	}
 	
 	/**
@@ -358,7 +376,17 @@ abstract class ilPageConfig
 	{
 		return $this->int_link_def_id;
 	}
-	
+
+	/**
+	 * Get internal link default id
+	 *
+	 * @return int default object if
+	 */
+	function getIntLinkHelpDefaultIdIsRef()
+	{
+		return $this->int_link_def_id_is_ref;
+	}
+
 	/**
 	 * Set enabled actication
 	 *
@@ -581,5 +609,22 @@ abstract class ilPageConfig
 	{
 		return $this->enable_permission_checks;
 	}
+
+	/**
+	 * @param $a_val  bool set edit lock support for blogs
+	 */
+	function setEditLockSupport($a_val)
+	{
+		$this->edit_lock_support = $a_val;
+	}
+
+	/**
+	 * @return bool get edit lock support for blogs
+	 */
+	function getEditLockSupport()
+	{
+		return $this->edit_lock_support;
+	}
+
 }
 ?>

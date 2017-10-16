@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<!-- http://tv.yahoo.com/ -->
+<containers>
+  <container locator="//div[@id='updates-tabs']">
+      <tab tabClickLocator="//a[@href='#updates-conn']" tabLiLocator="//div[@id='updates-tabs']//ul/li[1]" contentLocator="//div[@id='updates-conn']" selected="false"></tab>
+      <tab tabClickLocator="//a[@href='#updates-everyone']" tabLiLocator="//div[@id='updates-tabs']//ul/li[2]" contentLocator="//div[@id='updates-everyone']" selected="true"></tab>
+  </container>
+</containers>

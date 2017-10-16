@@ -14,6 +14,11 @@ include_once './Services/Xml/classes/class.ilSaxParser.php';
 */
 class ilFolderXmlParser extends ilSaxParser
 {
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
 	private $folder = null;
 	
 
@@ -22,6 +27,9 @@ class ilFolderXmlParser extends ilSaxParser
 	 */
 	public function __construct($folder,$xml)
 	{
+		global $DIC;
+
+		$this->error = $DIC["ilErr"];
 		parent::__construct();
 		$this->setXMLContent($xml);
 		$this->setFolder($folder);
@@ -82,7 +90,7 @@ class ilFolderXmlParser extends ilSaxParser
 	*/
 	public function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
-		global $ilErr;
+		$ilErr = $this->error;
 
 		switch($a_name)
 		{

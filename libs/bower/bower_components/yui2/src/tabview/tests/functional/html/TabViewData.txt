@@ -1,0 +1,22 @@
+<ul>        <li>
+            <a href="http://www.panarmenian.net/news/eng/?nid=35110"><q>Opera announced most popular mobile browser in Armenia</q></a>
+            <cite>PanARMENIAN.Net</cite>
+        </li>        <li>
+            <a href="http://news.cnet.com/8301-1001_3-10303614-92.html?part=rss&subj=news&tag=2547-1_3-0-20"><q>Convulsion in browser share stats: Safari plunges</q></a>
+            <cite>CNET</cite>
+        </li>        <li>
+            <a href="http://news.yahoo.com/s/pcworld/20090803/tc_pcworld/browsermarketshareclaimsaredubious_1"><q>Browser Market Share Claims Are Dubious</q></a>
+            <cite>PC World via Yahoo! News</cite>
+        </li>        <li>
+            <a href="http://news.digitaltrends.com/article20561.html"><q>Khronos Aims at 2010 For In-Browser WebGL 3D Graphics</q></a>
+            <cite>Digital Trends</cite>
+        </li>        <li>
+            <a href="http://rss.feedsportal.com/c/270/f/3547/s/5873646/l/0L0Stechworld0N0Cnews0Cindex0Bcfm0DRSS0GNewsID0F120A361/story01.htm"><q>New browser use stats is bad news for Safari</q></a>
+            <cite>TechWorld</cite>
+        </li>        <li>
+            <a href="http://www.infoworld.com/d/applications/chrome-threatens-safaris-browser-share-spot-firefox-falters-981?source=rss_infoworld_news"><q>Chrome threatens Safari's browser share spot, Firefox falters</q></a>
+            <cite>InfoWorld</cite>
+        </li>        <li>
+            <a href="http://www.betanews.com/article/GPUenriched-3D-for-Web-browsers-targeted-for-H1-2010/1249417885"><q>GPU-enriched 3D for Web browsers targeted for H1 2010</q></a>
+            <cite>BetaNews</cite>
+        </li></ul>

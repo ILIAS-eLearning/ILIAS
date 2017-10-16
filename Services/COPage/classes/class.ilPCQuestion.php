@@ -17,6 +17,21 @@ require_once("./Services/COPage/classes/class.ilPageContent.php");
 */
 class ilPCQuestion extends ilPageContent
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	var $dom;
 	var $q_node;			// node of Paragraph element
 	
@@ -27,6 +42,11 @@ class ilPCQuestion extends ilPageContent
 	*/
 	function init()
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+		$this->user = $DIC->user();
 		$this->setType("pcqst");
 	}
 
@@ -159,7 +179,9 @@ class ilPCQuestion extends ilPageContent
 	 */
 	static function afterPageUpdate($a_page, DOMDocument $a_domdoc, $a_xml, $a_creation)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		include_once("./Services/Link/classes/class.ilInternalLink.php");
 		
@@ -201,7 +223,9 @@ class ilPCQuestion extends ilPageContent
 	 */
 	static function beforePageDelete($a_page)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$ilDB->manipulateF("DELETE FROM page_question WHERE page_parent_type = %s ".
 			" AND page_id = %s AND page_lang = %s", array("text", "integer", "text"),
@@ -213,7 +237,9 @@ class ilPCQuestion extends ilPageContent
 	 */
 	static function _getQuestionIdsForPage($a_parent_type, $a_page_id, $a_lang = "-")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$res = $ilDB->queryF("SELECT * FROM page_question WHERE page_parent_type = %s ".
 			" AND page_id = %s AND page_lang = %s",
@@ -236,7 +262,9 @@ class ilPCQuestion extends ilPageContent
 	 */
 	static function _getPageForQuestionId($a_q_id, $a_parent_type = "")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->query("SELECT * FROM page_question ".
 			" WHERE question_id = ".$ilDB->quote($a_q_id, "integer")
@@ -259,7 +287,7 @@ class ilPCQuestion extends ilPageContent
 	 */
 	function modifyPageContentPostXsl($a_output, $a_mode)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$qhtml = "";
 
@@ -374,7 +402,8 @@ class ilPCQuestion extends ilPageContent
 	 */
 	function getOnloadCode($a_mode)
 	{
-		global $ilCtrl, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 
 		$code = array();
 
@@ -421,7 +450,10 @@ class ilPCQuestion extends ilPageContent
 	 */
 	static function getJSTextInitCode($a_lang)
 	{
-		global $lng, $ilUser;
+		global $DIC;
+
+		$lng = $DIC->language();
+		$ilUser = $DIC->user();
 
 		if ($a_lang == "")
 		{

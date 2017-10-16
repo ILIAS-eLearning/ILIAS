@@ -128,9 +128,9 @@ class ilAuthProviderRadius extends ilAuthProvider implements ilAuthProviderInter
 
 	/**
 	 * Migrate existing account to radius authentication
-	 * @param type $a_usr_id
+	 * @inheritdoc
 	 */
-	public function migrateAccount($a_usr_id)
+	public function migrateAccount(ilAuthStatus $status)
 	{
 		
 	}

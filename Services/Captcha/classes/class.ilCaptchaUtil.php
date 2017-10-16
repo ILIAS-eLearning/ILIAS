@@ -81,7 +81,9 @@ class ilCaptchaUtil
 		/**
 		 * @var $lng ilLanguage
 		 */
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 
 		$lng->loadLanguageModule('cptch');
 		return "<a target='_blank' href='http://php.net/manual/en/image.installation.php'>" . $lng->txt('cptch_freetype_support_needed') . "</a>";

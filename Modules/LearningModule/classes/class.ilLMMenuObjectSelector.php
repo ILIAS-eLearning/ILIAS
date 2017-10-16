@@ -34,7 +34,12 @@ class ilLMMenuObjectSelector extends ilExplorer
 	*/
 	function __construct($a_target,&$a_gui_obj)
 	{
-		global $tree,$ilCtrl;
+		global $DIC;
+
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->lng = $DIC->language();
+		$tree = $DIC->repositoryTree();
+		$ilCtrl = $DIC->ctrl();
 
 		$this->ctrl = $ilCtrl;
 		
@@ -88,7 +93,7 @@ class ilLMMenuObjectSelector extends ilExplorer
 
 	function showChilds($a_ref_id)
 	{
-		global $rbacsystem;
+		$rbacsystem = $this->rbacsystem;
 
 		if ($a_ref_id == 0)
 		{
@@ -115,7 +120,7 @@ class ilLMMenuObjectSelector extends ilExplorer
 	*/
 	function formatHeader($a_tpl, $a_obj_id,$a_option)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$tpl = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
 

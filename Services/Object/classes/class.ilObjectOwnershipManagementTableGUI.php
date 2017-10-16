@@ -15,11 +15,39 @@ require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 */
 class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
 	protected $user_id; // [int]
 
 	public function __construct($a_parent_obj, $a_parent_cmd, $a_user_id, array $a_data = null)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$this->tree = $DIC->repositoryTree();
+		$this->obj_definition = $DIC["objDefinition"];
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		$this->user_id = (int)$a_user_id;
 		$this->setId('objownmgmt'); // #16373
@@ -43,7 +71,8 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
 	
 	protected function initItems($a_data)
 	{		
-		global $ilAccess, $tree;
+		$ilAccess = $this->access;
+		$tree = $this->tree;
 				
 		$data = array();
 		
@@ -91,7 +120,8 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
 	
 	public function fillRow($row)
 	{			
-		global $lng, $objDefinition; 
+		$lng = $this->lng;
+		$objDefinition = $this->obj_definition;
 				
 		// #11050
 		if(!$objDefinition->isPlugin($row["type"]))
@@ -119,7 +149,9 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
 	
 	protected function buildActions($a_ref_id, $a_type)
 	{
-		global $lng, $ilCtrl, $objDefinition;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$objDefinition = $this->obj_definition;
 		
 		include_once "Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php";
 		$agui = new ilAdvancedSelectionListGUI();
@@ -159,7 +191,7 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
 	
 	protected function buildPath($a_ref_id)
 	{
-		global $tree;
+		$tree = $this->tree;
 
 		$path = "...";
 		$counter = 0;

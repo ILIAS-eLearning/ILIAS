@@ -134,7 +134,7 @@ class ilBlogPosting extends ilPageObject
 	 */
 	function create($a_import = false)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$id = $ilDB->nextId("il_blog_posting");
 		$this->setId($id);
@@ -178,7 +178,7 @@ class ilBlogPosting extends ilPageObject
 	 */
 	function update($a_validate = true, $a_no_history = false, $a_notify = true, $a_notify_action = "update")
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		// blog_id, author and created cannot be changed
 		
@@ -205,7 +205,7 @@ class ilBlogPosting extends ilPageObject
 	 */
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$query = "SELECT * FROM il_blog_posting".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
@@ -243,7 +243,7 @@ class ilBlogPosting extends ilPageObject
 	 */
 	function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$query = "DELETE FROM il_blog_posting".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
@@ -261,7 +261,9 @@ class ilBlogPosting extends ilPageObject
 	 */
 	static function deleteAllBlogPostings($a_blog_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		include_once 'Services/MetaData/classes/class.ilMD.php';
 		
@@ -294,7 +296,9 @@ class ilBlogPosting extends ilPageObject
 	 */
 	static function lookupBlogId($a_posting_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$query = "SELECT blog_id FROM il_blog_posting".
 			" WHERE id = ".$ilDB->quote($a_posting_id, "integer");
@@ -316,7 +320,9 @@ class ilBlogPosting extends ilPageObject
 	 */
 	static function getAllPostings($a_blog_id, $a_limit = 1000, $a_offset = 0)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$pages = parent::getAllPages("blp", $a_blog_id);
 
@@ -362,7 +368,9 @@ class ilBlogPosting extends ilPageObject
 	 */
 	static function exists($a_blog_id, $a_posting_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$query = "SELECT id FROM il_blog_posting".
 			" WHERE blog_id = ".$ilDB->quote($a_blog_id, "integer").
@@ -410,7 +418,9 @@ class ilBlogPosting extends ilPageObject
 	 */
 	public static function searchBlogsByAuthor($a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$ids = array();
 		
@@ -458,7 +468,7 @@ class ilBlogPosting extends ilPageObject
 		
 	public function updateKeywords(array $keywords)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 				
 		// language is not "used" anywhere
 		$ulang = $ilUser->getLanguage();
@@ -481,7 +491,8 @@ class ilBlogPosting extends ilPageObject
 	 */
 	public function handleNews($a_update = false)
 	{		
-		global $lng, $ilUser;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 		
 		// see ilWikiPage::updateNews()
 
@@ -574,6 +585,40 @@ class ilBlogPosting extends ilPageObject
 			$news_item->update(true);
 		}		
 	}
+
+	/**
+	 * Lookup posting property
+	 *
+	 * @param string $a_field field
+	 * @param int $a_posting_id posting id
+	 * @return mixed
+	 */
+	static protected function lookup($a_field, $a_posting_id)
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+
+		$set = $db->query("SELECT $a_field FROM il_blog_posting ".
+			" WHERE id = ".$db->quote($a_posting_id, "integer"));
+		$rec = $db->fetchAssoc($set);
+
+		return $rec[$a_field];
+	}
+
+	/**
+	 * Lookup title
+	 *
+	 * @param int $a_posting_id posting id
+	 * @return string
+	 */
+	static function lookupTitle($a_posting_id)
+	{
+		$t = self::lookup("title", $a_posting_id);
+		return $t;
+	}
+
+
 }
 
 ?>

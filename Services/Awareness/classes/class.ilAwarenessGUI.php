@@ -12,6 +12,11 @@
 class ilAwarenessGUI
 {
 	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
 	 * @var ilCtrl
 	 */
 	protected $ctrl;
@@ -26,6 +31,9 @@ class ilAwarenessGUI
 	 */
 	function __construct()
 	{
+		global $DIC;
+
+		$this->user = $DIC->user();
 		global $DIC;
 		$this->ui = $DIC->ui();
 
@@ -62,7 +70,7 @@ class ilAwarenessGUI
 	 */
 	function getMainMenuHTML()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		$awrn_set = new ilSetting("awrn");
 		if (!$awrn_set->get("awrn_enabled", false) || ANONYMOUS_USER_ID == $ilUser->getId())
@@ -81,6 +89,11 @@ class ilAwarenessGUI
 				"", "", true, false)."');");
 		$GLOBALS["tpl"]->addOnloadCode("il.Awareness.setLoaderSrc('".ilUtil::getImagePath("loader.svg")."');");
 		$GLOBALS["tpl"]->addOnloadCode("il.Awareness.init();");
+
+		// include user action js
+		include_once("./Services/User/Actions/classes/class.ilUserActionGUI.php");
+		$ua_gui = ilUserActionGUI::getInstance();
+		$ua_gui->addRequiredJsForContext("awrn", "toplist");
 
 		$tpl = new ilTemplate("tpl.awareness.html", true, true, "Services/Awareness");
 
@@ -153,7 +166,7 @@ class ilAwarenessGUI
 	 */
 	function getAwarenessList()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		$filter = $_GET["filter"];
 

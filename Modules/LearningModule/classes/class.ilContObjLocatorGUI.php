@@ -32,6 +32,11 @@
 */
 class ilContObjLocatorGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
 	var $mode;
 	var $temp_var;
 	var $tree;
@@ -41,7 +46,11 @@ class ilContObjLocatorGUI
 
 	function __construct($a_tree)
 	{
-		global $lng, $tpl, $ilCtrl;
+		global $DIC;
+
+		$lng = $DIC->language();
+		$tpl = $DIC["tpl"];
+		$ilCtrl = $DIC->ctrl();
 
 		$this->ctrl = $ilCtrl;
 		$this->tree = $a_tree;
@@ -72,7 +81,7 @@ class ilContObjLocatorGUI
 	*/
 	function display($a_gui_class)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$this->tpl->addBlockFile($this->temp_var, "locator", "tpl.locator.html", "Services/Locator");
 

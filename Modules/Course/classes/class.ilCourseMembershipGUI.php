@@ -19,6 +19,23 @@ class ilCourseMembershipGUI extends ilMembershipGUI
 {
 	
 	/**
+	 * Filter user ids by access 
+	 * @param int[] $a_user_ids
+	 * @return int[]
+	 */
+	public function filterUserIdsByRbacOrPositionOfCurrentUser($a_user_ids)
+	{
+		return $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+			'manage_members',
+			'manage_members',
+			$this->getParentObject()->getRefId(),
+			$a_user_ids
+		);
+	}
+
+	
+	
+	/**
 	 * callback from repository search gui
 	 * @global ilRbacSystem $rbacsystem
 	 * @param array $a_usr_ids
@@ -29,8 +46,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
 	{
 		global $rbacsystem, $ilErr;
 
-		
-		if(!$GLOBALS['ilAccess']->checkAccess('write','', $this->getParentObject()->getRefId()))
+		if(!$this->checkRbacOrPositionAccessBool('manage_members', 'manage_members'))
 		{
 			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"), $ilErr->FATAL);
 		}
@@ -40,6 +56,8 @@ class ilCourseMembershipGUI extends ilMembershipGUI
 			ilUtil::sendFailure($this->lng->txt("crs_no_users_selected"),true);
 			return false;
 		}
+		
+		$a_usr_ids = $this->filterUserIdsByRbacOrPositionOfCurrentUser($a_usr_ids);
 
 		$added_users = 0;
 		foreach($a_usr_ids as $user_id)
@@ -107,8 +125,11 @@ class ilCourseMembershipGUI extends ilMembershipGUI
 		
 		foreach($visible_members as $member_id)
 		{
-			$this->getMembersObject()->updatePassed($member_id,in_array($member_id,$passed),true);
-			$this->updateLPFromStatus($member_id, in_array($member_id, $passed));
+			if ($ilAccess->checkAccess("grade", "", $this->getParentObject()->getRefId()))
+			{
+				$this->getMembersObject()->updatePassed($member_id, in_array($member_id, $passed), true);
+				$this->updateLPFromStatus($member_id, in_array($member_id, $passed));
+			}
 			
 			if($this->getMembersObject()->isAdmin($member_id) or $this->getMembersObject()->isTutor($member_id))
 			{
@@ -398,7 +419,11 @@ class ilCourseMembershipGUI extends ilMembershipGUI
 	 */
 	public function getAttendanceListUserData($a_user_id)
 	{
-		return $this->member_data[$a_user_id];
+		if($this->filterUserIdsByRbacOrPositionOfCurrentUser([$a_user_id]))
+		{
+			return $this->member_data[$a_user_id];
+		}
+		return [];
 	}
 	
 }

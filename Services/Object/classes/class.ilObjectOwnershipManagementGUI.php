@@ -13,11 +13,55 @@ require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 */
 class ilObjectOwnershipManagementGUI 
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
 	protected $user_id; // [int]
 	
 	function __construct($a_user_id = null)
 	{
-		global $ilUser;
+		global $DIC;
+
+		$this->user = $DIC->user();
+		$this->ctrl = $DIC->ctrl();
+		$this->tpl = $DIC["tpl"];
+		$this->toolbar = $DIC->toolbar();
+		$this->lng = $DIC->language();
+		$this->obj_definition = $DIC["objDefinition"];
+		$this->tree = $DIC->repositoryTree();
+		$ilUser = $DIC->user();
 		
 		if($a_user_id === null)
 		{
@@ -28,7 +72,7 @@ class ilObjectOwnershipManagementGUI
 	
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$next_class =$ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
@@ -49,7 +93,11 @@ class ilObjectOwnershipManagementGUI
 	
 	function listObjects()
 	{
-		global $tpl, $ilToolbar, $lng, $ilCtrl, $objDefinition;		
+		$tpl = $this->tpl;
+		$ilToolbar = $this->toolbar;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$objDefinition = $this->obj_definition;
 				
 		$objects = ilObject::getAllOwnedRepositoryObjects($this->user_id);
 		
@@ -128,7 +176,8 @@ class ilObjectOwnershipManagementGUI
 	
 	protected function redirectParentCmd($a_ref_id, $a_cmd)
 	{
-		global $tree, $ilCtrl;
+		$tree = $this->tree;
+		$ilCtrl = $this->ctrl;
 		
 		$parent = $tree->getParentId($a_ref_id);		
 		$ilCtrl->setParameterByClass("ilRepositoryGUI", "ref_id", $parent);
@@ -139,7 +188,9 @@ class ilObjectOwnershipManagementGUI
 	
 	protected function redirectCmd($a_ref_id, $a_class, $a_cmd = null)
 	{
-		global $ilCtrl, $tree, $objDefinition;
+		$ilCtrl = $this->ctrl;
+		$tree = $this->tree;
+		$objDefinition = $this->obj_definition;
 			
 		$node = $tree->getNodeData($a_ref_id);
 		$gui_class = "ilObj".$objDefinition->getClassName($node["type"])."GUI";				

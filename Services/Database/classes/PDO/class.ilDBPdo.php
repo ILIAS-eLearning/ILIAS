@@ -215,10 +215,11 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 
 	public function generateDSN() {
-		$this->dsn = 'mysql:host=' . $this->getHost() . ($this->getPort() ? ";port="
-		                                                                    . $this->getPort() : "")
-		             . ($this->getDbname() ? ';dbname=' . $this->getDbname() : '') . ';charset='
-		             . $this->getCharset();
+		$port = $this->getPort() ? ";port=" . $this->getPort() : "";
+		$dbname = $this->getDbname() ? ';dbname=' . $this->getDbname() : '';
+		$host = $this->getHost();
+		$charset = ';charset=' . $this->getCharset();
+		$this->dsn = 'mysql:host=' . $host . $port . $dbname . $charset;
 	}
 
 
@@ -273,12 +274,12 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	public function createTable($table_name, $fields, $drop_table = false, $ignore_erros = false) {
 		// check table name
 		if (!$this->checkTableName($table_name) && !$ignore_erros) {
-			throw new ilDatabaseException(" Error: createTable(" . $table_name . ")");
+			throw new ilDatabaseException("ilDB Error: createTable(" . $table_name . ")");
 		}
 
 		// check definition array
 		if (!$this->checkTableColumns($fields) && !$ignore_erros) {
-			throw new ilDatabaseException(" Error: createTable(" . $table_name . ")");
+			throw new ilDatabaseException("ilDB Error: createTable(" . $table_name . ")");
 		}
 
 		if ($drop_table) {
@@ -423,10 +424,11 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @return bool
 	 */
 	public function tableColumnExists($table_name, $column_name) {
-		$statement = $this->pdo->query("SHOW COLUMNS FROM $table_name WHERE Field = '$column_name'");
-		$statement != null ? $statement->closeCursor() : "";
+		$fields = $this->loadModule(ilDBConstants::MODULE_MANAGER)->listTableFields($table_name);
 
-		return $statement != null && $statement->rowCount() != 0;
+		$in_array = in_array($column_name, $fields);
+
+		return $in_array;
 	}
 
 
@@ -599,8 +601,8 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 			$fields[] = $key;
 		}
 		$values = implode(",", $real);
-		$fields = implode(",", $fields);
-		$query = "INSERT INTO " . $table_name . " (" . $fields . ") VALUES (" . $values . ")";
+		$fields = implode("`,`", $fields);
+		$query = "INSERT INTO " . $table_name . " (`" . $fields . "`) VALUES (" . $values . ")";
 
 		return $this->pdo->exec($query);
 	}
@@ -683,7 +685,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 			$q = "UPDATE " . $table_name . " SET ";
 			$lim = "";
 			foreach ($fields as $k => $field) {
-				$q .= $lim . $field . " = " . $placeholders[$k];
+				$q .= $lim . '`' . $field . '`' . " = " . $placeholders[$k];
 				$lim = ", ";
 			}
 			$q .= " WHERE ";

@@ -14,6 +14,66 @@
  */
 class ilObjectCopyGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
+	/**
+	 * @var ilObjectDataCache
+	 */
+	protected $obj_data_cache;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilRbacReview
+	 */
+	protected $rbacreview;
+
 	const SOURCE_SELECTION = 1;
 	const TARGET_SELECTION = 2;
 	const SEARCH_SOURCE = 3;
@@ -58,7 +118,23 @@ class ilObjectCopyGUI
 	 */
 	public function __construct($a_parent_gui)
 	{
-		global $ilCtrl,$lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->tree = $DIC->repositoryTree();
+		$this->tabs = $DIC->tabs();
+		$this->toolbar = $DIC->toolbar();
+		$this->tpl = $DIC["tpl"];
+		$this->obj_definition = $DIC["objDefinition"];
+		$this->obj_data_cache = $DIC["ilObjDataCache"];
+		$this->access = $DIC->access();
+		$this->error = $DIC["ilErr"];
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->user = $DIC->user();
+		$this->rbacreview = $DIC->rbac()->review();
+		$this->log = $DIC["ilLog"];
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		$this->lng = $lng;
 		$this->lng->loadLanguageModule('search');
@@ -75,7 +151,7 @@ class ilObjectCopyGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$this->init();
 		$this->initTabs();
@@ -97,7 +173,7 @@ class ilObjectCopyGUI
 	 */
 	protected function init()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		if((int) $_REQUEST['smode'])
 		{
@@ -237,7 +313,8 @@ class ilObjectCopyGUI
 	 */
 	protected function initTargetSelection()
 	{
-		global $ilCtrl, $tree;
+		$ilCtrl = $this->ctrl;
+		$tree = $this->tree;
 		$ilCtrl->setParameter($this, 'selectMode', self::TARGET_SELECTION);
 		// empty session on init
 		$_SESSION['paste_copy_repexpand'] = array();
@@ -277,7 +354,8 @@ class ilObjectCopyGUI
 	 */
 	protected function initSourceSelection()
 	{
-		global $ilCtrl,$tree;
+		$ilCtrl = $this->ctrl;
+		$tree = $this->tree;
 
 		// empty session on init
 		$_SESSION['paste_copy_repexpand'] = array();
@@ -335,7 +413,13 @@ class ilObjectCopyGUI
 	 */
 	public function showTargetSelectionTree()
 	{
-		global $ilTabs, $ilToolbar, $ilCtrl, $tree, $tpl, $objDefinition, $lng;
+		$ilTabs = $this->tabs;
+		$ilToolbar = $this->toolbar;
+		$ilCtrl = $this->ctrl;
+		$tree = $this->tree;
+		$tpl = $this->tpl;
+		$objDefinition = $this->obj_definition;
+		$lng = $this->lng;
 	
 		$this->tpl = $tpl;
 		
@@ -393,7 +477,12 @@ class ilObjectCopyGUI
 	 */
 	public function showSourceSelectionTree()
 	{
-		global $ilTabs, $ilToolbar, $ilCtrl, $tree, $tpl, $objDefinition;
+		$ilTabs = $this->tabs;
+		$ilToolbar = $this->toolbar;
+		$ilCtrl = $this->ctrl;
+		$tree = $this->tree;
+		$tpl = $this->tpl;
+		$objDefinition = $this->obj_definition;
 	
 		$this->tpl = $tpl;
 		$this->tpl->addBlockfile('ADM_CONTENT', 'adm_content', 'tpl.paste_into_multiple_objects.html',
@@ -450,7 +539,9 @@ class ilObjectCopyGUI
 	 */
 	protected function saveTarget()
 	{
-		global $objDefinition, $tree, $ilCtrl;
+		$objDefinition = $this->obj_definition;
+		$tree = $this->tree;
+		$ilCtrl = $this->ctrl;
 
 
 		// begin-patch mc
@@ -687,7 +778,7 @@ class ilObjectCopyGUI
 	 */
 	protected function cancel()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		$ilCtrl->setReturnByClass(get_class($this->parent_obj),'cancel');
 		$ilCtrl->returnToParent($this);
 	}
@@ -697,7 +788,8 @@ class ilObjectCopyGUI
 	 */
 	function keepObjectsInClipboard()
 	{
-		global $ilCtrl;
+		ilUtil::sendSuccess($this->lng->txt("obj_inserted_clipboard"), true);
+		$ilCtrl = $this->ctrl;
 		$_SESSION['clipboard']['cmd'] = "copy";
 		$_SESSION['clipboard']['ref_ids'] = $this->getSource();
 		$ilCtrl->returnToParent($this);
@@ -710,7 +802,11 @@ class ilObjectCopyGUI
 	 */
 	protected function searchSource()
 	{
-		global $tree,$ilObjDataCache,$lng,$ilCtrl,$tpl;
+		$tree = $this->tree;
+		$ilObjDataCache = $this->obj_data_cache;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
 		
 		if(isset($_POST['tit']))
 		{
@@ -772,7 +868,7 @@ class ilObjectCopyGUI
 	 */
 	protected function saveSource()
 	{
-		global $objDefinition;
+		$objDefinition = $this->obj_definition;
 		
 		if(isset($_POST['source']))
 		{
@@ -841,7 +937,7 @@ class ilObjectCopyGUI
 	 */
 	protected function saveSourceMembership()
 	{
-		global $objDefinition;
+		$objDefinition = $this->obj_definition;
 		
 		if(!isset($_REQUEST['source']))
 		{
@@ -870,7 +966,7 @@ class ilObjectCopyGUI
 	 */
 	protected function showItemSelection()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		if(!count($this->getSource()))
 		{
@@ -918,7 +1014,12 @@ class ilObjectCopyGUI
 		include_once('./Services/Link/classes/class.ilLink.php');
 		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
 		
-		global $ilAccess,$ilErr,$rbacsystem,$ilUser,$ilCtrl,$rbacreview;
+		$ilAccess = $this->access;
+		$ilErr = $this->error;
+		$rbacsystem = $this->rbacsystem;
+		$ilUser = $this->user;
+		$ilCtrl = $this->ctrl;
+		$rbacreview = $this->rbacreview;
 
 		// Source defined
 		if(!count($this->getSource()))
@@ -938,7 +1039,12 @@ class ilObjectCopyGUI
 	 */
 	function copyMultipleNonContainer($a_sources)
 	{
-		global $ilAccess,$objDefinition,$rbacsystem,$ilUser,$ilCtrl,$rbacreview;
+		$ilAccess = $this->access;
+		$objDefinition = $this->obj_definition;
+		$rbacsystem = $this->rbacsystem;
+		$ilUser = $this->user;
+		$ilCtrl = $this->ctrl;
+		$rbacreview = $this->rbacreview;
 
 
 		include_once('./Services/Link/classes/class.ilLink.php');
@@ -1046,7 +1152,7 @@ class ilObjectCopyGUI
 	 */
 	protected function copyContainerToTargets()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		ilLoggerFactory::getLogger('obj')->debug('Copy container to targets: '. print_r($_REQUEST,TRUE));
 		ilLoggerFactory::getLogger('obj')->debug('Source(s): '. print_r($this->getSources(),TRUE));
@@ -1130,12 +1236,18 @@ class ilObjectCopyGUI
 	 */
 	protected function copyContainer($a_target)
 	{
-		global $ilLog, $ilCtrl;
+		$ilLog = $this->log;
+		$ilCtrl = $this->ctrl;
 		
 		include_once('./Services/Link/classes/class.ilLink.php');
 		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
 		
-		global $ilAccess,$ilErr,$rbacsystem,$tree,$ilUser,$ilCtrl;
+		$ilAccess = $this->access;
+		$ilErr = $this->error;
+		$rbacsystem = $this->rbacsystem;
+		$tree = $this->tree;
+		$ilUser = $this->user;
+		$ilCtrl = $this->ctrl;
 		
 		// Workaround for course in course copy
 
@@ -1191,7 +1303,7 @@ class ilObjectCopyGUI
 	 */
 	public function showSourceSearch($a_tplvar)
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		// Disabled for performance
 		#if(!$this->sourceExists())
@@ -1219,7 +1331,7 @@ class ilObjectCopyGUI
 	 */
 	protected function sourceExists()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		return (bool) ilUtil::_getObjectsByOperations($this->getType(),'copy',$ilUser->getId(),1);
 	}
@@ -1230,7 +1342,8 @@ class ilObjectCopyGUI
 	 */
 	protected function initFormSearch()
 	{
-		global $lng,$ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		$this->form = new ilPropertyFormGUI();

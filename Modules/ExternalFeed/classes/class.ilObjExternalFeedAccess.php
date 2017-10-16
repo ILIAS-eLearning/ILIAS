@@ -45,7 +45,9 @@ class ilObjExternalFeedAccess extends ilObjectAccess
 	*/
 	static function _checkGoto($a_target)
 	{
-		global $ilAccess;
+		global $DIC;
+
+		$ilAccess = $DIC->access();
 		
 		// #14870 - used for redirect after copy
 		

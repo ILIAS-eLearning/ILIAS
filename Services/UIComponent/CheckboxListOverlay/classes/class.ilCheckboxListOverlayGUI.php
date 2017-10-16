@@ -9,6 +9,11 @@
 */
 class ilCheckboxListOverlayGUI
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	private $items = array();
 	
 	/**
@@ -17,6 +22,9 @@ class ilCheckboxListOverlayGUI
 	*/
 	public function __construct($a_id = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		$this->setId($a_id);
 	}
 
@@ -165,7 +173,7 @@ class ilCheckboxListOverlayGUI
 	*/
 	public function getHTML()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$items = $this->getItems();
 

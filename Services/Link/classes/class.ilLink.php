@@ -16,7 +16,9 @@ class ilLink
 {
 	public static function _getLink($a_ref_id,$a_type = '',$a_params = array(), $append = "")
 	{
-		global $ilObjDataCache;
+		global $DIC;
+
+		$ilObjDataCache = $DIC["ilObjDataCache"];
 
 		if(!strlen($a_type))
 		{
@@ -55,7 +57,9 @@ class ilLink
 	public static function _getStaticLink($a_ref_id,$a_type = '',$a_fallback_goto = true,
 		$append = "")
 	{
-		global $ilObjDataCache;
+		global $DIC;
+
+		$ilObjDataCache = $DIC["ilObjDataCache"];
 
 		if(!strlen($a_type))
 		{

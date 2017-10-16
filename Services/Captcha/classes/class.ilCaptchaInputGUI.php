@@ -13,6 +13,11 @@ require_once 'Services/Captcha/classes/class.ilSecurImageUtil.php';
 class ilCaptchaInputGUI extends ilFormPropertyGUI
 {
 	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
 	 * @var string
 	 */
 	protected $value;
@@ -39,7 +44,10 @@ class ilCaptchaInputGUI extends ilFormPropertyGUI
 	 */
 	public function __construct($a_title = '', $a_postvar = '')
 	{
-		global $lng;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$lng = $DIC->language();
 
 		parent::__construct($a_title, $a_postvar);
 		$this->setType('captcha');
@@ -121,7 +129,7 @@ class ilCaptchaInputGUI extends ilFormPropertyGUI
 	 */
 	public function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
 		if($this->getRequired() && trim($_POST[$this->getPostVar()]) == '')
@@ -157,7 +165,7 @@ class ilCaptchaInputGUI extends ilFormPropertyGUI
 		/**
 		 * @var $lng ilLanguage
 		 */
-		global $lng;
+		$lng = $this->lng;
 
 		$tpl = new ilTemplate('tpl.prop_captchainput.html', true, true, 'Services/Captcha');
 

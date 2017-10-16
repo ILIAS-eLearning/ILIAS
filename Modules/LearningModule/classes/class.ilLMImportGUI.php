@@ -11,6 +11,21 @@
  */
 class ilLMImportGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
 	protected $lm;
 
 	/**
@@ -18,6 +33,11 @@ class ilLMImportGUI
 	 */
 	function __construct($a_lm)
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->tpl = $DIC["tpl"];
 		$this->lm = $a_lm;
 	}
 	
@@ -26,7 +46,7 @@ class ilLMImportGUI
 	 */
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$cmd = $ilCtrl->getCmd("showTranslationImportForm");
 
@@ -44,7 +64,8 @@ class ilLMImportGUI
 	 */
 	function showTranslationImportForm()
 	{
-		global $lng, $tpl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
 
 		ilUtil::sendInfo($lng->txt("cont_trans_import_info"));
 		$form = $this->initTranslationImportForm();
@@ -56,7 +77,8 @@ class ilLMImportGUI
 	 */
 	public function initTranslationImportForm()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$lng->loadLanguageModule("meta");
 
@@ -96,7 +118,8 @@ class ilLMImportGUI
 	 */
 	function importTranslation()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		include_once("./Services/Export/classes/class.ilImport.php");
 		$imp = new ilImport();
@@ -105,7 +128,7 @@ class ilLMImportGUI
 		$target_lang = ilUtil::stripSlashes($_POST["import_lang"]);
 		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
 		$ot = ilObjectTranslation::getInstance($this->lm->getId());
-		if ($target_lang == $ot->getMasterLanguage())
+		if ($target_lang == $ot->getMasterLanguage() || $target_lang == "")
 		{
 			ilUtil::sendFailure($lng->txt("cont_transl_master_language_not_allowed"), true);
 			$ilCtrl->redirect($this, "showTranslationImportForm");

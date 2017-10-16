@@ -13,6 +13,16 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 */
 class ilObjectTranslation2TableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
 	
 	/**
 	* Constructor
@@ -20,8 +30,13 @@ class ilObjectTranslation2TableGUI extends ilTable2GUI
 	function __construct($a_parent_obj, $a_parent_cmd, $a_incl_desc = true, $a_base_cmd = "HeaderTitle",
 		$a_master_lang = "")
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
-		
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$ilCtrl = $DIC->ctrl();
+
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->incl_desc = $a_incl_desc;
 		$this->base_cmd = $a_base_cmd;
@@ -37,8 +52,7 @@ class ilObjectTranslation2TableGUI extends ilTable2GUI
 		{
 			$this->addColumn($this->lng->txt("description"), "", "");
 		}
-//		$this->addColumn($this->lng->txt("actions"), "", "");
-		
+
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.obj_translation2_row.html", "Services/Object");
@@ -53,7 +67,7 @@ class ilObjectTranslation2TableGUI extends ilTable2GUI
 	*/
 	function prepareOutput()
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$this->addMultiCommand("delete".$this->base_cmd."s", $lng->txt("remove"));
 		if ($this->dataExists())
@@ -67,7 +81,7 @@ class ilObjectTranslation2TableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		$this->nr++;
 

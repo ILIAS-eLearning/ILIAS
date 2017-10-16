@@ -849,7 +849,8 @@ class ilCalendarAppointmentGUI
 			}
 			$this->notification->save();
 			$this->saveRecurrenceSettings();
-			
+			//var_dump($cat_id);
+			//var_dump($_POST); exit;
 			include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
 			$ass = new ilCalendarCategoryAssignments($this->app->getEntryId());
 			$GLOBALS['ilLog']->write($this->app->getEntryId());
@@ -867,7 +868,7 @@ class ilCalendarAppointmentGUI
 				$this->distributeUserNotifications();
 			}
 			
-			ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
+			ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'),true);
 			$this->ctrl->returnToParent($this);
 		}
 		else

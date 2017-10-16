@@ -19,6 +19,21 @@ include_once("./Services/Feeds/classes/class.ilExternalFeed.php");
 */
 class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 {
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
 	static $block_type = "feed";
 	
 	/**
@@ -26,7 +41,16 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	*/
 	function __construct()
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$this->access = $DIC->access();
+		$this->settings = $DIC->settings();
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->obj_definition = $DIC["objDefinition"];
+		$lng = $DIC->language();
 		
 		parent::__construct();
 		
@@ -60,7 +84,9 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	*/
 	static function getScreenMode()
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC->ctrl();
 		
 		switch($ilCtrl->getCmd())
 		{
@@ -85,7 +111,7 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	*/
 	function setBlock($a_block)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		// init block
 		$this->feed_block = $a_block;
@@ -108,11 +134,10 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$next_class = $ilCtrl->getNextClass();
 		$cmd = $ilCtrl->getCmd("getHTML");
-
 		switch ($next_class)
 		{
 			default:
@@ -144,7 +169,11 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	*/
 	function getHTML()
 	{
-		global $ilCtrl, $lng, $ilUser, $ilAccess, $ilSetting;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilUser = $this->user;
+		$ilAccess = $this->access;
+		$ilSetting = $this->settings;
 		
 		if ($this->getCurrentDetailLevel() == 0)
 		{
@@ -194,7 +223,8 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 
 	function getDynamic()
 	{
-		global $ilCtrl, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 		
 		if ($ilCtrl->getCmdClass() != "ilcolumngui" && $ilCtrl->getCmd() != "enableJS")
 		{
@@ -214,7 +244,8 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 
 	function getDynamicReload()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$ilCtrl->setParameterByClass("ilcolumngui", "block_id",
 			"block_feed_".$this->getBlockId());
@@ -235,7 +266,8 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	
 	function getJSEnabler()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		$ilCtrl->setParameterByClass("ilcolumngui", "block_id",
 			"block_feed_".$this->getBlockId());
@@ -251,7 +283,8 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	
 	function disableJS()
 	{
-		global $ilCtrl, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 		
 		$_SESSION["il_feed_js"] = "n";
 		$ilUser->writePref("il_feed_js", "n");
@@ -260,7 +293,7 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	
 	function enableJS()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$_SESSION["il_feed_js"] = "y";
 		$ilUser->writePref("il_feed_js", "y");
@@ -273,7 +306,8 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	*/
 	function fillRow($item)
 	{
-		global $ilUser, $ilCtrl, $lng, $ilAccess;
+		$ilCtrl = $this->ctrl;
+		$ilAccess = $this->access;
 
 		if ($this->isRepositoryObject() && !$ilAccess->checkAccess("read", "", $this->getRefId()))
 		{
@@ -296,7 +330,9 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	*/
 	function getOverview()
 	{
-		global $ilUser, $lng, $ilCtrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$this->setEnableNumInfo(false);
 		return '<div class="small">'.((int) count($this->getData()))." ".$lng->txt("feed_feed_items")."</div>";
@@ -307,7 +343,8 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	*/
 	function showFeedItem()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		include_once("./Services/News/classes/class.ilNewsItem.php");
 
@@ -387,7 +424,8 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	 */
 	public function initImportForm($a_new_type = "")
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$lng->loadLanguageModule("feed");
 
@@ -417,7 +455,9 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	 */
 	function importFile()
 	{
-		global $rbacsystem, $objDefinition, $tpl, $lng;
+		$rbacsystem = $this->rbacsystem;
+		$tpl = $this->main_tpl;
+		$lng = $this->lng;
 
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
 
@@ -462,7 +502,7 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	*/
 	public function initFormFeedBlock($a_mode)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$lng->loadLanguageModule("block");
 		
@@ -511,12 +551,8 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	*/
 	public function prepareSaveFeedBlock(&$a_feed_block)
 	{
-		global $ilCtrl;
-		
-		$ref_id = $this->getGuiObject()->save($a_feed_block);
+		$this->getGuiObject()->save($a_feed_block);
 		$a_feed_block->setType($this->getBlockType());
-		//$a_feed_block->setContextObjId($ilCtrl->getContextObjId());
-		//$a_feed_block->setContextObjType($ilCtrl->getContextObjType());
 	}
 	
 	/**
@@ -525,8 +561,6 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	*/
 	public function exitSaveFeedBlock()
 	{
-		global $ilCtrl;
-
 		$this->getGuiObject()->exitSave();
 	}
 
@@ -536,8 +570,6 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	*/
 	public function cancelUpdateFeedBlock()
 	{
-		global $ilCtrl;
-
 		$this->getGuiObject()->cancelUpdate();
 	}
 
@@ -547,62 +579,8 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	*/
 	public function exitUpdateFeedBlock()
 	{
-		global $ilCtrl;
-		
 		$this->getGuiObject()->update($this->external_feed_block);
 	}
-	
-	/**
-	* Confirmation of feed block deletion
-	*/
-/*
-	function confirmDeleteFeedBlock()
-	{
-		global $ilCtrl, $lng;
-		
-		include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
-		$c_gui = new ilConfirmationGUI();
-		
-		// set confirm/cancel commands
-		$c_gui->setFormAction($ilCtrl->getFormAction($this, "deleteFeedBlock"));
-		$c_gui->setHeaderText($lng->txt("info_delete_sure"));
-		$c_gui->setCancel($lng->txt("cancel"), "exitDeleteFeedBlock");
-		$c_gui->setConfirm($lng->txt("confirm"), "deleteFeedBlock");
-
-		// add items to delete
-		$c_gui->addItem("external_feed_block_id",
-			$this->feed_block->getId(), $this->feed_block->getTitle(),
-			ilUtil::getImagePath("icon_feed.svg"));
-		
-		return $c_gui->getHTML();
-	}
-*/
-	
-	/**
-	* Cancel deletion of feed block
-	*/
-/*
-	function exitDeleteFeedBlock()
-	{
-		global $ilCtrl;
-
-		$ilCtrl->returnToParent($this);
-	}
-*/
-
-	/**
-	* Delete feed block
-	*/
-/*
-	function deleteFeedBlock()
-	{
-		global $ilCtrl;
-
-		$this->feed_block->delete();
-		$ilCtrl->returnToParent($this);
-	}
-*/
-
 }
 
 ?>

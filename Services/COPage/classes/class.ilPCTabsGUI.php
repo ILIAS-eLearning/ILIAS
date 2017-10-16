@@ -17,11 +17,34 @@ require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
 class ilPCTabsGUI extends ilPageContentGUI
 {
 	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
 	* Constructor
 	* @access	public
 	*/
 	function __construct(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
+		global $DIC;
+
+		$this->tpl = $DIC["tpl"];
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->db = $DIC->database();
+		$this->tabs = $DIC->tabs();
+		$this->toolbar = $DIC->toolbar();
 		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
 	
@@ -51,7 +74,7 @@ class ilPCTabsGUI extends ilPageContentGUI
 	*/
 	function insert($a_omit_form_init = false)
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$this->displayValidationError();
 
@@ -68,7 +91,9 @@ class ilPCTabsGUI extends ilPageContentGUI
 	*/
 	function editProperties()
 	{
-		global $ilCtrl, $lng, $tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$tpl = $this->tpl;
 		
 		$this->displayValidationError();
 		$this->setTabs();
@@ -84,7 +109,9 @@ class ilPCTabsGUI extends ilPageContentGUI
 	*/
 	function initForm($a_mode = "edit")
 	{
-		global $ilCtrl, $tpl, $lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 
 		include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
 		ilAccordionGUI::addCss();
@@ -322,7 +349,8 @@ class ilPCTabsGUI extends ilPageContentGUI
 	*/
 	function create()
 	{
-		global $ilDB, $lng;
+		$ilDB = $this->db;
+		$lng = $this->lng;
 		
 		$this->initForm("create");
 		if ($this->form->checkInput())
@@ -362,7 +390,7 @@ class ilPCTabsGUI extends ilPageContentGUI
 	 */
 	function afterCreation()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$this->pg_obj->stripHierIDs();
 		$this->pg_obj->addHierIDs();
@@ -451,7 +479,11 @@ class ilPCTabsGUI extends ilPageContentGUI
 	*/
 	function edit()
 	{
-		global $tpl, $ilTabs, $ilCtrl, $ilToolbar, $lng;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
+		$ilToolbar = $this->toolbar;
+		$lng = $this->lng;
 
 		$ilToolbar->addButton($lng->txt("cont_add_tab"),
 			$ilCtrl->getLinkTarget($this, "addTab"));
@@ -468,7 +500,8 @@ class ilPCTabsGUI extends ilPageContentGUI
 	*/
 	function saveTabs()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		if (is_array($_POST["caption"]))
 		{
@@ -490,7 +523,8 @@ class ilPCTabsGUI extends ilPageContentGUI
 	*/
 	function addTab()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$this->content_obj->addTab($lng->txt("cont_new_tab"));
 		$this->updated = $this->pg_obj->update();
@@ -504,7 +538,9 @@ class ilPCTabsGUI extends ilPageContentGUI
 	*/
 	function confirmTabsDeletion()
 	{
-		global $ilCtrl, $tpl, $lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 
 		$this->setTabs();
 
@@ -538,7 +574,7 @@ class ilPCTabsGUI extends ilPageContentGUI
 	*/
 	function cancelTabDeletion()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		$ilCtrl->redirect($this, "edit");
 	}
 	
@@ -547,7 +583,7 @@ class ilPCTabsGUI extends ilPageContentGUI
 	*/
 	function deleteTabs()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		if (is_array($_POST["tid"]))
 		{
@@ -568,7 +604,9 @@ class ilPCTabsGUI extends ilPageContentGUI
 	*/
 	function setTabs()
 	{
-		global $ilTabs, $ilCtrl, $lng;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		$ilTabs->setBackTarget($lng->txt("pg"),
 			$this->ctrl->getParentReturn($this));

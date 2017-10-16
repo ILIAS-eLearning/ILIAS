@@ -18,12 +18,47 @@ include_once "./Services/COPage/classes/class.ilPCQuestion.php";
 class ilPCQuestionGUI extends ilPageContentGUI
 {
 	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
 	* Constructor
 	* @access	public
 	*/
 	function __construct(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->access = $DIC->access();
+		$this->tpl = $DIC["tpl"];
+		$this->tabs = $DIC->tabs();
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$this->tree = $DIC->repositoryTree();
+		$this->toolbar = $DIC->toolbar();
+		$ilCtrl = $DIC->ctrl();
 		$this->scormlmid = $a_pg_obj->parent_id;
 		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 		$ilCtrl->saveParameter($this, array("qpool_ref_id"));
@@ -34,7 +69,11 @@ class ilPCQuestionGUI extends ilPageContentGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl, $ilAccess, $tpl, $ilTabs, $lng;
+		$ilCtrl = $this->ctrl;
+		$ilAccess = $this->access;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
+		$lng = $this->lng;
 		
 		// get current command
 		$cmd = $ilCtrl->getCmd();
@@ -92,7 +131,9 @@ class ilPCQuestionGUI extends ilPageContentGUI
 	 */
 	function setInsertTabs($a_active)
 	{
-		global $ilTabs, $ilCtrl, $lng;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		// new question
 		$ilTabs->addSubTab("new_question",
@@ -115,7 +156,9 @@ class ilPCQuestionGUI extends ilPageContentGUI
 	 */
 	function insert($a_mode = "create")
 	{
-		global $ilUser, $lng, $ilCtrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$this->setInsertTabs("new_question");
 
@@ -271,7 +314,8 @@ class ilPCQuestionGUI extends ilPageContentGUI
 	*/
 	function edit()
 	{
-		global $ilCtrl, $ilTabs;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
 		
 		$ilTabs->setTabActive('question');
 		
@@ -355,7 +399,8 @@ class ilPCQuestionGUI extends ilPageContentGUI
 
 	function feedback() 
 	{
-		global $ilCtrl, $ilTabs;
+		$ilCtrl = $this->ctrl;
+		$ilTabs = $this->tabs;
 		
 		include_once("./Modules/TestQuestionPool/classes/class.ilQuestionEditGUI.php");
 		include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
@@ -398,7 +443,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
 	*/
 	function createQuestionPool($name = "Dummy")
 	{
-		global $tree;
+		$tree = $this->tree;
 		$parent_ref = $tree->getParentId($_GET["ref_id"]);
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 		$qpl = new ilObjQuestionPool();
@@ -424,7 +469,9 @@ class ilPCQuestionGUI extends ilPageContentGUI
 			return;
 		}
 		
-		global $ilTabs, $ilCtrl, $lng;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
 		
 		if ($this->content_obj!="") {
@@ -474,7 +521,12 @@ class ilPCQuestionGUI extends ilPageContentGUI
 	 */
 	function insertFromPool()
 	{
-		global $ilCtrl, $ilAccess, $ilTabs, $tpl, $lng, $ilToolbar;
+		$ilCtrl = $this->ctrl;
+		$ilAccess = $this->access;
+		$ilTabs = $this->tabs;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilToolbar = $this->toolbar;
 //var_dump($_SESSION["cont_qst_pool"]);
 		if ($_SESSION["cont_qst_pool"] != "" &&
 			$ilAccess->checkAccess("write", "", $_SESSION["cont_qst_pool"])
@@ -496,7 +548,10 @@ class ilPCQuestionGUI extends ilPageContentGUI
 	 */
 	function poolSelection()
 	{
-		global $ilCtrl, $tree, $tpl, $ilTabs;
+		$ilCtrl = $this->ctrl;
+		$tree = $this->tree;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
 
 		$this->setInsertTabs("copy_question");
 
@@ -521,7 +576,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
 	 */
 	function selectPool()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$_SESSION["cont_qst_pool"] = $_GET["pool_ref_id"];
 		$ilCtrl->setParameter($this, "subCmd", "insertFromPool");
@@ -536,7 +591,10 @@ class ilPCQuestionGUI extends ilPageContentGUI
 	 */
 	function listPoolQuestions()
 	{
-		global $ilToolbar, $tpl, $ilCtrl, $lng;
+		$ilToolbar = $this->toolbar;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		ilUtil::sendInfo($lng->txt("cont_cp_question_diff_formats_info"));
 		
@@ -565,7 +623,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
 	 */
 	function copyQuestion()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$this->content_obj = new ilPCQuestion($this->getPage());
 		$this->content_obj->create($this->pg_obj, $_GET["hier_id"]);

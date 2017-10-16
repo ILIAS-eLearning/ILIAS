@@ -12,6 +12,31 @@
 */
 class ilExPeerReviewGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs_gui;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	protected $ass; // [ilExAssignment]
 	protected $submission; // [ilExSubmission]
 	
@@ -24,7 +49,13 @@ class ilExPeerReviewGUI
 	 */
 	public function __construct(ilExAssignment $a_ass, ilExSubmission $a_submission = null)
 	{
-		global $ilCtrl, $ilTabs, $lng, $tpl;
+		global $DIC;
+
+		$this->user = $DIC->user();
+		$ilCtrl = $DIC->ctrl();
+		$ilTabs = $DIC->tabs();
+		$lng = $DIC->language();
+		$tpl = $DIC["tpl"];
 		
 		$this->ass = $a_ass;
 		$this->submission = $a_submission;
@@ -38,7 +69,10 @@ class ilExPeerReviewGUI
 	
 	public function executeCommand()
 	{
-		global $ilCtrl, $lng, $ilTabs, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilTabs = $this->tabs_gui;
+		$ilUser = $this->user;
 		
 		if(!$this->ass->getPeerReview())
 		{
@@ -142,7 +176,10 @@ class ilExPeerReviewGUI
 	
 	public static function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission)
 	{
-		global $lng, $ilCtrl;
+		global $DIC;
+
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
 		
 		$ass = $a_submission->getAssignment();
 		
@@ -245,7 +282,8 @@ class ilExPeerReviewGUI
 	
 	function showGivenPeerReviewObject()
 	{		
-		global $tpl, $lng;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 		
 		if(!$this->canView())
 		{
@@ -271,7 +309,9 @@ class ilExPeerReviewGUI
 	
 	function showReceivedPeerReviewObject()
 	{
-		global $ilCtrl, $tpl, $lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 		
 		if(!$this->canView() ||
 			(!$this->submission->isTutor() &&
@@ -303,7 +343,7 @@ class ilExPeerReviewGUI
 	
 	protected function renderInfoWidget(ilInfoScreenGUI $a_info_widget, array $a_peer_items, $a_by_peer = false)
 	{		
-		global $lng;
+		$lng = $this->lng;
 		
 		include_once "Services/User/classes/class.ilUserUtil.php";		
 			
@@ -416,7 +456,7 @@ class ilExPeerReviewGUI
 	
 	protected function getLateSubmissionInfo(ilExSubmission $a_submission)
 	{		
-		global $lng;
+		$lng = $this->lng;
 		
 		// #18966 - late files info
 		foreach($a_submission->getFiles() as $file)
@@ -430,7 +470,7 @@ class ilExPeerReviewGUI
 	
 	function editPeerReviewObject()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		if(!$this->canGive())
 		{
@@ -467,7 +507,7 @@ class ilExPeerReviewGUI
 	
 	function editPeerReviewItemObject(ilPropertyFormGUI $a_form = null)
 	{		
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		if(!$this->canGive() ||			
 			!$this->isValidPeer($_GET["peer_id"]))
@@ -518,7 +558,8 @@ class ilExPeerReviewGUI
 	
 	protected function initPeerReviewItemForm($a_peer_id)
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		// get peer data
 		$peer_items = $this->submission->getPeerReview()->getPeerReviewsByGiver($this->submission->getUserId());
@@ -606,7 +647,9 @@ class ilExPeerReviewGUI
 	
 	function updateCritAjaxObject()
 	{
-		global $ilCtrl, $ilUser, $tpl;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
+		$tpl = $this->tpl;
 		
 		if(!$this->canGive() ||			
 			!$_POST["peer_id"] ||
@@ -641,7 +684,8 @@ class ilExPeerReviewGUI
 	
 	function updatePeerReviewObject()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		if(!$this->canGive() ||
 			!$this->isValidPeer($_REQUEST["peer_id"]))
@@ -711,7 +755,7 @@ class ilExPeerReviewGUI
 	
 	function downloadPeerReviewObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		if(!$this->canView() &&
 			!$this->canGive())
@@ -752,7 +796,7 @@ class ilExPeerReviewGUI
 		
 	public function showPeerReviewOverviewObject()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		if(!$this->ass || 
 			!$this->ass->getPeerReview())				
@@ -795,7 +839,9 @@ class ilExPeerReviewGUI
 	
 	public function confirmResetPeerReviewObject()
 	{
-		global $ilCtrl, $tpl, $ilTabs;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs_gui;
 		
 		if(!$this->ass || 
 			!$this->ass->getPeerReview())				
@@ -817,7 +863,7 @@ class ilExPeerReviewGUI
 	
 	public function resetPeerReviewObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		if(!$this->ass || 
 			!$this->ass->getPeerReview())				

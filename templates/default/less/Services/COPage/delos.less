@@ -85,6 +85,15 @@ div.il_editarea_disabled {
 	min-height: 20px;
 }
 
+.ilCopgDisabledText {
+	color: @brand-warning;
+	position: absolute;
+	font-size: @font-size-small;
+	margin-top: -22px;
+	padding: 2px 5px;
+	background-color: @il-primary-container-bg;
+}
+
 div.il_editarea_active {
 	border: 1px solid #909090;
 	min-height: 20px;
@@ -162,6 +171,12 @@ div.ilTinyMenuSection {
 	border-right: 1px solid #e0e0e0;
 	padding: 0 10px 4px 0;
 	margin-right: 10px;
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		height: 28px;
+		margin: 3px 3px 3px 0px;
+		padding: 0 10px 0 0;
+		border-right: 0 none;
+	}
 }
 
 [dir="rtl"] div.ilTinyMenuSection {
@@ -176,6 +191,12 @@ div.ilTinyMenuSection {
 #ilTinyMenuButtons {
 	padding-bottom: 15px;
 	zoom:1;
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		height: 28px;
+		margin: 3px 3px 3px 0;
+		padding: 0 10px 0 0;
+		border-right: 0 none;
+	}
 }
 
 #iltinymenu .bd div.last {
@@ -194,15 +215,34 @@ div.ilTinyMenuSection {
 	top: 0;
 	background-color: @il-secondary-container-bg;
     .box-shadow(3px 9px 9px 0 rgba(0, 0, 0, 0.176));
+	.bd {
+		div {
+			&.last {
+				float: left;
+				white-space: nowrap;
+				padding: 0 10px 2px 0;
+				border-right: 0;
+				margin: 0;
+			}
+			.small {
+				color: #909090;
+				font-style: italic;
+			}
+		}
+	}
+	.btn-default {
+		.mce-ico {
+			color: inherit !important;
+		}
+	}
+	
+	a.btn {
+		min-width: 30px;
+	}
 }
 
 #iltinymenu_bd {
 	padding: 10px;
-}
-
-#iltinymenu .bd div .small {
-	color: #909090;
-	font-style: italic;
 }
 
 #ilsaving {
@@ -396,14 +436,6 @@ a.nostyle:hover {
 	z-index: 3000 !important;
 }
 
-#iltinymenu .mce-ico {
-	color: white !important;
-}
-
-#iltinymenu a.btn {
-	min-width: 30px;
-}
-
 #error_panel_c {
 	z-index: 2000 !important;
 }
@@ -412,20 +444,20 @@ a.nostyle:hover {
 	background-color: @il-secondary-container-bg;
 	padding: 10px;
 	margin-top: 30px;
-}
-
-#ilPageEditLegend > div {
-	margin: 5px 0;
-}
-
-#ilPageEditLegend .il_droparea, #ilPageEditLegend .il_droparea:hover {
-	display: inline-block;
-	width: 40px;
-	border-color: #d0d0d0;
-	color: #d0d0d0;
-	background-color: #fcfcfc;
-	cursor: default;
-	height: 21px;
+	> div {
+		margin: 5px 0;
+	}
+	.il_droparea {
+		&, &:hover {
+			display: inline-block;
+			width: 40px;
+			border-color: #d0d0d0;
+			color: #d0d0d0;
+			background-color: #fcfcfc;
+			cursor: default;
+			height: 21px;
+		}
+	}
 }
 
 .ilPageEditLegendElement {
@@ -471,4 +503,27 @@ a.ilCOPageSection {
 
 #ilAdvSelListAnchorText_char_style_selection > span {
 	min-width: auto;
+}
+
+div.ilc_answers.answer-table div.ilc_qanswer_Answer {
+	display: table-row;
+}
+
+div.ilc_answers.answer-table div.ilc_qanswer_Answer > div {
+	display: table-cell;
+}
+
+div.ilc_question_SingleChoice .answertext > p, div.ilc_question_MultipleChoice .answertext > p {
+	margin: 0 !important;
+}
+
+div.ilc_question_SingleChoice .ilc_qanswer_Answer > div:first-child,
+div.ilc_question_MultipleChoice .ilc_qanswer_Answer > div:first-child {
+	padding-right: 10px;
+}
+
+.ilTinyInfo {
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		display: none;
+	}
 }

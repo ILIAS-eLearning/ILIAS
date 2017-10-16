@@ -184,6 +184,7 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 		foreach ($status_updates as $prgrs_id => $status) {
 			$prgrs = $this->sp_user_progress_db->getInstanceById($prgrs_id);
 			$cur_status = $prgrs->getStatus();
+
 			if ($status == self::MANUAL_STATUS_NONE && $cur_status == ilStudyProgrammeProgress::STATUS_ACCREDITED) {
 				$prgrs->unmarkAccredited($this->user->getId());
 				$changed = true;
@@ -201,11 +202,36 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 				$changed = true;
 			}
 
-			if($cur_status == ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
+			$deadline = $this->updateDeadline($prgrs);
+
+			if ($cur_status == ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
 				$changed = $this->updateRequiredPoints($prgrs_id) || $changed;
+
+				if($deadline !== null && $deadline->get(IL_CAL_DATE) < date("Y-m-d")) {
+					$prgrs->markFailed($this->user->getId());
+				}
+			} else if($cur_status == ilStudyProgrammeProgress::STATUS_FAILED) {
+				if($deadline === null || $deadline->get(IL_CAL_DATE) > date("Y-m-d")) {
+					$prgrs->markNotFailed($this->user->getId());
+				}
 			}
 		}
 		return $changed;
+	}
+
+	/**
+	 * Updates current deadline
+	 *
+	 * @param ilStudyProgrammeUserProgress 	$prgrs
+	 *
+	 * @return ilDateTime
+	 */
+	protected function updateDeadline(ilStudyProgrammeUserProgress $prgrs) {
+		$deadline = $this->getDeadlineFromForm($prgrs->getId());
+		$prgrs->setDeadline($deadline);
+		$prgrs->updateProgress($this->user->getId());
+
+		return $deadline;
 	}
 
 	protected function updateRequiredPoints($prgrs_id) {
@@ -229,6 +255,29 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 		$prgrs->setRequiredAmountOfPoints($required_points, $this->user->getId());
 		return true;
 
+	}
+
+	/**
+	 * Get the deadline from form
+	 *
+	 * @param int 	$prgrs_id
+	 *
+	 * @return ilDateTime
+	 */
+	protected function getDeadlineFromForm($prgrs_id) {
+		$post_var = $this->getDeadlinePostVarTitle();
+		if (!array_key_exists($post_var, $_POST)) {
+			throw new ilException("Expected array $post_var in POST");
+		}
+
+		$post_value = $_POST[$post_var];
+		$deadline = $post_value[$prgrs_id];
+
+		if($deadline == "") {
+			return null;
+		}
+
+		return new ilDateTime($deadline, IL_CAL_DATE);
 	}
 
 	protected function showSuccessMessage($a_lng_var) {
@@ -285,16 +334,23 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 		$a_table->addCommandButton("updateFromInput", $this->lng->txt("save"));
 	}
 
+	const POST_VAR_STATUS = "status";
+	const POST_VAR_REQUIRED_POINTS = "required_points";
+	const POST_VAR_DEADLINE = "deadline";
 	const MANUAL_STATUS_NONE = 0;
 	const MANUAL_STATUS_NOT_RELEVANT = 1;
 	const MANUAL_STATUS_ACCREDITED = 2;
 
 	public function getManualStatusPostVarTitle() {
-		return "status";
+		return self::POST_VAR_STATUS;
 	}
 
 	public function getRequiredPointsPostVarTitle() {
-		return "required_points";
+		return self::POST_VAR_REQUIRED_POINTS;
+	}
+
+	public function getDeadlinePostVarTitle() {
+		return self::POST_VAR_DEADLINE;
 	}
 
 	public function getManualStatusNone() {

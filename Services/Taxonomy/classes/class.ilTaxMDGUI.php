@@ -5,16 +5,26 @@
  * Taxonomies selection for metadata helper GUI
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @package ilias-core
- * @version $Id: class.ilMDEditorGUI.php 36575 2012-08-28 12:17:50Z jluetzen $
+ * @ilCtrl_Calls ilTaxMDGUI: ilFormPropertyDispatchGUI
  * @ingroup ServicesTaxonomy
  */
 class ilTaxMDGUI
 {
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
 	protected $md_rbac_id; // [int]
 	protected $md_obj_id; // [int]
 	protected $md_obj_type; // [string]
-	
+
+
 	/**
 	 * Constructor
 	 * 
@@ -23,47 +33,145 @@ class ilTaxMDGUI
 	 * @param int $a_md_obj_type
 	 * @return self
 	 */
-	public function __construct($a_md_rbac_id, $a_md_obj_id, $a_md_obj_type)
+	public function __construct($a_md_rbac_id, $a_md_obj_id, $a_md_obj_type, $a_ref_id)
 	{
+		global $DIC;
+
+		$this->obj_definition = $DIC["objDefinition"];
+		$this->tree = $DIC->repositoryTree();
+
+
+		$this->tabs = $DIC->tabs();
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->tpl = $DIC["tpl"];
+
 		$this->md_rbac_id = $a_md_rbac_id;
 		$this->md_obj_id = $a_md_obj_id;
-		$this->md_obj_type = $a_md_obj_type;				
+		$this->md_obj_type = $a_md_obj_type;
+		$this->ref_id = $a_ref_id;
 	}
-	
+
+	/**
+	 * Execute command
+	 */
+	function executeCommand()
+	{
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd("show");
+
+		switch ($next_class)
+		{
+			case 'ilformpropertydispatchgui':
+				$form = $this->initForm();
+				include_once './Services/Form/classes/class.ilFormPropertyDispatchGUI.php';
+				$form_prop_dispatch = new ilFormPropertyDispatchGUI();
+				$item = $form->getItemByPostVar($_GET["postvar"]);
+				$form_prop_dispatch->setItem($item);
+				return $this->ctrl->forwardCommand($form_prop_dispatch);
+
+			default:
+				if (in_array($cmd, array("show", "save")))
+				{
+					$this->$cmd();
+				}
+		}
+	}
+
+	/**
+	 * Show
+	 *
+	 * @param
+	 * @return
+	 */
+	function show()
+	{
+		$tpl = $this->tpl;
+
+		$form = $this->initForm();
+		$tpl->setContent($form->getHTML());
+	}
+
+	/**
+	 * Save form
+	 */
+	public function save()
+	{
+		$tpl = $this->tpl;
+		$ctrl = $this->ctrl;
+
+		$form = $this->initForm();
+		if ($form->checkInput())
+		{
+			$this->updateFromMDForm();
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+			$ctrl->redirect($this, "show");
+		}
+		else
+		{
+			$form->setValuesByPost();
+			$tpl->setContent($form->getHtml());
+		}
+	}
+
+	/**
+	 * Init taxonomy form.
+	 */
+	public function initForm()
+	{
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+
+		$this->addToMDForm($form);
+
+		$form->addCommandButton("save", $this->lng->txt("save"));
+
+
+		$form->setTitle($this->lng->txt("tax_tax_assignment"));
+		$form->setFormAction($this->ctrl->getFormAction($this));
+
+		return $form;
+	}
+
 	/**
 	 * Get selectable taxonomies for current object
 	 * 
 	 * @return array
 	 */
-	protected function getSelectableTaxonomies()
+	public function getSelectableTaxonomies()
 	{
-		global $objDefinition, $tree;
+		$objDefinition = $this->obj_definition;
+		$tree = $this->tree;
 		
-		if($objDefinition->isRBACObject($this->md_obj_type))
+		if($this->ref_id > 0 && $objDefinition->isRBACObject($this->md_obj_type))
 		{
 			$res = array();
 			
 			// see ilTaxonomyBlockGUI::getActiveTaxonomies()
 						
 			// get all active taxonomies of parent objects
-			foreach($tree->getPathFull((int)$_REQUEST["ref_id"]) as $node)
-			{				
-				// currently only active for categories
-				if($node["type"] == "cat")
+			foreach($tree->getPathFull((int)$this->ref_id) as $node)
+			{
+				if ($node["ref_id"] != (int)$this->ref_id)
 				{
-					include_once "Services/Object/classes/class.ilObjectServiceSettingsGUI.php";
-					include_once "Services/Container/classes/class.ilContainer.php";
-					if(ilContainer::_lookupContainerSetting(
-						$node["obj_id"],
-						ilObjectServiceSettingsGUI::TAXONOMIES,
-						false
-						))
+					// currently only active for categories
+					if ($node["type"] == "cat")
 					{
-						include_once "Services/Taxonomy/classes/class.ilObjTaxonomy.php";
-						$tax_ids = ilObjTaxonomy::getUsageOfObject($node["obj_id"]);					
-						if(sizeof($tax_ids))
+						include_once "Services/Object/classes/class.ilObjectServiceSettingsGUI.php";
+						include_once "Services/Container/classes/class.ilContainer.php";
+						if (ilContainer::_lookupContainerSetting(
+							$node["obj_id"],
+							ilObjectServiceSettingsGUI::TAXONOMIES,
+							false
+						)
+						)
 						{
-							$res = array_merge($res, $tax_ids);
+							include_once "Services/Taxonomy/classes/class.ilObjTaxonomy.php";
+							$tax_ids = ilObjTaxonomy::getUsageOfObject($node["obj_id"]);
+							if (sizeof($tax_ids))
+							{
+								$res = array_merge($res, $tax_ids);
+							}
 						}
 					}
 				}
@@ -103,7 +211,7 @@ class ilTaxMDGUI
 			{														
 				// get existing assignments
 				$node_ids = array();				
-				$ta = $this->initTaxNodeAssignment($tax_id);							
+				$ta = $this->initTaxNodeAssignment($tax_id);
 				foreach($ta->getAssignmentsOfItem($this->md_obj_id) as $ass)
 				{
 					$node_ids[] = $ass["node_id"];
@@ -143,5 +251,25 @@ class ilTaxMDGUI
 				}
 			}
 		}				
-	}	
+	}
+
+	/**
+	 * addSubTab
+	 *
+	 * @param
+	 * @return
+	 */
+	function addSubTab()
+	{
+		$tabs = $this->tabs;
+		$ctrl = $this->ctrl;
+		$lng = $this->lng;
+
+		$tax_ids = $this->getSelectableTaxonomies();
+		if (is_array($tax_ids))
+		{
+			$tabs->addSubTab("tax_assignment", $lng->txt("tax_tax_assignment"),
+				$ctrl->getLinkTarget($this, ""));
+		}
+	}
 }

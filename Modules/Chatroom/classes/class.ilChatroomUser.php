@@ -173,20 +173,18 @@ class ilChatroomUser
 	 */
 	public function buildUniqueUsername($username)
 	{
-		/**
-		 * @var ilDB $ilDB
-		 */
-		global $ilDB;
+		global $DIC;
+
 		$username   = htmlspecialchars(trim($username));
 		$usernames  = array();
 		$uniqueName = $username;
 
-		$rset = $ilDB->query('SELECT * FROM chatroom_users WHERE '
-			. $ilDB->like('userdata', 'text', '%"login":"' . $username . '%')
-			. ' AND room_id = ' . $ilDB->quote($this->room->getRoomId(), 'integer')
+		$rset = $DIC->database()->query('SELECT * FROM chatroom_users WHERE '
+			. $DIC->database()->like('userdata', 'text', '%"login":"' . $username . '%')
+			. ' AND room_id = ' . $DIC->database()->quote($this->room->getRoomId(), 'integer')
 		);
 
-		while(($row = $ilDB->fetchAssoc($rset)))
+		while(($row = $DIC->database()->fetchAssoc($rset)))
 		{
 			$json        = json_decode($row['userdata'], true);
 			$usernames[] = $json['login'];

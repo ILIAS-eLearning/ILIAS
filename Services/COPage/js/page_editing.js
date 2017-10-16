@@ -392,9 +392,9 @@ var ilCOPage =
 		ed.execCommand('mcePasteWord');
 	},
 
-	cmdIntLink: function(b, e)
+	cmdIntLink: function(b, e, content)
 	{
-		this.addBBCode(b, e);
+		this.addBBCode(b, e, false, content);
 	},
 
 	getSelection: function() {
@@ -403,12 +403,16 @@ var ilCOPage =
 		return ed.selection.getContent();
 	},
 
-	addBBCode: function(stag, etag, clearselection)
+	addBBCode: function(stag, etag, clearselection, content)
 	{
 		var ed = tinyMCE.get('tinytarget'), r, rcopy;
 		ed.focus();
+		if (!content) {
+			content = "";
+		}
 		if (ed.selection.getContent() == "")
 		{
+			stag = stag + content;
 			rcopy = ed.selection.getRng(true).cloneRange();
 			var nc = stag + ed.selection.getContent() + etag;
 			ed.selection.setContent(nc);
@@ -1530,7 +1534,7 @@ var ilCOPage =
 			if (typeof il == 'undefined'){
 				il = o.argument.il;
 			}
-
+			//console.log(o.responseText);
 			removeToolbar();
 			$('#il_EditPage').replaceWith(o.responseText);
 			ilCOPage.initDragElements();
@@ -1542,6 +1546,26 @@ var ilCOPage =
 			{
 				il.AdvancedSelectionList.init['style_selection']();
 				il.AdvancedSelectionList.init['char_style_selection']();
+			}
+			if (o.argument.osd_text && o.argument.osd_text != "") {
+				OSDNotifier = OSDNotifications({
+					initialNotifications: [{
+						notification_osd_id: 123,
+						valid_until: 0,
+						visible_for: 3,
+						data: {
+							title: "",
+							link: false,
+							iconPath: false,
+							shortDescription: o.argument.osd_text,
+							handlerParams: {
+								osd: {
+									closable: false
+								}
+							}
+						}
+					}]
+				});
 			}
 		}
 	},
@@ -1896,30 +1920,25 @@ function extractHierId(id)
  */
 function doMouseClick(e, id, type, char)
 {
-	console.log(ilCOPage);
+	//console.log(ilCOPage);
 	if (ilCOPage.getInsertStatus())
 	{
 		return;
 	}
-
 	// edit other paragaph
 	if ((ilCOPage.getEditStatus() && type == "Paragraph" && char != 'Code'))
 	{
 		ilCOPage.switchTo(id.substr(7));
 		return;
 	}
-
 	if (ilCOPage.getEditStatus() && ilCOPage.current_td == "")
 	{
 		return
 	}
-
 	if (cmd_called) return;
-
 	if(menuBlocked || mouseUpBlocked) return;
 	menuBlocked = true;
 	setTimeout("nextMenuClick()",100);
-
 	if (!e) var e = window.event;
 
 	if (id.substr(0, 6) == "TARGET")
@@ -2189,6 +2208,7 @@ function editParagraph(div_id, mode, switched)
 			cleanup_on_startup : true,
 			cleanup: true,
 			paste_auto_cleanup_on_paste : true,
+			branding: false,
 
 
 			/**
@@ -2264,6 +2284,7 @@ function editParagraph(div_id, mode, switched)
 			},
 
 			setup : function(ed) {
+
 				ed.on('KeyUp', function(ev)
 				{
 					var ed = tinyMCE.get('tinytarget');
@@ -2326,6 +2347,7 @@ function editParagraph(div_id, mode, switched)
 //console.log("onNodeChange");
 //console.log("----");
 //console.trace();
+
 					// clean content after paste (has this really an effect?)
 					// (yes, it does, at least splitSpans is important here #13019)
 					if (ilCOPage.pasting) {
@@ -2372,6 +2394,14 @@ function editParagraph(div_id, mode, switched)
 				ed.on('init', function(evt)
 				{
 					var ed = tinyMCE.get('tinytarget');
+
+					// see https://www.tinymce.com/docs/api/tinymce/tinymce.shortcuts/
+					// removing does not seem to work, also the functions do not
+					// seem to be executed, but this way the shortcut is at least disabled
+					// on chrome/mac, see also 0008662
+					ed.shortcuts.add('meta+b', function() {tinymce.activeEditor.formatter.toggle("Strong");});
+					ed.shortcuts.add('meta+u', function() {console.log("test 1");});
+					ed.shortcuts.add('meta+i', function() {console.log("test 2");});
 
 					ilCOPage.setEditFrameSize(width, height);
 					if (mode == 'edit')
@@ -2554,6 +2584,22 @@ function doActionForm(cmd, command, value, target, type, char)
 		ccell.bgColor='';
 		ccell.appendChild(loadergif);
 	}
+	if (value == 'cut' || value == 'delete' || value == 'paste' || value == 'copy' || value == 'activate' || value == 'deactivate') {
+		cmd_called = false;
+		var args= {};
+		if (value == 'cut') {
+			args = {osd_text: il.Language.txt("cont_sel_el_cut_use_paste")};
+		}
+		if (value == 'copy') {
+			args = {osd_text: il.Language.txt("cont_sel_el_copied_use_paste")};
+		}
+		ilCOPage.sendCmdRequest(value, clickcmdid, "", {},
+			true, args, ilCOPage.pageReloadAjaxSuccess);
+//		console.log(value);
+//		console.log(obj);
+		return;
+	}
+
 	obj.submit();
 }
 

@@ -59,6 +59,11 @@ class ilForumTopicTableGUI extends ilTable2GUI
 	 * @var bool
 	 */
 	public $is_post_draft_allowed = FALSE;
+
+	/**
+	 * @var \ilTemplate
+	 */
+	protected $mainTemplate;
 	
 	private $user;
 	private $settings;
@@ -77,7 +82,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
 
 		$this->lng  = $DIC->language();
 		$this->ctrl = $DIC->ctrl();
-		$this->tpl = $DIC->ui()->mainTemplate();
+		$this->mainTemplate = $DIC->ui()->mainTemplate();
 		$this->user = $DIC->user();
 		$this->settings = $DIC->settings();
 		
@@ -100,7 +105,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj, $a_parent_cmd, $template_context);
 
 		// Add global css for table styles
-		$this->tpl->addCss('./Modules/Forum/css/forum_table.css');
+		$this->mainTemplate->addCss('./Modules/Forum/css/forum_table.css');
 		
 		$this->is_post_draft_allowed = ilForumPostDraft::isSavePostDraftAllowed();
 	}

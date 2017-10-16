@@ -49,13 +49,6 @@ class ilContainerReferenceAccess extends ilObjectAccess
 	*/
 	public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
 	{
-		global $ilUser, $lng, $rbacsystem, $ilAccess, $ilias;
-
-		if ($a_user_id == "")
-		{
-			$a_user_id = $ilUser->getId();
-		}
-
 		return true;
 	}
 	
@@ -67,7 +60,10 @@ class ilContainerReferenceAccess extends ilObjectAccess
 	 */
 	 public static function _isAccessible($a_ref_id)
 	 {
-	 	global $ilDB,$tree;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$tree = $DIC->repositoryTree();
 	 	
 	 	$obj_id = ilObject::_lookupObjId($a_ref_id);
 	 	$query = "SELECT target_obj_id FROM container_reference ".

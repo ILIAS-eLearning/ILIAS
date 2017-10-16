@@ -17,12 +17,15 @@ define ("AUTH_HTTP",8);
 define ("AUTH_ECS",9);
 
 define ("AUTH_APACHE",11);
+define ("AUTH_SAML", 12);
 
 define ("AUTH_INACTIVE",18);
 
 define('AUTH_MULTIPLE',20);
 
 define ('AUTH_SESSION', 21);
+
+define('AUTH_PROVIDER_LTI', 22);
 
 define('AUTH_SOAP_NO_ILIAS_USER', -100);
 define('AUTH_LDAP_NO_ILIAS_USER',-200);
@@ -32,7 +35,7 @@ define('AUTH_RADIUS_NO_ILIAS_USER',-300);
 // maybe no (valid) certificate or
 // username could not be extracted
 define('AUTH_APACHE_FAILED', -500);
-
+define('AUTH_SAML_FAILED', -501);
 
 define('AUTH_MODE_INACTIVE',-1000);
 
@@ -116,255 +119,6 @@ class ilAuthUtils
 	}
 	
 
-	/**
-	* initialises $ilAuth 
-	*/
-	public static function _initAuth()
-	{
-		global $ilAuth, $ilSetting, $ilDB, $ilClientIniFile,$ilBench;
-
-		$user_auth_mode = false;
-		$ilBench->start('Auth','initAuth');
-
-
-		// get default auth mode 
-		//$default_auth_mode = $this->getSetting("auth_mode");
-		define ("AUTH_DEFAULT", $ilSetting->get("auth_mode") ? $ilSetting->get("auth_mode") : AUTH_LOCAL);
-		
-		// determine authentication method if no session is found and username & password is posted
-		// does this if statement make any sense? we enter this block nearly everytime.	
-		
-        if(
-			empty($_SESSION) ||
-            (!isset($_SESSION['_authsession']['registered']) ||
-            $_SESSION['_authsession']['registered'] !== true))
-        {
-			ilLoggerFactory::getLogger('auth')->debug('User is not remembered');
-			
-			// no sesssion found
-			if (isset($_POST['username']) and $_POST['username'] != '' and $_POST['password'] != '' or isset($_GET['ecs_hash']) or isset($_GET['ecs_hash_url']) or isset($_POST['oid_username']) or isset($_GET['oid_check_status']))
-			{
-				$user_auth_mode = ilAuthUtils::_getAuthModeOfUser($_POST['username'], $_POST['password'], $ilDB);
-				ilLoggerFactory::getLogger('auth')->debug('Authmode is '. $user_auth_mode);
-
-				if ($user_auth_mode == AUTH_CAS && $ilSetting->get("cas_allow_local"))
-				{
-					$user_auth_mode = AUTH_LOCAL;
-				}
-				if ($user_auth_mode == AUTH_SOAP && $ilSetting->get("soap_auth_allow_local"))
-				{
-					$user_auth_mode = AUTH_LOCAL;
-				}
-				if ($user_auth_mode == AUTH_SHIBBOLETH && $ilSetting->get("shib_auth_allow_local"))
-				{
-					$user_auth_mode = AUTH_LOCAL;
-				}
-			}
-			else if ($_POST['auth_mode'] == AUTH_APACHE)
-			{
-				$user_auth_mode = AUTH_APACHE;
-			}			
-        }
-	
-		// to do: other solution?
-		if (!$ilSetting->get("soap_auth_active") && $user_auth_mode == AUTH_SOAP)
-		{
-			$user_auth_mode = AUTH_LOCAL;
-		}
-		
-		if($ilSetting->get("cas_active") && $_GET['forceCASLogin'])
-		{
-			ilAuthFactory::setContext(ilAuthFactory::CONTEXT_CAS);
-			$user_auth_mode = AUTH_CAS;
-		}
-
-		if($ilSetting->get("apache_active") && $user_auth_mode == AUTH_APACHE)
-		{
-			ilAuthFactory::setContext(ilAuthFactory::CONTEXT_APACHE);
-			$user_auth_mode = AUTH_APACHE;
-		}
-		
-		// begin-patch auth
-		$user_auth_mode = AUTH_SESSION;
-
-
-		// BEGIN WebDAV: Share session between browser and WebDAV client.
-		// The realm is needed to support a common session between Auth_HTTP and Auth.
-		// It also helps us to distinguish between parallel sessions run on different clients.
-		// Common session only works if we use a common session name starting with "_authhttp".
-		// We must use the "_authttp" prefix, because it is hardcoded in the session name of
-		// class Auth_HTTP.
-		// Whenever we use Auth_HTTP, we need to explicitly switch off "sessionSharing", because
-		// it interfers with the session mechanism of the other Auth modules. If we would
-		// keep this switched on, then users could steal each others session, which would cause
-		// a major security breach.
-		// Note: The realm and sessionName used here, must be the same as in 
-		//       class ilBaseAuthentication. Otherwise, Soap clients won't be able to log
-		//       in to ILIAS.
-		$realm = CLIENT_ID;
-		//$this->writelog('ilias.php realm='.$realm);
-		// END WebDAV: Share session between browser and WebDAV client.
-
-//var_dump($_SESSION);
-//echo "1-".$ilSetting->get("soap_auth_active")."-";
-		// if soap authentication activated and soap credentials given
-		if (($ilSetting->get("soap_auth_active") && !empty($_GET["ext_uid"])
-			&& !empty($_GET["soap_pw"])) || $user_auth_mode == AUTH_SOAP)
-		{
-			
-			define('AUTH_CURRENT',AUTH_SOAP);
-		}
-		// if Shibboleth is active and the user is authenticated
-		// we set auth_mode to Shibboleth
-		else if (	$ilSetting->get("shib_active")
-				&& $_SERVER[$ilSetting->get("shib_login")])
-		{
-			define ("AUTH_CURRENT", AUTH_SHIBBOLETH);
-		}
-		else
-		{
-			define ("AUTH_CURRENT", $user_auth_mode);
-		}
-//var_dump($_SESSION);
-
-		// Determine the authentication method to use
-		if (defined("WebDAV_Authentication") && WebDAV_Authentication == 'HTTP') {
-                        // Since WebDAV clients create the login form by 
-                        // themselves, we can not provide buttons on the form for 
-                        // choosing an authentication method. 
-                        // If the user is already logged in, we continue using
-                        // the current authentication method. If the user is
-                        // not logged in yet, we use the "multiple authentication"
-                        // method using a predefined sequence of authentication methods.
-			$authmode = AUTH_CURRENT ? AUTH_CURRENT : AUTH_MULTIPLE;
-		} 
-		else 
-		{
-			$authmode = AUTH_CURRENT;
-		}
-//var_dump($authmode);
-        // if no auth mode selected AND default mode is AUTH_APACHE then use it...
-		if ($authmode == null && AUTH_DEFAULT == AUTH_APACHE)
-			$authmode = AUTH_APACHE;
-
-		// begin-patch ldap_multiple
-		// we cast to int => AUTH_LDAP_1 matches AUTH_LDAP
-		switch ((int) $authmode)
-		{
-			case AUTH_LDAP:
-			
-				include_once './Services/LDAP/classes/class.ilLDAPServer.php';
-				$sid = ilLDAPServer::getServerIdByAuthMode($authmode);
-				include_once './Services/LDAP/classes/class.ilAuthContainerLDAP.php';
-				$ilAuth = ilAuthFactory::factory(new ilAuthContainerLDAP($sid));
-				break;
-				
-			case AUTH_RADIUS:
-
-				include_once './Services/Radius/classes/class.ilAuthContainerRadius.php';
-				$ilAuth = ilAuthFactory::factory(new ilAuthContainerRadius());
-				break;
-
-			case AUTH_SHIBBOLETH:
-				include_once './Services/AuthShibboleth/classes/class.ilShibboleth.php';		
-				$ilAuth = new ShibAuth(array(),true);
-				break;
-				
-			case AUTH_CAS:
-
-				include_once './Services/CAS/classes/class.ilAuthContainerCAS.php';
-				$ilAuth = ilAuthFactory::factory(new ilAuthContainerCAS());
-				break;
-
-			case AUTH_SOAP:
-
-				include_once './Services/SOAPAuth/classes/class.ilAuthContainerSOAP.php';
-				$ilAuth = ilAuthFactory::factory(new ilAuthContainerSOAP());
-				break;
-				
-			case AUTH_MULTIPLE:
-
-				include_once './Services/Authentication/classes/class.ilAuthContainerMultiple.php';
-				$ilAuth = ilAuthFactory::factory(new ilAuthContainerMultiple());
-				break;
-
-			case AUTH_ECS:
-				include_once './Services/WebServices/ECS/classes/class.ilAuthContainerECS.php';
-				$ilAuth = ilAuthFactory::factory(new ilAuthContainerECS());
-				break;
-				
-
-			case AUTH_INACTIVE:
-				require_once('./Services/Authentication/classes/class.ilAuthInactive.php');
-				$ilAuth = new ilAuthInactive(AUTH_MODE_INACTIVE);
-				break;
-
-			case AUTH_APACHE:
-				include_once './Services/AuthApache/classes/class.ilAuthContainerApache.php';
-				ilAuthFactory::setContext(ilAuthFactory::CONTEXT_APACHE);
-				$ilAuth = ilAuthFactory::factory(new ilAuthContainerApache());
-				break;
-
-			// begin-patch auth_plugin
-			case AUTH_LOCAL:
-				global $ilDB;
-                if($ilDB instanceof ilDBPdo) {
-                    require_once 'Services/Authentication/classes/PDO/class.ilPDOAuthentication.php';
-                    $ilAuth = new ilPDOAuthentication(ilAuthFactory::getContextOptions(ilAuthFactory::getContext()));
-                } else {
-                    include_once './Services/Database/classes/class.ilAuthContainerMDB2.php';
-                    $ilAuth = ilAuthFactory::factory(new ilAuthContainerMDB2());
-                }
-				break;
-				
-			case AUTH_SESSION:
-				
-
-			default:
-				// check for plugin
-				if($authmode)
-				{
-					foreach(self::getAuthPlugins() as $pl)
-					{
-						$container = $pl->getContainer($authmode);
-						if($container instanceof Auth_Container)
-						{
-							ilLoggerFactory::getLogger('auth')->info('Using plugin authentication with auth mode ' . $authmode);
-							$ilAuth = ilAuthFactory::factory($container);
-							break 2;
-						}
-					}
-				}
-				#$GLOBALS['ilLog']->write(__METHOD__.' Using default authentication');
-				// default for logged in users
-                if($ilDB instanceof ilDBPdo) {
-                    require_once 'Services/Authentication/classes/PDO/class.ilPDOAuthentication.php';
-                    $ilAuth = new ilPDOAuthentication();
-                } else {
-                    include_once './Services/Database/classes/class.ilAuthContainerMDB2.php';
-                    $ilAuth = ilAuthFactory::factory(new ilAuthContainerMDB2());
-                }
-				break;
-			// end-patch auth_plugin
-		}
-		
-                // Due to a bug in Pear Auth_HTTP, we can't use idle time 
-                // with WebDAV clients. If we used it, users could never log
-                // back into ILIAS once their session idled out. :(
-		if (!defined("WebDAV_Authentication") || WebDAV_Authentication != 'HTTP')
-		{			
-			$ilAuth->setIdle(ilSession::getIdleValue(), false);			
-		}
-		$ilAuth->setExpire(0);
-
-		ini_set("session.cookie_lifetime", "0");
-//echo "-".get_class($ilAuth)."-";
-
-		ilSessionControl::checkExpiredSession();
-
-		$ilBench->stop('Auth','initAuth');
-		ilLoggerFactory::getLogger('auth')->debug('Using auth implementation: ' . get_class($ilAuth));
-	}
 	
 	static function _getAuthModeOfUser($a_username,$a_password,$a_db_handler = '')
 	{
@@ -449,6 +203,10 @@ class ilAuthUtils
 				return ilLDAPServer::getKeyByAuthMode($a_auth_mode);
 				// end-patch ldap_multiple
 				
+			case 'lti':
+				include_once './Services/LTI/classes/InternalProvider/class.ilAuthProviderLTI.php';
+				return ilAuthProviderLTI::getKeyByAuthMode($a_auth_mode);
+				
 			case "radius":
 				return AUTH_RADIUS;
 				break;
@@ -460,6 +218,10 @@ class ilAuthUtils
 			case "shibboleth":
 				return AUTH_SHIBBOLETH;
 				break;
+
+			case 'saml':
+				require_once 'Services/Saml/classes/class.ilSamlIdp.php';
+				return ilSamlIdp::getKeyByAuthMode($a_auth_mode);
 
 			case "cas":
 				return AUTH_CAS;
@@ -498,6 +260,10 @@ class ilAuthUtils
 				return ilLDAPServer::getAuthModeByKey($a_auth_key);
 				// end-patch ldap_multiple
 				
+			case AUTH_PROVIDER_LTI:
+				include_once './Services/LTI/classes/InternalProvider/class.ilAuthProviderLTI.php';
+				return ilAuthProviderLTI::getAuthModeByKey($a_auth_key);
+				
 			case AUTH_RADIUS:
 				return "radius";
 				break;
@@ -514,6 +280,10 @@ class ilAuthUtils
 				return "shibboleth";
 				break;
 
+			case AUTH_SAML:
+				require_once 'Services/Saml/classes/class.ilSamlIdp.php';
+				return ilSamlIdp::getAuthModeByKey($a_auth_key);
+
 			case AUTH_SOAP:
 				return "soap";
 				break;
@@ -523,6 +293,10 @@ class ilAuthUtils
 
 			case AUTH_APACHE:
 				return 'apache';
+
+			case AUTH_PROVIDER_LTI:
+				return "lti";
+				break;
 
 			default:
 				return "default";
@@ -544,6 +318,13 @@ class ilAuthUtils
 		{
 			$modes['ldap_'.$sid] = (AUTH_LDAP.'_'.$sid);
 		}
+		
+		include_once './Services/LTI/classes/InternalProvider/class.ilAuthProviderLTI.php';
+		foreach(ilAuthProviderLTI::getAuthModes() as $sid)
+		{
+			$modes['lti_'.$sid] = (AUTH_PROVIDER_LTI.'_'.$sid);
+		}
+		
 		// end-patch ldap_multiple
 		if ($ilSetting->get("radius_active")) $modes['radius'] = AUTH_RADIUS;
 		if ($ilSetting->get("shib_active")) $modes['shibboleth'] = AUTH_SHIBBOLETH;
@@ -556,6 +337,12 @@ class ilAuthUtils
 		if(ilECSServerSettings::getInstance()->activeServerExists())
 		{
 			$modes['ecs'] = AUTH_ECS;
+		}
+
+		require_once 'Services/Saml/classes/class.ilSamlIdp.php';
+		foreach(ilSamlIdp::getActiveIdpList() as $idp)
+		{
+			$modes['saml_'. $idp->getIdpId()] = AUTH_SAML  . '_' . $idp->getIdpId();
 		}
 
 		// begin-path auth_plugin
@@ -579,22 +366,45 @@ class ilAuthUtils
 			AUTH_LOCAL,
 			AUTH_LDAP,
 			AUTH_SHIBBOLETH,
+			AUTH_SAML,
 			AUTH_CAS,
 			AUTH_SOAP,
 			AUTH_RADIUS,
 			AUTH_ECS,
+			AUTH_PROVIDER_LTI,
 			AUTH_OPENID,
 			AUTH_APACHE
 		);
 		$ret = array();
 		foreach($modes as $mode)
 		{
+			if($mode == AUTH_PROVIDER_LTI)
+			{
+				include_once './Services/LTI/classes/InternalProvider/class.ilAuthProviderLTI.php';
+				foreach(ilAuthProviderLTI::getAuthModes() as $sid)
+				{
+					$id = AUTH_PROVIDER_LTI.'_'.$sid;
+					$ret[$id] = ilAuthUtils::_getAuthModeName($id);
+				}
+				continue;
+			}
+
 			// multi ldap implementation
 			if($mode == AUTH_LDAP)
 			{
 				foreach(ilLDAPServer::_getServerList() as $ldap_id)
 				{
 					$id = AUTH_LDAP . '_' . $ldap_id;
+					$ret[$id] = ilAuthUtils::_getAuthModeName($id);
+				}
+				continue;
+			}
+			else if($mode == AUTH_SAML)
+			{
+				require_once 'Services/Saml/classes/class.ilSamlIdp.php';
+				foreach(ilSamlIdp::getAllIdps() as $idp)
+				{
+					$id = AUTH_SAML . '_' . $idp->getIdpId();
 					$ret[$id] = ilAuthUtils::_getAuthModeName($id);
 				}
 				continue;
@@ -780,6 +590,18 @@ class ilAuthUtils
 			return true;
 		}
 		
+		include_once './Services/LTI/classes/InternalProvider/class.ilAuthProviderLTI.php';
+		if(count(ilAuthProviderLTI::getActiveAuthModes()))
+		{
+			return true;
+		}
+		
+		require_once 'Services/Saml/classes/class.ilSamlIdp.php';
+		if(count(ilSamlIdp::getActiveIdpList()) > 0)
+		{
+			return true;
+		}
+
 		// begin-path auth_plugin
 		foreach(self::getAuthPlugins() as $pl)
 		{
@@ -813,6 +635,7 @@ class ilAuthUtils
 			case AUTH_LDAP:
 			case AUTH_RADIUS:
 			case AUTH_ECS:
+			case AUTH_PROVIDER_LTI:
 				return false;
 			default:
 				return true;
@@ -862,7 +685,13 @@ class ilAuthUtils
 			case AUTH_RADIUS:
 			case AUTH_ECS:
 			case AUTH_SCRIPT:
+			case AUTH_PROVIDER_LTI:
 				return false;
+
+			case AUTH_SAML:
+				require_once 'Services/Saml/classes/class.ilSamlIdp.php';
+				$idp = ilSamlIdp::getInstanceByIdpId(ilSamlIdp::getIdpIdByAuthMode($a_authmode));
+				return $idp->isActive() && $idp->allowLocalAuthentication();
 			
 			// Always for and local
 			case AUTH_LOCAL:
@@ -896,6 +725,7 @@ class ilAuthUtils
 				return ilAuthUtils::LOCAL_PWV_FULL;
 			
 			case AUTH_SHIBBOLETH:
+			case AUTH_SAML:
 			case AUTH_SOAP:
 			case AUTH_CAS:
 				if(!ilAuthUtils::isPasswordModificationEnabled($a_authmode))
@@ -904,6 +734,7 @@ class ilAuthUtils
 				}
 				return ilAuthUtils::LOCAL_PWV_USER;
 				
+			case AUTH_PROVIDER_LTI:
 			case AUTH_ECS:
 			case AUTH_SCRIPT:
 			case AUTH_APACHE:
@@ -954,6 +785,18 @@ class ilAuthUtils
 				$server = ilLDAPServer::getInstanceByServerId($sid);
 				return $server->getName();
 				
+			case AUTH_PROVIDER_LTI:
+				include_once './Services/LTI/classes/InternalProvider/class.ilAuthProviderLTI.php';
+				$sid = ilAuthProviderLTI::getServerIdByAuthMode($a_auth_key);
+				return ilAuthProviderLTI::lookupConsumer($sid);
+				
+
+			case AUTH_SAML:
+				require_once 'Services/Saml/classes/class.ilSamlIdp.php';
+				$idp_id = ilSamlIdp::getIdpIdByAuthMode($a_auth_key);
+				$idp = ilSamlIdp::getInstanceByIdpId($idp_id);
+				return $idp->getEntityId();
+
 			default:
 				return $lng->txt('auth_'.self::_getAuthModeName($a_auth_key));
 		}

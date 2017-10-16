@@ -463,7 +463,7 @@ class ilDclTable {
 			}
 			$this->fields = $fields;
 
-			ilDclCache::preloadFieldProperties(array_keys($fields));
+			ilDclCache::preloadFieldProperties($fields);
 		}
 	}
 
@@ -1264,7 +1264,8 @@ class ilDclTable {
 		$new_fields = array();
 		foreach ($original->getFields() as $orig_field) {
 			if (!$orig_field->isStandardField()) {
-				$new_field = new ilDclBaseFieldModel();
+				$class_name = get_class($orig_field);
+				$new_field = new $class_name();
 				$new_field->setTableId($this->getId());
 				$new_field->cloneStructure($orig_field->getId());
 				$new_fields[$orig_field->getId()] = $new_field;

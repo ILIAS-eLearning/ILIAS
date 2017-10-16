@@ -25,7 +25,7 @@ class ilChartPie extends ilChart
 	
 	protected function addCustomJS()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		$tpl->addJavascript("Services/Chart/js/flot/jquery.flot.pie.js");
 	}		

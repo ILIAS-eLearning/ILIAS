@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="" />
+<title>reorder</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">reorder</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/yui2/latest_build/examples/dragdrop/dd-reorder_clean.html</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>showButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertAlert</td>
+	<td>List 1: li1_1 li1_2 li1_3&nbsp;&nbsp;List 2: li2_1 li2_2 li2_3 </td>
+	<td></td>
+</tr>
+<tr>
+	<td>dragAndDrop</td>
+	<td>li1_1</td>
+	<td>+0,+50</td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

@@ -13,6 +13,21 @@ include_once("./Services/Component/classes/class.ilPlugin.php");
 */
 abstract class ilObjectPluginGUI extends ilObject2GUI
 {
+	/**
+	 * @var ilNavigationHistory
+	 */
+	protected $nav_history;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilPluginAdmin
+	 */
+	protected $plugin_admin;
+
 
 	protected $plugin;
 	/**
@@ -20,6 +35,17 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	*/
 	function __construct($a_ref_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->tpl = $DIC["tpl"];
+		$this->access = $DIC->access();
+		$this->lng = $DIC->language();
+		$this->nav_history = $DIC["ilNavigationHistory"];
+		$this->tabs = $DIC->tabs();
+		$this->locator = $DIC["ilLocator"];
+		$this->plugin_admin = $DIC["ilPluginAdmin"];
+		$this->user = $DIC->user();
 		parent::__construct($a_ref_id, $a_id_type, $a_parent_node_id);
 		$this->plugin = $this->getPlugin();
 	}
@@ -29,7 +55,12 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl, $tpl, $ilAccess, $lng, $ilNavigationHistory, $ilTabs;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$ilAccess = $this->access;
+		$lng = $this->lng;
+		$ilNavigationHistory = $this->nav_history;
+		$ilTabs = $this->tabs;
 
 		// get standard template (includes main menu and general layout)
 		$tpl->getStandardTemplate();
@@ -156,7 +187,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	*/
 	function addLocatorItems()
 	{
-		global $ilLocator;
+		$ilLocator = $this->locator;
 
 		if (!$this->getCreationMode())
 		{
@@ -222,7 +253,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	 */
 	protected function initCreationForms($a_new_type)
 	{
-		global $ilPluginAdmin;
+		$ilPluginAdmin = $this->plugin_admin;
 		
 		$forms = array();
 		$forms[self::CFORM_NEW] = $this->initCreateForm($a_new_type);
@@ -285,7 +316,8 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	*/
 	public function initEditForm()
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -344,7 +376,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	*/
 	function afterSave(ilObject $newObj)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		// always send a message
 		ilUtil::sendSuccess($this->lng->txt("object_added"),true);
 
@@ -375,7 +407,8 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	*/
 	function addInfoTab()
 	{
-		global $ilAccess, $ilTabs;
+		$ilAccess = $this->access;
+		$ilTabs = $this->tabs;
 		
 		// info screen
 		if ($ilAccess->checkAccess('visible', "", $this->object->getRefId()))
@@ -392,7 +425,9 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	*/
 	function addPermissionTab()
 	{
-		global $ilAccess, $ilTabs, $ilCtrl;
+		$ilAccess = $this->access;
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
 		
 		// edit permissions
 		if($ilAccess->checkAccess('edit_permission', "", $this->object->getRefId()))
@@ -409,7 +444,12 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	*/
 	function infoScreen()
 	{
-		global $ilAccess, $ilUser, $lng, $ilCtrl, $tpl, $ilTabs;
+		$ilAccess = $this->access;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs;
 		
 		$ilTabs->setTabActive("info_short");
 		
@@ -441,7 +481,11 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	*/
 	public static function _goto($a_target)
 	{
-		global $ilCtrl, $ilAccess, $lng;
+		global $DIC;
+
+		$ilCtrl = $DIC->ctrl();
+		$ilAccess = $DIC->access();
+		$lng = $DIC->language();
 		
 		$t = explode("_", $a_target[0]);
 		$ref_id = (int) $t[0];
@@ -477,7 +521,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	 * @return bool
 	 */
 	protected function supportsExport() {
-		global $ilPluginAdmin;
+		$ilPluginAdmin = $this->plugin_admin;
 
 		return $ilPluginAdmin->supportsExport(IL_COMP_SERVICE, "Repository", "robj", $this->getPlugin()->getPluginName());
 	}

@@ -37,7 +37,12 @@ class ilSpecialUsersTableGUI extends ilTable2GUI
 
 	function __construct($a_parent_obj, $a_parent_cmd = "")
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
@@ -57,7 +62,7 @@ class ilSpecialUsersTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		include_once "./Services/User/classes/class.ilObjUser.php";
 		$user = ilObjUser::_lookupFields($a_set);
 		$ilCtrl->setParameterByClass("ilObjSurveyAdministrationGUI", "item_id", $user["usr_id"]);

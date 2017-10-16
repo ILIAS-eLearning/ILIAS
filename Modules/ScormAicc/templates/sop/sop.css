@@ -1,0 +1,22 @@
+#sopAppCacheDownloadFrame {
+	display: none;
+	position: absolute;
+}
+
+#lmAppCacheDownloadFrame {
+	display: none;
+	position: absolute;
+}
+
+div.sopBtn {
+	margin-top: 10px;
+}
+
+div.chkPurgeCache {
+	display: none;
+	margin-top: 15px;
+}
+#lmNotExists {
+	display: none;
+	margin-top: 15px;
+}

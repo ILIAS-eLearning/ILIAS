@@ -17,9 +17,13 @@ class SurveySingleChoiceQuestionEvaluation extends SurveyQuestionEvaluation
 	
 	public function getUserSpecificVariableTitles(array &$a_title_row, array &$a_title_row2, $a_do_title, $a_do_label)
 	{		
-		global $lng;
-		
-		$categories = $this->question->getCategories();		
+		$lng = $this->lng;
+
+		// this is for the separation of title and scale, see #20646
+		$a_title_row[] = $a_title_row[count($a_title_row) - 1];
+		$a_title_row2[] = $a_title_row2[count($a_title_row2) - 1];
+
+		$categories = $this->question->getCategories();
 		for ($i = 0; $i < $categories->getCategoryCount(); $i++)
 		{
 			$cat = $categories->getCategory($i);
@@ -41,8 +45,9 @@ class SurveySingleChoiceQuestionEvaluation extends SurveyQuestionEvaluation
 			$cat = $categories->getCategory($i);
 			if ($cat->other)
 			{
-				$other[] = $cat->scale;	
-				break;	
+				$other[] = $cat->scale;
+				// outcommented due to #0021525
+//				break;
 			}
 		}
 		
@@ -50,6 +55,7 @@ class SurveySingleChoiceQuestionEvaluation extends SurveyQuestionEvaluation
 		if($answer === null)
 		{
 			$a_row[] = $this->getSkippedValue();
+			$a_row[] = "";	// see #20646
 			foreach($other as $dummy)
 			{
 				$a_row[] = "";
@@ -57,7 +63,10 @@ class SurveySingleChoiceQuestionEvaluation extends SurveyQuestionEvaluation
 		}
 		else
 		{
-			$a_row[] = $answer[0][0];
+			//$a_row[] = $answer[0][0];	// see #20646
+			$a_row[] = $answer[0][3];	// see #20646
+			$a_row[] = $answer[0][2];	// see #20646
+
 			foreach($other as $scale)
 			{
 				if($scale == $answer[0][2])

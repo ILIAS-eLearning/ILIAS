@@ -16,6 +16,31 @@ include_once "Modules/Exercise/classes/class.ilExSubmission.php";
 */
 class ilExSubmissionGUI
 {	
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs_gui;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	protected $exercise; // [ilObjExercise]
 	protected $submission; // [ilExSubmission]
 	protected $assignment; // [ilExAssignment]
@@ -30,7 +55,14 @@ class ilExSubmissionGUI
 	 */
 	public function __construct(ilObjExercise $a_exercise, ilExAssignment $a_ass, $a_user_id = null)
 	{
-		global $ilCtrl, $ilTabs, $lng, $tpl, $ilUser;
+		global $DIC;
+
+		$this->user = $DIC->user();
+		$ilCtrl = $DIC->ctrl();
+		$ilTabs = $DIC->tabs();
+		$lng = $DIC->language();
+		$tpl = $DIC["tpl"];
+		$ilUser = $DIC->user();
 		
 		if(!$a_user_id)
 		{
@@ -64,7 +96,7 @@ class ilExSubmissionGUI
 	
 	public function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd("listPublicSubmissions");	
@@ -122,7 +154,9 @@ class ilExSubmissionGUI
 	
 	public static function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = $DIC->ctrl();
 		
 		if(!$a_submission->canView())
 		{
@@ -151,7 +185,9 @@ class ilExSubmissionGUI
 	 */
 	function listPublicSubmissionsObject()
 	{				
-		global $ilTabs, $ilCtrl, $lng;
+		$ilTabs = $this->tabs_gui;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 		
 		if(!$this->exercise->getShowSubmissions())
 		{
@@ -182,7 +218,7 @@ class ilExSubmissionGUI
  	 */
 	function downloadFeedbackFileObject()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$file = $_REQUEST["file"];
 
@@ -224,7 +260,7 @@ class ilExSubmissionGUI
 	
 	public function downloadGlobalFeedbackFileObject()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$needs_dl = ($this->assignment->getFeedbackDate() == ilExAssignment::FEEDBACK_DATE_DEADLINE);
 		

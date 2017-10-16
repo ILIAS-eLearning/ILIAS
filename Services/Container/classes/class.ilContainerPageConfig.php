@@ -14,11 +14,18 @@ include_once("./Services/COPage/classes/class.ilPageConfig.php");
 class ilContainerPageConfig extends ilPageConfig
 {
 	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
 	 * Init
 	 */
 	function init()
 	{
-		global $ilSetting;
+		global $DIC;
+
+		$this->settings = $DIC->settings();
 
 		$this->setEnableInternalLinks(true);
 		$this->setIntLinkHelpDefaultType("RepositoryItem");

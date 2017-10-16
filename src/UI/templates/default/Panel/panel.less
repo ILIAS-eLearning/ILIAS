@@ -5,6 +5,28 @@
 	> .panel-body > .panel {
 		margin-bottom: 10px;
 	}
+	.panel-heading{
+		height: 34px;
+	}
+
+}
+
+.panel-heading {
+	> h3 {
+		float: left;
+	}
+
+	> h4 {
+		float: left;
+	}
+
+	.dropdown {
+		float: right;
+
+		> button.dropdown-toggle {
+			color: @il-btn-standard-color;
+		}
+	}
 }
 
 .il-panel-listing-std-item-container {
@@ -27,6 +49,11 @@
 		font-size: @font-size-h3;
 		text-transform: @il-panel-listing-std-container-h3-text-transform;
 		color: @il-panel-listing-std-container-h3-color;
+		float: left;
+	}
+
+	.dropdown {
+		float: right;
 	}
 }
 

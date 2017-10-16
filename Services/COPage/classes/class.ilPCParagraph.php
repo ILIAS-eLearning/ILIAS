@@ -15,9 +15,13 @@ require_once("./Services/COPage/classes/class.ilPageContent.php");
 */
 class ilPCParagraph extends ilPageContent
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	var $dom;
 	var $par_node;			// node of Paragraph element
-
 
 	static protected $bb_tags = array(
 			"com" => "Comment",
@@ -38,6 +42,9 @@ class ilPCParagraph extends ilPageContent
 	*/
 	function init()
 	{
+		global $DIC;
+
+		$this->user = $DIC->user();
 		$this->setType("par");
 	}
 
@@ -688,14 +695,16 @@ echo htmlentities($a_text);*/
 	 */
 	static function intLinks2xml($a_text)
 	{
-		global $objDefinition;
+		global $DIC;
+
+		$objDefinition = $DIC["objDefinition"];
 
 		$rtypes = $objDefinition->getAllRepositoryTypes();
 
 		// internal links
 		//$any = "[^\]]*";	// this doesn't work :-(
 		$ws= "[ \t\r\f\v\n]*";
-		$ltypes = "page|chap|term|media|obj|dfile|sess|wpage|".implode($rtypes, "|");
+		$ltypes = "page|chap|term|media|obj|dfile|sess|wpage|ppage|".implode($rtypes, "|");
 		// empty internal links
 		while (preg_match('~\[(iln'.$ws.'((inst'.$ws.'='.$ws.'([\"0-9])*)?'.$ws.
 			"((".$ltypes.")$ws=$ws([\"0-9])*)$ws".
@@ -759,18 +768,15 @@ echo htmlentities($a_text);*/
 			else if (isset($attribs["wpage"]))
 			{
 				$tframestr = "";
-/*				switch ($found[10])
-				{
-					case "New":
-						$tframestr = " TargetFrame=\"New\" ";
-						break;
-
-					default:
-						$tframestr = " TargetFrame=\"Glossary\" ";
-						break;
-				}*/
 				$a_text = preg_replace('/\['.$found[1].'\]/i',
 					"<IntLink Target=\"il_".$inst_str."_wpage_".$attribs[wpage]."\" Type=\"WikiPage\" $tframestr>", $a_text);
+			}
+			// portfolio pages
+			else if (isset($attribs["ppage"]))
+			{
+				$tframestr = "";
+				$a_text = preg_replace('/\['.$found[1].'\]/i',
+					"<IntLink Target=\"il_".$inst_str."_ppage_".$attribs[ppage]."\" Type=\"PortfolioPage\" $tframestr>", $a_text);
 			}
 			// media object
 			else if (isset($attribs["media"]))
@@ -1149,10 +1155,12 @@ echo htmlentities($a_text);*/
 
 				case "WikiPage":
 					$tframestr = "";
-					/*$tframestr = (empty($attribs["TargetFrame"]) || $attribs["TargetFrame"] == "Glossary")
-						? ""
-						: " target=\"".$attribs["TargetFrame"]."\"";*/
 					$a_text = preg_replace('~<IntLink'.$found[1].'>~i',"[iln ".$inst_str."wpage=\"".$target_id."\"".$tframestr."]",$a_text);
+					break;
+
+				case "PortfolioPage":
+					$tframestr = "";
+					$a_text = preg_replace('~<IntLink'.$found[1].'>~i',"[iln ".$inst_str."ppage=\"".$target_id."\"".$tframestr."]",$a_text);
 					break;
 
 				case "MediaObject":
@@ -1468,7 +1476,7 @@ if (!$a_wysiwyg)
 	 */
 	function saveJS($a_pg_obj, $a_content, $a_char, $a_pc_id, $a_insert_at = "")
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		$this->log->debug("step 1: ".substr($a_content, 0, 1000));
 		$t = self::handleAjaxContent($a_content);
@@ -2012,7 +2020,9 @@ if (!$a_wysiwyg)
 	 */
 	static function _deleteAnchors($a_parent_type, $a_page_id, $a_page_lang)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$ilDB->manipulate("DELETE FROM page_anchor WHERE ".
 			" page_parent_type = ".$ilDB->quote($a_parent_type, "text").
@@ -2026,7 +2036,9 @@ if (!$a_wysiwyg)
 	 */
 	static function _saveAnchor($a_parent_type, $a_page_id, $a_page_lang, $a_anchor_name)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$ilDB->manipulate("INSERT INTO page_anchor ".
 			"(page_parent_type, page_id, page_lang, anchor_name) VALUES (".
@@ -2042,7 +2054,9 @@ if (!$a_wysiwyg)
 	 */
 	static function _readAnchors($a_parent_type, $a_page_id, $a_page_lang = "-")
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$and_lang = ($a_page_lang != "")
 			? " AND page_lang = ".$ilDB->quote($a_page_lang, "text")

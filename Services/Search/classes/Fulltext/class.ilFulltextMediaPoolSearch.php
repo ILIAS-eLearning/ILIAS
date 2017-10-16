@@ -40,27 +40,13 @@ class ilFulltextMediaPoolSearch extends ilMediaPoolSearch
 	function __createAndCondition()
 	{
 		// IN BOOLEAN MODE
-		if($this->db->isMysql4_0OrHigher())
+		$query .= " AND MATCH(title) AGAINST('";
+		foreach($this->query_parser->getQuotedWords(true) as $word)
 		{
-			$query .= " AND MATCH(title) AGAINST('";
-			foreach($this->query_parser->getQuotedWords(true) as $word)
-			{
-				$query .= $word;
-				$query .= '* ';
-			}
-			$query .= "' IN BOOLEAN MODE) ";
+			$query .= $word;
+			$query .= '* ';
 		}
-		else
-		{
-			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
-			$query .= " AND MATCH (title) AGAINST(' ";
-			foreach($this->query_parser->getQuotedWords(true) as $word)
-			{
-				$query .= $word;
-				$query .= ' ';
-			}
-			$query .= "') ";
-		}
+		$query .= "' IN BOOLEAN MODE) ";
 		return $query;
 	}
 	
@@ -71,27 +57,13 @@ class ilFulltextMediaPoolSearch extends ilMediaPoolSearch
 	public function __createKeywordAndCondition()
 	{
 		// IN BOOLEAN MODE
-		if($this->db->isMysql4_0OrHigher())
+		$query .= " WHERE MATCH(keyword) AGAINST('";
+		foreach($this->query_parser->getQuotedWords(true) as $word)
 		{
-			$query .= " WHERE MATCH(keyword) AGAINST('";
-			foreach($this->query_parser->getQuotedWords(true) as $word)
-			{
-				$query .= $word;
-				$query .= '* ';
-			}
-			$query .= "' IN BOOLEAN MODE) ";
+			$query .= $word;
+			$query .= '* ';
 		}
-		else
-		{
-			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
-			$query .= " WHERE MATCH (keyword) AGAINST(' ";
-			foreach($this->query_parser->getQuotedWords(true) as $word)
-			{
-				$query .= $word;
-				$query .= ' ';
-			}
-			$query .= "') ";
-		}
+		$query .= "' IN BOOLEAN MODE) ";
 		return $query;
 	}
 }

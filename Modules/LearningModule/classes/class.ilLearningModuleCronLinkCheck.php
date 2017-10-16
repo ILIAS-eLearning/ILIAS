@@ -13,6 +13,34 @@ include_once "Services/Cron/classes/class.ilCronJob.php";
  */
 class ilLearningModuleCronLinkCheck extends ilCronJob
 {	
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var Logger
+	 */
+	protected $log;
+
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->log = $DIC["ilLog"];
+		$this->db = $DIC->database();
+	}
+
 	public function getId()
 	{
 		return "lm_link_check";
@@ -20,14 +48,14 @@ class ilLearningModuleCronLinkCheck extends ilCronJob
 	
 	public function getTitle()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		return $lng->txt("check_link");
 	}
 	
 	public function getDescription()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		return $lng->txt("check_link_desc");
 	}
@@ -54,7 +82,8 @@ class ilLearningModuleCronLinkCheck extends ilCronJob
 	
 	public function run()
 	{		
-		global $ilLog, $ilDB;
+		$ilLog = $this->log;
+		$ilDB = $this->db;
 		
 		$status = ilCronJobResult::STATUS_NO_ACTION;
 				

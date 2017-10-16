@@ -32,14 +32,24 @@ class ilAuthFrontendCredentials implements ilAuthCredentials
 	{
 		return $this->logger;
 	}
+	
+	/**
+	 * Set Logger
+	 * @param ilLogger $logger
+	 */
+	public function setLogger(ilLogger $logger)
+	{
+		$this->logger = $logger;
+	}
 
 	/**
 	 * Set username
-	 * @param string
+	 * @param string username
 	 */
 	public function setUsername($a_name)
 	{
-		$this->username = $a_name;
+		$this->getLogger()->debug('Username: "'.$a_name.'"');
+		$this->username = trim($a_name);
 	}
 
 	/**

@@ -45,7 +45,9 @@ class ilContainerReferenceAppEventListener  implements ilAppEventListener
 	 */
 	public static function handleEvent($a_component, $a_event, $a_parameter)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC["ilLog"];
 		
 		switch($a_component)
 		{
@@ -70,7 +72,9 @@ class ilContainerReferenceAppEventListener  implements ilAppEventListener
 	 */
 	 public static function deleteReferences($a_target_id)
 	 {
-	 	global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC["ilLog"];
 	 	
 	 	include_once('./Services/ContainerReference/classes/class.ilContainerReference.php');
 	 	if(!$source_id = ilContainerReference::_lookupSourceId($a_target_id))

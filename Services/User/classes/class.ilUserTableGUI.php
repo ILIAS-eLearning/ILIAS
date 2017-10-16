@@ -19,6 +19,11 @@ class ilUserTableGUI extends ilTable2GUI
 	
 	private $mode = null;
 	private $user_folder_id = 0;
+
+	/**
+	 * @var array
+	 */
+	protected $udf_fields = array();
 	
 	/**
 	* Constructor
@@ -31,6 +36,7 @@ class ilUserTableGUI extends ilTable2GUI
 		
 		$this->setMode($a_mode);
 		$this->setId("user".$this->getUserFolderId());
+		$this->readUserDefinedFieldsDefinitions();
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 //		$this->setTitle($this->lng->txt("users"));
@@ -40,7 +46,15 @@ class ilUserTableGUI extends ilTable2GUI
 		
 		foreach ($this->getSelectedColumns() as $c)
 		{
-			$this->addColumn($this->lng->txt($c), $c);
+			if ($this->isUdfColumn($c))
+			{
+				$f = $this->getUserDefinedField($c);
+				$this->addColumn($f["txt"], $f["sortable"] ? $c : "");
+			}
+			else	// usual column
+			{
+				$this->addColumn($this->lng->txt($c), $c);
+			}
 		}
 				
 		if($this->getMode() == self::MODE_LOCAL_USER)
@@ -102,8 +116,54 @@ class ilUserTableGUI extends ilTable2GUI
 		return $this->user_folder_id;
 	}
 
-	
-	
+	/**
+	 * Read user defined fields definitions
+	 */
+	function readUserDefinedFieldsDefinitions()
+	{
+		include_once './Services/User/classes/class.ilUserDefinedFields.php';
+		$user_defined_fields = ilUserDefinedFields::_getInstance();
+		foreach ($user_defined_fields->getDefinitions() as $field => $definition)
+		{
+			$this->udf_fields["udf_".$field] = array(
+				"txt" => $definition["field_name"],
+				"default" => false,
+				"options" => $definition["field_values"],
+				"type" => $definition["field_type"],
+				"sortable" => in_array($definition["field_type"], array(UDF_TYPE_TEXT, UDF_TYPE_SELECT))
+			);
+		}
+	}
+
+	/**
+	 * Get user defined field
+	 * @param string $a_key field key
+	 * @return array
+	 */
+	function getUserDefinedField($a_key)
+	{
+		if (isset($this->udf_fields[$a_key]))
+		{
+			return $this->udf_fields[$a_key];
+		}
+		return array();
+	}
+
+	/**
+	 * Field key
+	 * @param string $a_key field key
+	 * @return bool
+	 */
+	function isUdfColumn($a_key)
+	{
+		if (substr($a_key, 0, 4) == "udf_")
+		{
+			return true;
+		}
+		return false;
+	}
+
+
 	/**
 	 * Get selectable columns
 	 *
@@ -130,7 +190,6 @@ class ilUserTableGUI extends ilTable2GUI
 		$cols["lastname"] = array(
 			"txt" => $lng->txt("lastname"),
 			"default" => true);
-		
 		if($this->getMode() == self::MODE_USER_FOLDER)
 		{
 			$ufs = $up->getStandardFields();
@@ -149,6 +208,7 @@ class ilUserTableGUI extends ilTable2GUI
 				"txt" => $lng->txt("approve_date"));
 			$cols["agree_date"] = array(
 				"txt" => $lng->txt("agree_date"));
+
 		}
 		else
 		{
@@ -182,7 +242,25 @@ class ilUserTableGUI extends ilTable2GUI
 					"default" => false);
 			}
 		}
+
+
+		/**
+		 * LTI, showing depending by mode user?
+		 */
+		$cols["auth_mode"] = array(
+			"txt" => $lng->txt("auth_mode"),
+			"default" => false);
+
 		
+		// custom user fields
+		if($this->getMode() == self::MODE_USER_FOLDER)
+		{
+			foreach ($this->udf_fields as $k => $field)
+			{
+				$cols[$k] = $field;
+			}
+		}
+
 		// fields that are always shown
 		unset($cols["username"]);
 		
@@ -238,6 +316,15 @@ class ilUserTableGUI extends ilTable2GUI
 		unset($additional_fields["access_until"]);
 		unset($additional_fields['org_units']);
 
+		$udf_filter = array();
+		foreach ($this->filter as $k => $v)
+		{
+			if (substr($k,0,4) == "udf_")
+			{
+				$udf_filter[$k] = $v;
+			}
+		}
+
 		$query = new ilUserQuery();
 		$query->setOrderField($this->getOrderField());
 		$query->setOrderDirection($this->getOrderDirection());
@@ -253,7 +340,9 @@ class ilUserTableGUI extends ilTable2GUI
 		$query->setRoleFilter($this->filter['global_role']);
 		$query->setAdditionalFields($additional_fields);
 		$query->setUserFolder($user_filter);
+		$query->setUdfFilter($udf_filter);
 		$query->setFirstLetterLastname(ilUtil::stripSlashes($_GET['letter']));
+		$query->setAuthenticationFilter($this->filter['authentication']);
 		
 		$usr_data = $query->query();
 		
@@ -332,6 +421,7 @@ class ilUserTableGUI extends ilTable2GUI
 		$query->setLimit(self::getAllCommandLimit());
 		$query->setTextFilter($this->filter['query']);
 		$query->setActionFilter($this->filter['activation']);
+		$query->setAuthenticationFilter($this->filter['authentication']);
 		$query->setLastLogin($this->filter['last_login']);
 		$query->setLimitedAccessFilter($this->filter['limited_access']);
 		$query->setNoCourseFilter($this->filter['no_courses']);
@@ -504,8 +594,90 @@ class ilUserTableGUI extends ilTable2GUI
 		$this->addFilterItem($si);
 		$si->readFromSession();
 		$this->filter["global_role"] = $si->getValue();
+
+		// authentication mode
+		$auth_methods = ilAuthUtils::_getActiveAuthModes();
+		$options = array(
+			"" => $lng->txt("user_any"),
+		);
+		foreach ($auth_methods as $method => $value)
+		{
+			if ($method == 'default')
+			{
+				$options[$method] = $this->lng->txt('auth_'.$method)." (".$this->lng->txt('auth_'.ilAuthUtils::_getAuthModeName($value)).")";
+			}
+			else
+			{
+				$options[$method] = ilAuthUtils::getAuthModeTranslation($value);
+			}
+		}
+		$si = new ilSelectInputGUI($this->lng->txt("auth_mode"), "authentication_method");
+		$si->setOptions($options);
+		$this->addFilterItem($si);
+		$si->readFromSession();
+		$this->filter["authentication"] = $si->getValue();
+		
+		// udf fields
+		foreach ($this->udf_fields as $id => $f)
+		{
+			$this->addFilterItemByUdfType($id, $f["type"], true, $f["txt"], $f["options"]);
+		}
 	}
-	
+
+	/**
+	 * Add filter by standard type
+	 *
+	 * @param	string	$id
+	 * @param	int		$type
+	 * @param	bool	$a_optional
+	 * @param	string	$caption
+	 * @return	object
+	 */
+	function addFilterItemByUdfType($id, $type, $a_optional = false, $caption = NULL, $a_options = array())
+	{
+		global $lng;
+
+		if(!$caption)
+		{
+			$caption = $lng->txt($id);
+		}
+
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+
+		switch($type)
+		{
+			case UDF_TYPE_SELECT:
+				include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+				$item = new ilSelectInputGUI($caption, $id);
+				$sel_options = array("" => $this->lng->txt("user_all"));
+				foreach($a_options as $o)
+				{
+					$sel_options[$o] = $o;
+				}
+				$item->setOptions($sel_options);
+				break;
+
+			case UDF_TYPE_TEXT:
+				include_once("./Services/Form/classes/class.ilTextInputGUI.php");
+				$item = new ilTextInputGUI($caption, $id);
+				$item->setMaxLength(64);
+				$item->setSize(20);
+				// $item->setSubmitFormOnEnter(true);
+				break;
+
+			default:
+				return null;
+		}
+
+		if ($item)
+		{
+			$this->addFilterItem($item, $a_optional);
+			$item->readFromSession();
+			$this->filter[$id] = $item->getValue();
+		}
+		return $item;
+	}
+
 	/**
 	 * Fill table row
 	 */
@@ -514,9 +686,9 @@ class ilUserTableGUI extends ilTable2GUI
 		global $ilCtrl, $lng;
 
 		$ilCtrl->setParameterByClass("ilobjusergui", "letter", $_GET["letter"]);
-
+		
 		foreach ($this->getSelectedColumns() as $c)
-		{			
+		{	
 			if ($c == "access_until")
 			{
 				$this->tpl->setCurrentBlock("access_until");
@@ -533,6 +705,12 @@ class ilUserTableGUI extends ilTable2GUI
 			{
 				$this->tpl->setCurrentBlock($c);
 				$this->tpl->setVariable("VAL_".strtoupper($c), (string) $user[$c]);
+			}
+			elseif($c == 'auth_mode')
+			{
+				$this->tpl->setCurrentBlock('user_field');
+				$this->tpl->setVariable('VAL_UF',  ilAuthUtils::getAuthModeTranslation(ilAuthUtils::_getAuthMode($user['auth_mode'])));
+				$this->tpl->parseCurrentBlock();
 			}
 			else	// all other fields
 			{

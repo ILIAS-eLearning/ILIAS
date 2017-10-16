@@ -51,6 +51,10 @@ class BasicBucket implements Bucket {
 	 * @var int
 	 */
 	protected $percentage = 0;
+	/**
+	 * @var int
+	 */
+	protected $lastHeartbeat = 0;
 
 
 	/**
@@ -278,5 +282,38 @@ class BasicBucket implements Bucket {
 	 */
 	public function setDescription($description) {
 		$this->description = $description;
+	}
+
+
+	/**
+	 * There was something going on in the bucket, it's still working.
+	 *
+	 * @return void
+	 */
+	public function heartbeat() {
+		$timezone_identifier = ini_get('date.timezone');
+		date_default_timezone_set($timezone_identifier ? $timezone_identifier : 'UTC');
+		$now = new \DateTime();
+		$this->lastHeartbeat = $now->getTimestamp();
+	}
+
+
+	/**
+	 * @param $timestamp int
+	 *
+	 * @return void
+	 */
+	public function setLastHeartbeat($timestamp) {
+		$this->lastHeartbeat = $timestamp;
+	}
+
+
+	/**
+	 * When was the last time that something happened on this bucket?
+	 *
+	 * @return int Timestamp.
+	 */
+	public function getLastHeartbeat() {
+		return $this->lastHeartbeat;
 	}
 }

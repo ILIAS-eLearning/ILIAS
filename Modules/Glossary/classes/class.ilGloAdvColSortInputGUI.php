@@ -22,6 +22,9 @@ class ilGloAdvColSortInputGUI extends ilFormPropertyGUI
 	*/
 	function __construct($a_title = "", $a_id = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		parent::__construct($a_title, $a_id);
 		$this->setType("glo_adv_col_sort");
 	}
@@ -74,7 +77,7 @@ class ilGloAdvColSortInputGUI extends ilFormPropertyGUI
 	 */
 	function render()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$tpl = new ilTemplate("tpl.adv_col_sort_input.html", true, true, "Modules/Glossary");
 		include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");

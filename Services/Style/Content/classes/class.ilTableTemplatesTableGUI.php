@@ -34,12 +34,34 @@ include_once("Services/Table/classes/class.ilTable2GUI.php");
 class ilTableTemplatesTableGUI extends ilTable2GUI
 {
 	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
 	* Constructor
 	*/
 	function __construct($a_temp_type, $a_parent_obj, $a_parent_cmd, $a_style_obj)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng, $rbacsystem;
-		
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$this->rbacsystem = $DIC->rbac()->system();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
 
@@ -57,21 +79,8 @@ class ilTableTemplatesTableGUI extends ilTable2GUI
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.style_template_row.html", "Services/Style/Content");
-		//$this->setSelectAllCheckbox("file");
 		$this->getItems();
 
-		// action commands
-		if ($this->parent_obj->checkWrite())
-		{
-			$this->addMultiCommand("deleteTemplateConfirmation", $lng->txt("delete"));
-			
-			if ($a_temp_type == "table")
-			{
-				$this->addCommandButton("generateTemplate", $this->lng->txt("sty_generate_template"));
-			}
-			$this->addCommandButton("addTemplate", $this->lng->txt("sty_add_template"));
-		}
-		
 		$this->setEnableTitle(true);
 	}
 
@@ -88,8 +97,9 @@ class ilTableTemplatesTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl, $ilAccess, $rbacsystem;
-		
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+
 		$this->tpl->setVariable("T_PREVIEW", 
 			$this->style_obj->lookupTemplatePreview($a_set["id"]));
 		$this->tpl->setVariable("TID", $a_set["id"]);

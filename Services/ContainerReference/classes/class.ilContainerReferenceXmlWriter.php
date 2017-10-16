@@ -11,6 +11,11 @@ include_once "./Services/Xml/classes/class.ilXmlWriter.php";
  */
 class ilContainerReferenceXmlWriter extends ilXmlWriter
 {
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
 	const MODE_SOAP = 1;
 	const MODE_EXPORT = 2;
 	
@@ -27,6 +32,9 @@ class ilContainerReferenceXmlWriter extends ilXmlWriter
 	*/
 	public function __construct(ilContainerReference $ref = null)
 	{
+		global $DIC;
+
+		$this->settings = $DIC->settings();
 		parent::__construct();
 		$this->ref = $ref;
 	}
@@ -93,7 +101,7 @@ class ilContainerReferenceXmlWriter extends ilXmlWriter
 	 */
 	protected  function buildHeader()
 	{
-		global $ilSetting;
+		$ilSetting = $this->settings;
 
 		$this->xmlSetDtdDef("<!DOCTYPE container reference PUBLIC \"-//ILIAS//DTD Group//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_container_reference_4_3.dtd\">");
 		$this->xmlSetGenCmt("Export of ILIAS container reference ". $this->getReference()->getId()." of installation ".$ilSetting->get('inst_id').".");

@@ -15,6 +15,29 @@ require_once "./Services/Object/classes/class.ilObject2.php";
 class ilObjHelpSettings extends ilObject2
 {
 	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		parent::__construct();
+		global $DIC;
+
+		$this->db = $DIC->database();
+		$this->settings = $DIC->settings();
+	}
+
+	/**
 	 * Init type
 	 */
 	function initType()
@@ -30,7 +53,9 @@ class ilObjHelpSettings extends ilObject2
 	 */
 	static function createHelpModule()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$id = $ilDB->nextId("help_module");
 		
@@ -50,7 +75,9 @@ class ilObjHelpSettings extends ilObject2
 	 */
 	static function writeHelpModuleLmId($a_id, $a_lm_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$ilDB->manipulate("UPDATE help_module SET ".
 			" lm_id = ".$ilDB->quote($a_lm_id, "integer").
@@ -153,7 +180,7 @@ class ilObjHelpSettings extends ilObject2
 	 */
 	function getHelpModules()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$set = $ilDB->query("SELECT * FROM help_module");
 		
@@ -180,7 +207,9 @@ class ilObjHelpSettings extends ilObject2
 	 */
 	static function lookupModuleTitle($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT * FROM help_module ".
 			" WHERE id = ".$ilDB->quote($a_id, "integer")
@@ -201,7 +230,9 @@ class ilObjHelpSettings extends ilObject2
 	 */
 	static function lookupModuleLmId($a_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT lm_id FROM help_module ".
 			" WHERE id = ".$ilDB->quote($a_id, "integer")
@@ -218,7 +249,8 @@ class ilObjHelpSettings extends ilObject2
 	 */
 	function deleteModule($a_id)
 	{
-		global $ilDB, $ilSetting;
+		$ilDB = $this->db;
+		$ilSetting = $this->settings;
 		
 		// if this is the currently activated one, deactivate it first
 		if ($a_id == (int) $ilSetting->get("help_module"))
@@ -261,7 +293,9 @@ class ilObjHelpSettings extends ilObject2
 	 */
 	static function isHelpLM($a_lm_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->query("SELECT id FROM help_module ".
 			" WHERE lm_id = ".$ilDB->quote($a_lm_id, "integer")

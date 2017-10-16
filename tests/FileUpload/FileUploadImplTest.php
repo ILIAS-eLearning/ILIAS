@@ -146,6 +146,7 @@ class FileUploadImplTest extends TestCase {
 			->shouldReceive('getError')
 			->once()
 			->andReturn(UPLOAD_ERR_PARTIAL)
+			->getMock()
 			->shouldReceive('getStream')
 			->twice()
 			->andReturn(Streams::ofString("Text file content."));
@@ -165,34 +166,46 @@ class FileUploadImplTest extends TestCase {
 	}
 
 
-	public function testIfUploadIsNotPresent() {
+	/**
+	 * @test
+	 * @small
+	 */
+	public function testHasUploadsWithoutUploadedFiles() {
 		// No File-Upload Element
 		$this->globalHttpStateMock->shouldReceive('request->getUploadedFiles')
 		                          ->once()
 		                          ->andReturn([]);
 		$this->assertFalse($this->subject->hasUploads());
 
-		// Empty File-Upload Element
-		$uploadedFile = Mockery::mock(UploadedFileInterface::class);
-		$uploadedFile->shouldReceive('getSize')
-		             ->once()
-		             ->andReturn(0);
-
-		$this->globalHttpStateMock->shouldReceive('request->getUploadedFiles')
-		                          ->once()
-		                          ->andReturn([$uploadedFile]);
-		$this->assertFalse($this->subject->hasUploads());
 	}
 
-	public function testIfUploadIsPresent() {
+	/**
+	 * @test
+	 * @small
+	 */
+	public function testHasUploadsWithSingleUploadedFile() {
 		$uploadedFile = Mockery::mock(UploadedFileInterface::class);
-		$uploadedFile->shouldReceive('getSize')
-		             ->once()
-		             ->andReturn(10);
 
 		$this->globalHttpStateMock->shouldReceive('request->getUploadedFiles')
 		                          ->once()
 		                          ->andReturn([ $uploadedFile ]);
+
+		$this->assertTrue($this->subject->hasUploads());
+	}
+
+	/**
+	 * @test
+	 * @small
+	 */
+	public function testHasUploadsWithMultipleUploadedFile() {
+		$files = [];
+		for($i = 0; $i < 10; $i++)
+			$files[] = Mockery::mock(UploadedFileInterface::class);
+
+		$this->globalHttpStateMock->shouldReceive('request->getUploadedFiles')
+			->once()
+			->andReturn($files);
+
 		$this->assertTrue($this->subject->hasUploads());
 	}
 

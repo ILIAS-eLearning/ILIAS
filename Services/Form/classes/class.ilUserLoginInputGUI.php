@@ -28,6 +28,9 @@ class ilUserLoginInputGUI extends ilFormPropertyGUI
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		parent::__construct($a_title, $a_postvar);
 	}
 
@@ -108,7 +111,7 @@ class ilUserLoginInputGUI extends ilFormPropertyGUI
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
 		if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "")
@@ -140,7 +143,7 @@ class ilUserLoginInputGUI extends ilFormPropertyGUI
 	*/
 	function insert($a_tpl)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$a_tpl->setCurrentBlock("prop_login");
 		$a_tpl->setVariable("POST_VAR", $this->getPostVar());

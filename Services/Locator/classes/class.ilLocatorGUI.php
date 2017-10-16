@@ -14,6 +14,31 @@
 */
 class ilLocatorGUI
 {
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
 	protected $lng;
 	protected $entries;
 	
@@ -23,7 +48,14 @@ class ilLocatorGUI
 	*/
 	function __construct()
 	{
-		global $lng;
+		global $DIC;
+
+		$this->tree = $DIC->repositoryTree();
+		$this->ctrl = $DIC->ctrl();
+		$this->obj_definition = $DIC["objDefinition"];
+		$this->access = $DIC->access();
+		$this->settings = $DIC->settings();
+		$lng = $DIC->language();
 
 		$this->lng = $lng;	
 		$this->entries = array();
@@ -69,7 +101,8 @@ class ilLocatorGUI
 	*/
 	function addRepositoryItems($a_ref_id = 0)
 	{
-		global $tree, $ilCtrl;
+		$tree = $this->tree;
+		$ilCtrl = $this->ctrl;
 
 		if ($a_ref_id == 0)
 		{
@@ -83,7 +116,15 @@ class ilLocatorGUI
 		}
 		else
 		{
-			$a_start = ROOT_FOLDER_ID;
+			// LTI
+			if (isset($_SESSION['lti_tree_root_id'])) 
+			{
+				$a_start = $_SESSION['lti_tree_root_id'];
+			}
+			else 
+			{
+				$a_start = ROOT_FOLDER_ID;
+			}
 		}
 		
 		if ($a_ref_id > 0)
@@ -119,7 +160,10 @@ class ilLocatorGUI
 	*/
 	function addAdministrationItems($a_ref_id = 0)
 	{
-		global $tree, $ilCtrl, $objDefinition, $lng;
+		$tree = $this->tree;
+		$ilCtrl = $this->ctrl;
+		$objDefinition = $this->obj_definition;
+		$lng = $this->lng;
 
 		if ($a_ref_id == 0)
 		{
@@ -154,7 +198,7 @@ class ilLocatorGUI
 	
 	function addContextItems($a_ref_id, $a_omit_node = false, $a_stop = 0)
 	{
-		global $tree;
+		$tree = $this->tree;
 		
 		if ($a_ref_id > 0)
 		{
@@ -217,7 +261,7 @@ class ilLocatorGUI
 	*/
 	function addItem($a_title, $a_link, $a_frame = "", $a_ref_id = 0, $type = null)
 	{
-		global $ilAccess;
+		$ilAccess = $this->access;
 
 		if ($a_ref_id > 0 && !$ilAccess->checkAccess("visible", "", $a_ref_id))
 		{
@@ -249,7 +293,8 @@ class ilLocatorGUI
 	*/
 	function getHTML()
 	{
-		global $lng, $ilSetting;
+		$lng = $this->lng;
+		$ilSetting = $this->settings;
 		
 		if ($this->getTextOnly())
 		{
@@ -324,7 +369,8 @@ class ilLocatorGUI
 	 */
 	function getTextVersion()
 	{
-		global $lng, $ilSetting;
+		$lng = $this->lng;
+		$ilSetting = $this->settings;
 		
 		$items = $this->getItems();
 		$first = true;

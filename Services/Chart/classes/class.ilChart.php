@@ -12,6 +12,11 @@ include_once "Services/Chart/classes/class.ilChartLegend.php";
  */
 abstract class ilChart
 {
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
 	protected $id; // [string]
 	protected $width; // [string]
 	protected $height; // [string]
@@ -33,6 +38,9 @@ abstract class ilChart
 	 */
 	protected function __construct($a_id)
 	{
+		global $DIC;
+
+		$this->tpl = $DIC["tpl"];
 		$this->id = $a_id;
 		$this->data = array();
 				
@@ -249,7 +257,7 @@ abstract class ilChart
 	 */
 	protected function initJS()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		include_once "Services/jQuery/classes/class.iljQueryUtil.php";
 		iljQueryUtil::initjQuery();

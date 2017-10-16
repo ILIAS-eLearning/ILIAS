@@ -43,6 +43,12 @@ class ilObjFolder extends ilContainer
 	 */
 	public function __construct($a_id = 0,$a_call_by_reference = true)
 	{
+		global $DIC;
+
+		$this->tree = $DIC->repositoryTree();
+		$this->lng = $DIC->language();
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->access = $DIC->access();
 		$this->type = "fold";
 		parent::__construct($a_id,$a_call_by_reference);
 		$this->lng->loadLanguageModule('fold');
@@ -80,7 +86,7 @@ class ilObjFolder extends ilContainer
 	*/
 	function putInTree($a_parent)
 	{
-		global $tree;
+		$tree = $this->tree;
 		
 		if (!is_object($this->folder_tree))
 		{
@@ -126,7 +132,11 @@ class ilObjFolder extends ilContainer
 	 * @return returns first created directory
 	 */
 	private static function recurseFolder ($refid, $title, $tmpdir) {
-		global $rbacsystem, $tree, $ilAccess;
+		global $DIC;
+
+		$rbacsystem = $DIC->rbac()->system();
+		$tree = $DIC->repositoryTree();
+		$ilAccess = $DIC->access();
 				
 		$tmpdir = $tmpdir.DIRECTORY_SEPARATOR.ilUtil::getASCIIFilename($title);
 		ilUtil::makeDir($tmpdir);
@@ -161,7 +171,9 @@ class ilObjFolder extends ilContainer
 	}
 	
 	public function downloadFolder() {
-		global $lng, $rbacsystem, $ilAccess;
+		$lng = $this->lng;
+		$rbacsystem = $this->rbacsystem;
+		$ilAccess = $this->access;
 		include_once 'Modules/File/classes/class.ilObjFile.php';
 		include_once 'Modules/File/classes/class.ilFileException.php';
 		if (!$ilAccess->checkAccess("read", "", $this->getRefId()))
@@ -197,7 +209,7 @@ class ilObjFolder extends ilContainer
 	*/
 	function getViewMode()
 	{
-		global $tree;
+		$tree = $this->tree;
 		
 		// default: by type
 		$view = ilContainer::VIEW_BY_TYPE;
@@ -242,7 +254,7 @@ class ilObjFolder extends ilContainer
 	 */
 	public function read()
 	{
-		global $tree;
+		$tree = $this->tree;
 		
 		parent::read();
 		

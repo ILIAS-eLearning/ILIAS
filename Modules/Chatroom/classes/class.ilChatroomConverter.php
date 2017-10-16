@@ -11,9 +11,9 @@ class ilChatroomConverter
 {
 	public function backupHistoryToXML()
 	{
-		global $ilDB;
+		global $DIC;
 
-		$res = $ilDB->query("
+		$res = $DIC->database()->query("
 			SELECT		chat_id, room_id
 			FROM		chat_room_messages
 			GROUP BY	chat_id, room_id
@@ -21,14 +21,14 @@ class ilChatroomConverter
 
 		$chat_room_id_comb = array();
 
-		while($row = $ilDB->fetchAssoc($res))
+		while($row = $DIC->database()->fetchAssoc($res))
 		{
 			$chat_room_id_comb[] = array($row['chat_id'], $row['room_id']);
 		}
 
 		foreach($chat_room_id_comb as $combination)
 		{
-			$res = $ilDB->queryF("
+			$res = $DIC->database()->queryF("
 				SELECT		*
 				FROM		chat_room_messages
 				WHERE		chat_id = %s
@@ -42,7 +42,7 @@ class ilChatroomConverter
 			$xml->addAttribute('chat_id', $combination[0]);
 			$xml->addAttribute('room_id', $combination[1]);
 
-			while($row = $ilDB->fetchAssoc($res))
+			while($row = $DIC->database()->fetchAssoc($res))
 			{
 				$child = $xml->addChild('entry', $row['message']);
 				$child->addAttribute('timestamp', $row['commit_timestamp']);

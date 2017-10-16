@@ -15,7 +15,7 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
  * @ingroup ingroup ModulesBlog
  */
 class ilBlogDataSet extends ilDataSet
-{	
+{
 	protected $current_blog;
 	
 	static public $style_map = array();
@@ -25,7 +25,7 @@ class ilBlogDataSet extends ilDataSet
 	 */
 	public function getSupportedVersions()
 	{
-		return array("4.3.0", "5.0.0");
+		return array("4.3.0", "5.0.0", "5.3.0");
 	}
 	
 	/**
@@ -87,6 +87,35 @@ class ilBlogDataSet extends ilDataSet
 						"OvPost" => "integer",
 						"Style" => "integer"
 						);
+
+				case "5.3.0":
+					return array(
+						"Id" => "integer",
+						"Title" => "text",
+						"Description" => "text",
+						"Notes" => "integer",
+						"BgColor" => "text",
+						"FontColor" => "text",
+						"Img" => "text",
+						"Ppic" => "integer",
+						"RssActive" => "integer",
+						"Approval" => "integer",
+						"Dir" => "directory",
+						"AbsShorten" => "integer",
+						"AbsShortenLen" => "integer",
+						"AbsImage" => "integer",
+						"AbsImgWidth" => "integer",
+						"AbsImgHeight" => "integer",
+						"NavMode" => "integer",
+						"NavListMonWithPost" => "integer",
+						"NavListMon" => "integer",
+						"Keywords" => "integer",
+						"Authors" => "integer",
+						"NavOrder" => "text",
+						"OvPost" => "integer",
+						"Style" => "integer"
+					);
+
 			}
 		}
 		
@@ -96,6 +125,7 @@ class ilBlogDataSet extends ilDataSet
 			{				
 				case "4.3.0":
 				case "5.0.0":
+				case "5.3.0":
 					return array(
 						"Id" => "integer",
 						"BlogId" => "integer",
@@ -116,7 +146,7 @@ class ilBlogDataSet extends ilDataSet
 	 */
 	function readData($a_entity, $a_version, $a_ids, $a_field = "")
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		if (!is_array($a_ids))
 		{
@@ -146,7 +176,19 @@ class ilBlogDataSet extends ilDataSet
 						" JOIN object_data od ON (od.obj_id = bl.id)".
 						" WHERE ".$ilDB->in("bl.id", $a_ids, false, "integer").
 						" AND od.type = ".$ilDB->quote("blog", "text"));
-					break;		
+					break;
+
+				case "5.3.0":
+					$this->getDirectDataFromQuery("SELECT bl.id,od.title,od.description,".
+						"bl.bg_color,bl.font_color,bl.img,bl.ppic,bl.rss_active,bl.approval,".
+						"bl.abs_shorten,bl.abs_shorten_len,bl.abs_image,bl.abs_img_width,bl.abs_img_height,".
+						"bl.nav_mode,bl.nav_list_mon_with_post,bl.nav_list_mon,bl.keywords,bl.authors,bl.nav_order,".
+						"bl.ov_post".
+						" FROM il_blog bl".
+						" JOIN object_data od ON (od.obj_id = bl.id)".
+						" WHERE ".$ilDB->in("bl.id", $a_ids, false, "integer").
+						" AND od.type = ".$ilDB->quote("blog", "text"));
+					break;
 			}
 		}
 		
@@ -156,6 +198,7 @@ class ilBlogDataSet extends ilDataSet
 			{				
 				case "4.3.0":
 				case "5.0.0":
+				case "5.3.0":
 					$this->getDirectDataFromQuery("SELECT id,blog_id,title,created,author,approved".
 						" FROM il_blog_posting WHERE ".
 						$ilDB->in("blog_id", $a_ids, false, "integer"));
@@ -265,7 +308,15 @@ class ilBlogDataSet extends ilDataSet
 				$newObj->setAbstractImageWidth($a_rec["AbsImgWidth"]);
 				$newObj->setAbstractImageHeight($a_rec["AbsImgHeight"]);
 				$newObj->setNavMode($a_rec["NavMode"]);
-				$newObj->setNavModeListPostings($a_rec["NavListPost"]);
+				if ($a_rec["NavListMonWithPost"] == 0)
+				{
+					$newObj->setNavModeListMonthsWithPostings(3);
+				}
+				else
+				{
+					$newObj->setNavModeListMonthsWithPostings($a_rec["NavListMonWithPost"]);
+				}
+				//$newObj->setNavModeListPostings($a_rec["NavListPost"]);
 				$newObj->setNavModeListMonths($a_rec["NavListMon"]);
 				$newObj->setKeywords($a_rec["Keywords"]);
 				$newObj->setAuthors($a_rec["Authors"]);

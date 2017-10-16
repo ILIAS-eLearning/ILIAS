@@ -10,6 +10,21 @@
  */
 class ilExAssignmentGUI
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
 	protected $exc; // [ilObjExercise]
 	protected $current_ass_id; // [int]
 	
@@ -18,6 +33,11 @@ class ilExAssignmentGUI
 	 */
 	function __construct(ilObjExercise $a_exc)
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$this->ctrl = $DIC->ctrl();
 		$this->exc = $a_exc;
 	}	
 	
@@ -26,7 +46,8 @@ class ilExAssignmentGUI
 	 */
 	function getOverviewHeader(ilExAssignment $a_ass)
 	{
-		global $lng, $ilUser;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 		
 		$lng->loadLanguageModule("exc");
 		
@@ -125,17 +146,17 @@ class ilExAssignmentGUI
 		$info->setTableClass("");
 		
 		$this->addInstructions($info, $a_ass);
-		$this->addSchedule($info, $a_ass);
-		
-		if ($this->exc->getShowSubmissions())
-		{
-			$this->addPublicSubmissions($info, $a_ass);
-		}
-		
+
 		if (!$a_ass->notStartedYet())
 		{
 			$this->addFiles($info, $a_ass);
-			$this->addSubmission($info, $a_ass);			
+		}
+
+		$this->addSchedule($info, $a_ass);
+		
+		if (!$a_ass->notStartedYet())
+		{
+			$this->addSubmission($info, $a_ass);
 		}
 
 		$tpl->setVariable("CONTENT", $info->getHTML());
@@ -146,7 +167,7 @@ class ilExAssignmentGUI
 	
 	protected function addInstructions(ilInfoScreenGUI $a_info, ilExAssignment $a_ass)
 	{		
-		global $lng;
+		$lng = $this->lng;
 		
 		if (!$a_ass->notStartedYet())
 		{			
@@ -167,7 +188,8 @@ class ilExAssignmentGUI
 	
 	protected function addSchedule(ilInfoScreenGUI $a_info, ilExAssignment $a_ass)
 	{		
-		global $lng, $ilUser;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 		
 		$idl = $a_ass->getPersonalDeadline($ilUser->getId());		
 		
@@ -227,7 +249,7 @@ class ilExAssignmentGUI
 	
 	protected function addPublicSubmissions(ilInfoScreenGUI $a_info, ilExAssignment $a_ass)
 	{		
-		global $lng;
+		$lng = $this->lng;
 		
 		if ($a_ass->afterDeadline())
 		{				
@@ -246,24 +268,87 @@ class ilExAssignmentGUI
 	
 	protected function addFiles(ilInfoScreenGUI $a_info, ilExAssignment $a_ass)
 	{		
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$files = $a_ass->getFiles();
+
 		if (count($files) > 0)
 		{
 			$a_info->addSection($lng->txt("exc_files"));
+
+			global $DIC;
+
+			//file has -> name,fullpath,size,ctime
+			include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+			include_once("./Services/MediaObjects/classes/class.ilMediaPlayerGUI.php");
+			include_once "./Services/UIComponent/Modal/classes/class.ilModalGUI.php";
+
+			$cnt = 0;
 			foreach($files as $file)
 			{
-				$a_info->addProperty($file["name"], $lng->txt("download"), $this->getSubmissionLink("downloadFile", array("file"=>urlencode($file["name"]))));
+				$cnt++;
+				// get mime type
+				$mime = ilObjMediaObject::getMimeType($file['fullpath']);
+
+				list($format,$type) = explode("/",$mime);
+
+				$ui_factory = $DIC->ui()->factory();
+				$ui_renderer = $DIC->ui()->renderer();
+
+				if (in_array($mime, array("image/jpeg", "image/svg+xml", "image/gif", "image/png")))
+				{
+					$item_id = "il-ex-modal-img-".$a_ass->getId()."-".$cnt;
+
+
+					$image = $ui_renderer->render($ui_factory->image()->responsive($file['fullpath'], $file['name']));
+					$image_lens = ilUtil::getImagePath("enlarge.svg");
+
+					$modal = ilModalGUI::getInstance();
+					$modal->setId($item_id);
+					$modal->setType(ilModalGUI::TYPE_LARGE);
+					$modal->setBody($image);
+					$modal->setHeading($file["name"]);
+					$modal = $modal->getHTML();
+
+					$img_tpl = new ilTemplate("tpl.image_file.html", true, true, "Modules/Exercise");
+					$img_tpl->setCurrentBlock("image_content");
+					$img_tpl->setVariable("MODAL", $modal);
+					$img_tpl->setVariable("ITEM_ID", $item_id);
+					$img_tpl->setVariable("IMAGE", $image);
+					$img_tpl->setvariable("IMAGE_LENS", $image_lens);
+					$img_tpl->parseCurrentBlock();
+
+					$a_info->addProperty($file["name"], $img_tpl->get());
+				}
+				else if (in_array($mime, array("audio/mpeg", "audio/ogg", "video/mp4", "video/x-flv", "video/webm")))
+				{
+					$media_tpl = new ilTemplate("tpl.media_file.html", true, true, "Modules/Exercise");
+					$mp = new ilMediaPlayerGUI();
+					$mp->setFile($file['fullpath']);
+					$media_tpl->setVariable("MEDIA", $mp->getMediaPlayerHtml());
+
+					$but = $ui_factory->button()->shy($lng->txt("download"),
+						$this->getSubmissionLink("downloadFile", array("file"=>urlencode($file["name"]))));
+					$media_tpl->setVariable("DOWNLOAD_BUTTON", $ui_renderer->render($but));
+					$a_info->addProperty($file["name"], $media_tpl->get());
+				}
+				else
+				{
+					$a_info->addProperty($file["name"], $lng->txt("download"), $this->getSubmissionLink("downloadFile", array("file"=>urlencode($file["name"]))));
+				}
 			}
+
 		}			
 	}
 
 	protected function addSubmission(ilInfoScreenGUI $a_info, ilExAssignment $a_ass)
 	{		
-		global $lng, $ilCtrl, $ilUser;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 
-		$a_info->addSection($lng->txt("exc_your_submission"));
+		$a_info->addSection($lng->txt("exc_submission"));
 
 		include_once "Modules/Exercise/classes/class.ilExSubmission.php";
 		$submission = new ilExSubmission($a_ass, $ilUser->getId());
@@ -296,12 +381,19 @@ class ilExAssignmentGUI
 		}
 
 		$this->addSubmissionFeedback($a_info, $a_ass, $submission->getFeedbackId(), $show_global_feedback);
+
+		if ($this->exc->getShowSubmissions())
+		{
+			$this->addPublicSubmissions($a_info, $a_ass);
+		}
 	}
 	
 	protected function addSubmissionFeedback(ilInfoScreenGUI $a_info, ilExAssignment $a_ass, $a_feedback_id, $a_show_global_feedback)
 	{
-		global $lng;
-		
+		$lng = $this->lng;
+
+		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
+
 		$storage = new ilFSStorageExercise($a_ass->getExerciseId(), $a_ass->getId());					
 		$cnt_files = $storage->countFeedbackFiles($a_feedback_id);
 		
@@ -375,11 +467,11 @@ class ilExAssignmentGUI
 	 */
 	function getTimeString($a_deadline)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if ($a_deadline == 0)
 		{
-			return $lng->txt("exc_no_deadline_specified");
+			return $lng->txt("exc_submit_convenience_no_deadline");
 		}
 		
 		if ($a_deadline - time() <= 0)
@@ -396,7 +488,7 @@ class ilExAssignmentGUI
 	
 	protected function getSubmissionLink($a_cmd, array $a_params = null)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		if(is_array($a_params))
 		{

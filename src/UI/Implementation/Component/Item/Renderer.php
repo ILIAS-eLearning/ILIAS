@@ -108,6 +108,11 @@ class Renderer extends AbstractComponentRenderer {
 			$cnt = 0;
 			foreach ($props as $name => $value)
 			{
+				if ($value instanceof \ILIAS\UI\Component\Button\Shy)
+				{
+					$value = $default_renderer->render($value);
+				}
+
 				$cnt++;
 				if ($cnt % 2 == 1)
 				{
@@ -131,6 +136,11 @@ class Renderer extends AbstractComponentRenderer {
 		}
 
 		$title = $component->getTitle();
+
+		if ($title instanceof \ILIAS\UI\Component\Button\Shy)
+		{
+			$title = $default_renderer->render($title);
+		}
 
 		$tpl->setVariable("TITLE", $title);
 

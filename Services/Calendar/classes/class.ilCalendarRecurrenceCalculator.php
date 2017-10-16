@@ -50,6 +50,7 @@ class ilCalendarRecurrenceCalculator
 	protected $start = null;
 
 	protected $event = null;
+	protected $duration = null;
 	protected $recurrence = null;
 	
 	protected $frequence_context = 0;
@@ -63,11 +64,20 @@ class ilCalendarRecurrenceCalculator
 	 */
 	public function __construct(ilDatePeriod $entry,  ilCalendarRecurrenceCalculation $rec)
 	{
-	 	global $ilLog;
-	 	
-	 	$this->log = $ilLog;
+	 	$this->log = $GLOBALS['DIC']->logger()->cal();
 	 	$this->event = $entry;
 	 	$this->recurrence = $rec;
+		
+		$this->duration = $entry->getEnd()->get(IL_CAL_UNIX) - $entry->getStart()->get(IL_CAL_UNIX);
+	}
+	
+	/**
+	 * Get duration of event
+	 * @return type
+	 */
+	protected function getDuration()
+	{
+		return $this->duration;
 	}
 	
 	/**
@@ -114,7 +124,8 @@ class ilCalendarRecurrenceCalculator
 	 	// quite time consuming.
 	 	// Therfore we adjust the timezone of all input dates (start,end, event start)
 	 	// to the same tz (UTC for fullday events, Recurrence tz for all others). 
-	 	$this->adjustTimeZones($a_start,$a_end);
+		$this->adjustTimeZones($a_start,$a_end);
+		
 	 	
 	 	
 		// Add start of event if it is in the period
@@ -183,12 +194,40 @@ class ilCalendarRecurrenceCalculator
 	 	while(true);
 
 		$this->applyExclusionDates();
+		
+		$this->applyDurationPeriod($this->valid_dates, $this->period_start, $this->period_end);
 
 		$this->valid_dates->sort();
 			
 		// Restore default timezone
 		ilTimeZone::_restoreDefaultTimeZone();
 	 	return $this->valid_dates;
+	}
+	
+	/**
+	 * Apply duration period
+	 * @param ilDateList $list
+	 */
+	protected function applyDurationPeriod(ilDateList $list, ilDateTime $start, ilDateTime $end)
+	{
+		foreach($list as $start_date)
+		{
+			$end_date = clone $start_date;
+			$end_date->increment(ilDateTime::MINUTE, $this->getDuration() / 60);
+			
+			if(
+				(
+					ilDateTime::_after($start_date, $this->period_end)
+				) ||
+				(
+					ilDateTime::_before($end_date, $this->period_start)
+				)
+			)
+			{
+				$this->log->debug('Removed invalid date ' . (string) $start_date .' <-> '. (string) $end_date);
+				$list->remove($start_date);
+			}
+		}
 	}
 	
 	/**
@@ -797,7 +836,7 @@ class ilCalendarRecurrenceCalculator
 		{
 			if(ilDateTime::_before($check_date,$this->event->getStart(),IL_CAL_DAY))
 			{
-				#echo 'Removed: '.$check_date.'<br/>';
+				$this->log->debug('Removed invalid date: ' . (string) $check_date.' before starting date:  ' . (string) $this->event->getStart());
 				$list->remove($check_date);
 			}
 		}	 	

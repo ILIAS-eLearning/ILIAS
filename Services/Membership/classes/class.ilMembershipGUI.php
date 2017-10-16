@@ -55,16 +55,12 @@ class ilMembershipGUI
 		$this->repository_gui = $repository_gui;
 		$this->repository_object = $repository_obj;
 		
-		$this->lng = $GLOBALS['DIC']['lng'];
+		$this->lng = $GLOBALS['DIC']->language();
 		$this->lng->loadLanguageModule('crs');
 		$this->lng->loadLanguageModule($this->getParentObject()->getType());
-		
-		$this->tpl = $GLOBALS['DIC']['tpl'];
-		
-		$this->ctrl = $GLOBALS['DIC']['ilCtrl'];
-		
+		$this->tpl = $GLOBALS['DIC']->ui()->mainTemplate();
+		$this->ctrl = $GLOBALS['DIC']->ctrl();
 		$this->logger = ilLoggerFactory::getLogger($this->getParentObject()->getType());
-		
 		$this->access = $GLOBALS['DIC']->access();
 	}
 	
@@ -142,6 +138,32 @@ class ilMembershipGUI
 	}
 	
 	/**
+	 * Check if rbac or position access is granted.
+	 * @param string $a_rbac_perm
+	 * @param string $a_pos_perm
+	 * @param int $a_ref_id
+	 */
+	protected function checkRbacOrPositionAccessBool($a_rbac_perm, $a_pos_perm, $a_ref_id = 0)
+	{
+		if(!$a_ref_id)
+		{
+			$a_ref_id = $this->getParentObject()->getRefId();
+		}
+		return $this->access->checkRbacOrPositionPermissionAccess($a_rbac_perm, $a_pos_perm, $a_ref_id);
+	}
+	
+	
+	/**
+	 * Filter user ids by access 
+	 * @param int[] $a_usr_ids
+	 * @return int[]
+	 */
+	public function filterUserIdsByRbacOrPositionOfCurrentUser($a_user_ids)
+	{
+		return $a_user_ids;
+	}
+	
+	/**
 	 * Execute command
 	 */
 	public function executeCommand()
@@ -161,6 +183,7 @@ class ilMembershipGUI
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
 				include_once './Services/Membership/classes/class.ilParticipants.php';
 				$rep_search = new ilRepositorySearchGUI();
+				$rep_search->addUserAccessFilterCallable([$this,'filterUserIdsByRbacOrPositionOfCurrentUser']);
 
 				$participants = $this->getMembersObject();
 				if(
@@ -243,6 +266,7 @@ class ilMembershipGUI
 				}
 
 				$this->showMailToMemberToolbarButton($GLOBALS['ilToolbar'], 'jump2UsersGallery');
+				$this->showMemberExportToolbarButton($GLOBALS['ilToolbar'], 'jump2UsersGallery');
 
 				require_once 'Services/User/Gallery/classes/class.ilUsersGalleryGUI.php';
 				require_once 'Services/User/Gallery/classes/class.ilUsersGalleryParticipants.php';
@@ -307,7 +331,9 @@ class ilMembershipGUI
 					$cmd != 'membersMap'
 				)
 				{
-					$this->checkPermission('manage_members');
+					#$this->checkRbacOrPositionAccessBool('manage_members','manage_members');
+					#$this->checkPermission('manage_members');
+					$this->checkPermission('read');
 				}
 				else
 				{
@@ -573,6 +599,14 @@ class ilMembershipGUI
 			$this->ctrl->redirect($this, 'participants');
 		}
 		
+		// if only position access is granted, show additional info
+		if(!$this->checkPermissionBool('manage_members'))
+		{
+			$this->lng->loadLanguageModule('rbac');
+			ilUtil::sendInfo($this->lng->txt('rbac_info_only_position_access'));
+		}
+		
+		
 		// Access check for admin deletion
 		if(
 			!$ilAccess->checkAccess(
@@ -827,9 +861,39 @@ class ilMembershipGUI
 		
 		$this->showMailToMemberToolbarButton($ilToolbar, 'participants', false);
 	}
+	
+	/**
+	 * Show member export button
+	 * @param ilToolbarGUI $toolbar
+	 * @param type $a_back_cmd
+	 * @param type $a_separator
+	 */
+	protected function showMemberExportToolbarButton(ilToolbarGUI $toolbar, $a_back_cmd = null, $a_separator = false)
+	{
+		if(
+			$this->getParentObject()->getType() == 'crs' &&
+			$this->getParentObject()->getShowMembersExport())
+		{
+			if($a_separator)
+			{
+				$toolbar->addSeparator();
+			}
 
-	
-	
+			if($a_back_cmd)
+			{
+				$this->ctrl->setParameter($this, "back_cmd", $a_back_cmd);
+			}
+			$toolbar->addButton(
+				$this->lng->txt($this->getParentObject()->getType().'_print_list'),
+				$this->ctrl->getLinkTarget($this, 'printForMembersOutput')
+			);
+		}
+	}
+
+
+
+
+
 	/**
 	 * Show mail to member toolbar button
 	 */
@@ -885,7 +949,8 @@ class ilMembershipGUI
 		include_once './Services/Mail/classes/class.ilMail.php';
 		$mail = new ilMail($GLOBALS['ilUser']->getId());
 		
-		if($ilAccess->checkAccess('manage_members', '' , $this->getParentObject()->getRefId()))
+		
+		if($this->checkRbacOrPositionAccessBool('manage_members', 'manage_members', $this->getParentObject()->getRefId()))
 		{
 			$tabs->addTab(
 				'members',
@@ -924,7 +989,7 @@ class ilMembershipGUI
 	{
 		global $ilAccess;
 		
-		if($ilAccess->checkAccess('manage_members','',$this->getParentObject()->getRefId()))
+		if($this->checkRbacOrPositionAccessBool('manage_members', 'manage_members', $this->getParentObject()->getRefId()))
 		{
 			$tabs->addSubTabTarget(
 				$this->getParentObject()->getType()."_member_administration",
@@ -1020,15 +1085,17 @@ class ilMembershipGUI
 	 */
 	protected function parseSubscriberTable()
 	{
-		if(!$this->getMembersObject()->getSubscribers())
+		$subscribers = $this->getMembersObject()->getSubscribers();
+		$filtered_subscribers = $this->filterUserIdsByRbacOrPositionOfCurrentUser($subscribers);
+		if(!count($filtered_subscribers))
 		{
-			ilLoggerFactory::getLogger('mmbr')->debug('No subscriber found');
 			return null;
 		}
-		include_once './Services/Membership/classes/class.ilSubscriberTableGUI.php';
 		$subscriber = new ilSubscriberTableGUI($this, $this->getParentObject(),true);
 		$subscriber->setTitle($this->lng->txt('group_new_registrations'));
-		$subscriber->readSubscriberData();
+		$subscriber->readSubscriberData(
+			$filtered_subscribers
+		);
 		return $subscriber;
 	}
 	
@@ -1217,14 +1284,18 @@ class ilMembershipGUI
 	{
 		$wait = $this->initWaitingList();
 		
-		if(!$wait->getCountUsers())
+		$wait_users = $this->filterUserIdsByRbacOrPositionOfCurrentUser($wait->getUserIds());
+		if(!count($wait_users))
 		{
 			return null;
 		}
-		
+
 		include_once './Services/Membership/classes/class.ilWaitingListTableGUI.php';
 		$waiting_table = new ilWaitingListTableGUI($this, $this->getParentObject(), $wait);
-		$waiting_table->setUsers($wait->getAllUsers());
+		$waiting_table->setUserIds(
+			$wait_users
+		);
+		$waiting_table->readUserData();
 		$waiting_table->setTitle($this->lng->txt('crs_waiting_list'));
 		
 		return $waiting_table;
@@ -1484,6 +1555,8 @@ class ilMembershipGUI
 		}
 	}
 	
+	
+	
 	/**
 	 * Print members
 	 * @todo: refactor to own class
@@ -1492,12 +1565,24 @@ class ilMembershipGUI
 	{
 		global $ilTabs;
 		
-		$this->checkPermission('manage_members');
+		#$this->checkRbacOrPositionAccessBool('manage_members','manage_members');
+		$this->checkPermission('read');
 		
 		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget(
-			$this->lng->txt('back'),
-			$this->ctrl->getLinkTarget($this, 'participants'));
+		
+		if($GLOBALS['ilAccess']->checkAccess('manage_members','',$this->getParentObject()->getId()))
+		{
+			$ilTabs->setBackTarget(
+				$this->lng->txt('back'),
+				$this->ctrl->getLinkTarget($this, 'participants'));
+		}
+		else
+		{
+			$ilTabs->setBackTarget(
+				$this->lng->txt('back'),
+				$this->ctrl->getLinkTarget($this, 'jump2UsersGallery'));
+		}
+		
 		
 		$list = $this->initAttendanceList();
 		$form = $list->initForm('printMembersOutput');
@@ -1513,19 +1598,51 @@ class ilMembershipGUI
 		$list = $this->initAttendanceList();		
 		$list->initFromForm();
 		$list->setCallback(array($this, 'getAttendanceListUserData'));	
-		$this->member_data = $this->getPrintMemberData($this->getMembersObject()->getParticipants());
+		$this->member_data = $this->getPrintMemberData(
+			$this->filterUserIdsByRbacOrPositionOfCurrentUser(
+				$this->getMembersObject()->getParticipants()
+			)
+		);
+		
 		$list->getNonMemberUserData($this->member_data);
 		
 		$list->getFullscreenHTML();
 		exit();
 	}
 	
+	/**
+	 * print members output
+	 */
+	protected function printForMembersOutput()
+	{		
+		$list = $this->initAttendanceList();
+		$list->setTitle($this->lng->txt('obj_'.$this->getParentObject()->getType()).': '.$this->getParentObject()->getTitle());
+		$list->setId(0);
+		$form = $list->initForm('printForMembersOutput');
+		$list->initFromForm();
+		$list->setCallback(array($this, 'getAttendanceListUserData'));	
+		$this->member_data = $this->getPrintMemberData($this->getMembersObject()->getParticipants());
+		$list->getNonMemberUserData($this->member_data);
+		
+		$list->getFullscreenHTML();
+		exit();
+	}
+
+	/**
+	 * 
+	 */
+	protected function jump2UsersGallery()
+	{
+		$this->ctrl->redirectByClass('ilUsersGalleryGUI');
+	}
+	
+	
 	
 	
 	/**
 	 * Init attendance list
 	 */
-	protected function initAttendanceList()
+	protected function initAttendanceList($a_for_members = false)
 	{
 		/**
 		 * @var ilWaitingList

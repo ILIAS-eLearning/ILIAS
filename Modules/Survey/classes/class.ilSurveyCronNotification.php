@@ -12,6 +12,31 @@ include_once "Services/Cron/classes/class.ilCronJob.php";
  */
 class ilSurveyCronNotification extends ilCronJob
 {		
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		if (isset($DIC["tree"]))
+		{
+			$this->tree = $DIC->repositoryTree();
+		}
+	}
+
 	public function getId()
 	{
 		return "survey_notification";
@@ -19,7 +44,7 @@ class ilSurveyCronNotification extends ilCronJob
 	
 	public function getTitle()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$lng->loadLanguageModule("survey");
 		return $lng->txt("survey_reminder_setting");
@@ -27,7 +52,7 @@ class ilSurveyCronNotification extends ilCronJob
 	
 	public function getDescription()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$lng->loadLanguageModule("survey");
 		return $lng->txt("survey_reminder_cron_info");
@@ -55,7 +80,7 @@ class ilSurveyCronNotification extends ilCronJob
 	
 	public function run()
 	{
-		global $tree;
+		$tree = $this->tree;
 		
 		include_once "Modules/Survey/classes/class.ilObjSurvey.php";
 		

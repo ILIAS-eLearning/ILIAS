@@ -7,6 +7,11 @@
 */
 class ilOverlayGUI
 {
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
 	protected $width = "";
 	protected $height = "";
 	protected $fixed_center = false;
@@ -25,6 +30,11 @@ class ilOverlayGUI
 	 */
 	function __construct($a_overlay_el_id)
 	{
+		global $DIC;
+
+		// please check learning modules (e.g. rating) before removing this globals
+		// use (they do not use standard template)
+		$this->tpl = $GLOBALS["tpl"];
 		$this->overlay_el_id = $a_overlay_el_id;
 	}
 
@@ -169,7 +179,7 @@ class ilOverlayGUI
 	 */
 	function add()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		
 		self::initJavascript();
@@ -184,10 +194,12 @@ class ilOverlayGUI
 	 */
 	static function initJavascript()
 	{
-		global $tpl;
+		global $DIC;
+
+		$tpl = $GLOBALS["tpl"];
 		
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
-		ilYuiUtil::initOverlay();
+		ilYuiUtil::initOverlay($tpl);
 		$tpl->addJavascript("./Services/UIComponent/Overlay/js/ilOverlay.js");
 	}
 	
@@ -212,7 +224,7 @@ class ilOverlayGUI
 	function addTrigger($a_tr_id, $a_tr_event, $a_anchor_el_id, $a_center = false,
 						$a_ov_corner = "tl", $a_anch_corner = "bl")
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 //echo "-".$a_tr_id."-".$a_tr_event."-".$a_anchor_el_id."-";
 		self::initJavascript();

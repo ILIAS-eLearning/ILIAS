@@ -11,9 +11,32 @@
  */
 class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 {			
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct(ilObjExercise $a_exercise, ilExSubmission $a_submission)
+	{
+		global $DIC;
+
+		parent::__construct($a_exercise, $a_submission);
+		$this->user = $DIC->user();
+		$this->help = $DIC["ilHelp"];
+	}
+
 	public function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		if(!$this->assignment ||
 			$this->assignment->getType() != ilExAssignment::TYPE_TEXT ||
@@ -35,7 +58,10 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 	
 	public static function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission)
 	{
-		global $lng, $ilCtrl;
+		global $DIC;
+
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
 		
 		if($a_submission->canSubmit())
 		{
@@ -62,9 +88,10 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 	// 
 	
 	protected function initAssignmentTextForm($a_read_only = false)
-	{		
-		global $ilCtrl;
-		
+	{
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();		
 		$form->setTitle($this->lng->txt("exc_assignment")." \"".$this->assignment->getTitle()."\"");
@@ -74,6 +101,23 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 			$text = new ilTextAreaInputGUI($this->lng->txt("exc_your_text"), "atxt");
 			$text->setRequired((bool)$this->submission->getAssignment()->getMandatory());				
 			$text->setRows(40);
+			$text->setMaxNumOfChars($this->assignment->getMaxCharLimit());
+			$text->setMinNumOfChars($this->assignment->getMinCharLimit());
+
+			if ($text->isCharLimited())
+			{
+				$char_msg = "";
+				if($this->assignment->getMinCharLimit())
+				{
+					$char_msg .= $lng->txt("exc_min_char_limit").": ".$this->assignment->getMinCharLimit();
+				}
+				if($this->assignment->getMaxCharLimit())
+				{
+					$char_msg .= " ".$lng->txt("exc_max_char_limit").": ".$this->assignment->getMaxCharLimit();
+				}
+				$text->setInfo($char_msg);
+			}
+
 			$form->addItem($text);
 			
 			// custom rte tags
@@ -95,12 +139,14 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 				'copy',
 				'paste',
 				'pastetext',
+				'code',
 				// 'formatselect' #13234
 			));
 			
 			$form->setFormAction($ilCtrl->getFormAction($this, "updateAssignmentText"));
 			$form->addCommandButton("updateAssignmentTextAndReturn", $this->lng->txt("save_return"));		
-			$form->addCommandButton("updateAssignmentText", $this->lng->txt("save"));							
+			$form->addCommandButton("updateAssignmentText", $this->lng->txt("save"));
+			$form->addCommandButton("returnToParent", $this->lng->txt("cancel"));
 		}
 		else
 		{
@@ -108,14 +154,14 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 			$text = new ilNonEditableValueGUI($this->lng->txt("exc_files_returned_text"), "atxt", true);	
 			$form->addItem($text);					
 		}
-		$form->addCommandButton("returnToParent", $this->lng->txt("cancel"));
 		
 		return $form;
 	}
 	
 	function editAssignmentTextObject(ilPropertyFormGUI $a_form = null)
 	{
-		global $ilCtrl, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 
 		if(!$this->submission->canSubmit())				
 		{
@@ -145,7 +191,7 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 		
 		$this->handleTabs();
 
-		global $ilHelp;
+		$ilHelp = $this->help;
 		$ilHelp->setScreenIdComponent("exc");
 		$ilHelp->setScreenId("text_submission");
 
@@ -176,7 +222,7 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 	
 	function updateAssignmentTextObject($a_return = false)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		if(!$this->submission->canSubmit())
 		{

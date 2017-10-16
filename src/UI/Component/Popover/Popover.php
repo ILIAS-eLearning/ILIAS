@@ -98,4 +98,19 @@ interface Popover extends Component, Triggerable {
 	 * @return ReplaceContentSignal
 	 */
 	public function getReplaceContentSignal();
+
+
+	/**
+	 * Get a popover which can be used in fixed places such as the main menu.
+	 * This popover will stay fixed when scrolling and therefore remain on the screen.
+	 *
+	 * @return $this
+	 */
+	public function withFixedPosition();
+
+
+	/**
+	 * @return bool whether it's fixed or not
+	 */
+	public function isFixedPosition();
 }

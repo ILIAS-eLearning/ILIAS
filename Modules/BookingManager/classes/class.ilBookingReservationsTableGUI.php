@@ -15,6 +15,16 @@ require_once "Services/Calendar/classes/class.ilCalendarUtil.php";
  */
 class ilBookingReservationsTableGUI extends ilTable2GUI
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
 	protected $ref_id;	// int
 	protected $filter;	// array
 	protected $pool_id;	// int
@@ -37,7 +47,16 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id, $a_pool_id, $a_show_all, $a_has_schedule, array $a_filter_pre = null, $a_group_id = null)
 	{
-		global $ilCtrl, $lng, $ilUser, $ilAccess;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$this->access = $DIC->access();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilUser = $DIC->user();
+		$ilAccess = $DIC->access();
 
 		$this->pool_id = $a_pool_id;
 		$this->ref_id = $a_ref_id;
@@ -199,12 +218,12 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 			$this->lng->txt("object")." ".$this->lng->txt("title")."/".$this->lng->txt("description")
 		);		
 		$this->filter["title"] = $title->getValue();
-		
+
 		if($this->has_schedule)
 		{
 			// default period: from:today [ to:(today + n days) ]
 			if(!$_SESSION["form_".$this->getId()]["fromto"])
-			{				
+			{
 				$from = new ilDateTime(date("Y-m-d"), IL_CAL_DATE); // today
 				$to = null;
 				
@@ -226,8 +245,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 					"from" => serialize($from),
 					"to" => $to
 				));			
-			}			
-			
+			}
 			$item = $this->addFilterItemByMetaType("fromto", ilTable2GUI::FILTER_DATE_RANGE, false, $this->lng->txt('book_fromto'));
 			$this->filter["fromto"] = $item->getDate();
 			
@@ -381,7 +399,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 	 */
 	function getItems(array $filter)
 	{		
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		if(!$filter["object"])
 		{
@@ -444,7 +462,10 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilAccess, $ilCtrl, $ilUser;
+		$lng = $this->lng;
+		$ilAccess = $this->access;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 		
 		$selected = $this->getSelectedColumns();
 		

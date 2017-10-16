@@ -24,7 +24,6 @@ class ilContext
 	const CONTEXT_SOAP_NO_AUTH = 'ilContextSoapNoAuth';
 	const CONTEXT_WEBDAV = "ilContextWebdav";
 	const CONTEXT_RSS_AUTH = "ilContextRssAuth";
-	const CONTEXT_WEB_ACCESS_CHECK = "ilContextWebAccessCheck";
 	const CONTEXT_SESSION_REMINDER = "ilContextSessionReminder";
 	const CONTEXT_SOAP_WITHOUT_CLIENT = "ilContextSoapWithoutClient";
 	const CONTEXT_UNITTEST = "ilContextUnitTest";
@@ -33,6 +32,8 @@ class ilContext
 	const CONTEXT_WAC = "ilContextWAC";
 	const CONTEXT_APACHE_SSO = 'ilContextApacheSSO';
 	const CONTEXT_SHIBBOLETH = 'ilContextShibboleth';
+	const CONTEXT_LTI_PROVIDER = 'ilContextLTIProvider';
+	const CONTEXT_SAML = 'ilContextSaml';
 	
 	
 	/**
@@ -72,7 +73,13 @@ class ilContext
 	 */
 	public static function supportsRedirects()
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$ilCtrl = null;
+		if (isset($DIC["ilCtrl"]))
+		{
+			$ilCtrl = $DIC->ctrl();
+		}
 		
 		// asynchronous calls must never be redirected
 		if($ilCtrl && $ilCtrl->isAsynch())

@@ -15,6 +15,11 @@ require_once("./Services/COPage/classes/class.ilPageContent.php");
 */
 class ilPCMyCourses extends ilPageContent
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	var $dom;
 
 	/**
@@ -22,6 +27,8 @@ class ilPCMyCourses extends ilPageContent
 	*/
 	function init()
 	{
+		global $DIC;
+		$this->user = $DIC->user();
 		$this->setType("mcrs");
 	}
 	
@@ -62,7 +69,7 @@ class ilPCMyCourses extends ilPageContent
 	 */
 	function setData($a_sort)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$this->mcrs_node->set_attribute("User", $ilUser->getId());
 		$this->mcrs_node->set_attribute("Sort", $a_sort);

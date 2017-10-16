@@ -104,7 +104,7 @@ class ilForumCronNotification extends ilCronJob
 	{
 		global $DIC; 
 		$ilDB = $DIC->database(); 
-		$ilLog = $DIC->logger(); 
+		$ilLog = $DIC->logger()->root(); 
 		$ilSetting = $DIC->settings(); 
 		$lng = $DIC->language();
 
@@ -391,7 +391,7 @@ class ilForumCronNotification extends ilCronJob
 	{
 		global $DIC; 
 		$ilDB = $DIC->database();
-		$ilLog = $DIC->logger();
+		$ilLog = $DIC->logger()->root();
 		
 		include_once './Modules/Forum/classes/class.ilForumCronNotificationDataProvider.php';
 		include_once './Modules/Forum/classes/class.ilForumMailNotification.php';

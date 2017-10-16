@@ -42,6 +42,21 @@ include_once "./Services/Object/classes/class.ilObjectGUI.php";
 class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 {
 	/**
+	 * @var ilNavigationHistory
+	 */
+	protected $nav_history;
+
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
+	/**
 	 * @var ilLogger
 	 */
 	protected $log;
@@ -54,7 +69,18 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	public function __construct()
 	{
-		global $lng, $ilCtrl;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->nav_history = $DIC["ilNavigationHistory"];
+		$this->tpl = $DIC["tpl"];
+		$this->user = $DIC->user();
+		$this->toolbar = $DIC->toolbar();
+		$this->error = $DIC["ilErr"];
+		$this->locator = $DIC["ilLocator"];
+		$this->help = $DIC["ilHelp"];
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
 
 		$this->type = "spl";
 		$lng->loadLanguageModule("survey");
@@ -71,7 +97,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	public function executeCommand()
 	{
-		global $ilNavigationHistory;
+		$ilNavigationHistory = $this->nav_history;
 						
 		if (!$this->checkPermissionBool("visible") &&
 			!$this->checkPermissionBool("read"))
@@ -379,7 +405,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	public function importQuestionsObject()
 	{		
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -454,7 +480,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	public function questionsObject($arrFilter = null)
 	{
-		global $ilUser, $ilToolbar;
+		$ilUser = $this->user;
+		$ilToolbar = $this->toolbar;
 
 		$this->object->purgeQuestions();
 
@@ -525,7 +552,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	public function exportObject()
 	{
-		global $ilToolbar;
+		$ilToolbar = $this->toolbar;
 		
 		$ilToolbar->addButton($this->lng->txt('create_export_file'),
 			$this->ctrl->getLinkTarget($this, 'createExportFile'));
@@ -664,7 +691,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	public function importFileObject($parent_id = null, $a_catch_errors = true)
 	{
-		global $tpl, $ilErr;
+		$tpl = $this->tpl;
+		$ilErr = $this->error;
 
 		if(!$parent_id)
 		{
@@ -718,7 +746,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	public function &createQuestionObject()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$ilUser->writePref("svy_lastquestiontype", $_POST["sel_question_types"]);
 		
@@ -778,7 +806,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	
 	public function addLocatorItems()
 	{
-		global $ilLocator;
+		$ilLocator = $this->locator;
 		switch ($this->ctrl->getCmd())
 		{
 			case "create":
@@ -812,7 +840,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	public function getTabs()
 	{
-		global $ilHelp;
+		$ilHelp = $this->help;
 		
 		$ilHelp->setScreenIdComponent("spl");
 
@@ -933,7 +961,10 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	public static function _goto($a_target)
 	{
-		global $ilAccess, $lng;
+		global $DIC;
+
+		$ilAccess = $DIC->access();
+		$lng = $DIC->language();
 		
 		if ($ilAccess->checkAccess("visible", "", $a_target) ||
 			$ilAccess->checkAccess("read", "", $a_target))

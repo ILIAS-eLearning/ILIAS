@@ -103,10 +103,7 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
 	 */
 	public function checkInput()
 	{
-		/**
-		 * @var $lng ilLanguage
-		 */
-		global $lng;
+		global $DIC;
 
 		$_POST[$this->getPostVar()][self::NAME_AUTH_PROP_1] = ilUtil::stripSlashes($_POST[$this->getPostVar()][self::NAME_AUTH_PROP_1]);
 		$_POST[$this->getPostVar()][self::NAME_AUTH_PROP_2] = ilUtil::stripSlashes($_POST[$this->getPostVar()][self::NAME_AUTH_PROP_2]);
@@ -115,7 +112,7 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
 
 		if($this->getRequired() && 2 > count(array_filter(array_map('trim', $post))))
 		{
-			$this->setAlert($lng->txt('msg_input_is_required'));
+			$this->setAlert($DIC->language()->txt('msg_input_is_required'));
 			return false;
 		}
 
@@ -137,11 +134,7 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
 	 */
 	public function render()
 	{
-		/**
-		 * @var $lng    ilLanguage
-		 * @var $ilCtrl ilCtrl
-		 */
-		global $lng, $ilCtrl;
+		global $DIC;
 
 		$tpl = new ilTemplate('tpl.chatroom_auth_input.html', true, true, 'Modules/Chatroom');
 
@@ -150,16 +143,16 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
 			$const     = 'NAME_AUTH_PROP_' . $i;
 			$const_val = constant('self::' . $const);
 
-			$tpl->setVariable('TXT_AUTH_PROP_' . $i, $lng->txt('chatroom_auth_' . $const_val));
+			$tpl->setVariable('TXT_AUTH_PROP_' . $i, $DIC->language()->txt('chatroom_auth_' . $const_val));
 			$tpl->setVariable('ID_AUTH_PROP_' . $i, $const_val);
 			$tpl->setVariable('NAME_AUTH_PROP_' . $i, $const_val);
 			$tpl->setVariable('VALUE_AUTH_PROP_' . $i, $this->values[$const_val]);
 		}
 
-		$ilCtrl->setParameterByClass('ilformpropertydispatchgui', 'postvar', $this->getPostVar());
-		$tpl->setVariable('URL', $ilCtrl->getLinkTargetByClass($this->ctrl_path, 'getRandomValues', '', true, false));
+		$DIC->ctrl()->setParameterByClass('ilformpropertydispatchgui', 'postvar', $this->getPostVar());
+		$tpl->setVariable('URL', $DIC->ctrl()->getLinkTargetByClass($this->ctrl_path, 'getRandomValues', '', true, false));
 		$tpl->setVariable('ID_BTN', $this->getFieldId() . '_btn');
-		$tpl->setVariable('TXT_BTN', $lng->txt('chatroom_auth_btn_txt'));
+		$tpl->setVariable('TXT_BTN', $DIC->language()->txt('chatroom_auth_btn_txt'));
 		$tpl->setVariable('POST_VAR', $this->getPostVar());
 		$tpl->setVariable('SIZE', $this->getSize());
 		if($this->getDisabled())

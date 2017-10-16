@@ -161,7 +161,6 @@ class ilSystemNotification extends ilMailNotification
 			{
 				continue;
 			}
-			
 			if($this->composeAndSendMail($user_id, $a_goto_additional, $a_permission))
 			{
 				$recipient_ids[] = $user_id;

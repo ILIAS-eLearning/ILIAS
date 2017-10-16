@@ -6,7 +6,7 @@
 	</baseclasses>
 	<objects>
 		<object id="exc" class_name="Exercise" dir="classes" default_pos="170" default_pres_pos="160"
-			checkbox="1" inherit="1" allow_link="1" allow_copy="1" rbac="1" export="1">
+			checkbox="1" inherit="1" allow_link="1" allow_copy="1" rbac="1" export="1" orgunit_permissions="1">
 			<parent id="cat">cat</parent>
 			<parent id="crs">crs</parent>
 			<parent id="fold">fold</parent>
@@ -34,4 +34,7 @@
 		<event type="raise" id="deleteAssignment" />		
 		<event type="raise" id="delete" />		
 	</events>
+	<web_access_checker>
+		<secure_path path="ilExercise" checking-class="ilObjExerciseAccess" />
+	</web_access_checker>
 </module>

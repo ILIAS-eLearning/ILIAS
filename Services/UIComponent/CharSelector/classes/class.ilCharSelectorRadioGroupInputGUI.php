@@ -6,6 +6,18 @@
  */
 class ilCharSelectorRadioGroupInputGUI extends ilRadioGroupInputGUI
 {
+
+	/**
+	 * Constructor
+	 */
+	function __construct($a_title = "", $a_postvar = "")
+	{
+		global $DIC;
+
+		parent::__construct($a_title, $a_postvar);
+		$this->lng = $DIC->language();
+	}
+
     /**
      * Additional check for either block or custom chars
      *
@@ -13,7 +25,7 @@ class ilCharSelectorRadioGroupInputGUI extends ilRadioGroupInputGUI
      */
     function checkInput()
     {
-        global $lng;
+		$lng = $this->lng;
         if (!parent::checkInput())
         {
             return false;

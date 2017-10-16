@@ -30,6 +30,11 @@
 */
 class ilTextWizardInputGUI extends ilTextInputGUI
 {
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
 	protected $values = array();
 	protected $allowMove = false;
 	
@@ -41,6 +46,10 @@ class ilTextWizardInputGUI extends ilTextInputGUI
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->tpl = $DIC["tpl"];
 		parent::__construct($a_title, $a_postvar);
 		$this->validationRegexp = "";
 	}
@@ -102,7 +111,7 @@ class ilTextWizardInputGUI extends ilTextInputGUI
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$foundvalues = $_POST[$this->getPostVar()];
 		if (is_array($foundvalues))
@@ -194,7 +203,7 @@ class ilTextWizardInputGUI extends ilTextInputGUI
 		
 		if (!$this->getDisabled())
 		{
-			global $tpl;
+		$tpl = $this->tpl;
 			$tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
 			$tpl->addJavascript("./Services/Form/templates/default/textwizard.js");
 		}

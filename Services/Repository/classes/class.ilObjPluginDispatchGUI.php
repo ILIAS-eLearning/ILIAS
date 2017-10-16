@@ -15,15 +15,23 @@ require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 class ilObjPluginDispatchGUI
 {
 	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
 	* Constructor.
 	*/
 	function __construct()
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
 	}
 	
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$next_class = $ilCtrl->getNextClass();
 		$cmd_class = $ilCtrl->getCmdClass();
@@ -61,7 +69,7 @@ class ilObjPluginDispatchGUI
 	*/
 	function forward()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$type = ilObject::_lookupType($_GET["ref_id"], true);
 		if ($type != "")

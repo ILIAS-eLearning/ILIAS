@@ -17,11 +17,26 @@ include_once('./Modules/Portfolio/classes/class.ilObjPortfolioBaseGUI.php');
  */
 class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 {		
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
 	protected $ws_access; // [ilWorkspaceAccessHandler]
 	
 	public function __construct($a_id = 0)
 	{		
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->help = $DIC["ilHelp"];
+		$this->settings = $DIC->settings();
+		$this->access = $DIC->access();
+		$this->user = $DIC->user();
+		$this->ctrl = $DIC->ctrl();
 		parent::__construct($a_id, self::PORTFOLIO_OBJECT_ID, 0);
+
+		$this->ctrl->saveParameter($this, "exc_back_ref_id");
 	}
 	
 	public function getType()
@@ -44,7 +59,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	
 	function executeCommand()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$this->checkPermission("read");
 
@@ -155,7 +170,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	
 	protected function setTabs()
 	{
-		global $ilHelp;	
+		$ilHelp = $this->help;
 		
 		$ilHelp->setScreenIdComponent("prtf");
 			
@@ -228,7 +243,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	
 	protected function initCreateForm($a_new_type)
 	{
-		global $ilSetting;
+		$ilSetting = $this->settings;
 		
 		$this->ctrl->setParameter($this, "new_type", $this->getType());
 		
@@ -417,7 +432,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	
 	protected function toRepository()
 	{		
-		global $ilAccess;
+		$ilAccess = $this->access;
 		
 		// return to exercise (portfolio assignment)
 		$exc_ref_id = (int)$_REQUEST["exc_id"];
@@ -597,23 +612,32 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			}
 			asort($options);	
 		}
-		
-		// no blogs to add?
-		if(!sizeof($options))
+
+		// add blog
+		$radg = new ilRadioGroupInputGUI($this->lng->txt("obj_blog"), "creation_mode");
+		$radg->setInfo($this->lng->txt(""));
+		$radg->setValue("new");
+		$radg->setInfo($this->lng->txt(""));
+
+		$op1 = new ilRadioOption($this->lng->txt("prtf_add_new_blog"), "new" ,$this->lng->txt("prtf_add_new_blog_info"));
+		$radg->addOption($op1);
+		$form->addItem($radg);
+
+		// Blog title
+		$ti = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$ti->setRequired(true);
+		$op1->addSubItem($ti);
+
+
+		if(sizeof($options))
 		{
-			// #17218
-			$this->lng->loadLanguageModule('pd');
-			$url = $this->ctrl->getLinkTargetByClass("ilpersonaldesktopgui", "jumpToWorkspace");
-			$url = '<a href="'.$url.'">'.$this->lng->txt("pd_personal_workspace").'</a>';
-					
-			ilUtil::sendInfo(sprintf($this->lng->txt("prtf_no_blogs_info"), $url), true);
-			$this->ctrl->redirect($this, "view");
+			$op2 = new ilRadioOption($this->lng->txt("prtf_add_existing_blog"), "existing");
+			$radg->addOption($op2);
+
+			$obj = new ilSelectInputGUI($this->lng->txt("obj_blog"), "blog");
+			$obj->setOptions($options);
+			$op2->addSubItem($obj);
 		}
-		
-		$obj = new ilSelectInputGUI($this->lng->txt("obj_blog"), "blog");
-		$obj->setRequired(true);
-		$obj->setOptions($options);
-		$form->addItem($obj);
 
 		$form->setTitle($this->lng->txt("prtf_add_blog").": ".
 			$this->object->getTitle());
@@ -627,14 +651,39 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	 * Create new portfolio blog page
 	 */
 	public function saveBlog()
-	{		
+	{
+		global $DIC;
+
+		$ilUser = $DIC->user();
+
 		$form = $this->initBlogForm();
 		if ($form->checkInput() && $this->checkPermissionBool("write"))
 		{
-			$page = $this->getPageInstance();
-			$page->setType(ilPortfolioPage::TYPE_BLOG);		
-			$page->setTitle($form->getInput("blog"));									
-			$page->create();
+			if ($form->getInput("creation_mode") == "existing")
+			{
+				$page = $this->getPageInstance();
+				$page->setType(ilPortfolioPage::TYPE_BLOG);
+				$page->setTitle($form->getInput("blog"));
+				$page->create();
+			}
+			else
+			{
+				$blog = new ilObjBlog();
+				$blog->setTitle($form->getInput("title"));
+				$blog->create();
+
+				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+				$tree = new ilWorkspaceTree($ilUser->getId());
+				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
+				$access_handler = new ilWorkspaceAccessHandler($tree);
+				$node_id = $tree->insertObject($tree->readRootId(), $blog->getId());
+				$access_handler->setPermissions($tree->readRootId(), $node_id);
+
+				$page = $this->getPageInstance();
+				$page->setType(ilPortfolioPage::TYPE_BLOG);
+				$page->setTitle($blog->getId());
+				$page->create();
+			}
 
 			ilUtil::sendSuccess($this->lng->txt("prtf_blog_page_created"), true);
 			$this->ctrl->redirect($this, "view");
@@ -685,7 +734,8 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	
 	protected function initCreatePortfolioFromTemplateForm($a_prtt_id, $a_title)
 	{					
-		global $ilSetting, $ilUser;
+		$ilSetting = $this->settings;
+		$ilUser = $this->user;
 				
 		if((int)$_REQUEST["exc_id"])
 		{
@@ -740,26 +790,10 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			{
 				case ilPortfolioTemplatePage::TYPE_PAGE:	
 					// skills
-					$source_page = new ilPortfolioTemplatePage($page["id"]);	
+					$source_page = new ilPortfolioTemplatePage($page["id"]);
 					$source_page->buildDom(true);
-					$dom = $source_page->getDom();					
-					if($dom instanceof php4DOMDocument)
-					{						
-						$dom = $dom->myDOMDocument;
-					}
-					$xpath = new DOMXPath($dom);
-					$nodes = $xpath->query("//PageContent/Skills");
-					foreach($nodes as $node)
-					{
-						$skill_id = $node->getAttribute("Id");
-						if(!in_array($skill_id, $pskills))
-						{
-							$skill_ids[] = $skill_id;
-						}
-					}
-					unset($nodes);
-					unset($xpath);
-					unset($dom);
+					$skill_ids = $this->getSkillsToPortfolioAssignment($pskills, $skill_ids, $source_page);
+
 					if($check_quota)
 					{																									
 						$quota_sum += $source_page->getPageDiskSize();
@@ -845,7 +879,9 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	
 	protected function createPortfolioFromTemplateProcess($a_process_form = true)
 	{
-		global $ilSetting, $ilUser, $ilAccess;
+		$ilSetting = $this->settings;
+		$ilUser = $this->user;
+		$ilAccess = $this->access;
 		
 		$title = trim($_REQUEST["pt"]);
 		$prtt_id = (int)$_REQUEST["prtt"];
@@ -917,31 +953,13 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$target_id = $target->getId();
 				
 		$source->clonePagesAndSettings($source, $target, $recipe);
-						
+
 		// link portfolio to exercise assignment
-		$exc_ref_id = (int)$_REQUEST["exc_id"];
-		$ass_id = (int)$_REQUEST["ass_id"];		
-		if($exc_ref_id &&
-			$ass_id && 
-			$ilAccess->checkAccess("read", "", $exc_ref_id))
-		{			
-			include_once "Modules/Exercise/classes/class.ilObjExercise.php";
-			include_once "Modules/Exercise/classes/class.ilExAssignment.php";							
-			$exc = new ilObjExercise($exc_ref_id);						
-			$ass = new ilExAssignment($ass_id);			
-			if($ass->getExerciseId() == $exc->getId() &&
-				$ass->getType() == ilExAssignment::TYPE_PORTFOLIO)
-			{				
-				// #16205
-				include_once "Modules/Exercise/classes/class.ilExSubmission.php";			
-				$sub = new ilExSubmission($ass, $ilUser->getId());
-				$sub->addResourceObject($target_id);
-			}
-		}
+		$this->linkPortfolioToAssignment($target_id);
 		
-		ilUtil::sendSuccess($this->lng->txt("prtf_portfolio_created"), true);
+		ilUtil::sendSuccess($this->lng->txt("prtf_portfolio_created_from_template"), true);
 		$this->ctrl->setParameter($this, "prt_id", $target_id);
-		$this->ctrl->redirect($this, "view");
+		$this->ctrl->redirect($this, "preview");
 	}
 
 	public static function _goto($a_target)
@@ -958,6 +976,421 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		include("ilias.php");
 		exit;
 	}
-}
 
+	public function createPortfolioFromAssignment()
+	{
+		$ilUser = $this->user;
+		$ilSetting = $this->settings;
+
+		include_once "Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";
+		include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";
+		include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
+
+		$title = trim($_REQUEST["pt"]);
+		$prtt_id = (int)$_REQUEST["prtt"];
+
+		if($prtt_id > 0)
+		{
+			$templates = array_keys(ilObjPortfolioTemplate::getAvailablePortfolioTemplates());
+			if(!sizeof($templates) || !in_array($prtt_id, $templates))
+			{
+				$this->toRepository();
+			}
+			unset($templates);
+
+			//quota manipulation
+			include_once "Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php";
+			$check_quota = (int)ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive();
+			$quota_sum = 0;
+
+			//skills manipulation
+			include_once "Services/Skill/classes/class.ilPersonalSkill.php";
+			$pskills = array_keys(ilPersonalSkill::getSelectedUserSkills($ilUser->getId()));
+			$skill_ids = array();
+
+			$recipe = array();
+			foreach(ilPortfolioTemplatePage::getAllPortfolioPages($prtt_id) as $page)
+			{
+				switch($page["type"])
+				{
+					case ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE:
+						if(!$ilSetting->get('disable_wsp_blogs'))
+						{
+							$recipe[$page["id"]] = array("blog", "create", $page['title']);
+						}
+						break;
+					case ilPortfolioTemplatePage::TYPE_PAGE:
+						$source_page = new ilPortfolioTemplatePage($page["id"]);
+						$source_page->buildDom(true);
+						if($check_quota)
+						{
+							$quota_sum += $source_page->getPageDiskSize();
+						}
+						$skill_ids = $this->getSkillsToPortfolioAssignment($pskills, $skill_ids, $source_page);
+						break;
+				}
+			}
+
+			if($quota_sum)
+			{
+				include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
+				if(!ilDiskQuotaHandler::isUploadPossible($quota_sum))
+				{
+					ilUtil::sendFailure($this->lng->txt("prtf_template_import_quota_failure"), true);
+					$this->ctrl->redirect($this, "create");
+				}
+			}
+
+			if($skill_ids)
+			{
+				$recipe["skills"] = $skill_ids;
+			}
+
+		}
+
+		// create portfolio
+		$target = new ilObjPortfolio();
+		$target->setTitle($title);
+		$target->create();
+		$target_id = $target->getId();
+
+		if($prtt_id)
+		{
+			$source = new ilObjPortfolioTemplate($prtt_id, false);
+			$source->clonePagesAndSettings($source, $target,$recipe);
+		}
+
+		// link portfolio to exercise assignment
+		$this->linkPortfolioToAssignment($target_id);
+
+		$this->ctrl->setParameter($this, "prt_id", $target_id);
+		if($prtt_id)
+		{
+			ilUtil::sendSuccess($this->lng->txt("prtf_portfolio_created_from_template"), true);
+			$this->ctrl->redirect($this, "preview");
+		}
+		else
+		{
+			ilUtil::sendSuccess($this->lng->txt("prtf_portfolio_created"), true);
+			$this->ctrl->redirect($this, "view");
+		}
+	}
+
+	function linkPortfolioToAssignment($a_target_id)
+	{
+		$ilAccess = $this->access;
+		$ilUser = $this->user;
+
+		$exc_ref_id = (int)$_REQUEST["exc_id"];
+		$ass_id = (int)$_REQUEST["ass_id"];
+
+		if($exc_ref_id &&
+			$ass_id &&
+			$ilAccess->checkAccess("read", "", $exc_ref_id))
+		{
+			include_once "Modules/Exercise/classes/class.ilObjExercise.php";
+			include_once "Modules/Exercise/classes/class.ilExAssignment.php";
+			$exc = new ilObjExercise($exc_ref_id);
+			$ass = new ilExAssignment($ass_id);
+			if($ass->getExerciseId() == $exc->getId() &&
+				$ass->getType() == ilExAssignment::TYPE_PORTFOLIO)
+			{
+				// #16205
+				include_once "Modules/Exercise/classes/class.ilExSubmission.php";
+				$sub = new ilExSubmission($ass, $ilUser->getId());
+				$sub->addResourceObject($a_target_id);
+			}
+		}
+	}
+
+	/**
+	 * @param array a_pskills
+	 * @param array a_skill_ids
+	 * @param ilPortfolioTemplatePage $a_source_page
+	 * @return array
+	 */
+	function getSkillsToPortfolioAssignment($a_pskills, $a_skill_ids, $a_source_page)
+	{
+		$dom = $a_source_page->getDom();
+		if($dom instanceof php4DOMDocument)
+		{
+			$dom = $dom->myDOMDocument;
+		}
+		$xpath = new DOMXPath($dom);
+		$nodes = $xpath->query("//PageContent/Skills");
+		foreach($nodes as $node)
+		{
+			$skill_id = $node->getAttribute("Id");
+			if(!in_array($skill_id, $a_pskills))
+			{
+				$a_skill_ids[] = $skill_id;
+			}
+		}
+		unset($nodes);
+		unset($xpath);
+		unset($dom);
+
+		return $a_skill_ids;
+
+	}
+	
+	/**
+	 * Export PDF selection
+	 *
+	 * @param
+	 */
+	function exportPDFSelection()
+	{
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
+
+		$form = $this->initPDFSelectionForm();
+
+		$tpl->setContent($form->getHTML());
+
+	}
+
+	/**
+	 * Init print view selection form.
+	 */
+	public function initPDFSelectionForm()
+	{
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+
+		$tabs = $DIC->tabs();
+
+		$tabs->clearTargets();
+		$tabs->setBackTarget($lng->txt("back"), $ilCtrl->getLinkTarget($this, "view"));
+
+		$pages = ilPortfolioPage::getAllPortfolioPages($this->object->getId());
+
+
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+
+		// because of PDF export
+		$form->setPreventDoubleSubmission(false);
+
+		// signature
+		$cb = new ilCheckboxInputGUI($this->lng->txt("prtf_signature"), "signature");
+		$cb->setInfo($this->lng->txt("prtf_signature_info"));
+		$form->addItem($cb);
+
+
+		// selection type
+		$radg = new ilRadioGroupInputGUI($lng->txt("prtf_print_selection"), "sel_type");
+		$radg->setValue("all_pages");
+		$op2 = new ilRadioOption($lng->txt("prtf_all_pages"), "all_pages");
+		$radg->addOption($op2);
+		$op3= new ilRadioOption($lng->txt("prtf_selected_pages"), "selection");
+		$radg->addOption($op3);
+
+		include_once("./Services/Form/classes/class.ilNestedListInputGUI.php");
+		$nl = new ilNestedListInputGUI("", "obj_id");
+		$op3->addSubItem($nl);
+
+		foreach ($pages as $p)
+		{
+			if ($p["type"] != ilPortfolioPage::TYPE_BLOG)
+			{
+				$nl->addListNode($p["id"], $p["title"], 0, false, false,
+					ilUtil::getImagePath("icon_pg.svg"), $lng->txt("page"));
+			}
+			else
+			{
+				$nl->addListNode($p["id"], $lng->txt("obj_blog").": ".ilObject::_lookupTitle($p["title"]), 0, false, false,
+					ilUtil::getImagePath("icon_blog.svg"), $lng->txt("obj_blog"));
+				$pages2 = ilBlogPosting::getAllPostings($p["title"]);
+				foreach ($pages2 as $p2)
+				{
+					$nl->addListNode("b".$p2["id"], $p2["title"], $p["id"], false, false,
+						ilUtil::getImagePath("icon_pg.svg"), $lng->txt("page"));
+				}
+			}
+		}
+
+		$form->addItem($radg);
+
+		$form->addCommandButton("exportPDF", $lng->txt("prtf_pdf"));
+
+		$form->setTitle($lng->txt("prtf_print_options"));
+		$form->setFormAction($ilCtrl->getFormAction($this, "exportPDF"));
+
+		return $form;
+	}
+
+	public function exportPDF()
+	{
+		$html = $this->printView(true);
+
+		// :TODO: fixing css dummy parameters
+		$html = preg_replace("/\?dummy\=[0-9]+/", "", $html);
+		$html = preg_replace("/\?vers\=[0-9A-Za-z\-]+/", "", $html);
+
+		$html = preg_replace("/src=\"\\.\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $html);
+		$html = preg_replace("/href=\"\\.\\//ims", "href=\"" . ILIAS_HTTP_PATH . "/", $html);
+
+		//echo $html; exit;
+
+		$pdf_factory = new ilHtmlToPdfTransformerFactory();
+		$pdf_factory->deliverPDFFromHTMLString($html, "portfolio.pdf", ilHtmlToPdfTransformerFactory::PDF_OUTPUT_DOWNLOAD, "Portfolio", "ContentExport");
+	}
+
+	public function printView($a_pdf_export = false)
+	{
+		$lng = $this->lng;
+
+		$pages = ilPortfolioPage::getAllPortfolioPages($this->object->getId());
+
+
+		$tpl = new ilTemplate("tpl.main.html", true, true);
+
+		$tpl->setCurrentBlock("AdditionalStyle");
+		$tpl->setVariable("LOCATION_ADDITIONAL_STYLESHEET", ilUtil::getStyleSheetLocation("filesystem"));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("ContentStyle");
+		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId(), false));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setVariable("LOCATION_STYLESHEET", ilObjStyleSheet::getContentPrintStyle());
+		$this->setContentStyleSheet($tpl);
+
+		// syntax style
+		$tpl->setCurrentBlock("SyntaxStyle");
+		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+			ilObjStyleSheet::getSyntaxStylePath());
+		$tpl->parseCurrentBlock();
+
+
+		include_once("./Modules/Portfolio/classes/class.ilPortfolioPageGUI.php");
+
+		$page_content = "";
+
+		// cover page
+		$cover_tpl = new ilTemplate("tpl.prtf_cover.html", true, true, "Modules/Portfolio");
+		foreach ($pages as $page)
+		{
+			if ($page["type"] != ilPortfolioPage::TYPE_BLOG)
+			{
+				if ($_POST["sel_type"] == "selection" && (!is_array($_POST["obj_id"]) || !in_array($page["id"], $_POST["obj_id"])))
+				{
+					continue;
+				}
+				$cover_tpl->setCurrentBlock("content_item");
+				$cover_tpl->setVariable("ITEM_TITLE", $page["title"]);
+				$cover_tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$cover_tpl->setCurrentBlock("content_item");
+				$cover_tpl->setVariable("ITEM_TITLE", $lng->txt("obj_blog").": ".ilObject::_lookupTitle($page["title"]));
+				$cover_tpl->parseCurrentBlock();
+			}
+		}
+
+		if ($_POST["signature"])
+		{
+			$cover_tpl->setCurrentBlock("signature");
+			$cover_tpl->setVariable("TXT_SIGNATURE", $lng->txt("prtf_signature_date"));
+			$cover_tpl->parseCurrentBlock();
+		}
+
+		$cover_tpl->setVariable("PORTFOLIO_TITLE", $this->object->getTitle());
+		$cover_tpl->setVariable("PORTFOLIO_ICON", ilUtil::getImagePath("icon_prtf.svg"));
+
+		$cover_tpl->setVariable("TXT_AUTHOR", $lng->txt("prtf_author"));
+		$cover_tpl->setVariable("TXT_LINK", $lng->txt("prtf_link"));
+		$cover_tpl->setVariable("TXT_DATE", $lng->txt("prtf_date_of_print"));
+
+		$author = ilObjUser::_lookupName($this->object->getOwner());
+		$author_str = $author["firstname"]." ".$author["lastname"];
+		$cover_tpl->setVariable("AUTHOR", $author_str);
+		$cover_tpl->setVariable("LINK", "http://anderson.local/ilias/goto.php?target=prtf_301_7&client_id=iliastrunk2");
+		ilDatePresentation::setUseRelativeDates(false);
+		$date_str = ilDatePresentation::formatDate(new ilDate(date("Y-m-d"), IL_CAL_DATE));
+		$cover_tpl->setVariable("DATE", $date_str);
+
+		$page_content .= $cover_tpl->get();
+		$page_content .= '<p style="page-break-after:always;"></p>';
+
+		$page_head_tpl = new ilTemplate("tpl.prtf_page_head.html", true, true, "Modules/Portfolio");
+		$page_head_tpl->setVariable("AUTHOR", $author_str);
+		$page_head_tpl->setVariable("DATE", $date_str);
+		$page_head_str = $page_head_tpl->get();
+
+		foreach ($pages as $page)
+		{
+			if ($page["type"] != ilPortfolioPage::TYPE_BLOG)
+			{
+				if ($_POST["sel_type"] == "selection" && (!is_array($_POST["obj_id"]) || !in_array($page["id"], $_POST["obj_id"])))
+				{
+					continue;
+				}
+
+				$page_gui = new ilPortfolioPageGUI($this->object->getId(), $page["id"]);
+				$page_gui->setOutputMode("print");
+				$page_gui->setPresentationTitle($page["title"]);
+				$page_content .= $page_head_str.$page_gui->showPage();
+
+				if ($a_pdf_export)
+				{
+					$page_content .= '<p style="page-break-after:always;"></p>';
+				}
+			}
+			else
+			{
+				$pages2 = ilBlogPosting::getAllPostings($page["title"]);
+				foreach ($pages2 as $p2)
+				{
+					if ($_POST["sel_type"] == "selection" && (!is_array($_POST["obj_id"]) || !in_array("b".$p2["id"], $_POST["obj_id"])))
+					{
+						continue;
+					}
+					$page_gui = new ilBlogPostingGUI(0, null, $p2["id"]);
+					$page_gui->setFileDownloadLink("#");
+					$page_gui->setFullscreenLink("#");
+					$page_gui->setSourcecodeDownloadScript("#");
+					$page_gui->setOutputMode("print");
+					$page_content .= $page_head_str.$page_gui->showPage();
+
+					if ($a_pdf_export)
+					{
+						$page_content .= '<p style="page-break-after:always;"></p>';
+					}
+				}
+			}
+		}
+
+		$page_content = '<div class="ilInvisibleBorder">'.$page_content.'</div>';
+
+		if(!$a_pdf_export)
+		{
+			$page_content .= '<script type="text/javascript" language="javascript1.2">
+				<!--
+					il.Util.addOnLoad(function () {
+						il.Util.print();
+					});
+				//-->
+				</script>';
+		}
+
+		$tpl->setVariable("CONTENT", $page_content);
+
+		if(!$a_pdf_export)
+		{
+			$tpl->show(false);
+			exit;
+		}
+		else
+		{
+			$ret = $tpl->get("DEFAULT", false, false, false, true, false, false);
+			return $ret;
+		}
+	}
+
+}
 ?>

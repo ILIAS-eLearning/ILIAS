@@ -30,7 +30,11 @@ class ilPageQuestionProcessor
 	 */
 	static function saveQuestionAnswer($a_type, $a_id, $a_answer)
 	{
-		global $ilUser, $ilLog, $ilDB;
+		global $DIC;
+
+		$ilUser = $DIC->user();
+		$ilLog = $DIC["ilLog"];
+		$ilDB = $DIC->database();
 //$a_type = "assOrderingQuestion";
 //$a_id = 74;
 //$a_answer = '{"tries":1,"wrong":2,"passed":false,"answer":[true,true,false,true,false],"interactionId":null,"choice":["1","2","5","4","3"]}';
@@ -109,7 +113,9 @@ class ilPageQuestionProcessor
 	 */
 	static function getQuestionStatistics($a_q_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->query("SELECT count(user_id) usr_cnt FROM page_qst_answer WHERE ".
 			" qst_id = ".$ilDB->quote($a_q_id, "integer")
@@ -163,7 +169,9 @@ class ilPageQuestionProcessor
 	 */
 	static function calculatePoints($a_type, $a_id, $a_choice)
 	{
-		global $ilLog;
+		global $DIC;
+
+		$ilLog = $DIC["ilLog"];
 
 		switch ($a_type)
 		{
@@ -324,7 +332,9 @@ class ilPageQuestionProcessor
 	 */
 	static function getAnswerStatus($a_q_id, $a_user_id = 0)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$qst = (is_array($a_q_id))
 			? $ilDB->in("qst_id", $a_q_id, false, "integer")
@@ -362,7 +372,9 @@ class ilPageQuestionProcessor
 	 */
 	static function resetTries($a_q_id, $a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$ilDB->manipulate($q = "UPDATE page_qst_answer SET ".
 				" try = ".$ilDB->quote(0, "integer").",".
@@ -382,7 +394,9 @@ class ilPageQuestionProcessor
 	 */
 	static function unlock($a_q_id, $a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$ilDB->manipulate($q = "UPDATE page_qst_answer SET ".
 				" unlocked = ".$ilDB->quote(1, "integer").

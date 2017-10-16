@@ -15,6 +15,10 @@ class ilObjTaxonomyAdministration extends ilObject
 {	
 	public function __construct($a_id = 0, $a_call_by_reference = true)
 	{
+		global $DIC;
+
+		$this->tree = $DIC->repositoryTree();
+		$this->db = $DIC->database();
 		$this->type = "taxs";
 		parent::__construct($a_id,$a_call_by_reference);
 	}
@@ -27,7 +31,7 @@ class ilObjTaxonomyAdministration extends ilObject
 	
 	protected function getPath($a_ref_id)
 	{
-		global $tree;
+		$tree = $this->tree;
 		
 		$res = array();
 		
@@ -41,7 +45,8 @@ class ilObjTaxonomyAdministration extends ilObject
 	
 	public function getRepositoryTaxonomies()
 	{
-		global $ilDB, $tree;
+		$ilDB = $this->db;
+		$tree = $this->tree;
 					
 		$res = array();
 		

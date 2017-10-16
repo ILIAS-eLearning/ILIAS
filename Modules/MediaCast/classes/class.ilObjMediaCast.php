@@ -13,6 +13,11 @@ require_once "./Services/Object/classes/class.ilObject.php";
 */
 class ilObjMediaCast extends ilObject
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	public static $purposes = array ("Standard", "VideoAlternative", "VideoPortable", "AudioPortable");    
     protected $online = false;
 	protected $publicfiles = false;
@@ -43,6 +48,10 @@ class ilObjMediaCast extends ilObject
 	*/
 	function __construct($a_id = 0,$a_call_by_reference = true)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
+		$this->user = $DIC->user();
 		$this->type = "mcst";
 		parent::__construct($a_id,$a_call_by_reference);
 		$mcst_set = new ilSetting("mcst");	
@@ -251,7 +260,7 @@ class ilObjMediaCast extends ilObject
 	*/
 	function create()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		parent::create();
 		
@@ -284,7 +293,7 @@ class ilObjMediaCast extends ilObject
 	*/
 	function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if (!parent::update())
 		{			
@@ -311,7 +320,7 @@ class ilObjMediaCast extends ilObject
 	*/
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		parent::read();
 		$this->readItems();
@@ -339,7 +348,7 @@ class ilObjMediaCast extends ilObject
 	*/
 	function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		// always call parent delete function first!!
 		if (!parent::delete())
@@ -383,7 +392,7 @@ class ilObjMediaCast extends ilObject
 
 	function deleteOrder()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if(!$this->getId())
 		{
@@ -397,7 +406,7 @@ class ilObjMediaCast extends ilObject
 	
 	function readOrder()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if(!$this->getId())
 		{
@@ -418,7 +427,7 @@ class ilObjMediaCast extends ilObject
 	
 	function saveOrder(array $a_items)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if(!$this->getId())
 		{
@@ -448,8 +457,6 @@ class ilObjMediaCast extends ilObject
 	 */
 	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
-		global $ilDB, $ilUser, $ilias;
-
 		$new_obj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
 
 		//copy online status if object is not the root copy object
@@ -496,7 +503,7 @@ class ilObjMediaCast extends ilObject
 	 */
 	function copyItems($a_new_obj)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		foreach($this->readItems(true) as $item)

@@ -14,6 +14,18 @@ require_once "Services/Object/classes/class.ilObject2.php";
 */
 class ilObjBlog extends ilObject2
 {
+
+	/**
+	 * Constructor
+	 */
+	function __construct($a_id = 0, $a_reference = true)
+	{
+		global $DIC;
+
+		parent::__construct($a_id, $a_reference);
+		$this->rbacreview = $DIC->rbac()->review();
+	}
+
 	protected $notes; // [bool]
 	protected $bg_color; // [string]
 	protected $font_color; // [string]
@@ -50,7 +62,7 @@ class ilObjBlog extends ilObject2
 
 	protected function doRead()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$set = $ilDB->query("SELECT * FROM il_blog".
 				" WHERE id = ".$ilDB->quote($this->id, "integer"));
@@ -69,7 +81,7 @@ class ilObjBlog extends ilObject2
 		$this->setKeywords($row["keywords"]);
 		$this->setAuthors($row["authors"]);
 		$this->setNavMode($row["nav_mode"]);
-		$this->setNavModeListPostings($row["nav_list_post"]);
+		$this->setNavModeListMonthsWithPostings($row["nav_list_mon_with_post"]);
 		$this->setNavModeListMonths($row["nav_list_mon"]);
 		$this->setOverviewPostings($row["ov_post"]);
 		if(trim($row["nav_order"]))
@@ -87,11 +99,11 @@ class ilObjBlog extends ilObject2
 
 	protected function doCreate()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$ilDB->manipulate("INSERT INTO il_blog (id,ppic,rss_active,approval".
 			",abs_shorten,abs_shorten_len,abs_image,abs_img_width,abs_img_height".
-			",keywords,authors,nav_mode,nav_list_post) VALUES (".
+			",keywords,authors,nav_mode,nav_list_mon_with_post) VALUES (".
 			$ilDB->quote($this->id, "integer").",".			
 			$ilDB->quote(true, "integer").",".
 			$ilDB->quote(true, "integer").",".
@@ -104,7 +116,7 @@ class ilObjBlog extends ilObject2
 			$ilDB->quote($this->hasKeywords(), "integer").",".	
 			$ilDB->quote($this->hasAuthors(), "integer").",".	
 			$ilDB->quote($this->getNavMode(), "integer").",".	
-			$ilDB->quote($this->getNavModeListPostings(), "integer").
+			$ilDB->quote($this->getNavModeListMonthsWithPostings(), "integer").
 			")");
 		
 		// #14661
@@ -122,7 +134,7 @@ class ilObjBlog extends ilObject2
 	
 	protected function doDelete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$this->deleteImage();
 
@@ -139,7 +151,7 @@ class ilObjBlog extends ilObject2
 	
 	protected function doUpdate()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 	
 		if($this->id)
 		{
@@ -158,7 +170,7 @@ class ilObjBlog extends ilObject2
 					",keywords = ".$ilDB->quote($this->hasKeywords(), "integer").
 					",authors = ".$ilDB->quote($this->hasAuthors(), "integer").
 					",nav_mode = ".$ilDB->quote($this->getNavMode(), "integer").
-					",nav_list_post = ".$ilDB->quote($this->getNavModeListPostings(), "integer").
+					",nav_list_mon_with_post = ".$ilDB->quote($this->getNavModeListMonthsWithPostings(), "integer").
 					",nav_list_mon = ".$ilDB->quote($this->getNavModeListMonths(), "integer").
 					",ov_post = ".$ilDB->quote($this->getOverviewPostings(), "integer").
 					",nav_order = ".$ilDB->quote(implode(";", $this->getOrder()), "text").
@@ -581,14 +593,14 @@ class ilObjBlog extends ilObject2
 		return $this->nav_mode;
 	}
 	
-	function setNavModeListPostings($a_value)
+	function setNavModeListMonthsWithPostings($a_value)
 	{
-		$this->nav_mode_list_postings = (int)$a_value;
+		$this->nav_mode_list_months_with_post = (int)$a_value;
 	}
 	
-	function getNavModeListPostings()
+	function getNavModeListMonthsWithPostings()
 	{
-		return $this->nav_mode_list_postings;
+		return $this->nav_mode_list_months_with_post;
 	}
 	
 	function setNavModeListMonths($a_value)
@@ -639,7 +651,9 @@ class ilObjBlog extends ilObject2
 		
 	static function sendNotification($a_action, $a_in_wsp, $a_blog_node_id, $a_posting_id, $a_comment = null)
 	{
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC->user();
 		
 		// get blog object id (repository or workspace)		
 		if($a_in_wsp)
@@ -705,7 +719,7 @@ class ilObjBlog extends ilObject2
 		{
 			return;
 		}						
-								
+
 		include_once "./Services/Notification/classes/class.ilSystemNotification.php";
 		$ntf = new ilSystemNotification($a_in_wsp);		
 		$ntf->setLangModules(array("blog"));
@@ -744,7 +758,10 @@ class ilObjBlog extends ilObject2
 	 */
 	static function deliverRSS($a_wsp_id)
 	{
-		global $tpl, $ilSetting;
+		global $DIC;
+
+		$tpl = $DIC["tpl"];
+		$ilSetting = $DIC->settings();
 		
 		if(!$ilSetting->get('enable_global_profiles'))
 		{
@@ -848,7 +865,7 @@ class ilObjBlog extends ilObject2
 	
 	function getLocalContributorRole($a_node_id)
 	{
-		global $rbacreview;
+		$rbacreview = $this->rbacreview;
 		
 		foreach($rbacreview->getLocalRoles($a_node_id) as $role_id)
 		{
@@ -861,7 +878,7 @@ class ilObjBlog extends ilObject2
 	
 	function getLocalEditorRole($a_node_id)
 	{
-		global $rbacreview;
+		$rbacreview = $this->rbacreview;
 		
 		foreach($rbacreview->getLocalRoles($a_node_id) as $role_id)
 		{
@@ -874,7 +891,7 @@ class ilObjBlog extends ilObject2
 	
 	function getAllLocalRoles($a_node_id)
 	{
-		global $rbacreview;
+		$rbacreview = $this->rbacreview;
 		
 		include_once "Services/AccessControl/classes/class.ilObjRole.php";
 		
@@ -890,7 +907,7 @@ class ilObjBlog extends ilObject2
 	
 	function getRolesWithContributeOrRedact($a_node_id)
 	{
-		global $rbacreview;
+		$rbacreview = $this->rbacreview;
 		
 		include_once "Services/AccessControl/classes/class.ilObjRole.php";
 		

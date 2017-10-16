@@ -115,21 +115,15 @@ class ilStructureObject extends ilLMObject
 	*/
 	function exportXML(&$a_xml_writer, $a_inst, &$expLog)
 	{
-		global $ilBench;
-
 		$expLog->write(date("[y-m-d H:i:s] ")."Structure Object ".$this->getId());
 		$attrs = array();
 		$a_xml_writer->xmlStartTag("StructureObject", $attrs);
 
 		// MetaData
-		$ilBench->start("ContentObjectExport", "exportStructureObject_exportMeta");
 		$this->exportXMLMetaData($a_xml_writer);
-		$ilBench->stop("ContentObjectExport", "exportStructureObject_exportMeta");
 
 		// StructureObjects
-		$ilBench->start("ContentObjectExport", "exportStructureObject_exportPageObjects");
 		$this->exportXMLPageObjects($a_xml_writer, $a_inst);
-		$ilBench->stop("ContentObjectExport", "exportStructureObject_exportPageObjects");
 
 		// PageObjects
 		$this->exportXMLStructureObjects($a_xml_writer, $a_inst, $expLog);
@@ -171,9 +165,11 @@ class ilStructureObject extends ilLMObject
 	*
 	*/
 	static function _getPresentationTitle($a_st_id, $a_mode = IL_CHAPTER_TITLE, $a_include_numbers = false,
-		$a_time_scheduled_activation = false, $a_force_content = false, $a_lm_id = 0, $a_lang = "-")
+		$a_time_scheduled_activation = false, $a_force_content = false, $a_lm_id = 0, $a_lang = "-", $a_include_short = false)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		if ($a_lm_id == 0)
 		{
@@ -186,7 +182,15 @@ class ilStructureObject extends ilLMObject
 		}
 
 		// this is optimized when ilLMObject::preloadDataByLM is invoked (e.g. done in ilLMExplorerGUI)
-		$title = ilLMObject::_lookupTitle($a_st_id);
+		$title = "";
+		if ($a_include_short)
+		{
+			$title = trim(ilLMObject::_lookupShortTitle($a_st_id));
+		}
+		if ($title == "")
+		{
+			$title = ilLMObject::_lookupTitle($a_st_id);
+		}
 
 		// this is also optimized since ilObjectTranslation re-uses instances for one lm
 		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
@@ -197,9 +201,18 @@ class ilStructureObject extends ilLMObject
 		{
 			include_once("./Modules/LearningModule/classes/class.ilLMObjTranslation.php");
 			$lmobjtrans = new ilLMObjTranslation($a_st_id, $a_lang);
-			if ($lmobjtrans->getTitle() != "")
+			$trans_title = "";
+			if ($a_include_short)
 			{
-				$title = $lmobjtrans->getTitle();
+				$trans_title = trim($lmobjtrans->getShortTitle());
+			}
+			if ($trans_title == "")
+			{
+				$trans_title = $lmobjtrans->getTitle();
+			}
+			if ($trans_title != "")
+			{
+				$title = $trans_title;
 			}
 		}
 
@@ -252,8 +265,6 @@ class ilStructureObject extends ilLMObject
 	{
 		include_once './Modules/LearningModule/classes/class.ilLMPageObject.php';
 
-		global $ilBench;
-
 		$this->tree = new ilTree($this->getLmId());
 		$this->tree->setTableNames('lm_tree', 'lm_data');
 		$this->tree->setTreeTablePK("lm_id");
@@ -267,14 +278,7 @@ class ilStructureObject extends ilLMObject
 			}
 
 			// export xml to writer object
-			$ilBench->start("ContentObjectExport", "exportStructureObject_exportPageObjectAlias");
-			//$ilBench->start("ContentObjectExport", "exportStructureObject_getLMPageObject");
-			//$page_obj = new ilLMPageObject($this->getContentObject(), $child["obj_id"]);
-			//$ilBench->stop("ContentObjectExport", "exportStructureObject_getLMPageObject");
 			ilLMPageObject::_exportXMLAlias($a_xml_writer, $child["obj_id"], $a_inst);
-			//$page_obj->exportXML($a_xml_writer, "alias", $a_inst);
-			//unset($page_obj);
-			$ilBench->stop("ContentObjectExport", "exportStructureObject_exportPageObjectAlias");
 		}
 	}
 
@@ -315,9 +319,6 @@ class ilStructureObject extends ilLMObject
 	*/
 	function exportFO(&$a_xml_writer)
 	{
-		global $ilBench;
-
-		//$expLog->write(date("[y-m-d H:i:s] ")."Structure Object ".$this->getId());
 
 		// fo:block (complete)
 		$attrs = array();
@@ -326,13 +327,7 @@ class ilStructureObject extends ilLMObject
 		$a_xml_writer->xmlElement("fo:block", $attrs, $this->getTitle());
 
 		// page objects
-		//$ilBench->start("ContentObjectExport", "exportStructureObject_exportPageObjects");
 		$this->exportFOPageObjects($a_xml_writer);
-		//$ilBench->stop("ContentObjectExport", "exportStructureObject_exportPageObjects");
-
-		// structure objects
-		//$this->exportFOStructureObjects($a_xml_writer);
-
 	}
 
 	/**
@@ -343,8 +338,6 @@ class ilStructureObject extends ilLMObject
 	*/
 	function exportFOPageObjects(&$a_xml_writer)
 	{
-		global $ilBench;
-
 		$this->tree = new ilTree($this->getLmId());
 		$this->tree->setTableNames('lm_tree', 'lm_data');
 		$this->tree->setTreeTablePK("lm_id");
@@ -358,12 +351,8 @@ class ilStructureObject extends ilLMObject
 			}
 
 			// export xml to writer object
-			//$ilBench->start("ContentObjectExport", "exportStructureObject_exportPageObjectAlias");
-
 			$page_obj = new ilLMPageObject($this->getContentObject(), $child["obj_id"]);
 			$page_obj->exportFO($a_xml_writer);
-
-			//$ilBench->stop("ContentObjectExport", "exportStructureObject_exportPageObjectAlias");
 		}
 	}
 

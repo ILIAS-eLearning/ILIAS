@@ -15,6 +15,11 @@ require_once("./Services/COPage/classes/class.ilPageContent.php");
 */
 class ilPCConsultationHours extends ilPageContent
 {
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
 	var $dom;
 
 	/**
@@ -22,6 +27,8 @@ class ilPCConsultationHours extends ilPageContent
 	*/
 	function init()
 	{
+		global $DIC;
+		$this->user = $DIC->user();
 		$this->setType("cach");
 	}
 	
@@ -65,7 +72,7 @@ class ilPCConsultationHours extends ilPageContent
 	 */
 	function setData($a_mode, array $a_grp_ids)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$this->cach_node->set_attribute("Mode", $a_mode);
 		$this->cach_node->set_attribute("User", $ilUser->getId());

@@ -18,6 +18,21 @@ include_once './Services/Membership/classes/class.ilMembershipGUI.php';
 class ilGroupMembershipGUI extends ilMembershipGUI
 {
 	/**
+	 * Filter user ids by access 
+	 * @param int[] $a_user_ids
+	 * @return int[]
+	 */
+	public function filterUserIdsByRbacOrPositionOfCurrentUser($a_user_ids)
+	{
+		return $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+			'manage_members',
+			'manage_members',
+			$this->getParentObject()->getRefId(),
+			$a_user_ids
+		);
+	}
+	
+	/**
 	 * @access public
 	 */
 	public function assignMembers($user_ids, $a_type)
@@ -206,9 +221,6 @@ class ilGroupMembershipGUI extends ilMembershipGUI
 	{
 		$member_data = $this->readMemberData($a_members, array());
 		$member_data = $this->getParentGUI()->addCustomData($member_data);
-		
-		$this->logger->dump($member_data);
-		
 		return $member_data;
 	}
 	
@@ -218,15 +230,17 @@ class ilGroupMembershipGUI extends ilMembershipGUI
 	 * @return array
 	 */
 	public function getAttendanceListUserData($a_user_id)
-	{		
-		$data = $this->member_data[$a_user_id];
+	{
+		if($this->filterUserIdsByRbacOrPositionOfCurrentUser([$a_user_id]))
+		{
+			$data = $this->member_data[$a_user_id];
+			$data['access'] = $data['access_time'];
+			$data['progress'] = $this->lng->txt($data['progress']);
+			return $data;
+		}
+		return [];
 		
-		$this->logger->dump($data);
 		
-		$data['access'] = $data['access_time'];
-		$data['progress'] = $this->lng->txt($data['progress']);
-		
-		return $data;
 	}
 	
 

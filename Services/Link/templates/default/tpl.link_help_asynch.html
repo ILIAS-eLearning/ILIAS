@@ -1,4 +1,3 @@
-<!--<div class="il_Explorer">-->
 <form class="form-horizontal" style="margin-bottom:0px;" action="{FORMACTION}" name="intlink_post" method="post" id="ilIntLinkTypeForm">
 <div class="form-group">
 	<label class="col-sm-3 control-label" for="ilIntLinkTypeSelector">{TXT_TYPE}</label>
@@ -6,10 +5,6 @@
 		{SELECT_TYPE}
 	</div>
 </div>
-<!-- BEGIN buttonclose -->
-<!-- END buttonclose -->
-<!-- BEGIN buttonclosejs -->
-<!-- END buttonclosejs -->
 </form>
 {LINK_HELP_CONTENT}
 <form class="form-horizontal" action="{FORMACTION2}" name="intlink_post2" method="post" {TARGET2}>
@@ -31,18 +26,11 @@
 	<tbody>
 <!-- BEGIN row -->
 
-	<!-- BEGIN chapter_row -->
-		<tr>
-			<!-- BEGIN thumbnail -->
-			<td>{NO_THUMB}<!-- BEGIN thumb --><img src="{SRC_THUMB}" alt="" /><!-- END thumb --></td>
-			<!-- END thumbnail -->
-			<td><b>{TXT_CHAPTER}</b><br />{LINK_CHAPTER}
-			<!-- BEGIN anchor_link -->
-				<div style="padding-left:20px;" class="small">{HREF_LINK} <!-- {TXT_LINK} --></div>
-			<!-- END anchor_link -->
-			</td>
-		</tr>
-	<!-- END chapter_row -->
+	<!-- BEGIN header_row -->
+	<tr>
+		<td><b>{TXT_HEADER}</b></td>
+	</tr>
+	<!-- END header_row -->
 
 	<!-- BEGIN chapter_row_js -->
 		<tr>
@@ -50,9 +38,9 @@
 			<td>{NO_THUMB}<!-- BEGIN thumb_js --><img src="{SRC_THUMB}" /><!-- END thumb_js --></td>
 			<!-- END thumbnail_js -->
 			<td>
-				<a href="#" onClick="return il.IntLink.addInternalLink('{LINK_BEGIN}','{LINK_END}', event);">{TXT_CHAPTER}</a>
+				<a href="#" onClick="return il.IntLink.addInternalLink('{LINK_BEGIN}','{LINK_END}', event, '{LINK_CONTENT}');">{TXT_CHAPTER}</a>
 				<!-- BEGIN anchor_link_js -->
-				<div style="padding-left:20px;" class="small"><a href="#" onClick="return il.IntLink.addInternalLink('{ALINK_BEGIN}','{ALINK_END}', event);">{TXT_LINK}</a></div>
+				<div style="padding-left:20px;" class="small"><a href="#" onClick="return il.IntLink.addInternalLink('{ALINK_BEGIN}','{ALINK_END}', event, '{ALINK_CONTENT}');">{TXT_LINK}</a></div>
 				<!-- END anchor_link_js -->
 			</td>
 		</tr>
@@ -70,7 +58,11 @@
 				</td>
 			<!-- END icon -->
 			<td class="ilWhiteSpaceNowrap">
-			<a href="{LINK}" {LR_ONCLICK} target="{LINK_TARGET}">{TXT_CHAPTER}</a></td>
+			<a href="{LINK}" {LR_ONCLICK} target="{LINK_TARGET}">{TXT_CHAPTER}</a>
+				<!-- BEGIN anchor_link -->
+				<div style="padding-left:20px;" class="small"><a href="{ALINK}" {ALR_ONCLICK} target="{ALINK_TARGET}">{TXT_ALINK}</a></div>
+				<!-- END anchor_link -->
+			</td>
 		</tr>
 	<!-- END link_row -->
 	
@@ -79,3 +71,6 @@
 </table>
 <!-- END chapter_list -->
 </form>
+<script>
+	il.IntLink.setInternalLinkUrl('{NEW_LINK_URL}');
+</script>

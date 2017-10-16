@@ -13,13 +13,23 @@ include_once("./Services/Form/classes/class.ilHierarchyFormGUI.php");
 class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 {
 	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
 	* Constructor
 	*
 	* @param
 	*/
 	function __construct()
 	{
-		global $lng;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$this->ctrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		parent::__construct();
 		$this->setCheckboxName("id");
@@ -32,7 +42,8 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 	*/
 	function getMenuItems($a_node, $a_depth, $a_first_child = false, $a_next_sibling = null, $a_childs = null)
 	{
-		global $lng, $ilUser;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 
 		// @todo: move this to a service since it can be used here, too
 		include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
@@ -323,7 +334,7 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 	*/
 	function manageDragAndDrop($a_node, $a_depth, $a_first_child_drop_area = false, $a_next_sibling = null, $a_childs = null)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if ($a_node["type"] == "ass")
 		{
@@ -410,7 +421,8 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 	*/
 	function getChildCommands($a_item)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$commands = array();
 //echo "-".$a_item["type"]."-";
@@ -468,7 +480,7 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 	 */
 	function getChildIconAlt($a_item)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		return $lng->txt("icon")." ".$lng->txt("obj_".$a_item["type"]);
 	}

@@ -13,8 +13,12 @@ class ilUserActionContextFactory
 {
 	protected static $contexts = array(
 		array (
-			"component" => "Services/User/Actions/Contexts",
+			"component" => "Services/Awareness",
 			"class" => "ilAwarenessUserActionContext"
+		),
+		array (
+			"component" => "Services/User/Gallery",
+			"class" => "ilGalleryUserActionContext"
 		)
 	);
 

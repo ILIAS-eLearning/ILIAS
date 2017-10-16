@@ -162,7 +162,7 @@ $tpl->setVariable(
 );
 
 include_once "Services/jQuery/classes/class.iljQueryUtil.php";
-$jquery_path = array_pop(explode("Services/", iljQueryUtil::getLocaljQueryPath()));
+$jquery_path = iljQueryUtil::getLocaljQueryPath();
 $tpl->setVariable("JQUERY", $jquery_path);
 
 if($ilUser->getLanguage() == 'de')

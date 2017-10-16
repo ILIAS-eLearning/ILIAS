@@ -35,7 +35,6 @@ class ilContextTest extends PHPUnit_Framework_TestCase {
 					array(ilContextExtended::CONTEXT_SOAP,"ilContextSoap"),
 					array(ilContextExtended::CONTEXT_WEBDAV,"ilContextWebdav"),
 					array(ilContextExtended::CONTEXT_RSS_AUTH,"ilContextRssAuth"),
-					array(ilContextExtended::CONTEXT_WEB_ACCESS_CHECK,"ilContextWebAccessCheck"),
 					array(ilContextExtended::CONTEXT_SESSION_REMINDER,"ilContextSessionReminder"),
 					array(ilContextExtended::CONTEXT_SOAP_WITHOUT_CLIENT,"ilContextSoapWithoutClient"),
 					array(ilContextExtended::CONTEXT_UNITTEST,"ilContextUnitTest"),

@@ -34,9 +34,40 @@
 */
 class ilWikiHandlerGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilNavigationHistory
+	 */
+	protected $nav_history;
+
 	function __construct()
 	{
-		global $ilCtrl, $lng, $ilAccess, $ilias, $ilNavigationHistory;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+		$this->tpl = $DIC["tpl"];
+		$this->nav_history = $DIC["ilNavigationHistory"];
+		$ilCtrl = $DIC->ctrl();
 
 		// initialisation stuff
 		$this->ctrl =  $ilCtrl;
@@ -48,7 +79,10 @@ class ilWikiHandlerGUI
 	*/
 	function executeCommand()
 	{
-		global $lng, $ilAccess, $tpl, $ilNavigationHistory;
+		$lng = $this->lng;
+		$ilAccess = $this->access;
+		$tpl = $this->tpl;
+		$ilNavigationHistory = $this->nav_history;
 		
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);

@@ -98,7 +98,8 @@ class ilObjExternalFeedListGUI extends ilObjectListGUI
 	*/
 	function getProperties()
 	{
-		global $lng, $ilUser;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 
 		$props = array();
 		//$props[] = array(

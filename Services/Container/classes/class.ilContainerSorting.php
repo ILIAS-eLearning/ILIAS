@@ -34,6 +34,16 @@ include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
 */
 class ilContainerSorting
 {
+	/**
+	 * @var Logger
+	 */
+	protected $log;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
 	protected static $instances = array();
 
 	protected $obj_id;
@@ -51,7 +61,11 @@ class ilContainerSorting
 	 */
 	private function __construct($a_obj_id)
 	{
-	 	global $ilDB;
+		global $DIC;
+
+		$this->log = $DIC["ilLog"];
+		$this->tree = $DIC->repositoryTree();
+		$ilDB = $DIC->database();
 	 	
 	 	$this->db = $ilDB;
 	 	$this->obj_id = $a_obj_id;
@@ -92,7 +106,9 @@ class ilContainerSorting
 	 */
 	public static function lookupPositions($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$query = "SELECT * FROM container_sorting WHERE ".
 			"obj_id = ".$ilDB->quote($a_obj_id,'integer');
@@ -112,8 +128,8 @@ class ilContainerSorting
 	 */
 	public function cloneSorting($a_target_id,$a_copy_id)
 	{
-		global $ilDB;
-		global $ilLog;
+		$ilDB = $this->db;
+		$ilLog = $this->log;
 		
 		$ilLog->write(__METHOD__.': Cloning container sorting.');
 		
@@ -356,7 +372,7 @@ class ilContainerSorting
 	 */
 	public function savePost($a_type_positions)
 	{
-		global $ilLog; 
+		$ilLog = $this->log;
 
 	 	if(!is_array($a_type_positions))
 	 	{
@@ -396,7 +412,7 @@ class ilContainerSorting
 	 */
 	protected function saveItems($a_items)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		foreach($a_items as $child_id => $position)
 		{
@@ -425,7 +441,7 @@ class ilContainerSorting
 	 */
 	protected function saveSubItems($a_parent_type,$a_parent_id,$a_items)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		foreach($a_items as $child_id => $position)
 		{
@@ -453,7 +469,7 @@ class ilContainerSorting
 	 */
 	protected function saveBlockPositions(array $a_values)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		asort($a_values);
 	
@@ -475,7 +491,7 @@ class ilContainerSorting
 	 */
 	public function getBlockPositions()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$set = $ilDB->query("SELECT block_ids".
 			" FROM container_sorting_bl".
@@ -496,7 +512,7 @@ class ilContainerSorting
 	 */
 	private function read()
 	{
-	 	global $tree;
+		$tree = $this->tree;
 		
 		if(!$this->obj_id)
 	 	{

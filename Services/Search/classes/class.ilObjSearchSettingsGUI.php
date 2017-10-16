@@ -283,7 +283,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$direct = new ilRadioOption($this->lng->txt('search_direct'),ilSearchSettings::LIKE_SEARCH,$this->lng->txt('search_like_info'));
 		$type->addOption($direct);
 		
-		if($ilDB->getDBType() == 'mysql')
+		if($ilDB->supportsFulltext())
 		{
 			$index = new ilRadioOption($this->lng->txt('search_index'),ilSearchSettings::INDEX_SEARCH,$this->lng->txt('search_full_info'));
 			$type->addOption($index);

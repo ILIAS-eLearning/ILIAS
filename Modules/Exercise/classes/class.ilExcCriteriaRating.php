@@ -12,6 +12,35 @@ include_once "Modules/Exercise/classes/class.ilExcCriteria.php";
  */
 class ilExcCriteriaRating extends ilExcCriteria
 {
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		global $DIC;
+
+		parent::__construct();
+		$this->tpl = $DIC["tpl"];
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+	}
+
 	public function getType()
 	{
 		return "rating";
@@ -22,7 +51,8 @@ class ilExcCriteriaRating extends ilExcCriteria
 	
 	public function addToPeerReviewForm($a_value = null)
 	{
-		global $tpl, $ilCtrl;
+		$tpl = $this->tpl;
+		$ilCtrl = $this->ctrl;
 			
 		$tpl->addJavaScript("Modules/Exercise/js/ilExcPeerReview.js");
 		$tpl->addOnLoadCode("il.ExcPeerReview.setAjax('".
@@ -109,7 +139,7 @@ class ilExcCriteriaRating extends ilExcCriteria
 	
 	public function validate($a_value)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if($this->isRequired())
 		{			

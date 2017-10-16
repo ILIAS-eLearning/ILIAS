@@ -11,6 +11,16 @@
  */
 class ilSystemSupportContactsGUI
 {
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	protected $ctrl;
 
 	/**
@@ -18,7 +28,11 @@ class ilSystemSupportContactsGUI
 	 */
 	function __construct()
 	{
-		global $ilCtrl, $tpl, $lng;
+		global $DIC;
+
+		$ilCtrl = $DIC->ctrl();
+		$tpl = $DIC["tpl"];
+		$lng = $DIC->language();
 
 		$this->ctrl = $ilCtrl;
 		$this->tpl = $tpl;
@@ -75,7 +89,10 @@ class ilSystemSupportContactsGUI
 	 */
 	static function getFooterLink()
 	{
-		global $ilCtrl, $ilUser;
+		global $DIC;
+
+		$ilCtrl = $DIC->ctrl();
+		$ilUser = $DIC->user();
 		
 		include_once("./Modules/SystemFolder/classes/class.ilSystemSupportContacts.php");
 
@@ -116,7 +133,9 @@ class ilSystemSupportContactsGUI
 	 */
 	static function getFooterText()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		return $lng->txt("contact_sysadmin");
 	}
 

@@ -52,7 +52,6 @@ class ilMiniCalendarGUI
 		global $ilUser,$lng;
 		
 		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId());
-		$this->tpl = new ilTemplate('tpl.minical.html',true,true,'Services/Calendar');
 		$this->lng = $lng;
 		$this->lng->loadLanguageModule('dateplaner');
 		$this->seed = $seed;
@@ -176,14 +175,16 @@ class ilMiniCalendarGUI
 			
 			if($counter and !($counter % 7))
 			{
+				$a_tpl->setCurrentBlock('week');
+				$a_tpl->setVariable('WEEK',
+					$date->get(IL_CAL_FKT_DATE,'W'));
+				$a_tpl->parseCurrentBlock();
+
 				$a_tpl->setCurrentBlock('month_row');
 				$ilCtrl->clearParametersByClass('ilcalendarweekgui');
 				$ilCtrl->setParameterByClass('ilcalendarweekgui','seed',$date->get(IL_CAL_DATE));
-				$a_tpl->setVariable('OPEN_WEEK_VIEW', $ilCtrl->getLinkTargetByClass('ilcalendarweekgui',''));
 				$ilCtrl->clearParametersByClass('ilcalendarweekgui');
 				$a_tpl->setVariable('TD_CLASS','calminiweek');
-				$a_tpl->setVariable('WEEK',
-					$date->get(IL_CAL_FKT_DATE,'W'));
 				$a_tpl->parseCurrentBlock();
 			}
 		}
@@ -214,111 +215,5 @@ class ilMiniCalendarGUI
 		$a_tpl->parseCurrentBlock();
 	}
 
-	
-//
-//
-//		OLD IMPLEMENTATION
-//
-//
-	
-	/**
-	 * set presentation mode
-	 *
-	 * @access public
-	 * @param int presentation mode
-	 * @return
-	 */
-/*
-	public function setPresentationMode($a_mode)
-	{
-		$this->mode = $a_mode;
-	}
-*/
-	
-	/**
-	 * get html
-	 *
-	 * @access public
-	 * @param
-	 * @return
-	 */
-/*
-	public function getHTML()
-	{
-		$this->init();
-		return $this->tpl->get();
-	}
-*/
-
-	/**
-	 * init mini calendar
-	 *
-	 * @access protected
-	 * @return
-	 */
-/*
-	protected function init()
-	{
-		include_once('Services/YUI/classes/class.ilYuiUtil.php');
-		ilYuiUtil::initCalendar();
-		
-		// Navigator
-		$this->tpl->setVariable('TXT_CHOOSE_MONTH',$this->lng->txt('yui_cal_choose_month'));
-		$this->tpl->setVariable('TXT_CHOOSE_YEAR',$this->lng->txt('yui_cal_choose_year'));
-		$this->tpl->setVariable('TXT_SUBMIT','OK');
-		$this->tpl->setVariable('TXT_CANCEL',$this->lng->txt('cancel'));
-		$this->tpl->setVariable('TXT_INVALID_YEAR',$this->lng->txt('yuical_invalid_year'));
-		
-		$this->tpl->setVariable('MINICALENDAR','&nbsp;');
-		$this->tpl->setVariable('SEED_MY',$this->seed->get(IL_CAL_FKT_DATE,'m/Y','UTC'));
-		$this->tpl->setVariable('SEED_MDY',$this->seed->get(IL_CAL_FKT_DATE,'m/d/Y','UTC'));
-		$this->tpl->setVariable('MONTHS_LONG',$this->getMonthList());
-		$this->tpl->setVariable('WEEKDAYS_SHORT',$this->getWeekdayList());
-		$this->tpl->setVariable('WEEKSTART',(int) $this->user_settings->getWeekstart());
-		return true;
-	}
-*/
-	
-	/**
-	 * get month list
-	 *
-	 * @access private
-	 * @param
-	 * @return
-	 */
-/*
-	private function getMonthList()
-	{
-		$this->lng->loadLanguageModule('jscalendar');
-		for($i = 1;$i <= 12; $i++)
-		{
-			if($i < 10)
-			{
-				$i = '0'.$i;
-			}
-			$months[] = $this->lng->txt('l_'.$i);
-		}
-		return '"'.implode('","',$months).'"';
-	}
-*/
-	
-	/**
-	 * get weekday list
-	 *
-	 * @access private
-	 * @param
-	 * @return
-	 */
-/*
-	private function getWeekdayList()
-	{
-		$this->lng->loadLanguageModule('jscalendar');
-		foreach(array('su','mo','tu','we','th','fr','sa') as $day)
-		{
-			$days[] = $this->lng->txt('s_'.$day); 
-		}
-		return '"'.implode('","',$days).'"';
-	}
-*/
 }
 ?>

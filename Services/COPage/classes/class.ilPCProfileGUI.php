@@ -36,6 +36,11 @@ require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
 */
 class ilPCProfileGUI extends ilPageContentGUI
 {
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
 
 	/**
 	* Constructor
@@ -43,6 +48,11 @@ class ilPCProfileGUI extends ilPageContentGUI
 	*/
 	function __construct(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
+		global $DIC;
+
+		$this->tpl = $DIC["tpl"];
+		$this->ctrl = $DIC->ctrl();
+		$this->toolbar = $DIC->toolbar();
 		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
 
@@ -74,7 +84,7 @@ class ilPCProfileGUI extends ilPageContentGUI
 	 */
 	function insert(ilPropertyFormGUI $a_form = null)
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		$this->displayValidationError();
 
@@ -92,7 +102,7 @@ class ilPCProfileGUI extends ilPageContentGUI
 	 */
 	function edit(ilPropertyFormGUI $a_form = null)
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		$this->displayValidationError();
 
@@ -111,7 +121,8 @@ class ilPCProfileGUI extends ilPageContentGUI
 	 */
 	protected function initForm($a_insert = false)
 	{
-		global $ilCtrl, $ilToolbar;
+		$ilCtrl = $this->ctrl;
+		$ilToolbar = $this->toolbar;
 				
 		$is_template = ($this->getPageConfig()->getEnablePCType("PlaceHolder"));
 				

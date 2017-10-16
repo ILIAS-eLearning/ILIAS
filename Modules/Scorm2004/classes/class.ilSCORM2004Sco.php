@@ -25,6 +25,9 @@ class ilSCORM2004Sco extends ilSCORM2004Asset
 	 */
 	function __construct($a_slm_object, $a_id = 0)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		parent::__construct($a_slm_object, $a_id);
 		$this->setType("sco");
 	}
@@ -50,7 +53,7 @@ class ilSCORM2004Sco extends ilSCORM2004Asset
 	 */
 	function create($a_upload = false, $a_template = false)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		parent::create($a_upload, $a_template);
 		if (!$a_template)
@@ -74,7 +77,7 @@ class ilSCORM2004Sco extends ilSCORM2004Asset
 	 */
 	function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		parent::read();
 		$set = $ilDB->query("SELECT * FROM sahs_sc13_sco WHERE ".
@@ -89,7 +92,7 @@ class ilSCORM2004Sco extends ilSCORM2004Asset
 	 */
 	function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		parent::update();
 		$ilDB->manipulate("UPDATE sahs_sc13_sco SET ".
@@ -103,7 +106,7 @@ class ilSCORM2004Sco extends ilSCORM2004Asset
 	 */
 	function delete($a_delete_meta_data = true)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 
 		parent::delete($a_delete_meta_data);
 		$ilDB->manipulate("DELETE FROM sahs_sc13_sco WHERE "
@@ -118,6 +121,7 @@ class ilSCORM2004Sco extends ilSCORM2004Asset
 	{
 		$sco = new ilSCORM2004Sco($a_target_slm);
 		$sco->setTitle($this->getTitle());
+		$sco->setHideObjectivePage($this->getHideObjectivePage());
 		if ($this->getSLMId() != $a_target_slm->getId())
 		{
 			$sco->setImportId("il__sco_".$this->getId());

@@ -198,7 +198,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 			$check_agreement,
 			$this->user_fields
 			);
-			
+		
 		if (count($tr_data["set"]) == 0 && $this->getOffset() > 0)
 		{
 			$this->resetOffset();

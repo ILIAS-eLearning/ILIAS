@@ -256,7 +256,8 @@ class ilOnScreenChatGUI
 
 			$DIC->language()->toJS(array(
 				'chat_osc_no_usr_found', 'chat_osc_emoticons', 'chat_osc_write_a_msg', 'autocomplete_more', 
-				'close', 'chat_osc_invite_to_conversation', 'chat_osc_user', 'chat_osc_add_user'
+				'close', 'chat_osc_invite_to_conversation', 'chat_osc_user', 'chat_osc_add_user', 'chat_osc_subs_rej_msgs',
+				'chat_osc_subs_rej_msgs_p', 'chat_osc_self_rej_msgs'
 			));
 
 			require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
@@ -266,8 +267,8 @@ class ilOnScreenChatGUI
 			require_once 'Services/Link/classes/class.ilLinkifyUtil.php';
 			ilLinkifyUtil::initLinkify();
 
-			$DIC['tpl']->addJavaScript('./Services/jQuery/js/jquery.outside.events.min.js');
-			$DIC['tpl']->addJavaScript('./Services/jQuery/js/jquery.ui.touch-punch.min.js');
+			$DIC['tpl']->addJavaScript('./libs/bower/bower_components/jquery-outside-events/jquery.ba-outside-events.min.js');
+			$DIC['tpl']->addJavaScript('./libs/bower/bower_components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js');
 			$DIC['tpl']->addJavascript('./Services/UIComponent/Modal/js/Modal.js');
 			$DIC['tpl']->addJavascript('./libs/composer/components/moment/min/moment-with-locales.js');
 			$DIC['tpl']->addJavascript('./Services/OnScreenChat/js/moment.js');

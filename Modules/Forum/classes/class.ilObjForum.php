@@ -52,7 +52,6 @@ class ilObjForum extends ilObject
 
 	private $settings;
 	private $rbac;
-	private $db;
 	private $ilBench;
 	private $user;
 	private $logger;
@@ -71,7 +70,7 @@ class ilObjForum extends ilObject
 		$this->db = $DIC->database();
 		$this->ilBench = $DIC['ilBench'];
 		$this->user = $DIC->user();
-		$this->logger = $DIC->logger();
+		$this->logger = $DIC->logger()->root();
 		
 		$this->type = 'frm';
 		parent::__construct($a_id, $a_call_by_reference);

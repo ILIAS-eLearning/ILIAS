@@ -20,6 +20,16 @@ include_once("./Services/Skill/interfaces/interface.ilSkillUsageInfo.php");
  */
 class ilSkillResources implements ilSkillUsageInfo
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
 	protected $base_skill_id;	// base skill id
 	protected $tref_id;			// template reference id (if no template involved: 0)
 	
@@ -42,6 +52,10 @@ class ilSkillResources implements ilSkillUsageInfo
 	 */
 	function __construct($a_skill_id = 0, $a_tref_id = 0)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
+		$this->tree = $DIC->repositoryTree();
 		$this->setBaseSkillId($a_skill_id);
 		$this->setTemplateRefId($a_tref_id);
 		
@@ -99,7 +113,8 @@ class ilSkillResources implements ilSkillUsageInfo
 	 */
 	function readResources()
 	{
-		global $ilDB, $tree;
+		$ilDB = $this->db;
+		$tree = $this->tree;
 		
 		$set = $ilDB->query("SELECT * FROM skl_skill_resource ".
 			" WHERE base_skill_id = ".$ilDB->quote($this->getBaseSkillId(), "integer").
@@ -124,7 +139,7 @@ class ilSkillResources implements ilSkillUsageInfo
 	 */
 	function save()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$ilDB->manipulate("DELETE FROM skl_skill_resource WHERE ".
 			" base_skill_id = ".$ilDB->quote((int) $this->getBaseSkillId(), "integer").
@@ -225,12 +240,43 @@ class ilSkillResources implements ilSkillUsageInfo
 	 */
 	static public function getUsageInfo($a_cskill_ids, &$a_usages)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		include_once("./Services/Skill/classes/class.ilSkillUsage.php");
 		ilSkillUsage::getUsageInfoGeneric($a_cskill_ids, $a_usages, ilSkillUsage::RESOURCE,
 				"skl_skill_resource", "rep_ref_id", "base_skill_id");
 	}
+
+	/**
+	 * Get levels for trigger per ref id
+	 *
+	 * @param int $a_ref_id
+	 * @return array skill levels
+	 */
+	static function getTriggerLevelsForRefId($a_ref_id)
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+
+		$set = $db->query("SELECT * FROM skl_skill_resource ".
+			" WHERE rep_ref_id = ".$db->quote($a_ref_id, "integer").
+			" AND ltrigger = ".$db->quote(1, "integer"));
+
+		$skill_levels = array();
+		while ($rec = $db->fetchAssoc($set))
+		{
+			$skill_levels[] = array(
+				"base_skill_id" => $rec["base_skill_id"],
+				"tref_id" => $rec["tref_id"],
+				"level_id" => $rec["level_id"]
+			);
+		}
+		return $skill_levels;
+	}
+
 
 }
 

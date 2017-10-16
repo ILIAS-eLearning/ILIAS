@@ -15,6 +15,11 @@ include_once("./Services/Utilities/classes/class.ilDOMUtil.php");
 */
 class ilMediaAliasItem
 {
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	var $dom;
 	var $hier_id;
 	var $purpose;
@@ -23,6 +28,9 @@ class ilMediaAliasItem
 	function __construct(&$a_dom, $a_hier_id, $a_purpose, $a_pc_id = "",
 		$a_parent_node_name = "MediaObject")
 	{
+		global $DIC;
+
+		$this->lng = $DIC->language();
 		$this->dom = $a_dom;
 		$this->parent_node_name = $a_parent_node_name;
 		$this->hier_id = $a_hier_id;
@@ -370,24 +378,23 @@ class ilMediaAliasItem
 	{
 		$par_nodes = $this->getParameterNodes($this->hier_id, $this->purpose,
 			$this->getPcId());
-		$par_arr = array();
 		for($i=0; $i < count($par_nodes); $i++)
 		{
 			$par_node = $par_nodes[$i];
 			$par_node->unlink_node($par_node);
 		}
 
+		include_once("./Services/MediaObjects/classes/class.ilMediaItem.php");
 		if (is_array($a_par_array))
 		{
 			foreach($a_par_array as $par => $val)
 			{
-				$attributes = array ("Name" => $par, "Value" => $val);
-				ilDOMUtil::addElementToList($this->dom, $this->item_node,
-					"Parameter", array("MapArea"), "", $attributes);
-				/* $par_node = $this->dom->create_element("Parameter");
-				$par_node = $this->item_node->append_child($par_node);
-				$par_node->set_attribute("Name", $par);
-				$par_node->set_attribute("Value", $val); */
+				if (ilMediaItem::checkParameter($par, $val))
+				{
+					$attributes = array("Name" => $par, "Value" => $val);
+					ilDOMUtil::addElementToList($this->dom, $this->item_node,
+						"Parameter", array("MapArea"), "", $attributes);
+				}
 			}
 		}
 	}
@@ -782,7 +789,7 @@ class ilMediaAliasItem
 	function makeMapWorkCopy($a_st_item, $a_area_nr = 0, $a_exclude = false,
 		$a_output_new_area, $a_area_type, $a_coords)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if (!$a_st_item->copyOriginal())
 		{

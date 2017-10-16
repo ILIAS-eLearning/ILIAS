@@ -15,6 +15,16 @@ include_once "Modules/Exercise/classes/class.ilExSubmission.php";
 */
 class ilPortfolioExerciseGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	protected $user_id; // [int]
 	protected $obj_id; // [int]
 	protected $ass_id; // [int]
@@ -22,6 +32,10 @@ class ilPortfolioExerciseGUI
 	
 	public function __construct($a_user_id, $a_obj_id)
 	{
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
 		$this->user_id = $a_user_id;
 		$this->obj_id = $a_obj_id;
 		$this->ass_id = (int)$_GET["ass"];
@@ -30,7 +44,7 @@ class ilPortfolioExerciseGUI
 	
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		if(!$this->ass_id ||
 			!$this->user_id)
@@ -53,7 +67,9 @@ class ilPortfolioExerciseGUI
 	
 	public static function checkExercise($a_user_id, $a_obj_id, $a_add_submit = false)
 	{			
-		global $tree;
+		global $DIC;
+
+		$tree = $DIC->repositoryTree();
 		
 		$info = array();
 		
@@ -90,7 +106,10 @@ class ilPortfolioExerciseGUI
 	
 	protected static function getExerciseInfo($a_user_id, $a_assignment_id, $a_add_submit = false)
 	{				
-		global $lng, $ilCtrl;
+		global $DIC;
+
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
 		
 		include_once "Modules/Exercise/classes/class.ilExAssignment.php";			
 		$ass = new ilExAssignment($a_assignment_id);		
@@ -146,11 +165,11 @@ class ilPortfolioExerciseGUI
 			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
 			$button = ilLinkButton::getInstance();
 			$button->setCaption("download");
-			$button->setUrl($dl_link);			
+			$button->setUrl($dl_link);
 			
-			$info .= "<br />".sprintf($lng->txt("prtf_exercise_submitted_info"), 
+			$info .= "<p>".sprintf($lng->txt("prtf_exercise_submitted_info"),
 				ilDatePresentation::formatDate(new ilDateTime($submitted["ts"], IL_CAL_DATETIME)),
-				$button->render());
+				$button->render())."</p>";
 			
 			ilDatePresentation::setUseRelativeDates($rel);
 		}		
@@ -204,7 +223,7 @@ class ilPortfolioExerciseGUI
 			// trigger
 			$overlay->addTrigger($ol_id."_tr", "click", $ol_id."_tr");
 
-			$info .= "<div id=\"".$ol_id."_tr\"><a href=\"#\">".$lng->txt("exc_instruction")."</a></div>".
+			$info .= "<p id=\"".$ol_id."_tr\"><a href=\"#\">".$lng->txt("exc_instruction")."</a></p>".
 				"<div id=\"".$ol_id."\" style=\"display:none; background-color:white; border: 1px solid #bbb; padding: 10px;\">".$tooltip."</div>";
 		}
 		
@@ -256,7 +275,8 @@ class ilPortfolioExerciseGUI
 	 */
 	protected function finalize()
 	{				
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		include_once "Modules/Exercise/classes/class.ilExSubmissionBaseGUI.php";
 		include_once "Modules/Exercise/classes/class.ilExSubmissionObjectGUI.php";		

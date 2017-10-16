@@ -25,15 +25,22 @@ class ilIndividualAssessmentSettings {
 	 */
 	protected $event_time_place_required;
 
+	/**
+	 * @var bool
+	 */
+	protected $file_required;
+
 	public function __construct(ilObjIndividualAssessment $iass,
 		$content = null,
 		$record_template = null,
-		$event_time_place_required = false
+		$event_time_place_required = false,
+		$file_required = false
 	) {
 		$this->id = $iass->getId();
 		$this->content = $content !== null ? $content : self::DEF_CONTENT;
 		$this->record_template = $record_template !== null ? $record_template : self::DEF_RECORD_TEMPLATE;
 		$this->event_time_place_required = $event_time_place_required;
+		$this->file_required = $file_required;
 	}
 
 	/**
@@ -75,6 +82,17 @@ class ilIndividualAssessmentSettings {
 	}
 
 	/**
+	 * Get the value of the checkbox file_required
+	 *
+	 * @return	integer
+	 */
+	public function fileRequired()
+	{
+		return $this->file_required;
+	}
+
+
+	/**
 	 * Set the content of this assessment, e.g. corresponding topics...
 	 *
 	 * @param	string	$content
@@ -109,6 +127,19 @@ class ilIndividualAssessmentSettings {
 	{
 		assert('is_bool($event_time_place_required)');
 		$this->event_time_place_required = $event_time_place_required;
+		return $this;
+	}
+
+	/**
+	 * Set the value of the checkbox file_required
+	 *
+	 * @param	bool	$file_require
+	 * @return	ilManualAssessment	$this
+	 */
+	public function setFileRequired($file_required)
+	{
+		assert('is_bool($file_required)');
+		$this->file_required = $file_required;
 		return $this;
 	}
 }

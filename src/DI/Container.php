@@ -95,7 +95,7 @@ class Container extends \Pimple\Container {
 	}
 
 	/**
-	 * Get interface to the i18n service.
+	 * Get interface to the tabs
 	 *
 	 * @return	\ilTabsGUI
 	 */
@@ -155,5 +155,12 @@ class Container extends \Pimple\Container {
 	 */
 	public function http() {
 		return $this['http'];
+	}
+
+	/**
+	 * @return \ilAppEventHandler
+	 */
+	public function event() {
+		return $this['ilAppEventHandler'];
 	}
 }

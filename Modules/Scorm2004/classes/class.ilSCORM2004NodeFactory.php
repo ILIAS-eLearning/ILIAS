@@ -22,7 +22,9 @@ class ilSCORM2004NodeFactory
 {
 	static function getInstance($a_slm_object, $a_id = 0, $a_halt = true)
 	{
-		global $ilias, $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$query = "SELECT * FROM sahs_sc13_tree_node WHERE obj_id = ".
 			$ilDB->quote($a_id, "integer");

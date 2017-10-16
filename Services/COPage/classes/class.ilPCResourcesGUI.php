@@ -16,6 +16,16 @@ require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
 */
 class ilPCResourcesGUI extends ilPageContentGUI
 {
+	/**
+	 * @var ilTree
+	 */
+	protected $rep_tree;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
 
 	/**
 	* Constructor
@@ -23,7 +33,13 @@ class ilPCResourcesGUI extends ilPageContentGUI
 	*/
 	function __construct(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
-		global $tree;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->tpl = $DIC["tpl"];
+		$this->lng = $DIC->language();
+		$this->obj_definition = $DIC["objDefinition"];
+		$tree = $DIC->repositoryTree();
 		
 		$this->rep_tree = $tree;
 		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
@@ -63,7 +79,10 @@ class ilPCResourcesGUI extends ilPageContentGUI
 	*/
 	function edit($a_insert = false)
 	{
-		global $ilCtrl, $tpl, $lng, $objDefinition;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$objDefinition = $this->obj_definition;
 		
 		$this->displayValidationError();
 		
@@ -238,7 +257,11 @@ class ilPCResourcesGUI extends ilPageContentGUI
 	 */
 	static function insertResourcesIntoPageContent($a_content)
 	{
-		global $objDefinition, $tree, $lng;
+		global $DIC;
+
+		$objDefinition = $DIC["objDefinition"];
+		$tree = $DIC->repositoryTree();
+		$lng = $DIC->language();
 
 		$ref_id = (int) $_GET["ref_id"];
 		$obj_id = (int) ilObject::_lookupObjId($ref_id);
@@ -319,6 +342,16 @@ class ilPCResourcesGUI extends ilPageContentGUI
 				{
 					$it_obj_id = ilObject::_lookupObjId($it_ref_id);
 					$it_title = ilObject::_lookupTitle($it_obj_id);
+					$it_type = ilObject::_lookupType($it_obj_id);
+
+					// TODO: Handle this switch by module.xml definitions
+					if(in_array($it_type, array("catr", "crsr", "grpr")))
+					{
+						include_once('./Services/ContainerReference/classes/class.ilContainerReference.php');
+						$it_title = ilContainerReference::_lookupTitle($it_obj_id);
+					}
+
+
 					$tpl->setCurrentBlock("row");
 					$tpl->setVariable("IMG", ilUtil::img(ilObject::_getIcon($it_obj_id, "small")));
 					$tpl->setVariable("TITLE", $it_title);

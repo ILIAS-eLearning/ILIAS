@@ -45,7 +45,10 @@ abstract class ilExternalFeedBlockGUIGen extends ilBlockGUI
 	*/
 	public function __construct()
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
 
 		parent::__construct();
 
@@ -69,7 +72,7 @@ abstract class ilExternalFeedBlockGUIGen extends ilBlockGUI
 	*/
 	public function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		// get next class and command
 		$next_class = $this->ctrl->getNextClass($this);
@@ -156,6 +159,7 @@ abstract class ilExternalFeedBlockGUIGen extends ilBlockGUI
 	public function saveFeedBlock()
 	{
 		$this->initFormFeedBlock(IL_FORM_CREATE);
+
 		if ($this->form_gui->checkInput())
 		{
 			$this->external_feed_block = new ilExternalFeedBlock();
@@ -203,7 +207,7 @@ abstract class ilExternalFeedBlockGUIGen extends ilBlockGUI
 	*/
 	public function initFormFeedBlock($a_mode)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$lng->loadLanguageModule("block");
 		
@@ -267,7 +271,7 @@ abstract class ilExternalFeedBlockGUIGen extends ilBlockGUI
 	*/
 	public function cancelSaveFeedBlock()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$ilCtrl->returnToParent($this);
 	}
@@ -278,7 +282,7 @@ abstract class ilExternalFeedBlockGUIGen extends ilBlockGUI
 	*/
 	public function cancelUpdateFeedBlock()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$ilCtrl->returnToParent($this);
 	}
@@ -289,7 +293,7 @@ abstract class ilExternalFeedBlockGUIGen extends ilBlockGUI
 	*/
 	public function exitSaveFeedBlock()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$ilCtrl->returnToParent($this);
 	}
@@ -300,7 +304,7 @@ abstract class ilExternalFeedBlockGUIGen extends ilBlockGUI
 	*/
 	public function exitUpdateFeedBlock()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$ilCtrl->returnToParent($this);
 	}

@@ -12,6 +12,26 @@ include_once("./Services/Administration/classes/class.ilSettingsTemplate.php");
  */
 class ilSettingsTemplateGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilToolbarGUI
+	 */
+	protected $toolbar;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	private $config;
 
 	/**
@@ -22,7 +42,13 @@ class ilSettingsTemplateGUI
 	 */
 	function __construct($a_config)
 	{
-		global $ilCtrl;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->tpl = $DIC["tpl"];
+		$this->toolbar = $DIC->toolbar();
+		$this->lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
 
 		$ilCtrl->saveParameter($this, array("templ_id"));
 
@@ -36,7 +62,7 @@ class ilSettingsTemplateGUI
 	 */
 	function executeCommand()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$cmd = $ilCtrl->getCmd("listSettingsTemplates");
 		$this->$cmd();
@@ -86,7 +112,10 @@ class ilSettingsTemplateGUI
 	 */
 	function listSettingsTemplates()
 	{
-		global $tpl, $ilToolbar, $ilCtrl, $lng;
+		$tpl = $this->tpl;
+		$ilToolbar = $this->toolbar;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		$ilToolbar->addButton($lng->txt("adm_add_settings_template"),
 		$ilCtrl->getLinkTarget($this, "addSettingsTemplate"));
@@ -103,7 +132,7 @@ class ilSettingsTemplateGUI
 	 */
 	function addSettingsTemplate()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		$this->initSettingsTemplateForm("create");
 		$tpl->setContent($this->form->getHTML());
@@ -114,7 +143,7 @@ class ilSettingsTemplateGUI
 	 */
 	function editSettingsTemplate()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		$this->initSettingsTemplateForm("edit");
 		$this->getSettingsTemplateValues();
@@ -128,7 +157,8 @@ class ilSettingsTemplateGUI
 	 */
 	public function initSettingsTemplateForm($a_mode = "edit")
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -287,7 +317,9 @@ class ilSettingsTemplateGUI
 	 */
 	public function saveSettingsTemplate()
 	{
-		global $tpl, $lng, $ilCtrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$this->initSettingsTemplateForm("create");
 		if ($this->form->checkInput())
@@ -311,7 +343,9 @@ class ilSettingsTemplateGUI
 	 */
 	function updateSettingsTemplate()
 	{
-		global $lng, $ilCtrl, $tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
 
 		$this->initSettingsTemplateForm("edit");
 		if ($this->form->checkInput())
@@ -367,7 +401,9 @@ class ilSettingsTemplateGUI
 	 */
 	function confirmSettingsTemplateDeletion()
 	{
-		global $ilCtrl, $tpl, $lng;
+		$ilCtrl = $this->ctrl;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
 
 		if (!is_array($_POST["tid"]) || count($_POST["tid"]) == 0)
 		{
@@ -400,7 +436,8 @@ class ilSettingsTemplateGUI
 	 */
 	function deleteSettingsTemplate()
 	{
-		global $ilCtrl, $lng;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
 
 		if (is_array($_POST["tid"]))
 		{

@@ -14,7 +14,12 @@ class ilSurveyParticipantsTableGUI extends ilTable2GUI
 {
 	public function __construct($a_parent_obj, $a_parent_cmd, ilObjSurvey $a_svy)
 	{		
-		global $lng, $ilCtrl;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->ctrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
 					
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
@@ -34,7 +39,7 @@ class ilSurveyParticipantsTableGUI extends ilTable2GUI
 	
 	protected function getItems(ilObjSurvey $a_svy)
 	{		
-		global $lng;
+		$lng = $this->lng;
 		
 		$data = array();
 						

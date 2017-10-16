@@ -1,0 +1,12 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "mjansen(8784)",
+    "second_maintainer": "",
+    "implicit_maintainers": [],
+    "coordinator": "",
+    "tester": "",
+    "testcase_writer": "",
+    "path": "Services/Saml",
+    "belong_to_component": "SAML",
+    "used_in_components": []
+}

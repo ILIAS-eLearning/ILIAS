@@ -17,7 +17,6 @@ class ilContObjectExport
 {
 	var $err;			// error object
 	var $db;			// database object
-	var $ilias;			// ilias object
 	var $cont_obj;		// content object (learning module | digilib book)
 	var $inst_id;		// installation id
 	var $mode;
@@ -28,7 +27,10 @@ class ilContObjectExport
 	*/
 	function __construct(&$a_cont_obj, $a_mode = "xml", $a_lang = "")
 	{
-		global $ilErr, $ilDB, $ilias;
+		global $DIC;
+
+		$ilErr = $DIC["ilErr"];
+		$ilDB = $DIC->database();
 
 		$this->cont_obj = $a_cont_obj;
 
@@ -88,7 +90,7 @@ class ilContObjectExport
 	*   @access public
 	*   @return
 	*/
-	function buildExportFile($a_master_only = false)
+	function buildExportFile($a_mode = "")
 	{
 		switch ($this->mode)
 		{
@@ -105,7 +107,7 @@ class ilContObjectExport
 				break;
 
 			default:
-				return $this->buildExportFileXML($a_master_only);
+				return $this->buildExportFileXML($a_mode);
 				break;
 		}
 	}
@@ -113,21 +115,17 @@ class ilContObjectExport
 	/**
 	* build xml export file
 	*/
-	function buildExportFileXML($a_master_only = false)
+	function buildExportFileXML($a_mode = "")
 	{
-		global $ilBench;
-
-		if ($a_master_only)
+		if (in_array($a_mode, array("master", "masternomedia")))
 		{
 			include_once("./Services/Export/classes/class.ilExport.php");
 			$exp = new ilExport();
 			$conf = $exp->getConfig("Modules/LearningModule");
-			$conf->setMasterLanguageOnly(true);
+			$conf->setMasterLanguageOnly(true, ($a_mode == "master"));
 			$exp->exportObject($this->cont_obj->getType(),$this->cont_obj->getId(), "5.1.0");
 			return;
 		}
-
-		$ilBench->start("ContentObjectExport", "buildExportFile");
 
 		require_once("./Services/Xml/classes/class.ilXmlWriter.php");
 
@@ -157,11 +155,8 @@ class ilContObjectExport
 		$expLog->write(date("[y-m-d H:i:s] ")."Start Export");
 
 		// get xml content
-//echo "ContObjExport:".$this->inst_id.":<br>";
-		$ilBench->start("ContentObjectExport", "buildExportFile_getXML");
 		$this->cont_obj->exportXML($this->xml, $this->inst_id,
 			$this->export_dir."/".$this->subdir, $expLog);
-		$ilBench->stop("ContentObjectExport", "buildExportFile_getXML");
 
 		// export style
 		if ($this->cont_obj->getStyleSheetId() > 0)
@@ -205,7 +200,6 @@ class ilContObjectExport
 		$this->xml->_XmlWriter;
 
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export");
-		$ilBench->stop("ContentObjectExport", "buildExportFile");
 
 		return $this->export_dir."/".$this->subdir.".zip";
 	}
@@ -223,8 +217,6 @@ class ilContObjectExport
 	*/
 	function buildExportFileHTML()
 	{
-		global $ilBench;
-
 		// create directories
 		if ($this->lang == "")
 		{
@@ -245,20 +237,11 @@ class ilContObjectExport
 	*/
 	function buildExportFileSCORM()
 	{
-		global $ilBench;
-
-		$ilBench->start("ContentObjectExport", "buildSCORMPackage");
-
 		// create directories
 		$this->cont_obj->createExportDirectory("scorm");
 
 		// get html content
-		$ilBench->start("ContentObjectExport", "buildSCORMPackage_getSCORM");
 		$this->cont_obj->exportSCORM($this->export_dir."/".$this->subdir, $expLog);
-		$ilBench->stop("ContentObjectExport", "buildSCORMPackage_getSCORM");
-
-		//$expLog->write(date("[y-m-d H:i:s] ")."Finished Export");
-		$ilBench->stop("ContentObjectExport", "buildSCORMPackage");
 	}
 
 }

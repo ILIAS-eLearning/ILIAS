@@ -15,6 +15,40 @@ require_once('./Services/WebAccessChecker/interfaces/interface.ilWACCheckingClas
 class ilObjPollAccess extends ilObjectAccess implements ilWACCheckingClass
 {	
 	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		global $DIC;
+
+		$this->user = $DIC->user();
+		$this->lng = $DIC->language();
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->access = $DIC->access();
+	}
+
+	/**
 	* checks wether a user may invoke a command or not
 	* (this method is called by ilAccessHandler::checkAccess)
 	*
@@ -28,7 +62,10 @@ class ilObjPollAccess extends ilObjectAccess implements ilWACCheckingClass
 	*/	
 	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
 	{
-		global $ilUser, $lng, $rbacsystem, $ilAccess;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$rbacsystem = $this->rbacsystem;
+		$ilAccess = $this->access;
 
 		if ($a_user_id == "")
 		{
@@ -51,7 +88,9 @@ class ilObjPollAccess extends ilObjectAccess implements ilWACCheckingClass
 	*/
 	public static function _lookupOnline($a_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		$result = $ilDB->query("SELECT * FROM il_poll".
 			" WHERE id = ".$ilDB->quote($a_obj_id, "integer"));				
@@ -114,7 +153,9 @@ class ilObjPollAccess extends ilObjectAccess implements ilWACCheckingClass
 	*/
 	static function _checkGoto($a_target)
 	{		
-		global $ilAccess;
+		global $DIC;
+
+		$ilAccess = $DIC->access();
 		
 		$t_arr = explode("_", $a_target);		
 		
@@ -137,7 +178,7 @@ class ilObjPollAccess extends ilObjectAccess implements ilWACCheckingClass
 	 * @return bool
 	 */
 	public function canBeDelivered(ilWACPath $ilWACPath) {
-		global $ilAccess;
+		$ilAccess = $this->access;
 		preg_match("/\\/poll_([\\d]*)\\//uism", $ilWACPath->getPath(), $results);
 
 		foreach (ilObject2::_getAllReferences($results[1]) as $ref_id) {

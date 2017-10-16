@@ -16,10 +16,10 @@ class ilForumPostingDraftsBlockGUI extends ilBlockGUI
 	 * @var string
 	 */
 	public static $block_type = 'pdfrmpostdraft';
-	
-	private $lng;
-	private $user;
-	private $ctrl;
+
+	/**
+	 * @var ilSetting
+	 */
 	private $settings;
 
 	/**
@@ -31,9 +31,6 @@ class ilForumPostingDraftsBlockGUI extends ilBlockGUI
 
 		parent::__construct();
 		
-		$this->lng = $DIC->language();
-		$this->user = $DIC->user();
-		$this->ctrl = $DIC->ctrl();
 		$this->settings = $DIC->settings();
 		
 		$this->lng->loadLanguageModule('forum');

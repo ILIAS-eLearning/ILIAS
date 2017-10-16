@@ -198,8 +198,6 @@ class ilColorPickerInputGUI extends ilTextInputGUI
 	*/
 	function insert($a_tpl)
 	{
-		global $tpl;
-		
 		include_once('./Services/YUI/classes/class.ilYuiUtil.php');
 		
 		ilYuiUtil::initColorPicker();

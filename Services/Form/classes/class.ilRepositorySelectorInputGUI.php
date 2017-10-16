@@ -37,6 +37,26 @@ include_once("./Services/Form/classes/class.ilFormPropertyGUI.php");
 */
 class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableFilterItem
 {
+	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilObjectDataCache
+	 */
+	protected $obj_data_cache;
+
 	protected $options;
 	protected $value;
 	protected $container_types = array("root", "cat", "grp", "fold", "crs");
@@ -49,7 +69,15 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
-		global $lng;
+		global $DIC;
+
+		$this->lng = $DIC->language();
+		$this->tpl = $DIC["tpl"];
+		$this->ctrl = $DIC->ctrl();
+		$this->tree = $DIC->repositoryTree();
+		$this->user = $DIC->user();
+		$this->obj_data_cache = $DIC["ilObjDataCache"];
+		$lng = $DIC->language();
 		
 		parent::__construct($a_title, $a_postvar);
 		$this->setClickableTypes($this->container_types);
@@ -155,7 +183,7 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$_POST[$this->getPostVar()] = 
 			ilUtil::stripSlashes($_POST[$this->getPostVar()]);
@@ -174,7 +202,11 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
 	*/
 	function showRepositorySelection()
 	{
-		global $tpl, $lng, $ilCtrl, $tree, $ilUser;
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$tree = $this->tree;
+		$ilUser = $this->user;
 		
 		include_once 'Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php';
 		$ilCtrl->setParameter($this, "postvar", $this->getPostVar());
@@ -205,7 +237,8 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
 	*/
 	function selectRepositoryItem()
 	{
-		global $ilCtrl, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 
 		$anchor = $ilUser->prefs["screen_reader_optimization"]
 			? $this->getFieldId()."_anchor"
@@ -222,7 +255,8 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
 	*/
 	function reset()
 	{
-		global $ilCtrl, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 
 		$anchor = $ilUser->prefs["screen_reader_optimization"]
 			? $this->getFieldId()."_anchor"
@@ -239,7 +273,10 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
 	*/
 	function render($a_mode = "property_form")
 	{
-		global $lng, $ilCtrl, $ilObjDataCache, $tree;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilObjDataCache = $this->obj_data_cache;
+		$tree = $this->tree;
 		
 		$tpl = new ilTemplate("tpl.prop_rep_select.html", true, true, "Services/Form");
 
@@ -317,7 +354,7 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
 	 */
 	protected function getHighlightedNode()
 	{
-		global $tree;
+		$tree = $this->tree;
 
 		if(!in_array(ilObject::_lookupType($this->getValue(),true), $this->getVisibleTypes()))
 		{

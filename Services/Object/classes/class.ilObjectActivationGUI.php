@@ -11,6 +11,36 @@
 */
 class ilObjectActivationGUI
 {
+	/**
+	 * @var ilErrorHandling
+	 */
+	protected $error;
+
+	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilHelpGUI
+	 */
+	protected $help;
+
 	protected $parent_ref_id;
 	protected $item_id;
 	protected $tpl;
@@ -23,7 +53,22 @@ class ilObjectActivationGUI
 	*/
 	function __construct($a_ref_id,$a_item_id)
 	{
-		global $tpl,$ilCtrl,$lng,$ilErr,$ilTabs;
+		global $DIC;
+
+		$this->tpl = $DIC["tpl"];
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->error = $DIC["ilErr"];
+		$this->tabs = $DIC->tabs();
+		$this->access = $DIC->access();
+		$this->tree = $DIC->repositoryTree();
+		$this->user = $DIC->user();
+		$this->help = $DIC["ilHelp"];
+		$tpl = $DIC["tpl"];
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$ilErr = $DIC["ilErr"];
+		$ilTabs = $DIC->tabs();
 
 		$this->tpl =& $tpl;
 		$this->ctrl =& $ilCtrl;
@@ -40,7 +85,7 @@ class ilObjectActivationGUI
 
 	function executeCommand()
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		$this->__setTabs();
 
@@ -99,7 +144,9 @@ class ilObjectActivationGUI
 	 */
 	public function edit()
 	{
-		global $ilErr,$ilAccess,$tpl;
+		$ilErr = $this->error;
+		$ilAccess = $this->access;
+		$tpl = $this->tpl;
 
 		// #19997 - see ilObjectListGUI::insertTimingsCommand()
 		if(!$ilAccess->checkAccess('write','',$this->parent_ref_id) &&
@@ -122,7 +169,7 @@ class ilObjectActivationGUI
 	 */
 	protected function initFormEdit()
 	{
-		global $tree;
+		$tree = $this->tree;
 		
 		include_once "Services/Object/classes/class.ilObjectActivation.php";
 		
@@ -204,7 +251,7 @@ class ilObjectActivationGUI
 	 */
 	protected function getValues()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		include_once "Services/Object/classes/class.ilObjectActivation.php";
 		$item_data = ilObjectActivation::getItem($this->getItemId());
@@ -252,7 +299,10 @@ class ilObjectActivationGUI
 	 */
 	public function update()
 	{
-		global $ilErr,$ilAccess,$tpl,$ilUser;
+		$ilErr = $this->error;
+		$ilAccess = $this->access;
+		$tpl = $this->tpl;
+		$ilUser = $this->user;
 
 		// #19997 - see ilObjectListGUI::insertTimingsCommand()
 		if(!$ilAccess->checkAccess('write','',$this->parent_ref_id) &&
@@ -323,7 +373,8 @@ class ilObjectActivationGUI
 
 	function __setTabs()
 	{
-		global $ilCtrl, $ilHelp;
+		$ilCtrl = $this->ctrl;
+		$ilHelp = $this->help;
 		
 		$this->tabs_gui->clearTargets();
 

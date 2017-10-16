@@ -1,0 +1,13 @@
+{
+  "name": "jquery-outside-events",
+  "homepage": "https://github.com/cowboy/jquery-outside-events",
+  "_release": "074b6548e1",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "074b6548e12541e9a39638a3e928829b908bf690"
+  },
+  "_source": "https://github.com/cowboy/jquery-outside-events.git",
+  "_target": "*",
+  "_originalSource": "jquery-outside-events"
+}

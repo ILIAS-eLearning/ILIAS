@@ -171,6 +171,7 @@ var ilNotes =
 	
 	sendAjaxGetRequestToUrl: function(url, par, args)
 	{
+		var k;
 		args.reg_type = "get";
 		args.url = url;
 		var cb =
@@ -205,6 +206,7 @@ var ilNotes =
 
 	handleAjaxSuccess: function(o)
 	{
+		var t;
 		// perform page modification
 		if(o.responseText !== undefined)
 		{

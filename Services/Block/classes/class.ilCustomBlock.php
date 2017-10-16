@@ -10,6 +10,11 @@
 */
 class ilCustomBlock 
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 
 	protected $id;
 	protected $context_obj_id;
@@ -26,6 +31,9 @@ class ilCustomBlock
 	*/
 	public function __construct($a_id = 0)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		if ($a_id > 0)
 		{
 			$this->setId($a_id);
@@ -180,7 +188,7 @@ class ilCustomBlock
 	*/
 	public function create()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$this->setId($ilDB->nextId("il_custom_block"));
 		$query = "INSERT INTO il_custom_block (".
@@ -208,7 +216,7 @@ class ilCustomBlock
 	*/
 	public function read()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$query = "SELECT * FROM il_custom_block WHERE id = ".
 			$ilDB->quote($this->getId(), "integer");
@@ -230,7 +238,7 @@ class ilCustomBlock
 	*/
 	public function update()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$query = "UPDATE il_custom_block SET ".
 			" context_obj_id = ".$ilDB->quote($this->getContextObjId(), "integer").
@@ -251,7 +259,7 @@ class ilCustomBlock
 	*/
 	public function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$query = "DELETE FROM il_custom_block".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
@@ -266,7 +274,7 @@ class ilCustomBlock
 	*/
 	public function querygetBlocksForContext()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$query = "SELECT id, context_obj_id, context_obj_type, context_sub_obj_id, context_sub_obj_type, type, title ".
 			"FROM il_custom_block ".
@@ -294,7 +302,7 @@ class ilCustomBlock
 	*/
 	public function queryBlocksForContext($a_include_sub_obj = true)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$query = "SELECT id, context_obj_id, context_obj_type, context_sub_obj_id, context_sub_obj_type, type, title ".
 			"FROM il_custom_block ".
@@ -325,7 +333,7 @@ class ilCustomBlock
 	*/
 	public function queryTitleForId()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 die("ilCustomBlock::queryTitleForId is deprecated");
 /*
 		$query = "SELECT id ".
@@ -349,7 +357,7 @@ die("ilCustomBlock::queryTitleForId is deprecated");
 	*/
 	public function queryCntBlockForContext()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$query = "SELECT count(*) as cnt ".
 			"FROM il_custom_block ".
@@ -372,7 +380,9 @@ die("ilCustomBlock::queryTitleForId is deprecated");
 		
 	public static function multiBlockQuery($a_context_obj_type, array $a_context_obj_ids)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$query = "SELECT id, context_obj_id, context_obj_type, context_sub_obj_id, context_sub_obj_type, type, title ".
 			"FROM il_custom_block ".

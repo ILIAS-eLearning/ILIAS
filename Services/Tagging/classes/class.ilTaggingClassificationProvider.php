@@ -13,6 +13,35 @@ include_once("Services/Classification/classes/class.ilClassificationProvider.php
  */
 class ilTaggingClassificationProvider extends ilClassificationProvider
 {					
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct($a_parent_ref_id, $a_parent_obj_id, $a_parent_obj_type)
+	{
+		global $DIC;
+		parent::__construct($a_parent_ref_id, $a_parent_obj_id, $a_parent_obj_type);
+
+		$this->lng = $DIC->language();
+		$this->user = $DIC->user();
+		$this->tree = $DIC->repositoryTree();
+	}
+
 	protected $enable_all_users; // [bool]
 	protected $selection; // [string]
 	
@@ -24,7 +53,9 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
 	
 	public static function isActive($a_parent_ref_id, $a_parent_obj_id, $a_parent_obj_type)
 	{				
-		global $ilUser;
+		global $DIC;
+
+		$ilUser = $DIC->user();
 		
 		// we currently only check for the parent object setting
 		// might change later on (parent containers)
@@ -50,7 +81,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
 		
 	public function render(array &$a_html, $a_parent_gui)
 	{		
-		global $lng;
+		$lng = $this->lng;
 		
 		$all_tags = $this->getSubTreeTags();				
 		if($all_tags)
@@ -168,7 +199,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
 	
 	public function getFilteredObjects()
 	{	
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		if(!$this->selection)
 		{
@@ -229,7 +260,8 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
 				
 	protected function getSubTreeTags()
 	{
-		global $tree, $ilUser;
+		$tree = $this->tree;
+		$ilUser = $this->user;
 		
 		$sub_ids = array();
 		foreach($tree->getSubTree($tree->getNodeData($this->parent_ref_id)) as $sub_item)

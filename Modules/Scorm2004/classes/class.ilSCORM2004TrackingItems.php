@@ -12,9 +12,31 @@ include_once './Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php
 */
 class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		global $DIC;
+
+		$this->db = $DIC->database();
+		$this->lng = $DIC->language();
+	}
+
 
 	function scoTitlesForExportSelected($obj_id) {
-		global $ilDB;
+		$ilDB = $this->db;
 		$scoTitles = array();
 		$query = 'SELECT cp_item.cp_node_id, cp_item.title '
 			. 'FROM cp_item, cmi_node, cp_node '
@@ -35,7 +57,9 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 	}
 
 	static function exportSelectedCoreColumns($b_orderBySCO, $b_allowExportPrivacy) {
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		$lng->loadLanguageModule("scormtrac");
 		// default fields
 		$cols = array();
@@ -56,7 +80,8 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 	}
 
 	function exportSelectedCore($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id) {
-		global $ilDB, $lng;
+		$ilDB = $this->db;
+		$lng = $this->lng;
 		$lng->loadLanguageModule("scormtrac");
 
 		$returnData = array();
@@ -131,7 +156,9 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 	}
 	
 	static function exportSelectedInteractionsColumns() {
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		$lng->loadLanguageModule("scormtrac");
 		$cols = array();
 		$udh=self::userDataHeaderForExport();
@@ -149,7 +176,8 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 	}
 
 	function exportSelectedInteractions($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id) {
-		global $ilDB, $lng;
+		$ilDB = $this->db;
+		$lng = $this->lng;
 		$lng->loadLanguageModule("scormtrac");
 
 		$returnData = array();
@@ -206,7 +234,9 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 	}
 
 	static function exportSelectedObjectivesColumns() {
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		$lng->loadLanguageModule("scormtrac");
 		$cols = array();
 		$udh=self::userDataHeaderForExport();
@@ -224,7 +254,8 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 	}
 
 	function exportSelectedObjectives($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id) {
-		global $ilDB, $lng;
+		$ilDB = $this->db;
+		$lng = $this->lng;
 		$lng->loadLanguageModule("scormtrac");
 
 		$returnData = array();
@@ -282,7 +313,9 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 	}
 
 	static function exportObjGlobalToSystemColumns() {
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		$lng->loadLanguageModule("scormtrac");
 		$cols = array();
 		$udh=self::userDataHeaderForExport();
@@ -300,7 +333,8 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 	}
 
 	function exportObjGlobalToSystem($a_user = array(), $allowExportPrivacy=false, $obj_id) {
-		global $ilDB, $lng;
+		$ilDB = $this->db;
+		$lng = $this->lng;
 		$lng->loadLanguageModule("scormtrac");
 		$returnData = array();
 		$dbdata = array();
@@ -342,7 +376,9 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 
 	
 	static function tracInteractionItemColumns($b_orderBySCO, $b_allowExportPrivacy) {
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		$lng->loadLanguageModule("scormtrac");
 		$cols = array();
 		$a_cols=explode(',',
@@ -362,7 +398,8 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 	}
 
 	function tracInteractionItem($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id) {
-		global $ilDB, $lng;
+		$ilDB = $this->db;
+		$lng = $this->lng;
 		$lng->loadLanguageModule("scormtrac");
 
 		$returnData = array();
@@ -432,7 +469,9 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 	}
 	
 	static function tracInteractionUserColumns($b_orderBySCO, $b_allowExportPrivacy) {
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		$lng->loadLanguageModule("scormtrac");
 		// default fields
 		$cols = array();
@@ -460,7 +499,8 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 	}
 
 	function tracInteractionUser($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id) {
-		global $ilDB, $lng;
+		$ilDB = $this->db;
+		$lng = $this->lng;
 		$lng->loadLanguageModule("scormtrac");
 
 		$returnData = array();
@@ -587,7 +627,10 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 
 
 	static function tracInteractionUserAnswersColumns($a_user = array(), $a_sco = array(),$b_orderBySCO, $b_allowExportPrivacy) {
-		global $lng, $ilDB;
+		global $DIC;
+
+		$lng = $DIC->language();
+		$ilDB = $DIC->database();
 		$lng->loadLanguageModule("scormtrac");
 		// default fields
 		$cols = array();
@@ -642,7 +685,8 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 	}
 
 	function tracInteractionUserAnswers($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id) {
-		global $ilDB, $lng;
+		$ilDB = $this->db;
+		$lng = $this->lng;
 		$lng->loadLanguageModule("scormtrac");
 
 		$returnData = array();
@@ -732,7 +776,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 	
 
 	function exportSelectedSuccess($a_user = array(), $allowExportPrivacy=false, $obj_id) {
-		global $ilDB;
+		$ilDB = $this->db;
 
 		$scoCounter = 0;
 		$query = 'SELECT count(distinct(cp_node.cp_node_id)) counter '

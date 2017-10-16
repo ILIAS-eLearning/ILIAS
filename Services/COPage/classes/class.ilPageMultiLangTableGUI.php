@@ -15,11 +15,22 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 class ilPageMultiLangTableGUI extends ilTable2GUI
 {
 	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
 	 * Constructor
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd)
 	{
-		global $ilCtrl, $lng, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		$lng = $DIC->language();
 
 		$lng->loadLanguageModule("meta");
 
@@ -44,7 +55,7 @@ class ilPageMultiLangTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng;
+		$lng = $this->lng;
 
 		if (!$a_set["master"])
 		{

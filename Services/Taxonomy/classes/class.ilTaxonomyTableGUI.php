@@ -15,12 +15,24 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 class ilTaxonomyTableGUI extends ilTable2GUI
 {
 	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
 	 * Constructor
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_tree,
 		$a_node_id, $a_tax)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $DIC;
+
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->access = $DIC->access();
+
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 		
 		if ($a_node_id == "")
 		{
@@ -84,7 +96,8 @@ class ilTaxonomyTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$ilCtrl->setParameter($this->parent_obj, "tax_node", $a_set["child"]);
 		$ret = $ilCtrl->getLinkTargetByClass("ilobjtaxonomygui", "listNodes");

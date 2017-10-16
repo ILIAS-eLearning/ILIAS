@@ -11,6 +11,11 @@
  */
 class ilBadgeAssignment
 {
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	protected $badge_id; // [int]
 	protected $user_id; // [int]
 	protected $tstamp; // [timestamp]
@@ -20,6 +25,9 @@ class ilBadgeAssignment
 	
 	public function __construct($a_badge_id = null, $a_user_id = null)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		if($a_badge_id &&
 			$a_user_id)
 		{
@@ -32,7 +40,9 @@ class ilBadgeAssignment
 	
 	public static function getInstancesByUserId($a_user_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$res = array();
 		
@@ -51,7 +61,9 @@ class ilBadgeAssignment
 	
 	public static function getInstancesByBadgeId($a_badge_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$res = array();
 		
@@ -69,7 +81,9 @@ class ilBadgeAssignment
 	
 	public static function getInstancesByParentId($a_parent_obj_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$res = array();
 		
@@ -187,7 +201,7 @@ class ilBadgeAssignment
 	
 	protected function read($a_badge_id, $a_user_id)
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		$set = $ilDB->query("SELECT * FROM badge_user_badge".
 			" WHERE badge_id = ".$ilDB->quote($a_badge_id, "integer").
@@ -210,7 +224,7 @@ class ilBadgeAssignment
 	
 	public function store()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if(!$this->getBadgeId() ||
 			!$this->getUserId())
@@ -236,7 +250,7 @@ class ilBadgeAssignment
 	
 	public function delete()
 	{
-		global $ilDB;
+		$ilDB = $this->db;
 		
 		if(!$this->getBadgeId() ||
 			!$this->getUserId())
@@ -418,7 +432,8 @@ class ilBadgeAssignment
 	}
 	
 	public function getStaticUrl()
-	{							
+	{
+		include_once("./Services/Badge/classes/class.ilBadgeHandler.php");
 		$path = ilBadgeHandler::getInstance()->getInstancePath($this);
 		
 		$url = ILIAS_HTTP_PATH.substr($path, 1);
@@ -435,8 +450,9 @@ class ilBadgeAssignment
 	public function deleteStaticFiles()
 	{
 		// remove instance files
+		include_once("./Services/Badge/classes/class.ilBadgeHandler.php");
 		$path = ilBadgeHandler::getInstance()->getInstancePath($this);				
-		$path = str_replace(".json", ".*", $path);		
+		$path = str_replace(".json", ".*", $path);
 		array_map("unlink", glob($path));
 	}
 		

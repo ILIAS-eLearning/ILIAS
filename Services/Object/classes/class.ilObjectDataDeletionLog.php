@@ -13,7 +13,9 @@ class ilObjectDataDeletionLog
 {		
 	public static function add(ilObject $a_object)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$ilDB->insert("object_data_del", array(
 			"obj_id" => array("integer", $a_object->getId()),
@@ -25,7 +27,9 @@ class ilObjectDataDeletionLog
 	
 	public static function get($a_object_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		
 		$set = $ilDB->query("SELECT * FROM object_data_del".
 			" WHERE obj_id = ".$ilDB->quote($a_object_id, "integer"));

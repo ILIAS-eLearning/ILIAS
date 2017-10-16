@@ -17,6 +17,41 @@ include_once ("Services/Notes/classes/class.ilNote.php");
 */
 class ilNoteGUI
 {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ilSetting
+	 */
+	protected $settings;
+
+	/**
+	 * @var ilObjectDefinition
+	 */
+	protected $obj_definition;
+
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
 	var $public_deletion_enabled = false;
 	var $repository_mode = false;
 	var $old = false;
@@ -31,7 +66,15 @@ class ilNoteGUI
 	*/
 	function __construct($a_rep_obj_id = "", $a_obj_id = "", $a_obj_type = "", $a_include_subobjects = false)
 	{
-		global $ilCtrl, $lng;
+		global $DIC;
+
+		$this->user = $DIC->user();
+		$this->settings = $DIC->settings();
+		$this->obj_definition = $DIC["objDefinition"];
+		$this->tree = $DIC->repositoryTree();
+		$this->access = $DIC->access();
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
 
 		$lng->loadLanguageModule("notes");
 		
@@ -215,7 +258,7 @@ class ilNoteGUI
 	 */
 	function getOnlyNotesHTML()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		$ilCtrl->setParameter($this, "notes_only", "notes");
 		$this->only = "notes";
 		return $this->getNotesHTML($a_init_form = true);
@@ -229,7 +272,7 @@ class ilNoteGUI
 	 */
 	function getOnlyCommentsHTML()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		$ilCtrl->setParameter($this, "notes_only", "comments");
 		$this->only = "comments";
 		return $this->getNotesHTML($a_init_form = true);
@@ -241,7 +284,10 @@ class ilNoteGUI
 	*/
 	function getNotesHTML($a_init_form = true)
 	{
-		global $ilUser, $lng, $ilCtrl, $ilSetting;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilSetting = $this->settings;
 		
 		$lng->loadLanguageModule("notes");
 
@@ -356,7 +402,7 @@ if ($this->private_enabled && $this->public_enabled
 	*/
 	function activateComments()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$notes_settings = new ilSetting("notes");
 		
@@ -376,7 +422,7 @@ if ($this->private_enabled && $this->public_enabled
 	*/
 	function deactivateComments()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$notes_settings = new ilSetting("notes");
 		
@@ -396,7 +442,9 @@ if ($this->private_enabled && $this->public_enabled
 	*/
 	function getNoteListHTML($a_type = IL_NOTE_PRIVATE, $a_init_form = true)
 	{
-		global $lng, $ilCtrl, $ilUser;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 		
 		include_once("./Services/User/classes/class.ilUserUtil.php");
 
@@ -908,7 +956,8 @@ if ($this->private_enabled && $this->public_enabled
 	 */
 	protected function getSubObjectTitle($parent_obj_id, $sub_obj_id)
 	{
-		global $objDefinition, $ilCtrl;
+		$objDefinition = $this->obj_definition;
+		$ilCtrl = $this->ctrl;
 		
 		$parent_type = ilObject::_lookupType($parent_obj_id);				
 		$parent_class = "ilObj".$objDefinition->getClassName($parent_type)."GUI";						
@@ -925,7 +974,8 @@ if ($this->private_enabled && $this->public_enabled
 	*/
 	function checkDeletion($a_note)
 	{
-		global $ilUser, $ilSetting;
+		$ilUser = $this->user;
+		$ilSetting = $this->settings;
 		
 		if ($ilUser->getId() == ANONYMOUS_USER_ID)
 		{
@@ -957,7 +1007,7 @@ if ($this->private_enabled && $this->public_enabled
 	*/
 	function checkEdit($a_note)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		if ($a_note->getAuthor() == $ilUser->getId()
 			&& ($ilUser->getId() != ANONYMOUS_USER_ID))
@@ -975,7 +1025,8 @@ if ($this->private_enabled && $this->public_enabled
 	*/
 	public function initNoteForm($a_mode = "edit", $a_type, $a_note = null)
 	{
-		global $lng, $ilCtrl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 		
 		$this->form_tpl = new ilTemplate("tpl.notes_edit.html", true, true, "Services/Notes");
 		if ($a_note)
@@ -1082,7 +1133,9 @@ return;
 	*/
 	function getPDNoteHTML($note_id)
 	{
-		global $lng, $ilCtrl, $ilUser;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$ilUser = $this->user;
 
 		$tpl = new ilTemplate("tpl.pd_note.html", true, true, "Services/Notes");
 		$note = new ilNote($note_id);
@@ -1137,7 +1190,10 @@ return;
 	*/
 	function showTargets(&$tpl, $a_rep_obj_id, $a_note_id, $a_obj_type, $a_obj_id)
 	{
-		global $tree, $ilAccess, $objDefinition, $ilUser;
+		$tree = $this->tree;
+		$ilAccess = $this->access;
+		$objDefinition = $this->obj_definition;
+		$ilUser = $this->user;
 
 		if ($this->targets_enabled)
 		{
@@ -1348,7 +1404,7 @@ return;
 	*/ 
 	function addNoteForm($a_init_form = true)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$suffix = ($_GET["note_type"] == IL_NOTE_PRIVATE)
 			? "private"
@@ -1380,7 +1436,9 @@ return;
 	*/
 	function addNote()
 	{
-		global $ilUser, $lng, $ilCtrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 	
 		$this->initNoteForm("create", $_GET["note_type"]);
 
@@ -1413,7 +1471,9 @@ return;
 	*/
 	function updateNote()
 	{
-		global $ilUser, $lng, $ilCtrl;
+		$ilUser = $this->user;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
 
 		$note = new ilNote(ilUtil::stripSlashes($_POST["note_id"]));
 		$this->initNoteForm("edit", $note->getType(),
@@ -1468,7 +1528,7 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 	*/ 
 	function deleteNotes()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		if (!$_POST["note"])
 		{
@@ -1496,7 +1556,9 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 	*/ 
 	function confirmDelete()
 	{
-		global $ilCtrl, $lng, $ilUser;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilUser = $this->user;
 
 		$cnt = 0;
 		foreach($_POST["note"] as $id)
@@ -1550,7 +1612,7 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 	*/
 	function showNotes()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		$suffix = ($_GET["note_type"] == IL_NOTE_PRIVATE)
 			? "private"
@@ -1565,7 +1627,7 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 	*/
 	function hideNotes()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 
 		$suffix = ($_GET["note_type"] == IL_NOTE_PRIVATE)
 			? "private"
@@ -1580,7 +1642,7 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 	*/
 	function showAllPublicNotes()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$ilUser->writePref("notes_pub_all", "y");
 		
@@ -1592,7 +1654,7 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 	*/
 	function showMyPublicNotes()
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		$ilUser->writePref("notes_pub_all", "n");
 		
@@ -1602,21 +1664,31 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 	/**
 	 * Init javascript
 	 */
-	static function initJavascript($a_ajax_url, $a_type = IL_NOTE_PRIVATE)
+	static function initJavascript($a_ajax_url, $a_type = IL_NOTE_PRIVATE, ilTemplate $a_main_tpl = null)
 	{
-		global $tpl, $lng;
+		global $DIC;
+
+		if ($a_main_tpl != null)
+		{
+			$tpl = $a_main_tpl;
+		}
+		else
+		{
+			$tpl = $DIC["tpl"];
+		}
+		$lng = $DIC->language();
 
 		$lng->loadLanguageModule("notes");
 
 		include_once("./Services/UIComponent/Modal/classes/class.ilModalGUI.php");
-		ilModalGUI::initJS();
+		ilModalGUI::initJS($tpl);
 
-		$lng->toJs(array("private_notes", "notes_public_comments"));
+		$lng->toJs(array("private_notes", "notes_public_comments"), $tpl);
 
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
-		ilYuiUtil::initPanel();
+		ilYuiUtil::initPanel(false, $tpl);
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
-		iljQueryUtil::initjQuery();
+		iljQueryUtil::initjQuery($tpl);
 		$tpl->addJavascript("./Services/Notes/js/ilNotes.js");
 
 		$tpl->addOnLoadCode("ilNotes.setAjaxUrl('".$a_ajax_url."');");
@@ -1683,7 +1755,7 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 	 */
 	function renderLink($a_tpl, $a_var, $a_txt, $a_cmd, $a_anchor = "")
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 		
 		$low_var = strtolower($a_var);
 		$up_var = strtoupper($a_var);

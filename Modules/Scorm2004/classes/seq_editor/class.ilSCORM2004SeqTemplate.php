@@ -41,6 +41,9 @@ class ilSCORM2004SeqTemplate extends ilSCORM2004SeqNode
 	
 	public function __construct($a_identifier)
 	{
+		global $DIC;
+
+		$this->db = $DIC->database();
 		
 		parent::__construct();
 		$this->setNodeName("seqtemplate");
@@ -92,7 +95,9 @@ class ilSCORM2004SeqTemplate extends ilSCORM2004SeqNode
 	
 	public static function availableTemplates()
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		$arr_templates = array();
 		$query = "SELECT * FROM sahs_sc13_seq_templts ORDER BY identifier";
 		$result = $ilDB->query($query);
@@ -134,7 +139,7 @@ class ilSCORM2004SeqTemplate extends ilSCORM2004SeqNode
 	 * @author Hendrik Holtmann
 	 */
 	public function importTemplate($a_target,$a_object,$a_parent,$node) {
-		global $ilDB;
+		$ilDB = $this->db;
 				
 		switch($node->getAttribute('type'))
     	{
@@ -282,7 +287,9 @@ class ilSCORM2004SeqTemplate extends ilSCORM2004SeqNode
 	
 	public static function getFileNameForIdentifier($a_identifier)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		$query = "SELECT * FROM sahs_sc13_seq_templts WHERE identifier = ".
 			$ilDB->quote($a_identifier, "text");
 		$obj_set = $ilDB->query($query);
@@ -293,7 +300,9 @@ class ilSCORM2004SeqTemplate extends ilSCORM2004SeqNode
 	
 	public static function templateForChapter($a_chapter_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 		$template = null;
 		$query = "SELECT * FROM sahs_sc13_seq_assign WHERE sahs_sc13_tree_node_id = ".
 			$ilDB->quote($a_chapter_id, "integer");

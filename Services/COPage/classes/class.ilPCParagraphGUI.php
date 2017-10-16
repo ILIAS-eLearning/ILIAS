@@ -17,11 +17,21 @@ require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
 class ilPCParagraphGUI extends ilPageContentGUI
 {
 	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
 	* Constructor
 	* @access	public
 	*/
 	function __construct($a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
+		global $DIC;
+
+		$this->user = $DIC->user();
+		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
 		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 		
 		// characteristics (should be flexible in the future)
@@ -33,7 +43,9 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	*/
 	static function _getStandardCharacteristics()
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 		
 		return array("Standard" => $lng->txt("cont_standard"),
 			"Headline1" => $lng->txt("cont_Headline1"),
@@ -145,7 +157,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	*/
 	function edit($a_insert = false)
 	{
-		global $ilUser;
+		$ilUser = $this->user;
 		
 		// add paragraph edit template
 		$tpl = new ilTemplate("tpl.paragraph_edit.html", true, true, "Services/COPage");
@@ -352,8 +364,6 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	 */
 	function editMultipleJS()
 	{
-		global $ilUser, $ilias;
-
 		echo $this->content_obj->getParagraphSequenceContent($this->pg_obj);
 		exit;
 	}
@@ -434,7 +444,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	 */
 	function saveJS()
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		$this->log->debug("start");
 
@@ -600,7 +610,9 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	 */
 	static function getCharStyleSelector($a_par_type, $a_use_callback = true, $a_style_id = 0)
 	{
-		global $lng;
+		global $DIC;
+
+		$lng = $DIC->language();
 
 		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		$selection = new ilAdvancedSelectionListGUI();
@@ -794,7 +806,8 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	 */
 	function createJS()
 	{
-		global $ilUser, $ilCtrl;
+		$ilUser = $this->user;
+		$ilCtrl = $this->ctrl;
 
 		$this->log->debug("ilPCParagraphGUI, createJS(): start");
 
@@ -834,7 +847,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	*/
 	function insertHelp($a_tpl)
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		$a_tpl->setCurrentBlock("help_item");
 		$a_tpl->setVariable("TXT_HELP", "<b>".$lng->txt("cont_syntax_help")."</b>");

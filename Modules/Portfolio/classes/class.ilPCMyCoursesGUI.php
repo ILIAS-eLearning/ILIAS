@@ -23,6 +23,10 @@ class ilPCMyCoursesGUI extends ilPageContentGUI
 	*/
 	function __construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
+		global $DIC;
+
+		$this->tpl = $DIC["tpl"];
+		$this->ctrl = $DIC->ctrl();
 		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
 
@@ -54,7 +58,7 @@ class ilPCMyCoursesGUI extends ilPageContentGUI
 	 */
 	function insert(ilPropertyFormGUI $a_form = null)
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 		
 		/* #12816 - no form needed yet
 		$this->create();
@@ -76,7 +80,7 @@ class ilPCMyCoursesGUI extends ilPageContentGUI
 	 */
 	function edit(ilPropertyFormGUI $a_form = null)
 	{
-		global $tpl;
+		$tpl = $this->tpl;
 
 		$this->displayValidationError();
 
@@ -95,7 +99,7 @@ class ilPCMyCoursesGUI extends ilPageContentGUI
 	 */
 	protected function initForm($a_insert = false)
 	{
-		global $ilCtrl;
+		$ilCtrl = $this->ctrl;
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();

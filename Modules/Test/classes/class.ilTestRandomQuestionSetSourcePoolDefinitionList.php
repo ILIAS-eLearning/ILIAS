@@ -118,6 +118,34 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 		$this->trashedPools = $trashedPools;
 	}
 	
+	// hey: fixRandomTestBuildable - provide single definitions, quantities distribution likes to deal with objects
+	
+	public function hasDefinition($sourcePoolDefinitionId)
+	{
+		return $this->getDefinition($sourcePoolDefinitionId) !== null;
+	}
+	
+	public function getDefinition($sourcePoolDefinitionId)
+	{
+		if( isset($this->sourcePoolDefinitions[$sourcePoolDefinitionId]) )
+		{
+			return $this->sourcePoolDefinitions[$sourcePoolDefinitionId];
+		}
+		
+		return null;
+	}
+	
+	public function getDefinitionIds()
+	{
+		return array_keys($this->sourcePoolDefinitions);
+	}
+	
+	public function getDefinitionCount()
+	{
+		return count($this->sourcePoolDefinitions);
+	}
+	// hey.
+	
 	public function loadDefinitions()
 	{
 		$query = "
@@ -295,14 +323,34 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 		foreach($this as $definition)
 		{
 			/** @var ilTestRandomQuestionSetSourcePoolDefinition $definition */
-			if( $definition->getMappedFilterTaxId() && $definition->getMappedFilterTaxNodeId() )
+			// fau: taxFilter/typeFilter - new check for existing taxonomy filter
+			if (count($definition->getMappedTaxonomyFilter()))
 			{
 				return true;
 			}
+			#if( $definition->getMappedFilterTaxId() && $definition->getMappedFilterTaxNodeId() )
+			#{
+			#	return true;
+			#}
+			// fau.
 		}
 		
 		return false;
 	}
+	
+	// fau: taxFilter/typeFilter - check for existing type filters
+	public function hasTypeFilters()
+	{
+		foreach($this as $definition)
+		{
+			if (count($definition->getTypeFilter()))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	// fau.
 
 	public function areAllUsedPoolsAvailable()
 	{
@@ -361,7 +409,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 	
 	public function getNonAvailablePools()
 	{
-		echo get_class($this->getTrashedPools()[0]);
+		//echo get_class($this->getTrashedPools()[0]);
 		return array_merge($this->getTrashedPools(), $this->getLostPools());
 	}
 	

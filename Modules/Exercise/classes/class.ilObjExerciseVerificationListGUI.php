@@ -36,7 +36,7 @@ class ilObjExerciseVerificationListGUI extends ilObjectListGUI
 	
 	function getProperties()
 	{
-		global $lng;
+		$lng = $this->lng;
 		
 		return array(
 			array("alert" => false, "property" => $lng->txt("type"),
