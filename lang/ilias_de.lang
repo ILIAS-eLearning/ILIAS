@@ -2515,7 +2515,7 @@ common#:#disk_usage_details#:#Einzelheiten zur Speicherverwendung
 common#:#domain#:#Domäne
 common#:#down#:#Runter
 common#:#download#:#Download
-common#:#download_all_returned_files#:#Alle abgegebenen Dateien herunterladen
+common#:#download_all_returned_files#:#Alle Abgaben herunterladen
 common#:#download_with_uploaded_filename#:#Hochgeladenen Dateinamen verwenden
 common#:#download_with_uploaded_filename_info#:#Wählen Sie diese Option ausschließlich für die Rückwärtskompatibilität mit ILIAS 3.9 und älteren Versionen aus: Wenn diese Option aktiviert ist, erhalten heruntergeladene Dateien den Namen, der beim Hochladen in ILIAS verwendet worden ist. Wenn diese Option nicht ausgewählt ist, erhalten heruntergeladene Dateien den Titel des Dateiobjekts als Namen. Diese Option hat keine Auswirkung auf WebDAV. Bei WebDAV erhalten heruntergeladene Dateien IMMER den Titel des Dateiobjekts als Namen.
 common#:#downloading_settings#:#Einstellungen
