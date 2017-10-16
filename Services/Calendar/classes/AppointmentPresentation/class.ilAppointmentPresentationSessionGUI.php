@@ -89,11 +89,12 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 				if($file['type'] == "file") {
 					$this->has_files = true;
 					$href = ilLink::_getStaticLink($file['ref_id'], "file", true,"download");
-					$str[] = $r->render($f->button()->shy($file['title'], $href));
+					$str[$file['title']] = $r->render($f->button()->shy($file['title'], $href));
 				}
 			}
 			if($this->has_files)
 			{
+				ksort($str, SORT_NATURAL | SORT_FLAG_CASE);
 				$this->addInfoProperty($this->lng->txt("files"), implode("<br>", $str));
 				$this->addListItemProperty($this->lng->txt("files"), implode(", ", $str));
 			}

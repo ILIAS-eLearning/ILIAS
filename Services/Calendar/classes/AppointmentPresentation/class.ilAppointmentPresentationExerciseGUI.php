@@ -42,7 +42,6 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 		//Assignment title information
 		$this->addInfoSection($this->lng->txt("cal_".(ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id'])) . "_info"));
 
-		//TODO Work instructions, Instruction files, pass mode.
 		//var_dump($a_app); exit;
 		$ass_id = $a_app["event"]->getContextId() / 10;			// see ilExAssignment->handleCalendarEntries $dl parameter
 
@@ -65,8 +64,9 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 				$ctrl->setParameterByClass("ilexsubmissiongui", "ass_id", "");
 				$ctrl->setParameterByClass("ilexsubmissiongui", "file", "");
 				$ctrl->setParameterByClass("ilexsubmissiongui", "ref_if", "");
-				$str_files[] = $r->render($f->button()->shy($file["name"],$url));
+				$str_files[$file["name"]] = $r->render($f->button()->shy($file["name"],$url));
 			}
+			ksort($str_files, SORT_NATURAL | SORT_FLAG_CASE);
 			$str_files = implode("<br>", $str_files);
 			$this->addInfoProperty($this->lng->txt("exc_instruction_files"),$str_files);
 			$this->addListItemProperty($this->lng->txt("exc_instruction_files"),str_replace("<br>", ", ", $str_files));
