@@ -105,7 +105,7 @@ class ilLMImportGUI
 		$target_lang = ilUtil::stripSlashes($_POST["import_lang"]);
 		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
 		$ot = ilObjectTranslation::getInstance($this->lm->getId());
-		if ($target_lang == $ot->getMasterLanguage())
+		if ($target_lang == $ot->getMasterLanguage() || $target_lang == "")
 		{
 			ilUtil::sendFailure($lng->txt("cont_transl_master_language_not_allowed"), true);
 			$ilCtrl->redirect($this, "showTranslationImportForm");
