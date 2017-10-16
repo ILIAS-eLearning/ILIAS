@@ -31,7 +31,7 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials implemen
 	 */
 	public function tryAuthenticationOnLoginPage()
 	{
-		if(strcmp($_REQUEST['cmd'], 'force_login') === 0)
+		if(strcmp((string) $_REQUEST['cmd'], 'force_login') === 0)
 		{
 			return false;
 		}
