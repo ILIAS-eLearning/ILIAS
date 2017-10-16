@@ -53,13 +53,29 @@ interface Presentation extends \ILIAS\UI\Component\Component {
 	 */
 	public function withRowMapping(\Closure $row_mapping);
 
+
 	/**
-	 * Add a list of objects the mapping-closure needs for processing.
+	 * Get the closure to construct row-entries with.
+	 *
+	 * @return \Closure
+	 */
+	public function getRowMapping();
+
+	/**
+	 * Add a list of additional things the mapping-closure needs for processing.
+	 * These can be virtually anything.
 	 *
 	 * @param array<string,mixed> 	$environment
 	 * @return \Presentation
 	 */
 	public function withEnvironment(array $environment);
+
+	/**
+	 * Get an array of additionally needed elements to build a data-entry.
+	 *
+	 * @return array<string,mixed>
+	 */
+	public function getEnvironment();
 
 	/**
 	 * Fill a recordset into the table.
@@ -69,5 +85,13 @@ interface Presentation extends \ILIAS\UI\Component\Component {
 	 * @return \Presentation
 	 */
 	public function withData(array $records);
+
+	/**
+	 * Get the recordset of this table.
+	 * All elements in $records MUST be processable by the mapping-closure.
+	 *
+	 * @return array<mixed>
+	 */
+	public function getData();
 
 }
