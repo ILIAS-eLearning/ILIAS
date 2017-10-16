@@ -69,11 +69,13 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 					$this->ctrl->setParameterByClass('ilobjcoursegui', 'file_id', $file->getFileId());
 					$this->ctrl->setParameterByClass('ilobjcoursegui', 'ref_id', $crs_ref_id);
 
-					$links[] = $this->ui->renderer()->render(($this->ui->factory()->button()->shy($file->getFileName(),
+					$file_name = $file->getFileName();
+					$links[$file_name] = $this->ui->renderer()->render(($this->ui->factory()->button()->shy($file_name,
 						$this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilobjcoursegui"), 'sendfile'))));
 
 					$this->ctrl->setParameterByClass('ilobjcoursegui', 'ref_id', $_GET["ref_id"]);
 				}
+				ksort($links, SORT_NATURAL | SORT_FLAG_CASE);
 
 				$this->addInfoProperty($this->lng->txt("files"), implode("<br>", $links));
 				$this->addListItemProperty($this->lng->txt("files"), implode(", ", $links));
