@@ -4809,7 +4809,17 @@ class ilObjSurvey extends ilObject
 		$args = array( '/_xml' => $print_output, '/_xsl' => $xsl );
 		$xh = xslt_create();
 		$params = array();
-		$output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", NULL, $args, $params);
+		try
+		{
+			$output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
+		}
+		catch (Exception $e)
+		{
+			$this->log->error("Print XSLT failed:");
+			$this->log->error("Content: ".$print_output);
+			$this->log->error("Xsl: ".$xsl);
+			throw ($e);
+		}
 		xslt_error($xh);
 		xslt_free($xh);
 		$ilLog->write($output);
