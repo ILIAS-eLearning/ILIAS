@@ -88,7 +88,8 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 		$this->setFormName("ilExcIDlForm");
 
 		// see 0021530 and parseRow here with similar action per user
-		if ($this->ass->hasActiveIDl() &&
+		if ($this->mode == self::MODE_BY_ASSIGNMENT &&
+			$this->ass->hasActiveIDl() &&
 			!$this->ass->hasReadOnlyIDl())
 		{
 			$this->addMultiCommand("setIndividualDeadline", $this->lng->txt("exc_individual_deadline_action"));
