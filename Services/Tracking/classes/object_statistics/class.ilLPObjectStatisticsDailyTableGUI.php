@@ -131,7 +131,12 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 	{
 		$data = array();
 		
-		$objects = $this->searchObjects($this->getCurrentFilter(true), "read");
+		$objects = $this->searchObjects(
+			$this->getCurrentFilter(true), 
+			"read",
+			null,
+			false
+		);
 		if($objects)
 		{						
 			include_once "Services/Tracking/classes/class.ilTrQuery.php";

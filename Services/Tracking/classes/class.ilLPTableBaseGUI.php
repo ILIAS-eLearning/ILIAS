@@ -165,20 +165,16 @@ class ilLPTableBaseGUI extends ilTable2GUI
 	/**
 	 * Search objects that match current filters
 	 *
-	 * @param	array	$filter
-	 * @param	string	$permission
+	 * @param array	$filter
+	 * @param string	$permission
+	 * @param array preset obj_ids
+	 * @param bool check lp activation
 	 * @return	array
 	 */
-	protected function searchObjects(array $filter, $permission, array $preset_obj_ids = null)
+	protected function searchObjects(array $filter, $permission, array $preset_obj_ids = null, $a_check_lp_activation = true)
 	{
 		global $ilObjDataCache;
 				
-		/* for performance issues: fast search WITHOUT any permission checks
-		include_once "Services/Tracking/classes/class.ilTrQuery.php";
-		return ilTrQuery::searchObjects($filter["type"], $filter["query"], 
-			$filter["area"], $filter["hide"], $preset_obj_ids);
-		*/
-
 		include_once './Services/Search/classes/class.ilQueryParser.php';
 
 		$query_parser =& new ilQueryParser($filter["query"]);
@@ -187,6 +183,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		$query_parser->parse();
 		if(!$query_parser->validate())
 		{
+			ilLoggerFactory::getLogger('trac')->notice($query_parser->getMessage());
 			// echo $query_parser->getMessage();
 			return false;
 		}
@@ -215,8 +212,12 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		}
 
 		$res->setMaxHits(1000);
-		$res->addObserver($this, "searchFilterListener");
-
+		
+		if($a_check_lp_activation)
+		{
+			$res->addObserver($this, "searchFilterListener");
+		}
+		
 		if(!$this->filter["area"])
 		{
 			$res->filter(ROOT_FOLDER_ID, false);
