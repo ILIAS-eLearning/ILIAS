@@ -885,14 +885,13 @@ class ilTrQuery
 		$members = [];
 		
 		// try to get participants from (parent) course/group
-		
-		ilLoggerFactory::getLogger('trac')->debug('Part for object type: ' . $obj_type);
-		
+		$members_read = false;
 		switch($obj_type)
 		{
 			case 'crs':
 			case 'grp':
-				$member_obj = ilParticipants::getInstanceByObjId($obj_id);
+				$members_read = true;
+				$member_obj = ilParticipants::getInstance($a_ref_id);
 				$members = $member_obj->getMembers();
 				break;
 			
@@ -901,6 +900,7 @@ class ilTrQuery
 		 	 * But for LP view only his own members should be displayed.
 		 	 * We need to return the members without checking the parent path. */
 			case "iass":
+				$members_read = true;
 				include_once("Modules/IndividualAssessment/classes/class.ilObjIndividualAssessment.php");
 				$iass = new ilObjIndividualAssessment($obj_id, false);
 				$members = $iass->loadMembers()->membersIds();
@@ -915,6 +915,7 @@ class ilTrQuery
 					$type = ilObject::_lookupType($path_ref_id, true);
 					if($type == "crs" || $type == "grp")
 					{
+						$members_read = true;
 						$members = self::getParticipantsForObject($path_ref_id);
 					}
 				}
@@ -922,13 +923,15 @@ class ilTrQuery
 		}
 
 		// begin-patch ouf
-		return $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
-			'read_learning_progress',
-			'read_learning_progress',
-			$a_ref_id,
-			$members
-		);
-		
+		if($members_read)
+		{
+			return $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+				'read_learning_progress',
+				'read_learning_progress',
+				$a_ref_id,
+				$members
+			);
+		}
 		$a_users = null;
 		
 		// no participants possible: use tracking/object data where possible
