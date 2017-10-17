@@ -270,7 +270,7 @@ class ilTrQuery
 		$check_agreement = false, $privacy_fields = NULL)
 	{
 		global $ilDB;
-
+		
 		$fields = array("usr_data.usr_id", "login", "active");
 		$udf = self::buildColumns($fields, $a_additional_fields);
 		
@@ -885,18 +885,17 @@ class ilTrQuery
 		$members = [];
 		
 		// try to get participants from (parent) course/group
+		
+		ilLoggerFactory::getLogger('trac')->debug('Part for object type: ' . $obj_type);
+		
 		switch($obj_type)
 		{
-			case "crs":
-				include_once "Modules/Course/classes/class.ilCourseParticipants.php";
-				$member_obj = ilCourseParticipants::_getInstanceByObjId($obj_id);
+			case 'crs':
+			case 'grp':
+				$member_obj = ilParticipants::getInstanceByObjId($obj_id);
 				$members = $member_obj->getMembers();
 				break;
-
-			case "grp":
-				include_once "Modules/Group/classes/class.ilGroupParticipants.php";
-				$member_obj = ilGroupParticipants::_getInstanceByObjId($obj_id);
-				break;
+			
 
 			/* Mantis 19296: Individual Assessment can be subtype of crs.
 		 	 * But for LP view only his own members should be displayed.
@@ -921,6 +920,7 @@ class ilTrQuery
 				}
 				break;
 		}
+
 		// begin-patch ouf
 		return $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
 			'read_learning_progress',
