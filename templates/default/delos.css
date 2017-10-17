@@ -7887,7 +7887,7 @@ ul.breadcrumb li:hover {
   background-color: #4c6586;
 }
 .il-table-presentation-viewcontrols {
-  margin-bottom: 10px;
+  height: 40px;
 }
 .il-table-presentation-viewcontrols div {
   display: table;
@@ -7896,7 +7896,7 @@ ul.breadcrumb li:hover {
 .il-table-presentation-row {
   white-space: nowrap;
   border-top: 1px solid #dddddd;
-  padding-top: 5px;
+  padding-top: 6px;
 }
 .il-table-presentation-row .il-table-presentation-row-controls,
 .il-table-presentation-row .il-table-presentation-row-contents {
@@ -7920,7 +7920,7 @@ ul.breadcrumb li:hover {
 }
 .il-table-presentation-row .il-table-presentation-row-expanded {
   white-space: nowrap;
-  margin-top: 5px;
+  margin-top: 6px;
 }
 .il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-desclist,
 .il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-details {
