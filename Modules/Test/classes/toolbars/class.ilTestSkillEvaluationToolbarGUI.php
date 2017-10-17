@@ -20,11 +20,6 @@ class ilTestSkillEvaluationToolbarGUI extends ilToolbarGUI
 	 */
 	private $ctrl;
 
-	/**
-	 * @var ilLanguage
-	 */
-	private $lng;
-
 	private $parentGUI;
 	private $parentCMD;
 
@@ -39,7 +34,6 @@ class ilTestSkillEvaluationToolbarGUI extends ilToolbarGUI
 	public function __construct(ilCtrl $ctrl, ilLanguage $lng, $parentGUI, $parentCMD)
 	{
 		$this->ctrl = $ctrl;
-		$this->lng = $lng;
 
 		$this->parentGUI = $parentGUI;
 		$this->parentCMD = $parentCMD;

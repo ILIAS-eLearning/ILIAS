@@ -50,12 +50,12 @@ lti#:#lti_released_objects#:#Objekt-Freigaben
 lti#:#lti_consumer#:#Released for
 orgu#:#orgu_global_set_form#:#Globale Einstellungen
 orgu#:#orgu_global_set_positions#:#Anzeige von Benutzerdaten nach Positionen in Organisationseinheiten
-orgu#:#orgu_global_set_positions_type_active#:#Aktiv für:
-orgu#:#orgu_global_set_type_changeable#:#Aktivierung
-orgu#:#orgu_global_set_type_changeable_object#:#De/Aktivierung auf Objektebene
-orgu#:#orgu_global_set_type_changeable_no#:#Nicht deaktivierbar
+orgu#:#orgu_global_set_positions_type_active#:#Positionen in 
+orgu#:#orgu_global_set_type_changeable#:#Verhalten neuer Objekte
+orgu#:#orgu_global_set_type_changeable_object#:#Änderbare Einstellung im Objekt
+orgu#:#orgu_global_set_type_changeable_no#:#Positionen sind im Objekt nicht deaktivierbar
 orgu#:#orgu_global_set_type_default#:#Standardwert
-orgu#:#orgu_global_set_type_default_info#:#Legen Sie den Standardwert für neue Objekte fest.
+orgu#:#orgu_global_set_type_default_info#:#Positionen sind im Reiter 'Einstellungen' des Objektes standardmäßig aktiviert.
 rbac#:#il_sess_participant#:#Sitzungsteilnehmer
 rbac#:#il_sess_status_closed#:#Nicht-Teilnehmer geschlossene Sitzung
 meta#:#md_adv_scope#:#Gültigkeitsbereich
@@ -74,7 +74,7 @@ sess#:#sess_print_list#:#Liste erstellen
 crs#:#crs_show_member_export_settings#:#Teilnehmerliste
 crs#:#crs_show_member_export#:#Teilnehmerliste
 crs#:#crs_show_member_export_info#:#Mitglieder haben die Möglichkeit eine Teilnehmerliste zu generieren
-mem#:#mmbr_gallery_user_actions#:#Member Gallery Actions
+mem#:#mmbr_gallery_user_actions#:#Aktionen in Mitgliedergalerie
 forum#:#delete_drafts_successfully#:#Die Entwürfe wurden erfolgreich gelöscht.
 forum#:#sure_delete_drafts#:#Sind Sie sicher, dass Sie die gewählten Entwürfe löschen möchten?
 forum#:#restore#:#Wiederherstellen
@@ -665,7 +665,7 @@ assessment#:#insert_before#:#Einfügen vor
 assessment#:#internal_links#:#Interne Verweise
 assessment#:#javaapplet#:#Java-Applet
 assessment#:#kiosk#:#Prüfungsansicht
-assessment#:#kiosk_description#:#Die Prüfungsansicht zeigt den Test im Kiosk-Modus. Dabei werden alle Bildschirm- und Navigationselemente, die nicht zum Test gehören, ausgeblendet. Um Teilnehmer effektiv daran zu hindern, während des Tests andere Webseiten zu öffnen, setzen bitte Sie einen hierfür spezialisierten Browser, z.B. Safe Exam Browser.
+assessment#:#kiosk_description#:#Die Prüfungsansicht zeigt den Test im Kiosk-Modus. Dabei werden alle Bildschirmelemente, die nicht zum Test gehören, ausgeblendet. Um Teilnehmer effektiv daran zu hindern, während des Tests andere Webseiten zu öffnen, setzen bitte Sie einen hierfür spezialisierten Browser ein (z.B. den Safe Exam Browser).
 assessment#:#kiosk_options#:#Angezeigte Informationen
 assessment#:#kiosk_options_desc#:#Die ausgewählten Informationen werden im Kopfbereich der Seite angezeigt.
 assessment#:#kiosk_show_participant#:#Name des Teilnehmers
@@ -987,7 +987,7 @@ assessment#:#next_question#:#Weiter
 assessment#:#previous_question#:#Zurück
 assessment#:#submit_answer#:#Speichern und weiter
 assessment#:#skip_question#:#Nicht antworten und weiter
-assessment#:#discard_answer#:#Antwort löschen###fau: testNav
+assessment#:#discard_answer#:#Antwort löschen
 assessment#:#discard_answer_confirmation#:#Ihre Antwort wird vollständig und endgültig gelöscht. Zu einem späteren Zeitpunkt können Sie die Frage aber erneut beantworten.<br /><br />Soll Ihre Antwort endgültig gelöscht werden?
 assessment#:#tst_nav_while_edit_modal_header#:#Entscheidung über Antworten
 assessment#:#tst_nav_while_edit_modal_text#:#Was soll mit den Antworten dieser Frage geschehen, die Sie ggfs. bereits gegeben haben?
@@ -1017,7 +1017,7 @@ assessment#:#tst_instant_feedback_handling_none_desc#:#Teilnehmer können über 
 assessment#:#tst_instant_feedback_handling_freeze#:#Antworten festschreiben, wenn Rückmeldung angefordert wird
 assessment#:#tst_instant_feedback_handling_freeze_desc#:#Teilnehmer können über einen Button "Antwort festschreiben und prüfen" ihre Antwort festschreiben und eine Rückmeldung anzeigen lassen. Danach kann die Antwort nicht mehr geändert werden.
 assessment#:#tst_instant_feedback_handling_force_and_freeze#:#Automatische Rückmeldung und Antwort festschreiben
-assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#Klicken Teilnehmer auf "Antwort festschreiben und prüfen" oder speichern sie Ihre Antwort bei der Navigation zu einer anderen Frage, so können sie Ihre Antworten danach nicht mehr ändern. ILIAS präsentiert sofort die in der Option "Direkte Rückmeldung" konfigurierte Rückmeldung.
+assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#Klicken Teilnehmer auf "Antwort speichern und Rückmeldung anfordern oder speichern sie Ihre Antwort bei der Navigation zu einer anderen Frage, so können sie Ihre Antworten danach nicht mehr ändern. ILIAS präsentiert sofort die in der Option "Direkte Rückmeldung" konfigurierte Rückmeldung.
 assessment#:#tst_instant_feedback_handling_force#:#Automatische Rückmeldung, aber Antwort nicht festschreiben
 assessment#:#tst_instant_feedback_handling_force_desc#:#Klicken Teilnehmer auf "Rückmeldung anfordern", oder speichern sie Ihre Antwort bei der Navigation zu einer anderen Frage, so präsentiert ILIAS sofort die in der Option "Direkte Rückmeldung" konfigurierte Rückmeldung. Teilnehmer können danach ihre Antworten im Rahmen der erlaubten Testdurchläufe ändern.
 assessment#:#select_gap#:#Auswahl-Lücke
@@ -1555,6 +1555,8 @@ assessment#:#sign_submission#:#Digitale Signatur
 assessment#:#sign_submission_info#:#Das Signatur-Plugin muss installiert und aktiviert sein, damit Teilnehmer aufgefordert werden, ihre Testabgabe zu signieren.
 assessment#:#preserve_manscoring#:#Manuelle Bewertungen erhalten
 assessment#:#preserve_manscoring_info#:#Aufgrund von Veränderungen in der Fragebewertung kann es erforderlich sein, bislang erfolgte manuelle Bewertungen zu verwerfen. Dieser Schalter gestattet die Entwertung ALLER manuellen Bewertungen in einem Test und sollte nur in Ausnahmefällen genutzt werden. 
+assessment#:#tst_qst_added_to_pool_s#:#Die Frage wurde erfolgreich in den Fragenpool übernommen. 
+assessment#:#tst_qst_added_to_pool_p#:#Die Fragen wurden erfolgreich in den Fragenpool übernommen.
 auth#:#auth_account_code#:#Code
 auth#:#auth_account_code_info#:#Um Ihr Benutzerkonto zu reaktivieren, können Sie einen ILIAS-Benutzerkonten-Code benutzen.
 auth#:#auth_account_code_title#:#Benutzerkonten-Code
@@ -2281,7 +2283,7 @@ common#:#chat_invite_public_room_tooltip#:#In den öffentlichen Chatraum einlade
 chatroom#:#chat_settings#:#Chat-Einstellungen
 common#:#chat_users_active#:#Aktive Benutzer
 common#:#check#:#Rückmeldung anfordern
-assessment#:#submit_and_check#:#Speichern und prüfen
+assessment#:#submit_and_check#:#Antwort speichern und Rückmeldung anfordern
 common#:#check_all#:#Alle auswählen
 common#:#check_langfile#:#Bitte überprüfen Sie die Sprachdatei!
 common#:#check_languages#:#Alle Sprachen überprüfen
@@ -2513,7 +2515,7 @@ common#:#disk_usage_details#:#Einzelheiten zur Speicherverwendung
 common#:#domain#:#Domäne
 common#:#down#:#Runter
 common#:#download#:#Download
-common#:#download_all_returned_files#:#Alle abgegebenen Dateien herunterladen
+common#:#download_all_returned_files#:#Alle Abgaben herunterladen
 common#:#download_with_uploaded_filename#:#Hochgeladenen Dateinamen verwenden
 common#:#download_with_uploaded_filename_info#:#Wählen Sie diese Option ausschließlich für die Rückwärtskompatibilität mit ILIAS 3.9 und älteren Versionen aus: Wenn diese Option aktiviert ist, erhalten heruntergeladene Dateien den Namen, der beim Hochladen in ILIAS verwendet worden ist. Wenn diese Option nicht ausgewählt ist, erhalten heruntergeladene Dateien den Titel des Dateiobjekts als Namen. Diese Option hat keine Auswirkung auf WebDAV. Bei WebDAV erhalten heruntergeladene Dateien IMMER den Titel des Dateiobjekts als Namen.
 common#:#downloading_settings#:#Einstellungen
@@ -2936,6 +2938,7 @@ common#:#info_available_roles#:#Verfügbare Rollen
 common#:#info_change_user_view#:#Rechte dieses Benutzers anzeigen
 common#:#info_deactivate_sure#:#Sind Sie sicher, dass Sie die folgenden Benutzer deaktivieren wollen?
 common#:#info_delete_sure#:#Sind Sie sicher, dass folgende Objekte gelöscht werden sollen:
+common#:#info_remove_sure#:#Sind Sie sicher, dass folgende Objekte entfernt werden sollen:
 common#:#info_delete_warning_no_trash#:#(WARNUNG: Die ausgewählten Objekte werden unwiderruflich aus dem System entfernt und können nicht wiederhergestellt werden!)
 common#:#info_deleted#:#Objekt(e) gelöscht
 common#:#info_err_user_not_exist#:#Einen Benutzer mit diesem Benutzernamen oder dieser Benutzer ID existiert nicht
@@ -3319,7 +3322,7 @@ common#:#no#:#Nein
 common#:#no_access_item#:#Sie besitzen keine ausreichende Berechtigung, um auf dieses Objekt zuzugreifen.
 common#:#no_access_item_public#:#Um dieses Objekt zu nutzen, müssen Sie angemeldet sein und entsprechende Zugriffsrechte besitzen.
 common#:#no_agreement_description#:#Aktuell wird in dieser Installation keine Benutzervereinbarung angeboten. Bitte kontaktieren Sie Ihren <a href="%1$s">Systemadministrator</a> für weitere Informationen.
-common#:#no_checkbox#:#Sie haben keine Auswahl getroffen
+common#:#no_checkbox#:#Sie haben keine Auswahl getroffen.
 common#:#no_condition_selected#:#Sie haben keine Vorbedingung ausgewählt.
 common#:#no_date#:#Kein Datum
 common#:#no_global_role_left#:#Jeder Benutzer muss mindestens einer globalen Rolle zugeordnet sein.
@@ -4358,9 +4361,9 @@ content#:#cont_characteristic#:#Absatzformat
 content#:#cont_choose_characteristic#:#Absatzformat auswählen
 content#:#cont_choose_characteristic_section#:#Blöcke
 content#:#cont_choose_characteristic_text#:#Absatzformate
-content#:#cont_choose_cont_obj#:#Bitte wählen Sie ein Lernmodul aus.
-content#:#cont_choose_glossary#:#Bitte wählen Sie ein Glossar aus.
-content#:#cont_choose_media_source#:#Bitte wählen Sie eine Medienquelle aus.
+content#:#cont_choose_lm#:#Bitte wählen Sie ein Lernmodul aus.
+content#:#cont_choose_glo#:#Bitte wählen Sie ein Glossar aus.
+content#:#cont_choose_mep#:#Bitte wählen Sie eine Medienquelle aus.
 content#:#cont_choose_pages_or_chapters_only#:#Bitte wählen Sie entweder Seiten oder Kapitel aus.
 content#:#cont_Circle#:#Kreis
 content#:#cont_Citation#:#Zitat
@@ -4883,7 +4886,7 @@ content#:#cont_sc_version#:#Version des Lernmoduls
 content#:#cont_scheduled_activation#:#Zeitliche Aktivierung
 content#:#cont_sco_glossary#:#Glossar
 content#:#cont_score#:#Punkte
-content#:#cont_scorm_ed_properties#:#Eigenschaften Lernmodul / Glossar
+content#:#cont_scorm_ed_properties#:#Eigenschaften Lernmodul
 content#:#cont_scorm_type#:#adlcp:scormtype
 content#:#cont_screen_ids#:#Screen-IDs
 content#:#cont_second#:#Zweite
@@ -5464,9 +5467,9 @@ crs#:#tutor_phone#:#Telefon
 crs#:#user_fields#:#Benutzerdaten
 dateplaner#:#add_appointment#:#Termin hinzufügen
 dateplaner#:#app_consultation_hours#:#Sprechstundenverwaltung
-dateplaner#:#app_day#:#Tagesansicht
-dateplaner#:#app_month#:#Monatsansicht
-dateplaner#:#app_week#:#Wochenansicht
+dateplaner#:#app_day#:#Tag
+dateplaner#:#app_month#:#Monat
+dateplaner#:#app_week#:#Woche
 dateplaner#:#apply#:#übernehmen
 dateplaner#:#back#:#zurück
 dateplaner#:#c_date#:#erstelle Termin
@@ -5553,11 +5556,13 @@ dateplaner#:#cal_daily#:#Täglich
 dateplaner#:#cal_date_booked#:#gebucht
 dateplaner#:#cal_date_format_info#:#Bitte wählen Sie ein Format für die Eingabe eines Datums aus.
 dateplaner#:#cal_day_end#:#Tagesende
+dateplaner#:#cal_def_day_end#:#Default-Tagesende
 dateplaner#:#cal_day_of_month#:#Tag des Monats
 dateplaner#:#cal_day_overview#:#Tagesübersicht
 dateplaner#:#cal_day_s#:#Tag(e)
 dateplaner#:#cal_day_selection#:#Tagesauswahl
 dateplaner#:#cal_day_start#:#Tagesbeginn
+dateplaner#:#cal_def_day_start#:#Default-Tagesbeginn
 dateplaner#:#cal_day_week_view#:#Einstellungen Tages-/Wochenansicht
 dateplaner#:#cal_deadline#:#Endtermin
 dateplaner#:#cal_declined#:#Abgelehnt
@@ -5567,7 +5572,7 @@ dateplaner#:#cal_def_time_format#:#Default-Zeitformat
 dateplaner#:#cal_def_time_format_info#:#Bitte wählen Sie ein Format für die Eingabe und Darstellung der Zeit aus.
 dateplaner#:#cal_def_timezone#:#Default-Zeitzone
 dateplaner#:#cal_def_timezone_info#:#Bitte wählen Sie eine Zeitzone für die Anzeige von Terminen aus.
-dateplaner#:#cal_def_week_start#:#Wochenbeginn
+dateplaner#:#cal_def_week_start#:#Default-Wochenbeginn
 dateplaner#:#cal_default_calendar#:#Persönliche Termine
 dateplaner#:#cal_del_app_sure#:#Sind Sie sicher, dass Sie die folgenden Termine löschen möchten?
 dateplaner#:#cal_del_cal_sure#:#Möchten Sie wirklich die ausgewählten Kalender löschen?
@@ -9225,6 +9230,7 @@ trac#:#view_mode#:#Anzeigemodus
 tstv#:#tstv_create#:#Testzertifikat erstellen
 tstv#:#tstv_create_info#:#Wählen Sie einen Test, für den Sie ein Zertifikat benötigen
 user#:#clipboard_add_btn#:#Der Zwischenablage hinzufügen
+user#:#clipboard_add_from_btn#:#Aus der Zwischenablage hinzufügen
 user#:#clipboard_user_added#:#Die ausgewählten Benutzer wurden der Zwischenablage hinzugefügt.
 user#:#clipboard_table_title#:#Zwischenablage (Benutzerkonten)
 user#:#enable_local_user_administration#:#Lokale Benutzerverwaltung aktivieren
@@ -9634,7 +9640,9 @@ dcl#:#dcl_export_started#:#Asynchroner Export gestartet
 dcl#:#dcl_export_finished#:#Export Abgeschlossen
 dcl#:#dcl_supported_filetypes#:#Erlaubte Dateiendungen
 dcl#:#dcl_supported_filetypes_desc#:#Sie können hier kommagetrennt Dateiendungen angeben. Zum Beispiel: pdf, docx
-dcl#:#dcl_no_export_data_available#:#Keine Daten oder Felder für den Export verfügbar
+dcl#:#dcl_no_export_data_available#:#Keine Daten oder Felder für den Export verfügbar.
+dcl#:#dcl_no_export_content_available#:#Keine Daten für den Export verfügbar.
+dcl#:#dcl_no_export_fields_available#:#Keine Felder für den Export aktiviert. Markieren Sie mindestens ein Feld als "Exportierbar" in den <a href="%s">Tabelleneinstellungen</a>.
 common#:#obj_dcl_duplicate#:#Datensammlung kopieren
 survey#:#freetext_answers#:#Freitext-Antworten
 forum#:#frm_at_least_one_moderator#:#Es muss mindestens ein Moderator zugewiesen sein.
@@ -10417,7 +10425,7 @@ dcl#:#dcl_max_import#:#Die maximal erlaubte Anzahl an importierten Datensätze w
 dcl#:#dcl_row_not_found#:# - Dieses Feld wurde in der Tabelle nicht gefunden.
 dcl#:#dcl_std_field_not_importable#:# - Standardfelder sind nicht importierbar.
 dcl#:#dcl_import_records .xls#:#Excel-Import
-dcl#:#dcl_file_format_description#:#Die Import-Datei muss im Excel-Format .xlsx vorliegen, mit den zu importierenden Daten auf der ersten Seite. In der ersten Reihe müssen die exakten Namen der Felder stehen (inklusive Grossschreibung) und in den folgenden Reihen die Werte der zu importierenden Datensatzeinträge. Es wird empfohlen, jeden Import zuerst zu simulieren.
+dcl#:#dcl_file_format_description#:#Die Import-Datei muss im Excel-Format .xlsx vorliegen, mit den zu importierenden Daten auf der ersten Seite. In der ersten Reihe müssen die exakten Namen der Felder stehen (inklusive Grossschreibung) und in den folgenden Reihen die Werte der zu importierenden Datensatzeinträge. Es wird empfohlen, jeden Import zuerst zu simulieren. Für den Import von mehrfachen Einträgen bei Auswahlmenü-Feldern und Referenzfeldern werden Semikolon und/oder Komma als Trenner akzeptiert.
 dcl#:#dcl_simulate_import#:#Import simulieren
 dcl#:#dcl_simulate_info#:#Hierbei werden keine Datensätze angelegt, sondern nur Feedback zu Fehlern in der Import-Datei gegeben. Dadurch können Sie fehlerhafte Imports vermeiden.
 dcl#:#dcl_multiple_selection#:#Mehrfachauswahl
@@ -10495,6 +10503,7 @@ common#:#hide_all_details#:#Alle Details ausblenden
 common#:#show_all_details#:#Alle Details anzeigen
 common#:#select_files_from_computer#:#Dateien wählen
 common#:#drag_files_here#:#Ziehen Sie die Dateien in diesen Bereich
+common#:#drag_file_here#:#Ziehen Sie die Datei in diesen Bereich
 common#:#selected_files#:#Ausgewählte Dateien
 common#:#num_of_selected_files#:#%s Datei(en) ausgewählt
 common#:#cancel_file_upload#:#Wollen Sie das Hochladen der ausstehenden Dateien abbrechen?
@@ -11211,6 +11220,13 @@ bibl#:#bib_default_cite#:#Bib Cite
 bibl#:#bib_default_note#:#Notiz
 bibl#:#bib_default_month#:#Monat
 bibl#:#bib_default_abstract#:#Abstract
+bibl#:#bib_default_address#:#Adresse
+bibl#:#bib_default_publisher#:#Verleger
+bibl#:#bib_default_edition#:#Auflage
+bibl#:#bib_default_howpublished#:#Publikations-Typ
+bibl#:#bib_default_type#:#Typ
+bibl#:#bib_default_series#:#Serie
+bibl#:#bib_default_organization#:#Organisation
 bibl#:#ris_default_ti#:#Buchtitel
 bibl#:#ris_default_au#:#Autor
 bibl#:#ris_default_py#:#Erscheinungsjahr
@@ -11221,6 +11237,18 @@ bibl#:#ris_default_sn#:#ISSN/ISBN/ASIN
 bibl#:#ris_default_m3#:#Misc. 3
 bibl#:#ris_default_ur#:#URL
 bibl#:#ris_default_l3#:#Ähnliche Datensätze
+bibl#:#ris_default_a2#:#Zweiter Autor
+bibl#:#ris_default_av#:#Standort
+bibl#:#ris_default_cy#:#Herausgabeort
+bibl#:#ris_default_id#:#Referenz-ID
+bibl#:#ris_default_kw#:#Stichworte
+bibl#:#ris_default_m1#:#Nummer
+bibl#:#ris_default_n1#:#Notizen
+bibl#:#ris_default_n2#:#Abstract
+bibl#:#ris_default_t1#:#Haupttitel
+bibl#:#ris_default_t2#:#Zweittitel
+bibl#:#ris_default_t3#:#Dritter Titel
+bibl#:#ris_default_u2#:#Benutzerdefiniert
 bibl#:#bibl_copy#:#Literaturliste kopieren
 mail#:#mail_filter#:#Filter
 mail#:#mail_filter_sender#:#Sender
@@ -12182,7 +12210,7 @@ administration#:#language_delete_local_additions_info#:#Löscht alle Einträge i
 administration#:#language_merge_local_changes_info#:#Mischt alle lokalen Änderungen oder Ergänzungen in die Standard-Sprachdatei lang/ilias_%s.lang. Der Web-Server muss Schreibrecht auf dieser Datei besitzen.
 administration#:#language_remove_local_file_info#:#Entfernt die Datei Customizing/global/lang/ilias_%s.lang.local und setzt den Status der Sprache von "Mit lokaler Version installiert" auf "Installiert". Die Einträge in der Datenbank sind davon nicht betroffen.
 administration#:#language_save_dist#:#Backup der Standard-Sprachdatei erzeugen
-administration#:#language_save_dist_info#:#Erzeugt ein Backup der Standard-Sprachdatei im ILIAS-Datenverzeichnis. Dies hilft nach einem ILIAS-Update, Koflikte von eingenen Änderungen mit aktualisierten Sprachvariablen zu finden.
+administration#:#language_save_dist_info#:#Erzeugt ein Backup der Standard-Sprachdatei im externen ILIAS-Datenverzeichnis. Dies hilft nach einem ILIAS-Update, Konflikte von eigenen Änderungen mit aktualisierten Sprachvariablen zu finden.
 administration#:#language_saved_dist#:#Das Backup der Standard-Sprachdatei wurde erzeugt.
 administration#:#language_save_dist_failed#:#Das Backup der Standard-Sprachdatei konnte nicht geschrieben werden.
 crs#:#crs_loc_type_initial_all_info#:#Anhand der Ergebnisse des Einstiegstests empfiehlt ILIAS Lerninhalte für die  noch nicht erreichten Lernziele. Ein Qualifizierender Test prüft zum Abschluss  die Erreichung aller Lernziele.
@@ -12271,7 +12299,7 @@ scormtrac#:#counter#:#Zähler
 scormtrac#:#student_response#:#student_response: Antwort
 scormtrac#:#ostatus#:#Status des Lernziels
 prtf#:#prtf_blog_page_created#:#Blog wurde hinzugefügt.
-wiki#:#wiki_page_list_form_info#:#Fügt eine Liste mit Wiki-Seiten hinzu, die nachfolgenden Metadaten zugeordnet sind.
+wiki#:#wiki_page_list_form_info#:#Fügt eine Liste mit Wiki-Seiten hinzu, die nachfolgenden Metadaten zugeordnet sind. Es werden nur durchsuchbare Metadatenfelder aus den Metadatensätzen des Wikis angeboten.
 content#:#cont_pc_amdpl#:#Seitenliste
 meta#:#udf_type_selectmulti#:#Auswahlliste (Mehrfachauswahl)
 wiki#:#wiki_no_page_found#:#Es wurden keine Seiten zum Suchbegriff '$1' gefunden.
@@ -12770,14 +12798,14 @@ rbac#:#cadm_read#:#Administration für Benutzerkontakte lesen
 rbac#:#cadm_write#:#Administration für Benutzerkontakte editieren
 rbac#:#cadm_edit_permission#:#Rechteeinstellungen der Administration für Benutzerkontakte ändern
 common#:#no_gallery_users_available#:#Aktuell befinden sich keine Benutzer in der Galerie.
-crs#:#crs_mem_contact#:#Kursbetreuung
+crs#:#crs_mem_contact#:#Tutorielle Betreuung
 awrn#:#awareness_now_online#:#Jetzt online
 awrn#:#awareness_now_online_users#:#[ONLINE_USER_NAMES]
 common#:#obj_awra_desc#:#„Wer ist online?“-Anzeige administrieren
 common#:#obj_awra#:#„Wer ist online?“-Anzeige
 awrn#:#awareness_settings#:#Einstellungen
 awrn#:#awrn_enable#:#Aktiviere „Wer ist online?“-Anzeige
-crs#:#crs_mem_contacts#:#Kursbetreuung
+crs#:#crs_mem_contacts#:#Tutorielle Betreuung
 user#:#user_awrn_all_users#:#Alle Benutzer
 user#:#user_awrn_all_users_info#:#Alle Benutzer der Plattform werden aufgelistet.
 crs#:#crs_awrn_support_contacts#:#Kursbetreuung
@@ -13082,8 +13110,8 @@ wiki#:#wiki_page_list_mode_ordered#:#Nummeriert
 blog#:#blog_news_posting_updated#:#Ein Blogbeitrag wurde aktualisiert von %s.
 blog#:#blog_news_posting_published#:#Ein neuer Blogbeitrag wurde veröffentlicht von %s.
 blog#:#blog_news_posting_authors#:#Beteiligte Autoren: %s
-book#:#book_reservation_filter_period#:#Filter „Zeitraum“
-book#:#book_reservation_filter_period_info#:#Der Default-Wert für den Zeitraum-Filter in Tagen ab dem aktuellem Datum.
+book#:#book_reservation_filter_period#:#Filter „Datumsbereich“
+book#:#book_reservation_filter_period_info#:#Der Default-Wert für den Datumsbereich-Filter in Tagen ab dem aktuellem Datum.
 book#:#book_filter_past_reservations#:#Abgelaufene Reservierungen anzeigen
 book#:#book_deadline_options#:#Spätester Buchungszeitpunkt
 book#:#book_deadline_hours#:#Bis n Stunden vor Beginn des Zeitfensters
@@ -13521,7 +13549,11 @@ iass#:#iass_notify#:#Teilnehmer nach abschließender Bewertung benachrichtigen
 iass#:#iass_finalize#:#Abschließen
 iass#:#il_iass_member#:#Teilnehmer
 iass#:#il_iass_members#:#Teilnehmer
-iass#:#iass_may_not_finalize#:#Status kann nicht finalisiert werden.
+iass#:#iass_event_time_place_required#:#Pflichtangabe Datum und Ort
+iass#:#iass_event_time_place_required_info#:#Ort und Datum der Prüfung müssen eingetragen werden.
+iass#:#iass_file_required#:#Pflichtangabe Prüfungsblatt
+iass#:#iass_file_required_info#:#Ein Prüfungsblatt muss hochgeladen werden
+iass#:#iass_may_not_finalize#:#Prüfung kann noch nicht abschließend bewertet werden.
 iass#:#iass_subj_notification_completed#:#%s: Individuelle Bewertung erfolgreich abgeschlossen.
 iass#:#iass_subj_notification_failed#:#%s: Individuelle Bewertung nicht erfolgreich.
 trac#:#trac_mode_individual_assessment#:#Individuelle Bewertung durch Tutor/Trainer
@@ -13529,7 +13561,7 @@ common#:#obj_iass#:#Individuelle Bewertung
 common#:#objs_iass#:#Individuelle Bewertungen
 common#:#obj_iass_duplicate#:#Individuelle Bewertung kopieren
 common#:#obj_iass_select#:#-- Wählen Sie eine Individuelle Bewertung aus --
-trac#:#trac_mode_individual_assessment_info#:#Der Eintrag des Benutzers muss finalisiert werden, damit der Benutzer einen Lernfortschritt erhält.
+trac#:#trac_mode_individual_assessment_info#:#Der Teilnehmer muss abschließend bewertet werden, damit für diesen der Lernfortschritt gesetzt wird.
 common#:#il_iass_member#:#Teilnehmer einer Individuellen Bewertung
 common#:#iass_new#:#Neue Individuelle Bewertung anlegen
 common#:#iass_import#:#Individuelle Bewertung importieren
@@ -13546,10 +13578,10 @@ iass#:#lp_inactive#:#Beachten Sie: die Lernfortschrittsbestimmung für dieses Ob
 iass#:#iass_edit#:#Einstellungen
 iass#:#iass_add#:#Individuelle Bewertung anlegen
 iass#:#iass_membership_finalized#:#Bewertung abgeschlossen.
-iass#:#iass_membership_saved#:#Bewertung gespeichert, jedoch noch nicht abgeschlossen.
+iass#:#iass_membership_saved#:#Bewertung wurde gespeichert aber noch nicht final abgeschlossen.
 iass#:#iass_return#:#Zurück zur Übersicht
 iass#:#iass_remove_user_qst#:#Soll der Teilnehmer wirklich entfernt werden?
-iass#:#iass_finalize_user_qst#:#Soll die Bewertung des Teilnehmers wirklich abgeschlossen werden? Änderungen an der Bewertung sind hinterher nicht mehr möglich.
+iass#:#iass_finalize_user_qst#:#Soll die Bewertung des Teilnehmers wirklich final abgeschlossen werden? Änderungen an der Bewertung sind hinterher nicht mehr möglich.
 iass#:#iass_settings_saved#:#Einstellungen gespeichert.
 iass#:#iass_add_user_failure#:#Einer oder mehrere Benutzer konnten nicht hinzugefügt werden.
 iass#:#iass_add_user_success#:#Benutzer als Teilnehmer hinzugefügt.
@@ -13598,6 +13630,9 @@ chatroom#:#chat_osc_leave_grp_conv#:#Konversation verlassen
 chatroom#:#chat_osc_user_left_grp_conv#:#Der Benutzer '%s' hat die Gruppenkonversation verlassen.
 chatroom#:#chat_osc_dont_accept_msg#:#Sie können aktuell von anderen Personen nicht zu Konversationen eingeladen werden. Dies können Sie bei Bedarf in Ihren <a href="%s">'Persönlichen Einstellungen'</a> ändern.
 chatroom#:#chat_osc_doesnt_accept_msg#:#Konversationen nicht möglich
+chatroom#:#chat_osc_subs_rej_msgs#:#Ihr Chat-Partner möchte zur Zeit keine Nachrichten empfangen. Er kann den Empfang von Chat-Nachrichten in seinen Chat-Einstellungen wieder aktivieren.
+chatroom#:#chat_osc_subs_rej_msgs_p#:#Die folgenden Konversationspartner möchten aktuell keine Nachrichten mehr empfangen: %s
+chatroom#:#chat_osc_self_rej_msgs#:#Sie können aktuell nicht an der Conversation teilnehmen, da Sie den Empfang von Chat-Nachrichten in Ihren Einstellungen aktuell unterdrückt haben. 
 usr#:#user_actions#:#Benutzeraktionen
 usr#:#user_action#:#Benuzteraktion
 chatroom#:#chtr_activation_online_info#:#Wählen Sie diese Einstellung, um den Chatraum für Benutzer verfügbar zumachen.
@@ -13698,13 +13733,15 @@ form#:#form_msg_file_type_is_not_allowed#:#Dieser Dateityp ist nicht erlaubt.
 common#:#file_no_valid_file_type#:#Dieser Dateityp ist nicht erlaubt.
 common#:#file_some_invalid_file_types_removed#:#Einige Dateitypen sind nicht erlaubt und wurden entfernt.
 ecs#:#ecs_member_auth_type#:#Authentifizierungsmethode für Kursmitglieder
-background_tasks#:#background_tasks#:#Hintergrundaufgaben
-background_tasks#:#background_tasks_running#:#Laufende Aufgaben
+background_tasks#:#background_tasks#:#Background Tasks
+background_tasks#:#background_tasks_running#:#Background Tasks
 background_tasks#:#scheduled#:#Geplant
-background_tasks#:#dismiss#:#Beenden
+background_tasks#:#dismiss#:#Schliessen
+background_tasks#:#abort#:#Beenden
 background_tasks#:#completed#:#Abgeschlossen
 background_tasks#:#waiting#:#Warten
 background_tasks#:#proceed_job#:#Weiter
+background_tasks#:#task_might_be_failed#:#Diese Aufgabe hat seit einiger Zeit nicht geantwortet, Sie können sie beenden, falls nötig.
 grp#:#grp_period#:#Veranstaltungszeitraum
 grp#:#grp_period_info#:#Information zum Start und Ende der Veranstaltung, die mit der Gruppe unterstützt werden soll.
 exc#:#exc_settings_feedback_mail_info#:#Tutoren geben ihre Rückmeldungen zur Abgabe in ein Mail-Formular ein. Die Mail wird dem entsprechenden Teilnehmer gesendet.
@@ -13775,6 +13812,7 @@ book#:#book_open#:#Buchungspool öffnen
 book#:#book_booking_information#:#Information
 sess#:#sess_open#:#Sitzung öffnen
 dateplaner#:#cal_show_weeks#:#Anzeige Wochenspalte
+dateplaner#:#cal_def_show_weeks#:#Default-Anzeige Wochenspalte
 dateplaner#:#cal_show_weeks_info#:#Zeigt die Wochen im Seitenblock "Kalender" an. Benutzer können die Anzeige deaktivieren.
 dateplaner#:#cal_usr_show_weeks#:#Anzeige Wochenspalte
 dateplaner#:#cal_usr_show_weeks_info#:#Zeigt die Wochen im Seitenblock "Kalender" an.
@@ -13790,9 +13828,9 @@ mail#:#mail_first_email#:#Erste E-Mail-Adresse
 mail#:#mail_second_email#:#Zweite E-Mail-Adresse
 mail#:#mail_both_email#:#Beide E-Mail-Adressen
 common#:#second_email#:#Zweite E-Mail
-iass#:#iass_usr_amend#:#Dokumentation nach Finalisierung ändern
-iass#:#iass_place#:#Ort der Durchführung
-iass#:#iass_event_time#:#Datum der Durchführung
+iass#:#iass_usr_amend#:#Prüfungsdaten nachträglich ändern
+iass#:#iass_place#:#Ort der Prüfung
+iass#:#iass_event_time#:#Datum der Prüfung
 skmg#:#skmg_assigned_profiles#:#Zugewiesene Profile
 skmg#:#skmg_selected_skills#:#Ausgewählte Kompetenzen
 skmg#:#skmg_hide_profile_self_eval#:#Profilwerte nach Selbsteinschätzung anzeigen
@@ -13956,16 +13994,16 @@ prtf#:#prtf_portfolio_created_from_template#:#Dies ist die Vorschau Ihres neuen 
 style#:#open_documentation#:#Dokumentation öffnen
 style#:#ks_documentation_of_style#:#Kitchen Sink Dokumentation von Style:
 style#:#ks_documentation_of_substyle#:#Kitchen Sink Dokumentation von Sub Style:
-prtf#:#prtf_pdf#:#PDF
-prtf#:#prtf_print_selection#:#Seitenauswahl
-prtf#:#prtf_all_pages#:#Alle Seiten
-prtf#:#prtf_selected_pages#:#Ausgewählte Seiten
-prtf#:#prtf_print_options#:#Optionen
+prtf#:#prtf_pdf#:#PDF erzeugen
+prtf#:#prtf_print_selection#:#Auswahl
+prtf#:#prtf_all_pages#:#Gesamtes Portfolio
+prtf#:#prtf_selected_pages#:#Ausgewählte Teile des Portfolios
+prtf#:#prtf_print_options#:#Auswahl zum PDF
 prtf#:#prtf_author#:#Autor
 prtf#:#prtf_link#:#Link
 prtf#:#prtf_date_of_print#:#Datum des Ausdrucks
-prtf#:#prtf_signature#:#Unterschriftsfeld
-prtf#:#prtf_signature_info#:#Fügt ein Feld für die Unterschrift des Autors hinzu.
+prtf#:#prtf_signature#:#Feld für Unterschrift
+prtf#:#prtf_signature_info#:#Das PDF enthält ein Feld, in welchem die Benutzer unterschreiben können.
 prtf#:#prtf_signature_date#:#Datum, Unterschrift
 lti#:#lti_not_allowed#:#Zugriff nicht erlaubt. Sie wurden in den ursprünglichen LTI Bereich umgeleitet.
 lti#:#lti_navigation#:#Navigation
@@ -13984,20 +14022,36 @@ orgu#:#confirm_deletion_button#:#Delete###31 08 2017 new variable
 orgu#:#msg_deleted#:#Deleted###31 08 2017 new variable
 common#:#scorm_login_as_learner_id#:#SCORM 2004: set ILIAS Username as cmi.learner_id###31 08 2017 new variable
 common#:#scorm_login_as_learner_id_info#:#If enabled, the Username instead of the User ID is set for cmi.learner_id.###31 08 2017 new variable
-iass#:#iass_upload_file#:#Upload a file###31 08 2017 new variable
-iass#:#iass_file_visible_examinee#:#File visible for participant###31 08 2017 new variable
-iass#:#iass_usr_download_attachment#:#Download Attachment###31 08 2017 new variable
-iass#:#iass_save_amend#:#Save Amend###31 08 2017 new variable
+iass#:#iass_upload_file#:#Prüfungsblatt
+iass#:#iass_file_visible_examinee#:#Datei für Teilnehmer sichtbar
+iass#:#iass_usr_download_attachment#:#Datei herunterladen
+iass#:#iass_save_amend#:#Geänderte Prüfungsdaten speichern
 dateplaner#:#cal_exc_inst_files#:#Instruction Files###31 08 2017 new variable
-dateplaner#:#cal_repo_obj#:#Repository Objects###31 08 2017 new variable
+dateplaner#:#cal_repo_obj#:#Magazinobjekt
 survey#:#sub_tab_dashboard#:#Dashboard###31 08 2017 new variable
 survey#:#svy_print_show_labels#:#Show labels###31 08 2017 new variable
 survey#:#svy_print_hide_labels#:#Hide labels###31 08 2017 new variable
-content#:#cont_grid_width_m#:#Medium###31 08 2017 new variable
-grp#:#grp_created_and_user_been_added#:#Die Gruppe wurde erstellt und der Benutzer hinzugefügt.###31 08 2017 new variable
-cont#:#cont_assign_skills#:#Assign Competences###31 08 2017 new variable
-dateplaner#:#cal_batch_file_downloads#:#Batch file downloads in Calendar###31 08 2017 new variable
-dateplaner#:#cal_batch_file_downloads_info#:#Activate button to download all files related to the current calendar/appointment view.###31 08 2017 new variable
-dateplaner#:#cal_download_files#:#Download Files###31 08 2017 new variable
-dateplaner#:#cal_calendar_download#:#Calendar Download###31 08 2017 new variable
+content#:#cont_grid_width_m#:#Medium
+grp#:#grp_created_and_user_been_added#:#Die Gruppe wurde erstellt und der Benutzer hinzugefügt.
+cont#:#cont_assign_skills#:#Kompetenzen zuweisen
+dateplaner#:#cal_batch_file_downloads#:#Datei-Downloads aus Kalender stapelweise verarbeiten
+dateplaner#:#cal_batch_file_downloads_info#:#Erlaubt Herunterladen aller Dateien zu Einträgen in der gewählten Kalenderansicht
+dateplaner#:#cal_download_files#:#Dateien herunterladen
+dateplaner#:#cal_calendar_download#:#Kalender herunterladen
 pdfgen#:#cleanup#:#Bereinigen
+skmg#:#skmg_order_nr_info#:#Platziert die Kompetenz in der Liste der Kompetenzen.
+common#:#position_permission_settings#:#Rechte nach Positionen
+common#:#org_permission_settings#:#Rechte der Positionen in Organisationseinheiten
+common#:#org_op_read_learning_progress#:#Lernfortschritt untergeordneter Benutzer einsehen
+common#:#org_op_manage_members#:#Untergeordnete Mitglieder verwalten
+common#:#org_op_access_enrolments#:#Teilnehmer-Status einsehen
+sahs#:#sahs_add#:#SCORM-Lernmodul anlegen
+sahs#:#sahs_copy#:#SCORM-Lernmodul kopieren
+sahs#:#sahs_glo_info#:#Bitte beachten Sie, daß interne Links in Glossarbegriffen nicht unterstützt werden.
+lm#:#lm_save_titles#:#Titel wurden gespeichert.
+dateplaner#:#cal_down_no_files#:#Nichts zum Herunterladen, die aufgeführten Veranstaltungen enthalten keine Dateien.
+assessment#:#question_browse_area_info#:#Wählen sie bitte ein Objekt aus dem sie Fragen importieren wollen.
+dateplaner#:#cal_no_events_info#:#Für den angegebenen Zeitraum sind keine Termine für Sie vorhanden.
+wiki#:#wiki_pg_list_no_search_fields#:#Es befinden sich keine durchsuchbaren Metadatenfelder in den Metadatensätzen des Wikis.
+iass#:#iass_amend_saved#:#Geänderte Prüfungsdaten wurden gespeichert.
+content#:#cont_transl_master_language_not_allowed#:#Um eine Übersetzung zu importieren, müssen sie zumindest eine zusätzliche Sprache unter "Einstellungen" > "Mehrsprachigkeit" aktivieren.

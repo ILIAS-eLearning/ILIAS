@@ -40,6 +40,11 @@ class ilCalendarExport
 	const EXPORT_APPOINTMENTS = 2;
 
 	protected $export_type = self::EXPORT_CALENDARS;
+	
+	/**
+	 * @var ilLogger 
+	 */
+	private $logger = null;
 
 
 	protected $calendars = array();
@@ -49,6 +54,9 @@ class ilCalendarExport
 	
 	public function __construct($a_calendar_ids = array())
 	{
+		$this->logger = $GLOBALS['DIC']->logger()->cal();
+		
+		
 		$this->calendars = $a_calendar_ids;
 		$this->writer = new ilICalWriter();
 		
@@ -178,9 +186,19 @@ class ilCalendarExport
 		return true;
 	}
 	
+	/**
+	 * Create VEVENT entry
+	 * @global ilObjUser $ilUser
+	 * @param ilCalendarEntry $app
+	 */
 	protected function createVEVENT($app)
 	{
 		global $ilUser;
+		
+		if(!$app->getStart() instanceof ilDateTime)
+		{
+			$this->logger->notice('Cannot create appointment for app_id: ' . $app->getEntryId());
+		}
 
 		$this->writer->addLine('BEGIN:VEVENT');
 		// TODO only domain

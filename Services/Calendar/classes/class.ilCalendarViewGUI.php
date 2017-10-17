@@ -45,6 +45,11 @@ class ilCalendarViewGUI
 	protected $logger;
 
 	/**
+	 * @var \ILIAS\UI
+	 */
+	protected $ui;
+
+	/**
 	 * View initialization
 	 * @param integer $a_calendar_presentation_type
 	 */
@@ -53,6 +58,7 @@ class ilCalendarViewGUI
 		global $DIC;
 		$this->ui_factory = $DIC->ui()->factory();
 		$this->ui_renderer = $DIC->ui()->renderer();
+		$this->ui = $DIC->ui();
 		$this->ctrl = $DIC->ctrl();
 		$this->lng = $DIC->language();
 		$this->user = $DIC->user();
@@ -87,7 +93,7 @@ class ilCalendarViewGUI
 	 * Get events
 	 *
 	 * @param
-	 * @return
+	 * @return 
 	 */
 	function getEvents()
 	{
@@ -235,7 +241,13 @@ class ilCalendarViewGUI
 
 		$modal = $f->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
 
-		$title = ($a_title_forced == "")? $a_calendar_entry->getPresentationTitle() : $a_title_forced;
+		//Day view presents the titles with the full length.(agenda:class.ilCalendarAgendaListGUI.php)
+		if($this->presentation_type == self::CAL_PRESENTATION_DAY) {
+			$title = ($a_title_forced == "")? $a_calendar_entry->getPresentationTitle(false) : $a_title_forced;
+		} else {
+			$title = ($a_title_forced == "")? $a_calendar_entry->getPresentationTitle() : $a_title_forced;
+		}
+
 
 		$comps = [$f->button()->shy($title, "")->withOnClick($modal->getShowSignal()), $modal];
 
@@ -276,14 +288,15 @@ class ilCalendarViewGUI
 	 * @param $a_title
 	 * @return string
 	 */
-	public function getContentByPlugins($a_cal_entry, $a_start_date, $a_title)
+	public function getContentByPlugins($a_cal_entry, $a_start_date, $a_content)
 	{
-		$content = $a_title;
+		$content = $a_content;
+
 		//"capg" is the plugin slot id for AppointmentCustomGrid
 		foreach($this->getActivePlugins("capg") as $plugin)
 		{
 			$plugin->setAppointment($a_cal_entry, new ilDateTime($a_start_date));
-			if($new_content = $plugin->replaceContent($a_title))
+			if($new_content = $plugin->replaceContent($a_content))
 			{
 				$content = $new_content;
 			}
@@ -299,9 +312,13 @@ class ilCalendarViewGUI
 
 				if($more_content = $plugin->addExtraContent())
 				{
-					$content .= " ".$more_content;
+					$content = $content." ".$more_content;
 				}
 			}
+		}
+		if($content == $a_content)
+		{
+			return false;
 		}
 
 		return $content;
@@ -317,7 +334,7 @@ class ilCalendarViewGUI
 	function addToolbarActions()
 	{
 		$settings = ilCalendarSettings::_getInstance();
-		if($settings->isBatchFileDownloadsEnabled())
+		if($settings->isBatchFileDownloadsEnabled() && !empty($this->getEvents()))
 		{
 			$toolbar = $this->toolbar;
 			$f = $this->ui_factory;
@@ -340,8 +357,6 @@ class ilCalendarViewGUI
 		include_once './Services/Calendar/classes/BackgroundTasks/class.ilDownloadFilesBackgroundTask.php';
 		$download_job = new ilDownloadFilesBackgroundTask($GLOBALS['DIC']->user()->getId());
 
-		//$this->logger->debug("count events = ".count($this->getEvents()));
-
 		$download_job->setBucketTitle($this->getBucketTitle());
 		$download_job->setEvents($this->getEvents());
 		$download_job->run();
@@ -355,8 +370,6 @@ class ilCalendarViewGUI
 	 */
 	public function getBucketTitle()
 	{
-		//string from ilDate
-
 		$user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
 		$bucket_title = $this->lng->txt("cal_calendar_download");
 		switch ($this->presentation_type)

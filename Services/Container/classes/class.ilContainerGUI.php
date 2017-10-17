@@ -489,8 +489,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	*/
 	function setTitleAndDescription()
 	{
-		$ilSetting = $this->settings;
-
 		if (!ilContainer::_lookupContainerSetting($this->object->getId(), "hide_header_icon_and_title"))
 		{
 			$this->tpl->setTitle($this->object->getTitle());
@@ -498,15 +496,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	
 			// set tile icon
 			$icon = ilObject::_getIcon($this->object->getId(), "big", $this->object->getType());
-			if ($ilSetting->get("custom_icons") &&
-				in_array($this->object->getType(), array("cat","grp","crs", "root")))
-			{
-				require_once("./Services/Container/classes/class.ilContainer.php");
-				if (($path = ilContainer::_lookupIconPath($this->object->getId(), "big")) != "")
-				{
-					$icon = $path;
-				}
-			}
 			$this->tpl->setTitleIcon($icon, $this->lng->txt("obj_".$this->object->getType()));
 						
 			include_once './Services/Object/classes/class.ilObjectListGUIFactory.php';
@@ -636,7 +625,29 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$lng->loadLanguageModule('cntr');
 
-		if ($this->isActiveAdministrationPanel())
+		if ($_SESSION["clipboard"])
+		{
+			// #11545
+			$GLOBALS['tpl']->setPageFormAction($this->ctrl->getFormAction($this));
+
+			include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
+			$toolbar = new ilToolbarGUI();
+			$this->ctrl->setParameter($this, "type", "");
+			$this->ctrl->setParameter($this, "item_ref_id", "");
+
+			$toolbar->addFormButton(
+				$this->lng->txt('paste_clipboard_items'),
+				'paste'
+			);
+
+			$toolbar->addFormButton(
+				$this->lng->txt('clear_clipboard'),
+				'clear'
+			);
+
+			$GLOBALS['tpl']->addAdminPanelToolbar($toolbar, true, false);
+		}
+		else if ($this->isActiveAdministrationPanel())
 		{			
 			// #11545
 			$GLOBALS['tpl']->setPageFormAction($this->ctrl->getFormAction($this));
@@ -646,8 +657,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$this->ctrl->setParameter($this, "type", "");
 			$this->ctrl->setParameter($this, "item_ref_id", "");
 
-			if (!$_SESSION["clipboard"])
-			{
+//			if (!$_SESSION["clipboard"])
+//			{
 				if ($this->object->gotItems())
 				{
 					$toolbar->setLeadingImage(
@@ -711,18 +722,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 							'adoptContent')
 					);
 				}
-			}
-			else
+//			}
+			/*else
 			{
-				$toolbar->addFormButton(
-					$this->lng->txt('paste_clipboard_items'),
-					'paste'
-				);
-
-				$toolbar->addFormButton(
-					$this->lng->txt('clear_clipboard'),
-					'clear'
-				);
 
 				if ($this->isMultiDownloadEnabled())
 				{
@@ -732,7 +734,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 						'download'
 					);
 				}
-			}
+			}*/
 
 			$GLOBALS['tpl']->addAdminPanelToolbar(
 				$toolbar,
@@ -2679,6 +2681,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$caption = $this->lng->txt("cont_custom_icon");
 				$icon = new ilImageFileInputGUI($caption, "cont_icon");
 				$icon->setSuffixes(array("svg"));
+				$icon->setUseCache(false);
 				$icon->setImage($custom_icon);
 				if($a_as_section)
 				{

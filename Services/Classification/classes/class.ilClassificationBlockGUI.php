@@ -39,7 +39,6 @@ class ilClassificationBlockGUI extends ilBlockGUI
 
 		$this->lng = $DIC->language();
 		$this->ctrl = $DIC->ctrl();
-		$this->tpl = $DIC["tpl"];
 		$this->obj_definition = $DIC["objDefinition"];
 		$this->tree = $DIC->repositoryTree();
 		$this->access = $DIC->access();
@@ -109,7 +108,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
 	
 	public function getHTML()
 	{			
-		$tpl = $this->tpl;
+		$tpl = $this->main_tpl;
 		$ilCtrl = $this->ctrl;
 		
 		if(!$ilCtrl->isAsynch())
@@ -131,7 +130,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
 	
 	public function getAjax()
 	{
-		$tpl = $this->tpl;
+		$tpl = $this->main_tpl;
 		
 		$this->initProviders(true);		
 		
@@ -143,7 +142,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
 	
 	public function fillDataSection()
 	{		
-		$tpl = $this->tpl;
+		$tpl = $this->main_tpl;
 
 		$ilCtrl = $this->ctrl;
 		
@@ -197,8 +196,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
 		$lng = $this->lng;
 		$tree = $this->tree;
 		$ilAccess = $this->access;
-		$ilCtrl = $this->ctrl;
-		$tpl = $this->tpl;
+		$tpl = $this->main_tpl;
 		
 		$this->initProviders();
 			

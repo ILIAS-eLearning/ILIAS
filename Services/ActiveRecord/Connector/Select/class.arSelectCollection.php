@@ -16,13 +16,12 @@ class arSelectCollection extends arStatementCollection {
 	public function asSQLStatement() {
 		$return = 'SELECT ';
 		if ($this->hasStatements()) {
-			foreach ($this->getSelects() as $select) {
-				$return .= $select->asSQLStatement($this->getAr());
-				if ($select != end($this->getSelects())) {
-					$return .= ', ';
-				}
-			}
-		}
+			$activeRecord = $this->getAr();
+			$selectSQLs   = array_map(function($select) use ($activeRecord) {
+				return $select->asSQLStatement($activeRecord);
+			}, $this->getSelects());
+       			$return      .= join(', ', $selectSQLs);
+ 		}
 
 //		$return .= ' FROM ' . $this->getAr()->getConnectorContainerName();
 

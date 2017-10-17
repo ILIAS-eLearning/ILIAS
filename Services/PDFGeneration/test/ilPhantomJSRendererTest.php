@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once __DIR__ .'/../classes/renderer/phantomjs/class.ilPhantomJSRenderer.php';
+define ("PATH_TO_PHANTOMJS",'');
 /**
  * Class ilPhantomJSRendererTest
  * @package ilPdfGenerator
@@ -9,6 +10,7 @@ require_once __DIR__ .'/../classes/renderer/phantomjs/class.ilPhantomJSRenderer.
 class ilPhantomJSRendererTest  extends PHPUnit_Framework_TestCase
 {
 
+	
 	protected $default_config = array('path' => '/usr/local/bin/phantomjs',
 									  'page_size' => 'A4',
 									  'margin' => '1cm',

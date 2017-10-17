@@ -65,7 +65,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
-		$tpl = $this->tpl;
+		$tpl = $this->main_tpl;
 		$ilUser = $this->user;
 		$ilHelp = $DIC["ilHelp"];
 
@@ -133,10 +133,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
 		$this->settings = ilCalendarSettings::_getInstance();
 		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId());
-		
-		$tpl->addCSS("./Services/Calendar/css/calendar.css");
-		// @todo: this must work differently...
-		$tpl->addCSS("./Services/Calendar/templates/default/delos.css");
 		
 		$mode = $ilUser->getPref("il_pd_cal_mode");
 		$this->display_mode = $mode ? $mode : "mmon";
@@ -468,6 +464,10 @@ class ilCalendarBlockGUI extends ilBlockGUI
 			$month_day = $day;
 
 			$ilCtrl->setParameterByClass(end($this->getTargetGUIClassPath()),'seed',$date->get(IL_CAL_DATE));
+			if($agenda_view_type = (int) $_GET['cal_agenda_per'])
+			{
+				$ilCtrl->setParameterByClass(end($this->getTargetGUIClassPath()), "cal_agenda_per", $agenda_view_type);
+			}
 			$a_tpl->setVariable('OPEN_DAY_VIEW', $ilCtrl->getLinkTargetByClass($this->getTargetGUIClassPath(), ''));
 
 			$a_tpl->setVariable('MONTH_DAY',$month_day);

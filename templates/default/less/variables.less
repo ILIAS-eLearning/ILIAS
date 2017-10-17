@@ -49,21 +49,21 @@
 //** Variant 1 of the extended color set in ILIAS
 @il-extended-color-1: #f3de2c;
 //** Variant 2 of the extended color set in ILIAS
-@il-extended-color-2: #CDDC39;
+@il-extended-color-2: #cddc39;
 //** Variant 3 of the extended color set in ILIAS
-@il-extended-color-3: #59A0A5;
+@il-extended-color-3: #59a0a5;
 //** Variant 4 of the extended color set in ILIAS
-@il-extended-color-4: #86CB92;
+@il-extended-color-4: #86cb92;
 //** Variant 5 of the extended color set in ILIAS
-@il-extended-color-5: #CE73A8;
+@il-extended-color-5: #ce73a8;
 //** Variant 6 of the extended color set in ILIAS
-@il-extended-color-6: #82639E;
+@il-extended-color-6: #82639e;
 //** Variant 7 of the extended color set in ILIAS
-@il-extended-color-7: #9E7C7D;
+@il-extended-color-7: #9e7c7d;
 //** Variant 8 of the extended color set in ILIAS
-@il-extended-color-8: #F75E82;
+@il-extended-color-8: #f75e82;
 //** Variant 9 of the extended color set in ILIAS
-@il-extended-color-9: #EA4D54;
+@il-extended-color-9: #ea4d54;
 
 //** Factor by witch a specific color variant is darkened in the standard coloring
 @il-extended-color-factor-standard: 0%;
@@ -214,6 +214,13 @@
 @il-logo-height:			50px;
 //** controls the width of the "logo" (that [ILIAS] thingy on top the page in the standard).
 @il-logo-width:				50px;
+//** controls margin around the logo
+@il-logo-margin: 15px 15px 0;
+@il-logo-resp-margin: 10px;
+//** controls the height of the "logo" for small screens.
+@il-logo-resp-height: 40px;
+//** controls the width of the "logo" for small screens.
+@il-logo-resp-width: 40px;
 //** controls the height of the "main header" (that white thingy with the logo and the main menu in it).
 @il-main-header-height:		30px + @il-logo-height;
 //** controls the height of the border underneath the main header.
@@ -297,8 +304,20 @@
 //
 //##
 
-@breadcrumb-padding-vertical:   6px;
-@breadcrumb-padding-horizontal: 6px;
+//** Breadcrumb margin
+@il-breadcrumb-margin-top: .8em;
+@il-breadcrumb-margin-right: 0;
+@il-breadcrumb-margin-bottom: @line-height-computed;
+@il-breadcrumb-margin-left: 0;
+@il-breadcrumb-resp-margin-top: 0;
+@il-breadcrumb-resp-margin-right: 0;
+@il-breadcrumb-resp-margin-bottom: 0;
+@il-breadcrumb-resp-margin-left: 0;
+//** Breadcrumb padding
+@breadcrumb-padding-vertical:   0;
+@breadcrumb-padding-horizontal: 15px;
+@il-breadcrumb-resp-padding-vertical: 0;
+@il-breadcrumb-resp-padding-horizontal: 5px;
 //** Breadcrumb background color
 @breadcrumb-bg:                 transparent;
 //** Breadcrumb text color
@@ -561,7 +580,7 @@
 //##
 @il-item-divider-padding: 10px 0 0 0;
 @il-item-divider-margin: 0 0 10px 0;
-@il-item-divider-border-bottom: dashed 2px #E0E0E0;
+@il-item-divider-border-bottom: dashed 0.5px #E0E0E0;
 @il-item-description-padding: 10px 0 0 0;
 @il-item-padding: 20px;
 @il-item-marker-border-left: 5px solid;

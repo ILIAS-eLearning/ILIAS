@@ -3,6 +3,7 @@
 namespace ILIAS\BackgroundTasks\Implementation\Persistence;
 
 use ILIAS\BackgroundTasks\BucketMeta;
+use ILIAS\BackgroundTasks\Exceptions\BucketNotFoundException;
 use ILIAS\BackgroundTasks\Exceptions\SerializationException;
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
 use ILIAS\BackgroundTasks\Bucket;
@@ -54,6 +55,7 @@ class BasicPersistence implements Persistence {
 
 	/**
 	 * Currently for testing only.
+	 * @param $connector \arConnector
 	 */
 	function setConnector(\arConnector $connector) {
 		$this->connector = $connector;
@@ -86,6 +88,7 @@ class BasicPersistence implements Persistence {
 		$bucketContainer->setTotalNumberoftasks(count($bucket->getTask()->unfoldTask()));
 		$bucketContainer->setPercentage($bucket->getOverallPercentage());
 		$bucketContainer->setTitle($bucket->getTitle());
+		$bucketContainer->setLastHeartbeat($bucket->getLastHeartbeat());
 		$bucketContainer->setDescription($bucket->getDescription());
 		$bucketContainer->setCurrentTaskid($this->getTaskContainerId($bucket->getCurrentTask()));
 		$bucketContainer->setRootTaskid($this->getTaskContainerId($bucket->getTask()));
@@ -339,7 +342,8 @@ class BasicPersistence implements Persistence {
 	/**
 	 * @param int $bucket_id
 	 *
-	 * @return Bucket
+	 * @return \ILIAS\BackgroundTasks\Bucket
+	 * @throws \ILIAS\BackgroundTasks\Exceptions\BucketNotFoundException
 	 */
 	public function loadBucket($bucket_id) {
 		if (isset(self::$buckets[$bucket_id])) {
@@ -357,6 +361,7 @@ class BasicPersistence implements Persistence {
 		$bucket->setTitle($bucketContainer->getTitle());
 		$bucket->setDescription($bucketContainer->getDescription());
 		$bucket->setOverallPercentage($bucketContainer->getPercentage());
+		$bucket->setLastHeartbeat($bucketContainer->getLastHeartbeat());
 		$bucket->setTask($this->loadTask($bucketContainer->getRootTaskid(), $bucket, $bucketContainer));
 
 		$this->bucketHashToObserverContainerId[spl_object_hash($bucket)] = $bucket_id;

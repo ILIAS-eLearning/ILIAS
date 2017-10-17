@@ -66,10 +66,19 @@ class ilMainMenuGUI
 	 */
 	protected $help;
 
+	/**
+	 * @var ilTemplate
+	 */
 	var $tpl;
+
 	var $target;
 	var $start_template;
 	var $mail; // [bool]
+
+	/**
+	 * @var ilTemplate
+	 */
+	protected $main_tpl;
 	
 	protected $mode; // [int]
 	protected $topbar_back_url; // [stringt]
@@ -85,9 +94,18 @@ class ilMainMenuGUI
 	* @param	boolean		$a_use_start_template	true means: target scripts should
 	*												be called through start template
 	*/
-	function __construct($a_target = "_top", $a_use_start_template = false)
+	function __construct($a_target = "_top", $a_use_start_template = false, ilTemplate $a_main_tpl = null)
 	{
 		global $DIC;
+
+		if ($a_main_tpl != null)
+		{
+			$this->main_tpl = $a_main_tpl;
+		}
+		else
+		{
+			$this->main_tpl = $DIC["tpl"];
+		}
 
 		$this->rbacsystem = $DIC->rbac()->system();
 		$this->user = $DIC->user();
@@ -189,9 +207,6 @@ class ilMainMenuGUI
 
 		$lng = $DIC->language();
 
-		global $DIC;
-
-		$ilUser = $DIC->user();
 		include_once("./Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php");
 		$gr_list = new ilGroupedListGUI();
 		$gr_list->setAsDropDown(true);
@@ -218,18 +233,17 @@ class ilMainMenuGUI
 	*/
 	function setTemplateVars()
 	{
-		global $DIC;
-
 		$rbacsystem = $this->rbacsystem;
 		$lng = $this->lng;
 		$ilUser = $this->user;
 		$ilPluginAdmin = $this->plugin_admin;
-		$main_tpl = $DIC["tpl"];
+		$main_tpl = $this->main_tpl;
 
 		if($this->logo_only)
 		{		
 			$this->tpl->setVariable("HEADER_URL", $this->getHeaderURL());
 			$this->tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.svg"));
+			$this->tpl->setVariable("HEADER_ICON_RESPONSIVE", ilUtil::getImagePath("HeaderIconResponsive.svg"));
 			
 			// #15759
 			include_once("./Modules/SystemFolder/classes/class.ilObjSystemFolder.php");
@@ -424,6 +438,7 @@ class ilMainMenuGUI
 			// $this->tpl->setVariable("TXT_LOGOUT", $lng->txt("logout"));
 			$this->tpl->setVariable("HEADER_URL", $this->getHeaderURL());
 			$this->tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.svg"));
+			$this->tpl->setVariable("HEADER_ICON_RESPONSIVE", ilUtil::getImagePath("HeaderIconResponsive.svg"));
 		}
 		
 		include_once("./Modules/SystemFolder/classes/class.ilObjSystemFolder.php");
@@ -1009,6 +1024,7 @@ class ilMainMenuGUI
 		$tpl = $this->tpl;
 		$ilSetting = $this->settings;
 		$ilUser = $this->user;
+		$main_tpl = $this->main_tpl;
 
 		// screen id
 		if ((defined("OH_REF_ID") && OH_REF_ID > 0) || DEVMODE == 1)
@@ -1038,10 +1054,10 @@ class ilMainMenuGUI
 			//$this->tpl->setCurrentBlock("help_icon");
 
 			// add javascript needed by help (to do: move to help class)
-			$tpl->addJavascript("./Services/Help/js/ilHelp.js");
+			$main_tpl->addJavascript("./Services/Help/js/ilHelp.js");
 			include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
 			$acc = new ilAccordionGUI();
-			$acc->addJavascript();
+			$acc->addJavascript($main_tpl);
 			$acc->addCss();
 
 			include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
@@ -1057,7 +1073,7 @@ class ilMainMenuGUI
 			$help_active = true;
 			
 			$lng->loadLanguageModule("help");
-			$tpl->addJavascript("./Services/Help/js/ilHelp.js");
+			$main_tpl->addJavascript("./Services/Help/js/ilHelp.js");
 
 			include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
 			ilTooltipGUI::addTooltip("help_tt", $lng->txt("help_toggle_tooltips"), "",
@@ -1077,7 +1093,7 @@ class ilMainMenuGUI
 			$ilCtrl->setTargetScript("ilias.php");
 
 			$ilHelp->setCtrlPar();
-			$tpl->addOnLoadCode("il.Help.setAjaxUrl('".
+			$this->main_tpl->addOnLoadCode("il.Help.setAjaxUrl('".
 				$ilCtrl->getLinkTargetByClass("ilhelpgui", "", "", true)
 				."');");
 			$ilCtrl->setTargetScript($ts);
@@ -1152,6 +1168,10 @@ class ilMainMenuGUI
 	protected function renderBackgroundTasks()
 	{
 		global $DIC;
+
+		$main_tpl = $this->main_tpl;
+
+
 		$DIC->language()->loadLanguageModule("background_tasks");
 		$factory = $DIC->ui()->factory();
 		$persistence = $DIC->backgroundTasks()->persistence();
@@ -1170,15 +1190,15 @@ class ilMainMenuGUI
 		                   ->withTitle($DIC->language()->txt("background_tasks_running")); // needs to have empty content
 		$DIC->ctrl()->clearParametersByClass(ilBTControllerGUI::class);
 		$DIC->ctrl()->setParameterByClass(ilBTControllerGUI::class,
-			"from_url",
-			urlencode(ilUtil::_getHttpPath())
+			ilBTControllerGUI::FROM_URL,
+			urlencode($_SERVER['HTTP_REFERER'])
 		);
 		$DIC->ctrl()->setParameterByClass(ilBTControllerGUI::class,
-			"replaceSignal",
+			ilBTControllerGUI::REPLACE_SIGNAL,
 			$popover->getReplaceContentSignal()->getId()
 		);
 
-		$url = $DIC->ctrl()->getLinkTargetByClass([ ilBTControllerGUI::class ], "getPopoverContent", "", true);
+		$url = $DIC->ctrl()->getLinkTargetByClass([ ilBTControllerGUI::class ], ilBTControllerGUI::CMD_GET_POPOVER_CONTENT, "", true);
 		$popover = $popover->withAsyncContentUrl($url);
 
 		$glyph = $factory->glyph()
@@ -1187,7 +1207,7 @@ class ilMainMenuGUI
 		                 ->withCounter($factory->counter()->novelty($numberOfUserInteractions))
 		                 ->withCounter($factory->counter()->status($numberOfNotUserInteractions));
 
-		$DIC['tpl']->addJavascript('./Services/BackgroundTasks/js/background_task_refresh.js');
+		$main_tpl->addJavascript('./Services/BackgroundTasks/js/background_task_refresh.js');
 
 		$this->tpl->setVariable('BACKGROUNDTASKS',
 			$DIC->ui()->renderer()->render([$glyph, $popover])

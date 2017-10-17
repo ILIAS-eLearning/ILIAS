@@ -32,7 +32,6 @@ class ilPollBlockGUI extends ilBlockGUI
 		$this->lng = $DIC->language();
 		$this->ctrl = $DIC->ctrl();
 		$this->user = $DIC->user();
-		$this->tpl = $DIC["tpl"];
 		$this->access = $DIC->access();
 		$lng = $DIC->language();
 		
@@ -111,7 +110,7 @@ class ilPollBlockGUI extends ilBlockGUI
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 		$ilUser = $this->user;
-		$tpl = $this->tpl;
+		$tpl = $this->main_tpl;
 		
 		
 		// handle messages

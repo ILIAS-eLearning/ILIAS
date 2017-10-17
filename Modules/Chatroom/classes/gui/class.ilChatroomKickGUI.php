@@ -33,8 +33,7 @@ class ilChatroomKickGUI extends ilChatroomGUIHandler
 
 	/**
 	 * Displays window box to kick a user fetched from $_REQUEST['user'].
-	 * @global ilObjUser $ilUser
-	 * @param string     $method
+	 * @inheritdoc
 	 */
 	public function executeDefault($method)
 	{
@@ -80,22 +79,19 @@ class ilChatroomKickGUI extends ilChatroomGUIHandler
 
 	/**
 	 * Kicks user from subroom into mainroom
-	 * @global ilObjUser $ilUser
 	 */
 	public function sub()
 	{
-		global $ilUser, $ilCtrl;
-
 		$room = ilChatroom::byObjectId($this->gui->object->getId());
 
 		if($room)
 		{
-			if(!$room->isOwnerOfPrivateRoom($ilUser->getId(), $_REQUEST['sub']))
+			if(!$room->isOwnerOfPrivateRoom($this->ilUser->getId(), $_REQUEST['sub']))
 			{
 				if(!ilChatroom::checkUserPermissions(array('read', 'moderate'), $this->gui->ref_id))
 				{
-					$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", ROOT_FOLDER_ID);
-					$ilCtrl->redirectByClass("ilrepositorygui", "");
+					$this->ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", ROOT_FOLDER_ID);
+					$this->ilCtrl->redirectByClass("ilrepositorygui", "");
 				}
 			}
 

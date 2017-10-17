@@ -157,7 +157,7 @@ class ilDateTime
 	{
 		if($start->isNull() || $end->isNull())
 		{
-			return;
+			return false;
 		}
 		
 		switch($a_compare_field)
@@ -188,12 +188,13 @@ class ilDateTime
 	 * @param object ilDateTime
 	 * @param string field used for comparison. E.g <code>IL_CAL_YEAR</code> checks if start is the same years than end 
 	 * @param string timzone
+	 * @return bool
 	 */
 	public static function _equals(ilDateTime $start,ilDateTime $end,$a_compare_field = '',$a_tz = '')
 	{
 		if($start->isNull() || $end->isNull())
 		{
-			return;
+			return false;
 		}
 		
 		switch($a_compare_field)
@@ -230,7 +231,7 @@ class ilDateTime
 	{
 		if($start->isNull() || $end->isNull())
 		{
-			return;
+			return false;
 		}
 		
 		switch($a_compare_field)

@@ -5,9 +5,57 @@ if (typeof il == "undefined")
 
 il.IntLink =
 {
-	int_link_url: '',
+	int_link_url: "",
 	cfg: {},
-	id: '',
+	id: "",
+
+	save_pars: {
+		//"target_type": "",
+		"link_par_ref_id": "",
+		"link_par_obj_id": "",
+		"link_par_fold_id": "",
+		"link_type": ""
+	},
+
+	getURLParameter: function(url, name) {
+		return decodeURIComponent((new RegExp("[?|&]" + name + "=" + "([^&;]+?)(&|#|;|$)").exec(window.location.search) || [null, ""])[1].replace(/\+/g, "%20")) || null;
+	},
+
+	getUrlParameters: function (url) {
+		var match,
+			pl     = /\+/g,  // Regex for replacing addition symbol with a space
+			search = /([^&=]+)=?([^&]*)/g,
+			decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+			query;
+
+		query = url.substring(url.indexOf("?") + 1);
+
+		var urlParams = {};
+		while (match = search.exec(query)) {
+			urlParams[decode(match[1])] = decode(match[2]);
+		}
+		return urlParams;
+	},
+
+	replaceUrlParam: function (url, paramName, paramValue) {
+		var pattern = new RegExp('\\b('+paramName+'=).*?(&|$)');
+
+		if(paramValue == null) {
+			paramValue = "";
+		}
+		if(url.search(pattern)>=0) {
+			return url.replace(pattern,'$1' + paramValue + '$2');
+		}
+		return url + (url.indexOf("?")>0 ? "&" : "?") + paramName + "=" + paramValue;
+	},
+
+	replaceSavePars: function (url) {
+		t = il.IntLink;
+		for (p in t.save_pars) {
+			url = t.replaceUrlParam(url, p, t.save_pars[p]);
+		}
+		return url;
+	},
 
 	refresh: function()
 	{
@@ -29,22 +77,26 @@ il.IntLink =
 			});
 		}
 		// old: static id
-		else
-		{
+		else {
 			this.cfg = cfg;
-			var el = document.getElementById("iosEditInternalLinkTrigger");
-
-			if (el)
-			{
-				YAHOO.util.Event.addListener(el, "click", this.openIntLink);
-				this.setInternalLinkUrl(cfg.url);
-			}
+			$("#iosEditInternalLinkTrigger").on("click", this.openIntLink);
+			this.setInternalLinkUrl(cfg.url);
 		}
 	},
 
-	setInternalLinkUrl: function(url)
-	{
-		this.int_link_url = url;
+	setInternalLinkUrl: function(url) {
+		var p;
+		var t = il.IntLink;
+		var pars = t.getUrlParameters(url);
+
+		console.log("setInternalLinkUrl: " + url);
+		for (p in t.save_pars) {
+			t.save_pars[p] = "";
+			if (pars[p]) {
+				t.save_pars[p] = pars[p];
+			}
+		}
+		t.int_link_url = url;
 	},
 
 	getInternalLinkUrl: function()
@@ -53,11 +105,10 @@ il.IntLink =
 	},
 
 	// click event handler
-	openIntLink: function(ev)
-	{
+	openIntLink: function(ev) {
 		il.IntLink.initPanel();
-		YAHOO.util.Event.preventDefault(ev);
-		YAHOO.util.Event.stopPropagation(ev);
+		ev.preventDefault();
+		ev.stopPropagation();
 	},
 
 	/**
@@ -93,6 +144,8 @@ il.IntLink =
 	initAjax: function(cfg)
 	{
 		var sUrl = this.getInternalLinkUrl();
+		var f;
+
 		var callback =
 		{
 			success: this.handleAjaxSuccess,
@@ -100,23 +153,32 @@ il.IntLink =
 			failure: this.handleAjaxFailure,
 			argument: { mode: cfg.mode}
 		};
+		console.log(cfg.mode);
 		if (cfg.mode == "select_type")
 		{
-			var f = document.getElementById("ilIntLinkTypeForm");
+			f = document.getElementById("ilIntLinkTypeForm");
 			sUrl = f.action;
-			YAHOO.util.Connect.setForm("ilIntLinkTypeForm");
-			var request = YAHOO.util.Connect.asyncRequest('POST', sUrl, callback);
+
+			//sUrl = this.getInternalLinkUrl() + "&cmd=changeLinkType";
+
+			this.save_pars.link_type = $("#ilIntLinkTypeSelector").val();
+			//this.save_pars.link_par_ref_id = "";
+			//this.save_pars.link_par_obj_id = "";
+			sUrl = this.replaceSavePars(sUrl);
+			console.log(this.save_pars);
+			console.log("Select Type: " + sUrl);
+			il.Util.sendAjaxGetRequestToUrl(sUrl, {}, {}, this.handleAjaxSuccess);
 		}
 		else if (cfg.mode == "reset")
 		{
-			var f = document.getElementById("ilIntLinkResetForm");
+			f = document.getElementById("ilIntLinkResetForm");
 			sUrl = f.action;
 			YAHOO.util.Connect.setForm("ilIntLinkResetForm");
 			var request = YAHOO.util.Connect.asyncRequest('POST', sUrl, callback);
 		}
 		else if (cfg.mode == "save_file_link")
 		{
-			var f = document.getElementById("ilFileLinkUploadForm");
+			f = document.getElementById("ilFileLinkUploadForm");
 			sUrl = f.action + "&cmd=saveFileLink";
 			YAHOO.util.Connect.setForm("ilFileLinkUploadForm", true);
 			var request = YAHOO.util.Connect.asyncRequest('POST', sUrl, callback);
@@ -124,24 +186,34 @@ il.IntLink =
 		else if (cfg.mode == "sel_target_obj")
 		{
 			sUrl = this.getInternalLinkUrl() + "&do=set&sel_id=" +
-				cfg.ref_id + "&cmd=changeTargetObject&target_type=" + cfg.type;
-			var request = YAHOO.util.Connect.asyncRequest('GET', sUrl, callback);
+				cfg.ref_id + "&cmd=changeTargetObject";
+			//this.save_pars.target_type = cfg.type;
+			this.save_pars.link_type = cfg.link_type;
+			this.save_pars.link_par_ref_id = cfg.ref_id;
+			this.save_pars.link_par_obj_id = "";
+
+			sUrl = this.replaceSavePars(sUrl);
+			il.Util.sendAjaxGetRequestToUrl(sUrl, {}, {}, this.handleAjaxSuccess);
 		}
 		else if (cfg.mode == "change_object")
 		{
 			sUrl = this.getInternalLinkUrl() + "&cmd=changeTargetObject";
-			var request = YAHOO.util.Connect.asyncRequest('GET', sUrl, callback);
+			sUrl = this.replaceSavePars(sUrl);
+			il.Util.sendAjaxGetRequestToUrl(sUrl, {}, {}, this.handleAjaxSuccess);
 		}
 		else if (cfg.mode == "set_mep_fold")
 		{
 			sUrl = this.getInternalLinkUrl() + "&cmd=setMedPoolFolder&mep_fold=" +
 				cfg.mep_fold;
-			var request = YAHOO.util.Connect.asyncRequest('GET', sUrl, callback);
+			sUrl = this.replaceSavePars(sUrl);
+			console.log("Set mep folder: " + cfg.mep_fold);
+			il.Util.sendAjaxGetRequestToUrl(sUrl, {}, {}, this.handleAjaxSuccess);
 		}
 		else
 		{
 			sUrl = this.getInternalLinkUrl() + "&cmd=showLinkHelp";
-			var request = YAHOO.util.Connect.asyncRequest('GET', sUrl, callback);
+			sUrl = this.replaceSavePars(sUrl);
+			il.Util.sendAjaxGetRequestToUrl(sUrl, {}, {}, this.handleAjaxSuccess);
 		}
 
 		return false;
@@ -171,12 +243,7 @@ il.IntLink =
 		// perform page modification
 		if(o.responseText !== undefined)
 		{
-			//if (o.argument.mode == 'int_link')
-			//{
-			//}
 			il.IntLink.insertPanelHTML(o.responseText);
-//console.log("search search form");
-//console.log($("#form_link_user_search_form").length);
 			il.IntLink.initEvents();
 		}
 	},
@@ -185,6 +252,7 @@ il.IntLink =
 		$("#form_link_user_search_form").on("submit", function(e) {
 			e.preventDefault();
 			var sUrl = il.IntLink.getInternalLinkUrl() + "&cmd=showLinkHelp";
+			sUrl = il.IntLink.replaceSavePars(sUrl);
 			$.ajax({type: "POST",
 				url: sUrl,
 				data: $(this).serializeArray(),
@@ -202,9 +270,6 @@ il.IntLink =
 		// perform page modification
 		if(o.responseText !== undefined)
 		{
-			//if (o.argument.mode == 'int_link')
-			//{
-			//}
 			il.IntLink.insertPanelHTML(o.responseText);
 		}
 	},
@@ -217,37 +282,11 @@ il.IntLink =
 
 	insertPanelHTML: function(html)
 	{
-		$('#ilIntLinkModalContent').html(html);
-		var el = document.getElementById("ilIntLinkTypeSelector");
-		if (el)
-		{
-			YAHOO.util.Event.addListener(el, "change", this.selectLinkTypeEvent);
-		}
-
-		var el = document.getElementById("ilIntLinkReset");
-		if (el)
-		{
-			YAHOO.util.Event.addListener(el, "click", this.clickResetEvent);
-		}
-
-		var el = document.getElementById("ilIntLinkReset");
-		if (el)
-		{
-			YAHOO.util.Event.addListener(el, "click", this.clickResetEvent);
-		}
-
-		var el = document.getElementById("ilChangeTargetObject");
-		if (el)
-		{
-			YAHOO.util.Event.addListener(el, "click", this.clickChangeTargetObjectEvent);
-		}
-
-		var el = document.getElementById("ilSaveFileLink");
-		if (el)
-		{
-			YAHOO.util.Event.addListener(el, "click", this.clickSaveFileLinkEvent);
-		}
-
+		$("#ilIntLinkModalContent").html(html);
+		$("#ilIntLinkTypeSelector").on("change", this.selectLinkTypeEvent);
+		$("#ilIntLinkReset").on("click", this.clickResetEvent);
+		$("#ilChangeTargetObject").on("click", this.clickChangeTargetObjectEvent);
+		$("#ilSaveFileLink").on("click", this.clickSaveFileLinkEvent);
 	},
 
 	selectLinkTypeEvent: function(ev)
@@ -255,42 +294,38 @@ il.IntLink =
 		il.IntLink.initAjax({mode: 'select_type'});
 	},
 
-	clickResetEvent: function(ev)
-	{
+	clickResetEvent: function(ev) {
 		il.IntLink.initAjax({mode: 'reset'});
-		YAHOO.util.Event.preventDefault(ev);
-		YAHOO.util.Event.stopPropagation(ev);
+		ev.preventDefault();
+		ev.stopPropagation();
 	},
 
-	clickChangeTargetObjectEvent: function(ev)
-	{
+	clickChangeTargetObjectEvent: function(ev) {
 		il.IntLink.initAjax({mode: 'change_object'});
-		YAHOO.util.Event.preventDefault(ev);
-		YAHOO.util.Event.stopPropagation(ev);
+		ev.preventDefault();
+		ev.stopPropagation();
 	},
 
-	clickSaveFileLinkEvent: function(ev)
-	{
+	clickSaveFileLinkEvent: function(ev) {
 		il.IntLink.initAjax({mode: 'save_file_link'});
-		YAHOO.util.Event.preventDefault(ev);
-		YAHOO.util.Event.stopPropagation(ev);
+		ev.preventDefault();
+		ev.stopPropagation();
 	},
 	
-	selectLinkTargetObject: function (type, ref_id)
+	selectLinkTargetObject: function (type, ref_id, link_type)
 	{
-		il.IntLink.initAjax({mode: 'sel_target_obj', ref_id: ref_id, type: type});
-		
+		il.IntLink.initAjax({mode: 'sel_target_obj', ref_id: ref_id, type: type, link_type: link_type});
 		return false;
 	},
 
 	addInternalLink: function (b, e, ev, c)
 	{
-		if (typeof ilCOPage != "undefined" && ($("#ilEditTableDataCl").length == 0))
-		{
+		if (typeof ilCOPage != "undefined" && ($("#ilEditTableDataCl").length == 0)) {
 			ilCOPage.cmdIntLink(b, e, c);
-		} else if (il.Form) {
+		} else if (il.Form && $("#par_content").length == 0 && $("#cell_0_0").length == 0) {
 			il.Form.addInternalLink(b,e,this.id,ev);
-		} else if (addInternalLink) {
+		}
+		else if (addInternalLink) {
 			// old style, needs clean-up
 			addInternalLink(b);
 		}
@@ -303,12 +338,9 @@ il.IntLink =
 		$('#ilIntLinkModal').modal('hide');
 	},
 	
-	setMepPoolFolder: function(mep_fold_id)
-	{
+	setMepPoolFolder: function(mep_fold_id) {
 		il.IntLink.initAjax({mode: 'set_mep_fold', mep_fold: mep_fold_id});
 		return false;
-//		YAHOO.util.Event.preventDefault(ev);
-//		YAHOO.util.Event.stopPropagation(ev);
 	}
 
 

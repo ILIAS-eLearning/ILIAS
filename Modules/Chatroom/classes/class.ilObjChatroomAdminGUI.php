@@ -23,12 +23,9 @@ class ilObjChatroomAdminGUI extends ilChatroomObjectGUI
 	 */
 	public function __construct($a_data = null, $a_id = null, $a_call_by_reference = true)
 	{
-		/**
-		 * @var $lng ilLanguage
-		 */
-		global $lng;
+		global $DIC;
 
-		$lng->loadLanguageModule('chatroom_adm');
+		$DIC->language()->loadLanguageModule('chatroom_adm');
 
 		if($a_data == null)
 		{
@@ -80,17 +77,14 @@ class ilObjChatroomAdminGUI extends ilChatroomObjectGUI
 	 */
 	public function executeCommand()
 	{
-		/**
-		 * @var $ilCtrl ilCtrl
-		 */
-		global $ilCtrl;
+		global $DIC;
 
-		$next_class = $ilCtrl->getNextClass();
+		$next_class = $DIC->ctrl()->getNextClass();
 
 		require_once 'Modules/Chatroom/classes/class.ilChatroomTabGUIFactory.php';
 
 		$tabFactory = new ilChatroomTabGUIFactory($this);
-		$tabFactory->getAdminTabsForCommand($ilCtrl->getCmd());
+		$tabFactory->getAdminTabsForCommand($DIC->ctrl()->getCmd());
 
 		switch($next_class)
 		{
@@ -98,11 +92,11 @@ class ilObjChatroomAdminGUI extends ilChatroomObjectGUI
 				include_once 'Services/AccessControl/classes/class.ilPermissionGUI.php';
 				$this->prepareOutput();
 				$perm_gui = new ilPermissionGUI($this);
-				$ilCtrl->forwardCommand($perm_gui);
+				$DIC->ctrl()->forwardCommand($perm_gui);
 				break;
 
 			default:
-				$res = explode('-', $ilCtrl->getCmd(), 2);
+				$res = explode('-', $DIC->ctrl()->getCmd(), 2);
 				if(!array_key_exists(1, $res))
 				{
 					$res[1] = '';

@@ -40,4 +40,15 @@ class MockObserver implements Observer {
 	public function notifyCurrentTask(Task $task) {
 		// Does nothing.
 	}
+
+
+	/**
+	 * I'm still alive! If your calculation takes a really long time don't forget to use the heartbeat. Otherwise
+	 * the bucket might be killed while still running. All notify tasks of the observer also trigger a heartbeat.
+	 *
+	 * @return void
+	 */
+	public function heartbeat() {
+		// Does nothing.
+	}
 }

@@ -53,9 +53,7 @@ class ilDummyBlockGUI extends ilBlockGUI
 		$this->user = $DIC->user();
 		$this->access = $DIC->access();
 		$this->settings = $DIC->settings();
-		$ilCtrl = $DIC->ctrl();
-		$lng = $DIC->language();
-		
+
 		parent::__construct();
 		
 		$this->setLimit(5);

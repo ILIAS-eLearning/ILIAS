@@ -88,7 +88,7 @@ class ilPCFileListGUI extends ilPageContentGUI
 	/**
 	* insert new file list form
 	*/
-	function insert()
+	function insert($a_form = null)
 	{
 		$ilUser = $this->user;
 		$ilTabs = $this->tabs;
@@ -129,8 +129,15 @@ class ilPCFileListGUI extends ilPageContentGUI
 				$ilTabs->setSubTabActive("cont_new_file");
 				
 				$this->displayValidationError();
-				
-				$form = $this->initEditForm("create");
+
+				if ($a_form != null)
+				{
+					$form = $a_form;
+				}
+				else
+				{
+					$form = $this->initEditForm("create");
+				}
 				$this->tpl->setContent($form->getHTML());
 				break;
 		}
@@ -260,7 +267,12 @@ class ilPCFileListGUI extends ilPageContentGUI
 		include_once("./Modules/File/classes/class.ilObjFile.php");
 
 		$form = $this->initEditForm("create");
-		$form->checkInput();
+		if (!$form->checkInput())
+		{
+			$form->setValuesByPost();
+			$this->insert($form);
+			return;
+		}
 
 		// from personal workspace
 		if(substr($_POST["file_ref_id"], 0, 4) == "wsp_")

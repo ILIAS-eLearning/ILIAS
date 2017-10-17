@@ -159,6 +159,7 @@ abstract class ilExternalFeedBlockGUIGen extends ilBlockGUI
 	public function saveFeedBlock()
 	{
 		$this->initFormFeedBlock(IL_FORM_CREATE);
+
 		if ($this->form_gui->checkInput())
 		{
 			$this->external_feed_block = new ilExternalFeedBlock();

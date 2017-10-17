@@ -102,7 +102,7 @@ class ilClient
 		define("SYSTEM_ROLE_ID", 2);
 
 		$this->db_exists = $this->getDBSetup()->isConnectable();
-				$this->getDBSetup()->provideGlobalDB();
+		$this->getDBSetup()->provideGlobalDB();
 		if ($this->db_exists) {
 			$this->db_installed = $this->getDBSetup()->isDatabaseInstalled();
 		}

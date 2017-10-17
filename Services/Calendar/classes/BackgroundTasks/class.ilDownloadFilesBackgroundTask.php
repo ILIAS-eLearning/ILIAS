@@ -40,8 +40,10 @@ class ilDownloadFilesBackgroundTask
 	protected $bucket_title;
 
 	/**
-	 *
+	 * if the task has collected files to create the ZIP file.
+	 * @var bool
 	 */
+	protected $has_files = false;
 	
 	/**
 	 * Constructor
@@ -49,9 +51,11 @@ class ilDownloadFilesBackgroundTask
 	 */
 	public function __construct($a_usr_id)
 	{
-		$this->logger = $GLOBALS['DIC']->logger()->cal();
+		global $DIC;
+		$this->logger = $DIC->logger()->cal();
 		$this->user_id = $a_usr_id;
-		$this->task_factory = $GLOBALS['DIC']->backgroundTasks()->taskFactory();
+		$this->task_factory = $DIC->backgroundTasks()->taskFactory();
+		$this->lng = $DIC->language();
 	}
 	
 	/**
@@ -102,32 +106,31 @@ class ilDownloadFilesBackgroundTask
 	 */
 	public function run()
 	{
-		$bucket = new BasicBucket();
-		$bucket->setUserId($this->user_id);
-
 		$definition = new ilCalendarCopyDefinition();
+		$normalized_name = $this->normalizeFileName($this->getBucketTitle());
+		$definition->setTempDir($normalized_name);
 
 		$this->collectFiles($definition);
-		
+
+		if(!$this->has_files)
+		{
+			ilUtil::sendInfo($this->lng->txt("cal_down_no_files"), true);
+			return;
+		}
+
+		$bucket = new BasicBucket();
+		$bucket->setUserId($this->user_id);
 		
 		// move files from source dir to target directory
-		$copy_job = $this->task_factory->createTask(ilCalendarCopyFilesToTempDirectoryJob::class, [$definition, $this->normalizeFileName($this->getBucketTitle())]);
+		$copy_job = $this->task_factory->createTask(ilCalendarCopyFilesToTempDirectoryJob::class, [$definition]);
 		$zip_job = $this->task_factory->createTask(ilCalendarZipJob::class, [$copy_job]);
 		
 		$download_name = new StringValue();
-		$normalized_name = $this->normalizeFileName($this->getBucketTitle());
 
 		$this->logger->debug("Normalized name = ".$normalized_name);
 		$download_name->setValue($normalized_name.'.zip');
 
-		
-		$download_interaction = $this->task_factory->createTask(
-			ilCalendarDownloadZipInteraction::class,
-			[
-				$zip_job,
-				$download_name
-			]
-		);
+		$download_interaction = $this->task_factory->createTask(ilCalendarDownloadZipInteraction::class,[$zip_job, $download_name]);
 
 		// last task to bucket
 		$bucket->setTask($download_interaction);
@@ -151,7 +154,11 @@ class ilDownloadFilesBackgroundTask
 			$this->logger->debug("collecting files...event title = ".$folder_app);
 
 			$file_handler = ilAppointmentFileHandlerFactory::getInstance($event);
-			foreach($file_handler->getFiles() as $file_with_absolut_path)
+			if($files = $file_handler->getFiles())
+			{
+				$this->has_files = true;
+			}
+			foreach($files as $file_with_absolut_path)
 			{
 				$basename = $this->normalizeFileName(basename($file_with_absolut_path));
 				$def->addCopyDefinition(
@@ -212,7 +219,7 @@ class ilDownloadFilesBackgroundTask
 			$this->logger->debug("Error when normalize filename.");
 			return $org;
 		}else {
-			$this->logger->debug("Filename normalized successfully");
+			//$this->logger->debug("Filename normalized successfully");
 			return $s;
 		}
 	}

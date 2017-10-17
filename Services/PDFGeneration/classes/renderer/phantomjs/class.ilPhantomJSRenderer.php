@@ -181,11 +181,11 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 		$form->getItemByPostVar('header_select')->setValue($config['header_type']);
 		$form->getItemByPostVar('header_text')->setValue($config['header_text']);
 		$form->getItemByPostVar('header_height')->setValue($config['header_height']);
-		$form->getItemByPostVar('header_show_pages')->setValue($config['header_show_pages']);
+		$form->getItemByPostVar('header_show_pages')->setChecked($config['header_show_pages']);
 		$form->getItemByPostVar('footer_select')->setValue($config['footer_type']);
 		$form->getItemByPostVar('footer_text')->setValue($config['footer_text']);
 		$form->getItemByPostVar('footer_height')->setValue($config['footer_height']);
-		$form->getItemByPostVar('footer_show_pages')->setValue($config['footer_show_pages']);
+		$form->getItemByPostVar('footer_show_pages')->setChecked($config['footer_show_pages']);
 
 		ilPDFGeneratorUtils::setCheckedIfTrue($form);
 	}
@@ -250,7 +250,15 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 	public function getDefaultConfig($service, $purpose)
 	{
 		$config = array();
-		$config['path'] = '/usr/local/bin/phantomjs';
+		if(PATH_TO_PHANTOMJS !== '')
+		{
+			$config['path'] = PATH_TO_PHANTOMJS;
+		}
+		else
+		{
+			$config['path'] = '/usr/local/bin/phantomjs';
+		}
+
 		$config['page_size'] = 'A4';
 		$config['margin'] = '1cm';
 		$config['javascript_delay'] = 200;

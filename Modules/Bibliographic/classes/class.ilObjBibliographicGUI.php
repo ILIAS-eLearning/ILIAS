@@ -404,10 +404,10 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		global $DIC;
 
 		if ($DIC['ilAccess']->checkAccess('read', "", $this->object->getRefId())) {
-			$file_path = $this->bibl_obj->getFileAbsolutePath();
+			$file_path = $this->bibl_obj->getLegacyAbsolutePath();
 			if ($file_path) {
 				if (is_file($file_path)) {
-					ilFileDelivery::deliverFileAttached($file_path, null, 'application/octet-stream');
+					ilFileDelivery::deliverFileAttached($file_path, $this->bibl_obj->getFilename(), 'application/octet-stream');
 				} else {
 					ilUtil::sendFailure($DIC['lng']->txt("file_not_found"));
 					$this->showContent();

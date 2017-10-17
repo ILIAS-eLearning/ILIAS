@@ -39,11 +39,14 @@ class ilMultipleImagesAdditionalIndexLevelRemover implements ilFormValuesManipul
 	public function manipulateFormSubmitValues($submitValues)
 	{
 		$submitValues = $this->removeAdditionalSubFieldsLevelFromSubmitValues($submitValues);
-		
-		$_FILES[$this->getPostVar()] = $this->removeAdditionalSubFieldsLevelFromFilesSubmit(
-			$_FILES[$this->getPostVar()]
-		);
-		
+
+		if($_FILES)
+		{
+			$_FILES[$this->getPostVar()] = $this->removeAdditionalSubFieldsLevelFromFilesSubmit(
+				$_FILES[$this->getPostVar()]
+			);
+		}
+
 		return $submitValues;
 	}
 	protected function isSubFieldAvailable($values, $subFieldName)

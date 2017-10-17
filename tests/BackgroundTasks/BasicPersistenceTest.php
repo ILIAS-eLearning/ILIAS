@@ -201,7 +201,9 @@ class BasicPersistenceTest extends TestCase {
 
 		$options = $download_integer->getOptions([]); // Download, Dismiss (the input doesnt matter so we pass an empty array)
 
-		$this->bucket->userInteraction($options[1]); // We "click" Dismiss.
+		$dismiss = $download_integer->getDismissOption();
+
+		$this->bucket->userInteraction($dismiss); // We "click" Dismiss.
 
 		// As we dismissed the last user interaction the state is finished.
 		self::assertEquals($this->bucket->getState(), State::FINISHED);
@@ -235,7 +237,9 @@ class BasicPersistenceTest extends TestCase {
 
 		$options = $download_integer->getOptions([]); // Download, Dismiss (the input doesn't matter so we pass an empty array)
 
-		$this->bucket->userInteraction($options[1]); // We "click" Dismiss.
+		$dismiss = $download_integer->getDismissOption();
+
+		$this->bucket->userInteraction($dismiss); // We "click" Dismiss.
 
 		// As we dismissed the last user interaction the state is finished.
 		/** @var IntegerValue $result */

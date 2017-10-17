@@ -1,0 +1,31 @@
+{
+    "name": "webui-popover",
+    "title": "webui popover plugin ",
+    "description": "A lightWeight popover plugin with jquery ,enchance the  popover plugin of bootstrap with some awesome new features. It works well with bootstrap ,but bootstrap is not necessary!",
+    "keywords": [
+        "popover",
+        "tooltip",
+        "webui",
+        "pop"
+    ],
+    "version":"1.2.18",
+    "author": {
+        "name": "Sandy Duan",
+        "email": "sanddywalker@gmail.com",
+        "url": "http://sandywalker.github.io"
+    },
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "http://www.opensource.org/licenses/MIT"
+        }
+    ],
+    "bugs": "https://github.com/sandywalker/webui-popover/issues",
+    "homepage": "https://github.com/sandywalker/webui-popover",
+    "docs": "https://github.com/sandywalker/webui-popover",
+    "demo":"http://sandywalker.github.io/webui-popover/demo",
+    "download": "https://github.com/sandywalker/webui-popover/releases",
+    "dependencies": {
+        "jquery": ">=1.6.0"
+    }
+}

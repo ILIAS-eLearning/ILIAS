@@ -38,34 +38,18 @@ class ilFulltextObjectSearch extends ilObjectSearch
 {
 	function __createWhereCondition()
 	{
+		$where = " WHERE MATCH (title,description) AGAINST(' ";
 		
-		if($this->db->isMysql4_0OrHigher())
+		#$prefix = $this->query_parser->getCombination() == 'and' ? '+' : '';
+		foreach($this->query_parser->getQuotedWords(true) as $word)
 		{
-			$where = " WHERE MATCH (title,description) AGAINST(' ";
-			
-			#$prefix = $this->query_parser->getCombination() == 'and' ? '+' : '';
-			foreach($this->query_parser->getQuotedWords(true) as $word)
-			{
-				#$where .= $prefix;
-				$where .= $word;
-				$where .= '* ';
-			}
-			$where .= "' IN BOOLEAN MODE) ";
-			
-			return $where;
+			#$where .= $prefix;
+			$where .= $word;
+			$where .= '* ';
 		}
-		else
-		{
-			$where = " WHERE MATCH (title,description) AGAINST(' ";
-			
-			foreach($this->query_parser->getQuotedWords(true) as $word)
-			{
-				$where .= ($word.' ');
-			}
-			$where .= "')";
-			
-			return $where;
-		}
+		$where .= "' IN BOOLEAN MODE) ";
+
+		return $where;
 	}
 }
 ?>

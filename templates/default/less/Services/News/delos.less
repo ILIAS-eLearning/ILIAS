@@ -8,11 +8,10 @@ span.ilNewsRssIcon {
 	text-align: center;
 	display: inline-block;
 	padding: 0 5px;
-}
-
-span.ilNewsRssIcon:hover {
-	text-decoration: none;
-	background-color: darken(@badge-bg, 10%);
+	&:hover {
+		text-decoration: none;
+		background-color: darken(@badge-bg, 10%);
+	}
 }
 
 /* timeline, see http://codepen.io/jasondavis/pen/fDGdK */
@@ -21,116 +20,114 @@ span.ilNewsRssIcon:hover {
 	list-style: none;
 	padding: 20px 0;
 	position: relative;
-}
-.ilTimeline:before {
-	top: 0;
-	bottom: 0;
-	position: absolute;
-	content: " ";
-	width: 3px;
-	background-color: #d0d0d0;
-	left: 50%;
-	margin-left: -1.5px;
-}
-.ilTimeline > li {
-	margin-bottom: 20px;
-	position: relative;
-}
-.ilTimeline > li:before,
-.ilTimeline > li:after {
-	content: " ";
-	display: table;
-}
-.ilTimeline > li:after {
-	clear: both;
-}
-.ilTimeline > li:before,
-.ilTimeline > li:after {
-	content: " ";
-	display: table;
-}
-.ilTimeline > li:after {
-	clear: both;
-}
-.ilTimeline > li > .ilTimelinePanel {
-	width: 44%;
-	float: left;
-	/*border: 1px solid #d4d4d4;
-	border-radius: 2px;*/
-	padding: 20px;
-	position: relative;
-	background: @il-primary-container-bg;
-	/* -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
-	box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);*/
-}
-
-
-/*.timeline > li > .timeline-panel:before {
-	position: absolute;
-	top: 26px;
-	right: -15px;
-	display: inline-block;
-	border-top: 15px solid transparent;
-	border-left: 15px solid #ccc;
-	border-right: 0 solid #ccc;
-	border-bottom: 15px solid transparent;
-	content: " ";
-}*/
-.ilTimeline > li > .ilTimelinePanel:after {
-	position: absolute;
-	top: 27px;
-	right: -14px;
-	display: inline-block;
-	border-top: 14px solid transparent;
-	border-left: 14px solid @il-primary-container-bg;
-	border-right: 0 solid @il-primary-container-bg;
-	border-bottom: 14px solid transparent;
-	content: " ";
-}
-.ilTimeline > li > .ilTimelineBadge {
-	color: white;
-	width: 50px;
-	height: 50px;
-	padding-top: 8px;
-	line-height: 1.2em;
-	font-size: 1em;
-	text-align: center;
-	position: absolute;
-	top: 16px;
-	left: 50%;
-	margin-left: -25px;
-	background-color: #999;
-	z-index: 100;
-	border-radius: 50%;
-}
-
-.ilTimeline > li > .ilTimelineBadge > .ilTimelineDay {
-	font-size: 1.3em;
-}
-
-.ilTimeline > li > .ilTimelineBadge > .ilTimelineMonth {
-	font-size: 0.8em;
-}
-
-.ilTimeline > li > .ilTimelineBadge > p {
-	padding: 0;
-	margin: 0;
-}
-
-.ilTimeline > li:nth-child(even) > .ilTimelinePanel {
-	float: right;
-}
-.ilTimeline > li:nth-child(even) > .ilTimelinePanel:before {
-	border-left-width: 0;
-	border-right-width: 15px;
-	left: -15px;
-	right: auto;
-}
-.ilTimeline > li:nth-child(even) > .ilTimelinePanel:after {
-	border-left-width: 0;
-	border-right-width: 14px;
-	left: -14px;
-	right: auto;
+	&:before {
+		top: 0;
+		bottom: 0;
+		position: absolute;
+		content: " ";
+		width: 3px;
+		background-color: #d0d0d0;
+		left: 50%;
+		margin-left: -1.5px;
+		@media only screen and (max-width: @grid-float-breakpoint-max) {
+			left: 90%;
+		}
+	}
+	> li {
+		margin-bottom: 20px;
+		position: relative;
+		&:before, &:after {
+			content: " ";
+			display: table;
+		}
+		&:after {
+			clear: both;
+		}
+		> .ilTimelinePanel {
+			width: 44%;
+			float: left;
+			padding: 20px;
+			position: relative;
+			background: @il-primary-container-bg;
+			@media only screen and (max-width: @grid-float-breakpoint-max) {
+				width: 80%;
+			}
+			&:after {
+				position: absolute;
+				top: 27px;
+				right: -14px;
+				display: inline-block;
+				border-top: 14px solid transparent;
+				border-left: 14px solid @il-primary-container-bg;
+				border-right: 0 solid @il-primary-container-bg;
+				border-bottom: 14px solid transparent;
+				content: " ";
+			}
+		}
+		> .ilTimelineBadge {
+			color: white;
+			width: 50px;
+			height: 50px;
+			padding-top: 8px;
+			line-height: 1.2em;
+			font-size: 1em;
+			text-align: center;
+			position: absolute;
+			top: 16px;
+			left: 50%;
+			margin-left: -25px;
+			background-color: #999;
+			z-index: 100;
+			border-radius: 50%;
+			@media only screen and (max-width: @grid-float-breakpoint-max) {
+				left: 90%;
+			}
+			> .ilTimelineDay {
+				font-size: 1.3em;
+			}
+			> .ilTimelineMonth {
+				font-size: 0.8em;
+			}
+			> p {
+				padding: 0;
+				margin: 0;
+			}
+		}
+		&:nth-child(even) > .ilTimelinePanel {
+			float: right;
+			@media only screen and (max-width: @grid-float-breakpoint-max) {
+				float: left;
+			}
+			&:before {
+				border-left-width: 0;
+				border-right-width: 15px;
+				left: -15px;
+				right: auto;
+				@media only screen and (max-width: @grid-float-breakpoint-max) {
+					border-left-width: 15px;
+					border-right-width: 0;
+					right: auto;
+					right: -15px;
+				}
+			}
+			&:after {
+				border-left-width: 0;
+				border-right-width: 14px;
+				left: -14px;
+				right: auto;
+				@media only screen and (max-width: @grid-float-breakpoint-max) {
+					border-left-width: 14px;
+					border-right-width: 0;
+					left: auto;
+					right: -14px;
+				}
+			}
+		}
+	}
+	.media-heading {
+		clear: right;
+		margin-top: 8px;
+	}
 }
 
 .ilNewsTimelineTruncatedText {
@@ -147,11 +144,6 @@ span.ilNewsRssIcon:hover {
 .ilNewsTimelinePlayer {
 	position: relative;
 	z-index: 500;
-}
-
-.ilTimeline .media-heading {
-	clear: right;
-	margin-top: 8px;
 }
 
 .ilNewsTimelineUserImage {

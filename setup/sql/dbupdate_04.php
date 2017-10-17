@@ -4175,6 +4175,13 @@ if(!$ilDB->tableColumnExists('reg_registration_codes','ext_enabled'))
 <#4383>
 <?php
 
+if($ilDB->tableColumnExists('reg_registration_codes','generated'))
+{
+	$ilDB->renameTableColumn('reg_registration_codes', "generated", 'generated_on');
+
+}
+
+
 $query = 'SELECT * FROM usr_account_codes ';
 $res = $ilDB->query($query);
 while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
@@ -4203,12 +4210,12 @@ while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	
 	$next_id = $ilDB->nextId('reg_registration_codes');
 	$query = 'INSERT INTO reg_registration_codes '.
-			'(code_id, code, role, generated, used, role_local, alimit, alimitdt, reg_enabled, ext_enabled ) '.
+			'(code_id, code, role, generated_on, used, role_local, alimit, alimitdt, reg_enabled, ext_enabled ) '.
 			'VALUES ( '.
 			$ilDB->quote($next_id,'integer').', '.
 			$ilDB->quote($row->code,'text').', '.
 			$ilDB->quote(0,'integer').', '.
-			$ilDB->quote($row->generated,'integer').', '.
+			$ilDB->quote($row->generated_on,'integer').', '.
 			$ilDB->quote($row->used,'integer').', '.
 			$ilDB->quote('','text').', '.
 			$ilDB->quote($alimit,'text').', '.
@@ -13799,17 +13806,17 @@ if ($ilDB->tableExists('obj_stat_tmp') && $ilDB->tableExists('obj_stat_tmp_old')
 						  "(log_id, obj_id, obj_type, tstamp,  yyyy, mm, dd, hh, read_count, childs_read_count, spent_seconds, childs_spent_seconds) ".
 						  "VALUES ( ".
 						  $ilDB->quote($id ,'integer').', '.
-						  $ilDB->quote($data['obj_id'] ,'integer').', '.
-						  $ilDB->quote($data['obj_type'] ,'text').', '.
-						  $ilDB->quote($data['tstamp'] ,'integer').', '.
-						  $ilDB->quote($data['yyyy'] ,'integer').', '.
-						  $ilDB->quote($data['mm'] ,'integer').', '.
-						  $ilDB->quote($data['dd'] ,'integer').', '.
-						  $ilDB->quote($data['hh'] ,'integer').', '.
-						  $ilDB->quote($data['read_count'] ,'integer').', '.
-						  $ilDB->quote($data['childs_read_count'] ,'integer').', '.
-						  $ilDB->quote($data['spent_seconds'] ,'integer').', '.
-						  $ilDB->quote($data['childs_spent_seconds'] ,'integer').
+						  $ilDB->quote($row['obj_id'] ,'integer').', '.
+						  $ilDB->quote($row['obj_type'] ,'text').', '.
+						  $ilDB->quote($row['tstamp'] ,'integer').', '.
+						  $ilDB->quote($row['yyyy'] ,'integer').', '.
+						  $ilDB->quote($row['mm'] ,'integer').', '.
+						  $ilDB->quote($row['dd'] ,'integer').', '.
+						  $ilDB->quote($row['hh'] ,'integer').', '.
+						  $ilDB->quote($row['read_count'] ,'integer').', '.
+						  $ilDB->quote($row['childs_read_count'] ,'integer').', '.
+						  $ilDB->quote($row['spent_seconds'] ,'integer').', '.
+						  $ilDB->quote($row['childs_spent_seconds'] ,'integer').
 						  ")"
 		);
 
@@ -20428,7 +20435,7 @@ $ilDB->modifyTableColumn(
 		'il_orgu_operations', 
 		'operation_string',
 		array(
-			"length" => 256
+			"length" => 127
 		)
 	);
 	ilOrgUnitOperation::resetDB();	
@@ -21309,3 +21316,117 @@ if(!$ilDB->tableColumnExists('il_blog','nav_list_mon_with_post'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5225>
+<?php
+if($ilDB->tableColumnExists('reg_registration_codes','generated'))
+{
+	$ilDB->renameTableColumn('reg_registration_codes', "generated", 'generated_on');
+}
+?>
+<#5226>
+<?php
+if($ilDB->tableColumnExists('il_orgu_operations', 'operation_string')){
+	$ilDB->modifyTableColumn(
+		'il_orgu_operations', 
+		'operation_string',
+		array(
+			"length" => 127
+		)
+	);
+}
+?>
+<#5227>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5228>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5229>
+<?php
+	    if (!$ilDB->tableColumnExists('il_bt_bucket', 'last_heartbeat')) {
+        $ilDB->addTableColumn('il_bt_bucket', 'last_heartbeat', array(
+                                                                      "type" => "integer",
+                                                                      "length" => 4
+                                                                      ));
+    }
+?>
+<#5230>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5231>
+<?php
+if(!$ilDB->indexExistsByFields('style_parameter',array('style_id')))
+{
+	$ilDB->addIndex('style_parameter',array('style_id'),'i1');
+}
+?>
+<#5232>
+<?php
+include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+ilDBUpdate3136::addStyleClass("OrderListHorizontal", "qordul", "ul",
+					array("margin" => "0px",
+    					"padding" => "0px",
+    					"list-style" => "none",
+    					"list-style-position" => "outside"
+    					));
+ilDBUpdate3136::addStyleClass("OrderListItemHorizontal", "qordli", "li",
+					array(
+    					"float" => "left",
+    					"margin-top" => "5px",
+    					"margin-bottom" => "5px",
+    					"margin-right" => "10px",
+    					"border-width" => "1px",
+    					"border-style" => "solid",
+    					"border-color" => "#D0D0FF",
+    					"padding" => "10px",
+    					"cursor" => "move"
+    					));
+?>
+<#5233>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5234>
+<?php
+if($ilDB->tableColumnExists('wiki_stat', 'del_pages'))
+{
+	$ilDB->modifyTableColumn('wiki_stat', 'del_pages', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true,
+		'default' => 0
+	));
+}
+?>
+<#5235>
+<?php
+if($ilDB->tableColumnExists('wiki_stat', 'avg_rating'))
+{
+	$ilDB->modifyTableColumn('wiki_stat', 'avg_rating', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true,
+		'default' => 0
+	));
+}
+?>
+<#5236>
+<?php
+
+	$ilDB->dropPrimaryKey('loc_rnd_qpl');
+?>
+
+<#5237>
+<?php
+
+	$ilDB->addPrimaryKey('loc_rnd_qpl',['container_id', 'objective_id', 'tst_type', 'tst_id', 'qp_seq']);
+
+?>
+<#5238>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+

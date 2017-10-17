@@ -164,6 +164,32 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
 		}
 		return false;
 	}
+
+	/**
+	 * @param ilWACPath $ilWACPath
+	 *
+	 * @return bool
+	 */
+	public function canBeDelivered(ilWACPath $ilWACPath) {
+		global $ilAccess;
+
+		return true;
+
+		// to do: check the path, extract the IDs from the path
+		// determine the object ID of the corresponding exercise
+		// get all ref IDs of the exercise from the object id and check if use
+		// has read access to any of these ref ids (if yes, return true)
+
+		preg_match("/\\/poll_([\\d]*)\\//uism", $ilWACPath->getPath(), $results);
+
+		foreach (ilObject2::_getAllReferences($results[1]) as $ref_id) {
+			if ($ilAccess->checkAccess('read', '', $ref_id)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 }
 
 ?>

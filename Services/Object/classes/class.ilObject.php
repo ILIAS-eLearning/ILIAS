@@ -858,32 +858,27 @@ class ilObject
 	*/
 	function updateMetaData()
 	{
-		include_once("Services/MetaData/classes/class.ilMD.php");
-		include_once("Services/MetaData/classes/class.ilMDGeneral.php");
-		include_once("Services/MetaData/classes/class.ilMDDescription.php");
-
 		$md = new ilMD($this->getId(), 0, $this->getType());
-		$md_gen =& $md->getGeneral();
+		$md_gen = $md->getGeneral();
 		// BEGIN WebDAV: meta data can be missing sometimes.
-		if ($md_gen == null)
+		if(!$md_gen instanceof ilMDGeneral)
 		{
 			$this->createMetaData();
 			$md = new ilMD($this->getId(), 0, $this->getType());
-			$md_gen =& $md->getGeneral();
+			$md_gen = $md->getGeneral();
 		}
 		// END WebDAV: meta data can be missing sometimes.
 		$md_gen->setTitle($this->getTitle());
 
 		// sets first description (maybe not appropriate)
-		$md_des_ids =& $md_gen->getDescriptionIds();
+		$md_des_ids = $md_gen->getDescriptionIds();
 		if (count($md_des_ids) > 0)
 		{
-			$md_des =& $md_gen->getDescription($md_des_ids[0]);
+			$md_des = $md_gen->getDescription($md_des_ids[0]);
 			$md_des->setDescription($this->getLongDescription());
 			$md_des->update();
 		}
 		$md_gen->update();
-
 	}
 
 	/**
@@ -2000,7 +1995,6 @@ class ilObject
 	 */
 	public function cloneMetaData($target_obj)
 	{
-	 	include_once "./Services/MetaData/classes/class.ilMD.php";
 		$md = new ilMD($this->getId(),0,$this->getType());
 		$md->cloneMD($target_obj->getId(),0,$target_obj->getType());
 		return true;	 	
@@ -2048,7 +2042,8 @@ class ilObject
 				$file_name = $cont_dir."/icon_custom.svg";
 				if (is_file($file_name))
 				{
-					return $file_name;
+					// prevent caching
+					return $file_name."?tmp=".filemtime($file_name);
 				}
 			}
 		}

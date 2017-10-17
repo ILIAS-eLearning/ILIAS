@@ -130,6 +130,7 @@ class ilInitialisation
 		define ("URL_TO_LATEX",$ilIliasIniFile->readVariable("tools","latex"));
 		define ("PATH_TO_FOP",$ilIliasIniFile->readVariable("tools","fop"));
 		define ("PATH_TO_LESSC",$ilIliasIniFile->readVariable("tools","lessc"));
+		define ("PATH_TO_PHANTOMJS",$ilIliasIniFile->readVariable("tools","phantomjs"));
 
 		// read virus scanner settings
 		switch ($ilIliasIniFile->readVariable("tools", "vscantype"))
@@ -193,7 +194,7 @@ class ilInitialisation
 
 		$DIC['filesystem.temp'] = function ($c) use ($delegatingFactory) {
 			//temp
-			$tempConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(sys_get_temp_dir());
+			$tempConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_DATA_DIR.'/'.CLIENT_ID.'/temp');
 			return $delegatingFactory->getLocal($tempConfiguration);
 		};
 
@@ -581,6 +582,17 @@ class ilInitialisation
 		$c["mail.mime.sender.factory"] = function ($c) {
 			require_once 'Services/Mail/classes/Mime/Sender/class.ilMailMimeSenderFactory.php';
 			return new ilMailMimeSenderFactory($c["ilSetting"]);
+		};
+	}
+
+	/**
+	 * @param \ILIAS\DI\Container $c
+	 */
+	protected static function initAvatar(\ILIAS\DI\Container $c)
+	{
+		$c["user.avatar.factory"] = function ($c) {
+			require_once 'Services/User/Avatar/classes/class.ilUserAvatarFactory.php';
+			return new ilUserAvatarFactory($c);
 		};
 	}
 
@@ -997,14 +1009,18 @@ class ilInitialisation
 	}
 	
 	/**
-	 * Init session
+	 * Init auth session.
 	 */
 	protected static function initSession()
 	{
-		include_once './Services/Authentication/classes/class.ilAuthSession.php';
-		self::initGlobal('ilAuthSession', ilAuthSession::getInstance());
-		
-		$GLOBALS['DIC']['ilAuthSession']->init();
+		$GLOBALS["DIC"]["ilAuthSession"] = function ($c) 
+		{
+			$auth_session = ilAuthSession::getInstance(
+				$c['ilLoggerFactory']->getLogger('auth')
+			);
+			$auth_session->init();
+			return $auth_session;
+		};
 	}
 
 
@@ -1065,7 +1081,7 @@ class ilInitialisation
 	 */
 	protected static function initClient()
 	{
-		global $https, $ilias;
+		global $https, $ilias, $DIC;
 
 		self::setCookieConstants();
 
@@ -1101,7 +1117,7 @@ class ilInitialisation
 		// we must prevent that ilPluginAdmin is initialized twice in
 		// this case, since this won't get the values out of plugin.php the
 		// second time properly
-		if (!is_object($GLOBALS["ilPluginAdmin"]))
+		if (!isset($DIC["ilPluginAdmin"]) || !$DIC["ilPluginAdmin"] instanceof ilPluginAdmin)
 		{
 			self::initGlobal("ilPluginAdmin", "ilPluginAdmin",
 				"./Services/Component/classes/class.ilPluginAdmin.php");
@@ -1111,6 +1127,7 @@ class ilInitialisation
 
 		self::initSettings();
 		self::initMail($GLOBALS['DIC']);
+		self::initAvatar($GLOBALS['DIC']);
 		
 		
 		// --- needs settings	
@@ -1512,6 +1529,11 @@ class ilInitialisation
 	 */
 	protected static function blockedAuthentication($a_current_script)
 	{
+		if(ilContext::getType() == ilContext::CONTEXT_WAC)
+		{
+			ilLoggerFactory::getLogger('init')->debug('Blocked authentication for WAC request.');
+			return true;
+		}
 		if(ilContext::getType() == ilContext::CONTEXT_APACHE_SSO)
 		{
 			ilLoggerFactory::getLogger('init')->debug('Blocked authentication for sso request.');

@@ -296,7 +296,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 
 			case 'prg':
 				$ilCtrl->setParameterByClass("ilobjstudyprogrammegui", "ref_id", $a_node["child"]);
-				$link = $ilCtrl->getLinkTargetByClass("ilobjstudyprogrammegui", "view");
+				$link = $ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjstudyprogrammegui"), "view");
 				$ilCtrl->setParameterByClass("ilobjstudyprogrammegui", "ref_id", $_GET["ref_id"]);
 				return $link;
 

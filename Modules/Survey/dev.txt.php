@@ -46,8 +46,8 @@
   will be assigned to the question
 * class ilSurveyCategory represents single category (but also holds "variable" data)
   * title ("answer option text")
-  * other ...
-  * neutral
+  * other (if true, an additional text input field presented for free user input is presented)
+  * neutral (true: this is a neutral answer, ...)
   * label ...
   * scale (<- this will be stored in "Variables")
 * class SurveyCategories handles an array of ilSurveyCategory objects (for a question)

@@ -50,7 +50,6 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		$this->settings = $DIC->settings();
 		$this->rbacsystem = $DIC->rbac()->system();
 		$this->obj_definition = $DIC["objDefinition"];
-		$this->tpl = $DIC["tpl"];
 		$lng = $DIC->language();
 		
 		parent::__construct();
@@ -139,7 +138,6 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 
 		$next_class = $ilCtrl->getNextClass();
 		$cmd = $ilCtrl->getCmd("getHTML");
-
 		switch ($next_class)
 		{
 			default:
@@ -308,9 +306,7 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	*/
 	function fillRow($item)
 	{
-		$ilUser = $this->user;
 		$ilCtrl = $this->ctrl;
-		$lng = $this->lng;
 		$ilAccess = $this->access;
 
 		if ($this->isRepositoryObject() && !$ilAccess->checkAccess("read", "", $this->getRefId()))
@@ -460,7 +456,7 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	function importFile()
 	{
 		$rbacsystem = $this->rbacsystem;
-		$tpl = $this->tpl;
+		$tpl = $this->main_tpl;
 		$lng = $this->lng;
 
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
@@ -555,12 +551,8 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	*/
 	public function prepareSaveFeedBlock(&$a_feed_block)
 	{
-		$ilCtrl = $this->ctrl;
-		
-		$ref_id = $this->getGuiObject()->save($a_feed_block);
+		$this->getGuiObject()->save($a_feed_block);
 		$a_feed_block->setType($this->getBlockType());
-		//$a_feed_block->setContextObjId($ilCtrl->getContextObjId());
-		//$a_feed_block->setContextObjType($ilCtrl->getContextObjType());
 	}
 	
 	/**
@@ -569,8 +561,6 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	*/
 	public function exitSaveFeedBlock()
 	{
-		$ilCtrl = $this->ctrl;
-
 		$this->getGuiObject()->exitSave();
 	}
 
@@ -580,8 +570,6 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	*/
 	public function cancelUpdateFeedBlock()
 	{
-		$ilCtrl = $this->ctrl;
-
 		$this->getGuiObject()->cancelUpdate();
 	}
 
@@ -591,62 +579,8 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	*/
 	public function exitUpdateFeedBlock()
 	{
-		$ilCtrl = $this->ctrl;
-		
 		$this->getGuiObject()->update($this->external_feed_block);
 	}
-	
-	/**
-	* Confirmation of feed block deletion
-	*/
-/*
-	function confirmDeleteFeedBlock()
-	{
-		global $ilCtrl, $lng;
-		
-		include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
-		$c_gui = new ilConfirmationGUI();
-		
-		// set confirm/cancel commands
-		$c_gui->setFormAction($ilCtrl->getFormAction($this, "deleteFeedBlock"));
-		$c_gui->setHeaderText($lng->txt("info_delete_sure"));
-		$c_gui->setCancel($lng->txt("cancel"), "exitDeleteFeedBlock");
-		$c_gui->setConfirm($lng->txt("confirm"), "deleteFeedBlock");
-
-		// add items to delete
-		$c_gui->addItem("external_feed_block_id",
-			$this->feed_block->getId(), $this->feed_block->getTitle(),
-			ilUtil::getImagePath("icon_feed.svg"));
-		
-		return $c_gui->getHTML();
-	}
-*/
-	
-	/**
-	* Cancel deletion of feed block
-	*/
-/*
-	function exitDeleteFeedBlock()
-	{
-		global $ilCtrl;
-
-		$ilCtrl->returnToParent($this);
-	}
-*/
-
-	/**
-	* Delete feed block
-	*/
-/*
-	function deleteFeedBlock()
-	{
-		global $ilCtrl;
-
-		$this->feed_block->delete();
-		$ilCtrl->returnToParent($this);
-	}
-*/
-
 }
 
 ?>

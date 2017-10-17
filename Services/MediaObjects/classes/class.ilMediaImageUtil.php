@@ -40,14 +40,21 @@ class ilMediaImageUtil
 					}
 					$c->setOpt(CURLOPT_PROXY, $proxy);
 				}
+				$c->setOpt(CURLOPT_SSL_VERIFYHOST, 0);
+				$c->setOpt(CURLOPT_SSL_VERIFYPEER, 0);
 				$c->setOpt(CURLOPT_MAXREDIRS, 3);
 				$c->setOpt(CURLOPT_HEADER, 0);
 				$c->setOpt(CURLOPT_RETURNTRANSFER, 1);
 				$c->setOpt(CURLOPT_FILE, $file);
-				$c->exec();
+				try {
+				  $c->exec();
+				  $size = @getimagesize($filename);
+				}
+				catch (ilCurlConnectionException $e) {
+				  $size = false;
+				}
 				$c->close();
 				fclose($file);
-				$size = @getimagesize($filename);
 				unlink($filename);
 			}
 			else

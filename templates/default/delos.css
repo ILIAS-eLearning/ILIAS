@@ -4682,7 +4682,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   color: #444;
 }
 .breadcrumb {
-  padding: 6px 6px;
+  padding: 0 15px;
   margin-bottom: 20px;
   list-style: none;
   background-color: transparent;
@@ -6757,8 +6757,10 @@ button.close {
 .glyph.highlighted:hover {
   color: #d15c05;
 }
-.glyph:hover {
+.glyph:hover,
+.glyph:focus {
   color: #3a4c65;
+  text-decoration: none;
 }
 .glyph .il-counter-spacer {
   margin-left: -4px;
@@ -6766,11 +6768,18 @@ button.close {
   padding: 2px 4px;
   visibility: hidden;
 }
+.glyphicon.glyphicon-chevron-left,
+.glyphicon.glyphicon-chevron-right {
+  font-weight: 100;
+}
 .il-panel-report .thumbnail {
   margin-bottom: 0;
 }
 .il-panel-report > .panel-body > .panel {
   margin-bottom: 10px;
+}
+.il-panel-report .panel-heading {
+  height: 34px;
 }
 .panel-heading > h3 {
   float: left;
@@ -7140,6 +7149,8 @@ a.btn-link.ilSubmitInactive:hover {
 }
 .btn-link {
   padding: 0;
+  text-align: left;
+  white-space: normal;
 }
 .btn-tag {
   display: inline-block;
@@ -7210,7 +7221,7 @@ hr.il-divider-with-label {
   margin: 0 0 10px 0;
   border: 0 none;
   background: none;
-  border-bottom: dashed 2px #E0E0E0;
+  border-bottom: dashed 0.5px #E0E0E0;
 }
 .il-item .dropdown {
   float: right;
@@ -8229,8 +8240,17 @@ ul.breadcrumb li:hover {
   max-height: 500px;
   overflow: scroll;
 }
+.il-popover .il-popover-inner .close {
+  margin: 0;
+}
+.il-popover .il-popover-inner .close::after {
+  content: "";
+  width: 0em;
+  height: 0em;
+  padding: 0;
+}
 .il-popover i.icon-refresh {
-  background: url("../../src/UI/templates/libs/node_modules/webui-popover/img/loading.gif") no-repeat;
+  background: url("../../libs/bower/bower_components/webui-popover/img/loading.gif") no-repeat;
   height: 30px;
 }
 .il-popover .il-popover-title-container {
@@ -8567,6 +8587,17 @@ ul.breadcrumb li:hover {
 span.ilAlert {
   color: #fa8228;
 }
+/* Breadcrumb */
+.breadcrumb {
+  margin: 0.8em 0 20px 0;
+  font-size: 90%;
+}
+@media only screen and (max-width: 767px) {
+  .breadcrumb {
+    margin: 0 0 0 0;
+    padding: 0 5px;
+  }
+}
 /* Drop Downs */
 .dropdown-header {
   padding: 3px 10px;
@@ -8626,6 +8657,11 @@ html,
 body {
   height: 100%;
 }
+@media only screen and (max-width: 767px) {
+  html {
+    -webkit-text-size-adjust: none;
+  }
+}
 /* see bug ILIAS bug #17589 and http://stackoverflow.com/questions/17045132/scrollbar-overlay-in-ie10-how-do-you-stop-that */
 body {
   -ms-overflow-style: scrollbar;
@@ -8651,9 +8687,20 @@ div.ilFrame {
   background-color: #f9f9f9;
   min-height: 100%;
 }
+@media only screen and (max-width: 767px) {
+  div.ilFrame {
+    margin: 0;
+    width: 100%;
+  }
+}
 .ilContainerWidth {
   max-width: 1400px;
   padding: 0 30px;
+}
+@media only screen and (max-width: 767px) {
+  .ilContainerWidth {
+    padding: 0 15px;
+  }
 }
 /*
 	it would be good to limit the content width in some cases
@@ -8689,9 +8736,10 @@ div.ilFrame {
   position: fixed;
   top: 117px;
 }
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 767px) {
   .ilLeftNav {
-    width: 100%;
+    /* at last temporary, since it overlaps content */
+    display: none;
   }
 }
 [dir="rtl"] .ilLeftNav {
@@ -8760,9 +8808,9 @@ a {
   text-decoration: none;
   cursor: pointer;
   /* BEGIN WebDAV: Enable links with AnchorClick behavior for Internet Explorer.
- * All skins which want to support mounting of Webfolders using Internet Explorer
- * must explicitly enable AnchorClick behavior.
- */
+	 * All skins which want to support mounting of Webfolders using Internet Explorer
+	 * must explicitly enable AnchorClick behavior.
+	 */
   behavior: url(#default#AnchorClick);
   /* END WebDAV: Enable links with AnchorClick behavior for Internet Explorer. */
 }
@@ -8781,6 +8829,17 @@ table {
 img {
   vertical-align: middle;
 }
+@media only screen and (max-width: 767px) {
+  img {
+    /* height: auto; messes e.g. survey progress bar */
+    max-width: 100%;
+  }
+}
+@media only screen and (max-width: 767px) {
+  img.olTileImage {
+    max-width: none;
+  }
+}
 tr,
 td {
   vertical-align: top;
@@ -8797,6 +8856,22 @@ code {
 }
 ::-moz-selection {
   background: #dce2eb;
+}
+@media only screen and (max-width: 767px) {
+  textarea {
+    max-width: 100%;
+  }
+}
+@media only screen and (max-width: 767px) {
+  input,
+  select {
+    max-width: 100%;
+  }
+}
+@media only screen and (max-width: 767px) {
+  div.ilc_Mob img {
+    height: auto !important;
+  }
 }
 @media print {
   h1,
@@ -8898,6 +8973,17 @@ div.input:focus {
 }
 input[type=text].numeric {
   text-align: right;
+}
+@media only screen and (max-width: 767px) {
+  div.ilTableOuter {
+    max-width: 100%;
+    overflow: auto;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .table-responsive .dropdown-menu {
+    position: relative;
+  }
 }
 /* -------------------- table formatting ------------------ */
 div.ilCommandRow {
@@ -9155,11 +9241,21 @@ a#il_mhead_t_focus {
   font-size: 26px;
   cursor: default;
 }
+@media only screen and (max-width: 767px) {
+  a#il_mhead_t_focus {
+    font-size: 20px;
+  }
+}
 a#il_mhead_t_focus[href] {
   cursor: pointer;
 }
 h1.ilHeader {
   padding: 10px 0 0;
+}
+@media only screen and (max-width: 767px) {
+  h1.ilHeader {
+    padding-top: 5px;
+  }
 }
 h3.ilHeader {
   font-weight: normal;
@@ -9176,6 +9272,14 @@ h3.ilHeader {
   margin-top: 3px;
   margin-right: 10px;
   float: left;
+}
+@media only screen and (max-width: 767px) {
+  #headerimage {
+    width: 35px;
+    height: 35px;
+    margin-top: 2px;
+    margin-right: 7px;
+  }
 }
 [dir="rtl"] #headerimage {
   margin-right: 0;
@@ -9213,12 +9317,17 @@ div.ilHeaderAlert {
   color: #fa8228;
 }
 div.il_HeaderInner {
-  padding: 15px 15px;
+  padding: 15px;
   margin-bottom: 5px;
   overflow: visible;
 }
+@media only screen and (max-width: 767px) {
+  div.il_HeaderInner {
+    color: #222;
+  }
+}
 div.il_HeaderInner.media {
-  margin-top: 0px;
+  margin-top: 0;
 }
 div.il_TreeIcons {
   padding: 15px 15px 0 0;
@@ -9532,6 +9641,13 @@ div.ilFrameFixedWidthHeader {
   overflow: hidden;
   padding: 0 15px;
 }
+@media only screen and (max-width: 767px) {
+  .ilFrameFixedWidthHeader div.ilHeaderBanner {
+    max-width: 100%;
+    height: 40px !important;
+    padding: 0;
+  }
+}
 div.ilHeaderBanner img.ilHeaderImg {
   width: 100%;
 }
@@ -9556,6 +9672,11 @@ div.ilTopBar {
 }
 div.ilTopBar a {
   color: #f5f5f5;
+}
+div.ilTopBar a:hover,
+div.ilTopBar a:active,
+div.ilTopBar a:focus {
+  color: white;
 }
 div.ilTopBarLeft {
   float: left;
@@ -9673,6 +9794,11 @@ img.ilIcon {
   width: 32px;
   height: 32px;
 }
+/* Icon small */
+img.ilSmallIcon {
+  width: 22px;
+  height: 22px;
+}
 /* PreventBreakOut, see https://css-tricks.com/snippets/css/prevent-long-urls-from-breaking-out-of-container/ */
 .ilPreventBreakOut {
   overflow-wrap: break-word;
@@ -9769,6 +9895,7 @@ form.form-inline {
 }
 select.form-control {
   width: auto;
+  max-width: 100%;
 }
 .form-horizontal label {
   color: #4d4d4d;
@@ -9803,8 +9930,17 @@ select.form-control {
   margin-left: -20px;
   margin-top: 0;
   min-height: 24px;
+  min-width: 13px;
   vertical-align: top;
   line-height: 24px;
+}
+@media only screen and (max-width: 767px) {
+  .radio input[type="radio"],
+  .radio-inline input[type="radio"],
+  .checkbox input[type="checkbox"],
+  .checkbox-inline input[type="checkbox"] {
+    min-width: 16px;
+  }
 }
 [dir="rtl"] .form-horizontal .control-label {
   text-align: left;
@@ -9974,6 +10110,10 @@ input:invalid {
 .bootstrap-datetimepicker-widget {
   z-index: 2000;
 }
+/* provisory fix for #0021322  */
+div[id$="color-picker-menu"] {
+  z-index: 3;
+}
 /* Services/UI/Explorer2 */
 table.ilExplorer {
   width: 100%;
@@ -10046,6 +10186,12 @@ a.ilTreeView {
   -webkit-box-shadow: 1px 1px 2px #b9b9b9;
   box-shadow: 1px 1px 2px #b9b9b9;
   width: 6px;
+}
+@media only screen and (max-width: 767px) {
+  a.ilTreeView {
+    /* at last temporary, since it overlaps content */
+    display: none;
+  }
 }
 a.ilTreeView > img {
   display: inline-block;
@@ -10292,6 +10438,12 @@ div.ilForumQuoteHead {
   margin-top: 15px;
   font-size: 120%;
 }
+@media only screen and (max-width: 767px) {
+  .ilFrmPostTitle {
+    margin-top: 5px;
+    font-size: 100%;
+  }
+}
 div.ilFrmPostHeader span.small {
   color: #909090;
 }
@@ -10300,22 +10452,40 @@ div.ilFrmPostHeader span.small {
   width: 80%;
   float: left;
 }
+@media only screen and (max-width: 767px) {
+  .ilFrmPostContentContainer {
+    width: 100%;
+  }
+}
 .ilFrmPostContent {
   margin-top: 20px;
-}
-.ilFrmPostRow div.ilForm {
-  width: 100%;
-  max-width: 1000px;
 }
 .ilFrmPostRow {
   padding: 3px;
   border-top: 1px solid #f0f0f0;
+}
+.ilFrmPostRow div.ilForm {
+  width: 100%;
+  max-width: 1000px;
 }
 .ilFrmPostRow div.ilForm div.ilFormValue {
   width: auto;
 }
 .ilFrmPostRow div.ilForm div.ilFormOption {
   width: 150px;
+}
+@media only screen and (max-width: 767px) {
+  .ilFrmPostRow div.ilForm,
+  .ilFrmPostRow div.ilForm input[type=text],
+  .ilFrmPostRow div.ilForm textarea {
+    width: 100%;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .ilFrmPostRow img.ilUserIcon {
+    width: 50px;
+    height: 50px;
+  }
 }
 .ilFrmPostCensorshipAdvice {
   margin: 0;
@@ -10525,6 +10695,14 @@ div.ilTinyMenuSection {
   padding: 0 10px 4px 0;
   margin-right: 10px;
 }
+@media only screen and (max-width: 767px) {
+  div.ilTinyMenuSection {
+    height: 28px;
+    margin: 3px 3px 3px 0px;
+    padding: 0 10px 0 0;
+    border-right: 0 none;
+  }
+}
 [dir="rtl"] div.ilTinyMenuSection {
   float: right;
   border-right: none;
@@ -10536,6 +10714,14 @@ div.ilTinyMenuSection {
 #ilTinyMenuButtons {
   padding-bottom: 15px;
   zoom: 1;
+}
+@media only screen and (max-width: 767px) {
+  #ilTinyMenuButtons {
+    height: 28px;
+    margin: 3px 3px 3px 0;
+    padding: 0 10px 0 0;
+    border-right: 0 none;
+  }
 }
 #iltinymenu .bd div.last {
   float: left;
@@ -10554,12 +10740,25 @@ div.ilTinyMenuSection {
   -webkit-box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.176);
   box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.176);
 }
-#iltinymenu_bd {
-  padding: 10px;
+#iltinymenu .bd div.last {
+  float: left;
+  white-space: nowrap;
+  padding: 0 10px 2px 0;
+  border-right: 0;
+  margin: 0;
 }
 #iltinymenu .bd div .small {
   color: #909090;
   font-style: italic;
+}
+#iltinymenu .btn-default .mce-ico {
+  color: inherit !important;
+}
+#iltinymenu a.btn {
+  min-width: 30px;
+}
+#iltinymenu_bd {
+  padding: 10px;
 }
 #ilsaving {
   position: fixed;
@@ -10722,12 +10921,6 @@ a.nostyle:hover {
 #ilEditorPanel_c {
   z-index: 3000 !important;
 }
-#iltinymenu .mce-ico {
-  color: white !important;
-}
-#iltinymenu a.btn {
-  min-width: 30px;
-}
 #error_panel_c {
   z-index: 2000 !important;
 }
@@ -10800,6 +10993,11 @@ div.ilc_question_MultipleChoice .answertext > p {
 div.ilc_question_SingleChoice .ilc_qanswer_Answer > div:first-child,
 div.ilc_question_MultipleChoice .ilc_qanswer_Answer > div:first-child {
   padding-right: 10px;
+}
+@media only screen and (max-width: 767px) {
+  .ilTinyInfo {
+    display: none;
+  }
 }
 /* Services/Calendar */
 td.even {
@@ -10925,16 +11123,247 @@ a.callink:visited {
   color: inherit;
   cursor: pointer;
 }
-.callink .glyphicon {
-  color: #b1c0d3;
-  cursor: pointer;
-}
-.callink .glyphicon:hover {
-  color: #557196;
-}
-.calevent .btn.btn-link,
-.il_calevent .btn.btn-link {
+.il_calevent > .btn.btn-link {
   color: inherit;
+}
+.cal_modal_infoscreen .il_InfoScreenPropertyValue .btn-link {
+  text-align: left;
+}
+table.calstd {
+  margin-top: 6px;
+  color: #777777;
+  width: 100%;
+  border: none;
+  font-size: 100%;
+}
+.calheader {
+  color: #777777;
+  font-weight: normal;
+  background-color: #F9F9F9;
+}
+th.calstd {
+  text-align: center;
+  border-spacing: 0px;
+  background-color: #f0f0f0;
+  font-weight: normal;
+}
+td.calheadertime {
+  width: 6em;
+  text-align: center;
+  background-color: #f0f0f0;
+  font-size: 90%;
+  padding: 3px;
+}
+tr.calstdtime:first-of-type td {
+  background-color: black;
+}
+.calstdtime td {
+  border-spacing: 0px;
+  border-right-width: 1px;
+  border-right-style: solid;
+  border-right-color: #ddd;
+}
+td.calempty,
+th.calempty {
+  background-color: #ffffff;
+}
+td.calempty_border {
+  background-color: #ffffff;
+  border-spacing: 0px;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: #ddd;
+}
+tr.calstd {
+  background-color: inherit;
+  height: 6em;
+}
+table.il-cal-day tr.calstd + tr.calstdtime td.calempty,
+table.il-cal-week tr.calstd + tr.calstdtime td.calempty {
+  background-color: #f9f9f9;
+}
+table.il-cal-day tr.calstd,
+table.il-cal-week tr.calstd {
+  border-collapse: collapse;
+  border-color: #ddd;
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+  border-top-width: 2px;
+  border-top-style: solid;
+}
+tr.calstdtime {
+  height: 1.2em;
+  background-color: inherit;
+  border-right-width: 1px;
+  border-right-style: solid;
+  border-right-color: #ddd;
+}
+td.calstd {
+  vertical-align: top;
+  background-color: #ffffff;
+  border-spacing: 0px;
+  border-collapse: collapse;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #ddd;
+  padding: 2px 0px;
+}
+td.caltoday {
+  vertical-align: top;
+  background-color: #FFE79C;
+  border-spacing: 0px;
+  border-collapse: collapse;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #ddd;
+}
+td.calnow {
+  vertical-align: top;
+  background-color: #FFF0C4;
+  border-spacing: 0px;
+  border-collapse: collapse;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #ddd;
+}
+td.calnext {
+  vertical-align: top;
+  background-color: #F9F9F9;
+  border-spacing: 0px;
+  border-collapse: collapse;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #ddd;
+}
+td.calprev {
+  vertical-align: top;
+  background-color: #F9F9F9;
+  border-spacing: 0px;
+  border-collapse: collapse;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #ddd;
+}
+p.il_calevent {
+  color: white;
+  margin: 2px 0 0 0;
+  padding: 2px;
+  border-spacing: 0px;
+  font-size: 90%;
+}
+p.il_calevent .btn-link {
+  margin: 0 auto;
+  width: 100%;
+  text-align: center;
+}
+td.calevent {
+  color: white;
+  vertical-align: top;
+  padding: 3px;
+  border-spacing: 0px;
+  border-collapse: collapse;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #ddd;
+  font-size: 90%;
+}
+div.calevent {
+  font-size: 90%;
+  padding: 3px;
+  margin: 3px;
+}
+p.il_cal_monthday {
+  padding: 2px;
+  margin: 0px;
+  font-weight: normal;
+}
+p.il_cal_navigation {
+  padding: 0px 3px 0px 0px;
+  margin: 0px;
+}
+table.calmini {
+  width: 100%;
+}
+.calminiheader {
+  color: #222222;
+  background-color: #F9F9F9;
+}
+th.calmini {
+  text-align: center;
+  font-size: 90%;
+  font-weight: normal;
+  background-color: #FFFFFF;
+}
+a.calminiapp {
+  font-weight: bold;
+}
+p.il_calmini_monthday,
+div.il_calmini_monthday {
+  margin: 1px;
+  text-align: center;
+}
+td.calministd {
+  vertical-align: top;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  border-spacing: 0px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #ddd;
+  font-size: 90%;
+  text-align: center;
+  vertical-align: middle;
+}
+td.calminitoday {
+  vertical-align: top;
+  background-color: #FFE79C;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #ddd;
+  font-size: 90%;
+  text-align: center;
+  vertical-align: middle;
+}
+td.calmininow {
+  vertical-align: top;
+  background-color: #FFF0C4;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #ddd;
+  font-size: 90%;
+  text-align: center;
+  vertical-align: middle;
+}
+td.calmininext {
+  vertical-align: top;
+  background-color: #F9F9F9;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #ddd;
+  font-size: 90%;
+  text-align: center;
+  vertical-align: middle;
+}
+td.calminiprev {
+  vertical-align: top;
+  background-color: #F9F9F9;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #ddd;
+  font-size: 90%;
+  text-align: center;
+  vertical-align: middle;
+}
+td.calminiweek,
+th.calminiweek {
+  vertical-align: top;
+  background-color: #FFFFFF;
+  font-size: 60%;
+  text-align: center;
+  vertical-align: middle;
+}
+span.calminiinactive {
+  color: #CCCCCC;
 }
 /* Modules/Wiki */
 a.ilWikiPageMissing:link,
@@ -11117,10 +11546,18 @@ li.ilWikiBlockItem {
 @media only screen and (max-width: 767px) {
   [dir="rtl"] #ilTopNav .navbar-nav {
     margin-right: 0;
+    padding-right: 0;
   }
 }
 [dir="rtl"] #ilTopNav .navbar-nav > li {
   margin: 0 10px 0 0;
+}
+@media only screen and (max-width: 767px) {
+  [dir="rtl"] #ilTopNav .navbar-nav > li > a {
+    float: right;
+    width: 100%;
+    margin: 0;
+  }
 }
 [dir="rtl"] #ilTopNav.navbar > .navbar-collapse {
   padding: 0 5px 0 0;
@@ -11375,6 +11812,7 @@ div.ilTopMemberView h3 {
 @media only screen and (max-width: 767px) {
   .ilFixedTopSpacer {
     margin-top: 40px;
+    padding-top: 0;
   }
 }
 .ilFixedTopSpacerBarOnly {
@@ -11383,6 +11821,7 @@ div.ilTopMemberView h3 {
 @media only screen and (max-width: 767px) {
   .ilFixedTopSpacerBarOnly {
     margin-top: 40px;
+    padding-top: 0;
   }
 }
 /* Services/UIComponent/Tabs */
@@ -12175,7 +12614,7 @@ span.bibl_text_inline_Emph {
   padding: 7px;
   font-size: 85%;
   position: absolute;
-  width: 306px;
+  width: 100%;
   color: #f0f0f0;
   margin-top: -240px;
   background: url("images/black60.png");
@@ -12267,6 +12706,9 @@ h3.ilProfileSectionHead {
 }
 table.il_user_quota_disk_usage_overview {
   background-color: white;
+}
+img.ilUserXXSmall {
+  max-width: 30px;
 }
 /* -- User Gallery Styles -- */
 .ilUsersGalleryContainer div.ilUser {
@@ -12662,6 +13104,7 @@ div.ilContainerListItemContentCB {
 div.il_ContainerListItem {
   margin: 2px 0;
   padding-left: 8px;
+  width: 100%;
 }
 [dir="rtl"] div.il_ContainerListItem {
   padding-left: 0;
@@ -13130,28 +13573,40 @@ div.ilInfoScreenSec h3.ilHeader {
   padding: 15px;
 }
 /* Services/Init */
-/*
-div#il_startup_content {
-	padding: 40px 20px 35px;
-	box-shadow: inset 0 2px 2px #D0D0D0;
-	background-color: #F9F9F9;
-}
-*/
-#il_startup_content form table {
-  /* out-commented due to http://www.ilias.de/mantis/view.php?id=10264 */
-  /* width: 500px; */
+@media only screen and (max-width: 767px) {
+  div.ilStartupFrame {
+    width: 100%;
+  }
 }
 .ilStartupSection {
   padding-top: 25px;
+}
+@media only screen and (max-width: 767px) {
+  .ilStartupSection {
+    padding-top: 15px;
+  }
 }
 div.ilStartupSection form.form-horizontal {
   text-align: left;
   width: 40em;
 }
+@media only screen and (max-width: 767px) {
+  div.ilStartupSection form.form-horizontal {
+    width: auto;
+  }
+}
 div#il_startup_logo img {
-  width: 50px;
   height: 50px;
-  margin: 15px;
+  width: 50px;
+  margin: 15px 15px 0;
+}
+@media only screen and (max-width: 767px) {
+  div#il_startup_logo img {
+    margin: 10px;
+    max-width: 100%;
+    height: 40px;
+    width: 40px;
+  }
 }
 /* Services/Bookmarks */
 #block_pdbookm_0 #tree_div {
@@ -13361,6 +13816,11 @@ span.ilNewsRssIcon:hover {
   left: 50%;
   margin-left: -1.5px;
 }
+@media only screen and (max-width: 767px) {
+  .ilTimeline:before {
+    left: 90%;
+  }
+}
 .ilTimeline > li {
   margin-bottom: 20px;
   position: relative;
@@ -13373,36 +13833,18 @@ span.ilNewsRssIcon:hover {
 .ilTimeline > li:after {
   clear: both;
 }
-.ilTimeline > li:before,
-.ilTimeline > li:after {
-  content: " ";
-  display: table;
-}
-.ilTimeline > li:after {
-  clear: both;
-}
 .ilTimeline > li > .ilTimelinePanel {
   width: 44%;
   float: left;
-  /*border: 1px solid #d4d4d4;
-	border-radius: 2px;*/
   padding: 20px;
   position: relative;
   background: white;
-  /* -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
-	box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);*/
 }
-/*.timeline > li > .timeline-panel:before {
-	position: absolute;
-	top: 26px;
-	right: -15px;
-	display: inline-block;
-	border-top: 15px solid transparent;
-	border-left: 15px solid #ccc;
-	border-right: 0 solid #ccc;
-	border-bottom: 15px solid transparent;
-	content: " ";
-}*/
+@media only screen and (max-width: 767px) {
+  .ilTimeline > li > .ilTimelinePanel {
+    width: 80%;
+  }
+}
 .ilTimeline > li > .ilTimelinePanel:after {
   position: absolute;
   top: 27px;
@@ -13430,6 +13872,11 @@ span.ilNewsRssIcon:hover {
   z-index: 100;
   border-radius: 50%;
 }
+@media only screen and (max-width: 767px) {
+  .ilTimeline > li > .ilTimelineBadge {
+    left: 90%;
+  }
+}
 .ilTimeline > li > .ilTimelineBadge > .ilTimelineDay {
   font-size: 1.3em;
 }
@@ -13443,17 +13890,42 @@ span.ilNewsRssIcon:hover {
 .ilTimeline > li:nth-child(even) > .ilTimelinePanel {
   float: right;
 }
+@media only screen and (max-width: 767px) {
+  .ilTimeline > li:nth-child(even) > .ilTimelinePanel {
+    float: left;
+  }
+}
 .ilTimeline > li:nth-child(even) > .ilTimelinePanel:before {
   border-left-width: 0;
   border-right-width: 15px;
   left: -15px;
   right: auto;
 }
+@media only screen and (max-width: 767px) {
+  .ilTimeline > li:nth-child(even) > .ilTimelinePanel:before {
+    border-left-width: 15px;
+    border-right-width: 0;
+    right: auto;
+    right: -15px;
+  }
+}
 .ilTimeline > li:nth-child(even) > .ilTimelinePanel:after {
   border-left-width: 0;
   border-right-width: 14px;
   left: -14px;
   right: auto;
+}
+@media only screen and (max-width: 767px) {
+  .ilTimeline > li:nth-child(even) > .ilTimelinePanel:after {
+    border-left-width: 14px;
+    border-right-width: 0;
+    left: auto;
+    right: -14px;
+  }
+}
+.ilTimeline .media-heading {
+  clear: right;
+  margin-top: 8px;
 }
 .ilNewsTimelineTruncatedText {
   overflow: hidden;
@@ -13467,10 +13939,6 @@ span.ilNewsRssIcon:hover {
 .ilNewsTimelinePlayer {
   position: relative;
   z-index: 500;
-}
-.ilTimeline .media-heading {
-  clear: right;
-  margin-top: 8px;
 }
 .ilNewsTimelineUserImage {
   float: left;
@@ -13700,6 +14168,7 @@ div.ilPCMyCoursesPath {
 }
 #awareness-content .media-body {
   white-space: nowrap;
+  width: auto;
 }
 #awareness-content .media-body {
   padding-top: 8px;
@@ -13757,7 +14226,7 @@ div.ilPCMyCoursesPath {
   width: 100%;
 }
 .ilAwarenessDropDown .media-left {
-  width: 45px;
+  width: 55px;
 }
 .ilAwarenessDropDown .media-body {
   /* background-image: url('./templates/default/images/scorm/not_attempted.svg'); */
@@ -13796,6 +14265,9 @@ div.ilPCMyCoursesPath {
   display: none;
   right: auto;
   width: 0px;
+}
+.ilAwarenessItem > div {
+  cursor: pointer;
 }
 [data-onscreenchat-inact-userid] {
   opacity: .3 !important;
@@ -14517,7 +14989,8 @@ span.ilProfileBadge {
 .il-item-task {
   padding: 8px 14px;
   border-top: 1px #ddd solid;
-  min-width: 250px;
+  min-width: 300px;
+  max-width: 300px;
   margin-top: -1px;
   background-color: white;
 }
@@ -14697,166 +15170,26 @@ table.mceToolbar td {
     margin: 0;
   }
 }
-/* basic responsiveness (beta)
-
-   The following section targets smartphones.
-
-   iPads come with a device width of 768, the iPhone with 320, most smartphones seem to
-   use a width under 640px, so 640 seems to be a good choice here.
-   If you make any changes in this query, please add a reason to this comment and if possible an url that
-   backs this decision.
-
-   List of common devices width values: http://cssmediaqueries.com/target/
-   Google recommending 640px: https://developers.google.com/webmasters/smartphone-sites/details
-
-   */
 @media only screen and (max-width: 767px) {
-  html {
-    -webkit-text-size-adjust: none;
-  }
-  .ilContainerWidth {
-    padding: 0 15px;
-  }
-  div.il_HeaderInner {
-    color: #222;
-    margin-bottom: 5px;
-    padding: 15px;
-  }
-  textarea {
-    max-width: 100%;
-  }
-  input,
-  select {
-    max-width: 100%;
-  }
-  /* height: auto; messes e.g. survey progress bar */
-  img {
-    max-width: 100%;
-  }
-  div.ilc_Mob img {
-    height: auto !important;
-  }
-  img.olTileImage {
-    max-width: none;
-  }
-  div.ilFrame {
-    margin: 0;
-    width: 100%;
-  }
-  .ilFrameFixedWidthHeader div.ilHeaderBanner {
-    max-width: 100%;
-    height: 40px !important;
-    padding: 0;
-  }
-  div.ilTableOuter {
-    max-width: 100%;
-    overflow: auto;
-  }
-  .table-responsive .dropdown-menu {
-    position: relative;
-  }
-  a#il_mhead_t_focus {
-    font-size: 20px;
-  }
-  h1.ilHeader {
-    padding-top: 5px;
-  }
-  #headerimage {
-    width: 35px;
-    height: 35px;
-    margin-top: 2px;
-    margin-right: 7px;
-  }
-  /* Modules/Forum */
-  .ilFrmPostRow div.ilForm,
-  .ilFrmPostRow div.ilForm input[type=text],
-  .ilFrmPostRow div.ilForm textarea {
-    width: 100%;
-  }
-  .ilFrmPostRow div.ilForm div.ilFormValue {
-    width: auto;
-  }
-  .ilFrmPostRow img.ilUserIcon {
-    width: 50px;
-    height: 50px;
-  }
-  .ilFrmPostTitle {
-    margin-top: 5px;
-    font-size: 100%;
-  }
-  .ilFrmPostContentContainer {
-    width: 100%;
-  }
-  /* Services/Init */
-  div#il_startup_logo img {
-    margin: 10px;
-    max-width: 100%;
-  }
-  div.ilStartupFrame {
-    width: 100%;
-  }
-  div#il_startup_content {
-    padding: 10px;
-  }
-  #il_startup_content form table {
-    width: auto;
-  }
-  div.ilStartupSection form.form-horizontal {
-    width: auto;
-  }
-  .ilStartupSection {
-    padding-top: 15px;
-  }
-  /* --- Services/COPage ---*/
-  .ilTinyInfo {
-    display: none;
-  }
-  div.ilTinyMenuSection,
-  #ilTinyMenuButtons {
-    border-right: 0px;
-    margin: 3px 3px 3px 0px;
-    float: left;
-    height: 28px;
-    padding: 0 10px 0 0;
-  }
-  /* Services/News */
-  .ilTimeline:before {
-    left: 90%;
-  }
-  .ilTimeline > li > .ilTimelinePanel {
-    width: 80%;
-  }
-  .ilTimeline > li > .ilTimelineBadge {
-    left: 90%;
-  }
-  .ilTimeline > li:nth-child(even) > .ilTimelinePanel {
-    float: left;
-  }
-  .ilTimeline > li:nth-child(even) > .ilTimelinePanel:before {
-    border-left-width: 15px;
-    border-right-width: 0;
-    right: auto;
-    right: -15px;
-  }
-  .ilTimeline > li:nth-child(even) > .ilTimelinePanel:after {
-    border-left-width: 14px;
-    border-right-width: 0;
-    left: auto;
-    right: -14px;
-  }
   div.ilGoogleMap {
     max-width: 100%;
   }
-  /* at last temporary, since it overlaps content */
-  a.ilTreeView,
-  .ilLeftNav {
-    display: none;
-  }
-  /* no idea why needed, but this one fixes the drop downs in the small media view (e.g. main menu) */
+}
+@media only screen and (max-width: 767px) {
   .navbar-nav {
     margin: 7.5px 0px;
   }
 }
+/* basic responsiveness (beta)
+	no more specific section. no more delos_sm.less data (treated as bug)
+	"Responsive" code has to be inserted like:
+	.myClass {
+		...
+		@media only screen and (max-width: @grid-float-breakpoint-max) {
+			...
+		}
+	}
+*/
 /* print css */
 @media print {
   * {

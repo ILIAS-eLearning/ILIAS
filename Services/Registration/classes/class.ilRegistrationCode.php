@@ -42,7 +42,7 @@ class ilRegistrationCode
 		$data = array(
 			'code_id' => array('integer', $id),
 			'code' => array('text', $code),
-			'`generated`' => array('integer', $stamp),
+			'generated_on' => array('integer', $stamp),
 			'role' => array('integer', $role),
 			'role_local' => array('text', $local_roles),
 			'alimit' => array('text', $limit),
@@ -87,7 +87,11 @@ class ilRegistrationCode
 		$sql = "SELECT * FROM ".self::DB_TABLE.$where;
 		if($order_field)
 		{
-			$sql .= " ORDER BY `".$order_field."` ".$order_direction;
+			if($order_field == 'generated')
+			{
+				$order_field = 'generated_on';
+			}
+			$sql .= " ORDER BY ".$order_field." ".$order_direction;
 		}
 		
 		// set query
@@ -96,6 +100,7 @@ class ilRegistrationCode
 		$result = array();
 		while($rec = $ilDB->fetchAssoc($set))
 		{
+			$rec['generated'] = $rec['generated_on'];
 			$result[] = $rec;
 		}
 		return array("cnt" => $cnt, "set" => $result);
@@ -129,7 +134,7 @@ class ilRegistrationCode
 	{
 		global $ilDB;
 		
-		$set = $ilDB->query("SELECT DISTINCT(`generated`) genr FROM ".self::DB_TABLE." ORDER BY genr");
+		$set = $ilDB->query("SELECT DISTINCT(generated_on) genr FROM ".self::DB_TABLE." ORDER BY genr");
 		$result = array();
 		while($rec = $ilDB->fetchAssoc($set))
 		{
@@ -153,7 +158,7 @@ class ilRegistrationCode
 		}
 		if($filter_generated)
 		{
-			$where[] ="`generated` = ".$ilDB->quote($filter_generated, "text");
+			$where[] ="generated_on = ".$ilDB->quote($filter_generated, "text");
 		}
 		if($filter_access_limitation)
 		{

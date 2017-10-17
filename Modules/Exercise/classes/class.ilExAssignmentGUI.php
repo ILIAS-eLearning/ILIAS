@@ -156,7 +156,6 @@ class ilExAssignmentGUI
 		
 		if (!$a_ass->notStartedYet())
 		{
-			$this->addFiles($info, $a_ass);
 			$this->addSubmission($info, $a_ass);
 		}
 

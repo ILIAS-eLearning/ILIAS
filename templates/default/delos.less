@@ -17,6 +17,7 @@ In theory, you should also invert shadow... but i think we could postpone this t
 All parts that aren't checked yet are actually marked with "rtl-review"
 */
 
+
 @bsbase: "../../libs/bower/bower_components/bootstrap/less/";
 
 // This part should be a copy of the less/bootstrap.less file
@@ -26,7 +27,6 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 // Core variables and mixins
 @import "@{bsbase}variables.less";    // original
 @import "@{bsbase}mixins.less";
-
 
 // Reset and dependencies
 @import "@{bsbase}normalize.less";
@@ -268,15 +268,19 @@ span.ilAlert {
 
 //== Navs
 
-/* Drop Downs */
+/* Breadcrumb */
 
-// The dropdown menu (ul)
-.dropdown-menu {
-	
-	li > a {
-		
+.breadcrumb {
+	margin: @il-breadcrumb-margin-top @il-breadcrumb-margin-right @il-breadcrumb-margin-bottom @il-breadcrumb-margin-left;
+	font-size: 90%;
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		margin: @il-breadcrumb-resp-margin-top @il-breadcrumb-resp-margin-right @il-breadcrumb-resp-margin-bottom @il-breadcrumb-resp-margin-left;
+		padding: @il-breadcrumb-resp-padding-vertical @il-breadcrumb-resp-padding-horizontal;
 	}
 }
+
+
+/* Drop Downs */
 
 .dropdown-header {
 	padding: 3px 10px;
@@ -342,7 +346,11 @@ span.ilAlert {
 html, body {
 	height:100%;
 }
-
+html {
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		-webkit-text-size-adjust: none;
+	}
+}
 /* see bug ILIAS bug #17589 and http://stackoverflow.com/questions/17045132/scrollbar-overlay-in-ie10-how-do-you-stop-that */
 body{
 	-ms-overflow-style: scrollbar;
@@ -369,11 +377,18 @@ div.ilFrame {
 	padding-top: 129px;
 	background-color: #f9f9f9;
 	min-height: 100%;
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		margin: 0;
+		width: 100%;
+	}
 }
 
 .ilContainerWidth {
 	max-width: 1400px;
 	padding: 0 30px;
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		padding: 0 15px;
+	}
 }
 
 /*
@@ -410,8 +425,10 @@ div.ilFrame {
 	z-index: 100;
 	position: fixed;
 	top: @il-header-height;
-
-	@media only screen and (max-width: 640px) {width: 100%;}
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		/* at last temporary, since it overlaps content */
+        display: none;
+    }
 }
 [dir="rtl"] .ilLeftNav {
 	float: right;
@@ -481,17 +498,16 @@ strong, b {
 a {
 	text-decoration: none;
 	cursor: pointer;
-/* BEGIN WebDAV: Enable links with AnchorClick behavior for Internet Explorer.
- * All skins which want to support mounting of Webfolders using Internet Explorer
- * must explicitly enable AnchorClick behavior.
- */
-  behavior: url(#default#AnchorClick);
-/* END WebDAV: Enable links with AnchorClick behavior for Internet Explorer. */
-}
-
-a:hover {
-	color: @link-hover-color;
-	text-decoration: underline;
+	/* BEGIN WebDAV: Enable links with AnchorClick behavior for Internet Explorer.
+	 * All skins which want to support mounting of Webfolders using Internet Explorer
+	 * must explicitly enable AnchorClick behavior.
+	 */
+	behavior: url(#default#AnchorClick);
+	/* END WebDAV: Enable links with AnchorClick behavior for Internet Explorer. */
+	&:hover {
+		color: @link-hover-color;
+		text-decoration: underline;
+	}
 }
 
 hr {
@@ -506,6 +522,18 @@ table {
 
 img {
 	vertical-align: middle;
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		/* height: auto; messes e.g. survey progress bar */
+		max-width: 100%;
+	}
+	&.olTileImage {
+		@media only screen and (max-width: @grid-float-breakpoint-max) {	
+			// this fixes the open street map images, not the best place to
+			// to this. another option would be to not put the
+			// max-width behaviour above on every img...
+			max-width: none;
+		}
+	}
 }
 
 tr, td {
@@ -528,15 +556,33 @@ code {
 	background: lighten(@brand-primary, 48%);
 }
 
+textarea {
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		max-width: 100%;
+	}
+}
+
+input, select {
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		max-width: 100%;
+	}
+}
+
+//please move to template/default/less/modules/Test when created
+div.ilc_Mob img {
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		height: auto !important;
+	}
+}
 
 @media print {
-   h1, h2, h3, h4, h5, h6 {
-	page-break-after: avoid;
-  }
+	h1, h2, h3, h4, h5, h6 {
+		page-break-after: avoid;
+	}
 
-  ul, ol, dl {
-	page-break-before: avoid;
-  }
+	ul, ol, dl {
+		page-break-before: avoid;
+	}
 }
 
 /* --------------------------------------------------------------
@@ -594,10 +640,6 @@ body#tinymce {
 .ilPrintContent {
 	padding: 0 15px;
 }
-
-div.ilFrame {
-}
-
 
 .ilCenter {
 	text-align: center;
@@ -677,6 +719,19 @@ div.input:focus {
 }
 input[type=text].numeric {
 	text-align: right;
+}
+
+div.ilTableOuter {
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		max-width: 100%;
+		overflow: auto;
+	}
+}
+
+.table-responsive .dropdown-menu {
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+        position: relative;
+    }
 }
 
 
@@ -992,6 +1047,9 @@ a#il_mhead_t_focus {
 	vertical-align: middle;
 	font-size: 26px;
     cursor: default;
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+        font-size: 20px;
+    }
     &[href] {
         cursor: pointer;
     }
@@ -999,6 +1057,9 @@ a#il_mhead_t_focus {
 
 h1.ilHeader {
 	padding: 10px 0 0;
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+        padding-top: 5px;
+    }
 }
 
 h3.ilHeader {
@@ -1017,7 +1078,12 @@ h3.ilHeader {
 	margin-top: 3px;
 	margin-right: 10px;
 	float: left;
-	//background-color: white;
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+        width: 35px;
+		height: 35px;
+		margin-top: 2px;
+		margin-right: 7px;
+    }
 }
 
 [dir="rtl"] #headerimage {
@@ -1066,13 +1132,15 @@ div.ilHeaderAlert {
 }
 
 div.il_HeaderInner {
-	padding: 15px 15px;
+	padding: 15px;
 	margin-bottom: 5px;
 	overflow: visible;
-}
-
-div.il_HeaderInner.media {
-	margin-top: 0px;
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		color: #222;
+	}
+	&.media {
+		margin-top: 0;
+	}
 }
 
 div.il_TreeIcons {
@@ -1448,6 +1516,11 @@ div.ilFrameFixedWidthHeader {
 	max-width: 1370px;
 	overflow: hidden;
 	padding: 0 15px;
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		max-width: 100%;
+		height: 40px !important;
+		padding: 0;
+	}
 }
 
 div.ilHeaderBanner img.ilHeaderImg {
@@ -1478,10 +1551,14 @@ div.ilTopBar {
 	background-color: @il-top-bar-bg;
 	color: @il-top-bar-color;
 	padding: 5px 10px;
-}
-
-div.ilTopBar a {
-	color: @il-top-bar-link-color;
+	a {
+		color: @il-top-bar-link-color;
+			&:hover,
+			&:active,
+			&:focus {
+				color: @il-top-bar-link-hover-color;
+		}
+	}
 }
 
 div.ilTopBarLeft {
@@ -1620,6 +1697,12 @@ div.ilSideBarContent{
 img.ilIcon {
 	width: 32px;
 	height: 32px;
+}
+
+/* Icon small */
+img.ilSmallIcon {
+	width: 22px;
+	height: 22px;
 }
 
 /* PreventBreakOut, see https://css-tricks.com/snippets/css/prevent-long-urls-from-breaking-out-of-container/ */
@@ -1848,123 +1931,30 @@ table.mceToolbar {
         margin: 0;
     }
 }
-/* basic responsiveness (beta)
 
-   The following section targets smartphones.
-
-   iPads come with a device width of 768, the iPhone with 320, most smartphones seem to
-   use a width under 640px, so 640 seems to be a good choice here.
-   If you make any changes in this query, please add a reason to this comment and if possible an url that
-   backs this decision.
-
-   List of common devices width values: http://cssmediaqueries.com/target/
-   Google recommending 640px: https://developers.google.com/webmasters/smartphone-sites/details
-
-   */
-
-@media
-	only screen and (max-width: @grid-float-breakpoint-max)
-{
-	html {
-		-webkit-text-size-adjust: none;
-	}
-
-
-	.ilContainerWidth {
-		padding: 0 15px;
-	}
-
-    div.il_HeaderInner {
-		color: #222;
-		margin-bottom: 5px;
-		padding: 15px;
-	}
-
-
-	textarea {
-		max-width: 100%;
-	}
-
-	input, select {
-		max-width: 100%;
-	}
-
-	/* height: auto; messes e.g. survey progress bar */
-	img {
-		max-width: 100%;
-	}
-
-	div.ilc_Mob img {
-		height: auto !important;
-	}
-
-	// this fixes the open street map images, not the best place to
-	// to this. another option would be to not put the
-	// max-width behaviour above on every img...
-	img.olTileImage {
-		max-width: none;
-	}
-
-
-	div.ilFrame {
-		margin: 0;
-		width: 100%;
-	}
-
-	.ilFrameFixedWidthHeader div.ilHeaderBanner {
-		max-width: 100%;
-		height: 40px !important;
-		padding: 0;
-    }
-
-	div.ilTableOuter {
-		max-width: 100%;
-		overflow: auto;
-	}
-
-    .table-responsive .dropdown-menu {
-        position: relative;
-    }
-
-	// main header
-	a#il_mhead_t_focus {
-		font-size: 20px
-	}
-
-	h1.ilHeader {
-		padding-top: 5px;
-	}
-
-	// header image
-	#headerimage {
-		width: 35px;
-		height: 35px;
-		margin-top: 2px;
-		margin-right: 7px;
-	}
-
-	//@import "less/Services/UIComponent/Tabs/delos_sm.less";
-	//@import "less/Services/Form/delos_sm.less";
-	@import "less/Modules/Forum/delos_sm.less";
-	@import "less/Services/Init/delos_sm.less";
-	//@import "less/Services/MainMenu/delos_sm.less";
-	@import "less/Services/COPage/delos_sm.less";
-	@import "less/Services/News/delos_sm.less";
-
-	div.ilGoogleMap {
-		max-width: 100%;
-	}
-
-	/* at last temporary, since it overlaps content */
-	a.ilTreeView, .ilLeftNav {
-		display: none;
-	}
-
-	/* no idea why needed, but this one fixes the drop downs in the small media view (e.g. main menu) */
-	.navbar-nav {
-		margin: 7.5px 0px;
-	}
+div.ilGoogleMap {
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+        max-width: 100%;
+     }
 }
+
+.navbar-nav {
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		//no idea why needed, but this one fixes the drop downs in the small media view (e.g. main menu)
+        margin: 7.5px 0px;
+     }
+}
+
+/* basic responsiveness (beta)
+	no more specific section. no more delos_sm.less data (treated as bug)
+	"Responsive" code has to be inserted like:
+	.myClass {
+		...
+		@media only screen and (max-width: @grid-float-breakpoint-max) {
+			...
+		}
+	}
+*/
 
 /* print css */
 @media print {

@@ -16,6 +16,8 @@ use ILIAS\FileUpload\Processor\PreProcessor;
 use ILIAS\FileUpload\Processor\PreProcessorManager;
 use ILIAS\HTTP\GlobalHttpState;
 use Psr\Http\Message\UploadedFileInterface;
+use RecursiveArrayIterator;
+use RecursiveIteratorIterator;
 
 /**
  * Class FileUploadImpl
@@ -82,7 +84,7 @@ final class FileUploadImpl implements FileUpload {
 	/**
 	 * @inheritdoc
 	 */
-	public function moveOneFileTo(UploadResult $uploadResult, $destination, $location = Location::STORAGE, $file_name = '') {
+	public function moveOneFileTo(UploadResult $uploadResult, $destination, $location = Location::STORAGE, $file_name = '', $override_existing = false) {
 		if($this->processed === false) {
 			throw new \RuntimeException('Can not move unprocessed files.');
 		}
@@ -95,6 +97,9 @@ final class FileUploadImpl implements FileUpload {
 
 		try {
 			$path = $destination . '/' . ($file_name == '' ? $uploadResult->getName() : $file_name);
+			if ($override_existing && $filesystem->has($path)) {
+				$filesystem->delete($path);
+			}
 			$filesystem->writeStream($path, Streams::ofPsr7Stream($this->uploadStreams[$uploadResult->getPath()]));
 			$tempResults[] = $this->regenerateUploadResultWithPath($uploadResult, $path);
 		}
@@ -318,35 +323,28 @@ final class FileUploadImpl implements FileUpload {
 		if ($this->moved) {
 			return false;
 		}
-		$size = 0;
-		/**
-		 * @var $uploadedFile UploadedFileInterface
-		 */
-		$collectFilesFromNestedFields = $this->flattenUploadedFiles($this->globalHttpState->request()->getUploadedFiles());
-		foreach ($collectFilesFromNestedFields as $uploadedFile) {
-			$size += $uploadedFile->getSize();
-		}
 
-		return ($size > 0);
+		$uploadedFiles = $this->flattenUploadedFiles($this->globalHttpState->request()->getUploadedFiles());
+
+		return (count($uploadedFiles) > 0);
 	}
 
 
 	/**
-	 * @param $uploadedFiles
+	 * @param array $uploadedFiles
 	 *
-	 * @return array
+	 * @return UploadedFileInterface[]
 	 */
 	protected function flattenUploadedFiles($uploadedFiles) {
-		$collectFilesFromNestedFields = array();
-		foreach ($uploadedFiles as $file) {
-			if (is_array($file)) {
-				$collectFilesFromNestedFields = array_merge($collectFilesFromNestedFields, $file);
-			} else {
-				array_push($collectFilesFromNestedFields, $file);
-			}
-		}
+		$recursiveIterator = new RecursiveIteratorIterator(
+			new RecursiveArrayIterator(
+				$uploadedFiles,
+				RecursiveArrayIterator::CHILD_ARRAYS_ONLY
+			),
+			RecursiveIteratorIterator::LEAVES_ONLY
+		);
 
-		return $collectFilesFromNestedFields;
+		return iterator_to_array($recursiveIterator, false);
 	}
 
 

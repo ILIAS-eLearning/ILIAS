@@ -800,6 +800,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$this->form = new ilPropertyFormGUI();
 		
 		$fixed_style = $ilSetting->get("fixed_content_style_id");
+		$def_style = $ilSetting->get("default_content_style_id");
 		$style_id = $this->object->getStyleSheetId();
 
 		if ($fixed_style > 0)
@@ -814,7 +815,14 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$st_styles = ilObjStyleSheet::_getStandardStyles(true, false,
 				$_GET["ref_id"]);
 
-			$st_styles[0] = $this->lng->txt("default");
+			if ($def_style > 0)
+			{
+				$st_styles[0] = ilObject::_lookupTitle($def_style)." (".$this->lng->txt("default").")";
+			}
+			else
+			{
+				$st_styles[0] = $this->lng->txt("default");
+			}
 			ksort($st_styles);
 
 			if ($style_id > 0)
@@ -1244,6 +1252,8 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$ilErr = $this->error;
 		$tpl = $this->tpl;
 
+		$form = $this->initImportForm("lm");
+
 		try
 		{
 			// the new import
@@ -1254,6 +1264,14 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		{
 			// we just run through in this case.
 			$no_manifest = true;
+		}
+		catch (ilException $e)
+		{
+			// display message and form again
+			ilUtil::sendFailure($this->lng->txt("obj_import_file_error")." <br />".$e->getMessage());
+			$form->setValuesByPost();
+			$tpl->setContent($form->getHtml());
+			return;
 		}
 
 		if (!$no_manifest)
@@ -1270,7 +1288,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$ilErr->raiseError($this->lng->txt("no_create_permission"),  $ilErr->MESSAGE);
 			return;
 		}
-		$form = $this->initImportForm("lm");
+
 		if ($form->checkInput())
 		{
 			// create and insert object in objecttree
@@ -3417,7 +3435,8 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$ilCtrl = $this->ctrl;
 		
 		ilLMObject::saveTitles($this->object, ilUtil::stripSlashesArray($_POST["title"]), $_GET["transl"]);
-		
+
+		ilUtil::sendSuccess($this->lng->txt("lm_save_titles"), true);
 		$ilCtrl->redirect($this, "chapters");
 	}
 

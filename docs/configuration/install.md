@@ -366,15 +366,30 @@ FromLineOverride=YES
 <a name="install-other-depedencies"></a>
 ## Install other Depedencies
 
-On Debian/Ubuntu execute: 
+On Debian/Ubuntu 14.04 execute:
 ```
-apt-get install zip unzip php5-gd php5-mysql php-xsl imagemagick openjdk-7-jdk
+apt-get install zip unzip php5-gd php5-mysql php-xsl imagemagick openjdk-7-jdk phantomjs
+```
+
+On Ubuntu 16.04 execute:
+```
+apt-get install zip unzip php7.0-gd php7.0-mysql php7.0-xsl php7.0-zip imagemagick openjdk-8-jdk phantomjs
 ```
 
 On RHEL/CentOS execute: 
 ```
-yum install zip unzip php-gd libxslt ImageMagick java-1.7.0-openjdk
+yum install zip unzip php-gd libxslt ImageMagick java-1.7.0-openjdk phantomjs
 ```
+
+Depending on your use case, you MAY want to install further dependencies (exact package names vary by distribution):
+* php-curl
+* php-xmlrpc
+* php-soap
+* php-ldap
+* php-mbstring
+* ffmpeg
+* mimetex
+
 <a name="installation-wizard"></a>
 ## Installation Wizard
 

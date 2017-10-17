@@ -15,10 +15,17 @@ class ilYuiUtil {
 	/**
 	 * Init YUI Connection module
 	 */
-	static function initConnection() {
+	static function initConnection(ilTemplate $a_main_tpl = null) {
 		global $DIC;
 
-		$tpl = $DIC["tpl"];
+		if ($a_main_tpl == null)
+		{
+			$tpl = $DIC["tpl"];
+		}
+		else
+		{
+			$tpl = $a_main_tpl;
+		}
 		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
 		$tpl->addJavaScript(self::YUI_BASE . "/connection/connection-min.js");
 	}
@@ -96,14 +103,21 @@ class ilYuiUtil {
 	 *
 	 * @return void
 	 */
-	static function initPanel($a_resize = false) {
+	static function initPanel($a_resize = false, ilTemplate $a_main_tpl = null) {
 		global $DIC;
 
-		$tpl = $DIC["tpl"];
+		if ($a_main_tpl != null)
+		{
+			$tpl = $a_main_tpl;
+		}
+		else
+		{
+			$tpl = $DIC["tpl"];
+		}
 
 		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
 		$tpl->addJavaScript(self::YUI_BASE . "/container/container-min.js");
-		self::addContainerCss();
+		self::addContainerCss($tpl);
 		$tpl->addCss("./Services/Calendar/css/panel_min.css");
 
 		if ($a_resize) {
@@ -146,14 +160,21 @@ class ilYuiUtil {
 	/**
 	 * Init YUI Overlay module
 	 */
-	static function initOverlay() {
+	static function initOverlay(ilTemplate $a_main_tpl = null) {
 		global $DIC;
 
-		$tpl = $DIC["tpl"];
+		if ($a_main_tpl == null)
+		{
+			$tpl = $DIC["tpl"];
+		}
+		else
+		{
+			$tpl = $a_main_tpl;
+		}
 
 		$tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
 		$tpl->addJavaScript(self::YUI_BASE . "/container/container_core-min.js");
-		self::addContainerCss();
+		self::addContainerCss($tpl);
 	}
 
 
@@ -487,10 +508,17 @@ class ilYuiUtil {
 	/**
 	 * Add container css
 	 */
-	protected static function addContainerCss() {
+	protected static function addContainerCss(ilTemplate $a_main_tpl = null) {
 		global $DIC;
 
-		$tpl = $DIC["tpl"];
+		if ($a_main_tpl == null)
+		{
+			$tpl = $DIC["tpl"];
+		}
+		else
+		{
+			$tpl = $a_main_tpl;
+		}
 
 		$tpl->addCss(self::getLocalPath("container/assets/skins/sam/container.css"));
 	}

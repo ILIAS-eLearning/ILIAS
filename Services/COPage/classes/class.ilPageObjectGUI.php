@@ -1293,8 +1293,7 @@ return;
 						$GLOBALS["tpl"]->addOnloadCode("ilCOPage.addTextFormat('".$c."');");
 					}
 
-					//$GLOBALS["tpl"]->addJavascript("Services/RTE/tiny_mce_3_3_9_2/il_tiny_mce_src.js");
-					$GLOBALS["tpl"]->addJavascript("Services/COPage/tiny/4_2_4/tinymce.js");
+					$GLOBALS["tpl"]->addJavascript("./libs/bower/bower_components/tinymce/tinymce.min.js");
 					$tpl->touchBlock("init_dragging");
 
 					$cfg = $this->getPageConfig();
@@ -3301,7 +3300,7 @@ return;
 */
 		if ($this->getEnableEditing() && $this->user->getId() != ANONYMOUS_USER_ID)
 		{
-			$this->tabs_gui->addTarget("clipboard", $this->ctrl->getLinkTargetByClass("ilEditClipboardGUI", "view")
+			$this->tabs_gui->addTarget("clipboard", $this->ctrl->getLinkTargetByClass(array(get_class($this), "ilEditClipboardGUI"), "view")
 				, "view", "ilEditClipboardGUI");
 		}
 

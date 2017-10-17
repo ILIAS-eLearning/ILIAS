@@ -20,6 +20,8 @@ use ILIAS\Filesystem\MetadataType;
 */
 class ilUtil
 {
+	static protected $db_supports_distinct_umlauts;
+
 	/**
 	* Builds an html image tag
 	* TODO: function still in use, but in future use getImagePath and move HTML-Code to your template file
@@ -1616,7 +1618,7 @@ class ilUtil
 					continue;
 
 				$itemPath = $targetDir . '/' . substr($item->getPath(), strlen($sourceDir));
-				$stream = $sourceFS->readStream($sourceDir);
+				$stream = $sourceFS->readStream($item->getPath());
 				$targetFS->writeStream($itemPath, $stream);
 			}
 			return true;
@@ -3617,7 +3619,14 @@ class ilUtil
 	 */
 	public static function redirect($a_script)
 	{
-		$GLOBALS['DIC']->ctrl()->redirectToURL($a_script);
+		global $DIC;
+
+		if (!isset($DIC['ilCtrl']) || !$DIC['ilCtrl'] instanceof ilCtrl) {
+			$ctrl = new ilCtrl();
+		} else {
+			$ctrl = $DIC->ctrl();
+		}
+		$ctrl->redirectToURL($a_script);
 	}
 
 	/**
@@ -4202,7 +4211,7 @@ class ilUtil
 			return false;
 		}
 
-		$upload->moveOneFileTo($UploadResult, $targetDir, $targetFilesystem, $targetFilename);
+		$upload->moveOneFileTo($UploadResult, $targetDir, $targetFilesystem, $targetFilename, true);
 
 		return true;
 	}
@@ -5380,6 +5389,29 @@ class ilUtil
 	{
 		return  $a_value / (pow(self::_getSizeMagnitude(), 2));
 	}
+
+	/**
+	 * Only temp fix for #8603, should go to db classes
+	 *
+	 * @param
+	 * @deprecated
+	 * @return bool
+	 */
+	static function dbSupportsDisctinctUmlauts()
+	{
+		global $DIC;
+
+		if (!isset(self::$db_supports_distinct_umlauts))
+		{
+			$ilDB = $DIC->database();
+			$set = $ilDB->query("SELECT (" . $ilDB->quote("A", "text") . " = " . $ilDB->quote("Ä", "text") . ") t FROM DUAL ");
+			$rec = $ilDB->fetchAssoc($set);
+			self::$db_supports_distinct_umlauts = !(bool)$rec["t"];
+		}
+
+		return self::$db_supports_distinct_umlauts;
+	}
+
 
 
 } // END class.ilUtil

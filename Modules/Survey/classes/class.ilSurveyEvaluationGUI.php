@@ -55,16 +55,16 @@ class ilSurveyEvaluationGUI
 	var $ctrl;
 	var $appr_id = null;
 	
-/**
-* ilSurveyEvaluationGUI constructor
-*
-* The constructor takes possible arguments an creates an instance of the ilSurveyEvaluationGUI object.
-*
-* @param object $a_object Associated ilObjSurvey class
-* @access public
-*/
-  function __construct($a_object)
-  {
+	/**
+	 * ilSurveyEvaluationGUI constructor
+	 *
+	 * The constructor takes possible arguments an creates an instance of the ilSurveyEvaluationGUI object.
+	 *
+	 * @param object $a_object Associated ilObjSurvey class
+	 * @access public
+	 */
+	function __construct($a_object)
+	{
 		global $DIC;
 
 		$this->tabs = $DIC->tabs();
@@ -73,6 +73,7 @@ class ilSurveyEvaluationGUI
 		$this->rbacsystem = $DIC->rbac()->system();
 		$this->tree = $DIC->repositoryTree();
 		$this->toolbar = $DIC->toolbar();
+		$this->ui = $DIC->ui();
 		$lng = $DIC->language();
 		$tpl = $DIC["tpl"];
 		$ilCtrl = $DIC->ctrl();
@@ -82,7 +83,7 @@ class ilSurveyEvaluationGUI
 		$this->ctrl = $ilCtrl;
 		$this->object = $a_object;
 		$this->log = ilLoggerFactory::getLogger("svy");
-	  	$this->array_panels = array();
+		$this->array_panels = array();
 
 		if ($this->object->get360Mode())
 		{
@@ -764,9 +765,10 @@ class ilSurveyEvaluationGUI
 		$rbacsystem = $this->rbacsystem;
 		$ilToolbar = $this->toolbar;
 		$tree = $this->tree;
+		$ui = $this->ui;
 
-		$ui_factory = $DIC->ui()->factory();
-		$ui_renderer = $DIC->ui()->renderer();
+		$ui_factory = $ui->factory();
+		$ui_renderer = $ui->renderer();
 
 		// auth
 		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
@@ -835,7 +837,13 @@ class ilSurveyEvaluationGUI
 				$button->setOmitPreventDoubleSubmission(true);
 				$ilToolbar->addButtonInstance($button);	
 
-				$ilToolbar->addSeparator();				
+				$ilToolbar->addSeparator();
+
+				//templates: results, table of contents
+				$dtmpl = new ilTemplate("tpl.il_svy_svy_results_details.html", true, true, "Modules/Survey");
+				$toc_tpl = new ilTemplate("tpl.svy_results_table_contents.html", true, true, "Modules/Survey");
+				$this->lng->loadLanguageModule("content");
+				$toc_tpl->setVariable("TITLE_TOC", $this->lng->txt('cont_toc'));
 			}			
 			
 			$modal_id = "svy_ev_exp";
@@ -866,14 +874,6 @@ class ilSurveyEvaluationGUI
 				{
 					$finished_ids = array(-1);
 				}
-			}
-			
-			if($details)
-			{
-				$dtmpl = new ilTemplate("tpl.il_svy_svy_results_details.html", true, true, "Modules/Survey");
-				$toc_tpl = new ilTemplate("tpl.svy_results_table_contents.html", true, true, "Modules/Survey");
-				$this->lng->loadLanguageModule("content");
-				$toc_tpl->setVariable("TITLE_TOC", $this->lng->txt('cont_toc'));
 			}
 			
 			$details_figure = $_POST["cp"]
@@ -915,7 +915,23 @@ class ilSurveyEvaluationGUI
 					$toc_tpl->setVariable("TOC_ID", $anchor_id);
 					$toc_tpl->parseCurrentBlock();
 				}
-			}				
+			}
+			if($details)
+			{
+				//TABLE OF CONTENTS
+				$panel_toc = $ui_factory->panel()->standard("", $ui_factory->legacy($toc_tpl->get()));
+				$render_toc = $ui_renderer->render($panel_toc);
+				$dtmpl->setVariable("PANEL_TOC", $render_toc);
+
+				//REPORT
+				$report_title = "";
+				$panel_report = $ui_factory->panel()->report($report_title, $this->array_panels);
+				$render_report = $ui_renderer->render($panel_report);
+				$dtmpl->setVariable("PANEL_REPORT",$render_report);
+
+				//print the main template
+				$this->tpl->setVariable('DETAIL', $dtmpl->get());
+			}
 		}		
 		
 		$this->tpl->setVariable('MODAL', $modal);	
@@ -924,24 +940,6 @@ class ilSurveyEvaluationGUI
 			include_once "./Modules/Survey/classes/tables/class.ilSurveyResultsCumulatedTableGUI.php";
 			$table_gui = new ilSurveyResultsCumulatedTableGUI($this, $details ? 'evaluationdetails' : 'evaluation', $results);	
 			$this->tpl->setVariable('CUMULATED', $table_gui->getHTML());
-		}
-		else
-		{
-			//TABLE OF CONTENTS
-			$panel_toc = $ui_factory->panel()->standard("", $ui_factory->legacy($toc_tpl->get()));
-			$render_toc = $ui_renderer->render($panel_toc);
-			$dtmpl->setVariable("PANEL_TOC", $render_toc);
-
-			//REPORT
-			$report_title = "";
-			$panel_report = $ui_factory->panel()->report($report_title, $this->array_panels);
-			$render_report = $ui_renderer->render($panel_report);
-			$dtmpl->setVariable("PANEL_REPORT",$render_report);
-
-
-			//print the main template
-			$this->tpl->setVariable('DETAIL', $dtmpl->get());
-
 		}
 		unset($dtmpl);
 		unset($table_gui);
@@ -994,9 +992,7 @@ class ilSurveyEvaluationGUI
 	//protected function renderDetails($a_details_parts, $a_details_figure, ilTemplate $a_tpl, array $a_qdata, SurveyQuestionEvaluation $a_eval, $a_results)
 	protected function renderDetails($a_details_parts, $a_details_figure, array $a_qdata, SurveyQuestionEvaluation $a_eval, $a_results)
 	{
-		global $DIC;
-
-		$ui_factory = $DIC->ui()->factory();
+		$ui_factory = $this->ui->factory();
 		$a_tpl = new ilTemplate("tpl.svy_results_details_panel.html", true, true, "Modules/Survey");
 
 		$question_res = $a_results;

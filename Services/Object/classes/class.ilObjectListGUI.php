@@ -2922,13 +2922,13 @@ class ilObjectListGUI
 		if($a_notes_url)
 		{
 			include_once("./Services/Notes/classes/class.ilNoteGUI.php");
-			ilNoteGUI::initJavascript($a_notes_url);
+			ilNoteGUI::initJavascript($a_notes_url, IL_NOTE_PRIVATE, $a_tpl);
 		}
 		
 		if($a_tags_url)
 		{
 			include_once("./Services/Tagging/classes/class.ilTaggingGUI.php");
-			ilTaggingGUI::initJavascript($a_tags_url);
+			ilTaggingGUI::initJavascript($a_tags_url, $a_tpl);
 		}
 		
 		if($a_redraw_url)
@@ -2998,14 +2998,22 @@ class ilObjectListGUI
 	 * 
 	 * @return string
 	 */
-	function getHeaderAction()
+	function getHeaderAction(ilTemplate $a_main_tpl = null)
 	{
 		global $DIC;
 
 		$ilUser = $this->user;
 		$lng = $this->lng;
-		$main_tpl = $DIC["tpl"];
-		
+
+		if ($a_main_tpl == null)
+		{
+			$main_tpl = $DIC["tpl"];
+		}
+		else
+		{
+			$main_tpl = $a_main_tpl;
+		}
+
 		$htpl = new ilTemplate("tpl.header_action.html", true, true, "Services/Repository");	
 		
 		$redraw_js = "il.Object.redrawActionHeader();";
@@ -3102,7 +3110,6 @@ class ilObjectListGUI
 				$ajax_url = $this->ctrl->getLinkTargetByClass("ilRatingGUI", "saveRating", "", true, false);
 			}
 			$main_tpl->addOnLoadCode("il.Object.setRatingUrl('".$ajax_url."');");
-			
 			$this->addHeaderIconHTML("rating", 
 				$rating_gui->getHtml(true, 
 					$this->checkCommandAccess("read", "", $this->ref_id, $this->type), 
@@ -3150,15 +3157,22 @@ class ilObjectListGUI
 							$htpl->parseCurrentBlock();
 						}
 
-						if (!$attr["href"])
-						{
-							$attr["href"] = "#";
-						}
 
 						$htpl->setCurrentBlock("prop");
+						if ($attr["href"] || $attr["onclick"])
+						{
+							$htpl->setVariable("TAG", "a");
+						}
+						else
+						{
+							$htpl->setVariable("TAG", "span");
+						}
 						$htpl->setVariable("PROP_ID", $id);
 						$htpl->setVariable("IMG", ilUtil::img($attr["img"]));
-						$htpl->setVariable("PROP_HREF", $attr["href"]);
+						if ($attr["href"] != "")
+						{
+							$htpl->setVariable("PROP_HREF", ' href="'.$attr["href"].'" ');
+						}
 						$htpl->parseCurrentBlock();
 
 						if ($attr["tooltip"])

@@ -422,7 +422,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	*/
 	function fillRow($news)
 	{
-		$ilUser = $this->user;
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 
@@ -434,18 +433,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 					ilDatePresentation::formatDate(new ilDateTime($news["creation_date"],IL_CAL_DATETIME)));
 			$this->tpl->parseCurrentBlock();
 		}
-		
-		// notification
-		if ($news["priority"] == 0)
-		{
-/*
-			$this->tpl->setCurrentBlock("notification");
-			$this->tpl->setVariable("CHAR_NOT", $lng->txt("news_first_letter_of_word_notification"));
-			$this->tpl->parseCurrentBlock();
-*/
-		}
 
-		
 		// title image type
 		if ($news["ref_id"] > 0)
 		{
@@ -525,11 +513,11 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		$ilUser = $this->user;
 		$ilAccess = $this->access;
 		
-// workaround for dynamic mode (if cache is disabled, showNews has no data)
-if (empty(self::$st_data))
-{
-	$this->setData($this->getNewsData());
-}
+		// workaround for dynamic mode (if cache is disabled, showNews has no data)
+		if (empty(self::$st_data))
+		{
+			$this->setData($this->getNewsData());
+		}
 		
 		$news_set = new ilSetting("news");
 		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
@@ -557,9 +545,6 @@ if (empty(self::$st_data))
 		$news_list = array();
 		if (is_array($c["aggregation"]))	// we have an aggregation
 		{
-			//$agg_obj_id = ilObject::_lookupObjId($c["agg_ref_id"]);
-			//$agg_obj_type = ilObject::_lookupType($agg_obj_id);
-			//$agg_obj_title = ilObject::_lookupObjId($agg_obj_id);
 			$news_list[] = array("ref_id" => $c["agg_ref_id"],
 				"agg_ref_id" => $c["agg_ref_id"],
 				"aggregation" => $c["aggregation"],

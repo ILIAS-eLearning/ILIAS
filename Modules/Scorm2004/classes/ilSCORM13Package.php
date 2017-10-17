@@ -900,7 +900,9 @@ class ilSCORM13Package
 			$tnode = $xpath->query('PageContent');
 			$t = "<PageObject>";
 			foreach($tnode as $ttnode)
-				$t .= $ddoc->saveXML($ttnode);
+			{
+				$t .= str_replace("&amp;", "&", $ddoc->saveXML($ttnode));
+			}
 			$t .="</PageObject>";
 			foreach ($qtis as $old=>$q)
 				$t = str_replace($old,'il__qst_'.$q['pool'], $t);
