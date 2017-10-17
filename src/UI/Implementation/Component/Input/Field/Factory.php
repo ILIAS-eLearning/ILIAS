@@ -63,4 +63,18 @@ class Factory implements Field\Factory {
 	public function section(array $inputs, $label, $byline = null) {
 		return new Section($this->data_factory,$this->validation_factory,$this->transformation_factory,$inputs, $label, $byline);
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function subSection(array $inputs) {
+		return new SubSection($this->data_factory,$this->validation_factory,$this->transformation_factory,$inputs, "", "");
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function checkbox($label, $byline = null) {
+		return new Checkbox($this->data_factory, $this->validation_factory, $this->transformation_factory, $label, $byline);
+	}
 }

@@ -6,7 +6,7 @@ docs/LICENSE */
 namespace ILIAS\UI\Component\Input\Field;
 
 /**
- * This describes text inputs.
+ * This describes group inputs.
  */
 interface Group extends Input{
 }

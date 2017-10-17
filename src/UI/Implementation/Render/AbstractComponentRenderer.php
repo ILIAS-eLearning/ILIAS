@@ -145,6 +145,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 		if ($binder === null) {
 			return null;
 		}
+
 		$id = $this->js_binding->createId();
 		$on_load_code = $binder($id);
 		if (!is_string($on_load_code)) {

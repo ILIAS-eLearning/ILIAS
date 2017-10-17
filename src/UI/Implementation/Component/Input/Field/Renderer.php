@@ -29,10 +29,24 @@ class Renderer extends AbstractComponentRenderer {
 		}
 
 		$input_tpl = null;
+		$sub_section = "";
+
 		if ($component instanceof Component\Input\Field\Text) {
 			$input_tpl = $this->getTemplate("tpl.text.html", true, true);
 		}else if($component instanceof Component\Input\Field\Numeric){
 			$input_tpl = $this->getTemplate("tpl.numeric.html", true, true);
+		} else if($component instanceof Component\Input\Field\Checkbox){
+			$input_tpl = $this->getTemplate("tpl.checkbox.html", true, true);
+			if($component->getSubSection()){
+				$sub_section = $default_renderer->render($component->getSubSection());
+				$sub_section = "<div class='subish'>".$sub_section."</div>";
+
+				$component = $component->withOnLoadCode(function($id){
+					return "$( 'input' ).on('click', function() {console.log('checkbox_clicked');});";
+				});
+				$id = $this->bindJavaScript($component);
+				//$tpl->setVariable('ID', $id);
+			}
 		} else{
 			throw new \LogicException("Cannot render '".get_class($component)."'");
 		}
@@ -42,7 +56,7 @@ class Renderer extends AbstractComponentRenderer {
 		return $this->renderContext(
 				$this->renderInput($input_tpl,$component, $default_renderer),
 				$component,
-				$default_renderer);
+				$default_renderer).$sub_section;
 	}
 
 	/**
@@ -97,9 +111,8 @@ class Renderer extends AbstractComponentRenderer {
 	 * @inheritdoc
 	 */
 	protected function getComponentInterfaceName() {
-		return array
-		( Component\Input\Field\Text::class,Component\Input\Field\Numeric::class,
-				Component\Input\Field\Group::class,Component\Input\Field\Section::class
-		);
+		return [Component\Input\Field\Text::class,Component\Input\Field\Numeric::class,
+				Component\Input\Field\Group::class,Component\Input\Field\Section::class,
+				Component\Input\Field\Checkbox::class];
 	}
 }

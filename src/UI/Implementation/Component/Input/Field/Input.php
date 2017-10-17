@@ -330,7 +330,9 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 			throw new \LogicException("Can only collect if input has a name.");
 		}
 
-		$value = $input->get($this->getName());
+		//TODO: Discuss, is this correct here. If there is no input contained in this post
+		//We assign null. Note that unset checkboxes are not contained in POST.
+		$value = $input->getOr($this->getName(),null);
 		$clone = $this->withValue($value);
 		$clone->content = $this->applyOperationsTo($value);
 		if ($clone->content->isError()) {

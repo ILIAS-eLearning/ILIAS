@@ -15,7 +15,7 @@ use ILIAS\Transformation\Factory as TransformationFactory;
 
 
 /**
- * This implements commonalities between groups of inputs (e.g. form sections).
+ * This implements the group input.
  */
 class Group extends Input implements C\Input\Field\Group{
 

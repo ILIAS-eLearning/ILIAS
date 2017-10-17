@@ -102,4 +102,51 @@ interface Factory {
 	 * @return	\ILIAS\UI\Component\Input\Field\Section
 	 */
 	public function section(array $inputs, $label, $byline = null);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+     *      TBD
+	 *   effect: >
+	 *      TBD
+	 * context: >
+	 *   TBD
+	 *
+	 * rules: []
+	 *
+	 * ---
+	 *
+	 *
+	 * @param	array<mixed,\ILIAS\UI\Component\Input\Field\Input>	$inputs
+	 * @return	\ILIAS\UI\Component\Input\Field\SubSection
+	 */
+	public function subSection(array $inputs);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     A checkbox is used to govern a state, action, or set / not to set a value.
+	 *     Checkboxes are typically used to switch on some additional behaviour or services.
+	 *   composition: >
+	 *      Each Checkbox is labeled by an identifier stating something positive to
+	 *      describe the effect of checking the Checkbox.
+	 *   effect: >
+	 *      If used in a form, a checkbox may open a sub form.
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: >
+	 *      A checkbox MUST NOT be used whenever a user has to perform a binary choice where
+	 *      option is not automatically the inverse of the other (such as 'Order by Date' and
+	 *      'Order by Name'). A  Select Input or a Radio Group in MUST be used in this case.
+	 *   wording:
+	 *     1: The checkbox’s identifier MUST always state something positive.
+	 *
+	 * ---
+	 *
+	 * @return	\ILIAS\UI\Component\Input\Field\Checkbox
+	 */
+	public function checkbox($label, $byline = null);
 }
