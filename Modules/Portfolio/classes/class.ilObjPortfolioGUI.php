@@ -1156,6 +1156,8 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	 */
 	public function initPDFSelectionForm()
 	{
+		global $DIC;
+
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
 
