@@ -50,6 +50,11 @@ class ilCalendarViewGUI
 	protected $ui;
 
 	/**
+	 * @var bool true if the displayed view contains appointments.
+	 */
+	protected $view_with_appointments;
+
+	/**
 	 * View initialization
 	 * @param integer $a_calendar_presentation_type
 	 */
@@ -67,6 +72,8 @@ class ilCalendarViewGUI
 		$this->toolbar = $DIC->toolbar();
 		$this->presentation_type = $a_calendar_presentation_type;
 		$this->logger = $GLOBALS['DIC']->logger()->cal();
+		//by default "download files" button is not displayed.
+		$this->view_with_appointments = false;
 	}
 
 	/**
@@ -334,7 +341,7 @@ class ilCalendarViewGUI
 	function addToolbarActions()
 	{
 		$settings = ilCalendarSettings::_getInstance();
-		if($settings->isBatchFileDownloadsEnabled() && !empty($this->getEvents()))
+		if($settings->isBatchFileDownloadsEnabled() && $this->view_with_appointments)
 		{
 			$toolbar = $this->toolbar;
 			$f = $this->ui_factory;

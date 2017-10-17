@@ -186,6 +186,13 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 		$this->scheduler->addSubitemCalendars(true);		
 		$this->scheduler->calculate();
 		$daily_apps = $this->scheduler->getByDay($this->seed,$this->timezone);
+
+		//display the download files button.
+		if(count($daily_apps))
+		{
+			$this->view_with_appointments = true;
+		}
+
 		$hours = $this->parseInfoIntoRaster($daily_apps,
 			$morning_aggr,
 			$evening_aggr,
