@@ -281,9 +281,9 @@ class ilMySQLQueryUtils extends ilQueryUtils {
 	 */
 	public function createDatabase($a_name, $a_charset = "utf8", $a_collation = "") {
 		if ($a_collation != "") {
-			$sql = "CREATE DATABASE " . $a_name . " CHARACTER SET " . $a_charset . " COLLATE " . $a_collation;
+			$sql = "CREATE DATABASE `" . $a_name . "` CHARACTER SET " . $a_charset . " COLLATE " . $a_collation;
 		} else {
-			$sql = "CREATE DATABASE " . $a_name . " CHARACTER SET " . $a_charset;
+			$sql = "CREATE DATABASE `" . $a_name . "` CHARACTER SET " . $a_charset;
 		}
 
 		return $sql;
