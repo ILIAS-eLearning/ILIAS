@@ -194,7 +194,7 @@ class ilInitialisation
 
 		$DIC['filesystem.temp'] = function ($c) use ($delegatingFactory) {
 			//temp
-			$tempConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(sys_get_temp_dir());
+			$tempConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_DATA_DIR.'/'.CLIENT_ID.'/temp');
 			return $delegatingFactory->getLocal($tempConfiguration);
 		};
 
@@ -1009,14 +1009,18 @@ class ilInitialisation
 	}
 	
 	/**
-	 * Init session
+	 * Init auth session.
 	 */
 	protected static function initSession()
 	{
-		include_once './Services/Authentication/classes/class.ilAuthSession.php';
-		self::initGlobal('ilAuthSession', ilAuthSession::getInstance());
-		
-		$GLOBALS['DIC']['ilAuthSession']->init();
+		$GLOBALS["DIC"]["ilAuthSession"] = function ($c) 
+		{
+			$auth_session = ilAuthSession::getInstance(
+				$c['ilLoggerFactory']->getLogger('auth')
+			);
+			$auth_session->init();
+			return $auth_session;
+		};
 	}
 
 

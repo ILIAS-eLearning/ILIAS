@@ -16,7 +16,8 @@ class ilBTControllerGUI {
 	const OBSERVER_ID = 'observer_id';
 	const SELECTED_OPTION = 'selected_option';
 	const REPLACE_SIGNAL = 'replaceSignal';
-	const CMD_QUIT = 'quitBucket';
+	const CMD_ABORT = 'abortBucket';
+	const CMD_DISMISS = 'abortBucket';
 	const CMD_GET_POPOVER_CONTENT = 'getPopoverContent';
 	const CMD_USER_INTERACTION = 'userInteraction';
 
@@ -34,7 +35,8 @@ class ilBTControllerGUI {
 		switch ($cmd) {
 			case self::CMD_USER_INTERACTION:
 			case self::CMD_GET_POPOVER_CONTENT:
-			case self::CMD_QUIT:
+			case self::CMD_ABORT:
+			case self::CMD_DISMISS:
 				$this->$cmd();
 		}
 	}
@@ -48,12 +50,11 @@ class ilBTControllerGUI {
 		$observer = $this->dic()->backgroundTasks()->persistence()->loadBucket($observer_id);
 		$option = new UserInteractionOption("", $selected_option);
 		$this->dic()->backgroundTasks()->taskManager()->continueTask($observer, $option);
-
 		$this->ctrl()->redirectToURL($from_url);
 	}
 
 
-	protected function quitBucket() {
+	protected function abortBucket() {
 		$observer_id = (int)$this->http()->request()->getQueryParams()[self::OBSERVER_ID];
 		$from_url = urldecode($this->http()->request()->getQueryParams()[self::FROM_URL]);
 
@@ -78,36 +79,5 @@ class ilBTControllerGUI {
 
 		echo $this->ui()->renderer()->renderAsync($gui->getPopOverContent($this->user()
 		                                                                       ->getId(), $redirect_url, $replace_url));
-	}
-
-
-	/**
-	 * @param      $s
-	 * @param bool $use_forwarded_host
-	 *
-	 * @return string
-	 */
-	private function url_origin($s, $use_forwarded_host = false) {
-		$ssl = (!empty($s['HTTPS']) && $s['HTTPS'] == 'on');
-		$sp = strtolower($s['SERVER_PROTOCOL']);
-		$protocol = substr($sp, 0, strpos($sp, '/')) . (($ssl) ? 's' : '');
-		$port = $s['SERVER_PORT'];
-		$port = ((!$ssl && $port == '80') || ($ssl && $port == '443')) ? '' : ':' . $port;
-		$host = ($use_forwarded_host
-		         && isset($s['HTTP_X_FORWARDED_HOST'])) ? $s['HTTP_X_FORWARDED_HOST'] : (isset($s['HTTP_HOST']) ? $s['HTTP_HOST'] : null);
-		$host = isset($host) ? $host : $s['SERVER_NAME'] . $port;
-
-		return $protocol . '://' . $host;
-	}
-
-
-	/**
-	 * @param      $s
-	 * @param bool $use_forwarded_host
-	 *
-	 * @return string
-	 */
-	public function full_url($s, $use_forwarded_host = false) {
-		return $this->url_origin($s, $use_forwarded_host) . $s['REQUEST_URI'];
 	}
 }

@@ -135,6 +135,10 @@ var Namespace = function Namespace(name)
 		return null;
 	};
 
+	this.getSubscribers = function() {
+		return _subscribers;
+	};
+
 	this.getSubscriberWithOfflines = function(id, name) {
 		var subscriber = this.getSubscriber(id);
 

@@ -428,9 +428,8 @@ class ilInternalLinkGUI
 				}
 				if(count($free_pages) > 0)
 				{
-					$tpl->setCurrentBlock(str_replace("_js","",$chapterRowBlock));
-					$tpl->setVariable("TXT_CHAPTER", $this->lng->txt("cont_free_pages"));
-					$tpl->setVariable("ROWCLASS", "tblrow1");
+					$tpl->setCurrentBlock("header_row");
+					$tpl->setVariable("TXT_HEADER", $this->lng->txt("cont_free_pages"));
 					$tpl->parseCurrentBlock();
 
 					foreach ($free_pages as $node)
@@ -1181,50 +1180,7 @@ class ilInternalLinkGUI
 		$form = $this->initUserSearchForm();
 		$form->checkInput();
 
-		$rbacsys = $DIC->rbac()->system();
-
-		$admin = ($rbacsys->checkAccess("read", USER_FOLDER_ID));
-
-		require_once 'Services/Contact/BuddySystem/classes/class.ilBuddyList.php';
-		$relations = ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations();
-		$users = array();
-		if ($admin || count($relations))
-		{
-			$result = new ilSearchResult();
-
-			$query_parser = new ilQueryParser($form->getInput("usr_search_str"), '%_');
-			$query_parser->setCombination(QP_COMBINATION_AND);
-			$query_parser->setMinWordLength(3);
-			$query_parser->parse();
-
-			$user_search = ilObjectSearchFactory::_getUserSearchInstance($query_parser);
-			$user_search->enableActiveCheck(true);
-			$user_search->setFields(array('login'));
-			$result_obj = $user_search->performSearch();
-			$result->mergeEntries($result_obj);
-
-			$user_search->setFields(array('firstname'));
-			$result_obj = $user_search->performSearch();
-			$result->mergeEntries($result_obj);
-
-			$user_search->setFields(array('lastname'));
-			$result_obj = $user_search->performSearch();
-			$result->mergeEntries($result_obj);
-
-			$result->setMaxHits(100000);
-			$result->preventOverwritingMaxhits(true);
-			$result->filter(ROOT_FOLDER_ID, true);
-
-			// Filter users (depends on setting in user accounts)
-			include_once 'Services/User/classes/class.ilUserFilter.php';
-			$users = ilUserFilter::getInstance()->filter($result->getResultIds());
-			if (!$admin)
-			{
-				$users = array_intersect($users, $relations->getKeys());
-			}
-		}
-
-
+		$users = ilInternalLink::searchUsers($form->getInput("usr_search_str"));
 		if (count($users) == 0)
 		{
 			return $tpl->getMessageHTML($lng->txt("cont_user_search_did_not_match"), "info");

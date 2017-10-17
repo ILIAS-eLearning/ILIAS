@@ -2053,7 +2053,7 @@ common#:#disk_usage_details#:#Disk Usage Details
 common#:#disk_usage#:#Disk Usage
 common#:#domain#:#Domain
 common#:#down#:#Down
-common#:#download_all_returned_files#:#Download all returned files
+common#:#download_all_returned_files#:#Download all Submissions
 common#:#download_with_uploaded_filename_info#:#Select this option exclusively for backwards compatibility with ILIAS 3.9 and older versions: When this option is selected, the filename of a downloaded file is equal to the filename that was used for uploading the file into ILIAS. If this option is not selected, the filename of a downloaded file is equal to the title of the file object in ILIAS. This option does not affect WebDAV. For WebDAV the filename of a downloaded file is always equal to the title of the file object.
 common#:#download_with_uploaded_filename#:#Download with uploaded filename
 common#:#download#:#Download
@@ -4728,11 +4728,13 @@ dateplaner#:#cal_created_milestone#:#Added milestone.
 dateplaner#:#cal_daily#:#Daily
 dateplaner#:#cal_date_format_info#:#Please choose a format for the input of dates.
 dateplaner#:#cal_day_end#:#Day End
+dateplaner#:#cal_def_day_end#:#Default Day End
 dateplaner#:#cal_day_of_month#:#Day of the month
 dateplaner#:#cal_day_overview#:#Day Overview
 dateplaner#:#cal_day_s#:#Day(s)
 dateplaner#:#cal_day_selection#:#Select Day
 dateplaner#:#cal_day_start#:#Day Start
+dateplaner#:#cal_def_day_start#:#Default Day Start
 dateplaner#:#cal_day_week_view#:#Day/Week View Settings
 dateplaner#:#cal_deadline#:#Deadline
 dateplaner#:#cal_declined#:#Declined
@@ -4742,7 +4744,7 @@ dateplaner#:#cal_def_time_format_info#:#Please choose a format for the input and
 dateplaner#:#cal_def_time_format#:#Default Time Format
 dateplaner#:#cal_def_timezone_info#:#Please choose a default timezone for the presentation of appointments.
 dateplaner#:#cal_def_timezone#:#Default Timezone
-dateplaner#:#cal_def_week_start#:#Week Start
+dateplaner#:#cal_def_week_start#:#Default Week Start
 dateplaner#:#cal_default_calendar#:#Personal Appointments
 dateplaner#:#cal_del_app_sure#:#Do you really want to delete the selected appointments?
 dateplaner#:#cal_del_cal_sure#:#Do you really want to delete the chosen calendars?
@@ -4839,8 +4841,8 @@ dateplaner#:#cal_where#:#Location
 dateplaner#:#cal_year_s#:#Year(s)
 dateplaner#:#cal_yearly#:#Yearly
 dateplaner#:#created#:#Created
-dateplaner#:#crs_cal_activation_end#:#Course End
-dateplaner#:#crs_cal_activation_start#:#Course Start
+dateplaner#:#crs_cal_activation_end#:#Course Availability ends
+dateplaner#:#crs_cal_activation_start#:#Course Availability starts
 dateplaner#:#crs_cal_reg_end#:#Registration End
 dateplaner#:#crs_cal_reg_start#:#Registration Start
 dateplaner#:#date_format#:#m/d/Y H:i
@@ -10461,6 +10463,8 @@ dcl#:#dcl_export_finished#:#Export finished
 dcl#:#dcl_supported_filetypes#:#Allowed file-extensions
 dcl#:#dcl_supported_filetypes_desc#:#You can set the allowed extensions comma seperated. For example: pdf, docx
 dcl#:#dcl_no_export_data_available#:#No data or fields available for export.
+dcl#:#dcl_no_export_content_available#:#No data available for export.
+dcl#:#dcl_no_export_fields_available#:#No fields activated for export. Mark at least one field as exportable in the <a href="%s">table settings</a>.
 rbac#:#dcl_edit_content#:#Edit entries
 common#:#obj_bibl#:#Bibliography
 common#:#objs_bibl#:#Bibliographies
@@ -13600,21 +13604,21 @@ iass#:#iass_notify_explanation#:#The examinee will be notified via email after f
 iass#:#iass_contact#:#Name
 iass#:#iass_responsibility#:#Responsibility
 iass#:#iass_phone#:#Phone
-iass#:#iass_mails#:#Mails
-iass#:#iass_place#:#Event location
-iass#:#iass_event_time#:#Event time
+iass#:#iass_mails#:#E-Mail
+iass#:#iass_place#:#Place of assessment
+iass#:#iass_event_time#:#Date of assessment
 iass#:#iass_usr_amend#:#Amend Grading
-iass#:#iass_save_amend#:#Save Amend
-iass#:#iass_info_emails_expl#:#You may provide several addresses separated by a coma.
-iass#:#iass_consultation_hours#:#Consultation Hours
+iass#:#iass_save_amend#:#Save Amended Record
+iass#:#iass_info_emails_expl#:#You may provide several addresses separated by comma.
+iass#:#iass_consultation_hours#:#Consultation hours
 iass#:#iass_edit_info#:#Info Settings
 iass#:#iass_mess_notification_completed#:#You passed the assessment %s. Please check the following record for details:
 iass#:#iass_mess_notification_failed#:#You failed the assessment %s. Please check the following record for details:
 iass#:#iass_contact_info#:#Contact information
 iass#:#iass_added#:#Individual Assessment added
-iass#:#iass_event_time_place_required#:#Time and Place Required
-iass#:#iass_event_time_place_required_info#:#Time and place of assessment have to be added to each participant record.
-iass#:#iass_file_required#:#Record File Required
+iass#:#iass_event_time_place_required#:#Date and place required
+iass#:#iass_event_time_place_required_info#:#Date and place of assessment have to be added to each participant record.
+iass#:#iass_file_required#:#Record file required
 iass#:#iass_file_required_info#:#A record file has to be uploaded to each participant record.
 registration#:#reg_mail_body_activation#:#to activate your account and confirm ownership of this email address, click the link below:
 chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for authentication purposes when sending requests to the chat server. You can automatically create these strings by clicking the corresponding button. Please note that the chat server is able to communicate with multiple ILIAS clients, but each client id has to be <b>unique</b>.
@@ -13646,6 +13650,9 @@ chatroom#:#chat_osc_dont_accept_msg#:#You currently cannot be invited to convers
 chatroom#:#chat_osc_doesnt_accept_msg#:#Conversations not possible
 chatroom#:#chtr_activation_online_info#:#Set the chat online to make it visible and available for partcipants. If not, only users with 'Edit Settings' permission will have access to it.
 chatroom#:#chtr_activation_limited_visibility_info#:#If checked, the title of the chat will be visible even outside of the given availability. The chat however can not be accessed.
+chatroom#:#chat_osc_subs_rej_msgs#:#Currently it is not possible to continue this conversation. Your chat-partner must activate chats in the chat-settings.
+chatroom#:#chat_osc_subs_rej_msgs_p#:#The following chat partners of your conversation do not want to receive messages anymore: %s
+chatroom#:#chat_osc_self_rej_msgs#:#You currently cannot take part in this conversation because you suppressed receiving messages in your settings.
 chatroom#:#chtr_server_status#:#Server Status
 chatroom#:#chtr_ban_actor_tbl_head#:#Akteur
 chatroom#:#chtr_ban_ts_tbl_head#:#Timestamp
@@ -13744,7 +13751,8 @@ ecs#:#ecs_member_auth_type#:#Course Member Auth Mode
 background_tasks#:#background_tasks#:#Background Tasks
 background_tasks#:#background_tasks_running#:#Background Tasks
 background_tasks#:#scheduled#:#Scheduled
-background_tasks#:#dismiss#:#Quit
+background_tasks#:#dismiss#:#Dismiss
+background_tasks#:#abort#:#Abort
 background_tasks#:#completed#:#Completed
 background_tasks#:#waiting#:#Waiting
 background_tasks#:#proceed_job#:#Proceed
@@ -13820,6 +13828,7 @@ book#:#book_open#:#Open Booking Pool
 book#:#book_booking_information#:#Information
 sess#:#sess_open#:#Open Session
 dateplaner#:#cal_show_weeks#:#Show Weeks
+dateplaner#:#cal_def_show_weeks#:#Default Show Weeks
 dateplaner#:#cal_show_weeks_info#:#Activates weeks column in calendar side block. Users can deactivate the column in their settings.
 dateplaner#:#cal_usr_show_weeks#:#Show Week Column
 dateplaner#:#cal_usr_show_weeks_info#:#Activates weeks column in calendar side block.
@@ -13997,10 +14006,10 @@ rbac#:#wiki_edit_page_meta#:#Edit Wiki Page Metadata
 content#:#cont_user#:#User
 content#:#cont_user_search_did_not_match#:#Your search did not match any users.
 blog#:#blog_latest_posting#:#Latest Posting
-dateplaner#:#cal_batch_file_downloads#:#Batch file downloads in Calendar
+dateplaner#:#cal_batch_file_downloads#:#Batch File Downloads in Calendar
 dateplaner#:#cal_batch_file_downloads_info#:#Activate button to download all files related to the current calendar/appointment view.
 dateplaner#:#cal_download_files#:#Download Files
-dateplaner#:#cal_calendar_download#:#Calendar Download
+dateplaner#:#cal_calendar_download#:#Calendar Files
 classification#:#clsfct_selected_objects#:#Selected Objects
 classification#:#clsfct_back_to_cat#:#Back to Category
 tax#:#tax_tax_assignment#:#Taxonomy Assignment
@@ -14043,3 +14052,9 @@ lm#:#lm_save_titles#:#Titles saved.
 assessment#:#question_browse_area_info#:#Please select an object from which you want to import questions.
 dateplaner#:#cal_no_events_info#:#No events found for the selected time period.
 wiki#:#wiki_pg_list_no_search_fields#:#No searchable meta data fields found in the metadata sets of the wiki.
+iass#:#iass_amend_saved#:#Amended record has been saved.
+dateplaner#:#crs_start#:#Course starts
+dateplaner#:#crs_end#:#Course ends
+dateplaner#:#grp_start#:#Group starts
+dateplaner#:#grp_end#:#Group ends
+content#:#cont_transl_master_language_not_allowed#:#To import a translation you need to activate at least one additional language under "Settings" > "Multilingualism".

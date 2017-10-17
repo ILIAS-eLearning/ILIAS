@@ -156,6 +156,11 @@ class ilStartUpGUI
 		global $tpl, $ilSetting;
 		
 		$this->getLogger()->debug('Showing login page');
+	
+		// try apache auth
+		include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentialsApache.php';
+		$frontend = new ilAuthFrontendCredentialsApache();
+		$frontend->tryAuthenticationOnLoginPage();
 		
 		// Instantiate login template
 		self::initStartUpTemplate("tpl.login.html");

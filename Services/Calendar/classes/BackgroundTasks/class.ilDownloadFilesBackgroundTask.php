@@ -130,14 +130,7 @@ class ilDownloadFilesBackgroundTask
 		$this->logger->debug("Normalized name = ".$normalized_name);
 		$download_name->setValue($normalized_name.'.zip');
 
-		
-		$download_interaction = $this->task_factory->createTask(
-			ilCalendarDownloadZipInteraction::class,
-			[
-				$zip_job,
-				$download_name
-			]
-		);
+		$download_interaction = $this->task_factory->createTask(ilCalendarDownloadZipInteraction::class,[$zip_job, $download_name]);
 
 		// last task to bucket
 		$bucket->setTask($download_interaction);

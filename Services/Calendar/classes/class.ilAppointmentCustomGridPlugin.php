@@ -97,6 +97,7 @@ abstract class ilAppointmentCustomGridPlugin extends ilPlugin
 
 	/**
 	 * Replaces the complete content in a calendar Grid.
+	 * @param $content string html content
 	 * @return mixed
 	 */
 	abstract function replaceContent($content);

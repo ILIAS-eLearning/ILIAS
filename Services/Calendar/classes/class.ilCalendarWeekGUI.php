@@ -142,6 +142,10 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 		foreach(ilCalendarUtil::_buildWeekDayList($this->seed,$this->user_settings->getWeekStart())->get() as $date)
 		{
 			$daily_apps = $this->scheduler->getByDay($date,$this->timezone);
+			if(!$this->view_with_appointments && count($daily_apps))
+			{
+				$this->view_with_appointments = true;
+			}
 			$hours = $this->parseHourInfo($daily_apps,$date,$counter,$hours,
 				$morning_aggr,
 				$evening_aggr,

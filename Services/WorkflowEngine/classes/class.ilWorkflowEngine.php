@@ -50,7 +50,7 @@ class ilWorkflowEngine
 	{
 		/** @var ilSetting $ilSetting */
 		global $ilSetting;
-		if(0 === (bool)$ilSetting->get('wfe_activation', 0))
+		if(0 === $ilSetting->get('wfe_activation', 0))
 		{
 			return;
 		}
@@ -94,6 +94,13 @@ class ilWorkflowEngine
 	 */
 	public function handleEvent($component, $event, $parameter)
 	{
+		/** @var ilSetting $ilSetting */
+		global $ilSetting;
+		if(0 === $ilSetting->get('wfe_activation', 0))
+		{
+			return;
+		}
+
 		// Event incoming, check ServiceDisco (TODO, for now we're using a non-disco factory), call appropriate extractors.
 
 		/** @noinspection PhpIncludeInspection */
@@ -146,6 +153,14 @@ class ilWorkflowEngine
 	 */
 	public function launchArmedWorkflows($component, $event, $extractedParams)
 	{
+
+		/** @var ilSetting $ilSetting */
+		global $ilSetting;
+		if(0 === $ilSetting->get('wfe_activation', 0))
+		{
+			return;
+		}
+
 		$workflows = ilWorkflowDbHelper::findApplicableWorkflows($component, $event, $extractedParams);
 
 		foreach($workflows as $workflow)

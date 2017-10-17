@@ -274,7 +274,7 @@ class ilForumAuthorInformation
 		/** @var ilUserAvatar $avatar */
 		$avatar = $DIC["user.avatar.factory"]->avatar('xsmall');
 		$avatar->setUsrId($usrId);
-		$avatar->setName($name);
+		$avatar->setName(ilStr::subStr($name, 0, 2));
 
 		return $avatar->getUrl();
 	}
