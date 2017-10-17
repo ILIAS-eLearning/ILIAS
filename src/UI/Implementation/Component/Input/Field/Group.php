@@ -141,7 +141,7 @@ class Group extends Input implements C\Input\Field\Group{
 		$clone->content = $clone->applyOperationsTo($values);
 
 		if ($clone->content->isError()) {
-			return $clone->content->withError("".$clone->content->error());
+			return $clone->withError("".$clone->content->error());
 		}
 		return $clone;
 	}

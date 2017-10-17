@@ -15,7 +15,7 @@ function base() {
         $s = $l + $r;
         return $s;
     });
-
+    
     $equal_ten = $validation->custom(function($v) {
         return $v==10;
     }, "The sum must equal ten");
@@ -25,8 +25,8 @@ function base() {
 
     //Step 3, define the group, add the inputs to the group and attach the
     //transformation and constraint
-    $group = $ui->input()->field()->group(
-        [ $number_input->withLabel("Left"), $number_input->withLabel("Right")])
+    $group = $ui->input()->field()->section(
+        [ $number_input->withLabel("Left"), $number_input->withLabel("Right")],"Equals 10","Left and Right must equal 10")
         ->withAdditionalTransformation($sum)
         ->withAdditionalConstraint($equal_ten);
 
@@ -43,7 +43,7 @@ function base() {
     if ($request->getMethod() == "POST"
         && $request->getQueryParams()['example_name'] =='numeric_inputs') {
         $form = $form->withRequest($request);
-        $result = $form->getData();
+        $result = $form->getData()[0];
     }
     else {
         $result = "No result yet.";
