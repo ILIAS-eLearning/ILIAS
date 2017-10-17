@@ -40,12 +40,25 @@ interface Presentation extends \ILIAS\UI\Component\Component {
 
 	/**
 	 * Get a table like this with the closure $row_mapping.
+	 * This closure is called by the renderer upon building a row from
+	 * a record. The renderer will call the closure with these parameters:
+     *
+     * $row 		An instance of Component\Table\PresentationRow;
+     *				fill the mutator according to your needs and the structure of
+     *				your record.
+     * $record 		An element of the table's data.
+     * 				This is the actually variable part when rendering rows.
+     * $ui_factory	You might, e.g., want a descriptive listing or and image
+     *				within the content of the row. Use the UI-Factory to build it.
+     * $environment When you need auxillary classes or functions to properly render
+     * 				the data, this is the place to put it.
+     *
+	 * In short:
 	 * The closure MUST accept the following parameter
-	 *   \PresentationRow $row
-	 *   mixed $record
-	 *   \Factory $ui_factory
-	 *   mixed $environment
-	 *
+	 *   \PresentationRow 	$row
+	 *   mixed 				$record
+	 *   \Factory 			$ui_factory
+	 *   mixed 				$environment
 	 * The closure MUST return \PresentationRow
 	 *
 	 * @param \Closure 	$row_mapping
