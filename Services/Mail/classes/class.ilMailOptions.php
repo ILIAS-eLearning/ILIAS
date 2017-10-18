@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Mail/classes/Options/class.ilMailTransportSettings.php';
 /**
 * Class ilMailOptions
 * this class handles user mails 
@@ -71,9 +70,14 @@ class ilMailOptions
 	protected $mail_address_option = self::FIRST_EMAIL;
 
 
+	/**
+	 * @var ilMailTransportSettings
+	 */
 	private $mailTransportSettings;
+
 	/**
 	 * @param int $a_user_id
+	 * @param ilMailTransportSettings|null $mailTransportSettings
 	 */
 	public function __construct($a_user_id, ilMailTransportSettings $mailTransportSettings = null)
 	{
@@ -117,9 +121,10 @@ class ilMailOptions
 	}
 
 	/**
-	 * 
+	 * @param string $firstMailAddress
+	 * @param string $secondMailAddress
 	 */
-	protected function read($firstMail = '', $secondMail = '')
+	protected function read($firstMailAddress = '', $secondMailAddress = '')
 	{
 		$res = $this->db->queryF(
 			'SELECT * FROM ' . $this->table_mail_options . ' WHERE user_id = %s',
@@ -134,15 +139,15 @@ class ilMailOptions
 		$this->incoming_type        = $row->incoming_type;
 		$this->mail_address_option  = (int)$row->mail_address_option >= 3 ? $row->mail_address_option : self::FIRST_EMAIL;
 
-		if ($firstMail === '') {
-			$firstMail  = ilObjUser::_lookupEmail($this->user_id);
+		if ($firstMailAddress === '') {
+			$firstMailAddress  = ilObjUser::_lookupEmail($this->user_id);
 		}
 
-		if ($secondMail === '') {
-			$secondMail = ilObjUser::_lookupSecondEmail($this->user_id);
+		if ($secondMailAddress === '') {
+			$secondMailAddress = ilObjUser::_lookupSecondEmail($this->user_id);
 		}
 
-		$this->mailTransportSettings->adjust($firstMail, $secondMail);
+		$this->mailTransportSettings->adjust($firstMailAddress, $secondMailAddress);
 	}
 
 	/**
