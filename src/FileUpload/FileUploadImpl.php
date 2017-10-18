@@ -205,6 +205,8 @@ final class FileUploadImpl implements FileUpload {
 				return $this->filesystems->storage();
 			case Location::WEB:
 				return $this->filesystems->web();
+			case Location::TEMPORARY:
+				return $this->filesystems->temp();
 			default:
 				throw new \InvalidArgumentException("No filesystem found for location code \"$location\"");
 		}

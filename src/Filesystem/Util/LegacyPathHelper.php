@@ -34,6 +34,9 @@ class LegacyPathHelper {
 	public static function deriveFilesystemFrom($absolutePath) {
 
 		switch (true) {
+			case strpos($absolutePath, CLIENT_DATA_DIR . "/temp") === 0:
+				return self::filesystems()->temp();
+
 			//ILIAS has a lot of cases were a relative web path is used eg ./data/default
 			case strpos($absolutePath, ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
 			case strpos($absolutePath, './' . ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
@@ -43,8 +46,6 @@ class LegacyPathHelper {
 				return self::filesystems()->storage();
 			case strpos($absolutePath, ILIAS_ABSOLUTE_PATH . '/Customizing') === 0:
 				return self::filesystems()->customizing();
-			case strpos($absolutePath, sys_get_temp_dir()) === 0:
-				return self::filesystems()->temp();
 			default:
 				throw new \InvalidArgumentException('Invalid path supplied. Path must start with the web, storage, temp or customizing storage location.');
 		}
