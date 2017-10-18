@@ -1,6 +1,7 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Services/Mail/classes/Options/class.ilMailTransportSettings.php';
 /**
 * Class ilMailOptions
 * this class handles user mails 
@@ -69,18 +70,24 @@ class ilMailOptions
 	 */
 	protected $mail_address_option = self::FIRST_EMAIL;
 
+
+	private $mailTransportSettings;
 	/**
 	 * @param int $a_user_id
 	 */
-	public function __construct($a_user_id)
+	public function __construct($a_user_id, ilMailTransportSettings $mailTransportSettings = null)
 	{
 		global $DIC;
 
 		$this->user_id = $a_user_id;
 
-		$this->ilias    = $DIC['ilias'];
 		$this->db       = $DIC->database();
 		$this->settings = $DIC->settings();
+
+		if ($mailTransportSettings === null) {
+			$mailTransportSettings = new ilMailTransportSettings($this);
+		}
+		$this->mailTransportSettings = $mailTransportSettings;
 
 		$this->read();
 	}
@@ -112,7 +119,7 @@ class ilMailOptions
 	/**
 	 * 
 	 */
-	protected function read()
+	protected function read($firstMail = '', $secondMail = '')
 	{
 		$res = $this->db->queryF(
 			'SELECT * FROM ' . $this->table_mail_options . ' WHERE user_id = %s',
@@ -126,20 +133,16 @@ class ilMailOptions
 		$this->linebreak            = $row->linebreak;
 		$this->incoming_type        = $row->incoming_type;
 		$this->mail_address_option  = (int)$row->mail_address_option >= 3 ? $row->mail_address_option : self::FIRST_EMAIL;
-		
-		// verify saved mail option
-		if(!strlen(ilObjUser::_lookupSecondEmail($this->user_id)) && $this->incoming_type >= self::INCOMING_EMAIL)
-		{
-			// reset to default value
-			$this->mail_address_option = self::FIRST_EMAIL;
-			$this->updateOptions();
+
+		if ($firstMail === '') {
+			$firstMail  = ilObjUser::_lookupEmail($this->user_id);
 		}
-		if(!strlen(ilObjUser::_lookupEmail($this->user_id)))
-		{
-			// reset to default value
-			$this->incoming_type = self::INCOMING_LOCAL;
-			$this->updateOptions();
+
+		if ($secondMail === '') {
+			$secondMail = ilObjUser::_lookupSecondEmail($this->user_id);
 		}
+
+		$this->mailTransportSettings->adjust($firstMail, $secondMail);
 	}
 
 	/**
@@ -162,7 +165,7 @@ class ilMailOptions
 			$data['cronjob_notification']  = array('integer', (int)self::lookupNotificationSetting($this->user_id));
 		}
 
-		$this->db->replace(
+		return $this->db->replace(
 			$this->table_mail_options,
 			array(
 				'user_id' => array('integer', $this->user_id)
@@ -339,4 +342,4 @@ class ilMailOptions
 	{
 		return self::getExternalEmailsByUser(new ilObjUser($user_id), $mail_options);
 	}
-} 
+}
