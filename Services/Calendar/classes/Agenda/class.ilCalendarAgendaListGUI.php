@@ -58,6 +58,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 		$this->ctrl->saveParameter($this, "cal_agenda_per");
 
 		//$qp = $DIC->http()->request()->getQueryParams();
+		#21479
 		$qp = $_GET;
 		if ((int) $qp["cal_agenda_per"] > 0 && (int) $qp["cal_agenda_per"] <= 4) {
 			$this->period = $qp["cal_agenda_per"];
@@ -271,6 +272,8 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 			$images[$this->period] = "<img src='./templates/default/images/icon_checked.svg' alt='Month'>";
 		}
 
+		#21479 Set seed if the view does not contain any event.
+		$this->ctrl->setParameter($this, 'seed', $this->seed->get(IL_CAL_DATE));
 
 		$items = array();
 		$this->ctrl->setParameter($this, "cal_agenda_per", self::PERIOD_DAY);

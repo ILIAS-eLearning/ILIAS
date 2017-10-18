@@ -488,6 +488,7 @@ class ilCalendarPresentationGUI
 				break;
 				
 			case 'ilcalendarinboxgui':
+				#21479
 				if($view_option = $_GET['cal_agenda_per']) {
 					ilSession::set("cal_list_view",$view_option);
 				} elseif ($view_option = ilSession::get('cal_list_view')) {
