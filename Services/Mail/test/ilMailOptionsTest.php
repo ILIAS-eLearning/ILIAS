@@ -22,6 +22,9 @@ class ilMailOptionsTest extends \ilMailBaseTest
 		$object->linebreak = false;
 		$object->incoming_type = 'MY';
 		$object->mail_address_option = 0;
+		$object->email = 'test@test.com';
+		$object->second_email = 'ilias@ilias.com';
+
 
 		$queryMock->method('fetchRow')->willReturn($object);
 		$database->expects($this->atLeastOnce())->method('queryF')->willReturn($queryMock);

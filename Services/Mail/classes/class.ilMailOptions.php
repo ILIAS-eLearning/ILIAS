@@ -120,14 +120,12 @@ class ilMailOptions
 		);
 	}
 
-	/**
-	 * @param string $firstMailAddress
-	 * @param string $secondMailAddress
-	 */
-	protected function read($firstMailAddress = '', $secondMailAddress = '')
+	protected function read()
 	{
 		$res = $this->db->queryF(
-			'SELECT * FROM ' . $this->table_mail_options . ' WHERE user_id = %s',
+			'SELECT * FROM mail_options 
+			 LEFT JOIN usr_data ON mail_options.user_id = usr_data.usr_id
+			 WHERE mail_options.user_id = %s',
 			array('integer'),
 			array($this->user_id)
 		);
@@ -139,13 +137,9 @@ class ilMailOptions
 		$this->incoming_type        = $row->incoming_type;
 		$this->mail_address_option  = (int)$row->mail_address_option >= 3 ? $row->mail_address_option : self::FIRST_EMAIL;
 
-		if ($firstMailAddress === '') {
-			$firstMailAddress  = ilObjUser::_lookupEmail($this->user_id);
-		}
+		$firstMailAddress  = $row->email;
 
-		if ($secondMailAddress === '') {
-			$secondMailAddress = ilObjUser::_lookupSecondEmail($this->user_id);
-		}
+		$secondMailAddress = $row->second_email;
 
 		$this->mailTransportSettings->adjust($firstMailAddress, $secondMailAddress);
 	}
