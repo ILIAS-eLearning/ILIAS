@@ -4475,6 +4475,9 @@ class ilUtil
 			case strpos($a_target, CLIENT_WEB_DIR) === 0:
 				$targetFilesystem = \ILIAS\FileUpload\Location::WEB;
 				break;
+			case strpos($a_target, CLIENT_DATA_DIR . "/temp") === 0:
+				$targetFilesystem = \ILIAS\FileUpload\Location::TEMPORARY;
+				break;
 			case strpos($a_target, CLIENT_DATA_DIR) === 0:
 				$targetFilesystem = \ILIAS\FileUpload\Location::STORAGE;
 				break;
