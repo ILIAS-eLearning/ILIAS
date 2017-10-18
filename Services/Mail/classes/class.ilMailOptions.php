@@ -94,11 +94,13 @@ class ilMailOptions
 		$incomingMail        = strlen($this->settings->get('mail_incoming_mail'))  ? (int)$this->settings->get('mail_incoming_mail') : self::INCOMING_LOCAL;
 		$mail_address_option = strlen($this->settings->get('mail_address_option')) ? (int)$this->settings->get('mail_address_option') : self::FIRST_EMAIL;
 
-		$this->db->insert(
+		$this->db->replace(
 			$this->table_mail_options,
 			array(
 				'user_id'              => array('integer', $this->user_id),
-				'linebreak'            => array('integer', self::DEFAULT_LINE_BREAK),
+			),
+			array(
+				'linebreak'            => array('integer', (int)self::DEFAULT_LINE_BREAK),
 				'signature'            => array('text', null),
 				'incoming_type'        => array('integer', $incomingMail),
 				'mail_address_option'  => array('integer', $mail_address_option),

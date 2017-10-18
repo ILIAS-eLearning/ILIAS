@@ -4170,6 +4170,8 @@ class ilUtil
 	 *
 	 * @return bool
 	 *
+	 * @throws ilException Thrown if no uploaded files are found and raise error is set to true.
+	 *
 	 * @deprecated in favour of the FileUpload service.
 	 *
 	 * @see \ILIAS\DI\Container::upload()
@@ -4472,6 +4474,9 @@ class ilUtil
 			case strpos($a_target, './' . ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
 			case strpos($a_target, CLIENT_WEB_DIR) === 0:
 				$targetFilesystem = \ILIAS\FileUpload\Location::WEB;
+				break;
+			case strpos($a_target, CLIENT_DATA_DIR . "/temp") === 0:
+				$targetFilesystem = \ILIAS\FileUpload\Location::TEMPORARY;
 				break;
 			case strpos($a_target, CLIENT_DATA_DIR) === 0:
 				$targetFilesystem = \ILIAS\FileUpload\Location::STORAGE;

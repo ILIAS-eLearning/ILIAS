@@ -346,15 +346,15 @@ class ilCalendarUserSettings
 		
 		$this->setDayStart($this->user->getPref('day_start') !== false ?
 			$this->user->getPref('day_start') :
-			ilCalendarSettings::DEFAULT_DAY_START
+			$this->settings->getDefaultDayStart()
 		);
 		$this->setDayEnd($this->user->getPref('day_end') !== false ?
 			$this->user->getPref('day_end') :
-			ilCalendarSettings::DEFAULT_DAY_END
+			$this->settings->getDefaultDayEnd()
 		);
 		$this->setShowWeeks($this->user->getPref('show_weeks') !== false ?
 			$this->user->getPref('show_weeks') :
-			ilCalendarSettings::DEFAULT_SHOW_WEEKS
+			$this->settings->getShowWeeks()
 		);
 	}
 	
