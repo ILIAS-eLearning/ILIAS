@@ -4170,6 +4170,8 @@ class ilUtil
 	 *
 	 * @return bool
 	 *
+	 * @throws ilException Thrown if no uploaded files are found and raise error is set to true.
+	 *
 	 * @deprecated in favour of the FileUpload service.
 	 *
 	 * @see \ILIAS\DI\Container::upload()
