@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 /** 
- * AMD field type date
+ * AMD field type external link
  * 
  * Stefan Meyer <smeyer.ilias@gmx.de>
  * 
