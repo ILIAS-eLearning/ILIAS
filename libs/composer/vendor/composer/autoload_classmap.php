@@ -4734,6 +4734,7 @@ return array(
     'ilObjectTypeMismatchException' => $baseDir . '/../../Services/Object/exceptions/class.ilObjectTypeMismatchException.php',
     'ilObjectivesAlignmentTableGUI' => $baseDir . '/../../Modules/Scorm2004/classes/class.ilObjectivesAlignmentTableGUI.php',
     'ilOnScreenChat' => $baseDir . '/../../Services/OnScreenChat/classes/class.ilOnScreenChat.php',
+    'ilOnScreenChatAppEventListener' => $baseDir . '/../../Services/OnScreenChat/classes/class.ilOnScreenChatAppEventListener.php',
     'ilOnScreenChatGUI' => $baseDir . '/../../Services/OnScreenChat/classes/class.ilOnScreenChatGUI.php',
     'ilOnScreenChatMenuGUI' => $baseDir . '/../../Services/OnScreenChat/classes/class.ilOnScreenChatMenuGUI.php',
     'ilOnScreenChatUserUserAutoComplete' => $baseDir . '/../../Services/OnScreenChat/classes/class.ilOnScreenChatUserUserAutoComplete.php',

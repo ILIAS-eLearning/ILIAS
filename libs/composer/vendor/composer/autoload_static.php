@@ -4873,6 +4873,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilObjectTypeMismatchException' => __DIR__ . '/../..' . '/../../Services/Object/exceptions/class.ilObjectTypeMismatchException.php',
         'ilObjectivesAlignmentTableGUI' => __DIR__ . '/../..' . '/../../Modules/Scorm2004/classes/class.ilObjectivesAlignmentTableGUI.php',
         'ilOnScreenChat' => __DIR__ . '/../..' . '/../../Services/OnScreenChat/classes/class.ilOnScreenChat.php',
+        'ilOnScreenChatAppEventListener' => __DIR__ . '/../..' . '/../../Services/OnScreenChat/classes/class.ilOnScreenChatAppEventListener.php',
         'ilOnScreenChatGUI' => __DIR__ . '/../..' . '/../../Services/OnScreenChat/classes/class.ilOnScreenChatGUI.php',
         'ilOnScreenChatMenuGUI' => __DIR__ . '/../..' . '/../../Services/OnScreenChat/classes/class.ilOnScreenChatMenuGUI.php',
         'ilOnScreenChatUserUserAutoComplete' => __DIR__ . '/../..' . '/../../Services/OnScreenChat/classes/class.ilOnScreenChatUserUserAutoComplete.php',
