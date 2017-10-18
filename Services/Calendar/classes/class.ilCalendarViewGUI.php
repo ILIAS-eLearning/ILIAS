@@ -346,18 +346,25 @@ class ilCalendarViewGUI
 	function addToolbarActions()
 	{
 		$settings = ilCalendarSettings::_getInstance();
-		if($settings->isBatchFileDownloadsEnabled() && $this->view_with_appointments)
-		{
-			$toolbar = $this->toolbar;
-			$f = $this->ui_factory;
-			$lng = $this->lng;
-			$ctrl = $this->ctrl;
 
-			// file download
-			$add_button = $f->button()->standard($lng->txt("cal_download_files"),
-				$ctrl->getLinkTarget($this, "downloadFiles"));
-			$toolbar->addSeparator();
-			$toolbar->addComponent($add_button);
+		if($settings->isBatchFileDownloadsEnabled())
+		{
+			if($this->presentation_type == self::CAL_PRESENTATION_AGENDA_LIST) {
+				$num_events = $this->countEventsInView();
+			}
+			if ($this->view_with_appointments || $num_events)
+			{
+				$toolbar = $this->toolbar;
+				$f = $this->ui_factory;
+				$lng = $this->lng;
+				$ctrl = $this->ctrl;
+
+				// file download
+				$add_button = $f->button()->standard($lng->txt("cal_download_files"),
+					$ctrl->getLinkTarget($this, "downloadFiles"));
+				$toolbar->addSeparator();
+				$toolbar->addComponent($add_button);
+			}
 		}
 	}
 
@@ -439,5 +446,44 @@ class ilCalendarViewGUI
 		}
 
 		return $bucket_title;
+	}
+
+	/**
+	 * get the events between 2 dates based in seed + view options.
+	 * @return int number of events in the calendar list view.
+	 */
+	function countEventsInView()
+	{
+		$start = $this->seed;
+		$end = clone $start;
+		$get_list_option = $_GET['cal_agenda_per'];
+		switch ($get_list_option)
+		{
+			case ilCalendarAgendaListGUI::PERIOD_DAY:
+				$end->increment(IL_CAL_DAY,1);
+				break;
+			case ilCalendarAgendaListGUI::PERIOD_MONTH:
+				$end->increment(IL_CAL_MONTH,1);
+				break;
+			case ilCalendarAgendaListGUI::PERIOD_HALF_YEAR:
+				$end->increment(IL_CAL_MONTH,6);
+				break;
+			case ilCalendarAgendaListGUI::PERIOD_WEEK:
+			default:
+				$end->increment(IL_CAL_DAY,7);
+				break;
+		}
+		$events = $this->getEvents();
+		$num_events = 0;
+		foreach($events as $event)
+		{
+			$event_start = $event['event']->getStart()->get(IL_CAL_DATE);
+			$event_end = $event['event']->getEnd()->get(IL_CAL_DATE);
+			if($event_start >= $start->get(IL_CAL_DATE) &&  $event_end< $end->get(IL_CAL_DATE))
+			{
+				$num_events++;
+			}
+		}
+		return $num_events;
 	}
 }
