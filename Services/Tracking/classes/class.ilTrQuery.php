@@ -988,7 +988,7 @@ class ilTrQuery
 				$a_users = $prg->getIdsOfUsersWithRelevantProgress();
 				break;
 			default:
-				// no sensible data: return null
+				$a_users = [];
 				break;
 		}
 		
@@ -999,11 +999,6 @@ class ilTrQuery
 			$a_ref_id,
 			$a_users
 		);
-		
-		
-		
-		
-		return $a_users;
 	}
 
 	/**
