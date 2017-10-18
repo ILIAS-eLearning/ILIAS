@@ -16,7 +16,7 @@ PHPUnit to run and create unit tests.
 
 ### Dependencies for production
 - Add a new library using composer, e.g. "composer require filp/whoops"
-- Documents the usage and your wrapper class in composer.json, e.g.:
+- Document the usage and your wrapper class in composer.json, e.g.:
 ```json
 "filp/whoops" : {
   "source" : "github.com/filp/whoops",
@@ -24,7 +24,9 @@ PHPUnit to run and create unit tests.
   "wrapped_by" : null,
   "added_by" : "Denis Klöpfer <denis.kloepfer@concepts-and-training.de>",
   "last_update" : "2016-03-22",
-  "last_update_by" : "Jörg Lützenkirchen <luetzenkirchen@leifos.com>"
+  "last_update_by" : "Jörg Lützenkirchen <luetzenkirchen@leifos.com>",
+  "approved-by": "Jour Fixe",
+  "approved-date": "YYYY-MM-DD"
 },
 ```
 
