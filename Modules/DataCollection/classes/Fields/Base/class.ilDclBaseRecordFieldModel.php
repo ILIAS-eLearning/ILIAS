@@ -138,7 +138,7 @@ class ilDclBaseRecordFieldModel {
 
 			$insert_params = array(
 				"value" => array( $datatype->getDbType(), $value),
-				"record_field_id " => array( "integer", $this->getId()),
+				"record_field_id" => array( "integer", $this->getId()),
 				"id" => array( "integer", $next_id )
 			);
 
