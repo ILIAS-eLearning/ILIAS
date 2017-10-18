@@ -59,9 +59,10 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 
 		//$qp = $DIC->http()->request()->getQueryParams();
 		$qp = $_GET;
-		if ((int) $qp["cal_agenda_per"] > 0 && (int) $qp["cal_agenda_per"] <= 4)
-		{
+		if ((int) $qp["cal_agenda_per"] > 0 && (int) $qp["cal_agenda_per"] <= 4) {
 			$this->period = $qp["cal_agenda_per"];
+		} else if ($period = ilSession::get('cal_list_view')) {
+			$this->period = $period;
 		}
 
 		$get_seed = $qp["seed"];

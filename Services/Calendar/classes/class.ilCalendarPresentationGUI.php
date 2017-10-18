@@ -488,6 +488,11 @@ class ilCalendarPresentationGUI
 				break;
 				
 			case 'ilcalendarinboxgui':
+				if($view_option = $_GET['cal_agenda_per']) {
+					ilSession::set("cal_list_view",$view_option);
+				} elseif ($view_option = ilSession::get('cal_list_view')) {
+					ilSession::set("cal_list_view",$view_option);
+				}
 				$ilUser->writePref('cal_last_class',$a_class);
 				$_SESSION['cal_last_tab'] = 'cal_upcoming_events_header';
 				$this->setCmdClass('ilcalendarinboxgui');
