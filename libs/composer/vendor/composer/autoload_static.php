@@ -4168,6 +4168,7 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'ilMailTemplateSelectInputGUI' => __DIR__ . '/../..' . '/../../Services/Mail/classes/Form/class.ilMailTemplateSelectInputGUI.php',
         'ilMailTemplateService' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailTemplateService.php',
         'ilMailTemplateTableGUI' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailTemplateTableGUI.php',
+        'ilMailTransportSettings' => __DIR__ . '/../..' . '/../../Services/Mail/classes/Options/class.ilMailTransportSettings.php',
         'ilMailUserActionProvider' => __DIR__ . '/../..' . '/../../Services/User/Actions/classes/class.ilMailUserActionProvider.php',
         'ilMailUserCache' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailUserCache.php',
         'ilMailbox' => __DIR__ . '/../..' . '/../../Services/Mail/classes/class.ilMailbox.php',

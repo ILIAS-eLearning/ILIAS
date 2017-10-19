@@ -4029,6 +4029,7 @@ return array(
     'ilMailTemplateSelectInputGUI' => $baseDir . '/../../Services/Mail/classes/Form/class.ilMailTemplateSelectInputGUI.php',
     'ilMailTemplateService' => $baseDir . '/../../Services/Mail/classes/class.ilMailTemplateService.php',
     'ilMailTemplateTableGUI' => $baseDir . '/../../Services/Mail/classes/class.ilMailTemplateTableGUI.php',
+    'ilMailTransportSettings' => $baseDir . '/../../Services/Mail/classes/Options/class.ilMailTransportSettings.php',
     'ilMailUserActionProvider' => $baseDir . '/../../Services/User/Actions/classes/class.ilMailUserActionProvider.php',
     'ilMailUserCache' => $baseDir . '/../../Services/Mail/classes/class.ilMailUserCache.php',
     'ilMailbox' => $baseDir . '/../../Services/Mail/classes/class.ilMailbox.php',
