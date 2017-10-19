@@ -2911,7 +2911,6 @@ class ilObjSurvey extends ilObject
 		else
 		{
 			$row = $ilDB->fetchAssoc($result);
-			
 			// yes, we are doing it this way
 			$_SESSION["finished_id"][$this->getId()] = $row["finished_id"];
 			

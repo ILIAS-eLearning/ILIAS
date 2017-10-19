@@ -1638,16 +1638,16 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		// :TODO: really save in session?			
 		$_SESSION["anonymous_id"][$this->object->getId()] = $anonymous_code;
-			
 		$survey_started = $this->object->isSurveyStarted($ilUser->getId(), $anonymous_code);	
 								
 		$showButtons = $big_button = false;
-						
+
 		// already finished?
 		if(!$this->object->get360Mode() &&
-			$survey_started === 1)
-		{					
-			ilUtil::sendInfo($this->lng->txt("already_completed_survey"));
+				($survey_started === 1 &&											// survey finished
+				!(!$this->object->isAccessibleWithoutCode() && !$anonymous_code && $ilUser->getId() == ANONYMOUS_USER_ID)))	// not code accessible an no anonymous code and anonymous user (see #0020333)
+		{
+			ilUtil::sendInfo($this->lng->txt("already_completed_survey")." (".$anonymous_code.")");
 			
 			if($ilUser->getId() != ANONYMOUS_USER_ID)
 			{
