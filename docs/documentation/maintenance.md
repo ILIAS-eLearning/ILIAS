@@ -580,4 +580,3 @@ The following directories are currently unmaintained:
 * Services/Membership
 * Services/QTI
 * Services/Randomization
-* Services/Xml
