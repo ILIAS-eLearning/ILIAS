@@ -841,7 +841,13 @@ class ilCertificate
 						$xsl = file_get_contents($copydir . $file["entry"]);
 						// as long as we cannot make RPC calls in a given directory, we have
 						// to add the complete path to every url
-						$xsl = preg_replace("/url\([']{0,1}(.*?)[']{0,1}\)/", "url(" . $this->getAdapter()->getCertificatePath() . "\${1})", $xsl);
+						$xsl = preg_replace_callback("/url\([']{0,1}(.*?)[']{0,1}\)/", function(array $matches) {
+
+							$basePath = rtrim(dirname($this->getBackgroundImagePath(true)), '/');
+							$fileName = basename($matches[1]);
+							
+							return 'url(' . $basePath . '/' . $fileName . ')';
+						}, $xsl);
 						$this->saveCertificate($xsl);
 					}
 					else if (strpos($file["entry"], ".zip") !== FALSE)
