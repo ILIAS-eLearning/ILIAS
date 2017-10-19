@@ -76,7 +76,7 @@ class ilMailTransportSettingsTest extends ilMailBaseTest
 		$this->assertEquals(0, $mailOptions->getIncomingType());
 	}
 
-	public function testNothingWillAdjusted()
+	public function testNothingWillBeAdjusted()
 	{
 		$mailOptions = $this->getMockBuilder('ilMailOptions')
 			->disableOriginalConstructor()
