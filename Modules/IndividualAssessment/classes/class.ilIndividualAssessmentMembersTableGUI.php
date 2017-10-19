@@ -68,7 +68,11 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 
 		if($this->userMayViewGrades() || $this->userMayEditGrades()) {
 			$this->tpl->setCurrentBlock('lp_info');
-			$status = $a_set[ilIndividualAssessmentMembers::FIELD_FINALIZED] == 1 ? $a_set[ilIndividualAssessmentMembers::FIELD_LEARNING_PROGRESS] : ilIndividualAssessmentMembers::LP_IN_PROGRESS;
+			$status = $a_set[ilIndividualAssessmentMembers::FIELD_LEARNING_PROGRESS];
+			if($status == 0)
+			{
+				$status = ilIndividualAssessmentMembers::LP_IN_PROGRESS;
+			}
 			$this->tpl->setVariable("LP_STATUS", $this->getEntryForStatus($status));
 
 			$graded_by = "";
