@@ -196,6 +196,13 @@ class BookableCourse {
 		return $this->detail_info;
 	}
 
+	protected function getFurtherInfo() {
+		if ($this->small_detail_info === null) {
+			$this->small_detail_info = $this->getCourseInfo(CourseInfo::CONTEXT_SEARCH_FURTHER_INFO);
+		}
+		return $this->small_detail_info;
+	}
+
 	public function getTitleValue() {
 		// Take most important info as title
 		$short_info = $this->getShortInfo();
@@ -221,15 +228,7 @@ class BookableCourse {
 	}
 
 	public function getFurtherFields() {
-		global $DIC;
-		$lng = $DIC["lng"];
-		return
-			[ $lng->txt("location") => $this->getLocation()
-			, $this->getAddress()
-			, $lng->txt("date") => $this->formatDate($this->getBeginDate())." - ".$this->formatDate($this->getEndDate())
-			, $lng->txt("available_slots") => $this->getBookingsAvailable()
-			, $lng->txt("fee") => $this->getFee()
-			];
+		return $this->unpackLabelAndNestedValue($this->getUIFactory(), $this->getFurtherInfo());
 	}
 
 	public function getDetailFields() {

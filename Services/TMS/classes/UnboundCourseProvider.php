@@ -23,10 +23,12 @@ class UnboundCourseProvider extends SeparatedUnboundProvider {
 	public function buildComponentsOf($component_type, Entity $entity) {
 		global $DIC;
 		$lng = $DIC["lng"];
+		$lng->loadLanguageModule("tms");
+		$user = $DIC->user();
 		$object = $entity->object();
+
 		if ($component_type === CourseInfo::class) {
-			return
-				[ new CourseInfoImpl
+			$ret = [ new CourseInfoImpl
 					( $entity
 					, $lng->txt("title")
 					, $object->getTitle()
@@ -50,13 +52,61 @@ class UnboundCourseProvider extends SeparatedUnboundProvider {
 						CourseInfo::CONTEXT_USER_BOOKING_FURTHER_INFO
 					  ]
 					)
+				, new CourseInfoImpl
+					( $entity
+					, ""
+					, $this->formatDate($object->getCourseStart())
+					, ""
+					, 300
+					, [CourseInfo::CONTEXT_SEARCH_SHORT_INFO]
+					)
+				, new CourseInfoImpl
+					( $entity
+					, ""
+					, $this->formatDate($object->getCourseStart())." - ".$this->formatDate($object->getCourseEnd())
+					, ""
+					, 300
+					, [CourseInfo::CONTEXT_SEARCH_FURTHER_INFO]
+					)
 				];
+
+			require_once("Modules/Course/classes/class.ilCourseParticipants.php");
+			require_once("Services/Membership/classes/class.ilWaitingList.php");
+			if(\ilCourseParticipants::_isParticipant($object->getRefId(), $user->getId())) {
+				$ret[] = new CourseInfoImpl
+						( $entity
+						, $lng->txt("status")
+						, $lng->txt("member")
+						, ""
+						, 600
+						, [
+							CourseInfo::CONTEXT_USER_BOOKING_FURTHER_INFO
+						  ]
+					);
+			}
+
+			if(\ilWaitingList::_isOnList($user->getId(), $object->getId())) {
+				$ret[] = new CourseInfoImpl
+						( $entity
+						, $lng->txt("status")
+						, $lng->txt("waitinglist")
+						, ""
+						, 600
+						, [
+							CourseInfo::CONTEXT_USER_BOOKING_FURTHER_INFO
+						  ]
+					);
+			}
+
+			$venue_components = $this->getVenueComponents($entity, (int)$object->getId());
+
+			return array_merge($ret, $venue_components);
 		}
 		throw new \InvalidArgumentException("Unexpected component type '$component_type'");
 	}
 
 	/**
-	 * Form date.
+	 * Form date for gui as user timezone string
 	 *
 	 * @param ilDateTime 	$dat
 	 * @param bool 	$use_time
@@ -129,6 +179,15 @@ class UnboundCourseProvider extends SeparatedUnboundProvider {
 				  ]
 				);
 			}
+
+			$ret[] = new CourseInfoImpl
+				( $entity
+				, $txt("city")
+				, $address
+				, ""
+				, 100
+				, [CourseInfo::CONTEXT_SEARCH_FURTHER_INFO]
+				);
 		}
 		return $ret;
 	}
