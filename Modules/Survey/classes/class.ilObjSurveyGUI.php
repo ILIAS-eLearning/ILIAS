@@ -1647,7 +1647,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				($survey_started === 1 &&											// survey finished
 				!(!$this->object->isAccessibleWithoutCode() && !$anonymous_code && $ilUser->getId() == ANONYMOUS_USER_ID)))	// not code accessible an no anonymous code and anonymous user (see #0020333)
 		{
-			ilUtil::sendInfo($this->lng->txt("already_completed_survey")." (".$anonymous_code.")");
+			ilUtil::sendInfo($this->lng->txt("already_completed_survey"));
 			
 			if($ilUser->getId() != ANONYMOUS_USER_ID)
 			{
