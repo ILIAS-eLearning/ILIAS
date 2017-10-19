@@ -163,6 +163,7 @@
 ## Survey Run ("Finished")
 * Stores progress of user working through a survey
 * table svy_finished
+  * finished_id: autoincrement and pk of this table
   * survey_fi: survey -> svy_svy
   * user_fi: user -> usr_data (and object_data)
   * anonymous_id:
