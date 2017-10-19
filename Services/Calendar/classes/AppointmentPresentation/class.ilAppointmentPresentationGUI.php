@@ -205,7 +205,7 @@ class ilAppointmentPresentationGUI extends ilCalendarViewGUI implements ilCalend
 
 		$next_class = $ilCtrl->getNextClass();
 		$cmd = $ilCtrl->getCmd("getHTML");
-
+		
 		switch ($next_class)
 		{
 			default:
@@ -608,8 +608,15 @@ class ilAppointmentPresentationGUI extends ilCalendarViewGUI implements ilCalend
 		$ctrl_path[] = "ilCalendarPresentationGUI";
 		$ctrl_path[] = "ilpublicuserprofilegui";
 
-		return ilUserUtil::getNamePresentation($a_user_id, false, true, $this->ctrl->getParentReturn($this),
-			false, false, true, false, $ctrl_path);
+		return ilUserUtil::getNamePresentation(
+			$a_user_id, 
+			false, true, 
+			$this->ctrl->getParentReturn($this),
+			false, 
+			false,
+			true, 
+			false, 
+			$ctrl_path);
 	}
 
 	/**

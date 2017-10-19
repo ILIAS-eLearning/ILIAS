@@ -205,6 +205,9 @@ class ilCalendarViewGUI
 		$f = $this->ui_factory;
 		$r = $this->ui_renderer;
 		$ctrl = $this->ctrl;
+		
+		// set return class 
+		$this->ctrl->setReturn($this, '');
 
 		// @todo: this needs optimization
 		$events = $this->getEvents();
