@@ -771,7 +771,12 @@ class ilStartUpGUI
 
 			case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
 				ilUtil::sendFailure($status->getTranslatedReason(), true);
-				ilUtil::redirect(ilUtil::appendUrlParameterString($GLOBALS['ilCtrl']->getLinkTarget($this, 'showLoginPage'), 'passed_sso=1'));
+				ilUtil::redirect(
+					ilUtil::appendUrlParameterString(
+						$GLOBALS['ilCtrl']->getLinkTarget($this, 'showLoginPage', '', false, false),
+						'passed_sso=1'
+					)
+				);
 				return false;
 		}
 
