@@ -123,7 +123,14 @@ class ilMailOptions
 	protected function read()
 	{
 		$res = $this->db->queryF(
-			'SELECT * FROM mail_options 
+			'SELECT mail_options.cronjob_notification,
+					mail_options.signature,
+					mail_options.linebreak,
+					mail_options.incoming_type,
+					mail_options.mail_address_option,
+					usr_data.email,
+					usr_data.second_email
+			 FROM mail_options 
 			 LEFT JOIN usr_data ON mail_options.user_id = usr_data.usr_id
 			 WHERE mail_options.user_id = %s',
 			array('integer'),
