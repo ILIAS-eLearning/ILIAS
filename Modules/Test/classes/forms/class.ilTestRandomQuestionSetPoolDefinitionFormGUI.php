@@ -59,6 +59,8 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
 	
 	public function __construct(ilCtrl $ctrl, ilLanguage $lng, ilObjTest $testOBJ, ilTestRandomQuestionSetConfigGUI $questionSetConfigGUI, ilTestRandomQuestionSetConfig $questionSetConfig)
 	{
+		parent::__construct();
+
 		$this->ctrl = $ctrl;
 		$this->lng = $lng;
 		$this->testOBJ = $testOBJ;
