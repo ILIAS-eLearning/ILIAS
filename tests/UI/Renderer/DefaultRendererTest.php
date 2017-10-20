@@ -59,7 +59,7 @@ class DefaultRendererTest extends ILIAS_UI_TestBase {
 	public function test_passesContextsToComponentRendererLoader() {
 		$loader = $this
 			->getMockBuilder(\ILIAS\UI\Implementation\Render\Loader::class)
-			->setMethods(["getRendererFor"])
+			->setMethods(["getRendererFor", "getRendererFactoryFor"])
 			->getMock();
 
 		$renderer = new TestDefaultRenderer($loader);

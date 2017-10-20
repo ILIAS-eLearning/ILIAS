@@ -6,7 +6,7 @@
 class ComponentRendererLoaderCachingWrapperTest extends PHPUnit_Framework_TestCase {
 	public function test_forwards_from_underlying() {
 		$underlying = $this->getMockBuilder(\ILIAS\UI\Implementation\Render\Loader::class)
-			->setMethods(["getRendererFor"])
+			->setMethods(["getRendererFor", "getRendererFactoryFor"])
 			->getMock();
 
 		$renderer = new \stdClass();
@@ -26,7 +26,7 @@ class ComponentRendererLoaderCachingWrapperTest extends PHPUnit_Framework_TestCa
 
 	public function test_caches() {
 		$underlying = $this->getMockBuilder(\ILIAS\UI\Implementation\Render\Loader::class)
-			->setMethods(["getRendererFor"])
+			->setMethods(["getRendererFor", "getRendererFactoryFor"])
 			->getMock();
 
 		$renderer = new \stdClass();
@@ -47,7 +47,7 @@ class ComponentRendererLoaderCachingWrapperTest extends PHPUnit_Framework_TestCa
 
 	public function test_caching_respects_contexts() {
 		$underlying = $this->getMockBuilder(\ILIAS\UI\Implementation\Render\Loader::class)
-			->setMethods(["getRendererFor"])
+			->setMethods(["getRendererFor", "getRendererFactoryFor"])
 			->getMock();
 
 		$renderer1 = new \stdClass();
@@ -72,5 +72,24 @@ class ComponentRendererLoaderCachingWrapperTest extends PHPUnit_Framework_TestCa
 		$this->assertSame($renderer2, $r2);
 		$this->assertSame($renderer2, $r3);
 		$this->assertSame($renderer1, $r4);
+	}
+
+	public function test_passthrough_getRendererFactory() {
+		$underlying = $this->getMockBuilder(\ILIAS\UI\Implementation\Render\Loader::class)
+			->setMethods(["getRendererFor", "getRendererFactoryFor"])
+			->getMock();
+
+		$c1 = $this->createMock(\ILIAS\UI\Component\Component::class);
+
+		$factory = "FACTORY";
+		$underlying
+			->expects($this->exactly(1))
+			->method("getRendererFactoryFor")
+			->with($c1)
+			->willReturn($factory);
+
+		$l = new \ILIAS\UI\Implementation\Render\LoaderCachingWrapper($underlying);
+
+		$this->assertSame($factory, $l->getRendererFactoryFor($c1));
 	}
 }

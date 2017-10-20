@@ -19,4 +19,12 @@ interface Loader {
 	 * @return	ComponentRenderer
 	 */
 	public function getRendererFor(Component $component, array $contexts);
+
+	/**
+	 * Get a factory for a renderer for a certain component class.
+	 *
+	 * @param	Component	$component
+	 * @return	RendererFactory
+	 */
+	public function getRendererFactoryFor(Component $component);
 }

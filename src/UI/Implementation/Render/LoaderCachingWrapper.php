@@ -49,4 +49,11 @@ class LoaderCachingWrapper implements Loader {
 	protected function getCacheKey(Component $component, array $contexts) {
 		return $component->getCanonicalName()." ".implode("_", $this->getContextNames($contexts));
 	}
+
+	/**
+	 * @inheritdocs
+	 */
+	public function getRendererFactoryFor(Component $component) {
+		return $this->loader->getRendererFactoryFor($component);
+	}
 }

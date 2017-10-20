@@ -84,4 +84,10 @@ class FSLoader implements Loader {
 		$ret[] = $base;
 		return $ret;
 	}
+
+	/**
+	 * @inheritdocs
+	 */
+	public function getRendererFactoryFor(Component $component) {
+	}
 }

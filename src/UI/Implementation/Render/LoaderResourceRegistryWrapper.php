@@ -33,4 +33,11 @@ class LoaderResourceRegistryWrapper implements Loader {
 		$renderer->registerResources($this->resource_registry);
 		return $renderer;
     }
+
+	/**
+	 * @inheritdocs
+	 */
+	public function getRendererFactoryFor(Component $component) {
+		return $this->loader->getRendererFactoryFor($component);
+	}
 }
