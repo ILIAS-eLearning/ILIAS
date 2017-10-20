@@ -90,7 +90,7 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 			$names = [];
 			foreach($sorted_ids as $usr_id)
 			{
-				$name_presentation = $this->getUserName($usr_id);
+				$name_presentation = $this->getUserName($usr_id,true);
 				if(strlen($name_presentation))
 				{
 					$names[] = $name_presentation;
