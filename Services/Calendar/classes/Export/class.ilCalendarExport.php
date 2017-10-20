@@ -203,7 +203,7 @@ class ilCalendarExport
 		$this->writer->addLine('BEGIN:VEVENT');
 
 		$now = new ilDateTime(time(), IL_CAL_UNIX);
-		$this->writer->addLine('DTSTAMP:'.$now->get('IL_CAL_FKT_DATE','Ymd\THis\Z', ilTimeZone::UTC));
+		$this->writer->addLine('DTSTAMP:'.$now->get(IL_CAL_FKT_DATE,'Ymd\THis\Z', ilTimeZone::UTC));
 
 		$this->writer->addLine('UID:'.ilICalWriter::escapeText(
 			$app->getEntryId().'_'.CLIENT_ID.'@'.ILIAS_HTTP_PATH));
