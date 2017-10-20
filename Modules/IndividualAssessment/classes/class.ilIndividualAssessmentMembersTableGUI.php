@@ -48,7 +48,9 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 		if($this->userMayViewGrades() || $this->userMayEditGrades()) {
 			$columns['grading'] = array('lp_status');
 			$columns['iass_graded_by'] = array('iass_graded_by');
-			$columns['iass_changed_by'] = array('iass_changed_by');
+			if(true) {
+				$columns['iass_changed_by'] = array('iass_changed_by');
+			}
 		}
 		$columns['actions'] = array(null);
 		return $columns;
@@ -76,11 +78,19 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 			if($a_set[ilIndividualAssessmentMembers::FIELD_EXAMINER_ID] && $a_set[ilIndividualAssessmentMembers::FIELD_FINALIZED]) {
 				$graded_by = $a_set[ilIndividualAssessmentMembers::FIELD_EXAMINER_LASTNAME].", ".$a_set[ilIndividualAssessmentMembers::FIELD_EXAMINER_FIRSTNAME];
 			}
-			$changed_by = "Onk";
 			$this->tpl->setVariable("GRADED_BY", $graded_by);
-			$this->tpl->setVariable("CHANGED_BY", $changed_by);
-
 			$this->tpl->parseCurrentBlock();
+
+			if($a_set[ilIndividualAssessmentMembers::FIELD_CHANGED]) {
+				$changed_by =
+					$a_set[ilIndividualAssessmentMembers::FIELD_CHANGER_LASTNAME].", ".
+					$a_set[ilIndividualAssessmentMembers::FIELD_CHANGER_FIRSTNAME]." ".
+					$a_set[ilIndividualAssessmentMembers::FIELD_EVENTTIME]
+					;
+				$this->tpl->setCurrentBlock('changed_info');
+				$this->tpl->setVariable("CHANGED_BY", $changed_by);
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 
 		$this->tpl->setVariable("ACTIONS",$this->buildActionDropDown($a_set));
