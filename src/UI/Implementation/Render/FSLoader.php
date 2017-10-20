@@ -8,6 +8,14 @@ use ILIAS\UI\Component\Component;
 
 /**
  * Loads renderers for components from the file system.
+ *
+ * To introduce a component that may react on the context of the rendering, you need to:
+ *
+ * * create a new implementation of RendererFactory in the implementation folder of that
+ *   component
+ * * introduce it as a dependency of this loader
+ * * make a special case for the components the new factory may create renderers for in
+ *   FSLoader::getRendererFactoryFor
  */
 class FSLoader implements Loader {
 	use LoaderHelper;
@@ -17,7 +25,7 @@ class FSLoader implements Loader {
 	 */
 	private $default_renderer_factory;
 
-	public function __construct(DefaultRendererFactory $default_renderer_factory) {
+	public function __construct(RendererFactory $default_renderer_factory) {
 		$this->default_renderer_factory = $default_renderer_factory;
     }
 
