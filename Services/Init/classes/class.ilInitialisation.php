@@ -1358,10 +1358,12 @@ class ilInitialisation
 				( new ILIAS\UI\Implementation\Render\LoaderResourceRegistryWrapper
 					( $c["ui.resource_registry"]
 					, new ILIAS\UI\Implementation\Render\FSLoader
-						( $c["ui.factory"]
-						, $c["ui.template_factory"]
-						, $c["lng"]
-						, $c["ui.javascript_binding"]
+						( new ILIAS\UI\Implementation\Render\DefaultRendererFactory
+							($c["ui.factory"]
+							, $c["ui.template_factory"]
+							, $c["lng"]
+							, $c["ui.javascript_binding"]
+							)
 						)
 					)
 				);
