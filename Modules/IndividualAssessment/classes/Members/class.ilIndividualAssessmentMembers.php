@@ -178,6 +178,10 @@ class ilIndividualAssessmentMembers implements Iterator, Countable {
 			, self::FIELD_FILE_NAME				=> null
 			, self::FIELD_USER_VIEW_FILE		=> false
 			, self::FIELD_FINALIZED				=> 0
+			, self::FIELD_CHANGER_ID			=> null
+			, self::FIELD_CHANGER_FIRSTNAME		=> null
+			, self::FIELD_CHANGER_LASTNAME		=> null
+			, self::FIELD_CHANGED_FINALIZED		=> null
 			);
 	}
 
