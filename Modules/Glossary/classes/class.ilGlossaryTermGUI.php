@@ -615,32 +615,10 @@ class ilGlossaryTermGUI
 	*/
 	function addDefinition()
 	{
-		global $ilTabs;
+		global $ilCtrl;
 
-		//$this->getTemplate();
-		$this->displayLocator();
-		$this->setTabs();
-		$ilTabs->activateTab("definitions");
-		
-		$this->tpl->setTitle($this->lng->txt("cont_term").": ".$this->term->getTerm());
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.svg"));
-		
-		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this, "saveDefinition"));
-		$form->setTitle($this->lng->txt("gdf_new"));
-		
-		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
-		$title->setRequired(true);
-		$form->addItem($title);
-		
-		$desc = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
-		$form->addItem($desc);
-		
-		$form->addCommandButton("saveDefinition", $this->lng->txt("gdf_add"));
-		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
-		
-		$this->tpl->setContent($form->getHTML());
+		$ilCtrl->setParameterByClass("ilobjglossarygui", "term_id", $this->term->getId());
+		$ilCtrl->redirectByClass("ilobjglossarygui", "addDefinition");
 	}
 
 	/**
