@@ -541,7 +541,9 @@ required. The [Renderer](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/src
 offers a `withAdditionalContext` method for that purpose, which can be used to
 alter the selection of the renderer for your component. Before using it, consider
 if you really require a different look in a different context and, if that is indeed
-the case, whether you could achieve the same effect by using CSS.
+the case, whether you could achieve the same effect by using CSS. The class [FSLoader](src/UI/Implementation/Render/FSLoader.php)
+contains directions how to introduce new renderers for different contexts in your
+component.
 
 ### I don't understand that stuff, is there anyone who can explain it to me?
 
