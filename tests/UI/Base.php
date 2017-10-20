@@ -11,6 +11,7 @@ use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\Render\TemplateFactory;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Implementation\Render\JavaScriptBinding;
+use ILIAS\UI\Implementation\Render\DefaultRendererFactory;
 use ILIAS\UI\Implementation\DefaultRenderer;
 use ILIAS\UI\Implementation\ComponentRendererFSLoader;
 use ILIAS\UI\Implementation\Render;
@@ -153,10 +154,12 @@ abstract class ILIAS_UI_TestBase extends PHPUnit_Framework_TestCase {
 				( new Render\LoaderResourceRegistryWrapper
 					( $resource_registry
 					, new Render\FSLoader
-						( $ui_factory
-						, $tpl_factory
-						, $lng
-						, $js_binding
+						( new DefaultRendererFactory
+							( $ui_factory
+							, $tpl_factory
+							, $lng
+							, $js_binding
+							)
 						)
 					)
 				);

@@ -8,9 +8,6 @@ class ComponentRendererFSLoaderTesting extends ILIAS\UI\Implementation\Render\FS
     public function _instantiateRendererFor($class) {
         return $this->instantiateRendererFor($class);
     }
-    public function _getRendererNamesFor($class, array $contexts) {
-        return $this->getRendererNamesFor($class, $contexts);
-    }
 }
 
 class ComponentRendererFSLoaderTest extends PHPUnit_Framework_TestCase {
@@ -19,7 +16,8 @@ class ComponentRendererFSLoaderTest extends PHPUnit_Framework_TestCase {
 		$tpl_factory = $this->getMockBuilder(ILIAS\UI\Implementation\Render\TemplateFactory::class)->getMock();
 		$lng = $this->getMockBuilder(\ilLanguage::class)->disableOriginalConstructor()->getMock();
 		$js_binding = $this->getMockBuilder(ILIAS\UI\Implementation\Render\JavaScriptBinding::class)->getMock();
-        return new ComponentRendererFSLoaderTesting($ui_factory, $tpl_factory, $lng, $js_binding);
+		$default_renderer_factory = new \ILIAS\UI\Implementation\Render\DefaultRendererFactory($ui_factory, $tpl_factory, $lng, $js_binding);
+        return new ComponentRendererFSLoaderTesting($default_renderer_factory);
     }
 
 	public function test_getRenderer_successfully() {
@@ -29,24 +27,42 @@ class ComponentRendererFSLoaderTest extends PHPUnit_Framework_TestCase {
 		$this->assertInstanceOf(\ILIAS\UI\Implementation\Render\ComponentRenderer::class, $r);
 	}
 
-	public function test_getRendererNamesFor_no_context() {
-		$f = $this->getComponentRendererFSLoader();
+	public function test_getRenderer_uses_RendererFactory() {
+		$loader = $this->getMockBuilder(ILIAS\UI\Implementation\Render\FSLoader::class)
+			->setMethods(["getRendererFactoryFor", "getContextNames"])
+			->disableOriginalConstructor()
+			->getMock();
+		$factory = $this->getMockBuilder(ILIAS\UI\Implementation\RendererFactory::class)
+			->setMethods(["getRendererInContext"])
+			->getMock();
 
-		$renderer_class = $f->_getRendererNamesFor(\ILIAS\UI\Implementation\Component\Glyph\Glyph::class, []);
-		$expected = [\ILIAS\UI\Implementation\Component\Glyph\Renderer::class];
-		$this->assertEquals($expected, $renderer_class);
-	}
+		$rendered_component = $this->createMock(ILIAS\UI\Component\Component::class);
 
-	public function test_getRendererNamesFor_with_contexts() {
-		$f = $this->getComponentRendererFSLoader();
+		$component1 = $this->createMock(ILIAS\UI\Component\Component::class);
+		$component2 = $this->createMock(ILIAS\UI\Component\Component::class);
+		$component_name1 = "COMPONENT 1";
+		$component_name2 = "COMPONENT 2";
 
-		$context_names = $f->_getRendererNamesFor("Space\\Name", ["A", "B"]);
-		$expected =
-			[ "Space\\Renderer_A_B"
-			, "Space\\Renderer_B"
-			, "Space\\Renderer_A"
-			, "Space\\Renderer"
-			];
-		$this->assertEquals($expected, $context_names);
+		$loader
+			->expects($this->once())
+			->method("getContextNames")
+			->with([$component1, $component2])
+			->willReturn([$component_name1, $component_name2]);
+
+		$loader
+			->expects($this->once())
+			->method("getRendererFactoryFor")
+			->with($rendered_component)
+			->willReturn($factory);
+
+		$renderer = "RENDERER";
+		$factory
+			->expects($this->once())
+			->method("getRendererInContext")
+			->with($rendered_component, [$component_name1, $component_name2])
+			->willReturn($renderer);
+
+		$renderer2 = $loader->getRendererFor($rendered_component, [$component1, $component2]);
+		$this->assertEquals($renderer, $renderer2);
 	}
 }
