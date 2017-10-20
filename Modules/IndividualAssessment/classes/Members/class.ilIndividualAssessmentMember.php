@@ -21,6 +21,7 @@ class ilIndividualAssessmentMember {
 	protected $lp_status;
 	protected $place;
 	protected $event_time;
+	protected $changer_id;
 
 	public function __construct(ilObjIndividualAssessment $iass, ilObjUser $usr, array $data) {
 
@@ -33,6 +34,7 @@ class ilIndividualAssessmentMember {
 		$this->notification_ts = $data[ilIndividualAssessmentMembers::FIELD_NOTIFICATION_TS];
 		$this->place = $data[ilIndividualAssessmentMembers::FIELD_PLACE];
 		$this->event_time = new ilDateTime($data[ilIndividualAssessmentMembers::FIELD_EVENTTIME], IL_CAL_UNIX);
+		$this->changer_id = $data[ilIndividualAssessmentMembers::FIELD_CHANGER_ID];
 		$this->file_name = $data[ilIndividualAssessmentMembers::FIELD_FILE_NAME];
 		$this->view_file = $data[ilIndividualAssessmentMembers::FIELD_USER_VIEW_FILE];
 		$this->iass = $iass;
@@ -59,6 +61,15 @@ class ilIndividualAssessmentMember {
 	 * @return	int|string
 	 */
 	public function examinerId() {
+		return $this->examiner_id;
+	}
+
+	/**
+	 * Get the user id of the changer
+	 *
+	 * @return	int|string
+	 */
+	public function changerId() {
 		return $this->examiner_id;
 	}
 
@@ -207,6 +218,20 @@ class ilIndividualAssessmentMember {
 		assert('ilObjUser::_exists($examiner_id)');
 		$clone = clone $this;
 		$clone->examiner_id = $examiner_id;
+		return $clone;
+	}
+
+	/**
+	 * Clone this object and set an changer_id
+	 *
+	 * @param	int|string	$changer_id
+	 * @return	ilIndividualAssessmentMember
+	 */
+	public function withChangerId($changer_id) {
+		assert('is_numeric($changer_id)');
+		assert('ilObjUser::_exists($changer_id)');
+		$clone = clone $this;
+		$clone->changer_id = $changer_id;
 		return $clone;
 	}
 
