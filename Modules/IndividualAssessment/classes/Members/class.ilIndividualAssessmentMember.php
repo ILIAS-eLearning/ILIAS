@@ -22,9 +22,9 @@ class ilIndividualAssessmentMember {
 	protected $place;
 	protected $event_time;
 	protected $changer_id;
+	protected $changed;
 
 	public function __construct(ilObjIndividualAssessment $iass, ilObjUser $usr, array $data) {
-
 		$this->record = $data[ilIndividualAssessmentMembers::FIELD_RECORD];
 		$this->internal_note = $data[ilIndividualAssessmentMembers::FIELD_INTERNAL_NOTE];
 		$this->examiner_id = $data[ilIndividualAssessmentMembers::FIELD_EXAMINER_ID];
@@ -37,6 +37,7 @@ class ilIndividualAssessmentMember {
 		$this->changer_id = $data[ilIndividualAssessmentMembers::FIELD_CHANGER_ID];
 		$this->file_name = $data[ilIndividualAssessmentMembers::FIELD_FILE_NAME];
 		$this->view_file = $data[ilIndividualAssessmentMembers::FIELD_USER_VIEW_FILE];
+		$this->changed = $data[ilIndividualAssessmentMembers::FIELD_CHANGED];
 		$this->iass = $iass;
 		$this->usr = $usr;
 	}
@@ -70,7 +71,16 @@ class ilIndividualAssessmentMember {
 	 * @return	int|string
 	 */
 	public function changerId() {
-		return $this->examiner_id;
+		return $this->changer_id;
+	}
+
+	/**
+	 * Is changed after finaliz?
+	 *
+	 * @return	bool
+	 */
+	public function changed() {
+		return (string)$this->finalized === "1" ? true : false;
 	}
 
 	/**
@@ -327,6 +337,17 @@ class ilIndividualAssessmentMember {
 			return $clone;
 		}
 		throw new ilIndividualAssessmentException('user cant be finalized');
+	}
+
+	/**
+	 * Clone this object and set changed.
+	 *
+	 * @return	ilIndividualAssessmentMember
+	 */
+	public function withChanged() {
+		$clone = clone $this;
+		$clone->changed = 1;
+		return $clone;
 	}
 
 	/**
