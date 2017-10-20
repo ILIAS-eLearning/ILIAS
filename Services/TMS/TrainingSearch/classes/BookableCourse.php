@@ -228,11 +228,17 @@ class BookableCourse {
 	}
 
 	public function getFurtherFields() {
+		// Take info 2 to end as fields in header line
 		return $this->unpackLabelAndNestedValue($this->getUIFactory(), $this->getFurtherInfo());
 	}
 
 	public function getDetailFields() {
-		return $this->unpackLabelAndNestedValue($this->getUIFactory(), $this->getDetailInfo());
+		$detail_info = $this->getDetailInfo();
+		if(count($detail_info) > 0) {
+			return $this->unpackLabelAndNestedValue($this->getUIFactory(), $this->getDetailInfo());
+		}
+
+		return ["" => $this->getNoDetailInfoMessage()];
 	}
 
 	/**
@@ -275,6 +281,17 @@ class BookableCourse {
 		global $DIC;
 		$lng = $DIC["lng"];
 		return $lng->txt("unknown");
+	}
+
+	/**
+	 * Get a string that is "unknown" in the users language.
+	 *
+	 * @return string
+	 */
+	protected function getNoDetailInfoMessage() {
+		global $DIC;
+		$lng = $DIC["lng"];
+		return $lng->txt("no_detail_infos");
 	}
 }
 
