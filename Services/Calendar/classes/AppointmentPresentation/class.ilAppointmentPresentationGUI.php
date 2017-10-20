@@ -589,7 +589,7 @@ class ilAppointmentPresentationGUI extends ilCalendarViewGUI implements ilCalend
 	 * @param int $a_user_id
 	 * @return string
 	 */
-	function getUserName($a_user_id)
+	function getUserName($a_user_id, $a_force_name = false)
 	{
 		$type = ilObject::_lookupType((int) $_GET["ref_id"], true);
 		$ctrl_path = array();
@@ -610,9 +610,10 @@ class ilAppointmentPresentationGUI extends ilCalendarViewGUI implements ilCalend
 
 		return ilUserUtil::getNamePresentation(
 			$a_user_id, 
-			false, true, 
-			$this->ctrl->getParentReturn($this),
 			false, 
+			true, 
+			$this->ctrl->getParentReturn($this),
+			$a_force_name,
 			false,
 			true, 
 			false, 
