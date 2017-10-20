@@ -363,7 +363,7 @@ assessment#:#adm_settings_templates#:#Einstellungsvorlagen
 assessment#:#all_available_question_pools#:#Alle vorhandenen Fragenpools
 assessment#:#allow_images#:#Grafikunterstützung für Antworten
 assessment#:#allowedextensions#:#Erlaubte Dateierweiterungen
-assessment#:#allowedextensions_info#:#Geben Sie eine kommagetrennte Liste der erlaubten Dateierweiterungen an, wenn Sie das Hochladen auf bestimmte Dateitypen einschränken wollen (z.B. .doc, .pdf, .odt).
+assessment#:#allowedextensions_info#:#Geben Sie eine kommagetrennte Liste der erlaubten Dateierweiterungen an, wenn Sie das Hochladen auf bestimmte Dateitypen einschränken wollen (z.B. doc, pdf, odt).
 assessment#:#analyze_errortext#:#Text analysieren
 assessment#:#gap_combination#:#Lückentext-Kombination
 assessment#:#answer#:#Antwort
