@@ -2027,7 +2027,7 @@ common#:#administrate_users#:#Lokale Benutzerverwaltung
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#Übernehmen
-common#:#amend_grading#:#Bewertung hinzufügen
+rbac#:#amend_grading#:#Dokumentation nach Finalisierung ändern
 rbac#:#adopt_perm_from_template#:#Rechteeinstellungen kopieren
 common#:#advanced_editing_allow_html_tags#:#Erlaube die ausgewählten HTML-Auszeichnungen in Textfeldern
 common#:#advanced_editing_assessment_settings#:#Erlaubte HTML-Auszeichnungen für das Test und Assessment-Werkzeug
