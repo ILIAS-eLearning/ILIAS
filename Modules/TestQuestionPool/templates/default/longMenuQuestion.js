@@ -273,7 +273,7 @@ var longMenuQuestion = (function () {
 	pro.displayErrors = function(index)
 	{
 		var value_error = false;
-		if(parseInt(pub.questionParts.list[index][1], 10) === 0)
+		if(parseFloat(pub.questionParts.list[index][1]) <= 0)
 		{
 			$('#' +'error_answer_' + index).find('.points_error').removeClass('prototype_long_menu');
 		}
