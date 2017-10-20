@@ -10,19 +10,14 @@ use ILIAS\UI\Component as C;
 use ILIAS\Validation\Factory as ValidationFactory;
 use ILIAS\Transformation\Factory as TransformationFactory;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
-use ILIAS\UI\Component\JavaScriptBindable as IJavaScriptBindable;
+use ILIAS\UI\Implementation\Component\Triggerer;
 
 /**
  * This implements the checkbox input.
  */
-class Checkbox extends Input implements C\Input\Field\Checkbox, IJavaScriptBindable {
+class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable {
 	use JavaScriptBindable;
-
-	/**
-	 * @var SubSection
-	 */
-	protected $sub_section;
-
+	use Triggerer;
 
 	/**
 	 * Numeric constructor.
@@ -59,15 +54,30 @@ class Checkbox extends Input implements C\Input\Field\Checkbox, IJavaScriptBinda
 	 */
 	public function withSubsection(C\Input\Field\SubSection $sub_section){
 		$clone = clone $this;
-		$clone->sub_section = $sub_section;
+		$clone = $clone->withOnChange($sub_section->getToggleSignal());
+
+		$clone->inputs[0] = $sub_section;
 		return $clone;
 	}
 
+	/**
+	 * @return C\Input\Field\SubSection
+	 */
+	public function getSubSection(){
+		return $this->inputs[0];
+	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getSubSection(){
-		return $this->sub_section;
+	public function withOnChange(C\Signal $signal) {
+		return $this->addTriggeredSignal($signal, 'change');
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function appendOnChange(C\Signal $signal) {
+		return $this->appendTriggeredSignal($signal, 'change');
 	}
 }

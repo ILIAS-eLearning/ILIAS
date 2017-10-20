@@ -20,70 +20,131 @@ class Renderer extends AbstractComponentRenderer {
 	public function render(Component\Component $component, RendererInterface $default_renderer) {
 		$this->checkComponent($component);
 
-		if ($component instanceof Component\Input\Field\Group) {
-			$inputs = "";
-			foreach($component->getInputs() as $input) {
-				$inputs .= $default_renderer->render($input);
-			}
-			return $inputs;
+		if($component instanceof Component\Input\Field\Group){
+			return $this->renderFieldGroups($component, $default_renderer);
 		}
+		return $this->renderNoneFieldGroupInput($component, $default_renderer);
+	}
 
+	protected function renderNoneFieldGroupInput(Component\Input\Field\Input $input, RendererInterface $default_renderer){
 		$input_tpl = null;
-		$sub_section = "";
 
-		if ($component instanceof Component\Input\Field\Text) {
+		if ($input instanceof Component\Input\Field\Text) {
 			$input_tpl = $this->getTemplate("tpl.text.html", true, true);
-		}else if($component instanceof Component\Input\Field\Numeric){
+		}else if($input instanceof Component\Input\Field\Numeric){
 			$input_tpl = $this->getTemplate("tpl.numeric.html", true, true);
-		} else if($component instanceof Component\Input\Field\Checkbox){
+		}else if($input instanceof Component\Input\Field\Checkbox){
 			$input_tpl = $this->getTemplate("tpl.checkbox.html", true, true);
-			if($component->getSubSection()){
-				$sub_section = $default_renderer->render($component->getSubSection());
-				$sub_section = "<div class='subish'>".$sub_section."</div>";
-
-				$component = $component->withOnLoadCode(function($id){
-					return "$( 'input' ).on('click', function() {console.log('checkbox_clicked');});";
-				});
-				$id = $this->bindJavaScript($component);
-				//$tpl->setVariable('ID', $id);
+			if($input->getSubSection()){
+				$sub_section = $default_renderer->render($input->getSubSection());
+				$id = $this->bindJavaScript($input);
+				$html = $this->renderInputFieldWithContext($input_tpl,$input, $default_renderer,$id);
+				return $html.$sub_section;
 			}
-		} else{
-			throw new \LogicException("Cannot render '".get_class($component)."'");
+		}  else{
+			throw new \LogicException("Cannot render '".get_class($input)."'");
 		}
 
 		//TODO: How to solve this, Inputs will have a different frame depending on the
-		// context...
-		return $this->renderContext(
-				$this->renderInput($input_tpl,$component, $default_renderer),
-				$component,
-				$default_renderer).$sub_section;
+		//context...
+		return $this->renderInputFieldWithContext($input_tpl,$input, $default_renderer);
+	}
+
+	protected function renderFieldGroups(Component\Input\Field\Group $group, RendererInterface $default_renderer){
+		if ($group instanceof Component\Input\Field\SubSection) {
+			return $this->renderSubSection($group, $default_renderer);
+		}else if($group instanceof Component\Input\Field\Section){
+			return $this->renderSection($group, $default_renderer);
+		}
+		$inputs = "";
+		foreach($group->getInputs() as $input) {
+			$inputs .= $default_renderer->render($input);
+		}
+		return $inputs;
+	}
+
+	protected function maybeRenderId(Component\Component $component, $tpl) {
+		$id = $this->bindJavaScript($component);
+		if ($id !== null) {
+			$tpl->setCurrentBlock("with_id");
+			$tpl->setVariable("ID", $id);
+			$tpl->parseCurrentBlock();
+		}
+	}
+
+
+	protected function renderSection(Component\Input\Field\Section $section, RendererInterface $default_renderer){
+		$section_tpl = $this->getTemplate("tpl.section.html", true, true);
+		$section_tpl->setVariable("LABEL", $section->getLabel());
+
+		if ($section->getByline() !== null) {
+			$section_tpl->setCurrentBlock("byline");
+			$section_tpl->setVariable("BYLINE", $section->getByline());
+			$section_tpl->parseCurrentBlock();
+		}
+
+		if ($section->getError() !== null) {
+			$section_tpl->setCurrentBlock("error");
+			$section_tpl->setVariable("ERROR", $section->getError());
+			$section_tpl->parseCurrentBlock();
+		}
+		$inputs_html = "";
+
+		foreach($section->getInputs() as $input) {
+			$inputs_html .= $default_renderer->render($input);
+		}
+		$section_tpl->setVariable("INPUTS", $inputs_html);
+
+
+		return $section_tpl->get();
+	}
+
+	protected function renderSubSection(Component\Input\Field\SubSection $sub_section, RendererInterface $default_renderer){
+		$sub_section_tpl = $this->getTemplate("tpl.sub_section.html", true, true);
+
+		$toggle = $sub_section->getToggleSignal();
+
+		$sub_section =  $sub_section->withAdditionalOnLoadCode(function($id) use ($toggle) {
+			return "$(document).on('{$toggle}', function(signal,params) { console.log(signal,params); $($id).toggle();});";
+		});
+
+		$id = $this->bindJavaScript($sub_section);
+		$sub_section_tpl->setVariable("ID", $id);
+
+		$inputs_html = "";
+
+		foreach($sub_section->getInputs() as $input) {
+			$inputs_html .= $default_renderer->render($input);
+		}
+		$sub_section_tpl->setVariable("CONTENT", $inputs_html);
+		return $sub_section_tpl->get();
 	}
 
 	/**
 	 * @param $input_html
-	 * @param Component\Input\Field\Input $component
+	 * @param Component\Input\Field\Input $input
 	 * @param RendererInterface $default_renderer
 	 * @return string
 	 */
-	protected function renderContext($input_html, Component\Input\Field\Input $component, RendererInterface $default_renderer) {
+	protected function renderInputFieldWithContext(Template $input_tpl, Component\Input\Field\Input $input, RendererInterface $default_renderer,$id = null) {
 		$tpl = $this->getTemplate("tpl.context-form.html", true, true);
-		$tpl->setVariable("NAME", $component->getName());
-		$tpl->setVariable("LABEL", $component->getLabel());
-		$tpl->setVariable("INPUT", $input_html);
+		$tpl->setVariable("NAME", $input->getName());
+		$tpl->setVariable("LABEL", $input->getLabel());
+		$tpl->setVariable("INPUT", $this->renderInputField($input_tpl, $input,$id));
 
-		if ($component->getByline() !== null) {
+		if ($input->getByline() !== null) {
 			$tpl->setCurrentBlock("byline");
-			$tpl->setVariable("BYLINE", $component->getByline());
+			$tpl->setVariable("BYLINE", $input->getByline());
 			$tpl->parseCurrentBlock();
 		}
 
-		if ($component->isRequired()) {
+		if ($input->isRequired()) {
 			$tpl->touchBlock("required");
 		}
 
-		if ($component->getError() !== null) {
+		if ($input->getError() !== null) {
 			$tpl->setCurrentBlock("error");
-			$tpl->setVariable("ERROR", $component->getError());
+			$tpl->setVariable("ERROR", $input->getError());
 			$tpl->parseCurrentBlock();
 		}
 
@@ -92,18 +153,25 @@ class Renderer extends AbstractComponentRenderer {
 
 	/**
 	 * @param Template $tpl
-	 * @param Component\Input\Field\Input $component
+	 * @param Component\Input\Field\Input $input
 	 * @param RendererInterface $default_renderer
+	 * @param $id
 	 * @return string
 	 */
-	protected function renderInput(Template $tpl, Component\Input\Field\Input $component, RendererInterface $default_renderer) {
-		$tpl->setVariable("NAME", $component->getName());
+	protected function renderInputField(Template $tpl, Component\Input\Field\Input $input, $id) {
+		$tpl->setVariable("NAME", $input->getName());
 
-		if ($component->getValue() !== null) {
+		if ($input->getValue() !== null) {
 			$tpl->setCurrentBlock("value");
-			$tpl->setVariable("VALUE", $component->getValue());
+			$tpl->setVariable("VALUE", $input->getValue());
 			$tpl->parseCurrentBlock();
 		}
+		if($id){
+			$tpl->setCurrentBlock("id");
+			$tpl->setVariable("ID", $id);
+			$tpl->parseCurrentBlock();
+		}
+
 		return $tpl->get();
 	}
 

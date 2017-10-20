@@ -7,8 +7,8 @@ function base() {
 	$request = $DIC->http()->request();
 
 	//Step 1, define sub section
-	$part1 = $ui->input()->field()->text("First Name", "Part 1 of group");
-	$part2 = $ui->input()->field()->text("Last Name", "Part 1 of group");
+	$part1 = $ui->input()->field()->text("Item 1", "Just some sub section item");
+	$part2 = $ui->input()->field()->text("Item 2", "Just another sub section item");
 
 	$sub_section = $ui->input()->field()->subSection([ $part1,$part2]);
 

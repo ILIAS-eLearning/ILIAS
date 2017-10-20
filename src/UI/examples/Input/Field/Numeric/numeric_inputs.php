@@ -15,7 +15,7 @@ function numeric_inputs() {
     });
 
     //Step 2, define inputs
-	$number_input = $ui->input()->field()->numeric("number", "Put in a number.");
+	$number_input = $ui->input()->field()->numeric("number", "Put in a number.")->withValue(133);
 
     //Step 3, define form and form actions
 	$DIC->ctrl()->setParameterByClass(

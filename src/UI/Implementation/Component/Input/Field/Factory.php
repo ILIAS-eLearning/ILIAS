@@ -8,6 +8,7 @@ use ILIAS\UI\Component\Input\Field;
 use ILIAS\Data;
 use ILIAS\Validation;
 use ILIAS\Transformation;
+use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 /**
  * Class Factory
@@ -29,11 +30,23 @@ class Factory implements Field\Factory {
 	 */
 	protected $transformation_factory;
 
-	public function __construct() {
+	/**
+	 * @var SignalGeneratorInterface
+	 */
+	protected $signal_generator;
+
+
+	/**
+	 * Factory constructor.
+	 * @param SignalGeneratorInterface $signal_generator
+	 */
+	public function __construct(SignalGeneratorInterface $signal_generator) {
 		// TODO: This is not too good. Maybe we should give a DIC container.
 		$this->data_factory = new Data\Factory;
 		$this->validation_factory= new Validation\Factory($this->data_factory);
 		$this->transformation_factory = new Transformation\Factory;
+		$this->signal_generator = $signal_generator;
+
 	}
 
 	/**
@@ -68,7 +81,7 @@ class Factory implements Field\Factory {
 	 * @inheritdoc
 	 */
 	public function subSection(array $inputs) {
-		return new SubSection($this->data_factory,$this->validation_factory,$this->transformation_factory,$inputs, "", "");
+		return new SubSection($this->data_factory,$this->validation_factory,$this->transformation_factory,$this->signal_generator,$inputs);
 	}
 
 	/**

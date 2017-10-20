@@ -150,7 +150,7 @@ class Group extends Input implements C\Input\Field\Group{
 	 * @inheritdoc
 	 */
 	public function withNameFrom(NameSource $source) {
-		$clone = clone $this;
+		$clone = parent::withNameFrom($source);
 
 		$named_inputs = [];
 		foreach($this->getInputs() as $key => $input) {
