@@ -69,18 +69,29 @@ class ilMailOptions
 	 */
 	protected $mail_address_option = self::FIRST_EMAIL;
 
+
+	/**
+	 * @var ilMailTransportSettings
+	 */
+	private $mailTransportSettings;
+
 	/**
 	 * @param int $a_user_id
+	 * @param ilMailTransportSettings|null $mailTransportSettings
 	 */
-	public function __construct($a_user_id)
+	public function __construct($a_user_id, ilMailTransportSettings $mailTransportSettings = null)
 	{
 		global $DIC;
 
 		$this->user_id = $a_user_id;
 
-		$this->ilias    = $DIC['ilias'];
 		$this->db       = $DIC->database();
 		$this->settings = $DIC->settings();
+
+		if ($mailTransportSettings === null) {
+			$mailTransportSettings = new ilMailTransportSettings($this);
+		}
+		$this->mailTransportSettings = $mailTransportSettings;
 
 		$this->read();
 	}
@@ -94,11 +105,13 @@ class ilMailOptions
 		$incomingMail        = strlen($this->settings->get('mail_incoming_mail'))  ? (int)$this->settings->get('mail_incoming_mail') : self::INCOMING_LOCAL;
 		$mail_address_option = strlen($this->settings->get('mail_address_option')) ? (int)$this->settings->get('mail_address_option') : self::FIRST_EMAIL;
 
-		$this->db->insert(
+		$this->db->replace(
 			$this->table_mail_options,
 			array(
 				'user_id'              => array('integer', $this->user_id),
-				'linebreak'            => array('integer', self::DEFAULT_LINE_BREAK),
+			),
+			array(
+				'linebreak'            => array('integer', (int)self::DEFAULT_LINE_BREAK),
 				'signature'            => array('text', null),
 				'incoming_type'        => array('integer', $incomingMail),
 				'mail_address_option'  => array('integer', $mail_address_option),
@@ -107,13 +120,19 @@ class ilMailOptions
 		);
 	}
 
-	/**
-	 * 
-	 */
 	protected function read()
 	{
 		$res = $this->db->queryF(
-			'SELECT * FROM ' . $this->table_mail_options . ' WHERE user_id = %s',
+			'SELECT mail_options.cronjob_notification,
+					mail_options.signature,
+					mail_options.linebreak,
+					mail_options.incoming_type,
+					mail_options.mail_address_option,
+					usr_data.email,
+					usr_data.second_email
+			 FROM mail_options 
+			 LEFT JOIN usr_data ON mail_options.user_id = usr_data.usr_id
+			 WHERE mail_options.user_id = %s',
 			array('integer'),
 			array($this->user_id)
 		);
@@ -124,20 +143,12 @@ class ilMailOptions
 		$this->linebreak            = $row->linebreak;
 		$this->incoming_type        = $row->incoming_type;
 		$this->mail_address_option  = (int)$row->mail_address_option >= 3 ? $row->mail_address_option : self::FIRST_EMAIL;
-		
-		// verify saved mail option
-		if(!strlen(ilObjUser::_lookupSecondEmail($this->user_id)) && $this->incoming_type >= self::INCOMING_EMAIL)
-		{
-			// reset to default value
-			$this->mail_address_option = self::FIRST_EMAIL;
-			$this->updateOptions();
-		}
-		if(!strlen(ilObjUser::_lookupEmail($this->user_id)))
-		{
-			// reset to default value
-			$this->incoming_type = self::INCOMING_LOCAL;
-			$this->updateOptions();
-		}
+
+		$firstMailAddress  = $row->email;
+
+		$secondMailAddress = $row->second_email;
+
+		$this->mailTransportSettings->adjust($firstMailAddress, $secondMailAddress);
 	}
 
 	/**
@@ -160,7 +171,7 @@ class ilMailOptions
 			$data['cronjob_notification']  = array('integer', (int)self::lookupNotificationSetting($this->user_id));
 		}
 
-		$this->db->replace(
+		return $this->db->replace(
 			$this->table_mail_options,
 			array(
 				'user_id' => array('integer', $this->user_id)
@@ -337,4 +348,4 @@ class ilMailOptions
 	{
 		return self::getExternalEmailsByUser(new ilObjUser($user_id), $mail_options);
 	}
-} 
+}

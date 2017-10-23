@@ -35,6 +35,15 @@ class ilColorPickerInputGUI extends ilTextInputGUI
 	 */
 	public function checkInput()
 	{
+		if(
+			$this->getRequired() && 
+			!strlen($_POST[$this->getPostVar()])
+		)
+		{
+			$this->setAlert($this->lng->txt("msg_input_is_required"));
+			return false;
+		}
+		
 		if ($this->getAcceptNamedColors() && substr($_POST[$this->getPostVar()], 0, 1) == "!")
 		{
 			$_POST[$this->getPostVar()] =
@@ -46,6 +55,15 @@ class ilColorPickerInputGUI extends ilTextInputGUI
 				$this->determineHexcode(ilUtil::stripslashes(trim($_POST[$this->getPostVar()])));
 		}
 		return true;
+	}
+	
+	/**
+	 * Set values by array
+	 * @param type $a_values
+	 */
+	public function setValueByArray($a_values)
+	{
+		$this->setValue($a_values[$this->getPostVar()]);
 	}
 	
 	/**

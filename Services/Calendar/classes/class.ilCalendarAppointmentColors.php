@@ -109,16 +109,15 @@ class ilCalendarAppointmentColors
 	 */
 	public function getColorByAppointment($a_cal_id)
 	{
-		ilLoggerFactory::getRootLogger()->debug("calendar_id  ==> ".$a_cal_id);
-		$this->logger->debug("calendar_id  = ".$a_cal_id);
+		//$this->logger->debug("calendar_id  = ".$a_cal_id);
 
 		$cat_id = $this->cat_app_ass[$a_cal_id];
-		$this->logger->debug("first cat_id  ==> ".$cat_id);
-		$this->logger->debug("color first _cat_id => ".$this->appointment_colors[$cat_id]);
+		//$this->logger->debug("first cat_id  ==> ".$cat_id);
+		//$this->logger->debug("color first _cat_id => ".$this->appointment_colors[$cat_id]);
 
 		$cat_id = $this->cat_substitutions[$cat_id];
-		$this->logger->debug("second cat_id  ==> ".$cat_id);
-		$this->logger->debug("second color_cat_id => ".$this->appointment_colors[$cat_id]);
+		//$this->logger->debug("second cat_id  ==> ".$cat_id);
+		//$this->logger->debug("second color_cat_id => ".$this->appointment_colors[$cat_id]);
 
 		#21078
 		if(isset($this->appointment_colors[$cat_id])) {

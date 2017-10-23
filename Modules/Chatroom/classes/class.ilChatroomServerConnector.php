@@ -327,4 +327,15 @@ class ilChatroomServerConnector
 
 		return $roomId;
 	}
+
+	/**
+	 * @param string $message
+	 * @return bool
+	 */
+	public function sendUserConfigChange($message)
+	{
+		$query = http_build_query(array('message' => $message));
+		return $this->file_get_contents(
+			$this->settings->getURL('UserConfigChange', null) . '?' . $query);
+	}
 }

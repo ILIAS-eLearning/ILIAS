@@ -405,7 +405,7 @@ assessment#:#adm_settings_templates#:#Einstellungsvorlagen
 assessment#:#all_available_question_pools#:#Alle vorhandenen Fragenpools
 assessment#:#allow_images#:#Grafikunterstützung für Antworten
 assessment#:#allowedextensions#:#Erlaubte Dateierweiterungen
-assessment#:#allowedextensions_info#:#Geben Sie eine kommagetrennte Liste der erlaubten Dateierweiterungen an, wenn Sie das Hochladen auf bestimmte Dateitypen einschränken wollen (z.B. .doc, .pdf, .odt).
+assessment#:#allowedextensions_info#:#Geben Sie eine kommagetrennte Liste der erlaubten Dateierweiterungen an, wenn Sie das Hochladen auf bestimmte Dateitypen einschränken wollen (z.B. doc, pdf, odt).
 assessment#:#analyze_errortext#:#Text analysieren
 assessment#:#gap_combination#:#Lückentext-Kombination
 assessment#:#answer#:#Antwort
@@ -2515,7 +2515,7 @@ common#:#disk_usage_details#:#Einzelheiten zur Speicherverwendung
 common#:#domain#:#Domäne
 common#:#down#:#Runter
 common#:#download#:#Download
-common#:#download_all_returned_files#:#Alle abgegebenen Dateien herunterladen
+common#:#download_all_returned_files#:#Alle Abgaben herunterladen
 common#:#download_with_uploaded_filename#:#Hochgeladenen Dateinamen verwenden
 common#:#download_with_uploaded_filename_info#:#Wählen Sie diese Option ausschließlich für die Rückwärtskompatibilität mit ILIAS 3.9 und älteren Versionen aus: Wenn diese Option aktiviert ist, erhalten heruntergeladene Dateien den Namen, der beim Hochladen in ILIAS verwendet worden ist. Wenn diese Option nicht ausgewählt ist, erhalten heruntergeladene Dateien den Titel des Dateiobjekts als Namen. Diese Option hat keine Auswirkung auf WebDAV. Bei WebDAV erhalten heruntergeladene Dateien IMMER den Titel des Dateiobjekts als Namen.
 common#:#downloading_settings#:#Einstellungen
@@ -5556,11 +5556,13 @@ dateplaner#:#cal_daily#:#Täglich
 dateplaner#:#cal_date_booked#:#gebucht
 dateplaner#:#cal_date_format_info#:#Bitte wählen Sie ein Format für die Eingabe eines Datums aus.
 dateplaner#:#cal_day_end#:#Tagesende
+dateplaner#:#cal_def_day_end#:#Default-Tagesende
 dateplaner#:#cal_day_of_month#:#Tag des Monats
 dateplaner#:#cal_day_overview#:#Tagesübersicht
 dateplaner#:#cal_day_s#:#Tag(e)
 dateplaner#:#cal_day_selection#:#Tagesauswahl
 dateplaner#:#cal_day_start#:#Tagesbeginn
+dateplaner#:#cal_def_day_start#:#Default-Tagesbeginn
 dateplaner#:#cal_day_week_view#:#Einstellungen Tages-/Wochenansicht
 dateplaner#:#cal_deadline#:#Endtermin
 dateplaner#:#cal_declined#:#Abgelehnt
@@ -5570,7 +5572,7 @@ dateplaner#:#cal_def_time_format#:#Default-Zeitformat
 dateplaner#:#cal_def_time_format_info#:#Bitte wählen Sie ein Format für die Eingabe und Darstellung der Zeit aus.
 dateplaner#:#cal_def_timezone#:#Default-Zeitzone
 dateplaner#:#cal_def_timezone_info#:#Bitte wählen Sie eine Zeitzone für die Anzeige von Terminen aus.
-dateplaner#:#cal_def_week_start#:#Wochenbeginn
+dateplaner#:#cal_def_week_start#:#Default-Wochenbeginn
 dateplaner#:#cal_default_calendar#:#Persönliche Termine
 dateplaner#:#cal_del_app_sure#:#Sind Sie sicher, dass Sie die folgenden Termine löschen möchten?
 dateplaner#:#cal_del_cal_sure#:#Möchten Sie wirklich die ausgewählten Kalender löschen?
@@ -9638,7 +9640,9 @@ dcl#:#dcl_export_started#:#Asynchroner Export gestartet
 dcl#:#dcl_export_finished#:#Export Abgeschlossen
 dcl#:#dcl_supported_filetypes#:#Erlaubte Dateiendungen
 dcl#:#dcl_supported_filetypes_desc#:#Sie können hier kommagetrennt Dateiendungen angeben. Zum Beispiel: pdf, docx
-dcl#:#dcl_no_export_data_available#:#Keine Daten oder Felder für den Export verfügbar
+dcl#:#dcl_no_export_data_available#:#Keine Daten oder Felder für den Export verfügbar.
+dcl#:#dcl_no_export_content_available#:#Keine Daten für den Export verfügbar.
+dcl#:#dcl_no_export_fields_available#:#Keine Felder für den Export aktiviert. Markieren Sie mindestens ein Feld als "Exportierbar" in den <a href="%s">Tabelleneinstellungen</a>.
 common#:#obj_dcl_duplicate#:#Datensammlung kopieren
 survey#:#freetext_answers#:#Freitext-Antworten
 forum#:#frm_at_least_one_moderator#:#Es muss mindestens ein Moderator zugewiesen sein.
@@ -13106,8 +13110,8 @@ wiki#:#wiki_page_list_mode_ordered#:#Nummeriert
 blog#:#blog_news_posting_updated#:#Ein Blogbeitrag wurde aktualisiert von %s.
 blog#:#blog_news_posting_published#:#Ein neuer Blogbeitrag wurde veröffentlicht von %s.
 blog#:#blog_news_posting_authors#:#Beteiligte Autoren: %s
-book#:#book_reservation_filter_period#:#Filter „Zeitraum“
-book#:#book_reservation_filter_period_info#:#Der Default-Wert für den Zeitraum-Filter in Tagen ab dem aktuellem Datum.
+book#:#book_reservation_filter_period#:#Filter „Datumsbereich“
+book#:#book_reservation_filter_period_info#:#Der Default-Wert für den Datumsbereich-Filter in Tagen ab dem aktuellem Datum.
 book#:#book_filter_past_reservations#:#Abgelaufene Reservierungen anzeigen
 book#:#book_deadline_options#:#Spätester Buchungszeitpunkt
 book#:#book_deadline_hours#:#Bis n Stunden vor Beginn des Zeitfensters
@@ -13545,11 +13549,11 @@ iass#:#iass_notify#:#Teilnehmer nach abschließender Bewertung benachrichtigen
 iass#:#iass_finalize#:#Abschließen
 iass#:#il_iass_member#:#Teilnehmer
 iass#:#il_iass_members#:#Teilnehmer
-iass#:#iass_event_time_place_required#:#Zeit und Ort sind Pflichtangaben.
-iass#:#iass_event_time_place_required_info#:#Zeit und Ort müssen mit angegeben werden.
-iass#:#iass_file_required#:#Datei ist eine Pflichtangabe.
-iass#:#iass_file_required_info#:#Eine Datei muss beiligen.
-iass#:#iass_may_not_finalize#:#Status kann nicht finalisiert werden.
+iass#:#iass_event_time_place_required#:#Pflichtangabe Datum und Ort
+iass#:#iass_event_time_place_required_info#:#Ort und Datum der Prüfung müssen eingetragen werden.
+iass#:#iass_file_required#:#Pflichtangabe Prüfungsblatt
+iass#:#iass_file_required_info#:#Ein Prüfungsblatt muss hochgeladen werden
+iass#:#iass_may_not_finalize#:#Prüfung kann noch nicht abschließend bewertet werden.
 iass#:#iass_subj_notification_completed#:#%s: Individuelle Bewertung erfolgreich abgeschlossen.
 iass#:#iass_subj_notification_failed#:#%s: Individuelle Bewertung nicht erfolgreich.
 trac#:#trac_mode_individual_assessment#:#Individuelle Bewertung durch Tutor/Trainer
@@ -13557,7 +13561,7 @@ common#:#obj_iass#:#Individuelle Bewertung
 common#:#objs_iass#:#Individuelle Bewertungen
 common#:#obj_iass_duplicate#:#Individuelle Bewertung kopieren
 common#:#obj_iass_select#:#-- Wählen Sie eine Individuelle Bewertung aus --
-trac#:#trac_mode_individual_assessment_info#:#Der Eintrag des Benutzers muss finalisiert werden, damit der Benutzer einen Lernfortschritt erhält.
+trac#:#trac_mode_individual_assessment_info#:#Der Teilnehmer muss abschließend bewertet werden, damit für diesen der Lernfortschritt gesetzt wird.
 common#:#il_iass_member#:#Teilnehmer einer Individuellen Bewertung
 common#:#iass_new#:#Neue Individuelle Bewertung anlegen
 common#:#iass_import#:#Individuelle Bewertung importieren
@@ -13574,10 +13578,10 @@ iass#:#lp_inactive#:#Beachten Sie: die Lernfortschrittsbestimmung für dieses Ob
 iass#:#iass_edit#:#Einstellungen
 iass#:#iass_add#:#Individuelle Bewertung anlegen
 iass#:#iass_membership_finalized#:#Bewertung abgeschlossen.
-iass#:#iass_membership_saved#:#Bewertung gespeichert, jedoch noch nicht abgeschlossen.
+iass#:#iass_membership_saved#:#Bewertung wurde gespeichert aber noch nicht final abgeschlossen.
 iass#:#iass_return#:#Zurück zur Übersicht
 iass#:#iass_remove_user_qst#:#Soll der Teilnehmer wirklich entfernt werden?
-iass#:#iass_finalize_user_qst#:#Soll die Bewertung des Teilnehmers wirklich abgeschlossen werden? Änderungen an der Bewertung sind hinterher nicht mehr möglich.
+iass#:#iass_finalize_user_qst#:#Soll die Bewertung des Teilnehmers wirklich final abgeschlossen werden? Änderungen an der Bewertung sind hinterher nicht mehr möglich.
 iass#:#iass_settings_saved#:#Einstellungen gespeichert.
 iass#:#iass_add_user_failure#:#Einer oder mehrere Benutzer konnten nicht hinzugefügt werden.
 iass#:#iass_add_user_success#:#Benutzer als Teilnehmer hinzugefügt.
@@ -13626,6 +13630,9 @@ chatroom#:#chat_osc_leave_grp_conv#:#Konversation verlassen
 chatroom#:#chat_osc_user_left_grp_conv#:#Der Benutzer '%s' hat die Gruppenkonversation verlassen.
 chatroom#:#chat_osc_dont_accept_msg#:#Sie können aktuell von anderen Personen nicht zu Konversationen eingeladen werden. Dies können Sie bei Bedarf in Ihren <a href="%s">'Persönlichen Einstellungen'</a> ändern.
 chatroom#:#chat_osc_doesnt_accept_msg#:#Konversationen nicht möglich
+chatroom#:#chat_osc_subs_rej_msgs#:#Ihr Chat-Partner möchte zur Zeit keine Nachrichten empfangen. Er kann den Empfang von Chat-Nachrichten in seinen Chat-Einstellungen wieder aktivieren.
+chatroom#:#chat_osc_subs_rej_msgs_p#:#Die folgenden Konversationspartner möchten aktuell keine Nachrichten mehr empfangen: %s
+chatroom#:#chat_osc_self_rej_msgs#:#Sie können aktuell nicht an der Conversation teilnehmen, da Sie den Empfang von Chat-Nachrichten in Ihren Einstellungen aktuell unterdrückt haben. 
 usr#:#user_actions#:#Benutzeraktionen
 usr#:#user_action#:#Benuzteraktion
 chatroom#:#chtr_activation_online_info#:#Wählen Sie diese Einstellung, um den Chatraum für Benutzer verfügbar zumachen.
@@ -13729,7 +13736,8 @@ ecs#:#ecs_member_auth_type#:#Authentifizierungsmethode für Kursmitglieder
 background_tasks#:#background_tasks#:#Background Tasks
 background_tasks#:#background_tasks_running#:#Background Tasks
 background_tasks#:#scheduled#:#Geplant
-background_tasks#:#dismiss#:#Beenden
+background_tasks#:#dismiss#:#Schliessen
+background_tasks#:#abort#:#Beenden
 background_tasks#:#completed#:#Abgeschlossen
 background_tasks#:#waiting#:#Warten
 background_tasks#:#proceed_job#:#Weiter
@@ -13804,6 +13812,7 @@ book#:#book_open#:#Buchungspool öffnen
 book#:#book_booking_information#:#Information
 sess#:#sess_open#:#Sitzung öffnen
 dateplaner#:#cal_show_weeks#:#Anzeige Wochenspalte
+dateplaner#:#cal_def_show_weeks#:#Default-Anzeige Wochenspalte
 dateplaner#:#cal_show_weeks_info#:#Zeigt die Wochen im Seitenblock "Kalender" an. Benutzer können die Anzeige deaktivieren.
 dateplaner#:#cal_usr_show_weeks#:#Anzeige Wochenspalte
 dateplaner#:#cal_usr_show_weeks_info#:#Zeigt die Wochen im Seitenblock "Kalender" an.
@@ -13819,9 +13828,9 @@ mail#:#mail_first_email#:#Erste E-Mail-Adresse
 mail#:#mail_second_email#:#Zweite E-Mail-Adresse
 mail#:#mail_both_email#:#Beide E-Mail-Adressen
 common#:#second_email#:#Zweite E-Mail
-iass#:#iass_usr_amend#:#Dokumentation nach Finalisierung ändern
-iass#:#iass_place#:#Ort der Durchführung
-iass#:#iass_event_time#:#Datum der Durchführung
+iass#:#iass_usr_amend#:#Prüfungsdaten nachträglich ändern
+iass#:#iass_place#:#Ort der Prüfung
+iass#:#iass_event_time#:#Datum der Prüfung
 skmg#:#skmg_assigned_profiles#:#Zugewiesene Profile
 skmg#:#skmg_selected_skills#:#Ausgewählte Kompetenzen
 skmg#:#skmg_hide_profile_self_eval#:#Profilwerte nach Selbsteinschätzung anzeigen
@@ -14016,7 +14025,7 @@ common#:#scorm_login_as_learner_id_info#:#If enabled, the Username instead of th
 iass#:#iass_upload_file#:#Prüfungsblatt
 iass#:#iass_file_visible_examinee#:#Datei für Teilnehmer sichtbar
 iass#:#iass_usr_download_attachment#:#Datei herunterladen
-iass#:#iass_save_amend#:#Save Amend###31 08 2017 new variable
+iass#:#iass_save_amend#:#Geänderte Prüfungsdaten speichern
 dateplaner#:#cal_exc_inst_files#:#Instruction Files###31 08 2017 new variable
 dateplaner#:#cal_repo_obj#:#Magazinobjekt
 survey#:#sub_tab_dashboard#:#Dashboard###31 08 2017 new variable
@@ -14044,3 +14053,5 @@ dateplaner#:#cal_down_no_files#:#Nichts zum Herunterladen, die aufgeführten Ver
 assessment#:#question_browse_area_info#:#Wählen sie bitte ein Objekt aus dem sie Fragen importieren wollen.
 dateplaner#:#cal_no_events_info#:#Für den angegebenen Zeitraum sind keine Termine für Sie vorhanden.
 wiki#:#wiki_pg_list_no_search_fields#:#Es befinden sich keine durchsuchbaren Metadatenfelder in den Metadatensätzen des Wikis.
+iass#:#iass_amend_saved#:#Geänderte Prüfungsdaten wurden gespeichert.
+content#:#cont_transl_master_language_not_allowed#:#Um eine Übersetzung zu importieren, müssen sie zumindest eine zusätzliche Sprache unter "Einstellungen" > "Mehrsprachigkeit" aktivieren.

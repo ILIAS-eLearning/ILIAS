@@ -576,8 +576,6 @@ The following directories are currently maintained unter the Service-Maintenace-
 The following directories are currently unmaintained:
 * Services/LTI
 * Services/License
-* Services/Math
 * Services/Membership
 * Services/QTI
 * Services/Randomization
-* Services/Xml

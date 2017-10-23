@@ -5822,5 +5822,57 @@ class ilObjUser extends ilObject
 		
 		return $res;
 	}
+
+	/**
+	 * Get profile status
+	 *
+	 * @param array[int] $a_user_ids user ids
+	 * @return array[] 	array["global"] => all user ids having their profile global (www) activated,
+	 * 					array["local"] => all user ids having their profile only locally (logged in users) activated,
+	 * 					array["public"] => all user ids having their profile either locally or globally activated,
+	 * 					array["not_public"] => all user ids having their profile deactivated
+	 */
+	static function getProfileStatusOfUsers($a_user_ids)
+	{
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
+		$set = $ilDB->query("SELECT * FROM usr_pref ".
+				" WHERE keyword = ".$ilDB->quote("public_profile", "text").
+				" AND ".$ilDB->in("usr_id",$a_user_ids , false, "integer")
+			);
+		$r = array(
+			"global" => array(),
+			"local" => array(),
+			"public" => array(),
+			"not_public" => array()
+		);
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			if ($rec["value"] == "g")
+			{
+				$r["global"][] = $rec["usr_id"];
+				$r["public"][] = $rec["usr_id"];
+			}
+			if ($rec["value"] == "y")
+			{
+				$r["local"][] = $rec["usr_id"];
+				$r["public"][] = $rec["usr_id"];
+			}
+		}
+		foreach ($a_user_ids as $id)
+		{
+			if (!in_array($id, $r["public"]))
+			{
+				$r["not_public"][] = $id;
+			}
+		}
+
+		return $r;
+	}
+
+
+
 } // END class ilObjUser
 ?>
