@@ -84,7 +84,7 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 				$changed_by =
 					$a_set[ilIndividualAssessmentMembers::FIELD_CHANGER_LASTNAME].", ".
 					$a_set[ilIndividualAssessmentMembers::FIELD_CHANGER_FIRSTNAME]." ".
-					$a_set[ilIndividualAssessmentMembers::FIELD_AMEND_TIME]
+					(new ilDateTime($a_set[ilIndividualAssessmentMembers::FIELD_CHANGE_TIME], IL_CAL_UNIX))->get(IL_CAL_FKT_DATE, "d.m.Y H:i")
 					;
 			}
 			$this->tpl->setCurrentBlock('changed_info');
