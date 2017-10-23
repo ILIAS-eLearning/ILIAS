@@ -117,7 +117,7 @@ interface Factory {
 	 *
 	 * rules:
 	 *   usage:
-	 *      1: A Pagination MUST NOT only be used for structured data, like tables and lists.
+	 *      1: A Pagination MUST only be used for structured data, like tables and lists.
 	 *      2: A Pagination MUST NOT be used standalone.
 	 *      3: Paginations MUST be visually close to the list or table their operation will have effect upon. They MAY be placed directly above and/or below the list.
 	 *   accessibility:
