@@ -39,7 +39,7 @@ class ilIndividualAssessmentMember {
 		$this->file_name = $data[ilIndividualAssessmentMembers::FIELD_FILE_NAME];
 		$this->view_file = $data[ilIndividualAssessmentMembers::FIELD_USER_VIEW_FILE];
 		$this->changed = $data[ilIndividualAssessmentMembers::FIELD_CHANGED];
-		$this->change_time = $data[ilIndividualAssessmentMembers::FIELD_CHANGE_TIME];
+		$this->change_time = new ilDateTime($data[ilIndividualAssessmentMembers::FIELD_CHANGE_TIME], IL_CAL_UNIX);
 		$this->iass = $iass;
 		$this->usr = $usr;
 	}
