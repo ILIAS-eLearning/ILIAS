@@ -25,6 +25,7 @@ class ilIndividualAssessmentMembers implements Iterator, Countable {
 	const FIELD_CHANGER_ID = "changer_id";
 	const FIELD_CHANGER_FIRSTNAME = "changer_firstname";
 	const FIELD_CHANGER_LASTNAME = "changer_lastname";
+	const FIELD_CHANGE_TIME = "change_time";
 	const FIELD_RECORD = 'record';
 	const FIELD_INTERNAL_NOTE = 'internal_note';
 	const FIELD_NOTIFY = 'notify';
