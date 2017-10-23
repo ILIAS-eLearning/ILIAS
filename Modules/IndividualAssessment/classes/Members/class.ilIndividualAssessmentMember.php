@@ -23,6 +23,7 @@ class ilIndividualAssessmentMember {
 	protected $event_time;
 	protected $changer_id;
 	protected $changed;
+	protected $change_time;
 
 	public function __construct(ilObjIndividualAssessment $iass, ilObjUser $usr, array $data) {
 		$this->record = $data[ilIndividualAssessmentMembers::FIELD_RECORD];
@@ -38,6 +39,7 @@ class ilIndividualAssessmentMember {
 		$this->file_name = $data[ilIndividualAssessmentMembers::FIELD_FILE_NAME];
 		$this->view_file = $data[ilIndividualAssessmentMembers::FIELD_USER_VIEW_FILE];
 		$this->changed = $data[ilIndividualAssessmentMembers::FIELD_CHANGED];
+		$this->change_time = $data[ilIndividualAssessmentMembers::FIELD_CHANGE_TIME];
 		$this->iass = $iass;
 		$this->usr = $usr;
 	}
@@ -72,6 +74,13 @@ class ilIndividualAssessmentMember {
 	 */
 	public function changerId() {
 		return $this->changer_id;
+	}
+
+	/**
+	 * Get the datetime of change
+	 */
+	public function changeTime() {
+		return $this->change_time;
 	}
 
 	/**
@@ -242,6 +251,20 @@ class ilIndividualAssessmentMember {
 		assert('ilObjUser::_exists($changer_id)');
 		$clone = clone $this;
 		$clone->changer_id = $changer_id;
+		return $clone;
+	}
+
+	/**
+	 * Clone this object and set an change time
+	 *
+	 * @param	ilDateTime | null	$change_time
+	 * @return	ilManualAssessmentMember
+	 */
+	public function withChangeTime($change_time)
+	{
+		assert('$change_time instanceof ilDateTime || is_null($change_time)');
+		$clone = clone $this;
+		$clone->change_time = $change_time;
 		return $clone;
 	}
 
