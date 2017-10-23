@@ -647,7 +647,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 				return ilContainerReferenceAccess::_isAccessible($a_node["child"]);
 			
 			case 'prg': 
-					return $rbacsystem->checkAccess("visible", $a_node["child"]);
+					return $rbacsystem->checkAccess("read", $a_node["child"]);
 
 			// all other types are only clickable, if read permission is given
 			default:
