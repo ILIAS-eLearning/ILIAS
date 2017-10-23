@@ -21456,3 +21456,14 @@ if($ilDB->tableColumnExists('wiki_stat', 'avg_rating'))
 			));
 	}
 ?>
+
+<#5241>
+<?php
+	//add table column
+	if($ilDB->tableExists('iass_members')) {
+		$ilDB->addTableColumn("iass_members", "change_time", array(
+			'type' => 'integer',
+			'length' => 8
+			));
+	}
+?>
