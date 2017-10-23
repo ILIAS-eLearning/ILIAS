@@ -11,6 +11,32 @@ use ILIAS\UI\Component\Triggerer;
 interface Pagination extends C\Component, JavaScriptBindable, Triggerer {
 
 	/**
+	 * Get a Pagination with this target-url.
+	 * Shy-Buttons in this control will link to this url
+	 * and add $parameter_name with the selected value.
+	 *
+	 * @param 	string 	$url
+	 * @param 	string 	$paramer_name
+	 *
+	 * @return \Pagination
+	 */
+	public function withTargetURL($url, $paramter_name);
+
+	/**
+	 * Get the url this instance should trigger.
+	 *
+	 * @return 	string
+	 */
+	public function getTargetURL();
+
+	/**
+	 * Get the parameter this instance uses.
+	 *
+	 * @return 	string
+	 */
+	public function getParameterName();
+
+	/**
 	 * Initialize with the total amount of entries
 	 * of the controlled data-list
 	 *
