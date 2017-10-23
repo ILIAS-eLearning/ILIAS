@@ -2003,7 +2003,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 
 				if(!ilObjGroupAccess::_usingRegistrationCode())
 				{
-					throw new ilMembershipRegistrationException('Cant registrate to group '.$this->getId().
+					throw new ilMembershipRegistrationException('Cannot registrate to group '.$this->getId().
 						', group subscription is deactivated.', ilMembershipRegistrationException::REGISTRATION_CODE_DISABLED);
 				}
 			}
@@ -2017,7 +2017,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 
 				if( !(ilDateTime::_after($time, $start) and ilDateTime::_before($time,$end)) )
 				{
-					throw new ilMembershipRegistrationException('Cant registrate to group '.$this->getId().
+					throw new ilMembershipRegistrationException('Cannot registrate to group '.$this->getId().
 					', group is out of registration time.', ilMembershipRegistrationException::OUT_OF_REGISTRATION_PERIOD);
 				}
 			}
@@ -2047,7 +2047,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 
 				if(!$free or $waiting_list->getCountUsers())
 				{
-					throw new ilMembershipRegistrationException('Cant registrate to group '.$this->getId().
+					throw new ilMembershipRegistrationException('Cannot registrate to group '.$this->getId().
 						', membership is limited.', ilMembershipRegistrationException::OBJECT_IS_FULL);
 				}
 			}
@@ -2058,7 +2058,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		$part->sendNotification(ilGroupMembershipMailNotification::TYPE_NOTIFICATION_REGISTRATION, $a_user_id);
 		return true;
 	}	
-	
+		
 	public function handleAutoFill()
 	{	
 		if($this->isWaitingListEnabled() &&

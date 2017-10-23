@@ -21429,4 +21429,17 @@ if($ilDB->tableColumnExists('wiki_stat', 'avg_rating'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#5239>
+<?php
+$ilDB->modifyTableColumn(
+		'adv_md_record', 
+		'record_id',
+		array(
+			"type" => "integer", 
+			"length" => 4, 
+			"notnull" => true
+		)
+	);
+?>
+
 
