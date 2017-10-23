@@ -5261,6 +5261,18 @@ class ilUtil
 		return  $a_value / (pow(self::_getSizeMagnitude(), 2));
 	}
 
+	/**
+	 * Dump var
+	 *
+	 * @param null $mixed
+	 */
+	static function dumpVar($mixed = null)
+	{
+		echo '<pre>';
+		var_dump($mixed);
+		echo '</pre>';
+	}
+
 
 } // END class.ilUtil
 

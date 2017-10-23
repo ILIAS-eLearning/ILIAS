@@ -515,5 +515,19 @@ class ilExcel
 		{
 			$style->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
 		}
-	}			
+	}
+
+	/**
+	 * Get cell coordinate (e.g. "B2") for column and row number
+	 *
+	 * @param int $pColumn
+	 * @param int $pRow
+	 * @return string
+	 */
+	function getCoordByColumnAndRow($pColumn = 0, $pRow = 1)
+	{
+		$columnLetter = PHPExcel_Cell::stringFromColumnIndex($pColumn);
+		return $columnLetter . $pRow;
+	}
+
 }
