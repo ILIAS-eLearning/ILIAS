@@ -207,32 +207,7 @@ class Renderer extends AbstractComponentRenderer
 			$tpl->setVariable('ID', $id);
 		}
 
-		if(! $component->getMaxPaginationButtons()) {
-			$range = range(0, max($component->getNumberOfPages() - 1, 0));
-		} else {
-			$start = (int) ($component->getCurrentPage() - floor($component->getMaxPaginationButtons() / 2));
-			$start = max($start, 0); //0, if negative
-
-			$stop = $start + $component->getMaxPaginationButtons() - 1;
-			if($stop > $component->getNumberOfPages() - 1) {
-				$stop = max($component->getNumberOfPages() - 1, 0);
-				$start = $stop - $component->getMaxPaginationButtons();
-				$start = max($start, 0); //0, if negative
-			}
-			$range = range($start, $stop);
-
-			// If the number of pagination-buttons is limited, there should be
-			// a jump to the first and last page.
-			if(! in_array(0, $range)) {
-				$shy = $this->getPaginationShyButton(0, $component);
-				$tpl->setVariable('FIRST', $default_renderer->render($shy));
-			}
-			$last = max($component->getNumberOfPages() - 1, 0);
-			if(! in_array($last, $range)) {
-				$shy = $this->getPaginationShyButton($component->getNumberOfPages() - 1, $component);
-				$tpl->setVariable('LAST', $default_renderer->render($shy));
-			}
-		}
+		$range = $this->getPaginationRange($component);
 
 		foreach ($range as $entry) {
 			$shy = $this->getPaginationShyButton($entry, $component);
@@ -244,9 +219,41 @@ class Renderer extends AbstractComponentRenderer
 			$tpl->parseCurrentBlock();
 		}
 
+		if($component->getMaxPaginationButtons()) {
+ 			$this->setPaginationFirstLast($component, $range, $default_renderer, $tpl);
+		}
+
 		$this->setPaginationRockers($component, $default_renderer, $tpl);
 		return $tpl->get();
 	}
+
+	/**
+	 * Get the range of pagintaion-buttons to show.
+	 *
+	 * @param Component\ViewControl\Pagination 	$component
+	 *
+	 * @return  int[]
+	 */
+	protected function getPaginationRange(Component\ViewControl\Pagination $component) {
+		if(! $component->getMaxPaginationButtons()) {
+			$start = 0;
+			$stop = max($component->getNumberOfPages() - 1, 0);
+		} else {
+			//current page should be in the middle, so start is half the amount of max entries:
+			$start = (int) ($component->getCurrentPage() - floor($component->getMaxPaginationButtons() / 2));
+			$start = max($start, 0); //0, if negative
+			//stop is (calculated) start plus number of entries:
+			$stop = $start + $component->getMaxPaginationButtons() - 1;
+			//if stop exceeds max pages, recalculate both:
+			if($stop > $component->getNumberOfPages() - 1) {
+				$stop = max($component->getNumberOfPages() - 1, 0); //0, if negative
+				$start = $stop - $component->getMaxPaginationButtons();
+				$start = max($start, 0); //0, if negative
+			}
+		}
+		return range($start, $stop);
+	}
+
 
 	/**
 	 * @param string 	$val
@@ -255,7 +262,7 @@ class Renderer extends AbstractComponentRenderer
 	 *
 	 * @return \ILIAS\UI\Component\Button\Shy
 	 */
-	protected function getPaginationShyButton($val, $component, $label='') {
+	protected function getPaginationShyButton($val, Component\ViewControl\Pagination $component, $label='') {
 		$f = new \ILIAS\UI\Implementation\Factory(
 			new \ILIAS\UI\Implementation\Component\SignalGenerator()
 		);
@@ -285,12 +292,12 @@ class Renderer extends AbstractComponentRenderer
 	 * Add chevron-rockers to the template for left/right navigation in pagination
 	 *
 	 * @param Component\ViewControl\Pagination 	$component
-	 * @param RendererInterface $default_renderer 	$tpl
+	 * @param RendererInterface $default_renderer 	$default_renderer
 	 * @param ILIAS\UI\Implementation\Render\Template 	$tpl
 	 *
 	 * @return void
 	 */
-	protected function setPaginationRockers($component, $default_renderer, &$tpl) {
+	protected function setPaginationRockers(Component\ViewControl\Pagination $component, RendererInterface $default_renderer, &$tpl) {
 		$prev = max(0, $component->getCurrentPage() - 1);
 		$shy_left = $this->getPaginationShyButton(
 			(string)$prev,
@@ -314,6 +321,29 @@ class Renderer extends AbstractComponentRenderer
 		$tpl->setVariable('ROCKER_PREVIOUS', $default_renderer->render($shy_left));
 		$tpl->setVariable('ROCKER_NEXT', $default_renderer->render($shy_right));
 	}
+
+	/**
+	 * Add quick-access to first/last pages in pagination.
+	 *
+	 * @param Component\ViewControl\Pagination 	$component
+	 * @param int[]	$range
+	 * @param RendererInterface $default_renderer 	$default_renderer
+	 * @param ILIAS\UI\Implementation\Render\Template 	$tpl
+	 *
+	 * @return void
+	 */
+	protected function setPaginationFirstLast(Component\ViewControl\Pagination $component, $range, RendererInterface $default_renderer, &$tpl) {
+		if(! in_array(0, $range)) {
+			$shy = $this->getPaginationShyButton(0, $component);
+			$tpl->setVariable('FIRST', $default_renderer->render($shy));
+		}
+		$last = max($component->getNumberOfPages() - 1, 0);
+		if(! in_array($last, $range)) {
+			$shy = $this->getPaginationShyButton($component->getNumberOfPages() - 1, $component);
+			$tpl->setVariable('LAST', $default_renderer->render($shy));
+		}
+	}
+
 
 	/**
 	 * @inheritdoc
