@@ -98,8 +98,7 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 			}
 			
 			$res["rows"][] = $parsed_row;
-		}		
-		
+		}
 		return $res;
 	}
 	
@@ -262,7 +261,6 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 			
 			$rows[] = $row;					
 		}
-		
 		return $rows;		
 	}
 	
