@@ -1381,7 +1381,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				);
 			}
 			
-			// Redirects to target location after assigning user to course
+			// Redirects to target location after assigning user to group
 			ilMembershipRegistrationCodeUtils::handleCode(
 				$a_target,
 				ilObject::_lookupType(ilObject::_lookupObjId($a_target)),

@@ -2054,7 +2054,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		}
 		
 		$part->add($a_user_id,$a_role);
-		$part->sendNotification($part->TYPE_NOTIFICATION_REGISTRATION, $a_user_id);
+		$part->sendNotification(ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER, $a_user_id);
+		$part->sendNotification(ilGroupMembershipMailNotification::TYPE_NOTIFICATION_REGISTRATION, $a_user_id);
 		return true;
 	}	
 	
