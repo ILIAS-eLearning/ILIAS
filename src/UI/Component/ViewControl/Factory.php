@@ -98,26 +98,28 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *      Data with a larger amount of entries might be displayed in parts
-	 *      by limiting the number of visible entries for a view.
-	 *      The pagination enables the user to select a range of entries.
-	 *      This control applies to all sorts of structured data, like tables and lists.
+	 *      Pagination allows structured data being displayed in chunks by
+	 *      limiting the number of entries shown. It provides the user with
+	 *      controls to leaf through the chunks of entries.
 	 *   composition: >
-	 *      Pagination is a collection of shy-buttons to access single pages, framed by additional
-	 *      shy-buttons with chevron left/right glyphs.
+	 *      Pagination is a collection of shy-buttons to access distinct chunks
+	 *      of data, framed by additional shy-buttons with chevron left/right glyphs.
 	 *   effect: >
-	 *      A click on an page-option will change the offset of the displayed data-list.
-	 *      The active option is rendered as shy-button with unavailable action.
-	 *      Clicking one of the framing chevron-buttons, the previous (respectively: the next)
-	 *      page is selected. If a previous/next option is not available, the chevron-button is
-	 *      rendered with unavailable action.
-	 *      If the pagination is used with a maximum of page-buttons to be shown,
-	 *      both first and last options will always be displayed.
+	 *      A click on an chunk-option will change the offset of the displayed data-list,
+	 *      thus displaying the respective chunk of entries.
+	 *      The active option is rendered as an unavailable shy-button.
+	 *      Clicking the chevron-buttons, the previous (respectively: the next)
+	 *      chunk of entries is being displayed.
+	 *      If a previous/next chunk is not available, the chevron-button is
+	 *      rendered unavailable.
+	 *      If the pagination is used with a maximum of chunk-options to be shown,
+	 *      both first and last options are always displayed.
 	 *
 	 * rules:
 	 *   usage:
-	 *      1: A Pagination MUST NOT be used standalone.
-	 *      2: Paginations MUST be visually close to the list or table their operation will have effect upon. They MAY be placed directly above and/or below the list.
+	 *      1: A Pagination MUST NOT only be used for structured data, like tables and lists.
+	 *      2: A Pagination MUST NOT be used standalone.
+	 *      3: Paginations MUST be visually close to the list or table their operation will have effect upon. They MAY be placed directly above and/or below the list.
 	 *   accessibility:
 	 *      1: Pagination MUST be operable via keyboard only.
 	 *
