@@ -14058,3 +14058,9 @@ dateplaner#:#crs_end#:#Kurzus záró időpontja
 dateplaner#:#grp_start#:#Csoport kezdő időpontja
 dateplaner#:#grp_end#:#Csoport záró időpontja
 content#:#cont_transl_master_language_not_allowed#:#Fordítás importáláshoz legalább egy további nyelvet aktiválnia kell a Beállítások » Többnyelvűség alatt.
+prg#:#prg_multi_mark_accredited#:#Accredited###23 10 2017 new variable
+prg#:#prg_multi_unmark_accredited#:#Unmark Accredited###23 10 2017 new variable
+prg#:#prg_multi_remove_user#:#Remove User###23 10 2017 new variable
+prg#:#prg_multi_mark_relevant#:#Mark Relevant###23 10 2017 new variable
+prg#:#prg_multi_unmark_relevant#:#Unmark Relevant###23 10 2017 new variable
+prg#:#prg_multi_update_from_current_plan#:#Update From Current Plan###23 10 2017 new variable
