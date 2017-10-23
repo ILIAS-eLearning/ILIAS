@@ -14233,3 +14233,8 @@ tms#:#overview_header#:#Zusammenfassung
 tms#:#no_trainings_available#:#Derzeit stehen für Sie keine Trainings zur Buchung zur Verfügung.
 tms#:#waitinglist#:#Warteliste
 tms#:#member#:#Teilnehmer
+tms#:#placeholder_desc_current_user_salutation#:#Aktueller Benutzer, Anrede
+tms#:#placeholder_desc_current_user_firstName#:#Aktueller Benutzer, Vorname
+tms#:#placeholder_desc_current_user_lastName#:#Aktueller Benutzer, Nachname
+tms#:#placeholder_desc_current_user_login#:#Aktueller Benutzer, Login
+tms#:#placeholder_desc_current_user_email#:#Aktueller Benutzer, E-Mail

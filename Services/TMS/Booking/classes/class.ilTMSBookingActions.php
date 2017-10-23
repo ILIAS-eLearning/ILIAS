@@ -4,6 +4,7 @@
  */
 
 use ILIAS\TMS\Booking;
+use ILIAS\TMS\Mailing;
 
 /* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> */
 
@@ -11,6 +12,10 @@ use ILIAS\TMS\Booking;
  * This is how the booking of users really works. Dark magic happening here.
  */
 class ilTMSBookingActions implements Booking\Actions {
+
+	public function __construct(Mailing\Actions $mailing) {
+		$this->mailing = $mailing;
+	}
 	/**
 	 * @inheritdoc
 	 */
@@ -32,12 +37,14 @@ class ilTMSBookingActions implements Booking\Actions {
 		$course = ilObjectFactory::getInstanceByRefId($crs_ref_id);
 		if(ilCourseParticipants::_isParticipant($course->getRefId(), $user_id)) {
 			$course->getMemberObject()->delete($user_id);
+			$this->mailing->sendCourseMail(Mailing\Actions::CANCELD_FROM_COURSE, $course->getRefId(), $user_id);
 			return Booking\Actions::STATE_REMOVED_FROM_COURSE;
 		}
 
 		$crs_id = $course->getId();
 		if(ilWaitingList::_isOnList($user_id, $crs_id)) {
 			ilWaitingList::deleteUserEntry($user_id, $crs_id);
+			$this->mailing->sendCourseMail(Mailing\Actions::CANCELD_FROM_WAITINGLIST, $course->getRefId(), $user_id);
 			return Booking\Actions::STATE_REMOVED_FROM_WAITINGLIST;
 		}
 
@@ -70,11 +77,13 @@ class ilTMSBookingActions implements Booking\Actions {
 
 			if($this->maybeBookAsMember((int)$course->getRefId(), $booking_modality)) {
 				$participant->add($user->getId(), IL_CRS_MEMBER);
+				$this->mailing->sendCourseMail(Mailing\Actions::BOOKED_ON_COURSE, $course->getRefId(), $user->getId());
 				return Booking\Actions::STATE_BOOKED;
 			}
 
 			if($this->maybeAddOnWaitingList($course, $booking_modality)) {
 				$course->waiting_list_obj->addToList((int)$user->getId());
+				$this->mailing->sendCourseMail(Mailing\Actions::BOOKED_ON_WAITINGLIST, $course->getRefId(), $user->getId());
 				return Booking\Actions::STATE_WAITING_LIST;
 			}
 		}

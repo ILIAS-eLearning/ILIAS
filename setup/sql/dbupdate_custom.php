@@ -111,3 +111,27 @@ while($res = $db->fetchAssoc($query)) {
 }
 
 ?>
+<#9>
+<?php
+require_once("Services/TMS/Mailing/classes/class.ilTMSMailingLogsDB.php");
+global $DIC;
+$ilDB = $DIC->database();
+$db = new ilTMSMailingLogsDB($ilDB);
+$db->createTable();
+?>
+<#10>
+<?php
+require_once("Services/TMS/Mailing/classes/class.ilTMSMailingLogsDB.php");
+global $DIC;
+$ilDB = $DIC->database();
+$db = new ilTMSMailingLogsDB($ilDB);
+$db->createSequence();
+?>
+<#11>
+<?php
+require_once("Services/TMS/Mailing/classes/class.ilTMSMailingLogsDB.php");
+global $DIC;
+$ilDB = $DIC->database();
+$db = new ilTMSMailingLogsDB($ilDB);
+$db->createPrimaryKey();
+?>
