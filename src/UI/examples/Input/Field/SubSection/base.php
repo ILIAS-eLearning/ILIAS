@@ -3,6 +3,8 @@ function base() {
 	//Step 0, initiate factories
 	global $DIC;
 	$ui = $DIC->ui()->factory();
+	$trafo = new \ILIAS\Transformation\Factory();
+
 	$renderer = $DIC->ui()->renderer();
 	$request = $DIC->http()->request();
 

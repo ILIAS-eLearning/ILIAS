@@ -24,7 +24,7 @@ class Group extends Input implements C\Input\Field\Group{
 	 *
 	 * @var	Input[]
 	 */
-	protected $inputs;
+	protected $inputs = [];
 
 	/**
 	 * Group constructor.
@@ -43,11 +43,18 @@ class Group extends Input implements C\Input\Field\Group{
 	}
 
 	/**
+	 * @inheritdoc
+	 */
+	protected function isClientSideValueOk($value) {
+		return true;
+	}
+
+	/**
 	 * Get the value that is displayed in the groups input as Generator instance.
 	 *
 	 * @return array
 	 */
-	public function getValue() {
+	public function getGroupValues() {
 		$values = [];
 		foreach($this->getInputs() as $key => $input){
 			$values[$key] = $input->getValue();
@@ -63,9 +70,10 @@ class Group extends Input implements C\Input\Field\Group{
 	 * @throws  \InvalidArgumentException    if value does not fit client side input
 	 * @return Input
 	 */
-	public function withValue($values) {
+	public function withGroupValues($values){
 		$this->checkArg("value", $this->isClientSideValueOk($values),
-			"Display value does not match input type.");
+				"Values given do not match given inputs in group.");
+
 		$clone = clone $this;
 		$inputs = [];
 
@@ -83,11 +91,9 @@ class Group extends Input implements C\Input\Field\Group{
 	 * @param	mixed	$value
 	 * @return	bool
 	 */
-	protected function isClientSideValueOk($value){
+	protected function isClientGroupSideValueOk($value){
 		if(!is_array($value)){
 			return false;
-
-
 		}
 		if(!sizeof($this->getInputs() == sizeof($value))){
 			return false;
@@ -117,10 +123,27 @@ class Group extends Input implements C\Input\Field\Group{
 	 * @inheritdoc
 	 */
 	public function withInput(PostData $post_input) {
-		$clone = clone $this;
+		$clone = parent::withInput($post_input);
+		if($clone->getError()){
+			return $clone;
+		}
+		return $clone->withGroupInput($post_input);
+	}
+
+	/**
+	 * @param PostData $post_input
+	 * @return Group|Input
+	 */
+	protected function withGroupInput(PostData $post_input){
+		$clone = $this;
+
+		if(sizeof($this->getInputs()) === 0){
+			return $clone;
+		}
+
 		$inputs = [];
 		$values = [];
-        $error = false;
+		$error = false;
 		foreach($this->getInputs() as $key => $input){
 			$inputs[$key] = $input->withInput($post_input);
 			//Todo: Is this correct here or should it be getValue? Design decision...
@@ -128,20 +151,33 @@ class Group extends Input implements C\Input\Field\Group{
 			if( $content->isOk()){
 				$values[$key] = $content->value();
 			}else{
-                $error = true;
-            }
+				$error = true;
+			}
 		}
-        $clone->inputs = $inputs;
-        if($error){
-            //Todo: Improve this error message on the group
-            $clone->content = $this->data_factory->error("Error on Group");
-            return $clone;
-        }
+		$clone->inputs = $inputs;
+		if($error){
+			//Todo: Improve this error message on the group
+			$clone->content = $clone->data_factory->error("error in grouped input");
+			return $clone;
+		}
 
-		$clone->content = $clone->applyOperationsTo($values);
+		if($clone->content->value()){
+
+			$group_content = $clone->applyOperationsTo($values);
+			$f = $this->data_factory;
+			$clone->content = $clone->content->then(function($value) use ($f,$group_content) {
+				if($group_content->isError()){
+					return $f->error($group_content->error());
+				}
+				return $f->ok([$value,$group_content->value()]);
+			});
+		}else{
+			$clone->content = $clone->applyOperationsTo($values);
+		}
+
 
 		if ($clone->content->isError()) {
-			return $clone->withError("".$clone->content->error());
+			return $clone->withError($clone->content->error());
 		}
 		return $clone;
 	}

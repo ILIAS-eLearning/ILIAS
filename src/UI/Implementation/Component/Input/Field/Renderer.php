@@ -33,15 +33,7 @@ class Renderer extends AbstractComponentRenderer {
 			$input_tpl = $this->getTemplate("tpl.text.html", true, true);
 		}else if($input instanceof Component\Input\Field\Numeric){
 			$input_tpl = $this->getTemplate("tpl.numeric.html", true, true);
-		}else if($input instanceof Component\Input\Field\Checkbox){
-			$input_tpl = $this->getTemplate("tpl.checkbox.html", true, true);
-			if($input->getSubSection()){
-				$sub_section = $default_renderer->render($input->getSubSection());
-				$id = $this->bindJavaScript($input);
-				$html = $this->renderInputFieldWithContext($input_tpl,$input, $default_renderer,$id);
-				return $html.$sub_section;
-			}
-		}  else{
+		} else{
 			throw new \LogicException("Cannot render '".get_class($input)."'");
 		}
 
@@ -53,7 +45,16 @@ class Renderer extends AbstractComponentRenderer {
 	protected function renderFieldGroups(Component\Input\Field\Group $group, RendererInterface $default_renderer){
 		if ($group instanceof Component\Input\Field\SubSection) {
 			return $this->renderSubSection($group, $default_renderer);
-		}else if($group instanceof Component\Input\Field\Section){
+		}else if($group instanceof Component\Input\Field\Checkbox){
+			$input_tpl = $this->getTemplate("tpl.checkbox.html", true, true);
+			$sub_section = "";
+			if($group->getSubSection()){
+				$sub_section = $default_renderer->render($group->getSubSection());
+				$id = $this->bindJavaScript($group);
+			}
+			$html = $this->renderInputFieldWithContext($input_tpl,$group, $default_renderer,$id);
+			return $html.$sub_section;
+		} else if($group instanceof Component\Input\Field\Section){
 			return $this->renderSection($group, $default_renderer);
 		}
 		$inputs = "";
