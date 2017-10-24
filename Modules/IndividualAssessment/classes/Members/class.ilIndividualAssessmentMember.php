@@ -22,7 +22,6 @@ class ilIndividualAssessmentMember {
 	protected $place;
 	protected $event_time;
 	protected $changer_id;
-	protected $changed;
 	protected $change_time;
 
 	public function __construct(ilObjIndividualAssessment $iass, ilObjUser $usr, array $data) {
@@ -38,8 +37,7 @@ class ilIndividualAssessmentMember {
 		$this->changer_id = $data[ilIndividualAssessmentMembers::FIELD_CHANGER_ID];
 		$this->file_name = $data[ilIndividualAssessmentMembers::FIELD_FILE_NAME];
 		$this->view_file = $data[ilIndividualAssessmentMembers::FIELD_USER_VIEW_FILE];
-		$this->changed = $data[ilIndividualAssessmentMembers::FIELD_CHANGED];
-		$this->change_time = new ilDateTime($data[ilIndividualAssessmentMembers::FIELD_CHANGE_TIME], IL_CAL_UNIX);
+		$this->change_time = new ilDateTime($data[ilIndividualAssessmentMembers::FIELD_CHANGE_TIME], IL_CAL_DATETIME);
 		$this->iass = $iass;
 		$this->usr = $usr;
 	}
@@ -70,7 +68,7 @@ class ilIndividualAssessmentMember {
 	/**
 	 * Get the user id of the changer
 	 *
-	 * @return	int|string
+	 * @return	int
 	 */
 	public function changerId() {
 		return $this->changer_id;
@@ -78,18 +76,11 @@ class ilIndividualAssessmentMember {
 
 	/**
 	 * Get the datetime of change
+	 *
+	 * @return ilDateTime
 	 */
 	public function changeTime() {
 		return $this->change_time;
-	}
-
-	/**
-	 * Is changed after finaliz?
-	 *
-	 * @return	bool
-	 */
-	public function changed() {
-		return (string)$this->finalized === "1" ? true : false;
 	}
 
 	/**
@@ -360,17 +351,6 @@ class ilIndividualAssessmentMember {
 			return $clone;
 		}
 		throw new ilIndividualAssessmentException('user cant be finalized');
-	}
-
-	/**
-	 * Clone this object and set changed.
-	 *
-	 * @return	ilIndividualAssessmentMember
-	 */
-	public function withChanged() {
-		$clone = clone $this;
-		$clone->changed = 1;
-		return $clone;
 	}
 
 	/**
