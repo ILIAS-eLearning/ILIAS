@@ -204,8 +204,7 @@ class ilCalendarAppointmentGUI
 		{
 			$cats = ilCalendarCategories::_getInstance($ilUser->getId());
 			$categories = $cats->prepareCategoriesOfUserForSelection();
-			$category = array_shift($categories);
-			$selected_calendar = $category['cat_id'];
+			$selected_calendar = key((array) $categories);
 			$calendar->setValue($selected_calendar);
 		}
 		$calendar->setRequired(true);
