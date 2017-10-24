@@ -1505,7 +1505,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$pass = new ilTextInputGUI($this->lng->txt("password"),'password');
 			$pass->setInfo($this->lng->txt('grp_reg_password_info'));
 			$pass->setValue($this->object->getPassword());
-			$pass->setSize(10);
+			$pass->setSize(32);
 			$pass->setMaxLength(32);
 			$opt_pass->addSubItem($pass);
 			$reg_type->addOption($opt_pass);
