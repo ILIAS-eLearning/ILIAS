@@ -68,7 +68,6 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 		}
 
 		if($this->userMayViewGrades() || $this->userMayEditGrades()) {
-			$this->tpl->setCurrentBlock('lp_info');
 			$status = $a_set[ilIndividualAssessmentMembers::FIELD_FINALIZED] == 1 ? $a_set[ilIndividualAssessmentMembers::FIELD_LEARNING_PROGRESS] : ilIndividualAssessmentMembers::LP_IN_PROGRESS;
 			$this->tpl->setVariable("LP_STATUS", $this->getEntryForStatus($status));
 
@@ -77,19 +76,16 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 				$graded_by = $a_set[ilIndividualAssessmentMembers::FIELD_EXAMINER_LASTNAME].", ".$a_set[ilIndividualAssessmentMembers::FIELD_EXAMINER_FIRSTNAME];
 			}
 			$this->tpl->setVariable("GRADED_BY", $graded_by);
-			$this->tpl->parseCurrentBlock();
 
 			$changed_by = "";
-			if($a_set[ilIndividualAssessmentMembers::FIELD_CHANGED]) {
+			if($a_set[ilIndividualAssessmentMembers::FIELD_CHANGER_ID]) {
 				$changed_by =
 					$a_set[ilIndividualAssessmentMembers::FIELD_CHANGER_LASTNAME].", ".
 					$a_set[ilIndividualAssessmentMembers::FIELD_CHANGER_FIRSTNAME]." ".
-					(new ilDateTime($a_set[ilIndividualAssessmentMembers::FIELD_CHANGE_TIME], IL_CAL_UNIX))->get(IL_CAL_FKT_DATE, "d.m.Y H:i")
+					(new ilDateTime($a_set[ilIndividualAssessmentMembers::FIELD_CHANGE_TIME], IL_CAL_DATETIME))->get(IL_CAL_FKT_DATE, "d.m.Y H:i")
 					;
 			}
-			$this->tpl->setCurrentBlock('changed_info');
 			$this->tpl->setVariable("CHANGED_BY", $changed_by);
-			$this->tpl->parseCurrentBlock();
 		}
 
 		$this->tpl->setVariable("ACTIONS",$this->buildActionDropDown($a_set));
