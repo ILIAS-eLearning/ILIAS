@@ -118,4 +118,22 @@ interface Pagination extends C\Component, JavaScriptBindable, Triggerer {
 	 */
 	public function getMaxPaginationButtons();
 
+	/**
+	 * Layout; when number of page-entries reaches $amount,
+	 * the options will be rendered as dropdown.
+	 *
+	 * @param int 	$amount
+	 *
+	 * @return \Pagination
+	 */
+	public function withDropdownAt($amount);
+
+	/**
+	 * Below this value, the options are directly rendered as shy-buttons,
+	 * on and above thist value a dropdown is beeing used.
+	 *
+	 * @return int
+	 */
+	public function getDropdownAt();
+
 }

@@ -208,14 +208,34 @@ class Renderer extends AbstractComponentRenderer
 		}
 
 		$range = $this->getPaginationRange($component);
-
+		$chunk_options = array();
 		foreach ($range as $entry) {
 			$shy = $this->getPaginationShyButton($entry, $component);
 			if((int)$entry === $component->getCurrentPage()) {
 				$shy = $shy->withUnavailableAction();
 			}
+			$chunk_options[] = $shy;
+		}
+
+		if( $component->getDropdownAt() == null ||
+			$component->getDropdownAt() > $component->getNumberOfPages()) {
+
+			foreach ($chunk_options as $entry) {
+				$tpl->setCurrentBlock("entry");
+				$tpl->setVariable('BUTTON',	$default_renderer->render($entry));
+				$tpl->parseCurrentBlock();
+			}
+
+		}else {
+			//if threshold is reached, render as dropdown
+			$f = new \ILIAS\UI\Implementation\Factory(
+				new \ILIAS\UI\Implementation\Component\SignalGenerator()
+			);
+			$dd = $f->dropdown()->standard($chunk_options)->withLabel(
+				(string)($component->getCurrentPage() + 1)
+			);
 			$tpl->setCurrentBlock("entry");
-			$tpl->setVariable('BUTTON',	$default_renderer->render($shy));
+			$tpl->setVariable('BUTTON',	$default_renderer->render($dd));
 			$tpl->parseCurrentBlock();
 		}
 

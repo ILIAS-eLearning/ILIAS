@@ -104,6 +104,8 @@ interface Factory {
 	 *   composition: >
 	 *      Pagination is a collection of shy-buttons to access distinct chunks
 	 *      of data, framed by additional shy-buttons with chevron left/right glyphs.
+	 *      When used with the "DropdownAt" option, a dropdown is rendered if
+	 *      the number of chunks exceeds the option's value.
 	 *   effect: >
 	 *      A click on an chunk-option will change the offset of the displayed data-list,
 	 *      thus displaying the respective chunk of entries.

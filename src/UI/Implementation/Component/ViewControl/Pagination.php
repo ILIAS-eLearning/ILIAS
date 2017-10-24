@@ -49,6 +49,11 @@ class Pagination implements C\ViewControl\Pagination  {
 	 */
 	protected $max_pages_shown;
 
+	/**
+	 * @var int | null
+	 */
+	protected $dd_threshold;
+
 
 	public function __construct(SignalGeneratorInterface $signal_generator) {
 		$this->signal_generator = $signal_generator;
@@ -203,6 +208,23 @@ class Pagination implements C\ViewControl\Pagination  {
 			return $this->total_entries - $this->getOffset();
 		}
 		return $this->page_size;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withDropdownAt($amount) {
+		$this->checkIntArg("amount", $amount);
+		$clone = clone $this;
+		$clone->dd_threshold = $amount;
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getDropdownAt() {
+		return $this->dd_threshold;
 	}
 
 }
