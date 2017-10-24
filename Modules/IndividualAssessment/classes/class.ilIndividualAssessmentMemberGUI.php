@@ -219,6 +219,7 @@ class ilIndividualAssessmentMemberGUI {
 		if ($this->object->isActiveLP()) {
 			ilIndividualAssessmentLPInterface::updateLPStatusOfMember($this->member);
 		}
+		$this->member->maybeSendNotification($this->notificator);
 
 		ilUtil::sendSuccess($this->lng->txt('iass_membership_finalized'), true);
 		$this->redirect('view');
