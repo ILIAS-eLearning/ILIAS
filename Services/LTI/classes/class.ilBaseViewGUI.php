@@ -304,7 +304,7 @@ abstract class ilBaseViewGUI
 		//$link = $this->getHomeLink().$msg;
 		$_SESSION[$_msg_type] = $_msg;
 		$link = $this->getHomeLink();
-		$this->dic->logger()->root()->write("redirectLink: " . $link);
+		$this->dic->logger()->lti()->write("redirectLink: " . $link);
 		ilUtil::redirect($link);
 		exit;
 	}
@@ -361,7 +361,7 @@ abstract class ilBaseViewGUI
 	
 	protected function log($txt) 
 	{
-		$this->dic->logger()->root()->write($txt);
+		$this->dic->logger()->lti()->write($txt);
 	} 
 	
 	/**

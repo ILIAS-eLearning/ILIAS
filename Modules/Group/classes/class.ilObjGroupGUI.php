@@ -522,6 +522,9 @@ class ilObjGroupGUI extends ilContainerGUI
 
 				$modified = ($new_type != $old_type);
 				ilLoggerFactory::getLogger('grp')->info('Switched group type from '. $old_type .' to ' . $new_type);
+			}
+			else
+			{
 
 				$old_autofill = $this->object->hasWaitingListAutoFill();
 				
@@ -1381,7 +1384,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				);
 			}
 			
-			// Redirects to target location after assigning user to course
+			// Redirects to target location after assigning user to group
 			ilMembershipRegistrationCodeUtils::handleCode(
 				$a_target,
 				ilObject::_lookupType(ilObject::_lookupObjId($a_target)),
@@ -1505,7 +1508,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$pass = new ilTextInputGUI($this->lng->txt("password"),'password');
 			$pass->setInfo($this->lng->txt('grp_reg_password_info'));
 			$pass->setValue($this->object->getPassword());
-			$pass->setSize(10);
+			$pass->setSize(32);
 			$pass->setMaxLength(32);
 			$opt_pass->addSubItem($pass);
 			$reg_type->addOption($opt_pass);

@@ -50,6 +50,16 @@ class ilCalendarViewGUI
 	protected $ui;
 
 	/**
+	 * @var bool true if the displayed view contains appointments.
+	 */
+	protected $view_with_appointments;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
 	 * View initialization
 	 * @param integer $a_calendar_presentation_type
 	 */
@@ -67,6 +77,8 @@ class ilCalendarViewGUI
 		$this->toolbar = $DIC->toolbar();
 		$this->presentation_type = $a_calendar_presentation_type;
 		$this->logger = $GLOBALS['DIC']->logger()->cal();
+		//by default "download files" button is not displayed.
+		$this->view_with_appointments = false;
 	}
 
 	/**
@@ -193,6 +205,9 @@ class ilCalendarViewGUI
 		$f = $this->ui_factory;
 		$r = $this->ui_renderer;
 		$ctrl = $this->ctrl;
+		
+		// set return class 
+		$this->ctrl->setReturn($this, '');
 
 		// @todo: this needs optimization
 		$events = $this->getEvents();
@@ -241,7 +256,13 @@ class ilCalendarViewGUI
 
 		$modal = $f->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
 
-		$title = ($a_title_forced == "")? $a_calendar_entry->getPresentationTitle() : $a_title_forced;
+		//Day view presents the titles with the full length.(agenda:class.ilCalendarAgendaListGUI.php)
+		if($this->presentation_type == self::CAL_PRESENTATION_DAY) {
+			$title = ($a_title_forced == "")? $a_calendar_entry->getPresentationTitle(false) : $a_title_forced;
+		} else {
+			$title = ($a_title_forced == "")? $a_calendar_entry->getPresentationTitle() : $a_title_forced;
+		}
+
 
 		$comps = [$f->button()->shy($title, "")->withOnClick($modal->getShowSignal()), $modal];
 
@@ -328,18 +349,25 @@ class ilCalendarViewGUI
 	function addToolbarActions()
 	{
 		$settings = ilCalendarSettings::_getInstance();
-		if($settings->isBatchFileDownloadsEnabled() && !empty($this->getEvents()))
-		{
-			$toolbar = $this->toolbar;
-			$f = $this->ui_factory;
-			$lng = $this->lng;
-			$ctrl = $this->ctrl;
 
-			// file download
-			$add_button = $f->button()->standard($lng->txt("cal_download_files"),
-				$ctrl->getLinkTarget($this, "downloadFiles"));
-			$toolbar->addSeparator();
-			$toolbar->addComponent($add_button);
+		if($settings->isBatchFileDownloadsEnabled())
+		{
+			if($this->presentation_type == self::CAL_PRESENTATION_AGENDA_LIST) {
+				$num_events = $this->countEventsInView();
+			}
+			if ($this->view_with_appointments || $num_events)
+			{
+				$toolbar = $this->toolbar;
+				$f = $this->ui_factory;
+				$lng = $this->lng;
+				$ctrl = $this->ctrl;
+
+				// file download
+				$add_button = $f->button()->standard($lng->txt("cal_download_files"),
+					$ctrl->getLinkTarget($this, "downloadFiles"));
+				$toolbar->addSeparator();
+				$toolbar->addComponent($add_button);
+			}
 		}
 	}
 
@@ -366,6 +394,18 @@ class ilCalendarViewGUI
 	{
 		$user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
 		$bucket_title = $this->lng->txt("cal_calendar_download");
+		/**
+		 * Naming definition in the Main Grid Calendar (Original/Current status)
+		 * Day: Calendar Files 2017-10-11
+		 * Week: Calendar Files 2017-10-09 to 2017-10-15
+		 * Month: Calendar Files October 2017
+		 *
+		 * Naming definition in the Agenda List view (Discussed https://www.ilias.de/mantis/view.php?id=21365)
+		 * Day: Calendar Files 2017-10-11 1d
+		 * Week: Calendar Files 2017-10-11 1w
+		 * Month: Calendar Files 2017-10-11 1m
+		 * 6 Months: Calendar Files 2017-10-11 6m
+		 */
 		switch ($this->presentation_type)
 		{
 			case self::CAL_PRESENTATION_DAY:
@@ -383,10 +423,70 @@ class ilCalendarViewGUI
 					' '.$this->seed->get(IL_CAL_FKT_DATE,'Y');
 				break;
 			case self::CAL_PRESENTATION_AGENDA_LIST:
-				$bucket_title .= " Agenda ".$this->seed->get(IL_CAL_DATE);
-				break;
+				$bucket_title .= " ".$this->seed->get(IL_CAL_DATE);
+				#21365
+				$get_list_option = $_GET['cal_agenda_per'];
+				switch ($get_list_option)
+				{
+					case ilCalendarAgendaListGUI::PERIOD_DAY:
+						$char = strtolower(mb_substr($this->lng->txt("day"),0,1));
+						$bucket_title .= " 1$char";
+						break;
+					case ilCalendarAgendaListGUI::PERIOD_MONTH:
+						$char = strtolower(mb_substr($this->lng->txt("month"),0,1));
+						$bucket_title .= " 1$char";
+						break;
+					case ilCalendarAgendaListGUI::PERIOD_HALF_YEAR:
+						$char = strtolower(mb_substr($this->lng->txt("month"),0,1));
+						$bucket_title .= " 6$char";
+						break;
+					case ilCalendarAgendaListGUI::PERIOD_WEEK:
+					default:
+						$char = strtolower(mb_substr($this->lng->txt("week"),0,1));
+						$bucket_title .= " 1$char";
+						break;
+				}
 		}
 
 		return $bucket_title;
+	}
+
+	/**
+	 * get the events between 2 dates based in seed + view options.
+	 * @return int number of events in the calendar list view.
+	 */
+	function countEventsInView()
+	{
+		$start = $this->seed;
+		$end = clone $start;
+		$get_list_option = $_GET['cal_agenda_per'];
+		switch ($get_list_option)
+		{
+			case ilCalendarAgendaListGUI::PERIOD_DAY:
+				$end->increment(IL_CAL_DAY,1);
+				break;
+			case ilCalendarAgendaListGUI::PERIOD_MONTH:
+				$end->increment(IL_CAL_MONTH,1);
+				break;
+			case ilCalendarAgendaListGUI::PERIOD_HALF_YEAR:
+				$end->increment(IL_CAL_MONTH,6);
+				break;
+			case ilCalendarAgendaListGUI::PERIOD_WEEK:
+			default:
+				$end->increment(IL_CAL_DAY,7);
+				break;
+		}
+		$events = $this->getEvents();
+		$num_events = 0;
+		foreach($events as $event)
+		{
+			$event_start = $event['event']->getStart()->get(IL_CAL_DATE);
+			$event_end = $event['event']->getEnd()->get(IL_CAL_DATE);
+			if($event_start >= $start->get(IL_CAL_DATE) &&  $event_end< $end->get(IL_CAL_DATE))
+			{
+				$num_events++;
+			}
+		}
+		return $num_events;
 	}
 }

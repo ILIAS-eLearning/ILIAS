@@ -69,7 +69,8 @@ class ilBTPopOverGUI {
 
 		foreach ($observers as $observer) {
 			$state = (int)$observer->getState();
-			$expected = (int)$observer->getCurrentTask()->getExpectedTimeOfTaksInSeconds();
+			$current_task = $observer->getCurrentTask();
+			$expected = (int)$current_task->getExpectedTimeOfTaksInSeconds();
 			$possibly_failed = (bool)($observer->getLastHeartbeat() < (time() - $expected));
 			switch ($state) {
 				case State::USER_INTERACTION:
@@ -87,8 +88,12 @@ class ilBTPopOverGUI {
 					$bucket->setVariable("CONTENT", $r->render($this->getDefaultCardContent($observer)));
 					break;
 			}
-			if ($possibly_failed || $state === State::USER_INTERACTION) {
-				$this->addCloseButton($redirect_uri, $bucket, $observer);
+			if ($possibly_failed) {
+				$this->addButton($current_task->getAbortOption(), $redirect_uri, $bucket, $observer);
+			}
+
+			if ($state === State::USER_INTERACTION) {
+				$this->addButton($current_task->getDismissOption(), $redirect_uri, $bucket, $observer);
 			}
 
 			$bucket->setCurrentBlock("bucket");
@@ -189,38 +194,36 @@ class ilBTPopOverGUI {
 	}
 
 
-	/**
-	 * @param $redirect_uri
-	 * @param $bucket
-	 * @param $persistence
-	 * @param $observer
-	 */
-	protected function addCloseButton($redirect_uri, ilTemplate $bucket, Bucket $observer) {
+	protected function addButton(UserInteraction\Option $option, $redirect_uri, ilTemplate $bucket, Bucket $observer) {
 		$r = $this->ui()->renderer();
 		$f = $this->ui()->factory();
 		$persistence = $this->dic()->backgroundTasks()->persistence();
 		// Close Action
 		$bucket->setCurrentBlock('close_button');
 
-		//$remove = $r->render($f->glyph() ->remove($close_action));
-
 		$this->ctrl()
 		     ->setParameterByClass(ilBTControllerGUI::class, "observer_id", $persistence->getBucketContainerId($observer));
 		$this->ctrl()
 		     ->setParameterByClass(ilBTControllerGUI::class, "from_url", urlencode($redirect_uri));
 
-		$dismiss = $observer->getCurrentTask()->getDismissOption();
-		if ($dismiss->getValue() == AbstractTask::MAIN_DISMISS) {
-			$action = $this->ctrl()
-			               ->getLinkTargetByClass([ ilBTControllerGUI::class ], ilBTControllerGUI::CMD_QUIT);
-		} else {
-			$this->ctrl()
-			     ->setParameterByClass(ilBTControllerGUI::class, "selected_option", $dismiss->getValue());
-			$action = $this->ctrl()
-			               ->getLinkTargetByClass([ ilBTControllerGUI::class ], ilBTControllerGUI::CMD_USER_INTERACTION);
+		switch ($option->getValue()) {
+			case AbstractTask::MAIN_ABORT:
+				$action = $this->ctrl()
+				               ->getLinkTargetByClass([ ilBTControllerGUI::class ], ilBTControllerGUI::CMD_ABORT);
+				break;
+			case AbstractTask::MAIN_DISMISS:
+				$action = $this->ctrl()
+				               ->getLinkTargetByClass([ ilBTControllerGUI::class ], ilBTControllerGUI::CMD_DISMISS);
+				break;
+			default:
+				$this->ctrl()
+				     ->setParameterByClass(ilBTControllerGUI::class, "selected_option", $option->getValue());
+				$action = $this->ctrl()
+				               ->getLinkTargetByClass([ ilBTControllerGUI::class ], ilBTControllerGUI::CMD_USER_INTERACTION);
+				break;
 		}
 
-		$label = $this->lng()->txt($dismiss->getLangVar());
+		$label = $this->lng()->txt($option->getLangVar());
 
 		$remove = $r->render($f->button()->standard($label, $action));
 

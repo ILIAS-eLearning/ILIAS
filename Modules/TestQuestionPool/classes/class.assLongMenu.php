@@ -413,7 +413,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		$correct_answers	= array();
 		while($data = $this->ilDB->fetchAssoc($res))
 		{
-			$correct_answers[$data['gap_number']][0][$data['position']]	= $data['answer_text'];
+			$correct_answers[$data['gap_number']][0][$data['position']]	= rtrim($data['answer_text']);
 			$correct_answers[$data['gap_number']][1]					= $data['points'];
 			$correct_answers[$data['gap_number']][2]					= $data['type'];
 		}
@@ -434,11 +434,11 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 			if(array_key_exists($data['gap_number'], $correct_answers))
 			{
 				$correct_answers[$data['gap_number']] .= ' ' . $this->lng->txt("or") . ' ';
-				$correct_answers[$data['gap_number']] .= $data['answer_text'];
+				$correct_answers[$data['gap_number']] .= rtrim($data['answer_text']);
 			}
 			else
 			{
-				$correct_answers[$data['gap_number']] .= $data['answer_text'];
+				$correct_answers[$data['gap_number']] .= rtrim($data['answer_text']);
 			}
 		}
 		return $correct_answers;
@@ -453,7 +453,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		);
 		while($data = $this->ilDB->fetchAssoc($res))
 		{
-			$correct_answers[] = $data['answer_text'];
+			$correct_answers[] = rtrim($data['answer_text']);
 		}
 		return $correct_answers;
 	}

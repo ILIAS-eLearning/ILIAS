@@ -362,11 +362,10 @@ class ilAdvancedMDRecordGUI
 		$this->search_form_values = $a_values;
 	}
 	
-	
-	//
-	// infoscreen
-	//
-	
+	/**
+	 * Presentation for info page
+	 * @return void
+	 */
 	private function parseInfoPage()
 	{				
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
@@ -392,14 +391,12 @@ class ilAdvancedMDRecordGUI
 		}						
 	}
 
-	// Used by list of calendars
+	/**
+	 * Presentation for calendar agenda list.
+	 * @return void
+	 */
 	private function parseAppointmentPresentation()
 	{
-		//include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
-		//include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
-		//include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDSubstitution.php');
-		//include_once('Services/ADT/classes/class.ilADTFactory.php');
-		//todo: try to refactor this positions
 		$sub = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->obj_type);
 
 		$definitions = ilAdvancedMDFieldDefinition::getInstancesByObjType($this->obj_type);
@@ -422,10 +419,11 @@ class ilAdvancedMDRecordGUI
 			{
 				if(!$element->isNull())
 				{
-					$array_elements[$positions[$element_id]] = array(
-						"title" => $defs[$element_id]->getTitle(),
-						"value" => ilADTFactory::getInstance()->getPresentationBridgeForInstance($element)->getHTML()
-					);
+					$array_elements[$positions[$element_id]] =
+						[
+							"title" => $defs[$element_id]->getTitle(),
+							"value" => ilADTFactory::getInstance()->getPresentationBridgeForInstance($element)->getHTML()
+						];
 				}
 			}
 		}
@@ -457,27 +455,6 @@ class ilAdvancedMDRecordGUI
 			return false;
 		}
 		return false;
-		/*
-		$mapping = ilECSDataMappingSettings::_getInstance();
-		
-		if($mapping->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS, 'begin') == $a_definition->getFieldId())
-		{
-			$this->showECSStart($a_definition);
-			return true;
-		}
-		if($mapping->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS, 'end') == $a_definition->getFieldId())
-		{
-			return true;
-		}
-		if($mapping->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS, 'cycle') == $a_definition->getFieldId())
-		{
-			return true;
-		}
-		if($mapping->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS, 'room') == $a_definition->getFieldId())
-		{
-			return true;
-		}
-		*/
 	}
 	
 	/**

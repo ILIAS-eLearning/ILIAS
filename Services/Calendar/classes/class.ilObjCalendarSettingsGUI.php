@@ -266,7 +266,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		$this->form->addItem($radio);
 
 		// show weeks
-		$cb = new ilCheckboxInputGUI($this->lng->txt("cal_show_weeks"), "show_weeks");
+		$cb = new ilCheckboxInputGUI($this->lng->txt("cal_def_show_weeks"), "show_weeks");
 		$cb->setInfo($this->lng->txt("cal_show_weeks_info"));
 		$cb->setValue(1);
 		$cb->setChecked($this->settings->getShowWeeks());
@@ -274,14 +274,14 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 
 
 		// Day start
-		$day_start = new ilSelectInputGUI($this->lng->txt('cal_day_start'),'dst');
+		$day_start = new ilSelectInputGUI($this->lng->txt('cal_def_day_start'),'dst');
 		$day_start->setOptions(
 			ilCalendarUtil::getHourSelection($this->settings->getDefaultTimeFormat())
 		);
 		$day_start->setValue($this->settings->getDefaultDayStart());
 		$this->form->addItem($day_start);
 
-		$day_end = new ilSelectInputGUI($this->lng->txt('cal_day_end'),'den');
+		$day_end = new ilSelectInputGUI($this->lng->txt('cal_def_day_end'),'den');
 		$day_end->setOptions(
 			ilCalendarUtil::getHourSelection($this->settings->getDefaultTimeFormat())
 		);

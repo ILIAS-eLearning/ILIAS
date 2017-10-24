@@ -58,10 +58,12 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 		$this->ctrl->saveParameter($this, "cal_agenda_per");
 
 		//$qp = $DIC->http()->request()->getQueryParams();
+		#21479
 		$qp = $_GET;
-		if ((int) $qp["cal_agenda_per"] > 0 && (int) $qp["cal_agenda_per"] <= 4)
-		{
+		if ((int) $qp["cal_agenda_per"] > 0 && (int) $qp["cal_agenda_per"] <= 4) {
 			$this->period = $qp["cal_agenda_per"];
+		} else if ($period = ilSession::get('cal_list_view')) {
+			$this->period = $period;
 		}
 
 		$get_seed = $qp["seed"];
@@ -226,7 +228,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 			$this->ctrl->setParameter($this, "dt", $_GET["dt"]);
 			$this->ctrl->setParameter($this,'modal_title',$_GET["modal_title"]);
 			$modal = $this->ui_factory->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
-			$shy = $this->ui_factory->button()->shy($e["event"]->getPresentationTitle(), "")->withOnClick($modal->getShowSignal());
+			$shy = $this->ui_factory->button()->shy($e["event"]->getPresentationTitle(false), "")->withOnClick($modal->getShowSignal());
 
 			$modals[] = $modal;
 			if($e['event']->isFullDay()) {
@@ -235,7 +237,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 				$lead_text = ilDatePresentation::formatPeriod($begin, $end, true);
 			}
 			$li = $this->ui_factory->item()->standard($shy)
-				->withDescription("".$e["event"]->getDescription())
+				->withDescription("".ilUtil::makeClickable(nl2br($e["event"]->getDescription())))
 				->withLeadText($lead_text)
 				->withProperties($properties)
 				->withColor($df->color('#'.$cat_info["color"]));
@@ -270,6 +272,8 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 			$images[$this->period] = "<img src='./templates/default/images/icon_checked.svg' alt='Month'>";
 		}
 
+		#21479 Set seed if the view does not contain any event.
+		$this->ctrl->setParameter($this, 'seed', $this->seed->get(IL_CAL_DATE));
 
 		$items = array();
 		$this->ctrl->setParameter($this, "cal_agenda_per", self::PERIOD_DAY);
