@@ -517,6 +517,9 @@ class ilObjGroupGUI extends ilContainerGUI
 
 				$modified = ($new_type != $old_type);
 				ilLoggerFactory::getLogger('grp')->info('Switched group type from '. $old_type .' to ' . $new_type);
+			}
+			else
+			{
 
 				$old_autofill = $this->object->hasWaitingListAutoFill();
 				
