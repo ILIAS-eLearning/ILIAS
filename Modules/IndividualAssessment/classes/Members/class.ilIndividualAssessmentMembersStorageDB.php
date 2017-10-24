@@ -55,7 +55,6 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
 				."iassme.user_view_file,"
 				."iassme.file_name,"
 				."iassme.changer_id,"
-				."iassme.changed,"
 				."iassme.change_time"
 				." FROM ".self::MEMBERS_TABLE." iassme\n"
 				."	JOIN usr_data usr ON iassme.usr_id = usr.usr_id\n"
@@ -92,8 +91,7 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
 					  , ilIndividualAssessmentMembers::FIELD_FILE_NAME => array("text", $member->fileName())
 					  , ilIndividualAssessmentMembers::FIELD_USER_VIEW_FILE => array("integer", $member->viewFile() ? 1 : 0)
 					  , ilIndividualAssessmentMembers::FIELD_CHANGER_ID => array("integer", $member->changerId())
-					  , ilIndividualAssessmentMembers::FIELD_CHANGED => array("integer", $member->changed())
-					  , ilIndividualAssessmentMembers::FIELD_CHANGE_TIME => array("integer", time())
+					  , ilIndividualAssessmentMembers::FIELD_CHANGE_TIME => array("string", (new ilDateTime(time(), IL_CAL_UNIX))->get(IL_CAL_DATETIME))
 				);
 
 		$this->db->update(self::MEMBERS_TABLE, $values, $where);
@@ -121,7 +119,7 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
 				."	   ,iassme.".ilIndividualAssessmentMembers::FIELD_FILE_NAME
 				."     ,iassme.obj_id, iassme.usr_id, iassme.examiner_id, iassme.record, iassme.internal_note, iassme.notify"
 				."     ,iassme.notification_ts, iassme.learning_progress, iassme.finalized,iassme.place"
-				."     ,iassme.event_time, iassme.changer_id, iassme.changed, iassme.change_time\n"
+				."     ,iassme.event_time, iassme.changer_id, iassme.change_time\n"
 				." FROM iass_members iassme"
 				." JOIN usr_data usr ON iassme.usr_id = usr.usr_id"
 				." LEFT JOIN usr_data ex ON iassme.examiner_id = ex.usr_id"
@@ -147,7 +145,7 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
 			, ilIndividualAssessmentMembers::FIELD_FILE_NAME => array("text", $record[ilIndividualAssessmentMembers::FIELD_FILE_NAME])
 			, ilIndividualAssessmentMembers::FIELD_USER_VIEW_FILE => array("integer", $record[ilIndividualAssessmentMembers::FIELD_USER_VIEW_FILE])
 			, ilIndividualAssessmentMembers::FIELD_CHANGER_ID => array("integer", $record[ilIndividualAssessmentMembers::FIELD_CHANGER_ID])
-			, ilIndividualAssessmentMembers::FIELD_CHANGE_TIME => array("integer", $record[ilIndividualAssessmentMembers::FIELD_CHANGE_TIME])
+			, ilIndividualAssessmentMembers::FIELD_CHANGE_TIME => array("text", $record[ilIndividualAssessmentMembers::FIELD_CHANGE_TIME])
 		);
 
 		$this->db->insert(self::MEMBERS_TABLE, $values);
