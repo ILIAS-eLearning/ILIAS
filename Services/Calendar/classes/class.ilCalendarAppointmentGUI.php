@@ -200,6 +200,13 @@ class ilCalendarAppointmentGUI
 			$calendar->setValue(ilCalendarCategories::_lookupCategoryIdByObjId($obj_cal));
 			$selected_calendar = ilCalendarCategories::_lookupCategoryIdByObjId($obj_cal);
 		}
+		else
+		{
+			$cats = ilCalendarCategories::_getInstance($ilUser->getId());
+			$categories = $cats->getCategoriesInfo();
+			$category = array_shift($categories);
+			$calendar->setValue($category['cat_id']);
+		}
 		$calendar->setRequired(true);
 		$cats = ilCalendarCategories::_getInstance($ilUser->getId());
 		$calendar->setOptions($cats->prepareCategoriesOfUserForSelection());
@@ -209,7 +216,7 @@ class ilCalendarAppointmentGUI
 		{
 			$notification_cals = $cats->getNotificationCalendars();
 			$notification_cals = count($notification_cals) ? implode(',',$notification_cals) : ''; 
-			$calendar->addCustomAttribute("onchange=\"ilToggleNotification(new Array(".$notification_cals."));\"");
+			$calendar->addCustomAttribute("onchange=\"ilToggleNotification([".$notification_cals."]);\"");
 		}		
 		$this->form->addItem($calendar);
 		
