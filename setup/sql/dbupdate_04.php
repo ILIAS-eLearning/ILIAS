@@ -21438,8 +21438,7 @@ if($ilDB->tableColumnExists('wiki_stat', 'avg_rating'))
 		$ilDB->addTableColumn("iass_members", "changer_id", array(
 			'type' => 'integer',
 			'length' => 4,
-			'notnull' => true,
-			'default' => 0
+			'notnull' => false
 			));
 	}
 ?>
@@ -21448,22 +21447,10 @@ if($ilDB->tableColumnExists('wiki_stat', 'avg_rating'))
 <?php
 	//add table column
 	if($ilDB->tableExists('iass_members')) {
-		$ilDB->addTableColumn("iass_members", "changed", array(
-			'type' => 'integer',
-			'length' => 4,
-			'notnull' => true,
-			'default' => 0
-			));
-	}
-?>
-
-<#5241>
-<?php
-	//add table column
-	if($ilDB->tableExists('iass_members')) {
 		$ilDB->addTableColumn("iass_members", "change_time", array(
-			'type' => 'integer',
-			'length' => 8
+			'type' => 'text',
+			'length' => 20,
+			'notnull' => false
 			));
 	}
 ?>
