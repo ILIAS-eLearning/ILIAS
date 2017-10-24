@@ -21441,5 +21441,17 @@ $ilDB->modifyTableColumn(
 		)
 	);
 ?>
+<#5240>
+<?php
+$ilDB->modifyTableColumn(
+		'adv_md_record_objs', 
+		'record_id',
+		array(
+			"type" => "integer", 
+			"length" => 4, 
+			"notnull" => true
+		)
+	);
+?>
 
 
