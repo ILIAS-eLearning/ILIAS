@@ -811,6 +811,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	function showDbBenchResults($a_mode)
 	{
 		$tpl = $this->tpl;
+		global $DIC;
 
 		$ilBench = $DIC["ilBench"];
 		$rec = $ilBench->getDbBenchRecords();
@@ -831,6 +832,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$ilTabs = $this->tabs;
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
+		global $DIC;
 
 		$ilBench = $DIC["ilBench"];
 		$ilTabs->activateTab("benchmarks"); // #18083
