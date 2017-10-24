@@ -15,7 +15,17 @@ il.UI.viewcontrol = il.UI.viewcontrol || {};
 				'options' : {
 					'page': param
 				}
-			};
+			},
+			dd = pagination.find('.dropdown-toggle');		//the (potential) dropdown
+
+			if(dd.length > 0) {
+				//close dropdown and set current value
+				dd.dropdown('toggle');
+				dd.contents()[0].data = (parseInt(param) + 1).toString() + ' ';
+			}
+			//TODO: rockers
+			//TODO: select current page
+
 			pagination.trigger(signal, sigdata);
 		};
 
