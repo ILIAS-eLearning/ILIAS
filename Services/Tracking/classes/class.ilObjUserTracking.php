@@ -202,7 +202,7 @@ class ilObjUserTracking extends ilObject
 
 	function hasExtendedData($a_code)
 	{
-		return $this->extended_data & $a_code;
+		return $this->extended_data && $a_code;
 	}
 
 	function updateSettings()
