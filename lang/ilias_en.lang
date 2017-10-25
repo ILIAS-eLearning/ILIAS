@@ -13401,7 +13401,10 @@ style#:#assignment#:#Assignment
 style#:#remove_assignment#:#Remove Assignment
 style#:#reset_variables#:#Reset Variables
 style#:#update_variables#:#Update Variables
-style#:#less_file_updated#:#The less variables have been updated.
+style#:#less_file_updated#:#The less variables have been updated. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.
+style#:#less_file_reset#:#The less variables have been reset. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.
+style#:#color_reset#:#The colors of the icons have been reset. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.
+style#:#color_update#:#The colors of the icons have been updated. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.
 style#:#settings_of_substyle#:#Manage sub style
 style#:#settings_of_style#:#Manage style
 style#:#of_parent#:#of parent:

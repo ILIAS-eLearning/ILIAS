@@ -13389,7 +13389,10 @@ style#:#assignment#:#Zuweisung
 style#:#remove_assignment#:#Zuweisung löschen
 style#:#reset_variables#:#Variablen zurücksetzen
 style#:#update_variables#:#Variablen aktualisieren
-style#:#less_file_updated#:#Die Less Variablen wurden aktualisiert.
+style#:#less_file_updated#:#Die less-Variablen wurden aktualisiert. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderunge korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
+style#:#less_file_reset#:#Die less-Variablen wurden zurückgesetzt. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderunge korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
+style#:#color_reset#:#Die Farben der Icons wurden zurückgesetzt. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderunge korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
+style#:#color_update#:#Die Farben der Icons wurden aktualisiert. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderunge korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
 style#:#settings_of_substyle#:#Manage sub style
 style#:#settings_of_style#:#Styles verwalten
 style#:#of_parent#:#vom Parent:
