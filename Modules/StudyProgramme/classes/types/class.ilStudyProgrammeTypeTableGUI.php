@@ -37,7 +37,7 @@ class ilStudyProgrammeTypeTableGUI extends ilTable2GUI {
         $ilCtrl = $DIC['ilCtrl'];
         $ilTabs = $DIC['ilTabs'];
         $lng = $DIC['lng'];
-        $this->g_webdir = $DIC->filesystem()->web();
+        $this->webdir = $DIC->filesystem()->web();
         $this->ctrl = $ilCtrl;
         $this->tabs = $ilTabs;
         $this->lng = $lng;
@@ -62,7 +62,7 @@ class ilStudyProgrammeTypeTableGUI extends ilTable2GUI {
         $icon = "";
         $type = new ilStudyProgrammeType($set['id']);
 
-        if($this->g_webdir->has($type->getIconPath(true))) {
+        if($this->webdir->has($type->getIconPath(true))) {
             $icon = ilUtil::getWebspaceDir().'/'.$type->getIconPath(true);
         }
 
