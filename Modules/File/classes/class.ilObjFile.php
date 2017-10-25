@@ -842,6 +842,8 @@ class ilObjFile extends ilObject2 {
 		require_once("./Services/History/classes/class.ilHistory.php");
 		ilHistory::_removeEntriesForObject($this->getId());
 
+		self::handleQuotaUpdate($this);
+
 		// delete entire directory and its content
 		if (@is_dir($this->getDirectory())) {
 			ilUtil::delDir($this->getDirectory());
@@ -851,8 +853,6 @@ class ilObjFile extends ilObject2 {
 		if ($this->getMode() != self::MODE_FILELIST) {
 			$this->deleteMetaData();
 		}
-
-		self::handleQuotaUpdate($this);
 
 		// delete preview
 		$this->deletePreview();
