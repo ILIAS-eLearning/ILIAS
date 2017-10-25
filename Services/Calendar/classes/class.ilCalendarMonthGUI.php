@@ -22,7 +22,6 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 	protected $num_appointments = 1;
 	protected $schedule_filters = array();
 	
-	protected $seed = null;
 	protected $user_settings = null;
 
 	protected $lng;
@@ -44,11 +43,7 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 	 */
 	public function __construct(ilDate $seed_date)
 	{
-		//$DIC elements initialization
-		$this->initialize(ilCalendarViewGUI::CAL_PRESENTATION_MONTH);
-
-		$this->seed = $seed_date;
-
+		parent::__construct($seed_date,ilCalendarViewGUI::CAL_PRESENTATION_MONTH);
 		$this->tabs_gui->setSubTabActive('app_month');
 
 		

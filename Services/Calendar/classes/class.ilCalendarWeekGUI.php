@@ -14,7 +14,6 @@
 class ilCalendarWeekGUI extends ilCalendarViewGUI
 {
 	protected $num_appointments = 1;
-	protected $seed = null;
 	protected $user_settings = null;
 	protected $weekdays = array();
 
@@ -45,10 +44,8 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 	 */
 	public function __construct(ilDate $seed_date)
 	{
-		//$DIC elements initialization
-		$this->initialize(ilCalendarViewGUI::CAL_PRESENTATION_WEEK);
+		parent::__construct($seed_date, ilCalendarViewGUI::CAL_PRESENTATION_WEEK);
 
-		$this->seed = $seed_date;
 		$this->seed_info = $this->seed->get(IL_CAL_FKT_GETDATE,'','UTC');
 		
 		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());

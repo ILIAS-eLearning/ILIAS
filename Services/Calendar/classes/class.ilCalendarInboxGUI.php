@@ -41,7 +41,6 @@ include_once './Services/Calendar/classes/class.ilCalendarViewGUI.php';
 */
 class ilCalendarInboxGUI extends ilCalendarViewGUI
 {
-	protected $seed = null;
 	protected $user_settings = null;
 		
 	protected $lng;
@@ -61,8 +60,7 @@ class ilCalendarInboxGUI extends ilCalendarViewGUI
 	 */
 	public function __construct(ilDate $seed_date)
 	{
-		$this->initialize(ilCalendarViewGUI::CAL_PRESENTATION_AGENDA_LIST);
-		$this->seed = $seed_date;
+		parent::__construct($seed_date,ilCalendarViewGUI::CAL_PRESENTATION_AGENDA_LIST);
 		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
 		$this->app_colors = new ilCalendarAppointmentColors($this->user->getId());
 		$this->timezone = $this->user->getTimeZone();
@@ -95,7 +93,7 @@ class ilCalendarInboxGUI extends ilCalendarViewGUI
 
 			case 'ilcalendaragendalistgui':
 				include_once("./Services/Calendar/classes/Agenda/class.ilCalendarAgendaListGUI.php");
-				$cal_list = new ilCalendarAgendaListGUI();
+				$cal_list = new ilCalendarAgendaListGUI($this->seed);
 				$html = $this->ctrl->forwardCommand($cal_list);
 				$tpl->setContent($html);
 				break;
@@ -132,8 +130,7 @@ class ilCalendarInboxGUI extends ilCalendarViewGUI
 		}
 
 		// agenda list
-		include_once("./Services/Calendar/classes/Agenda/class.ilCalendarAgendaListGUI.php");
-		$cal_list = new ilCalendarAgendaListGUI();
+		$cal_list = new ilCalendarAgendaListGUI($this->seed);
 		$html = $ilCtrl->getHTML($cal_list);
 		$this->tpl->setVariable('CHANGED_TABLE', $html);
 	}

@@ -21,7 +21,6 @@ include_once './Services/Calendar/classes/class.ilCalendarViewGUI.php';
 
 class ilCalendarDayGUI extends ilCalendarViewGUI
 {
-	protected $seed = null;
 	protected $seed_info = array();
 	protected $user_settings = null;
 
@@ -74,10 +73,8 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 	 */
 	public function __construct(ilDate $seed_date)
 	{
-		//$DIC elements initialization
-		$this->initialize(ilCalendarViewGUI::CAL_PRESENTATION_DAY);
+		parent::__construct($seed_date,ilCalendarViewGUI::CAL_PRESENTATION_DAY);
 
-		$this->seed = $seed_date;
 		$this->seed_info = $this->seed->get(IL_CAL_FKT_GETDATE);
 
 		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());

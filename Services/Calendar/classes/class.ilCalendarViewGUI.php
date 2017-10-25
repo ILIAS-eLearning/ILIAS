@@ -63,6 +63,24 @@ class ilCalendarViewGUI
 	 * @var ilObjUser
 	 */
 	protected $user;
+	
+	/**
+	 * @var string
+	 */
+	protected $seed;
+	
+	
+	/**
+	 * 
+	 * @param ilDate $seed
+	 * @param int $presentation_type
+	 */
+	public function __construct(ilDate $seed, $presentation_type)
+	{
+		$this->seed = $seed;
+		$this->initialize($presentation_type);
+	}
+	
 
 	/**
 	 * View initialization
