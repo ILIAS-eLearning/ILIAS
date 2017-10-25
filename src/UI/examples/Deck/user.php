@@ -15,16 +15,18 @@ function user() {
 		)
 	);
 
+	//Define the some responsive image
 	$image = $f->image()->responsive(
 		"./templates/default/images/HeaderIcon.svg", "Thumbnail Example");
 
+	//Define the card by using the image and add a new section with a button
 	$card = $f->card(
 		"Timon Amstutz",
 		$image
 	)->withSections(array($address,$f->button()->standard("Request Contact","")));
 
-	$deck = $f->deck(array($card,$card,$card,$card,$card,$card,$card))
-		->withCardsSize(ILIAS\UI\Component\Deck\Deck::SIZE_L);
+	//Create a deck with large cards
+	$deck = $f->deck(array($card,$card,$card,$card,$card,$card,$card))->withLargeCardsSize();
 
 	//Render
 	return $renderer->render($deck);
