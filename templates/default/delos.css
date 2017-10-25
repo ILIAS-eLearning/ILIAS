@@ -9918,6 +9918,7 @@ select.form-control {
 .form-horizontal .checkbox-inline {
   padding-top: 0;
   line-height: 24px;
+  vertical-align: middle;
 }
 .form-horizontal .help-block {
   line-height: normal;
