@@ -270,7 +270,7 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 	 */
 	protected function getDeadlineFromForm($prgrs_id) {
 		$post_var = $this->getDeadlinePostVarTitle();
-		if (!array_key_exists($post_var, $_POST)) {
+		if (!$this->postContainDeadline()) {
 			throw new ilException("Expected array $post_var in POST");
 		}
 
