@@ -280,6 +280,20 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 		return new ilDateTime($deadline, IL_CAL_DATE);
 	}
 
+	/**
+	 * Checks whether $_POST contains deadline
+	 *
+	 * @return bool
+	 */
+	protected function postContainDeadline()
+	{
+		$post_var = $this->getDeadlinePostVarTitle();
+		if (array_key_exists($post_var, $_POST)) {
+			return true;
+		}
+		return false;
+	}
+
 	protected function showSuccessMessage($a_lng_var) {
 		require_once("Services/Utilities/classes/class.ilUtil.php");
 		ilUtil::sendSuccess($this->lng->txt("prg_$a_lng_var"), true);
