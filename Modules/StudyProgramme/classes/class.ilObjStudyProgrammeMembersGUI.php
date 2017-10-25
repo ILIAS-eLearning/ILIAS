@@ -293,6 +293,21 @@ class ilObjStudyProgrammeMembersGUI {
 	}
 
 	/**
+	 * Get post prgs ids
+	 *
+	 * @return string[]
+	 */
+	protected function getPostPrgsIds()
+	{
+		$prgrs_ids = $_POST['prgs_ids'];
+		if($prgrs_ids === null) {
+			$this->showFailedMessage("no_user_selected");
+			$this->ctrl->redirect($this, "view");
+		}
+		return $prgrs_ids;
+	}
+
+	/**
 	 * Mark SP for single user accredited
 	 *
 	 * @return null
