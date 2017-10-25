@@ -49,6 +49,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 
 	/**
 	 * Constructor
+	 * @todo make parent constructor (initialize) and init also seed and other common stuff
 	 */
 	function __construct()
 	{

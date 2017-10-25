@@ -2,23 +2,15 @@
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilCalendarWeekGUI: ilCalendarAppointmentGUI
-* @ilCtrl_Calls ilCalendarWeekGUI: ilCalendarAppointmentPresentationGUI
-*
-* @ingroup ServicesCalendar 
-*/
-
-include_once('Services/Calendar/classes/class.ilDate.php');
-include_once('Services/Calendar/classes/class.ilCalendarHeaderNavigationGUI.php');
-include_once('Services/Calendar/classes/class.ilCalendarUserSettings.php');
-include_once('Services/Calendar/classes/class.ilCalendarAppointmentColors.php');
-include_once('Services/Calendar/classes/class.ilCalendarViewGUI.php');
-
-
+ *
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @version $Id$
+ *
+ * @ilCtrl_Calls ilCalendarWeekGUI: ilCalendarAppointmentGUI
+ * @ilCtrl_Calls ilCalendarWeekGUI: ilCalendarAppointmentPresentationGUI
+ *
+ * @ingroup ServicesCalendar 
+ */
 class ilCalendarWeekGUI extends ilCalendarViewGUI
 {
 	protected $num_appointments = 1;
@@ -49,7 +41,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 	 *
 	 * @access public
 	 * @param
-	 * 
+	 * @todo make parent constructor (initialize) and init also seed and other common stuff
 	 */
 	public function __construct(ilDate $seed_date)
 	{

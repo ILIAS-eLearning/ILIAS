@@ -8,17 +8,15 @@ include_once('Services/Calendar/classes/class.ilCalendarAppointmentColors.php');
 include_once('Services/Calendar/classes/class.ilCalendarViewGUI.php');
 
 
-/** 
-* 
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-* 
-* @ilCtrl_Calls ilCalendarMonthGUI: ilCalendarAppointmentGUI
-* @ilCtrl_Calls ilCalendarMonthGUI: ilCalendarAppointmentPresentationGUI
-* @ingroup ServicesCalendar 
-*/
-
-
+/**
+ * 
+ * @author Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * 
+ * @ilCtrl_Calls ilCalendarMonthGUI: ilCalendarAppointmentGUI
+ * @ilCtrl_Calls ilCalendarMonthGUI: ilCalendarAppointmentPresentationGUI
+ * @ingroup ServicesCalendar 
+ */
 class ilCalendarMonthGUI extends ilCalendarViewGUI
 {
 	protected $num_appointments = 1;
@@ -42,7 +40,7 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 	 *
 	 * @access public
 	 * @param
-	 * 
+	 * @todo make parent constructor (initialize) and init also seed and other common stuff
 	 */
 	public function __construct(ilDate $seed_date)
 	{

@@ -70,6 +70,7 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 	 * @access public
 	 * @param
 	 * 
+	 * @todo make parent constructor (initialize) and init also seed and other common stuff
 	 */
 	public function __construct(ilDate $seed_date)
 	{

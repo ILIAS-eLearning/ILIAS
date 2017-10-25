@@ -58,6 +58,11 @@ class ilCalendarViewGUI
 	 * @var ilLanguage
 	 */
 	protected $lng;
+	
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
 
 	/**
 	 * View initialization
@@ -103,13 +108,15 @@ class ilCalendarViewGUI
 
 	/**
 	 * Get events
-	 *
+	 * @todo public or protected
 	 * @param
 	 * @return 
 	 */
-	function getEvents()
+	public function getEvents()
 	{
-		$schedule = new ilCalendarSchedule(new ilDate(time(),IL_CAL_UNIX),ilCalendarSchedule::TYPE_PD_UPCOMING);
+		$user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
+		$schedule = new ilCalendarSchedule(
+			new ilDate(time(),IL_CAL_UNIX),ilCalendarSchedule::TYPE_PD_UPCOMING);
 
 		switch ($this->presentation_type)
 		{
@@ -164,12 +171,9 @@ class ilCalendarViewGUI
 				break;
 		}
 
-		//return $schedule->getChangedEvents(true);
-
 		$schedule->addSubitemCalendars(true);
 		$schedule->calculate();
 		$ev = $schedule->getScheduledEvents();
-		//$this->logger->debug("count events = >>>".count($ev));
 		return $ev;
 	}
 
