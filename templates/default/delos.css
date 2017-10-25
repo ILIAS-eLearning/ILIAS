@@ -9918,6 +9918,7 @@ select.form-control {
 .form-horizontal .checkbox-inline {
   padding-top: 0;
   line-height: 24px;
+  vertical-align: middle;
 }
 .form-horizontal .help-block {
   line-height: normal;
@@ -15179,6 +15180,13 @@ table.mceToolbar td {
   .navbar-nav {
     margin: 7.5px 0px;
   }
+}
+.yui-skin-sam.form-inline .form-control {
+  vertical-align: top;
+}
+.yui-skin-sam .yui-button button {
+  line-height: 23px;
+  min-height: 23px;
 }
 /* basic responsiveness (beta)
 	no more specific section. no more delos_sm.less data (treated as bug)
