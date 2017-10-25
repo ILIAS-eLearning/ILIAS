@@ -202,7 +202,11 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 				$changed = true;
 			}
 
-			$deadline = $this->updateDeadline($prgrs);
+			$deadline = null;
+			if($this->postContainDeadline())
+			{
+				$deadline = $this->updateDeadline($prgrs);
+			}
 
 			if ($cur_status == ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
 				$changed = $this->updateRequiredPoints($prgrs_id) || $changed;
