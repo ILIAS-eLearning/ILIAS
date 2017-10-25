@@ -10,7 +10,7 @@ include_once './Services/Calendar/classes/class.ilCalendarViewGUI.php';
  *
  * @ingroup ServicesCalendar
  */
-class ilAppointmentPresentationGUI extends ilCalendarViewGUI implements ilCalendarAppointmentPresentation
+class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 {
 	protected static $instance; // [ilCalendarAppointmentPresentationFactory]
 
