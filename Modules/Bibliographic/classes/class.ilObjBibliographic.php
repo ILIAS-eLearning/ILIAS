@@ -84,7 +84,7 @@ class ilObjBibliographic extends ilObject2 {
 		global $DIC;
 
 		$upload = $DIC->upload();
-		if ($upload->hasUploads()) {
+		if ($upload->hasUploads() && !$upload->hasBeenProcessed()) {
 			$upload->process();
 			$this->moveUploadedFile($upload);
 		}
@@ -115,7 +115,7 @@ class ilObjBibliographic extends ilObject2 {
 		global $DIC;
 
 		$upload = $DIC->upload();
-		if ($upload->hasUploads()) {
+		if ($upload->hasUploads() && !$upload->hasBeenProcessed()) {
 			$upload->process();
 			$this->deleteFile();
 			$this->moveUploadedFile($upload);
