@@ -560,11 +560,11 @@ class ilCalendarSchedule
 
 	/**
 	 * Set period
-	 *
-	 * @param
+	 * @param ilDate start
+	 * @param ilDate end
 	 * @return
 	 */
-	function setPeriod(ilDate $a_start, ilDate $a_end)
+	public function setPeriod(ilDate $a_start, ilDate $a_end)
 	{
 		$this->start = $a_start;
 		$this->end = $a_end;
