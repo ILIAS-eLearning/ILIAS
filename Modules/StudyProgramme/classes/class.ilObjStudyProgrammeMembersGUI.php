@@ -301,7 +301,7 @@ class ilObjStudyProgrammeMembersGUI {
 	{
 		$prgrs_ids = $_POST['prgs_ids'];
 		if($prgrs_ids === null) {
-			$this->showFailedMessage("no_user_selected");
+			$this->showInfoMessage("no_user_selected");
 			$this->ctrl->redirect($this, "view");
 		}
 		return $prgrs_ids;
@@ -558,6 +558,16 @@ class ilObjStudyProgrammeMembersGUI {
 	protected function showSuccessMessage($a_lng_var) {
 		require_once("Services/Utilities/classes/class.ilUtil.php");
 		ilUtil::sendSuccess($this->lng->txt("prg_$a_lng_var"), true);
+	}
+
+	/**
+	 * Shows ilutil failed message
+	 *
+	 * @return null
+	 */
+	protected function showInfoMessage($a_lng_var) {
+		require_once("Services/Utilities/classes/class.ilUtil.php");
+		ilUtil::sendInfo($this->lng->txt("prg_$a_lng_var"), true);
 	}
 
 	protected function initSearchGUI() {
