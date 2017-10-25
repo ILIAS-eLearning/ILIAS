@@ -1396,7 +1396,7 @@ class ilObjFile extends ilObject2 {
 			'file_name'  => [ 'text', $this->getFileName() ],
 			'file_type'  => [ 'text', $this->getFileType() ],
 			'file_size'  => [ 'integer', (int)$this->getFileSize() ],
-			'version'    => [ 'integer', 1 ],
+			'version'    => [ 'integer', (int)$this->getVersion()],
 			'f_mode'     => [ 'text', $this->getMode() ],
 			'page_count' => [ 'text', $this->getPageCount() ],
 			'rating'     => [ 'text', $this->hasRating() ],
