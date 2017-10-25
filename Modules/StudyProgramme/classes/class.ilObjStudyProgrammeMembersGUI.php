@@ -328,7 +328,7 @@ class ilObjStudyProgrammeMembersGUI {
 	 */
 	public function markAccreditedMulti()
 	{
-		$prgrs_ids = $_POST["prgs_ids"];
+		$prgrs_ids = $this->getPostPrgsIds();
 		foreach ($prgrs_ids as $key => $prgrs_id) {
 			$this->markAccreditedById((int)$prgrs_id);
 		}
@@ -383,11 +383,11 @@ class ilObjStudyProgrammeMembersGUI {
 	 */
 	public function unmarkAccreditedMulti()
 	{
-		$prgrs_ids = $_POST["prgs_ids"];
+		$prgrs_ids = $this->getPostPrgsIds();
 		foreach ($prgrs_ids as $key => $prgrs_id) {
 			$this->unmarkAccreditedByProgressId((int)$prgrs_id);
 		}
-		$this->showSuccessMessage("unmark_accredited_success");
+		$this->showSuccessMessage("unmark_accredited_multi_success");
 		$this->ctrl->redirect($this, "view");
 	}
 
@@ -398,7 +398,7 @@ class ilObjStudyProgrammeMembersGUI {
 	 */
 	public function markRelevantMulti()
 	{
-		$prgrs_ids = $_POST["prgs_ids"];
+		$prgrs_ids = $this->getPostPrgsIds();
 
 		foreach ($prgrs_ids as $key => $prgrs_id) {
 			$prgrs = $this->getProgressObject((int)$prgrs_id);
@@ -416,7 +416,7 @@ class ilObjStudyProgrammeMembersGUI {
 	 */
 	public function markNotRelevantMulti()
 	{
-		$prgrs_ids = $_POST["prgs_ids"];
+		$prgrs_ids = $this->getPostPrgsIds();
 
 		foreach ($prgrs_ids as $key => $prgrs_id) {
 			$prgrs = $this->getProgressObject((int)$prgrs_id);
@@ -434,7 +434,7 @@ class ilObjStudyProgrammeMembersGUI {
 	 */
 	public function updateFromCurrentPlanMulti()
 	{
-		$prgrs_ids = $_POST["prgs_ids"];
+		$prgrs_ids = $this->getPostPrgsIds();
 		$not_updated = array();
 
 		foreach ($prgrs_ids as $key => $prgrs_id) {
@@ -481,7 +481,7 @@ class ilObjStudyProgrammeMembersGUI {
 	 */
 	protected function removeUserMulti()
 	{
-		$prgrs_ids = $_POST["prgs_ids"];
+		$prgrs_ids = $this->getPostPrgsIds();
 		$not_removed = array();
 		foreach ($prgrs_ids as $key => $prgrs_id) {
 			try {
