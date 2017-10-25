@@ -530,7 +530,7 @@ class ilObjStudyProgrammeMembersGUI {
 		assert('is_int($prgrs_id)');
 		if (!array_key_exists($prgrs_id, $this->progress_objects)) {
 			require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
-			$this->progress_objects[$prgrs_id] = $this->sp_user_progress_db->getInstanceById($id);
+			$this->progress_objects[$prgrs_id] = $this->sp_user_progress_db->getInstanceById($prgrs_id);
 		}
 		return $this->progress_objects[$prgrs_id];
 	}
