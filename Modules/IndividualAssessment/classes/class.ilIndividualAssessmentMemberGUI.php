@@ -396,6 +396,7 @@ class ilIndividualAssessmentMemberGUI {
 			, 'notify' => $member->notify()
 			, 'learning_progress' => (int)$member->LPStatus()
 			, 'file_visible_examinee' => (int)$member->viewFile()
+			, 'file_name' => $this->getFileLinkHTML()
 			));
 		return $a_form;
 	}
