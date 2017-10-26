@@ -45,7 +45,7 @@ class ilBTControllerGUI {
 	protected function userInteraction() {
 		$observer_id = (int)$this->http()->request()->getQueryParams()[self::OBSERVER_ID];
 		$selected_option = $this->http()->request()->getQueryParams()[self::SELECTED_OPTION];
-		$from_url = urldecode($this->http()->request()->getQueryParams()[self::FROM_URL]);
+		$from_url = $this->getFromURL();
 
 		$observer = $this->dic()->backgroundTasks()->persistence()->loadBucket($observer_id);
 		$option = new UserInteractionOption("", $selected_option);
@@ -56,7 +56,7 @@ class ilBTControllerGUI {
 
 	protected function abortBucket() {
 		$observer_id = (int)$this->http()->request()->getQueryParams()[self::OBSERVER_ID];
-		$from_url = urldecode($this->http()->request()->getQueryParams()[self::FROM_URL]);
+		$from_url = $this->getFromURL();
 
 		$bucket = $this->dic()->backgroundTasks()->persistence()->loadBucket($observer_id);
 
@@ -79,5 +79,15 @@ class ilBTControllerGUI {
 
 		echo $this->ui()->renderer()->renderAsync($gui->getPopOverContent($this->user()
 		                                                                       ->getId(), $redirect_url, $replace_url));
+	}
+
+
+	/**
+	 * @return string
+	 */
+	protected function getFromURL() {
+		$from_url = rawurldecode($this->http()->request()->getQueryParams()[self::FROM_URL]);
+
+		return $from_url;
 	}
 }

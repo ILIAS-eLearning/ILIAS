@@ -1584,9 +1584,6 @@ content#:#cont_chapters#:#Глави
 content#:#cont_chapters_and_pages#:#Глави и страници
 content#:#cont_chapters_only#:#Само глави
 content#:#cont_characteristic#:#Характеристика
-content#:#cont_choose_cont_obj#:#Избор на обект със съдържание
-content#:#cont_choose_glossary#:#Избор на речник
-content#:#cont_choose_media_source#:#Избор на медиен източник
 content#:#cont_citation_selection_not_valid#:#Изборът ви е невалиден
 content#:#cont_click_br_corner#:#Моля, кликнете в долния десен ъгъл на желаната област.
 content#:#cont_click_center#:#Моля, кликнете в центъра на желаната област.
@@ -13998,3 +13995,72 @@ lti#:#lti_exited_info#:#LTI Session successfully closed###31 08 2017 new variabl
 blog#:#blog_nav_mode_month_list_num_month_with_post#:#Number of month with listed postings###31 08 2017 new variable
 blog#:#blog_nav_mode_month_list_num_month_with_post_info#:#These months will be displayed with all their postings in the navigation block.###31 08 2017 new variable
 orgu#:#org_op_access_enrolments#:#View Enrolments###31 08 2017 new variable
+assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.###23 10 2017 new variable
+assessment#:#tst_qst_added_to_pool_s#:#Successfully added the question to the selected pool.###23 10 2017 new variable
+assessment#:#tst_qst_added_to_pool_p#:#Successfully added the questions to the selected pool.###23 10 2017 new variable
+common#:#info_remove_sure#:#Are you sure that you want to remove the following item(s)?###23 10 2017 new variable
+common#:#obj_file_duplicate#:#Duplicate File###23 10 2017 new variable
+content#:#cont_choose_lm#:#Choose Learning Module###23 10 2017 new variable
+content#:#cont_choose_glo#:#Choose Glossary###23 10 2017 new variable
+content#:#cont_choose_mep#:#Choose Media Pool###23 10 2017 new variable
+dateplaner#:#cal_def_day_end#:#Default Day End###23 10 2017 new variable
+dateplaner#:#cal_def_day_start#:#Default Day Start###23 10 2017 new variable
+user#:#clipboard_add_from_btn#:#Add from Clipboard###23 10 2017 new variable
+dcl#:#dcl_no_export_content_available#:#No data available for export.###23 10 2017 new variable
+dcl#:#dcl_no_export_fields_available#:#No fields activated for export. Mark at least one field as exportable in the <a href="%s">table settings</a>.###23 10 2017 new variable
+common#:#drag_file_here#:#Drag-and-drop your file here###23 10 2017 new variable
+bibl#:#bib_default_address#:#Address###23 10 2017 new variable
+bibl#:#bib_default_publisher#:#Publisher###23 10 2017 new variable
+bibl#:#bib_default_edition#:#Edition###23 10 2017 new variable
+bibl#:#bib_default_howpublished#:#Published as###23 10 2017 new variable
+bibl#:#bib_default_type#:#Type###23 10 2017 new variable
+bibl#:#bib_default_series#:#Series###23 10 2017 new variable
+bibl#:#bib_default_organization#:#Organizaton###23 10 2017 new variable
+bibl#:#ris_default_a2#:#Location in Archives###23 10 2017 new variable
+bibl#:#ris_default_cy#:#Place Published###23 10 2017 new variable
+bibl#:#ris_default_id#:#Reference ID###23 10 2017 new variable
+bibl#:#ris_default_kw#:#Keywords###23 10 2017 new variable
+bibl#:#ris_default_m1#:#Number###23 10 2017 new variable
+bibl#:#ris_default_n1#:#Notes###23 10 2017 new variable
+bibl#:#ris_default_n2#:#Abstract###23 10 2017 new variable
+bibl#:#ris_default_t1#:#Primary Title###23 10 2017 new variable
+bibl#:#ris_default_t2#:#Secondary Title###23 10 2017 new variable
+bibl#:#ris_default_t3#:#Tertiary Title###23 10 2017 new variable
+bibl#:#ris_default_u2#:#User Defined###23 10 2017 new variable
+prg#:#prg_multi_mark_accredited#:#Accredited###23 10 2017 new variable
+prg#:#prg_multi_unmark_accredited#:#Unmark Accredited###23 10 2017 new variable
+prg#:#prg_multi_remove_user#:#Remove User###23 10 2017 new variable
+prg#:#prg_multi_mark_relevant#:#Mark Relevant###23 10 2017 new variable
+prg#:#prg_multi_unmark_relevant#:#Unmark Relevant###23 10 2017 new variable
+prg#:#prg_multi_update_from_current_plan#:#Update From Current Plan###23 10 2017 new variable
+iass#:#iass_event_time_place_required#:#Date and place required###23 10 2017 new variable
+iass#:#iass_event_time_place_required_info#:#Date and place of assessment have to be added to each participant record.###23 10 2017 new variable
+iass#:#iass_file_required#:#Record file required###23 10 2017 new variable
+iass#:#iass_file_required_info#:#A record file has to be uploaded to each participant record.###23 10 2017 new variable
+chatroom#:#chat_osc_subs_rej_msgs#:#Currently it is not possible to continue this conversation. Your chat-partner must activate chats in the chat-settings.###23 10 2017 new variable
+chatroom#:#chat_osc_subs_rej_msgs_p#:#The following chat partners of your conversation do not want to receive messages anymore: %s###23 10 2017 new variable
+chatroom#:#chat_osc_self_rej_msgs#:#You currently cannot take part in this conversation because you suppressed receiving messages in your settings.###23 10 2017 new variable
+background_tasks#:#abort#:#Abort###23 10 2017 new variable
+background_tasks#:#task_might_be_failed#:#This Task has not responded for a while, you can quit it if needed.###23 10 2017 new variable
+dateplaner#:#cal_def_show_weeks#:#Default Show Weeks###23 10 2017 new variable
+pdfgen#:#cleanup#:#Cleanup###23 10 2017 new variable
+skmg#:#skmg_order_nr_info#:#Positions competence in the list of competences.###23 10 2017 new variable
+common#:#position_permission_settings#:#Orgunit-Specific Permissions###23 10 2017 new variable
+common#:#org_permission_settings#:#Permissions of Positions in Organisational Units###23 10 2017 new variable
+common#:#org_op_read_learning_progress#:#View Learning Progress of Subordinate Users###23 10 2017 new variable
+common#:#org_op_manage_members#:#Manage Subordinate Members###23 10 2017 new variable
+common#:#org_op_access_enrolments#:#View Enrolment-Status###23 10 2017 new variable
+dateplaner#:#cal_down_no_files#:#Nothing to download, the events listed do not contain files.###23 10 2017 new variable
+sahs#:#sahs_add#:#Create SCORM Learning Module###23 10 2017 new variable
+sahs#:#sahs_copy#:#Copy SCORM Learning Module###23 10 2017 new variable
+sahs#:#sahs_glo_info#:#Please note that internal links in glossary terms are not supported.###23 10 2017 new variable
+lm#:#lm_save_titles#:#Titles saved.###23 10 2017 new variable
+assessment#:#question_browse_area_info#:#Please select an object from which you want to import questions.###23 10 2017 new variable
+dateplaner#:#cal_no_events_info#:#No events found for the selected time period.###23 10 2017 new variable
+wiki#:#wiki_pg_list_no_search_fields#:#No searchable meta data fields found in the metadata sets of the wiki.###23 10 2017 new variable
+iass#:#iass_amend_saved#:#Amended record has been saved.###23 10 2017 new variable
+dateplaner#:#crs_start#:#Course starts###23 10 2017 new variable
+dateplaner#:#crs_end#:#Course ends###23 10 2017 new variable
+dateplaner#:#grp_start#:#Group starts###23 10 2017 new variable
+dateplaner#:#grp_end#:#Group ends###23 10 2017 new variable
+content#:#cont_transl_master_language_not_allowed#:#To import a translation you need to activate at least one additional language under "Settings" > "Multilingualism".###23 10 2017 new variable

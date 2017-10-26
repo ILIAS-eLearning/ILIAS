@@ -11006,6 +11006,8 @@ orgu#:#org_op_write_learning_progress#:#Lernfortschritt von anderen Benutzern se
 rbac#:#org_op_write_learning_progress#:#Lernfortschritt von anderen Benutzern setzen.
 orgu#:#form_title_org_default_permissions_update#:#Standardrechte
 orgu#:#msg_confirm_deletion#:#Gelöscht
+orgu#:#msg_confirm_remove_user#:#Möchten Sie den folgenden Benutzer wirklich aus der Position %s entfernen?
+orgu#:#remove_user#:#Entfernen
 orgu#:#view_learning_progress#:#Lernfortschritt einsehen
 orgu#:#orgu_staff_deassign#:#Diese Benutzer aus der Rolle wirklich entfernen?
 orgu#:#deassign_user_successful#:#Benutzer wurde erfolgreich ausgetragen.
@@ -11239,7 +11241,6 @@ bibl#:#ris_default_m3#:#Misc. 3
 bibl#:#ris_default_ur#:#URL
 bibl#:#ris_default_l3#:#Ähnliche Datensätze
 bibl#:#ris_default_a2#:#Zweiter Autor
-bibl#:#ris_default_av#:#Standort
 bibl#:#ris_default_cy#:#Herausgabeort
 bibl#:#ris_default_id#:#Referenz-ID
 bibl#:#ris_default_kw#:#Stichworte
@@ -12950,6 +12951,12 @@ prg#:#prg_type_msg_missing_title#:#Titel kann nicht leer sein.
 prg#:#prg_added_member#:#Das neue Mitglied wurde erfolgreich hinzugefügt.
 prg#:#prg_added_members#:#Die neuen Mitglieder wurden erfolgreich hinzugefügt.
 prg#:#prg_acknowledge_completed_courses#:#Bestandene Kurse anerkennen
+prg#:#prg_multi_mark_accredited#:#Akkredieren
+prg#:#prg_multi_unmark_accredited#:#Akkreditierung entfernen
+prg#:#prg_multi_remove_user#:#Benutzer entfernen
+prg#:#prg_multi_mark_relevant#:#Als relevant markieren
+prg#:#prg_multi_unmark_relevant#:#Als irrelevant markieren
+prg#:#prg_multi_update_from_current_plan#:#Aus dem aktuellen Plan aktualisieren
 common#:#obj_prg_duplicate#:#Studienprogramm kopieren
 common#:#obj_prg_select#:#-- Bitte wählen Sie ein Studienprogramm --
 common#:#obj_prg#:#Studienprogramm
@@ -13385,7 +13392,10 @@ style#:#assignment#:#Zuweisung
 style#:#remove_assignment#:#Zuweisung löschen
 style#:#reset_variables#:#Variablen zurücksetzen
 style#:#update_variables#:#Variablen aktualisieren
-style#:#less_file_updated#:#Die Less Variablen wurden aktualisiert.
+style#:#less_file_updated#:#Die less-Variablen wurden aktualisiert. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderunge korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
+style#:#less_file_reset#:#Die less-Variablen wurden zurückgesetzt. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderunge korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
+style#:#color_reset#:#Die Farben der Icons wurden zurückgesetzt. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderunge korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
+style#:#color_update#:#Die Farben der Icons wurden aktualisiert. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderunge korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
 style#:#settings_of_substyle#:#Manage sub style
 style#:#settings_of_style#:#Styles verwalten
 style#:#of_parent#:#vom Parent:
@@ -14056,3 +14066,7 @@ dateplaner#:#cal_no_events_info#:#Für den angegebenen Zeitraum sind keine Termi
 wiki#:#wiki_pg_list_no_search_fields#:#Es befinden sich keine durchsuchbaren Metadatenfelder in den Metadatensätzen des Wikis.
 iass#:#iass_amend_saved#:#Geänderte Prüfungsdaten wurden gespeichert.
 content#:#cont_transl_master_language_not_allowed#:#Um eine Übersetzung zu importieren, müssen sie zumindest eine zusätzliche Sprache unter "Einstellungen" > "Mehrsprachigkeit" aktivieren.
+dateplaner#:#crs_start#:#Course starts###23 10 2017 new variable
+dateplaner#:#crs_end#:#Course ends###23 10 2017 new variable
+dateplaner#:#grp_start#:#Group starts###23 10 2017 new variable
+dateplaner#:#grp_end#:#Group ends###23 10 2017 new variable

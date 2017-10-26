@@ -335,13 +335,25 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public static function _goto($a_target)
 	{
-		global $ilAccess,$ilErr,$lng;
-		
+		global $DIC;
+
+		$ilAccess = $DIC->access();
+		$ilErr = $DIC["ilErr"];
+		$lng = $DIC->language();
+
 		if($ilAccess->checkAccess('visible', "", $a_target))
 		{
 			ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
 		}
-		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
+		else if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
+		{
+			ilUtil::sendFailure(
+				sprintf($lng->txt("msg_no_perm_read_item"),
+				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), 
+				true
+			);
+			ilObjectGUI::_gotoRepositoryRoot();
+		}
 	}
 	
     /**

@@ -5417,7 +5417,17 @@ class ilUtil
 		return self::$db_supports_distinct_umlauts;
 	}
 
-
+	/**
+	 * Dump var
+	 *
+	 * @param null $mixed
+	 */
+	static function dumpVar($mixed = null)
+	{
+		echo '<pre>';
+		var_dump($mixed);
+		echo '</pre>';
+	}
 
 } // END class.ilUtil
 

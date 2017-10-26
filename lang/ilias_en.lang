@@ -11007,6 +11007,8 @@ rbac#:#rbac_info_only_position_access#:#You are presented only with those member
 obj#:#obj_orgunit_positions#:#Access Control by Organisation Unit Positions
 obj#:#obj_orgunit_positions_info#:#If enabled, additional access control rules can be defined by positions in organisational units.
 orgu#:#msg_confirm_deletion#:#Would you really like to delete tho following Position?
+orgu#:#remove_user#:#Remove
+orgu#:#msg_confirm_remove_user#:#Would you really like to remove the following User from the Position %s?
 orgu#:#msg_confirm_d_ua#:#Would you like to assign these person to the position Employee of their respective Organisational Units?
 orgu#:#user_assignments#:#User Assignments
 orgu#:#authorities#:#Authorities
@@ -12947,6 +12949,12 @@ prg#:#prg_type_msg_missing_title#:#Title cannot be empty.
 prg#:#prg_added_member#:#The new member was added successfully.
 prg#:#prg_added_members#:#The new members were added successfully.
 prg#:#prg_acknowledge_completed_courses#:#Acknowledge Completed Courses
+prg#:#prg_multi_mark_accredited#:#Accredited
+prg#:#prg_multi_unmark_accredited#:#Unmark Accredited
+prg#:#prg_multi_remove_user#:#Remove User
+prg#:#prg_multi_mark_relevant#:#Mark Relevant
+prg#:#prg_multi_unmark_relevant#:#Unmark Relevant
+prg#:#prg_multi_update_from_current_plan#:#Update From Current Plan
 common#:#obj_prg_duplicate#:#Copy Study Programme
 common#:#obj_prg_select#:#-- Please select one study programme --
 common#:#obj_prg#:#Study Programme
@@ -13397,7 +13405,10 @@ style#:#assignment#:#Assignment
 style#:#remove_assignment#:#Remove Assignment
 style#:#reset_variables#:#Reset Variables
 style#:#update_variables#:#Update Variables
-style#:#less_file_updated#:#The less variables have been updated.
+style#:#less_file_updated#:#The less variables have been updated. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.
+style#:#less_file_reset#:#The less variables have been reset. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.
+style#:#color_reset#:#The colors of the icons have been reset. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.
+style#:#color_update#:#The colors of the icons have been updated. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.
 style#:#settings_of_substyle#:#Manage sub style
 style#:#settings_of_style#:#Manage style
 style#:#of_parent#:#of parent:

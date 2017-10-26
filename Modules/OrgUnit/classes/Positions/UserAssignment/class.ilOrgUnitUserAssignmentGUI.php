@@ -12,11 +12,12 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
 class ilOrgUnitUserAssignmentGUI extends BaseCommands {
 
 	public function executeCommand() {
+		$r = $this->http()->request();
 		switch ($this->ctrl()->getNextClass()) {
 			case strtolower(ilRepositorySearchGUI::class):
 				switch ($this->ctrl()->getCmd()) {
 					case 'addUserFromAutoComplete':
-						if ($_GET['addusertype'] == "staff") {
+						if ($r->getQueryParams()['addusertype'] == "staff") {
 							$this->addStaff();
 						}
 						break;
@@ -56,22 +57,27 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands {
 
 
 	protected function confirm() {
-		// TODO implement
 		$this->ctrl()->saveParameter($this, 'position_id');
+		$r = $this->http()->request();
+		$ilOrgUnitPosition = ilOrgUnitPosition::findOrFail($r->getQueryParams()['position_id']);
+		/**
+		 * @var $ilOrgUnitPosition ilOrgUnitPosition
+		 */
 		$confirmation = new ilConfirmationGUI();
 		$confirmation->setFormAction($this->ctrl()->getFormAction($this));
 		$confirmation->setCancel($this->txt(self::CMD_CANCEL), self::CMD_CANCEL);
-		$confirmation->setConfirm($this->txt(self::CMD_DELETE), self::CMD_DELETE);
-		$confirmation->setHeaderText($this->txt('msg_confirm_deletion'));
-		$confirmation->addItem('usr_id', $_GET['usr_id'], $_GET['usr_id']);
+		$confirmation->setConfirm($this->txt('remove_user'), self::CMD_DELETE);
+		$confirmation->setHeaderText(sprintf($this->txt('msg_confirm_remove_user'), $ilOrgUnitPosition->getTitle()));
+		$confirmation->addItem('usr_id', $r->getQueryParams()['usr_id'], ilObjUser::_lookupLogin($r->getQueryParams()['usr_id']));
 
 		$this->setContent($confirmation->getHTML());
 	}
 
 
 	protected function delete() {
+		$r = $this->http()->request();
 		$ua = ilOrgUnitUserAssignmentQueries::getInstance()
-		                                    ->getAssignmentOrFail($_POST['usr_id'], $_GET['position_id']);
+		                                    ->getAssignmentOrFail($_POST['usr_id'], $r->getQueryParams()['position_id']);
 		$ua->delete();
 		$this->cancel();
 	}
