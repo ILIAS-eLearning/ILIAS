@@ -11003,7 +11003,8 @@ orgu#:#orgu_enable_my_staff_info#:#The Ansicht ‘Meine Mitarbeiter’ zeigt die
 orgu#:#org_op_manage_members#:#Mitglieder bearbeiten
 orgu#:#org_op_read_learning_progress#:#Lernfortschritt von anderen Benutzern einsehen
 orgu#:#org_op_write_learning_progress#:#Lernfortschritt von anderen Benutzern setzen.
-rbac#:#org_op_write_learning_progress#:#Lernfortschritt von anderen Benutzern setzen.
+rbac#:#org_op_write_learning_progress#:#Lernfortschritt untergeordneter Benutzer setzen
+rbac#:#positions_override_operations#:#Globale Einstellungen überschreiben
 orgu#:#form_title_org_default_permissions_update#:#Standardrechte
 orgu#:#msg_confirm_deletion#:#Gelöscht
 orgu#:#msg_confirm_remove_user#:#Möchten Sie den folgenden Benutzer wirklich aus der Position %s entfernen?
