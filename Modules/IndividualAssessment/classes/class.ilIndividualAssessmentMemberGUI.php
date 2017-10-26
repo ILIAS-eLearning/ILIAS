@@ -193,8 +193,6 @@ class ilIndividualAssessmentMemberGUI {
 		$confirm->setConfirm($this->lng->txt('iass_finalize'), 'finalize');
 		$confirm->setCancel($this->lng->txt('cancel'), 'save');
 		$this->tpl->setContent($confirm->getHTML());
-
-		$this->tpl->setContent($confirm->getHTML());
 	}
 
 	/**
