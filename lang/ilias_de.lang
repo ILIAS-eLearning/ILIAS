@@ -12882,6 +12882,7 @@ mail#:#mail_enable_grp_admin_notification#:#Gruppenadministratoren benachrichtig
 mail#:#mail_enable_crs_admin_notification_info#:#In neuen Kursen ist im Reiter "Mitglieder" für Kursadministratoren und -tutoren die Einstellungen "Benachrichtigung über neue Mitglieder" standardmäßig aktiviert. Sie erhalten E-Mails, wenn ein Mitglied beitritt, den Kurs verlässt oder die Mindestanzahl an Teilnehmern zur Durchführung des Kurses nicht erreicht wird.
 mail#:#mail_enable_grp_admin_notification_info#:#In neuen Gruppen ist im Reiter "Mitglieder" für Gruppenadministratoren die Einstellungen "Benachrichtigungen" standardmäßig aktiviert. Sie erhalten E-Mails, wenn ein Mitglied beitritt, die Gruppe verlässt oder die Mindestanzahl an Teilnehmern zur Durchführung der Gruppe nicht erreicht wird.
 mail#:#mail_notification_membership_section#:#Mitgliedschaften
+prg#:#form_msg_file_wrong_file_type#:#Falscher Dateityp.
 prg#:#prg_new#:#Neues Studienprogramm
 prg#:#prg_add#:#Studienprogramm hinzufügen
 prg#:#prg_edit#:#Studienprogramm bearbeiten
