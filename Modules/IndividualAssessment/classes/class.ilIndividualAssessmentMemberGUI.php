@@ -72,7 +72,7 @@ class ilIndividualAssessmentMemberGUI {
 			return;
 		}
 		$form = $this->fillForm($this->initGradingForm(false),$this->member);
-		$this->renderForm($form);
+		$this->renderForm($form, $this->getFileLinkHTML());
 	}
 
 	/**
@@ -94,7 +94,7 @@ class ilIndividualAssessmentMemberGUI {
 
 		$form->addCommandButton('save', $this->lng->txt('save'));
 		$form->addCommandButton('finalizeConfirmation', $this->lng->txt('iass_finalize'));
-		$this->renderForm($form);
+		$this->renderForm($form, $this->getFileLinkHTML());
 	}
 
 	protected function downloadAttachment()
@@ -249,11 +249,11 @@ class ilIndividualAssessmentMemberGUI {
 		}
 
 		if ($form === null) {
-			$form = $this->fillForm($this->initGradingForm(), $this->member);
+			$form = $this->fillForm($this->initGradingForm(true, true), $this->member);
 		}
 
 		$form->addCommandButton('saveAmend', $this->lng->txt('iass_save_amend'));
-		$this->renderForm($form);
+		$this->renderForm($form, $this->getFileLinkHTML(true));
 	}
 
 	/**
