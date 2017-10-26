@@ -267,7 +267,7 @@ class ilIndividualAssessmentMemberGUI {
 		}
 		$new_file = null;
 		$form = $this->initGradingForm();
-		$item = $form->getItemByPostVar('file_name');
+		$item = $form->getItemByPostVar('file');
 		if ($item && $item->checkInput()) {
 			$post = $_POST;
 			$new_file = $this->uploadFile($post["file"], $post["file_delete"]);
@@ -329,7 +329,6 @@ class ilIndividualAssessmentMemberGUI {
 		{
 			$filelink = new ilNonEditableValueGUI($this->lng->txt('iass_upload_file'),'', true);
 			$filelink->setValue($this->getFileLinkHTML(true));
-			$filelink->setPostVar("file_name");
 			$form->addItem($filelink);
 		} else {
 			$file = new ilFileInputGUI($this->lng->txt('iass_upload_file'), 'file');
