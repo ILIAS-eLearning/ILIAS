@@ -15,9 +15,9 @@ class ilRis extends ilBibliograficFileReaderBase implements ilBibliograficFileRe
 		global $DIC;
 		$ilRisWrapper = new ilRisWrapper();
 
-		return $ilRisWrapper->parseContent($DIC->filesystem()
+		return $ilRisWrapper->parseFile($DIC->filesystem()
 		                                       ->storage()
-		                                       ->read($this->path_to_file));
+		                                       ->readStream($this->path_to_file)->getMetadata('uri'));
 	}
 
 
