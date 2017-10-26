@@ -12912,6 +12912,17 @@ prg#:#prg_remove_user#:#Benutzer entfernen
 prg#:#prg_mark_accredited#:#akkreditieren
 prg#:#prg_unmark_accredited#:#Akkreditierung entfernen
 prg#:#prg_mark_accredited_success#:#Das Programm wurde für den Benutzer erfolgreich akkreditiert.
+prg#:#prg_mark_accredited_multi_success#:#Ausgewählte Benutzer akkreditiert.
+prg#:#prg_unmark_accredited_multi_success#:#Ausgewählte Benutzer als nicht akkreditiert markiert.
+prg#:#prg_mark_relevant_multi_success#:#Ausgewählte Benutzer als relevant markiert.
+prg#:#prg_mark_not_relevant_multi_success#:#Ausgewählte Benutzer als nicht relevant markiert.
+prg#:#prg_remove_users_success#:#Ausgewählte Benutzer wurden entfernt.
+prg#:#prg_remove_users_partitial_success#:#Ausgewählte Benutzer wurden teilweise entfernt.
+prg#:#prg_remove_users_not_possible#:#Ausgewählte Benutzerkönnen nicht entfernt werden.
+prg#:#prg_update_from_current_plan_not_possible#:#Aus dem aktuellen Plan aktualisieren ist nicht möglich.
+prg#:#prg_update_from_current_plan_partitial_success#:#Aus dem aktuellen Plan aktualisieren teilweise abgeschlossen.
+prg#:#prg_update_from_current_plan_success#:#Aus dem aktuellen Plan aktualisieren ist erfolgreich.
+prg#:#prg_no_user_selected#:#Es wurde kein Benutzer ausgewählt.
 prg#:#prg_unmark_accredited_success#:#Die Akkreditierung wurde erfolgreich entfernt.
 prg#:#prg_remove_user_success#:#Der Benutzer wurde entfernt. 
 prg#:#prg_type_add#:#Studienprogrammtyp hinzufügen
