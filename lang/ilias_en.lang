@@ -11007,6 +11007,8 @@ rbac#:#rbac_info_only_position_access#:#You are presented only with those member
 obj#:#obj_orgunit_positions#:#Access Control by Organisation Unit Positions
 obj#:#obj_orgunit_positions_info#:#If enabled, additional access control rules can be defined by positions in organisational units.
 orgu#:#msg_confirm_deletion#:#Would you really like to delete tho following Position?
+orgu#:#remove_user#:#Remove
+orgu#:#msg_confirm_remove_user#:#Would you really like to remove the following User from the Position %s?
 orgu#:#msg_confirm_d_ua#:#Would you like to assign these person to the position Employee of their respective Organisational Units?
 orgu#:#user_assignments#:#User Assignments
 orgu#:#authorities#:#Authorities
