@@ -400,15 +400,29 @@ class ilIndividualAssessmentMemberGUI {
 	 *
 	 * @param ilPropertyFormGUI 	$form
 	 */
-	protected function renderForm(ilPropertyFormGUI $a_form) {
+	protected function getFileLinkHTML($amend = false) {
 		$html = '';
 		if ($this->member->fileName() && $this->member->fileName() != "") {
 			$tpl = new ilTemplate("tpl.iass_user_file_download.html", true, true, "Modules/IndividualAssessment");
-			$tpl->setVariable("FILE_NAME", $this->member->fileName());
+			if(!$this->member->finalized() || $amend)
+			{
+				$tpl->setVariable("FILE_NAME", $this->member->fileName());
+			}
 			$tpl->setVariable("HREF", $this->ctrl->getLinkTarget($this, "downloadAttachment"));
 			$html .= $tpl->get();
 		}
-		$this->tpl->setContent($html.$a_form->getHTML());
+		return $html;
+	}
+
+	/**
+	 * Render the form and put it into template
+	 *
+	 * @param ilPropertyFormGUI 	$form
+	 * @param string 				$html
+	 */
+	protected function renderForm(ilPropertyFormGUI $form, $html)
+	{
+		$this->tpl->setContent($html.$form->getHTML());
 	}
 
 	/**
