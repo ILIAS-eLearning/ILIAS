@@ -299,7 +299,7 @@ class ilIndividualAssessmentMemberGUI {
 	 *
 	 * @return ilPropertyFormGUI
 	 */
-	protected function initGradingForm($may_be_edited = true) {
+	protected function initGradingForm($may_be_edited = true, $amend = false) {
 		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
