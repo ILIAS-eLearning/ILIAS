@@ -325,11 +325,18 @@ class ilIndividualAssessmentMemberGUI {
 		$ta->setDisabled(!$may_be_edited);
 		$form->addItem($ta);
 
-		$file = new ilFileInputGUI($this->lng->txt('iass_upload_file'), 'file');
-		$file->setRequired($this->object->getSettings()->fileRequired() && !$this->fileUploaded());
-		$file->setDisabled(!$may_be_edited);
-		$file->setAllowDeletion(false);
-		$form->addItem($file);
+		if($this->member->finalized() && !$amend)
+		{
+			$filelink = new ilNonEditableValueGUI($this->lng->txt('iass_upload_file'),'', true);
+			$filelink->setValue($this->getFileLinkHTML(true));
+			$form->addItem($filelink);
+		} else {
+			$file = new ilFileInputGUI($this->lng->txt('iass_upload_file'), 'file');
+			$file->setRequired($this->object->getSettings()->fileRequired() && !$this->fileUploaded());
+			$file->setDisabled(!$may_be_edited);
+			$file->setAllowDeletion(false);
+			$form->addItem($file);
+		}
 
 
 		$file_visible_to_examinee = new ilCheckboxInputGUI($this->lng->txt('iass_file_visible_examinee'), 'file_visible_examinee');
