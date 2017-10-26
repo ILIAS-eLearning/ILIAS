@@ -9,7 +9,7 @@ require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 require_once("Services/TMS/Booking/classes/class.ilTMSBookingPlayerStateDB.php");
 
 /**
- * Displays the TMS booking 
+ * Displays the TMS booking
  *
  * @author Richard Klees <richard.klees@concepts-and-training.de>
  */
@@ -79,12 +79,6 @@ class ilTMSBookingGUI  extends Booking\Player {
 
 		$this->init($DIC, $crs_ref_id, $usr_id, $process_db);
 
-		$parallel_courses = $this->userHasParallelCourse();
-		if(count($parallel_courses) > 0) {
-			$message = $this->getParallelCourseMessage($parallel_courses);
-			$this->redirectToPreviousLocation(array($message), false);
-		}
-
 		$this->g_ctrl->setParameterByClass("ilTMSBookingGUI", "crs_ref_id", $crs_ref_id);
 		$this->g_ctrl->setParameterByClass("ilTMSBookingGUI", "usr_id", $usr_id);
 
@@ -98,13 +92,39 @@ class ilTMSBookingGUI  extends Booking\Player {
 	}
 
 	/**
+	 * Redirects the user to the previous location with a message if he already has
+	 * booked a course in the period of the course in $_GET["crs_ref_id"].
+	 *
+	 * @return void
+	 */
+	public function redirectOnParallelCourses() {
+		assert('$this->g_user->getId() === $_GET["usr_id"]');
+
+		assert('is_numeric($_GET["crs_ref_id"])');
+		assert('is_numeric($_GET["usr_id"])');
+
+		$crs_ref_id = (int)$_GET["crs_ref_id"];
+		$usr_id = (int)$_GET["usr_id"];
+
+		$parallel_courses = $this->getParallelCoursesOfUser($crs_ref_id, $usr_id);
+		if (count($parallel_courses) > 0) {
+			$message = $this->getParallelCourseMessage($parallel_courses);
+			$this->redirectToPreviousLocation(array($message), false);
+		}
+	}
+
+	/**
 	 * Checks the user a parelle course to this he wants to book
 	 *
-	 * @return bool
+	 * @param	int		$crs_ref_id
+	 * @param	int		$usr_id
+	 * @return	\ilObjCourse[]
 	 */
-	protected function userHasParallelCourse() {
-		$booked_courses = $this->getUserBookedCourses();
-		$try_to_book_course = $this->getTryToBookCourse();
+	protected function getParallelCoursesOfUser($crs_ref_id, $usr_id) {
+		assert('is_int($crs_ref_id)');
+		assert('is_int($usr_id)');
+		$booked_courses = $this->getUserBookedCourses($usr_id);
+		$try_to_book_course = \ilObjectFactory::getInstanceByRefId($crs_ref_id);
 		$parallel_courses = $this->getParallelCourses($try_to_book_course, $booked_courses);
 
 		return $parallel_courses;
@@ -113,36 +133,17 @@ class ilTMSBookingGUI  extends Booking\Player {
 	/**
 	 * Get courses where user is booked
 	 *
+	 * @return	int	$usr_id
 	 * @return \ilObjCourse[]
 	 */
-	protected function getUserBookedCourses() {
+	protected function getUserBookedCourses($usr_id) {
 		$ret = array();
 		require_once("Services/Membership/classes/class.ilParticipants.php");
-		foreach(\ilParticipants::_getMembershipByType($this->usr_id, "crs", true) as $crs_id) {
-			$ret[] = $this->getCourseByObjId($crs_id);
+		foreach(\ilParticipants::_getMembershipByType($usr_id, "crs", true) as $crs_id) {
+			$ret[] = \ilObjectFactory::getInstanceByObjId($crs_id);
 		}
 
 		return $ret;
-	}
-
-	/**
-	 * Get the course user tries to book
-	 *
-	 * @return \ilObjCourse
-	 */
-	protected function getTryToBookCourse() {
-		return \ilObjectFactory::getInstanceByRefId($this->crs_ref_id);
-	}
-
-	/**
-	 * Create a course object by obj id
-	 *
-	 * @param int 	$crs_obj_id
-	 *
-	 * @return \ilObjCourse
-	 */
-	protected function getCourseByObjId($crs_obj_id) {
-		return \ilObjectFactory::getInstanceByObjId($crs_obj_id);
 	}
 
 	/**
@@ -176,6 +177,11 @@ class ilTMSBookingGUI  extends Booking\Player {
 	 */
 	protected function getParallelCourseMessage(array $parallel_courses) {
 		$tpl = new \ilTemplate("tpl.parallel_courses.html", true, true, "Services/TMS");
+
+		$tpl->setVariable("BOOKING_NOT_POSSIBLE", $this->g_lng->txt("booking_not_possible"));
+		$tpl->setVariable("CUTTING_TRAININGS", $this->g_lng->txt("cutting_trainings"));
+		$tpl->setVariable("INFO_CAN_STORNO", $this->g_lng->txt("info_can_storno"));
+
 		foreach ($parallel_courses as $key => $parallel_course) {
 			$course_start = $this->formatDate($parallel_course->getCourseStart());
 			$course_end = $this->formatDate($parallel_course->getCourseEnd());

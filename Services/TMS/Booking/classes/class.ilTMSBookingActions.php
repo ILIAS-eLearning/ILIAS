@@ -70,22 +70,22 @@ class ilTMSBookingActions implements Booking\Actions {
 			throw new \LogicException("User already has a local role on the course. Won't be able to make him a member.");
 		}
 
+
 		$booking_modality = $this->getFirstBookingModalities((int)$course->getRefId());
+		if(! $booking_modality) {
+			throw new \LogicException("There are not BookingModalitites below the course. User should have never come here.");
+		}
 
-		if($booking_modality) {
-			require_once("Customizing/global/plugins/Services/Repository/RepositoryObject/BookingModalities/classes/class.ilObjBookingModalities.php");
+		require_once("Customizing/global/plugins/Services/Repository/RepositoryObject/BookingModalities/classes/class.ilObjBookingModalities.php");
 
-			if($this->maybeBookAsMember((int)$course->getRefId(), $booking_modality)) {
-				$participant->add($user->getId(), IL_CRS_MEMBER);
-				$this->mailing->sendCourseMail(Mailing\Actions::BOOKED_ON_COURSE, $course->getRefId(), $user->getId());
-				return Booking\Actions::STATE_BOOKED;
-			}
+		if($this->maybeBookAsMember((int)$course->getRefId(), $booking_modality)) {
+			$participant->add($user->getId(), IL_CRS_MEMBER);
+			return Booking\Actions::STATE_BOOKED;
+		}
 
-			if($this->maybeAddOnWaitingList($course, $booking_modality)) {
-				$course->waiting_list_obj->addToList((int)$user->getId());
-				$this->mailing->sendCourseMail(Mailing\Actions::BOOKED_ON_WAITINGLIST, $course->getRefId(), $user->getId());
-				return Booking\Actions::STATE_WAITING_LIST;
-			}
+		if($this->maybeAddOnWaitingList($course, $booking_modality)) {
+			$course->waiting_list_obj->addToList((int)$user->getId());
+			return Booking\Actions::STATE_WAITING_LIST;
 		}
 
 		throw new \LogicException("User can not be booked. Course and waitinglist are overbooked");
@@ -137,29 +137,30 @@ class ilTMSBookingActions implements Booking\Actions {
 	/**
 	 * Get the first booking modalities below crs
 	 *
-	 * @param int 	$crs_ref_id
+	 * @param int 	$ref_id
 	 *
 	 * @return BookingModalities | null
 	 */
-	protected function getFirstBookingModalities($crs_ref_id) {
+	protected function getFirstBookingModalities($ref_id) {
 		global $DIC;
 		$tree = $DIC->repositoryTree();
 		$objDefinition = $DIC["objDefinition"];
 
-		$childs = $tree->getChilds($crs_ref_id);
-		$ret = array();
+		$childs = $tree->getChilds($ref_id);
+
 		foreach ($childs as $child) {
 			$type = $child["type"];
+			$child_ref = $child["child"];
 			if($type == "xbkm") {
-				return \ilObjectFactory::getInstanceByRefId($child["child"]);
-				continue;
+				return \ilObjectFactory::getInstanceByRefId($child_ref);
 			}
-
 			if($objDefinition->isContainer($type)) {
-				return $this->getFirstBookingModalities($child["child"]);
+				$mods =  $this->getFirstBookingModalities($child["child"]);
+				if(!is_null($mods)) {
+					return $mods;
+				}
 			}
 		}
-
 		return null;
 	}
 }
