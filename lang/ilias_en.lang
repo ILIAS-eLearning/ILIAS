@@ -58,6 +58,7 @@ orgu#:#orgu_global_set_type_default#:#Default Setting
 orgu#:#orgu_global_set_type_default_info#:#Define the default for unconfigured objects
 rbac#:#il_sess_participant#:#Session Participant
 rbac#:#il_sess_status_closed#:#Non-Participant Closed Session
+rbac#:#positions_override_operations#:#Override global Settings
 meta#:#udf_type_externallink#:#External Link
 meta#:#udf_type_internallink#:#Internal Link
 didactic#:#didactic_scope#:#Scope
@@ -11037,6 +11038,7 @@ orgu#:#orgu_enable_my_staff_info#:#The View ‘Staff’ shows the Learning Progr
 orgu#:#org_op_manage_members#:#Manage Members
 orgu#:#org_op_read_learning_progress#:#View learning progress of other users
 orgu#:#org_op_write_learning_progress#:#Set learning progress of other users
+rbac#:#org_op_write_learning_progress#:#Set Learning Progress of Subordinate Users
 orgu#:#form_title_org_default_permissions_update#:#Default Permissions
 orgu#:#view_learning_progress#:#View Learning Progress
 orgu#:#il_orgu_employee#:#Employee
