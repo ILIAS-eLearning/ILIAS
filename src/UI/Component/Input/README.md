@@ -102,44 +102,47 @@ details of the data retrieval from the client.
 
 ## How to add a new Input
 
-Inputs in the UI-Framework are meant to be extended by new inovative form of enabling inputs by the user. 
-To ease the definition of new inputs, we propose several examples in this tutorial walking throught the steps of 
-adding new inputs one by one.
+Inputs in the UI-Framework are meant to be extended by new inovative form of enabling
+inputs by the user. To ease the definition of new inputs, we propose several examples
+in this tutorial walking throught the steps of adding new inputs one by one.
 
 ### Example 1, Basic numeric field Input
-This example describes how the basic numeric input was added
-
+This example describes how the basic numeric input was added.
 
 #### Step 1, define the interface
-As with all UI-Elements, the first step should be to define the interface in the respective [factory](src/UI/Component/Input/Field/Factory.php)
-class and the [interface](src/UI/Component/Input/Field/numeric.php) of the input itself. It is very possible
-the interface of your new input just extend the existing basic interface of inputs without adding any new specialities. 
-This interface MUST be discussed in the JF.
-
+As with all UI-Elements, the first step should be to define the interface in the
+respective [factory](src/UI/Component/Input/Field/Factory.php) class and the
+[interface](src/UI/Component/Input/Field/numeric.php) of the input itself. It is
+very possible the interface of your new input just extend the existing basic
+interface of inputs without adding any new specialities. This interface MUST be
+discussed in the JF.
 
 #### Step 2, Design necessary default constraints and transformation
-You may need new constraints or validation you may want to offer to the ILIAS core the enable other developers to profit
-from those. For our new numeric input, we propsed the "[isNumeric](src/Validation/Constraints/IsNumeric.php)" constraint, 
+You may need new constraints or validation you may want to offer to the ILIAS
+core the enable other developers to profit from those. For our new numeric input,
+we propsed the "[isNumeric](src/Validation/Constraints/IsNumeric.php)" constraint, 
 which will be quite handy for our new input.
-
 
 #### Step 3, Write tests
 Next you should write your tests for the new input (e.g. see [numeric input](tests/UI/Component/Input/Field/NumericInputTest.php)), 
-constraints (see [isNumeric](tests/Validation/Constraints/StandardConstraintsTest.php)) and transformation.
+constraints (see [isNumeric](tests/Validation/Constraints/StandardConstraintsTest.php))
+and transformation.
 
 #### Step 4, Implement the inputs
-Implement the input (e.g. see "[numeric](src/UI/Implementation/Component/Input/Field/Numeric.php)", you may attach your new constraint in the constructor if needed.
-Also, extend the renderer with the logic of [rendering](src/UI/Implementation/Component/Input/Field/Renderer.php) your component. 
-You probably also need a new template (e.g. see [tpl.numeric.html](src/UI/templates/default/Input/tpl.numeric.html)).
+Implement the input (e.g. see "[numeric](src/UI/Implementation/Component/Input/Field/Numeric.php)",
+you may attach your new constraint in the constructor if needed. Also, extend
+the renderer with the logic of [rendering](src/UI/Implementation/Component/Input/Field/Renderer.php)
+your component. You probably also need a new template (e.g. see [tpl.numeric.html](src/UI/templates/default/Input/tpl.numeric.html)).
 
 #### Step 5, Propose an example
 Finally do not forget to implement an [example](src/UI/examples/Input/Field/Numeric/numeric_inputs.php)
 showing ot power of your new component.
 
 ### Example 2, Group Field Input
-The steps of adding a new input group are almost the same as adding a new input with the exception that you need
-to extend the group interface and class instead of the basic input. Note that this input group also extends input.
-You may therefore also attach transformations and validations as needed.
+The steps of adding a new input group are almost the same as adding a new input with
+the exception that you need to extend the group interface and class instead of the
+basic input. Note that this input group also extends input. You may therefore also
+attach transformations and validations as needed.
 
 ### Example 3, Container Input
 TBD, see the form as example for such a container.
