@@ -58,6 +58,7 @@ orgu#:#orgu_global_set_type_default#:#Default Setting
 orgu#:#orgu_global_set_type_default_info#:#Define the default for unconfigured objects
 rbac#:#il_sess_participant#:#Session Participant
 rbac#:#il_sess_status_closed#:#Non-Participant Closed Session
+rbac#:#positions_override_operations#:#Override global Settings
 meta#:#udf_type_externallink#:#External Link
 meta#:#udf_type_internallink#:#Internal Link
 didactic#:#didactic_scope#:#Scope
@@ -11007,6 +11008,8 @@ rbac#:#rbac_info_only_position_access#:#You are presented only with those member
 obj#:#obj_orgunit_positions#:#Access Control by Organisation Unit Positions
 obj#:#obj_orgunit_positions_info#:#If enabled, additional access control rules can be defined by positions in organisational units.
 orgu#:#msg_confirm_deletion#:#Would you really like to delete tho following Position?
+orgu#:#remove_user#:#Remove
+orgu#:#msg_confirm_remove_user#:#Would you really like to remove the following User from the Position %s?
 orgu#:#msg_confirm_d_ua#:#Would you like to assign these person to the position Employee of their respective Organisational Units?
 orgu#:#user_assignments#:#User Assignments
 orgu#:#authorities#:#Authorities
@@ -11035,6 +11038,7 @@ orgu#:#orgu_enable_my_staff_info#:#The View ‘Staff’ shows the Learning Progr
 orgu#:#org_op_manage_members#:#Manage Members
 orgu#:#org_op_read_learning_progress#:#View learning progress of other users
 orgu#:#org_op_write_learning_progress#:#Set learning progress of other users
+rbac#:#org_op_write_learning_progress#:#Set Learning Progress of Subordinate Users
 orgu#:#form_title_org_default_permissions_update#:#Default Permissions
 orgu#:#view_learning_progress#:#View Learning Progress
 orgu#:#il_orgu_employee#:#Employee
@@ -12877,6 +12881,7 @@ mail#:#mail_enable_grp_admin_notification#:#Notify Group Administrators
 mail#:#mail_enable_crs_admin_notification_info#:#In new courses the setting 'Notification About New Members' will be activated by default. It is set in the 'Member'-tab of courses. Course administrators will receive an e-mail when a member joins the course or leaves it or if the minimally required number of participants is not met the course needs to take place.
 mail#:#mail_enable_grp_admin_notification_info#:#In new groups the setting 'Notification' will be activated by default. It is set in the 'Member'-tab of groups. Course administrators will receive an e-mail when a member joins the group or leaves it or if the minimally required number of participants is not met the group needs to take place.
 mail#:#mail_notification_membership_section#:#Membership
+prg#:#form_msg_file_wrong_file_type#:#Wrong file type.
 prg#:#prg_new#:#New Study Programme
 prg#:#prg_add#:#Add Study Programme
 prg#:#prg_edit#:#Edit Study Programme
@@ -12945,6 +12950,23 @@ prg#:#prg_type_msg_missing_title#:#Title cannot be empty.
 prg#:#prg_added_member#:#The new member was added successfully.
 prg#:#prg_added_members#:#The new members were added successfully.
 prg#:#prg_acknowledge_completed_courses#:#Acknowledge Completed Courses
+prg#:#prg_multi_mark_accredited#:#Accredited
+prg#:#prg_multi_unmark_accredited#:#Unmark Accredited
+prg#:#prg_multi_remove_user#:#Remove User
+prg#:#prg_multi_mark_relevant#:#Mark Relevant
+prg#:#prg_multi_unmark_relevant#:#Unmark Relevant
+prg#:#prg_multi_update_from_current_plan#:#Update From Current Plan
+prg#:#prg_mark_accredited_multi_success#:#Mark Selected Users As Accredited
+prg#:#prg_unmark_accredited_multi_success#:#Unmark Selected Users As Accredited
+prg#:#prg_mark_relevant_multi_success#:#Mark Selected Users As Relevant
+prg#:#prg_mark_not_relevant_multi_success#:#Unmark Selected Users As Relevant
+prg#:#prg_remove_users_success#:#Remove Selected Users
+prg#:#prg_remove_users_partitial_success#:#Remove Selected Users Particially
+prg#:#prg_remove_users_not_possible#:#Remove Selected Users Not Possible
+prg#:#prg_update_from_current_plan_not_possible#:#Update From Current Plan Not Possible
+prg#:#prg_update_from_current_plan_partitial_success#:#Update From Current Plan Partically
+prg#:#prg_update_from_current_plan_success#:#Update From Current Plan
+prg#:#prg_no_user_selected#:#No User Selected
 common#:#obj_prg_duplicate#:#Copy Study Programme
 common#:#obj_prg_select#:#-- Please select one study programme --
 common#:#obj_prg#:#Study Programme
@@ -13395,7 +13417,10 @@ style#:#assignment#:#Assignment
 style#:#remove_assignment#:#Remove Assignment
 style#:#reset_variables#:#Reset Variables
 style#:#update_variables#:#Update Variables
-style#:#less_file_updated#:#The less variables have been updated.
+style#:#less_file_updated#:#The less variables have been updated. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.
+style#:#less_file_reset#:#The less variables have been reset. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.
+style#:#color_reset#:#The colors of the icons have been reset. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.
+style#:#color_update#:#The colors of the icons have been updated. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.
 style#:#settings_of_substyle#:#Manage sub style
 style#:#settings_of_style#:#Manage style
 style#:#of_parent#:#of parent:

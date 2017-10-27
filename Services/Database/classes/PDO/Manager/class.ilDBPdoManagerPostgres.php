@@ -60,7 +60,7 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager {
 
 		$result = $db->queryCol($query, ilDBConstants::FETCHMODE_ASSOC);
 
-		if ($db->options['portability'] & MDB2_PORTABILITY_FIX_CASE) {
+		if ($db->options['portability']) {
 			$result = array_map(($db->options['field_case'] == CASE_LOWER ? 'strtolower' : 'strtoupper'), $result);
 		}
 		sort($result); // FSX Patch
@@ -217,7 +217,7 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager {
 			}
 		}
 
-		if ($db->options['portability'] & MDB2_PORTABILITY_FIX_CASE) {
+		if ($db->options['portability']) {
 			$result = array_change_key_case($result, $db->options['field_case']);
 		}
 
@@ -246,7 +246,7 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager {
 			}
 		}
 
-		if ($db->options['portability'] & MDB2_PORTABILITY_FIX_CASE
+		if ($db->options['portability']
 		    && $db->options['field_case'] == CASE_LOWER
 		) {
 			$result = array_change_key_case($result, $db->options['field_case']);
@@ -329,7 +329,7 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager {
 		foreach ($table_names as $table_name) {
 			$result[] = $this->fixSequenceName($table_name);
 		}
-		if ($db->options['portability'] & MDB2_PORTABILITY_FIX_CASE) {
+		if ($db->options['portability']) {
 			$result = array_map(($db->options['field_case'] == CASE_LOWER ? 'strtolower' : 'strtoupper'), $result);
 		}
 		sort($result); // FSX patch

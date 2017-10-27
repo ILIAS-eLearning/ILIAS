@@ -165,7 +165,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI {
 				$tpl = new ilTemplate("tpl.iass_user_file_download.html", true, true, "Modules/IndividualAssessment");
 				$tpl->setVariable("FILE_NAME", $member->fileName());
 				$tpl->setVariable("HREF", $this->ctrl->getLinkTarget($this, "downloadFile"));
-				$info->addProperty($this->lng->txt('file'), $tpl->get());
+				$info->addProperty($this->lng->txt('iass_upload_file'), $tpl->get());
 			}
 		}
 

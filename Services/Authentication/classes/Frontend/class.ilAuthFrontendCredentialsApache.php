@@ -35,31 +35,32 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials implemen
 		{
 			return false;
 		}
-		
+
 		if(!$this->getSettings()->get('apache_enable_auth',false))
 		{
 			return false;
 		}
-		
+
 		if(!$this->getSettings()->get('apache_auth_authenticate_on_login_page',false))
 		{
 			return false;
 		}
-		
+
 		if(
 			!ilContext::supportsRedirects() || 
 			isset($_GET['passed_sso']) ||
-			(defined(IL_CERT_SSO) && IL_CERT_SSO == '1')
+			(defined('IL_CERT_SSO') && IL_CERT_SSO == '1')
 		)
 		{
 			return false;
 		}
-		
+
 		$path = $_SERVER['REQUEST_URI'];
 		if(substr($path,0,1) === '/')
 		{
 			$path = substr($path, 1);
 		}
+
 		if(substr($path, 0, 4) !== 'http')
 		{
 			$parts = parse_url(ILIAS_HTTP_PATH);
@@ -68,15 +69,13 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials implemen
 
 		ilUtil::redirect(
 			ilUtil::getHtmlPath(
-				'./sso/index.php?force_mode_apache=1&'.
-				'r='.$path.
-				'&cookie_path='.IL_COOKIE_PATH.
-				'&ilias_path='.ILIAS_HTTP_PATH
+				'./sso/index.php?force_mode_apache=1&' .
+				'r=' . urlencode($path) .
+				'&cookie_path=' . urlencode(IL_COOKIE_PATH) .
+				'&ilias_path=' . urlencode(ILIAS_HTTP_PATH)
 			)
 		);
-
 	}
-	
 
 	/**
 	 * @return \ilSetting

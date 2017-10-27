@@ -199,6 +199,9 @@ abstract class ilFileSystemAbstractionStorage {
 	 * @return string
 	 */
 	protected function getLegacyAbsolutePath() {
+		if (!$this->getFileSystemService()->has($this->path)) {
+			$this->getFileSystemService()->createDir($this->path);
+		}
 		$stream = $this->getFileSystemService()->readStream($this->path);
 
 		return $stream->getMetadata('uri');

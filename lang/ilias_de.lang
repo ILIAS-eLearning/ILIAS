@@ -405,7 +405,7 @@ assessment#:#adm_settings_templates#:#Einstellungsvorlagen
 assessment#:#all_available_question_pools#:#Alle vorhandenen Fragenpools
 assessment#:#allow_images#:#Grafikunterstützung für Antworten
 assessment#:#allowedextensions#:#Erlaubte Dateierweiterungen
-assessment#:#allowedextensions_info#:#Geben Sie eine kommagetrennte Liste der erlaubten Dateierweiterungen an, wenn Sie das Hochladen auf bestimmte Dateitypen einschränken wollen (z.B. .doc, .pdf, .odt).
+assessment#:#allowedextensions_info#:#Geben Sie eine kommagetrennte Liste der erlaubten Dateierweiterungen an, wenn Sie das Hochladen auf bestimmte Dateitypen einschränken wollen (z.B. doc, pdf, odt).
 assessment#:#analyze_errortext#:#Text analysieren
 assessment#:#gap_combination#:#Lückentext-Kombination
 assessment#:#answer#:#Antwort
@@ -11003,8 +11003,12 @@ orgu#:#orgu_enable_my_staff_info#:#The Ansicht ‘Meine Mitarbeiter’ zeigt die
 orgu#:#org_op_manage_members#:#Mitglieder bearbeiten
 orgu#:#org_op_read_learning_progress#:#Lernfortschritt von anderen Benutzern einsehen
 orgu#:#org_op_write_learning_progress#:#Lernfortschritt von anderen Benutzern setzen.
+rbac#:#org_op_write_learning_progress#:#Lernfortschritt untergeordneter Benutzer setzen
+rbac#:#positions_override_operations#:#Globale Einstellungen überschreiben
 orgu#:#form_title_org_default_permissions_update#:#Standardrechte
 orgu#:#msg_confirm_deletion#:#Gelöscht
+orgu#:#msg_confirm_remove_user#:#Möchten Sie den folgenden Benutzer wirklich aus der Position %s entfernen?
+orgu#:#remove_user#:#Entfernen
 orgu#:#view_learning_progress#:#Lernfortschritt einsehen
 orgu#:#orgu_staff_deassign#:#Diese Benutzer aus der Rolle wirklich entfernen?
 orgu#:#deassign_user_successful#:#Benutzer wurde erfolgreich ausgetragen.
@@ -11238,7 +11242,6 @@ bibl#:#ris_default_m3#:#Misc. 3
 bibl#:#ris_default_ur#:#URL
 bibl#:#ris_default_l3#:#Ähnliche Datensätze
 bibl#:#ris_default_a2#:#Zweiter Autor
-bibl#:#ris_default_av#:#Standort
 bibl#:#ris_default_cy#:#Herausgabeort
 bibl#:#ris_default_id#:#Referenz-ID
 bibl#:#ris_default_kw#:#Stichworte
@@ -12881,6 +12884,7 @@ mail#:#mail_enable_grp_admin_notification#:#Gruppenadministratoren benachrichtig
 mail#:#mail_enable_crs_admin_notification_info#:#In neuen Kursen ist im Reiter "Mitglieder" für Kursadministratoren und -tutoren die Einstellungen "Benachrichtigung über neue Mitglieder" standardmäßig aktiviert. Sie erhalten E-Mails, wenn ein Mitglied beitritt, den Kurs verlässt oder die Mindestanzahl an Teilnehmern zur Durchführung des Kurses nicht erreicht wird.
 mail#:#mail_enable_grp_admin_notification_info#:#In neuen Gruppen ist im Reiter "Mitglieder" für Gruppenadministratoren die Einstellungen "Benachrichtigungen" standardmäßig aktiviert. Sie erhalten E-Mails, wenn ein Mitglied beitritt, die Gruppe verlässt oder die Mindestanzahl an Teilnehmern zur Durchführung der Gruppe nicht erreicht wird.
 mail#:#mail_notification_membership_section#:#Mitgliedschaften
+prg#:#form_msg_file_wrong_file_type#:#Falscher Dateityp.
 prg#:#prg_new#:#Neues Studienprogramm
 prg#:#prg_add#:#Studienprogramm hinzufügen
 prg#:#prg_edit#:#Studienprogramm bearbeiten
@@ -12908,6 +12912,17 @@ prg#:#prg_remove_user#:#Benutzer entfernen
 prg#:#prg_mark_accredited#:#akkreditieren
 prg#:#prg_unmark_accredited#:#Akkreditierung entfernen
 prg#:#prg_mark_accredited_success#:#Das Programm wurde für den Benutzer erfolgreich akkreditiert.
+prg#:#prg_mark_accredited_multi_success#:#Ausgewählte Benutzer akkreditiert.
+prg#:#prg_unmark_accredited_multi_success#:#Ausgewählte Benutzer als nicht akkreditiert markiert.
+prg#:#prg_mark_relevant_multi_success#:#Ausgewählte Benutzer als relevant markiert.
+prg#:#prg_mark_not_relevant_multi_success#:#Ausgewählte Benutzer als nicht relevant markiert.
+prg#:#prg_remove_users_success#:#Ausgewählte Benutzer wurden entfernt.
+prg#:#prg_remove_users_partitial_success#:#Ausgewählte Benutzer wurden teilweise entfernt.
+prg#:#prg_remove_users_not_possible#:#Ausgewählte Benutzerkönnen nicht entfernt werden.
+prg#:#prg_update_from_current_plan_not_possible#:#Aus dem aktuellen Plan aktualisieren ist nicht möglich.
+prg#:#prg_update_from_current_plan_partitial_success#:#Aus dem aktuellen Plan aktualisieren teilweise abgeschlossen.
+prg#:#prg_update_from_current_plan_success#:#Aus dem aktuellen Plan aktualisieren ist erfolgreich.
+prg#:#prg_no_user_selected#:#Es wurde kein Benutzer ausgewählt.
 prg#:#prg_unmark_accredited_success#:#Die Akkreditierung wurde erfolgreich entfernt.
 prg#:#prg_remove_user_success#:#Der Benutzer wurde entfernt. 
 prg#:#prg_type_add#:#Studienprogrammtyp hinzufügen
@@ -12949,6 +12964,12 @@ prg#:#prg_type_msg_missing_title#:#Titel kann nicht leer sein.
 prg#:#prg_added_member#:#Das neue Mitglied wurde erfolgreich hinzugefügt.
 prg#:#prg_added_members#:#Die neuen Mitglieder wurden erfolgreich hinzugefügt.
 prg#:#prg_acknowledge_completed_courses#:#Bestandene Kurse anerkennen
+prg#:#prg_multi_mark_accredited#:#Akkredieren
+prg#:#prg_multi_unmark_accredited#:#Akkreditierung entfernen
+prg#:#prg_multi_remove_user#:#Benutzer entfernen
+prg#:#prg_multi_mark_relevant#:#Als relevant markieren
+prg#:#prg_multi_unmark_relevant#:#Als irrelevant markieren
+prg#:#prg_multi_update_from_current_plan#:#Aus dem aktuellen Plan aktualisieren
 common#:#obj_prg_duplicate#:#Studienprogramm kopieren
 common#:#obj_prg_select#:#-- Bitte wählen Sie ein Studienprogramm --
 common#:#obj_prg#:#Studienprogramm
@@ -13384,7 +13405,10 @@ style#:#assignment#:#Zuweisung
 style#:#remove_assignment#:#Zuweisung löschen
 style#:#reset_variables#:#Variablen zurücksetzen
 style#:#update_variables#:#Variablen aktualisieren
-style#:#less_file_updated#:#Die Less Variablen wurden aktualisiert.
+style#:#less_file_updated#:#Die less-Variablen wurden aktualisiert. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderunge korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
+style#:#less_file_reset#:#Die less-Variablen wurden zurückgesetzt. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderunge korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
+style#:#color_reset#:#Die Farben der Icons wurden zurückgesetzt. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderunge korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
+style#:#color_update#:#Die Farben der Icons wurden aktualisiert. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderunge korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
 style#:#settings_of_substyle#:#Manage sub style
 style#:#settings_of_style#:#Styles verwalten
 style#:#of_parent#:#vom Parent:
@@ -14055,3 +14079,7 @@ dateplaner#:#cal_no_events_info#:#Für den angegebenen Zeitraum sind keine Termi
 wiki#:#wiki_pg_list_no_search_fields#:#Es befinden sich keine durchsuchbaren Metadatenfelder in den Metadatensätzen des Wikis.
 iass#:#iass_amend_saved#:#Geänderte Prüfungsdaten wurden gespeichert.
 content#:#cont_transl_master_language_not_allowed#:#Um eine Übersetzung zu importieren, müssen sie zumindest eine zusätzliche Sprache unter "Einstellungen" > "Mehrsprachigkeit" aktivieren.
+dateplaner#:#crs_start#:#Course starts###23 10 2017 new variable
+dateplaner#:#crs_end#:#Course ends###23 10 2017 new variable
+dateplaner#:#grp_start#:#Group starts###23 10 2017 new variable
+dateplaner#:#grp_end#:#Group ends###23 10 2017 new variable

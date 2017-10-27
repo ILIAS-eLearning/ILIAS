@@ -1470,38 +1470,31 @@ class ilInitialisation
 		}
 	}
 	
-	// LTI
+	/**
+	 * Init LTI mode for lit authenticated users
+	 * @global type $ilUser
+	 * @global type $DIC
+	 */
 	protected static function initLTI()
 	{
-		global $ilUser, $DIC;
-		$DIC->logger()->root()->debug("auth_mode: " . $ilUser->auth_mode);
-		// production
-		if (strpos($ilUser->auth_mode, 'lti') !== false) {
-			$DIC->logger()->root()->debug("LTI Mode!");
-			require_once "./Services/LTI/classes/class.ilLTIViewGUI.php";
-			ilLTIViewGUI::getInstance()->activate(); 
-		}
-		else {
-			unset($_SESSION['il_lti_mode']);
-		}
-		 
-		// fake lti env
-		/*
-		if ($ilUser->getFirstname() == "LTI") 
+		$user = $GLOBALS['DIC']->user();
+		if(!$user instanceof ilObjUser)
 		{
-			$_SESSION['lti_context_id'] = "73";
-			//$_SESSION['lti_launch_css_url'] = 'http://ltiapps.net/test/css/tc.css';
-			//$_SESSION['lti_launch_presentation_return_url'] = 'http://ltiapps.net/test/tc-return.php';
-			
-			$DIC->logger()->root()->debug("LTI Mode!");
-			require_once "./Services/LTI/classes/class.ilLTIViewGUI.php";
-			ilLTIViewGUI::getInstance()->activate();
-			//ilLTIViewGUI::getInstance()->checkMessages();
+			return false;
 		}
-		else {
+		
+		if(strpos($user->getAuthMode(),'lti_') === 0)
+		{
+			$GLOBALS['DIC']->logger()->lti()->debug("LTI enabled for authmode: " . $GLOBALS['DIC']->user()->getAuthMode());
+			ilLTIViewGUI::getInstance()->activate();
+			$GLOBALS['DIC']->logger()->lti()->debug('LTI mode enabled.');
+		}
+		else
+		{
+			// @todo: avoid this
 			unset($_SESSION['il_lti_mode']);
 		}
-		*/ 
+		
 	}
 	
 	/**

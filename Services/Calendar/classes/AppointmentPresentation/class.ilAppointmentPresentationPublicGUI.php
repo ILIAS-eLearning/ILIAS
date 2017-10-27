@@ -44,9 +44,6 @@ class ilAppointmentPresentationPublicGUI extends ilAppointmentPresentationGUI im
 			$this->addCalendarInfo($cat_info);
 		}
 
-		// Public calendar doesn't belongs to anyone.
-		//$this->addInfoProperty($this->lng->txt("cal_owner"), $this->getUserName($cat_info['obj_id']));
-		//$this->addListItemProperty($this->lng->txt("cal_owner"), $this->getUserName($cat_info['obj_id']));
 
 		$this->addInfoSection($this->lng->txt("cal_app_info"));
 
