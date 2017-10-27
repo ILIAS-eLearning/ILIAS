@@ -134,6 +134,9 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 			case ilIndividualAssessmentMembers::LP_FAILED :
 				return $this->lng->txt('iass_status_failed');
 				break;
+			case ilIndividualAssessmentMembers::LP_ASSESSMENT_NOT_COMPLETED :
+				return $this->lng->txt('iass_assessment_not_completed');
+				break;
 		}
 	}
 
