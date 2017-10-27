@@ -234,6 +234,6 @@ class ilBTPopOverGUI {
 	 */
 	protected function addFromUrlToNextRequest($redirect_uri) {
 		$this->ctrl()
-		     ->setParameterByClass(ilBTControllerGUI::class, ilBTControllerGUI::FROM_URL, rawurlencode($redirect_uri));
+		     ->setParameterByClass(ilBTControllerGUI::class, ilBTControllerGUI::FROM_URL, ilBTControllerGUI::hash($redirect_uri));
 	}
 }

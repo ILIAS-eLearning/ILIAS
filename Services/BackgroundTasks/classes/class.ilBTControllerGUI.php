@@ -86,8 +86,28 @@ class ilBTControllerGUI {
 	 * @return string
 	 */
 	protected function getFromURL() {
-		$from_url = rawurldecode($this->http()->request()->getQueryParams()[self::FROM_URL]);
+		$from_url = self::unhash($this->http()->request()->getQueryParams()[self::FROM_URL]);
 
 		return $from_url;
+	}
+
+
+	/**
+	 * @param $url
+	 *
+	 * @return string
+	 */
+	public static function hash($url) {
+		return base64_encode($url);
+	}
+
+
+	/**
+	 * @param $url
+	 *
+	 * @return string
+	 */
+	public static function unhash($url) {
+		return base64_decode($url);
 	}
 }
