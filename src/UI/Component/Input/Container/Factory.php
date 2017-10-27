@@ -12,14 +12,17 @@ interface Factory {
      * ---
      * description:
      *   purpose: >
-     *      Forms are used to have the user enter or modify data, validate the
-     *      input and submit it to the system.
-     *      Forms rather arrange their contents (i.e. fields) in a explanationary
+     *      Forms are used to let the user enter or modify data, check her inputs
+	 *      and submit them to the system.
+     *      Forms arrange their contents (i.e. fields) in an explanationary rather
      *      than space-saving way.
      *   composition: >
      *      Forms are composed of input fields, displaying their labels and bylines.
      *   rivals:
-     *      filter: Filters are used to limit search results; they never modify content.
+     *      filter: >
+	 *          Filters are used to limit search results; they never modify data in
+	 *          the system.
+	 *        
      *
      * ---
      * @return  \ILIAS\UI\Component\Input\Container\Form\Factory

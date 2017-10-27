@@ -18,14 +18,24 @@ interface Factory {
 	 *      Text fields will render an input-tag with type="text".
 	 *   effect: >
    	 *      Text inputs are restricted to one line of text.
+	 *   rivals:
+	 *      numeric field: Use a numeric field if users should input numbers.
+	 *      alphabet field: >
+	 *          Use an alphabet field if the user should input single letters. 
 	 *
  	 * rules:
 	 *   usage:
-	 *     1: Text Input MUST NOT be used for choosing from predetermined options choices.
-	 *     2: Text input MUST NOT be used for numeric input, a Number Input is to be used instead.
-	 *     3: Text Input MUST NOT be used for letter-only input, an Alphabet Input is to be used instead.
+	 *     1: Text Input MUST NOT be used for choosing from predetermined options.
+	 *     2: >
+	 *         Text input MUST NOT be used for numeric input, a Numeric Field is
+	 *         to be used instead.
+	 *     3: >
+	 *         Text Input MUST NOT be used for letter-only input, an Alphabet Field
+	 *         is to be used instead.
 	 *   interaction:
-	 *     1: Text Input MUST limit the number of characters, if a certain length of text-input may not be exceeded (e.g. due to database-limitations)
+	 *     1: >
+	 *         Text Input MUST limit the number of characters, if a certain length
+	 *         of text-input may not be exceeded (e.g. due to database-limitations)
 	 *
 	 * ---
 	 *
@@ -39,17 +49,19 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *      A numeric-field is used for numeric values.
+	 *      A numeric field is used to retrieve numeric values from the user.
 	 *   composition: >
    	 *      Numeric inputs will render an input-tag with type="number".
 	 *   effect: >
-	 *      The field does not accept any data other than numeric values.
-	 *      When focused, a small vertical rocker is diplayed to increase/decrease
-	 *      the value.
+	 *      The field does not accept any data other than numeric values. When
+	 *      focused most browser will show a small vertical rocker to increase
+	 *      and decrease the value in the field.
 	 * rules:
 	 *   usage:
 	 *     1: Number Inputs MUST NOT be used for binary choices.
-	 *     2: Magic numbers such as -1 or 0 to specify “limitless” or some other options MUST NOT be used.
+	 *     2: >
+	 *         Magic numbers such as -1 or 0 to specify “limitless” or someother
+	 *         options MUST NOT be used.
 	 *     3: A valid input range SHOULD be specified.
 	 *
 	 * ---
@@ -64,15 +76,15 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *      Input groups are an unlabeled collection of inputs.
-	 *      They are used to build logical units of other fields.
+	 *      Input groups are an unlabeled collection of inputs. They are used to
+	 *      build logical units of other fields.
 	 *   composition: >
-	 *      Groups are composed of inputs. They do not contain a label.
-	 *      The grouping remains invisible for the client.
+	 *      Groups are composed of inputs. They do not contain a label. The grouping
+	 *      remains invisible for the client.
 	 *   effect: >
 	 *      There is no visible effect using groups.
 	 *   rivals:
-	 *      Sections: Sections are used to generate a visible relation of fields.
+	 *      sections: Sections are used to generate a visible relation of fields.
 	 *
 	 * rules: []
 	 *
@@ -87,12 +99,14 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *      Sections are used to group inputs in a contextual way.
+	 *      Sections are used to visually group inputs to a common context.
 	 *   composition: >
-	 *      Sections are composed of inputs. They carry a label and are visible
-	 *      for the client.
+	 *      Sections are composed of inputs. They carry a label and are visible for
+	 *      the client.
 	 *   rivals:
-	 *      Groups: Groups are used as purely logical units, while sections visualize the correlation of fields.
+	 *      Groups: >
+	 *          Groups are used as purely logical units, while sections visualize
+	 *          the correlation of fields.
 	 *
 	 * rules: []
 	 *
