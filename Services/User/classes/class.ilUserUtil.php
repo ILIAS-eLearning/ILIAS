@@ -232,6 +232,9 @@ class ilUserUtil
 			$all[self::START_PD_SUBSCRIPTION] = 'my_courses_groups';
 		}
 
+		if(ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff()) {
+			$all[self::START_PD_MYSTAFF] = 'my_staff';
+		}
 	
 		if($a_force_all || !$ilSetting->get("disable_personal_workspace"))
 		{
