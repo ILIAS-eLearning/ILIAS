@@ -36,6 +36,7 @@ class ilIndividualAssessmentMembers implements Iterator, Countable {
 	const LP_IN_PROGRESS = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
 	const LP_COMPLETED = ilLPStatus::LP_STATUS_COMPLETED_NUM;
 	const LP_FAILED = ilLPStatus::LP_STATUS_FAILED_NUM;
+	const LP_ASSESSMENT_NOT_COMPLETED = "test";
 
 	public function __construct(ilObjIndividualAssessment $iass) {
 		$this->iass = $iass;
