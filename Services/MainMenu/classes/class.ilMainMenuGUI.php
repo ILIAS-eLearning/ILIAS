@@ -1191,7 +1191,7 @@ class ilMainMenuGUI
 		$DIC->ctrl()->clearParametersByClass(ilBTControllerGUI::class);
 		$DIC->ctrl()->setParameterByClass(ilBTControllerGUI::class,
 			ilBTControllerGUI::FROM_URL,
-			urlencode($_SERVER['HTTP_REFERER'])
+			rawurlencode("//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}")
 		);
 		$DIC->ctrl()->setParameterByClass(ilBTControllerGUI::class,
 			ilBTControllerGUI::REPLACE_SIGNAL,
