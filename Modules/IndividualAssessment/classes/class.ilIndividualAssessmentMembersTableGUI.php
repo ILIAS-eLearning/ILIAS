@@ -73,6 +73,10 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 			{
 				$status = ilIndividualAssessmentMembers::LP_IN_PROGRESS;
 			}
+			if($a_set['finalized'] === '0' && $a_set['examiner_id'] !== null)
+			{
+				$status = ilIndividualAssessmentMembers::LP_ASSESSMENT_NOT_COMPLETED;
+			}
 			$this->tpl->setVariable("LP_STATUS", $this->getEntryForStatus($status));
 
 			$graded_by = "";
