@@ -430,6 +430,7 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 		$points->setMinvalueShouldBeGreater(true);
 		$points->setSize( 6 );
 		$points->setDisabled( true );
+		$points->allowDecimals(true);
 		$points->setValue( $this->object->getMaximumPoints() );
 		$points->setRequired( false );
 		$form->addItem( $points );

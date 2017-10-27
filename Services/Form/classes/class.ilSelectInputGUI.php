@@ -112,7 +112,7 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
 			{
 				$valid = false;
 			}
-			if(!array_key_exists($_POST[$this->getPostVar()], (array) $this->getOptions()))
+			else if(!array_key_exists($_POST[$this->getPostVar()], (array) $this->getOptions()))
 			{
 				$this->setAlert($lng->txt('msg_invalid_post_input'));
 				return false;

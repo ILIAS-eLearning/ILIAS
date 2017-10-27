@@ -625,7 +625,29 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$lng->loadLanguageModule('cntr');
 
-		if ($this->isActiveAdministrationPanel())
+		if ($_SESSION["clipboard"])
+		{
+			// #11545
+			$GLOBALS['tpl']->setPageFormAction($this->ctrl->getFormAction($this));
+
+			include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
+			$toolbar = new ilToolbarGUI();
+			$this->ctrl->setParameter($this, "type", "");
+			$this->ctrl->setParameter($this, "item_ref_id", "");
+
+			$toolbar->addFormButton(
+				$this->lng->txt('paste_clipboard_items'),
+				'paste'
+			);
+
+			$toolbar->addFormButton(
+				$this->lng->txt('clear_clipboard'),
+				'clear'
+			);
+
+			$GLOBALS['tpl']->addAdminPanelToolbar($toolbar, true, false);
+		}
+		else if ($this->isActiveAdministrationPanel())
 		{			
 			// #11545
 			$GLOBALS['tpl']->setPageFormAction($this->ctrl->getFormAction($this));
@@ -635,8 +657,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$this->ctrl->setParameter($this, "type", "");
 			$this->ctrl->setParameter($this, "item_ref_id", "");
 
-			if (!$_SESSION["clipboard"])
-			{
+//			if (!$_SESSION["clipboard"])
+//			{
 				if ($this->object->gotItems())
 				{
 					$toolbar->setLeadingImage(
@@ -700,18 +722,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 							'adoptContent')
 					);
 				}
-			}
-			else
+//			}
+			/*else
 			{
-				$toolbar->addFormButton(
-					$this->lng->txt('paste_clipboard_items'),
-					'paste'
-				);
-
-				$toolbar->addFormButton(
-					$this->lng->txt('clear_clipboard'),
-					'clear'
-				);
 
 				if ($this->isMultiDownloadEnabled())
 				{
@@ -721,7 +734,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 						'download'
 					);
 				}
-			}
+			}*/
 
 			$GLOBALS['tpl']->addAdminPanelToolbar(
 				$toolbar,

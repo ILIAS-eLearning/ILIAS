@@ -103,8 +103,17 @@ class ilStartUpGUI
 		 * @var ilAuthSession
 		 */
 		$auth_session = $GLOBALS['DIC']['ilAuthSession'];
-		
-		if(strcmp($_REQUEST['cmd'], 'force_login') === 0)
+
+		$force_login = false;
+		if(
+			!is_array($_REQUEST['cmd']) &&
+			strcmp($_REQUEST['cmd'], 'force_login') === 0
+		)
+		{
+			$force_login = true;
+		}
+
+		if($force_login)
 		{
 			$this->logger->debug('Force login');
 			if($auth_session->isValid())
@@ -147,6 +156,11 @@ class ilStartUpGUI
 		global $tpl, $ilSetting;
 		
 		$this->getLogger()->debug('Showing login page');
+	
+		// try apache auth
+		include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentialsApache.php';
+		$frontend = new ilAuthFrontendCredentialsApache();
+		$frontend->tryAuthenticationOnLoginPage();
 		
 		// Instantiate login template
 		self::initStartUpTemplate("tpl.login.html");
@@ -718,19 +732,14 @@ class ilStartUpGUI
 	{
 		$this->getLogger()->debug('Trying lti authentication');
 		
-		include_once './Services/LTI/classes/InternalProvider/class.ilAuthFrontendCredentialsLTI.php';
-		
 		$credentials = new ilAuthFrontendCredentialsLTI();
 		$credentials->initFromRequest();
 		
-		include_once './Services/Authentication/classes/Provider/class.ilAuthProviderFactory.php';
 		$provider_factory = new ilAuthProviderFactory();
 		$provider = $provider_factory->getProviderByAuthMode($credentials, AUTH_LTI_PROVIDER);
 		
-		include_once './Services/Authentication/classes/class.ilAuthStatus.php';
 		$status = ilAuthStatus::getInstance();
 		
-		include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendFactory.php';
 		$frontend_factory = new ilAuthFrontendFactory();
 		$frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
 		$frontend = $frontend_factory->getFrontend(
@@ -746,7 +755,6 @@ class ilStartUpGUI
 		{
 			case ilAuthStatus::STATUS_AUTHENTICATED:
 				ilLoggerFactory::getLogger('auth')->debug('Authentication successful; Redirecting to starting page.');
-				include_once './Services/Init/classes/class.ilInitialisation.php';
 				ilInitialisation::redirectToStartingPage();
 				return;
 					
@@ -816,7 +824,12 @@ class ilStartUpGUI
 
 			case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
 				ilUtil::sendFailure($status->getTranslatedReason(), true);
-				ilUtil::redirect(ilUtil::appendUrlParameterString($GLOBALS['ilCtrl']->getLinkTarget($this, 'showLoginPage'), 'passed_sso=1'));
+				ilUtil::redirect(
+					ilUtil::appendUrlParameterString(
+						$GLOBALS['ilCtrl']->getLinkTarget($this, 'showLoginPage', '', false, false),
+						'passed_sso=1'
+					)
+				);
 				return false;
 		}
 

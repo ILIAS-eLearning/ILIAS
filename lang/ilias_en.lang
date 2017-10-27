@@ -58,6 +58,7 @@ orgu#:#orgu_global_set_type_default#:#Default Setting
 orgu#:#orgu_global_set_type_default_info#:#Define the default for unconfigured objects
 rbac#:#il_sess_participant#:#Session Participant
 rbac#:#il_sess_status_closed#:#Non-Participant Closed Session
+rbac#:#positions_override_operations#:#Override global Settings
 meta#:#udf_type_externallink#:#External Link
 meta#:#udf_type_internallink#:#Internal Link
 didactic#:#didactic_scope#:#Scope
@@ -74,7 +75,7 @@ sess#:#sess_print_list#:#Generate List
 crs#:#crs_show_member_export_settings#:#Participants List
 crs#:#crs_show_member_export#:#Participants List
 crs#:#crs_show_member_export_info#:#Course Members may print a list of participants.
-mem#:#mmbr_gallery_user_actions#:#User actions in members gallery
+mem#:#mmbr_gallery_user_actions#:#Member Gallery Actions
 forum#:#delete_drafts_successfully#:#The drafts were deleted successfully.
 forum#:#sure_delete_drafts#:#Are you sure, you want to delete the selected drafts?
 forum#:#restore#:#Restore
@@ -2053,7 +2054,7 @@ common#:#disk_usage_details#:#Disk Usage Details
 common#:#disk_usage#:#Disk Usage
 common#:#domain#:#Domain
 common#:#down#:#Down
-common#:#download_all_returned_files#:#Download all returned files
+common#:#download_all_returned_files#:#Download all Submissions
 common#:#download_with_uploaded_filename_info#:#Select this option exclusively for backwards compatibility with ILIAS 3.9 and older versions: When this option is selected, the filename of a downloaded file is equal to the filename that was used for uploading the file into ILIAS. If this option is not selected, the filename of a downloaded file is equal to the title of the file object in ILIAS. This option does not affect WebDAV. For WebDAV the filename of a downloaded file is always equal to the title of the file object.
 common#:#download_with_uploaded_filename#:#Download with uploaded filename
 common#:#download#:#Download
@@ -2457,6 +2458,7 @@ common#:#info_available_roles#:#Available Roles
 common#:#info_change_user_view#:#Change User
 common#:#info_deactivate_sure#:#Are you sure that you want to deactivate the following user(s)?
 common#:#info_delete_sure#:#Are you sure that you want to delete the following item(s)?
+common#:#info_remove_sure#:#Are you sure that you want to remove the following item(s)?
 common#:#info_delete_warning_no_trash#:#(WARNING: Selected Objects will be removed irreversibly from System and may not be recovered anymore!)
 common#:#info_deleted#:#Object(s) Deleted
 common#:#info_err_user_not_exist#:#User with that login name or user_id does not exists
@@ -4727,11 +4729,13 @@ dateplaner#:#cal_created_milestone#:#Added milestone.
 dateplaner#:#cal_daily#:#Daily
 dateplaner#:#cal_date_format_info#:#Please choose a format for the input of dates.
 dateplaner#:#cal_day_end#:#Day End
+dateplaner#:#cal_def_day_end#:#Default Day End
 dateplaner#:#cal_day_of_month#:#Day of the month
 dateplaner#:#cal_day_overview#:#Day Overview
 dateplaner#:#cal_day_s#:#Day(s)
 dateplaner#:#cal_day_selection#:#Select Day
 dateplaner#:#cal_day_start#:#Day Start
+dateplaner#:#cal_def_day_start#:#Default Day Start
 dateplaner#:#cal_day_week_view#:#Day/Week View Settings
 dateplaner#:#cal_deadline#:#Deadline
 dateplaner#:#cal_declined#:#Declined
@@ -4741,7 +4745,7 @@ dateplaner#:#cal_def_time_format_info#:#Please choose a format for the input and
 dateplaner#:#cal_def_time_format#:#Default Time Format
 dateplaner#:#cal_def_timezone_info#:#Please choose a default timezone for the presentation of appointments.
 dateplaner#:#cal_def_timezone#:#Default Timezone
-dateplaner#:#cal_def_week_start#:#Week Start
+dateplaner#:#cal_def_week_start#:#Default Week Start
 dateplaner#:#cal_default_calendar#:#Personal Appointments
 dateplaner#:#cal_del_app_sure#:#Do you really want to delete the selected appointments?
 dateplaner#:#cal_del_cal_sure#:#Do you really want to delete the chosen calendars?
@@ -4838,8 +4842,8 @@ dateplaner#:#cal_where#:#Location
 dateplaner#:#cal_year_s#:#Year(s)
 dateplaner#:#cal_yearly#:#Yearly
 dateplaner#:#created#:#Created
-dateplaner#:#crs_cal_activation_end#:#Course End
-dateplaner#:#crs_cal_activation_start#:#Course Start
+dateplaner#:#crs_cal_activation_end#:#Course Availability ends
+dateplaner#:#crs_cal_activation_start#:#Course Availability starts
 dateplaner#:#crs_cal_reg_end#:#Registration End
 dateplaner#:#crs_cal_reg_start#:#Registration Start
 dateplaner#:#date_format#:#m/d/Y H:i
@@ -10401,7 +10405,7 @@ dcl#:#dcl_max_import#:#The maximum amount of imported entries is reached.
 dcl#:#dcl_row_not_found#:# - This field couldn't be found in the table.
 dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.
 dcl#:#dcl_import_records .xls#:#Excel-Import
-dcl#:#dcl_file_format_description#:#The file needs to be an excel .XLSX file with the data you want to import on the first sheet. In the first row there have to be exactly the names of the fields (case sensitive) you want to import and in the following rows you can add the values. It is strongly recommended to simulate your import first.
+dcl#:#dcl_file_format_description#:#The file needs to be an excel .XLSX file with the data you want to import on the first sheet. In the first row there have to be exactly the names of the fields (case sensitive) you want to import and in the following rows you can add the values. It is strongly recommended to simulate your import first. When importing reference or selection fields with multi selection, commas and/or semicolons can be used as delimiters.
 dcl#:#dcl_simulate_import#:#Simulate Import
 dcl#:#dcl_simulate_info#:#Simulating the import will not add any fields into the Data Collection but may give you feedback on problems with the import file, thus helping you to prevent corrupted entries.
 dcl#:#dcl_multiple_selection#:#Multiple Selection
@@ -10460,6 +10464,8 @@ dcl#:#dcl_export_finished#:#Export finished
 dcl#:#dcl_supported_filetypes#:#Allowed file-extensions
 dcl#:#dcl_supported_filetypes_desc#:#You can set the allowed extensions comma seperated. For example: pdf, docx
 dcl#:#dcl_no_export_data_available#:#No data or fields available for export.
+dcl#:#dcl_no_export_content_available#:#No data available for export.
+dcl#:#dcl_no_export_fields_available#:#No fields activated for export. Mark at least one field as exportable in the <a href="%s">table settings</a>.
 rbac#:#dcl_edit_content#:#Edit entries
 common#:#obj_bibl#:#Bibliography
 common#:#objs_bibl#:#Bibliographies
@@ -11002,6 +11008,8 @@ rbac#:#rbac_info_only_position_access#:#You are presented only with those member
 obj#:#obj_orgunit_positions#:#Access Control by Organisation Unit Positions
 obj#:#obj_orgunit_positions_info#:#If enabled, additional access control rules can be defined by positions in organisational units.
 orgu#:#msg_confirm_deletion#:#Would you really like to delete tho following Position?
+orgu#:#remove_user#:#Remove
+orgu#:#msg_confirm_remove_user#:#Would you really like to remove the following User from the Position %s?
 orgu#:#msg_confirm_d_ua#:#Would you like to assign these person to the position Employee of their respective Organisational Units?
 orgu#:#user_assignments#:#User Assignments
 orgu#:#authorities#:#Authorities
@@ -11030,6 +11038,7 @@ orgu#:#orgu_enable_my_staff_info#:#The View ‘Staff’ shows the Learning Progr
 orgu#:#org_op_manage_members#:#Manage Members
 orgu#:#org_op_read_learning_progress#:#View learning progress of other users
 orgu#:#org_op_write_learning_progress#:#Set learning progress of other users
+rbac#:#org_op_write_learning_progress#:#Set Learning Progress of Subordinate Users
 orgu#:#form_title_org_default_permissions_update#:#Default Permissions
 orgu#:#view_learning_progress#:#View Learning Progress
 orgu#:#il_orgu_employee#:#Employee
@@ -12278,7 +12287,7 @@ scormtrac#:#counter#:#counter
 scormtrac#:#student_response#:#student_response: Response
 scormtrac#:#ostatus#:#Status of the objective
 prtf#:#prtf_blog_page_created#:#Blog has been added.
-wiki#:#wiki_page_list_form_info#:#Adds a list of pages of this wiki that are all assigned to the selected metadata below.
+wiki#:#wiki_page_list_form_info#:#Adds a list of pages of this wiki that are all assigned to the selected metadata below. Only searchable meta data fields are listed.
 content#:#cont_pc_amdpl#:#Page List
 meta#:#udf_type_selectmulti#:#Selection List (Multiple Choice)
 wiki#:#wiki_no_page_found#:#No wiki page has been found for search term '$1'.
@@ -12872,6 +12881,7 @@ mail#:#mail_enable_grp_admin_notification#:#Notify Group Administrators
 mail#:#mail_enable_crs_admin_notification_info#:#In new courses the setting 'Notification About New Members' will be activated by default. It is set in the 'Member'-tab of courses. Course administrators will receive an e-mail when a member joins the course or leaves it or if the minimally required number of participants is not met the course needs to take place.
 mail#:#mail_enable_grp_admin_notification_info#:#In new groups the setting 'Notification' will be activated by default. It is set in the 'Member'-tab of groups. Course administrators will receive an e-mail when a member joins the group or leaves it or if the minimally required number of participants is not met the group needs to take place.
 mail#:#mail_notification_membership_section#:#Membership
+prg#:#form_msg_file_wrong_file_type#:#Wrong file type.
 prg#:#prg_new#:#New Study Programme
 prg#:#prg_add#:#Add Study Programme
 prg#:#prg_edit#:#Edit Study Programme
@@ -12940,6 +12950,23 @@ prg#:#prg_type_msg_missing_title#:#Title cannot be empty.
 prg#:#prg_added_member#:#The new member was added successfully.
 prg#:#prg_added_members#:#The new members were added successfully.
 prg#:#prg_acknowledge_completed_courses#:#Acknowledge Completed Courses
+prg#:#prg_multi_mark_accredited#:#Accredited
+prg#:#prg_multi_unmark_accredited#:#Unmark Accredited
+prg#:#prg_multi_remove_user#:#Remove User
+prg#:#prg_multi_mark_relevant#:#Mark Relevant
+prg#:#prg_multi_unmark_relevant#:#Unmark Relevant
+prg#:#prg_multi_update_from_current_plan#:#Update From Current Plan
+prg#:#prg_mark_accredited_multi_success#:#Mark Selected Users As Accredited
+prg#:#prg_unmark_accredited_multi_success#:#Unmark Selected Users As Accredited
+prg#:#prg_mark_relevant_multi_success#:#Mark Selected Users As Relevant
+prg#:#prg_mark_not_relevant_multi_success#:#Unmark Selected Users As Relevant
+prg#:#prg_remove_users_success#:#Remove Selected Users
+prg#:#prg_remove_users_partitial_success#:#Remove Selected Users Particially
+prg#:#prg_remove_users_not_possible#:#Remove Selected Users Not Possible
+prg#:#prg_update_from_current_plan_not_possible#:#Update From Current Plan Not Possible
+prg#:#prg_update_from_current_plan_partitial_success#:#Update From Current Plan Partically
+prg#:#prg_update_from_current_plan_success#:#Update From Current Plan
+prg#:#prg_no_user_selected#:#No User Selected
 common#:#obj_prg_duplicate#:#Copy Study Programme
 common#:#obj_prg_select#:#-- Please select one study programme --
 common#:#obj_prg#:#Study Programme
@@ -13390,7 +13417,10 @@ style#:#assignment#:#Assignment
 style#:#remove_assignment#:#Remove Assignment
 style#:#reset_variables#:#Reset Variables
 style#:#update_variables#:#Update Variables
-style#:#less_file_updated#:#The less variables have been updated.
+style#:#less_file_updated#:#The less variables have been updated. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.
+style#:#less_file_reset#:#The less variables have been reset. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.
+style#:#color_reset#:#The colors of the icons have been reset. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.
+style#:#color_update#:#The colors of the icons have been updated. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.
 style#:#settings_of_substyle#:#Manage sub style
 style#:#settings_of_style#:#Manage style
 style#:#of_parent#:#of parent:
@@ -13538,7 +13568,7 @@ awrn#:#awrn_use_osd_info#:#Display a popup to indicate new online users in the �
 exc#:#exc_tbl_filter_submission#:#Submission
 exc#:#exc_tbl_filter_has_submission#:#Has submitted
 exc#:#exc_tbl_filter_has_no_submission#:#Has not submitted yet
-iass#:#iass_upload_file#:#Upload a file
+iass#:#iass_upload_file#:#Record file
 iass#:#iass_file_visible_examinee#:#File visible for participant
 iass#:#general#:#General Information
 iass#:#iass_content#:#Assessment content description
@@ -13599,18 +13629,22 @@ iass#:#iass_notify_explanation#:#The examinee will be notified via email after f
 iass#:#iass_contact#:#Name
 iass#:#iass_responsibility#:#Responsibility
 iass#:#iass_phone#:#Phone
-iass#:#iass_mails#:#Mails
-iass#:#iass_place#:#Event location
-iass#:#iass_event_time#:#Event time
+iass#:#iass_mails#:#E-Mail
+iass#:#iass_place#:#Place of assessment
+iass#:#iass_event_time#:#Date of assessment
 iass#:#iass_usr_amend#:#Amend Grading
-iass#:#iass_save_amend#:#Save Amend
-iass#:#iass_info_emails_expl#:#You may provide several addresses separated by a coma.
-iass#:#iass_consultation_hours#:#Consultation Hours
+iass#:#iass_save_amend#:#Save Amended Record
+iass#:#iass_info_emails_expl#:#You may provide several addresses separated by comma.
+iass#:#iass_consultation_hours#:#Consultation hours
 iass#:#iass_edit_info#:#Info Settings
 iass#:#iass_mess_notification_completed#:#You passed the assessment %s. Please check the following record for details:
 iass#:#iass_mess_notification_failed#:#You failed the assessment %s. Please check the following record for details:
 iass#:#iass_contact_info#:#Contact information
 iass#:#iass_added#:#Individual Assessment added
+iass#:#iass_event_time_place_required#:#Date and place required
+iass#:#iass_event_time_place_required_info#:#Date and place of assessment have to be added to each participant record.
+iass#:#iass_file_required#:#Record file required
+iass#:#iass_file_required_info#:#A record file has to be uploaded to each participant record.
 registration#:#reg_mail_body_activation#:#to activate your account and confirm ownership of this email address, click the link below:
 chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for authentication purposes when sending requests to the chat server. You can automatically create these strings by clicking the corresponding button. Please note that the chat server is able to communicate with multiple ILIAS clients, but each client id has to be <b>unique</b>.
 chatroom#:#chat_https_cert_info#:#Please define an absolute server path to the SSL certificate file (e.g.: /etc/ssl/certs/server.pem).
@@ -13641,6 +13675,9 @@ chatroom#:#chat_osc_dont_accept_msg#:#You currently cannot be invited to convers
 chatroom#:#chat_osc_doesnt_accept_msg#:#Conversations not possible
 chatroom#:#chtr_activation_online_info#:#Set the chat online to make it visible and available for partcipants. If not, only users with 'Edit Settings' permission will have access to it.
 chatroom#:#chtr_activation_limited_visibility_info#:#If checked, the title of the chat will be visible even outside of the given availability. The chat however can not be accessed.
+chatroom#:#chat_osc_subs_rej_msgs#:#Currently it is not possible to continue this conversation. Your chat-partner must activate chats in the chat-settings.
+chatroom#:#chat_osc_subs_rej_msgs_p#:#The following chat partners of your conversation do not want to receive messages anymore: %s
+chatroom#:#chat_osc_self_rej_msgs#:#You currently cannot take part in this conversation because you suppressed receiving messages in your settings.
 chatroom#:#chtr_server_status#:#Server Status
 chatroom#:#chtr_ban_actor_tbl_head#:#Akteur
 chatroom#:#chtr_ban_ts_tbl_head#:#Timestamp
@@ -13737,9 +13774,10 @@ common#:#file_no_valid_file_type#:#This file type is not allowed.
 common#:#file_some_invalid_file_types_removed#:#Some file types are not allowed and have been removed.
 ecs#:#ecs_member_auth_type#:#Course Member Auth Mode
 background_tasks#:#background_tasks#:#Background Tasks
-background_tasks#:#background_tasks_running#:#Running Tasks
+background_tasks#:#background_tasks_running#:#Background Tasks
 background_tasks#:#scheduled#:#Scheduled
-background_tasks#:#dismiss#:#Quit
+background_tasks#:#dismiss#:#Dismiss
+background_tasks#:#abort#:#Abort
 background_tasks#:#completed#:#Completed
 background_tasks#:#waiting#:#Waiting
 background_tasks#:#proceed_job#:#Proceed
@@ -13815,6 +13853,7 @@ book#:#book_open#:#Open Booking Pool
 book#:#book_booking_information#:#Information
 sess#:#sess_open#:#Open Session
 dateplaner#:#cal_show_weeks#:#Show Weeks
+dateplaner#:#cal_def_show_weeks#:#Default Show Weeks
 dateplaner#:#cal_show_weeks_info#:#Activates weeks column in calendar side block. Users can deactivate the column in their settings.
 dateplaner#:#cal_usr_show_weeks#:#Show Week Column
 dateplaner#:#cal_usr_show_weeks_info#:#Activates weeks column in calendar side block.
@@ -13992,10 +14031,10 @@ rbac#:#wiki_edit_page_meta#:#Edit Wiki Page Metadata
 content#:#cont_user#:#User
 content#:#cont_user_search_did_not_match#:#Your search did not match any users.
 blog#:#blog_latest_posting#:#Latest Posting
-dateplaner#:#cal_batch_file_downloads#:#Batch file downloads in Calendar
+dateplaner#:#cal_batch_file_downloads#:#Batch File Downloads in Calendar
 dateplaner#:#cal_batch_file_downloads_info#:#Activate button to download all files related to the current calendar/appointment view.
 dateplaner#:#cal_download_files#:#Download Files
-dateplaner#:#cal_calendar_download#:#Calendar Download
+dateplaner#:#cal_calendar_download#:#Calendar Files
 classification#:#clsfct_selected_objects#:#Selected Objects
 classification#:#clsfct_back_to_cat#:#Back to Category
 tax#:#tax_tax_assignment#:#Taxonomy Assignment
@@ -14035,3 +14074,12 @@ sahs#:#sahs_add#:#Create SCORM Learning Module
 sahs#:#sahs_copy#:#Copy SCORM Learning Module
 sahs#:#sahs_glo_info#:#Please note that internal links in glossary terms are not supported.
 lm#:#lm_save_titles#:#Titles saved.
+assessment#:#question_browse_area_info#:#Please select an object from which you want to import questions.
+dateplaner#:#cal_no_events_info#:#No events found for the selected time period.
+wiki#:#wiki_pg_list_no_search_fields#:#No searchable meta data fields found in the metadata sets of the wiki.
+iass#:#iass_amend_saved#:#Amended record has been saved.
+dateplaner#:#crs_start#:#Course starts
+dateplaner#:#crs_end#:#Course ends
+dateplaner#:#grp_start#:#Group starts
+dateplaner#:#grp_end#:#Group ends
+content#:#cont_transl_master_language_not_allowed#:#To import a translation you need to activate at least one additional language under "Settings" > "Multilingualism".

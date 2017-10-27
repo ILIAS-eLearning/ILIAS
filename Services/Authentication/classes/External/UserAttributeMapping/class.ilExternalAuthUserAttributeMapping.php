@@ -36,8 +36,8 @@ class ilExternalAuthUserAttributeMapping implements ArrayAccess, Countable, Iter
 	 */
 	public function __construct($authMode, $authSourceId = 0)
 	{
-		assert('is_string($authMode)');
-		assert('is_numeric($authSourceId)');
+		assert(is_string($authMode));
+		assert(is_numeric($authSourceId));
 
 		$this->db = $GLOBALS['DIC']->database();
 

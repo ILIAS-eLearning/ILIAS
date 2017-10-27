@@ -267,20 +267,28 @@ class ilTaggingGUI
 	/**
 	 * Init javascript
 	 */
-	static function initJavascript($a_ajax_url)
+	static function initJavascript($a_ajax_url, ilTemplate $a_main_tpl = null)
 	{
 		global $DIC;
 
-		$tpl = $DIC["tpl"];
+		if ($a_main_tpl != null)
+		{
+			$tpl = $a_main_tpl;
+		}
+		else
+		{
+			$tpl = $DIC["tpl"];
+		}
+
 		$lng = $DIC->language();
 
 		$lng->loadLanguageModule("tagging");
-		$lng->toJs("tagging_tags");
+		$lng->toJs("tagging_tags", $tpl);
 
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
-		ilYuiUtil::initPanel();
+		ilYuiUtil::initPanel(false, $tpl);
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
-		iljQueryUtil::initjQuery();
+		iljQueryUtil::initjQuery($tpl);
 		$tpl->addJavascript("./Services/Tagging/js/ilTagging.js");
 		
 		$tpl->addOnLoadCode("ilTagging.setAjaxUrl('".$a_ajax_url."');");

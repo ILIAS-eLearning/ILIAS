@@ -39,6 +39,9 @@ class ilObjectMetaDataGUI
 	protected $sub_id; // [int]
 	protected $md_observers; // [array]
 	
+	/**
+	 * @var ilLogger
+	 */
 	private $logger = null;
 
 	protected $tax_md_gui = null;
@@ -86,11 +89,13 @@ class ilObjectMetaDataGUI
 			
 			if(!$a_object->withReferences())
 			{
+				$this->logger->logStack(ilLogLevel::WARNING);
 				$this->logger->warning('ObjectMetaDataGUI called without valid reference id.');
 			}
 			
 			if(!$this->ref_id)
 			{
+				$this->logger->logStack(ilLogLevel::WARNING);
 				$this->logger->warning('ObjectMetaDataGUI called without valid reference id.');
 			}
 

@@ -7,7 +7,7 @@ ILIAS is a powerful Open Source Learning Management System for developing and re
 
 ### Installation
 
-Installation of ILIAS is well documented on [our official Installation manual](http://www.ilias.de/docu/goto_docu_lm_367.html)
+Installation of ILIAS is well documented on [our official Installation manual](http://www.ilias.de/docu/goto_docu_lm_367.html) and in the documentation contained inside this repo: [/docs/configuration/install.md](/docs/configuration/install.md)
 
 ### Plugins
 
@@ -27,4 +27,4 @@ We highly appreciate Pull-Request from external developers. Due to some regulati
 - Bugfixes need an entry in the Bugtracker: http://mantis.ilias.de . Pull-Request for Bugfixes target always to the branch where the bug occurs. The developer which merges it will cherry-pick the fix to all branches needed
 - Features/Refactorings need an entry in Feature-Wiki and has to get through the existing procedure for Feature-Requests: http://feature.ilias.de . Pull-Request target to trunk.
 
-Pull-Request will be assigned to the responsible maintainer(s). See further information on how contributions are handled in [/docs/CONTRIBUTING.md](/docs/CONTRIBUTING.md)
+Pull-Request will be assigned to the responsible maintainer(s). See further information on how contributions are handled in [/docs/documentation/contributing.md](/docs/documentation/contributing.md)

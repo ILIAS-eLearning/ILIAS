@@ -34,6 +34,9 @@ class LegacyPathHelper {
 	public static function deriveFilesystemFrom($absolutePath) {
 
 		switch (true) {
+			case strpos($absolutePath, CLIENT_DATA_DIR . "/temp") === 0:
+				return self::filesystems()->temp();
+
 			//ILIAS has a lot of cases were a relative web path is used eg ./data/default
 			case strpos($absolutePath, ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
 			case strpos($absolutePath, './' . ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
@@ -43,8 +46,6 @@ class LegacyPathHelper {
 				return self::filesystems()->storage();
 			case strpos($absolutePath, ILIAS_ABSOLUTE_PATH . '/Customizing') === 0:
 				return self::filesystems()->customizing();
-			case strpos($absolutePath, sys_get_temp_dir()) === 0:
-				return self::filesystems()->temp();
 			default:
 				throw new \InvalidArgumentException('Invalid path supplied. Path must start with the web, storage, temp or customizing storage location.');
 		}
@@ -69,7 +70,7 @@ class LegacyPathHelper {
 		$webRelativeWithoutLeadingDot = ILIAS_WEB_DIR . '/' . CLIENT_ID;
 		$storage = CLIENT_DATA_DIR;
 		$customizing = ILIAS_ABSOLUTE_PATH . '/Customizing';
-		$temp = sys_get_temp_dir();
+		$temp = CLIENT_DATA_DIR . "/temp";
 
 		switch (true) {
 			//ILIAS has a lot of cases were a relative web path is used eg ./data/default
@@ -79,12 +80,12 @@ class LegacyPathHelper {
 				return substr($absolutePath, strlen($webRelativeWithLeadingDot)  + 1);              //also remove the trailing slash
 			case strpos($absolutePath, $web) === 0:
 				return substr($absolutePath, strlen($web)  + 1);                                    //also remove the trailing slash
+			case strpos($absolutePath, $temp) === 0:
+				return substr($absolutePath, strlen($temp) + 1);                                    //also remove the trailing slash
 			case strpos($absolutePath, $storage) === 0:
 				return substr($absolutePath, strlen($storage) + 1);                                 //also remove the trailing slash
 			case strpos($absolutePath, $customizing) === 0:
 				return substr($absolutePath, strlen($customizing) + 1);                             //also remove the trailing slash
-			case strpos($absolutePath, $temp) === 0:
-				return substr($absolutePath, strlen($temp) + 1);                                    //also remove the trailing slash
 			default:
 				throw new \InvalidArgumentException('Invalid path supplied. Path must start with the web, storage, temp or customizing storage location.');
 		}

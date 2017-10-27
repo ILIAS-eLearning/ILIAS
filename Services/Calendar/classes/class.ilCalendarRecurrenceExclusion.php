@@ -124,8 +124,8 @@ class ilCalendarRecurrenceExclusion
 		else
 		{
 			return 'EXDATE:'.
-				$this->getDate()->get(IL_CAL_FKT_DATE, 'Ymd').
-				'T'.$start->get(IL_CAL_FKT_DATE,'his');
+				$this->getDate()->get(IL_CAL_FKT_DATE, 'Ymd',  ilTimeZone::UTC).
+				'T'.$start->get(IL_CAL_FKT_DATE,'His',  ilTimeZone::UTC).'Z';
 		}
 	}
 	

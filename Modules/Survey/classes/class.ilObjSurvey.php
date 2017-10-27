@@ -48,7 +48,11 @@ class ilObjSurvey extends ilObject
 	const ANONYMIZE_CODE_ALL = 3; // personalized, codes
 	
 	const QUESTIONTITLES_HIDDEN = 0;
-	const QUESTIONTITLES_VISIBLE = 1;	
+	const QUESTIONTITLES_VISIBLE = 1;
+
+	// constants to define the print view values.
+	const PRINT_HIDE_LABELS = 1; // Show only the titles in "print" and "PDF Export"
+	const PRINT_SHOW_LABELS = 3; // Show titles and labels in "print" and "PDF Export"
 	
 	/**
 	* A unique positive numerical ID which identifies the survey.
@@ -2948,7 +2952,6 @@ class ilObjSurvey extends ilObject
 		else
 		{
 			$row = $ilDB->fetchAssoc($result);
-			
 			// yes, we are doing it this way
 			$_SESSION["finished_id"][$this->getId()] = $row["finished_id"];
 			
@@ -4813,8 +4816,6 @@ class ilObjSurvey extends ilObject
 	*/
 	function processPrintoutput2FO($print_output)
 	{
-		$ilLog = $this->log;
-		
 		if (extension_loaded("tidy"))
 		{
 			$config = array(
@@ -4834,11 +4835,13 @@ class ilObjSurvey extends ilObject
 			$print_output = str_replace("&otimes;", "X", $print_output);
 			
 			// #17680 - metric questions use &#160; in print view
-			$print_output = str_replace("&gt;", ">", $print_output);
-			$print_output = str_replace("&lt;", "<", $print_output);
+			$print_output = str_replace("&gt;", "~|gt|~", $print_output);		// see #21550
+			$print_output = str_replace("&lt;", "~|lt|~", $print_output);
 			$print_output = str_replace("&#160;", "~|nbsp|~", $print_output);
 			$print_output = preg_replace('/&(?!amp)/', '&amp;', $print_output);
-			$print_output = str_replace("~|nbsp|~", "&#160;", $print_output);			
+			$print_output = str_replace("~|nbsp|~", "&#160;", $print_output);
+			$print_output = str_replace( "~|gt|~", "&gt;", $print_output);
+			$print_output = str_replace( "~|lt|~", "&lt;", $print_output);
 		}
 		$xsl = file_get_contents("./Modules/Survey/xml/question2fo.xsl");
 
@@ -4848,14 +4851,23 @@ class ilObjSurvey extends ilObject
 				'font-family="'.$GLOBALS['ilSetting']->get('rpc_pdf_font','Helvetica, unifont').'"',
 				$xsl
 		);
-		
 		$args = array( '/_xml' => $print_output, '/_xsl' => $xsl );
 		$xh = xslt_create();
 		$params = array();
-		$output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", NULL, $args, $params);
+		try
+		{
+			$output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
+		}
+		catch (Exception $e)
+		{
+			$this->log->error("Print XSLT failed:");
+			$this->log->error("Content: ".$print_output);
+			$this->log->error("Xsl: ".$xsl);
+			throw ($e);
+		}
 		xslt_error($xh);
 		xslt_free($xh);
-		$ilLog->write($output);
+
 		return $output;
 	}
 	
@@ -5074,6 +5086,7 @@ class ilObjSurvey extends ilObject
 		include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
 		$template = new ilSettingsTemplate($template_id);
 		$template_settings = $template->getSettings();
+		//ilUtil::dumpVar($template_settings); exit;
 		if($template_settings)
 		{
 			if($template_settings["show_question_titles"] !== NULL)
@@ -5100,13 +5113,46 @@ class ilObjSurvey extends ilObject
 				}
 			}
 
+
+			/* see #0021719
 			if($template_settings["anonymization_options"]["value"])
 			{
 				$anon_map = array('personalized' => self::ANONYMIZE_OFF,
 					'anonymize_with_code' => self::ANONYMIZE_ON,
 					'anonymize_without_code' => self::ANONYMIZE_FREEACCESS);
 				$this->setAnonymize($anon_map[$template_settings["anonymization_options"]["value"]]);
+			}*/
+
+			// see #0021719 and ilObjectSurveyGUI::savePropertiesObject
+			$this->setEvaluationAccess($template_settings["evaluation_access"]["value"]);
+			$codes = (bool)$template_settings["acc_codes"]["value"];
+			$anon = (bool)$template_settings["anonymization_options"]["value"];
+			if (!$anon)
+			{
+				if (!$codes)
+				{
+					$this->setAnonymize(ilObjSurvey::ANONYMIZE_OFF);
+				}
+				else
+				{
+					$this->setAnonymize(ilObjSurvey::ANONYMIZE_CODE_ALL);
+				}
 			}
+			else
+			{
+				if ($codes)
+				{
+					$this->setAnonymize(ilObjSurvey::ANONYMIZE_ON);
+				}
+				else
+				{
+					$this->setAnonymize(ilObjSurvey::ANONYMIZE_FREEACCESS);
+				}
+
+				$this->setAnonymousUserList($_POST["anon_list"]);
+			}
+
+
 
 			/* other settings: not needed here
 			 * - enabled_end_date
@@ -6154,7 +6200,8 @@ class ilObjSurvey extends ilObject
 		$ilDB = $this->db;
 		$ilAccess = $this->access;
 		
-		$now = time();		
+		$now = time();
+		$now_with_format = date("YmdHis", $now);
 		$today = date("Y-m-d");
 
 		$this->log->debug("Check status and dates.");
@@ -6162,8 +6209,8 @@ class ilObjSurvey extends ilObject
 		// object settings / participation period
 		if($this->isOffline() ||
 			!$this->getReminderStatus() ||
-			($this->getStartDate() && $now < $this->getStartDate()) ||
-			($this->getEndDate() && $now > $this->getEndDate()))
+			($this->getStartDate() && $now_with_format < $this->getStartDate()) ||
+			($this->getEndDate() && $now_with_format > $this->getEndDate()))
 		{
 			return false;
 		}

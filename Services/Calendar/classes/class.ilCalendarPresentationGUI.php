@@ -5,18 +5,17 @@
 
 include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
 
-/** 
-* 
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-* 
-* 
-* @ilCtrl_Calls ilCalendarPresentationGUI: ilCalendarMonthGUI, ilCalendarUserSettingsGUI, ilCalendarCategoryGUI, ilCalendarWeekGUI
-* @ilCtrl_Calls ilCalendarPresentationGUI: ilCalendarAppointmentGUI, ilCalendarDayGUI, ilCalendarInboxGUI, ilCalendarSubscriptionGUI
-* @ilCtrl_Calls ilCalendarPresentationGUI: ilConsultationHoursGUI, ilCalendarBlockGUI, ilPDCalendarBlockGUI, ilPublicUserProfileGUI
-* @ingroup ServicesCalendar
-*/
-
+/**
+ * 
+ * @author Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * 
+ * 
+ * @ilCtrl_Calls ilCalendarPresentationGUI: ilCalendarMonthGUI, ilCalendarUserSettingsGUI, ilCalendarCategoryGUI, ilCalendarWeekGUI
+ * @ilCtrl_Calls ilCalendarPresentationGUI: ilCalendarAppointmentGUI, ilCalendarDayGUI, ilCalendarInboxGUI, ilCalendarSubscriptionGUI
+ * @ilCtrl_Calls ilCalendarPresentationGUI: ilConsultationHoursGUI, ilCalendarBlockGUI, ilPDCalendarBlockGUI, ilPublicUserProfileGUI
+ * @ingroup ServicesCalendar
+ */
 class ilCalendarPresentationGUI
 {
 	/**
@@ -153,6 +152,31 @@ class ilCalendarPresentationGUI
 	}
 	
 	/**
+	 * Init and redirect to consultation hours
+	 */
+	protected function initAndRedirectToConsultationHours()
+	{
+		$visibility = ilCalendarVisibility::_getInstanceByUserId($this->user->getId(), $this->ref_id);
+		foreach ($this->cats->getCategoriesInfo() as $info)
+		{
+			if (
+				$info["type"] == ilCalendarCategory::TYPE_CH && 
+				$info["obj_id"] == $_GET["ch_user_id"]
+			)
+			{
+				$v = $visibility->getVisible();
+				if(!in_array($info["cat_id"], $v))
+				{
+					$v[] = $info["cat_id"];
+				}
+				$visibility->showSelected($v);
+				$visibility->save();
+				$this->ctrl->redirect($this, "");
+			}
+		}
+	}
+	
+	/**
 	 * Execute command
 	 *
 	 * @access public
@@ -164,6 +188,7 @@ class ilCalendarPresentationGUI
 		$ilUser = $this->user;
 
 		$cmd = $this->ctrl->getCmd();
+		// now next class is not empty, which breaks old consultation hour implementation
 		$next_class = $this->getNextClass();
 
 		include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
@@ -175,32 +200,14 @@ class ilCalendarPresentationGUI
 
 		$this->initSeed();
 		$this->prepareOutput();
-
-		if ($next_class == "")
+		
+		switch($cmd)
 		{
-			switch ($cmd)
-			{
-				case "selectCHCalendarOfUser":
-					include_once("./Services/Calendar/classes/class.ilCalendarVisibility.php");
-					$visibility = ilCalendarVisibility::_getInstanceByUserId($ilUser->getId(), $this->ref_id);
-					foreach ($this->cats->getCategoriesInfo() as $info)
-					{
-						if ($info["type"] == ilCalendarCategory::TYPE_CH && $info["obj_id"] == $_GET["ch_user_id"])
-						{
-							$v = $visibility->getVisible();
-							if (!in_array($info["cat_id"], $v))
-							{
-								$v[] = $info["cat_id"];
-							}
-							$visibility->showSelected($v);
-							$visibility->save();
-							$this->ctrl->redirect($this, "");
-						}
-					}
-					break;
-			}
+			case 'selectCHCalendarOfUser':
+				$this->initAndRedirectToConsultationHours();
+				break;
 		}
-
+		
 		switch($next_class)
 		{
 			case 'ilcalendarinboxgui':
@@ -488,6 +495,12 @@ class ilCalendarPresentationGUI
 				break;
 				
 			case 'ilcalendarinboxgui':
+				#21479
+				if($view_option = $_GET['cal_agenda_per']) {
+					ilSession::set("cal_list_view",$view_option);
+				} elseif ($view_option = ilSession::get('cal_list_view')) {
+					ilSession::set("cal_list_view",$view_option);
+				}
 				$ilUser->writePref('cal_last_class',$a_class);
 				$_SESSION['cal_last_tab'] = 'cal_upcoming_events_header';
 				$this->setCmdClass('ilcalendarinboxgui');

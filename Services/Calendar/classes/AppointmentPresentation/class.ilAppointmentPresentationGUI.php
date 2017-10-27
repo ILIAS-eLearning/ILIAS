@@ -205,7 +205,7 @@ class ilAppointmentPresentationGUI extends ilCalendarViewGUI implements ilCalend
 
 		$next_class = $ilCtrl->getNextClass();
 		$cmd = $ilCtrl->getCmd("getHTML");
-
+		
 		switch ($next_class)
 		{
 			default:
@@ -489,7 +489,7 @@ class ilAppointmentPresentationGUI extends ilCalendarViewGUI implements ilCalend
 	function addEventLocation($a_app)
 	{
 		if ($a_app['event']->getLocation()) {
-			$this->addInfoProperty($this->lng->txt("location"), $a_app['event']->getLocation());
+			$this->addInfoProperty($this->lng->txt("cal_where"), $a_app['event']->getLocation());
 			$this->addListItemProperty($this->lng->txt("location"), $a_app['event']->getLocation());
 		}
 	}
@@ -589,7 +589,7 @@ class ilAppointmentPresentationGUI extends ilCalendarViewGUI implements ilCalend
 	 * @param int $a_user_id
 	 * @return string
 	 */
-	function getUserName($a_user_id)
+	function getUserName($a_user_id, $a_force_name = false)
 	{
 		$type = ilObject::_lookupType((int) $_GET["ref_id"], true);
 		$ctrl_path = array();
@@ -608,8 +608,16 @@ class ilAppointmentPresentationGUI extends ilCalendarViewGUI implements ilCalend
 		$ctrl_path[] = "ilCalendarPresentationGUI";
 		$ctrl_path[] = "ilpublicuserprofilegui";
 
-		return ilUserUtil::getNamePresentation($a_user_id, false, true, $this->ctrl->getParentReturn($this),
-			false, false, true, false, $ctrl_path);
+		return ilUserUtil::getNamePresentation(
+			$a_user_id, 
+			false, 
+			true, 
+			$this->ctrl->getParentReturn($this),
+			$a_force_name,
+			false,
+			true, 
+			false, 
+			$ctrl_path);
 	}
 
 	/**

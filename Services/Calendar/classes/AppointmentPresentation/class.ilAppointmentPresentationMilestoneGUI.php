@@ -25,8 +25,10 @@ class ilAppointmentPresentationMilestoneGUI extends ilAppointmentPresentationGUI
 		$cat_info = $this->getCatInfo();
 
 		//$this->addCommonSection($appointment, 0, $cat_info);
+		$this->addCommonSection($appointment, $cat_info['obj_id']);
 
 		// event title
+		/*
 		$this->addInfoSection($appointment["event"]->getPresentationTitle());
 
 		// event description
@@ -36,7 +38,9 @@ class ilAppointmentPresentationMilestoneGUI extends ilAppointmentPresentationGUI
 		if ($cat_info != null)
 		{
 			$this->addCalendarInfo($cat_info);
-		}
+		}*/
+
+		$this->addInfoSection($this->lng->txt("cal_app_info"));
 
 		$users_list = array();
 		foreach($users_resp as $user)
@@ -48,9 +52,6 @@ class ilAppointmentPresentationMilestoneGUI extends ilAppointmentPresentationGUI
 			$this->addInfoProperty($this->lng->txt("cal_responsible"), implode("<br>", $users_list));
 			$this->addListItemProperty($this->lng->txt("cal_responsible"), implode("<br>", $users_list));
 		}
-
-
-		$this->addInfoSection($this->lng->txt("cal_app_info"));
 
 		$this->addInfoProperty($this->lng->txt("cal_task_completion"),$completion." %");
 		$this->addListItemProperty($this->lng->txt("cal_task_completion"),$completion." %");

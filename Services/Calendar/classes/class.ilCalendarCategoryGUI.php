@@ -161,7 +161,7 @@ class ilCalendarCategoryGUI
 	 * @access protected
 	 * @return
 	 */
-	protected function add()
+	protected function add(ilPropertyFormGUI $form = null)
 	{
 		global $tpl, $ilTabs;
 
@@ -179,8 +179,12 @@ class ilCalendarCategoryGUI
 		$ilTabs->setBackTarget($this->lng->txt("cal_back_to_list"),  $this->ctrl->getLinkTarget($this, $back));
 		
 		$this->tpl = new ilTemplate('tpl.edit_category.html',true,true,'Services/Calendar');
-		$this->initFormCategory('create');
-		$this->tpl->setVariable('EDIT_CAT',$this->form->getHTML());
+		
+		if(!$form instanceof ilPropertyFormGUI)
+		{
+			$form = $this->initFormCategory('create');
+		}
+		$this->tpl->setVariable('EDIT_CAT',$form->getHTML());
 		$tpl->setContent($this->tpl->get());
 	}
 	
@@ -191,37 +195,37 @@ class ilCalendarCategoryGUI
 	 */
 	protected function save()
 	{
-		global $ilUser;
-
-		include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
-		$category = new ilCalendarCategory(0);
-		$category->setTitle(ilUtil::stripSlashes($_POST['title']));
-		$category->setColor('#'.ilUtil::stripSlashes($_POST['color']));
-		$category->setLocationType((int) $_POST['type_rl']);
-		$category->setRemoteUrl(ilUtil::stripSlashes($_POST['remote_url']));
-		$category->setRemoteUser(ilUtil::stripSlashes($_POST['remote_user']));
-		$category->setRemotePass(ilUtil::stripSlashes($_POST['remote_pass']));
-		
-		if(isset($_POST['type']) and $_POST['type'] == ilCalendarCategory::TYPE_GLOBAL)
+		$form = $this->initFormCategory('create');
+		if($form->checkInput())
 		{
-			$category->setType((int) $_POST['type']);
-			$category->setObjId(0);
+			$category = new ilCalendarCategory(0);
+			$category->setTitle($form->getInput('title'));
+			$category->setColor('#'.$form->getInput('color'));
+			$category->setLocationType($form->getInput('type_rl'));
+			$category->setRemoteUrl($form->getInput('remote_url'));
+			$category->setRemoteUser($form->getInput('remote_user'));
+			$category->setRemotePass($form->getInput('remote_pass'));
+			if($form->getInput('type') == ilCalendarCategory::TYPE_GLOBAL)
+			{
+				$category->setType((int) $form->getInput('type'));
+				$category->setObjId(0);
+			}
+			else
+			{
+				$category->setType(ilCalendarCategory::TYPE_USR);
+				$category->setObjId($GLOBALS['DIC']->user()->getId());
+			}
+			$category->add();
 		}
 		else
 		{
-			$category->setType(ilCalendarCategory::TYPE_USR);
-			$category->setObjId($ilUser->getId());
-		}
-		
-		if(!$category->validate())
-		{
 			ilUtil::sendFailure($this->lng->txt('err_check_input'));
-			$this->add();
+			$form->setValuesByPost();
+			$this->add($form);
 			return false;
 		}
-		$category->add();
 		
-		
+		// try sync
 		try {
 			
 			if($category->getLocationType() == ilCalendarCategory::LTYPE_REMOTE)
@@ -234,12 +238,13 @@ class ilCalendarCategoryGUI
 			// Delete calendar if creation failed
 			$category->delete();
 			ilUtil::sendFailure($e->getMessage());
-			$this->manage();
-			return true;
+			$form->setValuesByPost();
+			$this->add($form);
+			return false;
 		}
 		
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
-		$this->ctrl->redirect($this, "manage");
+		$GLOBALS['DIC']->ctrl()->redirect($this,'manage');
 	}
 	
 	/**
@@ -247,7 +252,7 @@ class ilCalendarCategoryGUI
 	 *
 	 * @access protected
 	 */
-	protected function edit()
+	protected function edit(ilPropertyFormGUI $form = null)
 	{
 		global $DIC;
 
@@ -269,8 +274,11 @@ class ilCalendarCategoryGUI
 			$this->ctrl->returnToParent($this);
 		}
 
-		$this->initFormCategory('edit');
-	    $tpl->setContent($this->form->getHTML());
+		if(!$form instanceof ilPropertyFormGUI)
+		{
+			$form = $this->initFormCategory('edit');
+		}
+	    $tpl->setContent($form->getHTML());
 	}
 
 	/**
@@ -291,21 +299,6 @@ class ilCalendarCategoryGUI
 		$this->readPermissions();
 		$this->checkVisible();
 
-		/*
-		$category = new ilCalendarCategory($this->category_id);
-		if(!in_array($category->getType(), array(ilCalendarCategory::TYPE_CH, ilCalendarCategory::TYPE_BOOK)))
-		{
-			include_once "./Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php";
-			$toolbar = new ilToolbarGui();
-			$toolbar->addButton($this->lng->txt("cal_add_appointment"), $this->ctrl->getLinkTargetByClass("ilcalendarappointmentgui", "add"));
-			
-			if(!in_array($category->getType(), array(ilCalendarCategory::TYPE_CH, ilCalendarCategory::TYPE_BOOK)))
-			{
-				$toolbar->addButton($this->lng->txt("cal_import_appointments"), $this->ctrl->getLinkTarget($this, "importAppointments"));
-			}
-			$toolbar = $toolbar->getHTML();
-		}*/
-		
 		// Non editable category
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
@@ -313,17 +306,7 @@ class ilCalendarCategoryGUI
 
 		$info->addSection($this->lng->txt('cal_cal_details'));
 
-		// Ical link
-		/*
-		include_once("./Services/News/classes/class.ilRSSButtonGUI.php");
-		$this->ctrl->setParameterByClass('ilcalendarsubscriptiongui','cal_id', $this->category_id);
-		$info->addProperty(
-			$this->lng->txt('cal_ical_infoscreen'),
-			ilRSSButtonGUI::get(ilRSSButtonGUI::ICON_ICAL),
-			$this->ctrl->getLinkTargetByClass(array('ilcalendarpresentationgui','ilcalendarsubscriptiongui'))
-		);*/
-
-		$tpl->setContent($toolbar.$info->getHTML().$this->showAssignedAppointments());
+		$tpl->setContent($info->getHTML().$this->showAssignedAppointments());
 
 	}
 	
@@ -383,24 +366,34 @@ class ilCalendarCategoryGUI
 			return false;
 		}
 		
-		include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
-		$category = new ilCalendarCategory($this->category_id);
-		if ($category->getType() != ilCalendarCategory::TYPE_OBJ)
+		$form = $this->initFormCategory('edit');
+		if($form->checkInput())
 		{
-			$category->setTitle(ilUtil::stripSlashes($_POST['title']));
-		}
-		$category->setColor('#'.ilUtil::stripSlashes($_POST['color']));
-		$category->update();
-		
-		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
-		if ($this->ref_id > 0)
-		{
-			$this->ctrl->returnToParent($this);
+			$category = new ilCalendarCategory($this->category_id);
+			if ($category->getType() != ilCalendarCategory::TYPE_OBJ)
+			{
+				$category->setTitle($form->getInput('title'));
+			}
+			$category->setColor('#'.$form->getInput('color'));
+			$category->update();
+			ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
+			if ($this->ref_id > 0)
+			{
+				$this->ctrl->returnToParent($this);
+			}
+			else
+			{
+				$this->ctrl->redirect($this, "manage");
+			}
 		}
 		else
 		{
-			$this->ctrl->redirect($this, "manage");
+			$form->setValuesByPost();
+			ilUtil::sendFailure($this->lng->txt('err_check_input'));
+			$this->edit($form);
 		}
+		
+		
 	}
 	
 	/**
@@ -1115,7 +1108,7 @@ class ilCalendarCategoryGUI
 		}
 
 		$this->form->addItem($location);
-		
+		return $this->form;
 	}
 
 	/**

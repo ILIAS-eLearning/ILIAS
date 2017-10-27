@@ -74,7 +74,8 @@ class ilBookingObjectGUI
 		$this->obj_data_cache = $DIC["ilObjDataCache"];
 		$this->user = $DIC->user();
 		$this->ref_id = $a_parent_obj->ref_id;
-		$this->pool_id = $a_parent_obj->object->getId();		
+		$this->pool_id = $a_parent_obj->object->getId();
+		$this->pool_gui = $a_parent_obj;
 		$this->pool_has_schedule = 
 			($a_parent_obj->object->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE);
 		$this->pool_overall_limit = $this->pool_has_schedule 
@@ -108,6 +109,8 @@ class ilBookingObjectGUI
 	 */
 	function render()
 	{
+		$this->pool_gui->showNoScheduleMessage();
+
 		$tpl = $this->tpl;
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;

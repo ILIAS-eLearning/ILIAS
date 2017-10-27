@@ -627,7 +627,7 @@ abstract class ilObjPortfolioBase extends ilObject2
 			}		
 		}
 
-		ilPortfolioPage::updateInternalLinks($page_map);
+		ilPortfolioPage::updateInternalLinks($page_map, $a_target);
 	}
 		
 	protected static function updateDomNodes($a_dom, $a_xpath, $a_attr_id, $a_attr_value)

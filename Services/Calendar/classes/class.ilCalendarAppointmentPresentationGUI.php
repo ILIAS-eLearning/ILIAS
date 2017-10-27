@@ -162,7 +162,9 @@ class ilCalendarAppointmentPresentationGUI
 		$info_screen = $this->info_screen;
 		$info_screen->setFormAction($this->ctrl->getFormAction($this));
 
-		$toolbar = $this->toolbar;
+		#21529
+		//$toolbar = $this->toolbar;
+		$toolbar = new ilToolbarGUI();
 
 		$f = ilAppointmentPresentationFactory::getInstance($this->appointment, $info_screen, $toolbar, null);
 

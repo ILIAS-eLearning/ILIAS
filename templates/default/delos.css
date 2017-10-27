@@ -8267,6 +8267,13 @@ ul.breadcrumb li:hover {
 .il-popover.webui-popover-fixed {
   position: fixed;
 }
+@media (max-width: 768px) {
+  .il-popover.webui-popover-fixed {
+    position: absolute;
+    left: 0 !important;
+    width: 100%;
+  }
+}
 .extended-color-variant-1.il-extended-color-variant-standard {
   color: #7f7207;
   background-color: #f3de2c;
@@ -9794,6 +9801,11 @@ img.ilIcon {
   width: 32px;
   height: 32px;
 }
+/* Icon small */
+img.ilSmallIcon {
+  width: 22px;
+  height: 22px;
+}
 /* PreventBreakOut, see https://css-tricks.com/snippets/css/prevent-long-urls-from-breaking-out-of-container/ */
 .ilPreventBreakOut {
   overflow-wrap: break-word;
@@ -9890,6 +9902,7 @@ form.form-inline {
 }
 select.form-control {
   width: auto;
+  max-width: 100%;
 }
 .form-horizontal label {
   color: #4d4d4d;
@@ -9912,6 +9925,7 @@ select.form-control {
 .form-horizontal .checkbox-inline {
   padding-top: 0;
   line-height: 24px;
+  vertical-align: middle;
 }
 .form-horizontal .help-block {
   line-height: normal;
@@ -9924,8 +9938,17 @@ select.form-control {
   margin-left: -20px;
   margin-top: 0;
   min-height: 24px;
+  min-width: 13px;
   vertical-align: top;
   line-height: 24px;
+}
+@media only screen and (max-width: 767px) {
+  .radio input[type="radio"],
+  .radio-inline input[type="radio"],
+  .checkbox input[type="checkbox"],
+  .checkbox-inline input[type="checkbox"] {
+    min-width: 16px;
+  }
 }
 [dir="rtl"] .form-horizontal .control-label {
   text-align: left;
@@ -10094,6 +10117,10 @@ input:invalid {
 }
 .bootstrap-datetimepicker-widget {
   z-index: 2000;
+}
+/* provisory fix for #0021322  */
+div[id$="color-picker-menu"] {
+  z-index: 3;
 }
 /* Services/UI/Explorer2 */
 table.ilExplorer {
@@ -11104,9 +11131,11 @@ a.callink:visited {
   color: inherit;
   cursor: pointer;
 }
-.calevent .btn.btn-link,
-.il_calevent .btn.btn-link {
+.il_calevent > .btn.btn-link {
   color: inherit;
+}
+.cal_modal_infoscreen .il_InfoScreenPropertyValue .btn-link {
+  text-align: left;
 }
 table.calstd {
   margin-top: 6px;
@@ -12593,7 +12622,7 @@ span.bibl_text_inline_Emph {
   padding: 7px;
   font-size: 85%;
   position: absolute;
-  width: 306px;
+  width: 100%;
   color: #f0f0f0;
   margin-top: -240px;
   background: url("images/black60.png");
@@ -13083,6 +13112,7 @@ div.ilContainerListItemContentCB {
 div.il_ContainerListItem {
   margin: 2px 0;
   padding-left: 8px;
+  width: 100%;
 }
 [dir="rtl"] div.il_ContainerListItem {
   padding-left: 0;
@@ -14204,7 +14234,7 @@ div.ilPCMyCoursesPath {
   width: 100%;
 }
 .ilAwarenessDropDown .media-left {
-  width: 45px;
+  width: 55px;
 }
 .ilAwarenessDropDown .media-body {
   /* background-image: url('./templates/default/images/scorm/not_attempted.svg'); */
@@ -14968,7 +14998,7 @@ span.ilProfileBadge {
   padding: 8px 14px;
   border-top: 1px #ddd solid;
   min-width: 300px;
-  max-width: 350px;
+  max-width: 300px;
   margin-top: -1px;
   background-color: white;
 }
@@ -14978,6 +15008,13 @@ span.ilProfileBadge {
 }
 .il-item-task .il-item-task-content .progress {
   margin-bottom: 8px;
+}
+@media (max-width: 768px) {
+  .il-item-task {
+    min-width: inherit;
+    max-width: inherit;
+    width: 100%;
+  }
 }
 .il-orgunit .multi_icons_wrapper {
   display: inline-block;
@@ -15157,6 +15194,13 @@ table.mceToolbar td {
   .navbar-nav {
     margin: 7.5px 0px;
   }
+}
+.yui-skin-sam.form-inline .form-control {
+  vertical-align: top;
+}
+.yui-skin-sam .yui-button button {
+  line-height: 23px;
+  min-height: 23px;
 }
 /* basic responsiveness (beta)
 	no more specific section. no more delos_sm.less data (treated as bug)

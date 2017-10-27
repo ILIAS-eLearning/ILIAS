@@ -33,6 +33,17 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 	
 	protected $timezone = 'UTC';
 
+	protected $user;
+	protected $cal_settings;
+	protected $colspans;
+
+	// config
+	protected $raster = 15;
+	//setup_calendar
+	protected $user_id;
+	protected $disable_empty;
+	protected $no_add;
+
 	/**
 	 * Constructor
 	 *
@@ -107,28 +118,9 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 	 */
 	public function show()
 	{
-		/**
-		 * @var ILIAS\DI\Container $DIC
-		 */
-		global $ilUser, $lng, $DIC;
-
-		$ui_factory = $DIC->ui()->factory();
-		$renderer = $DIC->ui()->renderer();
-
-		// config
-		$raster = 15;	
-		if($this->user_settings->getDayStart())
-		{
-			// push starting point to last "slot" of hour BEFORE morning aggregation
-			$morning_aggr = ($this->user_settings->getDayStart()-1)*60+(60-$raster);
-		}
-		else
-		{
-			$morning_aggr = 0;
-		}
+		$morning_aggr = $this->getMorningAggr();
 		$evening_aggr = $this->user_settings->getDayEnd()*60;
-		
-		
+
 		$this->tpl = new ilTemplate('tpl.week_view.html',true,true,'Services/Calendar');
 		
 		include_once('./Services/YUI/classes/class.ilYuiUtil.php');
@@ -137,26 +129,10 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 		$navigation = new ilCalendarHeaderNavigationGUI($this,$this->seed,ilDateTime::WEEK);
 		$this->tpl->setVariable('NAVIGATION',$navigation->getHTML());
 
-		if(isset($_GET["bkid"]))
-		{
-			$user_id = $_GET["bkid"];
-			$disable_empty = true;
-			$no_add = true;
-		}
-		elseif($ilUser->getId() == ANONYMOUS_USER_ID)
-		{
-			$user_id = $ilUser->getId();
-			$disable_empty = false;
-			$no_add = true;
-		}
-		else
-		{
-			$user_id = $ilUser->getId();
-			$disable_empty = false;
-			$no_add = false;
-		}
+		$this->setUpCalendar();
+
 		include_once('Services/Calendar/classes/class.ilCalendarSchedule.php');
-		$this->scheduler = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_WEEK,$user_id,$disable_empty);
+		$this->scheduler = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_WEEK,$this->user_id,$this->disable_empty);
 		$this->scheduler->addSubitemCalendars(true);		
 		$this->scheduler->calculate();
 		
@@ -166,10 +142,14 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 		foreach(ilCalendarUtil::_buildWeekDayList($this->seed,$this->user_settings->getWeekStart())->get() as $date)
 		{
 			$daily_apps = $this->scheduler->getByDay($date,$this->timezone);
+			if(!$this->view_with_appointments && count($daily_apps))
+			{
+				$this->view_with_appointments = true;
+			}
 			$hours = $this->parseHourInfo($daily_apps,$date,$counter,$hours,
 				$morning_aggr,
 				$evening_aggr,
-				$raster
+				$this->raster
 			);
 			$this->weekdays[] = $date;
 
@@ -179,211 +159,40 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 			$counter++;
 		}
 
-		$colspans = $this->calculateColspans($hours);
+		$this->calculateColspans($hours);
 
 		include_once('Services/Calendar/classes/class.ilCalendarSettings.php');
-		$settings = ilCalendarSettings::_getInstance();
+		$this->cal_settings = ilCalendarSettings::_getInstance();
 
 		// Table header
 		$counter = 0;
 		foreach(ilCalendarUtil::_buildWeekDayList($this->seed,$this->user_settings->getWeekStart())->get() as $date)
-		{	
-			$date_info = $date->get(IL_CAL_FKT_GETDATE,'','UTC');
+		{
 			$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$date->get(IL_CAL_DATE));
 			$this->ctrl->setParameterByClass('ilcalendarappointmentgui','idate',$date->get(IL_CAL_DATE));
 			$this->ctrl->setParameterByClass('ilcalendardaygui','seed',$date->get(IL_CAL_DATE));
 
-			if(!$no_add)
+			if(!$this->no_add)
 			{
-				$new_app_url = $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add');
-				
-				if ($settings->getEnableGroupMilestones())
-				{
-					$new_ms_url = $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','addMilestone');
-					
-					$this->tpl->setCurrentBlock("new_ms");
-					$this->tpl->setVariable('DD_ID', $date->get(IL_CAL_UNIX));
-					$this->tpl->setVariable('DD_TRIGGER', $renderer->render($ui_factory->glyph()->add()));
-					$this->tpl->setVariable('URL_DD_NEW_APP', $new_app_url);					
-					$this->tpl->setVariable('TXT_DD_NEW_APP', $this->lng->txt('cal_new_app'));					
-					$this->tpl->setVariable('URL_DD_NEW_MS', $new_ms_url);					
-					$this->tpl->setVariable('TXT_DD_NEW_MS', $this->lng->txt('cal_new_ms'));					
-					$this->tpl->parseCurrentBlock();					
-				}
-				else
-				{
-					$this->tpl->setCurrentBlock("new_app");
-					//$this->tpl->setVariable('NEW_APP_LINK',$new_app_url);
-					$this->tpl->setVariable('NEW_APP_GLYPH',$renderer->render(
-							$ui_factory->glyph()->add($new_app_url)
-					));
-					// $this->tpl->setVariable('NEW_APP_ALT',$this->lng->txt('cal_new_app'));
-					$this->tpl->parseCurrentBlock();
-				}
-								
-				$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');				
+				$this->addAppointmentLink($date);
 			}
 
-			$dayname = ilCalendarUtil::_numericDayToString($date->get(IL_CAL_FKT_DATE,'w'),false);
-			$daydate = $dayname.' '.$date_info['mday'].'.';
-
-			if(!$disable_empty || $num_apps[$date->get(IL_CAL_DATE)] > 0)
-			{
-				$link = $this->ctrl->getLinkTargetByClass('ilcalendardaygui','');
-				$this->ctrl->clearParametersByClass('ilcalendardaygui');
-
-				$this->tpl->setCurrentBlock("day_view_link");
-				$this->tpl->setVariable('HEADER_DATE',$daydate);
-				$this->tpl->setVariable('DAY_VIEW_LINK',$link);
-				$this->tpl->parseCurrentBlock();
-			}
-			else
-			{
-				$this->tpl->setCurrentBlock("day_view_no_link");
-				$this->tpl->setVariable('HEADER_DATE',$daydate);
-				$this->tpl->parseCurrentBlock();
-			}
+			$this->addHeaderDate($date, $num_apps);
 
 			$this->tpl->setCurrentBlock('day_header_row');
-			$this->tpl->setVariable('DAY_COLSPAN',max($colspans[$counter],1));
+			$this->tpl->setVariable('DAY_COLSPAN',max($this->colspans[$counter],1));
 			$this->tpl->parseCurrentBlock();
 			
 			$counter++;
 		}
 	
 		// show fullday events
-		$counter = 0;
-		foreach($all_fullday as $daily_apps)
-		{
-			foreach($daily_apps as $event)
-			{
-				if($event['fullday'])
-				{
-					$this->showFulldayAppointment($event);
-				}
-			}
-			$this->tpl->setCurrentBlock('f_day_row');
-			$this->tpl->setVariable('COLSPAN',max($colspans[$counter],1));
-			$this->tpl->parseCurrentBlock();
-			$counter++;
-		}
-		$this->tpl->setCurrentBlock('fullday_apps');
-		$this->tpl->setVariable('TXT_F_DAY', $lng->txt("cal_all_day"));
-		$this->tpl->parseCurrentBlock();
+		$this->addFullDayEvents($all_fullday);
+
+		//show timed events
+		$this->addTimedEvents($hours, $morning_aggr, $evening_aggr);
 		
-		$new_link_counter = 0;
-		foreach($hours as $num_hour => $hours_per_day)
-		{		
-			$first = true;
-			foreach($hours_per_day as $num_day => $hour)
-			{		
-				if($first)
-				{
-					if(!($num_hour%60) || ($num_hour == $morning_aggr && $morning_aggr) || 
-					($num_hour == $evening_aggr && $evening_aggr))
-					{		
-						$first = false;
-						
-						// aggregation rows 
-						if(($num_hour == $morning_aggr && $morning_aggr) || 
-							($num_hour == $evening_aggr && $evening_aggr))
-						{
-							$this->tpl->setVariable('TIME_ROWSPAN', 1);
-						}
-						// rastered hour
-						else
-						{
-							$this->tpl->setVariable('TIME_ROWSPAN', 60/$raster);
-						}
-
-						$this->tpl->setCurrentBlock('time_txt');
-
-						$this->tpl->setVariable('TIME',$hour['txt']);
-						$this->tpl->parseCurrentBlock();			
-					}
-				}
-
-				$event_tpl = new ilTemplate('tpl.week_event_view.html',true,true,'Services/Calendar');
-
-				foreach($hour['apps_start'] as $app)
-				{
-					$event_tpl = $this->showAppointment($app);
-				}
-
-				// screen reader: appointments are divs, now output cell
-				if ($ilUser->prefs["screen_reader_optimization"])
-				{
-					$event_tpl->setCurrentBlock('scrd_day_cell');
-					$event_tpl->setVariable('TD_CLASS','calstd');
-					$event_tpl->parseCurrentBlock();
-				}
-
-								
-				#echo "NUMDAY: ".$num_day;
-				#echo "COLAPANS: ".max($colspans[$num_day],1).'<br />';
-				$num_apps = $hour['apps_num'];
-				$colspan = max($colspans[$num_day],1);
-				
-				
-				// Show new apointment link
-				if(!$hour['apps_num'] && !$ilUser->prefs["screen_reader_optimization"] && !$no_add)
-				{
-					$event_tpl->setCurrentBlock('new_app_link');
-
-					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','idate',$this->weekdays[$num_day]->get(IL_CAL_DATE));
-					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->seed->get(IL_CAL_DATE));
-					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','hour',floor($num_hour/60));
-					$event_tpl->setVariable('DAY_NEW_APP_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add'));
-
-					$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
-
-					$event_tpl->setVariable('DAY_NEW_APP_SRC', ilGlyphGUI::get(ilGlyphGUI::ADD, $this->lng->txt('cal_new_app')));
-
-					//never used.
-					$event_tpl->setVariable('DAY_NEW_APP_ALT',$this->lng->txt('cal_new_app'));
-
-					$event_tpl->setVariable('DAY_NEW_ID',++$new_link_counter);
-					$event_tpl->parseCurrentBlock();
-				}
-
-				for($i = $colspan;$i > $hour['apps_num'];$i--)
-				{
-					if ($ilUser->prefs["screen_reader_optimization"])
-					{
-						continue;
-					}
-					$event_tpl->setCurrentBlock('day_cell');
-
-					// last "slot" of hour needs border
-					$empty_border = '';
-					if($num_hour%60 == 60-$raster || 
-						($num_hour == $morning_aggr && $morning_aggr) || 
-						($num_hour == $evening_aggr && $evening_aggr))
-					{
-						$empty_border = ' calempty_border';						
-					}
-
-					$event_tpl->setVariable('TD_CLASS','calempty'.$empty_border);
-
-					if(!$hour['apps_num'])
-					{
-						$event_tpl->setVariable('DAY_ID',$new_link_counter);
-					}
-					$event_tpl->setVariable('TD_ROWSPAN',1);
-					$event_tpl->parseCurrentBlock();
-
-				}
-				$event_html = $event_tpl->get();
-				$this->tpl->setCurrentBlock("not_full_day_event");
-				$this->tpl->setVariable(CONTENT_EVENT, $event_html);
-				$this->tpl->parseCurrentBlock();
-
-			}
-			$this->tpl->touchBlock('time_row');
-
-		}
-		
-		$this->tpl->setVariable("TXT_TIME", $lng->txt("time"));
+		$this->tpl->setVariable("TXT_TIME", $this->lng->txt("time"));
 	}
 	
 	/**
@@ -395,9 +204,6 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 	 */
 	protected function showFulldayAppointment($a_app)
 	{
-		$f = $this->ui_factory;
-		$r = $this->ui_renderer;
-
 		$event_tpl = new ilTemplate('tpl.day_event_view.html',true,true,'Services/Calendar');
 		
 		// milestone icon
@@ -435,7 +241,11 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 		{
 			$event_html = $event_html_by_plugin;
 		}
+
+		$this->tpl->setCurrentBlock("content_fd");
 		$this->tpl->setVariable("CONTENT_EVENT_FD",$event_html);
+		$this->tpl->parseCurrentBlock();
+
 		$this->num_appointments++;
 	}
 	
@@ -445,13 +255,9 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 	 * @access protected
 	 * @param array appointment
 	 */
-	protected function showAppointment($a_app)
+	protected function showAppointment($event_tpl, $a_app)
 	{
 		$ilUser = $this->user;
-		$f = $this->ui_factory;
-		$r = $this->ui_renderer;
-
-		$event_tpl = new ilTemplate('tpl.week_event_view.html',true,true,'Services/Calendar');
 
 		if (!$ilUser->prefs["screen_reader_optimization"])
 		{
@@ -464,8 +270,6 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 		
 		$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 		$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());
-		//not used
-		$this->tpl->setVariable('APP_EDIT_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','edit'));
 
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
 		$style = 'background-color: '.$color.';';
@@ -475,30 +279,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 		
 		if(!$a_app['event']->isFullDay())
 		{
-			switch($this->user_settings->getTimeFormat())
-			{
-				case ilCalendarSettings::TIME_FORMAT_24:
-					$time = $a_app['event']->getStart()->get(IL_CAL_FKT_DATE,'H:i',$this->timezone);
-					break;
-					
-				case ilCalendarSettings::TIME_FORMAT_12:
-					$time = $a_app['event']->getStart()->get(IL_CAL_FKT_DATE,'h:ia',$this->timezone);
-					break;
-			}
-			// add end time for screen readers
-			if ($ilUser->prefs["screen_reader_optimization"])
-			{
-				switch($this->user_settings->getTimeFormat())
-				{
-					case ilCalendarSettings::TIME_FORMAT_24:
-						$time.= "-".$a_app['event']->getEnd()->get(IL_CAL_FKT_DATE,'H:i',$this->timezone);
-						break;
-						
-					case ilCalendarSettings::TIME_FORMAT_12:
-						$time.= "-".$a_app['event']->getEnd()->get(IL_CAL_FKT_DATE,'h:ia',$this->timezone);
-						break;
-				}
-			}
+			$time = $this->getAppointmentTimeString($a_app['event']);
 
 			$td_style .= $a_app['event']->getPresentationStyle();
 		}
@@ -509,12 +290,6 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 
 		//calendar plugins
 		$event_tpl->setVariable('APP_TITLE', $title);
-
-		//not used
-		$this->tpl->setVariable('LINK_NUM',$this->num_appointments);
-		//not used
-		$this->tpl->setVariable('LINK_STYLE',$style);
-
 		
 		if (!$ilUser->prefs["screen_reader_optimization"])
 		{
@@ -549,12 +324,11 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 	 * @access protected
 	 * @return array hours
 	 */
-	protected function parseHourInfo($daily_apps,$date,$num_day,$hours = null,
-		$morning_aggr, $evening_aggr, $raster)
+	protected function parseHourInfo($daily_apps,$date,$num_day,$hours = null, $morning_aggr, $evening_aggr)
 	{
 		global $ilUser;
 		
-		for($i = $morning_aggr;$i <= $evening_aggr;$i+=$raster)
+		for($i = $morning_aggr;$i <= $evening_aggr;$i+=$this->raster)
 		{
 			$hours[$i][$num_day]['apps_start'] = array();
 			$hours[$i][$num_day]['apps_num'] = 0;
@@ -601,6 +375,8 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 				continue;
 			}
 			// start hour for this day
+			#21132
+			/*
 			if($app['start_info']['mday'] != $date_info['mday'])
 			{
 				$start = 0;
@@ -609,7 +385,12 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 			{
 				$start = $app['start_info']['hours']*60+$app['start_info']['minutes'];
 			}
+			*/
+			$start = $app['start_info']['hours']*60+$app['start_info']['minutes'];
+
 			// end hour for this day
+			#21132
+			/*
 			if($app['end_info']['mday'] != $date_info['mday'])
 			{
 				$end = 23*60;
@@ -623,11 +404,13 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 			{
 				$end = $app['end_info']['hours']*60+$app['end_info']['minutes'];
 			}
+			*/
+			$end = $app['end_info']['hours']*60+$app['end_info']['minutes'];
 			
 			// set end to next hour for screen readers
 			if ($ilUser->prefs["screen_reader_optimization"])
 			{
-				$end = $start+$raster;
+				$end = $start+$this->raster;
 			}
 			
 			if ($start < $morning_aggr)
@@ -636,33 +419,33 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 			}
 			if ($end <= $morning_aggr)
 			{
-				$end = $morning_aggr+$raster;
+				$end = $morning_aggr+$this->raster;
 			}
 			if ($start > $evening_aggr)
 			{
 				$start = $evening_aggr;
 			}
-			if ($end > $evening_aggr+$raster)
+			if ($end > $evening_aggr+$this->raster)
 			{
-				$end = $evening_aggr+$raster;
+				$end = $evening_aggr+$this->raster;
 			}
 			if ($end <= $start)
 			{
-				$end = $start+$raster;
+				$end = $start+$this->raster;
 			}
 			
 			// map start and end to raster
-			$start = floor($start/$raster)*$raster;
-			$end = ceil($end/$raster)*$raster;
+			$start = floor($start/$this->raster)*$this->raster;
+			$end = ceil($end/$this->raster)*$this->raster;
 
 			$first = true;
-			for($i = $start;$i < $end;$i+=$raster)
+			for($i = $start;$i < $end;$i+=$this->raster)
 			{
 				if($first)
 				{
 					if (!$ilUser->prefs["screen_reader_optimization"])
 					{
-						$app['rowspan'] = ceil(($end - $start)/$raster);	
+						$app['rowspan'] = ceil(($end - $start)/$this->raster);
 					}
 					else  	// screen readers get always a rowspan of 1
 					{
@@ -692,16 +475,298 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 		{
 			foreach($hours_per_day as $num_day => $hour)
 			{
-				$colspans[$num_day] = max($colspans[$num_day],$hour['apps_num']);
+				$this->colspans[$num_day] = max($this->colspans[$num_day],$hour['apps_num']);
 				
 				// screen reader: always one col
 				if ($ilUser->prefs["screen_reader_optimization"])
 				{
-					$colspans[$num_day] = 1;
+					$this->colspans[$num_day] = 1;
 				}
 			}
 		}
-		return $colspans;
+	}
+
+	/**
+	 * @return int morning aggregated hours.
+	 */
+	protected function getMorningAggr()
+	{
+		if($this->user_settings->getDayStart())
+		{
+			// push starting point to last "slot" of hour BEFORE morning aggregation
+			$morning_aggr = ($this->user_settings->getDayStart()-1)*60+(60-$this->raster);
+		}
+		else
+		{
+			$morning_aggr = 0;
+		}
+
+		return $morning_aggr;
+	}
+
+	/**
+	 * Add the links to create an appointment or milestone.
+	 * @param $date
+	 */
+	protected function addAppointmentLink($date)
+	{
+		$new_app_url = $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add');
+
+		if ($this->cal_settings->getEnableGroupMilestones())
+		{
+			$new_ms_url = $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','addMilestone');
+
+			$this->tpl->setCurrentBlock("new_ms");
+			$this->tpl->setVariable('DD_ID', $date->get(IL_CAL_UNIX));
+			$this->tpl->setVariable('DD_TRIGGER', $this->ui_renderer->render($this->ui_factory->glyph()->add()));
+			$this->tpl->setVariable('URL_DD_NEW_APP', $new_app_url);
+			$this->tpl->setVariable('TXT_DD_NEW_APP', $this->lng->txt('cal_new_app'));
+			$this->tpl->setVariable('URL_DD_NEW_MS', $new_ms_url);
+			$this->tpl->setVariable('TXT_DD_NEW_MS', $this->lng->txt('cal_new_ms'));
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$this->tpl->setCurrentBlock("new_app");
+			//$this->tpl->setVariable('NEW_APP_LINK',$new_app_url);
+			$this->tpl->setVariable('NEW_APP_GLYPH',$this->ui_renderer->render(
+				$this->ui_factory->glyph()->add($new_app_url)
+			));
+			// $this->tpl->setVariable('NEW_APP_ALT',$this->lng->txt('cal_new_app'));
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
+	}
+
+	/**
+	 * Set values for: user_id, disable_empty, no_add
+	 */
+	protected function setUpCalendar()
+	{
+		if(isset($_GET["bkid"]))
+		{
+			$this->user_id = $_GET["bkid"];
+			$this->disable_empty = true;
+			$this->no_add = true;
+		}
+		elseif($this->user->getId() == ANONYMOUS_USER_ID)
+		{
+			//$this->user_id = $ilUser->getId();
+			$this->disable_empty = false;
+			$this->no_add = true;
+		}
+		else
+		{
+			//$this->user_id = $ilUser->getId();
+			$this->disable_empty = false;
+			$this->no_add = false;
+		}
+	}
+
+	/**
+	 * @param $date
+	 * @param $num_apps
+	 */
+	protected function addHeaderDate($date, $num_apps)
+	{
+		$date_info = $date->get(IL_CAL_FKT_GETDATE,'','UTC');
+		$dayname = ilCalendarUtil::_numericDayToString($date->get(IL_CAL_FKT_DATE,'w'),false);
+		$daydate = $dayname.' '.$date_info['mday'].'.';
+
+		if(!$this->disable_empty || $num_apps[$date->get(IL_CAL_DATE)] > 0)
+		{
+			$link = $this->ctrl->getLinkTargetByClass('ilcalendardaygui','');
+			$this->ctrl->clearParametersByClass('ilcalendardaygui');
+
+			$this->tpl->setCurrentBlock("day_view_link");
+			$this->tpl->setVariable('HEADER_DATE',$daydate);
+			$this->tpl->setVariable('DAY_VIEW_LINK',$link);
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$this->tpl->setCurrentBlock("day_view_no_link");
+			$this->tpl->setVariable('HEADER_DATE',$daydate);
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
+	/**
+	 * @param array $all_fullday  array with all full day events
+	 */
+	protected function addFullDayEvents($all_fullday)
+	{
+		$counter = 0;
+		foreach($all_fullday as $daily_apps)
+		{
+			foreach($daily_apps as $event)
+			{
+				if($event['fullday'])
+				{
+					$this->showFulldayAppointment($event);
+				}
+			}
+			$this->tpl->setCurrentBlock('f_day_row');
+			$this->tpl->setVariable('COLSPAN',max($this->colspans[$counter],1));
+			$this->tpl->parseCurrentBlock();
+			$counter++;
+		}
+		$this->tpl->setCurrentBlock('fullday_apps');
+		$this->tpl->setVariable('TXT_F_DAY', $this->lng->txt("cal_all_day"));
+		$this->tpl->parseCurrentBlock();
+	}
+
+	/**
+	 * @param $hours
+	 * @param $morning_aggr
+	 * @param $evening_aggr
+	 */
+	protected function addTimedEvents($hours, $morning_aggr, $evening_aggr)
+	{
+		$new_link_counter = 0;
+		foreach($hours as $num_hour => $hours_per_day)
+		{
+			$first = true;
+			foreach($hours_per_day as $num_day => $hour)
+			{
+
+				#ADD the hours in the left side of the grid.
+				if($first)
+				{
+					if(!($num_hour%60) || ($num_hour == $morning_aggr && $morning_aggr) ||
+						($num_hour == $evening_aggr && $evening_aggr))
+					{
+						$first = false;
+
+						// aggregation rows
+						if(($num_hour == $morning_aggr && $morning_aggr) ||
+							($num_hour == $evening_aggr && $evening_aggr))
+						{
+							$this->tpl->setVariable('TIME_ROWSPAN', 1);
+						}
+						// rastered hour
+						else
+						{
+							$this->tpl->setVariable('TIME_ROWSPAN', 60/$this->raster);
+						}
+
+						$this->tpl->setCurrentBlock('time_txt');
+
+						$this->tpl->setVariable('TIME',$hour['txt']);
+						$this->tpl->parseCurrentBlock();
+					}
+				}
+
+				$event_tpl = new ilTemplate('tpl.week_event_view.html',true,true,'Services/Calendar');
+
+				foreach($hour['apps_start'] as $app)
+				{
+					$event_tpl = $this->showAppointment($event_tpl, $app);
+				}
+
+				// screen reader: appointments are divs, now output cell
+				if ($this->user->prefs["screen_reader_optimization"])
+				{
+					$event_tpl->setCurrentBlock('scrd_day_cell');
+					$event_tpl->setVariable('TD_CLASS','calstd');
+					$event_tpl->parseCurrentBlock();
+				}
+
+				#echo "NUMDAY: ".$num_day;
+				#echo "COLAPANS: ".max($colspans[$num_day],1).'<br />';
+				$num_apps = $hour['apps_num'];
+				$colspan = max($this->colspans[$num_day],1);
+
+				// Show new apointment link
+				if(!$hour['apps_num'] && !$this->user->prefs["screen_reader_optimization"] && !$this->no_add)
+				{
+					$event_tpl->setCurrentBlock('new_app_link');
+
+					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','idate',$this->weekdays[$num_day]->get(IL_CAL_DATE));
+					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->seed->get(IL_CAL_DATE));
+					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','hour',floor($num_hour/60));
+					$event_tpl->setVariable('DAY_NEW_APP_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add'));
+
+					$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
+
+					$event_tpl->setVariable('DAY_NEW_APP_SRC', ilGlyphGUI::get(ilGlyphGUI::ADD, $this->lng->txt('cal_new_app')));
+
+					$event_tpl->setVariable('DAY_NEW_ID',++$new_link_counter);
+					$event_tpl->parseCurrentBlock();
+				}
+
+				for($i = $colspan;$i > $hour['apps_num'];$i--)
+				{
+					if ($this->user->prefs["screen_reader_optimization"])
+					{
+						continue;
+					}
+					$event_tpl->setCurrentBlock('day_cell');
+
+					// last "slot" of hour needs border
+					$empty_border = '';
+					if($num_hour%60 == 60-$this->raster ||
+						($num_hour == $morning_aggr && $morning_aggr) ||
+						($num_hour == $evening_aggr && $evening_aggr))
+					{
+						$empty_border = ' calempty_border';
+					}
+
+					$event_tpl->setVariable('TD_CLASS','calempty'.$empty_border);
+
+					if(!$hour['apps_num'])
+					{
+						$event_tpl->setVariable('DAY_ID',$new_link_counter);
+					}
+					$event_tpl->setVariable('TD_ROWSPAN',1);
+					$event_tpl->parseCurrentBlock();
+
+				}
+				$event_html = $event_tpl->get();
+				$this->tpl->setCurrentBlock("not_full_day_event");
+				$this->tpl->setVariable("CONTENT_EVENT", $event_html);
+				$this->tpl->parseCurrentBlock();
+
+			}
+
+			$this->tpl->touchBlock('time_row');
+		}
+	}
+
+	/**
+	 * @param ilCalendarEntry $a_event
+	 * @return string
+	 */
+	protected function getAppointmentTimeString(ilCalendarEntry $a_event)
+	{
+		$time = "";
+		switch($this->user_settings->getTimeFormat())
+		{
+			case ilCalendarSettings::TIME_FORMAT_24:
+				$time = $a_event->getStart()->get(IL_CAL_FKT_DATE,'H:i',$this->timezone);
+				break;
+
+			case ilCalendarSettings::TIME_FORMAT_12:
+				$time = $a_event->getStart()->get(IL_CAL_FKT_DATE,'h:ia',$this->timezone);
+				break;
+		}
+		// add end time for screen readers
+		if ($this->user->prefs["screen_reader_optimization"])
+		{
+			switch($this->user_settings->getTimeFormat())
+			{
+				case ilCalendarSettings::TIME_FORMAT_24:
+					$time.= "-".$a_event->getEnd()->get(IL_CAL_FKT_DATE,'H:i',$this->timezone);
+					break;
+
+				case ilCalendarSettings::TIME_FORMAT_12:
+					$time.= "-".$a_event->getEnd()->get(IL_CAL_FKT_DATE,'h:ia',$this->timezone);
+					break;
+			}
+		}
+
+		return $time;
 	}
 	
 }

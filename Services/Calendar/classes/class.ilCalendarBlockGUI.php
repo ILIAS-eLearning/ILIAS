@@ -464,6 +464,10 @@ class ilCalendarBlockGUI extends ilBlockGUI
 			$month_day = $day;
 
 			$ilCtrl->setParameterByClass(end($this->getTargetGUIClassPath()),'seed',$date->get(IL_CAL_DATE));
+			if($agenda_view_type = (int) $_GET['cal_agenda_per'])
+			{
+				$ilCtrl->setParameterByClass(end($this->getTargetGUIClassPath()), "cal_agenda_per", $agenda_view_type);
+			}
 			$a_tpl->setVariable('OPEN_DAY_VIEW', $ilCtrl->getLinkTargetByClass($this->getTargetGUIClassPath(), ''));
 
 			$a_tpl->setVariable('MONTH_DAY',$month_day);

@@ -137,7 +137,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 		if($this->filter["type"] != "prtf")
 		{
 			// JF, 2016-06-06
-			$objects = $this->searchObjects($this->getCurrentFilter(true), "");
+			$objects = $this->searchObjects($this->getCurrentFilter(true), "", null, false);
 			
 			if($this->filter["type"] == "blog")
 			{				

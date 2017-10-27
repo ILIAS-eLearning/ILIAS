@@ -22,7 +22,7 @@
             "composer/composer": "~1.0",
             "phpunit/phpunit": "~4.6"
         },
-        "time": "2016-03-28T18:54:21+00:00",
+        "time": "2016-03-28 18:54:21",
         "type": "composer-plugin",
         "extra": {
             "class": "cweagans\\Composer\\Patches"
@@ -93,7 +93,7 @@
             "ruflin/elastica": "Allow sending log messages to an Elastic Search server",
             "sentry/sentry": "Allow sending log messages to a Sentry server"
         },
-        "time": "2016-07-29T03:23:52+00:00",
+        "time": "2016-07-29 03:23:52",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -145,7 +145,7 @@
             "ext-xmlwriter": "*",
             "php": ">=5.2.0"
         },
-        "time": "2015-05-01T07:00:55+00:00",
+        "time": "2015-05-01 07:00:55",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -202,7 +202,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2015-09-11T15:10:35+00:00",
+        "time": "2015-09-11 15:10:35",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -250,7 +250,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2012-03-14T16:36:15+00:00",
+        "time": "2012-03-14 16:36:15",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -295,7 +295,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2015-09-12T10:08:34+00:00",
+        "time": "2015-09-12 10:08:34",
         "type": "library",
         "extra": {
             "patches_applied": {
@@ -348,54 +348,6 @@
         ]
     },
     {
-        "name": "phansys/getid3",
-        "version": "v2.0.0-BETA1",
-        "version_normalized": "2.0.0.0-beta1",
-        "target-dir": "GetId3",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/phansys/GetId3.git",
-            "reference": "ec3847c935d25efc3c0184c691e00399ef9e72f0"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/phansys/GetId3/zipball/ec3847c935d25efc3c0184c691e00399ef9e72f0",
-            "reference": "ec3847c935d25efc3c0184c691e00399ef9e72f0",
-            "shasum": ""
-        },
-        "suggest": {
-            "ext-exif": "EXIF extension is required for graphic modules.",
-            "ext-rar": "RAR extension is required for RAR archive module."
-        },
-        "time": "2012-12-04T17:31:30+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "GetId3": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "GPL"
-        ],
-        "authors": [
-            {
-                "name": "James Heinrich",
-                "email": "info@getid3.org",
-                "homepage": "http://www.getid3.org"
-            }
-        ],
-        "description": "This release of GetId3 library updates to PSR-0 CS, add namespaces and makes it Symfony 2.x installable by deps or composer mechanisms.",
-        "homepage": "http://www.getid3.org",
-        "keywords": [
-            "getid3",
-            "metadata",
-            "tags"
-        ],
-        "abandoned": "james-heinrich/getid3"
-    },
-    {
         "name": "filp/whoops",
         "version": "2.1.3",
         "version_normalized": "2.1.3.0",
@@ -422,7 +374,7 @@
             "symfony/var-dumper": "Pretty print complex values better with var-dumper available",
             "whoops/soap": "Formats errors as SOAP responses"
         },
-        "time": "2016-05-06T18:25:35+00:00",
+        "time": "2016-05-06 18:25:35",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -472,7 +424,7 @@
             "reference": "fe0936ee26643249e916849d48e3a51d5f5e278b",
             "shasum": ""
         },
-        "time": "2012-12-21T11:40:51+00:00",
+        "time": "2012-12-21 11:40:51",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -515,7 +467,7 @@
         "require": {
             "php": ">=5.5.9"
         },
-        "time": "2016-07-17T14:02:08+00:00",
+        "time": "2016-07-17 14:02:08",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -559,11 +511,11 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/GeSHi/geshi-1.0/zipball/ac5c9c1f26eba2e6d0a9e374dc3d8316b586cdcc",
+            "url": "https://api.github.com/repos/GeSHi/geshi-1.0/zipball/ec918ac67f6d3e9008e1d41c4d22610a96f78755",
             "reference": "ac5c9c1f26eba2e6d0a9e374dc3d8316b586cdcc",
             "shasum": ""
         },
-        "time": "2016-02-01T23:14:34+00:00",
+        "time": "2016-02-01 23:14:34",
         "type": "library",
         "installation-source": "source",
         "autoload": {
@@ -605,7 +557,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2016-08-06T14:39:51+00:00",
+        "time": "2016-08-06 14:39:51",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -664,7 +616,7 @@
         "require-dev": {
             "phpunit/phpunit": "~4.0"
         },
-        "time": "2017-03-20T17:10:46+00:00",
+        "time": "2017-03-20 17:10:46",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -730,7 +682,7 @@
             "phpunit/phpunit": "~4.5",
             "squizlabs/php_codesniffer": "~2.3"
         },
-        "time": "2016-03-28T09:10:18+00:00",
+        "time": "2016-03-28 09:10:18",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -782,7 +734,7 @@
             "phpunit/phpunit": "~3.7.0",
             "satooshi/php-coveralls": ">=1.0"
         },
-        "time": "2016-02-11T07:05:27+00:00",
+        "time": "2016-02-11 07:05:27",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -843,7 +795,7 @@
             "league/flysystem-ziparchive": "Allows you to use ZipArchive adapter",
             "spatie/flysystem-dropbox": "Allows you to use Dropbox storage"
         },
-        "time": "2017-04-28T10:15:08+00:00",
+        "time": "2017-04-28 10:15:08",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -929,7 +881,7 @@
         "suggest": {
             "league/oauth2-google": "Needed for Google XOAUTH2 authentication"
         },
-        "time": "2017-07-26T21:00:20+00:00",
+        "time": "2017-07-26 21:00:20",
         "type": "library",
         "extra": {
             "patches_applied": {
@@ -992,7 +944,7 @@
         "require-dev": {
             "simpletest/simpletest": "^1.1"
         },
-        "time": "2017-06-03T02:28:16+00:00",
+        "time": "2017-06-03 02:28:16",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -1041,7 +993,7 @@
         "require-dev": {
             "phpunit/phpunit": "4.0.*"
         },
-        "time": "2015-02-11T11:06:42+00:00",
+        "time": "2015-02-11 11:06:42",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -1088,7 +1040,7 @@
             "ext/mcrypt": "MCrypt extension",
             "ext/openssl": "OpenSSL extension"
         },
-        "time": "2016-09-08T13:31:44+00:00",
+        "time": "2016-09-08 13:31:44",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -1140,7 +1092,7 @@
             "sensiolabs/security-checker": "~1.1",
             "squizlabs/php_codesniffer": "~1.4"
         },
-        "time": "2016-12-02T12:45:13+00:00",
+        "time": "2016-12-02 12:45:13",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -1195,7 +1147,7 @@
             "phpunit/phpunit": "~3.7",
             "satooshi/php-coveralls": "^1.0"
         },
-        "time": "2017-05-05T10:52:35+00:00",
+        "time": "2017-05-05 10:52:35",
         "type": "project",
         "extra": {
             "patches_applied": {
@@ -1256,7 +1208,7 @@
         "require": {
             "php": ">=5.6.0"
         },
-        "time": "2016-09-18T04:22:22+00:00",
+        "time": "2016-09-18 04:22:22",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -1278,6 +1230,44 @@
         "homepage": "https://www.imsglobal.org/lti",
         "keywords": [
             "LTI"
+        ]
+    },
+    {
+        "name": "james-heinrich/getid3",
+        "version": "v1.9.14",
+        "version_normalized": "1.9.14.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/JamesHeinrich/getID3.git",
+            "reference": "30bd11473b0eef6f1b47866ef7ab0a557917fc21"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/JamesHeinrich/getID3/zipball/30bd11473b0eef6f1b47866ef7ab0a557917fc21",
+            "reference": "30bd11473b0eef6f1b47866ef7ab0a557917fc21",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2017-03-27 21:12:55",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "getid3/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL"
+        ],
+        "description": "PHP script that extracts useful information from popular multimedia file formats",
+        "homepage": "http://www.getid3.org/",
+        "keywords": [
+            "codecs",
+            "php",
+            "tags"
         ]
     }
 ]

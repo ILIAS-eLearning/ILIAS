@@ -156,4 +156,11 @@ class Container extends \Pimple\Container {
 	public function http() {
 		return $this['http'];
 	}
+
+	/**
+	 * @return \ilAppEventHandler
+	 */
+	public function event() {
+		return $this['ilAppEventHandler'];
+	}
 }

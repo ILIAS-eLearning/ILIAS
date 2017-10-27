@@ -158,7 +158,9 @@ $tpl->setVariable("TXT_MAX_SIZE", ilUtil::getFileSizeInfo());
 $tpl->setVariable(
 	"TXT_ALLOWED_FILE_EXTENSIONS",
 	$lng->txt("file_allowed_suffixes")." ".
-	implode(', ', array_map(create_function('$value', 'return ".".$value;'), $tinyMCE_valid_imgs))
+	implode(', ', array_map(function($value) {
+		return "." . $value;
+	}, $tinyMCE_valid_imgs))
 );
 
 include_once "Services/jQuery/classes/class.iljQueryUtil.php";

@@ -39,9 +39,9 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
 	/**
 	 * Constructor
 	 */
-	function __construct()
+	function __construct($a_title = "", $a_postvar = "")
 	{
-		parent::__construct();
+		parent::__construct($a_title, $a_postvar);
 		global $DIC;
 
 		$this->lng = $DIC->language();

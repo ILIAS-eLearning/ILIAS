@@ -42,6 +42,7 @@ class ilStudyProgrammeTypeCustomIconsFormGUI extends ilPropertyFormGUI {
 		$ilCtrl = $DIC['ilCtrl'];
 		$lng = $DIC['lng'];
 		$this->parent_gui = $parent_gui;
+		$this->user = $DIC['ilUser'];
 		$this->type = $type;
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;

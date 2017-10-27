@@ -117,12 +117,12 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 					ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
 					$this->ctrl->redirect($this);
 				}
-				$this->tabs_gui->setTabActive('administrate_users');
+				$this->tabs_gui->activateTab('administrate_users');
 				$ilLocalUserGUI = new ilLocalUserGUI($this);
 				$this->ctrl->forwardCommand($ilLocalUserGUI);
 				break;
 			case "ilorgunitsimpleimportgui":
-				$this->tabs_gui->setTabActive("view");
+				$this->tabs_gui->activateTab("view");
 				$this->setContentSubTabs();
 				$this->tabs_gui->setSubTabActive('import');
 				$ilOrgUnitSimpleImportGUI = new ilOrgUnitSimpleImportGUI($this);
@@ -134,7 +134,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 				break;
 			case "ilorgunitstaffgui":
 			case "ilrepositorysearchgui":
-				$this->tabs_gui->setTabActive(self::TAB_STAFF);
+				$this->tabs_gui->activateTab(self::TAB_STAFF);
 				$ilOrgUnitStaffGUI = new ilOrgUnitStaffGUI($this);
 				$this->ctrl->forwardCommand($ilOrgUnitStaffGUI);
 				break;
@@ -182,7 +182,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 				}
 				break;
 			case "ilinfoscreengui":
-				$this->tabs_gui->setTabActive("info_short");
+				$this->tabs_gui->activateTab("info_short");
 				if (!$this->ilAccess->checkAccess("read", "", $this->ref_id) AND !$this->ilAccess->checkAccess("visible", "", $this->ref_id)) {
 					$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"), $this->ilias->error_obj->MESSAGE);
 				}
@@ -193,7 +193,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 				$this->ctrl->forwardCommand($info);
 				break;
 			case 'ilpermissiongui':
-				$this->tabs_gui->setTabActive('perm_settings');
+				$this->tabs_gui->activateTab('perm_settings');
 				$ilPermissionGUI = new ilPermissionGUI($this);
 				$this->ctrl->forwardCommand($ilPermissionGUI);
 				break;
@@ -215,7 +215,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 				$this->ctrl->forwardCommand($new_gui);
 				break;
 			case 'ilorgunitexportgui':
-				$this->tabs_gui->setTabActive(self::TAB_EXPORT);;
+				$this->tabs_gui->activateTab(self::TAB_EXPORT);;
 				$ilOrgUnitExportGUI = new ilOrgUnitExportGUI($this);
 				$ilOrgUnitExportGUI->addFormat('xml');
 				$this->ctrl->forwardCommand($ilOrgUnitExportGUI);
@@ -291,22 +291,22 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 						parent::getAsynchItemListObject();
 						break;
 					case 'editSettings':
-						$this->tabs_gui->setTabActive(self::TAB_SETTINGS);
+						$this->tabs_gui->activateTab(self::TAB_SETTINGS);
 						$this->setSubTabsSettings('edit_settings');
 						$this->editSettings();
 						break;
 					case 'updateSettings':
-						$this->tabs_gui->setTabActive(self::TAB_SETTINGS);
+						$this->tabs_gui->activateTab(self::TAB_SETTINGS);
 						$this->setSubTabsSettings('edit_settings');
 						$this->updateSettings();
 						break;
 					case 'editAdvancedSettings':
-						$this->tabs_gui->setTabActive(self::TAB_SETTINGS);
+						$this->tabs_gui->activateTab(self::TAB_SETTINGS);
 						$this->setSubTabsSettings('edit_advanced_settings');
 						$this->editAdvancedSettings();
 						break;
 					case 'updateAdvancedSettings':
-						$this->tabs_gui->setTabActive(self::TAB_SETTINGS);
+						$this->tabs_gui->activateTab(self::TAB_SETTINGS);
 						$this->setSubTabsSettings('edit_advanced_settings');
 						$this->updateAdvancedSettings();
 						break;
@@ -330,7 +330,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		}
 
 		parent::renderObject();
-		$this->tabs_gui->setTabActive("view_content");
+		$this->tabs_gui->activateTab("view_content");
 		$this->tabs_gui->removeSubTab("page_editor");
 		$this->tabs_gui->removeSubTab("ordering"); // Mantis 0014728
 
@@ -462,7 +462,9 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		}
 
 		if ($write_access_ref_id) {
-			$this->tabs_gui->addTab(self::TAB_GLOBAL_SETTINGS, $this->lng->txt('settings'), $this->ctrl->getLinkTargetByClass(ilOrgUnitGlobalSettingsGUI::class));
+			if ($this->object->getRefId() == ilObjOrgUnit::getRootOrgRefId()) {
+				$this->tabs_gui->addTab(self::TAB_GLOBAL_SETTINGS, $this->lng->txt('settings'), $this->ctrl->getLinkTargetByClass(ilOrgUnitGlobalSettingsGUI::class));
+			}
 			$this->tabs_gui->addTab(self::TAB_EXPORT, $this->lng->txt(self::TAB_EXPORT), $this->ctrl->getLinkTargetByClass(ilOrgUnitExportGUI::class));
 
 			// Add OrgUnit types and positions tabs
