@@ -324,19 +324,23 @@ var GapInsertingWizard = (function () {
 	pub.Init = function()
 	{
 		pro.appendGapTrigger();
-		if (pro.isTinyActive()) {
-			if (tinyMCE.activeEditor === null || tinyMCE.activeEditor.isHidden() !== false) {
-				ilTinyMceInitCallbackRegistry.addCallback(pro.bindTextareaHandlerTiny);
+		$( document ).ready(function() {
+			if (pro.isTinyActive()) {
+				if (tinyMCE.activeEditor === null || tinyMCE.activeEditor.isHidden() !== false) {
+					ilTinyMceInitCallbackRegistry.addCallback(pro.bindTextareaHandlerTiny);
+				}
+				else if (tinyMCE.editors.length > 0) {
+					pro.bindTextareaHandlerTiny();
+				}
+				else{
+					pro.bindTextAreaHandler();
+				}
 			}
 			else
 			{
 				pro.bindTextAreaHandler();
 			}
-		}
-		else
-		{
-			pro.bindTextAreaHandler();
-		}
+		})
 	};
 	pub.getTextAreaValue = function()
 	{
