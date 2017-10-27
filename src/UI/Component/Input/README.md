@@ -8,7 +8,7 @@ blocks:
   from these inputs. *fields* can also be arranged to *groups* which allow to place
   constraints on a collection of such fields. Such *groups* may also alter the visual 
   appearance of *fields*.
-* A *container*  defines, which means of submitting the forms are used and how
+* A *container* defines, which means of submitting the forms are used and how
   the fields are displayed together.
 * A *constraint* puts some restriction on the values supplied by the user.
   Constraints can also be used independently from the UI-framework, as they are
@@ -25,7 +25,7 @@ the general appearance of the inputs is and how they should be transmitted from
 the client to the server. She may also bind a final transformation to the whole
 form, to tie all inputs together.
 
-The form than is rendered and displayed like every other UI-component. The user
+The form then is rendered and displayed like every other UI-component. The user
 fills in the fields and submits the form back to the server in the defined way.
 
 The developer passes the request retreived from the user to the form. The form
