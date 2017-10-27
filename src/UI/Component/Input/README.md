@@ -37,7 +37,7 @@ input.
 
 ## Fields
 
-A [input field](src/UI/Component/Input/Input.php) in the model can be thought of
+A [input field](src/UI/Component/Input/Field/Input.php) in the model can be thought of
 as two things, glued together:
 
 * The look of the field, which is defined by the renderer belonging to the field
@@ -99,6 +99,38 @@ details of the data retrieval from the client.
 
 ## Containers
 
+An input container defines the means how the data inputted by the user reaches the
+server and how the post processing of the values from the client is performed. It
+also may define visual appearance of the inputs. Two instances of containers that
+will be created are the standard form, known and loved by every ILIAS user, and the
+filter. Since these tasks may be rather diverse depending on the type of container,
+there is no common interface for containers and a general description of their
+tasks is hard.
+
+Instead of describing general container responsibilities we thus walk through
+the abstract [Form class](src/UI/Implementation/Component/Input/Container/Form/Form.php).
+
+First thing to note is that the class implements the `NameSource` interface.
+Developers do not need to assign HTML-side `name`s to the input fields to make
+the fields composable. This task is done automatically at the moment the form is
+constructed. The implementation of `NameSource` in `getNewName` is rather simple. 
+
+Second thing to notice is that Form internally uses an input froup. This done
+for code sharing. The things that the form adds on top of the group are the
+naming and the actual request handling.
+
+The request handling is performed in `withRequest`. THe HTTP-Request is checked
+for general sanity and the data in POST is extracted. That data then is simply
+passed on two the input group which takes care of the further processing together
+with the fields contained in it.
+
+The developer in turn can retrieve that data via `getData` which uses the input
+group again to get hold onto the data.
+
+Other types of container might use other mechanisms for data submission. A filter
+e.g. will likely be commiting its content via query parameters in the URL to make
+the results of the query cachable and maintain HTTP-semantics. Another type of
+form might submit its contents asynchronously.
 
 ## How to add a new Input
 
