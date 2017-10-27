@@ -13568,6 +13568,7 @@ awrn#:#awrn_use_osd_info#:#Display a popup to indicate new online users in the â
 exc#:#exc_tbl_filter_submission#:#Submission
 exc#:#exc_tbl_filter_has_submission#:#Has submitted
 exc#:#exc_tbl_filter_has_no_submission#:#Has not submitted yet
+iass#:#iass_assessment_not_completed#:#Assessment not completet
 iass#:#iass_upload_file#:#Record file
 iass#:#iass_file_visible_examinee#:#File visible for participant
 iass#:#general#:#General Information

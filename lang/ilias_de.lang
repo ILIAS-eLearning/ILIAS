@@ -13556,6 +13556,7 @@ awrn#:#awrn_use_osd_info#:#Zeigt ein Popup an, wenn neue Benutzer in der „Wer 
 exc#:#exc_tbl_filter_submission#:#Abgabe
 exc#:#exc_tbl_filter_has_submission#:#Hat abgegeben
 exc#:#exc_tbl_filter_has_no_submission#:#Hat noch nicht abgegeben
+iass#:#iass_assessment_not_completed#:#Noch nicht abgeschlossen
 iass#:#general#:#Allgemein
 iass#:#iass_content#:#Inhalt
 iass#:#iass_record_template#:#Vorlage Prüfungsnotiz
