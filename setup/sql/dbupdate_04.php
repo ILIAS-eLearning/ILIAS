@@ -21453,5 +21453,7 @@ $ilDB->modifyTableColumn(
 		)
 	);
 ?>
-
-
+<#5241>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
