@@ -175,6 +175,18 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	
 	public function editObject()
 	{
+		$this->showNoScheduleMessage();
+		return parent::editObject();
+	}
+
+	/**
+	 * Show no schedule message
+	 *
+	 * @param
+	 * @return
+	 */
+	function showNoScheduleMessage()
+	{
 		// if we have no schedules yet - show info
 		include_once "Modules/BookingManager/classes/class.ilBookingSchedule.php";
 		if($this->object->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE &&
@@ -182,9 +194,8 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		{
 			ilUtil::sendInfo($this->lng->txt("book_schedule_warning_edit"));
 		}
-
-		return parent::editObject();
 	}
+
 	
 	protected function initEditCustomForm(ilPropertyFormGUI $a_form)
 	{

@@ -161,7 +161,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	public function infoScreenForward() {
 		global $DIC;
 
-		if (!$this->checkPermissionBool("visible")) {
+		if (!$this->checkPermissionBool("visible") && !$this->checkPermissionBool('read')) {
 			ilUtil::sendFailure($DIC['lng']->txt("msg_no_perm_read"), true);
 			$this->ctrl->redirectByClass('ilPersonalDesktopGUI', '');
 		}
@@ -288,7 +288,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 			$ilTabs->addTab(self::TAB_CONTENT, $lng->txt(self::TAB_CONTENT), $this->ctrl->getLinkTarget($this, self::CMD_SHOW_CONTENT));
 		}
 		// info screen
-		if ($ilAccess->checkAccess('visible', "", $this->object->getRefId())) {
+		if ($ilAccess->checkAccess('visible', "", $this->object->getRefId()) || $ilAccess->checkAccess('read', "", $this->object->getRefId())) {
 			$ilTabs->addTab(self::TAB_ID_INFO, $lng->txt("info_short"), $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
 		}
 		// settings

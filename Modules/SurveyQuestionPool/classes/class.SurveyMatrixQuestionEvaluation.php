@@ -98,8 +98,7 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 			}
 			
 			$res["rows"][] = $parsed_row;
-		}		
-		
+		}
 		return $res;
 	}
 	
@@ -262,7 +261,6 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 			
 			$rows[] = $row;					
 		}
-		
 		return $rows;		
 	}
 	
@@ -279,7 +277,13 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 			{
 				$a_title_row[] = $row->title;
 				$a_title_row2[] = $row->label;
-				
+
+				if($this->question->getSubtype() == 0)
+				{
+					$a_title_row[] = $row->title;        // see #20646
+					$a_title_row2[] = $row->label;        // see #20646
+				}
+
 				if ($row->other)
 				{
 					$a_title_row[] = $row->title;
@@ -290,7 +294,13 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 			{
 				$a_title_row[] = $row->title;
 				$a_title_row2[] = "";
-				
+
+				if($this->question->getSubtype() == 0)
+				{
+					$a_title_row[] = $row->title;        // see #20646
+					$a_title_row2[] = "";                // see #20646
+				}
+
 				if ($row->other)
 				{
 					$a_title_row[] = $row->title;
@@ -301,7 +311,13 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 			{
 				$a_title_row[] = $row->label;
 				$a_title_row2[] = "";
-				
+
+				if($this->question->getSubtype() == 0)
+				{
+					$a_title_row[] = $row->label;        // see #20646
+					$a_title_row2[] = "";                // see #20646
+				}
+
 				if ($row->other)
 				{
 					$a_title_row[] = $row->label;
@@ -343,7 +359,8 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 					}
 					else
 					{
-						$answer_map[$row_title] = $answer[0];
+						$answer_map[$row_title] = $answer[3];
+						$answer_map[$row_title."|scale"] = $answer[2];		// see #20646
 					}
 					if($answer[1])
 					{
@@ -368,6 +385,10 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 			$row_title = $row->title;
 			
 			$a_row[] = $answer_map[$row_title];
+			if($this->question->getSubtype() == 0)
+			{
+				$a_row[] = $answer_map[$row_title . "|scale"];    // see #20646
+			}
 			
 			if($row->other)
 			{

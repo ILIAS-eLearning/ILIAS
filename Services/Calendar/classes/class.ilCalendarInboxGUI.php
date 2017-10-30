@@ -112,9 +112,6 @@ class ilCalendarInboxGUI extends ilCalendarViewGUI
 	
 	/**
 	 * show inbox
-	 *
-	 * @access protected
-	 * @return
 	 */
 	protected function inbox()
 	{
@@ -134,45 +131,11 @@ class ilCalendarInboxGUI extends ilCalendarViewGUI
 			$this->tpl->setVariable('SHARED_CAL_TABLE',$table->getHTML());
 		}
 
-		if (true)
-		{
-			// agenda list
-			include_once("./Services/Calendar/classes/Agenda/class.ilCalendarAgendaListGUI.php");
-			$cal_list = new ilCalendarAgendaListGUI();
-			$this->tpl->setVariable('CHANGED_TABLE', $ilCtrl->getHTML($cal_list));
-		}
-		else	// old implementation
-		{
-
-			include_once('./Services/Calendar/classes/class.ilCalendarChangedAppointmentsTableGUI.php');
-
-			$table_gui = new ilCalendarChangedAppointmentsTableGUI($this, 'inbox');
-
-			$schedule = new ilCalendarSchedule(new ilDate(time(), IL_CAL_UNIX), ilCalendarSchedule::TYPE_INBOX);
-			$schedule->setEventsLimit($table_gui->getLimit());
-			$schedule->addSubitemCalendars(true);
-			$schedule->calculate();
-
-			if (isset($_GET['changed']))
-			{
-				$title = $this->lng->txt('cal_changed_events_header');
-				$events = $schedule->getChangedEvents(true);
-
-				$ilCtrl->setParameter($this, 'changed', 1);
-			} else
-			{
-				// type inbox will show upcoming events (today or later)
-				$title = $this->lng->txt('cal_upcoming_events_header');
-				//$events = $schedule->getEvents();
-				$events = $schedule->getScheduledEvents();
-			}
-
-			$table_gui->setTitle($title);
-			$table_gui->setAppointments($events);
-
-			$this->tpl->setVariable('CHANGED_TABLE', $table_gui->getHTML());
-		}
-
+		// agenda list
+		include_once("./Services/Calendar/classes/Agenda/class.ilCalendarAgendaListGUI.php");
+		$cal_list = new ilCalendarAgendaListGUI();
+		$html = $ilCtrl->getHTML($cal_list);
+		$this->tpl->setVariable('CHANGED_TABLE', $html);
 	}
 	
 	/**

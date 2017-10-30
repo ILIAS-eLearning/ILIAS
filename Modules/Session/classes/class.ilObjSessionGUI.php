@@ -74,8 +74,19 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
   
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
-
 		
+		if(
+			!$this->getCreationMode() &&
+			$GLOBALS['DIC']->access()->checkAccess('read','', $_GET['ref_id'])
+		)
+		{
+			$GLOBALS['DIC']['ilNavigationHistory']->addItem(
+				(int) $_GET['ref_id'],
+				ilLink::_getLink((int) $_GET['ref_id'], 'sess'),
+				'sess'
+			);
+		}
+
 		$this->prepareOutput();
   		switch($next_class)
 		{
@@ -324,13 +335,25 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public static function _goto($a_target)
 	{
-		global $ilAccess,$ilErr,$lng;
-		
+		global $DIC;
+
+		$ilAccess = $DIC->access();
+		$ilErr = $DIC["ilErr"];
+		$lng = $DIC->language();
+
 		if($ilAccess->checkAccess('visible', "", $a_target))
 		{
 			ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
 		}
-		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
+		else if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
+		{
+			ilUtil::sendFailure(
+				sprintf($lng->txt("msg_no_perm_read_item"),
+				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), 
+				true
+			);
+			ilObjectGUI::_gotoRepositoryRoot();
+		}
 	}
 	
     /**

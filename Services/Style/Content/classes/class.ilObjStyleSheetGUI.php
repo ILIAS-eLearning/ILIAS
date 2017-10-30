@@ -2314,6 +2314,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$tpl = $this->tpl;
 		$ilTabs = $this->tabs;
 		$ilCtrl = $this->ctrl;
+		$ilToolbar = $this->toolbar;
 		
 		$ctype = $_GET["temp_type"];
 		if ($ctype == "")
@@ -2325,7 +2326,21 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		
 		$this->setTemplatesSubTabs();
 		$ilTabs->setSubTabActive("sty_".$ctype."_templates");
-		
+
+		// action commands
+		if ($this->checkWrite())
+		{
+			if ($ctype == "table")
+			{
+				$ilToolbar->addButton($this->lng->txt("sty_generate_template"),
+					$ilCtrl->getLinkTarget($this, "generateTemplate"));
+			}
+			$ilToolbar->addButton($this->lng->txt("sty_add_template"),
+				$ilCtrl->getLinkTarget($this, "addTemplate"));
+		}
+
+
+
 		$this->includeCSS();
 		include_once("./Services/Style/Content/classes/class.ilTableTemplatesTableGUI.php");
 		$table_gui = new ilTableTemplatesTableGUI($ctype, $this, "listTemplates",

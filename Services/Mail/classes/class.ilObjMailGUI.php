@@ -142,7 +142,7 @@ class ilObjMailGUI extends ilObjectGUI
 	 */
 	protected function buildSettingsSubTabs($activeSubTab)
 	{
-		if($this->rbacsystem->checkAccess('edit_permission', $this->object->getRefId()))
+		if($this->rbacsystem->checkAccess('write', $this->object->getRefId()))
 		{
 			$this->tabs->addSubTab(
 				self::SETTINGS_SUB_TAB_ID_GENERAL,

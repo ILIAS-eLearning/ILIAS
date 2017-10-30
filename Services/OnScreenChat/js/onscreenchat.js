@@ -183,6 +183,8 @@
 
 			$chat.init(getConfig().userId, getConfig().username, getModule().onLogin);
 			$chat.receiveMessage(getModule().receiveMessage);
+			$chat.onParticipantsSuppressedMessages(getModule().onParticipantsSuppressedMessages);
+			$chat.onSenderSuppressesMessages(getModule().onSenderSuppressesMessages);
 			$chat.receiveConversation(getModule().onConversation);
 			$chat.onHistory(getModule().onHistory);
 			$chat.onGroupConversation(getModule().onConversationInit);
@@ -251,11 +253,6 @@
 					.removeClass('ilNoDisplay');
 				getModule().container.append(conversationWindow);
 				getModule().addMessagesOnOpen(conversation);
-
-				conversationWindow.find('[data-toggle="tooltip"]').tooltip({
-					container: 'body',
-					viewport: { selector: 'body', padding: 10 }
-				});
 
 				var emoticonPanel = conversationWindow.find('[data-onscreenchat-emoticons-panel]'),
 					messageField = conversationWindow.find('[data-onscreenchat-message]');
@@ -338,13 +335,11 @@
 			$template.find('[href="addUser"]').attr({
 				"title":                 il.Language.txt('chat_osc_add_user'),
 				"data-onscreenchat-add": conversation.id,
-				"data-toggle":           "tooltip",
 				"data-placement":        "auto"
 			});
 			$template.find('.close').attr({
 				"title":                   il.Language.txt('close'),
 				"data-onscreenchat-close": conversation.id,
-				"data-toggle":             "tooltip",
 				"data-placement":          "auto"
 			});
 
@@ -410,6 +405,38 @@
 				getModule().addMessage(messageObject, false);
 			});
 			$menu.add(conversation);
+		},
+
+		onParticipantsSuppressedMessages: function(messageObject) {
+			messageObject.isNeutral = true;
+
+			if (messageObject.hasOwnProperty("ignoredParticipants")) {
+				var ignoredParticipants = messageObject["ignoredParticipants"];
+
+				if (Object.keys(ignoredParticipants).length > 0) {
+					var conversation = getModule().storage.get(messageObject.conversationId);
+
+					if (conversation.isGroup) {
+						messageObject.message = il.Language.txt('chat_osc_subs_rej_msgs_p').replace(
+							/%s/ig, $.map(ignoredParticipants, function(val) {
+								var name = findUsernameByIdByConversation(conversation, val);
+
+								return name ? name : null;
+							}).join(', ')
+						);
+					} else {
+						messageObject.message = il.Language.txt('chat_osc_subs_rej_msgs');
+					}
+					getModule().receiveMessage(messageObject);
+				}
+			}
+		},
+
+		onSenderSuppressesMessages: function(messageObject)  {
+			messageObject.isNeutral = true;
+
+			messageObject.message = il.Language.txt('chat_osc_self_rej_msgs');
+			getModule().receiveMessage(messageObject);
 		},
 
 		requestUserImages: function(conversation) {
@@ -721,13 +748,18 @@
 			var message = messageObject.message.replace(/(?:\r\n|\r|\n)/g, '<br />');
 			var chatWindow = $('[data-onscreenchat-window=' + messageObject.conversationId + ']');
 
-			template = template.replace(/\[\[username\]\]/g, findUsernameInConversation(messageObject));
+			template = template.replace(/\[\[username\]\]/g, findUsernameInConversationByMessage(messageObject));
 			template = template.replace(/\[\[time\]\]/g, momentFromNowToTime(messageObject.timestamp));
 			template = template.replace(/\[\[time_raw\]\]/g, messageObject.timestamp);
 			template = template.replace(/\[\[message]\]/g, getModule().getMessageFormatter().format(message));
 			template = template.replace(/\[\[avatar\]\]/g, getProfileImage(messageObject.userId));
 			template = template.replace(/\[\[userId\]\]/g, messageObject.userId);
-			template = $(template).find('li.' + position).html();
+
+			if (messageObject.hasOwnProperty("isNeutral") && messageObject.isNeutral) {
+				template = $(template).find('li.neutral').html();
+			} else {
+				template = $(template).find('li.' + position).html();
+			}
 
 			var chatBody = chatWindow.find('[data-onscreenchat-body]');
 			var item = $('<li></li>')
@@ -851,15 +883,20 @@
 		};
 	};
 
-	var findUsernameInConversation = function(messageObject) {
-		var conversation = getModule().storage.get(messageObject.conversationId);
-
+	var findUsernameByIdByConversation = function(conversation, usrId) {
 		for(var index in conversation.participants) {
-			if(conversation.participants.hasOwnProperty(index) && conversation.participants[index].id == messageObject.userId) {
+			if(conversation.participants.hasOwnProperty(index) && conversation.participants[index].id == usrId) {
 				return conversation.participants[index].name;
 			}
 		}
+
 		return "";
+	};
+
+	var findUsernameInConversationByMessage = function(messageObject) {
+		var conversation = getModule().storage.get(messageObject.conversationId);
+
+		return findUsernameByIdByConversation(conversation, messageObject.userId);
 	};
 
 	var userExistsInConversation = function(userId, conversation) {

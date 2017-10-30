@@ -194,7 +194,7 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
 	 */
 	public function storeDefaultSortType($type)
 	{
-		assert('in_array($type, self::$availableSortOptions)');
+		assert(in_array($type, self::$availableSortOptions));
 		$this->settings->set('my_memberships_def_sort', $type);
 	}
 
@@ -259,7 +259,7 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
 	 */
 	public function storeDefaultView($view)
 	{
-		assert('in_array($view, self::$availableViews)');
+		assert(in_array($view, self::$availableViews));
 		$this->settings->set('personal_items_default_view', $view);
 	}
 

@@ -788,6 +788,7 @@ class ilObjectCopyGUI
 	 */
 	function keepObjectsInClipboard()
 	{
+		ilUtil::sendSuccess($this->lng->txt("obj_inserted_clipboard"), true);
 		$ilCtrl = $this->ctrl;
 		$_SESSION['clipboard']['cmd'] = "copy";
 		$_SESSION['clipboard']['ref_ids'] = $this->getSource();

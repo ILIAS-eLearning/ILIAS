@@ -21363,3 +21363,95 @@ if(!$ilDB->indexExistsByFields('style_parameter',array('style_id')))
 	$ilDB->addIndex('style_parameter',array('style_id'),'i1');
 }
 ?>
+<#5232>
+<?php
+include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+ilDBUpdate3136::addStyleClass("OrderListHorizontal", "qordul", "ul",
+					array("margin" => "0px",
+    					"padding" => "0px",
+    					"list-style" => "none",
+    					"list-style-position" => "outside"
+    					));
+ilDBUpdate3136::addStyleClass("OrderListItemHorizontal", "qordli", "li",
+					array(
+    					"float" => "left",
+    					"margin-top" => "5px",
+    					"margin-bottom" => "5px",
+    					"margin-right" => "10px",
+    					"border-width" => "1px",
+    					"border-style" => "solid",
+    					"border-color" => "#D0D0FF",
+    					"padding" => "10px",
+    					"cursor" => "move"
+    					));
+?>
+<#5233>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5234>
+<?php
+if($ilDB->tableColumnExists('wiki_stat', 'del_pages'))
+{
+	$ilDB->modifyTableColumn('wiki_stat', 'del_pages', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true,
+		'default' => 0
+	));
+}
+?>
+<#5235>
+<?php
+if($ilDB->tableColumnExists('wiki_stat', 'avg_rating'))
+{
+	$ilDB->modifyTableColumn('wiki_stat', 'avg_rating', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true,
+		'default' => 0
+	));
+}
+?>
+<#5236>
+<?php
+
+	$ilDB->dropPrimaryKey('loc_rnd_qpl');
+?>
+
+<#5237>
+<?php
+
+	$ilDB->addPrimaryKey('loc_rnd_qpl',['container_id', 'objective_id', 'tst_type', 'tst_id', 'qp_seq']);
+
+?>
+<#5238>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5239>
+<?php
+$ilDB->modifyTableColumn(
+		'adv_md_record', 
+		'record_id',
+		array(
+			"type" => "integer", 
+			"length" => 4, 
+			"notnull" => true
+		)
+	);
+?>
+<#5240>
+<?php
+$ilDB->modifyTableColumn(
+		'adv_md_record_objs', 
+		'record_id',
+		array(
+			"type" => "integer", 
+			"length" => 4, 
+			"notnull" => true
+		)
+	);
+?>
+
+

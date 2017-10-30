@@ -172,6 +172,10 @@ interface Factory {
 	 *   composition: >
 	 *      Cards contain a header, which often includes an Image or Icon and a Title as well as possible actions as
 	 *      Default Buttons and 0 to n sections that may contain further textual descriptions, links and buttons.
+	 *      The size of the cards in decks may be set to extra small (12 cards per row),
+	 *      small (6 cards per row, default), medium (4 cards per row), large (3 cards per row),
+	 *      extra large (2 cards per row) and full (1 card per row). The number of cards
+	 *      per row is responsively adapted, if the size of the screen is changed.
 	 *   effect: >
 	 *      Cards may contain Interaction Triggers.
 	 *   rivals:
@@ -690,15 +694,13 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *      TBD
+	 *      In opposite to components with a purely receptive or at most
+	 *      navigational character, input elements are used to relay user-induced
+	 *      data to the system.
 	 *   composition: >
-	 *      TBD
-	 *   effect: >
-	 *      TBD
-	 *
-	 * rules:
-	 *   wording:
-	 *     1: TBD
+	 *      An input consists of fields that define the way data is entered
+	 *      and a container around those fields that defines the way the data
+	 *      is submitted to the system.
 	 *
 	 * ---
 	 * @return  \ILIAS\UI\Component\Input\Factory

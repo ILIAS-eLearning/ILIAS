@@ -129,18 +129,25 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel {
 	 * @param $value
 	 */
 	public function setProperty($key, $value) {
+		$is_update = $this->getProperty($key);
 		switch ($key) {
 			case static::PROP_SELECTION_OPTIONS:
+
 				ilDclSelectionOption::flushOptions($this->getId());
 				$sorting = 1;
 				foreach ($value as $id => $val) {
 					ilDclSelectionOption::storeOption($this->getId(), $id, $sorting, $val);
 					$sorting++;
 				}
+				// if the field is not being created reorder the options in the existing record fields
+				if ($is_update) {
+					$this->reorderExistingValues();
+				}
 				break;
 			case static::PROP_SELECTION_TYPE:
 				$will_be_multi = ($value == self::SELECTION_TYPE_MULTI);
-				if ($this->getProperty($key) && ($this->isMulti() && !$will_be_multi || !$this->isMulti() && $will_be_multi)) {
+				// if the "Multi" property has changed, adjust the record field values
+				if ($is_update && ($this->isMulti() && !$will_be_multi || !$this->isMulti() && $will_be_multi)) {
 					$this->multiPropertyChanged($will_be_multi);
 				}
 				parent::setProperty($key, $value)->store();
@@ -152,7 +159,35 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel {
 
 
 	/**
-	 * @param $new_value
+	 * sorts record field values by the new order
+	 */
+	public function reorderExistingValues() {
+		$options = ilDclSelectionOption::getAllForField($this->getId());
+		// loop each record(-field)
+		foreach (ilDclCache::getTableCache($this->getTableId())->getRecords() as $record) {
+			$record_field = $record->getRecordField($this->getId());
+			$record_field_value = $record_field->getValue();
+
+			if (is_array($record_field_value) && count($record_field_value) > 1) {
+				$sorted_array = array();
+				// $options has the right order, so loop those
+				foreach ($options as $option) {
+					if (in_array($option->getOptId(),$record_field_value)) {
+						$sorted_array[] = $option->getOptId();
+					}
+				}
+				$record_field->setValue($sorted_array);
+				$record_field->doUpdate();
+			}
+
+		}
+	}
+
+
+	/**
+	 * changes the values of all record fields, since the property "multi" has changed
+	 *
+	 * @param $is_multi_now
 	 */
 	protected function multiPropertyChanged($is_multi_now) {
 		foreach (ilDclCache::getTableCache($this->getTableId())->getRecords() as $record) {

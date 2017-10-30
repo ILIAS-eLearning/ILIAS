@@ -194,7 +194,7 @@ class ilInitialisation
 
 		$DIC['filesystem.temp'] = function ($c) use ($delegatingFactory) {
 			//temp
-			$tempConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(sys_get_temp_dir());
+			$tempConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_DATA_DIR.'/'.CLIENT_ID.'/temp');
 			return $delegatingFactory->getLocal($tempConfiguration);
 		};
 
@@ -582,6 +582,17 @@ class ilInitialisation
 		$c["mail.mime.sender.factory"] = function ($c) {
 			require_once 'Services/Mail/classes/Mime/Sender/class.ilMailMimeSenderFactory.php';
 			return new ilMailMimeSenderFactory($c["ilSetting"]);
+		};
+	}
+
+	/**
+	 * @param \ILIAS\DI\Container $c
+	 */
+	protected static function initAvatar(\ILIAS\DI\Container $c)
+	{
+		$c["user.avatar.factory"] = function ($c) {
+			require_once 'Services/User/Avatar/classes/class.ilUserAvatarFactory.php';
+			return new ilUserAvatarFactory($c);
 		};
 	}
 
@@ -998,14 +1009,18 @@ class ilInitialisation
 	}
 	
 	/**
-	 * Init session
+	 * Init auth session.
 	 */
 	protected static function initSession()
 	{
-		include_once './Services/Authentication/classes/class.ilAuthSession.php';
-		self::initGlobal('ilAuthSession', ilAuthSession::getInstance());
-		
-		$GLOBALS['DIC']['ilAuthSession']->init();
+		$GLOBALS["DIC"]["ilAuthSession"] = function ($c) 
+		{
+			$auth_session = ilAuthSession::getInstance(
+				$c['ilLoggerFactory']->getLogger('auth')
+			);
+			$auth_session->init();
+			return $auth_session;
+		};
 	}
 
 
@@ -1112,6 +1127,7 @@ class ilInitialisation
 
 		self::initSettings();
 		self::initMail($GLOBALS['DIC']);
+		self::initAvatar($GLOBALS['DIC']);
 		
 		
 		// --- needs settings	
@@ -1454,38 +1470,31 @@ class ilInitialisation
 		}
 	}
 	
-	// LTI
+	/**
+	 * Init LTI mode for lit authenticated users
+	 * @global type $ilUser
+	 * @global type $DIC
+	 */
 	protected static function initLTI()
 	{
-		global $ilUser, $DIC;
-		$DIC->logger()->root()->debug("auth_mode: " . $ilUser->auth_mode);
-		// production
-		if (strpos($ilUser->auth_mode, 'lti') !== false) {
-			$DIC->logger()->root()->debug("LTI Mode!");
-			require_once "./Services/LTI/classes/class.ilLTIViewGUI.php";
-			ilLTIViewGUI::getInstance()->activate(); 
-		}
-		else {
-			unset($_SESSION['il_lti_mode']);
-		}
-		 
-		// fake lti env
-		/*
-		if ($ilUser->getFirstname() == "LTI") 
+		$user = $GLOBALS['DIC']->user();
+		if(!$user instanceof ilObjUser)
 		{
-			$_SESSION['lti_context_id'] = "73";
-			//$_SESSION['lti_launch_css_url'] = 'http://ltiapps.net/test/css/tc.css';
-			//$_SESSION['lti_launch_presentation_return_url'] = 'http://ltiapps.net/test/tc-return.php';
-			
-			$DIC->logger()->root()->debug("LTI Mode!");
-			require_once "./Services/LTI/classes/class.ilLTIViewGUI.php";
-			ilLTIViewGUI::getInstance()->activate();
-			//ilLTIViewGUI::getInstance()->checkMessages();
+			return false;
 		}
-		else {
+		
+		if(strpos($user->getAuthMode(),'lti_') === 0)
+		{
+			$GLOBALS['DIC']->logger()->lti()->debug("LTI enabled for authmode: " . $GLOBALS['DIC']->user()->getAuthMode());
+			ilLTIViewGUI::getInstance()->activate();
+			$GLOBALS['DIC']->logger()->lti()->debug('LTI mode enabled.');
+		}
+		else
+		{
+			// @todo: avoid this
 			unset($_SESSION['il_lti_mode']);
 		}
-		*/ 
+		
 	}
 	
 	/**
@@ -1513,6 +1522,11 @@ class ilInitialisation
 	 */
 	protected static function blockedAuthentication($a_current_script)
 	{
+		if(ilContext::getType() == ilContext::CONTEXT_WAC)
+		{
+			ilLoggerFactory::getLogger('init')->debug('Blocked authentication for WAC request.');
+			return true;
+		}
 		if(ilContext::getType() == ilContext::CONTEXT_APACHE_SSO)
 		{
 			ilLoggerFactory::getLogger('init')->debug('Blocked authentication for sso request.');

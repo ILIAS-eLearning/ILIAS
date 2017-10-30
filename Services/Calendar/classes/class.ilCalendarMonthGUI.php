@@ -199,6 +199,11 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 			$counter++;
 			$has_events = (bool)$this->showEvents($date);
 
+			if(!$this->view_with_appointments && $has_events)
+			{
+				$this->view_with_appointments = true;
+			}
+
 			if(!$no_add)
 			{
 				$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
@@ -377,7 +382,9 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 				$event_html = $event_html_by_plugin;
 			}
 
+			$this->tpl->setCurrentBlock("event_nfd");
 			$this->tpl->setVariable("EVENT_CONTENT", $event_html);
+			$this->tpl->parseCurrentBlock();
 
 			$this->num_appointments++;
 			$count++;

@@ -61,7 +61,7 @@ var PhantomJsHelper =  (function () {
 
 	pro.addHeaderFooterSpan = function(pageNum, numPages, show_pages) {
 		var span = document.createElement('span');
-		if (show_pages === true)
+		if (show_pages === true || show_pages == 1)
 		{
 			span.style.float	= 'right';
 			span.innerHTML		= pageNum + pro.page_separator + numPages;

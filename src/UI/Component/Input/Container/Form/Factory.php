@@ -12,15 +12,25 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *      TBD
+	 *      Standard Forms are used for creating content of sub-items or for
+	 *      configuring objects or services.
 	 *   composition: >
-	 *      TBD
+	 *      Standard forms provide a submit-button.
 	 *   effect: >
-	 *      TBD
-	 * context: >
-	 *   TBD
+	 *      The users manipulates input-values and saves the form to apply the
+	 *      settings to the object or service or create new entities in the
+	 *      system.
 	 *
-	 * rules: []
+	 * rules:
+	 *   usage:
+	 *     1: Standard Forms MUST NOT be used on the same page as tables.
+	 *     2: Standard Forms MUST NOT be used on the same page as toolbars.
+	 *   composition:
+	 *     1: Each form MUST contain at least one titled form section.
+	 *     2: >
+	 *         Standard Forms MUST only be submitted by their submit-button. They MUST
+	 *         NOT be submitted by anything else.
+	 *     3: Standard Foms SHOULD have a „Cancel“-Button.
 	 *
 	 * ---
 	 *

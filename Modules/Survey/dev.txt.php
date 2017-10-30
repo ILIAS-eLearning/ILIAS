@@ -46,8 +46,8 @@
   will be assigned to the question
 * class ilSurveyCategory represents single category (but also holds "variable" data)
   * title ("answer option text")
-  * other ...
-  * neutral
+  * other (if true, an additional text input field presented for free user input is presented)
+  * neutral (true: this is a neutral answer, ...)
   * label ...
   * scale (<- this will be stored in "Variables")
 * class SurveyCategories handles an array of ilSurveyCategory objects (for a question)
@@ -163,6 +163,7 @@
 ## Survey Run ("Finished")
 * Stores progress of user working through a survey
 * table svy_finished
+  * finished_id: autoincrement and pk of this table
   * survey_fi: survey -> svy_svy
   * user_fi: user -> usr_data (and object_data)
   * anonymous_id:

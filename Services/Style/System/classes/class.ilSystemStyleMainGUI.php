@@ -94,8 +94,13 @@ class ilSystemStyleMainGUI
 		$ilHelp->setScreenIdComponent("sty");
 		$ilHelp->setScreenId("system_styles");
 
+        if(!$_GET["skin_id"]){
+            $config = new ilSystemStyleConfig();
+            $_GET["skin_id"] = $config->getDefaultSkinId();
+            $_GET["style_id"] = $config->getDefaultStyleId();
+        }
 
-		$this->ctrl->setParameterByClass('ilsystemstylesettingsgui','skin_id',$_GET["skin_id"]);
+        $this->ctrl->setParameterByClass('ilsystemstylesettingsgui','skin_id',$_GET["skin_id"]);
 		$this->ctrl->setParameterByClass('ilsystemstylesettingsgui','style_id',$_GET["style_id"]);
 		$this->ctrl->setParameterByClass('ilsystemstylelessgui','skin_id',$_GET["skin_id"]);
 		$this->ctrl->setParameterByClass('ilsystemstylelessgui','style_id',$_GET["style_id"]);

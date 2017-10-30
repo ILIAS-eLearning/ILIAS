@@ -358,8 +358,13 @@ class assClozeGap
 		}
 		return $keys;
 	}
-	
-	function getBestSolutionOutput(ilArrayElementShuffler $shuffler)
+
+	/**
+	 * @param ilArrayElementShuffler $shuffler
+	 * @param null | array $combinations
+	 * @return string
+	 */
+	function getBestSolutionOutput(ilArrayElementShuffler $shuffler, $combinations = null)
 	{
 		global $lng;
 		switch ($this->getType())
@@ -367,18 +372,27 @@ class assClozeGap
 			case CLOZE_TEXT:
 			case CLOZE_SELECT:
 				$best_solutions = array();
-				foreach ($this->getItems($shuffler) as $answer)
+				if($combinations !== null && $combinations['best_solution'] == 1)
 				{
-					if (isset($best_solutions[$answer->getPoints()]) && is_array($best_solutions[$answer->getPoints()]))
+					$best_solutions[$combinations['points']] = array();
+					array_push($best_solutions[$combinations['points']], $combinations['answer']);
+				}
+				else
+				{
+					foreach ($this->getItems($shuffler) as $answer)
 					{
-						array_push($best_solutions[$answer->getPoints()], $answer->getAnswertext());
-					}
-					else
-					{
-						$best_solutions[$answer->getPoints()] = array();
-						array_push($best_solutions[$answer->getPoints()], $answer->getAnswertext());
+						if (isset($best_solutions[$answer->getPoints()]) && is_array($best_solutions[$answer->getPoints()]))
+						{
+							array_push($best_solutions[$answer->getPoints()], $answer->getAnswertext());
+						}
+						else
+						{
+							$best_solutions[$answer->getPoints()] = array();
+							array_push($best_solutions[$answer->getPoints()], $answer->getAnswertext());
+						}
 					}
 				}
+				
 				krsort($best_solutions, SORT_NUMERIC);
 				reset($best_solutions);
 				$found = current($best_solutions);

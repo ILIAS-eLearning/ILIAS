@@ -16,7 +16,7 @@ require_once 'Modules/Chatroom/classes/class.ilChatroomConfigFileHandler.php';
 class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 {
 
-	const CHATROOM_README_PATH = '/Modules/Chatroom/chat/README.txt';
+	const CHATROOM_README_PATH = '/Modules/Chatroom/chat/README.md';
 
 	/**
 	 * @var ilSetting

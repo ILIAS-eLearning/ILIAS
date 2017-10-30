@@ -1737,7 +1737,14 @@ class ilObjMediaObject extends ilObject
 			$dir.= "/".$a_subdir;
 		}
 		ilUtil::makeDirParents($dir);
-		ilUtil::moveUploadedFile($tmp_name, $a_name, $dir."/".$a_name, true, $a_mode);
+		if ($a_mode == "rename")
+		{
+			rename($tmp_name, $dir . "/" . $a_name);
+		}
+		else
+		{
+			ilUtil::moveUploadedFile($tmp_name, $a_name, $dir . "/" . $a_name, true, $a_mode);
+		}
 		self::renameExecutables($mob_dir);
 		include_once("./Services/MediaObjects/classes/class.ilMediaSvgSanitizer.php");
 		ilMediaSvgSanitizer::sanitizeDir($mob_dir);	// see #20339

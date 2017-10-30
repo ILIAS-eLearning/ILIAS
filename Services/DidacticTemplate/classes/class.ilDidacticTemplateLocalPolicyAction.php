@@ -180,9 +180,12 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 		// Create local policy for filtered roles
 		foreach($roles as $role_id => $role)
 		{
+			$this->getLogger()->debug('Apply to role: ' . $role['title']);
+			
 			// No local policies for protected roles of higher context
 			if($role['protected'] and $role['parent'] != $source->getRefId())
 			{
+				$this->getLogger()->debug('Ignoring protected role.');
 				continue;
 			}
 			$this->createLocalPolicy($source,$role);
@@ -205,20 +208,24 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 		// Delete local policy for filtered roles
 		foreach($roles as $role_id => $role)
 		{
-			// Do not delete local roles of auto genrated roles
+			// Do not delete local policies of auto genrated roles
 			if(!$rbacreview->isGlobalRole($role['obj_id']) and
 				$rbacreview->isAssignable($role['obj_id'],$source->getRefId()) and
 				$rbacreview->isSystemGeneratedRole($role['obj_id']))
 			{
+				$this->getLogger()->debug('Reverting local policy of auto generated role: ' . $role['title']);
 				$this->revertLocalPolicy($source, $role);
 			}
 			else
 			{
+				$this->getLogger()->debug('Reverting local policy and deleting local role: ' . $role['title']);
+
 				// delete local role and change exiting objects
 				$rbacadmin->deleteLocalRole($role_id,$source->getRefId());
 				// Change existing object
 				include_once './Services/AccessControl/classes/class.ilObjRole.php';
 				$role_obj = new ilObjRole($role_id);
+				
 				$role_obj->changeExistingObjects(
 					$source->getRefId(),
 					$role['protected'] ? 

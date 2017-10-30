@@ -296,7 +296,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 
 			case 'prg':
 				$ilCtrl->setParameterByClass("ilobjstudyprogrammegui", "ref_id", $a_node["child"]);
-				$link = $ilCtrl->getLinkTargetByClass("ilobjstudyprogrammegui", "view");
+				$link = $ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjstudyprogrammegui"), "view");
 				$ilCtrl->setParameterByClass("ilobjstudyprogrammegui", "ref_id", $_GET["ref_id"]);
 				return $link;
 
@@ -647,7 +647,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 				return ilContainerReferenceAccess::_isAccessible($a_node["child"]);
 			
 			case 'prg': 
-					return $rbacsystem->checkAccess("visible", $a_node["child"]);
+					return $rbacsystem->checkAccess("read", $a_node["child"]);
 
 			// all other types are only clickable, if read permission is given
 			default:

@@ -175,7 +175,11 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 	{
 		$lng = $GLOBALS['DIC'] ? $GLOBALS['DIC']['lng'] : $GLOBALS['lng'];
 		$F = $_FILES[$this->getPostVar()];
-		
+		if($F && isset($_REQUEST[$this->getPostVar()][self::FILE_DATA_INDEX_DODGING_FILE]))
+		{
+			$F = array_merge(array(self::FILE_DATA_INDEX_DODGING_FILE => $_REQUEST[$this->getPostVar()][self::FILE_DATA_INDEX_DODGING_FILE]), $F);
+		}
+
 		if( $this->getRequired() && !is_array($F['error']) )
 		{
 			$this->setAlert($lng->txt("form_msg_file_no_upload"));

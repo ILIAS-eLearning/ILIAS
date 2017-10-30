@@ -50,13 +50,13 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 
 		//location
 		if($session_obj->getLocation()){
-			$this->addInfoProperty($this->lng->txt("event_location"),ilUtil::makeClickable($session_obj->getLocation()));
-			$this->addListItemProperty($this->lng->txt("event_location"),ilUtil::makeClickable($session_obj->getLocation()));
+			$this->addInfoProperty($this->lng->txt("event_location"),ilUtil::makeClickable(nl2br($session_obj->getLocation())));
+			$this->addListItemProperty($this->lng->txt("event_location"),ilUtil::makeClickable(nl2br($session_obj->getLocation())));
 		}
 		//details/workflow
 		if($session_obj->getDetails())
 		{
-			$this->addInfoProperty($this->lng->txt("event_details_workflow"),$session_obj->getDetails());
+			$this->addInfoProperty($this->lng->txt("event_details_workflow"),ilUtil::makeClickable(nl2br($session_obj->getDetails())));
 		}
 		//lecturer name
 		$str_lecturer = array();
@@ -89,11 +89,12 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 				if($file['type'] == "file") {
 					$this->has_files = true;
 					$href = ilLink::_getStaticLink($file['ref_id'], "file", true,"download");
-					$str[] = $r->render($f->button()->shy($file['title'], $href));
+					$str[$file['title']] = $r->render($f->button()->shy($file['title'], $href));
 				}
 			}
 			if($this->has_files)
 			{
+				ksort($str, SORT_NATURAL | SORT_FLAG_CASE);
 				$this->addInfoProperty($this->lng->txt("files"), implode("<br>", $str));
 				$this->addListItemProperty($this->lng->txt("files"), implode(", ", $str));
 			}

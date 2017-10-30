@@ -66,3 +66,8 @@ Example:
 
 You find all information about how to create your own skin in the 
 [Custom Styles](/templates/Readme.md#custom-styles) documentation.
+
+# Plugins
+
+Plugins are installed under ```/global/plugins```. Each plugin should come with its
+own documentation stating the exact target directory.

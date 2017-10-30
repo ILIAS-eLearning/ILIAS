@@ -33,49 +33,49 @@ include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
 
 class ilCalendarAppointmentColors
 {
-	protected static $colors = array('crs' => array(
-										"#ADD8E6",	 
-										"#BFEFFF",
-										"#B2DFEE",
-										"#9AC0CD",
-										"#68838B",
-										"#E0FFFF",
-										"#D1EEEE",
-										"#B4CDCD",
-										"#7A8B8B",
-										"#87CEFA",
-										"#B0E2FF",
-										"#A4D3EE",
-										"#8DB6CD",
-										"#607B8B",
-										"#B0C4DE",
-										"#CAE1FF",
-										"#BCD2EE",
-										"#A2B5CD"),
-									'grp' => array(
-										"#EEDD82",
-										"#FFEC8B",
-										"#EEDC82",
-										"#CDBE70",
-										"#8B814C",
-										"#FAFAD2",
-										"#FFFFE0",
-										"#FFF8DC",
-										"#EEEED1",
-										"#CDCDB4"),
-									'sess' => array(
-										"#C1FFC1",
-										"#B4EEB4",
-										"#98FB98",
-										"#90EE90"),
-									'exc' => array(
-										"#BC6F16",
-										"#BA7832",
-										"#B78B4D",
-										"#B59365"));
-																				
-									
-	
+	protected static $colors = array(
+		'crs' => array(
+			"#ADD8E6",
+			"#BFEFFF",
+			"#B2DFEE",
+			"#9AC0CD",
+			"#68838B",
+			"#E0FFFF",
+			"#D1EEEE",
+			"#B4CDCD",
+			"#7A8B8B",
+			"#87CEFA",
+			"#B0E2FF",
+			"#A4D3EE",
+			"#8DB6CD",
+			"#607B8B",
+			"#B0C4DE",
+			"#CAE1FF",
+			"#BCD2EE",
+			"#A2B5CD"),
+		'grp' => array(
+			"#EEDD82",
+			"#FFEC8B",
+			"#EEDC82",
+			"#CDBE70",
+			"#8B814C",
+			"#FAFAD2",
+			"#FFFFE0",
+			"#FFF8DC",
+			"#EEEED1",
+			"#CDCDB4"),
+		'sess' => array(
+			"#C1FFC1",
+			"#B4EEB4",
+			"#98FB98",
+			"#90EE90"),
+		'exc' => array(
+			"#BC6F16",
+			"#BA7832",
+			"#B78B4D",
+			"#B59365")
+	);
+
 	protected $db;
 	protected $user_id;
 	protected $appointment_colors;
@@ -89,9 +89,10 @@ class ilCalendarAppointmentColors
 	 */
 	public function __construct($a_user_id)
 	{
-		global $ilDB;
-		
-		$this->db = $ilDB;
+		global $DIC;
+
+		$this->db = $DIC->database();
+		$this->logger = $DIC->logger()->cal();
 		
 		$this->user_id = $a_user_id;
 		
@@ -108,10 +109,25 @@ class ilCalendarAppointmentColors
 	 */
 	public function getColorByAppointment($a_cal_id)
 	{
+		//$this->logger->debug("calendar_id  = ".$a_cal_id);
+
 		$cat_id = $this->cat_app_ass[$a_cal_id];
+		//$this->logger->debug("first cat_id  ==> ".$cat_id);
+		//$this->logger->debug("color first _cat_id => ".$this->appointment_colors[$cat_id]);
+
 		$cat_id = $this->cat_substitutions[$cat_id];
-		
-		return isset($this->appointment_colors[$cat_id]) ? $this->appointment_colors[$cat_id] : 'red';
+		//$this->logger->debug("second cat_id  ==> ".$cat_id);
+		//$this->logger->debug("second color_cat_id => ".$this->appointment_colors[$cat_id]);
+
+		#21078
+		if(isset($this->appointment_colors[$cat_id])) {
+			return $this->appointment_colors[$cat_id];
+		} else if(isset($this->cat_substitutions_colors[$cat_id])) {
+			return $this->cat_substitutions_colors[$cat_id];
+		} else {
+			return 'red';
+		}
+
 	}
 	
 	/**
@@ -137,6 +153,8 @@ class ilCalendarAppointmentColors
 				
 			}
 			$this->cat_substitutions[$c_data['cat_id']] = $c_data['cat_id'];
+			#21078
+			$this->cat_substitutions_colors[$c_data['cat_id']] = $c_data['color'];
 		}
 		
 		$query = "SELECT cat.cat_id,cat.color, ass.cal_id  FROM cal_categories cat ".
