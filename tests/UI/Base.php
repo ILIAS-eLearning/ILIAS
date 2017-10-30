@@ -11,7 +11,11 @@ use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\Render\TemplateFactory;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Implementation\Render\JavaScriptBinding;
+use ILIAS\UI\Implementation\Render\DefaultRendererFactory;
 use ILIAS\UI\Implementation\DefaultRenderer;
+use ILIAS\UI\Implementation\ComponentRendererFSLoader;
+use ILIAS\UI\Implementation\Render;
+use ILIAS\UI\Component\Component as IComponent;
 use ILIAS\UI\Factory;
 
 class ilIndependentTemplateFactory implements TemplateFactory {
@@ -79,6 +83,15 @@ class LoggingJavaScriptBinding implements JavaScriptBinding {
 	}
 }
 
+class TestDefaultRenderer extends DefaultRenderer {
+	public function _getRendererFor(IComponent $component) {
+		return $this->getRendererFor($component);
+	}
+	public function _getContexts() {
+		return $this->getContexts();
+	}
+}
+
 class IncrementalSignalGenerator extends \ILIAS\UI\Implementation\Component\SignalGenerator {
 
 	protected $id = 0;
@@ -90,7 +103,11 @@ class IncrementalSignalGenerator extends \ILIAS\UI\Implementation\Component\Sign
 
 class SignalGeneratorMock extends \ILIAS\UI\Implementation\Component\SignalGenerator {}
 
-class DummyComponent implements \ILIAS\UI\Component\Component {}
+class DummyComponent implements IComponent {
+	public function getCanonicalName() {
+		return "DummyComponent";
+	}
+}
 
 /**
  * Provides common functionality for UI tests.
@@ -132,8 +149,21 @@ abstract class ILIAS_UI_TestBase extends PHPUnit_Framework_TestCase {
 		$resource_registry = $this->getResourceRegistry();
 		$lng = $this->getLanguage();
 		$js_binding = $this->getJavaScriptBinding();
-		return new DefaultRenderer(
-				$ui_factory, $tpl_factory, $resource_registry, $lng, $js_binding);
+		$component_renderer_loader
+			= new Render\LoaderCachingWrapper
+				( new Render\LoaderResourceRegistryWrapper
+					( $resource_registry
+					, new Render\FSLoader
+						( new DefaultRendererFactory
+							( $ui_factory
+							, $tpl_factory
+							, $lng
+							, $js_binding
+							)
+						)
+					)
+				);
+		return new TestDefaultRenderer($component_renderer_loader);
 	}
 
 	public function normalizeHTML($html) {

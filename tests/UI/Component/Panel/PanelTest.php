@@ -11,6 +11,9 @@ class ComponentDummy implements C\Component {
 	public function __construct($id = ""){
 		$this->id = $id;
 	}
+	public function getCanonicalName() {
+		return "Component Dummy";
+	}
 }
 
 /**
