@@ -25,7 +25,8 @@ interface Renderer {
 
 	/**
 	 * Same as render, except that this version also returns any javascript code bound to the on load event,
-	 * wrapped in a script tag.
+	 * wrapped in a script tag. All javascript code stored for rendering will be removed after this output
+     * so it will not be rendered twice if render async is called multiple times.
 	 *
 	 * @param Component\Component|Component\Component[] $component
 	 * @return string
