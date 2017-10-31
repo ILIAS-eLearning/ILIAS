@@ -16,14 +16,14 @@ use ILIAS\UI\Implementation\Component\Input\PostData;
 /**
  * This implements the checkbox input.
  */
-class Checkbox extends Group implements C\Input\Field\Checkbox, C\Changeable {
+class Checkbox extends Group implements C\Input\Field\Checkbox, C\Changeable, C\Onloadable {
 	use JavaScriptBindable;
 	use Triggerer;
 
 	/**
-	 * @var C\Input\Field\SubSection|null
+	 * @var C\Input\Field\DependantGroup|null
 	 */
-	protected $sub_section = null;
+	protected $dependant_group = null;
 	/**
 	 * Numeric constructor.
 	 * @param DataFactory $data_factory
@@ -39,6 +39,30 @@ class Checkbox extends Group implements C\Input\Field\Checkbox, C\Changeable {
 	}
 
 	/**
+	 * @inheritdoc
+	 */
+	protected function isClientSideValueOk($value) {
+		if($value == "checked" || $value === ""){
+			return true;
+		}else{
+			return false;
+		}
+
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withValue($value) {
+		if($value === true){
+			$value = "checked";
+		}else if($value ===false){
+			$value = "";
+		}
+		return parent::withValue($value);
+	}
+
+	/**
 	 * Collects the input, applies trafos on the input and returns
 	 * a new input reflecting the data that was putted in.
 	 *
@@ -49,7 +73,7 @@ class Checkbox extends Group implements C\Input\Field\Checkbox, C\Changeable {
 			throw new \LogicException("Can only collect if input has a name.");
 		}
 
-		$value = $post_input->getOr($this->getName(),"off");
+		$value = $post_input->getOr($this->getName(),"");
 		$clone = $this->withValue($value);
 		$clone->content = $this->applyOperationsTo($value);
 		if ($clone->content->isError()) {
@@ -64,20 +88,21 @@ class Checkbox extends Group implements C\Input\Field\Checkbox, C\Changeable {
 	/**
 	 * @inheritdoc
 	 */
-	public function withSubsection(C\Input\Field\SubSection $sub_section){
+	public function withDependantGroup(C\Input\Field\DependantGroup $dependant_group){
 		$clone = clone $this;
-		$clone = $clone->withOnChange($sub_section->getToggleSignal());
+		$clone = $clone->withOnChange($dependant_group->getToggleSignal());
+		$clone = $clone->appendOnLoad($dependant_group->getInitSignal());
 
-		$clone->inputs[0] = $sub_section;
+		$clone->inputs["dependant_group"] = $dependant_group;
 		return $clone;
 	}
 
 	/**
-	 * @return C\Input\Field\SubSection|null
+	 * @return C\Input\Field\DependantGroup|null
 	 */
-	public function getSubSection(){
+	public function getDependantGroup(){
 		if(is_array($this->inputs)){
-			return $this->inputs[0];
+			return $this->inputs["dependant_group"];
 		}else{
 			return null;
 		}
@@ -96,5 +121,19 @@ class Checkbox extends Group implements C\Input\Field\Checkbox, C\Changeable {
 	 */
 	public function appendOnChange(C\Signal $signal) {
 		return $this->appendTriggeredSignal($signal, 'change');
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withOnLoad(C\Signal $signal) {
+		return $this->addTriggeredSignal($signal, 'load');
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function appendOnLoad(C\Signal $signal) {
+		return $this->appendTriggeredSignal($signal, 'load');
 	}
 }
