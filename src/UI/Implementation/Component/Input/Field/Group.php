@@ -169,7 +169,7 @@ class Group extends Input implements C\Input\Field\Group{
 				if($group_content->isError()){
 					return $f->error($group_content->error());
 				}
-				return $f->ok([$value,$group_content->value()]);
+				return $f->ok(["value"=>$value,"group_values"=>$group_content->value()]);
 			});
 		}else{
 			$clone->content = $clone->applyOperationsTo($values);
