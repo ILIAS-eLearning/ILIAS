@@ -412,7 +412,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}
 
 		$next_class = strtolower($this->ctrl->getNextClass());
-		if ($this->checkPermissionBool("visible"))
+		if ($this->checkPermissionBool("visible") || $this->checkPermissionBool("read"))
 		{
 			$this->tabs_gui->addTab("info",
 				$lng->txt("info_short"),
@@ -500,7 +500,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		$ilTabs->activateTab("info");
 
-		$this->checkPermission("visible");
+		if (!$this->checkPermissionBool("read"))
+		{
+			$this->checkPermission("visible");
+		}
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
