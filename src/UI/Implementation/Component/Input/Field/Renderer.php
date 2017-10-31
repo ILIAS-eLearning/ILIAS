@@ -6,6 +6,7 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
+use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Component;
 use \ILIAS\UI\Implementation\Render\Template;
 
@@ -26,6 +27,14 @@ class Renderer extends AbstractComponentRenderer {
 		return $this->renderNoneFieldGroupInput($component, $default_renderer);
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function registerResources(ResourceRegistry $registry) {
+		parent::registerResources($registry);
+		$registry->register('./src/UI/templates/js/Input/Field/dependantGroup.js');
+	}
+
 	protected function renderNoneFieldGroupInput(Component\Input\Field\Input $input, RendererInterface $default_renderer){
 		$input_tpl = null;
 
@@ -43,17 +52,17 @@ class Renderer extends AbstractComponentRenderer {
 	}
 
 	protected function renderFieldGroups(Component\Input\Field\Group $group, RendererInterface $default_renderer){
-		if ($group instanceof Component\Input\Field\SubSection) {
-			return $this->renderSubSection($group, $default_renderer);
+		if ($group instanceof Component\Input\Field\DependantGroup) {
+			return $this->renderDependantGroup($group, $default_renderer);
 		}else if($group instanceof Component\Input\Field\Checkbox){
 			$input_tpl = $this->getTemplate("tpl.checkbox.html", true, true);
-			$sub_section = "";
-			if($group->getSubSection()){
-				$sub_section = $default_renderer->render($group->getSubSection());
+			$dependant_group_html = "";
+			if($group->getDependantGroup()){
+				$dependant_group_html = $default_renderer->render($group->getDependantGroup());
 				$id = $this->bindJavaScript($group);
 			}
 			$html = $this->renderInputFieldWithContext($input_tpl,$group, $default_renderer,$id);
-			return $html.$sub_section;
+			return $html.$dependant_group_html;
 		} else if($group instanceof Component\Input\Field\Section){
 			return $this->renderSection($group, $default_renderer);
 		}
@@ -100,31 +109,35 @@ class Renderer extends AbstractComponentRenderer {
 		return $section_tpl->get();
 	}
 
-	protected function renderSubSection(Component\Input\Field\SubSection $sub_section, RendererInterface $default_renderer){
-		$sub_section_tpl = $this->getTemplate("tpl.sub_section.html", true, true);
+	protected function renderDependantGroup(Component\Input\Field\DependantGroup $dependant_group, RendererInterface $default_renderer){
+		$dependant_group_tpl = $this->getTemplate("tpl.dependant_group.html", true, true);
 
-		$toggle = $sub_section->getToggleSignal();
+		$toggle = $dependant_group->getToggleSignal();
+		$show = $dependant_group->getShowSignal();
+		$hide = $dependant_group->getHideSignal();
+		$init = $dependant_group->getInitSignal();
 
-		$sub_section =  $sub_section->withAdditionalOnLoadCode(function($id) use ($toggle) {
-			return "$(document).on('{$toggle}', function(signal,params) { console.log(signal,params); $($id).toggle();});";
+		$dependant_group =  $dependant_group->withAdditionalOnLoadCode(function($id) use ($toggle,$show,$hide,$init) {
+			return "il.UI.Input.dependantGroup.init('$id',{toggle:'$toggle',show:'$show',hide:'$hide',init:'$init'});";
 		});
 
-		$id = $this->bindJavaScript($sub_section);
-		$sub_section_tpl->setVariable("ID", $id);
+		$id = $this->bindJavaScript($dependant_group);
+		$dependant_group_tpl->setVariable("ID", $id);
 
 		$inputs_html = "";
 
-		foreach($sub_section->getInputs() as $input) {
+		foreach($dependant_group->getInputs() as $input) {
 			$inputs_html .= $default_renderer->render($input);
 		}
-		$sub_section_tpl->setVariable("CONTENT", $inputs_html);
-		return $sub_section_tpl->get();
+		$dependant_group_tpl->setVariable("CONTENT", $inputs_html);
+		return $dependant_group_tpl->get();
 	}
 
 	/**
-	 * @param $input_html
+	 * @param Template $input_tpl
 	 * @param Component\Input\Field\Input $input
 	 * @param RendererInterface $default_renderer
+	 * @param null $id
 	 * @return string
 	 */
 	protected function renderInputFieldWithContext(Template $input_tpl, Component\Input\Field\Input $input, RendererInterface $default_renderer,$id = null) {
@@ -182,6 +195,6 @@ class Renderer extends AbstractComponentRenderer {
 	protected function getComponentInterfaceName() {
 		return [Component\Input\Field\Text::class,Component\Input\Field\Numeric::class,
 				Component\Input\Field\Group::class,Component\Input\Field\Section::class,
-				Component\Input\Field\Checkbox::class];
+				Component\Input\Field\Checkbox::class,Component\Input\Field\DependantGroup::class];
 	}
 }

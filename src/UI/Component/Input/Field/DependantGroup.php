@@ -6,7 +6,7 @@ docs/LICENSE */
 namespace ILIAS\UI\Component\Input\Field;
 
 /**
- * This describes sub section inputs.
+ * This describes dependant group inputs.
  */
-interface SubSection extends Group{
+interface DependantGroup extends Group{
 }

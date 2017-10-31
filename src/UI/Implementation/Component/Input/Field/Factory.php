@@ -80,8 +80,8 @@ class Factory implements Field\Factory {
 	/**
 	 * @inheritdoc
 	 */
-	public function subSection(array $inputs) {
-		return new SubSection($this->data_factory,$this->validation_factory,$this->transformation_factory,$this->signal_generator,$inputs);
+	public function dependantGroup(array $inputs) {
+		return new DependantGroup($this->data_factory,$this->validation_factory,$this->transformation_factory,$this->signal_generator,$inputs);
 	}
 
 	/**

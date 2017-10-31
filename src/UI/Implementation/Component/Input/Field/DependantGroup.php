@@ -17,7 +17,7 @@ use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 /**
  * This implements commonalities between inputs.
  */
-class SubSection extends Group implements C\Input\Field\SubSection, Triggerable {
+class DependantGroup extends Group implements C\Input\Field\DependantGroup, Triggerable {
 	use JavaScriptBindable;
 
 	/**
@@ -31,14 +31,27 @@ class SubSection extends Group implements C\Input\Field\SubSection, Triggerable 
 	protected $toggle_signal;
 
 	/**
-	 * SubSection constructor.
+	 * @var Signal
+	 */
+	protected $show_signal;
+
+	/**
+	 * @var Signal
+	 */
+	protected $hide_signal;
+
+	/**
+	 * @var Signal
+	 */
+	protected $init_signal;
+
+	/**
+	 * DependantGroup constructor.
 	 * @param DataFactory $data_factory
 	 * @param ValidationFactory $validation_factory
 	 * @param TransformationFactory $transformation_factory
 	 * @param SignalGeneratorInterface $signal_generator
 	 * @param $inputs
-	 * @param $label
-	 * @param $byline
 	 */
 	public function __construct(DataFactory $data_factory,ValidationFactory $validation_factory,
 	                            TransformationFactory $transformation_factory,
@@ -60,17 +73,45 @@ class SubSection extends Group implements C\Input\Field\SubSection, Triggerable 
 	}
 
 	/**
-	 * Set the toggle signal for the sub section
+	 * Set the signals for the dependant group
 	 */
 	protected function initSignals() {
 		$this->toggle_signal = $this->signal_generator->create();
+		$this->show_signal = $this->signal_generator->create();
+		$this->hide_signal = $this->signal_generator->create();
+		$this->init_signal = $this->signal_generator->create();
 	}
 
 	/**
+	 * @internal
 	 * @return Signal
 	 */
 	public function getToggleSignal() {
 		return $this->toggle_signal;
+	}
+
+	/**
+	 * @internal
+	 * @return Signal
+	 */
+	public function getShowSignal() {
+		return $this->show_signal;
+	}
+
+	/**
+	 * @internal
+	 * @return Signal
+	 */
+	public function getHideSignal() {
+		return $this->hide_signal;
+	}
+
+	/**
+	 * @internal
+	 * @return Signal
+	 */
+	public function getInitSignal() {
+		return $this->init_signal;
 	}
 
 }

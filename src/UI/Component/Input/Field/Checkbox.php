@@ -4,25 +4,27 @@
 docs/LICENSE */
 
 namespace ILIAS\UI\Component\Input\Field;
+use ILIAS\UI\Component\Changeable;
+use ILIAS\UI\Component\Onloadable;
 
 /**
  * This describes checkbox inputs.
  */
-interface Checkbox extends Input {
+interface Checkbox extends Group {
 	/**
-	 * Creates a Checkbox like this but with a SubSection attached which appears if the
+	 * Creates a Checkbox like this but with a dependant group attached which appears if the
 	 * control is clicked.
 	 *
-	 * @param SubSection $sub_section Section to be attached to the checkbox
+	 * @param DependantGroup $dependant_group group to be attached to the checkbox
 	 * @return Checkbox
 	 */
-	public function withSubsection(SubSection $sub_section);
+	public function withDependantGroup(DependantGroup $dependant_group);
 
 
 	/**
-	 * Returns the attached SubSection or null if none is attached.
+	 * Returns the attached DependantGroup or null if none is attached.
 	 *
-	 * @return SubSection|null
+	 * @return $dependantGroup|null
 	 */
-	public function getSubSection();
+	public function getDependantGroup();
 }
