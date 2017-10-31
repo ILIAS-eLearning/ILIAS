@@ -14,7 +14,7 @@ interface Factory {
 	 *   purpose: >
 	 *      Forms are used to let the user enter or modify data, check her inputs
 	 *      and submit them to the system.
-	 *      Forms arrange their contents (i.e. fields) in an explanationary rather
+	 *      Forms arrange their contents (i.e. fields) in an explanatory rather
 	 *      than space-saving way.
 	 *   composition: >
 	 *      Forms are composed of input fields, displaying their labels and bylines.
