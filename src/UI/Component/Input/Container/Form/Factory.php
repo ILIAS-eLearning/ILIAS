@@ -30,18 +30,16 @@ interface Factory {
 	 *     2: >
 	 *         Standard Forms MUST only be submitted by their submit-button. They MUST
 	 *         NOT be submitted by anything else.
-	 *     3: Standard Forms SHOULD have a „Cancel“-Button.
-	 *     4: >
+	 *     3: >
 	 *        Wording of labels of the fields the form contains and their ordering MUST
 	 *        be consistent with identifiers in other objects if some for is used there
 	 *        for a similar purpose. If you feel a wording or ordering needs to be
 	 *        changed, then you MUST propose it to the JF.
+	 *     4: >
+	 *        On top and bottom of a standard form there SHOULD be the “Save” button for the form.
 	 *     5: >
-	 *        On top and bottom of a standard form there SHOULD be a “Save” and
-	 *        “Cancel” button for the form. “Save” is left and “Cancel” is right.
-	 *     6: >
-	 *        In some rare exceptions the Buttons MAY be named differently: if “Save” or
-	 *        “Cancel”  are clearly a misleading since the action is more than storing
+	 *        In some rare exceptions the Buttons MAY be named differently: if “Save” is
+	 *        clearly a misleading since the action is more than storing
 	 *        the data into the database. “Send Mail” would be an example of this.
 	 *
 	 * ---
