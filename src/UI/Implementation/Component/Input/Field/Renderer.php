@@ -181,7 +181,7 @@ class Renderer extends AbstractComponentRenderer {
 	 * @return string
 	 */
 	protected function renderInputFieldWithContext(Template $input_tpl, Input $input, $id = null, $dependant_group_html = null) {
-		$tpl = $this->getTemplate("tpl.context-form.html", true, true);
+		$tpl = $this->getTemplate("tpl.context_form.html", true, true);
 		$tpl->setVariable("NAME", $input->getName());
 		$tpl->setVariable("LABEL", $input->getLabel());
 		$tpl->setVariable("INPUT", $this->renderInputField($input_tpl, $input,$id));
