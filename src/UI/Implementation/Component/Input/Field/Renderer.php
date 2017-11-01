@@ -61,8 +61,10 @@ class Renderer extends AbstractComponentRenderer {
 				$dependant_group_html = $default_renderer->render($group->getDependantGroup());
 				$id = $this->bindJavaScript($group);
 			}
-			$html = $this->renderInputFieldWithContext($input_tpl,$group, $default_renderer,$id);
-			return $html.$dependant_group_html;
+
+			$html = $this->renderInputFieldWithContext($input_tpl,$group,
+					$default_renderer,$id,$dependant_group_html);
+			return $html;
 		} else if($group instanceof Component\Input\Field\Section){
 			return $this->renderSection($group, $default_renderer);
 		}
@@ -140,7 +142,12 @@ class Renderer extends AbstractComponentRenderer {
 	 * @param null $id
 	 * @return string
 	 */
-	protected function renderInputFieldWithContext(Template $input_tpl, Component\Input\Field\Input $input, RendererInterface $default_renderer,$id = null) {
+	protected function renderInputFieldWithContext(
+			Template $input_tpl,
+			Component\Input\Field\Input $input,
+			RendererInterface $default_renderer,
+			$id = null,
+			$dependant_group_html = null) {
 		$tpl = $this->getTemplate("tpl.context-form.html", true, true);
 		$tpl->setVariable("NAME", $input->getName());
 		$tpl->setVariable("LABEL", $input->getLabel());
@@ -160,6 +167,10 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->setCurrentBlock("error");
 			$tpl->setVariable("ERROR", $input->getError());
 			$tpl->parseCurrentBlock();
+		}
+
+		if ($dependant_group_html !== null) {
+			$tpl->setVariable("DEPENDANT_GROUP", $dependant_group_html);
 		}
 
 		return $tpl->get();
