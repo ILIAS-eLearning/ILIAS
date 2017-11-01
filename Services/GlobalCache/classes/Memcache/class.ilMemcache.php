@@ -184,6 +184,12 @@ class ilMemcache extends ilGlobalCacheService {
 			return $return;
 		}
 	}
-}
 
-?>
+
+	/**
+	 * @inheritdoc
+	 */
+	public function isValid($key) {
+		return true;
+	}
+}
