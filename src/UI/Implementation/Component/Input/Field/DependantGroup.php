@@ -15,7 +15,7 @@ use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 /**
- * This implements commonalities between inputs.
+ * This implements dependant groups (aka subforms).
  */
 class DependantGroup extends Group implements C\Input\Field\DependantGroup, Triggerable {
 	use JavaScriptBindable;
@@ -83,7 +83,6 @@ class DependantGroup extends Group implements C\Input\Field\DependantGroup, Trig
 	}
 
 	/**
-	 * @internal
 	 * @return Signal
 	 */
 	public function getToggleSignal() {
@@ -91,7 +90,6 @@ class DependantGroup extends Group implements C\Input\Field\DependantGroup, Trig
 	}
 
 	/**
-	 * @internal
 	 * @return Signal
 	 */
 	public function getShowSignal() {
@@ -99,7 +97,6 @@ class DependantGroup extends Group implements C\Input\Field\DependantGroup, Trig
 	}
 
 	/**
-	 * @internal
 	 * @return Signal
 	 */
 	public function getHideSignal() {
@@ -107,7 +104,6 @@ class DependantGroup extends Group implements C\Input\Field\DependantGroup, Trig
 	}
 
 	/**
-	 * @internal
 	 * @return Signal
 	 */
 	public function getInitSignal() {

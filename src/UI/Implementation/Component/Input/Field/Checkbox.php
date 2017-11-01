@@ -14,7 +14,8 @@ use ILIAS\UI\Implementation\Component\Triggerer;
 use ILIAS\UI\Implementation\Component\Input\PostData;
 
 /**
- * This implements the checkbox input.
+ * This implements the checkbox input, note that this extends group to manage potential
+ * attached dependant groups.
  */
 class Checkbox extends Group implements C\Input\Field\Checkbox, C\Changeable, C\Onloadable {
 	use JavaScriptBindable;
@@ -24,18 +25,17 @@ class Checkbox extends Group implements C\Input\Field\Checkbox, C\Changeable, C\
 	 * @var C\Input\Field\DependantGroup|null
 	 */
 	protected $dependant_group = null;
+
 	/**
-	 * Numeric constructor.
+	 * Checkbox constructor.
 	 * @param DataFactory $data_factory
+	 * @param ValidationFactory $validation_factory
+	 * @param TransformationFactory $transformation_factory
 	 * @param $label
 	 * @param $byline
 	 */
 	public function __construct(DataFactory $data_factory, ValidationFactory $validation_factory, TransformationFactory $transformation_factory, $label, $byline) {
-
 		parent::__construct($data_factory, $validation_factory, $transformation_factory, [], $label, $byline);
-
-		//TODO: IsBoolean or similar here
-		//$this->setAdditionalConstraint($this->validation_factory->isNumeric());
 	}
 
 	/**
@@ -52,8 +52,10 @@ class Checkbox extends Group implements C\Input\Field\Checkbox, C\Changeable, C\
 
 	/**
 	 * @inheritdoc
+	 * @return Checkbox
 	 */
 	public function withValue($value) {
+		//be lenient to bool params for easier use
 		if($value === true){
 			$value = "checked";
 		}else if($value ===false){
@@ -63,9 +65,6 @@ class Checkbox extends Group implements C\Input\Field\Checkbox, C\Changeable, C\
 	}
 
 	/**
-	 * Collects the input, applies trafos on the input and returns
-	 * a new input reflecting the data that was putted in.
-	 *
 	 * @inheritdoc
 	 */
 	public function withInput(PostData $post_input) {
@@ -90,6 +89,10 @@ class Checkbox extends Group implements C\Input\Field\Checkbox, C\Changeable, C\
 	 */
 	public function withDependantGroup(C\Input\Field\DependantGroup $dependant_group){
 		$clone = clone $this;
+		/**
+		 * @var $clone Checkbox
+		 * @var $dependant_group DependantGroup
+		 */
 		$clone = $clone->withOnChange($dependant_group->getToggleSignal());
 		$clone = $clone->appendOnLoad($dependant_group->getInitSignal());
 

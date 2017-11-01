@@ -124,6 +124,9 @@ class Group extends Input implements C\Input\Field\Group{
 	 */
 	public function withInput(PostData $post_input) {
 		$clone = parent::withInput($post_input);
+		/**
+		 * @var $clone Group
+		 */
 		if($clone->getError()){
 			return $clone;
 		}
@@ -145,14 +148,18 @@ class Group extends Input implements C\Input\Field\Group{
 		$values = [];
 		$error = false;
 		foreach($this->getInputs() as $key => $input){
-			$inputs[$key] = $input->withInput($post_input);
+			$filled = $input->withInput($post_input);
+			/**
+			 * @var $filled Input
+			 */
 			//Todo: Is this correct here or should it be getValue? Design decision...
-			$content = $inputs[$key]->getContent();
+			$content = $filled->getContent();
 			if( $content->isOk()){
 				$values[$key] = $content->value();
 			}else{
 				$error = true;
 			}
+			$inputs[$key] = $filled;
 		}
 		$clone->inputs = $inputs;
 		if($error){
@@ -187,7 +194,9 @@ class Group extends Input implements C\Input\Field\Group{
 	 */
 	public function withNameFrom(NameSource $source) {
 		$clone = parent::withNameFrom($source);
-
+		/**
+		 * @var $clone Group
+		 */
 		$named_inputs = [];
 		foreach($this->getInputs() as $key => $input) {
 			$named_inputs[$key] = $input->withNameFrom($source);

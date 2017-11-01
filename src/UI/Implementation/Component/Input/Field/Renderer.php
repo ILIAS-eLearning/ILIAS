@@ -19,12 +19,18 @@ class Renderer extends AbstractComponentRenderer {
 	 * @inheritdoc
 	 */
 	public function render(Component\Component $component, RendererInterface $default_renderer) {
+		/**
+		 * @var $component Input
+		 */
 		$this->checkComponent($component);
 
 		if($component instanceof Component\Input\Field\Group){
+			/**
+			 * @var $component Group
+			 */
 			return $this->renderFieldGroups($component, $default_renderer);
 		}
-		return $this->renderNoneFieldGroupInput($component, $default_renderer);
+		return $this->renderNoneGroupInput($component);
 	}
 
 	/**
@@ -35,7 +41,11 @@ class Renderer extends AbstractComponentRenderer {
 		$registry->register('./src/UI/templates/js/Input/Field/dependantGroup.js');
 	}
 
-	protected function renderNoneFieldGroupInput(Component\Input\Field\Input $input, RendererInterface $default_renderer){
+	/**
+	 * @param Component\Input\Field\Input $input
+	 * @return string
+	 */
+	protected function renderNoneGroupInput(Component\Input\Field\Input $input){
 		$input_tpl = null;
 
 		if ($input instanceof Component\Input\Field\Text) {
@@ -46,26 +56,38 @@ class Renderer extends AbstractComponentRenderer {
 			throw new \LogicException("Cannot render '".get_class($input)."'");
 		}
 
-		//TODO: How to solve this, Inputs will have a different frame depending on the
-		//context...
-		return $this->renderInputFieldWithContext($input_tpl,$input, $default_renderer);
+		return $this->renderInputFieldWithContext($input_tpl,$input);
 	}
 
-	protected function renderFieldGroups(Component\Input\Field\Group $group, RendererInterface $default_renderer){
+	/**
+	 * @param Group $group
+	 * @param RendererInterface $default_renderer
+	 * @return string
+	 */
+	protected function renderFieldGroups(Group $group, RendererInterface $default_renderer){
 		if ($group instanceof Component\Input\Field\DependantGroup) {
+			/**
+			 * @var $group DependantGroup
+			 */
 			return $this->renderDependantGroup($group, $default_renderer);
 		}else if($group instanceof Component\Input\Field\Checkbox){
+			/**
+			 * @var $group Checkbox
+			 */
 			$input_tpl = $this->getTemplate("tpl.checkbox.html", true, true);
 			$dependant_group_html = "";
+			$id = "";
 			if($group->getDependantGroup()){
 				$dependant_group_html = $default_renderer->render($group->getDependantGroup());
 				$id = $this->bindJavaScript($group);
 			}
 
-			$html = $this->renderInputFieldWithContext($input_tpl,$group,
-					$default_renderer,$id,$dependant_group_html);
+			$html = $this->renderInputFieldWithContext($input_tpl,$group,$id,$dependant_group_html);
 			return $html;
 		} else if($group instanceof Component\Input\Field\Section){
+			/**
+			 * @var $group Section
+			 */
 			return $this->renderSection($group, $default_renderer);
 		}
 		$inputs = "";
@@ -75,7 +97,11 @@ class Renderer extends AbstractComponentRenderer {
 		return $inputs;
 	}
 
-	protected function maybeRenderId(Component\Component $component, $tpl) {
+	/**
+	 * @param Component\JavascriptBindable $component
+	 * @param $tpl
+	 */
+	protected function maybeRenderId(Component\JavascriptBindable $component, Template $tpl) {
 		$id = $this->bindJavaScript($component);
 		if ($id !== null) {
 			$tpl->setCurrentBlock("with_id");
@@ -84,8 +110,12 @@ class Renderer extends AbstractComponentRenderer {
 		}
 	}
 
-
-	protected function renderSection(Component\Input\Field\Section $section, RendererInterface $default_renderer){
+	/**
+	 * @param Section $section
+	 * @param RendererInterface $default_renderer
+	 * @return string
+	 */
+	protected function renderSection(Section $section, RendererInterface $default_renderer){
 		$section_tpl = $this->getTemplate("tpl.section.html", true, true);
 		$section_tpl->setVariable("LABEL", $section->getLabel());
 
@@ -111,7 +141,12 @@ class Renderer extends AbstractComponentRenderer {
 		return $section_tpl->get();
 	}
 
-	protected function renderDependantGroup(Component\Input\Field\DependantGroup $dependant_group, RendererInterface $default_renderer){
+	/**
+	 * @param DependantGroup $dependant_group
+	 * @param RendererInterface $default_renderer
+	 * @return string
+	 */
+	protected function renderDependantGroup(DependantGroup $dependant_group, RendererInterface $default_renderer){
 		$dependant_group_tpl = $this->getTemplate("tpl.dependant_group.html", true, true);
 
 		$toggle = $dependant_group->getToggleSignal();
@@ -123,6 +158,9 @@ class Renderer extends AbstractComponentRenderer {
 			return "il.UI.Input.dependantGroup.init('$id',{toggle:'$toggle',show:'$show',hide:'$hide',init:'$init'});";
 		});
 
+		/**
+		 * @var $dependant_group DependantGroup
+		 */
 		$id = $this->bindJavaScript($dependant_group);
 		$dependant_group_tpl->setVariable("ID", $id);
 
@@ -137,17 +175,12 @@ class Renderer extends AbstractComponentRenderer {
 
 	/**
 	 * @param Template $input_tpl
-	 * @param Component\Input\Field\Input $input
-	 * @param RendererInterface $default_renderer
+	 * @param Input $input
 	 * @param null $id
+	 * @param null $dependant_group_html
 	 * @return string
 	 */
-	protected function renderInputFieldWithContext(
-			Template $input_tpl,
-			Component\Input\Field\Input $input,
-			RendererInterface $default_renderer,
-			$id = null,
-			$dependant_group_html = null) {
+	protected function renderInputFieldWithContext(Template $input_tpl, Input $input, $id = null, $dependant_group_html = null) {
 		$tpl = $this->getTemplate("tpl.context-form.html", true, true);
 		$tpl->setVariable("NAME", $input->getName());
 		$tpl->setVariable("LABEL", $input->getLabel());
@@ -178,12 +211,11 @@ class Renderer extends AbstractComponentRenderer {
 
 	/**
 	 * @param Template $tpl
-	 * @param Component\Input\Field\Input $input
-	 * @param RendererInterface $default_renderer
+	 * @param Input $input
 	 * @param $id
 	 * @return string
 	 */
-	protected function renderInputField(Template $tpl, Component\Input\Field\Input $input, $id) {
+	protected function renderInputField(Template $tpl, Input $input, $id) {
 		$tpl->setVariable("NAME", $input->getName());
 
 		if ($input->getValue() !== null) {

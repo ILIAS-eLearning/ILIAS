@@ -6,6 +6,7 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Implementation\Component\Input\PostData;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
+use ILIAS\Data\Result;
 
 /**
  * Describes the interface of inputs that is used for internal
