@@ -49,7 +49,7 @@ class ilApc extends ilGlobalCacheService {
 	 * @return mixed
 	 */
 	public function get($key) {
-		return apcu_fetch( $this->returnKey($key));
+		return apcu_fetch($this->returnKey($key));
 	}
 
 
@@ -59,7 +59,7 @@ class ilApc extends ilGlobalCacheService {
 	 * @return bool|string[]
 	 */
 	public function delete($key) {
-		return apcu_delete( $this->returnKey($key));
+		return apcu_delete($this->returnKey($key));
 	}
 
 
@@ -157,6 +157,11 @@ class ilApc extends ilGlobalCacheService {
 	}
 
 
-
+	/**
+	 * @inheritdoc
+	 */
+	public function isValid($key) {
+		return true;
+	}
 }
 
