@@ -10,6 +10,7 @@ use \ILIAS\UI\Implementation\Component\Input\Field\InputInternal;
 use \ILIAS\UI\Implementation\Component\Input\NameSource;
 use \ILIAS\UI\Implementation\Component\Input\PostData;
 use \ILIAS\UI\Implementation\Component\Input\Container\Form\Form;
+use ILIAS\UI\Implementation\Component\SignalGenerator;
 
 use \ILIAS\Transformation\Factory as TransformationFactory;
 
@@ -34,7 +35,7 @@ class ConcreteForm extends Form {
 		return parent::extractPostData($request);
 	}
 	public function setInputs(array $inputs) {
-		$input_factory = new Input\Factory();
+		$input_factory = new Input\Factory(new SignalGenerator());
 		$this->input_group = $input_factory->field()->group($inputs);
 		$this->inputs = $inputs;
 	}
@@ -48,11 +49,11 @@ class ConcreteForm extends Form {
  */
 class FormTest extends ILIAS_UI_TestBase {
 	protected function buildFactory() {
-		return new ILIAS\UI\Implementation\Component\Input\Container\Form\Factory();
+		return new ILIAS\UI\Implementation\Component\Input\Container\Form\Factory(new SignalGenerator());
 	}
 
 	protected function buildInputFactory() {
-		return new ILIAS\UI\Implementation\Component\Input\Field\Factory();
+		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(new SignalGenerator());
 	}
 
 	protected function buildButtonFactory() {
@@ -118,6 +119,8 @@ class FormTest extends ILIAS_UI_TestBase {
 	public function test_withRequest() {
 		$request = \Mockery::mock(ServerRequestInterface::class);
 		$post_data = \Mockery::Mock(PostData::class);
+		$post_data->shouldReceive("getOr")->once()->andReturn("");
+
 		$df = $this->buildDataFactory();
 
 		$input_1 = \Mockery::mock(InputInternal::class);
@@ -150,6 +153,8 @@ class FormTest extends ILIAS_UI_TestBase {
 	public function test_withRequest_respects_keys() {
 		$request = \Mockery::mock(ServerRequestInterface::class);
 		$post_data = \Mockery::Mock(PostData::class);
+		$post_data->shouldReceive("getOr")->once()->andReturn("");
+
 		$df = $this->buildDataFactory();
 
 		$input_1 = \Mockery::mock(InputInternal::class);

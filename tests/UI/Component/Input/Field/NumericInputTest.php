@@ -5,6 +5,7 @@
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 require_once(__DIR__."/InputTest.php");
+use ILIAS\UI\Implementation\Component\SignalGenerator;
 
 class NumericInputTest extends ILIAS_UI_TestBase {
 	public function setUp() {
@@ -12,7 +13,7 @@ class NumericInputTest extends ILIAS_UI_TestBase {
 	}
 
 	protected function buildFactory() {
-		return new ILIAS\UI\Implementation\Component\Input\Field\Factory;
+		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(new SignalGenerator());
 	}
 
 	public function test_implements_factory_interface() {

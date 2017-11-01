@@ -184,13 +184,18 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl = $this->getTemplate("tpl.context_form.html", true, true);
 		/**
 		 * TODO: should we through an error in case for no name or render without name?
-		 */
+
 		if(!$input->getName()){
 			throw new \LogicException("Cannot render '".get_class($input)."' no input name given.
 			Is there a name source attached (is this input packed into a container attaching
 			a name source)?");
+		} */
+		if($input->getName()){
+			$tpl->setVariable("NAME", $input->getName());
+		}else{
+			$tpl->setVariable("NAME", "");
 		}
-		$tpl->setVariable("NAME", $input->getName());
+
 		$tpl->setVariable("LABEL", $input->getLabel());
 		$tpl->setVariable("INPUT", $this->renderInputField($input_tpl, $input,$id));
 
