@@ -1,34 +1,25 @@
 <?php
+/**
+ * Base example showing how to plug a numeric input into a form
+ */
 function numeric_inputs() {
-    //Step 0, initiate factories
+	//Step 0: Declare dependencies
     global $DIC;
     $ui = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
 	$request = $DIC->http()->request();
-    $trafo = new \ILIAS\Transformation\Factory();
 
-    //Step 1, implement transformation
-    $sum = $trafo->custom(function($vs) {
-        list($l, $r) = $vs;
-        $s = $l + $r;
-        return "$l + $r = $s";
-    });
+    //Step 1: Declare the numeric input
+	$number_input = $ui->input()->field()->numeric("Some Number", "Put in a number.")->withValue(133);
 
-    //Step 2, define inputs
-	$number_input = $ui->input()->field()->numeric("number", "Put in a number.")->withValue(133);
-
-    //Step 3, define form and form actions
+    //Step 2, define form and form actions
 	$DIC->ctrl()->setParameterByClass(
 			'ilsystemstyledocumentationgui',
 			'example_name',
 			'numeric_inputs'
 	);
 	$form_action = $DIC->ctrl()->getFormActionByClass('ilsystemstyledocumentationgui');
-	$form = $ui->input()->container()->form()->standard($form_action,
-		[ $number_input->withLabel("Left")
-		, $number_input->withLabel("Right")
-		])
-		->withAdditionalTransformation($sum);
+	$form = $ui->input()->container()->form()->standard($form_action, [ $number_input]);
 
     //Step 4, implement some form data processing.
 	if ($request->getMethod() == "POST"
