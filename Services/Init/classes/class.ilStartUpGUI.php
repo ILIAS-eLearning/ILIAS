@@ -1603,14 +1603,15 @@ class ilStartUpGUI
 	function showClientList()
 	{
 		global $tpl, $ilIliasIniFile, $lng;
-//echo "1";
+
 		if (!$ilIliasIniFile->readVariable("clients","list"))
 		{
 			$this->processIndexPHP();
 			return;
 		}
-//echo "2";
-		$tpl = new ilTemplate("tpl.main.html", true, true);
+
+		// fix #21612
+	//	$tpl = new ilTemplate("tpl.main.html", true, true);
 		$tpl->setAddFooter(false); // no client yet
 
 		$tpl->setVariable("PAGETITLE", $lng->txt("clientlist_clientlist"));
