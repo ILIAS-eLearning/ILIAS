@@ -7886,6 +7886,59 @@ ul.breadcrumb li:hover {
   color: white;
   background-color: #4c6586;
 }
+.il-standard-form {
+  background-color: #fdfdfd;
+  margin-top: 6px;
+}
+.il-standard-form .il-standard-form-cmd {
+  float: right;
+}
+.il-standard-form .il-standard-form-cmd .btn {
+  display: inline-block;
+  min-width: 60px;
+  vertical-align: top;
+}
+@media (max-width: 767px) {
+  .il-standard-form .il-standard-form-cmd .btn {
+    min-width: 0;
+  }
+}
+.il-standard-form .il-standard-form-header,
+.il-standard-form .il-standard-form-footer,
+.il-standard-form .il-section-input-header {
+  background-color: #f0f0f0;
+  color: #9a9a9a;
+}
+.il-standard-form .il-standard-form-header h3,
+.il-standard-form .il-section-input-header h3 {
+  font-size: 19px;
+  text-transform: uppercase;
+  padding-top: 6px;
+  margin-bottom: 3px;
+}
+.il-standard-form .il-standar-form-header-byline,
+.il-standard-form .il-section-input-header-byline {
+  font-size: 12px;
+}
+.il-standard-form .il-standard-form-header + .il-section-input {
+  margin-top: -25.14285715px;
+  padding: 0;
+}
+.il-standard-form .il-standard-form-header + .il-section-input .il-section-input-header h3 {
+  margin-top: 0;
+  padding-top: 0;
+}
+.il-standard-form .il-dependant-group {
+  background-color: #f8f8f8;
+  padding: 3px 0;
+}
+.il-standard-form .il-dependant-group .form-group {
+  margin: 0;
+}
+.il-standard-form input[type="radio"],
+.il-standard-form input[type="checkbox"] {
+  margin: 0;
+}
 /*		Color scheme
 		Dark BLue: #0f2152;
 		Mid Blue: #4c6586;
@@ -9882,7 +9935,7 @@ select {
 }
 .form-horizontal {
   margin-bottom: 20px;
-  background-color: #fdfdfd;
+  background: #fdfdfd;
 }
 form.form-inline {
   margin-bottom: 20px;
@@ -9986,8 +10039,7 @@ input[type="file"].form-control {
 }
 .ilFormHeader,
 .ilFormFooter {
-  color: #4d4d4d;
-  /* background-color: lighten(@ilFormColor, 45%); */
+  color: #9a9a9a;
   background-color: #f0f0f0;
 }
 .ilSubForm {
@@ -10036,7 +10088,7 @@ div[id^="ilFormField"] {
 /* Hierarchy Form */
 div.ilHFormHeader,
 div.ilHFormFooter {
-  color: #4d4d4d;
+  color: #9a9a9a;
   background-color: #f0f0f0;
   padding: 4px 0 4px 22px;
 }

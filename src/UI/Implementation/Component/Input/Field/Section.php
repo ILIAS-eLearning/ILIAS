@@ -8,7 +8,7 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 use ILIAS\UI\Component as C;
 
 /**
- * This implements commonalities between inputs.
+ * This implements the section input.
  */
 class Section extends Group implements C\Input\Field\Section {
 }

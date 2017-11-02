@@ -6,6 +6,8 @@ require_once(__DIR__."/../../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__."/../../../../Base.php");
 require_once(__DIR__ . "/FormTest.php");
 
+use ILIAS\UI\Implementation\Component\SignalGenerator;
+
 
 class WithButtonNoUIFactory extends NoUIFactory {
 	protected $button_factory;
@@ -22,11 +24,11 @@ class WithButtonNoUIFactory extends NoUIFactory {
  */
 class StandardFormTest extends ILIAS_UI_TestBase {
 	protected function buildFactory() {
-		return new ILIAS\UI\Implementation\Component\Input\Container\Form\Factory;
+		return new ILIAS\UI\Implementation\Component\Input\Container\Form\Factory();
 	}
 
 	protected function buildInputFactory() {
-		return new ILIAS\UI\Implementation\Component\Input\Field\Factory;
+		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(new SignalGenerator());
 	}
 
 	protected function buildButtonFactory() {
@@ -47,9 +49,7 @@ class StandardFormTest extends ILIAS_UI_TestBase {
 
 	public function test_render() {
 	    $f = $this->buildFactory();
-		$bf = $this->buildButtonFactory();
 		$if = $this->buildInputFactory();
-		$name_source = new FixedNameSource();
 
 		$url = "MY_URL";
 		$form = $f->standard($url,
@@ -57,19 +57,10 @@ class StandardFormTest extends ILIAS_UI_TestBase {
 			]);
 
 		$r = $this->getDefaultRenderer();
-		$html = $this->normalizeHTML($r->render($form));
-
-		$button = $this->normalizeHTML(str_replace('">', '" id="id_1">', $r->render($bf->standard("save", "#"))));
-		$name_source->name = "form_input_0";
-		$input = $this->normalizeHTML($r->render($if->text("label", "byline")->withNameFrom($name_source)));
+		$html = $r->render($form);
 
 		$expected =
-			"<form role=\"form\" class=\"form-horizontal\" enctype=\"multipart/formdata\" action=\"$url\" method=\"post\" novalidate=\"novalidate\">".
-			"	<div class=\"ilFormHeader\">".
-			"		<div class=\"ilFormCmds\">$button</div>".
-			"	</div>".
-			"	".$input.
-			"</form>";
-		$this->assertEquals($expected, $html);
+			"<form role=\"form\" class=\"il-standard-form form-horizontal\" enctype=\"multipart/formdata\" action=\"MY_URL\" method=\"post\" novalidate=\"novalidate\">        <div class=\"il-standard-form-header clearfix\">          <div class=\"il-standard-form-cmd\"><a class=\"btn btn-default\" href=\"#\"   data-action=\"#\" id=\"id_1\">save</a></div>        </div>  <div class=\"form-group row\">     <label for=\"form_input_1\" class=\"control-label col-sm-3\">label</label>  <div class=\"col-sm-9\">          <input type=\"text\" name=\"form_input_1\" class=\"form-control form-control-sm\" />          <div class=\"help-block\">byline</div>                    </div></div>    <div class=\"il-standard-form-footer clearfix\">          <div class=\"il-standard-form-cmd\"><a class=\"btn btn-default\" href=\"#\"   data-action=\"#\" id=\"id_2\">save</a></div> </div></form>";
+		$this->assertHTMLEquals($expected, $html);
 	}
 }

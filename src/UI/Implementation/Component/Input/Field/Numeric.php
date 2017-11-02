@@ -34,7 +34,7 @@ class Numeric extends Input implements C\Input\Field\Numeric {
 	 * @inheritdoc
 	 */
 	protected function isClientSideValueOk($value) {
-		return is_string($value);
+		return $this->validation_factory->isNumeric($value);
 	}
 
 

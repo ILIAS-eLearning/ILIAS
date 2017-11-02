@@ -6,6 +6,7 @@ namespace ILIAS\UI\Implementation\Component\Input\Container\Form;
 
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation as I;
 use ILIAS\UI\Implementation\Component as CI;
 use ILIAS\UI\Implementation\Component\Input;
 use ILIAS\Transformation\Transformation;
@@ -41,7 +42,7 @@ abstract class Form implements C\Input\Container\Form\Form, CI\Input\NameSource 
 	public function __construct(array $inputs) {
 		$classes = [CI\Input\Field\Input::class];
 		$this->checkArgListElements("input", $inputs, $classes);
-		$input_factory = new Input\Factory();
+		$input_factory = (new I\Factory())->input();
 		$this->input_group = $input_factory->field()->group($inputs)->withNameFrom($this);
 		$this->transformation = null;
 	}

@@ -145,6 +145,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 		if ($binder === null) {
 			return null;
 		}
+
 		$id = $this->js_binding->createId();
 		$on_load_code = $binder($id);
 		if (!is_string($on_load_code)) {
@@ -173,7 +174,18 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 				$signal = $triggered_signal->getSignal();
 				$event = $triggered_signal->getEvent();
 				$options = json_encode($signal->getOptions());
-				$code .=
+				//Note this switch is necessary since $(#...).on('load', ...) could be fired before the binding of the event.
+				if($event == 'load'){
+					$code .=
+							"$(this).trigger('{$signal}',
+							{
+								'id' : '{$signal}', 'event' : '{$event}',
+								'triggerer' : $('#{$id}'),
+								'options' : JSON.parse('{$options}')
+							}
+						);";
+				}else{
+					$code .=
 					"$('#{$id}').on('{$event}', function(event) {
 						$(this).trigger('{$signal}',
 							{
@@ -184,6 +196,8 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 						);
 						return false;
 					});";
+				}
+
 			}
 			return $code;
 		});

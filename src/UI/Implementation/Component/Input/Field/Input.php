@@ -49,7 +49,7 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	/**
 	 * @var	bool
 	 */
-	protected $is_required;
+	protected $is_required = false;
 
 	/**
 	 * This is the value contained in the input as displayed
@@ -57,26 +57,26 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	 *
 	 * @var	mixed
 	 */
-	protected $value;
+	protected $value = null;
 
 	/**
 	 * This is an error on the input as displayed client side.
 	 *
 	 * @var	string|null
 	 */
-	protected $error;
+	protected $error = null;
 
 	/**
 	 * @var	string|null
 	 */
-	private $name;
+	private $name = null;
 
 	/**
 	 * This is the current content of the input in the abstraction.
 	 *
 	 * @var	Result|null
 	 */
-	protected $content;
+	protected $content = null;
 
 	/**
 	 * @var (Transformation|Constraint)[]
@@ -101,11 +101,6 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 		}
 		$this->label = $label;
 		$this->byline= $byline;
-		$this->is_required = false;
-		$this->value = null;
-		$this->name = null;
-		$this->error = null;
-		$this->content = null;
 		$this->operations = [];
 	}
 
@@ -326,11 +321,15 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	 * @inheritdoc
 	 */
 	public function withInput(PostData $input) {
-		if ($this->name === null) {
+		//TODO: What should happen if input has not name? Throw exception or return null?
+		/**
+		if ($this->getName() === null) {
 			throw new \LogicException("Can only collect if input has a name.");
-		}
+		}**/
 
-		$value = $input->get($this->getName());
+		//TODO: Discuss, is this correct here. If there is no input contained in this post
+		//We assign null. Note that unset checkboxes are not contained in POST.
+		$value = $input->getOr($this->getName(),null);
 		$clone = $this->withValue($value);
 		$clone->content = $this->applyOperationsTo($value);
 		if ($clone->content->isError()) {

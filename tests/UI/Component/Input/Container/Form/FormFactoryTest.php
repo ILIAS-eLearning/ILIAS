@@ -6,7 +6,9 @@ use \ILIAS\UI\Component\Input\Container\Form;
 
 class FormFactoryTest extends AbstractFactoryTest {
 	public $kitchensink_info_settings = array(
-
+			"standard" => array(
+					"context" => false
+			)
 	);
 
 	public $factory_title = 'ILIAS\\UI\\Component\\Input\\Container\\Form\\Factory';

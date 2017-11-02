@@ -183,6 +183,6 @@ class Factory implements \ILIAS\UI\Factory
 	 */
 	public function input()
 	{
-		return new Component\Input\Factory();
+		return new Component\Input\Factory(new SignalGenerator());
 	}
 }
