@@ -163,24 +163,9 @@ class shibUser extends ilObjUser {
 	 * @return mixed
 	 */
 	protected static function cleanName($name) {
-		$upas = array(
-			'ä'  => 'ae',
-			'ü'  => 'ue',
-			'ö'  => 'oe',
-			'Ä'  => 'Ae',
-			'Ü'  => 'Ue',
-			'Ö'  => 'Oe',
-			'é'  => 'e',
-			'è'  => 'e',
-			'ê'  => 'e',
-			'Á'  => 'A',
-			'\'' => '',
-			' '  => '',
-			'-'  => '',
-			'.'  => '',
-		);
+		$name = strtolower(strtr(utf8_decode($name), utf8_decode('ŠŒŽšœžŸ¥µÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýÿ'), 'SOZsozYYuAAAAAAACEEEEIIIIDNOOOOOOUUUUYsaaaaaaaceeeeiiiionoooooouuuuyy'));
 
-		return strtolower(strtr($name, $upas));
+		return $name;
 	}
 
 
