@@ -100,14 +100,45 @@ class ilSurveyImporter extends ilXmlImporter
 				include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 				foreach ($_SESSION["import_mob_xhtml"] as $mob)
 				{
+					if (!$mob["type"])
+					{
+						$mob["type"] = "svy:html";
+					}
+
 					$importfile = dirname($xml_file) . "/" . $mob["uri"];
 					if (file_exists($importfile))
 					{
-						$media_object =& ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
-						ilObjMediaObject::_saveUsage($media_object->getId(), "svy:html", $newObj->getId());
-						$newObj->setIntroduction(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $newObj->getIntroduction()));
-						$newObj->setOutro(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $newObj->getOutro()));
-					} else
+						$media_object = ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
+
+						// survey mob
+						if ($mob["type"] == "svy:html")
+						{
+							ilObjMediaObject::_saveUsage($media_object->getId(), "svy:html", $newObj->getId());
+							$newObj->setIntroduction(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $newObj->getIntroduction()));
+							$newObj->setOutro(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $newObj->getOutro()));
+						}
+						else if($import->questions[$mob["id"]])
+						{
+							$new_qid = $import->questions[$mob["id"]];
+							ilObjMediaObject::_saveUsage($media_object->getId(), $mob["type"], $new_qid);
+							$new_question = SurveyQuestion::_instanciateQuestion($new_qid);
+							$qtext = $new_question->getQuestiontext();
+							$qtext = ilRTE::_replaceMediaObjectImageSrc($qtext, 0);
+							$qtext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $qtext);
+							$qtext = ilRTE::_replaceMediaObjectImageSrc($qtext, 1);
+							$new_question->setQuestiontext($qtext);
+							$new_question->saveToDb();
+
+							// also fix existing original in pool
+							if($new_question->getOriginalId())
+							{
+								$pool_question = SurveyQuestion::_instanciateQuestion($new_question->getOriginalId());
+								$pool_question->setQuestiontext($qtext);
+								$pool_question->saveToDb();
+							}
+						}
+					}
+					else
 					{
 						global $ilLog;
 						$ilLog->write("Error: Could not open XHTML mob file for test introduction during test import. File $importfile does not exist!");
