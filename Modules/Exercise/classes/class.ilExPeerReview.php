@@ -38,7 +38,8 @@ class ilExPeerReview
 		// returned / assigned ?!
 		$set = $ilDB->query("SELECT DISTINCT(user_id)".
 			" FROM exc_returned".
-			" WHERE ass_id = ".$ilDB->quote($this->assignment_id, "integer"));
+			" WHERE ass_id = ".$ilDB->quote($this->assignment_id, "integer").
+			" AND filename IS NOT NULL");
 		while($row = $ilDB->fetchAssoc($set))
 		{
 			$user_ids[] = $row["user_id"];
