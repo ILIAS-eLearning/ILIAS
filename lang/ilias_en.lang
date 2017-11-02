@@ -4660,7 +4660,7 @@ crs#:#event_table_update#:#Edit Session
 crs#:#event_tbl_participated#:#Attended
 crs#:#event_tbl_registered#:#Registered
 crs#:#event_title#:#Title
-crs#:#event_tutor_data#:#Information About the Lecturer
+crs#:#event_tutor_data#:#Presentation by
 crs#:#event_unregister#:#Unregister
 crs#:#event_unregistered#:#You have been unregistered.
 crs#:#event_updated#:#Saved Settings
