@@ -1918,8 +1918,8 @@ book#:#book_object_updated#:#Das Buchungsobjekt wurde geändert.
 book#:#book_objects_list#:#Buchungsobjekte
 book#:#book_period#:#Dauer
 book#:#book_pool_added#:#Ein Buchungspool wurde angelegt.
-book#:#book_public_log#:#Benutzer sehen Reservierungen
-book#:#book_public_log_info#:#Benutzer können auch den Reiter „Reservierungen“ einsehen.
+book#:#book_public_log#:#Benutzer sehen alle Reservierungen
+book#:#book_public_log_info#:#Benutzer mit Leserecht können im Reiter „Reservierungen“ auch Reservierungen anderer Benutzer einsehen.
 book#:#book_reservation_block#:#Blockieren###deprecated 
 book#:#book_reservation_cancel#:#Stornieren###deprecated 
 book#:#book_reservation_confirmed#:#Die Buchung wurde erfolgreich durchgeführt.

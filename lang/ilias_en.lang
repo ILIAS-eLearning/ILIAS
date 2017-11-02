@@ -9920,7 +9920,7 @@ rbac#:#perm_protected_local_role#:#Protected Local Role
 rbac#:#perm_role_path_info_created#:#Created in %1$s "%2$s"
 rbac#:#perm_role_path_info_inheritance#:#using local policy from %1$s "%2$s"
 book#:#book_public_log#:#Public Reservations
-book#:#book_public_log_info#:#The list of reservations can be viewed by all users.
+book#:#book_public_log_info#:#Users having the "read" permission only will also see reservations of other users.
 book#:#book_fromto#:#Date Range
 book#:#book_all#:#Show all
 book#:#book_earlier#:#Earlier###deprecated 
