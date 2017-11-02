@@ -58,5 +58,12 @@ class DefaultRendererFactory implements RendererFactory {
 		$base = implode("\\", $parts);
 		return $base;
 	}
+
+	/**
+	 * @inheritdocs
+	 */
+	public function getJSBinding(){
+		return $this->js_binding;
+	}
 }
 

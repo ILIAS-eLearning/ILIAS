@@ -49,7 +49,11 @@ class DefaultRenderer implements Renderer {
 	 * @inheritdoc
 	 */
 	public function renderAsync($component) {
-		$out = $this->render($component) . $this->js_binding->getOnLoadCodeAsync();
+		$out = $this->render($component) .
+				$this->component_renderer_loader
+						->getRendererFactoryFor($component)
+						->getJSBinding()
+						->getOnLoadCodeAsync();
 		return $out;
 	}
 

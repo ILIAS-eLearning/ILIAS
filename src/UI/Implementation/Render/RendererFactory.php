@@ -25,5 +25,13 @@ interface RendererFactory {
 	// TODO: This is missing some method to enumerate contexts and the different
 	// renderers. This would be needed to show different renderings in the Kitchen
 	// Sink.
+
+	/**
+	 * Todo: This was implemented to fix 21830. Do we really want this on the renderer
+	 * factory interfaces?
+	 *
+	 * @return JavaScriptBinding
+	 */
+	public function getJSBinding();
 }
 
