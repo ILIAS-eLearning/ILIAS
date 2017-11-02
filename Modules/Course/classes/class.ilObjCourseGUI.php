@@ -279,6 +279,26 @@ class ilObjCourseGUI extends ilContainerGUI
 							   "<strong>".nl2br(
 							   ilUtil::makeClickable($this->object->getImportantInformation(), true)."</strong>"));
 		}
+
+		// cat-tms-patch start
+		// CourseClassification (plugin)
+		if(ilPluginAdmin::isPluginActive('xccl')) {
+			$cc_instances = $this->getChildrenOfByType(
+				$this->object->getRefId(),
+				'xccl'
+			);
+
+			if(count($cc_instances)!==0) {
+				$cc = array_shift($cc_instances);
+				$txt = $cc->txtClosure();
+				$info->addProperty($txt('goals'),
+					nl2br(ilUtil::makeClickable ($cc->getCourseClassification()->getGoals(),
+						true))
+				);
+			}
+		}
+		// cat-tms-patch end
+
 		if(strlen($this->object->getSyllabus()))
 		{
 			$info->addProperty($this->lng->txt('crs_syllabus'), nl2br(
@@ -692,8 +712,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		// cat-tms-patch start
 		// course classification (plugin)
-		global $tree;
-		$cc_instances = $tree->getChildsByType(
+		$cc_instances = $this->getChildrenOfByType(
 			$this->object->getRefId(),
 			'xccl'
 		);
@@ -3732,6 +3751,38 @@ class ilObjCourseGUI extends ilContainerGUI
 	function setSideColumnReturn()
 	{
 		$this->ctrl->setReturn($this, "view");
+	}
+
+	// cat-tms-patch start
+	/**
+	 * Get all children of type below ref id
+	 *
+	 * @param int 	$ref_id
+	 * @param string 	$plugin_type
+	 *
+	 * @return Object[] of plugin type
+	 */
+	protected function getChildrenOfByType($ref_id, $plugin_type) {
+		$ret = array();
+
+		global $DIC;
+		$tree = $DIC->repositoryTree();
+		$objDefinition = $DIC["objDefinition"];
+
+		$childs = $tree->getChilds($ref_id);
+		foreach ($childs as $child) {
+			$type = $child["type"];
+			if($type == $plugin_type) {
+				$ret[] = \ilObjectFactory::getInstanceByRefId($child["child"]);
+			}
+
+			if($objDefinition->isContainer($type)) {
+				$ret2 = $this->getChildrenOfByType($child["child"], $plugin_type);
+				$ret = array_merge($ret, $ret2);
+			}
+		}
+
+		return $ret;
 	}
 
 
