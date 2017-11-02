@@ -11252,6 +11252,9 @@ bibl#:#ris_default_t1#:#Haupttitel
 bibl#:#ris_default_t2#:#Zweittitel
 bibl#:#ris_default_t3#:#Dritter Titel
 bibl#:#ris_default_u2#:#Benutzerdefiniert
+bibl#:#ris_default_y1#:#Jahr
+bibl#:#ris_default_ty#:#Typ
+bibl#:#ris_default_ep#:#letzte Seite
 bibl#:#bibl_copy#:#Literaturliste kopieren
 mail#:#mail_filter#:#Filter
 mail#:#mail_filter_sender#:#Sender
