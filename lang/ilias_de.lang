@@ -1652,8 +1652,8 @@ book#:#book_object_updated#:#Das Buchungsobjekt wurde geändert.
 book#:#book_objects_list#:#Buchungsobjekte
 book#:#book_period#:#Dauer
 book#:#book_pool_added#:#Ein Buchungspool wurde angelegt.
-book#:#book_public_log#:#Benutzer sehen Belegungsplan
-book#:#book_public_log_info#:#Benutzer können auch den Reiter „Belegungsplan“ einsehen.
+book#:#book_public_log#:#Benutzer sehen alle Reservierungen
+book#:#book_public_log_info#:#Benutzer mit Leserecht können im Reiter „Reservierungen“ auch Reservierungen anderer Benutzer einsehen.
 book#:#book_reservation_confirmed#:#Die Buchung wurde erfolgreich durchgeführt.
 book#:#book_reservation_failed#:#Die Buchung ist fehlgeschlagen.
 book#:#book_reservation_fix_info#:#Die Reservierung kann nur für festgelegte Zeiten durchgeführt werden.
