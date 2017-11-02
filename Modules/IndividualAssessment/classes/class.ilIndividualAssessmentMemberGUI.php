@@ -266,7 +266,7 @@ class ilIndividualAssessmentMemberGUI {
 			return;
 		}
 		$new_file = null;
-		$form = $this->initGradingForm();
+		$form = $this->initGradingForm(true, true);
 		$item = $form->getItemByPostVar('file');
 		if ($item && $item->checkInput()) {
 			$post = $_POST;
@@ -327,9 +327,12 @@ class ilIndividualAssessmentMemberGUI {
 
 		if($this->member->finalized() && !$amend)
 		{
-			$filelink = new ilNonEditableValueGUI($this->lng->txt('iass_upload_file'),'', true);
-			$filelink->setValue($this->getFileLinkHTML(true));
-			$form->addItem($filelink);
+			$link = $this->getFileLinkHTML(true);
+			if($link !== "") {
+				$filelink = new ilNonEditableValueGUI($this->lng->txt('iass_upload_file'),'', true);
+				$filelink->setValue($link);
+				$form->addItem($filelink);
+			}
 		} else {
 			$file = new ilFileInputGUI($this->lng->txt('iass_upload_file'), 'file');
 			$file->setRequired($this->object->getSettings()->fileRequired() && !$this->fileUploaded());
