@@ -126,7 +126,7 @@ class ilSurveyImporter extends ilXmlImporter
 						$newObj->setOutro(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $newObj->getOutro()));
 					} else
 					{
-		$ilLog = $this->log;
+						$ilLog = $this->log;
 						$ilLog->write("Error: Could not open XHTML mob file for test introduction during test import. File $importfile does not exist!");
 					}
 				}
