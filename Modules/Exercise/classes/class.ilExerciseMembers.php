@@ -355,7 +355,7 @@ class ilExerciseMembers
 		global $ilDB;
 		
 		$ilDB->manipulate("UPDATE exc_members SET ".
-			" returned = ".$ilDB->quote($a_status, "text").
+			" returned = ".$ilDB->quote($a_status, "integer").
 			" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer").
 			" AND usr_id = ".$ilDB->quote($a_user_id, "integer")
 			);
