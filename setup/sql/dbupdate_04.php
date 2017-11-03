@@ -21457,3 +21457,42 @@ $ilDB->modifyTableColumn(
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#5242>
+<?php
+
+/**
+ * This will move all the exercise instruction files from outside document root to inside.
+ */
+
+$result = $ilDB->query("SELECT id,exc_id FROM exc_assignment");
+
+while($row = $ilDB->fetchAssoc($result))
+{
+	include_once("./Services/Migration/DBUpdate_5242/classes/class.ilFSStorageExc5242.php");
+	$storage = new ilFSStorageExc5242($row['exc_id'], $row['id']);
+
+	$files = $storage->getFiles();
+	if(!empty($files))
+	{
+		foreach ($files as $file)
+		{
+			$file_name = $file['name'];
+			$file_full_path = $file['fullpath'];
+			$file_relative_path = str_replace(ILIAS_DATA_DIR,"",$file_full_path);
+			$directory_relative_path = str_replace($file_name, "",$file_relative_path);
+
+			if (!is_dir(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$directory_relative_path))
+			{
+				//echo "<br> makeDirParents: ".ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$directory_relative_path;
+				ilUtil::makeDirParents(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$directory_relative_path);
+			}
+			if (!file_exists("'".ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$file_relative_path."'"))
+			{
+				//echo "<br> rename: $file_full_path TO ".ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$file_relative_path;
+				rename($file_full_path ,ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$file_relative_path);
+			}
+		}
+	}
+
+}
+?>
