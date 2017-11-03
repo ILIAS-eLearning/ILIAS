@@ -6839,8 +6839,8 @@ button.close {
   margin-bottom: 0px;
 }
 .il-card .card-highlight {
-  background-color: #fa8228;
-  height: 3px;
+  background: #fa8228;
+  height: 6px;
   width: 100%;
 }
 .il-card .card-no-highlight {
@@ -6853,6 +6853,12 @@ button.close {
 }
 .il-card .caption:nth-of-type(1n+3) {
   border-top: 1px solid #ddd;
+}
+.il-card .caption dl dt {
+  font-weight: normal;
+  color: #909090;
+  font-size: 12px;
+  padding-top: 6px;
 }
 .il-panel-report .il-card {
   background-color: #f9f9f9;
@@ -8266,6 +8272,13 @@ ul.breadcrumb li:hover {
 }
 .il-popover.webui-popover-fixed {
   position: fixed;
+}
+@media (max-width: 768px) {
+  .il-popover.webui-popover-fixed {
+    position: absolute;
+    left: 0 !important;
+    width: 100%;
+  }
 }
 .extended-color-variant-1.il-extended-color-variant-standard {
   color: #7f7207;
@@ -15001,6 +15014,13 @@ span.ilProfileBadge {
 }
 .il-item-task .il-item-task-content .progress {
   margin-bottom: 8px;
+}
+@media (max-width: 768px) {
+  .il-item-task {
+    min-width: inherit;
+    max-width: inherit;
+    width: 100%;
+  }
 }
 .il-orgunit .multi_icons_wrapper {
   display: inline-block;

@@ -131,7 +131,6 @@ class ilBTPopOverGUI {
 	 * @return \ILIAS\UI\Component\Legacy\Legacy
 	 */
 	public function getUserInteractionContent(Bucket $observer, $redirect_uri) {
-
 		$factory = $this->ui()->factory();
 		$renderer = $this->ui()->renderer();
 		$language = $this->lng();
@@ -145,11 +144,10 @@ class ilBTPopOverGUI {
 		$buttons = array_map(function (UserInteraction\Option $option) use ($factory, $renderer, $observer, $persistence, $redirect_uri, $language) {
 
 			$this->ctrl()
-			     ->setParameterByClass(ilBTControllerGUI::class, "selected_option", $option->getValue());
+			     ->setParameterByClass(ilBTControllerGUI::class, ilBTControllerGUI::SELECTED_OPTION, $option->getValue());
 			$this->ctrl()
-			     ->setParameterByClass(ilBTControllerGUI::class, "observer_id", $persistence->getBucketContainerId($observer));
-			$this->ctrl()
-			     ->setParameterByClass(ilBTControllerGUI::class, "from_url", urlencode($redirect_uri));
+			     ->setParameterByClass(ilBTControllerGUI::class, ilBTControllerGUI::OBSERVER_ID, $persistence->getBucketContainerId($observer));
+			$this->addFromUrlToNextRequest($redirect_uri);
 
 			return $renderer->render($factory->button()
 			                                 ->standard($language->txt($option->getLangVar()), $this->ctrl()
@@ -202,9 +200,8 @@ class ilBTPopOverGUI {
 		$bucket->setCurrentBlock('close_button');
 
 		$this->ctrl()
-		     ->setParameterByClass(ilBTControllerGUI::class, "observer_id", $persistence->getBucketContainerId($observer));
-		$this->ctrl()
-		     ->setParameterByClass(ilBTControllerGUI::class, "from_url", urlencode($redirect_uri));
+		     ->setParameterByClass(ilBTControllerGUI::class, ilBTControllerGUI::OBSERVER_ID, $persistence->getBucketContainerId($observer));
+		$this->addFromUrlToNextRequest($redirect_uri);
 
 		switch ($option->getValue()) {
 			case AbstractTask::MAIN_ABORT:
@@ -217,7 +214,7 @@ class ilBTPopOverGUI {
 				break;
 			default:
 				$this->ctrl()
-				     ->setParameterByClass(ilBTControllerGUI::class, "selected_option", $option->getValue());
+				     ->setParameterByClass(ilBTControllerGUI::class, ilBTControllerGUI::SELECTED_OPTION, $option->getValue());
 				$action = $this->ctrl()
 				               ->getLinkTargetByClass([ ilBTControllerGUI::class ], ilBTControllerGUI::CMD_USER_INTERACTION);
 				break;
@@ -229,5 +226,14 @@ class ilBTPopOverGUI {
 
 		$bucket->setVariable("CLOSE_BUTTON", $remove);
 		$bucket->parseCurrentBlock();
+	}
+
+
+	/**
+	 * @param $redirect_uri
+	 */
+	protected function addFromUrlToNextRequest($redirect_uri) {
+		$this->ctrl()
+		     ->setParameterByClass(ilBTControllerGUI::class, ilBTControllerGUI::FROM_URL, ilBTControllerGUI::hash($redirect_uri));
 	}
 }

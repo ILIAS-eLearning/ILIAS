@@ -1375,11 +1375,18 @@ class ilObjSurveyGUI extends ilObjectGUI
 			{
 				if($item["hide"])
 				{
-					$form->removeItemByPostVar($id);
+					if ($id == "enabled_end_date")
+					{
+						$id = "end_date";
+					}
+					if ($id == "enabled_start_date")
+					{
+						$id = "start_date";
+					}
+					$form->removeItemByPostVar($id, true);
 				}
 			}
 		}
-		
 		return $form;
 	}
 	

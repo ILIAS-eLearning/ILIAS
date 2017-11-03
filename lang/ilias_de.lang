@@ -1652,8 +1652,8 @@ book#:#book_object_updated#:#Das Buchungsobjekt wurde geändert.
 book#:#book_objects_list#:#Buchungsobjekte
 book#:#book_period#:#Dauer
 book#:#book_pool_added#:#Ein Buchungspool wurde angelegt.
-book#:#book_public_log#:#Benutzer sehen Belegungsplan
-book#:#book_public_log_info#:#Benutzer können auch den Reiter „Belegungsplan“ einsehen.
+book#:#book_public_log#:#Benutzer sehen alle Reservierungen
+book#:#book_public_log_info#:#Benutzer mit Leserecht können im Reiter „Reservierungen“ auch Reservierungen anderer Benutzer einsehen.
 book#:#book_reservation_confirmed#:#Die Buchung wurde erfolgreich durchgeführt.
 book#:#book_reservation_failed#:#Die Buchung ist fehlgeschlagen.
 book#:#book_reservation_fix_info#:#Die Reservierung kann nur für festgelegte Zeiten durchgeführt werden.
@@ -3291,7 +3291,7 @@ common#:#msg_obj_exists_in_folder#:#Das Objekt %s existiert bereits im Ordner %s
 common#:#msg_obj_may_not_contain_objects_of_type#:#Das Objekt %s darf keine Objekte des folgenden Typs beinhalten: %s.
 common#:#msg_obj_modified#:#Änderungen gespeichert
 common#:#msg_obj_no_link#:#Das Verknüpfen von Containerobjekten wie Kategorien, Kursen, Gruppen und Ordnern ist aus technischen Gründen leider nicht möglich. Verknüpfen Sie stattdessen die einzelnen Objekte der Container zum gewünschten Ort oder verwenden die Objekttypen Kategorienlink, Kurslink bzw. Gruppenlink.
-common#:#msg_paste_object_not_in_itself#:#Es ist nicht möglich das Objekte %s in sich selbst einzufügen.
+common#:#msg_paste_object_not_in_itself#:#Es ist nicht möglich, das Objekt "%s" in sich selbst einzufügen.
 common#:#msg_perm_adopted_from_itself#:#Es ist nicht möglich, die Rechteeinstellungen von der aktuellen Rolle bzw. Rollenvorlage selbst zu übernehmen.
 common#:#msg_perm_adopted_from1#:#Rechteeinstellungen übernommen von
 common#:#msg_perm_adopted_from2#:#(Die Einstellungen wurden gespeichert!)
@@ -5430,7 +5430,7 @@ crs#:#event_table_update#:#Sitzung bearbeiten
 crs#:#event_tbl_participated#:#Teilgenommen
 crs#:#event_tbl_registered#:#Angemeldet
 crs#:#event_title#:#Titel
-crs#:#event_tutor_data#:#Persönliche Daten des/der Vortragenden
+crs#:#event_tutor_data#:#Präsentation von
 crs#:#event_unregister#:#Abmelden
 crs#:#event_unregistered#:#Sie wurden abgemeldet.
 crs#:#event_updated#:#Die Änderungen wurden gespeichert
@@ -11003,8 +11003,12 @@ orgu#:#orgu_enable_my_staff_info#:#The Ansicht ‘Meine Mitarbeiter’ zeigt die
 orgu#:#org_op_manage_members#:#Mitglieder bearbeiten
 orgu#:#org_op_read_learning_progress#:#Lernfortschritt von anderen Benutzern einsehen
 orgu#:#org_op_write_learning_progress#:#Lernfortschritt von anderen Benutzern setzen.
+rbac#:#org_op_write_learning_progress#:#Lernfortschritt untergeordneter Benutzer setzen
+rbac#:#positions_override_operations#:#Globale Einstellungen überschreiben
 orgu#:#form_title_org_default_permissions_update#:#Standardrechte
 orgu#:#msg_confirm_deletion#:#Gelöscht
+orgu#:#msg_confirm_remove_user#:#Möchten Sie den folgenden Benutzer wirklich aus der Position %s entfernen?
+orgu#:#remove_user#:#Entfernen
 orgu#:#view_learning_progress#:#Lernfortschritt einsehen
 orgu#:#orgu_staff_deassign#:#Diese Benutzer aus der Rolle wirklich entfernen?
 orgu#:#deassign_user_successful#:#Benutzer wurde erfolgreich ausgetragen.
@@ -11248,6 +11252,9 @@ bibl#:#ris_default_t1#:#Haupttitel
 bibl#:#ris_default_t2#:#Zweittitel
 bibl#:#ris_default_t3#:#Dritter Titel
 bibl#:#ris_default_u2#:#Benutzerdefiniert
+bibl#:#ris_default_y1#:#Jahr
+bibl#:#ris_default_ty#:#Typ
+bibl#:#ris_default_ep#:#letzte Seite
 bibl#:#bibl_copy#:#Literaturliste kopieren
 mail#:#mail_filter#:#Filter
 mail#:#mail_filter_sender#:#Sender
@@ -12880,6 +12887,7 @@ mail#:#mail_enable_grp_admin_notification#:#Gruppenadministratoren benachrichtig
 mail#:#mail_enable_crs_admin_notification_info#:#In neuen Kursen ist im Reiter "Mitglieder" für Kursadministratoren und -tutoren die Einstellungen "Benachrichtigung über neue Mitglieder" standardmäßig aktiviert. Sie erhalten E-Mails, wenn ein Mitglied beitritt, den Kurs verlässt oder die Mindestanzahl an Teilnehmern zur Durchführung des Kurses nicht erreicht wird.
 mail#:#mail_enable_grp_admin_notification_info#:#In neuen Gruppen ist im Reiter "Mitglieder" für Gruppenadministratoren die Einstellungen "Benachrichtigungen" standardmäßig aktiviert. Sie erhalten E-Mails, wenn ein Mitglied beitritt, die Gruppe verlässt oder die Mindestanzahl an Teilnehmern zur Durchführung der Gruppe nicht erreicht wird.
 mail#:#mail_notification_membership_section#:#Mitgliedschaften
+prg#:#form_msg_file_wrong_file_type#:#Falscher Dateityp.
 prg#:#prg_new#:#Neues Studienprogramm
 prg#:#prg_add#:#Studienprogramm hinzufügen
 prg#:#prg_edit#:#Studienprogramm bearbeiten
@@ -12907,6 +12915,17 @@ prg#:#prg_remove_user#:#Benutzer entfernen
 prg#:#prg_mark_accredited#:#akkreditieren
 prg#:#prg_unmark_accredited#:#Akkreditierung entfernen
 prg#:#prg_mark_accredited_success#:#Das Programm wurde für den Benutzer erfolgreich akkreditiert.
+prg#:#prg_mark_accredited_multi_success#:#Ausgewählte Benutzer akkreditiert.
+prg#:#prg_unmark_accredited_multi_success#:#Ausgewählte Benutzer als nicht akkreditiert markiert.
+prg#:#prg_mark_relevant_multi_success#:#Ausgewählte Benutzer als relevant markiert.
+prg#:#prg_mark_not_relevant_multi_success#:#Ausgewählte Benutzer als nicht relevant markiert.
+prg#:#prg_remove_users_success#:#Ausgewählte Benutzer wurden entfernt.
+prg#:#prg_remove_users_partitial_success#:#Ausgewählte Benutzer wurden teilweise entfernt.
+prg#:#prg_remove_users_not_possible#:#Ausgewählte Benutzerkönnen nicht entfernt werden.
+prg#:#prg_update_from_current_plan_not_possible#:#Aus dem aktuellen Plan aktualisieren ist nicht möglich.
+prg#:#prg_update_from_current_plan_partitial_success#:#Aus dem aktuellen Plan aktualisieren teilweise abgeschlossen.
+prg#:#prg_update_from_current_plan_success#:#Aus dem aktuellen Plan aktualisieren ist erfolgreich.
+prg#:#prg_no_user_selected#:#Es wurde kein Benutzer ausgewählt.
 prg#:#prg_unmark_accredited_success#:#Die Akkreditierung wurde erfolgreich entfernt.
 prg#:#prg_remove_user_success#:#Der Benutzer wurde entfernt. 
 prg#:#prg_type_add#:#Studienprogrammtyp hinzufügen
@@ -13389,7 +13408,10 @@ style#:#assignment#:#Zuweisung
 style#:#remove_assignment#:#Zuweisung löschen
 style#:#reset_variables#:#Variablen zurücksetzen
 style#:#update_variables#:#Variablen aktualisieren
-style#:#less_file_updated#:#Die Less Variablen wurden aktualisiert.
+style#:#less_file_updated#:#Die less-Variablen wurden aktualisiert. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderunge korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
+style#:#less_file_reset#:#Die less-Variablen wurden zurückgesetzt. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderunge korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
+style#:#color_reset#:#Die Farben der Icons wurden zurückgesetzt. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderunge korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
+style#:#color_update#:#Die Farben der Icons wurden aktualisiert. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderunge korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
 style#:#settings_of_substyle#:#Manage sub style
 style#:#settings_of_style#:#Styles verwalten
 style#:#of_parent#:#vom Parent:
@@ -13926,8 +13948,8 @@ prtf#:#prtf_add_existing_blog#:#Vorhandenes Blog nutzen
 blog#:#blog_draft_text#:#Unveröffentlichter Beitrag
 user#:#usr_letter_avatars#:#Letter-Avatare
 user#:#usr_letter_avatars_info#:#Zeigt die Initialen des Benutzernamens oder Logins an, wenn kein öffentliches Profilbild vorliegt.
-mep#:#mep_master_language_only_no_media#:#Master Language without Media
-content#:#cont_master_language_only_no_media#:#Master Language without Media
+mep#:#mep_master_language_only_no_media#:#Hauptsprache für Übersetzung (ohne Medienobjekte)
+content#:#cont_master_language_only_no_media#:#Hauptsprache für Übersetzung (ohne Medienobjekte)
 mep#:#mep_content#:#Content
 mep#:#mep_media_subtitles#:#Media Subtitles
 content#:#cont_last_visited_page#:#Zuletzt besuchte Seite
@@ -14060,7 +14082,7 @@ dateplaner#:#cal_no_events_info#:#Für den angegebenen Zeitraum sind keine Termi
 wiki#:#wiki_pg_list_no_search_fields#:#Es befinden sich keine durchsuchbaren Metadatenfelder in den Metadatensätzen des Wikis.
 iass#:#iass_amend_saved#:#Geänderte Prüfungsdaten wurden gespeichert.
 content#:#cont_transl_master_language_not_allowed#:#Um eine Übersetzung zu importieren, müssen sie zumindest eine zusätzliche Sprache unter "Einstellungen" > "Mehrsprachigkeit" aktivieren.
-dateplaner#:#crs_start#:#Course starts###23 10 2017 new variable
-dateplaner#:#crs_end#:#Course ends###23 10 2017 new variable
-dateplaner#:#grp_start#:#Group starts###23 10 2017 new variable
-dateplaner#:#grp_end#:#Group ends###23 10 2017 new variable
+dateplaner#:#crs_start#:#Kurs startet
+dateplaner#:#crs_end#:#Kurs endet
+dateplaner#:#grp_start#:#Gruppe startet
+dateplaner#:#grp_end#:#Gruppe endet

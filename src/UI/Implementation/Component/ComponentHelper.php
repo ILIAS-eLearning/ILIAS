@@ -9,12 +9,48 @@ namespace ILIAS\UI\Implementation\Component;
  */
 trait ComponentHelper {
 	/**
+	 * @var string|null
+	 */
+	private $canonical_name = null;
+
+	/**
+	 * Default implementation uses the namespace of the component up to and excluding
+	 * "Component", reverses the order and adds spaces. Also does caching.
+	 *
+	 * @return string
+	 */
+	public function getCanonicalName() {
+		if ($this->canonical_name === null) {
+			$this->canonical_name = $this->getCanonicalNameByFullyQualifiedName();
+		}
+		return $this->canonical_name;
+	}
+
+	/**
+	 * Does the calculation required for getCanonicalName.
+	 *
+	 * @return	string
+	 */
+	protected function getCanonicalNameByFullyQualifiedName() {
+		$cls = explode("\\", get_class($this));
+		$name = [];
+		$cur = array_pop($cls);
+		while ($cur !== "Component" && count($cls) > 0) {
+			$name[] = preg_replace("%([a-z])([A-Z])%", "$1 $2", $cur);
+			$cur = array_pop($cls);
+		}
+		return implode(" ", $name);
+	}
+
+	/**
+
+	/**
 	 * Throw an InvalidArgumentException containing the message if $check is false.
-     *
+	 *
 	 * @param	string	$which
 	 * @param	bool	$check
 	 * @param	string	$message
- 	 * @throws 	\InvalidArgumentException	if $check = false
+	 * @throws	\InvalidArgumentException	if $check = false
 	 * @return	null
 	 */
 	protected function checkArg($which, $check, $message) {
@@ -31,7 +67,7 @@ trait ComponentHelper {
 	 *
 	 * @param	string	$which
 	 * @param	mixed	$value
- 	 * @throws 	\InvalidArgumentException	if $check = false
+	 * @throws	\InvalidArgumentException	if $check = false
 	 * @return null
 	 */
 	protected function checkIntArg($which, $value) {
@@ -43,7 +79,7 @@ trait ComponentHelper {
 	 *
 	 * @param	string	$which
 	 * @param	mixed	$value
-	 * @throws 	\InvalidArgumentException	if $check = false
+	 * @throws	\InvalidArgumentException	if $check = false
 	 * @return null
 	 */
 	protected function checkStringArg($which, $value) {
@@ -55,8 +91,8 @@ trait ComponentHelper {
 	 *
 	 * @param	string	$which
 	 * @param	mixed	$value
- 	 * @throws	\InvalidArgumentException	if $check = false
-	 * @return 	null
+	 * @throws	\InvalidArgumentException	if $check = false
+	 * @return	null
 	 */
 	protected function checkFloatArg($which, $value) {
 		$this->checkArg($which, is_float($value), $this->wrongTypeMessage("float", $value));
@@ -68,8 +104,8 @@ trait ComponentHelper {
 	 * @param	string	$which
 	 * @param	mixed	$value
 	 * @param	string	$class
-	 * @throws 	\InvalidArgumentException	if $check = false
-	 * @return  null
+	 * @throws	\InvalidArgumentException	if $check = false
+	 * @return	null
 	 */
 	protected function checkArgInstanceOf($which, $value, $class) {
 		$this->checkArg($which, $value instanceof $class, $this->wrongTypeMessage($class, $value));
@@ -82,7 +118,7 @@ trait ComponentHelper {
 	 * @param	mixed	$value
 	 * @param	array	$array
 	 * @param	string	$name		used in the exception
-	 * @throws 	\InvalidArgumentException	if $check = false
+	 * @throws	\InvalidArgumentException	if $check = false
 	 * @return null
 	 */
 	protected function checkArgIsElement($which, $value, $array, $name) {
@@ -101,9 +137,9 @@ trait ComponentHelper {
 	 *
 	 * @param	string				$which
 	 * @param	mixed[]				&$values
-	 * @param	\Closure 			$check 		takes key and value, should return false if those don't fit
-	 * @param	\Closure			$message 	create an error message from key and value
-	 * @throws 	\InvalidArgumentException	if any element is not an instance of $classes
+	 * @param	\Closure			$check		takes key and value, should return false if those don't fit
+	 * @param	\Closure			$message	create an error message from key and value
+	 * @throws	\InvalidArgumentException	if any element is not an instance of $classes
 	 * @return	null
 	 */
 	protected function checkArgList($which, array &$values, \Closure $check, \Closure $message) {
@@ -134,8 +170,8 @@ trait ComponentHelper {
 	 *
 	 * @param	string				$which
 	 * @param	mixed[]				&$values
-	 * @param	string|string[]		$classes 		name(s) of classes
-	 * @throws 	\InvalidArgumentException	if any element is not an instance of $classes
+	 * @param	string|string[]		$classes		name(s) of classes
+	 * @throws	\InvalidArgumentException	if any element is not an instance of $classes
 	 * @return	null
 	 */
 	protected function checkArgListElements($which, array &$values, &$classes) {
@@ -163,7 +199,7 @@ trait ComponentHelper {
 	}
 
 	/**
- 	 * Wrap the given value in an array if it is no array.
+	 * Wrap the given value in an array if it is no array.
 	 *
 	 * @param	mixed	$value
 	 * @return	array

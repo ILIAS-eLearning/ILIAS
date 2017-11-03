@@ -55,7 +55,49 @@ class Deck implements D\Deck {
 	/**
 	 * @inheritdoc
 	 */
-	public function withCardsSize($size){
+	public function withExtraSmallCardsSize(){
+		return $this->withCardsSize(self::SIZE_XS);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withSmallCardsSize(){
+		return $this->withCardsSize(self::SIZE_S);
+	}
+	/**
+	 * @inheritdoc
+	 */
+	public function withNormalCardsSize(){
+		return $this->withCardsSize(self::SIZE_M);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withLargeCardsSize(){
+		return $this->withCardsSize(self::SIZE_L);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withExtraLargeCardsSize(){
+		return $this->withCardsSize(self::SIZE_XL);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withFullSizedCardsSize(){
+		return $this->withCardsSize(self::SIZE_FULL);
+	}
+
+	/***
+	 * @param $size
+	 * @return Deck
+	 */
+	protected function withCardsSize($size){
 		$this->checkArgIsElement("size", $size, self::$sizes, "size type");
 
 		$clone = clone $this;
@@ -68,6 +110,29 @@ class Deck implements D\Deck {
 	 */
 	public function getCardsSize(){
 		return $this->size;
+	}
+
+	/**
+	 * @internal This function is only internal and returns the size of the cards for small displays.
+	 * Note that this size tells how much space the card is using. The number of cards displayed by normal screen size is 12/size.
+	 *
+	 * @return int
+	 */
+	public function getCardsSizeSmallDisplays(){
+		switch($this->getCardsSize()){
+			case self::SIZE_XS:
+				return 2;
+			case self::SIZE_S:
+				return 4;
+			case self::SIZE_M:
+				return 6;
+			case self::SIZE_L:
+				// no-break
+			case self::SIZE_XL:
+				// no-break
+			case self::SIZE_FULL:
+				return 12;
+		}
 	}
 
 	private static $sizes = array

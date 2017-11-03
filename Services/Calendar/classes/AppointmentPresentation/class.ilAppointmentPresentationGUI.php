@@ -512,13 +512,13 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 	 */
 	function addCalendarInfo($cat_info)
 	{
-		$this->ctrl->setParameterByClass("ilcalendarcategorygui", "category_id", $cat_info["cat_id"]);
+		$this->ctrl->setParameterByClass("ilCalendarPresentationGUI", "category_id", $cat_info["cat_id"]);
 
 		$link = $this->ui->renderer()->render(
 			$this->ui->factory()->button()->shy($cat_info["title"],
-				$this->ctrl->getLinkTargetByClass(array("ilPersonalDesktopGUI", "ilCalendarPresentationGUI", "ilcalendarcategorygui"), "details")));
+				$this->ctrl->getLinkTargetByClass(array("ilPersonalDesktopGUI", "ilCalendarPresentationGUI"), "")));
 
-		$this->ctrl->setParameterByClass("ilcalendarcategorygui", "category_id", $_GET["category_id"]);
+		$this->ctrl->setParameterByClass("ilCalendarPresentationGUI", "category_id", $_GET["category_id"]);
 
 		$this->addInfoProperty($this->lng->txt("calendar"), $link);
 		$this->addListItemProperty($this->lng->txt("calendar"), $link);

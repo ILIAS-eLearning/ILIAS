@@ -210,3 +210,7 @@ table.freefield_bottom {
 	padding: 3px 2px;
 	margin-right: 2px;
 }
+#targetArea, #sourceArea {
+	width: 50%;
+	float:left;
+}
