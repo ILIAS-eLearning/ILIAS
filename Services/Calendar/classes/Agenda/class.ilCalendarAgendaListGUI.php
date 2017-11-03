@@ -65,11 +65,8 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 		}
 
 		$get_seed = $qp["seed"];
-
 		$this->ctrl->setParameterByClass("ilcalendarinboxgui","seed",$this->seed->get(IL_CAL_DATE));
-
-		$end_date = new ilDate($get_seed, IL_CAL_DATE);
-
+		$end_date = clone $this->seed;
 		switch ($this->period)
 		{
 			case self::PERIOD_DAY:

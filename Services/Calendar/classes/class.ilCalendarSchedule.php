@@ -39,6 +39,9 @@ class ilCalendarSchedule
 	const TYPE_WEEK = 2;
 	const TYPE_MONTH = 3;
 	const TYPE_INBOX = 4;
+	const TYPE_HALF_YEAR = 6;
+	
+	// @deprecated
 	const TYPE_PD_UPCOMING = 5;	
 	
 	protected $limit_events = -1;
@@ -545,6 +548,12 @@ class ilCalendarSchedule
 				
 				$this->end = new ilDate($year_month.'-'.ilCalendarUtil::_getMaxDayOfMonth($year,$month),IL_CAL_DATE);
 				$this->end->increment(IL_CAL_DAY,6);
+				break;
+			
+			case self::TYPE_HALF_YEAR:
+				$this->start = clone $seed;
+				$this->end = clone $this->start;
+				$this->end->increment(IL_CAL_MONTH,6);
 				break;
 			
 			case self::TYPE_PD_UPCOMING:

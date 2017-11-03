@@ -132,11 +132,7 @@ class ilCalendarViewGUI
 	 */
 	public function getEvents()
 	{
-		$user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
-		$schedule = new ilCalendarSchedule(
-			new ilDate(time(),IL_CAL_UNIX),ilCalendarSchedule::TYPE_PD_UPCOMING);
-
-		switch ($this->presentation_type)
+		switch($this->presentation_type)
 		{
 			case self::CAL_PRESENTATION_AGENDA_LIST:
 
@@ -147,36 +143,41 @@ class ilCalendarViewGUI
 					{
 						$this->period = $qp["cal_agenda_per"];
 					}
-
-					$end_date = new ilDate($this->seed->get(IL_CAL_DATE)." 00:00:00", IL_CAL_DATETIME);
-
+					$end_date = clone $this->seed;
 					switch ($this->period)
 					{
 						case ilCalendarAgendaListGUI::PERIOD_DAY:
+							$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_DAY);
 							$end_date->increment(IL_CAL_DAY, 1);
 							break;
 
 						case ilCalendarAgendaListGUI::PERIOD_WEEK:
+							$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_WEEK);
 							$end_date->increment(IL_CAL_WEEK, 1);
 							break;
 
 						case ilCalendarAgendaListGUI::PERIOD_MONTH:
+							$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_MONTH);
 							$end_date->increment(IL_CAL_MONTH, 1);
 							break;
 
 						case ilCalendarAgendaListGUI::PERIOD_HALF_YEAR:
+							$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_HALF_YEAR);
 							$end_date->increment(IL_CAL_MONTH, 6);
 							break;
 						default:
+							// default is week ?!
+							$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_WEEK);
 							$end_date->increment(IL_CAL_WEEK, 1);
 							break;
 					}
 
 					$this->period_end_day = $end_date->get(IL_CAL_DATE);
 				}
-
-				$schedule->setPeriod(new ilDate($this->seed->get(IL_CAL_DATE), IL_CAL_DATE),
-					new ilDate($this->period_end_day, IL_CAL_DATE));
+				else
+				{
+					$schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_PD_UPCOMING);
+				}
 				break;
 			case self::CAL_PRESENTATION_DAY:
 				$schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_DAY);
