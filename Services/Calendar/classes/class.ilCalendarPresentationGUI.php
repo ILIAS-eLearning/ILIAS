@@ -120,19 +120,14 @@ class ilCalendarPresentationGUI
 			{
 				$cats->initialize(ilCalendarCategories::MODE_REPOSITORY, (int)$a_ref_id, true);
 			}
-			else
-			{
-				$cats->initialize(ilCalendarCategories::MODE_MANAGE);
-			}
-
-			/*if (ilCalendarUserSettings::_getInstance()->getCalendarSelectionType() == ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP)
+			if(ilCalendarUserSettings::_getInstance()->getCalendarSelectionType() == ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP)
 			{
 				$cats->initialize(ilCalendarCategories::MODE_PERSONAL_DESKTOP_MEMBERSHIP);
 			}
 			else
 			{
 				$cats->initialize(ilCalendarCategories::MODE_PERSONAL_DESKTOP_ITEMS);
-			}*/
+			}
 		}
 
 		include_once("./Services/Calendar/classes/class.ilCalendarActions.php");
