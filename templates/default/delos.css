@@ -6839,8 +6839,8 @@ button.close {
   margin-bottom: 0px;
 }
 .il-card .card-highlight {
-  background-color: #fa8228;
-  height: 3px;
+  background: #fa8228;
+  height: 6px;
   width: 100%;
 }
 .il-card .card-no-highlight {
@@ -6853,6 +6853,12 @@ button.close {
 }
 .il-card .caption:nth-of-type(1n+3) {
   border-top: 1px solid #ddd;
+}
+.il-card .caption dl dt {
+  font-weight: normal;
+  color: #909090;
+  font-size: 12px;
+  padding-top: 6px;
 }
 .il-panel-report .il-card {
   background-color: #f9f9f9;
