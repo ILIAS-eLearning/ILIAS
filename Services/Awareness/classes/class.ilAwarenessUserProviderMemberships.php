@@ -77,6 +77,7 @@ class ilAwarenessUserProviderMemberships extends ilAwarenessUserProvider
 					include_once("./Services/Membership/classes/class.ilParticipants.php");
 					$ref_ids = ilObject::_getAllReferences($rec["obj_id"]);
 					$ref_id = current($ref_ids);
+					$this->log->debug("Cross-checking all members...");
 					if (!ilParticipants::_isParticipant($ref_id, $rec["usr_id"]))
 					{
 						$this->log->debug("ERROR: obj_members has entry for user id: ".$rec["usr_id"].
