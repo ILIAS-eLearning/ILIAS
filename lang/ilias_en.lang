@@ -14086,3 +14086,4 @@ dateplaner#:#crs_end#:#Course ends
 dateplaner#:#grp_start#:#Group starts
 dateplaner#:#grp_end#:#Group ends
 content#:#cont_transl_master_language_not_allowed#:#To import a translation you need to activate at least one additional language under "Settings" > "Multilingualism".
+awrn#:#awrn_online#:#Online
