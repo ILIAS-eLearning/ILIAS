@@ -21501,8 +21501,8 @@ while($row = $ilDB->fetchAssoc($result))
 if (!$ilDB->tableColumnExists('usr_session', 'context'))
 {
 	$ilDB->addTableColumn('usr_session', 'context', array(
-			'type'	=> 'integer',
-			'length'	=> '4',
+			'type'	=> 'text',
+			'length'	=> '40',
 			'notnull' => false)
 	);
 }
