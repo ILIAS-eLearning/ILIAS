@@ -156,7 +156,7 @@ class ilSession
 			// updating may get us other contexts for the same session, especially ilContextWAC, which we do not want
 			if (class_exists("ilContext"))
 			{
-				$fields["context"] = array("integer", (int) ilContext::getType());
+				$fields["context"] = array("text", ilContext::getType());
 			}
 
 			$ilDB->insert("usr_session", $fields);

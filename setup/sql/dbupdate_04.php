@@ -21502,7 +21502,7 @@ if (!$ilDB->tableColumnExists('usr_session', 'context'))
 {
 	$ilDB->addTableColumn('usr_session', 'context', array(
 			'type'	=> 'text',
-			'length'	=> '40',
+			'length'	=> '80',
 			'notnull' => false)
 	);
 }
