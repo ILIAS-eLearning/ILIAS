@@ -52,7 +52,7 @@ class ilAwarenessUserProviderCurrentCourse extends ilAwarenessUserProvider
 	 */
 	function getInitialUserSet()
 	{
-		global $ilDB, $tree, $ilAccess;
+		global $ilDB, $tree, $ilAccess, $rbacreview;
 
 		$ub = array();
 
@@ -70,8 +70,12 @@ class ilAwarenessUserProviderCurrentCourse extends ilAwarenessUserProvider
 						($ilAccess->checkAccess("write", "", $p["child"]) ||
 							(ilObjCourse::lookupShowMembersEnabled($p["obj_id"]) && $ilAccess->checkAccess("read", "", $p["child"]))))
 					{
-						$set = $ilDB->query($q = "SELECT DISTINCT usr_id FROM obj_members ".
-							" WHERE obj_id = ".$ilDB->quote($p["obj_id"], "integer"));
+						$lrol = $rbacreview->getRolesOfRoleFolder($p["child"],false);
+						$set = $ilDB->query('SELECT DISTINCT(usr_id) FROM rbac_ua '.
+							'WHERE '.$ilDB->in('rol_id', $lrol, false, 'integer'));
+
+						//$set = $ilDB->query($q = "SELECT DISTINCT usr_id FROM obj_members ".
+						//	" WHERE obj_id = ".$ilDB->quote($p["obj_id"], "integer"));
 						$ub = array();
 						while ($rec = $ilDB->fetchAssoc($set))
 						{
