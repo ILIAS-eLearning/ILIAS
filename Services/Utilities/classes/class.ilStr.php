@@ -145,7 +145,11 @@ class ilStr
 	 */
 	static public function shortenText($a_string,$a_start_pos,$a_num_bytes,$a_encoding = 'UTF-8')
 	{
-		return mb_strcut($a_string, $a_start_pos, $a_num_bytes, $a_encoding);		
+		if (function_exists("mb_strcut"))
+		{
+			return mb_strcut($a_string, $a_start_pos, $a_num_bytes, $a_encoding);
+		}
+		return substr($a_string, $a_start_pos, $a_num_bytes);
 	}
 
 	/**
@@ -165,9 +169,9 @@ class ilStr
 			// copied from http://www.php.net/manual/en/function.mb-detect-encoding.php
 			$c=0; $b=0;
 			$bits=0;
-			$len=strlen($str);
+			$len=strlen($a_str);
 			for($i=0; $i<$len; $i++){
-				$c=ord($str[$i]);
+				$c=ord($a_str[$i]);
 				if($c > 128){
 					if(($c >= 254)) return false;
 					elseif($c >= 252) $bits=6;
@@ -179,7 +183,7 @@ class ilStr
 					if(($i+$bits) > $len) return false;
 					while($bits > 1){
 						$i++;
-						$b=ord($str[$i]);
+						$b=ord($a_str[$i]);
 						if($b < 128 || $b > 191) return false;
 						$bits--;
 					}

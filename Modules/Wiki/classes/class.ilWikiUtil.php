@@ -713,7 +713,7 @@ class ilWikiUtil
 		$pgui->setFullscreenLink(".");
 		$pgui->setSourcecodeDownloadScript(".");						
 		$snippet = $pgui->showPage();				
-		$snippet = ilPageObject::truncateHTML($snippet, 500, "...");		
+		$snippet = ilPageObject::truncateHTML($snippet, 500, "...");
 
 		// making things more readable
 		$snippet = str_replace('<br/>', "\n", $snippet);
