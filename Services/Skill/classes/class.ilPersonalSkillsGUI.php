@@ -246,7 +246,8 @@ class ilPersonalSkillsGUI
 				}
 			}
 		}
-		if ($current_prof_id == 0)
+
+		if ($current_prof_id == 0 && !(is_array($this->obj_skills) && $this->obj_id > 0))
 		{
 			$current_prof_id = $this->user_profiles[0]["id"];
 		}
