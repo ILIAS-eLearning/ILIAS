@@ -391,21 +391,16 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		// move/copy in personal workspace
 		if(!$_SESSION['clipboard']['wsp2repo'])
 		{
-			require_once 'Services/PersonalWorkspace/classes/class.ilWorkspaceExplorer.php';
-			$exp = new ilWorkspaceExplorer(ilWorkspaceExplorer::SEL_TYPE_RADIO, '', 
-				'paste_'.$mode.'_wspexpand', $this->tree, $this->getAccessHandler());
-			$exp->setTargetGet('wsp_id');
-
-			if($_GET['paste_'.$mode.'_wspexpand'] == '')
+			include_once("./Services/PersonalWorkspace/classes/class.ilWorkspaceExplorerGUI.php");
+			$exp = new ilWorkspaceExplorerGUI($this->user->getId(), $this, "showMoveIntoObjectTree", $this, "");
+			$exp->setTypeWhiteList(array("wsrt", "wfld"));
+			$exp->setSelectableTypes(array("wsrt", "wfld"));
+			$exp->setSelectMode("node", false);
+			if ($exp->handleCommand())
 			{
-				// not really used as session is already set [see above]
-				$expanded = $this->tree->readRootId();
+				return;
 			}
-			else
-			{
-				$expanded = $_GET['paste_'.$mode.'_wspexpand'];
-			}
-			
+			$this->tpl->setVariable('OBJECT_TREE', $exp->getHTML());
 		}
 		// move/copy to repository
 		else
@@ -423,15 +418,15 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 			{
 				$expanded = $_GET['paste_'.$mode.'_repexpand'];
 			}
+			$exp->setCheckedItems(array((int)$_POST['node']));
+			$exp->setExpandTarget($this->ctrl->getLinkTarget($this, 'showMoveIntoObjectTree'));
+			$exp->setPostVar('node');
+			$exp->setExpand($expanded);
+			$exp->setOutput(0);
+			$this->tpl->setVariable('OBJECT_TREE', $exp->getOutput());
 		}
 		
-		$exp->setCheckedItems(array((int)$_POST['node']));
-		$exp->setExpandTarget($this->ctrl->getLinkTarget($this, 'showMoveIntoObjectTree'));
-		$exp->setPostVar('node');
-		$exp->setExpand($expanded);
-		$exp->setOutput(0);
-					
-		$this->tpl->setVariable('OBJECT_TREE', $exp->getOutput());
+
 		unset($exp);
 
 		$this->tpl->setVariable('FORM_TARGET', '_top');

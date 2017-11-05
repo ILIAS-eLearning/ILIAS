@@ -28,7 +28,35 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
 	 */
 	protected $link_to_node_class = false;
 
+	/**
+	 * @var string
+	 */
+	protected $custom_link_target = "";
+
+	/**
+	 * @var null|object
+	 */
+	protected $select_gui = null;
+
+	/**
+	 * @var string
+	 */
+	protected $select_cmd = "";
+
+	/**
+	 * @var string
+	 */
+	protected $select_par = "";
+
+	/**
+	 * @var array
+	 */
 	protected $selectable_types = array();
+
+	/**
+	 * @var bool
+	 */
+	protected $activate_highlighting = false;
 
 	/**
 	 * Constructor
@@ -120,6 +148,25 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
 		return $this->selectable_types;
 	}
 
+	/**
+	 * Set custom link target
+	 *
+	 * @param string $a_val custom link target
+	 */
+	function setCustomLinkTarget($a_val)
+	{
+		$this->custom_link_target = $a_val;
+	}
+
+	/**
+	 * Get custom link target
+	 *
+	 * @return string custom link target
+	 */
+	function getCustomLinkTarget()
+	{
+		return $this->custom_link_target;
+	}
 
 	/**
 	 * Get href for node
@@ -129,6 +176,11 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function getNodeHref($a_node)
 	{
+		if ($this->getCustomLinkTarget() != "")
+		{
+			return $this->getCustomLinkTarget()."&".$this->select_par."=".$a_node["child"];
+		}
+
 		$ilCtrl = $this->ctrl;
 
 		$target_class = $this->select_gui;
