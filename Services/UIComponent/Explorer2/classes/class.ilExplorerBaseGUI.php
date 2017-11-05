@@ -66,11 +66,6 @@ abstract class ilExplorerBaseGUI
 		{
 			$this->open_nodes = array();
 		}
-		$root = $this->getNodeId($this->getRootNode());
-		if (!in_array($root, $this->open_nodes))
-		{
-			$this->open_nodes[] = $root;
-		}
 
 		$this->nodeOnclickEnabled = true;
 	}
@@ -673,6 +668,12 @@ abstract class ilExplorerBaseGUI
 	{
 		$tpl = $this->tpl;
 		$ilCtrl = $this->ctrl;
+
+		$root = $this->getNodeId($this->getRootNode());
+		if (!in_array($root, $this->open_nodes))
+		{
+			$this->open_nodes[] = $root;
+		}
 
 		$this->beforeRendering();
 
