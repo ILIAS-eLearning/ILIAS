@@ -63,6 +63,9 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 			$this->mailing_allowed = $DIC->rbac()->system()->checkAccess('internal_mail',$mail->getMailObjectReferenceId());
 		}
 
+		$this->setDefaultOrderDirection('ASC');
+		$this->setDefaultOrderField('members_login');
+
 		$this->lng->loadLanguageModule('crs');
 		$this->lng->loadLanguageModule('buddysystem');
 		$this->parentObject = $a_parent_obj;
