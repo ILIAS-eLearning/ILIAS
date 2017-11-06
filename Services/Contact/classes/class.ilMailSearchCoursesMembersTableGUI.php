@@ -31,7 +31,6 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 	 */
 	protected $user;
 
-	protected $parentObject;
 	protected $mode;
 	protected $mailing_allowed;
 	/**
@@ -69,7 +68,7 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 
 		$this->lng->loadLanguageModule('crs');
 		$this->lng->loadLanguageModule('buddysystem');
-		$this->parentObject = $a_parent_obj;
+
 		$mode = array();
 		if ($type == 'crs')
 		{
@@ -143,25 +142,25 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 		$current_selection_list->setListTitle($this->lng->txt("actions"));
 		$current_selection_list->setId("act_".md5($a_set['members_id'].'::'.$a_set['search_' . $this->mode['short']]));
 
-		$this->ctrl->setParameter($this->parentObject, 'search_members', $a_set['members_id']);
-		$this->ctrl->setParameter($this->parentObject, 'search_' . $this->mode['short'], 
+		$this->ctrl->setParameter($this->parent_obj, 'search_members', $a_set['members_id']);
+		$this->ctrl->setParameter($this->parent_obj, 'search_' . $this->mode['short'],
 			is_array($_REQUEST['search_' . $this->mode['short']]) ?
 			implode(',', array_filter(array_map('intval', $_REQUEST['search_' . $this->mode['short']]))) :
-			(int)$_REQUEST['search_' . $this->mode['short']]
+			ilUtil::stripSlashes($_REQUEST['search_' . $this->mode['short']])
 		);
-		$this->ctrl->setParameter($this->parentObject, 'view', $this->mode['view']);
+		$this->ctrl->setParameter($this->parent_obj, 'view', $this->mode['view']);
 
 		$action_html = '';
 		if($this->context == "mail")
 		{
 			if($this->mailing_allowed)
 			{
-				$current_selection_list->addItem($this->lng->txt("mail_member"), '', $this->ctrl->getLinkTarget($this->parentObject, "mail"));
+				$current_selection_list->addItem($this->lng->txt("mail_member"), '', $this->ctrl->getLinkTarget($this->parent_obj, "mail"));
 			}
 		}
 		else
 		{
-			$current_selection_list->addItem($this->lng->txt("wsp_share_with_members"), '', $this->ctrl->getLinkTarget($this->parentObject, "share"));
+			$current_selection_list->addItem($this->lng->txt("wsp_share_with_members"), '', $this->ctrl->getLinkTarget($this->parent_obj, "share"));
 		}
 
 		if($this->context == 'mail' && ilBuddySystem::getInstance()->isEnabled())
