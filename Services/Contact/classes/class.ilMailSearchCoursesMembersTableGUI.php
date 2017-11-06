@@ -146,7 +146,7 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 		$this->ctrl->setParameter($this->parent_obj, 'search_' . $this->mode['short'],
 			is_array($_REQUEST['search_' . $this->mode['short']]) ?
 			implode(',', array_filter(array_map('intval', $_REQUEST['search_' . $this->mode['short']]))) :
-			$_REQUEST['search_' . $this->mode['short']]
+			ilUtil::stripSlashes($_REQUEST['search_' . $this->mode['short']])
 		);
 		$this->ctrl->setParameter($this->parent_obj, 'view', $this->mode['view']);
 
