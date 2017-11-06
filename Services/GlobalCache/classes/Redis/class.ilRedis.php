@@ -177,6 +177,12 @@ class ilRedis extends ilGlobalCacheService {
 			return $return;
 		}
 	}
-}
 
-?>
+
+	/**
+	 * @inheritDoc
+	 */
+	public function isValid($key) {
+		return true;
+	}
+}
