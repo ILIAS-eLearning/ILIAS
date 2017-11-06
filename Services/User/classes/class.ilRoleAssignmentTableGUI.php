@@ -22,11 +22,11 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
 		global $ilCtrl, $lng, $ilAccess;
 
 		$lng->loadLanguageModule('rbac');
-		
+		$this->setId("usrroleass");
+
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		$this->setTitle($lng->txt("role_assignment"));
-		$this->setId("usrroleass");
 		$this->setDefaultOrderField("title");
 		$this->setDefaultOrderDirection("asc");
 		$this->setDisableFilterHiding(true);
