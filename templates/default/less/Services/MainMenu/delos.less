@@ -19,6 +19,15 @@
 		> .navbar-collapse {
 			margin: 0;
 			padding: 0 0 0 5px;
+			&:empty {
+				+ div.navbar-header {
+					button.navbar-toggle {
+						@media only screen and (max-width: @grid-float-breakpoint-max) {
+							display: none;
+						}
+					}
+				}
+			}
 		}
 	}
 	&.navbar-default {

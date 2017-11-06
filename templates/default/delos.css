@@ -11430,6 +11430,11 @@ li.ilWikiBlockItem {
   margin: 0;
   padding: 0 0 0 5px;
 }
+@media only screen and (max-width: 767px) {
+  #ilTopNav.navbar > .navbar-collapse:empty + div.navbar-header button.navbar-toggle {
+    display: none;
+  }
+}
 #ilTopNav.navbar-default {
   background-color: transparent;
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
