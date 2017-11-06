@@ -1,4 +1,6 @@
 # IDEs and Development
+/.floo
+/.flooignore
 /.project
 /.idea
 /.cache
