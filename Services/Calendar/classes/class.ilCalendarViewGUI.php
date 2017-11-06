@@ -415,45 +415,32 @@ class ilCalendarViewGUI
 	 */
 	public function getBucketTitle()
 	{
+		//definition of bucket titles here: 21365
 		$user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
 		$bucket_title = $this->lng->txt("cal_calendar_download");
-		/**
-		 * Naming definition in the Main Grid Calendar (Original/Current status)
-		 * Day: Calendar Files 2017-10-11
-		 * Week: Calendar Files 2017-10-09 to 2017-10-15
-		 * Month: Calendar Files October 2017
-		 *
-		 * Naming definition in the Agenda List view (Discussed https://www.ilias.de/mantis/view.php?id=21365)
-		 * Day: Calendar Files 2017-10-11 1d
-		 * Week: Calendar Files 2017-10-11 1w
-		 * Month: Calendar Files 2017-10-11 1m
-		 * 6 Months: Calendar Files 2017-10-11 6m
-		 */
+
 		switch ($this->presentation_type)
 		{
 			case self::CAL_PRESENTATION_DAY:
-				//$start = ilCalendarUtil::_numericDayToString($this->seed->get(IL_CAL_FKT_DATE,'w'));
 				$bucket_title .= " ".$this->seed->get(IL_CAL_DATE);
 				break;
 			case self::CAL_PRESENTATION_WEEK:
 				$weekday_list = ilCalendarUtil::_buildWeekDayList($this->seed,$user_settings->getWeekStart())->get();
 				$start = current($weekday_list);
-				$end = end($weekday_list);
-				$bucket_title .= " ".$start->get(IL_CAL_DATE)." to ".$end->get(IL_CAL_DATE);
+				$char = strtolower(mb_substr($this->lng->txt("week"),0,1));
+				$bucket_title .= " ".$start->get(IL_CAL_DATE)." 1$char";
 				break;
 			case self::CAL_PRESENTATION_MONTH:
-				$bucket_title .= " ".$this->lng->txt('month_'.$this->seed->get(IL_CAL_FKT_DATE,'m').'_long').
-					' '.$this->seed->get(IL_CAL_FKT_DATE,'Y');
+				$year_month = $this->seed->get(IL_CAL_FKT_DATE,'Y-m','UTC');
+				$char = strtolower(mb_substr($this->lng->txt("month"),0,1));
+				$bucket_title .= " ".$year_month."-01 1".$char;
 				break;
 			case self::CAL_PRESENTATION_AGENDA_LIST:
 				$bucket_title .= " ".$this->seed->get(IL_CAL_DATE);
-				#21365
-				$get_list_option = $_GET['cal_agenda_per'];
+				$get_list_option = ilSession::get('cal_list_view');
 				switch ($get_list_option)
 				{
 					case ilCalendarAgendaListGUI::PERIOD_DAY:
-						$char = strtolower(mb_substr($this->lng->txt("day"),0,1));
-						$bucket_title .= " 1$char";
 						break;
 					case ilCalendarAgendaListGUI::PERIOD_MONTH:
 						$char = strtolower(mb_substr($this->lng->txt("month"),0,1));
