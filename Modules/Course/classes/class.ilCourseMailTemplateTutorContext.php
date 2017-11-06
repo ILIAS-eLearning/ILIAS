@@ -122,8 +122,14 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
 		 */
 		global $ilObjDataCache;
 
-		if(!in_array($placeholder_id, array('crs_title', 'crs_link')))
-		{
+		if(!in_array($placeholder_id, array(
+			'crs_title',
+			'crs_link',
+			'crs_status',
+			'crs_mark',
+			'crs_time_spent',
+			'crs_first_access',
+			'crs_last_access'))) {
 			return '';
 		}
 
