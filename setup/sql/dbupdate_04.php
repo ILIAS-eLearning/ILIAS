@@ -21506,4 +21506,25 @@ if (!$ilDB->tableColumnExists('usr_session', 'context'))
 			'notnull' => false)
 	);
 }
+<#5244>
+<?php
+	//add table column
+	if($ilDB->tableExists('iass_members')) {
+		$ilDB->addTableColumn("iass_members", "changer_id", array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+			));
+	}
+?>
+<#5245>
+<?php
+	//add table column
+	if($ilDB->tableExists('iass_members')) {
+		$ilDB->addTableColumn("iass_members", "change_time", array(
+			'type' => 'text',
+			'length' => 20,
+			'notnull' => false
+			));
+	}
 ?>

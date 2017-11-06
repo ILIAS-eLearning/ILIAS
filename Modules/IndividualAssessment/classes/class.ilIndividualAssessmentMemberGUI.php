@@ -34,6 +34,7 @@ class ilIndividualAssessmentMemberGUI {
 			$this->ctrl->saveParameter($this,'usr_id');
 			$this->examinee = new ilObjUser($_GET['usr_id']);
 			$this->examiner = $DIC['ilUser'];
+			$this->changer = $DIC['ilUser'];
 			$this->setTabs($DIC['ilTabs']);
 			$this->member = $this->object->membersStorage()
 								->loadMember($this->object, $this->examinee);
@@ -284,7 +285,7 @@ class ilIndividualAssessmentMemberGUI {
 			return;
 		}
 
-		$this->saveMember($_POST, true);
+		$this->saveMember($_POST, true, true);
 
 		if ($this->object->isActiveLP()) {
 			ilIndividualAssessmentLPInterface::updateLPStatusOfMember($this->member);
@@ -545,9 +546,9 @@ class ilIndividualAssessmentMemberGUI {
 	 *
 	 * @return null
 	 */
-	protected function saveMember(array $post, $keep_examiner = false)
+	protected function saveMember(array $post, $keep_examiner = false, $amend = false)
 	{
-		$this->member = $this->updateDataInMemberByArray($this->member, $post, $keep_examiner);
+		$this->member = $this->updateDataInMemberByArray($this->member, $post, $keep_examiner, $amend);
 		$this->object->membersStorage()->updateMember($this->member);
 	}
 
@@ -560,7 +561,7 @@ class ilIndividualAssessmentMemberGUI {
 	 *
 	 * @return ilIndividualAssessmentMember
 	 */
-	protected function updateDataInMemberByArray(ilIndividualAssessmentMember $member, $data, $keep_examiner = false)
+	protected function updateDataInMemberByArray(ilIndividualAssessmentMember $member, $data, $keep_examiner = false, $amend = false)
 	{
 		$member = $member->withRecord($data['record'])
 					->withInternalNote($data['internal_note'])
@@ -570,8 +571,9 @@ class ilIndividualAssessmentMemberGUI {
 		if($data['event_time']) {
 			$member = $member->withEventTime($this->createDatetime($data['event_time']));
 		}
-
-
+		if($amend) {
+			$member = $member->withChangerId($this->changer->getId());
+		}
 		if (!$keep_examiner) {
 			$member = $member->withExaminerId($this->examiner->getId());
 		}
