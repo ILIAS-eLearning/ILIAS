@@ -11423,6 +11423,7 @@ li.ilWikiBlockItem {
   #ilTopNav.navbar {
     min-height: 0;
     padding-top: 0;
+    padding-bottom: 0;
   }
 }
 #ilTopNav.navbar > .navbar-collapse {
@@ -11747,6 +11748,7 @@ input.ilOpenIDBox {
 @media only screen and (max-width: 767px) {
   .ilMainHeader {
     height: auto;
+    border-bottom: 0 none;
   }
 }
 .ilMainHeader.ilTopFixed {
