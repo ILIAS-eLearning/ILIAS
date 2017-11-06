@@ -43,7 +43,7 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 	 *			and 'grp' for groups
 	 * 
 	 */
-	public function __construct($a_parent_obj, $type = 'crs', $context = 'mail')
+	public function __construct($a_parent_obj, $type = 'crs', $context = 'mail', $contextObjects)
 	{
 		global $DIC;
 
@@ -51,7 +51,8 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 		$this->lng  = $DIC['lng'];
 		$this->user = $DIC['ilUser'];
 
-		$this->setId($type. 'table_members');
+		$tableId = $type . '_cml_' . implode('_', (array)$contextObjects);
+		$this->setId($tableId);
 		parent::__construct($a_parent_obj, 'showMembers');
 
 		$this->context = $context;
@@ -62,6 +63,9 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 			$mail = new ilMail($GLOBALS['DIC']['ilUser']->getId());
 			$this->mailing_allowed = $DIC->rbac()->system()->checkAccess('internal_mail',$mail->getMailObjectReferenceId());
 		}
+
+		$this->setDefaultOrderDirection('ASC');
+		$this->setDefaultOrderField('members_login');
 
 		$this->lng->loadLanguageModule('crs');
 		$this->lng->loadLanguageModule('buddysystem');
@@ -92,7 +96,7 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 			$this->ctrl->setParameter($a_parent_obj, $mode["checkbox"], implode(',', $_POST[$mode["checkbox"]]));
 
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-		$this->ctrl->clearParameters($a_parent_obj);
+		//$this->ctrl->clearParameters($a_parent_obj);
 
 		$this->setRowTemplate('tpl.mail_search_courses_members_row.html', 'Services/Contact');
 
@@ -121,8 +125,7 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 			$this->lng->loadLanguageModule("wsp");
 			$this->addMultiCommand('share', $this->lng->txt("wsp_share_with_members"));
 		}
-		$this->lng->loadLanguageModule('buddysystem');
-
+ 		$this->lng->loadLanguageModule('buddysystem');
 		$this->addCommandButton('cancel', $this->lng->txt('cancel'));
 	}
 	
