@@ -1573,6 +1573,7 @@ common#:#access_unlimited#:#Unlimited
 common#:#access_until#:#Valid until
 common#:#access_users#:#Logged in Users
 common#:#access#:#Access
+rbac#:#amend_grading#:#Amend finalized grading
 common#:#accesscount_registered_users#:#Read by number of distinct ILIAS users
 common#:#accessFree#:#Remove 'Valid Until' Date
 common#:#accessRestrict#:#Set 'Valid Until' Date
