@@ -143,6 +143,7 @@ class ilStudyProgrammeType extends ActiveRecord {
 		$ilUser = $DIC['ilUser'];
 		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 		$lng = $DIC['lng'];
+		$this->webdir = $DIC->filesystem()->web();
 		$this->db = $ilDB;
 		$this->log = $ilLog;
 		$this->user = $ilUser;
@@ -297,11 +298,11 @@ class ilStudyProgrammeType extends ActiveRecord {
 		ilStudyProgrammeTypeTranslation::deleteAllTranslations($this->getId());
 
 		// Delete icon & folder
-		if (is_file($this->getIconPath(true))) {
-			unlink($this->getIconPath(true));
+		if ($this->webdir->has($this->getIconPath(true))) {
+			$this->webdir($this->getIconPath(true));
 		}
-		if (is_dir($this->getIconPath())) {
-			rmdir($this->getIconPath());
+		if ($this->webdir->has($this->getIconPath())) {
+			$this->webdir->deleteDir($this->getIconPath());
 		}
 
 		// Delete relations to advanced metadata records
@@ -570,14 +571,19 @@ class ilStudyProgrammeType extends ActiveRecord {
 		if (!count($file_data) || !$file_data['name']) {
 			return false;
 		}
-		if (!is_dir($this->getIconPath())) {
-			ilUtil::makeDirParents($this->getIconPath());
+		if (!$this->webdir->hasDir($this->getIconPath())) {
+			$this->webdir->createDir($this->getIconPath());
 		}
 		$filename = $this->getIcon() ? $this->getIcon() : $file_data['name'];
-		$return = ilUtil::moveUploadedFile($file_data['tmp_name'], $filename, $this->getIconPath(true), false);
+		if($this->webdir->has($this->getIconPath(true)))
+		{
+			$this->webdir->delete($this->getIconPath(true));
+		}
 
-		// TODO Resize
-		return $return;
+		$stream = ILIAS\Filesystem\Stream\Streams::ofResource(fopen($file_data["tmp_name"], "r"));
+		$this->webdir->writeStream($this->getIconPath(true), $stream);
+
+		return true;
 	}
 
 
@@ -588,8 +594,9 @@ class ilStudyProgrammeType extends ActiveRecord {
 		if (!$this->updateable()) {
 			return;
 		}
-		if (is_file($this->getIconPath(true))) {
-			unlink($this->getIconPath(true));
+
+		if ($this->getIcon() !== null) {
+			$this->webdir->delete($this->getIconPath(true));
 			$this->setIcon('');
 		}
 	}
@@ -867,7 +874,7 @@ class ilStudyProgrammeType extends ActiveRecord {
 	 * @return string
 	 */
 	public function getIconPath($append_filename = false) {
-		$path = ilUtil::getWebspaceDir() . '/' . self::WEB_DATA_FOLDER . '/' . 'type_' . $this->getId() . '/';
+		$path = self::WEB_DATA_FOLDER . '/' . 'type_' . $this->getId() . '/';
 		if ($append_filename) {
 			$path .= $this->getIcon();
 		}
@@ -898,7 +905,7 @@ class ilStudyProgrammeType extends ActiveRecord {
 			$row = $ilDB->fetchAssoc($res);
 
 			if($row["icon"]) {
-				$path = ilUtil::getWebspaceDir() . '/' . self::WEB_DATA_FOLDER . '/' . 'type_' . $row["id"] . '/';
+				$path = self::WEB_DATA_FOLDER . '/' . 'type_' . $row["id"] . '/';
 				$path .= $row["icon"];
 
 				return $path;
