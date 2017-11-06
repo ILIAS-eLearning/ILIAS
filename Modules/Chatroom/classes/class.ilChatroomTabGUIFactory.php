@@ -371,7 +371,7 @@ class ilChatroomTabGUIFactory
 			'perm'     => array(
 				'lng'        => 'permissions',
 				'link'       => $DIC->ctrl()->getLinkTargetByClass('ilpermissiongui', 'perm'),
-				'permission' => 'write'
+				'permission' => 'edit_permission'
 			)
 		);
 
