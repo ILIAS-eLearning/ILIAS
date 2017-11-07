@@ -1255,7 +1255,7 @@ class ilDclTable {
 		$org_std_fields = $original->getStandardFields();
 		foreach ($this->getStandardFields() as $element_key => $std_field) {
 			$std_field->cloneStructure($org_std_fields[$element_key]);
-			if ($std_field->getId() == $original->getDefaultSortField()) {
+			if ($std_field->getId() === $original->getDefaultSortField()) {
 				$default_sort_field = $std_field->getId();
 			}
 		}
@@ -1269,7 +1269,7 @@ class ilDclTable {
 				$new_field->cloneStructure($orig_field->getId());
 				$new_fields[$orig_field->getId()] = $new_field;
 
-				if ($orig_field->getId() == $original->getDefaultSortField()) {
+				if ($orig_field->getId() === $original->getDefaultSortField()) {
 					$default_sort_field = $new_field->getId();
 				}
 			}
