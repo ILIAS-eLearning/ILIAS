@@ -144,7 +144,7 @@ class ButtonTest extends ILIAS_UI_TestBase {
 		$html = $this->normalizeHTML($r->render($b));
 
 		$css_classes = self::$canonical_css_classes[$factory_method];
-		$expected = "<button class=\"$css_classes\" data-action=\"$ln\">".
+		$expected = "<button class=\"$css_classes\" data-action=\"$ln\" id=\"id_1\">".
 					"label".
 					"</button>";
 		$this->assertHTMLEquals($expected, $html);
@@ -204,7 +204,7 @@ class ButtonTest extends ILIAS_UI_TestBase {
 
 		$id = $ids[0];
 		$css_classes = self::$canonical_css_classes[$factory_method];
-		$expected = "<button class=\"$css_classes\" id=\"$id\">".
+		$expected = "<button class=\"$css_classes\" data-action=\"$ln\" id=\"$id\">".
 					"label".
 					"</button>";
 		$this->assertHTMLEquals($expected, $html);
@@ -253,11 +253,11 @@ class ButtonTest extends ILIAS_UI_TestBase {
 
 	public function test_render_btn_tag_relevance() {
 		$expectations = array(
-			'<button class="btn btn-tag btn-tag-relevance-verylow" data-action="#">tag</button>',
-			'<button class="btn btn-tag btn-tag-relevance-low" data-action="#">tag</button>',
-			'<button class="btn btn-tag btn-tag-relevance-middle" data-action="#">tag</button>',
-			'<button class="btn btn-tag btn-tag-relevance-high" data-action="#">tag</button>',
-			'<button class="btn btn-tag btn-tag-relevance-veryhigh" data-action="#">tag</button>'
+			'<button class="btn btn-tag btn-tag-relevance-verylow" data-action="#" id="id_1">tag</button>',
+			'<button class="btn btn-tag btn-tag-relevance-low" data-action="#" id="id_2">tag</button>',
+			'<button class="btn btn-tag btn-tag-relevance-middle" data-action="#" id="id_3">tag</button>',
+			'<button class="btn btn-tag btn-tag-relevance-high" data-action="#" id="id_4">tag</button>',
+			'<button class="btn btn-tag btn-tag-relevance-veryhigh" data-action="#" id="id_5">tag</button>'
 		);
 
 		$f = $this->getButtonFactory();
@@ -289,13 +289,13 @@ class ButtonTest extends ILIAS_UI_TestBase {
 		$b = $f->tag('tag', '#')
 			->withBackgroundColor($bgcol);
 		$html = $this->normalizeHTML($r->render($b));
-		$expected = '<button class="btn btn-tag btn-tag-relevance-veryhigh" style="background-color: #00ff00; color: #000000;" data-action="#">tag</button>';
+		$expected = '<button class="btn btn-tag btn-tag-relevance-veryhigh" style="background-color: #00ff00; color: #000000;" data-action="#" id="id_1">tag</button>';
 		$this->assertEquals($expected, $html);
 
 		$fcol = $df->color('#ddd');
 		$b = $b->withForegroundColor($fcol);
 		$html = $this->normalizeHTML($r->render($b));
-		$expected = '<button class="btn btn-tag btn-tag-relevance-veryhigh" style="background-color: #00ff00; color: #dddddd;" data-action="#">tag</button>';
+		$expected = '<button class="btn btn-tag btn-tag-relevance-veryhigh" style="background-color: #00ff00; color: #dddddd;" data-action="#" id="id_2">tag</button>';
 		$this->assertEquals($expected, $html);
 	}
 
@@ -310,7 +310,7 @@ class ButtonTest extends ILIAS_UI_TestBase {
 		$this->assertEquals($classes, $b->getClasses());
 
 		$html = $this->normalizeHTML($r->render($b));
-		$expected = '<button class="btn btn-tag btn-tag-relevance-veryhigh cl1 cl2" data-action="#">tag</button>';
+		$expected = '<button class="btn btn-tag btn-tag-relevance-veryhigh cl1 cl2" data-action="#" id="id_1">tag</button>';
 		$this->assertEquals($expected, $html);
 	}
 	/**
@@ -349,7 +349,7 @@ class ButtonTest extends ILIAS_UI_TestBase {
 
 			$html = $this->normalizeHTML($r->render($b));
 			$css_classes = self::$canonical_css_classes[$factory_method];
-			$expected = "<button class=\"$css_classes\" aria-label=\"$aria_label\" data-action=\"$ln\">".
+			$expected = "<button class=\"$css_classes\" aria-label=\"$aria_label\" data-action=\"$ln\" id=\"id_1\">".
 				"label".
 				"</button>";
 			$this->assertHTMLEquals($expected, $html);
@@ -371,7 +371,7 @@ class ButtonTest extends ILIAS_UI_TestBase {
 
 			$html = $this->normalizeHTML($r->render($b));
 			$css_classes = self::$canonical_css_classes[$factory_method];
-			$expected = "<button class=\"$css_classes \" aria-checked=\"true\" data-action=\"$ln\">".
+			$expected = "<button class=\"$css_classes\" aria-checked=\"true\" data-action=\"$ln\" id=\"id_1\">".
 				"label".
 				"</button>";
 			$this->assertHTMLEquals($expected, $html);
