@@ -44,6 +44,8 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel {
 				$file_obj->getUploadFile($move_file, $file["name"]);
 			}
 
+			$file_obj->update();
+
 			$file_id = $file_obj->getId();
 			$return = $file_id;
 		// handover for save-confirmation
