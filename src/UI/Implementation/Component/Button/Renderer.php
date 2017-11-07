@@ -4,13 +4,11 @@
 
 namespace ILIAS\UI\Implementation\Component\Button;
 
-use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 
 class Renderer extends AbstractComponentRenderer {
-
 	/**
 	 * @inheritdoc
 	 */
@@ -19,7 +17,7 @@ class Renderer extends AbstractComponentRenderer {
 
 		if ($component instanceof Component\Button\Close) {
 			return $this->renderClose($component);
-		} elseif ($component instanceof Component\Button\Month) {
+		} else if ($component instanceof Component\Button\Month) {
 			return $this->renderMonth($component, $default_renderer);
 		} else {
 			return $this->renderButton($component, $default_renderer);
@@ -74,12 +72,12 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->touchBlock("disabled");
 		}
 		$aria_label = $component->getAriaLabel();
-		if ($aria_label != null) {
+		if($aria_label != null){
 			$tpl->setCurrentBlock("with_aria_label");
 			$tpl->setVariable("ARIA_LABEL", $aria_label);
 			$tpl->parseCurrentBlock();
 		}
-		if ($component->isAriaChecked()) {
+		if($component->isAriaChecked()){
 			$tpl->setCurrentBlock("with_aria_checked");
 			$tpl->setVariable("ARIA_CHECKED", "true");
 			$tpl->parseCurrentBlock();
@@ -93,7 +91,6 @@ class Renderer extends AbstractComponentRenderer {
 		return $tpl->get();
 	}
 
-
 	/**
 	 * @inheritdoc
 	 */
@@ -104,17 +101,14 @@ class Renderer extends AbstractComponentRenderer {
 		$registry->register("./libs/bower/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js");
 	}
 
-
 	protected function renderClose($component) {
 		$tpl = $this->getTemplate("tpl.close.html", true, true);
 		// This is required as the rendering seems to only create any output at all
 		// if any var was set or block was touched.
 		$tpl->setVariable("FORCE_RENDERING", "");
 		$this->maybeRenderId($component, $tpl);
-
 		return $tpl->get();
 	}
-
 
 	protected function maybeRenderId(Component\Component $component, $tpl) {
 		$id = $this->bindJavaScript($component);
@@ -125,53 +119,26 @@ class Renderer extends AbstractComponentRenderer {
 		}
 	}
 
-
 	protected function renderMonth(Component\Button\Month $component, RendererInterface $default_renderer) {
 		$def = $component->getDefault();
 
-		for ($i = 1; $i <= 12; $i ++) {
-			$this->toJS(array( "month_" . str_pad($i, 2, "0", STR_PAD_LEFT) . "_long" ));
+		for ($i = 1; $i<=12; $i++)
+		{
+			$this->toJS(array("month_".str_pad($i, 2, "0", STR_PAD_LEFT)."_long"));
 		}
 
 		$tpl = $this->getTemplate("tpl.month.html", true, true);
 
 		$month = explode("-", $def);
-		$tpl->setVariable("DEFAULT_LABEL", $this->txt("month_"
-		                                              . str_pad($month[0], 2, "0", STR_PAD_LEFT)
-		                                              . "_long") . " " . $month[1]);
-		$tpl->setVariable("DEF_DATE", $month[0] . "/1/" . $month[1]);
+		$tpl->setVariable("DEFAULT_LABEL", $this->txt("month_".str_pad($month[0], 2, "0", STR_PAD_LEFT)."_long")." ".$month[1]);
+		$tpl->setVariable("DEF_DATE", $month[0]."/1/".$month[1]);
 		// see https://github.com/moment/moment/tree/develop/locale
-		$lang_key = in_array($this->getLangKey(), array(
-			"ar",
-			"bg",
-			"cs",
-			"da",
-			"de",
-			"el",
-			"en",
-			"es",
-			"et",
-			"fa",
-			"fr",
-			"hu",
-			"it",
-			"ja",
-			"ka",
-			"lt",
-			"nl",
-			"pl",
-			"pt",
-			"ro",
-			"ru",
-			"sk",
-			"sq",
-			"sr",
-			"tr",
-			"uk",
-			"vi",
-			"zh",
-		)) ? $this->getLangKey() : "en";
-		if ($lang_key == "zh") {
+		$lang_key = in_array($this->getLangKey(), array("ar", "bg", "cs", "da", "de", "el", "en", "es", "et", "fa", "fr", "hu", "it",
+			"ja", "ka", "lt", "nl", "pl", "pt", "ro", "ru", "sk", "sq", "sr", "tr", "uk", "vi", "zh"))
+			? $this->getLangKey()
+			: "en";
+		if ($lang_key == "zh")
+		{
 			$lang_key = "zh-cn";
 		}
 		$tpl->setVariable("LANG", $lang_key);
@@ -188,37 +155,36 @@ class Renderer extends AbstractComponentRenderer {
 		return $tpl->get();
 	}
 
-
 	protected function additionalRenderTag(Component\Button\Tag $component, $tpl) {
-		$tpl->touchBlock('rel_' . $component->getRelevance());
+		$tpl->touchBlock('rel_' .$component->getRelevance());
 
 		$classes = trim(join(' ', $component->getClasses()));
-		if ($classes !== '') {
+		if($classes !== '') {
 			$tpl->setVariable("CLASSES", $classes);
 		}
 
 		$bgcol = $component->getBackgroundColor();
-		if ($bgcol) {
+		if($bgcol) {
 			$tpl->setVariable("BGCOL", $bgcol->asHex());
 		}
 		$forecol = $component->getForegroundColor();
-		if ($forecol) {
+		if($forecol) {
 			$tpl->setVariable("FORECOL", $forecol->asHex());
 		}
-	}
 
+	}
 
 	/**
 	 * @inheritdoc
 	 */
 	protected function getComponentInterfaceName() {
-		return array(
-			Component\Button\Primary::class,
-			Component\Button\Standard::class,
-			Component\Button\Close::class,
-			Component\Button\Shy::class,
-			Component\Button\Month::class,
-			Component\Button\Tag::class,
+		return array
+		(Component\Button\Primary::class
+		, Component\Button\Standard::class
+		, Component\Button\Close::class
+		, Component\Button\Shy::class
+		, Component\Button\Month::class
+		, Component\Button\Tag::class
 		);
 	}
 }
