@@ -294,7 +294,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 
 		$ilTabs->activateTab("id_info");
 
-		if (!$this->checkPermissionBool("visible")) {
+		if (!$this->checkPermissionBool("visible") && !$this->checkPermissionBool("read")) {
 			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"));
 		}
 
@@ -375,7 +375,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 		}
 
 		// info screen
-		if ($ilAccess->checkAccess('visible', "", $this->object->getRefId())) {
+		if ($ilAccess->checkAccess('visible', "", $this->object->getRefId()) || $ilAccess->checkAccess('read', "", $this->object->getRefId())) {
 			$ilTabs->addTab("id_info", $lng->txt("info_short"), $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
 		}
 
