@@ -699,7 +699,7 @@ The ILIAS Testserver (http://ilias.de/test52) is currently configured as follows
 | Package        | Version                     |
 |----------------|-----------------------------|
 | Distribution   | Ubuntu 14.04.5 LTS          |
-| MySQL          | MySQL 5.5.54                |
+| MySQL          | MySQL 5.5.58                |
 | PHP            | 5.5.9                       |
 | Apache         | 2.4.7                       |
 | Nginx          | 1.4.6                       |
