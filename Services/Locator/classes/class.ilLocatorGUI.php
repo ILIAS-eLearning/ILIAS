@@ -117,6 +117,7 @@ class ilLocatorGUI
 		else
 		{
 			// LTI
+			/*
 			if (isset($_SESSION['lti_tree_root_id'])) 
 			{
 				$a_start = $_SESSION['lti_tree_root_id'];
@@ -125,6 +126,8 @@ class ilLocatorGUI
 			{
 				$a_start = ROOT_FOLDER_ID;
 			}
+			*/ 
+			$a_start = ROOT_FOLDER_ID;
 		}
 		
 		if ($a_ref_id > 0)
@@ -267,7 +270,10 @@ class ilLocatorGUI
 		{
 			return;
 		}
-
+		// LTI
+		if (isset($_SESSION['il_lti_mode'])) {
+			$a_frame = "_self";
+		}
 		$this->entries[] = array("title" => $a_title,
 			"link" => $a_link, "frame" => $a_frame, "ref_id" => $a_ref_id, "type" => $type); 
 	}
@@ -293,6 +299,14 @@ class ilLocatorGUI
 	*/
 	function getHTML()
 	{
+		if (isset($_SESSION['il_lti_mode']) && !ilLTIViewGUI::getInstance()->home_is_container) 
+		{
+			return "";
+		}
+		else 
+		{
+			$a_start = ROOT_FOLDER_ID;
+		}
 		$lng = $this->lng;
 		$ilSetting = $this->settings;
 		

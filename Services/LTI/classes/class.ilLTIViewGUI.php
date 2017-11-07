@@ -46,7 +46,9 @@ class ilLTIViewGUI extends ilBaseViewGUI
 		$this->allow_desktop = false;
 		$this->view_nav = true;
 		$this->use_top_bar_url = false;
-		
+		$this->member_view = false;
+		$this->member_view_url = "";
+		$this->member_view_close_txt = "";
 		
 		// for Testing: 
 		// With this settings a fix folder with id $this->root_folder_id is set for locator and tree
@@ -118,6 +120,7 @@ class ilLTIViewGUI extends ilBaseViewGUI
 		if ($this->home_type === '') 
 		{
 			$this->home_type = ilObject::_lookupType($this->home_id,true);
+			$this->home_is_container = $this->isContainer($this->home_type);
 		}
 		if ($this->home_url === '') 
 		{
@@ -127,12 +130,15 @@ class ilLTIViewGUI extends ilBaseViewGUI
 		{
 			$this->home_title = $this->getHomeTitle();
 		}
+		/*
 		if (count($this->home_items) == 0) 
 		{
 			$this->home_items = $this->dic['tree']->getSubTreeIds($this->home_id);
 			// add home_id to the item list too
 			$this->home_items[] = $this->home_id;
 		}
+		*/ 
+		/*
 		$this->log("home_id: " . $this->home_id);
 		$this->log("home_obj_id: " . $this->home_obj_id);
 		$this->log("home_type: " . $this->home_type);
@@ -141,7 +147,7 @@ class ilLTIViewGUI extends ilBaseViewGUI
 		$this->log("home_items: " . $this->home_items);
 		$this->log("current_ref_id: " . $this->current_ref_id);
 		$this->log("current_type: " . $this->current_type);
-		
+		*/
 		switch ($baseclass) 
 		{
 			case 'illtiroutergui' :
@@ -164,6 +170,8 @@ class ilLTIViewGUI extends ilBaseViewGUI
 		{ // ToDo: conceptual discussion, only initGUI on baseClass=repositorygui? 
 			return;
 		}
+		$this->setContext();
+		/*
 		if ($this->use_top_bar_url) {
 		
 			// set the tree_root_id for tree and locator if ref_id is sub_item or context itself
@@ -181,6 +189,7 @@ class ilLTIViewGUI extends ilBaseViewGUI
 		else {
 			$this->setContext();
 		}
+		*/ 
 	}
 	
 	// Maybe moving to the BaseViewGUI Template?
@@ -194,7 +203,6 @@ class ilLTIViewGUI extends ilBaseViewGUI
 		$this->show_home_link = false;
 		$this->tree_root_id = ($this->fix_tree_id === '') ? $this->home_id : $this->fix_tree_id;
 		$_SESSION['lti_tree_root_id'] = $this->tree_root_id;
-		ilUtil::sendInfo("sdfsdfsdfsdf");
 	}
 	 
 	/**
@@ -260,8 +268,8 @@ class ilLTIViewGUI extends ilBaseViewGUI
 		$this->log("setContext");
 		if ($this->isContainer($this->current_type)) 
 		{
-			$this->tree_root_id = $this->current_ref_id;
-			$this->log("set lti_tree_root_id: " . $this->tree_root_id);
+			$this->tree_root_id = $this->current_ref_id; // deprecated
+			//$this->log("set lti_tree_root_id: " . $this->tree_root_id);
 			$_SESSION['lti_tree_root_id'] = $this->tree_root_id;
 		}
 	}
@@ -269,29 +277,29 @@ class ilLTIViewGUI extends ilBaseViewGUI
 	public function render($tpl,$part) 
 	{
 		global $lng, $DIC;
+		$this->log('render ' . $part);
 		$lng->loadLanguageModule("lti");
 		$f = $DIC->ui()->factory();
 		$renderer = $DIC->ui()->renderer();
 		switch ($part) 
 		{
 			case 'top_bar_header' :
-				if(!$this->show_home_link) 
+				if(!$this->member_view) 
 				{
 					if (!$tpl->blockExists("header_top_title"))
 					{
 						$tpl->addBlockFile("HEADER_TOP_TITLE","header_top_title","tpl.header_top_title.html","Services/LTI");
 					}
-					//$tpl->setVariable("TXT_HEADER_TITLE", "LTI header replaced");
-					$tpl->setVariable("TXT_HEADER_TITLE", "LTI Sitzung");
+					$tpl->setVariable("TXT_HEADER_TITLE", "LTI Sitzung");					
 				}
 				else {
 					if (!$tpl->blockExists("header_back_bl")) 
 					{
 						$tpl->addBlockFile("HEADER_BACK_BL","header_back_bl","tpl.header_back_bl.html","Services/LTI");
 					}
-					$tpl->setVariable("URL_HEADER_BACK", $this->home_url);
+					$tpl->setVariable("URL_HEADER_BACK", $this->member_view_url);
 					//$tpl->setVariable("TXT_HEADER_BACK", $lng->txt("lti_back_to_home")); // ToDo: $lng variable
-					$tpl->setVariable("TXT_HEADER_BACK", "Zurück zu ". $this->home_title); // ToDo: $lng variable		
+					$tpl->setVariable("TXT_HEADER_BACK", $this->member_view_close_txt); // ToDo: $lng variable		
 				}
 				break;
 			case 'view_nav' :
@@ -330,7 +338,7 @@ class ilLTIViewGUI extends ilBaseViewGUI
 		$icon = ilUtil::img(ilObject::_getIcon((int)$this->home_obj_id, "tiny"));
 		
 		$gl->addEntry($icon." ". $this->getHomeTitle(), $this->getHomeLink(),
-			"_top");
+			"_self");
 		
 		
 		$items = $ilNavigationHistory->getItems();
@@ -353,7 +361,7 @@ class ilLTIViewGUI extends ilBaseViewGUI
 				$cnt ++;
 				$icon = ilUtil::img(ilObject::_getIcon($obj_id, "tiny"));
 				$ititle = ilUtil::shortenText(strip_tags($item["title"]), 50, true); // #11023
-				$gl->addEntry($icon." ".$ititle, $item["link"],	"_top", "", "ilLVNavEnt");
+				$gl->addEntry($icon." ".$ititle, $item["link"],	"_self", "", "ilLVNavEnt");
 
 			}
 			$first = false;
@@ -426,7 +434,8 @@ class ilLTIViewGUI extends ilBaseViewGUI
 	{
 		//$DIC->logger()->root()->debug("logout");
 		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);		
-		$this->dic['ilAuthSession']->logout();
+		//$this->dic['ilAuthSession']->logout();
+		$GLOBALS['DIC']['ilAuthSession']->logout();
 		// reset cookie
 		$client_id = $_COOKIE["ilClientId"];
 		ilUtil::setCookie("ilClientId","");

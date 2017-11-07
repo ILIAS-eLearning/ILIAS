@@ -26,8 +26,14 @@ class ilFrameTargetInfo
 						if($_SESSION['il_rep_mode'] == 'flat' or !isset($_SESSION['il_rep_mode']))
 						{
 							//return 'bottom';
-							return '_top';
-						}
+							// LTI
+							if (isset($_SESSION['il_lti_mode'])) {
+								return '_self';
+							}
+							else {
+								return '_top';
+							}
+						}	
 						else
 						{
 							return 'rep_content';
@@ -35,7 +41,13 @@ class ilFrameTargetInfo
 
 					case 'MainContent':
 						//return 'bottom';
-						return '_top';
+						// LTI
+						if (isset($_SESSION['il_lti_mode'])) {
+							return '_self';
+						}
+						else {
+							return '_top';
+						}
 
 					// frame for external content (e.g. web bookmarks, external links) 
 					case 'ExternalContent':

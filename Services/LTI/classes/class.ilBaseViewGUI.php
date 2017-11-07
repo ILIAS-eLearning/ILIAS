@@ -50,6 +50,8 @@ abstract class ilBaseViewGUI
 	const ROOT_CRS = "crs";
 	const ROOT_GRP = "grp";
 	
+	const LTI_DEBUG = true;
+	
 	/**
 	 * override these switches in the view constructor
 	 */
@@ -61,6 +63,12 @@ abstract class ilBaseViewGUI
 	protected $use_top_bar_url = false;
 	
 	protected $root_type = ROOT_CONTAINER;
+	
+	public $member_view = false;
+	
+	public $member_view_url = "";
+	
+	public $member_view_close_txt = "";
 	
 	/**
 	 * 
@@ -91,6 +99,11 @@ abstract class ilBaseViewGUI
 	 * The view maybe support a view home link in the topbar (static or dynamically, see topbar_back_url in Member- and LTIView)
 	 */ 
 	protected $home_type = '';
+	
+	/**
+	 * home is conatiner
+	 */ 
+	public $home_is_container = false;
 	
 	/**
 	 * home title (title of ref_id)
@@ -181,66 +194,6 @@ abstract class ilBaseViewGUI
 	public function isActive() {
 		return $this->active;
 	}
-	
-	/**
-	 * Activate view for this session and root_folder_id.
-	 * @return 
-	 * @param int $a_ref_id Reference Id of course or group. We have to discuss the handling of "not container" object types
-	 */
-	 
-	/* 
-	 * 
-	public function activate($view, $a_ref_id = ROOT_FOLDER_ID)
-	{
-		global $DIC;
-		
-		if (isset($_SESSION['il_view_mode']) && $_SESSION['il_view_mode'] !== "") {			
-			if (array_key_exists($_SESSION['il_view_mode'],$DIC)) {
-				$current_view = $_SESSION['il_view_mode'];
-				$current_view->deactivate();
-				$this->last_view = $_SESSION['il_view_mode'];
-				$_SESSION['il_view_mode_last'] = $this->last_view;
-				$_SESSION['il_view_root_folder_last'] = $current_view->getRootFolderId(); // maybe not needed
-			}
-		}
-		 
-		$this->active = true;
-		$_SESSION['il_view_mode'] = $view;
-		$this->setRootFolderId = (int) $a_ref_id;
-	}
-	*/
-	
-	/**
-	 * Deactivate view
-	 * @return 
-	 */
-	 
-	/* 
-	public function deactivate()
-	{
-		$this->active = false;
-		//$this->setRootFolderId = ROOT_FOLDER_ID;
-	}
-	*/
-	/**
-	 * Toggle activation status
-	 * @return 
-	 * @param int $a_ref_id
-	 * @param bool $a_activation
-	 */
-	/* 
-	public function toggleActivation($a_ref_id, $a_activation)
-	{
-		if($a_activation)
-		{
-			return $this->activate($a_ref_id);
-		}
-		else
-		{
-			return $this->deactivate();
-		}
-	}
-	*/
 	
 	/**
 	 * @return bool
@@ -356,13 +309,15 @@ abstract class ilBaseViewGUI
 	 */
 	function isContainer($obj_type) {
 		//return true;
-		return preg_match("/(crs|grp|cat|root|folder)/",$obj_type);
+		return preg_match("/(crs|grp|cat|root|fold)/",$obj_type);
 	} 
 	
-	protected function log($txt) 
+	public function log($txt) 
 	{
-		$this->dic->logger()->lti()->write($txt);
-	} 
+		if (LTI_DEBUG) {
+			$this->dic->logger()->lti()->write($txt);
+		}
+	}
 	
 	/**
 	 * get session value != ''
