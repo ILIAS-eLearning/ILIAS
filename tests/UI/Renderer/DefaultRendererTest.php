@@ -78,4 +78,44 @@ class DefaultRendererTest extends ILIAS_UI_TestBase {
 
 		$renderer->_getRendererFor($c1);
 	}
+
+	public function test_render() {
+		$c1 = new \ILIAS\UI\Component\Test\TestComponent("foo");
+		$renderer = $this->getDefaultRenderer();
+		$html = $renderer->render($c1);
+		$this->assertEquals("foo",$html);
+	}
+
+	public function test_render_async_no_js() {
+		$c1 = new \ILIAS\UI\Component\Test\TestComponent("foo");
+		$renderer = $this->getDefaultRenderer(
+				new \ILIAS\UI\Implementation\Render\ilJavaScriptBinding
+				($this->getTemplateFactory()->getTemplate(false,false,false)
+		));
+		$html = $renderer->renderAsync($c1);
+		$this->assertEquals("foo",$html);
+	}
+
+	public function test_render_async_with_js() {
+		$c1 = new \ILIAS\UI\Component\Test\JSTestComponent("foo");
+		$renderer = $this->getDefaultRenderer(
+				new \ILIAS\UI\Implementation\Render\ilJavaScriptBinding($this->getTemplateFactory()->getTemplate(false,false,false))
+		);
+		$html = $renderer->renderAsync($c1);
+		$this->assertEquals('foo<script>id:foo.id content:foo</script>',$html);
+	}
+
+	public function test_render_async_with_js_twice() {
+		$c1 = new \ILIAS\UI\Component\Test\TestComponent("foo");
+		$c2 = new \ILIAS\UI\Component\Test\JSTestComponent("foo");
+		$renderer = $this->getDefaultRenderer(
+				new \ILIAS\UI\Implementation\Render\ilJavaScriptBinding($this->getTemplateFactory()->getTemplate(false,false,false))
+		);
+		$html = $renderer->renderAsync($c2);
+		$this->assertEquals('foo<script>id:foo.id content:foo</script>',$html);
+		$html = $renderer->renderAsync($c1);
+		$this->assertEquals("foo",$html);
+		$html = $renderer->renderAsync($c2);
+		$this->assertEquals('foo<script>id:foo.id content:foo</script>',$html);
+	}
 }

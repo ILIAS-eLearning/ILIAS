@@ -17,7 +17,7 @@ interface Renderer {
 	 * Render given component. If an array of components is passed, this method returns a concatenated output of
 	 * each rendered component, in the same order as given in the array
 	 *
-	 * @param Component\Component|Component\Component[] $component
+	 * @param Component|Component[] $component
 	 *
 	 * @return string
 	 */
@@ -28,7 +28,7 @@ interface Renderer {
 	 * wrapped in a script tag. All javascript code stored for rendering will be removed after this output
      * so it will not be rendered twice if render async is called multiple times.
 	 *
-	 * @param Component\Component|Component\Component[] $component
+	 * @param Component|Component[] $component
 	 * @return string
 	 */
 	public function renderAsync($component);

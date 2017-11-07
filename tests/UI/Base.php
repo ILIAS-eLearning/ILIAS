@@ -143,12 +143,15 @@ abstract class ILIAS_UI_TestBase extends PHPUnit_Framework_TestCase {
 		return new LoggingJavaScriptBinding();
 	}
 
-	public function getDefaultRenderer() {
+	public function getDefaultRenderer(JavaScriptBinding $js_binding = null) {
 		$ui_factory = $this->getUIFactory();
 		$tpl_factory = $this->getTemplateFactory();
 		$resource_registry = $this->getResourceRegistry();
 		$lng = $this->getLanguage();
-		$js_binding = $this->getJavaScriptBinding();
+		if(!$js_binding){
+			$js_binding = $this->getJavaScriptBinding();
+		}
+
 		$component_renderer_loader
 			= new Render\LoaderCachingWrapper
 				( new Render\LoaderResourceRegistryWrapper

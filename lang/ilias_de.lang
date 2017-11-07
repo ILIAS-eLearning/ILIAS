@@ -1652,8 +1652,8 @@ book#:#book_object_updated#:#Das Buchungsobjekt wurde geändert.
 book#:#book_objects_list#:#Buchungsobjekte
 book#:#book_period#:#Dauer
 book#:#book_pool_added#:#Ein Buchungspool wurde angelegt.
-book#:#book_public_log#:#Benutzer sehen Belegungsplan
-book#:#book_public_log_info#:#Benutzer können auch den Reiter „Belegungsplan“ einsehen.
+book#:#book_public_log#:#Benutzer sehen alle Reservierungen
+book#:#book_public_log_info#:#Benutzer mit Leserecht können im Reiter „Reservierungen“ auch Reservierungen anderer Benutzer einsehen.
 book#:#book_reservation_confirmed#:#Die Buchung wurde erfolgreich durchgeführt.
 book#:#book_reservation_failed#:#Die Buchung ist fehlgeschlagen.
 book#:#book_reservation_fix_info#:#Die Reservierung kann nur für festgelegte Zeiten durchgeführt werden.
@@ -2027,6 +2027,7 @@ common#:#administrate_users#:#Lokale Benutzerverwaltung
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#Übernehmen
+rbac#:#amend_grading#:#Finalisierte Bewertung ändern
 rbac#:#adopt_perm_from_template#:#Rechteeinstellungen kopieren
 common#:#advanced_editing_allow_html_tags#:#Erlaube die ausgewählten HTML-Auszeichnungen in Textfeldern
 common#:#advanced_editing_assessment_settings#:#Erlaubte HTML-Auszeichnungen für das Test und Assessment-Werkzeug
@@ -5430,7 +5431,7 @@ crs#:#event_table_update#:#Sitzung bearbeiten
 crs#:#event_tbl_participated#:#Teilgenommen
 crs#:#event_tbl_registered#:#Angemeldet
 crs#:#event_title#:#Titel
-crs#:#event_tutor_data#:#Persönliche Daten des/der Vortragenden
+crs#:#event_tutor_data#:#Präsentation von
 crs#:#event_unregister#:#Abmelden
 crs#:#event_unregistered#:#Sie wurden abgemeldet.
 crs#:#event_updated#:#Die Änderungen wurden gespeichert
@@ -11252,6 +11253,9 @@ bibl#:#ris_default_t1#:#Haupttitel
 bibl#:#ris_default_t2#:#Zweittitel
 bibl#:#ris_default_t3#:#Dritter Titel
 bibl#:#ris_default_u2#:#Benutzerdefiniert
+bibl#:#ris_default_y1#:#Jahr
+bibl#:#ris_default_ty#:#Typ
+bibl#:#ris_default_ep#:#letzte Seite
 bibl#:#bibl_copy#:#Literaturliste kopieren
 mail#:#mail_filter#:#Filter
 mail#:#mail_filter_sender#:#Sender
@@ -13557,6 +13561,7 @@ exc#:#exc_tbl_filter_submission#:#Abgabe
 exc#:#exc_tbl_filter_has_submission#:#Hat abgegeben
 exc#:#exc_tbl_filter_has_no_submission#:#Hat noch nicht abgegeben
 iass#:#general#:#Allgemein
+iass#:#iass_changed_by#:#Geändert nach Finalisierung
 iass#:#iass_content#:#Inhalt
 iass#:#iass_record_template#:#Vorlage Prüfungsnotiz
 iass#:#iass_graded_by#:#Bewertet von
@@ -13742,6 +13747,7 @@ pdfgen#:#zoom#:#Zoom
 pdfgen#:#javascript_delay#:#Javascript Verzögerung
 pdfgen#:#page_size#:#Seitengröße
 pdfgen#:#reset_to_default#:#Default Einstellungen laden
+pdfgen#:#problem_with_purposes#:#Es wurde ein Problem in der Konfiguration festgestellt, nutzen sie bitten den Button "Bereinigen" um das Problem zu lösen.
 copg#:#copg_questions_not_supported_here#:#In diesem Kontext werden keine Fragen unterstützt.
 auth#:#auth_err_login_attempts_deactivation#:#Das Benutzerkonto wurde wegen falscher Loginversuche deaktiviert. 
 crs#:#crs_edit_lo_introduction#:#Einleitung bearbeiten
@@ -13945,8 +13951,8 @@ prtf#:#prtf_add_existing_blog#:#Vorhandenes Blog nutzen
 blog#:#blog_draft_text#:#Unveröffentlichter Beitrag
 user#:#usr_letter_avatars#:#Letter-Avatare
 user#:#usr_letter_avatars_info#:#Zeigt die Initialen des Benutzernamens oder Logins an, wenn kein öffentliches Profilbild vorliegt.
-mep#:#mep_master_language_only_no_media#:#Master Language without Media
-content#:#cont_master_language_only_no_media#:#Master Language without Media
+mep#:#mep_master_language_only_no_media#:#Hauptsprache für Übersetzung (ohne Medienobjekte)
+content#:#cont_master_language_only_no_media#:#Hauptsprache für Übersetzung (ohne Medienobjekte)
 mep#:#mep_content#:#Content
 mep#:#mep_media_subtitles#:#Media Subtitles
 content#:#cont_last_visited_page#:#Zuletzt besuchte Seite
@@ -14079,7 +14085,8 @@ dateplaner#:#cal_no_events_info#:#Für den angegebenen Zeitraum sind keine Termi
 wiki#:#wiki_pg_list_no_search_fields#:#Es befinden sich keine durchsuchbaren Metadatenfelder in den Metadatensätzen des Wikis.
 iass#:#iass_amend_saved#:#Geänderte Prüfungsdaten wurden gespeichert.
 content#:#cont_transl_master_language_not_allowed#:#Um eine Übersetzung zu importieren, müssen sie zumindest eine zusätzliche Sprache unter "Einstellungen" > "Mehrsprachigkeit" aktivieren.
-dateplaner#:#crs_start#:#Course starts###23 10 2017 new variable
-dateplaner#:#crs_end#:#Course ends###23 10 2017 new variable
-dateplaner#:#grp_start#:#Group starts###23 10 2017 new variable
-dateplaner#:#grp_end#:#Group ends###23 10 2017 new variable
+dateplaner#:#crs_start#:#Kurs startet
+dateplaner#:#crs_end#:#Kurs endet
+dateplaner#:#grp_start#:#Gruppe startet
+dateplaner#:#grp_end#:#Gruppe endet
+awrn#:#awrn_online#:#Online

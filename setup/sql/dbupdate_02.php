@@ -2828,7 +2828,7 @@ $this->db->query($query);
 
 $frm_modetator_tpl_id = $this->db->getLastInsertId();
 
-$frm_modetator_ops = array(1, 2, 3, 4, 6, 9, 10, 58, 62);
+$frm_modetator_ops = array(2, 3, 4, 9, 10, 62);
 foreach ($frm_modetator_ops as $op_id)
 {
 	$query = "INSERT

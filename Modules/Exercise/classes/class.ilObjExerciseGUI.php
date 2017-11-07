@@ -431,7 +431,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$this->ctrl->getLinkTarget($this, 'edit'));
 			
 		}
-		if($GLOBALS['DIC']->access()->checkRbacOrPositionPermissionAccess(
+		if($this->access->checkRbacOrPositionPermissionAccess(
 			'edit_submissions_grades',
 			'edit_submissions_grades', 
 			$this->object->getRefId()))

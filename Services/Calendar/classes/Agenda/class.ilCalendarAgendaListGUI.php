@@ -41,20 +41,18 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 	 */
 	protected $period_end_day = null;
 
-	/**
-	 * @var string
-	 */
-	protected $seed;
 	
 
 	/**
 	 * Constructor
+	 * 
+	 * @param ilDate $seed
+	 * @todo make parent constructor (initialize) and init also seed and other common stuff
 	 */
-	function __construct()
+	public function __construct(ilDate $seed)
 	{
-		//$DIC elements initialization
-		$this->initialize(ilCalendarViewGUI::CAL_PRESENTATION_AGENDA_LIST);
-
+		parent::__construct($seed, ilCalendarViewGUI::CAL_PRESENTATION_AGENDA_LIST);
+		
 		$this->ctrl->saveParameter($this, "cal_agenda_per");
 
 		//$qp = $DIC->http()->request()->getQueryParams();
@@ -67,13 +65,8 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 		}
 
 		$get_seed = $qp["seed"];
-
-		$this->seed = new ilDate($get_seed, IL_CAL_DATE);
-
 		$this->ctrl->setParameterByClass("ilcalendarinboxgui","seed",$this->seed->get(IL_CAL_DATE));
-
-		$end_date = new ilDate($get_seed, IL_CAL_DATE);
-
+		$end_date = clone $this->seed;
 		switch ($this->period)
 		{
 			case self::PERIOD_DAY:

@@ -816,8 +816,12 @@ class ilLMPresentationGUI
 			$this->tpl->touchBlock("pg_intro");
 			$this->tpl->touchBlock("pg_outro");
 			// LTI
-			$this->tpl->setVariable("MAINMENU", $ilMainMenu->getHTML());
-			$this->tpl->setVariable("MAINMENU_SPACER", $ilMainMenu->getSpacerClass());
+			// stefan, please get in contact with me, before hacking in my code...
+			// these lines are breaking the LM HTML export, see #0021822
+			// i cannot see why the offline version is related to lti at all
+			// no uncommenting it.
+			//$this->tpl->setVariable("MAINMENU", $ilMainMenu->getHTML());
+			//$this->tpl->setVariable("MAINMENU_SPACER", $ilMainMenu->getSpacerClass());
 			return;
 		}
 

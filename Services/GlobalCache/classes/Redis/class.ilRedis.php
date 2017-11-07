@@ -178,6 +178,7 @@ class ilRedis extends ilGlobalCacheService {
 		}
 	}
 
+
 	/**
 	 * @inheritdoc
 	 */

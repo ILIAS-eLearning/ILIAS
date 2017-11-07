@@ -150,7 +150,7 @@ class ilApc extends ilGlobalCacheService {
 
 
 	/**
-	 * @return int
+	 * @inheritDoc
 	 */
 	protected function getMinMemory() {
 		return self::MIN_MEMORY;
