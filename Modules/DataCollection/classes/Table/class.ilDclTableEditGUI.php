@@ -209,6 +209,9 @@ class ilDclTableEditGUI {
 			$fields = $this->table->getFields();
 			$options = array( 0 => $this->lng->txt('dcl_please_select') );
 			foreach ($fields as $field) {
+				if ($field->getId() == 'comments') {
+					continue;
+				}
 				$options[$field->getId()] = $field->getTitle();
 			}
 			$item->setOptions($options);
