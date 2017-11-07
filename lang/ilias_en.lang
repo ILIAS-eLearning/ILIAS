@@ -13764,6 +13764,7 @@ pdfgen#:#margin_bottom#:#Margin bottom
 pdfgen#:#zoom#:#Zoom
 pdfgen#:#image_scale#:#Image scale
 pdfgen#:#reset_to_default#:#Reset settings to default
+pdfgen#:#problem_with_purposes#:#A problem in the configuration was detected, please use the button "Cleanup" to resolve this issue.
 copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.
 auth#:#auth_err_login_attempts_deactivation#:#The user account has been deactivated due wrong login attempts.
 crs#:#crs_edit_lo_introduction#:#Edit Introduction
