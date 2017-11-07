@@ -6,6 +6,7 @@
 /.cache
 /.buildpath
 /.settings
+/errors
 /extern
 /Services/PHPUnit/config/cfg.phpunit.php
 /nbproject
