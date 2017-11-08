@@ -111,7 +111,7 @@ class Presentation implements T\Presentation {
 	 */
 	public function withEnvironment(array $environment) {
 		$clone = clone $this;
-		$clone->environment = $records;;
+		$clone->environment = $environment;;
 		return $clone;
 	}
 
