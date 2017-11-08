@@ -21506,6 +21506,7 @@ if (!$ilDB->tableColumnExists('usr_session', 'context'))
 			'notnull' => false)
 	);
 }
+?>
 <#5244>
 <?php
 	//add table column

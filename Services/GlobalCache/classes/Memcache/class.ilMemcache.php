@@ -31,7 +31,8 @@ class ilMemcache extends ilGlobalCacheService {
 			if (ilMemcacheServer::count() > 0) {
 				$memcached->resetServerList();
 				$servers = array();
-				$list = ilMemcacheServer::where(array( 'status' => ilMemcacheServer::STATUS_ACTIVE ))->get();
+				$list = ilMemcacheServer::where(array( 'status' => ilMemcacheServer::STATUS_ACTIVE ))
+				                        ->get();
 				foreach ($list as $ilMemcacheServer) {
 					$servers[] = array(
 						$ilMemcacheServer->getHost(),
@@ -192,10 +193,9 @@ class ilMemcache extends ilGlobalCacheService {
 
 
 	/**
-	 * @inheritDoc
+	 * @inheritdoc
 	 */
 	public function isValid($key) {
 		return true;
 	}
 }
-

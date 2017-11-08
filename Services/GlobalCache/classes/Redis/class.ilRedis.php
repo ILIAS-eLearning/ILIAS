@@ -180,7 +180,7 @@ class ilRedis extends ilGlobalCacheService {
 
 
 	/**
-	 * @inheritDoc
+	 * @inheritdoc
 	 */
 	public function isValid($key) {
 		return true;

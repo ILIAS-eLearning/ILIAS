@@ -140,6 +140,7 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
 		$form->addCommandButton("saveSettings", $this->lng->txt("save"));
 		if(ilPDFCompInstaller::checkForMultipleServiceAndPurposeCombination())
 		{
+			ilUtil::sendInfo($this->lng->txt('problem_with_purposes'));
 			$clean_btn = ilLinkButton::getInstance();
 			$clean_btn->setCaption('cleanup');
 			$clean_btn->setUrl($this->ctrl->getLinkTarget($this, 'doCleanUp'));
@@ -175,6 +176,7 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
 
 		if($redirect_after)
 		{
+			ilUtil::sendSuccess($this->lng->txt('config_saved'), true);
 			$this->ctrl->redirect($this, "view");
 		}
 

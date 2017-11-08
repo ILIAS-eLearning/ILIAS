@@ -158,7 +158,7 @@ class ilApc extends ilGlobalCacheService {
 
 
 	/**
-	 * @inheritDoc
+	 * @inheritdoc
 	 */
 	public function isValid($key) {
 		return true;

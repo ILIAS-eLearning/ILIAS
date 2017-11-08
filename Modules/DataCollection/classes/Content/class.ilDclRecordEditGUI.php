@@ -376,7 +376,7 @@ class ilDclRecordEditGUI {
 
 			if (($record_field instanceof ilDclFileuploadRecordFieldModel || $record_field instanceof ilDclMobRecordFieldModel)
 				&& $record_field->getValue() == null) {
-				$empty_fileuploads['field_'.$field->getId()] = array();
+				$empty_fileuploads['field_'.$field->getId()] = array("name" => "", "type" => "", "tmp_name" => "", "error" => 4, "size" => 0);
 			}
 			$record_representation = ilDclFieldFactory::getRecordRepresentationInstance($record_field);
 

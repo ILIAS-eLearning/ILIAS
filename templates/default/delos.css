@@ -8749,7 +8749,7 @@ div.ilFrame {
   position: fixed;
   top: 117px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 1200px) {
   .ilLeftNav {
     /* at last temporary, since it overlaps content */
     display: none;
@@ -9563,7 +9563,7 @@ div#bot_center_area_drag:hover {
   /* padding: 0 20px 0 310px; */
   margin-left: 315px !important;
 }
-@media (max-width: 767px) {
+@media (max-width: 1200px) {
   .ilLeftNavSpace {
     margin-left: 0 !important;
   }
@@ -9572,7 +9572,7 @@ div#bot_center_area_drag:hover {
   margin-left: 0 !important;
   margin-right: 315px !important;
 }
-@media (max-width: 767px) {
+@media (max-width: 1200px) {
   [dir="rtl"] .ilLeftNavSpace {
     margin-right: 0 !important;
   }
@@ -10201,7 +10201,7 @@ a.ilTreeView {
   box-shadow: 1px 1px 2px #b9b9b9;
   width: 6px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 1200px) {
   a.ilTreeView {
     /* at last temporary, since it overlaps content */
     display: none;
