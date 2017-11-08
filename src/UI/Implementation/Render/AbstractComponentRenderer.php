@@ -36,6 +36,10 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	 * @var	JavaScriptBinding
 	 */
 	private $js_binding;
+	/**
+	 * @var array of
+	 */
+	private static $component_storage = [];
 
 	/**
 	 * Component renderers must only depend on a UI-Factory and a Template Factory.
@@ -223,16 +227,18 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	 */
 	abstract protected function getComponentInterfaceName();
 
-	// TODO: We might want to cache this.
+
 	private function getMyComponent() {
 		$class = get_class($this);
+		if (isset(self::$component_storage[$class])) {
+			return self::$component_storage[$class];
+		}
 		$matches = array();
 		// Extract component
 		$re = "%ILIAS\\\\UI\\\\Implementation\\\\Component\\\\(\\w+)\\\\(\\w+)%";
-		if (preg_match($re, $class, $matches) !== 1) {
-			throw new \LogicException(
-				"The Renderer needs to be located in ILIAS\\UI\\Implementation\\Component\\*.");
-		}
-		return $matches[1];
+		preg_match($re, $class, $matches);
+		self::$component_storage[$class] = $matches[1];
+
+		return self::$component_storage[$class];
 	}
 }
