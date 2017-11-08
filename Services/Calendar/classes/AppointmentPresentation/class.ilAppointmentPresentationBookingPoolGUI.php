@@ -92,6 +92,10 @@ class ilAppointmentPresentationBookingPoolGUI extends ilAppointmentPresentationG
 
 		}
 
+		$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());
+		$this->addAction($this->lng->txt("cal_ch_cancel_booking"),
+			$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','cancelBooking'));
+
 		if (count($refs) > 0)
 		{
 			$this->addAction($this->lng->txt("book_open"), ilLink::_getStaticLink(current($refs)));

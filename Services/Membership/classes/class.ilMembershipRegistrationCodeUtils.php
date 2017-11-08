@@ -88,9 +88,15 @@ class ilMembershipRegistrationCodeUtils
 		{
 			if(in_array(ilObject::_lookupObjId($ref_id), $obj_ids))
 			{
-				if($obj = ilObjectFactory::getInstanceByRefId($ref_id,false))
+				$factory = new ilObjectFactory();
+				$member_obj = $factory->getInstanceByRefId($ref_id,false);
+				if($member_obj instanceof ilObjCourse)
 				{
-					$obj->register($ilUser->getId());
+					$member_obj->register($ilUser->getId(), ilCourseConstants::CRS_MEMBER, true);
+				}
+				if($member_obj instanceof ilObjGroup)
+				{
+					$member_obj->register($ilUser->getId(), IL_GRP_MEMBER, true);
 				}
 			}
 		}

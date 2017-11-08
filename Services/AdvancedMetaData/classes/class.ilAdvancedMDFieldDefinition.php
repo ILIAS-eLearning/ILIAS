@@ -842,7 +842,6 @@ abstract class ilAdvancedMDFieldDefinition
 		$this->setPosition($a_data["position"]);		
 		$this->setSearchable($a_data["searchable"]);
 		$this->setRequired($a_data["required"]);
-		
 		if($a_data["field_values"])
 		{
 			$this->importFieldDefinition(unserialize($a_data["field_values"]));	
@@ -867,7 +866,7 @@ abstract class ilAdvancedMDFieldDefinition
 		if($ilDB->numRows($set))
 		{
 			$row = $ilDB->fetchAssoc($set);
-			$this->import($row);					
+			$this->import($row);
 		}
 	}
 	
@@ -1205,7 +1204,7 @@ abstract class ilAdvancedMDFieldDefinition
 		$obj->setRequired($this->isRequired());
 		$obj->setPosition($this->getPosition());
 		$obj->setSearchable($this->isSearchable());
-		$obj->importFieldDefinition($this->getFieldDefinition());
+		$obj->importFieldDefinition((array) $this->getFieldDefinition());
 		$obj->save(true);
 		
 		return $obj;		

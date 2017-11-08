@@ -300,11 +300,36 @@ class ilPropertyFormGUI extends ilFormGUI
 	*
 	* @param	string	$a_postvar		Post Var
 	*/
-	function removeItemByPostVar($a_post_var)
+	function removeItemByPostVar($a_post_var, $a_remove_unused_headers = false)
 	{
 		foreach ($this->items as $key => $item)
 		{
 			if (method_exists($item, "getPostVar") && $item->getPostVar() == $a_post_var)
+			{
+				unset($this->items[$key]);
+			}
+		}
+
+		// remove section headers if they do not contain any items anymore
+		if ($a_remove_unused_headers)
+		{
+			$unset_keys = array();
+			$last_item = null;
+			$last_key = null;
+			foreach ($this->items as $key => $item)
+			{
+				if ($item instanceof ilFormSectionHeaderGUI && $last_item instanceof ilFormSectionHeaderGUI)
+				{
+					$unset_keys[] = $last_key;
+				}
+				$last_item = $item;
+				$last_key = $key;
+			}
+			if ($last_item instanceof ilFormSectionHeaderGUI)
+			{
+				$unset_keys[] = $last_key;
+			}
+			foreach ($unset_keys as $key)
 			{
 				unset($this->items[$key]);
 			}

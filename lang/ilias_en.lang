@@ -58,6 +58,7 @@ orgu#:#orgu_global_set_type_default#:#Default Setting
 orgu#:#orgu_global_set_type_default_info#:#Define the default for unconfigured objects
 rbac#:#il_sess_participant#:#Session Participant
 rbac#:#il_sess_status_closed#:#Non-Participant Closed Session
+rbac#:#positions_override_operations#:#Override global Settings
 meta#:#udf_type_externallink#:#External Link
 meta#:#udf_type_internallink#:#Internal Link
 didactic#:#didactic_scope#:#Scope
@@ -1572,6 +1573,7 @@ common#:#access_unlimited#:#Unlimited
 common#:#access_until#:#Valid until
 common#:#access_users#:#Logged in Users
 common#:#access#:#Access
+rbac#:#amend_grading#:#Amend finalized grading
 common#:#accesscount_registered_users#:#Read by number of distinct ILIAS users
 common#:#accessFree#:#Remove 'Valid Until' Date
 common#:#accessRestrict#:#Set 'Valid Until' Date
@@ -2808,7 +2810,7 @@ common#:#msg_obj_exists#:#This object already exists in this folder
 common#:#msg_obj_may_not_contain_objects_of_type#:#The object %s may not contain objects of type: %s.
 common#:#msg_obj_modified#:#Modifications saved.
 common#:#msg_obj_no_link#:#It is not possible to link container objects like categories, courses, groups or folder due to technical reasons. Instead you may link several single objects within such a container to other areas or create a category link, course link or group link.
-common#:#msg_paste_object_not_in_itself#:#It’s not possible to paste the object %s in itself.
+common#:#msg_paste_object_not_in_itself#:#It’s not possible to paste the Object "%s" in itself.
 common#:#msg_perm_adopted_from_itself#:#You cannot adopt permission settings from the current role/role template itself.
 common#:#msg_perm_adopted_from1#:#Permission settings adopted from
 common#:#msg_perm_adopted_from2#:#(Settings have been saved!)
@@ -4659,7 +4661,7 @@ crs#:#event_table_update#:#Edit Session
 crs#:#event_tbl_participated#:#Attended
 crs#:#event_tbl_registered#:#Registered
 crs#:#event_title#:#Title
-crs#:#event_tutor_data#:#Information About the Lecturer
+crs#:#event_tutor_data#:#Presentation by
 crs#:#event_unregister#:#Unregister
 crs#:#event_unregistered#:#You have been unregistered.
 crs#:#event_updated#:#Saved Settings
@@ -8010,7 +8012,7 @@ rbac#:#perm_protected_local_role#:#Protected Local Role
 rbac#:#perm_role_path_info_created#:#Created in %1$s "%2$s"
 rbac#:#perm_role_path_info_inheritance#:#using local policy from %1$s "%2$s"
 book#:#book_public_log#:#Public Reservations
-book#:#book_public_log_info#:#The list of reservations can be viewed by all users.
+book#:#book_public_log_info#:#Users having the "read" permission only will also see reservations of other users.
 book#:#book_fromto#:#Date Range
 book#:#book_all#:#Show all
 grp#:#grp_info_new_grp_type#:#New Group Type
@@ -11007,6 +11009,8 @@ rbac#:#rbac_info_only_position_access#:#You are presented only with those member
 obj#:#obj_orgunit_positions#:#Access Control by Organisation Unit Positions
 obj#:#obj_orgunit_positions_info#:#If enabled, additional access control rules can be defined by positions in organisational units.
 orgu#:#msg_confirm_deletion#:#Would you really like to delete tho following Position?
+orgu#:#remove_user#:#Remove
+orgu#:#msg_confirm_remove_user#:#Would you really like to remove the following User from the Position %s?
 orgu#:#msg_confirm_d_ua#:#Would you like to assign these person to the position Employee of their respective Organisational Units?
 orgu#:#user_assignments#:#User Assignments
 orgu#:#authorities#:#Authorities
@@ -11035,6 +11039,7 @@ orgu#:#orgu_enable_my_staff_info#:#The View ‘Staff’ shows the Learning Progr
 orgu#:#org_op_manage_members#:#Manage Members
 orgu#:#org_op_read_learning_progress#:#View learning progress of other users
 orgu#:#org_op_write_learning_progress#:#Set learning progress of other users
+rbac#:#org_op_write_learning_progress#:#Set Learning Progress of Subordinate Users
 orgu#:#form_title_org_default_permissions_update#:#Default Permissions
 orgu#:#view_learning_progress#:#View Learning Progress
 orgu#:#il_orgu_employee#:#Employee
@@ -11313,6 +11318,9 @@ bibl#:#ris_default_t1#:#Primary Title
 bibl#:#ris_default_t2#:#Secondary Title
 bibl#:#ris_default_t3#:#Tertiary Title
 bibl#:#ris_default_u2#:#User Defined
+bibl#:#ris_default_y1#:#Year
+bibl#:#ris_default_ty#:#Type
+bibl#:#ris_default_ep#:#Ending Page Number
 mail#:#mail_filter#:#Filter
 mail#:#mail_filter_sender#:#Sender
 mail#:#mail_filter_recipients#:#Recipients
@@ -12877,6 +12885,7 @@ mail#:#mail_enable_grp_admin_notification#:#Notify Group Administrators
 mail#:#mail_enable_crs_admin_notification_info#:#In new courses the setting 'Notification About New Members' will be activated by default. It is set in the 'Member'-tab of courses. Course administrators will receive an e-mail when a member joins the course or leaves it or if the minimally required number of participants is not met the course needs to take place.
 mail#:#mail_enable_grp_admin_notification_info#:#In new groups the setting 'Notification' will be activated by default. It is set in the 'Member'-tab of groups. Course administrators will receive an e-mail when a member joins the group or leaves it or if the minimally required number of participants is not met the group needs to take place.
 mail#:#mail_notification_membership_section#:#Membership
+prg#:#form_msg_file_wrong_file_type#:#Wrong file type.
 prg#:#prg_new#:#New Study Programme
 prg#:#prg_add#:#Add Study Programme
 prg#:#prg_edit#:#Edit Study Programme
@@ -12945,6 +12954,23 @@ prg#:#prg_type_msg_missing_title#:#Title cannot be empty.
 prg#:#prg_added_member#:#The new member was added successfully.
 prg#:#prg_added_members#:#The new members were added successfully.
 prg#:#prg_acknowledge_completed_courses#:#Acknowledge Completed Courses
+prg#:#prg_multi_mark_accredited#:#Accredited
+prg#:#prg_multi_unmark_accredited#:#Unmark Accredited
+prg#:#prg_multi_remove_user#:#Remove User
+prg#:#prg_multi_mark_relevant#:#Mark Relevant
+prg#:#prg_multi_unmark_relevant#:#Unmark Relevant
+prg#:#prg_multi_update_from_current_plan#:#Update From Current Plan
+prg#:#prg_mark_accredited_multi_success#:#Mark Selected Users As Accredited
+prg#:#prg_unmark_accredited_multi_success#:#Unmark Selected Users As Accredited
+prg#:#prg_mark_relevant_multi_success#:#Mark Selected Users As Relevant
+prg#:#prg_mark_not_relevant_multi_success#:#Unmark Selected Users As Relevant
+prg#:#prg_remove_users_success#:#Remove Selected Users
+prg#:#prg_remove_users_partitial_success#:#Remove Selected Users Particially
+prg#:#prg_remove_users_not_possible#:#Remove Selected Users Not Possible
+prg#:#prg_update_from_current_plan_not_possible#:#Update From Current Plan Not Possible
+prg#:#prg_update_from_current_plan_partitial_success#:#Update From Current Plan Partically
+prg#:#prg_update_from_current_plan_success#:#Update From Current Plan
+prg#:#prg_no_user_selected#:#No User Selected
 common#:#obj_prg_duplicate#:#Copy Study Programme
 common#:#obj_prg_select#:#-- Please select one study programme --
 common#:#obj_prg#:#Study Programme
@@ -13395,7 +13421,10 @@ style#:#assignment#:#Assignment
 style#:#remove_assignment#:#Remove Assignment
 style#:#reset_variables#:#Reset Variables
 style#:#update_variables#:#Update Variables
-style#:#less_file_updated#:#The less variables have been updated.
+style#:#less_file_updated#:#The less variables have been updated. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.
+style#:#less_file_reset#:#The less variables have been reset. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.
+style#:#color_reset#:#The colors of the icons have been reset. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.
+style#:#color_update#:#The colors of the icons have been updated. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.
 style#:#settings_of_substyle#:#Manage sub style
 style#:#settings_of_style#:#Manage style
 style#:#of_parent#:#of parent:
@@ -13543,6 +13572,7 @@ awrn#:#awrn_use_osd_info#:#Display a popup to indicate new online users in the �
 exc#:#exc_tbl_filter_submission#:#Submission
 exc#:#exc_tbl_filter_has_submission#:#Has submitted
 exc#:#exc_tbl_filter_has_no_submission#:#Has not submitted yet
+iass#:#iass_changed_by#:#Changed after finalization
 iass#:#iass_upload_file#:#Record file
 iass#:#iass_file_visible_examinee#:#File visible for participant
 iass#:#general#:#General Information
@@ -13734,6 +13764,7 @@ pdfgen#:#margin_bottom#:#Margin bottom
 pdfgen#:#zoom#:#Zoom
 pdfgen#:#image_scale#:#Image scale
 pdfgen#:#reset_to_default#:#Reset settings to default
+pdfgen#:#problem_with_purposes#:#A problem in the configuration was detected, please use the button "Cleanup" to resolve this issue.
 copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.
 auth#:#auth_err_login_attempts_deactivation#:#The user account has been deactivated due wrong login attempts.
 crs#:#crs_edit_lo_introduction#:#Edit Introduction
@@ -14058,3 +14089,4 @@ dateplaner#:#crs_end#:#Course ends
 dateplaner#:#grp_start#:#Group starts
 dateplaner#:#grp_end#:#Group ends
 content#:#cont_transl_master_language_not_allowed#:#To import a translation you need to activate at least one additional language under "Settings" > "Multilingualism".
+awrn#:#awrn_online#:#Online

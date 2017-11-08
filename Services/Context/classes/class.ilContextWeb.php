@@ -73,10 +73,10 @@ class ilContextWeb implements ilContextTemplate
 	{
 		return true;
 	}
-	
+
 	/**
 	 * Try authentication
-	 *  
+	 *
 	 * @return bool
 	 */
 	public static function doAuthentication()
@@ -92,7 +92,17 @@ class ilContextWeb implements ilContextTemplate
 	{
 		return true;
 	}
-	
+
+	/**
+	 * Supports push messages
+	 *
+	 * @return bool
+	 */
+	public static function supportsPushMessages()
+	{
+		return true;
+	}
+
 }
 
 ?>

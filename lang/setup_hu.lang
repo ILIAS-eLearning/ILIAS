@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @translator   5.2.x 2016-09-22 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @translator   5.3.x 2017-10-22 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @module       setup language file hungarian
 * @modulegroup  language
 * @author       Matthias Kunkel <mkunkel@me.com>
@@ -619,4 +619,24 @@ lessc_path_comment#:#A Lessc less fájlok CSS fájllá fordításához, azaz a R
 lessc#:#Lessc útvonala
 db_switch_legacy#:#Az Ön által jelenleg használt adatbázistípusnál újabbat implementáltunk az ILIAS-ba, mely szintén kompatibilis PHP7-tel. Átvált a következőre:
 db_switch_legacy_button#:#Átváltás
-error_log_path_comment_win#:#Csak az útvonalat adja meg (például 'C:\iliasdata'), hiba esetén a fájlok automatikusan létrejönnek.
+error_log_path_comment_win#:#Csak az útvonalat adja meg (például 'C:\iliasdata'), hiba esetén a fájlokat automatikusan létrehozzuk.
+background_tasks#:#Háttérfeladatok
+settings#:#Beállítások
+type#:#Típus
+sync#:#Szinkron
+async#:#Aszinkron
+max_number_of_concurrent_tasks#:#Egyidőben futó feladatok maximális száma
+cancel#:#Mégsem
+background_task_configuration#:#Háttérfeladatok konfigurálása
+bt_available#:#Elérhető háttérfeladatok
+running_tasks#:#Futó feladatok
+waiting_tasks#:#Várakozó feladatok
+actions#:#Műveletek
+no#:#Nem
+yes#:#Igen
+terminated_waiting_tasks#:#Várakozó feladatokat sikeresen megszakította.
+kill_waiting_tasks#:#Sorban álló feladatok megszakítása.
+system_styles#:#Rendszerstílusok
+not_enabled#:#Kikapcsolva
+phantomjs_path#:#Phantomjs útvonala
+phantomjs_path_comment#:#PDF fájlok generálásához választható, például '/usr/bin/phantomjs'

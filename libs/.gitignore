@@ -1,17 +1,1 @@
 # Composer
-composer/vendor/doctrine
-composer/vendor/hamcrest
-composer/vendor/kriswallsmith
-composer/vendor/mikey179
-composer/vendor/mockery
-composer/vendor/moment
-composer/vendor/myclabs
-composer/vendor/phpdocumentor
-composer/vendor/bin/phpunit
-composer/vendor/phpspec
-composer/vendor/phpunit
-composer/vendor/robloach
-composer/vendor/sebastian
-composer/vendor/symfony
-composer/vendor/webmozart
-composer/components/moment

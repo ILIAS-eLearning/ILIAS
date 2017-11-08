@@ -10,7 +10,7 @@ include_once './Services/Calendar/classes/class.ilCalendarViewGUI.php';
  *
  * @ingroup ServicesCalendar
  */
-class ilAppointmentPresentationGUI extends ilCalendarViewGUI implements ilCalendarAppointmentPresentation
+class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 {
 	protected static $instance; // [ilCalendarAppointmentPresentationFactory]
 
@@ -205,7 +205,7 @@ class ilAppointmentPresentationGUI extends ilCalendarViewGUI implements ilCalend
 
 		$next_class = $ilCtrl->getNextClass();
 		$cmd = $ilCtrl->getCmd("getHTML");
-
+		
 		switch ($next_class)
 		{
 			default:
@@ -512,13 +512,13 @@ class ilAppointmentPresentationGUI extends ilCalendarViewGUI implements ilCalend
 	 */
 	function addCalendarInfo($cat_info)
 	{
-		$this->ctrl->setParameterByClass("ilcalendarcategorygui", "category_id", $cat_info["cat_id"]);
+		$this->ctrl->setParameterByClass("ilCalendarPresentationGUI", "category_id", $cat_info["cat_id"]);
 
 		$link = $this->ui->renderer()->render(
 			$this->ui->factory()->button()->shy($cat_info["title"],
-				$this->ctrl->getLinkTargetByClass(array("ilPersonalDesktopGUI", "ilCalendarPresentationGUI", "ilcalendarcategorygui"), "details")));
+				$this->ctrl->getLinkTargetByClass(array("ilPersonalDesktopGUI", "ilCalendarPresentationGUI"), "")));
 
-		$this->ctrl->setParameterByClass("ilcalendarcategorygui", "category_id", $_GET["category_id"]);
+		$this->ctrl->setParameterByClass("ilCalendarPresentationGUI", "category_id", $_GET["category_id"]);
 
 		$this->addInfoProperty($this->lng->txt("calendar"), $link);
 		$this->addListItemProperty($this->lng->txt("calendar"), $link);
@@ -589,7 +589,7 @@ class ilAppointmentPresentationGUI extends ilCalendarViewGUI implements ilCalend
 	 * @param int $a_user_id
 	 * @return string
 	 */
-	function getUserName($a_user_id)
+	function getUserName($a_user_id, $a_force_name = false)
 	{
 		$type = ilObject::_lookupType((int) $_GET["ref_id"], true);
 		$ctrl_path = array();
@@ -608,8 +608,16 @@ class ilAppointmentPresentationGUI extends ilCalendarViewGUI implements ilCalend
 		$ctrl_path[] = "ilCalendarPresentationGUI";
 		$ctrl_path[] = "ilpublicuserprofilegui";
 
-		return ilUserUtil::getNamePresentation($a_user_id, false, true, $this->ctrl->getParentReturn($this),
-			false, false, true, false, $ctrl_path);
+		return ilUserUtil::getNamePresentation(
+			$a_user_id, 
+			false, 
+			true, 
+			$this->ctrl->getParentReturn($this),
+			$a_force_name,
+			false,
+			true, 
+			false, 
+			$ctrl_path);
 	}
 
 	/**

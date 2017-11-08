@@ -2952,7 +2952,6 @@ class ilObjSurvey extends ilObject
 		else
 		{
 			$row = $ilDB->fetchAssoc($result);
-			
 			// yes, we are doing it this way
 			$_SESSION["finished_id"][$this->getId()] = $row["finished_id"];
 			
@@ -5087,6 +5086,7 @@ class ilObjSurvey extends ilObject
 		include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
 		$template = new ilSettingsTemplate($template_id);
 		$template_settings = $template->getSettings();
+		//ilUtil::dumpVar($template_settings); exit;
 		if($template_settings)
 		{
 			if($template_settings["show_question_titles"] !== NULL)
@@ -5113,13 +5113,46 @@ class ilObjSurvey extends ilObject
 				}
 			}
 
+
+			/* see #0021719
 			if($template_settings["anonymization_options"]["value"])
 			{
 				$anon_map = array('personalized' => self::ANONYMIZE_OFF,
 					'anonymize_with_code' => self::ANONYMIZE_ON,
 					'anonymize_without_code' => self::ANONYMIZE_FREEACCESS);
 				$this->setAnonymize($anon_map[$template_settings["anonymization_options"]["value"]]);
+			}*/
+
+			// see #0021719 and ilObjectSurveyGUI::savePropertiesObject
+			$this->setEvaluationAccess($template_settings["evaluation_access"]["value"]);
+			$codes = (bool)$template_settings["acc_codes"]["value"];
+			$anon = (bool)$template_settings["anonymization_options"]["value"];
+			if (!$anon)
+			{
+				if (!$codes)
+				{
+					$this->setAnonymize(ilObjSurvey::ANONYMIZE_OFF);
+				}
+				else
+				{
+					$this->setAnonymize(ilObjSurvey::ANONYMIZE_CODE_ALL);
+				}
 			}
+			else
+			{
+				if ($codes)
+				{
+					$this->setAnonymize(ilObjSurvey::ANONYMIZE_ON);
+				}
+				else
+				{
+					$this->setAnonymize(ilObjSurvey::ANONYMIZE_FREEACCESS);
+				}
+
+				$this->setAnonymousUserList($_POST["anon_list"]);
+			}
+
+
 
 			/* other settings: not needed here
 			 * - enabled_end_date

@@ -30,9 +30,6 @@
  * @ilCtrl_IsCalledBy ilLTIViewGUI: ilLTIRouterGUI
  * 
  */
- 
-include_once 'Services/LTI/classes/class.ilBaseViewGUI.php'; 
-
 class ilLTIViewGUI extends ilBaseViewGUI
 {	
 	private static $instance = null;
