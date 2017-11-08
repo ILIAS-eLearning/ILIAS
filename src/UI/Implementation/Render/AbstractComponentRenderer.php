@@ -37,7 +37,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	 */
 	private $js_binding;
 	/**
-	 * @var array of
+	 * @var array
 	 */
 	private static $component_storage = [];
 
