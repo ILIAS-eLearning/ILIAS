@@ -331,7 +331,12 @@ class ilTestRandomQuestionSetConfigGUI
 		$this->tpl->setContent( $this->ctrl->getHTML($form) );
 
 		$this->configStateMessageHandler->handle();
-	}
+
+		if( !$this->configStateMessageHandler->hasValidationFailed() )
+        {
+            ilUtil::sendSuccess($this->lng->txt("tst_msg_random_question_set_config_modified"));
+        }
+    }
 
 	private function saveGeneralConfigFormCmd()
 	{
@@ -358,7 +363,7 @@ class ilTestRandomQuestionSetConfigGUI
 
 		$this->testOBJ->saveCompleteStatus( $this->questionSetConfig );
 
-		ilUtil::sendSuccess($this->lng->txt("tst_msg_random_question_set_config_modified"), true);
+		$this->ctrl->setParameter($this, 'modified', 1);
 		$this->ctrl->redirect($this, self::CMD_SHOW_GENERAL_CONFIG_FORM);
 	}
 

@@ -47,6 +47,11 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
 	 * @var ilTestRandomQuestionSetConfig
 	 */
 	protected $questionSetConfig;
+
+    /**
+     * @var bool
+     */
+	protected $validationFailed;
 	
 	/**
 	 * @param ilLanguage $lng
@@ -55,6 +60,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
 	{
 		$this->lng = $lng;
 		$this->ctrl = $ctrl;
+		$this->validationFailed = false;
 	}
 
 	/**
@@ -137,10 +143,30 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
 		$this->questionSetConfig = $questionSetConfig;
 	}
 
+    /**
+     * @return bool
+     */
+    public function hasValidationFailed()
+    {
+        return $this->validationFailed;
+    }
+
+    /**
+     * @param bool $validationFailed
+     */
+    public function setValidationFailed($validationFailed)
+    {
+        $this->validationFailed = $validationFailed;
+    }
 
 	public function handle()
 	{
-		if( $this->getLostPools() )
+        if( $this->isNoAvailableQuestionPoolsHintRequired() )
+        {
+            $infoMessage[] = $this->lng->txt('tst_msg_rand_quest_set_no_pools_available');
+        }
+
+        if( $this->getLostPools() )
 		{
 			ilUtil::sendFailure(sprintf(
 				$this->lng->txt('tst_msg_rand_quest_set_lost_pools'), $this->buildLostQuestionPoolsString()
@@ -183,6 +209,8 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
 
 		elseif( !$this->questionSetConfig->isQuestionSetBuildable() )
 		{
+            $this->setValidationFailed(true);
+
 			//fau: fixRandomTestBuildable - show the messages if set is not buildable
 			ilUtil::sendFailure(implode('<br />', $this->questionSetConfig->getBuildableMessages()));
 			//fau.
@@ -194,8 +222,10 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
 			//fau: fixRandomTestBuildable - show the messages if set is buildable but messages exist
 			if (count($this->questionSetConfig->getBuildableMessages()))
 			{
-				// REALLY REQUIRED !??
-				ilUtil::sendFailure(implode('<br />', $this->questionSetConfig->getBuildableMessages()));
+                //$this->setValidationFailed(true);
+
+				// REALLY REQUIRED !?? vielleicht doch?
+				//ilUtil::sendFailure(implode('<br />', $this->questionSetConfig->getBuildableMessages()));
 			}
 			//fau.
 
@@ -216,11 +246,6 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
 			{
 				$infoMessage[] = $this->buildQuestionStageRebuildLink();
 			}
-		}
-
-		if( $this->isNoAvailableQuestionPoolsHintRequired() )
-		{
-			$infoMessage[] = $this->lng->txt('tst_msg_rand_quest_set_no_pools_available');
 		}
 
 		ilUtil::sendInfo(implode('<br />', $infoMessage));
