@@ -20,7 +20,7 @@ function base1() {
 			array(
 				$record['type'],
 				'Beantwortet: ' => $record['stats']['total'],
-				'Häufigste Antwort: ' => $record['answers'][$record['statsmost_common']]['title']
+				'Häufigste Antwort: ' => $record['answers'][$record['stats']['most_common']]['title']
 			)
 		)
 		->withContent(
