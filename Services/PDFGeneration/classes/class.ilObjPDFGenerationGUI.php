@@ -52,6 +52,14 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
 	}
 
 	/**
+	 * @return bool
+	 */
+	protected function hasWritePermission()
+	{
+		return $this->checkPermissionBool('write');
+	}
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function getType()
@@ -130,7 +138,7 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
 				$s_button = ilSubmitButton::getInstance();
 				$s_button->setCaption('configure');
 				$s_button->setCommand('saveandconf_selected_'. $service .'::'.$purpose);
-				if( ! $this->checkPermissionBool('edit'))
+				if( !$this->hasWritePermission())
 				{
 					$s_button->setDisabled(true);
 				}
@@ -141,7 +149,7 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
 			}
 		}
 
-		if($this->checkPermissionBool('edit'))
+		if($this->hasWritePermission())
 		{
 			$form->addCommandButton("saveSettings", $this->lng->txt("save"));
 		}
@@ -163,7 +171,7 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
 	 */
 	public function saveSettings($redirect_after = true)
 	{
-		if($this->checkPermissionBool('edit'))
+		if($this->hasWritePermission())
 		{
 			$form          = new ilPropertyFormGUI();
 			$purpose_map   = ilPDFGeneratorUtils::getPurposeMap();
