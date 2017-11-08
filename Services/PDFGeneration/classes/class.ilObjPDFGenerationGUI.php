@@ -130,6 +130,10 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
 				$s_button = ilSubmitButton::getInstance();
 				$s_button->setCaption('configure');
 				$s_button->setCommand('saveandconf_selected_'. $service .'::'.$purpose);
+				if( ! $this->checkPermissionBool('edit'))
+				{
+					$s_button->setDisabled(true);
+				}
 				$input_selected = new ilCustomInputGUI($this->lng->txt('configure'));
 				$input_selected->setHtml($s_button->getToolbarHTML());
 				$form->addItem($input_selected);
@@ -137,7 +141,11 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
 			}
 		}
 
-		$form->addCommandButton("saveSettings", $this->lng->txt("save"));
+		if($this->checkPermissionBool('edit'))
+		{
+			$form->addCommandButton("saveSettings", $this->lng->txt("save"));
+		}
+
 		if(ilPDFCompInstaller::checkForMultipleServiceAndPurposeCombination())
 		{
 			ilUtil::sendInfo($this->lng->txt('problem_with_purposes'));
