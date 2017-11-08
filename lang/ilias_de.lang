@@ -13716,6 +13716,10 @@ wsp#:#share#:#Freigeben
 common#:#obj_pdfg#:#PDF-Erstellung
 common#:#obj_pdfg_desc#:#Administrationseinstellungen für die PDF-Erstellung
 common#:#building_export_file#:#Erstelle Export Datei...
+common#:#pdfg_read#:#Lesezugrif auf PDF-Erstellung
+common#:#pdfg_visible#:#PDF-Erstellungs ist sichtbar.
+common#:#pdfg_write#:#Einstellungen der PDF-Erstellung bearbeiten
+common#:#pdfg_edit_permission#:#Rechteeinstellungen ändern
 pdfgen#:#phantomjs#:#PhantomJS
 pdfgen#:#page_settings#:#Seiteneinstellungen
 pdfgen#:#orientation#:#Orientierung
