@@ -24,7 +24,6 @@ class ilAppointmentPresentationConsultationHoursGUI extends ilAppointmentPresent
 		$cat_info = $this->getCatInfo($cat_id);
 		$context_id = $a_app['event']->getContextId();
 
-		// TODO: Discuss this order info, using the common section.
 		$this->addCommonSection($a_app, $cat_info['obj_id']);
 
 		//objects
@@ -159,7 +158,9 @@ class ilAppointmentPresentationConsultationHoursGUI extends ilAppointmentPresent
 					$users[] = ilObjUser::_lookupFullname($user_id);
 				}
 			}
-			$this->addInfoProperty($this->lng->txt('cal_ch_current_bookings'), implode('<br>', $users));
+			if($users) {
+				$this->addInfoProperty($this->lng->txt('cal_ch_current_bookings'), implode('<br>', $users));
+			}
 		}
 
 
