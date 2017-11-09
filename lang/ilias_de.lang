@@ -6695,7 +6695,7 @@ crs#:#crs_reg_user_already_assigned#:#Sie sind bereits Mitglied dieses Kurses###
 crs#:#crs_reg_user_already_subscribed#:#Sie haben bereits einen Aufnahmeantrag gestellt! Bitte warten Sie auf die Bestätigung.
 crs#:#crs_reg_user_blocked#:#Ihr Zugang wurde gesperrt###deprecated 
 crs#:#crs_registration#:#Zum Kurs beitreten
-crs#:#crs_registration_deactivated#:#Nur Kursdministratoren und Kurstutoren können Benutzer in den Kurs aufnehmen.
+crs#:#crs_registration_deactivated#:#Nur Kursadministratoren und Kurstutoren können Benutzer in den Kurs aufnehmen.
 crs#:#crs_registration_limited#:#Zeitlich begrenzter Beitritt
 crs#:#crs_registration_type#:#Beitrittsverfahren
 crs#:#crs_registration_unlimited#:#Zeitlich unbegrenzt###deprecated 
