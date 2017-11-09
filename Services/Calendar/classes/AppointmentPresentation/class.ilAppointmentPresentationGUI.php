@@ -544,9 +544,6 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 			$this->addObjectLinks($a_obj_id);
 		}
 
-		// last edited
-		$this->addLastUpdate($a_app);
-
 		// container info (course groups)
 		if ($a_container_info)
 		{

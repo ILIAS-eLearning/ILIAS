@@ -163,6 +163,7 @@ class ilAppointmentPresentationConsultationHoursGUI extends ilAppointmentPresent
 			}
 		}
 
-
+		// last edited
+		$this->addLastUpdate($a_app);
 	}
 }
