@@ -138,11 +138,7 @@ class ilCalendarViewGUI
 
 				if($this->period_end_day == "")
 				{
-					$qp = $_GET;
-					if ((int) $qp["cal_agenda_per"] > 0 && (int) $qp["cal_agenda_per"] <= 4)
-					{
-						$this->period = $qp["cal_agenda_per"];
-					}
+					$this->period = ilCalendarAgendaListGUI::getPeriod();
 					$end_date = clone $this->seed;
 					switch ($this->period)
 					{
@@ -469,7 +465,7 @@ class ilCalendarViewGUI
 	{
 		$start = $this->seed;
 		$end = clone $start;
-		$get_list_option = $_GET['cal_agenda_per'];
+		$get_list_option = ilCalendarAgendaListGUI::getPeriod();
 		switch ($get_list_option)
 		{
 			case ilCalendarAgendaListGUI::PERIOD_DAY:
