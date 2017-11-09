@@ -679,7 +679,12 @@ class ilChatroom
 
 		while($row = $ilDB->fetchAssoc($rset))
 		{
-			$row['message']            = json_decode($row['message']);
+			$message = json_decode($row['message']);
+			if ($message === null) {
+				$message = json_decode('{}');
+			}
+
+			$row['message']            =  $message;
 			$row['message']->timestamp = $row['timestamp'];
 			if($row['message']->target !== null && !$row['message']->target->public && !in_array($ilUser->getId(), explode(',', $row['recipients'])))
 			{

@@ -15,7 +15,8 @@ var Database = function Database(config) {
 			port: config.database.port,
 			user: config.database.user,
 			password: config.database.pass,
-			database: config.database.name
+			database: config.database.name,
+			charset: 'UTF8_UNICODE_CI'
 			//debug: true
 		});
 
