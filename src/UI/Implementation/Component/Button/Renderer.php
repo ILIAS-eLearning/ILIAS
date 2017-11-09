@@ -48,17 +48,15 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl = $this->getTemplate($tpl_name, true, true);
 
 		$action = $component->getAction();
-		if ($action) {
-			// The action is always put in the data-action attribute to have it available
-			// on the client side, even if it is not available on rendering.
-			$tpl->setVariable("ACTION", $action);
-		}
+		// The action is always put in the data-action attribute to have it available
+		// on the client side, even if it is not available on rendering.
+		$tpl->setVariable("ACTION", $action);
 
 		$label = $component->getLabel();
 		if ($label !== null) {
 			$tpl->setVariable("LABEL", $component->getLabel());
 		}
-		if ($component->isActive() && $action) {
+		if ($component->isActive()) {
 			$component = $component->withAdditionalOnLoadCode(function ($id) use ($action) {
 				return "$($id).on('click', function(event) {
 						window.location = '{$action}';
