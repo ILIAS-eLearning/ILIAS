@@ -330,6 +330,10 @@ class ilTestRandomQuestionSetConfigGUI
 		
 		$this->tpl->setContent( $this->ctrl->getHTML($form) );
 
+		$this->configStateMessageHandler->setContext(
+			ilTestRandomQuestionSetConfigStateMessageHandler::CONTEXT_GENERAL_CONFIG
+		);
+		
 		$this->configStateMessageHandler->handle();
 		
 		if( $this->configStateMessageHandler->hasValidationReports() )
@@ -421,6 +425,10 @@ class ilTestRandomQuestionSetConfigGUI
 		
 		$this->tpl->setContent($content);
 
+		$this->configStateMessageHandler->setContext(
+			ilTestRandomQuestionSetConfigStateMessageHandler::CONTEXT_POOL_SELECTION
+		);
+		
 		$this->configStateMessageHandler->handle();
 		
 		if( $this->configStateMessageHandler->hasValidationReports() )
