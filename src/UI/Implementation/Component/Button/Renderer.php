@@ -32,10 +32,6 @@ class Renderer extends AbstractComponentRenderer {
 	 * @return string
 	 */
 	protected function renderButton(Component\Button\Button $component, RendererInterface $default_renderer) {
-		// TODO: It would be nice if we could use <button> for rendering a button
-		// instead of <a>. This was not done atm, as there is no attribute on a
-		// button to make it open an URL. This would require JS.
-
 		if ($component instanceof Component\Button\Primary) {
 			$tpl_name = "tpl.primary.html";
 		}
