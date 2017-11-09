@@ -59,7 +59,7 @@ class Renderer extends AbstractComponentRenderer {
 		if ($component->isActive()) {
 			$component = $component->withAdditionalOnLoadCode(function ($id) use ($action) {
 				return "$($id).on('click', function(event) {
-						window.location = '{$action}';
+						window.location = '{$action}'.replace(new RegExp('amp;', 'g'), '');
 				});";
 			});
 		} else {
