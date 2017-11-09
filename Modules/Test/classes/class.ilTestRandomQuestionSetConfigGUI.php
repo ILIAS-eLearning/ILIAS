@@ -331,12 +331,25 @@ class ilTestRandomQuestionSetConfigGUI
 		$this->tpl->setContent( $this->ctrl->getHTML($form) );
 
 		$this->configStateMessageHandler->handle();
-
-		if( !$this->configStateMessageHandler->hasValidationFailed() )
-        {
-            ilUtil::sendSuccess($this->lng->txt("tst_msg_random_question_set_config_modified"));
-        }
-    }
+		
+		if( $this->configStateMessageHandler->hasValidationReports() )
+		{
+			if( $this->configStateMessageHandler->isValidationFailed() )
+			{
+				ilUtil::sendFailure($this->configStateMessageHandler->getValidationReportHtml()
+				);
+			}
+			else
+			{
+				ilUtil::sendInfo($this->configStateMessageHandler->getValidationReportHtml());
+			}
+		}
+		
+		if( isset($_GET['modified']) && (int)$_GET['modified'] )
+		{
+			ilUtil::sendSuccess($this->getGeneralModificationSuccessMessage());
+		}
+	}
 
 	private function saveGeneralConfigFormCmd()
 	{
@@ -409,6 +422,24 @@ class ilTestRandomQuestionSetConfigGUI
 		$this->tpl->setContent($content);
 
 		$this->configStateMessageHandler->handle();
+		
+		if( $this->configStateMessageHandler->hasValidationReports() )
+		{
+			if( $this->configStateMessageHandler->isValidationFailed() )
+			{
+				ilUtil::sendFailure($this->configStateMessageHandler->getValidationReportHtml()
+				);
+			}
+			else
+			{
+				ilUtil::sendInfo($this->configStateMessageHandler->getValidationReportHtml());
+			}
+		}
+		
+		if( isset($_GET['modified']) && (int)$_GET['modified'] )
+		{
+			ilUtil::sendSuccess($this->getGeneralModificationSuccessMessage());
+		}
 	}
 
 	private function saveSourcePoolDefinitionListCmd()
@@ -433,8 +464,8 @@ class ilTestRandomQuestionSetConfigGUI
 		$this->questionSetConfig->saveToDb();
 
 		$this->testOBJ->saveCompleteStatus( $this->questionSetConfig );
-
-		ilUtil::sendSuccess($this->lng->txt("tst_msg_random_question_set_config_modified"), true);
+		
+		$this->ctrl->setParameter($this, 'modified', 1);
 		$this->ctrl->redirect($this, self::CMD_SHOW_SRC_POOL_DEF_LIST);
 	}
 
@@ -899,5 +930,13 @@ class ilTestRandomQuestionSetConfigGUI
 		}
 		
 		$this->ctrl->redirect($this, self::CMD_SHOW_SRC_POOL_DEF_LIST);
+	}
+	
+	/**
+	 * @return string
+	 */
+	private function getGeneralModificationSuccessMessage()
+	{
+		return $this->lng->txt("tst_msg_random_question_set_config_modified");
 	}
 }
