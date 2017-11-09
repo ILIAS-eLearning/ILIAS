@@ -54,6 +54,8 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 	 */
 	public function saveSettings()
 	{
+		$this->redirectIfNoPermission('write');
+
 		$factory = new ilChatroomFormFactory();
 		$form    = $factory->getGeneralSettingsForm();
 
@@ -118,7 +120,9 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 		$this->checkServerConnection($serverSettings);
 
 		$form->setTitle($this->ilLng->txt('chatserver_settings_title'));
-		$form->addCommandButton('view-saveSettings', $this->ilLng->txt('save'));
+		if (ilChatroom::checkUserPermissions('write', $this->gui->ref_id, false)) {
+			$form->addCommandButton('view-saveSettings', $this->ilLng->txt('save'));
+		}
 		$form->setFormAction($this->ilCtrl->getFormAction($this->gui, 'view-saveSettings'));
 
 		$settingsTpl = $this->createSettingTemplate($form);
@@ -229,6 +233,8 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 	 */
 	public function saveClientSettings()
 	{
+		$this->redirectIfNoPermission('write');
+
 		$factory = new ilChatroomFormFactory();
 		$form    = $factory->getClientSettingsForm();
 
@@ -293,7 +299,9 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 		$this->checkServerConnection($serverSettings);
 
 		$form->setTitle($this->ilLng->txt('general_settings_title'));
-		$form->addCommandButton('view-saveClientSettings', $this->ilLng->txt('save'));
+		if (ilChatroom::checkUserPermissions('write', $this->gui->ref_id, false)) {
+			$form->addCommandButton('view-saveClientSettings', $this->ilLng->txt('save'));
+		}
 		$form->setFormAction($this->ilCtrl->getFormAction($this->gui, 'view-saveClientSettings'));
 
 		$settingsTpl = $this->createSettingTemplate($form);

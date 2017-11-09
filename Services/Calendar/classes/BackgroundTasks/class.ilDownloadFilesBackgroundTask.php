@@ -107,7 +107,7 @@ class ilDownloadFilesBackgroundTask
 	public function run()
 	{
 		$definition = new ilCalendarCopyDefinition();
-		$normalized_name = $this->normalizeFileName($this->getBucketTitle());
+		$normalized_name = ilUtil::getASCIIFilename($this->getBucketTitle());
 		$definition->setTempDir($normalized_name);
 
 		$this->collectFiles($definition);
@@ -149,7 +149,7 @@ class ilDownloadFilesBackgroundTask
 		foreach($this->getEvents() as $event)
 		{
 			$folder_date = $event['event']->getStart()->get(IL_CAL_FKT_DATE,'Y-m-d');
-			$folder_app = $this->normalizeFileName($event['event']->getPresentationTitle());   //title formalized
+			$folder_app = ilUtil::getASCIIFilename($event['event']->getPresentationTitle());   //title formalized
 
 			$this->logger->debug("collecting files...event title = ".$folder_app);
 
@@ -160,7 +160,7 @@ class ilDownloadFilesBackgroundTask
 			}
 			foreach($files as $file_with_absolut_path)
 			{
-				$basename = $this->normalizeFileName(basename($file_with_absolut_path));
+				$basename = ilUtil::getASCIIFilename(basename($file_with_absolut_path));
 				$def->addCopyDefinition(
 					$file_with_absolut_path,
 					$folder_date.'/'.$folder_app.'/'.$basename
@@ -168,59 +168,6 @@ class ilDownloadFilesBackgroundTask
 				$this->logger->debug('Added new copy definition: ' . $folder_date.'/'.$folder_app.'/'.$basename. ' -> '. $file_with_absolut_path);
 			}
 			
-		}
-	}
-
-	//Is this method really needed? do we have something centralized for this stuff?
-	protected function normalizeFileName($s)
-	{
-		$org = $s;
-		$s = str_replace(
-			array('á', 'à', 'ä', 'â', 'ª', 'Á', 'À', 'Â', 'Ä'),
-			array('a', 'a', 'a', 'a', 'a', 'A', 'A', 'A', 'A'),
-			$s
-		);
-		$s = str_replace(
-			array('é', 'è', 'ë', 'ê', 'É', 'È', 'Ê', 'Ë'),
-			array('e', 'e', 'e', 'e', 'E', 'E', 'E', 'E'),
-			$s );
-		$s = str_replace(
-			array('í', 'ì', 'ï', 'î', 'Í', 'Ì', 'Ï', 'Î'),
-			array('i', 'i', 'i', 'i', 'I', 'I', 'I', 'I'),
-			$s );
-		$s = str_replace(
-			array('ó', 'ò', 'ö', 'ô', 'Ó', 'Ò', 'Ö', 'Ô'),
-			array('o', 'o', 'o', 'o', 'O', 'O', 'O', 'O'),
-			$s );
-		$s = str_replace(
-			array('ú', 'ù', 'ü', 'û', 'Ú', 'Ù', 'Û', 'Ü'),
-			array('u', 'u', 'u', 'u', 'U', 'U', 'U', 'U'),
-			$s );
-		$s = str_replace(
-			array('ñ', 'Ñ', 'ç', 'Ç'),
-			array('n', 'N', 'c', 'C'),
-			$s
-		);
-		$s = str_replace('ÿ', 'yu', $s);
-		$s    = preg_replace( '@\x{00df}@u'    , "ss",    $s );    // maps German ß onto ss
-		$s    = preg_replace( '@\x{00c6}@u'    , "AE",    $s );    // Æ => AE
-		$s    = preg_replace( '@\x{00e6}@u'    , "ae",    $s );    // æ => ae
-		$s    = preg_replace( '@\x{0152}@u'    , "OE",    $s );    // Œ => OE
-		$s    = preg_replace( '@\x{0153}@u'    , "oe",    $s );    // œ => oe
-		$s    = preg_replace( '@\x{00d0}@u'    , "D",    $s );    // Ð => D
-		$s    = preg_replace( '@\x{0110}@u'    , "D",    $s );    // Ð => D
-		$s    = preg_replace( '@\x{00f0}@u'    , "d",    $s );    // ð => d
-		// remove all non-ASCii characters
-		$s    = preg_replace( '@[^\0-\x80]@u'    , "",    $s );
-		$s = preg_replace('/\s+/', '_', $s);
-		$s = preg_replace("/[^a-zA-Z0-9\_\.\-]/", "", $s);
-		// possible errors in UTF8-regular-expressions
-		if (empty($s)) {
-			$this->logger->debug("Error when normalize filename.");
-			return $org;
-		}else {
-			//$this->logger->debug("Filename normalized successfully");
-			return $s;
 		}
 	}
 }
