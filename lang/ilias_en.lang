@@ -13733,6 +13733,10 @@ wsp#:#share#:#Share
 common#:#obj_pdfg#:#PDF Generation
 common#:#obj_pdfg_desc#:#Options for generation PDF documents
 common#:#building_export_file#:#Building Export File...
+common#:#pdfg_read#:#User has read access to PDF Generation
+common#:#pdfg_visible#:#PDF Generation is visible
+common#:#pdfg_write#:#User can edit settings of PDF Generation
+common#:#pdfg_edit_permission#:#User can change permission settings
 pdfgen#:#phantomjs#:#PhantomJS
 pdfgen#:#page_settings#:#Page Settings
 pdfgen#:#page_size#:#Pagesize
