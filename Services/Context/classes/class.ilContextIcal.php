@@ -92,7 +92,17 @@ class ilContextIcal implements ilContextTemplate
 	{
 		return false;
 	}
-	
+
+	/**
+	 * Supports push messages
+	 *
+	 * @return bool
+	 */
+	public static function supportsPushMessages()
+	{
+		return false;
+	}
+
 }
 
 ?>

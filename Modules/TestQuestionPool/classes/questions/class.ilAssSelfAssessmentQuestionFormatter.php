@@ -33,7 +33,7 @@ class ilAssSelfAssessmentQuestionFormatter
 		}
 
 		require_once 'Services/RTE/classes/class.ilRTE.php';
-		$a_q = (string) ilRTE::_replaceMediaObjectImageSrc($html, 0);
+		$a_q = (string) ilRTE::_replaceMediaObjectImageSrc($html, 1);
 
 		if($convertLineBreaks)
 		{

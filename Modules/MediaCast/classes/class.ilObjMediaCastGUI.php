@@ -102,7 +102,10 @@ class ilObjMediaCastGUI extends ilObjectGUI
   		switch($next_class)
 		{
 			case "ilinfoscreengui":
-				$this->checkPermission("visible");
+				if (!$this->checkPermissionBool("read"))
+				{
+					$this->checkPermission("visible");
+				}
 				$this->infoScreen();	// forwards command
 				break;
 
@@ -1060,7 +1063,10 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	*/
 	function infoScreenObject()
 	{
-		$this->checkPermission("visible");
+		if (!$this->checkPermissionBool("read"))
+		{
+			$this->checkPermission("visible");
+		}
 		$this->ctrl->setCmd("showSummary");
 		$this->ctrl->setCmdClass("ilinfoscreengui");
 		$this->infoScreen();
@@ -1077,9 +1083,9 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		
 		$ilTabs->activateTab("id_info");
 
-		if (!$ilAccess->checkAccess("visible", "", $this->object->getRefId()))
+		if (!$this->checkPermissionBool("read"))
 		{
-			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"), $ilErr->MESSAGE);
+			$this->checkPermission("visible");
 		}
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
@@ -1133,7 +1139,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		}
 
 		// info screen
-		if ($ilAccess->checkAccess('visible', "", $this->object->getRefId()))
+		if ($ilAccess->checkAccess('visible', "", $this->object->getRefId()) ||
+			$ilAccess->checkAccess('read', "", $this->object->getRefId()))
 		{
 			$ilTabs->addTab("id_info",
 				$lng->txt("info_short"),

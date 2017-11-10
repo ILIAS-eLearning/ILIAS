@@ -18,61 +18,95 @@
 		'use strict';
 		var pub 				= {}, 
 			pri 				= {};
-		pub.id	 				= '';
+		pub.ids	 				= [];
 		pub.terms 				= {TERMS};
 		pub.selected_terms		= [];
 		pub.callbackItemAdded 	= {};
 		pub.callbackItemRemoved	= {};
 
-		pub.Init = function() {
-			$(pub.id).tagsinput({
-				typeaheadjs: [{
-					minLength: parseInt({MIN_LENGTH}, 10),
-					highlight: {HIGHLIGHT}
-				},{
-					limit: parseInt({LIMIT}, 10),
-					source: pri.substringMatcher(pub.terms)
-
-				}],
-				freeInput : false,
-				maxTags	  : {MAXTAGS},
-				maxChars  : {MAXCHARS},
-				allowDuplicates : "{ALLOW_DUPLICATES}"
-			});
-
-			pri.preventFormSubmissionOnEnterInTypeahead();
-			
-			$(pub.id).on('itemAdded', function(elem) {
-				if (typeof pub.callbackItemAdded === 'function') {
-					pub.callbackItemAdded();
-					if($(pub.id).tagsinput()[0].options.allowDuplicates !== true)
-					{
-						pub.selected_terms.push(elem.item);
-					}
-				}
-			});
-			$(pub.id).on('itemRemoved', function(elem) {
-				if (typeof pub.callbackItemRemoved === 'function') {
-					pub.callbackItemRemoved();
-					if($(pub.id).tagsinput()[0].options.allowDuplicates !== true)
-					{
-						var pos = $.inArray(elem.item, pub.selected_terms);
-						if (pos > -1) {
-							pub.selected_terms.splice(pos, 1);
-						}
-					}
-				}
-			});
+		pub.appendId = function(id)
+		{
+			var pos = $.inArray(id, pub.ids);
+			if (pos === -1) 
+			{
+				pub.ids.push(id);
+			}
 		};
 
-		pri.substringMatcher = function(strings) {
+		pub.appendTerms = function(id, terms)
+		{
+			if(typeof pub.terms == "undefined")
+			{
+				pub.terms = [];
+			}
+			var pos = $.inArray(id, pub.terms);
+			if (pos === -1)
+			{
+				pub.terms[id] = terms;
+			}
+		};
+
+		pub.Init = function() {
+			$.each(pub.ids, function(key, element){
+				$(element).tagsinput({
+					typeaheadjs: [{
+						minLength: parseInt({MIN_LENGTH}, 10),
+						highlight: {HIGHLIGHT}
+					},{
+						limit: parseInt({LIMIT}, 10),
+						source: pri.substringMatcher(pub.terms[key], key)
+
+					}],
+					freeInput : false,
+					maxTags	  : {MAXTAGS},
+					maxChars  : {MAXCHARS},
+					allowDuplicates : "{ALLOW_DUPLICATES}"
+				});
+
+				pri.preventFormSubmissionOnEnterInTypeahead();
+
+				$(element).on('itemAdded', function(elem) {
+					if (typeof pub.callbackItemAdded === 'function') {
+						pub.callbackItemAdded();
+						if($(element).tagsinput()[0].options.allowDuplicates !== true)
+						{
+							if(pub.selected_terms[key] === undefined)
+							{
+								pub.selected_terms[key] = [];
+							}
+							var pos = $.inArray(elem.item, pub.selected_terms[key]);
+							if (pos === -1) {
+								pub.selected_terms[key].push(elem.item);
+							}
+						}
+					}
+				});
+
+				$(element).on('itemRemoved', function(elem) {
+					if (typeof pub.callbackItemRemoved === 'function') {
+						pub.callbackItemRemoved();
+						if($(element).tagsinput()[0].options.allowDuplicates !== true)
+						{
+							var pos = $.inArray(elem.item, pub.selected_terms[key]);
+
+							if (pos > -1) {
+								pub.selected_terms[key].splice(pos, 1);
+							}
+						}
+					}
+				});
+			})
+			
+		};
+
+		pri.substringMatcher = function(strings, key) {
 			return function findMatches(query, callback) {
 				var matches, substringRegex, pos;
 				matches = [];
 				substringRegex = new RegExp(query, "{CASE}");
 				$.each(strings, function(i, str) {
 					if (substringRegex.test(str)) {
-						pos = $.inArray(str, pub.selected_terms);
+						pos = $.inArray(str, pub.selected_terms[key]);
 						if(pos === -1)
 						{
 							matches.push(str);
@@ -100,7 +134,7 @@
 </script>
 <!-- BEGIN initialize_on_page_load -->
 <script>
-	ilBootstrapTaggingOnLoad.id 	= '#{ID}' ;
+	ilBootstrapTaggingOnLoad.appendId('#{ID}');
 	ilBootstrapTaggingOnLoad.Init();
 </script>
 <!-- END initialize_on_page_load -->

@@ -515,8 +515,41 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 	 */
 	public function getAggregatedAnswersView($relevant_answers)
 	{
-		// Empty implementation here since a feasible way to aggregate answer is not known.
-		return ''; //print_r($relevant_answers,true);
+		$overview = array();
+		$aggregation = array();
+		foreach ($relevant_answers as $answer)
+		{
+			$overview[$answer['active_fi']][$answer['pass']][$answer['value1']] = $answer['value2'];
+		}
+
+		foreach($overview as $active)
+		{
+			foreach ($active as $answer)
+			{
+				foreach ($answer as $option => $value)
+				{
+					$aggregation[$option][$value] = $aggregation[$option][$value] + 1;
+				}
+			}
+		}
+		$tpl = new ilTemplate('tpl.il_as_aggregated_long_menu_answers_table.html', true, true, "Modules/TestQuestionPool");
+		$json = json_decode($this->object->getJsonStructure());
+		foreach ($json as $key => $value)
+		{
+				$tpl->setVariable('TITLE','Longmenu '. ($key+1));
+				if(array_key_exists($key, $aggregation))
+				{
+					$aggregate = $aggregation[$key];
+					foreach($aggregate as $answer => $counts)
+					{
+						$tpl->setVariable('OPTION',$answer);
+						$tpl->setVariable('COUNT',$counts);
+						$tpl->parseCurrentBlock();
+					}
+				}
+		}
+
+		return $tpl->get();
 	}
 
 	public function getLongMenuTextWithInputFieldsInsteadOfGaps($user_solution = array(), $solution = false, $graphical = false)
