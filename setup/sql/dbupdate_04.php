@@ -21510,7 +21510,7 @@ if (!$ilDB->tableColumnExists('usr_session', 'context'))
 <#5244>
 <?php
 	//add table column
-	if($ilDB->tableExists('iass_members')) {
+	if(!$ilDB->tableColumnExists('iass_members', 'changer_id')) {
 		$ilDB->addTableColumn("iass_members", "changer_id", array(
 			'type' => 'integer',
 			'length' => 4,
@@ -21521,7 +21521,7 @@ if (!$ilDB->tableColumnExists('usr_session', 'context'))
 <#5245>
 <?php
 	//add table column
-	if($ilDB->tableExists('iass_members')) {
+	if(!$ilDB->tableColumnExists('iass_members', 'change_time')) {
 		$ilDB->addTableColumn("iass_members", "change_time", array(
 			'type' => 'text',
 			'length' => 20,
