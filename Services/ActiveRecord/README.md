@@ -51,7 +51,6 @@ class arMessage extends ActiveRecord {
          * @var int
          *
          * @con_is_primary true
-         * @con_is_unique  true
          * @con_has_field  true
          * @con_fieldtype  integer
          * @con_length     8
@@ -237,8 +236,7 @@ An ActiveRecord-Class-Member is described with the following attributes in PHPDo
 
 | Attribute-Name | Description                                                                                               | Possible Values                                                                                  |
 |----------------|-----------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|
-| con_hasfield   | Defines whether the field is represented in the persistent layer or not (false doesn’t has to be written) | true/false                                                                                       |
-| con_is_unique  | Uniqe field                                                                                               | true/false                                                                                       |
+| con_hasfield   | Defines whether the field is represented in the persistent layer or not (false doesn’t has to be written) | true/false                                                                                       |                                                                                     | true/false                                                                                       |
 | con_is_primary | Member is primary key. Only one primary for one class possible.                                           | true/false                                                                                       |
 | con_is_notnull | Is member not_null (as in MySQL)                                                                          | true/false                                                                                       |
 | con_fieldtype  | All ilDB-Field-Types are currently supported                                                              | text, integer, float, date, time, timestamp, clob                                                |
@@ -252,7 +250,6 @@ This is an Example for a primary key $id:
  * @var int
  *
  * @con_is_primary true
- * @con_is_unique  true
  * @con_has_field  true
  * @con_fieldtype  integer
  * @con_length     8
@@ -326,19 +323,22 @@ public function getSome() {
 | ```arMessage::orderBy('title', 'DESC');```                  | ```SELECT * FROM ar_message ORDER BY title DESC```            | 
 | ```arMessage::orderBy('title', 'DESC')->orderBy('type');``` | ```SELECT * FROM ar_message ORDER BY title DESC, type ASC'``` | 
 
-**Limit**
+
+**Limit**
 
 | Method-Call                     | Query                                       | 
 |---------------------------------|---------------------------------------------| 
 | ```arMessage::limit(0, 100);``` | ```SELECT * FROM ar_message LIMIT 0, 100``` | 
 
-**Join**
+
+**Join**
 
 | Method-Call                                                                     | Query                                                                                                                    | 
 |---------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------| 
 | ```arMessage::innerjoin('usr_data', 'receiver_id', 'usr_id');```                | ```SELECT ar_message.*, usr_data.* FROM ar_message INNER JOIN usr_data ON ar_message.receiver_id = usr_data.usr_id```    | 
 | ```arMessage::leftjoin('usr_data', 'receiver_id', 'usr_id', array('email'));``` | ```SELECT ar_message.*, usr_data.email FROM ar_message LEFT JOIN usr_data ON ar_message.receiver_id = usr_data.usr_id``` | 
-**Combining statements**
+
+**Combining statements**
 
 | Method-Call                                                                     | Query                                                                                                                    | 
 |---------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------| 
