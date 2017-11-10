@@ -72,7 +72,7 @@ class ilIndividualAssessmentMemberGUI {
 			return;
 		}
 		$form = $this->fillForm($this->initGradingForm(false),$this->member);
-		$this->renderForm($form, $this->getFileLinkHTML());
+		$this->renderForm($form);
 	}
 
 	/**
@@ -94,7 +94,7 @@ class ilIndividualAssessmentMemberGUI {
 
 		$form->addCommandButton('save', $this->lng->txt('save'));
 		$form->addCommandButton('finalizeConfirmation', $this->lng->txt('iass_finalize'));
-		$this->renderForm($form, $this->getFileLinkHTML());
+		$this->renderForm($form);
 	}
 
 	protected function downloadAttachment()
@@ -334,7 +334,15 @@ class ilIndividualAssessmentMemberGUI {
 				$form->addItem($filelink);
 			}
 		} else {
-			$file = new ilFileInputGUI($this->lng->txt('iass_upload_file'), 'file');
+			$title = $this->lng->txt('iass_upload_file');
+			$link = $this->getFileLinkHTML(true);
+			if($link !== "") {
+				$filelink = new ilNonEditableValueGUI($title,'', true);
+				$filelink->setValue($link);
+				$form->addItem($filelink);
+				$title = "";
+			}
+			$file = new ilFileInputGUI($title, 'file');
 			$file->setRequired($this->object->getSettings()->fileRequired() && !$this->fileUploaded());
 			$file->setDisabled(!$may_be_edited);
 			$file->setAllowDeletion(false);
@@ -427,11 +435,10 @@ class ilIndividualAssessmentMemberGUI {
 	 * Render the form and put it into template
 	 *
 	 * @param ilPropertyFormGUI 	$form
-	 * @param string 				$html
 	 */
-	protected function renderForm(ilPropertyFormGUI $form, $html)
+	protected function renderForm(ilPropertyFormGUI $form)
 	{
-		$this->tpl->setContent($html.$form->getHTML());
+		$this->tpl->setContent($form->getHTML());
 	}
 
 	/**
