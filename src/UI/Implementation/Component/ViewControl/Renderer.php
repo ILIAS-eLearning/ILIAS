@@ -346,6 +346,7 @@ class Renderer extends AbstractComponentRenderer
 	 */
 	public function registerResources(\ILIAS\UI\Implementation\Render\ResourceRegistry $registry) {
 		parent::registerResources($registry);
+		$registry->register('./src/UI/templates/js/ViewControl/sortation.js');
 		$registry->register('./src/UI/templates/js/ViewControl/pagination.js');
 	}
 
