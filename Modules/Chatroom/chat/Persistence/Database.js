@@ -7,6 +7,12 @@ var Database = function Database(config) {
 
 	var _pool;
 
+	var handleError = function(err){
+		if(err) {
+			throw err;
+		}
+	};
+
 	this.connect = function(callback) {
 		var engine = require(config.database.type);
 
@@ -25,15 +31,10 @@ var Database = function Database(config) {
 
 	this.closePrivateRoom = function(roomId){
 		var time = parseInt(Date.getTimestamp()/1000);
-		var onError = function(err){
-			if(err) {
-				throw err;
-			}
-		};
 
 		_pool.query('UPDATE chatroom_prooms SET closed = ? WHERE proom_id = ?',
 			[time, roomId],
-			onError
+			handleError
 		);
 	};
 
@@ -44,22 +45,12 @@ var Database = function Database(config) {
 		// Disconnect from private rooms
 		_pool.query('UPDATE chatroom_psessions SET disconnected = ?',
 			[time],
-			function(err){
-				if(err) {
-					throw err;
-				}
-			}
+			handleError
 		);
-
-		var onError = function(err){
-			if(err) {
-				throw err;
-			}
-		};
 
 		_pool.query('UPDATE chatroom_prooms SET closed = ? WHERE closed = 0',
 			[time],
-			onError
+			handleError
 		);
 
 		var onErrorWithCallback = function(err){
@@ -139,18 +130,13 @@ var Database = function Database(config) {
 	this.disconnectUser = function(subscriber, roomIds, subRoomIds) {
 		var time = parseInt(Date.getTimestamp()/1000);
 
-		var onError = function(err){
-			if(err) {
-				throw err;
-			}
-		};
-
 		// Disconnect from private rooms
 		if(subRoomIds.length > 0 )
 		{
-			_pool.query('UPDATE chatroom_psessions SET disconnected = ? WHERE user_id = ? AND proom_id IN (?)',
-					[time, subscriber.getId(), subRoomIds],
-					onError
+			_pool.query(
+				'UPDATE chatroom_psessions SET disconnected = ? WHERE user_id = ? AND proom_id IN (?)',
+				[time, subscriber.getId(), subRoomIds],
+				handleError
 			);
 		}
 
@@ -236,11 +222,6 @@ var Database = function Database(config) {
 	this.persistMessage = function(message) {
 		_getNextId('chatroom_history', function(id){
 			message.timestamp = parseInt(message.timestamp / 1000);
-			var onError = function(err) {
-				if(err) {
-					throw err;
-				}
-			};
 
 			_pool.query('INSERT INTO chatroom_history SET ?', {
 				hist_id: id,
@@ -248,7 +229,7 @@ var Database = function Database(config) {
 				message: JSON.stringify(message),
 				timestamp: message.timestamp, // Eventuell hier durch 1000 teilen für PHP. Timestamp in JSON dann für JS benutzen
 				sub_room: message.subRoomId
-			}, onError);
+			}, handleError);
 		})
 	};
 
@@ -270,6 +251,7 @@ var Database = function Database(config) {
 
 			callback();
 		};
+
 		async.waterfall([
 			function(next) {
 				var onError = function (err, result) {
@@ -283,7 +265,8 @@ var Database = function Database(config) {
 
 				_pool.query('DELETE FROM chatroom_history WHERE timestamp < ?',
 					[bound],
-					onError);
+					onError
+				);
 			},
 			function(result, next)
 			{
@@ -342,32 +325,20 @@ var Database = function Database(config) {
 			function(result){
 				emptyResult = false;
 				if(timestamp > 0) {
-					var onError = function(err){
-						if(err) {
-							throw err;
-						}
-					};
-
 					_pool.query('UPDATE osc_activity SET timestamp = ?, is_closed = ? WHERE conversation_id = ? AND user_id = ?',
 						[timestamp, 0, conversationId, userId],
-						onError
+						handleError
 					);
 				}
 			},
 			function() {
 				if(emptyResult)
 				{
-					var onError = function(err){
-						if(err) {
-							throw err;
-						}
-					};
-
 					_pool.query('INSERT INTO osc_activity SET ?', {
 						conversation_id: conversationId,
 						user_id: userId,
 						timestamp: timestamp
-					}, onError);
+					}, handleError());
 				}
 			}
 		);
@@ -377,15 +348,9 @@ var Database = function Database(config) {
 		_onQueryEvents(
 			_pool.query('SELECT * FROM osc_activity WHERE conversation_id = ? AND user_id = ?', [conversationId, userId]),
 			function(result){
-				var onError = function(err){
-					if(err) {
-						throw err;
-					}
-				};
-
 				_pool.query('UPDATE osc_activity SET is_closed = ? WHERE conversation_id = ? AND user_id = ?',
 					[1, conversationId, userId],
-					onError
+					handleError
 				);
 			},
 			function() {
@@ -407,11 +372,6 @@ var Database = function Database(config) {
 	 */
 	this.persistConversationMessage = function(message) {
 		//message.timestamp = parseInt(message.timestamp / 1000);
-		var onError = function(err) {
-			if(err) {
-				throw err;
-			}
-		};
 
 		_pool.query('INSERT INTO osc_messages SET ?', {
 			id: UUID.v4(),
@@ -419,7 +379,7 @@ var Database = function Database(config) {
 			user_id: message.userId,
 			message: message.message,
 			timestamp: message.timestamp
-		}, onError);
+		}, handleError);
 	};
 
 	this.loadConversations = function(onResult, onEnd) {
@@ -478,15 +438,9 @@ var Database = function Database(config) {
 		}
 		participantsJson = JSON.stringify(participantsJson);
 
-		var onError = function(err){
-			if(err) {
-				throw err;
-			}
-		};
-
 		_pool.query('UPDATE osc_conversation SET participants = ?, is_group = ? WHERE id = ?',
 			[participantsJson, conversation.isGroup(), conversation.getId()],
-			onError
+			handleError
 		);
 	};
 
@@ -495,17 +449,15 @@ var Database = function Database(config) {
 	 * @param {Conversation} conversation
 	 */
 	this.persistConversation = function(conversation) {
-		var onError = function(err){
-			if(err) {
-				throw err;
-			}
-		};
-
-		_pool.query('INSERT INTO osc_conversation SET ?', {
-			id: conversation.getId(),
-			is_group: conversation.isGroup(),
-			participants: JSON.stringify(conversation.getParticipants())
-		}, onError);
+		_pool.query(
+			'INSERT INTO osc_conversation SET ?',
+			{
+				id: conversation.getId(),
+				is_group: conversation.isGroup(),
+				participants: JSON.stringify(conversation.getParticipants())
+			},
+			handleError
+		);
 	};
 
 
@@ -543,7 +495,7 @@ var Database = function Database(config) {
 			callback(insertId);
 		};
 
-			async.waterfall([
+		async.waterfall([
 			function(next) {
 				var onError = function(err, result){
 					if(err) {
