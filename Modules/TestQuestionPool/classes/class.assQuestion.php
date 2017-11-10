@@ -4897,6 +4897,15 @@ abstract class assQuestion
 		}
 		return $sec;
 	}
+	
+	/**
+	 * @return \ilAssSelfAssessmentQuestionFormatter
+	 */
+	protected function getSelfAssessmentFormatter()
+	{
+		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssSelfAssessmentQuestionFormatter.php';
+		return new \ilAssSelfAssessmentQuestionFormatter();
+	}
 
 	public function toJSON()
 	{
