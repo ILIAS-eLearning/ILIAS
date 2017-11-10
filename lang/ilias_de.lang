@@ -13819,7 +13819,7 @@ auth#:#err_auth_saml_no_ilias_user#:#Die Authentifizierung ist fehlgeschlagen. B
 auth#:#auth_saml_login_form#:#Anzeige im Anmeldeformular
 auth#:#auth_saml_login_form_info#:#Falls aktiviert und es mindestens einen aktiven IDP gibt, wird auf der Anmeldeseite von ILIAS ein Button angezeigt, der bei Klick einen SAML-Request initiert.
 auth#:#auth_saml_idps#:#SAML IDP Liste
-auth#:#auth_saml_idps_info#:#Bitte kontrollieren Sie vor dem Hinzufügen eines Identity Provider die SimpleSAMLphp Konfiguration in den Dateien '<strong>%s</strong>' und '<strong>%s</strong>' (externes Datenverzeichnis) und passen Sie diese an. Bitte lesen Sie dazu auch die folgende Dokumentation: %s.<br />Federation Metadata URL: %s
+auth#:#auth_saml_idps_info#:#Bitte kontrollieren Sie vor dem Hinzufügen eines Identity Provider die SimpleSAMLphp Konfiguration in den Dateien '<strong>%s</strong>' und '<strong>%s</strong>' (externes Datenverzeichnis) und passen Sie diese an. Bitte denken Sie vor allem daran, die Serverpfade für Ihren privaten Schlüssel und das Zertifikat in der Datei authsources.php zu konfigurieren. Lesen Sie dazu auch die folgende Dokumentation: %s.<br />Federation Metadata URL: %s
 auth#:#auth_saml_idp#:#IDP
 auth#:#auth_saml_configure_idp#:#SAML-IDP konfigurieren: %s
 auth#:#saml_tab_head_idp#:#IDP
