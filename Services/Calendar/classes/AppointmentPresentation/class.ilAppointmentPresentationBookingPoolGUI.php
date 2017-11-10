@@ -88,7 +88,9 @@ class ilAppointmentPresentationBookingPoolGUI extends ilAppointmentPresentationG
 					$this->ui->factory()->button()->shy($b_obj->getPostFile(), $link));
 
 			}
-			$this->addInfoProperty($this->lng->txt("book_post_booking_information"), implode("<br>",$array_info));
+			if($array_info) {
+				$this->addInfoProperty($this->lng->txt("book_post_booking_information"), implode("<br>",$array_info));
+			}
 
 		}
 
