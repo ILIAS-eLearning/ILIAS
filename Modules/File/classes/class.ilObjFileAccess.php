@@ -162,7 +162,9 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass {
 		$r = $ilDB->query($q);
 		$row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
-		return ilUtil::stripSlashes($row->version);
+		$striped = ilUtil::stripSlashes($row->version);
+
+		return $striped > 0 ? $striped : 1;
 	}
 
 

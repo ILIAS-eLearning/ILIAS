@@ -162,9 +162,10 @@ class ilCalendarAppointmentPresentationGUI
 		$info_screen = $this->info_screen;
 		$info_screen->setFormAction($this->ctrl->getFormAction($this));
 
-		#21529
+		#21529 create new toolbar with unique id using the entry id for this purpose
 		//$toolbar = $this->toolbar;
 		$toolbar = new ilToolbarGUI();
+		$toolbar->setId($this->appointment['event']->getEntryId());
 
 		$f = ilAppointmentPresentationFactory::getInstance($this->appointment, $info_screen, $toolbar, null);
 

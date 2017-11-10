@@ -323,6 +323,22 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 		}
 		return $li;
 	}
-}
 
-?>
+	/**
+	 * needed in CalendarInboxGUI to get events using a proper period.
+	 * todo define default period only once (self::PERIOD_WEEK, protected $period = self::PERIOD_WEEK)
+	 * @return int|mixed
+	 */
+	static function getPeriod()
+	{
+		#21479
+		$qp = $_GET;
+		if ((int) $qp["cal_agenda_per"] > 0 && (int) $qp["cal_agenda_per"] <= 4) {
+			return $qp["cal_agenda_per"];
+		} else if ($period = ilSession::get('cal_list_view')) {
+			return $period;
+		} else {
+			return self::PERIOD_WEEK;
+		}
+	}
+}
