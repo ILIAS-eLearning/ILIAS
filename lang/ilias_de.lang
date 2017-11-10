@@ -14094,3 +14094,5 @@ dateplaner#:#crs_end#:#Kurs endet
 dateplaner#:#grp_start#:#Gruppe startet
 dateplaner#:#grp_end#:#Gruppe endet
 awrn#:#awrn_online#:#Online
+rbac#:#edit_submissions_grades#:#Abgaben und Noten bearbeiten
+rbac#:#exc_edit_submissions_grades#:#Benutzer kann Abgaben und Noten bearbeiten
