@@ -14096,3 +14096,9 @@ dateplaner#:#grp_end#:#Gruppe endet
 awrn#:#awrn_online#:#Online
 rbac#:#edit_submissions_grades#:#Abgaben und Noten bearbeiten
 rbac#:#exc_edit_submissions_grades#:#Benutzer kann Abgaben und Noten bearbeiten
+rbac#:#release_objects#:#Objekte freigeben
+rbac#:#ltis_release_objects#:#Benutzer kann Objekte freigeben für LTI Consumer
+rbac#:#ltis_visible#:#LTI-Administration ist sichtbar
+rbac#:#ltis_read#:#Lesezugriff auf LTI-Administration
+rbac#:#ltis_write#:#Einstellungen in LTI-Administration bearbeiten
+rbac#:#ltis_edit_permission#:#Rechteeinstellungen für die LTI-Administration ändern

@@ -14096,3 +14096,9 @@ content#:#cont_transl_master_language_not_allowed#:#To import a translation you 
 awrn#:#awrn_online#:#Online
 rbac#:#edit_submissions_grades#:#Edit Submissions and Grades
 rbac#:#exc_edit_submissions_grades#:#User can edit submissions and grades
+rbac#:#release_objects#:#Release Objects
+rbac#:#ltis_release_objects#:#User can release Objects for LTI Consumer
+rbac#:#ltis_visible#:#LTI administration is visible
+rbac#:#ltis_read#:#User has read access to LTI administration 
+rbac#:#ltis_write#:#User can edit settings in LTI administration
+rbac#:#ltis_edit_permission#:#User can change permission settings in LTI administration
