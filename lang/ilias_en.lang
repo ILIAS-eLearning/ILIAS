@@ -14102,3 +14102,21 @@ rbac#:#ltis_visible#:#LTI administration is visible
 rbac#:#ltis_read#:#User has read access to LTI administration 
 rbac#:#ltis_write#:#User can edit settings in LTI administration
 rbac#:#ltis_edit_permission#:#User can change permission settings in LTI administration
+content#:#cont_sc_id_setting#:#student_id according to SCORM 1.2
+content#:#cont_sc_id_setting_2004#:#learner_id according to SCORM 2004
+content#:#cont_sc_id_setting_info#:#In the case that a numeric id for student_id (SCORM 1.2) or learner_id (SCORM 2004) causes problems for the learning module, use the option 'ILIAS user name'. The addition RefId or ObjId may be useful for learning modules that connect to an external server.
+content#:#cont_sc_id_setting_user_id#:#ILIAS User Id (Standard)
+content#:#cont_sc_id_setting_user_login#:#ILIAS Login Name
+content#:#cont_sc_id_setting_user_id_plus_ref_id#:#ILIAS User Id plus RefId of the Learning Module
+content#:#cont_sc_id_setting_user_login_plus_ref_id#:#ILIAS Login Name plus RefId of the Learning Module
+content#:#cont_sc_id_setting_user_id_plus_obj_id#:#ILIAS User Id plus ObjId of the Learning Module
+content#:#cont_sc_id_setting_user_login_plus_obj_id#:#ILIAS Login Name plus ObjId of the Learning Module
+content#:#cont_sc_name_setting#:#student_name according to SCORM 1.2
+content#:#cont_sc_name_setting_2004#:#learner_name according to SCORM 2004
+content#:#cont_sc_name_setting_info#:#The name of the learner can be displayed in the learning module in several ways. In the case that the learning modules are on an external server, it may be useful not to disclose the name.
+content#:#cont_sc_name_setting_last_firstname#:#Last name, First name
+content#:#cont_sc_name_setting_first_lastname#:#First name and Last name
+content#:#cont_sc_name_setting_fullname#:#Title, First name and Last name
+content#:#cont_sc_name_setting_salutation_lastname#:#Salutation and Last name
+content#:#cont_sc_name_setting_first_name#:#First name
+content#:#cont_sc_name_setting_no_name#:#no name

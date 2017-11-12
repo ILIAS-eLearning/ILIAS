@@ -14102,3 +14102,21 @@ rbac#:#ltis_visible#:#LTI-Administration ist sichtbar
 rbac#:#ltis_read#:#Lesezugriff auf LTI-Administration
 rbac#:#ltis_write#:#Einstellungen in LTI-Administration bearbeiten
 rbac#:#ltis_edit_permission#:#Rechteeinstellungen für die LTI-Administration ändern
+content#:#cont_sc_id_setting#:#student_id gemäß SCORM 1.2 entspricht
+content#:#cont_sc_id_setting_2004#:#learner_id gemäß SCORM 2004 entspricht
+content#:#cont_sc_id_setting_info#:#Für den Fall, dass eine numerische Id für student_id (SCORM 1.2) bzw. learner_id (SCORM 2004) beim Lernmodul zu Problemen führt, nutzen Sie die Option 'ILIAS-Benutzername'. Der Zusatz RefId bzw. ObjId kann für Lernmodule sinnvoll sein, die sich mit einem externen Server verbinden.
+content#:#cont_sc_id_setting_user_id#:#ILIAS-UserId (Standard)
+content#:#cont_sc_id_setting_user_login#:#ILIAS-Benutzername
+content#:#cont_sc_id_setting_user_id_plus_ref_id#:#ILIAS-UserId zuzüglich RefId des Lernmoduls
+content#:#cont_sc_id_setting_user_login_plus_ref_id#:#ILIAS-Benutzername zuzüglich RefId des Lernmoduls
+content#:#cont_sc_id_setting_user_id_plus_obj_id#:#ILIAS-UserId zuzüglich ObjId des Lernmoduls
+content#:#cont_sc_id_setting_user_login_plus_obj_id#:#ILIAS-Benutzername zuzüglich ObjId des Lernmoduls
+content#:#cont_sc_name_setting#:#student_name gemäß SCORM 1.2 entspricht
+content#:#cont_sc_name_setting_2004#:#learner_name gemäß SCORM 2004 entspricht
+content#:#cont_sc_name_setting_info#:#Der Name der/des Lernenden kann im Lernmodul auf verschiedene Weise angezeigt werden. Für den Fall, dass sich die Lernmodule auf einem externen Server befinden, kann es sinnvoll sein, den Namen nicht bekannt zu geben.
+content#:#cont_sc_name_setting_last_firstname#:#Nachname, Vorname
+content#:#cont_sc_name_setting_first_lastname#:#Vorname und Nachname
+content#:#cont_sc_name_setting_fullname#:#Titel, Vorname und Nachname
+content#:#cont_sc_name_setting_salutation_lastname#:#Anrede und Nachname
+content#:#cont_sc_name_setting_first_name#:#Vorname
+content#:#cont_sc_name_setting_no_name#:#Kein Name
