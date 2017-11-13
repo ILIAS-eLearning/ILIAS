@@ -66,12 +66,15 @@ var AppContainer = function AppContainer() {
 	this.getNamespace = function(name) {
 		var namespace = null;
 		name = name.replace(/^\//, '');
-		_namespaces.forEach(function(element){
+
+		var setNamespace = function(element){
 			if(element.getName() == name) {
 				namespace = element;
 				return true;
 			}
-		});
+		};
+
+		_namespaces.forEach(setNamespace);
 		return namespace;
 	};
 	this.createServerRoomId = function(roomId, subRoomId) {
@@ -110,15 +113,16 @@ var AppContainer = function AppContainer() {
  */
 var _instance = null;
 
-/**
- * Returns a Singleton of AppContainer
- *
- * @type {AppContainer}
- */
-module.exports = (function(){
+var getInstance = function() {
 	if(_instance == null) {
 		_instance = new AppContainer();
 	}
 
 	return _instance;
-})();
+};
+/**
+ * Returns a Singleton of AppContainer
+ *
+ * @type {AppContainer}
+ */
+module.exports = getInstance();
