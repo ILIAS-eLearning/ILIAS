@@ -10,7 +10,7 @@ module.exports = function SetupClearMessagesProcess(callback) {
 		var deletionTime = Container.getServerConfig().deletion_time;
 		deletionTime = deletionTime.split(':');
 
-		var job = schedule.scheduleJob('ClearMessagesProcess', {hour: deletionTime[0], minute: deletionTime[1]}, function () {
+		var clearProcess = function () {
 			var namespaces = Container.getNamespaces()
 			var deletionUnit = Container.getServerConfig().deletion_unit;
 			var deletionValue = Container.getServerConfig().deletion_value;
@@ -26,11 +26,16 @@ module.exports = function SetupClearMessagesProcess(callback) {
 					bound.toUTCString(),
 					bound.getTime()
 				);
-				database.clearChatMessagesProcess(bound.getTime(), namespaces[key].getName(), function () {
+
+				var onFinished = function () {
 					Container.getLogger().info('Clear process for namespace %s finished', namespaces[key].getName());
-				});
+				};
+
+				database.clearChatMessagesProcess(bound.getTime(), namespaces[key].getName(), onFinished);
 			}
-		});
+		};
+
+		var job = schedule.scheduleJob('ClearMessagesProcess', {hour: deletionTime[0], minute: deletionTime[1]}, clearProcess);
 
 		Container.getLogger().info('Clear messages process initialized for %s once a day', Container.getServerConfig().deletion_time);
 	}
