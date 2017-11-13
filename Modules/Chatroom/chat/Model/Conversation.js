@@ -49,14 +49,8 @@ var Conversation = function Conversation(id, participants)
 		_numNewMessages = num;
 	};
 
-	/**
-	 * @param message
-	 * @return object Returns a collection of users who did not want to receive messages 
-	 */
-	this.send = function(message) {
-		var ignoredParticipants = {};
-
-		forParticipants(function(participant){
+	var createSendMessageToParticipantCallback = function (ignoredParticipants, message) {
+		return function(participant){
 			if (!participant.getAcceptsMessages()) {
 				Container.getLogger().info("Conversation.send: User %s does not want to further receive messages", participant.getId());
 				ignoredParticipants[participant.getId()] = participant.getId();
@@ -64,9 +58,32 @@ var Conversation = function Conversation(id, participants)
 			}
 
 			participant.send(message);
-		});
+		};
+	};
+	/**
+	 * @param message
+	 * @return object Returns a collection of users who did not want to receive messages 
+	 */
+	this.send = function(message) {
+		var ignoredParticipants = {};
+
+		var sendMessageToParticipant = createSendMessageToParticipantCallback(ignoredParticipants, message);
+
+		forParticipants(sendMessageToParticipant);
 
 		return ignoredParticipants;
+	};
+
+	var createEmitParticipantCallback = function (ignoredParticipants, event, data) {
+		return function(participant){
+			if (!participant.getAcceptsMessages()) {
+				Container.getLogger().info("Conversation.emit: User %s does not want to further receive messages", participant.getId());
+				ignoredParticipants[participant.getId()] = participant.getId();
+				return;
+			}
+
+			participant.emit(event, data);
+		};
 	};
 
 	/**
@@ -78,15 +95,9 @@ var Conversation = function Conversation(id, participants)
 	this.emit = function(event, data) {
 		var ignoredParticipants = {};
 
-		forParticipants(function(participant){
-			if (!participant.getAcceptsMessages()) {
-				Container.getLogger().info("Conversation.emit: User %s does not want to further receive messages", participant.getId());
-				ignoredParticipants[participant.getId()] = participant.getId();
-				return;
-			}
+		var emitParticipant = createEmitParticipantCallback(ignoredParticipants, event, data);
 
-			participant.emit(event, data);
-		});
+		forParticipants(emitParticipant);
 
 		return ignoredParticipants;
 	};
