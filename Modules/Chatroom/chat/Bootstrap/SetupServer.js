@@ -26,7 +26,7 @@ module.exports = function SetupServer(callback) {
 
 	Container.setServer(server);
 
-	async.eachSeries(Container.getNamespaces(), function(namespace, next){
+	var handleSocket = function(namespace, next){
 		namespace.setIO(io.of(namespace.getName()));
 
 		var handler = SocketHandler;
@@ -40,11 +40,17 @@ module.exports = function SetupServer(callback) {
 		namespace.getIO().on('connect', handler);
 
 		next();
-	}, function(err) {
-		if(err) throw err;
+	};
+
+	var onEnd = function(err) {
+		if(err) {
+			throw err;
+		}
 
 		callback();
-	});
+	};
+
+	async.eachSeries(Container.getNamespaces(), handleSocket, onEnd);
 };
 
 
