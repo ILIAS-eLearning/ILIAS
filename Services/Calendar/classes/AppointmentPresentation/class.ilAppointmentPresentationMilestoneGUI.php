@@ -55,5 +55,8 @@ class ilAppointmentPresentationMilestoneGUI extends ilAppointmentPresentationGUI
 
 		$this->addInfoProperty($this->lng->txt("cal_task_completion"),$completion." %");
 		$this->addListItemProperty($this->lng->txt("cal_task_completion"),$completion." %");
+
+		// last edited
+		$this->addLastUpdate($appointment);
 	}
 }

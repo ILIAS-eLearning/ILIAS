@@ -22,6 +22,7 @@ class ilObjStudyProgramme extends ilContainer {
 	protected $lp_children; // [ilStudyProgrammeLeaf] | null;
 
 	// GLOBALS from ILIAS
+	public $webdir;
 	public $tree;
 	public $ilUser;
 
@@ -54,6 +55,7 @@ class ilObjStudyProgramme extends ilContainer {
 		global $DIC;
 		$tree = $DIC['tree'];
 		$ilUser = $DIC['ilUser'];
+		$this->webdir = $DIC->filesystem()->web();
 		$this->tree = $tree;
 		$this->ilUser = $ilUser;
 
@@ -1276,7 +1278,7 @@ class ilObjStudyProgramme extends ilContainer {
 		$subtype = $this->getSubType();
 
 		if($subtype) {
-			if(is_file($subtype->getIconPath(true))) {
+			if($this->webdir->has($subtype->getIconPath(true))) {
 				$icon = $subtype->getIconPath(true);
 				$this->saveIcons($icon);
 			} else {
@@ -1336,19 +1338,20 @@ class ilObjStudyProgramme extends ilContainer {
 	*/
 	function saveIcons($a_custom_icon)
 	{
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
-
 		$this->createContainerDirectory();
 		$cont_dir = $this->getContainerDirectory();
 		$file_name = "";
 		if ($a_custom_icon != "")
 		{
 			$file_name = $cont_dir."/icon_custom.svg";
+			if($this->webdir->has($file_name))
+			{
+				$this->webdir->delete($file_name);
+			}
 
-			ilUtil::moveUploadedFile($a_custom_icon, "icon_custom.svg", $file_name, true, "copy");
+			$this->webdir->copy($a_custom_icon, $file_name);
 
-			if ($file_name != "" && is_file($file_name))
+			if ($file_name != "" && $this->webdir->has($file_name))
 			{
 				ilContainer::_writeContainerSetting($this->getId(), "icon_custom", 1);
 			}
@@ -1357,6 +1360,16 @@ class ilObjStudyProgramme extends ilContainer {
 				ilContainer::_writeContainerSetting($this->getId(), "icon_custom", 0);
 			}
 		}
+	}
+
+	/**
+	* Get the container directory.
+	*
+	* @return	string	container directory
+	*/
+	function getContainerDirectory()
+	{
+		return "container_data/obj_".$this->getId();
 	}
 }
 

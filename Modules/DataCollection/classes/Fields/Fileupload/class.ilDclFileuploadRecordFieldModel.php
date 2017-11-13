@@ -44,6 +44,8 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel {
 				$file_obj->getUploadFile($move_file, $file["name"]);
 			}
 
+			$file_obj->update();
+
 			$file_id = $file_obj->getId();
 			$return = $file_id;
 		// handover for save-confirmation
@@ -139,6 +141,26 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel {
 			$value = - 1;
 		}
 		$this->setValue($value);
+	}
+
+
+	/**
+	 *
+	 */
+	public function afterClone() {
+		$field = ilDclCache::getCloneOf($this->getField()->getId(), ilDclCache::TYPE_FIELD);
+		$record = ilDclCache::getCloneOf($this->getRecord()->getId(), ilDclCache::TYPE_RECORD);
+		$record_field = ilDclCache::getRecordFieldCache($record, $field);
+
+		if (!$record_field || !$record_field->getValue()) {
+			return;
+		}
+
+		$file_old = new ilObjFile($record_field->getValue(), false);
+		$file_new = $file_old->cloneObject(null, null, true);
+
+		$this->setValue($file_new->getId(), true);
+		$this->doUpdate();
 	}
 	
 	

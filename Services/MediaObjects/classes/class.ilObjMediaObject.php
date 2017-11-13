@@ -101,14 +101,18 @@ class ilObjMediaObject extends ilObject
 		global $DIC;
 
 		$ilDB = $DIC->database();
-		
+
 		include_once("./Services/Link/classes/class.ilInternalLink.php");
 		if (is_int(strpos($a_id, "_")))
 		{
 			$a_id = ilInternalLink::_extractObjIdOfTarget($a_id);
 		}
 		
-		return parent::_exists($a_id, false);
+		if (parent::_exists($a_id, false) && ilObject::_lookupType($a_id) == "mob")
+		{
+			return true;
+		}
+		return false;
 	}
 
 	/**

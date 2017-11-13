@@ -208,7 +208,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 	/**
 	 * @inheritdoc
 	 */
-	public function migrateAccount($a_usr_id)
+	public function migrateAccount(ilAuthStatus $status)
 	{
 	}
 
