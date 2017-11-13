@@ -28,9 +28,11 @@ module.exports = function(req, res)
 		var action = CreateAction.create(roomId, subRoomId, title, ownerId);
 
 		var socketIds = subscriber.getSocketIds();
-		socketIds.forEach(function(socketId){
+		var emitCreateRoomAction = function(socketId){
 			namespace.getIO().to(socketId).emit('private_room_created', action);
-		});
+		};
+
+		socketIds.forEach(emitCreateRoomAction);
 	}
 
 	res.send({
