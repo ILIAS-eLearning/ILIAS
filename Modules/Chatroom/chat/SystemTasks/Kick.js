@@ -20,7 +20,7 @@ module.exports = function(req, res)
 			namespace.getIO().to(socketId).emit('notice', noticeKicked);
 			namespace.getIO().connected[socketId].leave(room.getId());
 
-			if (mainRoomUserlistAction != null) {
+			if (mainRoomUserlistAction !== null) {
 				namespace.getIO().to(socketId).emit('userlist', mainRoomUserlistAction);
 			}
 		};
@@ -28,7 +28,7 @@ module.exports = function(req, res)
 
 	Container.getLogger().info('Kick Subscriber %s from room %s of namespace %s', userId, serverRoomId, namespace.getName());
 
-	if(subscriber != null)
+	if(subscriber !== null)
 	{
 		room.removeSubscriber(userId);
 		room.subscriberLeft(userId);
