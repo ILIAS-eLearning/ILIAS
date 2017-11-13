@@ -8,28 +8,38 @@ module.exports = function SetupExitHandler(callback)
 {
 	var CONST_NO_CLEANUP_CODE = 99;
 
-	process.on('cleanup', function(callback){
-		_cleanUp(callback)
-	});
+	var cleanUp = function(callback){
+		_cleanUp(callback);
+	};
 
-	process.on("exit", function(code){
+	process.on('cleanup', cleanUp);
+
+	var emitCleanUp = function(code){
 		if(code != CONST_NO_CLEANUP_CODE)
 		{
 			process.emit('cleanup');
 		}
-	});
+	};
 
-	process.on("SIGINT", function(){
-		process.emit('cleanup', function(){
-			process.exit(CONST_NO_CLEANUP_CODE);
-		});
-	});
+	process.on("exit", emitCleanUp);
 
-	process.on("SIGTERM", function(){
-		process.emit('cleanup', function() {
+	var signalInterrupt = function(){
+		var cleaunup = function(){
 			process.exit(CONST_NO_CLEANUP_CODE);
-		});
-	});
+		};
+		process.emit('cleanup', cleaunup);
+	};
+
+	process.on("SIGINT", signalInterrupt);
+
+	var signalTermination = function(){
+		var cleanup = function() {
+			process.exit(CONST_NO_CLEANUP_CODE);
+		};
+		process.emit('cleanup', cleanup);
+	};
+
+	process.on("SIGTERM", signalTermination);
 
 	_cleanUp(callback);
 };
@@ -39,15 +49,19 @@ function _cleanUp(callback)
 	//process.stdin.resume(); //so the program will not close instantly
 	var namespaces = Container.getNamespaces();
 
-	async.eachSeries(namespaces, function(namespace, nextLoop){
+	var cleanup = function(namespace, nextLoop){
 		Container.getLogger().info('Cleanup %s', namespace.getName());
 		namespace.disconnectSockets();
 		namespace.getDatabase().disconnectAllUsers(nextLoop);
+	};
 
-	},
-	function(err){
-		if(err) throw err;
+	var onEnd = function(err){
+		if(err) {
+			throw err;
+		}
 
 		callback();
-	});
+	};
+
+	async.eachSeries(namespaces, cleanup, onEnd);
 }
