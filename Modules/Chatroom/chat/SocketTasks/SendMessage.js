@@ -34,11 +34,7 @@ module.exports = function(data, roomId, subRoomId)
 			};
 
 			from.getSocketIds().forEach(callback);
-
-			var callback2 = function(socketId){
-				namespace.getIO().to(socketId).emit('message', message);
-			};
-			target.getSocketIds().forEach(callback2);
+			target.getSocketIds().forEach(callback);
 		}
 	} else {
 		message = TextMessage.create(data.content, roomId, subRoomId, subscriber, data.format);
