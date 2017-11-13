@@ -29,10 +29,12 @@ module.exports = function(req, res)
 					var userlistAction = UserlistAction.create(splitted[0], splitted[1], room.getJoinedSubscribers());
 					var notice = Notice.create('user_kicked', splitted[0], splitted[1], {user: subscriber.getName()});
 
-					subscriber.getSocketIds().forEach(function(socketId){
+					var callback = function(socketId){
 						namespace.getIO().to(socketId).emit('userjustbanned');
 						namespace.getIO().connected[socketId].leave(room.getId());
-					});
+					};
+
+					subscriber.getSocketIds().forEach(callback);
 
 					namespace.getIO().to(room.getId()).emit('userlist', userlistAction);
 					namespace.getIO().to(room.getId()).emit('notice', notice);
