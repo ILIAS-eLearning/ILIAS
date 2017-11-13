@@ -10,15 +10,26 @@ module.exports = function SetupClearMessagesProcess(callback) {
 		var deletionTime = Container.getServerConfig().deletion_time;
 		deletionTime = deletionTime.split(':');
 
-		var clearProcess = function () {
-			var namespaces = Container.getNamespaces()
+		var getMessagesClearedCallback = function (namespaceName) {
+			return function() {
+				Container.getLogger().info('Clear process for namespace %s finished', namespaceName);
+			};
+		};
+
+		var clearMessagesProcess = function () {
+			var namespaces = Container.getNamespaces();
 			var deletionUnit = Container.getServerConfig().deletion_unit;
 			var deletionValue = Container.getServerConfig().deletion_value;
 
 			var bound = generateBoundTimestamp(deletionUnit, deletionValue);
 
 			for (var key in namespaces) {
-				var database = namespaces[key].getDatabase();
+				if (!namespaces.hasOwnProperty(key)) {
+					continue;
+				}
+
+				var database = namespaces[key].getDatabase(),
+					namespaceName = namespaces[key].getName();
 
 				Container.getLogger().info(
 					'Start clear process for namespace %s older then %s [%s]',
@@ -27,15 +38,13 @@ module.exports = function SetupClearMessagesProcess(callback) {
 					bound.getTime()
 				);
 
-				var onFinished = function () {
-					Container.getLogger().info('Clear process for namespace %s finished', namespaces[key].getName());
-				};
+				var onMessageCleanupFinished = getMessagesClearedCallback(namespaceName);
 
-				database.clearChatMessagesProcess(bound.getTime(), namespaces[key].getName(), onFinished);
+				database.clearChatMessagesProcess(bound.getTime(), namespaceName, onMessageCleanupFinished);
 			}
 		};
 
-		var job = schedule.scheduleJob('ClearMessagesProcess', {hour: deletionTime[0], minute: deletionTime[1]}, clearProcess);
+		schedule.scheduleJob('ClearMessagesProcess', {hour: deletionTime[0], minute: deletionTime[1]}, clearMessagesProcess);
 
 		Container.getLogger().info('Clear messages process initialized for %s once a day', Container.getServerConfig().deletion_time);
 	}
@@ -45,17 +54,17 @@ module.exports = function SetupClearMessagesProcess(callback) {
 
 function generateBoundTimestamp(deletionUnit, deletionValue) {
 	var bound = new Date();
-	if (deletionUnit == 'years') {
+	if (deletionUnit === 'years') {
 		bound.setFullYear(bound.getFullYear() - deletionValue)
 	}
-	if (deletionUnit == 'months') {
+	if (deletionUnit === 'months') {
 		bound.setMonth(bound.getMonth() - deletionValue)
 	}
-	if (deletionUnit == 'weeks') {
+	if (deletionUnit === 'weeks') {
 		var weeks = 7 * deletionValue;
 		bound.setDate(bound.getDate() - weeks)
 	}
-	if (deletionUnit == 'days') {
+	if (deletionUnit === 'days') {
 		bound.setDate(bound.getDate() - deletionValue)
 	}
 	return bound;
