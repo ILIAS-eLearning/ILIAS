@@ -54,9 +54,10 @@ var Conversation = function Conversation(id, participants)
 	 * @return object Returns a collection of users who did not want to receive messages 
 	 */
 	this.send = function(message) {
+
 		var ignoredParticipants = {};
 
-		forParticipants(function(participant){
+		var sendParticipantMessage = function(participant){
 			if (!participant.getAcceptsMessages()) {
 				Container.getLogger().info("Conversation.send: User %s does not want to further receive messages", participant.getId());
 				ignoredParticipants[participant.getId()] = participant.getId();
@@ -64,7 +65,9 @@ var Conversation = function Conversation(id, participants)
 			}
 
 			participant.send(message);
-		});
+		};
+
+		forParticipants(sendParticipantMessage);
 
 		return ignoredParticipants;
 	};
@@ -78,7 +81,7 @@ var Conversation = function Conversation(id, participants)
 	this.emit = function(event, data) {
 		var ignoredParticipants = {};
 
-		forParticipants(function(participant){
+		var emitParticipant = function(participant){
 			if (!participant.getAcceptsMessages()) {
 				Container.getLogger().info("Conversation.emit: User %s does not want to further receive messages", participant.getId());
 				ignoredParticipants[participant.getId()] = participant.getId();
@@ -86,7 +89,9 @@ var Conversation = function Conversation(id, participants)
 			}
 
 			participant.emit(event, data);
-		});
+		};
+
+		forParticipants(emitParticipant);
 
 		return ignoredParticipants;
 	};
