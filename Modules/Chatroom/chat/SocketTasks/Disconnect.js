@@ -17,7 +17,7 @@ module.exports = function()
 
 	Container.getLogger().info('Subscriber %s left namespace %s', this.subscriber.getId(), namespace.getName());
 
-	Container.setTimeout(subscriberId, function(){
+	var callback = function() {
 		if(namespace.hasSubscriber(subscriberId)) {
 			var rooms = namespace.getRooms();
 
@@ -66,9 +66,11 @@ module.exports = function()
 			namespace.getDatabase().disconnectUser(subscriber, roomIds, subRoomIds);
 
 		}
-		Container.removeTimeout(subscriberId);
 
-	}, 5000);
+		Container.removeTimeout(subscriberId);
+	};
+
+	Container.setTimeout(subscriberId, callback, 5000);
 
 	this.subscriber.removeSocketId(this.id);
 };
