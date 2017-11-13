@@ -15793,6 +15793,7 @@ exc#:#exc_tbl_filter_submission#:#Submission
 exc#:#exc_tbl_filter_has_submission#:#Has submitted
 exc#:#exc_tbl_filter_has_no_submission#:#Has not submitted yet
 iass#:#general#:#General Information
+iass#:#iass_copy#:#Copy Individual Assessment
 iass#:#iass_content#:#Assessment content description
 iass#:#iass_record_template#:#Record template
 iass#:#iass_graded_by#:#Graded by
