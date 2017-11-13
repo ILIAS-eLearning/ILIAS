@@ -4226,18 +4226,7 @@ abstract class assQuestion
 	 */
 	function formatSAQuestion($a_q)
 	{
-		include_once("./Services/RTE/classes/class.ilRTE.php");
-		$a_q = nl2br((string) ilRTE::_replaceMediaObjectImageSrc($a_q, 0));
-		$a_q = str_replace("</li><br />", "</li>", $a_q);
-		$a_q = str_replace("</li><br>", "</li>", $a_q);
-		
-		$a_q = ilUtil::insertLatexImages($a_q, "\[tex\]", "\[\/tex\]");
-		$a_q = ilUtil::insertLatexImages($a_q, "\<span class\=\"latex\">", "\<\/span>");
-
-		$a_q = str_replace('{', '&#123;', $a_q);
-		$a_q = str_replace('}', '&#125;', $a_q);
-		
-		return $a_q;
+		return $this->getSelfAssessmentFormatter()->format($a_q);
 	}
 
 	// scorm2004-start ???

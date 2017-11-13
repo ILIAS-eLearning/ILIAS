@@ -1059,8 +1059,6 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 	*/
 	public function toJSON()
 	{
-		$formatter = $this->getSelfAssessmentFormatter();
-		
 		include_once("./Services/RTE/classes/class.ilRTE.php");
 		$result = array();
 		$result['id'] = (int) $this->getId();
@@ -1071,8 +1069,8 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 		$result['shuffle'] = (bool) $this->getShuffle();
 		
 		$result['feedback'] = array(
-			'onenotcorrect' => $formatter->format($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
-			'allcorrect' => $formatter->format($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
+			'onenotcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
+			'allcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
 		);
 
 		$answers = array();
@@ -1088,7 +1086,7 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 				"points" => (float)$answer_obj->getPoints(),
 				"order" => (int)$answer_obj->getOrder(),
 				"image" => (string) $answer_obj->getImage(),
-				"feedback" => $formatter->format(
+				"feedback" => $this->formatSAQuestion(
 					$this->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation($this->getId(), $key)
 				)
 			));

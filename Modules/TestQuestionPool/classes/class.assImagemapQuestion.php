@@ -983,8 +983,8 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 				"coords"           => $answer_obj->getCoords(),
 				"state"            => $answer_obj->getState(),
 				"area"             => $answer_obj->getArea(),
-				"feedback"         => ilRTE::_replaceMediaObjectImageSrc(
-					$this->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation($this->getId(), $key), 0
+				"feedback"         => $this->formatSAQuestion(
+					$this->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation($this->getId(), $key)
 				)
 			));
 			$order++;
