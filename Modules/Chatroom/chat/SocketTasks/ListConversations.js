@@ -17,7 +17,13 @@ module.exports = function() {
 
 		var fetchLatestMessageForOpenConversation = function() {
 			if (!conversationClosed) {
-				var onMessageRowFound = function () {
+				var setLatestMessageOnConversation = function (row) {
+					row.userId         = row.user_id;
+					row.conversationId = row.conversation_id;
+					conversation.setLatestMessage(row);
+				};
+
+				var determineUnreadMessages = function () {
 					var setNumberOfNewMessages = function(row) {
 						conversation.setNumNewMessages(row.numMessages);
 					};
@@ -35,16 +41,10 @@ module.exports = function() {
 					);
 				};
 
-				var setLatestMessageOnConversation = function (row) {
-					row.userId         = row.user_id;
-					row.conversationId = row.conversation_id;
-					conversation.setLatestMessage(row);
-				};
-
 				namespace.getDatabase().getLatestMessage(
 					conversation,
-					onMessageRowFound,
-					setLatestMessageOnConversation
+					setLatestMessageOnConversation,
+					determineUnreadMessages
 				);
 			} else {
 				nextLoop();
