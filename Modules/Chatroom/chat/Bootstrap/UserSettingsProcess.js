@@ -6,7 +6,7 @@ var schedule = require('node-schedule');
  */
 module.exports = function UserSettingsProcess(callback) {
 
-	var job = schedule.scheduleJob('UserSettingsProcess', '*/20 * * * *', function () {
+	var fetchUserSettings = function () {
 		var namespaces = Container.getNamespaces();
 
 		for (var key in namespaces) {
@@ -23,9 +23,11 @@ module.exports = function UserSettingsProcess(callback) {
 			var subscribers = namespaces[key].getSubscribers();
 			var usersAcceptingMessages = {};
 
-			database.getMessageAcceptanceStatusForUsers(function (row) {
+			var onResult = function (row) {
 				usersAcceptingMessages[row.usr_id] = row.usr_id;
-			}, function() {
+			};
+
+			var onEnd = function() {
 				for (var subsKey in subscribers) {
 					if (!subscribers.hasOwnProperty(subsKey)) {
 						continue;
@@ -38,9 +40,13 @@ module.exports = function UserSettingsProcess(callback) {
 					'Finished fetching user settings for namespace %s',
 					namespaces[key].getName()
 				);
-			});
+			};
+
+			database.getMessageAcceptanceStatusForUsers(onResult, onEnd);
 		}
-	}).invoke();
+	};
+
+	var job = schedule.scheduleJob('UserSettingsProcess', '*/20 * * * *', fetchUserSettings).invoke();
 
 	callback();
 };
