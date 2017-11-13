@@ -8,29 +8,47 @@ module.exports = function() {
 	var conversations = this.participant.getConversations();
 	var socket = this;
 
-	async.eachSeries(conversations, function(conversation, nextLoop){
+	var onError = function(err){
+		if(err) {
+			throw err;
+		}
+	};
+
+	var callback = function(conversation, nextLoop){
 		var conversationClosed = false;
-		namespace.getDatabase().getConversationStateForParticipant(conversation.getId(), socket.participant.getId(), function(row){
+		var onResult = function(row) {
 			conversationClosed = row.is_closed;
-		}, function() {
+		};
+
+		var onEnd = function() {
 			if (!conversationClosed) {
-				namespace.getDatabase().getLatestMessage(conversation, function (row) {
+				var countUnreadMessages = function () {
+					var startNextLoop = function(){
+						socket.participant.emit('conversation', conversation.json());
+						nextLoop();
+					};
+
+					var setNumberOfNewMessages = function(row){
+						conversation.setNumNewMessages(row.numMessages);
+					};
+
+					namespace.getDatabase().countUnreadMessages(conversation.getId(), socket.participant.getId(), setNumberOfNewMessages, startNextLoop);
+				};
+
+				var setLatestMessage = function (row) {
 					row.userId = row.user_id;
 					row.conversationId = row.conversation_id;
 					conversation.setLatestMessage(row);
-				}, function () {
-					namespace.getDatabase().countUnreadMessages(conversation.getId(), socket.participant.getId(), function(row){
-						conversation.setNumNewMessages(row.numMessages);
-					}, function(){
-						socket.participant.emit('conversation', conversation.json());
-						nextLoop();
-					});
-				});
+				};
+
+				namespace.getDatabase().getLatestMessage(conversation, setLatestMessage, countUnreadMessages);
 			} else {
 				nextLoop();
 			}
-		});
-	}, function(err){
-		if(err) throw err;
-	});
+		};
+
+		namespace.getDatabase().getConversationStateForParticipant(conversation.getId(), socket.participant.getId(), onResult, onEnd);
+	};
+
+	async.eachSeries(conversations, callback, onError);
 };
