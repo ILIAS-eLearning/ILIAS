@@ -278,7 +278,12 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 		$title = ($time != "")? $time." ".$shy : $shy;
 
 		//calendar plugins
-		$event_tpl->setVariable('APP_TITLE', $title);
+		if($event_html_by_plugin = $this->getContentByPlugins($a_app['event'], $a_app['dstart'], $title))
+		{
+			$event_html = $event_html_by_plugin;
+		}
+
+		$event_tpl->setVariable('APP_TITLE', $event_html);
 		
 		if (!$ilUser->prefs["screen_reader_optimization"])
 		{

@@ -337,7 +337,10 @@ class ilCalendarViewGUI
 			else
 			{
 				$shy_title = ($new_title = $plugin->editShyButtonTitle())? $new_title : "";
-				$content = $this->getAppointmentShyButton($a_cal_entry, $a_start_date, $shy_title);
+				if($shy_title)
+				{
+					$content = $this->getAppointmentShyButton($a_cal_entry, $a_start_date, $shy_title);
+				}
 
 				if($glyph = $plugin->addGlyph())
 				{
