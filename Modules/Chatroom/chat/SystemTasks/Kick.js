@@ -14,6 +14,18 @@ module.exports = function(req, res)
 	var room = namespace.getRoom(serverRoomId);
 	var subscriber = room.getSubscriber(userId);
 
+	var createKickUserCallback = function (namespace, action, noticeKicked, room, mainRoomUserlistAction) {
+		return function(socketId){
+			namespace.getIO().to(socketId).emit('userjustkicked', action);
+			namespace.getIO().to(socketId).emit('notice', noticeKicked);
+			namespace.getIO().connected[socketId].leave(room.getId());
+
+			if (mainRoomUserlistAction != null) {
+				namespace.getIO().to(socketId).emit('userlist', mainRoomUserlistAction);
+			}
+		};
+	};
+
 	Container.getLogger().info('Kick Subscriber %s from room %s of namespace %s', userId, serverRoomId, namespace.getName());
 
 	if(subscriber != null)
@@ -34,15 +46,10 @@ module.exports = function(req, res)
 		}
 
 		var socketIds = subscriber.getSocketIds();
-		socketIds.forEach(function(socketId){
-			namespace.getIO().to(socketId).emit('userjustkicked', action);
-			namespace.getIO().to(socketId).emit('notice', noticeKicked);
-			namespace.getIO().connected[socketId].leave(room.getId());
 
-			if (mainRoomUserlistAction != null) {
-				namespace.getIO().to(socketId).emit('userlist', mainRoomUserlistAction);
-			}
-		});
+		var kickUser = createKickUserCallback(namespace, action, noticeKicked, room, mainRoomUserlistAction);
+
+		socketIds.forEach(kickUser);
 
 		namespace.getIO().to(serverRoomId).emit('userlist', userlistAction);
 		namespace.getIO().to(serverRoomId).emit('notice', notice);
