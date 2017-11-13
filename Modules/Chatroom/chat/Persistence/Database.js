@@ -206,7 +206,7 @@ var Database = function Database(config) {
 						onError
 					);
 				}
-			], onError);
+			], handleError);
 		}
 
 	};
