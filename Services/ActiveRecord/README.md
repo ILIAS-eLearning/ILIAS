@@ -51,6 +51,7 @@ class arMessage extends ActiveRecord {
          * @var int
          *
          * @con_is_primary true
+         * @con_sequence true
          * @con_has_field  true
          * @con_fieldtype  integer
          * @con_length     8
@@ -236,8 +237,9 @@ An ActiveRecord-Class-Member is described with the following attributes in PHPDo
 
 | Attribute-Name | Description                                                                                               | Possible Values                                                                                  |
 |----------------|-----------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|
-| con_hasfield   | Defines whether the field is represented in the persistent layer or not (false doesn’t has to be written) | true/false                                                                                       |                                                                                     | true/false                                                                                       |
+| con_hasfield   | Defines whether the field is represented in the persistent layer or not (false doesn’t has to be written) | true/false                                                                                       |
 | con_is_primary | Member is primary key. Only one primary for one class possible.                                           | true/false                                                                                       |
+| con_sequence   | The (primary-)field has an auto-increment. This is needed in most of the cases                            | true/false                                                                                       |
 | con_is_notnull | Is member not_null (as in MySQL)                                                                          | true/false                                                                                       |
 | con_fieldtype  | All ilDB-Field-Types are currently supported                                                              | text, integer, float, date, time, timestamp, clob                                                |
 | con_length     | Length of the field in the persistent layer                                                               | determines from the fieldtype. See 'Databse Access and Database Schema' for further information. |
@@ -251,6 +253,7 @@ This is an Example for a primary key $id:
  *
  * @con_is_primary true
  * @con_has_field  true
+ * @con_sequence  true
  * @con_fieldtype  integer
  * @con_length     8
  */
