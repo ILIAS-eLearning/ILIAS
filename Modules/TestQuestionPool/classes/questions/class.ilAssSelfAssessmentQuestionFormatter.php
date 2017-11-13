@@ -21,9 +21,9 @@ class ilAssSelfAssessmentQuestionFormatter
 		$string = str_replace("</li><br />", "</li>", $string);
 		$string = str_replace("</li><br>", "</li>", $string);
 
-		require_once 'Services/MathJax/classes/class.ilMathJax.php';
-		$string = ilMathJax::getInstance()->insertLatexImages($string, "\[tex\]", "\[\/tex\]");
-		$string = ilMathJax::getInstance()->insertLatexImages($string, "\<span class\=\"latex\">", "\<\/span>");
+		require_once 'Services/Utilities/classes/class.ilUtil.php';
+		$string = ilUtil::insertLatexImages($string, "\[tex\]", "\[\/tex\]");
+		$string = ilUtil::insertLatexImages($string, "\<span class\=\"latex\">", "\<\/span>");
 
 		$string = str_replace('{', '&#123;', $string);
 		$string = str_replace('}', '&#125;', $string);
