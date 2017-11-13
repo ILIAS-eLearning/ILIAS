@@ -27,7 +27,7 @@ module.exports = function(req, res)
 			namespace.getIO().in(socketId).emit('notice', notice);
 			namespace.getIO().in(socketId).emit('userlist', userlistMainAction);
 		};
-	}
+	};
 
 	var leaveRoomCallback = createLeaveRoomCallback(namespace, room, notice, userlistMainAction);
 	subscriber.getSocketIds().forEach(leaveRoomCallback);
