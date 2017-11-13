@@ -246,7 +246,8 @@ class ilPersonalSkillsGUI
 				}
 			}
 		}
-		if ($current_prof_id == 0)
+
+		if ($current_prof_id == 0 && !(is_array($this->obj_skills) && $this->obj_id > 0))
 		{
 			$current_prof_id = $this->user_profiles[0]["id"];
 		}
@@ -823,44 +824,21 @@ class ilPersonalSkillsGUI
 		
 		$ilTabs->setBackTarget($lng->txt("back"),
 			$ilCtrl->getLinkTarget($this, "assignMaterials"));
-		
-		// get ws tree
-		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
-		$tree = new ilWorkspaceTree($ilUser->getId());
-		
-		// get access handler
-		include_once("./Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php");
-		$acc_handler = new ilWorkspaceAccessHandler($tree);
-		
-		// get es explorer
-		include_once("./Services/PersonalWorkspace/classes/class.ilWorkspaceExplorer.php");
-		$exp = new ilWorkspaceExplorer(ilWorkspaceExplorer::SEL_TYPE_CHECK, '', 
-			'skill_wspexpand', $tree, $acc_handler);
-		$exp->setTargetGet('wsp_id');
-		$exp->setFiltered(false);
-		$exp->removeAllFormItemTypes();
-		$exp->addFormItemForType("file");
-		$exp->addFormItemForType("tstv");
-		$exp->addFormItemForType("excv");
 
-		if($_GET['skill_wspexpand'] == '')
+
+		include_once("./Services/PersonalWorkspace/classes/class.ilWorkspaceExplorerGUI.php");
+		$exp = new ilWorkspaceExplorerGUI($ilUser->getId(), $this, "assignMaterial", $this, "selectMaterial");
+		$exp->setTypeWhiteList(array("blog", "wsrt", "wfld", "file", "tstv", "excv"));
+		$exp->setSelectableTypes(array("file", "tstv", "excv"));
+		$exp->setSelectMode("wsp_id", true);
+		if ($exp->handleCommand())
 		{
-			// not really used as session is already set [see above]
-			$expanded = $tree->readRootId();
+			return;
 		}
-		else
-		{
-			$expanded = $_GET['skill_wspexpand'];
-		}
-		$exp->setCheckedItems(array((int)$_POST['wsp_id']));
-		$exp->setExpandTarget($ilCtrl->getLinkTarget($this, 'assignMaterial'));
-		$exp->setPostVar('wsp_id[]');
-		$exp->setExpand($expanded);
-		$exp->setOutput(0);
-		
+
 		// fill template
 		$mtpl = new ilTemplate("tpl.materials_selection.html", true, true, "Services/Skill");
-		$mtpl->setVariable("EXP", $exp->getOutput());
+		$mtpl->setVariable("EXP", $exp->getHTML());
 		
 		// toolbars
 		$tb = new ilToolbarGUI();

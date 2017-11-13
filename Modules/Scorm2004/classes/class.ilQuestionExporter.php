@@ -107,8 +107,8 @@ class ilQuestionExporter
 	static public function getMobs() {
 		$allmobs = array();
 		foreach (self::$mobs as $key => $value) {
-			for ($i=0;$i<count($mobs[$key]);$i++) {
-				array_push($allmobs,$mobs[$key][$i]);
+			for ($i=0;$i<count(self::$mobs[$key]);$i++) {
+				array_push($allmobs,self::$mobs[$key][$i]);
 			}
 		}
 		return $allmobs;

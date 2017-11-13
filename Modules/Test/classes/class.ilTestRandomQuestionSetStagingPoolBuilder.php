@@ -143,6 +143,7 @@ class ilTestRandomQuestionSetStagingPoolBuilder
 		{
 			$taxFilter = $definition->getOriginalTaxonomyFilter();
 			$typeFilter = $definition->getTypeFilter();
+			
 			if (!empty($taxFilter))
 			{
 				require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
@@ -165,13 +166,22 @@ class ilTestRandomQuestionSetStagingPoolBuilder
 					
 					$filterItems = isset($filterItems) ? array_intersect($filterItems, array_unique($taxItems)) : array_unique($taxItems);
 				}
-				// stage only the questions applying to the taxonomy filter
-				$this->stageQuestionsFromSourcePoolCheap($definition->getPoolId(), $questionIdMappingPerPool, array_values($filterItems), $typeFilter);
+
+				// stage only the questions applying to the tax/type filter
+                // and save the duplication map for later use
+				
+				$questionIdMappingPerPool = $this->stageQuestionsFromSourcePoolCheap(
+					$definition->getPoolId(), $questionIdMappingPerPool, array_values($filterItems), $typeFilter
+				);
 			}
 			else
 			{
-				// stage all questions of the pool
-				$this->stageQuestionsFromSourcePoolCheap($definition->getPoolId(), $questionIdMappingPerPool, null, $typeFilter);
+                // stage only the questions applying to the tax/type filter
+                // and save the duplication map for later use
+				
+				$questionIdMappingPerPool = $this->stageQuestionsFromSourcePoolCheap(
+					$definition->getPoolId(), $questionIdMappingPerPool, null, $typeFilter
+				);
 			}
 		}
 		
@@ -183,7 +193,7 @@ class ilTestRandomQuestionSetStagingPoolBuilder
 		}
 	}
 	
-	private function stageQuestionsFromSourcePoolCheap($sourcePoolId, &$questionIdMappingPerPool, $filterIds = null, $typeFilter = null)
+	private function stageQuestionsFromSourcePoolCheap($sourcePoolId, $questionIdMappingPerPool, $filterIds = null, $typeFilter = null)
 	{
 		$query = 'SELECT question_id FROM qpl_questions WHERE obj_fi = %s AND complete = %s AND original_id IS NULL';
 		if (!empty($filterIds))
@@ -198,6 +208,10 @@ class ilTestRandomQuestionSetStagingPoolBuilder
 		
 		while( $row = $this->db->fetchAssoc($res) )
 		{
+			if( !isset($questionIdMappingPerPool[$sourcePoolId]) )
+			{
+				$questionIdMappingPerPool[$sourcePoolId] = array();
+			}
 			if (!isset($questionIdMappingPerPool[$sourcePoolId][ $row['question_id'] ]))
 			{
 				$question = assQuestion::_instantiateQuestion($row['question_id']);
@@ -210,9 +224,12 @@ class ilTestRandomQuestionSetStagingPoolBuilder
 					'qst_fi' => array('integer', $duplicateId),
 					'qpl_fi' => array('integer', $sourcePoolId)
 				));
+				
+				$questionIdMappingPerPool[$sourcePoolId][ $row['question_id'] ] = $duplicateId;
 			}
-			$questionIdMappingPerPool[$sourcePoolId][ $row['question_id'] ] = $duplicateId;
 		}
+
+		return $questionIdMappingPerPool;
 	}
 	// fau.
 

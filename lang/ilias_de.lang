@@ -410,7 +410,7 @@ assessment#:#analyze_errortext#:#Text analysieren
 assessment#:#gap_combination#:#Lückentext-Kombination
 assessment#:#answer#:#Antwort
 assessment#:#tst_failed_imp_skl_thresholds#:#Der Import der Schwellenwerte für folgende Kompetenzen wurde übersprungen, weil die zugehörige Kompetenz im lokalen System eine abweichende Liste von Ausprägungen aufweist.
-assessment#:#tst_failed_imp_qst_skl_assign#:#Die Zuweisungen der Fragen zu fogenden Kompetenzen konnte durch den Import nicht hergestellt werden. Die entsprechenden Kompetenzen konnten im hiesigen System nicht identifiziert werden.
+assessment#:#tst_failed_imp_qst_skl_assign#:#Die Zuweisungen der Fragen zu folgenden Kompetenzen konnte durch den Import nicht hergestellt werden. Die entsprechenden Kompetenzen konnten im hiesigen System nicht identifiziert werden.
 assessment#:#ass_skl_import_fails_remove_btn#:#Diese Meldung entfernen
 assessment#:#answer_image#:#Antwort-Grafik
 assessment#:#answer_is_not_correct_but_positive#:#Sie haben Punkte für Ihre Lösung erhalten. Allerdings handelt es sich dabei nicht um die beste Lösung.
@@ -828,7 +828,7 @@ assessment#:#tst_msg_random_question_set_synced#:#Die Fragen zur aktuellen Konfi
 assessment#:#tst_btn_rebuild_random_question_stage#:#Synchronisiere Fragen aus den Pools
 assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#Zeitpunkt der letzten Synchronisierung der Fragen aus den ausgewählten Fragenpools: <b>%s</b>
 assessment#:#tst_msg_rand_quest_set_pass_buildable#:#Ein Test mit zufälliger Fragenauswahl ist mit der aktuellen Konfiguration möglich.
-assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#Mit der aktuellen Auswahl an Fragenpools und der Fragenanzahl kann kein Test mit zufälliger Fragenauswahl erzeugt werden.
+assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#<b>Mit der aktuellen Auswahl an Fragenpools und der Fragenanzahl kann kein Test mit zufälliger Fragenauswahl erzeugt werden.</b><br />
 assessment#:#tst_msg_rand_quest_set_lost_pools#:#Die Fragenziehungskonfiguration des Tests wurde eingefroren, da die folgenden in der Konfiguration involvierten Fragenpools nicht mehr zur Verfügung stehen:<br />%s
 assessment#:#tst_msg_rand_quest_set_no_src_pool_defs#:#Um einen Test mit zufälliger Fragenauswahl zu ermöglichen, muss mindestens ein Fragenpool ausgewählt sein, aus dem Fragen entnommen werden können.
 assessment#:#tst_msg_rand_quest_set_incomplete_quest_amount_cfg#:#Ohne die Angabe einer Fragenanzahl kann kein Test mit zufälliger Fragenauswahl erzeugt werden.
@@ -1652,8 +1652,8 @@ book#:#book_object_updated#:#Das Buchungsobjekt wurde geändert.
 book#:#book_objects_list#:#Buchungsobjekte
 book#:#book_period#:#Dauer
 book#:#book_pool_added#:#Ein Buchungspool wurde angelegt.
-book#:#book_public_log#:#Benutzer sehen Belegungsplan
-book#:#book_public_log_info#:#Benutzer können auch den Reiter „Belegungsplan“ einsehen.
+book#:#book_public_log#:#Benutzer sehen alle Reservierungen
+book#:#book_public_log_info#:#Benutzer mit Leserecht können im Reiter „Reservierungen“ auch Reservierungen anderer Benutzer einsehen.
 book#:#book_reservation_confirmed#:#Die Buchung wurde erfolgreich durchgeführt.
 book#:#book_reservation_failed#:#Die Buchung ist fehlgeschlagen.
 book#:#book_reservation_fix_info#:#Die Reservierung kann nur für festgelegte Zeiten durchgeführt werden.
@@ -2027,6 +2027,7 @@ common#:#administrate_users#:#Lokale Benutzerverwaltung
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#Übernehmen
+rbac#:#amend_grading#:#Finalisierte Bewertung ändern
 rbac#:#adopt_perm_from_template#:#Rechteeinstellungen kopieren
 common#:#advanced_editing_allow_html_tags#:#Erlaube die ausgewählten HTML-Auszeichnungen in Textfeldern
 common#:#advanced_editing_assessment_settings#:#Erlaubte HTML-Auszeichnungen für das Test und Assessment-Werkzeug
@@ -3291,7 +3292,7 @@ common#:#msg_obj_exists_in_folder#:#Das Objekt %s existiert bereits im Ordner %s
 common#:#msg_obj_may_not_contain_objects_of_type#:#Das Objekt %s darf keine Objekte des folgenden Typs beinhalten: %s.
 common#:#msg_obj_modified#:#Änderungen gespeichert
 common#:#msg_obj_no_link#:#Das Verknüpfen von Containerobjekten wie Kategorien, Kursen, Gruppen und Ordnern ist aus technischen Gründen leider nicht möglich. Verknüpfen Sie stattdessen die einzelnen Objekte der Container zum gewünschten Ort oder verwenden die Objekttypen Kategorienlink, Kurslink bzw. Gruppenlink.
-common#:#msg_paste_object_not_in_itself#:#Es ist nicht möglich das Objekte %s in sich selbst einzufügen.
+common#:#msg_paste_object_not_in_itself#:#Es ist nicht möglich, das Objekt "%s" in sich selbst einzufügen.
 common#:#msg_perm_adopted_from_itself#:#Es ist nicht möglich, die Rechteeinstellungen von der aktuellen Rolle bzw. Rollenvorlage selbst zu übernehmen.
 common#:#msg_perm_adopted_from1#:#Rechteeinstellungen übernommen von
 common#:#msg_perm_adopted_from2#:#(Die Einstellungen wurden gespeichert!)
@@ -5288,7 +5289,7 @@ crs#:#crs_reg_subject#:#Nachricht
 crs#:#crs_reg_until#:#Zeitraum für Beitritte
 crs#:#crs_reg_user_already_subscribed#:#Sie haben bereits einen Aufnahmeantrag gestellt! Bitte warten Sie auf die Bestätigung.
 crs#:#crs_registration#:#Zum Kurs beitreten
-crs#:#crs_registration_deactivated#:#Nur Kursdministratoren und Kurstutoren können Benutzer in den Kurs aufnehmen.
+crs#:#crs_registration_deactivated#:#Nur Kursadministratoren und Kurstutoren können Benutzer in den Kurs aufnehmen.
 crs#:#crs_registration_limited#:#Zeitlich begrenzter Beitritt
 crs#:#crs_registration_type#:#Beitrittsverfahren
 crs#:#crs_reject_subscriber#:#Ablehnung für Kurs "%s"
@@ -5430,7 +5431,7 @@ crs#:#event_table_update#:#Sitzung bearbeiten
 crs#:#event_tbl_participated#:#Teilgenommen
 crs#:#event_tbl_registered#:#Angemeldet
 crs#:#event_title#:#Titel
-crs#:#event_tutor_data#:#Persönliche Daten des/der Vortragenden
+crs#:#event_tutor_data#:#Präsentation von
 crs#:#event_unregister#:#Abmelden
 crs#:#event_unregistered#:#Sie wurden abgemeldet.
 crs#:#event_updated#:#Die Änderungen wurden gespeichert
@@ -11252,6 +11253,9 @@ bibl#:#ris_default_t1#:#Haupttitel
 bibl#:#ris_default_t2#:#Zweittitel
 bibl#:#ris_default_t3#:#Dritter Titel
 bibl#:#ris_default_u2#:#Benutzerdefiniert
+bibl#:#ris_default_y1#:#Jahr
+bibl#:#ris_default_ty#:#Typ
+bibl#:#ris_default_ep#:#letzte Seite
 bibl#:#bibl_copy#:#Literaturliste kopieren
 mail#:#mail_filter#:#Filter
 mail#:#mail_filter_sender#:#Sender
@@ -13558,6 +13562,7 @@ exc#:#exc_tbl_filter_has_submission#:#Hat abgegeben
 exc#:#exc_tbl_filter_has_no_submission#:#Hat noch nicht abgegeben
 iass#:#iass_assessment_not_completed#:#Noch nicht abgeschlossen
 iass#:#general#:#Allgemein
+iass#:#iass_changed_by#:#Geändert nach Finalisierung
 iass#:#iass_content#:#Inhalt
 iass#:#iass_record_template#:#Vorlage Prüfungsnotiz
 iass#:#iass_graded_by#:#Bewertet von
@@ -13712,6 +13717,10 @@ wsp#:#share#:#Freigeben
 common#:#obj_pdfg#:#PDF-Erstellung
 common#:#obj_pdfg_desc#:#Administrationseinstellungen für die PDF-Erstellung
 common#:#building_export_file#:#Erstelle Export Datei...
+common#:#pdfg_read#:#Lesezugrif auf PDF-Erstellung
+common#:#pdfg_visible#:#PDF-Erstellungs ist sichtbar.
+common#:#pdfg_write#:#Einstellungen der PDF-Erstellung bearbeiten
+common#:#pdfg_edit_permission#:#Rechteeinstellungen ändern
 pdfgen#:#phantomjs#:#PhantomJS
 pdfgen#:#page_settings#:#Seiteneinstellungen
 pdfgen#:#orientation#:#Orientierung
@@ -13743,6 +13752,7 @@ pdfgen#:#zoom#:#Zoom
 pdfgen#:#javascript_delay#:#Javascript Verzögerung
 pdfgen#:#page_size#:#Seitengröße
 pdfgen#:#reset_to_default#:#Default Einstellungen laden
+pdfgen#:#problem_with_purposes#:#Es wurde ein Problem in der Konfiguration festgestellt, nutzen sie bitten den Button "Bereinigen" um das Problem zu lösen.
 copg#:#copg_questions_not_supported_here#:#In diesem Kontext werden keine Fragen unterstützt.
 auth#:#auth_err_login_attempts_deactivation#:#Das Benutzerkonto wurde wegen falscher Loginversuche deaktiviert. 
 crs#:#crs_edit_lo_introduction#:#Einleitung bearbeiten
@@ -13810,7 +13820,7 @@ auth#:#err_auth_saml_no_ilias_user#:#Die Authentifizierung ist fehlgeschlagen. B
 auth#:#auth_saml_login_form#:#Anzeige im Anmeldeformular
 auth#:#auth_saml_login_form_info#:#Falls aktiviert und es mindestens einen aktiven IDP gibt, wird auf der Anmeldeseite von ILIAS ein Button angezeigt, der bei Klick einen SAML-Request initiert.
 auth#:#auth_saml_idps#:#SAML IDP Liste
-auth#:#auth_saml_idps_info#:#Bitte kontrollieren Sie vor dem Hinzufügen eines Identity Provider die SimpleSAMLphp Konfiguration in den Dateien '<strong>%s</strong>' und '<strong>%s</strong>' (externes Datenverzeichnis) und passen Sie diese an. Bitte lesen Sie dazu auch die folgende Dokumentation: %s.
+auth#:#auth_saml_idps_info#:#Bitte kontrollieren Sie vor dem Hinzufügen eines Identity Provider die SimpleSAMLphp Konfiguration in den Dateien '<strong>%s</strong>' und '<strong>%s</strong>' (externes Datenverzeichnis) und passen Sie diese an. Bitte denken Sie vor allem daran, die Serverpfade für Ihren privaten Schlüssel und das Zertifikat in der Datei authsources.php zu konfigurieren. Lesen Sie dazu auch die folgende Dokumentation: %s.<br />Federation Metadata URL: %s
 auth#:#auth_saml_idp#:#IDP
 auth#:#auth_saml_configure_idp#:#SAML-IDP konfigurieren: %s
 auth#:#saml_tab_head_idp#:#IDP
@@ -13946,8 +13956,8 @@ prtf#:#prtf_add_existing_blog#:#Vorhandenes Blog nutzen
 blog#:#blog_draft_text#:#Unveröffentlichter Beitrag
 user#:#usr_letter_avatars#:#Letter-Avatare
 user#:#usr_letter_avatars_info#:#Zeigt die Initialen des Benutzernamens oder Logins an, wenn kein öffentliches Profilbild vorliegt.
-mep#:#mep_master_language_only_no_media#:#Master Language without Media
-content#:#cont_master_language_only_no_media#:#Master Language without Media
+mep#:#mep_master_language_only_no_media#:#Hauptsprache für Übersetzung (ohne Medienobjekte)
+content#:#cont_master_language_only_no_media#:#Hauptsprache für Übersetzung (ohne Medienobjekte)
 mep#:#mep_content#:#Content
 mep#:#mep_media_subtitles#:#Media Subtitles
 content#:#cont_last_visited_page#:#Zuletzt besuchte Seite
@@ -14080,7 +14090,34 @@ dateplaner#:#cal_no_events_info#:#Für den angegebenen Zeitraum sind keine Termi
 wiki#:#wiki_pg_list_no_search_fields#:#Es befinden sich keine durchsuchbaren Metadatenfelder in den Metadatensätzen des Wikis.
 iass#:#iass_amend_saved#:#Geänderte Prüfungsdaten wurden gespeichert.
 content#:#cont_transl_master_language_not_allowed#:#Um eine Übersetzung zu importieren, müssen sie zumindest eine zusätzliche Sprache unter "Einstellungen" > "Mehrsprachigkeit" aktivieren.
-dateplaner#:#crs_start#:#Course starts###23 10 2017 new variable
-dateplaner#:#crs_end#:#Course ends###23 10 2017 new variable
-dateplaner#:#grp_start#:#Group starts###23 10 2017 new variable
-dateplaner#:#grp_end#:#Group ends###23 10 2017 new variable
+dateplaner#:#crs_start#:#Kurs startet
+dateplaner#:#crs_end#:#Kurs endet
+dateplaner#:#grp_start#:#Gruppe startet
+dateplaner#:#grp_end#:#Gruppe endet
+awrn#:#awrn_online#:#Online
+rbac#:#edit_submissions_grades#:#Abgaben und Noten bearbeiten
+rbac#:#exc_edit_submissions_grades#:#Benutzer kann Abgaben und Noten bearbeiten
+rbac#:#release_objects#:#Objekte freigeben
+rbac#:#ltis_release_objects#:#Benutzer kann Objekte freigeben für LTI Consumer
+rbac#:#ltis_visible#:#LTI-Administration ist sichtbar
+rbac#:#ltis_read#:#Lesezugriff auf LTI-Administration
+rbac#:#ltis_write#:#Einstellungen in LTI-Administration bearbeiten
+rbac#:#ltis_edit_permission#:#Rechteeinstellungen für die LTI-Administration ändern
+content#:#cont_sc_id_setting#:#student_id gemäß SCORM 1.2 entspricht
+content#:#cont_sc_id_setting_2004#:#learner_id gemäß SCORM 2004 entspricht
+content#:#cont_sc_id_setting_info#:#Für den Fall, dass eine numerische Id für student_id (SCORM 1.2) bzw. learner_id (SCORM 2004) beim Lernmodul zu Problemen führt, nutzen Sie die Option 'ILIAS-Benutzername'. Der Zusatz RefId bzw. ObjId kann für Lernmodule sinnvoll sein, die sich mit einem externen Server verbinden.
+content#:#cont_sc_id_setting_user_id#:#ILIAS-UserId (Standard)
+content#:#cont_sc_id_setting_user_login#:#ILIAS-Benutzername
+content#:#cont_sc_id_setting_user_id_plus_ref_id#:#ILIAS-UserId zuzüglich RefId des Lernmoduls
+content#:#cont_sc_id_setting_user_login_plus_ref_id#:#ILIAS-Benutzername zuzüglich RefId des Lernmoduls
+content#:#cont_sc_id_setting_user_id_plus_obj_id#:#ILIAS-UserId zuzüglich ObjId des Lernmoduls
+content#:#cont_sc_id_setting_user_login_plus_obj_id#:#ILIAS-Benutzername zuzüglich ObjId des Lernmoduls
+content#:#cont_sc_name_setting#:#student_name gemäß SCORM 1.2 entspricht
+content#:#cont_sc_name_setting_2004#:#learner_name gemäß SCORM 2004 entspricht
+content#:#cont_sc_name_setting_info#:#Der Name der/des Lernenden kann im Lernmodul auf verschiedene Weise angezeigt werden. Für den Fall, dass sich die Lernmodule auf einem externen Server befinden, kann es sinnvoll sein, den Namen nicht bekannt zu geben.
+content#:#cont_sc_name_setting_last_firstname#:#Nachname, Vorname
+content#:#cont_sc_name_setting_first_lastname#:#Vorname und Nachname
+content#:#cont_sc_name_setting_fullname#:#Titel, Vorname und Nachname
+content#:#cont_sc_name_setting_salutation_lastname#:#Anrede und Nachname
+content#:#cont_sc_name_setting_first_name#:#Vorname
+content#:#cont_sc_name_setting_no_name#:#Kein Name

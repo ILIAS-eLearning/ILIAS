@@ -1306,6 +1306,9 @@ var ClozeGapBuilder = (function () {
 			if (tinyMCE.activeEditor === null || tinyMCE.activeEditor.isHidden() !== false) {
 				ilTinyMceInitCallbackRegistry.addCallback(pro.bindTextareaHandlerTiny);
 			}
+			else if (tinyMCE.editors.length > 0) {
+				pro.bindTextareaHandlerTiny();
+			}
 		}
 		$(window).scrollTop(last_position);
 	};
