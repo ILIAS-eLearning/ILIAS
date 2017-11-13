@@ -11,8 +11,8 @@ module.exports = function(conversationId, oldestMessageTimestamp) {
 
 		if(conversation.isParticipant(this.participant))
 		{
-			var onResult = function(row){
-				if(oldestTimestamp == null || oldestTimestamp > row.timestamp) {
+			var onConversationResult = function(row){
+				if(oldestTimestamp === null || oldestTimestamp > row.timestamp) {
 					oldestTimestamp = row.timestamp;
 				}
 				row.userId = row.user_id;
@@ -20,7 +20,7 @@ module.exports = function(conversationId, oldestMessageTimestamp) {
 				history.push(row);
 			};
 
-			var onEnd = function(err){
+			var onConversatioEnd = function(err){
 				if(err) {
 					throw err;
 				}
@@ -34,7 +34,12 @@ module.exports = function(conversationId, oldestMessageTimestamp) {
 				Container.getLogger().info('Requested History for %s since %s', conversationId, oldestMessageTimestamp);
 			};
 
-			namespace.getDatabase().loadConversationHistory(conversation.getId(), oldestMessageTimestamp, onResult, onEnd);
+			namespace.getDatabase().loadConversationHistory(
+				conversation.getId(),
+				oldestMessageTimestamp,
+				onConversationResult,
+				onConversatioEnd
+			);
 		}
 	}
 
