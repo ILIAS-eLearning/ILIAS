@@ -155,7 +155,7 @@ var Conversation = function Conversation(id, participants)
 			if (participants.hasOwnProperty(key)) {
 				var id = participants[key].id;
 
-				if (typeof participants[key].getId == 'function'){
+				if (typeof participants[key].getId === 'function'){
 					id = participants[key].getId();
 				}
 
@@ -172,7 +172,7 @@ var Conversation = function Conversation(id, participants)
 			if(participants.hasOwnProperty(key)) {
 				var id = participants[key].id;
 
-				if(typeof participants[key].getId == 'function'){
+				if(typeof participants[key].getId === 'function'){
 					id = participants[key].getId();
 				}
 
