@@ -11,12 +11,16 @@ module.exports = function SetupDatabase(namespace, config, callback) {
 	var database = new Database(config);
 	namespace.setDatabase(database);
 
-	database.connect(function(err, connection) {
-		if(err) throw err;
+	var onConnect = function(err, connection) {
+		if(err) {
+			throw err;
+		}
 
 		Container.getLogger().info('Database for %s connected!', namespace.getName());
 		connection.release();
 
 		callback(null, namespace);
-	});
+	};
+
+	database.connect(onConnect);
 };
