@@ -29,12 +29,12 @@ module.exports = function(data, roomId, subRoomId)
 			var target = namespace.getSubscriber(message.target.id);
 			var from = namespace.getSubscriber(message.from.id);
 
-			from.getSocketIds().forEach(function(socketId){
+			var callback = function(socketId){
 				namespace.getIO().to(socketId).emit('message', message);
-			});
-			target.getSocketIds().forEach(function(socketId){
-				namespace.getIO().to(socketId).emit('message', message);
-			});
+			};
+
+			from.getSocketIds().forEach(callback);
+			target.getSocketIds().forEach(callback);
 		}
 	} else {
 		message = TextMessage.create(data.content, roomId, subRoomId, subscriber, data.format);
