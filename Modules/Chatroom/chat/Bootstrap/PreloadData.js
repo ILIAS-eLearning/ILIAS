@@ -9,15 +9,19 @@ var RoomHandler = require('../Handler/RoomHandler');
 module.exports = function PreloadData(namespace, callback) {
 
 	var firstStep = function(callback) {
-		namespace.getDatabase().loadScopes(function(row) {
+		var onResult = function(row) {
 			RoomHandler.createRoom(namespace, row.room_id, 0, "Main", null);
-		}, callback);
+		};
+
+		namespace.getDatabase().loadScopes(onResult, callback);
 	};
 
 	var secondStep = function(callback) {
-		namespace.getDatabase().loadSubScopes(function(row){
+		var onResult = function(row){
 			RoomHandler.createRoom(namespace, row.parent_id, row.proom_id, row.title, row.owner);
-		}, callback);
+		};
+
+		namespace.getDatabase().loadSubScopes(onResult, callback);
 	};
 
 	var onEnd = function(err) {
