@@ -23,6 +23,7 @@ abstract class Player {
 	const COMMAND_ABORT = "abort";
 	const COMMAND_NEXT	= "next";
 	const COMMAND_CONFIRM = "confirm";
+	const COMMAND_PREVIOUS = "previous";
 
 	/**
 	 * @var	\ArrayAccess
@@ -111,6 +112,9 @@ abstract class Player {
 		if ($cmd === self::COMMAND_NEXT || $cmd === null) {
 			return $this->processStep($state, $post);
 		}
+		if ($cmd === self::COMMAND_PREVIOUS || $cmd === null) {
+			return $this->processPreviousStep($state);
+		}
 		if ($cmd === self::COMMAND_CONFIRM) {
 			$this->finishProcess($state);
 			return null;
@@ -139,10 +143,13 @@ abstract class Player {
 		$current_step = $steps[$step_number];
 
 		$form = $this->getForm();
+		if($step_number > 0) {
+			$form->addCommandButton(self::COMMAND_PREVIOUS, $this->txt("previous"));
+		}
 		$form->addCommandButton(self::COMMAND_NEXT, $this->txt("next"));
 		$form->addCommandButton(self::COMMAND_ABORT, $this->txt("abort"));
 
-		$form->setTitle($current_step->getLabel());
+		$form->setTitle($this->getPlayerTitle());
 		$current_step->appendToStepForm($form);
 
 		if ($post) {
@@ -158,6 +165,45 @@ abstract class Player {
 				}
 			}
 		}
+
+		if($state->hasStepData($step_number)) {
+			$step_data = $state->getStepData($step_number);
+			$current_step->addDataToForm($form, $step_data);
+		}
+
+		return $form->getHtml();
+	}
+
+	/**
+	 * Build the view for the previews step in the booking process.
+	 *
+	 * @param	ProcessState	$state
+	 * @return	string
+	 */
+	protected function processPreviousStep(ProcessState $state) {
+		$steps = $this->getSortedSteps();
+		$state = $state->withPreviousStep();
+		$this->saveProcessState($state);
+		$step_number = $state->getStepNumber();
+
+		if($step_number < 0) {
+			throw new \LogicException("It is impossible that the number of step is smaller than 0.");
+		}
+
+		$current_step = $steps[$step_number];
+		$step_data = $state->getStepData($step_number);
+		$form = $this->getForm();
+
+		if($step_number > 0) {
+			$form->addCommandButton(self::COMMAND_PREVIOUS, $this->txt("previous"));
+		}
+		$form->addCommandButton(self::COMMAND_NEXT, $this->txt("next"));
+		$form->addCommandButton(self::COMMAND_ABORT, $this->txt("abort"));
+
+		$form->setTitle($this->getPlayerTitle());
+		$current_step->appendToStepForm($form);
+		$current_step->addDataToForm($form, $step_data);
+
 		return $form->getHtml();
 	}
 
@@ -170,9 +216,11 @@ abstract class Player {
 	protected function buildOverviewForm(ProcessState $state) {
 		$steps = $this->getSortedSteps();
 		$form = $this->getForm();
-		$form->addCommandButton(self::COMMAND_CONFIRM, $this->txt("confirm"));
+		$form->addCommandButton(self::COMMAND_PREVIOUS, $this->txt("previous"));
+		$form->addCommandButton(self::COMMAND_CONFIRM, $this->getConfirmButtonLabel());
 		$form->addCommandButton(self::COMMAND_ABORT, $this->txt("abort"));
-		$form->setTitle($this->txt("overview_header"));
+		$form->setTitle($this->getPlayerTitle());
+		$form->setDescription($this->getOverViewDescription());
 
 		for($i = 0; $i < count($steps); $i++) {
 			$step = $steps[$i];
@@ -242,6 +290,27 @@ abstract class Player {
 	 * @return	void
 	 */
 	abstract protected function redirectToPreviousLocation($messages, $sucess);
+
+	/**
+	 * Get the title of player
+	 *
+	 * @return string
+	 */
+	abstract protected function getPlayerTitle();
+
+	/**
+	 * Get description for oberview form
+	 *
+	 * @return string
+	 */
+	abstract protected function getOverViewDescription();
+
+	/**
+	 * Get the label for confirm button
+	 *
+	 * @return string
+	 */
+	abstract protected function getConfirmButtonLabel();
 
 	/**
 	 * Get the state information about the booking process.

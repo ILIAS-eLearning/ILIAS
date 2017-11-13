@@ -75,6 +75,18 @@ interface Step extends Component {
 	public function getData(\ilPropertyFormGUI $form);
 
 	/**
+	 * Adds the saved data of previous step action to the form
+	 *
+	 * Data may be needs to be converted from plain PHP data in value to
+	 * to set as array values
+	 *
+	 * @param \ilPropertyFormGUI 	$form
+	 * @param mixed 	$data
+	 * @return void
+	 */
+	public function addDataToForm(\ilPropertyFormGUI $form, $data);
+
+	/**
 	 * Use the data to append a short summary of the step data to the form.
 	 *
 	 * The data must be the same as the component return via getData.

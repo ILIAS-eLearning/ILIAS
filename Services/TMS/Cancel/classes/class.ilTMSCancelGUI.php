@@ -116,6 +116,9 @@ class ilTMSCancelGUI  extends Booking\Player {
 		else if ($id == "aborted") {
 			$id = "booking_aborted";
 		}
+		else if ($id == "previous") {
+			$id = "btn_previous";
+		}
 		return $this->g_lng->txt($id);
 	}
 
@@ -135,6 +138,27 @@ class ilTMSCancelGUI  extends Booking\Player {
 			}
 		}
 		$this->g_ctrl->redirect($this->parent_gui, $this->parent_cmd);
+	}
+
+	/**
+	 * @inheritdocs
+	 */
+	protected function getPlayerTitle() {
+		return $this->g_lng->txt("canceling");
+	}
+
+	/**
+	 * @inheritdocs
+	 */
+	protected function getOverViewDescription() {
+		return $this->g_lng->txt("cancel_overview_description");
+	}
+
+	/**
+	 * @inheritdocs
+	 */
+	protected function getConfirmButtonLabel() {
+		return $this->g_lng->txt("cancel_confirm");
 	}
 
 }

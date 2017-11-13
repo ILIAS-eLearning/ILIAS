@@ -14,6 +14,12 @@ interface Actions {
 	const STATE_REMOVED_FROM_COURSE = "removed_course";
 	const STATE_REMOVED_FROM_WAITINGLIST = "removed_waitinglist";
 
+	const EVENT_USER_BOOKED_COURSE = 'user_booked_self_on_course';
+	const EVENT_USER_BOOKED_WAITING = 'user_booked_self_on_waiting';
+	const EVENT_USER_CANCELED_COURSE = 'user_canceled_self_from_course';
+	const EVENT_USER_CANCELED_WAITING = 'user_canceled_self_from_waiting';
+
+
 	/**
 	 * Book the given user on the course.
 	 *

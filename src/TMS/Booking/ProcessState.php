@@ -79,6 +79,17 @@ class ProcessState {
 	}
 
 	/**
+	 * Set the step to the previous step
+	 *
+	 * @return ProcessState
+	 */
+	public function withPreviousStep() {
+		$clone = clone $this;
+		$clone->step_number--;
+		return $clone;
+	}
+
+	/**
 	 * Set data for a certain step.
 	 *
 	 * @param	int		$step_number
@@ -104,7 +115,17 @@ class ProcessState {
 		if (!array_key_exists($step_number, $this->step_data)) {
 			throw new \OutOfBoundsException("No data for $step_number.");
 		}
-		return json_decode($this->step_data[$step_number]);
+		return json_decode($this->step_data[$step_number], true);
+	}
+
+	/**
+	 * Checks whether the given step_number has saved data
+	 *
+	 * @param int 	$step_number
+	 * @return bool
+	 */
+	public function hasStepData($step_number) {
+		return array_key_exists($step_number, $this->step_data);
 	}
 
 	/**

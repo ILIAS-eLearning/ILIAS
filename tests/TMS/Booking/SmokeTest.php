@@ -14,6 +14,7 @@ class DummyStep implements Booking\Step {
 	public function appendToOverviewForm($data, \ilPropertyFormGUI $form) {}
 	public function	processStep($crs_id, $usr_id, $data) {}
 	public function entity() {}
+	public function addDataToForm(\ilPropertyFormGUI $form, $data) {}
 }
 
 class DummyPlayer extends Booking\Player {
@@ -24,6 +25,15 @@ class DummyPlayer extends Booking\Player {
 		throw new \LogicException("Mock me!");
 	}
 	protected function redirectToPreviousLocation($message, $success) {
+		throw new \LogicException("Mock me!");
+	}
+	protected function getPlayerTitle() {
+		throw new \LogicException("Mock me!");
+	}
+	protected function getOverViewDescription() {
+		throw new \LogicException("Mock me!");
+	}
+	protected function getConfirmButtonLabel() {
 		throw new \LogicException("Mock me!");
 	}
 }
