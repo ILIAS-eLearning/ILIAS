@@ -11,6 +11,13 @@ module.exports = function(req, res)
 	var namespace = Container.getNamespace(req.params.namespace);
 	var subscriber = namespace.getSubscriber(subscriberId);
 
+	var userBannedMessageCallbackFactory = function(roomId) {
+		return function(socketId){
+			namespace.getIO().to(socketId).emit('userjustbanned');
+			namespace.getIO().connected[socketId].leave(roomId);
+		};
+	};
+
 	if(subscriber != null) {
 		Container.getLogger().info('Subscriber %s got banned from namespace %s', subscriberId, namespace.getName());
 
@@ -29,12 +36,9 @@ module.exports = function(req, res)
 					var userlistAction = UserlistAction.create(splitted[0], splitted[1], room.getJoinedSubscribers());
 					var notice = Notice.create('user_kicked', splitted[0], splitted[1], {user: subscriber.getName()});
 
-					var callback = function(socketId){
-						namespace.getIO().to(socketId).emit('userjustbanned');
-						namespace.getIO().connected[socketId].leave(room.getId());
-					};
+					var emitUserWasBannedMessageCallback = userBannedMessageCallbackFactory(room.getId());
 
-					subscriber.getSocketIds().forEach(callback);
+					subscriber.getSocketIds().forEach(emitUserWasBannedMessageCallback);
 
 					namespace.getIO().to(room.getId()).emit('userlist', userlistAction);
 					namespace.getIO().to(room.getId()).emit('notice', notice);

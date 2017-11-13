@@ -11,10 +11,15 @@ module.exports = function(data, roomId, subRoomId)
 		return;
 	}*/
 
-
 	var serverRoomId = Container.createServerRoomId(roomId, subRoomId);
 	var namespace = Container.getNamespace(this.nsp.name);
-	var subscriber = { id: this.subscriber.getId(),	username: this.subscriber.getName()	};
+	var subscriber = { id: this.subscriber.getId(),	username: this.subscriber.getName() };
+
+	var messageCallbackFactory = function(message) {
+		return function(socketId){
+			namespace.getIO().to(socketId).emit('message', message);
+		};
+	};
 
 	Container.getLogger().info('Message send to room %s of namespace %s', serverRoomId, namespace.getName());
 
@@ -29,12 +34,10 @@ module.exports = function(data, roomId, subRoomId)
 			var target = namespace.getSubscriber(message.target.id);
 			var from = namespace.getSubscriber(message.from.id);
 
-			var callback = function(socketId){
-				namespace.getIO().to(socketId).emit('message', message);
-			};
+			var emitMessageCallback = messageCallbackFactory(message);
 
-			from.getSocketIds().forEach(callback);
-			target.getSocketIds().forEach(callback);
+			from.getSocketIds().forEach(emitMessageCallback);
+			target.getSocketIds().forEach(emitMessageCallback);
 		}
 	} else {
 		message = TextMessage.create(data.content, roomId, subRoomId, subscriber, data.format);
