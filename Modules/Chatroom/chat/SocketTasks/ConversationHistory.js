@@ -20,7 +20,7 @@ module.exports = function(conversationId, oldestMessageTimestamp) {
 				history.push(row);
 			};
 
-			var onConversatioEnd = function(err){
+			var emitConversationHistory = function(err){
 				if(err) {
 					throw err;
 				}
@@ -38,7 +38,7 @@ module.exports = function(conversationId, oldestMessageTimestamp) {
 				conversation.getId(),
 				oldestMessageTimestamp,
 				onConversationResult,
-				onConversatioEnd
+				emitConversationHistory
 			);
 		}
 	}
