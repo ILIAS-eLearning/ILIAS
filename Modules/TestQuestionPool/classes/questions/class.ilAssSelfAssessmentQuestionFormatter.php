@@ -7,49 +7,41 @@
 class ilAssSelfAssessmentQuestionFormatter
 {
 	/**
-	 * @var bool
-	 */
-	protected $enabledMarkUpCheck = false;
-
-	/**
-	 * 
-	 */
-	public function enabledMarkupCheck()
-	{
-		$this->enabledMarkUpCheck = true;
-	}
-	
-	/**
 	 * Original code copied from \assQuestion::formatSAQuestion (author: akill)
 	 * @param $html string
 	 * @return string
 	 */
-	public function format($html)
+	public function format($string)
 	{
-		$convertLineBreaks = false;
-		if(!$this->enabledMarkUpCheck || !ilUtil::isHTML($html))
-		{
-			$convertLineBreaks = true;
-		}
+		$string = $this->handleLineBreaks($string);
 
 		require_once 'Services/RTE/classes/class.ilRTE.php';
-		$a_q = (string) ilRTE::_replaceMediaObjectImageSrc($html, 1);
+		$string = (string) ilRTE::_replaceMediaObjectImageSrc($string, 1);
 
-		if($convertLineBreaks)
-		{
-			$a_q = nl2br($a_q);
-		}
-
-		$a_q = str_replace("</li><br />", "</li>", $a_q);
-		$a_q = str_replace("</li><br>", "</li>", $a_q);
+		$string = str_replace("</li><br />", "</li>", $string);
+		$string = str_replace("</li><br>", "</li>", $string);
 
 		require_once 'Services/MathJax/classes/class.ilMathJax.php';
-		$a_q = ilMathJax::getInstance()->insertLatexImages($a_q, "\[tex\]", "\[\/tex\]");
-		$a_q = ilMathJax::getInstance()->insertLatexImages($a_q, "\<span class\=\"latex\">", "\<\/span>");
+		$string = ilMathJax::getInstance()->insertLatexImages($string, "\[tex\]", "\[\/tex\]");
+		$string = ilMathJax::getInstance()->insertLatexImages($string, "\<span class\=\"latex\">", "\<\/span>");
 
-		$a_q = str_replace('{', '&#123;', $a_q);
-		$a_q = str_replace('}', '&#125;', $a_q);
+		$string = str_replace('{', '&#123;', $string);
+		$string = str_replace('}', '&#125;', $string);
 
-		return $a_q;
+		return $string;
+	}
+
+	/**
+	 * @param string $string
+	 * @return string
+	 */
+	protected function handleLineBreaks($string)
+	{
+		if( !ilUtil::isHTML($string) )
+		{
+			$string = nl2br($string);
+		}
+
+		return $string;
 	}
 }
