@@ -8,47 +8,62 @@ module.exports = function() {
 	var conversations = this.participant.getConversations();
 	var socket = this;
 
-	var onError = function(err){
-		if(err) {
-			throw err;
-		}
-	};
-
-	var callback = function(conversation, nextLoop){
+	var onConversationListResult = function(conversation, nextLoop){
 		var conversationClosed = false;
-		var onResult = function(row) {
+
+		var setConservationState = function(row) {
 			conversationClosed = row.is_closed;
 		};
 
-		var onEnd = function() {
+		var fetchLatestMessageForOpenConversation = function() {
 			if (!conversationClosed) {
-				var countUnreadMessages = function () {
-					var startNextLoop = function(){
+				var onMessageRowFound = function () {
+					var setNumberOfNewMessages = function(row) {
+						conversation.setNumNewMessages(row.numMessages);
+					};
+
+					var emitConversationAndContinue = function() {
 						socket.participant.emit('conversation', conversation.json());
 						nextLoop();
 					};
 
-					var setNumberOfNewMessages = function(row){
-						conversation.setNumNewMessages(row.numMessages);
-					};
-
-					namespace.getDatabase().countUnreadMessages(conversation.getId(), socket.participant.getId(), setNumberOfNewMessages, startNextLoop);
+					namespace.getDatabase().countUnreadMessages(
+						conversation.getId(),
+						socket.participant.getId(),
+						setNumberOfNewMessages,
+						emitConversationAndContinue
+					);
 				};
 
-				var setLatestMessage = function (row) {
-					row.userId = row.user_id;
+				var setLatestMessageOnConversation = function (row) {
+					row.userId         = row.user_id;
 					row.conversationId = row.conversation_id;
 					conversation.setLatestMessage(row);
 				};
 
-				namespace.getDatabase().getLatestMessage(conversation, setLatestMessage, countUnreadMessages);
+				namespace.getDatabase().getLatestMessage(
+					conversation,
+					onMessageRowFound,
+					setLatestMessageOnConversation
+				);
 			} else {
 				nextLoop();
 			}
 		};
 
-		namespace.getDatabase().getConversationStateForParticipant(conversation.getId(), socket.participant.getId(), onResult, onEnd);
+		namespace.getDatabase().getConversationStateForParticipant(
+			conversation.getId(),
+			socket.participant.getId(),
+			setConservationState,
+			fetchLatestMessageForOpenConversation
+		);
 	};
 
-	async.eachSeries(conversations, callback, onError);
+	var onPossibleConversationListError = function(err) {
+		if (err) {
+			throw err;
+		}
+	};
+
+	async.eachSeries(conversations, onConversationListResult, onPossibleConversationListError);
 };
