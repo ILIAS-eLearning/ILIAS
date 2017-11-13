@@ -1339,7 +1339,7 @@ class ilObjSAHSLearningModule extends ilObject
 	 */
 	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
-		global $ilDB, $ilUser, $ilias;
+		global $ilDB, $ilUser, $ilias, $lng;
 
 		$new_obj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
 		$this->cloneMetaData($new_obj);
@@ -1353,7 +1353,7 @@ class ilObjSAHSLearningModule extends ilObject
 		}
 
 		// copy properties
-		$new_obj->setTitle($this->getTitle());
+		$new_obj->setTitle($this->getTitle() . ' ' . $lng->txt('copy_of_suffix'));
 		$new_obj->setDescription($this->getDescription());
 		$new_obj->setSubType($this->getSubType());
 		$new_obj->setAPIAdapterName($this->getAPIAdapterName());

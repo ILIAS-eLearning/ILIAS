@@ -127,9 +127,17 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				{
 					if (!$this->object->getEditable())
 					{
-						$info->addButton($this->lng->txt("view"),
-							"ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->object->getRefID(),
-							' target="ilContObj'.$this->object->getId().'" ');
+						$ilToolbar = $GLOBALS['DIC']->toolbar();
+						include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+						$button = ilLinkButton::getInstance();
+						$button->setCaption("view");
+						$button->setPrimary(true);
+						$button->setUrl("ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->object->getRefID());
+						$button->setTarget("ilContObj".$this->object->getId());
+						$ilToolbar->addButtonInstance($button);
+						// $info->addButton($this->lng->txt("view"),
+							// "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->object->getRefID(),
+							// ' target="ilContObj'.$this->object->getId().'" ');
 					}
 				}
 
