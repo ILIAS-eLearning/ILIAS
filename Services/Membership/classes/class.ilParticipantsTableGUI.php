@@ -24,8 +24,12 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
 	protected $rep_object;
 
 	
+	/**
+	 * Init table filter
+	 */
 	public function initFilter()
 	{
+		$this->setDefaultFilterVisiblity(true);
 		
 		$login = $this->addFilterItemByMetaType(
 			'login',

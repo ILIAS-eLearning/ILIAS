@@ -81,7 +81,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 		$this->addColumn($this->lng->txt('grp_notification'), 'notification');
 
 		$this->addColumn($this->lng->txt(''), 'optional');
-		$this->setDefaultOrderField('lastname');
+		$this->setDefaultOrderField('roles');
 
 		$this->setRowTemplate("tpl.show_participants_row.html", "Modules/Group");
 
@@ -368,6 +368,8 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 			$filtered_user_ids[] = $user_id;
 			$a_user_data[$user_id] = array_merge($ud,(array) $group_user_data[$user_id]);
 
+			$a_user_data[$user_id]['name'] = $a_user_data[$user_id]['lastname'].', '.$a_user_data[$user_id]['firstname'];
+
 			$roles = array();			
 			foreach($local_roles as $role_id => $role_name)
 			{
@@ -378,8 +380,10 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 				}
 			}
 			$a_user_data[$user_id]['roles_label'] = implode('<br />', $roles);
-
-			$a_user_data[$user_id]['roles'] = $this->participants->setRoleOrderPosition($user_id);
+			$a_user_data[$user_id]['roles'] = 
+				$this->participants->setRoleOrderPosition($user_id).' '.
+				$a_user_data[$user_id]['name'];
+			
 
 		}
 
