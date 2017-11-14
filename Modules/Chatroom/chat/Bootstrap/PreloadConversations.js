@@ -10,7 +10,7 @@ var Participant = require('../Model/ConversationParticipant');
 module.exports = function PreloadConversations(namespace, callback) {
 	Container.getLogger().info('PreloadConversations for %s', namespace.getName());
 
-	namespace.getDatabase().loadConversations(function(row) {
+	var onResult = function(row) {
 		var participants = JSON.parse(row.participants);
 
 		var conversation = new Conversation(row.id);
@@ -28,7 +28,11 @@ module.exports = function PreloadConversations(namespace, callback) {
 		}
 		namespace.getConversations().add(conversation);
 
-	}, function() {
+	};
+
+	var onEnd = function() {
 		callback(null, namespace);
-	});
+	};
+
+	namespace.getDatabase().loadConversations(onResult, onEnd);
 };
