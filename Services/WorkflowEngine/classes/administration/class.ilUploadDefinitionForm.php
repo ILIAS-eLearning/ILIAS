@@ -23,8 +23,9 @@ class ilUploadDefinitionForm
 
 	public function __construct()
 	{
-		global $lng;
-		$this->lng = $lng;
+		global $DIC;
+		/** @var ilLanguage $lng */
+		$this->lng = $DIC['lng'];
 	}
 
 	public function getForm($action)

@@ -21548,4 +21548,8 @@ include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObje
 	$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_submissions_grades');
 	ilDBUpdateNewObjectType::cloneOperation('exc', $src_ops_id, $tgt_ops_id);
 ?>
+<#5248>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
 
