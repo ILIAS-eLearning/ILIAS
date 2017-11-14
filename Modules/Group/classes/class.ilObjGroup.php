@@ -1593,6 +1593,53 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	}
 	
 	/**
+	 * This method is called before "initDefaultRoles".
+	 * Therefore no local group roles are created.
+	 * 
+	 * Grants permissions on the group object for all parent roles.
+	 * Each permission is granted by computing the intersection of the 
+	 * template il_grp_status and the permission template of the parent role.
+	 * @param int parent ref id
+	 */
+	public function setParentRolePermissions($a_parent_ref)
+	{
+		$rbacadmin = $GLOBALS['DIC']->rbac()->admin();
+		$rbacreview = $GLOBALS['DIC']->rbac()->review();
+		
+		$parent_roles = $rbacreview->getParentRoleIds($a_parent_ref);
+		foreach((array) $parent_roles as $parent_role)
+		{
+			if($parent_role['parent'] == $this->getRefId())
+			{
+				continue;
+			}
+			if($rbacreview->isProtected($parent_role['parent'], $parent_role['rol_id']))
+			{
+				$operations = $rbacreview->getOperationsOfRole(
+					$parent_role['obj_id'],
+					$this->getType(),
+					$parent_role['parent']
+				);
+				$rbacadmin->grantPermission(
+					$parent_role['obj_id'],
+					$operations,
+					$this->getRefId()
+				);
+				continue;
+			}
+
+			$rbacadmin->initIntersectionPermissions(
+				$this->getRefId(),
+				$parent_role['obj_id'],
+				$parent_role['parent'],
+				$this->getGrpStatusOpenTemplateId(),
+				ROLE_FOLDER_ID
+			);
+		}
+	}
+	
+	
+	/**
 	 * Apply template
 	 * @param int $a_tpl_id
 	 */

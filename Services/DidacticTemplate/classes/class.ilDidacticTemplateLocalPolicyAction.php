@@ -170,7 +170,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 	 */
 	public function  apply()
 	{
-		global $rbacreview;
+		$rbacreview = $GLOBALS['DIC']->rbac()->review();
 
 		$source = $this->initSourceObject();
 		// Create a role folder for the new local policies
@@ -181,9 +181,12 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 		foreach($roles as $role_id => $role)
 		{
 			$this->getLogger()->debug('Apply to role: ' . $role['title']);
-			
+
 			// No local policies for protected roles of higher context
-			if($role['protected'] and $role['parent'] != $source->getRefId())
+			if(
+				$rbacreview->isProtected($role['parent'], $role_id) &&
+				$role['parent'] != $source->getRefId()
+			)
 			{
 				$this->getLogger()->debug('Ignoring protected role.');
 				continue;
@@ -200,7 +203,8 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 	 */
 	public function  revert()
 	{
-		global $rbacreview,$rbacadmin,$tree;
+		global $rbacadmin,$tree;
+		$rbacreview = $GLOBALS['DIC']->rbac()->review();
 
 		$source = $this->initSourceObject();
 		$roles = $this->filterRoles($source);
@@ -226,9 +230,11 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 				include_once './Services/AccessControl/classes/class.ilObjRole.php';
 				$role_obj = new ilObjRole($role_id);
 				
+				$protected = $rbacreview->isProtected($role['parent'], $role['rol_id']);
+				
 				$role_obj->changeExistingObjects(
 					$source->getRefId(),
-					$role['protected'] ? 
+					$protected ? 
 						ilObjRole::MODE_PROTECTED_DELETE_LOCAL_POLICIES : 
 						ilObjRole::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES,
 					array('all')
