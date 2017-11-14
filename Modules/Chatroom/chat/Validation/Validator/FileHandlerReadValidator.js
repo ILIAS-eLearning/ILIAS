@@ -17,7 +17,7 @@ module.exports = {
 	 * @param {string} filename
 	 * @returns {FileHandlerReadValidator}
 	 */
-	create: function(filename) {
+	create: function create(filename) {
 		var validator = new FileHandlerReadValidator();
 		validator.addRule(new FileExists(filename));
 

@@ -23,7 +23,7 @@ module.exports = function MinNumOfArguments(min) {
 	 */
 	var additionalArguments = arguments;
 
-	this.validate = function() {
+	this.validate = function validate() {
 		if(!isGreaterEqualsMin()) {
 			var numArguments = getNumExistingArguments();
 
@@ -35,11 +35,11 @@ module.exports = function MinNumOfArguments(min) {
 		}
 	};
 
-	var isGreaterEqualsMin = function(){
+	var isGreaterEqualsMin = function isGreaterEqualsMin(){
 		return process.argv.length >= _min + CONST_NUM_COMMAND_ARGS;
 	};
 
-	var getNumExistingArguments = function() {
+	var getNumExistingArguments = function getNumExistingArguments() {
 		return process.argv.length - CONST_NUM_COMMAND_ARGS;
 	};
 };
