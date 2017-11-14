@@ -62,7 +62,7 @@ var Database = function Database(config) {
 			callback();
 		};
 
-		var firstCallback = function(next){
+		var fetchUsers = function(next){
 			var onError = function(err, result){
 				if(err) {
 					throw err;
@@ -77,7 +77,7 @@ var Database = function Database(config) {
 			);
 		};
 
-		var secondCallback = function(result, next)
+		var createChatRoomSession = function(result, next)
 		{
 			var onError = function(err){
 				if(err) {
@@ -114,7 +114,7 @@ var Database = function Database(config) {
 			async.eachSeries(result, onNext, onError);
 		};
 
-		var thirdCallback = function(next) {
+		var deleteChatroomUsers = function(next) {
 			// Disconnect from chat
 			var onError = function(err){
 				if(err) {
@@ -131,9 +131,9 @@ var Database = function Database(config) {
 
 		async.waterfall(
 			[
-				firstCallback,
-				secondCallback,
-				thirdCallback
+				fetchUsers,
+				createChatRoomSession,
+				deleteChatroomUsers
 			],
 			onDisconnect
 		);
@@ -156,7 +156,7 @@ var Database = function Database(config) {
 
 		if(roomIds.length > 0)
 		{
-			var firstCallback = function(next){
+			var fetchChatroomUsers = function(next){
 				var onError = function(err, result){
 					if(err) {
 						throw err;
@@ -172,7 +172,7 @@ var Database = function Database(config) {
 				);
 			};
 
-			var secondCallback = function(result, next)
+			var createChatroomSession = function(result, next)
 			{
 				var onError = function(err){
 					if(err) {
@@ -209,7 +209,7 @@ var Database = function Database(config) {
 				async.eachSeries(result, onNext, onError);
 			};
 
-			var thirdCallback = function(next) {
+			var deleteChatroomUsers = function(next) {
 				var onError = function(err){
 					if(err) {
 						throw err;
@@ -226,9 +226,9 @@ var Database = function Database(config) {
 
 			async.waterfall(
 				[
-					firstCallback,
-					secondCallback,
-					thirdCallback
+					fetchChatroomUsers,
+					createChatroomSession,
+					deleteChatroomUsers
 				],
 				handleError
 			);
@@ -278,7 +278,7 @@ var Database = function Database(config) {
 			callback();
 		};
 
-		var firstCallback = function(next) {
+		var clearMessagesFromNamespace = function(next) {
 			var onClear = function (err, result) {
 				if (err) {
 					throw err;
@@ -294,7 +294,7 @@ var Database = function Database(config) {
 			);
 		};
 
-		var secondCallback = function(result, next)
+		var clearOscMessagesFromNamespace = function(result, next)
 		{
 			var onClear = function (err, result) {
 				if (err) {
@@ -311,7 +311,7 @@ var Database = function Database(config) {
 			);
 		};
 
-		var thirdCallback = function(result, next)
+		var clearOscConversations = function(result, next)
 		{
 			var onClear = function (err, result) {
 				if (err) {
@@ -327,7 +327,7 @@ var Database = function Database(config) {
 				onClear);
 		};
 
-		var fourthCallback = function(result, next)
+		var clearOscActivity = function(result, next)
 		{
 			var onClear = function (err, result) {
 				if (err) {
@@ -346,10 +346,10 @@ var Database = function Database(config) {
 
 		async.waterfall(
 			[
-				firstCallback,
-				secondCallback,
-				thirdCallback,
-				fourthCallback
+				clearMessagesFromNamespace,
+				clearOscMessagesFromNamespace,
+				clearOscConversations,
+				clearOscActivity
 			],
 			onError);
 	};
@@ -538,7 +538,7 @@ var Database = function Database(config) {
 			callback(insertId);
 		};
 
-		var firstCallback = function(next) {
+		var insertSequence = function(next) {
 			var onError = function(err, result){
 				if(err) {
 					throw err;
@@ -550,7 +550,7 @@ var Database = function Database(config) {
 			_pool.query('INSERT INTO '+tableName+'_seq (sequence) VALUES (NULL)', [], onError);
 		};
 
-		var secondCallback = function(insertId, next) {
+		var deleteSequence = function(insertId, next) {
 			var onError = function(err) {
 				if(err) {
 					throw err;
@@ -566,8 +566,8 @@ var Database = function Database(config) {
 
 		async.waterfall(
 			[
-				firstCallback,
-				secondCallback
+				insertSequence,
+				deleteSequence
 			],
 			onError
 		);
