@@ -294,36 +294,7 @@ class ilMainMenuGUI
 			}
 			else
 			{
-				if($this->getMode() != self::MODE_TOPBAR_REDUCED && !$ilUser->isAnonymous())
-				{
-					$notificationSettings = new ilSetting('notifications');
-					$chatSettings = new ilSetting('chatroom');
-
-					/**
-					 * @var $tpl ilTemplate
-					 */
-					global $tpl;
-
-					$this->tpl->touchBlock('osd_container');
-
-					include_once "Services/jQuery/classes/class.iljQueryUtil.php";
-					iljQueryUtil::initjQuery();
-
-					include_once 'Services/MediaObjects/classes/class.ilPlayerUtil.php';
-					ilPlayerUtil::initMediaElementJs();
-					
-					$tpl->addJavaScript('Services/Notifications/templates/default/notifications.js');
-					$tpl->addCSS('Services/Notifications/templates/default/osd.css');
-
-					require_once 'Services/Notifications/classes/class.ilNotificationOSDHandler.php';
-					require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
-
-					$notifications = ilNotificationOSDHandler::getNotificationsForUser($ilUser->getId());
-					$this->tpl->setVariable('NOTIFICATION_CLOSE_HTML', json_encode(ilGlyphGUI::get(ilGlyphGUI::CLOSE, $lng->txt('close'))));
-					$this->tpl->setVariable('INITIAL_NOTIFICATIONS', json_encode($notifications));
-					$this->tpl->setVariable('OSD_POLLING_INTERVALL', $notificationSettings->get('osd_polling_intervall') ? $notificationSettings->get('osd_polling_intervall') : '60');
-					$this->tpl->setVariable('OSD_PLAY_SOUND', $chatSettings->get('play_invitation_sound') && $ilUser->getPref('chat_play_invitation_sound') ? 'true' : 'false');
-				}
+				$this->renderOnScreenNotifications($ilUser, $GLOBALS['tpl'], $lng);
 
 				$this->tpl->setCurrentBlock("userisloggedin");
 				$this->tpl->setVariable("TXT_LOGIN_AS",$lng->txt("login_as"));
@@ -1088,6 +1059,23 @@ class ilMainMenuGUI
 
 		$this->tpl->setVariable("AWARENESS", $aw->getMainMenuHTML());
 	}
+
+	/**
+	 * @param \ilObjUser $user
+	 * @param \ilTemplate $mainTpl
+	 * @param \ilLanguage $lng
+	 */
+	protected function renderOnScreenNotifications(\ilObjUser $user, \ilTemplate $mainTpl, \ilLanguage $lng)
+	{
+		if ($this->getMode() != self::MODE_TOPBAR_REDUCED && !$user->isAnonymous()) {
+			$this->tpl->touchBlock('osd_container');
+
+			require_once 'Services/Notifications/classes/class.ilNotificationOSDGUI.php';
+			$osdGui = new ilNotificationOSDGUI($user, $mainTpl, $lng);
+			$osdGui->render();
+		}
+	}
+
 
 	/**
 	 * Toggle rendering of main menu, search, user info
