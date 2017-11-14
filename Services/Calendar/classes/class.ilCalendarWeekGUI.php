@@ -2,27 +2,18 @@
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilCalendarWeekGUI: ilCalendarAppointmentGUI
-* @ilCtrl_Calls ilCalendarWeekGUI: ilCalendarAppointmentPresentationGUI
-*
-* @ingroup ServicesCalendar 
-*/
-
-include_once('Services/Calendar/classes/class.ilDate.php');
-include_once('Services/Calendar/classes/class.ilCalendarHeaderNavigationGUI.php');
-include_once('Services/Calendar/classes/class.ilCalendarUserSettings.php');
-include_once('Services/Calendar/classes/class.ilCalendarAppointmentColors.php');
-include_once('Services/Calendar/classes/class.ilCalendarViewGUI.php');
-
-
+ *
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @version $Id$
+ *
+ * @ilCtrl_Calls ilCalendarWeekGUI: ilCalendarAppointmentGUI
+ * @ilCtrl_Calls ilCalendarWeekGUI: ilCalendarAppointmentPresentationGUI
+ *
+ * @ingroup ServicesCalendar 
+ */
 class ilCalendarWeekGUI extends ilCalendarViewGUI
 {
 	protected $num_appointments = 1;
-	protected $seed = null;
 	protected $user_settings = null;
 	protected $weekdays = array();
 
@@ -49,14 +40,12 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 	 *
 	 * @access public
 	 * @param
-	 * 
+	 * @todo make parent constructor (initialize) and init also seed and other common stuff
 	 */
 	public function __construct(ilDate $seed_date)
 	{
-		//$DIC elements initialization
-		$this->initialize(ilCalendarViewGUI::CAL_PRESENTATION_WEEK);
+		parent::__construct($seed_date, ilCalendarViewGUI::CAL_PRESENTATION_WEEK);
 
-		$this->seed = $seed_date;
 		$this->seed_info = $this->seed->get(IL_CAL_FKT_GETDATE,'','UTC');
 		
 		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
@@ -289,7 +278,12 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 		$title = ($time != "")? $time." ".$shy : $shy;
 
 		//calendar plugins
-		$event_tpl->setVariable('APP_TITLE', $title);
+		if($event_html_by_plugin = $this->getContentByPlugins($a_app['event'], $a_app['dstart'], $title))
+		{
+			$event_html = $event_html_by_plugin;
+		}
+
+		$event_tpl->setVariable('APP_TITLE', $event_html);
 		
 		if (!$ilUser->prefs["screen_reader_optimization"])
 		{

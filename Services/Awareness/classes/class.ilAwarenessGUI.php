@@ -27,6 +27,11 @@ class ilAwarenessGUI
 	protected $ui;
 
 	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
 	 * Constructor
 	 */
 	function __construct()
@@ -39,6 +44,8 @@ class ilAwarenessGUI
 
 		$this->ref_id = (int) $_GET["ref_id"];
 		$this->ctrl = $DIC->ctrl();
+		$this->lng = $DIC->language();
+		$this->lng->loadLanguageModule("awrn");
 	}
 
 	/**
@@ -239,6 +246,9 @@ class ilAwarenessGUI
 			if ($u->online)
 			{
 				$tpl->touchBlock("uonline");
+				$tpl->setCurrentBlock("uonline_text");
+				$tpl->setVariable("TXT_ONLINE", $this->lng->txt("awrn_online"));
+				$tpl->parseCurrentBlock();
 			}
 
 			$tpl->setCurrentBlock("user");

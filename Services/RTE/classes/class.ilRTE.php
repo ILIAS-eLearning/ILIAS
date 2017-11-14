@@ -251,6 +251,7 @@ class ilRTE
 				{
 					foreach($matches[2] as $idx => $mob)
 					{
+
 						if(ilObjMediaObject::_exists($mob))
 						{
 							$mob_obj    = new ilObjMediaObject($mob);

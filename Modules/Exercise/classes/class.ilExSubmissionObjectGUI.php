@@ -233,26 +233,27 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 				$tpl->setVariable("ITEM_ID", $item_id);
 				$tpl->setVariable("ITEM_TITLE", $item_title);
 				$tpl->parseCurrentBlock();				
-			}			
+			}
+			$tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+			$tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
+			$tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+			$tpl->setVariable("CMD_SUBMIT", $a_cmd);
+			$tpl->setVariable("CMD_CANCEL", "returnToParent");
+			$html = $tpl->get();
 		}
 		else if($a_explorer_cmd)
 		{
-			$tpl->setVariable("TREE", $this->renderWorkspaceExplorer($a_explorer_cmd));
+			$html = $this->renderWorkspaceExplorer($a_explorer_cmd);
 		}
 				
-		$tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
-		$tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$tpl->setVariable("CMD_SUBMIT", $a_cmd);
-		$tpl->setVariable("CMD_CANCEL", "returnToParent");
-		
+
 		ilUtil::sendInfo($this->lng->txt($a_info));
 		
 		$title = $this->lng->txt($a_title).": ".$this->assignment->getTitle();
 		
 		include_once "Services/UIComponent/Panel/classes/class.ilPanelGUI.php";
 		$panel = ilPanelGUI::getInstance();
-		$panel->setBody($tpl->get());
+		$panel->setBody($html);
 		$panel->setHeading($title);
 					
 		$this->tpl->setContent($panel->getHTML());		
@@ -294,14 +295,14 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 			ilUtil::sendInfo($this->lng->txt("exercise_time_over"), true);
 			$this->returnToParentObject();
 		}
-		
-		if(!$_POST["node"])
+
+		if(!$_GET["sel_wsp_obj"])
 		{
 			ilUtil::sendFailure($this->lng->txt("select_one"));
 			return $this->createBlogObject();
 		}
 		
-		$parent_node = $_POST["node"];
+		$parent_node = $_GET["sel_wsp_obj"];
 		
 		include_once "Modules/Blog/classes/class.ilObjBlog.php";
 		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
@@ -335,11 +336,11 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 			$this->returnToParentObject();
 		}
 		
-		if($_POST["node"])
+		if($_GET["sel_wsp_obj"])
 		{
 			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";		
 			$tree = new ilWorkspaceTree($this->submission->getUserId());
-			$node = $tree->getNodeData($_POST["node"]);
+			$node = $tree->getNodeData($_GET["sel_wsp_obj"]);
 			if($node && $node["type"] == "blog")
 			{
 				$this->submission->deleteAllFiles();				
@@ -356,42 +357,33 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 		ilUtil::sendFailure($this->lng->txt("select_one"));
 		return $this->selectPortfolioObject();
 	}
-	
+
+	/**
+	 * @param string $a_cmd
+	 * @return string
+	 */
 	protected function renderWorkspaceExplorer($a_cmd)
 	{		
-		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
-		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
-		require_once 'Services/PersonalWorkspace/classes/class.ilWorkspaceExplorer.php';
-		
-		$tree = new ilWorkspaceTree($this->submission->getUserId());
-		$access_handler = new ilWorkspaceAccessHandler($tree);
-		$exp = new ilWorkspaceExplorer(ilWorkspaceExplorer::SEL_TYPE_RADIO, '', 
-			'exc_wspexpand', $tree, $access_handler);
-		$exp->setTargetGet('wsp_id');
-		
-		if($a_cmd == "selectBlog")
+		include_once("./Services/PersonalWorkspace/classes/class.ilWorkspaceExplorerGUI.php");
+		switch ($a_cmd)
 		{
-			$exp->removeAllFormItemTypes();
-			$exp->addFilter('blog');
-			$exp->addFormItemForType('blog');
+			case "selectBlog":
+				$exp2 = new ilWorkspaceExplorerGUI($this->submission->getUserId(), $this, $a_cmd, $this, "setSelectedBlog");
+				$exp2->setTypeWhiteList(array("blog", "wsrt", "wfld"));
+				$exp2->setSelectableTypes(array("blog"));
+				break;
+
+			case "createBlog":
+				$exp2 = new ilWorkspaceExplorerGUI($this->submission->getUserId(), $this, $a_cmd, $this, "saveBlog");
+				$exp2->setTypeWhiteList(array("wsrt", "wfld"));
+				$exp2->setSelectableTypes(array("wsrt", "wfld"));
+				break;
 		}
-	
-		if($_GET['exc_wspexpand'] == '')
+		if (!$exp2->handleCommand())
 		{
-			// not really used as session is already set [see above]
-			$expanded = $tree->readRootId();
+			return $exp2->getHTML();
 		}
-		else
-		{
-			$expanded = $_GET['exc_wspexpand'];
-		}
-		
-		$exp->setExpandTarget($this->ctrl->getLinkTarget($this, $a_cmd));
-		$exp->setPostVar('node');
-		$exp->setExpand($expanded);
-		$exp->setOutput(0);
-	
-		return $exp->getOutput();
+		exit;
 	}
 	
 	

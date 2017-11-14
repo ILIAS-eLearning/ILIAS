@@ -1,9 +1,12 @@
 # IDEs and Development
+/.floo
+/.flooignore
 /.project
 /.idea
 /.cache
 /.buildpath
 /.settings
+/errors
 /extern
 /Services/PHPUnit/config/cfg.phpunit.php
 /nbproject

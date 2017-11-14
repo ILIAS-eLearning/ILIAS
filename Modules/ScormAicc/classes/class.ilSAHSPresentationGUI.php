@@ -695,20 +695,27 @@ class ilSAHSPresentationGUI
 			$om = $sahs_obj->getOpenMode();
 			$width = $sahs_obj->getWidth();
 			$height = $sahs_obj->getHeight();
+			$ilToolbar = $GLOBALS['DIC']->toolbar();
 			if ( ($om == 5 || $om == 1) && $width > 0 && $height > 0) $om++;
 			if ($om != 0)
 			{
-				$info->addButton($this->lng->txt("view"),
-					"javascript:void(0); onclick=startSAHS('".$this->ctrl->getLinkTarget($this, "")."','ilContObj".$this->slm_gui->object->getId()."',".$om.",".$width.",".$height.");",
-					'', 'top', true);
+				include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+				$button = ilLinkButton::getInstance();
+				$button->setCaption("view");
+				$button->setPrimary(true);
+				$button->setUrl("javascript:void(0); onclick=startSAHS('".$this->ctrl->getLinkTarget($this, "")."','ilContObj".$this->slm_gui->object->getId()."',".$om.",".$width.",".$height.");");
+				$button->setTarget('');
 			}
 			else
 			{
-				$info->addButton($this->lng->txt("view"),
-					$this->ctrl->getLinkTarget($this, ""),
-					' target="ilContObj'.$this->slm_gui->object->getId().'" ',
-					'top', true);
+				include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+				$button = ilLinkButton::getInstance();
+				$button->setCaption("view");
+				$button->setPrimary(true);
+				$button->setUrl($this->ctrl->getLinkTarget($this, ""));
+				$button->setTarget("ilContObj".$this->slm_gui->object->getId());
 			}
+			$ilToolbar->addButtonInstance($button);
 		}
 		
 		// show standard meta data section

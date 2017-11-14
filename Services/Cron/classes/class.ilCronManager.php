@@ -22,8 +22,17 @@ class ilCronManager
 		
 		$ilLog->write("CRON - batch start");
 		
-		$ilSetting->set("last_cronjob_start_ts", time());
-		
+		$ts = time();
+		$ilSetting->set("last_cronjob_start_ts", $ts);
+
+		$useRelativeDates = ilDatePresentation::useRelativeDates();
+		ilDatePresentation::setUseRelativeDates(false);
+		$ilLog->info(sprintf('Set last datetime to: %s', ilDatePresentation::formatDate(new ilDateTime($ts, IL_CAL_UNIX))));
+		$ilLog->info(sprintf('Verification of last run datetime (read from database): %s', ilDatePresentation::formatDate(
+			new ilDateTime(ilSetting::_lookupValue('common', 'last_cronjob_start_ts'), IL_CAL_UNIX))
+		));
+		ilDatePresentation::setUseRelativeDates((bool)$useRelativeDates);
+
 		// ilLink::_getStaticLink() should work in crons
 		if(!defined("ILIAS_HTTP_PATH"))
 		{

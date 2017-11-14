@@ -18,6 +18,8 @@ $config = array(
     'default-sp' => array(
         'RelayState' => '[[RELAY_STATE]]',
         'saml:SP',
+        'privatekey'  => '',
+        'certificate' => '',
 
         // The entity ID of this SP.
         // Can be NULL/unset, in which case an entity ID is generated based on the metadata URL.

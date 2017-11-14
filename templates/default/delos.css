@@ -6839,8 +6839,8 @@ button.close {
   margin-bottom: 0px;
 }
 .il-card .card-highlight {
-  background-color: #fa8228;
-  height: 3px;
+  background: #fa8228;
+  height: 6px;
   width: 100%;
 }
 .il-card .card-no-highlight {
@@ -6853,6 +6853,12 @@ button.close {
 }
 .il-card .caption:nth-of-type(1n+3) {
   border-top: 1px solid #ddd;
+}
+.il-card .caption dl dt {
+  font-weight: normal;
+  color: #909090;
+  font-size: 12px;
+  padding-top: 6px;
 }
 .il-panel-report .il-card {
   background-color: #f9f9f9;
@@ -8743,7 +8749,7 @@ div.ilFrame {
   position: fixed;
   top: 117px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 1200px) {
   .ilLeftNav {
     /* at last temporary, since it overlaps content */
     display: none;
@@ -9557,7 +9563,7 @@ div#bot_center_area_drag:hover {
   /* padding: 0 20px 0 310px; */
   margin-left: 315px !important;
 }
-@media (max-width: 767px) {
+@media (max-width: 1200px) {
   .ilLeftNavSpace {
     margin-left: 0 !important;
   }
@@ -9566,7 +9572,7 @@ div#bot_center_area_drag:hover {
   margin-left: 0 !important;
   margin-right: 315px !important;
 }
-@media (max-width: 767px) {
+@media (max-width: 1200px) {
   [dir="rtl"] .ilLeftNavSpace {
     margin-right: 0 !important;
   }
@@ -10195,7 +10201,7 @@ a.ilTreeView {
   box-shadow: 1px 1px 2px #b9b9b9;
   width: 6px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 1200px) {
   a.ilTreeView {
     /* at last temporary, since it overlaps content */
     display: none;
@@ -11136,6 +11142,8 @@ a.callink:visited {
 }
 .cal_modal_infoscreen .il_InfoScreenPropertyValue .btn-link {
   text-align: left;
+  vertical-align: top;
+  font-size: 90%;
 }
 table.calstd {
   margin-top: 6px;
@@ -11415,11 +11423,17 @@ li.ilWikiBlockItem {
   #ilTopNav.navbar {
     min-height: 0;
     padding-top: 0;
+    padding-bottom: 0;
   }
 }
 #ilTopNav.navbar > .navbar-collapse {
   margin: 0;
   padding: 0 0 0 5px;
+}
+@media only screen and (max-width: 767px) {
+  #ilTopNav.navbar > .navbar-collapse:empty + div.navbar-header button.navbar-toggle {
+    display: none;
+  }
 }
 #ilTopNav.navbar-default {
   background-color: transparent;
@@ -11739,6 +11753,7 @@ input.ilOpenIDBox {
 @media only screen and (max-width: 767px) {
   .ilMainHeader {
     height: auto;
+    border-bottom: 0 none;
   }
 }
 .ilMainHeader.ilTopFixed {
@@ -12135,6 +12150,10 @@ div.ilComment {
 div.ilNotesUImage {
   float: left;
   margin-left: -50px;
+}
+div.ilNotesUImage img {
+  width: 40px;
+  height: 40px;
 }
 div.ilNoteText {
   font-size: 95%;
@@ -13579,6 +13598,7 @@ div.ilInfoScreenSec h3.ilHeader {
 }
 .ilInfoScreenSec.form-horizontal .control-label {
   padding: 15px;
+  line-height: normal;
 }
 /* Services/Init */
 @media only screen and (max-width: 767px) {

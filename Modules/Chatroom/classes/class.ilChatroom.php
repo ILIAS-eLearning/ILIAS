@@ -725,7 +725,12 @@ class ilChatroom
 
 		while($row = $DIC->database()->fetchAssoc($rset))
 		{
-			$row['message']            = json_decode($row['message']);
+			$message = json_decode($row['message']);
+			if ($message === null) {
+				$message = json_decode('{}');
+			}
+
+			$row['message']            =  $message;
 			$row['message']->timestamp = $row['timestamp'];
 			if(
 				$respect_target &&

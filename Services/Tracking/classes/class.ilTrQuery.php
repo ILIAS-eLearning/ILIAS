@@ -281,18 +281,10 @@ class ilTrQuery
 		$left = "";
 		$a_users = self::getParticipantsForObject($a_ref_id);
 		
-		// begin-patch ouf
-		$a_users = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
-			'read_learning_progress',
-			'read_learning_progress',
-			$a_ref_id,
-			$a_users
-		);
-
 		$obj_id = ilObject::_lookupObjectId($a_ref_id);
 		self::refreshObjectsStatus(array($obj_id), $a_users);
 
-		if (is_array($a_users))
+		if(is_array($a_users))
 		{
 			$left = "LEFT";
 			$where[] = $ilDB->in("usr_data.usr_id", $a_users, false, "integer");
@@ -755,14 +747,6 @@ class ilTrQuery
 		// users
 		$a_users = self::getParticipantsForObject($a_ref_id);
 		
-		// begin-patch ouf
-		$a_users = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
-			'read_learning_progress',
-			'read_learning_progress',
-			$a_ref_id,
-			$a_users
-		);
-		
 		$left = "";
 		if (is_array($a_users)) // #14840
 		{
@@ -873,7 +857,7 @@ class ilTrQuery
 	 * Get participant ids for given object
 	 *
 	 * @param	int		$a_ref_id
-	 * @return	array
+	 * @return	mixed array or null if no users can bedetermined for object.
 	 */
 	public static function getParticipantsForObject($a_ref_id)
 	{
@@ -932,6 +916,7 @@ class ilTrQuery
 				$members
 			);
 		}
+		
 		$a_users = null;
 		
 		// no participants possible: use tracking/object data where possible
@@ -988,8 +973,13 @@ class ilTrQuery
 				$a_users = $prg->getIdsOfUsersWithRelevantProgress();
 				break;
 			default:
-				$a_users = [];
+				// keep null
 				break;
+		}
+		
+		if(is_null($a_users))
+		{
+			return $a_users;
 		}
 		
 		// begin-patch ouf

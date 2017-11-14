@@ -98,33 +98,53 @@ function Participant(id, name) {
 		_sockets.push(socket);
 	};
 
-	this.emit = function(event, data) {
-		forSockets(function(socket){
+	var createEmitDataOnSocketCallback = function(event, data) {
+		return function(socket){
 			socket.emit(event, data);
-		})
+		};
+	};
+
+	var createJoinSocketCallback = function(name) {
+		return function(socket){
+			socket.join(name);
+		};
+	};
+
+	var createLeaveSocketCallback = function(name) {
+		return function(socket){
+			socket.leave(name);
+		};
+	};
+
+	var createEmitMessageOnSocketCallback = function(message) {
+		return function(socket){
+			socket.emit('message', message);
+		};
+	};
+
+	this.emit = function(event, data) {
+		var emitDataOnSocket = createEmitDataOnSocketCallback(event, data);
+		forSockets(emitDataOnSocket);
 	};
 
 	this.join = function(name) {
 		if(this.isOnline()) {
-			forSockets(function(socket){
-				socket.join(name);
-			});
+			var joinSocket = createJoinSocketCallback(name);
+			forSockets(joinSocket);
 		}
 	};
 
 	this.leave = function(name) {
 		if(this.isOnline()) {
-			forSockets(function(socket){
-				socket.leave(name);
-			});
+			var leaveSocket = createLeaveSocketCallback(name);
+			forSockets(leaveSocket);
 		}
 	};
 
 	this.send = function(message) {
 		if(this.isOnline()) {
-			forSockets(function(socket){
-				socket.emit('message', message)
-			});
+			var emitMessageOnSocket = createEmitMessageOnSocketCallback(message);
+			forSockets(emitMessageOnSocket);
 		}
 	};
 

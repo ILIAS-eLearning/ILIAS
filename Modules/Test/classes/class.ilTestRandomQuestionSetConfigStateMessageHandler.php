@@ -47,6 +47,16 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
 	 * @var ilTestRandomQuestionSetConfig
 	 */
 	protected $questionSetConfig;
+
+    /**
+     * @var bool
+     */
+	protected $validationFailed;
+	
+	/**
+	 * @var array
+	 */
+	protected $validationReports;
 	
 	/**
 	 * @param ilLanguage $lng
@@ -55,6 +65,8 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
 	{
 		$this->lng = $lng;
 		$this->ctrl = $ctrl;
+		$this->validationFailed = false;
+		$this->validationReports = array();
 	}
 
 	/**
@@ -137,93 +149,131 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
 		$this->questionSetConfig = $questionSetConfig;
 	}
 
+    /**
+     * @return bool
+     */
+    public function isValidationFailed()
+    {
+        return $this->validationFailed;
+    }
+
+    /**
+     * @param bool $validationFailed
+     */
+    public function setValidationFailed($validationFailed)
+    {
+        $this->validationFailed = $validationFailed;
+    }
+	
+	/**
+	 * @return array
+	 */
+	public function getValidationReportHtml()
+	{
+		return implode('<br />', $this->validationReports);
+	}
+	
+	/**
+	 * @return array
+	 */
+	public function hasValidationReports()
+	{
+		return count( $this->validationReports );
+	}
+	
+	/**
+	 * @param string $validationReport
+	 */
+	public function addValidationReport($validationReport)
+	{
+		$this->validationReports[] = $validationReport;
+	}
 
 	public function handle()
 	{
-		if( $this->getLostPools() )
+        if( $this->isNoAvailableQuestionPoolsHintRequired() )
+        {
+			$this->addValidationReport( $this->lng->txt('tst_msg_rand_quest_set_no_pools_available') );
+        }
+        elseif( $this->getLostPools() )
 		{
-			ilUtil::sendFailure(sprintf(
+			$this->addValidationReport( sprintf(
 				$this->lng->txt('tst_msg_rand_quest_set_lost_pools'), $this->buildLostQuestionPoolsString()
 			));
 		}
-		
-		$infoMessage = array();
-		
-		if( !$this->questionSetConfig->isQuestionAmountConfigComplete() )
+		elseif( !$this->questionSetConfig->isQuestionAmountConfigComplete() )
 		{
-			$infoMessage[] = $this->lng->txt('tst_msg_rand_quest_set_incomplete_quest_amount_cfg');
+			$this->addValidationReport( $this->lng->txt('tst_msg_rand_quest_set_incomplete_quest_amount_cfg') );
 
 			if( $this->isQuestionAmountConfigPerTestHintRequired() )
 			{
-				$infoMessage[] = sprintf(
+				$this->addValidationReport( sprintf(
 						$this->lng->txt('tst_msg_rand_quest_set_change_quest_amount_here'),
 						$this->buildGeneralConfigSubTabLink()
-					);
+					)
+				);
 			}
 			elseif( $this->isQuestionAmountConfigPerPoolHintRequired() )
 			{
-				$infoMessage[] = sprintf(
+				$this->addValidationReport( sprintf(
 						$this->lng->txt('tst_msg_rand_quest_set_change_quest_amount_here'),
 						$this->buildQuestionSelectionSubTabLink()
-					);
+					)
+				);
 			}
 		}
 		elseif( !$this->questionSetConfig->hasSourcePoolDefinitions() )
 		{
-			$infoMessage[] = $this->lng->txt('tst_msg_rand_quest_set_no_src_pool_defs');
+			$this->addValidationReport( $this->lng->txt('tst_msg_rand_quest_set_no_src_pool_defs') );
 		}
 		// fau: delayCopyRandomQuestions - show info message if date of last synchronisation is empty
 		elseif ($this->questionSetConfig->getLastQuestionSyncTimestamp() == 0)
 		{
-			$infoMessage[] = $this->lng->txt('tst_msg_rand_quest_set_not_sync');
-			$infoMessage[] = "<br />{$this->buildQuestionStageRebuildLink()}";
-			$infoMessage[] ="<br><small>".$this->lng->txt('tst_msg_rand_quest_set_sync_duration')."</small>";
+			$this->addValidationReport( $this->lng->txt('tst_msg_rand_quest_set_not_sync') );
+			$this->addValidationReport( "<br />{$this->buildQuestionStageRebuildLink()}" );
+			$this->addValidationReport( "<br><small>".$this->lng->txt('tst_msg_rand_quest_set_sync_duration')."</small>" );
 		}
 		// fau.
 
 		elseif( !$this->questionSetConfig->isQuestionSetBuildable() )
 		{
-			//fau: fixRandomTestBuildable - show the messages if set is not buildable
-			ilUtil::sendFailure(implode('<br />', $this->questionSetConfig->getBuildableMessages()));
-			//fau.
+            $this->setValidationFailed(true);
+			$this->addValidationReport( $this->lng->txt('tst_msg_rand_quest_set_pass_not_buildable') );
 
-			$infoMessage[] = $this->lng->txt('tst_msg_rand_quest_set_pass_not_buildable');
+			//fau: fixRandomTestBuildable - show the messages if set is not buildable
+			$this->addValidationReport( implode('<br />', $this->questionSetConfig->getBuildableMessages()) );
+			//fau.
 		}
 		else
 		{
 			//fau: fixRandomTestBuildable - show the messages if set is buildable but messages exist
-			if (count($this->questionSetConfig->getBuildableMessages()))
-			{
-				// REALLY REQUIRED !??
-				ilUtil::sendFailure(implode('<br />', $this->questionSetConfig->getBuildableMessages()));
-			}
-			//fau.
+			#if (count($this->questionSetConfig->getBuildableMessages()))
+			#{
+                //$this->setValidationFailed(true);
 
-			$infoMessage[] = $this->lng->txt('tst_msg_rand_quest_set_pass_buildable');
+				// REALLY REQUIRED !?? vielleicht doch?
+				//ilUtil::sendFailure(implode('<br />', $this->questionSetConfig->getBuildableMessages()));
+			#}
+			//fau.
+			
+			$this->addValidationReport( $this->lng->txt('tst_msg_rand_quest_set_pass_buildable') );
 			
 			if( $this->questionSetConfig->getLastQuestionSyncTimestamp() )
 			{
 				$syncDate = new ilDateTime(
 					$this->questionSetConfig->getLastQuestionSyncTimestamp(), IL_CAL_UNIX
 				);
-
-				$infoMessage[] = sprintf(
-					$this->lng->txt('tst_msg_rand_quest_set_stage_pool_last_sync'), ilDatePresentation::formatDate($syncDate)
-				);
+				
+				$this->addValidationReport( sprintf( $this->lng->txt('tst_msg_rand_quest_set_stage_pool_last_sync'),
+					ilDatePresentation::formatDate($syncDate)
+				));
 			}
 
 			if( !$this->doesParticipantDataExists() && !$this->getLostPools() )
 			{
-				$infoMessage[] = $this->buildQuestionStageRebuildLink();
+				$this->addValidationReport( $this->buildQuestionStageRebuildLink() );
 			}
 		}
-
-		if( $this->isNoAvailableQuestionPoolsHintRequired() )
-		{
-			$infoMessage[] = $this->lng->txt('tst_msg_rand_quest_set_no_pools_available');
-		}
-
-		ilUtil::sendInfo(implode('<br />', $infoMessage));
 	}
 	
 	private function buildLostQuestionPoolsString()

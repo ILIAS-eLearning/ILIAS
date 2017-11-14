@@ -75,9 +75,8 @@ function app() {
 		return roomId + '_' + subRoomId;
 	};
 
-	var index_bindNamespaces = function() {;
-		app.settings.namespaces.forEach(function(config){
-
+	var index_bindNamespaces = function() {
+		var bindNamespace = function(config){
 			var namespace = new Namespace(_io, config.name);
 			namespace.getIO().on('connect', require('./Handler/SocketHandler'));
 
@@ -91,7 +90,9 @@ function app() {
 			// END
 
 			_namespaces[config.name] = namespace;
-		});
+		};
+
+		app.settings.namespaces.forEach(bindNamespace);
 
 		delete app.settings.namespaces;
 	};

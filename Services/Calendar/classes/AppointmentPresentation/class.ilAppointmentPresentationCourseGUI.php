@@ -154,6 +154,9 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 			}
 
 			$this->addMetaData('crs', $cat_info['obj_id']);
+
+			// last edited
+			$this->addLastUpdate($app);
 		}
 
 		$this->addAction($this->lng->txt("crs_open"), ilLink::_getStaticLink($crs_ref_id, "crs"));

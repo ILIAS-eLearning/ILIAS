@@ -88,9 +88,15 @@ class ilAppointmentPresentationBookingPoolGUI extends ilAppointmentPresentationG
 					$this->ui->factory()->button()->shy($b_obj->getPostFile(), $link));
 
 			}
-			$this->addInfoProperty($this->lng->txt("book_post_booking_information"), implode("<br>",$array_info));
+			if($array_info) {
+				$this->addInfoProperty($this->lng->txt("book_post_booking_information"), implode("<br>",$array_info));
+			}
 
 		}
+
+		$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());
+		$this->addAction($this->lng->txt("cal_ch_cancel_booking"),
+			$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','cancelBooking'));
 
 		if (count($refs) > 0)
 		{
