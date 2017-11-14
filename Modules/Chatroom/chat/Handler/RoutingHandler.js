@@ -20,11 +20,13 @@ var RoutingHandler = function RoutingHandler() {
 		app.get(_createRoute('/Ban/:namespace/:roomId/:subRoomId/:id'), _getTask('Ban'));
 		app.get(_createRoute('/GetRooms/:namespace'), _getTask('GetRooms'));
 		app.get(_createRoute('/UserConfigChange/:namespace'), _getTask('UserConfigChange'));
-		app.get(_createRoute('/Post/:namespace/:roomId'), function(req, res){
-			//console.log(arguments);
+
+		var sendRequest = function(req, res){
 			Container.getLogger().log('silly', 'Not Supported Action %s', 'Post');
 			res.send({success: true});
-		});
+		};
+
+		app.get(_createRoute('/Post/:namespace/:roomId'), sendRequest);
 	};
 
 	function _getTask(name) {
