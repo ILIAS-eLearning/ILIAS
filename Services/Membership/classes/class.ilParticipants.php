@@ -1591,7 +1591,7 @@ abstract class ilParticipants
 	public function setRoleOrderPosition($a_user_id)
 	{
 		$counter = 0;
-		$sortable_assignments = '0000000000';
+		$sortable_assignments = '9999999999';
 		foreach($this->roles_sorted as $role_id => $trash)
 		{
 			if(in_array($a_user_id,(array) $this->role_assignments[$role_id]))

@@ -51,6 +51,11 @@ class ilTable2GUI extends ilTableGUI
 	protected $enable_command_for_all;
 	protected $restore_filter; // [bool]
 	protected $restore_filter_values; // [bool]
+	
+	/**
+	 * @var bool
+	 */
+	protected $default_filter_visibility = false;
 
 	protected $sortable_fields = array();
 	/**
@@ -1165,6 +1170,24 @@ class ilTable2GUI extends ilTableGUI
 		return $this->defaultorderdirection;
 	}
 	
+	/**
+	 * Set default filter visiblity
+	 * @param bool $a_status
+	 */
+	public function setDefaultFilterVisiblity($a_status)
+	{
+		$this->default_filter_visibility = $a_status;
+	}
+	
+	/**
+	 * Get default filter visibility
+	 * @return bool
+	 */
+	public function getDefaultFilterVisibility()
+	{
+		return $this->default_filter_visibility;
+	}
+	
 	/*
 	* Removes all command buttons from the table
 	*
@@ -1982,7 +2005,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 			$this->tpl->parseCurrentBlock();
 			
 			// (keep) filter hidden?
-			if ($this->loadProperty("filter") != 1)
+			if(!$this->isFilterVisible())	
 			{
 				if (!$this->getDisableFilterHiding())
 				{
@@ -1992,6 +2015,20 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Check if filter is visible: manually shown (session, db) or default value set
+	 * @return bool
+	 */
+	protected function isFilterVisible()
+	{
+		$prop = $this->loadProperty('filter');
+		if($prop === '0' || $prop === '1')
+		{
+			return (bool) $prop;
+		}
+		return $this->getDefaultFilterVisibility();
 	}
 	
 	/**
@@ -2838,6 +2875,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 
 			return $tab_prop->getProperty($this->getId(), $ilUser->getId(), $type);
 		}
+		return null;
 	}
 
     /**
