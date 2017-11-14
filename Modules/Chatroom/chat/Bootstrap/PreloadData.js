@@ -8,23 +8,19 @@ var RoomHandler = require('../Handler/RoomHandler');
  */
 module.exports = function PreloadData(namespace, callback) {
 
-	var loadScopes = function(callback) {
-		var onScopeFetched = function(row) {
+	function loadScopes(callback) {
+		namespace.getDatabase().loadScopes(function onScopeFetched(row) {
 			RoomHandler.createRoom(namespace, row.room_id, 0, "Main", null);
-		};
+		}, callback);
+	}
 
-		namespace.getDatabase().loadScopes(onScopeFetched, callback);
-	};
-
-	var loadSubScopes = function(callback) {
-		var onSubScopeFetched = function(row){
+	function loadSubScopes(callback) {
+		namespace.getDatabase().loadSubScopes(function onSubScopeFetched(row){
 			RoomHandler.createRoom(namespace, row.parent_id, row.proom_id, row.title, row.owner);
-		};
+		}, callback);
+	}
 
-		namespace.getDatabase().loadSubScopes(onSubScopeFetched, callback);
-	};
-
-	var onEnd = function(err) {
+	function onDataPreloadingDone(err) {
 		if(err) {
 			throw err;
 		}
@@ -32,13 +28,13 @@ module.exports = function PreloadData(namespace, callback) {
 		Container.getLogger().info('Preload Data for %s finished!', namespace.getName());
 
 		callback(null, namespace);
-	};
+	}
 
 	async.series(
 		[
 			loadScopes,
 			loadSubScopes
 		],
-		onEnd
+		onDataPreloadingDone
 	);
 };
