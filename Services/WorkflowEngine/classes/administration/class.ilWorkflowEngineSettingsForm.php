@@ -23,8 +23,8 @@ class ilWorkflowEngineSettingsForm
 
 	public function __construct()
 	{
-		global $lng;
-		$this->lng = $lng;
+		global $DIC;
+		$this->lng = $DIC['lng'];
 	}
 
 	public function getForm($action)
