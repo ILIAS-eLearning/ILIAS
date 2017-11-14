@@ -10476,6 +10476,9 @@ bibl#:#bibl_settings_new#:#Bibliothek hinzufügen
 bibl#:#bibl_settings_edit#:#Bibliothek bearbeiten
 bibl#:#news_title_created#:#Neue Literaturliste hinzugefügt
 bibl#:#news_title_updated#:#Literaturliste aktualisiert
+bibl#:#add_filter#:#Filter hinzufügen
+bibl#:#filter_type#:#Filter Typ
+bibl#:#field#:#Feld
 rbac#:#bibl_visible#:#Literaturliste ist sichtbar
 rbac#:#bibl_read#:#Literaturliste lesen
 rbac#:#bibl_copy#:#Literaturliste kopieren
