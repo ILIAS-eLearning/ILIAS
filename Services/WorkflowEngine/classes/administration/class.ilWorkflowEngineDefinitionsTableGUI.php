@@ -39,9 +39,9 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 		$this->setId('wfedef');
 		parent::__construct($parent_obj, $parent_cmd, $template_context);
 
-		global $ilCtrl, $lng;
-		$this->ilCtrl = $ilCtrl;
-		$this->lng = $lng;
+		global $DIC;
+		$this->ilCtrl = $DIC['ilCtrl'];
+		$this->lng = $DIC['lng'];
 
 		$this->initColumns();
 		$this->setEnableHeader(true);
@@ -132,7 +132,8 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 	 */
 	public function getProcessesForDisplay()
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 		$query = 'SELECT workflow_class, count(workflow_id) total, sum(active) active
 				  FROM wfe_workflows
 				  GROUP BY workflow_class';

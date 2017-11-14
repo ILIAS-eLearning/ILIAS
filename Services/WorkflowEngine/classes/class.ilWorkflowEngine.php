@@ -48,9 +48,11 @@ class ilWorkflowEngine
 		$context_id
 	)
 	{
+		global $DIC;
 		/** @var ilSetting $ilSetting */
-		global $ilSetting;
-		if(0 === $ilSetting->get('wfe_activation', 0))
+		$ilSetting = $DIC['ilSetting'];
+
+		if(0 == $ilSetting->get('wfe_activation', 0))
 		{
 			return;
 		}
@@ -94,9 +96,11 @@ class ilWorkflowEngine
 	 */
 	public function handleEvent($component, $event, $parameter)
 	{
+		global $DIC;
 		/** @var ilSetting $ilSetting */
-		global $ilSetting;
-		if(0 === $ilSetting->get('wfe_activation', 0))
+		$ilSetting = $DIC['ilSetting'];
+
+		if(0 == $ilSetting->get('wfe_activation', 0))
 		{
 			return;
 		}
@@ -154,9 +158,11 @@ class ilWorkflowEngine
 	public function launchArmedWorkflows($component, $event, $extractedParams)
 	{
 
+		global $DIC;
 		/** @var ilSetting $ilSetting */
-		global $ilSetting;
-		if(0 === $ilSetting->get('wfe_activation', 0))
+		$ilSetting = $DIC['ilSetting'];
+
+		if(0 == $ilSetting->get('wfe_activation', 0))
 		{
 			return;
 		}
@@ -165,7 +171,6 @@ class ilWorkflowEngine
 
 		foreach($workflows as $workflow)
 		{
-			$a = 1;
 			$data = ilWorkflowDbHelper::getStaticInputDataForEvent($workflow['event']);
 
 			/** @noinspection PhpIncludeInspection */

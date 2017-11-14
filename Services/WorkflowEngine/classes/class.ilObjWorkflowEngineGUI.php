@@ -46,16 +46,16 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
 	 */
 	public function __construct()
 	{
-		global $ilTabs, $lng, $ilCtrl, $tpl, $tree, $ilLocator, $ilToolbar;
+		global $DIC;
 
-		$this->ilTabs = $ilTabs;
-		$this->lng = $lng;
-		$lng->loadLanguageModule('wfe');
-		$this->ilCtrl = $ilCtrl;
-		$this->tpl = $tpl;
-		$this->tree = $tree;
-		$this->ilLocator = $ilLocator;
-		$this->ilToolbar = $ilToolbar;
+		$this->ilTabs = $DIC['ilTabs'];
+		$this->lng = $DIC['lng'];
+		$this->lng->loadLanguageModule('wfe');
+		$this->ilCtrl = $DIC['ilCtrl'];
+		$this->tpl = $DIC['tpl'];
+		$this->tree = $DIC['tree'];
+		$this->ilLocator = $DIC['ilLocator'];
+		$this->ilToolbar = $DIC['ilToolbar'];
 
 		parent::__construct((int)$_GET['ref_id']);
 		$this->assignObject();
@@ -84,7 +84,9 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
 	 */
 	public static function _goto($params)
 	{
-		global $lng;
+		global $DIC;
+		/** @var ilLanguage $lng */
+		$lng = $DIC['lng'];
 
 		$workflow = substr($params, 2, strpos($params,'EVT')-2);
 		$event = substr($params, strpos($params, 'EVT')+3);
