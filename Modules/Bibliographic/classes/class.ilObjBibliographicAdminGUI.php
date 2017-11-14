@@ -46,6 +46,7 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 	 * @throws ilCtrlException
 	 */
 	public function executeCommand() {
+
 		$next_class = $this->ctrl->getNextClass($this);
 		switch ($next_class) {
 			case 'ilpermissiongui':
