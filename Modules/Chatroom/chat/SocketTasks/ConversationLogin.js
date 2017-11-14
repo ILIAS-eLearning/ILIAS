@@ -2,7 +2,7 @@ var Container = require('../AppContainer');
 var Participant = require('../Model/ConversationParticipant');
 var ListConversations = require('./ListConversations');
 
-module.exports = function(id, name)
+module.exports = function exports(id, name)
 {
 	var namespace = Container.getNamespace(this.nsp.name);
 

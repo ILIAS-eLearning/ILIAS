@@ -1,6 +1,6 @@
 var Container = require('../AppContainer');
 
-module.exports = function(conversationId, oldestMessageTimestamp) {
+module.exports = function exports(conversationId, oldestMessageTimestamp) {
 	if(conversationId !== null)
 	{
 		var namespace = Container.getNamespace(this.nsp.name);
@@ -11,7 +11,7 @@ module.exports = function(conversationId, oldestMessageTimestamp) {
 
 		if(conversation.isParticipant(this.participant))
 		{
-			var onConversationResult = function(row){
+			var onConversationResult = function onConversationResult(row){
 				if(oldestTimestamp === null || oldestTimestamp > row.timestamp) {
 					oldestTimestamp = row.timestamp;
 				}
@@ -20,7 +20,7 @@ module.exports = function(conversationId, oldestMessageTimestamp) {
 				history.push(row);
 			};
 
-			var emitConversationHistory = function(err){
+			var emitConversationHistory = function emitConversationHistory(err){
 				if(err) {
 					throw err;
 				}

@@ -1,7 +1,7 @@
 var Container  = require('../AppContainer');
 var HTMLEscape = require('../Helper/HTMLEscape');
 
-module.exports = function(conversationId, userId, message) {
+module.exports = function exports(conversationId, userId, message) {
 	function shouldPersistMessage(conversation) {
 		var doStoreMessage = conversation.isGroup();
 

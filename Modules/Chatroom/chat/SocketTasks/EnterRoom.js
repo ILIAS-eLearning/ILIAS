@@ -3,7 +3,7 @@ var EnterAction = require('../Model/Messages/EnterAction');
 var UserlistAction = require('../Model/Messages/UserlistAction');
 var Notice = require('../Model/Messages/Notice');
 
-module.exports = function(roomId, subRoomId)
+module.exports = function exports(roomId, subRoomId)
 {
 	Container.removeTimeout(this.subscriber.getId());
 

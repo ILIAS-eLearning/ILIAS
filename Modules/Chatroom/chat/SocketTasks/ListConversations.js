@@ -1,7 +1,7 @@
 var Container = require('../AppContainer');
 var async = require('async');
 
-module.exports = function() {
+module.exports = function exports() {
 	Container.getLogger().info('Requested Conversations list');
 
 	var namespace = Container.getNamespace(this.nsp.name);
@@ -11,24 +11,24 @@ module.exports = function() {
 	var onConversationListResult = function(conversation, nextLoop){
 		var conversationClosed = false;
 
-		var setConservationState = function(row) {
+		var setConservationState = function setConservationState(row) {
 			conversationClosed = row.is_closed;
 		};
 
-		var fetchLatestMessageForOpenConversation = function() {
+		var fetchLatestMessageForOpenConversation = function fetchLatestMessageForOpenConversation() {
 			if (!conversationClosed) {
-				var setLatestMessageOnConversation = function (row) {
+				var setLatestMessageOnConversation = function setLatestMessageOnConversation(row) {
 					row.userId         = row.user_id;
 					row.conversationId = row.conversation_id;
 					conversation.setLatestMessage(row);
 				};
 
-				var determineUnreadMessages = function () {
-					var setNumberOfNewMessages = function(row) {
+				var determineUnreadMessages = function determineUnreadMessages() {
+					var setNumberOfNewMessages = function setNumberOfNewMessages(row) {
 						conversation.setNumNewMessages(row.numMessages);
 					};
 
-					var emitConversationAndContinue = function() {
+					var emitConversationAndContinue = function emitConversationAndContinue() {
 						socket.participant.emit('conversation', conversation.json());
 						nextLoop();
 					};
@@ -59,7 +59,7 @@ module.exports = function() {
 		);
 	};
 
-	var onPossibleConversationListError = function(err) {
+	var onPossibleConversationListError = function onPossibleConversationListError(err) {
 		if (err) {
 			throw err;
 		}

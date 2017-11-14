@@ -2,7 +2,7 @@ var Container = require('../AppContainer');
 var UserlistAction = require('../Model/Messages/UserlistAction');
 var Notice = require('../Model/Messages/Notice');
 
-module.exports = function()
+module.exports = function exports()
 {
 	if(this.subscriber === undefined)
 	{
@@ -17,7 +17,7 @@ module.exports = function()
 
 	Container.getLogger().info('Subscriber %s left namespace %s', this.subscriber.getId(), namespace.getName());
 
-	var subscriberLeftNamespaceHandler = function() {
+	var subscriberLeftNamespaceHandler = function subscriberLeftNamespaceHandler() {
 		if(namespace.hasSubscriber(subscriberId)) {
 			var rooms = namespace.getRooms();
 

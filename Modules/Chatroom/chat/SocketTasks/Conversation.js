@@ -5,7 +5,7 @@ var Conversation = require('../Model/Conversation');
 	/**
  * @param {Array} participants
  */
-module.exports = function(participants) {
+module.exports = function exports(participants) {
 	Container.getLogger().info('Conversation Requested');
 	var namespace = Container.getNamespace(this.nsp.name);
 	var conversations = namespace.getConversations();
@@ -28,13 +28,13 @@ module.exports = function(participants) {
 
 	namespace.getDatabase().updateConversation(conversation);
 
-	var onLastConversationMessageResult = function(row) {
+	var onLastConversationMessageResult = function onLastConversationMessageResult(row) {
 		row.userId = row.user_id;
 		row.conversationId = row.conversation_id;
 		conversation.setLatestMessage(row);
 	};
 
-	var onLastConversationMessageEnd = function() {
+	var onLastConversationMessageEnd = function onLastConversationMessageEnd() {
 		socket.participant.emit('conversation-init', conversation.json());
 	};
 
