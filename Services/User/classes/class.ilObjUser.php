@@ -4536,16 +4536,10 @@ class ilObjUser extends ilObject
 	{
 		global $rbacadmin, $rbacreview, $ilDB;
 
-		// quote all ids
-		$ids = array();
-		foreach ($a_mem_ids as $mem_id) {
-			$ids [] = $ilDB->quote($mem_id);
-		}
-
 		$query = "SELECT usr_data.*, usr_pref.value AS language
 		          FROM usr_data
 		          LEFT JOIN usr_pref ON usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = %s
-		          WHERE ".$ilDB->in("usr_data.usr_id", $ids, false, "integer")."
+		          WHERE ".$ilDB->in("usr_data.usr_id", $a_mem_ids, false, "integer")."
 					AND usr_data.usr_id != %s";
 		$values[] = "language";
 		$types[] = "text";
