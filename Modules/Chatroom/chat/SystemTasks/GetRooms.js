@@ -6,7 +6,7 @@ var Container = require('../AppContainer');
  * @param req
  * @param res
  */
-module.exports = function(req, res) {
+module.exports = function exports(req, res) {
 
 	var namespace = Container.getNamespace(req.params.namespace);
 

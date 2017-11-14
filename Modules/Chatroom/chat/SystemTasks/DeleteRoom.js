@@ -3,7 +3,7 @@ var DeleteAction = require('../Model/Messages/DeleteAction');
 var Notice = require('../Model/Messages/Notice');
 
 
-module.exports = function(req, res)
+module.exports = function exports(req, res)
 {
 	var roomId = req.params.roomId;
 	var subRoomId = req.params.subRoomId;
@@ -22,7 +22,7 @@ module.exports = function(req, res)
 
 	var subscribers = room.getSubscribers();
 
-	var emitDeleteRoomBySocketId = function(socketId) {
+	var emitDeleteRoomBySocketId = function emitDeleteRoomBySocketId(socketId) {
 		namespace.getIO().connected[socketId].leave(room.getId());
 		namespace.getIO().to(socketId).emit('private_room_deleted', action);
 	};

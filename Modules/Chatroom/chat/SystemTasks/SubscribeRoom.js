@@ -2,7 +2,7 @@ var Container = require('../AppContainer');
 var Subscriber = require('../Model/Subscriber');
 
 
-module.exports = function(req, res)
+module.exports = function exports(req, res)
 {
 	var roomId = parseInt(req.params.roomId);
 	var subRoomId = parseInt(req.params.subRoomId);
