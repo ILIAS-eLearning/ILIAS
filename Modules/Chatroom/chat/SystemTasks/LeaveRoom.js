@@ -2,7 +2,7 @@ var Container	= require('../AppContainer');
 var Notice = require('../Model/Messages/Notice');
 var UserlistAction = require('../Model/Messages/UserlistAction');
 
-module.exports = function exports(req, res)
+module.exports = function(req, res)
 {
 	var roomId = parseInt(req.params.roomId);
 	var subRoomId = parseInt(req.params.subRoomId);
@@ -21,13 +21,13 @@ module.exports = function exports(req, res)
 	var userlistLeftAction = UserlistAction.create(roomId, subRoomId, room.getJoinedSubscribers());
 	var userlistMainAction = UserlistAction.create(roomId, 0, mainRoom.getJoinedSubscribers());
 
-	var createLeaveRoomCallback = function createLeaveRoomCallback(namespace, room, notice, userlistMainAction) {
+	function createLeaveRoomCallback(namespace, room, notice, userlistMainAction) {
 		return function(socketId){
 			namespace.getIO().connected[socketId].leave(room.getId());
 			namespace.getIO().in(socketId).emit('notice', notice);
 			namespace.getIO().in(socketId).emit('userlist', userlistMainAction);
 		};
-	};
+	}
 
 	var leaveRoomCallback = createLeaveRoomCallback(namespace, room, notice, userlistMainAction);
 	subscriber.getSocketIds().forEach(leaveRoomCallback);

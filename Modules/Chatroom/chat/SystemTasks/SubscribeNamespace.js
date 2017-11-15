@@ -6,7 +6,7 @@ var Container 		= require('../AppContainer');
  * @param req
  * @param res
  */
-module.exports = function exports(req, res)
+module.exports = function(req, res)
 {
 	var subscriberId = parseInt(req.params.id);
 	var namespace = Container.getNamespace(req.params.namespace);
@@ -22,6 +22,3 @@ module.exports = function exports(req, res)
 
 	res.send({ status: 200 });
 };
-
-
-

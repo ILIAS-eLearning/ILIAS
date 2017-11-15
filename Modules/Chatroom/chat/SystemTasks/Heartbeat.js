@@ -3,9 +3,6 @@
  * @param req
  * @param res
  */
-module.exports = function exports(req, res) {
+module.exports = function(req, res) {
 	res.send({ status: 200 });
 };
-
-
-
