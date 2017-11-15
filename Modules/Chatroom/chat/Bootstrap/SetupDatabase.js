@@ -11,7 +11,7 @@ module.exports = function SetupDatabase(namespace, config, callback) {
 	var database = new Database(config);
 	namespace.setDatabase(database);
 
-	var onConnect = function(err, connection) {
+	database.connect(function onDatabaseConnect(err, connection) {
 		if(err) {
 			throw err;
 		}
@@ -20,7 +20,5 @@ module.exports = function SetupDatabase(namespace, config, callback) {
 		connection.release();
 
 		callback(null, namespace);
-	};
-
-	database.connect(onConnect);
+	});
 };
