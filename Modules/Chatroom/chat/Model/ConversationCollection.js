@@ -1,7 +1,6 @@
 
 
 var ConversationCollection = function ConversationCollection() {
-
 	/**
 	 *
 	 * @type {JSON}

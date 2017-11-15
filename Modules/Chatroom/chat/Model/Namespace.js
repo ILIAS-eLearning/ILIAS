@@ -198,6 +198,4 @@ var Namespace = function Namespace(name)
 	}
 };
 
-
-
 module.exports = Namespace;
