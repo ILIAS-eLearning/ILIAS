@@ -4,19 +4,19 @@ var KickAction = require('../Model/Messages/KickAction');
 var UserlistAction = require('../Model/Messages/UserlistAction');
 
 
-module.exports = function(req, res)
+module.exports = function exports(req, res)
 {
 	var subscriberId = parseInt(req.params.id);
 	var roomId = parseInt(req.params.roomId);
 	var namespace = Container.getNamespace(req.params.namespace);
 	var subscriber = namespace.getSubscriber(subscriberId);
 
-	var userBannedMessageCallbackFactory = function(roomId) {
+	function userBannedMessageCallbackFactory(namespace, roomId) {
 		return function(socketId){
 			namespace.getIO().to(socketId).emit('userjustbanned');
 			namespace.getIO().connected[socketId].leave(roomId);
 		};
-	};
+	}
 
 	if(subscriber != null) {
 		Container.getLogger().info('Subscriber %s got banned from namespace %s', subscriberId, namespace.getName());
@@ -36,7 +36,7 @@ module.exports = function(req, res)
 					var userlistAction = UserlistAction.create(splitted[0], splitted[1], room.getJoinedSubscribers());
 					var notice = Notice.create('user_kicked', splitted[0], splitted[1], {user: subscriber.getName()});
 
-					var emitUserWasBannedMessageCallback = userBannedMessageCallbackFactory(room.getId());
+					var emitUserWasBannedMessageCallback = userBannedMessageCallbackFactory(namespace, room.getId());
 
 					subscriber.getSocketIds().forEach(emitUserWasBannedMessageCallback);
 
@@ -49,4 +49,4 @@ module.exports = function(req, res)
 		namespace.removeSubscriber(subscriberId);
 	}
 	res.send({success: true});
-};
+}

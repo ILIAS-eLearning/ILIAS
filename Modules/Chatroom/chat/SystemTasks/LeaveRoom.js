@@ -21,13 +21,13 @@ module.exports = function(req, res)
 	var userlistLeftAction = UserlistAction.create(roomId, subRoomId, room.getJoinedSubscribers());
 	var userlistMainAction = UserlistAction.create(roomId, 0, mainRoom.getJoinedSubscribers());
 
-	var createLeaveRoomCallback = function(namespace, room, notice, userlistMainAction) {
+	function createLeaveRoomCallback(namespace, room, notice, userlistMainAction) {
 		return function(socketId){
 			namespace.getIO().connected[socketId].leave(room.getId());
 			namespace.getIO().in(socketId).emit('notice', notice);
 			namespace.getIO().in(socketId).emit('userlist', userlistMainAction);
 		};
-	};
+	}
 
 	var leaveRoomCallback = createLeaveRoomCallback(namespace, room, notice, userlistMainAction);
 	subscriber.getSocketIds().forEach(leaveRoomCallback);

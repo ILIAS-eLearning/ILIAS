@@ -17,13 +17,13 @@ module.exports = function(req, res)
 	var room = namespace.getRoom(serverRoomId);
 	var subscriber = namespace.getSubscriber(inviteeId);
 
-	var createNoticeEmitterForHost = function (notice) {
+	function createNoticeEmitterForHost(namespace, notice) {
 		return function (socketId) {
 			namespace.getIO().to(socketId).emit('notice', notice);
 		};
-	};
+	}
 
-	var createNoticeEmitterForInvitee = function (action, notice) {
+	function createNoticeEmitterForInvitee(namespace, action, notice) {
 		return function (socketId) {
 			namespace.getIO().to(socketId).emit('user_invited', action);
 			namespace.getIO().to(socketId).emit('notice', notice);
@@ -45,11 +45,13 @@ module.exports = function(req, res)
 		var host = namespace.getSubscriber(hostId);
 
 		var emitNoticeToHost = createNoticeEmitterForHost(
+			namespace,
 			Notice.create('user_invited', roomId, subRoomId)
 		);
 		host.getSocketIds().forEach(emitNoticeToHost);
 
 		var emitNoticeToInvitee = createNoticeEmitterForInvitee(
+			namespace,
 			InviteAction.create(roomId, subRoomId, room.getTitle(), room.getOwnerId()),
 			Notice.create('user_invited_self', roomId, -1, {user: host.getName(), room: room.getTitle()})
 		);
