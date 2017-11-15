@@ -361,8 +361,6 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 			$filtered_user_ids[] = $user_id;
 			$a_user_data[$user_id] = array_merge($ud,(array) $group_user_data[$user_id]);
 
-			$a_user_data[$user_id]['name'] = $a_user_data[$user_id]['lastname'].', '.$a_user_data[$user_id]['firstname'];
-
 			$roles = array();			
 			foreach($local_roles as $role_id => $role_name)
 			{
@@ -372,10 +370,9 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 					$roles[] = $role_name;
 				}
 			}
+			$a_user_data[$user_id]['name'] = $a_user_data[$user_id]['lastname'].', '.$a_user_data[$user_id]['firstname'];
 			$a_user_data[$user_id]['roles_label'] = implode('<br />', $roles);
-			$a_user_data[$user_id]['roles'] = 
-				$this->participants->setRoleOrderPosition($user_id).' '.
-				$a_user_data[$user_id]['name'];
+			$a_user_data[$user_id]['roles'] = $this->participants->setRoleOrderPosition($user_id);
 		}
 
 		// Custom user data fields
@@ -461,6 +458,13 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 				}
 			}
 		}
+		
+		// always sort by name first
+		$a_user_data = ilUtil::sortArray(
+			$a_user_data,
+			'name',
+			'asc'
+		);
 		
         return $this->setData($a_user_data);
     }
