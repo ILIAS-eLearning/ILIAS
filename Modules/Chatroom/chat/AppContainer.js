@@ -59,24 +59,31 @@ var AppContainer = function AppContainer() {
 		}
 		return null;
 	};
-	this.setApi = function (api) { _api = api; };
+	this.setApi = function(api) { _api = api; };
 	this.getApi = function() { return _api; };
 	this.addNamespace = function(namespace) { _namespaces.push(namespace); };
 	this.getNamespaces = function() { return _namespaces; };
-	this.getNamespace = function(name) {
-		var namespace = null;
-		name = name.replace(/^\//, '');
 
-		var setNamespace = function(element){
+	function createSetNamespaceFunction(namespace, name)
+	{
+		return function setNamespace(element){
 			if(element.getName() == name) {
 				namespace = element;
 				return true;
 			}
 		};
+	}
+
+	this.getNamespace = function(name) {
+		var namespace = null;
+		name = name.replace(/^\//, '');
+
+		var setNamespace = createSetNamespaceFunction(namespace, name);
 
 		_namespaces.forEach(setNamespace);
 		return namespace;
 	};
+
 	this.createServerRoomId = function(roomId, subRoomId) {
 		return roomId + '_' + subRoomId;
 	};
@@ -113,13 +120,14 @@ var AppContainer = function AppContainer() {
  */
 var _instance = null;
 
-var getInstance = function() {
+function getInstance() {
 	if(_instance == null) {
 		_instance = new AppContainer();
 	}
 
 	return _instance;
 };
+
 /**
  * Returns a Singleton of AppContainer
  *
