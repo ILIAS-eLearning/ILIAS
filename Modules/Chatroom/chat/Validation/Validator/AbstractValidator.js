@@ -12,7 +12,7 @@ var AbstractValidator = function(){
 
 	function validateRule(rule){
 		rule.validate();
-	};
+	}
 
 	this.validate = function() {
 		_rules.forEach(validateRule);
