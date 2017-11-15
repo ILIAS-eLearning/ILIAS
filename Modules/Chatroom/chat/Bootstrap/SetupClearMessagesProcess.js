@@ -6,17 +6,19 @@ var schedule = require('node-schedule');
  */
 module.exports = function SetupClearMessagesProcess(callback) {
 
-	if (Container.getServerConfig().hasOwnProperty('deletion_mode') && Container.getServerConfig().deletion_mode == 1) {
+	if (Container.getServerConfig().hasOwnProperty('deletion_mode') &&
+		parseInt(Container.getServerConfig().deletion_mode, 10) === 1) {
+
 		var deletionTime = Container.getServerConfig().deletion_time;
 		deletionTime = deletionTime.split(':');
 
-		var getMessagesClearedCallback = function (namespaceName) {
-			return function() {
+		function getMessagesClearedCallback(namespaceName) {
+			return function messagesClearedCallback() {
 				Container.getLogger().info('Clear process for namespace %s finished', namespaceName);
 			};
-		};
+		}
 
-		var clearMessagesProcess = function () {
+		schedule.scheduleJob('ClearMessagesProcess', {hour: deletionTime[0], minute: deletionTime[1]}, function clearMessagesProcess() {
 			var namespaces = Container.getNamespaces();
 			var deletionUnit = Container.getServerConfig().deletion_unit;
 			var deletionValue = Container.getServerConfig().deletion_value;
@@ -38,13 +40,9 @@ module.exports = function SetupClearMessagesProcess(callback) {
 					bound.getTime()
 				);
 
-				var onMessageCleanupFinished = getMessagesClearedCallback(namespaceName);
-
-				database.clearChatMessagesProcess(bound.getTime(), namespaceName, onMessageCleanupFinished);
+				database.clearChatMessagesProcess(bound.getTime(), namespaceName, getMessagesClearedCallback(namespaceName));
 			}
-		};
-
-		schedule.scheduleJob('ClearMessagesProcess', {hour: deletionTime[0], minute: deletionTime[1]}, clearMessagesProcess);
+		});
 
 		Container.getLogger().info('Clear messages process initialized for %s once a day', Container.getServerConfig().deletion_time);
 	}
@@ -54,6 +52,7 @@ module.exports = function SetupClearMessagesProcess(callback) {
 
 function generateBoundTimestamp(deletionUnit, deletionValue) {
 	var bound = new Date();
+
 	if (deletionUnit === 'years') {
 		bound.setFullYear(bound.getFullYear() - deletionValue)
 	}
