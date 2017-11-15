@@ -1388,11 +1388,15 @@ class ilInitialisation
 	{
 		global $ilUser;
 		
+		require_once "./Services/LTI/classes/class.ilLTIViewGUI.php";
+		$GLOBALS['DIC']['ilLTIView'] = function($c) {
+			return ilLTIViewGUI::getInstance();
+		};
+		
 		if(ilContext::hasUser())
 		{
 			// LTI
 			self::initLTI();
-			
 			// load style definitions
 			// use the init function with plugin hook here, too
 			self::initStyle();
@@ -1401,15 +1405,13 @@ class ilInitialisation
 		self::initUIFramework($GLOBALS["DIC"]);
 
 		// LTI
-		if (isset($_SESSION['il_lti_mode'])) 
+		if ($GLOBALS['DIC']['ilLTIView']->isActive()) 
 		{
 			require_once "./Services/LTI/classes/class.ilTemplate.php";
 			$tpl = new LTI\ilTemplate("tpl.main.html", true, true, "Services/LTI");
-			//$tpl = new ilTemplate("tpl.main.html", true, true);
 		}
 		else 
 		{
-			// $tpl
 			$tpl = new ilTemplate("tpl.main.html", true, true);
 		}
 		
@@ -1442,8 +1444,7 @@ class ilInitialisation
 		if(ilContext::hasUser())
 		{
 			// LTI
-			// $ilMainMenu
-			if (isset($_SESSION['il_lti_mode'])) 
+			if ($GLOBALS['DIC']['ilLTIView']->isActive())
 			{
 				include_once './Services/LTI/classes/class.ilMainMenuGUI.php';
 				$ilMainMenu = new LTI\ilMainMenuGUI("_top");
@@ -1488,24 +1489,17 @@ class ilInitialisation
 	 */
 	protected static function initLTI()
 	{
-		$user = $GLOBALS['DIC']->user();
-		if(!$user instanceof ilObjUser)
+		$ltiview = $GLOBALS['DIC']['ilLTIView'];
+		if($ltiview->isLTIUser())
 		{
-			return false;
-		}
-		
-		if(strpos($user->getAuthMode(),'lti_') === 0)
-		{
-			$GLOBALS['DIC']->logger()->lti()->debug("LTI enabled for authmode: " . $GLOBALS['DIC']->user()->getAuthMode());
-			ilLTIViewGUI::getInstance()->activate();
-			$GLOBALS['DIC']->logger()->lti()->debug('LTI mode enabled.');
+			$ltiview->activate();
 		}
 		else
 		{
-			// @todo: avoid this
-			unset($_SESSION['il_lti_mode']);
+			if ($ltiview->isActive()) {
+				$ltiview->deactivate();
+			}
 		}
-		
 	}
 	
 	/**
