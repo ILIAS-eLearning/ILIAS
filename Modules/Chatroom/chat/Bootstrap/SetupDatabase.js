@@ -8,6 +8,7 @@ var Container = require('../AppContainer');
  * @param {Function} callback
  */
 module.exports = function SetupDatabase(namespace, config, callback) {
+
 	var database = new Database(config);
 	namespace.setDatabase(database);
 
