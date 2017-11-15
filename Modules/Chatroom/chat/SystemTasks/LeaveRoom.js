@@ -22,7 +22,7 @@ module.exports = function(req, res)
 	var userlistMainAction = UserlistAction.create(roomId, 0, mainRoom.getJoinedSubscribers());
 
 	function createLeaveRoomCallback(namespace, room, notice, userlistMainAction) {
-		return function(socketId){
+		return function createLeaveRoom(socketId){
 			namespace.getIO().connected[socketId].leave(room.getId());
 			namespace.getIO().in(socketId).emit('notice', notice);
 			namespace.getIO().in(socketId).emit('userlist', userlistMainAction);

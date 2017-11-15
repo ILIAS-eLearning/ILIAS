@@ -4,8 +4,7 @@ var KickAction = require('../Model/Messages/KickAction');
 var UserlistAction = require('../Model/Messages/UserlistAction');
 
 
-module.exports = function(req, res)
-{
+module.exports = function (req, res) {
 	var userId = parseInt(req.params.id);
 	var roomId = parseInt(req.params.roomId);
 	var subRoomId = parseInt(req.params.subRoomId);
@@ -15,7 +14,7 @@ module.exports = function(req, res)
 	var subscriber = room.getSubscriber(userId);
 
 	function createKickUserCallback(namespace, action, noticeKicked, room, mainRoomUserlistAction) {
-		return function(socketId){
+		return function createKickUser(socketId) {
 			namespace.getIO().to(socketId).emit('userjustkicked', action);
 			namespace.getIO().to(socketId).emit('notice', noticeKicked);
 			namespace.getIO().connected[socketId].leave(room.getId());
@@ -28,8 +27,7 @@ module.exports = function(req, res)
 
 	Container.getLogger().info('Kick Subscriber %s from room %s of namespace %s', userId, serverRoomId, namespace.getName());
 
-	if(subscriber !== null)
-	{
+	if (subscriber !== null) {
 		room.removeSubscriber(userId);
 		room.subscriberLeft(userId);
 

@@ -8,7 +8,7 @@ module.exports = function() {
 	var conversations = this.participant.getConversations();
 	var socket = this;
 
-	var onConversationListResult = function(conversation, nextLoop){
+	function onConversationListResult(conversation, nextLoop){
 		var conversationClosed = false;
 
 		function setConservationState(row) {
@@ -28,10 +28,10 @@ module.exports = function() {
 						conversation.setNumNewMessages(row.numMessages);
 					}
 
-					var emitConversationAndContinue = function emitConversationAndContinue() {
+					function emitConversationAndContinue() {
 						socket.participant.emit('conversation', conversation.json());
 						nextLoop();
-					};
+					}
 
 					namespace.getDatabase().countUnreadMessages(
 						conversation.getId(),
@@ -57,7 +57,7 @@ module.exports = function() {
 			setConservationState,
 			fetchLatestMessageForOpenConversation
 		);
-	};
+	}
 
 	function onPossibleConversationListError(err) {
 		if (err) {
