@@ -653,6 +653,7 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 		$download_job->setEvents(array($appointment));
 		$download_job->run();
 
+		ilUtil::sendSuccess($this->lng->txt('cal_download_files_started'),true);
 		$this->ctrl->returnToParent($this);
 	}
 
