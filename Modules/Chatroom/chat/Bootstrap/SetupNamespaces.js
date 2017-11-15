@@ -5,9 +5,10 @@ var PreloadData = require('./PreloadData');
 var async = require('async');
 
 module.exports = function SetupNamespaces(callback) {
+
 	var clientConfigs = Container.getClientConfigs();
 
-	function setupNamsepace(config, nextLoop) {
+	function setupNamespace(config, nextLoop) {
 		function createNamespace(callback) {
 			var namespace = Handler.createNamespace(config.name);
 
@@ -44,5 +45,5 @@ module.exports = function SetupNamespaces(callback) {
 		callback();
 	}
 
-	async.eachSeries(clientConfigs, setupNamsepace, onNamespacesSetupFinished);
+	async.eachSeries(clientConfigs, setupNamespace, onNamespacesSetupFinished);
 };
