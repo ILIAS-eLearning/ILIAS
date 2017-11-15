@@ -1,6 +1,6 @@
 var Container = require('../AppContainer');
 
-module.exports = function exports(conversationId, oldestMessageTimestamp) {
+module.exports = function(conversationId, oldestMessageTimestamp) {
 	if(conversationId !== null)
 	{
 		var namespace = Container.getNamespace(this.nsp.name);

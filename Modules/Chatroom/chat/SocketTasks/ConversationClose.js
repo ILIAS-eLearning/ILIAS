@@ -6,7 +6,7 @@ var Conversation = require('../Model/Conversation');
  * @param {number} userId
  * @param {number} timestamp
  */
-module.exports = function exports(conversationId, userId) {
+module.exports = function(conversationId, userId) {
 	if(conversationId !== null && userId !== null)
 	{
 		var namespace = Container.getNamespace(this.nsp.name);

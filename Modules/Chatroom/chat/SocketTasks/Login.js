@@ -1,7 +1,7 @@
 var Container = require('../AppContainer');
 var ConnectAction = require('../Model/Messages/ConnectAction');
 
-module.exports = function exports(subscriberName, subscriberId)
+module.exports = function(subscriberName, subscriberId)
 {
 	var namespace = Container.getNamespace(this.nsp.name);
 

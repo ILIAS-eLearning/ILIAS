@@ -4,17 +4,17 @@ var TargetMessage 	= require('../Model/Messages/TargetMessage');
 var AccessHandler	= require('../Handler/AccessHandler');
 var HTMLEscape		= require('../Helper/HTMLEscape');
 
-module.exports = function exports(data, roomId, subRoomId)
+module.exports = function(data, roomId, subRoomId)
 {
 	var serverRoomId = Container.createServerRoomId(roomId, subRoomId);
 	var namespace = Container.getNamespace(this.nsp.name);
 	var subscriber = { id: this.subscriber.getId(),	username: this.subscriber.getName() };
 
-	var messageCallbackFactory = function messageCallbackFactory(message) {
+	function messageCallbackFactory(message) {
 		return function(socketId){
 			namespace.getIO().to(socketId).emit('message', message);
 		};
-	};
+	}
 
 	Container.getLogger().info('Message send to room %s of namespace %s', serverRoomId, namespace.getName());
 
