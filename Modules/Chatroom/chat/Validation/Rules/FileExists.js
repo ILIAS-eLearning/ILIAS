@@ -13,7 +13,7 @@ module.exports = function FileExists(filename) {
 	 */
 	var _filename = filename;
 
-	this.validate = function validate() {
+	this.validate = function() {
 		if(!FileSystem.existsSync(_filename)) {
 			/**
 			 * @TODO Change Error
