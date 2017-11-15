@@ -15,6 +15,6 @@ module.exports = function(socket) {
 	socket.on('closeConversation', _getTask('ConversationClose'));
 };
 
-var _getTask = function(name) {
+function _getTask(name) {
 	return require('../SocketTasks/'+ name);
-};
+}

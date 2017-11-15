@@ -13,9 +13,9 @@ module.exports = function(req, res)
 
 		for (var usrId in users) {
 			if (subscribers.hasOwnProperty(usrId) && users.hasOwnProperty(usrId)) {
-				var subscriber = subscribers[usrId];
-				settings   = users[usrId];
-				acceptsMessages = (settings.hasOwnProperty("acceptsMessages") && settings["acceptsMessages"]);
+				var subscriber = subscribers[usrId],
+					settings   = users[usrId],
+					acceptsMessages = (settings.hasOwnProperty("acceptsMessages") && settings["acceptsMessages"]);
 
 				subscriber.setAcceptsMessages(acceptsMessages);
 

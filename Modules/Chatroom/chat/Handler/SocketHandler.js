@@ -10,6 +10,6 @@ module.exports = function(socket) {
 	socket.on('disconnect', _getTask('Disconnect'));
 };
 
-var _getTask = function(name) {
+function _getTask (name) {
 	return require('../SocketTasks/'+ name);
-};
+}

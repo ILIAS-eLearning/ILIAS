@@ -21,12 +21,10 @@ var RoutingHandler = function RoutingHandler() {
 		app.get(_createRoute('/GetRooms/:namespace'), _getTask('GetRooms'));
 		app.get(_createRoute('/UserConfigChange/:namespace'), _getTask('UserConfigChange'));
 
-		var sendRequest = function(req, res){
+		app.get(_createRoute('/Post/:namespace/:roomId'), function onNotSupportedAction(req, res) {
 			Container.getLogger().log('silly', 'Not Supported Action %s', 'Post');
 			res.send({success: true});
-		};
-
-		app.get(_createRoute('/Post/:namespace/:roomId'), sendRequest);
+		});
 	};
 
 	function _getTask(name) {
