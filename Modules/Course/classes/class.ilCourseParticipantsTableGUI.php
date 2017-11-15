@@ -494,7 +494,6 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 						
 			$a_user_data[$user_id] = array_merge($ud,$course_user_data[$user_id]);
 
-			$a_user_data[$user_id]['name'] = ($a_user_data[$user_id]['lastname'].', '.$a_user_data[$user_id]['firstname']);
 
 			$roles = array();			
 			foreach($local_roles as $role_id => $role_name)
@@ -506,11 +505,9 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 				}
 			}
 
+			$a_user_data[$user_id]['name'] = ($a_user_data[$user_id]['lastname'].', '.$a_user_data[$user_id]['firstname']);
 			$a_user_data[$user_id]['roles_label'] = implode('<br />', $roles);
-
-			$a_user_data[$user_id]['roles'] = 
-				$this->participants->setRoleOrderPosition($user_id).' '.
-				$a_user_data[$user_id]['name'];
+			$a_user_data[$user_id]['roles'] = $this->participants->setRoleOrderPosition($user_id);
 			
 			
 			if($this->show_lp_status_sync)
@@ -624,6 +621,14 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 				}
 			}
 		}
+		
+		// always sort by name first
+		$a_user_data = ilUtil::sortArray(
+			$a_user_data,
+			'name',
+			'asc'
+		);
+		
 		return $this->setData($a_user_data);
 	}
 	
