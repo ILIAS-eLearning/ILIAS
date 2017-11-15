@@ -1,18 +1,22 @@
 <?php
 /**
- * Class ilBibliographicSettingsFilterFormGUI
+ * Class ilBiblSettingsFilterFormGUI
  *
  * @author: Benjamin Seglias   <bs@studer-raimann.ch>
  */
 
-class ilBibliographicSettingsFilterFormGUI extends ilPropertyFormGUI {
+class ilBiblSettingsFilterFormGUI extends ilPropertyFormGUI {
 
 	/**
 	 * @var  ilBiblField
 	 */
 	protected $il_bibl_field;
 	/**
-	 * @var ilBibliographicSettingsFilterGUI
+	 * @var  ilBiblFilter
+	 */
+	protected $il_bibl_filter;
+	/**
+	 * @var ilBiblSettingsFilterGUI
 	 */
 	protected $il_bibliographic_settings_filter_gui;
 	/**
@@ -68,33 +72,32 @@ class ilBibliographicSettingsFilterFormGUI extends ilPropertyFormGUI {
 		 * 3)
 		 */
 
-		$si = new ilSelectInputGUI($this->dic->language()->txt("please_choose_field"), "field");
+		$si = new ilSelectInputGUI($this->dic->language()->txt("please_choose_field"), "identifier");
 		$si->setOptions($select_options);
 		$si->setRequired(true);
 		$this->addItem($si);
 
 		$options = [
-			1 => ilBiblField::FILTER_TYPE_TEXT_INPUT . " - Text Input",
-			2 => ilBiblField::FILTER_TYPE_SELECT_INPUT . " - Select Input",
-			3 => ilBiblField::FILTER_TYPE_MULTI_SELECT_INPUT . " - Multi Select Input"
+			1 => ilBiblFilter::FILTER_TYPE_TEXT_INPUT . " - Text Input",
+			2 => ilBiblFilter::FILTER_TYPE_SELECT_INPUT . " - Select Input",
+			3 => ilBiblFilter::FILTER_TYPE_MULTI_SELECT_INPUT . " - Multi Select Input"
 		];
 		$si = new ilSelectInputGUI($this->dic->language()->txt("please_choose_filter_type"), "filter_type");
 		$si->setOptions($options);
 		$si->setRequired(true);
 		$this->addItem($si);
 
-		$this->addCommandButton(ilBibliographicSettingsFilterGUI::CMD_UPDATE, $this->dic->language()->txt('save'));
-		$this->addCommandButton(ilBibliographicSettingsFilterGUI::CMD_CANCEL, $this->dic->language()->txt("cancel"));
+		$this->addCommandButton(ilBiblSettingsFilterGUI::CMD_UPDATE, $this->dic->language()->txt('save'));
+		$this->addCommandButton(ilBiblSettingsFilterGUI::CMD_CANCEL, $this->dic->language()->txt("cancel"));
 
-		$this->ctrl->setParameter($this->il_bibliographic_settings_filter_gui, ilBibliographicSettingsFilterGUI::FIELD_IDENTIFIER, $_GET['field_identifier']);
+		$this->ctrl->setParameter($this->il_bibliographic_settings_filter_gui, ilBiblSettingsFilterGUI::FIELD_IDENTIFIER, $_GET['field_identifier']);
 		$this->setFormAction($this->ctrl->getFormAction($this->il_bibliographic_settings_filter_gui));
 	}
 
-
 	public function fillForm() {
 		$array = array(
-			'field' => $this->il_bibl_field->getField(),
-			'filter_type' => $this->il_bibl_field->getFilterType()
+			'field' => $this->il_bibl_field->getIdentifier(),
+			'filter_type' => $this->il_bibl_filter->getFilterType()
 		);
 		$this->setValuesByArray($array);
 	}
@@ -108,7 +111,6 @@ class ilBibliographicSettingsFilterFormGUI extends ilPropertyFormGUI {
 		//
 		// Abfüllen der Daten aus via $this->>getInput()['field']...
 		//
-
 		if ($this->il_bibl_field->getId()) {
 			$this->il_bibl_field->update();
 		} else {

@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Class ilBibliographicSettingsFilterGUI
+ * Class ilBiblSettingsFilterGUI
  *
  * @author: Benjamin Seglias   <bs@studer-raimann.ch>
  */
 
-class ilBibliographicSettingsFilterGUI {
+class ilBiblSettingsFilterGUI {
 
 	const FIELD_IDENTIFIER = 'field_identifier';
 	const CMD_STANDARD = 'content';
@@ -16,6 +16,7 @@ class ilBibliographicSettingsFilterGUI {
 	const CMD_DELETE = 'delete';
 	const CMD_APPLY_FILTER = 'applyFilter';
 	const CMD_RESET_FILTER = 'resetFilter';
+	const CMD_TRANSLATE = 'translate';
 
 	/**
 	 * @var ilObjBibliographic

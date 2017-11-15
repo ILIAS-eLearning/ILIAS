@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Class ilBibliographicSettingsFilterTableGUI
+ * Class ilBiblSettingsFilterTableGUI
  *
  * @author: Benjamin Seglias   <bs@studer-raimann.ch>
  */
 
-class ilBibliographicSettingsFilterTableGUI extends ilTable2GUI {
+class ilBiblSettingsFilterTableGUI extends ilTable2GUI {
 
 	const TBL_ID = 'tbl_bibl_filters';
 	/**
@@ -22,7 +22,7 @@ class ilBibliographicSettingsFilterTableGUI extends ilTable2GUI {
 	 */
 	protected $tpl;
 	/**
-	 * @var ilBibliographicSettingsFilterGUI
+	 * @var ilBiblSettingsFilterGUI
 	 */
 	protected $parent_obj;
 	/**
@@ -37,7 +37,7 @@ class ilBibliographicSettingsFilterTableGUI extends ilTable2GUI {
 	/**
 	 * ilLocationDataTableGUI constructor.
 	 *
-	 * @param ilBibliographicSettingsFilterGUI $a_parent_obj
+	 * @param ilBiblSettingsFilterGUI $a_parent_obj
 	 * @param string      $a_parent_cmd
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, ilObjBibliographic $il_obj_bibliographic) {
@@ -59,10 +59,10 @@ class ilBibliographicSettingsFilterTableGUI extends ilTable2GUI {
 		$this->parent_obj = $a_parent_obj;
 		$this->setRowTemplate('tpl.bibl_settings_filters_list_row.html', 'Modules/Bibliographic');
 
-		$this->setFormAction($this->ctrl->getFormActionByClass(ilBibliographicSettingsFilterGUI::class));
+		$this->setFormAction($this->ctrl->getFormActionByClass(ilBiblSettingsFilterGUI::class));
 		$this->setExternalSorting(true);
 
-		$this->setDefaultOrderField("field");
+		$this->setDefaultOrderField("identifier");
 		$this->setDefaultOrderDirection("asc");
 		$this->setExternalSegmentation(true);
 		$this->setEnableHeader(true);
@@ -75,7 +75,7 @@ class ilBibliographicSettingsFilterTableGUI extends ilTable2GUI {
 	protected function initButtons() {
 
 		if ($this->dic->access()->checkAccess('write', "", $this->il_obj_bibliographic->getRefId())) {
-			$new_filter_link = $this->ctrl->getLinkTargetByClass(ilBibliographicSettingsFilterGUI::class, ilBibliographicSettingsFilterGUI::CMD_EDIT);
+			$new_filter_link = $this->ctrl->getLinkTargetByClass(ilBiblSettingsFilterGUI::class, ilBiblSettingsFilterGUI::CMD_EDIT);
 			$ilLinkButton = ilLinkButton::getInstance();
 			$ilLinkButton->setCaption($this->dic->language()->txt("add_filter"), false);
 			$ilLinkButton->setUrl($new_filter_link);
@@ -133,8 +133,8 @@ class ilBibliographicSettingsFilterTableGUI extends ilTable2GUI {
 		$current_selection_list = new ilAdvancedSelectionListGUI();
 		$current_selection_list->setListTitle($this->lng->txt("actions"));
 		$current_selection_list->setId($ilField->getId());
-		$current_selection_list->addItem($this->dic->language()->txt("edit"), "", $this->dic->ctrl()->getLinkTargetByClass(ilBibliographicSettingsFilterGUI::class, ilBibliographicSettingsFilterGUI::CMD_EDIT));
-		$current_selection_list->addItem($this->dic->language()->txt("delete"), "", $this->dic->ctrl()->getLinkTargetByClass(ilBibliographicSettingsFilterGUI::class, ilBibliographicSettingsFilterGUI::CMD_DELETE));
+		$current_selection_list->addItem($this->dic->language()->txt("edit"), "", $this->dic->ctrl()->getLinkTargetByClass(ilBiblSettingsFilterGUI::class, ilBiblSettingsFilterGUI::CMD_EDIT));
+		$current_selection_list->addItem($this->dic->language()->txt("delete"), "", $this->dic->ctrl()->getLinkTargetByClass(ilBiblSettingsFilterGUI::class, ilBiblSettingsFilterGUI::CMD_DELETE));
 		$this->tpl->setVariable('VAL_ACTIONS', $current_selection_list->getHTML());
 	}
 

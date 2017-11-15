@@ -10,9 +10,6 @@ class ilBiblField extends ActiveRecord {
 	const TABLE_NAME = 'il_bibl_field';
 	const DATA_TYPE_RIS = 1;
 	const DATA_TYPE_BIBTEX = 2;
-	const FILTER_TYPE_TEXT_INPUT = 1;
-	const FILTER_TYPE_SELECT_INPUT = 2;
-	const FILTER_TYPE_MULTI_SELECT_INPUT = 3;
 
 
 	/**
@@ -52,7 +49,7 @@ class ilBiblField extends ActiveRecord {
 	 * @con_length     50
 	 * @con_is_notnull true
 	 */
-	protected $field;
+	protected $identifier;
 	/**
 	 * @var
 	 *
@@ -62,14 +59,6 @@ class ilBiblField extends ActiveRecord {
 	 * @con_is_notnull true
 	 */
 	protected $data_type;
-	/**
-	 * @var
-	 *
-	 * @con_has_field true
-	 * @con_fieldtype integer
-	 * @con_length    1
-	 */
-	protected $filter_type;
 	/**
 	 * @var
 	 *
@@ -86,7 +75,7 @@ class ilBiblField extends ActiveRecord {
 	 * @con_length     1
 	 * @con_is_notnull true
 	 */
-	protected $is_standard;
+	protected $is_standard_field;
 	/**
 	 * @var
 	 *
@@ -117,50 +106,17 @@ class ilBiblField extends ActiveRecord {
 	/**
 	 * @return string
 	 */
-	public function getField() {
-		return $this->field;
+	public function getIdentifier() {
+		return $this->identifier;
 	}
 
 
 	/**
-	 * @param string $field
+	 * @param string $identifier
 	 */
-	public function setField($field) {
-		$this->field = $field;
+	public function setIdentifier($identifier) {
+		$this->identifier = $identifier;
 	}
-
-
-	/**
-	 * @return integer
-	 */
-	public function getisRisType() {
-		return $this->is_ris_type;
-	}
-
-
-	/**
-	 * @param integer $is_ris_type
-	 */
-	public function setIsRisType($is_ris_type) {
-		$this->is_ris_type = $is_ris_type;
-	}
-
-
-	/**
-	 * @return integer
-	 */
-	public function getFilterType() {
-		return $this->filter_type;
-	}
-
-
-	/**
-	 * @param integer $filter_type
-	 */
-	public function setFilterType($filter_type) {
-		$this->filter_type = $filter_type;
-	}
-
 
 	/**
 	 * @return integer
@@ -181,16 +137,16 @@ class ilBiblField extends ActiveRecord {
 	/**
 	 * @return integer
 	 */
-	public function getisStandard() {
-		return $this->is_standard;
+	public function getisStandardField() {
+		return $this->is_standard_field;
 	}
 
 
 	/**
-	 * @param integer $is_standard
+	 * @param integer $is_standard_field
 	 */
-	public function setIsStandard($is_standard) {
-		$this->is_standard = $is_standard;
+	public function setIsStandardField($is_standard_field) {
+		$this->is_standard_field = $is_standard_field;
 	}
 
 
@@ -207,6 +163,22 @@ class ilBiblField extends ActiveRecord {
 	 */
 	public function setObjectId($object_id) {
 		$this->object_id = $object_id;
+	}
+
+
+	/**
+	 * @return mixed
+	 */
+	public function getDataType() {
+		return $this->data_type;
+	}
+
+
+	/**
+	 * @param mixed $data_type
+	 */
+	public function setDataType($data_type) {
+		$this->data_type = $data_type;
 	}
 
 
@@ -233,11 +205,52 @@ class ilBiblField extends ActiveRecord {
 	}
 
 	/**
+	 * @return array of string of all field-types in ILIAS-Object with the given obj_id
+	 */
+	public static function getAllAttributeNamesAndFileNames() {
+		global $DIC;
+		$sql = "SELECT DISTINCT(il_bibl_attribute.name), filename FROM il_bibl_attribute
+				JOIN il_bibl_entry ON il_bibl_attribute.entry_id = il_bibl_entry.id
+				JOIN il_bibl_data ON il_bibl_data.id = il_bibl_entry.data_id";
+
+		$result = $DIC->database()->query($sql);
+
+		$data = [];
+		$i = 0;
+		while ($d = $DIC->database()->fetchAssoc($result)) {
+			$data[$i]['name'] = $d['name'];
+			$data[$i]['filename'] = $d['filename'];
+			$i++;
+		}
+		return $data;
+	}
+
+	/**
 	 * @param $obj_id ILIAS-Object_ID
 	 *
 	 * @return array of string of all field-types in ILIAS-Object with the given obj_id
 	 */
 	public static function getAttributeNameAndFileName($obj_id) {
+		global $DIC;
+		$sql = "SELECT DISTINCT(il_bibl_attribute.name), filename FROM il_bibl_attribute
+				JOIN il_bibl_entry ON il_bibl_attribute.entry_id = il_bibl_entry.id
+				JOIN il_bibl_data ON il_bibl_data.id = il_bibl_entry.data_id";
+
+		$result = $DIC->database()->queryF($sql, [ 'integer' ], [ $obj_id ]);
+
+		$data = [];
+		while ($d = $DIC->database()->fetchAssoc($result)) {
+			$data[] = $d['name'];
+		}
+		return $data;
+	}
+
+	/**
+	 * @param $obj_id ILIAS-Object_ID
+	 *
+	 * @return array of string of all field-types in ILIAS-Object with the given obj_id
+	 */
+	public static function getAttributeNameAndFileName2($obj_id) {
 		global $DIC;
 		$sql = "SELECT DISTINCT(il_bibl_attribute.name), filename FROM il_bibl_attribute
 				JOIN il_bibl_entry ON il_bibl_attribute.entry_id = il_bibl_entry.id
