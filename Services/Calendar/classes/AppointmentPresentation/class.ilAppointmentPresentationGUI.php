@@ -651,9 +651,10 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 
 		$download_job->setBucketTitle($this->lng->txt("cal_calendar_download")." ".$appointment['event']->getTitle());
 		$download_job->setEvents(array($appointment));
-		$download_job->run();
-
-		ilUtil::sendSuccess($this->lng->txt('cal_download_files_started'),true);
+		if($download_job->run())
+		{
+			ilUtil::sendSuccess($this->lng->txt('cal_download_files_started'),true);
+		}
 		$this->ctrl->returnToParent($this);
 	}
 

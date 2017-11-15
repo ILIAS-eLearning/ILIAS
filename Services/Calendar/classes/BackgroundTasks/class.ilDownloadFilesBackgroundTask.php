@@ -103,6 +103,7 @@ class ilDownloadFilesBackgroundTask
 	
 	/**
 	 * Run task
+	 * @return bool 
 	 */
 	public function run()
 	{
@@ -115,7 +116,7 @@ class ilDownloadFilesBackgroundTask
 		if(!$this->has_files)
 		{
 			ilUtil::sendInfo($this->lng->txt("cal_down_no_files"), true);
-			return;
+			return false;
 		}
 
 		$bucket = new BasicBucket();
@@ -139,6 +140,7 @@ class ilDownloadFilesBackgroundTask
 		
 		$task_manager = $GLOBALS['DIC']->backgroundTasks()->taskManager();
 		$task_manager->run($bucket);
+		return true;
 	}
 	
 	/**

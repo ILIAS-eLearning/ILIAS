@@ -403,9 +403,10 @@ class ilCalendarViewGUI
 
 		$download_job->setBucketTitle($this->getBucketTitle());
 		$download_job->setEvents($this->getEvents());
-		$download_job->run();
-
-		ilUtil::sendSuccess($this->lng->txt('cal_download_files_started'),true);
+		if($download_job->run())
+		{
+			ilUtil::sendSuccess($this->lng->txt('cal_download_files_started'),true);
+		}
 		$GLOBALS['DIC']->ctrl()->redirect($this);
 	}
 
