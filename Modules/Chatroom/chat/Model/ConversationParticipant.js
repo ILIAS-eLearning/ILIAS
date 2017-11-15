@@ -170,7 +170,7 @@ function Participant(id, name) {
 		return _conversations;
 	};
 
-	var getConversationIndex = function(conversation, conversations) {
+	function getConversationIndex(conversation, conversations) {
 		for (var key in conversations) {
 			if (conversations.hasOwnProperty(key)) {
 				var id = conversations[key].getId();
@@ -181,19 +181,19 @@ function Participant(id, name) {
 			}
 		}
 		return false;
-	};
+	}
 
 	/**
 	 * @param {Function} callback
 	 * @private
 	 */
-	var forSockets = function(callback) {
+	function forSockets(callback) {
 		for(var key in _sockets) {
 			if(_sockets.hasOwnProperty(key)) {
 				callback(_sockets[key]);
 			}
 		}
-	};
+	}
 }
 
 module.exports = exports = Participant;
