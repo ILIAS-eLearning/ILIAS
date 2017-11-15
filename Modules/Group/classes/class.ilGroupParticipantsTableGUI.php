@@ -376,8 +376,6 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 			$a_user_data[$user_id]['roles'] = 
 				$this->participants->setRoleOrderPosition($user_id).' '.
 				$a_user_data[$user_id]['name'];
-			
-
 		}
 
 		// Custom user data fields
