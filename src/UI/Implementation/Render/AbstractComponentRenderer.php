@@ -116,9 +116,10 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	 * @throws	\InvalidArgumentException	if there is no such template
 	 * @return	\ILIAS\UI\Implementation\Render\Template
 	 */
-	final protected function getTemplate($name, $purge_unfilled_vars, $purge_unused_blocks) {
+	protected function getTemplate($name, $purge_unfilled_vars, $purge_unused_blocks) {
 		$component = $this->getMyComponent();
 		$path = "src/UI/templates/default/$component/$name";
+
 		return $this->tpl_factory->getTemplate($path, $purge_unfilled_vars, $purge_unused_blocks);
 	}
 
