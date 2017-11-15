@@ -6,20 +6,15 @@ var HTMLEscape		= require('../Helper/HTMLEscape');
 
 module.exports = function(data, roomId, subRoomId)
 {
-	/*if(!AccessHandler.canAccessRoom(this, this.subscriber.getId(), room)) {
-		AccessHandler.disconnect(this);
-		return;
-	}*/
-
 	var serverRoomId = Container.createServerRoomId(roomId, subRoomId);
 	var namespace = Container.getNamespace(this.nsp.name);
 	var subscriber = { id: this.subscriber.getId(),	username: this.subscriber.getName() };
 
-	var messageCallbackFactory = function(message) {
+	function messageCallbackFactory(message) {
 		return function(socketId){
 			namespace.getIO().to(socketId).emit('message', message);
 		};
-	};
+	}
 
 	Container.getLogger().info('Message send to room %s of namespace %s', serverRoomId, namespace.getName());
 
