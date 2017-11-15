@@ -1929,7 +1929,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 				{
 					$app = new ilCalendarAppointmentTemplate(self::CAL_START);
 					$app->setTitle($this->getTitle());
-					$app->setSubtitle('grp_start');
+					$app->setSubtitle('grp_cal_start');
 					$app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
 					$app->setDescription($this->getLongDescription());	
 					$app->setStart($this->getStart());
@@ -1938,7 +1938,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 
 					$app = new ilCalendarAppointmentTemplate(self::CAL_END);
 					$app->setTitle($this->getTitle());
-					$app->setSubtitle('grp_end');
+					$app->setSubtitle('grp_cal_end');
 					$app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
 					$app->setDescription($this->getLongDescription());	
 					$app->setStart($this->getEnd());
