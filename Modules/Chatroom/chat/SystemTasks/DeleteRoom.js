@@ -22,10 +22,10 @@ module.exports = function(req, res)
 
 	var subscribers = room.getSubscribers();
 
-	var emitDeleteRoomBySocketId = function(socketId) {
+	function emitDeleteRoomBySocketId(socketId) {
 		namespace.getIO().connected[socketId].leave(room.getId());
 		namespace.getIO().to(socketId).emit('private_room_deleted', action);
-	};
+	}
 
 	for (var key in subscribers) {
 		if (subscribers.hasOwnProperty(key)) {

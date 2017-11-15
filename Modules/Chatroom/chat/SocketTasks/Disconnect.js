@@ -17,7 +17,7 @@ module.exports = function()
 
 	Container.getLogger().info('Subscriber %s left namespace %s', this.subscriber.getId(), namespace.getName());
 
-	var subscriberLeftNamespaceHandler = function() {
+	function subscriberLeftNamespaceHandler() {
 		if(namespace.hasSubscriber(subscriberId)) {
 			var rooms = namespace.getRooms();
 
@@ -68,7 +68,7 @@ module.exports = function()
 		}
 
 		Container.removeTimeout(subscriberId);
-	};
+	}
 
 	Container.setTimeout(subscriberId, subscriberLeftNamespaceHandler, 5000);
 

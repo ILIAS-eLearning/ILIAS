@@ -98,29 +98,29 @@ function Participant(id, name) {
 		_sockets.push(socket);
 	};
 
-	var createEmitDataOnSocketCallback = function(event, data) {
+	function createEmitDataOnSocketCallback(event, data) {
 		return function(socket){
 			socket.emit(event, data);
 		};
-	};
+	}
 
-	var createJoinSocketCallback = function(name) {
+	function createJoinSocketCallback(name) {
 		return function(socket){
 			socket.join(name);
 		};
-	};
+	}
 
-	var createLeaveSocketCallback = function(name) {
+	function createLeaveSocketCallback(name) {
 		return function(socket){
 			socket.leave(name);
 		};
-	};
+	}
 
-	var createEmitMessageOnSocketCallback = function(message) {
+	function createEmitMessageOnSocketCallback(message) {
 		return function(socket){
 			socket.emit('message', message);
 		};
-	};
+	}
 
 	this.emit = function(event, data) {
 		var emitDataOnSocket = createEmitDataOnSocketCallback(event, data);
@@ -170,7 +170,7 @@ function Participant(id, name) {
 		return _conversations;
 	};
 
-	var getConversationIndex = function(conversation, conversations) {
+	function getConversationIndex(conversation, conversations) {
 		for (var key in conversations) {
 			if (conversations.hasOwnProperty(key)) {
 				var id = conversations[key].getId();
@@ -181,19 +181,19 @@ function Participant(id, name) {
 			}
 		}
 		return false;
-	};
+	}
 
 	/**
 	 * @param {Function} callback
 	 * @private
 	 */
-	var forSockets = function(callback) {
+	function forSockets(callback) {
 		for(var key in _sockets) {
 			if(_sockets.hasOwnProperty(key)) {
 				callback(_sockets[key]);
 			}
 		}
-	};
+	}
 }
 
 module.exports = exports = Participant;

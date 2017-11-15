@@ -28,15 +28,15 @@ module.exports = function(participants) {
 
 	namespace.getDatabase().updateConversation(conversation);
 
-	var onLastConversationMessageResult = function(row) {
+	function onLastConversationMessageResult(row) {
 		row.userId = row.user_id;
 		row.conversationId = row.conversation_id;
 		conversation.setLatestMessage(row);
-	};
+	}
 
-	var onLastConversationMessageEnd = function() {
+	function onLastConversationMessageEnd() {
 		socket.participant.emit('conversation-init', conversation.json());
-	};
+	}
 
 	namespace.getDatabase().getLatestMessage(conversation, onLastConversationMessageResult, onLastConversationMessageEnd);
 };

@@ -8,30 +8,30 @@ module.exports = function() {
 	var conversations = this.participant.getConversations();
 	var socket = this;
 
-	var onConversationListResult = function(conversation, nextLoop){
+	function onConversationListResult(conversation, nextLoop){
 		var conversationClosed = false;
 
-		var setConservationState = function(row) {
+		function setConservationState(row) {
 			conversationClosed = row.is_closed;
-		};
+		}
 
-		var fetchLatestMessageForOpenConversation = function() {
+		function fetchLatestMessageForOpenConversation() {
 			if (!conversationClosed) {
-				var setLatestMessageOnConversation = function (row) {
+				function setLatestMessageOnConversation(row) {
 					row.userId         = row.user_id;
 					row.conversationId = row.conversation_id;
 					conversation.setLatestMessage(row);
-				};
+				}
 
-				var determineUnreadMessages = function () {
-					var setNumberOfNewMessages = function(row) {
+				function determineUnreadMessages() {
+					function setNumberOfNewMessages(row) {
 						conversation.setNumNewMessages(row.numMessages);
-					};
+					}
 
-					var emitConversationAndContinue = function() {
+					function emitConversationAndContinue() {
 						socket.participant.emit('conversation', conversation.json());
 						nextLoop();
-					};
+					}
 
 					namespace.getDatabase().countUnreadMessages(
 						conversation.getId(),
@@ -39,7 +39,7 @@ module.exports = function() {
 						setNumberOfNewMessages,
 						emitConversationAndContinue
 					);
-				};
+				}
 
 				namespace.getDatabase().getLatestMessage(
 					conversation,
@@ -49,7 +49,7 @@ module.exports = function() {
 			} else {
 				nextLoop();
 			}
-		};
+		}
 
 		namespace.getDatabase().getConversationStateForParticipant(
 			conversation.getId(),
@@ -57,13 +57,13 @@ module.exports = function() {
 			setConservationState,
 			fetchLatestMessageForOpenConversation
 		);
-	};
+	}
 
-	var onPossibleConversationListError = function(err) {
+	function onPossibleConversationListError(err) {
 		if (err) {
 			throw err;
 		}
-	};
+	}
 
 	async.eachSeries(conversations, onConversationListResult, onPossibleConversationListError);
 };

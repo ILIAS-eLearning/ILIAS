@@ -4,8 +4,7 @@ var Notice = require('../Model/Messages/Notice');
 var InviteAction = require('../Model/Messages/InviteAction');
 
 
-module.exports = function(req, res)
-{
+module.exports = function(req, res) {
 	var namespaceId = req.params.namespace;
 	var roomId = req.params.roomId;
 	var subRoomId = req.params.subRoomId;
@@ -17,18 +16,18 @@ module.exports = function(req, res)
 	var room = namespace.getRoom(serverRoomId);
 	var subscriber = namespace.getSubscriber(inviteeId);
 
-	var createNoticeEmitterForHost = function (notice) {
-		return function (socketId) {
+	function createNoticeEmitterForHost(namespace, notice) {
+		return function hostNoticeEmitter(socketId) {
 			namespace.getIO().to(socketId).emit('notice', notice);
 		};
-	};
+	}
 
-	var createNoticeEmitterForInvitee = function (action, notice) {
-		return function (socketId) {
+	function createNoticeEmitterForInvitee(namespace, action, notice) {
+		return function inviteeNoticeEmitter(socketId) {
 			namespace.getIO().to(socketId).emit('user_invited', action);
 			namespace.getIO().to(socketId).emit('notice', notice);
 		};
-	};
+	}
 
 	Container.getLogger().info('Invite Subscriber %s to room %s of namespace %s', inviteeId, serverRoomId, namespace.getName());
 
@@ -45,11 +44,13 @@ module.exports = function(req, res)
 		var host = namespace.getSubscriber(hostId);
 
 		var emitNoticeToHost = createNoticeEmitterForHost(
+			namespace,
 			Notice.create('user_invited', roomId, subRoomId)
 		);
 		host.getSocketIds().forEach(emitNoticeToHost);
 
 		var emitNoticeToInvitee = createNoticeEmitterForInvitee(
+			namespace,
 			InviteAction.create(roomId, subRoomId, room.getTitle(), room.getOwnerId()),
 			Notice.create('user_invited_self', roomId, -1, {user: host.getName(), room: room.getTitle()})
 		);

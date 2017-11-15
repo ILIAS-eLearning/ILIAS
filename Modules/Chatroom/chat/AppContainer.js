@@ -63,22 +63,16 @@ var AppContainer = function AppContainer() {
 	this.getApi = function() { return _api; };
 	this.addNamespace = function(namespace) { _namespaces.push(namespace); };
 	this.getNamespaces = function() { return _namespaces; };
+	this.getNamespace = function getNamespace(name) {
+		var namespace = null;
+		name = name.replace(/^\//, '');
 
-	function createSetNamespaceFunction(namespace, name)
-	{
-		return function setNamespace(element){
+		function setNamespace(element){
 			if(element.getName() == name) {
 				namespace = element;
 				return true;
 			}
-		};
-	}
-
-	this.getNamespace = function(name) {
-		var namespace = null;
-		name = name.replace(/^\//, '');
-
-		var setNamespace = createSetNamespaceFunction(namespace, name);
+		}
 
 		_namespaces.forEach(setNamespace);
 		return namespace;
@@ -124,7 +118,7 @@ function getInstance() {
 	}
 
 	return _instance;
-}
+};
 
 /**
  * Returns a Singleton of AppContainer
