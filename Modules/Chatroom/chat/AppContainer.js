@@ -95,9 +95,7 @@ var AppContainer = function AppContainer() {
 	this.getServer = function() { return _server; };
 
 	this.setTimeout = function(subscriberId, callback, delay) {
-		var timeout = setTimeout(callback, delay);
-
-		_timeouts[subscriberId] = timeout;
+		_timeouts[subscriberId] = setTimeout(callback, delay);
 	};
 
 	this.removeTimeout = function(subscriberId) {
@@ -121,12 +119,12 @@ var AppContainer = function AppContainer() {
 var _instance = null;
 
 function getInstance() {
-	if(_instance == null) {
+	if(_instance === null) {
 		_instance = new AppContainer();
 	}
 
 	return _instance;
-};
+}
 
 /**
  * Returns a Singleton of AppContainer
