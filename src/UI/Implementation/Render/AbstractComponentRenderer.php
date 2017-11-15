@@ -237,6 +237,9 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 		// Extract component
 		$re = "%ILIAS\\\\UI\\\\Implementation\\\\Component\\\\(\\w+)\\\\(\\w+)%";
 		preg_match($re, $class, $matches);
+		if (preg_match($re, $class, $matches) !== 1) {
+			throw new \LogicException("The Renderer needs to be located in ILIAS\\UI\\Implementation\\Component\\*.");
+		}
 		self::$component_storage[$class] = $matches[1];
 
 		return self::$component_storage[$class];
