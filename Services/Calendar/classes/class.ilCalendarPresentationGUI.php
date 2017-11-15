@@ -118,15 +118,18 @@ class ilCalendarPresentationGUI
 		{
 			if ($a_ref_id > 0)
 			{
-				$cats->initialize(ilCalendarCategories::MODE_REPOSITORY, (int)$a_ref_id, true);
-			}
-			if(ilCalendarUserSettings::_getInstance()->getCalendarSelectionType() == ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP)
-			{
-				$cats->initialize(ilCalendarCategories::MODE_PERSONAL_DESKTOP_MEMBERSHIP);
+				$cats->initialize(ilCalendarCategories::MODE_REPOSITORY, (int) $a_ref_id, true);
 			}
 			else
 			{
-				$cats->initialize(ilCalendarCategories::MODE_PERSONAL_DESKTOP_ITEMS);
+				if(ilCalendarUserSettings::_getInstance()->getCalendarSelectionType() == ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP)
+				{
+					$cats->initialize(ilCalendarCategories::MODE_PERSONAL_DESKTOP_MEMBERSHIP);
+				}
+				else
+				{
+					$cats->initialize(ilCalendarCategories::MODE_PERSONAL_DESKTOP_ITEMS);
+				}
 			}
 		}
 
