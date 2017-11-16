@@ -1800,6 +1800,8 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->object->removeQuestion($value);
 			$deleted[] = $value;
 		}
+		
+		$this->object->reindexFixedQuestionOrdering();
 
 		$this->object->saveCompleteStatus( $this->testQuestionSetConfigFactory->getQuestionSetConfig() );
 		
