@@ -10954,6 +10954,7 @@ function getAnswerFeedbackPoints()
 	    $values = array($row['sequence'] + 1, $question_to_move);
 	    $ilDB->manipulateF($update, $types, $values);
 
+	    $this->reindexFixedQuestionOrdering();
 	}
 
 	public function hasQuestionsWithoutQuestionpool()
