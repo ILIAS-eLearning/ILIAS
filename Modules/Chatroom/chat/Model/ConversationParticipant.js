@@ -99,25 +99,25 @@ function Participant(id, name) {
 	};
 
 	function createEmitDataOnSocketCallback(event, data) {
-		return function(socket){
+		return function emitDataOnSocket(socket){
 			socket.emit(event, data);
 		};
 	}
 
 	function createJoinSocketCallback(name) {
-		return function(socket){
+		return function joinSocket(socket){
 			socket.join(name);
 		};
 	}
 
 	function createLeaveSocketCallback(name) {
-		return function(socket){
+		return function leaveSocket(socket){
 			socket.leave(name);
 		};
 	}
 
 	function createEmitMessageOnSocketCallback(message) {
-		return function(socket){
+		return function emitMessageOnSocket(socket){
 			socket.emit('message', message);
 		};
 	}
