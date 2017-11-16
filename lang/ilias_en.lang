@@ -13339,6 +13339,9 @@ wfe#:#start_listening#:#Activate Listener
 wfe#:#stop_listening#:#Deactivate Listener
 wfe#:#static_input_form_header#:#Input Data for All Instances of the Workflow
 wfe#:#start_event_form_header#:#Relevant Events for the Start of Workflows
+wfe#:#wfe_sure_to_delete_process_def#:#Are you sure you want to delete the definition?
+wfe#:#wfe_request_missing_process_id#:#The process id is missing, cannot perform the desired action.
+wfe#:#wfe_started_listening#:#Process armed
 glo#:#glo_link_glo_in_glo#:#Should all glossary terms of the target glossary be linked in the current glossary now?
 glo#:#glo_add_from_other#:#Collect Terms
 glo#:#glo_select_terms#:#Select Terms
