@@ -288,7 +288,7 @@ class ilLTIViewGUI
 		$icon = ilUtil::img(ilObject::_getIcon((int)$this->home_obj_id, "tiny"));
 		
 		$gl->addEntry($icon." ". $this->getHomeTitle(), $this->getHomeLink(),
-			"_top");
+			"_self");
 		
 		
 		$items = $ilNavigationHistory->getItems();
@@ -311,7 +311,7 @@ class ilLTIViewGUI
 				$cnt ++;
 				$icon = ilUtil::img(ilObject::_getIcon($obj_id, "tiny"));
 				$ititle = ilUtil::shortenText(strip_tags($item["title"]), 50, true); // #11023
-				$gl->addEntry($icon." ".$ititle, $item["link"],	"_top", "", "ilLVNavEnt");
+				$gl->addEntry($icon." ".$ititle, $item["link"],	"_self", "", "ilLVNavEnt");
 
 			}
 			$first = false;

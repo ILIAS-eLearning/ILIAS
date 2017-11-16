@@ -261,13 +261,20 @@ class ilLocatorGUI
 	*/
 	function addItem($a_title, $a_link, $a_frame = "", $a_ref_id = 0, $type = null)
 	{
+		// LTI
+		global $DIC;
+		$ltiview = $DIC['lti'];
+		
 		$ilAccess = $this->access;
 
 		if ($a_ref_id > 0 && !$ilAccess->checkAccess("visible", "", $a_ref_id))
 		{
 			return;
 		}
-
+		// LTI
+		if ($ltiview->isActive()) {
+			$a_frame = "_self";
+		}
 		$this->entries[] = array("title" => $a_title,
 			"link" => $a_link, "frame" => $a_frame, "ref_id" => $a_ref_id, "type" => $type); 
 	}
