@@ -100,7 +100,7 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 			$this->tabs_gui->addTab('fields', $this->lng->txt('fields'),$this->ctrl->getLinkTargetByClass(array(
 				'ilObjBibliographicAdminGUI',
 				ilBiblAdminFieldGUI::class,
-			), ilBiblAdminFieldGUI::CMD_STANDARD));
+			), ilBiblAdminFieldGUI::CMD_SHOW_RIS));
 
 		}
 		if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {

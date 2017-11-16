@@ -21,6 +21,10 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 	 */
 	protected $tpl;
 	/**
+	 * @var string
+	 */
+	protected $data_type;
+	/**
 	 * @var ilBiblSettingsFilterGUI
 	 */
 	protected $parent_obj;
@@ -39,12 +43,13 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 	 * @param ilBiblAdminFieldGUI $a_parent_obj
 	 * @param string      $a_parent_cmd
 	 */
-	function __construct($a_parent_obj, $a_parent_cmd, ilObjBibliographicAdmin $il_obj_bibliographic_admin) {
+	function __construct($a_parent_obj, $a_parent_cmd, ilObjBibliographicAdmin $il_obj_bibliographic_admin, $data_type) {
 		global $DIC;
 		$this->dic = $DIC;
 		$this->parent_obj = $a_parent_obj;
 		$this->ctrl = $this->dic->ctrl();
 		$this->tpl = $this->dic['tpl'];
+		$this->data_type = $data_type;
 
 		$this->setId(self::TBL_ID);
 		$this->setPrefix(self::TBL_ID);
@@ -65,6 +70,7 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 		$this->setEnableHeader(true);
 
 		$this->initColumns();
+		$this->addCommandButton(ilBiblAdminFieldGUI::CMD_SAVE, $this->dic->language()->txt("save"));
 		$this->addFilterItems();
 		$this->parseData();
 	}
@@ -101,70 +107,100 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 	 * @param array    $a_set
 	 */
 	public function fillRow($a_set) {
-		/**
-		 * @var ilBiblField $ilField
-		 */
-		if(is_array($a_set) && array_key_exists('id', $a_set)) {
-			$ilField = ilBiblField::find($a_set['id']);
+
+		$is_bibl_field = false;
+
+		if(ilBiblField::where(array('id' =>$a_set['id']))->hasSets()) {
+			$is_bibl_field = true;
 		}
+/*		$file_parts = pathinfo($a_set['filename']);
+		if($file_parts['extension'] == "bib" && $this->data_type != "bib") {
+			return;
+		} elseif($file_parts['extension'] == "ris" && $this->data_type != "ris") {
+			return;
+		}*/
+// [ID][identifier][value]
 		$this->tpl->setCurrentBlock("POSITION");
-		if(isset($ilField)) {
-			$this->tpl->setVariable('VAL_POSITION', $a_set['position']);
+		if($is_bibl_field) {
+			$this->tpl->setVariable('POSITION_VALUE', $a_set['position']);
 		} else {
-			$this->tpl->setVariable('VAL_POSITION', '');
+			$this->tpl->setVariable('POSITION_VALUE', '');
 		}
+		$this->tpl->setVariable('POSITION_NAME', "row_values[". $a_set['id'] ."][position]");
 		$this->tpl->parseCurrentBlock();
+
 		$this->tpl->setCurrentBlock("IDENTIFIER");
-		if(isset($ilField)) {
-			$this->tpl->setVariable('VAL_IDENTIFIER', $a_set['identifier']);
+		if($is_bibl_field) {
+			$this->tpl->setVariable('IDENTIFIER_VALUE', $a_set['identifier']);
 		} else {
-			$this->tpl->setVariable('VAL_IDENTIFIER', $a_set['name']);
+			$this->tpl->setVariable('IDENTIFIER_VALUE', $a_set['name']);
 		}
+		$this->tpl->setVariable('IDENTIFIER_NAME', "row_values[". $a_set['id'] ."][identifier]");
 		$this->tpl->parseCurrentBlock();
+
 		$this->tpl->setCurrentBlock("TRANSLATION");
-		if(isset($ilField)) {
+		if($is_bibl_field) {
 			//TODO change static content
 			$this->tpl->setVariable('VAL_TRANSLATION', 'TRANSLATION');
 		} else {
 			$this->tpl->setVariable('VAL_TRANSLATION', 'TRANSLATION');
 		}
 		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("STANDARD");
-		if(isset($ilField)) {
-			$this->tpl->setVariable('VAL_STANDARD', $a_set['is_standard_field']);
-		} else {
-			$file_parts = pathinfo($a_set['filename']);
-			if($file_parts['extension'] == "bib") {
-				$this->tpl->setVariable('VAL_STANDARD', ilBibTex::isStandardField($a_set['name']));
-			} elseif($file_parts['extension'] == "ris") {
-				$this->tpl->setVariable('VAL_STANDARD', ilRis::isStandardField($a_set['name']));
-			}
 
+		$this->tpl->setCurrentBlock("STANDARD");
+		$file_parts = pathinfo($a_set['filename']);
+		if($is_bibl_field) {
+			$this->tpl->setVariable('IS_STANDARD_VALUE', $a_set['is_standard_field']);
+		} else {
+			if($file_parts['extension'] == "bib") {
+				$this->tpl->setVariable('IS_STANDARD_VALUE', ilBibTex::isStandardField($a_set['name']));
+			} elseif($file_parts['extension'] == "ris") {
+				$this->tpl->setVariable('IS_STANDARD_VALUE', ilRis::isStandardField($a_set['name']));
+			}
 		}
+		$this->tpl->setVariable('IS_STANDARD_NAME', "row_values[". $a_set['id'] ."][is_standard_field]");
 		$this->tpl->parseCurrentBlock();
-		if(isset($ilField)) {
-			$this->addActionMenu($ilField);
-		}
+
+		$this->tpl->setCurrentBlock("DATA_TYPE");
+		$this->tpl->setVariable('DATA_TYPE_NAME', "row_values[". $a_set['id'] ."][data_type]");
+		$this->tpl->setVariable('DATA_TYPE_VALUE', $this->data_type);
+		$this->tpl->parseCurrentBlock();
+
+		$this->addActionMenu($a_set['id'], $is_bibl_field);
 	}
 
 	/**
-	 * @param ilBiblField $ilField
+	 * @param integer $id
+	 * @param boolean $is_bibl_field
 	 */
-	protected function addActionMenu(ilBiblField $ilField) {
+	protected function addActionMenu($id, $is_bibl_field) {
 		$current_selection_list = new ilAdvancedSelectionListGUI();
 		$current_selection_list->setListTitle($this->lng->txt("actions"));
-		$current_selection_list->setId($ilField->getId());
+		$current_selection_list->setId($id);
 		$current_selection_list->addItem($this->dic->language()->txt("translate"), "", $this->dic->ctrl()->getLinkTargetByClass(ilBiblAdminFieldTranslateGUI::class, ilBiblAdminFieldTranslateGUI::CMD_TRANSLATE));
+		$this->ctrl->setParameterByClass(ilBiblAdminFieldDeleteGUI::class, 'is_bibl_field', $is_bibl_field);
+		$this->ctrl->setParameterByClass(ilBiblAdminFieldDeleteGUI::class, ilBiblAdminFieldGUI::FIELD_IDENTIFIER, $id);
 		$current_selection_list->addItem($this->dic->language()->txt("delete"), "", $this->dic->ctrl()->getLinkTargetByClass(ilBiblAdminFieldDeleteGUI::class, ilBiblAdminFieldDeleteGUI::CMD_STANDARD));
 		$this->tpl->setVariable('VAL_ACTIONS', $current_selection_list->getHTML());
 	}
+
+/*	protected function convertStringDataTypeToInt($string_data_type) {
+		switch ($string_data_type) {
+			case "ris":
+				return ilBiblField::DATA_TYPE_RIS;
+				break;
+			case "bib":
+				return ilBiblField::DATA_TYPE_BIBTEX;
+				break;
+		}
+	}*/
 
 	protected function parseData() {
 		$this->determineOffsetAndOrder();
 		$this->determineLimit();
 
 		$collection = ilBiblField::getCollection();
-		//$collection->where(array( 'object_id' => $this->il_obj_bibliographic_admin->getId() ));
+		$collection->where(array( 'data_type' => $this->data_type ));
 
 		$sorting_column = $this->getOrderField() ? $this->getOrderField() : 'identifier';
 		$offset = $this->getOffset() ? $this->getOffset() : 0;
@@ -175,7 +211,7 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 		$collection->orderBy($sorting_column, $sorting_direction);
 		$collection->limit($offset, $num);
 
-		$all_attribute_names_and_file_names = ilBiblField::getAllAttributeNamesAndFileNames();
+		$all_attribute_names_and_file_names = ilBiblField::getAllAttributeNamesByDataType($this->data_type);
 
 		foreach ($this->filter as $filter_key => $filter_value) {
 			switch ($filter_key) {
@@ -184,10 +220,8 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 					break;
 			}
 		}
-		$collection_array = $collection->getArray();
 		$data_array = array_merge($collection->getArray(), $all_attribute_names_and_file_names);
 
-		//$this->setData($collection->getArray());
 		$this->setData($data_array);
 	}
 }

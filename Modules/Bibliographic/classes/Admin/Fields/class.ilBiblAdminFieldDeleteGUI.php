@@ -85,10 +85,13 @@ class ilBiblAdminFieldDeleteGUI {
 		$cgui->setCancel($this->dic->language()->txt('cancel'), "canceledDelete");
 		$cgui->setConfirm($this->dic->language()->txt('confirm'), "confirmedDelete");
 
-		$cgui->addItem('', '', ilBiblField::where(array( 'id' => $_GET[ilBiblAdminFieldGUI::FIELD_IDENTIFIER] ))->first()->getIdentifier(), "");
+		if($_GET['is_bibl_field']) {
+			$cgui->addItem('', '', ilBiblField::where(array( 'id' => $_GET[ilBiblAdminFieldGUI::FIELD_IDENTIFIER] ))->first()->getIdentifier(), "");
+		} else {
+			$cgui->addItem('', '', ilBiblField::getBiblAttributeRecordById($_GET[ilBiblAdminFieldGUI::FIELD_IDENTIFIER]), "");
+		}
 
 		$this->tpl->setContent($cgui->getHTML());
-		$this->tpl->show();
 	}
 
 
@@ -104,6 +107,11 @@ class ilBiblAdminFieldDeleteGUI {
 
 
 	public function canceledDelete() {
-		$this->ctrl->redirectByClass(ilBiblAdminFieldTableGUI::class);
+		if($_GET['is_bibl_field']) {
+			$this->ctrl->setParameterByClass(ilBiblAdminFieldGUI::class, 'content_type', ilBiblField::DATA_TYPE_BIBTEX);
+		} else {
+			$this->ctrl->setParameterByClass(ilBiblAdminFieldGUI::class, 'content_type', ilBiblField::DATA_TYPE_RIS);
+		}
+		$this->ctrl->redirectByClass(ilBiblAdminFieldGUI::class, ilBiblAdminFieldGUI::CMD_STANDARD);
 	}
 }
