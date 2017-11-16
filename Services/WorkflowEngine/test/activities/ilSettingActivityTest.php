@@ -11,10 +11,15 @@
  *
  * @ingroup Services/WorkflowEngine
  */
-class ilSettingActivityTest extends PHPUnit_Framework_TestCase
+class ilSettingActivityTest extends ilWorkflowEngineBaseTest
 {
 	public function setUp()
 	{
+		$this->setGlobalVariable(
+			'ilAppEventHandler',
+			$this->getMockBuilder('ilAppEventHandler')->disableOriginalConstructor()->setMethods(array('raise'))->getMock()
+		);
+
 		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		//ilUnitUtil::performInitialisation();
 		
