@@ -216,7 +216,7 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
 		{
 			$this->ilTabs->addTab(
 				'perm_settings',
-				$this->lng->txt('permission'),
+				$this->lng->txt('permissions'),
 				$this->ilCtrl->getLinkTargetByClass(array('ilobjworkflowenginegui','ilpermissiongui'), 'perm')
 			);
 		}
