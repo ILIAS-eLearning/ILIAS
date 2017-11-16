@@ -10879,6 +10879,22 @@ function getAnswerFeedbackPoints()
 	public function setPoolUsage($usage) {
 	    $this->poolUsage = (boolean)$usage;
 	}
+	
+	public function reindexFixedQuestionOrdering()
+	{
+		$tree = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['tree'] : $GLOBALS['tree'];
+		$db = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilDB'] : $GLOBALS['ilDB'];
+		$pluginAdmin = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilPluginAdmin'] : $GLOBALS['ilPluginAdmin'];
+		
+		require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
+		$qscFactory = new ilTestQuestionSetConfigFactory($tree, $db, $pluginAdmin, $this);
+		$questionSetConfig = $qscFactory->getQuestionSetConfig();
+		
+		/* @var ilTestFixedQuestionSetConfig $questionSetConfig */
+		$questionSetConfig->reindexQuestionOrdering();
+		
+		$this->loadQuestions();
+	}
 
 	public function setQuestionOrderAndObligations($orders, $obligations)
 	{
