@@ -204,6 +204,58 @@ class ilBiblField extends ActiveRecord {
 		return $data;
 	}
 
+	public static function getBiblAttributeRecordById($id) {
+		global $DIC;
+		$result = $DIC->database()->query("SELECT * FROM il_bibl_attribute WHERE id = ".$DIC->database()->quote($id, "integer"));
+
+		$data = [];
+		while ($d = $DIC->database()->fetchAssoc($result)) {
+			$data[] = $d['name'];
+		}
+
+		return $data['name'];
+	}
+
+	public static function deleteBiblAttributeRecordById($id) {
+		global $DIC;
+		$DIC->database()->manipulate("DELETE FROM il_bibl_attribute WHERE id = ".$DIC->database()->quote($id, "integer"));
+	}
+
+	/**
+	 * @return array of string of all field-types in ILIAS-Object with the given obj_id
+	 */
+	public static function getAllAttributeNamesByDataType($data_type) {
+		global $DIC;
+
+		switch ($data_type) {
+			case ilBiblField::DATA_TYPE_RIS:
+				$data_type = "ris";
+				break;
+			case ilBiblField::DATA_TYPE_BIBTEX:
+				$data_type = "bib";
+				break;
+		}
+
+		$sql = "SELECT DISTINCT (il_bibl_attribute.id), (il_bibl_attribute.name), filename FROM il_bibl_attribute
+				JOIN il_bibl_entry ON il_bibl_attribute.entry_id = il_bibl_entry.id
+				JOIN il_bibl_data ON il_bibl_data.id = il_bibl_entry.data_id";
+
+		$result = $DIC->database()->query($sql);
+
+		$data = [];
+		$i = 0;
+		while ($d = $DIC->database()->fetchAssoc($result)) {
+			$file_parts = pathinfo($d['filename']);
+			if($file_parts['extension'] == $data_type) {
+				$data[$i]['id'] = $d['id'];
+				$data[$i]['name'] = $d['name'];
+				$data[$i]['filename'] = $d['filename'];
+				$i++;
+			}
+		}
+		return $data;
+	}
+
 	/**
 	 * @return array of string of all field-types in ILIAS-Object with the given obj_id
 	 */
