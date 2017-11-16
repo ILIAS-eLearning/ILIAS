@@ -11039,7 +11039,9 @@ orgu#:#orgu_enable_my_staff_info#:#The View ‘Staff’ shows the Learning Progr
 orgu#:#org_op_manage_members#:#Manage Members
 orgu#:#org_op_read_learning_progress#:#View learning progress of other users
 orgu#:#org_op_write_learning_progress#:#Set learning progress of other users
-rbac#:#org_op_write_learning_progress#:#Set Learning Progress of Subordinate Users
+rbac#:#org_op_write_learning_progress#:#Set learning Progress of Subordinate Users
+orgu#:#org_op_edit_submissions_grades#:#Edit submissions of other users
+rbac#:#org_op_edit_submissions_grades#:#Edit submissions of other users
 orgu#:#form_title_org_default_permissions_update#:#Default Permissions
 orgu#:#view_learning_progress#:#View Learning Progress
 orgu#:#il_orgu_employee#:#Employee
@@ -11048,6 +11050,7 @@ orgu#:#deassign_user_successful#:#Users have been successfully deassigned from t
 orgu#:#il_orgu_superior#:#Superior
 orgu#:#orgu_staff#:#Staff
 orgu#:#confirm_deletion_and_assign#:#Delete and Assign Users
+orgu#:#msg_assignment_to_employee_done#:#Zuweisung zur Position Mitarbeiter durchgeführt
 orgu#:#confirm_deletion_button#:#Delete
 orgu#:#msg_deleted#:#Deleted
 orgu#:#Staff#:#Staff
@@ -14075,6 +14078,8 @@ lti#:#lti_exited_info#:#LTI Session successfully closed
 blog#:#blog_nav_mode_month_list_num_month_with_post#:#Number of month with listed postings
 blog#:#blog_nav_mode_month_list_num_month_with_post_info#:#These months will be displayed with all their postings in the navigation block.
 orgu#:#org_op_access_enrolments#:#View Enrolments
+orgu#:#msg_position_updated#:#Position updated.
+orgu#:#msg_position_created#:#Position created.
 pdfgen#:#cleanup#:#Cleanup
 skmg#:#skmg_order_nr_info#:#Positions competence in the list of competences.
 common#:#position_permission_settings#:#Orgunit-Specific Permissions
