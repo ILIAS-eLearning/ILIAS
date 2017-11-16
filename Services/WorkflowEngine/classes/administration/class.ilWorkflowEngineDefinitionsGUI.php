@@ -468,7 +468,7 @@ class ilWorkflowEngineDefinitionsGUI
 		$confirmation->setFormAction($this->parent_gui->ilCtrl->getFormAction($this->parent_gui, 'definitions.view'));
 		$confirmation->setHeaderText($this->parent_gui->lng->txt('wfe_sure_to_delete_process_def'));
 		$confirmation->setConfirm($this->parent_gui->lng->txt('confirm'), 'definitions.delete');
-		$confirmation->setCancel($this->parent_gui->lng->txt('cancel'), 'definitions.delete');
+		$confirmation->setCancel($this->parent_gui->lng->txt('cancel'), 'definitions.view');
 
 		return $confirmation->getHTML();
 	}
