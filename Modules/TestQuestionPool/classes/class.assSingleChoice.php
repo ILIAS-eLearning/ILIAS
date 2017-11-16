@@ -1080,8 +1080,8 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 				"points" => (float)$answer_obj->getPoints(),
 				"order" => (int)$answer_obj->getOrder(),
 				"image" => (string) $answer_obj->getImage(),
-				"feedback" => ilRTE::_replaceMediaObjectImageSrc(
-						$this->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation($this->getId(), $key), 0
+				"feedback" => $this->formatSAQuestion(
+						$this->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation($this->getId(), $key)
 				)
 			));
 		}

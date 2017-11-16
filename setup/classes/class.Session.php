@@ -45,9 +45,13 @@ class Session {
     function __construct($sessionName="SESSID") {
         $this->sendNoCacheHeader();
         
-        // force 4 hash bits per character for session_id	// Sascha Hofmann (2005-10-19)
-		ini_set("session.hash_bits_per_character","4");
-		
+		if(version_compare(PHP_VERSION, '7.1.0', '>=')) {
+			ini_set("session.sid_length", "32");
+		} else {
+			// force 4 hash bits per character for session_id	// Sascha Hofmann (2005-10-19)
+			ini_set("session.hash_bits_per_character", "4");
+		}
+
         //  Session-Namen setzen, Session initialisieren   
         session_name(isset($sessionName)
             ? $sessionName

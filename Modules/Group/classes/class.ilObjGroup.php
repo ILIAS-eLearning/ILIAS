@@ -1642,6 +1642,53 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	}
 	
 	/**
+	 * This method is called before "initDefaultRoles".
+	 * Therefore no local group roles are created.
+	 * 
+	 * Grants permissions on the group object for all parent roles.
+	 * Each permission is granted by computing the intersection of the 
+	 * template il_grp_status and the permission template of the parent role.
+	 * @param int parent ref id
+	 */
+	public function setParentRolePermissions($a_parent_ref)
+	{
+		$rbacadmin = $GLOBALS['DIC']->rbac()->admin();
+		$rbacreview = $GLOBALS['DIC']->rbac()->review();
+		
+		$parent_roles = $rbacreview->getParentRoleIds($a_parent_ref);
+		foreach((array) $parent_roles as $parent_role)
+		{
+			if($parent_role['parent'] == $this->getRefId())
+			{
+				continue;
+			}
+			if($rbacreview->isProtected($parent_role['parent'], $parent_role['rol_id']))
+			{
+				$operations = $rbacreview->getOperationsOfRole(
+					$parent_role['obj_id'],
+					$this->getType(),
+					$parent_role['parent']
+				);
+				$rbacadmin->grantPermission(
+					$parent_role['obj_id'],
+					$operations,
+					$this->getRefId()
+				);
+				continue;
+			}
+
+			$rbacadmin->initIntersectionPermissions(
+				$this->getRefId(),
+				$parent_role['obj_id'],
+				$parent_role['parent'],
+				$this->getGrpStatusOpenTemplateId(),
+				ROLE_FOLDER_ID
+			);
+		}
+	}
+	
+	
+	/**
 	 * Apply template
 	 * @param int $a_tpl_id
 	 */
@@ -2003,7 +2050,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 
 				if(!ilObjGroupAccess::_usingRegistrationCode())
 				{
-					throw new ilMembershipRegistrationException('Cant registrate to group '.$this->getId().
+					throw new ilMembershipRegistrationException('Cannot registrate to group '.$this->getId().
 						', group subscription is deactivated.', ilMembershipRegistrationException::REGISTRATION_CODE_DISABLED);
 				}
 			}
@@ -2017,7 +2064,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 
 				if( !(ilDateTime::_after($time, $start) and ilDateTime::_before($time,$end)) )
 				{
-					throw new ilMembershipRegistrationException('Cant registrate to group '.$this->getId().
+					throw new ilMembershipRegistrationException('Cannot registrate to group '.$this->getId().
 					', group is out of registration time.', ilMembershipRegistrationException::OUT_OF_REGISTRATION_PERIOD);
 				}
 			}
@@ -2047,17 +2094,18 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 
 				if(!$free or $waiting_list->getCountUsers())
 				{
-					throw new ilMembershipRegistrationException('Cant registrate to group '.$this->getId().
+					throw new ilMembershipRegistrationException('Cannot registrate to group '.$this->getId().
 						', membership is limited.', ilMembershipRegistrationException::OBJECT_IS_FULL);
 				}
 			}
 		}
 		
 		$part->add($a_user_id,$a_role);
-		$part->sendNotification($part->TYPE_NOTIFICATION_REGISTRATION, $a_user_id);
+		$part->sendNotification(ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER, $a_user_id);
+		$part->sendNotification(ilGroupMembershipMailNotification::TYPE_NOTIFICATION_REGISTRATION, $a_user_id);
 		return true;
 	}	
-	
+		
 	public function handleAutoFill()
 	{	
 		if($this->isWaitingListEnabled() &&

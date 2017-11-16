@@ -1,4 +1,4 @@
-var OSDNotifications = function (settings) {
+var OSDNotifier, OSDNotifications = function (settings) {
 	$.extend(
 		{
 			initialNotifications: [],

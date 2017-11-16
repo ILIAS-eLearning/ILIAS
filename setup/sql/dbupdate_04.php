@@ -21429,4 +21429,127 @@ if($ilDB->tableColumnExists('wiki_stat', 'avg_rating'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#5239>
+<?php
+$ilDB->modifyTableColumn(
+		'adv_md_record', 
+		'record_id',
+		array(
+			"type" => "integer", 
+			"length" => 4, 
+			"notnull" => true
+		)
+	);
+?>
+<#5240>
+<?php
+$ilDB->modifyTableColumn(
+		'adv_md_record_objs', 
+		'record_id',
+		array(
+			"type" => "integer", 
+			"length" => 4, 
+			"notnull" => true
+		)
+	);
+?>
+<#5241>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5242>
+<?php
+
+/**
+ * This will move all the exercise instruction files from outside document root to inside.
+ */
+
+$result = $ilDB->query("SELECT id,exc_id FROM exc_assignment");
+
+while($row = $ilDB->fetchAssoc($result))
+{
+	include_once("./Services/Migration/DBUpdate_5242/classes/class.ilFSStorageExc5242.php");
+	$storage = new ilFSStorageExc5242($row['exc_id'], $row['id']);
+
+	$files = $storage->getFiles();
+	if(!empty($files))
+	{
+		foreach ($files as $file)
+		{
+			$file_name = $file['name'];
+			$file_full_path = $file['fullpath'];
+			$file_relative_path = str_replace(ILIAS_DATA_DIR,"",$file_full_path);
+			$directory_relative_path = str_replace($file_name, "",$file_relative_path);
+
+			if (!is_dir(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$directory_relative_path))
+			{
+				//echo "<br> makeDirParents: ".ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$directory_relative_path;
+				ilUtil::makeDirParents(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$directory_relative_path);
+			}
+			if (!file_exists(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$file_relative_path))
+			{
+				//echo "<br> rename: $file_full_path TO ".ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$file_relative_path;
+				rename($file_full_path ,ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$file_relative_path);
+			}
+		}
+	}
+
+}
+?>
+<#5243>
+<?php
+if (!$ilDB->tableColumnExists('usr_session', 'context'))
+{
+	$ilDB->addTableColumn('usr_session', 'context', array(
+			'type'	=> 'text',
+			'length'	=> '80',
+			'notnull' => false)
+	);
+}
+?>
+<#5244>
+<?php
+	//add table column
+	if($ilDB->tableExists('iass_members')) {
+		$ilDB->addTableColumn("iass_members", "changer_id", array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+			));
+	}
+?>
+<#5245>
+<?php
+	//add table column
+	if($ilDB->tableExists('iass_members')) {
+		$ilDB->addTableColumn("iass_members", "change_time", array(
+			'type' => 'text',
+			'length' => 20,
+			'notnull' => false
+			));
+	}
+?>
+
+<#5246>
+<?php
+	include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+	$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('edit_submissions_grades', 'Edit Submissions Grades', 'object', 3800);
+	$type_id = ilDBUpdateNewObjectType::getObjectTypeId('exc');
+	if($type_id && $new_ops_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($type_id, $new_ops_id);
+	}
+?>
+<#5247>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+	$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+	$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_submissions_grades');
+	ilDBUpdateNewObjectType::cloneOperation('exc', $src_ops_id, $tgt_ops_id);
+?>
+<#5248>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
 

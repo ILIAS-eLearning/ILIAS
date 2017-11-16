@@ -335,13 +335,25 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public static function _goto($a_target)
 	{
-		global $ilAccess,$ilErr,$lng;
-		
+		global $DIC;
+
+		$ilAccess = $DIC->access();
+		$ilErr = $DIC["ilErr"];
+		$lng = $DIC->language();
+
 		if($ilAccess->checkAccess('visible', "", $a_target))
 		{
 			ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
 		}
-		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
+		else if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
+		{
+			ilUtil::sendFailure(
+				sprintf($lng->txt("msg_no_perm_read_item"),
+				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), 
+				true
+			);
+			ilObjectGUI::_gotoRepositoryRoot();
+		}
 	}
 	
     /**
@@ -1505,12 +1517,23 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$details->setRows(4);
 		$this->form->addItem($details);
 
-		
-		$this->record_gui = new ilAdvancedMDRecordGUI(
-			ilAdvancedMDRecordGUI::MODE_EDITOR,
-			'sess',
-			$this->object->getId()
-		);
+		if($a_mode == 'create')
+		{
+			$this->record_gui = new ilAdvancedMDRecordGUI(
+				ilAdvancedMDRecordGUI::MODE_EDITOR,
+				'sess'
+			);
+			$this->record_gui->setRefId((int) $_GET['ref_id']);
+		}
+		else
+		{
+			$this->record_gui = new ilAdvancedMDRecordGUI(
+				ilAdvancedMDRecordGUI::MODE_EDITOR,
+				'sess',
+				$this->object->getId()
+			);
+			
+		}
 		$this->record_gui->setPropertyForm($this->form);
 		$this->record_gui->parse();
 		

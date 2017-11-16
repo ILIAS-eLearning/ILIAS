@@ -30,6 +30,9 @@ class ilModulesCourseSuite extends PHPUnit_Framework_TestSuite
 		include_once("./Modules/Course/test/ilCourseTest.php");
 		$suite->addTestSuite("ilCourseTest");
 
+		include_once("./Modules/Course/test/ilCourseMailTemplateTutorContextTest.php");
+		$suite->addTestSuite("ilCourseMailTemplateTutorContextTest");
+
 		return $suite;
     }
 }

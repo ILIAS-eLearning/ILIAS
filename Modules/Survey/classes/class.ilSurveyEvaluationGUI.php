@@ -526,14 +526,18 @@ class ilSurveyEvaluationGUI
 		{
 			$kv[$this->lng->txt("label")] = $question->label;
 		}
-		
+
+		// question
 		$kv[$this->lng->txt("question")] = $question->getQuestiontext();
+
+		// question type
 		$kv[$this->lng->txt("question_type")] = SurveyQuestion::_getQuestionTypeName($question->getQuestionType());
 		
 		// :TODO: present subtypes (hrz/vrt, mc/sc mtx, metric scale)?	
-		
+
+		// answered and skipped users
 		$kv[$this->lng->txt("users_answered")] = (int)$question_res->getUsersAnswered();
-		$kv[$this->lng->txt("users_skipped")] = (int)$question_res->getUsersAnswered();
+		$kv[$this->lng->txt("users_skipped")] = (int)$question_res->getUsersSkipped();		// #0021671
 				
 		$excel_row = 1;
 		
@@ -586,7 +590,41 @@ class ilSurveyEvaluationGUI
 				);			
 			}			
 		}
-	
+
+		// matrix question: overview	#21438
+		if ($matrix)
+		{
+			$a_excel->setCell($excel_row++, 0, $this->lng->txt("overview"));
+
+			// title row with variables
+			$counter = 0;
+			$cats = $question->getColumns();
+			foreach ($cats->getCategories() as $cat)
+			{
+				$a_excel->setColors($a_excel->getCoordByColumnAndRow(1 + $counter, $excel_row), ilSurveyEvaluationGUI::EXCEL_SUBTITLE);
+				$a_excel->setCell($excel_row, 1 + $counter, $cat->title);
+				$counter++;
+			}
+			$excel_row++;
+
+			foreach ($a_results as $row_results)
+			{
+				$row_title = $row_results[0];
+				$counter = 0;
+				$a_excel->setCell($excel_row, 0, $row_title);
+
+				$vars = $row_results[1]->getVariables();
+				if($vars)
+				{
+					foreach($vars as $var)
+					{
+						$a_excel->setCell($excel_row, ++$counter, $var->abs);
+					}
+				}
+				$excel_row++;
+			}
+		}
+
 		// 1st column is bold
 		$a_excel->setBold("A1:A".$excel_row);									
 	}
@@ -884,6 +922,9 @@ class ilSurveyEvaluationGUI
 				: "tc";
 			
 			// parse answer data in evaluation results
+			include_once("./Services/UIComponent/NestedList/classes/class.ilNestedList.php");
+			$list = new ilNestedList();
+
 			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";						
 			foreach($this->object->getSurveyQuestions() as $qdata)
 			{						
@@ -900,24 +941,24 @@ class ilSurveyEvaluationGUI
 					if($qdata["questionblock_id"] &&
 						$qdata["questionblock_id"] != $this->last_questionblock_id)
 					{
-						$qblock = ilObjSurvey::_getQuestionblock($a_qdata["questionblock_id"]);
+						$qblock = ilObjSurvey::_getQuestionblock($qdata["questionblock_id"]);
 						if($qblock["show_blocktitle"])
 						{
-							$toc_tpl->setCurrentBlock("toc_bl");
-							$toc_tpl->setVariable("TOC_ITEM", $qdata["questionblock_title"]);
-							$toc_tpl->parseCurrentBlock();
+							$list->addListNode($qdata["questionblock_title"], "q".$qdata["questionblock_id"]);
 						}
 						$this->last_questionblock_id = $qdata["questionblock_id"];
 					}
 					$anchor_id = "svyrdq".$qdata["question_id"];
-					$toc_tpl->setCurrentBlock("toc_bl");
-					$toc_tpl->setVariable("TOC_ITEM", $qdata["title"]);
-					$toc_tpl->setVariable("TOC_ID", $anchor_id);
-					$toc_tpl->parseCurrentBlock();
+					$list->addListNode("<a href='#".$anchor_id."'>".$qdata["title"]."</a>", $qdata["question_id"], $qdata["questionblock_id"] ?
+						"q".$qdata["questionblock_id"] : 0);
 				}
 			}
+
 			if($details)
 			{
+				$list->setListClass("il_Explorer");
+				$toc_tpl->setVariable("LIST", $list->getHTML());
+
 				//TABLE OF CONTENTS
 				$panel_toc = $ui_factory->panel()->standard("", $ui_factory->legacy($toc_tpl->get()));
 				$render_toc = $ui_renderer->render($panel_toc);

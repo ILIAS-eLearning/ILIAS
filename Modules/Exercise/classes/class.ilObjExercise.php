@@ -239,6 +239,7 @@ class ilObjExercise extends ilObject
 	 	$new_obj->setShowSubmissions($this->getShowSubmissions());
 	 	$new_obj->setCompletionBySubmission($this->isCompletionBySubmissionEnabled());	 
 		$new_obj->setTutorFeedback($this->getTutorFeedback());
+		$new_obj->setCertificateVisibility($this->getCertificateVisibility());
 	 	$new_obj->update();
 	 	
 		// Copy criteria catalogues

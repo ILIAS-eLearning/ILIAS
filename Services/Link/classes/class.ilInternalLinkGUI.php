@@ -1202,7 +1202,7 @@ class ilInternalLinkGUI
 			$cards[] = $f->card($name, $f->image()->responsive(ilObjUser::_getPersonalPicturePath($user, "small") , $name))
 				->withSections(array($b));
 		}
-		$deck = $f->deck($cards)->withCardsSize(ILIAS\UI\Component\Deck\Deck::SIZE_L);
+		$deck = $f->deck($cards)->withLargeCardsSize();
 
 		return $r->renderAsync($deck);
 	}

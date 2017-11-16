@@ -16,13 +16,24 @@ class ilWorkflowEngineDefinitionsGUI
 	protected $parent_gui;
 
 	/**
+	 * @var \ILIAS\DI\Container
+	 */
+	protected $dic;
+
+	/**
 	 * ilWorkflowEngineDefinitionsGUI constructor.
 	 *
 	 * @param ilObjWorkflowEngineGUI $parent_gui
+	 * @param \ILIAS\DI\Container|$dic $dic
 	 */
-	public function __construct(ilObjWorkflowEngineGUI $parent_gui)
+	public function __construct(ilObjWorkflowEngineGUI $parent_gui, \ILIAS\DI\Container $dic = null)
 	{
 		$this->parent_gui = $parent_gui;
+
+		if ($dic === null) {
+			$dic = $GLOBALS['DIC']; 
+		}
+		$this->dic = $dic;
 	}
 
 	/**
@@ -58,6 +69,10 @@ class ilWorkflowEngineDefinitionsGUI
 
 			case 'delete':
 				return $this->deleteDefinition();
+				break;
+
+			case 'confirmdelete':
+				return $this->confirmDeleteDefinition();
 				break;
 
 			case 'startlistening':
@@ -292,7 +307,7 @@ class ilWorkflowEngineDefinitionsGUI
 			ilWorkflowDbHelper::writeStaticInput($input_var['name'], stripslashes($_POST[$input_var['name']]), $event_id);
 		}
 
-		ilUtil::sendSuccess($this->parent_gui->lng->txt('started_listening'), true);
+		ilUtil::sendSuccess($this->parent_gui->lng->txt('wfe_started_listening'), true);
 		ilUtil::redirect(
 			html_entity_decode(
 				$this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.view')
@@ -379,12 +394,47 @@ class ilWorkflowEngineDefinitionsGUI
 	}
 
 	/**
+	 * 
+	 */
+	private function ensureProcessIdInRequest()
+	{
+		if(!isset($this->dic->http()->request()->getQueryParams()['process_id']))
+		{
+			ilUtil::sendInfo($this->parent_gui->lng->txt('wfe_request_missing_process_id'));
+			$this->parent_gui->ilCtrl->redirect($this->parent_gui, 'definitions.view');
+		}
+	}
+
+	/**
+	 * @return string
+	 */
+	private function getProcessIdFromRequest()
+	{
+		$processId = str_replace(['\\', '/'], '', stripslashes($this->dic->http()->request()->getQueryParams()['process_id']));
+
+		return basename($processId);
+	}
+
+	/**
 	 * @return void
 	 */
 	public function deleteDefinition()
 	{
-		unlink(ilObjWorkflowEngine::getRepositoryDir() . '/' . stripslashes($_GET['process_id']).'.php');
-		unlink(ilObjWorkflowEngine::getRepositoryDir() . '/' . stripslashes($_GET['process_id']).'.bpmn2');
+		$this->ensureProcessIdInRequest();
+
+		$processId = $this->getProcessIdFromRequest();
+
+		$pathToProcessPhpFile   = ilObjWorkflowEngine::getRepositoryDir() . '/' . $processId .'.php';
+		$pathToProcessBpmn2File = ilObjWorkflowEngine::getRepositoryDir() . '/' . $processId .'.bpmn2';
+
+		if(file_exists($pathToProcessPhpFile))
+		{
+			unlink($pathToProcessPhpFile);
+		}
+		if(file_exists($pathToProcessBpmn2File))
+		{
+			unlink($pathToProcessBpmn2File);
+		}
 
 		ilUtil::sendSuccess($this->parent_gui->lng->txt('definition_deleted'), true);
 		ilUtil::redirect(
@@ -392,5 +442,34 @@ class ilWorkflowEngineDefinitionsGUI
 				$this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.view')
 			)
 		);
+	}
+
+	/**
+	 * @return string
+	 */
+	public function confirmDeleteDefinition()
+	{
+		$this->ensureProcessIdInRequest();
+
+		$processId = $this->getProcessIdFromRequest();
+
+		require_once 'Services/WorkflowEngine/classes/administration/class.ilWorkflowDefinitionRepository.php';
+		$repository = new ilWorkflowDefinitionRepository(
+			$this->dic->database(),
+			$this->dic->filesystem(),
+			ilObjWorkflowEngine::getRepositoryDir(true)
+		);
+		$processDefinition = $repository->getById($processId);
+
+		require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$confirmation = new ilConfirmationGUI();
+		$confirmation->addItem('process_id[]', $processDefinition['id'], $processDefinition['title']);
+		$this->parent_gui->ilCtrl->setParameter($this->parent_gui, 'process_id', $processDefinition['id']);
+		$confirmation->setFormAction($this->parent_gui->ilCtrl->getFormAction($this->parent_gui, 'definitions.view'));
+		$confirmation->setHeaderText($this->parent_gui->lng->txt('wfe_sure_to_delete_process_def'));
+		$confirmation->setConfirm($this->parent_gui->lng->txt('confirm'), 'definitions.delete');
+		$confirmation->setCancel($this->parent_gui->lng->txt('cancel'), 'definitions.view');
+
+		return $confirmation->getHTML();
 	}
 }

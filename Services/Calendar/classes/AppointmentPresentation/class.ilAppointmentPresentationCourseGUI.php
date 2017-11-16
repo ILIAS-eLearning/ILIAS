@@ -85,27 +85,23 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 			$parts = ilParticipants::getInstanceByObjId($cat_info['obj_id']);
 			//contacts is an array of user ids.
 			$contacts = $parts->getContacts();
-			$num_contacts = count($contacts);
-			if ($num_contacts > 0)
+			$sorted_ids = ilUtil::_sortIds($contacts, 'usr_data', 'lastname', 'usr_id');
+			
+			$names = [];
+			foreach($sorted_ids as $usr_id)
 			{
-				$str = "";
-				foreach ($contacts as $contact)
+				$name_presentation = $this->getUserName($usr_id,true);
+				if(strlen($name_presentation))
 				{
-					$usr = new ilObjUser($contact);
-					if ($num_contacts > 1 && $contacts[0] != $contact) {
-						$str .= ", ";
-					}
-					if ($usr->hasPublicProfile()) {
-						include_once('./Services/Link/classes/class.ilLink.php');
-						$str .= $this->getUserName($contact);
-					} else {
-						$str .= ilObjUser::_lookupFullname($contact);
-					}
+					$names[] = $name_presentation;
 				}
-				$this->addInfoProperty($this->lng->txt("crs_mem_contacts"), $str);
-				$this->addListItemProperty($this->lng->txt("crs_mem_contacts"), $str);
 			}
-
+			if(count($names))
+			{
+				$this->addInfoProperty($this->lng->txt('crs_mem_contacts'), implode('<br/>', $names));
+				$this->addListItemProperty($this->lng->txt('crs_mem_contacts'), implode('<br />', $names));
+			}
+			
 			//course contact
 			$contact_fields = false;
 			$str = "";
@@ -158,6 +154,9 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
 			}
 
 			$this->addMetaData('crs', $cat_info['obj_id']);
+
+			// last edited
+			$this->addLastUpdate($app);
 		}
 
 		$this->addAction($this->lng->txt("crs_open"), ilLink::_getStaticLink($crs_ref_id, "crs"));
