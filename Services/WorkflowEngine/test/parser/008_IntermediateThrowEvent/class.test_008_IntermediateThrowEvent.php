@@ -37,11 +37,6 @@ class test_008_IntermediateThrowEvent extends ilWorkflowEngineBaseTest
 
 		parent::setUp();
 
-		$this->setGlobalVariable(
-			'ilAppEventHandler',
-			$this->getMockBuilder('ilAppEventHandler')->disableOriginalConstructor()->setMethods(array('raise'))->getMock()
-		);
-
 		require_once './Services/WorkflowEngine/classes/parser/class.ilBPMN2Parser.php';
 	}
 

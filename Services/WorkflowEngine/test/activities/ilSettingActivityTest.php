@@ -17,10 +17,7 @@ class ilSettingActivityTest extends ilWorkflowEngineBaseTest
 {
 	public function setUp()
 	{
-		$this->setGlobalVariable(
-			'ilAppEventHandler',
-			$this->getMockBuilder('ilAppEventHandler')->disableOriginalConstructor()->setMethods(array('raise'))->getMock()
-		);
+		parent::setUp();
 
 		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		//ilUnitUtil::performInitialisation();
