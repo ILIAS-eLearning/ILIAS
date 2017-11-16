@@ -36,11 +36,6 @@ abstract class ilWorkflowEngineBaseTest extends PHPUnit_Framework_TestCase
 		);
 
 		$this->setGlobalVariable(
-			'ilAppEventHandler',
-			$this->getMockBuilder('ilAppEventHandler')->disableOriginalConstructor()->setMethods(array('raise'))->getMock()
-		);
-
-		$this->setGlobalVariable(
 			'ilSetting',
 			$this->getMockBuilder('ilSetting')->disableOriginalConstructor()->setMethods(array('get', 'set'))->getMock()
 		);
