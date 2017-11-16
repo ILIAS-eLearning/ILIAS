@@ -40,6 +40,11 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
 
 	/** @var ilToolbarGUI $ilToolbar */
 	public $ilToolbar;
+	
+	/**
+	 * @var \ILIAS\DI\Container
+	 */
+	protected $dic;
 
 	/**
 	 * ilObjWorkflowEngineGUI constructor.
@@ -56,6 +61,7 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
 		$this->tree = $DIC['tree'];
 		$this->ilLocator = $DIC['ilLocator'];
 		$this->ilToolbar = $DIC['ilToolbar'];
+		$this->dic = $DIC;
 
 		parent::__construct((int)$_GET['ref_id']);
 		$this->assignObject();
@@ -280,7 +286,7 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
 		$this->initTabs('definitions');
 		/** @noinspection PhpIncludeInspection */
 		require_once './Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineDefinitionsGUI.php';
-		$target_handler = new ilWorkflowEngineDefinitionsGUI($this);
+		$target_handler = new ilWorkflowEngineDefinitionsGUI($this, $this->dic);
 		return $target_handler->handle($command);
 	}
 
