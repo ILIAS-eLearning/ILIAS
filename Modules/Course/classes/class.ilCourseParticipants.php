@@ -22,6 +22,7 @@
 */
 
 include_once('./Services/Membership/classes/class.ilParticipants.php');
+include_once './Modules/Course/classes/class.ilCourseMembershipMailNotification.php';
 
 /** 
 * 
@@ -348,58 +349,25 @@ class ilCourseParticipants extends ilParticipants
 
 		return true;
 	}
-	
-	function sendUnsubscribeNotificationToAdmins($a_usr_id)
-	{
-		global $DIC;
 
-		$ilDB = $DIC['ilDB'];
-		$ilObjDataCache = $DIC['ilObjDataCache'];
-		
-		include_once './Modules/Course/classes/class.ilCourseMembershipMailNotification.php';
-		$mail = new ilCourseMembershipMailNotification();
-		$mail->setType(ilCourseMembershipMailNotification::TYPE_NOTIFICATION_UNSUBSCRIBE);
-		$mail->setAdditionalInformation(array('usr_id' => $a_usr_id));
-		$mail->setRefId($this->ref_id);
-		$mail->setRecipients($this->getNotificationRecipients());
-		$mail->send();
-		return true;
+	function sendUnsubscribeNotificationToAdmins($userId)
+	{
+		$mail = $this->createCourseMembershipNotifcationEmail(ilCourseMembershipMailNotification::TYPE_NOTIFICATION_UNSUBSCRIBE,$userId);
+		return $mail->send();
 	}
 	
 	
-	public function sendSubscriptionRequestToAdmins($a_usr_id)
+	public function sendSubscriptionRequestToAdmins($userId)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$ilObjDataCache = $DIC['ilObjDataCache'];
-		
-		include_once './Modules/Course/classes/class.ilCourseMembershipMailNotification.php';
-		$mail = new ilCourseMembershipMailNotification();
-		$mail->setType(ilCourseMembershipMailNotification::TYPE_NOTIFICATION_REGISTRATION_REQUEST);
-		$mail->setAdditionalInformation(array('usr_id' => $a_usr_id));
-		$mail->setRefId($this->ref_id);
-		$mail->setRecipients($this->getNotificationRecipients());
-		$mail->send();
-		return true;
+		$mail = $this->createCourseMembershipNotifcationEmail(ilCourseMembershipMailNotification::TYPE_NOTIFICATION_REGISTRATION_REQUEST, $userId);
+		return $mail->send();
 	}
 	
 
-	public function sendNotificationToAdmins($a_usr_id)
+	public function sendNotificationToAdmins($userId)
 	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		$ilObjDataCache = $DIC['ilObjDataCache'];
-		
-		include_once './Modules/Course/classes/class.ilCourseMembershipMailNotification.php';
-		$mail = new ilCourseMembershipMailNotification();
-		$mail->setType(ilCourseMembershipMailNotification::TYPE_NOTIFICATION_REGISTRATION);
-		$mail->setAdditionalInformation(array('usr_id' => $a_usr_id));
-		$mail->setRefId($this->ref_id);
-		$mail->setRecipients($this->getNotificationRecipients());
-		$mail->send();			
-		return true;
+		$mail = $this->createCourseMembershipNotifcationEmail(ilCourseMembershipMailNotification::TYPE_NOTIFICATION_REGISTRATION, $userId);
+		return $mail->send();
 	}
 	
 	
@@ -486,6 +454,17 @@ class ilCourseParticipants extends ilParticipants
 		}				
 		
 		return $res;
+	}
+
+	private function createCourseMembershipNotifcationEmail($type, $userId)
+	{
+		$mail = new ilCourseMembershipMailNotification();
+		$mail->setType($type);
+		$mail->setAdditionalInformation(array('usr_id' => $userId));
+		$mail->setRefId($this->ref_id);
+		$mail->setRecipients($this->getNotificationRecipients());
+
+		return $mail;
 	}
 }
 
