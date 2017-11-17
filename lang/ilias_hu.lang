@@ -14053,10 +14053,10 @@ assessment#:#question_browse_area_info#:#Válasszon egy objektumot, melyből ké
 dateplaner#:#cal_no_events_info#:#Egy esemény sem található a megjelölt időszakban.
 wiki#:#wiki_pg_list_no_search_fields#:#A wiki metaadata gyűjteményében egy kereshető metaadat sem található.
 iass#:#iass_amend_saved#:#Javítási jegyzéket sikeresen mentette.
-dateplaner#:#crs_start#:#Kurzus kezdő időpontja
-dateplaner#:#crs_end#:#Kurzus záró időpontja
-dateplaner#:#grp_start#:#Csoport kezdő időpontja
-dateplaner#:#grp_end#:#Csoport záró időpontja
+dateplaner#:#crs_cal_start#:#Kurzus kezdő időpontja
+dateplaner#:#crs_cal_end#:#Kurzus záró időpontja
+dateplaner#:#grp_cal_start#:#Csoport kezdő időpontja
+dateplaner#:#grp_cal_end#:#Csoport záró időpontja
 content#:#cont_transl_master_language_not_allowed#:#Fordítás importáláshoz legalább egy további nyelvet aktiválnia kell a Beállítások » Többnyelvűség alatt.
 prg#:#prg_multi_mark_accredited#:#Accredited###23 10 2017 new variable
 prg#:#prg_multi_unmark_accredited#:#Unmark Accredited###23 10 2017 new variable
