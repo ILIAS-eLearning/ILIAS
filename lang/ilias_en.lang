@@ -11040,6 +11040,9 @@ orgu#:#org_op_manage_members#:#Manage Members
 orgu#:#org_op_read_learning_progress#:#View learning progress of other users
 orgu#:#org_op_write_learning_progress#:#Set learning progress of other users
 rbac#:#org_op_write_learning_progress#:#Set Learning Progress of Subordinate Users
+rbac#:#org_op_edit_submissions_grades#:#Edit submission graddes
+orgu#:#org_op_edit_submissions_grades#:#Edit submission graddes
+orgu#:#msg_success_permission_saved#:#Permissions saved
 orgu#:#form_title_org_default_permissions_update#:#Default Permissions
 orgu#:#view_learning_progress#:#View Learning Progress
 orgu#:#il_orgu_employee#:#Employee
@@ -13645,8 +13648,8 @@ iass#:#iass_save_amend#:#Save Amended Record
 iass#:#iass_info_emails_expl#:#You may provide several addresses separated by comma.
 iass#:#iass_consultation_hours#:#Consultation hours
 iass#:#iass_edit_info#:#Info Settings
-iass#:#iass_mess_notification_completed#:#You passed the assessment %s. Please check the following record for details:
-iass#:#iass_mess_notification_failed#:#You failed the assessment %s. Please check the following record for details:
+iass#:#iass_mess_notification_completed#:#You passed the assessment <i>%s</i>. Please check the following grading record for details:
+iass#:#iass_mess_notification_failed#:#You failed the assessment <i>%s</i>. Please check the following grading record for details:
 iass#:#iass_contact_info#:#Contact information
 iass#:#iass_added#:#Individual Assessment added
 iass#:#iass_event_time_place_required#:#Date and place required
@@ -14123,4 +14126,4 @@ content#:#cont_sc_name_setting_fullname#:#Title, First name and Last name
 content#:#cont_sc_name_setting_salutation_lastname#:#Salutation and Last name
 content#:#cont_sc_name_setting_first_name#:#First name
 content#:#cont_sc_name_setting_no_name#:#no name
-dateplaner#:#cal_download_files_started#:#The download of calendar files has been started.
+dateplaner#:#cal_download_files_started#:#Download of calendar files has started.
