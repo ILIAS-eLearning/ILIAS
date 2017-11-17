@@ -22,6 +22,7 @@ class ilIndividualAssessmentSettingsGUI {
 		global $DIC;
 		$this->ctrl = $DIC['ilCtrl'];
 		$this->parent_gui = $a_parent_gui;
+		/** @var ilObjIndividualAssessment object */
 		$this->object = $a_parent_gui->object;
 		$this->ref_id = $a_ref_id;
 		$this->tpl = $DIC['tpl'];
@@ -211,7 +212,6 @@ class ilIndividualAssessmentSettingsGUI {
 	}
 
 	protected function fillForm(ilPropertyFormGUI $a_form, ilObjIndividualAssessment $iass, ilIndividualAssessmentSettings $settings) {
-		$position_settings = ilOrgUnitGlobalSettings::getInstance()->getObjectPositionSettingsByType($this->object->getType());
 		$a_form->setValuesByArray(array(
 			  self::PROP_TITLE => $iass->getTitle()
 			, self::PROP_DESCRIPTION => $iass->getDescription()
@@ -219,7 +219,7 @@ class ilIndividualAssessmentSettingsGUI {
 			, self::PROP_RECORD_TEMPLATE => $settings->recordTemplate()
 			, self::PROP_EVENT_TIME_PLACE_REQUIRED => $settings->eventTimePlaceRequired()
 			, self::PROP_FILE_REQUIRED => $settings->fileRequired()
-			, ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS => $position_settings->isActive()
+			, ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS => (bool) ilOrgUnitGlobalSettings::getInstance()->isPositionAccessActiveForObject($iass->getId())
 			));
 		return $a_form;
 	}
