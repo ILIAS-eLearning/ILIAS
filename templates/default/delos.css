@@ -14596,9 +14596,10 @@ div.ilPCMyCoursesPath {
   color: #a0a0a0;
 }
 .ilOnScreenChatMenuItem .media-body p.lastMessage {
+  width: 200px;
   padding: 3px 3px 3px 0;
   text-overflow: ellipsis;
-  overflow: hidden;
+  overflow-x: hidden;
   color: #606060;
 }
 .ilOnScreenChatMenuItem .media-body p a {
