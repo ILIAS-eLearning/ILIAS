@@ -13645,8 +13645,8 @@ iass#:#iass_save_amend#:#Save Amended Record
 iass#:#iass_info_emails_expl#:#You may provide several addresses separated by comma.
 iass#:#iass_consultation_hours#:#Consultation hours
 iass#:#iass_edit_info#:#Info Settings
-iass#:#iass_mess_notification_completed#:#You passed the assessment %s. Please check the following record for details:
-iass#:#iass_mess_notification_failed#:#You failed the assessment %s. Please check the following record for details:
+iass#:#iass_mess_notification_completed#:#You passed the assessment <i>%s</i>. Please check the following grading record for details:
+iass#:#iass_mess_notification_failed#:#You failed the assessment <i>%s</i>. Please check the following grading record for details:
 iass#:#iass_contact_info#:#Contact information
 iass#:#iass_added#:#Individual Assessment added
 iass#:#iass_event_time_place_required#:#Date and place required
@@ -14123,4 +14123,4 @@ content#:#cont_sc_name_setting_fullname#:#Title, First name and Last name
 content#:#cont_sc_name_setting_salutation_lastname#:#Salutation and Last name
 content#:#cont_sc_name_setting_first_name#:#First name
 content#:#cont_sc_name_setting_no_name#:#no name
-dateplaner#:#cal_download_files_started#:#The download of calendar files has been started.
+dateplaner#:#cal_download_files_started#:#Download of calendar files has started.
