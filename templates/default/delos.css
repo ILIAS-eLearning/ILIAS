@@ -11303,7 +11303,6 @@ p.il_calevent .btn-link {
   text-align: center;
 }
 td.calevent {
-  color: white;
   vertical-align: top;
   padding: 3px;
   border-spacing: 0px;
@@ -11312,6 +11311,7 @@ td.calevent {
   border-style: solid;
   border-color: #dddddd;
   font-size: 90%;
+  background-color: white;
 }
 div.calevent {
   font-size: 90%;
