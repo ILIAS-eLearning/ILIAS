@@ -13705,7 +13705,7 @@ chatroom#:#chat_osc_no_sub_directory_info#:#If the chat server is only reachable
 chatroom#:#chat_deletion_section_head#:#Deletion of old Messages
 chatroom#:#chat_deletion_disabled#:#Disabled
 chatroom#:#chat_deletion_interval#:#Interval
-chatroom#:#chat_deletion_interval_info#:#If chosen, messages in the repository chat on On-Screen-Chat conversations will be deleted after the defined threshold.
+chatroom#:#chat_deletion_interval_info#:#If chosen, messages in the repository chat and On-Screen-Chat conversations will be deleted after the defined threshold.
 chatroom#:#chat_deletion_interval_unit#:#Unit
 chatroom#:#chat_deletion_interval_value#:#Value
 chatroom#:#chat_deletion_ival_max_val#:#The maximum value for the chose unit '%s' is: %s
