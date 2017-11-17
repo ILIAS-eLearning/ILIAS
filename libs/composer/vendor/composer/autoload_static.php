@@ -2619,6 +2619,7 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'ilBiblAdminFieldGUI' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Admin/Fields/class.ilBiblAdminFieldGUI.php',
         'ilBiblAdminFieldTableGUI' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Admin/Fields/class.ilBiblAdminFieldTableGUI.php',
         'ilBiblAdminFieldTranslateGUI' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Translation/class.ilBiblAdminFieldTranslateGUI.php',
+        'ilBiblAdminFieldTranslationGUI' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Admin/Fields/class.ilBiblAdminFieldTranslationGUI.php',
         'ilBiblField' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Field/class.ilBiblField.php',
         'ilBiblFilter' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Filter/class.ilBiblFilter.php',
         'ilBiblOverviewGUI' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/class.ilBiblOverviewGUI.php',

@@ -9,6 +9,7 @@ class ilBiblAdminFieldGUI {
 
 	const FIELD_IDENTIFIER = 'field_id';
 	const IS_RIS_FIELD = 'is_ris_field';
+	const DATA_TYPE = 'data_type';
 	const CMD_STANDARD = 'content';
 	const CMD_CANCEL = 'cancel';
 	const CMD_EDIT = 'edit';
@@ -40,6 +41,10 @@ class ilBiblAdminFieldGUI {
 	 * @var ilCtrl
 	 */
 	protected $ctrl;
+	/**
+	 * @var ilCtrl
+	 */
+	protected $data_type;
 
 	public function __construct() {
 		global $DIC;
@@ -102,20 +107,22 @@ class ilBiblAdminFieldGUI {
 
 	public function showRis() {
 		$this->setSubTabs(ilBiblField::DATA_TYPE_RIS);
-		//$this->ctrl->setParameterByClass(ilBiblAdminFieldTableGUI::class, self::IS_RIS_FIELD, 1);
+		$this->ctrl->setParameter($this, self::DATA_TYPE, "ris");
+		$this->data_type = ilBiblField::DATA_TYPE_RIS;
 		$this->content(ilBiblField::DATA_TYPE_RIS);
 	}
 
 	public function showBibTex() {
 		$this->setSubTabs(ilBiblField::DATA_TYPE_BIBTEX);
-		//$this->ctrl->setParameterByClass(ilBiblAdminFieldTableGUI::class, self::IS_RIS_FIELD, 0);
+		$this->ctrl->setParameter($this, self::DATA_TYPE, "bib");
+		$this->data_type = ilBiblField::DATA_TYPE_BIBTEX;
 		$this->content(ilBiblField::DATA_TYPE_BIBTEX);
 	}
 
 	public function content($data_type = ilBiblField::DATA_TYPE_RIS) {
-		if(isset($_GET['content_type'])) {
-			$this->setSubTabs($_GET['content_type']);
-			$data_type = $_GET['content_type'];
+		if(isset($_GET['data_type'])) {
+			$this->setSubTabs($_GET['data_type']);
+			$data_type = $_GET['data_type'];
 		}
 		$this->ctrl->saveParameterByClass(ilBiblAdminFieldTableGUI::class, self::FIELD_IDENTIFIER);
 		$ilBiblAdminFieldTableGUI = new ilBiblAdminFieldTableGUI($this, self::CMD_STANDARD, $this->object, $data_type);
@@ -162,14 +169,22 @@ class ilBiblAdminFieldGUI {
 	}
 
 	protected function applyFilter() {
-		$ilBiblAdminFieldTableGUI = new ilBiblAdminFieldTableGUI($this, self::CMD_STANDARD, $this->object);
+		if(isset($_GET['data_type'])) {
+			$ilBiblAdminFieldTableGUI = new ilBiblAdminFieldTableGUI($this, self::CMD_STANDARD, $this->object, $_GET['data_type']);
+			$this->data_type = $_GET[self::DATA_TYPE];
+		} else {
+			$ilBiblAdminFieldTableGUI = new ilBiblAdminFieldTableGUI($this, self::CMD_STANDARD, $this->object, $this->data_type);
+			$this->data_type = $_GET[self::DATA_TYPE];
+		}
+		$this->ctrl->saveParameter($this, self::DATA_TYPE);
 		$ilBiblAdminFieldTableGUI->writeFilterToSession();
 		$this->ctrl->redirect($this, self::CMD_STANDARD);
 	}
 
 
 	protected function resetFilter() {
-		$ilBiblAdminFieldTableGUI = new ilBiblAdminFieldTableGUI($this, self::CMD_STANDARD, $this->object);
+		$ilBiblAdminFieldTableGUI = new ilBiblAdminFieldTableGUI($this, self::CMD_STANDARD, $this->object, $this->data_type);
+		$this->ctrl->saveParameterByClass(ilBiblAdminFieldTableGUI::class, self::DATA_TYPE);
 		$ilBiblAdminFieldTableGUI->resetFilter();
 		$ilBiblAdminFieldTableGUI->resetOffset();
 		$this->ctrl->redirect($this, self::CMD_STANDARD);
@@ -178,15 +193,24 @@ class ilBiblAdminFieldGUI {
 	public function save() {
 		foreach($_POST['row_values'] as $id => $data) {
 			if(!empty($data['position'])) {
-				if(!ilBiblField::where(array('id' =>$id))->hasSets()) {
+				/**
+				 * 1) check if it already is a ilbiblfield
+				 * 2) if not create a new one
+				 * 3) if it is one take the existing id to get the record an update it
+				 * (some rows in the table contain ilbiblfield entries and other data from il_bibl_attribute)
+				 */
+				if(!$_POST['row_values'][$id]['is_bibl_field']) {
 					$il_bibl_field = new ilBiblField();
+				} else {
+					$il_bibl_field = ilBiblField::find($id);
+				}
 					$il_bibl_field->setIdentifier($_POST['row_values'][$id]['identifier']);
 					$il_bibl_field->setDataType($_POST['row_values'][$id]['data_type']);
 					$il_bibl_field->setPosition($_POST['row_values'][$id]['position']);
 					$il_bibl_field->setIsStandardField($_POST['row_values'][$id]['is_standard_field']);
 					$il_bibl_field->setObjectId($this->object->getId());
 					$il_bibl_field->store();
-				}
+
 			}
 		}
 		ilUtil::sendSuccess($this->dic->language()->txt("changes_successfully_saved"));

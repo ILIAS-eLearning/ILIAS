@@ -75,7 +75,7 @@ class ilBiblSettingsFilterTableGUI extends ilTable2GUI {
 	protected function initButtons() {
 
 		if ($this->dic->access()->checkAccess('write', "", $this->il_obj_bibliographic->getRefId())) {
-			$new_filter_link = $this->ctrl->getLinkTargetByClass(ilBiblSettingsFilterGUI::class, ilBiblSettingsFilterGUI::CMD_EDIT);
+			$new_filter_link = $this->ctrl->getLinkTargetByClass(ilBiblSettingsFilterGUI::class, ilBiblSettingsFilterGUI::CMD_ADD);
 			$ilLinkButton = ilLinkButton::getInstance();
 			$ilLinkButton->setCaption($this->dic->language()->txt("add_filter"), false);
 			$ilLinkButton->setUrl($new_filter_link);
@@ -156,7 +156,7 @@ class ilBiblSettingsFilterTableGUI extends ilTable2GUI {
 
 		foreach ($this->filter as $filter_key => $filter_value) {
 			switch ($filter_key) {
-				case 'field':
+				case 'identifier':
 					$collection->where(array( $filter_key => '%' . $filter_value . '%' ), 'LIKE');
 					break;
 			}

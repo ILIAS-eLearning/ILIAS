@@ -102,7 +102,7 @@ class ilBiblAdminFieldDeleteGUI {
 		$ilBiblField->delete();
 
 		ilUtil::sendSuccess($this->dic->language()->txt('successfully_deleted'), true);
-		$this->ctrl->redirectByClass(ilBiblAdminFieldTableGUI::class);
+		$this->ctrl->redirectByClass(ilBiblAdminFieldGUI::class, ilBiblAdminFieldGUI::CMD_STANDARD);
 	}
 
 

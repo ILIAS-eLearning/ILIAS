@@ -37,11 +37,11 @@ class ilBiblSettingsFilterFormGUI extends ilPropertyFormGUI {
 	protected $dic;
 
 
-	public function __construct($parent_gui, ilBiblField $ilBiblField) {
+	public function __construct($parent_gui, ilBiblField $il_bibl_field) {
 		global $DIC;
 
 		$this->dic = $DIC;
-		$this->il_bibl_field = $ilBiblField;
+		$this->il_bibl_field = $il_bibl_field;
 		$this->tpl = $this->dic['tpl'];
 		$this->ctrl = $this->dic->ctrl();
 		$this->il_bibliographic_settings_filter_gui = $parent_gui;

@@ -15,7 +15,7 @@
  * @ilCtrl_Calls      ilObjBibliographicGUI: ilPermissionGUI, ilObjectCopyGUI, ilExportGUI
  * @ilCtrl_Calls      ilObjBibliographicGUI: ilObjUserGUI, ilBibliographicDetailsGUI
  * @ilCtrl_Calls      ilObjBibliographicGUI: ilBibliographicRecordListTableGUI
- * @ilCtrl_Calls      ilObjBibliographicGUI: ilBibliographicSettingsFilterGUI
+ * @ilCtrl_Calls      ilObjBibliographicGUI: ilBiblSettingsFilterGUI
  * @ilCtrl_isCalledBy ilObjBibliographicGUI: ilRepositoryGUI
  *
  * @extends           ilObject2GUI
@@ -26,6 +26,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	const CMD_SHOW_CONTENT = 'showContent';
 	const CMD_SEND_FILE = "sendFile";
 	const TAB_CONTENT = "content";
+	const SUB_TAB_FILTER = "filter";
 	const CMD_VIEW = "view";
 	const TAB_EXPORT = "export";
 	const TAB_SETTINGS = "settings";
@@ -137,11 +138,11 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 				$exp_gui->addFormat("xml");
 				$this->ctrl->forwardCommand($exp_gui);
 				break;
-			case "ilbibliographicsettingsfiltergui":
+			case "ilbiblsettingsfiltergui":
 				$this->prepareOutput();
 				$ilTabs->setTabActive(self::TAB_SETTINGS);
-				$ilBibliographicSettingsFilterGUI = new ilBibliographicSettingsFilterGUI();
-				$this->ctrl->forwardCommand($ilBibliographicSettingsFilterGUI);
+				$ilBiblSettingsFilterGUI = new ilBiblSettingsFilterGUI();
+				$this->ctrl->forwardCommand($ilBiblSettingsFilterGUI);
 				break;
 			default:
 				return parent::executeCommand();
@@ -305,9 +306,9 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 			$ilTabs->addSubTab("settings",
 				$this->lng->txt("settings"),
 				$this->ctrl->getLinkTarget($this, 'editObject'));
-			$ilTabs->addSubTab("filter",
+			$ilTabs->addSubTab(self::SUB_TAB_FILTER,
 				$this->lng->txt("filter"),
-				$this->ctrl->getLinkTargetByClass(ilBibliographicSettingsFilterGUI::class, ilBibliographicSettingsFilterGUI::CMD_STANDARD));
+				$this->ctrl->getLinkTargetByClass(ilBiblSettingsFilterGUI::class, ilBiblSettingsFilterGUI::CMD_STANDARD));
 		}
 		// export
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {

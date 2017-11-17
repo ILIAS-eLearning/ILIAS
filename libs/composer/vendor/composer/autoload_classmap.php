@@ -2480,6 +2480,7 @@ return array(
     'ilBiblAdminFieldGUI' => $baseDir . '/../../Modules/Bibliographic/classes/Admin/Fields/class.ilBiblAdminFieldGUI.php',
     'ilBiblAdminFieldTableGUI' => $baseDir . '/../../Modules/Bibliographic/classes/Admin/Fields/class.ilBiblAdminFieldTableGUI.php',
     'ilBiblAdminFieldTranslateGUI' => $baseDir . '/../../Modules/Bibliographic/classes/Translation/class.ilBiblAdminFieldTranslateGUI.php',
+    'ilBiblAdminFieldTranslationGUI' => $baseDir . '/../../Modules/Bibliographic/classes/Admin/Fields/class.ilBiblAdminFieldTranslationGUI.php',
     'ilBiblField' => $baseDir . '/../../Modules/Bibliographic/classes/Field/class.ilBiblField.php',
     'ilBiblFilter' => $baseDir . '/../../Modules/Bibliographic/classes/Filter/class.ilBiblFilter.php',
     'ilBiblOverviewGUI' => $baseDir . '/../../Modules/Bibliographic/classes/class.ilBiblOverviewGUI.php',

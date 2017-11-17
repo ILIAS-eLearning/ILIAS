@@ -256,6 +256,23 @@ class ilBiblField extends ActiveRecord {
 		return $data;
 	}
 
+	public static function getAllAttributeNamesByIdentifier($identifier) {
+		global $DIC;
+
+		$sql = "SELECT DISTINCT (il_bibl_attribute.id), (il_bibl_attribute.name), filename FROM il_bibl_attribute
+				JOIN il_bibl_entry ON il_bibl_attribute.entry_id = il_bibl_entry.id
+				JOIN il_bibl_data ON il_bibl_data.id = il_bibl_entry.data_id WHERE ".$DIC->database()->like("il_bibl_attribute.name", "text", "%".$identifier."%");
+
+		$result = $DIC->database()->query($sql);
+
+		$data = [];
+
+		while ($d = $DIC->database()->fetchAssoc($result)) {
+			$data[] = $d;
+		}
+		return $data;
+	}
+
 	/**
 	 * @return array of string of all field-types in ILIAS-Object with the given obj_id
 	 */

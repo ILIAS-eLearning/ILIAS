@@ -73,7 +73,7 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 		$this->addCommandButton(ilBiblAdminFieldGUI::CMD_SAVE, $this->dic->language()->txt("save"));
 		$this->addFilterItems();
 		$this->parseData();
-	}
+		}
 
 	protected function initColumns() {
 		$this->addColumn($this->dic->language()->txt('position'), 'position');
@@ -113,13 +113,6 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 		if(ilBiblField::where(array('id' =>$a_set['id']))->hasSets()) {
 			$is_bibl_field = true;
 		}
-/*		$file_parts = pathinfo($a_set['filename']);
-		if($file_parts['extension'] == "bib" && $this->data_type != "bib") {
-			return;
-		} elseif($file_parts['extension'] == "ris" && $this->data_type != "ris") {
-			return;
-		}*/
-// [ID][identifier][value]
 		$this->tpl->setCurrentBlock("POSITION");
 		if($is_bibl_field) {
 			$this->tpl->setVariable('POSITION_VALUE', $a_set['position']);
@@ -150,12 +143,20 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 		$this->tpl->setCurrentBlock("STANDARD");
 		$file_parts = pathinfo($a_set['filename']);
 		if($is_bibl_field) {
-			$this->tpl->setVariable('IS_STANDARD_VALUE', $a_set['is_standard_field']);
+			$this->tpl->setVariable('IS_STANDARD_VALUE', $this->dic->language()->txt("standard"));
 		} else {
 			if($file_parts['extension'] == "bib") {
-				$this->tpl->setVariable('IS_STANDARD_VALUE', ilBibTex::isStandardField($a_set['name']));
+				if(ilBibTex::isStandardField($a_set['name'])) {
+					$this->tpl->setVariable('IS_STANDARD_VALUE', $this->dic->language()->txt("standard"));
+				} else {
+					$this->tpl->setVariable('IS_STANDARD_VALUE', $this->dic->language()->txt("custom"));
+				}
 			} elseif($file_parts['extension'] == "ris") {
-				$this->tpl->setVariable('IS_STANDARD_VALUE', ilRis::isStandardField($a_set['name']));
+				if(ilRis::isStandardField($a_set['name'])) {
+					$this->tpl->setVariable('IS_STANDARD_VALUE', $this->dic->language()->txt("standard"));
+				} else {
+					$this->tpl->setVariable('IS_STANDARD_VALUE', $this->dic->language()->txt("custom"));
+				}
 			}
 		}
 		$this->tpl->setVariable('IS_STANDARD_NAME', "row_values[". $a_set['id'] ."][is_standard_field]");
@@ -164,6 +165,10 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 		$this->tpl->setCurrentBlock("DATA_TYPE");
 		$this->tpl->setVariable('DATA_TYPE_NAME', "row_values[". $a_set['id'] ."][data_type]");
 		$this->tpl->setVariable('DATA_TYPE_VALUE', $this->data_type);
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("IS_BIBL_FIELD");
+		$this->tpl->setVariable('IS_BIBL_FIELD_NAME', "row_values[". $a_set['id'] ."][is_bibl_field]");
+		$this->tpl->setVariable('IS_BIBL_FIELD_VALUE', $is_bibl_field);
 		$this->tpl->parseCurrentBlock();
 
 		$this->addActionMenu($a_set['id'], $is_bibl_field);
@@ -184,7 +189,7 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable('VAL_ACTIONS', $current_selection_list->getHTML());
 	}
 
-/*	protected function convertStringDataTypeToInt($string_data_type) {
+	protected function convertStringDataTypeToInt($string_data_type) {
 		switch ($string_data_type) {
 			case "ris":
 				return ilBiblField::DATA_TYPE_RIS;
@@ -193,14 +198,24 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 				return ilBiblField::DATA_TYPE_BIBTEX;
 				break;
 		}
-	}*/
+	}
 
 	protected function parseData() {
 		$this->determineOffsetAndOrder();
 		$this->determineLimit();
 
 		$collection = ilBiblField::getCollection();
-		$collection->where(array( 'data_type' => $this->data_type ));
+		if(!empty($this->data_type)) {
+			if(!is_int(intval($this->data_type))) {
+				$this->data_type = $this->convertStringDataTypeToInt($this->data_type);
+			}
+			$collection->where(array( 'data_type' => $this->data_type ));
+		} else {
+			if(!is_int($this->data_type)) {
+				$this->data_type = $this->convertStringDataTypeToInt($this->data_type);
+			}
+			$collection->where(array( 'data_type' => $this->data_type ));
+		}
 
 		$sorting_column = $this->getOrderField() ? $this->getOrderField() : 'identifier';
 		$offset = $this->getOffset() ? $this->getOffset() : 0;
@@ -217,6 +232,7 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 			switch ($filter_key) {
 				case 'identifier':
 					$collection->where(array( $filter_key => '%' . $filter_value . '%' ), 'LIKE');
+					$all_attribute_names_and_file_names = ilBiblField::getAllAttributeNamesByIdentifier($filter_value);
 					break;
 			}
 		}
