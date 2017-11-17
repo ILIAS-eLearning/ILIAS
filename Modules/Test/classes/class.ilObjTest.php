@@ -3383,6 +3383,18 @@ function getAnswerFeedbackPoints()
 		}
 	}
 
+	/**
+	 * @param array $removeQuestionIds
+	 */
+	public function removeQuestions($removeQuestionIds)
+	{
+		foreach ($removeQuestionIds as $value) {
+			$this->removeQuestion($value);
+		}
+		
+		$this->reindexFixedQuestionOrdering();
+	}
+	
 /**
 * Removes a question from the test object
 *
@@ -10856,6 +10868,22 @@ function getAnswerFeedbackPoints()
 	public function setPoolUsage($usage) {
 	    $this->poolUsage = (boolean)$usage;
 	}
+	
+	public function reindexFixedQuestionOrdering()
+	{
+		$tree = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['tree'] : $GLOBALS['tree'];
+		$db = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilDB'] : $GLOBALS['ilDB'];
+		$pluginAdmin = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilPluginAdmin'] : $GLOBALS['ilPluginAdmin'];
+		
+		require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
+		$qscFactory = new ilTestQuestionSetConfigFactory($tree, $db, $pluginAdmin, $this);
+		$questionSetConfig = $qscFactory->getQuestionSetConfig();
+		
+		/* @var ilTestFixedQuestionSetConfig $questionSetConfig */
+		$questionSetConfig->reindexQuestionOrdering();
+		
+		$this->loadQuestions();
+	}
 
 	public function setQuestionOrderAndObligations($orders, $obligations)
 	{
@@ -10915,6 +10943,7 @@ function getAnswerFeedbackPoints()
 	    $values = array($row['sequence'] + 1, $question_to_move);
 	    $ilDB->manipulateF($update, $types, $values);
 
+	    $this->reindexFixedQuestionOrdering();
 	}
 
 	public function hasQuestionsWithoutQuestionpool()

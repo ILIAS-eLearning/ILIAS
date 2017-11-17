@@ -1763,15 +1763,11 @@ class ilObjTestGUI extends ilObjectGUI
 	 */
 	public function confirmRemoveQuestionsObject()
 	{
-		$checked_questions = $_POST["q_id"];
+		$removeQuestionIds = (array)$_POST["q_id"];
 
 		$questions = $this->object->getQuestionTitlesAndIndexes();
-		$deleted   = array();
-		foreach((array)$checked_questions as $value)
-		{
-			$this->object->removeQuestion($value);
-			$deleted[] = $value;
-		}
+		
+		$this->object->removeQuestions($removeQuestionIds);
 
 		$this->object->saveCompleteStatus( $this->testQuestionSetConfigFactory->getQuestionSetConfig() );
 		
@@ -1781,11 +1777,11 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$prev        = null;
 			$return_to   = null;
-			$deleted_tmp = $deleted;
+			$deleted_tmp = $removeQuestionIds;
 			$first       = array_shift($deleted_tmp);
 			foreach((array)$questions as $key => $value)
 			{
-				if(!in_array($key, $deleted))
+				if(!in_array($key, $removeQuestionIds))
 				{
 					$prev = $key;
 					if(!$first)
@@ -1807,7 +1803,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 
 			if(
-				count($questions) == count($checked_questions) ||
+				count($questions) == count($removeQuestionIds) ||
 				!$return_to
 			)
 			{
