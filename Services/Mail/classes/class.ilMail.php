@@ -111,15 +111,22 @@ class ilMail
 	/** @var ilObjUser[] */
 	protected static $userInstances = array();
 
+	private $mailAddressTypeFactory;
+
 	/**
 	 * @param integer $a_user_id
 	 */
-	public function __construct($a_user_id)
+	public function __construct($a_user_id, ilMailAddressTypeFactory $mailAddressTypeFactory = null)
 	{
 		global $DIC;
 
 		require_once 'Services/Mail/classes/class.ilFileDataMail.php';
 		require_once 'Services/Mail/classes/class.ilMailOptions.php';
+
+		if ($mailAddressTypeFactory === null) {
+			$mailAddressTypeFactory = new ilMailAddressTypeFactory();
+		}
+		$this->mailAddressTypeFactory = $mailAddressTypeFactory;
 
 		$this->lng              = $DIC->language();
 		$this->db               = $DIC->database();
@@ -987,11 +994,10 @@ class ilMail
 
 		$a_recipients = implode(',', array_filter(array_map('trim', $a_recipients)));
 
-		require_once 'Services/Mail/classes/Address/Type/class.ilMailAddressTypeFactory.php';  
 		$recipients = $this->parseAddresses($a_recipients);
 		foreach($recipients as $recipient)
 		{
-			$address_type = ilMailAddressTypeFactory::getByPrefix($recipient);
+			$address_type = $this->mailAddressTypeFactory->getByPrefix($recipient);
 			$usr_ids = array_merge($usr_ids, $address_type->resolve());
 		}
 
@@ -1035,11 +1041,10 @@ class ilMail
 
 		try
 		{
-			require_once 'Services/Mail/classes/Address/Type/class.ilMailAddressTypeFactory.php';
 			$recipients = $this->parseAddresses($a_recipients);
 			foreach($recipients as $recipient)
 			{
-				$address_type = ilMailAddressTypeFactory::getByPrefix($recipient);
+				$address_type = $this->mailAddressTypeFactory->getByPrefix($recipient);
 				if(!$address_type->validate($this->user_id))
 				{
 					$errors = array_merge($errors, $address_type->getErrors());

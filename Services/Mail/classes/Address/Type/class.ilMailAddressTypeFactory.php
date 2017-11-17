@@ -7,11 +7,21 @@
  */
 class ilMailAddressTypeFactory
 {
+	private $groupNameValidator;
+
+	public function __construct(GroupNameAsMailValidator $groupNameValidator = null)
+	{
+		if ($groupNameValidator === null) {
+			$groupNameValidator = new GroupNameAsMailValidator(ilMail::ILIAS_HOST);
+		}
+		$this->groupNameValidator = $groupNameValidator;
+	}
+
 	/**
 	 * @param ilMailAddress $a_address
 	 * @return ilMailAddressType
 	 */
-	public static function getByPrefix(ilMailAddress $a_address)
+	public function getByPrefix(ilMailAddress $a_address)
 	{
 		switch(true)
 		{
@@ -25,17 +35,10 @@ class ilMailAddressTypeFactory
 				return new ilMailMailingListAddressType($a_address);
 				break;
 
-			case (
-					ilUtil::groupNameExists(substr($a_address->getMailbox(), 1)) && 
-					(
-						$a_address->getHost() == ilMail::ILIAS_HOST ||
-						0 === strlen($a_address->getHost())
-					)
-				):
+			case ($this->groupNameValidator->validate($a_address)):
 				require_once 'Services/Mail/classes/Address/Type/class.ilMailGroupAddressType.php';
 				return new ilMailGroupAddressType($a_address);
 				break;
-			
 			default:
 				require_once 'Services/Mail/classes/Address/Type/class.ilMailRoleAddressType.php';
 				return new ilMailRoleAddressType($a_address);
