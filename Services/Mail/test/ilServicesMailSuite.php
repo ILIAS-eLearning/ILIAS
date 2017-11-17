@@ -28,7 +28,7 @@ class ilServicesMailSuite extends PHPUnit_Framework_TestSuite
 		require_once 'Services/Mail/test/ilMailTransportSettingsTest.php';
 		$suite->addTestSuite('ilMailTransportSettingsTest');
 
-		require_once 'Services/Mail/test/GroupNameAsMailValidatorTest.php';
+		require_once 'Services/Mail/test/ilGroupNameAsMailValidatorTest.php';
 		$suite->addTestSuite('ilGroupNameAsMailValidatorTest');
 
 		return $suite;

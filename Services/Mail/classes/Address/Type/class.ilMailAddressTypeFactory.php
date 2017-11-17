@@ -7,16 +7,16 @@
  */
 class ilMailAddressTypeFactory
 {
-	/** @var GroupNameAsMailValidator */
+	/** @var ilGroupNameAsMailValidator */
 	private $groupNameValidator;
 
 	/**
-	 * @param GroupNameAsMailValidator|null $groupNameValidator
+	 * @param ilGroupNameAsMailValidator|null $groupNameValidator
 	 */
-	public function __construct(GroupNameAsMailValidator $groupNameValidator = null)
+	public function __construct(ilGroupNameAsMailValidator $groupNameValidator = null)
 	{
 		if ($groupNameValidator === null) {
-			$groupNameValidator = new GroupNameAsMailValidator(ilMail::ILIAS_HOST);
+			$groupNameValidator = new ilGroupNameAsMailValidator(ilMail::ILIAS_HOST);
 		}
 		$this->groupNameValidator = $groupNameValidator;
 	}

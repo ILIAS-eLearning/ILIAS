@@ -4,6 +4,6 @@ class ilGroupNameAsMailValidatorTest extends \ilMailBaseTest
 {
 	public function testObjectCanBeCreated()
 	{
-		$validator = new GroupNameAsMailValidator('someHost');
+		$validator = new ilGroupNameAsMailValidator('someHost');
 	}
 }
