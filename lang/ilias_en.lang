@@ -11040,6 +11040,9 @@ orgu#:#org_op_manage_members#:#Manage Members
 orgu#:#org_op_read_learning_progress#:#View learning progress of other users
 orgu#:#org_op_write_learning_progress#:#Set learning progress of other users
 rbac#:#org_op_write_learning_progress#:#Set Learning Progress of Subordinate Users
+rbac#:#org_op_edit_submissions_grades#:#Edit submission graddes
+orgu#:#org_op_edit_submissions_grades#:#Edit submission graddes
+orgu#:#msg_success_permission_saved#:#Permissions saved
 orgu#:#form_title_org_default_permissions_update#:#Default Permissions
 orgu#:#view_learning_progress#:#View Learning Progress
 orgu#:#il_orgu_employee#:#Employee
