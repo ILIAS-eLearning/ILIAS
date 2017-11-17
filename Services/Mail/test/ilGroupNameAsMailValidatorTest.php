@@ -1,6 +1,6 @@
 <?php
 
-class GroupNameAsMailValidatorTest extends \ilMailBaseTest
+class ilGroupNameAsMailValidatorTest extends \ilMailBaseTest
 {
 	public function testObjectCanBeCreated()
 	{

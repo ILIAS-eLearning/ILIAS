@@ -126,7 +126,7 @@ class ilMailAddressTypesTest extends \ilMailBaseTest
 
 	private function createGroupNameAsValidatorMock()
 	{
-		return $this->getMockBuilder('GroupNameAsMailValidator')
+		return $this->getMockBuilder('ilGroupNameAsMailValidator')
 			->disableOriginalConstructor()
 			->setMethods(array('validate'))
 			->getMock();

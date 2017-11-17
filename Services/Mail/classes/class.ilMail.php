@@ -111,10 +111,12 @@ class ilMail
 	/** @var ilObjUser[] */
 	protected static $userInstances = array();
 
+	/** @var ilMailAddressTypeFactory */
 	private $mailAddressTypeFactory;
 
 	/**
 	 * @param integer $a_user_id
+	 * @param ilMailAddressTypeFactory|null $mailAddressTypeFactory
 	 */
 	public function __construct($a_user_id, ilMailAddressTypeFactory $mailAddressTypeFactory = null)
 	{

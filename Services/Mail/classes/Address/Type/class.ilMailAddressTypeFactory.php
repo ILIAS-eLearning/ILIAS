@@ -7,8 +7,12 @@
  */
 class ilMailAddressTypeFactory
 {
+	/** @var GroupNameAsMailValidator */
 	private $groupNameValidator;
 
+	/**
+	 * @param GroupNameAsMailValidator|null $groupNameValidator
+	 */
 	public function __construct(GroupNameAsMailValidator $groupNameValidator = null)
 	{
 		if ($groupNameValidator === null) {

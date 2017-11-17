@@ -1,6 +1,7 @@
 <?php
+/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-class GroupNameAsMailValidator
+class ilGroupNameAsMailValidator
 {
 	/** @var string */
 	private $host;
