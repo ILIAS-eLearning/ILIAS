@@ -3391,6 +3391,18 @@ function getAnswerFeedbackPoints()
 		return false;
 	}
 	
+	/**
+	 * @param array $removeQuestionIds
+	 */
+	public function removeQuestions($removeQuestionIds)
+	{
+		foreach ($removeQuestionIds as $value) {
+			$this->removeQuestion($value);
+		}
+		
+		$this->reindexFixedQuestionOrdering();
+	}
+	
 /**
 * Removes a question from the test object
 *
@@ -10911,6 +10923,7 @@ function getAnswerFeedbackPoints()
 	    $values = array($row['sequence'] + 1, $question_to_move);
 	    $ilDB->manipulateF($update, $types, $values);
 
+	    $this->reindexFixedQuestionOrdering();
 	}
 
 	public function hasQuestionsWithoutQuestionpool()
