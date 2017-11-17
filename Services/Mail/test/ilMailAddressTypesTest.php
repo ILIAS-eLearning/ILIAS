@@ -66,16 +66,60 @@ class ilMailAddressTypesTest extends \ilMailBaseTest
 
 	public function testFactoryWillReturnRoleAddressType()
 	{
-		$groupNameValidatorMock = $this->getMockBuilder('GroupNameAsMailValidator')
-			->disableOriginalConstructor()
-			->setMethods(array('validate'))
-			->getMock();
-
+		$groupNameValidatorMock = $this->createGroupNameAsValidatorMock();
 		$groupNameValidatorMock->method('validate')->willReturn(false);
 
 		$mailAddressTypeFactory = new ilMailAddressTypeFactory($groupNameValidatorMock);
 
 		$result = $mailAddressTypeFactory->getByPrefix(new ilMailAddress('#member', ''));
+
+		$this->assertInstanceOf('ilMailRoleAddressType', $result);
+	}
+
+	public function testAdminGroupNameIsAValidMailAddressTypes()
+	{
+		$groupNameValidatorMock = $this->createGroupNameAsValidatorMock();
+		$groupNameValidatorMock->method('validate')->willReturn(false);
+
+		$mailAddressTypeFactory = new ilMailAddressTypeFactory($groupNameValidatorMock);
+
+		$result = $mailAddressTypeFactory->getByPrefix(new ilMailAddress('#il_grp_admin_98', ''));
+
+		$this->assertInstanceOf('ilMailRoleAddressType', $result);
+	}
+
+	public function testMemberGroupNameIsAValidMailAddressType()
+	{
+		$groupNameValidatorMock = $this->createGroupNameAsValidatorMock();
+		$groupNameValidatorMock->method('validate')->willReturn(false);
+
+		$mailAddressTypeFactory = new ilMailAddressTypeFactory($groupNameValidatorMock);
+
+		$result = $mailAddressTypeFactory->getByPrefix(new ilMailAddress('#il_grp_member_98', ''));
+
+		$this->assertInstanceOf('ilMailRoleAddressType', $result);
+	}
+
+	public function testAdminCourseNameIsAValidMailAddressType()
+	{
+		$groupNameValidatorMock = $this->createGroupNameAsValidatorMock();
+		$groupNameValidatorMock->method('validate')->willReturn(false);
+
+		$mailAddressTypeFactory = new ilMailAddressTypeFactory($groupNameValidatorMock);
+
+		$result = $mailAddressTypeFactory->getByPrefix(new ilMailAddress('#il_crs_admin_98', ''));
+
+		$this->assertInstanceOf('ilMailRoleAddressType', $result);
+	}
+
+	public function testMemberCourseNameIsAValidMailAddressType()
+	{
+		$groupNameValidatorMock = $this->createGroupNameAsValidatorMock();
+		$groupNameValidatorMock->method('validate')->willReturn(false);
+
+		$mailAddressTypeFactory = new ilMailAddressTypeFactory($groupNameValidatorMock);
+
+		$result = $mailAddressTypeFactory->getByPrefix(new ilMailAddress('#il_crs_member_98', ''));
 
 		$this->assertInstanceOf('ilMailRoleAddressType', $result);
 	}
