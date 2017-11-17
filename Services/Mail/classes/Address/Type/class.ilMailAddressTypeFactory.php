@@ -28,21 +28,18 @@ class ilMailAddressTypeFactory
 			case substr($a_address->getMailbox(), 0, 1) != '#' && substr($a_address->getMailbox(), 0, 2) != '"#':
 				require_once 'Services/Mail/classes/Address/Type/class.ilMailLoginOrEmailAddressAddressType.php';
 				return new ilMailLoginOrEmailAddressAddressType($a_address);
-				break;
 
 			case substr($a_address->getMailbox(), 0, 7) == '#il_ml_':
 				require_once 'Services/Mail/classes/Address/Type/class.ilMailMailingListAddressType.php';
 				return new ilMailMailingListAddressType($a_address);
-				break;
 
 			case ($this->groupNameValidator->validate($a_address)):
 				require_once 'Services/Mail/classes/Address/Type/class.ilMailGroupAddressType.php';
 				return new ilMailGroupAddressType($a_address);
-				break;
+
 			default:
 				require_once 'Services/Mail/classes/Address/Type/class.ilMailRoleAddressType.php';
 				return new ilMailRoleAddressType($a_address);
-				break;
 		}
 	}
 }
