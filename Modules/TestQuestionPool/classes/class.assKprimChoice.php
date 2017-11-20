@@ -998,8 +998,8 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 				'correctness' => (bool) $answer->getCorrectness(),
 				'order' => (int)$answer->getPosition(),
 				'image' => (string)$answer->getImageFile(),
-				'feedback' => ilRTE::_replaceMediaObjectImageSrc(
-					$this->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation($this->getId(), $key), 0
+				'feedback' => $this->formatSAQuestion(
+					$this->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation($this->getId(), $key)
 				)
 			);
 		}

@@ -45,12 +45,18 @@ class ilBuddySystemGUI
 	protected $lng;
 
 	/**
+	 * @var \ILIAS\DI\HTTPServices
+	 */
+	protected $http;
+
+	/**
 	 * 
 	 */
 	public function __construct()
 	{
 		global $DIC;
 
+		$this->http = $DIC->http();
 		$this->ctrl = $DIC['ilCtrl'];
 		$this->user = $DIC['ilUser'];
 		$this->lng  = $DIC['lng'];
@@ -202,6 +208,10 @@ class ilBuddySystemGUI
 		catch(ilException $e)
 		{
 			ilUtil::sendInfo($this->lng->txt('buddy_bs_action_not_possible'), true);
+		}
+
+		if (isset($this->http->request()->getServerParams()['HTTP_REFERER'])) {
+			$this->ctrl->redirectToURL($this->http->request()->getServerParams()['HTTP_REFERER']);
 		}
 
 		$this->ctrl->returnToParent($this);

@@ -234,6 +234,13 @@ class ilConsultationHoursGUI
 			$app = $_REQUEST['apps'];
 		}
 		
+		if(!count($users))
+		{
+			ilUtil::sendFailure($GLOBALS['DIC']->language()->txt('select_one'),true);
+			return false;
+		}
+		
+		
 		include_once './Services/Booking/classes/class.ilBookingEntry.php';
 		$booking = ilBookingEntry::getInstanceByCalendarEntryId($app);
 		

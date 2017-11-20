@@ -36,6 +36,7 @@ class ilAwarenessUserProviderCurrentCourse extends ilAwarenessUserProvider
 		$this->db = $DIC->database();
 		$this->tree = $DIC->repositoryTree();
 		$this->access = $DIC->access();
+		$this->rbac = $DIC->rbac();
 	}
 
 	/**
@@ -80,6 +81,7 @@ class ilAwarenessUserProviderCurrentCourse extends ilAwarenessUserProvider
 		$ilDB = $this->db;
 		$tree = $this->tree;
 		$ilAccess = $this->access;
+		$rbacreview = $this->rbac->review();
 
 		$ub = array();
 
@@ -97,8 +99,12 @@ class ilAwarenessUserProviderCurrentCourse extends ilAwarenessUserProvider
 						($ilAccess->checkAccess("write", "", $p["child"]) ||
 							(ilObjCourse::lookupShowMembersEnabled($p["obj_id"]) && $ilAccess->checkAccess("read", "", $p["child"]))))
 					{
-						$set = $ilDB->query($q = "SELECT DISTINCT usr_id FROM obj_members ".
-							" WHERE obj_id = ".$ilDB->quote($p["obj_id"], "integer"));
+						$lrol = $rbacreview->getRolesOfRoleFolder($p["child"],false);
+						$set = $ilDB->query('SELECT DISTINCT(usr_id) FROM rbac_ua '.
+							'WHERE '.$ilDB->in('rol_id', $lrol, false, 'integer'));
+
+						//$set = $ilDB->query($q = "SELECT DISTINCT usr_id FROM obj_members ".
+						//	" WHERE obj_id = ".$ilDB->quote($p["obj_id"], "integer"));
 						$ub = array();
 						while ($rec = $ilDB->fetchAssoc($set))
 						{

@@ -287,7 +287,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$up->setSuffixes(ilObjMediaObject::getRestrictedFileTypes());
 			$up->setForbiddenSuffixes(ilObjMediaObject::getForbiddenFileTypes());
 			$up->setInfo("");
-			$up->setRequired(true);
+			if ($a_mode == "create" || $std_item->getLocationType() != "LocalFile")
+			{
+				$up->setRequired(true);
+			}
 			$op1->addSubItem($up);
 			$radio_prop->addOption($op1);
 		$op2 = new ilRadioOption($lng->txt("url"), "Reference");
@@ -415,7 +418,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$up->setSuffixes(ilObjMediaObject::getRestrictedFileTypes());
 			$up->setForbiddenSuffixes(ilObjMediaObject::getForbiddenFileTypes());
 			$up->setInfo("");
-			$up->setRequired(true);
+			if ($a_mode == "create" || !$full_item || $full_item->getLocationType() != "LocalFile")
+			{
+				$up->setRequired(true);
+			}
 			$op2->addSubItem($up);
 		$radio_prop2->addOption($op2);
 		$op3 = new ilRadioOption($lng->txt("url"), "Reference");

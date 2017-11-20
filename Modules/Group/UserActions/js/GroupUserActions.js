@@ -9,8 +9,10 @@ il.Group = il.Group || {};
 		// public interface
 		public_interface = {
 
-			initCreationForm: function (url) {
+			initCreationForm: function (event, url) {
 				console.log("initCreationForm");
+				event.preventDefault();
+				event.stopPropagation();
 				il.Util.sendAjaxGetRequestToUrl (url, {}, {}, function (o) {
 					if (o.responseText !== undefined) {
 						$('#il_grp_action_modal_content').html(o.responseText);
@@ -66,6 +68,7 @@ il.Group = il.Group || {};
 					var url;
 
 					e.preventDefault();
+					il.Awareness.close();
 					url = $(this).data("url");
 
 					if ($('#il_grp_action_modal_content').length) {

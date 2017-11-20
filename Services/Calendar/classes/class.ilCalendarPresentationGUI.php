@@ -118,21 +118,19 @@ class ilCalendarPresentationGUI
 		{
 			if ($a_ref_id > 0)
 			{
-				$cats->initialize(ilCalendarCategories::MODE_REPOSITORY, (int)$a_ref_id, true);
+				$cats->initialize(ilCalendarCategories::MODE_REPOSITORY, (int) $a_ref_id, true);
 			}
 			else
 			{
-				$cats->initialize(ilCalendarCategories::MODE_MANAGE);
+				if(ilCalendarUserSettings::_getInstance()->getCalendarSelectionType() == ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP)
+				{
+					$cats->initialize(ilCalendarCategories::MODE_PERSONAL_DESKTOP_MEMBERSHIP);
+				}
+				else
+				{
+					$cats->initialize(ilCalendarCategories::MODE_PERSONAL_DESKTOP_ITEMS);
+				}
 			}
-
-			/*if (ilCalendarUserSettings::_getInstance()->getCalendarSelectionType() == ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP)
-			{
-				$cats->initialize(ilCalendarCategories::MODE_PERSONAL_DESKTOP_MEMBERSHIP);
-			}
-			else
-			{
-				$cats->initialize(ilCalendarCategories::MODE_PERSONAL_DESKTOP_ITEMS);
-			}*/
 		}
 
 		include_once("./Services/Calendar/classes/class.ilCalendarActions.php");
@@ -207,16 +205,15 @@ class ilCalendarPresentationGUI
 				$this->initAndRedirectToConsultationHours();
 				break;
 		}
-		
+
 		switch($next_class)
 		{
 			case 'ilcalendarinboxgui':
 				$this->tabs_gui->activateTab('cal_agenda');
 				$inbox_gui = $this->forwardToClass('ilcalendarinboxgui');
-				if($cmd != "askDelete"){
+				if($this->showToolbarAndSidebar()){
 					$this->showViewSelection("cal_list");
 					$this->showSideBlocks();
-					// this would require ilcalendarinboxgui being derived from ilCalendarViewGUI, not ilCalendarAgendaListGUI
 					$inbox_gui->addToolbarActions();
 				}
 
@@ -235,14 +232,17 @@ class ilCalendarPresentationGUI
 				include_once './Services/Calendar/classes/ConsultationHours/class.ilConsultationHoursGUI.php';
 				$gui = new ilConsultationHoursGUI();
 				$this->ctrl->forwardCommand($gui);
-				$this->showSideBlocks();
+				if($this->showToolbarAndSidebar())
+				{
+					$this->showSideBlocks();
+				}
 				return true;
 			
 			case 'ilcalendarmonthgui':
 				$this->tabs_gui->activateTab('cal_agenda');
 				$month_gui = $this->forwardToClass('ilcalendarmonthgui');
 
-				if($cmd != "askDelete"){
+				if($this->showToolbarAndSidebar()) {
 					$this->showViewSelection("app_month");
 					$this->showSideBlocks();
 					$month_gui->addToolbarActions();
@@ -252,7 +252,7 @@ class ilCalendarPresentationGUI
 			case 'ilcalendarweekgui':
 				$this->tabs_gui->activateTab('cal_agenda');
 				$week_gui = $this->forwardToClass('ilcalendarweekgui');
-				if($cmd != "askDelete"){
+				if($this->showToolbarAndSidebar()) {
 					$this->showViewSelection("app_week");
 					$this->showSideBlocks();
 					$week_gui->addToolbarActions();
@@ -263,7 +263,8 @@ class ilCalendarPresentationGUI
 			case 'ilcalendardaygui':
 				$this->tabs_gui->activateTab('cal_agenda');
 				$day_gui = $this->forwardToClass('ilcalendardaygui');
-				if($cmd != "askDelete"){
+				if($this->showToolbarAndSidebar())
+				{
 					$this->showViewSelection("app_day");
 					$this->showSideBlocks();
 					$day_gui->addToolbarActions();
@@ -288,7 +289,6 @@ class ilCalendarPresentationGUI
 				include_once('./Services/Calendar/classes/class.ilCalendarAppointmentGUI.php');
 				$app = new ilCalendarAppointmentGUI($this->seed, $this->seed,(int) $_GET['app_id']);
 				$this->ctrl->forwardCommand($app);
-				$this->showSideBlocks();
 				break;
 
 			case 'ilcalendarsubscriptiongui':
@@ -298,7 +298,9 @@ class ilCalendarPresentationGUI
 				include_once './Services/Calendar/classes/class.ilCalendarSubscriptionGUI.php';
 				$sub = new ilCalendarSubscriptionGUI((int) $_REQUEST['category_id'], (int) $_GET["ref_id"]);
 				$this->ctrl->forwardCommand($sub);
-				$this->showSideBlocks();
+				if($this->showToolbarAndSidebar()) {
+					$this->showSideBlocks();
+				}
 				break;
 				
 			case 'ilcalendarcategorygui':
@@ -785,6 +787,16 @@ class ilCalendarPresentationGUI
 				}
 			}
 		}
+	}
+
+	#21613
+	function showToolbarAndSidebar()
+	{
+		if($this->ctrl->getCmdClass() == "ilcalendarappointmentgui")
+		{
+			return false;
+		}
+		return true;
 	}
 	
 }

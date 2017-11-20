@@ -29,5 +29,15 @@ abstract class ilWorkflowEngineBaseTest extends PHPUnit_Framework_TestCase
 		parent::setUp();
 
 		$this->setGlobalVariable('ilDB', $this->getMockBuilder('ilDBInterface')->getMock());
+
+		$this->setGlobalVariable(
+			'ilAppEventHandler',
+			$this->getMockBuilder('ilAppEventHandler')->disableOriginalConstructor()->setMethods(array('raise'))->getMock()
+		);
+
+		$this->setGlobalVariable(
+			'ilSetting',
+			$this->getMockBuilder('ilSetting')->disableOriginalConstructor()->setMethods(array('delete', 'get', 'set'))->getMock()
+		);
 	}
 }

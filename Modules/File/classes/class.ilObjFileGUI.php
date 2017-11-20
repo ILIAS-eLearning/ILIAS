@@ -673,7 +673,8 @@ class ilObjFileGUI extends ilObject2GUI
 		
 		if(ANONYMOUS_USER_ID == $ilUser->getId() && isset($_GET['transaction']) )
 		{
-			$this->object->sendFile($_GET["hist_id"]);
+			$a_hist_entry_id = isset($_GET["hist_id"]) ? $_GET["hist_id"] : null;
+			$this->object->sendFile($a_hist_entry_id);
 		}
 
 		if ($this->checkPermissionBool("read"))
@@ -690,7 +691,8 @@ class ilObjFileGUI extends ilObject2GUI
 			require_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
 			ilLPStatusWrapper::_updateStatus($this->object->getId(), $ilUser->getId());
 
-			$this->object->sendFile($_GET["hist_id"]);
+			$a_hist_entry_id = isset($_GET["hist_id"]) ? $_GET["hist_id"] : null;
+			$this->object->sendFile($a_hist_entry_id);
 		}
 		else
 		{

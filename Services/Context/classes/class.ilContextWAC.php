@@ -65,7 +65,7 @@ class ilContextWAC implements ilContextTemplate {
 	public static function doAuthentication() {
 		return true;
 	}
-	
+
 	/**
 	 * Check if persistent session handling is supported
 	 * @return boolean
@@ -75,6 +75,16 @@ class ilContextWAC implements ilContextTemplate {
 		return true;
 	}
 	
+	/**
+	 * Supports push messages
+	 *
+	 * @return bool
+	 */
+	public static function supportsPushMessages()
+	{
+		return false;
+	}
+
 }
 
 ?>

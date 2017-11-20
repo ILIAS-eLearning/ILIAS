@@ -1,7 +1,6 @@
 
 
 var ConversationCollection = function ConversationCollection() {
-
 	/**
 	 *
 	 * @type {JSON}
@@ -26,12 +25,13 @@ var ConversationCollection = function ConversationCollection() {
 	};
 
 	this.getForParticipants = function(participants) {
-		for(var id in _collection) {
-			var conversation = _collection[id];
+		for (var id in _collection) {
+			if (_collection.hasOwnProperty(id)) {
+				var conversation = _collection[id];
 
-			if(conversation.matchesParticipants(participants))
-			{
-				return conversation;
+				if (conversation.matchesParticipants(participants)) {
+					return conversation;
+				}
 			}
 		}
 		return null;

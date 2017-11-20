@@ -669,6 +669,12 @@ abstract class ilExplorerBaseGUI
 		$tpl = $this->tpl;
 		$ilCtrl = $this->ctrl;
 
+		$root = $this->getNodeId($this->getRootNode());
+		if (!in_array($root, $this->open_nodes))
+		{
+			$this->open_nodes[] = $root;
+		}
+
 		$this->beforeRendering();
 
 		self::init($tpl);
