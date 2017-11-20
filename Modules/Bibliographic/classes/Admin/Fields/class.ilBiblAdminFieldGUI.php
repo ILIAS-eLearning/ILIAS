@@ -49,25 +49,21 @@ class ilBiblAdminFieldGUI {
 	public function __construct() {
 		global $DIC;
 		$this->dic = $DIC;
-		$this->tpl = $this->dic['tpl'];
-		$this->tabs = $DIC->tabs();
-		$this->ctrl = $this->dic->ctrl();
-		$this->tpl = $this->dic['tpl'];
 		$this->object = ilObjectFactory::getInstanceByRefId($_GET['ref_id']);
 	}
 
 	public function executeCommand() {
 
-		$nextClass = $this->ctrl->getNextClass();
+		$nextClass = $this->dic->ctrl()->getNextClass();
 		switch ($nextClass) {
 			default:
-				$this->tabs->activateTab(ilObjBibliographicAdminGUI::TAB_FIELDS);
+				$this->dic->tabs()->activateTab(ilObjBibliographicAdminGUI::TAB_FIELDS);
 				$this->performCommand();
 		}
 	}
 
 	protected function performCommand() {
-		$cmd = $this->ctrl->getCmd(self::CMD_STANDARD);
+		$cmd = $this->dic->ctrl()->getCmd(self::CMD_STANDARD);
 		switch ($cmd) {
 			case self::CMD_STANDARD:
 				$this->content($_GET['content_type']);
@@ -91,30 +87,30 @@ class ilBiblAdminFieldGUI {
 	}
 
 	protected function setSubTabs($a_active_tab) {
-		$this->dic['ilTabs']->addSubTab(ilBiblField::DATA_TYPE_RIS, $this->dic->language()->txt('ris'), $this->ctrl->getLinkTargetByClass(array(
+		$this->dic->tabs()->addSubTab(ilBiblField::DATA_TYPE_RIS, $this->dic->language()->txt('ris'), $this->dic->ctrl()->getLinkTargetByClass(array(
 			'ilObjBibliographicAdminGUI',
 			ilBiblAdminFieldGUI::class), ilBiblAdminFieldGUI::CMD_SHOW_RIS)
 
 		);
-		$this->dic['ilTabs']->activateSubTab('ris');
+		$this->dic->tabs()->activateSubTab('ris');
 
-		$this->dic['ilTabs']->addSubTab(ilBiblField::DATA_TYPE_BIBTEX, $this->dic->language()->txt('bibtex'), $this->ctrl->getLinkTargetByClass(array(
+		$this->dic->tabs()->addSubTab(ilBiblField::DATA_TYPE_BIBTEX, $this->dic->language()->txt('bibtex'), $this->dic->ctrl()->getLinkTargetByClass(array(
 			'ilObjBibliographicAdminGUI',
 			ilBiblAdminFieldGUI::class), ilBiblAdminFieldGUI::CMD_SHOW_BIBTEX)
 		);
-		$this->dic['ilTabs']->activateSubTab($a_active_tab);
+		$this->dic->tabs()->activateSubTab($a_active_tab);
 	}
 
 	public function showRis() {
 		$this->setSubTabs(ilBiblField::DATA_TYPE_RIS);
-		$this->ctrl->setParameter($this, self::DATA_TYPE, "ris");
+		$this->dic->ctrl()->setParameter($this, self::DATA_TYPE, "ris");
 		$this->data_type = ilBiblField::DATA_TYPE_RIS;
 		$this->content(ilBiblField::DATA_TYPE_RIS);
 	}
 
 	public function showBibTex() {
 		$this->setSubTabs(ilBiblField::DATA_TYPE_BIBTEX);
-		$this->ctrl->setParameter($this, self::DATA_TYPE, "bib");
+		$this->dic->ctrl()->setParameter($this, self::DATA_TYPE, "bib");
 		$this->data_type = ilBiblField::DATA_TYPE_BIBTEX;
 		$this->content(ilBiblField::DATA_TYPE_BIBTEX);
 	}
@@ -124,21 +120,21 @@ class ilBiblAdminFieldGUI {
 			$this->setSubTabs($_GET['data_type']);
 			$data_type = $_GET['data_type'];
 		}
-		$this->ctrl->saveParameterByClass(ilBiblAdminFieldTableGUI::class, self::FIELD_IDENTIFIER);
+		$this->dic->ctrl()->saveParameterByClass(ilBiblAdminFieldTableGUI::class, self::FIELD_IDENTIFIER);
 		$ilBiblAdminFieldTableGUI = new ilBiblAdminFieldTableGUI($this, self::CMD_STANDARD, $this->object, $data_type);
-		$this->tpl->setContent($ilBiblAdminFieldTableGUI->getHTML());
+		$this->dic->ui()->mainTemplate()->setContent($ilBiblAdminFieldTableGUI->getHTML());
 
 		/*		$data = ilBiblField::getAvailableFieldsForObjId($this->object->getId());
 
-				$this->tpl->setContent("<pre>".print_r($data, true). "</pre>");*/
+				$this->dic->ui()->mainTemplate()->setContent("<pre>".print_r($data, true). "</pre>");*/
 	}
 
 	protected function add() { // Formular für neues Anlegen
 		//$this->il_bibl_field = new ilBiblField($_GET[self::FIELD_IDENTIFIER]);
 
-		//$this->tabs->activateTab(self::CMD_STANDARD);
+		//$this->dic->tabs()->activateTab(self::CMD_STANDARD);
 		$ilBiblSettingsFilterFormGUI = new ilBiblSettingsFilterFormGUI($this, new ilBiblField());
-		$this->tpl->setContent($ilBiblSettingsFilterFormGUI->getHTML());
+		$this->dic->ui()->mainTemplate()->setContent($ilBiblSettingsFilterFormGUI->getHTML());
 
 	}
 
@@ -147,25 +143,25 @@ class ilBiblAdminFieldGUI {
 	}
 
 	public function edit() { // Formular zum Bearbeiten eines bestehenden Eintrages
-		//$this->tabs->activateTab(self::CMD_STANDARD);
+		//$this->dic->tabs()->activateTab(self::CMD_STANDARD);
 		$field = $this->dic->http()->request()->getQueryParams()[self::FIELD_IDENTIFIER];
 		$ilBiblSettingsFilterFormGUI = new ilBiblSettingsFilterFormGUI($this, ilBiblField::findOrFail($field));
 		$ilBiblSettingsFilterFormGUI->fillForm();
-		$this->tpl->setContent($ilBiblSettingsFilterFormGUI->getHTML());
+		$this->dic->ui()->mainTemplate()->setContent($ilBiblSettingsFilterFormGUI->getHTML());
 	}
 
 
 	public function update() { // Verarbeiten
 		$field = $this->dic->http()->request()->getQueryParams()[self::FIELD_IDENTIFIER];
 
-		//$this->tabs->activateTab(self::CMD_STANDARD);
+		//$this->dic->tabs()->activateTab(self::CMD_STANDARD);
 		$ilBiblSettingsFilterFormGUI = new ilBiblSettingsFilterFormGUI($this, ilBiblField::findOrFail($field));
 		if ($ilBiblSettingsFilterFormGUI->saveObject()) {
 			ilUtil::sendSuccess($this->dic->language()->txt('changes_saved_success'), true);
-			$this->ctrl->redirect($this, self::CMD_STANDARD);
+			$this->dic->ctrl()->redirect($this, self::CMD_STANDARD);
 		}
 		$ilBiblSettingsFilterFormGUI->setValuesByPost();
-		$this->tpl->setContent($ilBiblSettingsFilterFormGUI->getHTML());
+		$this->dic->ui()->mainTemplate()->setContent($ilBiblSettingsFilterFormGUI->getHTML());
 	}
 
 	protected function applyFilter() {
@@ -176,18 +172,18 @@ class ilBiblAdminFieldGUI {
 			$ilBiblAdminFieldTableGUI = new ilBiblAdminFieldTableGUI($this, self::CMD_STANDARD, $this->object, $this->data_type);
 			$this->data_type = $_GET[self::DATA_TYPE];
 		}
-		$this->ctrl->saveParameter($this, self::DATA_TYPE);
+		$this->dic->ctrl()->saveParameter($this, self::DATA_TYPE);
 		$ilBiblAdminFieldTableGUI->writeFilterToSession();
-		$this->ctrl->redirect($this, self::CMD_STANDARD);
+		$this->dic->ctrl()->redirect($this, self::CMD_STANDARD);
 	}
 
 
 	protected function resetFilter() {
 		$ilBiblAdminFieldTableGUI = new ilBiblAdminFieldTableGUI($this, self::CMD_STANDARD, $this->object, $this->data_type);
-		$this->ctrl->saveParameterByClass(ilBiblAdminFieldTableGUI::class, self::DATA_TYPE);
+		$this->dic->ctrl()->saveParameterByClass(ilBiblAdminFieldTableGUI::class, self::DATA_TYPE);
 		$ilBiblAdminFieldTableGUI->resetFilter();
 		$ilBiblAdminFieldTableGUI->resetOffset();
-		$this->ctrl->redirect($this, self::CMD_STANDARD);
+		$this->dic->ctrl()->redirect($this, self::CMD_STANDARD);
 	}
 
 	public function save() {
@@ -215,8 +211,8 @@ class ilBiblAdminFieldGUI {
 		}
 		ilUtil::sendSuccess($this->dic->language()->txt("changes_successfully_saved"));
 
-		$this->ctrl->setParameter($this, 'content_type', $_POST['row_values'][$id]['data_type']);
-		$this->ctrl->redirect($this, self::CMD_STANDARD);
+		$this->dic->ctrl()->setParameter($this, 'content_type', $_POST['row_values'][$id]['data_type']);
+		$this->dic->ctrl()->redirect($this, self::CMD_STANDARD);
 	}
 
 }
