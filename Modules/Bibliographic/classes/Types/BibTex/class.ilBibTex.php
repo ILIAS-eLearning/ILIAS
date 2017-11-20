@@ -24,10 +24,7 @@ class ilBibTex implements ilBiblTypeInterface {
 	}
 
 
-	/**
-	 * @var array
-	 */
-	protected static $ignored_keywords = array( 'Preamble' );
+
 	/**
 	 * should return
 	 *

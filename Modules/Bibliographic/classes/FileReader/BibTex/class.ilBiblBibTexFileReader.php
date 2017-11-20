@@ -8,6 +8,12 @@
 class ilBiblBiblTexFileReader extends ilBiblFileReaderBase implements ilBiblFileReaderInterface {
 
 	/**
+	 * @var array
+	 */
+	protected static $ignored_keywords = array( 'Preamble' );
+
+
+	/**
 	 * @inheritdoc
 	 */
 	public function parseContent() {

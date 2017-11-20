@@ -28,7 +28,8 @@ class ilBiblTypeFactory implements ilBiblTypeFactoryInterface {
 	 */
 	public function getInstanceForFileName($filename) {
 		//return bib for filetype .bibtex:
-		if (strtolower(substr($filename, - 6)) == "bibtex") {
+		if (strtolower(substr($filename, - 6)) == "bibtex"
+		    || strtolower(substr($filename, - 3)) == "bib") {
 			return $this->getInstanceForType(ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX);
 		}
 

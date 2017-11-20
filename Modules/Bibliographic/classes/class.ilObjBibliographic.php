@@ -91,8 +91,10 @@ class ilObjBibliographic extends ilObject2 {
 			"id"        => [ "integer", $this->getId() ],
 			"filename"  => [ "text", $this->getFilename() ],
 			"is_online" => [ "integer", $this->getOnline() ],
-			"file_type" => [ "integer", $this->determineFileTypeBySuffix($this->getFilename()) ],
+			"file_type" => [ "integer", $this->determineFileTypeByFileName($this->getFilename()) ],
 		]);
+
+		$this->parseFileToDatabase();
 	}
 
 
@@ -108,8 +110,6 @@ class ilObjBibliographic extends ilObject2 {
 			$this->setFileType($rec["file_type"]);
 			$this->setOnline($rec['is_online']);
 		}
-
-		$this->writeSourcefileEntriesToDb();
 	}
 
 
@@ -117,7 +117,8 @@ class ilObjBibliographic extends ilObject2 {
 		global $DIC;
 
 		$upload = $DIC->upload();
-		if ($upload->hasUploads() && !$upload->hasBeenProcessed()) {
+		$has_valid_upload = $upload->hasUploads() && !$upload->hasBeenProcessed();
+		if ($has_valid_upload) {
 			$upload->process();
 			$this->deleteFile();
 			$this->moveUploadedFile($upload);
@@ -125,14 +126,15 @@ class ilObjBibliographic extends ilObject2 {
 
 		// Delete the object, but leave the db table 'il_bibl_data' for being able to update it using WHERE, and also leave the file
 		$this->doDelete(true, true);
+		if ($has_valid_upload) {
+			$this->parseFileToDatabase();
+		}
 
 		$DIC->database()->update("il_bibl_data", [
 			"filename"  => [ "text", $this->getFilename() ],
 			"is_online" => [ "integer", $this->getOnline() ],
 			"file_type" => [ "integer", $this->getFileType() ],
 		], [ "id" => [ "integer", $this->getId() ] ]);
-
-		$this->writeSourcefileEntriesToDb();
 	}
 
 
@@ -164,7 +166,7 @@ class ilObjBibliographic extends ilObject2 {
 
 
 	/**
-	 * @return string the folder is: $ILIAS-data-folder/bibl/$id
+	 * @return string the folder is: bibl/$id
 	 */
 	public function getFileDirectory() {
 		return "{$this->getType()}/{$this->getId()}";
@@ -175,6 +177,9 @@ class ilObjBibliographic extends ilObject2 {
 	 * @param \ILIAS\FileUpload\FileUpload $upload
 	 */
 	protected function moveUploadedFile(\ILIAS\FileUpload\FileUpload $upload) {
+		/**
+		 * @var $result \ILIAS\FileUpload\DTO\UploadResult
+		 */
 		$result = array_values($upload->getResults())[0];
 		if ($result->getStatus() == \ILIAS\FileUpload\DTO\ProcessingStatus::OK) {
 			$this->deleteFile();
@@ -272,8 +277,8 @@ class ilObjBibliographic extends ilObject2 {
 	 */
 	public function getFileTypeAsString() {
 		$type = $this->getFileType();
-		return $this->bib_type_factory->getInstanceForType($type)
-		                       ->getStringRepresentation();
+
+		return $this->bib_type_factory->getInstanceForType($type)->getStringRepresentation();
 	}
 
 
@@ -281,8 +286,9 @@ class ilObjBibliographic extends ilObject2 {
 	 * @return int
 	 */
 	public function getFileType() {
-		return $this->bib_type_factory->getInstanceForFileName($this->getFilename())
-		                       ->getId();
+		$instance = $this->bib_type_factory->getInstanceForFileName($this->getFilename());
+
+		return $instance->getId();
 		// return $this->file_type;
 	}
 
@@ -371,9 +377,10 @@ class ilObjBibliographic extends ilObject2 {
 	 *
 	 * @return void
 	 */
-	public function writeSourcefileEntriesToDb() {
+	public function parseFileToDatabase() {
 		//Read File
-		$reader = $this->bib_filereader_factory->getByType($this->getFileType());
+		$type = $this->getFileType();
+		$reader = $this->bib_filereader_factory->getByType($type);
 		$reader->readContent($this->getFileAbsolutePath());
 		$this->entries = $reader->parseContentToEntries($this);
 	}
@@ -408,7 +415,7 @@ class ilObjBibliographic extends ilObject2 {
 	 *
 	 * @return int
 	 */
-	public function determineFileTypeBySuffix($filename) {
+	public function determineFileTypeByFileName($filename) {
 		$this->bib_type_factory->getInstanceForFileName($filename)->getId();
 	}
 }
