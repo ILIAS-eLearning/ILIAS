@@ -1,23 +1,26 @@
 <?php
 
 /**
- * Class ilRis
+ * Class ilRisInterface
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 1.0.0
  */
-class ilRis extends ilBibliograficFileReaderBase implements ilBibliograficFileReader {
+class ilRis implements ilBiblTypeInterface {
 
 	/**
-	 * @return array
+	 * @inheritDoc
 	 */
-	public function parseContent() {
-		global $DIC;
-		$ilRisWrapper = new ilRisWrapper();
+	public function getId() {
+		return ilBiblTypeFactoryInterface::DATA_TYPE_RIS;
+	}
 
-		return $ilRisWrapper->parseFile($DIC->filesystem()
-		                                       ->storage()
-		                                       ->readStream($this->path_to_file)->getMetadata('uri'));
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getStringRepresentation() {
+		return "ris";
 	}
 
 
@@ -231,7 +234,7 @@ class ilRis extends ilBibliograficFileReaderBase implements ilBibliograficFileRe
 	 *
 	 * @return bool
 	 */
-	public static function isStandardField($field_name) {
+	public function isStandardField($field_name) {
 		return in_array(strtoupper($field_name), self::$standard_fields);
 	}
 
@@ -241,7 +244,7 @@ class ilRis extends ilBibliograficFileReaderBase implements ilBibliograficFileRe
 	 *
 	 * @return bool
 	 */
-	public static function isEntryType($entry_ype) {
+	public function isEntryType($entry_ype) {
 		return in_array(strtoupper($entry_ype), self::$entry_types);
 	}
 }

@@ -2,13 +2,12 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Class ilBibliographicEntry
+ * Class ilBibEntry
  *
  * @author  Gabriel Comte
  * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @version $Id: class.ilBibliographicEntry.php 2012-11-15 16:11:42Z gcomte $
  */
-class ilBibliographicEntry {
+class ilBibEntry implements ilBiblEntryInterface {
 
 	/**
 	 * ILIAS-Id of bibliographic-object
@@ -45,7 +44,7 @@ class ilBibliographicEntry {
 	 */
 	protected $overview = '';
 	/**
-	 * @var ilBibliographicEntry[]
+	 * @var ilBibEntry[]
 	 */
 	protected static $instances = array();
 
@@ -54,7 +53,7 @@ class ilBibliographicEntry {
 	 * @param      $file_type
 	 * @param null $entry_id
 	 *
-	 * @return ilBibliographicEntry
+	 * @return ilBibEntry
 	 */
 	public static function getInstance($file_type, $entry_id = null) {
 		if (!$entry_id) {

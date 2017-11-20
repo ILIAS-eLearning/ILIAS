@@ -1,8 +1,6 @@
 <?php
 
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once "Services/Object/classes/class.ilObject2.php";
-require_once "Modules/Bibliographic/classes/class.ilBibliographicEntry.php";
 
 /**
  * Class ilObjBibliographic
@@ -15,38 +13,36 @@ require_once "Modules/Bibliographic/classes/class.ilBibliographicEntry.php";
  */
 class ilObjBibliographic extends ilObject2 {
 
-	const FILETYPE_RIS = "ris";
-	const FILETYPE_BIB = "bib";
 	/**
-	 * Number of maximum allowed characters for attributes in order to fit in the database
-	 *
-	 * @var int
+	 * @var \ilBiblFileReaderFactoryInterface
 	 */
-	const ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH = 4000;
+	protected $bib_filereader_factory;
+	/**
+	 * @var \ilBiblTypeFactoryInterface
+	 */
+	protected $bib_type_factory;
 	/**
 	 * Id of literary articles
 	 *
-	 * @var int
+	 * @var string
 	 */
 	protected $filename;
 	/**
 	 * Id of literary articles
 	 *
-	 * @var ilBibliographicEntry[]
+	 * @var \ilBibEntry[]
 	 */
 	protected $entries;
 	/**
 	 * Models describing how the overview of each entry is showed
 	 *
-	 * @var overviewModels[]
-	 */
-	protected $overviewModels;
-	/**
-	 * Models describing how the overview of each entry is showed
-	 *
-	 * @var is_online
+	 * @var bool
 	 */
 	protected $is_online;
+	/**
+	 * @var int
+	 */
+	protected $file_type = 0;
 
 
 	/**
@@ -72,6 +68,8 @@ class ilObjBibliographic extends ilObject2 {
 			$this->doRead();
 		}
 		parent::__construct($existant_bibl_id, false);
+		$this->bib_type_factory = new ilBiblTypeFactory();
+		$this->bib_filereader_factory = new ilBiblFileReaderFactory();
 	}
 
 
@@ -90,9 +88,10 @@ class ilObjBibliographic extends ilObject2 {
 		}
 
 		$DIC->database()->insert("il_bibl_data", [
-			"id" => ["integer", $this->getId()],
-			"filename" => ["text", $this->getFilename()],
-			"is_online" => ["integer", $this->getOnline()],
+			"id"        => [ "integer", $this->getId() ],
+			"filename"  => [ "text", $this->getFilename() ],
+			"is_online" => [ "integer", $this->getOnline() ],
+			"file_type" => [ "integer", $this->determineFileTypeBySuffix($this->getFilename()) ],
 		]);
 	}
 
@@ -106,8 +105,11 @@ class ilObjBibliographic extends ilObject2 {
 			if (!$this->getFilename()) {
 				$this->setFilename($rec["filename"]);
 			}
+			$this->setFileType($rec["file_type"]);
 			$this->setOnline($rec['is_online']);
 		}
+
+		$this->writeSourcefileEntriesToDb();
 	}
 
 
@@ -125,9 +127,10 @@ class ilObjBibliographic extends ilObject2 {
 		$this->doDelete(true, true);
 
 		$DIC->database()->update("il_bibl_data", [
-			"filename" => ["text", $this->getFilename()],
-			"is_online" => ["integer", $this->getOnline()],
-		], ["id" => ["integer", $this->getId()]]);
+			"filename"  => [ "text", $this->getFilename() ],
+			"is_online" => [ "integer", $this->getOnline() ],
+			"file_type" => [ "integer", $this->getFileType() ],
+		], [ "id" => [ "integer", $this->getId() ] ]);
 
 		$this->writeSourcefileEntriesToDb();
 	}
@@ -221,23 +224,18 @@ class ilObjBibliographic extends ilObject2 {
 	 * @return string
 	 */
 	public function getFilePath($without_filename = false) {
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
-		$set = $ilDB->query("SELECT filename FROM il_bibl_data " . " WHERE id = "
-		                    . $ilDB->quote($this->getId(), "integer"));
-		$rec = $ilDB->fetchAssoc($set);
-		{
-			if ($without_filename) {
-				return substr($rec['filename'], 0, strrpos($rec['filename'], DIRECTORY_SEPARATOR));
-			} else {
-				return $rec['filename'];
-			}
+		$file_name = $this->getFilename();
+
+		if ($without_filename) {
+			return substr($file_name, 0, strrpos($file_name, DIRECTORY_SEPARATOR));
+		} else {
+			return $file_name;
 		}
 	}
 
 
 	/**
-	 * @param $filename
+	 * @param string $filename
 	 */
 	public function setFilename($filename) {
 		$this->filename = $filename;
@@ -245,7 +243,7 @@ class ilObjBibliographic extends ilObject2 {
 
 
 	/**
-	 * @return int
+	 * @return string
 	 */
 	public function getFilename() {
 		return $this->filename;
@@ -269,17 +267,23 @@ class ilObjBibliographic extends ilObject2 {
 
 
 	/**
+	 * @deprecated
 	 * @return string
 	 */
-	public function getFiletype() {
-		//return bib for filetype .bibtex:
-		$filename = $this->getFilename();
-		if (strtolower(substr($filename, - 6)) == "bibtex") {
-			return self::FILETYPE_BIB;
-		}
+	public function getFileTypeAsString() {
+		$type = $this->getFileType();
+		return $this->bib_type_factory->getInstanceForType($type)
+		                       ->getStringRepresentation();
+	}
 
-		//else return its true filetype
-		return strtolower(substr($filename, - 3));
+
+	/**
+	 * @return int
+	 */
+	public function getFileType() {
+		return $this->bib_type_factory->getInstanceForFileName($this->getFilename())
+		                       ->getId();
+		// return $this->file_type;
 	}
 
 
@@ -301,6 +305,7 @@ class ilObjBibliographic extends ilObject2 {
 
 		return $overviewModels;
 	}
+
 
 	/**
 	 * Clone BIBL
@@ -368,56 +373,17 @@ class ilObjBibliographic extends ilObject2 {
 	 */
 	public function writeSourcefileEntriesToDb() {
 		//Read File
-		$entries_from_file = array();
-		$filetype = $this->getFiletype();
-		switch ($filetype) {
-			case(self::FILETYPE_RIS):
-				$ilRis = new ilRis();
-				$ilRis->readContent($this->getFileAbsolutePath());
+		$reader = $this->bib_filereader_factory->getByType($this->getFileType());
+		$reader->readContent($this->getFileAbsolutePath());
+		$this->entries = $reader->parseContentToEntries($this);
+	}
 
-				$entries_from_file = $ilRis->parseContent();
-				break;
-			case(self::FILETYPE_BIB):
-				$bib = new ilBibTex();
-				$bib->readContent($this->getFileAbsolutePath());
 
-				$entries_from_file = $bib->parseContent();
-				break;
-		}
-		//fill each entry into a ilBibliographicEntry object and then write it to DB by executing doCreate()
-		foreach ($entries_from_file as $file_entry) {
-			$type = null;
-			$x = 0;
-			$parsed_entry = array();
-			foreach ($file_entry as $key => $attribute) {
-				// if the attribute is an array, make a comma separated string out of it
-				if (is_array($attribute)) {
-					$attribute = implode(", ", $attribute);
-				}
-				// reduce the attribute strings to a maximum of 4000 (ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH) characters, in order to fit in the database
-				//if (mb_strlen($attribute, 'UTF-8') > self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH) {
-				if (ilStr::strLen($attribute) > self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH) {
-					// $attribute = mb_substr($attribute, 0, self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH - 3, 'UTF-8') . '...';
-					$attribute = ilStr::subStr($attribute, 0, self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH
-					                                          - 3) . '...';
-				}
-				// ty (RIS) or entryType (BIB) is the type and is treated seperately
-				if (strtolower($key) == 'ty' || strtolower($key) == 'entrytype') {
-					$type = $attribute;
-					continue;
-				}
-				//TODO - Refactoring for ILIAS 4.5 - get rid off array restructuring
-				//change array structure (name not as the key, but under the key "name")
-				$parsed_entry[$x]['name'] = $key;
-				$parsed_entry[$x ++]['value'] = $attribute;
-			}
-			//create the entry and fill data into database by executing doCreate()
-			$entry_model = ilBibliographicEntry::getInstance($this->getFiletype());
-			$entry_model->setType($type);
-			$entry_model->setAttributes($parsed_entry);
-			$entry_model->setBibliographicObjId($this->getId());
-			$entry_model->doCreate();
-		}
+	/**
+	 * @param int $file_type
+	 */
+	public function setFileType($file_type) {
+		$this->file_type = $file_type;
 	}
 
 
@@ -434,5 +400,15 @@ class ilObjBibliographic extends ilObject2 {
 	 */
 	public function getOnline() {
 		return $this->is_online;
+	}
+
+
+	/**
+	 * @param $filename
+	 *
+	 * @return int
+	 */
+	public function determineFileTypeBySuffix($filename) {
+		$this->bib_type_factory->getInstanceForFileName($filename)->getId();
 	}
 }

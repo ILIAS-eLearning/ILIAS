@@ -16,6 +16,10 @@ class ilBibliographicRecordListTableGUI extends ilTable2GUI {
 	 * @var ilCtrl
 	 */
 	protected $ctrl;
+	/**
+	 * @var \ilObjBibliographicGUI
+	 */
+	protected $parent_obj;
 
 
 	/**
@@ -54,7 +58,7 @@ class ilBibliographicRecordListTableGUI extends ilTable2GUI {
 	 * @param array $a_set
 	 */
 	public function fillRow($a_set) {
-		$il_obj_entry = ilBibliographicEntry::getInstance($this->parent_obj->object->getFiletype(), $a_set['entry_id']);
+		$il_obj_entry = ilBibEntry::getInstance($this->parent_obj->object->getFileTypeAsString(), $a_set['entry_id']);
 		$this->tpl->setVariable('SINGLE_ENTRY', ilBibliographicDetailsGUI::prepareLatex($il_obj_entry->getOverview()));
 		//Detail-Link
 		$this->ctrl->setParameter($this->parent_obj, ilObjBibliographicGUI::P_ENTRY_ID, $a_set['entry_id']);
@@ -75,8 +79,8 @@ class ilBibliographicRecordListTableGUI extends ilTable2GUI {
 
 	protected function initData() {
 		$entries = array();
-		foreach (ilBibliographicEntry::getAllEntries($this->parent_obj->object->getId()) as $entry) {
-			$ilBibliographicEntry = ilBibliographicEntry::getInstance($this->parent_obj->object->getFiletype(), $entry['entry_id']);
+		foreach (ilBibEntry::getAllEntries($this->parent_obj->object->getId()) as $entry) {
+			$ilBibliographicEntry = ilBibEntry::getInstance($this->parent_obj->object->getFileTypeAsString(), $entry['entry_id']);
 			$entry['content'] = strip_tags($ilBibliographicEntry->getOverview());
 			$entries[] = $entry;
 		}

@@ -38,7 +38,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	/**
 	 * @var ilObjBibliographic
 	 */
-	protected $bibl_obj;
+	public $object;
 	/**
 	 * @var string
 	 */
@@ -56,7 +56,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 		$this->lng->loadLanguageModule('bibl');
 		if ($a_id > 0) {
-			$this->bibl_obj = $this->object;
+			$this->object = $this->object;
 		}
 	}
 
@@ -291,18 +291,15 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 			$ilTabs->addTab(self::TAB_CONTENT, $lng->txt(self::TAB_CONTENT), $this->ctrl->getLinkTarget($this, self::CMD_SHOW_CONTENT));
 		}
 		// info screen
-		if ($ilAccess->checkAccess('visible', "", $this->object->getRefId()) || $ilAccess->checkAccess('read', "", $this->object->getRefId())) {
+		if ($ilAccess->checkAccess('visible', "", $this->object->getRefId())
+		    || $ilAccess->checkAccess('read', "", $this->object->getRefId())) {
 			$ilTabs->addTab(self::TAB_ID_INFO, $lng->txt("info_short"), $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
 		}
 		// settings
 		if ($ilAccess->checkAccess('write', "", $this->object->getRefId())) {
 			$ilTabs->addTab("settings", $lng->txt("settings"), $this->ctrl->getLinkTarget($this, "editObject"));
-			$ilTabs->addSubTab("settings",
-				$this->lng->txt("settings"),
-				$this->ctrl->getLinkTarget($this, 'editObject'));
-			$ilTabs->addSubTab(self::SUB_TAB_FILTER,
-				$this->lng->txt("filter"),
-				$this->ctrl->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_STANDARD));
+			$ilTabs->addSubTab("settings", $this->lng->txt("settings"), $this->ctrl->getLinkTarget($this, 'editObject'));
+			$ilTabs->addSubTab(self::SUB_TAB_FILTER, $this->lng->txt("filter"), $this->ctrl->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_STANDARD));
 		}
 		// export
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
@@ -374,8 +371,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		// if user has read permission and object is online OR user has write permissions
 		if (($ilAccess->checkAccess('read', "", $this->object->getRefId())
 		     && $this->object->getOnline())
-		    || $ilAccess->checkAccess('write', "", $this->object->getRefId())
-		) {
+		    || $ilAccess->checkAccess('write', "", $this->object->getRefId())) {
 			$ilTabs->setTabActive(self::TAB_CONTENT);
 
 			// With new UI service, currently not supported by ilToolbar
@@ -413,10 +409,10 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		global $DIC;
 
 		if ($DIC['ilAccess']->checkAccess('read', "", $this->object->getRefId())) {
-			$file_path = $this->bibl_obj->getLegacyAbsolutePath();
+			$file_path = $this->object->getLegacyAbsolutePath();
 			if ($file_path) {
 				if (is_file($file_path)) {
-					ilFileDelivery::deliverFileAttached($file_path, $this->bibl_obj->getFilename(), 'application/octet-stream');
+					ilFileDelivery::deliverFileAttached($file_path, $this->object->getFilename(), 'application/octet-stream');
 				} else {
 					ilUtil::sendFailure($DIC['lng']->txt("file_not_found"));
 					$this->showContent();
@@ -433,7 +429,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		global $DIC;
 
 		if ($DIC['ilAccess']->checkAccess('read', "", $this->object->getRefId())) {
-			$bibGUI = ilBibliographicDetailsGUI::getInstance($this->bibl_obj, $_GET[self::P_ENTRY_ID]);
+			$bibGUI = ilBibliographicDetailsGUI::getInstance($this->object, $_GET[self::P_ENTRY_ID]);
 			$this->tpl->setContent($bibGUI->getHTML());
 		} else {
 			ilUtil::sendFailure($this->lng->txt("no_permission"), true);
@@ -459,7 +455,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 			}
 
 			if (!empty($_FILES['bibliographic_file']['name'])) {
-				$this->addNews($this->bibl_obj->getId(), 'updated');
+				$this->addNews($this->object->getId(), 'updated');
 			}
 		} else {
 			ilUtil::sendFailure($this->lng->txt("no_permission"), true);

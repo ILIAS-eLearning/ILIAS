@@ -146,13 +146,13 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 			$this->tpl->setVariable('IS_STANDARD_VALUE', $this->dic->language()->txt("standard"));
 		} else {
 			if($file_parts['extension'] == "bib") {
-				if(ilBibTex::isStandardField($a_set['name'])) {
+				if(ilBibTexInterface::isStandardField($a_set['name'])) {
 					$this->tpl->setVariable('IS_STANDARD_VALUE', $this->dic->language()->txt("standard"));
 				} else {
 					$this->tpl->setVariable('IS_STANDARD_VALUE', $this->dic->language()->txt("custom"));
 				}
 			} elseif($file_parts['extension'] == "ris") {
-				if(ilRis::isStandardField($a_set['name'])) {
+				if(ilRisInterface::isStandardField($a_set['name'])) {
 					$this->tpl->setVariable('IS_STANDARD_VALUE', $this->dic->language()->txt("standard"));
 				} else {
 					$this->tpl->setVariable('IS_STANDARD_VALUE', $this->dic->language()->txt("custom"));

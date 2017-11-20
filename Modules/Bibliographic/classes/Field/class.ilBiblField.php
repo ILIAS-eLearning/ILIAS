@@ -5,11 +5,11 @@
  * @author: Benjamin Seglias   <bs@studer-raimann.ch>
  */
 
-class ilBiblField extends ActiveRecord {
+class ilBiblField extends ActiveRecord implements ilBiblFieldInterface {
 
 	const TABLE_NAME = 'il_bibl_field';
-	const DATA_TYPE_RIS = 1;
-	const DATA_TYPE_BIBTEX = 2;
+	const DATA_TYPE_RIS = ilBiblTypeFactoryInterface::DATA_TYPE_RIS;
+	const DATA_TYPE_BIBTEX = ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX;
 
 
 	/**
@@ -118,6 +118,7 @@ class ilBiblField extends ActiveRecord {
 		$this->identifier = $identifier;
 	}
 
+
 	/**
 	 * @return integer
 	 */
@@ -137,7 +138,7 @@ class ilBiblField extends ActiveRecord {
 	/**
 	 * @return integer
 	 */
-	public function getisStandardField() {
+	public function getIsStandardField() {
 		return $this->is_standard_field;
 	}
 
@@ -204,9 +205,11 @@ class ilBiblField extends ActiveRecord {
 		return $data;
 	}
 
+
 	public static function getBiblAttributeRecordById($id) {
 		global $DIC;
-		$result = $DIC->database()->query("SELECT * FROM il_bibl_attribute WHERE id = ".$DIC->database()->quote($id, "integer"));
+		$result = $DIC->database()->query("SELECT * FROM il_bibl_attribute WHERE id = "
+		                                  . $DIC->database()->quote($id, "integer"));
 
 		$data = [];
 		while ($d = $DIC->database()->fetchAssoc($result)) {
@@ -216,10 +219,13 @@ class ilBiblField extends ActiveRecord {
 		return $data['name'];
 	}
 
+
 	public static function deleteBiblAttributeRecordById($id) {
 		global $DIC;
-		$DIC->database()->manipulate("DELETE FROM il_bibl_attribute WHERE id = ".$DIC->database()->quote($id, "integer"));
+		$DIC->database()->manipulate("DELETE FROM il_bibl_attribute WHERE id = " . $DIC->database()
+		                                                                               ->quote($id, "integer"));
 	}
+
 
 	/**
 	 * @return array of string of all field-types in ILIAS-Object with the given obj_id
@@ -246,22 +252,25 @@ class ilBiblField extends ActiveRecord {
 		$i = 0;
 		while ($d = $DIC->database()->fetchAssoc($result)) {
 			$file_parts = pathinfo($d['filename']);
-			if($file_parts['extension'] == $data_type) {
+			if ($file_parts['extension'] == $data_type) {
 				$data[$i]['id'] = $d['id'];
 				$data[$i]['name'] = $d['name'];
 				$data[$i]['filename'] = $d['filename'];
-				$i++;
+				$i ++;
 			}
 		}
+
 		return $data;
 	}
+
 
 	public static function getAllAttributeNamesByIdentifier($identifier) {
 		global $DIC;
 
 		$sql = "SELECT DISTINCT (il_bibl_attribute.id), (il_bibl_attribute.name), filename FROM il_bibl_attribute
 				JOIN il_bibl_entry ON il_bibl_attribute.entry_id = il_bibl_entry.id
-				JOIN il_bibl_data ON il_bibl_data.id = il_bibl_entry.data_id WHERE ".$DIC->database()->like("il_bibl_attribute.name", "text", "%".$identifier."%");
+				JOIN il_bibl_data ON il_bibl_data.id = il_bibl_entry.data_id WHERE "
+		       . $DIC->database()->like("il_bibl_attribute.name", "text", "%" . $identifier . "%");
 
 		$result = $DIC->database()->query($sql);
 
@@ -270,8 +279,10 @@ class ilBiblField extends ActiveRecord {
 		while ($d = $DIC->database()->fetchAssoc($result)) {
 			$data[] = $d;
 		}
+
 		return $data;
 	}
+
 
 	/**
 	 * @return array of string of all field-types in ILIAS-Object with the given obj_id
@@ -289,10 +300,12 @@ class ilBiblField extends ActiveRecord {
 		while ($d = $DIC->database()->fetchAssoc($result)) {
 			$data[$i]['name'] = $d['name'];
 			$data[$i]['filename'] = $d['filename'];
-			$i++;
+			$i ++;
 		}
+
 		return $data;
 	}
+
 
 	/**
 	 * @param $obj_id ILIAS-Object_ID
@@ -311,8 +324,10 @@ class ilBiblField extends ActiveRecord {
 		while ($d = $DIC->database()->fetchAssoc($result)) {
 			$data[] = $d['name'];
 		}
+
 		return $data;
 	}
+
 
 	/**
 	 * @param $obj_id ILIAS-Object_ID
@@ -331,6 +346,7 @@ class ilBiblField extends ActiveRecord {
 		while ($d = $DIC->database()->fetchAssoc($result)) {
 			$data[] = $d['name'];
 		}
+
 		return $data;
 	}
 }

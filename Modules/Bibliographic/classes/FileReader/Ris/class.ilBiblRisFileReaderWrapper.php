@@ -1,12 +1,13 @@
 <?php
+
 use LibRIS\RISReader;
 
 /**
- * Class ilRisWrapper
+ * Class ilBiblRisFileReaderWrapper
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilRisWrapper {
+class ilBiblRisFileReaderWrapper {
 
 	/**
 	 * @param $content

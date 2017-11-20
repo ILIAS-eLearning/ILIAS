@@ -87,12 +87,12 @@ class ilBibliographicSetting extends ActiveRecord {
 
 
 	/**
-	 * @param ilBibliographicEntry $entry
-	 * @param string               $type (bib|ris)
+	 * @param \ilBibEntry $entry
+	 * @param             $type
 	 *
 	 * @return string
 	 */
-	public function generateLibraryLink(ilBibliographicEntry $entry, $type) {
+	public function generateLibraryLink(ilBibEntry $entry, $type) {
 		$attributes = $entry->getAttributes();
 		switch ($type) {
 			case 'bib':
@@ -124,18 +124,23 @@ class ilBibliographicSetting extends ActiveRecord {
 		$url_params = "?";
 		if (sizeof($attr) == 1) {
 			if (($attr[0] == "doi") || ($attr[0] == "pmid")) {
-				$url_params .= "id=" . $this->formatAttribute($attr[0], $type, $attributes, $prefix) . "%3A" . $attributes[$prefix . $attr[0]];
+				$url_params .= "id=" . $this->formatAttribute($attr[0], $type, $attributes, $prefix)
+				               . "%3A" . $attributes[$prefix . $attr[0]];
 			} elseif ($attr[0] == "do") {
-				$url_params .= "id=" . $this->formatAttribute($attr[0], $type, $attributes, $prefix) . "i%3A" . $attributes[$prefix . $attr[0]];
-			}  else {
-				$url_params .= $this->formatAttribute($attr[0], $type, $attributes, $prefix) . "=" . urlencode($attributes[$prefix . $attr[0]]);
-			}} else {
+				$url_params .= "id=" . $this->formatAttribute($attr[0], $type, $attributes, $prefix)
+				               . "i%3A" . $attributes[$prefix . $attr[0]];
+			} else {
+				$url_params .= $this->formatAttribute($attr[0], $type, $attributes, $prefix) . "="
+				               . urlencode($attributes[$prefix . $attr[0]]);
+			}
+		} else {
 			foreach ($attr as $a) {
 				if (array_key_exists($prefix . $a, $attributes)) {
 					if (strlen($url_params) > 1) {
 						$url_params .= "&";
 					}
-					$url_params .= $this->formatAttribute($a, $type, $attributes, $prefix) . "=" . urlencode($attributes[$prefix . $a]);
+					$url_params .= $this->formatAttribute($a, $type, $attributes, $prefix) . "="
+					               . urlencode($attributes[$prefix . $a]);
 				}
 			}
 		}
@@ -148,22 +153,22 @@ class ilBibliographicSetting extends ActiveRecord {
 
 
 	/**
-	 * @param ilObjBibliographic   $bibl_obj
-	 * @param ilBibliographicEntry $entry
+	 * @param \ilObjBibliographic $bibl_obj
+	 * @param \ilBibEntry         $entry
 	 *
 	 * @return string
 	 */
-	public function getButton(ilObjBibliographic $bibl_obj, ilBibliographicEntry $entry) {
+	public function getButton(ilObjBibliographic $bibl_obj, ilBibEntry $entry) {
 		if ($this->getImg()) {
 			$button = ilImageLinkButton::getInstance();
-			$button->setUrl($this->generateLibraryLink($entry, $bibl_obj->getFiletype()));
+			$button->setUrl($this->generateLibraryLink($entry, $bibl_obj->getFileTypeAsString()));
 			$button->setImage($this->getImg(), false);
 			$button->setTarget('_blank');
 
 			return $button->render();
 		} else {
 			$button = ilLinkButton::getInstance();
-			$button->setUrl($this->generateLibraryLink($entry, $bibl_obj->getFiletype()));
+			$button->setUrl($this->generateLibraryLink($entry, $bibl_obj->getFileTypeAsString()));
 			$button->setTarget('_blank');
 			$button->setCaption('bibl_link_online');
 

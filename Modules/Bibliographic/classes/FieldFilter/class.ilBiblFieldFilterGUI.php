@@ -8,8 +8,8 @@
 
 class ilBiblFieldFilterGUI {
 
-	const FIELD_IDENTIFIER = 'field_identifier';
-	const CMD_STANDARD = 'content';
+	const FILTER_ID = 'filter_id';
+	const CMD_STANDARD = 'index';
 	const CMD_ADD = 'add';
 	const CMD_CREATE = 'create';
 	const CMD_CANCEL = 'cancel';
@@ -53,7 +53,6 @@ class ilBiblFieldFilterGUI {
 
 
 	public function executeCommand() {
-
 		$nextClass = $this->ctrl->getNextClass();
 		switch ($nextClass) {
 			default:
@@ -70,6 +69,7 @@ class ilBiblFieldFilterGUI {
 			case self::CMD_ADD:
 			case self::CMD_EDIT:
 			case self::CMD_UPDATE:
+			case self::CMD_CREATE:
 			case self::CMD_DELETE:
 			case self::CMD_APPLY_FILTER:
 			case self::CMD_RESET_FILTER:
@@ -84,13 +84,9 @@ class ilBiblFieldFilterGUI {
 	}
 
 
-	public function content() {
-		$this->ctrl->saveParameterByClass(ilBiblFieldFilterGUI::class, self::FIELD_IDENTIFIER);
+	public function index() {
 		$table = new ilBiblFieldFilterTableGUI($this, self::CMD_STANDARD, $this->object);
 		$this->tpl->setContent($table->getHTML());
-		/*		$data = ilBiblField::getAvailableFieldsForObjId($this->object->getId());
-
-				$this->tpl->setContent("<pre>".print_r($data, true). "</pre>");*/
 	}
 
 
@@ -100,30 +96,48 @@ class ilBiblFieldFilterGUI {
 	}
 
 
-	protected function create() { // verarbeiten von add()
-
+	protected function create() {
+		$this->tabs->activateTab(self::CMD_STANDARD);
+		$il_bibl_field = new ilBiblFieldFilter();
+		$il_bibl_field->setObjectId($this->object->getId());
+		$form = new ilBiblFieldFilterFormGUI($this, $il_bibl_field);
+		if ($form->saveObject()) {
+			ilUtil::sendSuccess($this->dic->language()->txt('changes_saved_success'), true);
+//			$this->ctrl->redirect($this, self::CMD_STANDARD);
+		}
+		$form->setValuesByPost();
+		$this->tpl->setContent($form->getHTML());
 	}
 
 
-	public function edit() { // Formular zum Bearbeiten eines bestehenden Eintrages
-		//$this->tabs->activateTab(self::CMD_STANDARD);
-		$field = $this->dic->http()->request()->getQueryParams()[self::FIELD_IDENTIFIER];
-		$ilBiblSettingsFilterFormGUI = new ilBiblFieldFilterFormGUI($this, ilBiblFieldFilter::findOrFail($field));
+	public function edit() {
+		$ilBiblSettingsFilterFormGUI = new ilBiblFieldFilterFormGUI($this, $this->getFieldFilterFromRequest());
 		$ilBiblSettingsFilterFormGUI->fillForm();
 		$this->tpl->setContent($ilBiblSettingsFilterFormGUI->getHTML());
 	}
 
 
-	public function update() { // Verarbeiten
-		$field = $this->dic->http()->request()->getQueryParams()[self::FIELD_IDENTIFIER];
-
+	public function update() {
+		$il_bibl_field = $this->getFieldFilterFromRequest();
 		$this->tabs->activateTab(self::CMD_STANDARD);
-		$form = new ilBiblFieldFilterFormGUI($this, ilBiblFieldFilter::findOrFail($field));
+
+		$form = new ilBiblFieldFilterFormGUI($this, $il_bibl_field);
 		if ($form->saveObject()) {
 			ilUtil::sendSuccess($this->dic->language()->txt('changes_saved_success'), true);
 			$this->ctrl->redirect($this, self::CMD_STANDARD);
 		}
 		$form->setValuesByPost();
 		$this->tpl->setContent($form->getHTML());
+	}
+
+
+	/**
+	 * @return \ilBiblFieldFilter
+	 */
+	private function getFieldFilterFromRequest() {
+		$field = $this->dic->http()->request()->getQueryParams()[self::FILTER_ID];
+		$il_bibl_field = ilBiblFieldFilter::findOrFail($field);
+
+		return $il_bibl_field;
 	}
 }
