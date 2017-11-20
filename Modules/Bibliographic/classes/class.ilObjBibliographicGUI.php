@@ -15,7 +15,7 @@
  * @ilCtrl_Calls      ilObjBibliographicGUI: ilPermissionGUI, ilObjectCopyGUI, ilExportGUI
  * @ilCtrl_Calls      ilObjBibliographicGUI: ilObjUserGUI, ilBibliographicDetailsGUI
  * @ilCtrl_Calls      ilObjBibliographicGUI: ilBibliographicRecordListTableGUI
- * @ilCtrl_Calls      ilObjBibliographicGUI: ilBiblSettingsFilterGUI
+ * @ilCtrl_Calls      ilObjBibliographicGUI: ilBiblFieldFilterGUI
  * @ilCtrl_isCalledBy ilObjBibliographicGUI: ilRepositoryGUI
  *
  * @extends           ilObject2GUI
@@ -106,19 +106,16 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 				$this->infoScreenForward();
 				break;
 			case "ilcommonactiondispatchergui":
-				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
 				$this->ctrl->forwardCommand($gui);
 				break;
 			case "ilpermissiongui":
 				$this->prepareOutput();
 				$ilTabs->activateTab(self::TAB_ID_PERMISSIONS);
-				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
 				$this->ctrl->forwardCommand($perm_gui);
 				break;
 			case "ilobjectcopygui":
-				include_once "./Services/Object/classes/class.ilObjectCopyGUI.php";
 				$cp = new ilObjectCopyGUI($this);
 				$cp->setType('bibl');
 				$tpl->getStandardTemplate();
@@ -127,7 +124,6 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 			case "ilobjfilegui":
 				$this->prepareOutput();
 				$ilTabs->setTabActive(self::TAB_ID_RECORDS);
-				include_once("./Modules/File/classes/class.ilObjFile.php");
 				$file_gui = new ilObjFile($this);
 				$this->ctrl->forwardCommand($file_gui);
 				break;
@@ -138,11 +134,10 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 				$exp_gui->addFormat("xml");
 				$this->ctrl->forwardCommand($exp_gui);
 				break;
-			case "ilbiblsettingsfiltergui":
+			case strtolower(ilBiblFieldFilterGUI::class):
 				$this->prepareOutput();
 				$ilTabs->setTabActive(self::TAB_SETTINGS);
-				$ilBiblSettingsFilterGUI = new ilBiblSettingsFilterGUI();
-				$this->ctrl->forwardCommand($ilBiblSettingsFilterGUI);
+				$this->ctrl->forwardCommand(new ilBiblFieldFilterGUI());
 				break;
 			default:
 				return parent::executeCommand();
@@ -175,7 +170,6 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 			$this->ctrl->redirectByClass('ilPersonalDesktopGUI', '');
 		}
 		$DIC['ilTabs']->activateTab(self::TAB_ID_INFO);
-		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 		$info->enablePrivateNotes();
 		$info->addMetaDataSections($this->object->getId(), 0, $this->object->getType());
@@ -308,7 +302,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 				$this->ctrl->getLinkTarget($this, 'editObject'));
 			$ilTabs->addSubTab(self::SUB_TAB_FILTER,
 				$this->lng->txt("filter"),
-				$this->ctrl->getLinkTargetByClass(ilBiblSettingsFilterGUI::class, ilBiblSettingsFilterGUI::CMD_STANDARD));
+				$this->ctrl->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_STANDARD));
 		}
 		// export
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {

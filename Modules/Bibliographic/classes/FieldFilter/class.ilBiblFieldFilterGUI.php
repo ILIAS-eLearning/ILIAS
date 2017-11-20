@@ -1,16 +1,17 @@
 <?php
 
 /**
- * Class ilBiblSettingsFilterGUI
+ * Class ilBiblFieldFilterGUI
  *
  * @author: Benjamin Seglias   <bs@studer-raimann.ch>
  */
 
-class ilBiblSettingsFilterGUI {
+class ilBiblFieldFilterGUI {
 
 	const FIELD_IDENTIFIER = 'field_identifier';
 	const CMD_STANDARD = 'content';
 	const CMD_ADD = 'add';
+	const CMD_CREATE = 'create';
 	const CMD_CANCEL = 'cancel';
 	const CMD_EDIT = 'edit';
 	const CMD_UPDATE = 'update';
@@ -18,7 +19,6 @@ class ilBiblSettingsFilterGUI {
 	const CMD_APPLY_FILTER = 'applyFilter';
 	const CMD_RESET_FILTER = 'resetFilter';
 	const CMD_TRANSLATE = 'translate';
-
 	/**
 	 * @var ilObjBibliographic
 	 */
@@ -40,6 +40,7 @@ class ilBiblSettingsFilterGUI {
 	 */
 	protected $ctrl;
 
+
 	public function __construct() {
 		global $DIC;
 		$this->dic = $DIC;
@@ -50,6 +51,7 @@ class ilBiblSettingsFilterGUI {
 		$this->object = ilObjectFactory::getInstanceByRefId($_GET['ref_id']);
 	}
 
+
 	public function executeCommand() {
 
 		$nextClass = $this->ctrl->getNextClass();
@@ -59,6 +61,7 @@ class ilBiblSettingsFilterGUI {
 				$this->performCommand();
 		}
 	}
+
 
 	protected function performCommand() {
 		$cmd = $this->ctrl->getCmd(self::CMD_STANDARD);
@@ -80,33 +83,32 @@ class ilBiblSettingsFilterGUI {
 		}
 	}
 
+
 	public function content() {
-		$this->ctrl->saveParameterByClass(ilBiblSettingsFilterTableGUI::class, self::FIELD_IDENTIFIER);
-		$ilBiblSettingsFilterTableGUI = new ilBiblSettingsFilterTableGUI($this, self::CMD_STANDARD, $this->object);
-		$this->tpl->setContent($ilBiblSettingsFilterTableGUI->getHTML());
+		$this->ctrl->saveParameterByClass(ilBiblFieldFilterGUI::class, self::FIELD_IDENTIFIER);
+		$table = new ilBiblFieldFilterTableGUI($this, self::CMD_STANDARD, $this->object);
+		$this->tpl->setContent($table->getHTML());
+		/*		$data = ilBiblField::getAvailableFieldsForObjId($this->object->getId());
 
-/*		$data = ilBiblField::getAvailableFieldsForObjId($this->object->getId());
-
-		$this->tpl->setContent("<pre>".print_r($data, true). "</pre>");*/
+				$this->tpl->setContent("<pre>".print_r($data, true). "</pre>");*/
 	}
 
-	protected function add() { // Formular für neues Anlegen
-		//$this->il_bibl_field = new ilBiblField($_GET[self::FIELD_IDENTIFIER]);
 
-		//$this->tabs->activateTab(self::CMD_STANDARD);
-		$ilBiblSettingsFilterFormGUI = new ilBiblSettingsFilterFormGUI($this, new ilBiblField());
+	protected function add() {
+		$ilBiblSettingsFilterFormGUI = new ilBiblFieldFilterFormGUI($this, new ilBiblFieldFilter());
 		$this->tpl->setContent($ilBiblSettingsFilterFormGUI->getHTML());
-
 	}
+
 
 	protected function create() { // verarbeiten von add()
 
 	}
 
+
 	public function edit() { // Formular zum Bearbeiten eines bestehenden Eintrages
 		//$this->tabs->activateTab(self::CMD_STANDARD);
 		$field = $this->dic->http()->request()->getQueryParams()[self::FIELD_IDENTIFIER];
-		$ilBiblSettingsFilterFormGUI = new ilBiblSettingsFilterFormGUI($this, ilBiblField::findOrFail($field));
+		$ilBiblSettingsFilterFormGUI = new ilBiblFieldFilterFormGUI($this, ilBiblFieldFilter::findOrFail($field));
 		$ilBiblSettingsFilterFormGUI->fillForm();
 		$this->tpl->setContent($ilBiblSettingsFilterFormGUI->getHTML());
 	}
@@ -116,12 +118,12 @@ class ilBiblSettingsFilterGUI {
 		$field = $this->dic->http()->request()->getQueryParams()[self::FIELD_IDENTIFIER];
 
 		$this->tabs->activateTab(self::CMD_STANDARD);
-		$ilBiblSettingsFilterFormGUI = new ilBiblSettingsFilterFormGUI($this, ilBiblField::findOrFail($field));
-		if ($ilBiblSettingsFilterFormGUI->saveObject()) {
+		$form = new ilBiblFieldFilterFormGUI($this, ilBiblFieldFilter::findOrFail($field));
+		if ($form->saveObject()) {
 			ilUtil::sendSuccess($this->dic->language()->txt('changes_saved_success'), true);
 			$this->ctrl->redirect($this, self::CMD_STANDARD);
 		}
-		$ilBiblSettingsFilterFormGUI->setValuesByPost();
-		$this->tpl->setContent($ilBiblSettingsFilterFormGUI->getHTML());
+		$form->setValuesByPost();
+		$this->tpl->setContent($form->getHTML());
 	}
 }

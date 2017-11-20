@@ -1,6 +1,6 @@
 <?php
 /**
- * Class ilField
+ * Class ilBiblField
  *
  * @author: Benjamin Seglias   <bs@studer-raimann.ch>
  */
