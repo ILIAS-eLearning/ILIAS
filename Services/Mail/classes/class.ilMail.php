@@ -114,11 +114,18 @@ class ilMail
 	/** @var ilMailAddressTypeFactory */
 	private $mailAddressTypeFactory;
 
+	/** @var ilMailRfc822AddressParserFactory */
+	private $mailAddressParserFactory;
+
 	/**
 	 * @param integer $a_user_id
 	 * @param ilMailAddressTypeFactory|null $mailAddressTypeFactory
+	 * @param ilMailRfc822AddressParserFactory|null $mailAddressParserFactory
 	 */
-	public function __construct($a_user_id, ilMailAddressTypeFactory $mailAddressTypeFactory = null)
+	public function __construct(
+		$a_user_id,
+		ilMailAddressTypeFactory $mailAddressTypeFactory = null,
+		ilMailRfc822AddressParserFactory $mailAddressParserFactory = null)
 	{
 		global $DIC;
 
@@ -128,6 +135,12 @@ class ilMail
 		if ($mailAddressTypeFactory === null) {
 			$mailAddressTypeFactory = new ilMailAddressTypeFactory();
 		}
+
+		if ($mailAddressParserFactory === null) {
+			$mailAddressParserFactory = new ilMailRfc822AddressParserFactory();
+		}
+
+		$this->mailAddressParserFactory = $mailAddressParserFactory;
 		$this->mailAddressTypeFactory = $mailAddressTypeFactory;
 
 		$this->lng              = $DIC->language();
@@ -1433,8 +1446,7 @@ class ilMail
 			));
 		}
 
-		require_once 'Services/Mail/classes/Address/Parser/class.ilMailRfc822AddressParserFactory.php';
-		$parser = ilMailRfc822AddressParserFactory::getParser($addresses);
+		$parser = $this->mailAddressParserFactory->getParser($addresses);
 		$parsedAddresses = $parser->parse();
 
 		if(strlen($addresses) > 0)

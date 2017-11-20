@@ -181,17 +181,25 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
 	 *
 	 * If Pear Mail is not installed, then the mailbox address
 	 * @param $a_address_list
-	 * @param null $dic
-	 * @param null $parser
+	 * @param ilMailRfc822AddressParserFactory|null $parserFactory
+	 * @param ilMailRfc822AddressParser|null $parser
 	 * @return int[] Array with role ids that were found
+	 * @internal param null $dic
 	 * @internal param IETF $string RFX 822 address list containing role mailboxes.
 	 */
-	public static function searchRolesByMailboxAddressList($a_address_list, ilMailRfc822AddressParserFactory $parser = null)
-	{
+	public static function searchRolesByMailboxAddressList(
+		$a_address_list,
+		ilMailRfc822AddressParserFactory $parserFactory = null,
+		ilMailRfc822AddressParser $parser = null
+	) {
 		global $DIC;
+		
+		if ($parserFactory === null) {
+			$parserFactory = new ilMailRfc822AddressParserFactory();
+		}
 
 		if ($parser === null) {
-			$parser = ilMailRfc822AddressParserFactory::getParser($a_address_list);
+			$parser = $parserFactory->getParser($a_address_list);
 		}
 
 		$role_ids = array();
@@ -364,13 +372,22 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
 	 * backslash.
 	 *
 	 *
-	 * @param int a role id
-	 * @param boolean is_localize whether mailbox addresses should be localized
-	 * @return	String mailbox address or null, if role does not exist.
+	 * @param $a_role_id
+	 * @param bool $is_localize is_localize whether mailbox addresses should be localized
+	 * @param ilMailRfc822AddressParserFactory|null $mailAddressParserFactory
+	 * @return String mailbox address or null, if role does not exist.
+	 * @internal param a $int role id
 	 */
-	public static function getRoleMailboxAddress($a_role_id, $is_localize = true)
-	{
+	public static function getRoleMailboxAddress(
+		$a_role_id,
+		$is_localize = true,
+		ilMailRfc822AddressParserFactory $mailAddressParserFactory = null
+	) {
 		global $DIC;
+
+		if ($mailAddressParserFactory === null) {
+			$mailAddressParserFactory = new ilMailRfc822AddressParserFactory();
+		}
 
 		// Retrieve the role title and the object title.
 		$query = "SELECT rdat.title role_title,odat.title object_title, ".
@@ -541,8 +558,7 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
 
 		try
 		{
-			require_once 'Services/Mail/classes/Address/Parser/class.ilMailRfc822AddressParserFactory.php';
-			$parser = ilMailRfc822AddressParserFactory::getParser($mailbox);
+			$parser = $mailAddressParserFactory->getParser($mailbox);
 			$parser->parse();
 
 			return $mailbox;
