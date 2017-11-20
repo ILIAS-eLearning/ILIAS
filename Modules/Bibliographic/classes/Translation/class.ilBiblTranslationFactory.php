@@ -35,6 +35,29 @@ class ilBiblTranslationFactory implements ilBiblTranslationFactoryInterface {
 	 * @return string
 	 */
 	public function translate(ilBiblFieldInterface $field) {
+		return $this->translateInCore($field);
+	}
+
+
+	/**
+	 * @return \ilBiblFieldFactoryInterface
+	 */
+	public function getFieldFactory() {
+		return $this->field_factory;
+	}
+
+
+	/**
+	 * @param \ilBiblFieldInterface $field
+	 *
+	 * @return string
+	 */
+	private function translateInCore(ilBiblFieldInterface $field) {
+		if ($this->translationExistsForField($field)) {
+			// TODO return from translation
+		}
+
+		//
 		$prefix = $this->getFieldFactory()->getType()->getStringRepresentation();
 		$middle = "default";
 		$identifier = $field->getIdentifier();
@@ -44,9 +67,22 @@ class ilBiblTranslationFactory implements ilBiblTranslationFactoryInterface {
 
 
 	/**
-	 * @return \ilBiblFieldFactoryInterface
+	 * @inheritDoc
 	 */
-	public function getFieldFactory() {
-		return $this->field_factory;
+	public function translationExistsForField(ilBiblFieldInterface $field) {
+		return !is_null($this->getInstanceForFieldAndUsersLanguage($field));
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getInstanceForFieldAndUsersLanguage(ilBiblFieldInterface $field) {
+		global $DIC;
+		return null;
+		return ilBiblTranslation::where([
+			'field_id'     => $field->getId(),
+			"language_key" => $DIC->user()->getCurrentLanguage(),
+		])->get();
 	}
 }
