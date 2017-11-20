@@ -5998,6 +5998,7 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'ilTextAnnotationElement' => __DIR__ . '/../..' . '/../../Services/WorkflowEngine/classes/parser/elements/annotation/class.ilTextAnnotationElement.php',
         'ilTextAreaInputGUI' => __DIR__ . '/../..' . '/../../Services/Form/classes/class.ilTextAreaInputGUI.php',
         'ilTextHighlighterGUI' => __DIR__ . '/../..' . '/../../Services/UIComponent/TextHighlighter/classes/class.ilTextHighlighterGUI.php',
+        'ilTextInputGUI' => __DIR__ . '/../..' . '/../../Services/Form/classes/class.ilTextInputGUI.php',
         'ilTextWizardInputGUI' => __DIR__ . '/../..' . '/../../Services/Form/classes/class.ilTextWizardInputGUI.php',
         'ilTimeZone' => __DIR__ . '/../..' . '/../../Services/Calendar/classes/class.ilTimeZone.php',
         'ilTimeZoneException' => __DIR__ . '/../..' . '/../../Services/Calendar/classes/class.ilTimeZoneException.php',

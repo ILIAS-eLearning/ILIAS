@@ -5859,6 +5859,7 @@ return array(
     'ilTextAnnotationElement' => $baseDir . '/../../Services/WorkflowEngine/classes/parser/elements/annotation/class.ilTextAnnotationElement.php',
     'ilTextAreaInputGUI' => $baseDir . '/../../Services/Form/classes/class.ilTextAreaInputGUI.php',
     'ilTextHighlighterGUI' => $baseDir . '/../../Services/UIComponent/TextHighlighter/classes/class.ilTextHighlighterGUI.php',
+    'ilTextInputGUI' => $baseDir . '/../../Services/Form/classes/class.ilTextInputGUI.php',
     'ilTextWizardInputGUI' => $baseDir . '/../../Services/Form/classes/class.ilTextWizardInputGUI.php',
     'ilTimeZone' => $baseDir . '/../../Services/Calendar/classes/class.ilTimeZone.php',
     'ilTimeZoneException' => $baseDir . '/../../Services/Calendar/classes/class.ilTimeZoneException.php',
