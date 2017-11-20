@@ -5,7 +5,7 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilBiblBiblTexFileReader extends ilBiblFileReaderBase implements ilBiblFileReaderInterface {
+class ilBiblTexFileReader extends ilBiblFileReaderBase implements ilBiblFileReaderInterface {
 
 	/**
 	 * @var array

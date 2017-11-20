@@ -13,7 +13,7 @@ class ilBiblFileReaderFactory implements ilBiblFileReaderFactoryInterface {
 	public function getByType($type) {
 		switch ($type) {
 			case ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX:
-				return new ilBiblBiblTexFileReader();
+				return new ilBiblTexFileReader();
 			case ilBiblTypeFactoryInterface::DATA_TYPE_RIS:
 				return new ilBiblRisFileReader();
 			default:
