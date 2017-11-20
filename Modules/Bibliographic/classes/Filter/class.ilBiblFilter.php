@@ -5,7 +5,7 @@
  * @author: Benjamin Seglias   <bs@studer-raimann.ch>
  */
 
-class ilBiblFilter {
+class ilBiblFilter extends ActiveRecord {
 
 	const TABLE_NAME = 'il_bibl_filter';
 	const FILTER_TYPE_TEXT_INPUT = 1;
