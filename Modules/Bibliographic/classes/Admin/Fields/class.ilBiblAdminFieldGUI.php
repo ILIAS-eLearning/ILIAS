@@ -8,7 +8,6 @@
 class ilBiblAdminFieldGUI {
 
 	const FIELD_IDENTIFIER = 'field_id';
-	const IS_RIS_FIELD = 'is_ris_field';
 	const DATA_TYPE = 'data_type';
 	const CMD_STANDARD = 'content';
 	const CMD_CANCEL = 'cancel';
@@ -17,8 +16,6 @@ class ilBiblAdminFieldGUI {
 	const CMD_DELETE = 'delete';
 	const CMD_APPLY_FILTER = 'applyFilter';
 	const CMD_RESET_FILTER = 'resetFilter';
-	const CMD_SHOW_RIS = 'showRis';
-	const CMD_SHOW_BIBTEX = 'showBibTex';
 	const CMD_SAVE = 'save';
 
 	/**
@@ -67,18 +64,16 @@ class ilBiblAdminFieldGUI {
 	}
 
 	protected function performCommand() {
-		$cmd = $this->ctrl->getCmd(self::CMD_STANDARD);
+		$cmd = $this->ctrl->getCmd();
 		switch ($cmd) {
-			case self::CMD_STANDARD:
+/*			case self::CMD_STANDARD:
 				$this->content($_GET['content_type']);
-				break;
+				break;*/
 			case self::CMD_EDIT:
 			case self::CMD_UPDATE:
 			case self::CMD_DELETE:
 			case self::CMD_APPLY_FILTER:
 			case self::CMD_RESET_FILTER:
-			case self::CMD_SHOW_RIS:
-			case self::CMD_SHOW_BIBTEX:
 			case self::CMD_SAVE:
 				if ($this->dic->access()->checkAccess('write', "", $this->object->getRefId())) {
 					$this->{$cmd}();
@@ -93,30 +88,16 @@ class ilBiblAdminFieldGUI {
 	protected function setSubTabs($a_active_tab) {
 		$this->dic['ilTabs']->addSubTab(ilBiblField::DATA_TYPE_RIS, $this->dic->language()->txt('ris'), $this->ctrl->getLinkTargetByClass(array(
 			'ilObjBibliographicAdminGUI',
-			ilBiblAdminFieldGUI::class), ilBiblAdminFieldGUI::CMD_SHOW_RIS)
+			ilBiblAdminFieldGUI::class), ilBiblAdminRisFieldGUI::CMD_SHOW_RIS)
 
 		);
 		$this->dic['ilTabs']->activateSubTab('ris');
 
 		$this->dic['ilTabs']->addSubTab(ilBiblField::DATA_TYPE_BIBTEX, $this->dic->language()->txt('bibtex'), $this->ctrl->getLinkTargetByClass(array(
 			'ilObjBibliographicAdminGUI',
-			ilBiblAdminFieldGUI::class), ilBiblAdminFieldGUI::CMD_SHOW_BIBTEX)
+			ilBiblAdminFieldGUI::class), ilBiblAdminBibtexFieldGUI::CMD_SHOW_BIBTEX)
 		);
 		$this->dic['ilTabs']->activateSubTab($a_active_tab);
-	}
-
-	public function showRis() {
-		$this->setSubTabs(ilBiblField::DATA_TYPE_RIS);
-		$this->ctrl->setParameter($this, self::DATA_TYPE, "ris");
-		$this->data_type = ilBiblField::DATA_TYPE_RIS;
-		$this->content(ilBiblField::DATA_TYPE_RIS);
-	}
-
-	public function showBibTex() {
-		$this->setSubTabs(ilBiblField::DATA_TYPE_BIBTEX);
-		$this->ctrl->setParameter($this, self::DATA_TYPE, "bib");
-		$this->data_type = ilBiblField::DATA_TYPE_BIBTEX;
-		$this->content(ilBiblField::DATA_TYPE_BIBTEX);
 	}
 
 	public function content($data_type = ilBiblField::DATA_TYPE_RIS) {
