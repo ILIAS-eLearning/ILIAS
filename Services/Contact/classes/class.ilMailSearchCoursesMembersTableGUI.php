@@ -31,7 +31,6 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 	 */
 	protected $user;
 
-	protected $parentObject;
 	protected $mode;
 	protected $mailing_allowed;
 	/**
@@ -43,7 +42,7 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 	 *			and 'grp' for groups
 	 * 
 	 */
-	public function __construct($a_parent_obj, $type = 'crs', $context = 'mail')
+	public function __construct($a_parent_obj, $type = 'crs', $context = 'mail', $contextObjects)
 	{
 		global $DIC;
 
@@ -51,7 +50,8 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 		$this->lng  = $DIC['lng'];
 		$this->user = $DIC['ilUser'];
 
-		$this->setId($type. 'table_members');
+		$tableId = $type . '_cml_' . implode('_', (array)$contextObjects);
+		$this->setId($tableId);
 		parent::__construct($a_parent_obj, 'showMembers');
 
 		$this->context = $context;
@@ -63,9 +63,12 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 			$this->mailing_allowed = $DIC->rbac()->system()->checkAccess('internal_mail',$mail->getMailObjectReferenceId());
 		}
 
+		$this->setDefaultOrderDirection('ASC');
+		$this->setDefaultOrderField('members_login');
+
 		$this->lng->loadLanguageModule('crs');
 		$this->lng->loadLanguageModule('buddysystem');
-		$this->parentObject = $a_parent_obj;
+
 		$mode = array();
 		if ($type == 'crs')
 		{
@@ -92,7 +95,7 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 			$this->ctrl->setParameter($a_parent_obj, $mode["checkbox"], implode(',', $_POST[$mode["checkbox"]]));
 
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-		$this->ctrl->clearParameters($a_parent_obj);
+		//$this->ctrl->clearParameters($a_parent_obj);
 
 		$this->setRowTemplate('tpl.mail_search_courses_members_row.html', 'Services/Contact');
 
@@ -121,8 +124,7 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 			$this->lng->loadLanguageModule("wsp");
 			$this->addMultiCommand('share', $this->lng->txt("wsp_share_with_members"));
 		}
-		$this->lng->loadLanguageModule('buddysystem');
-
+ 		$this->lng->loadLanguageModule('buddysystem');
 		$this->addCommandButton('cancel', $this->lng->txt('cancel'));
 	}
 	
@@ -140,25 +142,25 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 		$current_selection_list->setListTitle($this->lng->txt("actions"));
 		$current_selection_list->setId("act_".md5($a_set['members_id'].'::'.$a_set['search_' . $this->mode['short']]));
 
-		$this->ctrl->setParameter($this->parentObject, 'search_members', $a_set['members_id']);
-		$this->ctrl->setParameter($this->parentObject, 'search_' . $this->mode['short'], 
+		$this->ctrl->setParameter($this->parent_obj, 'search_members', $a_set['members_id']);
+		$this->ctrl->setParameter($this->parent_obj, 'search_' . $this->mode['short'],
 			is_array($_REQUEST['search_' . $this->mode['short']]) ?
 			implode(',', array_filter(array_map('intval', $_REQUEST['search_' . $this->mode['short']]))) :
-			(int)$_REQUEST['search_' . $this->mode['short']]
+			ilUtil::stripSlashes($_REQUEST['search_' . $this->mode['short']])
 		);
-		$this->ctrl->setParameter($this->parentObject, 'view', $this->mode['view']);
+		$this->ctrl->setParameter($this->parent_obj, 'view', $this->mode['view']);
 
 		$action_html = '';
 		if($this->context == "mail")
 		{
 			if($this->mailing_allowed)
 			{
-				$current_selection_list->addItem($this->lng->txt("mail_member"), '', $this->ctrl->getLinkTarget($this->parentObject, "mail"));
+				$current_selection_list->addItem($this->lng->txt("mail_member"), '', $this->ctrl->getLinkTarget($this->parent_obj, "mail"));
 			}
 		}
 		else
 		{
-			$current_selection_list->addItem($this->lng->txt("wsp_share_with_members"), '', $this->ctrl->getLinkTarget($this->parentObject, "share"));
+			$current_selection_list->addItem($this->lng->txt("wsp_share_with_members"), '', $this->ctrl->getLinkTarget($this->parent_obj, "share"));
 		}
 
 		if($this->context == 'mail' && ilBuddySystem::getInstance()->isEnabled())

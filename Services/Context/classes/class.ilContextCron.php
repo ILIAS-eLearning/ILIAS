@@ -83,7 +83,7 @@ class ilContextCron implements ilContextTemplate
 	{
 		return true;
 	}
-	
+
 	/**
 	 * Check if persistent session handling is supported
 	 * @return boolean
@@ -92,6 +92,17 @@ class ilContextCron implements ilContextTemplate
 	{
 		return false;
 	}
+
+	/**
+	 * Supports push messages
+	 *
+	 * @return bool
+	 */
+	public static function supportsPushMessages()
+	{
+		return false;
+	}
+
 }
 
 ?>

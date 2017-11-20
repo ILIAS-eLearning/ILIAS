@@ -38,6 +38,9 @@ class ilAppointmentPresentationGroupGUI extends ilAppointmentPresentationGUI imp
 			$this->addInfoProperty($this->lng->txt("grp_information"), ilUtil::makeClickable(nl2br($grp->getInformation())));
 		}
 
+		// last edited
+		$this->addLastUpdate($app);
+
 		$this->addAction($this->lng->txt("grp_grp_open"), ilLink::_getStaticLink($grp_ref_id, "grp"));
 	}
 

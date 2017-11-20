@@ -21,7 +21,8 @@ ilias.questions.txt = {
 	ov_all_correct: "You have correctly answered all questions.",
 	ov_some_correct: "You have correctly answered [x] out of [y] questions.",
 	ov_wrong_answered: "The following questions were not answered or answered wrong",
-	please_select: "Please Select"
+	please_select: "Please Select",
+	submit_answers: "Submit"
 };
 
 // these question types disable themself in checkAnswers instead of showCorrectAnswers
@@ -45,6 +46,8 @@ ilias.questions.refresh_lang = function() {
 
 		$(this).val("");
 	});
+
+	jQuery("input[value='TXT_SUBMIT_ANSWERS']").val(ilias.questions.txt.submit_answers);
 	
 };
 

@@ -33,6 +33,8 @@ abstract class ilParticipants
 	
 	protected $roles = array();
 	protected $role_data = array();
+	protected $roles_sorted = [];
+	protected $role_assignments = [];
 	
 	protected $participants = array();
 	protected $participants_status = array();
@@ -1087,39 +1089,51 @@ abstract class ilParticipants
 		$this->participants = array();
 		$this->members = $this->admins = $this->tutors = array();
 
+		$additional_roles = [];
+		$auto_generated_roles = [];
 		foreach($this->roles as $role_id)
 		{
 			$title = $ilObjDataCache->lookupTitle($role_id);
 			switch(substr($title,0,8))
 			{
 				case 'il_crs_m':
+					$auto_generated_roles[$role_id] = IL_ROLE_POSITION_MEMBER;
 					$this->role_data[IL_CRS_MEMBER] = $role_id;
 					$this->participants = array_unique(array_merge($assigned = $rbacreview->assignedUsers($role_id),$this->participants));
 					$this->members = array_unique(array_merge($assigned,$this->members));
+					$this->role_assignments[$role_id] = $assigned;
 					break;
 
 				case 'il_crs_a':
+					$auto_generated_roles[$role_id] = IL_ROLE_POSITION_ADMIN;
 					$this->role_data[IL_CRS_ADMIN] = $role_id;
 					$this->participants = array_unique(array_merge($assigned = $rbacreview->assignedUsers($role_id),$this->participants));
 					$this->admins = $rbacreview->assignedUsers($role_id);
+					$this->role_assignments[$role_id] = $assigned;
 					break;
 		
 				case 'il_crs_t':
+					$auto_generated_roles[$role_id] = IL_ROLE_POSITION_TUTOR;
 					$this->role_data[IL_CRS_TUTOR] = $role_id;
 					$this->participants = array_unique(array_merge($assigned = $rbacreview->assignedUsers($role_id),$this->participants));
 					$this->tutors = $rbacreview->assignedUsers($role_id);
+					$this->role_assignments[$role_id] = $assigned;
 					break;
 					
 				case 'il_grp_a':
+					$auto_generated_roles[$role_id] = IL_ROLE_POSITION_ADMIN;
 					$this->role_data[IL_GRP_ADMIN] = $role_id;
 					$this->participants = array_unique(array_merge($assigned = $rbacreview->assignedUsers($role_id),$this->participants));
 					$this->admins = $rbacreview->assignedUsers($role_id);
+					$this->role_assignments[$role_id] = $assigned;
 					break;
 					
 				case 'il_grp_m':
+					$auto_generated_roles[$role_id] = IL_ROLE_POSITION_MEMBER;
 					$this->role_data[IL_GRP_MEMBER] = $role_id;
 					$this->participants = array_unique(array_merge($assigned = $rbacreview->assignedUsers($role_id),$this->participants));
 					$this->members = $rbacreview->assignedUsers($role_id);
+					$this->role_assignments[$role_id] = $assigned;
 					break;
 				
 				case 'il_sess_':
@@ -1130,11 +1144,16 @@ abstract class ilParticipants
 					
 				
 				default:
+					$additional_roles[$role_id] = $title;
 					$this->participants = array_unique(array_merge($assigned = $rbacreview->assignedUsers($role_id),$this->participants));
 					$this->members = array_unique(array_merge($assigned,$this->members));
+					$this->role_assignments[$role_id] = $assigned;
 					break;
 			}
 		}
+		asort($auto_generated_roles);
+		asort($additional_roles);
+		$this->roles_sorted = $auto_generated_roles + $additional_roles;
 	}
 	
 	/**
@@ -1621,19 +1640,24 @@ abstract class ilParticipants
 		return $res;
 	}
 
+	/**
+	 * Set role order position
+	 * @param  int $a_user_id
+	 * @return string
+	 */
 	public function setRoleOrderPosition($a_user_id)
 	{
-		if($this->isAdmin($a_user_id))
+		$counter = 0;
+		$sortable_assignments = '9999999999';
+		foreach($this->roles_sorted as $role_id => $trash)
 		{
-			return IL_ROLE_POSITION_ADMIN;
+			if(in_array($a_user_id,(array) $this->role_assignments[$role_id]))
+			{
+				$sortable_assignments = substr_replace($sortable_assignments,'1',$counter,1);
+			}
+			++$counter;
 		}
-		else if($this->isTutor($a_user_id))
-		{
-			return IL_ROLE_POSITION_TUTOR;
-		}
-
-		return IL_ROLE_POSITION_MEMBER;
-
+		return $sortable_assignments;
 	}
 }
 ?>

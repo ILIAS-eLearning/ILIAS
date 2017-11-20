@@ -13,26 +13,26 @@ module.exports = function SetupServer(callback) {
 	var server = null;
 	var path = '/socket.io';
 
-	if(serverConfig.hasOwnProperty('sub_directory')) {
+	if (serverConfig.hasOwnProperty('sub_directory')) {
 		path = serverConfig.sub_directory + path;
 	}
 
-	if(serverConfig.protocol == 'https') {
+	if (serverConfig.protocol === 'https') {
 		server = protocol.createServer(options, Container.getApi());
 	} else {
 		server = protocol.createServer(Container.getApi());
 	}
+
 	var io = SocketIO(server, {path: path});
 
 	Container.setServer(server);
 
-	async.eachSeries(Container.getNamespaces(), function(namespace, next){
+	function handleSocket(namespace, next){
 		namespace.setIO(io.of(namespace.getName()));
 
 		var handler = SocketHandler;
 
-		if(namespace.isIM())
-		{
+		if (namespace.isIM()) {
 			handler = IMSocketHandler;
 			Container.getLogger().info('IMSocketHandler used');
 		}
@@ -40,11 +40,17 @@ module.exports = function SetupServer(callback) {
 		namespace.getIO().on('connect', handler);
 
 		next();
-	}, function(err) {
-		if(err) throw err;
+	}
+
+	function onSocketHandled(err) {
+		if (err) {
+			throw err;
+		}
 
 		callback();
-	});
+	}
+
+	async.eachSeries(Container.getNamespaces(), handleSocket, onSocketHandled);
 };
 
 
@@ -53,7 +59,7 @@ function _generateOptions(config) {
 		host: Container.getServerConfig().address
 	};
 
-	if(config.protocol == 'https') {
+	if (config.protocol === 'https') {
 		options.cert = FileHandler.readPlain(config.cert);
 		options.key = FileHandler.readPlain(config.key);
 		options.dhparam = FileHandler.readPlain(config.dhparam);

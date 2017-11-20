@@ -730,6 +730,7 @@ class ilCalendarCategories
 				break;
 
 			case ilCalendarCategory::TYPE_BOOK:
+				$this->readBookingCalendar();
 				break;
 		}
 	}

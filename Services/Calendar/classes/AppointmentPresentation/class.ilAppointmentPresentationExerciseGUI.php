@@ -82,8 +82,8 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 			$this->addListItemProperty($this->lng->txt("exc_mandatory"), $this->lng->txt("no"));
 		}
 
-		//example download all files
-		//$this->addAction($this->lng->txt("cal_download_all_files"), "www.ilias.de");
+		// last edited
+		$this->addLastUpdate($a_app);
 
 		//go to the exercise.
 		$this->addAction($this->lng->txt("cal_exc_open"), ilLink::_getStaticLink($exc_ref, "exc"));

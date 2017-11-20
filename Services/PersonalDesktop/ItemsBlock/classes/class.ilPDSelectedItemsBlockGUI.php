@@ -145,7 +145,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	{
 		include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
 		ilDesktopItemGUI::removeFromDesktop();
-		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+		ilUtil::sendSuccess($this->lng->txt("removed_from_desktop"), true);
 		$this->ctrl->setParameterByClass('ilpersonaldesktopgui', 'view', $this->viewSettings->getCurrentView());
 		$this->ctrl->redirectByClass('ilpersonaldesktopgui', 'show');
 	}

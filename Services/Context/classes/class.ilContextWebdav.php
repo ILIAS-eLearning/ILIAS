@@ -83,7 +83,7 @@ class ilContextWebdav implements ilContextTemplate
 	{
 		return true;
 	}
-	
+
 	/**
 	 * Check if persistent session handling is supported
 	 * @return boolean
@@ -93,6 +93,16 @@ class ilContextWebdav implements ilContextTemplate
 		return true;
 	}
 	
+	/**
+	 * Supports push messages
+	 *
+	 * @return bool
+	 */
+	public static function supportsPushMessages()
+	{
+		return false;
+	}
+
 }
 
 ?>

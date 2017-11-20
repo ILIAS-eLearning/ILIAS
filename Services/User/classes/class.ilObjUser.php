@@ -4599,16 +4599,10 @@ class ilObjUser extends ilObject
 	{
 		global $rbacadmin, $rbacreview, $ilDB;
 
-		// quote all ids
-		$ids = array();
-		foreach ($a_mem_ids as $mem_id) {
-			$ids [] = $ilDB->quote($mem_id);
-		}
-
 		$query = "SELECT usr_data.*, usr_pref.value AS language
 		          FROM usr_data
 		          LEFT JOIN usr_pref ON usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = %s
-		          WHERE ".$ilDB->in("usr_data.usr_id", $ids, false, "integer")."
+		          WHERE ".$ilDB->in("usr_data.usr_id", $a_mem_ids, false, "integer")."
 					AND usr_data.usr_id != %s";
 		$values[] = "language";
 		$types[] = "text";
@@ -4888,14 +4882,14 @@ class ilObjUser extends ilObject
 		$where = 'WHERE ' . implode(' AND ', $where);
 
 		$r = $ilDB->queryF("
-			SELECT COUNT(user_id) num, user_id, firstname, lastname, title, login, last_login, MAX(ctime) ctime
+			SELECT COUNT(user_id) num, user_id, firstname, lastname, title, login, last_login, MAX(ctime) ctime, context
 			FROM usr_session
 			LEFT JOIN usr_data u
 				ON user_id = u.usr_id
 			LEFT JOIN usr_pref p
 				ON (p.usr_id = u.usr_id AND p.keyword = %s)
 			{$where}
-			GROUP BY user_id, firstname, lastname, title, login, last_login
+			GROUP BY user_id, firstname, lastname, title, login, last_login, context
 			ORDER BY lastname, firstname
 			",
 			array('text'),
