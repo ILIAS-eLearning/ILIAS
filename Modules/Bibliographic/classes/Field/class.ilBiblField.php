@@ -28,7 +28,6 @@ class ilBiblField extends ActiveRecord {
 		return self::TABLE_NAME;
 	}
 
-
 	/**
 	 * @var
 	 *
@@ -76,15 +75,6 @@ class ilBiblField extends ActiveRecord {
 	 * @con_is_notnull true
 	 */
 	protected $is_standard_field;
-	/**
-	 * @var
-	 *
-	 * @con_has_field  true
-	 * @con_fieldtype  integer
-	 * @con_length     4
-	 * @con_is_notnull true
-	 */
-	protected $object_id;
 
 
 	/**
@@ -148,23 +138,6 @@ class ilBiblField extends ActiveRecord {
 	public function setIsStandardField($is_standard_field) {
 		$this->is_standard_field = $is_standard_field;
 	}
-
-
-	/**
-	 * @return integer
-	 */
-	public function getObjectId() {
-		return $this->object_id;
-	}
-
-
-	/**
-	 * @param integer $object_id
-	 */
-	public function setObjectId($object_id) {
-		$this->object_id = $object_id;
-	}
-
 
 	/**
 	 * @return mixed
