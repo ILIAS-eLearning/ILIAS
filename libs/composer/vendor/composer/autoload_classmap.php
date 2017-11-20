@@ -2486,7 +2486,6 @@ return array(
     'ilBibEntry' => $baseDir . '/../../Modules/Bibliographic/classes/Entry/class.ilBibEntry.php',
     'ilBibTex' => $baseDir . '/../../Modules/Bibliographic/classes/Types/BibTex/class.ilBibTex.php',
     'ilBiblAdminBibtexFieldGUI' => $baseDir . '/../../Modules/Bibliographic/classes/Admin/Fields/class.ilBiblAdminBibtexFieldGUI.php',
-    'ilBiblAdminFieldDeleteGUI' => $baseDir . '/../../Modules/Bibliographic/classes/Admin/Fields/class.ilBiblAdminFieldDeleteGUI.php',
     'ilBiblAdminFieldGUI' => $baseDir . '/../../Modules/Bibliographic/classes/Admin/Fields/class.ilBiblAdminFieldGUI.php',
     'ilBiblAdminFieldTableGUI' => $baseDir . '/../../Modules/Bibliographic/classes/Admin/Fields/class.ilBiblAdminFieldTableGUI.php',
     'ilBiblAdminFieldTranslateGUI' => $baseDir . '/../../Modules/Bibliographic/classes/Translation/class.ilBiblAdminFieldTranslateGUI.php',

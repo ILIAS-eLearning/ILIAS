@@ -2625,7 +2625,6 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilBibEntry' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Entry/class.ilBibEntry.php',
         'ilBibTex' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Types/BibTex/class.ilBibTex.php',
         'ilBiblAdminBibtexFieldGUI' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Admin/Fields/class.ilBiblAdminBibtexFieldGUI.php',
-        'ilBiblAdminFieldDeleteGUI' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Admin/Fields/class.ilBiblAdminFieldDeleteGUI.php',
         'ilBiblAdminFieldGUI' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Admin/Fields/class.ilBiblAdminFieldGUI.php',
         'ilBiblAdminFieldTableGUI' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Admin/Fields/class.ilBiblAdminFieldTableGUI.php',
         'ilBiblAdminFieldTranslateGUI' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Translation/class.ilBiblAdminFieldTranslateGUI.php',

@@ -71,6 +71,7 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 
 		$this->initColumns();
 		$this->addCommandButton(ilBiblAdminFieldGUI::CMD_SAVE, $this->dic->language()->txt("save"));
+
 		$this->addFilterItems();
 		$this->parseData();
 		}
@@ -183,9 +184,9 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 		$current_selection_list->setListTitle($this->lng->txt("actions"));
 		$current_selection_list->setId($id);
 		$current_selection_list->addItem($this->dic->language()->txt("translate"), "", $this->dic->ctrl()->getLinkTargetByClass(ilBiblAdminFieldTranslateGUI::class, ilBiblAdminFieldTranslateGUI::CMD_TRANSLATE));
-		$this->ctrl->setParameterByClass(ilBiblAdminFieldDeleteGUI::class, 'is_bibl_field', $is_bibl_field);
-		$this->ctrl->setParameterByClass(ilBiblAdminFieldDeleteGUI::class, ilBiblAdminFieldGUI::FIELD_IDENTIFIER, $id);
-		$current_selection_list->addItem($this->dic->language()->txt("delete"), "", $this->dic->ctrl()->getLinkTargetByClass(ilBiblAdminFieldDeleteGUI::class, ilBiblAdminFieldDeleteGUI::CMD_STANDARD));
+		$this->ctrl->setParameter($this->parent_obj, 'is_bibl_field', $is_bibl_field);
+		$this->ctrl->setParameterByClass(ilBiblAdminFieldGUI::class, ilBiblAdminFieldGUI::FIELD_IDENTIFIER, $id);
+		$current_selection_list->addItem($this->dic->language()->txt("delete"), "", $this->dic->ctrl()->getLinkTargetByClass(ilBiblAdminFieldGUI::class, ilBiblAdminFieldGUI::CMD_DELETE));
 		$this->tpl->setVariable('VAL_ACTIONS', $current_selection_list->getHTML());
 	}
 
