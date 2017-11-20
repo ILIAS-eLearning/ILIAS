@@ -66,6 +66,15 @@ div.ilFrmPostHeader span.small {
 	margin: 0 0 10px;
 	width: 80%;
 	float: left;
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		width: 100%;
+	}
+	img {
+		@media only screen and (max-width: @grid-float-breakpoint-max) {
+			width: 100%;
+			height: auto !important;
+		}
+	}
 }
 
 .ilFrmPostContent {
