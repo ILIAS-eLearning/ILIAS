@@ -1,4 +1,4 @@
-<#8>
+<#1>
 <?php
 $fields = array(
 	'id' => array(
@@ -44,6 +44,44 @@ if (! $ilDB->tableExists('il_bibl_field')) {
 
 	if (! $ilDB->sequenceExists('il_bibl_field')) {
 		$ilDB->createSequence('il_bibl_field');
+	}
+
+}
+?>
+<#2>
+<?php
+$fields = array(
+	'id' => array(
+		'notnull' => '1',
+		'type' => 'integer',
+		'length' => '4',
+
+	),
+	'field_id' => array(
+		'notnull' => '1',
+		'type' => 'integer',
+		'length' => '4',
+
+	),
+	'object_id' => array(
+		'notnull' => '1',
+		'type' => 'integer',
+		'length' => '4',
+
+	),
+	'filter_type' => array(
+		'type' => 'integer',
+		'length' => '1',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_bibl_filter')) {
+	$ilDB->createTable('il_bibl_filter', $fields);
+	$ilDB->addPrimaryKey('il_bibl_filter', array( 'id' ));
+
+	if (! $ilDB->sequenceExists('il_bibl_filter')) {
+		$ilDB->createSequence('il_bibl_filter');
 	}
 
 }
