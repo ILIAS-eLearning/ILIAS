@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Mail/classes/Address/Type/class.ilBaseMailAddressType.php';
+require_once 'Services/Mail/classes/Address/Parser/class.ilMailRfc822AddressParserFactory.php';
 
 /**
  * Class ilMailRoleAddressType
@@ -179,18 +180,23 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
 	 * objects that are possible recipients for the role mailbox address.
 	 *
 	 * If Pear Mail is not installed, then the mailbox address
-	 * @param	string	IETF RFX 822 address list containing role mailboxes.
-	 * @return	int[] Array with role ids that were found
+	 * @param $a_address_list
+	 * @param null $dic
+	 * @param null $parser
+	 * @return int[] Array with role ids that were found
+	 * @internal param IETF $string RFX 822 address list containing role mailboxes.
 	 */
-	public static function searchRolesByMailboxAddressList($a_address_list)
+	public static function searchRolesByMailboxAddressList($a_address_list, ilMailRfc822AddressParserFactory $parser = null)
 	{
 		global $DIC;
 
-		$role_ids = array();
+		if ($parser === null) {
+			$parser = ilMailRfc822AddressParserFactory::getParser($a_address_list);
+		}
 
-		require_once 'Services/Mail/classes/Address/Parser/class.ilMailRfc822AddressParserFactory.php';
-		$parser     = ilMailRfc822AddressParserFactory::getParser($a_address_list);
+		$role_ids = array();
 		$parsedList = $parser->parse();
+
 		foreach($parsedList as $address)
 		{
 			$local_part = $address->getMailbox();
@@ -272,6 +278,7 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
 			while($row = $DIC->database()->fetchAssoc($res))
 			{
 				$role_ids[] = $row['obj_id'];
+
 				$count++;
 			}
 
@@ -385,7 +392,7 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
 		$object_ref   = $row->object_ref;
 		$role_title   = $row->role_title;
 
-		// In a perfect world, we could use the object_title in the 
+		// In a perfect world, we could use the object_title in the
 		// domain part of the mailbox address, and the role title
 		// with prefix '#' in the local part of the mailbox address.
 		$domain = $object_title;
@@ -474,7 +481,7 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
 		$res = $DIC->database()->query($q);
 		$row = $DIC->database()->fetchObject($res);
 
-		// if the local_part is not unique, we use the unambiguous role title 
+		// if the local_part is not unique, we use the unambiguous role title
 		//   instead for the local part of the mailbox address
 		if ($row->count > 1)
 		{
@@ -523,7 +530,7 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
 			if($use_phrase)
 			{
 				// make phrase RFC 822 conformant:
-				// - strip excessive whitespace 
+				// - strip excessive whitespace
 				// - strip special characters
 				$phrase = preg_replace('/\s\s+/', ' ', $phrase);
 				$phrase = preg_replace('/[()<>@,;:\\".\[\]]/', '', $phrase);
