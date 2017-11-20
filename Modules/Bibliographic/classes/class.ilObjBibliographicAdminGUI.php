@@ -23,6 +23,7 @@ include_once('./Modules/Bibliographic/classes/Admin/class.ilObjBibliographicAdmi
 class ilObjBibliographicAdminGUI extends ilObjectGUI {
 
 	const TAB_FIELDS = 'fields';
+	const TAB_SETTINGS = 'settings';
 	/**
 	 * @var ilTabsGUI
 	 */
@@ -49,36 +50,28 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 	 * @throws ilCtrlException
 	 */
 	public function executeCommand() {
-
 		$next_class = $this->ctrl->getNextClass($this);
 		switch ($next_class) {
 			case 'ilpermissiongui':
 				$this->prepareOutput();
-				$this->tabs_gui->setTabActive('perm_settings');
+				$this->tabs_gui->activateTab('perm_settings');
 				include_once('Services/AccessControl/classes/class.ilPermissionGUI.php');
 				$perm_gui = new ilPermissionGUI($this);
 				$this->ctrl->forwardCommand($perm_gui);
 				break;
-			case 'ilbibladminrisfieldgui':
+			case strtolower(ilBiblAdminRisFieldGUI::class):
 				$this->prepareOutput();
 				$this->tabs_gui->activateTab(self::TAB_FIELDS);
 				$ilbibladminrisfieldgui = new ilBiblAdminRisFieldGUI();
 				$this->ctrl->forwardCommand($ilbibladminrisfieldgui);
 				break;
-			case 'ilbibladminbibtexfieldgui':
+			case strtolower(ilBiblAdminBibtexFieldGUI::class):
 				$this->prepareOutput();
 				$this->tabs_gui->activateTab(self::TAB_FIELDS);
 				$ilbibladminbibtexfieldgui = new ilBiblAdminBibtexFieldGUI();
 				$this->ctrl->forwardCommand($ilbibladminbibtexfieldgui);
 				break;
-/*			case 'ilbibladminfieldgui':
-				$this->prepareOutput();
-				$this->tabs_gui->activateTab(self::TAB_FIELDS);
-				$ilbibladminfieldgui = new ilBiblAdminRisFieldGUI();
-				$ilbibladminfieldgui->initType();
-				$this->ctrl->forwardCommand($ilbibladminfieldgui);
-				break;*/
-			case 'ilbibladminfieldtranslategui':
+			case strtolower(ilBiblAdminFieldTranslateGUI::class):
 				$this->prepareOutput();
 				$this->tabs_gui->activateTab(self::TAB_FIELDS);
 				$bibl_admin_field_translate_gui = new ilBiblAdminFieldTranslateGUI();
@@ -86,6 +79,7 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 				break;
 			default:
 				$this->prepareOutput();
+				$this->tabs_gui->activateTab(self::TAB_SETTINGS);
 				$ilObjBibliographicAdminLibrariesGUI = new ilObjBibliographicAdminLibrariesGUI($this);
 				$this->ctrl->forwardCommand($ilObjBibliographicAdminLibrariesGUI);
 				break;
@@ -100,14 +94,14 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 		 * @var $rbacsystem ilRbacSystem
 		 */
 		if ($rbacsystem->checkAccess('visible,read', $this->object->getRefId())) {
-			$this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTargetByClass(array(
-				'ilObjBibliographicAdminGUI',
-				'ilObjBibliographicAdminLibrariesGUI',
+			$this->tabs_gui->addTab(self::TAB_SETTINGS, $this->lng->txt('settings'), $this->ctrl->getLinkTargetByClass(array(
+				ilObjBibliographicAdminGUI::class,
+				ilObjBibliographicAdminLibrariesGUI::class,
 			), 'view'));
 		}
 		if ($rbacsystem->checkAccess('write', $this->object->getRefId())) {
 			$this->tabs_gui->addTab('fields', $this->lng->txt('fields'),$this->ctrl->getLinkTargetByClass(array(
-				'ilObjBibliographicAdminGUI',
+				ilObjBibliographicAdminGUI::class,
 				ilBiblAdminRisFieldGUI::class,
 			), ilBiblAdminRisFieldGUI::CMD_STANDARD));
 		}

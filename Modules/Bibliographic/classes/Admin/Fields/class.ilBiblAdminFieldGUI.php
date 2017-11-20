@@ -59,8 +59,6 @@ abstract class ilBiblAdminFieldGUI {
 	abstract protected function initType();
 
 	public function executeCommand() {
-
-		$ctrl_flow = $this->ctrl->getCallHistory();
 		$nextClass = $this->ctrl->getNextClass();
 		switch ($nextClass) {
 			default:
