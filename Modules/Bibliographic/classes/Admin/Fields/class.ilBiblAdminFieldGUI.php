@@ -30,27 +30,17 @@ class ilBiblAdminFieldGUI {
 	 */
 	protected $dic;
 	/**
-	 * @var ilTemplate
-	 */
-	protected $tpl;
-	/**
-	 * @var ilTabsGUI
-	 */
-	protected $tabs;
-	/**
-	 * @var ilCtrl
-	 */
-	protected $ctrl;
-	/**
 	 * @var ilCtrl
 	 */
 	protected $data_type;
+
 
 	public function __construct() {
 		global $DIC;
 		$this->dic = $DIC;
 		$this->object = ilObjectFactory::getInstanceByRefId($_GET['ref_id']);
 	}
+
 
 	public function executeCommand() {
 
