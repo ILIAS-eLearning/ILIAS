@@ -282,6 +282,11 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 		{
 			$title = $event_html_by_plugin;
 		}
+		//if calendar is not affected by a content replacement, print the TD with the defined color.
+		if($this->content_replaced_by_plugin == false)
+		{
+			$event_tpl->setVariable('TD_STYLE',$td_style);
+		}
 
 		$event_tpl->setVariable('APP_TITLE', $title);
 		
@@ -294,7 +299,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 
 			$event_tpl->setVariable('DAY_CELL_NUM',$this->num_appointments);
 			$event_tpl->setVariable('TD_ROWSPAN',$a_app['rowspan']);
-			$event_tpl->setVariable('TD_STYLE',$td_style);
+			//$event_tpl->setVariable('TD_STYLE',$td_style);
 			$event_tpl->setVariable('TD_CLASS','calevent');
 
 			$event_tpl->parseCurrentBlock();

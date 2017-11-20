@@ -68,8 +68,12 @@ class ilCalendarViewGUI
 	 * @var string
 	 */
 	protected $seed;
-	
-	
+
+	/**
+	 * @var bool true if any plugin replaces the content of the grid
+	 */
+	protected $content_replaced_by_plugin = false;
+
 	/**
 	 * 
 	 * @param ilDate $seed
@@ -333,6 +337,10 @@ class ilCalendarViewGUI
 			if($new_content = $plugin->replaceContent($a_content))
 			{
 				$content = $new_content;
+				if($content != $a_content)
+				{
+					$this->content_replaced_by_plugin = true;
+				}
 			}
 			else
 			{
