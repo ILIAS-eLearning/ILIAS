@@ -10491,7 +10491,7 @@ bibl#:#bibl_settings_new#:#Add Library
 bibl#:#bibl_settings_edit#:#Edit Library
 bibl#:#news_title_created#:#New bibliography list added
 bibl#:#news_title_updated#:#Bibliography list updated
-bibl#:#add_filter#:#Add filter
+bibl#:#add_filter#:#Add Filter
 bibl#:#filter_type#:#Filter Type
 bibl#:#field#:#Field
 rbac#:#bibl_visible#:#Bibliography is visible
