@@ -299,7 +299,7 @@ class ilStudyProgrammeType extends ActiveRecord {
 
 		// Delete icon & folder
 		if ($this->webdir->has($this->getIconPath(true))) {
-			$this->webdir($this->getIconPath(true));
+			$this->webdir->delete($this->getIconPath(true));
 		}
 		if ($this->webdir->has($this->getIconPath())) {
 			$this->webdir->deleteDir($this->getIconPath());
@@ -595,7 +595,7 @@ class ilStudyProgrammeType extends ActiveRecord {
 			return;
 		}
 
-		if ($this->getIcon() !== null) {
+		if ($this->getIcon() !== "") {
 			$this->webdir->delete($this->getIconPath(true));
 			$this->setIcon('');
 		}
