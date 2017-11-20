@@ -59,21 +59,25 @@ var AppContainer = function AppContainer() {
 		}
 		return null;
 	};
-	this.setApi = function (api) { _api = api; };
+	this.setApi = function(api) { _api = api; };
 	this.getApi = function() { return _api; };
 	this.addNamespace = function(namespace) { _namespaces.push(namespace); };
 	this.getNamespaces = function() { return _namespaces; };
-	this.getNamespace = function(name) {
+	this.getNamespace = function getNamespace(name) {
 		var namespace = null;
 		name = name.replace(/^\//, '');
-		_namespaces.forEach(function(element){
+
+		function setNamespace(element){
 			if(element.getName() == name) {
 				namespace = element;
 				return true;
 			}
-		});
+		}
+
+		_namespaces.forEach(setNamespace);
 		return namespace;
 	};
+
 	this.createServerRoomId = function(roomId, subRoomId) {
 		return roomId + '_' + subRoomId;
 	};
@@ -85,9 +89,7 @@ var AppContainer = function AppContainer() {
 	this.getServer = function() { return _server; };
 
 	this.setTimeout = function(subscriberId, callback, delay) {
-		var timeout = setTimeout(callback, delay);
-
-		_timeouts[subscriberId] = timeout;
+		_timeouts[subscriberId] = setTimeout(callback, delay);
 	};
 
 	this.removeTimeout = function(subscriberId) {
@@ -110,15 +112,17 @@ var AppContainer = function AppContainer() {
  */
 var _instance = null;
 
+function getInstance() {
+	if(_instance === null) {
+		_instance = new AppContainer();
+	}
+
+	return _instance;
+};
+
 /**
  * Returns a Singleton of AppContainer
  *
  * @type {AppContainer}
  */
-module.exports = (function(){
-	if(_instance == null) {
-		_instance = new AppContainer();
-	}
-
-	return _instance;
-})();
+module.exports = getInstance();

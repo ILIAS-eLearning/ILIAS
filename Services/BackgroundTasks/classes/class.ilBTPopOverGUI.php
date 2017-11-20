@@ -108,7 +108,7 @@ class ilBTPopOverGUI {
 		$po_content->setVariable("CONTENT", $bucket->get());
 		$uiElement = $f->legacy($po_content->get());
 
-		return [ $uiElement ];
+		return $uiElement;
 	}
 
 

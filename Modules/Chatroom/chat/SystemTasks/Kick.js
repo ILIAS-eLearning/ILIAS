@@ -4,8 +4,7 @@ var KickAction = require('../Model/Messages/KickAction');
 var UserlistAction = require('../Model/Messages/UserlistAction');
 
 
-module.exports = function(req, res)
-{
+module.exports = function (req, res) {
 	var userId = parseInt(req.params.id);
 	var roomId = parseInt(req.params.roomId);
 	var subRoomId = parseInt(req.params.subRoomId);
@@ -14,10 +13,21 @@ module.exports = function(req, res)
 	var room = namespace.getRoom(serverRoomId);
 	var subscriber = room.getSubscriber(userId);
 
+	function createKickUserCallback(namespace, action, noticeKicked, room, mainRoomUserlistAction) {
+		return function createKickUser(socketId) {
+			namespace.getIO().to(socketId).emit('userjustkicked', action);
+			namespace.getIO().to(socketId).emit('notice', noticeKicked);
+			namespace.getIO().connected[socketId].leave(room.getId());
+
+			if (mainRoomUserlistAction !== null) {
+				namespace.getIO().to(socketId).emit('userlist', mainRoomUserlistAction);
+			}
+		};
+	}
+
 	Container.getLogger().info('Kick Subscriber %s from room %s of namespace %s', userId, serverRoomId, namespace.getName());
 
-	if(subscriber != null)
-	{
+	if (subscriber !== null) {
 		room.removeSubscriber(userId);
 		room.subscriberLeft(userId);
 
@@ -34,15 +44,10 @@ module.exports = function(req, res)
 		}
 
 		var socketIds = subscriber.getSocketIds();
-		socketIds.forEach(function(socketId){
-			namespace.getIO().to(socketId).emit('userjustkicked', action);
-			namespace.getIO().to(socketId).emit('notice', noticeKicked);
-			namespace.getIO().connected[socketId].leave(room.getId());
 
-			if (mainRoomUserlistAction != null) {
-				namespace.getIO().to(socketId).emit('userlist', mainRoomUserlistAction);
-			}
-		});
+		var kickUser = createKickUserCallback(namespace, action, noticeKicked, room, mainRoomUserlistAction);
+
+		socketIds.forEach(kickUser);
 
 		namespace.getIO().to(serverRoomId).emit('userlist', userlistAction);
 		namespace.getIO().to(serverRoomId).emit('notice', notice);

@@ -66,12 +66,6 @@ class ilBiblSettingsFilterFormGUI extends ilPropertyFormGUI {
 				. $field_name); // TODO Übersetzungsdienst nutzen
 		}
 
-		/*
-		 * 1) loop through options array
-		 * 2) get id for every value of options, e.q. id of cite
-		 * 3)
-		 */
-
 		$si = new ilSelectInputGUI($this->dic->language()->txt("please_choose_field"), "identifier");
 		$si->setOptions($select_options);
 		$si->setRequired(true);

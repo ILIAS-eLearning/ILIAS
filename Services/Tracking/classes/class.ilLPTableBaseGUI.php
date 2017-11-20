@@ -654,7 +654,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		$mode = $olp->getCurrentMode();
 		if(in_array($mode, array(ilLPObjSettings::LP_MODE_TLT, 
 			ilLPObjSettings::LP_MODE_VISITS, 
-			// ilLPObjSettings::LP_MODE_OBJECTIVES, 
 			ilLPObjSettings::LP_MODE_SCORM,
 			ilLPObjSettings::LP_MODE_VISITED_PAGES,
 			ilLPObjSettings::LP_MODE_TEST_PASSED)))

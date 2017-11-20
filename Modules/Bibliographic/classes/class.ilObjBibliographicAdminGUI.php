@@ -13,7 +13,9 @@ include_once('./Modules/Bibliographic/classes/Admin/class.ilObjBibliographicAdmi
  * @author       Martin Studer <ms@studer-raimann.ch>
  * @author       Fabian Schmid <fs@studer-raimann.ch>
  *
- * @ilCtrl_Calls ilObjBibliographicAdminGUI: ilPermissionGUI, ilObjBibliographicAdminLibrariesGUI, ilBiblAdminFieldGUI, ilBiblAdminFieldTranslateGUI, ilBiblAdminFieldDeleteGUI
+ * @ilCtrl_Calls ilObjBibliographicAdminGUI: ilPermissionGUI, ilObjBibliographicAdminLibrariesGUI
+ * @ilCtrl_Calls ilObjBibliographicAdminGUI: ilBiblAdminFieldGUI, ilBiblAdminFieldTranslateGUI
+ * @ilCtrl_Calls ilObjBibliographicAdminGUI: ilBiblAdminFieldDeleteGUI
  * @ilCtrl_Calls ilObjBibliographicAdminGUI: ilObjBibliographicAdminAttributeOrderGUI
  *
  * @ingroup      ModulesBibliographic
@@ -101,7 +103,7 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 			$this->tabs_gui->addTab('fields', $this->lng->txt('fields'),$this->ctrl->getLinkTargetByClass(array(
 				ilObjBibliographicAdminGUI::class,
 				ilBiblAdminFieldGUI::class,
-			), ilBiblAdminFieldGUI::CMD_SHOW_RIS));
+			), ilBiblAdminRisFieldGUI::CMD_SHOW_RIS));
 
 		}
 		if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {

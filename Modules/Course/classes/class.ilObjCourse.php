@@ -1938,7 +1938,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 				{
 					$app = new ilCalendarAppointmentTemplate(self::CAL_COURSE_START);
 					$app->setTitle($this->getTitle());
-					$app->setSubtitle('crs_start');
+					$app->setSubtitle('crs_cal_start');
 					$app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
 					$app->setDescription($this->getLongDescription());	
 					$app->setStart($this->getCourseStart());
@@ -1947,7 +1947,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 
 					$app = new ilCalendarAppointmentTemplate(self::CAL_COURSE_END);
 					$app->setTitle($this->getTitle());
-					$app->setSubtitle('crs_end');
+					$app->setSubtitle('crs_cal_end');
 					$app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
 					$app->setDescription($this->getLongDescription());	
 					$app->setStart($this->getCourseEnd());

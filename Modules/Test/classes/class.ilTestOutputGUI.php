@@ -338,6 +338,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 		$navigationToolbarGUI = $this->getTestNavigationToolbarGUI();
 		$navigationToolbarGUI->setFinishTestButtonEnabled(true);
+		$navigationToolbarGUI->setFinishTestButtonPrimary(!$missingQuestionResultExists);
 
 		$this->ctrl->setParameter($this, 'sequence', $sequenceElement);
 		$this->ctrl->setParameter($this, 'pmode', $presentationMode);
@@ -355,8 +356,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				break;
 			
 			case ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW:
-
-				$navigationToolbarGUI->setFinishTestButtonPrimary(!$missingQuestionResultExists);
 				
 				if( $this->testSequence->isQuestionOptional($questionGui->object->getId()) )
 				{

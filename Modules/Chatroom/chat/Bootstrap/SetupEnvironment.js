@@ -13,11 +13,11 @@ module.exports = function SetupEnvironment(callback) {
 	var errorLogFile = 'chatError.log';
 	var serverConfig = Container.getServerConfig();
 
-	if(serverConfig.log != undefined && serverConfig.log != "")
+	if(serverConfig.log !== undefined && serverConfig.log !== "")
 	{
 		logFile = serverConfig.log;
 	}
-	if(serverConfig.error_log != undefined && serverConfig.error_log != "")
+	if(serverConfig.error_log !== undefined && serverConfig.error_log !== "")
 	{
 		errorLogFile = serverConfig.error_log;
 	}

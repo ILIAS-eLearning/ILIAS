@@ -13,10 +13,12 @@ var Container = require('../AppContainer');
 var async = require('async');
 
 var Bootstrap = function Bootstrap() {
-
-	var job;
-
 	this.boot = function() {
+		function onBootCompleted(err, result){
+			Container.getServer().listen(Container.getServerConfig().port, Container.getServerConfig().address);
+			Container.getLogger().info("The Server is Ready to use! Listening on: %s://%s:%s", Container.getServerConfig().protocol, Container.getServerConfig().address, Container.getServerConfig().port);
+		}
+
 		async.auto({
 			readCommandArguments: [ ReadCommandArguments ],
 			setupExpressApi: [ SetupExpressApi ],
@@ -29,11 +31,8 @@ var Bootstrap = function Bootstrap() {
 			setupServer: [ 'setupNamespaces', 'setupIM', SetupServer ],
 			setupClearProcess: [ 'setupServer', SetupClearMessagesProcess ],
 			setupUserSettingsProcess: [ 'setupServer', UserSettingsProcess ]
-		}, function(err, result){
-			Container.getServer().listen(Container.getServerConfig().port, Container.getServerConfig().address);
-			Container.getLogger().info("The Server is Ready to use! Listening on: %s://%s:%s", Container.getServerConfig().protocol, Container.getServerConfig().address, Container.getServerConfig().port);
-		});
-	}
+		}, onBootCompleted);
+	};
 };
 
 module.exports = new Bootstrap();

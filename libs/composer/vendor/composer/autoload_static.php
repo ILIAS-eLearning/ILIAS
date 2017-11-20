@@ -4,12 +4,12 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
+class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
 {
     public static $files = array (
+        '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
-        '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
         '5abda994d126976858eb25d2546ee3c9' => __DIR__ . '/..' . '/simplesamlphp/simplesamlphp/lib/_autoload_modules.php',
     );
 
@@ -1078,7 +1078,14 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'ILIAS\\UI\\Implementation\\Factory' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Factory.php',
         'ILIAS\\UI\\Implementation\\Render\\AbstractComponentRenderer' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Render/AbstractComponentRenderer.php',
         'ILIAS\\UI\\Implementation\\Render\\ComponentRenderer' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Render/ComponentRenderer.php',
+        'ILIAS\\UI\\Implementation\\Render\\DefaultRendererFactory' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Render/DefaultRendererFactory.php',
+        'ILIAS\\UI\\Implementation\\Render\\FSLoader' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Render/FSLoader.php',
         'ILIAS\\UI\\Implementation\\Render\\JavaScriptBinding' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Render/JavaScriptBinding.php',
+        'ILIAS\\UI\\Implementation\\Render\\Loader' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Render/Loader.php',
+        'ILIAS\\UI\\Implementation\\Render\\LoaderCachingWrapper' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Render/LoaderCachingWrapper.php',
+        'ILIAS\\UI\\Implementation\\Render\\LoaderHelper' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Render/LoaderHelper.php',
+        'ILIAS\\UI\\Implementation\\Render\\LoaderResourceRegistryWrapper' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Render/LoaderResourceRegistryWrapper.php',
+        'ILIAS\\UI\\Implementation\\Render\\RendererFactory' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Render/RendererFactory.php',
         'ILIAS\\UI\\Implementation\\Render\\ResourceRegistry' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Render/ResourceRegistry.php',
         'ILIAS\\UI\\Implementation\\Render\\Template' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Render/Template.php',
         'ILIAS\\UI\\Implementation\\Render\\TemplateFactory' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Render/TemplateFactory.php',
@@ -2615,11 +2622,13 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'ilBenchmark' => __DIR__ . '/../..' . '/../../Services/Utilities/classes/class.ilBenchmark.php',
         'ilBenchmarkTableGUI' => __DIR__ . '/../..' . '/../../Modules/SystemFolder/classes/class.ilBenchmarkTableGUI.php',
         'ilBibTex' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Types/BibTex/class.ilBibTex.php',
+        'ilBiblAdminBibtexFieldGUI' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Admin/Fields/class.ilBiblAdminBibtexFieldGUI.php',
         'ilBiblAdminFieldDeleteGUI' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Admin/Fields/class.ilBiblAdminFieldDeleteGUI.php',
         'ilBiblAdminFieldGUI' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Admin/Fields/class.ilBiblAdminFieldGUI.php',
         'ilBiblAdminFieldTableGUI' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Admin/Fields/class.ilBiblAdminFieldTableGUI.php',
         'ilBiblAdminFieldTranslateGUI' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Translation/class.ilBiblAdminFieldTranslateGUI.php',
         'ilBiblAdminFieldTranslationGUI' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Admin/Fields/class.ilBiblAdminFieldTranslationGUI.php',
+        'ilBiblAdminRisFieldGUI' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Admin/Fields/class.ilBiblAdminRisFieldGUI.php',
         'ilBiblField' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Field/class.ilBiblField.php',
         'ilBiblFilter' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Filter/class.ilBiblFilter.php',
         'ilBiblOverviewGUI' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/class.ilBiblOverviewGUI.php',
@@ -6201,6 +6210,7 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'ilWorkspaceAccessHandler' => __DIR__ . '/../..' . '/../../Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php',
         'ilWorkspaceAccessTableGUI' => __DIR__ . '/../..' . '/../../Services/PersonalWorkspace/classes/class.ilWorkspaceAccessTableGUI.php',
         'ilWorkspaceExplorer' => __DIR__ . '/../..' . '/../../Services/PersonalWorkspace/classes/class.ilWorkspaceExplorer.php',
+        'ilWorkspaceExplorerGUI' => __DIR__ . '/../..' . '/../../Services/PersonalWorkspace/classes/class.ilWorkspaceExplorerGUI.php',
         'ilWorkspaceFolderExplorer' => __DIR__ . '/../..' . '/../../Modules/WorkspaceFolder/classes/class.ilWorkspaceFolderExplorer.php',
         'ilWorkspaceShareTableGUI' => __DIR__ . '/../..' . '/../../Services/PersonalWorkspace/classes/class.ilWorkspaceShareTableGUI.php',
         'ilWorkspaceTree' => __DIR__ . '/../..' . '/../../Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php',
@@ -6232,10 +6242,10 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83::$classMap;
 
         }, null, ClassLoader::class);
     }

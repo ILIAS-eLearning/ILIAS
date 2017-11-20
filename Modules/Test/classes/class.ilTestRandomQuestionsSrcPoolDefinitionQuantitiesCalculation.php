@@ -241,7 +241,7 @@ class ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculation
 	
 	protected function getConcurrentRuleConflictMessage(ilLanguage $lng)
 	{
-		$definitionsString = $this->buildIntersectionQuestionSharingDefinitionsString($lng);
+		$definitionsString = '<br />'.$this->buildIntersectionQuestionSharingDefinitionsString($lng);
 		
 		if( $this->isRequiredQuestionAmountSatisfiedByOverallQuestionQuantity() )
 		{
@@ -270,7 +270,7 @@ class ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculation
 			);
 		}
 		
-		$definitionsString = implode(', ', $definitionsString);
+		$definitionsString = '<ul><li>'.implode('</li><li>', $definitionsString).'</li></ul>';
 		return $definitionsString;
 	}
 }

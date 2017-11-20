@@ -5,6 +5,8 @@
 require_once './Services/WorkflowEngine/interfaces/ilExternalDetector.php';
 /** @noinspection PhpIncludeInspection */
 require_once './Services/WorkflowEngine/interfaces/ilWorkflow.php';
+/** @noinspection PhpIncludeInspection */
+require_once './Services/WorkflowEngine/classes/nodes/class.ilBasicNode.php';
 
 /**
  * ilBaseWorkflow is part of the petri net based workflow engine.

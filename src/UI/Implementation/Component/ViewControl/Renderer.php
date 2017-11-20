@@ -120,42 +120,17 @@ class Renderer extends AbstractComponentRenderer
 		$triggeredSignals = $component->getTriggeredSignals();
 		if($triggeredSignals) {
 
-			$signal_select = $component->getSelectSignal();
+			$internal_signal = $component->getSelectSignal();
 			$signal = $triggeredSignals[0]->getSignal();
 			$options = json_encode($signal->getOptions());
 
-			$component = $component->withOnLoadCode(function($id) use ($signal_select, $signal, $options) {
-				return "
-				$(document).on('{$signal_select}', function(event, signalData) {
-
-					var triggerer = signalData.triggerer[0], 			//the shy-button within the dropdown
-						param = triggerer.getAttribute('data-action'), 	//the sortation-value
-						id = '{$id}',									//id of sortation control to be used
-																		//as triggerer for others
-						sortation = $('#' + id),
-						dd = sortation.find('.dropdown-toggle')			//the dropdown
-						;
-
-					//close dropdown and set current value
-					dd.dropdown('toggle');
-					dd.contents()[0].data = signalData.triggerer.contents()[0].data  + ' ';
-
-					var options = JSON.parse('{$options}');
-					options.sortation = param;
-
-					//trigger sort-signal
-					sortation.trigger('{$signal}',
-						{
-							'id' : '{$signal}', 'event' : 'sort',
-							'triggerer' : sortation,
-							'options' : options
-						}
-					);
-					return false;
-				});
-				";
-
+			$component = $component->withOnLoadCode(function($id) use ($internal_signal, $signal) {
+				return "$(document).on('{$internal_signal}', function(event, signalData) {
+							il.UI.viewcontrol.sortation.onInternalSelect(event, signalData, '{$signal}', '{$id}');
+							return false;
+						})";
 			});
+
 			//maybeRenderId does not return id
 			$id = $this->bindJavaScript($component);
 			$tpl->setVariable('ID', $id);
@@ -167,7 +142,7 @@ class Renderer extends AbstractComponentRenderer
 		$items = array();
 		foreach ($options as $val => $label) {
 			if($triggeredSignals) {
-				$shy = $f->button()->shy($label, $val)->withOnClick($signal_select);
+				$shy = $f->button()->shy($label, $val)->withOnClick($internal_signal);
 			} else {
 				$url = $component->getTargetURL();
 				$url .= (strpos($url, '?') === false) ?  '?' : '&';
@@ -182,6 +157,15 @@ class Renderer extends AbstractComponentRenderer
 
 		$tpl->setVariable('SORTATION_DROPDOWN', $default_renderer->render($dd));
 	    return $tpl->get();
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function registerResources(\ILIAS\UI\Implementation\Render\ResourceRegistry $registry) {
+		parent::registerResources($registry);
+		$registry->register('./src/UI/templates/js/ViewControl/sortation.js');
 	}
 
 
