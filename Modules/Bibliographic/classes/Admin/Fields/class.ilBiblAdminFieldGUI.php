@@ -133,15 +133,13 @@ class ilBiblAdminFieldGUI {
 				$this->tpl->setContent("<pre>".print_r($data, true). "</pre>");*/
 	}
 
+	//TODO remove if not used
 	protected function add() { // Formular für neues Anlegen
-		//$this->il_bibl_field = new ilBiblField($_GET[self::FIELD_IDENTIFIER]);
-
-		//$this->tabs->activateTab(self::CMD_STANDARD);
 		$ilBiblSettingsFilterFormGUI = new ilBiblSettingsFilterFormGUI($this, new ilBiblField());
 		$this->tpl->setContent($ilBiblSettingsFilterFormGUI->getHTML());
-
 	}
 
+	//TODO remove if not used
 	protected function create() { // verarbeiten von add()
 
 	}
