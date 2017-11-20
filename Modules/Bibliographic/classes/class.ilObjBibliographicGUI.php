@@ -40,6 +40,22 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	 */
 	public $object;
 	/**
+	 * @var \ilBiblTranslationFactory
+	 */
+	protected $translation_factory;
+	/**
+	 * @var \ilBiblFieldFactory
+	 */
+	protected $field_factory;
+	/**
+	 * @var \ilBiblFieldFilterFactory
+	 */
+	protected $filter_factory;
+	/**
+	 * @var \ilBiblTypeFactory
+	 */
+	protected $type_factory;
+	/**
 	 * @var string
 	 */
 	protected $cmd = self::CMD_SHOW_CONTENT;
@@ -52,12 +68,16 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	 */
 	public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0) {
 		global $DIC;
+
 		$this->lng = $DIC['lng'];
 		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 		$this->lng->loadLanguageModule('bibl');
-		if ($a_id > 0) {
-			$this->object = $this->object;
-		}
+
+		$this->type_factory = new ilBiblTypeFactory();
+		$this->filter_factory = new ilBiblFieldFilterFactory();
+		$type = $this->type_factory->getInstanceForType($this->object->getFileType());
+		$this->field_factory = new ilBiblFieldFactory($type);
+		$this->translation_factory = new ilBiblTranslationFactory($this->field_factory);
 	}
 
 
@@ -137,7 +157,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 			case strtolower(ilBiblFieldFilterGUI::class):
 				$this->prepareOutput();
 				$ilTabs->setTabActive(self::TAB_SETTINGS);
-				$this->ctrl->forwardCommand(new ilBiblFieldFilterGUI());
+				$this->ctrl->forwardCommand(new ilBiblFieldFilterGUI($this->filter_factory, $this->field_factory));
 				break;
 			default:
 				return parent::executeCommand();
@@ -386,7 +406,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 			$DIC['ilToolbar']->addButtonInstance($b);
 
 			include_once "./Modules/Bibliographic/classes/class.ilBibliographicRecordListTableGUI.php";
-			$table = new ilBibliographicRecordListTableGUI($this, self::CMD_SHOW_CONTENT);
+			$table = new ilBibliographicRecordListTableGUI($this, self::CMD_SHOW_CONTENT, $this->filter_factory, $this->field_factory, $this->translation_factory);
 			$html = $table->getHTML();
 			$DIC['tpl']->setContent($html);
 

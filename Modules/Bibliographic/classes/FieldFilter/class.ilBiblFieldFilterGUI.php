@@ -20,6 +20,14 @@ class ilBiblFieldFilterGUI {
 	const CMD_RESET_FILTER = 'resetFilter';
 	const CMD_TRANSLATE = 'translate';
 	/**
+	 * @var \ilBiblFieldFactoryInterface
+	 */
+	protected $field_factory;
+	/**
+	 * @var \ilBiblFieldFilterFactoryInterface
+	 */
+	protected $filter_factory;
+	/**
 	 * @var ilObjBibliographic
 	 */
 	protected $object;
@@ -41,8 +49,16 @@ class ilBiblFieldFilterGUI {
 	protected $ctrl;
 
 
-	public function __construct() {
+	/**
+	 * ilBiblFieldFilterGUI constructor.
+	 *
+	 * @param \ilBiblFieldFilterFactoryInterface $filter_factory
+	 * @param \ilBiblFieldFactoryInterface       $field_factory
+	 */
+	public function __construct(ilBiblFieldFilterFactoryInterface $filter_factory, ilBiblFieldFactoryInterface $field_factory) {
 		global $DIC;
+		$this->filter_factory = $filter_factory;
+		$this->field_factory = $field_factory;
 		$this->dic = $DIC;
 		$this->tpl = $this->dic['tpl'];
 		$this->tabs = $DIC->tabs();
@@ -85,13 +101,13 @@ class ilBiblFieldFilterGUI {
 
 
 	public function index() {
-		$table = new ilBiblFieldFilterTableGUI($this, self::CMD_STANDARD, $this->object);
+		$table = new ilBiblFieldFilterTableGUI($this, self::CMD_STANDARD, $this->object, $this->filter_factory, $this->field_factory);
 		$this->tpl->setContent($table->getHTML());
 	}
 
 
 	protected function add() {
-		$ilBiblSettingsFilterFormGUI = new ilBiblFieldFilterFormGUI($this, new ilBiblFieldFilter());
+		$ilBiblSettingsFilterFormGUI = new ilBiblFieldFilterFormGUI($this, new ilBiblFieldFilter(), $this->filter_factory, $this->field_factory);
 		$this->tpl->setContent($ilBiblSettingsFilterFormGUI->getHTML());
 	}
 
@@ -100,10 +116,10 @@ class ilBiblFieldFilterGUI {
 		$this->tabs->activateTab(self::CMD_STANDARD);
 		$il_bibl_field = new ilBiblFieldFilter();
 		$il_bibl_field->setObjectId($this->object->getId());
-		$form = new ilBiblFieldFilterFormGUI($this, $il_bibl_field);
+		$form = new ilBiblFieldFilterFormGUI($this, $il_bibl_field, $this->filter_factory, $this->field_factory);
 		if ($form->saveObject()) {
 			ilUtil::sendSuccess($this->dic->language()->txt('changes_saved_success'), true);
-//			$this->ctrl->redirect($this, self::CMD_STANDARD);
+			$this->ctrl->redirect($this, self::CMD_STANDARD);
 		}
 		$form->setValuesByPost();
 		$this->tpl->setContent($form->getHTML());
@@ -111,7 +127,7 @@ class ilBiblFieldFilterGUI {
 
 
 	public function edit() {
-		$ilBiblSettingsFilterFormGUI = new ilBiblFieldFilterFormGUI($this, $this->getFieldFilterFromRequest());
+		$ilBiblSettingsFilterFormGUI = new ilBiblFieldFilterFormGUI($this, $this->getFieldFilterFromRequest(), $this->filter_factory, $this->field_factory);
 		$ilBiblSettingsFilterFormGUI->fillForm();
 		$this->tpl->setContent($ilBiblSettingsFilterFormGUI->getHTML());
 	}
@@ -121,7 +137,7 @@ class ilBiblFieldFilterGUI {
 		$il_bibl_field = $this->getFieldFilterFromRequest();
 		$this->tabs->activateTab(self::CMD_STANDARD);
 
-		$form = new ilBiblFieldFilterFormGUI($this, $il_bibl_field);
+		$form = new ilBiblFieldFilterFormGUI($this, $il_bibl_field, $this->filter_factory, $this->field_factory);
 		if ($form->saveObject()) {
 			ilUtil::sendSuccess($this->dic->language()->txt('changes_saved_success'), true);
 			$this->ctrl->redirect($this, self::CMD_STANDARD);

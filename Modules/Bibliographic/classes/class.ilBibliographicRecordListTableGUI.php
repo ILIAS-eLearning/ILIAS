@@ -13,6 +13,18 @@ require_once './Services/Table/classes/class.ilTable2GUI.php';
 class ilBibliographicRecordListTableGUI extends ilTable2GUI {
 
 	/**
+	 * @var \ilBiblTranslationFactoryInterface
+	 */
+	protected $translation_factory;
+	/**
+	 * @var \ilBiblFieldFactoryInterface
+	 */
+	protected $field_factory;
+	/**
+	 * @var \ilBiblFieldFilterFactoryInterface
+	 */
+	protected $filter_factory;
+	/**
 	 * @var ilCtrl
 	 */
 	protected $ctrl;
@@ -23,17 +35,22 @@ class ilBibliographicRecordListTableGUI extends ilTable2GUI {
 
 
 	/**
-	 * @param ilObjBibliographicGUI $a_parent_obj
-	 * @param string                $a_parent_cmd
+	 * @param ilObjBibliographicGUI              $a_parent_obj
+	 * @param string                             $a_parent_cmd
+	 * @param \ilBiblFieldFilterFactoryInterface $filter_factory
 	 */
-	public function __construct(ilObjBibliographicGUI $a_parent_obj, $a_parent_cmd) {
+	public function __construct(ilObjBibliographicGUI $a_parent_obj, $a_parent_cmd, ilBiblFieldFilterFactoryInterface $filter_factory, ilBiblFieldFactoryInterface $field_factory, ilBiblTranslationFactoryInterface $translation_factory) {
 		global $DIC;
+
 		$lng = $DIC['lng'];
 		$ilCtrl = $DIC['ilCtrl'];
 		$this->setId('tbl_bibl_overview');
 		$this->setPrefix('tbl_bibl_overview');
 		$this->setFormName('tbl_bibl_overview');
 		parent::__construct($a_parent_obj, $a_parent_cmd);
+		$this->filter_factory = $filter_factory;
+		$this->field_factory = $field_factory;
+		$this->translation_factory = $translation_factory;
 		$this->parent_obj = $a_parent_obj;
 		$this->ctrl = $ilCtrl;
 		//Number of records
@@ -48,9 +65,18 @@ class ilBibliographicRecordListTableGUI extends ilTable2GUI {
 		$this->setRowTemplate('tpl.bibliographic_record_table_row.html', 'Modules/Bibliographic');
 		// enable sorting by alphabet -- therefore an unvisible column 'content' is added to the table, and the array-key 'content' is also delivered in setData
 		$this->addColumn($lng->txt('a'), 'content', 'auto');
+		$this->initFilter();
 		$this->initData();
 		$this->setOrderField('content');
 		$this->setDefaultOrderField('content');
+	}
+
+
+	public function initFilter() {
+		foreach ($this->filter_factory->getAllForObjectId($this->parent_obj->object->getId()) as $fieldFilter) {
+			$filter = new ilBiblFieldFilterPresentationGUI($fieldFilter, $this->field_factory, $this->translation_factory);
+			$this->addFilterItem($filter->getFilterItem());
+		}
 	}
 
 

@@ -32,7 +32,23 @@ interface ilBiblFieldFactoryInterface {
 
 
 	/**
+	 * @param int $obj_id
+	 *
 	 * @return ilBiblFieldInterface[] instances of all known standard-fields for the given type
 	 */
-	public function getAllStandardFieldForType($type);
+	public function getAvailableFieldsForObjId($obj_id);
+
+
+	/**
+	 * @return \ilBiblTypeInterface
+	 */
+	public function getType();
+
+
+	/**
+	 * @param int $id
+	 *
+	 * @return \ilBiblFieldInterface
+	 */
+	public function findById($id);
 }

@@ -8,13 +8,46 @@
 class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 
 	/**
+	 * @var \ilBiblTypeInterface
+	 */
+	protected $type;
+
+
+	/**
+	 * ilBiblFieldFactory constructor.
+	 *
+	 * @param \ilBiblTypeInterface $type
+	 */
+	public function __construct(\ilBiblTypeInterface $type) { $this->type = $type; }
+
+
+	/**
+	 * @return \ilBiblTypeInterface
+	 */
+	public function getType() {
+		return $this->type;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function findById($id) {
+		$inst = ilBiblField::findOrGetInstance($id);
+		if($inst)
+
+		return $inst;
+	}
+
+
+	/**
 	 * @inheritdoc
 	 */
 	public function getFieldByTypeAndIdentifier($type, $identifier) {
 		$this->checkType($type);
 		$inst = $this->getARInstance($type, $identifier);
 		if (!$inst) {
-			throw new ilException("bibliografic identifier not found");
+			throw new ilException("bibliografic identifier {$identifier} not found");
 		}
 
 		return $inst;
@@ -29,36 +62,46 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 		$inst = $this->getARInstance($type, $identifier);
 		if (!$inst) {
 			$inst = new ilBiblField();
-			$inst->setDataType($type);
-			$inst->setIdentifier($identifier);
 			$inst->create();
 		}
+		$inst->setDataType($type);
+		$inst->setIdentifier($identifier);
+		$inst->setIsStandardField($this->getType()->isStandardField($identifier));
+		$inst->update();
 
 		return $inst;
 	}
 
+
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
-	public function getAllStandardFieldForType($type) {
+	public function getAvailableFieldsForObjId($obj_id) {
+		global $DIC;
+		$sql = "SELECT DISTINCT(il_bibl_attribute.name), il_bibl_data.file_type FROM il_bibl_data 
+					JOIN il_bibl_entry ON il_bibl_entry.data_id = il_bibl_data.id
+					JOIN il_bibl_attribute ON il_bibl_attribute.entry_id = il_bibl_entry.id
+				WHERE il_bibl_data.id = %s;";
 
+		$result = $DIC->database()->queryF($sql, [ 'integer' ], [ $obj_id ]);
+
+		$data = [];
+		while ($d = $DIC->database()->fetchObject($result)) {
+			$data[] = $this->findOrCreateFieldByTypeAndIdentifier($d->file_type, $d->name);
+		}
+
+		return $data;
 	}
-
-
-
-
-
-
-
 
 
 
 
 	// Internal Methods
 
+
 	/**
-	 * @param $type
-	 * @param $identifier
+	 * @param int    $type
+	 * @param string $identifier
 	 *
 	 * @return \ilBiblField
 	 */

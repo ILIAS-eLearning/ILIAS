@@ -5,12 +5,9 @@
  * @author: Benjamin Seglias   <bs@studer-raimann.ch>
  */
 
-class ilBiblFieldFilter extends ActiveRecord {
+class ilBiblFieldFilter extends ActiveRecord implements ilBiblFieldFilterInterface {
 
 	const TABLE_NAME = 'il_bibl_filter';
-	const FILTER_TYPE_TEXT_INPUT = 1;
-	const FILTER_TYPE_SELECT_INPUT = 2;
-	const FILTER_TYPE_MULTI_SELECT_INPUT = 3;
 
 
 	/**

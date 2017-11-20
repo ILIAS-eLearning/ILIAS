@@ -66,7 +66,7 @@ class ilBiblField extends ActiveRecord implements ilBiblFieldInterface {
 	 * @con_fieldtype  integer
 	 * @con_length     3
 	 */
-	protected $position;
+	protected $position = 9999;
 	/**
 	 * @var
 	 *
@@ -75,16 +75,7 @@ class ilBiblField extends ActiveRecord implements ilBiblFieldInterface {
 	 * @con_length     1
 	 * @con_is_notnull true
 	 */
-	protected $is_standard_field;
-	/**
-	 * @var
-	 *
-	 * @con_has_field  true
-	 * @con_fieldtype  integer
-	 * @con_length     4
-	 * @con_is_notnull true
-	 */
-	protected $object_id;
+	protected $is_standard_field = true;
 
 
 	/**
@@ -148,22 +139,6 @@ class ilBiblField extends ActiveRecord implements ilBiblFieldInterface {
 	 */
 	public function setIsStandardField($is_standard_field) {
 		$this->is_standard_field = $is_standard_field;
-	}
-
-
-	/**
-	 * @return integer
-	 */
-	public function getObjectId() {
-		return $this->object_id;
-	}
-
-
-	/**
-	 * @param integer $object_id
-	 */
-	public function setObjectId($object_id) {
-		$this->object_id = $object_id;
 	}
 
 

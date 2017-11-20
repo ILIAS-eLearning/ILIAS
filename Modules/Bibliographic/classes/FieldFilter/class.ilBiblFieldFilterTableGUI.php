@@ -10,6 +10,14 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI {
 
 	const TBL_ID = 'tbl_bibl_filters';
 	/**
+	 * @var \ilBiblFieldFactoryInterface
+	 */
+	protected $field_factory;
+	/**
+	 * @var \ilBiblFieldFilterFactoryInterface
+	 */
+	protected $filter_factory;
+	/**
 	 * @var \ILIAS\DI\Container
 	 */
 	protected $dic;
@@ -38,16 +46,21 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI {
 	/**
 	 * ilBiblFieldFilterTableGUI constructor.
 	 *
-	 * @param \ilBiblFieldFilterGUI $a_parent_obj
-	 * @param string                $a_parent_cmd
-	 * @param \ilObjBibliographic   $il_obj_bibliographic
+	 * @param \ilBiblFieldFilterGUI              $a_parent_obj
+	 * @param string                             $a_parent_cmd
+	 * @param \ilObjBibliographic                $il_obj_bibliographic
+	 * @param \ilBiblFieldFilterFactoryInterface $filter_factory
+	 * @param \ilBiblFieldFactoryInterface       $field_factory
 	 */
-	function __construct(\ilBiblFieldFilterGUI $a_parent_obj, $a_parent_cmd, \ilObjBibliographic $il_obj_bibliographic) {
+	public function __construct(\ilBiblFieldFilterGUI $a_parent_obj, $a_parent_cmd, \ilObjBibliographic $il_obj_bibliographic, ilBiblFieldFilterFactoryInterface $filter_factory, ilBiblFieldFactoryInterface $field_factory) {
 		global $DIC;
 		$this->dic = $DIC;
 		$this->parent_obj = $a_parent_obj;
 		$this->ctrl = $this->dic->ctrl();
 		$this->tpl = $this->dic['tpl'];
+
+		$this->filter_factory = $filter_factory;
+		$this->field_factory = $field_factory;
 
 		$this->setId(self::TBL_ID);
 		$this->setPrefix(self::TBL_ID);
@@ -62,11 +75,11 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI {
 		$this->setRowTemplate('tpl.bibl_settings_filters_list_row.html', 'Modules/Bibliographic');
 
 		$this->setFormAction($this->ctrl->getFormActionByClass(ilBiblFieldFilterGUI::class));
-		$this->setExternalSorting(true);
 
-		$this->setDefaultOrderField("identifier");
+		$this->setDefaultOrderField("id");
 		$this->setDefaultOrderDirection("asc");
-		$this->setExternalSegmentation(true);
+		//		$this->setExternalSorting(true);
+		//		$this->setExternalSegmentation(true);
 		$this->setEnableHeader(true);
 
 		$this->initColumns();
@@ -124,8 +137,8 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI {
 		 * @var ilBiblFieldFilter $filter
 		 * @var ilBiblField       $field
 		 */
-		$filter = ilBiblFieldFilter::find($a_set['id']);
-		$field = ilBiblField::findOrGetInstance($filter->getFieldId());
+		$filter = $this->filter_factory->findById((int)$a_set['id']);
+		$field = $this->field_factory->findById($filter->getFieldId());
 
 		$this->tpl->setVariable('VAL_FIELD', $field->getIdentifier());
 		$this->tpl->setVariable('VAL_FILTER_TYPE', $this->dic->language()->txt("filter_type_"
@@ -139,7 +152,7 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI {
 	 * @param \ilBiblFieldFilter $ilBiblFieldFilter
 	 */
 	protected function addActionMenu(ilBiblFieldFilter $ilBiblFieldFilter) {
-		$this->ctrl->saveParameterByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::FILTER_ID);
+		$this->ctrl->setParameterByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::FILTER_ID, $ilBiblFieldFilter->getId());
 
 		$current_selection_list = new ilAdvancedSelectionListGUI();
 		$current_selection_list->setListTitle($this->lng->txt("actions"));
@@ -157,25 +170,20 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI {
 		$this->determineOffsetAndOrder();
 		$this->determineLimit();
 
-		$collection = ilBiblFieldFilter::getCollection();
-		$collection->where(array( 'object_id' => $this->il_obj_bibliographic->getId() ));
-
-		$sorting_column = $this->getOrderField() ? $this->getOrderField() : 'field';
+		$sorting_column = $this->getOrderField() ? $this->getOrderField() : 'id';
+		$sorting_column = 'id';
 		$offset = $this->getOffset() ? $this->getOffset() : 0;
 
 		$sorting_direction = $this->getOrderDirection();
 		$num = $this->getLimit();
 
-		//		$collection->orderBy($sorting_column, $sorting_direction);
-		//		$collection->limit($offset, $num);
+		$info = new ilBiblTableQueryInfo();
+		$info->setSortingColumn($sorting_column);
+		$info->setOffset($offset);
+		$info->setSortingDirection($sorting_direction);
+		$info->setLimit($num);
 
-		//		foreach ($this->filter as $filter_key => $filter_value) {
-		//			switch ($filter_key) {
-		//				case 'identifier':
-		//					$collection->where(array( $filter_key => '%' . $filter_value . '%' ), 'LIKE');
-		//					break;
-		//			}
-		//		}
-		$this->setData($collection->getArray());
+		$filter = $this->filter_factory->filterItemsForTable($this->il_obj_bibliographic->getId(), $info);
+		$this->setData($filter);
 	}
 }

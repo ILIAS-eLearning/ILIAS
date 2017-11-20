@@ -58,18 +58,6 @@ interface ilBiblFieldInterface {
 	/**
 	 * @return int
 	 */
-	public function getObjectId();
-
-
-	/**
-	 * @param int $object_id
-	 */
-	public function setObjectId($object_id);
-
-
-	/**
-	 * @return int
-	 */
 	public function getDataType();
 
 
