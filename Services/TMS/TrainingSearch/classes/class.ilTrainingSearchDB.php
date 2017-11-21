@@ -28,9 +28,7 @@ class ilTrainingSearchDB implements TrainingSearchDB {
 		$crs_infos = array();
 
 		if(ilPluginAdmin::isPluginActive('xccl')) {
-			$crss = $this->getAllCourses($user_id);
-			$crss = $this->filterCoursesUserIsBookedTo($user_id, $crss);
-			$crss = $this->filterCoursesUserHasNoPermissionsTo($user_id, $crss);
+			$crss = $this->getAllCoursesForUser($user_id);
 			$crss = $this->addCourseClassification($crss);
 			$crss = $this->createBookableCourseByFilter($crss, $filter);
 		}
@@ -78,41 +76,32 @@ class ilTrainingSearchDB implements TrainingSearchDB {
 	 *
 	 * @return array<ilObjCourse>
 	 */
-	protected function getAllCourses($user_id) {
-		$query = "SELECT DISTINCT object_reference.ref_id FROM object_data".PHP_EOL
+	protected function getAllCoursesForUser($user_id) {
+		$query = "SELECT DISTINCT object_data.obj_id, object_reference.ref_id FROM object_data".PHP_EOL
 				." LEFT JOIN object_reference ON object_data.obj_id = object_reference.obj_id".PHP_EOL
 				." WHERE object_data.type = 'crs'".PHP_EOL
 				."     AND object_reference.deleted IS NULL";
 
-		
 		$res = $this->g_db->query($query);
 		$ret = array();
 		while($row = $this->g_db->fetchAssoc($res)) {
+			if($this->userIsOnCourse($user_id, $row["ref_id"], $row["obj_id"])) {
+				continue;
+			}
+
+			if(!$this->userHasAccess($user_id, $row["ref_id"], $row["obj_id"])) {
+				continue;
+			}
+
+			if($this->isTemplate($row["ref_id"])) {
+				continue;
+			}
+
 			$crs = ilObjectFactory::getInstanceByRefId($row["ref_id"]);
 			$ret[] = array("crs" => $crs);
 		}
 
 		return $ret;
-	}
-
-	/**
-	 * Filter courses from pool user is booked to
-	 *
-	 * @param int 	$user_id
-	 * @param array<ilObjCourse> 	$crss
-	 *
-	 * @return array<ilObjCourse>
-	 */
-	protected function filterCoursesUserIsBookedTo($user_id, array $crss) {
-		return array_filter($crss, function ($value) use ($user_id) {
-			$crs = $value["crs"];
-
-			if($this->userIsOnCourse($user_id, $crs->getRefId(), $crs->getId())) {
-				return false;
-			}
-
-			return true;
-		});
 	}
 
 	/**
@@ -137,23 +126,15 @@ class ilTrainingSearchDB implements TrainingSearchDB {
 	}
 
 	/**
-	 * Filter courses user has no permissions to
+	 * Check the course is an template
 	 *
-	 * @param int 	$user_id
-	 * @param array<ilObjCourse> 	$crss
+	 * @param int 	$ref_id
 	 *
-	 * @return array<ilObjCourse>
+	 * @return bool
 	 */
-	protected function filterCoursesUserHasNoPermissionsTo($user_id, array $crss) {
-		return array_filter($crss, function($value) use ($user_id) {
-			$crs = $value["crs"];
-
-			if(!$this->userHasPermissions($user_id, $crs->getRefId())) {
-				return false;
-			}
-
-			return true;
-		});
+	protected function isTemplate($ref_id) {
+		$copy_settings = $this->getFirstChildOfByType($ref_id, "xcps");
+		return $copy_settings !== null;
 	}
 
 	/**
@@ -164,10 +145,14 @@ class ilTrainingSearchDB implements TrainingSearchDB {
 	 *
 	 * @return bool
 	 */
-	protected function userHasPermissions($user_id, $crs_ref_id) {
-		if($this->g_access->checkAccess("visible", "", $crs_ref_id)
-			&& $this->g_access->checkAccess("read", "", $crs_ref_id)
-		) {
+	protected function userHasAccess($user_id, $crs_ref_id, $crs_id) {
+		$visible = $this->g_access->checkAccessOfUser($user_id, "visible", "", $crs_ref_id);
+		$read = $this->g_access->checkAccessOfUser($user_id, "read", "", $crs_ref_id);
+
+		$always_visible = false;
+		$active = ilObjCourseAccess::_isActivated($crs_id, $always_visible);
+
+		if($visible && ($read && $active || (bool)$always_visible)) {
 			return true;
 		}
 
@@ -190,7 +175,7 @@ class ilTrainingSearchDB implements TrainingSearchDB {
 	}
 
 	/**
-	 * Get first child by type recursive
+	 * Get all children by type recursive
 	 *
 	 * @param int 	$ref_id
 	 * @param string 	$search_type
@@ -292,6 +277,7 @@ class ilTrainingSearchDB implements TrainingSearchDB {
 			}
 
 			if(array_key_exists(Helper::F_TOPIC, $filter)
+				&& $filter[Helper::F_TOPIC] !== ""
 				&& (count($topic_ids) == 0
 					|| !$this->filter->courseHasTopics($topic_ids, $filter[Helper::F_TOPIC])
 				)
@@ -301,6 +287,7 @@ class ilTrainingSearchDB implements TrainingSearchDB {
 			}
 
 			if(array_key_exists(Helper::F_TYPE, $filter)
+				&& $filter[Helper::F_TYPE] !== ""
 				&& !$this->filter->courseHasType($type_id, $filter[Helper::F_TYPE])
 			) {
 				unset($crs_infos[$key]);

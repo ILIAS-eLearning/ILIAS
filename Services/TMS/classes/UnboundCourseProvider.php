@@ -32,7 +32,8 @@ class UnboundCourseProvider extends SeparatedUnboundProvider {
 			$ret = array();
 
 			$ret[] = $this->getCourseInfoForTitle($entity, $object);
-			$ret = $this->getCourseInfoForPeriod($ret, $entity, $object);
+			$ret = $this->getCourseInfoForPeriodDate($ret, $entity, $object);
+			$ret = $this->getCourseInfoForPeriodTimes($ret, $entity, $object);
 			$ret = $this->getCourseInfoForBookingStatus($ret, $entity, $object);
 			$ret = $this->getCourseInfoForVenue($ret, $entity, (int)$object->getId());
 			$ret = $this->getCourseInfoForTrainingProvider($ret, $entity, (int)$object->getId());
@@ -65,7 +66,7 @@ class UnboundCourseProvider extends SeparatedUnboundProvider {
 	}
 
 	/**
-	 * Get a course info with course period
+	 * Get a course info with period date
 	 *
 	 * @param CourseInfo[]
 	 * @param Entity $entity
@@ -73,13 +74,12 @@ class UnboundCourseProvider extends SeparatedUnboundProvider {
 	 *
 	 * @return CourseInfo[]
 	 */
-	protected function getCourseInfoForPeriod(array $ret, Entity $entity, $object) {
+	protected function getCourseInfoForPeriodDate(array $ret, Entity $entity, $object) {
 		$crs_start = $object->getCourseStart();
 		if($crs_start === null) {
 			return $ret;
 		}
 
-		$time = $this->getSessionAppointments($entity, $object);
 		$date = $this->formatPeriod($crs_start, $object->getCourseEnd());
 		$ret[] = $this->createCourseInfoObject($entity
 			, $this->lng->txt("date").":"
@@ -92,7 +92,7 @@ class UnboundCourseProvider extends SeparatedUnboundProvider {
 
 		$ret[] = $this->createCourseInfoObject($entity
 			, $this->lng->txt("date").":"
-			, $date."<br />".$time
+			, $date
 			, 300
 			, [CourseInfo::CONTEXT_SEARCH_FURTHER_INFO,
 				CourseInfo::CONTEXT_USER_BOOKING_FURTHER_INFO
@@ -101,10 +101,50 @@ class UnboundCourseProvider extends SeparatedUnboundProvider {
 
 		$ret[] = $this->createCourseInfoObject($entity
 			, $this->lng->txt("date")
-			, $date."<br />".$time
+			, $date
 			, 900
 			, [CourseInfo::CONTEXT_BOOKING_DEFAULT_INFO]
 		);
+
+		return $ret;
+	}
+
+	/**
+	 * Get a course info with course period
+	 *
+	 * @param CourseInfo[]
+	 * @param Entity $entity
+	 * @param Object 	$object
+	 *
+	 * @return CourseInfo[]
+	 */
+	protected function getCourseInfoForPeriodTimes(array $ret, Entity $entity, $object) {
+		$crs_start = $object->getCourseStart();
+		if($crs_start === null) {
+			return $ret;
+		}
+
+		$times = $this->getSessionAppointments($entity, $object);
+		if(count($times) > 0) {
+			$first_time = current($times);
+			$times_formatted = $this->getAppointmentOutput($times);
+
+			$ret[] = $this->createCourseInfoObject($entity
+				, $this->lng->txt("period").":"
+				, $times_formatted
+				, 310
+				, [CourseInfo::CONTEXT_SEARCH_DETAIL_INFO,
+					CourseInfo::CONTEXT_USER_BOOKING_DETAIL_INFO
+				  ]
+			);
+
+			$ret[] = $this->createCourseInfoObject($entity
+				, $this->lng->txt("period")
+				, $times_formatted
+				, 910
+				, [CourseInfo::CONTEXT_BOOKING_DEFAULT_INFO]
+			);
+		}
 
 		return $ret;
 	}
@@ -123,7 +163,7 @@ class UnboundCourseProvider extends SeparatedUnboundProvider {
 		require_once("Services/Membership/classes/class.ilWaitingList.php");
 		if(\ilCourseParticipants::_isParticipant($object->getRefId(), $this->user->getId())) {
 			$ret[] = $this->createCourseInfoObject($entity
-					, $this->lng->txt("status")
+					, $this->lng->txt("status").":"
 					, $this->lng->txt("booked_as_member")
 					, 600
 					, [
@@ -134,7 +174,7 @@ class UnboundCourseProvider extends SeparatedUnboundProvider {
 
 		if(\ilWaitingList::_isOnList($this->user->getId(), $object->getId())) {
 			$ret[] = $this->createCourseInfoObject($entity
-					, $this->lng->txt("status")
+					, $this->lng->txt("status").":"
 					, $this->lng->txt("booked_on_waitinglist")
 					, 600
 					, [
@@ -211,40 +251,69 @@ class UnboundCourseProvider extends SeparatedUnboundProvider {
 	protected function getSessionAppointments(Entity $entity, $object) {
 		$vals = array();
 
-		$sessions = $this->getSessionsOfCourse($object->getRefId());
+		$sessions = $this->getAllChildrenOfByType($object->getRefId(), "sess");
 		if(count($sessions) > 0) {
 			foreach ($sessions as $session) {
-				$appointment 	= $session->getFirstAppointment();
-				$start_time 	= $appointment->getStart()->get(IL_CAL_FKT_DATE, "H:i", "UTC");
-				$end_time 		= $appointment->getEnd()->get(IL_CAL_FKT_DATE, "H:i", "UTC");
-				$offset 		= $appointment->getDaysOffset();
+				$appointment = $session->getFirstAppointment();
+				$date = $this->formatDate($appointment->getStart());
+				$start_time = $appointment->getStart()->get(IL_CAL_FKT_DATE, "H:i");
+				$end_time = $appointment->getEnd()->get(IL_CAL_FKT_DATE, "H:i");
+				$offset = $appointment->getDaysOffset();
 
-				$vals[$offset] = $this->lng->txt("day")." ".$offset." ".$start_time." - ".$end_time;
+				$vals[$offset] = array("start_time" => $start_time, "end_time" => $end_time);
 			}
-
 		}
 
-		asort($vals);
-		return join("<br />", $vals);
+		ksort($vals);
+		return $vals;
 	}
 
 	/**
-	 * Find sessions underneath course 
+	 * Transofrom session appointments to output string
 	 *
-	 * @param 	int 			$crs_ref_id
-	 * @return 	ilObjSession[]
+	 * @param string[]
+	 *
+	 * @return string[]
 	 */
-	protected function getSessionsOfCourse($crs_ref_id)
-	{
+	protected function getAppointmentOutput($appointments) {
+		return array_map(function($offset, $times) {
+			return $offset
+				.". ".$this->lng->txt("day")
+				.": ".$times["start_time"]
+				." - ".$times["end_time"]
+				." ".$this->lng->txt("time_suffix");
+			}, array_keys($appointments), $appointments
+		);
+	}
+
+	/**
+	 * Get all child by type recursive
+	 *
+	 * @param int 	$ref_id
+	 * @param string 	$search_type
+	 *
+	 * @return Object 	of search type
+	 */
+	protected function getAllChildrenOfByType($ref_id, $search_type) {
 		global $DIC;
+		$g_tree = $DIC->repositoryTree();
+		$g_objDefinition = $DIC["objDefinition"];
 
-		$g_tree 	= $DIC->repositoryTree();
-		$ret 		= array();
-		$sessions 	= $g_tree->getChildsByType($crs_ref_id, "sess");
+		$childs = $g_tree->getChilds($ref_id);
+		$ret = array();
 
-		foreach($sessions as $session)
-		{
-			$ret[] = ilObjectFactory::getInstanceByRefId($session['ref_id']);
+		foreach ($childs as $child) {
+			$type = $child["type"];
+			if($type == $search_type) {
+				$ret[] = \ilObjectFactory::getInstanceByRefId($child["child"]);
+			}
+
+			if($g_objDefinition->isContainer($type)) {
+				$rec_ret = $this->getAllChildrenOfByType($child["child"], $search_type);
+				if(! is_null($rec_ret)) {
+					$ret = array_merge($ret, $rec_ret);
+				}
+			}
 		}
 
 		return $ret;

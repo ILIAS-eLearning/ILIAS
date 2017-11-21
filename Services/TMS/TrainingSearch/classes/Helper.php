@@ -14,11 +14,13 @@ class Helper {
 	const F_DURATION = "f_duration";
 	const F_SORT_VALUE = "f_sort_value";
 
-	const S_ALL = "s_all";
-	const S_TITLE = "s_title";
-	const S_PERIOD = "s_period";
-	const S_TYPE = "s_type";
-	const S_CITY = "s_city";
+	const S_TITLE_ASC = "s_title_asc";
+	const S_PERIOD_ASC = "s_period_asc";
+	const S_CITY_ASC = "s_city_asc";
+
+	const S_TITLE_DESC = "s_title_desc";
+	const S_PERIOD_DESC = "s_period_desc";
+	const S_CITY_DESC = "s_city_desc";
 
 	const S_USER = "s_user";
 
@@ -176,10 +178,7 @@ class Helper {
 		$modal = $this->g_factory->modal()->roundtrip($this->g_lng->txt('filter'), $this->g_factory->legacy($form->getHTML()))
 			->withActionButtons([$reset, $submit]);
 
-		$button1 = $this->g_factory->button()->primary($this->g_lng->txt('search'), '#')
-			->withOnClick($modal->getShowSignal());
-
-		return $this->g_renderer->render([$button1, $modal]);
+		return $modal;
 	}
 
 	/**
@@ -245,12 +244,124 @@ class Helper {
 	}
 
 	/**
-	 * Get the option for sorting of table
+	 * Sorts filtered bookable training according to user input
 	 *
-	 * @return string[]
+	 * @param string[] 	$values
+	 * @param BookableCourse[]
+	 *
+	 * @return BookableCourse[]
 	 */
-	public function getSortOptions() {
-		return array(Helper::S_ALL, Helper::S_TITLE, Helper::S_PERIOD, Helper::S_TYPE, Helper::S_CITY);
+	public function sortBookableTrainings(array $values, $bookable_trainings) {
+		if(array_key_exists(self::F_SORT_VALUE, $values)
+			&& $values[self::F_SORT_VALUE] != ""
+		) {
+			$function = null;
+			switch($values[self::F_SORT_VALUE]) {
+				case self::S_TITLE_ASC:
+					uasort($bookable_trainings, $this->getTitleSortingClosure("asc"));
+					break;
+				case self::S_TITLE_DESC:
+					uasort($bookable_trainings, $this->getTitleSortingClosure("desc"));
+					break;
+				case self::S_PERIOD_ASC:
+					uasort($bookable_trainings, $this->getPeriodSortingClosure("asc"));
+					break;
+				case self::S_PERIOD_DESC:
+					uasort($bookable_trainings, $this->getPeriodSortingClosure("desc"));
+					break;
+				case self::S_CITY_DESC:
+					uasort($bookable_trainings, $this->getCitySortingClosure("asc"));
+					break;
+				case self::S_CITY_DESC:
+					uasort($bookable_trainings, $this->getCitySortingClosure("desc"));
+					break;
+			}
+		}
+
+		return $bookable_trainings;
+	}
+
+	/**
+	 * Get sorting closure for title
+	 *
+	 * @param string 	$direction
+	 *
+	 * @return Closure
+	 */
+	protected function getTitleSortingClosure($direction) {
+		if($direction == "asc") {
+			return function($a, $b) {
+					return strcasecmp($a->getTitle(), $b->getTitle());
+				};
+		}
+
+		if($direction == "desc") {
+			return function($a, $b) {
+					return strcasecmp($b->getTitle(), $a->getTitle());
+				};
+		}
+	}
+
+	/**
+	 * Get sorting closure for period
+	 *
+	 * @param string 	$direction
+	 *
+	 * @return Closure
+	 */
+	protected function getPeriodSortingClosure($direction) {
+		if($direction == "asc") {
+			return function($a, $b) {
+					if(is_null($a->getBeginDate()) && is_null($b->getBeginDate())) {
+						return 0;
+					} else if(is_null($a->getBeginDate()) && !is_null($b->getBeginDate())) {
+						return 1;
+					} else if(!is_null($a->getBeginDate()) && is_null($b->getBeginDate())) {
+						return -1;
+					}
+
+					$start_date_a = $a->getBeginDate()->get(IL_CAL_DATE);
+					$start_date_b = $b->getBeginDate()->get(IL_CAL_DATE);
+					return strcmp($start_date_a, $start_date_b);
+				};
+		}
+
+		if($direction == "desc") {
+			return function($a, $b) {
+					if(is_null($a->getBeginDate()) && is_null($b->getBeginDate())) {
+						return 0;
+					} else if(is_null($a->getBeginDate()) && !is_null($b->getBeginDate())) {
+						return 1;
+					} else if(!is_null($a->getBeginDate()) && is_null($b->getBeginDate())) {
+						return -1;
+					}
+
+					$start_date_a = $a->getBeginDate()->get(IL_CAL_DATE);
+					$start_date_b = $b->getBeginDate()->get(IL_CAL_DATE);
+					return strcmp($start_date_b, $start_date_a);
+				};
+		}
+	}
+
+	/**
+	 * Get sorting closure for city
+	 *
+	 * @param string 	$direction
+	 *
+	 * @return Closure
+	 */
+	protected function getCitySortingClosure($direction) {
+		if($direction == "asc") {
+			return function($a, $b) {
+					return strcmp($a->getLocation(), $b->getLocation());
+				};
+		}
+
+		if($direction == "desc") {
+			return function($a, $b) {
+					return strcmp($b->getLocation(), $a->getLocation());
+				};
+		}
 	}
 }
 

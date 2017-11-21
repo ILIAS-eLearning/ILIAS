@@ -367,5 +367,30 @@ abstract class ilWaitingList
 		return true;
 	}
 
+	// cat-tms-patch start
+	/**
+	 * Get all crs ids where user is on waiting list
+	 *
+	 * @param int 	$a_usr_id
+	 *
+	 * @return int[]
+	 */
+	public static function getIdsWhereUserIsOnList($a_usr_id)
+	{
+		global $ilDB;
+		$ret = array();
+
+		$query = "SELECT obj_id ".
+			"FROM crs_waiting_list ".
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id, 'integer');
+
+		$res = $ilDB->query($query);
+		while($row = $ilDB->fetchAssoc($res)) {
+			$ret[] = (int)$row["obj_id"];
+		}
+
+		return $ret;
+	}
+	// cat-tms-patch end
 }
 ?>

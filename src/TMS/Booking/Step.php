@@ -56,9 +56,10 @@ interface Step extends Component {
 	 * If $post is supplied, the form should be filled with the supplied values.
 	 *
 	 * @param	\ilPropertyFormGUI	$form
+	 * @param 	int 	$usr_id
 	 * @return	void
 	 */
-	public function appendToStepForm(\ilPropertyFormGUI $form);
+	public function appendToStepForm(\ilPropertyFormGUI $form, $usr_id);
 
 	/**
 	 * Get the data the step needs to store until the end of the process, based
@@ -93,9 +94,10 @@ interface Step extends Component {
 	 *
 	 * @param	mixed		$data
 	 * @param	\ilPropertyFormGUI	$form
+	 * @param 	int 	$usr_id
 	 * @return	void
 	 */
-	public function appendToOverviewForm($data, \ilPropertyFormGUI $form);
+	public function appendToOverviewForm($data, \ilPropertyFormGUI $form, $usr_id);
 
 	/**
 	 * Process the data to perform the actions in the system that are required

@@ -14268,3 +14268,4 @@ tms#:#t_course#:#Ansicht: Kurs
 tms#:#show_all#:#Alle anzeigen
 tms#:#period#:#Zeitplan
 tms#:#time_suffix#:#Uhr
+tms#:#duplicate_course_booked#:#Ein Training dieser Vorlage ist bereits gebucht und noch nicht beendet. Sie dürfen dieses Angebot daher nicht buchen. Sie können die Buchungen in der Übersicht ihrer gebuchten Trainings im Cockpit einsehen und dort ggf. Stornierungen vornehmen.

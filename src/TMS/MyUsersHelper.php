@@ -15,8 +15,9 @@ trait MyUsersHelper {
 		$ret = array();
 		$employees = $this->getEmployesUnderUser($superior_user_id);
 		$superiors = $this->getSuperiorsUnderUser($superior_user_id);
+		$current = array((string)$superior_user_id);
+		$members = array_unique(array_merge($current, $employees, $superiors));
 
-		$members = array_unique(array_merge($employees, $superiors));
 		foreach($members as $user_id) {
 			$ret[$user_id] = \ilObjUser::_lookupFullname($user_id);
 		}

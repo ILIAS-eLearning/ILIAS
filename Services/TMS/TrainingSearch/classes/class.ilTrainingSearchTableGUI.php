@@ -23,13 +23,15 @@ class ilTrainingSearchTableGUI {
 	 */
 	protected $g_lng;
 
-	public function __construct(ilTrainingSearchGUI $parent, Helper $helper) {
+	public function __construct(ilTrainingSearchGUI $parent, Helper $helper, $search_user_id) {
 		$this->parent = $parent;
 
 		global $DIC;
 		$this->g_lng = $DIC->language();
 		$this->g_ctrl = $DIC->ctrl();
 		$this->g_user = $DIC->user();
+		$this->search_user_id = $search_user_id;
+
 		$this->helper = $helper;
 
 		$this->g_lng->loadLanguageModule('tms');
@@ -60,7 +62,7 @@ class ilTrainingSearchTableGUI {
 	 *
 	 * @return string
 	 */
-	public function render() {
+	public function render($view_constrols) {
 		global $DIC;
 		$f = $DIC->ui()->factory();
 		$renderer = $DIC->ui()->renderer();
@@ -68,7 +70,7 @@ class ilTrainingSearchTableGUI {
 		//build table
 		$ptable = $f->table()->presentation(
 			$this->g_lng->txt("header"), //title
-			$this->getSortationObjects($f),
+			$view_constrols,
 			function ($row, BookableCourse $record, $ui_factory, $environment) { //mapping-closure
 				return $row
 					->withTitle($record->getTitleValue())
@@ -76,7 +78,7 @@ class ilTrainingSearchTableGUI {
 					->withImportantFields($record->getImportantFields())
 					->withContent($ui_factory->listing()->descriptive($record->getDetailFields()))
 					->withFurtherFields($record->getFurtherFields())
-					->withButtons($record->getBookButton($this->g_lng->txt("book_course"), $this->parent->getBookingLink($record))
+					->withButtons($record->getBookButton($this->g_lng->txt("book_course"), $this->parent->getBookingLink($record), $this->search_user_id)
 					);
 			}
 		);
@@ -103,18 +105,19 @@ class ilTrainingSearchTableGUI {
 			$actions = $plugin->getActions();
 			$link = $this->g_ctrl->getLinkTarget($this->parent, ilTrainingSearchGUI::CMD_QUICKFILTER);
 
-			$ret[] = $f->viewControl()->sortation($actions->getTypeOptions())
+			$options = array(null => "Alle");
+			$ret[] = $f->viewControl()->sortation($options + $actions->getTypeOptions())
 						->withTargetURL($link, Helper::F_TYPE)
 						->withLabel($plugin->txt("conf_options_type"));
 
-			$ret[] = $f->viewControl()->sortation($actions->getTopicOptions())
+			$ret[] = $f->viewControl()->sortation($options + $actions->getTopicOptions())
 						->withTargetURL($link, Helper::F_TOPIC)
 						->withLabel($plugin->txt("conf_options_topic"));
 		}
 
 		$link = $this->g_ctrl->getLinkTarget($this->parent, ilTrainingSearchGUI::CMD_SORT);
 		$ret[] = $f->viewControl()->sortation($this->helper->getSortOptions())
-						->withTargetURL($link, Helper::F_TOPIC)
+						->withTargetURL($link, Helper::F_SORT_VALUE)
 						->withLabel($this->g_lng->txt("sorting"));
 
 		$link = $this->g_ctrl->getLinkTarget($this->parent, ilTrainingSearchGUI::CMD_CHANGE_USER);
