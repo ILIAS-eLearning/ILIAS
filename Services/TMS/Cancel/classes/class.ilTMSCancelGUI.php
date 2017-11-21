@@ -14,6 +14,8 @@ require_once("Services/TMS/Cancel/classes/class.ilTMSCancelPlayerStateDB.php");
  * @author Richard Klees <richard.klees@concepts-and-training.de>
  */
 class ilTMSCancelGUI  extends Booking\Player {
+	use ILIAS\TMS\MyUsersHelper;
+
 	/**
 	 * @var ilTemplate
 	 */
@@ -67,7 +69,10 @@ class ilTMSCancelGUI  extends Booking\Player {
 
 	public function executeCommand() {
 		// TODO: Check if current user may book course for other user here.
-		assert('$this->g_user->getId() === $_GET["usr_id"]');
+		// assert('$this->g_user->getId() === $_GET["usr_id"]');
+		if(!$this->canCancelForUser($_GET["usr_id"])) {
+			$this->redirectToPreviousLocation(array("nope"), false);
+		}
 
 		assert('is_numeric($_GET["crs_ref_id"])');
 		assert('is_numeric($_GET["usr_id"])');
@@ -144,7 +149,15 @@ class ilTMSCancelGUI  extends Booking\Player {
 	 * @inheritdocs
 	 */
 	protected function getPlayerTitle() {
-		return $this->g_lng->txt("canceling");
+		assert('is_numeric($_GET["usr_id"])');
+		$usr_id = (int)$_GET["usr_id"];
+
+		if($usr_id === (int)$this->g_user->getId()) {
+			return $this->g_lng->txt("canceling");
+		}
+
+		require_once("Services/User/classes/class.ilObjUser.php");
+		return sprintf($this->g_lng->txt("canceling_for"), ilObjUser::_lookupFullname($usr_id));
 	}
 
 	/**
@@ -159,6 +172,23 @@ class ilTMSCancelGUI  extends Booking\Player {
 	 */
 	protected function getConfirmButtonLabel() {
 		return $this->g_lng->txt("cancel_confirm");
+	}
+
+	/**
+	 * Is current user allowed to cancel for
+	 * Checks the current user is sperior of
+	 *
+	 * @param int 	$usr_id
+	 *
+	 * @return bool
+	 */
+	protected function canCancelForUser($usr_id) {
+		if($this->g_user->getId() == $usr_id) {
+			return true;
+		}
+
+		$employees = $this->getUsersWhereCurrentCanViewBookings((int)$this->g_user->getId());
+		return array_key_exists($usr_id, $employees);
 	}
 
 }

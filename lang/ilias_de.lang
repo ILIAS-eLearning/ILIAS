@@ -14254,3 +14254,17 @@ tms#:#cancel_confirm#:#Verbindlich stornieren
 tms#:#trainer#:#Trainer
 tms#:#tms_filter_period_from#:#Anfang:
 tms#:#tms_filter_period_to#:#Ende:
+tms#:#employees#:#Mitarbeiter
+tms#:#booking_for#:#Buchung für %s
+tms#:#canceling_for#:#Stornierung für %s
+tms#:#s_title_asc#:#Titel: aufsteigend
+tms#:#s_title_desc#:#Titel: absteigend
+tms#:#s_period_asc#:#Zeitraum: aufsteigend
+tms#:#s_period_desc#:#Zeitraum: absteigend
+tms#:#s_city_asc#:#Ort: aufsteigend
+tms#:#s_city_desc#:#Ort: absteigend
+tms#:#t_user#:#Ansicht: Mitarbeiter
+tms#:#t_course#:#Ansicht: Kurs
+tms#:#show_all#:#Alle anzeigen
+tms#:#period#:#Zeitplan
+tms#:#time_suffix#:#Uhr

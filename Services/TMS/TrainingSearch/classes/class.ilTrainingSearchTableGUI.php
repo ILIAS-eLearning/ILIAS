@@ -29,6 +29,7 @@ class ilTrainingSearchTableGUI {
 		global $DIC;
 		$this->g_lng = $DIC->language();
 		$this->g_ctrl = $DIC->ctrl();
+		$this->g_user = $DIC->user();
 		$this->helper = $helper;
 
 		$this->g_lng->loadLanguageModule('tms');
@@ -96,6 +97,7 @@ class ilTrainingSearchTableGUI {
 	protected function getSortationObjects($f) {
 		$ret = array();
 		require_once("Services/Component/classes/class.ilPluginAdmin.php");
+
 		if(ilPluginAdmin::isPluginActive('xccl')) {
 			$plugin = ilPluginAdmin::getPluginObjectById('xccl');
 			$actions = $plugin->getActions();
@@ -114,6 +116,11 @@ class ilTrainingSearchTableGUI {
 		$ret[] = $f->viewControl()->sortation($this->helper->getSortOptions())
 						->withTargetURL($link, Helper::F_TOPIC)
 						->withLabel($this->g_lng->txt("sorting"));
+
+		$link = $this->g_ctrl->getLinkTarget($this->parent, ilTrainingSearchGUI::CMD_CHANGE_USER);
+		$ret[] = $f->viewControl()->sortation($this->helper->getUserWhereCurrentCanBookFor((int)$this->g_user->getId()))
+						->withTargetURL($link, Helper::S_USER)
+						->withLabel($this->g_lng->txt("employees"));
 
 		return $ret;
 	}

@@ -152,6 +152,10 @@ class Renderer extends AbstractComponentRenderer
 			$items[] = $shy;
 		}
 
+		if($default_value != $_GET[$component->getParameterName()]) {
+			$init_label = $options[$_GET[$component->getParameterName()]];
+		}
+
 		$dd = $f->dropdown()->standard($items)
 			->withLabel($init_label);
 

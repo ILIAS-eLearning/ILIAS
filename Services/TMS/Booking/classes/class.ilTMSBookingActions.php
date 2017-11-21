@@ -34,14 +34,22 @@ class ilTMSBookingActions implements Booking\Actions {
 		$course = ilObjectFactory::getInstanceByRefId($crs_ref_id);
 		if(ilCourseParticipants::_isParticipant($course->getRefId(), $user_id)) {
 			$course->getMemberObject()->delete($user_id);
-			$this->fireBookingEvent(self::EVENT_USER_CANCELED_COURSE, (int)$course->getRefId(), (int)$user_id);
+			$event = self::EVENT_USER_CANCELED_COURSE;
+			if(! $this->isCurrentUser((int)$user_id)) {
+				$event = self::EVENT_SUPERIOR_CANCELED_COURSE;
+			}
+			$this->fireBookingEvent($event, (int)$course->getRefId(), (int)$user_id);
 			return Booking\Actions::STATE_REMOVED_FROM_COURSE;
 		}
 
 		$crs_id = $course->getId();
 		if(ilWaitingList::_isOnList($user_id, $crs_id)) {
 			ilWaitingList::deleteUserEntry($user_id, $crs_id);
-			$this->fireBookingEvent(self::EVENT_USER_CANCELED_WAITING, (int)$course->getRefId(), (int)$user_id);
+			$event = self::EVENT_USER_CANCELED_WAITING;
+			if(! $this->isCurrentUser((int)$user_id)) {
+				$event = self::EVENT_SUPERIOR_CANCELED_WAITING;
+			}
+			$this->fireBookingEvent($event, (int)$course->getRefId(), (int)$user_id);
 			return Booking\Actions::STATE_REMOVED_FROM_WAITINGLIST;
 		}
 
@@ -78,13 +86,21 @@ class ilTMSBookingActions implements Booking\Actions {
 
 		if($this->maybeBookAsMember((int)$course->getRefId(), $booking_modality)) {
 			$participant->add($user->getId(), IL_CRS_MEMBER);
-			$this->fireBookingEvent(self::EVENT_USER_BOOKED_COURSE, (int)$course->getRefId(), (int)$user->getId());
+			$event = self::EVENT_USER_BOOKED_COURSE;
+			if(! $this->isCurrentUser((int)$user->getId())) {
+				$event = self::EVENT_SUPERIOR_BOOKED_COURSE;
+			}
+			$this->fireBookingEvent($event, (int)$course->getRefId(), (int)$user->getId());
 			return Booking\Actions::STATE_BOOKED;
 		}
 
 		if($this->maybeAddOnWaitingList($course, $booking_modality)) {
 			$course->waiting_list_obj->addToList((int)$user->getId());
-			$this->fireBookingEvent(self::EVENT_USER_BOOKED_WAITING, (int)$course->getRefId(), (int)$user->getId());
+			$event = self::EVENT_USER_BOOKED_WAITING;
+			if(! $this->isCurrentUser((int)$user->getId())) {
+				$event = self::EVENT_SUPERIOR_BOOKED_WAITING;
+			}
+			$this->fireBookingEvent($event, (int)$course->getRefId(), (int)$user->getId());
 			return Booking\Actions::STATE_WAITING_LIST;
 		}
 
@@ -180,7 +196,7 @@ class ilTMSBookingActions implements Booking\Actions {
 		global $ilAppEventHandler;
 		$ilAppEventHandler->raise(
 			'Modules/Course',
-			'user_booked_self_on_course',
+			$event,
 			array(
 				 'crs_ref_id' => $crs_ref,
 				 'usr_id' => $usr_id
@@ -188,6 +204,17 @@ class ilTMSBookingActions implements Booking\Actions {
 		 );
 	}
 
+	/**
+	 * Is the user with id $user_id the currently logged in user?
+	 * If not, it is save to assume (in this context) that the
+	 * current user is a superior of the targeted user.
+	 * @param int $usr_id
+	 * @return bool
+	 */
+	private function isCurrentUser($user_id) {
+		global $DIC;
+		return ((int)$DIC->user()->getId() === $user_id);
+	}
 
 }
 

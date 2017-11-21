@@ -15,6 +15,7 @@ class ilTrainingSearchGUI {
 	const CMD_SHOW = "show";
 	const CMD_SHOW_MODAL = "showModal";
 	const CMD_FILTER = "filter";
+	const CMD_CHANGE_USER = "changeUser";
 	const CMD_QUICKFILTER = "quickFilter";
 	const CMD_SORT = "sort";
 
@@ -29,9 +30,13 @@ class ilTrainingSearchGUI {
 	protected $g_ctrl;
 
 	/**
-	 * @var ilObjUser
+	 * UserId of the user that is going to be booked. Initially set to current ilUser.
+	 * Initial the current ilUser.
+	 * This might be changed, if the current user is allowed to book for others.
+	 *
+	 * @var int
 	 */
-	protected $g_user;
+	protected $search_user_id;
 
 	/**
 	 * @var ilPersonalDesktopGUI
@@ -48,7 +53,7 @@ class ilTrainingSearchGUI {
 
 		$this->g_tpl = $DIC->ui()->mainTemplate();
 		$this->g_ctrl = $DIC->ctrl();
-		$this->g_user = $DIC->user();
+		$this->search_user_id = $DIC->user()->getId();
 		$this->g_lng = $DIC->language();
 		$this->g_toolbar = $DIC->toolbar();
 
@@ -73,6 +78,8 @@ class ilTrainingSearchGUI {
 				$cmd = $this->g_ctrl->getCmd(self::CMD_SHOW);
 				switch($cmd) {
 					case self::CMD_SHOW:
+					case self::CMD_CHANGE_USER:
+						$this->changeUser();
 						$this->show();
 						break;
 					case self::CMD_FILTER:
@@ -99,7 +106,7 @@ class ilTrainingSearchGUI {
 	 */
 	protected function show() {
 		$bookable_trainings = $this->getBookableTrainings(array());
-		$content = $this->showTrainings($bookable_trainings);
+		$this->showTrainings($bookable_trainings);
 	}
 
 	/**
@@ -139,7 +146,7 @@ class ilTrainingSearchGUI {
 		$table->setData($bookable_trainings);
 
 		$modal = $this->prepareModal();
-		$content =  $modal."<br \><br \><br \>".$table->render();
+		$content = $modal."<br \><br \><br \>".$table->render();
 
 		if(count($bookable_trainings) == 0) {
 			$content .= $this->getNoAvailableTrainings();
@@ -182,7 +189,7 @@ class ilTrainingSearchGUI {
 	 * @return BookableCourse[]
 	 */
 	protected function getBookableTrainings(array $filter) {
-		return $this->db->getBookableTrainingsFor($this->g_user->getId(), $filter);
+		return $this->db->getBookableTrainingsFor($this->search_user_id, $filter);
 	}
 
 	/**
@@ -193,11 +200,23 @@ class ilTrainingSearchGUI {
 	 */
 	public function getBookingLink(BookableCourse $course) {
 		$this->g_ctrl->setParameterByClass("ilTMSBookingGUI", "crs_ref_id", $course->getRefId());
-		$this->g_ctrl->setParameterByClass("ilTMSBookingGUI", "usr_id", $this->g_user->getId());
+		$this->g_ctrl->setParameterByClass("ilTMSBookingGUI", "usr_id", $this->search_user_id);
 		$link = $this->g_ctrl->getLinkTargetByClass("ilTMSBookingGUI", "start");
 		$this->g_ctrl->setParameterByClass("ilTMSBookingGUI", "crs_ref_id", null);
 		$this->g_ctrl->setParameterByClass("ilTMSBookingGUI", "usr_id", null);
 		return $link;
+	}
+
+	/**
+	 * Change user courses are searched for to selected user
+	 *
+	 * @return void
+	 */
+	protected function changeUser() {
+		$get = $_GET;
+		if(isset($get[Helper::S_USER]) && $get[Helper::S_USER] !== "") {
+			$this->search_user_id = (int)$get[Helper::S_USER];
+		}
 	}
 }
 
