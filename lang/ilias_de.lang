@@ -1820,7 +1820,7 @@ chatroom#:#end_whisper#:#Beenden
 chatroom#:#enter#:#Chat beitreten
 chatroom#:#hint_display_past_msgs#:#Anzahl der vergangenen Nachrichten, die beim Betreten des Chatraums angezeigt werden sollen. "0" deaktiviert die Anzeige vergangener Nachrichten.
 chatroom#:#hint_enable_smilies#:#Wenn aktiviert, werden konfigurierte Textbausteine durch ein Bild ersetzt. Die Konfiguration kann im Reiter Smilies vorgenommen werden.
-chatroom#:#hint_osd#:#Wenn aktiviert, werden Benutzer durch ein Popup über neue Einladungen informiert.
+chatroom#:#hint_osd#:#Wenn aktiviert, werden Benutzer durch ein Popup über neue Einladungen in Magazin-Chats informiert.
 chatroom#:#hint_osd_interval#:#Eine geringere Zeit ermöglicht zeitnähere Benachrichtigungen, erhöht aber die Serverlast.
 chatroom#:#history_by_day#:#Tageshistorie
 chatroom#:#history_by_session#:#Sitzungshistorie
@@ -1889,12 +1889,13 @@ common#:#chta_read#:#Lesezugriff auf Chatraum-Administration
 common#:#chta_visible#:#Chatraum-Administration sichtbar
 common#:#chta_write#:#Chatraum-Administration bearbeiten
 chatroom_adm#:#client_settings#:#Allgemeine Einstellungen
-chatroom_adm#:#enable_osd#:#On-Screen Benachrichtigungen aktivieren
+chatroom_adm#:#enable_osd#:#Magazin-Chat: On-Screen Benachrichtigungen aktivieren
 chatroom_adm#:#general_settings_title#:#Allgemeine Chat-Einstellungen
 chatroom_adm#:#https#:#HTTPS
 administration#:#obj_chta_desc#:#Administration des Chat-Objekts und des Chat-Servers
 chatroom_adm#:#osd_intervall#:#Abfrageintervall (Sekunden)
-chatroom_adm#:#play_invitation_sound#:#Ton bei Erhalt einer neuen Einladung abspielen
+chatroom_adm#:#play_invitation_sound#:#Ton abspielen
+chatroom_adm#:#play_invitation_sound_info#:#Ton abspielen bei Erhalt einer neuen Einladung in Magazin-Chats abspielen.
 chatroom_adm#:#port_info#:#Oft werden selten genutzte Ports von Firewalls oder Proxy-Servern geblockt. Benutzer werden mit ihrem Browser keine Verbindung zum Chat-Server aufbauen können, wenn der eingetragene Port nicht offen ist.
 chatroom_adm#:#protocol#:#Protokoll
 chatroom_adm#:#public_chat_permissions#:#Öffentlicher Chatraum : Rechte
