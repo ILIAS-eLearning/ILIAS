@@ -1,8 +1,5 @@
 <?php
 
-require_once "./Modules/Bibliographic/classes/class.ilBibliographicEntry.php";
-require_once "./Modules/Bibliographic/classes/Admin/class.ilBibliographicSetting.php";
-
 /**
  * Class ilBibliographicDetailsGUI
  * The detailled view on each entry
@@ -16,9 +13,26 @@ class ilBibliographicDetailsGUI {
 	 */
 	public $bibl_obj;
 	/**
-	 * @var ilBibliographicEntry
+	 * @var \ilBibEntry
 	 */
 	public $entry;
+	/**
+	 * @var \ilBiblTypeFactory
+	 */
+	protected $bib_type_factory;
+
+
+	/**
+	 * ilBibliographicDetailsGUI constructor.
+	 *
+	 * @param \ilObjBibliographic $bibl_obj
+	 * @param \ilBibEntry         $entry
+	 */
+	public function __construct(\ilObjBibliographic $bibl_obj, \ilBibEntry $entry) {
+		$this->bibl_obj = $bibl_obj;
+		$this->entry = $entry;
+		$this->bib_type_factory = new ilBiblTypeFactory();
+	}
 
 
 	/**
@@ -28,9 +42,7 @@ class ilBibliographicDetailsGUI {
 	 * @return ilBibliographicDetailsGUI
 	 */
 	public static function getInstance(ilObjBibliographic $bibl_obj, $entry_id) {
-		$obj = new self();
-		$obj->bibl_obj = $bibl_obj;
-		$obj->entry = ilBibliographicEntry::getInstance($obj->bibl_obj->getFiletype(), $entry_id);
+		$obj = new self($bibl_obj, ilBibEntry::getInstance($bibl_obj->getFileTypeAsString(), $entry_id));
 
 		return $obj;
 	}
@@ -57,7 +69,7 @@ class ilBibliographicDetailsGUI {
 		$form->setTitle($lng->txt('detail_view'));
 		// add link button if a link is defined in the settings
 		$set = new ilSetting("bibl");
-		$link = $set->get(strtolower($this->bibl_obj->getFiletype()));
+		$link = $set->get(strtolower($this->bibl_obj->getFileTypeAsString()));
 		if (!empty($link)) {
 			$form->addCommandButton('autoLink', 'Link');
 		}
@@ -71,16 +83,7 @@ class ilBibliographicDetailsGUI {
 			} //If not: get the default language entry
 			else {
 				$arrKey = explode("_", $key);
-				$is_standard_field = false;
-				switch ($arrKey[0]) {
-					case 'bib':
-						$is_standard_field = ilBibTex::isStandardField($arrKey[2]);
-						break;
-					case 'ris':
-						$is_standard_field = ilRis::isStandardField($arrKey[2]);
-						break;
-				}
-				if ($is_standard_field) {
+				if ($this->bib_type_factory->getInstanceForString($arrKey[0])->isStandardField($arrKey[2])) {
 					$strDescTranslated = $lng->txt($arrKey[0] . "_default_" . $arrKey[2]);
 				} else {
 					$strDescTranslated = $arrKey[2];

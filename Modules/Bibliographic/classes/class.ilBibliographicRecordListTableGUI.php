@@ -13,23 +13,44 @@ require_once './Services/Table/classes/class.ilTable2GUI.php';
 class ilBibliographicRecordListTableGUI extends ilTable2GUI {
 
 	/**
+	 * @var \ilBiblTranslationFactoryInterface
+	 */
+	protected $translation_factory;
+	/**
+	 * @var \ilBiblFieldFactoryInterface
+	 */
+	protected $field_factory;
+	/**
+	 * @var \ilBiblFieldFilterFactoryInterface
+	 */
+	protected $filter_factory;
+	/**
 	 * @var ilCtrl
 	 */
 	protected $ctrl;
+	/**
+	 * @var \ilObjBibliographicGUI
+	 */
+	protected $parent_obj;
 
 
 	/**
-	 * @param ilObjBibliographicGUI $a_parent_obj
-	 * @param string                $a_parent_cmd
+	 * @param ilObjBibliographicGUI              $a_parent_obj
+	 * @param string                             $a_parent_cmd
+	 * @param \ilBiblFieldFilterFactoryInterface $filter_factory
 	 */
-	public function __construct(ilObjBibliographicGUI $a_parent_obj, $a_parent_cmd) {
+	public function __construct(ilObjBibliographicGUI $a_parent_obj, $a_parent_cmd, ilBiblFieldFilterFactoryInterface $filter_factory, ilBiblFieldFactoryInterface $field_factory, ilBiblTranslationFactoryInterface $translation_factory) {
 		global $DIC;
+
 		$lng = $DIC['lng'];
 		$ilCtrl = $DIC['ilCtrl'];
 		$this->setId('tbl_bibl_overview');
 		$this->setPrefix('tbl_bibl_overview');
 		$this->setFormName('tbl_bibl_overview');
 		parent::__construct($a_parent_obj, $a_parent_cmd);
+		$this->filter_factory = $filter_factory;
+		$this->field_factory = $field_factory;
+		$this->translation_factory = $translation_factory;
 		$this->parent_obj = $a_parent_obj;
 		$this->ctrl = $ilCtrl;
 		//Number of records
@@ -44,9 +65,18 @@ class ilBibliographicRecordListTableGUI extends ilTable2GUI {
 		$this->setRowTemplate('tpl.bibliographic_record_table_row.html', 'Modules/Bibliographic');
 		// enable sorting by alphabet -- therefore an unvisible column 'content' is added to the table, and the array-key 'content' is also delivered in setData
 		$this->addColumn($lng->txt('a'), 'content', 'auto');
+		$this->initFilter();
 		$this->initData();
 		$this->setOrderField('content');
 		$this->setDefaultOrderField('content');
+	}
+
+
+	public function initFilter() {
+		foreach ($this->filter_factory->getAllForObjectId($this->parent_obj->object->getId()) as $fieldFilter) {
+			$filter = new ilBiblFieldFilterPresentationGUI($fieldFilter, $this->field_factory, $this->translation_factory);
+			$this->addFilterItem($filter->getFilterItem());
+		}
 	}
 
 
@@ -54,7 +84,7 @@ class ilBibliographicRecordListTableGUI extends ilTable2GUI {
 	 * @param array $a_set
 	 */
 	public function fillRow($a_set) {
-		$il_obj_entry = ilBibliographicEntry::getInstance($this->parent_obj->object->getFiletype(), $a_set['entry_id']);
+		$il_obj_entry = ilBibEntry::getInstance($this->parent_obj->object->getFileTypeAsString(), $a_set['entry_id']);
 		$this->tpl->setVariable('SINGLE_ENTRY', ilBibliographicDetailsGUI::prepareLatex($il_obj_entry->getOverview()));
 		//Detail-Link
 		$this->ctrl->setParameter($this->parent_obj, ilObjBibliographicGUI::P_ENTRY_ID, $a_set['entry_id']);
@@ -75,8 +105,8 @@ class ilBibliographicRecordListTableGUI extends ilTable2GUI {
 
 	protected function initData() {
 		$entries = array();
-		foreach (ilBibliographicEntry::getAllEntries($this->parent_obj->object->getId()) as $entry) {
-			$ilBibliographicEntry = ilBibliographicEntry::getInstance($this->parent_obj->object->getFiletype(), $entry['entry_id']);
+		foreach (ilBibEntry::getAllEntries($this->parent_obj->object->getId()) as $entry) {
+			$ilBibliographicEntry = ilBibEntry::getInstance($this->parent_obj->object->getFileTypeAsString(), $entry['entry_id']);
 			$entry['content'] = strip_tags($ilBibliographicEntry->getOverview());
 			$entries[] = $entry;
 		}

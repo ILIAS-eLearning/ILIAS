@@ -1,16 +1,14 @@
 <?php
 /**
- * Class ilBiblFilter
+ * Class ilBiblFieldFilter
  *
  * @author: Benjamin Seglias   <bs@studer-raimann.ch>
  */
 
-class ilBiblFilter {
+class ilBiblFieldFilter extends ActiveRecord implements ilBiblFieldFilterInterface {
 
 	const TABLE_NAME = 'il_bibl_filter';
-	const FILTER_TYPE_TEXT_INPUT = 1;
-	const FILTER_TYPE_SELECT_INPUT = 2;
-	const FILTER_TYPE_MULTI_SELECT_INPUT = 3;
+
 
 	/**
 	 * @return string
@@ -20,12 +18,14 @@ class ilBiblFilter {
 		return self::TABLE_NAME;
 	}
 
+
 	/**
 	 * @return string
 	 */
 	public function getConnectorContainerName() {
 		return self::TABLE_NAME;
 	}
+
 
 	/**
 	 * @var
@@ -131,6 +131,4 @@ class ilBiblFilter {
 	public function setFilterType($filter_type) {
 		$this->filter_type = $filter_type;
 	}
-
-
 }
