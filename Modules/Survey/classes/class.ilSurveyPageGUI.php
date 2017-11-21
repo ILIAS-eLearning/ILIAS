@@ -482,14 +482,17 @@ class ilSurveyPageGUI
 	protected function multiCut($a_id)
 	{
 		global $lng;
-		
-		ilUtil::sendSuccess($lng->txt("survey_questions_to_clipboard_cut"));
-		$this->suppress_clipboard_msg = true;
-		
-		$_SESSION["survey_page_view"][$this->ref_id]["clipboard"] = array(
-						"source" => $this->current_page,
-						"nodes" => $a_id,
-						"mode" => "cut");
+
+		if (is_array($a_id))
+		{
+			ilUtil::sendSuccess($lng->txt("survey_questions_to_clipboard_cut"));
+			$this->suppress_clipboard_msg = true;
+
+			$_SESSION["survey_page_view"][$this->ref_id]["clipboard"] = array(
+				"source" => $this->current_page,
+				"nodes" => $a_id,
+				"mode" => "cut");
+		}
 	}
 
 	/**
@@ -500,14 +503,17 @@ class ilSurveyPageGUI
 	protected function multiCopy($a_id)
 	{
 		global $lng;
-		
-		ilUtil::sendSuccess($lng->txt("survey_questions_to_clipboard_copy"));
-		$this->suppress_clipboard_msg = true;
-		
-		$_SESSION["survey_page_view"][$this->ref_id]["clipboard"] = array(
-						"source" => $this->current_page,
-						"nodes" => $a_id,
-						"mode" => "copy");
+
+		if (is_array($a_id))
+		{
+			ilUtil::sendSuccess($lng->txt("survey_questions_to_clipboard_copy"));
+			$this->suppress_clipboard_msg = true;
+
+			$_SESSION["survey_page_view"][$this->ref_id]["clipboard"] = array(
+				"source" => $this->current_page,
+				"nodes" => $a_id,
+				"mode" => "copy");
+		}
 	}
 
 	/**
