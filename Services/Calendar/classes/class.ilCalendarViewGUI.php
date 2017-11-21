@@ -180,10 +180,10 @@ class ilCalendarViewGUI
 				}
 				break;
 			case self::CAL_PRESENTATION_DAY:
-				$schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_DAY);
+				$schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_DAY, 0, true);
 				break;
 			case self::CAL_PRESENTATION_WEEK:
-				$schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_WEEK);
+				$schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_WEEK,0,true);
 				break;
 			case self::CAL_PRESENTATION_MONTH:
 				$schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_MONTH);
