@@ -21,9 +21,9 @@ class ilBiblOverviewGUI {
 	/**
 	 * ilBiblOverviewGUI constructor.
 	 *
-	 * @param ilBibliographicEntry $entry
+	 * @param \ilBibEntry $entry
 	 */
-	public function __construct(ilBibliographicEntry $entry) {
+	public function __construct(ilBibEntry $entry) {
 		$this->entry = $entry;
 		$this->render();
 	}
@@ -111,7 +111,7 @@ class ilBiblOverviewGUI {
 
 
 	/**
-	 * @return ilBibliographicEntry
+	 * @return ilBibEntry
 	 */
 	public function getEntry() {
 		return $this->entry;
@@ -119,7 +119,7 @@ class ilBiblOverviewGUI {
 
 
 	/**
-	 * @param ilBibliographicEntry $entry
+	 * @param ilBibEntry $entry
 	 */
 	public function setEntry($entry) {
 		$this->entry = $entry;

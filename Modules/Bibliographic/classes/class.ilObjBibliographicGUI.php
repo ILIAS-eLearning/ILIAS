@@ -15,10 +15,8 @@
  * @ilCtrl_Calls      ilObjBibliographicGUI: ilPermissionGUI, ilObjectCopyGUI, ilExportGUI
  * @ilCtrl_Calls      ilObjBibliographicGUI: ilObjUserGUI, ilBibliographicDetailsGUI
  * @ilCtrl_Calls      ilObjBibliographicGUI: ilBibliographicRecordListTableGUI
- * @ilCtrl_Calls      ilObjBibliographicGUI: ilBiblSettingsFilterGUI
+ * @ilCtrl_Calls      ilObjBibliographicGUI: ilBiblFieldFilterGUI
  * @ilCtrl_isCalledBy ilObjBibliographicGUI: ilRepositoryGUI
- *
- * @extends           ilObject2GUI
  */
 class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandling {
 
@@ -38,7 +36,23 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	/**
 	 * @var ilObjBibliographic
 	 */
-	protected $bibl_obj;
+	public $object;
+	/**
+	 * @var \ilBiblTranslationFactory
+	 */
+	protected $translation_factory;
+	/**
+	 * @var \ilBiblFieldFactory
+	 */
+	protected $field_factory;
+	/**
+	 * @var \ilBiblFieldFilterFactory
+	 */
+	protected $filter_factory;
+	/**
+	 * @var \ilBiblTypeFactory
+	 */
+	protected $type_factory;
 	/**
 	 * @var string
 	 */
@@ -52,12 +66,15 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	 */
 	public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0) {
 		global $DIC;
-		$this->lng = $DIC['lng'];
+
 		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
-		$this->lng->loadLanguageModule('bibl');
-		if ($a_id > 0) {
-			$this->bibl_obj = $this->object;
-		}
+		$DIC->language()->loadLanguageModule('bibl');
+
+		$this->type_factory = new ilBiblTypeFactory();
+		$this->filter_factory = new ilBiblFieldFilterFactory();
+		$type = $this->type_factory->getInstanceForType($this->object->getFileType());
+		$this->field_factory = new ilBiblFieldFactory($type);
+		$this->translation_factory = new ilBiblTranslationFactory($this->field_factory);
 	}
 
 
@@ -100,49 +117,42 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		$next_class = $ilCtrl->getNextClass($this);
 		$this->cmd = $ilCtrl->getCmd();
 		switch ($next_class) {
-			case "ilinfoscreengui":
+			case strtolower(ilInfoScreenGUI::class):
 				$this->prepareOutput();
 				$ilTabs->activateTab(self::TAB_ID_INFO);
 				$this->infoScreenForward();
 				break;
-			case "ilcommonactiondispatchergui":
-				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+			case strtolower(ilCommonActionDispatcherGUI::class):
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
 				$this->ctrl->forwardCommand($gui);
 				break;
-			case "ilpermissiongui":
+			case strtolower(ilPermissionGUI::class):
 				$this->prepareOutput();
 				$ilTabs->activateTab(self::TAB_ID_PERMISSIONS);
-				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui = new ilPermissionGUI($this);
-				$this->ctrl->forwardCommand($perm_gui);
+				$this->ctrl->forwardCommand(new ilPermissionGUI($this));
 				break;
-			case "ilobjectcopygui":
-				include_once "./Services/Object/classes/class.ilObjectCopyGUI.php";
+			case strtolower(ilObjectCopyGUI::class):
 				$cp = new ilObjectCopyGUI($this);
 				$cp->setType('bibl');
 				$tpl->getStandardTemplate();
 				$this->ctrl->forwardCommand($cp);
 				break;
-			case "ilobjfilegui":
+			case strtolower(ilObjFileGUI::class):
 				$this->prepareOutput();
 				$ilTabs->setTabActive(self::TAB_ID_RECORDS);
-				include_once("./Modules/File/classes/class.ilObjFile.php");
-				$file_gui = new ilObjFile($this);
-				$this->ctrl->forwardCommand($file_gui);
+				$this->ctrl->forwardCommand(new ilObjFile($this));
 				break;
-			case "ilexportgui":
+			case strtolower(ilExportGUI::class):
 				$this->prepareOutput();
 				$ilTabs->setTabActive(self::TAB_EXPORT);
 				$exp_gui = new ilExportGUI($this);
 				$exp_gui->addFormat("xml");
 				$this->ctrl->forwardCommand($exp_gui);
 				break;
-			case "ilbiblsettingsfiltergui":
+			case strtolower(ilBiblFieldFilterGUI::class):
 				$this->prepareOutput();
 				$ilTabs->setTabActive(self::TAB_SETTINGS);
-				$ilBiblSettingsFilterGUI = new ilBiblSettingsFilterGUI();
-				$this->ctrl->forwardCommand($ilBiblSettingsFilterGUI);
+				$this->ctrl->forwardCommand(new ilBiblFieldFilterGUI($this->filter_factory, $this->field_factory));
 				break;
 			default:
 				return parent::executeCommand();
@@ -159,7 +169,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	 */
 	public function infoScreen() {
 		$this->ctrl->setCmd("showSummary");
-		$this->ctrl->setCmdClass("ilinfoscreengui");
+		$this->ctrl->setCmdClass(ilInfoScreenGUI::class);
 		$this->infoScreenForward();
 	}
 
@@ -174,8 +184,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 			ilUtil::sendFailure($DIC['lng']->txt("msg_no_perm_read"), true);
 			$this->ctrl->redirectByClass('ilPersonalDesktopGUI', '');
 		}
-		$DIC['ilTabs']->activateTab(self::TAB_ID_INFO);
-		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
+		$DIC->tabs()->activateTab(self::TAB_ID_INFO);
 		$info = new ilInfoScreenGUI($this);
 		$info->enablePrivateNotes();
 		$info->addMetaDataSections($this->object->getId(), 0, $this->object->getType());
@@ -205,20 +214,21 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		global $DIC;
 
 		$id = explode("_", $a_target);
-		$DIC['ilCtrl']->setTargetScript("ilias.php");
-		$DIC['ilCtrl']->initBaseClass("ilRepositoryGUI");
-		$DIC['ilCtrl']->setParameterByClass("ilobjbibliographicgui", "ref_id", $id[0]);
+		$DIC->ctrl()->setTargetScript("ilias.php");
+		$DIC->ctrl()->initBaseClass(ilRepositoryGUI::class);
+		$DIC->ctrl()->setParameterByClass(ilObjBibliographicGUI::class, "ref_id", $id[0]);
 		// Detail-View
 		if ($id[1]) {
-			$DIC['ilCtrl']->setParameterByClass("ilobjbibliographicgui", ilObjBibliographicGUI::P_ENTRY_ID, $id[1]);
-			$DIC['ilCtrl']->redirectByClass(array(
-				"ilRepositoryGUI",
-				"ilobjbibliographicgui",
+			$DIC->ctrl()
+			    ->setParameterByClass(ilObjBibliographicGUI::class, ilObjBibliographicGUI::P_ENTRY_ID, $id[1]);
+			$DIC->ctrl()->redirectByClass(array(
+				ilRepositoryGUI::class,
+				ilObjBibliographicGUI::class,
 			), self::CMD_SHOW_DETAILS);
 		} else {
-			$DIC['ilCtrl']->redirectByClass(array(
-				"ilRepositoryGUI",
-				"ilobjbibliographicgui",
+			$DIC->ctrl()->redirectByClass(array(
+				ilRepositoryGUI::class,
+				ilObjBibliographicGUI::class,
 			), self::CMD_VIEW);
 		}
 	}
@@ -231,10 +241,11 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	 */
 	protected function initCreationForms($a_new_type) {
 		global $DIC;
-		$lng = $DIC['lng'];
+
 		$forms = parent::initCreationForms($a_new_type);
 		// Add File-Upload
-		$in_file = new ilFileStandardDropzoneInputGUI($lng->txt("bibliography file"), "bibliographic_file");
+		$in_file = new ilFileStandardDropzoneInputGUI($DIC->language()
+		                                                  ->txt("bibliography file"), "bibliographic_file");
 		$in_file->setSuffixes(array( "ris", "bib", "bibtex" ));
 		$in_file->setRequired(true);
 		$forms[self::CFORM_NEW]->addItem($in_file);
@@ -247,14 +258,14 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 
 	public function save() {
 		global $DIC;
-		$tpl = $DIC['tpl'];
+
 		$form = $this->initCreationForms($this->getType());
 		if ($form[self::CFORM_NEW]->checkInput()) {
 			parent::save();
 		} else {
 			$form = $form[self::CFORM_NEW];
 			$form->setValuesByPost();
-			$tpl->setContent($form->getHtml());
+			$DIC->ui()->mainTemplate()->setContent($form->getHtml());
 		}
 	}
 
@@ -281,59 +292,60 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	 */
 	public function setTabs() {
 		global $DIC;
-		$ilAccess = $DIC['ilAccess'];
-		$ilTabs = $DIC['ilTabs'];
-		$lng = $DIC['lng'];
+
 		$ilHelp = $DIC['ilHelp'];
 		/**
-		 * @var $ilAccess    ilAccessHandler
-		 * @var $ilTabs      ilTabsGUI
-		 * @var $lng         ilLanguage
 		 * @var $ilHelp      ilHelpGUI
 		 */
 		$ilHelp->setScreenIdComponent('bibl');
 		// info screen
-		if ($ilAccess->checkAccess('read', "", $this->object->getRefId())) {
-			$ilTabs->addTab(self::TAB_CONTENT, $lng->txt(self::TAB_CONTENT), $this->ctrl->getLinkTarget($this, self::CMD_SHOW_CONTENT));
+		if ($DIC->access()->checkAccess('read', "", $this->object->getRefId())) {
+			$DIC->tabs()->addTab(self::TAB_CONTENT, $DIC->language()
+			                                            ->txt(self::TAB_CONTENT), $this->ctrl->getLinkTarget($this, self::CMD_SHOW_CONTENT));
 		}
 		// info screen
-		if ($ilAccess->checkAccess('visible', "", $this->object->getRefId()) || $ilAccess->checkAccess('read', "", $this->object->getRefId())) {
-			$ilTabs->addTab(self::TAB_ID_INFO, $lng->txt("info_short"), $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
+		if ($DIC->access()->checkAccess('visible', "", $this->object->getRefId())
+		    || $DIC->access()->checkAccess('read', "", $this->object->getRefId())) {
+			$DIC->tabs()->addTab(self::TAB_ID_INFO, $DIC->language()
+			                                            ->txt("info_short"), $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
 		}
 		// settings
-		if ($ilAccess->checkAccess('write', "", $this->object->getRefId())) {
-			$ilTabs->addTab("settings", $lng->txt("settings"), $this->ctrl->getLinkTarget($this, "editObject"));
-			$ilTabs->addSubTab("settings",
-				$this->lng->txt("settings"),
-				$this->ctrl->getLinkTarget($this, 'editObject'));
-			$ilTabs->addSubTab(self::SUB_TAB_FILTER,
-				$this->lng->txt("filter"),
-				$this->ctrl->getLinkTargetByClass(ilBiblSettingsFilterGUI::class, ilBiblSettingsFilterGUI::CMD_STANDARD));
+		if ($DIC->access()->checkAccess('write', "", $this->object->getRefId())) {
+			$DIC->tabs()->addTab("settings", $DIC->language()
+			                                     ->txt("settings"), $this->ctrl->getLinkTarget($this, "editObject"));
+			$DIC->tabs()->addSubTab("settings", $DIC->language()
+			                                        ->txt("settings"), $this->ctrl->getLinkTarget($this, 'editObject'));
+			$DIC->tabs()->addSubTab(self::SUB_TAB_FILTER, $DIC->language()
+			                                                  ->txt("filter"), $this->ctrl->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_STANDARD));
 		}
 		// export
-		if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
-			$ilTabs->addTab(self::TAB_EXPORT, $lng->txt(self::TAB_EXPORT), $this->ctrl->getLinkTargetByClass("ilexportgui", ""));
+		if ($DIC->access()->checkAccess("write", "", $this->object->getRefId())) {
+			$DIC->tabs()->addTab(self::TAB_EXPORT, $DIC->language()
+			                                           ->txt(self::TAB_EXPORT), $this->ctrl->getLinkTargetByClass("ilexportgui", ""));
 		}
 		// edit permissions
-		if ($ilAccess->checkAccess('edit_permission', "", $this->object->getRefId())) {
-			$ilTabs->addTab(self::TAB_ID_PERMISSIONS, $lng->txt("perm_settings"), $this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm"));
+		if ($DIC->access()->checkAccess('edit_permission', "", $this->object->getRefId())) {
+			$DIC->tabs()->addTab(self::TAB_ID_PERMISSIONS, $DIC->language()
+			                                                   ->txt("perm_settings"), $this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm"));
 		}
 	}
 
 
 	public function initEditForm() {
 		global $DIC;
-		$lng = $DIC['lng'];
+
 		$form = parent::initEditForm();
 		// Add File-Upload
-		$in_file = new ilFileStandardDropzoneInputGUI($lng->txt("bibliography file"), "bibliographic_file");
+		$in_file = new ilFileStandardDropzoneInputGUI($DIC->language()
+		                                                  ->txt("bibliographic_file"), "bibliographic_file");
 		$in_file->setSuffixes(array( "ris", "bib", "bibtex" ));
 		$in_file->setRequired(false);
-		$cb_override = new ilCheckboxInputGUI($this->lng->txt("override_entries"), "override_entries");
+		$cb_override = new ilCheckboxInputGUI($DIC->language()
+		                                          ->txt("override_entries"), "override_entries");
 		$cb_override->addSubItem($in_file);
 
 		$form->addItem($cb_override);
-		$form->setFormAction($this->ctrl->getFormAction($this, "save"));
+		$form->setFormAction($DIC->ctrl()->getFormAction($this, "save"));
 
 		return $form;
 	}
@@ -344,10 +356,10 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	 */
 	protected function initEditCustomForm(ilPropertyFormGUI $a_form) {
 		global $DIC;
-		$ilTabs = $DIC['ilTabs'];
-		$ilTabs->activateTab("settings");
+
+		$DIC->tabs()->activateTab("settings");
 		// is_online
-		$cb = new ilCheckboxInputGUI($this->lng->txt("online"), "is_online");
+		$cb = new ilCheckboxInputGUI($DIC->language()->txt("online"), "is_online");
 		$a_form->addItem($cb);
 	}
 
@@ -355,7 +367,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	/**
 	 * @param array $a_values
 	 *
-	 * @return array|void
+	 * @return array
 	 */
 	public function getEditFormCustomValues(array &$a_values) {
 		$a_values["is_online"] = $this->object->getOnline();
@@ -374,15 +386,13 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	 */
 	public function showContent() {
 		global $DIC;
-		$ilAccess = $DIC['ilAccess'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilTabs = $DIC['ilTabs'];
+
 		// if user has read permission and object is online OR user has write permissions
-		if (($ilAccess->checkAccess('read', "", $this->object->getRefId())
-		     && $this->object->getOnline())
-		    || $ilAccess->checkAccess('write', "", $this->object->getRefId())
-		) {
-			$ilTabs->setTabActive(self::TAB_CONTENT);
+		$read_access = $DIC->access()->checkAccess('read', "", $this->object->getRefId());
+		$online = $this->object->getOnline();
+		$write_access = $DIC->access()->checkAccess('write', "", $this->object->getRefId());
+		if (($read_access && $online) || $write_access) {
+			$DIC->tabs()->activateTab(self::TAB_CONTENT);
 
 			// With new UI service, currently not supported by ilToolbar
 			//			$f = $DIC->ui()->factory()->button()
@@ -391,20 +401,21 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 
 			$b = ilLinkButton::getInstance();
 			$b->setCaption('download_original_file');
-			$b->setUrl($ilCtrl->getLinkTargetByClass("ilBibliographicDetailsGUI", self::CMD_SEND_FILE));
+			$b->setUrl($DIC->ctrl()
+			               ->getLinkTargetByClass(ilBibliographicDetailsGUI::class, self::CMD_SEND_FILE));
 			$b->setPrimary(true);
-			$DIC['ilToolbar']->addButtonInstance($b);
+			$DIC->toolbar()->addButtonInstance($b);
 
-			include_once "./Modules/Bibliographic/classes/class.ilBibliographicRecordListTableGUI.php";
-			$table = new ilBibliographicRecordListTableGUI($this, self::CMD_SHOW_CONTENT);
+			$table = new ilBibliographicRecordListTableGUI($this, self::CMD_SHOW_CONTENT, $this->filter_factory, $this->field_factory, $this->translation_factory);
 			$html = $table->getHTML();
-			$DIC['tpl']->setContent($html);
+			$DIC->ui()->mainTemplate()->setContent($html);
 
 			//Permanent Link
-			$DIC['tpl']->setPermanentLink("bibl", $this->object->getRefId());
+			$DIC->ui()->mainTemplate()->setPermanentLink("bibl", $this->object->getRefId());
 		} else {
 			$object_title = ilObject::_lookupTitle(ilObject::_lookupObjId($_GET["ref_id"]));
-			ilUtil::sendFailure(sprintf($this->lng->txt("msg_no_perm_read_item"), $object_title), true);
+			ilUtil::sendFailure(sprintf($DIC->language()
+			                                ->txt("msg_no_perm_read_item"), $object_title), true);
 			//redirect to repository without any parameters
 			unset($_GET);
 			ilObjectGUI::_gotoRepositoryRoot();
@@ -419,10 +430,10 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		global $DIC;
 
 		if ($DIC['ilAccess']->checkAccess('read', "", $this->object->getRefId())) {
-			$file_path = $this->bibl_obj->getLegacyAbsolutePath();
+			$file_path = $this->object->getLegacyAbsolutePath();
 			if ($file_path) {
 				if (is_file($file_path)) {
-					ilFileDelivery::deliverFileAttached($file_path, $this->bibl_obj->getFilename(), 'application/octet-stream');
+					ilFileDelivery::deliverFileAttached($file_path, $this->object->getFilename(), 'application/octet-stream');
 				} else {
 					ilUtil::sendFailure($DIC['lng']->txt("file_not_found"));
 					$this->showContent();
@@ -438,11 +449,11 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	public function showDetails() {
 		global $DIC;
 
-		if ($DIC['ilAccess']->checkAccess('read', "", $this->object->getRefId())) {
-			$bibGUI = ilBibliographicDetailsGUI::getInstance($this->bibl_obj, $_GET[self::P_ENTRY_ID]);
-			$this->tpl->setContent($bibGUI->getHTML());
+		if ($DIC->access()->checkAccess('read', "", $this->object->getRefId())) {
+			$bibGUI = ilBibliographicDetailsGUI::getInstance($this->object, $_GET[self::P_ENTRY_ID]);
+			$DIC->ui()->mainTemplate()->setContent($bibGUI->getHTML());
 		} else {
-			ilUtil::sendFailure($this->lng->txt("no_permission"), true);
+			ilUtil::sendFailure($DIC->language()->txt("no_permission"), true);
 			ilObjectGUI::_gotoRepositoryRoot();
 		}
 	}
@@ -458,17 +469,17 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	 */
 	public function updateCustom(ilPropertyFormGUI $a_form) {
 		global $DIC;
-		$ilAccess = $DIC['ilAccess'];
-		if ($ilAccess->checkAccess('write', "", $this->object->getRefId())) {
+
+		if ($DIC->access()->checkAccess('write', "", $this->object->getRefId())) {
 			if ($this->object->getOnline() != $a_form->getInput("is_online")) {
 				$this->object->setOnline($a_form->getInput("is_online"));
 			}
 
 			if (!empty($_FILES['bibliographic_file']['name'])) {
-				$this->addNews($this->bibl_obj->getId(), 'updated');
+				$this->addNews($this->object->getId(), 'updated');
 			}
 		} else {
-			ilUtil::sendFailure($this->lng->txt("no_permission"), true);
+			ilUtil::sendFailure($DIC->language()->txt("no_permission"), true);
 			ilObjectGUI::_gotoRepositoryRoot();
 		}
 	}
@@ -476,18 +487,18 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 
 	public function toggleNotification() {
 		global $DIC;
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilUser = $DIC['ilUser'];
-		include_once "./Services/Notification/classes/class.ilNotification.php";
+
 		switch ($_GET["ntf"]) {
 			case 1:
-				ilNotification::setNotification(ilNotification::TYPE_DATA_COLLECTION, $ilUser->getId(), $this->obj_id, false);
+				ilNotification::setNotification(ilNotification::TYPE_DATA_COLLECTION, $DIC->user()
+				                                                                          ->getId(), $this->obj_id, false);
 				break;
 			case 2:
-				ilNotification::setNotification(ilNotification::TYPE_DATA_COLLECTION, $ilUser->getId(), $this->obj_id, true);
+				ilNotification::setNotification(ilNotification::TYPE_DATA_COLLECTION, $DIC->user()
+				                                                                          ->getId(), $this->obj_id, true);
 				break;
 		}
-		$ilCtrl->redirect($this, "");
+		$DIC->ctrl()->redirect($this, "");
 	}
 
 
@@ -496,14 +507,12 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	 */
 	public function addNews($obj_id, $change = 'created') {
 		global $DIC;
-		$lng = $DIC['lng'];
-		$ilUser = $DIC['ilUser'];
 
 		$ilNewsItem = new ilNewsItem();
-		$ilNewsItem->setTitle($lng->txt('news_title_' . $change));
+		$ilNewsItem->setTitle($DIC->language()->txt('news_title_' . $change));
 		$ilNewsItem->setPriority(NEWS_NOTICE);
 		$ilNewsItem->setContext($obj_id, $this->getType());
-		$ilNewsItem->setUserId($ilUser->getId());
+		$ilNewsItem->setUserId($DIC->user()->getId());
 		$ilNewsItem->setVisibility(NEWS_USERS);
 		$ilNewsItem->setContentTextIsLangVar(false);
 		$ilNewsItem->create();
@@ -516,9 +525,10 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	 * @access public
 	 */
 	public function addToDeskObject() {
-		include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
+		global $DIC;
+		
 		ilDesktopItemGUI::addToDesktop();
-		ilUtil::sendSuccess($this->lng->txt("added_to_desktop"), true);
+		ilUtil::sendSuccess($DIC->language()->txt("added_to_desktop"), true);
 		$this->ctrl->redirect($this, self::CMD_VIEW);
 	}
 
@@ -529,9 +539,10 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	 * @access public
 	 */
 	public function removeFromDeskObject() {
-		include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
+		global $DIC;
+
 		ilDesktopItemGUI::removeFromDesktop();
-		ilUtil::sendSuccess($this->lng->txt("removed_from_desktop"), true);
+		ilUtil::sendSuccess($DIC->language()->txt("removed_from_desktop"), true);
 		$this->ctrl->redirect($this, self::CMD_VIEW);
 	}
 
@@ -563,7 +574,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		/**
 		 * @var $a_new_object ilObjBibliographic
 		 */
-		$a_new_object->writeSourcefileEntriesToDb();
-		parent::afterImport($a_new_object); // TODO: Change the autogenerated stub
+		$a_new_object->parseFileToDatabase();
+		parent::afterImport($a_new_object);
 	}
 }

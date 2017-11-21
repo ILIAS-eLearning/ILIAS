@@ -5,9 +5,10 @@
  * @author: Benjamin Seglias   <bs@studer-raimann.ch>
  */
 
-class ilBiblTranslation {
+class ilBiblTranslation extends ActiveRecord {
 
 	const TABLE_NAME = 'il_bibl_translation';
+
 
 	/**
 	 * @return string
@@ -24,6 +25,7 @@ class ilBiblTranslation {
 	public function getConnectorContainerName() {
 		return self::TABLE_NAME;
 	}
+
 
 	/**
 	 * @var
