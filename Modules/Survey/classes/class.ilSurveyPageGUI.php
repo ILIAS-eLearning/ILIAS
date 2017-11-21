@@ -22,7 +22,12 @@ class ilSurveyPageGUI
 	protected $has_next_page; // [bool]
 	protected $has_datasets; // [bool]
 	protected $use_pool; // [bool]
-	
+
+	/**
+	 * @var ilLogger
+	 */
+	protected $log;
+
 	/**
 	* Constructor
 	*
@@ -34,6 +39,7 @@ class ilSurveyPageGUI
 		$this->editor_gui = $a_survey_editor_gui;
 		$this->ref_id = $a_survey->getRefId();
 		$this->object = $a_survey;
+		$this->log = ilLoggerFactory::getLogger("svy");
 	}
 
 	/**
@@ -152,10 +158,13 @@ class ilSurveyPageGUI
 	 * 
 	 * @param int $a_new_id
 	 * @param bool $a_duplicate
+	 * @todo: move out of GUI class, see also ilObjSurvey->insertQuestion
 	 */
 	protected function appendNewQuestionToSurvey($a_new_id, $a_duplicate = true, $a_force_duplicate = false)
 	{
 		global $ilDB;
+
+		$this->log->debug("append question, id: ".$a_new_id.", duplicate: ".$a_duplicate.", force: ".$a_force_duplicate);
 
 		// get maximum sequence index in test
 		$result = $ilDB->queryF("SELECT survey_question_id FROM svy_svy_qst WHERE survey_fi = %s",
@@ -167,6 +176,7 @@ class ilSurveyPageGUI
 		// create duplicate if pool question (or forced for question blocks copy)
 		if($a_duplicate)
 		{
+			// this does nothing if this is not a pool question and $a_force_duplicate is false
 			$survey_question_id = $this->object->duplicateQuestionForSurvey($a_new_id, $a_force_duplicate);
 		}
 		// used by copy & paste
@@ -174,7 +184,13 @@ class ilSurveyPageGUI
 		{
 			$survey_question_id = $a_new_id;
 		}
-		
+
+		// check if question is not already in the survey, see #22018
+		if ($this->object->isQuestionInSurvey($survey_question_id))
+		{
+			return $survey_question_id;
+		}
+
 		// append to survey 
 		$next_id = $ilDB->nextId('svy_svy_qst');
 		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_svy_qst (survey_question_id, survey_fi,".
@@ -182,6 +198,8 @@ class ilSurveyPageGUI
 			array('integer', 'integer', 'integer', 'integer', 'integer'),
 			array($next_id, $this->object->getSurveyId(), $survey_question_id, $sequence, time())
 		);
+
+		$this->log->debug("insert svy_svy_qst, id: ".$next_id.", qfi: ".$survey_question_id.", seq: ".$sequence);
 
 		return $survey_question_id;
 	}
@@ -252,6 +270,8 @@ class ilSurveyPageGUI
 			// move to target position
 			$this->object->moveQuestions(array($a_new_id), (int)$pos,
 				((substr($pos, -1) == "a") ? 1 : 0));
+
+			$this->object->fixSequenceStructure();
 		}
 	}
 	
