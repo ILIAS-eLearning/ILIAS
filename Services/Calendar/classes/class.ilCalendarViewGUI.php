@@ -136,56 +136,61 @@ class ilCalendarViewGUI
 	 */
 	public function getEvents()
 	{
+		$user = $this->user->getId();
+
 		switch($this->presentation_type)
 		{
 			case self::CAL_PRESENTATION_AGENDA_LIST:
 
-				if($this->period_end_day == "")
-				{
+				//if($this->period_end_day == "")
+				//{
 					$this->period = ilCalendarAgendaListGUI::getPeriod();
+
 					$end_date = clone $this->seed;
 					switch ($this->period)
 					{
 						case ilCalendarAgendaListGUI::PERIOD_DAY:
-							$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_DAY);
+							$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_DAY,$user,true);
 							$end_date->increment(IL_CAL_DAY, 1);
 							break;
 
 						case ilCalendarAgendaListGUI::PERIOD_WEEK:
-							$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_WEEK);
+							$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_WEEK,$user,true);
 							$end_date->increment(IL_CAL_WEEK, 1);
 							break;
 
 						case ilCalendarAgendaListGUI::PERIOD_MONTH:
-							$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_MONTH);
+							$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_MONTH,$user,true);
 							$end_date->increment(IL_CAL_MONTH, 1);
 							break;
 
 						case ilCalendarAgendaListGUI::PERIOD_HALF_YEAR:
-							$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_HALF_YEAR);
+							$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_HALF_YEAR,$user, true);
 							$end_date->increment(IL_CAL_MONTH, 6);
 							break;
 						default:
 							// default is week ?!
-							$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_WEEK);
+							$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_WEEK, $user, true);
 							$end_date->increment(IL_CAL_WEEK, 1);
 							break;
 					}
-
 					$this->period_end_day = $end_date->get(IL_CAL_DATE);
-				}
-				else
+				//}
+				/*else
 				{
 					$schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_PD_UPCOMING);
-				}
+				}*/
+
 				break;
 			case self::CAL_PRESENTATION_DAY:
-				$schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_DAY, 0, true);
+				$schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_DAY, $user, true);
 				break;
 			case self::CAL_PRESENTATION_WEEK:
-				$schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_WEEK,0,true);
+				$schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_WEEK,$user,true);
 				break;
 			case self::CAL_PRESENTATION_MONTH:
+				// if we put the user and true in the call method we will get only events and
+				// files from the current month. Not from 6 days before and after.
 				$schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_MONTH);
 				break;
 		}
@@ -482,7 +487,7 @@ class ilCalendarViewGUI
 		switch ($get_list_option)
 		{
 			case ilCalendarAgendaListGUI::PERIOD_DAY:
-				$end->increment(IL_CAL_DAY,1);
+				//$end->increment(IL_CAL_DAY,1);
 				break;
 			case ilCalendarAgendaListGUI::PERIOD_MONTH:
 				$end->increment(IL_CAL_MONTH,1);

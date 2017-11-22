@@ -534,11 +534,9 @@ class ilCalendarSchedule
 				$this->start = clone $seed;
 				$this->end = clone $seed;
 				//this strict period is just to avoid possible side effects.
-				if($this->strict_period) {
-					$this->end->increment(IL_CAL_DAY,1);
-				} else {
-					$this->start->increment(IL_CAL_DAY,-2);
-					$this->end->increment(IL_CAL_DAY,2);
+				if(!$this->strict_period) {
+					$this->start->increment(IL_CAL_DAY, -2);
+					$this->end->increment(IL_CAL_DAY, 2);
 				}
 				break;
 			
@@ -566,14 +564,25 @@ class ilCalendarSchedule
 				break;
 			
 			case self::TYPE_MONTH:
-				$year_month = $seed->get(IL_CAL_FKT_DATE,'Y-m','UTC');
-				list($year,$month) = explode('-',$year_month);
-			
-				$this->start = new ilDate($year_month.'-01',IL_CAL_DATE);
-				$this->start->increment(IL_CAL_DAY,-6);
-				
-				$this->end = new ilDate($year_month.'-'.ilCalendarUtil::_getMaxDayOfMonth($year,$month),IL_CAL_DATE);
-				$this->end->increment(IL_CAL_DAY,6);
+				if($this->strict_period)
+				{
+					$this->start = clone $seed;
+					$this->end = clone $seed;
+					$this->end->increment(IL_CAL_MONTH,1);
+				}
+				else
+				{
+					//todo: previous implementation still taking more days than represented in the view.
+					$year_month = $seed->get(IL_CAL_FKT_DATE,'Y-m','UTC');
+					list($year,$month) = explode('-',$year_month);
+
+					$this->start = new ilDate($year_month.'-01',IL_CAL_DATE);
+					$this->start->increment(IL_CAL_DAY,-6);
+
+					$this->end = new ilDate($year_month.'-'.ilCalendarUtil::_getMaxDayOfMonth($year,$month),IL_CAL_DATE);
+					$this->end->increment(IL_CAL_DAY,6);
+				}
+
 				break;
 			
 			case self::TYPE_HALF_YEAR:
