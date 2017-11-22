@@ -2154,7 +2154,10 @@ class ilObjSurvey extends ilObject
 	function &getQuestionblockQuestionIds($questionblock_id)
 	{
 		global $ilDB;
-		$result = $ilDB->queryF("SELECT question_fi FROM svy_qblk_qst WHERE questionblock_fi = %s",
+
+		// we need a correct order here, see #22011
+		$result = $ilDB->queryF("SELECT a.question_fi FROM svy_qblk_qst a JOIN svy_svy_qst b ON (a.question_fi = b.question_fi) ".
+			" WHERE a.questionblock_fi = %s ORDER BY b.sequence",
 			array("integer"),
 			array($questionblock_id)
 		);
@@ -2163,9 +2166,13 @@ class ilObjSurvey extends ilObject
 		{
 			while ($data = $ilDB->fetchAssoc($result))
 			{
-				array_push($ids, $data['question_fi']);
+				if (!in_array($data['question_fi'], $ids))		// no duplicates, see #22018
+				{
+					array_push($ids, $data['question_fi']);
+				}
 			}
 		}
+
 		return $ids;
 	}
 	
