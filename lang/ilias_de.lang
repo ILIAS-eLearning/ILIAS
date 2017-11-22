@@ -14209,6 +14209,7 @@ common#:#training_search#:#Trainingssuche
 tms#:#booking_not_possible#:#Ihre Buchung ist nicht möglich.
 tms#:#cutting_trainings#:#Folgendes, bereits gebuchte Training überschneidet sich mit dem Training:
 tms#:#info_can_storno#:#Hinweis: Über "Meine Trainings" können Sie eine Stornierung des bereits gebuchten Trainings durchführen.
+tms#:#report_filter#:#Filter
 tms#:#header#:#Trainingssuche
 tms#:#available_slots#:#freie Plätze
 tms#:#target_groups#:#Zielgruppen
@@ -14251,3 +14252,5 @@ tms#:#booking_overview_description#:#Bitte prüfen Sie die Angaben und schließe
 tms#:#booking_confirm#:#Verbindlich buchen
 tms#:#cancel_confirm#:#Verbindlich stornieren
 tms#:#trainer#:#Trainer
+tms#:#tms_filter_period_from#:#Anfang:
+tms#:#tms_filter_period_to#:#Ende:
