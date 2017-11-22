@@ -11008,7 +11008,6 @@ orgu#:#org_op_edit_submissions_grades#:#Abgaben von anderen Benutzern bearbeiten
 rbac#:#org_op_edit_submissions_grades#:#Abgaben von anderen Benutzern bearbeiten.
 orgu#:#org_op_write_learning_progress#:#Lernfortschritt von anderen Benutzern setzen.
 rbac#:#org_op_write_learning_progress#:#Lernfortschritt untergeordneter Benutzer setzen
-orgu#:#msg_success_permission_saved#:#Berechtigungen gespeichert
 rbac#:#positions_override_operations#:#Globale Einstellungen überschreiben
 orgu#:#form_title_org_default_permissions_update#:#Standardrechte
 orgu#:#msg_confirm_deletion#:#Wollen Sie die folgende Position wirklich löschen?
