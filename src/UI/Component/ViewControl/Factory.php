@@ -131,4 +131,32 @@ interface Factory {
 	 * @return \ILIAS\UI\Component\ViewControl\Pagination
 	 */
 	public function pagination();
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *      The quickfilter view control enables users to filter some data is presented.
+	 *      This control applies to all sorts of _structured_ data, like tables and lists.
+	 *   composition: >
+	 *      Quickfilter uses a Dropdown to display a collection of shy-buttons.
+	 *   effect: >
+	 *      A click on an option will filter the associated data-list
+	 *      by calling a page with a parameter according to the selected option or triggering a signal.
+	 *      The label displayed in the dropdown will be set to the selected option.
+	 *
+	 * rules:
+	 *   usage:
+	 *      1: A Quickfilter MUST NOT be used standalone.
+	 *      2: Quickfilters MUST BE visually close to the list or table their operation will have effect upon.
+	 *      3: There SHOULD NOT be more than one Quickfilter per view.
+	 *   accessibility:
+	 *      1: Quickfilter MUST be operable via keyboard only.
+	 *
+	 * ---
+	 * @param array<string,string>  $options 	a dictionary with value=>title
+	 *
+	 * @return \ILIAS\UI\Component\ViewControl\Quickfilter
+	 */
+	public function quickfilter(array $options);
 }
