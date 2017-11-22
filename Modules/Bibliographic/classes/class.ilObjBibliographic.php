@@ -30,7 +30,7 @@ class ilObjBibliographic extends ilObject2 {
 	/**
 	 * Id of literary articles
 	 *
-	 * @var \ilBibEntry[]
+	 * @var \ilBiblEntry[]
 	 */
 	protected $entries;
 	/**

@@ -13,7 +13,7 @@ class ilBibliographicDetailsGUI {
 	 */
 	public $bibl_obj;
 	/**
-	 * @var \ilBibEntry
+	 * @var \ilBiblEntry
 	 */
 	public $entry;
 	/**
@@ -26,9 +26,9 @@ class ilBibliographicDetailsGUI {
 	 * ilBibliographicDetailsGUI constructor.
 	 *
 	 * @param \ilObjBibliographic $bibl_obj
-	 * @param \ilBibEntry         $entry
+	 * @param \ilBiblEntry        $entry
 	 */
-	public function __construct(\ilObjBibliographic $bibl_obj, \ilBibEntry $entry) {
+	public function __construct(\ilObjBibliographic $bibl_obj, \ilBiblEntry $entry) {
 		$this->bibl_obj = $bibl_obj;
 		$this->entry = $entry;
 		$this->bib_type_factory = new ilBiblTypeFactory();
@@ -42,7 +42,7 @@ class ilBibliographicDetailsGUI {
 	 * @return ilBibliographicDetailsGUI
 	 */
 	public static function getInstance(ilObjBibliographic $bibl_obj, $entry_id) {
-		$obj = new self($bibl_obj, ilBibEntry::getInstance($bibl_obj->getFileTypeAsString(), $entry_id));
+		$obj = new self($bibl_obj, ilBiblEntry::getInstance($bibl_obj->getFileTypeAsString(), $entry_id));
 
 		return $obj;
 	}

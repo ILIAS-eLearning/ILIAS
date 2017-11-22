@@ -25,7 +25,7 @@ interface ilBiblFileReaderInterface {
 	/**
 	 * @param \ilObjBibliographic $bib
 	 *
-	 * @return \ilBibEntry[]
+	 * @return \ilBiblEntry[]
 	 */
 	public function parseContentToEntries(ilObjBibliographic $bib);
 }
