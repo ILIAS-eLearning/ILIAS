@@ -11,7 +11,7 @@ class ilBiblFieldFilterFactory implements ilBiblFieldFilterFactoryInterface {
 	 * @inheritDoc
 	 */
 	public function findById($id) {
-		return ilBiblFieldFilter::find($id);
+		return ilBiblFieldFilter::findOrFail($id);
 	}
 
 

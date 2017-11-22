@@ -306,4 +306,24 @@ class ilBiblEntry implements ilBiblEntryInterface {
 
 		return $entries;
 	}
+
+	/**
+	 * Get entry from the database
+	 *
+	 * @param $object_id
+	 *
+	 * @return array
+	 */
+	static function getEntryById($id) {
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$entry = array();
+		$set = $ilDB->query("SELECT id FROM il_bibl_entry " . " WHERE id = "
+			. $ilDB->quote($id, "integer"));
+		while ($rec = $ilDB->fetchAssoc($set)) {
+			$entry = $rec;
+		}
+
+		return $entry;
+	}
 }

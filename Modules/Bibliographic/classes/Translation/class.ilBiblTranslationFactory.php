@@ -53,9 +53,7 @@ class ilBiblTranslationFactory implements ilBiblTranslationFactoryInterface {
 	 * @return string
 	 */
 	private function translateInCore(ilBiblFieldInterface $field) {
-		if ($this->translationExistsForField($field)) {
-			// TODO return from translation
-		}
+
 
 		//
 		$prefix = $this->getFieldFactory()->getType()->getStringRepresentation();

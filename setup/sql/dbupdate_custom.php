@@ -48,7 +48,7 @@ if (! $ilDB->tableExists('il_bibl_field')) {
 
 }
 ?>
-<#2>
+<#9>
 <?php
 $fields = array(
 	'id' => array(

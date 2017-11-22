@@ -36,6 +36,14 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 	 * @var array
 	 */
 	protected $filter = [];
+	/**
+	 * @var \ilBiblFieldFactoryInterface
+	 */
+	protected $field_factory;
+	/**
+	 * @var \ilBiblTypeFactoryInterface
+	 */
+	protected $type_factory;
 
 	/**
 	 * ilLocationDataTableGUI constructor.
@@ -43,13 +51,15 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 	 * @param ilBiblAdminFieldGUI $a_parent_obj
 	 * @param string      $a_parent_cmd
 	 */
-	function __construct($a_parent_obj, $a_parent_cmd, ilObjBibliographicAdmin $il_obj_bibliographic_admin, $data_type) {
+	function __construct($a_parent_obj, $a_parent_cmd, ilObjBibliographicAdmin $il_obj_bibliographic_admin, $data_type, ilBiblFieldFactoryInterface $field_factory, ilBiblTypeFactoryInterface $type_factory) {
 		global $DIC;
 		$this->dic = $DIC;
 		$this->parent_obj = $a_parent_obj;
 		$this->ctrl = $this->dic->ctrl();
 		$this->tpl = $this->dic['tpl'];
 		$this->data_type = $data_type;
+		$this->field_factory = $field_factory;
+		$this->type_factory = $type_factory;
 
 		$this->setId(self::TBL_ID);
 		$this->setPrefix(self::TBL_ID);
@@ -147,13 +157,15 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 			$this->tpl->setVariable('IS_STANDARD_VALUE', $this->dic->language()->txt("standard"));
 		} else {
 			if($file_parts['extension'] == "bib") {
-				if(ilBibTexInterface::isStandardField($a_set['name'])) {
+				$type = $this->type_factory->getInstanceForType(ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX);
+				if($type->isStandardField($a_set['name'])) {
 					$this->tpl->setVariable('IS_STANDARD_VALUE', $this->dic->language()->txt("standard"));
 				} else {
 					$this->tpl->setVariable('IS_STANDARD_VALUE', $this->dic->language()->txt("custom"));
 				}
 			} elseif($file_parts['extension'] == "ris") {
-				if(ilRisInterface::isStandardField($a_set['name'])) {
+				$type = $this->type_factory->getInstanceForType(ilBiblTypeFactoryInterface::DATA_TYPE_RIS);
+				if($type->isStandardField($a_set['name'])) {
 					$this->tpl->setVariable('IS_STANDARD_VALUE', $this->dic->language()->txt("standard"));
 				} else {
 					$this->tpl->setVariable('IS_STANDARD_VALUE', $this->dic->language()->txt("custom"));
@@ -178,6 +190,7 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 	/**
 	 * @param integer $id
 	 * @param boolean $is_bibl_field
+	 * @param boolean $data_type
 	 */
 	protected function addActionMenu($id, $is_bibl_field) {
 		$current_selection_list = new ilAdvancedSelectionListGUI();
@@ -186,11 +199,19 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 		$current_selection_list->addItem($this->dic->language()->txt("translate"), "", $this->dic->ctrl()->getLinkTargetByClass(ilBiblAdminFieldTranslateGUI::class, ilBiblAdminFieldTranslateGUI::CMD_TRANSLATE));
 		$this->ctrl->setParameter($this->parent_obj, 'is_bibl_field', $is_bibl_field);
 		$this->ctrl->setParameterByClass(ilBiblAdminFieldGUI::class, ilBiblAdminFieldGUI::FIELD_IDENTIFIER, $id);
-		$current_selection_list->addItem($this->dic->language()->txt("delete"), "", $this->dic->ctrl()->getLinkTargetByClass(ilBiblAdminFieldGUI::class, ilBiblAdminFieldGUI::CMD_DELETE));
+		if($this->data_type == ilBiblTypeFactoryInterface::DATA_TYPE_RIS) {
+			$this->ctrl->setParameterByClass(ilBiblAdminRisFieldGUI::class, ilBiblAdminRisFieldGUI::FIELD_IDENTIFIER, $id);
+/*			$this->ctrl->setParameterByClass(ilBiblAdminRisFieldGUI::class, ilBiblAdminRisFieldGUI::DATA_TYPE, ilBiblTypeFactoryInterface::DATA_TYPE_RIS);
+			$current_selection_list->addItem($this->dic->language()->txt("delete"), "", $this->dic->ctrl()->getLinkTargetByClass(ilBiblAdminRisFieldGUI::class, ilBiblAdminRisFieldGUI::CMD_DELETE));*/
+		} elseif($this->data_type == ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX) {
+			$this->ctrl->setParameterByClass(ilBiblAdminBibtexFieldGUI::class, ilBiblAdminBibtexFieldGUI::FIELD_IDENTIFIER, $id);
+/*			$this->ctrl->setParameterByClass(ilBiblAdminBibtexFieldGUI::class, ilBiblAdminBibtexFieldGUI::DATA_TYPE, ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX);
+			$current_selection_list->addItem($this->dic->language()->txt("delete"), "", $this->dic->ctrl()->getLinkTargetByClass(ilBiblAdminBibtexFieldGUI::class, ilBiblAdminBibtexFieldGUI::CMD_DELETE));*/
+		}
 		$this->tpl->setVariable('VAL_ACTIONS', $current_selection_list->getHTML());
 	}
 
-	protected function convertStringDataTypeToInt($string_data_type) {
+/*	protected function convertStringDataTypeToInt($string_data_type) {
 		switch ($string_data_type) {
 			case "ris":
 				return ilBiblField::DATA_TYPE_RIS;
@@ -199,7 +220,7 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 				return ilBiblField::DATA_TYPE_BIBTEX;
 				break;
 		}
-	}
+	}*/
 
 	protected function parseData() {
 		$this->determineOffsetAndOrder();
@@ -227,13 +248,13 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 		$collection->orderBy($sorting_column, $sorting_direction);
 		$collection->limit($offset, $num);
 
-		$all_attribute_names_and_file_names = ilBiblField::getAllAttributeNamesByDataType($this->data_type);
+		$all_attribute_names_and_file_names = $this->field_factory->getAllAttributeNamesByDataType($this->data_type);
 
 		foreach ($this->filter as $filter_key => $filter_value) {
 			switch ($filter_key) {
 				case 'identifier':
 					$collection->where(array( $filter_key => '%' . $filter_value . '%' ), 'LIKE');
-					$all_attribute_names_and_file_names = ilBiblField::getAllAttributeNamesByIdentifier($filter_value);
+					$all_attribute_names_and_file_names = $this->field_factory->getAllAttributeNamesByIdentifier($filter_value);
 					break;
 			}
 		}

@@ -16,10 +16,18 @@ abstract class ilBiblAdminFieldGUI {
 	const CMD_APPLY_FILTER = 'applyFilter';
 	const CMD_RESET_FILTER = 'resetFilter';
 	const CMD_SAVE = 'save';
-	const CMD_DELETE = 'delete';
+/*	const CMD_DELETE = 'delete';
 	const CMD_CONFIRM_DELETE = 'confirmedDelete';
-	const CMD_CANCEL_DELETE = 'canceledDelete';
+	const CMD_CANCEL_DELETE = 'canceledDelete';*/
 
+	/**
+	 * @var \ilBiblFieldFactoryInterface
+	 */
+	protected $field_factory;
+	/**
+	 * @var \ilBiblTypeFactory
+	 */
+	protected $type_factory;
 	/**
 	 * @var ilObjBibliographicAdmin
 	 */
@@ -45,15 +53,18 @@ abstract class ilBiblAdminFieldGUI {
 	 */
 	protected $type;
 
-	public function __construct() {
+	public function __construct( ilBiblFieldFactoryInterface $field_factory, ilBiblTypeFactoryInterface $type_factory) {
 		global $DIC;
-		$this->initType();
+
 		$this->dic = $DIC;
+		$this->field_factory = $field_factory;
+		$this->type_factory = $type_factory;
 		$this->tpl = $this->dic['tpl'];
 		$this->tabs = $DIC->tabs();
 		$this->ctrl = $this->dic->ctrl();
 		$this->tpl = $this->dic['tpl'];
 		$this->object = ilObjectFactory::getInstanceByRefId($_GET['ref_id']);
+		$this->initType();
 	}
 
 	abstract protected function initType();
@@ -73,12 +84,12 @@ abstract class ilBiblAdminFieldGUI {
 			case self::CMD_STANDARD:
 			case self::CMD_EDIT:
 			case self::CMD_UPDATE:
-			case self::CMD_DELETE:
+			//case self::CMD_DELETE:
 			case self::CMD_SAVE:
 			case self::CMD_APPLY_FILTER:
 			case self::CMD_RESET_FILTER:
-			case self::CMD_CONFIRM_DELETE:
-			case self::CMD_CANCEL_DELETE:
+			//case self::CMD_CONFIRM_DELETE:
+			//case self::CMD_CANCEL_DELETE:
 				if ($this->dic->access()->checkAccess('write', "", $this->object->getRefId())) {
 					$this->{$cmd}();
 					break;
@@ -92,7 +103,7 @@ abstract class ilBiblAdminFieldGUI {
 	public function content() {
 		$this->setSubTabs($this->type);
 		$this->ctrl->saveParameterByClass(ilBiblAdminFieldTableGUI::class, ilBiblAdminFieldGUI::FIELD_IDENTIFIER);
-		$ilBiblAdminFieldTableGUI = new ilBiblAdminFieldTableGUI($this, self::CMD_STANDARD, $this->object, $this->type);
+		$ilBiblAdminFieldTableGUI = new ilBiblAdminFieldTableGUI($this, self::CMD_STANDARD, $this->object, $this->type, $this->field_factory, $this->type_factory);
 		$this->tpl->setContent($ilBiblAdminFieldTableGUI->getHTML());
 	}
 
@@ -131,35 +142,40 @@ abstract class ilBiblAdminFieldGUI {
 	}
 
 	protected function applyFilter() {
-		$ilBiblAdminFieldTableGUI = new ilBiblAdminFieldTableGUI($this, self::CMD_STANDARD, $this->object, $this->type);
+		$ilBiblAdminFieldTableGUI = new ilBiblAdminFieldTableGUI($this, self::CMD_STANDARD, $this->object, $this->type, $this->field_factory, $this->type_factory);
 		$ilBiblAdminFieldTableGUI->writeFilterToSession();
 		$this->ctrl->redirect($this, self::CMD_STANDARD);
 	}
 
 	protected function resetFilter() {
-		$ilBiblAdminFieldTableGUI = new ilBiblAdminFieldTableGUI($this, self::CMD_STANDARD, $this->object, $this->type);
+		$ilBiblAdminFieldTableGUI = new ilBiblAdminFieldTableGUI($this, self::CMD_STANDARD, $this->object, $this->type, $this->field_factory, $this->type_factory);
 		$ilBiblAdminFieldTableGUI->resetFilter();
 		$ilBiblAdminFieldTableGUI->resetOffset();
 		$this->ctrl->redirect($this, self::CMD_STANDARD);
 	}
 
-	public function delete() {
+	/*public function delete() {
 		$this->ctrl->saveParameter($this, ilBiblAdminFieldGUI::FIELD_IDENTIFIER);
+		if($this->dic->http()->request()->getQueryParams()[self::DATA_TYPE] == ilBiblTypeFactoryInterface::DATA_TYPE_RIS) {
+			$this->ctrl->saveParameterByClass(ilBiblAdminRisFieldGUI::class, ilBiblAdminRisFieldGUI::DATA_TYPE);
+		} elseif($this->dic->http()->request()->getQueryParams()[self::DATA_TYPE] == ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX) {
+			$this->ctrl->saveParameterByClass(ilBiblAdminBibtexFieldGUI::class, ilBiblAdminBibtexFieldGUI::DATA_TYPE);
+		}
 
 		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$cgui = new ilConfirmationGUI();
 
 		$cgui->setHeaderText($this->dic->language()->txt('confirm_delete_question'));
 		$cgui->setFormAction($this->ctrl->getFormAction($this));
+
 		$cgui->setCancel($this->dic->language()->txt('cancel'), "canceledDelete");
 		$cgui->setConfirm($this->dic->language()->txt('confirm'), "confirmedDelete");
 
 		if($_GET['is_bibl_field']) {
-			$cgui->addItem('', '', ilBiblField::where(array( 'id' => $_GET[ilBiblAdminFieldGUI::FIELD_IDENTIFIER] ))->first()->getIdentifier(), "");
+			$cgui->addItem('', '', $this->field_factory->findById($_GET[ilBiblAdminFieldGUI::FIELD_IDENTIFIER])->getIdentifier(), "");
 		} else {
-			$cgui->addItem('', '', ilBiblField::getBiblAttributeRecordById($_GET[ilBiblAdminFieldGUI::FIELD_IDENTIFIER]), "");
+			$cgui->addItem('', '', $this->field_factory->getBiblAttributeById($_GET[ilBiblAdminFieldGUI::FIELD_IDENTIFIER]), "");
 		}
-
 		$this->tpl->setContent($cgui->getHTML());
 	}
 
@@ -174,13 +190,11 @@ abstract class ilBiblAdminFieldGUI {
 		$this->ctrl->redirectByClass(ilBiblAdminFieldGUI::class, ilBiblAdminFieldGUI::CMD_STANDARD);
 	}
 
-
 	public function canceledDelete() {
-		if($_GET['is_bibl_field']) {
-			$this->ctrl->setParameterByClass(ilBiblAdminFieldGUI::class, 'content_type', ilBiblField::DATA_TYPE_BIBTEX);
-		} else {
-			$this->ctrl->setParameterByClass(ilBiblAdminFieldGUI::class, 'content_type', ilBiblField::DATA_TYPE_RIS);
+		if($this->dic->http()->request()->getQueryParams()[self::DATA_TYPE] == ilBiblTypeFactoryInterface::DATA_TYPE_RIS) {
+			$this->ctrl->redirectByClass(ilBiblAdminRisFieldGUI::class, ilBiblAdminRisFieldGUI::CMD_STANDARD);
+		} elseif($this->dic->http()->request()->getQueryParams()[self::DATA_TYPE] == ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX) {
+			$this->ctrl->redirectByClass(ilBiblAdminBibtexFieldGUI::class, ilBiblAdminBibtexFieldGUI::CMD_STANDARD);
 		}
-		$this->ctrl->redirectByClass(ilBiblAdminFieldGUI::class, ilBiblAdminFieldGUI::CMD_STANDARD);
-	}
+	}*/
 }

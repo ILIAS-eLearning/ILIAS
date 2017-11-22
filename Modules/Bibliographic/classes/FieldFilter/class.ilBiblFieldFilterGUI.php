@@ -152,7 +152,7 @@ class ilBiblFieldFilterGUI {
 	 */
 	private function getFieldFilterFromRequest() {
 		$field = $this->dic->http()->request()->getQueryParams()[self::FILTER_ID];
-		$il_bibl_field = ilBiblFieldFilter::findOrFail($field);
+		$il_bibl_field = $this->filter_factory->findById($field);
 
 		return $il_bibl_field;
 	}

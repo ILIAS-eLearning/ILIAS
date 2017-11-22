@@ -51,4 +51,20 @@ class ilBiblTypeFactory implements ilBiblTypeFactoryInterface {
 				throw new ilException("bibliografic type not found");
 		}
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function convertFileEndingToDataType($file_ending) {
+		switch ($file_ending) {
+			case "ris":
+				return ilBiblTypeFactoryInterface::DATA_TYPE_RIS;
+				break;
+			case "bib":
+				return ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX;
+				break;
+			default:
+				throw new ilException("no data type found for this file ending");
+		}
+	}
 }
