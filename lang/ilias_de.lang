@@ -10980,11 +10980,11 @@ common#:#view_learning_progress_rec#:#Lernfortschritt rekursiv einsehen
 rbac#:#rbac_info_only_position_access#:#Ihnen werden nur die Mitglieder angezeigt, auf die Sie aufgrund Ihrer Mitgliedschaften in Organisationseinheiten Zugriff haben.
 obj#:#obj_orgunit_positions#:#Zugriffsregelungen nach Organisationseinheiten
 obj#:#obj_orgunit_positions_info#:#Wenn aktiviert, können zusätzliche Zugriffsregelungen über Positionen in Organisationseinheiten vergeben werden.
-orgu#:#authorities#:#Authoritäten
+orgu#:#authorities#:#Befugnisse
 orgu#:#positions#:#Positionen
-orgu#:#scope_1#:#gleiche Organisationseinheit
-orgu#:#scope_2#:#Folgende Organisationseinheiten
-orgu#:#scope_3#:#Alle Organisationseinheiten
+orgu#:#scope_1#:#eigener Organisationseinheit
+orgu#:#scope_2#:#untergeordneten Organisationseinheiten
+orgu#:#scope_3#:#allen Organisationseinheiten
 orgu#:#over_-1#:#Alle
 orgu#:#over#:#über
 orgu#:#scope#:#in
@@ -11004,16 +11004,17 @@ orgu#:#orgu_enable_my_staff#:#‘Ansicht Mitarbeiter’ aktivieren
 orgu#:#orgu_enable_my_staff_info#:#The Ansicht ‘Meine Mitarbeiter’ zeigt die Lernfortschritte der eigenen Mitarbeiter an.
 orgu#:#org_op_manage_members#:#Mitglieder bearbeiten
 orgu#:#org_op_read_learning_progress#:#Lernfortschritt von anderen Benutzern einsehen
+orgu#:#org_op_edit_submissions_grades#:#Abgaben von anderen Benutzern bearbeiten.
+rbac#:#org_op_edit_submissions_grades#:#Abgaben von anderen Benutzern bearbeiten.
 orgu#:#org_op_write_learning_progress#:#Lernfortschritt von anderen Benutzern setzen.
 rbac#:#org_op_write_learning_progress#:#Lernfortschritt untergeordneter Benutzer setzen
-rbac#:#org_op_edit_submissions_grades#:#Edit submission graddes
-orgu#:#org_op_edit_submissions_grades#:#Edit submission graddes
-orgu#:#msg_success_permission_saved#:#Permissions saved
+orgu#:#msg_success_permission_saved#:#Berechtigungen gespeichert
 rbac#:#positions_override_operations#:#Globale Einstellungen überschreiben
 orgu#:#form_title_org_default_permissions_update#:#Standardrechte
-orgu#:#msg_confirm_deletion#:#Gelöscht
+orgu#:#msg_confirm_deletion#:#Wollen Sie die folgende Position wirklich löschen?
 orgu#:#msg_confirm_remove_user#:#Möchten Sie den folgenden Benutzer wirklich aus der Position %s entfernen?
 orgu#:#remove_user#:#Entfernen
+orgu#:#msg_assignment_to_employee_done#:#Assignment to the employee role successful
 orgu#:#view_learning_progress#:#Lernfortschritt einsehen
 orgu#:#orgu_staff_deassign#:#Diese Benutzer aus der Rolle wirklich entfernen?
 orgu#:#deassign_user_successful#:#Benutzer wurde erfolgreich ausgetragen.
@@ -14055,13 +14056,15 @@ lti#:#lti_exited_info#:#Die LTI Sitzung wurde erfolgreich beendet
 blog#:#blog_nav_mode_month_list_num_month_with_post#:#Anzahl Monate mit angezeigten Beiträgen
 blog#:#blog_nav_mode_month_list_num_month_with_post_info#:#Die Monate werden im Navigationsblock mit der vollständigen Liste der Beiträge angezeigt.
 orgu#:#org_op_access_enrolments#:#Einsicht Einschreibungen
-assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_missing#:#Die Regel %s benötigt %s fragen, aber nur %s Fragen wurden angegeben.
-orgu#:#msg_confirm_d_ua#:#Möchten Sie diese Benutzer zur Rolle Mitarbeiter ihrer jeweiligen Organisationseinheit hinzufügen?
-orgu#:#user_assignments#:#Benutzer Zuweisung
-orgu#:#authority#:#Berechtigung
+assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_missing#:#Rule %s requires %s questions, but there are only %s questions provided.###31 08 2017 new variable
+orgu#:#msg_confirm_d_ua#:#Wollen Sie folgende Benutzer der Position Mitarbeiter in ihrer jeweiligen Organisationseinheit zuweisen?
+orgu#:#user_assignments#:#User Assignments###31 08 2017 new variable
+orgu#:#authority#:#Befugnisse
 orgu#:#confirm_deletion_and_assign#:#Löschen und Benutzer zuweisen
 orgu#:#confirm_deletion_button#:#Löschen
-orgu#:#msg_deleted#:#Deleted###31 08 2017 new variable
+orgu#:#msg_deleted#:#Gelöscht
+orgu#:#msg_position_updated#:#Position wurde aktualisiert.
+orgu#:#msg_position_created#:#Position wurde erstellt.
 common#:#scorm_login_as_learner_id#:#SCORM 2004: set ILIAS Username as cmi.learner_id###31 08 2017 new variable
 common#:#scorm_login_as_learner_id_info#:#If enabled, the Username instead of the User ID is set for cmi.learner_id.###31 08 2017 new variable
 iass#:#iass_upload_file#:#Prüfungsblatt

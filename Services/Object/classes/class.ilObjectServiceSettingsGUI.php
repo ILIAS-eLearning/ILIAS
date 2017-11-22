@@ -251,8 +251,7 @@ class ilObjectServiceSettingsGUI
 				ilObject::_lookupType($a_obj_id)
 			);
 			if(
-				$position_settings->isActive() &&
-				$position_settings->isChangeableForObject()
+				$position_settings->isActive()
 			)
 			{
 				$lia = new ilCheckboxInputGUI(
@@ -264,6 +263,9 @@ class ilObjectServiceSettingsGUI
 				$lia->setChecked(
 					(bool) ilOrgUnitGlobalSettings::getInstance()->isPositionAccessActiveForObject($a_obj_id)
 				);
+				if(!$position_settings->isChangeableForObject()) {
+					$lia->setDisabled(true);
+				}
 				$form->addItem($lia);
 			}
 		}
