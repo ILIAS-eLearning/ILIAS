@@ -1057,14 +1057,14 @@ class ilChatroom
 				throw new InvalidArgumentException('$sender must be an instance of ilChatroomUser or an id of an ilObjUser instance');
 			}
 
-			$DIC->language()->loadLanguageModule('mail');
-
-			$recipient  = ilObjectFactory::getInstanceByObjId($recipient_id);
+			$userLang   = ilLanguageFactory::_getLanguageOfUser($recipient_id);
+			$userLang->loadLanguageModule('mail');
+			require_once 'Services/Mail/classes/class.ilMail.php';
 			$bodyParams = array(
 				'link'         => $invitationLink,
 				'inviter_name' => $public_name,
 				'room_name'    => $this->getTitle(),
-				'salutation'   => $DIC->language()->txt('mail_salutation_' . $recipient->getGender()) . ' ' . $recipient->getFullname()
+				'salutation'   => ilMail::getSalutation($recipient_id, $userLang)
 			);
 
 			if($subScope)
