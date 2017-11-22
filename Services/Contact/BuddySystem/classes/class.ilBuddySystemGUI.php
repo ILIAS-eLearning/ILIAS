@@ -210,11 +210,7 @@ class ilBuddySystemGUI
 			ilUtil::sendInfo($this->lng->txt('buddy_bs_action_not_possible'), true);
 		}
 
-		if (isset($this->http->request()->getServerParams()['HTTP_REFERER'])) {
-			$this->ctrl->redirectToURL($this->http->request()->getServerParams()['HTTP_REFERER']);
-		}
-
-		$this->ctrl->returnToParent($this);
+		$this->redirectToReferer();
 	}
 
 	/**
@@ -291,5 +287,28 @@ class ilBuddySystemGUI
 
 		echo json_encode($response);
 		exit();
+	}
+
+	private function redirectToReferer()
+	{
+		if (isset($this->http->request()->getServerParams()['HTTP_REFERER'])) {
+			$redirectUrl = $this->http->request()->getServerParams()['HTTP_REFERER'];
+			$urlParts    = parse_url($redirectUrl);
+
+			if (isset($urlParts['path'])) {
+				$script = basename($urlParts['path'], '.php');
+				if ($script === 'login') {
+					$redirectUrl = 'ilias.php?baseClass=ilPersonalDesktopGUI';
+				} else {
+					$redirectUrl = ltrim($urlParts['path'], '/');
+					if (isset($urlParts['query'])) {
+						$redirectUrl .= '?' . $urlParts['query'];
+					}
+				}
+			}
+			$this->ctrl->redirectToURL($redirectUrl);
+		}
+
+		$this->ctrl->returnToParent($this);
 	}
 }
