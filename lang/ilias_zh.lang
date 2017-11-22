@@ -15941,3 +15941,7 @@ assessment#:#tst_qst_added_to_pool_s#:#Successfully added the question to the se
 assessment#:#tst_qst_added_to_pool_p#:#Successfully added the questions to the selected pool.###22 09 2017 new variable
 user#:#clipboard_add_from_btn#:#Add from Clipboard###13 10 2017 new variable
 wiki#:#wiki_pg_list_no_search_fields#:#No searchable meta data fields found in the metadata sets of the wiki.###13 10 2017 new variable
+dcl#:#dcl_no_export_content_available#:#No data available for export.###22 11 2017 new variable
+dcl#:#dcl_no_export_fields_available#:#No fields activated for export. Mark at least one field as exportable in the <a href="%s">table settings</a>.###22 11 2017 new variable
+iass#:#iass_copy#:#Copy Individual Assessment###22 11 2017 new variable
+content#:#cont_transl_master_language_not_allowed#:#To import a translation you need to activate at least one additional language under Settings > Multilingualism###22 11 2017 new variable
