@@ -148,39 +148,47 @@ class ilDownloadFilesBackgroundTask
 	 */
 	private function collectFiles(ilCalendarCopyDefinition $def)
 	{
+		//filter here the objects, don't repeat the object Id
+		$object_ids = array();
 		foreach($this->getEvents() as $event)
 		{
-			$folder_date = $event['event']->getStart()->get(IL_CAL_FKT_DATE,'Y-m-d');
-			$folder_app = ilUtil::getASCIIFilename($event['event']->getPresentationTitle());   //title formalized
-
-			$this->logger->debug("collecting files...event title = ".$folder_app);
-
-			$file_handler = ilAppointmentFileHandlerFactory::getInstance($event);
-
-			if($files = $file_handler->getFiles())
+			$cat = ilCalendarCategory::getInstanceByCategoryId($event['category_id']);
+			$obj_id = $cat->getObjId();
+			if(!in_array($obj_id, $object_ids))
 			{
-				$this->has_files = true;
-			}
-			//if file_system_path is set, it is the real path of the file (courses use ids as names file->getId())
-			//otherwise $file_with_absolut_path is the path. ($file->getName())
-			foreach($files as $file_system_path => $file_with_absolut_path)
-			{
-				if($file_system_path)
-				{
-					$file_with_absolut_path = $file_system_path;
-					$file_id = (int)basename($file_system_path);
-					$basename = $this->getEventFileNameFromId($event['event'], $file_id);
-				}
-				else
-				{
-					$basename = ilUtil::getASCIIFilename(basename($file_with_absolut_path));
-				}
-				$def->addCopyDefinition(
-					$file_with_absolut_path,
-					$folder_date.'/'.$folder_app.'/'.$basename
-				);
+				$object_ids[] = $obj_id;
+				$folder_date = $event['event']->getStart()->get(IL_CAL_FKT_DATE,'Y-m-d');
+				$folder_app = ilUtil::getASCIIFilename($event['event']->getPresentationTitle());   //title formalized
 
-				$this->logger->debug('Added new copy definition: ' . $folder_date.'/'.$folder_app.'/'.$basename. ' -> '. $file_with_absolut_path);
+				$this->logger->debug("collecting files...event title = ".$folder_app);
+
+				$file_handler = ilAppointmentFileHandlerFactory::getInstance($event);
+
+				if($files = $file_handler->getFiles())
+				{
+					$this->has_files = true;
+				}
+				//if file_system_path is set, it is the real path of the file (courses use ids as names file->getId())
+				//otherwise $file_with_absolut_path is the path. ($file->getName())
+				foreach($files as $file_system_path => $file_with_absolut_path)
+				{
+					if($file_system_path)
+					{
+						$file_with_absolut_path = $file_system_path;
+						$file_id = (int)basename($file_system_path);
+						$basename = $this->getEventFileNameFromId($event['event'], $file_id);
+					}
+					else
+					{
+						$basename = ilUtil::getASCIIFilename(basename($file_with_absolut_path));
+					}
+					$def->addCopyDefinition(
+						$file_with_absolut_path,
+						$folder_date.'/'.$folder_app.'/'.$basename
+					);
+
+					$this->logger->debug('Added new copy definition: ' . $folder_date.'/'.$folder_app.'/'.$basename. ' -> '. $file_with_absolut_path);
+				}
 			}
 			
 		}
