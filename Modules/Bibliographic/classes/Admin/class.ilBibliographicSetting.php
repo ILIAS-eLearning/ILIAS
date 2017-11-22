@@ -87,12 +87,12 @@ class ilBibliographicSetting extends ActiveRecord {
 
 
 	/**
-	 * @param \ilBibEntry $entry
+	 * @param \ilBiblEntry $entry
 	 * @param             $type
 	 *
 	 * @return string
 	 */
-	public function generateLibraryLink(ilBibEntry $entry, $type) {
+	public function generateLibraryLink(ilBiblEntry $entry, $type) {
 		$attributes = $entry->getAttributes();
 		switch ($type) {
 			case 'bib':
@@ -154,11 +154,11 @@ class ilBibliographicSetting extends ActiveRecord {
 
 	/**
 	 * @param \ilObjBibliographic $bibl_obj
-	 * @param \ilBibEntry         $entry
+	 * @param \ilBiblEntry        $entry
 	 *
 	 * @return string
 	 */
-	public function getButton(ilObjBibliographic $bibl_obj, ilBibEntry $entry) {
+	public function getButton(ilObjBibliographic $bibl_obj, ilBiblEntry $entry) {
 		if ($this->getImg()) {
 			$button = ilImageLinkButton::getInstance();
 			$button->setUrl($this->generateLibraryLink($entry, $bibl_obj->getFileTypeAsString()));

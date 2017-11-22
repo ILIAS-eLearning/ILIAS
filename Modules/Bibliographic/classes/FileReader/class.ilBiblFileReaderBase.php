@@ -141,10 +141,10 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface {
 				$parsed_entry[$x ++]['value'] = $attribute;
 			}
 			/**
-			 * @var $entry_model ilBibEntry
+			 * @var $entry_model ilBiblEntry
 			 */
 			//create the entry and fill data into database by executing doCreate()
-			$entry_model = ilBibEntry::getInstance($file_type);
+			$entry_model = ilBiblEntry::getInstance($file_type);
 			$entry_model->setType($type);
 			$entry_model->setAttributes($parsed_entry);
 			$entry_model->setBibliographicObjId($bib->getId());
