@@ -11042,7 +11042,6 @@ orgu#:#org_op_write_learning_progress#:#Más felhasználók tanulási haladásá
 rbac#:#org_op_write_learning_progress#:#Alárendelt felhasználók tanulási haladásának módosítása
 rbac#:#org_op_edit_submissions_grades#:#Beküldött értékelések módosítása
 orgu#:#org_op_edit_submissions_grades#:#Beküldött értékelések módosítása
-orgu#:#msg_success_permission_saved#:#Jogosultásgokat sikeren mentette
 orgu#:#form_title_org_default_permissions_update#:#Alapértelemezett jogosultságok
 orgu#:#view_learning_progress#:#Tanulási haladás megjelenítése
 orgu#:#il_orgu_employee#:#Beosztott
@@ -14127,3 +14126,8 @@ content#:#cont_sc_name_setting_salutation_lastname#:#Megszólítás és kereszn�
 content#:#cont_sc_name_setting_first_name#:#Családnév
 content#:#cont_sc_name_setting_no_name#:#nincs név
 dateplaner#:#cal_download_files_started#:#A naptárfájlok letöltése elkezdődött.
+chatroom_adm#:#play_invitation_sound_info#:#Play a sound when receiving a new invitation for repository chats.###22 11 2017 new variable
+orgu#:#msg_assignment_to_employee_done#:#Zuweisung zur Position Mitarbeiter durchgeführt###22 11 2017 new variable
+iass#:#iass_assessment_not_completed#:#Assessment not completet###22 11 2017 new variable
+orgu#:#msg_position_updated#:#Position updated.###22 11 2017 new variable
+orgu#:#msg_position_created#:#Position created.###22 11 2017 new variable
