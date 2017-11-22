@@ -72,9 +72,11 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 
 		$this->type_factory = new ilBiblTypeFactory();
 		$this->filter_factory = new ilBiblFieldFilterFactory();
-		$type = $this->type_factory->getInstanceForType($this->object->getFileType());
-		$this->field_factory = new ilBiblFieldFactory($type);
-		$this->translation_factory = new ilBiblTranslationFactory($this->field_factory);
+		if(is_object($this->object)) {
+			$type = $this->type_factory->getInstanceForType($this->object->getFileType());
+			$this->field_factory = new ilBiblFieldFactory($type);
+			$this->translation_factory = new ilBiblTranslationFactory($this->field_factory);
+		}
 	}
 
 

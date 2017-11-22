@@ -39,4 +39,13 @@ interface ilBiblTypeFactoryInterface {
 	 * @return \ilBiblTypeInterface
 	 */
 	public function getInstanceForString($string);
+
+	/**
+	 * @param string $file_ending
+	 *
+	 * @throws ilException when no data type for file_ending was found
+	 *
+	 * @return int
+	 */
+	public function convertFileEndingToDataType($file_ending);
 }

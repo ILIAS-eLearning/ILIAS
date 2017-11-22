@@ -7,7 +7,8 @@
 
 class ilBiblAdminRisFieldGUI extends ilBiblAdminFieldGUI {
 
-	public function initType() {
+
+	protected function initType() {
 		$this->type = ilBiblField::DATA_TYPE_RIS;
 	}
 }
