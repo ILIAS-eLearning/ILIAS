@@ -8897,7 +8897,7 @@ chatroom_adm#:#server_settings#:#Chatserver Settings
 chatroom_adm#:#client_settings#:#General Settings
 chatroom_adm#:#https#:#HTTPS
 chatroom_adm#:#chat_enabled#:#Enable Chat
-chatroom_adm#:#enable_osd#:#Enable On-Screen Notifications
+chatroom_adm#:#enable_osd#:#Repository Chat: Enable On-Screen Notifications
 chatroom_adm#:#general_settings_title#:#General Chat Settings
 chatroom_adm#:#osd_intervall#:#Refreshinterval (seconds)
 chatroom_adm#:#chatserver_settings_title#:#Chatserver Settings
@@ -9218,7 +9218,7 @@ didactic#:#didactic_template_applied#:#Applied didactic template.
 didactic#:#didactic_confirm_apply_new_template#:#Do you really want to apply the chosen didactic template? All current permission settings will get lost!
 chatroom#:#chatserver_address#:#IP-Address/FQN of Chat Server
 chatroom#:#chatserver_port#:#Port of Chat Server
-chatroom#:#hint_osd#:#If enabled, users are notified by a popup about new invitations.
+chatroom#:#hint_osd#:#If enabled, users are notified by a popup about new invitations for repository chats.
 chatroom#:#hint_osd_interval#:#Polling interval for checking of new notifications. A lower number will notify the user more quickly but increases the number of requests the web server must handle.
 chatroom#:#enable_smilies#:#Enable Smileys
 chatroom#:#hint_enable_smilies#:#If activated, configured text sequences are replaced with an icon. See Smileys tab for configuration.
@@ -9244,7 +9244,8 @@ chatroom#:#clear_room_history_question#:#Do you really want to delete all messag
 chatroom#:#anonymous_hint#:#Make sure to set the proper permissions in the ‘Permissions’ tab to allow anonymous user access to this repository item.
 chatroom_adm#:#public_chat_settings#:#Public Chat Room Settings
 chatroom_adm#:#public_chat_permissions#:#Public Chat Room Permissions
-chatroom_adm#:#play_invitation_sound#:#Play a sound when receiving a new invitation
+chatroom_adm#:#play_invitation_sound#:#Play a sound
+chatroom_adm#:#play_invitation_sound_info#:#Play a sound when receiving a new invitation for repository chats.
 chatroom#:#create_private_room_text#:#Private room name
 chatroom#:#invite_username#:#Username
 notes#:#comments_feature_currently_not_activated_for_object#:#The public comments feature is currently not activated for this resource.
@@ -13578,6 +13579,7 @@ awrn#:#awrn_use_osd_info#:#Display a popup to indicate new online users in the �
 exc#:#exc_tbl_filter_submission#:#Submission
 exc#:#exc_tbl_filter_has_submission#:#Has submitted
 exc#:#exc_tbl_filter_has_no_submission#:#Has not submitted yet
+iass#:#iass_assessment_not_completed#:#Assessment not completet
 iass#:#iass_changed_by#:#Changed after finalization
 iass#:#iass_upload_file#:#Record file
 iass#:#iass_file_visible_examinee#:#File visible for participant
@@ -13648,8 +13650,8 @@ iass#:#iass_save_amend#:#Save Amended Record
 iass#:#iass_info_emails_expl#:#You may provide several addresses separated by comma.
 iass#:#iass_consultation_hours#:#Consultation hours
 iass#:#iass_edit_info#:#Info Settings
-iass#:#iass_mess_notification_completed#:#You passed the assessment %s. Please check the following record for details:
-iass#:#iass_mess_notification_failed#:#You failed the assessment %s. Please check the following record for details:
+iass#:#iass_mess_notification_completed#:#You passed the assessment <i>%s</i>. Please check the following grading record for details:
+iass#:#iass_mess_notification_failed#:#You failed the assessment <i>%s</i>. Please check the following grading record for details:
 iass#:#iass_contact_info#:#Contact information
 iass#:#iass_added#:#Individual Assessment added
 iass#:#iass_event_time_place_required#:#Date and place required
@@ -13705,7 +13707,7 @@ chatroom#:#chat_osc_no_sub_directory_info#:#If the chat server is only reachable
 chatroom#:#chat_deletion_section_head#:#Deletion of old Messages
 chatroom#:#chat_deletion_disabled#:#Disabled
 chatroom#:#chat_deletion_interval#:#Interval
-chatroom#:#chat_deletion_interval_info#:#If chosen, messages in the repository chat on On-Screen-Chat conversations will be deleted after the defined threshold.
+chatroom#:#chat_deletion_interval_info#:#If chosen, messages in the repository chat and On-Screen-Chat conversations will be deleted after the defined threshold.
 chatroom#:#chat_deletion_interval_unit#:#Unit
 chatroom#:#chat_deletion_interval_value#:#Value
 chatroom#:#chat_deletion_ival_max_val#:#The maximum value for the chose unit '%s' is: %s
@@ -14128,4 +14130,4 @@ content#:#cont_sc_name_setting_fullname#:#Title, First name and Last name
 content#:#cont_sc_name_setting_salutation_lastname#:#Salutation and Last name
 content#:#cont_sc_name_setting_first_name#:#First name
 content#:#cont_sc_name_setting_no_name#:#no name
-dateplaner#:#cal_download_files_started#:#The download of calendar files has been started.
+dateplaner#:#cal_download_files_started#:#Download of calendar files has started.

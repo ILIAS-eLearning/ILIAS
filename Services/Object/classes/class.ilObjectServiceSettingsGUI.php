@@ -286,12 +286,16 @@ class ilObjectServiceSettingsGUI
 
 		return $form;
 	}
-	
+
+
 	/**
 	 * Update service settings
-	 * @param type $a_obj_id
+	 *
+	 * @param int               $a_obj_id
 	 * @param ilPropertyFormGUI $form
-	 * @param type $services
+	 * @param string[]          $services
+	 *
+	 * @return bool
 	 */
 	public static function updateServiceSettingsForm($a_obj_id, ilPropertyFormGUI $form, $services)
 	{

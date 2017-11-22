@@ -105,7 +105,9 @@ class ilConditionalNode extends ilBaseNode
 	 */
 	public function checkTransitionPreconditions()
 	{
-		$eval_function = create_function('$detectors', $this->evaluation_expression);
+		$eval_function = function($detectors) {
+			return eval($this->evaluation_expression);
+		};
 
 		if ($eval_function($this->detectors) === null)
 		{
@@ -132,7 +134,9 @@ class ilConditionalNode extends ilBaseNode
 	 */	
 	public function attemptTransition()
 	{
-		$eval_function = create_function('$detectors', $this->evaluation_expression);
+		$eval_function = function($detectors) {
+			return eval($this->evaluation_expression);
+		};
 
 		if ($eval_function($this->detectors) === null)
 		{

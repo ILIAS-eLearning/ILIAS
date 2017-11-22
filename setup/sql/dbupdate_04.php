@@ -21510,7 +21510,7 @@ if (!$ilDB->tableColumnExists('usr_session', 'context'))
 <#5244>
 <?php
 	//add table column
-	if($ilDB->tableExists('iass_members')) {
+	if(!$ilDB->tableColumnExists('iass_members', 'changer_id')) {
 		$ilDB->addTableColumn("iass_members", "changer_id", array(
 			'type' => 'integer',
 			'length' => 4,
@@ -21521,9 +21521,9 @@ if (!$ilDB->tableColumnExists('usr_session', 'context'))
 <#5245>
 <?php
 	//add table column
-	if($ilDB->tableExists('iass_members')) {
+	if(!$ilDB->tableColumnExists('iass_members', 'change_time')) {
 		$ilDB->addTableColumn("iass_members", "change_time", array(
-			'type' => 'text',
+			'type' => 'tilSeext',
 			'length' => 20,
 			'notnull' => false
 			));
@@ -21552,4 +21552,96 @@ include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObje
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5249>
+<?php
 
+$ilSetting = new ilSetting();
+
+if( !$ilSetting->get('dbupwarn_tstfixqstseq', 0) )
+{
+	$res = $ilDB->query("
+		SELECT COUNT(DISTINCT test_fi) num_tst, COUNT(test_question_id) num_qst
+		FROM tst_test_question WHERE test_fi IN(
+			SELECT test_fi FROM tst_test_question
+			GROUP BY test_fi HAVING COUNT(test_fi) < MAX(sequence)
+		)
+	");
+	
+	$row = $ilDB->fetchAssoc($res);
+	
+	if( $row )
+	{
+		$numTests = $row['num_tst'];
+		$numQuestions = $row['num_qst'];
+		echo "<pre>
+		
+		DEAR ADMINISTRATOR !!
+		
+		Please read the following instructions CAREFULLY!
+		
+		-> Due to a bug in almost all earlier versions of ILIAS question orderings
+		from the assessment component are broken but repairable.
+		
+		-> The following dbupdate step can exhaust any php enviroment settings like
+		max_execution_time or memory_limit for example.
+		
+		-> In the case of any php fatal error during the following dbupdate step
+		that is about exhausting any ressource or time restriction you just need
+		to refresh the page by using F5 for example.
+		
+		=> To proceed the update process you now need to refresh the page as well (F5)
+		
+		Mantis Bug Report: https://ilias.de/mantis/view.php?id=20382
+		
+		In your database there were > {$numTests} tests < detected having > {$numQuestions} questions < overall,
+		that are stored with gaps in the ordering index.
+		
+		</pre>";
+		
+		$ilSetting->set('dbupwarn_tstfixqstseq', 1);
+		exit;
+	}
+	
+	$ilSetting->set('dbupwarn_tstfixqstseq', 1);
+}
+
+?>
+<#5250>
+<?php
+
+$res = $ilDB->query("
+	SELECT test_fi, test_question_id
+	FROM tst_test_question WHERE test_fi IN(
+		SELECT test_fi FROM tst_test_question
+		GROUP BY test_fi HAVING COUNT(test_fi) < MAX(sequence)
+	) ORDER BY test_fi ASC, sequence ASC
+");
+
+$tests = array();
+
+while($row = $ilDB->fetchAssoc($res))
+{
+	if( !isset($tests[ $row['test_fi'] ]) )
+	{
+		$tests[ $row['test_fi'] ] = array();
+	}
+	
+	$tests[ $row['test_fi'] ][] = $row['test_question_id'];
+}
+
+foreach($tests as $testFi => $testQuestions)
+{
+	for($i = 0, $m = count($testQuestions); $i <= $m; $i++)
+	{
+		$testQuestionId = $testQuestions[$i];
+		
+		$position = $i + 1;
+		
+		$ilDB->update('tst_test_question',
+			array( 'sequence' => array('integer', $position) ),
+			array( 'test_question_id' => array('integer', $testQuestionId) )
+		);
+	}
+}
+
+?>

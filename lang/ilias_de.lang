@@ -1820,7 +1820,7 @@ chatroom#:#end_whisper#:#Beenden
 chatroom#:#enter#:#Chat beitreten
 chatroom#:#hint_display_past_msgs#:#Anzahl der vergangenen Nachrichten, die beim Betreten des Chatraums angezeigt werden sollen. "0" deaktiviert die Anzeige vergangener Nachrichten.
 chatroom#:#hint_enable_smilies#:#Wenn aktiviert, werden konfigurierte Textbausteine durch ein Bild ersetzt. Die Konfiguration kann im Reiter Smilies vorgenommen werden.
-chatroom#:#hint_osd#:#Wenn aktiviert, werden Benutzer durch ein Popup über neue Einladungen informiert.
+chatroom#:#hint_osd#:#Wenn aktiviert, werden Benutzer durch ein Popup über neue Einladungen in Magazin-Chats informiert.
 chatroom#:#hint_osd_interval#:#Eine geringere Zeit ermöglicht zeitnähere Benachrichtigungen, erhöht aber die Serverlast.
 chatroom#:#history_by_day#:#Tageshistorie
 chatroom#:#history_by_session#:#Sitzungshistorie
@@ -1889,12 +1889,13 @@ common#:#chta_read#:#Lesezugriff auf Chatraum-Administration
 common#:#chta_visible#:#Chatraum-Administration sichtbar
 common#:#chta_write#:#Chatraum-Administration bearbeiten
 chatroom_adm#:#client_settings#:#Allgemeine Einstellungen
-chatroom_adm#:#enable_osd#:#On-Screen Benachrichtigungen aktivieren
+chatroom_adm#:#enable_osd#:#Magazin-Chat: On-Screen Benachrichtigungen aktivieren
 chatroom_adm#:#general_settings_title#:#Allgemeine Chat-Einstellungen
 chatroom_adm#:#https#:#HTTPS
 administration#:#obj_chta_desc#:#Administration des Chat-Objekts und des Chat-Servers
 chatroom_adm#:#osd_intervall#:#Abfrageintervall (Sekunden)
-chatroom_adm#:#play_invitation_sound#:#Ton bei Erhalt einer neuen Einladung abspielen
+chatroom_adm#:#play_invitation_sound#:#Ton abspielen
+chatroom_adm#:#play_invitation_sound_info#:#Ton abspielen bei Erhalt einer neuen Einladung in Magazin-Chats abspielen.
 chatroom_adm#:#port_info#:#Oft werden selten genutzte Ports von Firewalls oder Proxy-Servern geblockt. Benutzer werden mit ihrem Browser keine Verbindung zum Chat-Server aufbauen können, wenn der eingetragene Port nicht offen ist.
 chatroom_adm#:#protocol#:#Protokoll
 chatroom_adm#:#public_chat_permissions#:#Öffentlicher Chatraum : Rechte
@@ -11003,10 +11004,11 @@ orgu#:#orgu_enable_my_staff#:#‘Ansicht Mitarbeiter’ aktivieren
 orgu#:#orgu_enable_my_staff_info#:#The Ansicht ‘Meine Mitarbeiter’ zeigt die Lernfortschritte der eigenen Mitarbeiter an.
 orgu#:#org_op_manage_members#:#Mitglieder bearbeiten
 orgu#:#org_op_read_learning_progress#:#Lernfortschritt von anderen Benutzern einsehen
-orgu#:#org_op_write_learning_progress#:#Lernfortschritt von anderen Benutzern setzen.
 orgu#:#org_op_edit_submissions_grades#:#Abgaben von anderen Benutzern bearbeiten.
 rbac#:#org_op_edit_submissions_grades#:#Abgaben von anderen Benutzern bearbeiten.
+orgu#:#org_op_write_learning_progress#:#Lernfortschritt von anderen Benutzern setzen.
 rbac#:#org_op_write_learning_progress#:#Lernfortschritt untergeordneter Benutzer setzen
+orgu#:#msg_success_permission_saved#:#Berechtigungen gespeichert
 rbac#:#positions_override_operations#:#Globale Einstellungen überschreiben
 orgu#:#form_title_org_default_permissions_update#:#Standardrechte
 orgu#:#msg_confirm_deletion#:#Wollen Sie die folgende Position wirklich löschen?
@@ -13566,6 +13568,7 @@ awrn#:#awrn_use_osd_info#:#Zeigt ein Popup an, wenn neue Benutzer in der „Wer 
 exc#:#exc_tbl_filter_submission#:#Abgabe
 exc#:#exc_tbl_filter_has_submission#:#Hat abgegeben
 exc#:#exc_tbl_filter_has_no_submission#:#Hat noch nicht abgegeben
+iass#:#iass_assessment_not_completed#:#Noch nicht abgeschlossen
 iass#:#general#:#Allgemein
 iass#:#iass_changed_by#:#Geändert nach Finalisierung
 iass#:#iass_content#:#Inhalt
@@ -13633,8 +13636,8 @@ iass#:#iass_mails#:#E-Mail
 iass#:#iass_info_emails_expl#:#Sie können mehrere Adressen mit einem Komma getrennt angeben.
 iass#:#iass_consultation_hours#:#Sprechstunden
 iass#:#iass_edit_info#:#Einstellungen Kontakt
-iass#:#iass_mess_notification_completed#:#Sie haben die Prüfung %s bestanden. Beachten Sie auch die folgende Zusammenfassung für Details.
-iass#:#iass_mess_notification_failed#:#Sie haben die Prüfung %s nicht bestanden. Beachten Sie auch die folgende Zusammenfassung für Details.
+iass#:#iass_mess_notification_completed#:#Sie haben die Prüfung „%s“ bestanden. Beachten Sie bitte auch die folgende Notiz zur Prüfung.
+iass#:#iass_mess_notification_failed#:#Sie haben die Prüfung „%s“ leider nicht bestanden. Beachten Sie bitte auch die folgende Notiz zur Prüfung.
 iass#:#iass_contact_info#:#Kontaktinformationen
 iass#:#iass_added#:#Individuelle Bewertung hinzugefügt
 registration#:#reg_mail_body_activation#:#um Ihr Benutzerprofil freizuschalten und gleichzeitig diese E-Mail-Adresse zu bestätigen, klicken Sie bitte den folgenden Link an:
@@ -14128,4 +14131,4 @@ content#:#cont_sc_name_setting_fullname#:#Titel, Vorname und Nachname
 content#:#cont_sc_name_setting_salutation_lastname#:#Anrede und Nachname
 content#:#cont_sc_name_setting_first_name#:#Vorname
 content#:#cont_sc_name_setting_no_name#:#Kein Name
-dateplaner#:#cal_download_files_started#:#Der Dateidownload wurde gestartet.
+dateplaner#:#cal_download_files_started#:#Download der Dateien wurde gestartet.
