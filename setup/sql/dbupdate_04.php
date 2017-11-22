@@ -21523,7 +21523,7 @@ if (!$ilDB->tableColumnExists('usr_session', 'context'))
 	//add table column
 	if(!$ilDB->tableColumnExists('iass_members', 'change_time')) {
 		$ilDB->addTableColumn("iass_members", "change_time", array(
-			'type' => 'tilSeext',
+			'type' => 'text',
 			'length' => 20,
 			'notnull' => false
 			));
