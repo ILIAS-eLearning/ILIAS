@@ -476,7 +476,7 @@ class ilCalendarViewGUI
 	}
 
 	/**
-	 * get the events between 2 dates based in seed + view options.
+	 * get the events starting between 2 dates based in seed + view options.
 	 * @return int number of events in the calendar list view.
 	 */
 	function countEventsInView()
@@ -505,8 +505,8 @@ class ilCalendarViewGUI
 		foreach($events as $event)
 		{
 			$event_start = $event['event']->getStart()->get(IL_CAL_DATE);
-			$event_end = $event['event']->getEnd()->get(IL_CAL_DATE);
-			if($event_start >= $start->get(IL_CAL_DATE) &&  $event_end< $end->get(IL_CAL_DATE))
+
+			if($event_start >= $start->get(IL_CAL_DATE) &&  $event_start<= $end->get(IL_CAL_DATE))
 			{
 				$num_events++;
 			}
