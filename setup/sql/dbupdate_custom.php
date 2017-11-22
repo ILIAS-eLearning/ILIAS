@@ -86,3 +86,29 @@ if (! $ilDB->tableExists('il_bibl_filter')) {
 
 }
 ?>
+<#3>
+<?php
+if(!$ilDB->tableColumnExists("il_bibl_data", "file_type")) {
+	$ilDB->addTableColumn("il_bibl_data", "file_type", [
+		"type" => "integer",
+		"notnull" => true,
+		"length" => 1,
+		"default" => 1
+	]);
+}
+
+$type = function ($filename) {
+	if (strtolower(substr($filename, - 6)) == "bibtex"
+	    || strtolower(substr($filename, - 3)) == "bib") {
+		return 2;
+	}
+	return 1;
+};
+
+$res = $ilDB->query("SELECT * FROM il_bibl_data");
+while($d = $ilDB->fetchObject($res)) {
+	$ilDB->update("il_bibl_data", [
+			["file_type" =>["integer", $type($d->filname)], ["id"=>$d->id]]
+	]);
+}
+?>
