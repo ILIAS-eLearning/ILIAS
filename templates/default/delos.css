@@ -8244,7 +8244,7 @@ ul.breadcrumb li:hover {
 }
 .il-popover .il-popover-inner {
   max-height: 500px;
-  overflow: scroll;
+  overflow: auto;
 }
 .il-popover .il-popover-inner .close {
   margin: 0;
