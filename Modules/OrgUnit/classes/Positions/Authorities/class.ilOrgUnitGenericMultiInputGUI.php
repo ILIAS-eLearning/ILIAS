@@ -561,7 +561,7 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI {
 	/**
 	 * @return bool
 	 */
-	public function isRenderOneForEmptyValue(): bool {
+	public function isRenderOneForEmptyValue() {
 		return $this->render_one_for_empty_value;
 	}
 
