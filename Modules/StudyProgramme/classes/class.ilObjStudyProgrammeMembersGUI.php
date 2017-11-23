@@ -387,7 +387,9 @@ class ilObjStudyProgrammeMembersGUI {
 	{
 		$prgrs_ids = $this->getPostPrgsIds();
 		foreach ($prgrs_ids as $key => $prgrs_id) {
-			$this->unmarkAccreditedByProgressId((int)$prgrs_id);
+			if ($this->getProgressObject((int)$prgrs_id)->getStatus() == ilStudyProgrammeProgress::STATUS_ACCREDITED) {
+				$this->unmarkAccreditedByProgressId((int)$prgrs_id);
+			}
 		}
 		$this->showSuccessMessage("unmark_accredited_multi_success");
 		$this->ctrl->redirect($this, "view");
@@ -404,6 +406,12 @@ class ilObjStudyProgrammeMembersGUI {
 
 		foreach ($prgrs_ids as $key => $prgrs_id) {
 			$prgrs = $this->getProgressObject((int)$prgrs_id);
+			if (
+				$this->getProgressObject((int)$prgrs_id)->getStatus() == ilStudyProgrammeProgress::STATUS_IN_PROGRESS ||
+				$this->getProgressObject((int)$prgrs_id)->getStatus() == ilStudyProgrammeProgress::STATUS_ACCREDITED
+			) {
+				continue;
+			}
 			$prgrs->markRelevant($this->user->getId());
 		}
 
