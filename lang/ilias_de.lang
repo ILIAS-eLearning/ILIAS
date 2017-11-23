@@ -15050,7 +15050,7 @@ awrn#:#awareness_settings#:#Einstellungen
 awrn#:#awrn_enable#:#Aktiviere „Wer ist online?“-Anzeige
 crs#:#crs_mem_contacts#:#Tutorielle Betreuung
 user#:#user_awrn_all_users#:#Alle Benutzer
-user#:#user_awrn_all_users_info#:#Alle Benutzer der Plattform werden aufgelistet.
+user#:#user_awrn_all_users_info#:#Alle Benutzer der Plattform werden aufgelistet. Achtung: Wird die Option "Online und offline" gewählt, ist bei hoher Benutzerzahl mit erheblichen Performanzeinbußen zu rechnen.
 crs#:#crs_awrn_support_contacts#:#Kursbetreuung
 crs#:#crs_awrn_support_contacts_info#:#Benutzer, die den Kurs betreuen, werden aufgelistet. Die jeweiligen Benutzer werden im Reiter Mitglieder des Kurses für die Kursbetreuung eingetragen.
 awrn#:#awrn_inactive#:#Keine Anzeige
@@ -15069,7 +15069,7 @@ awrn#:#awrn_caching_period#:#Caching-Zeitraum
 awrn#:#awrn_caching_period_info#:#Dieser Zeitraum wird abgewartet, bevor die Anzahl der Benutzer in der Top-Anzeige aktualisiert und neue Online-Benutzer ermittelt werden.
 awrn#:#awrn_seconds#:#Sek.
 awrn#:#awrn_max_nr_entries#:#Anzahl max. Einträge
-awrn#:#awrn_max_nr_entries_info#:#Diese Anzahl an Einträgen wird maximal in der „Wer ist online?“-Liste angezeigt.
+awrn#:#awrn_max_nr_entries_info#:#Diese Anzahl an Einträgen wird maximal in der „Wer ist online?“-Liste angezeigt. Diese Einstellung beeinflusst die Performanz der Anzeige in der Top-Bar nicht wesentlich.
 awrn#:#awrn_hide_from_awareness#:#Mich nicht in „Wer ist online?“-Anzeige auflisten
 awrn#:#awrn_hide_from_awareness_info#:#Die „Wer ist online?“-Anzeige erscheint oben im Kopf der Anwendung und listet ausgewählte Benutzer auf (z.B. Kontakte oder Mitglieder Ihrer Kurse).
 common#:#contact_sysadmin#:#Technische Betreuung kontaktieren

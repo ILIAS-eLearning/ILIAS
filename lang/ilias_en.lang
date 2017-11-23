@@ -15043,7 +15043,7 @@ awrn#:#awareness_settings#:#Settings
 awrn#:#awrn_enable#:#Enable ‘Who is online?’-Tool
 crs#:#crs_mem_contacts#:#Tutorial Support
 user#:#user_awrn_all_users#:#All Users
-user#:#user_awrn_all_users_info#:#All users of the platform are listed.
+user#:#user_awrn_all_users_info#:#All users of the platform are listed. Please not that the setting "Online and Offline" can reduce performance greatly on installations with a large number of users.
 crs#:#crs_awrn_support_contacts#:#Tutorial Support
 crs#:#crs_awrn_support_contacts_info#:#All tutorial support contacts of courses with membership of the current user are listed. Users are defined as tutorial support contacts in the Members tab of the respective course.
 awrn#:#awrn_inactive#:#Not Listed
@@ -15060,7 +15060,7 @@ awrn#:#awrn_caching_period#:#Caching Period
 awrn#:#awrn_caching_period_info#:#Time that is waited before the number of users in the top bar is updated and new online users are determined.
 awrn#:#awrn_seconds#:#sec
 awrn#:#awrn_max_nr_entries#:#Max. Number of Items
-awrn#:#awrn_max_nr_entries_info#:#Maximum number of items in the ‘Who is online?’ list.
+awrn#:#awrn_max_nr_entries_info#:#Maximum number of items in the ‘Who is online?’ list. This setting has only minimal performance influence when displaying the tool in the top bar.
 awrn#:#awrn_hide_from_awareness#:#Hide Me From ‘Who is online?’-Tool
 awrn#:#awrn_hide_from_awareness_info#:#The ‘Who is online?’-Tool is in the top bar and listing selected users (e.g. contacts or members of your courses).
 common#:#contact_sysadmin#:#Contact Technical Support
