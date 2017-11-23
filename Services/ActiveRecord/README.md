@@ -407,7 +407,7 @@ You can use these methods to delete or truncate your table even in dbupdate-Scri
 
 ```php
 arMessage::resetDB(); // Truncates the Database
-arMessage::deleteDB (); // Deletes the Database
+$ilDB->dropTable(arMessage::TABLE_NAME, false); // Deletes the Database
 ```
 
 It's not yet possible to generate e database-modification step with this feature. Please write those as usual and don't forget to represent your changes in your AR-based Class.
