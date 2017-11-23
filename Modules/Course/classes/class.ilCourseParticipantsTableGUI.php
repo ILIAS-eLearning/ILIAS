@@ -626,7 +626,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		$a_user_data = ilUtil::sortArray(
 			$a_user_data,
 			'name',
-			'asc'
+			$this->getOrderDirection()
 		);
 		
 		return $this->setData($a_user_data);

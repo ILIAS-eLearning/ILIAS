@@ -85,12 +85,11 @@ class ilStudyProgrammeTypeGUI {
 		$this->lng->loadLanguageModule('prg');
 		$this->ctrl->saveParameter($this, 'type_id');
 		$this->lng->loadLanguageModule('meta');
-
-		$this->checkAccess();
 	}
 
 
 	public function executeCommand() {
+		$this->checkAccess();
 		$cmd = $this->ctrl->getCmd();
 
 		switch ($cmd) {
@@ -143,7 +142,7 @@ class ilStudyProgrammeTypeGUI {
 	 * Check if user can edit types
 	 */
 	protected function checkAccess() {
-		if (!$this->access->checkAccess("write", "", $this->parent_gui->object->getRefId())) {
+		if (!$this->access->checkAccess("read", "", $this->parent_gui->object->getRefId())) {
 			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
 			$this->ctrl->redirect($this->parent_gui);
 		}
@@ -209,12 +208,13 @@ class ilStudyProgrammeTypeGUI {
 	 * Display all types in a table with actions to edit/delete
 	 */
 	protected function listTypes() {
-		$button = ilLinkButton::getInstance();
-		$button->setCaption('prg_subtype_add');
-		$button->setUrl($this->ctrl->getLinkTarget($this, 'add'));
-		$this->toolbar->addButtonInstance($button);
-
-		$table = new ilStudyProgrammeTypeTableGUI($this, 'listTypes');
+		if ($this->access->checkAccess("write", "", $this->parent_gui->object->getRefId())) {
+			$button = ilLinkButton::getInstance();
+			$button->setCaption('prg_subtype_add');
+			$button->setUrl($this->ctrl->getLinkTarget($this, 'add'));
+			$this->toolbar->addButtonInstance($button);
+		}
+		$table = new ilStudyProgrammeTypeTableGUI($this, 'listTypes', $this->parent_gui->object->getRefId());
 		$this->tpl->setContent($table->getHTML());
 	}
 
