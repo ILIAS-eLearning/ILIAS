@@ -39,12 +39,13 @@ class arMessage extends ActiveRecord {
         const PRIO_NORMAL = 5;
         const PRIO_HIGH = 9;
  
+        const TABLE_NAME = 'ar_message';
  
         /**
          * @return string
          */
         static function returnDbTableName() {
-                return 'ar_message';
+                return self::TABLE_NAME;
         }
  
         /**
