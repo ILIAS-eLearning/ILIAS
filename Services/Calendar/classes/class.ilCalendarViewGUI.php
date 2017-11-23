@@ -175,6 +175,8 @@ class ilCalendarViewGUI
 							break;
 					}
 					$this->period_end_day = $end_date->get(IL_CAL_DATE);
+					$schedule->setPeriod($this->seed, $end_date);
+
 				//}
 				/*else
 				{
