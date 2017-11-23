@@ -11,7 +11,6 @@ require_once('class.arField.php');
 class arFieldList {
 
 	const HAS_FIELD = 'has_field';
-	const IS_UNIQUE = 'is_unique';
 	const IS_PRIMARY = 'is_primary';
 	const IS_NOTNULL = 'is_notnull';
 	const FIELDTYPE = 'fieldtype';
@@ -30,7 +29,6 @@ class arFieldList {
 	 * @var array
 	 */
 	protected static $allowed_description_fields = array(
-		self::IS_UNIQUE,
 		self::IS_PRIMARY,
 		self::IS_NOTNULL,
 		self::FIELDTYPE,
