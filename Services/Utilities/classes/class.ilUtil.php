@@ -189,23 +189,29 @@ class ilUtil
 		}
 
 		$filename = "";
+		$ver_filename = "";
 		// use ilStyleDefinition instead of account to get the current skin
 		require_once("./Services/Style/classes/class.ilStyleDefinition.php");
 		if (ilStyleDefinition::getCurrentSkin() != "default")
 		{
 			$filename = "./Customizing/global/skin/".ilStyleDefinition::getCurrentSkin()."/".$a_css_location.$stylesheet_name;
+			$ver_filename = "./Customizing/global/skin/".ilStyleDefinition::getCurrentSkin()."/version";
 		}
 		if (strlen($filename) == 0 || !file_exists($filename))
 		{
 			$filename = "./" . $a_css_location . "templates/default/".$stylesheet_name;
 		}
 		$vers = "";
+        $build = "";
 		if ($mode != "filesystem")
 		{
 			$vers = str_replace(" ", "-", $ilias->getSetting("ilias_version"));
 			$vers = "?vers=".str_replace(".", "-", $vers);
+			if (strlen($ver_filename) != 0 && file_exists($ver_filename)) {
+				$build = "-".preg_replace(array("/ /", "/\./"),"-", trim(file_get_contents($ver_filename)));
+			}
 		}
-		return $filename . $vers;
+		return $filename . $vers . $build;
 	}
 
 	/**
