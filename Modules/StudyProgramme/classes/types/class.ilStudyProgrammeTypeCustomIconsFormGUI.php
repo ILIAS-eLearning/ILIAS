@@ -65,7 +65,7 @@ class ilStudyProgrammeTypeCustomIconsFormGUI extends ilPropertyFormGUI {
 		}
 		try {
 			$this->type->save();
-
+			$this->type->updateAssignedStudyProgrammesIcons();
 			return true;
 		} catch (ilException $e) {
 			ilUtil::sendFailure($e->getMessage());
