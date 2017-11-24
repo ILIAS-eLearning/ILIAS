@@ -47,10 +47,6 @@ class ilBiblEntry implements ilBiblEntryInterface {
 	 * @var ilBiblEntry[]
 	 */
 	protected static $instances = array();
-	/**
-	 * @var \ilBiblAttribute
-	 */
-	protected $attribute_objects = [];
 
 
 	/**
@@ -201,7 +197,7 @@ class ilBiblEntry implements ilBiblEntryInterface {
 			// surround links with <a href="">
 			// Allowed signs in URL: a-z A-Z 0-9 . ? & _ / - ~ ! ' * ( ) + , : ; @ = $ # [ ] %
 			$value = preg_replace('!(http)(s)?:\/\/[a-zA-Z0-9.?&_/\-~\!\'\*()+,:;@=$#\[\]%]+!', "<a href=\"\\0\" target=\"_blank\">\\0</a>", $value);
-			$parsed_attributes[$key] = $value;
+			$parsed_attributes[strtolower($this->file_type . '_' . $type . '_' . $key)] = $value;
 		}
 
 		return $parsed_attributes;
@@ -222,8 +218,6 @@ class ilBiblEntry implements ilBiblEntryInterface {
 	public function getAttributes() {
 		return $this->attributes;
 	}
-
-
 
 
 	public function initOverviewHTML() {
@@ -351,22 +345,4 @@ class ilBiblEntry implements ilBiblEntryInterface {
 
 		return $entry;
 	}
-
-
-	/**
-	 * @return \ilBiblAttribute
-	 */
-	public function getAttributeObjects() {
-		return $this->attribute_objects;
-	}
-
-
-	/**
-	 * @param \ilBiblAttribute $attribute_objects
-	 */
-	public function setAttributeObjects($attribute_objects) {
-		$this->attribute_objects = $attribute_objects;
-	}
-
-
 }
