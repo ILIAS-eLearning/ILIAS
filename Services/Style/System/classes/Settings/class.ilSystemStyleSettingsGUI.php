@@ -202,6 +202,7 @@ class ilSystemStyleSettingsGUI
 		$new_skin = $container->getSkin();
 		$new_skin->setId($_POST["skin_id"]);
 		$new_skin->setName($_POST["skin_name"]);
+		$new_skin->getVersionStep($_POST['skin_version']);
 
 		$new_style = $new_skin->getStyle($_GET["style_id"]);
 		$new_style->setId($_POST["style_id"]);
@@ -316,6 +317,13 @@ class ilSystemStyleSettingsGUI
 			$ti->setSize(40);
 			$ti->setRequired(true);
 			$form->addItem($ti);
+
+			if($skin->isVersionChangeable()) {
+                $ti = new ilNonEditableValueGUI($this->lng->txt("skin_version"), "skin_version");
+                $ti->setInfo($this->lng->txt("skin_version_description"));
+                $ti->setValue($skin->getVersion());
+                $form->addItem($ti);
+            }
 
 			$section = new ilFormSectionHeaderGUI();
 			$section->setTitle($this->lng->txt("style"));
