@@ -49,6 +49,10 @@ var Conversation = function Conversation(id, participants)
 		_numNewMessages = num;
 	};
 
+	this.getNumNewMessages = function() {
+		return _numNewMessages;
+	};
+
 	/**
 	 * @param message
 	 * @return object Returns a collection of users who did not want to receive messages 
