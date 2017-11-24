@@ -125,16 +125,12 @@ abstract class ilBiblAdminFieldGUI {
 	protected function save() {
 		foreach($_POST['row_values'] as $id => $data) {
 			if(!empty($data['position'])) {
-				if(!$_POST['row_values'][$id]['is_bibl_field']) {
-					$il_bibl_field = new ilBiblField();
-				} else {
-					$il_bibl_field = ilBiblField::find($id);
-				}
-					$il_bibl_field->setIdentifier($_POST['row_values'][$id]['identifier']);
-					$il_bibl_field->setDataType($_POST['row_values'][$id]['data_type']);
-					$il_bibl_field->setPosition($_POST['row_values'][$id]['position']);
-					$il_bibl_field->setIsStandardField($_POST['row_values'][$id]['is_standard_field']);
-					$il_bibl_field->store();
+				$ilBiblField = ilBiblField::find($id);
+				$ilBiblField->setIdentifier($_POST['row_values'][$id]['identifier']);
+				$ilBiblField->setDataType($_POST['row_values'][$id]['data_type']);
+				$ilBiblField->setPosition($_POST['row_values'][$id]['position']);
+				$ilBiblField->setIsStandardField($_POST['row_values'][$id]['is_standard_field']);
+				$ilBiblField->store();
 			}
 		}
 		ilUtil::sendSuccess($this->dic->language()->txt("changes_successfully_saved"));

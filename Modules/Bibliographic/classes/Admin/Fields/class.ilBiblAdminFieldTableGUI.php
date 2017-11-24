@@ -25,7 +25,7 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 	 */
 	protected $data_type;
 	/**
-	 * @var ilBiblSettingsFilterGUI
+	 * @var ilBiblAdminFieldGUI
 	 */
 	protected $parent_obj;
 	/**
@@ -71,7 +71,12 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 		$this->parent_obj = $a_parent_obj;
 		$this->setRowTemplate('tpl.bibl_administration_fields_list_row.html', 'Modules/Bibliographic');
 
-		$this->setFormAction($this->ctrl->getFormActionByClass(ilBiblAdminFieldGUI::class));
+		if($this->data_type == ilBiblTypeFactoryInterface::DATA_TYPE_RIS) {
+			$this->setFormAction($this->ctrl->getFormActionByClass(ilBiblAdminRisFieldGUI::class));
+		} elseif($this->data_type == ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX) {
+			$this->setFormAction($this->ctrl->getFormActionByClass(ilBiblAdminBibtexFieldGUI::class));
+		}
+
 		$this->setExternalSorting(true);
 
 		$this->setDefaultOrderField("identifier");
@@ -80,8 +85,11 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 		$this->setEnableHeader(true);
 
 		$this->initColumns();
-		$this->addCommandButton(ilBiblAdminFieldGUI::CMD_SAVE, $this->dic->language()->txt("save"));
-
+		if($this->data_type == ilBiblTypeFactoryInterface::DATA_TYPE_RIS) {
+			$this->addCommandButton(ilBiblAdminRisFieldGUI::CMD_SAVE, $this->dic->language()->txt("save"));
+		} elseif($this->data_type == ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX) {
+			$this->addCommandButton(ilBiblAdminBibtexFieldGUI::CMD_SAVE, $this->dic->language()->txt("save"));
+		}
 		$this->addFilterItems();
 		$this->parseData();
 		}
@@ -119,59 +127,31 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 	 */
 	public function fillRow($a_set) {
 
-		$is_bibl_field = false;
-
-		if(ilBiblField::where(array('id' =>$a_set['id']))->hasSets()) {
-			$is_bibl_field = true;
-		}
 		$this->tpl->setCurrentBlock("POSITION");
-		if($is_bibl_field) {
-			$this->tpl->setVariable('POSITION_VALUE', $a_set['position']);
-		} else {
-			$this->tpl->setVariable('POSITION_VALUE', '');
-		}
+		$this->tpl->setVariable('POSITION_VALUE', $a_set['position']);
 		$this->tpl->setVariable('POSITION_NAME', "row_values[". $a_set['id'] ."][position]");
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setCurrentBlock("IDENTIFIER");
-		if($is_bibl_field) {
-			$this->tpl->setVariable('IDENTIFIER_VALUE', $a_set['identifier']);
-		} else {
-			$this->tpl->setVariable('IDENTIFIER_VALUE', $a_set['name']);
-		}
+		$this->tpl->setVariable('IDENTIFIER_VALUE', $a_set['identifier']);
+
 		$this->tpl->setVariable('IDENTIFIER_NAME', "row_values[". $a_set['id'] ."][identifier]");
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setCurrentBlock("TRANSLATION");
-		if($is_bibl_field) {
-			//TODO change static content
-			$this->tpl->setVariable('VAL_TRANSLATION', 'TRANSLATION');
-		} else {
-			$this->tpl->setVariable('VAL_TRANSLATION', 'TRANSLATION');
-		}
+		//TODO change static content
+		$this->tpl->setVariable('VAL_TRANSLATION', 'TRANSLATION');
+
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setCurrentBlock("STANDARD");
-		$file_parts = pathinfo($a_set['filename']);
-		if($is_bibl_field) {
+		if($a_set['is_standard_field']) {
 			$this->tpl->setVariable('IS_STANDARD_VALUE', $this->dic->language()->txt("standard"));
 		} else {
-			if($file_parts['extension'] == "bib") {
-				$type = $this->type_factory->getInstanceForType(ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX);
-				if($type->isStandardField($a_set['name'])) {
-					$this->tpl->setVariable('IS_STANDARD_VALUE', $this->dic->language()->txt("standard"));
-				} else {
-					$this->tpl->setVariable('IS_STANDARD_VALUE', $this->dic->language()->txt("custom"));
-				}
-			} elseif($file_parts['extension'] == "ris") {
-				$type = $this->type_factory->getInstanceForType(ilBiblTypeFactoryInterface::DATA_TYPE_RIS);
-				if($type->isStandardField($a_set['name'])) {
-					$this->tpl->setVariable('IS_STANDARD_VALUE', $this->dic->language()->txt("standard"));
-				} else {
-					$this->tpl->setVariable('IS_STANDARD_VALUE', $this->dic->language()->txt("custom"));
-				}
-			}
+			$this->tpl->setVariable('IS_STANDARD_VALUE', $this->dic->language()->txt("custom"));
 		}
+
+
 		$this->tpl->setVariable('IS_STANDARD_NAME', "row_values[". $a_set['id'] ."][is_standard_field]");
 		$this->tpl->parseCurrentBlock();
 
@@ -179,12 +159,7 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable('DATA_TYPE_NAME', "row_values[". $a_set['id'] ."][data_type]");
 		$this->tpl->setVariable('DATA_TYPE_VALUE', $this->data_type);
 		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("IS_BIBL_FIELD");
-		$this->tpl->setVariable('IS_BIBL_FIELD_NAME', "row_values[". $a_set['id'] ."][is_bibl_field]");
-		$this->tpl->setVariable('IS_BIBL_FIELD_VALUE', $is_bibl_field);
-		$this->tpl->parseCurrentBlock();
-
-		$this->addActionMenu($a_set['id'], $is_bibl_field);
+		$this->addActionMenu($a_set['id']);
 	}
 
 	/**
@@ -192,12 +167,11 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 	 * @param boolean $is_bibl_field
 	 * @param boolean $data_type
 	 */
-	protected function addActionMenu($id, $is_bibl_field) {
+	protected function addActionMenu($id) {
 		$current_selection_list = new ilAdvancedSelectionListGUI();
 		$current_selection_list->setListTitle($this->lng->txt("actions"));
 		$current_selection_list->setId($id);
 		$current_selection_list->addItem($this->dic->language()->txt("translate"), "", $this->dic->ctrl()->getLinkTargetByClass(ilBiblAdminFieldTranslateGUI::class, ilBiblAdminFieldTranslateGUI::CMD_TRANSLATE));
-		$this->ctrl->setParameter($this->parent_obj, 'is_bibl_field', $is_bibl_field);
 		$this->ctrl->setParameterByClass(ilBiblAdminFieldGUI::class, ilBiblAdminFieldGUI::FIELD_IDENTIFIER, $id);
 		if($this->data_type == ilBiblTypeFactoryInterface::DATA_TYPE_RIS) {
 			$this->ctrl->setParameterByClass(ilBiblAdminRisFieldGUI::class, ilBiblAdminRisFieldGUI::FIELD_IDENTIFIER, $id);
@@ -229,15 +203,13 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 		$collection = ilBiblField::getCollection();
 		if(!empty($this->data_type)) {
 			if(!is_int(intval($this->data_type))) {
-				$this->data_type = $this->convertStringDataTypeToInt($this->data_type);
+				$this->data_type = $this->type_factory->convertFileEndingToDataType($this->data_type);
 			}
-			$collection->where(array( 'data_type' => $this->data_type ));
 		} else {
-			if(!is_int($this->data_type)) {
-				$this->data_type = $this->convertStringDataTypeToInt($this->data_type);
-			}
-			$collection->where(array( 'data_type' => $this->data_type ));
+			$this->data_type = $this->type_factory->convertFileEndingToDataType($this->data_type);
 		}
+
+		$collection->where(array( 'data_type' => $this->data_type ));
 
 		$sorting_column = $this->getOrderField() ? $this->getOrderField() : 'identifier';
 		$offset = $this->getOffset() ? $this->getOffset() : 0;
@@ -248,18 +220,19 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 		$collection->orderBy($sorting_column, $sorting_direction);
 		$collection->limit($offset, $num);
 
-		$all_attribute_names_and_file_names = $this->field_factory->getAllAttributeNamesByDataType($this->data_type);
+		//$all_attribute_names_and_file_names = $this->field_factory->getAllAttributeNamesByDataType($this->data_type);
 
 		foreach ($this->filter as $filter_key => $filter_value) {
 			switch ($filter_key) {
 				case 'identifier':
 					$collection->where(array( $filter_key => '%' . $filter_value . '%' ), 'LIKE');
-					$all_attribute_names_and_file_names = $this->field_factory->getAllAttributeNamesByIdentifier($filter_value);
+					//$all_attribute_names_and_file_names = $this->field_factory->getAllAttributeNamesByIdentifier($filter_value);
 					break;
 			}
 		}
-		$data_array = array_merge($collection->getArray(), $all_attribute_names_and_file_names);
+		//$data_array = array_merge($collection->getArray(), $all_attribute_names_and_file_names);
 
-		$this->setData($data_array);
+		//$this->setData($data_array);
+		$this->setData($collection->getArray());
 	}
 }

@@ -26,6 +26,7 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface {
 	protected $path_to_file = '';
 
 
+
 	/**
 	 * @param $path_to_file
 	 *
@@ -138,7 +139,8 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface {
 				//TODO - Refactoring for ILIAS 4.5 - get rid off array restructuring
 				//change array structure (name not as the key, but under the key "name")
 				$parsed_entry[$x]['name'] = $key;
-				$parsed_entry[$x ++]['value'] = $attribute;
+				$parsed_entry[$x]['value'] = $attribute;
+				$x++;
 			}
 			/**
 			 * @var $entry_model ilBiblEntry

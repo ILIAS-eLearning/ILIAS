@@ -2492,6 +2492,8 @@ return array(
     'ilBiblAdminFieldTranslateGUI' => $baseDir . '/../../Modules/Bibliographic/classes/Translation/class.ilBiblAdminFieldTranslateGUI.php',
     'ilBiblAdminFieldTranslationGUI' => $baseDir . '/../../Modules/Bibliographic/classes/Admin/Fields/class.ilBiblAdminFieldTranslationGUI.php',
     'ilBiblAdminRisFieldGUI' => $baseDir . '/../../Modules/Bibliographic/classes/Admin/Fields/class.ilBiblAdminRisFieldGUI.php',
+    'ilBiblAttribute' => $baseDir . '/../../Modules/Bibliographic/classes/Attribute/class.ilBiblAttribute.php',
+    'ilBiblAttributeInterface' => $baseDir . '/../../Modules/Bibliographic/interfaces/interface.ilBiblAttributeInterface.php',
     'ilBiblEntry' => $baseDir . '/../../Modules/Bibliographic/classes/Entry/class.ilBiblEntry.php',
     'ilBiblEntryInterface' => $baseDir . '/../../Modules/Bibliographic/interfaces/interface.ilBiblEntryInterface.php',
     'ilBiblField' => $baseDir . '/../../Modules/Bibliographic/classes/Field/class.ilBiblField.php',
