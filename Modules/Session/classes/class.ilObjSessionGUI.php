@@ -1680,6 +1680,11 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$crs_tutors = $this->object->getParentCourseTutors();
 		$tutors_assigned = $this->object->getAssignedTutorsIds();
 
+		if($a_mode == "create" && count($crs_tutors) > 0) {
+			$tutor_source = 1;
+			$tutors_assigned = array_map(function($user) { return $user->getId();}, $crs_tutors);
+		}
+
 		$tutor_list = new ilCheckboxGroupInputGUI($this->lng->txt('event_tutor_selection'), self::INPUT_TUTOR_SELECTION);
 		foreach ($crs_tutors as $t) {
 			$name = $t->getFullName();
@@ -1811,10 +1816,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->object->setTutorSource((int)ilUtil::stripSlashes($_POST[self::INPUT_TUTOR_SOURCE]));
 		if($this->object->getTutorSource() === \ilObjSession::TUTOR_CFG_FROMCOURSE) {
 			$tids = $_POST[self::INPUT_TUTOR_SELECTION];
-			if(!is_array($tids))
-			{
-				ilUtil::sendFailure($this->lng->txt('sess_no_tutor_select'),TRUE);
-				$this->ctrl->redirect($this,'edit');
+			if (!is_array($tids)) {
+				$tids = [];
 			}
 			$this->object->setAssignedTutors($tids);
 		}

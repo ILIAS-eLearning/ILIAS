@@ -1,6 +1,7 @@
 <?php
 // cat-tms-patch start
 require_once('./Modules/Session/classes/class.ilObjSession.php');
+require_once("Services/Membership/classes/class.ilParticipants.php");
 
 /**
  * Class ilSessionAppEventListener
@@ -26,8 +27,15 @@ class ilSessionAppEventListener {
 					case 'update':
 						self::updateSessionAppointments($a_parameter['object']);
 						break;
+					case "deleteParticipant":
+						self::deleteTutorFromLecture((int)$a_parameter["usr_id"], (int)$a_parameter["obj_id"]);
+						break;
+					case "addParticipant":
+						if($a_parameter["role_id"] == IL_CRS_TUTOR) {
+							self::setTutorAsLecture((int)$a_parameter["usr_id"], (int)$a_parameter["obj_id"]);
+						}
+						break;
 				}
-				break;
 		}
 	}
 
@@ -68,6 +76,53 @@ class ilSessionAppEventListener {
 	}
 
 	/**
+	 * Deletes a tutor from list as lecture
+	 *
+	 * @param int 	$usr_id
+	 * @param int 	$crs_ref_id
+	 *
+	 * @return void
+	 */
+	protected static function deleteTutorFromLecture($usr_id, $crs_obj_id) {
+		assert('is_int($usr_id)');
+		assert('is_int($crs_obj_id)');
+		$crs_ref_id = self::getReferenceId($crs_obj_id);
+		foreach(self::getSessionsOfCourse($crs_ref_id) as $session) {
+			$assigned_tutors = $session->getAssignedTutorsIds();
+			$assigned_tutors = array_filter($assigned_tutors, function($id) use ($usr_id) { return $id != $usr_id;});
+			$session->setAssignedTutors($assigned_tutors);
+
+			if(count($assigned_tutors) == 0) {
+				$session->setTutorSource(ilObjSession::TUTOR_CFG_MANUALLY);
+			}
+
+			$session->update();
+		}
+	}
+
+	/**
+	 * Adds tutor as lecture
+	 * Activates from course option
+	 *
+	 * @param int 	$usr_id
+	 * @param int 	$crs_obj_id
+	 *
+	 * @return void
+	 */
+	protected static function setTutorAsLecture($usr_id, $crs_obj_id) {
+		assert('is_int($usr_id)');
+		assert('is_int($crs_obj_id)');
+		$crs_ref_id = self::getReferenceId($crs_obj_id);
+		foreach(self::getSessionsOfCourse($crs_ref_id) as $session) {
+			$assigned_tutors = $session->getAssignedTutorsIds();
+			array_push($assigned_tutors, $usr_id);
+			$session->setAssignedTutors($assigned_tutors);
+			$session->setTutorSource(ilObjSession::TUTOR_CFG_FROMCOURSE);
+			$session->update();
+		}
+	}
+
+	/**
 	 * Find sessions underneath course 
 	 *
 	 * @param 	int 			$crs_ref_id
@@ -87,6 +142,17 @@ class ilSessionAppEventListener {
 		}
 
 		return $ret;
+	}
+
+	/**
+	 * Get reference id of object
+	 *
+	 * @param int 	$obj_id
+	 *
+	 * @return int
+	 */
+	protected static function getReferenceId($obj_id) {
+		return array_shift(ilObject::_getAllReferences($obj_id));
 	}
 
 	/**
