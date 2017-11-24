@@ -48,6 +48,10 @@ var Conversation = function Conversation(id, participants)
 		_numNewMessages = num;
 	};
 
+	this.getNumNewMessages = function() {
+		return _numNewMessages;
+	};
+
 	this.send = function(message) {
 
 		forParticipants(function(participant){

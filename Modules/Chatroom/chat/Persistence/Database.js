@@ -289,8 +289,8 @@ var Database = function Database(config) {
 		_onQueryEvents(
 			_pool.query('SELECT * FROM osc_activity WHERE conversation_id = ? AND user_id = ?', [conversationId, userId]),
 			function(result){
-				_pool.query('UPDATE osc_activity SET is_closed = ? WHERE conversation_id = ? AND user_id = ?',
-					[1, conversationId, userId],
+				_pool.query('UPDATE osc_activity SET is_closed = ?, timestamp = ? WHERE conversation_id = ? AND user_id = ?'',
+					[1, Date.getTimestamp(), conversationId, userId],
 					function(err){
 						if(err) throw err;
 					}
