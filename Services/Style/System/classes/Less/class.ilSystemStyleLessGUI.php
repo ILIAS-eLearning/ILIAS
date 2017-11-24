@@ -296,6 +296,9 @@ class ilSystemStyleLessGUI
 			try{
 				$this->getLessFile()->write();
 				$this->getStyleContainer()->compileLess($_GET["style_id"]);
+				$skin = $this->getStyleContainer()->getSkin();
+				$skin->getVersionStep($skin->getVersion());
+				$this->getStyleContainer()->updateSkin($skin);
 				ilUtil::sendSuccess($this->lng->txt("less_file_updated"));
 			}catch(Exception $e){
 				ilUtil::sendFailure($this->lng->txt($e->getMessage()),true);
