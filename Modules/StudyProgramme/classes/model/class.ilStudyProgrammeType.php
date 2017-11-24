@@ -143,6 +143,7 @@ class ilStudyProgrammeType extends ActiveRecord {
 		$ilUser = $DIC['ilUser'];
 		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 		$lng = $DIC['lng'];
+
 		$this->webdir = $DIC->filesystem()->web();
 		$this->db = $ilDB;
 		$this->log = $ilLog;
@@ -299,7 +300,7 @@ class ilStudyProgrammeType extends ActiveRecord {
 
 		// Delete icon & folder
 		if ($this->webdir->has($this->getIconPath(true))) {
-			$this->webdir($this->getIconPath(true));
+			$this->webdir->delete($this->getIconPath(true));
 		}
 		if ($this->webdir->has($this->getIconPath())) {
 			$this->webdir->deleteDir($this->getIconPath());
@@ -388,6 +389,21 @@ class ilStudyProgrammeType extends ActiveRecord {
 		return $out;
 	}
 
+	/**
+	 * Update the Icons of assigned objects.
+	 *
+	 * @return void
+	 */
+	public function updateAssignedStudyProgrammesIcons()
+	{
+		$obj_ids = $this->getAssignedStudyProgrammeIds();
+
+		foreach ($obj_ids as $id) {
+			$ref_id = ilObject::_getAllReferences($id);
+			$osp = ilObjStudyProgramme::getInstanceByRefId(array_pop($ref_id));
+			$osp->updateCustomIcon();
+		}
+	}
 
 	/**
 	 * Get assigned AdvancedMDRecord objects
@@ -574,9 +590,10 @@ class ilStudyProgrammeType extends ActiveRecord {
 		if (!$this->webdir->hasDir($this->getIconPath())) {
 			$this->webdir->createDir($this->getIconPath());
 		}
+
 		$filename = $this->getIcon() ? $this->getIcon() : $file_data['name'];
-		if($this->webdir->has($this->getIconPath(true)))
-		{
+
+		if($this->webdir->has($this->getIconPath(true))) {
 			$this->webdir->delete($this->getIconPath(true));
 		}
 
@@ -595,7 +612,7 @@ class ilStudyProgrammeType extends ActiveRecord {
 			return;
 		}
 
-		if ($this->getIcon() !== null) {
+		if ($this->getIcon() !== "") {
 			$this->webdir->delete($this->getIconPath(true));
 			$this->setIcon('');
 		}

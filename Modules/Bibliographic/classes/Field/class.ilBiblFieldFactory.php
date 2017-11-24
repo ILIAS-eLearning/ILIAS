@@ -33,10 +33,16 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 	 * @inheritDoc
 	 */
 	public function findById($id) {
-		$inst = ilBiblField::findOrGetInstance($id);
-		if ($inst) {
-			return $inst;
+		/**
+		 * @var $inst ilBiblField
+		 */
+		$inst = ilBiblField::findOrFail($id);
+		if ($this->type->isStandardField($inst->getIdentifier()) != $inst->getisStandardField()) {
+			$inst->setIsStandardField($this->type->isStandardField($inst->getIdentifier()));
+			$inst->update();
 		}
+
+		return $inst;
 	}
 
 
@@ -97,9 +103,26 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 	/**
 	 * @inheritDoc
 	 */
+	public function filterAllFieldsForType(ilBiblTypeInterface $type, ilBiblTableQueryInfoInterface $queryInfo = null) {
+		return $this->getCollectionForFilter($type, $queryInfo)->get();
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function filterAllFieldsForTypeAsArray(ilBiblTypeInterface $type, ilBiblTableQueryInfoInterface $queryInfo = null) {
+		return $this->getCollectionForFilter($type, $queryInfo)->getArray();
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
 	public function getBiblAttributeById($id) {
 		global $DIC;
-		$result = $DIC->database()->query("SELECT * FROM il_bibl_attribute WHERE id = " . $DIC->database()->quote($id, "integer"));
+		$result = $DIC->database()->query("SELECT * FROM il_bibl_attribute WHERE id = "
+		                                  . $DIC->database()->quote($id, "integer"));
 
 		$data = [];
 		while ($d = $DIC->database()->fetchAssoc($result)) {
@@ -115,7 +138,8 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 	 */
 	public function deleteBiblAttributeById($id) {
 		global $DIC;
-		$DIC->database()->manipulate("DELETE FROM il_bibl_attribute WHERE id = " . $DIC->database()->quote($id, "integer"));
+		$DIC->database()->manipulate("DELETE FROM il_bibl_attribute WHERE id = " . $DIC->database()
+		                                                                               ->quote($id, "integer"));
 	}
 
 
@@ -164,8 +188,8 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 
 		$sql = "SELECT DISTINCT (il_bibl_attribute.id), (il_bibl_attribute.name), filename FROM il_bibl_attribute
 				JOIN il_bibl_entry ON il_bibl_attribute.entry_id = il_bibl_entry.id
-				JOIN il_bibl_data ON il_bibl_data.id = il_bibl_entry.data_id WHERE " . $DIC->database()->like("il_bibl_attribute.name", "text", "%"
-				. $identifier . "%");
+				JOIN il_bibl_data ON il_bibl_data.id = il_bibl_entry.data_id WHERE "
+		       . $DIC->database()->like("il_bibl_attribute.name", "text", "%" . $identifier . "%");
 
 		$result = $DIC->database()->query($sql);
 
@@ -198,6 +222,7 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 		return $data;
 	}
 
+
 	/**
 	 * @inheritDoc
 	 */
@@ -205,31 +230,21 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 		global $DIC;
 		$data = array();
 		$set = $DIC->database()->query("SELECT * FROM il_bibl_data " . " WHERE id = "
-			. $DIC->database()->quote($id, "integer"));
+		                               . $DIC->database()->quote($id, "integer"));
 		while ($rec = $DIC->database()->fetchAssoc($set)) {
 			$data = $rec;
 		}
+
 		return $data;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
-/*	public function hasIlBiblFieldEntry($name) {
-		$ilBiblField = ilBiblField::where(array( 'identifier' => $name ))->first();
-		if (!empty($ilBiblField)) {
-			return true;
-		}
-
-		return false;
-	}*/
 
 	/**
 	 * @inheritDoc
 	 */
 	public function findOrCreate(ilBiblAttribute $ilBiblAttribute) {
 		$ilBiblField = ilBiblField::where([ 'identifier' => $ilBiblAttribute->getName() ])->first();
-		if ($ilBiblField === NULL) {
+		if ($ilBiblField === null) {
 			$ilBiblField = new ilBiblField();
 			$ilBiblField->setIdentifier($ilBiblAttribute->getName());
 
@@ -248,31 +263,9 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 
 			$ilBiblField->create();
 		}
+
 		return $ilBiblField;
 	}
-
-	/**
-	 * @inheritDoc
-	 */
-/*	public function createIlBiblFieldForIlBiblAttribute($il_bibl_attribute) {
-		if (!$this->hasIlBiblFieldEntry($il_bibl_attribute['name'])) {
-			$ilBiblField = new ilBiblField();
-			$ilBiblField->setIdentifier($il_bibl_attribute['name']);
-
-			$il_bibl_entry = ilBiblEntry::getEntryById($il_bibl_attribute['entry_id']);
-			$il_bibl_data = $this->getIlBiblDataById($il_bibl_entry['data_id']);
-
-			$file_parts = $il_bibl_data['filename'];
-			$extension = $file_parts['extension'];
-
-			$ilBiblTypeFactory = new ilBiblTypeFactory();
-			$data_type = $ilBiblTypeFactory->convertFileEndingToDataType($extension);
-
-			$ilBiblField->setDataType($data_type);
-			$type_inst = $ilBiblTypeFactory->getInstanceForType($data_type);
-			$ilBiblField->setIsStandardField($type_inst->isStandardField($il_bibl_attribute['name']));
-		}
-	}*/
 
 	// Internal Methods
 
@@ -301,6 +294,40 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 			default:
 				throw new ilException("bibliografic type not found");
 		}
+	}
+
+
+	/**
+	 * @param \ilBiblTypeInterface           $type
+	 * @param \ilBiblTableQueryInfoInterface $queryInfo
+	 *
+	 * @return \ActiveRecordList
+	 */
+	private function getCollectionForFilter(ilBiblTypeInterface $type, ilBiblTableQueryInfoInterface $queryInfo = null) {
+		$collection = ilBiblField::getCollection();
+
+		$collection->where(array( 'data_type' => $type->getId() ));
+
+		if ($queryInfo) {
+			$sorting_column = $queryInfo->getSortingColumn() ? $queryInfo->getSortingColumn() : null;
+			$offset = $queryInfo->getOffset() ? $queryInfo->getOffset() : 0;
+			$sorting_direction = $queryInfo->getSortingDirection();
+			$limit = $queryInfo->getLimit();
+			if ($sorting_column) {
+				$collection->orderBy($sorting_column, $sorting_direction);
+			}
+			$collection->limit($offset, $limit);
+
+			foreach ($queryInfo->getFilters() as $queryFilter) {
+				switch ($queryFilter->getFieldName()) {
+					default:
+						$collection->where(array( $queryFilter->getFieldName() => $queryFilter->getFieldValue() ), $queryFilter->getOperator());
+						break;
+				}
+			}
+		}
+
+		return $collection;
 	}
 }
 

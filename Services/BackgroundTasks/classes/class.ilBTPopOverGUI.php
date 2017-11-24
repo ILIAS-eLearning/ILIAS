@@ -53,7 +53,7 @@ class ilBTPopOverGUI {
 		$f = $this->ui()->factory();
 		$persistence = $this->dic()->backgroundTasks()->persistence();
 
-		$observer_ids = $this->btPersistence->getBucketIdsOfUser($user_id);
+		$observer_ids = $this->btPersistence->getBucketIdsOfUser($user_id, 'id', 'DESC');
 		$observers = $this->btPersistence->loadBuckets($observer_ids);
 
 		$metas = $persistence->getBucketMetaOfUser($this->user()->getId());

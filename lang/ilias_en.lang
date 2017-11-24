@@ -8897,7 +8897,7 @@ chatroom_adm#:#server_settings#:#Chatserver Settings
 chatroom_adm#:#client_settings#:#General Settings
 chatroom_adm#:#https#:#HTTPS
 chatroom_adm#:#chat_enabled#:#Enable Chat
-chatroom_adm#:#enable_osd#:#Enable On-Screen Notifications
+chatroom_adm#:#enable_osd#:#Repository Chat: Enable On-Screen Notifications
 chatroom_adm#:#general_settings_title#:#General Chat Settings
 chatroom_adm#:#osd_intervall#:#Refreshinterval (seconds)
 chatroom_adm#:#chatserver_settings_title#:#Chatserver Settings
@@ -9218,7 +9218,7 @@ didactic#:#didactic_template_applied#:#Applied didactic template.
 didactic#:#didactic_confirm_apply_new_template#:#Do you really want to apply the chosen didactic template? All current permission settings will get lost!
 chatroom#:#chatserver_address#:#IP-Address/FQN of Chat Server
 chatroom#:#chatserver_port#:#Port of Chat Server
-chatroom#:#hint_osd#:#If enabled, users are notified by a popup about new invitations.
+chatroom#:#hint_osd#:#If enabled, users are notified by a popup about new invitations for repository chats.
 chatroom#:#hint_osd_interval#:#Polling interval for checking of new notifications. A lower number will notify the user more quickly but increases the number of requests the web server must handle.
 chatroom#:#enable_smilies#:#Enable Smileys
 chatroom#:#hint_enable_smilies#:#If activated, configured text sequences are replaced with an icon. See Smileys tab for configuration.
@@ -9244,7 +9244,8 @@ chatroom#:#clear_room_history_question#:#Do you really want to delete all messag
 chatroom#:#anonymous_hint#:#Make sure to set the proper permissions in the ‘Permissions’ tab to allow anonymous user access to this repository item.
 chatroom_adm#:#public_chat_settings#:#Public Chat Room Settings
 chatroom_adm#:#public_chat_permissions#:#Public Chat Room Permissions
-chatroom_adm#:#play_invitation_sound#:#Play a sound when receiving a new invitation
+chatroom_adm#:#play_invitation_sound#:#Play a sound
+chatroom_adm#:#play_invitation_sound_info#:#Play a sound when receiving a new invitation for repository chats.
 chatroom#:#create_private_room_text#:#Private room name
 chatroom#:#invite_username#:#Username
 notes#:#comments_feature_currently_not_activated_for_object#:#The public comments feature is currently not activated for this resource.
@@ -11038,15 +11039,17 @@ mst#:#mst_memb_status_waitinglist#:#Waiting List
 mst#:#mst_memb_status_registered#:#Registered
 mst#:#mst_show_courses#:#Enrolments
 mst#:#mst_courses_of#:#Enrolments of %s
+orgu#:#msg_position_udpated#:#Position aktualisiert
+orgu#:#remove_successful#:#User was removed successfully.
+orgu#:#add_position#:#Position hinzufügen
 orgu#:#orgu_enable_my_staff#:#Enable View ‘Staff’
 orgu#:#orgu_enable_my_staff_info#:#The View ‘Staff’ shows the Learning Progress of the own Employees.
 orgu#:#org_op_manage_members#:#Manage Members
 orgu#:#org_op_read_learning_progress#:#View learning progress of other users
 orgu#:#org_op_write_learning_progress#:#Set learning progress of other users
-rbac#:#org_op_write_learning_progress#:#Set Learning Progress of Subordinate Users
-rbac#:#org_op_edit_submissions_grades#:#Edit submission graddes
-orgu#:#org_op_edit_submissions_grades#:#Edit submission graddes
-orgu#:#msg_success_permission_saved#:#Permissions saved
+rbac#:#org_op_write_learning_progress#:#Set learning Progress of Subordinate Users
+orgu#:#org_op_edit_submissions_grades#:#Edit submissions of other users
+rbac#:#org_op_edit_submissions_grades#:#Edit submissions of other users
 orgu#:#form_title_org_default_permissions_update#:#Default Permissions
 orgu#:#view_learning_progress#:#View Learning Progress
 orgu#:#il_orgu_employee#:#Employee
@@ -11055,6 +11058,7 @@ orgu#:#deassign_user_successful#:#Users have been successfully deassigned from t
 orgu#:#il_orgu_superior#:#Superior
 orgu#:#orgu_staff#:#Staff
 orgu#:#confirm_deletion_and_assign#:#Delete and Assign Users
+orgu#:#msg_assignment_to_employee_done#:#Assignment to the employee role successful
 orgu#:#confirm_deletion_button#:#Delete
 orgu#:#msg_deleted#:#Deleted
 orgu#:#Staff#:#Staff
@@ -12820,7 +12824,7 @@ awrn#:#awareness_settings#:#Settings
 awrn#:#awrn_enable#:#Enable ‘Who is online?’-Tool
 crs#:#crs_mem_contacts#:#Tutorial Support
 user#:#user_awrn_all_users#:#All Users
-user#:#user_awrn_all_users_info#:#All users of the platform are listed.
+user#:#user_awrn_all_users_info#:#All users of the platform are listed. Please not that the setting "Online and Offline" can reduce performance greatly on installations with a large number of users.
 crs#:#crs_awrn_support_contacts#:#Tutorial Support
 crs#:#crs_awrn_support_contacts_info#:#All tutorial support contacts of courses with membership of the current user are listed. Users are defined as tutorial support contacts in the Members tab of the respective course.
 awrn#:#awrn_inactive#:#Not Listed
@@ -12837,7 +12841,7 @@ awrn#:#awrn_caching_period#:#Caching Period
 awrn#:#awrn_caching_period_info#:#Time that is waited before the number of users in the top bar is updated and new online users are determined.
 awrn#:#awrn_seconds#:#sec
 awrn#:#awrn_max_nr_entries#:#Max. Number of Items
-awrn#:#awrn_max_nr_entries_info#:#Maximum number of items in the ‘Who is online?’ list.
+awrn#:#awrn_max_nr_entries_info#:#Maximum number of items in the ‘Who is online?’ list. This setting has only minimal performance influence when displaying the tool in the top bar.
 awrn#:#awrn_hide_from_awareness#:#Hide Me From ‘Who is online?’-Tool
 awrn#:#awrn_hide_from_awareness_info#:#The ‘Who is online?’-Tool is in the top bar and listing selected users (e.g. contacts or members of your courses).
 common#:#contact_sysadmin#:#Contact Technical Support
@@ -13582,6 +13586,7 @@ awrn#:#awrn_use_osd_info#:#Display a popup to indicate new online users in the �
 exc#:#exc_tbl_filter_submission#:#Submission
 exc#:#exc_tbl_filter_has_submission#:#Has submitted
 exc#:#exc_tbl_filter_has_no_submission#:#Has not submitted yet
+iass#:#iass_assessment_not_completed#:#Assessment not completet
 iass#:#iass_changed_by#:#Changed after finalization
 iass#:#iass_upload_file#:#Record file
 iass#:#iass_file_visible_examinee#:#File visible for participant
@@ -14082,6 +14087,8 @@ lti#:#lti_exited_info#:#LTI Session successfully closed
 blog#:#blog_nav_mode_month_list_num_month_with_post#:#Number of month with listed postings
 blog#:#blog_nav_mode_month_list_num_month_with_post_info#:#These months will be displayed with all their postings in the navigation block.
 orgu#:#org_op_access_enrolments#:#View Enrolments
+orgu#:#msg_position_updated#:#Position updated.
+orgu#:#msg_position_created#:#Position created.
 pdfgen#:#cleanup#:#Cleanup
 skmg#:#skmg_order_nr_info#:#Positions competence in the list of competences.
 common#:#position_permission_settings#:#Orgunit-Specific Permissions

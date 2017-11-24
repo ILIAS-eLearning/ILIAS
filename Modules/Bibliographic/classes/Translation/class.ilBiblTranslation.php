@@ -2,7 +2,8 @@
 /**
  * Class ilBiblTranslation
  *
- * @author: Benjamin Seglias   <bs@studer-raimann.ch>
+ * @author Benjamin Seglias   <bs@studer-raimann.ch>
+ * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 
 class ilBiblTranslation extends ActiveRecord {
@@ -44,7 +45,7 @@ class ilBiblTranslation extends ActiveRecord {
 	 *
 	 * @con_has_field  true
 	 * @con_fieldtype  integer
-	 * @con_length     4
+	 * @con_length     8
 	 * @con_is_notnull true
 	 * @con_is_unique  true
 	 */
@@ -62,9 +63,7 @@ class ilBiblTranslation extends ActiveRecord {
 	 * @var
 	 *
 	 * @con_has_field  true
-	 * @con_fieldtype  text
-	 * @con_length     8
-	 * @con_is_notnull true
+	 * @con_fieldtype  clob
 	 */
 	protected $translation;
 

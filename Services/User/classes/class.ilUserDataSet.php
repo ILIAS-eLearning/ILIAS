@@ -82,6 +82,7 @@ class ilUserDataSet extends ilDataSet
 						"Matriculation" => "text",
 						"Latitude" => "text",
 						"Longitude" => "text",
+						"LocZoom" => "text",
 						"Picture" => "directory"
 						);
 			}
@@ -224,7 +225,7 @@ class ilUserDataSet extends ilDataSet
 					$this->getDirectDataFromQuery("SELECT usr_id id, login username, firstname, lastname, ".
 						" title, birthday, gender, institution, department, street, city, zipcode, country, sel_country, ".
 						" phone_office, phone_home, phone_mobile, fax, email, hobby, referral_comment, matriculation, ".
-						" delicious, latitude, longitude".
+						" delicious, latitude, longitude, loc_zoom".
 						" FROM usr_data u ".
 						"WHERE ".
 						$ilDB->in("u.usr_id", $a_ids, false, "integer"));
@@ -234,7 +235,7 @@ class ilUserDataSet extends ilDataSet
 					$this->getDirectDataFromQuery("SELECT usr_id id, login username, firstname, lastname, ".
 						" title, birthday, gender, institution, department, street, city, zipcode, country, sel_country, ".
 						" phone_office, phone_home, phone_mobile, fax, email, hobby, referral_comment, matriculation, ".
-						" latitude, longitude".
+						" latitude, longitude, loc_zoom".
 						" FROM usr_data u ".
 						"WHERE ".
 						$ilDB->in("u.usr_id", $a_ids, false, "integer"));
@@ -243,7 +244,7 @@ class ilUserDataSet extends ilDataSet
 					$this->getDirectDataFromQuery("SELECT usr_id id, login username, firstname, lastname, ".
 						" title, birthday, gender, institution, department, street, city, zipcode, country, sel_country, ".
 						" phone_office, phone_home, phone_mobile, fax, email, second_email, hobby, referral_comment, matriculation, ".
-						" latitude, longitude".
+						" latitude, longitude, loc_zoom".
 						" FROM usr_data u ".
 						"WHERE ".
 						$ilDB->in("u.usr_id", $a_ids, false, "integer"));
@@ -300,6 +301,7 @@ class ilUserDataSet extends ilDataSet
 				case "4.5.0":
 				case "5.1.0":
 				case "5.2.0":
+				case "5.3.0":
 					$this->data = array();
 					$set = $ilDB->query("SELECT * FROM usr_data_multi".
 						" WHERE ".$ilDB->in("usr_id", $a_ids, false, "integer"));
@@ -377,9 +379,13 @@ class ilUserDataSet extends ilDataSet
 						{
 							$set_method = "set".substr($f["method"], 3);
 							$user->{$set_method}(ilUtil::secureString($a_rec[$up_k]));
-//	echo "<br>-setting-".$set_method."-".$a_rec[$up_k]."-";
 						}
 					}
+
+					$user->setLatitude($a_rec["Latitude"]);
+					$user->setLongitude($a_rec["Longitude"]);
+					$user->setLocationZoom($a_rec["LocZoom"]);
+
 					$user->update();
 					
 					// personal picture

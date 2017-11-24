@@ -480,8 +480,8 @@ class ilPersonalSkillsGUI
 
 			if ($this->mode == "gap" && !$this->history_view)
 			{
-				$panel_comps[] = $this->ui_fac->legacy($this->getActualGapItem($level_data, $bs["tref"]));
-				$panel_comps[] = $this->ui_fac->legacy($this->getSelfEvalGapItem($level_data, $bs["tref"]));
+				$panel_comps[] = $this->ui_fac->legacy($this->getActualGapItem($level_data, $bs["tref"])."");
+				$panel_comps[] = $this->ui_fac->legacy($this->getSelfEvalGapItem($level_data, $bs["tref"])."");
 			}
 			else
 			{

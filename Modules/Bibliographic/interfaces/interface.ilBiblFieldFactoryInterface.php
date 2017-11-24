@@ -40,6 +40,24 @@ interface ilBiblFieldFactoryInterface {
 
 
 	/**
+	 * @param \ilBiblTypeInterface           $type
+	 * @param \ilBiblTableQueryInfoInterface $queryInfo
+	 *
+	 * @return \ilBiblField[]
+	 */
+	public function filterAllFieldsForType(ilBiblTypeInterface $type, ilBiblTableQueryInfoInterface $queryInfo = null);
+
+
+	/**
+	 * @param \ilBiblTypeInterface                $type
+	 * @param \ilBiblTableQueryInfoInterface|null $queryInfo
+	 *
+	 * @return array
+	 */
+	public function filterAllFieldsForTypeAsArray(ilBiblTypeInterface $type, ilBiblTableQueryInfoInterface $queryInfo = null);
+
+
+	/**
 	 * @param int $obj_id
 	 *
 	 * @return string
@@ -90,21 +108,13 @@ interface ilBiblFieldFactoryInterface {
 	 */
 	public function findById($id);
 
-	/**
-	 * checks if a ilBiblField Entry for the il_bibl_attribute exists
-	 *
-	 * @param string $name
-	 *
-	 * @return boolean
-	 */
-/*	public function hasIlBiblFieldEntry($name);*/
 
 	/**
 	 * find or creates ilBiblField Entry for the il_bibl_attribute
 	 *
-	 * @param array ilBiblAttribute
+	 * @param $il_bibl_attribute ilBiblAttribute
 	 *
-	 * @return ilBiblField | true
+	 * @return \ilBiblField
 	 */
 	public function findOrCreate(ilBiblAttribute $il_bibl_attribute);
 

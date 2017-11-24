@@ -111,15 +111,37 @@ class ilMail
 	/** @var ilObjUser[] */
 	protected static $userInstances = array();
 
+	/** @var ilMailAddressTypeFactory */
+	private $mailAddressTypeFactory;
+
+	/** @var ilMailRfc822AddressParserFactory */
+	private $mailAddressParserFactory;
+
 	/**
 	 * @param integer $a_user_id
+	 * @param ilMailAddressTypeFactory|null $mailAddressTypeFactory
+	 * @param ilMailRfc822AddressParserFactory|null $mailAddressParserFactory
 	 */
-	public function __construct($a_user_id)
+	public function __construct(
+		$a_user_id,
+		ilMailAddressTypeFactory $mailAddressTypeFactory = null,
+		ilMailRfc822AddressParserFactory $mailAddressParserFactory = null)
 	{
 		global $DIC;
 
 		require_once 'Services/Mail/classes/class.ilFileDataMail.php';
 		require_once 'Services/Mail/classes/class.ilMailOptions.php';
+
+		if ($mailAddressTypeFactory === null) {
+			$mailAddressTypeFactory = new ilMailAddressTypeFactory();
+		}
+
+		if ($mailAddressParserFactory === null) {
+			$mailAddressParserFactory = new ilMailRfc822AddressParserFactory();
+		}
+
+		$this->mailAddressParserFactory = $mailAddressParserFactory;
+		$this->mailAddressTypeFactory = $mailAddressTypeFactory;
 
 		$this->lng              = $DIC->language();
 		$this->db               = $DIC->database();
@@ -987,11 +1009,10 @@ class ilMail
 
 		$a_recipients = implode(',', array_filter(array_map('trim', $a_recipients)));
 
-		require_once 'Services/Mail/classes/Address/Type/class.ilMailAddressTypeFactory.php';  
 		$recipients = $this->parseAddresses($a_recipients);
 		foreach($recipients as $recipient)
 		{
-			$address_type = ilMailAddressTypeFactory::getByPrefix($recipient);
+			$address_type = $this->mailAddressTypeFactory->getByPrefix($recipient);
 			$usr_ids = array_merge($usr_ids, $address_type->resolve());
 		}
 
@@ -1035,11 +1056,10 @@ class ilMail
 
 		try
 		{
-			require_once 'Services/Mail/classes/Address/Type/class.ilMailAddressTypeFactory.php';
 			$recipients = $this->parseAddresses($a_recipients);
 			foreach($recipients as $recipient)
 			{
-				$address_type = ilMailAddressTypeFactory::getByPrefix($recipient);
+				$address_type = $this->mailAddressTypeFactory->getByPrefix($recipient);
 				if(!$address_type->validate($this->user_id))
 				{
 					$errors = array_merge($errors, $address_type->getErrors());
@@ -1426,8 +1446,7 @@ class ilMail
 			));
 		}
 
-		require_once 'Services/Mail/classes/Address/Parser/class.ilMailRfc822AddressParserFactory.php';
-		$parser = ilMailRfc822AddressParserFactory::getParser($addresses);
+		$parser = $this->mailAddressParserFactory->getParser($addresses);
 		$parsedAddresses = $parser->parse();
 
 		if(strlen($addresses) > 0)
