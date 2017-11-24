@@ -2624,6 +2624,8 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilBenchmarkTableGUI' => __DIR__ . '/../..' . '/../../Modules/SystemFolder/classes/class.ilBenchmarkTableGUI.php',
         'ilBibTex' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Types/BibTex/class.ilBibTex.php',
         'ilBiblAdminBibtexFieldGUI' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Admin/Fields/class.ilBiblAdminBibtexFieldGUI.php',
+        'ilBiblAdminFactoryFacade' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Admin/Facade/class.ilBiblAdminFactoryFacade.php',
+        'ilBiblAdminFactoryFacadeInterface' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/interfaces/Facade/interface.ilBiblAdminFactoryFacadeInterface.php',
         'ilBiblAdminFieldGUI' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Admin/Fields/class.ilBiblAdminFieldGUI.php',
         'ilBiblAdminFieldTableGUI' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Admin/Fields/class.ilBiblAdminFieldTableGUI.php',
         'ilBiblAdminRisFieldGUI' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Admin/Fields/class.ilBiblAdminRisFieldGUI.php',

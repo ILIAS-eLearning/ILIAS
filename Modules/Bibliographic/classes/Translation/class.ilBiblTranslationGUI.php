@@ -10,22 +10,18 @@ use ILIAS\Modules\OrgUnit\ARHelper\DIC;
  */
 class ilBiblTranslationGUI {
 
+	use DIC;
 	const P_TRANSLATIONS = 'translations';
 	const P_DELETE = 'delete';
-	use DIC;
 	const CMD_ADD_LANGUAGE = "addLanguages";
 	const CMD_SAVE_LANGUAGES = "saveLanguages";
 	const CMD_SAVE_TRANSLATIONS = "saveTranslations";
 	const CMD_DELETE_TRANSLATIONS = "deleteTranslations";
 	const CMD_DEFAULT = 'index';
 	/**
-	 * @var \ilBiblTypeInterface
+	 * @var \ilBiblAdminFactoryFacadeInterface
 	 */
-	protected $type;
-	/**
-	 * @var \ilBiblTranslationFactoryInterface
-	 */
-	protected $translation_factory;
+	protected $facade;
 	/**
 	 * @var \ilBiblFieldInterface
 	 */
@@ -35,13 +31,11 @@ class ilBiblTranslationGUI {
 	/**
 	 * ilBiblTranslationGUI constructor.
 	 *
-	 * @param \ilBiblTypeInterface               $type
-	 * @param \ilBiblTranslationFactoryInterface $translation_factory
+	 * @param \ilBiblAdminFactoryFacadeInterface $facade
 	 * @param \ilBiblFieldInterface              $field
 	 */
-	public function __construct(ilBiblTypeInterface $type, \ilBiblTranslationFactoryInterface $translation_factory, \ilBiblFieldInterface $field) {
-		$this->type = $type;
-		$this->translation_factory = $translation_factory;
+	public function __construct(ilBiblAdminFactoryFacadeInterface $facade, \ilBiblFieldInterface $field) {
+		$this->facade = $facade;
 		$this->field = $field;
 	}
 
@@ -59,7 +53,7 @@ class ilBiblTranslationGUI {
 	protected function index() {
 		$this->initToolbar();
 
-		$table = new ilBiblTranslationTableGUI($this, $this->field, $this->translation_factory);
+		$table = new ilBiblTranslationTableGUI($this, $this->field, $this->facade->translationFactory());
 		$this->tpl()->setContent($table->getHTML());
 	}
 
@@ -73,7 +67,7 @@ class ilBiblTranslationGUI {
 	protected function saveTranslations() {
 		$to_translate = (array)$this->http()->request()->getParsedBody()[self::P_TRANSLATIONS];
 		foreach ($to_translate as $id => $data) {
-			$translation = $this->translation_factory->findById($id);
+			$translation = $this->facade->translationFactory()->findById($id);
 			$translation->setTranslation($data['translation']);
 			$translation->setDescription($data['description']);
 			$translation->store();
@@ -86,7 +80,7 @@ class ilBiblTranslationGUI {
 	protected function deleteTranslations() {
 		$to_delete = (array)$this->http()->request()->getParsedBody()[self::P_DELETE];
 		foreach ($to_delete as $id) {
-			$this->translation_factory->deleteById($id);
+			$this->facade->translationFactory()->deleteById($id);
 		}
 		ilUtil::sendInfo($this->lng()->txt('bibl_msg_translations_deleted'), true);
 		$this->cancel();
@@ -106,7 +100,8 @@ class ilBiblTranslationGUI {
 			$ad = $form->getInput("additional_langs");
 			if (is_array($ad)) {
 				foreach ($ad as $language_key) {
-					$this->translation_factory->findArCreateInstanceForFieldAndlanguage($this->field, $language_key);
+					$this->facade->translationFactory()
+					             ->findArCreateInstanceForFieldAndlanguage($this->field, $language_key);
 				}
 			}
 			ilUtil::sendInfo($this->lng()->txt("msg_obj_modified"), true);

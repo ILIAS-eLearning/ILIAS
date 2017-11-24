@@ -2485,6 +2485,8 @@ return array(
     'ilBenchmarkTableGUI' => $baseDir . '/../../Modules/SystemFolder/classes/class.ilBenchmarkTableGUI.php',
     'ilBibTex' => $baseDir . '/../../Modules/Bibliographic/classes/Types/BibTex/class.ilBibTex.php',
     'ilBiblAdminBibtexFieldGUI' => $baseDir . '/../../Modules/Bibliographic/classes/Admin/Fields/class.ilBiblAdminBibtexFieldGUI.php',
+    'ilBiblAdminFactoryFacade' => $baseDir . '/../../Modules/Bibliographic/classes/Admin/Facade/class.ilBiblAdminFactoryFacade.php',
+    'ilBiblAdminFactoryFacadeInterface' => $baseDir . '/../../Modules/Bibliographic/interfaces/Facade/interface.ilBiblAdminFactoryFacadeInterface.php',
     'ilBiblAdminFieldGUI' => $baseDir . '/../../Modules/Bibliographic/classes/Admin/Fields/class.ilBiblAdminFieldGUI.php',
     'ilBiblAdminFieldTableGUI' => $baseDir . '/../../Modules/Bibliographic/classes/Admin/Fields/class.ilBiblAdminFieldTableGUI.php',
     'ilBiblAdminRisFieldGUI' => $baseDir . '/../../Modules/Bibliographic/classes/Admin/Fields/class.ilBiblAdminRisFieldGUI.php',

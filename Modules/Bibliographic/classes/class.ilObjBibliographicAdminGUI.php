@@ -24,25 +24,9 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 	 */
 	public $object;
 	/**
-	 * @var \ilBiblTranslationFactory
+	 * @var \ilBiblAdminFactoryFacadeInterface
 	 */
-	protected $translation_factory;
-	/**
-	 * @var \ilBiblFieldFactory
-	 */
-	protected $field_factory;
-	/**
-	 * @var \ilBiblFieldFilterFactory
-	 */
-	protected $filter_factory;
-	/**
-	 * @var \ilBiblTypeFactory
-	 */
-	protected $type_factory;
-	/**
-	 * @var ilTabsGUI
-	 */
-	protected $tabs_gui;
+	protected $facade;
 
 
 	/**
@@ -54,8 +38,6 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true) {
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 		$this->type = 'bibs';
-		$this->type_factory = new ilBiblTypeFactory();
-		$this->filter_factory = new ilBiblFieldFilterFactory();
 		$this->lng->loadLanguageModule('bibl');
 		//Check Permissions globally for all SubGUIs. We only check write permissions
 		$this->checkPermission('write');
@@ -78,22 +60,14 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 			case strtolower(ilBiblAdminRisFieldGUI::class):
 				$this->prepareOutput();
 				$this->tabs_gui->activateTab(self::TAB_FIELDS);
-
-				$type = $this->type_factory->getInstanceForType(ilBiblTypeFactoryInterface::DATA_TYPE_RIS);
-				$field_factory = new ilBiblFieldFactory($type);
-
-				$ilbibladminrisfieldgui = new ilBiblAdminRisFieldGUI($field_factory, $this->type_factory, new ilBiblTranslationFactory($field_factory));
-				$this->ctrl->forwardCommand($ilbibladminrisfieldgui);
+				$this->facade = new ilBiblAdminFactoryFacade($this->object, ilBiblTypeFactoryInterface::DATA_TYPE_RIS);
+				$this->ctrl->forwardCommand(new ilBiblAdminRisFieldGUI($this->facade));
 				break;
 			case strtolower(ilBiblAdminBibtexFieldGUI::class):
 				$this->prepareOutput();
 				$this->tabs_gui->activateTab(self::TAB_FIELDS);
-
-				$type = $this->type_factory->getInstanceForType(ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX);
-				$field_factory = new ilBiblFieldFactory($type);
-
-				$ilbibladminbibtexfieldgui = new ilBiblAdminBibtexFieldGUI($field_factory, $this->type_factory, new ilBiblTranslationFactory($field_factory));
-				$this->ctrl->forwardCommand($ilbibladminbibtexfieldgui);
+				$this->facade = new ilBiblAdminFactoryFacade($this->object, ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX);
+				$this->ctrl->forwardCommand(new ilBiblAdminBibtexFieldGUI($this->facade));
 				break;
 			default:
 				$this->prepareOutput();

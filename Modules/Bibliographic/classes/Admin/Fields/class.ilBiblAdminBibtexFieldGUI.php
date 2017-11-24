@@ -10,7 +10,4 @@
 
 class ilBiblAdminBibtexFieldGUI extends ilBiblAdminFieldGUI {
 
-	protected function initType() {
-		$this->type = $this->type_factory->getInstanceForType(ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX);
-	}
 }

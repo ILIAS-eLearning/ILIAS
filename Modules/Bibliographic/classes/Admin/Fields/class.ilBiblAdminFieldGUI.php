@@ -8,9 +8,9 @@
 
 abstract class ilBiblAdminFieldGUI {
 
+	use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
 	const SUBTAB_RIS = 'subtab_ris';
 	const SUBTAB_BIBTEX = 'subtab_bibtex';
-	use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
 	const FIELD_IDENTIFIER = 'field_id';
 	const DATA_TYPE = 'data_type';
 	const CMD_STANDARD = 'index';
@@ -21,44 +21,19 @@ abstract class ilBiblAdminFieldGUI {
 	const CMD_RESET_FILTER = 'resetFilter';
 	const CMD_SAVE = 'save';
 	/**
-	 * @var \ilObjBibliographicAdmin
+	 * @var \ilBiblAdminFactoryFacadeInterface
 	 */
-	protected $object;
-	/**
-	 * @var \ilBiblTranslationFactoryInterface
-	 */
-	protected $translation_factory;
-	/**
-	 * @var \ilBiblFieldFactoryInterface
-	 */
-	protected $field_factory;
-	/**
-	 * @var \ilBiblTypeFactory
-	 */
-	protected $type_factory;
-	/**
-	 * @var \ilBiblTypeInterface
-	 */
-	protected $type;
+	protected $facade;
 
 
 	/**
 	 * ilBiblAdminFieldGUI constructor.
 	 *
-	 * @param \ilBiblFieldFactoryInterface       $field_factory
-	 * @param \ilBiblTypeFactoryInterface        $type_factory
-	 * @param \ilBiblTranslationFactoryInterface $translation_factory
+	 * @param \ilBiblAdminFactoryFacadeInterface $facade
 	 */
-	public function __construct(ilBiblFieldFactoryInterface $field_factory, ilBiblTypeFactoryInterface $type_factory, ilBiblTranslationFactoryInterface $translation_factory) {
-		$this->field_factory = $field_factory;
-		$this->type_factory = $type_factory;
-		$this->object = ilObjectFactory::getInstanceByRefId($_GET['ref_id']);
-		$this->translation_factory = $translation_factory;
-		$this->initType();
+	public function __construct(ilBiblAdminFactoryFacadeInterface $facade) {
+		$this->facade = $facade;
 	}
-
-
-	abstract protected function initType();
 
 
 	public function executeCommand() {
@@ -75,9 +50,9 @@ abstract class ilBiblAdminFieldGUI {
 					throw new ilException("Field not found");
 				}
 				$this->ctrl()->saveParameter($this, self::FIELD_IDENTIFIER);
+				$field = $this->facade->fieldFactory()->findById($field_id);
 
-				$field = $this->field_factory->findById($field_id);
-				$gui = new ilBiblTranslationGUI($this->type, $this->translation_factory, $field);
+				$gui = new ilBiblTranslationGUI($this->facade, $field);
 				$this->ctrl()->forwardCommand($gui);
 				break;
 
@@ -96,7 +71,8 @@ abstract class ilBiblAdminFieldGUI {
 			case self::CMD_SAVE:
 			case self::CMD_APPLY_FILTER:
 			case self::CMD_RESET_FILTER:
-				if ($this->access()->checkAccess('write', "", $this->object->getRefId())) {
+				if ($this->access()->checkAccess('write', "", $this->facade->iliasObject()
+				                                                           ->getRefId())) {
 					$this->{$cmd}();
 					break;
 				} else {
@@ -108,13 +84,16 @@ abstract class ilBiblAdminFieldGUI {
 
 
 	protected function index() {
-		$this->setSubTabs($this->type);
-		$ilBiblAdminFieldTableGUI = new ilBiblAdminFieldTableGUI($this, self::CMD_STANDARD, $this->object, $this->type, $this->field_factory, $this->translation_factory);
+		$this->setSubTabs();
+		$ilBiblAdminFieldTableGUI = new ilBiblAdminFieldTableGUI($this, $this->facade);
 		$this->tpl()->setContent($ilBiblAdminFieldTableGUI->getHTML());
 	}
 
 
-	protected function setSubTabs($a_active_tab) {
+	/**
+	 *
+	 */
+	protected function setSubTabs() {
 		$this->tabs()->addSubTab(self::SUBTAB_RIS, $this->lng()->txt('ris'), $this->ctrl()
 		                                                                          ->getLinkTargetByClass(array(
 			                                                                          ilObjBibliographicAdminGUI::class,
@@ -129,14 +108,21 @@ abstract class ilBiblAdminFieldGUI {
 			                                                                                ilObjBibliographicAdminGUI::class,
 			                                                                                ilBiblAdminBibtexFieldGUI::class,
 		                                                                                ), ilBiblAdminBibtexFieldGUI::CMD_STANDARD));
-		$this->tabs()->activateSubTab($a_active_tab);
+		switch ($this->facade->type()->getId()) {
+			case ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX;
+				$this->tabs()->activateSubTab(self::SUBTAB_BIBTEX);
+				break;
+			case ilBiblTypeFactoryInterface::DATA_TYPE_RIS;
+				$this->tabs()->activateSubTab(self::SUBTAB_RIS);
+				break;
+		}
 	}
 
 
 	protected function save() {
 		foreach ($_POST['row_values'] as $id => $data) {
 			if (!empty($data['position'])) {
-				$ilBiblField = $this->field_factory->findById($id);
+				$ilBiblField = $this->facade->fieldFactory()->findById($id);
 				$ilBiblField->setIdentifier($_POST['row_values'][$id]['identifier']);
 				$ilBiblField->setDataType($_POST['row_values'][$id]['data_type']);
 				$ilBiblField->setPosition($_POST['row_values'][$id]['position']);
@@ -150,14 +136,14 @@ abstract class ilBiblAdminFieldGUI {
 
 
 	protected function applyFilter() {
-		$ilBiblAdminFieldTableGUI = new ilBiblAdminFieldTableGUI($this, self::CMD_STANDARD, $this->object, $this->type, $this->field_factory, $this->translation_factory);
+		$ilBiblAdminFieldTableGUI = new ilBiblAdminFieldTableGUI($this, $this->facade);
 		$ilBiblAdminFieldTableGUI->writeFilterToSession();
 		$this->ctrl()->redirect($this, self::CMD_STANDARD);
 	}
 
 
 	protected function resetFilter() {
-		$ilBiblAdminFieldTableGUI = new ilBiblAdminFieldTableGUI($this, self::CMD_STANDARD, $this->object, $this->type, $this->field_factory, $this->translation_factory);
+		$ilBiblAdminFieldTableGUI = new ilBiblAdminFieldTableGUI($this, $this->facade);
 		$ilBiblAdminFieldTableGUI->resetFilter();
 		$ilBiblAdminFieldTableGUI->resetOffset();
 		$this->ctrl()->redirect($this, self::CMD_STANDARD);

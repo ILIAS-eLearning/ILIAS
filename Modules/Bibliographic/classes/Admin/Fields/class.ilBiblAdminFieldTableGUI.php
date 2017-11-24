@@ -10,29 +10,17 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 	use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
 	const TBL_ID = 'tbl_bibl_fields';
 	/**
-	 * @var \ilBiblTranslationFactoryInterface
+	 * @var \ilBiblAdminFactoryFacadeInterface
 	 */
-	protected $translation_facory;
-	/**
-	 * @var \ilBiblTypeInterface
-	 */
-	protected $data_type;
+	protected $facade;
 	/**
 	 * @var ilBiblAdminFieldGUI
 	 */
 	protected $parent_obj;
 	/**
-	 * @var ilObjBibliographicAdmin
-	 */
-	protected $il_obj_bibliographic_admin;
-	/**
 	 * @var array
 	 */
 	protected $filter = [];
-	/**
-	 * @var \ilBiblFieldFactoryInterface
-	 */
-	protected $field_factory;
 	/**
 	 * @var int
 	 */
@@ -43,25 +31,18 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 	 * ilBiblAdminFieldTableGUI constructor.
 	 *
 	 * @param object                             $a_parent_obj
-	 * @param string                             $a_parent_cmd
-	 * @param \ilObjBibliographicAdmin           $il_obj_bibliographic_admin
-	 * @param \ilBiblTypeInterface               $data_type
-	 * @param \ilBiblFieldFactoryInterface       $field_factory
-	 * @param \ilBiblTranslationFactoryInterface $translation_facory
+	 * @param \ilBiblAdminFactoryFacadeInterface $facade
 	 */
-	public function __construct($a_parent_obj, $a_parent_cmd, ilObjBibliographicAdmin $il_obj_bibliographic_admin, ilBiblTypeInterface $data_type, ilBiblFieldFactoryInterface $field_factory, ilBiblTranslationFactoryInterface $translation_facory) {
+	public function __construct($a_parent_obj, ilBiblAdminFactoryFacadeInterface $facade) {
+		$this->facade = $facade;
 		$this->parent_obj = $a_parent_obj;
-		$this->data_type = $data_type;
-		$this->field_factory = $field_factory;
-		$this->translation_facory = $translation_facory;
 
 		$this->setId(self::TBL_ID);
 		$this->setPrefix(self::TBL_ID);
 		$this->setFormName(self::TBL_ID);
 		$this->ctrl()->saveParameter($a_parent_obj, $this->getNavParameter());
-		$this->il_obj_bibliographic_admin = $il_obj_bibliographic_admin;
 
-		parent::__construct($a_parent_obj, $a_parent_cmd);
+		parent::__construct($a_parent_obj);
 		$this->parent_obj = $a_parent_obj;
 		$this->setRowTemplate('tpl.bibl_administration_fields_list_row.html', 'Modules/Bibliographic');
 
@@ -118,7 +99,7 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 	 * @param array $a_set
 	 */
 	public function fillRow($a_set) {
-		$field = $this->field_factory->findById($a_set['id']);
+		$field = $this->facade->fieldFactory()->findById($a_set['id']);
 
 		$this->tpl->setCurrentBlock("POSITION");
 		$this->tpl->setVariable('POSITION_VALUE', $field->getPosition() ? $field->getPosition() : $this->position_index);
@@ -134,7 +115,7 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 
 		$this->tpl->setCurrentBlock("TRANSLATION");
 
-		$this->tpl->setVariable('VAL_TRANSLATION', $this->translation_facory->translate($field));
+		$this->tpl->setVariable('VAL_TRANSLATION', $this->facade->translationFactory()->translate($field));
 
 		$this->tpl->parseCurrentBlock();
 
@@ -151,7 +132,7 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 
 		$this->tpl->setCurrentBlock("DATA_TYPE");
 		$this->tpl->setVariable('DATA_TYPE_NAME', "row_values[" . $field->getId() . "][data_type]");
-		$this->tpl->setVariable('DATA_TYPE_VALUE', $this->data_type->getId());
+		$this->tpl->setVariable('DATA_TYPE_VALUE', $this->facade->type()->getId());
 		$this->tpl->parseCurrentBlock();
 		$this->addActionMenu($field);
 
@@ -192,7 +173,7 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 			}
 		}
 
-		$data = $this->field_factory->filterAllFieldsForTypeAsArray($this->data_type);
+		$data = $this->facade->fieldFactory()->filterAllFieldsForTypeAsArray($this->facade->type());
 
 		$this->setData($data);
 	}
