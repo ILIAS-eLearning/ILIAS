@@ -390,15 +390,17 @@ class ilCalendarPresentationGUI
 
 		$toolbar->addComponent($view_control);
 
-		$toolbar->addSeparator();
-
 		$ctrl->setParameterByClass("ilcalendarappointmentgui", "seed", $this->seed->get(IL_CAL_DATE, ''));
 		$ctrl->setParameterByClass("ilcalendarappointmentgui", "app_id", "");
 		$ctrl->setParameterByClass("ilcalendarappointmentgui", "dt", "");
 
+		$extra_button_added = false;
 		// add appointment
 		if ($this->category_id == 0 || $this->actions->checkAddEvent($this->category_id))
 		{
+
+			$toolbar->addSeparator();
+			$extra_button_added = true;
 			$add_button = $f->button()->standard($lng->txt("cal_add_appointment"),
 				$ctrl->getLinkTargetByClass("ilcalendarappointmentgui", "add"));
 			$toolbar->addComponent($add_button);
@@ -407,6 +409,9 @@ class ilCalendarPresentationGUI
 		// import appointments
 		if ($this->category_id > 0 && $this->actions->checkAddEvent($this->category_id))
 		{
+			if(!$extra_button_added) {
+				$toolbar->addSeparator();
+			}
 			$add_button = $f->button()->standard($lng->txt("cal_import_appointments"),
 				$ctrl->getLinkTargetByClass("ilcalendarcategorygui", "importAppointments"));
 			$toolbar->addComponent($add_button);
