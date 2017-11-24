@@ -60,6 +60,9 @@ class ilBiblFieldFilterPresentationGUI {
 			case ilBiblFieldFilterInterface::FILTER_TYPE_MULTI_SELECT_INPUT:
 				$filter = new ilMultiSelectInputGUI($translated, $field->getIdentifier());
 				break;
+			default:
+				throw new LogicException('no filter type used');
+				break;
 		}
 
 		return $filter;

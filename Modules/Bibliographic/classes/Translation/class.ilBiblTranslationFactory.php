@@ -53,9 +53,6 @@ class ilBiblTranslationFactory implements ilBiblTranslationFactoryInterface {
 	 * @return string
 	 */
 	private function translateInCore(ilBiblFieldInterface $field) {
-
-
-		//
 		$prefix = $this->getFieldFactory()->getType()->getStringRepresentation();
 		$middle = "default";
 		$identifier = $field->getIdentifier();
@@ -77,7 +74,9 @@ class ilBiblTranslationFactory implements ilBiblTranslationFactoryInterface {
 	 */
 	public function getInstanceForFieldAndUsersLanguage(ilBiblFieldInterface $field) {
 		global $DIC;
+
 		return null;
+
 		return ilBiblTranslation::where([
 			'field_id'     => $field->getId(),
 			"language_key" => $DIC->user()->getCurrentLanguage(),

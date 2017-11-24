@@ -14,7 +14,7 @@ include_once('./Modules/Bibliographic/classes/Admin/class.ilObjBibliographicAdmi
  * @author       Fabian Schmid <fs@studer-raimann.ch>
  *
  * @ilCtrl_Calls ilObjBibliographicAdminGUI: ilPermissionGUI, ilObjBibliographicAdminLibrariesGUI
- * @ilCtrl_Calls ilObjBibliographicAdminGUI: ilBiblAdminFieldGUI, ilBiblAdminFieldTranslateGUI
+ * @ilCtrl_Calls ilObjBibliographicAdminGUI: ilBiblAdminFieldGUI
  * @ilCtrl_Calls ilObjBibliographicAdminGUI: ilBiblAdminRisFieldGUI, ilBiblAdminBibtexFieldGUI
  * @ilCtrl_Calls ilObjBibliographicAdminGUI: ilObjBibliographicAdminAttributeOrderGUI
  *
@@ -24,7 +24,6 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 
 	const TAB_FIELDS = 'fields';
 	const TAB_SETTINGS = 'settings';
-
 	/**
 	 * @var ilObjBibliographicAdmin
 	 */
@@ -62,9 +61,6 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 		$this->type = 'bibs';
 		$this->type_factory = new ilBiblTypeFactory();
 		$this->filter_factory = new ilBiblFieldFilterFactory();
-		//$type = $this->type_factory->getInstanceForType($this->object->getFileType());
-		//$this->field_factory = new ilBiblFieldFactory($type);
-		//$this->translation_factory = new ilBiblTranslationFactory($this->field_factory);
 		$this->lng->loadLanguageModule('bibl');
 		//Check Permissions globally for all SubGUIs. We only check write permissions
 		$this->checkPermission('write');
@@ -81,7 +77,6 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 			case 'ilpermissiongui':
 				$this->prepareOutput();
 				$this->tabs_gui->activateTab('perm_settings');
-				include_once('Services/AccessControl/classes/class.ilPermissionGUI.php');
 				$perm_gui = new ilPermissionGUI($this);
 				$this->ctrl->forwardCommand($perm_gui);
 				break;
@@ -89,29 +84,21 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 				$this->prepareOutput();
 				$this->tabs_gui->activateTab(self::TAB_FIELDS);
 
-				$type_factory = new ilBiblTypeFactory();
-				$type = $type_factory->getInstanceForType(ilBiblTypeFactoryInterface::DATA_TYPE_RIS);
+				$type = $this->type_factory->getInstanceForType(ilBiblTypeFactoryInterface::DATA_TYPE_RIS);
 				$field_factory = new ilBiblFieldFactory($type);
 
-				$ilbibladminrisfieldgui = new ilBiblAdminRisFieldGUI($field_factory, $type_factory);
+				$ilbibladminrisfieldgui = new ilBiblAdminRisFieldGUI($field_factory, $this->type_factory, new ilBiblTranslationFactory($field_factory));
 				$this->ctrl->forwardCommand($ilbibladminrisfieldgui);
 				break;
 			case strtolower(ilBiblAdminBibtexFieldGUI::class):
 				$this->prepareOutput();
 				$this->tabs_gui->activateTab(self::TAB_FIELDS);
 
-				$type_factory = new ilBiblTypeFactory();
-				$type = $type_factory->getInstanceForType(ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX);
+				$type = $this->type_factory->getInstanceForType(ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX);
 				$field_factory = new ilBiblFieldFactory($type);
 
-				$ilbibladminbibtexfieldgui = new ilBiblAdminBibtexFieldGUI($field_factory, $type_factory);
+				$ilbibladminbibtexfieldgui = new ilBiblAdminBibtexFieldGUI($field_factory, $this->type_factory, new ilBiblTranslationFactory($field_factory));
 				$this->ctrl->forwardCommand($ilbibladminbibtexfieldgui);
-				break;
-			case strtolower(ilBiblAdminFieldTranslateGUI::class):
-				$this->prepareOutput();
-				$this->tabs_gui->activateTab(self::TAB_FIELDS);
-				$bibl_admin_field_translate_gui = new ilBiblAdminFieldTranslateGUI();
-				$this->ctrl->forwardCommand($bibl_admin_field_translate_gui);
 				break;
 			default:
 				$this->prepareOutput();
@@ -136,7 +123,7 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 			), 'view'));
 		}
 		if ($rbacsystem->checkAccess('write', $this->object->getRefId())) {
-			$this->tabs_gui->addTab('fields', $this->lng->txt('fields'),$this->ctrl->getLinkTargetByClass(array(
+			$this->tabs_gui->addTab('fields', $this->lng->txt('fields'), $this->ctrl->getLinkTargetByClass(array(
 				ilObjBibliographicAdminGUI::class,
 				ilBiblAdminRisFieldGUI::class,
 			), ilBiblAdminRisFieldGUI::CMD_STANDARD));

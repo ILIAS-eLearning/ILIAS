@@ -81,4 +81,12 @@ trait DIC {
 	protected function http() {
 		return $this->dic()->http();
 	}
+
+
+	/**
+	 * @return \ilAccessHandler
+	 */
+	protected function access() {
+		return $this->dic()->access();
+	}
 }
