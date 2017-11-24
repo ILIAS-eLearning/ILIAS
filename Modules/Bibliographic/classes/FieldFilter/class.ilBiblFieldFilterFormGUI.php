@@ -2,84 +2,47 @@
 /**
  * Class ilBiblFieldFilterFormGUI
  *
- * @author: Benjamin Seglias   <bs@studer-raimann.ch>
+ * @author Benjamin Seglias   <bs@studer-raimann.ch>
+ * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 
 class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI {
 
+	use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
 	const F_FIELD_ID = "field_id";
 	const F_FILTER_TYPE = "filter_type";
 	/**
-	 * @var \ilBiblTranslationFactoryInterface
+	 * @var \ilBiblFactoryFacade
 	 */
-	protected $translation_factory;
+	protected $facade;
 	/**
-	 * @var \ilBiblFieldFilterFactoryInterface
-	 */
-	private $bibl_filter_factory;
-	/**
-	 * @var  \ilBiblFieldFilter
+	 * @var  \ilBiblFieldFilterInterface
 	 */
 	protected $filter;
 	/**
 	 * @var ilBiblFieldFilterGUI
 	 */
 	protected $parent_gui;
-	/**
-	 * @var ilObjBibliographic
-	 */
-	protected $il_obj_bibliographic;
-	/**
-	 * @var  ilCtrl
-	 */
-	protected $ctrl;
-	/**
-	 * @var ilTabsGUI
-	 */
-	protected $tabs;
-	/**
-	 * @var ilTemplate
-	 */
-	protected $tpl;
-	/**
-	 * @var \ILIAS\DI\Container
-	 */
-	protected $dic;
-	/**
-	 * @var \ilBiblFieldFilterFactoryInterface
-	 */
-	private $filter_factory;
-	/**
-	 * @var \ilBiblFieldFactoryInterface
-	 */
-	private $field_factory;
+
 
 	/**
 	 * ilBiblFieldFilterFormGUI constructor.
 	 *
-	 * @param \ilBiblFieldFilterGUI              $parent_gui
-	 * @param \ilBiblFieldFilter                 $il_bibl_field
-	 * @param \ilBiblFieldFilterFactoryInterface $filter_factory
-	 * @param \ilBiblFieldFactoryInterface       $field_factory
+	 * @param \ilBiblFieldFilterGUI       $parent_gui
+	 * @param \ilBiblFieldFilterInterface $field_filter
+	 * @param \ilBiblFactoryFacade        $facade
 	 */
-	public function __construct(ilBiblFieldFilterGUI $parent_gui, ilBiblFieldFilter $il_bibl_field, ilBiblFieldFilterFactoryInterface $filter_factory, ilBiblFieldFactoryInterface $field_factory, ilBiblTranslationFactoryInterface $translation_factory) {
-		global $DIC;
-
-		$this->translation_factory = $translation_factory;
-		$this->filter_factory = $filter_factory;
-		$this->field_factory = $field_factory;
-		$this->dic = $DIC;
-		$this->filter = $il_bibl_field;
-		$this->ctrl = $this->dic->ctrl();
+	public function __construct(ilBiblFieldFilterGUI $parent_gui, ilBiblFieldFilterInterface $field_filter, ilBiblFactoryFacade $facade) {
+		$this->facade = $facade;
+		$this->filter = $field_filter;
 		$this->parent_gui = $parent_gui;
-		$this->il_obj_bibliographic = ilObjectFactory::getInstanceByRefId($_GET['ref_id']);
-		$this->bibl_filter_factory = new ilBiblFieldFilterFactory();
-		$this->dic->language()->loadLanguageModule('bibl');
-		$this->dic->ctrl()
-		          ->saveParameterByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::FILTER_ID);
-		$this->tabs = $this->dic->tabs();
-		$this->tabs->clearTargets();
-		$this->tabs->setBackTarget($this->dic->language()->txt("back"), $this->ctrl->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_STANDARD));
+
+		$this->lng()->loadLanguageModule('bibl');
+		$this->ctrl()
+		     ->saveParameterByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::FILTER_ID);
+		$this->tabs()->clearTargets();
+		$this->tabs()->setBackTarget($this->lng()->txt("back"), $this->ctrl()
+		                                                             ->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_STANDARD));
 
 		parent::__construct();
 		$this->initForm();
@@ -89,55 +52,61 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI {
 	public function initForm() {
 		$this->setTarget('_top');
 
-		$available_fields_for_object = $this->field_factory->getAvailableFieldsForObjId($this->il_obj_bibliographic->getId());
+		$available_fields_for_object = $this->facade->fieldFactory()
+		                                            ->getAvailableFieldsForObjId($this->facade->iliasObject()
+		                                                                                      ->getId());
 
-		$edited_filter = $this->filter_factory->findById($this->dic->http()->request()->getQueryParams()[ilBiblFieldFilterGUI::FILTER_ID]);
+		$edited_filter = $this->facade->filterFactory()->findById($this->http()
+		                                                               ->request()
+		                                                               ->getQueryParams()[ilBiblFieldFilterGUI::FILTER_ID]);
 
 		//show only the fields as options which don't have already a filter
 		$options = [];
-		foreach($available_fields_for_object as $available_field) {
-			if(empty($this->filter_factory->findByFieldId($available_field->getId())) || (!empty($edited_filter) && $edited_filter->getFieldId() == $available_field->getId()) ) {
-				if(!empty($edited_filter) && $edited_filter->getFieldId() == $available_field->getId()) {
+		foreach ($available_fields_for_object as $available_field) {
+			if (empty($this->facade->filterFactory()->findByFieldId($available_field->getId()))
+			    || (!empty($edited_filter)
+			        && $edited_filter->getFieldId() == $available_field->getId())) {
+				if (!empty($edited_filter)
+				    && $edited_filter->getFieldId() == $available_field->getId()) {
 					array_unshift($options, $available_field);
 					continue;
 				}
 				$options[] = $available_field;
 			}
 		}
-		//$options = $this->field_factory->getAvailableFieldsForObjId($this->il_obj_bibliographic->getId());
-
 
 		$select_options = [];
 		foreach ($options as $ilBiblField) {
-			$select_options[$ilBiblField->getId()] = $this->translation_factory->translate($ilBiblField); // TODO Übersetzungsdienst nutzen
+			$select_options[$ilBiblField->getId()] = $this->facade->translationFactory()
+			                                                      ->translate($ilBiblField);
 		}
 
 		asort($select_options);
 
-		$si = new ilSelectInputGUI($this->dic->language()->txt("filter_field"), self::F_FIELD_ID);
-		$si->setInfo($this->dic->language()->txt("filter_field_info"));
+		$si = new ilSelectInputGUI($this->lng()->txt("filter_field"), self::F_FIELD_ID);
+		$si->setInfo($this->lng()->txt("filter_field_info"));
 		$si->setOptions($select_options);
 		$si->setRequired(true);
 		$this->addItem($si);
 
 		$options = [
-			ilBiblFieldFilterInterface::FILTER_TYPE_TEXT_INPUT         => $this->dic->language()
-			                                                                        ->txt("filter_type_"
-			                                                                              . ilBiblFieldFilterInterface::FILTER_TYPE_TEXT_INPUT),
-			ilBiblFieldFilterInterface::FILTER_TYPE_SELECT_INPUT       => $this->dic->language()
-			                                                                        ->txt("filter_type_"
-			                                                                              . ilBiblFieldFilterInterface::FILTER_TYPE_SELECT_INPUT),
-			ilBiblFieldFilterInterface::FILTER_TYPE_MULTI_SELECT_INPUT => $this->dic->language()
-			                                                                        ->txt("filter_type_"
-			                                                                              . ilBiblFieldFilterInterface::FILTER_TYPE_MULTI_SELECT_INPUT),
+			ilBiblFieldFilterInterface::FILTER_TYPE_TEXT_INPUT         => $this->lng()
+			                                                                   ->txt("filter_type_"
+			                                                                         . ilBiblFieldFilterInterface::FILTER_TYPE_TEXT_INPUT),
+			ilBiblFieldFilterInterface::FILTER_TYPE_SELECT_INPUT       => $this->lng()
+			                                                                   ->txt("filter_type_"
+			                                                                         . ilBiblFieldFilterInterface::FILTER_TYPE_SELECT_INPUT),
+			ilBiblFieldFilterInterface::FILTER_TYPE_MULTI_SELECT_INPUT => $this->lng()
+			                                                                   ->txt("filter_type_"
+			                                                                         . ilBiblFieldFilterInterface::FILTER_TYPE_MULTI_SELECT_INPUT),
 		];
-		$si = new ilSelectInputGUI($this->dic->language()->txt("filter_type"), self::F_FILTER_TYPE);
-		$si->setInfo($this->dic->language()->txt("filter_type_info"));
+		$si = new ilSelectInputGUI($this->lng()->txt("filter_type"), self::F_FILTER_TYPE);
+		$si->setInfo($this->lng()->txt("filter_type_info"));
 		$si->setOptions($options);
 		$si->setRequired(true);
 		$this->addItem($si);
 
-		$this->setTitle($this->dic->language()->txt('filter_form_title'));
+		$this->setTitle($this->lng()->txt('filter_form_title'));
 
 		$this->initButtons();
 
@@ -186,15 +155,11 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI {
 
 	protected function initButtons() {
 		if ($this->filter->getId()) {
-			$this->addCommandButton(ilBiblFieldFilterGUI::CMD_UPDATE, $this->dic->language()
-			                                                                    ->txt('save'));
-			$this->addCommandButton(ilBiblFieldFilterGUI::CMD_CANCEL, $this->dic->language()
-			                                                                    ->txt("cancel"));
+			$this->addCommandButton(ilBiblFieldFilterGUI::CMD_UPDATE, $this->lng()->txt('save'));
+			$this->addCommandButton(ilBiblFieldFilterGUI::CMD_CANCEL, $this->lng()->txt("cancel"));
 		} else {
-			$this->addCommandButton(ilBiblFieldFilterGUI::CMD_CREATE, $this->dic->language()
-			                                                                    ->txt('create'));
-			$this->addCommandButton(ilBiblFieldFilterGUI::CMD_CANCEL, $this->dic->language()
-			                                                                    ->txt("cancel"));
+			$this->addCommandButton(ilBiblFieldFilterGUI::CMD_CREATE, $this->lng()->txt('create'));
+			$this->addCommandButton(ilBiblFieldFilterGUI::CMD_CANCEL, $this->lng()->txt("cancel"));
 		}
 	}
 }

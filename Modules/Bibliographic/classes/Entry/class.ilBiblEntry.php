@@ -47,6 +47,10 @@ class ilBiblEntry implements ilBiblEntryInterface {
 	 * @var ilBiblEntry[]
 	 */
 	protected static $instances = array();
+	/**
+	 * @var \ilBiblAttribute
+	 */
+	protected $attribute_objects = [];
 
 
 	/**
@@ -220,6 +224,8 @@ class ilBiblEntry implements ilBiblEntryInterface {
 	}
 
 
+
+
 	public function initOverviewHTML() {
 		$ilBiblOverviewGUI = new ilBiblOverviewGUI($this);
 		$this->setOverview($ilBiblOverviewGUI->getHtml());
@@ -345,4 +351,22 @@ class ilBiblEntry implements ilBiblEntryInterface {
 
 		return $entry;
 	}
+
+
+	/**
+	 * @return \ilBiblAttribute
+	 */
+	public function getAttributeObjects() {
+		return $this->attribute_objects;
+	}
+
+
+	/**
+	 * @param \ilBiblAttribute $attribute_objects
+	 */
+	public function setAttributeObjects($attribute_objects) {
+		$this->attribute_objects = $attribute_objects;
+	}
+
+
 }

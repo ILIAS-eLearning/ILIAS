@@ -24,11 +24,11 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI {
 	 * ilOrgUnitDefaultPermissionFormGUI constructor.
 	 *
 	 * @param \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands $parent_gui
-	 * @param ilOrgUnitPermission[]                        $ilOrgUnitPermissions
+	 * @param ilOrgUnitPermission[]                        $ilOrgUnitPermissionsFilter
 	 */
-	public function __construct(BaseCommands $parent_gui, array $ilOrgUnitPermissions) {
+	public function __construct(BaseCommands $parent_gui, array $ilOrgUnitPermissionsFilter) {
 		$this->parent_gui = $parent_gui;
-		$this->ilOrgUnitPermissions = $ilOrgUnitPermissions;
+		$this->ilOrgUnitPermissions = $ilOrgUnitPermissionsFilter;
 		$this->dic()->ctrl()->saveParameter($parent_gui, 'arid');
 		$this->setFormAction($this->dic()->ctrl()->getFormAction($this->parent_gui));
 		$this->initFormElements();

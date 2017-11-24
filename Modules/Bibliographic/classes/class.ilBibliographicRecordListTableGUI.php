@@ -35,11 +35,12 @@ class ilBibliographicRecordListTableGUI extends ilTable2GUI {
 
 
 	/**
-	 * @param ilObjBibliographicGUI              $a_parent_obj
-	 * @param string                             $a_parent_cmd
-	 * @param \ilBiblFieldFilterFactoryInterface $filter_factory
+	 * ilBibliographicRecordListTableGUI constructor.
+	 *
+	 * @param \ilObjBibliographicGUI $a_parent_obj
+	 * @param \ilBiblFactoryFacade   $facade
 	 */
-	public function __construct(ilObjBibliographicGUI $a_parent_obj, $a_parent_cmd, ilBiblFieldFilterFactoryInterface $filter_factory, ilBiblFieldFactoryInterface $field_factory, ilBiblTranslationFactoryInterface $translation_factory) {
+	public function __construct(ilObjBibliographicGUI $a_parent_obj, ilBiblFactoryFacade $facade) {
 		global $DIC;
 
 		$lng = $DIC['lng'];
@@ -47,10 +48,10 @@ class ilBibliographicRecordListTableGUI extends ilTable2GUI {
 		$this->setId('tbl_bibl_overview');
 		$this->setPrefix('tbl_bibl_overview');
 		$this->setFormName('tbl_bibl_overview');
-		parent::__construct($a_parent_obj, $a_parent_cmd);
-		$this->filter_factory = $filter_factory;
-		$this->field_factory = $field_factory;
-		$this->translation_factory = $translation_factory;
+		parent::__construct($a_parent_obj);
+		$this->filter_factory = $facade->filterFactory();
+		$this->field_factory = $facade->fieldFactory();
+		$this->translation_factory = $facade->translationFactory();
 		$this->parent_obj = $a_parent_obj;
 		$this->ctrl = $ilCtrl;
 		//Number of records
