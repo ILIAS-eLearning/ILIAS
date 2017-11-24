@@ -383,8 +383,8 @@
 @input-border:			#ccc;
 @input-border-focus:	lighten(@brand-primary, 20%);
 @ilFormInputFontSize: @font-size-small;
-@input-height-base:	(floor((@ilFormInputFontSize * @line-height-base)) + (@padding-base-vertical * 2) + 2);
-
+//@input-height-base:	(floor((@ilFormInputFontSize * @line-height-base)) + (@padding-base-vertical * 2) + 2);
+@input-height-base:	(@line-height-computed + (@padding-base-vertical * 2) + 2);
 @ilFormColor:            	#808080;
 @ilFormBgColor:            	#fdfdfd;
 

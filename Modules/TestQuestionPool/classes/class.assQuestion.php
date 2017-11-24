@@ -5292,6 +5292,38 @@ abstract class assQuestion
 
 		return $row['cnt'] < count($questionIds);
 	}
+	
+	public static function getQuestionsMissingResultRecord($activeId, $pass, $questionIds)
+	{
+		global $ilDB;
+		
+		$IN_questionIds = $ilDB->in('question_fi', $questionIds, false, 'integer');
+		
+		$query = "
+			SELECT question_fi
+			FROM tst_test_result
+			WHERE active_fi = %s
+			AND pass = %s
+			AND $IN_questionIds
+		";
+
+		$res = $ilDB->queryF(
+			$query, array('integer', 'integer'), array($activeId, $pass)
+		);
+		
+		$questionsHavingResultRecord = array();
+		
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$questionsHavingResultRecord[] = $row['question_fi'];
+		}
+		
+		$questionsMissingResultRecordt = array_diff(
+			$questionIds, $questionsHavingResultRecord
+		);
+
+		return $questionsMissingResultRecordt;
+	}
 
 	public static function lookupResultRecordExist($activeId, $questionId, $pass)
 	{

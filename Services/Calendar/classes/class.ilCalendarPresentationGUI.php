@@ -792,7 +792,8 @@ class ilCalendarPresentationGUI
 	#21613
 	function showToolbarAndSidebar()
 	{
-		if($this->ctrl->getCmdClass() == "ilcalendarappointmentgui")
+		#21783
+		if($this->ctrl->getCmdClass() == "ilcalendarappointmentgui" || $this->ctrl->getCmdClass() == 'ilconsultationhoursgui')
 		{
 			return false;
 		}

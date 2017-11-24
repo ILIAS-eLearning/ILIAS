@@ -2358,28 +2358,31 @@ class ilObjUser extends ilObject
 		else return false;
     }
 
-    public function isPasswordExpired()
-    {
-		//error_reporting(E_ALL);
-		if($this->id == ANONYMOUS_USER_ID) return false;
+	public function isPasswordExpired()
+	{
+		if ($this->id == ANONYMOUS_USER_ID) {
+			return false;
+		}
 
-    	require_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
-    	$security = ilSecuritySettings::_getInstance();
-    	if( $this->getLastPasswordChangeTS() > 0 )
-    	{
-    		$max_pass_age = $security->getPasswordMaxAge();
-    		if( $max_pass_age > 0 )
-    		{
-	    		$max_pass_age_ts = ( $max_pass_age * 86400 );
-				$pass_change_ts = $this->getLastPasswordChangeTS();
-		   		$current_ts = time();
+		require_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
+		$security = ilSecuritySettings::_getInstance();
+		if ($this->getLastPasswordChangeTS() > 0) {
+			$max_pass_age = $security->getPasswordMaxAge();
+			if ($max_pass_age > 0) {
+				$max_pass_age_ts = ($max_pass_age * 86400);
+				$pass_change_ts  = $this->getLastPasswordChangeTS();
+				$current_ts      = time();
 
-				if( ($current_ts - $pass_change_ts) > $max_pass_age_ts )
-					return true;
-    		}
-     	}
-    	return false;
-    }
+				if (($current_ts - $pass_change_ts) > $max_pass_age_ts) {
+					if (!ilAuthUtils::_needsExternalAccountByAuthMode($this->getAuthMode(true))) {
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
+	}
 
     public function getPasswordAge()
     {
