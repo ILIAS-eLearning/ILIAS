@@ -62,7 +62,8 @@ class ilTestExportRandomQuestionSet extends ilTestExport
 		$xmlWriter->xmlElement('RandomQuestionSetSettings', array(
 			'amountMode' => $questionSetConfig->getQuestionAmountConfigurationMode(),
 			'questAmount' => $questionSetConfig->getQuestionAmountPerTest(),
-			'homogeneous' => $questionSetConfig->arePoolsWithHomogeneousScoredQuestionsRequired()
+			'homogeneous' => $questionSetConfig->arePoolsWithHomogeneousScoredQuestionsRequired(),
+			'synctimestamp' => $questionSetConfig->getLastQuestionSyncTimestamp()
 		));
 	}
 	

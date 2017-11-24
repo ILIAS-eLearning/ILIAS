@@ -218,6 +218,7 @@ class ilObjTestXMLParser extends ilSaxParser
 		$questionSetConfig->setQuestionAmountConfigurationMode($attr['amountMode']);
 		$questionSetConfig->setQuestionAmountPerTest((int)$attr['questAmount']);
 		$questionSetConfig->setPoolsWithHomogeneousScoredQuestionsRequired((bool)$attr['homogeneous']);
+		$questionSetConfig->setLastQuestionSyncTimestamp((int)$attr['synctimestamp']);
 
 		$questionSetConfig->saveToDb();
 	}
