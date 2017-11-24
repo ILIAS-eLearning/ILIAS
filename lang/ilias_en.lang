@@ -11035,6 +11035,9 @@ mst#:#mst_memb_status_waitinglist#:#Waiting List
 mst#:#mst_memb_status_registered#:#Registered
 mst#:#mst_show_courses#:#Enrolments
 mst#:#mst_courses_of#:#Enrolments of %s
+orgu#:#msg_position_udpated#:#Position aktualisiert
+orgu#:#remove_successful#:#User was removed successfully.
+orgu#:#add_position#:#Position hinzufügen
 orgu#:#orgu_enable_my_staff#:#Enable View ‘Staff’
 orgu#:#orgu_enable_my_staff_info#:#The View ‘Staff’ shows the Learning Progress of the own Employees.
 orgu#:#org_op_manage_members#:#Manage Members
@@ -11051,7 +11054,7 @@ orgu#:#deassign_user_successful#:#Users have been successfully deassigned from t
 orgu#:#il_orgu_superior#:#Superior
 orgu#:#orgu_staff#:#Staff
 orgu#:#confirm_deletion_and_assign#:#Delete and Assign Users
-orgu#:#msg_assignment_to_employee_done#:#Zuweisung zur Position Mitarbeiter durchgeführt
+orgu#:#msg_assignment_to_employee_done#:#Assignment to the employee role successful
 orgu#:#confirm_deletion_button#:#Delete
 orgu#:#msg_deleted#:#Deleted
 orgu#:#Staff#:#Staff

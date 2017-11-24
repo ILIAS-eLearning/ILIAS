@@ -11000,6 +11000,9 @@ mst#:#mst_memb_status_waitinglist#:#Warteliste
 mst#:#mst_memb_status_registered#:#Angemeldet
 mst#:#mst_show_courses#:#Einschreibungen
 mst#:#mst_courses_of#:#Einschreibungen von %s
+orgu#:#msg_position_udpated#:#Position updated
+orgu#:#remove_successful#:#Der Benutzer wurde erfolgreich entfernt.
+orgu#:#add_position#:#Position hinzufügen
 orgu#:#orgu_enable_my_staff#:#‘Ansicht Mitarbeiter’ aktivieren
 orgu#:#orgu_enable_my_staff_info#:#The Ansicht ‘Meine Mitarbeiter’ zeigt die Lernfortschritte der eigenen Mitarbeiter an.
 orgu#:#org_op_manage_members#:#Mitglieder bearbeiten
@@ -11013,7 +11016,7 @@ orgu#:#form_title_org_default_permissions_update#:#Standardrechte
 orgu#:#msg_confirm_deletion#:#Wollen Sie die folgende Position wirklich löschen?
 orgu#:#msg_confirm_remove_user#:#Möchten Sie den folgenden Benutzer wirklich aus der Position %s entfernen?
 orgu#:#remove_user#:#Entfernen
-orgu#:#msg_assignment_to_employee_done#:#Assignment to the employee role successful
+orgu#:#msg_assignment_to_employee_done#:#Zuweisung zur Position Mitarbeiter durchgeführt
 orgu#:#view_learning_progress#:#Lernfortschritt einsehen
 orgu#:#orgu_staff_deassign#:#Diese Benutzer aus der Rolle wirklich entfernen?
 orgu#:#deassign_user_successful#:#Benutzer wurde erfolgreich ausgetragen.
