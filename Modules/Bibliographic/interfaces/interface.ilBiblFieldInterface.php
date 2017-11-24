@@ -65,4 +65,12 @@ interface ilBiblFieldInterface {
 	 * @param int $data_type
 	 */
 	public function setDataType($data_type);
+
+
+	/**
+	 * Stores the Object, creates a newone in Db if non existing or updates an existing
+	 *
+	 * @return void
+	 */
+	public function store();
 }

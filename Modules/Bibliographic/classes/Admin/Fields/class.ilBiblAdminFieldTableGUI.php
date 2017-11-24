@@ -21,7 +21,7 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 	 */
 	protected $tpl;
 	/**
-	 * @var string
+	 * @var \ilBiblTypeInterface
 	 */
 	protected $data_type;
 	/**
@@ -41,10 +41,6 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 	 */
 	protected $field_factory;
 	/**
-	 * @var \ilBiblTypeFactoryInterface
-	 */
-	protected $type_factory;
-	/**
 	 * @var int
 	 */
 	protected $position_index = 1;
@@ -56,7 +52,7 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 	 * @param ilBiblAdminFieldGUI $a_parent_obj
 	 * @param string              $a_parent_cmd
 	 */
-	function __construct($a_parent_obj, $a_parent_cmd, ilObjBibliographicAdmin $il_obj_bibliographic_admin, ilBiblTypeInterface $data_type, ilBiblFieldFactoryInterface $field_factory, ilBiblTypeFactoryInterface $type_factory) {
+	function __construct($a_parent_obj, $a_parent_cmd, ilObjBibliographicAdmin $il_obj_bibliographic_admin, ilBiblTypeInterface $data_type, ilBiblFieldFactoryInterface $field_factory) {
 		global $DIC;
 		$this->dic = $DIC;
 		$this->parent_obj = $a_parent_obj;
@@ -64,7 +60,6 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 		$this->tpl = $this->dic['tpl'];
 		$this->data_type = $data_type;
 		$this->field_factory = $field_factory;
-		$this->type_factory = $type_factory;
 
 		$this->setId(self::TBL_ID);
 		$this->setPrefix(self::TBL_ID);
@@ -76,14 +71,7 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 		$this->parent_obj = $a_parent_obj;
 		$this->setRowTemplate('tpl.bibl_administration_fields_list_row.html', 'Modules/Bibliographic');
 
-		switch ($this->data_type) {
-			case ilBiblTypeFactoryInterface::DATA_TYPE_RIS:
-				$this->setFormAction($this->ctrl->getFormActionByClass(ilBiblAdminRisFieldGUI::class));
-				break;
-			case ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX:
-				$this->setFormAction($this->ctrl->getFormActionByClass(ilBiblAdminBibtexFieldGUI::class));
-				break;
-		}
+		$this->setFormAction($this->ctrl->getFormAction($this->parent_obj));
 
 		$this->setExternalSorting(true);
 
@@ -93,13 +81,9 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 		$this->setEnableHeader(true);
 
 		$this->initColumns();
-		if ($this->data_type == ilBiblTypeFactoryInterface::DATA_TYPE_RIS) {
-			$this->addCommandButton(ilBiblAdminRisFieldGUI::CMD_SAVE, $this->dic->language()
-			                                                                    ->txt("save"));
-		} elseif ($this->data_type == ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX) {
-			$this->addCommandButton(ilBiblAdminBibtexFieldGUI::CMD_SAVE, $this->dic->language()
-			                                                                       ->txt("save"));
-		}
+
+		$this->addCommandButton(ilBiblAdminFieldGUI::CMD_SAVE, $this->dic->language()->txt("save"));
+
 		$this->addFilterItems();
 		$this->parseData();
 	}
@@ -189,15 +173,7 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 		$selectionList->setListTitle($this->lng->txt("actions"));
 		$selectionList->setId($field->getIdentifier());
 
-		$this->ctrl->setParameterByClass(ilBiblAdminFieldGUI::class, ilBiblAdminFieldGUI::FIELD_IDENTIFIER, $field->getId());
-		switch ($this->data_type->getId()) {
-			case ilBiblTypeFactoryInterface::DATA_TYPE_RIS:
-				$this->ctrl->setParameterByClass(ilBiblAdminRisFieldGUI::class, ilBiblAdminRisFieldGUI::FIELD_IDENTIFIER, $field->getId());
-				break;
-			case ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX:
-				$this->ctrl->setParameterByClass(ilBiblAdminBibtexFieldGUI::class, ilBiblAdminBibtexFieldGUI::FIELD_IDENTIFIER, $field->getId());
-				break;
-		}
+		$this->ctrl->setParameter($this->parent_obj, ilBiblAdminRisFieldGUI::FIELD_IDENTIFIER, $field->getId());
 		$this->ctrl->setParameterByClass(ilBiblTranslationGUI::class, ilBiblAdminRisFieldGUI::FIELD_IDENTIFIER, $field->getId());
 
 		$txt = $this->dic->language()->txt("translate");
