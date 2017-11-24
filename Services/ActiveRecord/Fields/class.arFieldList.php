@@ -16,6 +16,7 @@ class arFieldList {
 	const FIELDTYPE = 'fieldtype';
 	const LENGTH = 'length';
 	const SEQUENCE = 'sequence';
+	const INDEX = 'index';
 	/**
 	 * @var array
 	 */
@@ -32,6 +33,7 @@ class arFieldList {
 		self::IS_NOTNULL,
 		self::FIELDTYPE,
 		self::LENGTH,
+		self::INDEX,
 		self::SEQUENCE
 	);
 	/**
