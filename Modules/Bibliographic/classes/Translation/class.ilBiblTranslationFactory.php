@@ -35,7 +35,30 @@ class ilBiblTranslationFactory implements ilBiblTranslationFactoryInterface {
 	 * @return string
 	 */
 	public function translate(ilBiblFieldInterface $field) {
-		return $this->translateInCore($field);
+		if ($this->translationExistsForFieldAndUsersLanguage($field)) {
+			return $this->getInstanceForFieldAndUsersLanguage($field)->getTranslation();
+		}
+		if ($this->translationExistsForFieldAndSystemsLanguage($field)) {
+			return $this->getInstanceForFieldAndSystemsLanguage($field)->getTranslation();
+		}
+
+		$core_translation = $this->translateInCore($field);
+		if (strpos($core_translation, "-") !== 0) {
+			return $core_translation;
+		}
+
+		return $field->getIdentifier();
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function translateAttributeString($type_id, $string_attribute_name) {
+		$field = $this->getFieldFactory()
+		              ->findOrCreateFieldByTypeAndIdentifier($type_id, $string_attribute_name);
+
+		return $this->translate($field);
 	}
 
 
@@ -57,7 +80,25 @@ class ilBiblTranslationFactory implements ilBiblTranslationFactoryInterface {
 		$middle = "default";
 		$identifier = $field->getIdentifier();
 
-		return $this->dic->language()->txt(implode("_", [ $prefix, $middle, $identifier ]));
+		$topic = implode("_", [ $prefix, $middle, $identifier ]);
+
+		return $this->dic->language()->txt(strtolower($topic));
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function translationExistsForFieldAndUsersLanguage(ilBiblFieldInterface $field) {
+		return !is_null($this->getInstanceForFieldAndUsersLanguage($field));
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function translationExistsForFieldAndSystemsLanguage(ilBiblFieldInterface $field) {
+		return !is_null($this->getInstanceForFieldAndSystemsLanguage($field));
 	}
 
 
@@ -65,7 +106,7 @@ class ilBiblTranslationFactory implements ilBiblTranslationFactoryInterface {
 	 * @inheritDoc
 	 */
 	public function translationExistsForField(ilBiblFieldInterface $field) {
-		return !is_null($this->getInstanceForFieldAndUsersLanguage($field));
+		return $this->getCollectionOfTranslationsForField($field)->hasSets();
 	}
 
 
@@ -75,11 +116,84 @@ class ilBiblTranslationFactory implements ilBiblTranslationFactoryInterface {
 	public function getInstanceForFieldAndUsersLanguage(ilBiblFieldInterface $field) {
 		global $DIC;
 
-		return null;
+		return $this->getCollectionOfTranslationsForField($field)
+		            ->where([ "language_key" => $DIC->user()->getCurrentLanguage(), ])
+		            ->first();
+	}
 
-		return ilBiblTranslation::where([
-			'field_id'     => $field->getId(),
-			"language_key" => $DIC->user()->getCurrentLanguage(),
-		])->get();
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getInstanceForFieldAndSystemsLanguage(ilBiblFieldInterface $field) {
+		global $DIC;
+		$lng = $DIC->language()->getDefaultLanguage();
+
+		return $this->getCollectionOfTranslationsForField($field)
+		            ->where([ "language_key" => $lng, ])
+		            ->first();
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function findArCreateInstanceForFieldAndlanguage(ilBiblFieldInterface $field, $language_key) {
+		$inst = $this->getCollectionOfTranslationsForField($field)
+		             ->where([ "language_key" => $language_key, ])
+		             ->get();
+
+		if (!$inst) {
+			$inst = new ilBiblTranslation();
+			$inst->setFieldId($field->getId());
+			$inst->setLanguageKey($language_key);
+			$inst->create();
+		}
+
+		return $inst;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getAllTranslationsForField(ilBiblFieldInterface $field) {
+		return $this->getCollectionOfTranslationsForField($field)->get();
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getAllTranslationsForFieldAsArray(ilBiblFieldInterface $field) {
+		return $this->getCollectionOfTranslationsForField($field)->getArray();
+	}
+
+
+	/**
+	 * @param \ilBiblFieldInterface $field
+	 *
+	 * @return \ActiveRecordList
+	 */
+	private function getCollectionOfTranslationsForField(ilBiblFieldInterface $field) {
+		return ilBiblTranslation::where([ 'field_id' => $field->getId() ]);
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function findById($id) {
+		return ilBiblTranslation::findOrFail($id);
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function deleteById($id) {
+		self::findById($id)->delete();
+
+		return true;
 	}
 }

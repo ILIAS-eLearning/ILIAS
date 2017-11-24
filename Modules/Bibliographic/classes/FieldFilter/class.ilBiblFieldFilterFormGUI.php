@@ -10,6 +10,10 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI {
 	const F_FIELD_ID = "field_id";
 	const F_FILTER_TYPE = "filter_type";
 	/**
+	 * @var \ilBiblTranslationFactoryInterface
+	 */
+	protected $translation_factory;
+	/**
 	 * @var \ilBiblFieldFilterFactoryInterface
 	 */
 	private $bibl_filter_factory;
@@ -55,8 +59,10 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI {
 	 * @param \ilBiblFieldFilterFactoryInterface $filter_factory
 	 * @param \ilBiblFieldFactoryInterface       $field_factory
 	 */
-	public function __construct(ilBiblFieldFilterGUI $parent_gui, ilBiblFieldFilter $il_bibl_field, ilBiblFieldFilterFactoryInterface $filter_factory, ilBiblFieldFactoryInterface $field_factory) {
+	public function __construct(ilBiblFieldFilterGUI $parent_gui, ilBiblFieldFilter $il_bibl_field, ilBiblFieldFilterFactoryInterface $filter_factory, ilBiblFieldFactoryInterface $field_factory, ilBiblTranslationFactoryInterface $translation_factory) {
 		global $DIC;
+
+		$this->translation_factory = $translation_factory;
 		$this->filter_factory = $filter_factory;
 		$this->field_factory = $field_factory;
 		$this->dic = $DIC;
@@ -80,12 +86,11 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI {
 		$options = $this->field_factory->getAvailableFieldsForObjId($this->il_obj_bibliographic->getId());
 
 		$select_options = [];
-		foreach ($options as $field_name) {
-			$select_options[$field_name->getId()] = $this->dic->language()
-			                                                  ->txt($this->il_obj_bibliographic->getFileTypeAsString()
-			                                                        . '_default_'
-			                                                        . $field_name->getIdentifier()); // TODO Übersetzungsdienst nutzen
+		foreach ($options as $ilBiblField) {
+			$select_options[$ilBiblField->getId()] = $this->translation_factory->translate($ilBiblField); // TODO Übersetzungsdienst nutzen
 		}
+
+		asort($select_options);
 
 		$si = new ilSelectInputGUI($this->dic->language()->txt("filter_field"), self::F_FIELD_ID);
 		$si->setInfo($this->dic->language()->txt("filter_field_info"));

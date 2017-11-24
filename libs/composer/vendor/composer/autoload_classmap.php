@@ -2521,6 +2521,8 @@ return array(
     'ilBiblTranslationFactory' => $baseDir . '/../../Modules/Bibliographic/classes/Translation/class.ilBiblTranslationFactory.php',
     'ilBiblTranslationFactoryInterface' => $baseDir . '/../../Modules/Bibliographic/interfaces/interface.ilBiblTranslationFactoryInterface.php',
     'ilBiblTranslationGUI' => $baseDir . '/../../Modules/Bibliographic/classes/Translation/class.ilBiblTranslationGUI.php',
+    'ilBiblTranslationInterface' => $baseDir . '/../../Modules/Bibliographic/interfaces/interface.ilBiblTranslationInterface.php',
+    'ilBiblTranslationTableGUI' => $baseDir . '/../../Modules/Bibliographic/classes/Translation/class.ilBiblTranslationTableGUI.php',
     'ilBiblTypeFactory' => $baseDir . '/../../Modules/Bibliographic/classes/Types/class.ilBiblTypeFactory.php',
     'ilBiblTypeFactoryInterface' => $baseDir . '/../../Modules/Bibliographic/interfaces/interface.ilBiblTypeFactoryInterface.php',
     'ilBiblTypeInterface' => $baseDir . '/../../Modules/Bibliographic/interfaces/interface.ilBiblTypeInterface.php',

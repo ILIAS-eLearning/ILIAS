@@ -89,4 +89,12 @@ trait DIC {
 	protected function access() {
 		return $this->dic()->access();
 	}
+
+
+	/**
+	 * @return \ilToolbarGUI
+	 */
+	protected function toolbar() {
+		return $this->dic()->toolbar();
+	}
 }

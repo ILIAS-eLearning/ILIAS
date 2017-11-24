@@ -68,10 +68,17 @@ abstract class ilBiblAdminFieldGUI {
 			case strtolower(ilBiblTranslationGUI::class):
 				$this->tabs()->clearTargets();
 				$target = $this->ctrl()->getLinkTarget($this);
-				$this->tabs()->setBackTarget($this->lng()->txt('common_back'), $target);
+				$this->tabs()->setBackTarget($this->lng()->txt('back'), $target);
 
-				$this->ctrl()
-				     ->forwardCommand(new ilBiblTranslationGUI($this->type, $this->translation_factory, $this->field_factory));
+				$field_id = $this->http()->request()->getQueryParams()[self::FIELD_IDENTIFIER];
+				if (!$field_id) {
+					throw new ilException("Field not found");
+				}
+				$this->ctrl()->saveParameter($this, self::FIELD_IDENTIFIER);
+
+				$field = $this->field_factory->findById($field_id);
+				$gui = new ilBiblTranslationGUI($this->type, $this->translation_factory, $field);
+				$this->ctrl()->forwardCommand($gui);
 				break;
 
 			default:
@@ -102,7 +109,7 @@ abstract class ilBiblAdminFieldGUI {
 
 	protected function index() {
 		$this->setSubTabs($this->type);
-		$ilBiblAdminFieldTableGUI = new ilBiblAdminFieldTableGUI($this, self::CMD_STANDARD, $this->object, $this->type, $this->field_factory);
+		$ilBiblAdminFieldTableGUI = new ilBiblAdminFieldTableGUI($this, self::CMD_STANDARD, $this->object, $this->type, $this->field_factory, $this->translation_factory);
 		$this->tpl()->setContent($ilBiblAdminFieldTableGUI->getHTML());
 	}
 
@@ -143,14 +150,14 @@ abstract class ilBiblAdminFieldGUI {
 
 
 	protected function applyFilter() {
-		$ilBiblAdminFieldTableGUI = new ilBiblAdminFieldTableGUI($this, self::CMD_STANDARD, $this->object, $this->type, $this->field_factory);
+		$ilBiblAdminFieldTableGUI = new ilBiblAdminFieldTableGUI($this, self::CMD_STANDARD, $this->object, $this->type, $this->field_factory, $this->translation_factory);
 		$ilBiblAdminFieldTableGUI->writeFilterToSession();
 		$this->ctrl()->redirect($this, self::CMD_STANDARD);
 	}
 
 
 	protected function resetFilter() {
-		$ilBiblAdminFieldTableGUI = new ilBiblAdminFieldTableGUI($this, self::CMD_STANDARD, $this->object, $this->type, $this->field_factory);
+		$ilBiblAdminFieldTableGUI = new ilBiblAdminFieldTableGUI($this, self::CMD_STANDARD, $this->object, $this->type, $this->field_factory, $this->translation_factory);
 		$ilBiblAdminFieldTableGUI->resetFilter();
 		$ilBiblAdminFieldTableGUI->resetOffset();
 		$this->ctrl()->redirect($this, self::CMD_STANDARD);

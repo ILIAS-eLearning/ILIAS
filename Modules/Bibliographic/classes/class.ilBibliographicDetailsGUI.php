@@ -17,6 +17,10 @@ class ilBibliographicDetailsGUI {
 	 */
 	public $entry;
 	/**
+	 * @var \ilBiblTranslationFactoryInterface
+	 */
+	protected $translation_factory;
+	/**
 	 * @var \ilBiblTypeFactory
 	 */
 	protected $bib_type_factory;
@@ -28,7 +32,8 @@ class ilBibliographicDetailsGUI {
 	 * @param \ilObjBibliographic $bibl_obj
 	 * @param \ilBiblEntry        $entry
 	 */
-	public function __construct(\ilObjBibliographic $bibl_obj, \ilBiblEntry $entry) {
+	public function __construct(\ilObjBibliographic $bibl_obj, \ilBiblEntry $entry, ilBiblTranslationFactoryInterface $translation_factory) {
+		$this->translation_factory = $translation_factory;
 		$this->bibl_obj = $bibl_obj;
 		$this->entry = $entry;
 		$this->bib_type_factory = new ilBiblTypeFactory();
@@ -36,13 +41,15 @@ class ilBibliographicDetailsGUI {
 
 
 	/**
-	 * @param ilObjBibliographic $bibl_obj
-	 * @param                    $entry_id
+	 * @param \ilObjBibliographic                $bibl_obj
+	 * @param                                    $entry_id
+	 * @param \ilBiblTranslationFactoryInterface $translation_factory
 	 *
-	 * @return ilBibliographicDetailsGUI
+	 * @return \ilBibliographicDetailsGUI
 	 */
-	public static function getInstance(ilObjBibliographic $bibl_obj, $entry_id) {
-		$obj = new self($bibl_obj, ilBiblEntry::getInstance($bibl_obj->getFileTypeAsString(), $entry_id));
+	public static function getInstance(ilObjBibliographic $bibl_obj, $entry_id, \ilBiblTranslationFactoryInterface $translation_factory) {
+		$entry = ilBiblEntry::getInstance($bibl_obj->getFileTypeAsString(), $entry_id); // Todo Refactor
+		$obj = new self($bibl_obj, $entry, $translation_factory);
 
 		return $obj;
 	}
@@ -75,28 +82,15 @@ class ilBibliographicDetailsGUI {
 		}
 
 		$attributes = $this->entry->getAttributes();
-		//translate array key in order to sort by those keys
-		foreach ($attributes as $key => $attribute) {
-			//Check if there is a specific language entry
-			if ($lng->exists($key)) {
-				$strDescTranslated = $lng->txt($key);
-			} //If not: get the default language entry
-			else {
-				$arrKey = explode("_", $key);
-				if ($this->bib_type_factory->getInstanceForString($arrKey[0])->isStandardField($arrKey[2])) {
-					$strDescTranslated = $lng->txt($arrKey[0] . "_default_" . $arrKey[2]);
-				} else {
-					$strDescTranslated = $arrKey[2];
-				}
-			}
-			unset($attributes[$key]);
-			$attributes[$strDescTranslated] = $attribute;
-		}
+
+		// TODO Sorting
+
+
 		// sort attributes alphabetically by their array-key
 		ksort($attributes, SORT_STRING);
 		// render attributes to html
 		foreach ($attributes as $key => $attribute) {
-			$ci = new ilCustomInputGUI($key);
+			$ci = new ilCustomInputGUI($this->translation_factory->translateAttributeString($this->bibl_obj->getFileType(), $key));
 			$ci->setHTML(self::prepareLatex($attribute));
 			$form->addItem($ci);
 		}

@@ -6,7 +6,7 @@
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 
-class ilBiblTranslation extends ActiveRecord {
+class ilBiblTranslation extends ActiveRecord implements ilBiblTranslationInterface {
 
 	const TABLE_NAME = 'il_bibl_translation';
 
@@ -36,10 +36,9 @@ class ilBiblTranslation extends ActiveRecord {
 	 * @con_length     4
 	 * @con_is_notnull true
 	 * @con_is_primary true
-	 * @con_is_unique  true
 	 * @con_sequence   true
 	 */
-	protected $id;
+	protected $id = 0;
 	/**
 	 * @var
 	 *
@@ -49,7 +48,7 @@ class ilBiblTranslation extends ActiveRecord {
 	 * @con_is_notnull true
 	 * @con_is_unique  true
 	 */
-	protected $field_id;
+	protected $field_id = 0;
 	/**
 	 * @var
 	 *
@@ -58,14 +57,22 @@ class ilBiblTranslation extends ActiveRecord {
 	 * @con_length     2
 	 * @con_is_notnull true
 	 */
-	protected $language_key;
+	protected $language_key = '';
+	/**
+	 * @var
+	 *
+	 * @con_has_field  true
+	 * @con_fieldtype  text
+	 * @con_length     256
+	 */
+	protected $translation = '';
 	/**
 	 * @var
 	 *
 	 * @con_has_field  true
 	 * @con_fieldtype  clob
 	 */
-	protected $translation;
+	protected $description = '';
 
 
 	/**
@@ -129,5 +136,21 @@ class ilBiblTranslation extends ActiveRecord {
 	 */
 	public function setTranslation($translation) {
 		$this->translation = $translation;
+	}
+
+
+	/**
+	 * @return mixed
+	 */
+	public function getDescription() {
+		return $this->description;
+	}
+
+
+	/**
+	 * @param mixed $description
+	 */
+	public function setDescription($description) {
+		$this->description = $description;
 	}
 }

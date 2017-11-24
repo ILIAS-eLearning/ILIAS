@@ -7,19 +7,12 @@
 
 class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 
+	use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
 	const TBL_ID = 'tbl_bibl_fields';
 	/**
-	 * @var \ILIAS\DI\Container
+	 * @var \ilBiblTranslationFactoryInterface
 	 */
-	protected $dic;
-	/**
-	 * @var ilCtrl
-	 */
-	protected $ctrl;
-	/**
-	 * @var ilTemplate
-	 */
-	protected $tpl;
+	protected $translation_facory;
 	/**
 	 * @var \ilBiblTypeInterface
 	 */
@@ -47,31 +40,32 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 
 
 	/**
-	 * ilLocationDataTableGUI constructor.
+	 * ilBiblAdminFieldTableGUI constructor.
 	 *
-	 * @param ilBiblAdminFieldGUI $a_parent_obj
-	 * @param string              $a_parent_cmd
+	 * @param object                             $a_parent_obj
+	 * @param string                             $a_parent_cmd
+	 * @param \ilObjBibliographicAdmin           $il_obj_bibliographic_admin
+	 * @param \ilBiblTypeInterface               $data_type
+	 * @param \ilBiblFieldFactoryInterface       $field_factory
+	 * @param \ilBiblTranslationFactoryInterface $translation_facory
 	 */
-	function __construct($a_parent_obj, $a_parent_cmd, ilObjBibliographicAdmin $il_obj_bibliographic_admin, ilBiblTypeInterface $data_type, ilBiblFieldFactoryInterface $field_factory) {
-		global $DIC;
-		$this->dic = $DIC;
+	public function __construct($a_parent_obj, $a_parent_cmd, ilObjBibliographicAdmin $il_obj_bibliographic_admin, ilBiblTypeInterface $data_type, ilBiblFieldFactoryInterface $field_factory, ilBiblTranslationFactoryInterface $translation_facory) {
 		$this->parent_obj = $a_parent_obj;
-		$this->ctrl = $this->dic->ctrl();
-		$this->tpl = $this->dic['tpl'];
 		$this->data_type = $data_type;
 		$this->field_factory = $field_factory;
+		$this->translation_facory = $translation_facory;
 
 		$this->setId(self::TBL_ID);
 		$this->setPrefix(self::TBL_ID);
 		$this->setFormName(self::TBL_ID);
-		$this->ctrl->saveParameter($a_parent_obj, $this->getNavParameter());
+		$this->ctrl()->saveParameter($a_parent_obj, $this->getNavParameter());
 		$this->il_obj_bibliographic_admin = $il_obj_bibliographic_admin;
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->parent_obj = $a_parent_obj;
 		$this->setRowTemplate('tpl.bibl_administration_fields_list_row.html', 'Modules/Bibliographic');
 
-		$this->setFormAction($this->ctrl->getFormAction($this->parent_obj));
+		$this->setFormAction($this->ctrl()->getFormAction($this->parent_obj));
 
 		$this->setExternalSorting(true);
 
@@ -82,7 +76,7 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 
 		$this->initColumns();
 
-		$this->addCommandButton(ilBiblAdminFieldGUI::CMD_SAVE, $this->dic->language()->txt("save"));
+		$this->addCommandButton(ilBiblAdminFieldGUI::CMD_SAVE, $this->lng()->txt("save"));
 
 		$this->addFilterItems();
 		$this->parseData();
@@ -90,16 +84,16 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 
 
 	protected function initColumns() {
-		$this->addColumn($this->dic->language()->txt('position'), 'position');
-		$this->addColumn($this->dic->language()->txt('identifier'), 'identifier');
-		$this->addColumn($this->dic->language()->txt('translation'), 'translation');
-		$this->addColumn($this->dic->language()->txt('standard'), 'is_standard_field');
-		$this->addColumn($this->dic->language()->txt('actions'), '', '150px');
+		$this->addColumn($this->lng()->txt('position'), 'position');
+		$this->addColumn($this->lng()->txt('identifier'), 'identifier');
+		$this->addColumn($this->lng()->txt('translation'), 'translation');
+		$this->addColumn($this->lng()->txt('standard'), 'is_standard_field');
+		$this->addColumn($this->lng()->txt('actions'), '', '150px');
 	}
 
 
 	protected function addFilterItems() {
-		$field = new ilTextInputGUI($this->dic->language()->txt('identifier'), 'identifier');
+		$field = new ilTextInputGUI($this->lng()->txt('identifier'), 'identifier');
 		$this->addAndReadFilterItem($field);
 	}
 
@@ -139,16 +133,16 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setCurrentBlock("TRANSLATION");
-		//TODO change static content
-		$this->tpl->setVariable('VAL_TRANSLATION', 'TRANSLATION');
+
+		$this->tpl->setVariable('VAL_TRANSLATION', $this->translation_facory->translate($field));
 
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setCurrentBlock("STANDARD");
 		if ($field->getIsStandardField()) {
-			$this->tpl->setVariable('IS_STANDARD_VALUE', $this->dic->language()->txt("standard"));
+			$this->tpl->setVariable('IS_STANDARD_VALUE', $this->lng()->txt("standard"));
 		} else {
-			$this->tpl->setVariable('IS_STANDARD_VALUE', $this->dic->language()->txt("custom"));
+			$this->tpl->setVariable('IS_STANDARD_VALUE', $this->lng()->txt("custom"));
 		}
 
 		$this->tpl->setVariable('IS_STANDARD_NAME', "row_values[" . $field->getId()
@@ -173,12 +167,14 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 		$selectionList->setListTitle($this->lng->txt("actions"));
 		$selectionList->setId($field->getIdentifier());
 
-		$this->ctrl->setParameter($this->parent_obj, ilBiblAdminRisFieldGUI::FIELD_IDENTIFIER, $field->getId());
-		$this->ctrl->setParameterByClass(ilBiblTranslationGUI::class, ilBiblAdminRisFieldGUI::FIELD_IDENTIFIER, $field->getId());
+		$this->ctrl()
+		     ->setParameter($this->parent_obj, ilBiblAdminRisFieldGUI::FIELD_IDENTIFIER, $field->getId());
+		$this->ctrl()
+		     ->setParameterByClass(ilBiblTranslationGUI::class, ilBiblAdminRisFieldGUI::FIELD_IDENTIFIER, $field->getId());
 
-		$txt = $this->dic->language()->txt("translate");
-		$selectionList->addItem($txt, "", $this->dic->ctrl()
-		                                            ->getLinkTargetByClass(ilBiblTranslationGUI::class, ilBiblTranslationGUI::CMD_DEFAULT));
+		$txt = $this->lng()->txt("translate");
+		$selectionList->addItem($txt, "", $this->ctrl()
+		                                       ->getLinkTargetByClass(ilBiblTranslationGUI::class, ilBiblTranslationGUI::CMD_DEFAULT));
 
 		$this->tpl->setVariable('VAL_ACTIONS', $selectionList->getHTML());
 	}

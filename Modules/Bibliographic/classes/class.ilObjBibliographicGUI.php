@@ -154,7 +154,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 			case strtolower(ilBiblFieldFilterGUI::class):
 				$this->prepareOutput();
 				$ilTabs->setTabActive(self::TAB_SETTINGS);
-				$this->ctrl->forwardCommand(new ilBiblFieldFilterGUI($this->filter_factory, $this->field_factory));
+				$this->ctrl->forwardCommand(new ilBiblFieldFilterGUI($this->filter_factory, $this->field_factory, $this->translation_factory));
 				break;
 			default:
 				return parent::executeCommand();
@@ -452,7 +452,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		global $DIC;
 
 		if ($DIC->access()->checkAccess('read', "", $this->object->getRefId())) {
-			$bibGUI = ilBibliographicDetailsGUI::getInstance($this->object, $_GET[self::P_ENTRY_ID]);
+			$bibGUI = ilBibliographicDetailsGUI::getInstance($this->object, $_GET[self::P_ENTRY_ID], $this->translation_factory);
 			$DIC->ui()->mainTemplate()->setContent($bibGUI->getHTML());
 		} else {
 			ilUtil::sendFailure($DIC->language()->txt("no_permission"), true);

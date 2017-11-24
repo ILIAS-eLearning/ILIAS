@@ -2660,6 +2660,8 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilBiblTranslationFactory' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Translation/class.ilBiblTranslationFactory.php',
         'ilBiblTranslationFactoryInterface' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/interfaces/interface.ilBiblTranslationFactoryInterface.php',
         'ilBiblTranslationGUI' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Translation/class.ilBiblTranslationGUI.php',
+        'ilBiblTranslationInterface' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/interfaces/interface.ilBiblTranslationInterface.php',
+        'ilBiblTranslationTableGUI' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Translation/class.ilBiblTranslationTableGUI.php',
         'ilBiblTypeFactory' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Types/class.ilBiblTypeFactory.php',
         'ilBiblTypeFactoryInterface' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/interfaces/interface.ilBiblTypeFactoryInterface.php',
         'ilBiblTypeInterface' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/interfaces/interface.ilBiblTypeInterface.php',

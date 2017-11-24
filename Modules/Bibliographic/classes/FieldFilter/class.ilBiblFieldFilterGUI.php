@@ -20,6 +20,10 @@ class ilBiblFieldFilterGUI {
 	const CMD_RESET_FILTER = 'resetFilter';
 	const CMD_TRANSLATE = 'translate';
 	/**
+	 * @var \ilBiblTranslationFactoryInterface
+	 */
+	protected $translation_factory;
+	/**
 	 * @var \ilBiblFieldFactoryInterface
 	 */
 	protected $field_factory;
@@ -55,8 +59,9 @@ class ilBiblFieldFilterGUI {
 	 * @param \ilBiblFieldFilterFactoryInterface $filter_factory
 	 * @param \ilBiblFieldFactoryInterface       $field_factory
 	 */
-	public function __construct(ilBiblFieldFilterFactoryInterface $filter_factory, ilBiblFieldFactoryInterface $field_factory) {
+	public function __construct(ilBiblFieldFilterFactoryInterface $filter_factory, ilBiblFieldFactoryInterface $field_factory, ilBiblTranslationFactoryInterface $translation_factory) {
 		global $DIC;
+		$this->translation_factory = $translation_factory;
 		$this->filter_factory = $filter_factory;
 		$this->field_factory = $field_factory;
 		$this->dic = $DIC;
@@ -107,7 +112,7 @@ class ilBiblFieldFilterGUI {
 
 
 	protected function add() {
-		$ilBiblSettingsFilterFormGUI = new ilBiblFieldFilterFormGUI($this, new ilBiblFieldFilter(), $this->filter_factory, $this->field_factory);
+		$ilBiblSettingsFilterFormGUI = new ilBiblFieldFilterFormGUI($this, new ilBiblFieldFilter(), $this->filter_factory, $this->field_factory, $this->translation_factory);
 		$this->tpl->setContent($ilBiblSettingsFilterFormGUI->getHTML());
 	}
 

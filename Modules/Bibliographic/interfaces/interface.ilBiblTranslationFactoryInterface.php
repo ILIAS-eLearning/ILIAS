@@ -28,9 +28,35 @@ interface ilBiblTranslationFactoryInterface {
 
 
 	/**
+	 * @param int    $type_id
+	 * @param string $string_attribute_name
+	 *
+	 * @return string
+	 * @deprecated
+	 */
+	public function translateAttributeString($type_id, $string_attribute_name);
+
+
+	/**
 	 * @return \ilBiblFieldFactoryInterface
 	 */
 	public function getFieldFactory();
+
+
+	/**
+	 * @param \ilBiblFieldInterface $field
+	 *
+	 * @return bool
+	 */
+	public function translationExistsForFieldAndUsersLanguage(ilBiblFieldInterface $field);
+
+
+	/**
+	 * @param \ilBiblFieldInterface $field
+	 *
+	 * @return bool
+	 */
+	public function translationExistsForFieldAndSystemsLanguage(ilBiblFieldInterface $field);
 
 
 	/**
@@ -44,9 +70,56 @@ interface ilBiblTranslationFactoryInterface {
 	/**
 	 * @param \ilBiblFieldInterface $field
 	 *
-	 * @throws \ilException when is dows not exists
-	 *
-	 * @return \ilBiblTranslation
+	 * @return \ilBiblTranslationInterface
 	 */
 	public function getInstanceForFieldAndUsersLanguage(ilBiblFieldInterface $field);
+
+
+	/**
+	 * @param \ilBiblFieldInterface $field
+	 *
+	 * @return \ilBiblTranslationInterface
+	 */
+	public function getInstanceForFieldAndSystemsLanguage(ilBiblFieldInterface $field);
+
+
+	/**
+	 * @param \ilBiblFieldInterface $field
+	 * @param string                $language_key
+	 *
+	 * @return \ilBiblTranslationInterface
+	 */
+	public function findArCreateInstanceForFieldAndlanguage(ilBiblFieldInterface $field, $language_key);
+
+
+	/**
+	 * @param \ilBiblFieldInterface $field
+	 *
+	 * @return \ilBiblTranslationInterface[]
+	 */
+	public function getAllTranslationsForField(ilBiblFieldInterface $field);
+
+
+	/**
+	 * @param \ilBiblFieldInterface $field
+	 *
+	 * @return array
+	 */
+	public function getAllTranslationsForFieldAsArray(ilBiblFieldInterface $field);
+
+
+	/**
+	 * @param int $id
+	 *
+	 * @return \ilBiblTranslationInterface
+	 */
+	public function findById($id);
+
+
+	/**
+	 * @param int $id
+	 *
+	 * @return bool
+	 */
+	public function deleteById($id);
 }
