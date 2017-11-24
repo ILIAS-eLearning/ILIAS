@@ -69,6 +69,7 @@ class ilBibliographicDetailsGUI {
 		                                           ->convertIlBiblAttributesToObjects($attributes);
 		$attributes = $this->facade->fieldFactory()
 		                           ->sortAttributesByFieldPosition($array_of_attribute_objects);
+
 		// render attributes to html
 		foreach ($attributes as $key => $attribute) {
 			$ci = new ilCustomInputGUI($this->facade->translationFactory()

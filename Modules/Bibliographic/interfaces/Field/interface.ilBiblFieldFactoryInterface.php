@@ -133,9 +133,9 @@ interface ilBiblFieldFactoryInterface {
 	public function getilBiblDataById($id);
 
 	/**
-	 * @param  $attributes ilBiblAttribute[]
+	 * @param  $attributes[]
 	 *
-	 * @return ilBiblAttribute[]
+	 * @return array
 	 */
 	public function sortAttributesByFieldPosition(array $attributes);
 }
