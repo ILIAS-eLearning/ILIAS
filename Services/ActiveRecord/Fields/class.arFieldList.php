@@ -33,8 +33,8 @@ class arFieldList {
 		self::IS_NOTNULL,
 		self::FIELDTYPE,
 		self::LENGTH,
-		self::INDEX,
-		self::SEQUENCE
+		self::SEQUENCE,
+		self::INDEX
 	);
 	/**
 	 * @var array
