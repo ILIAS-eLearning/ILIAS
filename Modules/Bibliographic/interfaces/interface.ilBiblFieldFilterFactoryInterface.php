@@ -15,6 +15,13 @@ interface ilBiblFieldFilterFactoryInterface {
 	 */
 	public function findById($id);
 
+	/**
+	 * @param int $id
+	 *
+	 * @return ilBiblFieldFilterInterface
+	 */
+	public function findByFieldId($id);
+
 
 	/**
 	 * @param int $obj_id
