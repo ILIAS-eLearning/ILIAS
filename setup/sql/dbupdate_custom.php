@@ -48,7 +48,7 @@ if (! $ilDB->tableExists('il_bibl_field')) {
 
 }
 ?>
-<#9>
+<#2>
 <?php
 $fields = array(
 	'id' => array(
@@ -108,7 +108,7 @@ $type = function ($filename) {
 $res = $ilDB->query("SELECT * FROM il_bibl_data");
 while($d = $ilDB->fetchObject($res)) {
 	$ilDB->update("il_bibl_data", [
-			["file_type" =>["integer", $type($d->filname)], ["id"=>$d->id]]
-	]);
+		[ "file_type" => [ "integer", $type($d->filname) ] ]
+	], [ "id" => $d->id ]);
 }
 ?>

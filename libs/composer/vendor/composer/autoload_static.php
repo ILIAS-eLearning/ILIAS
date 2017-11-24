@@ -2629,6 +2629,8 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilBiblAdminFieldTranslateGUI' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Translation/class.ilBiblAdminFieldTranslateGUI.php',
         'ilBiblAdminFieldTranslationGUI' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Admin/Fields/class.ilBiblAdminFieldTranslationGUI.php',
         'ilBiblAdminRisFieldGUI' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Admin/Fields/class.ilBiblAdminRisFieldGUI.php',
+        'ilBiblAttribute' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Attribute/class.ilBiblAttribute.php',
+        'ilBiblAttributeInterface' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/interfaces/interface.ilBiblAttributeInterface.php',
         'ilBiblEntry' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Entry/class.ilBiblEntry.php',
         'ilBiblEntryInterface' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/interfaces/interface.ilBiblEntryInterface.php',
         'ilBiblField' => __DIR__ . '/../..' . '/../../Modules/Bibliographic/classes/Field/class.ilBiblField.php',

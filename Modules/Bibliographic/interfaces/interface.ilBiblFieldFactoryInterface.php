@@ -97,16 +97,16 @@ interface ilBiblFieldFactoryInterface {
 	 *
 	 * @return boolean
 	 */
-	public function hasIlBiblFieldEntry($name);
+/*	public function hasIlBiblFieldEntry($name);*/
 
 	/**
-	 * creates ilBiblField Entry for the il_bibl_attribute
+	 * find or creates ilBiblField Entry for the il_bibl_attribute
 	 *
-	 * @param array $il_bibl_attribute
+	 * @param array ilBiblAttribute
 	 *
-	 * @return boolean
+	 * @return ilBiblField | true
 	 */
-	public function createIlBiblFieldForIlBiblAttribute($il_bibl_attribute);
+	public function findOrCreate(ilBiblAttribute $il_bibl_attribute);
 
 	/**
 	 * @param integer $id

@@ -10480,6 +10480,7 @@ bibl#:#news_title_updated#:#Literaturliste aktualisiert
 bibl#:#add_filter#:#Filter hinzufügen
 bibl#:#filter_type#:#Filter Typ
 bibl#:#field#:#Feld
+bibl#:#custom#:#Benutzerdefiniert
 rbac#:#bibl_visible#:#Literaturliste ist sichtbar
 rbac#:#bibl_read#:#Literaturliste lesen
 rbac#:#bibl_copy#:#Literaturliste kopieren

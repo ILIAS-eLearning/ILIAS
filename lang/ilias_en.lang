@@ -10494,6 +10494,7 @@ bibl#:#news_title_updated#:#Bibliography list updated
 bibl#:#add_filter#:#Add Filter
 bibl#:#filter_type#:#Filter Type
 bibl#:#field#:#Field
+bibl#:#custom#:#Custom
 rbac#:#bibl_visible#:#Bibliography is visible
 rbac#:#bibl_read#:#User can read bibliography content
 rbac#:#bibl_copy#:#Copy Bibliography

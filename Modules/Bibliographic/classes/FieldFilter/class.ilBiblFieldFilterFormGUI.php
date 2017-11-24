@@ -110,7 +110,9 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI {
 		$si->setRequired(true);
 		$this->addItem($si);
 
-		$this->initButtonsAndTitle();
+		$this->setTitle($this->dic->language()->txt('filter_form_title'));
+
+		$this->initButtons();
 
 		$this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
 	}
@@ -155,17 +157,13 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI {
 	}
 
 
-	protected function initButtonsAndTitle() {
+	protected function initButtons() {
 		if ($this->filter->getId()) {
-			$this->setTitle($this->dic->language()->txt('filter_form_title'));
-
 			$this->addCommandButton(ilBiblFieldFilterGUI::CMD_UPDATE, $this->dic->language()
 			                                                                    ->txt('create'));
 			$this->addCommandButton(ilBiblFieldFilterGUI::CMD_CANCEL, $this->dic->language()
 			                                                                    ->txt("cancel"));
 		} else {
-			$this->setTitle($this->dic->language()->txt('filter_form_title'));
-
 			$this->addCommandButton(ilBiblFieldFilterGUI::CMD_CREATE, $this->dic->language()
 			                                                                    ->txt('save'));
 			$this->addCommandButton(ilBiblFieldFilterGUI::CMD_CANCEL, $this->dic->language()

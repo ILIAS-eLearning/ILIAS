@@ -104,7 +104,26 @@ class ilBiblEntry implements ilBiblEntryInterface {
 			                  $ilDB->quote($attribute['value'], "text") . "," . // value
 			                  $ilDB->quote($id, "integer") . // id
 			                  ")");
+
+			$type_factory = new ilBiblTypeFactory();
+			$il_bibl_data = $this->getilBiblDataById($this->getBibliographicObjId());
+			$file_name = $il_bibl_data['filename'];
+			$field_factory = new ilBiblFieldFactory($type_factory->getInstanceForFileName($file_name));
+			$ilBiblAttribute = new ilBiblAttribute($id);
+
+			$field_factory->findOrCreate($ilBiblAttribute);
 		}
+	}
+
+	public function getilBiblDataById($id) {
+		global $DIC;
+		$data = array();
+		$set = $DIC->database()->query("SELECT * FROM il_bibl_data " . " WHERE id = "
+			. $DIC->database()->quote($id, "integer"));
+		while ($rec = $DIC->database()->fetchAssoc($set)) {
+			$data = $rec;
+		}
+		return $data;
 	}
 
 
@@ -318,7 +337,7 @@ class ilBiblEntry implements ilBiblEntryInterface {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 		$entry = array();
-		$set = $ilDB->query("SELECT id FROM il_bibl_entry " . " WHERE id = "
+		$set = $ilDB->query("SELECT * FROM il_bibl_entry " . " WHERE id = "
 			. $ilDB->quote($id, "integer"));
 		while ($rec = $ilDB->fetchAssoc($set)) {
 			$entry = $rec;

@@ -123,10 +123,9 @@ class ilObjBibliographic extends ilObject2 {
 			$this->deleteFile();
 			$this->moveUploadedFile($upload);
 		}
-
-		// Delete the object, but leave the db table 'il_bibl_data' for being able to update it using WHERE, and also leave the file
-		$this->doDelete(true, true);
 		if ($has_valid_upload) {
+			// Delete the object, but leave the db table 'il_bibl_data' for being able to update it using WHERE, and also leave the file
+			$this->doDelete(true, true);
 			$this->parseFileToDatabase();
 		}
 
@@ -383,6 +382,8 @@ class ilObjBibliographic extends ilObject2 {
 		$reader = $this->bib_filereader_factory->getByType($type);
 		$reader->readContent($this->getFileAbsolutePath());
 		$this->entries = $reader->parseContentToEntries($this);
+
+		
 	}
 
 
@@ -416,6 +417,6 @@ class ilObjBibliographic extends ilObject2 {
 	 * @return int
 	 */
 	public function determineFileTypeByFileName($filename) {
-		$this->bib_type_factory->getInstanceForFileName($filename)->getId();
+		return $this->bib_type_factory->getInstanceForFileName($filename)->getId();
 	}
 }

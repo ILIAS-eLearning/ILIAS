@@ -204,7 +204,7 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 	public function getilBiblDataById($id) {
 		global $DIC;
 		$data = array();
-		$set = $DIC->database()->query("SELECT id FROM il_bibl_data " . " WHERE id = "
+		$set = $DIC->database()->query("SELECT * FROM il_bibl_data " . " WHERE id = "
 			. $DIC->database()->quote($id, "integer"));
 		while ($rec = $DIC->database()->fetchAssoc($set)) {
 			$data = $rec;
@@ -215,34 +215,64 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function hasIlBiblFieldEntry($name) {
+/*	public function hasIlBiblFieldEntry($name) {
 		$ilBiblField = ilBiblField::where(array( 'identifier' => $name ))->first();
 		if (!empty($ilBiblField)) {
 			return true;
 		}
 
 		return false;
-	}
-
+	}*/
 
 	/**
 	 * @inheritDoc
 	 */
-	public function createIlBiblFieldForIlBiblAttribute($il_bibl_attribute) {
+	public function findOrCreate(ilBiblAttribute $ilBiblAttribute) {
+		$ilBiblField = ilBiblField::where([ 'identifier' => $ilBiblAttribute->getName() ])->first();
+		if ($ilBiblField === NULL) {
+			$ilBiblField = new ilBiblField();
+			$ilBiblField->setIdentifier($ilBiblAttribute->getName());
+
+			$ilBiblEntry = ilBiblEntry::getEntryById($ilBiblAttribute->getEntryId());
+			$ilBiblData = $this->getIlBiblDataById($ilBiblEntry['data_id']);
+
+			$file_parts = pathinfo($ilBiblData['filename']);
+			$extension = $file_parts['extension'];
+
+			$ilBiblTypeFactory = new ilBiblTypeFactory();
+			$data_type = $ilBiblTypeFactory->convertFileEndingToDataType($extension);
+
+			$ilBiblField->setDataType($data_type);
+			$type_inst = $ilBiblTypeFactory->getInstanceForType($data_type);
+			$ilBiblField->setIsStandardField($type_inst->isStandardField($ilBiblAttribute->getName()));
+
+			$ilBiblField->create();
+		}
+		return $ilBiblField;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+/*	public function createIlBiblFieldForIlBiblAttribute($il_bibl_attribute) {
 		if (!$this->hasIlBiblFieldEntry($il_bibl_attribute['name'])) {
 			$ilBiblField = new ilBiblField();
 			$ilBiblField->setIdentifier($il_bibl_attribute['name']);
+
 			$il_bibl_entry = ilBiblEntry::getEntryById($il_bibl_attribute['entry_id']);
 			$il_bibl_data = $this->getIlBiblDataById($il_bibl_entry['data_id']);
+
 			$file_parts = $il_bibl_data['filename'];
 			$extension = $file_parts['extension'];
+
 			$ilBiblTypeFactory = new ilBiblTypeFactory();
 			$data_type = $ilBiblTypeFactory->convertFileEndingToDataType($extension);
+
 			$ilBiblField->setDataType($data_type);
 			$type_inst = $ilBiblTypeFactory->getInstanceForType($data_type);
 			$ilBiblField->setIsStandardField($type_inst->isStandardField($il_bibl_attribute['name']));
 		}
-	}
+	}*/
 
 	// Internal Methods
 
