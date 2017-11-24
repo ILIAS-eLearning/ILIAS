@@ -20,6 +20,23 @@ class ilBibliographicDetailsGUI {
 	 * @var \ilBiblTypeFactory
 	 */
 	protected $bib_type_factory;
+	/**
+	 * @var \ilBiblTranslationFactory
+	 */
+	protected $translation_factory;
+	/**
+	 * @var \ilBiblFieldFactory
+	 */
+	protected $field_factory;
+	/**
+	 * @var \ilBiblFieldFilterFactory
+	 */
+	protected $filter_factory;
+	/**
+	 * @var \ilBiblAttributeFactory
+	 */
+	protected $attribute_factory;
+
 
 
 	/**
@@ -32,6 +49,15 @@ class ilBibliographicDetailsGUI {
 		$this->bibl_obj = $bibl_obj;
 		$this->entry = $entry;
 		$this->bib_type_factory = new ilBiblTypeFactory();
+
+		$this->attribute_factory = new ilBiblAttributeFactory();
+		$this->type_factory = new ilBiblTypeFactory();
+		$this->filter_factory = new ilBiblFieldFilterFactory();
+		if(is_object($this->bibl_obj)) {
+			$type = $this->type_factory->getInstanceForType($this->bibl_obj->getFileType());
+			$this->field_factory = new ilBiblFieldFactory($type);
+			$this->translation_factory = new ilBiblTranslationFactory($this->field_factory);
+		}
 	}
 
 
@@ -74,6 +100,10 @@ class ilBibliographicDetailsGUI {
 			$form->addCommandButton('autoLink', 'Link');
 		}
 
+		/*
+		 * 1) foreach
+		 */
+
 		$attributes = $this->entry->getAttributes();
 		//translate array key in order to sort by those keys
 		foreach ($attributes as $key => $attribute) {
@@ -94,6 +124,8 @@ class ilBibliographicDetailsGUI {
 		}
 		// sort attributes alphabetically by their array-key
 		ksort($attributes, SORT_STRING);
+		$array_of_attribute_objects = $this->attribute_factory->convertIlBiblAttributesToObjects($attributes);
+		$attributes = $this->field_factory->sortAttributesByFieldPosition($array_of_attribute_objects);
 		// render attributes to html
 		foreach ($attributes as $key => $attribute) {
 			$ci = new ilCustomInputGUI($key);
