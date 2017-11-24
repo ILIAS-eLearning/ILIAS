@@ -9226,6 +9226,7 @@ chatroom#:#display_past_msgs#:#Number of Past Messages
 chatroom#:#hint_display_past_msgs#:#Number of previous messages shown when chat room is entered. A value of ‘0’ disables this feature.
 chatroom#:#speak_to#:#Speak to <b>#user#</b>
 chatroom#:#whisper_to#:#Whisper to <b>#user#</b>
+chatroom#:#chat_anonymous_not_allowed#:#Please login to use the chat.
 chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS cannot build a socket connection to the chat server.
 chatroom#:#leave_private_room#:#Leave Private Room
 chatroom#:#left_private_room#:#Left private room
@@ -11035,6 +11036,9 @@ mst#:#mst_memb_status_waitinglist#:#Waiting List
 mst#:#mst_memb_status_registered#:#Registered
 mst#:#mst_show_courses#:#Enrolments
 mst#:#mst_courses_of#:#Enrolments of %s
+orgu#:#msg_position_udpated#:#Position aktualisiert
+orgu#:#remove_successful#:#User was removed successfully.
+orgu#:#add_position#:#Position hinzufügen
 orgu#:#orgu_enable_my_staff#:#Enable View ‘Staff’
 orgu#:#orgu_enable_my_staff_info#:#The View ‘Staff’ shows the Learning Progress of the own Employees.
 orgu#:#org_op_manage_members#:#Manage Members
@@ -11051,7 +11055,7 @@ orgu#:#deassign_user_successful#:#Users have been successfully deassigned from t
 orgu#:#il_orgu_superior#:#Superior
 orgu#:#orgu_staff#:#Staff
 orgu#:#confirm_deletion_and_assign#:#Delete and Assign Users
-orgu#:#msg_assignment_to_employee_done#:#Zuweisung zur Position Mitarbeiter durchgeführt
+orgu#:#msg_assignment_to_employee_done#:#Assignment to the employee role successful
 orgu#:#confirm_deletion_button#:#Delete
 orgu#:#msg_deleted#:#Deleted
 orgu#:#Staff#:#Staff

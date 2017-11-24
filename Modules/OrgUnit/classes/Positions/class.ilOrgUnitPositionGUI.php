@@ -38,7 +38,7 @@ class ilOrgUnitPositionGUI extends BaseCommands {
 		self::initAuthoritiesRenderer();
 		$b = ilLinkButton::getInstance();
 		$b->setUrl($this->ctrl()->getLinkTarget($this, self::CMD_ADD));
-		$b->setCaption(self::CMD_ADD);
+		$b->setCaption('add_position');
 		$this->dic()->toolbar()->addButtonInstance($b);
 
 		$table = new ilOrgUnitPositionTableGUI($this, self::CMD_INDEX);
