@@ -84,7 +84,7 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 
 
 	protected function initColumns() {
-		$this->addColumn($this->lng()->txt('position'), 'position');
+		$this->addColumn($this->lng()->txt('order'), 'order');
 		$this->addColumn($this->lng()->txt('identifier'), 'identifier');
 		$this->addColumn($this->lng()->txt('translation'), 'translation');
 		$this->addColumn($this->lng()->txt('standard'), 'is_standard_field');

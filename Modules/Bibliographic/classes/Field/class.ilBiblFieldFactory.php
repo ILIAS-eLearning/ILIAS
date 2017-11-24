@@ -100,6 +100,8 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 	}
 
 
+
+
 	/**
 	 * @inheritDoc
 	 */
@@ -266,6 +268,36 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 
 		return $ilBiblField;
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function sortAttributesByFieldPosition($attributes) {
+		$il_bibl_fields = [];
+		foreach($attributes as $key => $value) {
+			$ilBiblField = $this->findByIdentifier($key);
+			if(!empty($ilBiblField)) {
+				$il_bibl_fields[] = $ilBiblField;
+			}
+		}
+		for($i = 0; $i < $il_bibl_fields; $i++) {
+			if($il_bibl_fields[$i] > $il_bibl_fields[$i++]) {
+				$temp = $il_bibl_fields[$i];
+				$il_bibl_fields[$i] = $il_bibl_fields[$i++];
+				$il_bibl_fields[$i++] = $temp;
+ 			}
+		}
+		return array_merge($il_bibl_fields, $attributes);
+	}
+
+
+	public function findByIdentifier($identifier) {
+		return ilBiblField::where(array('identifier' => $identifier))->first();
+	}
+
+
+
+
 
 	// Internal Methods
 
