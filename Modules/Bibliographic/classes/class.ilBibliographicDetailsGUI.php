@@ -124,8 +124,8 @@ class ilBibliographicDetailsGUI {
 		}
 		// sort attributes alphabetically by their array-key
 		ksort($attributes, SORT_STRING);
-		$array_of_attribute_objects = $this->attribute_factory->convertIlBiblAttributesToObjects($attributes);
-		$attributes = $this->field_factory->sortAttributesByFieldPosition($array_of_attribute_objects);
+		//$array_of_attribute_objects = $this->attribute_factory->convertIlBiblAttributesToObjects($attributes);
+		$attributes = $this->field_factory->sortAttributesByFieldPosition($attributes);
 		// render attributes to html
 		foreach ($attributes as $key => $attribute) {
 			$ci = new ilCustomInputGUI($key);

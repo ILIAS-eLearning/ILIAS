@@ -272,28 +272,34 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function sortAttributesByFieldPosition($attributes) {
+	public function sortAttributesByFieldPosition(array $attributes) {
 		$il_bibl_fields = [];
 		foreach($attributes as $key => $value) {
-			$ilBiblField = $this->findByIdentifier($key);
+			$ilBiblField = $this->findByIdentifierWherePositionIsNotNull($key);
 			if(!empty($ilBiblField)) {
 				$il_bibl_fields[] = $ilBiblField;
 			}
 		}
-		for($i = 0; $i < $il_bibl_fields; $i++) {
-			if($il_bibl_fields[$i] > $il_bibl_fields[$i++]) {
-				$temp = $il_bibl_fields[$i];
-				$il_bibl_fields[$i] = $il_bibl_fields[$i++];
-				$il_bibl_fields[$i++] = $temp;
- 			}
+		if(!empty($il_bibl_fields)) {
+			for($i = 0; $i < $il_bibl_fields; $i++) {
+				if($il_bibl_fields[$i] > $il_bibl_fields[$i++]) {
+					$temp = $il_bibl_fields[$i];
+					$il_bibl_fields[$i] = $il_bibl_fields[$i++];
+					$il_bibl_fields[$i++] = $temp;
+				}
+			}
 		}
 		return array_merge($il_bibl_fields, $attributes);
 	}
 
-
 	public function findByIdentifier($identifier) {
 		return ilBiblField::where(array('identifier' => $identifier))->first();
 	}
+
+	public function findByIdentifierWherePositionIsNotNull($identifier) {
+		return ilBiblField::where(array('identifier' => $identifier, 'position' => NULL), array("=", "IS NOT"))->first();
+	}
+
 
 
 
