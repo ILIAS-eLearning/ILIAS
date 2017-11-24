@@ -280,16 +280,22 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 				$il_bibl_fields[] = $ilBiblField;
 			}
 		}
-		if(!empty($il_bibl_fields)) {
-			for($i = 0; $i < $il_bibl_fields; $i++) {
-				if($il_bibl_fields[$i] > $il_bibl_fields[$i++]) {
-					$temp = $il_bibl_fields[$i];
-					$il_bibl_fields[$i] = $il_bibl_fields[$i++];
-					$il_bibl_fields[$i++] = $temp;
+		if(!empty($il_bibl_fields) && count($il_bibl_fields) > 1) {
+			for($i = 0; $i < count($il_bibl_fields) - 1; $i++) {
+				if(is_object($il_bibl_fields[$i++])) {
+					if($il_bibl_fields[$i]->getPosition() > $il_bibl_fields[$i++]->getPosition()) {
+						$temp = $il_bibl_fields[$i];
+						$il_bibl_fields[$i] = $il_bibl_fields[$i++];
+						$il_bibl_fields[$i++] = $temp;
+					}
 				}
 			}
+			$sorted_attributes = [];
+			foreach ($il_bibl_fields as $il_bibl_field) {
+				$all_attributes['name'] = $il_bibl_field->setIdentifier;
+			}
 		}
-		return array_merge($il_bibl_fields, $attributes);
+		return array_merge($sorted_attributes, $attributes);
 	}
 
 	public function findByIdentifier($identifier) {
@@ -297,7 +303,7 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 	}
 
 	public function findByIdentifierWherePositionIsNotNull($identifier) {
-		return ilBiblField::where(array('identifier' => $identifier, 'position' => NULL), array("=", "IS NOT"))->first();
+		return ilBiblField::where(array('identifier' => $identifier, 'position' => NULL), array('identifier' => "=", 'position' => "IS NOT"))->first();
 	}
 
 
