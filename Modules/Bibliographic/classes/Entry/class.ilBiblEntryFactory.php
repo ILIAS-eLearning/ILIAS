@@ -8,4 +8,10 @@
  */
 class ilBiblEntryFactory implements ilBiblEntryFactoryInterface {
 
+	/**
+	 * @inheritDoc
+	 */
+	public function findByIdAndTypeString($id, $type_string) {
+		return ilBiblEntry::getInstance($type_string, $id);
+	}
 }

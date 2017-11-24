@@ -272,7 +272,7 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function sortAttributesByFieldPosition($attributes) {
+	public function sortAttributesByFieldPosition(array $attributes) {
 		$il_bibl_fields = [];
 		foreach($attributes as $key => $value) {
 			$ilBiblField = $this->findByIdentifier($key);

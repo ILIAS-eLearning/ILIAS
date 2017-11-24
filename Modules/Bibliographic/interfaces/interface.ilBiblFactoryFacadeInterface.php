@@ -44,6 +44,12 @@ interface ilBiblFactoryFacadeInterface {
 
 
 	/**
+	 * @return \ilBiblAttributeFactoryInterface
+	 */
+	public function attributeFactory();
+
+
+	/**
 	 * @return \ilObjBibliographic
 	 */
 	public function iliasObject();

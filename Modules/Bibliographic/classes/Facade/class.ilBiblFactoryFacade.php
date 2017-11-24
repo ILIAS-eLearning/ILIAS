@@ -8,6 +8,10 @@
 class ilBiblFactoryFacade implements ilBiblFactoryFacadeInterface {
 
 	/**
+	 * @var \ilBiblAttributeFactoryInterface
+	 */
+	protected $attribute_factory;
+	/**
 	 * @var \ilObjBibliographic
 	 */
 	protected $ilias_object;
@@ -50,6 +54,7 @@ class ilBiblFactoryFacade implements ilBiblFactoryFacadeInterface {
 		$this->translation_factory = new ilBiblTranslationFactory($this->field_factory);
 		$this->entry_factory = new ilBiblEntryFactory();
 		$this->file_reader_factory = new ilBiblFileReaderFactory();
+		$this->attribute_factory = new ilBiblAttributeFactory();
 	}
 
 
@@ -98,6 +103,14 @@ class ilBiblFactoryFacade implements ilBiblFactoryFacadeInterface {
 	 */
 	public function filterFactory() {
 		return $this->filter_factory;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function attributeFactory() {
+		return $this->attribute_factory;
 	}
 
 

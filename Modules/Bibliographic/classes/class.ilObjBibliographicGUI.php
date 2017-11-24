@@ -452,7 +452,11 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		global $DIC;
 
 		if ($DIC->access()->checkAccess('read', "", $this->object->getRefId())) {
-			$bibGUI = ilBibliographicDetailsGUI::getInstance($this->object, $_GET[self::P_ENTRY_ID], $this->translation_factory);
+			$id = $DIC->http()->request()->getQueryParams()[self::P_ENTRY_ID];
+			$entry = $this->facade->entryFactory()
+			                      ->findByIdAndTypeString($id, $this->object->getFileTypeAsString());
+			$bibGUI = new ilBibliographicDetailsGUI($entry, $this->facade);
+
 			$DIC->ui()->mainTemplate()->setContent($bibGUI->getHTML());
 		} else {
 			ilUtil::sendFailure($DIC->language()->txt("no_permission"), true);
