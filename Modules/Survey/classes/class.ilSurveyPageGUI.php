@@ -1220,6 +1220,7 @@ class ilSurveyPageGUI
 
 	/**
 	 * Move current page to new position
+	 * @todo this needs to be refactored outside of a GUI class, same with ilSurveyEditorGUI->insertQuestions
 	 */
 	protected function movePage()
 	{
@@ -1243,7 +1244,14 @@ class ilSurveyPageGUI
 		}
 
 		$target = $pages[$target_page];
-		$target = array_shift($target);
+		if ($position == 0)								// before
+		{
+			$target = array_shift($target);             // ... use always the first question of the page
+		}
+		else											// after
+		{
+			$target = array_pop($target);             // ... use always the last question of the page
+		}
 		$this->object->moveQuestions($questions, $target["question_id"], $position);
 
 		if($target_page < $source_page && $position)
