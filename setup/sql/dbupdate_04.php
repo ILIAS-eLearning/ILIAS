@@ -21569,7 +21569,7 @@ if( !$ilSetting->get('dbupwarn_tstfixqstseq', 0) )
 	
 	$row = $ilDB->fetchAssoc($res);
 	
-	if( $row )
+	if( $row['num_tst'] > 0 )
 	{
 		$numTests = $row['num_tst'];
 		$numQuestions = $row['num_qst'];
