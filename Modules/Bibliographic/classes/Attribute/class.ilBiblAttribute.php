@@ -15,48 +15,48 @@ class ilBiblAttribute extends ActiveRecord {
 		return 'il_bibl_attribute';
 	}
 
+
 	/**
 	 * @return string
 	 */
 	public function getConnectorContainerName() {
 		return 'il_bibl_attribute';
 	}
+
+
 	/**
 	 * @var
 	 *
 	 * @con_has_field true
 	 * @con_fieldtype integer
-	 * @con_length 11
+	 * @con_length    11
 	 */
 	protected $entry_id;
-
 	/**
 	 * @var
 	 *
 	 * @con_has_field true
 	 * @con_fieldtype text
-	 * @con_length 32
+	 * @con_length    32
 	 */
 	protected $name;
-
 	/**
 	 * @var
 	 *
 	 * @con_has_field true
 	 * @con_fieldtype text
-	 * @con_length 4000
+	 * @con_length    4000
 	 */
 	protected $value;
-
 	/**
 	 * @var
 	 *
-	 * @con_has_field true
-	 * @con_fieldtype integer
-	 * @con_length 4
+	 * @con_has_field  true
+	 * @con_fieldtype  integer
+	 * @con_length     4
 	 * @con_is_notnull true
 	 * @con_is_primary true
-	 * @con_is_unique true
+	 * @con_is_unique  true
 	 */
 	protected $id;
 
@@ -123,9 +123,4 @@ class ilBiblAttribute extends ActiveRecord {
 	public function setId($id) {
 		$this->id = $id;
 	}
-
-
-
 }
-
-?>
