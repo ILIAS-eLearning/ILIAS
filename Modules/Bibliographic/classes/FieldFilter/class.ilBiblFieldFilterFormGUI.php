@@ -30,6 +30,10 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI {
 	 */
 	protected $ctrl;
 	/**
+	 * @var ilTabsGUI
+	 */
+	protected $tabs;
+	/**
 	 * @var ilTemplate
 	 */
 	protected $tpl;
@@ -45,7 +49,6 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI {
 	 * @var \ilBiblFieldFactoryInterface
 	 */
 	private $field_factory;
-
 
 	/**
 	 * ilBiblFieldFilterFormGUI constructor.
@@ -68,6 +71,9 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI {
 		$this->dic->language()->loadLanguageModule('bibl');
 		$this->dic->ctrl()
 		          ->saveParameterByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::FILTER_ID);
+		$this->tabs = $this->dic->tabs();
+		$this->tabs->clearTargets();
+		$this->tabs->setBackTarget($this->dic->language()->txt("back"), $this->ctrl->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_STANDARD));
 
 		parent::__construct();
 		$this->initForm();
@@ -77,7 +83,23 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI {
 	public function initForm() {
 		$this->setTarget('_top');
 
-		$options = $this->field_factory->getAvailableFieldsForObjId($this->il_obj_bibliographic->getId());
+		$available_fields_for_object = $this->field_factory->getAvailableFieldsForObjId($this->il_obj_bibliographic->getId());
+
+		$edited_filter = $this->filter_factory->findById($this->dic->http()->request()->getQueryParams()[ilBiblFieldFilterGUI::FILTER_ID]);
+
+		//show only the fields as options which don't have already a filter
+		$options = [];
+		foreach($available_fields_for_object as $available_field) {
+			if(empty($this->filter_factory->findByFieldId($available_field->getId())) || (!empty($edited_filter) && $edited_filter->getFieldId() == $available_field->getId()) ) {
+				if(!empty($edited_filter) && $edited_filter->getFieldId() == $available_field->getId()) {
+					array_unshift($options, $available_field);
+					continue;
+				}
+				$options[] = $available_field;
+			}
+		}
+		//$options = $this->field_factory->getAvailableFieldsForObjId($this->il_obj_bibliographic->getId());
+
 
 		$select_options = [];
 		foreach ($options as $field_name) {
@@ -160,12 +182,12 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI {
 	protected function initButtons() {
 		if ($this->filter->getId()) {
 			$this->addCommandButton(ilBiblFieldFilterGUI::CMD_UPDATE, $this->dic->language()
-			                                                                    ->txt('create'));
+			                                                                    ->txt('save'));
 			$this->addCommandButton(ilBiblFieldFilterGUI::CMD_CANCEL, $this->dic->language()
 			                                                                    ->txt("cancel"));
 		} else {
 			$this->addCommandButton(ilBiblFieldFilterGUI::CMD_CREATE, $this->dic->language()
-			                                                                    ->txt('save'));
+			                                                                    ->txt('create'));
 			$this->addCommandButton(ilBiblFieldFilterGUI::CMD_CANCEL, $this->dic->language()
 			                                                                    ->txt("cancel"));
 		}

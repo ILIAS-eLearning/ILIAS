@@ -87,6 +87,7 @@ class ilBiblFieldFilterGUI {
 			case self::CMD_UPDATE:
 			case self::CMD_CREATE:
 			case self::CMD_DELETE:
+			case self::CMD_CANCEL:
 			case self::CMD_APPLY_FILTER:
 			case self::CMD_RESET_FILTER:
 				if ($this->dic->access()->checkAccess('write', "", $this->object->getRefId())) {
@@ -146,9 +147,24 @@ class ilBiblFieldFilterGUI {
 		$this->tpl->setContent($form->getHTML());
 	}
 
+	public function delete() {
+		$il_bibl_field = $this->getFieldFilterFromRequest();
+		$this->tabs->activateTab(self::CMD_STANDARD);
+		$il_bibl_field->delete();
+		ilUtil::sendSuccess($this->dic->language()->txt('filter_successfully_deleted'), true);
+		$this->ctrl->redirect($this, self::CMD_STANDARD);
+	}
 
 	/**
-	 * @return \ilBiblFieldFilter
+	 * cancel
+	 */
+	public function cancel() {
+		$this->ctrl->redirect($this, self::CMD_STANDARD);
+	}
+
+
+	/**
+	 * @return ilBiblFieldFilterInterface
 	 */
 	private function getFieldFilterFromRequest() {
 		$field = $this->dic->http()->request()->getQueryParams()[self::FILTER_ID];

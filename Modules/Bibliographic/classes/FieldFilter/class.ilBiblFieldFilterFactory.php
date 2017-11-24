@@ -14,6 +14,13 @@ class ilBiblFieldFilterFactory implements ilBiblFieldFilterFactoryInterface {
 		return ilBiblFieldFilter::findOrFail($id);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
+	public function findByFieldId($id) {
+		return ilBiblFieldFilter::where([ 'field_id' => $id ])->first();
+	}
+
 
 	/**
 	 * @inheritDoc
