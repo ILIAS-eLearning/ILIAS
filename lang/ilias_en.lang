@@ -14085,6 +14085,7 @@ prtf#:#prtf_signature_info#:#Adds a field to the print where the author can sign
 prtf#:#prtf_signature_date#:#Date, Signature
 lti#:#lti_not_allowed#:#Access denied. Your request was redirected to the root LTI object.
 lti#:#lti_navigation#:#Navigation
+lti#:#lti_session#:#LTI Session
 lti#:#lti_exit#:#Close LTI Session
 lti#:#lti_exited#:#LTI Session closed
 lti#:#lti_exited_info#:#LTI Session successfully closed
@@ -14148,4 +14149,3 @@ common#:#obj_exc_duplicate#:#Copy Exercise
 meta#:#adt_error_max_length#:#Please enter a shorter text.
 form#:#form_chars_remaining#:#Characters remaining:
 crs#:#crs_subscription_min_members_err#:#The minimum number is not allowed to be greater than the maximum number of participants.
-
