@@ -14079,6 +14079,7 @@ prtf#:#prtf_signature_info#:#Adds a field to the print where the author can sign
 prtf#:#prtf_signature_date#:#Date, Signature
 lti#:#lti_not_allowed#:#Access denied. Your request was redirected to the root LTI object.
 lti#:#lti_navigation#:#Navigation
+lti#:#lti_session#:#LTI Session
 lti#:#lti_exit#:#Close LTI Session
 lti#:#lti_exited#:#LTI Session closed
 lti#:#lti_exited_info#:#LTI Session successfully closed
