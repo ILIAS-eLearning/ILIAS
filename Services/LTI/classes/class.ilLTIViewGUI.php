@@ -80,6 +80,19 @@ class ilLTIViewGUI extends ilBaseViewGUI
 		}
 	}
 	
+	/**
+	 * get LTI Mode from Users->getAuthMode
+	 * @return boolean 
+	 */ 
+	public function isLTIUser() {
+		$user = $GLOBALS['DIC']->user();
+		if(!$user instanceof ilObjUser)
+		{
+			return false;
+		}
+		return (strpos($user->getAuthMode(),'lti_') === 0);
+	}
+	
 	/** 
 	 * activate LTI GUI
 	 * @return void
@@ -90,6 +103,27 @@ class ilLTIViewGUI extends ilBaseViewGUI
 		$this->active = true;
 		$_SESSION['il_lti_mode'] = "1";
  		$this->initGUI();
+ 		$this->log("lti view activated");
+ 		
+	}
+	
+	/** 
+	 * deactivate LTI GUI
+	 * @return void
+	 * */
+	public function deactivate() 
+	{
+		unset($_SESSION['il_lti_mode']);
+		$this->log("lti view deactivated");
+	}
+	
+	/** 
+	 * LTI is active
+	 * @return boolean
+	 * */
+	public function isActive() 
+	{
+		return (isset($_SESSION['il_lti_mode']));
 	}
 	
 	/**
@@ -194,7 +228,6 @@ class ilLTIViewGUI extends ilBaseViewGUI
 		$this->show_home_link = false;
 		$this->tree_root_id = ($this->fix_tree_id === '') ? $this->home_id : $this->fix_tree_id;
 		$_SESSION['lti_tree_root_id'] = $this->tree_root_id;
-		ilUtil::sendInfo("sdfsdfsdfsdf");
 	}
 	 
 	/**
@@ -425,6 +458,7 @@ class ilLTIViewGUI extends ilBaseViewGUI
 	function logout() 
 	{
 		//$DIC->logger()->root()->debug("logout");
+		$this->deactivate();
 		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);		
 		$this->dic['ilAuthSession']->logout();
 		// reset cookie

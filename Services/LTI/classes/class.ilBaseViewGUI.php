@@ -65,7 +65,6 @@ abstract class ilBaseViewGUI
 	/**
 	 * 
 	 */ 
-	protected $active = false;
 	
 	protected $dic = null;
 	
@@ -166,81 +165,6 @@ abstract class ilBaseViewGUI
 					? "../"
 					: "";
 	}
-	
-	/*
-	 * activate 
-	 * the activation logic must be implemented in the view
-	 * @return bool
-	 */ 
-	public abstract function activate();
-	
-	/**
-	 * if activated return true
-	 * @return bool
-	 */
-	public function isActive() {
-		return $this->active;
-	}
-	
-	/**
-	 * Activate view for this session and root_folder_id.
-	 * @return 
-	 * @param int $a_ref_id Reference Id of course or group. We have to discuss the handling of "not container" object types
-	 */
-	 
-	/* 
-	 * 
-	public function activate($view, $a_ref_id = ROOT_FOLDER_ID)
-	{
-		global $DIC;
-		
-		if (isset($_SESSION['il_view_mode']) && $_SESSION['il_view_mode'] !== "") {			
-			if (array_key_exists($_SESSION['il_view_mode'],$DIC)) {
-				$current_view = $_SESSION['il_view_mode'];
-				$current_view->deactivate();
-				$this->last_view = $_SESSION['il_view_mode'];
-				$_SESSION['il_view_mode_last'] = $this->last_view;
-				$_SESSION['il_view_root_folder_last'] = $current_view->getRootFolderId(); // maybe not needed
-			}
-		}
-		 
-		$this->active = true;
-		$_SESSION['il_view_mode'] = $view;
-		$this->setRootFolderId = (int) $a_ref_id;
-	}
-	*/
-	
-	/**
-	 * Deactivate view
-	 * @return 
-	 */
-	 
-	/* 
-	public function deactivate()
-	{
-		$this->active = false;
-		//$this->setRootFolderId = ROOT_FOLDER_ID;
-	}
-	*/
-	/**
-	 * Toggle activation status
-	 * @return 
-	 * @param int $a_ref_id
-	 * @param bool $a_activation
-	 */
-	/* 
-	public function toggleActivation($a_ref_id, $a_activation)
-	{
-		if($a_activation)
-		{
-			return $this->activate($a_ref_id);
-		}
-		else
-		{
-			return $this->deactivate();
-		}
-	}
-	*/
 	
 	/**
 	 * @return bool
