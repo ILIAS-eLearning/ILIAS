@@ -60,21 +60,30 @@ class ilBibliographicDetailsGUI {
 		 */
 
 		$attributes = $this->entry->getAttributes();
-
-		// TODO Sorting
-
+		//translate array key in order to sort by those keys
+		foreach ($attributes as $key => $attribute) {
+			//Check if there is a specific language entry
+			if ($this->lng()->exists($key)) {
+				$strDescTranslated = $this->lng()->txt($key);
+			} //If not: get the default language entry
+			else {
+				$arrKey = explode("_", $key);
+				if ($this->facade->typeFactory()->getInstanceForString($arrKey[0])->isStandardField($arrKey[2])) {
+					$strDescTranslated = $this->lng()->txt($arrKey[0] . "_default_" . $arrKey[2]);
+				} else {
+					$strDescTranslated = $arrKey[2];
+				}
+			}
+			unset($attributes[$key]);
+			$attributes[$strDescTranslated] = $attribute;
+		}
 		// sort attributes alphabetically by their array-key
 		ksort($attributes, SORT_STRING);
-		$array_of_attribute_objects = $this->facade->attributeFactory()
-		                                           ->convertIlBiblAttributesToObjects($attributes);
-		$attributes = $this->facade->fieldFactory()
-		                           ->sortAttributesByFieldPosition($array_of_attribute_objects);
-
+		//$array_of_attribute_objects = $this->attribute_factory->convertIlBiblAttributesToObjects($attributes);
+		$attributes = $this->facade->fieldFactory()->sortAttributesByFieldPosition($attributes);
 		// render attributes to html
 		foreach ($attributes as $key => $attribute) {
-			$ci = new ilCustomInputGUI($this->facade->translationFactory()
-			                                        ->translateAttributeString($this->facade->iliasObject()
-			                                                                                ->getFileType(), $key));
+			$ci = new ilCustomInputGUI($key);
 			$ci->setHTML(self::prepareLatex($attribute));
 			$form->addItem($ci);
 		}
