@@ -8,18 +8,6 @@
 interface ilBiblAttributeFactoryInterface {
 
 	/**
-	 * @param array
-	 *
-	 * @throws InvalidArgumentException if array does not contain 'entry_id', 'name', 'value'
-	 *
-	 * @deprecated We want to get rid of the old array-structure
-	 *
-	 * @return  \ilBiblAttribute[]
-	 */
-	public function convertIlBiblAttributesToObjects(array $il_bibl_attributes);
-
-
-	/**
 	 * @param \ilBiblFieldInterface $field
 	 * @param int                   $object_id
 	 *
@@ -43,5 +31,4 @@ interface ilBiblAttributeFactoryInterface {
 	 * @return \ilBiblAttributeInterface[]
 	 */
 	public function sortAttributes(ilBiblFieldFactoryInterface $fieldFactory, array $attributes);
-
 }

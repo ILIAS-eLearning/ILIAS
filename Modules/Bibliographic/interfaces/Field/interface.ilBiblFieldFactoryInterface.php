@@ -58,22 +58,8 @@ interface ilBiblFieldFactoryInterface {
 
 
 	/**
-	 * @param int $obj_id
+	 * @deprecated
 	 *
-	 * @return string
-	 */
-	public function getBiblAttributeById($obj_id);
-
-
-	/**
-	 * @param int $id
-	 *
-	 * @return int affected rows
-	 */
-	public function deleteBiblAttributeById($id);
-
-
-	/**
 	 * @param int $data_type
 	 *
 	 * @return array of il_bibl_attribute record data
@@ -112,6 +98,8 @@ interface ilBiblFieldFactoryInterface {
 
 
 	/**
+	 * @deprecated REFACTOR
+	 *
 	 * @param integer $id
 	 *
 	 * @return array ilBiblData Record
@@ -120,6 +108,8 @@ interface ilBiblFieldFactoryInterface {
 
 
 	/**
+	 * @deprecated REFACTOR
+	 *
 	 * @param \ilBiblAttributeInterface $attribute
 	 *
 	 * @return \ilBiblFieldInterface

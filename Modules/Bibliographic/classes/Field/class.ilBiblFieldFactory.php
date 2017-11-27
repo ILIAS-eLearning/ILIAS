@@ -122,33 +122,6 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function getBiblAttributeById($id) {
-		global $DIC;
-		$result = $DIC->database()->query("SELECT * FROM il_bibl_attribute WHERE id = "
-		                                  . $DIC->database()->quote($id, "integer"));
-
-		$data = [];
-		while ($d = $DIC->database()->fetchAssoc($result)) {
-			$data[] = $d['name'];
-		}
-
-		return $data['name'];
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function deleteBiblAttributeById($id) {
-		global $DIC;
-		$DIC->database()->manipulate("DELETE FROM il_bibl_attribute WHERE id = " . $DIC->database()
-		                                                                               ->quote($id, "integer"));
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
 	public function getAllAttributeNamesByDataType($data_type) {
 		global $DIC;
 
@@ -246,43 +219,23 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 	 * @inheritDoc
 	 */
 	public function findOrCreateFieldOfAttribute(ilBiblAttributeInterface $ilBiblAttribute) {
-		$ilBiblField = ilBiblField::where([ 'identifier' => $ilBiblAttribute->getName() ])->first();
-		if ($ilBiblField === null) {
-			$ilBiblField = new ilBiblField();
-			$ilBiblField->setIdentifier($ilBiblAttribute->getName());
-
-			$ilBiblEntry = ilBiblEntry::getEntryById($ilBiblAttribute->getEntryId());
-			$ilBiblData = $this->getIlBiblDataById($ilBiblEntry['data_id']);
-
-			$file_parts = pathinfo($ilBiblData['filename']);
-			$extension = $file_parts['extension'];
-
-			$ilBiblTypeFactory = new ilBiblTypeFactory();
-			$data_type = $ilBiblTypeFactory->convertFileEndingToDataType($extension);
-
-			$ilBiblField->setDataType($data_type);
-			$type_inst = $ilBiblTypeFactory->getInstanceForType($data_type);
-			$ilBiblField->setIsStandardField($type_inst->isStandardField($ilBiblAttribute->getName()));
-
-			$ilBiblField->create();
+		$field = ilBiblField::where([ 'identifier' => $ilBiblAttribute->getName() ])->first();
+		if ($field === null) {
+			$field = new ilBiblField();
+			$field->setIdentifier($ilBiblAttribute->getName());
+			$field->setDataType($this->type->getStringRepresentation());
+			$field->setIsStandardField($this->type->isStandardField($ilBiblAttribute->getName()));
+			$field->create();
 		}
 
-		return $ilBiblField;
+		$field->setDataType($this->type->getStringRepresentation());
+		$field->setIsStandardField($this->type->isStandardField($ilBiblAttribute->getName()));
+
+		return $field;
 	}
 
 
 	// Internal Methods
-	private function findByIdentifier($identifier) {
-		return ilBiblField::where(array( 'identifier' => $identifier ))->first();
-	}
-
-
-	private function findByIdentifierWherePositionIsNotNull($identifier) {
-		return ilBiblField::where(array(
-			'identifier' => $identifier,
-			'position'   => null,
-		), array( 'identifier' => "=", 'position' => "IS NOT" ))->first();
-	}
 
 
 	/**

@@ -120,6 +120,11 @@ class ilBiblEntry implements ilBiblEntryInterface {
 	}
 
 
+	/**
+	 * @param $id
+	 *
+	 * @return array|mixed
+	 */
 	public function getilBiblDataById($id) {
 		global $DIC;
 		$data = array();
