@@ -165,15 +165,22 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 		$this->determineOffsetAndOrder();
 		$this->determineLimit();
 
+		$q = new ilBiblTableQueryInfo();
+
 		foreach ($this->filter as $filter_key => $filter_value) {
 			switch ($filter_key) {
 				case 'identifier':
-					// $collection->where(array( $filter_key => '%' . $filter_value . '%' ), 'LIKE');
+					$filter = new ilBiblTableQueryFilter();
+					$filter->setFieldName($filter_key);
+					$filter->setFieldValue('%' . $filter_value . '%');
+					$filter->setOperator("LIKE");
+					$q->addFilter($filter);
 					break;
 			}
 		}
 
-		$data = $this->facade->fieldFactory()->filterAllFieldsForTypeAsArray($this->facade->type());
+		$data = $this->facade->fieldFactory()
+		                     ->filterAllFieldsForTypeAsArray($this->facade->type(), $q);
 
 		$this->setData($data);
 	}
