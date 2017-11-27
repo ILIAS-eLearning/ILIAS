@@ -91,7 +91,7 @@ class ilBiblEntryTableGUI extends ilTable2GUI {
 	 */
 	public function fillRow($a_set) {
 		$il_obj_entry = ilBiblEntry::getInstance($this->parent_obj->object->getFileTypeAsString(), $a_set['entry_id']);
-		$this->tpl->setVariable('SINGLE_ENTRY', ilBibliographicDetailsGUI::prepareLatex($il_obj_entry->getOverview()));
+		$this->tpl->setVariable('SINGLE_ENTRY', ilBiblEntryPresentationGUI::prepareLatex($il_obj_entry->getOverview()));
 		//Detail-Link
 		$this->ctrl->setParameter($this->parent_obj, ilObjBibliographicGUI::P_ENTRY_ID, $a_set['entry_id']);
 		$this->tpl->setVariable('DETAIL_LINK', $this->ctrl->getLinkTarget($this->parent_obj, 'showDetails'));

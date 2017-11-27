@@ -13,7 +13,7 @@
  * @ilCtrl_Calls      ilObjBibliographicGUI: ilInfoScreenGUI, ilNoteGUI
  * @ilCtrl_Calls      ilObjBibliographicGUI: ilCommonActionDispatcherGUI
  * @ilCtrl_Calls      ilObjBibliographicGUI: ilPermissionGUI, ilObjectCopyGUI, ilExportGUI
- * @ilCtrl_Calls      ilObjBibliographicGUI: ilObjUserGUI, ilBibliographicDetailsGUI
+ * @ilCtrl_Calls      ilObjBibliographicGUI: ilObjUserGUI, ilBiblEntryPresentationGUI
  * @ilCtrl_Calls      ilObjBibliographicGUI: ilBiblEntryTableGUI
  * @ilCtrl_Calls      ilObjBibliographicGUI: ilBiblFieldFilterGUI
  * @ilCtrl_isCalledBy ilObjBibliographicGUI: ilRepositoryGUI
@@ -417,15 +417,9 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		if (($read_access && $online) || $write_access) {
 			$DIC->tabs()->activateTab(self::TAB_CONTENT);
 
-			// With new UI service, currently not supported by ilToolbar
-			//			$f = $DIC->ui()->factory()->button()
-			//			         ->primary($lng->txt("download_original_file"), $ilCtrl->getLinkTargetByClass("ilBibliographicDetailsGUI", "sendFile"));
-			//			$ilToolbar->addText($DIC->ui()->renderer()->render($f));
-
 			$b = ilLinkButton::getInstance();
 			$b->setCaption('download_original_file');
-			$b->setUrl($DIC->ctrl()
-			               ->getLinkTargetByClass(ilBibliographicDetailsGUI::class, self::CMD_SEND_FILE));
+			$b->setUrl($DIC->ctrl()->getLinkTargetByClass(self::class, self::CMD_SEND_FILE));
 			$b->setPrimary(true);
 			$DIC->toolbar()->addButtonInstance($b);
 
@@ -492,7 +486,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 			$id = $DIC->http()->request()->getQueryParams()[self::P_ENTRY_ID];
 			$entry = $this->facade->entryFactory()
 			                      ->findByIdAndTypeString($id, $this->object->getFileTypeAsString());
-			$bibGUI = new ilBibliographicDetailsGUI($entry, $this->facade);
+			$bibGUI = new ilBiblEntryPresentationGUI($entry, $this->facade);
 
 			$DIC->ui()->mainTemplate()->setContent($bibGUI->getHTML());
 		} else {

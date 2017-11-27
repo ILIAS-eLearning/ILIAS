@@ -228,7 +228,7 @@ class ilBiblEntry implements ilBiblEntryInterface {
 
 
 	public function initOverviewHTML() {
-		$ilBiblOverviewGUI = new ilBiblEntryPresentationGUI($this);
+		$ilBiblOverviewGUI = new ilBiblEntryTablePresentationGUI($this);
 		$this->setOverview($ilBiblOverviewGUI->getHtml());
 	}
 
