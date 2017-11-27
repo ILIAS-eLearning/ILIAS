@@ -104,12 +104,14 @@ class ilBibliographicRecordListTableGUI extends ilTable2GUI {
 
 	protected function initData() {
 		$query = new ilBiblTableQueryInfo();
-		foreach ($this->applied_filter as $field_name => $field_value) {
-			$filter = new ilBiblTableQueryFilter();
-			$filter->setFieldName($field_name);
-			$filter->setFieldValue($field_value);
-			$filter->setOperator("LIKE");
-			$query->addFilter($filter);
+		if(!empty($this->applied_filter)) {
+			foreach ($this->applied_filter as $field_name => $field_value) {
+				$filter = new ilBiblTableQueryFilter();
+				$filter->setFieldName($field_name);
+				$filter->setFieldValue($field_value);
+				$filter->setOperator("LIKE");
+				$query->addFilter($filter);
+			}
 		}
 
 		$entries = array();
