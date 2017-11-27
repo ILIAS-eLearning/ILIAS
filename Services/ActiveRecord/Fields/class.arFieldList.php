@@ -29,6 +29,7 @@ class arFieldList {
 	 * @var array
 	 */
 	protected static $allowed_description_fields = array(
+		'is_unique', // There are many classes which already use this (without any function)
 		self::IS_PRIMARY,
 		self::IS_NOTNULL,
 		self::FIELDTYPE,
@@ -145,7 +146,7 @@ class arFieldList {
 		foreach ($this->getRawFields() as $fieldname => $attributes) {
 			if (self::checkAttributes($attributes)) {
 				$arField = new arField();
-				$arField->getHasField(true);
+				$arField->getHasField();
 				$arField->loadFromArray($fieldname, $attributes);
 				$this->fields[] = $arField;
 				if ($arField->getPrimary()) {
