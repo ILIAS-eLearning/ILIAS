@@ -11348,6 +11348,11 @@ bibl#:#ris_default_ep#:#Ending Page Number
 bibl#:#filter_form_title#:#Add new filter
 bibl#:#changes_saved#:#Changes were saved.
 bibl#:#filter_deleted#:#The Filter was deleted.
+bibl#:#bibl_translation_lang#:#Language
+bibl#:#bibl_translation_trans#:#Translation
+bibl#:#bibl_translation_desc#:#Description
+bibl#:#bibl_msg_translations_saved#:#Translations were saved
+bibl#:#bibl_msg_translations_deleted#:#Translations were deleted
 mail#:#mail_filter#:#Filter
 mail#:#mail_filter_sender#:#Sender
 mail#:#mail_filter_recipients#:#Recipients
