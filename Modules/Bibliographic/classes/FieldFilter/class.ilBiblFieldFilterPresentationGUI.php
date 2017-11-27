@@ -7,18 +7,11 @@
  */
 class ilBiblFieldFilterPresentationGUI {
 
+	use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
 	/**
-	 * @var \ilBiblTranslationFactoryInterface
+	 * @var \ilBiblFactoryFacadeInterface
 	 */
-	protected $translation_factory;
-	/**
-	 * @var \ilBiblFieldFactoryInterface
-	 */
-	protected $field_factory;
-	/**
-	 * @var \ILIAS\DI\Container
-	 */
-	protected $dic;
+	protected $facade;
 	/**
 	 * @var \ilBiblFieldFilterInterface
 	 */
@@ -28,16 +21,13 @@ class ilBiblFieldFilterPresentationGUI {
 	/**
 	 * ilBiblFieldFilterPresentationGUI constructor.
 	 *
-	 * @param \ilBiblFieldFilterInterface  $filter
-	 * @param \ilBiblFieldFactoryInterface $field_factory
+	 * @param \ilBiblFieldFilterInterface   $filter
+	 * @param \ilBiblFactoryFacadeInterface $facade
 	 */
-	public function __construct(\ilBiblFieldFilterInterface $filter, ilBiblFieldFactoryInterface $field_factory, ilBiblTranslationFactoryInterface $translation_factory) {
-		global $DIC;
-		$this->field_factory = $field_factory;
-		$this->translation_factory = $translation_factory;
-		$this->dic = $DIC;
-		$this->dic->language()->loadLanguageModule('bibl');
+	public function __construct(\ilBiblFieldFilterInterface $filter, ilBiblFactoryFacadeInterface $facade) {
+		$this->facade = $facade;
 		$this->filter = $filter;
+		$this->lng()->loadLanguageModule('bibl');
 	}
 
 
@@ -45,8 +35,8 @@ class ilBiblFieldFilterPresentationGUI {
 	 * @return ilTableFilterItem
 	 */
 	public function getFilterItem() {
-		$field = $this->field_factory->findById($this->getFilter()->getFieldId());
-		$translated = $this->translation_factory->translate($field);
+		$field = $this->facade->fieldFactory()->findById($this->getFilter()->getFieldId());
+		$translated = $this->facade->translationFactory()->translate($field);
 
 		$ilBiblFieldFilter = $this->getFilter();
 

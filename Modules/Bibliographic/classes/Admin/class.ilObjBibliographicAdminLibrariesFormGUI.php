@@ -39,15 +39,15 @@ class ilObjBibliographicAdminLibrariesFormGUI extends ilPropertyFormGUI {
 	 * Constructor
 	 *
 	 */
-	public function __construct($parent_gui, $bibl_setting) {
+	public function __construct($parent_gui, $bibl_settingFilter) {
 		global $DIC;
 		$ilCtrl = $DIC['ilCtrl'];
 		$lng = $DIC['lng'];
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
 		$this->parent_gui = $parent_gui;
-		$this->bibl_setting = $bibl_setting;
-		if ($bibl_setting->getId() > 0) {
+		$this->bibl_setting = $bibl_settingFilter;
+		if ($bibl_settingFilter->getId() > 0) {
 			$this->action = 'update';
 		} else {
 			$this->action = 'create';

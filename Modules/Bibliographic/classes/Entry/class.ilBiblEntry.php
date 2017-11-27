@@ -53,6 +53,8 @@ class ilBiblEntry implements ilBiblEntryInterface {
 	 * @param      $file_type
 	 * @param null $entry_id
 	 *
+	 * @deprecated Use EntryFactory instead
+	 *
 	 * @return ilBiblEntry
 	 */
 	public static function getInstance($file_type, $entry_id = null) {
@@ -115,14 +117,16 @@ class ilBiblEntry implements ilBiblEntryInterface {
 		}
 	}
 
+
 	public function getilBiblDataById($id) {
 		global $DIC;
 		$data = array();
 		$set = $DIC->database()->query("SELECT * FROM il_bibl_data " . " WHERE id = "
-			. $DIC->database()->quote($id, "integer"));
+		                               . $DIC->database()->quote($id, "integer"));
 		while ($rec = $DIC->database()->fetchAssoc($set)) {
 			$data = $rec;
 		}
+
 		return $data;
 	}
 
@@ -311,6 +315,8 @@ class ilBiblEntry implements ilBiblEntryInterface {
 	 *
 	 * @param $object_id
 	 *
+	 * @deprecated Use EntryFactory instead
+	 *
 	 * @return array
 	 */
 	static function getAllEntries($object_id) {
@@ -326,8 +332,11 @@ class ilBiblEntry implements ilBiblEntryInterface {
 		return $entries;
 	}
 
+
 	/**
 	 * Get entry from the database
+	 *
+	 * @deprecated Use EntryFactory instead
 	 *
 	 * @param $object_id
 	 *
@@ -338,7 +347,7 @@ class ilBiblEntry implements ilBiblEntryInterface {
 		$ilDB = $DIC['ilDB'];
 		$entry = array();
 		$set = $ilDB->query("SELECT * FROM il_bibl_entry " . " WHERE id = "
-			. $ilDB->quote($id, "integer"));
+		                    . $ilDB->quote($id, "integer"));
 		while ($rec = $ilDB->fetchAssoc($set)) {
 			$entry = $rec;
 		}

@@ -38,6 +38,10 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	 */
 	public $object;
 	/**
+	 * @var \ilBiblFactoryFacade
+	 */
+	protected $facade;
+	/**
 	 * @var \ilBiblTranslationFactory
 	 */
 	protected $translation_factory;
@@ -70,12 +74,8 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 		$DIC->language()->loadLanguageModule('bibl');
 
-		$this->type_factory = new ilBiblTypeFactory();
-		$this->filter_factory = new ilBiblFieldFilterFactory();
-		if(is_object($this->object)) {
-			$type = $this->type_factory->getInstanceForType($this->object->getFileType());
-			$this->field_factory = new ilBiblFieldFactory($type);
-			$this->translation_factory = new ilBiblTranslationFactory($this->field_factory);
+		if (is_object($this->object)) {
+			$this->facade = new ilBiblFactoryFacade($this->object);
 		}
 	}
 
@@ -154,7 +154,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 			case strtolower(ilBiblFieldFilterGUI::class):
 				$this->prepareOutput();
 				$ilTabs->setTabActive(self::TAB_SETTINGS);
-				$this->ctrl->forwardCommand(new ilBiblFieldFilterGUI($this->filter_factory, $this->field_factory));
+				$this->ctrl->forwardCommand(new ilBiblFieldFilterGUI($this->facade));
 				break;
 			default:
 				return parent::executeCommand();
@@ -408,7 +408,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 			$b->setPrimary(true);
 			$DIC->toolbar()->addButtonInstance($b);
 
-			$table = new ilBibliographicRecordListTableGUI($this, self::CMD_SHOW_CONTENT, $this->filter_factory, $this->field_factory, $this->translation_factory);
+			$table = new ilBibliographicRecordListTableGUI($this, $this->facade);
 			$html = $table->getHTML();
 			$DIC->ui()->mainTemplate()->setContent($html);
 
@@ -422,6 +422,22 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 			unset($_GET);
 			ilObjectGUI::_gotoRepositoryRoot();
 		}
+	}
+
+
+	protected function applyFilter() {
+		$table = new ilBibliographicRecordListTableGUI($this, $this->facade);
+		$table->writeFilterToSession();
+		$table->resetOffset();
+		$this->ctrl->redirect($this, self::CMD_SHOW_CONTENT);
+	}
+
+
+	protected function resetFilter() {
+		$table = new ilBibliographicRecordListTableGUI($this, $this->facade);
+		$table->resetFilter();
+		$table->resetOffset();
+		$this->ctrl->redirect($this, self::CMD_SHOW_CONTENT);
 	}
 
 
@@ -452,7 +468,11 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		global $DIC;
 
 		if ($DIC->access()->checkAccess('read', "", $this->object->getRefId())) {
-			$bibGUI = ilBibliographicDetailsGUI::getInstance($this->object, $_GET[self::P_ENTRY_ID]);
+			$id = $DIC->http()->request()->getQueryParams()[self::P_ENTRY_ID];
+			$entry = $this->facade->entryFactory()
+			                      ->findByIdAndTypeString($id, $this->object->getFileTypeAsString());
+			$bibGUI = new ilBibliographicDetailsGUI($entry, $this->facade);
+
 			$DIC->ui()->mainTemplate()->setContent($bibGUI->getHTML());
 		} else {
 			ilUtil::sendFailure($DIC->language()->txt("no_permission"), true);
@@ -528,7 +548,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	 */
 	public function addToDeskObject() {
 		global $DIC;
-		
+
 		ilDesktopItemGUI::addToDesktop();
 		ilUtil::sendSuccess($DIC->language()->txt("added_to_desktop"), true);
 		$this->ctrl->redirect($this, self::CMD_VIEW);

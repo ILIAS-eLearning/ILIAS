@@ -107,8 +107,51 @@ $type = function ($filename) {
 
 $res = $ilDB->query("SELECT * FROM il_bibl_data");
 while($d = $ilDB->fetchObject($res)) {
+	$type_id = (int)$type($d->filname);
 	$ilDB->update("il_bibl_data", [
-		[ "file_type" => [ "integer", $type($d->filname) ] ]
+		"file_type" => [ "integer", $type_id ]
 	], [ "id" => $d->id ]);
+}
+?>
+<#4>
+<?php
+$fields = array(
+	'id' => array(
+		'notnull' => '1',
+		'type' => 'integer',
+		'length' => '4',
+
+	),
+	'field_id' => array(
+		'notnull' => '1',
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'language_key' => array(
+		'notnull' => '1',
+		'type' => 'text',
+		'length' => '2',
+
+	),
+	'translation' => array(
+		'type' => 'text',
+		'length' => '256',
+
+	),
+	'description' => array(
+		'type' => 'clob',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_bibl_translation')) {
+	$ilDB->createTable('il_bibl_translation', $fields);
+	$ilDB->addPrimaryKey('il_bibl_translation', array( 'id' ));
+
+	if (! $ilDB->sequenceExists('il_bibl_translation')) {
+		$ilDB->createSequence('il_bibl_translation');
+	}
+
 }
 ?>

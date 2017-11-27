@@ -3,40 +3,21 @@
 /**
  * Class ilBiblFieldFilterTableGUI
  *
- * @author: Benjamin Seglias   <bs@studer-raimann.ch>
+ * @author Benjamin Seglias   <bs@studer-raimann.ch>
+ * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-
 class ilBiblFieldFilterTableGUI extends ilTable2GUI {
 
+	use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
 	const TBL_ID = 'tbl_bibl_filters';
 	/**
-	 * @var \ilBiblFieldFactoryInterface
+	 * @var \ilBiblFactoryFacade
 	 */
-	protected $field_factory;
-	/**
-	 * @var \ilBiblFieldFilterFactoryInterface
-	 */
-	protected $filter_factory;
-	/**
-	 * @var \ILIAS\DI\Container
-	 */
-	protected $dic;
-	/**
-	 * @var ilCtrl
-	 */
-	protected $ctrl;
-	/**
-	 * @var ilTemplate
-	 */
-	protected $tpl;
+	protected $facade;
 	/**
 	 * @var \ilBiblFieldFilterGUI
 	 */
 	protected $parent_obj;
-	/**
-	 * @var ilObjBibliographic
-	 */
-	protected $il_obj_bibliographic;
 	/**
 	 * @var array
 	 */
@@ -46,40 +27,28 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI {
 	/**
 	 * ilBiblFieldFilterTableGUI constructor.
 	 *
-	 * @param \ilBiblFieldFilterGUI              $a_parent_obj
-	 * @param string                             $a_parent_cmd
-	 * @param \ilObjBibliographic                $il_obj_bibliographic
-	 * @param \ilBiblFieldFilterFactoryInterface $filter_factory
-	 * @param \ilBiblFieldFactoryInterface       $field_factory
+	 * @param \ilBiblFieldFilterGUI $a_parent_obj
+	 * @param \ilBiblFactoryFacade  $facade
 	 */
-	public function __construct(\ilBiblFieldFilterGUI $a_parent_obj, $a_parent_cmd, \ilObjBibliographic $il_obj_bibliographic, ilBiblFieldFilterFactoryInterface $filter_factory, ilBiblFieldFactoryInterface $field_factory) {
-		global $DIC;
-		$this->dic = $DIC;
+	public function __construct(\ilBiblFieldFilterGUI $a_parent_obj, ilBiblFactoryFacade $facade) {
+		$this->facade = $facade;
 		$this->parent_obj = $a_parent_obj;
-		$this->ctrl = $this->dic->ctrl();
-		$this->tpl = $this->dic['tpl'];
-
-		$this->filter_factory = $filter_factory;
-		$this->field_factory = $field_factory;
 
 		$this->setId(self::TBL_ID);
 		$this->setPrefix(self::TBL_ID);
 		$this->setFormName(self::TBL_ID);
-		$this->ctrl->saveParameter($a_parent_obj, $this->getNavParameter());
-		$this->il_obj_bibliographic = $il_obj_bibliographic;
+		$this->ctrl()->saveParameter($a_parent_obj, $this->getNavParameter());
 
 		$this->initButtons();
 
-		parent::__construct($a_parent_obj, $a_parent_cmd);
+		parent::__construct($a_parent_obj);
 		$this->parent_obj = $a_parent_obj;
 		$this->setRowTemplate('tpl.bibl_settings_filters_list_row.html', 'Modules/Bibliographic');
 
-		$this->setFormAction($this->ctrl->getFormActionByClass(ilBiblFieldFilterGUI::class));
+		$this->setFormAction($this->ctrl()->getFormActionByClass(ilBiblFieldFilterGUI::class));
 
 		$this->setDefaultOrderField("id");
 		$this->setDefaultOrderDirection("asc");
-		//		$this->setExternalSorting(true);
-		//		$this->setExternalSegmentation(true);
 		$this->setEnableHeader(true);
 
 		$this->initColumns();
@@ -89,26 +58,25 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI {
 
 
 	protected function initButtons() {
-		if ($this->dic->access()
-		              ->checkAccess('write', "", $this->il_obj_bibliographic->getRefId())) {
-			$new_filter_link = $this->ctrl->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_ADD);
+		if ($this->access()->checkAccess('write', "", $this->facade->iliasObject()->getRefId())) {
+			$new_filter_link = $this->ctrl()->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_ADD);
 			$ilLinkButton = ilLinkButton::getInstance();
-			$ilLinkButton->setCaption($this->dic->language()->txt("add_filter"), false);
+			$ilLinkButton->setCaption($this->lng()->txt("add_filter"), false);
 			$ilLinkButton->setUrl($new_filter_link);
-			$this->dic->toolbar()->addButtonInstance($ilLinkButton);
+			$this->toolbar()->addButtonInstance($ilLinkButton);
 		}
 	}
 
 
 	protected function initColumns() {
-		$this->addColumn($this->dic->language()->txt('field'), 'field');
-		$this->addColumn($this->dic->language()->txt('filter_type'), 'filter_type');
-		$this->addColumn($this->dic->language()->txt('actions'), '', '150px');
+		$this->addColumn($this->lng()->txt('field'), 'field');
+		$this->addColumn($this->lng()->txt('filter_type'), 'filter_type');
+		$this->addColumn($this->lng()->txt('actions'), '', '150px');
 	}
 
 
 	protected function addFilterItems() {
-		$field = new ilTextInputGUI($this->dic->language()->txt('field'), 'field');
+		$field = new ilTextInputGUI($this->lng()->txt('field'), 'field');
 		$this->addAndReadFilterItem($field);
 	}
 
@@ -137,12 +105,13 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI {
 		 * @var ilBiblFieldFilter $filter
 		 * @var ilBiblField       $field
 		 */
-		$filter = $this->filter_factory->findById((int)$a_set['id']);
-		$field = $this->field_factory->findById($filter->getFieldId());
+		$filter = $this->facade->filterFactory()->findById((int)$a_set['id']);
+		$field = $this->facade->fieldFactory()->findById($filter->getFieldId());
 
-		$this->tpl->setVariable('VAL_FIELD', $field->getIdentifier());
-		$this->tpl->setVariable('VAL_FILTER_TYPE', $this->dic->language()->txt("filter_type_"
-		                                                                       . $filter->getFilterType()));
+		$this->tpl->setVariable('VAL_FIELD', $this->facade->translationFactory()
+		                                                  ->translate($field));
+		$this->tpl->setVariable('VAL_FILTER_TYPE', $this->lng()->txt("filter_type_"
+		                                                             . $filter->getFilterType()));
 
 		$this->addActionMenu($filter);
 	}
@@ -152,16 +121,15 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI {
 	 * @param \ilBiblFieldFilter $ilBiblFieldFilter
 	 */
 	protected function addActionMenu(ilBiblFieldFilter $ilBiblFieldFilter) {
-		$this->ctrl->setParameterByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::FILTER_ID, $ilBiblFieldFilter->getId());
+		$this->ctrl()->setParameterByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::FILTER_ID, $ilBiblFieldFilter->getId());
 
 		$current_selection_list = new ilAdvancedSelectionListGUI();
 		$current_selection_list->setListTitle($this->lng->txt("actions"));
 		$current_selection_list->setId($ilBiblFieldFilter->getId());
-		$current_selection_list->addItem($this->dic->language()->txt("edit"), "", $this->dic->ctrl()
-		                                                                                    ->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_EDIT));
-		$current_selection_list->addItem($this->dic->language()
-		                                           ->txt("delete"), "", $this->dic->ctrl()
-		                                                                          ->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_DELETE));
+		$current_selection_list->addItem($this->lng()->txt("edit"), "", $this->ctrl()
+		                                                                     ->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_EDIT));
+		$current_selection_list->addItem($this->lng()->txt("delete"), "", $this->ctrl()
+		                                                                       ->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_DELETE));
 		$this->tpl->setVariable('VAL_ACTIONS', $current_selection_list->getHTML());
 	}
 
@@ -183,7 +151,8 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI {
 		$info->setSortingDirection($sorting_direction);
 		$info->setLimit($num);
 
-		$filter = $this->filter_factory->filterItemsForTable($this->il_obj_bibliographic->getId(), $info);
+		$filter = $this->facade->filterFactory()->filterItemsForTable($this->facade->iliasObject()
+		                                                                           ->getId(), $info);
 		$this->setData($filter);
 	}
 }

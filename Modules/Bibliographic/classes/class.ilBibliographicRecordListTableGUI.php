@@ -7,27 +7,19 @@ require_once './Services/Table/classes/class.ilTable2GUI.php';
  * Class ilDataCollectionField
  *
  * @author  Martin Studer <ms@studer-raimann.ch>
- * @version $Id:
- *
+ * @author  Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilBibliographicRecordListTableGUI extends ilTable2GUI {
 
+	use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
 	/**
-	 * @var \ilBiblTranslationFactoryInterface
+	 * @var array
 	 */
-	protected $translation_factory;
+	protected $applied_filter;
 	/**
-	 * @var \ilBiblFieldFactoryInterface
+	 * @var \ilBiblFactoryFacade
 	 */
-	protected $field_factory;
-	/**
-	 * @var \ilBiblFieldFilterFactoryInterface
-	 */
-	protected $filter_factory;
-	/**
-	 * @var ilCtrl
-	 */
-	protected $ctrl;
+	protected $facade;
 	/**
 	 * @var \ilObjBibliographicGUI
 	 */
@@ -35,36 +27,28 @@ class ilBibliographicRecordListTableGUI extends ilTable2GUI {
 
 
 	/**
-	 * @param ilObjBibliographicGUI              $a_parent_obj
-	 * @param string                             $a_parent_cmd
-	 * @param \ilBiblFieldFilterFactoryInterface $filter_factory
+	 * ilBibliographicRecordListTableGUI constructor.
+	 *
+	 * @param \ilObjBibliographicGUI $a_parent_obj
+	 * @param \ilBiblFactoryFacade   $facade
 	 */
-	public function __construct(ilObjBibliographicGUI $a_parent_obj, $a_parent_cmd, ilBiblFieldFilterFactoryInterface $filter_factory, ilBiblFieldFactoryInterface $field_factory, ilBiblTranslationFactoryInterface $translation_factory) {
-		global $DIC;
-
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
+	public function __construct(ilObjBibliographicGUI $a_parent_obj, ilBiblFactoryFacade $facade) {
+		$this->facade = $facade;
 		$this->setId('tbl_bibl_overview');
 		$this->setPrefix('tbl_bibl_overview');
 		$this->setFormName('tbl_bibl_overview');
-		parent::__construct($a_parent_obj, $a_parent_cmd);
-		$this->filter_factory = $filter_factory;
-		$this->field_factory = $field_factory;
-		$this->translation_factory = $translation_factory;
+		parent::__construct($a_parent_obj);
 		$this->parent_obj = $a_parent_obj;
-		$this->ctrl = $ilCtrl;
+
 		//Number of records
 		$this->setEnableNumInfo(true);
 		$this->setShowRowsSelector(true);
-		// paging
-		//		$this->setLimit(15, 15);
-		//No row titles
 
 		$this->setEnableHeader(false);
-		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
+		$this->setFormAction($this->ctrl()->getFormAction($a_parent_obj));
 		$this->setRowTemplate('tpl.bibliographic_record_table_row.html', 'Modules/Bibliographic');
 		// enable sorting by alphabet -- therefore an unvisible column 'content' is added to the table, and the array-key 'content' is also delivered in setData
-		$this->addColumn($lng->txt('a'), 'content', 'auto');
+		$this->addColumn($this->lng()->txt('a'), 'content', 'auto');
 		$this->initFilter();
 		$this->initData();
 		$this->setOrderField('content');
@@ -73,9 +57,24 @@ class ilBibliographicRecordListTableGUI extends ilTable2GUI {
 
 
 	public function initFilter() {
-		foreach ($this->filter_factory->getAllForObjectId($this->parent_obj->object->getId()) as $fieldFilter) {
-			$filter = new ilBiblFieldFilterPresentationGUI($fieldFilter, $this->field_factory, $this->translation_factory);
-			$this->addFilterItem($filter->getFilterItem());
+		foreach ($this->facade->filterFactory()->getAllForObjectId($this->facade->iliasObject()
+		                                                                        ->getId()) as $filter) {
+			$filter = new ilBiblFieldFilterPresentationGUI($filter, $this->facade);
+			$this->addAndReadFilterItem($filter->getFilterItem());
+		}
+	}
+
+
+	/**
+	 * @param $field
+	 */
+	protected function addAndReadFilterItem(ilTableFilterItem $field) {
+		$this->addFilterItem($field);
+		$field->readFromSession();
+		if ($field instanceof ilCheckboxInputGUI) {
+			$this->applied_filter[$field->getPostVar()] = $field->getChecked();
+		} else {
+			$this->applied_filter[$field->getPostVar()] = $field->getValue();
 		}
 	}
 
@@ -104,12 +103,23 @@ class ilBibliographicRecordListTableGUI extends ilTable2GUI {
 
 
 	protected function initData() {
+		$query = new ilBiblTableQueryInfo();
+		foreach ($this->applied_filter as $field_name => $field_value) {
+			$filter = new ilBiblTableQueryFilter();
+			$filter->setFieldName($field_name);
+			$filter->setFieldValue($field_value);
+			$filter->setOperator("LIKE");
+			$query->addFilter($filter);
+		}
+
 		$entries = array();
-		foreach (ilBiblEntry::getAllEntries($this->parent_obj->object->getId()) as $entry) {
+		foreach ($this->facade->entryFactory()
+		                      ->filterEntryIdsForTableAsArray($this->parent_obj->object->getId(), $query) as $entry) {
 			$ilBibliographicEntry = ilBiblEntry::getInstance($this->parent_obj->object->getFileTypeAsString(), $entry['entry_id']);
 			$entry['content'] = strip_tags($ilBibliographicEntry->getOverview());
 			$entries[] = $entry;
 		}
+
 		$this->setData($entries);
 	}
 }

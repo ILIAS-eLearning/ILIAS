@@ -8,69 +8,26 @@
  */
 class ilBibliographicDetailsGUI {
 
-	/**
-	 * @var ilObjBibliographic
-	 */
-	public $bibl_obj;
+	use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
 	/**
 	 * @var \ilBiblEntry
 	 */
 	public $entry;
 	/**
-	 * @var \ilBiblTypeFactory
+	 * @var \ilBiblFactoryFacade
 	 */
-	protected $bib_type_factory;
-	/**
-	 * @var \ilBiblTranslationFactory
-	 */
-	protected $translation_factory;
-	/**
-	 * @var \ilBiblFieldFactory
-	 */
-	protected $field_factory;
-	/**
-	 * @var \ilBiblFieldFilterFactory
-	 */
-	protected $filter_factory;
-	/**
-	 * @var \ilBiblAttributeFactory
-	 */
-	protected $attribute_factory;
-
+	protected $facade;
 
 
 	/**
 	 * ilBibliographicDetailsGUI constructor.
 	 *
-	 * @param \ilObjBibliographic $bibl_obj
-	 * @param \ilBiblEntry        $entry
+	 * @param \ilBiblEntry         $entry
+	 * @param \ilBiblFactoryFacade $facade
 	 */
-	public function __construct(\ilObjBibliographic $bibl_obj, \ilBiblEntry $entry) {
-		$this->bibl_obj = $bibl_obj;
+	public function __construct(\ilBiblEntry $entry, ilBiblFactoryFacade $facade) {
+		$this->facade = $facade;
 		$this->entry = $entry;
-		$this->bib_type_factory = new ilBiblTypeFactory();
-
-		$this->attribute_factory = new ilBiblAttributeFactory();
-		$this->type_factory = new ilBiblTypeFactory();
-		$this->filter_factory = new ilBiblFieldFilterFactory();
-		if(is_object($this->bibl_obj)) {
-			$type = $this->type_factory->getInstanceForType($this->bibl_obj->getFileType());
-			$this->field_factory = new ilBiblFieldFactory($type);
-			$this->translation_factory = new ilBiblTranslationFactory($this->field_factory);
-		}
-	}
-
-
-	/**
-	 * @param ilObjBibliographic $bibl_obj
-	 * @param                    $entry_id
-	 *
-	 * @return ilBibliographicDetailsGUI
-	 */
-	public static function getInstance(ilObjBibliographic $bibl_obj, $entry_id) {
-		$obj = new self($bibl_obj, ilBiblEntry::getInstance($bibl_obj->getFileTypeAsString(), $entry_id));
-
-		return $obj;
 	}
 
 
@@ -79,10 +36,7 @@ class ilBibliographicDetailsGUI {
 	 */
 	public function getHTML() {
 		global $DIC;
-		$tpl = $DIC['tpl'];
-		$ilTabs = $DIC['ilTabs'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
+
 		$ilHelp = $DIC['ilHelp'];
 		/**
 		 * @var $ilHelp ilHelpGUI
@@ -90,12 +44,13 @@ class ilBibliographicDetailsGUI {
 		$ilHelp->setScreenIdComponent('bibl');
 
 		$form = new ilPropertyFormGUI();
-		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget($lng->txt("back"), $ilCtrl->getLinkTarget($this, 'showContent'));
-		$form->setTitle($lng->txt('detail_view'));
+		$this->tabs()->clearTargets();
+		$this->tabs()->setBackTarget($this->lng()->txt("back"), $this->ctrl()
+		                                                             ->getLinkTarget($this, 'showContent'));
+		$form->setTitle($this->lng()->txt('detail_view'));
 		// add link button if a link is defined in the settings
 		$set = new ilSetting("bibl");
-		$link = $set->get(strtolower($this->bibl_obj->getFileTypeAsString()));
+		$link = $set->get(strtolower($this->facade->iliasObject()->getFileTypeAsString()));
 		if (!empty($link)) {
 			$form->addCommandButton('autoLink', 'Link');
 		}
@@ -108,13 +63,13 @@ class ilBibliographicDetailsGUI {
 		//translate array key in order to sort by those keys
 		foreach ($attributes as $key => $attribute) {
 			//Check if there is a specific language entry
-			if ($lng->exists($key)) {
-				$strDescTranslated = $lng->txt($key);
+			if ($this->lng()->exists($key)) {
+				$strDescTranslated = $this->lng()->txt($key);
 			} //If not: get the default language entry
 			else {
 				$arrKey = explode("_", $key);
-				if ($this->bib_type_factory->getInstanceForString($arrKey[0])->isStandardField($arrKey[2])) {
-					$strDescTranslated = $lng->txt($arrKey[0] . "_default_" . $arrKey[2]);
+				if ($this->facade->typeFactory()->getInstanceForString($arrKey[0])->isStandardField($arrKey[2])) {
+					$strDescTranslated = $this->lng()->txt($arrKey[0] . "_default_" . $arrKey[2]);
 				} else {
 					$strDescTranslated = $arrKey[2];
 				}
@@ -125,7 +80,7 @@ class ilBibliographicDetailsGUI {
 		// sort attributes alphabetically by their array-key
 		ksort($attributes, SORT_STRING);
 		//$array_of_attribute_objects = $this->attribute_factory->convertIlBiblAttributesToObjects($attributes);
-		$attributes = $this->field_factory->sortAttributesByFieldPosition($attributes);
+		$attributes = $this->facade->fieldFactory()->sortAttributesByFieldPosition($attributes);
 		// render attributes to html
 		foreach ($attributes as $key => $attribute) {
 			$ci = new ilCustomInputGUI($key);
@@ -136,15 +91,13 @@ class ilBibliographicDetailsGUI {
 		$settings = ilBibliographicSetting::getAll();
 		foreach ($settings as $set) {
 			$ci = new ilCustomInputGUI($set->getName());
-			$ci->setHtml($set->getButton($this->bibl_obj, $this->entry));
+			$ci->setHtml($set->getButton($this->facade->iliasObject(), $this->entry));
 			$form->addItem($ci);
 		}
-		$tpl->setPermanentLink("bibl", $this->bibl_obj->getRefId(), "_"
-		                                                            . $_GET[ilObjBibliographicGUI::P_ENTRY_ID]);
+		$this->tpl()->setPermanentLink("bibl", $this->facade->iliasObject()->getRefId(), "_"
+		                                                                                 . $_GET[ilObjBibliographicGUI::P_ENTRY_ID]);
 
-		// set content and title
 		return $form->getHTML();
-		//Permanent Link
 	}
 
 
