@@ -57,6 +57,31 @@ WHERE a.name = %s AND d.id = %s";
 	 * @inheritDoc
 	 */
 	public function getAttributesForEntry(ilBiblEntryInterface $entry) {
-		throw new ilException("not yet implemented");
+		return ilBiblAttribute::where([ 'entry_id' => $entry->getEntryId() ])->get();
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function sortAttributes(ilBiblFieldFactoryInterface $fieldFactory, array $attributes) {
+		/**
+		 * @var $attribute \ilBiblAttributeInterface
+		 */
+		$sorted = [];
+		$type_id = $fieldFactory->getType()->getId();
+		$max = 0;
+		foreach ($attributes as $attribute) {
+			$field = $fieldFactory->findOrCreateFieldByTypeAndIdentifier($type_id, $attribute->getName());
+			$position = (int)$field->getPosition();
+			$position = $position ? $position : $max + 1;
+
+			$max = ($position > $max ? $position : $max);
+			$sorted[$position] = $attribute;
+		}
+
+		ksort($sorted);
+
+		return $sorted;
 	}
 }

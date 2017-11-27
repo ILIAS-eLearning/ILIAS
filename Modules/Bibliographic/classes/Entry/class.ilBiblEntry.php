@@ -110,10 +110,10 @@ class ilBiblEntry implements ilBiblEntryInterface {
 			$type_factory = new ilBiblTypeFactory();
 			$il_bibl_data = $this->getilBiblDataById($this->getBibliographicObjId());
 			$file_name = $il_bibl_data['filename'];
-			$field_factory = new ilBiblFieldFactory($type_factory->getInstanceForFileName($file_name));
+			$field_factory = new ilBiblFieldFactory($type_factory->getInstanceForFileName($file_name)); // TODO REFACTOR, do not use Factories internally
 			$ilBiblAttribute = new ilBiblAttribute($id);
 
-			$field_factory->findOrCreate($ilBiblAttribute);
+			$field_factory->findOrCreateFieldOfAttribute($ilBiblAttribute);
 		}
 	}
 
@@ -217,6 +217,7 @@ class ilBiblEntry implements ilBiblEntryInterface {
 
 
 	/**
+	 * @deprecated
 	 * @return string[]
 	 */
 	public function getAttributes() {

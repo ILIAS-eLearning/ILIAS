@@ -28,6 +28,14 @@ interface ilBiblTranslationFactoryInterface {
 
 
 	/**
+	 * @param \ilBiblAttributeInterface $attribute
+	 *
+	 * @return string
+	 */
+	public function translateAttribute(ilBiblAttributeInterface $attribute);
+
+
+	/**
 	 * @param int    $type_id
 	 * @param string $string_attribute_name
 	 *

@@ -34,4 +34,14 @@ interface ilBiblAttributeFactoryInterface {
 	 * @return \ilBiblAttributeInterface[]
 	 */
 	public function getAttributesForEntry(ilBiblEntryInterface $entry);
+
+
+	/**
+	 * @param \ilBiblFieldFactoryInterface $fieldFactory
+	 * @param \ilBiblAttributeInterface[]  $attributes
+	 *
+	 * @return \ilBiblAttributeInterface[]
+	 */
+	public function sortAttributes(ilBiblFieldFactoryInterface $fieldFactory, array $attributes);
+
 }
