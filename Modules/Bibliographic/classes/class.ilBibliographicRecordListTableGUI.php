@@ -13,9 +13,13 @@ class ilBibliographicRecordListTableGUI extends ilTable2GUI {
 
 	use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
 	/**
+	 * @var \ilBiblFieldFilterInterface[]
+	 */
+	protected $filter_objects= array();
+	/**
 	 * @var array
 	 */
-	protected $applied_filter;
+	protected $applied_filter = array();
 	/**
 	 * @var \ilBiblFactoryFacade
 	 */
@@ -59,8 +63,10 @@ class ilBibliographicRecordListTableGUI extends ilTable2GUI {
 	public function initFilter() {
 		foreach ($this->facade->filterFactory()->getAllForObjectId($this->facade->iliasObject()
 		                                                                        ->getId()) as $filter) {
-			$filter = new ilBiblFieldFilterPresentationGUI($filter, $this->facade);
-			$this->addAndReadFilterItem($filter->getFilterItem());
+			$filter_presentation = new ilBiblFieldFilterPresentationGUI($filter, $this->facade);
+			$field = $filter_presentation->getFilterItem();
+			$this->addAndReadFilterItem($field);
+			$this->filter_objects[$field->getPostVar()] = $filter;
 		}
 	}
 
@@ -72,7 +78,7 @@ class ilBibliographicRecordListTableGUI extends ilTable2GUI {
 		$this->addFilterItem($field);
 		$field->readFromSession();
 		if ($field instanceof ilCheckboxInputGUI) {
-			$this->applied_filter[$field->getPostVar()] = $field->getChecked();
+			$this->applied_filter[$field->getPostVar()] = $field->getChecked();;
 		} else {
 			$this->applied_filter[$field->getPostVar()] = $field->getValue();
 		}
@@ -103,20 +109,40 @@ class ilBibliographicRecordListTableGUI extends ilTable2GUI {
 
 
 	protected function initData() {
+		global $DIC;
 		$query = new ilBiblTableQueryInfo();
-		if(!empty($this->applied_filter)) {
-			foreach ($this->applied_filter as $field_name => $field_value) {
-				$filter = new ilBiblTableQueryFilter();
-				$filter->setFieldName($field_name);
-				$filter->setFieldValue($field_value);
-				$filter->setOperator("LIKE");
-				$query->addFilter($filter);
+		/**
+		 * @var $filter \ilBiblFieldFilterInterface
+		 */
+		foreach ($this->applied_filter as $field_name => $field_value) {
+			if (!$field_value || count($field_value) == 0) {
+				continue;
 			}
+			$filter = $this->filter_objects[$field_name];
+			$filter_info = new ilBiblTableQueryFilter();
+			$filter_info->setFieldName($field_name);
+			switch ($filter->getFilterType()) {
+				case ilBiblFieldFilterInterface::FILTER_TYPE_MULTI_SELECT_INPUT:
+					$filter_info->setFieldValue($field_value);
+					$filter_info->setOperator("IN");
+					break;
+				case ilBiblFieldFilterInterface::FILTER_TYPE_SELECT_INPUT:
+					$filter_info->setFieldValue($field_value);
+					$filter_info->setOperator("=");
+					break;
+				case ilBiblFieldFilterInterface::FILTER_TYPE_TEXT_INPUT:
+					$filter_info->setFieldValue("%{$field_value}%");
+					$filter_info->setOperator("LIKE");
+					break;
+			}
+
+			$query->addFilter($filter_info);
 		}
 
 		$entries = array();
+		$object_id = $this->facade->iliasObject()->getId();
 		foreach ($this->facade->entryFactory()
-		                      ->filterEntryIdsForTableAsArray($this->parent_obj->object->getId(), $query) as $entry) {
+		                      ->filterEntryIdsForTableAsArray($object_id, $query) as $entry) {
 			$ilBibliographicEntry = ilBiblEntry::getInstance($this->parent_obj->object->getFileTypeAsString(), $entry['entry_id']);
 			$entry['content'] = strip_tags($ilBibliographicEntry->getOverview());
 			$entries[] = $entry;

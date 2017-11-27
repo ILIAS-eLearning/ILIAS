@@ -40,15 +40,23 @@ class ilBiblFieldFilterPresentationGUI {
 
 		$ilBiblFieldFilter = $this->getFilter();
 
+		$obj_id = $this->facade->iliasObject()->getId();
+		$f = $this->facade->attributeFactory();
+
 		switch ($ilBiblFieldFilter->getFilterType()) {
 			case ilBiblFieldFilterInterface::FILTER_TYPE_TEXT_INPUT:
 				$filter = new ilTextInputGUI($translated, $field->getIdentifier());
 				break;
 			case ilBiblFieldFilterInterface::FILTER_TYPE_SELECT_INPUT:
 				$filter = new ilSelectInputGUI($translated, $field->getIdentifier());
+				$options[null] = $this->lng()->txt("please_select");
+				$options = array_merge($options, $f->getPossibleValuesForFieldAndObject($field, $obj_id));
+				$filter->setOptions($options);
 				break;
 			case ilBiblFieldFilterInterface::FILTER_TYPE_MULTI_SELECT_INPUT:
 				$filter = new ilMultiSelectInputGUI($translated, $field->getIdentifier());
+				$options = $f->getPossibleValuesForFieldAndObject($field, $obj_id);
+				$filter->setOptions($options);
 				break;
 			default:
 				throw new LogicException('no filter type used');

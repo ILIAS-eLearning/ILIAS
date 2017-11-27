@@ -55,39 +55,21 @@ class ilBibliographicDetailsGUI {
 			$form->addCommandButton('autoLink', 'Link');
 		}
 
-		/*
-		 * 1) foreach
-		 */
+		$attributes = $this->facade->attributeFactory()->getAttributesForEntry($this->entry);
 
-		$attributes = $this->entry->getAttributes();
-		//translate array key in order to sort by those keys
-		foreach ($attributes as $key => $attribute) {
-			//Check if there is a specific language entry
-			if ($this->lng()->exists($key)) {
-				$strDescTranslated = $this->lng()->txt($key);
-			} //If not: get the default language entry
-			else {
-				$arrKey = explode("_", $key);
-				if ($this->facade->typeFactory()->getInstanceForString($arrKey[0])->isStandardField($arrKey[2])) {
-					$strDescTranslated = $this->lng()->txt($arrKey[0] . "_default_" . $arrKey[2]);
-				} else {
-					$strDescTranslated = $arrKey[2];
-				}
-			}
-			unset($attributes[$key]);
-			$attributes[$strDescTranslated] = $attribute;
-		}
-		// sort attributes alphabetically by their array-key
-		ksort($attributes, SORT_STRING);
-		//$array_of_attribute_objects = $this->attribute_factory->convertIlBiblAttributesToObjects($attributes);
-		$attributes = $this->facade->fieldFactory()->sortAttributesByFieldPosition($attributes);
-		// render attributes to html
-		foreach ($attributes as $key => $attribute) {
-			$ci = new ilCustomInputGUI($key);
-			$ci->setHTML(self::prepareLatex($attribute));
+		$sorted = $this->facade->attributeFactory()
+		                       ->sortAttributes($this->facade->fieldFactory(), $attributes);
+
+		foreach ($sorted as $attribute) {
+			$translated = $this->facade->translationFactory()->translateAttribute($attribute);
+			$ci = new ilNonEditableValueGUI($translated);
+			$ci->setValue(self::prepareLatex($attribute->getValue()));
 			$form->addItem($ci);
 		}
+
+
 		// generate/render links to libraries
+		// TODO REFACTOR
 		$settings = ilBibliographicSetting::getAll();
 		foreach ($settings as $set) {
 			$ci = new ilCustomInputGUI($set->getName());

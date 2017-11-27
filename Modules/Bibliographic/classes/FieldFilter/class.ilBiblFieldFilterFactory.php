@@ -14,6 +14,7 @@ class ilBiblFieldFilterFactory implements ilBiblFieldFilterFactoryInterface {
 		return ilBiblFieldFilter::findOrFail($id);
 	}
 
+
 	/**
 	 * @inheritDoc
 	 */
@@ -39,5 +40,20 @@ class ilBiblFieldFilterFactory implements ilBiblFieldFilterFactoryInterface {
 		                         ->orderBy($info->getSortingColumn(), $info->getSortingDirection());
 
 		return $list->getArray();
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getByObjectIdAndField(ilBiblFieldInterface $field, $object_id) {
+		$list = ilBiblFieldFilter::where([
+			'object_id' => $object_id,
+			'field_id'  => $field->getId(),
+		])->first();
+		if (!$list) {
+			throw new LogicException("filter not found");
+		}
+		return $list;
 	}
 }

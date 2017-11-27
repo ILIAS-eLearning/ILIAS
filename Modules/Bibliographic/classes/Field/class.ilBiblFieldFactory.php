@@ -68,11 +68,14 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 		$inst = $this->getARInstance($type, $identifier);
 		if (!$inst) {
 			$inst = new ilBiblField();
+			$inst->setIdentifier($identifier);
+			$inst->setDataType($type);
+			$inst->setIsStandardField((bool)$this->getType()->isStandardField($identifier));
 			$inst->create();
 		}
 		$inst->setDataType($type);
 		$inst->setIdentifier($identifier);
-		$inst->setIsStandardField($this->getType()->isStandardField($identifier));
+		$inst->setIsStandardField((bool)$this->getType()->isStandardField($identifier));
 		$inst->update();
 
 		return $inst;
@@ -98,8 +101,6 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 
 		return $data;
 	}
-
-
 
 
 	/**
@@ -244,7 +245,7 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function findOrCreate(ilBiblAttribute $ilBiblAttribute) {
+	public function findOrCreateFieldOfAttribute(ilBiblAttributeInterface $ilBiblAttribute) {
 		$ilBiblField = ilBiblField::where([ 'identifier' => $ilBiblAttribute->getName() ])->first();
 		if ($ilBiblField === null) {
 			$ilBiblField = new ilBiblField();
@@ -269,53 +270,19 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 		return $ilBiblField;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
-	public function sortAttributesByFieldPosition(array $attributes) {
-		$il_bibl_fields = [];
-		foreach($attributes as $key => $value) {
-			$ilBiblField = $this->findByIdentifierWherePositionIsNotNull($key);
-			if(!empty($ilBiblField)) {
-				$il_bibl_fields[] = $ilBiblField;
-			}
-		}
-		if(!empty($il_bibl_fields) && count($il_bibl_fields) > 1) {
-			for($i = 0; $i < count($il_bibl_fields) - 1; $i++) {
-				$next_index = $i + 1;
-				if(!empty($il_bibl_fields[$next_index]) && is_object($il_bibl_fields[$next_index])) {
-					if($il_bibl_fields[$next_index]->getPosition() < $il_bibl_fields[$i]->getPosition() ) {
-						$temp = $il_bibl_fields[$i];
-						$il_bibl_fields[$i] = $il_bibl_fields[$next_index];
-						$il_bibl_fields[$next_index] = $temp;
-					}
-				}
-			}
-			$sorted_attributes = [];
-			$lower_case_array_key_attributes = array_change_key_case($attributes, CASE_LOWER);
-			foreach ($il_bibl_fields as $il_bibl_field) {
-				$sorted_attributes[strtolower($il_bibl_field->getIdentifier())] = $lower_case_array_key_attributes[strtolower($il_bibl_field->getIdentifier())];
-			}
-			return array_merge($sorted_attributes, $lower_case_array_key_attributes);;
-		}
-		return $attributes;
-
-	}
-
-	public function findByIdentifier($identifier) {
-		return ilBiblField::where(array('identifier' => $identifier))->first();
-	}
-
-	public function findByIdentifierWherePositionIsNotNull($identifier) {
-		return ilBiblField::where(array('identifier' => $identifier, 'position' => NULL), array('identifier' => "=", 'position' => "IS NOT"))->first();
-	}
-
-
-
-
-
 
 	// Internal Methods
+	private function findByIdentifier($identifier) {
+		return ilBiblField::where(array( 'identifier' => $identifier ))->first();
+	}
+
+
+	private function findByIdentifierWherePositionIsNotNull($identifier) {
+		return ilBiblField::where(array(
+			'identifier' => $identifier,
+			'position'   => null,
+		), array( 'identifier' => "=", 'position' => "IS NOT" ))->first();
+	}
 
 
 	/**

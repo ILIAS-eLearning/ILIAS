@@ -38,13 +38,6 @@ interface ilBiblFieldFactoryInterface {
 	 */
 	public function getAvailableFieldsForObjId($obj_id);
 
-	/**
-	 * @param string $identifier
-	 *
-	 * @return ilBiblFieldFilterInterface
-	 */
-	public function findByIdentifier($identifier);
-
 
 	/**
 	 * @param \ilBiblTypeInterface           $type
@@ -79,12 +72,14 @@ interface ilBiblFieldFactoryInterface {
 	 */
 	public function deleteBiblAttributeById($id);
 
+
 	/**
 	 * @param int $data_type
 	 *
 	 * @return array of il_bibl_attribute record data
 	 */
 	public function getAllAttributeNamesByDataType($data_type);
+
 
 	/**
 	 * @param string $identifier
@@ -117,25 +112,17 @@ interface ilBiblFieldFactoryInterface {
 
 
 	/**
-	 * find or creates ilBiblField Entry for the il_bibl_attribute
-	 *
-	 * @param $il_bibl_attribute ilBiblAttribute
-	 *
-	 * @return \ilBiblField
-	 */
-	public function findOrCreate(ilBiblAttribute $il_bibl_attribute);
-
-	/**
 	 * @param integer $id
 	 *
 	 * @return array ilBiblData Record
 	 */
 	public function getilBiblDataById($id);
 
+
 	/**
-	 * @param  $attributes[]
+	 * @param \ilBiblAttributeInterface $attribute
 	 *
-	 * @return array
+	 * @return \ilBiblFieldInterface
 	 */
-	public function sortAttributesByFieldPosition(array $attributes);
+	public function findOrCreateFieldOfAttribute(ilBiblAttributeInterface $attribute);
 }

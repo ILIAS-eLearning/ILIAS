@@ -2,10 +2,10 @@
 /**
  * Class ilBiblAttribute
  *
- * @author: Benjamin Seglias   <bs@studer-raimann.ch>
+ * @author Benjamin Seglias   <bs@studer-raimann.ch>
  */
 
-class ilBiblAttribute extends ActiveRecord {
+class ilBiblAttribute extends ActiveRecord implements ilBiblAttributeInterface {
 
 	/**
 	 * @return string
