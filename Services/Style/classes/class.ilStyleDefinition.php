@@ -1,4 +1,4 @@
-<?php
+	<?php
 
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -441,22 +441,24 @@ class ilStyleDefinition extends ilSaxParser
 		return $cs;
 	}
 
+	/**
+	 * Get version of current skin
+	 *
+	 * @return string skin version
+	 */
 	public static function getCurrentSkinVersion()
 	{
 		/** @var ilStyleDefinition $styleDefinition */
-        global $styleDefinition;
+		global $styleDefinition;
 
-        if (!isset(self::$current_skin))
-        {
-            self::getCurrentSkin();
-        }
+		self::getCurrentSkin();
 
-        $skin_version = '';
-        if (is_object($styleDefinition))
-        {
-            $version = $styleDefinition->getTemplateVersion();
-            if($version != '$Id$') {
-            	$skin_version = $version;
+		$skin_version = '';
+		if (is_object($styleDefinition))
+		{
+			$version = $styleDefinition->getTemplateVersion();
+			if($version != '$Id$') {
+				$skin_version = $version;
 			}
 		}
 
