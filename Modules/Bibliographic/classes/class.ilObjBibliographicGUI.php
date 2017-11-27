@@ -27,12 +27,14 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	const SUB_TAB_FILTER = "filter";
 	const CMD_VIEW = "view";
 	const TAB_EXPORT = "export";
-	const TAB_SETTINGS = "settings";
+	const TAB_SETTINGS = self::SUBTAB_SETTINGS;
 	const TAB_ID_RECORDS = "id_records";
 	const TAB_ID_PERMISSIONS = "id_permissions";
 	const TAB_ID_INFO = "id_info";
 	const CMD_SHOW_DETAILS = "showDetails";
 	const CMD_EDIT = "edit";
+	const SUBTAB_SETTINGS = "settings";
+	const CMD_EDIT_OBJECT = 'editObject';
 	/**
 	 * @var ilObjBibliographic
 	 */
@@ -154,10 +156,24 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 			case strtolower(ilBiblFieldFilterGUI::class):
 				$this->prepareOutput();
 				$ilTabs->setTabActive(self::TAB_SETTINGS);
+				$this->initSubTabs();
+				$this->tabs_gui->activateSubTab(self::SUB_TAB_FILTER);
 				$this->ctrl->forwardCommand(new ilBiblFieldFilterGUI($this->facade));
 				break;
 			default:
-				return parent::executeCommand();
+				$this->prepareOutput();
+				$cmd = $this->ctrl->getCmd(self::CMD_SHOW_CONTENT);
+				switch ($cmd) {
+					case self::CMD_EDIT_OBJECT:
+						$this->initSubTabs();
+						$this->tabs_gui->activateSubTab(self::SUBTAB_SETTINGS);
+						$this->{$cmd}();
+						break;
+					default:
+						$this->{$cmd}();
+						break;
+				}
+				break;
 		}
 
 		return true;
@@ -313,12 +329,8 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		}
 		// settings
 		if ($DIC->access()->checkAccess('write', "", $this->object->getRefId())) {
-			$DIC->tabs()->addTab("settings", $DIC->language()
-			                                     ->txt("settings"), $this->ctrl->getLinkTarget($this, "editObject"));
-			$DIC->tabs()->addSubTab("settings", $DIC->language()
-			                                        ->txt("settings"), $this->ctrl->getLinkTarget($this, 'editObject'));
-			$DIC->tabs()->addSubTab(self::SUB_TAB_FILTER, $DIC->language()
-			                                                  ->txt("filter"), $this->ctrl->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_STANDARD));
+			$DIC->tabs()->addTab(self::SUBTAB_SETTINGS, $DIC->language()
+			                                                ->txt(self::SUBTAB_SETTINGS), $this->ctrl->getLinkTarget($this, self::CMD_EDIT_OBJECT));
 		}
 		// export
 		if ($DIC->access()->checkAccess("write", "", $this->object->getRefId())) {
@@ -330,6 +342,15 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 			$DIC->tabs()->addTab(self::TAB_ID_PERMISSIONS, $DIC->language()
 			                                                   ->txt("perm_settings"), $this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm"));
 		}
+	}
+
+
+	protected function initSubTabs() {
+		global $DIC;
+		$DIC->tabs()->addSubTab(self::SUBTAB_SETTINGS, $DIC->language()
+		                                                   ->txt(self::SUBTAB_SETTINGS), $this->ctrl->getLinkTarget($this, self::CMD_EDIT_OBJECT));
+		$DIC->tabs()->addSubTab(self::SUB_TAB_FILTER, $DIC->language()
+		                                                  ->txt("filter"), $this->ctrl->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_STANDARD));
 	}
 
 
@@ -359,7 +380,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	protected function initEditCustomForm(ilPropertyFormGUI $a_form) {
 		global $DIC;
 
-		$DIC->tabs()->activateTab("settings");
+		$DIC->tabs()->activateTab(self::SUBTAB_SETTINGS);
 		// is_online
 		$cb = new ilCheckboxInputGUI($DIC->language()->txt("online"), "is_online");
 		$a_form->addItem($cb);
