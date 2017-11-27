@@ -18,6 +18,7 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 
 	const TAB_FIELDS = 'fields';
 	const TAB_SETTINGS = 'settings';
+	const CMD_DEFAULT = 'view';
 	/**
 	 * @var ilObjBibliographicAdmin
 	 */
@@ -44,7 +45,7 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 
 
 	/**
-	 * @return bool|void
+	 * @return bool|void$
 	 * @throws ilCtrlException
 	 */
 	public function executeCommand() {
@@ -67,12 +68,19 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 				$this->ctrl->forwardCommand(new ilBiblAdminRisFieldGUI(new ilBiblAdminFactoryFacade($this->object, ilBiblTypeFactoryInterface::DATA_TYPE_RIS)));
 				break;
 			case strtolower(ilBiblAdminBibtexFieldGUI::class):
-			default:
 				$this->prepareOutput();
 				$this->tabs_gui->activateTab(self::TAB_FIELDS);
 				$this->ctrl->forwardCommand(new ilBiblAdminBibtexFieldGUI(new ilBiblAdminFactoryFacade($this->object, ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX)));
 				break;
+			default:
+				$cmd = $this->ctrl->getCmd(self::CMD_DEFAULT);
+				$this->{$cmd}();
+				break;
 		}
+	}
+
+	protected function view(){
+		$this->ctrl->redirectByClass(ilBiblAdminRisFieldGUI::class);
 	}
 
 
@@ -93,7 +101,7 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 			$this->tabs_gui->addTab(self::TAB_SETTINGS, $this->lng->txt('settings'), $this->ctrl->getLinkTargetByClass(array(
 				ilObjBibliographicAdminGUI::class,
 				ilObjBibliographicAdminLibrariesGUI::class,
-			), 'view'));
+			), self::CMD_DEFAULT));
 		}
 		if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
 			$this->tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass('ilpermissiongui', 'perm'), array(), 'ilpermissiongui');

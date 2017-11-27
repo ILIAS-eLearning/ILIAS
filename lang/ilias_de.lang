@@ -10497,6 +10497,11 @@ bibl#:#filter_field_info#:#Bitte wählen Sie ein Feld aus für das Sie einen Fil
 bibl#:#filter_type_info#:#Bitte wählen Sie einen Filter Typ für das Feld.
 bibl#:#changes_saved#:#Die Änderungen wurden gespeichert.
 bibl#:#filter_deleted#:#Der Filter wurde gelöscht.
+bibl#:#bibl_translation_lang#:#Sprache
+bibl#:#bibl_translation_trans#:#Übersetzung
+bibl#:#bibl_translation_desc#:#Beschreibung
+bibl#:#bibl_msg_translations_saved#:#Übersetzungen wurden gespeichert
+bibl#:#bibl_msg_translations_deleted#:#Übersetzungen wurden gelöscht.
 rbac#:#bibl_visible#:#Literaturliste ist sichtbar
 rbac#:#bibl_read#:#Literaturliste lesen
 rbac#:#bibl_copy#:#Literaturliste kopieren
