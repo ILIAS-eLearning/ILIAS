@@ -10,6 +10,8 @@ interface ilBiblAttributeFactoryInterface {
 	/**
 	 * @param array
 	 *
+	 * @throws InvalidArgumentException if array does not contain 'entry_id', 'name', 'value'
+	 *
 	 * @deprecated We want to get rid of the old array-structure
 	 *
 	 * @return  \ilBiblAttribute[]
