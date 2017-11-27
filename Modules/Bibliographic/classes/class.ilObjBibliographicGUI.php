@@ -14,7 +14,7 @@
  * @ilCtrl_Calls      ilObjBibliographicGUI: ilCommonActionDispatcherGUI
  * @ilCtrl_Calls      ilObjBibliographicGUI: ilPermissionGUI, ilObjectCopyGUI, ilExportGUI
  * @ilCtrl_Calls      ilObjBibliographicGUI: ilObjUserGUI, ilBibliographicDetailsGUI
- * @ilCtrl_Calls      ilObjBibliographicGUI: ilBibliographicRecordListTableGUI
+ * @ilCtrl_Calls      ilObjBibliographicGUI: ilBiblEntryTableGUI
  * @ilCtrl_Calls      ilObjBibliographicGUI: ilBiblFieldFilterGUI
  * @ilCtrl_isCalledBy ilObjBibliographicGUI: ilRepositoryGUI
  */
@@ -429,7 +429,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 			$b->setPrimary(true);
 			$DIC->toolbar()->addButtonInstance($b);
 
-			$table = new ilBibliographicRecordListTableGUI($this, $this->facade);
+			$table = new ilBiblEntryTableGUI($this, $this->facade);
 			$html = $table->getHTML();
 			$DIC->ui()->mainTemplate()->setContent($html);
 
@@ -447,7 +447,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 
 
 	protected function applyFilter() {
-		$table = new ilBibliographicRecordListTableGUI($this, $this->facade);
+		$table = new ilBiblEntryTableGUI($this, $this->facade);
 		$table->writeFilterToSession();
 		$table->resetOffset();
 		$this->ctrl->redirect($this, self::CMD_SHOW_CONTENT);
@@ -455,7 +455,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 
 
 	protected function resetFilter() {
-		$table = new ilBibliographicRecordListTableGUI($this, $this->facade);
+		$table = new ilBiblEntryTableGUI($this, $this->facade);
 		$table->resetFilter();
 		$table->resetOffset();
 		$this->ctrl->redirect($this, self::CMD_SHOW_CONTENT);

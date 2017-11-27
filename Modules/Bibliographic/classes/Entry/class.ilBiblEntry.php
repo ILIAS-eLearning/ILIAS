@@ -4,8 +4,10 @@
 /**
  * Class ilBiblEntry
  *
- * @author  Gabriel Comte
- * @author  Fabian Schmid <fs@studer-raimann.ch>
+ * @author     Gabriel Comte
+ * @author     Fabian Schmid <fs@studer-raimann.ch>
+ *
+ * @deprecated REFACTOR
  */
 class ilBiblEntry implements ilBiblEntryInterface {
 

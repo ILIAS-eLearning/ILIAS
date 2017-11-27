@@ -1,15 +1,16 @@
 <?php
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once './Services/Table/classes/class.ilTable2GUI.php';
 
 /**
  * Class ilDataCollectionField
  *
- * @author  Martin Studer <ms@studer-raimann.ch>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
+ * @author     Martin Studer <ms@studer-raimann.ch>
+ * @author     Fabian Schmid <fs@studer-raimann.ch>
+ *
+ * @deprecated REFACTOR
  */
-class ilBibliographicRecordListTableGUI extends ilTable2GUI {
+class ilBiblEntryTableGUI extends ilTable2GUI {
 
 	use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
 	/**
@@ -31,7 +32,7 @@ class ilBibliographicRecordListTableGUI extends ilTable2GUI {
 
 
 	/**
-	 * ilBibliographicRecordListTableGUI constructor.
+	 * ilBiblEntryTableGUI constructor.
 	 *
 	 * @param \ilObjBibliographicGUI $a_parent_obj
 	 * @param \ilBiblFactoryFacade   $facade
