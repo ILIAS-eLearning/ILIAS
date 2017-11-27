@@ -989,14 +989,25 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$title = trim($_REQUEST["pt"]);
 		$prtt_id = (int)$_REQUEST["prtt"];
 
+		// get assignment template
+		$ass_template_id = 0;
+		if ((int)$_REQUEST["ass_id"] > 0)
+		{
+			include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
+			$ass = new ilExAssignment((int)$_REQUEST["ass_id"]);
+			$ass_template_id = ilObject::_lookupObjectId($ass->getPortfolioTemplateId());
+		}
+
 		if($prtt_id > 0)
 		{
 			$templates = array_keys(ilObjPortfolioTemplate::getAvailablePortfolioTemplates());
 			if(!sizeof($templates) || !in_array($prtt_id, $templates))
 			{
-				$this->toRepository();
+				if ($ass_template_id != $prtt_id)
+				{
+					$this->toRepository();
+				}
 			}
-			unset($templates);
 
 			//quota manipulation
 			include_once "Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php";
