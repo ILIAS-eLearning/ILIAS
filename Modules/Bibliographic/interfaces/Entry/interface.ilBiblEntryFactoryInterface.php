@@ -16,4 +16,22 @@ interface ilBiblEntryFactoryInterface {
 	 * @return \ilBiblEntryInterface
 	 */
 	public function findByIdAndTypeString($id, $type_string);
+
+
+	/**
+	 * @param                            $object_id
+	 * @param \ilBiblTableQueryInfo|null $info
+	 *
+	 * @return \ilBiblEntryInterface[]
+	 */
+	public function filterEntriesForTable($object_id, ilBiblTableQueryInfo $info = null);
+
+
+	/**
+	 * @param                            $object_id
+	 * @param \ilBiblTableQueryInfo|null $info
+	 *
+	 * @return array
+	 */
+	public function filterEntryIdsForTableAsArray($object_id, ilBiblTableQueryInfo $info = null);
 }

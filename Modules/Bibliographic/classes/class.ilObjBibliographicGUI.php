@@ -425,6 +425,22 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	}
 
 
+	protected function applyFilter() {
+		$table = new ilBibliographicRecordListTableGUI($this, $this->facade);
+		$table->writeFilterToSession();
+		$table->resetOffset();
+		$this->ctrl->redirect($this, self::CMD_SHOW_CONTENT);
+	}
+
+
+	protected function resetFilter() {
+		$table = new ilBibliographicRecordListTableGUI($this, $this->facade);
+		$table->resetFilter();
+		$table->resetOffset();
+		$this->ctrl->redirect($this, self::CMD_SHOW_CONTENT);
+	}
+
+
 	/**
 	 * provide file as a download
 	 */

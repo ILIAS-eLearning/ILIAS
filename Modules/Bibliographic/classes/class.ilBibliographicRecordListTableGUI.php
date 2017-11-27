@@ -13,6 +13,10 @@ class ilBibliographicRecordListTableGUI extends ilTable2GUI {
 
 	use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
 	/**
+	 * @var array
+	 */
+	protected $applied_filter;
+	/**
 	 * @var \ilBiblFactoryFacade
 	 */
 	protected $facade;
@@ -56,7 +60,21 @@ class ilBibliographicRecordListTableGUI extends ilTable2GUI {
 		foreach ($this->facade->filterFactory()->getAllForObjectId($this->facade->iliasObject()
 		                                                                        ->getId()) as $filter) {
 			$filter = new ilBiblFieldFilterPresentationGUI($filter, $this->facade);
-			$this->addFilterItem($filter->getFilterItem());
+			$this->addAndReadFilterItem($filter->getFilterItem());
+		}
+	}
+
+
+	/**
+	 * @param $field
+	 */
+	protected function addAndReadFilterItem(ilTableFilterItem $field) {
+		$this->addFilterItem($field);
+		$field->readFromSession();
+		if ($field instanceof ilCheckboxInputGUI) {
+			$this->applied_filter[$field->getPostVar()] = $field->getChecked();
+		} else {
+			$this->applied_filter[$field->getPostVar()] = $field->getValue();
 		}
 	}
 
@@ -85,12 +103,23 @@ class ilBibliographicRecordListTableGUI extends ilTable2GUI {
 
 
 	protected function initData() {
+		$query = new ilBiblTableQueryInfo();
+		foreach ($this->applied_filter as $field_name => $field_value) {
+			$filter = new ilBiblTableQueryFilter();
+			$filter->setFieldName($field_name);
+			$filter->setFieldValue($field_value);
+			$filter->setOperator("LIKE");
+			$query->addFilter($filter);
+		}
+
 		$entries = array();
-		foreach (ilBiblEntry::getAllEntries($this->parent_obj->object->getId()) as $entry) {
+		foreach ($this->facade->entryFactory()
+		                      ->filterEntryIdsForTableAsArray($this->parent_obj->object->getId(), $query) as $entry) {
 			$ilBibliographicEntry = ilBiblEntry::getInstance($this->parent_obj->object->getFileTypeAsString(), $entry['entry_id']);
 			$entry['content'] = strip_tags($ilBibliographicEntry->getOverview());
 			$entries[] = $entry;
 		}
+
 		$this->setData($entries);
 	}
 }
