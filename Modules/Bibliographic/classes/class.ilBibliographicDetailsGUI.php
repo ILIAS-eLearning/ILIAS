@@ -70,10 +70,11 @@ class ilBibliographicDetailsGUI {
 
 		// generate/render links to libraries
 		// TODO REFACTOR
-		$settings = ilBibliographicSetting::getAll();
+		$settings = $this->facade->libraryFactory()->getAll();
 		foreach ($settings as $set) {
 			$ci = new ilCustomInputGUI($set->getName());
-			$ci->setHtml($set->getButton($this->facade->iliasObject(), $this->entry));
+			$presentation = new ilBiblLibraryPresentationGUI($set);
+			$ci->setHtml($presentation->getButton($this->facade->iliasObject(), $this->entry));
 			$form->addItem($ci);
 		}
 		$this->tpl()->setPermanentLink("bibl", $this->facade->iliasObject()->getRefId(), "_"

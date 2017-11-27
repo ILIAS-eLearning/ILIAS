@@ -10,9 +10,8 @@
  *
  * @ilCtrl_Calls ilObjBibliographicAdminGUI: ilPermissionGUI, ilObjBibliographicAdminLibrariesGUI
  * @ilCtrl_Calls ilObjBibliographicAdminGUI: ilBiblAdminFieldGUI
+ * @ilCtrl_Calls ilObjBibliographicAdminGUI: ilBiblLibraryGUI
  * @ilCtrl_Calls ilObjBibliographicAdminGUI: ilBiblAdminRisFieldGUI, ilBiblAdminBibtexFieldGUI
- *
- * @ingroup      ModulesBibliographic
  */
 class ilObjBibliographicAdminGUI extends ilObjectGUI {
 
@@ -23,6 +22,10 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 	 * @var ilObjBibliographicAdmin
 	 */
 	public $object;
+	/**
+	 * @var string this is the ILIAS-type, not the Bib-type
+	 */
+	protected $type;
 	/**
 	 * @var \ilBiblAdminFactoryFacadeInterface
 	 */
@@ -39,7 +42,6 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 		$this->type = 'bibs';
 		$this->lng->loadLanguageModule('bibl');
-		//Check Permissions globally for all SubGUIs. We only check write permissions
 		$this->checkPermission('write');
 	}
 
@@ -57,10 +59,11 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 				$perm_gui = new ilPermissionGUI($this);
 				$this->ctrl->forwardCommand($perm_gui);
 				break;
-			case strtolower(ilObjBibliographicAdminLibrariesGUI::class):
+			case strtolower(ilBiblLibraryGUI::class):
 				$this->prepareOutput();
 				$this->tabs_gui->activateTab(self::TAB_SETTINGS);
-				$this->ctrl->forwardCommand(new ilObjBibliographicAdminLibrariesGUI($this));
+				$f = new ilBiblAdminLibraryFacade($this->object);
+				$this->ctrl->forwardCommand(new ilBiblLibraryGUI($f));
 				break;
 			case strtolower(ilBiblAdminRisFieldGUI::class):
 				$this->prepareOutput();
@@ -79,7 +82,8 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 		}
 	}
 
-	protected function view(){
+
+	protected function view() {
 		$this->ctrl->redirectByClass(ilBiblAdminRisFieldGUI::class);
 	}
 
@@ -100,8 +104,8 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 		if ($rbacsystem->checkAccess('visible,read', $this->object->getRefId())) {
 			$this->tabs_gui->addTab(self::TAB_SETTINGS, $this->lng->txt('settings'), $this->ctrl->getLinkTargetByClass(array(
 				ilObjBibliographicAdminGUI::class,
-				ilObjBibliographicAdminLibrariesGUI::class,
-			), self::CMD_DEFAULT));
+				ilBiblLibraryGUI::class,
+			), ilBiblLibraryGUI::CMD_INDEX));
 		}
 		if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
 			$this->tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass('ilpermissiongui', 'perm'), array(), 'ilpermissiongui');

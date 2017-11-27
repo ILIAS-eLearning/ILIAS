@@ -293,6 +293,8 @@ class ilObjBibliographic extends ilObject2 {
 
 
 	/**
+	 * @deprecated REFACTOR
+	 *
 	 * @return array
 	 */
 	public static function getAllOverviewModels() {
@@ -359,7 +361,7 @@ class ilObjBibliographic extends ilObject2 {
 	/**
 	 * @param $input
 	 *
-	 * @deprecated
+	 * @deprecated REFACTOR
 	 * @return string
 	 */
 	protected static function __removeSpacesAndDashesAtBeginning($input) {

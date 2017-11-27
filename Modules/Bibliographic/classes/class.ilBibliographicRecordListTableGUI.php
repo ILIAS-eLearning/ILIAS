@@ -15,7 +15,7 @@ class ilBibliographicRecordListTableGUI extends ilTable2GUI {
 	/**
 	 * @var \ilBiblFieldFilterInterface[]
 	 */
-	protected $filter_objects= array();
+	protected $filter_objects = array();
 	/**
 	 * @var array
 	 */
@@ -95,11 +95,12 @@ class ilBibliographicRecordListTableGUI extends ilTable2GUI {
 		$this->ctrl->setParameter($this->parent_obj, ilObjBibliographicGUI::P_ENTRY_ID, $a_set['entry_id']);
 		$this->tpl->setVariable('DETAIL_LINK', $this->ctrl->getLinkTarget($this->parent_obj, 'showDetails'));
 		// generate/render links to libraries
-		$settings = ilBibliographicSetting::getAll();
+		$settings = $this->facade->libraryFactory()->getAll();
 		$arr_library_link = array();
 		foreach ($settings as $set) {
 			if ($set->getShowInList()) {
-				$arr_library_link[] = $set->getButton($this->parent_obj->object, $il_obj_entry);
+				$presentation = new ilBiblLibraryPresentationGUI($set);
+				$arr_library_link[] = $presentation->getButton($this->parent_obj->object, $il_obj_entry);
 			}
 		}
 		if (count($arr_library_link)) {

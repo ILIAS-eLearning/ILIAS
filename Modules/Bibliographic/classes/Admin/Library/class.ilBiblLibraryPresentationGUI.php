@@ -1,94 +1,32 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Class ilBibliographicSetting
+ * Class ilBiblLibraryPresentationGUI
  *
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @author  Martin Studer <ms@studer-raimann.ch>
- * @version 1.0.0
+ * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilBibliographicSetting extends ActiveRecord {
-
-	const TABLE_NAME = 'il_bibl_settings';
-
+class ilBiblLibraryPresentationGUI {
 
 	/**
-	 * @return string
-	 * @deprecated
+	 * @var \ilBiblLibraryInterface
 	 */
-	static function returnDbTableName() {
-		return self::TABLE_NAME;
-	}
+	protected $library;
 
 
 	/**
-	 * @return string
-	 */
-	public function getConnectorContainerName() {
-		return self::TABLE_NAME;
-	}
-
-
-	/**
-	 * @var
+	 * ilBiblLibraryPresentationGUI constructor.
 	 *
-	 * @con_has_field  true
-	 * @con_fieldtype  integer
-	 * @con_length     4
-	 * @con_is_notnull true
-	 * @con_is_primary true
-	 * @con_is_unique  true
-	 * @con_sequence   true
+	 * @param \ilBiblLibraryInterface $library
 	 */
-	protected $id;
-	/**
-	 * @var
-	 *
-	 * @con_has_field  true
-	 * @con_fieldtype  text
-	 * @con_length     50
-	 * @con_is_notnull true
-	 */
-	protected $name;
-	/**
-	 * @var
-	 *
-	 * @con_has_field  true
-	 * @con_fieldtype  text
-	 * @con_length     128
-	 * @con_is_notnull true
-	 */
-	protected $url;
-	/**
-	 * @var
-	 *
-	 * @con_has_field true
-	 * @con_fieldtype text
-	 * @con_length    128
-	 */
-	protected $img;
-	/**
-	 * @var
-	 *
-	 * @con_has_field true
-	 * @con_fieldtype integer
-	 * @con_length    1
-	 */
-	protected $show_in_list;
-
-
-	/**
-	 * @return ilBibliographicSetting[]
-	 */
-	public static function getAll() {
-		return self::get();
-	}
+	public function __construct(\ilBiblLibraryInterface $library) { $this->library = $library; }
 
 
 	/**
 	 * @param \ilBiblEntry $entry
-	 * @param             $type
+	 * @param              $type
+	 *
+	 * @deprecated REFACTOR
+	 *
 	 *
 	 * @return string
 	 */
@@ -146,7 +84,7 @@ class ilBibliographicSetting extends ActiveRecord {
 		}
 
 		// return full link
-		$full_link = $this->getUrl() . $url_params;
+		$full_link = $this->library->getUrl() . $url_params;
 
 		return $full_link;
 	}
@@ -156,13 +94,15 @@ class ilBibliographicSetting extends ActiveRecord {
 	 * @param \ilObjBibliographic $bibl_obj
 	 * @param \ilBiblEntry        $entry
 	 *
+	 * @deprecated REFACTOR
+	 *
 	 * @return string
 	 */
 	public function getButton(ilObjBibliographic $bibl_obj, ilBiblEntry $entry) {
-		if ($this->getImg()) {
+		if ($this->library->getImg()) {
 			$button = ilImageLinkButton::getInstance();
 			$button->setUrl($this->generateLibraryLink($entry, $bibl_obj->getFileTypeAsString()));
-			$button->setImage($this->getImg(), false);
+			$button->setImage($this->library->getImg(), false);
 			$button->setTarget('_blank');
 
 			return $button->render();
@@ -183,10 +123,13 @@ class ilBibliographicSetting extends ActiveRecord {
 	 * @param array  $attributes
 	 * @param String $prefix
 	 *
+	 * @deprecated REFACTOR
+	 *
+	 *
 	 * @return String
 	 */
-	private function formatAttribute($a, $type, $attributes, $prefix) {
-		if ($type = 'ris') {
+	public function formatAttribute($a, $type, $attributes, $prefix) {
+		if ($type == 'ris') {
 			switch ($a) {
 				case 'ti':
 					$a = "title";
@@ -226,85 +169,5 @@ class ilBibliographicSetting extends ActiveRecord {
 		}
 
 		return $a;
-	}
-
-
-	/**
-	 * @return mixed
-	 */
-	public function getId() {
-		return $this->id;
-	}
-
-
-	/**
-	 * @param mixed $id
-	 */
-	public function setId($id) {
-		$this->id = $id;
-	}
-
-
-	/**
-	 * @return mixed
-	 */
-	public function getImg() {
-		return $this->img;
-	}
-
-
-	/**
-	 * @param mixed $img
-	 */
-	public function setImg($img) {
-		$this->img = $img;
-	}
-
-
-	/**
-	 * @return mixed
-	 */
-	public function getName() {
-		return $this->name;
-	}
-
-
-	/**
-	 * @param mixed $name
-	 */
-	public function setName($name) {
-		$this->name = $name;
-	}
-
-
-	/**
-	 * @return mixed
-	 */
-	public function getShowInList() {
-		return $this->show_in_list;
-	}
-
-
-	/**
-	 * @param mixed $show_in_list
-	 */
-	public function setShowInList($show_in_list) {
-		$this->show_in_list = $show_in_list;
-	}
-
-
-	/**
-	 * @return mixed
-	 */
-	public function getUrl() {
-		return $this->url;
-	}
-
-
-	/**
-	 * @param mixed $url
-	 */
-	public function setUrl($url) {
-		$this->url = $url;
 	}
 }

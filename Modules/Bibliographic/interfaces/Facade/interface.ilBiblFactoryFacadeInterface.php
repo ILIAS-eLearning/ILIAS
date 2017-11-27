@@ -14,6 +14,12 @@ interface ilBiblFactoryFacadeInterface {
 
 
 	/**
+	 * @return \ilBiblLibraryFactoryInterface
+	 */
+	public function libraryFactory();
+
+
+	/**
 	 * @return \ilBiblFieldFactoryInterface
 	 */
 	public function fieldFactory();
