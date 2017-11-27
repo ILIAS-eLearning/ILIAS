@@ -70,12 +70,12 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 			$inst = new ilBiblField();
 			$inst->setIdentifier($identifier);
 			$inst->setDataType($type);
+			$inst->setIsStandardField((bool)$this->getType()->isStandardField($identifier));
 			$inst->create();
-			$inst->setIsStandardField($this->getType()->isStandardField($identifier));
 		}
 		$inst->setDataType($type);
 		$inst->setIdentifier($identifier);
-		$inst->setIsStandardField($this->getType()->isStandardField($identifier));
+		$inst->setIsStandardField((bool)$this->getType()->isStandardField($identifier));
 		$inst->update();
 
 		return $inst;
