@@ -28,4 +28,35 @@ class ilBiblAttributeFactory implements ilBiblAttributeFactoryInterface {
 
 		return $array_of_objects;
 	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getPossibleValuesForFieldAndObject(ilBiblFieldInterface $field, $object_id) {
+		global $DIC;
+		$q = "SELECT DISTINCT(a.value) FROM ilias.il_bibl_data AS d
+JOIN il_bibl_entry AS e ON e.data_id = d.id
+JOIN il_bibl_attribute AS a on a.entry_id = e.id
+WHERE a.name = %s AND d.id = %s";
+
+		$res = $DIC->database()->queryF($q, [ 'text', 'integer' ], [
+			$field->getIdentifier(),
+			$object_id,
+		]);
+		$result = [];
+		while ($data = $DIC->database()->fetchObject($res)) {
+			$result[$data->value] = $data->value;
+		}
+
+		return $result;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getAttributesForEntry(ilBiblEntryInterface $entry) {
+		throw new ilException("not yet implemented");
+	}
 }

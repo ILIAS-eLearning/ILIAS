@@ -15,13 +15,6 @@ interface ilBiblFieldFilterFactoryInterface {
 	 */
 	public function findById($id);
 
-	/**
-	 * @param int $id
-	 *
-	 * @return ilBiblFieldFilterInterface
-	 */
-	public function findByFieldId($id);
-
 
 	/**
 	 * @param int $obj_id
@@ -38,4 +31,15 @@ interface ilBiblFieldFilterFactoryInterface {
 	 * @return array
 	 */
 	public function filterItemsForTable($obj_id, ilBiblTableQueryInfoInterface $info);
+
+
+	/**
+	 * @param \ilBiblFieldInterface $field
+	 * @param int                   $object_id
+	 *
+	 * @throws \ilLogException if non existing
+	 *
+	 * @return ilBiblFieldFilterInterface
+	 */
+	public function getByObjectIdAndField(ilBiblFieldInterface $field, $object_id);
 }

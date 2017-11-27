@@ -44,18 +44,27 @@ class ilBiblEntryFactory implements ilBiblEntryFactoryInterface {
                         WHERE data_id = %s";
 		if ($info instanceof ilBiblTableQueryInfo) {
 			foreach ($info->getFilters() as $filter) {
-				if (trim($filter->getFieldValue()) == '') {
+				$value = $filter->getFieldValue();
+				if (!$value) {
 					continue;
 				}
-				$types[] = "text";
-				$types[] = "text";
-				$values[] = $filter->getFieldName();
-				$values[] = "%{$filter->getFieldValue()}%";
-				$q .= " AND a.name = %s AND a.value {$filter->getOperator()} %s ";
+				if ($filter->getOperator() === "IN" && is_array($filter->getFieldValue())) {
+					$types[] = "text";
+					$values[] = $filter->getFieldName();
+					$q .= " AND a.name = %s AND " . $DIC->database()
+					                                    ->in("a.value", $value, false, "text");
+				} else {
+					$types[] = "text";
+					$values[] = $filter->getFieldName();
+					$types[] = "text";
+					$values[] = "{$value}";
+					$q .= " AND a.name = %s AND a.value {$filter->getOperator()} %s ";
+				}
 			}
 		}
 		$entries = array();
 		$set = $DIC->database()->queryF($q, $types, $values);
+
 		while ($rec = $DIC->database()->fetchAssoc($set)) {
 			$entries[]['entry_id'] = $rec['id'];
 		}
