@@ -14,5 +14,5 @@ interface ilBiblAttributeFactoryInterface {
 	 *
 	 * @return  \ilBiblAttribute[]
 	 */
-	public function convertIlBiblAttributesToObjects($il_bibl_attributes);
+	public function convertIlBiblAttributesToObjects(array $il_bibl_attributes);
 }

@@ -10,7 +10,7 @@ class ilBiblAttributeFactory implements ilBiblAttributeFactoryInterface {
 	/**
 	 * @inheritdoc
 	 */
-	public function convertIlBiblAttributesToObjects($il_bibl_attributes) {
+	public function convertIlBiblAttributesToObjects(array $il_bibl_attributes) {
 		$array_of_objects = [];
 		foreach ($il_bibl_attributes as $il_bibl_attribute) {
 			$ilBiblAttribute = new ilBiblAttribute();
