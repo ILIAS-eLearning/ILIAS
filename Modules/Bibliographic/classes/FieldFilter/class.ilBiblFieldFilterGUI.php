@@ -151,7 +151,7 @@ class ilBiblFieldFilterGUI {
 		$il_bibl_field = $this->getFieldFilterFromRequest();
 		$this->tabs->activateTab(self::CMD_STANDARD);
 		$il_bibl_field->delete();
-		ilUtil::sendSuccess($this->dic->language()->txt('filter_successfully_deleted'), true);
+		ilUtil::sendSuccess($this->dic->language()->txt('filter_deleted'), true);
 		$this->ctrl->redirect($this, self::CMD_STANDARD);
 	}
 

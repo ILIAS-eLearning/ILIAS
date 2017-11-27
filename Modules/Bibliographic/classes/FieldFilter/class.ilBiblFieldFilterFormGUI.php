@@ -109,7 +109,7 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI {
 			                                                        . $field_name->getIdentifier()); // TODO Übersetzungsdienst nutzen
 		}
 
-		$si = new ilSelectInputGUI($this->dic->language()->txt("filter_field"), self::F_FIELD_ID);
+		$si = new ilSelectInputGUI($this->dic->language()->txt("field"), self::F_FIELD_ID);
 		$si->setInfo($this->dic->language()->txt("filter_field_info"));
 		$si->setOptions($select_options);
 		$si->setRequired(true);

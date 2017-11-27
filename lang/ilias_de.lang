@@ -2706,7 +2706,7 @@ common#:#firstname#:#Vorname
 common#:#flatview#:#Baumansicht aus
 common#:#fold#:#Ordner
 common#:#fold_add#:#Ordner anlegen
-common#:#fold_added#:#Ordner angelegt
+common#:#fold_added#:#Ordner angelegt-
 rbac#:#fold_copy#:#Ordner kopieren
 rbac#:#fold_delete#:#Ordner löschen oder verschieben
 common#:#fold_edit#:#Ordner bearbeiten
@@ -10482,6 +10482,21 @@ bibl#:#add_filter#:#Filter hinzufügen
 bibl#:#filter_type#:#Filter Typ
 bibl#:#field#:#Feld
 bibl#:#custom#:#Benutzerdefiniert
+bibl#:#fields#:#Felder
+bibl#:#ris#:#Ris
+bibl#:#bibtex#:#Bibtex
+bibl#:#order#:#Sortierung
+bibl#:#standard#:#Standard
+bibl#:#translate#:#Übersetzen
+bibl#:#identifier#:#Bezeichner
+bibl#:#filter_type_1#:#Textfeld
+bibl#:#filter_type_2#:#Auswahl
+bibl#:#filter_type_3#:#Mehrfachauswahl
+bibl#:#filter_form_title#:#Neuen Filter hinzufügen
+bibl#:#filter_field_info#:#Bitte wählen Sie ein Feld aus für das Sie einen Filter hinzufügen möchten.
+bibl#:#filter_type_info#:#Bitte wählen Sie einen Filter Typ für das Feld.
+bibl#:#changes_saved#:#Die Änderungen wurden gespeichert.
+bibl#:#filter_deleted#:#Der Filter wurde gelöscht.
 rbac#:#bibl_visible#:#Literaturliste ist sichtbar
 rbac#:#bibl_read#:#Literaturliste lesen
 rbac#:#bibl_copy#:#Literaturliste kopieren

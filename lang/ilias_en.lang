@@ -10496,6 +10496,18 @@ bibl#:#add_filter#:#Add Filter
 bibl#:#filter_type#:#Filter Type
 bibl#:#field#:#Field
 bibl#:#custom#:#Custom
+bibl#:#fields#:#Fields
+bibl#:#ris#:#Ris
+bibl#:#bibtex#:#Bibtex
+bibl#:#order#:#Order
+bibl#:#standard#:#Standard
+bibl#:#translate#:#Translate
+bibl#:#identifier#:#Identifier
+bibl#:#filter_type_1#:#Textinput
+bibl#:#filter_type_2#:#Selectinput
+bibl#:#filter_type_3#:#Multi-Selectinput
+bibl#:#filter_field_info#:#Please choose a field for which you want to add a filter.
+bibl#:#filter_type_info#:#Please choose a filter type for the field.
 rbac#:#bibl_visible#:#Bibliography is visible
 rbac#:#bibl_read#:#User can read bibliography content
 rbac#:#bibl_copy#:#Copy Bibliography
@@ -11332,6 +11344,9 @@ bibl#:#ris_default_u2#:#User Defined
 bibl#:#ris_default_y1#:#Year
 bibl#:#ris_default_ty#:#Type
 bibl#:#ris_default_ep#:#Ending Page Number
+bibl#:#filter_form_title#:#Add new filter
+bibl#:#changes_saved#:#Changes were saved.
+bibl#:#filter_deleted#:#The Filter was deleted.
 mail#:#mail_filter#:#Filter
 mail#:#mail_filter_sender#:#Sender
 mail#:#mail_filter_recipients#:#Recipients
