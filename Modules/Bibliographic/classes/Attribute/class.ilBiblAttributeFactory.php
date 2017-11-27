@@ -72,6 +72,9 @@ WHERE a.name = %s AND d.id = %s";
 		$type_id = $fieldFactory->getType()->getId();
 		$max = 0;
 		foreach ($attributes as $attribute) {
+			if (!$attribute->getName()) {
+				continue;
+			}
 			$field = $fieldFactory->findOrCreateFieldByTypeAndIdentifier($type_id, $attribute->getName());
 			$position = (int)$field->getPosition();
 			$position = $position ? $position : $max + 1;
