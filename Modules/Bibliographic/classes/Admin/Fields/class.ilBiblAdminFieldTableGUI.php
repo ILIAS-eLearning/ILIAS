@@ -65,10 +65,10 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 
 
 	protected function initColumns() {
-		$this->addColumn($this->lng()->txt('order'), 'order');
-		$this->addColumn($this->lng()->txt('identifier'), 'identifier');
-		$this->addColumn($this->lng()->txt('translation'), 'translation');
-		$this->addColumn($this->lng()->txt('standard'), 'is_standard_field');
+		$this->addColumn($this->lng()->txt('order'));
+		$this->addColumn($this->lng()->txt('identifier'));
+		$this->addColumn($this->lng()->txt('translation'));
+		$this->addColumn($this->lng()->txt('standard'));
 		$this->addColumn($this->lng()->txt('actions'), '', '150px');
 	}
 
@@ -102,7 +102,7 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 		$field = $this->facade->fieldFactory()->findById($a_set['id']);
 
 		$this->tpl->setCurrentBlock("POSITION");
-		$this->tpl->setVariable('POSITION_VALUE', $field->getPosition() ? $field->getPosition() : $this->position_index);
+		$this->tpl->setVariable('POSITION_VALUE',  $this->position_index); //$field->getPosition() ? $field->getPosition() :
 		$this->tpl->setVariable('POSITION_NAME', "row_values[" . $a_set['id'] . "][position]");
 		$this->tpl->parseCurrentBlock();
 
@@ -178,6 +178,9 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 					break;
 			}
 		}
+		$q->setSortingColumn('position');
+		$q->setSortingDirection('ASC');
+
 
 		$data = $this->facade->fieldFactory()
 		                     ->filterAllFieldsForTypeAsArray($this->facade->type(), $q);
