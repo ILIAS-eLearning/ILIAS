@@ -465,7 +465,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
 		if(!$room->getSetting('allow_anonymous') && $ilUser->isAnonymous())
 		{
-			$this->cancelJoin($lng->txt('anonymous_not_allowed'));
+			$this->cancelJoin($lng->txt('chat_anonymous_not_allowed'));
 			return;
 		}
 

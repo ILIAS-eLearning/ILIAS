@@ -9226,6 +9226,7 @@ chatroom#:#display_past_msgs#:#Number of Past Messages
 chatroom#:#hint_display_past_msgs#:#Number of previous messages shown when chat room is entered. A value of ‘0’ disables this feature.
 chatroom#:#speak_to#:#Speak to <b>#user#</b>
 chatroom#:#whisper_to#:#Whisper to <b>#user#</b>
+chatroom#:#chat_anonymous_not_allowed#:#Please login to use the chat.
 chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS cannot build a socket connection to the chat server.
 chatroom#:#leave_private_room#:#Leave Private Room
 chatroom#:#left_private_room#:#Left private room

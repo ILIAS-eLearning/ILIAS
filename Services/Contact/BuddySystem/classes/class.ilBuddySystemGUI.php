@@ -300,7 +300,7 @@ class ilBuddySystemGUI
 				if ($script === 'login') {
 					$redirectUrl = 'ilias.php?baseClass=ilPersonalDesktopGUI';
 				} else {
-					$redirectUrl = ltrim($urlParts['path'], '/');
+					$redirectUrl = ltrim(basename($urlParts['path']), '/');
 					if (isset($urlParts['query'])) {
 						$redirectUrl .= '?' . $urlParts['query'];
 					}
