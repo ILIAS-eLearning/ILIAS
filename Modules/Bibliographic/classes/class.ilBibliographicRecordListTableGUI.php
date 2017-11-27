@@ -15,11 +15,11 @@ class ilBibliographicRecordListTableGUI extends ilTable2GUI {
 	/**
 	 * @var \ilBiblFieldFilterInterface[]
 	 */
-	protected $filter_objects;
+	protected $filter_objects= array();
 	/**
 	 * @var array
 	 */
-	protected $applied_filter;
+	protected $applied_filter = array();
 	/**
 	 * @var \ilBiblFactoryFacade
 	 */
