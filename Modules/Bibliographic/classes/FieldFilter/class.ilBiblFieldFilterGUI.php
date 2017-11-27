@@ -21,6 +21,12 @@ class ilBiblFieldFilterGUI {
 	const CMD_APPLY_FILTER = 'applyFilter';
 	const CMD_RESET_FILTER = 'resetFilter';
 	const CMD_TRANSLATE = 'translate';
+
+	/**
+	 * @var \ILIAS\DI\Container
+	 */
+	protected $dic;
+
 	/**
 	 * @var \ilBiblFactoryFacade
 	 */
@@ -122,7 +128,7 @@ class ilBiblFieldFilterGUI {
 		$il_bibl_field = $this->getFieldFilterFromRequest();
 		$this->tabs()->activateTab(self::CMD_STANDARD);
 		$il_bibl_field->delete();
-		ilUtil::sendSuccess($this->lng()->txt('filter_successfully_deleted'), true);
+		ilUtil::sendSuccess($this->dic->language()->txt('filter_deleted'), true);
 		$this->ctrl()->redirect($this, self::CMD_STANDARD);
 	}
 
