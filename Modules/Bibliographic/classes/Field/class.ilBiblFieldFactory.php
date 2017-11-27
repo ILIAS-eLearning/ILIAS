@@ -282,20 +282,24 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 		}
 		if(!empty($il_bibl_fields) && count($il_bibl_fields) > 1) {
 			for($i = 0; $i < count($il_bibl_fields) - 1; $i++) {
-				if(is_object($il_bibl_fields[$i++])) {
-					if($il_bibl_fields[$i]->getPosition() > $il_bibl_fields[$i++]->getPosition()) {
+				$next_index = $i + 1;
+				if(!empty($il_bibl_fields[$next_index]) && is_object($il_bibl_fields[$next_index])) {
+					if($il_bibl_fields[$next_index]->getPosition() < $il_bibl_fields[$i]->getPosition() ) {
 						$temp = $il_bibl_fields[$i];
-						$il_bibl_fields[$i] = $il_bibl_fields[$i++];
-						$il_bibl_fields[$i++] = $temp;
+						$il_bibl_fields[$i] = $il_bibl_fields[$next_index];
+						$il_bibl_fields[$next_index] = $temp;
 					}
 				}
 			}
 			$sorted_attributes = [];
+			$lower_case_array_key_attributes = array_change_key_case($attributes, CASE_LOWER);
 			foreach ($il_bibl_fields as $il_bibl_field) {
-				$all_attributes['name'] = $il_bibl_field->setIdentifier;
+				$sorted_attributes[strtolower($il_bibl_field->getIdentifier())] = $lower_case_array_key_attributes[strtolower($il_bibl_field->getIdentifier())];
 			}
+			return array_merge($sorted_attributes, $lower_case_array_key_attributes);;
 		}
-		return array_merge($sorted_attributes, $attributes);
+		return $attributes;
+
 	}
 
 	public function findByIdentifier($identifier) {
