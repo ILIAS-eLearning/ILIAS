@@ -585,7 +585,12 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		{	
 			return;
 		}
-				
+
+		if($this->getOutputMode() == "print")
+		{
+			return;
+		}
+
 		$user_id = $this->getPageContentUserId($a_user_id);
 		
 		// only if not owner
