@@ -39,12 +39,13 @@ class arMessage extends ActiveRecord {
         const PRIO_NORMAL = 5;
         const PRIO_HIGH = 9;
  
+        const TABLE_NAME = 'ar_message';
  
         /**
          * @return string
          */
         static function returnDbTableName() {
-                return 'ar_message';
+                return self::TABLE_NAME;
         }
  
         /**
@@ -406,7 +407,7 @@ You can use these methods to delete or truncate your table even in dbupdate-Scri
 
 ```php
 arMessage::resetDB(); // Truncates the Database
-arMessage::deleteDB (); // Deletes the Database
+$ilDB->dropTable(arMessage::TABLE_NAME, false); // Deletes the Database
 ```
 
 It's not yet possible to generate e database-modification step with this feature. Please write those as usual and don't forget to represent your changes in your AR-based Class.

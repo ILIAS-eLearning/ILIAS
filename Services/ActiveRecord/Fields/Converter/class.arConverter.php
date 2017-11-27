@@ -163,7 +163,6 @@ class {CLASS_NAME} extends ActiveRecord {
 
 		if ($field->key == 'PRI') {
 			$attributes[arFieldList::IS_PRIMARY] = 'true';
-			$attributes[arFieldList::IS_UNIQUE] = 'true';
 		}
 
 		return $attributes;
