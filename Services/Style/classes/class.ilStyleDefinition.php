@@ -92,6 +92,10 @@ class ilStyleDefinition extends ilSaxParser
 		return $this->template_name;
 	}
 
+	function getTemplateVersion()
+	{
+		return $this->template_version;
+	}
 
 	function getStyle($a_id)
 	{
@@ -103,7 +107,6 @@ class ilStyleDefinition extends ilSaxParser
 	{
 		return $this->styles[$a_id]["name"];
 	}
-
 
 	function getImageDirectory($a_master_style, $a_substyle = "")
 	{
@@ -195,6 +198,7 @@ class ilStyleDefinition extends ilSaxParser
 		{
 			case "template" :
 				$this->template_name = $a_attribs["name"];
+				$this->template_version = $a_attribs["version"];
 				break;
 
 			case "style" :
@@ -435,6 +439,30 @@ class ilStyleDefinition extends ilSaxParser
 		self::$current_master_style = $cs;
 		
 		return $cs;
+	}
+
+	/**
+	 * Get version of current skin
+	 *
+	 * @return string skin version
+	 */
+	public static function getCurrentSkinVersion()
+	{
+		/** @var ilStyleDefinition $styleDefinition */
+		global $styleDefinition;
+
+		self::getCurrentSkin();
+
+		$skin_version = '';
+		if (is_object($styleDefinition))
+		{
+			$version = $styleDefinition->getTemplateVersion();
+			if($version != '$Id$') {
+				$skin_version = $version;
+			}
+		}
+
+		return $skin_version;
 	}
 
 	
