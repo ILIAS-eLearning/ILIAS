@@ -45,6 +45,10 @@ class ilOrgUnitDefaultPermissionGUI extends BaseCommands {
 
 		return (int)$id;
 	}
+
+	protected function cancel() {
+		$this->ctrl()->redirectByClass(ilOrgUnitPositionGUI::class);
+	}
 }
 
 

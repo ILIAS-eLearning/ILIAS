@@ -2547,7 +2547,7 @@ output {
 .form-control {
   display: block;
   width: 100%;
-  height: 25px;
+  height: 28px;
   padding: 3px 8px;
   font-size: 14px;
   line-height: 1.42857143;
@@ -2603,7 +2603,7 @@ input[type="search"] {
   input[type="time"].form-control,
   input[type="datetime-local"].form-control,
   input[type="month"].form-control {
-    line-height: 25px;
+    line-height: 28px;
   }
   input[type="date"].input-sm,
   input[type="time"].input-sm,
@@ -2780,7 +2780,7 @@ select[multiple].input-lg {
   position: relative;
 }
 .has-feedback .form-control {
-  padding-right: 31.25px;
+  padding-right: 35px;
 }
 .form-control-feedback {
   position: absolute;
@@ -2788,9 +2788,9 @@ select[multiple].input-lg {
   right: 0;
   z-index: 2;
   display: block;
-  width: 25px;
-  height: 25px;
-  line-height: 25px;
+  width: 28px;
+  height: 28px;
+  line-height: 28px;
   text-align: center;
   pointer-events: none;
 }
@@ -4363,8 +4363,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   border-bottom: 1px solid transparent;
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
-  margin-top: 7.5px;
-  margin-bottom: 7.5px;
+  margin-top: 6px;
+  margin-bottom: 6px;
 }
 @media (min-width: 768px) {
   .navbar-form .form-group {
@@ -4449,8 +4449,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   border-bottom-left-radius: 0;
 }
 .navbar-btn {
-  margin-top: 7.5px;
-  margin-bottom: 7.5px;
+  margin-top: 6px;
+  margin-bottom: 6px;
 }
 .navbar-btn.btn-sm {
   margin-top: 7px;
@@ -7239,10 +7239,12 @@ hr.il-divider-with-label {
 }
 .il-item .il-item-property-name {
   font-size: 12px;
+  overflow: auto;
 }
 .il-item .il-item-property-value {
   font-size: 12px;
   color: #909090;
+  overflow: auto;
 }
 .il-item .col-sm-9 > .row {
   clear: both;
@@ -8244,7 +8246,7 @@ ul.breadcrumb li:hover {
 }
 .il-popover .il-popover-inner {
   max-height: 500px;
-  overflow: scroll;
+  overflow: auto;
 }
 .il-popover .il-popover-inner .close {
   margin: 0;
@@ -9885,16 +9887,24 @@ select {
 }
 .form-control {
   font-size: 12px;
+  line-height: 20px;
+}
+.btn {
+  line-height: 20px;
+}
+.form-control-static {
+  min-height: 0;
+  display: inline-block;
 }
 .form-horizontal {
   margin-bottom: 20px;
   background-color: #fdfdfd;
 }
-form.form-inline {
-  margin-bottom: 20px;
-}
 .form-horizontal .form-group {
   margin: 10px 0;
+}
+form.form-inline {
+  margin-bottom: 20px;
 }
 .form-control,
 .form-control:focus {
@@ -9915,38 +9925,35 @@ select.form-control {
   font-size: 100%;
 }
 .form-horizontal .control-label {
-  padding-top: 0;
-  line-height: 24px;
+  padding-bottom: 4px;
 }
 .form-horizontal .control-label.col-sm-3.il_textarea {
   text-align: left;
   width: 100%;
-}
-.form-horizontal .form-group .col-sm-9 {
-  line-height: 24px;
 }
 .form-horizontal .radio,
 .form-horizontal .checkbox,
 .form-horizontal .radio-inline,
 .form-horizontal .checkbox-inline {
   padding-top: 0;
-  line-height: 24px;
-  vertical-align: middle;
+  line-height: normal;
 }
 .form-horizontal .help-block {
   line-height: normal;
+}
+.form-horizontal div.radio label.radio-inline {
+  line-height: 28px;
 }
 .radio input[type="radio"],
 .radio-inline input[type="radio"],
 .checkbox input[type="checkbox"],
 .checkbox-inline input[type="checkbox"] {
   position: static;
+  display: inline-block;
   margin-left: -20px;
-  margin-top: 0;
-  min-height: 24px;
+  margin-top: 7px;
   min-width: 13px;
   vertical-align: top;
-  line-height: 24px;
 }
 @media only screen and (max-width: 767px) {
   .radio input[type="radio"],
@@ -10469,6 +10476,12 @@ div.ilFrmPostHeader span.small {
 @media only screen and (max-width: 767px) {
   .ilFrmPostContentContainer {
     width: 100%;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .ilFrmPostContentContainer img {
+    width: 100%;
+    height: auto !important;
   }
 }
 .ilFrmPostContent {
@@ -11273,7 +11286,6 @@ p.il_calevent .btn-link {
   text-align: center;
 }
 td.calevent {
-  color: white;
   vertical-align: top;
   padding: 3px;
   border-spacing: 0px;
@@ -11282,6 +11294,7 @@ td.calevent {
   border-style: solid;
   border-color: #ddd;
   font-size: 90%;
+  background-color: white;
 }
 div.calevent {
   font-size: 90%;
@@ -11774,6 +11787,7 @@ input.ilOpenIDBox {
   .ilMainHeader > header > .row > a.navbar-brand {
     height: 0;
     padding: 0;
+    margin: 0;
   }
 }
 .ilMainHeader > header > .row > a.navbar-brand > img {
@@ -14596,9 +14610,10 @@ div.ilPCMyCoursesPath {
   color: #a0a0a0;
 }
 .ilOnScreenChatMenuItem .media-body p.lastMessage {
+  width: 200px;
   padding: 3px 3px 3px 0;
   text-overflow: ellipsis;
-  overflow: hidden;
+  overflow-x: hidden;
   color: #606060;
 }
 .ilOnScreenChatMenuItem .media-body p a {

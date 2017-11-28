@@ -4536,9 +4536,11 @@ class ilSetupGUI
 			return;
 		}
 
-		$this->saveBTFormToIni($form);
-
-		ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+		if ($this->saveBTFormToIni($form))
+			ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+		else
+			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+		
 		ilUtil::redirect("setup.php?cmd=edit_background_tasks");
 	}
 
@@ -4558,7 +4560,7 @@ class ilSetupGUI
 		$this->setup->ini->setVariable("background_tasks","concurrency",$form->getInput('concurrency'));
 		$this->setup->ini->setVariable("background_tasks","number_of_concurrent_tasks",$form->getInput('number_of_concurrent_tasks'));
 
-		$this->setup->ini->write();
+		return $this->setup->ini->write();
 	}
 
 	public function kill_waiting_tasks() {

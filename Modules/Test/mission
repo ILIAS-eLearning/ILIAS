@@ -1,0 +1,24 @@
+VISION (and maintainer nodes):
+
+add a trigger for reindexing to all neccessary places:
+- when question gets deleted (list view AND pageview!?)
+- when question gets added at certain position? should already cause reindexing
+- for tests having participant data the sequences needs to be unserialized fixed from gaps and stored again.
+
+- restoring sequences should actually happen in a normalized way (additional tables)
+
+-> This would require to unserialize EVERY test sequence (every participant in every test)
+to be unserialized, so migrating the storage is done for all data.
+fixing the sequence is neccessary only for the test with question sets having position index gaps.
+
+-> restoring the fixed sequences only, but in the current way -
+serialized value in a single field -
+will also deal with many many data, when the installation is accordingly large.
+In both cases for many installations the migration will take a long time.
+
+The gap issue is built in since many releases, so i guess it doesn matter if we take a long time
+for migration or a longer time. Just for a few cases i think we would have a significant difference
+that justifies to only migrate broken things prior to improve things.
+
+The general fix to avoid more tests from geting broken will be implemented in the close future of course,
+the migration will take some more time.

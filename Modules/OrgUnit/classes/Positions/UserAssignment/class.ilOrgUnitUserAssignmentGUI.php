@@ -79,6 +79,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands {
 		$ua = ilOrgUnitUserAssignmentQueries::getInstance()
 		                                    ->getAssignmentOrFail($_POST['usr_id'], $r->getQueryParams()['position_id']);
 		$ua->delete();
+		ilUtil::sendSuccess($this->txt('remove_successful'));
 		$this->cancel();
 	}
 
@@ -90,7 +91,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands {
 
 	public function addStaff() {
 		if (!$this->dic()->access()->checkAccess("write", "", $this->getParentRefId())) {
-			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+			ilUtil::sendFailure($this->txt("permission_denied"), true);
 			$this->ctrl()->redirect($this, self::CMD_INDEX);
 		}
 

@@ -1823,7 +1823,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			'message'
 		);
 		$oPostGUI->setRequired(true);
-		$oPostGUI->setCols(50);
 		$oPostGUI->setRows(15);
 		$oPostGUI->setUseRte(true);
 		$oPostGUI->addPlugin('latex');
@@ -5898,7 +5897,7 @@ $this->doCaptchaCheck();
 		require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
 		if($this->user->isAnonymous() 
 			&& !$this->user->isCaptchaVerified() 
-			&&ilCaptchaUtil::isActiveForForum())
+			&& ilCaptchaUtil::isActiveForForum())
 		{
 			$this->user->setCaptchaVerified(true);
 		}

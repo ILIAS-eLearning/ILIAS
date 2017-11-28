@@ -310,18 +310,27 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
 	 */
 	public function getAdminTabs()
 	{
-		if($this->checkPermissionBool('read'))
+		if(strpos($this->ctrl->getCmd(), 'saveandconf') !== 0)
 		{
-			$this->tabs->addTarget('settings', $this->ctrl->getLinkTarget($this, 'view'), array(), __CLASS__);
-		}
+			if($this->checkPermissionBool('read'))
+			{
+				$this->tabs->addTarget('settings', $this->ctrl->getLinkTarget($this, 'view'), array(), __CLASS__);
+			}
 
-		if($this->checkPermissionBool('edit_permission'))
+			if($this->checkPermissionBool('edit_permission'))
+			{
+				$this->tabs->addTarget('perm_settings',
+					$this->ctrl->getLinkTargetByClass('ilpermissiongui', 'perm'),
+					array(), 'ilpermissiongui');
+			}
+		}
+		else
 		{
-			$this->tabs->addTarget('perm_settings',
-				$this->ctrl->getLinkTargetByClass('ilpermissiongui', 'perm'),
-				array(), 'ilpermissiongui');
+			$this->tabs->setBackTarget(
+				$this->lng->txt("back"),
+				$this->ctrl->getLinkTargetByClass("ilobjpdfgenerationgui", "view")
+			);
 		}
-
 	}
 
 	/**

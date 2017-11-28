@@ -410,7 +410,7 @@ assessment#:#analyze_errortext#:#Text analysieren
 assessment#:#gap_combination#:#Lückentext-Kombination
 assessment#:#answer#:#Antwort
 assessment#:#tst_failed_imp_skl_thresholds#:#Der Import der Schwellenwerte für folgende Kompetenzen wurde übersprungen, weil die zugehörige Kompetenz im lokalen System eine abweichende Liste von Ausprägungen aufweist.
-assessment#:#tst_failed_imp_qst_skl_assign#:#Die Zuweisungen der Fragen zu fogenden Kompetenzen konnte durch den Import nicht hergestellt werden. Die entsprechenden Kompetenzen konnten im hiesigen System nicht identifiziert werden.
+assessment#:#tst_failed_imp_qst_skl_assign#:#Die Zuweisungen der Fragen zu folgenden Kompetenzen konnte durch den Import nicht hergestellt werden. Die entsprechenden Kompetenzen konnten im hiesigen System nicht identifiziert werden.
 assessment#:#ass_skl_import_fails_remove_btn#:#Diese Meldung entfernen
 assessment#:#answer_image#:#Antwort-Grafik
 assessment#:#answer_is_not_correct_but_positive#:#Sie haben Punkte für Ihre Lösung erhalten. Allerdings handelt es sich dabei nicht um die beste Lösung.
@@ -1820,7 +1820,7 @@ chatroom#:#end_whisper#:#Beenden
 chatroom#:#enter#:#Chat beitreten
 chatroom#:#hint_display_past_msgs#:#Anzahl der vergangenen Nachrichten, die beim Betreten des Chatraums angezeigt werden sollen. "0" deaktiviert die Anzeige vergangener Nachrichten.
 chatroom#:#hint_enable_smilies#:#Wenn aktiviert, werden konfigurierte Textbausteine durch ein Bild ersetzt. Die Konfiguration kann im Reiter Smilies vorgenommen werden.
-chatroom#:#hint_osd#:#Wenn aktiviert, werden Benutzer durch ein Popup über neue Einladungen informiert.
+chatroom#:#hint_osd#:#Wenn aktiviert, werden Benutzer durch ein Popup über neue Einladungen in Magazin-Chats informiert.
 chatroom#:#hint_osd_interval#:#Eine geringere Zeit ermöglicht zeitnähere Benachrichtigungen, erhöht aber die Serverlast.
 chatroom#:#history_by_day#:#Tageshistorie
 chatroom#:#history_by_session#:#Sitzungshistorie
@@ -1866,6 +1866,7 @@ chatroom#:#user_kicked#:#Der Benutzer <b>#user#</b> wurde aus dem Chatraum gewor
 chatroom#:#users#:#Benutzer
 chatroom#:#welcome_to_chat#:#Willkommen im Chatraum
 chatroom#:#whisper_to#:#<b>#user#</b> anflüstern
+chatroom#:#chat_anonymous_not_allowed#:#Um den Chatraum nutzen zu können, loggen Sie sich bitte ein.
 chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS kann keine Socket-Verbindung zum Chat-Server aufbauen.
 chatroom_adm#:#chat_enabled#:#Chat aktivieren
 chatroom_adm#:#chat_smilies_dir_not_exists#:#Smilies-Verzeichnis existiert nicht.
@@ -1889,12 +1890,13 @@ common#:#chta_read#:#Lesezugriff auf Chatraum-Administration
 common#:#chta_visible#:#Chatraum-Administration sichtbar
 common#:#chta_write#:#Chatraum-Administration bearbeiten
 chatroom_adm#:#client_settings#:#Allgemeine Einstellungen
-chatroom_adm#:#enable_osd#:#On-Screen Benachrichtigungen aktivieren
+chatroom_adm#:#enable_osd#:#Magazin-Chat: On-Screen Benachrichtigungen aktivieren
 chatroom_adm#:#general_settings_title#:#Allgemeine Chat-Einstellungen
 chatroom_adm#:#https#:#HTTPS
 administration#:#obj_chta_desc#:#Administration des Chat-Objekts und des Chat-Servers
 chatroom_adm#:#osd_intervall#:#Abfrageintervall (Sekunden)
-chatroom_adm#:#play_invitation_sound#:#Ton bei Erhalt einer neuen Einladung abspielen
+chatroom_adm#:#play_invitation_sound#:#Ton abspielen
+chatroom_adm#:#play_invitation_sound_info#:#Ton abspielen bei Erhalt einer neuen Einladung in Magazin-Chats abspielen.
 chatroom_adm#:#port_info#:#Oft werden selten genutzte Ports von Firewalls oder Proxy-Servern geblockt. Benutzer werden mit ihrem Browser keine Verbindung zum Chat-Server aufbauen können, wenn der eingetragene Port nicht offen ist.
 chatroom_adm#:#protocol#:#Protokoll
 chatroom_adm#:#public_chat_permissions#:#Öffentlicher Chatraum : Rechte
@@ -10979,11 +10981,11 @@ common#:#view_learning_progress_rec#:#Lernfortschritt rekursiv einsehen
 rbac#:#rbac_info_only_position_access#:#Ihnen werden nur die Mitglieder angezeigt, auf die Sie aufgrund Ihrer Mitgliedschaften in Organisationseinheiten Zugriff haben.
 obj#:#obj_orgunit_positions#:#Zugriffsregelungen nach Organisationseinheiten
 obj#:#obj_orgunit_positions_info#:#Wenn aktiviert, können zusätzliche Zugriffsregelungen über Positionen in Organisationseinheiten vergeben werden.
-orgu#:#authorities#:#Authoritäten
+orgu#:#authorities#:#Befugnisse
 orgu#:#positions#:#Positionen
-orgu#:#scope_1#:#gleiche Organisationseinheit
-orgu#:#scope_2#:#Folgende Organisationseinheiten
-orgu#:#scope_3#:#Alle Organisationseinheiten
+orgu#:#scope_1#:#eigener Organisationseinheit
+orgu#:#scope_2#:#untergeordneten Organisationseinheiten
+orgu#:#scope_3#:#allen Organisationseinheiten
 orgu#:#over_-1#:#Alle
 orgu#:#over#:#über
 orgu#:#scope#:#in
@@ -10999,17 +11001,23 @@ mst#:#mst_memb_status_waitinglist#:#Warteliste
 mst#:#mst_memb_status_registered#:#Angemeldet
 mst#:#mst_show_courses#:#Einschreibungen
 mst#:#mst_courses_of#:#Einschreibungen von %s
+orgu#:#msg_position_udpated#:#Position updated
+orgu#:#remove_successful#:#Der Benutzer wurde erfolgreich entfernt.
+orgu#:#add_position#:#Position hinzufügen
 orgu#:#orgu_enable_my_staff#:#‘Ansicht Mitarbeiter’ aktivieren
 orgu#:#orgu_enable_my_staff_info#:#The Ansicht ‘Meine Mitarbeiter’ zeigt die Lernfortschritte der eigenen Mitarbeiter an.
 orgu#:#org_op_manage_members#:#Mitglieder bearbeiten
 orgu#:#org_op_read_learning_progress#:#Lernfortschritt von anderen Benutzern einsehen
+orgu#:#org_op_edit_submissions_grades#:#Abgaben von anderen Benutzern bearbeiten.
+rbac#:#org_op_edit_submissions_grades#:#Abgaben von anderen Benutzern bearbeiten.
 orgu#:#org_op_write_learning_progress#:#Lernfortschritt von anderen Benutzern setzen.
 rbac#:#org_op_write_learning_progress#:#Lernfortschritt untergeordneter Benutzer setzen
 rbac#:#positions_override_operations#:#Globale Einstellungen überschreiben
 orgu#:#form_title_org_default_permissions_update#:#Standardrechte
-orgu#:#msg_confirm_deletion#:#Gelöscht
+orgu#:#msg_confirm_deletion#:#Wollen Sie die folgende Position wirklich löschen?
 orgu#:#msg_confirm_remove_user#:#Möchten Sie den folgenden Benutzer wirklich aus der Position %s entfernen?
 orgu#:#remove_user#:#Entfernen
+orgu#:#msg_assignment_to_employee_done#:#Zuweisung zur Position Mitarbeiter durchgeführt
 orgu#:#view_learning_progress#:#Lernfortschritt einsehen
 orgu#:#orgu_staff_deassign#:#Diese Benutzer aus der Rolle wirklich entfernen?
 orgu#:#deassign_user_successful#:#Benutzer wurde erfolgreich ausgetragen.
@@ -12168,6 +12176,9 @@ wfe#:#start_listening#:#Listener aktivieren
 wfe#:#stop_listening#:#Listener deaktivieren
 wfe#:#static_input_form_header#:#Eingabedaten für alle Instanzen des Workflows
 wfe#:#start_event_form_header#:#Relevante Ereignisse für den Start der Workflows
+wfe#:#wfe_sure_to_delete_process_def#:#Sind Sie sicher, dass Sie die Definition löschen möchten?
+wfe#:#wfe_request_missing_process_id#:#Für die gewählte Aktion wurde keine Prozess-ID übertragen.
+wfe#:#wfe_started_listening#:#Der Prozess wurde scharf geschaltet.
 common#:#ps_export_scorm#:#SCORM-Protokolldaten
 common#:#enable_export_scorm_desc#:#Erlaube den Export von Persönlichen Daten aus SCORM-Lernmodulen
 mail#:#link_check_introduction#:#die folgenden Externen Links sind ungültig:
@@ -12814,7 +12825,7 @@ awrn#:#awareness_settings#:#Einstellungen
 awrn#:#awrn_enable#:#Aktiviere „Wer ist online?“-Anzeige
 crs#:#crs_mem_contacts#:#Tutorielle Betreuung
 user#:#user_awrn_all_users#:#Alle Benutzer
-user#:#user_awrn_all_users_info#:#Alle Benutzer der Plattform werden aufgelistet.
+user#:#user_awrn_all_users_info#:#Alle Benutzer der Plattform werden aufgelistet. Achtung: Wird die Option "Online und offline" gewählt, ist bei hoher Benutzerzahl mit erheblichen Performanzeinbußen zu rechnen.
 crs#:#crs_awrn_support_contacts#:#Kursbetreuung
 crs#:#crs_awrn_support_contacts_info#:#Benutzer, die den Kurs betreuen, werden aufgelistet. Die jeweiligen Benutzer werden im Reiter Mitglieder des Kurses für die Kursbetreuung eingetragen.
 awrn#:#awrn_inactive#:#Keine Anzeige
@@ -12833,7 +12844,7 @@ awrn#:#awrn_caching_period#:#Caching-Zeitraum
 awrn#:#awrn_caching_period_info#:#Dieser Zeitraum wird abgewartet, bevor die Anzahl der Benutzer in der Top-Anzeige aktualisiert und neue Online-Benutzer ermittelt werden.
 awrn#:#awrn_seconds#:#Sek.
 awrn#:#awrn_max_nr_entries#:#Anzahl max. Einträge
-awrn#:#awrn_max_nr_entries_info#:#Diese Anzahl an Einträgen wird maximal in der „Wer ist online?“-Liste angezeigt.
+awrn#:#awrn_max_nr_entries_info#:#Diese Anzahl an Einträgen wird maximal in der „Wer ist online?“-Liste angezeigt. Diese Einstellung beeinflusst die Performanz der Anzeige in der Top-Bar nicht wesentlich.
 awrn#:#awrn_hide_from_awareness#:#Mich nicht in „Wer ist online?“-Anzeige auflisten
 awrn#:#awrn_hide_from_awareness_info#:#Die „Wer ist online?“-Anzeige erscheint oben im Kopf der Anwendung und listet ausgewählte Benutzer auf (z.B. Kontakte oder Mitglieder Ihrer Kurse).
 common#:#contact_sysadmin#:#Technische Betreuung kontaktieren
@@ -13560,6 +13571,7 @@ awrn#:#awrn_use_osd_info#:#Zeigt ein Popup an, wenn neue Benutzer in der „Wer 
 exc#:#exc_tbl_filter_submission#:#Abgabe
 exc#:#exc_tbl_filter_has_submission#:#Hat abgegeben
 exc#:#exc_tbl_filter_has_no_submission#:#Hat noch nicht abgegeben
+iass#:#iass_assessment_not_completed#:#Noch nicht abgeschlossen
 iass#:#general#:#Allgemein
 iass#:#iass_changed_by#:#Geändert nach Finalisierung
 iass#:#iass_content#:#Inhalt
@@ -13627,8 +13639,8 @@ iass#:#iass_mails#:#E-Mail
 iass#:#iass_info_emails_expl#:#Sie können mehrere Adressen mit einem Komma getrennt angeben.
 iass#:#iass_consultation_hours#:#Sprechstunden
 iass#:#iass_edit_info#:#Einstellungen Kontakt
-iass#:#iass_mess_notification_completed#:#Sie haben die Prüfung %s bestanden. Beachten Sie auch die folgende Zusammenfassung für Details.
-iass#:#iass_mess_notification_failed#:#Sie haben die Prüfung %s nicht bestanden. Beachten Sie auch die folgende Zusammenfassung für Details.
+iass#:#iass_mess_notification_completed#:#Sie haben die Prüfung „%s“ bestanden. Beachten Sie bitte auch die folgende Notiz zur Prüfung.
+iass#:#iass_mess_notification_failed#:#Sie haben die Prüfung „%s“ leider nicht bestanden. Beachten Sie bitte auch die folgende Notiz zur Prüfung.
 iass#:#iass_contact_info#:#Kontaktinformationen
 iass#:#iass_added#:#Individuelle Bewertung hinzugefügt
 registration#:#reg_mail_body_activation#:#um Ihr Benutzerprofil freizuschalten und gleichzeitig diese E-Mail-Adresse zu bestätigen, klicken Sie bitte den folgenden Link an:
@@ -13819,7 +13831,7 @@ auth#:#err_auth_saml_no_ilias_user#:#Die Authentifizierung ist fehlgeschlagen. B
 auth#:#auth_saml_login_form#:#Anzeige im Anmeldeformular
 auth#:#auth_saml_login_form_info#:#Falls aktiviert und es mindestens einen aktiven IDP gibt, wird auf der Anmeldeseite von ILIAS ein Button angezeigt, der bei Klick einen SAML-Request initiert.
 auth#:#auth_saml_idps#:#SAML IDP Liste
-auth#:#auth_saml_idps_info#:#Bitte kontrollieren Sie vor dem Hinzufügen eines Identity Provider die SimpleSAMLphp Konfiguration in den Dateien '<strong>%s</strong>' und '<strong>%s</strong>' (externes Datenverzeichnis) und passen Sie diese an. Bitte lesen Sie dazu auch die folgende Dokumentation: %s.
+auth#:#auth_saml_idps_info#:#Bitte kontrollieren Sie vor dem Hinzufügen eines Identity Provider die SimpleSAMLphp Konfiguration in den Dateien '<strong>%s</strong>' und '<strong>%s</strong>' (externes Datenverzeichnis) und passen Sie diese an. Bitte denken Sie vor allem daran, die Serverpfade für Ihren privaten Schlüssel und das Zertifikat in der Datei authsources.php zu konfigurieren. Lesen Sie dazu auch die folgende Dokumentation: %s.<br />Federation Metadata URL: %s
 auth#:#auth_saml_idp#:#IDP
 auth#:#auth_saml_configure_idp#:#SAML-IDP konfigurieren: %s
 auth#:#saml_tab_head_idp#:#IDP
@@ -14048,12 +14060,14 @@ blog#:#blog_nav_mode_month_list_num_month_with_post#:#Anzahl Monate mit angezeig
 blog#:#blog_nav_mode_month_list_num_month_with_post_info#:#Die Monate werden im Navigationsblock mit der vollständigen Liste der Beiträge angezeigt.
 orgu#:#org_op_access_enrolments#:#Einsicht Einschreibungen
 assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_missing#:#Rule %s requires %s questions, but there are only %s questions provided.###31 08 2017 new variable
-orgu#:#msg_confirm_d_ua#:#Would you like to assign these person to the position Employee of their respective Organisational Units?###31 08 2017 new variable
+orgu#:#msg_confirm_d_ua#:#Wollen Sie folgende Benutzer der Position Mitarbeiter in ihrer jeweiligen Organisationseinheit zuweisen?
 orgu#:#user_assignments#:#User Assignments###31 08 2017 new variable
-orgu#:#authority#:#Authority###31 08 2017 new variable
-orgu#:#confirm_deletion_and_assign#:#Delete and Assign Users###31 08 2017 new variable
-orgu#:#confirm_deletion_button#:#Delete###31 08 2017 new variable
-orgu#:#msg_deleted#:#Deleted###31 08 2017 new variable
+orgu#:#authority#:#Befugnisse
+orgu#:#confirm_deletion_and_assign#:#Löschen und Benutzer zuweisen
+orgu#:#confirm_deletion_button#:#Löschen
+orgu#:#msg_deleted#:#Gelöscht
+orgu#:#msg_position_updated#:#Position wurde aktualisiert.
+orgu#:#msg_position_created#:#Position wurde erstellt.
 common#:#scorm_login_as_learner_id#:#SCORM 2004: set ILIAS Username as cmi.learner_id###31 08 2017 new variable
 common#:#scorm_login_as_learner_id_info#:#If enabled, the Username instead of the User ID is set for cmi.learner_id.###31 08 2017 new variable
 iass#:#iass_upload_file#:#Prüfungsblatt
@@ -14089,8 +14103,35 @@ dateplaner#:#cal_no_events_info#:#Für den angegebenen Zeitraum sind keine Termi
 wiki#:#wiki_pg_list_no_search_fields#:#Es befinden sich keine durchsuchbaren Metadatenfelder in den Metadatensätzen des Wikis.
 iass#:#iass_amend_saved#:#Geänderte Prüfungsdaten wurden gespeichert.
 content#:#cont_transl_master_language_not_allowed#:#Um eine Übersetzung zu importieren, müssen sie zumindest eine zusätzliche Sprache unter "Einstellungen" > "Mehrsprachigkeit" aktivieren.
-dateplaner#:#crs_start#:#Kurs startet
-dateplaner#:#crs_end#:#Kurs endet
-dateplaner#:#grp_start#:#Gruppe startet
-dateplaner#:#grp_end#:#Gruppe endet
+dateplaner#:#crs_cal_start#:#Kurs startet
+dateplaner#:#crs_cal_end#:#Kurs endet
+dateplaner#:#grp_cal_start#:#Gruppe startet
+dateplaner#:#grp_cal_end#:#Gruppe endet
 awrn#:#awrn_online#:#Online
+rbac#:#edit_submissions_grades#:#Abgaben und Noten bearbeiten
+rbac#:#exc_edit_submissions_grades#:#Benutzer kann Abgaben und Noten bearbeiten
+rbac#:#release_objects#:#Objekte freigeben
+rbac#:#ltis_release_objects#:#Benutzer kann Objekte freigeben für LTI Consumer
+rbac#:#ltis_visible#:#LTI-Administration ist sichtbar
+rbac#:#ltis_read#:#Lesezugriff auf LTI-Administration
+rbac#:#ltis_write#:#Einstellungen in LTI-Administration bearbeiten
+rbac#:#ltis_edit_permission#:#Rechteeinstellungen für die LTI-Administration ändern
+content#:#cont_sc_id_setting#:#student_id gemäß SCORM 1.2 entspricht
+content#:#cont_sc_id_setting_2004#:#learner_id gemäß SCORM 2004 entspricht
+content#:#cont_sc_id_setting_info#:#Für den Fall, dass eine numerische Id für student_id (SCORM 1.2) bzw. learner_id (SCORM 2004) beim Lernmodul zu Problemen führt, nutzen Sie die Option 'ILIAS-Benutzername'. Der Zusatz RefId bzw. ObjId kann für Lernmodule sinnvoll sein, die sich mit einem externen Server verbinden.
+content#:#cont_sc_id_setting_user_id#:#ILIAS-UserId (Standard)
+content#:#cont_sc_id_setting_user_login#:#ILIAS-Benutzername
+content#:#cont_sc_id_setting_user_id_plus_ref_id#:#ILIAS-UserId zuzüglich RefId des Lernmoduls
+content#:#cont_sc_id_setting_user_login_plus_ref_id#:#ILIAS-Benutzername zuzüglich RefId des Lernmoduls
+content#:#cont_sc_id_setting_user_id_plus_obj_id#:#ILIAS-UserId zuzüglich ObjId des Lernmoduls
+content#:#cont_sc_id_setting_user_login_plus_obj_id#:#ILIAS-Benutzername zuzüglich ObjId des Lernmoduls
+content#:#cont_sc_name_setting#:#student_name gemäß SCORM 1.2 entspricht
+content#:#cont_sc_name_setting_2004#:#learner_name gemäß SCORM 2004 entspricht
+content#:#cont_sc_name_setting_info#:#Der Name der/des Lernenden kann im Lernmodul auf verschiedene Weise angezeigt werden. Für den Fall, dass sich die Lernmodule auf einem externen Server befinden, kann es sinnvoll sein, den Namen nicht bekannt zu geben.
+content#:#cont_sc_name_setting_last_firstname#:#Nachname, Vorname
+content#:#cont_sc_name_setting_first_lastname#:#Vorname und Nachname
+content#:#cont_sc_name_setting_fullname#:#Titel, Vorname und Nachname
+content#:#cont_sc_name_setting_salutation_lastname#:#Anrede und Nachname
+content#:#cont_sc_name_setting_first_name#:#Vorname
+content#:#cont_sc_name_setting_no_name#:#Kein Name
+dateplaner#:#cal_download_files_started#:#Download der Dateien wurde gestartet.

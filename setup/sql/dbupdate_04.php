@@ -21486,7 +21486,7 @@ while($row = $ilDB->fetchAssoc($result))
 				//echo "<br> makeDirParents: ".ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$directory_relative_path;
 				ilUtil::makeDirParents(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$directory_relative_path);
 			}
-			if (!file_exists("'".ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$file_relative_path."'"))
+			if (!file_exists(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$file_relative_path))
 			{
 				//echo "<br> rename: $file_full_path TO ".ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$file_relative_path;
 				rename($file_full_path ,ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$file_relative_path);
@@ -21510,7 +21510,7 @@ if (!$ilDB->tableColumnExists('usr_session', 'context'))
 <#5244>
 <?php
 	//add table column
-	if($ilDB->tableExists('iass_members')) {
+	if(!$ilDB->tableColumnExists('iass_members', 'changer_id')) {
 		$ilDB->addTableColumn("iass_members", "changer_id", array(
 			'type' => 'integer',
 			'length' => 4,
@@ -21521,11 +21521,127 @@ if (!$ilDB->tableColumnExists('usr_session', 'context'))
 <#5245>
 <?php
 	//add table column
-	if($ilDB->tableExists('iass_members')) {
+	if(!$ilDB->tableColumnExists('iass_members', 'change_time')) {
 		$ilDB->addTableColumn("iass_members", "change_time", array(
 			'type' => 'text',
 			'length' => 20,
 			'notnull' => false
 			));
 	}
+?>
+
+<#5246>
+<?php
+	include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+	$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('edit_submissions_grades', 'Edit Submissions Grades', 'object', 3800);
+	$type_id = ilDBUpdateNewObjectType::getObjectTypeId('exc');
+	if($type_id && $new_ops_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($type_id, $new_ops_id);
+	}
+?>
+<#5247>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+	$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+	$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_submissions_grades');
+	ilDBUpdateNewObjectType::cloneOperation('exc', $src_ops_id, $tgt_ops_id);
+?>
+<#5248>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5249>
+<?php
+
+$ilSetting = new ilSetting();
+
+if( !$ilSetting->get('dbupwarn_tstfixqstseq', 0) )
+{
+	$res = $ilDB->query("
+		SELECT COUNT(DISTINCT test_fi) num_tst, COUNT(test_question_id) num_qst
+		FROM tst_test_question WHERE test_fi IN(
+			SELECT test_fi FROM tst_test_question
+			GROUP BY test_fi HAVING COUNT(test_fi) < MAX(sequence)
+		)
+	");
+	
+	$row = $ilDB->fetchAssoc($res);
+	
+	if( $row['num_tst'] > 0 )
+	{
+		$numTests = $row['num_tst'];
+		$numQuestions = $row['num_qst'];
+		echo "<pre>
+		
+		DEAR ADMINISTRATOR !!
+		
+		Please read the following instructions CAREFULLY!
+		
+		-> Due to a bug in almost all earlier versions of ILIAS question orderings
+		from the assessment component are broken but repairable.
+		
+		-> The following dbupdate step can exhaust any php enviroment settings like
+		max_execution_time or memory_limit for example.
+		
+		-> In the case of any php fatal error during the following dbupdate step
+		that is about exhausting any ressource or time restriction you just need
+		to refresh the page by using F5 for example.
+		
+		=> To proceed the update process you now need to refresh the page as well (F5)
+		
+		Mantis Bug Report: https://ilias.de/mantis/view.php?id=20382
+		
+		In your database there were > {$numTests} tests < detected having > {$numQuestions} questions < overall,
+		that are stored with gaps in the ordering index.
+		
+		</pre>";
+		
+		$ilSetting->set('dbupwarn_tstfixqstseq', 1);
+		exit;
+	}
+	
+	$ilSetting->set('dbupwarn_tstfixqstseq', 1);
+}
+
+?>
+<#5250>
+<?php
+
+$res = $ilDB->query("
+	SELECT test_fi, test_question_id
+	FROM tst_test_question WHERE test_fi IN(
+		SELECT test_fi FROM tst_test_question
+		GROUP BY test_fi HAVING COUNT(test_fi) < MAX(sequence)
+	) ORDER BY test_fi ASC, sequence ASC
+");
+
+$tests = array();
+
+while($row = $ilDB->fetchAssoc($res))
+{
+	if( !isset($tests[ $row['test_fi'] ]) )
+	{
+		$tests[ $row['test_fi'] ] = array();
+	}
+	
+	$tests[ $row['test_fi'] ][] = $row['test_question_id'];
+}
+
+foreach($tests as $testFi => $testQuestions)
+{
+	for($i = 0, $m = count($testQuestions); $i <= $m; $i++)
+	{
+		$testQuestionId = $testQuestions[$i];
+		
+		$position = $i + 1;
+		
+		$ilDB->update('tst_test_question',
+			array( 'sequence' => array('integer', $position) ),
+			array( 'test_question_id' => array('integer', $testQuestionId) )
+		);
+	}
+}
+
 ?>

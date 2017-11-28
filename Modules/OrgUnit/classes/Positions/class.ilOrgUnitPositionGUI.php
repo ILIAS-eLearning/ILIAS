@@ -38,7 +38,7 @@ class ilOrgUnitPositionGUI extends BaseCommands {
 		self::initAuthoritiesRenderer();
 		$b = ilLinkButton::getInstance();
 		$b->setUrl($this->ctrl()->getLinkTarget($this, self::CMD_ADD));
-		$b->setCaption(self::CMD_ADD);
+		$b->setCaption('add_position');
 		$this->dic()->toolbar()->addButtonInstance($b);
 
 		$table = new ilOrgUnitPositionTableGUI($this, self::CMD_INDEX);
@@ -78,7 +78,7 @@ class ilOrgUnitPositionGUI extends BaseCommands {
 		$form = new ilOrgUnitPositionFormGUI($this, $position);
 		$form->setValuesByPost();
 		if ($form->saveObject()) {
-			ilUtil::sendSuccess($this->txt('msg_position_udpated'), true);
+			ilUtil::sendSuccess($this->txt('msg_position_updated'), true);
 			$this->ctrl()->redirect($this, self::CMD_INDEX);
 		}
 
@@ -127,6 +127,8 @@ class ilOrgUnitPositionGUI extends BaseCommands {
 			ilOrgUnitUserAssignment::findOrCreateAssignment($assignment->getUserId(), $employee_position->getId(), $assignment->getOrguId());
 			$assignment->delete();
 		}
+
+		ilUtil::sendSuccess($this->txt('msg_assignment_to_employee_done'), true);
 
 		$this->confirmDeletion();
 	}

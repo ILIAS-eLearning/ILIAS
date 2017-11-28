@@ -13,11 +13,6 @@
 * @package ilias-tracking
 *
 */
-
-include_once './Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
-include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
-require_once './Modules/OrgUnit/classes/class.ilObjOrgUnitAccess.php';
-
 class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 {
 	var $tracked_user = null;

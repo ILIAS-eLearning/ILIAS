@@ -36,11 +36,14 @@ class ilSamlIdpTableGUI extends ilTable2GUI
 
 		$this->setTitle($this->lng->txt('auth_saml_idps'));
 
+		$federationMdUrl = rtrim(ILIAS_HTTP_PATH, '/') . '/Services/Saml/lib/metadata.php?client_id=' . CLIENT_ID;
+
 		$this->setDescription(sprintf(
 			$this->lng->txt('auth_saml_idps_info'),
 			'auth/saml/config/config.php',
 			'auth/saml/config/authsources.php',
-			$renderer->render($f->link()->standard('https://simplesamlphp.org/docs/stable/simplesamlphp-sp', 'https://simplesamlphp.org/docs/stable/simplesamlphp-sp'))
+			$renderer->render($f->link()->standard('https://simplesamlphp.org/docs/stable/simplesamlphp-sp', 'https://simplesamlphp.org/docs/stable/simplesamlphp-sp')),
+			$renderer->render($f->link()->standard($federationMdUrl, $federationMdUrl))
 		));
 		$this->setRowTemplate('tpl.saml_idp_row.html','Services/Saml');
 

@@ -172,7 +172,10 @@ class ilCalendarAppointmentPresentationGUI
 		$this->ctrl->getHTML($f);
 		$content = $info_screen->getHTML();
 
-		$content = $this->getContentByPlugins($content);
+		//because #21529
+		$plugin_results = $this->getContentByPlugins($content, $toolbar);
+		$content = $plugin_results['content'];
+		$toolbar = $plugin_results['toolbar'];
 
 		// show toolbar
 		$tpl->setCurrentBlock("toolbar");
@@ -213,9 +216,10 @@ class ilCalendarAppointmentPresentationGUI
 		return $res;
 	}
 
-	protected function getContentByPlugins($a_content)
+	protected function getContentByPlugins($a_content, $a_toolbar)
 	{
 		$content = $a_content;
+		$toolbar = $a_toolbar;
 		foreach($this->getActivePlugins() as $plugin)
 		{
 			//pass only the appointment stuff
@@ -229,13 +233,16 @@ class ilCalendarAppointmentPresentationGUI
 				$content =  $this->info_screen->getHTML().$extra_content;
 			}
 
-			if($new_toolbar = $plugin->toolbarReplaceContent()) {
-				$this->toolbar = $new_toolbar;
+			if($toolbar = $plugin->toolbarReplaceContent()) {
+				$toolbar->setId($a_toolbar->getId());
 			} else {
-				$this->toolbar = $plugin->toolbarAddItems($this->toolbar);
+				$toolbar = $plugin->toolbarAddItems($a_toolbar);
 			}
 		}
 
-		return $content;
+		return array(
+			'content' => $content,
+			'toolbar' => $toolbar
+		);
 	}
 }

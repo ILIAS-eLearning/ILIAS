@@ -7,6 +7,12 @@ var Database = function Database(config) {
 
 	var _pool;
 
+	function handleError(err){
+		if(err) {
+			throw err;
+		}
+	};
+
 	this.connect = function(callback) {
 		var engine = require(config.database.type);
 
@@ -25,85 +31,112 @@ var Database = function Database(config) {
 
 	this.closePrivateRoom = function(roomId){
 		var time = parseInt(Date.getTimestamp()/1000);
+
 		_pool.query('UPDATE chatroom_prooms SET closed = ? WHERE proom_id = ?',
 			[time, roomId],
-			function(err){
-				if(err) throw err;
-			}
+			handleError
 		);
 	};
 
 	this.disconnectAllUsers = function(callback) {
 
-		callback = callback || function(){};
+		callback = callback || function callback(){};
 		var time = parseInt(Date.getTimestamp()/1000);
 		// Disconnect from private rooms
 		_pool.query('UPDATE chatroom_psessions SET disconnected = ?',
 			[time],
-			function(err){
-				if(err) throw err;
-			}
+			handleError
 		);
 
 		_pool.query('UPDATE chatroom_prooms SET closed = ? WHERE closed = 0',
 			[time],
-			function(err){
-				if(err) throw err;
-			}
+			handleError
 		);
 
-		async.waterfall([
-			function(next){
-				_pool.query(
-					'SELECT * FROM chatroom_users',
-					function(err, result){
-						if(err) throw err;
-
-						next(err, result);
-					}
-				);
-			},
-			function(result, next)
-			{
-				async.eachSeries(result, function(element, nextLoop){
-					_getNextId('chatroom_sessions', function(sessionId) {
-						_pool.query('INSERT INTO chatroom_sessions SET ?',
-							{
-								sess_id: sessionId,
-								room_id: element.room_id,
-								user_id: element.user_id,
-								userdata: element.userdata,
-								connected: element.connected,
-								disconnected: time
-							},
-							function(err){
-								if(err) throw err;
-								nextLoop();
-							}
-						);
-					});
-				},
-				function(err){
-					if(err) throw err;
-					next();
-				});
-			},
-			function(next) {
-				// Disconnect from chat
-				_pool.query('DELETE FROM chatroom_users',
-					function(err){
-						if(err) throw err;
-
-						next();
-					}
-				);
+		function onDisconnect(err){
+			if(err) {
+				throw err;
 			}
-		],function(err){
-			if(err) throw err;
 
 			Container.getLogger().info('Successfully disconnected all users from server');
 			callback();
-		});
+		}
+
+		function fetchUsers(next){
+			var onError = function onError(err, result){
+				if(err) {
+					throw err;
+				}
+
+				next(err, result);
+			};
+
+			_pool.query(
+				'SELECT * FROM chatroom_users',
+				onError
+			);
+		}
+
+		function createChatRoomSession(result, next)
+		{
+			function onError(err){
+				if(err) {
+					throw err;
+				}
+				next();
+			}
+
+			function onNext(element, nextLoop){
+				var onSessionId = function onSessionId(sessionId) {
+					var onError = function onError(err){
+						if(err) {
+							throw err;
+						}
+						nextLoop();
+					};
+
+					_pool.query('INSERT INTO chatroom_sessions SET ?',
+						{
+							sess_id: sessionId,
+							room_id: element.room_id,
+							user_id: element.user_id,
+							userdata: element.userdata,
+							connected: element.connected,
+							disconnected: time
+						},
+						onError
+					);
+				};
+
+				_getNextId('chatroom_sessions', onSessionId);
+			}
+
+			async.eachSeries(result, onNext, onError);
+		}
+
+		function deleteChatroomUsers(next) {
+			// Disconnect from chat
+			var onError = function onError(err){
+				if(err) {
+					throw err;
+				}
+
+				next();
+			};
+
+			_pool.query('DELETE FROM chatroom_users',
+				onError
+			);
+		}
+
+		async.waterfall(
+			[
+				fetchUsers,
+				createChatRoomSession,
+				deleteChatroomUsers
+			],
+			onDisconnect
+		);
 	};
 
 	this.disconnectUser = function(subscriber, roomIds, subRoomIds) {
@@ -112,11 +145,10 @@ var Database = function Database(config) {
 		// Disconnect from private rooms
 		if(subRoomIds.length > 0 )
 		{
-			_pool.query('UPDATE chatroom_psessions SET disconnected = ? WHERE user_id = ? AND proom_id IN (?)',
-					[time, subscriber.getId(), subRoomIds],
-					function(err){
-						if(err) throw err;
-					}
+			_pool.query(
+				'UPDATE chatroom_psessions SET disconnected = ? WHERE user_id = ? AND proom_id IN (?)',
+				[time, subscriber.getId(), subRoomIds],
+				handleError
 			);
 		}
 
@@ -124,58 +156,83 @@ var Database = function Database(config) {
 
 		if(roomIds.length > 0)
 		{
-			async.waterfall([
-				function(next){
-					_pool.query(
-						'SELECT * FROM chatroom_users WHERE user_id = ? AND room_id IN (?)',
-						[subscriber.getId(), roomIds],
-						function(err, result){
-							if(err) throw err;
+			function fetchChatroomUsers(next){
+				var onError = function onError(err, result){
+					if(err) {
+						throw err;
+					}
 
-							next(null, result);
-						}
-					);
-				},
-				function(result, next)
-				{
-					async.eachSeries(result, function(element, nextLoop){
-						_getNextId('chatroom_sessions', function(sessionId) {
-							_pool.query('INSERT INTO chatroom_sessions SET ?',
-								{
-									sess_id: sessionId,
-									room_id: element.room_id,
-									user_id: subscriber.getId(),
-									userdata: element.userdata,
-									connected: element.connected,
-									disconnected: time
-								},
-								function(err){
-									if(err) throw err;
-									nextLoop();
-								}
-							);
-						});
-					},
-					function(err){
-						if(err) throw err;
-						next();
-					});
-				},
-				function(next) {
-					_pool.query('DELETE FROM chatroom_users WHERE user_id = ? AND room_id IN (?)',
-						[subscriber.getId(), roomIds],
-						function(err){
-							if(err) throw err;
+					next(null, result);
+				};
 
-							next();
-						}
-					);
+				_pool.query(
+					'SELECT * FROM chatroom_users WHERE user_id = ? AND room_id IN (?)',
+					[subscriber.getId(), roomIds],
+					onError
+				);
+			}
+
+			function createChatroomSession(result, next)
+			{
+				function onError(err){
+					if(err) {
+						throw err;
+					}
+					next();
 				}
-			],function(err){
-				if(err) throw err;
-			});
-		}
 
+				function onNext(element, nextLoop){
+					function onSessionId(sessionId) {
+						function onError(err){
+							if(err) {
+								throw err;
+							}
+							nextLoop();
+						}
+
+						_pool.query('INSERT INTO chatroom_sessions SET ?',
+							{
+								sess_id: sessionId,
+								room_id: element.room_id,
+								user_id: subscriber.getId(),
+								userdata: element.userdata,
+								connected: element.connected,
+								disconnected: time
+							},
+							onError
+						);
+					}
+
+					_getNextId('chatroom_sessions', onSessionId);
+				}
+
+				async.eachSeries(result, onNext, onError);
+			}
+
+			function deleteChatroomUsers(next) {
+				var onError = function onError(err){
+					if(err) {
+						throw err;
+					}
+
+					next();
+				};
+
+				_pool.query('DELETE FROM chatroom_users WHERE user_id = ? AND room_id IN (?)',
+					[subscriber.getId(), roomIds],
+					onError
+				);
+			};
+
+			async.waterfall(
+				[
+					fetchChatroomUsers,
+					createChatroomSession,
+					deleteChatroomUsers
+				],
+				handleError
+			);
+		}
 	};
 
 	this.addHistory = function(message) {
@@ -187,18 +244,19 @@ var Database = function Database(config) {
 	 * @param {Message} message
 	 */
 	this.persistMessage = function(message) {
-		_getNextId('chatroom_history', function(id){
+		var onId = function(id){
 			message.timestamp = parseInt(message.timestamp / 1000);
+
 			_pool.query('INSERT INTO chatroom_history SET ?', {
 				hist_id: id,
 				room_id: message.roomId,
 				message: JSON.stringify(message),
 				timestamp: message.timestamp, // Eventuell hier durch 1000 teilen für PHP. Timestamp in JSON dann für JS benutzen
 				sub_room: message.subRoomId
-			}, function(err) {
-				if(err) throw err;
-			});
-		})
+			}, handleError);
+		};
+
+		_getNextId('chatroom_history', onId);
 	};
 
 	this.getMessageAcceptanceStatusForUsers = function(onResult, onEnd) {
@@ -209,103 +267,141 @@ var Database = function Database(config) {
 		);
 	};
 
-	this.clearChatMessagesProcess = function (bound, namespaceName, callback) {
+	this.clearChatMessagesProcess = function(bound, namespaceName, callback) {
 		bound = parseInt(bound / 1000);
 
-		async.waterfall([
-			function(next) {
-				_pool.query('DELETE FROM chatroom_history WHERE timestamp < ?',
-					[bound],
-					function (err, result) {
-						if (err) throw err;
-						Container.getLogger().info("Clear Messages for namespace %s affected %s rows", namespaceName, result.affectedRows)
-
-						next(null, result);
-					});
-			},
-			function(result, next)
-			{
-				_pool.query('DELETE FROM osc_messages WHERE timestamp < ?',
-					[bound],
-					function (err, result) {
-						if (err) throw err;
-						Container.getLogger().info("Clear OSC-Messages for namespace %s affected %s rows", namespaceName, result.affectedRows)
-
-						next(null, result);
-					});
-			},
-			function(result, next)
-			{
-				_pool.query('DELETE c FROM osc_conversation c LEFT JOIN osc_messages m ON m.conversation_id = c.id WHERE m.id IS NULL',
-					[bound],
-					function (err, result) {
-						if (err) throw err;
-						Container.getLogger().info("Clear OSC-Conversations for namespace %s affected %s rows", namespaceName, result.affectedRows)
-
-						next(null, result);
-					});
-			},
-			function(result, next)
-			{
-				_pool.query('DELETE a FROM osc_activity a LEFT JOIN osc_conversation c ON a.conversation_id = c.id WHERE c.id IS NULL',
-					[bound],
-					function (err, result) {
-						if (err) throw err;
-						Container.getLogger().info("Clear OSC-Activity for namespace %s affected %s rows", namespaceName, result.affectedRows)
-
-						next(null, result);
-					});
+		var onError = function onError(err){
+			if(err) {
+				throw err;
 			}
-		],function(err){
-			if(err) throw err;
 
 			callback();
-		});
+		};
+
+		function clearMessagesFromNamespace(next) {
+			function onClear(err, result) {
+				if (err) {
+					throw err;
+				}
+				Container.getLogger().info("Clear Messages for namespace %s affected %s rows", namespaceName, result.affectedRows)
+
+				next(null, result);
+			}
+
+			_pool.query('DELETE FROM chatroom_history WHERE timestamp < ?',
+				[bound],
+				onClear
+			);
+		}
+
+		function clearOscMessagesFromNamespace(result, next)
+		{
+			function onClear(err, result) {
+				if (err) {
+					throw err;
+				}
+				Container.getLogger().info("Clear OSC-Messages for namespace %s affected %s rows", namespaceName, result.affectedRows)
+
+				next(null, result);
+			}
+
+			_pool.query('DELETE FROM osc_messages WHERE timestamp < ?',
+				[bound],
+				onClear
+			);
+		}
+
+		function clearOscConversations(result, next)
+		{
+			function onClear(err, result) {
+				if (err) {
+					throw err;
+				}
+				Container.getLogger().info("Clear OSC-Conversations for namespace %s affected %s rows", namespaceName, result.affectedRows)
+
+				next(null, result);
+			}
+
+			_pool.query(
+				'DELETE c FROM osc_conversation c LEFT JOIN osc_messages m ON m.conversation_id = c.id WHERE m.id IS NULL',
+				[bound],
+				onClear
+			);
+		}
+
+		function clearOscActivity(result, next)
+		{
+			var onClear = function onClear(err, result) {
+				if (err) {
+					throw err;
+				}
+				Container.getLogger().info("Clear OSC-Activity for namespace %s affected %s rows", namespaceName, result.affectedRows)
+
+				next(null, result);
+			};
+
+			_pool.query('DELETE a FROM osc_activity a LEFT JOIN osc_conversation c ON a.conversation_id = c.id WHERE c.id IS NULL',
+				[bound],
+				onClear
+			);
+		}
+
+		async.waterfall(
+			[
+				clearMessagesFromNamespace,
+				clearOscMessagesFromNamespace,
+				clearOscConversations,
+				clearOscActivity
+			],
+			onError);
 	};
 
 	this.trackActivity = function(conversationId, userId, timestamp) {
 		var emptyResult = true;
+
+		function onResult(result){
+			emptyResult = false;
+			if(timestamp > 0) {
+				_pool.query('UPDATE osc_activity SET timestamp = ?, is_closed = ? WHERE conversation_id = ? AND user_id = ?',
+					[timestamp, 0, conversationId, userId],
+					handleError
+				);
+			}
+		}
+
+		function onEnd() {
+			if(emptyResult)
+			{
+				_pool.query('INSERT INTO osc_activity SET ?', {
+					conversation_id: conversationId,
+					user_id: userId,
+					timestamp: timestamp
+				}, handleError());
+			}
+		}
+
 		_onQueryEvents(
 			_pool.query('SELECT * FROM osc_activity WHERE conversation_id = ? AND user_id = ?', [conversationId, userId]),
-			function(result){
-				emptyResult = false;
-				if(timestamp > 0) {
-					_pool.query('UPDATE osc_activity SET timestamp = ?, is_closed = ? WHERE conversation_id = ? AND user_id = ?',
-						[timestamp, 0, conversationId, userId],
-						function(err){
-							if(err) throw err;
-						}
-					);
-				}
-			},
-			function() {
-				if(emptyResult)
-				{
-					_pool.query('INSERT INTO osc_activity SET ?', {
-						conversation_id: conversationId,
-						user_id: userId,
-						timestamp: timestamp
-					}, function(err){
-						if(err) throw err;
-					});
-				}
-			}
+			onResult,
+			onEnd
 		);
 	};
 
 	this.closeConversation = function(conversationId, userId) {
+		function onResult(result){
+			_pool.query('UPDATE osc_activity SET is_closed = ?, timestamp = ? WHERE conversation_id = ? AND user_id = ?',
+				[1, Date.getTimestamp(), conversationId, userId],
+				handleError
+			);
+		}
+
+		function onNull() {
+		}
+
 		_onQueryEvents(
 			_pool.query('SELECT * FROM osc_activity WHERE conversation_id = ? AND user_id = ?', [conversationId, userId]),
-			function(result){
-				_pool.query('UPDATE osc_activity SET is_closed = ? WHERE conversation_id = ? AND user_id = ?',
-					[1, conversationId, userId],
-					function(err){
-						if(err) throw err;
-					}
-				);
-			},
-			function() {
-			}
+			onResult,
+			onNull
 		);
 	};
 
@@ -322,16 +418,13 @@ var Database = function Database(config) {
 	 * @param message
 	 */
 	this.persistConversationMessage = function(message) {
-		//message.timestamp = parseInt(message.timestamp / 1000);
 		_pool.query('INSERT INTO osc_messages SET ?', {
 			id: UUID.v4(),
 			conversation_id: message.conversationId,
 			user_id: message.userId,
 			message: message.message,
 			timestamp: message.timestamp
-		}, function(err) {
-			if(err) throw err;
-		});
+		}, handleError);
 	};
 
 	this.loadConversations = function(onResult, onEnd) {
@@ -392,9 +485,7 @@ var Database = function Database(config) {
 
 		_pool.query('UPDATE osc_conversation SET participants = ?, is_group = ? WHERE id = ?',
 			[participantsJson, conversation.isGroup(), conversation.getId()],
-			function(err){
-				if(err) throw err;
-			}
+			handleError
 		);
 	};
 
@@ -403,13 +494,15 @@ var Database = function Database(config) {
 	 * @param {Conversation} conversation
 	 */
 	this.persistConversation = function(conversation) {
-		_pool.query('INSERT INTO osc_conversation SET ?', {
-			id: conversation.getId(),
-			is_group: conversation.isGroup(),
-			participants: JSON.stringify(conversation.getParticipants())
-		}, function(err){
-			if(err) throw err;
-		});
+		_pool.query(
+			'INSERT INTO osc_conversation SET ?',
+			{
+				id: conversation.getId(),
+				is_group: conversation.isGroup(),
+				participants: JSON.stringify(conversation.getParticipants())
+			},
+			handleError
+		);
 	};
 
 
@@ -439,28 +532,46 @@ var Database = function Database(config) {
 	}
 
 	function _getNextId(tableName, callback) {
-		async.waterfall([
-			function(next) {
-				_pool.query('INSERT INTO '+tableName+'_seq (sequence) VALUES (NULL)', [], function(err, result){
-					if(err) throw err;
-
-					next(null, result.insertId);
-				});
-			},
-			function(insertId, next) {
-				_pool.query('DELETE FROM '+tableName+'_seq WHERE sequence < ?', [insertId], function(err) {
-					if(err) throw err;
-
-					next(null, insertId);
-				});
+		function onError(err, insertId) {
+			if(err) {
+				throw err;
 			}
-		], function(err, insertId) {
-			if(err) throw err;
 
 			callback(insertId);
-		});
+		}
+
+		var insertSequence = function(next) {
+			function onError(err, result){
+				if(err) {
+					throw err;
+				}
+
+				next(null, result.insertId);
+			}
+
+			_pool.query('INSERT INTO '+tableName+'_seq (sequence) VALUES (NULL)', [], onError);
+		};
+
+		function deleteSequence(insertId, next) {
+			function onError(err) {
+				if(err) {
+					throw err;
+				}
+
+				next(null, insertId);
+			}
+
+			_pool.query('DELETE FROM '+tableName+'_seq WHERE sequence < ?', [insertId], onError);
+		}
+
+		async.waterfall(
+			[
+				insertSequence,
+				deleteSequence
+			],
+			onError
+		);
 	}
 };
-
 
 module.exports = Database;

@@ -634,11 +634,8 @@ class ActiveRecordList {
 								$value = date($this->getDateFormat(), strtotime($value));
 							}
 						}
-						if ($this->getAR()->wakeUp($key, $value)) {
-							$res_awake[$key] = $this->getAR()->wakeUp($key, $value);
-						} else {
-							$res_awake[$key] = $value;
-						}
+						$waked = $this->getAR()->wakeUp($key, $value);
+						$res_awake[$key] = ($waked === null) ? $value : $waked;
 					}
 					$this->result_array[$res_awake[$primaryFieldName]] = $res_awake;
 				} else {

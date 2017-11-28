@@ -406,7 +406,7 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 			$event_tpl->setCurrentBlock('scrd_app');
 		}
 
-		$event_tpl->setVariable('APP_ROWSPAN',$a_app['rowspan']);
+		$this->tpl->setVariable('APP_ROWSPAN',$a_app['rowspan']);
 		$event_tpl->setVariable('APP_TITLE',$a_app['event']->getPresentationTitle(false));
 
 		switch($this->user_settings->getTimeFormat())
@@ -444,10 +444,12 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
 		$event_tpl->setVariable('APP_BGCOLOR',$color);
+		$this->tpl->setVariable('APP_BGCOLOR',$color);
 		$event_tpl->setVariable('APP_COLOR',ilCalendarUtil::calculateFontColor($color));
+		$this->tpl->setVariable('APP_COLOR',ilCalendarUtil::calculateFontColor($color));
 		$event_tpl->setVariable('APP_ADD_STYLES',$a_app['event']->getPresentationStyle());
-		
-		
+		$this->tpl->setVariable('APP_ADD_STYLES',$a_app['event']->getPresentationStyle());
+
 		$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 		$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->seed->get(IL_CAL_DATE));
 		$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());
@@ -459,6 +461,7 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 		{
 			$event_html = $event_html_by_plugin;
 		}
+
 		$this->tpl->setCurrentBlock("event_nfd");
 		$this->tpl->setVariable("CONTENT_EVENT_NFD",$event_html);
 		$this->tpl->parseCurrentBlock();
