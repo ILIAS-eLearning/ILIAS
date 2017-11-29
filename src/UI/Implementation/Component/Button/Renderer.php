@@ -22,15 +22,16 @@ class Renderer extends AbstractComponentRenderer {
 		} else {
 			return $this->renderButton($component, $default_renderer);
 		}
-
-
 	}
 
-	protected function renderButton(Component\Button\Button $component, RendererInterface $default_renderer) {
-		// TODO: It would be nice if we could use <button> for rendering a button
-		// instead of <a>. This was not done atm, as there is no attribute on a
-		// button to make it open an URL. This would require JS.
 
+	/**
+	 * @param \ILIAS\UI\Component\Button\Button $component
+	 * @param \ILIAS\UI\Renderer                $default_renderer
+	 *
+	 * @return string
+	 */
+	protected function renderButton(Component\Button\Button $component, RendererInterface $default_renderer) {
 		if ($component instanceof Component\Button\Primary) {
 			$tpl_name = "tpl.primary.html";
 		}
@@ -45,18 +46,24 @@ class Renderer extends AbstractComponentRenderer {
 		}
 
 		$tpl = $this->getTemplate($tpl_name, true, true);
+
 		$action = $component->getAction();
 		// The action is always put in the data-action attribute to have it available
 		// on the client side, even if it is not available on rendering.
 		$tpl->setVariable("ACTION", $action);
+
 		$label = $component->getLabel();
 		if ($label !== null) {
 			$tpl->setVariable("LABEL", $component->getLabel());
 		}
 		if ($component->isActive()) {
-			$tpl->setCurrentBlock("with_href");
-			$tpl->setVariable("HREF", $action);
-			$tpl->parseCurrentBlock();
+			$component = $component->withAdditionalOnLoadCode(function ($id) use ($action) {
+				$action = str_replace("&amp;", "&", $action);
+
+				return "$($id).on('click', function(event) {
+						window.location = '{$action}';
+				});";
+			});
 		} else {
 			$tpl->touchBlock("disabled");
 		}
