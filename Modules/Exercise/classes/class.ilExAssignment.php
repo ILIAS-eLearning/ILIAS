@@ -2094,7 +2094,7 @@ class ilExAssignment
 	 * @param string $a_filename  previously sanitized.
 	 * @param int $a_ass_id assignment id.
 	 */
-	static function instructionFileInsertOrder($a_filename, $a_ass_id)
+	static function instructionFileInsertOrder($a_filename, $a_ass_id, $a_order_nr = 0)
 	{
 		global $DIC;
 
@@ -2110,9 +2110,15 @@ class ilExAssignment
 
 			if(!self::instructionFileExistsInDb($filename, $a_ass_id))
 			{
-				$order_val = self::instructionFileOrderGetMax($a_ass_id);
-
-				$order = $order_val + 10;
+				if ($a_order_nr == 0)
+				{
+					$order_val = self::instructionFileOrderGetMax($a_ass_id);
+					$order = $order_val + 10;
+				}
+				else
+				{
+					$order = $a_order_nr;
+				}
 
 				$id = $db->nextID('exc_ass_file_order');
 				$db->manipulate("INSERT INTO exc_ass_file_order " .
