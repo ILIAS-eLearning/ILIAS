@@ -87,7 +87,9 @@ class ilConsultationHoursGUI
 		{
 			case "ilpublicuserprofilegui":				
 				include_once('./Services/User/classes/class.ilPublicUserProfileGUI.php');
-				$profile = new ilPublicUserProfileGUI($this->user_id);
+				#22168 don't send the current user if no GET user_id
+				//$profile = new ilPublicUserProfileGUI($this->user_id);
+				$profile = new ilPublicUserProfileGUI();
 				$profile->setBackUrl($this->getProfileBackUrl());
 				$ret = $ilCtrl->forwardCommand($profile);
 				$tpl->setContent($ret);
