@@ -826,37 +826,36 @@ class ilPublicUserProfileGUI
 	
 	/**
 	 * Check if given user id is valid
-	 * 
+	 * @param int $usrId The user id of the subject user
 	 * @return bool
 	 */
-	protected static function validateUser($a_user_id)
+	protected static function validateUser($usrId)
 	{
-		global $ilUser, $ilCtrl;
+		global $DIC;
 
-		if (ilObject::_lookupType($a_user_id) != "usr")
-		{
+		$ilUser = $DIC->user();
+		$ilCtrl = $DIC->ctrl();
+
+		if (ilObject::_lookupType($usrId) != "usr") {
 			return false;
 		}
-		$user = new ilObjUser($a_user_id);
-		if ($ilUser->getId() == ANONYMOUS_USER_ID && $user->getPref("public_profile") != "g")
-		{
-			// #12151
-			if($user->getPref("public_profile") == "y")
-			{
-				ilUtil::redirect("login.php?cmd=force_login&target=usr_".$a_user_id);
-			}
-			return false;
-		}	
 
-		if($ilUser->isAnonymous())
-		{
-			if(strtolower($ilCtrl->getCmd()) == strtolower('approveContactRequest'))
-			{
-				ilUtil::redirect('login.php?cmd=force_login&target=usr_' . $a_user_id . '_contact_approved');
+		$user = new ilObjUser($usrId);
+
+		if ($ilUser->isAnonymous()) {
+			if (strtolower($ilCtrl->getCmd()) == strtolower('approveContactRequest')) {
+				$ilCtrl->redirectToURL('login.php?cmd=force_login&target=usr_' . $usrId . '_contact_approved');
+			} elseif (strtolower($ilCtrl->getCmd()) == strtolower('ignoreContactRequest')) {
+				$ilCtrl->redirectToURL('login.php?cmd=force_login&target=usr_' . $usrId . '_contact_ignored');
 			}
-			else if(strtolower($ilCtrl->getCmd()) == strtolower('ignoreContactRequest'))
-			{
-				ilUtil::redirect('login.php?cmd=force_login&target=usr_' . $a_user_id . '_contact_ignored');
+
+			if ($user->getPref("public_profile") != "g") {
+				// #12151
+				if ($user->getPref("public_profile") == "y") {
+					$ilCtrl->redirectToURL("login.php?cmd=force_login&target=usr_" . $usrId);
+				}
+
+				return false;
 			}
 		}
 
