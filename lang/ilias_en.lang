@@ -14132,3 +14132,4 @@ content#:#cont_sc_name_setting_salutation_lastname#:#Salutation and Last name
 content#:#cont_sc_name_setting_first_name#:#First name
 content#:#cont_sc_name_setting_no_name#:#no name
 dateplaner#:#cal_download_files_started#:#Download of calendar files has started.
+poll#:#poll_voting_period_full_info#:#Voting period from %s to %s
