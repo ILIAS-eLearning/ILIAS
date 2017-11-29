@@ -3443,7 +3443,11 @@ function getAnswerFeedbackPoints()
 		}
 	}
 
-	public function removeTestResultsByUserIds($userIds)
+	/**
+	 * @param int[] $userIds
+	 * @param bool $withActiveIds
+	 */
+	public function removeTestResultsByUserIds($userIds, $withActiveIds = false)
 	{
 		global $ilDB, $lng;
 		
@@ -3460,6 +3464,11 @@ function getAnswerFeedbackPoints()
 		if( count($participantData->getActiveIds()) )
 		{
 			$this->removeTestResultsByActiveIds($participantData->getActiveIds());
+		}
+
+		if( $withActiveIds )
+		{
+			$this->removeTestActives($participantData->getActiveIds());
 		}
 	}
 
