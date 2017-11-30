@@ -60,7 +60,7 @@ class Renderer extends AbstractComponentRenderer {
 			$component = $component->withAdditionalOnLoadCode(function ($id) use ($action) {
 				$action = str_replace("&amp;", "&", $action);
 
-				return "$($id).on('click', function(event) {
+				return "$('#$id').on('click', function(event) {
 						window.location = '{$action}';
 				});";
 			});
