@@ -444,7 +444,7 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
 		$event_tpl->setVariable('APP_BGCOLOR',$color);
-		$this->tpl->setVariable('APP_BGCOLOR',$color);
+		//$this->tpl->setVariable('APP_BGCOLOR',$color);
 		$event_tpl->setVariable('APP_COLOR',ilCalendarUtil::calculateFontColor($color));
 		$this->tpl->setVariable('APP_COLOR',ilCalendarUtil::calculateFontColor($color));
 		$event_tpl->setVariable('APP_ADD_STYLES',$a_app['event']->getPresentationStyle());
