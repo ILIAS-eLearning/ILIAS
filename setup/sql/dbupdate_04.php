@@ -14110,6 +14110,96 @@ if ($ilDB->tableExists('ut_lp_collections_tmp'))
 <#4857>
 <?php
 //usr_session_stats adding primary key
+$usr_session_stats_temp_num = "
+SELECT COUNT(*) cnt
+FROM (
+	SELECT slot_begin
+    FROM usr_session_stats
+    GROUP BY slot_begin
+    HAVING COUNT(*) > 1
+) duplicateSessionStats
+";
+$res  = $ilDB->query($usr_session_stats_temp_num);
+$data = $ilDB->fetchAssoc($res);
+if($data['cnt'])
+{
+	$usr_session_stats_dup_query = "
+	SELECT *
+	FROM usr_session_stats
+	GROUP BY slot_begin
+	HAVING COUNT(*) > 1
+	";
+	$res = $ilDB->query($usr_session_stats_dup_query);
+
+	$stmt_del = $ilDB->prepareManip("DELETE FROM usr_session_stats WHERE slot_begin = ? ", array('integer'));
+	$stmt_in  = $ilDB->prepareManip("INSERT INTO usr_session_stats ("
+		. "slot_begin"
+		. ",slot_end"
+		. ",active_min"
+		. ",active_max"
+		. ",active_avg"
+		. ",active_end"
+		. ",opened"
+		. ",closed_manual"
+		. ",closed_expire"
+		. ",closed_idle"
+		. ",closed_idle_first"
+		. ",closed_limit"
+		. ",closed_login"
+		. ",max_sessions"
+		. ",closed_misc"
+		. ") VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
+		array(
+			'integer',
+			'integer', 
+			'integer',
+			'integer', 
+			'integer',
+			'integer', 
+			'integer',
+			'integer', 
+			'integer',
+			'integer', 
+			'integer',
+			'integer', 
+			'integer',
+			'integer', 
+			'integer'
+		)
+	);
+
+	while($row = $ilDB->fetchAssoc($res))
+	{
+		$ilDB->execute($stmt_del, array($row['slot_begin']));
+		$ilDB->execute($stmt_in, array(
+				$row['slot_begin'], 
+				$row['slot_end'],
+				$row['active_min'], 
+				$row['active_max'],
+				$row['active_avg'], 
+				$row['active_end'],
+				$row['opened'], 
+				$row['closed_manual'],
+				$row['closed_expire'], 
+				$row['closed_idle'],
+				$row['closed_idle_first'], 
+				$row['closed_limit'],
+				$row['closed_login'], 
+				$row['max_sessions'],
+				$row['closed_misc']
+			)
+		);
+	}
+}
+
+$res  = $ilDB->query($usr_session_stats_dup_query);
+$data = $ilDB->fetchAssoc($res);
+if($data['cnt'] > 0)
+{
+	die("There are still duplicate entries in table 'usr_session_stats'. Please execute this database update step again.");
+}
+
+$ilDB->addPrimaryKey('usr_session_stats', array('slot_begin'));
 
 if($ilDB->tableExists('usr_session_stats'))
 {
