@@ -208,10 +208,10 @@ class ilUsersGalleryGUI
 				}
 
 				$sections[] = $this->factory->listing()->descriptive(
-						[
-								$this->lng->txt("username") => $user->getAggregatedUser()->getLogin(),
-								$this->lng->txt("crs_contact_responsibility") => $group->getLabel()
-						]
+					[
+						$this->lng->txt("username")                   => $user->getAggregatedUser()->getLogin(),
+						$this->lng->txt("crs_contact_responsibility") => $group->getLabel()
+					]
 				);
 
 				$this->addActionSection($user->getAggregatedUser(), $sections);
