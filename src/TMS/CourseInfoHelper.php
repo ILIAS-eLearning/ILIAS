@@ -22,15 +22,27 @@ trait CourseInfoHelper {
 	 * Get information for a certain context ordered by priority.
 	 *
 	 * @param	mixed	$context	from CourseInfo
+	 * @param bool 	$filter_doubles
 	 * @return	CourseInfo[]
 	 */
-	public function getCourseInfo($context) {
+	public function getCourseInfo($context, $filter_doubles = true) {
 		$info = $this->getComponentsOfType(CourseInfo::class);
 
 		$filter_by_context = function(CourseInfo $a) use ($context) {
 			return $a->hasContext($context);
 		};
 		$info = array_filter($info, $filter_by_context);
+
+		if($filter_doubles) {
+			$prios = array();
+			$filter_doubles_fnc = function(CourseInfo $ci) use (&$prios) {
+				if(!in_array($ci->getPriority(), $prios)) {
+					$prios[] = $ci->getPriority();
+					return $ci;
+				}
+			};
+			$info = array_filter($info, $filter_doubles_fnc);
+		}
 
 		$sort_by_prio = function(CourseInfo $a, CourseInfo $b) {
 			$a_prio = $a->getPriority();

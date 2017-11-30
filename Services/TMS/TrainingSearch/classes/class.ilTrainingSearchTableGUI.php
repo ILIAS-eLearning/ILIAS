@@ -72,14 +72,24 @@ class ilTrainingSearchTableGUI {
 			$this->g_lng->txt("header"), //title
 			$view_constrols,
 			function ($row, BookableCourse $record, $ui_factory, $environment) { //mapping-closure
+				$buttons = array();
+				$book_button = $record->getBookButton($this->g_lng->txt("book_course"), $this->parent->getBookingLink($record), $this->search_user_id);
+				$request_button = $record->getRequestButton($this->g_lng->txt("request_book"));
+
+				if(!is_null($book_button)) {
+					$buttons[] = $book_button;
+				}
+				if(!is_null($request_button)) {
+					$buttons[] = $request_button;
+				}
+
 				return $row
 					->withTitle($record->getTitleValue())
 					->withSubTitle($record->getSubTitleValue())
 					->withImportantFields($record->getImportantFields())
 					->withContent($ui_factory->listing()->descriptive($record->getDetailFields()))
 					->withFurtherFields($record->getFurtherFields())
-					->withButtons($record->getBookButton($this->g_lng->txt("book_course"), $this->parent->getBookingLink($record), $this->search_user_id)
-					);
+					->withButtons($buttons);
 			}
 		);
 

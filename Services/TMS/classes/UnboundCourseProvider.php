@@ -23,6 +23,7 @@ class UnboundCourseProvider extends SeparatedUnboundProvider {
 	public function buildComponentsOf($component_type, Entity $entity) {
 		global $DIC;
 		$this->lng = $DIC["lng"];
+		$this->g_access = $DIC->access();
 		$this->lng->loadLanguageModule("tms");
 		$this->lng->loadLanguageModule("crs");
 		$this->user = $DIC->user();
@@ -39,6 +40,10 @@ class UnboundCourseProvider extends SeparatedUnboundProvider {
 			$ret = $this->getCourseInfoForTrainingProvider($ret, $entity, (int)$object->getId());
 			$ret = $this->getCourseInfoForImportantInformation($ret, $entity, $object);
 			$ret = $this->getCourseInfoForTutors($ret, $entity, $object);
+			$ret = $this->getCourseInfoForToCourseButton($ret, $entity, $object);
+			$ret = $this->getCourseInfoForCourseMemberButton($ret, $entity, $object);
+			$ret = $this->getCourseInfoForCourseMemberCountings($ret, $entity, $object);
+			$ret = $this->getCourseInfoForCourseAdminMails($ret, $entity, $object);
 
 			return $ret;
 		}
@@ -103,7 +108,9 @@ class UnboundCourseProvider extends SeparatedUnboundProvider {
 			, $this->lng->txt("date")
 			, $date
 			, 900
-			, [CourseInfo::CONTEXT_BOOKING_DEFAULT_INFO]
+			, [CourseInfo::CONTEXT_BOOKING_DEFAULT_INFO,
+				CourseInfo::CONTEXT_ACCOMODATION_DEFAULT_INFO
+			]
 		);
 
 		return $ret;
@@ -134,7 +141,8 @@ class UnboundCourseProvider extends SeparatedUnboundProvider {
 				, $times_formatted
 				, 310
 				, [CourseInfo::CONTEXT_SEARCH_DETAIL_INFO,
-					CourseInfo::CONTEXT_USER_BOOKING_DETAIL_INFO
+					CourseInfo::CONTEXT_USER_BOOKING_DETAIL_INFO,
+					CourseInfo::CONTEXT_ADMIN_OVERVIEW_DETAIL_INFO
 				  ]
 			);
 
@@ -142,7 +150,21 @@ class UnboundCourseProvider extends SeparatedUnboundProvider {
 				, $this->lng->txt("period")
 				, $times_formatted
 				, 910
-				, [CourseInfo::CONTEXT_BOOKING_DEFAULT_INFO]
+				, [CourseInfo::CONTEXT_BOOKING_DEFAULT_INFO,
+					CourseInfo::CONTEXT_ACCOMODATION_DEFAULT_INFO
+				  ]
+			);
+
+			// Filter session where current user is assigned as lecture
+			$only_for_trainer = array_filter($times, function($time) {
+				return in_array($this->user->getId(), $time["lecture"]);
+			});
+			$times_formatted = $this->getAppointmentOutput($only_for_trainer);
+			$ret[] = $this->createCourseInfoObject($entity
+				, $this->lng->txt("tutor_assignment_period")
+				, $times_formatted
+				, 310
+				, [CourseInfo::CONTEXT_ASSIGNED_TRAINING_DETAIL_INFO]
 			);
 		}
 
@@ -183,17 +205,30 @@ class UnboundCourseProvider extends SeparatedUnboundProvider {
 				);
 		}
 
-			if($object->getCourseStart() !== null) {
-				$ret[] = new CourseInfoImpl
-					( $entity
-					, $lng->txt("date").":"
-					, $this->formatPeriod($object->getCourseStart(), $object->getCourseEnd())
-					, ""
-					, 300
-					, [CourseInfo::CONTEXT_SEARCH_SHORT_INFO,
-						CourseInfo::CONTEXT_SEARCH_FURTHER_INFO,
-						CourseInfo::CONTEXT_BOOKING_DEFAULT_INFO,
-						CourseInfo::CONTEXT_USER_BOOKING_DETAIL_INFO
+		return $ret;
+	}
+
+	/**
+	 * Get a course info with course important infos
+	 *
+	 * @param CourseInfo[]
+	 * @param Entity $entity
+	 * @param Object 	$object
+	 *
+	 * @return CourseInfo[]
+	 */
+	protected function getCourseInfoForImportantInformation(array $ret, Entity $entity, $object) {
+		$crs_important_info = nl2br(trim($object->getImportantInformation()));
+		if($crs_important_info != "") {
+			$ret[] = $this->createCourseInfoObject($entity
+					, $this->lng->txt("crs_important_info")
+					, $crs_important_info
+					, 1000
+					, [
+						CourseInfo::CONTEXT_SEARCH_DETAIL_INFO,
+						CourseInfo::CONTEXT_USER_BOOKING_DETAIL_INFO,
+						CourseInfo::CONTEXT_ASSIGNED_TRAINING_DETAIL_INFO,
+						CourseInfo::CONTEXT_ADMIN_OVERVIEW_DETAIL_INFO
 					  ]
 				);
 
@@ -226,13 +261,44 @@ class UnboundCourseProvider extends SeparatedUnboundProvider {
 				$tutor_names[] = \ilObjUser::_lookupFullname($tutor_id);
 			}
 
-			$tutor_names = join(", ", $tutor_names);
 			$ret[] = $this->createCourseInfoObject($entity
 					, $this->lng->txt("trainer")
 					, $tutor_names
 					, 1500
 					, [
-						CourseInfo::CONTEXT_BOOKING_DEFAULT_INFO
+						CourseInfo::CONTEXT_BOOKING_DEFAULT_INFO,
+						CourseInfo::CONTEXT_ADMIN_OVERVIEW_DETAIL_INFO
+					  ]
+				);
+		}
+
+		return $ret;
+	}
+
+	/**
+	 * Get a course info with mail addresses of course admins
+	 *
+	 * @param CourseInfo[]
+	 * @param Entity $entity
+	 * @param Object 	$object
+	 *
+	 * @return CourseInfo[]
+	 */
+	protected function getCourseInfoForCourseAdminMails(array $ret, Entity $entity, $object) {
+		$admin_ids = $object->getMembersObject()->getAdmins();
+
+		if(count($admin_ids) > 0) {
+			foreach ($admin_ids as $admin_id) {
+				$admin = new \ilObjUser($admin_id);
+				$admin_mails[] = $admin->getEmail();
+			}
+
+			$ret[] = $this->createCourseInfoObject($entity
+					, ""
+					, $admin_mails
+					, 200
+					, [
+						CourseInfo::CONTEXT_USER_CAN_ASK_FOR_BOOKING
 					  ]
 				);
 		}
@@ -258,9 +324,9 @@ class UnboundCourseProvider extends SeparatedUnboundProvider {
 				$date = $this->formatDate($appointment->getStart());
 				$start_time = $appointment->getStart()->get(IL_CAL_FKT_DATE, "H:i");
 				$end_time = $appointment->getEnd()->get(IL_CAL_FKT_DATE, "H:i");
+				$lecture = $session->getAssignedTutorsIds();
 				$offset = $appointment->getDaysOffset();
-
-				$vals[$offset] = array("start_time" => $start_time, "end_time" => $end_time);
+				$vals[$offset] = array("start_time" => $start_time, "end_time" => $end_time, "lecture" => $lecture);
 			}
 		}
 
@@ -435,6 +501,103 @@ class UnboundCourseProvider extends SeparatedUnboundProvider {
 	}
 
 	/**
+	 * Get a course infomation object to decide showing a to course button or not
+	 *
+	 * @param CourseInfo[]
+	 * @param Entity $entity
+	 * @param Object 	$object
+	 *
+	 * @return CourseInfo[]
+	 */
+	protected function getCourseInfoForToCourseButton(array $ret, Entity $entity, $object) {
+		$show_button = 0;
+		if($this->g_access->checkAccess("read", "", $object->getRefId())) {
+			$show_button = 1;
+		}
+
+		$ret[] = $this->createCourseInfoObject($entity
+			, ""
+			, $show_button
+			,1
+			, [CourseInfo::CONTEXT_TO_COURSE_BUTTON]
+		);
+
+		return $ret;
+	}
+
+	/**
+	 * Get a course infomation object to decide showing a course member button or not
+	 *
+	 * @param CourseInfo[]
+	 * @param Entity $entity
+	 * @param Object 	$object
+	 *
+	 * @return CourseInfo[]
+	 */
+	protected function getCourseInfoForCourseMemberButton(array $ret, Entity $entity, $object) {
+		$course_member_objects = $this->getAllChildrenOfByType($object->getRefId(), "xcmb");
+		if(count($course_member_objects) === 0) {
+			return $ret;
+		}
+
+		$course_member_object = array_shift($course_member_objects);
+
+		if($course_member_object !== null) {
+			$link = $course_member_object->getLinkToMemberView();
+
+			if($link !== null) {
+				$ret[] = $this->createCourseInfoObject($entity
+					, ""
+					, $link
+					,1
+					, [CourseInfo::CONTEXT_COURSE_MEMBER_BUTTON]
+				);
+			}
+		}
+
+		return $ret;
+	}
+
+	/**
+	 * Get a course infomation object to list member countings
+	 *
+	 * @param CourseInfo[]
+	 * @param Entity $entity
+	 * @param Object 	$object
+	 *
+	 * @return CourseInfo[]
+	 */
+	protected function getCourseInfoForCourseMemberCountings(array $ret, Entity $entity, $object) {
+		$object->initWaitingList();
+
+		$min_member = $object->getSubscriptionMinMembers();
+		if($min_member === null) {
+			$min_member = 0;
+		}
+		$max_member = $object->getSubscriptionMaxMembers();
+		if($max_member === null) {
+			$max_member = 0;
+		}
+
+		$values = array();
+		$values[] = $this->lng->txt("booked_user").": ".count($object->getMembersObject()->getMembers());
+		$values[] = $this->lng->txt("waiting_user").": ".$object->waiting_list_obj->getCountUsers();
+		$values[] = $this->lng->txt("min_member").": ".$min_member;
+		$values[] = $this->lng->txt("max_member").": ".$max_member;
+
+		$ret[] = $this->createCourseInfoObject($entity
+					, $this->lng->txt("user_bookings")
+					, $values
+					, 350
+					, [CourseInfo::CONTEXT_ASSIGNED_TRAINING_DETAIL_INFO,
+						CourseInfo::CONTEXT_ADMIN_OVERVIEW_DETAIL_INFO
+					]
+				);
+
+		return $ret;
+	}
+
+	/**
 	 * Create a course inforamtion object
 	 *
 	 * @param Entity 	$entity
@@ -455,4 +618,6 @@ class UnboundCourseProvider extends SeparatedUnboundProvider {
 					, $contexts
 				);
 	}
+
+
 }
