@@ -341,30 +341,30 @@ class ilCalendarViewGUI
 		foreach($this->getActivePlugins("capg") as $plugin)
 		{
 			$plugin->setAppointment($a_cal_entry, new ilDateTime($a_start_date));
-			if($new_content = $plugin->replaceContent($a_content))
+
+			$shy_title = ($new_title = $plugin->editShyButtonTitle())? $new_title : "";
+			if($shy_title)
+			{
+				$content = $this->getAppointmentShyButton($a_cal_entry, $a_start_date, $shy_title);
+			}
+
+			if($glyph = $plugin->addGlyph())
+			{
+				$content = $glyph." ".$content;
+			}
+
+			if($more_content = $plugin->addExtraContent())
+			{
+				$content = $content." ".$more_content;
+			}
+
+
+			if($new_content = $plugin->replaceContent($content))
 			{
 				$content = $new_content;
 				if($content != $a_content)
 				{
 					$this->content_replaced_by_plugin = true;
-				}
-			}
-			else
-			{
-				$shy_title = ($new_title = $plugin->editShyButtonTitle())? $new_title : "";
-				if($shy_title)
-				{
-					$content = $this->getAppointmentShyButton($a_cal_entry, $a_start_date, $shy_title);
-				}
-
-				if($glyph = $plugin->addGlyph())
-				{
-					$content = $glyph." ".$content;
-				}
-
-				if($more_content = $plugin->addExtraContent())
-				{
-					$content = $content." ".$more_content;
 				}
 			}
 		}
