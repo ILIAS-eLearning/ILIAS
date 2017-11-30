@@ -108,4 +108,11 @@ class Container extends \Pimple\Container {
 	public function ui() {
 		return new UIServices($this);
 	}
+
+	/**
+	 * @return \ilAppEventHandler
+	 */
+	public function event() {
+		return $this['ilAppEventHandler'];
+	}
 }

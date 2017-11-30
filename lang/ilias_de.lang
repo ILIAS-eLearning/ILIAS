@@ -15050,7 +15050,7 @@ awrn#:#awareness_settings#:#Einstellungen
 awrn#:#awrn_enable#:#Aktiviere „Wer ist online?“-Anzeige
 crs#:#crs_mem_contacts#:#Tutorielle Betreuung
 user#:#user_awrn_all_users#:#Alle Benutzer
-user#:#user_awrn_all_users_info#:#Alle Benutzer der Plattform werden aufgelistet.
+user#:#user_awrn_all_users_info#:#Alle Benutzer der Plattform werden aufgelistet. Achtung: Wird die Option "Online und offline" gewählt, ist bei hoher Benutzerzahl mit erheblichen Performanzeinbußen zu rechnen.
 crs#:#crs_awrn_support_contacts#:#Kursbetreuung
 crs#:#crs_awrn_support_contacts_info#:#Benutzer, die den Kurs betreuen, werden aufgelistet. Die jeweiligen Benutzer werden im Reiter Mitglieder des Kurses für die Kursbetreuung eingetragen.
 awrn#:#awrn_inactive#:#Keine Anzeige
@@ -15069,7 +15069,7 @@ awrn#:#awrn_caching_period#:#Caching-Zeitraum
 awrn#:#awrn_caching_period_info#:#Dieser Zeitraum wird abgewartet, bevor die Anzahl der Benutzer in der Top-Anzeige aktualisiert und neue Online-Benutzer ermittelt werden.
 awrn#:#awrn_seconds#:#Sek.
 awrn#:#awrn_max_nr_entries#:#Anzahl max. Einträge
-awrn#:#awrn_max_nr_entries_info#:#Diese Anzahl an Einträgen wird maximal in der „Wer ist online?“-Liste angezeigt.
+awrn#:#awrn_max_nr_entries_info#:#Diese Anzahl an Einträgen wird maximal in der „Wer ist online?“-Liste angezeigt. Diese Einstellung beeinflusst die Performanz der Anzeige in der Top-Bar nicht wesentlich.
 awrn#:#awrn_hide_from_awareness#:#Mich nicht in „Wer ist online?“-Anzeige auflisten
 awrn#:#awrn_hide_from_awareness_info#:#Die „Wer ist online?“-Anzeige erscheint oben im Kopf der Anwendung und listet ausgewählte Benutzer auf (z.B. Kontakte oder Mitglieder Ihrer Kurse).
 common#:#contact_sysadmin#:#Technische Betreuung kontaktieren
@@ -15882,6 +15882,9 @@ chatroom#:#chat_osc_leave_grp_conv#:#Konversation verlassen
 chatroom#:#chat_osc_user_left_grp_conv#:#Der Benutzer '%s' hat die Gruppenkonversation verlassen.
 chatroom#:#chat_osc_dont_accept_msg#:#Sie können aktuell von anderen Personen nicht zu Konversationen eingeladen werden. Dies können Sie bei Bedarf in Ihren <a href="%s">'Persönlichen Einstellungen'</a> ändern.
 chatroom#:#chat_osc_doesnt_accept_msg#:#Konversationen nicht möglich
+chatroom#:#chat_osc_subs_rej_msgs#:#Ihr Chat-Partner möchte zur Zeit keine Nachrichten empfangen. Er kann den Empfang von Chat-Nachrichten in seinen Chat-Einstellungen wieder aktivieren.
+chatroom#:#chat_osc_subs_rej_msgs_p#:#Die folgenden Konversationspartner möchten aktuell keine Nachrichten mehr empfangen: %s
+chatroom#:#chat_osc_self_rej_msgs#:#Sie können aktuell nicht an der Conversation teilnehmen, da Sie den Empfang von Chat-Nachrichten in Ihren Einstellungen aktuell unterdrückt haben. 
 usr#:#user_actions#:#Benutzeraktionen
 usr#:#user_action#:#Benutzeraktion
 buddysystem#:#buddy_handle_contact_request#:#Kontaktanfrage

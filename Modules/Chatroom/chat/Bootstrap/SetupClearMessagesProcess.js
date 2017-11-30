@@ -8,7 +8,7 @@ module.exports = function SetupClearMessagesProcess(callback) {
 
 	if (Container.getServerConfig().hasOwnProperty('deletion_mode') && Container.getServerConfig().deletion_mode == 1) {
 		var deletionTime = Container.getServerConfig().deletion_time;
-		var deletionTime = deletionTime.split(':');
+		deletionTime = deletionTime.split(':');
 
 		var job = schedule.scheduleJob('ClearMessagesProcess', {hour: deletionTime[0], minute: deletionTime[1]}, function () {
 			var namespaces = Container.getNamespaces()

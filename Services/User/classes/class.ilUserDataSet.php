@@ -80,6 +80,7 @@ class ilUserDataSet extends ilDataSet
 						"Matriculation" => "text",
 						"Latitude" => "text",
 						"Longitude" => "text",
+						"LocZoom" => "text",
 						"Picture" => "directory"
 						);
 			}
@@ -218,7 +219,7 @@ class ilUserDataSet extends ilDataSet
 					$this->getDirectDataFromQuery("SELECT usr_id id, login username, firstname, lastname, ".
 						" title, birthday, gender, institution, department, street, city, zipcode, country, sel_country, ".
 						" phone_office, phone_home, phone_mobile, fax, email, hobby, referral_comment, matriculation, ".
-						" delicious, latitude, longitude".
+						" delicious, latitude, longitude, loc_zoom".
 						" FROM usr_data u ".
 						"WHERE ".
 						$ilDB->in("u.usr_id", $a_ids, false, "integer"));
@@ -228,7 +229,7 @@ class ilUserDataSet extends ilDataSet
 					$this->getDirectDataFromQuery("SELECT usr_id id, login username, firstname, lastname, ".
 						" title, birthday, gender, institution, department, street, city, zipcode, country, sel_country, ".
 						" phone_office, phone_home, phone_mobile, fax, email, hobby, referral_comment, matriculation, ".
-						" latitude, longitude".
+						" latitude, longitude, loc_zoom".
 						" FROM usr_data u ".
 						"WHERE ".
 						$ilDB->in("u.usr_id", $a_ids, false, "integer"));

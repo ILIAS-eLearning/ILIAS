@@ -289,3 +289,7 @@ if($ilDB->tableColumnExists('wiki_stat', 'avg_rating'))
 	));
 }
 ?>
+<#19>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

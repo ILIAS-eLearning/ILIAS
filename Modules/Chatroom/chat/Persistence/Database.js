@@ -201,6 +201,14 @@ var Database = function Database(config) {
 		})
 	};
 
+	this.getMessageAcceptanceStatusForUsers = function(onResult, onEnd) {
+		_onQueryEvents(
+			_pool.query('SELECT usr_id FROM usr_pref WHERE keyword = ? AND value = ?', ["chat_osc_accept_msg", "y"]),
+			onResult,
+			onEnd
+		);
+	};
+
 	this.clearChatMessagesProcess = function (bound, namespaceName, callback) {
 		bound = parseInt(bound / 1000);
 
@@ -253,7 +261,7 @@ var Database = function Database(config) {
 
 			callback();
 		});
-	}
+	};
 
 	this.trackActivity = function(conversationId, userId, timestamp) {
 		var emptyResult = true;
@@ -289,8 +297,8 @@ var Database = function Database(config) {
 		_onQueryEvents(
 			_pool.query('SELECT * FROM osc_activity WHERE conversation_id = ? AND user_id = ?', [conversationId, userId]),
 			function(result){
-				_pool.query('UPDATE osc_activity SET is_closed = ? WHERE conversation_id = ? AND user_id = ?',
-					[1, conversationId, userId],
+				_pool.query('UPDATE osc_activity SET is_closed = ?, timestamp = ? WHERE conversation_id = ? AND user_id = ?',
+					[1, Date.getTimestamp(), conversationId, userId],
 					function(err){
 						if(err) throw err;
 					}

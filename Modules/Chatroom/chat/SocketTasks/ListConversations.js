@@ -13,22 +13,20 @@ module.exports = function() {
 		namespace.getDatabase().getConversationStateForParticipant(conversation.getId(), socket.participant.getId(), function(row){
 			conversationClosed = row.is_closed;
 		}, function() {
-			if (!conversationClosed) {
-				namespace.getDatabase().getLatestMessage(conversation, function (row) {
-					row.userId = row.user_id;
-					row.conversationId = row.conversation_id;
-					conversation.setLatestMessage(row);
-				}, function () {
-					namespace.getDatabase().countUnreadMessages(conversation.getId(), socket.participant.getId(), function(row){
-						conversation.setNumNewMessages(row.numMessages);
-					}, function(){
+			namespace.getDatabase().getLatestMessage(conversation, function (row) {
+				row.userId = row.user_id;
+				row.conversationId = row.conversation_id;
+				conversation.setLatestMessage(row);
+			}, function () {
+				namespace.getDatabase().countUnreadMessages(conversation.getId(), socket.participant.getId(), function(row){
+					conversation.setNumNewMessages(row.numMessages);
+				}, function(){
+					if (!conversationClosed || (conversation.getNumNewMessages() > 0 && !conversation.isGroup())) {
 						socket.participant.emit('conversation', conversation.json());
-						nextLoop();
-					});
+					}
+					nextLoop();
 				});
-			} else {
-				nextLoop();
-			}
+			});
 		});
 	}, function(err){
 		if(err) throw err;

@@ -1,3 +1,4 @@
+var Container  = require('../AppContainer');
 
 var Conversation = function Conversation(id, participants)
 {
@@ -48,17 +49,46 @@ var Conversation = function Conversation(id, participants)
 		_numNewMessages = num;
 	};
 
-	this.send = function(message) {
-
-		forParticipants(function(participant){
-			participant.send(message);
-		});
+	this.getNumNewMessages = function() {
+		return _numNewMessages;
 	};
 
-	this.emit = function(event, data) {
+	this.send = function(message) {
+		var ignoredParticipants = {};
+
 		forParticipants(function(participant){
+			if (!participant.getAcceptsMessages()) {
+				Container.getLogger().info("Conversation.send: User %s does not want to further receive messages", participant.getId());
+				ignoredParticipants[participant.getId()] = participant.getId();
+				return;
+			}
+
+			participant.send(message);
+		});
+
+		return ignoredParticipants;
+	};
+
+	/**
+	 * 
+	 * @param event
+	 * @param data
+	 * @return object Returns a collection of users who did not want to receive messages
+	 */
+	this.emit = function(event, data) {
+		var ignoredParticipants = {};
+
+		forParticipants(function(participant){
+			if (!participant.getAcceptsMessages()) {
+				Container.getLogger().info("Conversation.emit: User %s does not want to further receive messages", participant.getId());
+				ignoredParticipants[participant.getId()] = participant.getId();
+				return;
+			}
+
 			participant.emit(event, data);
 		});
+
+		return ignoredParticipants;
 	};
 
 	this.addParticipant = function(participant) {
