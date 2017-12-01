@@ -171,7 +171,7 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
 		$ilToolbar->setFormAction($ilCtrl->getFormAction($this), true);
 		
 		include_once("./Services/Help/classes/class.ilHelpModuleTableGUI.php");
-		$tab = new ilHelpModuleTableGUI($this, "editSettings");
+		$tab = new ilHelpModuleTableGUI($this, "editSettings", $this->checkPermissionBool("write"));
 		
 		$this->tpl->setContent($tab->getHTML());
 	}
@@ -229,6 +229,8 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
 		$ilCtrl = $this->ctrl;
 		$tpl = $this->tpl;
 		$lng = $this->lng;
+
+		$this->checkPermission("write");
 			
 		if (!is_array($_POST["id"]) || count($_POST["id"]) == 0)
 		{
@@ -263,6 +265,8 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
 	{
 		$ilDB = $this->db;
 		$ilCtrl = $this->ctrl;
+
+		$this->checkPermission("write");
 		
 		if (is_array($_POST["id"]))
 		{
@@ -286,6 +290,8 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
 		$ilSetting = $this->settings;
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
+
+		$this->checkPermission("write");
 		
 		$ilSetting->set("help_module", (int) $_GET["hm_id"]);
 		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
@@ -303,6 +309,8 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
 		$ilSetting = $this->settings;
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
+
+		$this->checkPermission("write");
 		
 		if ($ilSetting->get("help_module") == (int) $_GET["hm_id"])
 		{
@@ -323,6 +331,8 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
 		$ilSetting = $this->settings;
+
+		$this->checkPermission("write");
 		
 		if ($this->checkPermissionBool("write"))
 		{
