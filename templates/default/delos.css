@@ -7894,6 +7894,282 @@ ul.breadcrumb li:hover {
   color: white;
   background-color: #4c6586;
 }
+.il-chart-speedo-container,
+.il-chart-speedo-mini-container {
+  display: block;
+  position: relative;
+  background-color: transparent;
+  height: 140%;
+  width: 100%;
+}
+.il-chart-speedo-container .il-chart-speedo-outerbox,
+.il-chart-speedo-mini-container .il-chart-speedo-outerbox {
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+  background-color: #dddddd;
+}
+.il-chart-speedo-container .il-chart-speedo-outerbox .il-chart-speedo-pointer,
+.il-chart-speedo-mini-container .il-chart-speedo-outerbox .il-chart-speedo-pointer {
+  position: absolute;
+  transform-origin: 100% 100%;
+  transform: rotate(-25deg) skew(90deg);
+  width: 50%;
+  height: 50%;
+}
+.il-chart-speedo-container .il-chart-speedo-outerbox.il-chart-speedo-green > .il-chart-speedo-pointer,
+.il-chart-speedo-mini-container .il-chart-speedo-outerbox.il-chart-speedo-green > .il-chart-speedo-pointer {
+  background-color: #6ea03c;
+}
+.il-chart-speedo-container .il-chart-speedo-outerbox.il-chart-speedo-red > .il-chart-speedo-pointer,
+.il-chart-speedo-mini-container .il-chart-speedo-outerbox.il-chart-speedo-red > .il-chart-speedo-pointer {
+  background-color: #d9534f;
+}
+.il-chart-speedo-container .il-chart-speedo-innerbox,
+.il-chart-speedo-mini-container .il-chart-speedo-innerbox {
+  position: absolute;
+  width: 94%;
+  height: 94%;
+  border-radius: 50%;
+  top: 3%;
+  left: 3%;
+  background-color: #dddddd;
+  border: 5px solid transparent;
+  overflow: hidden;
+}
+.il-chart-speedo-container .il-chart-speedo-innerbox .il-chart-speedo-pointer,
+.il-chart-speedo-mini-container .il-chart-speedo-innerbox .il-chart-speedo-pointer {
+  position: absolute;
+  transform-origin: 100% 100%;
+  transform: rotate(-24deg) skew(90deg);
+  height: 50%;
+  width: 50%;
+  background-color: #aaaaaa;
+  top: -1px;
+}
+.il-chart-speedo-container .il-chart-speedo-innerbox.il-chart-speedo-yellow > .il-chart-speedo-pointer,
+.il-chart-speedo-mini-container .il-chart-speedo-innerbox.il-chart-speedo-yellow > .il-chart-speedo-pointer {
+  background-color: #f0ad4e;
+}
+.il-chart-speedo-container .il-chart-speedo-cover,
+.il-chart-speedo-mini-container .il-chart-speedo-cover {
+  position: absolute;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  overflow: hidden;
+}
+.il-chart-speedo-container .il-chart-speedo-cover .il-chart-speedo-text-container,
+.il-chart-speedo-mini-container .il-chart-speedo-cover .il-chart-speedo-text-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  color: #000;
+}
+.il-chart-speedo-container .il-chart-speedo-cover .il-chart-speedo-text-container .il-chart-speedo-score-text,
+.il-chart-speedo-mini-container .il-chart-speedo-cover .il-chart-speedo-text-container .il-chart-speedo-score-text {
+  position: absolute;
+  left: 25%;
+  top: 22%;
+  width: 50%;
+  text-align: center;
+  color: #aaaaaa;
+  font-size: 1em;
+}
+.il-chart-speedo-container .il-chart-speedo-cover .il-chart-speedo-text-container .il-chart-speedo-score,
+.il-chart-speedo-mini-container .il-chart-speedo-cover .il-chart-speedo-text-container .il-chart-speedo-score {
+  position: absolute;
+  left: 20%;
+  top: 30%;
+  text-align: center;
+  font-weight: bold;
+}
+.il-chart-speedo-container .il-chart-speedo-cover .il-chart-speedo-text-container .il-chart-speedo-minscore,
+.il-chart-speedo-mini-container .il-chart-speedo-cover .il-chart-speedo-text-container .il-chart-speedo-minscore {
+  position: absolute;
+  left: 25%;
+  top: 62%;
+  width: 50%;
+  text-align: center;
+  font-size: 1em;
+}
+.il-chart-speedo-container .il-chart-speedo-cover .il-chart-speedo-text-container .il-chart-speedo-minscore-text,
+.il-chart-speedo-mini-container .il-chart-speedo-cover .il-chart-speedo-text-container .il-chart-speedo-minscore-text {
+  position: absolute;
+  left: 25%;
+  top: 70%;
+  width: 50%;
+  text-align: center;
+  color: #aaaaaa;
+  font-size: 1em;
+}
+.il-chart-speedo-container .il-chart-speedo-cover .il-chart-speedo-text-container .il-chart-speedo-test-score,
+.il-chart-speedo-mini-container .il-chart-speedo-cover .il-chart-speedo-text-container .il-chart-speedo-test-score {
+  display: none;
+  font-size: 1em;
+}
+.il-chart-speedo-container .il-chart-speedo-marker-box,
+.il-chart-speedo-mini-container .il-chart-speedo-marker-box {
+  position: absolute;
+  width: 93.3334%;
+  height: 93.3334%;
+  transform: rotate(0deg);
+  pointer-events: none;
+  background: transparent;
+  z-index: 3;
+}
+.il-chart-speedo-container .il-chart-speedo-marker-box .il-chart-speedo-marker,
+.il-chart-speedo-mini-container .il-chart-speedo-marker-box .il-chart-speedo-marker {
+  position: absolute;
+  left: 50%;
+  margin-left: -8px;
+  border-left: 9px solid transparent;
+  border-right: 9px solid transparent;
+  border-top: 11px solid #bcbcbc;
+  width: 1px;
+  height: 1px;
+}
+.il-chart-speedo-container .il-chart-speedo-marker-box .il-chart-speedo-marker .il-chart-speedo-arrow,
+.il-chart-speedo-mini-container .il-chart-speedo-marker-box .il-chart-speedo-marker .il-chart-speedo-arrow {
+  position: relative;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 13px solid #f0f0f0;
+  width: 1px;
+  height: 1px;
+  top: -14px;
+  left: -10.5px;
+}
+.il-chart-speedo-container {
+  padding: 10px;
+  font-size: 1.25rem;
+}
+.il-chart-speedo-container .il-chart-speedo-outerbox {
+  border: 5px solid transparent;
+}
+.il-chart-speedo-container .il-chart-speedo-outerbox .il-chart-speedo-cover {
+  width: 93.552%;
+  height: 93.552%;
+  top: 3.3224%;
+  left: 3.3224%;
+  border: 5px solid #dddddd;
+}
+.il-chart-speedo-container .il-chart-speedo-outerbox .il-chart-speedo-text-container .il-chart-speedo-score {
+  width: 60%;
+  font-size: 3em;
+}
+.il-chart-speedo-mini-container {
+  padding: 5px;
+  font-size: 1rem;
+}
+.il-chart-speedo-mini-container .il-chart-speedo-outerbox {
+  border: 2px solid transparent;
+}
+.il-chart-speedo-mini-container .il-chart-speedo-outerbox .il-chart-speedo-cover {
+  width: 80%;
+  height: 80%;
+  top: 10%;
+  left: 10%;
+  border: 2px solid #dddddd;
+}
+.il-chart-speedo-box {
+  overflow: hidden;
+}
+.il-chart-speedo-box.standard {
+  width: 300px;
+  height: 214px;
+}
+.il-chart-speedo-box.mini {
+  width: 50px;
+  height: 35px;
+}
+@media (min-width: 1200px) {
+  .il-chart-speedo-box.responsive {
+    width: 300px;
+    height: 214px;
+  }
+  .il-chart-speedo-box.responsive .il-chart-speedo-container {
+    font-size: 1.25rem;
+  }
+  .il-chart-speedo-box.responsive .il-chart-speedo-container .il-chart-speedo-outerbox {
+    border: 5px solid transparent;
+  }
+  .il-chart-speedo-box.responsive .il-chart-speedo-container .il-chart-speedo-outerbox .il-chart-speedo-cover {
+    border: 5px solid #dddddd;
+  }
+  .il-chart-speedo-box.responsive .il-chart-speedo-container .il-chart-speedo-outerbox .il-chart-speedo-text-container .il-chart-speedo-score {
+    width: 60%;
+    font-size: 3em;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .il-chart-speedo-box.responsive {
+    width: 250px;
+    height: 177px;
+  }
+  .il-chart-speedo-box.responsive .il-chart-speedo-container {
+    font-size: 1.25rem;
+  }
+  .il-chart-speedo-box.responsive .il-chart-speedo-container .il-chart-speedo-outerbox {
+    border: 4px solid transparent;
+  }
+  .il-chart-speedo-box.responsive .il-chart-speedo-container .il-chart-speedo-outerbox .il-chart-speedo-innerbox {
+    border: 4px solid transparent;
+  }
+  .il-chart-speedo-box.responsive .il-chart-speedo-container .il-chart-speedo-outerbox .il-chart-speedo-cover {
+    border: 4px solid #dddddd;
+  }
+  .il-chart-speedo-box.responsive .il-chart-speedo-container .il-chart-speedo-outerbox .il-chart-speedo-text-container .il-chart-speedo-score {
+    width: 60%;
+    font-size: 3em;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .il-chart-speedo-box.responsive {
+    width: 200px;
+    height: 142px;
+  }
+  .il-chart-speedo-box.responsive .il-chart-speedo-container {
+    font-size: 1rem;
+  }
+  .il-chart-speedo-box.responsive .il-chart-speedo-container .il-chart-speedo-outerbox {
+    border: 3px solid transparent;
+  }
+  .il-chart-speedo-box.responsive .il-chart-speedo-container .il-chart-speedo-outerbox .il-chart-speedo-innerbox {
+    border: 3px solid transparent;
+  }
+  .il-chart-speedo-box.responsive .il-chart-speedo-container .il-chart-speedo-outerbox .il-chart-speedo-cover {
+    border: 3px solid #dddddd;
+  }
+  .il-chart-speedo-box.responsive .il-chart-speedo-container .il-chart-speedo-outerbox .il-chart-speedo-text-container .il-chart-speedo-score {
+    width: 60%;
+    font-size: 3em;
+  }
+}
+@media (max-width: 767px) {
+  .il-chart-speedo-box.responsive {
+    width: 150px;
+    height: 106px;
+  }
+  .il-chart-speedo-box.responsive .il-chart-speedo-container {
+    font-size: 0.75rem;
+  }
+  .il-chart-speedo-box.responsive .il-chart-speedo-container .il-chart-speedo-outerbox {
+    border: 2px solid transparent;
+  }
+  .il-chart-speedo-box.responsive .il-chart-speedo-container .il-chart-speedo-outerbox .il-chart-speedo-innerbox {
+    border: 2px solid transparent;
+  }
+  .il-chart-speedo-box.responsive .il-chart-speedo-container .il-chart-speedo-outerbox .il-chart-speedo-cover {
+    border: 2px solid #dddddd;
+  }
+  .il-chart-speedo-box.responsive .il-chart-speedo-container .il-chart-speedo-outerbox .il-chart-speedo-text-container .il-chart-speedo-score {
+    width: 60%;
+    font-size: 3em;
+  }
+}
 /*		Color scheme
 		Dark BLue: #0f2152;
 		Mid Blue: #4c6586;
