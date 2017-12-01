@@ -34,3 +34,323 @@
 	color: @il-chart-item-active-color;
 	background-color: @il-chart-item-active-bg;
 }
+
+.il-chart-speedo-container,
+.il-chart-speedo-mini-container {
+	display: block;
+	position: relative;
+	background-color: transparent;
+	height: 140%;
+	width: 100%;
+
+	.il-chart-speedo-outerbox {
+		height: 100%;
+		width: 100%;
+		border-radius: 50%;
+		overflow: hidden;
+		position: relative;
+		z-index: 1;
+		background-color: @il-chart-speedo-gray;
+
+		.il-chart-speedo-pointer {
+			position: absolute;
+			transform-origin: 100% 100%;
+			transform: rotate(-25deg) skew(90deg);
+			width: 50%;
+			height: 50%;
+		}
+
+		&.il-chart-speedo-green {
+			& > .il-chart-speedo-pointer {
+				background-color: @il-chart-speedo-bar-green;
+			}
+		}
+		&.il-chart-speedo-red {
+			& > .il-chart-speedo-pointer {
+				background-color: @il-chart-speedo-bar-red;
+			}
+		}
+	}
+
+	.il-chart-speedo-innerbox {
+		position: absolute;
+		width: 94%;
+		height: 94%;
+		border-radius: 50%;
+		top: 3%;
+		left: 3%;
+		background-color: @il-chart-speedo-gray;
+		border: 5px solid transparent;
+		overflow: hidden;
+
+		.il-chart-speedo-pointer {
+			position: absolute;
+			transform-origin: 100% 100%;
+			transform: rotate(-24deg) skew(90deg);
+			height: 50%;
+			width: 50%;
+			background-color: @il-chart-speedo-bar-grey;
+			top: -1px;
+		}
+
+		&.il-chart-speedo-yellow {
+			& > .il-chart-speedo-pointer {
+				background-color: @il-chart-speedo-bar-yellow;
+			}
+		}
+	}
+
+	.il-chart-speedo-cover {
+		position: absolute;
+		border-radius: 50%;
+		background-color: @body-bg;
+		overflow: hidden;
+
+		.il-chart-speedo-text-container {
+			width: 100%;
+			height: 100%;
+			position: relative;
+			color: #000;
+
+			.il-chart-speedo-score-text {
+				position: absolute;
+				left: 25%;
+				top: 22%;
+				width: 50%;
+				text-align: center;
+				color: @il-chart-speedo-text;
+				font-size: 1em;
+			}
+
+			.il-chart-speedo-score {
+				position: absolute;
+				left: 20%;
+				top: 30%;
+				text-align: center;
+				font-weight: bold;
+			}
+
+			.il-chart-speedo-minscore {
+				position: absolute;
+				left: 25%;
+				top: 62%;
+				width: 50%;
+				text-align: center;
+				font-size: 1em;
+			}
+
+			.il-chart-speedo-minscore-text {
+				position: absolute;
+				left: 25%;
+				top: 70%;
+				width: 50%;
+				text-align: center;
+				color: @il-chart-speedo-text;
+				font-size: 1em;
+			}
+
+			.il-chart-speedo-test-score {
+				display: none;
+				font-size: 1em;
+			}
+		}
+	}
+
+	.il-chart-speedo-marker-box {
+		position: absolute;
+		width: 93.3334%;
+		height: 93.3334%;
+		transform: rotate(0deg);
+		pointer-events: none;
+		background: transparent;
+		z-index: 3;
+
+		.il-chart-speedo-marker {
+			position: absolute;
+			left: 50%;
+			margin-left: -8px;
+			border-left: 9px solid transparent;
+			border-right: 9px solid transparent;
+			border-top: 11px solid @il-chart-speedo-marker-shadow;
+			width: 1px;
+			height: 1px;
+
+			.il-chart-speedo-arrow {
+				position: relative;
+				border-left: 10px solid transparent;
+				border-right: 10px solid transparent;
+				border-top: 13px solid @il-chart-speedo-marker;
+				width: 1px;
+				height: 1px;
+				top: -14px;
+				left: -10.5px;
+			}
+		}
+	}
+}
+
+.il-chart-speedo-container {
+	padding: 10px;
+	font-size: 1.25rem;
+
+	.il-chart-speedo-outerbox {
+		border: 5px solid transparent;
+
+		.il-chart-speedo-cover {
+			width: 93.552%;
+			height: 93.552%;
+			top: 3.3224%;
+			left: 3.3224%;
+			border: 5px solid @il-chart-speedo-gray;
+		}
+
+		.il-chart-speedo-text-container {
+			.il-chart-speedo-score {
+				width: 60%;
+				font-size: 3em;
+			}
+		}
+	}
+}
+
+.il-chart-speedo-mini-container {
+	padding: 5px;
+	font-size: 1rem;
+
+	.il-chart-speedo-outerbox {
+		border: 2px solid transparent;
+
+		.il-chart-speedo-cover {
+			width: 80%;
+			height: 80%;
+			top: 10%;
+			left: 10%;
+			border: 2px solid @il-chart-speedo-gray;
+		}
+	}
+}
+
+.il-chart-speedo-box {
+	overflow: hidden;
+	&.standard {
+		width: 300px;
+		height: 214px;
+	}
+	&.mini {
+		width: 50px;
+		height: 35px;
+	}
+
+	@media (min-width: @screen-lg) {
+		&.responsive {
+			width: 300px;
+			height: 214px;
+
+			.il-chart-speedo-container {
+				font-size: 1.25rem;
+
+				.il-chart-speedo-outerbox {
+					border: 5px solid transparent;
+
+					.il-chart-speedo-cover {
+						border: 5px solid @il-chart-speedo-gray;
+					}
+
+					.il-chart-speedo-text-container {
+						.il-chart-speedo-score {
+							width: 60%;
+							font-size: 3em;
+						}
+					}
+				}
+			}
+		}
+	}
+	@media (min-width: @screen-md) and (max-width: @screen-md-max) {
+		&.responsive {
+			width: 250px;
+			height: 177px;
+
+			.il-chart-speedo-container {
+				font-size: 1.25rem;
+
+				.il-chart-speedo-outerbox {
+					border: 4px solid transparent;
+
+					.il-chart-speedo-innerbox {
+						border: 4px solid transparent;
+					}
+
+					.il-chart-speedo-cover {
+						border: 4px solid @il-chart-speedo-gray;
+					}
+
+					.il-chart-speedo-text-container {
+						.il-chart-speedo-score {
+							width: 60%;
+							font-size: 3em;
+						}
+					}
+				}
+			}
+		}
+	}
+	@media (min-width: @screen-sm) and (max-width: @screen-sm-max) {
+		&.responsive {
+			width: 200px;
+			height: 142px;
+
+			.il-chart-speedo-container {
+				font-size: 1rem;
+
+				.il-chart-speedo-outerbox {
+					border: 3px solid transparent;
+
+					.il-chart-speedo-innerbox {
+						border: 3px solid transparent;
+					}
+
+					.il-chart-speedo-cover {
+						border: 3px solid @il-chart-speedo-gray;
+					}
+
+					.il-chart-speedo-text-container {
+						.il-chart-speedo-score {
+							width: 60%;
+							font-size: 3em;
+						}
+					}
+				}
+			}
+		}
+	}
+	@media (max-width: @screen-xs-max) {
+		&.responsive {
+			width: 150px;
+			height: 106px;
+
+			.il-chart-speedo-container {
+				font-size: 0.75rem;
+
+				.il-chart-speedo-outerbox {
+					border: 2px solid transparent;
+
+					.il-chart-speedo-innerbox {
+						border: 2px solid transparent;
+					}
+
+					.il-chart-speedo-cover {
+						border: 2px solid @il-chart-speedo-gray;
+					}
+
+					.il-chart-speedo-text-container {
+						.il-chart-speedo-score {
+							width: 60%;
+							font-size: 3em;
+						}
+					}
+				}
+			}
+		}
+	}
+}
