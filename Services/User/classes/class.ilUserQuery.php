@@ -343,8 +343,7 @@ class ilUserQuery
 			" FROM usr_data".
 			$join;
 
-		$count_query = "SELECT ".implode($sql_fields, ",").
-			" FROM usr_data".
+		$count_query = $count_query." ".
 			$join;
 
 		// filter
