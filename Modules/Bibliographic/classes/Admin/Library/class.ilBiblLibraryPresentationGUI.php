@@ -12,28 +12,37 @@ class ilBiblLibraryPresentationGUI {
 	 */
 	protected $library;
 
+	/**
+	 * @var \ilBiblFactoryFacade
+	 */
+	protected $facade;
+
 
 	/**
 	 * ilBiblLibraryPresentationGUI constructor.
 	 *
 	 * @param \ilBiblLibraryInterface $library
 	 */
-	public function __construct(\ilBiblLibraryInterface $library) { $this->library = $library; }
+	public function __construct(\ilBiblLibraryInterface $library, \ilBiblFactoryFacade $facade) {
+		$this->library = $library;
+		$this->facade = $facade;
+	}
 
 
 	/**
 	 * @param \ilBiblEntry $entry
 	 * @param              $type
 	 *
-	 * @deprecated REFACTOR
+	 * @deprecated REFACTOR Mit Attribute Objekten arbeiten statt mit Array. Evtl. URL Erstellung vereinfachen
 	 *
 	 *
 	 * @return string
 	 */
 	public function generateLibraryLink(ilBiblEntry $entry, $type) {
-		$attributes = $entry->getAttributes();
-		switch ($type) {
-			case 'bib':
+		$attributes = $this->facade->entryFactory()->loadParsedAttributesByEntryId($entry->getId());
+		$type = $this->facade->typeFactory()->getInstanceForString($type);
+		switch ($type->getId()) {
+			case ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX:
 				$prefix = "bib_default_";
 				if (!empty($attributes[$prefix . "isbn"])) {
 					$attr = array( "isbn" );
@@ -47,7 +56,7 @@ class ilBiblLibraryPresentationGUI {
 					$attr = array( "title", "author", "year", "number", "volume" );
 				}
 				break;
-			case 'ris':
+			case ilBiblTypeFactoryInterface::DATA_TYPE_RIS:
 				$prefix = "ris_" . strtolower($entry->getType()) . "_";
 				if (!empty($attributes[$prefix . "sn"])) {
 					$attr = array( "sn" );
@@ -94,7 +103,7 @@ class ilBiblLibraryPresentationGUI {
 	 * @param \ilObjBibliographic $bibl_obj
 	 * @param \ilBiblEntry        $entry
 	 *
-	 * @deprecated REFACTOR
+	 * @deprecated REFACTOR sollte nicht ilObjBibliographic nutzen, um den type zu holen, sondern type() auf der facade nutzen
 	 *
 	 * @return string
 	 */
@@ -123,7 +132,7 @@ class ilBiblLibraryPresentationGUI {
 	 * @param array  $attributes
 	 * @param String $prefix
 	 *
-	 * @deprecated REFACTOR
+	 * @deprecated REFACTOR type via type factory verwenden
 	 *
 	 *
 	 * @return String

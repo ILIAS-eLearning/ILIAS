@@ -155,3 +155,10 @@ if (! $ilDB->tableExists('il_bibl_translation')) {
 
 }
 ?>
+<#5>
+<?php
+if ($ilDB->tableExists('il_bibl_overview_model')) {
+	$ilDB->modifyTableColumn('il_bibl_overview_model', 'filetype', array("type" => "integer", 'length' => 4));
+}
+?>
+

@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Class ilBiblEntryPresentationGUI
+ * Class ilBiblEntryDetailPresentationGUI
  *
  * @author Martin Studer <ms@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilBiblEntryPresentationGUI {
+class ilBiblEntryDetailPresentationGUI {
 
 	use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
 	/**
@@ -95,7 +95,7 @@ class ilBiblEntryPresentationGUI {
 		$settings = $this->facade->libraryFactory()->getAll();
 		foreach ($settings as $set) {
 			$ci = new ilCustomInputGUI($set->getName());
-			$presentation = new ilBiblLibraryPresentationGUI($set);
+			$presentation = new ilBiblLibraryPresentationGUI($set, $this->facade);
 			$ci->setHtml($presentation->getButton($this->facade->iliasObject(), $this->entry));
 			$form->addItem($ci);
 		}

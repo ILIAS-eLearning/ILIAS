@@ -37,12 +37,11 @@ interface ilBiblTranslationFactoryInterface {
 
 	/**
 	 * @param int    $type_id
-	 * @param string $string_attribute_name
+	 * @param ilBiblAttributeInterface $attribute
 	 *
 	 * @return string
-	 * @deprecated
 	 */
-	public function translateAttributeString($type_id, $string_attribute_name);
+	public function translateAttributeString($type_id, ilBiblAttributeInterface $attribute);
 
 
 	/**

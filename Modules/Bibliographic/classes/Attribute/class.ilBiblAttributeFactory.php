@@ -8,6 +8,16 @@
 class ilBiblAttributeFactory implements ilBiblAttributeFactoryInterface {
 
 	/**
+	 * @var \ilBiblFieldFactory
+	 */
+	protected $field_factory;
+
+	public function __construct(ilBiblFieldFactoryInterface $field_factory) {
+		$this->field_factory = $field_factory;
+	}
+
+
+	/**
 	 * @inheritDoc
 	 */
 	public function getPossibleValuesForFieldAndObject(ilBiblFieldInterface $field, $object_id) {
@@ -41,18 +51,18 @@ WHERE a.name = %s AND d.id = %s";
 	/**
 	 * @inheritDoc
 	 */
-	public function sortAttributes(ilBiblFieldFactoryInterface $fieldFactory, array $attributes) {
+	public function sortAttributes(array $attributes) {
 		/**
 		 * @var $attribute \ilBiblAttributeInterface
 		 */
 		$sorted = [];
-		$type_id = $fieldFactory->getType()->getId();
+		$type_id = $this->field_factory->getType()->getId();
 		$max = 0;
 		foreach ($attributes as $attribute) {
 			if (!$attribute->getName()) {
 				continue;
 			}
-			$field = $fieldFactory->findOrCreateFieldByTypeAndIdentifier($type_id, $attribute->getName());
+			$field = $this->field_factory->findOrCreateFieldByTypeAndIdentifier($type_id, $attribute->getName());
 			$position = (int)$field->getPosition();
 			$position = $position ? $position : $max + 1;
 
@@ -63,5 +73,20 @@ WHERE a.name = %s AND d.id = %s";
 		ksort($sorted);
 
 		return $sorted;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function createAttribute($name, $value, $entry_id) {
+
+		$ilBiblAttribute = new ilBiblAttribute();
+		$ilBiblAttribute->setName($name);
+		$ilBiblAttribute->setValue($value);
+		$ilBiblAttribute->setEntryId($entry_id);
+		$ilBiblAttribute->store();
+
+		$this->field_factory->findOrCreateFieldOfAttribute($ilBiblAttribute);
 	}
 }

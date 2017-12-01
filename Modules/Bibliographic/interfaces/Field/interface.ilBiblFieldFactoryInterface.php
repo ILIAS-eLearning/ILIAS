@@ -58,32 +58,6 @@ interface ilBiblFieldFactoryInterface {
 
 
 	/**
-	 * @deprecated
-	 *
-	 * @param int $data_type
-	 *
-	 * @return array of il_bibl_attribute record data
-	 */
-	public function getAllAttributeNamesByDataType($data_type);
-
-
-	/**
-	 * @param string $identifier
-	 *
-	 * @return array of il_bibl_attribute record data
-	 */
-	public function getAllAttributeNamesByIdentifier($identifier);
-
-
-	/**
-	 * @param int $obj_id
-	 *
-	 * @return array of il_bibl_attribute record data
-	 */
-	public function getAttributeNameAndFileName($obj_id);
-
-
-	/**
 	 * @return \ilBiblTypeInterface
 	 */
 	public function getType();
@@ -98,18 +72,6 @@ interface ilBiblFieldFactoryInterface {
 
 
 	/**
-	 * @deprecated REFACTOR
-	 *
-	 * @param integer $id
-	 *
-	 * @return array ilBiblData Record
-	 */
-	public function getilBiblDataById($id);
-
-
-	/**
-	 * @deprecated REFACTOR
-	 *
 	 * @param \ilBiblAttributeInterface $attribute
 	 *
 	 * @return \ilBiblFieldInterface

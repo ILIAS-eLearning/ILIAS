@@ -55,7 +55,6 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 		if (!$inst) {
 			throw new ilException("bibliografic identifier {$identifier} not found");
 		}
-
 		return $inst;
 	}
 
@@ -117,103 +116,6 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 	public function filterAllFieldsForTypeAsArray(ilBiblTypeInterface $type, ilBiblTableQueryInfoInterface $queryInfo = null) {
 		return $this->getCollectionForFilter($type, $queryInfo)->getArray();
 	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getAllAttributeNamesByDataType($data_type) {
-		global $DIC;
-
-		switch ($data_type) {
-			case ilBiblField::DATA_TYPE_RIS:
-				$data_type = "ris";
-				break;
-			case ilBiblField::DATA_TYPE_BIBTEX:
-				$data_type = "bib";
-				break;
-		}
-
-		$sql = "SELECT DISTINCT (il_bibl_attribute.id), (il_bibl_attribute.name), filename FROM il_bibl_attribute
-				JOIN il_bibl_entry ON il_bibl_attribute.entry_id = il_bibl_entry.id
-				JOIN il_bibl_data ON il_bibl_data.id = il_bibl_entry.data_id";
-
-		$result = $DIC->database()->query($sql);
-
-		$data = [];
-		$i = 0;
-		while ($d = $DIC->database()->fetchAssoc($result)) {
-			$file_parts = pathinfo($d['filename']);
-			if ($file_parts['extension'] == $data_type) {
-				$data[$i]['id'] = $d['id'];
-				$data[$i]['name'] = $d['name'];
-				$data[$i]['filename'] = $d['filename'];
-				$i ++;
-			}
-		}
-
-		return $data;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getAllAttributeNamesByIdentifier($identifier) {
-		global $DIC;
-
-		$sql = "SELECT DISTINCT (il_bibl_attribute.id), (il_bibl_attribute.name), filename FROM il_bibl_attribute
-				JOIN il_bibl_entry ON il_bibl_attribute.entry_id = il_bibl_entry.id
-				JOIN il_bibl_data ON il_bibl_data.id = il_bibl_entry.data_id WHERE "
-		       . $DIC->database()->like("il_bibl_attribute.name", "text", "%" . $identifier . "%");
-
-		$result = $DIC->database()->query($sql);
-
-		$data = [];
-
-		while ($d = $DIC->database()->fetchAssoc($result)) {
-			$data[] = $d;
-		}
-
-		return $data;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getAttributeNameAndFileName($obj_id) {
-		global $DIC;
-		$sql = "SELECT DISTINCT(il_bibl_attribute.name), filename FROM il_bibl_attribute
-				JOIN il_bibl_entry ON il_bibl_attribute.entry_id = il_bibl_entry.id
-				JOIN il_bibl_data ON il_bibl_data.id = il_bibl_entry.data_id";
-
-		$result = $DIC->database()->queryF($sql, [ 'integer' ], [ $obj_id ]);
-
-		$data = [];
-		while ($d = $DIC->database()->fetchAssoc($result)) {
-			$data[] = $d['name'];
-		}
-
-		return $data;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getilBiblDataById($id) {
-		global $DIC;
-		$data = array();
-		$set = $DIC->database()->query("SELECT * FROM il_bibl_data " . " WHERE id = "
-		                               . $DIC->database()->quote($id, "integer"));
-		while ($rec = $DIC->database()->fetchAssoc($set)) {
-			$data = $rec;
-		}
-
-		return $data;
-	}
-
 
 	/**
 	 * @inheritDoc

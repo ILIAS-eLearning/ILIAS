@@ -12,7 +12,6 @@ class ilBiblLibrary extends ActiveRecord implements ilBiblLibraryInterface {
 
 	/**
 	 * @return string
-	 * @deprecated
 	 */
 	static function returnDbTableName() {
 		return self::TABLE_NAME;

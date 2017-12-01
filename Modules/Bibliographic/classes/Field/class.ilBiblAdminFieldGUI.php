@@ -71,8 +71,7 @@ abstract class ilBiblAdminFieldGUI {
 			case self::CMD_SAVE:
 			case self::CMD_APPLY_FILTER:
 			case self::CMD_RESET_FILTER:
-				if ($this->access()->checkAccess('write', "", $this->facade->iliasObject()
-				                                                           ->getRefId())) {
+				if ($this->access()->checkAccess('write', "", $this->facade->iliasRefId())) {
 					$this->{$cmd}();
 					break;
 				} else {
@@ -90,9 +89,6 @@ abstract class ilBiblAdminFieldGUI {
 	}
 
 
-	/**
-	 *
-	 */
 	protected function setSubTabs() {
 		$this->tabs()->addSubTab(self::SUBTAB_RIS, $this->lng()->txt('ris'), $this->ctrl()
 		                                                                          ->getLinkTargetByClass(array(

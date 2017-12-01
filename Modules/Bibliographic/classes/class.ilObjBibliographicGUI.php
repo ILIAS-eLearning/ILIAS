@@ -20,6 +20,7 @@
  */
 class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandling {
 
+	use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
 	const P_ENTRY_ID = 'entry_id';
 	const CMD_SHOW_CONTENT = 'showContent';
 	const CMD_SEND_FILE = "sendFile";
@@ -95,6 +96,8 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	/**
 	 * getType
 	 *
+	 * @deprecated REFACTOR use type factory via Facade
+	 *
 	 * @return String
 	 */
 	public function getType() {
@@ -107,23 +110,20 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	 */
 	public function executeCommand() {
 		global $DIC;
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilTabs = $DIC['ilTabs'];
 		$ilNavigationHistory = $DIC['ilNavigationHistory'];
-		$tpl = $DIC['tpl'];
 
 		// Navigation History
-		$link = $ilCtrl->getLinkTarget($this, $this->getStandardCmd());
+		$link = $this->dic()->ctrl()->getLinkTarget($this, $this->getStandardCmd());
 		if ($this->object != null) {
 			$ilNavigationHistory->addItem($this->object->getRefId(), $link, "bibl");
 			$this->addHeaderAction();
 		}
-		$next_class = $ilCtrl->getNextClass($this);
-		$this->cmd = $ilCtrl->getCmd();
+		$next_class = $this->dic()->ctrl()->getNextClass($this);
+		$this->cmd = $this->dic()->ctrl()->getCmd();
 		switch ($next_class) {
 			case strtolower(ilInfoScreenGUI::class):
 				$this->prepareOutput();
-				$ilTabs->activateTab(self::TAB_ID_INFO);
+				$this->dic()->tabs()->activateTab(self::TAB_ID_INFO);
 				$this->infoScreenForward();
 				break;
 			case strtolower(ilCommonActionDispatcherGUI::class):
@@ -132,30 +132,30 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 				break;
 			case strtolower(ilPermissionGUI::class):
 				$this->prepareOutput();
-				$ilTabs->activateTab(self::TAB_ID_PERMISSIONS);
+				$this->dic()->tabs()->activateTab(self::TAB_ID_PERMISSIONS);
 				$this->ctrl->forwardCommand(new ilPermissionGUI($this));
 				break;
 			case strtolower(ilObjectCopyGUI::class):
 				$cp = new ilObjectCopyGUI($this);
 				$cp->setType('bibl');
-				$tpl->getStandardTemplate();
+				$this->dic()['tpl']->getStandardTemplate();
 				$this->ctrl->forwardCommand($cp);
 				break;
 			case strtolower(ilObjFileGUI::class):
 				$this->prepareOutput();
-				$ilTabs->setTabActive(self::TAB_ID_RECORDS);
+				$this->dic()->tabs()->setTabActive(self::TAB_ID_RECORDS);
 				$this->ctrl->forwardCommand(new ilObjFile($this));
 				break;
 			case strtolower(ilExportGUI::class):
 				$this->prepareOutput();
-				$ilTabs->setTabActive(self::TAB_EXPORT);
+				$this->dic()->tabs()->setTabActive(self::TAB_EXPORT);
 				$exp_gui = new ilExportGUI($this);
 				$exp_gui->addFormat("xml");
 				$this->ctrl->forwardCommand($exp_gui);
 				break;
 			case strtolower(ilBiblFieldFilterGUI::class):
 				$this->prepareOutput();
-				$ilTabs->setTabActive(self::TAB_SETTINGS);
+				$this->dic()->tabs()->setTabActive(self::TAB_SETTINGS);
 				$this->initSubTabs();
 				$this->tabs_gui->activateSubTab(self::SUB_TAB_FILTER);
 				$this->ctrl->forwardCommand(new ilBiblFieldFilterGUI($this->facade));
@@ -486,7 +486,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 			$id = $DIC->http()->request()->getQueryParams()[self::P_ENTRY_ID];
 			$entry = $this->facade->entryFactory()
 			                      ->findByIdAndTypeString($id, $this->object->getFileTypeAsString());
-			$bibGUI = new ilBiblEntryPresentationGUI($entry, $this->facade);
+			$bibGUI = new ilBiblEntryDetailPresentationGUI($entry, $this->facade);
 
 			$DIC->ui()->mainTemplate()->setContent($bibGUI->getHTML());
 		} else {

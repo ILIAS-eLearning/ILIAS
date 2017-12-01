@@ -12,6 +12,16 @@ interface ilBiblFactoryFacadeInterface {
 	 */
 	public function typeFactory();
 
+	/**
+	 * @return \ilBiblOverviewModelFactoryInterface
+	 */
+	public function overviewModelFactory();
+
+	/**
+	 * @return \ilBiblTypeFactoryInterface
+	 */
+	public function type();
+
 
 	/**
 	 * @return \ilBiblLibraryFactoryInterface
@@ -56,7 +66,18 @@ interface ilBiblFactoryFacadeInterface {
 
 
 	/**
-	 * @return \ilObjBibliographic
+	 * @return int
 	 */
-	public function iliasObject();
+	public function iliasObjId();
+
+
+	/**
+	 * @return int
+	 */
+	public function iliasRefId();
+
+	/**
+	 * @return \ilBiblDataFactoryInterface
+	 */
+	public function dataFactory();
 }

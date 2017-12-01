@@ -12,7 +12,6 @@ class ilBiblFieldFilter extends ActiveRecord implements ilBiblFieldFilterInterfa
 
 	/**
 	 * @return string
-	 * @deprecated
 	 */
 	static function returnDbTableName() {
 		return self::TABLE_NAME;

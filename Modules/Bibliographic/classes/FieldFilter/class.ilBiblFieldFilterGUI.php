@@ -22,10 +22,6 @@ class ilBiblFieldFilterGUI {
 	const CMD_RESET_FILTER = 'resetFilter';
 	const CMD_TRANSLATE = 'translate';
 
-	/**
-	 * @var \ILIAS\DI\Container
-	 */
-	protected $dic;
 
 	/**
 	 * @var \ilBiblFactoryFacade

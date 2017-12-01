@@ -32,7 +32,7 @@ interface ilBiblTypeFactoryInterface {
 
 
 	/**
-	 * @deprecated Legacy
+	 * @deprecated Legacy REFACTOR use type factory
 	 *
 	 * @param string $string
 	 *

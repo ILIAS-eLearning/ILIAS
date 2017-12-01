@@ -64,9 +64,9 @@ class ilBiblTranslationFactory implements ilBiblTranslationFactoryInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function translateAttributeString($type_id, $string_attribute_name) {
+	public function translateAttributeString($type_id, ilBiblAttributeInterface $attribute) {
 		$field = $this->getFieldFactory()
-		              ->findOrCreateFieldByTypeAndIdentifier($type_id, $string_attribute_name);
+		              ->findOrCreateFieldByTypeAndIdentifier($type_id, $attribute->getIdentifier());
 
 		return $this->translate($field);
 	}

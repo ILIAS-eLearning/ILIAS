@@ -97,4 +97,12 @@ trait DIC {
 	protected function toolbar() {
 		return $this->dic()->toolbar();
 	}
+
+
+	/**
+	 * @return \ilDB
+	 */
+	protected function database() {
+		return $this->dic()->database();
+	}
 }

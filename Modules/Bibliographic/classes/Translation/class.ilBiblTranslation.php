@@ -13,7 +13,6 @@ class ilBiblTranslation extends ActiveRecord implements ilBiblTranslationInterfa
 
 	/**
 	 * @return string
-	 * @deprecated
 	 */
 	static function returnDbTableName() {
 		return self::TABLE_NAME;

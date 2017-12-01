@@ -16,16 +16,24 @@ interface ilBiblFileReaderInterface {
 
 
 	/**
-	 * @deprecated use
+	 * @deprecated REFACTOR Implementierungen mit Objekten statt mit Arrays
 	 * @return array
 	 */
 	public function parseContent();
 
 
 	/**
-	 * @param \ilObjBibliographic $bib
-	 *
-	 * @return \ilBiblEntry[]
+	 * @return ilBiblEntryFactoryInterface
 	 */
-	public function parseContentToEntries(ilObjBibliographic $bib);
+	public function getEntryFactory();
+
+	/**
+	 * @return ilBiblFieldFactoryInterface
+	 */
+	public function getFieldFactory();
+
+	/**
+	 * @return ilBiblAttributeFactoryInterface
+	 */
+	public function getAttributeFactory();
 }
