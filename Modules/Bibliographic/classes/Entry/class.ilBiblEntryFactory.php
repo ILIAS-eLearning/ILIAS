@@ -58,7 +58,6 @@ class ilBiblEntryFactory implements ilBiblEntryFactoryInterface {
 		$this->file_type = $file_type;
 		$this->field_factory = $field_factory;
 		$this->overview_factory = $overview_factory;
-		//$this->doRead();
 	}
 
 
@@ -71,7 +70,7 @@ class ilBiblEntryFactory implements ilBiblEntryFactoryInterface {
 
 		if ($this->file_type->getId() == ilBiblTypeFactoryInterface::DATA_TYPE_RIS) {
 			//for RIS-Files also add the type;
-			$type = $ilBiblEntry->getEntryType();
+			$type = $ilBiblEntry->getType();
 		} else {
 			$type = 'default';
 		}
@@ -89,17 +88,6 @@ class ilBiblEntryFactory implements ilBiblEntryFactoryInterface {
 		return $parsed_attributes;
 	}
 
-
-	public function doRead() {
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
-		$ilBiblEntry = ilBiblEntry::where(array( 'entry_id' => $this->getEntryId() ))->first();
-		if(!empty($ilBiblEntry)) {
-			$this->setType($ilBiblEntry->getEntryType());
-			$this->setAttributes($this->loadParsedAttributesByEntryId($this->getEntryId()));
-			$this->overview_factory->initOverviewHTML($ilBiblEntry);
-		}
-	}
 
 	/**
 	 * @inheritDoc

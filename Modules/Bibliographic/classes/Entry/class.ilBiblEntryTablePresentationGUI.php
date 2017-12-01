@@ -31,8 +31,8 @@ class ilBiblEntryTablePresentationGUI {
 	 */
 	public function __construct(ilBiblEntry $entry, ilBiblFactoryFacadeInterface $facade) {
 		$this->entry = $entry;
-		$this->render();
 		$this->facade = $facade;
+		$this->render();
 	}
 
 
@@ -42,17 +42,17 @@ class ilBiblEntryTablePresentationGUI {
 	 * @return mixed|string
 	 */
 	protected function render() {
-		$attributes = $this->getEntry()->getAttributes();
+		$attributes = $this->facade->entryFactory()->loadParsedAttributesByEntryId($this->getEntry()->getId());
 		//Get the model which declares which attributes to show in the overview table and how to show them
 		//example for overviewModels: $overviewModels['bib']['default'] => "[<strong>|bib_default_author|</strong>: ][|bib_default_title|. ]<Emph>[|bib_default_publisher|][, |bib_default_year|][, |bib_default_address|].</Emph>"
-		$overviewModels = $this->facade->overviewModelFactory()->getAllOverviewModels();
+		$overviewModels = $this->facade->overviewModelFactory()->getAllOverviewModelsByType($this->facade->type());
 		//get design for specific entry type or get filetypes default design if type is not specified
 		$entryType = $this->getEntry()->getType();
 		//if there is no model for the specific entrytype (book, article, ....) the entry overview will be structured by the default entrytype from the given filetype (ris, bib, ...)
-		if (!$overviewModels[$this->getEntry()->getFileType()->getStringRepresentation()][$entryType]) {
+		if (!$overviewModels[$this->facade->typeFactory()->getDataTypeIdentifierByInstance($this->facade->entryFactory()->getFileType())][$entryType]) {
 			$entryType = 'default';
 		}
-		$single_entry = $overviewModels[$this->getEntry()->getFileType()->getStringRepresentation()][$entryType];
+		$single_entry = $overviewModels[$entryType];
 		//split the model into single attributes (which begin and end with a bracket, eg [|bib_default_title|. ] )
 		//such values are saved in $placeholders[0] while the same values but whithout brackets are saved in $placeholders[1] (eg |bib_default_title|.  )
 		preg_match_all('/\[(.*?)\]/', $single_entry, $placeholders);
@@ -98,7 +98,6 @@ class ilBiblEntryTablePresentationGUI {
 				$single_entry = str_replace($placeholders[0][$key], '', $single_entry);
 			}
 		}
-
 		$this->setHtml($single_entry);
 	}
 

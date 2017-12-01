@@ -67,4 +67,16 @@ class ilBiblTypeFactory implements ilBiblTypeFactoryInterface {
 				throw new ilException("no data type found for this file ending");
 		}
 	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getDataTypeIdentifierByInstance(ilBiblTypeInterface $type_inst) {
+		if($type_inst instanceof ilRis) {
+			return ilBiblTypeFactoryInterface::DATA_TYPE_RIS;
+		} elseif($type_inst instanceof ilBibTex) {
+			return ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX;
+		}
+	}
 }

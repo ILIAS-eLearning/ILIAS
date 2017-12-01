@@ -7,19 +7,6 @@
  */
 interface ilBiblEntryInterface {
 
-
-	/**
-	 * @param $attributes
-	 */
-	public function setAttributes($attributes);
-
-
-	/**
-	 * @return string[]
-	 */
-	public function getAttributes();
-
-
 	/**
 	 * @param int $id
 	 */
@@ -30,4 +17,26 @@ interface ilBiblEntryInterface {
 	 * @return int
 	 */
 	public function getId();
+
+	/**
+	 * @return integer
+	 */
+	public function getDataId();
+
+
+	/**
+	 * @param integer $data_id
+	 */
+	public function setDataId($data_id);
+
+	/**
+	 * @return string
+	 */
+	public function getType();
+
+
+	/**
+	 * @param string $type
+	 */
+	public function setType($type);
 }

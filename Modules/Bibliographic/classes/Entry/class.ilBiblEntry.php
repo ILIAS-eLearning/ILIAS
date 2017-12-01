@@ -7,7 +7,6 @@
  * @author     Gabriel Comte
  * @author     Fabian Schmid <fs@studer-raimann.ch>
  *
- * @deprecated REFACTOR: use ActiveRecord, Attributes sollten Objecte sein nicht Arrays, beim speichern eines Entries auch die Attribut-Objekte speichern
  */
 class ilBiblEntry extends ActiveRecord implements ilBiblEntryInterface {
 
@@ -55,24 +54,7 @@ class ilBiblEntry extends ActiveRecord implements ilBiblEntryInterface {
 	 * @con_length     50
 	 * @con_is_notnull true
 	 */
-	protected $entry_type;
-
-	/**
-	 * @param $attributes
-	 */
-	public function setAttributes($attributes) {
-		$this->attributes = $attributes;
-	}
-
-
-	/**
-	 * @deprecated REFACTOR nach refactoring von loadAttributes Methoden die getAttributes verwenden entsprechend anpassen. (Statt Array Objekte verwenden)
-	 * @return string[]
-	 */
-	public function getAttributes() {
-		return $this->attributes;
-	}
-
+	protected $type;
 
 	/**
 	 * @return integer
@@ -108,17 +90,16 @@ class ilBiblEntry extends ActiveRecord implements ilBiblEntryInterface {
 	/**
 	 * @return string
 	 */
-	public function getEntryType() {
-		return $this->entry_type;
+	public function getType() {
+		return $this->type;
 	}
 
 
 	/**
-	 * @param string $entry_type
+	 * @param string $type
 	 */
-	public function setEntryType($entry_type) {
-		$this->entry_type = $entry_type;
+	public function setType($type) {
+		$this->type = $type;
 	}
-
 
 }

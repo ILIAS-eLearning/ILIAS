@@ -6,6 +6,23 @@
  */
 
 class ilBiblOverviewModel extends ActiveRecord implements ilBiblOverviewModelInterface {
+
+	const TABLE_NAME = 'il_bibl_overview_model';
+
+	/**
+	 * @return string
+	 */
+	static function returnDbTableName() {
+		return self::TABLE_NAME;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getConnectorContainerName() {
+		return self::TABLE_NAME;
+	}
+
 	/**
 	 * @var
 	 *
@@ -25,7 +42,7 @@ class ilBiblOverviewModel extends ActiveRecord implements ilBiblOverviewModelInt
 	 * @con_fieldtype  integer
 	 * @con_length     4
 	 */
-	protected $file_type;
+	protected $filetype;
 	/**
 	 * @var
 	 *
@@ -63,7 +80,7 @@ class ilBiblOverviewModel extends ActiveRecord implements ilBiblOverviewModelInt
 	 * @return mixed
 	 */
 	public function getFileType() {
-		return $this->file_type;
+		return $this->filetype;
 	}
 
 
@@ -71,7 +88,7 @@ class ilBiblOverviewModel extends ActiveRecord implements ilBiblOverviewModelInt
 	 * @param mixed $file_type
 	 */
 	public function setFileType($file_type) {
-		$this->file_type = $file_type;
+		$this->filetype = $file_type;
 	}
 
 

@@ -14,8 +14,9 @@ interface ilBiblOverviewModelFactoryInterface {
 
 
 	/**
-	 * @param ilBiblEntryInterface $entry
+	 * @param ilBiblTypeInterface $type
+	 *
+	 * @return ilBiblOverviewModelInterface
 	 */
-	public function initOverviewHTML(ilBiblEntryInterface $entry);
-
+	public function getAllOverviewModelsByType(ilBiblTypeInterface $type);
 }

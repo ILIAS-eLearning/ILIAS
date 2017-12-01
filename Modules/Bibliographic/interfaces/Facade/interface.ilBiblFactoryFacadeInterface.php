@@ -18,7 +18,7 @@ interface ilBiblFactoryFacadeInterface {
 	public function overviewModelFactory();
 
 	/**
-	 * @return \ilBiblTypeFactoryInterface
+	 * @return \ilBiblTypeInterface
 	 */
 	public function type();
 

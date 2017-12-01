@@ -48,4 +48,12 @@ interface ilBiblTypeFactoryInterface {
 	 * @return int
 	 */
 	public function convertFileEndingToDataType($file_ending);
+
+
+	/**
+	 * @param ilBiblTypeInterface $type_inst
+	 *
+	 * @return integer
+	 */
+	public function getDataTypeIdentifierByInstance(ilBiblTypeInterface $type_inst);
 }

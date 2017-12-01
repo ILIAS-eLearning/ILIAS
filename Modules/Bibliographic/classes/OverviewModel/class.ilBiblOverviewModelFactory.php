@@ -13,28 +13,25 @@ class ilBiblOverviewModelFactory implements ilBiblOverviewModelFactoryInterface 
 	 * @return array
 	 */
 	public function getAllOverviewModels() {
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
 		$overviewModels = ilBiblOverviewModel::get();
-
-		$overviewModels = array();
-		$set = $ilDB->query('SELECT * FROM il_bibl_overview_model');
-		while ($rec = $ilDB->fetchAssoc($set)) {
-			if ($rec['literature_type']) {
-				$overviewModels[$rec['filetype']][$rec['literature_type']] = $rec['pattern'];
+		$overviewModelsArray = array();
+		foreach($overviewModels as $model) {
+			if($model->getLiteratureType()) {
+				$overviewModelsArray[$model->getFileType()][$model->getLiteratureType()] = $model->getPattern();
 			} else {
-				$overviewModels[$rec['filetype']] = $rec['pattern'];
+				$overviewModelsArray[$model->getFileType()] = $model->getPattern();
 			}
 		}
-		return $overviewModels;
+		return $overviewModelsArray;
 	}
+
 
 	/**
 	 * @inheritDoc
 	 */
-	public function initOverviewHTML(ilBiblEntryInterface $entry) {
-		$ilBiblOverviewGUI = new ilBiblEntryTablePresentationGUI($entry);
-		$this->setOverview($ilBiblOverviewGUI->getHtml());
-	}
+	public function getAllOverviewModelsByType(ilBiblTypeInterface $type) {
+		$models = $this->getAllOverviewModels();
+		return $models[$type->getId()];
 
+	}
 }
