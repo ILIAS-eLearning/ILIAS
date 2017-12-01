@@ -6,11 +6,4 @@ use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionOp
 use ILIAS\BackgroundTasks\Task\UserInteraction;
 
 abstract class AbstractUserInteraction extends AbstractTask implements UserInteraction {
-
-	/**
-	 * @inheritdoc
-	 */
-	public function getExpectedTimeOfTaksInSeconds() {
-		return 9999;
-	}
 }
