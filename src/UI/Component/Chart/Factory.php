@@ -28,4 +28,26 @@ interface Factory {
 	 * @return  \ILIAS\UI\Component\Chart\ScaleBar
 	 */
 	public function scaleBar(array $items);
+
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     Speedos are used to display a progress, in the form of an speedometer.
+     *     E.g. they can be used to inform about a progress in a course or other
+     *     learning objectives.
+     *   composition: >
+     *     Speedos are composed of one or two bars inside a speedometer-like container.
+     *     The bars change between two colors, to identify a reached goal. It
+     *     additionally may show a percentage score.
+     *
+     * context: >
+     *     Speedos are used inside courses on the content view.
+     *
+     * ---
+     * @return \ILIAS\UI\Component\Chart\Speedo\Factory
+     */
+    public function speedo();
+
 }
