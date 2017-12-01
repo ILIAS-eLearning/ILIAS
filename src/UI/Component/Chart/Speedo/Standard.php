@@ -41,7 +41,7 @@ interface Standard extends Speedo {
     /**
      * Get clone of Speedo with goal text
      *
-     * It will be displayed under the minimum goal percentage display.
+     * It will be displayed below the minimum percentage display.
      * Example: withTxtGoal("Minimum Goal")
      *
      * @param string $txt

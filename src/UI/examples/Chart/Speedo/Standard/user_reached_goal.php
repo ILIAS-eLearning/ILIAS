@@ -1,6 +1,6 @@
 <?php
 /**
- * Max Example for rendering a standard Speedo when the goal was reached
+ * Example for rendering a standard Speedo when a specific score was reached
  */
 function user_reached_goal() {
     //Loading factories
@@ -9,11 +9,7 @@ function user_reached_goal() {
     $renderer = $DIC->ui()->renderer();
 
     //Genarating and rendering the standard speedo
-    $speedo = $f->chart()->speedo()->standard(array(
-        'goal' => 400,
-        'score' => 300,
-        'minimum' => 250,
-    ));
+    $speedo = $f->chart()->speedo()->standard(100, 80, 75);
 
     // render
     return $renderer->render($speedo);

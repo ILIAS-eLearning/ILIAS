@@ -15,23 +15,23 @@ class Factory implements \ILIAS\UI\Component\Chart\Speedo\Factory
     /**
      * @inheritdoc
      */
-    public function standard(array $scores)
+    public function standard($maximum, $score, $minimum = null, $diagnostic = null)
     {
-        return new Standard($scores);
+        return new Standard($maximum, $score, $minimum, $diagnostic);
     }
     /**
      * @inheritdoc
      */
-    public function responsive(array $scores)
+    public function responsive($maximum, $score, $minimum = null, $diagnostic = null)
     {
-        return new Responsive($scores);
+        return new Responsive($maximum, $score, $minimum, $diagnostic);
     }
 
     /**
      * @inheritdoc
      */
-    public function mini(array $scores)
+    public function mini($maximum, $score, $minimum = null)
     {
-        return new Mini($scores);
+        return new Mini($maximum, $score, $minimum);
     }
 }

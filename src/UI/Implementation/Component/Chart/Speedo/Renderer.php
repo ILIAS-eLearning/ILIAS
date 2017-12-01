@@ -62,7 +62,7 @@ class Renderer extends AbstractComponentRenderer
         }
 
         // set "responsive class" false
-        $tpl->setVariable("RESP_CLASS", 'standard');
+        $tpl->touchBlock('standard');
 
         // set visible values
         $tpl = $this->modifyVisibleValues($tpl, $component);
@@ -77,7 +77,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->modifyProgressBarClasses($tpl, $component);
 
         // set marker position
-        if($component->getMinimum(false) != $component->getGoal()) {
+        if($component->getMinimum(false) != $component->getMaximum()) {
             $tpl->setVariable("MARKER_POS", $this->getMarkerPos($component->getMinimum()));
         } else {
             $tpl->setVariable("MARKER_POS",'180');
@@ -104,7 +104,7 @@ class Renderer extends AbstractComponentRenderer
         }
 
         // set "responsive class" false
-        $tpl->setVariable("RESP_CLASS", 'responsive');
+        $tpl->touchBlock('responsive');
 
         // set visible values
         $tpl = $this->modifyVisibleValues($tpl, $component);
@@ -119,7 +119,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->modifyProgressBarClasses($tpl, $component);
 
         // set marker position
-        if($component->getMinimum(false) != $component->getGoal()) {
+        if($component->getMinimum(false) != $component->getMaximum()) {
             $tpl->setVariable("MARKER_POS", $this->getMarkerPos($component->getMinimum()));
         } else {
             $tpl->setVariable("MARKER_POS",'180');
@@ -162,10 +162,10 @@ class Renderer extends AbstractComponentRenderer
     protected function modifyVisibleValues(\ILIAS\UI\Implementation\Render\Template $tpl, Component\Component $component)
     {
         $tpl->setVariable("SCORE", $component->getScore().' %');
-        if($component->getMinimum(false) != $component->getGoal()) {
-            $tpl->setVariable("GOAL_SCORE", $component->getMinimum().' %');
+        if($component->getMinimum(false) != $component->getMaximum()) {
+            $tpl->setVariable("MIN_SCORE", $component->getMinimum().' %');
         } else {
-            $tpl->setVariable("GOAL_SCORE", '');
+            $tpl->setVariable("MIN_SCORE", '');
         }
         if ($component->hasDiagnostic()) {
             $tpl->setVariable("TEST_SCORE", $component->getDiagnostic().' %');
@@ -203,20 +203,15 @@ class Renderer extends AbstractComponentRenderer
      */
     protected function modifyProgressBarClasses(\ILIAS\UI\Implementation\Render\Template $tpl, Component\Component $component)
     {
-        $tpl->setVariable("SCORE_BAR_CLASS", '');
-        $tpl->setVariable("TEST_BAR_CLASS", '');
         if ($this->getIsScoreSet($component->getScore())) {
-            $tpl->setVariable(
-                "SCORE_BAR_CLASS",
-                (
-                $this->getIsGoalReached($component->getScore(), $component->getMinimum()) ?
-                    'il-chart-speedo-green' :
-                    'il-chart-speedo-red'
-                )
-            );
+            if($this->getIsGoalReached($component->getScore(), $component->getMinimum())) {
+                $tpl->touchBlock('outer-bar-green');
+            } else {
+                $tpl->touchBlock('outer-bar-red');
+            }
         } else {
             if ($component->hasDiagnostic()) {
-                $tpl->setVariable("TEST_BAR_CLASS", 'il-chart-speedo-yellow');
+                $tpl->touchBlock('inner-bar-yellow');
             }
         }
         return $tpl;
@@ -274,7 +269,10 @@ class Renderer extends AbstractComponentRenderer
     }
 
     /**
-     * Test if score has reached goal
+     * Test if score has reached a goal
+     *
+     * This function may be used to check different score
+     * values with different goal (has-to-reach) values.
      *
      * @param int|float $score
      * @param int|float $goal

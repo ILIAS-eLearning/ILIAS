@@ -1,6 +1,6 @@
 <?php
 /**
- * Max Example for rendering a standard Speedo with maximum configuration
+ * Example for rendering a standard Speedo with maximum configuration
  */
 function maximum_configuration() {
     //Loading factories
@@ -9,12 +9,7 @@ function maximum_configuration() {
     $renderer = $DIC->ui()->renderer();
 
     //Genarating and rendering the standard speedo
-    $speedo = $f->chart()->speedo()->standard(array(
-        'goal' => 400,
-        'score' => 250,
-        'minimum' => 300,
-        'diagnostic' => 200,
-    ));
+    $speedo = $f->chart()->speedo()->standard(100, 75, 80, 50);
 
     // add score text
     $speedo = $speedo->withTxtScore('Your Score');

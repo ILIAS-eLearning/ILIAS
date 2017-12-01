@@ -1,9 +1,13 @@
-<div class="il-chart-speedo-box {RESP_CLASS}">
+<div class="il-chart-speedo-box<!-- BEGIN responsive --> responsive<!-- END responsive --><!-- BEGIN standard --> standard<!-- END standard -->">
     <div class="il-chart-speedo-container">
         <div class="il-chart-speedo-marker-box" style="transform: rotate({MARKER_POS}deg)">
             <div class="il-chart-speedo-marker"><div class="il-chart-speedo-arrow"></div></div>
         </div>
-        <div class="il-chart-speedo-outerbox {SCORE_BAR_CLASS}">
+        <div class="il-chart-speedo-outerbox
+<!-- BEGIN outer-bar-green --> il-chart-speedo-green<!-- END outer-bar-green -->
+<!-- BEGIN outer-bar-red --> il-chart-speedo-red<!-- END outer-bar-red -->
+<!-- BEGIN outer-bar-yellow --> il-chart-speedo-yellow<!-- END outer-bar-yellow -->
+">
             <div class="il-chart-speedo-pointer pointer-1" style="transform: rotate({ROTATION_SCORE1}deg) skew({SKEW_SCORE}deg)"></div>
             <div class="il-chart-speedo-pointer pointer-2" style="transform: rotate({ROTATION_SCORE2}deg) skew({SKEW_SCORE}deg)"></div>
             <div class="il-chart-speedo-pointer pointer-3" style="transform: rotate({ROTATION_SCORE3}deg) skew({SKEW_SCORE}deg)"></div>
@@ -11,7 +15,7 @@
                 <div class="il-chart-speedo-text-container">
                     <span class="il-chart-speedo-score-text">{TXT_SCORE}</span>
                     <span class="il-chart-speedo-score">{SCORE}</span>
-                    <span class="il-chart-speedo-minscore">{GOAL_SCORE}</span>
+                    <span class="il-chart-speedo-minscore">{MIN_SCORE}</span>
                     <span class="il-chart-speedo-minscore-text">{TXT_GOAL_SCORE}</span>
                 </div>
             </div>

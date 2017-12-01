@@ -39,7 +39,7 @@ interface Factory {
      *     learning objectives.
      *   composition: >
      *     Speedos are composed of one or two bars inside a speedometer-like container.
-     *     The bars change between two colors, to identify a reached goal. It
+     *     The bars change between two colors, to identify a specific reached score. It
      *     additionally may show a percentage score.
      *
      * context: >

@@ -16,7 +16,7 @@ class Speedo implements C\Chart\Speedo\Speedo {
     /**
      * @var int
      */
-    protected $goal;
+    protected $maximum;
 
     /**
      * @var int
@@ -36,32 +36,32 @@ class Speedo implements C\Chart\Speedo\Speedo {
     /**
      * @inheritdoc
      */
-    public function __construct($scores)
+    public function __construct($maximum, $score, $minimum = null, $diagnostic = null)
     {
-        $this->checkIntArg("goal", $scores['goal']);
-        $this->goal = $scores['goal'];
-        $this->checkIntArg("score", $scores['score']);
-        $this->score = $this->getSafe($scores['score']);
+        $this->checkIntArg("maximum", $maximum);
+        $this->maximum = $maximum;
+        $this->checkIntArg("score", $score);
+        $this->score = $this->getSafe($score);
 
-        if(array_key_exists('minimum', $scores)) {
-            $this->checkIntArg("minimum", $scores['minimum']);
-            $this->minimum = $this->getSafe($scores['minimum']);
+        if($minimum != null) {
+            $this->checkIntArg("minimum", $minimum);
+            $this->minimum = $this->getSafe($minimum);
         } else {
-            $this->checkIntArg("minimum", $scores['goal']);
-            $this->minimum = $this->getSafe($scores['goal']);
+            $this->checkIntArg("minimum", $maximum);
+            $this->minimum = $this->getSafe($maximum);
         }
-        if(array_key_exists('diagnostic', $scores)) {
-            $this->checkIntArg("diagnostic", $scores['diagnostic']);
-            $this->diagnostic = $this->getSafe($scores['diagnostic']);
+        if($diagnostic != null) {
+            $this->checkIntArg("diagnostic", $diagnostic);
+            $this->diagnostic = $this->getSafe($diagnostic);
         }
     }
 
     /**
      * @inheritdoc
      */
-    public function getGoal()
+    public function getMaximum()
     {
-        return (isset($this->goal) ? $this->goal : 100);
+        return (isset($this->maximum) ? $this->maximum : 100);
     }
 
     /**
@@ -81,7 +81,7 @@ class Speedo implements C\Chart\Speedo\Speedo {
     }
 
     /**
-     * Get integer value "1" if a value is negative or "100" if value is more then goal
+     * Get integer value "1" if a value is negative or "100" if value is more then maximum
      *
      * @param int $a_int
      * @return int
@@ -99,7 +99,7 @@ class Speedo implements C\Chart\Speedo\Speedo {
      */
     protected function getAsPercentage($score)
     {
-        return round(100 / $this->getGoal() * $score, 0 , PHP_ROUND_HALF_UP);
+        return round(100 / $this->getMaximum() * $score, 0 , PHP_ROUND_HALF_UP);
     }
 
     /**

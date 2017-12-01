@@ -1,6 +1,6 @@
 <?php
 /**
- * Max Example for rendering a standard Speedo with an diagnostic score only
+ * Example for rendering a standard Speedo with an diagnostic score only
  */
 function only_diagnostic_score() {
     //Loading factories
@@ -9,11 +9,7 @@ function only_diagnostic_score() {
     $renderer = $DIC->ui()->renderer();
 
     //Genarating and rendering the standard speedo
-    $speedo = $f->chart()->speedo()->standard(array(
-        'goal' => 400,
-        'score' => 0,
-        'diagnostic' => 200,
-    ));
+    $speedo = $f->chart()->speedo()->standard(100, 0, 75, 50);
 
     // render
     return $renderer->render($speedo);

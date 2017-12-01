@@ -1,6 +1,6 @@
 <?php
 /**
- * Base Example for rendering a standard Speedo with minimum configuration
+ * Example for rendering a standard Speedo with minimum configuration
  */
 function base() {
     //Loading factories
@@ -9,10 +9,7 @@ function base() {
     $renderer = $DIC->ui()->renderer();
 
     //Genarating and rendering the standard speedo
-    $speedo = $f->chart()->speedo()->standard(array(
-        'goal' => 400,
-        'score' => 250,
-    ));
+    $speedo = $f->chart()->speedo()->standard(100, 75);
 
     // render
     return $renderer->render($speedo);

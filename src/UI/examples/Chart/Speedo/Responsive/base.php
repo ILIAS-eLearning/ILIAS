@@ -1,6 +1,6 @@
 <?php
 /**
- * Base Example for rendering a responsive Speedo with minimum configuration
+ * Example for rendering a responsive Speedo with minimum configuration
  */
 function base() {
     //Loading factories
@@ -9,10 +9,7 @@ function base() {
     $renderer = $DIC->ui()->renderer();
 
     //Genarating and rendering the responsive speedo
-    $speedo = $f->chart()->speedo()->responsive(array(
-        'goal' => 400,
-        'score' => 250,
-    ));
+    $speedo = $f->chart()->speedo()->responsive(100, 75);
 
     // render
     return $renderer->render($speedo);

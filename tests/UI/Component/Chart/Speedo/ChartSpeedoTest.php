@@ -17,14 +17,14 @@ class SpeedoTest extends ILIAS_UI_TestBase
         $f = new \ILIAS\UI\Implementation\Factory();
 
         $this->assertInstanceOf("ILIAS\\UI\\Factory", $f);
-        $speedo = $f->speedo();
+        $speedo = $f->chart()->speedo();
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Chart\\Speedo\\Factory", $speedo);
     }
 
     public function test_get_instances()
     {
         $f = new \ILIAS\UI\Implementation\Factory();
-        $speedo = $f->speedo();
+        $speedo = $f->chart()->speedo();
 
         $standard = $speedo->standard(array(
             'goal' => 400,
@@ -48,7 +48,7 @@ class SpeedoTest extends ILIAS_UI_TestBase
     public function test_get_values_of_standard()
     {
         $f = new \ILIAS\UI\Implementation\Factory();
-        $standard = $f->speedo()->standard(array(
+        $standard = $f->chart()->speedo()->standard(array(
             'goal' => 400,
             'score' => 250,
             'minimum' => 300,
@@ -57,14 +57,17 @@ class SpeedoTest extends ILIAS_UI_TestBase
 
         $this->assertEquals($standard->getGoal(), 400);
         $this->assertEquals($standard->getScore(false), 250);
+        $this->assertEquals($standard->getScore(true), 63);
         $this->assertEquals($standard->getMinimum(false), 300);
+        $this->assertEquals($standard->getMinimum(true), 75);
         $this->assertEquals($standard->getDiagnostic(false), 200);
+        $this->assertEquals($standard->getDiagnostic(true), 50);
     }
 
     public function test_get_values_of_responsive()
     {
         $f = new \ILIAS\UI\Implementation\Factory();
-        $responsive = $f->speedo()->responsive(array(
+        $responsive = $f->chart()->speedo()->responsive(array(
             'goal' => 400,
             'score' => 250,
             'minimum' => 300,
@@ -73,14 +76,17 @@ class SpeedoTest extends ILIAS_UI_TestBase
 
         $this->assertEquals($responsive->getGoal(), 400);
         $this->assertEquals($responsive->getScore(false), 250);
+        $this->assertEquals($responsive->getScore(true), 63);
         $this->assertEquals($responsive->getMinimum(false), 300);
+        $this->assertEquals($responsive->getMinimum(true), 75);
         $this->assertEquals($responsive->getDiagnostic(false), 200);
+        $this->assertEquals($responsive->getDiagnostic(true), 50);
     }
 
     public function test_get_values_of_mini()
     {
         $f = new \ILIAS\UI\Implementation\Factory();
-        $mini = $f->speedo()->mini(array(
+        $mini = $f->chart()->speedo()->mini(array(
             'goal' => 400,
             'score' => 250,
             'minimum' => 300,
@@ -88,14 +94,16 @@ class SpeedoTest extends ILIAS_UI_TestBase
 
         $this->assertEquals($mini->getGoal(), 400);
         $this->assertEquals($mini->getScore(false), 250);
+        $this->assertEquals($mini->getScore(true), 63);
         $this->assertEquals($mini->getMinimum(false), 300);
+        $this->assertEquals($mini->getMinimum(true), 75);
     }
 
     public function test_render_standard_two_bar()
     {
         $r = $this->getDefaultRenderer();
         $f = new \ILIAS\UI\Implementation\Factory();
-        $standard = $f->speedo()->standard(array(
+        $standard = $f->chart()->speedo()->standard(array(
             'goal' => 400,
             'score' => 250,
             'minimum' => 300,
@@ -141,13 +149,13 @@ class SpeedoTest extends ILIAS_UI_TestBase
     {
         $r = $this->getDefaultRenderer();
         $f = new \ILIAS\UI\Implementation\Factory();
-        $responsive = $f->speedo()->responsive(array(
+        $responsive = $f->chart()->speedo()->responsive(array(
             'goal' => 400,
             'score' => 250,
             'minimum' => 300,
         ));
 
-        $this->assertInstanceOf("ILIAS\\UI\\Component\\Chart\\Speedo\\Standard", $responsive);
+        $this->assertInstanceOf("ILIAS\\UI\\Component\\Chart\\Speedo\\Responsive", $responsive);
 
         $html = $r->render($responsive);
 
@@ -180,7 +188,7 @@ class SpeedoTest extends ILIAS_UI_TestBase
     {
         $r = $this->getDefaultRenderer();
         $f = new \ILIAS\UI\Implementation\Factory();
-        $mini = $f->speedo()->mini(array(
+        $mini = $f->chart()->speedo()->mini(array(
             'goal' => 400,
             'score' => 250,
             'minimum' => 300,

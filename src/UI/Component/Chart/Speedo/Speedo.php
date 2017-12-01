@@ -12,7 +12,7 @@ use ILIAS\UI\Component\Component;
 interface Speedo extends Component {
 
     /**
-     * Get goal value
+     * Get maximum value
      *
      * This value is used as 100%.
      * This value will always returned "raw" because it is used to calculate the
@@ -20,10 +20,10 @@ interface Speedo extends Component {
      *
      * @return int|float
      */
-    public function getGoal();
+    public function getMaximum();
 
     /**
-     * Get minimum goal value
+     * Get minimum value
      *
      * This value represents the minimum score that users need, to fulfill the objective.
      * If this value is not set, it defaults to 100%.
