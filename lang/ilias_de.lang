@@ -11898,17 +11898,17 @@ orgu#:#orgu_type_msg_error_custom_icon#:#Icon konnte nicht gespeichert werden
 orgu#:#orgu_type_available_amd_sets#:#Verfügbare Erweiterte Metadaten
 orgu#:#orgu_type_assign_amd_sets#:#Erweiterte Metadaten zuweisen
 content#:#cont_help_no_valid_tooltip_id#:#Die eingegebene Tooltip-ID ist nicht gültig.
-wiki#:#wiki_page_templates#:#Seitentemplates
-wiki#:#wiki_template_status_removed#:#Nutzung als Seitenvorlage aufgehoben.
-wiki#:#wiki_remove_template_status#:#Nicht mehr als Seitenvorlage nutzen
-wiki#:#wiki_template_added#:#Seitenvorlage hinzugefügt
+wiki#:#wiki_page_templates#:#Inhaltsvorlagen
+wiki#:#wiki_template_status_removed#:#Steht nicht mehr als Inhaltsvorlage zur Verfügung
+wiki#:#wiki_remove_template_status#:#Nicht mehr als Inhaltsvorlage nutzen
+wiki#:#wiki_template_added#:#Inhaltsvorlage hinzugefügt
 wiki#:#wiki_templ_new_pages#:#Verfügbar für neue Seite
 wiki#:#wiki_templ_add_to_page#:#Verfügbar für bestehende Seite
-wiki#:#wiki_add_template#:#Als Seitenvorlage nutzen
+wiki#:#wiki_add_template#:#Als Inhaltsvorlage nutzen
 wiki#:#wiki_empty_page_template#:#Erstellen einer neuen Seite ohne Vorlage anbieten (leere Seite)
 wiki#:#wiki_page_not_exist_select_templ#:#Diese Seite existiert noch nicht. Bitte wählen Sie eine Vorlage für die neue Seite.
 wiki#:#wiki_new_page#:#Neue Seite
-wiki#:#wiki_page_template#:#Seitenvorlage
+wiki#:#wiki_page_template#:#Inhaltsvorlage
 wiki#:#wiki_empty_page#:#Leere Seite
 wiki#:#wiki_create_page#:#Seite erstellen
 content#:#cont_ed_insert_templ#:#Inhaltsvorlage einfügen
