@@ -670,7 +670,7 @@ assessment#:#kiosk_options#:#Angezeigte Informationen
 assessment#:#kiosk_options_desc#:#Die ausgewählten Informationen werden im Kopfbereich der Seite angezeigt.
 assessment#:#kiosk_show_participant#:#Name des Teilnehmers
 assessment#:#kiosk_show_title#:#Titel des Tests
-assessment#:#last_update#:#Letzte Aktualisierung
+assessment#:#last_update#:#Aktualisiert
 assessment#:#legend#:#Legende
 assessment#:#qpl_lac_legend_header_common#:#Aussagenlogik
 assessment#:#qpl_lac_desc_logical_and#:#Logisches UND
@@ -3016,7 +3016,7 @@ common#:#last_edited_on#:#Zuletzt bearbeitet am
 common#:#last_login#:#Letztes Login
 common#:#last_refresh#:#Letzte Aktualisierung
 common#:#last_reminder#:#Letzte Erinnerung
-common#:#last_update#:#Letzte Aktualisierung
+common#:#last_update#:#Aktualisiert
 common#:#last_visited#:#Zuletzt besucht
 common#:#lastname#:#Nachname
 common#:#launch#:#Start
@@ -8133,7 +8133,7 @@ search#:#lucene_show_relevance_info#:#Suchergebnisse werden sortiert nach ihrer 
 search#:#lucene_size_frag_info#:#Bitte wählen Sie die maximale Länge der Textabschnitte, die zur Hervorhebung der Suchtreffer ausgegeben werden.
 search#:#lucene_size_fragments#:#Länge der Textabschnitte
 search#:#lucene_tbl_create_ini#:#Java-Server Konfigurationsdatei erstellen
-search#:#search_adv_md#:#Erweiterte Metadaten
+search#:#search_adv_md#:#Benutzerdefinierte Metadaten
 search#:#search_advanced#:#Erweiterte Suche
 search#:#search_all_words#:#Alle Begriffe <small>(<i>UND</i>)</small>
 search#:#search_any#:#-- Beliebig --
@@ -8726,7 +8726,7 @@ survey#:#invited_users#:#Ausgewählte Benutzer
 survey#:#label#:#Label
 survey#:#label_info#:#Alternative Bezeichnung für die weitere Verarbeitung (z.B. in SPSS) der Fragendaten
 survey#:#language_changed#:#Sprache geändert
-survey#:#last_update#:#Letzte Aktualisierung
+survey#:#last_update#:#Aktualisiert
 survey#:#layout#:#Layout
 survey#:#legend#:#Legende
 survey#:#lower_limit#:#Untere Schranke
@@ -11709,7 +11709,7 @@ survey#:#svy_mail_own_results_subject#:#Umfrage "%s" - Ihre Antworten
 survey#:#svy_results_view_own#:#Teilnehmer kann eigene Antworten einsehen
 exercise#:#exc_to_desktop_info#:#Nach Abgabe die Übung auf den Schreibtisch legen
 wiki#:#wiki_wpg#:#Wiki-Seite
-wiki#:#wiki_advmd_block_title#:#Erweiterte Metadaten der Seite
+wiki#:#wiki_advmd_block_title#:#Benutzerdefinierte Metadaten der Seite
 content#:#cont_ed_insert_amd_page_list#:#Seitenliste einfügen
 content#:#cont_insert_amd_page_list#:#Seitenliste einfügen
 content#:#cont_update_amd_page_list#:#Seitenliste bearbeiten
@@ -11783,8 +11783,8 @@ tagging#:#tagging_other_users#:#Tags anderer Benutzer
 common#:#autocomplete_more#:#mehr
 mail#:#mail_max_size_attachments_total#:#Bitte geben Sie hier die erlaubte Dateigröße für Mailanhänge an. Diese Einstellung hat keinen Einfluss auf das Hochladen von Dateien (hier gelten die Serverlimitierungen, z.B. upload_max_filesize), sondern lediglich auf die Datenmenge der als Anhang einer Mail ausgewählten Dateien.
 mail#:#mail_max_size_attachments_total_error#:#Die maximal erlaubte Dateigröße für Anhänge beträgt:
-grp#:#grp_cdf_tbl_last_edit#:#Letzte Änderung (Gruppenspezifische Daten)
-crs#:#crs_cdf_tbl_last_edit#:#Letzte Änderung (Kursspezifische Daten)
+grp#:#grp_cdf_tbl_last_edit#:#Aktualisiert (Gruppenspezifische Daten)
+crs#:#crs_cdf_tbl_last_edit#:#Aktualisiert (Kursspezifische Daten)
 ps#:#cdf_edited_by_self#:#durch den Benutzer
 rbac#:#excs_visible#:#Übungs-Administration ist sichtbar
 rbac#:#excs_read#:#Lesezugriff auf Übungs-Administration
@@ -11898,8 +11898,8 @@ orgu#:#orgu_orgu_type#:#Organisationseinheitentyp
 orgu#:#orgu_type_custom_icon#:#Benutzerdefiniertes Icon für diesen Organisationseinheitentyp
 orgu#:#orgu_adv_settings#:#Erweiterte Einstellungen
 orgu#:#orgu_type_msg_error_custom_icon#:#Icon konnte nicht gespeichert werden
-orgu#:#orgu_type_available_amd_sets#:#Verfügbare Erweiterte Metadaten
-orgu#:#orgu_type_assign_amd_sets#:#Erweiterte Metadaten zuweisen
+orgu#:#orgu_type_available_amd_sets#:#Verfügbare benutzerdefinierte Metadaten
+orgu#:#orgu_type_assign_amd_sets#:#Benutzerdefinierte Metadaten zuweisen
 content#:#cont_help_no_valid_tooltip_id#:#Die eingegebene Tooltip-ID ist nicht gültig.
 wiki#:#wiki_page_templates#:#Inhaltsvorlagen
 wiki#:#wiki_template_status_removed#:#Nutzung als Inhaltsvorlage aufgehoben.
@@ -12618,7 +12618,7 @@ meta#:#meta_tab_lom#:#LOM
 meta#:#meta_tab_advmd#:#Benutzerdefinierte Metadaten
 meta#:#meta_tab_advmd_def#:#Metadatensätze verwalten
 meta#:#meta_global#:#Global
-wiki#:#wiki_unhide_meta_adv_records#:#Erweiterte Metadaten anzeigen
+wiki#:#wiki_unhide_meta_adv_records#:#Benutzerdefinierte Metadaten anzeigen
 prtf#:#prtf_back_to_portfolio_owner#:#Portfolio bearbeiten
 blog#:#blog_back_to_blog_owner#:#Blog bearbeiten
 content#:#cont_assign_to_parent#:#Dem übergordneten Knoten zuordnen
