@@ -105,19 +105,13 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
-		$rbacadmin = $this->rbacadmin;
+		$this->checkPermission("write");
 
-		// create and insert forum in objecttree
-		$newObj = parent::saveObject();
-
-		// put here object specific stuff
+		parent::saveObject();
 
 		// always send a message
 		ilUtil::sendSuccess($this->lng->txt("object_added"),true);
-
 		$this->ctrl->redirect($this);
-		//header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
-		//exit();
 	}
 
 	function getAdminTabs()
@@ -238,7 +232,10 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 			$cb->setChecked(true);
 		}
 		$this->form->addItem($cb);
-		$this->form->addCommandButton("saveSettings", $lng->txt("save"));
+		if ($this->checkPermissionBool("write"))
+		{
+			$this->form->addCommandButton("saveSettings", $lng->txt("save"));
+		}
 		
 		$tpl->setContent($this->form->getHTML());
 	}	
@@ -248,6 +245,8 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	*/
 	function saveSettingsObject()
 	{
+		$this->checkPermission("write");
+
 		if ($_POST["use_tiny"])
 		{
 			$this->object->setRichTextEditor("tinymce");
@@ -360,7 +359,8 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	}
 	
 	protected function saveTags($a_id, $a_cmd)
-	{					
+	{
+		$this->checkPermission("write");
 		try
 		{
 			// get rid of select all
@@ -474,7 +474,10 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 		}
 	
 		// save and cancel commands
-		$this->form->addCommandButton("savePageEditorSettings", $lng->txt("save"));
+		if ($this->checkPermissionBool("write"))
+		{
+			$this->form->addCommandButton("savePageEditorSettings", $lng->txt("save"));
+		}
 		
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
 	 
@@ -486,10 +489,11 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	*/
 	public function savePageEditorSettingsObject()
 	{
-		$tpl = $this->tpl;
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
 		$ilSetting = $this->settings;
+
+		$this->checkPermission("write");
 	
 		$this->initPageEditorForm();
 		if ($this->form->checkInput())
@@ -575,7 +579,10 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 		$cb->setInfo($this->lng->txt("adve_auto_url_linking_info"));
 		$form->addItem($cb);
 
-		$form->addCommandButton("saveGeneralPageSettings", $lng->txt("save"));
+		if ($this->checkPermissionBool("write"))
+		{
+			$form->addCommandButton("saveGeneralPageSettings", $lng->txt("save"));
+		}
 	                
 		$form->setTitle($lng->txt("adve_pe_general"));
 		$form->setFormAction($ilCtrl->getFormAction($this));
@@ -591,6 +598,8 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 		$tpl = $this->tpl;
+
+		$this->checkPermission("write");
 		
 		$form = $this->initGeneralPageSettingsForm();
 		if ($form->checkInput())
@@ -627,7 +636,10 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 		$form = new ilPropertyFormGUI();
 		$form->setTitle($lng->txt('settings'));
 		$form->setFormAction($ilCtrl->getFormAction($this));
-		$form->addCommandButton("saveCharSelectorSettings", $lng->txt("save"));
+		if ($this->checkPermissionBool("write"))
+		{
+			$form->addCommandButton("saveCharSelectorSettings", $lng->txt("save"));
+		}
 		$char_selector->addFormProperties($form);
 
 		return $form;
@@ -664,6 +676,8 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 		$tpl = $this->tpl;
+
+		$this->checkPermission("write");
 		
 		require_once 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php';
 		$char_selector = new ilCharSelectorGUI(ilCharSelectorConfig::CONTEXT_ADMIN);

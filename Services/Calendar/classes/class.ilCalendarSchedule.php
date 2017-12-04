@@ -537,6 +537,8 @@ class ilCalendarSchedule
 				if(!$this->strict_period) {
 					$this->start->increment(IL_CAL_DAY, -2);
 					$this->end->increment(IL_CAL_DAY, 2);
+				} else {
+					$this->end->increment(IL_CAL_DAY, 1);
 				}
 				break;
 			

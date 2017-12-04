@@ -358,9 +358,7 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 
 		$shy = $this->getAppointmentShyButton($a_app['event'], $a_app['dstart'], "");
 
-		$title = ($new_title = $this->getContentByPlugins($a_app['event'], $a_app['dstart'], $shy))? $new_title : $shy;
-
-		$event_tpl->setVariable('F_APP_TITLE',$title.$compl);
+		$event_tpl->setVariable('F_APP_TITLE',$shy.$compl);
 
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
 		$event_tpl->setVariable('F_APP_BGCOLOR',$color);
@@ -444,7 +442,7 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
 		$event_tpl->setVariable('APP_BGCOLOR',$color);
-		$this->tpl->setVariable('APP_BGCOLOR',$color);
+		//$this->tpl->setVariable('APP_BGCOLOR',$color);
 		$event_tpl->setVariable('APP_COLOR',ilCalendarUtil::calculateFontColor($color));
 		$this->tpl->setVariable('APP_COLOR',ilCalendarUtil::calculateFontColor($color));
 		$event_tpl->setVariable('APP_ADD_STYLES',$a_app['event']->getPresentationStyle());

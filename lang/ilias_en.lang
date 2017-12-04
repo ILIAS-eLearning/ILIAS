@@ -569,7 +569,7 @@ assessment#:#kiosk_options#:#Exam View Options
 assessment#:#kiosk_show_participant#:#Show Name of Participant
 assessment#:#kiosk_show_title#:#Show Test Title
 assessment#:#kiosk#:#Exam View
-assessment#:#last_update#:#Last Update
+assessment#:#last_update#:#Updated
 assessment#:#legend#:#Legend
 assessment#:#qpl_lac_legend_header_common#:#Expression Logic
 assessment#:#qpl_lac_desc_logical_and#:#Logical AND
@@ -2536,7 +2536,7 @@ common#:#last_edited_on#:#Last edited on
 common#:#last_login#:#Last Login
 common#:#last_refresh#:#Last Refresh
 common#:#last_reminder#:#Last reminder
-common#:#last_update#:#Last Update
+common#:#last_update#:#Updated
 common#:#last_visited#:#Last Visited
 common#:#lastname#:#Last Name
 common#:#launch#:#Launch
@@ -7193,7 +7193,7 @@ survey#:#invitation_off#:#Do not put on any Desktop
 survey#:#invitation#:#Put Link On Personal Desktop
 survey#:#invited_users#:#Selected Users
 survey#:#language_changed#:#Language changed
-survey#:#last_update#:#Last Update
+survey#:#last_update#:#Updated
 survey#:#layout#:#Layout
 survey#:#legend#:#Legend
 survey#:#lower_limit#:#Lower Limit
@@ -11854,8 +11854,8 @@ tagging#:#tagging_other_users#:#Tags of Other Users
 common#:#autocomplete_more#:#more
 mail#:#mail_max_size_attachments_total#:#Please enter the maximum file size allowed as attachment per mail. This setting is not related to other resource limits, e.g. upload_max_filesize etc. (since you can attach multiple files).
 mail#:#mail_max_size_attachments_total_error#:#The allowed attachment size is:
-grp#:#grp_cdf_tbl_last_edit#:#Last Update (Group-specific Data)
-crs#:#crs_cdf_tbl_last_edit#:#Last Update (Course-specific Data)
+grp#:#grp_cdf_tbl_last_edit#:#Updated (Group-specific Data)
+crs#:#crs_cdf_tbl_last_edit#:#Updated (Course-specific Data)
 ps#:#cdf_edited_by_self#:#by the User
 rbac#:#excs_visible#:#Exercise administration is visible
 rbac#:#excs_read#:#User has read access to Exercise administration
@@ -14136,3 +14136,5 @@ content#:#cont_sc_name_setting_salutation_lastname#:#Salutation and Last name
 content#:#cont_sc_name_setting_first_name#:#First name
 content#:#cont_sc_name_setting_no_name#:#no name
 dateplaner#:#cal_download_files_started#:#Download of calendar files has started.
+poll#:#poll_voting_period_full_info#:#Voting period from %s to %s
+common#:#usr_name_undisclosed#:#Undisclosed
