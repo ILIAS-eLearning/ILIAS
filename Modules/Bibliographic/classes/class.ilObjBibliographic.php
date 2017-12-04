@@ -38,6 +38,10 @@ class ilObjBibliographic extends ilObject2 {
 	 */
 	protected $bib_overview_factory;
 	/**
+	 * @var \ilBiblAttributeFactoryInterface
+	 */
+	protected $bib_attribute_factory;
+	/**
 	 * Id of literary articles
 	 *
 	 * @var string
@@ -59,7 +63,6 @@ class ilObjBibliographic extends ilObject2 {
 	 * @var int
 	 */
 	protected $file_type = 0;
-
 
 	/**
 	 * initType
@@ -89,6 +92,7 @@ class ilObjBibliographic extends ilObject2 {
 		$this->bib_overview_factory = new ilBiblOverviewModelFactory();
 		$this->bib_entry_factory = new ilBiblEntryFactory($this->bib_field_factory, $this->bib_type_factory->getInstanceForType($this->getFileType()), $this->bib_overview_factory);
 		$this->bib_filereader_factory = new ilBiblFileReaderFactory();
+		$this->bib_attribute_factory = new ilBiblAttributeFactory($this->bib_field_factory);
 	}
 
 
@@ -308,27 +312,6 @@ class ilObjBibliographic extends ilObject2 {
 
 
 	/**
-	 * @deprecated REFACTOR use active record. Create ilBiblOverviewModel AR, Factory and Interface
-	 *
-	 * @return array
-	 */
-	public static function getAllOverviewModels() {
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
-		$overviewModels = array();
-		$set = $ilDB->query('SELECT * FROM il_bibl_overview_model');
-		while ($rec = $ilDB->fetchAssoc($set)) {
-			if ($rec['literature_type']) {
-				$overviewModels[$rec['filetype']][$rec['literature_type']] = $rec['pattern'];
-			} else {
-				$overviewModels[$rec['filetype']] = $rec['pattern'];
-			}
-		}
-		return $overviewModels;
-	}
-
-
-	/**
 	 * Clone BIBL
 	 *
 	 * @param ilObjBibliographic $new_obj
@@ -380,7 +363,7 @@ class ilObjBibliographic extends ilObject2 {
 	public function parseFileToDatabase() {
 		//Read File
 		$type = $this->getFileType();
-		$reader = $this->bib_filereader_factory->getByType($type, $this->bib_entry_factory, $this->bib_field_factory);
+		$reader = $this->bib_filereader_factory->getByType($type, $this->bib_entry_factory, $this->bib_field_factory, $this->bib_attribute_factory);
 		$reader->readContent($this->getFileAbsolutePath());
 		$this->entries = $reader->parseContentToEntries($this);
 	}

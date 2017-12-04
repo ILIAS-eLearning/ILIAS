@@ -157,25 +157,29 @@ if (! $ilDB->tableExists('il_bibl_translation')) {
 ?>
 <#5>
 <?php
+//TODO fill filetype_id with the correct values
 if ($ilDB->tableExists('il_bibl_overview_model')) {
-	$ilDB->modifyTableColumn('il_bibl_overview_model', 'filetype', array("type" => "integer", 'length' => 4));
-}
-?>
-<#6>
-<?php
-//TODO: handle auto_incrment ovm_id
-if ($ilDB->tableExists('il_bibl_overview_model')) {
+	$type = function ($filetype_string) {
+		if (strtolower($filetype_string) == "bib"
+			|| strtolower($filetype_string) == "bibtex") {
+			return 1;
+		}
+		return 2;
+	};
 
-	$ilDB->insert("il_bibl_overview_model", array(
-		"filetype" => array("integer", ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX),
-		"literature_type" => array("text", 'default'),
-		"pattern" => array("text", "[<strong>|bib_default_author|</strong> ][|bib_default_title|]: <Emph>[|bib_default_publisher| ][|bib_default_year| ][|bib_default_address|]</Emph>"),
-	));
-	$ilDB->insert("il_bibl_overview_model", array(
-		"filetype" => array("integer", ilBiblTypeFactoryInterface::DATA_TYPE_RIS),
-		"literature_type" => array("text", 'default'),
-		"pattern" => array("text", "[<strong>|ris_default_a1|</strong> ][<strong>|ris_default_au|</strong> ][|ris_default_t1|][ |ris_default_ti|]: <Emph>[|ris_default_pb| ][|ris_default_y1| ][|ris_default_py| ][|ris_default_cy|]</Emph>"),
-	));
+	if(!$ilDB->tableColumnExists('il_bibl_overview_model', 'filetype_id')) {
+		$ilDB->addTableColumn('il_bibl_overview_model', 'filetype_id', array("type" => "integer", 'length' => 4));
+	}
+
+	$res = $ilDB->query("SELECT * FROM il_bibl_overview_model");
+	while($d = $ilDB->fetchObject($res)) {
+		$type_id = (int)$type($d->filetype);
+		$ilDB->update("il_bibl_overview_model", [
+			"filetype_id" => [ "integer", $type_id ]
+		], [ "ovm_id" => $d->id ]);
+	}
+
+	$ilDB->dropTableColumn('il_bibl_overview_model', 'filetype');
 }
 ?>
 

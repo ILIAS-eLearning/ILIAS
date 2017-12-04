@@ -43,9 +43,10 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface {
 	 *
 	 * @param ilBiblEntryFactoryInterface $entry_factory
 	 */
-	public function __construct(ilBiblEntryFactoryInterface $entry_factory, ilBiblFieldFactoryInterface $field_factory) {
+	public function __construct(ilBiblEntryFactoryInterface $entry_factory, ilBiblFieldFactoryInterface $field_factory, ilBiblAttributeFactoryInterface $attribute_factory) {
 		$this->entry_factory = $entry_factory;
 		$this->field_factory = $field_factory;
+		$this->attribute_factory = $attribute_factory;
 	}
 
 
@@ -131,8 +132,6 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface {
 	 * @inheritDoc
 	 */
 	public function parseContentToEntries(ilObjBibliographic $bib) {
-		$file_type = $bib->getFileTypeAsString();
-
 		$entries_from_file = $this->parseContent();
 		$entry_instances = [];
 		//fill each entry into a ilBibliographicEntry object and then write it to DB by executing doCreate()

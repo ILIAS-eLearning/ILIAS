@@ -3,8 +3,6 @@
 /**
  * Class ilBiblEntryTablePresentationGUI
  *
- * @deprecated REFACTOR facade verwenden
- *
  * @author     Fabian Schmid <fs@studer-raimann.ch>
  * @version    1.0.0
  */

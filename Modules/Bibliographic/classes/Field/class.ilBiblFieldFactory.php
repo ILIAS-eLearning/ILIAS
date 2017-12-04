@@ -125,14 +125,13 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 		if ($field === null) {
 			$field = new ilBiblField();
 			$field->setIdentifier($ilBiblAttribute->getName());
-			$field->setDataType($this->type->getStringRepresentation());
+			$field->setDataType($this->type->getId());
 			$field->setIsStandardField($this->type->isStandardField($ilBiblAttribute->getName()));
 			$field->create();
+		} else {
+			$field->setDataType($this->type->getId());
+			$field->update();
 		}
-
-		$field->setDataType($this->type->getStringRepresentation());
-		$field->setIsStandardField($this->type->isStandardField($ilBiblAttribute->getName()));
-
 		return $field;
 	}
 

@@ -175,7 +175,6 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 				}
 				break;
 		}
-
 		return true;
 	}
 
