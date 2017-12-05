@@ -212,7 +212,9 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 
 		$shy = $this->getAppointmentShyButton($a_app['event'], $a_app['dstart'], "");
 
-		$event_tpl->setVariable('F_APP_TITLE',$shy.$compl);
+		$title = $shy.$compl;
+
+		$event_tpl->setVariable('EVENT_CONTENT',$title);
 
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
 		$font_color = ilCalendarUtil::calculateFontColor($color);
@@ -224,11 +226,14 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 		$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());
 		$event_tpl->setVariable('F_APP_EDIT_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','edit'));
 
-		$event_html = $event_tpl->get();
-
-		if($event_html_by_plugin = $this->getContentByPlugins($a_app['event'], $a_app['dstart'], $event_html))
+		if($event_html_by_plugin = $this->getContentByPlugins($a_app['event'], $a_app['dstart'], $title, $event_tpl))
 		{
 			$event_html = $event_html_by_plugin;
+		}
+		else
+		{
+			$event_tpl->parseCurrentBlock();
+			$event_html = $event_tpl->get();
 		}
 
 		$this->tpl->setCurrentBlock("content_fd");
@@ -278,10 +283,10 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 		$title = ($time != "")? $time." ".$shy : $shy;
 
 		//calendar plugins
-		if($event_html_by_plugin = $this->getContentByPlugins($a_app['event'], $a_app['dstart'], $title))
-		{
-			$title = $event_html_by_plugin;
-		}
+		//if($event_html_by_plugin = $this->getContentByPlugins($a_app['event'], $a_app['dstart'], $title))
+		//{
+		//	$title = $event_html_by_plugin;
+		//}
 		//if calendar is not affected by a content replacement, print the TD with the defined color.
 		if($this->content_replaced_by_plugin == false)
 		{
