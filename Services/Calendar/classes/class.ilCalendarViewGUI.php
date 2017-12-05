@@ -330,10 +330,11 @@ class ilCalendarViewGUI
 	/**
 	 * @param $a_cal_entry
 	 * @param $a_start_date
-	 * @param $a_title
+	 * @param $a_content
+	 * @param $a_tpl needed to adding elements in the template like extra content inside the event container
 	 * @return string
 	 */
-	public function getContentByPlugins($a_cal_entry, $a_start_date, $a_content)
+	public function getContentByPlugins($a_cal_entry, $a_start_date, $a_content, $a_tpl)
 	{
 		$content = $a_content;
 
@@ -345,21 +346,23 @@ class ilCalendarViewGUI
 			$shy_title = ($new_title = $plugin->editShyButtonTitle())? $new_title : "";
 			if($shy_title)
 			{
-				$content = $this->getAppointmentShyButton($a_cal_entry, $a_start_date, $shy_title);
+				$a_tpl->setVariable('EVENT_CONTENT', $this->getAppointmentShyButton($a_cal_entry, $a_start_date, $shy_title));
 			}
 
 			if($glyph = $plugin->addGlyph())
 			{
-				$content = $glyph." ".$content;
+				$a_tpl->setVariable('EXTRA_GLYPH_BY_PLUGIN', $glyph);
 			}
 
 			if($more_content = $plugin->addExtraContent())
 			{
-				$content = $content." ".$more_content;
+				$a_tpl->setVariable('EXTRA_CONTENT_BY_PLUGIN', $more_content);
 			}
 
+			$a_tpl->parseCurrentBlock();
+			$html_content = $a_tpl->get();
 
-			if($new_content = $plugin->replaceContent($content))
+			if($new_content = $plugin->replaceContent($html_content))
 			{
 				$content = $new_content;
 				if($content != $a_content)
