@@ -35,24 +35,24 @@
 	background-color: @il-chart-item-active-bg;
 }
 
-.il-chart-speedo-container,
-.il-chart-speedo-mini-container {
+.il-chart-gauge-container,
+.il-chart-gauge-mini-container {
 	display: block;
 	position: relative;
 	background-color: transparent;
 	height: 140%;
 	width: 100%;
 
-	.il-chart-speedo-outerbox {
+	.il-chart-gauge-outerbox {
 		height: 100%;
 		width: 100%;
 		border-radius: 50%;
 		overflow: hidden;
 		position: relative;
 		z-index: 1;
-		background-color: @il-chart-speedo-gray;
+		background-color: @il-chart-gauge-gray;
 
-		.il-chart-speedo-pointer {
+		.il-chart-gauge-pointer {
 			position: absolute;
 			transform-origin: 100% 100%;
 			transform: rotate(-25deg) skew(90deg);
@@ -60,69 +60,69 @@
 			height: 50%;
 		}
 
-		&.il-chart-speedo-green {
-			& > .il-chart-speedo-pointer {
-				background-color: @il-chart-speedo-bar-green;
+		&.il-chart-gauge-bar-success {
+			& > .il-chart-gauge-pointer {
+				background-color: @il-chart-gauge-bar-success;
 			}
 		}
-		&.il-chart-speedo-red {
-			& > .il-chart-speedo-pointer {
-				background-color: @il-chart-speedo-bar-red;
+		&.il-chart-gauge-bar-no-success {
+			& > .il-chart-gauge-pointer {
+				background-color: @il-chart-gauge-bar-no-success;
 			}
 		}
 	}
 
-	.il-chart-speedo-innerbox {
+	.il-chart-gauge-innerbox {
 		position: absolute;
 		width: 94%;
 		height: 94%;
 		border-radius: 50%;
 		top: 3%;
 		left: 3%;
-		background-color: @il-chart-speedo-gray;
+		background-color: @il-chart-gauge-gray;
 		border: 5px solid transparent;
 		overflow: hidden;
 
-		.il-chart-speedo-pointer {
+		.il-chart-gauge-pointer {
 			position: absolute;
 			transform-origin: 100% 100%;
 			transform: rotate(-24deg) skew(90deg);
 			height: 50%;
 			width: 50%;
-			background-color: @il-chart-speedo-bar-grey;
+			background-color: @il-chart-gauge-bar-grey;
 			top: -1px;
 		}
 
-		&.il-chart-speedo-yellow {
-			& > .il-chart-speedo-pointer {
-				background-color: @il-chart-speedo-bar-yellow;
+		&.il-chart-gauge-yellow {
+			& > .il-chart-gauge-pointer {
+				background-color: @il-chart-gauge-bar-yellow;
 			}
 		}
 	}
 
-	.il-chart-speedo-cover {
+	.il-chart-gauge-cover {
 		position: absolute;
 		border-radius: 50%;
 		background-color: @body-bg;
 		overflow: hidden;
 
-		.il-chart-speedo-text-container {
+		.il-chart-gauge-text-container {
 			width: 100%;
 			height: 100%;
 			position: relative;
 			color: #000;
 
-			.il-chart-speedo-score-text {
+			.il-chart-gauge-score-text {
 				position: absolute;
 				left: 25%;
 				top: 22%;
 				width: 50%;
 				text-align: center;
-				color: @il-chart-speedo-text;
+				color: @il-chart-gauge-text;
 				font-size: 1em;
 			}
 
-			.il-chart-speedo-score {
+			.il-chart-gauge-score {
 				position: absolute;
 				left: 20%;
 				top: 30%;
@@ -130,7 +130,7 @@
 				font-weight: bold;
 			}
 
-			.il-chart-speedo-minscore {
+			.il-chart-gauge-minscore {
 				position: absolute;
 				left: 25%;
 				top: 62%;
@@ -139,24 +139,24 @@
 				font-size: 1em;
 			}
 
-			.il-chart-speedo-minscore-text {
+			.il-chart-gauge-minscore-text {
 				position: absolute;
 				left: 25%;
 				top: 70%;
 				width: 50%;
 				text-align: center;
-				color: @il-chart-speedo-text;
+				color: @il-chart-gauge-text;
 				font-size: 1em;
 			}
 
-			.il-chart-speedo-test-score {
+			.il-chart-gauge-test-score {
 				display: none;
 				font-size: 1em;
 			}
 		}
 	}
 
-	.il-chart-speedo-marker-box {
+	.il-chart-gauge-marker-box {
 		position: absolute;
 		width: 93.3334%;
 		height: 93.3334%;
@@ -165,21 +165,21 @@
 		background: transparent;
 		z-index: 3;
 
-		.il-chart-speedo-marker {
+		.il-chart-gauge-marker {
 			position: absolute;
 			left: 50%;
 			margin-left: -8px;
 			border-left: 9px solid transparent;
 			border-right: 9px solid transparent;
-			border-top: 11px solid @il-chart-speedo-marker-shadow;
+			border-top: 11px solid @il-chart-gauge-marker-shadow;
 			width: 1px;
 			height: 1px;
 
-			.il-chart-speedo-arrow {
+			.il-chart-gauge-arrow {
 				position: relative;
 				border-left: 10px solid transparent;
 				border-right: 10px solid transparent;
-				border-top: 13px solid @il-chart-speedo-marker;
+				border-top: 13px solid @il-chart-gauge-marker;
 				width: 1px;
 				height: 1px;
 				top: -14px;
@@ -189,23 +189,23 @@
 	}
 }
 
-.il-chart-speedo-container {
+.il-chart-gauge-container {
 	padding: 10px;
 	font-size: 1.25rem;
 
-	.il-chart-speedo-outerbox {
+	.il-chart-gauge-outerbox {
 		border: 5px solid transparent;
 
-		.il-chart-speedo-cover {
+		.il-chart-gauge-cover {
 			width: 93.552%;
 			height: 93.552%;
 			top: 3.3224%;
 			left: 3.3224%;
-			border: 5px solid @il-chart-speedo-gray;
+			border: 5px solid @il-chart-gauge-gray;
 		}
 
-		.il-chart-speedo-text-container {
-			.il-chart-speedo-score {
+		.il-chart-gauge-text-container {
+			.il-chart-gauge-score {
 				width: 60%;
 				font-size: 3em;
 			}
@@ -213,51 +213,51 @@
 	}
 }
 
-.il-chart-speedo-mini-container {
+.il-chart-gauge-mini-container {
 	padding: 5px;
 	font-size: 1rem;
 
-	.il-chart-speedo-outerbox {
+	.il-chart-gauge-outerbox {
 		border: 2px solid transparent;
 
-		.il-chart-speedo-cover {
+		.il-chart-gauge-cover {
 			width: 80%;
 			height: 80%;
 			top: 10%;
 			left: 10%;
-			border: 2px solid @il-chart-speedo-gray;
+			border: 2px solid @il-chart-gauge-gray;
 		}
 	}
 }
 
-.il-chart-speedo-box {
+.il-chart-gauge-box {
 	overflow: hidden;
-	&.standard {
+	&.il-chart-gauge-fixed-size {
 		width: 300px;
 		height: 214px;
 	}
-	&.mini {
+	&.il-chart-gauge-mini {
 		width: 50px;
 		height: 35px;
 	}
 
 	@media (min-width: @screen-lg) {
-		&.responsive {
+		&.il-chart-gauge-responsive {
 			width: 300px;
 			height: 214px;
 
-			.il-chart-speedo-container {
+			.il-chart-gauge-container {
 				font-size: 1.25rem;
 
-				.il-chart-speedo-outerbox {
+				.il-chart-gauge-outerbox {
 					border: 5px solid transparent;
 
-					.il-chart-speedo-cover {
-						border: 5px solid @il-chart-speedo-gray;
+					.il-chart-gauge-cover {
+						border: 5px solid @il-chart-gauge-gray;
 					}
 
-					.il-chart-speedo-text-container {
-						.il-chart-speedo-score {
+					.il-chart-gauge-text-container {
+						.il-chart-gauge-score {
 							width: 60%;
 							font-size: 3em;
 						}
@@ -267,26 +267,26 @@
 		}
 	}
 	@media (min-width: @screen-md) and (max-width: @screen-md-max) {
-		&.responsive {
+		&.il-chart-gauge-responsive {
 			width: 250px;
 			height: 177px;
 
-			.il-chart-speedo-container {
+			.il-chart-gauge-container {
 				font-size: 1.25rem;
 
-				.il-chart-speedo-outerbox {
+				.il-chart-gauge-outerbox {
 					border: 4px solid transparent;
 
-					.il-chart-speedo-innerbox {
+					.il-chart-gauge-innerbox {
 						border: 4px solid transparent;
 					}
 
-					.il-chart-speedo-cover {
-						border: 4px solid @il-chart-speedo-gray;
+					.il-chart-gauge-cover {
+						border: 4px solid @il-chart-gauge-gray;
 					}
 
-					.il-chart-speedo-text-container {
-						.il-chart-speedo-score {
+					.il-chart-gauge-text-container {
+						.il-chart-gauge-score {
 							width: 60%;
 							font-size: 3em;
 						}
@@ -296,26 +296,26 @@
 		}
 	}
 	@media (min-width: @screen-sm) and (max-width: @screen-sm-max) {
-		&.responsive {
+		&.il-chart-gauge-responsive {
 			width: 200px;
 			height: 142px;
 
-			.il-chart-speedo-container {
+			.il-chart-gauge-container {
 				font-size: 1rem;
 
-				.il-chart-speedo-outerbox {
+				.il-chart-gauge-outerbox {
 					border: 3px solid transparent;
 
-					.il-chart-speedo-innerbox {
+					.il-chart-gauge-innerbox {
 						border: 3px solid transparent;
 					}
 
-					.il-chart-speedo-cover {
-						border: 3px solid @il-chart-speedo-gray;
+					.il-chart-gauge-cover {
+						border: 3px solid @il-chart-gauge-gray;
 					}
 
-					.il-chart-speedo-text-container {
-						.il-chart-speedo-score {
+					.il-chart-gauge-text-container {
+						.il-chart-gauge-score {
 							width: 60%;
 							font-size: 3em;
 						}
@@ -325,26 +325,26 @@
 		}
 	}
 	@media (max-width: @screen-xs-max) {
-		&.responsive {
+		&.il-chart-gauge-responsive {
 			width: 150px;
 			height: 106px;
 
-			.il-chart-speedo-container {
+			.il-chart-gauge-container {
 				font-size: 0.75rem;
 
-				.il-chart-speedo-outerbox {
+				.il-chart-gauge-outerbox {
 					border: 2px solid transparent;
 
-					.il-chart-speedo-innerbox {
+					.il-chart-gauge-innerbox {
 						border: 2px solid transparent;
 					}
 
-					.il-chart-speedo-cover {
-						border: 2px solid @il-chart-speedo-gray;
+					.il-chart-gauge-cover {
+						border: 2px solid @il-chart-gauge-gray;
 					}
 
-					.il-chart-speedo-text-container {
-						.il-chart-speedo-score {
+					.il-chart-gauge-text-container {
+						.il-chart-gauge-score {
 							width: 60%;
 							font-size: 3em;
 						}

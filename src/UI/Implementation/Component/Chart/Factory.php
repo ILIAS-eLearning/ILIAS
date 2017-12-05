@@ -17,8 +17,8 @@ class Factory implements \ILIAS\UI\Component\Chart\Factory {
     /**
      * @inheritdoc
      */
-    public function speedo()
+    public function gauge()
     {
-        return new Speedo\Factory();
+        return new Gauge\Factory();
     }
 }

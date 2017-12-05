@@ -7894,16 +7894,16 @@ ul.breadcrumb li:hover {
   color: white;
   background-color: #4c6586;
 }
-.il-chart-speedo-container,
-.il-chart-speedo-mini-container {
+.il-chart-gauge-container,
+.il-chart-gauge-mini-container {
   display: block;
   position: relative;
   background-color: transparent;
   height: 140%;
   width: 100%;
 }
-.il-chart-speedo-container .il-chart-speedo-outerbox,
-.il-chart-speedo-mini-container .il-chart-speedo-outerbox {
+.il-chart-gauge-container .il-chart-gauge-outerbox,
+.il-chart-gauge-mini-container .il-chart-gauge-outerbox {
   height: 100%;
   width: 100%;
   border-radius: 50%;
@@ -7912,24 +7912,24 @@ ul.breadcrumb li:hover {
   z-index: 1;
   background-color: #dddddd;
 }
-.il-chart-speedo-container .il-chart-speedo-outerbox .il-chart-speedo-pointer,
-.il-chart-speedo-mini-container .il-chart-speedo-outerbox .il-chart-speedo-pointer {
+.il-chart-gauge-container .il-chart-gauge-outerbox .il-chart-gauge-pointer,
+.il-chart-gauge-mini-container .il-chart-gauge-outerbox .il-chart-gauge-pointer {
   position: absolute;
   transform-origin: 100% 100%;
   transform: rotate(-25deg) skew(90deg);
   width: 50%;
   height: 50%;
 }
-.il-chart-speedo-container .il-chart-speedo-outerbox.il-chart-speedo-green > .il-chart-speedo-pointer,
-.il-chart-speedo-mini-container .il-chart-speedo-outerbox.il-chart-speedo-green > .il-chart-speedo-pointer {
+.il-chart-gauge-container .il-chart-gauge-outerbox.il-chart-gauge-bar-success > .il-chart-gauge-pointer,
+.il-chart-gauge-mini-container .il-chart-gauge-outerbox.il-chart-gauge-bar-success > .il-chart-gauge-pointer {
   background-color: #6ea03c;
 }
-.il-chart-speedo-container .il-chart-speedo-outerbox.il-chart-speedo-red > .il-chart-speedo-pointer,
-.il-chart-speedo-mini-container .il-chart-speedo-outerbox.il-chart-speedo-red > .il-chart-speedo-pointer {
+.il-chart-gauge-container .il-chart-gauge-outerbox.il-chart-gauge-bar-no-success > .il-chart-gauge-pointer,
+.il-chart-gauge-mini-container .il-chart-gauge-outerbox.il-chart-gauge-bar-no-success > .il-chart-gauge-pointer {
   background-color: #d9534f;
 }
-.il-chart-speedo-container .il-chart-speedo-innerbox,
-.il-chart-speedo-mini-container .il-chart-speedo-innerbox {
+.il-chart-gauge-container .il-chart-gauge-innerbox,
+.il-chart-gauge-mini-container .il-chart-gauge-innerbox {
   position: absolute;
   width: 94%;
   height: 94%;
@@ -7940,8 +7940,8 @@ ul.breadcrumb li:hover {
   border: 5px solid transparent;
   overflow: hidden;
 }
-.il-chart-speedo-container .il-chart-speedo-innerbox .il-chart-speedo-pointer,
-.il-chart-speedo-mini-container .il-chart-speedo-innerbox .il-chart-speedo-pointer {
+.il-chart-gauge-container .il-chart-gauge-innerbox .il-chart-gauge-pointer,
+.il-chart-gauge-mini-container .il-chart-gauge-innerbox .il-chart-gauge-pointer {
   position: absolute;
   transform-origin: 100% 100%;
   transform: rotate(-24deg) skew(90deg);
@@ -7950,26 +7950,26 @@ ul.breadcrumb li:hover {
   background-color: #aaaaaa;
   top: -1px;
 }
-.il-chart-speedo-container .il-chart-speedo-innerbox.il-chart-speedo-yellow > .il-chart-speedo-pointer,
-.il-chart-speedo-mini-container .il-chart-speedo-innerbox.il-chart-speedo-yellow > .il-chart-speedo-pointer {
+.il-chart-gauge-container .il-chart-gauge-innerbox.il-chart-gauge-yellow > .il-chart-gauge-pointer,
+.il-chart-gauge-mini-container .il-chart-gauge-innerbox.il-chart-gauge-yellow > .il-chart-gauge-pointer {
   background-color: #f0ad4e;
 }
-.il-chart-speedo-container .il-chart-speedo-cover,
-.il-chart-speedo-mini-container .il-chart-speedo-cover {
+.il-chart-gauge-container .il-chart-gauge-cover,
+.il-chart-gauge-mini-container .il-chart-gauge-cover {
   position: absolute;
   border-radius: 50%;
   background-color: #f0f0f0;
   overflow: hidden;
 }
-.il-chart-speedo-container .il-chart-speedo-cover .il-chart-speedo-text-container,
-.il-chart-speedo-mini-container .il-chart-speedo-cover .il-chart-speedo-text-container {
+.il-chart-gauge-container .il-chart-gauge-cover .il-chart-gauge-text-container,
+.il-chart-gauge-mini-container .il-chart-gauge-cover .il-chart-gauge-text-container {
   width: 100%;
   height: 100%;
   position: relative;
   color: #000;
 }
-.il-chart-speedo-container .il-chart-speedo-cover .il-chart-speedo-text-container .il-chart-speedo-score-text,
-.il-chart-speedo-mini-container .il-chart-speedo-cover .il-chart-speedo-text-container .il-chart-speedo-score-text {
+.il-chart-gauge-container .il-chart-gauge-cover .il-chart-gauge-text-container .il-chart-gauge-score-text,
+.il-chart-gauge-mini-container .il-chart-gauge-cover .il-chart-gauge-text-container .il-chart-gauge-score-text {
   position: absolute;
   left: 25%;
   top: 22%;
@@ -7978,16 +7978,16 @@ ul.breadcrumb li:hover {
   color: #aaaaaa;
   font-size: 1em;
 }
-.il-chart-speedo-container .il-chart-speedo-cover .il-chart-speedo-text-container .il-chart-speedo-score,
-.il-chart-speedo-mini-container .il-chart-speedo-cover .il-chart-speedo-text-container .il-chart-speedo-score {
+.il-chart-gauge-container .il-chart-gauge-cover .il-chart-gauge-text-container .il-chart-gauge-score,
+.il-chart-gauge-mini-container .il-chart-gauge-cover .il-chart-gauge-text-container .il-chart-gauge-score {
   position: absolute;
   left: 20%;
   top: 30%;
   text-align: center;
   font-weight: bold;
 }
-.il-chart-speedo-container .il-chart-speedo-cover .il-chart-speedo-text-container .il-chart-speedo-minscore,
-.il-chart-speedo-mini-container .il-chart-speedo-cover .il-chart-speedo-text-container .il-chart-speedo-minscore {
+.il-chart-gauge-container .il-chart-gauge-cover .il-chart-gauge-text-container .il-chart-gauge-minscore,
+.il-chart-gauge-mini-container .il-chart-gauge-cover .il-chart-gauge-text-container .il-chart-gauge-minscore {
   position: absolute;
   left: 25%;
   top: 62%;
@@ -7995,8 +7995,8 @@ ul.breadcrumb li:hover {
   text-align: center;
   font-size: 1em;
 }
-.il-chart-speedo-container .il-chart-speedo-cover .il-chart-speedo-text-container .il-chart-speedo-minscore-text,
-.il-chart-speedo-mini-container .il-chart-speedo-cover .il-chart-speedo-text-container .il-chart-speedo-minscore-text {
+.il-chart-gauge-container .il-chart-gauge-cover .il-chart-gauge-text-container .il-chart-gauge-minscore-text,
+.il-chart-gauge-mini-container .il-chart-gauge-cover .il-chart-gauge-text-container .il-chart-gauge-minscore-text {
   position: absolute;
   left: 25%;
   top: 70%;
@@ -8005,13 +8005,13 @@ ul.breadcrumb li:hover {
   color: #aaaaaa;
   font-size: 1em;
 }
-.il-chart-speedo-container .il-chart-speedo-cover .il-chart-speedo-text-container .il-chart-speedo-test-score,
-.il-chart-speedo-mini-container .il-chart-speedo-cover .il-chart-speedo-text-container .il-chart-speedo-test-score {
+.il-chart-gauge-container .il-chart-gauge-cover .il-chart-gauge-text-container .il-chart-gauge-test-score,
+.il-chart-gauge-mini-container .il-chart-gauge-cover .il-chart-gauge-text-container .il-chart-gauge-test-score {
   display: none;
   font-size: 1em;
 }
-.il-chart-speedo-container .il-chart-speedo-marker-box,
-.il-chart-speedo-mini-container .il-chart-speedo-marker-box {
+.il-chart-gauge-container .il-chart-gauge-marker-box,
+.il-chart-gauge-mini-container .il-chart-gauge-marker-box {
   position: absolute;
   width: 93.3334%;
   height: 93.3334%;
@@ -8020,8 +8020,8 @@ ul.breadcrumb li:hover {
   background: transparent;
   z-index: 3;
 }
-.il-chart-speedo-container .il-chart-speedo-marker-box .il-chart-speedo-marker,
-.il-chart-speedo-mini-container .il-chart-speedo-marker-box .il-chart-speedo-marker {
+.il-chart-gauge-container .il-chart-gauge-marker-box .il-chart-gauge-marker,
+.il-chart-gauge-mini-container .il-chart-gauge-marker-box .il-chart-gauge-marker {
   position: absolute;
   left: 50%;
   margin-left: -8px;
@@ -8031,8 +8031,8 @@ ul.breadcrumb li:hover {
   width: 1px;
   height: 1px;
 }
-.il-chart-speedo-container .il-chart-speedo-marker-box .il-chart-speedo-marker .il-chart-speedo-arrow,
-.il-chart-speedo-mini-container .il-chart-speedo-marker-box .il-chart-speedo-marker .il-chart-speedo-arrow {
+.il-chart-gauge-container .il-chart-gauge-marker-box .il-chart-gauge-marker .il-chart-gauge-arrow,
+.il-chart-gauge-mini-container .il-chart-gauge-marker-box .il-chart-gauge-marker .il-chart-gauge-arrow {
   position: relative;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
@@ -8042,130 +8042,130 @@ ul.breadcrumb li:hover {
   top: -14px;
   left: -10.5px;
 }
-.il-chart-speedo-container {
+.il-chart-gauge-container {
   padding: 10px;
   font-size: 1.25rem;
 }
-.il-chart-speedo-container .il-chart-speedo-outerbox {
+.il-chart-gauge-container .il-chart-gauge-outerbox {
   border: 5px solid transparent;
 }
-.il-chart-speedo-container .il-chart-speedo-outerbox .il-chart-speedo-cover {
+.il-chart-gauge-container .il-chart-gauge-outerbox .il-chart-gauge-cover {
   width: 93.552%;
   height: 93.552%;
   top: 3.3224%;
   left: 3.3224%;
   border: 5px solid #dddddd;
 }
-.il-chart-speedo-container .il-chart-speedo-outerbox .il-chart-speedo-text-container .il-chart-speedo-score {
+.il-chart-gauge-container .il-chart-gauge-outerbox .il-chart-gauge-text-container .il-chart-gauge-score {
   width: 60%;
   font-size: 3em;
 }
-.il-chart-speedo-mini-container {
+.il-chart-gauge-mini-container {
   padding: 5px;
   font-size: 1rem;
 }
-.il-chart-speedo-mini-container .il-chart-speedo-outerbox {
+.il-chart-gauge-mini-container .il-chart-gauge-outerbox {
   border: 2px solid transparent;
 }
-.il-chart-speedo-mini-container .il-chart-speedo-outerbox .il-chart-speedo-cover {
+.il-chart-gauge-mini-container .il-chart-gauge-outerbox .il-chart-gauge-cover {
   width: 80%;
   height: 80%;
   top: 10%;
   left: 10%;
   border: 2px solid #dddddd;
 }
-.il-chart-speedo-box {
+.il-chart-gauge-box {
   overflow: hidden;
 }
-.il-chart-speedo-box.standard {
+.il-chart-gauge-box.il-chart-gauge-fixed-size {
   width: 300px;
   height: 214px;
 }
-.il-chart-speedo-box.mini {
+.il-chart-gauge-box.il-chart-gauge-mini {
   width: 50px;
   height: 35px;
 }
 @media (min-width: 1200px) {
-  .il-chart-speedo-box.responsive {
+  .il-chart-gauge-box.il-chart-gauge-responsive {
     width: 300px;
     height: 214px;
   }
-  .il-chart-speedo-box.responsive .il-chart-speedo-container {
+  .il-chart-gauge-box.il-chart-gauge-responsive .il-chart-gauge-container {
     font-size: 1.25rem;
   }
-  .il-chart-speedo-box.responsive .il-chart-speedo-container .il-chart-speedo-outerbox {
+  .il-chart-gauge-box.il-chart-gauge-responsive .il-chart-gauge-container .il-chart-gauge-outerbox {
     border: 5px solid transparent;
   }
-  .il-chart-speedo-box.responsive .il-chart-speedo-container .il-chart-speedo-outerbox .il-chart-speedo-cover {
+  .il-chart-gauge-box.il-chart-gauge-responsive .il-chart-gauge-container .il-chart-gauge-outerbox .il-chart-gauge-cover {
     border: 5px solid #dddddd;
   }
-  .il-chart-speedo-box.responsive .il-chart-speedo-container .il-chart-speedo-outerbox .il-chart-speedo-text-container .il-chart-speedo-score {
+  .il-chart-gauge-box.il-chart-gauge-responsive .il-chart-gauge-container .il-chart-gauge-outerbox .il-chart-gauge-text-container .il-chart-gauge-score {
     width: 60%;
     font-size: 3em;
   }
 }
 @media (min-width: 992px) and (max-width: 1199px) {
-  .il-chart-speedo-box.responsive {
+  .il-chart-gauge-box.il-chart-gauge-responsive {
     width: 250px;
     height: 177px;
   }
-  .il-chart-speedo-box.responsive .il-chart-speedo-container {
+  .il-chart-gauge-box.il-chart-gauge-responsive .il-chart-gauge-container {
     font-size: 1.25rem;
   }
-  .il-chart-speedo-box.responsive .il-chart-speedo-container .il-chart-speedo-outerbox {
+  .il-chart-gauge-box.il-chart-gauge-responsive .il-chart-gauge-container .il-chart-gauge-outerbox {
     border: 4px solid transparent;
   }
-  .il-chart-speedo-box.responsive .il-chart-speedo-container .il-chart-speedo-outerbox .il-chart-speedo-innerbox {
+  .il-chart-gauge-box.il-chart-gauge-responsive .il-chart-gauge-container .il-chart-gauge-outerbox .il-chart-gauge-innerbox {
     border: 4px solid transparent;
   }
-  .il-chart-speedo-box.responsive .il-chart-speedo-container .il-chart-speedo-outerbox .il-chart-speedo-cover {
+  .il-chart-gauge-box.il-chart-gauge-responsive .il-chart-gauge-container .il-chart-gauge-outerbox .il-chart-gauge-cover {
     border: 4px solid #dddddd;
   }
-  .il-chart-speedo-box.responsive .il-chart-speedo-container .il-chart-speedo-outerbox .il-chart-speedo-text-container .il-chart-speedo-score {
+  .il-chart-gauge-box.il-chart-gauge-responsive .il-chart-gauge-container .il-chart-gauge-outerbox .il-chart-gauge-text-container .il-chart-gauge-score {
     width: 60%;
     font-size: 3em;
   }
 }
 @media (min-width: 768px) and (max-width: 991px) {
-  .il-chart-speedo-box.responsive {
+  .il-chart-gauge-box.il-chart-gauge-responsive {
     width: 200px;
     height: 142px;
   }
-  .il-chart-speedo-box.responsive .il-chart-speedo-container {
+  .il-chart-gauge-box.il-chart-gauge-responsive .il-chart-gauge-container {
     font-size: 1rem;
   }
-  .il-chart-speedo-box.responsive .il-chart-speedo-container .il-chart-speedo-outerbox {
+  .il-chart-gauge-box.il-chart-gauge-responsive .il-chart-gauge-container .il-chart-gauge-outerbox {
     border: 3px solid transparent;
   }
-  .il-chart-speedo-box.responsive .il-chart-speedo-container .il-chart-speedo-outerbox .il-chart-speedo-innerbox {
+  .il-chart-gauge-box.il-chart-gauge-responsive .il-chart-gauge-container .il-chart-gauge-outerbox .il-chart-gauge-innerbox {
     border: 3px solid transparent;
   }
-  .il-chart-speedo-box.responsive .il-chart-speedo-container .il-chart-speedo-outerbox .il-chart-speedo-cover {
+  .il-chart-gauge-box.il-chart-gauge-responsive .il-chart-gauge-container .il-chart-gauge-outerbox .il-chart-gauge-cover {
     border: 3px solid #dddddd;
   }
-  .il-chart-speedo-box.responsive .il-chart-speedo-container .il-chart-speedo-outerbox .il-chart-speedo-text-container .il-chart-speedo-score {
+  .il-chart-gauge-box.il-chart-gauge-responsive .il-chart-gauge-container .il-chart-gauge-outerbox .il-chart-gauge-text-container .il-chart-gauge-score {
     width: 60%;
     font-size: 3em;
   }
 }
 @media (max-width: 767px) {
-  .il-chart-speedo-box.responsive {
+  .il-chart-gauge-box.il-chart-gauge-responsive {
     width: 150px;
     height: 106px;
   }
-  .il-chart-speedo-box.responsive .il-chart-speedo-container {
+  .il-chart-gauge-box.il-chart-gauge-responsive .il-chart-gauge-container {
     font-size: 0.75rem;
   }
-  .il-chart-speedo-box.responsive .il-chart-speedo-container .il-chart-speedo-outerbox {
+  .il-chart-gauge-box.il-chart-gauge-responsive .il-chart-gauge-container .il-chart-gauge-outerbox {
     border: 2px solid transparent;
   }
-  .il-chart-speedo-box.responsive .il-chart-speedo-container .il-chart-speedo-outerbox .il-chart-speedo-innerbox {
+  .il-chart-gauge-box.il-chart-gauge-responsive .il-chart-gauge-container .il-chart-gauge-outerbox .il-chart-gauge-innerbox {
     border: 2px solid transparent;
   }
-  .il-chart-speedo-box.responsive .il-chart-speedo-container .il-chart-speedo-outerbox .il-chart-speedo-cover {
+  .il-chart-gauge-box.il-chart-gauge-responsive .il-chart-gauge-container .il-chart-gauge-outerbox .il-chart-gauge-cover {
     border: 2px solid #dddddd;
   }
-  .il-chart-speedo-box.responsive .il-chart-speedo-container .il-chart-speedo-outerbox .il-chart-speedo-text-container .il-chart-speedo-score {
+  .il-chart-gauge-box.il-chart-gauge-responsive .il-chart-gauge-container .il-chart-gauge-outerbox .il-chart-gauge-text-container .il-chart-gauge-score {
     width: 60%;
     font-size: 3em;
   }

@@ -34,20 +34,26 @@ interface Factory {
      * ---
      * description:
      *   purpose: >
-     *     Speedos are used to display a progress, in the form of an speedometer.
-     *     E.g. they can be used to inform about a progress in a course or other
-     *     learning objectives.
+     *     Gauges are used to display a progress or performance.
+     *     E.g. they can be used to inform about a progress in a learning objective or to
+     *     compare the performance between the initial and final test in a course.
      *   composition: >
-     *     Speedos are composed of one or two bars inside a speedometer-like container.
-     *     The bars change between two colors, to identify a specific reached score. It
-     *     additionally may show a percentage score.
+     *     Gauges are composed of one or two bars inside a horseshoe-like container.
+     *     The bars change between two colors, to identify a specific reached value. It
+     *     additionally may show a percentage of the values and also an identifying text.
      *
      * context: >
-     *     Speedos are used inside courses on the content view.
+     *     Gauges are used inside courses on the content view.
+     *
+     * rules:
+     *   composition:
+     *     1: Gauges MUST contain a maximum value. It MUST be numeric and represents the maximum value.
+     *     2: Gauges MUST contain a main value. It MUST be a numeric value between 0 and the maximum. It is represented as the main bar.
+     *     3: Gauges SHOULD contain a required value. It MUST be a numeric value between 0 and the maximum. It represents the required value that has to be reached.
      *
      * ---
-     * @return \ILIAS\UI\Component\Chart\Speedo\Factory
+     * @return \ILIAS\UI\Component\Chart\Gauge\Factory
      */
-    public function speedo();
+    public function gauge();
 
 }
