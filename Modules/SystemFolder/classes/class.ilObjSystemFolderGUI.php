@@ -65,12 +65,27 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	var $type;
 
 	/**
+	 * @var \ILIAS\DI\Container
+	 */
+	private $dic;
+
+	/**
 	* Constructor
 	* @access public
 	*/
-	function __construct($a_data,$a_id,$a_call_by_reference)
+	function __construct(
+		$a_data,
+		$a_id,
+		$a_call_by_reference,
+		$a_prepare_output = false,
+		\ILIAS\DI\Container $dic = null
+	)
 	{
-		global $DIC;
+		if ($dic === null) {
+			global $DIC;
+			$dic = $DIC;
+		}
+		$this->dic = $dic;
 
 		$this->tabs = $DIC->tabs();
 		$this->access = $DIC->access();
@@ -88,7 +103,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->toolbar = $DIC->toolbar();
 		$this->client_ini = $DIC["ilClientIniFile"];
 		$this->type = "adm";
-		parent::__construct($a_data,$a_id,$a_call_by_reference, false);
+		parent::__construct($a_data,$a_id,$a_call_by_reference, $a_prepare_output);
 
 		$this->lng->loadLanguageModule("administration");
 		$this->lng->loadLanguageModule("adm");
@@ -811,8 +826,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	function showDbBenchResults($a_mode)
 	{
 		$tpl = $this->tpl;
-
-		$ilBench = $DIC["ilBench"];
+		$ilBench = $this->dic["ilBench"];
 		$rec = $ilBench->getDbBenchRecords();
 
 		include_once("./Modules/SystemFolder/classes/class.ilBenchmarkTableGUI.php");
@@ -832,7 +846,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
 
-		$ilBench = $DIC["ilBench"];
+		$ilBench = $this->dic["ilBench"];
 		$ilTabs->activateTab("benchmarks"); // #18083
 
 		$ilTabs->addSubtab("settings",
