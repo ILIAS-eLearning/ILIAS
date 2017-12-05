@@ -255,11 +255,11 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 
 		if (!$ilUser->prefs["screen_reader_optimization"])
 		{
-			$event_tpl->setCurrentBLock('not_empty');
+			$this->tpl->setCurrentBlock('not_empty');
 		}
 		else
 		{
-			$event_tpl->setCurrentBLock('scrd_not_empty');
+			$this->tpl->setCurrentBlock('scrd_not_empty');
 		}
 		
 		$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
@@ -282,43 +282,46 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 
 		$title = ($time != "")? $time." ".$shy : $shy;
 
-		//calendar plugins
-		//if($event_html_by_plugin = $this->getContentByPlugins($a_app['event'], $a_app['dstart'], $title))
-		//{
-		//	$title = $event_html_by_plugin;
-		//}
-		//if calendar is not affected by a content replacement, print the TD with the defined color.
-		if($this->content_replaced_by_plugin == false)
+		$event_tpl->setCurrentBlock('event_cell_content');
+		if (!$ilUser->prefs["screen_reader_optimization"]) {
+			$event_tpl->setVariable("STYLE", $style);
+		}
+		$event_tpl->setVariable('EVENT_CONTENT', $title);
+
+		if($event_html_by_plugin = $this->getContentByPlugins($a_app['event'], $a_app['dstart'], $title, $event_tpl))
 		{
-			$event_tpl->setVariable('TD_STYLE',$td_style);
+			$event_html = $event_html_by_plugin;
+		}
+		else
+		{
+			$event_tpl->parseCurrentBlock();
+			$event_html = $event_tpl->get();
 		}
 
-		$event_tpl->setVariable('APP_TITLE', $title);
-		
+		$this->tpl->setVariable('GRID_CONTENT', $event_html);
+
 		if (!$ilUser->prefs["screen_reader_optimization"])
 		{
 			// provide table cell attributes
-			$event_tpl->parseCurrentBlock();
+			$this->tpl->parseCurrentBlock();
 
-			$event_tpl->setCurrentBlock('day_cell');
+			$this->tpl->setCurrentBlock('day_cell');
 
-			$event_tpl->setVariable('DAY_CELL_NUM',$this->num_appointments);
-			$event_tpl->setVariable('TD_ROWSPAN',$a_app['rowspan']);
+			$this->tpl->setVariable('DAY_CELL_NUM',$this->num_appointments);
+			$this->tpl->setVariable('TD_ROWSPAN',$a_app['rowspan']);
 			//$event_tpl->setVariable('TD_STYLE',$td_style);
-			$event_tpl->setVariable('TD_CLASS','calevent il_calevent');
+			$this->tpl->setVariable('TD_CLASS','calevent il_calevent');
 
-			$event_tpl->parseCurrentBlock();
+			$this->tpl->parseCurrentBlock();
 		}
 		else
 		{
 			// screen reader: work on div attributes
-			$event_tpl->setVariable('DIV_STYLE',$style);
-			$event_tpl->parseCurrentBlock();
+			$this->tpl->setVariable('DIV_STYLE',$style);
+			$this->tpl->parseCurrentBlock();
 		}
 
 		$this->num_appointments++;
-
-		return $event_tpl;
 
 	}
 	
@@ -666,15 +669,15 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 
 				foreach($hour['apps_start'] as $app)
 				{
-					$event_tpl = $this->showAppointment($event_tpl, $app);
+					$this->showAppointment($event_tpl, $app);
 				}
 
 				// screen reader: appointments are divs, now output cell
 				if ($this->user->prefs["screen_reader_optimization"])
 				{
-					$event_tpl->setCurrentBlock('scrd_day_cell');
-					$event_tpl->setVariable('TD_CLASS','calstd');
-					$event_tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock('scrd_day_cell');
+					$this->tpl->setVariable('TD_CLASS','calstd');
+					$this->tpl->parseCurrentBlock();
 				}
 
 				#echo "NUMDAY: ".$num_day;
@@ -685,19 +688,19 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 				// Show new apointment link
 				if(!$hour['apps_num'] && !$this->user->prefs["screen_reader_optimization"] && !$this->no_add)
 				{
-					$event_tpl->setCurrentBlock('new_app_link');
+					$this->tpl->setCurrentBlock('new_app_link');
 
 					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','idate',$this->weekdays[$num_day]->get(IL_CAL_DATE));
 					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->seed->get(IL_CAL_DATE));
 					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','hour',floor($num_hour/60));
-					$event_tpl->setVariable('DAY_NEW_APP_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add'));
+					$this->tpl->setVariable('DAY_NEW_APP_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add'));
 
 					$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 
-					$event_tpl->setVariable('DAY_NEW_APP_SRC', ilGlyphGUI::get(ilGlyphGUI::ADD, $this->lng->txt('cal_new_app')));
+					$this->tpl->setVariable('DAY_NEW_APP_SRC', ilGlyphGUI::get(ilGlyphGUI::ADD, $this->lng->txt('cal_new_app')));
 
-					$event_tpl->setVariable('DAY_NEW_ID',++$new_link_counter);
-					$event_tpl->parseCurrentBlock();
+					$this->tpl->setVariable('DAY_NEW_ID',++$new_link_counter);
+					$this->tpl->parseCurrentBlock();
 				}
 
 				for($i = $colspan;$i > $hour['apps_num'];$i--)
@@ -706,7 +709,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 					{
 						continue;
 					}
-					$event_tpl->setCurrentBlock('day_cell');
+					$this->tpl->setCurrentBlock('day_cell');
 
 					// last "slot" of hour needs border
 					$empty_border = '';
@@ -717,20 +720,16 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 						$empty_border = ' calempty_border';
 					}
 
-					$event_tpl->setVariable('TD_CLASS','calempty'.$empty_border);
+					$this->tpl->setVariable('TD_CLASS','calempty'.$empty_border);
 
 					if(!$hour['apps_num'])
 					{
-						$event_tpl->setVariable('DAY_ID',$new_link_counter);
+						$this->tpl->setVariable('DAY_ID',$new_link_counter);
 					}
-					$event_tpl->setVariable('TD_ROWSPAN',1);
-					$event_tpl->parseCurrentBlock();
+					$this->tpl->setVariable('TD_ROWSPAN',1);
+					$this->tpl->parseCurrentBlock();
 
 				}
-				$event_html = $event_tpl->get();
-				$this->tpl->setCurrentBlock("not_full_day_event");
-				$this->tpl->setVariable("CONTENT_EVENT", $event_html);
-				$this->tpl->parseCurrentBlock();
 
 			}
 
