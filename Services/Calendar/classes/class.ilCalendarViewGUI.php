@@ -343,10 +343,9 @@ class ilCalendarViewGUI
 		{
 			$plugin->setAppointment($a_cal_entry, new ilDateTime($a_start_date));
 
-			$shy_title = ($new_title = $plugin->editShyButtonTitle())? $new_title : "";
-			if($shy_title)
+			if($new_title = $plugin->editShyButtonTitle())
 			{
-				$a_tpl->setVariable('EVENT_CONTENT', $this->getAppointmentShyButton($a_cal_entry, $a_start_date, $shy_title));
+				$a_tpl->setVariable('EVENT_CONTENT', $this->getAppointmentShyButton($a_cal_entry, $a_start_date, $new_title));
 			}
 
 			if($glyph = $plugin->addGlyph())
