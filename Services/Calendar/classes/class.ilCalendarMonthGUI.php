@@ -360,14 +360,9 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 
 			$event_html = $title.$compl;
 
-
-			if($event_html_by_plugin = $this->getContentByPlugins($item['event'], $item['dstart'], $event_html))
-			{
-				$event_html = $event_html_by_plugin;
-			}
-
 			$event_tpl->setCurrentBlock('il_event');
 
+			//Start configuring the default template
 			$event_tpl->setVariable('EVENT_EDIT_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','edit'));
 			$event_tpl->setVariable('EVENT_NUM',$item['event']->getEntryId());
 			$event_tpl->setVariable('EVENT_CONTENT',$event_html);
@@ -375,9 +370,18 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 			$event_tpl->setVariable('EVENT_BGCOLOR',$color);
 			$event_tpl->setVariable('EVENT_ADD_STYLES',$item['event']->getPresentationStyle());
 			$event_tpl->setVariable('EVENT_FONTCOLOR',ilCalendarUtil::calculateFontColor($color));
-			$event_tpl->parseCurrentBlock();
-			$event_body_html = $event_tpl->get();
 
+			//plugins can override the previous template variables. The plugin slot parses the current block because
+			//it needs to call the template get method to use the resulting HTML in the replaceContent method.
+			if($event_html_by_plugin = $this->getContentByPlugins($item['event'], $item['dstart'], $event_html, $event_tpl))
+			{
+				$event_body_html = $event_html_by_plugin;
+			}
+			else
+			{
+				$event_tpl->parseCurrentBlock();
+				$event_body_html = $event_tpl->get();
+			}
 
 			$this->tpl->setCurrentBlock("event_nfd");
 			$this->tpl->setVariable("EVENT_CONTENT", $event_body_html);
