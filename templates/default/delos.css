@@ -11295,6 +11295,7 @@ td.calevent {
   border-color: #ddd;
   font-size: 90%;
   background-color: white;
+  height: 100%;
 }
 div.calevent {
   font-size: 90%;
