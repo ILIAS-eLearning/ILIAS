@@ -8,29 +8,10 @@
 </div>
 <!-- END fullday_app -->
 
-
-<!-- BEGIN scrd_day_cell -->
-<td id="show_{DAY_CELL_NUM}" class="{TD_CLASS}" style="{TD_STYLE}" valign="top" rowspan="{TD_ROWSPAN}"
-	onmouseover="showNewAppLink({DAY_ID})">
-	<!-- BEGIN scrd_not_empty -->
-	<div class="calevent" style="{DIV_STYLE}">
-		{APP_TITLE}
-	</div>
-	<!-- END scrd_not_empty -->
-</td>
-<!-- END scrd_day_cell -->
-
-
-<!-- BEGIN day_cell -->
-<td id="show_{DAY_CELL_NUM}" class="{TD_CLASS}" style="{TD_STYLE}" valign="top" rowspan="{TD_ROWSPAN}"
-	onmouseover="showNewAppLink({DAY_ID})" onmouseout="hideNewAppLink()">
-	<!-- BEGIN new_app_link -->
-	<div id="new_link_{DAY_NEW_ID}" style="float: right;visibility: hidden">
-		<a href="{DAY_NEW_APP_LINK}" class="callink">{DAY_NEW_APP_SRC}</a>
-	</div>
-	<!-- END new_app_link -->
-	<!-- BEGIN not_empty -->
-	{APP_TITLE}
-	<!-- END not_empty -->
-</td>
-<!-- END day_cell -->
+<!-- BEGIN event_cell_content -->
+<div class="il_calevent" style="height:100%;{STYLE}">
+	{EXTRA_GLYPH_BY_PLUGIN}
+	{EVENT_CONTENT}
+	{EXTRA_CONTENT_BY_PLUGIN}
+</div>
+<!-- END event_cell_content -->
