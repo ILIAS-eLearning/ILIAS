@@ -674,6 +674,14 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
 				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 				$tree = new ilWorkspaceTree($ilUser->getId());
+
+				// @todo: see also e.g. ilExSubmissionObjectGUI->getOverviewContentBlog, this needs refactoring, consumer should not
+				// be responsibel to handle this
+				if(!$tree->getRootId())
+				{
+					$tree->createTreeForUser($ilUser->getId());
+				}
+
 				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
 				$access_handler = new ilWorkspaceAccessHandler($tree);
 				$node_id = $tree->insertObject($tree->readRootId(), $blog->getId());
