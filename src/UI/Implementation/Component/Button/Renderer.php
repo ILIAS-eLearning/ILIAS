@@ -56,7 +56,7 @@ class Renderer extends AbstractComponentRenderer {
 		if ($label !== null) {
 			$tpl->setVariable("LABEL", $component->getLabel());
 		}
-		if ($component->isActive()) {
+		if ($component->isActive() && $action !== '' && $action !== '#') {
 			$component = $component->withAdditionalOnLoadCode(function ($id) use ($action) {
 				$action = str_replace("&amp;", "&", $action);
 
