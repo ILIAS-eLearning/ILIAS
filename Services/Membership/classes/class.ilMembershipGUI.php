@@ -252,7 +252,7 @@ class ilMembershipGUI
 					$this->getParentObject()->getType().'_members_gallery'
 				);
 				
-				$is_admin       = (bool)$ilAccess->checkAccess('manage_members', '', $this->getParentObject()->getRefId());
+				$is_admin = (bool) $this->checkRbacOrPositionAccessBool('manage_members', 'manage_members');
 				$is_participant = (bool)ilParticipants::_isParticipant($this->getParentObject()->getRefId(), $ilUser->getId());
 				if(
 					!$is_admin &&
@@ -949,8 +949,13 @@ class ilMembershipGUI
 		include_once './Services/Mail/classes/class.ilMail.php';
 		$mail = new ilMail($GLOBALS['ilUser']->getId());
 		
+		$has_manage_members_permission = $this->checkRbacOrPositionAccessBool(
+			'manage_members', 
+			'manage_members', 
+			$this->getParentObject()->getRefId()
+		);
 		
-		if($this->checkRbacOrPositionAccessBool('manage_members', 'manage_members', $this->getParentObject()->getRefId()))
+		if($has_manage_members_permission)
 		{
 			$tabs->addTab(
 				'members',

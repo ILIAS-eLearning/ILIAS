@@ -307,7 +307,28 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$fdb->addOption($option);
 		$option = new ilCheckboxOption($this->lng->txt("exc_settings_feedback_text"), ilObjExercise::TUTOR_FEEDBACK_TEXT);
 		$option->setInfo($this->lng->txt("exc_settings_feedback_text_info"));
-		$fdb->addOption($option);		
+		$fdb->addOption($option);	
+		
+		$position_settings = ilOrgUnitGlobalSettings::getInstance()
+			->getObjectPositionSettingsByType($this->object->getType());
+
+		if($position_settings->isActive())
+		{
+			// add additional feature section
+			$feat = new ilFormSectionHeaderGUI();
+			$feat->setTitle($this->lng->txt('obj_features'));
+			$a_form->addItem($feat);
+
+			// add orgunit settings
+			ilObjectServiceSettingsGUI::initServiceSettingsForm(
+					$this->object->getId(),
+					$a_form,
+					array(
+						ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS
+					)
+				);
+
+			}
 	}
 	
 	/**
@@ -345,7 +366,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{
 			$tfeedback[] = ilObjExercise::TUTOR_FEEDBACK_FILE;
 		}		
-		$a_values['tfeedback'] = $tfeedback;			
+		$a_values['tfeedback'] = $tfeedback;	
+
+		// orgunit position setting enabled
+		$a_values['obj_orgunit_positions'] = (bool) ilOrgUnitGlobalSettings::getInstance()
+			->isPositionAccessActiveForObject($this->object->getId());
+
 	}
 
 	protected function updateCustom(ilPropertyFormGUI $a_form)
@@ -369,6 +395,16 @@ class ilObjExerciseGUI extends ilObjectGUI
 		ilNotification::setNotification(ilNotification::TYPE_EXERCISE_SUBMISSION,
 			$ilUser->getId(), $this->object->getId(),
 			(bool)$a_form->getInput("notification"));
+		
+		
+		ilObjectServiceSettingsGUI::updateServiceSettingsForm(
+			$this->object->getId(),
+			$a_form,
+			array(
+				ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS
+			)
+		);
+		
 	}
   
 	/**
