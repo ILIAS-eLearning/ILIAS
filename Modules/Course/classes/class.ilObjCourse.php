@@ -986,6 +986,10 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$newcert = new ilCertificate(new ilCourseCertificateAdapter($new_obj));
 		$cert->cloneCertificate($newcert);
 				
+		// cat-tms-patch start
+		$this->afterCloneForTMS($new_obj);
+		// cat-tms-patch end
+
 		return $new_obj;
 	}
 	
@@ -1064,6 +1068,37 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		return true;
 	}
 	
+	// cat-tms-patch start
+	/**
+	 * Do TMS specific stuff after cloneObject ran.
+	 *
+	 * This will be run on the course that gets cloned, not on the result.
+	 * This will be run before the contained objects are cloned.
+	 *
+	 * @param	\ilObjCourse	$new_course
+	 * @return	void
+	 */
+	protected function afterCloneForTMS(\ilObjCourse $new_course) {
+		$this->insertCopyMappingInfoToDB($new_course);
+	}
+
+	/**
+	 * Inserts copy-mapping info to database.
+	 *
+	 * @param	\ilObjCourse	$new_course
+	 * @return	void
+	 */
+	protected function insertCopyMappingInfoToDB(\ilObjCourse $new_course) {
+		global $DIC;
+		$db = $DIC["ilDB"];
+		$db->insert("crs_copy_mappings",
+			[ "obj_id" => ["integer", $new_course->getId()]
+			, "source_id" => ["integer", $this->getId()]
+			]);
+	}
+
+	// cat-tms-patch end
+
 
 	function validate()
 	{

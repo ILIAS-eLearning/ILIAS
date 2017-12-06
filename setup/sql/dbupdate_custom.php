@@ -109,15 +109,28 @@ while($res = $db->fetchAssoc($query)) {
 	$obj->setId($res["obj_id"]);
 	ilTMSAppEventListener::createUnboundCourseProvider($obj);
 }
-
 ?>
 <#9>
 <?php
-require_once("Services/TMS/Mailing/classes/class.ilTMSMailingLogsDB.php");
-global $DIC;
-$ilDB = $DIC->database();
-$db = new ilTMSMailingLogsDB($ilDB);
-$db->createTable();
+if( !$ilDB->tableExists('crs_copy_mappings') )
+{
+	$ilDB->createTable('crs_copy_mappings', array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'source_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+
+	$ilDB->addPrimaryKey('crs_copy_mappings', array('obj_id', 'source_id'));
+}
 ?>
 <#10>
 <?php
@@ -125,9 +138,17 @@ require_once("Services/TMS/Mailing/classes/class.ilTMSMailingLogsDB.php");
 global $DIC;
 $ilDB = $DIC->database();
 $db = new ilTMSMailingLogsDB($ilDB);
-$db->createSequence();
+$db->createTable();
 ?>
 <#11>
+<?php
+require_once("Services/TMS/Mailing/classes/class.ilTMSMailingLogsDB.php");
+global $DIC;
+$ilDB = $DIC->database();
+$db = new ilTMSMailingLogsDB($ilDB);
+$db->createSequence();
+?>
+<#12>
 <?php
 require_once("Services/TMS/Mailing/classes/class.ilTMSMailingLogsDB.php");
 global $DIC;
