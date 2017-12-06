@@ -304,7 +304,7 @@ class ilUserQuery
 		}
 
 		// count query
-		$count_query = "SELECT count(usr_id) cnt".
+		$count_query = "SELECT count(usr_data.usr_id) cnt".
 			" FROM usr_data";
 		
 		$all_multi_fields = array("interests_general", "interests_help_offered", "interests_help_looking");
