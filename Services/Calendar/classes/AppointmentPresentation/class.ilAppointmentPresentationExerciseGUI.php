@@ -46,9 +46,16 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 		$ass_id = $a_app["event"]->getContextId() / 10;			// see ilExAssignment->handleCalendarEntries $dl parameter
 
 		$assignment = new ilExAssignment($ass_id);
-		if($assignment->getInstruction() != "")
+		$assignment_instructions = trim($assignment->getInstruction());
+		if($assignment_instructions != "")
 		{
-			$this->addInfoProperty($this->lng->txt("exc_instruction"), ilUtil::makeClickable(nl2br($assignment->getInstruction())));
+			#21517
+			$is_html = (strlen($assignment_instructions) != strlen(strip_tags($assignment_instructions)));
+			if(!$is_html)
+			{
+				$assignment_instructions = nl2br($assignment_instructions);
+			}
+			$this->addInfoProperty($this->lng->txt("exc_instruction"), $assignment_instructions);
 		}
 		$files = $assignment->getFiles();
 		if(count($files) > 0)
