@@ -47,7 +47,7 @@ class Renderer extends AbstractComponentRenderer {
 
 		$tpl = $this->getTemplate($tpl_name, true, true);
 
-		$action = $component->getAction();
+		$action = $component->getAction() ? $component->getAction() : "#";
 		// The action is always put in the data-action attribute to have it available
 		// on the client side, even if it is not available on rendering.
 		$tpl->setVariable("ACTION", $action);
