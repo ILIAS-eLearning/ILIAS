@@ -14138,4 +14138,4 @@ content#:#cont_sc_name_setting_no_name#:#no name
 dateplaner#:#cal_download_files_started#:#Download of calendar files has started.
 poll#:#poll_voting_period_full_info#:#Voting period from %s to %s
 common#:#usr_name_undisclosed#:#Undisclosed
-common#:#obj_lm_duplicate#:#Copy Exercise
+common#:#obj_exc_duplicate#:#Copy Exercise
