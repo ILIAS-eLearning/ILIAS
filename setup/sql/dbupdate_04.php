@@ -14191,14 +14191,12 @@ if($data['cnt'])
 	}
 }
 
-$res  = $ilDB->query($usr_session_stats_dup_query);
+$res  = $ilDB->query($usr_session_stats_temp_num);
 $data = $ilDB->fetchAssoc($res);
 if($data['cnt'] > 0)
 {
 	die("There are still duplicate entries in table 'usr_session_stats'. Please execute this database update step again.");
 }
-
-$ilDB->addPrimaryKey('usr_session_stats', array('slot_begin'));
 
 if($ilDB->tableExists('usr_session_stats'))
 {
