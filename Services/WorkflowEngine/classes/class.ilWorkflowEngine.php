@@ -118,8 +118,8 @@ class ilWorkflowEngine
 		{
 			$extracted_params = $extractor->extract($event, $parameter);
 
-			$ilSetting = new ilSetting('wfe');
-			$mappers = json_decode($ilSetting->get('custom_mapper',json_encode(array())), true);
+			$ilLocalSetting = new ilSetting('wfe');
+			$mappers = json_decode($ilLocalSetting->get('custom_mapper',json_encode(array())), true);
 			foreach((array)$mappers as $mapper)
 			{
 				if(!file_exists($mapper['location']))
