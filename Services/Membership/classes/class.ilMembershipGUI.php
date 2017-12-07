@@ -154,6 +154,16 @@ class ilMembershipGUI
 	
 	
 	/**
+	 * Check if current user is allowed to add / search users
+	 * @return bool
+	 */
+	protected function canAddOrSearchUsers()
+	{
+		return $this->checkPermissionBool('manage_members');
+	}
+	
+	
+	/**
 	 * Filter user ids by access 
 	 * @param int[] $a_usr_ids
 	 * @return int[]
@@ -828,31 +838,34 @@ class ilMembershipGUI
 	{
 		global $ilToolbar;
 		
-		include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
-		ilRepositorySearchGUI::fillAutoCompleteToolbar(
-			$this,
-			$ilToolbar,
-			array(
-				'auto_complete_name'	=> $this->lng->txt('user'),
-				'user_type'				=> $this->getParentGUI()->getLocalRoles(),
-				'user_type_default'		=> $this->getDefaultRole(),
-				'submit_name'			=> $this->lng->txt('add')
-			)
-		);
-		
-		// spacer
-		$ilToolbar->addSeparator();
+		if($this->canAddOrSearchUsers())
+		{
+			include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
+			ilRepositorySearchGUI::fillAutoCompleteToolbar(
+				$this,
+				$ilToolbar,
+				array(
+					'auto_complete_name'	=> $this->lng->txt('user'),
+					'user_type'				=> $this->getParentGUI()->getLocalRoles(),
+					'user_type_default'		=> $this->getDefaultRole(),
+					'submit_name'			=> $this->lng->txt('add')
+				)
+			);
 
-		// search button
-		$ilToolbar->addButton(
-			$this->lng->txt($this->getParentObject()->getType()."_search_users"),
-			$this->ctrl->getLinkTargetByClass(
-				'ilRepositorySearchGUI',
-				'start')
-		);
-			
-		// separator
-		$ilToolbar->addSeparator();
+			// spacer
+			$ilToolbar->addSeparator();
+
+			// search button
+			$ilToolbar->addButton(
+				$this->lng->txt($this->getParentObject()->getType()."_search_users"),
+				$this->ctrl->getLinkTargetByClass(
+					'ilRepositorySearchGUI',
+					'start')
+			);
+
+			// separator
+			$ilToolbar->addSeparator();
+		}
 			
 		// print button
 		$ilToolbar->addButton(
