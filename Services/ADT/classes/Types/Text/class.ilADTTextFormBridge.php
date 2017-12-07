@@ -79,6 +79,13 @@ class ilADTTextFormBridge extends ilADTFormBridge
 			{
 				$text->setCols($this->multi_cols);
 			}
+
+			if($def->getMaxLength())
+			{
+				$max = $def->getMaxLength();
+				$text->setMaxNumOfChars($max);
+			}
+
 		}
 		
 		$this->addBasicFieldProperties($text, $def);

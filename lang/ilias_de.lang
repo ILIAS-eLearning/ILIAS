@@ -14135,3 +14135,5 @@ content#:#cont_sc_name_setting_no_name#:#Kein Name
 dateplaner#:#cal_download_files_started#:#Download der Dateien wurde gestartet.
 common#:#usr_name_undisclosed#:#Nicht freigegeben
 common#:#obj_exc_duplicate#:#Übung kopieren
+meta#:#adt_error_max_length#:#Der eingegebene Text is zu lang, bitte geben Sie einen kürzeren Text ein.
+form#:#form_chars_remaining#:#Verbleibende Zeichen:

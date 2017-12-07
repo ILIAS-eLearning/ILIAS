@@ -418,7 +418,7 @@ il.Form = {
 		var max_limit = $('#textarea_feedback_'+ed.id).data("maxchars");
 		if(max_limit > 0) {
 			var text_remaining = max_limit - text_length;
-			$('#textarea_feedback_'+ed.id).html(il.Language.txt("exc_chars_remaining") + " " + text_remaining);
+			$('#textarea_feedback_'+ed.id).html(il.Language.txt("form_chars_remaining") + " " + text_remaining);
 		}
 
 	},
@@ -428,7 +428,7 @@ il.Form = {
 		if(max_limit > 0)
 		{
 			var text_remaining = max_limit - text_length;
-			$('#'+feedback_id).html(il.Language.txt("exc_chars_remaining") +" "+ text_remaining);
+			$('#'+feedback_id).html(il.Language.txt("form_chars_remaining") +" "+ text_remaining);
 			return true;
 		}
 
