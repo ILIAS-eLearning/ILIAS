@@ -341,7 +341,7 @@ abstract class ilPageObject
 		{
 			include_once("./Services/COPage/exceptions/class.ilCOPageNotFoundException.php");
 			throw new ilCOPageNotFoundException("Error: Page ".$this->id." is not in database".
-				" (parent type ".$this->getParentType().").");
+				" (parent type ".$this->getParentType().", lang: ".$this->getLanguage().").");
 		}
 
 		$this->xml = $this->page_record["content"];
