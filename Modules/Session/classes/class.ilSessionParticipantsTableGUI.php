@@ -251,6 +251,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 		{
 			// user filter 
 			$user_query = new ilUserQuery();
+			$user_query->setLimit(50000);
 			$user_query->setUserFilter($all_possible_participants);
 			$user_query->setTextFilter((string) $this->current_filter['login']);
 			$res = $user_query->query();
