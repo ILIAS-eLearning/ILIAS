@@ -14138,3 +14138,5 @@ dateplaner#:#cal_download_files_started#:#Download of calendar files has started
 poll#:#poll_voting_period_full_info#:#Voting period from %s to %s
 common#:#usr_name_undisclosed#:#Undisclosed
 common#:#obj_exc_duplicate#:#Copy Exercise
+meta#:#adt_error_max_length#:#Please enter a shorter text.
+form#:#form_chars_remaining#:#Characters remaining:
