@@ -1079,8 +1079,10 @@ class ilConsultationHoursGUI
 			#   return;
 			#}
 
+			#22195 (if we create a new context instead of update the existing one we will mess up the calendar entries)
+			$booking = new ilBookingEntry($entry->getId());
 			// create new context
-			$booking = new ilBookingEntry();
+			//$booking = new ilBookingEntry();
 			
 			$booking->setObjId($this->getUserId());
 			$booking->setNumberOfBookings($this->form->getInput('bo'));
@@ -1115,7 +1117,9 @@ class ilConsultationHoursGUI
 			{
 				$booking->setBookingGroup($this->form->getInput('grp'));
 			}
-			$booking->save();
+			#22195 update the booking instead of save new one.
+			$booking->update();
+			//$booking->save();
 
 
 			// update entries
