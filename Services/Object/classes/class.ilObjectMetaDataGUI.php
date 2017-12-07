@@ -350,7 +350,7 @@ class ilObjectMetaDataGUI
 			$link = $ilCtrl->getLinkTargetByClass($path, "listSection");
 		}
 		else if($this->isAdvMDAvailable())
-		{	
+		{
 			if($this->canEdit())
 			{
 				$link = $ilCtrl->getLinkTarget($this, "edit");
@@ -360,7 +360,12 @@ class ilObjectMetaDataGUI
 				$path[] = "iladvancedmdsettingsgui";
 				$link = $ilCtrl->getLinkTargetByClass($path, "showRecords");
 			}	
-		}		
+		}
+		if ($link == null && is_object($this->tax_obj_gui))		// taxonomy definition available?
+		{
+			$path[] = "ilobjtaxonomygui";
+			$link = $ilCtrl->getLinkTargetByClass($path, "");
+		}
 		return $link;
 	}
 
