@@ -65,15 +65,14 @@ class ilAssOrderingElementList implements Iterator
 	{
 		$this->objectInstanceId = ++self::$objectInstanceCounter;
 
-		foreach($this as $element)
+		$elements = array();
+		
+		foreach($this as $key => $element)
 		{
-			$this->setPositionedElement(clone $element);
+			$elements[$key] = clone $element;
 		}
-	}
-	
-	protected function setPositionedElement(ilAssOrderingElement $element)
-	{
-		$this->elements[$element->getPosition()] = $element;
+		
+		$this->elements = $elements;
 	}
 	
 	/**
@@ -81,7 +80,8 @@ class ilAssOrderingElementList implements Iterator
 	 */
 	public function getClone()
 	{
-		return clone $this;
+		$that = clone $this;
+		return $that;
 	}
 	
 	/**
@@ -475,7 +475,11 @@ class ilAssOrderingElementList implements Iterator
 		}
 		
 		$identifier = $this->fetchIdentifier($element, $identifierType);
-		self::$identifierRegistry[$identifierType][$this->getQuestionId()][] = $identifier;
+		
+		if( !in_array($identifier, self::$identifierRegistry[$identifierType][$this->getQuestionId()]) )
+		{
+			self::$identifierRegistry[$identifierType][$this->getQuestionId()][] = $identifier;
+		}
 	}
 	
 	/**
