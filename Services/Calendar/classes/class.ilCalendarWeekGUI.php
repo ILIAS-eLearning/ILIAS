@@ -631,6 +631,11 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 	 */
 	protected function addTimedEvents($hours, $morning_aggr, $evening_aggr)
 	{
+		global $DIC;
+
+		$ui_factory = $DIC->ui()->factory();
+		$renderer = $DIC->ui()->renderer();
+
 		$new_link_counter = 0;
 		foreach($hours as $num_hour => $hours_per_day)
 		{
@@ -693,11 +698,12 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','idate',$this->weekdays[$num_day]->get(IL_CAL_DATE));
 					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->seed->get(IL_CAL_DATE));
 					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','hour',floor($num_hour/60));
-					$this->tpl->setVariable('DAY_NEW_APP_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add'));
+
+					//todo:it could be nice use also ranges of 15 min to create events.
+					$new_app_url = $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add');
+					$this->tpl->setVariable("DAY_NEW_APP_LINK", $renderer->render($ui_factory->glyph()->add($new_app_url)));
 
 					$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
-
-					$this->tpl->setVariable('DAY_NEW_APP_SRC', ilGlyphGUI::get(ilGlyphGUI::ADD, $this->lng->txt('cal_new_app')));
 
 					$this->tpl->setVariable('DAY_NEW_ID',++$new_link_counter);
 					$this->tpl->parseCurrentBlock();

@@ -1,4 +1,22 @@
 {NAVIGATION}
+<script type="text/javascript">
+    var current_id = null;
+    function showNewAppLink(num_link)
+    {
+        hideNewAppLink();
+
+        document.getElementById('new_link_' + num_link).style.visibility = 'visible';
+        current_id = num_link;
+    }
+
+    function hideNewAppLink()
+    {
+        if(current_id)
+        {
+            document.getElementById('new_link_' + current_id).style.visibility = 'hidden';
+        }
+    }
+</script>
 <table class="calstd il-cal-week">
 	<thead>
 	<tr class="calheader">
@@ -12,7 +30,6 @@
 			<!-- BEGIN day_view_no_link -->
 			{HEADER_DATE}
 			<!-- END day_view_no_link -->
-
 
 			<!-- BEGIN new_app -->{NEW_APP_GLYPH}<!-- END new_app -->
 			<!-- BEGIN new_ms -->
@@ -66,8 +83,8 @@
 				<td id="show_{DAY_CELL_NUM}" class="{TD_CLASS}" style="{TD_STYLE}" valign="top" rowspan="{TD_ROWSPAN}"
 					onmouseover="showNewAppLink({DAY_ID})" onmouseout="hideNewAppLink()">
 					<!-- BEGIN new_app_link -->
-					<div id="new_link_{DAY_NEW_ID}" style="float: right;visibility: hidden">
-						<a href="{DAY_NEW_APP_LINK}" class="callink">{DAY_NEW_APP_SRC}</a>
+					<div id="new_link_{DAY_NEW_ID}" style="float: right;visibility:hidden">
+						{DAY_NEW_APP_LINK}
 					</div>
 					<!-- END new_app_link -->
 					<!-- BEGIN not_empty -->
