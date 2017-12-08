@@ -62,6 +62,11 @@ class ilSCORMOfflineMode
 		$this->sop_dir = './Modules/ScormAicc/templates/sop/';
 		$this->som_dir = './Modules/ScormAicc/templates/som/';
 		$this->scripts_dir = './Modules/ScormAicc/scripts/';
+		$this->images_dir = './templates/default/images/scorm/';
+		$this->pouchdb_js = './libs/bower/bower_components/pouchdb/dist/pouchdb.min.js';
+		$this->jquery_js = './libs/bower/bower_components/jquery/dist/jquery.min.js';
+		$this->bootstrap_js = './libs/bower/bower_components/bootstrap/dist/js/bootstrap.min.js';
+		$this->bootstrap_css = './libs/bower/bower_components/bootstrap/dist/css/bootstrap.min.css';
 		$this->read();
 	}
 	
@@ -97,8 +102,21 @@ class ilSCORMOfflineMode
 				//$manifest_string .= preg_replace('/^\./','./Modules/ScormAicc',$name) . "\n"; // for cli
 				$manifest_string .= self::encodeuri($name) . "\n";
 			}
+			$objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->images_dir));
+			foreach($objects as $name => $object) {
+				if (preg_match('/\/\.+/',$name)) {
+					continue;
+				}
+				//$manifest_string .= preg_replace('/^\./','./Modules/ScormAicc',$name) . "\n"; // for cli
+				$manifest_string .= self::encodeuri($name) . "\n";
+			}
+			
+			$manifest_string .= $this->pouchdb_js . "\n";
+			$manifest_string .= $this->jquery_js . "\n";
+			$manifest_string .= $this->bootstrap_js . "\n";
+			$manifest_string .= $this->bootstrap_css . "\n";
 		}
-		$log->write($manifest_string);
+		//$log->write($manifest_string);
 		return $manifest_string;
 	}
 	
@@ -118,7 +136,7 @@ class ilSCORMOfflineMode
 			//$manifest_string .= preg_replace('/^\./','./Modules/ScormAicc',$name) . "\n"; // for cli
 			$manifest_string .= self::encodeuri($name) . "\n";
 		}
-		$log->write($manifest_string);
+		//$log->write($manifest_string);
 		return $manifest_string;
 	}
 
