@@ -90,4 +90,12 @@ class Factory implements Field\Factory {
 	public function checkbox($label, $byline = null) {
 		return new Checkbox($this->data_factory, $this->validation_factory, $this->transformation_factory, $label, $byline);
 	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function multiSelect(array $options = [], $label, $byline = null) {
+		return new MultiSelect($this->data_factory, $this->validation_factory, $this->transformation_factory, $label, $byline, $options);
+	}
 }
