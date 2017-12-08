@@ -1,7 +1,5 @@
 <?php
 
-require_once("./Modules/OrgUnit/classes/Exceptions/class.ilOrguException.php");
-
 /**
  * Class ilPositionPermissionsNotActive
  *
@@ -14,12 +12,12 @@ class ilPositionPermissionsNotActive extends ilOrguException {
 	/**
 	 * ilPositionPermissionsNotActive constructor.
 	 *
-	 * @param string $a_message
+	 * @param string $message
 	 * @param string $type
-	 * @param int    $a_code
+	 * @param int    $code
 	 */
-	public function __construct($a_message, $type, $a_code = 0) {
-		parent::__construct($a_message, $a_code);
+	public function __construct($message, $type, $code = 0) {
+		parent::__construct($message, $code);
 
 		$this->object_type = $type;
 	}
@@ -28,7 +26,7 @@ class ilPositionPermissionsNotActive extends ilOrguException {
 	/**
 	 * @return string
 	 */
-	public function getObjectType(): string {
+	public function getObjectType() {
 		return $this->object_type;
 	}
 }
