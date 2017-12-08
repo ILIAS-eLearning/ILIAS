@@ -1,5 +1,7 @@
 <?php
 
+require_once("./Modules/OrgUnit/classes/Exceptions/ilPositionPermissionsNotActive.php");
+
 /**
  * Class ilOrgUnitPermissionQueries
  *
@@ -80,7 +82,7 @@ class ilOrgUnitPermissionQueries {
 		$ilOrgUnitObjectPositionSetting = $ilOrgUnitGlobalSettings->getObjectPositionSettingsByType($context->getContext());
 
 		if (!$ilOrgUnitObjectPositionSetting->isActive()) {
-			throw new ilException("Postion-related permissions not active in {$context->getContext()}");
+			throw new ilPositionPermissionsNotActive("Postion-related permissions not active in {$context->getContext()}", $context->getContext());
 		}
 		if (!$ilOrgUnitObjectPositionSetting->isChangeableForObject()) {
 			return ilOrgUnitPermissionQueries::getTemplateSetForContextName($context->getContext(), $position_id);
@@ -121,10 +123,10 @@ class ilOrgUnitPermissionQueries {
 		$ilOrgUnitObjectPositionSetting = $ilOrgUnitGlobalSettings->getObjectPositionSettingsByType($context->getContext());
 
 		if (!$ilOrgUnitObjectPositionSetting->isActive()) {
-			throw new ilException("Position-related permissions not active in {$context->getContext()}");
+			throw new ilPositionPermissionsNotActive("Position-related permissions not active in {$context->getContext()}", $context->getContext());
 		}
 		if (!$ilOrgUnitObjectPositionSetting->isChangeableForObject()) {
-			throw new ilException("Position-related permissions not active in {$context->getContext()}");
+			throw new ilPositionPermissionsNotActive("Position-related permissions not active in {$context->getContext()}", $context->getContext());
 		}
 
 		$dedicated_set = ilOrgUnitPermission::where([
