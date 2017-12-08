@@ -2010,7 +2010,10 @@ class ilObjUser extends ilObject
 
 	public static function _lookupLanguage($a_usr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$lng = $DIC->language();
 
 		$q = "SELECT value FROM usr_pref WHERE usr_id= ".
 			$ilDB->quote($a_usr_id, "integer")." AND keyword = ".
@@ -2020,6 +2023,10 @@ class ilObjUser extends ilObject
 		while($row = $ilDB->fetchAssoc($r))
 		{
 			return $row['value'];
+		}
+		if (is_object($lng))
+		{
+			return $lng->getDefaultLanguage();
 		}
 		return 'en';
 	}
