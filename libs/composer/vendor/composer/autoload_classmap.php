@@ -5287,6 +5287,7 @@ return array(
     'ilSaxSubsetParser' => $baseDir . '/../../Services/Utilities/interfaces/interface.ilSaxSubsetParser.php',
     'ilScheduleInputGUI' => $baseDir . '/../../Modules/BookingManager/classes/class.ilScheduleInputGUI.php',
     'ilScoringAdjustmentGUI' => $baseDir . '/../../Modules/Test/classes/class.ilScoringAdjustmentGUI.php',
+    'ilScorm2004DataSet' => $baseDir . '/../../Modules/Scorm2004/classes/class.ilScorm2004DataSet.php',
     'ilScorm2004Export' => $baseDir . '/../../Modules/Scorm2004/classes/class.ilSCORM2004Export.php',
     'ilScormAiccDataSet' => $baseDir . '/../../Modules/ScormAicc/classes/class.ilScormAiccDataSet.php',
     'ilScormAiccExporter' => $baseDir . '/../../Modules/ScormAicc/classes/class.ilScormAiccExporter.php',

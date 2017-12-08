@@ -5426,6 +5426,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilSaxSubsetParser' => __DIR__ . '/../..' . '/../../Services/Utilities/interfaces/interface.ilSaxSubsetParser.php',
         'ilScheduleInputGUI' => __DIR__ . '/../..' . '/../../Modules/BookingManager/classes/class.ilScheduleInputGUI.php',
         'ilScoringAdjustmentGUI' => __DIR__ . '/../..' . '/../../Modules/Test/classes/class.ilScoringAdjustmentGUI.php',
+        'ilScorm2004DataSet' => __DIR__ . '/../..' . '/../../Modules/Scorm2004/classes/class.ilScorm2004DataSet.php',
         'ilScorm2004Export' => __DIR__ . '/../..' . '/../../Modules/Scorm2004/classes/class.ilSCORM2004Export.php',
         'ilScormAiccDataSet' => __DIR__ . '/../..' . '/../../Modules/ScormAicc/classes/class.ilScormAiccDataSet.php',
         'ilScormAiccExporter' => __DIR__ . '/../..' . '/../../Modules/ScormAicc/classes/class.ilScormAiccExporter.php',
