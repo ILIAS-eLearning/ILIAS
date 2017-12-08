@@ -156,3 +156,37 @@ $ilDB = $DIC->database();
 $db = new ilTMSMailingLogsDB($ilDB);
 $db->createPrimaryKey();
 ?>
+<#13>
+<?php
+require_once("Services/TMS/ScheduledEvents/classes/Schedule.php");
+global $DIC;
+$db = new Schedule($DIC->database());
+$db->createTable();
+?>
+<#14>
+<?php
+require_once("Services/TMS/ScheduledEvents/classes/Schedule.php");
+global $DIC;
+$db = new Schedule($DIC->database());
+$db->createPrimaryKey();
+?>
+<#15>
+<?php
+require_once("Services/TMS/ScheduledEvents/classes/Schedule.php");
+global $DIC;
+$db = new Schedule($DIC->database());
+$db->createSequence();
+?>
+<#16>
+<?php
+require_once("Services/TMS/ScheduledEvents/classes/Schedule.php");
+global $DIC;
+$db = new Schedule($DIC->database());
+$db->createParamsTable();
+?>
+<#17>
+<?php
+require_once("Services/TMS/ScheduledEvents/classes/Schedule.php");
+$db = new Schedule($ilDB);
+$db->createPrimaryKeyForParams();
+?>
