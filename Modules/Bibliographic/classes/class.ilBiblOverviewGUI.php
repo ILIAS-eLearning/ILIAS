@@ -30,6 +30,8 @@ class ilBiblOverviewGUI {
 
 
 	/**
+	 * @deprecated Has to be refactored
+	 *
 	 * @return mixed|string
 	 */
 	protected function render() {
