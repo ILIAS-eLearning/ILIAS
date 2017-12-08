@@ -186,7 +186,8 @@ interface Factory {
 	 *     1: >
 	 *      A checkbox MUST NOT be used whenever a user has to perform a binary choice where
 	 *      option is not automatically the inverse of the other (such as 'Order by Date' and
-	 *      'Order by Name'). A  Select Input or a Radio Group in MUST be used in this case.
+	 *      'Order by Name'). A MultiSelect Input, Select Input or a Radio Group in MUST be
+	 *      used in this case.
 	 *   wording:
 	 *     1: The checkbox’s identifier MUST always state something positive.
 	 *
@@ -195,4 +196,46 @@ interface Factory {
 	 * @return	\ILIAS\UI\Component\Input\Field\Checkbox
 	 */
 	public function checkbox($label, $byline = null);
+
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     A MultiSelect is used to choose an indeterminate amount of options out of a finite list
+	 *     of options.
+	 *   composition: >
+	 *     The input is presented in the same way as the TextInput labeled by the $label given.
+	 *   rivals:
+	 *      Select: Select-Input, currently not part of the KitchenSink.
+	 *   effect: >
+	 *     As soon as the user types in
+	 *     the field, matching Options from the available list of options are being presented in
+	 *     a popover. Clicking on one of these options closes the popover and transfers the
+	 *     selected option into the Input, displayed as a Tag with a Close-Button.
+	 *     By clicking on a close button of a already selected option, this option will disappear
+	 *     from the Input.
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: >
+	 *      A MultiSelect MUST NOT be used whenever a user has to perform a binary choice where
+	 *      option is automatically the inverse of the other. A Checkbox MUST be used in this case.
+	 *     2: >
+	 *      A MultiSelect MUST NOT be used whenever a user has to perform a choice from a list of
+	 *      options where only one Option has to be selected. A Select MUST be used in this case
+	 *      (Not yet part of the KitchenSink).
+	 *
+	 *   wording:
+	 *     1: The Options provided MUST NOT have long titles.
+	 *
+	 * ---
+	 * @param array  $options List of Options to select from, given in pairs with identifier and Label
+	 *                        such as [ 6 => 'root', 13 => 'anonymous' ]
+	 * @param string $label
+	 * @param string $byline
+	 *
+	 * @return    \ILIAS\UI\Component\Input\Field\MultiSelect
+	 */
+	public function multiSelect(array $options = [], $label, $byline = null);
 }
