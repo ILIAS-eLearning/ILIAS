@@ -2547,7 +2547,7 @@ output {
 .form-control {
   display: block;
   width: 100%;
-  height: 28px;
+  height: 25px;
   padding: 3px 8px;
   font-size: 14px;
   line-height: 1.42857143;
@@ -2603,7 +2603,7 @@ input[type="search"] {
   input[type="time"].form-control,
   input[type="datetime-local"].form-control,
   input[type="month"].form-control {
-    line-height: 28px;
+    line-height: 25px;
   }
   input[type="date"].input-sm,
   input[type="time"].input-sm,
@@ -2780,7 +2780,7 @@ select[multiple].input-lg {
   position: relative;
 }
 .has-feedback .form-control {
-  padding-right: 35px;
+  padding-right: 31.25px;
 }
 .form-control-feedback {
   position: absolute;
@@ -2788,9 +2788,9 @@ select[multiple].input-lg {
   right: 0;
   z-index: 2;
   display: block;
-  width: 28px;
-  height: 28px;
-  line-height: 28px;
+  width: 25px;
+  height: 25px;
+  line-height: 25px;
   text-align: center;
   pointer-events: none;
 }
@@ -4363,8 +4363,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   border-bottom: 1px solid transparent;
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
-  margin-top: 6px;
-  margin-bottom: 6px;
+  margin-top: 7.5px;
+  margin-bottom: 7.5px;
 }
 @media (min-width: 768px) {
   .navbar-form .form-group {
@@ -4449,8 +4449,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   border-bottom-left-radius: 0;
 }
 .navbar-btn {
-  margin-top: 6px;
-  margin-bottom: 6px;
+  margin-top: 7.5px;
+  margin-bottom: 7.5px;
 }
 .navbar-btn.btn-sm {
   margin-top: 7px;
@@ -7894,6 +7894,59 @@ ul.breadcrumb li:hover {
   color: white;
   background-color: #4c6586;
 }
+.il-standard-form {
+  background-color: #fdfdfd;
+  margin-top: 6px;
+}
+.il-standard-form .il-standard-form-cmd {
+  float: right;
+}
+.il-standard-form .il-standard-form-cmd .btn {
+  display: inline-block;
+  min-width: 60px;
+  vertical-align: top;
+}
+@media (max-width: 767px) {
+  .il-standard-form .il-standard-form-cmd .btn {
+    min-width: 0;
+  }
+}
+.il-standard-form .il-standard-form-header,
+.il-standard-form .il-standard-form-footer,
+.il-standard-form .il-section-input-header {
+  background-color: #f0f0f0;
+  color: #9a9a9a;
+}
+.il-standard-form .il-standard-form-header h3,
+.il-standard-form .il-section-input-header h3 {
+  font-size: 19px;
+  text-transform: uppercase;
+  padding-top: 6px;
+  margin-bottom: 3px;
+}
+.il-standard-form .il-standar-form-header-byline,
+.il-standard-form .il-section-input-header-byline {
+  font-size: 12px;
+}
+.il-standard-form .il-standard-form-header + .il-section-input {
+  margin-top: -25.14285715px;
+  padding: 0;
+}
+.il-standard-form .il-standard-form-header + .il-section-input .il-section-input-header h3 {
+  margin-top: 0;
+  padding-top: 0;
+}
+.il-standard-form .il-dependant-group {
+  background-color: #f8f8f8;
+  padding: 3px 0;
+}
+.il-standard-form .il-dependant-group .form-group {
+  margin: 0;
+}
+.il-standard-form input[type="radio"],
+.il-standard-form input[type="checkbox"] {
+  margin: 0;
+}
 /*		Color scheme
 		Dark BLue: #0f2152;
 		Mid Blue: #4c6586;
@@ -9887,21 +9940,10 @@ select {
 }
 .form-control {
   font-size: 12px;
-  line-height: 20px;
-}
-.btn {
-  line-height: 20px;
-}
-.form-control-static {
-  min-height: 0;
-  display: inline-block;
 }
 .form-horizontal {
   margin-bottom: 20px;
-  background-color: #fdfdfd;
-}
-.form-horizontal .form-group {
-  margin: 10px 0;
+  background: #fdfdfd;
 }
 form.form-inline {
   margin-bottom: 20px;
@@ -9942,7 +9984,7 @@ select.form-control {
   line-height: normal;
 }
 .form-horizontal div.radio label.radio-inline {
-  line-height: 28px;
+  line-height: 25px;
 }
 .radio input[type="radio"],
 .radio-inline input[type="radio"],
@@ -9999,8 +10041,7 @@ input[type="file"].form-control {
 }
 .ilFormHeader,
 .ilFormFooter {
-  color: #4d4d4d;
-  /* background-color: lighten(@ilFormColor, 45%); */
+  color: #9a9a9a;
   background-color: #f0f0f0;
 }
 .ilSubForm {
@@ -10049,7 +10090,7 @@ div[id^="ilFormField"] {
 /* Hierarchy Form */
 div.ilHFormHeader,
 div.ilHFormFooter {
-  color: #4d4d4d;
+  color: #9a9a9a;
   background-color: #f0f0f0;
   padding: 4px 0 4px 22px;
 }

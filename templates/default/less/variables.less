@@ -297,9 +297,6 @@
 //** Border color of inactive buttons
 @il-disabled-btn-border:         #e0e0e0;
 
-//** Minimal size of non-empty buttons inside forms
-@il-button-min-width: 	        60px;
-
 //== Breadcrumbs
 //
 //##
@@ -376,18 +373,46 @@
 @badge-line-height:           1;
 @badge-border-radius:         10px;
 
-//== Forms
+
+
+//== Standard Form
 //
-//##
+//## Variables used to style the ILIAS standard form used e.g. in the "Settings"-Tab
+
+//** Textcolor used in the forms sections bodies
+@il-standard-form-color:    #808080;
+//** Textcolor used in the bylines (descriptions) of the input fields of a form
+@il-standard-form-byline-color:   lighten(@il-standard-form-color, 10%);
+//** Textcolor used in the labels (identifiers) of the input fields of a form
+@il-standard-form-label-color:   darken(@il-standard-form-color, 20%);
+//** Background color used in the
+@il-standard-form-bg:    #fdfdfd;
+//** Textsize used in the forms body
+@il-standard-form-font-size: @font-size-small;
+//** Textsize used in the bylines (descriptions) of the input fields of a form
+@il-standard-form-byline-font-size:    90%;
+
+//** Textcolor used in the forms header, the sections header and the footer
+@il-standard-form-header-color: lighten(@il-standard-form-color, 10%);
+//** Background color used in the forms header, the sections header and the footer
+@il-standard-form-header-bg: @body-bg;
+//** Textsize color used in the forms header and the sections header
+@il-standard-form-header-font-size: @font-size-h3;
+//** Textsize color used in the form headers the section headers byline (description)
+@il-standard-form-header-byline-font-size: @font-size-small;
+//** Background color used for dependant groups (sub forms) in standard forms
+@il-standard-form-dependant-group-bg: darken(@il-standard-form-bg, 2%);
+
+//** Minimal size of non-empty buttons inside forms
+@il-button-min-width-forms: 	  60px;
+
+//== Input Fields
+//
+//## Variables used to style the ILIAS input fields (e.g. Text Inputs etc.)
 @input-border-radius:	0;
 @input-border:			#ccc;
 @input-border-focus:	lighten(@brand-primary, 20%);
-@ilFormInputFontSize: @font-size-small;
-//@input-height-base:	(floor((@ilFormInputFontSize * @line-height-base)) + (@padding-base-vertical * 2) + 2);
-@input-height-base:	(@line-height-computed + (@padding-base-vertical * 2) + 2);
-@ilFormColor:            	#808080;
-@ilFormBgColor:            	#fdfdfd;
-
+@input-height-base:	(floor((@il-standard-form-font-size * @line-height-base)) + (@padding-base-vertical * 2) + 2);
 @input-color-placeholder: lighten(@gray-light, 30%);
 
 //== Panels

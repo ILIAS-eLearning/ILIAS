@@ -99,6 +99,18 @@ trait ComponentHelper {
 	}
 
 	/**
+	 * Throw an InvalidArgumentException if $value is not a bool.
+	 *
+	 * @param	string	$which
+	 * @param	mixed	$value
+	 * @throws	\InvalidArgumentException	if $check = false
+	 * @return 	null
+	 */
+	protected function checkBoolArg($which, $value) {
+		$this->checkArg($which, is_bool($value), $this->wrongTypeMessage("bool", $value));
+	}
+
+	/**
 	 * Throw an InvalidArgumentException if $value is not an instance of $class
 	 *
 	 * @param	string	$which
