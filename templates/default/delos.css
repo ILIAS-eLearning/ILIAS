@@ -11204,7 +11204,8 @@ td.calempty_border {
   border-bottom-color: #ddd;
 }
 tr.calstd {
-  background-color: inherit;
+  /*background-color: inherit;*/
+  background-color: white;
   height: 6em;
 }
 table.il-cal-day tr.calstd + tr.calstdtime td.calempty,
@@ -11287,15 +11288,16 @@ p.il_calevent .btn-link {
 }
 td.calevent {
   vertical-align: top;
-  padding: 3px;
+  /*padding: 3px;*/
   border-spacing: 0px;
   border-collapse: collapse;
   border-width: 1px;
   border-style: solid;
   border-color: #ddd;
   font-size: 90%;
-  background-color: white;
-  height: 100%;
+  /*background-color:white;*/
+  height: 1px;
+  position: relative;
 }
 div.calevent {
   font-size: 90%;
