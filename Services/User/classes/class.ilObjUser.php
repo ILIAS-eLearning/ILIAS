@@ -2102,10 +2102,7 @@ class ilObjUser extends ilObject
 
 	public static function _lookupLanguage($a_usr_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC->database();
-		$lng = $DIC->language();
+		global $ilDB, $lng;
 
 		$q = "SELECT value FROM usr_pref WHERE usr_id= ".
 			$ilDB->quote($a_usr_id, "integer")." AND keyword = ".
