@@ -5229,6 +5229,14 @@ abstract class assQuestion
 			WHERE active_fi = %s
 			AND question_fi = %s
 			AND pass = %s
+		";
+
+		if( $this->getStep() !== NULL )
+		{
+			$query .= " AND step = " . $ilDB->quote((int)$this->getStep(), 'integer') . " ";
+		}
+
+		$query .= "
 			GROUP BY authorized
 		";
 		$result = $ilDB->queryF($query, array('integer', 'integer', 'integer'), array($activeId, $this->getId(), $pass));
@@ -5258,6 +5266,11 @@ abstract class assQuestion
 			AND pass = %s
 		";
 
+		if( $this->getStep() !== NULL )
+		{
+			$query .= " AND step = " . $ilDB->quote((int)$this->getStep(), 'integer') . " ";
+		}
+
 		return $ilDB->manipulateF($query, array('integer', 'integer', 'integer'),
 			array($activeId, $this->getId(), $pass)
 		);
@@ -5283,7 +5296,12 @@ abstract class assQuestion
 			AND question_fi = %s
 			AND pass = %s
 		";
-		
+
+		if( $this->getStep() !== NULL )
+		{
+			$query .= " AND step = " . $ilDB->quote((int)$this->getStep(), 'integer') . " ";
+		}
+
 		return $ilDB->manipulateF($query, array('integer', 'integer', 'integer'),
 			array($activeId, $this->getId(), $pass)
 		);
