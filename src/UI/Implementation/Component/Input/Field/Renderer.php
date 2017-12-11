@@ -275,6 +275,7 @@ class Renderer extends AbstractComponentRenderer {
 			Component\Input\Field\Group::class,
 			Component\Input\Field\Section::class,
 			Component\Input\Field\Checkbox::class,
+			Component\Input\Field\MultiSelect::class,
 			Component\Input\Field\DependantGroup::class,
 		];
 	}
