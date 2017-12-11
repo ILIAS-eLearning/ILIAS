@@ -21,3 +21,23 @@
     }
   }
 }
+
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+  .row-eq-height {
+
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    flex: 3;
+    flex-wrap: wrap;
+    
+    > div {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      flex-grow: 2;
+    }
+  }
+}
