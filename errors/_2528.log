@@ -1,0 +1,141 @@
+ilDatabaseException thrown with message "An undefined Database Exception occured. SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ilias_52x_51x.settings' doesn't exist QUERY: SELECT * FROM settings WHERE module='logging'"
+
+Stacktrace:
+#10 ilDatabaseException in /var/www/il/52x/Services/Database/classes/PDO/class.ilDBPdo.php:499
+#9 ilDBPdo:query in /var/www/il/52x/Services/Administration/classes/class.ilSetting.php:103
+#8 ilSetting:read in /var/www/il/52x/Services/Administration/classes/class.ilSetting.php:66
+#7 ilSetting:__construct in /var/www/il/52x/Services/Logging/classes/class.ilLoggingDBSettings.php:49
+#6 ilLoggingDBSettings:__construct in /var/www/il/52x/Services/Logging/classes/class.ilLoggingDBSettings.php:64
+#5 ilLoggingDBSettings:getInstance in /var/www/il/52x/Services/Logging/classes/public/class.ilLoggerFactory.php:58
+#4 ilLoggerFactory:getInstance in /var/www/il/52x/Services/Logging/classes/public/class.ilLoggerFactory.php:94
+#3 ilLoggerFactory:getRootLogger in /var/www/il/52x/Services/Init/classes/class.ilInitialisation.php:754
+#2 ilInitialisation:initLog in /var/www/il/52x/Services/Init/classes/class.ilInitialisation.php:991
+#1 ilInitialisation:initClient in /var/www/il/52x/Services/Init/classes/class.ilInitialisation.php:868
+#0 ilInitialisation:initILIAS in /var/www/il/52x/index.php:43
+
+
+-- GET Data --
+
+empty
+
+
+-- POST Data --
+
+empty
+
+
+-- Files --
+
+empty
+
+
+-- Cookies --
+
+PHPSESSID                : cvj1hjk9oio1iibgcbp0k07296
+ilClientId               : 51update
+XDEBUG_SESSION           : PHPSTORM
+SESSID                   : 8c9e75b27f1f9d84446fb4ba7aae5068
+
+
+-- Session --
+
+empty
+
+
+-- Server/Request Data --
+
+USER                     : www-data
+HOME                     : /var/www
+ORIG_SCRIPT_NAME         : /php70-fcgi-www-ssl
+ORIG_PATH_TRANSLATED     : /var/www/il/52x/index.php
+ORIG_PATH_INFO           : /il/52x/index.php
+ORIG_SCRIPT_FILENAME     : /usr/lib/cgi-bin/php70-fcgi-www-ssl
+SCRIPT_NAME              : /il/52x/index.php
+REQUEST_URI              : /il/52x/
+QUERY_STRING             : 
+REQUEST_METHOD           : GET
+SERVER_PROTOCOL          : HTTP/1.1
+GATEWAY_INTERFACE        : CGI/1.1
+REDIRECT_URL             : /il/52x/index.php
+REMOTE_PORT              : 58270
+SCRIPT_FILENAME          : /var/www/il/52x/index.php
+SERVER_ADMIN             : [no address given]
+CONTEXT_DOCUMENT_ROOT    : /usr/lib/cgi-bin/php70-fcgi-www-ssl
+CONTEXT_PREFIX           : /php70-fcgi-www-ssl
+REQUEST_SCHEME           : https
+DOCUMENT_ROOT            : /var/www
+REMOTE_ADDR              : 127.0.0.1
+SERVER_PORT              : 443
+SERVER_ADDR              : 127.0.0.1
+SERVER_NAME              : php7
+SERVER_SOFTWARE          : Apache/2.4.18 (Ubuntu)
+SERVER_SIGNATURE         : <address>Apache/2.4.18 (Ubuntu) Server at php7 Port 443</address>
+                         
+PATH                     : /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+HTTP_COOKIE              : PHPSESSID=cvj1h (SHORTENED FOR SECURITY); ilClientId=51update; XDEBUG_SESSION=PHPSTORM; SESSID=8c9e75b27f1f9d84446fb4ba7aae5068
+HTTP_ACCEPT_LANGUAGE     : de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7
+HTTP_ACCEPT_ENCODING     : gzip, deflate, br
+HTTP_ACCEPT              : text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+HTTP_USER_AGENT          : Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/62.0.3202.94 Chrome/62.0.3202.94 Safari/537.36
+HTTP_UPGRADE_INSECURE_REQUESTS: 1
+HTTP_CONNECTION          : keep-alive
+HTTP_HOST                : php7
+SSL_SESSION_RESUMED      : Resumed
+SSL_SESSION_ID           : 1b843999c95db4803f3b267057799088483eff27cbb879dae5ccdf6e96f6bf50
+SSL_SERVER_A_SIG         : sha256WithRSAEncryption
+SSL_SERVER_A_KEY         : rsaEncryption
+SSL_SERVER_I_DN          : CN=ubuntu
+SSL_SERVER_S_DN          : CN=ubuntu
+SSL_SERVER_V_END         : Oct  6 11:43:48 2027 GMT
+SSL_SERVER_V_START       : Oct  8 11:43:48 2017 GMT
+SSL_SERVER_M_SERIAL      : BAA08398AF7F4635
+SSL_SERVER_M_VERSION     : 3
+SSL_CLIENT_VERIFY        : NONE
+SSL_CIPHER_ALGKEYSIZE    : 128
+SSL_CIPHER_USEKEYSIZE    : 128
+SSL_CIPHER_EXPORT        : false
+SSL_CIPHER               : ECDHE-RSA-AES128-GCM-SHA256
+SSL_COMPRESS_METHOD      : NULL
+SSL_SECURE_RENEG         : true
+SSL_PROTOCOL             : TLSv1.2
+SSL_VERSION_LIBRARY      : OpenSSL/1.0.2g
+SSL_VERSION_INTERFACE    : mod_ssl/2.4.18
+SSL_SERVER_I_DN_CN       : ubuntu
+SSL_SERVER_S_DN_CN       : ubuntu
+SSL_TLS_SNI              : php7
+HTTPS                    : on
+REDIRECT_STATUS          : 200
+REDIRECT_HANDLER         : php70-fcgi-www-ssl
+REDIRECT_SSL_SESSION_RESUMED: Resumed
+REDIRECT_SSL_SESSION_ID  : 1b843999c95db4803f3b267057799088483eff27cbb879dae5ccdf6e96f6bf50
+REDIRECT_SSL_SERVER_A_SIG: sha256WithRSAEncryption
+REDIRECT_SSL_SERVER_A_KEY: rsaEncryption
+REDIRECT_SSL_SERVER_I_DN : CN=ubuntu
+REDIRECT_SSL_SERVER_S_DN : CN=ubuntu
+REDIRECT_SSL_SERVER_V_END: Oct  6 11:43:48 2027 GMT
+REDIRECT_SSL_SERVER_V_START: Oct  8 11:43:48 2017 GMT
+REDIRECT_SSL_SERVER_M_SERIAL: BAA08398AF7F4635
+REDIRECT_SSL_SERVER_M_VERSION: 3
+REDIRECT_SSL_CLIENT_VERIFY: NONE
+REDIRECT_SSL_CIPHER_ALGKEYSIZE: 128
+REDIRECT_SSL_CIPHER_USEKEYSIZE: 128
+REDIRECT_SSL_CIPHER_EXPORT: false
+REDIRECT_SSL_CIPHER      : ECDHE-RSA-AES128-GCM-SHA256
+REDIRECT_SSL_COMPRESS_METHOD: NULL
+REDIRECT_SSL_SECURE_RENEG: true
+REDIRECT_SSL_PROTOCOL    : TLSv1.2
+REDIRECT_SSL_VERSION_LIBRARY: OpenSSL/1.0.2g
+REDIRECT_SSL_VERSION_INTERFACE: mod_ssl/2.4.18
+REDIRECT_SSL_SERVER_I_DN_CN: ubuntu
+REDIRECT_SSL_SERVER_S_DN_CN: ubuntu
+REDIRECT_SSL_TLS_SNI     : php7
+REDIRECT_HTTPS           : on
+FCGI_ROLE                : RESPONDER
+PHP_SELF                 : /il/52x/index.php
+REQUEST_TIME_FLOAT       : 1512149277.9965
+REQUEST_TIME             : 1512149277
+
+
+-- Environment Variables --
+
+empty
