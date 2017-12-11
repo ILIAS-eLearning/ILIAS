@@ -4996,7 +4996,12 @@ abstract class assQuestion
 			'active_fi' => array('integer', $activeId),
 			'pass' => array('integer', $pass)
 		);
-		
+
+		if( $this->getStep() !== NULL )
+		{
+			$whereData['step'] = array("integer", $this->getStep());
+		}
+
 		return $ilDB->update('tst_solutions', $fieldData, $whereData);
 	}
 	// fau.
