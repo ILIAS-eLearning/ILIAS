@@ -969,7 +969,7 @@ class ilLMPresentationGUI
 		$lg->enableNotes(true);
 		$lg->enableComments($this->lm->publicNotes(), false);
 				
-		if($this->lm->hasRating())
+		if($this->lm->hasRating() && !$this->offlineMode())
 		{
 			$lg->enableRating(true, $this->lng->txt("lm_rating"), false,
 				array("ilcommonactiondispatchergui", "ilratinggui"));
@@ -1636,9 +1636,9 @@ class ilLMPresentationGUI
 		
 		// rating
 		$rating = "";
-		if($this->lm->hasRatingPages())
-		{														
-			include_once("./Services/Rating/classes/class.ilRatingGUI.php");			
+		if($this->lm->hasRatingPages() && !$this->offlineMode())
+		{
+			include_once("./Services/Rating/classes/class.ilRatingGUI.php");
 			$rating_gui = new ilRatingGUI();
 			$rating_gui->setObject($this->lm->getId(), "lm", $page_id, "lm");	
 			$rating_gui->setYourRatingText($this->lng->txt("lm_rate_page"));		
