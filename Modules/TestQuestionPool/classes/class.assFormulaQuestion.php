@@ -1100,8 +1100,17 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 			AND value1 like '\$r%'
 			AND value2 is not null
 			AND value2 <> ''
+		";
+
+		if( $this->getStep() !== NULL )
+		{
+			$query .= " AND step = " . $ilDB->quote((int)$this->getStep(), 'integer') . " ";
+		}
+
+		$query .= "
 			GROUP BY authorized
 		";
+
 		$result = $ilDB->query($query);
 
 		while ($row = $ilDB->fetchAssoc($result))
@@ -1136,6 +1145,11 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 			AND pass = " .$ilDB->quote($pass, 'integer') ."
 			AND value1 like '\$r%'
 		";
+
+		if( $this->getStep() !== NULL )
+		{
+			$query .= " AND step = " . $ilDB->quote((int)$this->getStep(), 'integer') . " ";
+		}
 
 		return $ilDB->manipulate($query);
 	}
