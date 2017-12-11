@@ -1059,8 +1059,20 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 				$matches = null;
 				if(preg_match("/^result_(\\\$r\\d+)$/", $key, $matches))
 				{
-					if(strlen($value)) $entered_values = TRUE;
-					$result = $ilDB->queryF("SELECT solution_id FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND authorized = %s  AND " . $ilDB->like('value1', 'clob', $matches[1]),
+					if(strlen($value))
+					{
+						$entered_values = TRUE;
+					}
+
+					$queryResult = "SELECT solution_id FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND authorized = %s  AND " . $ilDB->like('value1', 'clob', $matches[1]);
+
+					if( $this->getStep() !== NULL )
+					{
+						$queryResult .= " AND step = " . $ilDB->quote((int)$this->getStep(), 'integer') . " ";
+					}
+
+					$result = $ilDB->queryF(
+						$queryResult,
 						array('integer', 'integer', 'integer', 'integer'),
 						array($active_id, $pass, $this->getId(), (int)$authorized)
 					);
@@ -1079,7 +1091,15 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 				}
 				else if(preg_match("/^result_(\\\$r\\d+)_unit$/", $key, $matches))
 				{
-					$result = $ilDB->queryF("SELECT solution_id FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND authorized = %s AND " . $ilDB->like('value1', 'clob', $matches[1] . "_unit"),
+					$queryResultUnit = "SELECT solution_id FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND authorized = %s AND " . $ilDB->like('value1', 'clob', $matches[1] . "_unit");
+
+					if( $this->getStep() !== NULL )
+					{
+						$queryResultUnit .= " AND step = " . $ilDB->quote((int)$this->getStep(), 'integer') . " ";
+					}
+
+					$result = $ilDB->queryF(
+						$queryResultUnit,
 						array('integer', 'integer', 'integer', 'integer'),
 						array($active_id, $pass, $this->getId(), (int)$authorized)
 					);
