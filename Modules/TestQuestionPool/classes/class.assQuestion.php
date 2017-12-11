@@ -5222,7 +5222,7 @@ abstract class assQuestion
 
 		if( $this->getStep() !== NULL )
 		{
-			$query .= " AND step = %s " . $ilDB->quote((int)$this->getStep(), 'integer') . " ";
+			$query .= " AND step = " . $ilDB->quote((int)$this->getStep(), 'integer') . " ";
 		}
 
 		$query .= "
@@ -5256,6 +5256,11 @@ abstract class assQuestion
 			AND pass = %s
 		";
 
+		if( $this->getStep() !== NULL )
+		{
+			$query .= " AND step = " . $ilDB->quote((int)$this->getStep(), 'integer') . " ";
+		}
+
 		return $ilDB->manipulateF($query, array('integer', 'integer', 'integer'),
 			array($activeId, $this->getId(), $pass)
 		);
@@ -5281,7 +5286,12 @@ abstract class assQuestion
 			AND question_fi = %s
 			AND pass = %s
 		";
-		
+
+		if( $this->getStep() !== NULL )
+		{
+			$query .= " AND step = " . $ilDB->quote((int)$this->getStep(), 'integer') . " ";
+		}
+
 		return $ilDB->manipulateF($query, array('integer', 'integer', 'integer'),
 			array($activeId, $this->getId(), $pass)
 		);
