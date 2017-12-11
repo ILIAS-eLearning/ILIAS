@@ -5216,6 +5216,7 @@ abstract class assQuestion
 	 */
 	public function lookupForExistingSolutions($activeId, $pass)
 	{
+		/** @var $ilDB \ilDBInterface  */
 		global $ilDB;
 
 		$return = array(
@@ -5233,12 +5234,13 @@ abstract class assQuestion
 
 		if( $this->getStep() !== NULL )
 		{
-			$query .= " AND step = " . $ilDB->quote((int)$this->getStep(), 'integer') . " ";
+			$query .= " AND step = %s " . $ilDB->quote((int)$this->getStep(), 'integer') . " ";
 		}
 
 		$query .= "
 			GROUP BY authorized
 		";
+
 		$result = $ilDB->queryF($query, array('integer', 'integer', 'integer'), array($activeId, $this->getId(), $pass));
 
 		while ($row = $ilDB->fetchAssoc($result))
