@@ -726,8 +726,17 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 			AND question_fi = ". $ilDB->quote($this->getId(), 'integer') ."
 			AND pass = " .$ilDB->quote($pass, 'integer') ."
 			AND value2 <> '-1'
+		";
+
+		if( $this->getStep() !== NULL )
+		{
+			$query .= " AND step = " . $ilDB->quote((int)$this->getStep(), 'integer') . " ";
+		}
+
+		$query .= "
 			GROUP BY authorized
 		";
+
 		$result = $ilDB->query($query);
 
 		while ($row = $ilDB->fetchAssoc($result))
