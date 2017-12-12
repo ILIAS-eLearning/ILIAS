@@ -20,8 +20,6 @@ class ilTooltipGUI
 	static function addTooltip($a_el_id, $a_text, $a_container = "",
 		$a_my = "bottom center", $a_at = "top center", $a_use_htmlspecialchars = true)
 	{
-		global $DIC;
-
 		// to get rid of globals here, we need to change the
 		// process in learning modules, e.g. which does not work with $DIC (since it does not
 		// use the standard template)
@@ -74,8 +72,6 @@ class ilTooltipGUI
 	 */
 	static function init()
 	{
-		global $DIC;
-
 		// for globals use, see comment above
 		$tpl = $GLOBALS["tpl"];
 		

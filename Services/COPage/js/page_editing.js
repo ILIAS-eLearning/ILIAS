@@ -1506,7 +1506,8 @@ var ilCOPage =
 				ilCOPage.initDragElements();
 				il.Tooltip.init();
 				il.COPagePres.updateQuestionOverviews();
-				il.IntLink.refresh();
+				// we do not need this anymore, otherwise it will lead to multiple events on the iln button, see bug #21704
+				//il.IntLink.refresh();
 				if (il.AdvancedSelectionList != null)
 				{
 					il.AdvancedSelectionList.init['style_selection']();

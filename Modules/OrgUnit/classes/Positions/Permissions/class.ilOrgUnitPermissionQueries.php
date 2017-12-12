@@ -55,8 +55,9 @@ class ilOrgUnitPermissionQueries {
 	 * @return bool
 	 */
 	public static function hasLocalSet($ref_id, $position_id) {
-		return (ilOrgUnitPermission::where([ 'parent_id'   => $ref_id,
-		                                     'position_id' => $position_id,
+		return (ilOrgUnitPermission::where([
+			'parent_id'   => $ref_id,
+			'position_id' => $position_id,
 		])->hasSets());
 	}
 
@@ -80,7 +81,7 @@ class ilOrgUnitPermissionQueries {
 		$ilOrgUnitObjectPositionSetting = $ilOrgUnitGlobalSettings->getObjectPositionSettingsByType($context->getContext());
 
 		if (!$ilOrgUnitObjectPositionSetting->isActive()) {
-			throw new ilException("Postion-related permissions not active in {$context->getContext()}");
+			throw new ilPositionPermissionsNotActive("Postion-related permissions not active in {$context->getContext()}", $context->getContext());
 		}
 		if (!$ilOrgUnitObjectPositionSetting->isChangeableForObject()) {
 			return ilOrgUnitPermissionQueries::getTemplateSetForContextName($context->getContext(), $position_id);
@@ -121,10 +122,10 @@ class ilOrgUnitPermissionQueries {
 		$ilOrgUnitObjectPositionSetting = $ilOrgUnitGlobalSettings->getObjectPositionSettingsByType($context->getContext());
 
 		if (!$ilOrgUnitObjectPositionSetting->isActive()) {
-			throw new ilException("Position-related permissions not active in {$context->getContext()}");
+			throw new ilPositionPermissionsNotActive("Position-related permissions not active in {$context->getContext()}", $context->getContext());
 		}
 		if (!$ilOrgUnitObjectPositionSetting->isChangeableForObject()) {
-			throw new ilException("Position-related permissions not active in {$context->getContext()}");
+			throw new ilPositionPermissionsNotActive("Position-related permissions not active in {$context->getContext()}", $context->getContext());
 		}
 
 		$dedicated_set = ilOrgUnitPermission::where([
@@ -158,8 +159,7 @@ class ilOrgUnitPermissionQueries {
 	 */
 	public static function getAllTemplateSetsForAllActivedContexts($position_id, $editable = false) {
 		$activated_components = [];
-		foreach (ilOrgUnitGlobalSettings::getInstance()
-		                                ->getPositionSettings() as $ilOrgUnitObjectPositionSetting) {
+		foreach (ilOrgUnitGlobalSettings::getInstance()->getPositionSettings() as $ilOrgUnitObjectPositionSetting) {
 			if ($ilOrgUnitObjectPositionSetting->isActive()) {
 				$activated_components[] = $ilOrgUnitObjectPositionSetting->getType();
 			}
@@ -193,15 +193,15 @@ WHERE il_orgu_op_contexts.context IN(\'crs\', \'object\') AND operation_string =
 		 FROM object_reference
 		 JOIN object_data ON object_data.obj_id = object_reference.obj_id
 		 WHERE object_reference.ref_id = %s;';
-		$db->queryF($q, [ 'integer' ], [ $ref_id ]);
+		$db->queryF($q, ['integer'], [$ref_id]);
 
 		$q = 'SELECT @OP_ID:= CONCAT("%\"", il_orgu_operations.operation_id, "%\"")
 					FROM il_orgu_operations 
 					JOIN il_orgu_op_contexts ON il_orgu_op_contexts.context = @CONTEXT_TYPE -- AND il_orgu_op_contexts.id = il_orgu_operations.context_id
 				WHERE il_orgu_operations.operation_string = %s';
-		$db->queryF($q, [ 'text' ], [ $pos_perm ]);
+		$db->queryF($q, ['text'], [$pos_perm]);
 		$q = 'SELECT * FROM il_orgu_permissions WHERE operations LIKE @OP_ID AND position_id = %s;';
-		$r = $db->queryF($q, [ 'integer' ], [ $position_id ]);
+		$r = $db->queryF($q, ['integer'], [$position_id]);
 
 		($r->numRows() > 0);
 	}

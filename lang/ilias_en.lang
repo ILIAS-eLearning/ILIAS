@@ -569,7 +569,7 @@ assessment#:#kiosk_options#:#Exam View Options
 assessment#:#kiosk_show_participant#:#Show Name of Participant
 assessment#:#kiosk_show_title#:#Show Test Title
 assessment#:#kiosk#:#Exam View
-assessment#:#last_update#:#Last Update
+assessment#:#last_update#:#Updated
 assessment#:#legend#:#Legend
 assessment#:#qpl_lac_legend_header_common#:#Expression Logic
 assessment#:#qpl_lac_desc_logical_and#:#Logical AND
@@ -726,6 +726,7 @@ assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#Date of last synchron
 assessment#:#tst_msg_rand_quest_set_pass_buildable#:#A test with a random set of questions is possible with the current configuration.
 assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#<b>A test with a random set of questions is not possible with the current selection of question pools and the amount of questions.</b><br />
 assessment#:#tst_msg_rand_quest_set_lost_pools#:#The test's question selection configuration has been frozen, because the following question pools that are involved to the config are not available anymore:<br />%s
+assessment#:#tst_msg_rand_quest_set_lost_pools_link#:#On the subtab %s the non available question pools can be newly derived.
 assessment#:#tst_msg_rand_quest_set_no_src_pool_defs#:#A test with a random set of questions is not possible without selecting at least one question pool.
 assessment#:#tst_msg_rand_quest_set_incomplete_quest_amount_cfg#:#A test with a random set of questions is not possible without a correctly defined amount of questions.
 assessment#:#tst_msg_rand_quest_set_no_pools_available#:#Currently you cannot add new rules for the question selection, because there are no question pools available.
@@ -2535,7 +2536,7 @@ common#:#last_edited_on#:#Last edited on
 common#:#last_login#:#Last Login
 common#:#last_refresh#:#Last Refresh
 common#:#last_reminder#:#Last reminder
-common#:#last_update#:#Last Update
+common#:#last_update#:#Updated
 common#:#last_visited#:#Last Visited
 common#:#lastname#:#Last Name
 common#:#launch#:#Launch
@@ -7192,7 +7193,7 @@ survey#:#invitation_off#:#Do not put on any Desktop
 survey#:#invitation#:#Put Link On Personal Desktop
 survey#:#invited_users#:#Selected Users
 survey#:#language_changed#:#Language changed
-survey#:#last_update#:#Last Update
+survey#:#last_update#:#Updated
 survey#:#layout#:#Layout
 survey#:#legend#:#Legend
 survey#:#lower_limit#:#Lower Limit
@@ -9226,6 +9227,7 @@ chatroom#:#display_past_msgs#:#Number of Past Messages
 chatroom#:#hint_display_past_msgs#:#Number of previous messages shown when chat room is entered. A value of ‘0’ disables this feature.
 chatroom#:#speak_to#:#Speak to <b>#user#</b>
 chatroom#:#whisper_to#:#Whisper to <b>#user#</b>
+chatroom#:#chat_anonymous_not_allowed#:#Please login to use the chat.
 chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS cannot build a socket connection to the chat server.
 chatroom#:#leave_private_room#:#Leave Private Room
 chatroom#:#left_private_room#:#Left private room
@@ -11041,6 +11043,7 @@ orgu#:#add_position#:#Position hinzufügen
 orgu#:#orgu_enable_my_staff#:#Enable View ‘Staff’
 orgu#:#orgu_enable_my_staff_info#:#The View ‘Staff’ shows the Learning Progress of the own Employees.
 orgu#:#org_op_manage_members#:#Manage Members
+orgu#:#orgunit_position_permissions_not_active_for#:#You cannot override the position specific permissions for the type:
 orgu#:#org_op_read_learning_progress#:#View learning progress of other users
 orgu#:#org_op_write_learning_progress#:#Set learning progress of other users
 rbac#:#org_op_write_learning_progress#:#Set learning Progress of Subordinate Users
@@ -11852,8 +11855,8 @@ tagging#:#tagging_other_users#:#Tags of Other Users
 common#:#autocomplete_more#:#more
 mail#:#mail_max_size_attachments_total#:#Please enter the maximum file size allowed as attachment per mail. This setting is not related to other resource limits, e.g. upload_max_filesize etc. (since you can attach multiple files).
 mail#:#mail_max_size_attachments_total_error#:#The allowed attachment size is:
-grp#:#grp_cdf_tbl_last_edit#:#Last Update (Group-specific Data)
-crs#:#crs_cdf_tbl_last_edit#:#Last Update (Course-specific Data)
+grp#:#grp_cdf_tbl_last_edit#:#Updated (Group-specific Data)
+crs#:#crs_cdf_tbl_last_edit#:#Updated (Course-specific Data)
 ps#:#cdf_edited_by_self#:#by the User
 rbac#:#excs_visible#:#Exercise administration is visible
 rbac#:#excs_read#:#User has read access to Exercise administration
@@ -14134,3 +14137,8 @@ content#:#cont_sc_name_setting_salutation_lastname#:#Salutation and Last name
 content#:#cont_sc_name_setting_first_name#:#First name
 content#:#cont_sc_name_setting_no_name#:#no name
 dateplaner#:#cal_download_files_started#:#Download of calendar files has started.
+poll#:#poll_voting_period_full_info#:#Voting period from %s to %s
+common#:#usr_name_undisclosed#:#Undisclosed
+common#:#obj_exc_duplicate#:#Copy Exercise
+meta#:#adt_error_max_length#:#Please enter a shorter text.
+form#:#form_chars_remaining#:#Characters remaining:

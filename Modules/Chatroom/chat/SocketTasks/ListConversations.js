@@ -16,39 +16,37 @@ module.exports = function() {
 		}
 
 		function fetchLatestMessageForOpenConversation() {
-			if (!conversationClosed) {
-				function setLatestMessageOnConversation(row) {
-					row.userId         = row.user_id;
-					row.conversationId = row.conversation_id;
-					conversation.setLatestMessage(row);
-				}
-
-				function determineUnreadMessages() {
-					function setNumberOfNewMessages(row) {
-						conversation.setNumNewMessages(row.numMessages);
-					}
-
-					function emitConversationAndContinue() {
-						socket.participant.emit('conversation', conversation.json());
-						nextLoop();
-					}
-
-					namespace.getDatabase().countUnreadMessages(
-						conversation.getId(),
-						socket.participant.getId(),
-						setNumberOfNewMessages,
-						emitConversationAndContinue
-					);
-				}
-
-				namespace.getDatabase().getLatestMessage(
-					conversation,
-					setLatestMessageOnConversation,
-					determineUnreadMessages
-				);
-			} else {
-				nextLoop();
+			function setLatestMessageOnConversation(row) {
+				row.userId         = row.user_id;
+				row.conversationId = row.conversation_id;
+				conversation.setLatestMessage(row);
 			}
+
+			function determineUnreadMessages() {
+				function setNumberOfNewMessages(row) {
+					conversation.setNumNewMessages(row.numMessages);
+				}
+
+				function emitConversationAndContinue() {
+					if (!conversationClosed || (conversation.getNumNewMessages() > 0 && !conversation.isGroup())) {
+						socket.participant.emit('conversation', conversation.json());
+					}
+					nextLoop();
+				}
+
+				namespace.getDatabase().countUnreadMessages(
+					conversation.getId(),
+					socket.participant.getId(),
+					setNumberOfNewMessages,
+					emitConversationAndContinue
+				);
+			}
+
+			namespace.getDatabase().getLatestMessage(
+				conversation,
+				setLatestMessageOnConversation,
+				determineUnreadMessages
+			);
 		}
 
 		namespace.getDatabase().getConversationStateForParticipant(

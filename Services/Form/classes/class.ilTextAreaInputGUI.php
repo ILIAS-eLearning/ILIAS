@@ -607,7 +607,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 				$ttpl->setVariable("MAXCHARS", $this->getMaxNumOfChars());
 				$ttpl->setVariable("MINCHARS", $this->getMinNumOfChars());
 
-				$lng->toJS("exc_chars_remaining");
+				$lng->toJS("form_chars_remaining");
 			}
 
 			$ttpl->parseCurrentBlock();
@@ -617,7 +617,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 		{
 			$ttpl->setVariable("FEEDBACK_MAX_LIMIT", $this->getMaxNumOfChars());
 			$ttpl->setVariable("FEEDBACK_ID", $this->getFieldId());
-			$ttpl->setVariable("CHARS_REMAINING", $lng->txt("exc_chars_remaining"));
+			$ttpl->setVariable("CHARS_REMAINING", $lng->txt("form_chars_remaining"));
 		}
 
 		if ($this->getDisabled())

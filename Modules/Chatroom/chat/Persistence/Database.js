@@ -389,8 +389,8 @@ var Database = function Database(config) {
 
 	this.closeConversation = function(conversationId, userId) {
 		function onResult(result){
-			_pool.query('UPDATE osc_activity SET is_closed = ? WHERE conversation_id = ? AND user_id = ?',
-				[1, conversationId, userId],
+			_pool.query('UPDATE osc_activity SET is_closed = ?, timestamp = ? WHERE conversation_id = ? AND user_id = ?',
+				[1, Date.getTimestamp(), conversationId, userId],
 				handleError
 			);
 		}

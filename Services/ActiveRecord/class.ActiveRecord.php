@@ -242,11 +242,8 @@ abstract class ActiveRecord implements arStorageInterface {
 			return arObjectCache::get($class, $primary_value);
 		}
 		foreach ($array as $field_name => $value) {
-			if ($this->wakeUp($field_name, $value) === null) {
-				$this->{$field_name} = $value;
-			} else {
-				$this->{$field_name} = $this->wakeUp($field_name, $value);
-			}
+			$waked = $this->wakeUp($field_name, $value);
+			$this->{$field_name} = ($waked === null) ? $value : $waked;
 		}
 		arObjectCache::store($this);
 		$this->afterObjectLoad();
@@ -512,11 +509,8 @@ abstract class ActiveRecord implements arStorageInterface {
 		$records = is_array($records) ? $records : array();
 		foreach ($records as $rec) {
 			foreach ($this->getArrayForConnector() as $k => $v) {
-				if ($this->wakeUp($k, $rec->{$k}) === null) {
-					$this->{$k} = $rec->{$k};
-				} else {
-					$this->{$k} = $this->wakeUp($k, $rec->{$k});
-				}
+				$waked = $this->wakeUp($k, $rec->{$k});
+				$this->{$k} = ($waked === null) ? $rec->{$k} : $waked;
 			}
 			arObjectCache::store($this);
 			$this->afterObjectLoad();
