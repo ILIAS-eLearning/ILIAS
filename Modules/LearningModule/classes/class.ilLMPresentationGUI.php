@@ -933,7 +933,8 @@ class ilLMPresentationGUI
 	function ilLMMenu()
 	{
 		$this->tpl->setVariable("MENU", $this->lm_gui->setilLMMenu($this->offlineMode()
-			,$this->getExportFormat(), "content", false, true, $this->getCurrentPageId()));
+			,$this->getExportFormat(), "content", false, true, $this->getCurrentPageId(),
+			$this->lang, $this->export_all_languages));
 	}
 
 	/**
@@ -2849,9 +2850,12 @@ class ilLMPresentationGUI
 		//exit;
 		$this->tpl->getStandardTemplate();
 		$this->ilLocator(true);
-		
+
+		$a_global_tabs = !$this->offlineMode();
+
 		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
-			,$this->getExportFormat(), "toc", true));
+			,$this->getExportFormat(), "toc", $a_global_tabs, false, 0,
+			$this->lang, $this->export_all_languages));
 
 		// set title header
 		$this->tpl->setVariable("TXT_TOC", $this->lng->txt("cont_toc"));
@@ -2870,39 +2874,61 @@ class ilLMPresentationGUI
 			{
 				$page_id = $_GET["obj_id"];
 			}
-			// empty chapter
-			if ($this->chapter_has_no_active_page &&
-				ilLMObject::_lookupType($_GET["obj_id"]) == "st")
+
+			// highlight current node
+			if (!$this->offlineMode())
 			{
-				$exp->setHighlightNode($_GET["obj_id"]);
-			}
-			else
-			{
-				if ($this->lm->getTOCMode() == "pages")
+				// empty chapter
+				if ($this->chapter_has_no_active_page &&
+					ilLMObject::_lookupType($_GET["obj_id"]) == "st")
 				{
-					if ($this->deactivated_page)
-					{
-						$exp->setHighlightNode($_GET["obj_id"]);
-					}
-					else
-					{
-						$exp->setHighlightNode($page_id);
-					}
-				}
-				else
+					$exp->setHighlightNode($_GET["obj_id"]);
+				} else
 				{
-					$exp->setHighlightNode($this->lm_tree->getParentId($page_id));
+					if ($this->lm->getTOCMode() == "pages")
+					{
+						if ($this->deactivated_page)
+						{
+							$exp->setHighlightNode($_GET["obj_id"]);
+						} else
+						{
+							$exp->setHighlightNode($page_id);
+						}
+					} else
+					{
+						$exp->setHighlightNode($this->lm_tree->getParentId($page_id));
+					}
 				}
 			}
 			if ($this->offlineMode())
 			{
 				$exp->setOfflineMode(true);
 			}
-
+//	var_dump($exp->getHTML()."_");
 			$this->tpl->setVariable("ADM_CONTENT", $exp->getHTML());
 		}
 		if ($this->offlineMode())
 		{
+			// reset standard css files
+			$this->tpl->resetJavascript();
+			$this->tpl->resetCss();
+			$this->tpl->setBodyClass("ilLMNoMenu");
+
+			include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
+			foreach (ilObjContentObject::getSupplyingExportFiles() as $f)
+			{
+				if ($f["type"] == "js")
+				{
+					$this->tpl->addJavascript($f["target"]);
+				}
+				if ($f["type"] == "css")
+				{
+					$this->tpl->addCSS($f["target"]);
+				}
+			}
+			$this->tpl->fillJavaScriptFiles(true);
+			$this->tpl->fillOnLoadCode();
+			//var_dump(htmlentities($this->tpl->get())); exit;
 			return $this->tpl->get();
 		}
 		else
@@ -2956,7 +2982,8 @@ class ilLMPresentationGUI
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
 
 		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
-			,$this->getExportFormat(), $a_active_tab, true));
+			,$this->getExportFormat(), $a_active_tab, true, false, 0,
+			$this->lang, $this->export_all_languages));
 		
 		// Full locator, if read permission is given
 		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
@@ -3069,7 +3096,8 @@ class ilLMPresentationGUI
 		$this->tpl->getStandardTemplate();
 		
 		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
-			,$this->getExportFormat(), "print", true));
+			,$this->getExportFormat(), "print", true,false, 0,
+			$this->lang, $this->export_all_languages));
 			
 		$this->ilLocator(true);
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content",
@@ -3919,7 +3947,8 @@ class ilLMPresentationGUI
 		$this->tpl->getStandardTemplate();
 		
 		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
-			,$this->getExportFormat(), "download", true));
+			,$this->getExportFormat(), "download", true,false, 0,
+			$this->lang, $this->export_all_languages));
 
 		$this->ilLocator(true);
 		//$this->tpl->stopTitleFloating();
