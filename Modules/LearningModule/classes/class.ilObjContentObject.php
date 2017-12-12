@@ -2228,6 +2228,37 @@ class ilObjContentObject extends ilObject
 			// export pages
 			// now: forward ("all" info to export files and links)
 			$this->exportHTMLPages($lm_gui, $a_target_dir, $lm_gui->lang, ($a_lang == "all"));
+
+			// export table of contents
+			$ilLocator->clearItems();
+			if ($this->isActiveTOC())
+			{
+				$tpl = new ilTemplate("tpl.main.html", true, true);
+
+				$GLOBALS["tpl"] = $tpl;
+
+				$lm_gui->tpl = $tpl;
+				$content = $lm_gui->showTableOfContents();
+				//var_dump($content); exit;
+				if ($a_lang == "all")
+				{
+					$file = $a_target_dir . "/table_of_contents_".$lang.".html";
+				}
+				else
+				{
+					$file = $a_target_dir . "/table_of_contents.html";
+				}
+
+				// open file
+				if (!($fp = @fopen($file,"w+")))
+				{
+					die ("<b>Error</b>: Could not open \"".$file."\" for writing".
+						" in <b>".__FILE__."</b> on line <b>".__LINE__."</b><br />");
+				}
+				chmod($file, 0770);
+				fwrite($fp, $content);
+				fclose($fp);
+			}
 		}
 
 		// export glossary terms
@@ -2269,26 +2300,6 @@ class ilObjContentObject extends ilObject
 				ilUtil::rCopy(ilUtil::getWebspaceDir()."/assessment/0/".$q_id."/images",
 					$a_target_dir."/assessment/0/".$q_id."/images");
 			}
-		}
-
-		// export table of contents
-		$ilLocator->clearItems();
-		if ($this->isActiveTOC())
-		{
-			$tpl = new ilTemplate("tpl.main.html", true, true);
-			$lm_gui->tpl = $tpl;
-			$content = $lm_gui->showTableOfContents();
-			$file = $a_target_dir."/table_of_contents.html";
-				
-			// open file
-			if (!($fp = @fopen($file,"w+")))
-			{
-				die ("<b>Error</b>: Could not open \"".$file."\" for writing".
-					" in <b>".__FILE__."</b> on line <b>".__LINE__."</b><br />");
-			}
-			chmod($file, 0770);
-			fwrite($fp, $content);
-			fclose($fp);
 		}
 
 		// export images

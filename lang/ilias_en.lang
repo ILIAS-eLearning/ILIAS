@@ -13381,6 +13381,7 @@ style#:#add_system_style#:#Add System Style
 style#:#add_substyle#:#Add Sub Style
 style#:#skin_id#:#Skin ID
 style#:#skin_name#:#Skin Name
+style#:#skin_version#:#Skin Version
 style#:#skin#:#Skin
 style#:#style_id#:#Style ID
 style#:#Style#:#Style
@@ -13457,6 +13458,7 @@ style#:#can_not_read_less_file#:#Cannot read less file. Path:
 style#:#msg_sys_style_created#:#The new system style has successfully been created.
 style#:#skin_id_description#:#Skins are container for styles and sub styles. The skin ID sets the name of the folder that holds all style and sub style information. Only letters, numbers as well as hyphens or underline characters are to be used in skin ID's.
 style#:#skin_name_description#:#The skin name can be used to describe the area of application of the skin in human readable form. It will appear in all UI elements allowing the selection of skins.
+style#:#skin_version_description#:#The skin version is used to re-cache the style after changes. It gets automatically updated.
 style#:#style_id_description#:#The style id is used as name for style specific files such as css and less placed inside the skins folder. Only letters, numbers as well as hyphens or underline characters are to be used in style ID's.
 style#:#style_name_description#:#The style name can be used to describe the area of application of the style in human readable form. It will appear in all UI elements allowing the selection of styles.
 style#:#sub_style#:#Sub Style

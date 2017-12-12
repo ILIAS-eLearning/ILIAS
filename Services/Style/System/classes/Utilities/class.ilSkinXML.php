@@ -33,6 +33,13 @@ class ilSkinXML implements \Iterator, \Countable{
 	 */
 	protected $styles = array();
 
+    /**
+     * Version of skin, as provided by the template
+     *
+     * @var string
+     */
+	protected $version = "0.1";
+
 
 	/**
 	 * ilSkinXML constructor.
@@ -58,6 +65,7 @@ class ilSkinXML implements \Iterator, \Countable{
 
 		$id = basename (dirname($path));
 		$skin = new self($id,(string)$xml->attributes()["name"]);
+        $skin->setVersion((string)$xml->attributes()["version"]);
 
 		/**
 		 * @var ilSkinStyleXML $last_style
@@ -93,7 +101,7 @@ class ilSkinXML implements \Iterator, \Countable{
 	public function asXML(){
 		$xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><template/>');
 		$xml->addAttribute("xmlns","http://www.w3.org");
-		$xml->addAttribute("version","1");
+		$xml->addAttribute("version",$this->getVersion());
 		$xml->addAttribute("name",$this->getName());
 
 		$last_style = null;
@@ -286,6 +294,42 @@ class ilSkinXML implements \Iterator, \Countable{
 	{
 		$this->styles = $styles;
 	}
+
+    /**
+     * @return string
+     */
+    public function getVersion()
+    {
+        return $this->version;
+    }
+
+    /**
+     * @param string $version
+     */
+    public function setVersion($version)
+    {
+        if($version != null && $version != '' && $this->isVersionChangeable()) {
+            $this->version = $version;
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getVersionStep($version)
+    {
+        if($this->isVersionChangeable()) {
+            $v = explode('.', ($version == "" ? '0.1' : $version));
+            $v[count($v) - 1] = ($v[count($v) - 1] + 1);
+            $this->version = implode('.', $v);
+        }
+        return $this->version;
+    }
+
+    public function isVersionChangeable()
+    {
+        return ($this->version != '$Id$');
+    }
 
 	/**
 	 * @param $style_id
