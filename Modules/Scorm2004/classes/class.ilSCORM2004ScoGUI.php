@@ -449,6 +449,8 @@ die("deprecated");
 		//inline JS
 		$output .='<script type="text/javascript" src="./Modules/Scorm2004/scripts/questions/question_handling.js"></script>';
 		$tpl->setVariable("CONTENT", $output);
+		$tpl->show();
+		exit;
 	}
 	
 	//callback function for question export
