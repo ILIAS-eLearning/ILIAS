@@ -94,12 +94,12 @@ class GaugeTest extends ILIAS_UI_TestBase
             '    </div>' .
             '    <div class="il-chart-gauge-outerbox   il-chart-gauge-bar-no-success  ">' .
             '      <div class="il-chart-gauge-pointer pointer-1" style="transform: rotate(-25deg) skew(41.6349deg)"></div>' .
-            '      <div class="il-chart-gauge-pointer pointer-2" style="transform: rotate(23.3651deg) skew(41.6349deg)"></div>' .
-            '      <div class="il-chart-gauge-pointer pointer-3" style="transform: rotate(71.7302deg) skew(41.6349deg)"></div>' .
+            '      <div class="il-chart-gauge-pointer pointer-2" style="transform: rotate(22.3651deg) skew(41.6349deg)"></div>' .
+            '      <div class="il-chart-gauge-pointer pointer-3" style="transform: rotate(69.7302deg) skew(41.6349deg)"></div>' .
             '      <div class="il-chart-gauge-innerbox    ">' .
             '        <div class="il-chart-gauge-pointer pointer-1" style="transform: rotate(-25deg) skew(51.615deg)"></div>' .
-            '        <div class="il-chart-gauge-pointer pointer-2" style="transform: rotate(13.385deg) skew(51.615deg)"></div>' .
-            '        <div class="il-chart-gauge-pointer pointer-3" style="transform: rotate(51.77deg) skew(51.615deg)"></div>' .
+            '        <div class="il-chart-gauge-pointer pointer-2" style="transform: rotate(12.385deg) skew(51.615deg)"></div>' .
+            '        <div class="il-chart-gauge-pointer pointer-3" style="transform: rotate(49.77deg) skew(51.615deg)"></div>' .
             '        <div class="il-chart-gauge-cover">' .
             '          <div class="il-chart-gauge-text-container">' .
             '            <span class="il-chart-gauge-score-text"></span>' .
@@ -128,15 +128,15 @@ class GaugeTest extends ILIAS_UI_TestBase
         $html = $r->render($fixedSize);
 
         $expected_html =
-            '<div class="il-chart-gauge-box fixed-size">' .
+            '<div class="il-chart-gauge-box il-chart-gauge-fixed-size">' .
             '  <div class="il-chart-gauge-container">' .
             '    <div class="il-chart-gauge-marker-box" style="transform: rotate(57.5deg)">' .
             '      <div class="il-chart-gauge-marker"><div class="il-chart-gauge-arrow"></div></div>' .
             '    </div>' .
             '    <div class="il-chart-gauge-outerbox   il-chart-gauge-bar-no-success  ">' .
             '      <div class="il-chart-gauge-pointer pointer-1" style="transform: rotate(-25deg) skew(41.6349deg)"></div>' .
-            '      <div class="il-chart-gauge-pointer pointer-2" style="transform: rotate(23.3651deg) skew(41.6349deg)"></div>' .
-            '      <div class="il-chart-gauge-pointer pointer-3" style="transform: rotate(71.7302deg) skew(41.6349deg)"></div>' .
+            '      <div class="il-chart-gauge-pointer pointer-2" style="transform: rotate(22.3651deg) skew(41.6349deg)"></div>' .
+            '      <div class="il-chart-gauge-pointer pointer-3" style="transform: rotate(69.7302deg) skew(41.6349deg)"></div>' .
             '      <div class="il-chart-gauge-cover">' .
             '        <div class="il-chart-gauge-text-container">' .
             '          <span class="il-chart-gauge-score-text"></span>' .
@@ -163,12 +163,15 @@ class GaugeTest extends ILIAS_UI_TestBase
         $html = $r->render($mini);
 
         $expected_html =
-            '<div class="il-chart-gauge-box mini">' .
+            '<div class="il-chart-gauge-box il-chart-gauge-mini">' .
             '  <div class="il-chart-gauge-mini-container">' .
+            '    <div class="il-chart-gauge-marker-box" style="transform: rotate(57.5deg)">' .
+            '      <div class="il-chart-gauge-mini-marker"></div>' .
+            '    </div>' .
             '    <div class="il-chart-gauge-outerbox   il-chart-gauge-bar-no-success  ">' .
             '      <div class="il-chart-gauge-pointer pointer-1" style="transform: rotate(-25deg) skew(41.6349deg)"></div>' .
-            '      <div class="il-chart-gauge-pointer pointer-2" style="transform: rotate(23.3651deg) skew(41.6349deg)"></div>' .
-            '      <div class="il-chart-gauge-pointer pointer-3" style="transform: rotate(71.7302deg) skew(41.6349deg)"></div>' .
+            '      <div class="il-chart-gauge-pointer pointer-2" style="transform: rotate(22.3651deg) skew(41.6349deg)"></div>' .
+            '      <div class="il-chart-gauge-pointer pointer-3" style="transform: rotate(69.7302deg) skew(41.6349deg)"></div>' .
             '      <div class="il-chart-gauge-cover">' .
             '        <div class="il-chart-gauge-text-container"></div>' .
             '      </div>' .

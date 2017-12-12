@@ -147,6 +147,14 @@ class Renderer extends AbstractComponentRenderer
         // set progress bar color class
         $tpl = $this->modifyProgressBarClasses($tpl, $component);
 
+        // set marker position
+        if($component->getRequired() != $component->getMaximum()) {
+            $tpl->setVariable("MARKER_POS", $this->getMarkerPos($component->getRequiredAsPercent()));
+        } else {
+            $tpl->setVariable("MARKER_POS",'0');
+            $tpl->touchBlock('marker-hidden');
+        }
+
         $tpl->parseCurrentBlock();
 
         return $tpl->get();
@@ -238,8 +246,8 @@ class Renderer extends AbstractComponentRenderer
     {
         $rotation = array();
         $rotation[0] = (-25 + ((90 - $skew) * 0));
-        $rotation[1] = (-25 + ((90 - $skew) * 1));
-        $rotation[2] = (-25 + ((90 - $skew) * 2));
+        $rotation[1] = (-25 + ((90 - $skew-1) * 1));
+        $rotation[2] = (-25 + ((90 - $skew-1) * 2));
         return $rotation;
     }
 

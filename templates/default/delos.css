@@ -7899,7 +7899,7 @@ ul.breadcrumb li:hover {
   display: block;
   position: relative;
   background-color: transparent;
-  height: 140%;
+  height: 130%;
   width: 100%;
 }
 .il-chart-gauge-container .il-chart-gauge-outerbox,
@@ -7982,7 +7982,7 @@ ul.breadcrumb li:hover {
 .il-chart-gauge-mini-container .il-chart-gauge-cover .il-chart-gauge-text-container .il-chart-gauge-score {
   position: absolute;
   left: 20%;
-  top: 30%;
+  top: 28%;
   text-align: center;
   font-weight: bold;
 }
@@ -7990,7 +7990,7 @@ ul.breadcrumb li:hover {
 .il-chart-gauge-mini-container .il-chart-gauge-cover .il-chart-gauge-text-container .il-chart-gauge-minscore {
   position: absolute;
   left: 25%;
-  top: 62%;
+  top: 58%;
   width: 50%;
   text-align: center;
   font-size: 1em;
@@ -7999,7 +7999,7 @@ ul.breadcrumb li:hover {
 .il-chart-gauge-mini-container .il-chart-gauge-cover .il-chart-gauge-text-container .il-chart-gauge-minscore-text {
   position: absolute;
   left: 25%;
-  top: 70%;
+  top: 66%;
   width: 50%;
   text-align: center;
   color: #aaaaaa;
@@ -8042,6 +8042,27 @@ ul.breadcrumb li:hover {
   top: -14px;
   left: -10.5px;
 }
+.il-chart-gauge-mini-container .il-chart-gauge-marker-box {
+  position: absolute;
+  width: 80%;
+  height: 80%;
+  transform: rotate(115deg);
+  pointer-events: none;
+  background: transparent;
+  z-index: 2;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.il-chart-gauge-mini-container .il-chart-gauge-marker-box .il-chart-gauge-mini-marker {
+  transform-origin: 100% 100%;
+  width: 50%;
+  height: 50%;
+  transform: rotate(90deg) skew(85deg);
+  background-color: #bcbcbc;
+}
+.il-chart-gauge-mini-container .il-chart-gauge-cover {
+  z-index: 3;
+}
 .il-chart-gauge-container {
   padding: 10px;
   font-size: 1.25rem;
@@ -8049,7 +8070,14 @@ ul.breadcrumb li:hover {
 .il-chart-gauge-container .il-chart-gauge-outerbox {
   border: 5px solid transparent;
 }
-.il-chart-gauge-container .il-chart-gauge-outerbox .il-chart-gauge-cover {
+.il-chart-gauge-container .il-chart-gauge-outerbox > .il-chart-gauge-cover {
+  width: 84.552%;
+  height: 84.552%;
+  top: 8.3224%;
+  left: 8.3224%;
+  border: 5px solid #dddddd;
+}
+.il-chart-gauge-container .il-chart-gauge-outerbox .il-chart-gauge-innerbox > .il-chart-gauge-cover {
   width: 93.552%;
   height: 93.552%;
   top: 3.3224%;
@@ -8076,19 +8104,65 @@ ul.breadcrumb li:hover {
 }
 .il-chart-gauge-box {
   overflow: hidden;
+  position: relative;
+}
+.il-chart-gauge-box:before,
+.il-chart-gauge-box:after {
+  content: " ";
+  display: block;
+  position: absolute;
+  background-color: #ddd;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+}
+.il-chart-gauge-box:before {
+  bottom: 0;
+  left: 30px;
+  z-index: 2;
+}
+.il-chart-gauge-box:after {
+  bottom: 0;
+  right: 30px;
+  z-index: 2;
+}
+.il-chart-gauge-box .il-chart-gauge-container:after,
+.il-chart-gauge-box .il-chart-gauge-mini-container:after {
+  content: " ";
+  display: block;
+  position: absolute;
+  width: 93%;
+  height: 93%;
+  bottom: -60%;
+  border-radius: 25%;
+  z-index: 1;
+  background-color: #f0f0f0;
 }
 .il-chart-gauge-box.il-chart-gauge-fixed-size {
   width: 300px;
-  height: 214px;
+  height: 230px;
 }
 .il-chart-gauge-box.il-chart-gauge-mini {
   width: 50px;
   height: 35px;
 }
+.il-chart-gauge-box.il-chart-gauge-mini:before,
+.il-chart-gauge-box.il-chart-gauge-mini:after {
+  background-color: transparent;
+}
+.il-chart-gauge-box.il-chart-gauge-mini .il-chart-gauge-mini-container:after {
+  width: 80%;
+  height: 93%;
+  bottom: -57%;
+}
 @media (min-width: 1200px) {
   .il-chart-gauge-box.il-chart-gauge-responsive {
     width: 300px;
-    height: 214px;
+    height: 230px;
+  }
+  .il-chart-gauge-box.il-chart-gauge-responsive .il-chart-gauge-container:after {
+    bottom: -60%;
+    border-radius: 25%;
   }
   .il-chart-gauge-box.il-chart-gauge-responsive .il-chart-gauge-container {
     font-size: 1.25rem;
@@ -8107,10 +8181,35 @@ ul.breadcrumb li:hover {
 @media (min-width: 992px) and (max-width: 1199px) {
   .il-chart-gauge-box.il-chart-gauge-responsive {
     width: 250px;
-    height: 177px;
+    height: 192px;
+  }
+  .il-chart-gauge-box.il-chart-gauge-responsive:before,
+  .il-chart-gauge-box.il-chart-gauge-responsive:after {
+    width: 26px;
+    height: 26px;
+  }
+  .il-chart-gauge-box.il-chart-gauge-responsive:before {
+    left: 26px;
+  }
+  .il-chart-gauge-box.il-chart-gauge-responsive:after {
+    right: 26px;
   }
   .il-chart-gauge-box.il-chart-gauge-responsive .il-chart-gauge-container {
     font-size: 1.25rem;
+  }
+  .il-chart-gauge-box.il-chart-gauge-responsive .il-chart-gauge-container .il-chart-gauge-marker-box {
+    width: 92.3334%;
+    height: 92.3334%;
+  }
+  .il-chart-gauge-box.il-chart-gauge-responsive .il-chart-gauge-container .il-chart-gauge-marker-box .il-chart-gauge-marker {
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-top: 11px solid #bcbcbc;
+  }
+  .il-chart-gauge-box.il-chart-gauge-responsive .il-chart-gauge-container .il-chart-gauge-marker-box .il-chart-gauge-marker .il-chart-gauge-arrow {
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 13px solid #f0f0f0;
   }
   .il-chart-gauge-box.il-chart-gauge-responsive .il-chart-gauge-container .il-chart-gauge-outerbox {
     border: 4px solid transparent;
@@ -8129,10 +8228,37 @@ ul.breadcrumb li:hover {
 @media (min-width: 768px) and (max-width: 991px) {
   .il-chart-gauge-box.il-chart-gauge-responsive {
     width: 200px;
-    height: 142px;
+    height: 154px;
+  }
+  .il-chart-gauge-box.il-chart-gauge-responsive:before,
+  .il-chart-gauge-box.il-chart-gauge-responsive:after {
+    width: 21px;
+    height: 21px;
+  }
+  .il-chart-gauge-box.il-chart-gauge-responsive:before {
+    left: 22px;
+  }
+  .il-chart-gauge-box.il-chart-gauge-responsive:after {
+    right: 22px;
   }
   .il-chart-gauge-box.il-chart-gauge-responsive .il-chart-gauge-container {
     font-size: 1rem;
+  }
+  .il-chart-gauge-box.il-chart-gauge-responsive .il-chart-gauge-container .il-chart-gauge-marker-box {
+    width: 90.3334%;
+    height: 90.3334%;
+  }
+  .il-chart-gauge-box.il-chart-gauge-responsive .il-chart-gauge-container .il-chart-gauge-marker-box .il-chart-gauge-marker {
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 9px solid #bcbcbc;
+  }
+  .il-chart-gauge-box.il-chart-gauge-responsive .il-chart-gauge-container .il-chart-gauge-marker-box .il-chart-gauge-marker .il-chart-gauge-arrow {
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 11px solid #f0f0f0;
+    top: -12px;
+    left: -8.5px;
   }
   .il-chart-gauge-box.il-chart-gauge-responsive .il-chart-gauge-container .il-chart-gauge-outerbox {
     border: 3px solid transparent;
@@ -8151,10 +8277,37 @@ ul.breadcrumb li:hover {
 @media (max-width: 767px) {
   .il-chart-gauge-box.il-chart-gauge-responsive {
     width: 150px;
-    height: 106px;
+    height: 115px;
+  }
+  .il-chart-gauge-box.il-chart-gauge-responsive:before,
+  .il-chart-gauge-box.il-chart-gauge-responsive:after {
+    width: 16px;
+    height: 16px;
+  }
+  .il-chart-gauge-box.il-chart-gauge-responsive:before {
+    left: 18px;
+  }
+  .il-chart-gauge-box.il-chart-gauge-responsive:after {
+    right: 18px;
   }
   .il-chart-gauge-box.il-chart-gauge-responsive .il-chart-gauge-container {
     font-size: 0.75rem;
+  }
+  .il-chart-gauge-box.il-chart-gauge-responsive .il-chart-gauge-container .il-chart-gauge-marker-box {
+    width: 87.3334%;
+    height: 87.3334%;
+  }
+  .il-chart-gauge-box.il-chart-gauge-responsive .il-chart-gauge-container .il-chart-gauge-marker-box .il-chart-gauge-marker {
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 8px solid #bcbcbc;
+  }
+  .il-chart-gauge-box.il-chart-gauge-responsive .il-chart-gauge-container .il-chart-gauge-marker-box .il-chart-gauge-marker .il-chart-gauge-arrow {
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 10px solid #f0f0f0;
+    top: -11px;
+    left: -6.5px;
   }
   .il-chart-gauge-box.il-chart-gauge-responsive .il-chart-gauge-container .il-chart-gauge-outerbox {
     border: 2px solid transparent;
