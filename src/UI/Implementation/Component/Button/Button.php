@@ -85,9 +85,13 @@ abstract class Button implements C\Button\Button {
 		if ($this->action !== null) {
 			return $this->action;
 		}
+		$triggered_click_signals = $this->triggered_signals["click"];
+		if ($triggered_signals === null) {
+			return [];
+		}
 		return array_map(
 			function($ts) { return $ts->getSignal(); },
-			$this->triggered_signals["click"]
+			$triggered_click_signals
 		);
 	}
 
