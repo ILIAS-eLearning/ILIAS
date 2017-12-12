@@ -66,6 +66,15 @@ class Factory {
 	}
 
 	/**
+	 * Get a constraint for an array.
+	 *
+	 * @return  Constraint
+	 */
+	public function isArray() {
+		return new Constraints\IsArray($this->data_factory);
+	}
+
+	/**
 	 * Get the constraint that some value is larger than $min.
 	 *
 	 * @param   int   $min
