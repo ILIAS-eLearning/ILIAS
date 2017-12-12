@@ -204,6 +204,8 @@ class ilUtil
 		{
 			$vers = str_replace(" ", "-", $ilias->getSetting("ilias_version"));
 			$vers = "?vers=".str_replace(".", "-", $vers);
+			$skin_version = ilStyleDefinition::getCurrentSkinVersion();
+			$vers .= ($skin_version != '' ? str_replace(".", "-", '-' . $skin_version) : '');
 		}
 		return $filename . $vers;
 	}
