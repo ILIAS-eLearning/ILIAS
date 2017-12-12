@@ -1216,7 +1216,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->tabs->addTarget('forums_threads', $this->ctrl->getLinkTarget($this,'showThreads'), $this->ctrl->getCmd(), get_class($this), '', $force_active);
 
 		// info tab
-		if($this->access->checkAccess('visible', '', $this->ref_id))
+		if($this->access->checkAccess('visible', '', $this->ref_id) || $this->access->checkAccess('read', '', $this->ref_id))
 		{
 			$force_active = ($this->ctrl->getNextClass() == 'ilinfoscreengui' || strtolower($_GET['cmdClass']) == 'ilnotegui') ? true : false;
 			$this->tabs->addTarget('info_short',
@@ -1823,7 +1823,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			'message'
 		);
 		$oPostGUI->setRequired(true);
-		$oPostGUI->setCols(50);
 		$oPostGUI->setRows(15);
 		$oPostGUI->setUseRte(true);
 		$oPostGUI->addPlugin('latex');
@@ -4304,8 +4303,10 @@ $this->doCaptchaCheck();
 
 	public function infoScreen()
 	{
-
-		if(!$this->access->checkAccess('visible', '', $this->object->getRefId()))
+		if(
+			!$this->access->checkAccess('visible', '', $this->object->getRefId()) &&
+			!$this->access->checkAccess('read', '', $this->object->getRefId())
+		)
 		{
 			$this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
 		}
@@ -5896,7 +5897,7 @@ $this->doCaptchaCheck();
 		require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
 		if($this->user->isAnonymous() 
 			&& !$this->user->isCaptchaVerified() 
-			&&ilCaptchaUtil::isActiveForForum())
+			&& ilCaptchaUtil::isActiveForForum())
 		{
 			$this->user->setCaptchaVerified(true);
 		}

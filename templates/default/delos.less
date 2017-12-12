@@ -426,7 +426,7 @@ div.ilFrame {
 	z-index: 100;
 	position: fixed;
 	top: @il-header-height;
-	@media only screen and (max-width: @grid-float-breakpoint-max) {
+	@media only screen and (max-width: @screen-lg-min) {
 		/* at last temporary, since it overlaps content */
         display: none;
     }
@@ -436,6 +436,7 @@ div.ilFrame {
 	margin-left: 0;
 	margin-right: 15px;
 	border-right: none;
+	//See 20986 with according JF decision
 	border-left: 3px solid lighten(@mid-gray, 33%);
 }
 
@@ -1420,13 +1421,13 @@ div#bot_center_area_drag:hover {
 .ilLeftNavSpace {
 	/* padding: 0 20px 0 310px; */
 	margin-left: 315px !important;
-	@media (max-width: @grid-float-breakpoint-max) {margin-left: 0 !important;}
+	@media (max-width: @screen-lg-min) {margin-left: 0 !important;}
 }
 
 [dir="rtl"] .ilLeftNavSpace {
 	margin-left: 0 !important;
 	margin-right: 315px !important;
-	@media (max-width: @grid-float-breakpoint-max) {margin-right: 0 !important;}
+	@media (max-width: @screen-lg-min) {margin-right: 0 !important;}
 }
 
 

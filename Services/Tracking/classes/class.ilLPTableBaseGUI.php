@@ -654,7 +654,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		$mode = $olp->getCurrentMode();
 		if(in_array($mode, array(ilLPObjSettings::LP_MODE_TLT, 
 			ilLPObjSettings::LP_MODE_VISITS, 
-			// ilLPObjSettings::LP_MODE_OBJECTIVES, 
 			ilLPObjSettings::LP_MODE_SCORM,
 			ilLPObjSettings::LP_MODE_VISITED_PAGES,
 			ilLPObjSettings::LP_MODE_TEST_PASSED)))
@@ -730,8 +729,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 			$data[$lng->txt("trac_object_owner")] = ilObjUser::_lookupFullname(ilObject::_lookupOwner($this->obj_id));
 		}
 		
-		$data[$lng->txt("trac_report_date")] =
-				ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX), IL_CAL_DATETIME);
+		$data[$lng->txt("trac_report_date")] = ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX));
 		$data[$lng->txt("trac_report_owner")] = $ilUser->getFullName();
 		
 		return $data;

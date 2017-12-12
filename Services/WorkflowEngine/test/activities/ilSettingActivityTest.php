@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Services/WorkflowEngine/test/ilWorkflowEngineBaseTest.php';
+
 /**
  * ilSettingActivityTest is part of the petri net based workflow engine.
  *
@@ -11,10 +13,12 @@
  *
  * @ingroup Services/WorkflowEngine
  */
-class ilSettingActivityTest extends PHPUnit_Framework_TestCase
+class ilSettingActivityTest extends ilWorkflowEngineBaseTest
 {
 	public function setUp()
 	{
+		parent::setUp();
+
 		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		//ilUnitUtil::performInitialisation();
 		

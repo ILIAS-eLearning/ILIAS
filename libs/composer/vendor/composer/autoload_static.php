@@ -4,12 +4,12 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
+class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
 {
     public static $files = array (
+        '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
-        '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
         '5abda994d126976858eb25d2546ee3c9' => __DIR__ . '/..' . '/simplesamlphp/simplesamlphp/lib/_autoload_modules.php',
     );
 
@@ -1078,7 +1078,14 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'ILIAS\\UI\\Implementation\\Factory' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Factory.php',
         'ILIAS\\UI\\Implementation\\Render\\AbstractComponentRenderer' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Render/AbstractComponentRenderer.php',
         'ILIAS\\UI\\Implementation\\Render\\ComponentRenderer' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Render/ComponentRenderer.php',
+        'ILIAS\\UI\\Implementation\\Render\\DefaultRendererFactory' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Render/DefaultRendererFactory.php',
+        'ILIAS\\UI\\Implementation\\Render\\FSLoader' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Render/FSLoader.php',
         'ILIAS\\UI\\Implementation\\Render\\JavaScriptBinding' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Render/JavaScriptBinding.php',
+        'ILIAS\\UI\\Implementation\\Render\\Loader' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Render/Loader.php',
+        'ILIAS\\UI\\Implementation\\Render\\LoaderCachingWrapper' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Render/LoaderCachingWrapper.php',
+        'ILIAS\\UI\\Implementation\\Render\\LoaderHelper' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Render/LoaderHelper.php',
+        'ILIAS\\UI\\Implementation\\Render\\LoaderResourceRegistryWrapper' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Render/LoaderResourceRegistryWrapper.php',
+        'ILIAS\\UI\\Implementation\\Render\\RendererFactory' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Render/RendererFactory.php',
         'ILIAS\\UI\\Implementation\\Render\\ResourceRegistry' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Render/ResourceRegistry.php',
         'ILIAS\\UI\\Implementation\\Render\\Template' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Render/Template.php',
         'ILIAS\\UI\\Implementation\\Render\\TemplateFactory' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Render/TemplateFactory.php',
@@ -1809,7 +1816,6 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'SurveyTextQuestion' => __DIR__ . '/../..' . '/../../Modules/SurveyQuestionPool/classes/class.SurveyTextQuestion.php',
         'SurveyTextQuestionEvaluation' => __DIR__ . '/../..' . '/../../Modules/SurveyQuestionPool/classes/class.SurveyTextQuestionEvaluation.php',
         'SurveyTextQuestionGUI' => __DIR__ . '/../..' . '/../../Modules/SurveyQuestionPool/classes/class.SurveyTextQuestionGUI.php',
-        'Symfony\\Component\\Yaml\\Command\\LintCommand' => __DIR__ . '/..' . '/symfony/yaml/Command/LintCommand.php',
         'Symfony\\Component\\Yaml\\Dumper' => __DIR__ . '/..' . '/symfony/yaml/Dumper.php',
         'Symfony\\Component\\Yaml\\Escaper' => __DIR__ . '/..' . '/symfony/yaml/Escaper.php',
         'Symfony\\Component\\Yaml\\Exception\\DumpException' => __DIR__ . '/..' . '/symfony/yaml/Exception/DumpException.php',
@@ -1818,7 +1824,6 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'Symfony\\Component\\Yaml\\Exception\\RuntimeException' => __DIR__ . '/..' . '/symfony/yaml/Exception/RuntimeException.php',
         'Symfony\\Component\\Yaml\\Inline' => __DIR__ . '/..' . '/symfony/yaml/Inline.php',
         'Symfony\\Component\\Yaml\\Parser' => __DIR__ . '/..' . '/symfony/yaml/Parser.php',
-        'Symfony\\Component\\Yaml\\Tag\\TaggedValue' => __DIR__ . '/..' . '/symfony/yaml/Tag/TaggedValue.php',
         'Symfony\\Component\\Yaml\\Unescaper' => __DIR__ . '/..' . '/symfony/yaml/Unescaper.php',
         'Symfony\\Component\\Yaml\\Yaml' => __DIR__ . '/..' . '/symfony/yaml/Yaml.php',
         'TCPDF' => __DIR__ . '/..' . '/tecnickcom/tcpdf/tcpdf.php',
@@ -2300,6 +2305,7 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'ilAppEventHandler' => __DIR__ . '/../..' . '/../../Services/EventHandling/classes/class.ilAppEventHandler.php',
         'ilAppEventListener' => __DIR__ . '/../..' . '/../../Services/EventHandling/interfaces/interface.ilAppEventListener.php',
         'ilAppointmentBaseFileHandler' => __DIR__ . '/../..' . '/../../Services/Calendar/classes/FileHandler/class.ilAppointmentBaseFileHandler.php',
+        'ilAppointmentBookingPoolFileHandler' => __DIR__ . '/../..' . '/../../Services/Calendar/classes/FileHandler/class.ilAppointmentBookingPoolFileHandler.php',
         'ilAppointmentConsultationHoursFileHandler' => __DIR__ . '/../..' . '/../../Services/Calendar/classes/FileHandler/class.ilAppointmentConsultationHoursFileHandler.php',
         'ilAppointmentCourseFileHandler' => __DIR__ . '/../..' . '/../../Services/Calendar/classes/FileHandler/class.ilAppointmentCourseFileHandler.php',
         'ilAppointmentCustomGridPlugin' => __DIR__ . '/../..' . '/../../Services/Calendar/classes/class.ilAppointmentCustomGridPlugin.php',
@@ -3668,6 +3674,7 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'ilGroupLP' => __DIR__ . '/../..' . '/../../Modules/Group/classes/class.ilGroupLP.php',
         'ilGroupMembershipGUI' => __DIR__ . '/../..' . '/../../Modules/Group/classes/class.ilGroupMembershipGUI.php',
         'ilGroupMembershipMailNotification' => __DIR__ . '/../..' . '/../../Modules/Group/classes/class.ilGroupMembershipMailNotification.php',
+        'ilGroupNameAsMailValidator' => __DIR__ . '/../..' . '/../../Services/Mail/classes/Address/Validator/class.ilGroupNameAsMailValidator.php',
         'ilGroupParticipants' => __DIR__ . '/../..' . '/../../Modules/Group/classes/class.ilGroupParticipants.php',
         'ilGroupParticipantsTableGUI' => __DIR__ . '/../..' . '/../../Modules/Group/classes/class.ilGroupParticipantsTableGUI.php',
         'ilGroupReferenceExporter' => __DIR__ . '/../..' . '/../../Modules/GroupReference/classes/class.ilGroupReferenceExporter.php',
@@ -4347,6 +4354,7 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'ilNotificationHandler' => __DIR__ . '/../..' . '/../../Services/Notifications/classes/class.ilNotificationHandler.php',
         'ilNotificationHandlerIterator' => __DIR__ . '/../..' . '/../../Services/Notifications/classes/class.ilNotificationHandlerIterator.php',
         'ilNotificationMailHandler' => __DIR__ . '/../..' . '/../../Services/Notifications/classes/class.ilNotificationMailHandler.php',
+        'ilNotificationOSDGUI' => __DIR__ . '/../..' . '/../../Services/Notifications/classes/class.ilNotificationOSDGUI.php',
         'ilNotificationOSDHandler' => __DIR__ . '/../..' . '/../../Services/Notifications/classes/class.ilNotificationOSDHandler.php',
         'ilNotificationObject' => __DIR__ . '/../..' . '/../../Services/Notifications/classes/class.ilNotificationConfig.php',
         'ilNotificationParameter' => __DIR__ . '/../..' . '/../../Services/Notifications/classes/class.ilNotificationConfig.php',
@@ -4943,6 +4951,7 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'ilOrgUnitUserAssignmentGUI' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/Positions/UserAssignment/class.ilOrgUnitUserAssignmentGUI.php',
         'ilOrgUnitUserAssignmentQueries' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/Positions/UserAssignment/class.ilOrgUnitUserAssignmentQueries.php',
         'ilOrgUnitUserAssignmentTableGUI' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/Positions/UserAssignment/class.ilOrgUnitUserAssignmentTableGUI.php',
+        'ilOrguException' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/Exceptions/class.ilOrguException.php',
         'ilOrguUserPickerToolbarInputGUI' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/class.ilOrguUserPickerToolbarInputGUI.php',
         'ilOverlayGUI' => __DIR__ . '/../..' . '/../../Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php',
         'ilPCAMDPageList' => __DIR__ . '/../..' . '/../../Modules/Wiki/classes/class.ilPCAMDPageList.php',
@@ -5145,6 +5154,7 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'ilPortfolioTemplatePage' => __DIR__ . '/../..' . '/../../Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php',
         'ilPortfolioTemplatePageConfig' => __DIR__ . '/../..' . '/../../Modules/Portfolio/classes/class.ilPortfolioTemplatePageConfig.php',
         'ilPortfolioTemplatePageGUI' => __DIR__ . '/../..' . '/../../Modules/Portfolio/classes/class.ilPortfolioTemplatePageGUI.php',
+        'ilPositionPermissionsNotActive' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/Exceptions/ilPositionPermissionsNotActive.php',
         'ilPostgresQueryUtils' => __DIR__ . '/../..' . '/../../Services/Database/classes/QueryUtils/class.ilPostgresQueryUtils.php',
         'ilPresentationListTableGUI' => __DIR__ . '/../..' . '/../../Modules/Glossary/classes/class.ilPresentationListTableGUI.php',
         'ilPreview' => __DIR__ . '/../..' . '/../../Services/Preview/classes/class.ilPreview.php',
@@ -5416,6 +5426,7 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'ilSaxSubsetParser' => __DIR__ . '/../..' . '/../../Services/Utilities/interfaces/interface.ilSaxSubsetParser.php',
         'ilScheduleInputGUI' => __DIR__ . '/../..' . '/../../Modules/BookingManager/classes/class.ilScheduleInputGUI.php',
         'ilScoringAdjustmentGUI' => __DIR__ . '/../..' . '/../../Modules/Test/classes/class.ilScoringAdjustmentGUI.php',
+        'ilScorm2004DataSet' => __DIR__ . '/../..' . '/../../Modules/Scorm2004/classes/class.ilScorm2004DataSet.php',
         'ilScorm2004Export' => __DIR__ . '/../..' . '/../../Modules/Scorm2004/classes/class.ilSCORM2004Export.php',
         'ilScormAiccDataSet' => __DIR__ . '/../..' . '/../../Modules/ScormAicc/classes/class.ilScormAiccDataSet.php',
         'ilScormAiccExporter' => __DIR__ . '/../..' . '/../../Modules/ScormAicc/classes/class.ilScormAiccExporter.php',
@@ -6172,6 +6183,7 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'ilWorkflowArmerGUI' => __DIR__ . '/../..' . '/../../Services/WorkflowEngine/classes/administration/class.ilWorkflowArmerGUI.php',
         'ilWorkflowCron' => __DIR__ . '/../..' . '/../../Services/WorkflowEngine/classes/class.ilWorkflowCron.php',
         'ilWorkflowDbHelper' => __DIR__ . '/../..' . '/../../Services/WorkflowEngine/classes/utils/class.ilWorkflowDbHelper.php',
+        'ilWorkflowDefinitionRepository' => __DIR__ . '/../..' . '/../../Services/WorkflowEngine/classes/administration/class.ilWorkflowDefinitionRepository.php',
         'ilWorkflowEngine' => __DIR__ . '/../..' . '/../../Services/WorkflowEngine/classes/class.ilWorkflowEngine.php',
         'ilWorkflowEngineDashboardGUI' => __DIR__ . '/../..' . '/../../Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineDashboardGUI.php',
         'ilWorkflowEngineDefinitionsGUI' => __DIR__ . '/../..' . '/../../Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineDefinitionsGUI.php',
@@ -6192,6 +6204,7 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         'ilWorkspaceAccessHandler' => __DIR__ . '/../..' . '/../../Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php',
         'ilWorkspaceAccessTableGUI' => __DIR__ . '/../..' . '/../../Services/PersonalWorkspace/classes/class.ilWorkspaceAccessTableGUI.php',
         'ilWorkspaceExplorer' => __DIR__ . '/../..' . '/../../Services/PersonalWorkspace/classes/class.ilWorkspaceExplorer.php',
+        'ilWorkspaceExplorerGUI' => __DIR__ . '/../..' . '/../../Services/PersonalWorkspace/classes/class.ilWorkspaceExplorerGUI.php',
         'ilWorkspaceFolderExplorer' => __DIR__ . '/../..' . '/../../Modules/WorkspaceFolder/classes/class.ilWorkspaceFolderExplorer.php',
         'ilWorkspaceShareTableGUI' => __DIR__ . '/../..' . '/../../Services/PersonalWorkspace/classes/class.ilWorkspaceShareTableGUI.php',
         'ilWorkspaceTree' => __DIR__ . '/../..' . '/../../Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php',
@@ -6223,10 +6236,10 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83::$classMap;
 
         }, null, ClassLoader::class);
     }

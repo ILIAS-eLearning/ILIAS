@@ -21,11 +21,16 @@ module.exports = function(req, res)
 	var userlistLeftAction = UserlistAction.create(roomId, subRoomId, room.getJoinedSubscribers());
 	var userlistMainAction = UserlistAction.create(roomId, 0, mainRoom.getJoinedSubscribers());
 
-	subscriber.getSocketIds().forEach(function(socketId){
-		namespace.getIO().connected[socketId].leave(room.getId());
-		namespace.getIO().in(socketId).emit('notice', notice);
-		namespace.getIO().in(socketId).emit('userlist', userlistMainAction);
-	});
+	function createLeaveRoomCallback(namespace, room, notice, userlistMainAction) {
+		return function createLeaveRoom(socketId){
+			namespace.getIO().connected[socketId].leave(room.getId());
+			namespace.getIO().in(socketId).emit('notice', notice);
+			namespace.getIO().in(socketId).emit('userlist', userlistMainAction);
+		};
+	}
+
+	var leaveRoomCallback = createLeaveRoomCallback(namespace, room, notice, userlistMainAction);
+	subscriber.getSocketIds().forEach(leaveRoomCallback);
 
 	notice = Notice.create('private_room_left', roomId, subRoomId, {user: subscriber.getName(),title: room.getTitle()});
 	namespace.getIO().in(serverRoomId).emit('userlist', userlistLeftAction);

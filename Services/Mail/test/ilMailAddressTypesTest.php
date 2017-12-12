@@ -6,11 +6,9 @@
  */
 class ilMailAddressTypesTest extends \ilMailBaseTest
 {
-	/**
-	 * 
-	 */
 	public function setUp()
 	{
+
 		parent::setUp();
 
 		$user = $this->getMockBuilder('ilObjUser')->disableOriginalConstructor()->setMethods(array('getId'))->getMock();
@@ -22,64 +20,115 @@ class ilMailAddressTypesTest extends \ilMailBaseTest
 		$this->setGlobalVariable('rbacreview', $rbacreview);
 		$this->setGlobalVariable('rbacsystem', $rbacsystem);
 		$this->setGlobalVariable('ilUser', $user);
-		$this->setGlobalVariable('ilDB', $this->getMockBuilder('ilDBInterface')->getMock());
+
+		$database = $this->getMockBuilder('ilDBInterface')->getMock();
+		$result   = $this->getMockBuilder('ilDBStatement')->getMock();
+		$result->expects($this->any())->method('numRows')->will($this->returnValue(1));
+		$database->expects($this->any())->method('query')->will($this->returnValue($result));
+		$this->setGlobalVariable('ilDB', $database);
 	}
 
-	/**
-	 * @dataProvider addressTypes
-	 * @param ilMailAddress $address
-	 * @param string $expectedAddressType
-	 * @param callable $preRunCallback
-	 */
-	public function testFactoryShouldReturnShouldReturnProperAddressType(ilMailAddress $address, $expectedAddressType, callable $preRunCallback = null)
+	public function testFactoryWillReturnListAddressTypeForListName()
 	{
-		if(is_callable($preRunCallback))
-		{
-			$preRunCallback();
-		}
+		$groupNameValidatorMock = $this->createGroupNameAsValidatorMock();
+		$groupNameValidatorMock->method('validate')->willReturn(true);
 
-		$this->assertInstanceOf($expectedAddressType, ilMailAddressTypeFactory::getByPrefix($address));
+		$mailAddressTypeFactory = new ilMailAddressTypeFactory($groupNameValidatorMock);
+
+		$result = $mailAddressTypeFactory->getByPrefix(new ilMailAddress('#il_ml_4711', ''));
+
+		$this->assertInstanceOf('ilMailMailingListAddressType', $result);
 	}
 
-	/**
-	 * @return array
-	 */
-	public function addressTypes()
+	public function testFactoryWillReturnGroupAddressTypeForGroupName()
 	{
-		$that = $this;
+		$groupNameValidatorMock = $this->createGroupNameAsValidatorMock();
+		$groupNameValidatorMock->method('validate')->willReturn(true);
 
-		return [
-			array(new ilMailAddress('#il_ml_4711', ''), 'ilMailMailingListAddressType', function() use ($that) {
-				$database = $that->getMockBuilder('ilDBInterface')->getMock();
-				$result   = $that->getMockBuilder('ilDBStatement')->getMock();
-				$result->expects($that->any())->method('numRows')->will($that->returnValue(1));
-				$database->expects($that->any())->method('query')->will($that->returnValue($result));
-				$that->setGlobalVariable('ilDB', $database);
-			}),
-			array(new ilMailAddress('#MyGroup', ''), 'ilMailGroupAddressType', function() use ($that) {
-				$database = $that->getMockBuilder('ilDBInterface')->getMock();
-				$result   = $that->getMockBuilder('ilDBStatement')->getMock();
-				$result->expects($that->any())->method('numRows')->will($that->returnValue(1));
-				$database->expects($that->any())->method('query')->will($that->returnValue($result));
-				$that->setGlobalVariable('ilDB', $database);
-			}),
-			array(new ilMailAddress('#MyGroup', 'ilias'), 'ilMailGroupAddressType', function() use ($that) {
-				$database = $that->getMockBuilder('ilDBInterface')->getMock();
-				$result   = $that->getMockBuilder('ilDBStatement')->getMock();
-				$result->expects($that->any())->method('numRows')->will($that->returnValue(1));
-				$database->expects($that->any())->method('query')->will($that->returnValue($result));
-				$that->setGlobalVariable('ilDB', $database);
-			}),
-			array(new ilMailAddress('phpunit', ''), 'ilMailLoginOrEmailAddressAddressType'),
-			array(new ilMailAddress('phpunit', 'ilias'), 'ilMailLoginOrEmailAddressAddressType'),
-			array(new ilMailAddress('phpunit', 'ilias.de'), 'ilMailLoginOrEmailAddressAddressType'),
-			array(new ilMailAddress('#member', 'Course I'), 'ilMailRoleAddressType', function() use ($that) {
-				$database = $that->getMockBuilder('ilDBInterface')->getMock();
-				$result   = $that->getMockBuilder('ilDBStatement')->getMock();
-				$result->expects($that->any())->method('numRows')->will($that->returnValue(0));
-				$database->expects($that->any())->method('query')->will($that->returnValue($result));
-				$that->setGlobalVariable('ilDB', $database);
-			})
-		];
+		$mailAddressTypeFactory = new ilMailAddressTypeFactory($groupNameValidatorMock);
+
+		$result = $mailAddressTypeFactory->getByPrefix(new ilMailAddress('#MyGroup',''));
+
+		$this->assertInstanceOf('ilMailGroupAddressType', $result);
+	}
+
+	public function testFactoryWillReturnLoginOrEmailAddressAddressType()
+	{
+		$groupNameValidatorMock = $this->createGroupNameAsValidatorMock();
+		$groupNameValidatorMock->method('validate')->willReturn(false);
+
+		$mailAddressTypeFactory = new ilMailAddressTypeFactory($groupNameValidatorMock);
+
+		$result = $mailAddressTypeFactory->getByPrefix(new ilMailAddress('phpunit', ''));
+
+		$this->assertInstanceOf('ilMailLoginOrEmailAddressAddressType', $result);
+	}
+
+	public function testFactoryWillReturnRoleAddressType()
+	{
+		$groupNameValidatorMock = $this->createGroupNameAsValidatorMock();
+		$groupNameValidatorMock->method('validate')->willReturn(false);
+
+		$mailAddressTypeFactory = new ilMailAddressTypeFactory($groupNameValidatorMock);
+
+		$result = $mailAddressTypeFactory->getByPrefix(new ilMailAddress('#member', ''));
+
+		$this->assertInstanceOf('ilMailRoleAddressType', $result);
+	}
+
+	public function testAdminGroupNameIsAValidMailAddressTypes()
+	{
+		$groupNameValidatorMock = $this->createGroupNameAsValidatorMock();
+		$groupNameValidatorMock->method('validate')->willReturn(false);
+
+		$mailAddressTypeFactory = new ilMailAddressTypeFactory($groupNameValidatorMock);
+
+		$result = $mailAddressTypeFactory->getByPrefix(new ilMailAddress('#il_grp_admin_98', ''));
+
+		$this->assertInstanceOf('ilMailRoleAddressType', $result);
+	}
+
+	public function testMemberGroupNameIsAValidMailAddressType()
+	{
+		$groupNameValidatorMock = $this->createGroupNameAsValidatorMock();
+		$groupNameValidatorMock->method('validate')->willReturn(false);
+
+		$mailAddressTypeFactory = new ilMailAddressTypeFactory($groupNameValidatorMock);
+
+		$result = $mailAddressTypeFactory->getByPrefix(new ilMailAddress('#il_grp_member_98', ''));
+
+		$this->assertInstanceOf('ilMailRoleAddressType', $result);
+	}
+
+	public function testAdminCourseNameIsAValidMailAddressType()
+	{
+		$groupNameValidatorMock = $this->createGroupNameAsValidatorMock();
+		$groupNameValidatorMock->method('validate')->willReturn(false);
+
+		$mailAddressTypeFactory = new ilMailAddressTypeFactory($groupNameValidatorMock);
+
+		$result = $mailAddressTypeFactory->getByPrefix(new ilMailAddress('#il_crs_admin_98', ''));
+
+		$this->assertInstanceOf('ilMailRoleAddressType', $result);
+	}
+
+	public function testMemberCourseNameIsAValidMailAddressType()
+	{
+		$groupNameValidatorMock = $this->createGroupNameAsValidatorMock();
+		$groupNameValidatorMock->method('validate')->willReturn(false);
+
+		$mailAddressTypeFactory = new ilMailAddressTypeFactory($groupNameValidatorMock);
+
+		$result = $mailAddressTypeFactory->getByPrefix(new ilMailAddress('#il_crs_member_98', ''));
+
+		$this->assertInstanceOf('ilMailRoleAddressType', $result);
+	}
+
+	private function createGroupNameAsValidatorMock()
+	{
+		return $this->getMockBuilder('ilGroupNameAsMailValidator')
+			->disableOriginalConstructor()
+			->setMethods(array('validate'))
+			->getMock();
 	}
 }

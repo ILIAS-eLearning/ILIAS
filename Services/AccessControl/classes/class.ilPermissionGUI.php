@@ -889,7 +889,11 @@ class ilPermissionGUI extends ilPermission2GUI
 		$ref_id = $this->getCurrentObject()->getRefId();
 		if ($_POST['local']) {
 			foreach ($_POST['local'] as $position_id => $item) {
-				ilOrgUnitPermissionQueries::findOrCreateSetForRefId($ref_id, $position_id);
+				try {
+					ilOrgUnitPermissionQueries::findOrCreateSetForRefId($ref_id, $position_id);
+				} catch (ilPositionPermissionsNotActive $e) {
+					ilUtil::sendFailure($this->lng->txt("orgunit_position_permissions_not_active_for") . " ". $this->lng->txt("obj_".$e->getObjectType()));
+				}
 			}
 		}
 		if ($_POST['position_perm']) {

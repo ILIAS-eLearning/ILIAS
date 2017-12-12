@@ -73,12 +73,12 @@ class ilBTControllerGUI {
 
 		$this->ctrl()
 		     ->setParameterByClass(ilBTControllerGUI::class, self::REPLACE_SIGNAL, $signal_id);
-		$redirect_url = $this->http()->request()->getQueryParams()[self::FROM_URL];
+
 		$replace_url = $this->ctrl()
 		                    ->getLinkTargetByClass([ ilBTControllerGUI::class ], self::CMD_GET_POPOVER_CONTENT, "", true);
 
 		echo $this->ui()->renderer()->renderAsync($gui->getPopOverContent($this->user()
-		                                                                       ->getId(), $redirect_url, $replace_url));
+		                                                                       ->getId(), $this->getFromURL(), $replace_url));
 	}
 
 
@@ -86,8 +86,28 @@ class ilBTControllerGUI {
 	 * @return string
 	 */
 	protected function getFromURL() {
-		$from_url = rawurldecode($this->http()->request()->getQueryParams()[self::FROM_URL]);
+		$from_url = self::unhash($this->http()->request()->getQueryParams()[self::FROM_URL]);
 
 		return $from_url;
+	}
+
+
+	/**
+	 * @param $url
+	 *
+	 * @return string
+	 */
+	public static function hash($url) {
+		return base64_encode($url);
+	}
+
+
+	/**
+	 * @param $url
+	 *
+	 * @return string
+	 */
+	public static function unhash($url) {
+		return base64_decode($url);
 	}
 }

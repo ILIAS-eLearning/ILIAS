@@ -29,6 +29,8 @@ class ilPDCalendarBlockGUI extends ilCalendarBlockGUI
 		parent::__construct(true);
 		$this->allow_moving = true;
 		$this->setBlockId(0);
+		// fix 21445
+		$this->handleDetailLevel();
 	}
 
 	/**

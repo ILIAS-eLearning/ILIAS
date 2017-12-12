@@ -283,10 +283,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$isQuestionWorkedThrough = assQuestion::_isWorkedThrough(
 			$this->testSession->getActiveId(), $questionId, $this->testSession->getPass()
 		);
-		$missingQuestionResultExists = assQuestion::missingResultRecordExists(
-			$this->testSession->getActiveId(), $this->testSession->getPass(),
-			$this->testSequence->getOrderedSequenceQuestions()
-		);
 		
 // fau: testNav - always use edit mode, except for fixed answer
 		if( $this->isParticipantsAnswerFixed($questionId) )
@@ -337,8 +333,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$this->prepareTestPage($presentationMode, $sequenceElement, $questionId);
 
 		$navigationToolbarGUI = $this->getTestNavigationToolbarGUI();
-		$navigationToolbarGUI->setFinishTestButtonEnabled(true);
-
+		$this->handleFinishedButton($navigationToolbarGUI, $questionId);
+		
 		$this->ctrl->setParameter($this, 'sequence', $sequenceElement);
 		$this->ctrl->setParameter($this, 'pmode', $presentationMode);
 		$formAction = $this->ctrl->getFormAction($this, ilTestPlayerCommands::SUBMIT_INTERMEDIATE_SOLUTION);
@@ -355,8 +351,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				break;
 			
 			case ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW:
-
-				$navigationToolbarGUI->setFinishTestButtonPrimary(!$missingQuestionResultExists);
 				
 				if( $this->testSequence->isQuestionOptional($questionGui->object->getId()) )
 				{
@@ -880,5 +874,33 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		ilUtil::sendFailure(sprintf($this->lng->txt('tst_objective_oriented_test_pass_without_questions'), $this->object->getTitle()), true);
 
 		$this->backToInfoScreenCmd();
+	}
+	
+	/**
+	 * @param ilTestNavigationToolbarGUI $navigationToolbarGUI
+	 */
+	protected function handleFinishedButton(ilTestNavigationToolbarGUI $navigationToolbarGUI, $currentQuestionId)
+	{
+		
+		$navigationToolbarGUI->setFinishTestButtonEnabled(true);
+		
+		$questionsMissingResult = assQuestion::getQuestionsMissingResultRecord(
+			$this->testSession->getActiveId(), $this->testSession->getPass(),
+			$this->testSequence->getOrderedSequenceQuestions()
+		);
+
+		if( !count($questionsMissingResult) )
+		{
+			$navigationToolbarGUI->setFinishTestButtonPrimary(true);
+		}
+		elseif( count($questionsMissingResult) == 1 )
+		{
+			$lastOpenQuestion = current($questionsMissingResult);
+			
+			if($currentQuestionId == $lastOpenQuestion)
+			{
+				$navigationToolbarGUI->setFinishTestButtonPrimary(true);
+			}
+		}
 	}
 }

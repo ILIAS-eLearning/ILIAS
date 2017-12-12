@@ -45,12 +45,18 @@ class ilBuddySystemGUI
 	protected $lng;
 
 	/**
+	 * @var \ILIAS\DI\HTTPServices
+	 */
+	protected $http;
+
+	/**
 	 * 
 	 */
 	public function __construct()
 	{
 		global $DIC;
 
+		$this->http = $DIC->http();
 		$this->ctrl = $DIC['ilCtrl'];
 		$this->user = $DIC['ilUser'];
 		$this->lng  = $DIC['lng'];
@@ -204,7 +210,7 @@ class ilBuddySystemGUI
 			ilUtil::sendInfo($this->lng->txt('buddy_bs_action_not_possible'), true);
 		}
 
-		$this->ctrl->returnToParent($this);
+		$this->redirectToReferer();
 	}
 
 	/**
@@ -281,5 +287,28 @@ class ilBuddySystemGUI
 
 		echo json_encode($response);
 		exit();
+	}
+
+	private function redirectToReferer()
+	{
+		if (isset($this->http->request()->getServerParams()['HTTP_REFERER'])) {
+			$redirectUrl = $this->http->request()->getServerParams()['HTTP_REFERER'];
+			$urlParts    = parse_url($redirectUrl);
+
+			if (isset($urlParts['path'])) {
+				$script = basename($urlParts['path'], '.php');
+				if ($script === 'login') {
+					$this->ctrl->returnToParent($this);
+				} else {
+					$redirectUrl = ltrim(basename($urlParts['path']), '/');
+					if (isset($urlParts['query'])) {
+						$redirectUrl .= '?' . $urlParts['query'];
+					}
+				}
+			}
+			$this->ctrl->redirectToURL($redirectUrl);
+		}
+
+		$this->ctrl->returnToParent($this);
 	}
 }

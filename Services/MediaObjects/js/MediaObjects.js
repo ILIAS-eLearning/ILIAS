@@ -89,7 +89,7 @@ il.MediaObjects = {
 					il.MediaObjects.playerStarted(il.MediaObjects.current_player_id);
 				} else {
 					$(t).find('.ilPlayerPreviewOverlay').addClass('ilNoDisplay');
-					o_el = $(t).find('object');
+					o_el = $(t).find('object, iframe');
 					il.Lightbox.activateView('media_lightbox');
 					location.hash = "detail";
 					il.MediaObjects.lb_opened = true;

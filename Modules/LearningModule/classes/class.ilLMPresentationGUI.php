@@ -816,8 +816,12 @@ class ilLMPresentationGUI
 			$this->tpl->touchBlock("pg_intro");
 			$this->tpl->touchBlock("pg_outro");
 			// LTI
-			$this->tpl->setVariable("MAINMENU", $ilMainMenu->getHTML());
-			$this->tpl->setVariable("MAINMENU_SPACER", $ilMainMenu->getSpacerClass());
+			// stefan, please get in contact with me, before hacking in my code...
+			// these lines are breaking the LM HTML export, see #0021822
+			// i cannot see why the offline version is related to lti at all
+			// no uncommenting it.
+			//$this->tpl->setVariable("MAINMENU", $ilMainMenu->getHTML());
+			//$this->tpl->setVariable("MAINMENU_SPACER", $ilMainMenu->getSpacerClass());
 			return;
 		}
 
@@ -1060,7 +1064,7 @@ class ilLMPresentationGUI
 		$lg->enableNotes(true);
 		$lg->enableComments($this->lm->publicNotes(), false);
 				
-		if($this->lm->hasRating())
+		if($this->lm->hasRating() && !$this->offlineMode())
 		{
 			$lg->enableRating(true, $this->lng->txt("lm_rating"), false,
 				array("ilcommonactiondispatchergui", "ilratinggui"));
@@ -1739,7 +1743,7 @@ class ilLMPresentationGUI
 		
 		// rating
 		$rating = "";
-		if($this->lm->hasRatingPages())
+		if($this->lm->hasRatingPages() && !$this->offlineMode())
 		{
 			include_once("./Services/Rating/classes/class.ilRatingGUI.php");			
 			$rating_gui = new ilRatingGUI();

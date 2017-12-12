@@ -280,6 +280,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				include_once("./Services/Container/Skills/classes/class.ilContainerSkillGUI.php");
 				$gui = new ilContainerSkillGUI($this);
 				$this->ctrl->forwardCommand($gui);
+				break;
 
 			case 'ilcalendarpresentationgui':
 				include_once('./Services/Calendar/classes/class.ilCalendarPresentationGUI.php');

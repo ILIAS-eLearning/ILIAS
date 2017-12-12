@@ -64,7 +64,7 @@
 				getModule().content.find('#onscreenchatmenu-content').html("");
 
 				var conversations = getModule().conversations.filter(function(conversation){
-					return conversation.latestMessage != null && (conversation.open === false || conversation.open == undefined);
+					return conversation.latestMessage !== null && (conversation.open === false || conversation.open === undefined);
 				}).sort(function(a, b) {
 					return b.latestMessage.timestamp - a.latestMessage.timestamp;
 				});
@@ -75,16 +75,25 @@
 					var template = getModule().config.conversationTemplate;
 					var latestMessage = conversations[index].latestMessage;
 					var participants = conversations[index].participants;
-					var participantNames = [];
+					var participantNames = [], participantUserIds = [];
 
 					for (var key in participants) {
-						if(participants.hasOwnProperty(key) && participants[key].id !== getModule().config.userId) {
+						if(participants.hasOwnProperty(key) && participants[key].id != getModule().config.userId) {
 							participantNames.push(participants[key].name);
+							participantUserIds.push(participants[key].id);
 						}
 					}
 
-					template = template.replace('[[avatar]]', getProfileImage(participants[0].id));
-					template = template.replace('[[userId]]', participants[0].id);
+					var displayUserId = (function() {
+						if (latestMessage.userId != getModule().config.userId && latestMessage.userId > 0) {
+							return latestMessage.userId;
+						} else {
+							return participantUserIds[0];
+						}
+					})();
+
+					template = template.replace('[[avatar]]', getProfileImage(displayUserId));
+					template = template.replace('[[userId]]', displayUserId);
 					template = template.replace(/\[\[participants\]\]/g, participantNames.join(', '));
 					template = template.replace(/\[\[conversationId\]\]/g, conversations[index].id);
 

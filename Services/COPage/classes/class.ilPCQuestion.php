@@ -477,6 +477,7 @@ class ilPCQuestion extends ilPageContent
 			ilias.questions.txt.ov_wrong_answered = "'.$lng->txtlng("content", "cont_ov_wrong_answered", $a_lang).'";
 			ilias.questions.txt.please_select = "'.$lng->txtlng("content", "cont_please_select", $a_lang).'";
 			ilias.questions.txt.ov_preview = "'.$lng->txtlng("content", "cont_ov_preview", $a_lang).'";
+			ilias.questions.txt.submit_answers = "'.$lng->txtlng("content", "cont_submit_answers", $a_lang).'";
 			ilias.questions.refresh_lang();
 			';
 

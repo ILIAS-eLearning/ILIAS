@@ -58,6 +58,33 @@ class ilCalendarViewGUI
 	 * @var ilLanguage
 	 */
 	protected $lng;
+	
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+	
+	/**
+	 * @var string
+	 */
+	protected $seed;
+
+	/**
+	 * @var bool true if any plugin replaces the content of the grid
+	 */
+	protected $content_replaced_by_plugin = false;
+
+	/**
+	 * 
+	 * @param ilDate $seed
+	 * @param int $presentation_type
+	 */
+	public function __construct(ilDate $seed, $presentation_type)
+	{
+		$this->seed = $seed;
+		$this->initialize($presentation_type);
+	}
+	
 
 	/**
 	 * View initialization
@@ -103,73 +130,76 @@ class ilCalendarViewGUI
 
 	/**
 	 * Get events
-	 *
+	 * @todo public or protected
 	 * @param
 	 * @return 
 	 */
-	function getEvents()
+	public function getEvents()
 	{
-		$schedule = new ilCalendarSchedule(new ilDate(time(),IL_CAL_UNIX),ilCalendarSchedule::TYPE_PD_UPCOMING);
+		$user = $this->user->getId();
 
-		switch ($this->presentation_type)
+		switch($this->presentation_type)
 		{
 			case self::CAL_PRESENTATION_AGENDA_LIST:
 
-				if($this->period_end_day == "")
-				{
-					$qp = $_GET;
-					if ((int) $qp["cal_agenda_per"] > 0 && (int) $qp["cal_agenda_per"] <= 4)
-					{
-						$this->period = $qp["cal_agenda_per"];
-					}
+				//if($this->period_end_day == "")
+				//{
+					$this->period = ilCalendarAgendaListGUI::getPeriod();
 
-					$end_date = new ilDate($this->seed->get(IL_CAL_DATE)." 00:00:00", IL_CAL_DATETIME);
-
+					$end_date = clone $this->seed;
 					switch ($this->period)
 					{
 						case ilCalendarAgendaListGUI::PERIOD_DAY:
+							$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_DAY,$user,true);
 							$end_date->increment(IL_CAL_DAY, 1);
 							break;
 
 						case ilCalendarAgendaListGUI::PERIOD_WEEK:
+							$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_WEEK,$user,true);
 							$end_date->increment(IL_CAL_WEEK, 1);
 							break;
 
 						case ilCalendarAgendaListGUI::PERIOD_MONTH:
+							$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_MONTH,$user,true);
 							$end_date->increment(IL_CAL_MONTH, 1);
 							break;
 
 						case ilCalendarAgendaListGUI::PERIOD_HALF_YEAR:
+							$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_HALF_YEAR,$user, true);
 							$end_date->increment(IL_CAL_MONTH, 6);
 							break;
 						default:
+							// default is week ?!
+							$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_WEEK, $user, true);
 							$end_date->increment(IL_CAL_WEEK, 1);
 							break;
 					}
-
 					$this->period_end_day = $end_date->get(IL_CAL_DATE);
-				}
+					$schedule->setPeriod($this->seed, $end_date);
 
-				$schedule->setPeriod(new ilDate($this->seed->get(IL_CAL_DATE), IL_CAL_DATE),
-					new ilDate($this->period_end_day, IL_CAL_DATE));
+				//}
+				/*else
+				{
+					$schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_PD_UPCOMING);
+				}*/
+
 				break;
 			case self::CAL_PRESENTATION_DAY:
-				$schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_DAY);
+				$schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_DAY, $user, true);
 				break;
 			case self::CAL_PRESENTATION_WEEK:
-				$schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_WEEK);
+				$schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_WEEK,$user,true);
 				break;
 			case self::CAL_PRESENTATION_MONTH:
+				// if we put the user and true in the call method we will get only events and
+				// files from the current month. Not from 6 days before and after.
 				$schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_MONTH);
 				break;
 		}
 
-		//return $schedule->getChangedEvents(true);
-
 		$schedule->addSubitemCalendars(true);
 		$schedule->calculate();
 		$ev = $schedule->getScheduledEvents();
-		//$this->logger->debug("count events = >>>".count($ev));
 		return $ev;
 	}
 
@@ -314,11 +344,18 @@ class ilCalendarViewGUI
 			if($new_content = $plugin->replaceContent($a_content))
 			{
 				$content = $new_content;
+				if($content != $a_content)
+				{
+					$this->content_replaced_by_plugin = true;
+				}
 			}
 			else
 			{
 				$shy_title = ($new_title = $plugin->editShyButtonTitle())? $new_title : "";
-				$content = $this->getAppointmentShyButton($a_cal_entry, $a_start_date, $shy_title);
+				if($shy_title)
+				{
+					$content = $this->getAppointmentShyButton($a_cal_entry, $a_start_date, $shy_title);
+				}
 
 				if($glyph = $plugin->addGlyph())
 				{
@@ -381,8 +418,10 @@ class ilCalendarViewGUI
 
 		$download_job->setBucketTitle($this->getBucketTitle());
 		$download_job->setEvents($this->getEvents());
-		$download_job->run();
-		
+		if($download_job->run())
+		{
+			ilUtil::sendSuccess($this->lng->txt('cal_download_files_started'),true);
+		}
 		$GLOBALS['DIC']->ctrl()->redirect($this);
 	}
 
@@ -392,45 +431,32 @@ class ilCalendarViewGUI
 	 */
 	public function getBucketTitle()
 	{
+		//definition of bucket titles here: 21365
 		$user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
 		$bucket_title = $this->lng->txt("cal_calendar_download");
-		/**
-		 * Naming definition in the Main Grid Calendar (Original/Current status)
-		 * Day: Calendar Files 2017-10-11
-		 * Week: Calendar Files 2017-10-09 to 2017-10-15
-		 * Month: Calendar Files October 2017
-		 *
-		 * Naming definition in the Agenda List view (Discussed https://www.ilias.de/mantis/view.php?id=21365)
-		 * Day: Calendar Files 2017-10-11 1d
-		 * Week: Calendar Files 2017-10-11 1w
-		 * Month: Calendar Files 2017-10-11 1m
-		 * 6 Months: Calendar Files 2017-10-11 6m
-		 */
+
 		switch ($this->presentation_type)
 		{
 			case self::CAL_PRESENTATION_DAY:
-				//$start = ilCalendarUtil::_numericDayToString($this->seed->get(IL_CAL_FKT_DATE,'w'));
 				$bucket_title .= " ".$this->seed->get(IL_CAL_DATE);
 				break;
 			case self::CAL_PRESENTATION_WEEK:
 				$weekday_list = ilCalendarUtil::_buildWeekDayList($this->seed,$user_settings->getWeekStart())->get();
 				$start = current($weekday_list);
-				$end = end($weekday_list);
-				$bucket_title .= " ".$start->get(IL_CAL_DATE)." to ".$end->get(IL_CAL_DATE);
+				$char = strtolower(mb_substr($this->lng->txt("week"),0,1));
+				$bucket_title .= " ".$start->get(IL_CAL_DATE)." 1$char";
 				break;
 			case self::CAL_PRESENTATION_MONTH:
-				$bucket_title .= " ".$this->lng->txt('month_'.$this->seed->get(IL_CAL_FKT_DATE,'m').'_long').
-					' '.$this->seed->get(IL_CAL_FKT_DATE,'Y');
+				$year_month = $this->seed->get(IL_CAL_FKT_DATE,'Y-m','UTC');
+				$char = strtolower(mb_substr($this->lng->txt("month"),0,1));
+				$bucket_title .= " ".$year_month."-01 1".$char;
 				break;
 			case self::CAL_PRESENTATION_AGENDA_LIST:
 				$bucket_title .= " ".$this->seed->get(IL_CAL_DATE);
-				#21365
-				$get_list_option = $_GET['cal_agenda_per'];
+				$get_list_option = ilSession::get('cal_list_view');
 				switch ($get_list_option)
 				{
 					case ilCalendarAgendaListGUI::PERIOD_DAY:
-						$char = strtolower(mb_substr($this->lng->txt("day"),0,1));
-						$bucket_title .= " 1$char";
 						break;
 					case ilCalendarAgendaListGUI::PERIOD_MONTH:
 						$char = strtolower(mb_substr($this->lng->txt("month"),0,1));
@@ -452,18 +478,18 @@ class ilCalendarViewGUI
 	}
 
 	/**
-	 * get the events between 2 dates based in seed + view options.
+	 * get the events starting between 2 dates based in seed + view options.
 	 * @return int number of events in the calendar list view.
 	 */
 	function countEventsInView()
 	{
 		$start = $this->seed;
 		$end = clone $start;
-		$get_list_option = $_GET['cal_agenda_per'];
+		$get_list_option = ilCalendarAgendaListGUI::getPeriod();
 		switch ($get_list_option)
 		{
 			case ilCalendarAgendaListGUI::PERIOD_DAY:
-				$end->increment(IL_CAL_DAY,1);
+				//$end->increment(IL_CAL_DAY,1);
 				break;
 			case ilCalendarAgendaListGUI::PERIOD_MONTH:
 				$end->increment(IL_CAL_MONTH,1);
@@ -481,8 +507,8 @@ class ilCalendarViewGUI
 		foreach($events as $event)
 		{
 			$event_start = $event['event']->getStart()->get(IL_CAL_DATE);
-			$event_end = $event['event']->getEnd()->get(IL_CAL_DATE);
-			if($event_start >= $start->get(IL_CAL_DATE) &&  $event_end< $end->get(IL_CAL_DATE))
+
+			if($event_start >= $start->get(IL_CAL_DATE) &&  $event_start<= $end->get(IL_CAL_DATE))
 			{
 				$num_events++;
 			}

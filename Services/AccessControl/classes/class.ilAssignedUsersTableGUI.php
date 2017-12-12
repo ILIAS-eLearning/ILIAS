@@ -158,7 +158,7 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
 		$link_contact = ilMailFormCall::getLinkTarget(
             $this->getParentObject(), $this->getParentCmd(),
             array('fr' => rawurlencode(base64_encode($ilCtrl->getLinkTarget($this->getParentObject(), 'userassignment', '', false, false)))),
-            array('type' => 'new', 'rcp_to' => urlencode($user['login']))
+            array('type' => 'new', 'rcp_to' => $user['login'])
         );
 		$actions->addItem(
 			$lng->txt('message'),
