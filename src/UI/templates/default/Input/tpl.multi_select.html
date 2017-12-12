@@ -1,8 +1,6 @@
 <!--<input type="text"&lt;!&ndash; BEGIN value &ndash;&gt; value="{VALUE}"&lt;!&ndash; END value &ndash;&gt; name="{NAME}" class="form-control form-control-sm" />-->
-
-
-<select name="{NAME}" class="form-control form-control-sm">
-<!-- BEGIN option -->
-<option value="{IDENTIFIER}">{OPTION}</option>
-<!-- END option -->
+<select multiple name="{NAME}" class="form-control form-control-sm" data-role="tagsinput">
+	<!-- BEGIN option -->
+	<option value="{IDENTIFIER}" {SELECTED}>{OPTION}</option>
+	<!-- END option -->
 </select>

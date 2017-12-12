@@ -43,6 +43,7 @@ class Renderer extends AbstractComponentRenderer {
 	public function registerResources(ResourceRegistry $registry) {
 		parent::registerResources($registry);
 		$registry->register('./src/UI/templates/js/Input/Field/dependantGroup.js');
+		$registry->register('./libs/bower/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js');
 	}
 
 
@@ -58,6 +59,8 @@ class Renderer extends AbstractComponentRenderer {
 			$input_tpl = $this->getTemplate("tpl.text.html", true, true);
 		} elseif ($input instanceof Component\Input\Field\Numeric) {
 			$input_tpl = $this->getTemplate("tpl.numeric.html", true, true);
+		} elseif ($input instanceof Component\Input\Field\MultiSelect) {
+			$input_tpl = $this->getTemplate("tpl.multi_select.html", true, true);
 		} else {
 			throw new \LogicException("Cannot render '" . get_class($input) . "'");
 		}
@@ -248,18 +251,42 @@ class Renderer extends AbstractComponentRenderer {
 	 * @return string
 	 */
 	protected function renderInputField(Template $tpl, Input $input, $id) {
-		$tpl->setVariable("NAME", $input->getName());
+		switch (true) {
+			case ($input instanceof Text):
+			case ($input instanceof Numeric):
+			$tpl->setVariable("NAME", $input->getName());
 
-		if ($input->getValue() !== null) {
-			$tpl->setCurrentBlock("value");
-			$tpl->setVariable("VALUE", $input->getValue());
-			$tpl->parseCurrentBlock();
+			if ($input->getValue() !== null) {
+				$tpl->setCurrentBlock("value");
+				$tpl->setVariable("VALUE", $input->getValue());
+				$tpl->parseCurrentBlock();
+			}
+			if ($id) {
+				$tpl->setCurrentBlock("id");
+				$tpl->setVariable("ID", $id);
+				$tpl->parseCurrentBlock();
+			}
+			break;
+			case ($input instanceof MultiSelect):
+				$tpl->setVariable("NAME", $input->getName());
+				if ($id) {
+					$tpl->setCurrentBlock("id");
+					$tpl->setVariable("ID", $id);
+					$tpl->parseCurrentBlock();
+				}
+				$values = (array)$input->getValue();
+				foreach ($input->getOptions() as $identifier => $option) {
+					$tpl->setCurrentBlock("option");
+					$tpl->setVariable("IDENTIFIER", $identifier);
+					$tpl->setVariable("OPTION", $option);
+					if(in_array($identifier, $values)) {
+						$tpl->setVariable("SELECTED", "selected");
+					}
+					$tpl->parseCurrentBlock();
+				}
+				break;
 		}
-		if ($id) {
-			$tpl->setCurrentBlock("id");
-			$tpl->setVariable("ID", $id);
-			$tpl->parseCurrentBlock();
-		}
+
 
 		return $tpl->get();
 	}
