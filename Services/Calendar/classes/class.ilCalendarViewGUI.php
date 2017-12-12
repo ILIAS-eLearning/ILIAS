@@ -296,7 +296,7 @@ class ilCalendarViewGUI
 		}
 
 
-		$comps = [$f->button()->shy($title, "")->withOnClick($modal->getShowSignal()), $modal];
+		$comps = [$f->button()->shy($title, "#")->withOnClick($modal->getShowSignal()), $modal];
 
 		return $r->render($comps);
 	}
