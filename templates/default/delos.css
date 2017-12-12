@@ -6863,7 +6863,7 @@ button.close {
 .il-panel-report .il-card {
   background-color: #f9f9f9;
 }
-@media (min-width: 992px) {
+@media (min-width: 768px) {
   .row-eq-height .il-card {
     display: flex;
     flex-direction: column;
@@ -6881,12 +6881,13 @@ button.close {
   padding-right: 5px;
   margin-bottom: 6px;
 }
-@media (min-width: 992px) {
+@media (min-width: 768px) {
   .row-eq-height {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
+    flex-wrap: wrap;
   }
   .row-eq-height > div {
     display: flex;
