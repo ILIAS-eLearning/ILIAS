@@ -6881,17 +6881,6 @@ button.close {
   padding-right: 5px;
   margin-bottom: 6px;
 }
-@media (min-width: 992px) {
-  .row-eq-height {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-  }
-  .row-eq-height > div {
-    display: flex;
-  }
-}
 @media (min-width: 768px) {
   .row-eq-height {
     display: -webkit-box;
