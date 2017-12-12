@@ -35,7 +35,8 @@
     "fine-uploader": "5.13.0",
     "jquery-migrate": "3.0.0",
     "webui-popover": "1.2.18",
-    "tinymce": "4.6.7"
+    "tinymce": "4.6.7",
+    "bootstrap-tagsinput": "^0.8.0"
   },
   "extra": {
     "jquery": {
