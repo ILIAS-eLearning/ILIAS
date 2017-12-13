@@ -20,6 +20,10 @@ class TagInput extends Input implements C\Input\Field\TagInput {
 	use JavaScriptBindable;
 	use Triggerer;
 	/**
+	 * @var int
+	 */
+	protected $suggestion_starts_with = 1;
+	/**
 	 * @var bool
 	 */
 	protected $extendable = false;
@@ -41,18 +45,15 @@ class TagInput extends Input implements C\Input\Field\TagInput {
 	 * @param \ILIAS\Transformation\Factory $transformation_factory
 	 * @param string                        $label
 	 * @param string                        $byline
-	 * @param array                         $options
 	 */
 	public function __construct(
 		DataFactory $data_factory,
 		ValidationFactory $validation_factory,
 		\ILIAS\Transformation\Factory $transformation_factory,
 		$label,
-		$byline,
-		array $options
+		$byline
 	) {
 		parent::__construct($data_factory, $validation_factory, $transformation_factory, $label, $byline);
-		$this->options = $options;
 		$this->setAdditionalConstraint($this->validation_factory->isArray());
 	}
 
@@ -76,7 +77,7 @@ class TagInput extends Input implements C\Input\Field\TagInput {
 	/**
 	 * @inheritDoc
 	 */
-	public function withAsyncOptionsURL(string $async_option_url): C\Input\Field\TagInput {
+	public function withOptionsProviderURL(string $async_option_url): C\Input\Field\TagInput {
 		$clone = clone $this;
 		$clone->async_option_url = $async_option_url;
 
@@ -87,7 +88,53 @@ class TagInput extends Input implements C\Input\Field\TagInput {
 	/**
 	 * @inheritDoc
 	 */
-	public function withExtendableOptions(bool $extendable): C\Input\Field\TagInput {
+	public function getOptionsProviderURL(): string {
+		return $this->async_option_url;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withSuggestionsStartAfter(int $characters): C\Input\Field\TagInput {
+		$clone = clone $this;
+		$clone->suggestion_starts_with = $characters;
+
+		return $clone;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getSuggestionsStartAfter(): int {
+		return $this->suggestion_starts_with;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withOptions(array $options): C\Input\Field\TagInput {
+		$clone = clone $this;
+		$clone->options = $options;
+
+		return $clone;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getOptions(): array {
+		return $this->options;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withOptionsAreExtendable(bool $extendable): C\Input\Field\TagInput {
 		$clone = clone $this;
 		$clone->extendable = $extendable;
 
@@ -103,20 +150,13 @@ class TagInput extends Input implements C\Input\Field\TagInput {
 	}
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getAsyncOptionsURL(): string {
-		return $this->async_option_url;
-	}
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getOptions(): array {
-		return $this->options;
-	}
+
+
+
+
+	// Events
 
 
 	/**

@@ -8,7 +8,7 @@ function with_async_data() {
 	$multi_select_input = $ui->input()
 	                         ->field()
 	                         ->tagInput("Basic Multi-Select Input", "Just some basic input")
-	                         ->withAsyncOptionsURL('src/UI/examples/Input/Field/TagInput/cities.json');
+	                         ->withOptionsProviderURL('src/UI/examples/Input/Field/TagInput/cities.json');
 
 	//Step 2: Define the form and attach the section.
 	$form = $ui->input()->container()->form()->standard("#", [$multi_select_input]);
