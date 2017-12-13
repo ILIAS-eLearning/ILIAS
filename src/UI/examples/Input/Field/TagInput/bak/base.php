@@ -10,8 +10,7 @@ function base() {
 	$renderer = $DIC->ui()->renderer();
 
 	//Step 1: Define the multi-select input field
-	$multi_select_input = $ui->input()->field()->multiSelect([6 => 'root', 13 => 'anonymous', 42 => 'fschmid'], "Basic Multi-Select Input",
-		"Just some basic input");
+	$multi_select_input = $ui->input()->field()->tagInput("Basic Multi-Select Input", "Just some basic input");
 
 	//Step 2: Define the form and attach the section.
 	$form = $ui->input()->container()->form()->standard("#", [$multi_select_input]);

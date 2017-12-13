@@ -43,7 +43,11 @@ class Renderer extends AbstractComponentRenderer {
 	public function registerResources(ResourceRegistry $registry) {
 		parent::registerResources($registry);
 		$registry->register('./src/UI/templates/js/Input/Field/dependantGroup.js');
+		$registry->register('./libs/bower/bower_components/typeahead.js/dist/typeahead.bundle.js');
 		$registry->register('./libs/bower/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js');
+		$registry->register('./libs/bower/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput-typeahead.css');
+		$registry->register('./libs/bower/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css');
+		$registry->register('./src/UI/templates/js/Input/Field/tagInput.js');
 	}
 
 
@@ -59,8 +63,8 @@ class Renderer extends AbstractComponentRenderer {
 			$input_tpl = $this->getTemplate("tpl.text.html", true, true);
 		} elseif ($input instanceof Component\Input\Field\Numeric) {
 			$input_tpl = $this->getTemplate("tpl.numeric.html", true, true);
-		} elseif ($input instanceof Component\Input\Field\MultiSelect) {
-			$input_tpl = $this->getTemplate("tpl.multi_select.html", true, true);
+		} elseif ($input instanceof Component\Input\Field\TagInput) {
+			$input_tpl = $this->getTemplate("tpl.tag_input.html", true, true);
 		} else {
 			throw new \LogicException("Cannot render '" . get_class($input) . "'");
 		}
@@ -254,39 +258,50 @@ class Renderer extends AbstractComponentRenderer {
 		switch (true) {
 			case ($input instanceof Text):
 			case ($input instanceof Numeric):
-			$tpl->setVariable("NAME", $input->getName());
-
-			if ($input->getValue() !== null) {
-				$tpl->setCurrentBlock("value");
-				$tpl->setVariable("VALUE", $input->getValue());
-				$tpl->parseCurrentBlock();
-			}
-			if ($id) {
-				$tpl->setCurrentBlock("id");
-				$tpl->setVariable("ID", $id);
-				$tpl->parseCurrentBlock();
-			}
-			break;
-			case ($input instanceof MultiSelect):
 				$tpl->setVariable("NAME", $input->getName());
+
+				if ($input->getValue() !== null) {
+					$tpl->setCurrentBlock("value");
+					$tpl->setVariable("VALUE", $input->getValue());
+					$tpl->parseCurrentBlock();
+				}
 				if ($id) {
 					$tpl->setCurrentBlock("id");
 					$tpl->setVariable("ID", $id);
 					$tpl->parseCurrentBlock();
 				}
-				$values = (array)$input->getValue();
-				foreach ($input->getOptions() as $identifier => $option) {
-					$tpl->setCurrentBlock("option");
-					$tpl->setVariable("IDENTIFIER", $identifier);
-					$tpl->setVariable("OPTION", $option);
-					if(in_array($identifier, $values)) {
-						$tpl->setVariable("SELECTED", "selected");
-					}
-					$tpl->parseCurrentBlock();
+				break;
+			case ($input instanceof TagInput):
+				/**
+				 * @var $input \ILIAS\UI\Implementation\Component\Input\Field\Input
+				 */
+
+				$options = [];
+				foreach ($input->getOptions() as $identifier => $value) {
+					$options[] = [
+						'id' => $identifier,
+						'name'      => $value,
+					];
 				}
+
+				$configuration = new \stdClass();
+				$configuration->options = $options;
+				$configuration->selected_options = $input->getValue();
+				$configuration->data_url = $input->getAsyncOptionsURL();
+				$configuration->extendable = $input->areOptionsExtendable();
+
+				$input = $input->withAdditionalOnLoadCode(function ($id) use ($configuration) {
+					$encoded = json_encode($configuration);
+
+					return "il.UI.Input.tagInput.init('{$id}', {$encoded});";
+				});
+
+				$id = $this->bindJavaScript($input);
+				$tpl->setVariable("ID", $id);
+				$tpl->setVariable("NAME", $input->getName());
+
 				break;
 		}
-
 
 		return $tpl->get();
 	}
@@ -302,7 +317,7 @@ class Renderer extends AbstractComponentRenderer {
 			Component\Input\Field\Group::class,
 			Component\Input\Field\Section::class,
 			Component\Input\Field\Checkbox::class,
-			Component\Input\Field\MultiSelect::class,
+			Component\Input\Field\TagInput::class,
 			Component\Input\Field\DependantGroup::class,
 		];
 	}

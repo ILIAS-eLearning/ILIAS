@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
@@ -10,14 +11,18 @@ use ILIAS\UI\Implementation\Component\Triggerer;
 use ILIAS\Validation\Factory as ValidationFactory;
 
 /**
- * Class MultiSelect
+ * Class TagInput
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class MultiSelect extends Input implements C\Input\Field\MultiSelect {
+class TagInput extends Input implements C\Input\Field\TagInput {
 
 	use JavaScriptBindable;
 	use Triggerer;
+	/**
+	 * @var bool
+	 */
+	protected $extendable = false;
 	/**
 	 * @var array
 	 */
@@ -25,11 +30,11 @@ class MultiSelect extends Input implements C\Input\Field\MultiSelect {
 	/**
 	 * @var string
 	 */
-	protected $async_option_url;
+	protected $async_option_url = '';
 
 
 	/**
-	 * MultiSelect constructor.
+	 * TagInput constructor.
 	 *
 	 * @param \ILIAS\Data\Factory           $data_factory
 	 * @param \ILIAS\Validation\Factory     $validation_factory
@@ -71,12 +76,30 @@ class MultiSelect extends Input implements C\Input\Field\MultiSelect {
 	/**
 	 * @inheritDoc
 	 */
-	public function withAsyncOptionsURL($async_option_url): C\Input\Field\MultiSelect {
-		$this->checkStringArg("async_option_url", $async_option_url);
+	public function withAsyncOptionsURL(string $async_option_url): C\Input\Field\TagInput {
 		$clone = clone $this;
 		$clone->async_option_url = $async_option_url;
 
 		return $clone;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withExtendableOptions(bool $extendable): C\Input\Field\TagInput {
+		$clone = clone $this;
+		$clone->extendable = $extendable;
+
+		return $clone;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function areOptionsExtendable(): bool {
+		return $this->extendable;
 	}
 
 
@@ -99,31 +122,31 @@ class MultiSelect extends Input implements C\Input\Field\MultiSelect {
 	/**
 	 * @inheritDoc
 	 */
-	public function withAdditionalOnOptionAdded(Signal $signal): C\Input\Field\MultiSelect {
-		return $this->appendTriggeredSignal($signal, C\Input\Field\MultiSelect::EVENT_ITEM_ADDED);
+	public function withAdditionalOnOptionAdded(Signal $signal): C\Input\Field\TagInput {
+		return $this->appendTriggeredSignal($signal, C\Input\Field\TagInput::EVENT_ITEM_ADDED);
 	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function withAdditionalOnBeforeOptionAdded(Signal $signal): C\Input\Field\MultiSelect {
-		return $this->appendTriggeredSignal($signal, C\Input\Field\MultiSelect::EVENT_BEFORE_ITEM_ADD);
+	public function withAdditionalOnBeforeOptionAdded(Signal $signal): C\Input\Field\TagInput {
+		return $this->appendTriggeredSignal($signal, C\Input\Field\TagInput::EVENT_BEFORE_ITEM_ADD);
 	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function withAdditionalOnOptionRemoved(Signal $signal): C\Input\Field\MultiSelect {
-		return $this->appendTriggeredSignal($signal, C\Input\Field\MultiSelect::EVENT_ITEM_REMOVED);
+	public function withAdditionalOnOptionRemoved(Signal $signal): C\Input\Field\TagInput {
+		return $this->appendTriggeredSignal($signal, C\Input\Field\TagInput::EVENT_ITEM_REMOVED);
 	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function withAdditionalOnBeforeOptionRemoved(Signal $signal): C\Input\Field\MultiSelect {
-		return $this->appendTriggeredSignal($signal, C\Input\Field\MultiSelect::EVENT_BEFORE_ITEM_REMOVE);
+	public function withAdditionalOnBeforeOptionRemoved(Signal $signal): C\Input\Field\TagInput {
+		return $this->appendTriggeredSignal($signal, C\Input\Field\TagInput::EVENT_BEFORE_ITEM_REMOVE);
 	}
 }
