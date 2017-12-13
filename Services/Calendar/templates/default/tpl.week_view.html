@@ -97,3 +97,9 @@
 		<!-- END time_row -->
 	</tbody>
 </table>
+<script>
+    $('.calfullcontent').each(function(){
+        var fs = parseInt($(this).parent().height());
+        $(this).css('height',fs);
+    });
+</script>

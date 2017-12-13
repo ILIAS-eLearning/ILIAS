@@ -11296,8 +11296,6 @@ td.calevent {
   border-color: #ddd;
   font-size: 90%;
   /*background-color:white;*/
-  height: 1px;
-  position: relative;
 }
 div.calevent {
   font-size: 90%;
@@ -11305,11 +11303,6 @@ div.calevent {
   margin: 3px;
 }
 div.calfullcontent {
-  position: absolute;
-  bottom: 0;
-  top: 0;
-  right: 0;
-  left: 0;
   padding: 4px;
 }
 p.il_cal_monthday {
