@@ -10,6 +10,7 @@ il.UI.Input = il.UI.Input || {};
 
 
     il.UI.Input.tagInput = (function ($) {
+        var DEBUG = false;
         /**
          *
          * @param id
@@ -25,9 +26,13 @@ il.UI.Input = il.UI.Input || {};
                 options_provider_url: '',
                 extendable: false,
                 suggestion_starts: 1,
-                max_chars: 2000
+                max_chars: 2000,
+                suggestion_limit: 50,
+                debug: false
             }, config);
 
+            DEBUG = configuration.debug;
+            console.log("Config", configuration);
             var bloodhoundConf = {
                 datumTokenizer: function (d) {
                     return d.name;
@@ -47,10 +52,10 @@ il.UI.Input = il.UI.Input || {};
                 // }
             };
 
-            if (configuration.data_url) {
-                log("Remote: ", configuration.data_url);
-                bloodhoundConf.prefetch = {
-                    url: configuration.data_url
+            if (configuration.options_provider_url) {
+                log("Remote: ", configuration.options_provider_url);
+                bloodhoundConf.remote = {
+                    url: configuration.options_provider_url
                 }
             }
             if (configuration.options.length > 0) {
@@ -62,7 +67,6 @@ il.UI.Input = il.UI.Input || {};
 
             var bloodhound = new Bloodhound(bloodhoundConf);
             bloodhound.initialize();
-
 
             $(id).tagsinput({
                 tagClass: 'label label-primary',
@@ -78,50 +82,24 @@ il.UI.Input = il.UI.Input || {};
                     minLength: configuration.suggestion_starts,
                     highlight: true,
                     hint: false,
-                    // limit: 50,
+                    limit: configuration.suggestion_limit,
                     displayKey: 'name'
                 }
             });
             $(id).on('beforeItemAdd', function (event) {
-                // console.log(event);
                 log("Index:", bloodhound.index);
             });
 
         };
 
         var log = function (key, data) {
+            if (!DEBUG) {
+                return;
+            }
             console.log("***********************");
             console.log(key + ":");
             console.log(data);
         };
-
-        var initData = function (data_url, options) {
-            var data = {};
-            if (data_url) {
-                log("init async bloodhound");
-                data = new Bloodhound({
-                    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-                    queryTokenizer: Bloodhound.tokenizers.whitespace,
-                    prefetch: {
-                        url: data_url,
-                        filter: function (list) {
-                            return $.map(list, function (dataname) {
-                                return {name: dataname};
-                            });
-                        }
-                    }
-                });
-            } else {
-                data = new Bloodhound({
-                    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
-                    queryTokenizer: Bloodhound.tokenizers.whitespace,
-                    local: options
-                });
-            }
-            data.initialize();
-            return data;
-        };
-
 
         return {
             init: init
