@@ -279,16 +279,17 @@ class Renderer extends AbstractComponentRenderer {
 				$options = [];
 				foreach ($input->getOptions() as $identifier => $value) {
 					$options[] = [
-						'id' => $identifier,
-						'name'      => $value,
+						'id'   => $identifier,
+						'name' => $value,
 					];
 				}
 
 				$configuration = new \stdClass();
 				$configuration->options = $options;
 				$configuration->selected_options = $input->getValue();
-				$configuration->data_url = $input->getAsyncOptionsURL();
+				$configuration->options_provider_url = $input->getOptionsProviderURL();
 				$configuration->extendable = $input->areOptionsExtendable();
+				$configuration->suggestion_starts = $input->getSuggestionsStartAfter();
 
 				$input = $input->withAdditionalOnLoadCode(function ($id) use ($configuration) {
 					$encoded = json_encode($configuration);

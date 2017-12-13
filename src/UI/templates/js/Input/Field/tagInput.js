@@ -22,16 +22,12 @@ il.UI.Input = il.UI.Input || {};
                 // default settings
                 options: [],
                 selected_options: [],
-                data_url: '',
-                extendable: false
+                options_provider_url: '',
+                extendable: false,
+                suggestion_starts: 1,
+                max_chars: 2000
             }, config);
 
-            log("Init TagInput with ID", id);
-            // log("options", configuration.options);
-            // log("selected_options", configuration.selected_options);
-            // log("data_url", configuration.data_url);
-            // log("extendable", configuration.extendable);
-            //
             var bloodhoundConf = {
                 datumTokenizer: function (d) {
                     return d.name;
@@ -46,9 +42,9 @@ il.UI.Input = il.UI.Input || {};
                 //     console.log(obj);
                 //     return obj.id;
                 // },
-                dupDetector: function (remoteMatch, localMatch) {
-                    return remoteMatch.id === localMatch.id;
-                }
+                // dupDetector: function (remoteMatch, localMatch) {
+                //     return remoteMatch.id === localMatch.id;
+                // }
             };
 
             if (configuration.data_url) {
@@ -68,11 +64,10 @@ il.UI.Input = il.UI.Input || {};
             bloodhound.initialize();
 
 
-
             $(id).tagsinput({
                 tagClass: 'label label-primary',
                 cancelConfirmKeysOnEmpty: true,
-                maxChars: 200,
+                maxChars: configuration.max_chars,
                 allowDuplicates: false,
                 itemValue: 'id',
                 itemText: 'name',
@@ -80,7 +75,7 @@ il.UI.Input = il.UI.Input || {};
                 typeaheadjs: {
                     name: "bloodhound",
                     source: bloodhound.ttAdapter(),
-                    minLength: 1,
+                    minLength: configuration.suggestion_starts,
                     highlight: true,
                     hint: false,
                     // limit: 50,
