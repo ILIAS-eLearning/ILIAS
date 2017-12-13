@@ -58,6 +58,40 @@ class TagInput extends Input implements C\Input\Field\TagInput {
 	}
 
 
+	protected function getNormalizedOptions(): array {
+		/**
+		 * @var $input \ILIAS\UI\Implementation\Component\Input\Field\Input
+		 */
+		$options = [];
+		foreach ($this->getOptions() as $identifier => $value) {
+			$options[] = [
+				'id'   => $identifier,
+				'name' => $value,
+			];
+		}
+
+		return $options;
+	}
+
+
+	/**
+	 * @return \stdClass
+	 */
+	public function getConfiguration(): \stdClass {
+		$configuration = new \stdClass();
+		$configuration->options = $this->getNormalizedOptions();
+		$configuration->selected_options = $this->getValue();
+		$configuration->options_provider_url = $this->getOptionsProviderURL();
+		$configuration->extendable = $this->areOptionsExtendable();
+		$configuration->suggestion_starts = $this->getSuggestionsStartAfter();
+		$configuration->max_chars = 2000;
+		$configuration->suggestion_limi = 50;
+		$configuration->debug = true;
+
+		return $configuration;
+	}
+
+
 	/**
 	 * @inheritDoc
 	 */

@@ -272,25 +272,7 @@ class Renderer extends AbstractComponentRenderer {
 				}
 				break;
 			case ($input instanceof TagInput):
-				/**
-				 * @var $input \ILIAS\UI\Implementation\Component\Input\Field\Input
-				 */
-
-				$options = [];
-				foreach ($input->getOptions() as $identifier => $value) {
-					$options[] = [
-						'id'   => $identifier,
-						'name' => $value,
-					];
-				}
-
-				$configuration = new \stdClass();
-				$configuration->options = $options;
-				$configuration->selected_options = $input->getValue();
-				$configuration->options_provider_url = $input->getOptionsProviderURL();
-				$configuration->extendable = $input->areOptionsExtendable();
-				$configuration->suggestion_starts = $input->getSuggestionsStartAfter();
-
+				$configuration = $input->getConfiguration();
 				$input = $input->withAdditionalOnLoadCode(function ($id) use ($configuration) {
 					$encoded = json_encode($configuration);
 
