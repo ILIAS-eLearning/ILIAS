@@ -19,7 +19,7 @@ interface TagInput extends Input, JavaScriptBindable {
 	const EVENT_BEFORE_ITEM_REMOVE = 'beforeItemRemove';
 	const EVENT_BEFORE_ITEM_ADD = 'beforeItemAdd';
 	const EVENT_ITEM_REMOVED = 'itemRemoved';
-	const QUERY_NAME = 'query';
+	const QUERY_WILDCARD = 'query';
 
 
 	/**
@@ -31,11 +31,11 @@ interface TagInput extends Input, JavaScriptBindable {
 	 * The query will be appended to the $async_option_url as
 	 * GET parameter TagInput::QUERY_NAME (currently "query")
 	 *
-	 * @param string $async_option_url
+	 * @param string $option_provider_url
 	 *
 	 * @return \ILIAS\UI\Component\Input\Field\TagInput
 	 */
-	public function withOptionsProviderURL(string $async_option_url): TagInput;
+	public function withOptionsProviderURL(string $option_provider_url): TagInput;
 
 
 	/**

@@ -10,10 +10,11 @@ function with_value() {
 	$renderer = $DIC->ui()->renderer();
 
 	//Step 1: Define the text input field and attach some default value
-	$multi_select_input = $ui->input()
-	                         ->field()
-	                         ->tagInput("Basic Multi-Select Input", "Just some basic input", [6 => 'root', 13 => 'anonymous', 42 => 'fschmid'])
-	                         ->withValue([42]);
+	$multi_select_input = $ui->input()->field()->tagInput("TagInput with Value")->withOptions([
+		6  => 'root',
+		13 => 'anonymous',
+		42 => 'fschmid',
+	])->withOptionsAreExtendable(true)->withSuggestionsStartAfter(1)->withValue([42]);
 
 	//Step 2: Define the form and attach the section.
 	$form = $ui->input()->container()->form()->standard("#", [$multi_select_input]);

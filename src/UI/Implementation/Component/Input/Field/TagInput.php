@@ -34,7 +34,11 @@ class TagInput extends Input implements C\Input\Field\TagInput {
 	/**
 	 * @var string
 	 */
-	protected $async_option_url = '';
+	protected $option_provider_url = '';
+	/**
+	 * @var array
+	 */
+	protected $value = [];
 
 
 	/**
@@ -81,12 +85,13 @@ class TagInput extends Input implements C\Input\Field\TagInput {
 		$configuration = new \stdClass();
 		$configuration->options = $this->getNormalizedOptions();
 		$configuration->selected_options = $this->getValue();
-		$configuration->options_provider_url = $this->getOptionsProviderURL();
+		$configuration->options_provider_url = $this->getOptionsProviderURLwithAppendedQueryName();
 		$configuration->extendable = $this->areOptionsExtendable();
 		$configuration->suggestion_starts = $this->getSuggestionsStartAfter();
 		$configuration->max_chars = 2000;
-		$configuration->suggestion_limi = 50;
+		$configuration->suggestion_limit = 50;
 		$configuration->debug = true;
+		$configuration->query_wildcard = "%" . C\Input\Field\TagInput::QUERY_WILDCARD;
 
 		return $configuration;
 	}
@@ -111,9 +116,9 @@ class TagInput extends Input implements C\Input\Field\TagInput {
 	/**
 	 * @inheritDoc
 	 */
-	public function withOptionsProviderURL(string $async_option_url): C\Input\Field\TagInput {
+	public function withOptionsProviderURL(string $option_provider_url): C\Input\Field\TagInput {
 		$clone = clone $this;
-		$clone->async_option_url = $async_option_url;
+		$clone->option_provider_url = $option_provider_url;
 
 		return $clone;
 	}
@@ -123,7 +128,20 @@ class TagInput extends Input implements C\Input\Field\TagInput {
 	 * @inheritDoc
 	 */
 	public function getOptionsProviderURL(): string {
-		return $this->async_option_url;
+		return $this->option_provider_url;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	private function getOptionsProviderURLwithAppendedQueryName(): string {
+		if (strlen($this->option_provider_url) === 0) {
+			return $this->option_provider_url;
+		}
+		$q = C\Input\Field\TagInput::QUERY_WILDCARD;
+
+		return $this->option_provider_url . "&" . $q . "=%" . $q;
 	}
 
 
