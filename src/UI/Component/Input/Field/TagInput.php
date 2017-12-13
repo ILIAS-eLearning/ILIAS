@@ -35,21 +35,41 @@ interface TagInput extends Input, JavaScriptBindable {
 	 *
 	 * @return \ILIAS\UI\Component\Input\Field\TagInput
 	 */
-	public function withAsyncOptionsURL(string $async_option_url): TagInput;
+	public function withOptionsProviderURL(string $async_option_url): TagInput;
 
 
 	/**
-	 * Enable or disable the possibility to allow the user to input more
-	 * options than the given.
+	 * @see withOptionsProviderURL
+	 * @return string
+	 */
+	public function getOptionsProviderURL(): string;
+
+
+	/**
+	 * @param array $options
 	 *
+	 * @return \ILIAS\UI\Component\Input\Field\TagInput
+	 */
+	public function withOptions(array $options): TagInput;
+
+
+	/**
+	 * @see withOptions
+	 * @return array of options such as [ 6 => 'root', 13 => 'anonymous' ]
+	 */
+	public function getOptions(): array;
+
+
+	/**
 	 * @param bool $extendable
 	 *
 	 * @return \ILIAS\UI\Component\Input\Field\TagInput
 	 */
-	public function withExtendableOptions(bool $extendable): TagInput;
+	public function withOptionsAreExtendable(bool $extendable): TagInput;
 
 
 	/**
+	 * @see withOptionsAreExtendable
 	 * @return bool Whether the user is allowed to input more
 	 * options than the given.
 	 */
@@ -57,16 +77,19 @@ interface TagInput extends Input, JavaScriptBindable {
 
 
 	/**
-	 * @see withAsyncOptionsURL
-	 * @return string
+	 * @param int $characters , defaults to 1
+	 *
+	 * @return \ILIAS\UI\Component\Input\Field\TagInput
 	 */
-	public function getAsyncOptionsURL(): string;
+	public function withSuggestionsStartAfter(int $characters): TagInput;
 
 
 	/**
-	 * @return array of options such as [ 6 => 'root', 13 => 'anonymous' ]
+	 * @return int
 	 */
-	public function getOptions(): array;
+	public function getSuggestionsStartAfter(): int;
+
+	// Events
 
 
 	/**
