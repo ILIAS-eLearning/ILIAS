@@ -77,10 +77,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
 		$ilCtrl->saveParameter($this, 'bkid');
 
-		if (!$a_skip_init)
-		{
-			$this->setBlockId($ilCtrl->getContextObjId());
-		}
+		$this->setBlockId($ilCtrl->getContextObjId());
 
 		$this->setLimit(5);			// @todo: needed?
 		

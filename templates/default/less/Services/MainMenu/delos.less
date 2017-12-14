@@ -14,10 +14,20 @@
 		@media only screen and (max-width: @grid-float-breakpoint-max) {
 			min-height: 0;
 			padding-top: 0;
+			padding-bottom: 0;
 		}
 		> .navbar-collapse {
 			margin: 0;
 			padding: 0 0 0 5px;
+			&:empty {
+				+ div.navbar-header {
+					button.navbar-toggle {
+						@media only screen and (max-width: @grid-float-breakpoint-max) {
+							display: none;
+						}
+					}
+				}
+			}
 		}
 	}
 	&.navbar-default {
@@ -333,6 +343,7 @@ input.ilOpenIDBox {
 	border-bottom: @il-header-border-bottom-height solid @il-header-border-bottom-color;
 	@media only screen and (max-width: @grid-float-breakpoint-max) {
 		height: auto;
+		border-bottom: 0 none;
 	}
 	&.ilTopFixed {
 		top: @il-top-bar-height;
@@ -348,6 +359,7 @@ input.ilOpenIDBox {
 		@media only screen and (max-width: @grid-float-breakpoint-max) {
 			height: 0;
 			padding: 0;
+			margin: 0;
 		}
 		> img {
             display: inline-block;

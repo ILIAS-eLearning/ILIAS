@@ -22,7 +22,10 @@ class ilWorkflowUtils
 	{
 		if (@defined(IL_PHPUNIT_TEST) && IL_PHPUNIT_TEST == TRUE)
 		{
-			global $ilSetting;
+			global $DIC;
+			/** @var ilSetting $ilSetting */
+			$ilSetting = $DIC['ilSetting'];
+
 			return $ilSetting->get('IL_PHPUNIT_TEST_TIME', time());
 		}
 
@@ -36,7 +39,10 @@ class ilWorkflowUtils
 	{
 		if (@defined(IL_PHPUNIT_TEST) && IL_PHPUNIT_TEST == TRUE)
 		{
-			global $ilSetting;
+			global $DIC;
+			/** @var ilSetting $ilSetting */
+			$ilSetting = $DIC['ilSetting'];
+
 			return $ilSetting->get('IL_PHPUNIT_TEST_MICROTIME', time());
 		}
 

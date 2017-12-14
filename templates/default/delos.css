@@ -2554,7 +2554,7 @@ output {
   color: #555555;
   background-color: white;
   background-image: none;
-  border: 1px solid #ccc;
+  border: 1px solid #CCCCCC;
   border-radius: 0;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
@@ -3897,7 +3897,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   color: #555555;
   text-align: center;
   background-color: #eeeeee;
-  border: 1px solid #ccc;
+  border: 1px solid #CCCCCC;
   border-radius: 0;
 }
 .input-group-addon.input-sm {
@@ -6839,8 +6839,8 @@ button.close {
   margin-bottom: 0px;
 }
 .il-card .card-highlight {
-  background-color: #fa8228;
-  height: 3px;
+  background: #fa8228;
+  height: 6px;
   width: 100%;
 }
 .il-card .card-no-highlight {
@@ -6854,10 +6854,16 @@ button.close {
 .il-card .caption:nth-of-type(1n+3) {
   border-top: 1px solid #ddd;
 }
+.il-card .caption dl dt {
+  font-weight: normal;
+  color: #909090;
+  font-size: 12px;
+  padding-top: 6px;
+}
 .il-panel-report .il-card {
   background-color: #f9f9f9;
 }
-@media (min-width: 992px) {
+@media (min-width: 768px) {
   .row-eq-height .il-card {
     display: flex;
     flex-direction: column;
@@ -6875,12 +6881,13 @@ button.close {
   padding-right: 5px;
   margin-bottom: 6px;
 }
-@media (min-width: 992px) {
+@media (min-width: 768px) {
   .row-eq-height {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
+    flex-wrap: wrap;
   }
   .row-eq-height > div {
     display: flex;
@@ -7233,10 +7240,12 @@ hr.il-divider-with-label {
 }
 .il-item .il-item-property-name {
   font-size: 12px;
+  overflow: auto;
 }
 .il-item .il-item-property-value {
   font-size: 12px;
   color: #909090;
+  overflow: auto;
 }
 .il-item .col-sm-9 > .row {
   clear: both;
@@ -8291,7 +8300,7 @@ ul.breadcrumb li:hover {
 }
 .il-popover .il-popover-inner {
   max-height: 500px;
-  overflow: scroll;
+  overflow: auto;
 }
 .il-popover .il-popover-inner .close {
   margin: 0;
@@ -8796,7 +8805,7 @@ div.ilFrame {
   position: fixed;
   top: 117px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 1200px) {
   .ilLeftNav {
     /* at last temporary, since it overlaps content */
     display: none;
@@ -9610,7 +9619,7 @@ div#bot_center_area_drag:hover {
   /* padding: 0 20px 0 310px; */
   margin-left: 315px !important;
 }
-@media (max-width: 767px) {
+@media (max-width: 1200px) {
   .ilLeftNavSpace {
     margin-left: 0 !important;
   }
@@ -9619,7 +9628,7 @@ div#bot_center_area_drag:hover {
   margin-left: 0 !important;
   margin-right: 315px !important;
 }
-@media (max-width: 767px) {
+@media (max-width: 1200px) {
   [dir="rtl"] .ilLeftNavSpace {
     margin-right: 0 !important;
   }
@@ -9962,38 +9971,35 @@ select.form-control {
   font-size: 100%;
 }
 .form-horizontal .control-label {
-  padding-top: 0;
-  line-height: 24px;
+  padding-bottom: 4px;
 }
 .form-horizontal .control-label.col-sm-3.il_textarea {
   text-align: left;
   width: 100%;
-}
-.form-horizontal .form-group .col-sm-9 {
-  line-height: 24px;
 }
 .form-horizontal .radio,
 .form-horizontal .checkbox,
 .form-horizontal .radio-inline,
 .form-horizontal .checkbox-inline {
   padding-top: 0;
-  line-height: 24px;
-  vertical-align: middle;
+  line-height: normal;
 }
 .form-horizontal .help-block {
   line-height: normal;
+}
+.form-horizontal div.radio label.radio-inline {
+  line-height: 25px;
 }
 .radio input[type="radio"],
 .radio-inline input[type="radio"],
 .checkbox input[type="checkbox"],
 .checkbox-inline input[type="checkbox"] {
   position: static;
+  display: inline-block;
   margin-left: -20px;
-  margin-top: 0;
-  min-height: 24px;
+  margin-top: 7px;
   min-width: 13px;
   vertical-align: top;
-  line-height: 24px;
 }
 @media only screen and (max-width: 767px) {
   .radio input[type="radio"],
@@ -10247,7 +10253,7 @@ a.ilTreeView {
   box-shadow: 1px 1px 2px #b9b9b9;
   width: 6px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 1200px) {
   a.ilTreeView {
     /* at last temporary, since it overlaps content */
     display: none;
@@ -10515,6 +10521,12 @@ div.ilFrmPostHeader span.small {
 @media only screen and (max-width: 767px) {
   .ilFrmPostContentContainer {
     width: 100%;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .ilFrmPostContentContainer img {
+    width: 100%;
+    height: auto !important;
   }
 }
 .ilFrmPostContent {
@@ -11188,6 +11200,8 @@ a.callink:visited {
 }
 .cal_modal_infoscreen .il_InfoScreenPropertyValue .btn-link {
   text-align: left;
+  vertical-align: top;
+  font-size: 90%;
 }
 table.calstd {
   margin-top: 6px;
@@ -11317,7 +11331,6 @@ p.il_calevent .btn-link {
   text-align: center;
 }
 td.calevent {
-  color: white;
   vertical-align: top;
   padding: 3px;
   border-spacing: 0px;
@@ -11326,6 +11339,7 @@ td.calevent {
   border-style: solid;
   border-color: #ddd;
   font-size: 90%;
+  background-color: white;
 }
 div.calevent {
   font-size: 90%;
@@ -11467,11 +11481,17 @@ li.ilWikiBlockItem {
   #ilTopNav.navbar {
     min-height: 0;
     padding-top: 0;
+    padding-bottom: 0;
   }
 }
 #ilTopNav.navbar > .navbar-collapse {
   margin: 0;
   padding: 0 0 0 5px;
+}
+@media only screen and (max-width: 767px) {
+  #ilTopNav.navbar > .navbar-collapse:empty + div.navbar-header button.navbar-toggle {
+    display: none;
+  }
 }
 #ilTopNav.navbar-default {
   background-color: transparent;
@@ -11791,6 +11811,7 @@ input.ilOpenIDBox {
 @media only screen and (max-width: 767px) {
   .ilMainHeader {
     height: auto;
+    border-bottom: 0 none;
   }
 }
 .ilMainHeader.ilTopFixed {
@@ -11811,6 +11832,7 @@ input.ilOpenIDBox {
   .ilMainHeader > header > .row > a.navbar-brand {
     height: 0;
     padding: 0;
+    margin: 0;
   }
 }
 .ilMainHeader > header > .row > a.navbar-brand > img {
@@ -12187,6 +12209,10 @@ div.ilComment {
 div.ilNotesUImage {
   float: left;
   margin-left: -50px;
+}
+div.ilNotesUImage img {
+  width: 40px;
+  height: 40px;
 }
 div.ilNoteText {
   font-size: 95%;
@@ -12710,6 +12736,9 @@ span.bibl_text_inline_Emph {
 td.legendColorBox,
 td.legendLabel {
   padding: 3px;
+}
+div.ilChartWrapper {
+  max-width: 100%;
 }
 /* Services/Captcha */
 div.iosCaptchaInfoContainer {
@@ -13631,6 +13660,7 @@ div.ilInfoScreenSec h3.ilHeader {
 }
 .ilInfoScreenSec.form-horizontal .control-label {
   padding: 15px;
+  line-height: normal;
 }
 /* Services/Init */
 @media only screen and (max-width: 767px) {
@@ -14628,9 +14658,10 @@ div.ilPCMyCoursesPath {
   color: #a0a0a0;
 }
 .ilOnScreenChatMenuItem .media-body p.lastMessage {
+  width: 200px;
   padding: 3px 3px 3px 0;
   text-overflow: ellipsis;
-  overflow: hidden;
+  overflow-x: hidden;
   color: #606060;
 }
 .ilOnScreenChatMenuItem .media-body p a {

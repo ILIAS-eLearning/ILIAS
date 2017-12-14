@@ -426,10 +426,20 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$this->tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this)
 				, "", $force_active);
-			
-			// metadata
+
+
+
+			// metadata / taxonomies
 			include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
-			$mdgui = new ilObjectMetaDataGUI($this->object);					
+			$mdgui = new ilObjectMetaDataGUI($this->object);
+			if (ilContainer::_lookupContainerSetting(
+				$this->object->getId(),
+				ilObjectServiceSettingsGUI::TAXONOMIES,
+				false
+				))
+			{
+				$mdgui->enableTaxonomyDefinition(true);
+			}
 			$mdtab = $mdgui->getTab();
 			if($mdtab)
 			{
@@ -438,18 +448,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 					$mdtab);
 			}
 
-			/*
-			include_once "Services/Object/classes/class.ilObjectServiceSettingsGUI.php";
-			if(ilContainer::_lookupContainerSetting(
-						$this->object->getId(),
-						ilObjectServiceSettingsGUI::TAXONOMIES,
-						false
-				))
-			{
-				$this->tabs_gui->addTarget("obj_tool_setting_taxonomies",
-					$this->ctrl->getLinkTarget($this, "editTaxonomySettings"), "editTaxonomySettings", get_class($this));
-			}*/
-		}				
+		}
 
 		include_once './Services/User/classes/class.ilUserAccountSettings.php';
 		if(

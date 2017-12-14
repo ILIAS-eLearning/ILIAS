@@ -87,7 +87,9 @@ class ilConsultationHoursGUI
 		{
 			case "ilpublicuserprofilegui":				
 				include_once('./Services/User/classes/class.ilPublicUserProfileGUI.php');
-				$profile = new ilPublicUserProfileGUI($this->user_id);
+				#22168 don't send the current user if no GET user_id
+				//$profile = new ilPublicUserProfileGUI($this->user_id);
+				$profile = new ilPublicUserProfileGUI();
 				$profile->setBackUrl($this->getProfileBackUrl());
 				$ret = $ilCtrl->forwardCommand($profile);
 				$tpl->setContent($ret);
@@ -233,6 +235,13 @@ class ilConsultationHoursGUI
 		{
 			$app = $_REQUEST['apps'];
 		}
+		
+		if(!count($users))
+		{
+			ilUtil::sendFailure($GLOBALS['DIC']->language()->txt('select_one'),true);
+			return false;
+		}
+		
 		
 		include_once './Services/Booking/classes/class.ilBookingEntry.php';
 		$booking = ilBookingEntry::getInstanceByCalendarEntryId($app);
@@ -1070,8 +1079,10 @@ class ilConsultationHoursGUI
 			#   return;
 			#}
 
+			#22195 (if we create a new context instead of update the existing one we will mess up the calendar entries)
+			$booking = new ilBookingEntry($entry->getId());
 			// create new context
-			$booking = new ilBookingEntry();
+			//$booking = new ilBookingEntry();
 			
 			$booking->setObjId($this->getUserId());
 			$booking->setNumberOfBookings($this->form->getInput('bo'));
@@ -1106,7 +1117,9 @@ class ilConsultationHoursGUI
 			{
 				$booking->setBookingGroup($this->form->getInput('grp'));
 			}
-			$booking->save();
+			#22195 update the booking instead of save new one.
+			$booking->update();
+			//$booking->save();
 
 
 			// update entries

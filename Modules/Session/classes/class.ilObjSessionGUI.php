@@ -1517,12 +1517,23 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$details->setRows(4);
 		$this->form->addItem($details);
 
-		
-		$this->record_gui = new ilAdvancedMDRecordGUI(
-			ilAdvancedMDRecordGUI::MODE_EDITOR,
-			'sess',
-			$this->object->getId()
-		);
+		if($a_mode == 'create')
+		{
+			$this->record_gui = new ilAdvancedMDRecordGUI(
+				ilAdvancedMDRecordGUI::MODE_EDITOR,
+				'sess'
+			);
+			$this->record_gui->setRefId((int) $_GET['ref_id']);
+		}
+		else
+		{
+			$this->record_gui = new ilAdvancedMDRecordGUI(
+				ilAdvancedMDRecordGUI::MODE_EDITOR,
+				'sess',
+				$this->object->getId()
+			);
+			
+		}
 		$this->record_gui->setPropertyForm($this->form);
 		$this->record_gui->parse();
 		

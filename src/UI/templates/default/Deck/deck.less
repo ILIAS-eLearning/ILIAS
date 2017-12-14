@@ -8,13 +8,14 @@
     margin-bottom: @padding-large-vertical;
   }
 }
-@media (min-width: @screen-md-min) {
+@media (min-width: @screen-sm-min) {
   .row-eq-height {
 
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
+    flex-wrap: wrap;
 
     > div {
       display: flex;

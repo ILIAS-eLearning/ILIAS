@@ -8,23 +8,20 @@ include_once('Services/Calendar/classes/class.ilCalendarAppointmentColors.php');
 include_once('Services/Calendar/classes/class.ilCalendarViewGUI.php');
 
 
-/** 
-* 
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-* 
-* @ilCtrl_Calls ilCalendarMonthGUI: ilCalendarAppointmentGUI
-* @ilCtrl_Calls ilCalendarMonthGUI: ilCalendarAppointmentPresentationGUI
-* @ingroup ServicesCalendar 
-*/
-
-
+/**
+ * 
+ * @author Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * 
+ * @ilCtrl_Calls ilCalendarMonthGUI: ilCalendarAppointmentGUI
+ * @ilCtrl_Calls ilCalendarMonthGUI: ilCalendarAppointmentPresentationGUI
+ * @ingroup ServicesCalendar 
+ */
 class ilCalendarMonthGUI extends ilCalendarViewGUI
 {
 	protected $num_appointments = 1;
 	protected $schedule_filters = array();
 	
-	protected $seed = null;
 	protected $user_settings = null;
 
 	protected $lng;
@@ -42,15 +39,11 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 	 *
 	 * @access public
 	 * @param
-	 * 
+	 * @todo make parent constructor (initialize) and init also seed and other common stuff
 	 */
 	public function __construct(ilDate $seed_date)
 	{
-		//$DIC elements initialization
-		$this->initialize(ilCalendarViewGUI::CAL_PRESENTATION_MONTH);
-
-		$this->seed = $seed_date;
-
+		parent::__construct($seed_date,ilCalendarViewGUI::CAL_PRESENTATION_MONTH);
 		$this->tabs_gui->setSubTabActive('app_month');
 
 		

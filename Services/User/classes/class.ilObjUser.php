@@ -2010,7 +2010,10 @@ class ilObjUser extends ilObject
 
 	public static function _lookupLanguage($a_usr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$lng = $DIC->language();
 
 		$q = "SELECT value FROM usr_pref WHERE usr_id= ".
 			$ilDB->quote($a_usr_id, "integer")." AND keyword = ".
@@ -2020,6 +2023,10 @@ class ilObjUser extends ilObject
 		while($row = $ilDB->fetchAssoc($r))
 		{
 			return $row['value'];
+		}
+		if (is_object($lng))
+		{
+			return $lng->getDefaultLanguage();
 		}
 		return 'en';
 	}
@@ -2358,28 +2365,31 @@ class ilObjUser extends ilObject
 		else return false;
     }
 
-    public function isPasswordExpired()
-    {
-		//error_reporting(E_ALL);
-		if($this->id == ANONYMOUS_USER_ID) return false;
+	public function isPasswordExpired()
+	{
+		if ($this->id == ANONYMOUS_USER_ID) {
+			return false;
+		}
 
-    	require_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
-    	$security = ilSecuritySettings::_getInstance();
-    	if( $this->getLastPasswordChangeTS() > 0 )
-    	{
-    		$max_pass_age = $security->getPasswordMaxAge();
-    		if( $max_pass_age > 0 )
-    		{
-	    		$max_pass_age_ts = ( $max_pass_age * 86400 );
-				$pass_change_ts = $this->getLastPasswordChangeTS();
-		   		$current_ts = time();
+		require_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
+		$security = ilSecuritySettings::_getInstance();
+		if ($this->getLastPasswordChangeTS() > 0) {
+			$max_pass_age = $security->getPasswordMaxAge();
+			if ($max_pass_age > 0) {
+				$max_pass_age_ts = ($max_pass_age * 86400);
+				$pass_change_ts  = $this->getLastPasswordChangeTS();
+				$current_ts      = time();
 
-				if( ($current_ts - $pass_change_ts) > $max_pass_age_ts )
-					return true;
-    		}
-     	}
-    	return false;
-    }
+				if (($current_ts - $pass_change_ts) > $max_pass_age_ts) {
+					if (!ilAuthUtils::_needsExternalAccountByAuthMode($this->getAuthMode(true))) {
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
+	}
 
     public function getPasswordAge()
     {
@@ -4599,16 +4609,10 @@ class ilObjUser extends ilObject
 	{
 		global $rbacadmin, $rbacreview, $ilDB;
 
-		// quote all ids
-		$ids = array();
-		foreach ($a_mem_ids as $mem_id) {
-			$ids [] = $ilDB->quote($mem_id);
-		}
-
 		$query = "SELECT usr_data.*, usr_pref.value AS language
 		          FROM usr_data
 		          LEFT JOIN usr_pref ON usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = %s
-		          WHERE ".$ilDB->in("usr_data.usr_id", $ids, false, "integer")."
+		          WHERE ".$ilDB->in("usr_data.usr_id", $a_mem_ids, false, "integer")."
 					AND usr_data.usr_id != %s";
 		$values[] = "language";
 		$types[] = "text";
@@ -4888,14 +4892,14 @@ class ilObjUser extends ilObject
 		$where = 'WHERE ' . implode(' AND ', $where);
 
 		$r = $ilDB->queryF("
-			SELECT COUNT(user_id) num, user_id, firstname, lastname, title, login, last_login, MAX(ctime) ctime
+			SELECT COUNT(user_id) num, user_id, firstname, lastname, title, login, last_login, MAX(ctime) ctime, context
 			FROM usr_session
 			LEFT JOIN usr_data u
 				ON user_id = u.usr_id
 			LEFT JOIN usr_pref p
 				ON (p.usr_id = u.usr_id AND p.keyword = %s)
 			{$where}
-			GROUP BY user_id, firstname, lastname, title, login, last_login
+			GROUP BY user_id, firstname, lastname, title, login, last_login, context
 			ORDER BY lastname, firstname
 			",
 			array('text'),

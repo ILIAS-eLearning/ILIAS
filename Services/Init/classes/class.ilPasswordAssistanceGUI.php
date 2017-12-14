@@ -351,7 +351,7 @@ class ilPasswordAssistanceGUI
 					$server_url,
 					$_SERVER['REMOTE_ADDR'],
 					$userObj->getLogin(),
-					'mailto:' .  $sender->getFromAddress(),
+					'mailto:' . $DIC->settings()->get("admin_email"),
 					$alternative_pwassist_url
 				)
 			)
@@ -726,7 +726,7 @@ class ilPasswordAssistanceGUI
 					$server_url,
 					$_SERVER['REMOTE_ADDR'],
 					$email,
-					'mailto:' . $sender->getFromAddress(),
+					'mailto:' . $DIC->settings()->get("admin_email"),
 					$login_url
 				)
 			)

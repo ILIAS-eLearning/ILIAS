@@ -108,6 +108,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
 		}
 		$item = new ilSelectInputGUI($this->lng()->txt('obj_orgu'), 'org_unit');
 		$item->setOptions($options);
+		$item->addCustomAttribute("style='width:100%'");
 		$this->addFilterItem($item);
 		$item->readFromSession();
 		$this->filter['org_unit'] = $item->getValue();

@@ -48,6 +48,7 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 		if($this->userMayViewGrades() || $this->userMayEditGrades()) {
 			$columns['grading'] = array('lp_status');
 			$columns['iass_graded_by'] = array('iass_graded_by');
+			$columns['iass_changed_by'] = array('iass_changed_by');
 		}
 		$columns['actions'] = array(null);
 		return $columns;
@@ -67,8 +68,15 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 		}
 
 		if($this->userMayViewGrades() || $this->userMayEditGrades()) {
-			$this->tpl->setCurrentBlock('lp_info');
-			$status = $a_set[ilIndividualAssessmentMembers::FIELD_FINALIZED] == 1 ? $a_set[ilIndividualAssessmentMembers::FIELD_LEARNING_PROGRESS] : ilIndividualAssessmentMembers::LP_IN_PROGRESS;
+			$status = $a_set[ilIndividualAssessmentMembers::FIELD_LEARNING_PROGRESS];
+			if($status == 0)
+			{
+				$status = ilIndividualAssessmentMembers::LP_IN_PROGRESS;
+			}
+			if($a_set['finalized'] === '0' && $a_set['examiner_id'] !== null)
+			{
+				$status = ilIndividualAssessmentMembers::LP_ASSESSMENT_NOT_COMPLETED;
+			}
 			$this->tpl->setVariable("LP_STATUS", $this->getEntryForStatus($status));
 
 			$graded_by = "";
@@ -77,7 +85,15 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 			}
 			$this->tpl->setVariable("GRADED_BY", $graded_by);
 
-			$this->tpl->parseCurrentBlock();
+			$changed_by = "";
+			if($a_set[ilIndividualAssessmentMembers::FIELD_CHANGER_ID]) {
+				$changed_by =
+					$a_set[ilIndividualAssessmentMembers::FIELD_CHANGER_LASTNAME].", ".
+					$a_set[ilIndividualAssessmentMembers::FIELD_CHANGER_FIRSTNAME]." ".
+					(new ilDateTime($a_set[ilIndividualAssessmentMembers::FIELD_CHANGE_TIME], IL_CAL_DATETIME))->get(IL_CAL_FKT_DATE, "d.m.Y H:i")
+					;
+			}
+			$this->tpl->setVariable("CHANGED_BY", $changed_by);
 		}
 
 		$this->tpl->setVariable("ACTIONS",$this->buildActionDropDown($a_set));
@@ -125,6 +141,9 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 				break;
 			case ilIndividualAssessmentMembers::LP_FAILED :
 				return $this->lng->txt('iass_status_failed');
+				break;
+			case ilIndividualAssessmentMembers::LP_ASSESSMENT_NOT_COMPLETED :
+				return $this->lng->txt('iass_assessment_not_completed');
 				break;
 		}
 	}

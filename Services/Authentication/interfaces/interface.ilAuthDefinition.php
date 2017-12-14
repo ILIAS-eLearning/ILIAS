@@ -9,13 +9,13 @@
  */
 interface ilAuthDefinition
 {
-
 	/**
-	 * Get auth container instance
-	 * 
-	 * @return Auth_Container
+	 * Get auth provider instance
+	 * @param ilAuthCredentials
+	 * @param string $a_auth_id
+	 * @return ilAuthProviderInterface
 	 */
-	public function getContainer($a_auth_id);
+	public function getProvider($credentials, $a_auth_id);
 	
 	
 	/**

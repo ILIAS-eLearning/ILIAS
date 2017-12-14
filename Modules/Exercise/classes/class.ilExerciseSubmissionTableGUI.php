@@ -31,7 +31,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 	
 	// needs PH P5.6 for array support
 	protected $cols_mandatory = array("name", "status");
-	protected $cols_default = array("image", "login", "submission_date", "idl");
+	protected $cols_default = array("login", "submission_date", "idl");
  	protected $cols_order = array("image", "name", "login", "team_members", 
 			"sent_time", "submission", "idl", "status", "mark", "status_time", 
 			"feedback_time", "comment", "notice");
@@ -407,17 +407,17 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 					}
 					// fallthrough
 					
-				case "notice":	
-					$this->tpl->setVariable("VAL_".strtoupper($col), $a_row[$col]
-						? ilUtil::prepareFormOutput(trim($a_row[$col]))
-						: "");
+				case "notice":
+					// see #22076
+					$this->tpl->setVariable("VAL_".strtoupper($col), ilUtil::prepareFormOutput(trim($a_row[$col])));
 					break;
 					
 				case "comment":							
 					// for js-updating
-					$this->tpl->setVariable("LCOMMENT_ID", $comment_id."_snip");		
-		
-					$this->tpl->setVariable("VAL_".strtoupper($col), $a_row[$col]
+					$this->tpl->setVariable("LCOMMENT_ID", $comment_id."_snip");
+
+					// see #22076
+					$this->tpl->setVariable("VAL_".strtoupper($col), (trim($a_row[$col]) !== "")
 						? nl2br(trim($a_row[$col]))
 						: "&nbsp;");
 					break;

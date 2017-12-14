@@ -5,7 +5,7 @@
 * @module	language file Hungarian
 * @modulegroup	language
 * @author	Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version	5.3.x 2017-10-22
+* @version	5.3.x 2017-11-18
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -16,17 +16,17 @@
 <!-- language file start -->
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Tanulási eszközök átjárhatósága (Learning Tools Interoperability)
-common#:#lti_outcome#:#LTI Lernfortschritt Benachrichtigung###31 08 2017 new variable
-common#:#lti_outcome_info#:#Sendet den Lernfortschrittstatus von LTI-Benutzern an LTI Tool Consumer.###31 08 2017 new variable
+common#:#lti_outcome#:#LTI tanulási haladás bejelentése
+common#:#lti_outcome_info#:#LTI-felhasználó tanulási haladási állapotát küldjük egy LTI-eszközfogyasztónak.
 lti#:#act_lti_for_obj_type#:#Objektumtípusa LTI aktiválása
-lti#:#gbl_roles_to_users#:#LTI felhasználókhoz rendelt globális szabály
+lti#:#gbl_roles_to_users#:#LTI-felhasználókhoz rendelt globális szabály
 lti#:#consumers#:#Fogyasztók
 lti#:#prefix#:#Előtag
 lti#:#lti_consumer_key#:#Fogyasztókulcs
 lti#:#lti_consumer_secret#:#Fogyasztótitok
 lti#:#user_lng#:#Felhasználó nyelve
 lti#:#lti_create_consumer#:#Fogyasztó létrehozása
-lti#:#lti_object_consumer#:#LTI fogyasztók
+lti#:#lti_object_consumer#:#LTI-fogyasztók
 lti#:#lti_settings#:#LTI beállítások
 lti#:#lti_consumer_created#:#Fogyasztót sikeresen létrehozta
 lti#:#lti_consumer_updated#:#Fogyasztót sikeresen módosította
@@ -35,29 +35,30 @@ lti#:#lti_consumer_set_active#:#Fogyasztót sikeresen aktiválta
 lti#:#lti_consumer_set_inactive#:#Fogyasztót sikeresen deaktiválta
 lti#:#lm_only_one_download_per_type#:#Kérjük, ügyeljen arra, hogy típusonként (XML, HTML, SCORM) csak egy fájlt tegyen nyilvánossan elérhetővé.
 lti#:#lti_auth_failed_invalid_key#:#Hitelesítés sikertelen, nem jó a fogyasztói kulcs.
-lti#:#auth_lti#:#LTI hitelesítés
-lti#:#lti_edit_consumer#:#LTI fogyasztó módosítása
-lti#:#lti_obj_active#:#LTI-Eszköz Szolgáltató
-lti#:#lti_obj_active_info#:#Ha be van kapcsolva, ez az objektum egy LTI eszközszolgálttóként működik. Új LTI LTI felhasználókat automatikusan hozzárendeljük az alábbi helyi szerepekhez.
-lti#:#lti_admin#:#LTI rendszergazda
-lti#:#lti_tutor#:#LTI instruktor
-lti#:#lti_member#:#LTI címke
-auth#:#lti_consumer_inactive#:#LTI tool consumer is disabled.###31 08 2017 new variable
-lti#:#lti_object_release_settings_form#:#LTI Freigaben bearbeiten###31 08 2017 new variable
-lti#:#lti_provider#:#LTI-Freigaben###31 08 2017 new variable
+lti#:#auth_lti#:#LTI-hitelesítés
+lti#:#lti_edit_consumer#:#LTI-fogyasztó módosítása
+lti#:#lti_obj_active#:#LTI-Eszközszolgáltató
+lti#:#lti_obj_active_info#:#Ha be van kapcsolva, ez az objektum egy LTI-eszközszolgáltatóként működik. Új LTI-felhasználókat automatikusan hozzárendeljük az alábbi helyi szerepekhez.
+lti#:#lti_admin#:#LTI-rendszergazda
+lti#:#lti_tutor#:#LTI-instruktor
+lti#:#lti_member#:#LTI-címke
+auth#:#lti_consumer_inactive#:#LTI-eszközfogyasztó ki van kapcsolva.
+lti#:#lti_object_release_settings_form#:#LTI-megosztás módosítása
+lti#:#lti_provider#:#LTI-megosztás
 lti#:#lti_launch_url#:#Url
-lti#:#lti_released_objects#:#Objekt-Freigaben###31 08 2017 new variable
-lti#:#lti_consumer#:#Freigabe für###31 08 2017 new variable
+lti#:#lti_released_objects#:#Objektummegosztás
+lti#:#lti_consumer#:#Megosztva vele:
 orgu#:#orgu_global_set_form#:#Globális szervezeti egység beállításai
-orgu#:#orgu_global_set_positions#:#Felhasználói adatok megjelenítése a szervezeti egységben lévő pozíció szerint
-orgu#:#orgu_global_set_positions_type_active#:#Pozíciók itt:
-orgu#:#orgu_global_set_type_changeable#:#Módosítható
-orgu#:#orgu_global_set_type_changeable_object#:#A beállítás objektum szinten módosítható
-orgu#:#orgu_global_set_type_changeable_no#:#A beállítás nem módosítható
+orgu#:#orgu_global_set_positions#:#Felhasználói adatok megjelenítése a szervezeti egységben lévő pozíciók szerint
+orgu#:#orgu_global_set_positions_type_active#:#Pozíciók ebben:
+orgu#:#orgu_global_set_type_changeable#:#Módosíthatóság
+orgu#:#orgu_global_set_type_changeable_object#:#Objektum szinten módosítható
+orgu#:#orgu_global_set_type_changeable_no#:#Nem módosítható
 orgu#:#orgu_global_set_type_default#:#Alapértelmezett beállítás
-orgu#:#orgu_global_set_type_default_info#:#A nem konfigurált objektumok alapértelemezett értékeinek meghatározása
+orgu#:#orgu_global_set_type_default_info#:#A nem konfigurált objektumok alapértelemezettségét meghatározza meg
 rbac#:#il_sess_participant#:#Munkamenet résztvevők
 rbac#:#il_sess_status_closed#:#Résztvevő nélküli zárt esemény
+rbac#:#positions_override_operations#:#Globális beállítások felülírása
 meta#:#udf_type_externallink#:#Külső link
 meta#:#udf_type_internallink#:#Belső link
 didactic#:#didactic_scope#:#Hatókör
@@ -723,7 +724,7 @@ assessment#:#tst_msg_random_question_set_synced#:#A jelenlegi beállítások ala
 assessment#:#tst_btn_rebuild_random_question_stage#:#Kérdések szinkronizálása gyűjteményekből
 assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#A kiválasztott kérdésgyűjtemények utolsó szinkronizációjának dátuma: <b>%s</b>
 assessment#:#tst_msg_rand_quest_set_pass_buildable#:#A jelenlegi beállítások alapján a tesztet lehetséges véletlenszerű kérdésekre beállítani.
-assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#A jelenleg kiválasztott kérdésgyűjtemények és kérdések alapján a tesztet nem lehetséges véletlenszerű kérdésekre beállítani.
+assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#<b>A jelenleg kiválasztott kérdésgyűjtemények és kérdések alapján a tesztet nem lehetséges véletlenszerű kérdésekre beállítani.</b><br />
 assessment#:#tst_msg_rand_quest_set_lost_pools#:#A teszt kérdéskiválasztási módja nem módosítható, mert a beállításokban szereplő alábbi kérdésgyűjtemények nem érhetőek el többé:<br />%s
 assessment#:#tst_msg_rand_quest_set_no_src_pool_defs#:#Kérdésgyűjtemény kiválasztása nélkül a tesztet nem lehetséges véletlenszerű kérdésekre beállítani.
 assessment#:#tst_msg_rand_quest_set_incomplete_quest_amount_cfg#:#Pontosan meghatározott kérdésszám nélkül a tesztet nem lehetséges véletlenszerű kérdésekre beállítani.
@@ -1572,6 +1573,7 @@ common#:#access_unlimited#:#korlátlan
 common#:#access_until#:#Érvényes eddig
 common#:#access_users#:#Bejelentkezett felhasználók
 common#:#access#:#Hozzáférés
+rbac#:#amend_grading#:#Véglegesített értékelések módosítása
 common#:#accesscount_registered_users#:#Ennyi ILIAS-felhasználó tekintette meg
 common#:#accessFree#:#'Érvényes eddig' dátum eltávolítása
 common#:#accessRestrict#:#'Érvényes eddig' dátum beállítása
@@ -2441,9 +2443,9 @@ common#:#import_users#:#Felhasználók importálása
 common#:#import_warning_log#:#Figyelmeztetési napló importálása
 common#:#import#:#Import
 common#:#important#:#Fontos
-common#:#imported#:#importálva
+common#:#imported#:#Importálva
 common#:#in_use_by#:#Használja
-common#:#in_use#:#felhasználói nyelve
+common#:#in_use#:#Felhasználó nyelve
 common#:#in#:#miben
 common#:#inactive#:#Inaktív
 common#:#inbox#:#Beérkező posta
@@ -2808,7 +2810,7 @@ common#:#msg_obj_exists#:#Ez az objektum már létezik ebben a mappában
 common#:#msg_obj_may_not_contain_objects_of_type#:#A(z) %s objektum nem tartalmazhat ilyen típusú objektumokat: %s.
 common#:#msg_obj_modified#:#Módosításokat sikeresen mentette.
 common#:#msg_obj_no_link#:#Technika okok miatt tároló objektumok (kategória, kurzus, csoport, illetve mappa) linkelése nem lehetséges. Linkelni tudja az abban lévő objektumokat vagy hozzon létre kategória-, kurzus-, illetve csoportlinket.
-common#:#msg_paste_object_not_in_itself#:#Nem lehet beilleszteni a(z) %s objektumot saját magába.
+common#:#msg_paste_object_not_in_itself#:#Nem lehet beilleszteni a(z) '%s' objektumot saját magába.
 common#:#msg_perm_adopted_from_itself#:#Nem alkalmazhat jogosultsági beállításokat magából a jelenlegi szerepből/szerepmintából.
 common#:#msg_perm_adopted_from1#:#A jogosultsági beállítások elődje
 common#:#msg_perm_adopted_from2#:#(Beállításokat sikeresen mentettük!)
@@ -3577,7 +3579,7 @@ common#:#up#:#Fel
 common#:#update_applied#:#Frissítés alkalmazva
 common#:#update_language#:#Nyelv frissítése
 common#:#update_on_conflict#:#Frissítés konfliktus esetén.
-common#:#update#:#szerkesztés
+common#:#update#:#Módosítás
 common#:#upload_error_file_not_found#:#Feltöltési hiba: fájl nem található.
 common#:#upload#:#Feltöltés
 common#:#uploaded_and_checked#:#A fájlt feltöltötte és sikeresen ellenőriztük. Elkezdheti importálását.
@@ -11007,6 +11009,8 @@ rbac#:#rbac_info_only_position_access#:#Csak az Ön szervezeti egységében egy 
 obj#:#obj_orgunit_positions#:#Hozzáférés-szabályozás a szervezeti egység pozíciói alapján
 obj#:#obj_orgunit_positions_info#:#Ha be van kapcsolva, további hozzáférési szabályok hozhatóak létre a szervezeti egységek pozíciói alapján.
 orgu#:#msg_confirm_deletion#:#Biztos, hogy törli az alábbi pozíciókat?
+orgu#:#remove_user#:#Eltávolítás
+orgu#:#msg_confirm_remove_user#:#Biztos, hogy eltávolítja az alábbi felhasználót a(z) '%s' pozícióból?
 orgu#:#msg_confirm_d_ua#:#Biztos, hogy hozzárendeli ezeket a személyeket szevezeti egységeik pozíciójához?
 orgu#:#user_assignments#:#Felhasználó hozzárendelései
 orgu#:#authorities#:#Hatóságok
@@ -11035,6 +11039,9 @@ orgu#:#orgu_enable_my_staff_info#:#'Munkatársak' nézet a saját beosztottak ta
 orgu#:#org_op_manage_members#:#Tagok kezelése
 orgu#:#org_op_read_learning_progress#:#Más felhasználók tanulási haladásának megtekintése
 orgu#:#org_op_write_learning_progress#:#Más felhasználók tanulási haladásának módosítása
+rbac#:#org_op_write_learning_progress#:#Alárendelt felhasználók tanulási haladásának módosítása
+rbac#:#org_op_edit_submissions_grades#:#Beküldött értékelések módosítása
+orgu#:#org_op_edit_submissions_grades#:#Beküldött értékelések módosítása
 orgu#:#form_title_org_default_permissions_update#:#Alapértelemezett jogosultságok
 orgu#:#view_learning_progress#:#Tanulási haladás megjelenítése
 orgu#:#il_orgu_employee#:#Beosztott
@@ -11313,6 +11320,9 @@ bibl#:#ris_default_t1#:#Elsődleges cím
 bibl#:#ris_default_t2#:#Másodlagos cím
 bibl#:#ris_default_t3#:#Harmadlagos cím
 bibl#:#ris_default_u2#:#Felhasználó által meghatározott
+bibl#:#ris_default_y1#:#Év
+bibl#:#ris_default_ty#:#Típus
+bibl#:#ris_default_ep#:#Záró oldal száma
 mail#:#mail_filter#:#Szűrő
 mail#:#mail_filter_sender#:#Feladó
 mail#:#mail_filter_recipients#:#Címzett
@@ -12877,6 +12887,7 @@ mail#:#mail_enable_grp_admin_notification#:#Csoportvezetők értesítése
 mail#:#mail_enable_crs_admin_notification_info#:#Új kurzus létrehozásakor az 'Új tagokról értesítés' alapértelmezetten aktív lesz. Ez a beállítás a kurzus 'Tagok' fülén található. A kurzusvezetők levélben értesítést kapnak, amikor valaki csatlakozik a kurzushoz vagy elhagyja azt, illetve ha a kurzushoz előírt minimális létszám nem jön össze.
 mail#:#mail_enable_grp_admin_notification_info#:#Új csoport létrehozásakor az 'Értesítés' alapértelmezetten aktív lesz. Ez a beállítás a csoport 'Tagok' fülén található. A csoportvezetők levélben értesítést kapnak, amikor valaki csatlakozik a kurzushoz vagy elhagyja azt, illetve ha a csoporthoz előírt minimális létszám nem jön össze.
 mail#:#mail_notification_membership_section#:#Tagság
+prg#:#form_msg_file_wrong_file_type#:#Rossz fájltípus.
 prg#:#prg_new#:#Új Tanulmányi program
 prg#:#prg_add#:#Tanulmányi program hozzáadása
 prg#:#prg_edit#:#Tanulmányi program módosítása
@@ -12945,6 +12956,23 @@ prg#:#prg_type_msg_missing_title#:#Cím nem lehet üres.
 prg#:#prg_added_member#:#Sikeresen hozzáadta az új tagot.
 prg#:#prg_added_members#:#Sikeresen hozzáadta az új tagokat.
 prg#:#prg_acknowledge_completed_courses#:#Teljesített kurzusok elismerése
+prg#:#prg_multi_mark_accredited#:#Akkreditált
+prg#:#prg_multi_unmark_accredited#:#Akkreditált jelölés eltávolítása
+prg#:#prg_multi_remove_user#:#Felhasználó eltávolítása
+prg#:#prg_multi_mark_relevant#:#Megjelölés relevánsként
+prg#:#prg_multi_unmark_relevant#:#Releváns jelölés eltávolítása
+prg#:#prg_multi_update_from_current_plan#:#Frissítés a jelenlegi tervből
+prg#:#prg_mark_accredited_multi_success#:#Kijelölt felhasználók megjelölés akkreditáltként
+prg#:#prg_unmark_accredited_multi_success#:#Kijelölt felhasználók akkreditált jelölésének eltávolítása
+prg#:#prg_mark_relevant_multi_success#:#Kijelölt felhasználók megjelölés relevánsként
+prg#:#prg_mark_not_relevant_multi_success#:#Kijelölt felhasználók releváns jelölésének eltávolítása
+prg#:#prg_remove_users_success#:#Sikeresen eltávolította a kijelölt felhasználókat
+prg#:#prg_remove_users_partitial_success#:#Részben sikeresen eltávolította a kijelölt felhasználókat
+prg#:#prg_remove_users_not_possible#:#Nem sikerült eltávolítani a kijelölt felhasználókat
+prg#:#prg_update_from_current_plan_not_possible#:#Nem sikerült frissíteni a jelenlegi tervből
+prg#:#prg_update_from_current_plan_partitial_success#:#Részben sikeresen frissített a jelenlegi tervből
+prg#:#prg_update_from_current_plan_success#:#Sikeresen frissített a jelenlegi tervből
+prg#:#prg_no_user_selected#:#Egy felhasználót sem választott ki
 common#:#obj_prg_duplicate#:#Tanulmányi program másolása
 common#:#obj_prg_select#:#-- Válasszon egy Tanulmányi programot --
 common#:#obj_prg#:#Tanulmányi program
@@ -13313,6 +13341,9 @@ wfe#:#start_listening#:#Figyelő aktiválása
 wfe#:#stop_listening#:#Figyelő deaktiválása
 wfe#:#static_input_form_header#:#Munkafolyamat összes példányának bemenő adatai
 wfe#:#start_event_form_header#:#Munkafolyamatok indításával összefüggő események
+wfe#:#wfe_sure_to_delete_process_def#:#Biztos, hogy törli a meghatározást?
+wfe#:#wfe_request_missing_process_id#:#A folyamat id hiányzik, a kívánt művelet nem hajtható végre.
+wfe#:#wfe_started_listening#:#A folyamat élesítve
 glo#:#glo_link_glo_in_glo#:#Biztos, hogy a cél fogalomtár összes kifejezését linkeli a jelenlegi fogalomtárban?
 glo#:#glo_add_from_other#:#Kifejezések gyűjtése
 glo#:#glo_select_terms#:#Kifejezések kiválasztása
@@ -13395,7 +13426,10 @@ style#:#assignment#:#Hozzárendelés
 style#:#remove_assignment#:#Hozzárendelés eltávolítása
 style#:#reset_variables#:#Változók alapértelmezettre állítása
 style#:#update_variables#:#Változók frissítése
-style#:#less_file_updated#:#A less változókat sikeresen frissítette.
+style#:#less_file_updated#:#A less változókat sikeresen frissítette. Fontos: a gyorsítótárazás megakadályozhatja a változások megjelenítését, szükséges lehet a böngésző gyorsítótárának ürítése.
+style#:#less_file_reset#:#A less változókat alapértelmezettre állította. Fontos: a gyorsítótárazás megakadályozhatja a változások megjelenítését, szükséges lehet a böngésző gyorsítótárának ürítése.
+style#:#color_reset#:#Az ikonok színeit alapértelmezettre állította. Fontos: a gyorsítótárazás megakadályozhatja a változások megjelenítését, szükséges lehet a böngésző gyorsítótárának ürítése.
+style#:#color_update#:#Az ikonok színeit sikeresen frissítette. Fontos: a gyorsítótárazás megakadályozhatja a változások megjelenítését, szükséges lehet a böngésző gyorsítótárának ürítése.
 style#:#settings_of_substyle#:#Alstílus kezelése
 style#:#settings_of_style#:#Stílus kezelése
 style#:#of_parent#:#szülője a következőnek:
@@ -13543,6 +13577,7 @@ awrn#:#awrn_use_osd_info#:#'Ki van online' felsorolásában új felhasználók e
 exc#:#exc_tbl_filter_submission#:#Beadás
 exc#:#exc_tbl_filter_has_submission#:#Beadták
 exc#:#exc_tbl_filter_has_no_submission#:#Még adták be
+iass#:#iass_changed_by#:#Befejezés után módosult
 iass#:#iass_upload_file#:#Fájl rögzítése
 iass#:#iass_file_visible_examinee#:#A fájlt láthatják a résztvevők
 iass#:#general#:#Általános információ
@@ -13612,8 +13647,8 @@ iass#:#iass_save_amend#:#Javított bejegyzések mentése
 iass#:#iass_info_emails_expl#:#Több címet vesszővel elválasztva adhat meg.
 iass#:#iass_consultation_hours#:#Fogadóórák
 iass#:#iass_edit_info#:#Információ beállításai
-iass#:#iass_mess_notification_completed#:#'%s' értékelést sikeresen teljesítette. Kérem, ellenőrizze az alábbi bejegyzés részleteit:
-iass#:#iass_mess_notification_failed#:#'%s' értékelést nem sikerült teljesítenie. Kérem, ellenőrizze az alábbi bejegyzés részleteit:
+iass#:#iass_mess_notification_completed#:#'<i>%s</i>' értékelést sikeresen teljesítette. Kérem, ellenőrizze az alábbi értékelési bejegyzés részleteit:
+iass#:#iass_mess_notification_failed#:#'<i>%s</i>' értékelést nem sikerült teljesítenie. Kérem, ellenőrizze az alábbi értékelési bejegyzés részleteit:
 iass#:#iass_contact_info#:#Kapcsolat
 iass#:#iass_added#:#Személyes értékelést sikeresen létrehozta
 iass#:#iass_event_time_place_required#:#Időpont és helyszín kötelező
@@ -13669,7 +13704,7 @@ chatroom#:#chat_osc_no_sub_directory_info#:#Ha a Chatszerver egy alkönyvtáron 
 chatroom#:#chat_deletion_section_head#:#Régi üzenetek törlése
 chatroom#:#chat_deletion_disabled#:#Kikapcsolva
 chatroom#:#chat_deletion_interval#:#Időköz
-chatroom#:#chat_deletion_interval_info#:#Ha be van kapcsolva, a Képernyőcsevegések Taneszköztárolóban lévő beszélgetéseit a megadott küszöbérték elérés után töröljük.
+chatroom#:#chat_deletion_interval_info#:#Ha be van kapcsolva, a Képernyőcsevegések és a Taneszköztárolóban lévő beszélgetéseket a megadott küszöbérték elérés után töröljük.
 chatroom#:#chat_deletion_interval_unit#:#Mértékegység
 chatroom#:#chat_deletion_interval_value#:#Érték
 chatroom#:#chat_deletion_ival_max_val#:#A kiválasztott '%s' mértékegység legnagyobb értéke:
@@ -13703,6 +13738,10 @@ wsp#:#share#:#Megosztás
 common#:#obj_pdfg#:#PDF generálás
 common#:#obj_pdfg_desc#:#PDF dokumentumok előállításának beállításai
 common#:#building_export_file#:#Exportfájl létrehozása...
+common#:#pdfg_read#:#A felhasználónak olvasási hozzáférés van a PDF generáláshoz
+common#:#pdfg_visible#:#PDF generálás látható
+common#:#pdfg_write#:#A felhasználó módosíthatja a PDF generálás beállításait
+common#:#pdfg_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 pdfgen#:#phantomjs#:#PhantomJS
 pdfgen#:#page_settings#:#Oldalbeállítások
 pdfgen#:#page_size#:#Oldalméret
@@ -13734,6 +13773,7 @@ pdfgen#:#margin_bottom#:#Alsó margó
 pdfgen#:#zoom#:#Nagytás
 pdfgen#:#image_scale#:#Kép méretaránya
 pdfgen#:#reset_to_default#:#Beállítások alapértelmezettre állítása
+pdfgen#:#problem_with_purposes#:#Hibát észleltünk a beállításokban, használja 'Tisztítás' gombot a probléma megoldásához.
 copg#:#copg_questions_not_supported_here#:#Ebben a kontektusban a kérdéseket nem támogatjuk.
 auth#:#auth_err_login_attempts_deactivation#:#Sikertelen bejelentkezési próbálkozások miatt fiókját inaktiváltuk.
 crs#:#crs_edit_lo_introduction#:#Bevezető üzenet módosítása
@@ -13800,7 +13840,7 @@ auth#:#err_auth_saml_no_ilias_user#:#Hitelesítés sikertelen. Vegye fel a kapcs
 auth#:#auth_saml_login_form#:#Gomb a bejelentkezési oldalon
 auth#:#auth_saml_login_form_info#:#Ha be van kapcsolva és van legalább egy aktív IDP, egy gomb jelenik meg a bejelentkezési oldalon. Egy kattintás erre gombra egy SAML kérést inizializál.
 auth#:#auth_saml_idps#:#SAML IDP lista
-auth#:#auth_saml_idps_info#:#Ellenőrizze és módosítsa a SimpleSAMLphp konfigurációt itt '<strong>%s</strong>' és itt '<strong>%s</strong>' (külső adatkönyvtár). További információkért elolvashatja a leírást: %s.
+auth#:#auth_saml_idps_info#:#Ellenőrizze és módosítsa a SimpleSAMLphp konfigurációt itt '<strong>%s</strong>' és itt '<strong>%s</strong>' (külső adatkönyvtár). Ne felejtse el privát kulcsának és tanúsítványának útvonalát hozzáadni az authsources.php fájlban. További információkért elolvashatja a leírást: %s.<br />Szövetségi Metaadat URL: %s 
 auth#:#auth_saml_idp#:#IDP
 auth#:#auth_saml_configure_idp#:#SAML IDP konfigurálása: %s
 auth#:#saml_tab_head_idp#:#IDP
@@ -14029,11 +14069,11 @@ prtf#:#prtf_date_of_print#:#Nyomtatás dátuma
 prtf#:#prtf_signature#:#Aláírásmező
 prtf#:#prtf_signature_info#:#Egy mezőt ad a nyomtatáshoz, ahol a szerző aláírhatja a portfólióját.
 prtf#:#prtf_signature_date#:#Dátum, aláírása
-lti#:#lti_not_allowed#:#Hozzáférés megtagadva. Kérését átirányítjuk az LTI objektum gyökérébe.
+lti#:#lti_not_allowed#:#Hozzáférés megtagadva. Kérését átirányítjuk az LTI-objektum gyökérébe.
 lti#:#lti_navigation#:#Navigáció
-lti#:#lti_exit#:#LTI munkamenet lezárása
-lti#:#lti_exited#:#LTI munkamenet
-lti#:#lti_exited_info#:#LTI munkamenet sikeresen lezárult.
+lti#:#lti_exit#:#LTI-munkamenet lezárása
+lti#:#lti_exited#:#LTI-munkamenet
+lti#:#lti_exited_info#:#LTI-munkamenet sikeresen lezárult.
 blog#:#blog_nav_mode_month_list_num_month_with_post#:#Hónapok száma
 blog#:#blog_nav_mode_month_list_num_month_with_post_info#:#A navigációs blokkban ezek a hónap jelennek meg a bejegyzéseikkel együtt.
 orgu#:#org_op_access_enrolments#:#Bejegyzések megtekintése
@@ -14053,14 +14093,41 @@ assessment#:#question_browse_area_info#:#Válasszon egy objektumot, melyből ké
 dateplaner#:#cal_no_events_info#:#Egy esemény sem található a megjelölt időszakban.
 wiki#:#wiki_pg_list_no_search_fields#:#A wiki metaadata gyűjteményében egy kereshető metaadat sem található.
 iass#:#iass_amend_saved#:#Javítási jegyzéket sikeresen mentette.
-dateplaner#:#crs_start#:#Kurzus kezdő időpontja
-dateplaner#:#crs_end#:#Kurzus záró időpontja
-dateplaner#:#grp_start#:#Csoport kezdő időpontja
-dateplaner#:#grp_end#:#Csoport záró időpontja
+dateplaner#:#crs_cal_start#:#Kurzus kezdő időpontja
+dateplaner#:#crs_cal_end#:#Kurzus záró időpontja
+dateplaner#:#grp_cal_start#:#Csoport kezdő időpontja
+dateplaner#:#grp_cal_end#:#Csoport záró időpontja
 content#:#cont_transl_master_language_not_allowed#:#Fordítás importáláshoz legalább egy további nyelvet aktiválnia kell a Beállítások » Többnyelvűség alatt.
-prg#:#prg_multi_mark_accredited#:#Accredited###23 10 2017 new variable
-prg#:#prg_multi_unmark_accredited#:#Unmark Accredited###23 10 2017 new variable
-prg#:#prg_multi_remove_user#:#Remove User###23 10 2017 new variable
-prg#:#prg_multi_mark_relevant#:#Mark Relevant###23 10 2017 new variable
-prg#:#prg_multi_unmark_relevant#:#Unmark Relevant###23 10 2017 new variable
-prg#:#prg_multi_update_from_current_plan#:#Update From Current Plan###23 10 2017 new variable
+awrn#:#awrn_online#:#Online
+rbac#:#edit_submissions_grades#:#Megoldások és értékelések módosítása
+rbac#:#exc_edit_submissions_grades#:#A felhasználó módosíthatja a Megoldások és értékelések beálításait
+rbac#:#release_objects#:#Kiadott objektumok
+rbac#:#ltis_release_objects#:#A felhasználó kiadhat objektumokat az LTI-fogyasztóknak
+rbac#:#ltis_visible#:#LTI kezelés látható
+rbac#:#ltis_read#:#A felhasználónak olvasási hozzáférése van az LTI kezelés beálltásaihoz 
+rbac#:#ltis_write#:#A felhasználónak módosíthatja az LTI kezelés beálltásaihoz
+rbac#:#ltis_edit_permission#:#A felhasználó módosíthatja az LTI kezelés jogosultsági beálltásait
+content#:#cont_sc_id_setting#:#student_id a SCORM 1.2 alapján
+content#:#cont_sc_id_setting_2004#:#learner_id a SCORM 2004 alapján
+content#:#cont_sc_id_setting_info#:#Amennyiben student_id (SCORM 1.2) vagy a learner_id (SCORM 2004) szmértéke problémát okoz a tananyagban, használja az 'ILIAS felhasználó neve' lehetőséget. A további RefId vagy ObjId külső szerveerhez kapcsolódó tananyagnál lehet hasznos.
+content#:#cont_sc_id_setting_user_id#:#ILIAS Felhasználó Id (standard)
+content#:#cont_sc_id_setting_user_login#:#ILIAS Bejelentkezési név
+content#:#cont_sc_id_setting_user_id_plus_ref_id#:#ILIAS Felhasználó Id plusz a tananyag RefId-je
+content#:#cont_sc_id_setting_user_login_plus_ref_id#:#ILIAS Bejelentkezési név plusz a tananyag RefId-je
+content#:#cont_sc_id_setting_user_id_plus_obj_id#:#ILIAS Felhasználó Id plusz tananyag ObjId-je
+content#:#cont_sc_id_setting_user_login_plus_obj_id#:#LIAS Bejelentkezési név plusz a tananyag ObjId-je
+content#:#cont_sc_name_setting#:#student_name a SCORM 1.2 alapján
+content#:#cont_sc_name_setting_2004#:#learner_name a SCORM 2004 alapján
+content#:#cont_sc_name_setting_info#:#A tananyagban a tanuló nevét sokféleképpen megjeleníthetjük. Amikor a tananyag külső szerveren van, célszerű a hallgató nevét nem nyilvánossá tenni.
+content#:#cont_sc_name_setting_last_firstname#:#Keresztnév, családnév
+content#:#cont_sc_name_setting_first_lastname#:#Családnév és keresztnév
+content#:#cont_sc_name_setting_fullname#:#Titulus, keresztnév és családnév
+content#:#cont_sc_name_setting_salutation_lastname#:#Megszólítás és keresznév
+content#:#cont_sc_name_setting_first_name#:#Családnév
+content#:#cont_sc_name_setting_no_name#:#nincs név
+dateplaner#:#cal_download_files_started#:#A naptárfájlok letöltése elkezdődött.
+chatroom_adm#:#play_invitation_sound_info#:#Play a sound when receiving a new invitation for repository chats.###22 11 2017 new variable
+orgu#:#msg_assignment_to_employee_done#:#Zuweisung zur Position Mitarbeiter durchgeführt###22 11 2017 new variable
+iass#:#iass_assessment_not_completed#:#Assessment not completet###22 11 2017 new variable
+orgu#:#msg_position_updated#:#Position updated.###22 11 2017 new variable
+orgu#:#msg_position_created#:#Position created.###22 11 2017 new variable
