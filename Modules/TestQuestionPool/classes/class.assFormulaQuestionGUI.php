@@ -1013,7 +1013,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
 		$user_solution = "";
 		if(($active_id > 0) && (!$show_correct_solution))
 		{
-			$solutions = NULL;
+			$solutions = array();
 			include_once "./Modules/Test/classes/class.ilObjTest.php";
 			if(!ilObjTest::_getUsePreviousAnswers($active_id, true))
 			{
@@ -1048,7 +1048,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
 			{
 				if(is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			}
-			$user_solution = $this->object->getBestSolution($this->object->getSolutionValues($active_id, $pass));
+			$user_solution = (array)$this->object->getBestSolution($this->object->getSolutionValues($active_id, $pass));
 		}
 		elseif( is_object($this->getPreviewSession()) )
 		{
@@ -1059,11 +1059,11 @@ class assFormulaQuestionGUI extends assQuestionGUI
 				$solutionValues[] = array('value1' => $val1, 'value2' => $val2);
 			}
 			
-			$user_solution = $this->object->getBestSolution($solutionValues);
+			$user_solution = (array)$this->object->getBestSolution($solutionValues);
 		}
 	
 		$template = new ilTemplate("tpl.il_as_qpl_formulaquestion_output_solution.html", true, true, 'Modules/TestQuestionPool');
-		$questiontext = $this->object->substituteVariables($user_solution, $graphicalOutput, TRUE, $result_output, $this->getPreviewSession());
+		$questiontext = $this->object->substituteVariables($user_solution, $graphicalOutput, TRUE, $result_output);
 
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$questionoutput   = $template->get();
@@ -1113,15 +1113,25 @@ class assFormulaQuestionGUI extends assQuestionGUI
 				}
 			}
 		}
+		
+		if( !$this->object->hasRequiredVariableSolutionValues($user_solution) )
+		{
+			$user_solution = $this->object->getInitialVariableSolutionValues();
+			
+			if( is_object($this->getPreviewSession()) )
+			{
+				$this->getPreviewSession()->setParticipantsSolution($user_solution);
+			}
+		}
 
 		$template = new ilTemplate("tpl.il_as_qpl_formulaquestion_output.html", true, true, 'Modules/TestQuestionPool');
 		if( is_object($this->getPreviewSession()) )
 		{
-			$questiontext = $this->object->substituteVariables($user_solution, false, false, false, $this->getPreviewSession());
+			$questiontext = $this->object->substituteVariables($user_solution, false, false, false);
 		}
 		else
 		{
-			$questiontext = $this->object->substituteVariables();
+			$questiontext = $this->object->substituteVariables(array());
 		}
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$questionoutput = $template->get();
@@ -1139,36 +1149,27 @@ class assFormulaQuestionGUI extends assQuestionGUI
 	{
 		ilUtil::sendInfo($this->lng->txt('enter_valid_values'));
 		// get the solution of the user for the active pass or from the last pass if allowed
-		$user_solution = null;
+		$user_solution = array();
 		if($active_id)
 		{
-			$solutions = NULL;
-			// hey: prevPassSolutions - obsolete due to central check
-			#include_once "./Modules/Test/classes/class.ilObjTest.php";
-			#if(is_null($pass)) $pass = ilObjTest::_getPass($active_id);
-			// hey.
-
-			$user_solution["active_id"] = $active_id;
-			$user_solution["pass"]      = $pass;
-			// hey: prevPassSolutions - obsolete due to central check
-			$solutions = $this->getTestOutputSolutions($active_id, $pass);
-			// hey.
-
-			// workaround does not consider intermediate solutions,
-			// since we wont find variables in intermediate solutions,
-			// we will always ask for authorized ones and use them instead
-			// --> workaround replaced by separated variable fetching below if corpus
-			#if(0 == count(array_filter($solutions, function(array $row){
-			#	return !preg_match('/^\$v\d+$/', $row['value1']);
-			#})))
-			#{
-			#	$solutions = $this->object->getSolutionValues($active_id, $pass, true);
-			#}
+			$solutions = (array)$this->getTestOutputSolutions($active_id, $pass);
+			
+			$actualPassIndex = null;
+			if( $this->isPreviousSolutionPrefilled() )
+			{
+				require_once 'Modules/Test/classes/class.ilObjTest.php';
+				$actualPassIndex = ilObjTest::_getPass($active_id);
+			}
 			
 			foreach($solutions as $idx => $solution_value)
 			{
 				if(preg_match("/^(\\\$v\\d+)$/", $solution_value["value1"], $matches))
 				{
+					if( $this->isPreviousSolutionPrefilled() )
+					{
+						$this->object->saveCurrentSolution($active_id, $actualPassIndex, $matches[1], $solution_value["value2"], true);
+					}
+					
 					$user_solution[$matches[1]] = $solution_value["value2"];
 				}
 				else if(preg_match("/^(\\\$r\\d+)$/", $solution_value["value1"], $matches))
@@ -1199,8 +1200,15 @@ class assFormulaQuestionGUI extends assQuestionGUI
 				$user_solution[$matches[1]] = $solution_value["value2"];
 			}
 		}
-		// fau.
 		
+		if( !$this->object->hasRequiredVariableSolutionValues($user_solution) )
+		{
+			foreach($this->object->getInitialVariableSolutionValues() as $val1 => $val2)
+			{
+				$this->object->saveCurrentSolution($active_id, $pass, $val1, $val2, true);
+			}
+		}
+
 		// generate the question output
 		$template = new ilTemplate("tpl.il_as_qpl_formulaquestion_output.html", true, true, 'Modules/TestQuestionPool');
 
