@@ -28,67 +28,80 @@ use ILIAS\Validation\Constraint;
  * be some id, while the content could be some object referenced by that id.
  */
 interface Input extends Component {
+
 	/**
 	 * Get the label of the input.
 	 *
-	 * @return	string
+	 * @return    string
 	 */
 	public function getLabel();
+
 
 	/**
 	 * Get an input like this, but with a replaced label.
 	 *
-	 * @param	string	$label
-	 * @return	Input
+	 * @param    string $label
+	 *
+	 * @return    Input
 	 */
 	public function withLabel($label);
+
 
 	/**
 	 * Get the byline of the input.
 	 *
-	 * @return	string|null
+	 * @return    string|null
 	 */
 	public function getByline();
+
 
 	/**
 	 * Get an input like this, but with an additional/replaced label.
 	 *
-	 * @param	string|null $byline
-	 * @return	Input
+	 * @param    string|null $byline
+	 *
+	 * @return    Input
 	 */
 	public function withByline($byline);
+
 
 	/**
 	 * Is this field required?
 	 *
-	 * @return	bool
+	 * @return    bool
 	 */
 	public function isRequired();
+
 
 	/**
 	 * Get an input like this, but set the field to be required (or not).
 	 *
-	 * @param	bool	$is_required
-	 * @return	Input
+	 * @param    bool $is_required
+	 *
+	 * @return    Input
 	 */
 	public function withRequired($is_required);
+
 
 	/**
 	 * Get the value that is displayed in the input client side.
 	 *
-	 * @return	mixed
+	 * @return    mixed
 	 */
 	public function getValue();
+
 
 	/**
 	 * Get an input like this with another value displayed on the
 	 * client side.
 	 *
-	 * @param	mixed
+	 * @param    mixed
+	 *
 	 * @throws  \InvalidArgumentException    if value does not fit client side input
 	 * @return Input
 	 */
 	public function withValue($value);
+
 
 	/**
 	 * The error of the input as used in HTML.
@@ -97,27 +110,33 @@ interface Input extends Component {
 	 */
 	public function getError();
 
+
 	/**
 	 * Get an input like this one, with a different error.
 	 *
-	 * @param	string
-	 * @return	Input
+	 * @param    string
+	 *
+	 * @return    Input
 	 */
 	public function withError($error);
+
 
 	/**
 	 * Apply a transformation to the content of the input.
 	 *
-	 * @param	Transformation $trafo
-	 * @return	Input
+	 * @param    Transformation $trafo
+	 *
+	 * @return    Input
 	 */
 	public function withAdditionalTransformation(Transformation $trafo);
+
 
 	/**
 	 * Apply a constraint to the content of the input.
 	 *
-	 * @param	Constraint $constraint
-	 * @return 	Input
+	 * @param    Constraint $constraint
+	 *
+	 * @return    Input
 	 */
 	public function withAdditionalConstraint(Constraint $constraint);
 }

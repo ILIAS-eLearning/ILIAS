@@ -17,11 +17,18 @@ class Numeric extends Input implements C\Input\Field\Numeric {
 
 	/**
 	 * Numeric constructor.
+	 *
 	 * @param DataFactory $data_factory
-	 * @param $label
-	 * @param $byline
+	 * @param             $label
+	 * @param             $byline
 	 */
-	public function __construct(DataFactory $data_factory, ValidationFactory $validation_factory, TransformationFactory $transformation_factory, $label, $byline) {
+	public function __construct(
+		DataFactory $data_factory,
+		ValidationFactory $validation_factory,
+		TransformationFactory $transformation_factory,
+		$label,
+		$byline
+	) {
 
 		parent::__construct($data_factory, $validation_factory, $transformation_factory, $label, $byline);
 
@@ -29,6 +36,7 @@ class Numeric extends Input implements C\Input\Field\Numeric {
 		// usable here (clone).
 		$this->setAdditionalConstraint($this->validation_factory->isNumeric());
 	}
+
 
 	/**
 	 * @inheritdoc

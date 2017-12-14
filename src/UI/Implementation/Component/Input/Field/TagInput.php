@@ -17,24 +17,29 @@ use ILIAS\Validation\Factory as ValidationFactory;
  */
 class TagInput extends Input implements C\Input\Field\TagInput {
 
+	const INFINITE = 0;
 	use JavaScriptBindable;
 	use Triggerer;
 	/**
 	 * @var int
 	 */
-	protected $suggestion_starts_with = 1;
+	protected $max_tags = self::INFINITE;
+	/**
+	 * @var int
+	 */
+	protected $tag_max_length = self::INFINITE;
 	/**
 	 * @var bool
 	 */
-	protected $extendable = false;
+	protected $extendable = true;
+	/**
+	 * @var int
+	 */
+	protected $suggestion_starts_with = 1;
 	/**
 	 * @var array
 	 */
 	protected $options = [];
-	/**
-	 * @var string
-	 */
-	protected $option_provider_url = '';
 	/**
 	 * @var array
 	 */
@@ -55,26 +60,12 @@ class TagInput extends Input implements C\Input\Field\TagInput {
 		ValidationFactory $validation_factory,
 		\ILIAS\Transformation\Factory $transformation_factory,
 		$label,
-		$byline
+		$byline,
+		array $options
 	) {
 		parent::__construct($data_factory, $validation_factory, $transformation_factory, $label, $byline);
+		$this->options = $options;
 		$this->setAdditionalConstraint($this->validation_factory->isArray());
-	}
-
-
-	protected function getNormalizedOptions(): array {
-		/**
-		 * @var $input \ILIAS\UI\Implementation\Component\Input\Field\Input
-		 */
-		$options = [];
-		foreach ($this->getOptions() as $identifier => $value) {
-			$options[] = [
-				'id'   => $identifier,
-				'name' => $value,
-			];
-		}
-
-		return $options;
 	}
 
 
@@ -83,15 +74,13 @@ class TagInput extends Input implements C\Input\Field\TagInput {
 	 */
 	public function getConfiguration(): \stdClass {
 		$configuration = new \stdClass();
-		$configuration->options = $this->getNormalizedOptions();
+		$configuration->options = $this->getOptions();
 		$configuration->selected_options = $this->getValue();
-		$configuration->options_provider_url = $this->getOptionsProviderURLwithAppendedQueryName();
-		$configuration->extendable = $this->areOptionsExtendable();
+		$configuration->extendable = $this->areTagsExtendable();
 		$configuration->suggestion_starts = $this->getSuggestionsStartAfter();
 		$configuration->max_chars = 2000;
 		$configuration->suggestion_limit = 50;
 		$configuration->debug = true;
-		$configuration->query_wildcard = "%" . C\Input\Field\TagInput::QUERY_WILDCARD;
 
 		return $configuration;
 	}
@@ -116,9 +105,17 @@ class TagInput extends Input implements C\Input\Field\TagInput {
 	/**
 	 * @inheritDoc
 	 */
-	public function withOptionsProviderURL(string $option_provider_url): C\Input\Field\TagInput {
+	public function getOptions(): array {
+		return $this->options;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withTagsAreExtendable(bool $extendable): C\Input\Field\TagInput {
 		$clone = clone $this;
-		$clone->option_provider_url = $option_provider_url;
+		$clone->extendable = $extendable;
 
 		return $clone;
 	}
@@ -127,21 +124,8 @@ class TagInput extends Input implements C\Input\Field\TagInput {
 	/**
 	 * @inheritDoc
 	 */
-	public function getOptionsProviderURL(): string {
-		return $this->option_provider_url;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	private function getOptionsProviderURLwithAppendedQueryName(): string {
-		if (strlen($this->option_provider_url) === 0) {
-			return $this->option_provider_url;
-		}
-		$q = C\Input\Field\TagInput::QUERY_WILDCARD;
-
-		return $this->option_provider_url . "&" . $q . "=%" . $q;
+	public function areTagsExtendable(): bool {
+		return $this->extendable;
 	}
 
 
@@ -167,9 +151,9 @@ class TagInput extends Input implements C\Input\Field\TagInput {
 	/**
 	 * @inheritDoc
 	 */
-	public function withOptions(array $options): C\Input\Field\TagInput {
+	public function withTagMaxLength(int $max_length): C\Input\Field\TagInput {
 		$clone = clone $this;
-		$clone->options = $options;
+		$clone->tag_max_length = $max_length;
 
 		return $clone;
 	}
@@ -178,17 +162,17 @@ class TagInput extends Input implements C\Input\Field\TagInput {
 	/**
 	 * @inheritDoc
 	 */
-	public function getOptions(): array {
-		return $this->options;
+	public function getTagMaxLength(): int {
+		return $this->tag_max_length;
 	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function withOptionsAreExtendable(bool $extendable): C\Input\Field\TagInput {
+	public function withMaxTags(int $max_tags): C\Input\Field\TagInput {
 		$clone = clone $this;
-		$clone->extendable = $extendable;
+		$clone->max_tags = $max_tags;
 
 		return $clone;
 	}
@@ -197,16 +181,9 @@ class TagInput extends Input implements C\Input\Field\TagInput {
 	/**
 	 * @inheritDoc
 	 */
-	public function areOptionsExtendable(): bool {
-		return $this->extendable;
+	public function getMaxTags(): int {
+		return $this->max_tags;
 	}
-
-
-
-
-
-
-
 
 	// Events
 

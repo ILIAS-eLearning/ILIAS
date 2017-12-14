@@ -10,12 +10,14 @@ use ILIAS\UI\Component as C;
  * This implements the text input.
  */
 class Text extends Input implements C\Input\Field\Text {
+
 	/**
 	 * @inheritdoc
 	 */
 	protected function isClientSideValueOk($value) {
 		return is_string($value);
 	}
+
 
 	/**
 	 * @inheritdoc

@@ -294,7 +294,7 @@ class ilCalendarViewGUI
 		}
 
 
-		$comps = [$f->button()->shy($title, "")->withOnClick($modal->getShowSignal()), $modal];
+		$comps = [$f->button()->shy($title, "#")->withOnClick($modal->getShowSignal()), $modal];
 
 		return $r->render($comps);
 	}
@@ -322,7 +322,7 @@ class ilCalendarViewGUI
 		//"capm" is the plugin slot id for Appointment presentations (modals)
 		foreach($this->getActivePlugins("capm") as $plugin)
 		{
-			$modal_title = ($new_title = $plugin->editModalTitle($a_current_title))? $new_title : "";
+			$modal_title = ($new_title = $plugin->editModalTitle($a_current_title))? $new_title : $a_current_title;
 		}
 		return $modal_title;
 	}

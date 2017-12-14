@@ -10,16 +10,19 @@ use ILIAS\UI\Component as C;
  * This implements a standard form.
  */
 class Standard extends Form implements C\Input\Container\Form\Standard {
+
 	/**
 	 * @var string
 	 */
 	protected $post_url;
 
+
 	public function __construct($post_url, array $inputs) {
 		parent::__construct($inputs);
 		$this->checkStringArg("post_url", $post_url);
 		$this->post_url = $post_url;
-	} 
+	}
+
 
 	/**
 	 * @inheritdoc

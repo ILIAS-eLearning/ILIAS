@@ -93,7 +93,7 @@
 //##
 @body-bg:               #f0f0f0;
 @text-color:            @gray-dark;
-@il-light-text-color:   lighten(@mid-gray, 30%);
+@il-light-text-color:   lighten(@mid-gray, 30%); //#909090
 @link-color:            lighten(@brand-primary, 5%);
 @link-hover-color:      darken(@link-color, 15%);
 
@@ -409,16 +409,13 @@
 //== Input Fields
 //
 //## Variables used to style the ILIAS input fields (e.g. Text Inputs etc.)
-@input-border-radius:	0;
-@input-border:			#ccc;
-@input-border-focus:	lighten(@brand-primary, 20%);
-
-@input-height-base:	(floor((@il-standard-form-font-size * @line-height-base)) + (@padding-base-vertical * 2) + 2);
-
-
-
-
-
+@input-border-radius: 0;
+@input-border: #CCCCCC;
+@input-border-focus: lighten(@brand-primary, 20%);
+@ilFormInputFontSize: @font-size-small;
+@input-height-base: (floor((@il-standard-form-font-size * @line-height-base)) + (@padding-base-vertical * 2) + 2);
+@ilFormColor: #808080;
+@ilFormBgColor: #FDFDFD;
 @input-color-placeholder: lighten(@gray-light, 30%);
 
 //== Panels
@@ -487,6 +484,7 @@
 @il-toolbar-height: @navbar-height;
 @il-toolbar-border: 1px solid #d8d8d8;
 
+
 //== Postings
 //
 //##
@@ -508,6 +506,7 @@
 @bs-datetimepicker-primary-border-color: white;
 @bs-datetimepicker-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 
+
 //== Glyph
 //
 //##
@@ -516,6 +515,7 @@
 @il-glyph-highlighted-color: @brand-warning;
 @il-glyph-highlighted-hover-color:  darken(@brand-warning, 15%);
 
+
 //== Counter
 //
 //##
@@ -523,11 +523,13 @@
 @il-counter-font-size: 9px;
 @il-counter-margin-left: -4px;
 
+
 //== Status Counter
 //
 //##
 @il-counter-status-bg: lighten(@mid-gray, 40%);
 @il-counter-status-margin-top: 10px;
+
 
 //== Novelty Counter
 //
@@ -558,6 +560,8 @@
 @il-dropzone-filelist-border-type: solid;
 @il-dropzone-filelist-border-width: @il-dropzone-border-width;
 @il-dropzone-filelist-border-radius: @il-dropzone-border-radius;
+
+
 //== Popover
 //
 //## Customizes the Popover component
@@ -583,6 +587,7 @@
 //** Maximum Height of a popover (overflow scroll)
 @il-popover-max-height: 500px;
 
+
 //== Tooltips
 //
 //## Tooltips displayed by the online help
@@ -596,6 +601,7 @@
 @il-tooltip-border-radius: 4px;
 //** Shadow of those tooltips
 @il-tooltip-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
+
 
 //== Divider
 //
@@ -617,6 +623,7 @@
 @il-item-marker-border-left: 5px solid;
 @il-item-h5-margin: 4px 0px 2px 0px;
 
+
 //== Listing Panel
 //
 //##
@@ -624,9 +631,10 @@
 @il-panel-listing-std-container-h3-margin: 8px 0 2px 0;
 @il-panel-listing-std-container-h3-text-transform: uppercase;
 @il-panel-listing-std-container-h4-text-transform: uppercase;
-@il-panel-listing-std-container-h3-color: #909090;
-@il-panel-listing-std-container-h4-color: #909090;
+@il-panel-listing-std-container-h3-color: @il-light-text-color;
+@il-panel-listing-std-container-h4-color: @il-light-text-color;
 @il-panel-listing-std-item-container-margin: 0 0 1px 0;
+
 
 //== Charts
 //
@@ -635,19 +643,21 @@
 @il-chart-item-active-bg: @brand-primary;
 @il-chart-item-active-color: white;
 @il-chart-item-inactive-bg: #e0e0e0;
-@il-chart-item-inactive-color: #909090;
+@il-chart-item-inactive-color: @il-light-text-color;
 @il-chart-item-space: 2px;
 
 
 //== Icons
 //
 //## Icons are used to represent (and quickly identify) objects.
+
 //**Size for icons: Small is used in the tree. e.g.
 @icon-size-small: 20px;
 //**Size for icons: Medium is used in the content-listing. e.g.
 @icon-size-medium: 35px;
 //**Size for icons: Large is used in the header. e.g.
 @icon-size-large: 45px;
+
 
 //== View Control
 //
@@ -656,3 +666,11 @@
 @il-vc-glyph-padding-horizontal: @padding-base-horizontal;
 @il-vc-glyph-hover-bg: lighten(@brand-primary, 5%);
 @il-vc-mode-btn-active: @il-vc-glyph-hover-bg;
+
+
+//== Card
+//
+//##
+@il-card-highlight-bg: @brand-warning;
+@il-card-highlight-height: @padding-large-vertical;
+@il-card-list-key-color: @il-light-text-color;

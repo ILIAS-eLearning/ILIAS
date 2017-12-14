@@ -44,16 +44,12 @@ select.form-control {
 
 .form-horizontal {
 	.control-label {
-		padding-top: 0;
-		line-height: 24px;
+		//padding-top: 0;
+		//line-height: 24px;
+		padding-bottom: (@padding-base-vertical + 1);
 		&.col-sm-3.il_textarea {
 			text-align: left;
 			width: 100%;
-		}
-	}
-	.form-group {
-		.col-sm-9 {
-			line-height: 24px;
 		}
 	}
 	
@@ -62,11 +58,13 @@ select.form-control {
 	.radio-inline,
 	.checkbox-inline {
 		padding-top: 0;
-		line-height: 24px;
-		vertical-align: middle;
+		line-height: normal;
 	}
 	.help-block {
 		line-height: normal;
+	}
+	div.radio label.radio-inline {
+		line-height: @input-height-base;
 	}
 }
 
@@ -75,12 +73,11 @@ select.form-control {
 .checkbox input[type="checkbox"],
 .checkbox-inline input[type="checkbox"] {
 	position: static;
+	display: inline-block;
 	margin-left: -20px;
-	margin-top: 0;
-	min-height: 24px;
+	margin-top: 7px;
 	min-width: 13px;
 	vertical-align: top;
-	line-height: 24px;
 	@media only screen and (max-width: @grid-float-breakpoint-max) {
 		min-width: 16px;
 	}

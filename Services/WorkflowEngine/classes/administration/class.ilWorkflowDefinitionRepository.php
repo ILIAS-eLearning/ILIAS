@@ -69,6 +69,11 @@ class ilWorkflowDefinitionRepository
 			$stats[$row['workflow_class']] = array('total' => $row['total'], 'active' => $row['active']);
 		}
 
+		if (!$this->fs->storage()->hasDir($this->path)) {
+			$this->definitions = array();
+			return;
+		}
+
 		$contents = $this->fs->storage()->listContents($this->path, false);
 		$contents = array_filter($contents, function (ILIAS\Filesystem\DTO\Metadata $file) {
 			if (!$file->isFile()) {

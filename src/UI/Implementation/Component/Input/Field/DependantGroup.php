@@ -18,50 +18,52 @@ use ILIAS\UI\Implementation\Component\JavaScriptBindable;
  * This implements dependant groups (aka subforms).
  */
 class DependantGroup extends Group implements C\Input\Field\DependantGroup, Triggerable {
-	use JavaScriptBindable;
 
+	use JavaScriptBindable;
 	/**
 	 * @var SignalGeneratorInterface
 	 */
 	protected $signal_generator;
-
 	/**
 	 * @var Signal
 	 */
 	protected $toggle_signal;
-
 	/**
 	 * @var Signal
 	 */
 	protected $show_signal;
-
 	/**
 	 * @var Signal
 	 */
 	protected $hide_signal;
-
 	/**
 	 * @var Signal
 	 */
 	protected $init_signal;
 
+
 	/**
 	 * DependantGroup constructor.
-	 * @param DataFactory $data_factory
-	 * @param ValidationFactory $validation_factory
-	 * @param TransformationFactory $transformation_factory
+	 *
+	 * @param DataFactory              $data_factory
+	 * @param ValidationFactory        $validation_factory
+	 * @param TransformationFactory    $transformation_factory
 	 * @param SignalGeneratorInterface $signal_generator
-	 * @param $inputs
+	 * @param                          $inputs
 	 */
-	public function __construct(DataFactory $data_factory,ValidationFactory $validation_factory,
-	                            TransformationFactory $transformation_factory,
-	                            SignalGeneratorInterface $signal_generator,
-	                            $inputs) {
-		parent::__construct($data_factory, $validation_factory,$transformation_factory,$inputs, "", "");
+	public function __construct(
+		DataFactory $data_factory,
+		ValidationFactory $validation_factory,
+		TransformationFactory $transformation_factory,
+		SignalGeneratorInterface $signal_generator,
+		$inputs
+	) {
+		parent::__construct($data_factory, $validation_factory, $transformation_factory, $inputs, "", "");
 		$this->inputs = $inputs;
 		$this->signal_generator = $signal_generator;
 		$this->initSignals();
 	}
+
 
 	/**
 	 * @inheritdoc
@@ -69,8 +71,10 @@ class DependantGroup extends Group implements C\Input\Field\DependantGroup, Trig
 	public function withResetSignals() {
 		$clone = clone $this;
 		$this->initSignals();
+
 		return $clone;
 	}
+
 
 	/**
 	 * Set the signals for the dependant group
@@ -82,12 +86,14 @@ class DependantGroup extends Group implements C\Input\Field\DependantGroup, Trig
 		$this->init_signal = $this->signal_generator->create();
 	}
 
+
 	/**
 	 * @return Signal
 	 */
 	public function getToggleSignal() {
 		return $this->toggle_signal;
 	}
+
 
 	/**
 	 * @return Signal
@@ -96,6 +102,7 @@ class DependantGroup extends Group implements C\Input\Field\DependantGroup, Trig
 		return $this->show_signal;
 	}
 
+
 	/**
 	 * @return Signal
 	 */
@@ -103,11 +110,11 @@ class DependantGroup extends Group implements C\Input\Field\DependantGroup, Trig
 		return $this->hide_signal;
 	}
 
+
 	/**
 	 * @return Signal
 	 */
 	public function getInitSignal() {
 		return $this->init_signal;
 	}
-
 }
