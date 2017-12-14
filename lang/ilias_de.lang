@@ -50,7 +50,7 @@ lti#:#lti_released_objects#:#Objekt-Freigaben
 lti#:#lti_consumer#:#Released for
 orgu#:#orgu_global_set_form#:#Globale Einstellungen
 orgu#:#orgu_global_set_positions#:#Anzeige von Benutzerdaten nach Positionen in Organisationseinheiten
-orgu#:#orgu_global_set_positions_type_active#:#Positionen in 
+orgu#:#orgu_global_set_positions_type_active#:#Positionen in
 orgu#:#orgu_global_set_type_changeable#:#Verhalten neuer Objekte
 orgu#:#orgu_global_set_type_changeable_object#:#Änderbare Einstellung im Objekt
 orgu#:#orgu_global_set_type_changeable_no#:#Positionen sind im Objekt nicht deaktivierbar
@@ -1145,7 +1145,7 @@ assessment#:#finish_pass_for_user_confirmation#:#Wollen Sie wirklich den Test Du
 assessment#:#finish_pass_for_all_users#:#Wollen Sie wirklich die Test Durchläufe für alle Benutzer beenden?
 assessment#:#finish_all_user_passes#:#Alle Testdurchläufe beenden
 assessment#:#finish_unfinished_passes#:#Beendet noch offene Testdurchläufe
-assessment#:#finish_unfinished_passes_desc#:#Testdurchläufe, welche noch nicht beendet wurden, wo aber entweder ein Ende konfiguriert ist, oder welche die Maximale Bearbietungsdauer überschritten haben, werden beendet. 
+assessment#:#finish_unfinished_passes_desc#:#Testdurchläufe, welche noch nicht beendet wurden, wo aber entweder ein Ende konfiguriert ist, oder welche die Maximale Bearbietungsdauer überschritten haben, werden beendet.
 assessment#:#tst_general_properties#:#Einstellungen des Tests
 assessment#:#tst_heading_scoring#:#Bewertung
 assessment#:#tst_hide_side_list#:#Fragenliste aus
@@ -7351,7 +7351,7 @@ news#:#news_period_x_days#:#Letzte %s Tage
 news#:#news_period_x_months#:#Letzte %s Monate
 news#:#news_period_x_weeks#:#Letzte %s Wochen
 news#:#news_public_feed#:#Eigener Webfeed
-news#:#news_public_feed_info#:#Es wird ein RSS-Icon mit einer separaten Webfeed-URL angezeigt. 
+news#:#news_public_feed_info#:#Es wird ein RSS-Icon mit einer separaten Webfeed-URL angezeigt.
 news#:#news_rss_period#:#RSS-Zeitraum
 news#:#news_rss_title_format#:#RSS-Titelformat
 news#:#news_rss_title_format_news_obj#:#Nachrichtentitel (Objekttitel)
@@ -9087,7 +9087,7 @@ trac#:#trac_first_access#:#Erster Zugriff
 trac#:#trac_first_and_last_access#:#Erster und letzter Zugriff
 trac#:#trac_group_materials#:#Gruppierung mit optionalen Materialien erstellen
 trac#:#trac_group_materials_save#:#Anzahl verpflichtender Materialien speichern
-trac#:#trac_grouped_material_obligatory_err#:#Die Anzahl der obligatorischen Materialien muss größer als 0 sein und kleiner als die Anzahl der Materialien, die dieser Gruppierung zugeordnet sind. 
+trac#:#trac_grouped_material_obligatory_err#:#Die Anzahl der obligatorischen Materialien muss größer als 0 sein und kleiner als die Anzahl der Materialien, die dieser Gruppierung zugeordnet sind.
 trac#:#trac_hide#:#Ausblenden
 trac#:#trac_hide_selected#:#Ausgewählte Inhalte ausblenden
 trac#:#trac_in_progress#:#In Bearbeitung
@@ -10125,7 +10125,7 @@ ecs#:#ecs_cms_tree_synchronized#:#Der Baum wurde synchronisiert.
 rep#:#rep_activation_online_object_info#:#Diese Einstellung wirkt sich auf alle Referenzen im Repository aus.
 rep#:#rep_activation_access_ref_info#:#Dieses Einstellung betrifft nur die aktuelle und keine andere Referenz.
 poll#:#poll_block_results_available_on#:#Die Ergebnisse werden am %s veröffentlicht.
-survey#:#svy_activation_online_info#:#Nur wenn die Umfrage online ist, können Benutzer an der Umfrage teilnehmen. 
+survey#:#svy_activation_online_info#:#Nur wenn die Umfrage online ist, können Benutzer an der Umfrage teilnehmen.
 survey#:#svy_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird nur der Titel der Umfrage angezeigt, die Fragen sind nicht zugänglich.
 blog#:#blog_add_contributor#:#Mitwirkende hinzufügen
 common#:#il_blog_contributor#:#Blog-Autor
@@ -13369,6 +13369,7 @@ style#:#add_system_style#:#Neuer System Style
 style#:#add_substyle#:#Neuer Sub Style
 style#:#skin_id#:#Skin ID
 style#:#skin_name#:#Skin Name
+style#:#skin_version#:#Skin Version
 style#:#skin#:#Skin
 style#:#style_id#:#Style ID
 style#:#Style#:#Style
@@ -13445,6 +13446,7 @@ style#:#can_not_read_less_file#:#Less Datei kann nicht gelesen werden. Pfad:
 style#:#msg_sys_style_created#:#Die neue System Style Datei wurde erfolgreich erstellt.
 style#:#skin_id_description#:#Skins sind Behälter für Styles und Sub Styles. Die Skin ID setzt den Namen des Ordners, welcher alle Informationen zu Styles und Sub Styles beinhaltet. Die Skin ID darf sich nur aus Buchstaben, Nummern sowie Bindestrichen zusammensetzen.
 style#:#skin_name_description#:#Der Skin Name kann als Beschreibung für das Einsatzgebiet verwendet werden. Er wird in allen UI Elementen aufgelistet, in denen ein Skin ausgewählt werden kann.
+style#:#skin_version_description#:#Die Skin Version wird genutzt um die Styles, nach Änderungen, neu zu cachen. Sie wird automatisch aktualisiert.
 style#:#style_id_description#:#Die Style ID wird für Style-spezifische css- und less-Dateien unterhalb des Skin Ordners verwendet. Die Style ID darf sich nur aus Buchstaben, Nummern sowie Bindestrichen zusammensetzen.
 style#:#style_name_description#:#Der Style Name kann als Beschreibung für das Einsatzgebiet verwendet werden. Er wird in allen UI Elementen aufgelistet, in denen ein Skin ausgewählt werden kann.
 style#:#sub_style#:#Sub Style
@@ -13675,7 +13677,7 @@ chatroom#:#chat_osc_dont_accept_msg#:#Sie können aktuell von anderen Personen n
 chatroom#:#chat_osc_doesnt_accept_msg#:#Konversationen nicht möglich
 chatroom#:#chat_osc_subs_rej_msgs#:#Ihr Chat-Partner möchte zur Zeit keine Nachrichten empfangen. Er kann den Empfang von Chat-Nachrichten in seinen Chat-Einstellungen wieder aktivieren.
 chatroom#:#chat_osc_subs_rej_msgs_p#:#Die folgenden Konversationspartner möchten aktuell keine Nachrichten mehr empfangen: %s
-chatroom#:#chat_osc_self_rej_msgs#:#Sie können aktuell nicht an der Conversation teilnehmen, da Sie den Empfang von Chat-Nachrichten in Ihren Einstellungen aktuell unterdrückt haben. 
+chatroom#:#chat_osc_self_rej_msgs#:#Sie können aktuell nicht an der Conversation teilnehmen, da Sie den Empfang von Chat-Nachrichten in Ihren Einstellungen aktuell unterdrückt haben.
 usr#:#user_actions#:#Benutzeraktionen
 usr#:#user_action#:#Benuzteraktion
 chatroom#:#chtr_activation_online_info#:#Wählen Sie diese Einstellung, um den Chatraum für Benutzer verfügbar zumachen.

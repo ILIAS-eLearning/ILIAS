@@ -103,13 +103,16 @@ class ilImportExportFactory
 				return $class;
 			}
 
-			if(include_once "./".$a_component."/classes/class.".$class.".php")
+			if (is_file ("./".$a_component."/classes/class.".$class.".php"))
 			{
-				return $class;
+				if (include_once "./" . $a_component . "/classes/class." . $class . ".php")
+				{
+					return $class;
+				}
 			}
 		}
 			
-		throw new InvalidArgumentException('Invalid importer type given');
+		throw new InvalidArgumentException('Invalid importer type given: '."./" . $a_component . "/classes/class." . $class . ".php");
 	}
 }
 ?>

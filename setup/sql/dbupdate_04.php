@@ -21734,3 +21734,45 @@ foreach($tests as $testFi => $testQuestions)
 }
 
 ?>
+<#5251>
+<?php
+$set = $ilDB->query("
+  SELECT obj_id, title, description, role_id, usr_id FROM object_data
+  INNER JOIN role_data role ON role.role_id = object_data.obj_id
+  INNER JOIN rbac_ua on role.role_id = rol_id
+  WHERE title LIKE '%il_orgu_superior%' OR title LIKE '%il_orgu_employee%'
+");
+$assigns = [];
+$superior_position_id = ilOrgUnitPosition::getCorePositionId(ilOrgUnitPosition::CORE_POSITION_SUPERIOR);
+$employee_position_id = ilOrgUnitPosition::getCorePositionId(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
+
+while ($res = $ilDB->fetchAssoc($set)) {
+  $user_id = $res['usr_id'];
+  	
+  $tmp = explode("_", $res['title']);
+  $orgu_ref_id = (int) $tmp[3];
+  if ($orgu_ref_id == 0) {
+    //$ilLog->write("User $user_id could not be assigned to position. Role description does not contain object id of orgu. Skipping.");
+    continue;
+  }
+    
+  $tmp = explode("_", $res['title']); //il_orgu_[superior|employee]_[$ref_id]
+  $role_type = $tmp[2]; // [superior|employee]
+
+  if ($role_type == 'superior')
+    $position_id = $superior_position_id;
+  elseif ($role_type == 'employee')
+    $position_id = $employee_position_id;
+  else {
+    //$ilLog->write("User $user_id could not be assigned to position. Role type seems to be neither superior nor employee. Skipping.");
+    continue;
+  }
+  if(!ilOrgUnitUserAssignment::findOrCreateAssignment(
+				$user_id,
+				$position_id,
+				$orgu_ref_id)) {
+	  //$ilLog->write("User $user_id could not be assigned to position $position_id, in orgunit $orgu_ref_id . One of the ids might not actually exist in the db. Skipping.");
+	}
+}
+?>
+
