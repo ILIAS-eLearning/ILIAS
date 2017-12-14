@@ -19,64 +19,37 @@ interface TagInput extends Input, JavaScriptBindable {
 	const EVENT_BEFORE_ITEM_REMOVE = 'beforeItemRemove';
 	const EVENT_BEFORE_ITEM_ADD = 'beforeItemAdd';
 	const EVENT_ITEM_REMOVED = 'itemRemoved';
-	const QUERY_WILDCARD = 'query';
 
 
 	/**
-	 * Get an input like this, but with an url where available option to choose from can be loaded.
-	 *
-	 * The URL MUST return a json-encoded array of key => value pairs
-	 * such as [ 6 => 'root', 13 => 'anonymous' ], as JSON {"6":"root","13":"anonymous"}.
-	 *
-	 * The query will be appended to the $async_option_url as
-	 * GET parameter TagInput::QUERY_NAME (currently "query")
-	 *
-	 * @param string $option_provider_url
-	 *
-	 * @return \ILIAS\UI\Component\Input\Field\TagInput
-	 */
-	public function withOptionsProviderURL(string $option_provider_url): TagInput;
-
-
-	/**
-	 * @see withOptionsProviderURL
-	 * @return string
-	 */
-	public function getOptionsProviderURL(): string;
-
-
-	/**
-	 * @param array $options
-	 *
-	 * @return \ILIAS\UI\Component\Input\Field\TagInput
-	 */
-	public function withOptions(array $options): TagInput;
-
-
-	/**
-	 * @see withOptions
-	 * @return array of options such as [ 6 => 'root', 13 => 'anonymous' ]
+	 * @return array of options such as [ 'Interesting', 'Boring', 'Animating', 'Repetitious' ]
 	 */
 	public function getOptions(): array;
 
 
 	/**
+	 * Get an input like this, but decide whether the user can provide own
+	 * tags or not. (Default: Allowed)
+	 *
 	 * @param bool $extendable
 	 *
 	 * @return \ILIAS\UI\Component\Input\Field\TagInput
 	 */
-	public function withOptionsAreExtendable(bool $extendable): TagInput;
+	public function withTagsAreExtendable(bool $extendable): TagInput;
 
 
 	/**
-	 * @see withOptionsAreExtendable
+	 * @see withTagsAreExtendable
 	 * @return bool Whether the user is allowed to input more
 	 * options than the given.
 	 */
-	public function areOptionsExtendable(): bool;
+	public function areTagsExtendable(): bool;
 
 
 	/**
+	 * Get an input like this, but change the amount of characters the
+	 * user has to provide before the seggustions start (Default: 1)
+	 *
 	 * @param int $characters , defaults to 1
 	 *
 	 * @return \ILIAS\UI\Component\Input\Field\TagInput
@@ -85,16 +58,50 @@ interface TagInput extends Input, JavaScriptBindable {
 
 
 	/**
+	 * @see withSuggestionsStartAfter
 	 * @return int
 	 */
 	public function getSuggestionsStartAfter(): int;
+
+
+	/**
+	 * Get an input like this, but limit the amount of characters one tag can be. (Default: unlimited)
+	 *
+	 * @param int $max_length
+	 *
+	 * @return \ILIAS\UI\Component\Input\Field\TagInput
+	 */
+	public function withTagMaxLength(int $max_length): TagInput;
+
+
+	/**
+	 * @see withTagMaxLength
+	 * @return int
+	 */
+	public function getTagMaxLength(): int;
+
+
+	/**
+	 * Get an input like this, but limit the amount of tags a user can select or provide. (Default: unlimited)
+	 *
+	 * @param int $max_tags
+	 *
+	 * @return \ILIAS\UI\Component\Input\Field\TagInput
+	 */
+	public function withMaxTags(int $max_tags): TagInput;
+
+
+	/**
+	 * @see withMaxTags
+	 * @return int
+	 */
+	public function getMaxTags(): int;
+
 
 	// Events
 
 
 	/**
-	 * Option to add is passed in .item as key => value
-	 *
 	 * @param \ILIAS\UI\Component\Signal $signal
 	 *
 	 * @return \ILIAS\UI\Component\Input\Field\TagInput
@@ -103,8 +110,6 @@ interface TagInput extends Input, JavaScriptBindable {
 
 
 	/**
-	 * Option to add is passed in getOptions()['option'] as key => value
-	 *
 	 * @param \ILIAS\UI\Component\Signal $signal
 	 *
 	 * @return \ILIAS\UI\Component\Input\Field\TagInput
@@ -113,8 +118,6 @@ interface TagInput extends Input, JavaScriptBindable {
 
 
 	/**
-	 * Option to remove is passed in getOptions()['option'] as key => value
-	 *
 	 * @param \ILIAS\UI\Component\Signal $signal
 	 *
 	 * @return \ILIAS\UI\Component\Input\Field\TagInput
@@ -123,8 +126,6 @@ interface TagInput extends Input, JavaScriptBindable {
 
 
 	/**
-	 * Option to remove is passed in getOptions()['option'] as key => value
-	 *
 	 * @param \ILIAS\UI\Component\Signal $signal
 	 *
 	 * @return \ILIAS\UI\Component\Input\Field\TagInput

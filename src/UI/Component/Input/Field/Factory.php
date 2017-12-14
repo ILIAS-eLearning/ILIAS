@@ -212,29 +212,27 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     A TagInput is used to choose a subset amount of options out of a finite list
-	 *     of options. The TagInput is used whenever not all available options to choose from
-	 *     MUST or SHOULD be visible, e.g. because the amount is too high (such as all Usernames or a
-	 *     huge amount of Tags).
-	 *     By default, new Options whcih are not yet part of the List of given options, can't be
-	 *     submitted. This can be activated optionally (extendable).
+	 *     A TagInput is used to choose a subset amount of tags out of a finite list
+	 *     of tags. The TagInput is used whenever not all available tags to choose from
+	 *     MUST or SHOULD be visible, e.g. because the amount is too high.
+	 *     Besides the tags to choose from, the user can provide own tags by typing them
+	 *     into the Input
 	 *   composition: >
-	 *     The Input is presented as a TextInput and prepended by already selected Options presented
-	 *     as tags with a Close-Button. The input is labeled by the $label given.
-	 *     Already selected Options are represented as Tags, a Tag contains the text-representation of
-	 *     the Option followed by a Close-button (e.g. [ Amsterdam X ] ).
-	 *     Suggested Options are listed in a Dropdown-List beneath the Textinput.
+	 *     The Input is presented as a TextInput and prepended by already selected tags
+	 *     presented as texts including a Close-Button.  (e.g. [ Amsterdam X ] )
+	 *     The input is labeled by the $label given.
+	 *     Suggested tags are listed in a Dropdown-List beneath the TextInput.
 	 *   effect: >
-	 *     As soon as the user types in the Textfield, the TagInput suggests matching Options from
-	 *     the a "local" or a "remote" list of Options (data-sources). Suggestions will appear after a defined
+	 *     As soon as the user types in the TextInput, the TagInput suggests matching tags from
+	 *     the the given list of tags. Suggestions will appear after a defined
 	 *     amount of characters, one by default.
-	 *     Clicking on one of these options closes the List and transfers the selected option into
+	 *     Clicking on one of these tags closes the List and transfers the selected tag into
 	 *     the Input, displayed as a Tag with a Close-Button.
-	 *     By clicking on a Close-Button of a already selected Option, this Option will disappear
+	 *     By clicking on a Close-Button of a already selected tag, this tag will disappear
 	 *     from the Input.
-	 *     If no data-sources are provided, no suggestions will be provided.
-	 *   rivals:
-	 *      Select: SelectInput, currently not part of the UI-Service.
+	 *
+	 * rivals: >
+	 *   SelectInput: Currently not part of the UI-Service.
 	 *
 	 * rules:
 	 *   usage:
@@ -246,20 +244,21 @@ interface Factory {
 	 *      options where only one Option has to be selected. A Select MUST be used in this case
 	 *      (Not yet part of the KitchenSink).
 	 *     3: >
-	 *      If no data-sources are provided, the TagInput MUST be extendable.
+	 *      A TagInput MUST be used whenever a User should be able to extend the list of given options.
 	 *     4: >
-	 *      If data-sources are provided, suggestions must start after the User types in an amount
-	 *      of characters between 1 and 3.
+	 *      A TagInput MUST NOT be used when a User has to choose from a finite list of options
+	 *      which can't be extended by users Input, a MultiSelect MUST be used in this case
+	 *      (Not yet part of the KitchenSink).
 	 *   wording:
-	 *     1: The Options provided MUST NOT have long titles.
+	 *     1: The tags provided MUST NOT have long titles.
 	 *
 	 * ---
 	 * @param string $label
 	 * @param string $byline
-	 * @param array  $options List of Options to select from, given in pairs with identifier and Label
-	 *                        such as [ 6 => 'root', 13 => 'anonymous' ]
+	 * @param array  $options List of tags to select from, given as a list of texts
+	 *                        such as [ 'Interesting', 'Boring', 'Animating', 'Repetitious' ]
 	 *
 	 * @return    \ILIAS\UI\Component\Input\Field\TagInput
 	 */
-	public function tagInput(string $label, $byline = null);
+	public function tagInput(string $label, $byline = null, array $options);
 }
