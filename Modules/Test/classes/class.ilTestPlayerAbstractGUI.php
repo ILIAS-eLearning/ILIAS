@@ -234,7 +234,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-	protected function populateQuestionNavigation($sequenceElement, $disabled)
+	protected function populateQuestionNavigation($sequenceElement, $disabled, $primaryNext)
 	{
 		if( !$this->isFirstQuestionInSequence($sequenceElement) )
 		{
@@ -243,7 +243,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 		if( !$this->isLastQuestionInSequence($sequenceElement) )
 		{
-			$this->populateNextButtons($disabled);
+			$this->populateNextButtons($disabled, $primaryNext);
 		}
 	}
 
@@ -253,15 +253,15 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->populateLowerPreviousButtonBlock($disabled);
 	}
 	
-	protected function populateNextButtons($disabled)
+	protected function populateNextButtons($disabled, $primaryNext)
 	{
-		$this->populateUpperNextButtonBlock($disabled);
-		$this->populateLowerNextButtonBlock($disabled);
+		$this->populateUpperNextButtonBlock($disabled, $primaryNext);
+		$this->populateLowerNextButtonBlock($disabled, $primaryNext);
 	}
 
-	protected function populateLowerNextButtonBlock($disabled)
+	protected function populateLowerNextButtonBlock($disabled, $primaryNext)
 	{
-		$button = $this->buildNextButtonInstance($disabled);
+		$button = $this->buildNextButtonInstance($disabled, $primaryNext);
 		$button->setId('bottomnextbutton');
 
 		$this->tpl->setCurrentBlock( "next_bottom" );
@@ -269,9 +269,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-	protected function populateUpperNextButtonBlock($disabled)
+	protected function populateUpperNextButtonBlock($disabled, $primaryNext)
 	{
-		$button = $this->buildNextButtonInstance($disabled);
+		$button = $this->buildNextButtonInstance($disabled, $primaryNext);
 		$button->setId('nextbutton');
 
 		$this->tpl->setCurrentBlock( "next" );
@@ -298,19 +298,17 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("BTN_PREV", $button->render());
 		$this->tpl->parseCurrentBlock();
 	}
-
+	
 	/**
-	 * @param $disabled
-	 * @return ilTestPlayerNavButton
+	 * @param bool $disabled
+	 * @param bool $primaryNext
+	 * @return ilButtonBase|ilLinkButton|ilTestPlayerNavButton
 	 */
-	private function buildNextButtonInstance($disabled)
+	private function buildNextButtonInstance($disabled, $primaryNext)
 	{
 		$button = ilTestPlayerNavButton::getInstance();
 // fau: testNav - set glyphicon and primary
-		if (!$this->object->isForceInstantFeedbackEnabled())
-		{
-			$button->setPrimary(true);
-		}
+		$button->setPrimary($primaryNext);
 		$button->setRightGlyph('glyphicon glyphicon-arrow-right');
 // fau.
 		$button->setNextCommand(ilTestPlayerCommands::NEXT_QUESTION);
