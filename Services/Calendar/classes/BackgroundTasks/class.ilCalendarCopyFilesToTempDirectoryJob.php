@@ -151,7 +151,7 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
 	/**
 	 * @inheritdoc
 	 */
-	public function getExpectedTimeOfTaksInSeconds() {
+	public function getExpectedTimeOfTaskInSeconds() {
 		return 30;
 	}
 }
