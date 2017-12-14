@@ -13,6 +13,7 @@ use ILIAS\Data\Result;
  * processing of data from the client.
  */
 interface InputInternal {
+
 	/**
 	 * The name of the input as used in HTML.
 	 *
@@ -20,26 +21,31 @@ interface InputInternal {
 	 */
 	public function getName();
 
+
 	/**
 	 * Get an input like this one, with a different name.
 	 *
-	 * @param	NameSource $source
-	 * @return	Input
+	 * @param    NameSource $source
+	 *
+	 * @return    Input
 	 */
 	public function withNameFrom(NameSource $source);
+
 
 	/**
 	 * Get an input like this with input from post data.
 	 *
-	 * @param	PostData	$input
-	 * @return	Input
+	 * @param    PostData $input
+	 *
+	 * @return    Input
 	 */
 	public function withInput(PostData $input);
+
 
 	/**
 	 * Get the current content of the input.
 	 *
-	 * @return	Result|null
+	 * @return    Result|null
 	 */
 	public function getContent();
 }

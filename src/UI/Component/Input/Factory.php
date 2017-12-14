@@ -8,6 +8,7 @@ namespace ILIAS\UI\Component\Input;
  * This is how a factory for inputs looks like.
  */
 interface Factory {
+
 	/**
 	 * ---
 	 * description:
@@ -92,9 +93,10 @@ interface Factory {
 	 *
 	 * ---
 	 *
-	 * @return	\ILIAS\UI\Component\Input\Field\Factory
+	 * @return    \ILIAS\UI\Component\Input\Field\Factory
 	 */
 	public function field();
+
 
 	/**
 	 * ---
@@ -114,7 +116,7 @@ interface Factory {
 	 *
 	 * ---
 	 *
-	 * @return	\ILIAS\UI\Component\Input\Container\Factory
+	 * @return    \ILIAS\UI\Component\Input\Container\Factory
 	 */
 	public function container();
 }

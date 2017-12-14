@@ -8,6 +8,7 @@ namespace ILIAS\UI\Component\Input\Container\Form;
  * This is how a factory for forms looks like.
  */
 interface Factory {
+
 	/**
 	 * ---
 	 * description:
@@ -44,9 +45,10 @@ interface Factory {
 	 *
 	 * ---
 	 *
-	 * @param	string	$post_url
-	 * @param	array<mixed,\ILIAS\UI\Component\Input\Input>	$inputs
-	 * @return	\ILIAS\UI\Component\Input\Container\Form\Standard
+	 * @param    string $post_url
+	 * @param    array<mixed,\ILIAS\UI\Component\Input\Input>    $inputs
+	 *
+	 * @return    \ILIAS\UI\Component\Input\Container\Form\Standard
 	 */
 	public function standard($post_url, array $inputs);
 }

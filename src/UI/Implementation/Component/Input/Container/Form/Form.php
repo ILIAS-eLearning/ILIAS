@@ -17,28 +17,27 @@ use Psr\Http\Message\ServerRequestInterface;
  * This implements commonalities between all forms.
  */
 abstract class Form implements C\Input\Container\Form\Form, CI\Input\NameSource {
+
 	use ComponentHelper;
-
 	/**
-	 * @var	C\Input\Field\Group
-     */
+	 * @var    C\Input\Field\Group
+	 */
 	protected $input_group;
-
 	/**
 	 * @var Transformation|null
 	 */
 	protected $transformation;
-
 	/**
 	 * For the implementation of NameSource.
 	 *
-	 * @var	int
+	 * @var    int
 	 */
 	private $count = 0;
 
-    /**
-     * @param array $inputs
-     */
+
+	/**
+	 * @param array $inputs
+	 */
 	public function __construct(array $inputs) {
 		$classes = [CI\Input\Field\Input::class];
 		$this->checkArgListElements("input", $inputs, $classes);
@@ -47,6 +46,7 @@ abstract class Form implements C\Input\Container\Form\Form, CI\Input\NameSource 
 		$this->transformation = null;
 	}
 
+
 	/**
 	 * @inheritdocs
 	 */
@@ -54,12 +54,14 @@ abstract class Form implements C\Input\Container\Form\Form, CI\Input\NameSource 
 		return $this->getInputGroup()->getInputs();
 	}
 
+
 	/**
 	 * @inheritdocs
 	 */
 	public function getInputGroup() {
 		return $this->input_group;
 	}
+
 
 	/**
 	 * @inheritdocs
@@ -76,14 +78,17 @@ abstract class Form implements C\Input\Container\Form\Form, CI\Input\NameSource 
 		return $clone;
 	}
 
+
 	/**
 	 * @inheritdocs
 	 */
 	public function withAdditionalTransformation(Transformation $trafo) {
 		$clone = clone $this;
 		$clone->input_group = $clone->getInputGroup()->withAdditionalTransformation($trafo);
+
 		return $clone;
 	}
+
 
 	/**
 	 * @inheritdocs
@@ -93,36 +98,43 @@ abstract class Form implements C\Input\Container\Form\Form, CI\Input\NameSource 
 		if (!$content->isok()) {
 			return null;
 		}
+
 		return $content->value();
 	}
+
 
 	/**
 	 * Check the request for sanity.
 	 *
 	 * TODO: implement me!
 	 *
-	 * @param	ServerRequestInterface	$request
-	 * @return	bool
+	 * @param    ServerRequestInterface $request
+	 *
+	 * @return    bool
 	 */
 	protected function isSanePostRequest(ServerRequestInterface $request) {
 		return true;
 	}
 
+
 	/**
 	 * Extract post data from request.
 	 *
-	 * @param	ServerRequestInterface	$request
-	 * @return	PostData
+	 * @param    ServerRequestInterface $request
+	 *
+	 * @return    PostData
 	 */
 	protected function extractPostData(ServerRequestInterface $request) {
 		return new PostDataFromServerRequest($request);
 	}
+
 
 	// Implementation of NameSource
 
 	public function getNewName() {
 		$name = "form_input_{$this->count}";
 		$this->count++;
+
 		return $name;
 	}
 }
