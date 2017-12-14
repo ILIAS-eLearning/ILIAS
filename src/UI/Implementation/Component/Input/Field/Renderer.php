@@ -278,10 +278,10 @@ class Renderer extends AbstractComponentRenderer {
 
 					return "il.UI.Input.tagInput.init('{$id}', {$encoded});";
 				});
+				$id = $this->bindJavaScript($input);
 				/**
 				 * @var $input \ILIAS\UI\Implementation\Component\Input\Field\TagInput
 				 */
-				$id = $this->bindJavaScript($input);
 				$tpl->setVariable("ID", $id);
 				$tpl->setVariable("NAME", $input->getName());
 

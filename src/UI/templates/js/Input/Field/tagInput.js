@@ -12,116 +12,101 @@ il.UI.Input = il.UI.Input || {};
     il.UI.Input.tagInput = (function ($) {
         var _DEBUG = false;
         var _CONFIG = {
+            id: '',
             options: [],
             selected_options: [],
-            options_provider_url: '',
             extendable: false,
             suggestion_starts: 1,
             max_chars: 2000,
             suggestion_limit: 50,
             debug: _DEBUG,
-            query_wildcard: "%query",
             allow_duplicates: false,
             highlight: true,
             hint: true,
             tag_class: "label label-primary"
         };
-        var _BLOODHOUND_DEFAULT = {
-            datumTokenizer: function (d) {
-                return Bloodhound.tokenizers.obj.whitespace('name');
-            },
-            queryTokenizer: function (d) {
-                return Bloodhound.tokenizers.whitespace;
-            },
-            identify: function (obj) {
-                return obj.id;
-            }
-        };
-        var _SOURCE_DEFAULT = {
-            name: '',
-            source: null,
-            displayKey: 'name'
-        };
+
 
         var _initData = function () {
-            var data_sources = [];
-            if (_CONFIG.options_provider_url.length > 0) {
-                var bhRemoteConfig = Object.assign({}, _BLOODHOUND_DEFAULT);
-                bhRemoteConfig.remote = {
-                    url: _CONFIG.options_provider_url,
-                    wildcard: _CONFIG.query_wildcard
-                };
+            // var bhLocalConfig = Object.assign({}, _BLOODHOUND_DEFAULT);
+            // bhLocalConfig.local = _CONFIG.options;
+            //
+            // var bhLocal = new Bloodhound(bhLocalConfig);
+            // bhLocal.initialize();
+            //
+            // var localSource = Object.assign({}, _SOURCE_DEFAULT);
+            // localSource.name = 'local';
+            // localSource.source = bhLocal.ttAdapter();
+            //
+            // return localSource
 
-                var bhRemote = new Bloodhound(bhRemoteConfig);
-                bhRemote.initialize();
 
-                var remoteSource = Object.assign({}, _SOURCE_DEFAULT);
-                remoteSource.name = 'remote';
-                remoteSource.source = bhRemote.ttAdapter();
+            var bloodHoundObj = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.whitespace,
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                // url points to a json file that contains an array of country names, see
+                // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
+                local: _CONFIG.options
+            });
+            bloodHoundObj.initialize();
 
-                data_sources.push(remoteSource);
-            }
-
-            var bhLocalConfig = Object.assign({}, _BLOODHOUND_DEFAULT);
-            bhLocalConfig.local = [{name: "Fschmid"}, {name: "anonymous"}, {name: "root"}];
-
-            var bhLocal = new Bloodhound(bhLocalConfig);
-            bhLocal.initialize();
-
-            var localSource = Object.assign({}, _SOURCE_DEFAULT);
-            localSource.name = 'local';
-            localSource.source = bhLocal.ttAdapter();
-            data_sources.push(localSource);
-
-            return data_sources
+            return bloodHoundObj;
         };
 
         /**
          *
-         * @param id
+         * @param raw_id
          * @param config
          */
-        var init = function (id, config) {
+        var init = function (raw_id, config) {
+            _log('raw_id', raw_id);
             // Initialize ID and Configuration
-            id = '#' + id;
+            var id = '#' + raw_id;
             _CONFIG = $.extend(
                 _CONFIG
                 , config);
             _DEBUG = _CONFIG.debug;
+            _CONFIG.id = raw_id;
             _log("config", _CONFIG);
 
             // Bloodhound
-            var data_sources = _initData();
-            _log('datasources', data_sources);
+            var localSource = _initData();
+            _log('datasources', localSource);
 
             // TagInput
             $(id).tagsinput({
                 tagClass: _CONFIG.tag_class,
-                cancelConfirmKeysOnEmpty: true,
+                cancelConfirmKeysOnEmpty: false,
                 maxChars: _CONFIG.max_chars,
                 allowDuplicates: _CONFIG.allow_duplicates,
-                itemValue: 'id',
-                itemText: 'name',
                 trimValue: true,
                 freeInput: _CONFIG.extendable,
-                typeaheadjs: [{
+                typeaheadjs: {
+                    name: 'local',
                     minLength: _CONFIG.suggestion_starts,
                     highlight: _CONFIG.highlight,
                     hint: _CONFIG.hint,
-                    limit: _CONFIG.suggestion_limit
-                }, data_sources]
+                    limit: _CONFIG.suggestion_limit,
+                    source: localSource.ttAdapter()
+                }
             });
 
             // Hooks
             $(id).on('beforeItemAdd', function (event) {
-                // if (!event.item.hasOwnProperty('id')) {
-                //     event.item = {id: 9999, name: event.item};
-                // }
-                // _CONFIG.options.push(event.item);
-                // bhLocal.initialize();
-                // console._log(event.item.id);
                 _log("item", event.item);
-                // _log("Index", bloodhound.index);
+            });
+            $(id).on('itemAdded', function (event) {
+                _log("Added Item", event.item);
+                var hidden = $('#hidden-' + _CONFIG.id);
+                var val = hidden.val();
+                var items = [];
+                try {
+                    items = JSON.parse(val);
+                } catch (e) {
+                }
+                items.push(event.item);
+                _log('Items', items);
+                hidden.val(JSON.stringify(items));
             });
 
         };
