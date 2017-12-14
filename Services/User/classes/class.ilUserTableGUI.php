@@ -33,7 +33,7 @@ class ilUserTableGUI extends ilTable2GUI
 		global $ilCtrl, $lng, $ilAccess, $lng, $rbacsystem;
 		
 		$this->user_folder_id = $a_parent_obj->object->getRefId();
-		
+
 		$this->setMode($a_mode);
 		$this->setId("user".$this->getUserFolderId());
 		$this->readUserDefinedFieldsDefinitions();
@@ -67,6 +67,7 @@ class ilUserTableGUI extends ilTable2GUI
 		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);
 		$this->setEnableHeader(true);
+
 		$this->setFormAction($ilCtrl->getFormAction($this->parent_obj, "applyFilter"));
 		$this->setRowTemplate("tpl.user_list_row.html", "Services/User");
 		//$this->disable("footer");
@@ -273,10 +274,8 @@ class ilUserTableGUI extends ilTable2GUI
 	function getItems()
 	{
 		global $lng;
-//if ($GLOBALS["kk"]++ == 1) nj();
 
 		$this->determineOffsetAndOrder();
-		
 		if($this->getMode() == self::MODE_USER_FOLDER)
 		{
 			// All accessible users
@@ -343,10 +342,8 @@ class ilUserTableGUI extends ilTable2GUI
 		$query->setUdfFilter($udf_filter);
 		$query->setFirstLetterLastname(ilUtil::stripSlashes($_GET['letter']));
 		$query->setAuthenticationFilter($this->filter['authentication']);
-		
 		$usr_data = $query->query();
-		
-			
+
 		if (count($usr_data["set"]) == 0 && $this->getOffset() > 0)
 		{
 			$this->resetOffset();
@@ -417,8 +414,9 @@ class ilUserTableGUI extends ilTable2GUI
 		
 		include_once("./Services/User/classes/class.ilUserQuery.php");
 		$query = new ilUserQuery();		
-		$query->setOffset(0);
-		$query->setLimit(self::getAllCommandLimit());
+		$query->setOffset($this->getOffset());
+		$query->setLimit($this->getLimit());
+
 		$query->setTextFilter($this->filter['query']);
 		$query->setActionFilter($this->filter['activation']);
 		$query->setAuthenticationFilter($this->filter['authentication']);
@@ -438,8 +436,8 @@ class ilUserTableGUI extends ilTable2GUI
 		}
 		
 		$usr_data = $query->query();
-		
 		$user_ids = array();
+
 		foreach($usr_data["set"] as $item)
 		{
 			// #11632
@@ -743,7 +741,7 @@ class ilUserTableGUI extends ilTable2GUI
 			
 			$this->tpl->parseCurrentBlock();
 		}
-		
+
 		if ($user["usr_id"] != 6)
 		{
 			if($this->getMode() == self::MODE_USER_FOLDER or $user['time_limit_owner'] == $this->getUserFolderId())
@@ -753,7 +751,7 @@ class ilUserTableGUI extends ilTable2GUI
 				$this->tpl->parseCurrentBlock();
 			}
 		}
-		
+
 		if($this->getMode() == self::MODE_USER_FOLDER or $user['time_limit_owner'] == $this->getUserFolderId())
 		{
 			$this->tpl->setVariable("VAL_LOGIN", $user["login"]);

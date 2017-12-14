@@ -253,13 +253,15 @@ class ilObjStudyProgrammeMembersGUI {
 		$assignments = $this->_addUsers($users);
 
 		$completed_programmes = $_POST["courses"];
-		foreach ($completed_programmes as $user_id => $prg_ref_ids) {
-			$ass_id = $assignments[$user_id]->getId();
-			foreach ($prg_ref_ids as $ids) {
-				list($prg_ref_id, $crs_id, $crsr_id) = explode(";", $ids);
-				$prg = $this->getStudyProgramme($prg_ref_id);
-				$progress = $prg->getProgressForAssignment($ass_id);
-				$progress->setLPCompleted($crsr_id, $user_id);
+		if (is_array($completed_programmes)) {
+			foreach ($completed_programmes as $user_id => $prg_ref_ids) {
+				$ass_id = $assignments[$user_id]->getId();
+				foreach ($prg_ref_ids as $ids) {
+					list($prg_ref_id, $crs_id, $crsr_id) = explode(";", $ids);
+					$prg = $this->getStudyProgramme($prg_ref_id);
+					$progress = $prg->getProgressForAssignment($ass_id);
+					$progress->setLPCompleted($crsr_id, $user_id);
+				}
 			}
 		}
 
@@ -385,7 +387,9 @@ class ilObjStudyProgrammeMembersGUI {
 	{
 		$prgrs_ids = $this->getPostPrgsIds();
 		foreach ($prgrs_ids as $key => $prgrs_id) {
-			$this->unmarkAccreditedByProgressId((int)$prgrs_id);
+			if ($this->getProgressObject((int)$prgrs_id)->getStatus() == ilStudyProgrammeProgress::STATUS_ACCREDITED) {
+				$this->unmarkAccreditedByProgressId((int)$prgrs_id);
+			}
 		}
 		$this->showSuccessMessage("unmark_accredited_multi_success");
 		$this->ctrl->redirect($this, "view");
@@ -402,6 +406,12 @@ class ilObjStudyProgrammeMembersGUI {
 
 		foreach ($prgrs_ids as $key => $prgrs_id) {
 			$prgrs = $this->getProgressObject((int)$prgrs_id);
+			if (
+				$this->getProgressObject((int)$prgrs_id)->getStatus() == ilStudyProgrammeProgress::STATUS_IN_PROGRESS ||
+				$this->getProgressObject((int)$prgrs_id)->getStatus() == ilStudyProgrammeProgress::STATUS_ACCREDITED
+			) {
+				continue;
+			}
 			$prgrs->markRelevant($this->user->getId());
 		}
 

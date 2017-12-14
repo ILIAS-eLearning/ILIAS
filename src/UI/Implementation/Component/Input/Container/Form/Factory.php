@@ -7,6 +7,7 @@ namespace ILIAS\UI\Implementation\Component\Input\Container\Form;
 use ILIAS\UI\Component\Input\Container\Form as F;
 
 class Factory implements F\Factory {
+
 	/**
 	 * @inheritdoc
 	 */

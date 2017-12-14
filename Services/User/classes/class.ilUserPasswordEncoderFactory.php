@@ -46,27 +46,17 @@ class ilUserPasswordEncoderFactory
 	 */
 	protected function initEncoders(array $config)
 	{
-		$encoder_directory = 'Services/Password/classes/encoders';
-		foreach(new DirectoryIterator($encoder_directory) as $file)
-		{
-			/**
-			 * @var $file SplFileInfo
-			 */
-			if($file->isDir())
-			{
-				continue;
-			}
+		$this->encoders = [];
 
-			require_once $file->getPathname();
-			$class_name = preg_replace('/(class\.)(.*?)(\.php)/', '$2', $file->getBasename());
-			if(class_exists($class_name))
-			{
-				$reflection = new ReflectionClass($class_name);
-				$encoder    = $reflection->newInstanceArgs(array($config));
-				if($encoder instanceof ilPasswordEncoder && $encoder->isSupportedByRuntime())
-				{
-					$this->encoders[$encoder->getName()] = $encoder;
-				}
+		$encoders = [
+			new ilBcryptPhpPasswordEncoder($config),
+			new ilBcryptPasswordEncoder($config),
+			new ilMd5PasswordEncoder($config),
+		];
+
+		foreach ($encoders as $encoder) {
+			if ($encoder->isSupportedByRuntime()) {
+				$this->encoders[$encoder->getName()] = $encoder;
 			}
 		}
 	}

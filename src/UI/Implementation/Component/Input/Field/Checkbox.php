@@ -18,37 +18,46 @@ use ILIAS\UI\Implementation\Component\Input\PostData;
  * attached dependant groups.
  */
 class Checkbox extends Group implements C\Input\Field\Checkbox, C\Changeable, C\Onloadable {
+
 	use JavaScriptBindable;
 	use Triggerer;
-
 	/**
 	 * @var C\Input\Field\DependantGroup|null
 	 */
 	protected $dependant_group = null;
 
+
 	/**
 	 * Checkbox constructor.
-	 * @param DataFactory $data_factory
-	 * @param ValidationFactory $validation_factory
+	 *
+	 * @param DataFactory           $data_factory
+	 * @param ValidationFactory     $validation_factory
 	 * @param TransformationFactory $transformation_factory
-	 * @param $label
-	 * @param $byline
+	 * @param                       $label
+	 * @param                       $byline
 	 */
-	public function __construct(DataFactory $data_factory, ValidationFactory $validation_factory, TransformationFactory $transformation_factory, $label, $byline) {
+	public function __construct(
+		DataFactory $data_factory,
+		ValidationFactory $validation_factory,
+		TransformationFactory $transformation_factory,
+		$label,
+		$byline
+	) {
 		parent::__construct($data_factory, $validation_factory, $transformation_factory, [], $label, $byline);
 	}
+
 
 	/**
 	 * @inheritdoc
 	 */
 	protected function isClientSideValueOk($value) {
-		if($value == "checked" || $value === ""){
+		if ($value == "checked" || $value === "") {
 			return true;
-		}else{
+		} else {
 			return false;
 		}
-
 	}
+
 
 	/**
 	 * @inheritdoc
@@ -56,13 +65,17 @@ class Checkbox extends Group implements C\Input\Field\Checkbox, C\Changeable, C\
 	 */
 	public function withValue($value) {
 		//be lenient to bool params for easier use
-		if($value === true){
+		if ($value === true) {
 			$value = "checked";
-		}else if($value ===false){
-			$value = "";
+		} else {
+			if ($value === false) {
+				$value = "";
+			}
 		}
+
 		return parent::withValue($value);
 	}
+
 
 	/**
 	 * @inheritdoc
@@ -72,11 +85,11 @@ class Checkbox extends Group implements C\Input\Field\Checkbox, C\Changeable, C\
 			throw new \LogicException("Can only collect if input has a name.");
 		}
 
-		$value = $post_input->getOr($this->getName(),"");
+		$value = $post_input->getOr($this->getName(), "");
 		$clone = $this->withValue($value);
 		$clone->content = $this->applyOperationsTo($value);
 		if ($clone->content->isError()) {
-			return $clone->withError("".$clone->content->error());
+			return $clone->withError("" . $clone->content->error());
 		}
 
 		$clone = $clone->withGroupInput($post_input);
@@ -84,33 +97,36 @@ class Checkbox extends Group implements C\Input\Field\Checkbox, C\Changeable, C\
 		return $clone;
 	}
 
+
 	/**
 	 * @inheritdoc
 	 */
-	public function withDependantGroup(C\Input\Field\DependantGroup $dependant_group){
+	public function withDependantGroup(C\Input\Field\DependantGroup $dependant_group) {
 		$clone = clone $this;
 		/**
-		 * @var $clone Checkbox
+		 * @var $clone           Checkbox
 		 * @var $dependant_group DependantGroup
 		 */
 		$clone = $clone->withOnChange($dependant_group->getToggleSignal());
 		$clone = $clone->appendOnLoad($dependant_group->getInitSignal());
 
 		$clone->inputs["dependant_group"] = $dependant_group;
+
 		return $clone;
 	}
+
 
 	/**
 	 * @return C\Input\Field\DependantGroup|null
 	 */
-	public function getDependantGroup(){
-		if(is_array($this->inputs)){
+	public function getDependantGroup() {
+		if (is_array($this->inputs)) {
 			return $this->inputs["dependant_group"];
-		}else{
+		} else {
 			return null;
 		}
-
 	}
+
 
 	/**
 	 * @inheritdoc
@@ -119,6 +135,7 @@ class Checkbox extends Group implements C\Input\Field\Checkbox, C\Changeable, C\
 		return $this->addTriggeredSignal($signal, 'change');
 	}
 
+
 	/**
 	 * @inheritdoc
 	 */
@@ -126,12 +143,14 @@ class Checkbox extends Group implements C\Input\Field\Checkbox, C\Changeable, C\
 		return $this->appendTriggeredSignal($signal, 'change');
 	}
 
+
 	/**
 	 * @inheritdoc
 	 */
 	public function withOnLoad(C\Signal $signal) {
 		return $this->addTriggeredSignal($signal, 'load');
 	}
+
 
 	/**
 	 * @inheritdoc

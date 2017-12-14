@@ -13,10 +13,12 @@ define ("IL_NO_HEADER", "none");
  */
 
 /*
-	@todo 1
-	
-	- All PC types could be defined in service/module xml. (done)
-	-- type, class, directory  (done)
+
+	- move dom related code to PageDom class/interface
+	- move ilDB dependency to ar object
+	- move internal links related code to extra class
+	- make factory available through DIC, opt allow decentralized factory parts
+	- PC types
 	-- internal links used/implemented?
 	-- styles used/implemented?
 	- application classes need
@@ -25,7 +27,7 @@ define ("IL_NO_HEADER", "none");
 	    esp. plugins should use this
 	-- remove content element hook, if content is not allowed
 	- PC types could move to components (e.g. blog, login)
-	- Problem: How to modularize xsl?
+	- How to modularize xsl?
 	-- read from db?
 	-- xml entries say that xslt code is used -> read file and include in
 	   main xslt file
@@ -392,7 +394,7 @@ abstract class ilPageObject
 		{
 			include_once("./Services/COPage/exceptions/class.ilCOPageNotFoundException.php");
 			throw new ilCOPageNotFoundException("Error: Page ".$this->id." is not in database".
-				" (parent type ".$this->getParentType().").");
+				" (parent type ".$this->getParentType().", lang: ".$this->getLanguage().").");
 		}
 
 		$this->xml = $this->page_record["content"];

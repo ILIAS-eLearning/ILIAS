@@ -13,8 +13,8 @@
 		margin-bottom: 0px;
 	}
 	.card-highlight {
-		background-color: @brand-warning;
-		height: 3px;
+		background: @il-card-highlight-bg;
+		height: @il-card-highlight-height;
 		width: 100%;
 	}
 	.card-no-highlight {
@@ -32,6 +32,14 @@
 			border-top: 1px solid @panel-inner-border;
 		}
 
+		dl{
+			dt{
+				font-weight: normal;
+				color: @il-light-text-color;
+				font-size: @font-size-small;
+				padding-top: @padding-large-vertical;
+			}
+		}
 	}
 }
 
@@ -39,7 +47,7 @@
 	background-color: @il-secondary-container-bg;
 }
 
-@media (min-width: @screen-md-min) {
+@media (min-width: @screen-sm-min) {
 	.row-eq-height {
 		.il-card {
 			display: flex;

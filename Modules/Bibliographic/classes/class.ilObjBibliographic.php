@@ -331,7 +331,7 @@ class ilObjBibliographic extends ilObject2 {
 	 *              = new ilObjDataCollection;
 	 *              $x->cloneStructure($id))
 	 *
-	 * @param $original_id The original ID of the dataselection you want to clone it's structure
+	 * @param int $original_id The original ID of the dataselection you want to clone it's structure
 	 *
 	 * @return void
 	 */

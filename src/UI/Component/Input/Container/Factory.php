@@ -8,6 +8,7 @@ namespace ILIAS\UI\Component\Input\Container;
  * This is what a factory for input containers looks like.
  */
 interface Factory {
+
 	/**
 	 * ---
 	 * description:
@@ -22,10 +23,10 @@ interface Factory {
 	 *      filter: >
 	 *          Filters are used to limit search results; they never modify data in
 	 *          the system.
-	 *        
+	 *
 	 *
 	 * ---
 	 * @return  \ILIAS\UI\Component\Input\Container\Form\Factory
 	 */
-    public function form();
+	public function form();
 }

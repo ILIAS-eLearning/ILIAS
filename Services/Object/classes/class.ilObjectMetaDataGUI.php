@@ -350,7 +350,7 @@ class ilObjectMetaDataGUI
 			$link = $ilCtrl->getLinkTargetByClass($path, "listSection");
 		}
 		else if($this->isAdvMDAvailable())
-		{	
+		{
 			if($this->canEdit())
 			{
 				$link = $ilCtrl->getLinkTarget($this, "edit");
@@ -360,7 +360,12 @@ class ilObjectMetaDataGUI
 				$path[] = "iladvancedmdsettingsgui";
 				$link = $ilCtrl->getLinkTargetByClass($path, "showRecords");
 			}	
-		}		
+		}
+		if ($link == null && is_object($this->tax_obj_gui))		// taxonomy definition available?
+		{
+			$path[] = "ilobjtaxonomygui";
+			$link = $ilCtrl->getLinkTargetByClass($path, "");
+		}
 		return $link;
 	}
 
@@ -507,7 +512,7 @@ class ilObjectMetaDataGUI
 		foreach(ilAdvancedMDRecord::_getSelectedRecordsByObject($this->obj_type, $this->ref_id, $this->sub_type) as $record)			
 		{				
 			$block = new ilObjectMetaDataBlockGUI($record, $a_callback);
-			$block->setValues(new ilAdvancedMDValues($record->getRecordId(), $this->ref_id, $this->sub_type, $this->sub_id));			
+			$block->setValues(new ilAdvancedMDValues($record->getRecordId(), $this->obj_id, $this->sub_type, $this->sub_id));			
 			if($a_cmds)
 			{
 				foreach($a_cmds as $caption => $url)
@@ -539,7 +544,7 @@ class ilObjectMetaDataGUI
 		include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php";
 		foreach(ilAdvancedMDRecord::_getSelectedRecordsByObject($this->obj_type, $this->ref_id, $this->sub_type) as $record)
 		{
-			$vals = new ilAdvancedMDValues($record->getRecordId(), $this->ref_id, $this->sub_type, $this->sub_id);
+			$vals = new ilAdvancedMDValues($record->getRecordId(), $this->obj_id, $this->sub_type, $this->sub_id);
 
 
 			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');

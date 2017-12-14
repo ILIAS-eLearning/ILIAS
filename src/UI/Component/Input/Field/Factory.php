@@ -17,13 +17,13 @@ interface Factory {
 	 *   composition: >
 	 *      Text fields will render an input-tag with type="text".
 	 *   effect: >
-   	 *      Text inputs are restricted to one line of text.
+	 *      Text inputs are restricted to one line of text.
 	 *   rivals:
 	 *      numeric field: Use a numeric field if users should input numbers.
 	 *      alphabet field: >
-	 *          Use an alphabet field if the user should input single letters. 
+	 *          Use an alphabet field if the user should input single letters.
 	 *
- 	 * rules:
+	 * rules:
 	 *   usage:
 	 *     1: Text Input MUST NOT be used for choosing from predetermined options.
 	 *     2: >
@@ -39,11 +39,13 @@ interface Factory {
 	 *
 	 * ---
 	 *
-	 * @param	string      $label
-	 * @param	string|null $byline
-	 * @return	\ILIAS\UI\Component\Input\Field\Text
+	 * @param    string      $label
+	 * @param    string|null $byline
+	 *
+	 * @return    \ILIAS\UI\Component\Input\Field\Text
 	 */
 	public function text($label, $byline = null);
+
 
 	/**
 	 * ---
@@ -51,7 +53,7 @@ interface Factory {
 	 *   purpose: >
 	 *      A numeric field is used to retrieve numeric values from the user.
 	 *   composition: >
-   	 *      Numeric inputs will render an input-tag with type="number".
+	 *      Numeric inputs will render an input-tag with type="number".
 	 *   effect: >
 	 *      The field does not accept any data other than numeric values. When
 	 *      focused most browser will show a small vertical rocker to increase
@@ -66,11 +68,13 @@ interface Factory {
 	 *
 	 * ---
 	 *
-	 * @param	string      $label
-	 * @param	string|null $byline
-	 * @return	\ILIAS\UI\Component\Input\Field\Numeric
+	 * @param    string      $label
+	 * @param    string|null $byline
+	 *
+	 * @return    \ILIAS\UI\Component\Input\Field\Numeric
 	 */
 	public function numeric($label, $byline = null);
+
 
 	/**
 	 * ---
@@ -91,10 +95,12 @@ interface Factory {
 	 *
 	 * ---
 	 *
-	 * @param	array<mixed,\ILIAS\UI\Component\Input\Field\Input>	$inputs
-	 * @return	\ILIAS\UI\Component\Input\Field\Group
+	 * @param    array<mixed,\ILIAS\UI\Component\Input\Field\Input>    $inputs
+	 *
+	 * @return    \ILIAS\UI\Component\Input\Field\Group
 	 */
 	public function group(array $inputs);
+
 
 	/**
 	 * ---
@@ -133,18 +139,20 @@ interface Factory {
 	 *
 	 * ---
 	 *
-	 * @param	array<mixed,\ILIAS\UI\Component\Input\Field\Input>	$inputs
-	 * @param	string|null    $label
-	 * @param	string $byline
-	 * @return	\ILIAS\UI\Component\Input\Field\Section
+	 * @param    array<mixed,\ILIAS\UI\Component\Input\Field\Input>    $inputs
+	 * @param    string|null $label
+	 * @param    string      $byline
+	 *
+	 * @return    \ILIAS\UI\Component\Input\Field\Section
 	 */
 	public function section(array $inputs, $label, $byline = null);
+
 
 	/**
 	 * ---
 	 * description:
 	 *   purpose: >
-     *      Fields can be nested by using dependant groups (formerly known as subforms)
+	 *      Fields can be nested by using dependant groups (formerly known as subforms)
 	 *      allowing for settings-dependent configurations.
 	 *   composition: >
 	 *      Dependant groups are like groups composed of a set of input fields.
@@ -163,10 +171,12 @@ interface Factory {
 	 * ---
 	 *
 	 *
-	 * @param	array<mixed,\ILIAS\UI\Component\Input\Field\Input>	$inputs
-	 * @return	\ILIAS\UI\Component\Input\Field\DependantGroup
+	 * @param    array<mixed,\ILIAS\UI\Component\Input\Field\Input>    $inputs
+	 *
+	 * @return    \ILIAS\UI\Component\Input\Field\DependantGroup
 	 */
 	public function dependantGroup(array $inputs);
+
 
 	/**
 	 * ---
@@ -192,7 +202,7 @@ interface Factory {
 	 *
 	 * ---
 	 *
-	 * @return	\ILIAS\UI\Component\Input\Field\Checkbox
+	 * @return    \ILIAS\UI\Component\Input\Field\Checkbox
 	 */
 	public function checkbox($label, $byline = null);
 }

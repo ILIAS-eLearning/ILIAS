@@ -8,10 +8,11 @@ namespace ILIAS\UI\Component\Input\Container\Form;
  * This describes a standard form.
  */
 interface Standard extends Form {
+
 	/**
 	 * Get the URL this form posts its result to.
 	 *
-	 * @return	string
+	 * @return    string
 	 */
 	public function getPostURL();
 }

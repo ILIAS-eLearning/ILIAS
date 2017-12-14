@@ -92,9 +92,9 @@ class ilSessionOverviewGUI
 	 */
 	public function listSessions()
 	{
-		global $ilToolbar,$ilErr,$ilAccess;
+		global $ilToolbar,$ilErr;
 
-		if(!$ilAccess->checkAccess('manage_members','',$this->course_ref_id))
+		if(!$GLOBALS['DIC']->access()->checkRbacOrPositionPermissionAccess('manage_members', 'manage_members',$this->course_ref_id))
 		{
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->MESSAGE);
 		}
@@ -103,7 +103,16 @@ class ilSessionOverviewGUI
 			$this->ctrl->getLinkTarget($this,'exportCSV'));
 		
 		include_once 'Modules/Session/classes/class.ilSessionOverviewTableGUI.php';
-		$tbl = new ilSessionOverviewTableGUI($this, 'listSessions', $this->course_ref_id, $this->members_obj->getParticipants());
+		
+		$part = $this->members_obj->getParticipants();
+		$part = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+			'manage_members', 
+			'manage_members', 
+			$this->course_ref_id,
+			$part
+		);
+		
+		$tbl = new ilSessionOverviewTableGUI($this, 'listSessions', $this->course_ref_id, $part);
 		$this->tpl->setContent($tbl->getHTML());		
 	}
 
@@ -121,8 +130,13 @@ class ilSessionOverviewGUI
 		include_once('Services/Utilities/classes/class.ilCSVWriter.php');
 		include_once 'Modules/Session/classes/class.ilEventParticipants.php';
 		
-		$members = $this->members_obj->getParticipants();
-		$members = ilUtil::_sortIds($members,'usr_data','lastname','usr_id');		
+		$part = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+			'manage_members', 
+			'manage_members', 
+			$this->course_ref_id,
+			$this->members_obj->getParticipants()
+		);
+		$members = ilUtil::_sortIds($part,'usr_data','lastname','usr_id');		
 
 		$events = array();
 		foreach($tree->getSubtree($tree->getNodeData($this->course_ref_id),false,'sess') as $event_id)

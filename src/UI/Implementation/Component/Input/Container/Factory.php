@@ -10,11 +10,11 @@ use ILIAS\Validation;
 use ILIAS\Transformation;
 
 class Factory implements I\Container\Factory {
-    /**
-     * @inheritdoc
-     */
-    public function form()
-    {
-        return new Form\Factory();
-    }
+
+	/**
+	 * @inheritdoc
+	 */
+	public function form() {
+		return new Form\Factory();
+	}
 }

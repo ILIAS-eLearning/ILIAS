@@ -195,7 +195,7 @@ class ilUserQuery
 	/**
 	 * Set user folder filter
 	 * reference id of user folder or category (local user administration)
-	 * @param type $a_fold_id
+	 * @param int $a_fold_id
 	 */
 	public function setUserFolder($a_fold_id)
 	{
@@ -304,7 +304,7 @@ class ilUserQuery
 		}
 
 		// count query
-		$count_query = "SELECT count(usr_id) cnt".
+		$count_query = "SELECT count(usr_data.usr_id) cnt".
 			" FROM usr_data";
 		
 		$all_multi_fields = array("interests_general", "interests_help_offered", "interests_help_looking");
@@ -343,8 +343,7 @@ class ilUserQuery
 			" FROM usr_data".
 			$join;
 
-		$count_query = "SELECT ".implode($sql_fields, ",").
-			" FROM usr_data".
+		$count_query = $count_query." ".
 			$join;
 
 		// filter
@@ -552,12 +551,8 @@ class ilUserQuery
 
 		// count query
 		$set = $ilDB->query($count_query);
-		$cnt = 0;
-		if ($rec = $ilDB->fetchAssoc($set))
-		{
-			$cnt = $rec["cnt"];
-		}
-		
+		$cnt = $ilDB->numRows($set);
+
 		$offset = (int) $this->offset;
 		$limit = (int) $this->limit;
 		
@@ -577,16 +572,16 @@ class ilUserQuery
 		// set query
 		$set = $ilDB->query($query);
 		$result = array();
+
 		while($rec = $ilDB->fetchAssoc($set))
 		{
 			$result[] = $rec;
-			
 			if(sizeof($multi_fields))
 			{
 				$usr_ids[] = $rec["usr_id"];
 			}
 		}
-		
+
 		// add multi-field-values to user-data
 		if(sizeof($multi_fields) && sizeof($usr_ids))
 		{
@@ -605,8 +600,7 @@ class ilUserQuery
 				}
 			}
 		}
-		
-		return array("cnt" => $cnt, "set" => $result);		
+		return array("cnt" => $cnt, "set" => $result);
 	}
 	
 	

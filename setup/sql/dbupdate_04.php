@@ -14110,6 +14110,95 @@ if ($ilDB->tableExists('ut_lp_collections_tmp'))
 <#4857>
 <?php
 //usr_session_stats adding primary key
+$usr_session_stats_temp_num = "
+SELECT COUNT(*) cnt
+FROM (
+	SELECT slot_begin
+    FROM usr_session_stats
+    GROUP BY slot_begin
+    HAVING COUNT(*) > 1
+) duplicateSessionStats
+";
+$res  = $ilDB->query($usr_session_stats_temp_num);
+$data = $ilDB->fetchAssoc($res);
+if($data['cnt'])
+{
+	$usr_session_stats_dup_query = "
+	SELECT *
+	FROM usr_session_stats
+	GROUP BY slot_begin
+	HAVING COUNT(*) > 1
+	";
+	$res = $ilDB->query($usr_session_stats_dup_query);
+
+	$stmt_del = $ilDB->prepareManip("DELETE FROM usr_session_stats WHERE slot_begin = ? ", array('integer'));
+	$stmt_in  = $ilDB->prepareManip("INSERT INTO usr_session_stats ("
+		. "slot_begin"
+		. ",slot_end"
+		. ",active_min"
+		. ",active_max"
+		. ",active_avg"
+		. ",active_end"
+		. ",opened"
+		. ",closed_manual"
+		. ",closed_expire"
+		. ",closed_idle"
+		. ",closed_idle_first"
+		. ",closed_limit"
+		. ",closed_login"
+		. ",max_sessions"
+		. ",closed_misc"
+		. ") VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
+		array(
+			'integer',
+			'integer', 
+			'integer',
+			'integer', 
+			'integer',
+			'integer', 
+			'integer',
+			'integer', 
+			'integer',
+			'integer', 
+			'integer',
+			'integer', 
+			'integer',
+			'integer', 
+			'integer'
+		)
+	);
+
+	while($row = $ilDB->fetchAssoc($res))
+	{
+		$ilDB->execute($stmt_del, array($row['slot_begin']));
+		$ilDB->execute($stmt_in, array(
+				$row['slot_begin'], 
+				$row['slot_end'],
+				$row['active_min'], 
+				$row['active_max'],
+				$row['active_avg'], 
+				$row['active_end'],
+				$row['opened'], 
+				$row['closed_manual'],
+				$row['closed_expire'], 
+				$row['closed_idle'],
+				$row['closed_idle_first'], 
+				$row['closed_limit'],
+				$row['closed_login'], 
+				$row['max_sessions'],
+				$row['closed_misc']
+			)
+		);
+	}
+}
+
+$res  = $ilDB->query($usr_session_stats_temp_num);
+$data = $ilDB->fetchAssoc($res);
+if($data['cnt'] > 0)
+{
+	die("There are still duplicate entries in table 'usr_session_stats'. Please execute this database update step again.");
+}
+
 
 if($ilDB->tableExists('usr_session_stats'))
 {
@@ -21453,5 +21542,237 @@ $ilDB->modifyTableColumn(
 		)
 	);
 ?>
+<#5241>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5242>
+<?php
 
+/**
+ * This will move all the exercise instruction files from outside document root to inside.
+ */
+
+$result = $ilDB->query("SELECT id,exc_id FROM exc_assignment");
+
+while($row = $ilDB->fetchAssoc($result))
+{
+	include_once("./Services/Migration/DBUpdate_5242/classes/class.ilFSStorageExc5242.php");
+	$storage = new ilFSStorageExc5242($row['exc_id'], $row['id']);
+
+	$files = $storage->getFiles();
+	if(!empty($files))
+	{
+		foreach ($files as $file)
+		{
+			$file_name = $file['name'];
+			$file_full_path = $file['fullpath'];
+			$file_relative_path = str_replace(ILIAS_DATA_DIR,"",$file_full_path);
+			$directory_relative_path = str_replace($file_name, "",$file_relative_path);
+
+			if (!is_dir(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$directory_relative_path))
+			{
+				//echo "<br> makeDirParents: ".ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$directory_relative_path;
+				ilUtil::makeDirParents(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$directory_relative_path);
+			}
+			if (!file_exists(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$file_relative_path))
+			{
+				//echo "<br> rename: $file_full_path TO ".ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$file_relative_path;
+				rename($file_full_path ,ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$file_relative_path);
+			}
+		}
+	}
+
+}
+?>
+<#5243>
+<?php
+if (!$ilDB->tableColumnExists('usr_session', 'context'))
+{
+	$ilDB->addTableColumn('usr_session', 'context', array(
+			'type'	=> 'text',
+			'length'	=> '80',
+			'notnull' => false)
+	);
+}
+?>
+<#5244>
+<?php
+	//add table column
+	if(!$ilDB->tableColumnExists('iass_members', 'changer_id')) {
+		$ilDB->addTableColumn("iass_members", "changer_id", array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+			));
+	}
+?>
+<#5245>
+<?php
+	//add table column
+	if(!$ilDB->tableColumnExists('iass_members', 'change_time')) {
+		$ilDB->addTableColumn("iass_members", "change_time", array(
+			'type' => 'text',
+			'length' => 20,
+			'notnull' => false
+			));
+	}
+?>
+
+<#5246>
+<?php
+	include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+	$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('edit_submissions_grades', 'Edit Submissions Grades', 'object', 3800);
+	$type_id = ilDBUpdateNewObjectType::getObjectTypeId('exc');
+	if($type_id && $new_ops_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($type_id, $new_ops_id);
+	}
+?>
+<#5247>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+	$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+	$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_submissions_grades');
+	ilDBUpdateNewObjectType::cloneOperation('exc', $src_ops_id, $tgt_ops_id);
+?>
+<#5248>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5249>
+<?php
+
+$ilSetting = new ilSetting();
+
+if( !$ilSetting->get('dbupwarn_tstfixqstseq', 0) )
+{
+	$res = $ilDB->query("
+		SELECT COUNT(DISTINCT test_fi) num_tst, COUNT(test_question_id) num_qst
+		FROM tst_test_question WHERE test_fi IN(
+			SELECT test_fi FROM tst_test_question
+			GROUP BY test_fi HAVING COUNT(test_fi) < MAX(sequence)
+		)
+	");
+	
+	$row = $ilDB->fetchAssoc($res);
+	
+	if( $row['num_tst'] > 0 )
+	{
+		$numTests = $row['num_tst'];
+		$numQuestions = $row['num_qst'];
+		echo "<pre>
+		
+		DEAR ADMINISTRATOR !!
+		
+		Please read the following instructions CAREFULLY!
+		
+		-> Due to a bug in almost all earlier versions of ILIAS question orderings
+		from the assessment component are broken but repairable.
+		
+		-> The following dbupdate step can exhaust any php enviroment settings like
+		max_execution_time or memory_limit for example.
+		
+		-> In the case of any php fatal error during the following dbupdate step
+		that is about exhausting any ressource or time restriction you just need
+		to refresh the page by using F5 for example.
+		
+		=> To proceed the update process you now need to refresh the page as well (F5)
+		
+		Mantis Bug Report: https://ilias.de/mantis/view.php?id=20382
+		
+		In your database there were > {$numTests} tests < detected having > {$numQuestions} questions < overall,
+		that are stored with gaps in the ordering index.
+		
+		</pre>";
+		
+		$ilSetting->set('dbupwarn_tstfixqstseq', 1);
+		exit;
+	}
+	
+	$ilSetting->set('dbupwarn_tstfixqstseq', 1);
+}
+
+?>
+<#5250>
+<?php
+
+$res = $ilDB->query("
+	SELECT test_fi, test_question_id
+	FROM tst_test_question WHERE test_fi IN(
+		SELECT test_fi FROM tst_test_question
+		GROUP BY test_fi HAVING COUNT(test_fi) < MAX(sequence)
+	) ORDER BY test_fi ASC, sequence ASC
+");
+
+$tests = array();
+
+while($row = $ilDB->fetchAssoc($res))
+{
+	if( !isset($tests[ $row['test_fi'] ]) )
+	{
+		$tests[ $row['test_fi'] ] = array();
+	}
+	
+	$tests[ $row['test_fi'] ][] = $row['test_question_id'];
+}
+
+foreach($tests as $testFi => $testQuestions)
+{
+	for($i = 0, $m = count($testQuestions); $i <= $m; $i++)
+	{
+		$testQuestionId = $testQuestions[$i];
+		
+		$position = $i + 1;
+		
+		$ilDB->update('tst_test_question',
+			array( 'sequence' => array('integer', $position) ),
+			array( 'test_question_id' => array('integer', $testQuestionId) )
+		);
+	}
+}
+
+?>
+<#5251>
+<?php
+$set = $ilDB->query("
+  SELECT obj_id, title, description, role_id, usr_id FROM object_data
+  INNER JOIN role_data role ON role.role_id = object_data.obj_id
+  INNER JOIN rbac_ua on role.role_id = rol_id
+  WHERE title LIKE '%il_orgu_superior%' OR title LIKE '%il_orgu_employee%'
+");
+$assigns = [];
+$superior_position_id = ilOrgUnitPosition::getCorePositionId(ilOrgUnitPosition::CORE_POSITION_SUPERIOR);
+$employee_position_id = ilOrgUnitPosition::getCorePositionId(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
+
+while ($res = $ilDB->fetchAssoc($set)) {
+  $user_id = $res['usr_id'];
+  	
+  $tmp = explode("_", $res['title']);
+  $orgu_ref_id = (int) $tmp[3];
+  if ($orgu_ref_id == 0) {
+    //$ilLog->write("User $user_id could not be assigned to position. Role description does not contain object id of orgu. Skipping.");
+    continue;
+  }
+    
+  $tmp = explode("_", $res['title']); //il_orgu_[superior|employee]_[$ref_id]
+  $role_type = $tmp[2]; // [superior|employee]
+
+  if ($role_type == 'superior')
+    $position_id = $superior_position_id;
+  elseif ($role_type == 'employee')
+    $position_id = $employee_position_id;
+  else {
+    //$ilLog->write("User $user_id could not be assigned to position. Role type seems to be neither superior nor employee. Skipping.");
+    continue;
+  }
+  if(!ilOrgUnitUserAssignment::findOrCreateAssignment(
+				$user_id,
+				$position_id,
+				$orgu_ref_id)) {
+	  //$ilLog->write("User $user_id could not be assigned to position $position_id, in orgunit $orgu_ref_id . One of the ids might not actually exist in the db. Skipping.");
+	}
+}
+?>
 

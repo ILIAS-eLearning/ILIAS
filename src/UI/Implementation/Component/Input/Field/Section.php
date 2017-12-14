@@ -11,4 +11,5 @@ use ILIAS\UI\Component as C;
  * This implements the section input.
  */
 class Section extends Group implements C\Input\Field\Section {
+
 }

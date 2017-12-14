@@ -8,6 +8,7 @@ namespace ILIAS\UI\Implementation\Component\Input;
  * Describes a source for input names.
  */
 interface NameSource {
+
 	/**
 	 * Generates a unique name on every call.
 	 *

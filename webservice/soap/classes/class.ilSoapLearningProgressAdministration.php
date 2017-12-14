@@ -154,10 +154,9 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 					break;
 					
 				case 'tst':
-					foreach((array) $valid_users as $usr_id)
-					{
-						$obj->removeTestResultsForUser($usr_id);
-					}
+					
+					/** @var $obj ilObjTest */
+					$obj->removeTestResultsFromSoapLpAdministration(array_values((array)$valid_users));
 					break;
 			}
 			

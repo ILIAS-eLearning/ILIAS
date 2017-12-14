@@ -213,50 +213,18 @@ class ilPCFileListGUI extends ilPageContentGUI
 
 		$ilTabs->setSubTabActive("cont_file_from_workspace");
 		
-		// get ws tree
-		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
-		$tree = new ilWorkspaceTree($ilUser->getId());
-		
-		// get access handler
-		include_once("./Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php");
-		$acc_handler = new ilWorkspaceAccessHandler($tree);
-		
-		// get es explorer
-		include_once("./Services/PersonalWorkspace/classes/class.ilWorkspaceExplorer.php");
-		$exp = new ilWorkspaceExplorer(ilWorkspaceExplorer::SEL_TYPE_RADIO, '', 
-			'filelist_wspexpand', $tree, $acc_handler);
-		$exp->setTargetGet('fl_wsp_id');
-		$exp->setFiltered(false);
-		$exp->removeAllFormItemTypes();
-		
-		// select link 
-		$exp->setTypeClickable("file");
+		include_once("./Services/PersonalWorkspace/classes/class.ilWorkspaceExplorerGUI.php");
+		$exp = new ilWorkspaceExplorerGUI($ilUser->getId(), $this, $a_cmd, $this, $a_cmd, "fl_wsp_id");
 		$ilCtrl->setParameter($this, "subCmd", "selectFile");
 		$exp->setCustomLinkTarget($ilCtrl->getLinkTarget($this, $a_cmd));
-		
-		// filter
-		$exp->setFiltered(true);
-		$exp->setFilterMode(IL_FM_POSITIVE);
-		$exp->addFilter("wsrt");
-		$exp->addFilter("wfld");
-		$exp->addFilter("file");
-	
-		// expand link
 		$ilCtrl->setParameter($this, "subCmd", "insertFromWorkspace");
-		$exp->setParamsGet($ilCtrl->getParameterArray($this, $a_cmd));		
-
-		if($_GET['filelist_wspexpand'] == '')
+		$exp->setTypeWhiteList(array("wsrt", "wfld", "file"));
+		$exp->setSelectableTypes(array("file"));
+		if ($exp->handleCommand())
 		{
-			$expanded = $tree->readRootId();
+			return;
 		}
-		else
-		{
-			$expanded = $_GET['filelist_wspexpand'];
-		}
-		$exp->setExpand($expanded);
-		$exp->setOutput(0);
-		
-		$tpl->setContent($exp->getOutput());
+		$tpl->setContent($exp->getHTML());
 	}
 	
 	/**
@@ -266,7 +234,10 @@ class ilPCFileListGUI extends ilPageContentGUI
 	{
 		include_once("./Modules/File/classes/class.ilObjFile.php");
 
-		$form = $this->initEditForm("create");
+		$mode = ($_POST["file_ref_id"] != "")
+			? "select_file"
+			: "create";
+		$form = $this->initEditForm($mode);
 		if (!$form->checkInput())
 		{
 			$form->setValuesByPost();

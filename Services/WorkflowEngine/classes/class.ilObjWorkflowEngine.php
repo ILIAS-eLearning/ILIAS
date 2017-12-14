@@ -33,10 +33,17 @@ class ilObjWorkflowEngine extends ilObject
 	}
 
 	/**
+	 * @param bool $relative
 	 * @return string
 	 */
-	public static function getRepositoryDir()
+	public static function getRepositoryDir($relative = false)
 	{
-		return ILIAS_DATA_DIR . '/' . CLIENT_ID . '/wfe/repository/';
+		$relativeRepositoryPath = 'wfe/repository/';
+
+		if ($relative) {
+			return $relativeRepositoryPath; 
+		}
+
+		return ILIAS_DATA_DIR . '/' . CLIENT_ID . '/' . $relativeRepositoryPath;
 	}
 }

@@ -41,7 +41,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 			// Bsp.: 'http://192.168.0.74/ilias51/ilias.php?ref_id=128&cmd=viewEmbed&cmdClass=ilobjexternalcontentgui&cmdNode=hx:gc&baseClass=ilObjPluginDispatchGUI';
 		}
 
-
+		$this->dataConnector = new ilLTIDataConnector();
 
 		$lti_provider = new ilLTIToolProvider($this->dataConnector);
 		// $lti_provider = new ToolProvider\ToolProvider($this->dataConnector);
@@ -54,7 +54,6 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 		}
 		// if ($lti_provider->reason != "") die($lti_provider->reason);//ACHTUNG später Rückgabe prüfen und nicht vergessen UWE
 
-		$this->dataConnector = new ilLTIDataConnector();
 		// sm: this does only load the standard lti date connector, not the ilLTIToolConsumer with extended data, like prefix.
 		$consumer = new ilLTIToolConsumer($_POST['oauth_consumer_key'],$this->dataConnector);
 

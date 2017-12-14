@@ -328,7 +328,7 @@ assessment#:#answer_types#:#Editor for Answers
 assessment#:#gap_combination#:#Gap Combination
 assessment#:#answer#:#Answer
 assessment#:#tst_failed_imp_skl_thresholds#:#The Import of thresholds for the following competences were skipped, because the according competences within the local system are configured with a different list of levels.
-assessment#:#tst_failed_imp_qst_skl_assign#:#The question's assignments to the following competences could not be created. The accoring competences could not be identified within the local system.
+assessment#:#tst_failed_imp_qst_skl_assign#:#The question's assignments to the following competences could not be created. The according competences could not be identified within the local system.
 assessment#:#ass_skl_import_fails_remove_btn#:#Remove this Hint
 assessment#:#answers_multiline#:#Multi Line Answers
 assessment#:#answers_singleline#:#Single Line Answers
@@ -569,7 +569,7 @@ assessment#:#kiosk_options#:#Exam View Options
 assessment#:#kiosk_show_participant#:#Show Name of Participant
 assessment#:#kiosk_show_title#:#Show Test Title
 assessment#:#kiosk#:#Exam View
-assessment#:#last_update#:#Last Update
+assessment#:#last_update#:#Updated
 assessment#:#legend#:#Legend
 assessment#:#qpl_lac_legend_header_common#:#Expression Logic
 assessment#:#qpl_lac_desc_logical_and#:#Logical AND
@@ -724,8 +724,9 @@ assessment#:#tst_msg_random_question_set_synced#:#The questions for the current 
 assessment#:#tst_btn_rebuild_random_question_stage#:#Synchronize Questions from Pool
 assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#Date of last synchronisation of selected question pools: <b>%s</b>
 assessment#:#tst_msg_rand_quest_set_pass_buildable#:#A test with a random set of questions is possible with the current configuration.
-assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#A test with a random set of questions is not possible with the current selection of question pools and the amount of questions.
+assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#<b>A test with a random set of questions is not possible with the current selection of question pools and the amount of questions.</b><br />
 assessment#:#tst_msg_rand_quest_set_lost_pools#:#The test's question selection configuration has been frozen, because the following question pools that are involved to the config are not available anymore:<br />%s
+assessment#:#tst_msg_rand_quest_set_lost_pools_link#:#On the subtab %s the non available question pools can be newly derived.
 assessment#:#tst_msg_rand_quest_set_no_src_pool_defs#:#A test with a random set of questions is not possible without selecting at least one question pool.
 assessment#:#tst_msg_rand_quest_set_incomplete_quest_amount_cfg#:#A test with a random set of questions is not possible without a correctly defined amount of questions.
 assessment#:#tst_msg_rand_quest_set_no_pools_available#:#Currently you cannot add new rules for the question selection, because there are no question pools available.
@@ -1573,6 +1574,7 @@ common#:#access_unlimited#:#Unlimited
 common#:#access_until#:#Valid until
 common#:#access_users#:#Logged in Users
 common#:#access#:#Access
+rbac#:#amend_grading#:#Amend finalized grading
 common#:#accesscount_registered_users#:#Read by number of distinct ILIAS users
 common#:#accessFree#:#Remove 'Valid Until' Date
 common#:#accessRestrict#:#Set 'Valid Until' Date
@@ -2534,7 +2536,7 @@ common#:#last_edited_on#:#Last edited on
 common#:#last_login#:#Last Login
 common#:#last_refresh#:#Last Refresh
 common#:#last_reminder#:#Last reminder
-common#:#last_update#:#Last Update
+common#:#last_update#:#Updated
 common#:#last_visited#:#Last Visited
 common#:#lastname#:#Last Name
 common#:#launch#:#Launch
@@ -2809,7 +2811,7 @@ common#:#msg_obj_exists#:#This object already exists in this folder
 common#:#msg_obj_may_not_contain_objects_of_type#:#The object %s may not contain objects of type: %s.
 common#:#msg_obj_modified#:#Modifications saved.
 common#:#msg_obj_no_link#:#It is not possible to link container objects like categories, courses, groups or folder due to technical reasons. Instead you may link several single objects within such a container to other areas or create a category link, course link or group link.
-common#:#msg_paste_object_not_in_itself#:#It’s not possible to paste the object %s in itself.
+common#:#msg_paste_object_not_in_itself#:#It’s not possible to paste the Object "%s" in itself.
 common#:#msg_perm_adopted_from_itself#:#You cannot adopt permission settings from the current role/role template itself.
 common#:#msg_perm_adopted_from1#:#Permission settings adopted from
 common#:#msg_perm_adopted_from2#:#(Settings have been saved!)
@@ -4660,7 +4662,7 @@ crs#:#event_table_update#:#Edit Session
 crs#:#event_tbl_participated#:#Attended
 crs#:#event_tbl_registered#:#Registered
 crs#:#event_title#:#Title
-crs#:#event_tutor_data#:#Information About the Lecturer
+crs#:#event_tutor_data#:#Presentation by
 crs#:#event_unregister#:#Unregister
 crs#:#event_unregistered#:#You have been unregistered.
 crs#:#event_updated#:#Saved Settings
@@ -7191,7 +7193,7 @@ survey#:#invitation_off#:#Do not put on any Desktop
 survey#:#invitation#:#Put Link On Personal Desktop
 survey#:#invited_users#:#Selected Users
 survey#:#language_changed#:#Language changed
-survey#:#last_update#:#Last Update
+survey#:#last_update#:#Updated
 survey#:#layout#:#Layout
 survey#:#legend#:#Legend
 survey#:#lower_limit#:#Lower Limit
@@ -8011,7 +8013,7 @@ rbac#:#perm_protected_local_role#:#Protected Local Role
 rbac#:#perm_role_path_info_created#:#Created in %1$s "%2$s"
 rbac#:#perm_role_path_info_inheritance#:#using local policy from %1$s "%2$s"
 book#:#book_public_log#:#Public Reservations
-book#:#book_public_log_info#:#The list of reservations can be viewed by all users.
+book#:#book_public_log_info#:#Users having the "read" permission only will also see reservations of other users.
 book#:#book_fromto#:#Date Range
 book#:#book_all#:#Show all
 grp#:#grp_info_new_grp_type#:#New Group Type
@@ -8896,7 +8898,7 @@ chatroom_adm#:#server_settings#:#Chatserver Settings
 chatroom_adm#:#client_settings#:#General Settings
 chatroom_adm#:#https#:#HTTPS
 chatroom_adm#:#chat_enabled#:#Enable Chat
-chatroom_adm#:#enable_osd#:#Enable On-Screen Notifications
+chatroom_adm#:#enable_osd#:#Repository Chat: Enable On-Screen Notifications
 chatroom_adm#:#general_settings_title#:#General Chat Settings
 chatroom_adm#:#osd_intervall#:#Refreshinterval (seconds)
 chatroom_adm#:#chatserver_settings_title#:#Chatserver Settings
@@ -9217,7 +9219,7 @@ didactic#:#didactic_template_applied#:#Applied didactic template.
 didactic#:#didactic_confirm_apply_new_template#:#Do you really want to apply the chosen didactic template? All current permission settings will get lost!
 chatroom#:#chatserver_address#:#IP-Address/FQN of Chat Server
 chatroom#:#chatserver_port#:#Port of Chat Server
-chatroom#:#hint_osd#:#If enabled, users are notified by a popup about new invitations.
+chatroom#:#hint_osd#:#If enabled, users are notified by a popup about new invitations for repository chats.
 chatroom#:#hint_osd_interval#:#Polling interval for checking of new notifications. A lower number will notify the user more quickly but increases the number of requests the web server must handle.
 chatroom#:#enable_smilies#:#Enable Smileys
 chatroom#:#hint_enable_smilies#:#If activated, configured text sequences are replaced with an icon. See Smileys tab for configuration.
@@ -9225,6 +9227,7 @@ chatroom#:#display_past_msgs#:#Number of Past Messages
 chatroom#:#hint_display_past_msgs#:#Number of previous messages shown when chat room is entered. A value of ‘0’ disables this feature.
 chatroom#:#speak_to#:#Speak to <b>#user#</b>
 chatroom#:#whisper_to#:#Whisper to <b>#user#</b>
+chatroom#:#chat_anonymous_not_allowed#:#Please login to use the chat.
 chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS cannot build a socket connection to the chat server.
 chatroom#:#leave_private_room#:#Leave Private Room
 chatroom#:#left_private_room#:#Left private room
@@ -9243,7 +9246,8 @@ chatroom#:#clear_room_history_question#:#Do you really want to delete all messag
 chatroom#:#anonymous_hint#:#Make sure to set the proper permissions in the ‘Permissions’ tab to allow anonymous user access to this repository item.
 chatroom_adm#:#public_chat_settings#:#Public Chat Room Settings
 chatroom_adm#:#public_chat_permissions#:#Public Chat Room Permissions
-chatroom_adm#:#play_invitation_sound#:#Play a sound when receiving a new invitation
+chatroom_adm#:#play_invitation_sound#:#Play a sound
+chatroom_adm#:#play_invitation_sound_info#:#Play a sound when receiving a new invitation for repository chats.
 chatroom#:#create_private_room_text#:#Private room name
 chatroom#:#invite_username#:#Username
 notes#:#comments_feature_currently_not_activated_for_object#:#The public comments feature is currently not activated for this resource.
@@ -11033,12 +11037,18 @@ mst#:#mst_memb_status_waitinglist#:#Waiting List
 mst#:#mst_memb_status_registered#:#Registered
 mst#:#mst_show_courses#:#Enrolments
 mst#:#mst_courses_of#:#Enrolments of %s
+orgu#:#msg_position_udpated#:#Position aktualisiert
+orgu#:#remove_successful#:#User was removed successfully.
+orgu#:#add_position#:#Position hinzufügen
 orgu#:#orgu_enable_my_staff#:#Enable View ‘Staff’
 orgu#:#orgu_enable_my_staff_info#:#The View ‘Staff’ shows the Learning Progress of the own Employees.
 orgu#:#org_op_manage_members#:#Manage Members
+orgu#:#orgunit_position_permissions_not_active_for#:#You cannot override the position specific permissions for the type:
 orgu#:#org_op_read_learning_progress#:#View learning progress of other users
 orgu#:#org_op_write_learning_progress#:#Set learning progress of other users
-rbac#:#org_op_write_learning_progress#:#Set Learning Progress of Subordinate Users
+rbac#:#org_op_write_learning_progress#:#Set learning Progress of Subordinate Users
+orgu#:#org_op_edit_submissions_grades#:#Edit submissions of other users
+rbac#:#org_op_edit_submissions_grades#:#Edit submissions of other users
 orgu#:#form_title_org_default_permissions_update#:#Default Permissions
 orgu#:#view_learning_progress#:#View Learning Progress
 orgu#:#il_orgu_employee#:#Employee
@@ -11047,6 +11057,7 @@ orgu#:#deassign_user_successful#:#Users have been successfully deassigned from t
 orgu#:#il_orgu_superior#:#Superior
 orgu#:#orgu_staff#:#Staff
 orgu#:#confirm_deletion_and_assign#:#Delete and Assign Users
+orgu#:#msg_assignment_to_employee_done#:#Assignment to the employee role successful
 orgu#:#confirm_deletion_button#:#Delete
 orgu#:#msg_deleted#:#Deleted
 orgu#:#Staff#:#Staff
@@ -11317,6 +11328,9 @@ bibl#:#ris_default_t1#:#Primary Title
 bibl#:#ris_default_t2#:#Secondary Title
 bibl#:#ris_default_t3#:#Tertiary Title
 bibl#:#ris_default_u2#:#User Defined
+bibl#:#ris_default_y1#:#Year
+bibl#:#ris_default_ty#:#Type
+bibl#:#ris_default_ep#:#Ending Page Number
 mail#:#mail_filter#:#Filter
 mail#:#mail_filter_sender#:#Sender
 mail#:#mail_filter_recipients#:#Recipients
@@ -11841,8 +11855,8 @@ tagging#:#tagging_other_users#:#Tags of Other Users
 common#:#autocomplete_more#:#more
 mail#:#mail_max_size_attachments_total#:#Please enter the maximum file size allowed as attachment per mail. This setting is not related to other resource limits, e.g. upload_max_filesize etc. (since you can attach multiple files).
 mail#:#mail_max_size_attachments_total_error#:#The allowed attachment size is:
-grp#:#grp_cdf_tbl_last_edit#:#Last Update (Group-specific Data)
-crs#:#crs_cdf_tbl_last_edit#:#Last Update (Course-specific Data)
+grp#:#grp_cdf_tbl_last_edit#:#Updated (Group-specific Data)
+crs#:#crs_cdf_tbl_last_edit#:#Updated (Course-specific Data)
 ps#:#cdf_edited_by_self#:#by the User
 rbac#:#excs_visible#:#Exercise administration is visible
 rbac#:#excs_read#:#User has read access to Exercise administration
@@ -12809,7 +12823,7 @@ awrn#:#awareness_settings#:#Settings
 awrn#:#awrn_enable#:#Enable ‘Who is online?’-Tool
 crs#:#crs_mem_contacts#:#Tutorial Support
 user#:#user_awrn_all_users#:#All Users
-user#:#user_awrn_all_users_info#:#All users of the platform are listed.
+user#:#user_awrn_all_users_info#:#All users of the platform are listed. Please not that the setting "Online and Offline" can reduce performance greatly on installations with a large number of users.
 crs#:#crs_awrn_support_contacts#:#Tutorial Support
 crs#:#crs_awrn_support_contacts_info#:#All tutorial support contacts of courses with membership of the current user are listed. Users are defined as tutorial support contacts in the Members tab of the respective course.
 awrn#:#awrn_inactive#:#Not Listed
@@ -12826,7 +12840,7 @@ awrn#:#awrn_caching_period#:#Caching Period
 awrn#:#awrn_caching_period_info#:#Time that is waited before the number of users in the top bar is updated and new online users are determined.
 awrn#:#awrn_seconds#:#sec
 awrn#:#awrn_max_nr_entries#:#Max. Number of Items
-awrn#:#awrn_max_nr_entries_info#:#Maximum number of items in the ‘Who is online?’ list.
+awrn#:#awrn_max_nr_entries_info#:#Maximum number of items in the ‘Who is online?’ list. This setting has only minimal performance influence when displaying the tool in the top bar.
 awrn#:#awrn_hide_from_awareness#:#Hide Me From ‘Who is online?’-Tool
 awrn#:#awrn_hide_from_awareness_info#:#The ‘Who is online?’-Tool is in the top bar and listing selected users (e.g. contacts or members of your courses).
 common#:#contact_sysadmin#:#Contact Technical Support
@@ -13335,6 +13349,9 @@ wfe#:#start_listening#:#Activate Listener
 wfe#:#stop_listening#:#Deactivate Listener
 wfe#:#static_input_form_header#:#Input Data for All Instances of the Workflow
 wfe#:#start_event_form_header#:#Relevant Events for the Start of Workflows
+wfe#:#wfe_sure_to_delete_process_def#:#Are you sure you want to delete the definition?
+wfe#:#wfe_request_missing_process_id#:#The process id is missing, cannot perform the desired action.
+wfe#:#wfe_started_listening#:#Process armed
 glo#:#glo_link_glo_in_glo#:#Should all glossary terms of the target glossary be linked in the current glossary now?
 glo#:#glo_add_from_other#:#Collect Terms
 glo#:#glo_select_terms#:#Select Terms
@@ -13364,6 +13381,7 @@ style#:#add_system_style#:#Add System Style
 style#:#add_substyle#:#Add Sub Style
 style#:#skin_id#:#Skin ID
 style#:#skin_name#:#Skin Name
+style#:#skin_version#:#Skin Version
 style#:#skin#:#Skin
 style#:#style_id#:#Style ID
 style#:#Style#:#Style
@@ -13440,6 +13458,7 @@ style#:#can_not_read_less_file#:#Cannot read less file. Path:
 style#:#msg_sys_style_created#:#The new system style has successfully been created.
 style#:#skin_id_description#:#Skins are container for styles and sub styles. The skin ID sets the name of the folder that holds all style and sub style information. Only letters, numbers as well as hyphens or underline characters are to be used in skin ID's.
 style#:#skin_name_description#:#The skin name can be used to describe the area of application of the skin in human readable form. It will appear in all UI elements allowing the selection of skins.
+style#:#skin_version_description#:#The skin version is used to re-cache the style after changes. It gets automatically updated.
 style#:#style_id_description#:#The style id is used as name for style specific files such as css and less placed inside the skins folder. Only letters, numbers as well as hyphens or underline characters are to be used in style ID's.
 style#:#style_name_description#:#The style name can be used to describe the area of application of the style in human readable form. It will appear in all UI elements allowing the selection of styles.
 style#:#sub_style#:#Sub Style
@@ -13568,6 +13587,8 @@ awrn#:#awrn_use_osd_info#:#Display a popup to indicate new online users in the �
 exc#:#exc_tbl_filter_submission#:#Submission
 exc#:#exc_tbl_filter_has_submission#:#Has submitted
 exc#:#exc_tbl_filter_has_no_submission#:#Has not submitted yet
+iass#:#iass_assessment_not_completed#:#Assessment not completet
+iass#:#iass_changed_by#:#Changed after finalization
 iass#:#iass_upload_file#:#Record file
 iass#:#iass_file_visible_examinee#:#File visible for participant
 iass#:#general#:#General Information
@@ -13637,8 +13658,8 @@ iass#:#iass_save_amend#:#Save Amended Record
 iass#:#iass_info_emails_expl#:#You may provide several addresses separated by comma.
 iass#:#iass_consultation_hours#:#Consultation hours
 iass#:#iass_edit_info#:#Info Settings
-iass#:#iass_mess_notification_completed#:#You passed the assessment %s. Please check the following record for details:
-iass#:#iass_mess_notification_failed#:#You failed the assessment %s. Please check the following record for details:
+iass#:#iass_mess_notification_completed#:#You passed the assessment <i>%s</i>. Please check the following grading record for details:
+iass#:#iass_mess_notification_failed#:#You failed the assessment <i>%s</i>. Please check the following grading record for details:
 iass#:#iass_contact_info#:#Contact information
 iass#:#iass_added#:#Individual Assessment added
 iass#:#iass_event_time_place_required#:#Date and place required
@@ -13694,7 +13715,7 @@ chatroom#:#chat_osc_no_sub_directory_info#:#If the chat server is only reachable
 chatroom#:#chat_deletion_section_head#:#Deletion of old Messages
 chatroom#:#chat_deletion_disabled#:#Disabled
 chatroom#:#chat_deletion_interval#:#Interval
-chatroom#:#chat_deletion_interval_info#:#If chosen, messages in the repository chat on On-Screen-Chat conversations will be deleted after the defined threshold.
+chatroom#:#chat_deletion_interval_info#:#If chosen, messages in the repository chat and On-Screen-Chat conversations will be deleted after the defined threshold.
 chatroom#:#chat_deletion_interval_unit#:#Unit
 chatroom#:#chat_deletion_interval_value#:#Value
 chatroom#:#chat_deletion_ival_max_val#:#The maximum value for the chose unit '%s' is: %s
@@ -13728,6 +13749,10 @@ wsp#:#share#:#Share
 common#:#obj_pdfg#:#PDF Generation
 common#:#obj_pdfg_desc#:#Options for generation PDF documents
 common#:#building_export_file#:#Building Export File...
+common#:#pdfg_read#:#User has read access to PDF Generation
+common#:#pdfg_visible#:#PDF Generation is visible
+common#:#pdfg_write#:#User can edit settings of PDF Generation
+common#:#pdfg_edit_permission#:#User can change permission settings
 pdfgen#:#phantomjs#:#PhantomJS
 pdfgen#:#page_settings#:#Page Settings
 pdfgen#:#page_size#:#Pagesize
@@ -13759,6 +13784,7 @@ pdfgen#:#margin_bottom#:#Margin bottom
 pdfgen#:#zoom#:#Zoom
 pdfgen#:#image_scale#:#Image scale
 pdfgen#:#reset_to_default#:#Reset settings to default
+pdfgen#:#problem_with_purposes#:#A problem in the configuration was detected, please use the button "Cleanup" to resolve this issue.
 copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.
 auth#:#auth_err_login_attempts_deactivation#:#The user account has been deactivated due wrong login attempts.
 crs#:#crs_edit_lo_introduction#:#Edit Introduction
@@ -13825,7 +13851,7 @@ auth#:#err_auth_saml_no_ilias_user#:#Authentication failed. Please contact your 
 auth#:#auth_saml_login_form#:#Button on Login Page
 auth#:#auth_saml_login_form_info#:#If activated and there is at least one active IDP, a button appears on the login page. A click on this button initiates a SAML request.
 auth#:#auth_saml_idps#:#SAML IDP List
-auth#:#auth_saml_idps_info#:#Please check and edit the SimpleSAMLphp configuration in '<strong>%s</strong>' and '<strong>%s</strong>' (external data directory). Please read the manual for further explanations %s. 
+auth#:#auth_saml_idps_info#:#Please check and edit the SimpleSAMLphp configuration in '<strong>%s</strong>' and '<strong>%s</strong>' (external data directory). Don't forget to add the paths to your private key and certificate in the authsources.php file. Please read the manual for further explanations %s.<br />Federation Metadata URL: %s 
 auth#:#auth_saml_idp#:#IDP
 auth#:#auth_saml_configure_idp#:#Configure SAML IDP: %s
 auth#:#saml_tab_head_idp#:#IDP
@@ -14062,6 +14088,8 @@ lti#:#lti_exited_info#:#LTI Session successfully closed
 blog#:#blog_nav_mode_month_list_num_month_with_post#:#Number of month with listed postings
 blog#:#blog_nav_mode_month_list_num_month_with_post_info#:#These months will be displayed with all their postings in the navigation block.
 orgu#:#org_op_access_enrolments#:#View Enrolments
+orgu#:#msg_position_updated#:#Position updated.
+orgu#:#msg_position_created#:#Position created.
 pdfgen#:#cleanup#:#Cleanup
 skmg#:#skmg_order_nr_info#:#Positions competence in the list of competences.
 common#:#position_permission_settings#:#Orgunit-Specific Permissions
@@ -14078,8 +14106,41 @@ assessment#:#question_browse_area_info#:#Please select an object from which you 
 dateplaner#:#cal_no_events_info#:#No events found for the selected time period.
 wiki#:#wiki_pg_list_no_search_fields#:#No searchable meta data fields found in the metadata sets of the wiki.
 iass#:#iass_amend_saved#:#Amended record has been saved.
-dateplaner#:#crs_start#:#Course starts
-dateplaner#:#crs_end#:#Course ends
-dateplaner#:#grp_start#:#Group starts
-dateplaner#:#grp_end#:#Group ends
+dateplaner#:#crs_cal_start#:#Course starts
+dateplaner#:#crs_cal_end#:#Course ends
+dateplaner#:#grp_cal_start#:#Group starts
+dateplaner#:#grp_cal_end#:#Group ends
 content#:#cont_transl_master_language_not_allowed#:#To import a translation you need to activate at least one additional language under "Settings" > "Multilingualism".
+awrn#:#awrn_online#:#Online
+rbac#:#edit_submissions_grades#:#Edit Submissions and Grades
+rbac#:#exc_edit_submissions_grades#:#User can edit submissions and grades
+rbac#:#release_objects#:#Release Objects
+rbac#:#ltis_release_objects#:#User can release Objects for LTI Consumer
+rbac#:#ltis_visible#:#LTI administration is visible
+rbac#:#ltis_read#:#User has read access to LTI administration 
+rbac#:#ltis_write#:#User can edit settings in LTI administration
+rbac#:#ltis_edit_permission#:#User can change permission settings in LTI administration
+content#:#cont_sc_id_setting#:#student_id according to SCORM 1.2
+content#:#cont_sc_id_setting_2004#:#learner_id according to SCORM 2004
+content#:#cont_sc_id_setting_info#:#In the case that a numeric id for student_id (SCORM 1.2) or learner_id (SCORM 2004) causes problems for the learning module, use the option 'ILIAS user name'. The addition RefId or ObjId may be useful for learning modules that connect to an external server.
+content#:#cont_sc_id_setting_user_id#:#ILIAS User Id (Standard)
+content#:#cont_sc_id_setting_user_login#:#ILIAS Login Name
+content#:#cont_sc_id_setting_user_id_plus_ref_id#:#ILIAS User Id plus RefId of the Learning Module
+content#:#cont_sc_id_setting_user_login_plus_ref_id#:#ILIAS Login Name plus RefId of the Learning Module
+content#:#cont_sc_id_setting_user_id_plus_obj_id#:#ILIAS User Id plus ObjId of the Learning Module
+content#:#cont_sc_id_setting_user_login_plus_obj_id#:#ILIAS Login Name plus ObjId of the Learning Module
+content#:#cont_sc_name_setting#:#student_name according to SCORM 1.2
+content#:#cont_sc_name_setting_2004#:#learner_name according to SCORM 2004
+content#:#cont_sc_name_setting_info#:#The name of the learner can be displayed in the learning module in several ways. In the case that the learning modules are on an external server, it may be useful not to disclose the name.
+content#:#cont_sc_name_setting_last_firstname#:#Last name, First name
+content#:#cont_sc_name_setting_first_lastname#:#First name and Last name
+content#:#cont_sc_name_setting_fullname#:#Title, First name and Last name
+content#:#cont_sc_name_setting_salutation_lastname#:#Salutation and Last name
+content#:#cont_sc_name_setting_first_name#:#First name
+content#:#cont_sc_name_setting_no_name#:#no name
+dateplaner#:#cal_download_files_started#:#Download of calendar files has started.
+poll#:#poll_voting_period_full_info#:#Voting period from %s to %s
+common#:#usr_name_undisclosed#:#Undisclosed
+common#:#obj_exc_duplicate#:#Copy Exercise
+meta#:#adt_error_max_length#:#Please enter a shorter text.
+form#:#form_chars_remaining#:#Characters remaining:

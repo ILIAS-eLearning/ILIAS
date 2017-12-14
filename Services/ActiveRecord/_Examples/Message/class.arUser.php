@@ -25,7 +25,6 @@ class arUser extends ActiveRecord {
 	 * @con_length     4
 	 * @con_is_notnull true
 	 * @con_is_primary true
-	 * @con_is_unique  true
 	 */
 	protected $usr_id;
 	/**
