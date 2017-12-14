@@ -97,14 +97,14 @@ abstract class ilCronJob
 	public function getAllScheduleTypes()
 	{
 		return array(
-			'daily'      => self::SCHEDULE_TYPE_DAILY,
-			'weekly'     => self::SCHEDULE_TYPE_WEEKLY,
-			'monthly'    => self::SCHEDULE_TYPE_MONTHLY,
-			'quarterly'  => self::SCHEDULE_TYPE_QUARTERLY,
-			'yearly'     => self::SCHEDULE_TYPE_YEARLY,
-			'in_minutes' => self::SCHEDULE_TYPE_IN_MINUTES,
-			'in_hours'   => self::SCHEDULE_TYPE_IN_HOURS,
-			'in_days'    => self::SCHEDULE_TYPE_IN_DAYS
+			self::SCHEDULE_TYPE_DAILY,
+			self::SCHEDULE_TYPE_WEEKLY,
+			self::SCHEDULE_TYPE_MONTHLY,
+			self::SCHEDULE_TYPE_QUARTERLY,
+			self::SCHEDULE_TYPE_YEARLY,
+			self::SCHEDULE_TYPE_IN_MINUTES,
+			self::SCHEDULE_TYPE_IN_HOURS,
+			self::SCHEDULE_TYPE_IN_DAYS
 		);
 	}
 

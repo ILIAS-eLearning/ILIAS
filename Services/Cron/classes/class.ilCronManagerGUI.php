@@ -92,30 +92,76 @@ class ilCronManagerGUI
 	}
 
 	/**
-	 * @param string $typeLabel
+	 * @param int $scheduleTypeId
 	 * @return string
+	 * @throws \InvalidArgumentException
 	 */
-	protected function getScheduleValueFormElementName($typeLabel)
+	protected function getScheduleTypeFormElementName($scheduleTypeId)
 	{
-		switch ($typeLabel) {
-			case 'in_minutes':
-				return 'mini';
+		switch ($scheduleTypeId) {
+			case ilCronJob::SCHEDULE_TYPE_DAILY:
+				return $this->lng->txt('cron_schedule_daily');
 
-			case 'in_hours':
-				return 'hri';
+			case ilCronJob::SCHEDULE_TYPE_WEEKLY:
+				return $this->lng->txt('cron_schedule_weekly');
 
-			case 'in_days':
-				return 'dyi';
+			case ilCronJob::SCHEDULE_TYPE_MONTHLY:
+				return $this->lng->txt('cron_schedule_monthly');
+
+			case ilCronJob::SCHEDULE_TYPE_QUARTERLY:
+				return $this->lng->txt('cron_schedule_quarterly');
+
+			case ilCronJob::SCHEDULE_TYPE_YEARLY:
+				return $this->lng->txt('cron_schedule_yearly');
+
+			case ilCronJob::SCHEDULE_TYPE_IN_MINUTES:
+				return sprintf($this->lng->txt('cron_schedule_in_minutes'), 'x');
+
+			case ilCronJob::SCHEDULE_TYPE_IN_HOURS:
+				return sprintf($this->lng->txt('cron_schedule_in_hours'), 'x');
+
+			case ilCronJob::SCHEDULE_TYPE_IN_DAYS:
+				return sprintf($this->lng->txt('cron_schedule_in_days'), 'x');
 		}
+
+		throw new \InvalidArgumentException(sprintf('The passed argument %s is invalid!', var_export($scheduleTypeId, 1)));
+	}
+
+	/**
+	 * @param int $scheduleTypeId
+	 * @return string
+	 * @throws \InvalidArgumentException
+	 */
+	protected function getScheduleValueFormElementName($scheduleTypeId)
+	{
+		switch ($scheduleTypeId) {
+			case ilCronJob::SCHEDULE_TYPE_IN_MINUTES:
+				return 'smini';
+
+			case ilCronJob::SCHEDULE_TYPE_IN_HOURS:
+				return 'shri';
+
+			case ilCronJob::SCHEDULE_TYPE_IN_DAYS:
+				return 'sdyi';
+		}
+
+		throw new \InvalidArgumentException(sprintf('The passed argument %s is invalid!', var_export($scheduleTypeId, 1)));
  	}
 
 	/**
-	 * @param string $typeLabel
+	 * @param int $scheduleTypeId
 	 * @return bool
 	 */
-	protected function hasScheduleValue($typeLabel)
+	protected function hasScheduleValue($scheduleTypeId)
 	{
-		return in_array($typeLabel, ['in_minutes', 'in_hours', 'in_days']);
+		return in_array(
+			$scheduleTypeId, 
+			[
+				ilCronJob::SCHEDULE_TYPE_IN_MINUTES,
+				ilCronJob::SCHEDULE_TYPE_IN_HOURS,
+				ilCronJob::SCHEDULE_TYPE_IN_DAYS
+			]
+		);
 	}
 
 	protected function initEditForm($a_job_id)
@@ -135,26 +181,27 @@ class ilCronManagerGUI
 		$form = new ilPropertyFormGUI();	
 		$form->setFormAction($this->ctrl->getFormAction($this, "update"));
 		$form->setTitle($this->lng->txt("cron_action_edit").': "'.$job->getTitle().'"');		
-		
-		if($job->hasFlexibleSchedule())
-		{
-			$type = new ilRadioGroupInputGUI($this->lng->txt("cron_schedule_type"), "type");
-			$type->setRequired(true);
-			$type->setValue($data["schedule_type"]);
 
-			foreach ($job->getAllScheduleTypes() as $typeLabel => $typeId) {
+		if ($job->hasFlexibleSchedule()) {
+			$type = new ilRadioGroupInputGUI($this->lng->txt('cron_schedule_type'), 'type');
+			$type->setRequired(true);
+			$type->setValue($data['schedule_type']);
+
+			foreach ($job->getAllScheduleTypes() as $typeId) {
 				if (!in_array($typeId, $job->getValidScheduleTypes())) {
 					continue;
 				}
 
-				$option = new ilRadioOption(sprintf($this->lng->txt('cron_schedule_' . $typeLabel), 'x'), $typeId);
-
+				$option = new ilRadioOption(
+					$this->getScheduleTypeFormElementName($typeId),
+					$typeId
+				);
 				$type->addOption($option);
 
-				if ($this->hasScheduleValue($typeLabel)) {
+				if ($this->hasScheduleValue($typeId)) {
 					$scheduleValue = new ilNumberInputGUI(
 						$this->lng->txt('cron_schedule_value'),
-						's' . $this->getScheduleValueFormElementName($typeLabel)
+						$this->getScheduleValueFormElementName($typeId)
 					);
 					$scheduleValue->allowDecimals(false);
 					$scheduleValue->setRequired(true);
@@ -165,7 +212,6 @@ class ilCronManagerGUI
 					$option->addSubItem($scheduleValue);
 				}
 			}
-
 
 			$form->addItem($type);
 		}
@@ -205,22 +251,15 @@ class ilCronManagerGUI
 				if($valid && $job->hasFlexibleSchedule())
 				{
 					$type = $form->getInput("type");
-					switch($type)
+					switch(true)
 					{
-						case ilCronJob::SCHEDULE_TYPE_IN_MINUTES:
-							$value = $form->getInput("smini");
-							break;
-
-						case ilCronJob::SCHEDULE_TYPE_IN_HOURS:
-							$value = $form->getInput("shri");
-							break;
-
-						case ilCronJob::SCHEDULE_TYPE_IN_DAYS:
-							$value = $form->getInput("sdyi");
+						case $this->hasScheduleValue($type):
+							$value = $form->getInput($this->getScheduleValueFormElementName($type));
 							break;
 
 						default:
-							$value = null;					
+							$value = null;
+							break;
 					}
 
 					ilCronManager::updateJobSchedule($job, $type, $value);
@@ -442,5 +481,3 @@ class ilCronManagerGUI
 		}
 	}
 }
-
-?>
