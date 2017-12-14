@@ -10,7 +10,12 @@ function base() {
 	$renderer = $DIC->ui()->renderer();
 
 	//Step 1: Define the tag input field
-	$multi_select_input = $ui->input()->field()->tagInput("Basic TagInput", "Just some tags", ['Interesting', 'Boring', 'Animating', 'Repetitious']);
+	$multi_select_input = $ui->input()
+	                         ->field()
+	                         ->tagInput("Basic TagInput",
+		                         "Just some tags",
+		                         ['Interesting', 'Boring', 'Animating', 'Repetitious']
+	                         );
 
 	//Step 2: Define the form and attach the section.
 	$form = $ui->input()->container()->form()->standard("#", [$multi_select_input]);
