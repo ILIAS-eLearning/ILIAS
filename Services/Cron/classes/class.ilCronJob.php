@@ -89,20 +89,34 @@ abstract class ilCronJob
 			$this->schedule_value = $a_value;
 		}
 	}
-	
+
 	/**
 	 * Get all available schedule types
-	 * 
-	 * @return int
+	 * @return int[]
+	 */
+	public function getAllScheduleTypes()
+	{
+		return array(
+			'daily'      => self::SCHEDULE_TYPE_DAILY,
+			'weekly'     => self::SCHEDULE_TYPE_WEEKLY,
+			'monthly'    => self::SCHEDULE_TYPE_MONTHLY,
+			'quarterly'  => self::SCHEDULE_TYPE_QUARTERLY,
+			'yearly'     => self::SCHEDULE_TYPE_YEARLY,
+			'in_minutes' => self::SCHEDULE_TYPE_IN_MINUTES,
+			'in_hours'   => self::SCHEDULE_TYPE_IN_HOURS,
+			'in_days'    => self::SCHEDULE_TYPE_IN_DAYS
+		);
+	}
+
+	/**
+	 * Returns a collection of all valid schedule types for a specific job
+	 * @return int[]
 	 */
 	public function getValidScheduleTypes()
 	{
-		return array(self::SCHEDULE_TYPE_DAILY, self::SCHEDULE_TYPE_IN_MINUTES,
-			self::SCHEDULE_TYPE_IN_HOURS, self::SCHEDULE_TYPE_IN_DAYS,
-			self::SCHEDULE_TYPE_WEEKLY, self::SCHEDULE_TYPE_MONTHLY,
-			self::SCHEDULE_TYPE_QUARTERLY, self::SCHEDULE_TYPE_YEARLY);
-	}		
-	
+		return $this->getAllScheduleTypes();
+	}
+
 	/*
 	 * Check if next run is due
 	 * 

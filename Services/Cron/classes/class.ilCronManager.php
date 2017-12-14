@@ -690,7 +690,7 @@ class ilCronManager
 	public static function updateJobSchedule(ilCronJob $a_job, $a_schedule_type, $a_schedule_value)
 	{
 		global $ilDB;
-		
+
 		if($a_schedule_type === null ||
 			($a_job->hasFlexibleSchedule() && 
 				in_array($a_schedule_type, $a_job->getValidScheduleTypes())))
