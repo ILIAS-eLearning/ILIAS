@@ -196,7 +196,8 @@ interface Factory {
 	 *     1: >
 	 *      A checkbox MUST NOT be used whenever a user has to perform a binary choice where
 	 *      option is not automatically the inverse of the other (such as 'Order by Date' and
-	 *      'Order by Name'). A  Select Input or a Radio Group in MUST be used in this case.
+	 *      'Order by Name'). A TagInput Input, Select Input or a Radio Group in MUST be
+	 *      used in this case.
 	 *   wording:
 	 *     1: The checkbox’s identifier MUST always state something positive.
 	 *
@@ -205,4 +206,60 @@ interface Factory {
 	 * @return    \ILIAS\UI\Component\Input\Field\Checkbox
 	 */
 	public function checkbox($label, $byline = null);
+
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     A TagInput is used to choose a subset amount of options out of a finite list
+	 *     of options. The TagInput is used whenever not all available options to choose from
+	 *     MUST or SHOULD be visible, e.g. because the amount is too high (such as all Usernames or a
+	 *     huge amount of Tags).
+	 *     By default, new Options whcih are not yet part of the List of given options, can't be
+	 *     submitted. This can be activated optionally (extendable).
+	 *   composition: >
+	 *     The Input is presented as a TextInput and prepended by already selected Options presented
+	 *     as tags with a Close-Button. The input is labeled by the $label given.
+	 *     Already selected Options are represented as Tags, a Tag contains the text-representation of
+	 *     the Option followed by a Close-button (e.g. [ Amsterdam X ] ).
+	 *     Suggested Options are listed in a Dropdown-List beneath the Textinput.
+	 *   effect: >
+	 *     As soon as the user types in the Textfield, the TagInput suggests matching Options from
+	 *     the a "local" or a "remote" list of Options (data-sources). Suggestions will appear after a defined
+	 *     amount of characters, one by default.
+	 *     Clicking on one of these options closes the List and transfers the selected option into
+	 *     the Input, displayed as a Tag with a Close-Button.
+	 *     By clicking on a Close-Button of a already selected Option, this Option will disappear
+	 *     from the Input.
+	 *     If no data-sources are provided, no suggestions will be provided.
+	 *   rivals:
+	 *      Select: SelectInput, currently not part of the UI-Service.
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: >
+	 *      A TagInput MUST NOT be used whenever a user has to perform a binary choice where
+	 *      option is automatically the inverse of the other. A Checkbox MUST be used in this case.
+	 *     2: >
+	 *      A TagInput MUST NOT be used whenever a user has to perform a choice from a list of
+	 *      options where only one Option has to be selected. A Select MUST be used in this case
+	 *      (Not yet part of the KitchenSink).
+	 *     3: >
+	 *      If no data-sources are provided, the TagInput MUST be extendable.
+	 *     4: >
+	 *      If data-sources are provided, suggestions must start after the User types in an amount
+	 *      of characters between 1 and 3.
+	 *   wording:
+	 *     1: The Options provided MUST NOT have long titles.
+	 *
+	 * ---
+	 * @param string $label
+	 * @param string $byline
+	 * @param array  $options List of Options to select from, given in pairs with identifier and Label
+	 *                        such as [ 6 => 'root', 13 => 'anonymous' ]
+	 *
+	 * @return    \ILIAS\UI\Component\Input\Field\TagInput
+	 */
+	public function tagInput(string $label, $byline = null);
 }
