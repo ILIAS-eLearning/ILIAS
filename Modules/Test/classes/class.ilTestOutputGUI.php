@@ -333,7 +333,9 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$this->prepareTestPage($presentationMode, $sequenceElement, $questionId);
 
 		$navigationToolbarGUI = $this->getTestNavigationToolbarGUI();
-		$this->handleFinishedButton($navigationToolbarGUI, $questionId);
+		$navigationToolbarGUI->setFinishTestButtonEnabled(true);
+		
+		$isNextPrimary = $this->handlePrimaryButton($navigationToolbarGUI, $questionId);
 		
 		$this->ctrl->setParameter($this, 'sequence', $sequenceElement);
 		$this->ctrl->setParameter($this, 'pmode', $presentationMode);
@@ -371,7 +373,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$this->populateTestNavigationToolbar($navigationToolbarGUI);
 
 // fau: testNav - enable the question navigation in edit mode
-		$this->populateQuestionNavigation($sequenceElement, false);
+		$this->populateQuestionNavigation($sequenceElement, false, $isNextPrimary);
 // fau.
 		
 		if ($instantResponse)
@@ -879,10 +881,14 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	/**
 	 * @param ilTestNavigationToolbarGUI $navigationToolbarGUI
 	 */
-	protected function handleFinishedButton(ilTestNavigationToolbarGUI $navigationToolbarGUI, $currentQuestionId)
+	protected function handlePrimaryButton(ilTestNavigationToolbarGUI $navigationToolbarGUI, $currentQuestionId)
 	{
+		$isNextPrimary = true;
 		
-		$navigationToolbarGUI->setFinishTestButtonEnabled(true);
+		if( $this->object->isForceInstantFeedbackEnabled() )
+		{
+			$isNextPrimary = false;
+		}
 		
 		$questionsMissingResult = assQuestion::getQuestionsMissingResultRecord(
 			$this->testSession->getActiveId(), $this->testSession->getPass(),
@@ -892,6 +898,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		if( !count($questionsMissingResult) )
 		{
 			$navigationToolbarGUI->setFinishTestButtonPrimary(true);
+			$isNextPrimary = false;
 		}
 		elseif( count($questionsMissingResult) == 1 )
 		{
@@ -900,7 +907,10 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			if($currentQuestionId == $lastOpenQuestion)
 			{
 				$navigationToolbarGUI->setFinishTestButtonPrimary(true);
+				$isNextPrimary = false;
 			}
 		}
+		
+		return $isNextPrimary;
 	}
 }
