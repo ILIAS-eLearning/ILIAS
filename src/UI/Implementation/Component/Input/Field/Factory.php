@@ -6,6 +6,7 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component\Input\Field;
 use ILIAS\Data;
+use ILIAS\UI\NotImplementedException;
 use ILIAS\Validation;
 use ILIAS\Transformation;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
@@ -94,5 +95,13 @@ class Factory implements Field\Factory {
 	 */
 	public function checkbox($label, $byline = null) {
 		return new Checkbox($this->data_factory, $this->validation_factory, $this->transformation_factory, $label, $byline);
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function tagInput(string $label, $byline = null, array $options) {
+		throw new NotImplementedException();
 	}
 }
