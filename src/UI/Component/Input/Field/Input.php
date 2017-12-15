@@ -104,17 +104,6 @@ interface Input extends Component {
 
 
 	/**
-	 * Parse the raw input from the client side and transform it to the desired type if needed.
-	 * This is called before the value is passed to a clones Input using withValue().
-	 *
-	 * @param mixed $raw_value
-	 *
-	 * @return mixed the parsed value or $raw_value by default
-	 */
-	public function parseRawValue($raw_value);
-
-
-	/**
 	 * The error of the input as used in HTML.
 	 *
 	 * @return string|null
