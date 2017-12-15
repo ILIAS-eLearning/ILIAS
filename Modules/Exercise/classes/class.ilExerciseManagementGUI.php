@@ -256,35 +256,22 @@ class ilExerciseManagementGUI
 		}
 		
 		// add member
-		// is only shown if 'edit_submissions_grades' is granted by rbac. positions
-		// access is not sufficient.
-		$has_rbac_access = $GLOBALS['DIC']->access()->checkAccess(
-			'edit_submissions_grades',
-			'',
-			$this->exercise->getRefId()
+		include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
+		ilRepositorySearchGUI::fillAutoCompleteToolbar(
+			$this,
+			$ilToolbar,
+			array(
+				'auto_complete_name'	=> $lng->txt('user'),
+				'submit_name'			=> $lng->txt('add'),
+				'add_search'			=> true,
+				'add_from_container'    => $this->exercise->getRefId()
+			)
 		);
-		if($has_rbac_access)
-		{
-			include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
-			ilRepositorySearchGUI::fillAutoCompleteToolbar(
-				$this,
-				$ilToolbar,
-				array(
-					'auto_complete_name'	=> $lng->txt('user'),
-					'submit_name'			=> $lng->txt('add'),
-					'add_search'			=> true,
-					'add_from_container'    => $this->exercise->getRefId()
-				)
-			);
-		}
 		
 		// #16168 - no assignments
 		if (count($ass) > 0)
 		{
-			if($has_rbac_access)
-			{
-				$ilToolbar->addSeparator();
-			}
+			$ilToolbar->addSeparator();
 
 			// we do not want the ilRepositorySearchGUI form action		
 			$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
