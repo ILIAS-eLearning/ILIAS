@@ -97,14 +97,17 @@ il.UI.Input = il.UI.Input || {};
             });
             $(id).on('itemAdded', function (event) {
                 _log("Added Item", event.item);
+                // $("input").tagsinput('items')
+
                 var hidden = $('#hidden-' + _CONFIG.id);
-                var val = hidden.val();
-                var items = [];
-                try {
-                    items = JSON.parse(val);
-                } catch (e) {
-                }
-                items.push(event.item);
+                // var val = hidden.val();
+                // var items = [];
+                // try {
+                //     items = JSON.parse(val);
+                // } catch (e) {
+                // }
+                // items.push(event.item);
+                var items = $(id).tagsinput('items');
                 _log('Items', items);
                 hidden.val(JSON.stringify(items));
             });

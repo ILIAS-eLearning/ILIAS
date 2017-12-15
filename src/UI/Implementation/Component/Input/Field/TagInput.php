@@ -65,6 +65,17 @@ class TagInput extends Input implements C\Input\Field\TagInput {
 	) {
 		parent::__construct($data_factory, $validation_factory, $transformation_factory, $label, $byline);
 		$this->options = $options;
+		$this->setAdditionalTransformation($this->transformation_factory->custom(function ($raw_value) {
+			$json_decode = json_decode($raw_value);
+			$values = [];
+			foreach ($json_decode as $item) {
+				$values[] = trim($item);
+			}
+
+			return $values;
+		}
+
+		));
 		$this->setAdditionalConstraint($this->validation_factory->isArray());
 	}
 

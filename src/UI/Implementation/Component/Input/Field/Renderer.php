@@ -284,13 +284,9 @@ class Renderer extends AbstractComponentRenderer {
 				 */
 				$tpl->setVariable("ID", $id);
 				$tpl->setVariable("NAME", $input->getName());
-
-				foreach ($input->getValue() as $value) {
-					$option = $input->getOptions()[$value];
-					$tpl->setCurrentBlock("selected_option");
-					$tpl->setVariable("OPTION_ID", (string)$value);
-					$tpl->setVariable("OPTION_NAME", (string)$option);
-					$tpl->parseCurrentBlock();
+				if ($input->getValue()) {
+					$tpl->setVariable("VALUE", implode(",", $input->getValue()));
+					$tpl->setVariable("VALUE_JSON", json_encode($input->getValue()));
 				}
 
 				break;
