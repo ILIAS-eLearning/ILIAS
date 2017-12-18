@@ -7,13 +7,13 @@ use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Signal;
 
 /**
- * Interface TagInput
+ * Interface Tag
  *
  * This describes Tag Inputs
  *
  * @package ILIAS\UI\Component\Input\Field
  */
-interface TagInput extends Input, JavaScriptBindable {
+interface Tag extends Input, JavaScriptBindable {
 
 	/**
 	 * @return array of tags such as [ 'Interesting', 'Boring', 'Animating', 'Repetitious' ]
@@ -27,9 +27,9 @@ interface TagInput extends Input, JavaScriptBindable {
 	 *
 	 * @param bool $extendable
 	 *
-	 * @return \ILIAS\UI\Component\Input\Field\TagInput
+	 * @return \ILIAS\UI\Component\Input\Field\Tag
 	 */
-	public function withUserCreatedTagsAllowed(bool $extendable): TagInput;
+	public function withUserCreatedTagsAllowed(bool $extendable): Tag;
 
 
 	/**
@@ -46,9 +46,9 @@ interface TagInput extends Input, JavaScriptBindable {
 	 *
 	 * @param int $characters , defaults to 1
 	 *
-	 * @return \ILIAS\UI\Component\Input\Field\TagInput
+	 * @return \ILIAS\UI\Component\Input\Field\Tag
 	 */
-	public function withSuggestionsStartAfter(int $characters): TagInput;
+	public function withSuggestionsStartAfter(int $characters): Tag;
 
 
 	/**
@@ -63,9 +63,9 @@ interface TagInput extends Input, JavaScriptBindable {
 	 *
 	 * @param int $max_length
 	 *
-	 * @return \ILIAS\UI\Component\Input\Field\TagInput
+	 * @return \ILIAS\UI\Component\Input\Field\Tag
 	 */
-	public function withTagMaxLength(int $max_length): TagInput;
+	public function withTagMaxLength(int $max_length): Tag;
 
 
 	/**
@@ -80,9 +80,9 @@ interface TagInput extends Input, JavaScriptBindable {
 	 *
 	 * @param int $max_tags
 	 *
-	 * @return \ILIAS\UI\Component\Input\Field\TagInput
+	 * @return \ILIAS\UI\Component\Input\Field\Tag
 	 */
-	public function withMaxTags(int $max_tags): TagInput;
+	public function withMaxTags(int $max_tags): Tag;
 
 
 	/**
@@ -98,31 +98,31 @@ interface TagInput extends Input, JavaScriptBindable {
 	/**
 	 * @param \ILIAS\UI\Component\Signal $signal
 	 *
-	 * @return \ILIAS\UI\Component\Input\Field\TagInput
+	 * @return \ILIAS\UI\Component\Input\Field\Tag
 	 */
-	public function withAdditionalOnTagAdded(Signal $signal): TagInput;
+	public function withAdditionalOnTagAdded(Signal $signal): Tag;
 
 
 	/**
 	 * @param \ILIAS\UI\Component\Signal $signal
 	 *
-	 * @return \ILIAS\UI\Component\Input\Field\TagInput
+	 * @return \ILIAS\UI\Component\Input\Field\Tag
 	 */
-	public function withAdditionalOnBeforeTagAdded(Signal $signal): TagInput;
+	public function withAdditionalOnBeforeTagAdded(Signal $signal): Tag;
 
 
 	/**
 	 * @param \ILIAS\UI\Component\Signal $signal
 	 *
-	 * @return \ILIAS\UI\Component\Input\Field\TagInput
+	 * @return \ILIAS\UI\Component\Input\Field\Tag
 	 */
-	public function withAdditionalOnTagRemoved(Signal $signal): TagInput;
+	public function withAdditionalOnTagRemoved(Signal $signal): Tag;
 
 
 	/**
 	 * @param \ILIAS\UI\Component\Signal $signal
 	 *
-	 * @return \ILIAS\UI\Component\Input\Field\TagInput
+	 * @return \ILIAS\UI\Component\Input\Field\Tag
 	 */
-	public function withAdditionalOnBeforeTagRemoved(Signal $signal): TagInput;
+	public function withAdditionalOnBeforeTagRemoved(Signal $signal): Tag;
 }

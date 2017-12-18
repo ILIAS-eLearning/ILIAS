@@ -101,7 +101,7 @@ class Factory implements Field\Factory {
 	/**
 	 * @inheritDoc
 	 */
-	public function tagInput(string $label, $byline = null, array $tags) {
+	public function tag(string $label, $byline = null, array $tags) {
 		throw new NotImplementedException();
 	}
 }
