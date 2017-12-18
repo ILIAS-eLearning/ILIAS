@@ -13,7 +13,7 @@ function base_with_data() {
 	//Step 1: Define the tag input field
 	$multi_select_input = $ui->input()
 	                         ->field()
-	                         ->tagInput("Basic TagInput",
+	                         ->tag("Basic TagInput",
 		                         "Just some tags",
 		                         ['Interesting', 'Boring', 'Animating', 'Repetitious']
 	                         );

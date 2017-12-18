@@ -63,7 +63,7 @@ class Renderer extends AbstractComponentRenderer {
 			$input_tpl = $this->getTemplate("tpl.text.html", true, true);
 		} elseif ($input instanceof Component\Input\Field\Numeric) {
 			$input_tpl = $this->getTemplate("tpl.numeric.html", true, true);
-		} elseif ($input instanceof Component\Input\Field\TagInput) {
+		} elseif ($input instanceof Component\Input\Field\Tag) {
 			$input_tpl = $this->getTemplate("tpl.tag_input.html", true, true);
 		} else {
 			throw new \LogicException("Cannot render '" . get_class($input) . "'");
@@ -271,7 +271,7 @@ class Renderer extends AbstractComponentRenderer {
 					$tpl->parseCurrentBlock();
 				}
 				break;
-			case ($input instanceof TagInput):
+			case ($input instanceof Tag):
 				$configuration = $input->getConfiguration();
 				$input = $input->withAdditionalOnLoadCode(function ($id) use ($configuration) {
 					$encoded = json_encode($configuration);
@@ -280,7 +280,7 @@ class Renderer extends AbstractComponentRenderer {
 				});
 				$id = $this->bindJavaScript($input);
 				/**
-				 * @var $input \ILIAS\UI\Implementation\Component\Input\Field\TagInput
+				 * @var $input \ILIAS\UI\Implementation\Component\Input\Field\Tag
 				 */
 				$tpl->setVariable("ID", $id);
 				$tpl->setVariable("NAME", $input->getName());
@@ -307,7 +307,7 @@ class Renderer extends AbstractComponentRenderer {
 			Component\Input\Field\Group::class,
 			Component\Input\Field\Section::class,
 			Component\Input\Field\Checkbox::class,
-			Component\Input\Field\TagInput::class,
+			Component\Input\Field\Tag::class,
 			Component\Input\Field\DependantGroup::class,
 		];
 	}

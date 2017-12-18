@@ -89,9 +89,9 @@ class Tag extends Input implements C\Input\Field\Tag {
 	 */
 	public function getConfiguration(): \stdClass {
 		$configuration = new \stdClass();
-		$configuration->options = $this->getOptions();
+		$configuration->options = $this->getTags();
 		$configuration->selected_options = $this->getValue();
-		$configuration->extendable = $this->areTagsExtendable();
+		$configuration->extendable = $this->areUserCreatedTagsAllowed();
 		$configuration->suggestion_starts = $this->getSuggestionsStartAfter();
 		$configuration->max_chars = 2000;
 		$configuration->suggestion_limit = 50;
