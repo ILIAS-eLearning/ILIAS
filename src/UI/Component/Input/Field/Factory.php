@@ -196,7 +196,7 @@ interface Factory {
 	 *     1: >
 	 *      A checkbox MUST NOT be used whenever a user has to perform a binary choice where
 	 *      option is not automatically the inverse of the other (such as 'Order by Date' and
-	 *      'Order by Name'). A Tag Input, Select Input or a Radio Group in MUST be
+	 *      'Order by Name'). A Select Input or a Radio Group in MUST be
 	 *      used in this case.
 	 *   wording:
 	 *     1: The checkbox’s identifier MUST always state something positive.
