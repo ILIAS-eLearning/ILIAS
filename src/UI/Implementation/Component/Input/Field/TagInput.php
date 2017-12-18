@@ -15,8 +15,12 @@ use ILIAS\Validation\Factory as ValidationFactory;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class TagInput extends Input implements C\Input\Field\TagInput {
+class Tag extends Input implements C\Input\Field\Tag {
 
+	const EVENT_ITEM_ADDED = 'itemAdded';
+	const EVENT_BEFORE_ITEM_REMOVE = 'beforeItemRemove';
+	const EVENT_BEFORE_ITEM_ADD = 'beforeItemAdd';
+	const EVENT_ITEM_REMOVED = 'itemRemoved';
 	const INFINITE = 0;
 	use JavaScriptBindable;
 	use Triggerer;
@@ -116,7 +120,7 @@ class TagInput extends Input implements C\Input\Field\TagInput {
 	/**
 	 * @inheritDoc
 	 */
-	public function getOptions(): array {
+	public function getTags(): array {
 		return $this->options;
 	}
 
@@ -124,7 +128,7 @@ class TagInput extends Input implements C\Input\Field\TagInput {
 	/**
 	 * @inheritDoc
 	 */
-	public function withTagsAreExtendable(bool $extendable): C\Input\Field\TagInput {
+	public function withUserCreatedTagsAllowed(bool $extendable): C\Input\Field\Tag {
 		$clone = clone $this;
 		$clone->extendable = $extendable;
 
@@ -135,7 +139,7 @@ class TagInput extends Input implements C\Input\Field\TagInput {
 	/**
 	 * @inheritDoc
 	 */
-	public function areTagsExtendable(): bool {
+	public function areUserCreatedTagsAllowed(): bool {
 		return $this->extendable;
 	}
 
@@ -143,7 +147,7 @@ class TagInput extends Input implements C\Input\Field\TagInput {
 	/**
 	 * @inheritDoc
 	 */
-	public function withSuggestionsStartAfter(int $characters): C\Input\Field\TagInput {
+	public function withSuggestionsStartAfter(int $characters): C\Input\Field\Tag {
 		$clone = clone $this;
 		$clone->suggestion_starts_with = $characters;
 
@@ -162,7 +166,7 @@ class TagInput extends Input implements C\Input\Field\TagInput {
 	/**
 	 * @inheritDoc
 	 */
-	public function withTagMaxLength(int $max_length): C\Input\Field\TagInput {
+	public function withTagMaxLength(int $max_length): C\Input\Field\Tag {
 		$clone = clone $this;
 		$clone->tag_max_length = $max_length;
 
@@ -181,7 +185,7 @@ class TagInput extends Input implements C\Input\Field\TagInput {
 	/**
 	 * @inheritDoc
 	 */
-	public function withMaxTags(int $max_tags): C\Input\Field\TagInput {
+	public function withMaxTags(int $max_tags): C\Input\Field\Tag {
 		$clone = clone $this;
 		$clone->max_tags = $max_tags;
 
@@ -202,31 +206,15 @@ class TagInput extends Input implements C\Input\Field\TagInput {
 	/**
 	 * @inheritDoc
 	 */
-	public function withAdditionalOnOptionAdded(Signal $signal): C\Input\Field\TagInput {
-		return $this->appendTriggeredSignal($signal, C\Input\Field\TagInput::EVENT_ITEM_ADDED);
+	public function withAdditionalOnTagAdded(Signal $signal): C\Input\Field\Tag {
+		return $this->appendTriggeredSignal($signal, self::EVENT_ITEM_ADDED);
 	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function withAdditionalOnBeforeOptionAdded(Signal $signal): C\Input\Field\TagInput {
-		return $this->appendTriggeredSignal($signal, C\Input\Field\TagInput::EVENT_BEFORE_ITEM_ADD);
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function withAdditionalOnOptionRemoved(Signal $signal): C\Input\Field\TagInput {
-		return $this->appendTriggeredSignal($signal, C\Input\Field\TagInput::EVENT_ITEM_REMOVED);
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function withAdditionalOnBeforeOptionRemoved(Signal $signal): C\Input\Field\TagInput {
-		return $this->appendTriggeredSignal($signal, C\Input\Field\TagInput::EVENT_BEFORE_ITEM_REMOVE);
+	public function withAdditionalOnTagRemoved(Signal $signal): C\Input\Field\Tag {
+		return $this->appendTriggeredSignal($signal, self::EVENT_ITEM_REMOVED);
 	}
 }

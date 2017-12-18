@@ -196,7 +196,7 @@ interface Factory {
 	 *     1: >
 	 *      A checkbox MUST NOT be used whenever a user has to perform a binary choice where
 	 *      option is not automatically the inverse of the other (such as 'Order by Date' and
-	 *      'Order by Name'). A Tag Input, Select Input or a Radio Group in MUST be
+	 *      'Order by Name'). A Select Input or a Radio Group in MUST be
 	 *      used in this case.
 	 *   wording:
 	 *     1: The checkbox’s identifier MUST always state something positive.
@@ -217,7 +217,7 @@ interface Factory {
 	 *     or not possible to display all available options, e.g. because the amount is too high
 	 *     when the options are "all users" or "all tags.
 	 *     Besides the tags to choose from, the user can provide own tags by typing them
-	 *     into the Input (@see TagInput::withOptionsAreExtendable ).
+	 *     into the Input (@see Tag::withOptionsAreExtendable ).
 	 *   composition: >
 	 *     The Input is presented as a Text Input and prepended by already selected tags
 	 *     presented as texts including a Close-Button.  (e.g. [ Amsterdam X ] )
@@ -256,10 +256,10 @@ interface Factory {
 	 * ---
 	 * @param string $label
 	 * @param string $byline
-	 * @param array  $tags    List of tags to select from, given as a list of texts
+	 * @param string[]  $tags    List of tags to select from, given as a list of texts
 	 *                        such as [ 'Interesting', 'Boring', 'Animating', 'Repetitious' ]
 	 *
-	 * @return    \ILIAS\UI\Component\Input\Field\TagInput
+	 * @return    \ILIAS\UI\Component\Input\Field\Tag
 	 */
-	public function tagInput(string $label, $byline = null, array $tags);
+	public function tag(string $label, $byline = null, array $tags);
 }
