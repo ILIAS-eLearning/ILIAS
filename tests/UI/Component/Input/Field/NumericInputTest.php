@@ -83,7 +83,7 @@ class NumericInputTest extends ILIAS_UI_TestBase {
 	public function test_render_value() {
 		$f = $this->buildFactory();
 		$label = "label";
-		$value = "value";
+		$value = "10";
 		$name = "name_0";
 		$numeric = $f->numeric($label)->withValue($value)->withNameFrom($this->name_source);
 
