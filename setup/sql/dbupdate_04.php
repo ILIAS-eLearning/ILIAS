@@ -18539,8 +18539,8 @@ FROM
 	il_dcl_field_prop fp ON rf.field_id = fp.field_id
 WHERE
     f.datatype_id = 3
-	AND fp.name = "multiple_selection"
-	AND fp.value = 1
+	AND fp.name = ' . $ilDB->quote("multiple_selection", 'text') . '
+	AND fp.value = ' . $ilDB->quote("1", 'text') . '
 ORDER BY stloc.id ASC');
 
 while ($row = $query->fetchAssoc()) {
@@ -20121,7 +20121,10 @@ if(!$ilDB->tableColumnExists('saml_idp_settings', 'account_migr_status'))
 <?php
 if(!$ilDB->tableExists('auth_ext_attr_mapping') && $ilDB->tableExists('saml_attribute_mapping'))
 {
+	$ilDB->dropPrimaryKey('saml_attribute_mapping');
 	$ilDB->renameTable('saml_attribute_mapping', 'auth_ext_attr_mapping');
+	$ilDB->addPrimaryKey('auth_ext_attr_mapping', array('idp_id', 'attribute'));
+	
 }
 ?>
 <#5165>
@@ -20188,7 +20191,9 @@ if(!$ilDB->tableColumnExists('saml_idp_settings', 'entity_id'))
 <?php
 if($ilDB->tableExists('cal_categories_hidden') )
 {
+	$ilDB->dropPrimaryKey('cal_categories_hidden');
 	$ilDB->renameTable('cal_categories_hidden', 'cal_cat_visibility');
+	$ilDB->addPrimaryKey('cal_cat_visibility', array('user_id', 'cat_id'));
 	$ilDB->addTableColumn('cal_cat_visibility', 'obj_id', array(
 		"type" => "integer",
 		"length" => 4,

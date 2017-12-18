@@ -53,11 +53,10 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager {
 
 		// gratuitously stolen from PEAR DB _getSpecialQuery in pgsql.php
 		$query = 'SELECT c.relname AS "Name"' . ' FROM pg_class c, pg_user u' . ' WHERE c.relowner = u.usesysid' . " AND c.relkind = 'r'"
-		         . ' AND NOT EXISTS' . ' (SELECT 1 FROM pg_views' . '  WHERE viewname = c.relname)' . " AND c.relname !~ '^(pg_|sql_)'" . ' UNION'
-		         . ' SELECT c.relname AS "Name"' . ' FROM pg_class c' . " WHERE c.relkind = 'r'" . ' AND NOT EXISTS' . ' (SELECT 1 FROM pg_views'
-		         . '  WHERE viewname = c.relname)' . ' AND NOT EXISTS' . ' (SELECT 1 FROM pg_user' . '  WHERE usesysid = c.relowner)'
-		         . " AND c.relname !~ '^pg_'";
-
+			. ' AND NOT EXISTS' . ' (SELECT 1 FROM pg_views' . '  WHERE viewname = c.relname)' . " AND c.relname !~ '^(pg_|sql_)'" . ' UNION'
+			. ' SELECT c.relname AS "Name"' . ' FROM pg_class c' . " WHERE c.relkind = 'r'" . ' AND NOT EXISTS' . ' (SELECT 1 FROM pg_views'
+			. '  WHERE viewname = c.relname)' . ' AND NOT EXISTS' . ' (SELECT 1 FROM pg_user' . '  WHERE usesysid = c.relowner)'
+			. " AND c.relname !~ '^pg_'";
 		$result = $db->queryCol($query, ilDBConstants::FETCHMODE_ASSOC);
 
 		if ($db->options['portability']) {
@@ -188,11 +187,11 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager {
 		$db = $this->db_instance;
 
 		$table = $db->quoteIdentifier($table, true);
-		$db->setLimit(1);
-		$result = $db->query("SELECT * FROM $table");
-		$data = $db->fetchAssoc($result);
-
-		return array_keys($data);
+		$res = $this->pdo->query("select * from $table");
+		for ($i = 0; $i < $res->columnCount(); $i++) {
+			$data[] = $res->getColumnMeta($i)["name"];
+		}
+		return $data;
 	}
 
 
