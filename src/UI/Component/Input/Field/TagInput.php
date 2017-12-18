@@ -9,7 +9,7 @@ use ILIAS\UI\Component\Signal;
 /**
  * Interface TagInput
  *
- * this describes TagInput Inputs
+ * This describes Tag Inputs
  *
  * @package ILIAS\UI\Component\Input\Field
  */
@@ -22,9 +22,9 @@ interface TagInput extends Input, JavaScriptBindable {
 
 
 	/**
-	 * @return array of options such as [ 'Interesting', 'Boring', 'Animating', 'Repetitious' ]
+	 * @return array of tags such as [ 'Interesting', 'Boring', 'Animating', 'Repetitious' ]
 	 */
-	public function getOptions(): array;
+	public function getTags(): array;
 
 
 	/**
@@ -35,20 +35,20 @@ interface TagInput extends Input, JavaScriptBindable {
 	 *
 	 * @return \ILIAS\UI\Component\Input\Field\TagInput
 	 */
-	public function withTagsAreExtendable(bool $extendable): TagInput;
+	public function withUserCreatedTagsAllowed(bool $extendable): TagInput;
 
 
 	/**
-	 * @see withTagsAreExtendable
+	 * @see withUserCreatedTagsAllowed
 	 * @return bool Whether the user is allowed to input more
 	 * options than the given.
 	 */
-	public function areTagsExtendable(): bool;
+	public function areUserCreatedTagsAllowed(): bool;
 
 
 	/**
 	 * Get an input like this, but change the amount of characters the
-	 * user has to provide before the seggustions start (Default: 1)
+	 * user has to provide before the suggestions start (Default: 1)
 	 *
 	 * @param int $characters , defaults to 1
 	 *
@@ -106,7 +106,7 @@ interface TagInput extends Input, JavaScriptBindable {
 	 *
 	 * @return \ILIAS\UI\Component\Input\Field\TagInput
 	 */
-	public function withAdditionalOnOptionAdded(Signal $signal): TagInput;
+	public function withAdditionalOnTagAdded(Signal $signal): TagInput;
 
 
 	/**
@@ -114,7 +114,7 @@ interface TagInput extends Input, JavaScriptBindable {
 	 *
 	 * @return \ILIAS\UI\Component\Input\Field\TagInput
 	 */
-	public function withAdditionalOnBeforeOptionAdded(Signal $signal): TagInput;
+	public function withAdditionalOnBeforeTagAdded(Signal $signal): TagInput;
 
 
 	/**
@@ -122,7 +122,7 @@ interface TagInput extends Input, JavaScriptBindable {
 	 *
 	 * @return \ILIAS\UI\Component\Input\Field\TagInput
 	 */
-	public function withAdditionalOnOptionRemoved(Signal $signal): TagInput;
+	public function withAdditionalOnTagRemoved(Signal $signal): TagInput;
 
 
 	/**
@@ -130,5 +130,5 @@ interface TagInput extends Input, JavaScriptBindable {
 	 *
 	 * @return \ILIAS\UI\Component\Input\Field\TagInput
 	 */
-	public function withAdditionalOnBeforeOptionRemoved(Signal $signal): TagInput;
+	public function withAdditionalOnBeforeTagRemoved(Signal $signal): TagInput;
 }

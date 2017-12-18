@@ -6,6 +6,7 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component\Input\Field;
 use ILIAS\Data;
+use ILIAS\UI\NotImplementedException;
 use ILIAS\Validation;
 use ILIAS\Transformation;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
@@ -100,7 +101,7 @@ class Factory implements Field\Factory {
 	/**
 	 * @inheritDoc
 	 */
-	public function tagInput(string $label, $byline = null, array $options) {
-		return new TagInput($this->data_factory, $this->validation_factory, $this->transformation_factory, $label, $byline, $options);
+	public function tagInput(string $label, $byline = null, array $tags) {
+		return new TagInput($this->data_factory, $this->validation_factory, $this->transformation_factory, $label, $byline, $tags);
 	}
 }
