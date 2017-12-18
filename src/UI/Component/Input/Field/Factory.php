@@ -196,7 +196,7 @@ interface Factory {
 	 *     1: >
 	 *      A checkbox MUST NOT be used whenever a user has to perform a binary choice where
 	 *      option is not automatically the inverse of the other (such as 'Order by Date' and
-	 *      'Order by Name'). A TagInput Input, Select Input or a Radio Group in MUST be
+	 *      'Order by Name'). A Tag Input, Select Input or a Radio Group in MUST be
 	 *      used in this case.
 	 *   wording:
 	 *     1: The checkbox’s identifier MUST always state something positive.
@@ -212,18 +212,19 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     A TagInput is used to choose a subset amount of tags out of a finite list
-	 *     of tags. The TagInput is used whenever not all available tags to choose from
-	 *     MUST or SHOULD be visible, e.g. because the amount is too high.
+	 *     A Tag Input is used to choose a subset amount of tags (techn.: array of strings) out
+	 *     of a finite list of tags. The Tag Field SHOULD be used, whenever it is not required
+	 *     or not possible to display all available options, e.g. because the amount is too high
+	 *     when the options are "all users" or "all tags.
 	 *     Besides the tags to choose from, the user can provide own tags by typing them
-	 *     into the Input
+	 *     into the Input (@see TagInput::withOptionsAreExtendable ).
 	 *   composition: >
-	 *     The Input is presented as a TextInput and prepended by already selected tags
+	 *     The Input is presented as a Text Input and prepended by already selected tags
 	 *     presented as texts including a Close-Button.  (e.g. [ Amsterdam X ] )
-	 *     The input is labeled by the $label given.
-	 *     Suggested tags are listed in a Dropdown-List beneath the TextInput.
+	 *     The input is labeled by the label given.
+	 *     Suggested tags are listed in a Dropdown-List beneath the Text Input.
 	 *   effect: >
-	 *     As soon as the user types in the TextInput, the TagInput suggests matching tags from
+	 *     As soon as the user types in the Text Input, the Tag Input suggests matching tags from
 	 *     the the given list of tags. Suggestions will appear after a defined
 	 *     amount of characters, one by default.
 	 *     Clicking on one of these tags closes the List and transfers the selected tag into
@@ -232,33 +233,33 @@ interface Factory {
 	 *     from the Input.
 	 *
 	 * rivals: >
-	 *   SelectInput: Currently not part of the UI-Service.
+	 *     + SelectInput: Currently not part of the UI-Service.
+	 *     + Checkbox Group
 	 *
 	 * rules:
 	 *   usage:
 	 *     1: >
-	 *      A TagInput MUST NOT be used whenever a user has to perform a binary choice where
+	 *      A Tag Input MUST NOT be used whenever a user has to perform a binary choice where
 	 *      option is automatically the inverse of the other. A Checkbox MUST be used in this case.
 	 *     2: >
-	 *      A TagInput MUST NOT be used whenever a user has to perform a choice from a list of
+	 *      A Tag Input MUST NOT be used whenever a user has to perform a choice from a list of
 	 *      options where only one Option has to be selected. A Select MUST be used in this case
 	 *      (Not yet part of the KitchenSink).
 	 *     3: >
-	 *      A TagInput MUST be used whenever a User should be able to extend the list of given options.
+	 *      A Tag Input SHOULD be used whenever a User should be able to extend the list of given options.
 	 *     4: >
-	 *      A TagInput MUST NOT be used when a User has to choose from a finite list of options
-	 *      which can't be extended by users Input, a MultiSelect MUST be used in this case
+	 *      A Tag Input MUST NOT be used when a User has to choose from a finite list of options
+	 *      which can't be extended by users Input, a Multi Select MUST be used in this case
 	 *      (Not yet part of the KitchenSink).
-	 *   wording:
-	 *     1: The tags provided MUST NOT have long titles.
+	 *     5: The tags provided SHOULD NOT have long titles.
 	 *
 	 * ---
 	 * @param string $label
 	 * @param string $byline
-	 * @param array  $options List of tags to select from, given as a list of texts
+	 * @param array  $tags    List of tags to select from, given as a list of texts
 	 *                        such as [ 'Interesting', 'Boring', 'Animating', 'Repetitious' ]
 	 *
 	 * @return    \ILIAS\UI\Component\Input\Field\TagInput
 	 */
-	public function tagInput(string $label, $byline = null, array $options);
+	public function tagInput(string $label, $byline = null, array $tags);
 }
