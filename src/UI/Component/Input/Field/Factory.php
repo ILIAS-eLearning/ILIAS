@@ -256,7 +256,7 @@ interface Factory {
 	 * ---
 	 * @param string $label
 	 * @param string $byline
-	 * @param array  $tags    List of tags to select from, given as a list of texts
+	 * @param string[]  $tags    List of tags to select from, given as a list of texts
 	 *                        such as [ 'Interesting', 'Boring', 'Animating', 'Repetitious' ]
 	 *
 	 * @return    \ILIAS\UI\Component\Input\Field\TagInput
