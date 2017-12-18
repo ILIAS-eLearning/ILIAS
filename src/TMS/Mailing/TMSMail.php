@@ -23,12 +23,23 @@ class TMSMail implements Mail {
 	 */
 	protected $contexts;
 
+	/**
+	 * @var Attachments | null
+	 */
+	protected $attachments;
 
-	public function __construct(Recipient $recipient, $template_ident, $contexts) {
+
+	public function __construct(
+		Recipient $recipient,
+		$template_ident,
+		array $contexts,
+		Attachments $attachments = null
+	) {
 		assert('is_string($template_ident)');
 		$this->recipient = $recipient;
 		$this->template_ident = $template_ident;
 		$this->contexts = $contexts;
+		$this->attachments = $attachments;
 	}
 
 	/**
@@ -50,5 +61,12 @@ class TMSMail implements Mail {
 	 */
 	public function getContexts() {
 		return $this->contexts;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getAttachments() {
+		return $this->attachments;
 	}
 }

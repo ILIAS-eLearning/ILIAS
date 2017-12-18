@@ -115,6 +115,14 @@ class ilTMSMailContentBuilder implements Mailing\MailContentBuilder {
 	}
 
 	/**
+	 * @inheritdoc
+	 */
+	public function getAttachments()
+	{
+
+	}
+
+	/**
 	 * Replaces all placeholders.
 	 *
 	 * @return string

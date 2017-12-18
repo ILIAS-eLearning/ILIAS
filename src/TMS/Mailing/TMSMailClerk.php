@@ -73,6 +73,7 @@ class TMSMailClerk {
 
 			$recipient = $mail->getRecipient();
 			$contexts = $mail->getContexts();
+			$attachments = $mail->getAttachments();
 			$template_ident = $mail->getTemplateIdentifier();
 
 			$builder =  $this->content_builder->withData($template_ident, $contexts);
@@ -100,6 +101,7 @@ class TMSMailClerk {
 				$this->sender->ClearAllRecipients(); //only send to one recipient!
 				$this->sender->ClearCCs();
 				$this->sender->ClearBCCs();
+				$this->sender->clearAttachments();
 				$this->sender->addAddress($mail_to_address, $mail_to_name);
 				$this->sender->Subject = $subject;
 				$this->sender->Body = $msg_html;
@@ -108,7 +110,11 @@ class TMSMailClerk {
 					list($path, $file) = $embed;
 					$this->sender->AddEmbeddedImage($path, $file);
 				}
-
+				if($attachments !== null) {
+					foreach($attachments->getAttachments() as $attachment) {
+						$this->sender->addAttachment($attachment->getAttachmentPath());
+					}
+				}
 				if(! $this->sender->Send()) {
 					$err[] = $this->sender->ErrorInfo;
 				};

@@ -65,5 +65,10 @@ interface MailContentBuilder {
 	 */
 	public function getEmbeddedImages();
 
-	//TODO: atachments
+	/**
+	 * Returns pathes of attachments of the mail.
+	 *
+	 * @return string[]
+	 */
+	public function getAttachments();
 }

@@ -30,6 +30,13 @@ interface Mail {
 	 */
 	public function getContexts();
 
+	/**
+	 * Get all attachments, that should be sent with the mail.
+	 *
+	 * @return Attachments | null
+	 */
+	public function getAttachments();
+
 
 }
 
