@@ -108,21 +108,5 @@ interface Tag extends Input, JavaScriptBindable {
 	 *
 	 * @return \ILIAS\UI\Component\Input\Field\Tag
 	 */
-	public function withAdditionalOnBeforeTagAdded(Signal $signal): Tag;
-
-
-	/**
-	 * @param \ILIAS\UI\Component\Signal $signal
-	 *
-	 * @return \ILIAS\UI\Component\Input\Field\Tag
-	 */
 	public function withAdditionalOnTagRemoved(Signal $signal): Tag;
-
-
-	/**
-	 * @param \ILIAS\UI\Component\Signal $signal
-	 *
-	 * @return \ILIAS\UI\Component\Input\Field\Tag
-	 */
-	public function withAdditionalOnBeforeTagRemoved(Signal $signal): Tag;
 }
