@@ -67,7 +67,7 @@ trait ComponentHelper {
 	 *
 	 * @param	string	$which
 	 * @param	mixed	$value
-	 * @throws	\InvalidArgumentException	if $check = false
+	 * @throws	\InvalidArgumentException	if $value is no int
 	 * @return null
 	 */
 	protected function checkIntArg($which, $value) {
@@ -79,7 +79,7 @@ trait ComponentHelper {
 	 *
 	 * @param	string	$which
 	 * @param	mixed	$value
-	 * @throws	\InvalidArgumentException	if $check = false
+	 * @throws	\InvalidArgumentException	if $value is no string
 	 * @return null
 	 */
 	protected function checkStringArg($which, $value) {
@@ -91,7 +91,7 @@ trait ComponentHelper {
 	 *
 	 * @param	string	$which
 	 * @param	mixed	$value
-	 * @throws	\InvalidArgumentException	if $check = false
+	 * @throws	\InvalidArgumentException	if $value is no float
 	 * @return	null
 	 */
 	protected function checkFloatArg($which, $value) {
