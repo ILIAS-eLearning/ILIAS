@@ -56,6 +56,7 @@ class Factory {
 
 	// SOME RESTRICTOINS
 
+
 	/**
 	 * Get a constraint for an integer.
 	 *
@@ -64,6 +65,17 @@ class Factory {
 	public function isInt() {
 		return new Constraints\IsInt($this->data_factory);
 	}
+
+
+	/**
+	 * Get a constraint for a string.
+	 *
+	 * @return  Constraint
+	 */
+	public function isString() {
+		return new Constraints\IsString($this->data_factory);
+	}
+
 
 	/**
 	 * Get a constraint for an array.

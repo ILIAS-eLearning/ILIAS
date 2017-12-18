@@ -284,9 +284,10 @@ class Renderer extends AbstractComponentRenderer {
 				 */
 				$tpl->setVariable("ID", $id);
 				$tpl->setVariable("NAME", $input->getName());
-				if ($input->getValue()) {
-					$tpl->setVariable("VALUE", implode(",", $input->getValue()));
-					$tpl->setVariable("VALUE_JSON", json_encode($input->getValue()));
+				if ($input->getContent()) {
+					$value = $input->getContent()->value();
+					$tpl->setVariable("VALUE", implode(",", $value));
+					$tpl->setVariable("VALUE_JSON", json_encode($value));
 				}
 
 				break;

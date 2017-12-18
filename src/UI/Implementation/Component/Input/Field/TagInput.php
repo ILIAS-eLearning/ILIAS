@@ -109,7 +109,7 @@ class TagInput extends Input implements C\Input\Field\TagInput {
 	 * @inheritDoc
 	 */
 	protected function isClientSideValueOk($value) {
-		return $this->validation_factory->isArray()->accepts($value);
+		return $this->validation_factory->isString()->accepts($value);
 	}
 
 
