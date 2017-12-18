@@ -15,12 +15,6 @@ use ILIAS\UI\Component\Signal;
  */
 interface TagInput extends Input, JavaScriptBindable {
 
-	const EVENT_ITEM_ADDED = 'itemAdded';
-	const EVENT_BEFORE_ITEM_REMOVE = 'beforeItemRemove';
-	const EVENT_BEFORE_ITEM_ADD = 'beforeItemAdd';
-	const EVENT_ITEM_REMOVED = 'itemRemoved';
-
-
 	/**
 	 * @return array of tags such as [ 'Interesting', 'Boring', 'Animating', 'Repetitious' ]
 	 */
