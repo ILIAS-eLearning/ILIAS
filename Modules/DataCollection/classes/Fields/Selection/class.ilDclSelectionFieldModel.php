@@ -63,9 +63,10 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel {
 	 * @param ilPropertyFormGUI $form
 	 */
 	public function storePropertiesFromForm(ilPropertyFormGUI $form) {
+		$representation = ilDclFieldFactory::getFieldRepresentationInstance($this);
+
 		$field_props = $this->getValidFieldProperties();
 		foreach ($field_props as $property) {
-			$representation = ilDclFieldFactory::getFieldRepresentationInstance($this);
 			$value = $form->getInput($representation->getPropertyInputFieldId($property));
 
 			// break down the multidimensional array from the multi input
@@ -198,7 +199,7 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel {
 				$record_field->setValue(array($record_field_value));
 				$record_field->doUpdate();
 			}
-			else if (is_array($record_field_value) && !$is_multi_now && (count($record_field_value) == 1)) {
+			else if (is_array($record_field_value) && !$is_multi_now) {
 				$record_field->setValue(array_shift($record_field_value));
 				$record_field->doUpdate();
 			}
@@ -267,5 +268,33 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel {
 			$option->delete();
 		}
 		parent::doDelete();
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function isConfirmationRequired(ilPropertyFormGUI $form) {
+		$will_be_multi = ($form->getInput('prop_' . static::PROP_SELECTION_TYPE) == self::SELECTION_TYPE_MULTI);
+		return $this->isMulti() && !$will_be_multi;
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getConfirmationGUI(ilPropertyFormGUI $form) {
+		global $DIC;
+		$representation = ilDclFieldFactory::getFieldRepresentationInstance($this);
+		$prop_selection_options = $representation->getPropertyInputFieldId(static::PROP_SELECTION_OPTIONS);
+		$prop_selection_type = $representation->getPropertyInputFieldId(static::PROP_SELECTION_TYPE);
+
+		$ilConfirmationGUI = parent::getConfirmationGUI($form);
+		$ilConfirmationGUI->setHeaderText($DIC->language()->txt('dcl_msg_mc_to_sc_confirmation'));
+		$ilConfirmationGUI->addHiddenItem($prop_selection_type, $form->getInput($prop_selection_type));
+		foreach ($form->getInput($prop_selection_options) as $key => $option) {
+			$ilConfirmationGUI->addHiddenItem($prop_selection_options . "[$key][selection_value]",$option['selection_value']);
+		}
+		return $ilConfirmationGUI;
 	}
 }
