@@ -45,6 +45,7 @@ class NoUIFactory implements Factory {
 	public function viewControl() {}
 	public function breadcrumbs(array $crumbs) {}
 	public function chart() {}
+	public function input() {}
 }
 
 class LoggingRegistry implements ResourceRegistry {
@@ -115,12 +116,10 @@ class DummyComponent implements IComponent {
 abstract class ILIAS_UI_TestBase extends PHPUnit_Framework_TestCase {
 	public function setUp() {
 		assert_options(ASSERT_WARNING, 0);
-		assert_options(ASSERT_CALLBACK, null);
 	}
 
 	public function tearDown() {
 		assert_options(ASSERT_WARNING, 1);
-		assert_options(ASSERT_CALLBACK, null);
 	}
 
 	public function getUIFactory() {

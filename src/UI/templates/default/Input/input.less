@@ -1,0 +1,60 @@
+.il-standard-form{
+  background-color: @il-standard-form-bg;
+  margin-top: @padding-large-vertical;
+
+
+  .il-standard-form-cmd {
+    float: right;
+    .btn {
+      display: inline-block;
+      min-width: @il-button-min-width-forms;
+      vertical-align: top;
+
+      @media (max-width: @grid-float-breakpoint-max){
+        min-width: 0;
+      }
+    }
+
+  }
+  .il-standard-form-header, .il-standard-form-footer, .il-section-input-header{
+    background-color: @il-standard-form-header-bg;
+    color: @il-standard-form-header-color;
+  }
+
+  .il-standard-form-header h3, .il-section-input-header h3{
+    font-size: @il-standard-form-header-font-size;
+    text-transform: uppercase;
+    padding-top: @padding-large-vertical;
+    margin-bottom: @padding-small-vertical;
+
+  }
+
+  .il-standar-form-header-byline, .il-section-input-header-byline{
+    font-size: @il-standard-form-header-byline-font-size;
+  }
+
+  //Move the first section header up, to be displayed next to the forms top button
+  .il-standard-form-header + .il-section-input{
+    margin-top: -(@il-button-font-size*@line-height-base+@padding-base-vertical*2+2);
+    padding: 0;
+
+    .il-section-input-header h3{
+      margin-top: 0;
+      padding-top: 0;
+    }
+  }
+
+  .il-dependant-group{
+    background-color: @il-standard-form-dependant-group-bg;
+    padding: @padding-small-vertical 0;
+    .form-group {
+      margin: 0;
+    }
+  }
+
+  //This is a strange necessary fix.
+  input[type="radio"], input[type="checkbox"] {
+    margin: 0;
+  }
+
+}
