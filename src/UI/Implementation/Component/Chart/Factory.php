@@ -17,8 +17,8 @@ class Factory implements \ILIAS\UI\Component\Chart\Factory {
     /**
      * @inheritdoc
      */
-    public function gauge()
+    public function progressmeter()
     {
-        return new Gauge\Factory();
+        return new ProgressMeter\Factory();
     }
 }

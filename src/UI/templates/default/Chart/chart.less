@@ -35,24 +35,24 @@
   background-color: @il-chart-item-active-bg;
 }
 
-.il-chart-gauge-container,
-.il-chart-gauge-mini-container {
+.il-chart-progressmeter-container,
+.il-chart-progressmeter-mini-container {
   display: block;
   position: relative;
   background-color: transparent;
   height: 130%;
   width: 100%;
 
-  .il-chart-gauge-outerbox {
+  .il-chart-progressmeter-outerbox {
     height: 100%;
     width: 100%;
     border-radius: 50%;
     overflow: hidden;
     position: relative;
     z-index: 1;
-    background-color: @il-chart-gauge-background;
+    background-color: @il-chart-progressmeter-background;
 
-    .il-chart-gauge-pointer {
+    .il-chart-progressmeter-pointer {
       position: absolute;
       transform-origin: 100% 100%;
       transform: rotate(-25deg) skew(90deg);
@@ -60,69 +60,69 @@
       height: 50%;
     }
 
-    &.il-chart-gauge-bar-success {
-      & > .il-chart-gauge-pointer {
-        background-color: @il-chart-gauge-bar-success;
+    &.il-chart-progressmeter-bar-success {
+      & > .il-chart-progressmeter-pointer {
+        background-color: @il-chart-progressmeter-bar-success;
       }
     }
-    &.il-chart-gauge-bar-no-success {
-      & > .il-chart-gauge-pointer {
-        background-color: @il-chart-gauge-bar-no-success;
+    &.il-chart-progressmeter-bar-no-success {
+      & > .il-chart-progressmeter-pointer {
+        background-color: @il-chart-progressmeter-bar-no-success;
       }
     }
   }
 
-  .il-chart-gauge-innerbox {
+  .il-chart-progressmeter-innerbox {
     position: absolute;
     width: 94%;
     height: 94%;
     border-radius: 50%;
     top: 3%;
     left: 3%;
-    background-color: @il-chart-gauge-background;
+    background-color: @il-chart-progressmeter-background;
     border: 5px solid transparent;
     overflow: hidden;
 
-    .il-chart-gauge-pointer {
+    .il-chart-progressmeter-pointer {
       position: absolute;
       transform-origin: 100% 100%;
       transform: rotate(-24deg) skew(90deg);
       height: 50%;
       width: 50%;
-      background-color: @il-chart-gauge-bar-inactive;
+      background-color: @il-chart-progressmeter-bar-inactive;
       top: -1px;
     }
 
-    &.il-chart-gauge-yellow {
-      & > .il-chart-gauge-pointer {
-        background-color: @il-chart-gauge-bar-active;
+    &.il-chart-progressmeter-yellow {
+      & > .il-chart-progressmeter-pointer {
+        background-color: @il-chart-progressmeter-bar-active;
       }
     }
   }
 
-  .il-chart-gauge-cover {
+  .il-chart-progressmeter-cover {
     position: absolute;
     border-radius: 50%;
     background-color: @body-bg;
     overflow: hidden;
 
-    .il-chart-gauge-text-container {
+    .il-chart-progressmeter-text-container {
       width: 100%;
       height: 100%;
       position: relative;
       color: #000;
 
-      .il-chart-gauge-score-text {
+      .il-chart-progressmeter-score-text {
         position: absolute;
         left: 25%;
         top: 22%;
         width: 50%;
         text-align: center;
-        color: @il-chart-gauge-text;
+        color: @il-chart-progressmeter-text;
         font-size: 1em;
       }
 
-      .il-chart-gauge-score {
+      .il-chart-progressmeter-score {
         position: absolute;
         left: 20%;
         top: 28%;
@@ -130,7 +130,7 @@
         font-weight: bold;
       }
 
-      .il-chart-gauge-minscore {
+      .il-chart-progressmeter-minscore {
         position: absolute;
         left: 25%;
         top: 58%;
@@ -139,24 +139,24 @@
         font-size: 1em;
       }
 
-      .il-chart-gauge-minscore-text {
+      .il-chart-progressmeter-minscore-text {
         position: absolute;
         left: 25%;
         top: 66%;
         width: 50%;
         text-align: center;
-        color: @il-chart-gauge-text;
+        color: @il-chart-progressmeter-text;
         font-size: 1em;
       }
 
-      .il-chart-gauge-test-score {
+      .il-chart-progressmeter-test-score {
         display: none;
         font-size: 1em;
       }
     }
   }
 
-  .il-chart-gauge-marker-box {
+  .il-chart-progressmeter-marker-box {
     position: absolute;
     width: 93.3334%;
     height: 93.3334%;
@@ -165,21 +165,21 @@
     background: transparent;
     z-index: 3;
 
-    .il-chart-gauge-marker {
+    .il-chart-progressmeter-marker {
       position: absolute;
       left: 50%;
       margin-left: -8px;
       border-left: 9px solid transparent;
       border-right: 9px solid transparent;
-      border-top: 11px solid @il-chart-gauge-marker-shadow;
+      border-top: 11px solid @il-chart-progressmeter-marker-shadow;
       width: 1px;
       height: 1px;
 
-      .il-chart-gauge-arrow {
+      .il-chart-progressmeter-arrow {
         position: relative;
         border-left: 10px solid transparent;
         border-right: 10px solid transparent;
-        border-top: 13px solid @il-chart-gauge-marker;
+        border-top: 13px solid @il-chart-progressmeter-marker;
         width: 1px;
         height: 1px;
         top: -14px;
@@ -189,8 +189,8 @@
   }
 }
 
-.il-chart-gauge-mini-container {
-  .il-chart-gauge-marker-box {
+.il-chart-progressmeter-mini-container {
+  .il-chart-progressmeter-marker-box {
     position: absolute;
     width: 80%;
     height: 80%;
@@ -201,44 +201,44 @@
     border-radius: 50%;
     overflow: hidden;
 
-    .il-chart-gauge-mini-marker {
+    .il-chart-progressmeter-mini-marker {
       transform-origin: 100% 100%;
       width: 50%;
       height: 50%;
       transform: rotate(90deg) skew(85deg);
-      background-color: @il-chart-gauge-mini-marker-color; // get own color var
+      background-color: @il-chart-progressmeter-mini-marker-color; // get own color var
     }
   }
-  .il-chart-gauge-cover {
+  .il-chart-progressmeter-cover {
     z-index: 3;
   }
 }
 
-.il-chart-gauge-container {
+.il-chart-progressmeter-container {
   padding: 10px;
   font-size: 1.25rem;
 
-  .il-chart-gauge-outerbox {
+  .il-chart-progressmeter-outerbox {
     border: 5px solid transparent;
 
-    & > .il-chart-gauge-cover {
+    & > .il-chart-progressmeter-cover {
       width: 84.552%;
       height: 84.552%;
       top: 8.3224%;
       left: 8.3224%;
-      border: 5px solid @il-chart-gauge-background;
+      border: 5px solid @il-chart-progressmeter-background;
     }
 
-    .il-chart-gauge-innerbox > .il-chart-gauge-cover {
+    .il-chart-progressmeter-innerbox > .il-chart-progressmeter-cover {
       width: 93.552%;
       height: 93.552%;
       top: 3.3224%;
       left: 3.3224%;
-      border: 5px solid @il-chart-gauge-background;
+      border: 5px solid @il-chart-progressmeter-background;
     }
 
-    .il-chart-gauge-text-container {
-      .il-chart-gauge-score {
+    .il-chart-progressmeter-text-container {
+      .il-chart-progressmeter-score {
         width: 60%;
         font-size: 3em;
       }
@@ -246,24 +246,24 @@
   }
 }
 
-.il-chart-gauge-mini-container {
+.il-chart-progressmeter-mini-container {
   padding: 5px;
   font-size: 1rem;
 
-  .il-chart-gauge-outerbox {
+  .il-chart-progressmeter-outerbox {
     border: 2px solid transparent;
 
-    .il-chart-gauge-cover {
+    .il-chart-progressmeter-cover {
       width: 80%;
       height: 80%;
       top: 10%;
       left: 10%;
-      border: 2px solid @il-chart-gauge-background;
+      border: 2px solid @il-chart-progressmeter-background;
     }
   }
 }
 
-.il-chart-gauge-box {
+.il-chart-progressmeter-box {
   overflow: hidden;
   position: relative;
 
@@ -287,8 +287,8 @@
     z-index: 2;
   }
 
-  .il-chart-gauge-container:after,
-  .il-chart-gauge-mini-container:after {
+  .il-chart-progressmeter-container:after,
+  .il-chart-progressmeter-mini-container:after {
     content: " ";
     display: block;
     position: absolute;
@@ -300,19 +300,19 @@
     background-color: #f0f0f0;
   }
 
-  &.il-chart-gauge-fixed-size {
+  &.il-chart-progressmeter-fixed-size {
     width: 300px;
     height: 230px;
 
   }
-  &.il-chart-gauge-mini {
+  &.il-chart-progressmeter-mini {
     width: 50px;
     height: 35px;
 
     &:before, &:after {
       background-color: transparent;
     }
-    .il-chart-gauge-mini-container:after {
+    .il-chart-progressmeter-mini-container:after {
       width: 80%;
       height: 93%;
       bottom: -57%;
@@ -320,27 +320,27 @@
   }
 
   @media (min-width: @screen-lg) {
-    &.il-chart-gauge-responsive {
+    &.il-chart-progressmeter-responsive {
       width: 300px;
       height: 230px;
 
-      .il-chart-gauge-container:after {
+      .il-chart-progressmeter-container:after {
         bottom: -60%;
         border-radius: 25%;
       }
 
-      .il-chart-gauge-container {
+      .il-chart-progressmeter-container {
         font-size: 1.25rem;
 
-        .il-chart-gauge-outerbox {
+        .il-chart-progressmeter-outerbox {
           border: 5px solid transparent;
 
-          .il-chart-gauge-cover {
-            border: 5px solid @il-chart-gauge-background;
+          .il-chart-progressmeter-cover {
+            border: 5px solid @il-chart-progressmeter-background;
           }
 
-          .il-chart-gauge-text-container {
-            .il-chart-gauge-score {
+          .il-chart-progressmeter-text-container {
+            .il-chart-progressmeter-score {
               width: 60%;
               font-size: 3em;
             }
@@ -350,7 +350,7 @@
     }
   }
   @media (min-width: @screen-md) and (max-width: @screen-md-max) {
-    &.il-chart-gauge-responsive {
+    &.il-chart-progressmeter-responsive {
       width: 250px;
       height: 192px;
 
@@ -365,19 +365,19 @@
         right: 26px;
       }
 
-      .il-chart-gauge-container {
+      .il-chart-progressmeter-container {
         font-size: 1.25rem;
 
-        .il-chart-gauge-marker-box {
+        .il-chart-progressmeter-marker-box {
           width: 92.3334%;
           height: 92.3334%;
 
-          .il-chart-gauge-marker {
+          .il-chart-progressmeter-marker {
             border-left: 9px solid transparent;
             border-right: 9px solid transparent;
             border-top: 11px solid #bcbcbc;
 
-            .il-chart-gauge-arrow {
+            .il-chart-progressmeter-arrow {
               border-left: 10px solid transparent;
               border-right: 10px solid transparent;
               border-top: 13px solid #f0f0f0;
@@ -385,19 +385,19 @@
           }
         }
 
-        .il-chart-gauge-outerbox {
+        .il-chart-progressmeter-outerbox {
           border: 4px solid transparent;
 
-          .il-chart-gauge-innerbox {
+          .il-chart-progressmeter-innerbox {
             border: 4px solid transparent;
           }
 
-          .il-chart-gauge-cover {
-            border: 4px solid @il-chart-gauge-background;
+          .il-chart-progressmeter-cover {
+            border: 4px solid @il-chart-progressmeter-background;
           }
 
-          .il-chart-gauge-text-container {
-            .il-chart-gauge-score {
+          .il-chart-progressmeter-text-container {
+            .il-chart-progressmeter-score {
               width: 60%;
               font-size: 3em;
             }
@@ -407,7 +407,7 @@
     }
   }
   @media (min-width: @screen-sm) and (max-width: @screen-sm-max) {
-    &.il-chart-gauge-responsive {
+    &.il-chart-progressmeter-responsive {
       width: 200px;
       height: 154px;
 
@@ -422,19 +422,19 @@
         right: 22px;
       }
 
-      .il-chart-gauge-container {
+      .il-chart-progressmeter-container {
         font-size: 1rem;
 
-        .il-chart-gauge-marker-box {
+        .il-chart-progressmeter-marker-box {
           width: 90.3334%;
           height: 90.3334%;
 
-          .il-chart-gauge-marker {
+          .il-chart-progressmeter-marker {
             border-left: 7px solid transparent;
             border-right: 7px solid transparent;
             border-top: 9px solid #bcbcbc;
 
-            .il-chart-gauge-arrow {
+            .il-chart-progressmeter-arrow {
               border-left: 8px solid transparent;
               border-right: 8px solid transparent;
               border-top: 11px solid #f0f0f0;
@@ -444,19 +444,19 @@
           }
         }
 
-        .il-chart-gauge-outerbox {
+        .il-chart-progressmeter-outerbox {
           border: 3px solid transparent;
 
-          .il-chart-gauge-innerbox {
+          .il-chart-progressmeter-innerbox {
             border: 3px solid transparent;
           }
 
-          .il-chart-gauge-cover {
-            border: 3px solid @il-chart-gauge-background;
+          .il-chart-progressmeter-cover {
+            border: 3px solid @il-chart-progressmeter-background;
           }
 
-          .il-chart-gauge-text-container {
-            .il-chart-gauge-score {
+          .il-chart-progressmeter-text-container {
+            .il-chart-progressmeter-score {
               width: 60%;
               font-size: 3em;
             }
@@ -466,7 +466,7 @@
     }
   }
   @media (max-width: @screen-xs-max) {
-    &.il-chart-gauge-responsive {
+    &.il-chart-progressmeter-responsive {
       width: 150px;
       height: 115px;
 
@@ -481,19 +481,19 @@
         right: 18px;
       }
 
-      .il-chart-gauge-container {
+      .il-chart-progressmeter-container {
         font-size: 0.75rem;
 
-        .il-chart-gauge-marker-box {
+        .il-chart-progressmeter-marker-box {
           width: 87.3334%;
           height: 87.3334%;
 
-          .il-chart-gauge-marker {
+          .il-chart-progressmeter-marker {
             border-left: 6px solid transparent;
             border-right: 6px solid transparent;
             border-top: 8px solid #bcbcbc;
 
-            .il-chart-gauge-arrow {
+            .il-chart-progressmeter-arrow {
               border-left: 7px solid transparent;
               border-right: 7px solid transparent;
               border-top: 10px solid #f0f0f0;
@@ -503,19 +503,19 @@
           }
         }
 
-        .il-chart-gauge-outerbox {
+        .il-chart-progressmeter-outerbox {
           border: 2px solid transparent;
 
-          .il-chart-gauge-innerbox {
+          .il-chart-progressmeter-innerbox {
             border: 2px solid transparent;
           }
 
-          .il-chart-gauge-cover {
-            border: 2px solid @il-chart-gauge-background;
+          .il-chart-progressmeter-cover {
+            border: 2px solid @il-chart-progressmeter-background;
           }
 
-          .il-chart-gauge-text-container {
-            .il-chart-gauge-score {
+          .il-chart-progressmeter-text-container {
+            .il-chart-progressmeter-score {
               width: 60%;
               font-size: 3em;
             }
