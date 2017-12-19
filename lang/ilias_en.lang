@@ -9829,6 +9829,7 @@ dcl#:#dcl_tableview_fieldsettings#:#Fieldspecific Settings
 dcl#:#dcl_std_filter#:#Standardfilter
 dcl#:#dcl_field_visible#:#Visible
 dcl#:#dcl_filter_changeable#:#Filter changeable
+dcl#:#dcl_msg_mc_to_sc_confirmation#:#Swichting from multiple selection to single selection might lead to a loss of data in existing entries. Are you sure to continue?
 common#:#mail_member#:#Mail to Member
 exc#:#exc_type_upload_team#:#Team Upload
 exc#:#exc_team#:#Team

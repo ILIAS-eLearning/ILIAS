@@ -9957,6 +9957,7 @@ dcl#:#dcl_tableview_confirm_delete#:#Sind Sie sicher, dass die folgende Ansicht 
 dcl#:#dcl_tableview_fieldsettings#:#Feldspezifische Einstellungen
 dcl#:#dcl_field_visible#:#Sichtbar
 dcl#:#dcl_std_filter#:#Filtervorbelegung
+dcl#:#dcl_msg_mc_to_sc_confirmation#:#Ein Wechsel von Mehrfachauswahl auf Einfachauswahl kann bei existierenden Datensätzen zu Datenverlust führen. Sind Sie sicher, dass Sie fortfahren möchten?
 dcl#:#dcl_filter_changeable#:#Filter änderbar
 common#:#obj_tool_setting_calendar#:#Kalender
 common#:#obj_tool_setting_calendar_info#:#Der Block "Kalender" wird im Reiter "Inhalt" angezeigt.
