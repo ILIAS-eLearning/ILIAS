@@ -1,7 +1,7 @@
 (function($) {
     $(document).ready(function(){
         $('.calfullcontent').each(function(){
-            var fs = parseInt($(this).parent().height());
+            var fs = parseInt($(this).parents(".calevent").height());
             $(this).css('height',fs);
         });
 
