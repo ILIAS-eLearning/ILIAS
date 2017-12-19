@@ -333,10 +333,7 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 				$event_tpl->parseCurrentBlock();
 			}
 
-			$event_tpl->setCurrentBlock('il_event');
 
-			$event_tpl->setVariable('EVENT_EDIT_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','edit'));
-			$event_tpl->setVariable('EVENT_NUM',$item['event']->getEntryId());
 			
 			$compl = ($item['event']->isMilestone() && $item['event']->getCompletion() > 0)
 				? " (".$item['event']->getCompletion()."%)"
@@ -361,22 +358,33 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 
 			$title = ($time != "")? $time." ".$shy : $shy;
 
-			$event_tpl->setVariable('EVENT_CONTENT',$title.$compl);
+			$event_html = $title.$compl;
 
+			$event_tpl->setCurrentBlock('il_event');
+
+			//Start configuring the default template
+			$event_tpl->setVariable('EVENT_EDIT_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','edit'));
+			$event_tpl->setVariable('EVENT_NUM',$item['event']->getEntryId());
+			$event_tpl->setVariable('EVENT_CONTENT',$event_html);
 			$color = $this->app_colors->getColorByAppointment($item['event']->getEntryId());
 			$event_tpl->setVariable('EVENT_BGCOLOR',$color);
 			$event_tpl->setVariable('EVENT_ADD_STYLES',$item['event']->getPresentationStyle());
 			$event_tpl->setVariable('EVENT_FONTCOLOR',ilCalendarUtil::calculateFontColor($color));
 
-			$event_html = $event_tpl->get();
-
-			if($event_html_by_plugin = $this->getContentByPlugins($item['event'], $item['dstart'], $event_html))
+			//plugins can override the previous template variables. The plugin slot parses the current block because
+			//it needs to call the template get method to use the resulting HTML in the replaceContent method.
+			if($event_html_by_plugin = $this->getContentByPlugins($item['event'], $item['dstart'], $event_html, $event_tpl))
 			{
-				$event_html = $event_html_by_plugin;
+				$event_body_html = $event_html_by_plugin;
+			}
+			else
+			{
+				$event_tpl->parseCurrentBlock();
+				$event_body_html = $event_tpl->get();
 			}
 
 			$this->tpl->setCurrentBlock("event_nfd");
-			$this->tpl->setVariable("EVENT_CONTENT", $event_html);
+			$this->tpl->setVariable("EVENT_CONTENT", $event_body_html);
 			$this->tpl->parseCurrentBlock();
 
 			$this->num_appointments++;
