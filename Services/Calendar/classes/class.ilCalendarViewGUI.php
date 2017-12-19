@@ -101,6 +101,13 @@ class ilCalendarViewGUI
 		$this->logger = $GLOBALS['DIC']->logger()->cal();
 		//by default "download files" button is not displayed.
 		$this->view_with_appointments = false;
+
+		if($this->presentation_type == self::CAL_PRESENTATION_DAY ||
+			$this->presentation_type == self::CAL_PRESENTATION_WEEK)
+		{
+			iljQueryUtil::initjQuery($this->tpl);
+			$this->tpl->addJavaScript('./Services/Calendar/js/calendar_appointment.js');
+		}
 	}
 
 	/**

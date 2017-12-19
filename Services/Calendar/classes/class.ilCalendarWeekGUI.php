@@ -726,7 +726,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 						$empty_border = ' calempty_border';
 					}
 
-					$this->tpl->setVariable('TD_CLASS','calempty'.$empty_border);
+					$this->tpl->setVariable('TD_CLASS','calempty createhover'.$empty_border);
 
 					if(!$hour['apps_num'])
 					{

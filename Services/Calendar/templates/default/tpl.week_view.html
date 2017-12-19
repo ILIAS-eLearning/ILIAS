@@ -1,22 +1,4 @@
 {NAVIGATION}
-<script type="text/javascript">
-    var current_id = null;
-    function showNewAppLink(num_link)
-    {
-        hideNewAppLink();
-
-        document.getElementById('new_link_' + num_link).style.visibility = 'visible';
-        current_id = num_link;
-    }
-
-    function hideNewAppLink()
-    {
-        if(current_id)
-        {
-            document.getElementById('new_link_' + current_id).style.visibility = 'hidden';
-        }
-    }
-</script>
 <table class="calstd il-cal-week">
 	<thead>
 	<tr class="calheader">
@@ -70,8 +52,7 @@
 			<!-- END time_txt -->
 			<!-- BEGIN not_full_day_event -->
 				<!-- BEGIN scrd_day_cell -->
-				<td id="show_{DAY_CELL_NUM}" class="{TD_CLASS}" style="{TD_STYLE}" valign="top" rowspan="{TD_ROWSPAN}"
-					onmouseover="showNewAppLink({DAY_ID})">
+				<td id="show_{DAY_ID}" class="{TD_CLASS}" style="{TD_STYLE}" valign="top" rowspan="{TD_ROWSPAN}">
 					<!-- BEGIN scrd_not_empty -->
 					<div class="calevent" style="{DIV_STYLE}">
 						{GRID_CONTENT}
@@ -80,10 +61,9 @@
 				</td>
 				<!-- END scrd_day_cell -->
 				<!-- BEGIN day_cell -->
-				<td id="show_{DAY_CELL_NUM}" class="{TD_CLASS}" style="{TD_STYLE}" valign="top" rowspan="{TD_ROWSPAN}"
-					onmouseover="showNewAppLink({DAY_ID})" onmouseout="hideNewAppLink()">
+				<td id="show_{DAY_ID}" class="{TD_CLASS}" style="{TD_STYLE}" valign="top" rowspan="{TD_ROWSPAN}">
 					<!-- BEGIN new_app_link -->
-					<div id="new_link_{DAY_NEW_ID}" style="float: right;visibility:hidden">
+					<div id="new_link_{DAY_NEW_ID}" class="calnewapplink">
 						{DAY_NEW_APP_LINK}
 					</div>
 					<!-- END new_app_link -->
@@ -97,9 +77,3 @@
 		<!-- END time_row -->
 	</tbody>
 </table>
-<script>
-    $('.calfullcontent').each(function(){
-        var fs = parseInt($(this).parent().height());
-        $(this).css('height',fs);
-    });
-</script>
