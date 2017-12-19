@@ -569,8 +569,16 @@ class ilCourseObjectivesGUI
 		}
 		else
 		{
-			$this->form->setValuesByPost();
-			return $this->edit();
+			if((int) $_GET['objective_id'])
+			{
+				$this->form->setValuesByPost();
+				return $this->edit();
+			}
+			else
+			{
+				$this->form->setValuesByPost();
+				return $this->create();
+			}
 		}
 		
 		if($_SESSION['objective_mode'] != self::MODE_CREATE)
