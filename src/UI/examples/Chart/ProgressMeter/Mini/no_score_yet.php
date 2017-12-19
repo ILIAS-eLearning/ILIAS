@@ -1,6 +1,6 @@
 <?php
 /**
- * Example for rendering a mini ProgressMeter when no score is given
+ * Example for rendering a mini Progress Meter when no score is given
  */
 function no_score_yet() {
     //Loading factories
@@ -9,7 +9,7 @@ function no_score_yet() {
     $renderer = $DIC->ui()->renderer();
 
     //Genarating and rendering the mini progressmeter
-    $progressmeter = $f->chart()->progressmeter()->mini(100,0);
+    $progressmeter = $f->chart()->progressMeter()->mini(100,0);
 
     // render
     return $renderer->render($progressmeter);

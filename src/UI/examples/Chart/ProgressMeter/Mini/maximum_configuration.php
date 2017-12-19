@@ -1,6 +1,6 @@
 <?php
 /**
- * Example for rendering a mini ProgressMeter with minimum configuration
+ * Example for rendering a mini Progress Meter with minimum configuration
  */
 function maximum_configuration() {
     //Loading factories
@@ -9,7 +9,7 @@ function maximum_configuration() {
     $renderer = $DIC->ui()->renderer();
 
     //Genarating and rendering the mini progressmeter
-    $progressmeter = $f->chart()->progressmeter()->mini(100, 50, 75);
+    $progressmeter = $f->chart()->progressMeter()->mini(100, 50, 75);
 
     // render
     return $renderer->render($progressmeter);

@@ -31,6 +31,8 @@ class Standard extends ProgressMeter implements C\Chart\ProgressMeter\Standard {
 
     /**
      * Get comparison value as percent
+     *
+     * @return int
      */
     public function getComparisonAsPercent()
     {

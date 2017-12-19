@@ -28,14 +28,14 @@ interface ProgressMeter extends Component {
      * This value represents the required amount that is needed, to fulfill the objective.
      * If this value is not set, it defaults to the maximum.
      *
-     * @return int|float
+     * @return int|float|null
      */
     public function getRequired();
 
     /**
      * Get main value
      *
-     * This value is represented as the main progressmeter bar.
+     * This value is represented as the main progress meter bar.
      *
      * @return int|float
      */

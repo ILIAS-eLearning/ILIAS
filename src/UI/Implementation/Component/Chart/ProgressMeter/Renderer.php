@@ -55,7 +55,8 @@ class Renderer extends AbstractComponentRenderer
      */
     protected function renderStandard(Component\Chart\ProgressMeter\Standard $component, RendererInterface $default_renderer)
     {
-        if ($component->hasComparisonValue()) {
+        $hasComparison = ($component->getComparison() != null && $component->getComparison() > 0);
+        if ($hasComparison) {
             $tpl = $this->getTemplate("tpl.progressmeter_two_bar.html", true, true);
         } else {
             $tpl = $this->getTemplate("tpl.progressmeter_one_bar.html", true, true);
@@ -69,7 +70,7 @@ class Renderer extends AbstractComponentRenderer
 
         // set skew and rotation for process bars
         $tpl = $this->modifyProgressBar($tpl, $component->getMainValueAsPercent(), 'MAIN');
-        if ($component->hasComparisonValue()) {
+        if ($hasComparison) {
             $tpl = $this->modifyProgressBar($tpl, $component->getComparisonAsPercent(), 'COMPARE');
         }
 
@@ -97,7 +98,8 @@ class Renderer extends AbstractComponentRenderer
      */
     protected function renderFixedSize(Component\Chart\ProgressMeter\FixedSize $component, RendererInterface $default_renderer)
     {
-        if ($component->hasComparisonValue()) {
+        $hasComparison = ($component->getComparison() != null && $component->getComparison() > 0);
+        if ($hasComparison) {
             $tpl = $this->getTemplate("tpl.progressmeter_two_bar.html", true, true);
         } else {
             $tpl = $this->getTemplate("tpl.progressmeter_one_bar.html", true, true);
@@ -111,7 +113,7 @@ class Renderer extends AbstractComponentRenderer
 
         // set skew and rotation for process bars
         $tpl = $this->modifyProgressBar($tpl, $component->getMainValueAsPercent(), 'MAIN');
-        if ($component->hasComparisonValue()) {
+        if ($hasComparison) {
             $tpl = $this->modifyProgressBar($tpl, $component->getComparisonAsPercent(), 'COMPARE');
         }
 
@@ -164,7 +166,7 @@ class Renderer extends AbstractComponentRenderer
      * Modify visible template variables
      *
      * @param \ILIAS\UI\Implementation\Render\Template $tpl
-     * @param Component\Component $component
+     * @param Component\Chart\ProgressMeter\ProgressMeter $component
      * @return \ILIAS\UI\Implementation\Render\Template
      */
     protected function modifyVisibleValues(\ILIAS\UI\Implementation\Render\Template $tpl, Component\Component $component)
@@ -175,8 +177,10 @@ class Renderer extends AbstractComponentRenderer
         } else {
             $tpl->setVariable("REQUIRED", '');
         }
-        if ($component->hasComparisonValue()) {
-            $tpl->setVariable("COMPARE", $component->getComparisonAsPercent().' %');
+        if ($component instanceof Component\Chart\ProgressMeter\Standard) {
+            if ($component->getComparison() > 0) {
+                $tpl->setVariable("COMPARE", $component->getComparisonAsPercent() . ' %');
+            }
         }
         $tpl->setVariable("TEXT_MAIN", htmlspecialchars($component->getMainText()));
         $tpl->setVariable("TEXT_REQUIRED", htmlspecialchars($component->getRequiredText()));
@@ -206,7 +210,7 @@ class Renderer extends AbstractComponentRenderer
      * Modify the template variables for the progress bar classes, used for colors
      *
      * @param \ILIAS\UI\Implementation\Render\Template $tpl
-     * @param Component\Chart\ProgressMeter\Standard $component
+     * @param Component\Chart\ProgressMeter\ProgressMeter $component
      * @return \ILIAS\UI\Implementation\Render\Template
      */
     protected function modifyProgressBarClasses(\ILIAS\UI\Implementation\Render\Template $tpl, Component\Component $component)
@@ -218,8 +222,10 @@ class Renderer extends AbstractComponentRenderer
                 $tpl->touchBlock('outer-bar-no-success');
             }
         } else {
-            if ($component->hasComparisonValue()) {
-                $tpl->touchBlock('inner-bar-yellow'); // @Todo find better wording for css class name
+            if ($component instanceof Component\Chart\ProgressMeter\Standard) {
+                if ($component->getComparison() > 0) {
+                    $tpl->touchBlock('inner-bar-active');
+                }
             }
         }
         return $tpl;

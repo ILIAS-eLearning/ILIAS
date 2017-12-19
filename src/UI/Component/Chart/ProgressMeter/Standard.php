@@ -13,14 +13,14 @@ interface Standard extends ProgressMeter {
     /**
      * Get comparison value
      *
-     * This value is represented as the second progressmeter bar.
+     * This value is represented as the second progress meter bar.
      *
-     * @return int|float
+     * @return int|float|null
      */
     public function getComparison();
 
     /**
-     * Get clone of ProgressMeter with main text
+     * Get clone of Progress Meter with main text
      *
      * It will be displayed above the main value percentage display.
      * Example: withMainText('Your Score')
@@ -33,12 +33,12 @@ interface Standard extends ProgressMeter {
     /**
      * Get main text value
      *
-     * @return string
+     * @return string|null
      */
     public function getMainText();
 
     /**
-     * Get clone of ProgressMeter with required text
+     * Get clone of Progress Meter with required text
      *
      * It will be displayed below the required percentage display.
      * Example: withRequiredText("Minimum Required")
@@ -51,7 +51,7 @@ interface Standard extends ProgressMeter {
     /**
      * Get required text value
      *
-     * @return string
+     * @return string|null
      */
     public function getRequiredText();
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Example for rendering a standard ProgressMeter with an comparison value only
+ * Example for rendering a standard Progress Meter with an comparison value only
  */
 function only_comparison_value() {
     //Loading factories
@@ -9,7 +9,7 @@ function only_comparison_value() {
     $renderer = $DIC->ui()->renderer();
 
     //Genarating and rendering the standard progressmeter
-    $progressmeter = $f->chart()->progressmeter()->standard(100, 0, 75, 50);
+    $progressmeter = $f->chart()->progressMeter()->standard(100, 0, 75, 50);
 
     // render
     return $renderer->render($progressmeter);

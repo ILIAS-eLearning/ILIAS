@@ -1,6 +1,6 @@
 <?php
 /**
- * Example for rendering a mini ProgressMeter when 100% are reached
+ * Example for rendering a mini Progress Meter when 100% are reached
  */
 function reached_100_percent() {
     //Loading factories
@@ -9,7 +9,7 @@ function reached_100_percent() {
     $renderer = $DIC->ui()->renderer();
 
     //Genarating and rendering the mini progressmeter
-    $progressmeter = $f->chart()->progressmeter()->mini(100, 100);
+    $progressmeter = $f->chart()->progressMeter()->mini(100, 100);
 
     // render
     return $renderer->render($progressmeter);

@@ -1,6 +1,6 @@
 <?php
 /**
- * Example for rendering a fixed size ProgressMeter with minimum configuration
+ * Example for rendering a fixed size Progress Meter with minimum configuration
  */
 function base() {
     //Loading factories
@@ -9,7 +9,7 @@ function base() {
     $renderer = $DIC->ui()->renderer();
 
     //Genarating and rendering the responsive progressmeter
-    $progressmeter = $f->chart()->progressmeter()->fixedSize(100, 75);
+    $progressmeter = $f->chart()->progressMeter()->fixedSize(100, 75);
 
     // render
     return $renderer->render($progressmeter);

@@ -76,6 +76,8 @@ class ProgressMeter implements C\Chart\ProgressMeter\ProgressMeter {
 
     /**
      * Get required value as percent
+     *
+     * @return int
      */
     public function getRequiredAsPercent()
     {
@@ -92,6 +94,8 @@ class ProgressMeter implements C\Chart\ProgressMeter\ProgressMeter {
 
     /**
      * Get main value as percent
+     *
+     * @return int
      */
     public function getMainValueAsPercent()
     {
@@ -120,11 +124,4 @@ class ProgressMeter implements C\Chart\ProgressMeter\ProgressMeter {
         return round(100 / $this->getMaximum() * $this->getSafe($a_int), 0 , PHP_ROUND_HALF_UP);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function hasComparisonValue()
-    {
-        return (isset($this->comparison) && $this->comparison > 0);
-    }
 }

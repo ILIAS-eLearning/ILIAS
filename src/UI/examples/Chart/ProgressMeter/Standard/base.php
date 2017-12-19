@@ -1,6 +1,6 @@
 <?php
 /**
- * Example for rendering a standard ProgressMeter with minimum configuration
+ * Example for rendering a standard Progress Meter with minimum configuration
  */
 function base() {
     //Loading factories
@@ -9,7 +9,7 @@ function base() {
     $renderer = $DIC->ui()->renderer();
 
     //Genarating and rendering the standard progressmeter
-    $progressmeter = $f->chart()->progressmeter()->standard(100, 75);
+    $progressmeter = $f->chart()->progressMeter()->standard(100, 75);
 
     // render
     return $renderer->render($progressmeter);

@@ -1,6 +1,6 @@
 <?php
 /**
- * Example for rendering a fixed size ProgressMeter when a specific score was reached
+ * Example for rendering a fixed size Progress Meter when a specific score was reached
  */
 function user_reached_required() {
     //Loading factories
@@ -9,7 +9,7 @@ function user_reached_required() {
     $renderer = $DIC->ui()->renderer();
 
     //Genarating and rendering the responsive progressmeter
-    $progressmeter = $f->chart()->progressmeter()->fixedSize(100, 80, 75);
+    $progressmeter = $f->chart()->progressMeter()->fixedSize(100, 80, 75);
 
     // render
     return $renderer->render($progressmeter);
