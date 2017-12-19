@@ -154,6 +154,16 @@ class ilMembershipGUI
 	
 	
 	/**
+	 * Check if current user is allowed to add / search users
+	 * @return bool
+	 */
+	protected function canAddOrSearchUsers()
+	{
+		return $this->checkPermissionBool('manage_members');
+	}
+	
+	
+	/**
 	 * Filter user ids by access 
 	 * @param int[] $a_usr_ids
 	 * @return int[]
@@ -252,7 +262,7 @@ class ilMembershipGUI
 					$this->getParentObject()->getType().'_members_gallery'
 				);
 				
-				$is_admin       = (bool)$ilAccess->checkAccess('manage_members', '', $this->getParentObject()->getRefId());
+				$is_admin = (bool) $this->checkRbacOrPositionAccessBool('manage_members', 'manage_members');
 				$is_participant = (bool)ilParticipants::_isParticipant($this->getParentObject()->getRefId(), $ilUser->getId());
 				if(
 					!$is_admin &&
@@ -828,31 +838,34 @@ class ilMembershipGUI
 	{
 		global $ilToolbar;
 		
-		include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
-		ilRepositorySearchGUI::fillAutoCompleteToolbar(
-			$this,
-			$ilToolbar,
-			array(
-				'auto_complete_name'	=> $this->lng->txt('user'),
-				'user_type'				=> $this->getParentGUI()->getLocalRoles(),
-				'user_type_default'		=> $this->getDefaultRole(),
-				'submit_name'			=> $this->lng->txt('add')
-			)
-		);
-		
-		// spacer
-		$ilToolbar->addSeparator();
+		if($this->canAddOrSearchUsers())
+		{
+			include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
+			ilRepositorySearchGUI::fillAutoCompleteToolbar(
+				$this,
+				$ilToolbar,
+				array(
+					'auto_complete_name'	=> $this->lng->txt('user'),
+					'user_type'				=> $this->getParentGUI()->getLocalRoles(),
+					'user_type_default'		=> $this->getDefaultRole(),
+					'submit_name'			=> $this->lng->txt('add')
+				)
+			);
 
-		// search button
-		$ilToolbar->addButton(
-			$this->lng->txt($this->getParentObject()->getType()."_search_users"),
-			$this->ctrl->getLinkTargetByClass(
-				'ilRepositorySearchGUI',
-				'start')
-		);
-			
-		// separator
-		$ilToolbar->addSeparator();
+			// spacer
+			$ilToolbar->addSeparator();
+
+			// search button
+			$ilToolbar->addButton(
+				$this->lng->txt($this->getParentObject()->getType()."_search_users"),
+				$this->ctrl->getLinkTargetByClass(
+					'ilRepositorySearchGUI',
+					'start')
+			);
+
+			// separator
+			$ilToolbar->addSeparator();
+		}
 			
 		// print button
 		$ilToolbar->addButton(
@@ -949,8 +962,13 @@ class ilMembershipGUI
 		include_once './Services/Mail/classes/class.ilMail.php';
 		$mail = new ilMail($GLOBALS['ilUser']->getId());
 		
+		$has_manage_members_permission = $this->checkRbacOrPositionAccessBool(
+			'manage_members', 
+			'manage_members', 
+			$this->getParentObject()->getRefId()
+		);
 		
-		if($this->checkRbacOrPositionAccessBool('manage_members', 'manage_members', $this->getParentObject()->getRefId()))
+		if($has_manage_members_permission)
 		{
 			$tabs->addTab(
 				'members',

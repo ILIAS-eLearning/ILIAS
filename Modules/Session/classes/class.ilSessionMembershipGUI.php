@@ -261,6 +261,16 @@ class ilSessionMembershipGUI extends ilMembershipGUI
 		return parent::checkPermission($a_permission, $a_cmd);
 	}
 	
+	/**
+	 * Check if current user is allowed to add / search users
+	 * @return bool
+	 */
+	protected function canAddOrSearchUsers()
+	{
+		return $this->checkPermissionBool('write');
+	}
+	
+	
 	
 	
 	

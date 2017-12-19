@@ -44,6 +44,8 @@ class ilUserActionAdminGUI
 		$this->ctrl = $DIC->ctrl();
 		$this->lng = $DIC->language();
 		$this->tpl = $DIC["tpl"];
+		$this->ref_id = (int) $_GET["ref_id"];
+		$this->rbabsystem = $DIC->rbac()->system();
 
 		$this->lng->loadLanguageModule("usr");
 	}
@@ -97,7 +99,8 @@ class ilUserActionAdminGUI
 		ilUtil::sendInfo($this->lng->txt("user_actions_activation_info"));
 
 		include_once("./Services/User/Actions/classes/class.ilUserActionAdminTableGUI.php");
-		$tab = new ilUserActionAdminTableGUI($this, "show", $this->getActions());
+		$tab = new ilUserActionAdminTableGUI($this, "show", $this->getActions(),
+					$this->rbabsystem->checkAccess("write", $this->ref_id));
 		$this->tpl->setContent($tab->getHTML());
 	}
 
@@ -106,6 +109,11 @@ class ilUserActionAdminGUI
 	 */
 	function save()
 	{
+		if (!$this->rbabsystem->checkAccess("write", $this->ref_id))
+		{
+			$this->ctrl->redirect($this, "show");
+		}
+
 		//var_dump($_POST); exit;
 		include_once("./Services/User/Actions/classes/class.ilUserActionAdmin.php");
 		foreach ($this->getActions() as $a)
