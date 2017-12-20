@@ -210,7 +210,10 @@ class ilPDNewsTableGUI extends ilTable2GUI
 		if ($a_set["content"] != "")
 		{
 			$this->tpl->setCurrentBlock("content");
-			$this->tpl->setVariable("VAL_CONTENT", ilUtil::makeClickable($a_set["content"], true));
+			$this->tpl->setVariable("VAL_CONTENT",
+				nl2br($this->makeClickable(
+					ilNewsItem::determineNewsContent($a_set["context_obj_type"], $a_set["content"], $a_set["content_text_is_lang_var"])
+				)));
 			$this->tpl->parseCurrentBlock();
 		}
 		if ($a_set["content_long"] != "")
@@ -241,8 +244,49 @@ class ilPDNewsTableGUI extends ilTable2GUI
 				$add = "_".$thread."_".$pos;
 			}
 		}
+
+		// file hack, not nice
+		if ($obj_type == "file")
+		{
+			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_set["ref_id"]);
+			$url = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "sendfile");
+			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+
+			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+			$button = ilLinkButton::getInstance();
+			$button->setUrl($url);
+			$button->setCaption("download");
+
+			$this->tpl->setCurrentBlock("download");
+			$this->tpl->setVariable("BUTTON_DOWNLOAD", $button->render());
+			$this->tpl->parseCurrentBlock();
+		}
+
+		// wiki hack, not nice
+		if ($obj_type == "wiki" && $a_set["context_sub_obj_type"] == "wpg"
+			&& $a_set["context_sub_obj_id"] > 0)
+		{
+			include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
+			$wptitle = ilWikiPage::lookupTitle($a_set["context_sub_obj_id"]);
+			if ($wptitle != "")
+			{
+				$add = "_".ilWikiUtil::makeUrlTitle($wptitle);
+			}
+		}
+
+
 		$url_target = "./goto.php?client_id=".rawurlencode(CLIENT_ID)."&target=".
 			$obj_type."_".$a_set["ref_id"].$add;
+
+		// lm page hack, not nice
+		if (in_array($obj_type, array("dbk", "lm")) && $a_set["context_sub_obj_type"] == "pg"
+			&& $a_set["context_sub_obj_id"] > 0)
+		{
+			$url_target = "./goto.php?client_id=".rawurlencode(CLIENT_ID)."&target=".
+				"pg_".$a_set["context_sub_obj_id"]."_".$a_set["ref_id"];
+		}
+
+
 		$this->tpl->setCurrentBlock("context");
 		$cont_loc = new ilLocatorGUI();
 		$cont_loc->addContextItems($a_set["ref_id"], true);
@@ -275,5 +319,24 @@ class ilPDNewsTableGUI extends ilTable2GUI
 
 		$this->tpl->parseCurrentBlock();
 	}
+
+	/**
+	 * Make clickable
+	 *
+	 * @param
+	 * @return
+	 */
+	function makeClickable($a_str)
+	{
+		// this fixes bug 8744. We assume that strings that contain < and >
+		// already contain html, we do not handle these
+		if (is_int(strpos($a_str, ">")) && is_int(strpos($a_str, "<")))
+		{
+			return $a_str;
+		}
+
+		return ilUtil::makeClickable($a_str);
+	}
+
 }
 ?>
