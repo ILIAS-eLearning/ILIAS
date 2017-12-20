@@ -75,7 +75,9 @@ class ilContainerReferenceAccess extends ilObjectAccess
 	 	}
 	 	$target_ref_ids = ilObject::_getAllReferences($target_id);
 	 	$target_ref_id = current($target_ref_ids);
-	 	return !$tree->isDeleted($target_ref_id);
+	 	return 
+			!$tree->isDeleted($target_ref_id) &&
+			$GLOBALS['DIC']->access()->checkAccess('read','',$target_ref_id);
 	 }
 } 
 ?>
