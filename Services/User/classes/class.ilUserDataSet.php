@@ -148,7 +148,14 @@ class ilUserDataSet extends ilDataSet
 			$tmp_dir = ilUtil::ilTempnam();
 			ilUtil::makeDir($tmp_dir);
 			include_once("./Services/User/classes/class.ilObjUser.php");
-			ilObjUser::copyProfilePicturesToDirectory($a_set["Id"], $tmp_dir);
+
+			$im = ilObjUser::_getPersonalPicturePath($a_set["Id"], "small", true,
+				true);
+
+			if ($im != "")
+			{
+				ilObjUser::copyProfilePicturesToDirectory($a_set["Id"], $tmp_dir);
+			}
 			
 			$this->temp_picture_dirs[$a_set["Id"]] = $tmp_dir;
 			
