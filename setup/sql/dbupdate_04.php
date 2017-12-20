@@ -21775,4 +21775,17 @@ while ($res = $ilDB->fetchAssoc($set)) {
 	}
 }
 ?>
-
+<#5252>
+<?php
+$ilDB->query("
+UPDATE il_dcl_stloc1_value 
+SET value = NULL 
+WHERE value = '[]' 
+	AND record_field_id IN (
+		SELECT rf.id 
+		FROM il_dcl_record_field rf 
+		INNER JOIN il_dcl_field f ON f.id = rf.field_id 
+		WHERE f.datatype_id = 14
+	)
+");
+?>
