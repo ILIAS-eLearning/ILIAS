@@ -204,7 +204,7 @@ class ilSoapClient
 	 */
 	public function call($a_operation, $a_params)
 	{
-		$this->log->debug('Calling webseervice: ' . $a_operation);
+		$this->log->debug('Calling webservice: ' . $a_operation);
 
 		$this->setSocketTimeout(false);
 		try {
