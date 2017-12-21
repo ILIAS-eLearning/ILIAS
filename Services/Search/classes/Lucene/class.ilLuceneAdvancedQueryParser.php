@@ -77,14 +77,15 @@ class ilLuceneAdvancedQueryParser extends ilLuceneQueryParser
 				if(strcmp('-', substr($parsed, 0, 1)) === 0)
 				{
 					$this->parsed_query .= ' ';
+					$this->parsed_query .= $parsed;
 				}
 				else
 				{
 					$this->parsed_query .= ' +';
+					$this->parsed_query .= "(";
+					$this->parsed_query .= $parsed;
+					$this->parsed_query .= ") ";
 				}
-				$this->parsed_query .= "(";
-				$this->parsed_query .= $parsed;
-				$this->parsed_query .= ") ";
 			}
 		}		
 		return true;
