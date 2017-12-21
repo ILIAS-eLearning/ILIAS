@@ -278,10 +278,6 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$lucene = new ilRadioOption($this->lng->txt('search_lucene'),ilSearchSettings::LUCENE_SEARCH,$this->lng->txt('java_server_info'));
 		$type->addOption($lucene);
 
-		// add autocomplete settings section
-		$auto_complete_settings = new ilFormSectionHeaderGUI();
-		$auto_complete_settings->setTitle($this->lng->txt('search_settings_section_autocomplete'));
-		$this->form->addItem($auto_complete_settings);
 		
 		// number of auto complete entries
 		$options = array(
