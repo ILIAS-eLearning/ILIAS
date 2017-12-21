@@ -139,13 +139,14 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 		$chart->setColors($colors);
 
 		// :TODO:
-		$chart->setsize($this->chart_width, $this->chart_height);
+		//$chart->setsize($this->chart_width, $this->chart_height);
 					
 		$data = $labels = $legend = array();
 		
 		$row_idx = sizeof($a_results);
 
 		$row_counter = 0;
+		$text_shortened = false;
 		foreach($a_results as $row)
 		{
 			$row_idx--;
@@ -155,7 +156,11 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 
 			#20363
 			$row_title = ++$row_counter.". ".$row_title;
-			$labels[$row_idx] = wordwrap(ilUtil::shortenText($row_title, 50, true), 30, "<br />");
+			$labels[$row_idx] = ilUtil::shortenText($row_title, 50, true);
+			if($labels[$row_idx] != $row_title) {
+				$text_shortened = true;
+			}
+			//$labels[$row_idx] = wordwrap(ilUtil::shortenText($row_title, 50, true), 30, "<br />");
 			
 			$vars = $row_results->getVariables();
 			if($vars)
@@ -179,7 +184,15 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 				}				
 			}
 		}
-		
+
+		//Chart height depending on the number of questions. Not fixed anymore.
+		$this->chart_height = count($a_results)*40;
+		//Chart width 500px if one or + question string are longer than 60 char. Otherwise the default width still aplied.
+		if($text_shortened) {
+			$this->chart_width = 500;
+		}
+		$chart->setSize($this->chart_width, $this->chart_height);
+
 		foreach($data as $var)
 		{
 			$chart->addData($var);			
