@@ -169,10 +169,15 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager {
 			}
 		}
 
-		$name = $db->quoteIdentifier($name, true);
 		if (!empty($changes['name'])) {
 			$change_name = $db->quoteIdentifier($changes['name'], true);
-			$result = $db->manipulate("ALTER TABLE $name RENAME TO " . $change_name);
+			$result = $db->manipulate("ALTER TABLE " . $db->quoteIdentifier($name, true) . " RENAME TO " . $change_name);
+
+			$primary_key = $this->getTablePrimaryKey($change_name);
+			if ($primary_key) {
+				$change_name = $db->quoteIdentifier($db->getIndexName($db->constraintName($changes['name'], $db->getPrimaryKeyIdentifier())));
+				$result = $db->manipulate("ALTER INDEX " . $primary_key . " RENAME TO " . $change_name); 
+			}
 		}
 
 		return true;
@@ -252,6 +257,21 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager {
 		}
 
 		return array_keys($result);
+	}
+	
+	/**
+	 * @param $table
+	 * @return string
+	 */
+	protected function getTablePrimaryKey($table) {
+		$db = $this->db_instance;
+		
+		$table = $db->quote($table, 'text');
+		$subquery = "SELECT indexrelid FROM pg_index, pg_class";
+		$subquery .= " WHERE pg_class.relname=$table AND pg_class.oid=pg_index.indrelid AND (indisprimary = 't')";
+		$query = "SELECT relname FROM pg_class WHERE oid IN ($subquery)";
+		$primary_key = $db->queryCol($query);
+		return count($primary_key) > 0 ? $primary_key[0] : NULL;
 	}
 
 
