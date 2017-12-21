@@ -979,13 +979,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$obj_settings->cloneSettings($new_obj->getId());
 		unset($obj_settings);
 		
-		// clone icons
-		global $ilLog;
-		$ilLog->write(__METHOD__.': '.$this->getBigIconPath().' '.$this->getSmallIconPath());
-		$new_obj->saveIcons($this->getBigIconPath(),
-			$this->getSmallIconPath(),
-			$this->getTinyIconPath());
-		
 		// clone certificate (#11085)
 		include_once "./Services/Certificate/classes/class.ilCertificate.php";
 		include_once "./Modules/Course/classes/class.ilCourseCertificateAdapter.php";
