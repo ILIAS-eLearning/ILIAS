@@ -14279,3 +14279,7 @@ tms#:#booked_user#:#Gebuchte Teilnehmer
 tms#:#waiting_user#:#Teilnehmer auf Warteliste
 tms#:#min_member#:#minimale Teilnehmerzahl
 tms#:#max_member#:#maximale Teilnehmerzahl
+tms#:#hide_breadcrumb#:#Navigation einschränken
+tms#:#hide_breadcrumb_info#:#Mit dieser Einstellung wird die Navigation nur bis zum Kurs angezeigt.
+tms#:#hide_menu_tree#:#Navigationsbaum ausblenden
+tms#:#hide_menu_tree_info#:#Mit dieser Einstellung wird der Navigationsbaum für den Benutzer ausgeblendet.

@@ -190,3 +190,47 @@ require_once("Services/TMS/ScheduledEvents/classes/Schedule.php");
 $db = new Schedule($ilDB);
 $db->createPrimaryKeyForParams();
 ?>
+<#18>
+<?php
+if( !$ilDB->tableExists('tms_role_settings') )
+{
+	$ilDB->createTable('tms_role_settings', array(
+		'role_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'hide_breadcrumb' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'default' => 0
+		),
+		'hide_menu_tree' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'default' => 0
+		)
+	));
+}
+?>
+<#19>
+<?php
+if($ilDB->tableExists('tms_role_settings') )
+{
+	$ilDB->addPrimaryKey('tms_role_settings', array('role_id'));
+}
+?>
+<#20>
+<?php
+global $DIC;
+$role_root_folder = 8;
+
+require_once("Services/TMS/Roles/classes/class.ilTMSRolesDB.php");
+$tms_settings_db = new ilTMSRolesDB($ilDB);
+$query = "SELECT rol_id FROM rbac_fa WHERE parent = $role_root_folder AND assign='y'";
+$res = $ilDB->query($query);
+while($row = $ilDB->fetchAssoc($res)) {
+	$tms_settings = $tms_settings_db->selectFor((int)$row["rol_id"]);
+	$tms_settings_db->update($tms_settings);
+}
+?>
