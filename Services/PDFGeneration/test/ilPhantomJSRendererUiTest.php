@@ -157,11 +157,4 @@ class ilPhantomJSRendererUiTest  extends PHPUnit_Framework_TestCase
 		$this->assertSame('orientation', $transformer->invokeArgs($this->form, array())->getPostVar());
 	}
 
-	public function testBuildPageSettingsHeader()
-	{
-		$transformer = self::getMethod('buildPageSettingsHeader');
-		$this->assertInstanceOf('ilFormSectionHeaderGUI', $transformer->invokeArgs($this->form, array()));
-		$this->assertSame('page_settings', $transformer->invokeArgs($this->form, array())->getTitle());
-	}
-
 } 
