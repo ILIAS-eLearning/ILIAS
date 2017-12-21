@@ -14131,3 +14131,13 @@ content#:#cont_sc_name_setting_salutation_lastname#:#Salutation and Last name###
 content#:#cont_sc_name_setting_first_name#:#First name###22 11 2017 new variable
 content#:#cont_sc_name_setting_no_name#:#no name###22 11 2017 new variable
 dateplaner#:#cal_download_files_started#:#Download of calendar files has started.###22 11 2017 new variable
+assessment#:#tst_msg_rand_quest_set_lost_pools_link#:#On the subtab %s the non available question pools can be newly derived.###20 12 2017 new variable
+chatroom#:#chat_anonymous_not_allowed#:#Please login to use the chat.###20 12 2017 new variable
+dcl#:#dcl_msg_mc_to_sc_confirmation#:#Swichting from multiple selection to single selection might lead to a loss of data in existing entries. Are you sure to continue?###20 12 2017 new variable
+style#:#skin_version#:#Skin Version###20 12 2017 new variable
+style#:#skin_version_description#:#The skin version is used to re-cache the style after changes. It gets automatically updated.###20 12 2017 new variable
+poll#:#poll_voting_period_full_info#:#Voting period from %s to %s###20 12 2017 new variable
+common#:#usr_name_undisclosed#:#Undisclosed###20 12 2017 new variable
+common#:#obj_exc_duplicate#:#Copy Exercise###20 12 2017 new variable
+meta#:#adt_error_max_length#:#Please enter a shorter text.###20 12 2017 new variable
+form#:#form_chars_remaining#:#Characters remaining:###20 12 2017 new variable

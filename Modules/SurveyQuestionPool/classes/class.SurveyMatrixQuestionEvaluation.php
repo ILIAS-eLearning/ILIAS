@@ -66,13 +66,14 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 				$res["cols"][] = $var->cat->title;
 			}
 		}
-		
+		$q_counter = 0;
 		foreach($a_results as $results_row)
-		{																				
+		{
+			#20363
 			$parsed_row = array(
-				$results_row[0]
+				++$q_counter.". ".$results_row[0]
 			);
-			
+
 			$vars = $results_row[1]->getVariables();
 			if($vars)
 			{
@@ -143,15 +144,18 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 		$data = $labels = $legend = array();
 		
 		$row_idx = sizeof($a_results);
-				
+
+		$row_counter = 0;
 		foreach($a_results as $row)
 		{
 			$row_idx--;
-			
+
 			$row_title = $row[0];
 			$row_results = $row[1];
-			
-			$labels[$row_idx] = wordwrap(ilUtil::shortenText($row_title, 60, true), 30, "<br />");
+
+			#20363
+			$row_title = ++$row_counter.". ".$row_title;
+			$labels[$row_idx] = wordwrap(ilUtil::shortenText($row_title, 50, true), 30, "<br />");
 			
 			$vars = $row_results->getVariables();
 			if($vars)

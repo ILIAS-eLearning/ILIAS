@@ -276,6 +276,43 @@ class ilCalendarSharedStatus
 			$this->calendars[$row->cal_id] = $row->status; 
 		}
 	}
-	
+
+	/**
+	 * Get open invitations
+	 *
+	 * @return array
+	 */
+	function getOpenInvitations()
+	{
+		include_once('./Services/Calendar/classes/class.ilCalendarShared.php');
+		$shared = ilCalendarShared::getSharedCalendarsForUser($this->usr_id);
+
+		$invitations = array();
+
+		foreach($shared as $data)
+		{
+			if($this->isDeclined($data['cal_id']) || $this->isAccepted($data['cal_id']))
+			{
+				continue;
+			}
+
+			$tmp_calendar = new ilCalendarCategory($data['cal_id']);
+
+			$invitations[] = array(
+				'cal_id' => $data['cal_id'],
+				'create_date' => $data['create_date'],
+				'obj_type' => $data['obj_type'],
+				'name' => $tmp_calendar->getTitle(),
+				'owner' => $tmp_calendar->getObjId(),
+				'apps' => count(ilCalendarCategoryAssignments::_getAssignedAppointments(array($data['cal_id']))),
+				'accepted' => $this->isAccepted($data['cal_id']),
+				'declined' => $this->isDeclined($data['cal_id'])
+			);
+
+		}
+
+		return $invitations;
+	}
+
 }
 ?>

@@ -593,14 +593,6 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 
 		switch ($a_node["type"])
 		{
-			case "crs":
-				return $ilAccess->checkAccess("read", "", $a_node["child"]);			
-
-			// visible groups can allways be clicked; group processing decides
-			// what happens next
-			case "grp":
-				return true;
-				
 			case 'tst':
 				if(!$rbacsystem->checkAccess("read", $a_node["child"]))
 				{
