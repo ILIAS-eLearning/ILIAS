@@ -169,12 +169,16 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager {
 			}
 		}
 
-		$name = $db->quoteIdentifier($name, true);
 		if (!empty($changes['name'])) {
-			$change_name = $db->quoteIdentifier($changes['name'], true);
-			$result = $db->manipulate("ALTER TABLE $name RENAME TO " . $change_name);
-		}
+			$result = $db->manipulate("ALTER TABLE " . $db->quoteIdentifier($name, true) . " RENAME TO " . $db->quoteIdentifier($changes['name']));
 
+			$idx = array_merge($this->listTableIndexes($changes['name']), $this->listTableConstraints($changes['name']));
+			foreach ($idx as $index_name) {
+				$index_newname = preg_replace("/^$name/", $changes['name'], $index_name);
+				$result = $db->manipulate("ALTER INDEX " . $this->getIndexName($index_name) . " RENAME TO " . $this->getIndexName($index_newname)); 
+			}
+		}
+		
 		return true;
 	}
 
