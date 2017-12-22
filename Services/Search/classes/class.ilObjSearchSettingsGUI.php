@@ -170,7 +170,9 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 	 */
 	protected function initFormSettings()
 	{
-		global $lng,$ilDB;
+		global $lng,$ilDB,$DIC;
+		
+		$access = $GLOBALS['DIC']->access();
 		
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		include_once './Services/Search/classes/class.ilSearchSettings.php';
@@ -179,7 +181,11 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		
 		$this->form = new ilPropertyFormGUI();
 		$this->form->setFormAction($this->ctrl->getFormAction($this,'updateSettings'));
-		$this->form->addCommandButton('updateSettings',$this->lng->txt('save'));
+		
+		if($access->checkAccess('write','',$this->object->getRefId()))
+		{
+			$this->form->addCommandButton('updateSettings',$this->lng->txt('save'));
+		}
 		$this->form->setTitle($this->lng->txt('seas_settings'));
 		
 		// Max hits
@@ -312,14 +318,15 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 	 */
 	protected function updateSettingsObject()
 	{
-		global $ilAccess,$ilErr;
+		global $ilAccess;
 		
 		$this->initFormSettings();
 		$this->form->checkInput();
 		
 		if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
-			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->MESSAGE);
+			ilUtil::sendFailure($this->lng->txt('permission_denied'),true);
+			$GLOBALS['DIC']->ctrl()->redirect($this, 'settings');
 		}
 		
 		include_once './Services/Search/classes/class.ilSearchSettings.php';
@@ -405,19 +412,14 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$this->form->setFormAction($this->ctrl->getFormAction($this,'cancel'));
 		
 		$this->form->setTitle($this->lng->txt('lucene_settings_title'));
-		$this->form->addCommandButton('saveLuceneSettings',$this->lng->txt('save'));
-		$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
+		
+		$access = $GLOBALS['DIC']->access();
+		if($access->checkAccess('write','',$this->object->getRefId()))
+		{
+			$this->form->addCommandButton('saveLuceneSettings',$this->lng->txt('save'));
+		}
 		
 		
-		// Offline filter
-		/*
-		$offline = new ilCheckboxInputGUI($this->lng->txt('lucene_offline_filter_setting'),'offline_filter');
-		$offline->setInfo($this->lng->txt('lucene_offline_filter_setting_info'));
-		$offline->setValue(1);
-		$offline->setChecked($this->settings->isLuceneOfflineFilterEnabled());
-		$this->form->addItem($offline);
-		 */
-				
 		
 		// Item filter
 		$if = new ilCheckboxInputGUI($this->lng->txt('search_mime_filter_form'),'mime_enabled');
@@ -571,6 +573,9 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		}
 	}
 	
+	/**
+	 * show advanced settings
+	 */
 	protected function advancedLuceneSettingsObject()
 	{
 		$this->initSubTabs('lucene');
@@ -586,9 +591,19 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$this->tpl->setContent($table->getHTML());
 	}
 	
+	/**
+	 * Save advanced settings
+	 */
 	protected function saveAdvancedLuceneSettingsObject()
 	{
-		include_once './Services/Search/classes/Lucene/class.ilLuceneAdvancedSearchSettings.php';
+		$access = $GLOBALS['DIC']->access();
+		
+		if(!$access->checkAccess('write','',$this->object->getRefId()))
+		{
+			ilUtil::sendFailure($this->lng->txt('permission_denied'),true);
+			$GLOBALS['DIC']->ctrl()->redirect($this, 'settings');
+		}
+		
 		
 		$settings = ilLuceneAdvancedSearchSettings::getInstance();
 		foreach(ilLuceneAdvancedSearchFields::getFields() as $field => $translation)
