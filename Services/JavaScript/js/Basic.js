@@ -129,6 +129,7 @@ il.Util = {
 			{
 				$('#' + o.argument.el_id).replaceWith(o.responseText);
 			}
+			il.UICore.initDropDowns('#' + o.argument.el_id);
 		}
 	},
 	
@@ -619,7 +620,16 @@ il.UICore = {
 		});
 
 	},
-	
+
+	initDropDowns: function (context) {
+		// fix positions of drop-downs to viewport
+		$(context + ' .dropdown-menu').parent().on('shown.bs.dropdown', function (e) {
+			$(this).children(".dropdown-menu").each(function() {
+				il.Util.fixPosition(this);
+			});
+		});
+	},
+
 	showRightPanel: function () {
 		var n = document.getElementById('ilRightPanel');
 		if (!n) {
@@ -745,13 +755,8 @@ il.Util.addOnLoad(function () {
 	// Used for image maps in "hot spot" questions:Modules/TestQuestionPool/templates/default/tpl.il_as_qpl_imagemap_question_output.html
 	$('area.preventDoubleSubmission').preventDoubleSubmission();
 
-	// fix positions of drop-downs to viewport
-	$('.dropdown-menu').parent().on('shown.bs.dropdown', function (e) {
-		$(this).children(".dropdown-menu").each(function() {
-			il.Util.fixPosition(this);
-		});
-	});
-	
+	il.UICore.initDropDowns("");
+
 	// fix mouse-relative positions of context menus (based on drop-downs) to viewport
 	$('.contextmenu').click(function(e) {			
 		// fixPosition (see above) will fix the x-dimension, we are doing y ourselves
