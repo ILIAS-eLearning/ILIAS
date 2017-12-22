@@ -50,20 +50,29 @@ class Renderer extends AbstractComponentRenderer {
 		$action = $component->getAction();
 		// The action is always put in the data-action attribute to have it available
 		// on the client side, even if it is not available on rendering.
-		$tpl->setVariable("ACTION", $action);
+		if (is_string($action)) {
+			$tpl->setCurrentBlock("with_data_action");
+			$tpl->setVariable("ACTION", $action);
+			$tpl->parseCurrentBlock();
+		}
 
 		$label = $component->getLabel();
 		if ($label !== null) {
 			$tpl->setVariable("LABEL", $component->getLabel());
 		}
 		if ($component->isActive()) {
-			$component = $component->withAdditionalOnLoadCode(function ($id) use ($action) {
-				$action = str_replace("&amp;", "&", $action);
+			// The actions might also be a list of signals, these will be appended by
+			// bindJavascript in maybeRenderId.
+			if (is_string($action)) {
+				$component = $component->withAdditionalOnLoadCode(function ($id) use ($action) {
+					$action = str_replace("&amp;", "&", $action);
 
-				return "$('#$id').on('click', function(event) {
-						window.location = '{$action}';
-				});";
-			});
+					return "$('#$id').on('click', function(event) {
+							window.location = '{$action}';
+							return false; // stop event propagation
+					});";
+				});
+			}
 		} else {
 			$tpl->touchBlock("disabled");
 		}

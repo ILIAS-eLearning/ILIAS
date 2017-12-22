@@ -6,6 +6,7 @@ require_once(__DIR__."/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__."/../../Base.php");
 
 use \ILIAS\UI\Component as C;
+use \ILIAS\UI\Implementation\Component\Signal;
 
 /**
  * Test on button implementation.
@@ -378,6 +379,71 @@ class ButtonTest extends ILIAS_UI_TestBase {
 		}
 	}
 
+	/**
+	 * @dataProvider button_type_provider
+	 */
+	public function test_withOnClick_removes_action($factory_method) {
+		$f = $this->getButtonFactory();
+		$signal = $this->createMock(C\Signal::class);
+		$button = $f->$factory_method("label", "http://www.example.com");
+		$this->assertEquals("http://www.example.com", $button->getAction());
+
+		$button = $button->withOnClick($signal);
+
+		$this->assertEquals([$signal], $button->getAction());
+	}
+
+	/**
+	 * @dataProvider button_type_provider
+	 */
+	public function test_appendOnClick_appends_to_action($factory_method) {
+		$f = $this->getButtonFactory();
+		$signal1 = $this->createMock(C\Signal::class);
+		$signal2 = $this->createMock(C\Signal::class);
+		$button = $f->$factory_method("label", "http://www.example.com");
+
+		$button = $button->withOnClick($signal1)->appendOnClick($signal2);
+
+		$this->assertEquals([$signal1, $signal2], $button->getAction());
+	}
+
+	/**
+	 * @dataProvider button_type_provider
+	 */
+	public function test_render_button_with_signal($factory_method) {
+		$ln = "http://www.ilias.de";
+		$f = $this->getButtonFactory();
+		$signal = $this->createMock(Signal::class);
+		$signal->method("__toString")
+			->willReturn("MOCK_SIGNAL");
+
+		$b = $f->$factory_method("label", $ln)
+				->withOnClick($signal);
+		$r = $this->getDefaultRenderer();
+
+		$html = $this->normalizeHTML($r->render($b));
+
+		$css_classes = self::$canonical_css_classes[$factory_method];
+		$expected = "<button class=\"$css_classes\" id=\"id_1\">".
+					"label".
+					"</button>";
+		$this->assertHTMLEquals($expected, $html);
+	}
+
+	// TODO: We are missing a test for the rendering of a button with an signal
+	// here. Does it still render the action js?
+
+	/**
+	 * @dataProvider button_type_provider
+	 */
+	public function test_factory_accepts_signal_as_action($factory_method) {
+		$f = $this->getButtonFactory();
+		$signal = $this->createMock(C\Signal::class);
+
+		$button = $f->$factory_method("label", $signal);
+
+		$this->assertEquals([$signal], $button->getAction());
+	}
 
 	public function button_type_provider() {
 		return array
