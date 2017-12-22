@@ -19,6 +19,9 @@ class ilTrainingSearchGUI {
 	const CMD_QUICKFILTER = "quickFilter";
 	const CMD_SORT = "sort";
 
+	const PAGE_SIZE = 10;
+	const PAGINATION_PARAM = "pagination";
+
 	/**
 	 * @var ilTemplate
 	 */
@@ -111,7 +114,7 @@ class ilTrainingSearchGUI {
 		$filter = $this->helper->getFilterValuesFrom($get);
 		$bookable_trainings = $this->getBookableTrainings($filter);
 		$bookable_trainings = $this->helper->sortBookableTrainings(array(Helper::F_SORT_VALUE => Helper::S_TITLE_ASC), $bookable_trainings);
-		$this->showTrainings($bookable_trainings);
+		$this->showTrainings($bookable_trainings, self::CMD_SHOW);
 	}
 
 	/**
@@ -123,7 +126,7 @@ class ilTrainingSearchGUI {
 		$post = $_POST;
 		$filter = $this->helper->getFilterValuesFrom($post);
 		$bookable_trainings = $this->getBookableTrainings($filter);
-		$this->showTrainings($bookable_trainings);
+		$this->showTrainings($bookable_trainings, self::CMD_FILTER);
 	}
 
 	/**
@@ -136,7 +139,7 @@ class ilTrainingSearchGUI {
 		$filter = $this->helper->getFilterValuesFrom($get);
 		$bookable_trainings = $this->getBookableTrainings($filter);
 		$bookable_trainings = $this->helper->sortBookableTrainings($get, $bookable_trainings);
-		$this->showTrainings($bookable_trainings);
+		$this->showTrainings($bookable_trainings, self::CMD_SORT);
 	}
 
 	/**
@@ -148,7 +151,7 @@ class ilTrainingSearchGUI {
 		$get = $_GET;
 		$filter = $this->helper->getFilterValuesFrom($get);
 		$bookable_trainings = $this->getBookableTrainings($filter);
-		$this->showTrainings($bookable_trainings);
+		$this->showTrainings($bookable_trainings, self::CMD_QUICKFILTER);
 	}
 
 	/**
@@ -158,18 +161,35 @@ class ilTrainingSearchGUI {
 	 *
 	 * @return void
 	 */
-	protected function showTrainings(array $bookable_trainings) {
+	protected function showTrainings(array $bookable_trainings, $cmd) {
 		require_once("Services/TMS/TrainingSearch/classes/class.ilTrainingSearchTableGUI.php");
 		$table = new ilTrainingSearchTableGUI($this, $this->helper, $this->search_user_id);
 		$table->setData($bookable_trainings);
 
-		$modal = $this->prepareModal($button1);
+		$modal = $this->prepareModal();
 		$button1 = $this->g_f->button()->standard($this->g_lng->txt('search'), '#')
 			->withOnClick($modal->getShowSignal());
 
+		$current_page = (int)$_GET[self::PAGINATION_PARAM];
+
 		$view_control = array($button1);
 		$view_control = $this->addSortationObjects($view_control);
-		$content = $this->g_renderer->render($modal).$table->render($view_control);
+		if ($cmd === self::CMD_SHOW) {
+			$link = $this->g_ctrl->getLinkTarget($this, $cmd, "", false, false);
+			$pagination = $this->g_f->viewControl()->pagination()
+				->withTotalEntries(count($bookable_trainings))
+				->withPageSize(self::PAGE_SIZE)
+				->withCurrentPage($current_page)
+				->withTargetURL($link, self::PAGINATION_PARAM);
+			$offset = $pagination->getOffset();
+			$limit = self::PAGE_SIZE;
+			$view_control[] = $pagination;
+		}
+		else {
+			$offset = 0;
+			$limit = null;
+		}
+		$content = $this->g_renderer->render($modal).$table->render($view_control, $offset, $limit);
 
 		if(count($bookable_trainings) == 0) {
 			$content .= $this->getNoAvailableTrainings();

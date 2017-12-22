@@ -77,23 +77,24 @@ class ilTrainingSearchDB implements TrainingSearchDB {
 	 * @return array<ilObjCourse>
 	 */
 	protected function getAllCoursesForUser($user_id) {
-		$query = "SELECT DISTINCT object_data.obj_id, object_reference.ref_id FROM object_data".PHP_EOL
-				." LEFT JOIN object_reference ON object_data.obj_id = object_reference.obj_id".PHP_EOL
-				." WHERE object_data.type = 'crs'".PHP_EOL
-				."     AND object_reference.deleted IS NULL";
+		$query = "SELECT DISTINCT crs_settings.obj_id, object_reference.ref_id".PHP_EOL
+				." FROM crs_settings".PHP_EOL
+				." JOIN object_reference ON crs_settings.obj_id = object_reference.obj_id".PHP_EOL
+				." WHERE object_reference.deleted IS NULL".PHP_EOL
+				."     AND crs_settings.activation_type = 1";
 
 		$res = $this->g_db->query($query);
 		$ret = array();
 		while($row = $this->g_db->fetchAssoc($res)) {
+			if($this->isTemplate($row["ref_id"])) {
+				continue;
+			}
+
 			if($this->userIsOnCourse($user_id, $row["ref_id"], $row["obj_id"])) {
 				continue;
 			}
 
 			if(!$this->userHasAccess($user_id, $row["ref_id"], $row["obj_id"])) {
-				continue;
-			}
-
-			if($this->isTemplate($row["ref_id"])) {
 				continue;
 			}
 
@@ -133,8 +134,7 @@ class ilTrainingSearchDB implements TrainingSearchDB {
 	 * @return bool
 	 */
 	protected function isTemplate($ref_id) {
-		$copy_settings = $this->getFirstChildOfByType($ref_id, "xcps");
-		return $copy_settings !== null;
+		return $this->hasChildOfType($ref_id, "xcps");
 	}
 
 	/**
@@ -229,6 +229,20 @@ class ilTrainingSearchDB implements TrainingSearchDB {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Check if ref_id has a child of the given type.
+	 *
+	 * @param int 	$ref_id
+	 * @param string 	$search_type
+	 *
+	 * @return Object 	of search type
+	 */
+	protected function hasChildOfType($ref_id, $search_type) {
+		$node = $this->g_tree->getNodeData($ref_id);
+		$children = $this->g_tree->getSubTree($node, false, $search_type);
+		return count($children) > 0;
 	}
 
 	/**
