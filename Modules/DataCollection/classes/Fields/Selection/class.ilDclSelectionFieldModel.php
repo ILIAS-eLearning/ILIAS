@@ -238,11 +238,11 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel {
 		$join_str = "LEFT JOIN il_dcl_record_field AS sort_record_field_{$this->getId()} ON (sort_record_field_{$this->getId()}.record_id = record.id AND sort_record_field_{$this->getId()}.field_id = "
 			. $ilDB->quote($this->getId(), 'integer') . ") ";
 		$join_str .= "LEFT JOIN il_dcl_stloc{$this->getStorageLocation()}_value AS sort_stloc_{$this->getId()} ON (sort_stloc_{$this->getId()}.record_field_id = sort_record_field_{$this->getId()}.id) ";
-		if ($this->isMulti()) {
-			$join_str .= "LEFT JOIN il_dcl_sel_opts as sel_opts_{$this->getId()} ON (sel_opts_{$this->getId()}.opt_id = sort_stloc_{$this->getId()}.value->'$[0]' AND sel_opts_{$this->getId()}.field_id = " . $ilDB->quote($this->getId(), 'integer') . ") ";
-		} else {
+		//if ($this->isMulti()) {
+		//	$join_str .= "LEFT JOIN il_dcl_sel_opts as sel_opts_{$this->getId()} ON (sel_opts_{$this->getId()}.opt_id = sort_stloc_{$this->getId()}.value->'$[0]' AND sel_opts_{$this->getId()}.field_id = " . $ilDB->quote($this->getId(), 'integer') . ") ";
+		//} else {
 			$join_str .= "LEFT JOIN il_dcl_sel_opts as sel_opts_{$this->getId()} ON (sel_opts_{$this->getId()}.opt_id = sort_stloc_{$this->getId()}.value AND sel_opts_{$this->getId()}.field_id = " . $ilDB->quote($this->getId(), 'integer') . ") ";
-		}
+		//}
 
 
 
