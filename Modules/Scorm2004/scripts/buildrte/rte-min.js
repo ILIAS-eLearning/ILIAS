@@ -1,4 +1,4 @@
-// Build: 20151022020047 
+// Build: 20171223234345 
 
 function ADLAuxiliaryResource()
 {}
@@ -2322,9 +2322,7 @@ if(log_auto_flush)
 else
 {log_buffer=log_buffer+mess+'<br />';}}
 function sclogflush()
-{return;elm=all("ilLogPre");if(elm)
-{elm.innerHTML=elm.innerHTML+log_buffer;sclogscroll();}
-log_buffer="";}
+{return;}
 function sclogclear()
 {elm=all("ilLogPre");if(elm)
 {elm.innerHTML='';}}
@@ -3061,7 +3059,7 @@ else if(!activities[tree[i].mActivityID].href&&elm!=null&&elm.parentNode)
 {toggleClass(elm.parentNode,"ilc_rte_node_RTEChapter"+disabled_str,1);}
 else
 {toggleClass(elm.parentNode,"ilc_rte_node_RTECourse"+disabled_str,1);}}}
-signActNode();first=false;}}
+if(elm)signActNode();first=false;}}
 function updateNavForSequencing(){if(this.config.sequencing_enabled){var valid=new ADLValidRequests();valid=msequencer.getValidRequests(valid);msequencer.mSeqTree.setValidRequests(valid);mlaunch.mNavState=msequencer.mSeqTree.getValidRequests();updateNav(false);updateControls();}}
 function isIE(versionNumber){var detect=navigator.userAgent.toLowerCase();if(!(navigator&&navigator.userAgent&&navigator.userAgent.toLowerCase)){return false;}else{if(detect.indexOf('msie')+1){var ver=function(){var rv=-1;if(navigator.appName=='Microsoft Internet Explorer'){var ua=navigator.userAgent;var re=new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");if(re.exec(ua)!=null){rv=parseFloat(RegExp.$1);}}
 return rv;};var valid=true;if((ver>-1)&&(ver<versionNumber)){valid=false;}

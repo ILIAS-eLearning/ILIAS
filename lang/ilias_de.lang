@@ -6514,7 +6514,7 @@ content#:#selectHeader#:#Als Kopfzeile auswählen
 content#:#seq_abandon#:#Die Anfrage wurde durchgeführt.
 content#:#seq_abandonall#:#Die Kurssitzung wurde abgebrochen.
 content#:#seq_blocked#:#Zugriff verweigert.
-content#:#seq_close#:#Bitte schließen sie das Fenster des SCORM-Lernmoduls.
+content#:#seq_close#:#Bitte schließen Sie das Fenster des SCORM-Lernmoduls.
 content#:#seq_coursecomplete#:#Der aktuelle Kurs wurde vollständig bearbeitet.
 content#:#seq_deadlock#:#Fehler: Der Sequencer befindet sich in einem Deadlock.
 content#:#seq_endsession#:#Die aktuelle Kurssitzung wurde beendet.

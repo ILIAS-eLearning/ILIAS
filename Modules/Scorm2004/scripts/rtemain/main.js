@@ -167,13 +167,13 @@ function sclog(mess, type)
 function sclogflush()
 {
 	return;
-	elm = all("ilLogPre");
-	if (elm) 
-	{
-		elm.innerHTML = elm.innerHTML + log_buffer;
-		sclogscroll();
-	}
-	log_buffer = "";
+	// elm = all("ilLogPre");
+	// if (elm) 
+	// {
+		// elm.innerHTML = elm.innerHTML + log_buffer;
+		// sclogscroll();
+	// }
+	// log_buffer = "";
 }
 
 /**
@@ -3911,7 +3911,7 @@ function updateNav(ignore) {
 		}
 		//added to sign actual node
 		// if (ignore!=true) 
-		signActNode();
+		if (elm) signActNode();
 		//toggleClass(elm.parentNode, 'hidden', item.hidden);
 		first = false;
 	}
