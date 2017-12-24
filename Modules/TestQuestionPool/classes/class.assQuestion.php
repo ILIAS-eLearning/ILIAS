@@ -2297,6 +2297,25 @@ abstract class assQuestion
 		}
 	}
 	
+	public static function isFileAvailable($file)
+	{
+		if( !file_exists($file) )
+		{
+			return false;
+		}
+		
+		if( !is_file($file) )
+		{
+			return false;
+		}
+		
+		if( !is_readable($file) )
+		{
+			return false;
+		}
+		
+		return true;
+	}
 	
 	function copyXHTMLMediaObjectsOfQuestion($a_q_id)
 	{
