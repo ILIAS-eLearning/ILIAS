@@ -34,6 +34,38 @@ class assQuestionExport
 		$this->object =& $a_object;
 	}
 	
+	/**
+	 * @param ilXmlWriter $a_xml_writer
+	 */
+	protected function addAnswerSpecificFeedback(ilXmlWriter $a_xml_writer, $answers)
+	{
+		foreach ($answers as $index => $answer)
+		{
+			$linkrefid = "response_$index";
+			$attrs = array(
+				"ident" => $linkrefid,
+				"view" => "All"
+			);
+			$a_xml_writer->xmlStartTag("itemfeedback", $attrs);
+			// qti flow_mat
+			$a_xml_writer->xmlStartTag("flow_mat");
+			$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation(
+				$this->object->getId(), $index
+			);
+			$this->object->addQTIMaterial($a_xml_writer, $fb);
+			$a_xml_writer->xmlEndTag("flow_mat");
+			$a_xml_writer->xmlEndTag("itemfeedback");
+		}
+	}
+	
+	/**
+	 * @param ilXmlWriter $a_xml_writer
+	 */
+	protected function addGenericFeedback(ilXmlWriter $a_xml_writer)
+	{
+		$this->exportFeedbackOnly($a_xml_writer);
+	}
+	
 	function exportFeedbackOnly($a_xml_writer)
 	{
 		$feedback_allcorrect = $this->object->feedbackOBJ->getGenericFeedbackExportPresentation(
