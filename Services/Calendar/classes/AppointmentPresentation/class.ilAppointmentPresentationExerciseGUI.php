@@ -93,7 +93,7 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 		$this->addLastUpdate($a_app);
 
 		//go to the exercise.
-		$this->addAction($this->lng->txt("cal_exc_open"), ilLink::_getStaticLink($exc_ref, "exc"));
-
+		$this->addAction($this->lng->txt("cal_exc_open"),
+			"goto.php?target=exc_".$exc_ref."_".$ass_id."&client_id=".CLIENT_ID);
 	}
 }

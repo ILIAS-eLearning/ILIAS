@@ -684,11 +684,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 		//ilExerciseMailNotification has links to:
 		// "Assignments", "Submission and Grades" and Downnoad the NEW files if the assignment type is "File Upload".
 		$ass_id = $_GET['ass_id'];
+		$parts = explode("_", $a_raw);
 		if(!$ass_id)
 		{
 			$ass_id = null;
 			$action = null;
-			$parts = explode("_", $a_raw);
 
 			switch(end($parts))
 			{
@@ -738,6 +738,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 					break;
 
 				default:
+					if ($parts[1] != "")
+					{
+						$ilCtrl->setParameterByClass("ilExerciseHandlerGUI", "ass_id", $parts[1]);
+						$ilCtrl->setParameterByClass("ilExerciseHandlerGUI", "ass_id_goto", $parts[1]);
+					}
 					$ilCtrl->redirectByClass(array("ilRepositoryGUI", "ilExerciseHandlerGUI", "ilObjExerciseGUI"), "showOverview");
 					break;
 
