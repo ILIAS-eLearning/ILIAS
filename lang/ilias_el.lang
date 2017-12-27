@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2018 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -14091,7 +14091,7 @@ wfe#:#wfe_started_listening#:#Process armed###22 11 2017 new variable
 style#:#less_file_reset#:#The less variables have been reset. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.###22 11 2017 new variable
 style#:#color_reset#:#The colors of the icons have been reset. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.###22 11 2017 new variable
 style#:#color_update#:#The colors of the icons have been updated. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.###22 11 2017 new variable
-iass#:#iass_assessment_not_completed#:#Assessment not completet###22 11 2017 new variable
+iass#:#iass_assessment_not_completed#:#Assessment not completed###22 11 2017 new variable
 iass#:#iass_changed_by#:#Changed after finalization###22 11 2017 new variable
 common#:#pdfg_read#:#User has read access to PDF Generation###22 11 2017 new variable
 common#:#pdfg_visible#:#PDF Generation is visible###22 11 2017 new variable

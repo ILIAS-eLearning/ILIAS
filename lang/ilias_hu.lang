@@ -1,11 +1,11 @@
-/* Copyright (c) 1998-2017 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2018 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
-* @module	language file Hungarian
+* @module	    language file Hungarian
 * @modulegroup	language
-* @author	Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version	5.3.x 2017-11-18
+* @author	    Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @version	    5.3.x 2017-11-18
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -14128,7 +14128,7 @@ content#:#cont_sc_name_setting_no_name#:#nincs név
 dateplaner#:#cal_download_files_started#:#A naptárfájlok letöltése elkezdődött.
 chatroom_adm#:#play_invitation_sound_info#:#Play a sound when receiving a new invitation for repository chats.###22 11 2017 new variable
 orgu#:#msg_assignment_to_employee_done#:#Zuweisung zur Position Mitarbeiter durchgeführt###22 11 2017 new variable
-iass#:#iass_assessment_not_completed#:#Assessment not completet###22 11 2017 new variable
+iass#:#iass_assessment_not_completed#:#Assessment not completed###22 11 2017 new variable
 orgu#:#msg_position_updated#:#Position updated.###22 11 2017 new variable
 orgu#:#msg_position_created#:#Position created.###22 11 2017 new variable
 assessment#:#tst_msg_rand_quest_set_lost_pools_link#:#On the subtab %s the non available question pools can be newly derived.###20 12 2017 new variable
