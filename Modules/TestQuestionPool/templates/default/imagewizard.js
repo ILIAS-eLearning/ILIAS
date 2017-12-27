@@ -14,6 +14,7 @@ var ilImageWizardInputTemplate = {
 
 	cleanRow: function(row) {
 		$(row).find('div.imagepresentation').remove();
+        $(row).find('input[type=file]').val('');
 	},
 
 	reindexRows: function(tbody) {

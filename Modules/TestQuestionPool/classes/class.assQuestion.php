@@ -260,10 +260,6 @@ abstract class assQuestion
 	
 	protected $lastChange;
 	
-	protected static $allowedImageMaterialFileExtensionsByMimeType = array(
-		'image/jpeg' => array('jpg', 'jpeg'), 'image/png' => array('png'), 'image/gif' => array('gif')
-	);
-	
 	/**
 	* assQuestion constructor
 	*
@@ -355,6 +351,19 @@ abstract class assQuestion
 			strtolower($fileExtension), self::getAllowedFileExtensionsForMimeType($mimeType)
 		);
 	}
+	
+	public static function getAllowedImageFileExtensions()
+	{
+		$allowedExtensions = array();
+		
+		foreach(self::$allowedFileExtensionsByMimeType as $mimeType => $fileExtensions)
+		{
+			 $allowedExtensions = array_merge($allowedExtensions, $fileExtensions);
+		}
+		
+		return $allowedExtensions;
+	}	
+	
 
 	/**
 	 * @param \ilAssQuestionProcessLocker $processLocker
