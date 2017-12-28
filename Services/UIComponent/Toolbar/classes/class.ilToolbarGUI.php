@@ -257,10 +257,10 @@ class ilToolbarGUI
 	 * Add a sticky item. Sticky items are always visible, also if the toolbar is collapsed (responsive view).
 	 * Sticky items are displayed first in the toolbar.
 	 *
-	 * @param ilToolbarItem $a_item
+	 * @param ilToolbarItem|\ILIAS\UI\Component\Component $a_item
 	 * @param bool $a_output_label
 	 */
-	public function addStickyItem(ilToolbarItem $a_item, $a_output_label = false)
+	public function addStickyItem($a_item, $a_output_label = false)
 	{
 		$this->sticky_items[] = array("item"=>$a_item, "label"=>$a_output_label);
 	}
@@ -444,9 +444,19 @@ class ilToolbarGUI
 						$tpl_sticky->setVariable('TXT_INPUT', $sticky_item['item']->getTitle());
 						$tpl_sticky->parseCurrentBlock();
 					}
-					$tpl_sticky->setCurrentBlock('sticky_item');
-					$tpl_sticky->setVariable('STICKY_ITEM_HTML', $sticky_item['item']->getToolbarHTML());
-					$tpl_sticky->parseCurrentBlock();
+
+					if ($sticky_item['item'] instanceof ilToolbarItem)
+					{
+						$tpl_sticky->setCurrentBlock('sticky_item');
+						$tpl_sticky->setVariable('STICKY_ITEM_HTML', $sticky_item['item']->getToolbarHTML());
+						$tpl_sticky->parseCurrentBlock();
+					}
+					else if ($sticky_item['item'] instanceof \ILIAS\UI\Component\Component)
+					{
+						$tpl_sticky->setCurrentBlock("sticky_item");
+						$tpl_sticky->setVariable("STICKY_ITEM_HTML", $this->ui->renderer()->render($sticky_item['item']));
+						$tpl_sticky->parseCurrentBlock();
+					}
 				}
 				$tpl->setCurrentBlock('sticky_items');
 				$tpl->setVariable('STICKY_ITEMS', $tpl_sticky->get());
