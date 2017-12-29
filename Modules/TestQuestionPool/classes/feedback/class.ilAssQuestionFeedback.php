@@ -345,6 +345,16 @@ abstract class ilAssQuestionFeedback
 	abstract public function getSpecificAnswerFeedbackContent($questionId, $answerIndex);
 
 	/**
+	 * returns the SPECIFIC feedback content for a given question id and answer index.
+	 *
+	 * @abstract
+	 * @access public
+	 * @param integer $questionId
+	 * @return string $feedbackContent
+	 */
+	abstract public function getAllSpecificAnswerFeedbackContents($questionId);
+
+	/**
 	 * saves GENERIC feedback content for the given question id to the database.
 	 * Generic feedback is either feedback for the completed solution (all answers correct)
 	 * of the question or at least onen incorrect answer.
