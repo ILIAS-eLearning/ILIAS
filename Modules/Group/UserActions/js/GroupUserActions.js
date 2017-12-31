@@ -63,12 +63,14 @@ il.Group = il.Group || {};
 		function initEvents(id) {
 			console.log(id);
 
-			$("#" + id).find("[data-grp-action-add-to='1']").each(function () {
+			$(id).find("[data-grp-action-add-to='1']").each(function () {
 				$(this).on("click", function(e) {
 					var url;
 
 					e.preventDefault();
-					il.Awareness.close();
+					if (il.Awareness) {
+						il.Awareness.close();
+					}
 					url = $(this).data("url");
 
 					if ($('#il_grp_action_modal_content').length) {
@@ -90,8 +92,10 @@ il.Group = il.Group || {};
 		}
 
 		$(document).on('il.user.actions.updated', function(ev, id) {
-			initEvents(id);
+			console.log("il.user.actions.updated catched, id: " + id);
+			initEvents("#" + id);
 		});
+		initEvents("body");
 	});
 
 
