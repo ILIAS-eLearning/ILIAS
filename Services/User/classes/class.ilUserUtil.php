@@ -339,7 +339,8 @@ class ilUserUtil
 		$by_default = true;
 
 		//configuration by user preference
-		if(self::hasPersonalStartingPoint())
+		#21782
+		if(self::hasPersonalStartingPoint() && $ilUser->getPref('usr_starting_point') != NULL)
 		{
 			$current = self::getPersonalStartingPoint();
 			if($current == self::START_REPOSITORY_OBJ)
