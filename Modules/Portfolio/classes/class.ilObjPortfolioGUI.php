@@ -1235,6 +1235,10 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$form->addItem($radg);
 
 		$form->addCommandButton("exportPDF", $lng->txt("prtf_pdf"));
+		if (DEVMODE == "1")
+		{
+			$form->addCommandButton("exportPDFDev", $lng->txt("prtf_pdf")." (DEV)");
+		}
 
 		$form->setTitle($lng->txt("prtf_print_options"));
 		$form->setFormAction($ilCtrl->getFormAction($this, "exportPDF"));
@@ -1242,7 +1246,12 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		return $form;
 	}
 
-	public function exportPDF()
+	public function exportPDFDev()
+	{
+		$this->exportPDF(true);
+	}
+
+	public function exportPDF($a_dev_mode = false)
 	{
 		$html = $this->printView(true);
 
@@ -1253,7 +1262,11 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$html = preg_replace("/src=\"\\.\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $html);
 		$html = preg_replace("/href=\"\\.\\//ims", "href=\"" . ILIAS_HTTP_PATH . "/", $html);
 
-		//echo $html; exit;
+		if ($a_dev_mode)
+		{
+			echo $html;
+			exit;
+		}
 
 		$pdf_factory = new ilHtmlToPdfTransformerFactory();
 		$pdf_factory->deliverPDFFromHTMLString($html, "portfolio.pdf", ilHtmlToPdfTransformerFactory::PDF_OUTPUT_DOWNLOAD, "Portfolio", "ContentExport");
