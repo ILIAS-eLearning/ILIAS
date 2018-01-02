@@ -1262,6 +1262,9 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$html = preg_replace("/src=\"\\.\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $html);
 		$html = preg_replace("/href=\"\\.\\//ims", "href=\"" . ILIAS_HTTP_PATH . "/", $html);
 
+		require_once 'Services/WebAccessChecker/classes/class.ilWACSignedPath.php';
+		ilWACSignedPath::setTokenMaxLifetimeInSeconds(180);
+
 		if ($a_dev_mode)
 		{
 			echo $html;
