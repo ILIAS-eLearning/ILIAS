@@ -449,7 +449,7 @@ class ilCalendarViewGUI
 			case self::CAL_PRESENTATION_MONTH:
 				$year_month = $this->seed->get(IL_CAL_FKT_DATE,'Y-m','UTC');
 				$char = strtolower(mb_substr($this->lng->txt("month"),0,1));
-				$bucket_title .= " ".$year_month."-01 1".$char;
+				$bucket_title .= " ".$year_month." 1".$char;
 				break;
 			case self::CAL_PRESENTATION_AGENDA_LIST:
 				$bucket_title .= " ".$this->seed->get(IL_CAL_DATE);
