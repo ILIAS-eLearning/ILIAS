@@ -1279,12 +1279,16 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			exit;
 		}
 
+		//$html = str_replace("&amp;", "&", $html);
+
 		$pdf_factory = new ilHtmlToPdfTransformerFactory();
 		$pdf_factory->deliverPDFFromHTMLString($html, "portfolio.pdf", ilHtmlToPdfTransformerFactory::PDF_OUTPUT_DOWNLOAD, "Portfolio", "ContentExport");
 	}
 
 	public function printView($a_pdf_export = false)
 	{
+		global $tpl;
+
 		$lng = $this->lng;
 
 		$pages = ilPortfolioPage::getAllPortfolioPages($this->object->getId());
@@ -1304,7 +1308,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$tpl->parseCurrentBlock();
 
 		$tpl->setVariable("LOCATION_STYLESHEET", ilObjStyleSheet::getContentPrintStyle());
-		$this->setContentStyleSheet($tpl);
+		//$this->setContentStyleSheet($tpl);
 
 		// syntax style
 		$tpl->setCurrentBlock("SyntaxStyle");
@@ -1438,6 +1442,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		}
 		else
 		{
+			$tpl->fillJavaScriptFiles();
 			$ret = $tpl->get("DEFAULT", false, false, false, true, false, false);
 			return $ret;
 		}
