@@ -11027,6 +11027,15 @@ div.ilc_question_MultipleChoice .ilc_qanswer_Answer > div:first-child {
     display: none;
   }
 }
+div.ilCOPGMediaPrint {
+  background-color: #f9f9f9 !important;
+  position: relative !important;
+  background-image: url("images/play.svg") !important;
+  background-position: 50% 50% !important;
+  background-repeat: no-repeat !important;
+  background-size: auto 90% !important;
+  padding: 1px !important;
+}
 /* Services/Calendar */
 td.even {
   color: #222;
