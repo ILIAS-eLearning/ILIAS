@@ -58,6 +58,7 @@ class ilLTIViewGUI
 	/**
 	 * public variables
 	 */
+	public $home_is_container = false;
 	public $member_view = false;
 	public $member_view_url = "";
 	public $member_view_close_txt = "";
@@ -205,27 +206,6 @@ class ilLTIViewGUI
 			case 'illtiroutergui' :
 				return;
 				break;
-		}
-		
-		if ($this->current_ref_id === '') 
-		{ // ToDo: conceptual discussion, only initGUI on baseClass=repositorygui? 
-			return;
-		}
-		
-		$this->setContext();
-	}
-	
-	/**
-	 * current container object is set as root for locator and tree
-	 */ 
-	private function setContext() 
-	{
-		$this->log("setContext");
-		if ($this->isContainer($this->current_type)) 
-		{
-			$this->tree_root_id = $this->current_ref_id;
-			//$this->log("set lti_tree_root_id: " . $this->tree_root_id);
-			$_SESSION['lti_tree_root_id'] = $this->tree_root_id;
 		}
 	}
 	
