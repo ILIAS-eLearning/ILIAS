@@ -90,8 +90,10 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
 	protected function buildToolbar($toolbarId)
 	{
 		require_once 'Modules/Test/classes/class.ilTestPlayerCommands.php';
-		
 		require_once 'Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
+		require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
+		require_once 'Services/UIComponent/Button/classes/class.ilButton.php';
+		
 		$toolbar = new ilToolbarGUI();
 		$toolbar->setId($toolbarId);
 		
