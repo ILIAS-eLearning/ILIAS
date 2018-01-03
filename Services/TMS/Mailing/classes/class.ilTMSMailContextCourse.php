@@ -10,13 +10,26 @@ class ilTMSMailContextCourse implements Mailing\MailContext {
 	private static $PLACEHOLDER = array(
 		'COURSE_TITLE' => 'crsTitle',
 		'COURSE_LINK' => 'crsLink',
-		'SCHEDULE' => 'crsSchedule'
+		'SCHEDULE' => 'crsSchedule',
+		'COURSE_START_DATE' => 'crsStartdate',
+		'COURSE_END_DATE' => 'crsEnddate',
+		'TRAINER_FIRST_NAME' => 'trainerFirstname',
+		'TRAINER_LAST_NAME' => 'trainerLastname',
+		'OFFICE_FIRST_NAME' => 'adminFirstname',
+		'OFFICE_LAST_NAME' => 'adminLastname',
+		'VENUE' => 'crsVenue',
+		'TRAINING_PROVIDER' => 'crsProvider'
 	);
 
 	/**
 	 * @var int
 	 */
 	protected $crs_ref_id;
+
+	/**
+	 * @var ilObjCourse | null
+	 */
+	protected $crs_obj;
 
 	public function __construct($crs_ref_id) {
 		assert('is_int($crs_ref_id)');
@@ -274,6 +287,21 @@ class ilTMSMailContextCourse implements Mailing\MailContext {
 			return null;
 		}
 
+		if($passignment->isCustomAssignment()) {
+			$provider_text = $passignment->getProviderText();
+		} else {
+			$pid = $passignment->getProviderId();
+			$pvals = $pactions->getProviderValues($pid);
+			$provider_text = implode('<br />', array(
+				$pvals[$pactions::F_NAME],
+				$pvals[$pactions::F_ADDRESS1],
+				$pvals[$pactions::F_ADDRESS2],
+				$pvals[$pactions::F_POSTCODE] .' '.$pvals[$pactions::F_CITY]
+			));
+		}
+		return $provider_text;
+	}
+
 	/**
 	 * Get session appointments from within the course
 	 *
@@ -300,8 +328,6 @@ class ilTMSMailContextCourse implements Mailing\MailContext {
 		ksort($vals, SORT_NUMERIC);
 		return $vals;
 	}
-
-
 
 	/**
 	 * Get all children by type recursive
@@ -332,9 +358,59 @@ class ilTMSMailContextCourse implements Mailing\MailContext {
 				}
 			}
 		}
-
 		return $ret;
 	}
 
+	/**
+	 * Get the course-object
+	 *
+	 * @return ilObjCourse
+	 */
+	protected function getCourseObject() {
+		if(! $this->crs_obj) {
+			$this->crs_obj = \ilObjectFactory::getInstanceByRefId($this->getCourseRefId());
+		}
+		return $this->crs_obj;
+	}
+
+	/**
+	 * Get the course-object's obj_id
+	 *
+	 * @return int
+	 */
+	protected function getCourseObjectId() {
+		global $ilObjDataCache;
+		return $ilObjDataCache->lookupObjId($this->getCourseRefId());
+	}
+
+	/**
+	 * Get first member with trainer-role
+	 *
+	 * @return ilObjUser | null
+	 */
+	protected function getTrainer() {
+		$participants = $this->getCourseObject()->getMembersObject();
+		$trainers = $participants->getTutors();
+		if(count($trainers) > 0) {
+			$trainer_id = (int)$trainers[0];
+			return new \ilObjUser($trainer_id);
+		}
+		return null;
+	}
+
+	/**
+	 * Get first member with admin-role
+	 *
+	 * @return ilObjUser | null
+	 */
+	protected function getAdmin() {
+		$participants = $this->getCourseObject()->getMembersObject();
+		$admins = $participants->getAdmins();
+		if(count($admins) > 0) {
+			$admin_id = (int)$admins[0];
+			return new \ilObjUser($admin_id);
+		}
+		return null;
+	}
 
 }
