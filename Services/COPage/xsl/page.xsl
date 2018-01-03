@@ -3462,7 +3462,7 @@
 		</xsl:variable>
 		<div>
 		<xsl:choose>
-		<xsl:when test="$mode = 'edit'">
+		<xsl:when test="$mode = 'edit' or $mode = 'print'">
 			<xsl:attribute name="class">ilEditVAccordCntr</xsl:attribute>
 		</xsl:when>
 		<xsl:when test="@Type = 'VerticalAccordion'">
@@ -3602,12 +3602,12 @@
 	<xsl:param name="cwidth"/>
 	<xsl:param name="cheight"/>
 	<xsl:param name="ttemp"/>
-	<xsl:variable name="cstyle"><xsl:if test="$cheight != 'null' and $mode != 'edit'">height: <xsl:value-of select="$cheight" />px;</xsl:if></xsl:variable>
+	<xsl:variable name="cstyle"><xsl:if test="$cheight != 'null' and $mode != 'edit' and $mode != 'print'">height: <xsl:value-of select="$cheight" />px;</xsl:if></xsl:variable>
 	
 	<!-- TabContainer -->
 	<div>
 	<xsl:choose>
-	<xsl:when test="$mode = 'edit'">
+	<xsl:when test="$mode = 'edit' or $mode = 'print'">
 		<xsl:attribute name="class">ilEditVAccordICntr</xsl:attribute>
 	</xsl:when>
 	<xsl:when test="../@Type = 'VerticalAccordion'">
@@ -3634,7 +3634,7 @@
 	<!-- Caption -->
 	<div>
 	<xsl:choose>
-	<xsl:when test="../@Type = 'VerticalAccordion' or $mode = 'edit'">
+	<xsl:when test="../@Type = 'VerticalAccordion' or $mode = 'edit' or $mode = 'print'">
 		<xsl:attribute name="class">il_VAccordionToggleDef</xsl:attribute>
 	</xsl:when>
 	<xsl:when test="../@Type = 'HorizontalAccordion'">
@@ -3644,7 +3644,7 @@
 
 		<div>
 		<xsl:choose>
-		<xsl:when test="$mode = 'edit'">
+		<xsl:when test="$mode = 'edit' or $mode = 'print'">
 			<xsl:attribute name="class">ilEditVAccordIHead</xsl:attribute>
 		</xsl:when>
 		<xsl:when test="../@Type = 'VerticalAccordion'">
@@ -3666,7 +3666,7 @@
 			</xsl:if>
 		</xsl:when>
 		</xsl:choose>
-		<xsl:attribute name="style"><xsl:if test="$cheight != 'null' and $mode != 'edit' and ../@Type = 'HorizontalAccordion'">height: <xsl:value-of select="$cheight" />px;</xsl:if></xsl:attribute>
+		<xsl:attribute name="style"><xsl:if test="$cheight != 'null' and $mode != 'edit' and $mode != 'print' and ../@Type = 'HorizontalAccordion'">height: <xsl:value-of select="$cheight" />px;</xsl:if></xsl:attribute>
 		<xsl:if test="$javascript='disable'">
 			<!-- checkbox -->
 			<!--
@@ -3705,7 +3705,7 @@
 		</xsl:if>
 		<div>
 			<xsl:choose>
-			<xsl:when test="$mode = 'edit'">
+			<xsl:when test="$mode = 'edit' or $mode = 'print'">
 				<xsl:attribute name="class">ilEditVAccordIHeadCap</xsl:attribute>
 			</xsl:when>
 			<xsl:when test="../@Type = 'VerticalAccordion'">
@@ -3731,19 +3731,19 @@
 	<!-- Content -->
 	<div>
 		<xsl:choose>
-		<xsl:when test="../@Type = 'VerticalAccordion' or $mode = 'edit'">
-			<xsl:attribute name="class">il_VAccordionContentDef <xsl:if test="$mode != 'edit' and ../@Behavior != 'ForceAllOpen'">ilAccHideContent</xsl:if></xsl:attribute>
+		<xsl:when test="../@Type = 'VerticalAccordion' or $mode = 'edit' or $mode = 'print'">
+			<xsl:attribute name="class">il_VAccordionContentDef <xsl:if test="$mode != 'edit' and $mode != 'print' and ../@Behavior != 'ForceAllOpen'">ilAccHideContent</xsl:if></xsl:attribute>
 		</xsl:when>
 		<xsl:when test="../@Type = 'HorizontalAccordion'">
-			<xsl:attribute name="class">il_HAccordionContentDef <xsl:if test="$mode != 'edit' and ../@Behavior != 'ForceAllOpen'">ilAccHideContent</xsl:if></xsl:attribute>
+			<xsl:attribute name="class">il_HAccordionContentDef <xsl:if test="$mode != 'edit' and $mode != 'print' and ../@Behavior != 'ForceAllOpen'">ilAccHideContent</xsl:if></xsl:attribute>
 		</xsl:when>
 		</xsl:choose>
-		<xsl:if test="../@Type = 'HorizontalAccordion' and $mode != 'edit' and ../@Behavior = 'ForceAllOpen'">
+		<xsl:if test="../@Type = 'HorizontalAccordion' and $mode != 'edit' and $mode != 'print' and ../@Behavior = 'ForceAllOpen'">
 			<xsl:attribute name="style">width:<xsl:value-of select = "$cwidth" />px;</xsl:attribute>
 		</xsl:if>
 		<div>
 			<xsl:choose>
-			<xsl:when test="$mode = 'edit'">
+			<xsl:when test="$mode = 'edit' or $mode = 'print'">
 				<xsl:attribute name="class">ilEditVAccordICont</xsl:attribute>
 			</xsl:when>
 			<xsl:when test="../@Type = 'VerticalAccordion'">
