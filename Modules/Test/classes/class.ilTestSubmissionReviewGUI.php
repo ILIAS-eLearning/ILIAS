@@ -43,27 +43,39 @@ class ilTestSubmissionReviewGUI
 	
 	function executeCommand()
 	{
-		$next_class = $this->ilCtrl->getNextClass($this);
-
-		switch($next_class)
+		if( !$this->test->getEnableExamview() )
+		{
+			return '';
+		}
+		
+		switch( $this->ilCtrl->getNextClass($this) )
 		{
 			default:
-				$ret = $this->dispatchCommand();
+				$this->dispatchCommand();
 				break;
 		}
-		return $ret;
+		
+		return '';
 	}
 	
 	protected function dispatchCommand()
 	{
-		$cmd = $this->ilCtrl->getCmd();
-		switch ($cmd)
+		switch( $this->ilCtrl->getCmd() )
 		{
+			case 'pdfDownload':
+				
+				if( $this->test->getShowExamviewPdf() )
+				{
+					$this->pdfDownload();
+				}
+				
+				break;
+				
+			case 'show':
 			default:
-				$ret = $this->show();
+				
+				$this->show();
 		}
-		
-		return $ret;
 	}
 	
 	/**
@@ -86,77 +98,113 @@ class ilTestSubmissionReviewGUI
 		}
 	}
 	
-	public function show()
+	/**
+	 * @return ilToolbarGUI
+	 */
+	protected function buildToolbar($toolbarId)
 	{
+		require_once 'Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
+		require_once 'Services/UIComponent/Button/classes/class.ilButton.php';
+		require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
+		
+		$toolbar = new ilToolbarGUI();
+		$toolbar->setId($toolbarId);
+		
+		$backUrl = $this->ilCtrl->getLinkTarget($this->testOutputGUI, $this->test->getListOfQuestionsEnd() ?
+			'outQuestionSummary' : 'backFromSummary'
+		);
+		
+		$button = ilLinkButton::getInstance();
+		$button->setCaption('btn_previous');
+		$button->setUrl($backUrl);
+		$toolbar->addButtonInstance($button);
+		
+		if( $this->test->getShowExamviewPdf() )
+		{
+			$pdfUrl = $this->ilCtrl->getLinkTarget($this, 'pdfDownload');
+			
+			$button = ilLinkButton::getInstance();
+			$button->setCaption('pdf_export');
+			$button->setUrl($pdfUrl);
+			$button->setTarget('_blank');
+			$toolbar->addButtonInstance($button);
+		}
+		
+		$this->ilCtrl->setParameter($this->testOutputGUI, 'reviewed', 1);
+		$nextUrl = $this->ilCtrl->getLinkTarget($this->testOutputGUI, 'finishTest');
+		$this->ilCtrl->setParameter($this->testOutputGUI, 'reviewed', 0);
+		
+		$button = ilLinkButton::getInstance();
+		$button->setCaption('btn_next');
+		$button->setUrl($nextUrl);
+		$toolbar->addButtonInstance($button);
+		
+		return $toolbar;
+	}
+	
+	protected function buildUserReviewOutput()
+	{
+		$results = $this->test->getTestResult(
+			$this->testSession->getActiveId(), $this->testSession->getPass(), false
+		);
+		
 		require_once 'class.ilTestEvaluationGUI.php';
-		require_once './Services/PDFGeneration/classes/class.ilPDFGeneration.php';
-		
-		global $ilUser;
-		
-		$template = new ilTemplate("tpl.il_as_tst_submission_review.html", TRUE, TRUE, "Modules/Test");
-
-		$this->ilCtrl->setParameter($this, "skipfinalstatement", 1);
-		$template->setVariable("FORMACTION", $this->ilCtrl->getFormAction($this->testOutputGUI, 'redirectBack').'&reviewed=1');
-		
-		$template->setVariable("BUTTON_CONTINUE", $this->lng->txt("btn_next"));
-		$template->setVariable("BUTTON_BACK", $this->lng->txt("btn_previous"));
-
-		if($this->test->getListOfQuestionsEnd())
-		{
-			$template->setVariable("CANCEL_CMD", 'outQuestionSummary');
-		}
-		else
-		{
-			$template->setVariable("CANCEL_CMD", 'backFromSummary');
-		}
-
-		$active = $this->test->getActiveIdOfUser($ilUser->getId());
-
 		$testevaluationgui = new ilTestEvaluationGUI($this->test);
 		$testevaluationgui->setContextWithinTestPass(true);
-		$results = $this->test->getTestResult($active, $this->testSession->getPass());
-		$results_output = $testevaluationgui->getPassListOfAnswers(
-			$results, $active, $this->testSession->getPass(), false, false, false, false
+		
+		$results_output = $testevaluationgui->getPassListOfAnswers( $results,
+			$this->testSession->getActiveId(), $this->testSession->getPass(),
+			false, false, false, false,
+			false
 		);
+		
+		return $results_output;
+	}
 	
-		if ($this->test->getShowExamviewPdf())
+	protected function show()
+	{
+		$html = $this->buildToolbar('review_nav_top')->getHTML();
+		$html .= $this->buildUserReviewOutput() . '<br />';
+		$html .= $this->buildToolbar('review_nav_bottom')->getHTML();
+		
+		$this->tpl->setVariable($this->getContentBlockName(), $html);
+	}
+	
+	protected function pdfDownload()
+	{
+		$reviewOutput = $this->buildUserReviewOutput();
+		
+		require_once 'class.ilTestPDFGenerator.php';
+		ilTestPDFGenerator::generatePDF($reviewOutput, ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD);
+		
+		exit;
+	}
+	
+	/**
+	 * not in use, but we keep the code (no archive for every user at end of test !!)
+	 * 
+	 * @return string
+	 */
+	protected function buildPdfFilename()
+	{
+		global $ilSetting;
+		
+		$inst_id = $ilSetting->get('inst_id', null);
+		
+		require_once 'Services/Utilities/classes/class.ilUtil.php';
+		
+		$path =  ilUtil::getWebspaceDir() . '/assessment/'. $this->test->getId() . '/exam_pdf';
+		
+		if (!is_dir($path))
 		{
-			$template->setVariable("PDF_TEXT", $this->lng->txt("pdf_export"));
-			global $ilSetting;
-			$inst_id = $ilSetting->get('inst_id', null);
-			$path =  ilUtil::getWebspaceDir() . '/assessment/'. $this->testOutputGUI->object->getId() . '/exam_pdf';
-			if (!is_dir($path))
-			{
-				ilUtil::makeDirParents($path);
-			}
-			$filename = $path . '/exam_N' . $inst_id . '-' . $this->testOutputGUI->object->getId() . '-' . $active . '-' . $this->testSession->getPass() . '.pdf';
-			require_once 'class.ilTestPDFGenerator.php';
-			ilTestPDFGenerator::generatePDF($results_output, ilTestPDFGenerator::PDF_OUTPUT_FILE, $filename);
-			$template->setVariable("PDF_FILE_LOCATION", $filename);
+			ilUtil::makeDirParents($path);
 		}
-		else
-		{
-			$template->setCurrentBlock('prevent_double_form_subm');
-			$template->touchBlock('prevent_double_form_subm');
-			$template->parseCurrentBlock();
-		}
-
-		if($this->test->getShowExamviewHtml())
-		{
-			if($this->test->getListOfQuestionsEnd())
-			{
-				$template->setVariable("CANCEL_CMD_BOTTOM", 'outQuestionSummary');
-			}
-			else
-			{
-				$template->setVariable("CANCEL_CMD_BOTTOM", 'backFromSummary');
-			}
-			$template->setVariable("BUTTON_CONTINUE_BOTTOM", $this->lng->txt("btn_next"));
-			$template->setVariable("BUTTON_BACK_BOTTOM", $this->lng->txt("btn_previous"));
-
-			$template->setVariable('HTML_REVIEW', $results_output);
-		}
-
-		$this->tpl->setVariable($this->getContentBlockName(), $template->get() );
+		
+		$filename = ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH) . '/' . $path . '/exam_N';
+		$filename .= $inst_id . '-' . $this->test->getId();
+		$filename .= '-' . $this->testSession->getActiveId() . '-';
+		$filename .= $this->testSession->getPass() . '.pdf';
+		
+		return $filename;
 	}
 }
