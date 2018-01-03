@@ -6881,6 +6881,12 @@ button.close {
   padding-right: 5px;
   margin-bottom: 6px;
 }
+.il-deck .row.row-eq-height:before {
+  content: none !important;
+}
+.il-deck .row.row-eq-height:after {
+  content: none !important;
+}
 @media (min-width: 768px) {
   .row-eq-height {
     display: -webkit-box;
@@ -11071,6 +11077,15 @@ div.ilc_question_MultipleChoice .ilc_qanswer_Answer > div:first-child {
     display: none;
   }
 }
+div.ilCOPGMediaPrint {
+  background-color: #f9f9f9 !important;
+  position: relative !important;
+  background-image: url("images/play.svg") !important;
+  background-position: 50% 50% !important;
+  background-repeat: no-repeat !important;
+  background-size: auto 90% !important;
+  padding: 1px !important;
+}
 /* Services/Calendar */
 td.even {
   color: #222;
@@ -11197,6 +11212,7 @@ a.callink:visited {
 }
 .il_calevent > .btn.btn-link {
   color: inherit;
+  vertical-align: inherit;
 }
 .cal_modal_infoscreen .il_InfoScreenPropertyValue .btn-link {
   text-align: left;

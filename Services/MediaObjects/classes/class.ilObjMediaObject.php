@@ -818,6 +818,13 @@ class ilObjMediaObject extends ilObject
 							str_replace("&", "&amp;", $item->getTextRepresentation())."</TextRepresentation>";
 					}
 
+					// Title
+					if ($this->getTitle() != "")
+					{
+						$xml .= "<Title>".
+							str_replace("&", "&amp;", $this->getTitle())."</Title>";
+					}
+
 					// Parameter
 					$parameters = $item->getParameters();
 					foreach ($parameters as $name => $value)
