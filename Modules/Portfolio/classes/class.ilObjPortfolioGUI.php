@@ -1284,6 +1284,8 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
 		$tpl = new ilTemplate("tpl.main.html", true, true);
 
+		$tpl->setBodyClass("ilPrtfPdfBody");
+
 		$tpl->setCurrentBlock("AdditionalStyle");
 		$tpl->setVariable("LOCATION_ADDITIONAL_STYLESHEET", ilUtil::getStyleSheetLocation("filesystem"));
 		$tpl->parseCurrentBlock();
@@ -1346,7 +1348,11 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$author = ilObjUser::_lookupName($this->object->getOwner());
 		$author_str = $author["firstname"]." ".$author["lastname"];
 		$cover_tpl->setVariable("AUTHOR", $author_str);
-		$cover_tpl->setVariable("LINK", "http://anderson.local/ilias/goto.php?target=prtf_301_7&client_id=iliastrunk2");
+
+		include_once('./Services/Link/classes/class.ilLink.php');
+		$href = ilLink::_getStaticLink($this->object->getId(), "prtf");
+		$cover_tpl->setVariable("LINK", $href);
+
 		ilDatePresentation::setUseRelativeDates(false);
 		$date_str = ilDatePresentation::formatDate(new ilDate(date("Y-m-d"), IL_CAL_DATE));
 		$cover_tpl->setVariable("DATE", $date_str);
