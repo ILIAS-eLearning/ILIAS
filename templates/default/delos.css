@@ -11203,6 +11203,7 @@ a.callink:visited {
 }
 .il_calevent > .btn.btn-link {
   color: inherit;
+  vertical-align: inherit;
 }
 .cal_modal_infoscreen .il_InfoScreenPropertyValue .btn-link {
   text-align: left;
