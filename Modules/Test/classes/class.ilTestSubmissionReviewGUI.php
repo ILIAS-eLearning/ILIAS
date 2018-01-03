@@ -135,6 +135,7 @@ class ilTestSubmissionReviewGUI
 		$this->ilCtrl->setParameter($this->testOutputGUI, 'reviewed', 0);
 		
 		$button = ilLinkButton::getInstance();
+		$button->setPrimary(true);
 		$button->setCaption('btn_next');
 		$button->setUrl($nextUrl);
 		$toolbar->addButtonInstance($button);
