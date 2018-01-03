@@ -292,6 +292,12 @@ class ilLocatorGUI
 	*/
 	function getHTML()
 	{
+		global $DIC;
+		$ltiview = $DIC["lti"];
+		if ($ltiview->isActive() && !$ltiview->home_is_container) 
+		{
+ 			return "";
+ 		}
 		$lng = $this->lng;
 		$ilSetting = $this->settings;
 		
