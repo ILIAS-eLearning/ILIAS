@@ -2181,6 +2181,18 @@
 					</xsl:choose>
 				</xsl:variable>
 
+				<!-- determine title -->
+				<xsl:variable name="title">
+					<xsl:choose>
+						<xsl:when test="$location_mode = 'curpurpose'">
+							<xsl:value-of select="//MediaObject[@Id=$cmobid]//MediaItem[@Purpose = $curPurpose]/Title"/>
+						</xsl:when>
+						<xsl:when test="$location_mode = 'standard'">
+							<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Title"/>
+						</xsl:when>
+					</xsl:choose>
+				</xsl:variable>
+
 				<!-- determine format (mime type) -->
 				<xsl:variable name="type">
 					<xsl:choose>
@@ -2258,6 +2270,7 @@
 					<xsl:with-param name="cmobid" select="$cmobid" />
 					<xsl:with-param name="location_mode" select="$location_mode" />
 					<xsl:with-param name="curType" select="$curType" />
+					<xsl:with-param name="title" select="$title" />
 				</xsl:call-template>
 
 				<!-- parameter -->
@@ -2449,6 +2462,7 @@
 	<xsl:param name="curPurpose"/>
 	<xsl:param name="location_mode"/>
 	<xsl:param name="curType"/>
+	<xsl:param name="title"/>
 	<xsl:param name="inline">n</xsl:param>
 	<xsl:variable name="httpprefix"><xsl:if test="$mode = 'offline'">http:</xsl:if></xsl:variable>
 	<xsl:choose>
@@ -2511,6 +2525,54 @@
 					</xsl:if>
 				</input>
 			</xsl:if>
+		</xsl:when>
+
+		<!-- text/html -->
+		<xsl:when test="$type = 'text/html'">
+			<xsl:if test = "$enable_html_mob = 'y'">
+				<iframe frameborder="0">
+					<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
+					<xsl:if test="$width != ''">
+						<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+					</xsl:if>
+					<xsl:if test="$height != ''">
+						<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+					</xsl:if>
+					<xsl:call-template name="MOBParams">
+						<xsl:with-param name="curPurpose" select="$curPurpose" />
+						<xsl:with-param name="mode">attributes</xsl:with-param>
+						<xsl:with-param name="cmobid" select="$cmobid" />
+					</xsl:call-template>
+					<xsl:comment>Comment to have separate iframe ending tag</xsl:comment>
+				</iframe>
+			</xsl:if>
+		</xsl:when>
+
+		<!-- application/pdf -->
+		<xsl:when test="$type = 'application/pdf'">
+			<iframe frameborder="0">
+				<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
+				<xsl:if test="$width != ''">
+					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+				</xsl:if>
+				<xsl:if test="$height != ''">
+					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+				</xsl:if>
+				<xsl:call-template name="MOBParams">
+					<xsl:with-param name="curPurpose" select="$curPurpose" />
+					<xsl:with-param name="mode">attributes</xsl:with-param>
+					<xsl:with-param name="cmobid" select="$cmobid" />
+				</xsl:call-template>
+				<xsl:comment>Comment to have separate iframe ending tag</xsl:comment>
+			</iframe>
+		</xsl:when>
+
+		<!-- print placeholder !! All media types that can be printed should be listed above this one -->
+		<xsl:when test="$mode = 'print'">
+			<div class="ilCOPGMediaPrint">
+				<xsl:attribute name="style">width:<xsl:value-of select="$width"/>px; height:<xsl:value-of select="$height"/>px; max-width: 100%;</xsl:attribute>
+				<xsl:value-of select="$title"/>
+			</div>
 		</xsl:when>
 
 		<!-- flash -->
@@ -2674,45 +2736,6 @@
 			</applet>
 		</xsl:when>
 
-		<!-- text/html -->
-		<xsl:when test="$type = 'text/html'">
-			<xsl:if test = "$enable_html_mob = 'y'">
-				<iframe frameborder="0">
-					<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
-					<xsl:if test="$width != ''">
-						<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
-					</xsl:if>
-					<xsl:if test="$height != ''">
-						<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
-					</xsl:if>
-					<xsl:call-template name="MOBParams">
-						<xsl:with-param name="curPurpose" select="$curPurpose" />
-						<xsl:with-param name="mode">attributes</xsl:with-param>
-						<xsl:with-param name="cmobid" select="$cmobid" />
-					</xsl:call-template>
-					<xsl:comment>Comment to have separate iframe ending tag</xsl:comment>
-				</iframe>
-			</xsl:if>
-		</xsl:when>
-		
-		<!-- application/pdf -->
-		<xsl:when test="$type = 'application/pdf'">
-			<iframe frameborder="0">
-				<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
-				<xsl:if test="$width != ''">
-					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
-				</xsl:if>
-				<xsl:if test="$height != ''">
-					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
-				</xsl:if>
-				<xsl:call-template name="MOBParams">
-					<xsl:with-param name="curPurpose" select="$curPurpose" />
-					<xsl:with-param name="mode">attributes</xsl:with-param>
-					<xsl:with-param name="cmobid" select="$cmobid" />
-				</xsl:call-template>
-				<xsl:comment>Comment to have separate iframe ending tag</xsl:comment>
-			</iframe>
-		</xsl:when>
 
 		<!-- mp4 -->
 

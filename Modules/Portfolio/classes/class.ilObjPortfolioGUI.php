@@ -1246,13 +1246,23 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		return $form;
 	}
 
+	/**
+	 * @throws ilWACException
+	 */
 	public function exportPDFDev()
 	{
 		$this->exportPDF(true);
 	}
 
+	/**
+	 * @param bool $a_dev_mode
+	 * @throws ilWACException
+	 */
 	public function exportPDF($a_dev_mode = false)
 	{
+		require_once 'Services/WebAccessChecker/classes/class.ilWACSignedPath.php';
+		ilWACSignedPath::setTokenMaxLifetimeInSeconds(180);
+
 		$html = $this->printView(true);
 
 		// :TODO: fixing css dummy parameters
@@ -1262,8 +1272,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$html = preg_replace("/src=\"\\.\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $html);
 		$html = preg_replace("/href=\"\\.\\//ims", "href=\"" . ILIAS_HTTP_PATH . "/", $html);
 
-		require_once 'Services/WebAccessChecker/classes/class.ilWACSignedPath.php';
-		ilWACSignedPath::setTokenMaxLifetimeInSeconds(180);
 
 		if ($a_dev_mode)
 		{
