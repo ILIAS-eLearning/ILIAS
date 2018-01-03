@@ -6881,6 +6881,12 @@ button.close {
   padding-right: 5px;
   margin-bottom: 6px;
 }
+.il-deck .row.row-eq-height:before {
+  content: none !important;
+}
+.il-deck .row.row-eq-height:after {
+  content: none !important;
+}
 @media (min-width: 768px) {
   .row-eq-height {
     display: -webkit-box;
