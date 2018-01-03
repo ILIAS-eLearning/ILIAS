@@ -14194,6 +14194,9 @@ body.ilPrtfPdfBody > #ilAll > div.ilInvisibleBorder {
   padding: 0;
   padding-left: 40px;
 }
+body.ilPrtfPdfBody h1.ilc_PrintPageTitle {
+  border-bottom: 1px solid #000000;
+}
 /* Services/Awareness */
 .ilAwarenessDropDown .popover {
   max-width: 300px;
