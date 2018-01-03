@@ -12422,7 +12422,7 @@ mail#:#mail_threshold#:#Schwellenwert
 mail#:#mail_threshold_info#:#Interne Mails, die älter als der hier definierte Schwellenwert sind, werden unwiderruflich gelöscht (inklusive evtl vorhandener Anhänge).<br> Bitte bedenken Sie, dass bei erstmaliger Ausführung dieses Cron-Jobs je nach Schwellenwert sehr viele Nachrichten gelöscht werden und eine E-Mail als Warnung nicht mehr versendet werden kann.
 mail#:#mail_orphaned_mails_desc#:#Löschen alter oder verwaister Mails
 mail#:#only_inbox_trash#:#Nur Posteingang/Papierkorb berücksichtigen
-mail#:#only_inbox_trash_info#:#Fallls aktiviert, werden ausschließlich Mails gelöscht, die sich zum Zeitpunkt der Cron-Job-Ausführung im Posteingang und Papierkorb der jeweiligen Benutzer befinden. Ansonsten werden alle Mails unabhängig vom Ordner gelöscht.
+mail#:#only_inbox_trash_info#:#Falls aktiviert, werden ausschließlich Mails gelöscht, die sich zum Zeitpunkt der Cron-Job-Ausführung im Posteingang und Papierkorb der jeweiligen Benutzer befinden. Ansonsten werden alle Mails unabhängig vom Ordner gelöscht.
 mail#:#mail_notify_orphaned#:#Benachrichtigungsmail
 mail#:#mail_notify_orphaned_info#:#Wenn Sie hier einen Wert größer oder gleich 1 eintragen, sendet ILIAS eine E-Mail an den Benutzer bevor eine interne Mail gelöscht wird. Bitte stellen Sie sicher, dass ein externer E-Mail-Empfang möglich ist.
 prtt#:#prtt_portfolio_created#:#Portfoliovorlage wurde hinzugefügt
