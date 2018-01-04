@@ -722,13 +722,16 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			include_once("./Services/Link/classes/class.ilLink.php");
 			
 			// sorting
-			$options = array(
-				"alpha" => $this->lng->txt("cont_mycourses_sortorder_alphabetical"),
-				"loc" => $this->lng->txt("cont_mycourses_sortorder_location")
-			);			
-			$tpl->setVariable("SORT_SELECT", ilUtil::formSelect($sorting, "srt", $options, false, true, 0, "", 
-				array("onchange"=>"form.submit()")));			
-			$tpl->setVariable("SORT_FORM", $ilCtrl->getFormActionByClass("ilobjportfoliogui", "preview"));
+			if($this->getOutputMode() != "print")
+			{
+				$options = array(
+					"alpha" => $this->lng->txt("cont_mycourses_sortorder_alphabetical"),
+					"loc" => $this->lng->txt("cont_mycourses_sortorder_location")
+				);
+				$tpl->setVariable("SORT_SELECT", ilUtil::formSelect($sorting, "srt", $options, false, true, 0, "",
+					array("onchange" => "form.submit()")));
+				$tpl->setVariable("SORT_FORM", $ilCtrl->getFormActionByClass("ilobjportfoliogui", "preview"));
+			}
 			
 			$old_path = null;
 	
@@ -785,6 +788,11 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 							
 							// #15510
 							$url .= "#objtv_acc_".$objtv["id"];
+
+							if ($this->getOutputMode() != "print")
+							{
+								$tpl->touchBlock("objective_dnone");
+							}
 							
 							$tpl->setCurrentBlock("objective_link_bl");
 							
