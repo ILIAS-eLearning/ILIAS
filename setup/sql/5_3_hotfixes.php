@@ -84,3 +84,7 @@ while( $row = $ilDB->fetchAssoc($res) )
 }
 
 ?>
+<#4>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
