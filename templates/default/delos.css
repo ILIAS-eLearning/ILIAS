@@ -14051,8 +14051,28 @@ span.ilNewsRssIcon:hover {
   overflow: hidden;
   width: 100px;
 }
+@media only screen and (max-width: 767px) {
+  .ilNewsTimelineUserImage {
+    width: 50px;
+  }
+}
+.ilNewsTimelineUserImage img {
+  width: 75px;
+  height: 75px;
+}
+@media only screen and (max-width: 767px) {
+  .ilNewsTimelineUserImage img {
+    width: 40px;
+    height: 40px;
+  }
+}
 .ilNewsTimelineContentSection {
   padding-left: 100px;
+}
+@media only screen and (max-width: 767px) {
+  .ilNewsTimelineContentSection {
+    padding-left: 50px;
+  }
 }
 .ilNewsTimelineEditInfo {
   width: 90%;
