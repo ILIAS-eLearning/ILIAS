@@ -368,15 +368,19 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	protected function renderVerification($a_user_id, $a_type, $a_id)
 	{
 		$objDefinition = $this->obj_definition;
-		
+
 		// not used 
 		// $user_id = $this->getPageContentUserId($a_user_id);
 		
 		$class = "ilObj".$objDefinition->getClassName($a_type)."GUI";
 		include_once $objDefinition->getLocation($a_type)."/class.".$class.".php";
 		$verification = new $class($a_id, ilObject2GUI::WORKSPACE_OBJECT_ID);
-		
-		if($this->getOutputMode() != "offline")
+
+		if($this->getOutputMode() == "print")
+		{
+			$url = $this->getPagePermaLink();
+		}
+		else if($this->getOutputMode() != "offline")
 		{			
 			// direct download link
 			$this->ctrl->setParameter($this, "dlid", $a_id);
@@ -1192,6 +1196,19 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		return $this->lng->txt("preview");
 	}
 
+	/**
+	 * Get page perma link
+	 *
+	 * @param
+	 * @return
+	 */
+	function getPagePermaLink()
+	{
+		include_once("./Services/Link/classes/class.ilLink.php");
+		$pid = ilPortfolioPage::findPortfolioForPage($this->getId());
+		$href = ilLink::_getStaticLink($pid, "prtf", true, "_".$this->getId());
+		return $href;
+	}
 	
 }
 
