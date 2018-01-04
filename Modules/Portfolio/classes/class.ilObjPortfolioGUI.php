@@ -1410,7 +1410,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 					$page_gui->setFullscreenLink("#");
 					$page_gui->setSourcecodeDownloadScript("#");
 					$page_gui->setOutputMode("print");
-					$page_content .= $page_head_str.$page_gui->showPage();
+					$page_content .= $page_head_str.$page_gui->showPage(ilObject::_lookupTitle($page["title"]).": ".$page_gui->getBlogPosting()->getTitle());
 
 					if ($a_pdf_export)
 					{
