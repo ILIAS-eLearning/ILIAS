@@ -25,7 +25,7 @@ class ilTrainingSearchDB implements TrainingSearchDB {
 	 * @inheritdoc
 	 */
 	public function getBookableTrainingsFor($user_id, array $filter) {
-		$crs_infos = array();
+		$crss = array();
 
 		if(ilPluginAdmin::isPluginActive('xccl')) {
 			$crss = $this->getAllCoursesForUser($user_id);
@@ -279,15 +279,6 @@ class ilTrainingSearchDB implements TrainingSearchDB {
 					unset($crs_infos[$key]);
 					continue;
 				}
-			}
-
-			if(array_key_exists(Helper::F_TARGET_GROUP, $filter)
-				&& (count($target_group_ids) == 0
-					|| !$this->filter->courseHasTargetGroups($target_group_ids, $filter[Helper::F_TARGET_GROUP])
-				)
-			) {
-				unset($crs_infos[$key]);
-				continue;
 			}
 
 			if(array_key_exists(Helper::F_TOPIC, $filter)

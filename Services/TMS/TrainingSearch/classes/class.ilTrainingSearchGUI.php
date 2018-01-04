@@ -21,6 +21,17 @@ class ilTrainingSearchGUI {
 
 	const PAGE_SIZE = 10;
 	const PAGINATION_PARAM = "pagination";
+	const DROPDOWN_AT_PAGES = 1;
+
+	static protected $save_parameter = array(Helper::S_USER,
+			Helper::F_TITLE,
+			Helper::F_TYPE,
+			Helper::F_TOPIC,
+			Helper::F_DURATION,
+			Helper::F_SORT_VALUE,
+			Helper::F_ONLY_BOOKABLE,
+			Helper::F_IDD_RELEVANT
+		);
 
 	/**
 	 * @var ilTemplate
@@ -81,11 +92,19 @@ class ilTrainingSearchGUI {
 				$this->g_ctrl->forwardCommand($gui);
 				break;
 			default:
-				$cmd = $this->g_ctrl->getCmd(self::CMD_SHOW);
+				$cmd = $this->g_ctrl->getCmd();
+
+				if(is_null($cmd) || $cmd == "") {
+					$this->g_ctrl->clearParameters($this);
+					$cmd = self::CMD_SHOW;
+				}
+
 				switch($cmd) {
 					case self::CMD_SHOW:
-					case self::CMD_CHANGE_USER:
 						$this->show();
+						break;
+					case self::CMD_CHANGE_USER:
+						$this->showUserResult();
 						break;
 					case self::CMD_FILTER:
 						$this->filter();
@@ -113,8 +132,23 @@ class ilTrainingSearchGUI {
 		$get = $_GET;
 		$filter = $this->helper->getFilterValuesFrom($get);
 		$bookable_trainings = $this->getBookableTrainings($filter);
-		$bookable_trainings = $this->helper->sortBookableTrainings(array(Helper::F_SORT_VALUE => Helper::S_TITLE_ASC), $bookable_trainings);
+		$bookable_trainings = $this->helper->sortBookableTrainings(array(Helper::F_SORT_VALUE => Helper::S_DEFAULT), $bookable_trainings);
 		$this->showTrainings($bookable_trainings, self::CMD_SHOW);
+	}
+
+	/**
+	 * Shows all bookable trainings
+	 *
+	 * @param string[] 	$filter
+	 *
+	 * @return void
+	 */
+	protected function showUserResult() {
+		$get = $_GET;
+		$filter = $this->helper->getFilterValuesFrom($get);
+		$bookable_trainings = $this->getBookableTrainings($filter);
+		$bookable_trainings = $this->helper->sortBookableTrainings(array(Helper::F_SORT_VALUE => Helper::S_DEFAULT), $bookable_trainings);
+		$this->showTrainings($bookable_trainings, self::CMD_CHANGE_USER);
 	}
 
 	/**
@@ -174,21 +208,20 @@ class ilTrainingSearchGUI {
 
 		$view_control = array($button1);
 		$view_control = $this->addSortationObjects($view_control);
-		if ($cmd === self::CMD_SHOW) {
-			$link = $this->g_ctrl->getLinkTarget($this, $cmd, "", false, false);
-			$pagination = $this->g_f->viewControl()->pagination()
-				->withTotalEntries(count($bookable_trainings))
-				->withPageSize(self::PAGE_SIZE)
-				->withCurrentPage($current_page)
-				->withTargetURL($link, self::PAGINATION_PARAM);
-			$offset = $pagination->getOffset();
-			$limit = self::PAGE_SIZE;
+
+		$this->g_ctrl->saveParameter($this, $this->save_parameter);
+
+		$link = $this->g_ctrl->getLinkTarget($this, $cmd, "", false, false);
+		$pagination = $this->g_f->viewControl()->pagination()
+			->withTotalEntries(count($bookable_trainings))
+			->withPageSize(self::PAGE_SIZE)
+			->withCurrentPage($current_page)
+			->withTargetURL($link, self::PAGINATION_PARAM)
+			->withDropdownAt(self::DROPDOWN_AT_PAGES);
+		$offset = $pagination->getOffset();
+		$limit = self::PAGE_SIZE;
 			$view_control[] = $pagination;
-		}
-		else {
-			$offset = 0;
-			$limit = null;
-		}
+
 		$content = $this->g_renderer->render($modal).$table->render($view_control, $offset, $limit);
 
 		if(count($bookable_trainings) == 0) {
@@ -236,10 +269,11 @@ class ilTrainingSearchGUI {
 						->withLabel($plugin->txt("conf_options_topic"));
 		}
 
+		// Default sort order to period descending.
 		$link = $this->g_ctrl->getLinkTarget($this, ilTrainingSearchGUI::CMD_SORT);
 		$view_control[] = $this->g_f->viewControl()->sortation($this->getSortOptions())
 						->withTargetURL($link, Helper::F_SORT_VALUE)
-						->withLabel($this->g_lng->txt(Helper::S_TITLE_ASC));
+						->withLabel($this->g_lng->txt(Helper::S_DEFAULT));
 
 		return $view_control;
 	}

@@ -154,18 +154,6 @@ class ilBookableFilter {
 	}
 
 	/**
-	 * Checks crs has selected target group
-	 *
-	 * @param int[] 	$target_group_ids
-	 * @param int 	$filter_target_group
-	 *
-	 * @return bool
-	 */
-	public function courseHasTargetGroups($target_group_ids, $filter_target_group) {
-		return in_array($filter_target_group, $target_group_ids);
-	}
-
-	/**
 	 * Checks crs has selected topic
 	 *
 	 * @param int[] 	$topic_ids
