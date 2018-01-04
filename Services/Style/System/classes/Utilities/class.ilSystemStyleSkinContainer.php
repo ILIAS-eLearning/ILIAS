@@ -547,7 +547,7 @@ class ilSystemStyleSkinContainer {
 	 * Exports the complete skin to an zip file.
 	 */
 	public function export(){
-		ilFileDelivery::deliverFileAttached($this->createTempZip(), $this->getSkin()->getId().".zip",null, true);
+		ilFileDelivery::deliverFileAttached($this->createTempZip(), $this->getSkin()->getId().".zip",'', true);
 	}
 
 	/**
