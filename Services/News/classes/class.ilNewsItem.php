@@ -2026,7 +2026,7 @@ class ilNewsItem
 	{
 		global $ilDB;
 
-		$data = unserialize($a_cres);
+		$data = $a_cres;
 		$news_ids = array_keys($data);
 		$set = $ilDB->query("SELECT id FROM il_news_item ".
 			" WHERE ".$ilDB->in("id", $news_ids, false, "integer"));
