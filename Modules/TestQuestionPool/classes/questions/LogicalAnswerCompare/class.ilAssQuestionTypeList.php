@@ -34,6 +34,7 @@ class ilAssQuestionTypeList implements Iterator
 	
 	public function load()
 	{
+		include_once './Modules/TestQuestionPool/classes/questions/class.ilAssQuestionType.php';
 		$res = $this->db->query("SELECT * FROM qpl_qst_type");
 		
 		while($row = $this->db->fetchAssoc($res))
