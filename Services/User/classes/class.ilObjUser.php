@@ -4846,7 +4846,7 @@ class ilObjUser extends ilObject
 		if (ilTermsOfServiceHelper::isEnabled()) {
 			$adminRoleUserIds = array_flip($rbacreview->assignedUsers(SYSTEM_ROLE_ID));
 			$users = array_filter($users, function($user) use ($adminRoleUserIds) {
-				if ($user['agree_date'] || $user['user_id'] == SYSTEM_ROLE_ID || 'root' === $user['login']) {
+				if ($user['agree_date'] || $user['user_id'] == SYSTEM_USER_ID || 'root' === $user['login']) {
 					return true;
 				}
 
