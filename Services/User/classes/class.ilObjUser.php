@@ -528,7 +528,7 @@ class ilObjUser extends ilObject
 			'is_self_registered' => array('integer', (int)$this->is_self_registered)
 			);
 		$ilDB->insert("usr_data", $insert_array);
-		
+
 		$this->updateMultiTextFields(true);
 
 		// add new entry in usr_defined_data
@@ -732,7 +732,7 @@ class ilObjUser extends ilObject
 		}
 		return $fullname;
 	}
-	
+
 	/**
 	* Lookup IM
 	*/
@@ -740,8 +740,8 @@ class ilObjUser extends ilObject
 	{
 		return ilObjUser::_lookup($a_user_id, "im_".$a_type);
 	}
-	
-	
+
+
 	/**
 	* Lookup email
 	*/
@@ -1409,7 +1409,7 @@ class ilObjUser extends ilObject
 		// remove reminder entries
 		require_once 'Services/User/classes/class.ilCronDeleteInactiveUserReminderMail.php';
 		ilCronDeleteInactiveUserReminderMail::removeSingleUserFromTable($this->getId());
-		
+
 		// Delete user defined field entries
 		$this->deleteUserDefinedFieldEntries();
 		
@@ -2540,7 +2540,7 @@ class ilObjUser extends ilObject
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Check for simultaneous login
 	 * 
@@ -2554,7 +2554,7 @@ class ilObjUser extends ilObject
 			SELECT COUNT(*) session_count
 			FROM usr_session WHERE user_id = %s AND expires > %s',
 			array('integer', 'integer'),
-			array($a_user_id, time()));	
+			array($a_user_id, time()));
 		$row = $ilDB->fetchAssoc($set);
 		return (bool)$row['session_count'];		
 	}
@@ -2581,7 +2581,7 @@ class ilObjUser extends ilObject
 	 */
 	private static function getLoginFromAuth() {
 		global $ilAuth;
-                
+
 		// BEGIN WebDAV: Strip Microsoft Domain Names from logins
 		require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
 		if (ilDAVActivationChecker::_isActive())
@@ -2594,7 +2594,7 @@ class ilObjUser extends ilObject
 		{
 			$login =$ilAuth->getUsername();
 		}
-                
+
 		return $login;
         }
 
@@ -2840,7 +2840,7 @@ class ilObjUser extends ilObject
 	function _getAllUserLogins(&$ilias)
 	{
 		global $ilDB;
-		
+
 		$res = $ilDB->query("SELECT login FROM usr_data");
 		while($row = $ilDB->fetchObject($res))
 		{
@@ -3997,7 +3997,7 @@ class ilObjUser extends ilObject
 				if($a_size == "small" || $a_size == "big")
 				{
 					$a_size = "xsmall";
-				}				
+				}
 				$file = ilUtil::getImagePath("no_photo_".$a_size.".jpg");
 			}
 		}
@@ -4337,8 +4337,8 @@ class ilObjUser extends ilObject
 			
 			$body .= $language->txt('time_limit').': '.$start->get(IL_CAL_DATETIME);
 			$body .= $language->txt('time_limit').': '.$end->get(IL_CAL_DATETIME);
-			
-			
+
+
 			#$body .= $language->txt('time_limit').': '.$period;
 			/*
 			$body .= ($language->txt('time_limit').": ".$language->txt('crs_from')." ".
@@ -4863,7 +4863,7 @@ class ilObjUser extends ilObject
 		/**
 		 * @var $ilDB ilDB
 		 */
-		global $ilDB;
+		global $ilDB, $rbacreview;
 
 		$pd_set = new ilSetting('pd');
 		$atime  = $pd_set->get('user_activity_time') * 60;
@@ -4874,12 +4874,6 @@ class ilObjUser extends ilObject
 		if($a_user_id == 0)
 		{
 			$where[] = 'user_id > 0';
-
-			require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
-			if(ilTermsOfServiceHelper::isEnabled())
-			{
-				$where[] = '(agree_date IS NOT NULL OR user_id = ' . $ilDB->quote(SYSTEM_USER_ID, 'integer') . ')';
-			}
 		}
 		else if (is_array($a_user_id))
 		{
@@ -4908,14 +4902,14 @@ class ilObjUser extends ilObject
 		$where = 'WHERE ' . implode(' AND ', $where);
 
 		$r = $ilDB->queryF("
-			SELECT COUNT(user_id) num, user_id, firstname, lastname, title, login, last_login, MAX(ctime) ctime
+			SELECT COUNT(user_id) num, user_id, firstname, lastname, title, login, last_login, MAX(ctime) ctime, agree_date
 			FROM usr_session
 			LEFT JOIN usr_data u
 				ON user_id = u.usr_id
 			LEFT JOIN usr_pref p
 				ON (p.usr_id = u.usr_id AND p.keyword = %s)
 			{$where}
-			GROUP BY user_id, firstname, lastname, title, login, last_login
+			GROUP BY user_id, firstname, lastname, title, login, last_login, agree_date
 			ORDER BY lastname, firstname
 			",
 			array('text'),
@@ -4931,6 +4925,18 @@ class ilObjUser extends ilObject
 			}
 		}
 
+		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
+		if (ilTermsOfServiceHelper::isEnabled()) {
+			$adminRoleUserIds = array_flip($rbacreview->assignedUsers(SYSTEM_ROLE_ID));
+			$users = array_filter($users, function($user) use ($adminRoleUserIds) {
+				if ($user['agree_date'] || $user['user_id'] == SYSTEM_ROLE_ID || 'root' === $user['login']) {
+					return true;
+				}
+
+				return isset($adminRoleUserIds[$user['user_id']]);
+			});
+		}
+
 		return $users;
 	}
 
@@ -4941,6 +4947,7 @@ class ilObjUser extends ilObject
 	*
 	* @param	integer	user_id User ID of the current user.
 	* @return	array
+	* @deprecated This is dead code since ILIAS 5.3.x (ilUsersOnlineBlock ...) and could be removed in future releases.
 	*/
 	public static function _getAssociatedUsersOnline($a_user_id, $a_no_anonymous = false)
 	{
