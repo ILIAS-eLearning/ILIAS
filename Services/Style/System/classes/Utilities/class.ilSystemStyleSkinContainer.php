@@ -146,7 +146,6 @@ class ilSystemStyleSkinContainer {
 		//Delete old template.xml and write a new one
 		unlink($this->getSkinDirectory()."template.xml");
 		$this->writeSkinToXML();
-		$this->setSkin(ilSkinXML::parseFromXML($this->getSkinDirectory()."template.xml"));
 	}
 
 	/**
