@@ -3,6 +3,7 @@
 
 include_once './Modules/Forum/interfaces/interface.ilForumNotificationMailData.php';
 include_once './Modules/Forum/classes/class.ilForumProperties.php';
+require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
 
 /**
  * Class ilObjForumNotificationDataProvider
@@ -52,6 +53,10 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	 * @var ilForumPost
 	 */
 	public $objPost;
+	/**
+	 * @var bool
+	 */
+	protected $is_anonymized = false;
 
 	/**
 	 * @param ilForumPost $objPost
@@ -144,30 +149,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	{
 		return $this->objPost->getDisplayUserId();
 	}
-
-	/**
-	 * @return string
-	 */
-	public function getPostUserName($user_lang)
-	{
-		// GET AUTHOR OF NEW POST
-		if($this->objPost->getDisplayUserId())
-		{
-			$this->post_user_name = ilObjUser::_lookupLogin($this->objPost->getDisplayUserId());
-		}
-		else if(strlen($this->objPost->getUserAlias()))
-		{
-			$this->post_user_name = $this->objPost->getUserAlias() . ' (' . $user_lang->txt('frm_pseudonym') . ')';
-		}
-
-		if($this->post_user_name == '')
-		{
-			$this->post_user_name = $user_lang->txt('forums_anonymous');
-		}
-
-		return $this->post_user_name;
-	}
-
+	
 	/**
 	 * @return string frm_posts.pos_date
 	 */
@@ -175,7 +157,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	{
 		return $this->objPost->getCreateDate();
 	}
-
+	
 	/**
 	 * @return string frm_posts.pos_update
 	 */
@@ -183,34 +165,6 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	{
 		return $this->objPost->getChangeDate();
 	}
-
-	/**
-	 * @return string login
-	 */
-	public function getPostUpdateUserName($user_lang)
-	{
-		// GET AUTHOR OF UPDATED POST
-		if($this->objPost->getUpdateUserId() > 0)
-		{
-			$this->post_user_name = ilObjUser::_lookupLogin($this->objPost->getUpdateUserId());
-		}
-		
-		if($this->objPost->getDisplayUserId() == 0 && $this->objPost->getPosAuthorId() == $this->objPost->getUpdateUserId())
-		{
-			if(strlen($this->objPost->getUserAlias()))
-			{
-				$this->post_user_name = $this->objPost->getUserAlias() . ' (' . $user_lang->txt('frm_pseudonym') . ')';
-			}
-			
-			if($this->post_user_name == '')
-			{
-				$this->post_user_name = $user_lang->txt('forums_anonymous');
-			}
-		}
-		
-		return $this->post_user_name;
-	}
-
 	/**
 	 * @return bool frm_posts.pos_cens
 	 */
@@ -218,7 +172,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	{
 		return $this->objPost->isCensored();
 	}
-
+	
 	/**
 	 * @return string frm_posts.pos_cens_date
 	 */
@@ -226,12 +180,12 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	{
 		return $this->objPost->getCensoredDate();
 	}
-
+	
 	public function getCensorshipComment()
 	{
 		return $this->objPost->getCensorshipComment();
 	}
-
+	
 	/**
 	 * @return array file names
 	 */
@@ -239,7 +193,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	{
 		return $this->attachments;
 	}
-
+	
 	/**
 	 * @return string frm_posts.pos_usr_alias
 	 */
@@ -247,7 +201,83 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	{
 		return $this->objPost->getUserAlias();
 	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isAnonymized()
+	{
+		return $this->is_anonymized;
+	}
+	/**
+	 * @return string
+	 */
+	public function getImportName()
+	{
+		return $this->objPost->getImportName();
+	}
+	
+	/**
+	 * @param $user_lang
+	 * @return string
+	 */
+	public function getPostUserName($user_lang)
+	{
+		// GET AUTHOR OF NEW POST
+		$authorinfo = new ilForumAuthorInformation(
+			$this->getPosAuthorId(),
+			$this->getPosDisplayUserId(),
+			$this->getPosUserAlias(),
+			$this->getImportName()
+		);
+		$this->post_user_name = $this->getPublicUserInformation($authorinfo);
+		
+		return $this->post_user_name;
+	}
 
+	/**
+	 * @param $user_lang
+	 * @return string
+	 */
+	public function getPostUpdateUserName($user_lang)
+	{
+		// GET AUTHOR OF UPDATED POST
+		$authorinfo = new ilForumAuthorInformation(
+			$this->getPosAuthorId(),
+			$this->objPost->getUpdateUserId(),
+			$this->getPosUserAlias(),
+			$this->getImportName()
+		);
+		$this->post_user_name = $this->getPublicUserInformation($authorinfo);
+	
+		return $this->post_user_name;
+	}
+	
+	/**
+	 * @param ilForumAuthorInformation $authorinfo
+	 * @return string
+	 */
+	public function getPublicUserInformation(ilForumAuthorInformation $authorinfo)
+	{
+		$public_name = '';
+		
+		if($authorinfo->hasSuffix())
+		{
+			$public_name = $authorinfo->getAuthorName();
+		}
+		else
+		{
+			$public_name = $authorinfo->getAuthorShortName();
+
+			if($authorinfo->getAuthorName() && !$this->isAnonymized())
+			{
+				$public_name = $authorinfo->getAuthorName();
+			}
+		}
+		
+		return $public_name;
+	}
+	
 	/**
 	 *
 	 */
@@ -282,13 +312,15 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 		global $ilDB;
 
 		$result = $ilDB->queryf('
-			SELECT top_pk, top_name FROM frm_data
+			SELECT top_pk, top_name, frm_settings.anonymized FROM frm_data
+			INNER JOIN frm_settings ON top_frm_fk = frm_settings.obj_id 
 			WHERE top_frm_fk = %s',
 			array('integer'), array($this->getObjId()));
 
 		$row = $ilDB->fetchAssoc($result);
 		$this->forum_id    = $row['top_pk'];
 		$this->forum_title = $row['top_name'];
+		$this->is_anonymized = (bool)$row['anonymized'];
 	}
 
 	/**
@@ -343,7 +375,6 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 				}
 			}
 		}
-
 
 		return array_unique($rcps);
 	}

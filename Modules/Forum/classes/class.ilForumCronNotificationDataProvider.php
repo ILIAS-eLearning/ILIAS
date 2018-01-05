@@ -3,6 +3,7 @@
 
 include_once './Modules/Forum/interfaces/interface.ilForumNotificationMailData.php';
 include_once './Modules/Forum/classes/class.ilForumProperties.php';
+require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
 
 /**
  * Class ilForumCronNotificationDataProvider
@@ -93,7 +94,17 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 	 * @var int
 	 */
 	protected $pos_display_user_id = 0;
-
+	
+	/**
+	 * @var bool
+	 */
+	protected $is_anonymized = false;
+	
+	/**
+	 * @var int|string
+	 */
+	protected $import_name = '';
+	
 	/**
 	 * @var array $attachments
 	 */
@@ -147,6 +158,8 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 		$this->pos_usr_alias       = $row['pos_usr_alias'];
 		$this->pos_display_user_id = $row['pos_display_user_id'];
 		$this->pos_author_id = $row['pos_author_id'];
+		
+		$this->import_name = strlen($row['import_name']) ? $row['import_name'] : '';
 
 		$this->read();
 	}
@@ -267,29 +280,6 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 	}
 
 	/**
-	 * @return string
-	 */
-	public function getPostUserName($user_lang)
-	{
-		// GET AUTHOR OF NEW POST
-		if($this->getPosDisplayUserId())
-		{
-			$this->post_user_name = ilObjUser::_lookupLogin($this->getPosDisplayUserId());
-		}
-		else if(strlen($this->getPosUserAlias()))
-		{
-			$this->post_user_name = $this->getPosUserAlias() . ' (' . $user_lang->txt('frm_pseudonym') . ')';
-		}
-
-		if($this->post_user_name == '')
-		{
-			$this->post_user_name = $user_lang->txt('forums_anonymous');
-		}
-
-		return $this->post_user_name;
-	}
-
-	/**
 	 * @return string frm_posts.pos_date
 	 */
 	public function getPostDate()
@@ -303,33 +293,6 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 	public function getPostUpdate()
 	{
 		return $this->post_update;
-	}
-
-	/**
-	 * @param $user_lang 
-	 * @return string login
-	 */
-	public function getPostUpdateUserName($user_lang)
-	{
-		// GET AUTHOR OF UPDATED POST
-		if($this->getPostUpdateUserId() > 0)
-		{
-			$this->post_user_name = ilObjUser::_lookupLogin($this->getPostUpdateUserId());
-		}
-		
-		if($this->getPosDisplayUserId() == 0 && $this->getPosAuthorId() == $this->getPostUpdateUserId())
-		{
-			if(strlen($this->getPosUserAlias()))
-			{
-				$this->post_user_name = $this->getPosUserAlias() . ' (' . $user_lang->txt('frm_pseudonym') . ')';
-			}
-			
-			if($this->post_user_name == '')
-			{
-				$this->post_user_name = $user_lang->txt('forums_anonymous');
-			}
-		}
-		return $this->post_user_name;
 	}
 
 	/**
@@ -414,4 +377,80 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 		return $this->pos_author_id;
 	}
 	
+	/**
+	 * @return bool
+	 */
+	public function isAnonymized()
+	{
+		return $this->is_anonymized;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getImportName()
+	{
+		return $this->import_name;
+	}
+	
+	/**
+	 * @param $user_lang
+	 * @return string
+	 */
+	public function getPostUserName($user_lang)
+	{
+		// GET AUTHOR OF NEW POST
+		$authorinfo = new ilForumAuthorInformation(
+			$this->getPosAuthorId(),
+			$this->getPosDisplayUserId(),
+			$this->getPosUserAlias(),
+			$this->getImportName()
+		);
+		$this->post_user_name = $this->getPublicUserInformation($authorinfo);
+		
+		return $this->post_user_name;
+	}
+	
+	/**
+	 * @param $user_lang
+	 * @return string
+	 */
+	public function getPostUpdateUserName($user_lang)
+	{
+		// GET AUTHOR OF UPDATED POST
+		$authorinfo = new ilForumAuthorInformation(
+			$this->getPosAuthorId(),
+			$this->getPostUpdateUserId(),
+			$this->getPosUserAlias(),
+			$this->getImportName()
+		);
+		$this->post_user_name = $this->getPublicUserInformation($authorinfo);
+		
+		return $this->post_user_name;
+	}
+	
+	/**
+	 * @param ilForumAuthorInformation $authorinfo
+	 * @return string
+	 */
+	public function getPublicUserInformation(ilForumAuthorInformation $authorinfo)
+	{
+		$public_name = '';
+		
+		if($authorinfo->hasSuffix())
+		{
+			$public_name = $authorinfo->getAuthorName();
+		}
+		else
+		{
+			$public_name = $authorinfo->getAuthorShortName();
+			
+			if($authorinfo->getAuthorName() && !$this->isAnonymized())
+			{
+				$public_name = $authorinfo->getAuthorName();
+			}
+		}
+		
+		return $public_name;
+	}
 }
