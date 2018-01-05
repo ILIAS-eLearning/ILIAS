@@ -692,6 +692,8 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 				{
 					$this->tpl->setCurrentBlock('new_app_link');
 
+					$this->ctrl->clearParameterByClass('ilcalendarappointmentgui','app_id');
+
 					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','idate',$this->weekdays[$num_day]->get(IL_CAL_DATE));
 					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->seed->get(IL_CAL_DATE));
 					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','hour',floor($num_hour/60));
@@ -700,7 +702,6 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 					$new_app_url = $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add');
 					$this->tpl->setVariable("DAY_NEW_APP_LINK", $renderer->render($ui_factory->glyph()->add($new_app_url)));
 
-					$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 
 					$this->tpl->setVariable('DAY_NEW_ID',++$new_link_counter);
 					$this->tpl->parseCurrentBlock();
