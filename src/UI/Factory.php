@@ -335,7 +335,9 @@ interface Factory {
 	 *     3: Modals SHOULD not be used to perform complex workflows.
 	 *     4: Modals MUST be closable by a little “x”-button on the right side of the header.
 	 *     5: Modals MUST contain a title in the header.
-	 * ---
+	 *   wording: >
+	 *     The label of the Button used to close the Round-Trip-Modal MAY be adapted, if the default label (cancel)
+	 *     does not fit the workflow presented on the screen.
 	 *
 	 * @return \ILIAS\UI\Component\Modal\Factory
 	 **/

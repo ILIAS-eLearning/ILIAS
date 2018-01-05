@@ -48,4 +48,13 @@ interface RoundTrip extends Modal {
 	 * @return RoundTrip
 	 */
 	public function withActionButtons(array $buttons);
+
+	/**
+	 * Get the modal like this with the provided cancel button string.
+	 * The closing button has "Cancel" by default
+	 *
+	 * @param string $label
+	 * @return RoundTrip
+	 */
+	public function withCancelButtonLabel($label);
 }
