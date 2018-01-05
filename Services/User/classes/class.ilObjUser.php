@@ -4847,7 +4847,10 @@ class ilObjUser extends ilObject
 		/**
 		 * @var $ilDB ilDB
 		 */
-		global $ilDB;
+		global $DIC;
+
+		$ilDB       = $DIC->database();
+		$rbacreview = $DIC->rbac()->review();
 
 		$pd_set = new ilSetting('pd');
 		$atime  = $pd_set->get('user_activity_time') * 60;
@@ -4858,12 +4861,6 @@ class ilObjUser extends ilObject
 		if($a_user_id == 0)
 		{
 			$where[] = 'user_id > 0';
-
-			require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
-			if(ilTermsOfServiceHelper::isEnabled())
-			{
-				$where[] = '(agree_date IS NOT NULL OR user_id = ' . $ilDB->quote(SYSTEM_USER_ID, 'integer') . ')';
-			}
 		}
 		else if (is_array($a_user_id))
 		{
@@ -4892,14 +4889,14 @@ class ilObjUser extends ilObject
 		$where = 'WHERE ' . implode(' AND ', $where);
 
 		$r = $ilDB->queryF("
-			SELECT COUNT(user_id) num, user_id, firstname, lastname, title, login, last_login, MAX(ctime) ctime, context
+			SELECT COUNT(user_id) num, user_id, firstname, lastname, title, login, last_login, MAX(ctime) ctime, context, agree_date
 			FROM usr_session
 			LEFT JOIN usr_data u
 				ON user_id = u.usr_id
 			LEFT JOIN usr_pref p
 				ON (p.usr_id = u.usr_id AND p.keyword = %s)
 			{$where}
-			GROUP BY user_id, firstname, lastname, title, login, last_login, context
+			GROUP BY user_id, firstname, lastname, title, login, last_login, context, agree_date
 			ORDER BY lastname, firstname
 			",
 			array('text'),
@@ -4915,6 +4912,18 @@ class ilObjUser extends ilObject
 			}
 		}
 
+		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
+		if (ilTermsOfServiceHelper::isEnabled()) {
+			$adminRoleUserIds = array_flip($rbacreview->assignedUsers(SYSTEM_ROLE_ID));
+			$users = array_filter($users, function($user) use ($adminRoleUserIds) {
+				if ($user['agree_date'] || $user['user_id'] == SYSTEM_ROLE_ID || 'root' === $user['login']) {
+					return true;
+				}
+
+				return isset($adminRoleUserIds[$user['user_id']]);
+			});
+		}
+
 		return $users;
 	}
 
@@ -4925,6 +4934,7 @@ class ilObjUser extends ilObject
 	*
 	* @param	integer	user_id User ID of the current user.
 	* @return	array
+	* @deprecated This is dead code since ILIAS 5.3.x (ilUsersOnlineBlock ...) and could be removed in future releases.
 	*/
 	public static function _getAssociatedUsersOnline($a_user_id, $a_no_anonymous = false)
 	{
