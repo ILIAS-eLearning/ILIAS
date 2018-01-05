@@ -148,22 +148,6 @@ class ilCronManagerGUI
 		throw new \InvalidArgumentException(sprintf('The passed argument %s is invalid!', var_export($scheduleTypeId, 1)));
  	}
 
-	/**
-	 * @param int $scheduleTypeId
-	 * @return bool
-	 */
-	protected function hasScheduleValue($scheduleTypeId)
-	{
-		return in_array(
-			$scheduleTypeId, 
-			[
-				ilCronJob::SCHEDULE_TYPE_IN_MINUTES,
-				ilCronJob::SCHEDULE_TYPE_IN_HOURS,
-				ilCronJob::SCHEDULE_TYPE_IN_DAYS
-			]
-		);
-	}
-
 	protected function initEditForm($a_job_id)
 	{
 		$job = ilCronManager::getJobInstanceById($a_job_id);		
@@ -198,7 +182,7 @@ class ilCronManagerGUI
 				);
 				$type->addOption($option);
 
-				if ($this->hasScheduleValue($typeId)) {
+				if (in_array($typeId, $job->getScheduleTypesWithValues())) {
 					$scheduleValue = new ilNumberInputGUI(
 						$this->lng->txt('cron_schedule_value'),
 						$this->getScheduleValueFormElementName($typeId)

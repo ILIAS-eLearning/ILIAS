@@ -77,7 +77,6 @@ abstract class ilCronJob
 	 * 
 	 * @param integer $a_type
 	 * @param integer $a_value
-	 * @return int
 	 */
 	public function setSchedule($a_type, $a_value)
 	{
@@ -106,6 +105,18 @@ abstract class ilCronJob
 			self::SCHEDULE_TYPE_IN_HOURS,
 			self::SCHEDULE_TYPE_IN_DAYS
 		);
+	}
+
+	/**
+	 * @return int[]
+	 */
+	public function getScheduleTypesWithValues()
+	{
+		return [
+			ilCronJob::SCHEDULE_TYPE_IN_MINUTES,
+			ilCronJob::SCHEDULE_TYPE_IN_HOURS,
+			ilCronJob::SCHEDULE_TYPE_IN_DAYS
+		];
 	}
 
 	/**
