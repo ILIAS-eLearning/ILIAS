@@ -48,35 +48,26 @@ class ilBenchmark
 
 
 	/**
-	* start measurement
-	*
-	* @param	string		$type		measurement type
-	*
-	* @return	int			measurement id
-	*/
+	 * start measurement
+	 *
+	 * @param	string		$type		measurement type
+	 *
+	 * @return	int			measurement id
+	 * @deprecated
+	 */
 	function start($a_module, $a_bench)
 	{
-return;
-		if ($this->isEnabled())
-		{
-			$this->bench[$a_module.":".$a_bench][] = microtime();
-		}
 	}
 
 
 	/**
-	* stop measurement
-	*
-	* @param	int			$mid		measurement id
-	*/
+	 * stop measurement
+	 *
+	 * @param	int			$mid		measurement id
+	 * @deprecated
+	 */
 	function stop($a_module, $a_bench)
 	{
-return;
-		if ($this->isEnabled())
-		{
-			$this->bench[$a_module.":".$a_bench][count($this->bench[$a_module.":".$a_bench]) - 1]
-				= $this->microtimeDiff($this->bench[$a_module.":".$a_bench][count($this->bench[$a_module.":".$a_bench]) - 1], microtime());
-		}
 	}
 
 
@@ -87,9 +78,7 @@ return;
 	{
 		global $DIC;
 		$ilDB = $DIC->database();
-
 		$ilUser = $DIC->user();
-
 		if ($this->isDbBenchEnabled() && is_object($ilUser) &&
 			$this->db_enabled_user == $ilUser->getLogin())
 		{
@@ -327,18 +316,18 @@ return;
 
 		if ($a_enable)
 		{
-			$ilSetting->get("enable_db_bench", 1);
+			$ilSetting->set("enable_db_bench", 1);
 			if ($a_user !== 0)
 			{
-				$ilSetting->get("db_bench_user", $a_user);
+				$ilSetting->set("db_bench_user", $a_user);
 			}
 		}
 		else
 		{
-			$ilSetting->get("enable_db_bench", 0);
+			$ilSetting->set("enable_db_bench", 0);
 			if ($a_user !== 0)
 			{
-				$ilSetting->get("db_bench_user", $a_user);
+				$ilSetting->set("db_bench_user", $a_user);
 			}
 		}
 	}
