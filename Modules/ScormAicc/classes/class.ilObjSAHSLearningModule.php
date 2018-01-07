@@ -104,7 +104,6 @@ class ilObjSAHSLearningModule extends ilObject
 			$this->setCheck_values(ilUtil::yn2tf($lm_rec["check_values"]));
 			$this->setOfflineMode(ilUtil::yn2tf($lm_rec["offline_mode"]));
 			$this->setAutoSuspend(ilUtil::yn2tf($lm_rec["auto_suspend"]));
-			$this->setIe_compatibility(ilUtil::yn2tf($lm_rec["ie_compatibility"]));
 			$this->setIe_force_render(ilUtil::yn2tf($lm_rec["ie_force_render"]));
 			$this->setMasteryScore($lm_rec["mastery_score"]);
 			$this->setIdSetting($lm_rec["id_setting"]);
@@ -511,19 +510,6 @@ class ilObjSAHSLearningModule extends ilObject
 		$lm_set = new ilSetting("lm");
 		if ($lm_set->get("scormdebug_global_activate") == "1") return true;
 		return false;
-	}
-
-	/**
-	* set compatibility mode for Internet Exlorer manually
-	*/
-	function getIe_compatibility()
-	{
-		return $this->ie_compatibility;
-	}
-
-	function setIe_compatibility($a_ie_compatibility)
-	{
-		$this->ie_compatibility = $a_ie_compatibility;
 	}
 
 	/**
@@ -984,7 +970,6 @@ class ilObjSAHSLearningModule extends ilObject
 				check_values = %s,
 				offline_mode = %s,
 				auto_suspend = %s,
-				ie_compatibility = %s, 
 				ie_force_render = %s,
 				mastery_score = %s,
 				id_setting = %s,
@@ -1019,7 +1004,6 @@ class ilObjSAHSLearningModule extends ilObject
 				'integer',
 				'integer',
 				'integer',
-				'text',
 				'text',
 				'text',
 				'text',
@@ -1065,7 +1049,6 @@ class ilObjSAHSLearningModule extends ilObject
 				ilUtil::tf2yn($this->getCheck_values()),
 				ilUtil::tf2yn($this->getOfflineMode()),
 				ilUtil::tf2yn($this->getAutoSuspend()),
-				ilUtil::tf2yn($this->getIe_compatibility()),
 				ilUtil::tf2yn($this->getIe_force_render()),
 				$s_mastery_score,
 				$this->getIdSetting(),
