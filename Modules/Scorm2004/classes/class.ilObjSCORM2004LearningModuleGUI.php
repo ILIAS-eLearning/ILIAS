@@ -485,18 +485,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		$ni->setInfo($this->lng->txt("cont_width_height_info"));
 		$op2->addSubItem($ni);
 		
-		// set IE compatibility mode
-		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_ie_compatibility"), "cobj_ie_compatibility_0");
-		$cb->setValue("y");
-		$cb->setChecked($this->object->getIe_compatibility());
-		$cb->setInfo($this->lng->txt("cont_ie_compatibility_info"));
-		$op0->addSubItem($cb);
-		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_ie_compatibility"), "cobj_ie_compatibility_1");
-		$cb->setValue("y");
-		$cb->setChecked($this->object->getIe_compatibility());
-		$cb->setInfo($this->lng->txt("cont_ie_compatibility_info"));
-		$op2->addSubItem($cb);
-
 		// force IE to render again
 		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_ie_force_render"), "cobj_ie_force_render");
 		$cb->setValue("y");
@@ -860,10 +848,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 				$t_session = true;
 			}
 			
-			$t1_ie_compatibility = false;
-			if (ilUtil::yn2tf($_POST["cobj_ie_compatibility_0"]) != $this->object->getIe_compatibility()) $t_ie_compatibility = ilUtil::yn2tf($_POST["cobj_ie_compatibility_0"]);
-			if (ilUtil::yn2tf($_POST["cobj_ie_compatibility_1"]) != $this->object->getIe_compatibility()) $t_ie_compatibility = ilUtil::yn2tf($_POST["cobj_ie_compatibility_1"]);
-			
 			$t_height = $this->object->getHeight();
 			if ($_POST["height_0"] != $this->object->getHeight()) $t_height = $_POST["height_0"];
 			if ($_POST["height_1"] != $this->object->getHeight()) $t_height = $_POST["height_1"];
@@ -884,7 +868,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			$this->object->setNoMenu(ilUtil::yn2tf($_POST["cobj_nomenu"]));
 			$this->object->setHideNavig(ilUtil::yn2tf($_POST["cobj_hidenavig"]));
 			$this->object->setAuto_last_visited(ilUtil::yn2tf($_POST["cobj_auto_last_visited"]));
-			$this->object->setIe_compatibility($t_ie_compatibility);
 			$this->object->setIe_force_render(ilUtil::yn2tf($_POST["cobj_ie_force_render"]));
 			$this->object->setFourth_edition($tmpFourth_edition);
 			$this->object->setSequencing($tmpSequencing);
