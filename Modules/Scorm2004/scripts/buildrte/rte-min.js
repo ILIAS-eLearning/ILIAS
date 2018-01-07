@@ -1,4 +1,4 @@
-// Build: 20151022020047 
+// Build: 2018107142523 
 
 function ADLAuxiliaryResource()
 {}
@@ -2322,9 +2322,7 @@ if(log_auto_flush)
 else
 {log_buffer=log_buffer+mess+'<br />';}}
 function sclogflush()
-{return;elm=all("ilLogPre");if(elm)
-{elm.innerHTML=elm.innerHTML+log_buffer;sclogscroll();}
-log_buffer="";}
+{return;}
 function sclogclear()
 {elm=all("ilLogPre");if(elm)
 {elm.innerHTML='';}}
@@ -2487,20 +2485,14 @@ this._ie=!e&&w.event;this._event=e||w.event;this.keyCode=this._ie?w.event.keyCod
 this.UIEvent=UIEvent;UIEvent.prototype.getIdElement=function(){return getAncestor(this.srcElement,'id',true);};UIEvent.prototype.getHrefElement=function(){return getAncestor(this.srcElement,'href',true);};UIEvent.prototype.stop=function(){var e=this._event;if(e.preventDefault)
 {e.preventDefault();e.stopPropagation();}
 else
-{e.returnValue=false;e.cancelBubble=true;}};function attachUIEvent(obj,name,func)
-{if(window.Event)
-{obj.addEventListener(name,func,false);}
-else if(obj.attachEvent)
-{obj.attachEvent('on'+name,func);}
-else
-{obj[name]=func;}}
-function detachUIEvent(obj,name,func)
-{if(window.Event)
-{obj.removeEventListener(name,func,false);}
-else if(obj.attachEvent)
-{obj.detachEvent('on'+name,func);}
-else
-{obj[name]='';}}
+{e.returnValue=false;e.cancelBubble=true;}};function attachUIEvent(obj,name,func){if(window.Event){if(obj.addEventListener){obj.addEventListener(name,func,false);}
+else if(obj.attachEvent){obj.attachEvent('on'+name,func);}
+else{obj.addEventListener(name,func,false);}}
+else{obj[name]=func;}}
+function detachUIEvent(obj,name,func){if(window.Event){if(obj.removeEventListener){obj.removeEventListener(name,func,false);}
+else if(obj.attachEvent){obj.detachEvent('on'+name,func);}
+else{obj.removeEventListener(name,func,false);}}
+else{obj[name]='';}}
 function getCurrentStyle(elm,prop)
 {var doc=elm.ownerDocument;if(elm.currentStyle){return elm.currentStyle[prop];}else if(doc.defaultView&&doc.defaultView.getComputedStyle){return doc.defaultView.getComputedStyle(elm,'').getPropertyValue(fromCamelCase(prop));}else if(elm.style&&elm.style[prop]){return elm.style[prop];}else{return null;}}
 function getAncestor(elm,attr,pattern,includeSelf)
@@ -3039,7 +3031,7 @@ if(data.adl&&data.adl.nav){var m=String(data.adl.nav.request).match(/^(\{target=
 if(navReq)
 {if(navReq.type!="suspend"){adlnavreq=true;if(navReq.type=="Choice"||navReq.type=="Jump"){launchTarget(navReq.target,(navReq.type=="Jump"));}else{launchNavType(navReq.type);}}}
 updateNavForSequencing();if(!this.config.sequencing_enabled)updateNav();return true;}
-var apiIndents={'cmi':{'score':['raw','min','max','scaled'],'learner_preference':['audio_captioning','audio_level','delivery_speed','language']},'objective':{'score':['raw','min','max','scaled']}};function updateNav(ignore){function signActNode(){if(elm&&activities[tree[i].mActivityID].href&&guiItemId==elm.id){removeClass(elm.parentNode,"ilc_rte_status_RTENotAttempted",1);removeClass(elm.parentNode,"ilc_rte_status_RTEIncomplete",1);removeClass(elm.parentNode,"ilc_rte_status_RTECompleted",1);removeClass(elm.parentNode,"ilc_rte_status_RTEFailed",1);removeClass(elm.parentNode,"ilc_rte_status_RTEPassed",1);toggleClass(elm,"ilc_rte_tlink_RTETreeCurrent",1);toggleClass(elm.parentNode,"ilc_rte_status_RTERunning",1);}else{removeClass(elm,"ilc_rte_tlink_RTETreeCurrent");removeClass(elm.parentNode,"ilc_rte_status_RTERunning");}}
+var apiIndents={'cmi':{'score':['raw','min','max','scaled'],'learner_preference':['audio_captioning','audio_level','delivery_speed','language']},'objective':{'score':['raw','min','max','scaled']}};function updateNav(ignore){function signActNode(){if(elm){if(activities[tree[i].mActivityID].href&&guiItemId==elm.id){removeClass(elm.parentNode,"ilc_rte_status_RTENotAttempted",1);removeClass(elm.parentNode,"ilc_rte_status_RTEIncomplete",1);removeClass(elm.parentNode,"ilc_rte_status_RTECompleted",1);removeClass(elm.parentNode,"ilc_rte_status_RTEFailed",1);removeClass(elm.parentNode,"ilc_rte_status_RTEPassed",1);toggleClass(elm,"ilc_rte_tlink_RTETreeCurrent",1);toggleClass(elm.parentNode,"ilc_rte_status_RTERunning",1);}else{removeClass(elm,"ilc_rte_tlink_RTETreeCurrent");removeClass(elm.parentNode,"ilc_rte_status_RTERunning");}}}
 if(!all("treeView")){return;}
 if(ignore!=true){setToc();}
 var tree=msequencer.mSeqTree.mActivityMap;var disable;var first=true;for(i in tree){var disable=true;var disabled_str="";var test=null;if(mlaunch.mNavState.mChoice!=null){test=mlaunch.mNavState.mChoice[i];}
@@ -3061,7 +3053,7 @@ else if(!activities[tree[i].mActivityID].href&&elm!=null&&elm.parentNode)
 {toggleClass(elm.parentNode,"ilc_rte_node_RTEChapter"+disabled_str,1);}
 else
 {toggleClass(elm.parentNode,"ilc_rte_node_RTECourse"+disabled_str,1);}}}
-signActNode();first=false;}}
+if(elm)signActNode();first=false;}}
 function updateNavForSequencing(){if(this.config.sequencing_enabled){var valid=new ADLValidRequests();valid=msequencer.getValidRequests(valid);msequencer.mSeqTree.setValidRequests(valid);mlaunch.mNavState=msequencer.mSeqTree.getValidRequests();updateNav(false);updateControls();}}
 function isIE(versionNumber){var detect=navigator.userAgent.toLowerCase();if(!(navigator&&navigator.userAgent&&navigator.userAgent.toLowerCase)){return false;}else{if(detect.indexOf('msie')+1){var ver=function(){var rv=-1;if(navigator.appName=='Microsoft Internet Explorer'){var ua=navigator.userAgent;var re=new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");if(re.exec(ua)!=null){rv=parseFloat(RegExp.$1);}}
 return rv;};var valid=true;if((ver>-1)&&(ver<versionNumber)){valid=false;}
