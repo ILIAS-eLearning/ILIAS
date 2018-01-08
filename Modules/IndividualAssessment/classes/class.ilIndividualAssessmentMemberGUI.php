@@ -484,6 +484,10 @@ class ilIndividualAssessmentMemberGUI {
 	 * @return bool
 	 */
 	protected function mayBeEdited() {
+		if($this->access->isAdmin())
+		{
+			return true;
+		}
 		if (!$this->isFinalized() && $this->userMayGrade()) {
 			return true;
 		}
@@ -498,6 +502,10 @@ class ilIndividualAssessmentMemberGUI {
 	 */
 	protected function mayBeViewed()
 	{
+		if($this->access->isAdmin())
+		{
+			return true;
+		}
 		if ($this->isFinalized() && ($this->userMayGrade() || $this->userMayView())) {
 			return true;
 		}
@@ -512,6 +520,10 @@ class ilIndividualAssessmentMemberGUI {
 	 */
 	protected function mayBeAmended()
 	{
+		if($this->access->isAdmin())
+		{
+			return true;
+		}
 		if ($this->isFinalized() && $this->userMayAmend()) {
 			return true;
 		}
