@@ -1072,7 +1072,11 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->addContentTab();
 			}
 		}
-		if ($rbacsystem->checkAccess('visible',$this->ref_id))
+		if(
+			$ilAccess->checkAccess('visible','',$this->ref_id) ||
+			$ilAccess->checkAccess('join','',$this->ref_id) ||
+			$ilAccess->checkAccess('read','',$this->ref_id)
+		)
 		{
 			$this->tabs_gui->addTarget("info_short",
 								 $this->ctrl->getLinkTargetByClass(
@@ -1199,9 +1203,9 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		$this->tabs_gui->setTabActive('info_short');
 
-		if(!$rbacsystem->checkAccess("visible", $this->ref_id))
+		if(!$this->checkPermissionBool('read'))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+			$this->checkPermission('visible');
 		}
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
