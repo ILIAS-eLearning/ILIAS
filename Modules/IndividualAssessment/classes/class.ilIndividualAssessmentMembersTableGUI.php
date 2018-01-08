@@ -258,4 +258,14 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 	protected function userMayDownloadAttachment($usr_id) {
 		return $this->userMayViewGrades() || $this->userMayEditGrades() || $this->userMayEditGradesOf($usr_id);
 	}
+
+	/**
+	 * Check whether usr is admin.
+	 *
+	 * @return bool
+	 */
+	protected function userIsAdmin()
+	{
+		return $this->iass_access->isAdmin();
+	}
 }
