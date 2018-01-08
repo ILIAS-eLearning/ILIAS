@@ -858,10 +858,10 @@ class ilSurveyParticipantsGUI
 		$form_gui = new FormMailCodesGUI($this);
 		if ($form_gui->checkInput())
 		{
-			$code_exists = strpos($_POST['m_message'], '[code]') !== FALSE;
-			if (!$code_exists)
+			$url_exists = strpos($_POST['m_message'], '[url]') !== FALSE;
+			if (!$url_exists)
 			{
-				if (!$code_exists) ilUtil::sendFailure($this->lng->txt('please_enter_mail_code'));
+				ilUtil::sendFailure($this->lng->txt('please_enter_mail_url'));
 				$form_gui->setValuesByPost();
 			}
 			else
