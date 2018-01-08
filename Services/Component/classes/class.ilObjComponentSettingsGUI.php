@@ -37,14 +37,14 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 	 */
 	public function executeCommand()
 	{
-		global $rbacsystem, $ilErr, $ilAccess, $ilCtrl;
+		global $rbacsystem, $ilErr, $ilCtrl;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
 		$this->prepareOutput();
 
-		if(!$ilAccess->checkAccess('read','',$this->object->getRefId()))
+		if(!$rbacsystem->checkAccess('read',$this->object->getRefId()))
 		{
 			$ilErr->raiseError($this->lng->txt('no_permission'),$ilErr->WARNING);
 		}
