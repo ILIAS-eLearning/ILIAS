@@ -817,6 +817,19 @@ class ilObjCourseGUI extends ilContainerGUI
 			ilUtil::sendFailure($GLOBALS['DIC']->language()->txt('err_check_input'));
 			return $this->editObject($form);
 		}
+		
+		// Additional checks
+		if(
+			$form->getInput('subscription_max') &&
+			$form->getInput('subscription_min') &&
+			($form->getInput('subscription_max') < $form->getInput('subscription_min'))
+		)
+		{
+			$min = $form->getItemByPostVar('subscription_min');
+			$min->setAlert($this->lng->txt('crs_subscription_min_members_err'));
+			ilUtil::sendFailure($GLOBALS['DIC']->language()->txt('err_check_input'));
+			return $this->editObject($form);
+		}
 
 		// check successful
 
