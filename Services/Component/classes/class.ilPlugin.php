@@ -545,7 +545,7 @@ abstract class ilPlugin
 	static function langExitsById($pluginId, $langVar) {
 		global $lng;
 
-		$pl = ilPlugin::getRepoPluginObjectByType($pluginId);
+		$pl = ilObjectPlugin::getRepoPluginObjectByType($pluginId);
 		$pl->loadLanguageModule();
 
 		return $lng->exists($pl->getPrefix()."_".$langVar);
