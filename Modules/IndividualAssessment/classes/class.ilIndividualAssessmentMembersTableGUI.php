@@ -163,29 +163,29 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 		$edited_by_viewer = $this->setWasEditedByViewer((int)$a_set[ilIndividualAssessmentMembers::FIELD_EXAMINER_ID]);
 		$finalized = (bool)$a_set[ilIndividualAssessmentMembers::FIELD_FINALIZED];
 
-		if ($finalized && (($this->userMayEditGradesOf($a_set["usr_id"]) && $edited_by_viewer) || $this->userMayViewGrades())) {
+		if ($this->userIsAdmin() && $finalized || $finalized && (($this->userMayEditGradesOf($a_set["usr_id"]) && $edited_by_viewer) || $this->userMayViewGrades())) {
 			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI','view');
 			$l->addItem($this->lng->txt('iass_usr_view'), 'view', $target);
 		}
 
-		if(!$finalized && $this->userMayEditGradesOf($a_set["usr_id"]) && $edited_by_viewer) {
+		if($this->userIsAdmin() && !$finalized || !$finalized && $this->userMayEditGradesOf($a_set["usr_id"]) && $edited_by_viewer) {
 			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI','edit');
 			$l->addItem($this->lng->txt('iass_usr_edit'), 'edit', $target);
 		}
 
-		if(!$finalized && $this->userMayEditMembers()) {
+		if($this->userIsAdmin() && !$finalized || !$finalized && $this->userMayEditMembers()) {
 			$this->ctrl->setParameter($this->parent_obj, 'usr_id', $a_set['usr_id']);
 			$target = $this->ctrl->getLinkTarget($this->parent_obj,'removeUserConfirmation');
 			$this->ctrl->setParameter($this->parent_obj, 'usr_id', null);
 			$l->addItem($this->lng->txt('iass_usr_remove'), 'removeUser', $target);
 		}
 
-		if($finalized && $this->userMayAmendGrades()) {
+		if($this->userIsAdmin() && $finalized || $finalized && $this->userMayAmendGrades()) {
 			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI', 'amend');
 			$l->addItem($this->lng->txt('iass_usr_amend'), 'amend', $target);
 		}
 
-		if($this->userMayDownloadAttachment($a_set['usr_id']) && (string)$a_set['file_name'] !== '') {
+		if($this->userIsAdmin() || $this->userMayDownloadAttachment($a_set['usr_id']) && (string)$a_set['file_name'] !== '') {
 			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI', 'downloadAttachment');
 			$l->addItem($this->lng->txt('iass_usr_download_attachment'), 'downloadAttachment', $target);
 		}
