@@ -10692,6 +10692,7 @@ survey#:#phrase_added#:#Phrase hinzugefügt
 survey#:#phrase_new#:#Neue Phrase erstellen
 survey#:#phrase_saved#:#Die Phrase wurde erfolgreich gespeichert
 survey#:#please_enter_mail_code#:#Bitte verwenden Sie den Platzhalter für den Zugangscode [code].
+survey#:#please_enter_mail_url#:#Bitte verwenden Sie den Platzhalter für die URL [url].
 survey#:#please_enter_mail_message#:#Bitte geben Sie einen Nachrichteninhalt ein.###deprecated 
 survey#:#please_enter_mail_subject#:#Bitte geben Sie einen Betreff ein.###deprecated 
 survey#:#please_select#:#-- bitte auswählen --
