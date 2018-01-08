@@ -918,6 +918,11 @@ class ilObjFile extends ilObject2 {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 
+		// check if file really exists
+		if (ilObject::_lookupType($a_file_id) != "file")
+		{
+			return;
+		}
 		// #15143
 		$ilDB->replace("file_usage", array(
 			"id"            => array( "integer", (int)$a_file_id ),
