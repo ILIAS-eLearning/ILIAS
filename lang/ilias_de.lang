@@ -1924,6 +1924,7 @@ cmps#:#cmps_id#:#ID
 cmps#:#cmps_ilias_max_version#:#Maximale ILIAS-Version
 cmps#:#cmps_ilias_min_version#:#Minimale ILIAS-Version
 cmps#:#cmps_inactive#:#Inaktiv
+cmps#:#cmps_install#:#Installieren
 cmps#:#cmps_lang_files#:#Sprachdatei
 cmps#:#cmps_lang_prefix#:#Präfix Sprachvariable
 cmps#:#cmps_languages#:#Sprachen
