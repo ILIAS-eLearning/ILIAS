@@ -1511,6 +1511,7 @@ cmps#:#cmps_id#:#ID
 cmps#:#cmps_ilias_max_version#:#Max. ILIAS Version
 cmps#:#cmps_ilias_min_version#:#Min. ILIAS Version
 cmps#:#cmps_inactive#:#Inactive
+cmps#:#cmps_install#:#Install
 cmps#:#cmps_lang_files#:#Language Files
 cmps#:#cmps_lang_prefix#:#Language Variables Prefix
 cmps#:#cmps_languages#:#Languages
