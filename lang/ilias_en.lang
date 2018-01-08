@@ -7913,6 +7913,7 @@ survey#:#message_content_info#:#Enter the mail message for the notification mail
 survey#:#default_codes_mail_subject#:#Your access code for %s
 survey#:#default_codes_mail_message#:#Your survey access code is [code]. You can start the survey in your web browser using the URL [url]
 survey#:#please_enter_mail_code#:#Please enter the access code placeholder [code]
+survey#:#please_enter_mail_url#:#Please enter the access url placeholder [url]
 survey#:#mail_sent_short#:#Sent
 survey#:#finished_mail_subject#:#The survey "%s" was finished
 survey#:#msg_min_nr_answers#:#Please check at least %s answer(s).
