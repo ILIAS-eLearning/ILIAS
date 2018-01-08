@@ -238,4 +238,20 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
 
 		return $this->mass_global_permissions_cache[$iass_id][$user_id][$operation];
 	}
+
+	/**
+	 * Check wheter user is admin.
+	 *
+	 * @return bool
+	 */
+	public function isAdmin()
+	{
+		$global_roles = $this->review->assignedGlobalRoles($this->usr->getId());
+		foreach ($global_roles as $global_role) {
+			if(ilObject::_lookupTitle($global_role) == "Administrator") {
+				return true;
+			}
+		}
+		return false;
+	}
 }
