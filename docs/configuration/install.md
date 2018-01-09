@@ -426,7 +426,7 @@ IliasIniPath = /var/www/html/ilias/ilias.ini.php
 
 ILIAS can generate a proper configuration file via the Administration menu ("Administration -> General Settings -> Server -> Java-Server -> Create Configuration File"). Please note that the configuration file is not directly written to the file system, you MUST copy the displayed content and create the file manually.
 
-You MAY use the following systemd service description to start the RPC server. If you still use SysV-Initscripts you can find one in the [Lucene RPC-Server](../../Services/WebServices/RPC/lib/README.txt) documentation.
+You MAY use the following systemd service description to start the RPC server. If you still use SysV-Initscripts you can find one in the [Lucene RPC-Server](../../Services/WebServices/RPC/lib/README.md) documentation.
 
 ```
 [Unit]
@@ -445,7 +445,7 @@ ExecStop=/usr/bin/java $JAVA_OPTS -jar $ILSERVER_JAR $ILSERVER_INI stop
 WantedBy=multi-user.target
 ```
 
-At this point the RPC server will generate PDF certificates, but to use Lucence search further step are needed. See [Lucene RPC-Server](../../Services/WebServices/RPC/lib/README.txt) for details.
+At this point the RPC server will generate PDF certificates, but to use Lucence search further step are needed. See [Lucene RPC-Server](../../Services/WebServices/RPC/lib/README.md) for details.
 
 <a name="hardening-and-security-guidance"></a>
 # Hardening and Security Guidance
