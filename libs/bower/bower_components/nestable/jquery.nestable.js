@@ -42,7 +42,16 @@
             collapseBtnHTML : '<button data-action="collapse" type="button">Collapse</button>',
             group           : 0,
             maxDepth        : 5,
-            threshold       : 20
+            threshold:         20,
+            scroll:            false,
+            scrollSensitivity: 20,
+            scrollSpeed:       20,
+            scrollTriggers:    {
+                top:    80,
+                left:   40,
+                right:  -40,
+                bottom: -80
+            }
         };
 
     function Plugin(element, options)
@@ -333,6 +342,49 @@
                 mouse.dirAx  = newAx;
                 mouse.moving = true;
                 return;
+            }
+
+            // do scrolling if enable
+            if (opt.scroll) {
+                if (typeof window.jQuery.fn.scrollParent !== 'undefined') {
+                var scrolled = false;
+                var scrollParent = this.el.scrollParent()[0];
+                    if (scrollParent !== document && scrollParent.tagName !== 'HTML') {
+                    if((opt.scrollTriggers.bottom + scrollParent.offsetHeight) - e.pageY < opt.scrollSensitivity)
+                        scrollParent.scrollTop = scrolled = scrollParent.scrollTop + opt.scrollSpeed;
+                    else if(e.pageY - opt.scrollTriggers.top < opt.scrollSensitivity)
+                        scrollParent.scrollTop = scrolled = scrollParent.scrollTop - opt.scrollSpeed;
+
+                    if((opt.scrollTriggers.right + scrollParent.offsetWidth) - e.pageX < opt.scrollSensitivity)
+                        scrollParent.scrollLeft = scrolled = scrollParent.scrollLeft + opt.scrollSpeed;
+                    else if(e.pageX - opt.scrollTriggers.left < opt.scrollSensitivity)
+                        scrollParent.scrollLeft = scrolled = scrollParent.scrollLeft - opt.scrollSpeed;
+                } else {
+                    if(e.pageY - $(document).scrollTop() < opt.scrollSensitivity)
+                        scrolled = $(document).scrollTop($(document).scrollTop() - opt.scrollSpeed);
+                    else if($(window).height() - (e.pageY - $(document).scrollTop()) < opt.scrollSensitivity)
+                        scrolled = $(document).scrollTop($(document).scrollTop() + opt.scrollSpeed);
+
+                    if(e.pageX - $(document).scrollLeft() < opt.scrollSensitivity)
+                        scrolled = $(document).scrollLeft($(document).scrollLeft() - opt.scrollSpeed);
+                    else if($(window).width() - (e.pageX - $(document).scrollLeft()) < opt.scrollSensitivity)
+                        scrolled = $(document).scrollLeft($(document).scrollLeft() + opt.scrollSpeed);
+                }
+                } else {
+                    console.warn('To use scrolling you need to have scrollParent() function, check documentation for more information');
+                }
+            }
+
+            if (this.scrollTimer) {
+                clearTimeout(this.scrollTimer);
+            }
+
+            if (opt.scroll && scrolled) {
+                this.scrollTimer = setTimeout(function() {
+                    e.type = "scroll";
+                    console.log(e);
+                    $(window).trigger(e);
+                }, 10);
             }
 
             // calc distance moved on this axis (and direction)
