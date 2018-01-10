@@ -7853,10 +7853,10 @@ $ilDB->insert("ctrl_calls", array(
 'parent' => array('text', 'ilscorm2004pagegui'), 'child' => array('text', 'ilquestioneditgui'), 'comp_prefix' => array('text', '')));
 
 $ilDB->insert("ctrl_calls", array(
-'parent' => array('text', 'ilscorm2004pagegui'), 'child' => array('text', 'ilobjectmetadatagui'), 'comp_prefix' => array('text', '')));
+'parent' => array('text', 'ilscorm2004pagegui'), 'child' => array('text', 'ilnotegui'), 'comp_prefix' => array('text', '')));
 
 $ilDB->insert("ctrl_calls", array(
-'parent' => array('text', 'ilscorm2004pagegui'), 'child' => array('text', 'ilnotegui'), 'comp_prefix' => array('text', '')));
+'parent' => array('text', 'ilscorm2004pagegui'), 'child' => array('text', 'ilobjectmetadatagui'), 'comp_prefix' => array('text', '')));
 
 $ilDB->insert("ctrl_calls", array(
 'parent' => array('text', 'ilscorm2004pagegui'), 'child' => array('text', 'ilpageobjectgui'), 'comp_prefix' => array('text', '')));
@@ -8156,10 +8156,10 @@ $ilDB->insert("ctrl_calls", array(
 'parent' => array('text', 'ilsurveyeditorgui'), 'child' => array('text', 'surveymultiplechoicequestiongui'), 'comp_prefix' => array('text', '')));
 
 $ilDB->insert("ctrl_calls", array(
-'parent' => array('text', 'assfileuploadgui'), 'child' => array('text', 'ilformpropertydispatchgui'), 'comp_prefix' => array('text', '')));
+'parent' => array('text', 'ilquestioneditgui'), 'child' => array('text', 'asslongmenugui'), 'comp_prefix' => array('text', '')));
 
 $ilDB->insert("ctrl_calls", array(
-'parent' => array('text', 'ilquestioneditgui'), 'child' => array('text', 'asslongmenugui'), 'comp_prefix' => array('text', '')));
+'parent' => array('text', 'assfileuploadgui'), 'child' => array('text', 'ilformpropertydispatchgui'), 'comp_prefix' => array('text', '')));
 
 $ilDB->insert("ctrl_calls", array(
 'parent' => array('text', 'ilquestioneditgui'), 'child' => array('text', 'assformulaquestiongui'), 'comp_prefix' => array('text', '')));
@@ -8936,10 +8936,10 @@ $ilDB->insert("ctrl_calls", array(
 'parent' => array('text', 'ilobjrootfoldergui'), 'child' => array('text', 'ilcontainerpagegui'), 'comp_prefix' => array('text', '')));
 
 $ilDB->insert("ctrl_calls", array(
-'parent' => array('text', 'ilobjexternalfeedgui'), 'child' => array('text', 'ilexportgui'), 'comp_prefix' => array('text', '')));
+'parent' => array('text', 'ilobjrootfoldergui'), 'child' => array('text', 'ilpermissiongui'), 'comp_prefix' => array('text', '')));
 
 $ilDB->insert("ctrl_calls", array(
-'parent' => array('text', 'ilobjrootfoldergui'), 'child' => array('text', 'ilpermissiongui'), 'comp_prefix' => array('text', '')));
+'parent' => array('text', 'ilobjexternalfeedgui'), 'child' => array('text', 'ilexportgui'), 'comp_prefix' => array('text', '')));
 
 $ilDB->insert("ctrl_calls", array(
 'parent' => array('text', 'ilobjexternalfeedgui'), 'child' => array('text', 'ilpermissiongui'), 'comp_prefix' => array('text', '')));
@@ -9092,19 +9092,19 @@ $ilDB->insert("ctrl_calls", array(
 'parent' => array('text', 'ilcoursemembershipgui'), 'child' => array('text', 'ilobjectcustomuserfieldsgui'), 'comp_prefix' => array('text', '')));
 
 $ilDB->insert("ctrl_calls", array(
-'parent' => array('text', 'ilcoursemembershipgui'), 'child' => array('text', 'ilrepositorysearchgui'), 'comp_prefix' => array('text', '')));
+'parent' => array('text', 'ilcoursemembershipgui'), 'child' => array('text', 'ilcourseparticipantsgroupsgui'), 'comp_prefix' => array('text', '')));
 
 $ilDB->insert("ctrl_calls", array(
-'parent' => array('text', 'ilcoursemembershipgui'), 'child' => array('text', 'ilcourseparticipantsgroupsgui'), 'comp_prefix' => array('text', '')));
+'parent' => array('text', 'ilcoursemembershipgui'), 'child' => array('text', 'ilrepositorysearchgui'), 'comp_prefix' => array('text', '')));
 
 $ilDB->insert("ctrl_calls", array(
 'parent' => array('text', 'ilcoursemembershipgui'), 'child' => array('text', 'ilusersgallerygui'), 'comp_prefix' => array('text', '')));
 
 $ilDB->insert("ctrl_calls", array(
-'parent' => array('text', 'illoeditorgui'), 'child' => array('text', 'illopagegui'), 'comp_prefix' => array('text', '')));
+'parent' => array('text', 'ilcoursemembershipgui'), 'child' => array('text', 'ilmailmembersearchgui'), 'comp_prefix' => array('text', '')));
 
 $ilDB->insert("ctrl_calls", array(
-'parent' => array('text', 'ilcoursemembershipgui'), 'child' => array('text', 'ilmailmembersearchgui'), 'comp_prefix' => array('text', '')));
+'parent' => array('text', 'illoeditorgui'), 'child' => array('text', 'illopagegui'), 'comp_prefix' => array('text', '')));
 
 $ilDB->insert("ctrl_calls", array(
 'parent' => array('text', 'illoeditorgui'), 'child' => array('text', 'ilconditionhandlergui'), 'comp_prefix' => array('text', '')));
@@ -9119,10 +9119,10 @@ $ilDB->insert("ctrl_calls", array(
 'parent' => array('text', 'illopagegui'), 'child' => array('text', 'ilpagemultilanggui'), 'comp_prefix' => array('text', '')));
 
 $ilDB->insert("ctrl_calls", array(
-'parent' => array('text', 'illopagegui'), 'child' => array('text', 'ilpropertyformgui'), 'comp_prefix' => array('text', '')));
+'parent' => array('text', 'illopagegui'), 'child' => array('text', 'ilinternallinkgui'), 'comp_prefix' => array('text', '')));
 
 $ilDB->insert("ctrl_calls", array(
-'parent' => array('text', 'illopagegui'), 'child' => array('text', 'ilinternallinkgui'), 'comp_prefix' => array('text', '')));
+'parent' => array('text', 'illopagegui'), 'child' => array('text', 'ilpropertyformgui'), 'comp_prefix' => array('text', '')));
 
 $ilDB->insert("ctrl_calls", array(
 'parent' => array('text', 'illopagegui'), 'child' => array('text', 'ilnotegui'), 'comp_prefix' => array('text', '')));
@@ -9167,10 +9167,10 @@ $ilDB->insert("ctrl_calls", array(
 'parent' => array('text', 'ilobjcoursegui'), 'child' => array('text', 'ilcontainerstartobjectsgui'), 'comp_prefix' => array('text', '')));
 
 $ilDB->insert("ctrl_calls", array(
-'parent' => array('text', 'ilobjcoursegui'), 'child' => array('text', 'ilobjectservicesettingsgui'), 'comp_prefix' => array('text', '')));
+'parent' => array('text', 'ilobjcoursegui'), 'child' => array('text', 'ilcertificategui'), 'comp_prefix' => array('text', '')));
 
 $ilDB->insert("ctrl_calls", array(
-'parent' => array('text', 'ilobjcoursegui'), 'child' => array('text', 'ilcertificategui'), 'comp_prefix' => array('text', '')));
+'parent' => array('text', 'ilobjcoursegui'), 'child' => array('text', 'ilobjectservicesettingsgui'), 'comp_prefix' => array('text', '')));
 
 $ilDB->insert("ctrl_calls", array(
 'parent' => array('text', 'ilobjcoursegui'), 'child' => array('text', 'ildidactictemplategui'), 'comp_prefix' => array('text', '')));
@@ -9179,16 +9179,16 @@ $ilDB->insert("ctrl_calls", array(
 'parent' => array('text', 'ilobjcoursegui'), 'child' => array('text', 'ilcommonactiondispatchergui'), 'comp_prefix' => array('text', '')));
 
 $ilDB->insert("ctrl_calls", array(
-'parent' => array('text', 'ilobjcoursegui'), 'child' => array('text', 'ilexportgui'), 'comp_prefix' => array('text', '')));
-
-$ilDB->insert("ctrl_calls", array(
 'parent' => array('text', 'ilobjcoursegui'), 'child' => array('text', 'ilcourseparticipantsgroupsgui'), 'comp_prefix' => array('text', '')));
 
 $ilDB->insert("ctrl_calls", array(
-'parent' => array('text', 'ilobjcoursegui'), 'child' => array('text', 'ilobjstylesheetgui'), 'comp_prefix' => array('text', '')));
+'parent' => array('text', 'ilobjcoursegui'), 'child' => array('text', 'ilexportgui'), 'comp_prefix' => array('text', '')));
 
 $ilDB->insert("ctrl_calls", array(
 'parent' => array('text', 'ilobjcoursegui'), 'child' => array('text', 'ilobjectcopygui'), 'comp_prefix' => array('text', '')));
+
+$ilDB->insert("ctrl_calls", array(
+'parent' => array('text', 'ilobjcoursegui'), 'child' => array('text', 'ilobjstylesheetgui'), 'comp_prefix' => array('text', '')));
 
 $ilDB->insert("ctrl_calls", array(
 'parent' => array('text', 'ilobjcoursegui'), 'child' => array('text', 'illicenseoverviewgui'), 'comp_prefix' => array('text', '')));
@@ -9206,10 +9206,10 @@ $ilDB->insert("ctrl_calls", array(
 'parent' => array('text', 'ilobjcoursegui'), 'child' => array('text', 'ilmemberagreementgui'), 'comp_prefix' => array('text', '')));
 
 $ilDB->insert("ctrl_calls", array(
-'parent' => array('text', 'ilobjcoursegui'), 'child' => array('text', 'ilobjectcustomuserfieldsgui'), 'comp_prefix' => array('text', '')));
+'parent' => array('text', 'ilobjcoursegui'), 'child' => array('text', 'ilmemberexportgui'), 'comp_prefix' => array('text', '')));
 
 $ilDB->insert("ctrl_calls", array(
-'parent' => array('text', 'ilobjcoursegui'), 'child' => array('text', 'ilmemberexportgui'), 'comp_prefix' => array('text', '')));
+'parent' => array('text', 'ilobjcoursegui'), 'child' => array('text', 'ilobjectcustomuserfieldsgui'), 'comp_prefix' => array('text', '')));
 
 $ilDB->insert("ctrl_calls", array(
 'parent' => array('text', 'ilobjcoursegui'), 'child' => array('text', 'ilpublicuserprofilegui'), 'comp_prefix' => array('text', '')));
@@ -12341,22 +12341,22 @@ $ilDB->insert("ctrl_classfile", array(
 'class' => array('text', 'ilroleassignmenttablegui'), 'filename' => array('text', 'Services/User/classes/class.ilRoleAssignmentTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '1r')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilusersgallerygui'), 'filename' => array('text', 'Services/User/classes/class.ilUsersGalleryGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '1s')));
+'class' => array('text', 'ilobjuserfoldergui'), 'filename' => array('text', 'Services/User/classes/class.ilObjUserFolderGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '1s')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilaccountcodesgui'), 'filename' => array('text', 'Services/User/classes/class.ilAccountCodesGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '1t')));
+'class' => array('text', 'ilusersgallerygui'), 'filename' => array('text', 'Services/User/classes/class.ilUsersGalleryGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '1t')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjuserfoldergui'), 'filename' => array('text', 'Services/User/classes/class.ilObjUserFolderGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '1u')));
+'class' => array('text', 'ilaccountcodesgui'), 'filename' => array('text', 'Services/User/classes/class.ilAccountCodesGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '1u')));
 
 $ilDB->insert("ctrl_classfile", array(
 'class' => array('text', 'iluserprofilebadgegui'), 'filename' => array('text', 'Services/User/classes/Badges/class.ilUserProfileBadgeGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '1v')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilaccountcodestablegui'), 'filename' => array('text', 'Services/User/classes/class.ilAccountCodesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '1w')));
+'class' => array('text', 'iluserclipboardtablegui'), 'filename' => array('text', 'Services/User/classes/class.ilUserClipboardTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '1w')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iluserclipboardtablegui'), 'filename' => array('text', 'Services/User/classes/class.ilUserClipboardTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '1x')));
+'class' => array('text', 'ilaccountcodestablegui'), 'filename' => array('text', 'Services/User/classes/class.ilAccountCodesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '1x')));
 
 $ilDB->insert("ctrl_classfile", array(
 'class' => array('text', 'ilcustomuserfieldsettingstablegui'), 'filename' => array('text', 'Services/User/classes/class.ilCustomUserFieldSettingsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '1y')));
@@ -12461,10 +12461,10 @@ $ilDB->insert("ctrl_classfile", array(
 'class' => array('text', 'ilstyleimagetablegui'), 'filename' => array('text', 'Services/Style/Content/classes/class.ilStyleImageTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '2v')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjstylesettingsgui'), 'filename' => array('text', 'Services/Style/classes/class.ilObjStyleSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '2w')));
+'class' => array('text', 'ilbackgroundpositioninputgui'), 'filename' => array('text', 'Services/Style/Content/classes/class.ilBackgroundPositionInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '2w')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilbackgroundpositioninputgui'), 'filename' => array('text', 'Services/Style/Content/classes/class.ilBackgroundPositionInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '2x')));
+'class' => array('text', 'ilobjstylesettingsgui'), 'filename' => array('text', 'Services/Style/classes/class.ilObjStyleSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '2x')));
 
 $ilDB->insert("ctrl_classfile", array(
 'class' => array('text', 'ilksdocumentationentrygui'), 'filename' => array('text', 'Services/Style/System/classes/Documentation/class.ilKSDocumentationEntryGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '2y')));
@@ -12524,16 +12524,16 @@ $ilDB->insert("ctrl_classfile", array(
 'class' => array('text', 'iltaxonomylisttablegui'), 'filename' => array('text', 'Services/Taxonomy/classes/class.ilTaxonomyListTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '3g')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltaxselectinputgui'), 'filename' => array('text', 'Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '3h')));
+'class' => array('text', 'iltaxmdgui'), 'filename' => array('text', 'Services/Taxonomy/classes/class.ilTaxMDGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '3h')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltaxmdgui'), 'filename' => array('text', 'Services/Taxonomy/classes/class.ilTaxMDGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '3i')));
+'class' => array('text', 'iltaxselectinputgui'), 'filename' => array('text', 'Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '3i')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltaxonomyadministrationrepositorytablegui'), 'filename' => array('text', 'Services/Taxonomy/classes/class.ilTaxonomyAdministrationRepositoryTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '3j')));
+'class' => array('text', 'iltaxassigninputgui'), 'filename' => array('text', 'Services/Taxonomy/classes/class.ilTaxAssignInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '3j')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltaxassigninputgui'), 'filename' => array('text', 'Services/Taxonomy/classes/class.ilTaxAssignInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '3k')));
+'class' => array('text', 'iltaxonomyadministrationrepositorytablegui'), 'filename' => array('text', 'Services/Taxonomy/classes/class.ilTaxonomyAdministrationRepositoryTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '3k')));
 
 $ilDB->insert("ctrl_classfile", array(
 'class' => array('text', 'iltaxonomytablegui'), 'filename' => array('text', 'Services/Taxonomy/classes/class.ilTaxonomyTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '3l')));
@@ -12560,3430 +12560,3433 @@ $ilDB->insert("ctrl_classfile", array(
 'class' => array('text', 'ilobjnotificationadmingui'), 'filename' => array('text', 'Services/Notifications/classes/class.ilObjNotificationAdminGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '3s')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmailtemplategui'), 'filename' => array('text', 'Services/Mail/classes/class.ilMailTemplateGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '3t')));
+'class' => array('text', 'ilnotificationosdgui'), 'filename' => array('text', 'Services/Notifications/classes/class.ilNotificationOSDGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '3t')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmailfoldergui'), 'filename' => array('text', 'Services/Mail/classes/class.ilMailFolderGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '3u')));
+'class' => array('text', 'ilmailtemplategui'), 'filename' => array('text', 'Services/Mail/classes/class.ilMailTemplateGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '3u')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpdsysmessageblockgui'), 'filename' => array('text', 'Services/Mail/classes/class.ilPDSysMessageBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '3v')));
+'class' => array('text', 'ilmailfoldergui'), 'filename' => array('text', 'Services/Mail/classes/class.ilMailFolderGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '3v')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmailformplaceholderspropertygui'), 'filename' => array('text', 'Services/Mail/classes/class.ilMailFormPlaceholdersPropertyGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '3w')));
+'class' => array('text', 'ilpdsysmessageblockgui'), 'filename' => array('text', 'Services/Mail/classes/class.ilPDSysMessageBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '3w')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpdmailgui'), 'filename' => array('text', 'Services/Mail/classes/class.ilPDMailGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '3x')));
+'class' => array('text', 'ilmailformplaceholderspropertygui'), 'filename' => array('text', 'Services/Mail/classes/class.ilMailFormPlaceholdersPropertyGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '3x')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmailgui'), 'filename' => array('text', 'Services/Mail/classes/class.ilMailGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '3y')));
+'class' => array('text', 'ilpdmailgui'), 'filename' => array('text', 'Services/Mail/classes/class.ilPDMailGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '3y')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmailformgui'), 'filename' => array('text', 'Services/Mail/classes/class.ilMailFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '3z')));
+'class' => array('text', 'ilmailgui'), 'filename' => array('text', 'Services/Mail/classes/class.ilMailGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '3z')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmanualplaceholderinputgui'), 'filename' => array('text', 'Services/Mail/classes/Form/class.ilManualPlaceholderInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '40')));
+'class' => array('text', 'ilmailformgui'), 'filename' => array('text', 'Services/Mail/classes/class.ilMailFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '40')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmailtemplateselectinputgui'), 'filename' => array('text', 'Services/Mail/classes/Form/class.ilMailTemplateSelectInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '41')));
+'class' => array('text', 'ilmanualplaceholderinputgui'), 'filename' => array('text', 'Services/Mail/classes/Form/class.ilManualPlaceholderInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '41')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmailquickfilterinputgui'), 'filename' => array('text', 'Services/Mail/classes/Form/class.ilMailQuickFilterInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '42')));
+'class' => array('text', 'ilmailtemplateselectinputgui'), 'filename' => array('text', 'Services/Mail/classes/Form/class.ilMailTemplateSelectInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '42')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjmailgui'), 'filename' => array('text', 'Services/Mail/classes/class.ilObjMailGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '43')));
+'class' => array('text', 'ilmailquickfilterinputgui'), 'filename' => array('text', 'Services/Mail/classes/Form/class.ilMailQuickFilterInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '43')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmailattachmenttablegui'), 'filename' => array('text', 'Services/Mail/classes/class.ilMailAttachmentTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '44')));
+'class' => array('text', 'ilobjmailgui'), 'filename' => array('text', 'Services/Mail/classes/class.ilObjMailGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '44')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmailtemplatetablegui'), 'filename' => array('text', 'Services/Mail/classes/class.ilMailTemplateTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '45')));
+'class' => array('text', 'ilmailattachmenttablegui'), 'filename' => array('text', 'Services/Mail/classes/class.ilMailAttachmentTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '45')));
 
 $ilDB->insert("ctrl_classfile", array(
 'class' => array('text', 'ilmailoptionsgui'), 'filename' => array('text', 'Services/Mail/classes/class.ilMailOptionsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '46')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmailfoldertablegui'), 'filename' => array('text', 'Services/Mail/classes/class.ilMailFolderTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '47')));
+'class' => array('text', 'ilmailtemplatetablegui'), 'filename' => array('text', 'Services/Mail/classes/class.ilMailTemplateTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '47')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpdmailblockgui'), 'filename' => array('text', 'Services/Mail/classes/class.ilPDMailBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '48')));
+'class' => array('text', 'ilmailfoldertablegui'), 'filename' => array('text', 'Services/Mail/classes/class.ilMailFolderTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '48')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmailattachmentgui'), 'filename' => array('text', 'Services/Mail/classes/class.ilMailAttachmentGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '49')));
+'class' => array('text', 'ilpdmailblockgui'), 'filename' => array('text', 'Services/Mail/classes/class.ilPDMailBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '49')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illpobjectstatisticstypestablegui'), 'filename' => array('text', 'Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsTypesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4a')));
+'class' => array('text', 'ilmailattachmentgui'), 'filename' => array('text', 'Services/Mail/classes/class.ilMailAttachmentGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4a')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illpobjectstatisticsgui'), 'filename' => array('text', 'Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4b')));
+'class' => array('text', 'illpobjectstatisticstypestablegui'), 'filename' => array('text', 'Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsTypesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4b')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illpobjectstatisticsadmintablegui'), 'filename' => array('text', 'Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsAdminTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4c')));
+'class' => array('text', 'illpobjectstatisticsgui'), 'filename' => array('text', 'Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4c')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illpobjectstatisticslptablegui'), 'filename' => array('text', 'Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsLPTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4d')));
+'class' => array('text', 'illpobjectstatisticsadmintablegui'), 'filename' => array('text', 'Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsAdminTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4d')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illpobjectstatisticstablegui'), 'filename' => array('text', 'Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4e')));
+'class' => array('text', 'illpobjectstatisticslptablegui'), 'filename' => array('text', 'Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsLPTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4e')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illpobjectstatisticsdailytablegui'), 'filename' => array('text', 'Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsDailyTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4f')));
+'class' => array('text', 'illpobjectstatisticstablegui'), 'filename' => array('text', 'Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4f')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illearningprogressgui'), 'filename' => array('text', 'Services/Tracking/classes/class.ilLearningProgressGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4g')));
+'class' => array('text', 'illpobjectstatisticsdailytablegui'), 'filename' => array('text', 'Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsDailyTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4g')));
 
 $ilDB->insert("ctrl_classfile", array(
 'class' => array('text', 'illptablebasegui'), 'filename' => array('text', 'Services/Tracking/classes/class.ilLPTableBaseGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4h')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjusertrackinggui'), 'filename' => array('text', 'Services/Tracking/classes/class.ilObjUserTrackingGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4i')));
+'class' => array('text', 'illearningprogressgui'), 'filename' => array('text', 'Services/Tracking/classes/class.ilLearningProgressGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4i')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illearningprogressbasegui'), 'filename' => array('text', 'Services/Tracking/classes/class.ilLearningProgressBaseGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4j')));
+'class' => array('text', 'ilobjusertrackinggui'), 'filename' => array('text', 'Services/Tracking/classes/class.ilObjUserTrackingGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4j')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illpcollectionsettingstablegui'), 'filename' => array('text', 'Services/Tracking/classes/repository_statistics/class.ilLPCollectionSettingsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4k')));
+'class' => array('text', 'illearningprogressbasegui'), 'filename' => array('text', 'Services/Tracking/classes/class.ilLearningProgressBaseGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4k')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltrobjectuserspropstablegui'), 'filename' => array('text', 'Services/Tracking/classes/repository_statistics/class.ilTrObjectUsersPropsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4l')));
+'class' => array('text', 'illpcollectionsettingstablegui'), 'filename' => array('text', 'Services/Tracking/classes/repository_statistics/class.ilLPCollectionSettingsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4l')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illpprogresstablegui'), 'filename' => array('text', 'Services/Tracking/classes/repository_statistics/class.ilLPProgressTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4m')));
+'class' => array('text', 'iltrobjectuserspropstablegui'), 'filename' => array('text', 'Services/Tracking/classes/repository_statistics/class.ilTrObjectUsersPropsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4m')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illplistofsettingsgui'), 'filename' => array('text', 'Services/Tracking/classes/repository_statistics/class.ilLPListOfSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4n')));
+'class' => array('text', 'illpprogresstablegui'), 'filename' => array('text', 'Services/Tracking/classes/repository_statistics/class.ilLPProgressTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4n')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltrsummarytablegui'), 'filename' => array('text', 'Services/Tracking/classes/repository_statistics/class.ilTrSummaryTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4o')));
+'class' => array('text', 'illplistofsettingsgui'), 'filename' => array('text', 'Services/Tracking/classes/repository_statistics/class.ilLPListOfSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4o')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltrmatrixtablegui'), 'filename' => array('text', 'Services/Tracking/classes/repository_statistics/class.ilTrMatrixTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4p')));
+'class' => array('text', 'iltrsummarytablegui'), 'filename' => array('text', 'Services/Tracking/classes/repository_statistics/class.ilTrSummaryTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4p')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illplistofprogressgui'), 'filename' => array('text', 'Services/Tracking/classes/repository_statistics/class.ilLPListOfProgressGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4q')));
+'class' => array('text', 'iltrmatrixtablegui'), 'filename' => array('text', 'Services/Tracking/classes/repository_statistics/class.ilTrMatrixTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4q')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illplistofobjectsgui'), 'filename' => array('text', 'Services/Tracking/classes/repository_statistics/class.ilLPListOfObjectsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4r')));
+'class' => array('text', 'illplistofprogressgui'), 'filename' => array('text', 'Services/Tracking/classes/repository_statistics/class.ilLPListOfProgressGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4r')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltruserobjectspropstablegui'), 'filename' => array('text', 'Services/Tracking/classes/repository_statistics/class.ilTrUserObjectsPropsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4s')));
+'class' => array('text', 'illplistofobjectsgui'), 'filename' => array('text', 'Services/Tracking/classes/repository_statistics/class.ilLPListOfObjectsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4s')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilroleadoptpermissiontablegui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilRoleAdoptPermissionTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4t')));
+'class' => array('text', 'iltruserobjectspropstablegui'), 'filename' => array('text', 'Services/Tracking/classes/repository_statistics/class.ilTrUserObjectsPropsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4t')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjectroletemplateoptionstablegui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilObjectRoleTemplateOptionsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4u')));
+'class' => array('text', 'ilroleadoptpermissiontablegui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilRoleAdoptPermissionTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4u')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilroledesktopitemstablegui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilRoleDesktopItemsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4v')));
+'class' => array('text', 'ilobjectroletemplateoptionstablegui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilObjectRoleTemplateOptionsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4v')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjectrolepermissiontablegui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilObjectRolePermissionTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4w')));
+'class' => array('text', 'ilroledesktopitemstablegui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilRoleDesktopItemsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4w')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilroletablegui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilRoleTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4x')));
+'class' => array('text', 'ilobjectrolepermissiontablegui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilObjectRolePermissionTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4x')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjrolefoldergui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilObjRoleFolderGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4y')));
+'class' => array('text', 'ilroletablegui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilRoleTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4y')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilrbaclogtablegui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilRbacLogTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4z')));
+'class' => array('text', 'ilobjrolefoldergui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilObjRoleFolderGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '4z')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjrolegui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilObjRoleGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '50')));
+'class' => array('text', 'ilrbaclogtablegui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilRbacLogTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '50')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilaccesspermissionsstatustablegui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilAccessPermissionsStatusTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '51')));
+'class' => array('text', 'ilobjrolegui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilObjRoleGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '51')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjectpermissionstatusgui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilObjectPermissionStatusGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '52')));
+'class' => array('text', 'ilaccesspermissionsstatustablegui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilAccessPermissionsStatusTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '52')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjectroletemplatepermissiontablegui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilObjectRoleTemplatePermissionTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '53')));
+'class' => array('text', 'ilobjectpermissionstatusgui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilObjectPermissionStatusGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '53')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsettingspermissiongui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilSettingsPermissionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '54')));
+'class' => array('text', 'ilobjectroletemplatepermissiontablegui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilObjectRoleTemplatePermissionTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '54')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilconditionhandlergui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilConditionHandlerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '55')));
+'class' => array('text', 'ilsettingspermissiongui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilSettingsPermissionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '55')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpermission2gui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilPermission2GUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '56')));
+'class' => array('text', 'ilconditionhandlergui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilConditionHandlerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '56')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilassigneduserstablegui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilAssignedUsersTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '57')));
+'class' => array('text', 'ilpermission2gui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilPermission2GUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '57')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilconditionhandlertablegui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilConditionHandlerTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '58')));
+'class' => array('text', 'ilassigneduserstablegui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilAssignedUsersTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '58')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpermissiongui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilPermissionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '59')));
+'class' => array('text', 'ilconditionhandlertablegui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilConditionHandlerTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '59')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilroleselectiontablegui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilRoleSelectionTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5a')));
+'class' => array('text', 'ilpermissiongui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilPermissionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5a')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjroletemplategui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilObjRoleTemplateGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5b')));
+'class' => array('text', 'ilroleselectiontablegui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilRoleSelectionTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5b')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilavailablerolesstatustablegui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilAvailableRolesStatusTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5c')));
+'class' => array('text', 'ilobjroletemplategui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilObjRoleTemplateGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5c')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilradiussettingsgui'), 'filename' => array('text', 'Services/Radius/classes/class.ilRadiusSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5d')));
+'class' => array('text', 'ilavailablerolesstatustablegui'), 'filename' => array('text', 'Services/AccessControl/classes/class.ilAvailableRolesStatusTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5d')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjadvancededitinggui'), 'filename' => array('text', 'Services/AdvancedEditing/classes/class.ilObjAdvancedEditingGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5e')));
+'class' => array('text', 'ilradiussettingsgui'), 'filename' => array('text', 'Services/Radius/classes/class.ilRadiusSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5e')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', '[yourclassname]'), 'filename' => array('text', 'Services/UICore/classes/class.ilCtrl.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5f')));
+'class' => array('text', 'ilobjadvancededitinggui'), 'filename' => array('text', 'Services/AdvancedEditing/classes/class.ilObjAdvancedEditingGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5f')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilclassificationblockgui'), 'filename' => array('text', 'Services/Classification/classes/class.ilClassificationBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5g')));
+'class' => array('text', '[yourclassname]'), 'filename' => array('text', 'Services/UICore/classes/class.ilCtrl.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5g')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ildidactictemplatesettingsgui'), 'filename' => array('text', 'Services/DidacticTemplate/classes/class.ilDidacticTemplateSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5h')));
+'class' => array('text', 'ilclassificationblockgui'), 'filename' => array('text', 'Services/Classification/classes/class.ilClassificationBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5h')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ildidactictemplatesettingstablegui'), 'filename' => array('text', 'Services/DidacticTemplate/classes/class.ilDidacticTemplateSettingsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5i')));
+'class' => array('text', 'ildidactictemplatesettingsgui'), 'filename' => array('text', 'Services/DidacticTemplate/classes/class.ilDidacticTemplateSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5i')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ildidactictemplategui'), 'filename' => array('text', 'Services/DidacticTemplate/classes/class.ilDidacticTemplateGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5j')));
+'class' => array('text', 'ildidactictemplatesettingstablegui'), 'filename' => array('text', 'Services/DidacticTemplate/classes/class.ilDidacticTemplateSettingsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5j')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjobjecttemplateadministrationgui'), 'filename' => array('text', 'Services/DidacticTemplate/classes/class.ilObjObjectTemplateAdministrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5k')));
+'class' => array('text', 'ildidactictemplategui'), 'filename' => array('text', 'Services/DidacticTemplate/classes/class.ilDidacticTemplateGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5k')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpagelayouttablegui'), 'filename' => array('text', 'Services/COPage/Layout/classes/class.ilPageLayoutTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5l')));
+'class' => array('text', 'ilobjobjecttemplateadministrationgui'), 'filename' => array('text', 'Services/DidacticTemplate/classes/class.ilObjObjectTemplateAdministrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5l')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpagelayoutadministrationgui'), 'filename' => array('text', 'Services/COPage/Layout/classes/class.ilPageLayoutAdministrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5m')));
+'class' => array('text', 'ilpagelayouttablegui'), 'filename' => array('text', 'Services/COPage/Layout/classes/class.ilPageLayoutTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5m')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpagelayoutgui'), 'filename' => array('text', 'Services/COPage/Layout/classes/class.ilPageLayoutGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5n')));
+'class' => array('text', 'ilpagelayoutadministrationgui'), 'filename' => array('text', 'Services/COPage/Layout/classes/class.ilPageLayoutAdministrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5n')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpcquestionoverviewgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCQuestionOverviewGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5o')));
+'class' => array('text', 'ilpagelayoutgui'), 'filename' => array('text', 'Services/COPage/Layout/classes/class.ilPageLayoutGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5o')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpoolselectorgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPoolSelectorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5p')));
+'class' => array('text', 'ilpcquestionoverviewgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCQuestionOverviewGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5p')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpagemultilanggui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPageMultiLangGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5q')));
+'class' => array('text', 'ilpoolselectorgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPoolSelectorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5q')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpcloginpageelementgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCLoginPageElementGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5r')));
+'class' => array('text', 'ilpagemultilanggui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPageMultiLangGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5r')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilfileselectorgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilFileSelectorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5s')));
+'class' => array('text', 'ilpcloginpageelementgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCLoginPageElementGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5s')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpciimoverlaystablegui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCIIMOverlaysTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5t')));
+'class' => array('text', 'ilfileselectorgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilFileSelectorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5t')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcopyselfassquestiontablegui'), 'filename' => array('text', 'Services/COPage/classes/class.ilCopySelfAssQuestionTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5u')));
+'class' => array('text', 'ilpciimoverlaystablegui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCIIMOverlaysTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5u')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpclistitemgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCListItemGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5v')));
+'class' => array('text', 'ilcopyselfassquestiontablegui'), 'filename' => array('text', 'Services/COPage/classes/class.ilCopySelfAssQuestionTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5v')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpageobjectgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPageObjectGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5w')));
+'class' => array('text', 'ilpclistitemgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCListItemGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5w')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpctabsgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCTabsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5x')));
+'class' => array('text', 'ilpageobjectgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPageObjectGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5x')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpcimagemapeditorgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCImageMapEditorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5y')));
+'class' => array('text', 'ilpctabsgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCTabsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5y')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpctabledatagui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCTableDataGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5z')));
+'class' => array('text', 'ilpcimagemapeditorgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCImageMapEditorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '5z')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpctablegui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '60')));
+'class' => array('text', 'ilpctabledatagui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCTableDataGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '60')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpcimagemaptablegui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCImageMapTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '61')));
+'class' => array('text', 'ilpctablegui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '61')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpcverificationgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCVerificationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '62')));
+'class' => array('text', 'ilpcimagemaptablegui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCImageMapTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '62')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpcinteractiveimagegui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCInteractiveImageGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '63')));
+'class' => array('text', 'ilpcverificationgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCVerificationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '63')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpciimpopuptablegui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCIIMPopupTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '64')));
+'class' => array('text', 'ilpcinteractiveimagegui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCInteractiveImageGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '64')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpagemultilangtablegui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPageMultiLangTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '65')));
+'class' => array('text', 'ilpciimpopuptablegui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCIIMPopupTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '65')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpagecomponentplugingui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPageComponentPluginGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '66')));
+'class' => array('text', 'ilpagemultilangtablegui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPageMultiLangTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '66')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpagehistorytablegui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPageHistoryTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '67')));
+'class' => array('text', 'ilpagecomponentplugingui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPageComponentPluginGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '67')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpcfilelistgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCFileListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '68')));
+'class' => array('text', 'ilpagehistorytablegui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPageHistoryTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '68')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpcpluggedgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCPluggedGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '69')));
+'class' => array('text', 'ilpcfilelistgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCFileListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '69')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpcprofilegui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCProfileGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6a')));
+'class' => array('text', 'ilpcpluggedgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCPluggedGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6a')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpageeditorgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPageEditorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6b')));
+'class' => array('text', 'ilpcprofilegui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCProfileGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6b')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpciimtriggertablegui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCIIMTriggerTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6c')));
+'class' => array('text', 'ilpageeditorgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPageEditorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6c')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpcfileitemgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCFileItemGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6d')));
+'class' => array('text', 'ilpciimtriggertablegui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCIIMTriggerTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6d')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpcsectiongui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCSectionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6e')));
+'class' => array('text', 'ilpcfileitemgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCFileItemGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6e')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpcquestiongui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCQuestionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6f')));
+'class' => array('text', 'ilpcsectiongui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCSectionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6f')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpcfilelisttablegui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCFileListTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6g')));
+'class' => array('text', 'ilpcquestiongui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCQuestionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6g')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpcskillsgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCSkillsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6h')));
+'class' => array('text', 'ilpcfilelisttablegui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCFileListTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6h')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpcsourcecodegui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCSourceCodeGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6i')));
+'class' => array('text', 'ilpcskillsgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCSkillsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6i')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpcmediaobjectgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCMediaObjectGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6j')));
+'class' => array('text', 'ilpcsourcecodegui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCSourceCodeGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6j')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpciimtriggereditorgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCIIMTriggerEditorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6k')));
+'class' => array('text', 'ilpcmediaobjectgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCMediaObjectGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6k')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpagecontentgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPageContentGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6l')));
+'class' => array('text', 'ilpciimtriggereditorgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCIIMTriggerEditorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6l')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpctabstablegui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCTabsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6m')));
+'class' => array('text', 'ilpagecontentgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPageContentGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6m')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpclistgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6n')));
+'class' => array('text', 'ilpctabstablegui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCTabsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6n')));
 
 $ilDB->insert("ctrl_classfile", array(
 'class' => array('text', 'ilpcresourcesgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCResourcesGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6o')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpccontenttemplategui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCContentTemplateGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6p')));
+'class' => array('text', 'ilpclistgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6p')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpcplaceholdergui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCPlaceHolderGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6q')));
+'class' => array('text', 'ilpccontenttemplategui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCContentTemplateGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6q')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpcmapgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCMapGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6r')));
+'class' => array('text', 'ilpcplaceholdergui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCPlaceHolderGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6r')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpcbloggui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCBlogGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6s')));
+'class' => array('text', 'ilpcmapgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCMapGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6s')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpcdatatablegui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCDataTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6t')));
+'class' => array('text', 'ilpcbloggui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCBlogGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6t')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpcparagraphgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCParagraphGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6u')));
+'class' => array('text', 'ilpcdatatablegui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCDataTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6u')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpccontentincludegui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCContentIncludeGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6v')));
+'class' => array('text', 'ilpcparagraphgui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCParagraphGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6v')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjcomponentsettingsgui'), 'filename' => array('text', 'Services/Component/classes/class.ilObjComponentSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6w')));
+'class' => array('text', 'ilpccontentincludegui'), 'filename' => array('text', 'Services/COPage/classes/class.ilPCContentIncludeGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6w')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpluginsoverviewtablegui'), 'filename' => array('text', 'Services/Component/classes/class.ilPluginsOverviewTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6x')));
+'class' => array('text', 'ilobjcomponentsettingsgui'), 'filename' => array('text', 'Services/Component/classes/class.ilObjComponentSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6x')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpluginconfiggui'), 'filename' => array('text', 'Services/Component/classes/class.ilPluginConfigGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6y')));
+'class' => array('text', 'ilpluginsoverviewtablegui'), 'filename' => array('text', 'Services/Component/classes/class.ilPluginsOverviewTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6y')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcomponentstablegui'), 'filename' => array('text', 'Services/Component/classes/class.ilComponentsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6z')));
+'class' => array('text', 'ilpluginconfiggui'), 'filename' => array('text', 'Services/Component/classes/class.ilPluginConfigGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '6z')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilframesetgui'), 'filename' => array('text', 'Services/Frameset/classes/class.ilFramesetGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '70')));
+'class' => array('text', 'ilcomponentstablegui'), 'filename' => array('text', 'Services/Component/classes/class.ilComponentsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '70')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iladvancedmdfieldtablegui'), 'filename' => array('text', 'Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '71')));
+'class' => array('text', 'ilframesetgui'), 'filename' => array('text', 'Services/Frameset/classes/class.ilFramesetGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '71')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iladvancedmdrecordexportfilestablegui'), 'filename' => array('text', 'Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordExportFilesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '72')));
+'class' => array('text', 'iladvancedmdfieldtablegui'), 'filename' => array('text', 'Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '72')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iladvancedmdsettingsgui'), 'filename' => array('text', 'Services/AdvancedMetaData/classes/class.ilAdvancedMDSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '73')));
+'class' => array('text', 'iladvancedmdrecordexportfilestablegui'), 'filename' => array('text', 'Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordExportFilesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '73')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iladvancedmdrecordtablegui'), 'filename' => array('text', 'Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '74')));
+'class' => array('text', 'iladvancedmdsettingsgui'), 'filename' => array('text', 'Services/AdvancedMetaData/classes/class.ilAdvancedMDSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '74')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iladvancedmdrecordgui'), 'filename' => array('text', 'Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '75')));
+'class' => array('text', 'iladvancedmdrecordtablegui'), 'filename' => array('text', 'Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '75')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilimprintgui'), 'filename' => array('text', 'Services/Imprint/classes/class.ilImprintGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '76')));
+'class' => array('text', 'iladvancedmdrecordgui'), 'filename' => array('text', 'Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '76')));
 
 $ilDB->insert("ctrl_classfile", array(
 'class' => array('text', 'ilinfoscreengui'), 'filename' => array('text', 'Services/InfoScreen/classes/class.ilInfoScreenGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '77')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilwaitinglisttablegui'), 'filename' => array('text', 'Services/Membership/classes/class.ilWaitingListTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '78')));
+'class' => array('text', 'ilimprintgui'), 'filename' => array('text', 'Services/Imprint/classes/class.ilImprintGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '78')));
 
 $ilDB->insert("ctrl_classfile", array(
 'class' => array('text', 'ilmembershipmailgui'), 'filename' => array('text', 'Services/Membership/classes/class.ilMembershipMailGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '79')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmemberexportsettingsgui'), 'filename' => array('text', 'Services/Membership/classes/Export/class.ilMemberExportSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7a')));
+'class' => array('text', 'ilwaitinglisttablegui'), 'filename' => array('text', 'Services/Membership/classes/class.ilWaitingListTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7a')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmemberexportgui'), 'filename' => array('text', 'Services/Membership/classes/Export/class.ilMemberExportGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7b')));
+'class' => array('text', 'ilmemberexportsettingsgui'), 'filename' => array('text', 'Services/Membership/classes/Export/class.ilMemberExportSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7b')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmemberexportfiletablegui'), 'filename' => array('text', 'Services/Membership/classes/Export/class.ilMemberExportFileTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7c')));
+'class' => array('text', 'ilmemberexportgui'), 'filename' => array('text', 'Services/Membership/classes/Export/class.ilMemberExportGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7c')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmembershipregistrationsettingsgui'), 'filename' => array('text', 'Services/Membership/classes/class.ilMembershipRegistrationSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7d')));
+'class' => array('text', 'ilmemberexportfiletablegui'), 'filename' => array('text', 'Services/Membership/classes/Export/class.ilMemberExportFileTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7d')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmemberagreementgui'), 'filename' => array('text', 'Services/Membership/classes/class.ilMemberAgreementGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7e')));
+'class' => array('text', 'ilmembershipregistrationsettingsgui'), 'filename' => array('text', 'Services/Membership/classes/class.ilMembershipRegistrationSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7e')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmembershipgui'), 'filename' => array('text', 'Services/Membership/classes/class.ilMembershipGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7f')));
+'class' => array('text', 'ilmemberagreementgui'), 'filename' => array('text', 'Services/Membership/classes/class.ilMemberAgreementGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7f')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjectcustomuserfieldstablegui'), 'filename' => array('text', 'Services/Membership/classes/class.ilObjectCustomUserFieldsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7g')));
+'class' => array('text', 'ilmembershipgui'), 'filename' => array('text', 'Services/Membership/classes/class.ilMembershipGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7g')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjectcustomuserfieldsgui'), 'filename' => array('text', 'Services/Membership/classes/class.ilObjectCustomUserFieldsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7h')));
+'class' => array('text', 'ilobjectcustomuserfieldstablegui'), 'filename' => array('text', 'Services/Membership/classes/class.ilObjectCustomUserFieldsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7h')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsubscribertablegui'), 'filename' => array('text', 'Services/Membership/classes/class.ilSubscriberTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7i')));
+'class' => array('text', 'ilobjectcustomuserfieldsgui'), 'filename' => array('text', 'Services/Membership/classes/class.ilObjectCustomUserFieldsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7i')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmembershipadministrationgui'), 'filename' => array('text', 'Services/Membership/classes/class.ilMembershipAdministrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7j')));
+'class' => array('text', 'ilsubscribertablegui'), 'filename' => array('text', 'Services/Membership/classes/class.ilSubscriberTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7j')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilregistrationgui'), 'filename' => array('text', 'Services/Membership/classes/class.ilRegistrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7k')));
+'class' => array('text', 'ilmembershipadministrationgui'), 'filename' => array('text', 'Services/Membership/classes/class.ilMembershipAdministrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7k')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilregistrationsettingsgui'), 'filename' => array('text', 'Services/Registration/classes/class.ilRegistrationSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7l')));
+'class' => array('text', 'ilregistrationgui'), 'filename' => array('text', 'Services/Membership/classes/class.ilRegistrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7l')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilregistrationcodestablegui'), 'filename' => array('text', 'Services/Registration/classes/class.ilRegistrationCodesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7m')));
+'class' => array('text', 'ilregistrationsettingsgui'), 'filename' => array('text', 'Services/Registration/classes/class.ilRegistrationSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7m')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilaccountregistrationgui'), 'filename' => array('text', 'Services/Registration/classes/class.ilAccountRegistrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7n')));
+'class' => array('text', 'ilregistrationcodestablegui'), 'filename' => array('text', 'Services/Registration/classes/class.ilRegistrationCodesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7n')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmdcopyrighttablegui'), 'filename' => array('text', 'Services/MetaData/classes/class.ilMDCopyrightTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7o')));
+'class' => array('text', 'ilaccountregistrationgui'), 'filename' => array('text', 'Services/Registration/classes/class.ilAccountRegistrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7o')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltypicallearningtimeinputgui'), 'filename' => array('text', 'Services/MetaData/classes/class.ilTypicalLearningTimeInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7p')));
+'class' => array('text', 'ilmdcopyrighttablegui'), 'filename' => array('text', 'Services/MetaData/classes/class.ilMDCopyrightTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7p')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmdcopyrightselectiongui'), 'filename' => array('text', 'Services/MetaData/classes/class.ilMDCopyrightSelectionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7q')));
+'class' => array('text', 'iltypicallearningtimeinputgui'), 'filename' => array('text', 'Services/MetaData/classes/class.ilTypicalLearningTimeInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7q')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcopyrightinputgui'), 'filename' => array('text', 'Services/MetaData/classes/class.ilCopyrightInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7r')));
+'class' => array('text', 'ilmdcopyrightselectiongui'), 'filename' => array('text', 'Services/MetaData/classes/class.ilMDCopyrightSelectionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7r')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmdeditorgui'), 'filename' => array('text', 'Services/MetaData/classes/class.ilMDEditorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7s')));
+'class' => array('text', 'ilcopyrightinputgui'), 'filename' => array('text', 'Services/MetaData/classes/class.ilCopyrightInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7s')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjmdsettingsgui'), 'filename' => array('text', 'Services/MetaData/classes/class.ilObjMDSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7t')));
+'class' => array('text', 'ilmdeditorgui'), 'filename' => array('text', 'Services/MetaData/classes/class.ilMDEditorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7t')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'arconfigformgui'), 'filename' => array('text', 'Services/ActiveRecord/_Examples/Config/class.arConfigFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7u')));
+'class' => array('text', 'ilobjmdsettingsgui'), 'filename' => array('text', 'Services/MetaData/classes/class.ilObjMDSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7u')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'arstoragerecordgui'), 'filename' => array('text', 'Services/ActiveRecord/_Examples/StorageRecord/class.arStorageRecordGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7v')));
+'class' => array('text', 'arconfigformgui'), 'filename' => array('text', 'Services/ActiveRecord/_Examples/Config/class.arConfigFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7v')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'arindextablegui'), 'filename' => array('text', 'Services/ActiveRecord/Views/Index/class.arIndexTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7w')));
+'class' => array('text', 'arstoragerecordgui'), 'filename' => array('text', 'Services/ActiveRecord/_Examples/StorageRecord/class.arStorageRecordGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7w')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ardisplaygui'), 'filename' => array('text', 'Services/ActiveRecord/Views/Display/class.arDisplayGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7x')));
+'class' => array('text', 'arindextablegui'), 'filename' => array('text', 'Services/ActiveRecord/Views/Index/class.arIndexTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7x')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'argui'), 'filename' => array('text', 'Services/ActiveRecord/Views/class.arGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7y')));
+'class' => array('text', 'ardisplaygui'), 'filename' => array('text', 'Services/ActiveRecord/Views/Display/class.arDisplayGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7y')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ardeletegui'), 'filename' => array('text', 'Services/ActiveRecord/Views/Delete/class.arDeleteGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7z')));
+'class' => array('text', 'argui'), 'filename' => array('text', 'Services/ActiveRecord/Views/class.arGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '7z')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'areditgui'), 'filename' => array('text', 'Services/ActiveRecord/Views/Edit/class.arEditGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '80')));
+'class' => array('text', 'ardeletegui'), 'filename' => array('text', 'Services/ActiveRecord/Views/Delete/class.arDeleteGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '80')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilskilltemplatetreeexplorergui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillTemplateTreeExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '81')));
+'class' => array('text', 'areditgui'), 'filename' => array('text', 'Services/ActiveRecord/Views/Edit/class.arEditGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '81')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilskilltreeexplorergui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillTreeExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '82')));
+'class' => array('text', 'ilskilltemplatetreeexplorergui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillTemplateTreeExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '82')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilskillusagetablegui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillUsageTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '83')));
+'class' => array('text', 'ilskilltreeexplorergui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillTreeExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '83')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilskillleveltablegui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillLevelTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '84')));
+'class' => array('text', 'ilskillusagetablegui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillUsageTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '84')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilselfevaluationsimpletablegui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSelfEvaluationSimpleTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '85')));
+'class' => array('text', 'ilskillleveltablegui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillLevelTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '85')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilbasicskillgui'), 'filename' => array('text', 'Services/Skill/classes/class.ilBasicSkillGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '86')));
+'class' => array('text', 'ilselfevaluationsimpletablegui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSelfEvaluationSimpleTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '86')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilskillprofilegui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillProfileGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '87')));
+'class' => array('text', 'ilbasicskillgui'), 'filename' => array('text', 'Services/Skill/classes/class.ilBasicSkillGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '87')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjskillmanagementgui'), 'filename' => array('text', 'Services/Skill/classes/class.ilObjSkillManagementGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '88')));
+'class' => array('text', 'ilskillprofilegui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillProfileGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '88')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpersonalskilltablegui'), 'filename' => array('text', 'Services/Skill/classes/class.ilPersonalSkillTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '89')));
+'class' => array('text', 'ilobjskillmanagementgui'), 'filename' => array('text', 'Services/Skill/classes/class.ilObjSkillManagementGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '89')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilskillselfevaluationgui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillSelfEvaluationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8a')));
+'class' => array('text', 'ilpersonalskilltablegui'), 'filename' => array('text', 'Services/Skill/classes/class.ilPersonalSkillTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8a')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilskilltemplatecategorygui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillTemplateCategoryGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8b')));
+'class' => array('text', 'ilskillselfevaluationgui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillSelfEvaluationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8b')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilskilllevelprofileassignmenttablegui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillLevelProfileAssignmentTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8c')));
+'class' => array('text', 'ilskilltemplatecategorygui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillTemplateCategoryGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8c')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpersonalskillexplorergui'), 'filename' => array('text', 'Services/Skill/classes/class.ilPersonalSkillExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8d')));
+'class' => array('text', 'ilskilllevelprofileassignmenttablegui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillLevelProfileAssignmentTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8d')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilskilltemplatereferencegui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillTemplateReferenceGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8e')));
+'class' => array('text', 'ilpersonalskillexplorergui'), 'filename' => array('text', 'Services/Skill/classes/class.ilPersonalSkillExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8e')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilskilllevelresourcestablegui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillLevelResourcesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8f')));
+'class' => array('text', 'ilskilltemplatereferencegui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillTemplateReferenceGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8f')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilskillrootgui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillRootGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8g')));
+'class' => array('text', 'ilskilllevelresourcestablegui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillLevelResourcesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8g')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilskillselectorgui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillSelectorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8h')));
+'class' => array('text', 'ilskillrootgui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillRootGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8h')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilskillassignmaterialstablegui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillAssignMaterialsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8i')));
+'class' => array('text', 'ilskillselectorgui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillSelectorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8i')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilbasicskilltemplategui'), 'filename' => array('text', 'Services/Skill/classes/class.ilBasicSkillTemplateGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8j')));
+'class' => array('text', 'ilskillassignmaterialstablegui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillAssignMaterialsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8j')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilskillprofileusertablegui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillProfileUserTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8k')));
+'class' => array('text', 'ilbasicskilltemplategui'), 'filename' => array('text', 'Services/Skill/classes/class.ilBasicSkillTemplateGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8k')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilvirtualskilltreeexplorergui'), 'filename' => array('text', 'Services/Skill/classes/class.ilVirtualSkillTreeExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8l')));
+'class' => array('text', 'ilskillprofileusertablegui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillProfileUserTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8l')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilskilltemplategui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillTemplateGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8m')));
+'class' => array('text', 'ilvirtualskilltreeexplorergui'), 'filename' => array('text', 'Services/Skill/classes/class.ilVirtualSkillTreeExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8m')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilskillcategorygui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillCategoryGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8n')));
+'class' => array('text', 'ilskilltemplategui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillTemplateGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8n')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilskillprofiletablegui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillProfileTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8o')));
+'class' => array('text', 'ilskillcategorygui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillCategoryGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8o')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpersonalskillsgui'), 'filename' => array('text', 'Services/Skill/classes/class.ilPersonalSkillsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8p')));
+'class' => array('text', 'ilskillprofiletablegui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillProfileTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8p')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilskillselfevalskilltablegui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillSelfEvalSkillTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8q')));
+'class' => array('text', 'ilpersonalskillsgui'), 'filename' => array('text', 'Services/Skill/classes/class.ilPersonalSkillsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8q')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilskillprofilelevelstablegui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillProfileLevelsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8r')));
+'class' => array('text', 'ilskillselfevalskilltablegui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillSelfEvalSkillTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8r')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilskillcattablegui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillCatTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8s')));
+'class' => array('text', 'ilskillprofilelevelstablegui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillProfileLevelsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8s')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilskilltreenodegui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillTreeNodeGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8t')));
+'class' => array('text', 'ilskillcattablegui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillCatTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8t')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilselfevaluationtablegui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSelfEvaluationTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8u')));
+'class' => array('text', 'ilskilltreenodegui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSkillTreeNodeGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8u')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjworkflowenginegui'), 'filename' => array('text', 'Services/WorkflowEngine/classes/class.ilObjWorkflowEngineGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8v')));
+'class' => array('text', 'ilselfevaluationtablegui'), 'filename' => array('text', 'Services/Skill/classes/class.ilSelfEvaluationTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8v')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilworkflowarmergui'), 'filename' => array('text', 'Services/WorkflowEngine/classes/administration/class.ilWorkflowArmerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8w')));
+'class' => array('text', 'ilobjworkflowenginegui'), 'filename' => array('text', 'Services/WorkflowEngine/classes/class.ilObjWorkflowEngineGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8w')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilworkflowenginedefinitionsgui'), 'filename' => array('text', 'Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineDefinitionsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8x')));
+'class' => array('text', 'ilworkflowarmergui'), 'filename' => array('text', 'Services/WorkflowEngine/classes/administration/class.ilWorkflowArmerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8x')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilworkflowenginesettingsgui'), 'filename' => array('text', 'Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8y')));
+'class' => array('text', 'ilworkflowenginedefinitionsgui'), 'filename' => array('text', 'Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineDefinitionsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8y')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilworkflowenginedefinitionstablegui'), 'filename' => array('text', 'Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineDefinitionsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8z')));
+'class' => array('text', 'ilworkflowenginesettingsgui'), 'filename' => array('text', 'Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '8z')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilworkflowlaunchergui'), 'filename' => array('text', 'Services/WorkflowEngine/classes/administration/class.ilWorkflowLauncherGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '90')));
+'class' => array('text', 'ilworkflowenginedefinitionstablegui'), 'filename' => array('text', 'Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineDefinitionsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '90')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilworkflowengineinstancesgui'), 'filename' => array('text', 'Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineInstancesGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '91')));
+'class' => array('text', 'ilworkflowlaunchergui'), 'filename' => array('text', 'Services/WorkflowEngine/classes/administration/class.ilWorkflowLauncherGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '91')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilworkflowenginedashboardgui'), 'filename' => array('text', 'Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineDashboardGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '92')));
+'class' => array('text', 'ilworkflowengineinstancesgui'), 'filename' => array('text', 'Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineInstancesGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '92')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcalendarmonthgui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarMonthGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '93')));
+'class' => array('text', 'ilworkflowenginedashboardgui'), 'filename' => array('text', 'Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineDashboardGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '93')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcalendarappointmentstablegui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarAppointmentsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '94')));
+'class' => array('text', 'ilcalendarmonthgui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarMonthGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '94')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcalendarchangedappointmentstablegui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarChangedAppointmentsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '95')));
+'class' => array('text', 'ilcalendarappointmentstablegui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarAppointmentsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '95')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilminicalendargui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilMiniCalendarGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '96')));
+'class' => array('text', 'ilcalendarchangedappointmentstablegui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarChangedAppointmentsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '96')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcalendarweekgui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarWeekGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '97')));
+'class' => array('text', 'ilminicalendargui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilMiniCalendarGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '97')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcalendarsharedlisttablegui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarSharedListTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '98')));
+'class' => array('text', 'ilcalendarweekgui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarWeekGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '98')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcalendarsubscriptiongui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarSubscriptionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '99')));
+'class' => array('text', 'ilcalendarsharedlisttablegui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarSharedListTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '99')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcalendarappointmentpanelgui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarAppointmentPanelGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9a')));
+'class' => array('text', 'ilcalendarsubscriptiongui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarSubscriptionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9a')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcalendarheadernavigationgui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarHeaderNavigationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9b')));
+'class' => array('text', 'ilcalendarappointmentpanelgui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarAppointmentPanelGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9b')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcalendarselectionblockgui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarSelectionBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9c')));
+'class' => array('text', 'ilcalendarheadernavigationgui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarHeaderNavigationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9c')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilconsultationhourgrouptablegui'), 'filename' => array('text', 'Services/Calendar/classes/ConsultationHours/class.ilConsultationHourGroupTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9d')));
+'class' => array('text', 'ilcalendarselectionblockgui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarSelectionBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9d')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilconsultationhoursgui'), 'filename' => array('text', 'Services/Calendar/classes/ConsultationHours/class.ilConsultationHoursGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9e')));
+'class' => array('text', 'ilconsultationhourgrouptablegui'), 'filename' => array('text', 'Services/Calendar/classes/ConsultationHours/class.ilConsultationHourGroupTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9e')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilconsultationhourstablegui'), 'filename' => array('text', 'Services/Calendar/classes/ConsultationHours/class.ilConsultationHoursTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9f')));
+'class' => array('text', 'ilconsultationhoursgui'), 'filename' => array('text', 'Services/Calendar/classes/ConsultationHours/class.ilConsultationHoursGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9f')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilconsultationhourbookingtablegui'), 'filename' => array('text', 'Services/Calendar/classes/ConsultationHours/class.ilConsultationHourBookingTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9g')));
+'class' => array('text', 'ilconsultationhourstablegui'), 'filename' => array('text', 'Services/Calendar/classes/ConsultationHours/class.ilConsultationHoursTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9g')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcalendarrecurrencegui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarRecurrenceGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9h')));
+'class' => array('text', 'ilconsultationhourbookingtablegui'), 'filename' => array('text', 'Services/Calendar/classes/ConsultationHours/class.ilConsultationHourBookingTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9h')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilrecurrenceinputgui'), 'filename' => array('text', 'Services/Calendar/classes/Form/class.ilRecurrenceInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9i')));
+'class' => array('text', 'ilcalendarrecurrencegui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarRecurrenceGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9i')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcalendarinboxsharedtablegui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarInboxSharedTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9j')));
+'class' => array('text', 'ilrecurrenceinputgui'), 'filename' => array('text', 'Services/Calendar/classes/Form/class.ilRecurrenceInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9j')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpdcalendarblockgui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilPDCalendarBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9k')));
+'class' => array('text', 'ilcalendarinboxsharedtablegui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarInboxSharedTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9k')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcalendarmanagetablegui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarManageTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9l')));
+'class' => array('text', 'ilpdcalendarblockgui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilPDCalendarBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9l')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcalendarpresentationgui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarPresentationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9m')));
+'class' => array('text', 'ilcalendarmanagetablegui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarManageTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9m')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcalendarblockgui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9n')));
+'class' => array('text', 'ilcalendarpresentationgui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarPresentationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9n')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcalendarsharedrolelisttablegui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarSharedRoleListTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9o')));
+'class' => array('text', 'ilcalendarblockgui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9o')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcalendardaygui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarDayGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9p')));
+'class' => array('text', 'ilcalendarsharedrolelisttablegui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarSharedRoleListTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9p')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcalendarshareduserlisttablegui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarSharedUserListTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9q')));
+'class' => array('text', 'ilcalendardaygui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarDayGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9q')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcalendarcategorygui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarCategoryGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9r')));
+'class' => array('text', 'ilcalendarshareduserlisttablegui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarSharedUserListTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9r')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcalendarcategorytablegui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarCategoryTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9s')));
+'class' => array('text', 'ilcalendarcategorygui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarCategoryGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9s')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcalendarinboxgui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarInboxGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9t')));
+'class' => array('text', 'ilcalendarcategorytablegui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarCategoryTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9t')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjcalendarsettingsgui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilObjCalendarSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9u')));
+'class' => array('text', 'ilcalendarinboxgui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarInboxGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9u')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcalendarusersettingsgui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarUserSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9v')));
+'class' => array('text', 'ilobjcalendarsettingsgui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilObjCalendarSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9v')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmilestoneresponsiblestablegui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilMilestoneResponsiblesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9w')));
+'class' => array('text', 'ilcalendarusersettingsgui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarUserSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9w')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcalendarappointmentgui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarAppointmentGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9x')));
+'class' => array('text', 'ilmilestoneresponsiblestablegui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilMilestoneResponsiblesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9x')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmediapooltablegui'), 'filename' => array('text', 'Modules/MediaPool/classes/class.ilMediaPoolTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9y')));
+'class' => array('text', 'ilcalendarappointmentgui'), 'filename' => array('text', 'Services/Calendar/classes/class.ilCalendarAppointmentGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9y')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjmediapoolgui'), 'filename' => array('text', 'Modules/MediaPool/classes/class.ilObjMediaPoolGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9z')));
+'class' => array('text', 'ilmediapooltablegui'), 'filename' => array('text', 'Modules/MediaPool/classes/class.ilMediaPoolTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', '9z')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmediapoolimportgui'), 'filename' => array('text', 'Modules/MediaPool/classes/class.ilMediaPoolImportGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'a0')));
+'class' => array('text', 'ilobjmediapoolgui'), 'filename' => array('text', 'Modules/MediaPool/classes/class.ilObjMediaPoolGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'a0')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmediapoolpresentationgui'), 'filename' => array('text', 'Modules/MediaPool/classes/class.ilMediaPoolPresentationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'a1')));
+'class' => array('text', 'ilmediapoolimportgui'), 'filename' => array('text', 'Modules/MediaPool/classes/class.ilMediaPoolImportGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'a1')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmediapoolpagegui'), 'filename' => array('text', 'Modules/MediaPool/classes/class.ilMediaPoolPageGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'a2')));
+'class' => array('text', 'ilmediapoolpresentationgui'), 'filename' => array('text', 'Modules/MediaPool/classes/class.ilMediaPoolPresentationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'a2')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjmediapoolsubitemlistgui'), 'filename' => array('text', 'Modules/MediaPool/classes/class.ilObjMediaPoolSubItemListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'a3')));
+'class' => array('text', 'ilmediapoolpagegui'), 'filename' => array('text', 'Modules/MediaPool/classes/class.ilMediaPoolPageGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'a3')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iluploaddirfilestablegui'), 'filename' => array('text', 'Modules/MediaPool/classes/class.ilUploadDirFilesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'a4')));
+'class' => array('text', 'ilobjmediapoolsubitemlistgui'), 'filename' => array('text', 'Modules/MediaPool/classes/class.ilObjMediaPoolSubItemListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'a4')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmediapoolexplorergui'), 'filename' => array('text', 'Modules/MediaPool/classes/class.ilMediaPoolExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'a5')));
+'class' => array('text', 'iluploaddirfilestablegui'), 'filename' => array('text', 'Modules/MediaPool/classes/class.ilUploadDirFilesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'a5')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjmediapoollistgui'), 'filename' => array('text', 'Modules/MediaPool/classes/class.ilObjMediaPoolListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'a6')));
+'class' => array('text', 'ilmediapoolexplorergui'), 'filename' => array('text', 'Modules/MediaPool/classes/class.ilMediaPoolExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'a6')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmediapoolpageusagestablegui'), 'filename' => array('text', 'Modules/MediaPool/classes/class.ilMediaPoolPageUsagesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'a7')));
+'class' => array('text', 'ilobjmediapoollistgui'), 'filename' => array('text', 'Modules/MediaPool/classes/class.ilObjMediaPoolListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'a7')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcategoryassignroletablegui'), 'filename' => array('text', 'Modules/Category/classes/class.ilCategoryAssignRoleTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'a8')));
+'class' => array('text', 'ilmediapoolpageusagestablegui'), 'filename' => array('text', 'Modules/MediaPool/classes/class.ilMediaPoolPageUsagesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'a8')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjcategorygui'), 'filename' => array('text', 'Modules/Category/classes/class.ilObjCategoryGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'a9')));
+'class' => array('text', 'ilcategoryassignroletablegui'), 'filename' => array('text', 'Modules/Category/classes/class.ilCategoryAssignRoleTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'a9')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjcategorylistgui'), 'filename' => array('text', 'Modules/Category/classes/class.ilObjCategoryListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'aa')));
+'class' => array('text', 'ilobjcategorygui'), 'filename' => array('text', 'Modules/Category/classes/class.ilObjCategoryGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'aa')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilfilenewsrenderergui'), 'filename' => array('text', 'Modules/File/classes/class.ilFileNewsRendererGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ab')));
+'class' => array('text', 'ilobjcategorylistgui'), 'filename' => array('text', 'Modules/Category/classes/class.ilObjCategoryListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ab')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilfileversiontablegui'), 'filename' => array('text', 'Modules/File/classes/class.ilFileVersionTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ac')));
+'class' => array('text', 'ilfilenewsrenderergui'), 'filename' => array('text', 'Modules/File/classes/class.ilFileNewsRendererGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ac')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjfilelistgui'), 'filename' => array('text', 'Modules/File/classes/class.ilObjFileListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ad')));
+'class' => array('text', 'ilfileversiontablegui'), 'filename' => array('text', 'Modules/File/classes/class.ilFileVersionTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ad')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjfilegui'), 'filename' => array('text', 'Modules/File/classes/class.ilObjFileGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ae')));
+'class' => array('text', 'ilobjfilelistgui'), 'filename' => array('text', 'Modules/File/classes/class.ilObjFileListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ae')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjchatroomlistgui'), 'filename' => array('text', 'Modules/Chatroom/classes/class.ilObjChatroomListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'af')));
+'class' => array('text', 'ilobjfilegui'), 'filename' => array('text', 'Modules/File/classes/class.ilObjFileGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'af')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilchatroomobjectgui'), 'filename' => array('text', 'Modules/Chatroom/classes/class.ilChatroomObjectGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ag')));
+'class' => array('text', 'ilobjchatroomlistgui'), 'filename' => array('text', 'Modules/Chatroom/classes/class.ilObjChatroomListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ag')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilchatroomsmiliestablegui'), 'filename' => array('text', 'Modules/Chatroom/classes/class.ilChatroomSmiliesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ah')));
+'class' => array('text', 'ilchatroomobjectgui'), 'filename' => array('text', 'Modules/Chatroom/classes/class.ilChatroomObjectGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ah')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilchatroomauthinputgui'), 'filename' => array('text', 'Modules/Chatroom/classes/class.ilChatroomAuthInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ai')));
+'class' => array('text', 'ilchatroomsmiliestablegui'), 'filename' => array('text', 'Modules/Chatroom/classes/class.ilChatroomSmiliesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ai')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilbanneduserstablegui'), 'filename' => array('text', 'Modules/Chatroom/classes/class.ilBannedUsersTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'aj')));
+'class' => array('text', 'ilchatroomauthinputgui'), 'filename' => array('text', 'Modules/Chatroom/classes/class.ilChatroomAuthInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'aj')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilchatroomblockgui'), 'filename' => array('text', 'Modules/Chatroom/classes/class.ilChatroomBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ak')));
+'class' => array('text', 'ilbanneduserstablegui'), 'filename' => array('text', 'Modules/Chatroom/classes/class.ilBannedUsersTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ak')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilchatroomadminsmiliesgui'), 'filename' => array('text', 'Modules/Chatroom/classes/admingui/class.ilChatroomAdminSmiliesGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'al')));
+'class' => array('text', 'ilchatroomblockgui'), 'filename' => array('text', 'Modules/Chatroom/classes/class.ilChatroomBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'al')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilchatroomadminviewgui'), 'filename' => array('text', 'Modules/Chatroom/classes/admingui/class.ilChatroomAdminViewGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'am')));
+'class' => array('text', 'ilchatroomadminsmiliesgui'), 'filename' => array('text', 'Modules/Chatroom/classes/admingui/class.ilChatroomAdminSmiliesGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'am')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilchatroomadminsmileygui'), 'filename' => array('text', 'Modules/Chatroom/classes/admingui/class.ilChatroomAdminSmileyGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'an')));
+'class' => array('text', 'ilchatroomadminviewgui'), 'filename' => array('text', 'Modules/Chatroom/classes/admingui/class.ilChatroomAdminViewGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'an')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjchatroomadmingui'), 'filename' => array('text', 'Modules/Chatroom/classes/class.ilObjChatroomAdminGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ao')));
+'class' => array('text', 'ilchatroomadminsmileygui'), 'filename' => array('text', 'Modules/Chatroom/classes/admingui/class.ilChatroomAdminSmileyGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ao')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilchatroomsmiliesgui'), 'filename' => array('text', 'Modules/Chatroom/classes/class.ilChatroomSmiliesGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ap')));
+'class' => array('text', 'ilobjchatroomadmingui'), 'filename' => array('text', 'Modules/Chatroom/classes/class.ilObjChatroomAdminGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ap')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilchatroomprivateroomgui'), 'filename' => array('text', 'Modules/Chatroom/classes/gui/class.ilChatroomPrivateRoomGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'aq')));
+'class' => array('text', 'ilchatroomsmiliesgui'), 'filename' => array('text', 'Modules/Chatroom/classes/class.ilChatroomSmiliesGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'aq')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilchatroomkickgui'), 'filename' => array('text', 'Modules/Chatroom/classes/gui/class.ilChatroomKickGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ar')));
+'class' => array('text', 'ilchatroomprivateroomgui'), 'filename' => array('text', 'Modules/Chatroom/classes/gui/class.ilChatroomPrivateRoomGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ar')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilchatroomhistorygui'), 'filename' => array('text', 'Modules/Chatroom/classes/gui/class.ilChatroomHistoryGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'as')));
+'class' => array('text', 'ilchatroomkickgui'), 'filename' => array('text', 'Modules/Chatroom/classes/gui/class.ilChatroomKickGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'as')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilchatroomsettingsgui'), 'filename' => array('text', 'Modules/Chatroom/classes/gui/class.ilChatroomSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'at')));
+'class' => array('text', 'ilchatroomhistorygui'), 'filename' => array('text', 'Modules/Chatroom/classes/gui/class.ilChatroomHistoryGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'at')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilchatroompostmessagegui'), 'filename' => array('text', 'Modules/Chatroom/classes/gui/class.ilChatroomPostMessageGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'au')));
+'class' => array('text', 'ilchatroomsettingsgui'), 'filename' => array('text', 'Modules/Chatroom/classes/gui/class.ilChatroomSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'au')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilchatroomcreategui'), 'filename' => array('text', 'Modules/Chatroom/classes/gui/class.ilChatroomCreateGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'av')));
+'class' => array('text', 'ilchatroompostmessagegui'), 'filename' => array('text', 'Modules/Chatroom/classes/gui/class.ilChatroomPostMessageGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'av')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilchatroominitialgui'), 'filename' => array('text', 'Modules/Chatroom/classes/gui/class.ilChatroomInitialGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'aw')));
+'class' => array('text', 'ilchatroomcreategui'), 'filename' => array('text', 'Modules/Chatroom/classes/gui/class.ilChatroomCreateGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'aw')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilchatroomcleargui'), 'filename' => array('text', 'Modules/Chatroom/classes/gui/class.ilChatroomClearGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ax')));
+'class' => array('text', 'ilchatroominitialgui'), 'filename' => array('text', 'Modules/Chatroom/classes/gui/class.ilChatroomInitialGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ax')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilchatroomviewgui'), 'filename' => array('text', 'Modules/Chatroom/classes/gui/class.ilChatroomViewGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ay')));
+'class' => array('text', 'ilchatroomcleargui'), 'filename' => array('text', 'Modules/Chatroom/classes/gui/class.ilChatroomClearGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ay')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilchatroompollgui'), 'filename' => array('text', 'Modules/Chatroom/classes/gui/class.ilChatroomPollGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'az')));
+'class' => array('text', 'ilchatroomviewgui'), 'filename' => array('text', 'Modules/Chatroom/classes/gui/class.ilChatroomViewGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'az')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilchatroombangui'), 'filename' => array('text', 'Modules/Chatroom/classes/gui/class.ilChatroomBanGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'b0')));
+'class' => array('text', 'ilchatroompollgui'), 'filename' => array('text', 'Modules/Chatroom/classes/gui/class.ilChatroomPollGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'b0')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilchatroomuploadfilegui'), 'filename' => array('text', 'Modules/Chatroom/classes/gui/class.ilChatroomUploadFileGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'b1')));
+'class' => array('text', 'ilchatroombangui'), 'filename' => array('text', 'Modules/Chatroom/classes/gui/class.ilChatroomBanGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'b1')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilchatroominfogui'), 'filename' => array('text', 'Modules/Chatroom/classes/gui/class.ilChatroomInfoGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'b2')));
+'class' => array('text', 'ilchatroomuploadfilegui'), 'filename' => array('text', 'Modules/Chatroom/classes/gui/class.ilChatroomUploadFileGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'b2')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilchatroominviteuserstoprivateroomgui'), 'filename' => array('text', 'Modules/Chatroom/classes/gui/class.ilChatroomInviteUsersToPrivateRoomGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'b3')));
+'class' => array('text', 'ilchatroominfogui'), 'filename' => array('text', 'Modules/Chatroom/classes/gui/class.ilChatroomInfoGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'b3')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilchatroomgetpermissionsgui'), 'filename' => array('text', 'Modules/Chatroom/classes/gui/class.ilChatroomGetPermissionsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'b4')));
+'class' => array('text', 'ilchatroominviteuserstoprivateroomgui'), 'filename' => array('text', 'Modules/Chatroom/classes/gui/class.ilChatroomInviteUsersToPrivateRoomGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'b4')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilchatroommessagedeletionthresholdinputgui'), 'filename' => array('text', 'Modules/Chatroom/classes/form/class.ilChatroomMessageDeletionThresholdInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'b5')));
+'class' => array('text', 'ilchatroomgetpermissionsgui'), 'filename' => array('text', 'Modules/Chatroom/classes/gui/class.ilChatroomGetPermissionsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'b5')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpersonalchatsettingsformgui'), 'filename' => array('text', 'Modules/Chatroom/classes/class.ilPersonalChatSettingsFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'b6')));
+'class' => array('text', 'ilchatroommessagedeletionthresholdinputgui'), 'filename' => array('text', 'Modules/Chatroom/classes/form/class.ilChatroomMessageDeletionThresholdInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'b6')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjchatroomgui'), 'filename' => array('text', 'Modules/Chatroom/classes/class.ilObjChatroomGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'b7')));
+'class' => array('text', 'ilpersonalchatsettingsformgui'), 'filename' => array('text', 'Modules/Chatroom/classes/class.ilPersonalChatSettingsFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'b7')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilexercisemembertablegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExerciseMemberTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'b8')));
+'class' => array('text', 'ilobjchatroomgui'), 'filename' => array('text', 'Modules/Chatroom/classes/class.ilObjChatroomGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'b8')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjexerciseverificationgui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilObjExerciseVerificationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'b9')));
+'class' => array('text', 'ilexercisemembertablegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExerciseMemberTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'b9')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilexassignmenteditorgui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExAssignmentEditorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ba')));
+'class' => array('text', 'ilobjexerciseverificationgui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilObjExerciseVerificationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ba')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilexccriteriacataloguegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExcCriteriaCatalogueGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bb')));
+'class' => array('text', 'ilexassignmenteditorgui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExAssignmentEditorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bb')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilfeedbackconfirmationtable2gui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilFeedbackConfirmationTable2GUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bc')));
+'class' => array('text', 'ilexccriteriacataloguegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExcCriteriaCatalogueGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bc')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilexsubmissionbasegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExSubmissionBaseGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bd')));
+'class' => array('text', 'ilfeedbackconfirmationtable2gui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilFeedbackConfirmationTable2GUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bd')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilexercisesubmissiontablegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExerciseSubmissionTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'be')));
+'class' => array('text', 'ilexsubmissionbasegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExSubmissionBaseGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'be')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilexccriteriacataloguetablegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExcCriteriaCatalogueTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bf')));
+'class' => array('text', 'ilexercisesubmissiontablegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExerciseSubmissionTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bf')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjexercisesubitemlistgui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilObjExerciseSubItemListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bg')));
+'class' => array('text', 'ilexccriteriacataloguetablegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExcCriteriaCatalogueTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bg')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilexsubmissionfilegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExSubmissionFileGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bh')));
+'class' => array('text', 'ilobjexercisesubitemlistgui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilObjExerciseSubItemListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bh')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilexsubmissionobjectgui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExSubmissionObjectGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bi')));
+'class' => array('text', 'ilexsubmissionfilegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExSubmissionFileGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bi')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilexcdeliveredfilestablegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExcDeliveredFilesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bj')));
+'class' => array('text', 'ilexsubmissionobjectgui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExSubmissionObjectGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bj')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjexercisegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilObjExerciseGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bk')));
+'class' => array('text', 'ilexcdeliveredfilestablegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExcDeliveredFilesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bk')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilexsubmissiongui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExSubmissionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bl')));
+'class' => array('text', 'ilobjexercisegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilObjExerciseGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bl')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjexerciselistgui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilObjExerciseListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bm')));
+'class' => array('text', 'ilexsubmissiongui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExSubmissionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bm')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilexsubmissiontextgui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExSubmissionTextGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bn')));
+'class' => array('text', 'ilobjexerciselistgui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilObjExerciseListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bn')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilexassignmentteamtablegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExAssignmentTeamTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bo')));
+'class' => array('text', 'ilexsubmissiontextgui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExSubmissionTextGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bo')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilexccriteriatablegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExcCriteriaTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bp')));
+'class' => array('text', 'ilexassignmentteamtablegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExAssignmentTeamTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bp')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilexassignmentteamlogtablegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExAssignmentTeamLogTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bq')));
+'class' => array('text', 'ilexccriteriatablegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExcCriteriaTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bq')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilexassignmentgui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExAssignmentGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'br')));
+'class' => array('text', 'ilexassignmentteamlogtablegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExAssignmentTeamLogTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'br')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilassignmentstablegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilAssignmentsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bs')));
+'class' => array('text', 'ilexassignmentgui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExAssignmentGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bs')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilexercisemanagementgui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExerciseManagementGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bt')));
+'class' => array('text', 'ilassignmentstablegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilAssignmentsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bt')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilexerciseverificationtablegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExerciseVerificationTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bu')));
+'class' => array('text', 'ilexercisemanagementgui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExerciseManagementGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bu')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilexccriteriagui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExcCriteriaGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bv')));
+'class' => array('text', 'ilexerciseverificationtablegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExerciseVerificationTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bv')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjexerciseadministrationgui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilObjExerciseAdministrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bw')));
+'class' => array('text', 'ilexccriteriagui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExcCriteriaGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bw')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpublicsubmissionstablegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilPublicSubmissionsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bx')));
+'class' => array('text', 'ilobjexerciseadministrationgui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilObjExerciseAdministrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bx')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilexassignmentpeerreviewtablegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExAssignmentPeerReviewTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'by')));
+'class' => array('text', 'ilpublicsubmissionstablegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilPublicSubmissionsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'by')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilexpeerreviewgui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExPeerReviewGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bz')));
+'class' => array('text', 'ilexassignmentpeerreviewtablegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExAssignmentPeerReviewTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'bz')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilexassignmentpeerreviewoverviewtablegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExAssignmentPeerReviewOverviewTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'c0')));
+'class' => array('text', 'ilexpeerreviewgui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExPeerReviewGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'c0')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilexercisehandlergui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExerciseHandlerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'c1')));
+'class' => array('text', 'ilexassignmentpeerreviewoverviewtablegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExAssignmentPeerReviewOverviewTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'c1')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilexsubmissionteamgui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExSubmissionTeamGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'c2')));
+'class' => array('text', 'ilexercisehandlergui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExerciseHandlerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'c2')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilexassignmentlisttexttablegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExAssignmentListTextTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'c3')));
+'class' => array('text', 'ilexsubmissionteamgui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExSubmissionTeamGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'c3')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilexgradestablegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExGradesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'c4')));
+'class' => array('text', 'ilexassignmentlisttexttablegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExAssignmentListTextTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'c4')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilexparticipanttablegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExParticipantTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'c5')));
+'class' => array('text', 'ilexgradestablegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExGradesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'c5')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjexerciseverificationlistgui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilObjExerciseVerificationListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'c6')));
+'class' => array('text', 'ilexparticipanttablegui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilExParticipantTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'c6')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilgroupparticipantstablegui'), 'filename' => array('text', 'Modules/Group/classes/class.ilGroupParticipantsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'c7')));
+'class' => array('text', 'ilobjexerciseverificationlistgui'), 'filename' => array('text', 'Modules/Exercise/classes/class.ilObjExerciseVerificationListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'c7')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilgroupeditparticipantstablegui'), 'filename' => array('text', 'Modules/Group/classes/class.ilGroupEditParticipantsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'c8')));
+'class' => array('text', 'ilgroupparticipantstablegui'), 'filename' => array('text', 'Modules/Group/classes/class.ilGroupParticipantsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'c8')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilgroupregistrationgui'), 'filename' => array('text', 'Modules/Group/classes/class.ilGroupRegistrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'c9')));
+'class' => array('text', 'ilgroupeditparticipantstablegui'), 'filename' => array('text', 'Modules/Group/classes/class.ilGroupEditParticipantsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'c9')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilgroupmembershipgui'), 'filename' => array('text', 'Modules/Group/classes/class.ilGroupMembershipGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ca')));
+'class' => array('text', 'ilgroupregistrationgui'), 'filename' => array('text', 'Modules/Group/classes/class.ilGroupRegistrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ca')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjgroupgui'), 'filename' => array('text', 'Modules/Group/classes/class.ilObjGroupGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cb')));
+'class' => array('text', 'ilgroupmembershipgui'), 'filename' => array('text', 'Modules/Group/classes/class.ilGroupMembershipGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cb')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjgroupadministrationgui'), 'filename' => array('text', 'Modules/Group/classes/class.ilObjGroupAdministrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cc')));
+'class' => array('text', 'ilobjgroupgui'), 'filename' => array('text', 'Modules/Group/classes/class.ilObjGroupGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cc')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjgrouplistgui'), 'filename' => array('text', 'Modules/Group/classes/class.ilObjGroupListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cd')));
+'class' => array('text', 'ilobjgroupadministrationgui'), 'filename' => array('text', 'Modules/Group/classes/class.ilObjGroupAdministrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cd')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjremotewikigui'), 'filename' => array('text', 'Modules/RemoteWiki/classes/class.ilObjRemoteWikiGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ce')));
+'class' => array('text', 'ilobjgrouplistgui'), 'filename' => array('text', 'Modules/Group/classes/class.ilObjGroupListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ce')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjremotewikilistgui'), 'filename' => array('text', 'Modules/RemoteWiki/classes/class.ilObjRemoteWikiListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cf')));
+'class' => array('text', 'ilobjremotewikigui'), 'filename' => array('text', 'Modules/RemoteWiki/classes/class.ilObjRemoteWikiGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cf')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilglossaryforeigntermtablegui'), 'filename' => array('text', 'Modules/Glossary/classes/class.ilGlossaryForeignTermTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cg')));
+'class' => array('text', 'ilobjremotewikilistgui'), 'filename' => array('text', 'Modules/RemoteWiki/classes/class.ilObjRemoteWikiListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cg')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltermquicklisttablegui'), 'filename' => array('text', 'Modules/Glossary/classes/class.ilTermQuickListTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ch')));
+'class' => array('text', 'ilglossaryforeigntermtablegui'), 'filename' => array('text', 'Modules/Glossary/classes/class.ilGlossaryForeignTermTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ch')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilglossarylocatorgui'), 'filename' => array('text', 'Modules/Glossary/classes/class.ilGlossaryLocatorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ci')));
+'class' => array('text', 'iltermquicklisttablegui'), 'filename' => array('text', 'Modules/Glossary/classes/class.ilTermQuickListTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ci')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjglossarylistgui'), 'filename' => array('text', 'Modules/Glossary/classes/class.ilObjGlossaryListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cj')));
+'class' => array('text', 'ilglossarylocatorgui'), 'filename' => array('text', 'Modules/Glossary/classes/class.ilGlossaryLocatorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cj')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilglossarypresentationgui'), 'filename' => array('text', 'Modules/Glossary/classes/class.ilGlossaryPresentationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ck')));
+'class' => array('text', 'ilobjglossarylistgui'), 'filename' => array('text', 'Modules/Glossary/classes/class.ilObjGlossaryListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ck')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjglossarysubitemlistgui'), 'filename' => array('text', 'Modules/Glossary/classes/class.ilObjGlossarySubItemListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cl')));
+'class' => array('text', 'ilglossarypresentationgui'), 'filename' => array('text', 'Modules/Glossary/classes/class.ilGlossaryPresentationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cl')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjglossarygui'), 'filename' => array('text', 'Modules/Glossary/classes/class.ilObjGlossaryGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cm')));
+'class' => array('text', 'ilobjglossarysubitemlistgui'), 'filename' => array('text', 'Modules/Glossary/classes/class.ilObjGlossarySubItemListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cm')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilglossarydefpagegui'), 'filename' => array('text', 'Modules/Glossary/classes/class.ilGlossaryDefPageGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cn')));
+'class' => array('text', 'ilobjglossarygui'), 'filename' => array('text', 'Modules/Glossary/classes/class.ilObjGlossaryGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cn')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilglossaryautolinktablegui'), 'filename' => array('text', 'Modules/Glossary/classes/class.ilGlossaryAutoLinkTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'co')));
+'class' => array('text', 'ilglossarydefpagegui'), 'filename' => array('text', 'Modules/Glossary/classes/class.ilGlossaryDefPageGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'co')));
 
 $ilDB->insert("ctrl_classfile", array(
 'class' => array('text', 'iltermusagestablegui'), 'filename' => array('text', 'Modules/Glossary/classes/class.ilTermUsagesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cp')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpresentationlisttablegui'), 'filename' => array('text', 'Modules/Glossary/classes/class.ilPresentationListTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cq')));
+'class' => array('text', 'ilglossaryautolinktablegui'), 'filename' => array('text', 'Modules/Glossary/classes/class.ilGlossaryAutoLinkTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cq')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilgloadvcolsortinputgui'), 'filename' => array('text', 'Modules/Glossary/classes/class.ilGloAdvColSortInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cr')));
+'class' => array('text', 'ilpresentationlisttablegui'), 'filename' => array('text', 'Modules/Glossary/classes/class.ilPresentationListTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cr')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilglossarytermgui'), 'filename' => array('text', 'Modules/Glossary/classes/class.ilGlossaryTermGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cs')));
+'class' => array('text', 'ilgloadvcolsortinputgui'), 'filename' => array('text', 'Modules/Glossary/classes/class.ilGloAdvColSortInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cs')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltermdefinitioneditorgui'), 'filename' => array('text', 'Modules/Glossary/classes/class.ilTermDefinitionEditorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ct')));
+'class' => array('text', 'ilglossarytermgui'), 'filename' => array('text', 'Modules/Glossary/classes/class.ilGlossaryTermGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ct')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilglossaryeditorgui'), 'filename' => array('text', 'Modules/Glossary/classes/class.ilGlossaryEditorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cu')));
+'class' => array('text', 'iltermdefinitioneditorgui'), 'filename' => array('text', 'Modules/Glossary/classes/class.ilTermDefinitionEditorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cu')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltermlisttablegui'), 'filename' => array('text', 'Modules/Glossary/classes/class.ilTermListTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cv')));
+'class' => array('text', 'ilglossaryeditorgui'), 'filename' => array('text', 'Modules/Glossary/classes/class.ilGlossaryEditorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cv')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilglossaryforeigntermcollectorgui'), 'filename' => array('text', 'Modules/Glossary/classes/class.ilGlossaryForeignTermCollectorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cw')));
+'class' => array('text', 'iltermlisttablegui'), 'filename' => array('text', 'Modules/Glossary/classes/class.ilTermListTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cw')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjitemgrouplistgui'), 'filename' => array('text', 'Modules/ItemGroup/classes/class.ilObjItemGroupListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cx')));
+'class' => array('text', 'ilglossaryforeigntermcollectorgui'), 'filename' => array('text', 'Modules/Glossary/classes/class.ilGlossaryForeignTermCollectorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cx')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilitemgroupitemstablegui'), 'filename' => array('text', 'Modules/ItemGroup/classes/class.ilItemGroupItemsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cy')));
+'class' => array('text', 'ilobjitemgrouplistgui'), 'filename' => array('text', 'Modules/ItemGroup/classes/class.ilObjItemGroupListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cy')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjitemgroupgui'), 'filename' => array('text', 'Modules/ItemGroup/classes/class.ilObjItemGroupGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cz')));
+'class' => array('text', 'ilitemgroupitemstablegui'), 'filename' => array('text', 'Modules/ItemGroup/classes/class.ilItemGroupItemsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'cz')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilglossaryselectorgui'), 'filename' => array('text', 'Modules/Scorm2004/classes/class.ilGlossarySelectorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'd0')));
+'class' => array('text', 'ilobjitemgroupgui'), 'filename' => array('text', 'Modules/ItemGroup/classes/class.ilObjItemGroupGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'd0')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscorm2004pagegui'), 'filename' => array('text', 'Modules/Scorm2004/classes/class.ilSCORM2004PageGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'd1')));
+'class' => array('text', 'ilglossaryselectorgui'), 'filename' => array('text', 'Modules/Scorm2004/classes/class.ilGlossarySelectorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'd1')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscorm2004trackingitemsperuserfiltergui'), 'filename' => array('text', 'Modules/Scorm2004/classes/class.ilSCORM2004TrackingItemsPerUserFilterGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'd2')));
+'class' => array('text', 'ilscorm2004pagegui'), 'filename' => array('text', 'Modules/Scorm2004/classes/class.ilSCORM2004PageGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'd2')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscorm2004chaptergui'), 'filename' => array('text', 'Modules/Scorm2004/classes/class.ilSCORM2004ChapterGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'd3')));
+'class' => array('text', 'ilscorm2004trackingitemsperuserfiltergui'), 'filename' => array('text', 'Modules/Scorm2004/classes/class.ilSCORM2004TrackingItemsPerUserFilterGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'd3')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscorm2004trackingitemstablegui'), 'filename' => array('text', 'Modules/Scorm2004/classes/class.ilSCORM2004TrackingItemsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'd4')));
+'class' => array('text', 'ilscorm2004chaptergui'), 'filename' => array('text', 'Modules/Scorm2004/classes/class.ilSCORM2004ChapterGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'd4')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscorm2004trackingtablegui'), 'filename' => array('text', 'Modules/Scorm2004/classes/class.ilSCORM2004TrackingTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'd5')));
+'class' => array('text', 'ilscorm2004trackingitemstablegui'), 'filename' => array('text', 'Modules/Scorm2004/classes/class.ilSCORM2004TrackingItemsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'd5')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscorm2004nodegui'), 'filename' => array('text', 'Modules/Scorm2004/classes/class.ilSCORM2004NodeGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'd6')));
+'class' => array('text', 'ilscorm2004trackingtablegui'), 'filename' => array('text', 'Modules/Scorm2004/classes/class.ilSCORM2004TrackingTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'd6')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscorm2004exporttablegui'), 'filename' => array('text', 'Modules/Scorm2004/classes/class.ilSCORM2004ExportTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'd7')));
+'class' => array('text', 'ilscorm2004nodegui'), 'filename' => array('text', 'Modules/Scorm2004/classes/class.ilSCORM2004NodeGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'd7')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscorm2004pagenodegui'), 'filename' => array('text', 'Modules/Scorm2004/classes/class.ilSCORM2004PageNodeGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'd8')));
+'class' => array('text', 'ilscorm2004exporttablegui'), 'filename' => array('text', 'Modules/Scorm2004/classes/class.ilSCORM2004ExportTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'd8')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjectivesalignmenttablegui'), 'filename' => array('text', 'Modules/Scorm2004/classes/class.ilObjectivesAlignmentTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'd9')));
+'class' => array('text', 'ilscorm2004pagenodegui'), 'filename' => array('text', 'Modules/Scorm2004/classes/class.ilSCORM2004PageNodeGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'd9')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscorm2004seqchaptergui'), 'filename' => array('text', 'Modules/Scorm2004/classes/class.ilSCORM2004SeqChapterGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'da')));
+'class' => array('text', 'ilobjectivesalignmenttablegui'), 'filename' => array('text', 'Modules/Scorm2004/classes/class.ilObjectivesAlignmentTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'da')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscorm2004organizationhformgui'), 'filename' => array('text', 'Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'db')));
+'class' => array('text', 'ilscorm2004seqchaptergui'), 'filename' => array('text', 'Modules/Scorm2004/classes/class.ilSCORM2004SeqChapterGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'db')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscorm13player'), 'filename' => array('text', 'Modules/Scorm2004/classes/ilSCORM13Player.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'dc')));
+'class' => array('text', 'ilscorm2004organizationhformgui'), 'filename' => array('text', 'Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'dc')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscorm2004assetgui'), 'filename' => array('text', 'Modules/Scorm2004/classes/class.ilSCORM2004AssetGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'dd')));
+'class' => array('text', 'ilscorm13player'), 'filename' => array('text', 'Modules/Scorm2004/classes/ilSCORM13Player.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'dd')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscorm2004trackingitemsperscofiltergui'), 'filename' => array('text', 'Modules/Scorm2004/classes/class.ilSCORM2004TrackingItemsPerScoFilterGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'de')));
+'class' => array('text', 'ilscorm2004assetgui'), 'filename' => array('text', 'Modules/Scorm2004/classes/class.ilSCORM2004AssetGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'de')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscorm2004scogui'), 'filename' => array('text', 'Modules/Scorm2004/classes/class.ilSCORM2004ScoGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'df')));
+'class' => array('text', 'ilscorm2004trackingitemsperscofiltergui'), 'filename' => array('text', 'Modules/Scorm2004/classes/class.ilSCORM2004TrackingItemsPerScoFilterGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'df')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjscorm2004learningmodulegui'), 'filename' => array('text', 'Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModuleGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'dg')));
+'class' => array('text', 'ilscorm2004scogui'), 'filename' => array('text', 'Modules/Scorm2004/classes/class.ilSCORM2004ScoGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'dg')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscorm2004editorexplorergui'), 'filename' => array('text', 'Modules/Scorm2004/classes/class.ilSCORM2004EditorExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'dh')));
+'class' => array('text', 'ilobjscorm2004learningmodulegui'), 'filename' => array('text', 'Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModuleGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'dh')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscormspecialpagestablegui'), 'filename' => array('text', 'Modules/Scorm2004/classes/class.ilScormSpecialPagesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'di')));
+'class' => array('text', 'ilscorm2004editorexplorergui'), 'filename' => array('text', 'Modules/Scorm2004/classes/class.ilSCORM2004EditorExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'di')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjcoursereferencegui'), 'filename' => array('text', 'Modules/CourseReference/classes/class.ilObjCourseReferenceGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'dj')));
+'class' => array('text', 'ilscormspecialpagestablegui'), 'filename' => array('text', 'Modules/Scorm2004/classes/class.ilScormSpecialPagesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'dj')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjpollgui'), 'filename' => array('text', 'Modules/Poll/classes/class.ilObjPollGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'dk')));
+'class' => array('text', 'ilobjcoursereferencegui'), 'filename' => array('text', 'Modules/CourseReference/classes/class.ilObjCourseReferenceGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'dk')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjcoursereferencelistgui'), 'filename' => array('text', 'Modules/CourseReference/classes/class.ilObjCourseReferenceListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'dl')));
+'class' => array('text', 'ilobjpollgui'), 'filename' => array('text', 'Modules/Poll/classes/class.ilObjPollGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'dl')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpollanswertablegui'), 'filename' => array('text', 'Modules/Poll/classes/class.ilPollAnswerTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'dm')));
+'class' => array('text', 'ilobjcoursereferencelistgui'), 'filename' => array('text', 'Modules/CourseReference/classes/class.ilObjCourseReferenceListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'dm')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjpolllistgui'), 'filename' => array('text', 'Modules/Poll/classes/class.ilObjPollListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'dn')));
+'class' => array('text', 'ilpollanswertablegui'), 'filename' => array('text', 'Modules/Poll/classes/class.ilPollAnswerTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'dn')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpollblockgui'), 'filename' => array('text', 'Modules/Poll/classes/class.ilPollBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'do')));
+'class' => array('text', 'ilobjpolllistgui'), 'filename' => array('text', 'Modules/Poll/classes/class.ilObjPollListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'do')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpollusertablegui'), 'filename' => array('text', 'Modules/Poll/classes/class.ilPollUserTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'dp')));
+'class' => array('text', 'ilpollblockgui'), 'filename' => array('text', 'Modules/Poll/classes/class.ilPollBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'dp')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilforumnewsrenderergui'), 'filename' => array('text', 'Modules/Forum/classes/class.ilForumNewsRendererGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'dq')));
+'class' => array('text', 'ilpollusertablegui'), 'filename' => array('text', 'Modules/Poll/classes/class.ilPollUserTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'dq')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjforumgui'), 'filename' => array('text', 'Modules/Forum/classes/class.ilObjForumGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'dr')));
+'class' => array('text', 'ilforumnewsrenderergui'), 'filename' => array('text', 'Modules/Forum/classes/class.ilForumNewsRendererGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'dr')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilforumpostingdraftsblockgui'), 'filename' => array('text', 'Modules/Forum/classes/class.ilForumPostingDraftsBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ds')));
+'class' => array('text', 'ilobjforumgui'), 'filename' => array('text', 'Modules/Forum/classes/class.ilObjForumGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ds')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilforumdraftstablegui'), 'filename' => array('text', 'Modules/Forum/classes/class.ilForumDraftsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'dt')));
+'class' => array('text', 'ilforumpostingdraftsblockgui'), 'filename' => array('text', 'Modules/Forum/classes/class.ilForumPostingDraftsBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'dt')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjforumadministrationgui'), 'filename' => array('text', 'Modules/Forum/classes/class.ilObjForumAdministrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'du')));
+'class' => array('text', 'ilforumdraftstablegui'), 'filename' => array('text', 'Modules/Forum/classes/class.ilForumDraftsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'du')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilforumexplorergui'), 'filename' => array('text', 'Modules/Forum/classes/class.ilForumExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'dv')));
+'class' => array('text', 'ilobjforumadministrationgui'), 'filename' => array('text', 'Modules/Forum/classes/class.ilObjForumAdministrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'dv')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjforumsubitemlistgui'), 'filename' => array('text', 'Modules/Forum/classes/class.ilObjForumSubItemListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'dw')));
+'class' => array('text', 'ilforumexplorergui'), 'filename' => array('text', 'Modules/Forum/classes/class.ilForumExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'dw')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilforummoderatorsgui'), 'filename' => array('text', 'Modules/Forum/classes/class.ilForumModeratorsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'dx')));
+'class' => array('text', 'ilobjforumsubitemlistgui'), 'filename' => array('text', 'Modules/Forum/classes/class.ilObjForumSubItemListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'dx')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjforumsearchresulttablegui'), 'filename' => array('text', 'Modules/Forum/classes/class.ilObjForumSearchResultTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'dy')));
+'class' => array('text', 'ilforummoderatorsgui'), 'filename' => array('text', 'Modules/Forum/classes/class.ilForumModeratorsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'dy')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilforumstatisticstablegui'), 'filename' => array('text', 'Modules/Forum/classes/class.ilForumStatisticsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'dz')));
+'class' => array('text', 'ilobjforumsearchresulttablegui'), 'filename' => array('text', 'Modules/Forum/classes/class.ilObjForumSearchResultTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'dz')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjforumlistgui'), 'filename' => array('text', 'Modules/Forum/classes/class.ilObjForumListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'e0')));
+'class' => array('text', 'ilforumstatisticstablegui'), 'filename' => array('text', 'Modules/Forum/classes/class.ilForumStatisticsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'e0')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilforumtopictablegui'), 'filename' => array('text', 'Modules/Forum/classes/class.ilForumTopicTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'e1')));
+'class' => array('text', 'ilobjforumlistgui'), 'filename' => array('text', 'Modules/Forum/classes/class.ilObjForumListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'e1')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilforumexportgui'), 'filename' => array('text', 'Modules/Forum/classes/class.ilForumExportGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'e2')));
+'class' => array('text', 'ilforumtopictablegui'), 'filename' => array('text', 'Modules/Forum/classes/class.ilForumTopicTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'e2')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilforummoderatorstablegui'), 'filename' => array('text', 'Modules/Forum/classes/class.ilForumModeratorsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'e3')));
+'class' => array('text', 'ilforumexportgui'), 'filename' => array('text', 'Modules/Forum/classes/class.ilForumExportGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'e3')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsessionparticipantstablegui'), 'filename' => array('text', 'Modules/Session/classes/class.ilSessionParticipantsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'e4')));
+'class' => array('text', 'ilforummoderatorstablegui'), 'filename' => array('text', 'Modules/Forum/classes/class.ilForumModeratorsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'e4')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjsessiongui'), 'filename' => array('text', 'Modules/Session/classes/class.ilObjSessionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'e5')));
+'class' => array('text', 'ilsessionparticipantstablegui'), 'filename' => array('text', 'Modules/Session/classes/class.ilSessionParticipantsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'e5')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjsessionlistgui'), 'filename' => array('text', 'Modules/Session/classes/class.ilObjSessionListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'e6')));
+'class' => array('text', 'ilobjsessiongui'), 'filename' => array('text', 'Modules/Session/classes/class.ilObjSessionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'e6')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsessionmaterialstablegui'), 'filename' => array('text', 'Modules/Session/classes/class.ilSessionMaterialsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'e7')));
+'class' => array('text', 'ilobjsessionlistgui'), 'filename' => array('text', 'Modules/Session/classes/class.ilObjSessionListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'e7')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsessionoverviewgui'), 'filename' => array('text', 'Modules/Session/classes/class.ilSessionOverviewGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'e8')));
+'class' => array('text', 'ilsessionmaterialstablegui'), 'filename' => array('text', 'Modules/Session/classes/class.ilSessionMaterialsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'e8')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsessionmembershipregistrationsettingsgui'), 'filename' => array('text', 'Modules/Session/classes/class.ilSessionMembershipRegistrationSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'e9')));
+'class' => array('text', 'ilsessionoverviewgui'), 'filename' => array('text', 'Modules/Session/classes/class.ilSessionOverviewGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'e9')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsessionoverviewtablegui'), 'filename' => array('text', 'Modules/Session/classes/class.ilSessionOverviewTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ea')));
+'class' => array('text', 'ilsessionmembershipregistrationsettingsgui'), 'filename' => array('text', 'Modules/Session/classes/class.ilSessionMembershipRegistrationSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ea')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsessionfiletablegui'), 'filename' => array('text', 'Modules/Session/classes/class.ilSessionFileTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'eb')));
+'class' => array('text', 'ilsessionoverviewtablegui'), 'filename' => array('text', 'Modules/Session/classes/class.ilSessionOverviewTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'eb')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsystemsupportcontactsgui'), 'filename' => array('text', 'Modules/SystemFolder/classes/class.ilSystemSupportContactsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ec')));
+'class' => array('text', 'ilsessionfiletablegui'), 'filename' => array('text', 'Modules/Session/classes/class.ilSessionFileTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ec')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjsystemfoldergui'), 'filename' => array('text', 'Modules/SystemFolder/classes/class.ilObjSystemFolderGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ed')));
+'class' => array('text', 'ilsystemsupportcontactsgui'), 'filename' => array('text', 'Modules/SystemFolder/classes/class.ilSystemSupportContactsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ed')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilbenchmarktablegui'), 'filename' => array('text', 'Modules/SystemFolder/classes/class.ilBenchmarkTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ee')));
+'class' => array('text', 'ilobjsystemfoldergui'), 'filename' => array('text', 'Modules/SystemFolder/classes/class.ilObjSystemFolderGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ee')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjremotefilegui'), 'filename' => array('text', 'Modules/RemoteFile/classes/class.ilObjRemoteFileGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ef')));
+'class' => array('text', 'ilbenchmarktablegui'), 'filename' => array('text', 'Modules/SystemFolder/classes/class.ilBenchmarkTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ef')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjremotefilelistgui'), 'filename' => array('text', 'Modules/RemoteFile/classes/class.ilObjRemoteFileListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'eg')));
+'class' => array('text', 'ilobjremotefilegui'), 'filename' => array('text', 'Modules/RemoteFile/classes/class.ilObjRemoteFileGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'eg')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsurveyskillgui'), 'filename' => array('text', 'Modules/Survey/classes/class.ilSurveySkillGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'eh')));
+'class' => array('text', 'ilobjremotefilelistgui'), 'filename' => array('text', 'Modules/RemoteFile/classes/class.ilObjRemoteFileListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'eh')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsurveyskillthresholdstablegui'), 'filename' => array('text', 'Modules/Survey/classes/class.ilSurveySkillThresholdsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ei')));
+'class' => array('text', 'ilsurveyskillgui'), 'filename' => array('text', 'Modules/Survey/classes/class.ilSurveySkillGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ei')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjsurveylistgui'), 'filename' => array('text', 'Modules/Survey/classes/class.ilObjSurveyListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ej')));
+'class' => array('text', 'ilsurveyskillthresholdstablegui'), 'filename' => array('text', 'Modules/Survey/classes/class.ilSurveySkillThresholdsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ej')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsurveyconstraintsgui'), 'filename' => array('text', 'Modules/Survey/classes/class.ilSurveyConstraintsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ek')));
+'class' => array('text', 'ilobjsurveylistgui'), 'filename' => array('text', 'Modules/Survey/classes/class.ilObjSurveyListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ek')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsurveyskillthresholdsgui'), 'filename' => array('text', 'Modules/Survey/classes/class.ilSurveySkillThresholdsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'el')));
+'class' => array('text', 'ilsurveyconstraintsgui'), 'filename' => array('text', 'Modules/Survey/classes/class.ilSurveyConstraintsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'el')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsurveyskillassignmenttablegui'), 'filename' => array('text', 'Modules/Survey/classes/class.ilSurveySkillAssignmentTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'em')));
+'class' => array('text', 'ilsurveyskillthresholdsgui'), 'filename' => array('text', 'Modules/Survey/classes/class.ilSurveySkillThresholdsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'em')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsurveyquestiontablegui'), 'filename' => array('text', 'Modules/Survey/classes/class.ilSurveyQuestionTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'en')));
+'class' => array('text', 'ilsurveyskillassignmenttablegui'), 'filename' => array('text', 'Modules/Survey/classes/class.ilSurveySkillAssignmentTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'en')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsurveycodesedittablegui'), 'filename' => array('text', 'Modules/Survey/classes/tables/class.ilSurveyCodesEditTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'eo')));
+'class' => array('text', 'ilsurveyquestiontablegui'), 'filename' => array('text', 'Modules/Survey/classes/class.ilSurveyQuestionTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'eo')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsurveymaintenancetablegui'), 'filename' => array('text', 'Modules/Survey/classes/tables/class.ilSurveyMaintenanceTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ep')));
+'class' => array('text', 'ilsurveycodesedittablegui'), 'filename' => array('text', 'Modules/Survey/classes/tables/class.ilSurveyCodesEditTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ep')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsurveyinviteduserstablegui'), 'filename' => array('text', 'Modules/Survey/classes/tables/class.ilSurveyInvitedUsersTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'eq')));
+'class' => array('text', 'ilsurveymaintenancetablegui'), 'filename' => array('text', 'Modules/Survey/classes/tables/class.ilSurveyMaintenanceTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'eq')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsurveyquestionbrowsertablegui'), 'filename' => array('text', 'Modules/Survey/classes/tables/class.ilSurveyQuestionbrowserTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'er')));
+'class' => array('text', 'ilsurveyinviteduserstablegui'), 'filename' => array('text', 'Modules/Survey/classes/tables/class.ilSurveyInvitedUsersTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'er')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsurveyparticipantstablegui'), 'filename' => array('text', 'Modules/Survey/classes/tables/class.ilSurveyParticipantsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'es')));
+'class' => array('text', 'ilsurveyquestionbrowsertablegui'), 'filename' => array('text', 'Modules/Survey/classes/tables/class.ilSurveyQuestionbrowserTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'es')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsurveyappraiseestablegui'), 'filename' => array('text', 'Modules/Survey/classes/tables/class.ilSurveyAppraiseesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'et')));
+'class' => array('text', 'ilsurveyparticipantstablegui'), 'filename' => array('text', 'Modules/Survey/classes/tables/class.ilSurveyParticipantsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'et')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'surveyconstraintstablegui'), 'filename' => array('text', 'Modules/Survey/classes/tables/class.SurveyConstraintsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'eu')));
+'class' => array('text', 'ilsurveyappraiseestablegui'), 'filename' => array('text', 'Modules/Survey/classes/tables/class.ilSurveyAppraiseesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'eu')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsurveycodestablegui'), 'filename' => array('text', 'Modules/Survey/classes/tables/class.ilSurveyCodesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ev')));
+'class' => array('text', 'surveyconstraintstablegui'), 'filename' => array('text', 'Modules/Survey/classes/tables/class.SurveyConstraintsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ev')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsurveyquestionblockbrowsertablegui'), 'filename' => array('text', 'Modules/Survey/classes/tables/class.ilSurveyQuestionblockbrowserTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ew')));
+'class' => array('text', 'ilsurveycodestablegui'), 'filename' => array('text', 'Modules/Survey/classes/tables/class.ilSurveyCodesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ew')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsurveyresultscumulatedtablegui'), 'filename' => array('text', 'Modules/Survey/classes/tables/class.ilSurveyResultsCumulatedTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ex')));
+'class' => array('text', 'ilsurveyquestionblockbrowsertablegui'), 'filename' => array('text', 'Modules/Survey/classes/tables/class.ilSurveyQuestionblockbrowserTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ex')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilspecialuserstablegui'), 'filename' => array('text', 'Modules/Survey/classes/tables/class.ilSpecialUsersTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ey')));
+'class' => array('text', 'ilsurveyresultscumulatedtablegui'), 'filename' => array('text', 'Modules/Survey/classes/tables/class.ilSurveyResultsCumulatedTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ey')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilfounduserstablegui'), 'filename' => array('text', 'Modules/Survey/classes/tables/class.ilFoundUsersTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ez')));
+'class' => array('text', 'ilspecialuserstablegui'), 'filename' => array('text', 'Modules/Survey/classes/tables/class.ilSpecialUsersTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ez')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsurveyresultsusertablegui'), 'filename' => array('text', 'Modules/Survey/classes/tables/class.ilSurveyResultsUserTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'f0')));
+'class' => array('text', 'ilfounduserstablegui'), 'filename' => array('text', 'Modules/Survey/classes/tables/class.ilFoundUsersTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'f0')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjsurveyadministrationgui'), 'filename' => array('text', 'Modules/Survey/classes/class.ilObjSurveyAdministrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'f1')));
+'class' => array('text', 'ilsurveyresultsusertablegui'), 'filename' => array('text', 'Modules/Survey/classes/tables/class.ilSurveyResultsUserTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'f1')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsurveyskilldeterminationgui'), 'filename' => array('text', 'Modules/Survey/classes/class.ilSurveySkillDeterminationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'f2')));
+'class' => array('text', 'ilobjsurveyadministrationgui'), 'filename' => array('text', 'Modules/Survey/classes/class.ilObjSurveyAdministrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'f2')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjsurveygui'), 'filename' => array('text', 'Modules/Survey/classes/class.ilObjSurveyGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'f3')));
+'class' => array('text', 'ilsurveyskilldeterminationgui'), 'filename' => array('text', 'Modules/Survey/classes/class.ilSurveySkillDeterminationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'f3')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsurveyevaluationgui'), 'filename' => array('text', 'Modules/Survey/classes/class.ilSurveyEvaluationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'f4')));
+'class' => array('text', 'ilobjsurveygui'), 'filename' => array('text', 'Modules/Survey/classes/class.ilObjSurveyGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'f4')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsurveyskilltablegui'), 'filename' => array('text', 'Modules/Survey/classes/class.ilSurveySkillTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'f5')));
+'class' => array('text', 'ilsurveyevaluationgui'), 'filename' => array('text', 'Modules/Survey/classes/class.ilSurveyEvaluationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'f5')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsurveyskillchangestablegui'), 'filename' => array('text', 'Modules/Survey/classes/class.ilSurveySkillChangesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'f6')));
+'class' => array('text', 'ilsurveyskilltablegui'), 'filename' => array('text', 'Modules/Survey/classes/class.ilSurveySkillTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'f6')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsurveyexecutiongui'), 'filename' => array('text', 'Modules/Survey/classes/class.ilSurveyExecutionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'f7')));
+'class' => array('text', 'ilsurveyskillchangestablegui'), 'filename' => array('text', 'Modules/Survey/classes/class.ilSurveySkillChangesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'f7')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsurveyparticipantsgui'), 'filename' => array('text', 'Modules/Survey/classes/class.ilSurveyParticipantsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'f8')));
+'class' => array('text', 'ilsurveyexecutiongui'), 'filename' => array('text', 'Modules/Survey/classes/class.ilSurveyExecutionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'f8')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsurveypagegui'), 'filename' => array('text', 'Modules/Survey/classes/class.ilSurveyPageGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'f9')));
+'class' => array('text', 'ilsurveyparticipantsgui'), 'filename' => array('text', 'Modules/Survey/classes/class.ilSurveyParticipantsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'f9')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsurveyeditorgui'), 'filename' => array('text', 'Modules/Survey/classes/class.ilSurveyEditorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fa')));
+'class' => array('text', 'ilsurveypagegui'), 'filename' => array('text', 'Modules/Survey/classes/class.ilSurveyPageGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fa')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilassquestionpreviewtoolbargui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewToolbarGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fb')));
+'class' => array('text', 'ilsurveyeditorgui'), 'filename' => array('text', 'Modules/Survey/classes/class.ilSurveyEditorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fb')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'assfileuploadgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.assFileUploadGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fc')));
+'class' => array('text', 'ilassquestionpreviewtoolbargui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewToolbarGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fc')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilassquestionhintstablegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fd')));
+'class' => array('text', 'assfileuploadgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.assFileUploadGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fd')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'asstextsubsetgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.assTextSubsetGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fe')));
+'class' => array('text', 'ilassquestionhintstablegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fe')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilassquestionhintabstractgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintAbstractGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ff')));
+'class' => array('text', 'asstextsubsetgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.assTextSubsetGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ff')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilquestioneditgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilQuestionEditGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fg')));
+'class' => array('text', 'ilassquestionhintabstractgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintAbstractGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fg')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'assclozetestgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.assClozeTestGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fh')));
+'class' => array('text', 'ilquestioneditgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilQuestionEditGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fh')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilimagewizardinputgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilImageWizardInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fi')));
+'class' => array('text', 'assclozetestgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.assClozeTestGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fi')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilglobalunitconfigurationgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilGlobalUnitConfigurationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fj')));
+'class' => array('text', 'ilimagewizardinputgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilImageWizardInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fj')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'assmultiplechoicegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.assMultipleChoiceGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fk')));
+'class' => array('text', 'ilglobalunitconfigurationgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilGlobalUnitConfigurationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fk')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'assmatchingquestiongui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.assMatchingQuestionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fl')));
+'class' => array('text', 'assmultiplechoicegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.assMultipleChoiceGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fl')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilassquestionfeedbackeditinggui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackEditingGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fm')));
+'class' => array('text', 'assmatchingquestiongui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.assMatchingQuestionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fm')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'assjavaappletgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.assJavaAppletGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fn')));
+'class' => array('text', 'ilassquestionfeedbackeditinggui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackEditingGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fn')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilkprimchoicewizardinputgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilKprimChoiceWizardInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fo')));
+'class' => array('text', 'assjavaappletgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.assJavaAppletGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fo')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilassquestionskillusagestablegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillUsagesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fp')));
+'class' => array('text', 'ilkprimchoicewizardinputgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilKprimChoiceWizardInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fp')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illogicalanswercomparisonexpressioninputgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilLogicalAnswerComparisonExpressionInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fq')));
+'class' => array('text', 'ilassquestionskillusagestablegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillUsagesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fq')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilassquestionhintsgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fr')));
+'class' => array('text', 'illogicalanswercomparisonexpressioninputgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilLogicalAnswerComparisonExpressionInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fr')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsolutiontitleinputgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilSolutionTitleInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fs')));
+'class' => array('text', 'ilassquestionhintsgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fs')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'asserrortextgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.assErrorTextGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ft')));
+'class' => array('text', 'ilsolutiontitleinputgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilSolutionTitleInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ft')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilerrortextwizardinputgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilErrorTextWizardInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fu')));
+'class' => array('text', 'asserrortextgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.assErrorTextGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fu')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjquestionpoolsettingsgeneralgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilObjQuestionPoolSettingsGeneralGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fv')));
+'class' => array('text', 'ilerrortextwizardinputgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilErrorTextWizardInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fv')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illocalunitconfigurationgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilLocalUnitConfigurationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fw')));
+'class' => array('text', 'ilobjquestionpoolsettingsgeneralgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilObjQuestionPoolSettingsGeneralGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fw')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'assquestiongui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fx')));
+'class' => array('text', 'illocalunitconfigurationgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilLocalUnitConfigurationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fx')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilquestionpoolskilladministrationgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilQuestionPoolSkillAdministrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fy')));
+'class' => array('text', 'assquestiongui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fy')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsuggestedsolutionselectorgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilSuggestedSolutionSelectorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fz')));
+'class' => array('text', 'ilquestionpoolskilladministrationgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilQuestionPoolSkillAdministrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'fz')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'assimagemapquestiongui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.assImagemapQuestionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'g0')));
+'class' => array('text', 'ilsuggestedsolutionselectorgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilSuggestedSolutionSelectorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'g0')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'asssinglechoicegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.assSingleChoiceGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'g1')));
+'class' => array('text', 'assimagemapquestiongui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.assImagemapQuestionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'g1')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'assflashquestiongui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.assFlashQuestionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'g2')));
+'class' => array('text', 'asssinglechoicegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.assSingleChoiceGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'g2')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmatchingpairwizardinputgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilMatchingPairWizardInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'g3')));
+'class' => array('text', 'assflashquestiongui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.assFlashQuestionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'g3')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilasslaclegendgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/class.ilAssLacLegendGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'g4')));
+'class' => array('text', 'ilmatchingpairwizardinputgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilMatchingPairWizardInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'g4')));
 
 $ilDB->insert("ctrl_classfile", array(
 'class' => array('text', 'ilkvpwizardinputgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilKVPWizardInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'g5')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'asslongmenugui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.assLongMenuGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'g6')));
+'class' => array('text', 'ilasslaclegendgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/class.ilAssLacLegendGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'g6')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilclozegapinputbuildergui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/Form/class.ilClozeGapInputBuilderGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'g7')));
+'class' => array('text', 'asslongmenugui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.assLongMenuGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'g7')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilassspecfeedbackpagegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/feedback/class.ilAssSpecFeedbackPageGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'g8')));
+'class' => array('text', 'ilclozegapinputbuildergui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/Form/class.ilClozeGapInputBuilderGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'g8')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilassgenfeedbackpagegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/feedback/class.ilAssGenFeedbackPageGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'g9')));
+'class' => array('text', 'ilassspecfeedbackpagegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/feedback/class.ilAssSpecFeedbackPageGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'g9')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilassquestionrelatednavigationbargui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilAssQuestionRelatedNavigationBarGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ga')));
+'class' => array('text', 'ilassgenfeedbackpagegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/feedback/class.ilAssGenFeedbackPageGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ga')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmatchingwizardinputgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilMatchingWizardInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gb')));
+'class' => array('text', 'ilassquestionrelatednavigationbargui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilAssQuestionRelatedNavigationBarGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gb')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsuggestedsolutioninputgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilSuggestedSolutionInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gc')));
+'class' => array('text', 'ilmatchingwizardinputgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilMatchingWizardInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gc')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilunitconfigurationgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilUnitConfigurationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gd')));
+'class' => array('text', 'ilsuggestedsolutioninputgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilSuggestedSolutionInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gd')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsinglechoicewizardinputgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilSingleChoiceWizardInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ge')));
+'class' => array('text', 'ilunitconfigurationgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilUnitConfigurationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ge')));
 
 $ilDB->insert("ctrl_classfile", array(
 'class' => array('text', 'asstextquestiongui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.assTextQuestionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gf')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjquestionpoollistgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilObjQuestionPoolListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gg')));
+'class' => array('text', 'ilsinglechoicewizardinputgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilSingleChoiceWizardInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gg')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'assorderingquestiongui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.assOrderingQuestionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gh')));
+'class' => array('text', 'ilobjquestionpoollistgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilObjQuestionPoolListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gh')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilassquestionpreviewgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gi')));
+'class' => array('text', 'assorderingquestiongui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.assOrderingQuestionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gi')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilanswerwizardinputgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilAnswerWizardInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gj')));
+'class' => array('text', 'ilassquestionpreviewgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gj')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilglobalunitcategorytablegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/tables/class.ilGlobalUnitCategoryTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gk')));
+'class' => array('text', 'ilanswerwizardinputgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilAnswerWizardInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gk')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilunittablegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/tables/class.ilUnitTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gl')));
+'class' => array('text', 'ilglobalunitcategorytablegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/tables/class.ilGlobalUnitCategoryTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gl')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilquestionpoolimportverificationtablegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/tables/class.ilQuestionPoolImportVerificationTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gm')));
+'class' => array('text', 'ilunittablegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/tables/class.ilUnitTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gm')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilquestionusagestablegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/tables/class.ilQuestionUsagesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gn')));
+'class' => array('text', 'ilquestionpoolimportverificationtablegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/tables/class.ilQuestionPoolImportVerificationTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gn')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilassquestionskillassignmentstablegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/tables/class.ilAssQuestionSkillAssignmentsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'go')));
+'class' => array('text', 'ilquestionusagestablegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/tables/class.ilQuestionUsagesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'go')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilquestioncumulatedstatisticstablegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/tables/class.ilQuestionCumulatedStatisticsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gp')));
+'class' => array('text', 'ilassquestionskillassignmentstablegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/tables/class.ilAssQuestionSkillAssignmentsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gp')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilquestionpoolprintviewtablegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/tables/class.ilQuestionPoolPrintViewTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gq')));
+'class' => array('text', 'ilquestioncumulatedstatisticstablegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/tables/class.ilQuestionCumulatedStatisticsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gq')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilquestionpoolexporttablegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/tables/class.ilQuestionPoolExportTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gr')));
+'class' => array('text', 'ilquestionpoolprintviewtablegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/tables/class.ilQuestionPoolPrintViewTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gr')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilquestionbrowsertablegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/tables/class.ilQuestionBrowserTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gs')));
+'class' => array('text', 'ilquestionpoolexporttablegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/tables/class.ilQuestionPoolExportTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gs')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illocalunitcategorytablegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/tables/class.ilLocalUnitCategoryTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gt')));
+'class' => array('text', 'ilquestionbrowsertablegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/tables/class.ilQuestionBrowserTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gt')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilunitcategorytablegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/tables/class.ilUnitCategoryTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gu')));
+'class' => array('text', 'illocalunitcategorytablegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/tables/class.ilLocalUnitCategoryTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gu')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilquestioninternallinkselectiontablegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/tables/class.ilQuestionInternalLinkSelectionTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gv')));
+'class' => array('text', 'ilunitcategorytablegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/tables/class.ilUnitCategoryTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gv')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'assfileuploadfiletablegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/tables/class.assFileUploadFileTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gw')));
+'class' => array('text', 'ilquestioninternallinkselectiontablegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/tables/class.ilQuestionInternalLinkSelectionTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gw')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'asskprimchoicegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.assKprimChoiceGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gx')));
+'class' => array('text', 'assfileuploadfiletablegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/tables/class.assFileUploadFileTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gx')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilassquestionhintrequestgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gy')));
+'class' => array('text', 'asskprimchoicegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.assKprimChoiceGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gy')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'assformulaquestiongui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.assFormulaQuestionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gz')));
+'class' => array('text', 'ilassquestionhintrequestgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'gz')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilessaykeywordwizardinputgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilEssayKeywordWizardInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'h0')));
+'class' => array('text', 'assformulaquestiongui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.assFormulaQuestionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'h0')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilquestionpoolexportgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilQuestionPoolExportGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'h1')));
+'class' => array('text', 'ilessaykeywordwizardinputgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilEssayKeywordWizardInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'h1')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjquestionpoolgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilObjQuestionPoolGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'h2')));
+'class' => array('text', 'ilquestionpoolexportgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilQuestionPoolExportGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'h2')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmultiplechoicewizardinputgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilMultipleChoiceWizardInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'h3')));
+'class' => array('text', 'ilobjquestionpoolgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilObjQuestionPoolGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'h3')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'assnumericgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.assNumericGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'h4')));
+'class' => array('text', 'ilmultiplechoicewizardinputgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilMultipleChoiceWizardInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'h4')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilassquestionskillassignmentsgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'h5')));
+'class' => array('text', 'assnumericgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.assNumericGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'h5')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilassquestionpagegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'h6')));
+'class' => array('text', 'ilassquestionskillassignmentsgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'h6')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilasshintpagegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilAssHintPageGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'h7')));
+'class' => array('text', 'ilassquestionpagegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'h7')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilassquestionskillassignmentpropertyformgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/forms/class.ilAssQuestionSkillAssignmentPropertyFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'h8')));
+'class' => array('text', 'ilasshintpagegui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilAssHintPageGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'h8')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilassorderingtextsinputgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingTextsInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'h9')));
+'class' => array('text', 'ilassquestionskillassignmentpropertyformgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/forms/class.ilAssQuestionSkillAssignmentPropertyFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'h9')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilassquestionauthoringformgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/forms/class.ilAssQuestionAuthoringFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ha')));
+'class' => array('text', 'ilassorderingtextsinputgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingTextsInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ha')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilassorderingimagesinputgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingImagesInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hb')));
+'class' => array('text', 'ilassquestionauthoringformgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/forms/class.ilAssQuestionAuthoringFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hb')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilimagemapfileinputgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/forms/class.ilImagemapFileInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hc')));
+'class' => array('text', 'ilassorderingimagesinputgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingImagesInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hc')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilhtmlimagemapfileinputgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/forms/class.ilHtmlImageMapFileInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hd')));
+'class' => array('text', 'ilimagemapfileinputgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/forms/class.ilImagemapFileInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hd')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilassorderingquestionauthoringformgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingQuestionAuthoringFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'he')));
+'class' => array('text', 'ilhtmlimagemapfileinputgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/forms/class.ilHtmlImageMapFileInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'he')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilassnestedorderingelementsinputgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/forms/class.ilAssNestedOrderingElementsInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hf')));
+'class' => array('text', 'ilassorderingquestionauthoringformgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingQuestionAuthoringFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hf')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'assorderinghorizontalgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.assOrderingHorizontalGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hg')));
+'class' => array('text', 'ilassnestedorderingelementsinputgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/forms/class.ilAssNestedOrderingElementsInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hg')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilassquestionhintgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hh')));
+'class' => array('text', 'assorderinghorizontalgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.assOrderingHorizontalGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hh')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjremotegroupgui'), 'filename' => array('text', 'Modules/RemoteGroup/classes/class.ilObjRemoteGroupGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hi')));
+'class' => array('text', 'ilassquestionhintgui'), 'filename' => array('text', 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hi')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjremotegrouplistgui'), 'filename' => array('text', 'Modules/RemoteGroup/classes/class.ilObjRemoteGroupListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hj')));
+'class' => array('text', 'ilobjremotegroupgui'), 'filename' => array('text', 'Modules/RemoteGroup/classes/class.ilObjRemoteGroupGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hj')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilorgunitexplorergui'), 'filename' => array('text', 'Modules/OrgUnit/classes/class.ilOrgUnitExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hk')));
+'class' => array('text', 'ilobjremotegrouplistgui'), 'filename' => array('text', 'Modules/RemoteGroup/classes/class.ilObjRemoteGroupListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hk')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilorgunitsimpleuserimportgui'), 'filename' => array('text', 'Modules/OrgUnit/classes/SimpleUserImport/class.ilOrgUnitSimpleUserImportGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hl')));
+'class' => array('text', 'ilorgunitexplorergui'), 'filename' => array('text', 'Modules/OrgUnit/classes/class.ilOrgUnitExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hl')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilorgunitexportgui'), 'filename' => array('text', 'Modules/OrgUnit/classes/class.ilOrgUnitExportGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hm')));
+'class' => array('text', 'ilorgunitsimpleuserimportgui'), 'filename' => array('text', 'Modules/OrgUnit/classes/SimpleUserImport/class.ilOrgUnitSimpleUserImportGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hm')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilextidgui'), 'filename' => array('text', 'Modules/OrgUnit/classes/ExtId/class.ilExtIdGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hn')));
+'class' => array('text', 'ilorgunitexportgui'), 'filename' => array('text', 'Modules/OrgUnit/classes/class.ilOrgUnitExportGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hn')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilorgunitstaffgui'), 'filename' => array('text', 'Modules/OrgUnit/classes/Staff/class.ilOrgUnitStaffGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ho')));
+'class' => array('text', 'ilextidgui'), 'filename' => array('text', 'Modules/OrgUnit/classes/ExtId/class.ilExtIdGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ho')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilorgunitsimpleimportgui'), 'filename' => array('text', 'Modules/OrgUnit/classes/SimpleImport/class.ilOrgUnitSimpleImportGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hp')));
+'class' => array('text', 'ilorgunitstaffgui'), 'filename' => array('text', 'Modules/OrgUnit/classes/Staff/class.ilOrgUnitStaffGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hp')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilorgunitstafftablegui'), 'filename' => array('text', 'Modules/OrgUnit/classes/Staff/class.ilOrgUnitStaffTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hq')));
+'class' => array('text', 'ilorgunitsimpleimportgui'), 'filename' => array('text', 'Modules/OrgUnit/classes/SimpleImport/class.ilOrgUnitSimpleImportGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hq')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilorgunitotherrolestablegui'), 'filename' => array('text', 'Modules/OrgUnit/classes/Staff/class.ilOrgUnitOtherRolesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hr')));
+'class' => array('text', 'ilorgunitstafftablegui'), 'filename' => array('text', 'Modules/OrgUnit/classes/Staff/class.ilOrgUnitStaffTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hr')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilorgunittypeadvancedmetadataformgui'), 'filename' => array('text', 'Modules/OrgUnit/classes/Types/class.ilOrgUnitTypeAdvancedMetaDataFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hs')));
+'class' => array('text', 'ilorgunitotherrolestablegui'), 'filename' => array('text', 'Modules/OrgUnit/classes/Staff/class.ilOrgUnitOtherRolesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hs')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilorgunittypegui'), 'filename' => array('text', 'Modules/OrgUnit/classes/Types/class.ilOrgUnitTypeGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ht')));
+'class' => array('text', 'ilorgunittypeadvancedmetadataformgui'), 'filename' => array('text', 'Modules/OrgUnit/classes/Types/class.ilOrgUnitTypeAdvancedMetaDataFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ht')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilorgunittypeformgui'), 'filename' => array('text', 'Modules/OrgUnit/classes/Types/class.ilOrgUnitTypeFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hu')));
+'class' => array('text', 'ilorgunittypegui'), 'filename' => array('text', 'Modules/OrgUnit/classes/Types/class.ilOrgUnitTypeGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hu')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilorgunittypetablegui'), 'filename' => array('text', 'Modules/OrgUnit/classes/Types/class.ilOrgUnitTypeTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hv')));
+'class' => array('text', 'ilorgunittypeformgui'), 'filename' => array('text', 'Modules/OrgUnit/classes/Types/class.ilOrgUnitTypeFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hv')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilorgunittypecustomiconsformgui'), 'filename' => array('text', 'Modules/OrgUnit/classes/Types/class.ilOrgUnitTypeCustomIconsFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hw')));
+'class' => array('text', 'ilorgunittypetablegui'), 'filename' => array('text', 'Modules/OrgUnit/classes/Types/class.ilOrgUnitTypeTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hw')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjorgunitsettingsformgui'), 'filename' => array('text', 'Modules/OrgUnit/classes/Settings/class.ilObjOrgUnitSettingsFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hx')));
+'class' => array('text', 'ilorgunittypecustomiconsformgui'), 'filename' => array('text', 'Modules/OrgUnit/classes/Types/class.ilOrgUnitTypeCustomIconsFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hx')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjorgunitlistgui'), 'filename' => array('text', 'Modules/OrgUnit/classes/class.ilObjOrgUnitListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hy')));
+'class' => array('text', 'ilobjorgunitsettingsformgui'), 'filename' => array('text', 'Modules/OrgUnit/classes/Settings/class.ilObjOrgUnitSettingsFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hy')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilorgunitextensionlistgui'), 'filename' => array('text', 'Modules/OrgUnit/classes/Extension/class.ilOrgUnitExtensionListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hz')));
+'class' => array('text', 'ilobjorgunitlistgui'), 'filename' => array('text', 'Modules/OrgUnit/classes/class.ilObjOrgUnitListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'hz')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilorgunitextensiongui'), 'filename' => array('text', 'Modules/OrgUnit/classes/Extension/class.ilOrgUnitExtensionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'i0')));
+'class' => array('text', 'ilorgunitextensionlistgui'), 'filename' => array('text', 'Modules/OrgUnit/classes/Extension/class.ilOrgUnitExtensionListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'i0')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilorguuserpickertoolbarinputgui'), 'filename' => array('text', 'Modules/OrgUnit/classes/class.ilOrguUserPickerToolbarInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'i1')));
+'class' => array('text', 'ilorgunitextensiongui'), 'filename' => array('text', 'Modules/OrgUnit/classes/Extension/class.ilOrgUnitExtensionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'i1')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltranslationgui'), 'filename' => array('text', 'Services/Multilingualism/classes/class.ilMultilingualismGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'i2')));
+'class' => array('text', 'ilorguuserpickertoolbarinputgui'), 'filename' => array('text', 'Modules/OrgUnit/classes/class.ilOrguUserPickerToolbarInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'i2')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illocalusergui'), 'filename' => array('text', 'Modules/OrgUnit/classes/LocalUser/class.ilLocalUserGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'i3')));
+'class' => array('text', 'iltranslationgui'), 'filename' => array('text', 'Services/Multilingualism/classes/class.ilMultilingualismGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'i3')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjorgunitgui'), 'filename' => array('text', 'Modules/OrgUnit/classes/class.ilObjOrgUnitGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'i4')));
+'class' => array('text', 'illocalusergui'), 'filename' => array('text', 'Modules/OrgUnit/classes/LocalUser/class.ilLocalUserGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'i4')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjremotecategorygui'), 'filename' => array('text', 'Modules/RemoteCategory/classes/class.ilObjRemoteCategoryGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'i5')));
+'class' => array('text', 'ilobjorgunitgui'), 'filename' => array('text', 'Modules/OrgUnit/classes/class.ilObjOrgUnitGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'i5')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjremotecategorylistgui'), 'filename' => array('text', 'Modules/RemoteCategory/classes/class.ilObjRemoteCategoryListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'i6')));
+'class' => array('text', 'ilobjremotecategorygui'), 'filename' => array('text', 'Modules/RemoteCategory/classes/class.ilObjRemoteCategoryGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'i6')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjcategoryreferencegui'), 'filename' => array('text', 'Modules/CategoryReference/classes/class.ilObjCategoryReferenceGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'i7')));
+'class' => array('text', 'ilobjremotecategorylistgui'), 'filename' => array('text', 'Modules/RemoteCategory/classes/class.ilObjRemoteCategoryListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'i7')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjcategoryreferencelistgui'), 'filename' => array('text', 'Modules/CategoryReference/classes/class.ilObjCategoryReferenceListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'i8')));
+'class' => array('text', 'ilobjcategoryreferencegui'), 'filename' => array('text', 'Modules/CategoryReference/classes/class.ilObjCategoryReferenceGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'i8')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcloudpluginitemcreationlistgui'), 'filename' => array('text', 'Modules/Cloud/classes/class.ilCloudPluginItemCreationListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'i9')));
+'class' => array('text', 'ilobjcategoryreferencelistgui'), 'filename' => array('text', 'Modules/CategoryReference/classes/class.ilObjCategoryReferenceListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'i9')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcloudplugininitgui'), 'filename' => array('text', 'Modules/Cloud/classes/class.ilCloudPluginInitGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ia')));
+'class' => array('text', 'ilcloudpluginitemcreationlistgui'), 'filename' => array('text', 'Modules/Cloud/classes/class.ilCloudPluginItemCreationListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ia')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcloudpluginactionlistgui'), 'filename' => array('text', 'Modules/Cloud/classes/class.ilCloudPluginActionListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ib')));
+'class' => array('text', 'ilcloudplugininitgui'), 'filename' => array('text', 'Modules/Cloud/classes/class.ilCloudPluginInitGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ib')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcloudpluginuploadgui'), 'filename' => array('text', 'Modules/Cloud/classes/class.ilCloudPluginUploadGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ic')));
+'class' => array('text', 'ilcloudpluginactionlistgui'), 'filename' => array('text', 'Modules/Cloud/classes/class.ilCloudPluginActionListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ic')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcloudpluginlistgui'), 'filename' => array('text', 'Modules/Cloud/classes/class.ilCloudPluginListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'id')));
+'class' => array('text', 'ilcloudpluginuploadgui'), 'filename' => array('text', 'Modules/Cloud/classes/class.ilCloudPluginUploadGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'id')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcloudpluginsettingsgui'), 'filename' => array('text', 'Modules/Cloud/classes/class.ilCloudPluginSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ie')));
+'class' => array('text', 'ilcloudpluginlistgui'), 'filename' => array('text', 'Modules/Cloud/classes/class.ilCloudPluginListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ie')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcloudpluginheaderactiongui'), 'filename' => array('text', 'Modules/Cloud/classes/class.ilCloudPluginHeaderActionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'if')));
+'class' => array('text', 'ilcloudpluginsettingsgui'), 'filename' => array('text', 'Modules/Cloud/classes/class.ilCloudPluginSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'if')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcloudplugininfoscreengui'), 'filename' => array('text', 'Modules/Cloud/classes/class.ilCloudPluginInfoScreenGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ig')));
+'class' => array('text', 'ilcloudpluginheaderactiongui'), 'filename' => array('text', 'Modules/Cloud/classes/class.ilCloudPluginHeaderActionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ig')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcloudpluginfiletreegui'), 'filename' => array('text', 'Modules/Cloud/classes/class.ilCloudPluginFileTreeGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ih')));
+'class' => array('text', 'ilcloudplugininfoscreengui'), 'filename' => array('text', 'Modules/Cloud/classes/class.ilCloudPluginInfoScreenGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ih')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcloudplugingui'), 'filename' => array('text', 'Modules/Cloud/classes/class.ilCloudPluginGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ii')));
+'class' => array('text', 'ilcloudpluginfiletreegui'), 'filename' => array('text', 'Modules/Cloud/classes/class.ilCloudPluginFileTreeGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ii')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcloudpluginconfiggui'), 'filename' => array('text', 'Modules/Cloud/classes/class.ilCloudPluginConfigGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ij')));
+'class' => array('text', 'ilcloudplugingui'), 'filename' => array('text', 'Modules/Cloud/classes/class.ilCloudPluginGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ij')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcloudgroupedlistgui'), 'filename' => array('text', 'Modules/Cloud/classes/class.ilCloudGroupedListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ik')));
+'class' => array('text', 'ilcloudpluginconfiggui'), 'filename' => array('text', 'Modules/Cloud/classes/class.ilCloudPluginConfigGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ik')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcloudplugincreationgui'), 'filename' => array('text', 'Modules/Cloud/classes/class.ilCloudPluginCreationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'il')));
+'class' => array('text', 'ilcloudgroupedlistgui'), 'filename' => array('text', 'Modules/Cloud/classes/class.ilCloudGroupedListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'il')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjcloudlistgui'), 'filename' => array('text', 'Modules/Cloud/classes/class.ilObjCloudListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'im')));
+'class' => array('text', 'ilcloudplugincreationgui'), 'filename' => array('text', 'Modules/Cloud/classes/class.ilCloudPluginCreationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'im')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcloudplugindeletegui'), 'filename' => array('text', 'Modules/Cloud/classes/class.ilCloudPluginDeleteGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'in')));
+'class' => array('text', 'ilobjcloudlistgui'), 'filename' => array('text', 'Modules/Cloud/classes/class.ilObjCloudListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'in')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcloudplugincreatefoldergui'), 'filename' => array('text', 'Modules/Cloud/classes/class.ilCloudPluginCreateFolderGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'io')));
+'class' => array('text', 'ilcloudplugindeletegui'), 'filename' => array('text', 'Modules/Cloud/classes/class.ilCloudPluginDeleteGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'io')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjcloudgui'), 'filename' => array('text', 'Modules/Cloud/classes/class.ilObjCloudGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ip')));
+'class' => array('text', 'ilcloudplugincreatefoldergui'), 'filename' => array('text', 'Modules/Cloud/classes/class.ilCloudPluginCreateFolderGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ip')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjremotecoursegui'), 'filename' => array('text', 'Modules/RemoteCourse/classes/class.ilObjRemoteCourseGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'iq')));
+'class' => array('text', 'ilobjcloudgui'), 'filename' => array('text', 'Modules/Cloud/classes/class.ilObjCloudGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'iq')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjremotecourselistgui'), 'filename' => array('text', 'Modules/RemoteCourse/classes/class.ilObjRemoteCourseListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ir')));
+'class' => array('text', 'ilobjremotecoursegui'), 'filename' => array('text', 'Modules/RemoteCourse/classes/class.ilObjRemoteCourseGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ir')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilwikipagegui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilWikiPageGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'is')));
+'class' => array('text', 'ilobjremotecourselistgui'), 'filename' => array('text', 'Modules/RemoteCourse/classes/class.ilObjRemoteCourseListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'is')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjwikilistgui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilObjWikiListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'it')));
+'class' => array('text', 'ilwikipagegui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilWikiPageGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'it')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilwikisideblockgui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilWikiSideBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'iu')));
+'class' => array('text', 'ilobjwikilistgui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilObjWikiListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'iu')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilwikipagestablegui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilWikiPagesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'iv')));
+'class' => array('text', 'ilwikisideblockgui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilWikiSideBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'iv')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilwikisearchblockgui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilWikiSearchBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'iw')));
+'class' => array('text', 'ilwikipagestablegui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilWikiPagesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'iw')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilwikirecentchangestablegui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilWikiRecentChangesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ix')));
+'class' => array('text', 'ilwikisearchblockgui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilWikiSearchBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ix')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilimportantpagestablegui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilImportantPagesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'iy')));
+'class' => array('text', 'ilwikirecentchangestablegui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilWikiRecentChangesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'iy')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjwikisearchresulttablegui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilObjWikiSearchResultTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'iz')));
+'class' => array('text', 'ilimportantpagestablegui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilImportantPagesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'iz')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilwikinewsrenderergui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilWikiNewsRendererGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'j0')));
+'class' => array('text', 'ilobjwikisearchresulttablegui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilObjWikiSearchResultTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'j0')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjwikisettingsgui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilObjWikiSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'j1')));
+'class' => array('text', 'ilwikinewsrenderergui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilWikiNewsRendererGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'j1')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilwikiexportordertablegui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilWikiExportOrderTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'j2')));
+'class' => array('text', 'ilobjwikisettingsgui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilObjWikiSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'j2')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjwikigui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilObjWikiGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'j3')));
+'class' => array('text', 'ilwikiexportordertablegui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilWikiExportOrderTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'j3')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilwikistatgui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilWikiStatGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'j4')));
+'class' => array('text', 'ilobjwikigui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilObjWikiGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'j4')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpcamdpagelistgui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilPCAMDPageListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'j5')));
+'class' => array('text', 'ilwikistatgui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilWikiStatGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'j5')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilwikisearchresultstablegui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilWikiSearchResultsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'j6')));
+'class' => array('text', 'ilpcamdpagelistgui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilPCAMDPageListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'j6')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilwikiimportantpagesblockgui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilWikiImportantPagesBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'j7')));
+'class' => array('text', 'ilwikisearchresultstablegui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilWikiSearchResultsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'j7')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilwikihandlergui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilWikiHandlerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'j8')));
+'class' => array('text', 'ilwikiimportantpagesblockgui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilWikiImportantPagesBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'j8')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilwikicontributorstablegui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilWikiContributorsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'j9')));
+'class' => array('text', 'ilwikihandlergui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilWikiHandlerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'j9')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjwikisubitemlistgui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilObjWikiSubItemListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ja')));
+'class' => array('text', 'ilwikicontributorstablegui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilWikiContributorsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ja')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilwikipagetemplategui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilWikiPageTemplateGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jb')));
+'class' => array('text', 'ilobjwikisubitemlistgui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilObjWikiSubItemListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jb')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilwikifunctionsblockgui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilWikiFunctionsBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jc')));
+'class' => array('text', 'ilwikipagetemplategui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilWikiPageTemplateGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jc')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilwikipagetemplatestablegui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilWikiPageTemplatesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jd')));
+'class' => array('text', 'ilwikifunctionsblockgui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilWikiFunctionsBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jd')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilindividualassessmentmemberstablegui'), 'filename' => array('text', 'Modules/IndividualAssessment/classes/class.ilIndividualAssessmentMembersTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'je')));
+'class' => array('text', 'ilwikipagetemplatestablegui'), 'filename' => array('text', 'Modules/Wiki/classes/class.ilWikiPageTemplatesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'je')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjindividualassessmentgui'), 'filename' => array('text', 'Modules/IndividualAssessment/classes/class.ilObjIndividualAssessmentGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jf')));
+'class' => array('text', 'ilindividualassessmentmemberstablegui'), 'filename' => array('text', 'Modules/IndividualAssessment/classes/class.ilIndividualAssessmentMembersTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jf')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilindividualassessmentsettingsgui'), 'filename' => array('text', 'Modules/IndividualAssessment/classes/class.ilIndividualAssessmentSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jg')));
+'class' => array('text', 'ilobjindividualassessmentgui'), 'filename' => array('text', 'Modules/IndividualAssessment/classes/class.ilObjIndividualAssessmentGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jg')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjindividualassessmentlistgui'), 'filename' => array('text', 'Modules/IndividualAssessment/classes/class.ilObjIndividualAssessmentListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jh')));
+'class' => array('text', 'ilindividualassessmentsettingsgui'), 'filename' => array('text', 'Modules/IndividualAssessment/classes/class.ilIndividualAssessmentSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jh')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilindividualassessmentmembergui'), 'filename' => array('text', 'Modules/IndividualAssessment/classes/class.ilIndividualAssessmentMemberGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ji')));
+'class' => array('text', 'ilobjindividualassessmentlistgui'), 'filename' => array('text', 'Modules/IndividualAssessment/classes/class.ilObjIndividualAssessmentListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ji')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilindividualassessmentmembersgui'), 'filename' => array('text', 'Modules/IndividualAssessment/classes/class.ilIndividualAssessmentMembersGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jj')));
+'class' => array('text', 'ilindividualassessmentmembergui'), 'filename' => array('text', 'Modules/IndividualAssessment/classes/class.ilIndividualAssessmentMemberGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jj')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjfoldergui'), 'filename' => array('text', 'Modules/Folder/classes/class.ilObjFolderGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jk')));
+'class' => array('text', 'ilindividualassessmentmembersgui'), 'filename' => array('text', 'Modules/IndividualAssessment/classes/class.ilIndividualAssessmentMembersGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jk')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjfolderlistgui'), 'filename' => array('text', 'Modules/Folder/classes/class.ilObjFolderListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jl')));
+'class' => array('text', 'ilobjfoldergui'), 'filename' => array('text', 'Modules/Folder/classes/class.ilObjFolderGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jl')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilstudyprogrammeindividualplantablegui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/class.ilStudyProgrammeIndividualPlanTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jm')));
+'class' => array('text', 'ilobjfolderlistgui'), 'filename' => array('text', 'Modules/Folder/classes/class.ilObjFolderListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jm')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjstudyprogrammetreegui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/class.ilObjStudyProgrammeTreeGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jn')));
+'class' => array('text', 'ilstudyprogrammeindividualplantablegui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/class.ilStudyProgrammeIndividualPlanTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jn')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilstudyprogrammeindividualplanprogresslistgui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/class.ilStudyProgrammeIndividualPlanProgressListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jo')));
+'class' => array('text', 'ilobjstudyprogrammetreegui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/class.ilObjStudyProgrammeTreeGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jo')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpdstudyprogrammeexpandablelistgui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/class.ilPDStudyProgrammeExpandableListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jp')));
+'class' => array('text', 'ilstudyprogrammeindividualplanprogresslistgui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/class.ilStudyProgrammeIndividualPlanProgressListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jp')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilstudyprogrammecourselistgui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/class.ilStudyProgrammeCourseListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jq')));
+'class' => array('text', 'ilpdstudyprogrammeexpandablelistgui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/class.ilPDStudyProgrammeExpandableListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jq')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjstudyprogrammeadmingui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/class.ilObjStudyProgrammeAdminGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jr')));
+'class' => array('text', 'ilstudyprogrammecourselistgui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/class.ilStudyProgrammeCourseListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jr')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilstudyprogrammeexpandableprogresslistgui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/class.ilStudyProgrammeExpandableProgressListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'js')));
+'class' => array('text', 'ilobjstudyprogrammeadmingui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/class.ilObjStudyProgrammeAdminGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'js')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjstudyprogrammegui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/class.ilObjStudyProgrammeGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jt')));
+'class' => array('text', 'ilstudyprogrammeexpandableprogresslistgui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/class.ilStudyProgrammeExpandableProgressListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jt')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilstudyprogrammerepositorysearchgui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/class.ilStudyProgrammeRepositorySearchGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ju')));
+'class' => array('text', 'ilobjstudyprogrammegui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/class.ilObjStudyProgrammeGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ju')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjstudyprogrammemembersgui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/class.ilObjStudyProgrammeMembersGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jv')));
+'class' => array('text', 'ilstudyprogrammerepositorysearchgui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/class.ilStudyProgrammeRepositorySearchGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jv')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjstudyprogrammesettingsgui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/class.ilObjStudyProgrammeSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jw')));
+'class' => array('text', 'ilobjstudyprogrammemembersgui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/class.ilObjStudyProgrammeMembersGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jw')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilasyncpropertyformgui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/helpers/class.ilAsyncPropertyFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jx')));
+'class' => array('text', 'ilobjstudyprogrammesettingsgui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/class.ilObjStudyProgrammeSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jx')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjstudyprogrammeindividualplangui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/class.ilObjStudyProgrammeIndividualPlanGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jy')));
+'class' => array('text', 'ilasyncpropertyformgui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/helpers/class.ilAsyncPropertyFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jy')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilstudyprogrammeprogresslistgui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/class.ilStudyProgrammeProgressListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jz')));
+'class' => array('text', 'ilobjstudyprogrammeindividualplangui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/class.ilObjStudyProgrammeIndividualPlanGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'jz')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjstudyprogrammelistgui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/class.ilObjStudyProgrammeListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'k0')));
+'class' => array('text', 'ilstudyprogrammeprogresslistgui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/class.ilStudyProgrammeProgressListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'k0')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpdstudyprogrammesimplelistgui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/class.ilPDStudyProgrammeSimpleListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'k1')));
+'class' => array('text', 'ilobjstudyprogrammelistgui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/class.ilObjStudyProgrammeListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'k1')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilstudyprogrammetypegui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/types/class.ilStudyProgrammeTypeGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'k2')));
+'class' => array('text', 'ilpdstudyprogrammesimplelistgui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/class.ilPDStudyProgrammeSimpleListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'k2')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilstudyprogrammetypeadvancedmetadataformgui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/types/class.ilStudyProgrammeTypeAdvancedMetaDataFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'k3')));
+'class' => array('text', 'ilstudyprogrammetypegui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/types/class.ilStudyProgrammeTypeGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'k3')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilstudyprogrammetypecustomiconsformgui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/types/class.ilStudyProgrammeTypeCustomIconsFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'k4')));
+'class' => array('text', 'ilstudyprogrammetypeadvancedmetadataformgui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/types/class.ilStudyProgrammeTypeAdvancedMetaDataFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'k4')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilstudyprogrammetypetablegui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/types/class.ilStudyProgrammeTypeTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'k5')));
+'class' => array('text', 'ilstudyprogrammetypecustomiconsformgui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/types/class.ilStudyProgrammeTypeCustomIconsFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'k5')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilstudyprogrammetypeformgui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/types/class.ilStudyProgrammeTypeFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'k6')));
+'class' => array('text', 'ilstudyprogrammetypetablegui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/types/class.ilStudyProgrammeTypeTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'k6')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilstudyprogrammememberstablegui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/class.ilStudyProgrammeMembersTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'k7')));
+'class' => array('text', 'ilstudyprogrammetypeformgui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/types/class.ilStudyProgrammeTypeFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'k7')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilstudyprogrammeacknowledgecompletedcoursestablegui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/class.ilStudyProgrammeAcknowledgeCompletedCoursesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'k8')));
+'class' => array('text', 'ilstudyprogrammememberstablegui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/class.ilStudyProgrammeMembersTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'k8')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilblognewsrenderergui'), 'filename' => array('text', 'Modules/Blog/classes/class.ilBlogNewsRendererGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'k9')));
+'class' => array('text', 'ilstudyprogrammeacknowledgecompletedcoursestablegui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/class.ilStudyProgrammeAcknowledgeCompletedCoursesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'k9')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjstudyprogrammetreeexplorergui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/class.ilObjStudyProgrammeTreeExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ka')));
+'class' => array('text', 'ilblognewsrenderergui'), 'filename' => array('text', 'Modules/Blog/classes/class.ilBlogNewsRendererGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ka')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilblogexercisegui'), 'filename' => array('text', 'Modules/Blog/classes/class.ilBlogExerciseGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'kb')));
+'class' => array('text', 'ilobjstudyprogrammetreeexplorergui'), 'filename' => array('text', 'Modules/StudyProgramme/classes/class.ilObjStudyProgrammeTreeExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'kb')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjblogadministrationgui'), 'filename' => array('text', 'Modules/Blog/classes/class.ilObjBlogAdministrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'kc')));
+'class' => array('text', 'ilblogexercisegui'), 'filename' => array('text', 'Modules/Blog/classes/class.ilBlogExerciseGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'kc')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjbloggui'), 'filename' => array('text', 'Modules/Blog/classes/class.ilObjBlogGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'kd')));
+'class' => array('text', 'ilobjblogadministrationgui'), 'filename' => array('text', 'Modules/Blog/classes/class.ilObjBlogAdministrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'kd')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjbloglistgui'), 'filename' => array('text', 'Modules/Blog/classes/class.ilObjBlogListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ke')));
+'class' => array('text', 'ilobjbloggui'), 'filename' => array('text', 'Modules/Blog/classes/class.ilObjBlogGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ke')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilblogpostinggui'), 'filename' => array('text', 'Modules/Blog/classes/class.ilBlogPostingGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'kf')));
+'class' => array('text', 'ilobjbloglistgui'), 'filename' => array('text', 'Modules/Blog/classes/class.ilObjBlogListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'kf')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjbookingpoolgui'), 'filename' => array('text', 'Modules/BookingManager/classes/class.ilObjBookingPoolGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'kg')));
+'class' => array('text', 'ilblogpostinggui'), 'filename' => array('text', 'Modules/Blog/classes/class.ilBlogPostingGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'kg')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcontributortablegui'), 'filename' => array('text', 'Modules/Blog/classes/class.ilContributorTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'kh')));
+'class' => array('text', 'ilobjbookingpoolgui'), 'filename' => array('text', 'Modules/BookingManager/classes/class.ilObjBookingPoolGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'kh')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilbookingschedulestablegui'), 'filename' => array('text', 'Modules/BookingManager/classes/class.ilBookingSchedulesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ki')));
+'class' => array('text', 'ilcontributortablegui'), 'filename' => array('text', 'Modules/Blog/classes/class.ilContributorTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ki')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjbookingpoollistgui'), 'filename' => array('text', 'Modules/BookingManager/classes/class.ilObjBookingPoolListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'kj')));
+'class' => array('text', 'ilbookingschedulestablegui'), 'filename' => array('text', 'Modules/BookingManager/classes/class.ilBookingSchedulesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'kj')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilbookingreservationstablegui'), 'filename' => array('text', 'Modules/BookingManager/classes/class.ilBookingReservationsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'kk')));
+'class' => array('text', 'ilobjbookingpoollistgui'), 'filename' => array('text', 'Modules/BookingManager/classes/class.ilObjBookingPoolListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'kk')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilbookingschedulegui'), 'filename' => array('text', 'Modules/BookingManager/classes/class.ilBookingScheduleGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'kl')));
+'class' => array('text', 'ilbookingreservationstablegui'), 'filename' => array('text', 'Modules/BookingManager/classes/class.ilBookingReservationsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'kl')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilbookingobjectstablegui'), 'filename' => array('text', 'Modules/BookingManager/classes/class.ilBookingObjectsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'km')));
+'class' => array('text', 'ilbookingschedulegui'), 'filename' => array('text', 'Modules/BookingManager/classes/class.ilBookingScheduleGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'km')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscheduleinputgui'), 'filename' => array('text', 'Modules/BookingManager/classes/class.ilScheduleInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'kn')));
+'class' => array('text', 'ilbookingobjectstablegui'), 'filename' => array('text', 'Modules/BookingManager/classes/class.ilBookingObjectsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'kn')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilbookingobjectgui'), 'filename' => array('text', 'Modules/BookingManager/classes/class.ilBookingObjectGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ko')));
+'class' => array('text', 'ilscheduleinputgui'), 'filename' => array('text', 'Modules/BookingManager/classes/class.ilScheduleInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ko')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjrootfoldergui'), 'filename' => array('text', 'Modules/RootFolder/classes/class.ilObjRootFolderGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'kp')));
+'class' => array('text', 'ilbookingobjectgui'), 'filename' => array('text', 'Modules/BookingManager/classes/class.ilBookingObjectGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'kp')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjrootfolderlistgui'), 'filename' => array('text', 'Modules/RootFolder/classes/class.ilObjRootFolderListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'kq')));
+'class' => array('text', 'ilobjrootfoldergui'), 'filename' => array('text', 'Modules/RootFolder/classes/class.ilObjRootFolderGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'kq')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjexternalfeedgui'), 'filename' => array('text', 'Modules/ExternalFeed/classes/class.ilObjExternalFeedGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'kr')));
+'class' => array('text', 'ilobjrootfolderlistgui'), 'filename' => array('text', 'Modules/RootFolder/classes/class.ilObjRootFolderListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'kr')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjexternalfeedlistgui'), 'filename' => array('text', 'Modules/ExternalFeed/classes/class.ilObjExternalFeedListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ks')));
+'class' => array('text', 'ilobjexternalfeedgui'), 'filename' => array('text', 'Modules/ExternalFeed/classes/class.ilObjExternalFeedGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ks')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilexternalfeedhandlergui'), 'filename' => array('text', 'Modules/ExternalFeed/classes/class.ilExternalFeedHandlerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'kt')));
+'class' => array('text', 'ilobjexternalfeedlistgui'), 'filename' => array('text', 'Modules/ExternalFeed/classes/class.ilObjExternalFeedListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'kt')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illinkstablegui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLinksTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ku')));
+'class' => array('text', 'ilexternalfeedhandlergui'), 'filename' => array('text', 'Modules/ExternalFeed/classes/class.ilExternalFeedHandlerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ku')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illmeditorgui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLMEditorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'kv')));
+'class' => array('text', 'illinkstablegui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLinksTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'kv')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illmobjectgui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLMObjectGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'kw')));
+'class' => array('text', 'illmeditorgui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLMEditorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'kw')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illmpagegui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLMPageGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'kx')));
+'class' => array('text', 'illmobjectgui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLMObjectGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'kx')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illearningmodulenewsrenderergui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLearningModuleNewsRendererGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ky')));
+'class' => array('text', 'illmpagegui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLMPageGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ky')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illmpresentationgui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLMPresentationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'kz')));
+'class' => array('text', 'illearningmodulenewsrenderergui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLearningModuleNewsRendererGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'kz')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilhelpmappingtablegui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilHelpMappingTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'l0')));
+'class' => array('text', 'illmpresentationgui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLMPresentationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'l0')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illmmultisrtuploadgui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLMMultiSrtUploadGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'l1')));
+'class' => array('text', 'ilhelpmappingtablegui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilHelpMappingTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'l1')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illmquestionlisttablegui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLMQuestionListTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'l2')));
+'class' => array('text', 'illmmultisrtuploadgui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLMMultiSrtUploadGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'l2')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjlearningmodulelistgui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilObjLearningModuleListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'l3')));
+'class' => array('text', 'illmquestionlisttablegui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLMQuestionListTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'l3')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illmeditorexplorergui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLMEditorExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'l4')));
+'class' => array('text', 'ilobjlearningmodulelistgui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilObjLearningModuleListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'l4')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illmtocexplorergui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLMTOCExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'l5')));
+'class' => array('text', 'illmeditorexplorergui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLMEditorExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'l5')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilexportidtablegui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilExportIDTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'l6')));
+'class' => array('text', 'illmtocexplorergui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLMTOCExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'l6')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illmpageobjectgui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLMPageObjectGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'l7')));
+'class' => array('text', 'ilexportidtablegui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilExportIDTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'l7')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjcontentobjectgui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilObjContentObjectGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'l8')));
+'class' => array('text', 'illmpageobjectgui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLMPageObjectGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'l8')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illmtableofcontentsexplorergui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLMTableOfContentsExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'l9')));
+'class' => array('text', 'ilobjcontentobjectgui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilObjContentObjectGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'l9')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilchapterhierarchyformgui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilChapterHierarchyFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'la')));
+'class' => array('text', 'illmtableofcontentsexplorergui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLMTableOfContentsExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'la')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilstructureobjectgui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilStructureObjectGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'lb')));
+'class' => array('text', 'ilchapterhierarchyformgui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilChapterHierarchyFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'lb')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illmdownloadtablegui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLMDownloadTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'lc')));
+'class' => array('text', 'ilstructureobjectgui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilStructureObjectGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'lc')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illmmultisrtconfirmationtable2gui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLMMultiSrtConfirmationTable2GUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ld')));
+'class' => array('text', 'illmdownloadtablegui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLMDownloadTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ld')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjlearningmodulesubitemlistgui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilObjLearningModuleSubItemListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'le')));
+'class' => array('text', 'illmmultisrtconfirmationtable2gui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLMMultiSrtConfirmationTable2GUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'le')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpublicsectionexplorergui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilPublicSectionExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'lf')));
+'class' => array('text', 'ilobjlearningmodulesubitemlistgui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilObjLearningModuleSubItemListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'lf')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjlearningresourcessettingsgui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilObjLearningResourcesSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'lg')));
+'class' => array('text', 'ilpublicsectionexplorergui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilPublicSectionExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'lg')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illmmenuitemstablegui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLMMenuItemsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'lh')));
+'class' => array('text', 'ilobjlearningresourcessettingsgui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilObjLearningResourcesSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'lh')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illmblockeduserstablegui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLMBlockedUsersTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'li')));
+'class' => array('text', 'illmmenuitemstablegui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLMMenuItemsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'li')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjlearningmodulegui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilObjLearningModuleGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'lj')));
+'class' => array('text', 'illmblockeduserstablegui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLMBlockedUsersTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'lj')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illmglossarytablegui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLMGlossaryTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'lk')));
+'class' => array('text', 'ilobjlearningmodulegui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilObjLearningModuleGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'lk')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilhelptooltiptablegui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilHelpTooltipTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'll')));
+'class' => array('text', 'illmglossarytablegui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLMGlossaryTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'll')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illmimportgui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLMImportGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'lm')));
+'class' => array('text', 'ilhelptooltiptablegui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilHelpTooltipTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'lm')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcontobjlocatorgui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilContObjLocatorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ln')));
+'class' => array('text', 'illmimportgui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLMImportGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ln')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illmpagestablegui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLMPagesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'lo')));
+'class' => array('text', 'ilcontobjlocatorgui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilContObjLocatorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'lo')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illmexplorergui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLMExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'lp')));
+'class' => array('text', 'illmpagestablegui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLMPagesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'lp')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcoursecontentgui'), 'filename' => array('text', 'Modules/Course/classes/class.ilCourseContentGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'lq')));
+'class' => array('text', 'illmexplorergui'), 'filename' => array('text', 'Modules/LearningModule/classes/class.ilLMExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'lq')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcourseparticipantsgroupsgui'), 'filename' => array('text', 'Modules/Course/classes/class.ilCourseParticipantsGroupsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'lr')));
+'class' => array('text', 'ilcoursecontentgui'), 'filename' => array('text', 'Modules/Course/classes/class.ilCourseContentGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'lr')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcoursegroupingtablegui'), 'filename' => array('text', 'Modules/Course/classes/class.ilCourseGroupingTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ls')));
+'class' => array('text', 'ilcourseparticipantsgroupsgui'), 'filename' => array('text', 'Modules/Course/classes/class.ilCourseParticipantsGroupsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ls')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcourseparticipantstablegui'), 'filename' => array('text', 'Modules/Course/classes/class.ilCourseParticipantsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'lt')));
+'class' => array('text', 'ilcoursegroupingtablegui'), 'filename' => array('text', 'Modules/Course/classes/class.ilCourseGroupingTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'lt')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcoursearchivesgui'), 'filename' => array('text', 'Modules/Course/classes/class.ilCourseArchivesGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'lu')));
+'class' => array('text', 'ilcourseparticipantstablegui'), 'filename' => array('text', 'Modules/Course/classes/class.ilCourseParticipantsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'lu')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcourseobjectivequestionassignmenttablegui'), 'filename' => array('text', 'Modules/Course/classes/class.ilCourseObjectiveQuestionAssignmentTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'lv')));
+'class' => array('text', 'ilcoursearchivesgui'), 'filename' => array('text', 'Modules/Course/classes/class.ilCourseArchivesGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'lv')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcourseeditparticipantstablegui'), 'filename' => array('text', 'Modules/Course/classes/class.ilCourseEditParticipantsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'lw')));
+'class' => array('text', 'ilcourseobjectivequestionassignmenttablegui'), 'filename' => array('text', 'Modules/Course/classes/class.ilCourseObjectiveQuestionAssignmentTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'lw')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcourseobjectivematerialassignmenttablegui'), 'filename' => array('text', 'Modules/Course/classes/class.ilCourseObjectiveMaterialAssignmentTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'lx')));
+'class' => array('text', 'ilcourseeditparticipantstablegui'), 'filename' => array('text', 'Modules/Course/classes/class.ilCourseEditParticipantsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'lx')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjcoursegroupinggui'), 'filename' => array('text', 'Modules/Course/classes/class.ilObjCourseGroupingGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ly')));
+'class' => array('text', 'ilcourseobjectivematerialassignmenttablegui'), 'filename' => array('text', 'Modules/Course/classes/class.ilCourseObjectiveMaterialAssignmentTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ly')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcourselpbadgegui'), 'filename' => array('text', 'Modules/Course/classes/Badges/class.ilCourseLPBadgeGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'lz')));
+'class' => array('text', 'ilobjcoursegroupinggui'), 'filename' => array('text', 'Modules/Course/classes/class.ilObjCourseGroupingGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'lz')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcourseparticipantsgroupstablegui'), 'filename' => array('text', 'Modules/Course/classes/class.ilCourseParticipantsGroupsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'm0')));
+'class' => array('text', 'ilcourselpbadgegui'), 'filename' => array('text', 'Modules/Course/classes/Badges/class.ilCourseLPBadgeGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'm0')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjcourselistgui'), 'filename' => array('text', 'Modules/Course/classes/class.ilObjCourseListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'm1')));
+'class' => array('text', 'ilcourseparticipantsgroupstablegui'), 'filename' => array('text', 'Modules/Course/classes/class.ilCourseParticipantsGroupsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'm1')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcourseobjectivequestionstablegui'), 'filename' => array('text', 'Modules/Course/classes/class.ilCourseObjectiveQuestionsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'm2')));
+'class' => array('text', 'ilobjcourselistgui'), 'filename' => array('text', 'Modules/Course/classes/class.ilObjCourseListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'm2')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcourseobjectivelistgui'), 'filename' => array('text', 'Modules/Course/classes/class.ilCourseObjectiveListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'm3')));
+'class' => array('text', 'ilcourseobjectivequestionstablegui'), 'filename' => array('text', 'Modules/Course/classes/class.ilCourseObjectiveQuestionsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'm3')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcourseobjectivesgui'), 'filename' => array('text', 'Modules/Course/classes/class.ilCourseObjectivesGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'm4')));
+'class' => array('text', 'ilcourseobjectivelistgui'), 'filename' => array('text', 'Modules/Course/classes/class.ilCourseObjectiveListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'm4')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcoursegroupingassignmenttablegui'), 'filename' => array('text', 'Modules/Course/classes/class.ilCourseGroupingAssignmentTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'm5')));
+'class' => array('text', 'ilcourseobjectivesgui'), 'filename' => array('text', 'Modules/Course/classes/class.ilCourseObjectivesGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'm5')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcoursestartobjectstablegui'), 'filename' => array('text', 'Modules/Course/classes/class.ilCourseStartObjectsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'm6')));
+'class' => array('text', 'ilcoursegroupingassignmenttablegui'), 'filename' => array('text', 'Modules/Course/classes/class.ilCourseGroupingAssignmentTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'm6')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcourseinfofiletablegui'), 'filename' => array('text', 'Modules/Course/classes/class.ilCourseInfoFileTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'm7')));
+'class' => array('text', 'ilcoursestartobjectstablegui'), 'filename' => array('text', 'Modules/Course/classes/class.ilCourseStartObjectsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'm7')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjcoursegui'), 'filename' => array('text', 'Modules/Course/classes/class.ilObjCourseGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'm8')));
+'class' => array('text', 'ilcourseinfofiletablegui'), 'filename' => array('text', 'Modules/Course/classes/class.ilCourseInfoFileTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'm8')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjcourseverificationlistgui'), 'filename' => array('text', 'Modules/Course/classes/Verification/class.ilObjCourseVerificationListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'm9')));
+'class' => array('text', 'ilobjcoursegui'), 'filename' => array('text', 'Modules/Course/classes/class.ilObjCourseGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'm9')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcourseverificationtablegui'), 'filename' => array('text', 'Modules/Course/classes/Verification/class.ilCourseVerificationTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ma')));
+'class' => array('text', 'ilobjcourseverificationlistgui'), 'filename' => array('text', 'Modules/Course/classes/Verification/class.ilObjCourseVerificationListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ma')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjcourseverificationgui'), 'filename' => array('text', 'Modules/Course/classes/Verification/class.ilObjCourseVerificationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mb')));
+'class' => array('text', 'ilcourseverificationtablegui'), 'filename' => array('text', 'Modules/Course/classes/Verification/class.ilCourseVerificationTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mb')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcoursemembershipgui'), 'filename' => array('text', 'Modules/Course/classes/class.ilCourseMembershipGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mc')));
+'class' => array('text', 'ilobjcourseverificationgui'), 'filename' => array('text', 'Modules/Course/classes/Verification/class.ilObjCourseVerificationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mc')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illoeditorgui'), 'filename' => array('text', 'Modules/Course/classes/Objectives/class.ilLOEditorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'md')));
+'class' => array('text', 'ilcoursemembershipgui'), 'filename' => array('text', 'Modules/Course/classes/class.ilCourseMembershipGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'md')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illotestassignmenttablegui'), 'filename' => array('text', 'Modules/Course/classes/Objectives/class.ilLOTestAssignmentTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'me')));
+'class' => array('text', 'illoeditorgui'), 'filename' => array('text', 'Modules/Course/classes/Objectives/class.ilLOEditorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'me')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illomembertestresulttablegui'), 'filename' => array('text', 'Modules/Course/classes/Objectives/class.ilLOMemberTestResultTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mf')));
+'class' => array('text', 'illotestassignmenttablegui'), 'filename' => array('text', 'Modules/Course/classes/Objectives/class.ilLOTestAssignmentTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mf')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illopagegui'), 'filename' => array('text', 'Modules/Course/classes/Objectives/class.ilLOPageGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mg')));
+'class' => array('text', 'illomembertestresulttablegui'), 'filename' => array('text', 'Modules/Course/classes/Objectives/class.ilLOMemberTestResultTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mg')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illomembertestresultgui'), 'filename' => array('text', 'Modules/Course/classes/Objectives/class.ilLOMemberTestResultGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mh')));
+'class' => array('text', 'illopagegui'), 'filename' => array('text', 'Modules/Course/classes/Objectives/class.ilLOPageGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mh')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcourseobjectivestablegui'), 'filename' => array('text', 'Modules/Course/classes/class.ilCourseObjectivesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mi')));
+'class' => array('text', 'illomembertestresultgui'), 'filename' => array('text', 'Modules/Course/classes/Objectives/class.ilLOMemberTestResultGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mi')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcourseregistrationgui'), 'filename' => array('text', 'Modules/Course/classes/class.ilCourseRegistrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mj')));
+'class' => array('text', 'ilcourseobjectivestablegui'), 'filename' => array('text', 'Modules/Course/classes/class.ilCourseObjectivesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mj')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjcourseadministrationgui'), 'filename' => array('text', 'Modules/Course/classes/class.ilObjCourseAdministrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mk')));
+'class' => array('text', 'ilcourseregistrationgui'), 'filename' => array('text', 'Modules/Course/classes/class.ilCourseRegistrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mk')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscormtrackingitemsscotablegui'), 'filename' => array('text', 'Modules/ScormAicc/classes/class.ilSCORMTrackingItemsScoTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ml')));
+'class' => array('text', 'ilobjcourseadministrationgui'), 'filename' => array('text', 'Modules/Course/classes/class.ilObjCourseAdministrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ml')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscormtrackingitemstablegui'), 'filename' => array('text', 'Modules/ScormAicc/classes/class.ilSCORMTrackingItemsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mm')));
+'class' => array('text', 'ilscormtrackingitemsscotablegui'), 'filename' => array('text', 'Modules/ScormAicc/classes/class.ilSCORMTrackingItemsScoTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mm')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscormtrackingitemsperusertablegui'), 'filename' => array('text', 'Modules/ScormAicc/classes/class.ilSCORMTrackingItemsPerUserTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mn')));
+'class' => array('text', 'ilscormtrackingitemstablegui'), 'filename' => array('text', 'Modules/ScormAicc/classes/class.ilSCORMTrackingItemsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mn')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjscormlearningmodulegui'), 'filename' => array('text', 'Modules/ScormAicc/classes/class.ilObjSCORMLearningModuleGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mo')));
+'class' => array('text', 'ilscormtrackingitemsperusertablegui'), 'filename' => array('text', 'Modules/ScormAicc/classes/class.ilSCORMTrackingItemsPerUserTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mo')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjsahslearningmodulelistgui'), 'filename' => array('text', 'Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mp')));
+'class' => array('text', 'ilobjscormlearningmodulegui'), 'filename' => array('text', 'Modules/ScormAicc/classes/class.ilObjSCORMLearningModuleGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mp')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscormtrackingitemsperscofiltergui'), 'filename' => array('text', 'Modules/ScormAicc/classes/class.ilSCORMTrackingItemsPerScoFilterGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mq')));
+'class' => array('text', 'ilobjsahslearningmodulelistgui'), 'filename' => array('text', 'Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mq')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscormtrackingitemsperuserfiltergui'), 'filename' => array('text', 'Modules/ScormAicc/classes/class.ilSCORMTrackingItemsPerUserFilterGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mr')));
+'class' => array('text', 'ilscormtrackingitemsperscofiltergui'), 'filename' => array('text', 'Modules/ScormAicc/classes/class.ilSCORMTrackingItemsPerScoFilterGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mr')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscormtrackinguserstablegui'), 'filename' => array('text', 'Modules/ScormAicc/classes/class.ilSCORMTrackingUsersTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ms')));
+'class' => array('text', 'ilscormtrackingitemsperuserfiltergui'), 'filename' => array('text', 'Modules/ScormAicc/classes/class.ilSCORMTrackingItemsPerUserFilterGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ms')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscormofflinemodeuserstablegui'), 'filename' => array('text', 'Modules/ScormAicc/classes/class.ilSCORMOfflineModeUsersTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mt')));
+'class' => array('text', 'ilscormtrackinguserstablegui'), 'filename' => array('text', 'Modules/ScormAicc/classes/class.ilSCORMTrackingUsersTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mt')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscormobjectgui'), 'filename' => array('text', 'Modules/ScormAicc/classes/SCORM/class.ilSCORMObjectGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mu')));
+'class' => array('text', 'ilscormofflinemodeuserstablegui'), 'filename' => array('text', 'Modules/ScormAicc/classes/class.ilSCORMOfflineModeUsersTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mu')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscormpresentationgui'), 'filename' => array('text', 'Modules/ScormAicc/classes/SCORM/class.ilSCORMPresentationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mv')));
+'class' => array('text', 'ilscormobjectgui'), 'filename' => array('text', 'Modules/ScormAicc/classes/SCORM/class.ilSCORMObjectGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mv')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscormresourcegui'), 'filename' => array('text', 'Modules/ScormAicc/classes/SCORM/class.ilSCORMResourceGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mw')));
+'class' => array('text', 'ilscormpresentationgui'), 'filename' => array('text', 'Modules/ScormAicc/classes/SCORM/class.ilSCORMPresentationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mw')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscormitemgui'), 'filename' => array('text', 'Modules/ScormAicc/classes/SCORM/class.ilSCORMItemGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mx')));
+'class' => array('text', 'ilscormresourcegui'), 'filename' => array('text', 'Modules/ScormAicc/classes/SCORM/class.ilSCORMResourceGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mx')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscormorganizationgui'), 'filename' => array('text', 'Modules/ScormAicc/classes/SCORM/class.ilSCORMOrganizationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'my')));
+'class' => array('text', 'ilscormitemgui'), 'filename' => array('text', 'Modules/ScormAicc/classes/SCORM/class.ilSCORMItemGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'my')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscormresourcesgui'), 'filename' => array('text', 'Modules/ScormAicc/classes/SCORM/class.ilSCORMResourcesGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mz')));
+'class' => array('text', 'ilscormorganizationgui'), 'filename' => array('text', 'Modules/ScormAicc/classes/SCORM/class.ilSCORMOrganizationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'mz')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscormorganizationsgui'), 'filename' => array('text', 'Modules/ScormAicc/classes/SCORM/class.ilSCORMOrganizationsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'n0')));
+'class' => array('text', 'ilscormresourcesgui'), 'filename' => array('text', 'Modules/ScormAicc/classes/SCORM/class.ilSCORMResourcesGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'n0')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscormmanifestgui'), 'filename' => array('text', 'Modules/ScormAicc/classes/SCORM/class.ilSCORMManifestGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'n1')));
+'class' => array('text', 'ilscormorganizationsgui'), 'filename' => array('text', 'Modules/ScormAicc/classes/SCORM/class.ilSCORMOrganizationsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'n1')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsahspresentationgui'), 'filename' => array('text', 'Modules/ScormAicc/classes/class.ilSAHSPresentationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'n2')));
+'class' => array('text', 'ilscormmanifestgui'), 'filename' => array('text', 'Modules/ScormAicc/classes/SCORM/class.ilSCORMManifestGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'n2')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjhacplearningmodulegui'), 'filename' => array('text', 'Modules/ScormAicc/classes/class.ilObjHACPLearningModuleGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'n3')));
+'class' => array('text', 'ilsahspresentationgui'), 'filename' => array('text', 'Modules/ScormAicc/classes/class.ilSAHSPresentationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'n3')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsahseditgui'), 'filename' => array('text', 'Modules/ScormAicc/classes/class.ilSAHSEditGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'n4')));
+'class' => array('text', 'ilobjhacplearningmodulegui'), 'filename' => array('text', 'Modules/ScormAicc/classes/class.ilObjHACPLearningModuleGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'n4')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjsahslearningmodulegui'), 'filename' => array('text', 'Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'n5')));
+'class' => array('text', 'ilsahseditgui'), 'filename' => array('text', 'Modules/ScormAicc/classes/class.ilSAHSEditGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'n5')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjscormverificationgui'), 'filename' => array('text', 'Modules/ScormAicc/classes/Verification/class.ilObjSCORMVerificationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'n6')));
+'class' => array('text', 'ilobjsahslearningmodulegui'), 'filename' => array('text', 'Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'n6')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscormverificationtablegui'), 'filename' => array('text', 'Modules/ScormAicc/classes/Verification/class.ilSCORMVerificationTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'n7')));
+'class' => array('text', 'ilobjscormverificationgui'), 'filename' => array('text', 'Modules/ScormAicc/classes/Verification/class.ilObjSCORMVerificationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'n7')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjscormverificationlistgui'), 'filename' => array('text', 'Modules/ScormAicc/classes/Verification/class.ilObjSCORMVerificationListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'n8')));
+'class' => array('text', 'ilscormverificationtablegui'), 'filename' => array('text', 'Modules/ScormAicc/classes/Verification/class.ilSCORMVerificationTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'n8')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscormtrackingitemperusertablegui'), 'filename' => array('text', 'Modules/ScormAicc/classes/class.ilSCORMTrackingItemPerUserTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'n9')));
+'class' => array('text', 'ilobjscormverificationlistgui'), 'filename' => array('text', 'Modules/ScormAicc/classes/Verification/class.ilObjSCORMVerificationListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'n9')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjaicclearningmodulegui'), 'filename' => array('text', 'Modules/ScormAicc/classes/class.ilObjAICCLearningModuleGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'na')));
+'class' => array('text', 'ilscormtrackingitemperusertablegui'), 'filename' => array('text', 'Modules/ScormAicc/classes/class.ilSCORMTrackingItemPerUserTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'na')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscormofflinemodegui'), 'filename' => array('text', 'Modules/ScormAicc/classes/class.ilSCORMOfflineModeGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'nb')));
+'class' => array('text', 'ilobjaicclearningmodulegui'), 'filename' => array('text', 'Modules/ScormAicc/classes/class.ilObjAICCLearningModuleGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'nb')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscormtrackingitemsperscotablegui'), 'filename' => array('text', 'Modules/ScormAicc/classes/class.ilSCORMTrackingItemsPerScoTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'nc')));
+'class' => array('text', 'ilscormofflinemodegui'), 'filename' => array('text', 'Modules/ScormAicc/classes/class.ilSCORMOfflineModeGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'nc')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilaiccobjectgui'), 'filename' => array('text', 'Modules/ScormAicc/classes/AICC/class.ilAICCObjectGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'nd')));
+'class' => array('text', 'ilscormtrackingitemsperscotablegui'), 'filename' => array('text', 'Modules/ScormAicc/classes/class.ilSCORMTrackingItemsPerScoTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'nd')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilaiccunitgui'), 'filename' => array('text', 'Modules/ScormAicc/classes/AICC/class.ilAICCUnitGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ne')));
+'class' => array('text', 'ilaiccobjectgui'), 'filename' => array('text', 'Modules/ScormAicc/classes/AICC/class.ilAICCObjectGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ne')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilaicccoursegui'), 'filename' => array('text', 'Modules/ScormAicc/classes/AICC/class.ilAICCCourseGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'nf')));
+'class' => array('text', 'ilaiccunitgui'), 'filename' => array('text', 'Modules/ScormAicc/classes/AICC/class.ilAICCUnitGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'nf')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilaiccblockgui'), 'filename' => array('text', 'Modules/ScormAicc/classes/AICC/class.ilAICCBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ng')));
+'class' => array('text', 'ilaicccoursegui'), 'filename' => array('text', 'Modules/ScormAicc/classes/AICC/class.ilAICCCourseGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ng')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilaiccpresentationgui'), 'filename' => array('text', 'Modules/ScormAicc/classes/AICC/class.ilAICCPresentationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'nh')));
+'class' => array('text', 'ilaiccblockgui'), 'filename' => array('text', 'Modules/ScormAicc/classes/AICC/class.ilAICCBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'nh')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjworkspacerootfolderlistgui'), 'filename' => array('text', 'Modules/WorkspaceRootFolder/classes/class.ilObjWorkspaceRootFolderListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ni')));
+'class' => array('text', 'ilaiccpresentationgui'), 'filename' => array('text', 'Modules/ScormAicc/classes/AICC/class.ilAICCPresentationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ni')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjworkspacerootfoldergui'), 'filename' => array('text', 'Modules/WorkspaceRootFolder/classes/class.ilObjWorkspaceRootFolderGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'nj')));
+'class' => array('text', 'ilobjworkspacerootfolderlistgui'), 'filename' => array('text', 'Modules/WorkspaceRootFolder/classes/class.ilObjWorkspaceRootFolderListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'nj')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjmediacastlistgui'), 'filename' => array('text', 'Modules/MediaCast/classes/class.ilObjMediaCastListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'nk')));
+'class' => array('text', 'ilobjworkspacerootfoldergui'), 'filename' => array('text', 'Modules/WorkspaceRootFolder/classes/class.ilObjWorkspaceRootFolderGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'nk')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmediacasthandlergui'), 'filename' => array('text', 'Modules/MediaCast/classes/class.ilMediaCastHandlerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'nl')));
+'class' => array('text', 'ilobjmediacastlistgui'), 'filename' => array('text', 'Modules/MediaCast/classes/class.ilObjMediaCastListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'nl')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjmediacastgui'), 'filename' => array('text', 'Modules/MediaCast/classes/class.ilObjMediaCastGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'nm')));
+'class' => array('text', 'ilmediacasthandlergui'), 'filename' => array('text', 'Modules/MediaCast/classes/class.ilMediaCastHandlerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'nm')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmediacasttablegui'), 'filename' => array('text', 'Modules/MediaCast/classes/class.ilMediaCastTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'nn')));
+'class' => array('text', 'ilobjmediacastgui'), 'filename' => array('text', 'Modules/MediaCast/classes/class.ilObjMediaCastGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'nn')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjmediacastsettingsgui'), 'filename' => array('text', 'Modules/MediaCast/classes/class.ilObjMediaCastSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'no')));
+'class' => array('text', 'ilmediacasttablegui'), 'filename' => array('text', 'Modules/MediaCast/classes/class.ilMediaCastTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'no')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjfilebasedlmgui'), 'filename' => array('text', 'Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'np')));
+'class' => array('text', 'ilobjmediacastsettingsgui'), 'filename' => array('text', 'Modules/MediaCast/classes/class.ilObjMediaCastSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'np')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilhtlmeditorgui'), 'filename' => array('text', 'Modules/HTMLLearningModule/classes/class.ilHTLMEditorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'nq')));
+'class' => array('text', 'ilobjfilebasedlmgui'), 'filename' => array('text', 'Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'nq')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilhtlmpresentationgui'), 'filename' => array('text', 'Modules/HTMLLearningModule/classes/class.ilHTLMPresentationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'nr')));
+'class' => array('text', 'ilhtlmeditorgui'), 'filename' => array('text', 'Modules/HTMLLearningModule/classes/class.ilHTLMEditorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'nr')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjfilebasedlmlistgui'), 'filename' => array('text', 'Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ns')));
+'class' => array('text', 'ilhtlmpresentationgui'), 'filename' => array('text', 'Modules/HTMLLearningModule/classes/class.ilHTLMPresentationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ns')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestsettingschangeconfirmationgui'), 'filename' => array('text', 'Modules/Test/classes/confirmations/class.ilTestSettingsChangeConfirmationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'nt')));
+'class' => array('text', 'ilobjfilebasedlmlistgui'), 'filename' => array('text', 'Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'nt')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestansweroptionalquestionsconfirmationgui'), 'filename' => array('text', 'Modules/Test/classes/confirmations/class.ilTestAnswerOptionalQuestionsConfirmationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'nu')));
+'class' => array('text', 'iltestsettingschangeconfirmationgui'), 'filename' => array('text', 'Modules/Test/classes/confirmations/class.ilTestSettingsChangeConfirmationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'nu')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestpassdeletionconfirmationgui'), 'filename' => array('text', 'Modules/Test/classes/confirmations/class.ilTestPassDeletionConfirmationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'nv')));
+'class' => array('text', 'iltestansweroptionalquestionsconfirmationgui'), 'filename' => array('text', 'Modules/Test/classes/confirmations/class.ilTestAnswerOptionalQuestionsConfirmationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'nv')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestevaluationgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestEvaluationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'nw')));
+'class' => array('text', 'iltestpassdeletionconfirmationgui'), 'filename' => array('text', 'Modules/Test/classes/confirmations/class.ilTestPassDeletionConfirmationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'nw')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestplayerfixedquestionsetgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestPlayerFixedQuestionSetGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'nx')));
+'class' => array('text', 'iltestevaluationgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestEvaluationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'nx')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjtestgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilObjTestGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ny')));
+'class' => array('text', 'iltestplayerfixedquestionsetgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestPlayerFixedQuestionSetGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ny')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestskilladministrationgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestSkillAdministrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'nz')));
+'class' => array('text', 'ilobjtestgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilObjTestGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'nz')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestpasswordprotectiongui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestPasswordProtectionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'o0')));
+'class' => array('text', 'iltestskilladministrationgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestSkillAdministrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'o0')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjtestdynamicquestionsetconfiggui'), 'filename' => array('text', 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfigGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'o1')));
+'class' => array('text', 'iltestpasswordprotectiongui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestPasswordProtectionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'o1')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjtestlistgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilObjTestListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'o2')));
+'class' => array('text', 'ilobjtestdynamicquestionsetconfiggui'), 'filename' => array('text', 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfigGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'o2')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestrandomquestionsetsourcepooldefinitionlisttoolbargui'), 'filename' => array('text', 'Modules/Test/classes/toolbars/class.ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'o3')));
+'class' => array('text', 'ilobjtestlistgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilObjTestListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'o3')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestinfoscreentoolbargui'), 'filename' => array('text', 'Modules/Test/classes/toolbars/class.ilTestInfoScreenToolbarGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'o4')));
+'class' => array('text', 'iltestrandomquestionsetsourcepooldefinitionlisttoolbargui'), 'filename' => array('text', 'Modules/Test/classes/toolbars/class.ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'o4')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestskillevaluationtoolbargui'), 'filename' => array('text', 'Modules/Test/classes/toolbars/class.ilTestSkillEvaluationToolbarGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'o5')));
+'class' => array('text', 'iltestinfoscreentoolbargui'), 'filename' => array('text', 'Modules/Test/classes/toolbars/class.ilTestInfoScreenToolbarGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'o5')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestresultstoolbargui'), 'filename' => array('text', 'Modules/Test/classes/toolbars/class.ilTestResultsToolbarGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'o6')));
+'class' => array('text', 'iltestskillevaluationtoolbargui'), 'filename' => array('text', 'Modules/Test/classes/toolbars/class.ilTestSkillEvaluationToolbarGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'o6')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestsignaturegui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestSignatureGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'o7')));
+'class' => array('text', 'iltestresultstoolbargui'), 'filename' => array('text', 'Modules/Test/classes/toolbars/class.ilTestResultsToolbarGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'o7')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestsubmissionreviewgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestSubmissionReviewGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'o8')));
+'class' => array('text', 'iltestsignaturegui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestSignatureGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'o8')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscoringadjustmentgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilScoringAdjustmentGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'o9')));
+'class' => array('text', 'iltestsubmissionreviewgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestSubmissionReviewGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'o9')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestnavigationtoolbargui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestNavigationToolbarGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'oa')));
+'class' => array('text', 'ilscoringadjustmentgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilScoringAdjustmentGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'oa')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestscoringbyquestionsgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestScoringByQuestionsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ob')));
+'class' => array('text', 'iltestnavigationtoolbargui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestNavigationToolbarGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ob')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestplayerabstractgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestPlayerAbstractGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'oc')));
+'class' => array('text', 'iltestscoringbyquestionsgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestScoringByQuestionsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'oc')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestplayerdynamicquestionsetgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestPlayerDynamicQuestionSetGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'od')));
+'class' => array('text', 'iltestplayerabstractgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestPlayerAbstractGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'od')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjtestverificationlistgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilObjTestVerificationListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'oe')));
+'class' => array('text', 'iltestplayerdynamicquestionsetgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestPlayerDynamicQuestionSetGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'oe')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestservicegui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestServiceGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'of')));
+'class' => array('text', 'ilobjtestverificationlistgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilObjTestVerificationListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'of')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestquestionsidelistgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestQuestionSideListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'og')));
+'class' => array('text', 'iltestservicegui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestServiceGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'og')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestskilllevelthresholdsgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestSkillLevelThresholdsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'oh')));
+'class' => array('text', 'iltestquestionsidelistgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestQuestionSideListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'oh')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjassessmentfoldergui'), 'filename' => array('text', 'Modules/Test/classes/class.ilObjAssessmentFolderGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'oi')));
+'class' => array('text', 'iltestskilllevelthresholdsgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestSkillLevelThresholdsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'oi')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestquestionnavigationgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestQuestionNavigationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'oj')));
+'class' => array('text', 'ilobjassessmentfoldergui'), 'filename' => array('text', 'Modules/Test/classes/class.ilObjAssessmentFolderGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'oj')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestrandomquestionsetconfiggui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestRandomQuestionSetConfigGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ok')));
+'class' => array('text', 'iltestquestionnavigationgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestQuestionNavigationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ok')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestmanscoringparticipantstablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestManScoringParticipantsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ol')));
+'class' => array('text', 'iltestrandomquestionsetconfiggui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestRandomQuestionSetConfigGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ol')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestaggregatedresultstablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestAggregatedResultsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'om')));
+'class' => array('text', 'iltestmanscoringparticipantstablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestManScoringParticipantsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'om')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestparticipantstablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestParticipantsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'on')));
+'class' => array('text', 'iltestaggregatedresultstablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestAggregatedResultsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'on')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestpassmanualscoringoverviewtablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestPassManualScoringOverviewTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'oo')));
+'class' => array('text', 'iltestparticipantstablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestParticipantsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'oo')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilresultsbyquestiontablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilResultsByQuestionTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'op')));
+'class' => array('text', 'iltestpassmanualscoringoverviewtablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestPassManualScoringOverviewTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'op')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestpassoverviewtablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestPassOverviewTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'oq')));
+'class' => array('text', 'ilresultsbyquestiontablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilResultsByQuestionTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'oq')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestinviterolestablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestInviteRolesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'or')));
+'class' => array('text', 'iltestpassoverviewtablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestPassOverviewTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'or')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilassessmentfolderlogtablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilAssessmentFolderLogTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'os')));
+'class' => array('text', 'iltestinviterolestablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestInviteRolesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'os')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltesthistorytablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestHistoryTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ot')));
+'class' => array('text', 'ilassessmentfolderlogtablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilAssessmentFolderLogTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ot')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestverificationtablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestVerificationTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ou')));
+'class' => array('text', 'iltesthistorytablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestHistoryTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ou')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illistofquestionstablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilListOfQuestionsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ov')));
+'class' => array('text', 'iltestverificationtablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestVerificationTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ov')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestquestionstablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestQuestionsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ow')));
+'class' => array('text', 'illistofquestionstablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilListOfQuestionsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ow')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestaveragereachedpointstablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestAverageReachedPointsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ox')));
+'class' => array('text', 'iltestquestionstablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestQuestionsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ox')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestmanscoringparticipantsbyselectedquestionandpasstablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'oy')));
+'class' => array('text', 'iltestaveragereachedpointstablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestAverageReachedPointsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'oy')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestdetailedevaluationstatisticstablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestDetailedEvaluationStatisticsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'oz')));
+'class' => array('text', 'iltestmanscoringparticipantsbyselectedquestionandpasstablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'oz')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestdynamicquestionsetstatistictablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestDynamicQuestionSetStatisticTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'p0')));
+'class' => array('text', 'iltestdetailedevaluationstatisticstablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestDetailedEvaluationStatisticsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'p0')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestpersonaldefaultsettingstablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestPersonalDefaultSettingsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'p1')));
+'class' => array('text', 'iltestdynamicquestionsetstatistictablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestDynamicQuestionSetStatisticTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'p1')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestpassdetailsoverviewtablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestPassDetailsOverviewTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'p2')));
+'class' => array('text', 'iltestpersonaldefaultsettingstablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestPersonalDefaultSettingsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'p2')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestexporttablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestExportTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'p3')));
+'class' => array('text', 'iltestpassdetailsoverviewtablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestPassDetailsOverviewTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'p3')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltimingoverviewtablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTimingOverviewTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'p4')));
+'class' => array('text', 'iltestexporttablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestExportTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'p4')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilassessmentfolderlogadministrationtablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilAssessmentFolderLogAdministrationTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'p5')));
+'class' => array('text', 'iltimingoverviewtablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTimingOverviewTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'p5')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestrandomquestionsetnonavailablepoolstablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestRandomQuestionSetNonAvailablePoolsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'p6')));
+'class' => array('text', 'ilassessmentfolderlogadministrationtablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilAssessmentFolderLogAdministrationTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'p6')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestquestionbrowsertablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestQuestionBrowserTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'p7')));
+'class' => array('text', 'iltestrandomquestionsetnonavailablepoolstablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestRandomQuestionSetNonAvailablePoolsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'p7')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestinviteuserstablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestInviteUsersTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'p8')));
+'class' => array('text', 'iltestquestionbrowsertablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestQuestionBrowserTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'p8')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestfixedparticipantstablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestFixedParticipantsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'p9')));
+'class' => array('text', 'iltestinviteuserstablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestInviteUsersTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'p9')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestrandomquestionsetsourcepooldefinitionlisttablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pa')));
+'class' => array('text', 'iltestfixedparticipantstablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestFixedParticipantsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pa')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmarkschematablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilMarkSchemaTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pb')));
+'class' => array('text', 'iltestrandomquestionsetsourcepooldefinitionlisttablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pb')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestskilllevelthresholdstablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestSkillLevelThresholdsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pc')));
+'class' => array('text', 'ilmarkschematablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilMarkSchemaTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pc')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilevaluationalltablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilEvaluationAllTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pd')));
+'class' => array('text', 'iltestskilllevelthresholdstablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestSkillLevelThresholdsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pd')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestinvitegroupstablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestInviteGroupsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pe')));
+'class' => array('text', 'ilevaluationalltablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilEvaluationAllTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pe')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestscoringgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestScoringGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pf')));
+'class' => array('text', 'iltestinvitegroupstablegui'), 'filename' => array('text', 'Modules/Test/classes/tables/class.ilTestInviteGroupsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pf')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestplayerrandomquestionsetgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestPlayerRandomQuestionSetGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pg')));
+'class' => array('text', 'iltestscoringgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestScoringGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pg')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestpersonalskillsgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestPersonalSkillsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ph')));
+'class' => array('text', 'iltestplayerrandomquestionsetgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestPlayerRandomQuestionSetGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ph')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestexpresspageobjectgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestExpressPageObjectGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pi')));
+'class' => array('text', 'iltestpersonalskillsgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestPersonalSkillsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pi')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjtestsettingsscoringresultsgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilObjTestSettingsScoringResultsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pj')));
+'class' => array('text', 'iltestexpresspageobjectgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestExpressPageObjectGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pj')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestlearningobjectivesstatusgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestLearningObjectivesStatusGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pk')));
+'class' => array('text', 'ilobjtestsettingsscoringresultsgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilObjTestSettingsScoringResultsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pk')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestsettingsgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pl')));
+'class' => array('text', 'iltestlearningobjectivesstatusgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestLearningObjectivesStatusGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pl')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjtestverificationgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilObjTestVerificationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pm')));
+'class' => array('text', 'iltestsettingsgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pm')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjtestsettingsgeneralgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilObjTestSettingsGeneralGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pn')));
+'class' => array('text', 'ilobjtestverificationgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilObjTestVerificationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pn')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestexportgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestExportGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'po')));
+'class' => array('text', 'ilobjtestsettingsgeneralgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilObjTestSettingsGeneralGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'po')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmarkschemagui'), 'filename' => array('text', 'Modules/Test/classes/class.ilMarkSchemaGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pp')));
+'class' => array('text', 'iltestexportgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestExportGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pp')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilrandomtestroinputgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilRandomTestROInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pq')));
+'class' => array('text', 'ilmarkschemagui'), 'filename' => array('text', 'Modules/Test/classes/class.ilMarkSchemaGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pq')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestskillevaluationgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestSkillEvaluationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pr')));
+'class' => array('text', 'ilrandomtestroinputgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilRandomTestROInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pr')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestrandomquestionsetgeneralconfigformgui'), 'filename' => array('text', 'Modules/Test/classes/forms/class.ilTestRandomQuestionSetGeneralConfigFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ps')));
+'class' => array('text', 'iltestskillevaluationgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestSkillEvaluationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ps')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestrandomquestionsetpooldefinitionformgui'), 'filename' => array('text', 'Modules/Test/classes/forms/class.ilTestRandomQuestionSetPoolDefinitionFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pt')));
+'class' => array('text', 'iltestrandomquestionsetgeneralconfigformgui'), 'filename' => array('text', 'Modules/Test/classes/forms/class.ilTestRandomQuestionSetGeneralConfigFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pt')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltesttoplistgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestToplistGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pu')));
+'class' => array('text', 'iltestrandomquestionsetpooldefinitionformgui'), 'filename' => array('text', 'Modules/Test/classes/forms/class.ilTestRandomQuestionSetPoolDefinitionFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pu')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestoutputgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestOutputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pv')));
+'class' => array('text', 'iltesttoplistgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestToplistGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pv')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltestevalobjectiveorientedgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestEvalObjectiveOrientedGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pw')));
+'class' => array('text', 'iltestoutputgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestOutputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pw')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmatrixrowwizardinputgui'), 'filename' => array('text', 'Modules/SurveyQuestionPool/classes/class.ilMatrixRowWizardInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'px')));
+'class' => array('text', 'iltestevalobjectiveorientedgui'), 'filename' => array('text', 'Modules/Test/classes/class.ilTestEvalObjectiveOrientedGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'px')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjsurveyquestionpoollistgui'), 'filename' => array('text', 'Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPoolListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'py')));
+'class' => array('text', 'ilmatrixrowwizardinputgui'), 'filename' => array('text', 'Modules/SurveyQuestionPool/classes/class.ilMatrixRowWizardInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'py')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsurveyphrasesgui'), 'filename' => array('text', 'Modules/SurveyQuestionPool/classes/class.ilSurveyPhrasesGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pz')));
+'class' => array('text', 'ilobjsurveyquestionpoollistgui'), 'filename' => array('text', 'Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPoolListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'pz')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcategorywizardinputgui'), 'filename' => array('text', 'Modules/SurveyQuestionPool/classes/class.ilCategoryWizardInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'q0')));
+'class' => array('text', 'ilsurveyphrasesgui'), 'filename' => array('text', 'Modules/SurveyQuestionPool/classes/class.ilSurveyPhrasesGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'q0')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'surveymultiplechoicequestiongui'), 'filename' => array('text', 'Modules/SurveyQuestionPool/classes/class.SurveyMultipleChoiceQuestionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'q1')));
+'class' => array('text', 'ilcategorywizardinputgui'), 'filename' => array('text', 'Modules/SurveyQuestionPool/classes/class.ilCategoryWizardInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'q1')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'surveymetricquestiongui'), 'filename' => array('text', 'Modules/SurveyQuestionPool/classes/class.SurveyMetricQuestionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'q2')));
+'class' => array('text', 'surveymultiplechoicequestiongui'), 'filename' => array('text', 'Modules/SurveyQuestionPool/classes/class.SurveyMultipleChoiceQuestionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'q2')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsurveysynctablegui'), 'filename' => array('text', 'Modules/SurveyQuestionPool/classes/class.ilSurveySyncTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'q3')));
+'class' => array('text', 'surveymetricquestiongui'), 'filename' => array('text', 'Modules/SurveyQuestionPool/classes/class.SurveyMetricQuestionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'q3')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsurveymaterialstablegui'), 'filename' => array('text', 'Modules/SurveyQuestionPool/classes/tables/class.ilSurveyMaterialsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'q4')));
+'class' => array('text', 'ilsurveysynctablegui'), 'filename' => array('text', 'Modules/SurveyQuestionPool/classes/class.ilSurveySyncTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'q4')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsurveyquestionpoolexporttablegui'), 'filename' => array('text', 'Modules/SurveyQuestionPool/classes/tables/class.ilSurveyQuestionPoolExportTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'q5')));
+'class' => array('text', 'ilsurveymaterialstablegui'), 'filename' => array('text', 'Modules/SurveyQuestionPool/classes/tables/class.ilSurveyMaterialsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'q5')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsurveyphrasestablegui'), 'filename' => array('text', 'Modules/SurveyQuestionPool/classes/tables/class.ilSurveyPhrasesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'q6')));
+'class' => array('text', 'ilsurveyquestionpoolexporttablegui'), 'filename' => array('text', 'Modules/SurveyQuestionPool/classes/tables/class.ilSurveyQuestionPoolExportTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'q6')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsurveysavephrasetablegui'), 'filename' => array('text', 'Modules/SurveyQuestionPool/classes/tables/class.ilSurveySavePhraseTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'q7')));
+'class' => array('text', 'ilsurveyphrasestablegui'), 'filename' => array('text', 'Modules/SurveyQuestionPool/classes/tables/class.ilSurveyPhrasesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'q7')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsurveyquestionstablegui'), 'filename' => array('text', 'Modules/SurveyQuestionPool/classes/tables/class.ilSurveyQuestionsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'q8')));
+'class' => array('text', 'ilsurveysavephrasetablegui'), 'filename' => array('text', 'Modules/SurveyQuestionPool/classes/tables/class.ilSurveySavePhraseTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'q8')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'surveymaterialssourcetablegui'), 'filename' => array('text', 'Modules/SurveyQuestionPool/classes/tables/class.SurveyMaterialsSourceTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'q9')));
+'class' => array('text', 'ilsurveyquestionstablegui'), 'filename' => array('text', 'Modules/SurveyQuestionPool/classes/tables/class.ilSurveyQuestionsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'q9')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjsurveyquestionpoolgui'), 'filename' => array('text', 'Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPoolGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qa')));
+'class' => array('text', 'surveymaterialssourcetablegui'), 'filename' => array('text', 'Modules/SurveyQuestionPool/classes/tables/class.SurveyMaterialsSourceTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qa')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'surveytextquestiongui'), 'filename' => array('text', 'Modules/SurveyQuestionPool/classes/class.SurveyTextQuestionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qb')));
+'class' => array('text', 'ilobjsurveyquestionpoolgui'), 'filename' => array('text', 'Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPoolGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qb')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'surveymatrixquestiongui'), 'filename' => array('text', 'Modules/SurveyQuestionPool/classes/class.SurveyMatrixQuestionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qc')));
+'class' => array('text', 'surveytextquestiongui'), 'filename' => array('text', 'Modules/SurveyQuestionPool/classes/class.SurveyTextQuestionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qc')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'surveysinglechoicequestiongui'), 'filename' => array('text', 'Modules/SurveyQuestionPool/classes/class.SurveySingleChoiceQuestionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qd')));
+'class' => array('text', 'surveymatrixquestiongui'), 'filename' => array('text', 'Modules/SurveyQuestionPool/classes/class.SurveyMatrixQuestionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qd')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'surveyquestiongui'), 'filename' => array('text', 'Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qe')));
+'class' => array('text', 'surveysinglechoicequestiongui'), 'filename' => array('text', 'Modules/SurveyQuestionPool/classes/class.SurveySingleChoiceQuestionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qe')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpcconsultationhoursgui'), 'filename' => array('text', 'Modules/Portfolio/classes/class.ilPCConsultationHoursGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qf')));
+'class' => array('text', 'surveyquestiongui'), 'filename' => array('text', 'Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qf')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpcmycoursesgui'), 'filename' => array('text', 'Modules/Portfolio/classes/class.ilPCMyCoursesGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qg')));
+'class' => array('text', 'ilpcconsultationhoursgui'), 'filename' => array('text', 'Modules/Portfolio/classes/class.ilPCConsultationHoursGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qg')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilportfolioexercisegui'), 'filename' => array('text', 'Modules/Portfolio/classes/class.ilPortfolioExerciseGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qh')));
+'class' => array('text', 'ilpcmycoursesgui'), 'filename' => array('text', 'Modules/Portfolio/classes/class.ilPCMyCoursesGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qh')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilportfoliotablegui'), 'filename' => array('text', 'Modules/Portfolio/classes/class.ilPortfolioTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qi')));
+'class' => array('text', 'ilportfolioexercisegui'), 'filename' => array('text', 'Modules/Portfolio/classes/class.ilPortfolioExerciseGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qi')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilportfoliotemplatepagegui'), 'filename' => array('text', 'Modules/Portfolio/classes/class.ilPortfolioTemplatePageGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qj')));
+'class' => array('text', 'ilportfoliotablegui'), 'filename' => array('text', 'Modules/Portfolio/classes/class.ilPortfolioTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qj')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjportfoliotemplatelistgui'), 'filename' => array('text', 'Modules/Portfolio/classes/class.ilObjPortfolioTemplateListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qk')));
+'class' => array('text', 'ilportfoliotemplatepagegui'), 'filename' => array('text', 'Modules/Portfolio/classes/class.ilPortfolioTemplatePageGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qk')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjportfoliogui'), 'filename' => array('text', 'Modules/Portfolio/classes/class.ilObjPortfolioGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ql')));
+'class' => array('text', 'ilobjportfoliotemplatelistgui'), 'filename' => array('text', 'Modules/Portfolio/classes/class.ilObjPortfolioTemplateListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ql')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilportfoliopagegui'), 'filename' => array('text', 'Modules/Portfolio/classes/class.ilPortfolioPageGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qm')));
+'class' => array('text', 'ilobjportfoliogui'), 'filename' => array('text', 'Modules/Portfolio/classes/class.ilObjPortfolioGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qm')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjportfolioadministrationgui'), 'filename' => array('text', 'Modules/Portfolio/classes/class.ilObjPortfolioAdministrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qn')));
+'class' => array('text', 'ilportfoliopagegui'), 'filename' => array('text', 'Modules/Portfolio/classes/class.ilPortfolioPageGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qn')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilportfoliorepositorygui'), 'filename' => array('text', 'Modules/Portfolio/classes/class.ilPortfolioRepositoryGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qo')));
+'class' => array('text', 'ilobjportfolioadministrationgui'), 'filename' => array('text', 'Modules/Portfolio/classes/class.ilObjPortfolioAdministrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qo')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilportfoliopagetablegui'), 'filename' => array('text', 'Modules/Portfolio/classes/class.ilPortfolioPageTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qp')));
+'class' => array('text', 'ilportfoliorepositorygui'), 'filename' => array('text', 'Modules/Portfolio/classes/class.ilPortfolioRepositoryGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qp')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjportfoliobasegui'), 'filename' => array('text', 'Modules/Portfolio/classes/class.ilObjPortfolioBaseGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qq')));
+'class' => array('text', 'ilportfoliopagetablegui'), 'filename' => array('text', 'Modules/Portfolio/classes/class.ilPortfolioPageTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qq')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpdportfolioblockgui'), 'filename' => array('text', 'Modules/Portfolio/classes/class.ilPDPortfolioBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qr')));
+'class' => array('text', 'ilobjportfoliobasegui'), 'filename' => array('text', 'Modules/Portfolio/classes/class.ilObjPortfolioBaseGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qr')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjportfoliotemplategui'), 'filename' => array('text', 'Modules/Portfolio/classes/class.ilObjPortfolioTemplateGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qs')));
+'class' => array('text', 'ilpdportfolioblockgui'), 'filename' => array('text', 'Modules/Portfolio/classes/class.ilPDPortfolioBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qs')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ildclrecordeditgui'), 'filename' => array('text', 'Modules/DataCollection/classes/Content/class.ilDclRecordEditGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qt')));
+'class' => array('text', 'ilobjportfoliotemplategui'), 'filename' => array('text', 'Modules/Portfolio/classes/class.ilObjPortfolioTemplateGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qt')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ildclrecordlistgui'), 'filename' => array('text', 'Modules/DataCollection/classes/Content/class.ilDclRecordListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qu')));
+'class' => array('text', 'ildclrecordeditgui'), 'filename' => array('text', 'Modules/DataCollection/classes/Content/class.ilDclRecordEditGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qu')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ildclrecordlisttablegui'), 'filename' => array('text', 'Modules/DataCollection/classes/Content/class.ilDclRecordListTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qv')));
+'class' => array('text', 'ildclrecordlistgui'), 'filename' => array('text', 'Modules/DataCollection/classes/Content/class.ilDclRecordListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qv')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ildcltextinputgui'), 'filename' => array('text', 'Modules/DataCollection/classes/Helpers/class.ilDclTextInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qw')));
+'class' => array('text', 'ildclrecordlisttablegui'), 'filename' => array('text', 'Modules/DataCollection/classes/Content/class.ilDclRecordListTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qw')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ildcltreepickinputgui'), 'filename' => array('text', 'Modules/DataCollection/classes/Helpers/class.ilDclTreePickInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qx')));
+'class' => array('text', 'ildcltextinputgui'), 'filename' => array('text', 'Modules/DataCollection/classes/Helpers/class.ilDclTextInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qx')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ildclpropertyformgui'), 'filename' => array('text', 'Modules/DataCollection/classes/Helpers/class.ilDclPropertyFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qy')));
+'class' => array('text', 'ildcltreepickinputgui'), 'filename' => array('text', 'Modules/DataCollection/classes/Helpers/class.ilDclTreePickInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qy')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ildclcheckboxinputgui'), 'filename' => array('text', 'Modules/DataCollection/classes/Helpers/class.ilDclCheckboxInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qz')));
+'class' => array('text', 'ildclpropertyformgui'), 'filename' => array('text', 'Modules/DataCollection/classes/Helpers/class.ilDclPropertyFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'qz')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ildcltablelistgui'), 'filename' => array('text', 'Modules/DataCollection/classes/Table/class.ilDclTableListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'r0')));
+'class' => array('text', 'ildclcheckboxinputgui'), 'filename' => array('text', 'Modules/DataCollection/classes/Helpers/class.ilDclCheckboxInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'r0')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ildcltableeditgui'), 'filename' => array('text', 'Modules/DataCollection/classes/Table/class.ilDclTableEditGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'r1')));
+'class' => array('text', 'ildcltablelistgui'), 'filename' => array('text', 'Modules/DataCollection/classes/Table/class.ilDclTableListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'r1')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ildcltablelisttablegui'), 'filename' => array('text', 'Modules/DataCollection/classes/Table/class.ilDclTableListTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'r2')));
+'class' => array('text', 'ildcltableeditgui'), 'filename' => array('text', 'Modules/DataCollection/classes/Table/class.ilDclTableEditGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'r2')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ildcldetailedviewgui'), 'filename' => array('text', 'Modules/DataCollection/classes/DetailedView/class.ilDclDetailedViewGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'r3')));
+'class' => array('text', 'ildcltablelisttablegui'), 'filename' => array('text', 'Modules/DataCollection/classes/Table/class.ilDclTableListTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'r3')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ildcldetailedviewdefinitiongui'), 'filename' => array('text', 'Modules/DataCollection/classes/DetailedView/class.ilDclDetailedViewDefinitionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'r4')));
+'class' => array('text', 'ildcldetailedviewgui'), 'filename' => array('text', 'Modules/DataCollection/classes/DetailedView/class.ilDclDetailedViewGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'r4')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ildclexportgui'), 'filename' => array('text', 'Modules/DataCollection/classes/class.ilDclExportGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'r5')));
+'class' => array('text', 'ildcldetailedviewdefinitiongui'), 'filename' => array('text', 'Modules/DataCollection/classes/DetailedView/class.ilDclDetailedViewDefinitionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'r5')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjdatacollectiongui'), 'filename' => array('text', 'Modules/DataCollection/classes/class.ilObjDataCollectionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'r6')));
+'class' => array('text', 'ildclexportgui'), 'filename' => array('text', 'Modules/DataCollection/classes/class.ilDclExportGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'r6')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ildclexporttablegui'), 'filename' => array('text', 'Modules/DataCollection/classes/class.ilDclExportTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'r7')));
+'class' => array('text', 'ilobjdatacollectiongui'), 'filename' => array('text', 'Modules/DataCollection/classes/class.ilObjDataCollectionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'r7')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjdatacollectionlistgui'), 'filename' => array('text', 'Modules/DataCollection/classes/class.ilObjDataCollectionListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'r8')));
+'class' => array('text', 'ildclexporttablegui'), 'filename' => array('text', 'Modules/DataCollection/classes/class.ilDclExportTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'r8')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ildclfieldlistgui'), 'filename' => array('text', 'Modules/DataCollection/classes/Fields/class.ilDclFieldListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'r9')));
+'class' => array('text', 'ilobjdatacollectionlistgui'), 'filename' => array('text', 'Modules/DataCollection/classes/class.ilObjDataCollectionListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'r9')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ildclnreferencefieldgui'), 'filename' => array('text', 'Modules/DataCollection/classes/Fields/NReference/class.ilDclNReferenceFieldGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ra')));
+'class' => array('text', 'ildclfieldlistgui'), 'filename' => array('text', 'Modules/DataCollection/classes/Fields/class.ilDclFieldListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ra')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ildclfieldeditgui'), 'filename' => array('text', 'Modules/DataCollection/classes/Fields/class.ilDclFieldEditGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rb')));
+'class' => array('text', 'ildclnreferencefieldgui'), 'filename' => array('text', 'Modules/DataCollection/classes/Fields/NReference/class.ilDclNReferenceFieldGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rb')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ildclfieldlisttablegui'), 'filename' => array('text', 'Modules/DataCollection/classes/Fields/class.ilDclFieldListTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rc')));
+'class' => array('text', 'ildclfieldeditgui'), 'filename' => array('text', 'Modules/DataCollection/classes/Fields/class.ilDclFieldEditGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rc')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ildcltablevieweditgui'), 'filename' => array('text', 'Modules/DataCollection/classes/TableView/class.ilDclTableViewEditGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rd')));
+'class' => array('text', 'ildclfieldlisttablegui'), 'filename' => array('text', 'Modules/DataCollection/classes/Fields/class.ilDclFieldListTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rd')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ildcltableviewtablegui'), 'filename' => array('text', 'Modules/DataCollection/classes/TableView/class.ilDclTableViewTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 're')));
+'class' => array('text', 'ildcltablevieweditgui'), 'filename' => array('text', 'Modules/DataCollection/classes/TableView/class.ilDclTableViewEditGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 're')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ildcltablevieweditformgui'), 'filename' => array('text', 'Modules/DataCollection/classes/TableView/class.ilDclTableViewEditFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rf')));
+'class' => array('text', 'ildcltableviewtablegui'), 'filename' => array('text', 'Modules/DataCollection/classes/TableView/class.ilDclTableViewTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rf')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ildcltableviewgui'), 'filename' => array('text', 'Modules/DataCollection/classes/TableView/class.ilDclTableViewGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rg')));
+'class' => array('text', 'ildcltablevieweditformgui'), 'filename' => array('text', 'Modules/DataCollection/classes/TableView/class.ilDclTableViewEditFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rg')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illinkresourcehandlergui'), 'filename' => array('text', 'Modules/WebResource/classes/class.ilLinkResourceHandlerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rh')));
+'class' => array('text', 'ildcltableviewgui'), 'filename' => array('text', 'Modules/DataCollection/classes/TableView/class.ilDclTableViewGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rh')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilwebresourcelinktablegui'), 'filename' => array('text', 'Modules/WebResource/classes/class.ilWebResourceLinkTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ri')));
+'class' => array('text', 'illinkresourcehandlergui'), 'filename' => array('text', 'Modules/WebResource/classes/class.ilLinkResourceHandlerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ri')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilwebresourceeditablelinktablegui'), 'filename' => array('text', 'Modules/WebResource/classes/class.ilWebResourceEditableLinkTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rj')));
+'class' => array('text', 'ilwebresourcelinktablegui'), 'filename' => array('text', 'Modules/WebResource/classes/class.ilWebResourceLinkTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rj')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjlinkresourcelistgui'), 'filename' => array('text', 'Modules/WebResource/classes/class.ilObjLinkResourceListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rk')));
+'class' => array('text', 'ilwebresourceeditablelinktablegui'), 'filename' => array('text', 'Modules/WebResource/classes/class.ilWebResourceEditableLinkTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rk')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjlinkresourcesubitemlistgui'), 'filename' => array('text', 'Modules/WebResource/classes/class.ilObjLinkResourceSubItemListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rl')));
+'class' => array('text', 'ilobjlinkresourcelistgui'), 'filename' => array('text', 'Modules/WebResource/classes/class.ilObjLinkResourceListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rl')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjlinkresourcegui'), 'filename' => array('text', 'Modules/WebResource/classes/class.ilObjLinkResourceGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rm')));
+'class' => array('text', 'ilobjlinkresourcesubitemlistgui'), 'filename' => array('text', 'Modules/WebResource/classes/class.ilObjLinkResourceSubItemListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rm')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjwebresourceadministrationgui'), 'filename' => array('text', 'Modules/WebResource/classes/class.ilObjWebResourceAdministrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rn')));
+'class' => array('text', 'ilobjlinkresourcegui'), 'filename' => array('text', 'Modules/WebResource/classes/class.ilObjLinkResourceGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rn')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjremoteglossarylistgui'), 'filename' => array('text', 'Modules/RemoteGlossary/classes/class.ilObjRemoteGlossaryListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ro')));
+'class' => array('text', 'ilobjwebresourceadministrationgui'), 'filename' => array('text', 'Modules/WebResource/classes/class.ilObjWebResourceAdministrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ro')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjremoteglossarygui'), 'filename' => array('text', 'Modules/RemoteGlossary/classes/class.ilObjRemoteGlossaryGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rp')));
+'class' => array('text', 'ilobjremoteglossarylistgui'), 'filename' => array('text', 'Modules/RemoteGlossary/classes/class.ilObjRemoteGlossaryListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rp')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjremotetestgui'), 'filename' => array('text', 'Modules/RemoteTest/classes/class.ilObjRemoteTestGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rq')));
+'class' => array('text', 'ilobjremoteglossarygui'), 'filename' => array('text', 'Modules/RemoteGlossary/classes/class.ilObjRemoteGlossaryGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rq')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjremotetestlistgui'), 'filename' => array('text', 'Modules/RemoteTest/classes/class.ilObjRemoteTestListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rr')));
+'class' => array('text', 'ilobjremotetestgui'), 'filename' => array('text', 'Modules/RemoteTest/classes/class.ilObjRemoteTestGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rr')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjbibliographiclistgui'), 'filename' => array('text', 'Modules/Bibliographic/classes/class.ilObjBibliographicListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rs')));
+'class' => array('text', 'ilobjremotetestlistgui'), 'filename' => array('text', 'Modules/RemoteTest/classes/class.ilObjRemoteTestListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rs')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilbibloverviewgui'), 'filename' => array('text', 'Modules/Bibliographic/classes/class.ilBiblOverviewGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rt')));
+'class' => array('text', 'ilobjbibliographiclistgui'), 'filename' => array('text', 'Modules/Bibliographic/classes/class.ilObjBibliographicListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rt')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjbibliographicdetailsgui'), 'filename' => array('text', 'Modules/Bibliographic/classes/class.ilBibliographicDetailsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ru')));
+'class' => array('text', 'ilbibloverviewgui'), 'filename' => array('text', 'Modules/Bibliographic/classes/class.ilBiblOverviewGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ru')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilbibliographicdetailsgui'), 'filename' => array('text', 'Modules/Bibliographic/classes/class.ilBibliographicDetailsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rv')));
+'class' => array('text', 'ilobjbibliographicdetailsgui'), 'filename' => array('text', 'Modules/Bibliographic/classes/class.ilBibliographicDetailsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rv')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjbibliographicgui'), 'filename' => array('text', 'Modules/Bibliographic/classes/class.ilObjBibliographicGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rw')));
+'class' => array('text', 'ilbibliographicdetailsgui'), 'filename' => array('text', 'Modules/Bibliographic/classes/class.ilBibliographicDetailsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rw')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjbibliographicadminlibrariesformgui'), 'filename' => array('text', 'Modules/Bibliographic/classes/Admin/class.ilObjBibliographicAdminLibrariesFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rx')));
+'class' => array('text', 'ilobjbibliographicgui'), 'filename' => array('text', 'Modules/Bibliographic/classes/class.ilObjBibliographicGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rx')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjbibliographicadmintablegui'), 'filename' => array('text', 'Modules/Bibliographic/classes/Admin/class.ilObjBibliographicAdminTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ry')));
+'class' => array('text', 'ilobjbibliographicadminlibrariesformgui'), 'filename' => array('text', 'Modules/Bibliographic/classes/Admin/class.ilObjBibliographicAdminLibrariesFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ry')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjbibliographicadminlibrariesgui'), 'filename' => array('text', 'Modules/Bibliographic/classes/Admin/class.ilObjBibliographicAdminLibrariesGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rz')));
+'class' => array('text', 'ilobjbibliographicadmintablegui'), 'filename' => array('text', 'Modules/Bibliographic/classes/Admin/class.ilObjBibliographicAdminTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'rz')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjbibliographicadmingui'), 'filename' => array('text', 'Modules/Bibliographic/classes/class.ilObjBibliographicAdminGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 's0')));
+'class' => array('text', 'ilobjbibliographicadminlibrariesgui'), 'filename' => array('text', 'Modules/Bibliographic/classes/Admin/class.ilObjBibliographicAdminLibrariesGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 's0')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjremotelearningmodulegui'), 'filename' => array('text', 'Modules/RemoteLearningModule/classes/class.ilObjRemoteLearningModuleGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 's1')));
+'class' => array('text', 'ilobjbibliographicadmingui'), 'filename' => array('text', 'Modules/Bibliographic/classes/class.ilObjBibliographicAdminGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 's1')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjremotelearningmodulelistgui'), 'filename' => array('text', 'Modules/RemoteLearningModule/classes/class.ilObjRemoteLearningModuleListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 's2')));
+'class' => array('text', 'ilobjremotelearningmodulegui'), 'filename' => array('text', 'Modules/RemoteLearningModule/classes/class.ilObjRemoteLearningModuleGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 's2')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjworkspacefolderlistgui'), 'filename' => array('text', 'Modules/WorkspaceFolder/classes/class.ilObjWorkspaceFolderListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 's3')));
+'class' => array('text', 'ilobjremotelearningmodulelistgui'), 'filename' => array('text', 'Modules/RemoteLearningModule/classes/class.ilObjRemoteLearningModuleListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 's3')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjworkspacefoldertablegui'), 'filename' => array('text', 'Modules/WorkspaceFolder/classes/class.ilObjWorkspaceFolderTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 's4')));
+'class' => array('text', 'ilobjworkspacefolderlistgui'), 'filename' => array('text', 'Modules/WorkspaceFolder/classes/class.ilObjWorkspaceFolderListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 's4')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjworkspacefoldergui'), 'filename' => array('text', 'Modules/WorkspaceFolder/classes/class.ilObjWorkspaceFolderGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 's5')));
+'class' => array('text', 'ilobjworkspacefoldertablegui'), 'filename' => array('text', 'Modules/WorkspaceFolder/classes/class.ilObjWorkspaceFolderTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 's5')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjgroupreferencelistgui'), 'filename' => array('text', 'Modules/GroupReference/classes/class.ilObjGroupReferenceListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 's6')));
+'class' => array('text', 'ilobjworkspacefoldergui'), 'filename' => array('text', 'Modules/WorkspaceFolder/classes/class.ilObjWorkspaceFolderGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 's6')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjgroupreferencegui'), 'filename' => array('text', 'Modules/GroupReference/classes/class.ilObjGroupReferenceGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 's7')));
+'class' => array('text', 'ilobjgroupreferencelistgui'), 'filename' => array('text', 'Modules/GroupReference/classes/class.ilObjGroupReferenceListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 's7')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmultiplenestedorderingelementsinputgui'), 'filename' => array('text', 'Services/Form/classes/class.ilMultipleNestedOrderingElementsInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 's8')));
+'class' => array('text', 'ilobjgroupreferencegui'), 'filename' => array('text', 'Modules/GroupReference/classes/class.ilObjGroupReferenceGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 's8')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilimagefileinputgui'), 'filename' => array('text', 'Services/Form/classes/class.ilImageFileInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 's9')));
+'class' => array('text', 'ilmultiplenestedorderingelementsinputgui'), 'filename' => array('text', 'Services/Form/classes/class.ilMultipleNestedOrderingElementsInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 's9')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illinkinputgui'), 'filename' => array('text', 'Services/Form/classes/class.ilLinkInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sa')));
+'class' => array('text', 'ilimagefileinputgui'), 'filename' => array('text', 'Services/Form/classes/class.ilImageFileInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sa')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilhiddeninputgui'), 'filename' => array('text', 'Services/Form/classes/class.ilHiddenInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sb')));
+'class' => array('text', 'illinkinputgui'), 'filename' => array('text', 'Services/Form/classes/class.ilLinkInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sb')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilnumberinputgui'), 'filename' => array('text', 'Services/Form/classes/class.ilNumberInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sc')));
+'class' => array('text', 'ilhiddeninputgui'), 'filename' => array('text', 'Services/Form/classes/class.ilHiddenInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sc')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilnoneditablevaluegui'), 'filename' => array('text', 'Services/Form/classes/class.ilNonEditableValueGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sd')));
+'class' => array('text', 'ilnumberinputgui'), 'filename' => array('text', 'Services/Form/classes/class.ilNumberInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sd')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilhierarchyformgui'), 'filename' => array('text', 'Services/Form/classes/class.ilHierarchyFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'se')));
+'class' => array('text', 'ilnoneditablevaluegui'), 'filename' => array('text', 'Services/Form/classes/class.ilNonEditableValueGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'se')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilidentifiedmultivaluesinputgui'), 'filename' => array('text', 'Services/Form/classes/class.ilIdentifiedMultiValuesInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sf')));
+'class' => array('text', 'ilhierarchyformgui'), 'filename' => array('text', 'Services/Form/classes/class.ilHierarchyFormGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sf')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilformsectionheadergui'), 'filename' => array('text', 'Services/Form/classes/class.ilFormSectionHeaderGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sg')));
+'class' => array('text', 'ilidentifiedmultivaluesinputgui'), 'filename' => array('text', 'Services/Form/classes/class.ilIdentifiedMultiValuesInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sg')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilalphabetinputgui'), 'filename' => array('text', 'Services/Form/classes/class.ilAlphabetInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sh')));
+'class' => array('text', 'ilformsectionheadergui'), 'filename' => array('text', 'Services/Form/classes/class.ilFormSectionHeaderGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sh')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcolorpickerinputgui'), 'filename' => array('text', 'Services/Form/classes/class.ilColorPickerInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'si')));
+'class' => array('text', 'ilalphabetinputgui'), 'filename' => array('text', 'Services/Form/classes/class.ilAlphabetInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'si')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilemailinputgui'), 'filename' => array('text', 'Services/Form/classes/class.ilEMailInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sj')));
+'class' => array('text', 'ilcolorpickerinputgui'), 'filename' => array('text', 'Services/Form/classes/class.ilColorPickerInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sj')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illocationinputgui'), 'filename' => array('text', 'Services/Form/classes/class.ilLocationInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sk')));
+'class' => array('text', 'ilemailinputgui'), 'filename' => array('text', 'Services/Form/classes/class.ilEMailInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sk')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilformpropertydispatchgui'), 'filename' => array('text', 'Services/Form/classes/class.ilFormPropertyDispatchGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sl')));
+'class' => array('text', 'illocationinputgui'), 'filename' => array('text', 'Services/Form/classes/class.ilLocationInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sl')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ildatetimeinputgui'), 'filename' => array('text', 'Services/Form/classes/class.ilDateTimeInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sm')));
+'class' => array('text', 'ilformpropertydispatchgui'), 'filename' => array('text', 'Services/Form/classes/class.ilFormPropertyDispatchGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sm')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilflashfileinputgui'), 'filename' => array('text', 'Services/Form/classes/class.ilFlashFileInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sn')));
+'class' => array('text', 'ildatetimeinputgui'), 'filename' => array('text', 'Services/Form/classes/class.ilDateTimeInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sn')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmultipletextsinputgui'), 'filename' => array('text', 'Services/Form/classes/class.ilMultipleTextsInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'so')));
+'class' => array('text', 'ilflashfileinputgui'), 'filename' => array('text', 'Services/Form/classes/class.ilFlashFileInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'so')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilroleautocompleteinputgui'), 'filename' => array('text', 'Services/Form/classes/class.ilRoleAutoCompleteInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sp')));
+'class' => array('text', 'ilmultipletextsinputgui'), 'filename' => array('text', 'Services/Form/classes/class.ilMultipleTextsInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sp')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ileditclipboardgui'), 'filename' => array('text', 'Services/Clipboard/classes/class.ilEditClipboardGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sq')));
+'class' => array('text', 'ilroleautocompleteinputgui'), 'filename' => array('text', 'Services/Form/classes/class.ilRoleAutoCompleteInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sq')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilclipboardtablegui'), 'filename' => array('text', 'Services/Clipboard/classes/class.ilClipboardTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sr')));
+'class' => array('text', 'ileditclipboardgui'), 'filename' => array('text', 'Services/Clipboard/classes/class.ilEditClipboardGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sr')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilopenlayersmapgui'), 'filename' => array('text', 'Services/Maps/classes/class.ilOpenLayersMapGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ss')));
+'class' => array('text', 'ilclipboardtablegui'), 'filename' => array('text', 'Services/Clipboard/classes/class.ilClipboardTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ss')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmapgui'), 'filename' => array('text', 'Services/Maps/classes/class.ilMapGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'st')));
+'class' => array('text', 'ilopenlayersmapgui'), 'filename' => array('text', 'Services/Maps/classes/class.ilOpenLayersMapGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'st')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilgooglemapgui'), 'filename' => array('text', 'Services/Maps/classes/class.ilGoogleMapGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'su')));
+'class' => array('text', 'ilmapgui'), 'filename' => array('text', 'Services/Maps/classes/class.ilMapGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'su')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilnavigationhistorygui'), 'filename' => array('text', 'Services/Navigation/classes/class.ilNavigationHistoryGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sv')));
+'class' => array('text', 'ilgooglemapgui'), 'filename' => array('text', 'Services/Maps/classes/class.ilGoogleMapGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sv')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcassettingsgui'), 'filename' => array('text', 'Services/CAS/classes/class.ilCASSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sw')));
+'class' => array('text', 'ilnavigationhistorygui'), 'filename' => array('text', 'Services/Navigation/classes/class.ilNavigationHistoryGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sw')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjawarenessadministrationgui'), 'filename' => array('text', 'Services/Awareness/classes/class.ilObjAwarenessAdministrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sx')));
+'class' => array('text', 'ilcassettingsgui'), 'filename' => array('text', 'Services/CAS/classes/class.ilCASSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sx')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilawarenessgui'), 'filename' => array('text', 'Services/Awareness/classes/class.ilAwarenessGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sy')));
+'class' => array('text', 'ilobjawarenessadministrationgui'), 'filename' => array('text', 'Services/Awareness/classes/class.ilObjAwarenessAdministrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sy')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilbuddysystemgui'), 'filename' => array('text', 'Services/Contact/BuddySystem/classes/class.ilBuddySystemGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sz')));
+'class' => array('text', 'ilawarenessgui'), 'filename' => array('text', 'Services/Awareness/classes/class.ilAwarenessGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'sz')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilbuddysystemrelationstablegui'), 'filename' => array('text', 'Services/Contact/BuddySystem/classes/tables/class.ilBuddySystemRelationsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 't0')));
+'class' => array('text', 'ilbuddysystemgui'), 'filename' => array('text', 'Services/Contact/BuddySystem/classes/class.ilBuddySystemGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 't0')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmailsearchcoursesgui'), 'filename' => array('text', 'Services/Contact/classes/class.ilMailSearchCoursesGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 't1')));
+'class' => array('text', 'ilbuddysystemrelationstablegui'), 'filename' => array('text', 'Services/Contact/BuddySystem/classes/tables/class.ilBuddySystemRelationsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 't1')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcontactgui'), 'filename' => array('text', 'Services/Contact/classes/class.ilContactGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 't2')));
+'class' => array('text', 'ilmailsearchcoursesgui'), 'filename' => array('text', 'Services/Contact/classes/class.ilMailSearchCoursesGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 't2')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmailmembersearchgui'), 'filename' => array('text', 'Services/Contact/classes/class.ilMailMemberSearchGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 't3')));
+'class' => array('text', 'ilcontactgui'), 'filename' => array('text', 'Services/Contact/classes/class.ilContactGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 't3')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmailinglistsgui'), 'filename' => array('text', 'Services/Contact/classes/class.ilMailingListsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 't4')));
+'class' => array('text', 'ilmailmembersearchgui'), 'filename' => array('text', 'Services/Contact/classes/class.ilMailMemberSearchGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 't4')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmailsearchgui'), 'filename' => array('text', 'Services/Contact/classes/class.ilMailSearchGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 't5')));
+'class' => array('text', 'ilmailinglistsgui'), 'filename' => array('text', 'Services/Contact/classes/class.ilMailingListsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 't5')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmailinglistsmemberstablegui'), 'filename' => array('text', 'Services/Contact/classes/class.ilMailingListsMembersTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 't6')));
+'class' => array('text', 'ilmailsearchgui'), 'filename' => array('text', 'Services/Contact/classes/class.ilMailSearchGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 't6')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmailsearchcoursestablegui'), 'filename' => array('text', 'Services/Contact/classes/class.ilMailSearchCoursesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 't7')));
+'class' => array('text', 'ilmailinglistsmemberstablegui'), 'filename' => array('text', 'Services/Contact/classes/class.ilMailingListsMembersTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 't7')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmailsearchgroupsgui'), 'filename' => array('text', 'Services/Contact/classes/class.ilMailSearchGroupsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 't8')));
+'class' => array('text', 'ilmailsearchcoursestablegui'), 'filename' => array('text', 'Services/Contact/classes/class.ilMailSearchCoursesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 't8')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmailmembersearchtablegui'), 'filename' => array('text', 'Services/Contact/classes/class.ilMailMemberSearchTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 't9')));
+'class' => array('text', 'ilmailsearchgroupsgui'), 'filename' => array('text', 'Services/Contact/classes/class.ilMailSearchGroupsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 't9')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmailsearchcoursesmemberstablegui'), 'filename' => array('text', 'Services/Contact/classes/class.ilMailSearchCoursesMembersTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ta')));
+'class' => array('text', 'ilmailmembersearchtablegui'), 'filename' => array('text', 'Services/Contact/classes/class.ilMailMemberSearchTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ta')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmailingliststablegui'), 'filename' => array('text', 'Services/Contact/classes/class.ilMailingListsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'tb')));
+'class' => array('text', 'ilmailsearchcoursesmemberstablegui'), 'filename' => array('text', 'Services/Contact/classes/class.ilMailSearchCoursesMembersTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'tb')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjcontactadministrationgui'), 'filename' => array('text', 'Services/Contact/classes/class.ilObjContactAdministrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'tc')));
+'class' => array('text', 'ilmailingliststablegui'), 'filename' => array('text', 'Services/Contact/classes/class.ilMailingListsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'tc')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmainmenugui'), 'filename' => array('text', 'Services/MainMenu/classes/class.ilMainMenuGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'td')));
+'class' => array('text', 'ilobjcontactadministrationgui'), 'filename' => array('text', 'Services/Contact/classes/class.ilObjContactAdministrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'td')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjhelpsettingsgui'), 'filename' => array('text', 'Services/Help/classes/class.ilObjHelpSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'te')));
+'class' => array('text', 'ilmainmenugui'), 'filename' => array('text', 'Services/MainMenu/classes/class.ilMainMenuGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'te')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilhelpgui'), 'filename' => array('text', 'Services/Help/classes/class.ilHelpGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'tf')));
+'class' => array('text', 'ilobjhelpsettingsgui'), 'filename' => array('text', 'Services/Help/classes/class.ilObjHelpSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'tf')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilhelpmoduletablegui'), 'filename' => array('text', 'Services/Help/classes/class.ilHelpModuleTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'tg')));
+'class' => array('text', 'ilhelpgui'), 'filename' => array('text', 'Services/Help/classes/class.ilHelpGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'tg')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilbackgroundtaskhub'), 'filename' => array('text', 'Services/BackgroundTask/classes/class.ilBackgroundTaskHub.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'th')));
+'class' => array('text', 'ilhelpmoduletablegui'), 'filename' => array('text', 'Services/Help/classes/class.ilHelpModuleTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'th')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilfilesystemtablegui'), 'filename' => array('text', 'Services/FileSystem/classes/class.ilFileSystemTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ti')));
+'class' => array('text', 'ilbackgroundtaskhub'), 'filename' => array('text', 'Services/BackgroundTask/classes/class.ilBackgroundTaskHub.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ti')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilfilesystemgui'), 'filename' => array('text', 'Services/FileSystem/classes/class.ilFileSystemGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'tj')));
+'class' => array('text', 'ilfilesystemtablegui'), 'filename' => array('text', 'Services/FileSystem/classes/class.ilFileSystemTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'tj')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iladttestgui'), 'filename' => array('text', 'Services/ADT/classes/_Example/class.ilADTTestGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'tk')));
+'class' => array('text', 'ilfilesystemgui'), 'filename' => array('text', 'Services/FileSystem/classes/class.ilFileSystemGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'tk')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iladtbasedobjectgui'), 'filename' => array('text', 'Services/ADT/classes/_Example/class.ilADTBasedObjectGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'tl')));
+'class' => array('text', 'iladttestgui'), 'filename' => array('text', 'Services/ADT/classes/_Example/class.ilADTTestGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'tl')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilonscreenchatmenugui'), 'filename' => array('text', 'Services/OnScreenChat/classes/class.ilOnScreenChatMenuGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'tm')));
+'class' => array('text', 'iladtbasedobjectgui'), 'filename' => array('text', 'Services/ADT/classes/_Example/class.ilADTBasedObjectGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'tm')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilonscreenchatgui'), 'filename' => array('text', 'Services/OnScreenChat/classes/class.ilOnScreenChatGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'tn')));
+'class' => array('text', 'ilonscreenchatmenugui'), 'filename' => array('text', 'Services/OnScreenChat/classes/class.ilOnScreenChatMenuGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'tn')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilexplorerselectinputgui'), 'filename' => array('text', 'Services/UIComponent/Explorer2/classes/class.ilExplorerSelectInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'to')));
+'class' => array('text', 'ilonscreenchatgui'), 'filename' => array('text', 'Services/OnScreenChat/classes/class.ilOnScreenChatGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'to')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilexplorerbasegui'), 'filename' => array('text', 'Services/UIComponent/Explorer2/classes/class.ilExplorerBaseGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'tp')));
+'class' => array('text', 'ilexplorerselectinputgui'), 'filename' => array('text', 'Services/UIComponent/Explorer2/classes/class.ilExplorerSelectInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'tp')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltreeexplorergui'), 'filename' => array('text', 'Services/UIComponent/Explorer2/classes/class.ilTreeExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'tq')));
+'class' => array('text', 'ilexplorerbasegui'), 'filename' => array('text', 'Services/UIComponent/Explorer2/classes/class.ilExplorerBaseGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'tq')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illightboxgui'), 'filename' => array('text', 'Services/UIComponent/Lightbox/classes/class.ilLightboxGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'tr')));
+'class' => array('text', 'iltreeexplorergui'), 'filename' => array('text', 'Services/UIComponent/Explorer2/classes/class.ilTreeExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'tr')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iladvancedselectionlistgui'), 'filename' => array('text', 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ts')));
+'class' => array('text', 'illightboxgui'), 'filename' => array('text', 'Services/UIComponent/Lightbox/classes/class.ilLightboxGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ts')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltoolbargui'), 'filename' => array('text', 'Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'tt')));
+'class' => array('text', 'iladvancedselectionlistgui'), 'filename' => array('text', 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'tt')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmodalgui'), 'filename' => array('text', 'Services/UIComponent/Modal/classes/class.ilModalGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'tu')));
+'class' => array('text', 'iltoolbargui'), 'filename' => array('text', 'Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'tu')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilgroupedlistgui'), 'filename' => array('text', 'Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'tv')));
+'class' => array('text', 'ilmodalgui'), 'filename' => array('text', 'Services/UIComponent/Modal/classes/class.ilModalGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'tv')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iloverlaygui'), 'filename' => array('text', 'Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'tw')));
+'class' => array('text', 'ilgroupedlistgui'), 'filename' => array('text', 'Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'tw')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilglyphgui'), 'filename' => array('text', 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'tx')));
+'class' => array('text', 'iloverlaygui'), 'filename' => array('text', 'Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'tx')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iluihookplugingui'), 'filename' => array('text', 'Services/UIComponent/classes/class.ilUIHookPluginGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ty')));
+'class' => array('text', 'ilglyphgui'), 'filename' => array('text', 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ty')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iluipluginroutergui'), 'filename' => array('text', 'Services/UIComponent/classes/class.ilUIPluginRouterGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'tz')));
+'class' => array('text', 'iluihookplugingui'), 'filename' => array('text', 'Services/UIComponent/classes/class.ilUIHookPluginGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'tz')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltexthighlightergui'), 'filename' => array('text', 'Services/UIComponent/TextHighlighter/classes/class.ilTextHighlighterGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'u0')));
+'class' => array('text', 'iluipluginroutergui'), 'filename' => array('text', 'Services/UIComponent/classes/class.ilUIPluginRouterGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'u0')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcheckboxlistoverlaygui'), 'filename' => array('text', 'Services/UIComponent/CheckboxListOverlay/classes/class.ilCheckboxListOverlayGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'u1')));
+'class' => array('text', 'iltexthighlightergui'), 'filename' => array('text', 'Services/UIComponent/TextHighlighter/classes/class.ilTextHighlighterGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'u1')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcharselectorradiogroupinputgui'), 'filename' => array('text', 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorRadioGroupInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'u2')));
+'class' => array('text', 'ilcheckboxlistoverlaygui'), 'filename' => array('text', 'Services/UIComponent/CheckboxListOverlay/classes/class.ilCheckboxListOverlayGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'u2')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcharselectorgui'), 'filename' => array('text', 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'u3')));
+'class' => array('text', 'ilcharselectorradiogroupinputgui'), 'filename' => array('text', 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorRadioGroupInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'u3')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltooltipgui'), 'filename' => array('text', 'Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'u4')));
+'class' => array('text', 'ilcharselectorgui'), 'filename' => array('text', 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'u4')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltabsgui'), 'filename' => array('text', 'Services/UIComponent/Tabs/classes/class.ilTabsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'u5')));
+'class' => array('text', 'iltooltipgui'), 'filename' => array('text', 'Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'u5')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilchecklistgui'), 'filename' => array('text', 'Services/UIComponent/Checklist/classes/class.ilChecklistGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'u6')));
+'class' => array('text', 'iltabsgui'), 'filename' => array('text', 'Services/UIComponent/Tabs/classes/class.ilTabsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'u6')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsplitbuttongui'), 'filename' => array('text', 'Services/UIComponent/SplitButton/classes/class.ilSplitButtonGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'u7')));
+'class' => array('text', 'ilchecklistgui'), 'filename' => array('text', 'Services/UIComponent/Checklist/classes/class.ilChecklistGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'u7')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpanelgui'), 'filename' => array('text', 'Services/UIComponent/Panel/classes/class.ilPanelGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'u8')));
+'class' => array('text', 'ilsplitbuttongui'), 'filename' => array('text', 'Services/UIComponent/SplitButton/classes/class.ilSplitButtonGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'u8')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcontainergui'), 'filename' => array('text', 'Services/Container/classes/class.ilContainerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'u9')));
+'class' => array('text', 'ilpanelgui'), 'filename' => array('text', 'Services/UIComponent/Panel/classes/class.ilPanelGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'u9')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcontainernewssettingsgui'), 'filename' => array('text', 'Services/Container/classes/class.ilContainerNewsSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ua')));
+'class' => array('text', 'ilcontainergui'), 'filename' => array('text', 'Services/Container/classes/class.ilContainerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ua')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcontainercontentgui'), 'filename' => array('text', 'Services/Container/classes/class.ilContainerContentGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ub')));
+'class' => array('text', 'ilcontainernewssettingsgui'), 'filename' => array('text', 'Services/Container/classes/class.ilContainerNewsSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ub')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcontainerstartobjectsgui'), 'filename' => array('text', 'Services/Container/classes/class.ilContainerStartObjectsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'uc')));
+'class' => array('text', 'ilcontainercontentgui'), 'filename' => array('text', 'Services/Container/classes/class.ilContainerContentGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'uc')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcontainerstartobjectscontentgui'), 'filename' => array('text', 'Services/Container/classes/class.ilContainerStartObjectsContentGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ud')));
+'class' => array('text', 'ilcontainerstartobjectsgui'), 'filename' => array('text', 'Services/Container/classes/class.ilContainerStartObjectsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ud')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcontainerpagegui'), 'filename' => array('text', 'Services/Container/classes/class.ilContainerPageGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ue')));
+'class' => array('text', 'ilcontainerstartobjectscontentgui'), 'filename' => array('text', 'Services/Container/classes/class.ilContainerStartObjectsContentGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ue')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcontainerstartobjectscontenttablegui'), 'filename' => array('text', 'Services/Container/classes/class.ilContainerStartObjectsContentTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'uf')));
+'class' => array('text', 'ilcontainerpagegui'), 'filename' => array('text', 'Services/Container/classes/class.ilContainerPageGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'uf')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcontainerstartobjectspagegui'), 'filename' => array('text', 'Services/Container/classes/class.ilContainerStartObjectsPageGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ug')));
+'class' => array('text', 'ilcontainerstartobjectscontenttablegui'), 'filename' => array('text', 'Services/Container/classes/class.ilContainerStartObjectsContentTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ug')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcontainersessionscontentgui'), 'filename' => array('text', 'Services/Container/classes/class.ilContainerSessionsContentGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'uh')));
+'class' => array('text', 'ilcontainerstartobjectspagegui'), 'filename' => array('text', 'Services/Container/classes/class.ilContainerStartObjectsPageGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'uh')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcontainerbytypecontentgui'), 'filename' => array('text', 'Services/Container/classes/class.ilContainerByTypeContentGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ui')));
+'class' => array('text', 'ilcontainersessionscontentgui'), 'filename' => array('text', 'Services/Container/classes/class.ilContainerSessionsContentGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ui')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcontainersimplecontentgui'), 'filename' => array('text', 'Services/Container/classes/class.ilContainerSimpleContentGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'uj')));
+'class' => array('text', 'ilcontainerbytypecontentgui'), 'filename' => array('text', 'Services/Container/classes/class.ilContainerByTypeContentGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'uj')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcontainerstartobjectstablegui'), 'filename' => array('text', 'Services/Container/classes/class.ilContainerStartObjectsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'uk')));
+'class' => array('text', 'ilcontainersimplecontentgui'), 'filename' => array('text', 'Services/Container/classes/class.ilContainerSimpleContentGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'uk')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcontainerlinklistgui'), 'filename' => array('text', 'Services/Container/classes/class.ilContainerLinkListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ul')));
+'class' => array('text', 'ilcontainerstartobjectstablegui'), 'filename' => array('text', 'Services/Container/classes/class.ilContainerStartObjectsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ul')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmemberviewgui'), 'filename' => array('text', 'Services/Container/classes/class.ilMemberViewGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'um')));
+'class' => array('text', 'ilcontainerlinklistgui'), 'filename' => array('text', 'Services/Container/classes/class.ilContainerLinkListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'um')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcontainerobjectivegui'), 'filename' => array('text', 'Services/Container/classes/class.ilContainerObjectiveGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'un')));
+'class' => array('text', 'ilmemberviewgui'), 'filename' => array('text', 'Services/Container/classes/class.ilMemberViewGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'un')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illdaprolemappingtablegui'), 'filename' => array('text', 'Services/LDAP/classes/class.ilLDAPRoleMappingTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'uo')));
+'class' => array('text', 'ilcontainerobjectivegui'), 'filename' => array('text', 'Services/Container/classes/class.ilContainerObjectiveGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'uo')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illdaproleassignmenttablegui'), 'filename' => array('text', 'Services/LDAP/classes/class.ilLDAPRoleAssignmentTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'up')));
+'class' => array('text', 'illdaprolemappingtablegui'), 'filename' => array('text', 'Services/LDAP/classes/class.ilLDAPRoleMappingTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'up')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illdapsettingsgui'), 'filename' => array('text', 'Services/LDAP/classes/class.ilLDAPSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'uq')));
+'class' => array('text', 'illdaproleassignmenttablegui'), 'filename' => array('text', 'Services/LDAP/classes/class.ilLDAPRoleAssignmentTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'uq')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illdapservertablegui'), 'filename' => array('text', 'Services/LDAP/classes/class.ilLDAPServerTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ur')));
+'class' => array('text', 'illdapsettingsgui'), 'filename' => array('text', 'Services/LDAP/classes/class.ilLDAPSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ur')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcontainerreferencegui'), 'filename' => array('text', 'Services/ContainerReference/classes/class.ilContainerReferenceGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'us')));
+'class' => array('text', 'illdapservertablegui'), 'filename' => array('text', 'Services/LDAP/classes/class.ilLDAPServerTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'us')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpdexternalfeedblockgui'), 'filename' => array('text', 'Services/Feeds/classes/class.ilPDExternalFeedBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ut')));
+'class' => array('text', 'ilcontainerreferencegui'), 'filename' => array('text', 'Services/ContainerReference/classes/class.ilContainerReferenceGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ut')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilfileuploadgui'), 'filename' => array('text', 'Services/FileUpload/classes/class.ilFileUploadGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'uu')));
+'class' => array('text', 'ilpdexternalfeedblockgui'), 'filename' => array('text', 'Services/Feeds/classes/class.ilPDExternalFeedBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'uu')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpasswordassistancegui'), 'filename' => array('text', 'Services/Init/classes/class.ilPasswordAssistanceGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'uv')));
+'class' => array('text', 'ilfileuploadgui'), 'filename' => array('text', 'Services/FileUpload/classes/class.ilFileUploadGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'uv')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilstartupgui'), 'filename' => array('text', 'Services/Init/classes/class.ilStartUpGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'uw')));
+'class' => array('text', 'ilpasswordassistancegui'), 'filename' => array('text', 'Services/Init/classes/class.ilPasswordAssistanceGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'uw')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsccomponenttaskgui'), 'filename' => array('text', 'Services/SystemCheck/classes/class.ilSCComponentTaskGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ux')));
+'class' => array('text', 'ilstartupgui'), 'filename' => array('text', 'Services/Init/classes/class.ilStartUpGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ux')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilscgrouptablegui'), 'filename' => array('text', 'Services/SystemCheck/classes/class.ilSCGroupTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'uy')));
+'class' => array('text', 'ilsccomponenttaskgui'), 'filename' => array('text', 'Services/SystemCheck/classes/class.ilSCComponentTaskGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'uy')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsctasktablegui'), 'filename' => array('text', 'Services/SystemCheck/classes/class.ilSCTaskTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'uz')));
+'class' => array('text', 'ilscgrouptablegui'), 'filename' => array('text', 'Services/SystemCheck/classes/class.ilSCGroupTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'uz')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjsystemcheckgui'), 'filename' => array('text', 'Services/SystemCheck/classes/class.ilObjSystemCheckGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'v0')));
+'class' => array('text', 'ilsctasktablegui'), 'filename' => array('text', 'Services/SystemCheck/classes/class.ilSCTaskTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'v0')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjtaggingsettingsgui'), 'filename' => array('text', 'Services/Tagging/classes/class.ilObjTaggingSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'v1')));
+'class' => array('text', 'ilobjsystemcheckgui'), 'filename' => array('text', 'Services/SystemCheck/classes/class.ilObjSystemCheckGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'v1')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iluserfortagtablegui'), 'filename' => array('text', 'Services/Tagging/classes/class.ilUserForTagTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'v2')));
+'class' => array('text', 'ilobjtaggingsettingsgui'), 'filename' => array('text', 'Services/Tagging/classes/class.ilObjTaggingSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'v2')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltagginggui'), 'filename' => array('text', 'Services/Tagging/classes/class.ilTaggingGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'v3')));
+'class' => array('text', 'iluserfortagtablegui'), 'filename' => array('text', 'Services/Tagging/classes/class.ilUserForTagTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'v3')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpdtaggingblockgui'), 'filename' => array('text', 'Services/Tagging/classes/class.ilPDTaggingBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'v4')));
+'class' => array('text', 'iltagginggui'), 'filename' => array('text', 'Services/Tagging/classes/class.ilTaggingGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'v4')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsettingstemplatetablegui'), 'filename' => array('text', 'Services/Administration/classes/class.ilSettingsTemplateTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'v5')));
+'class' => array('text', 'ilpdtaggingblockgui'), 'filename' => array('text', 'Services/Tagging/classes/class.ilPDTaggingBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'v5')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iladministrationcommandgui'), 'filename' => array('text', 'Services/Administration/classes/class.ilAdministrationCommandGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'v6')));
+'class' => array('text', 'ilsettingstemplatetablegui'), 'filename' => array('text', 'Services/Administration/classes/class.ilSettingsTemplateTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'v6')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iladministrationexplorergui'), 'filename' => array('text', 'Services/Administration/classes/class.ilAdministrationExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'v7')));
+'class' => array('text', 'iladministrationcommandgui'), 'filename' => array('text', 'Services/Administration/classes/class.ilAdministrationCommandGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'v7')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iladministrationgui'), 'filename' => array('text', 'Services/Administration/classes/class.ilAdministrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'v8')));
+'class' => array('text', 'iladministrationexplorergui'), 'filename' => array('text', 'Services/Administration/classes/class.ilAdministrationExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'v8')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjexternaltoolssettingsgui'), 'filename' => array('text', 'Services/Administration/classes/class.ilObjExternalToolsSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'v9')));
+'class' => array('text', 'iladministrationgui'), 'filename' => array('text', 'Services/Administration/classes/class.ilAdministrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'v9')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjrecoveryfoldergui'), 'filename' => array('text', 'Services/Administration/classes/class.ilObjRecoveryFolderGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'va')));
+'class' => array('text', 'ilobjexternaltoolssettingsgui'), 'filename' => array('text', 'Services/Administration/classes/class.ilObjExternalToolsSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'va')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsettingstemplategui'), 'filename' => array('text', 'Services/Administration/classes/class.ilSettingsTemplateGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vb')));
+'class' => array('text', 'ilobjrecoveryfoldergui'), 'filename' => array('text', 'Services/Administration/classes/class.ilObjRecoveryFolderGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vb')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilblockgui'), 'filename' => array('text', 'Services/Block/classes/class.ilBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vc')));
+'class' => array('text', 'ilsettingstemplategui'), 'filename' => array('text', 'Services/Administration/classes/class.ilSettingsTemplateGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vc')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ildummyblockgui'), 'filename' => array('text', 'Services/Block/classes/class.ilDummyBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vd')));
+'class' => array('text', 'ilblockgui'), 'filename' => array('text', 'Services/Block/classes/class.ilBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vd')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilexternalfeedblockgui'), 'filename' => array('text', 'Services/Block/classes/class.ilExternalFeedBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 've')));
+'class' => array('text', 'ildummyblockgui'), 'filename' => array('text', 'Services/Block/classes/class.ilDummyBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 've')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcolumngui'), 'filename' => array('text', 'Services/Block/classes/class.ilColumnGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vf')));
+'class' => array('text', 'ilexternalfeedblockgui'), 'filename' => array('text', 'Services/Block/classes/class.ilExternalFeedBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vf')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illicensegui'), 'filename' => array('text', 'Services/License/classes/class.ilLicenseGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vg')));
+'class' => array('text', 'ilcolumngui'), 'filename' => array('text', 'Services/Block/classes/class.ilColumnGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vg')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illicenseoverviewgui'), 'filename' => array('text', 'Services/License/classes/class.ilLicenseOverviewGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vh')));
+'class' => array('text', 'illicensegui'), 'filename' => array('text', 'Services/License/classes/class.ilLicenseGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vh')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illicenseoverviewtablegui'), 'filename' => array('text', 'Services/License/classes/class.ilLicenseOverviewTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vi')));
+'class' => array('text', 'illicenseoverviewgui'), 'filename' => array('text', 'Services/License/classes/class.ilLicenseOverviewGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vi')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjecttranslationtablegui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectTranslationTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vj')));
+'class' => array('text', 'illicenseoverviewtablegui'), 'filename' => array('text', 'Services/License/classes/class.ilLicenseOverviewTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vj')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjobjectfoldergui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjObjectFolderGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vk')));
+'class' => array('text', 'ilobjecttranslationtablegui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectTranslationTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vk')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjectmetadatagui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectMetaDataGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vl')));
+'class' => array('text', 'ilobjobjectfoldergui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjObjectFolderGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vl')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjectlistgui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vm')));
+'class' => array('text', 'ilobjectmetadatagui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectMetaDataGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vm')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjectgui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vn')));
+'class' => array('text', 'ilobjectlistgui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vn')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobject2gui'), 'filename' => array('text', 'Services/Object/classes/class.ilObject2GUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vo')));
+'class' => array('text', 'ilobjectgui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vo')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjectownershipmanagementgui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectOwnershipManagementGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vp')));
+'class' => array('text', 'ilobject2gui'), 'filename' => array('text', 'Services/Object/classes/class.ilObject2GUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vp')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjectcopyselectiontablegui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectCopySelectionTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vq')));
+'class' => array('text', 'ilobjectownershipmanagementgui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectOwnershipManagementGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vq')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjectactivationgui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectActivationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vr')));
+'class' => array('text', 'ilobjectcopyselectiontablegui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectCopySelectionTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vr')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjecttablegui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vs')));
+'class' => array('text', 'ilobjectactivationgui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectActivationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vs')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjectmetadatablockgui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectMetaDataBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vt')));
+'class' => array('text', 'ilobjecttablegui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vt')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjectsubitemlistgui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectSubItemListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vu')));
+'class' => array('text', 'ilobjectmetadatablockgui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectMetaDataBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vu')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjectservicesettingsgui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectServiceSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vv')));
+'class' => array('text', 'ilobjectsubitemlistgui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectSubItemListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vv')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjectcopycoursegroupselectiontablegui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectCopyCourseGroupSelectionTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vw')));
+'class' => array('text', 'ilobjectservicesettingsgui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectServiceSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vw')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjectaddnewitemgui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectAddNewItemGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vx')));
+'class' => array('text', 'ilobjectcopycoursegroupselectiontablegui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectCopyCourseGroupSelectionTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vx')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjectcopyprogresstablegui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectCopyProgressTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vy')));
+'class' => array('text', 'ilobjectaddnewitemgui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectAddNewItemGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vy')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsubitemlistgui'), 'filename' => array('text', 'Services/Object/classes/class.ilSubItemListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vz')));
+'class' => array('text', 'ilobjectcopyprogresstablegui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectCopyProgressTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'vz')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjectownershipmanagementtablegui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectOwnershipManagementTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'w0')));
+'class' => array('text', 'ilsubitemlistgui'), 'filename' => array('text', 'Services/Object/classes/class.ilSubItemListGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'w0')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjectcopygui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectCopyGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'w1')));
+'class' => array('text', 'ilobjectownershipmanagementtablegui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectOwnershipManagementTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'w1')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjtypedefinitiongui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjTypeDefinitionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'w2')));
+'class' => array('text', 'ilobjectcopygui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectCopyGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'w2')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjclipboardtablegui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjClipboardTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'w3')));
+'class' => array('text', 'ilobjtypedefinitiongui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjTypeDefinitionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'w3')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjecttranslation2tablegui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectTranslation2TableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'w4')));
+'class' => array('text', 'ilobjclipboardtablegui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjClipboardTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'w4')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcommonactiondispatchergui'), 'filename' => array('text', 'Services/Object/classes/class.ilCommonActionDispatcherGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'w5')));
+'class' => array('text', 'ilobjecttranslation2tablegui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectTranslation2TableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'w5')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjecttranslationgui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectTranslationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'w6')));
+'class' => array('text', 'ilcommonactiondispatchergui'), 'filename' => array('text', 'Services/Object/classes/class.ilCommonActionDispatcherGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'w6')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjectcopysearchresulttablegui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectCopySearchResultTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'w7')));
+'class' => array('text', 'ilobjecttranslationgui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectTranslationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'w7')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilbadgeimagetemplatetablegui'), 'filename' => array('text', 'Services/Badge/classes/class.ilBadgeImageTemplateTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'w8')));
+'class' => array('text', 'ilobjectcopysearchresulttablegui'), 'filename' => array('text', 'Services/Object/classes/class.ilObjectCopySearchResultTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'w8')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilbadgetablegui'), 'filename' => array('text', 'Services/Badge/classes/class.ilBadgeTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'w9')));
+'class' => array('text', 'ilbadgeimagetemplatetablegui'), 'filename' => array('text', 'Services/Badge/classes/class.ilBadgeImageTemplateTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'w9')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilbadgehandlergui'), 'filename' => array('text', 'Services/Badge/classes/class.ilBadgeHandlerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wa')));
+'class' => array('text', 'ilbadgetablegui'), 'filename' => array('text', 'Services/Badge/classes/class.ilBadgeTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wa')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilbadgepersonaltablegui'), 'filename' => array('text', 'Services/Badge/classes/class.ilBadgePersonalTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wb')));
+'class' => array('text', 'ilbadgehandlergui'), 'filename' => array('text', 'Services/Badge/classes/class.ilBadgeHandlerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wb')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilbadgetypestablegui'), 'filename' => array('text', 'Services/Badge/classes/class.ilBadgeTypesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wc')));
+'class' => array('text', 'ilbadgepersonaltablegui'), 'filename' => array('text', 'Services/Badge/classes/class.ilBadgePersonalTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wc')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjectbadgetablegui'), 'filename' => array('text', 'Services/Badge/classes/class.ilObjectBadgeTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wd')));
+'class' => array('text', 'ilbadgetypestablegui'), 'filename' => array('text', 'Services/Badge/classes/class.ilBadgeTypesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wd')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilbadgeprofilegui'), 'filename' => array('text', 'Services/Badge/classes/class.ilBadgeProfileGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'we')));
+'class' => array('text', 'ilobjectbadgetablegui'), 'filename' => array('text', 'Services/Badge/classes/class.ilObjectBadgeTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'we')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilbadgemanagementgui'), 'filename' => array('text', 'Services/Badge/classes/class.ilBadgeManagementGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wf')));
+'class' => array('text', 'ilbadgeprofilegui'), 'filename' => array('text', 'Services/Badge/classes/class.ilBadgeProfileGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wf')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilbadgeusertablegui'), 'filename' => array('text', 'Services/Badge/classes/class.ilBadgeUserTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wg')));
+'class' => array('text', 'ilbadgemanagementgui'), 'filename' => array('text', 'Services/Badge/classes/class.ilBadgeManagementGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wg')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjbadgeadministrationgui'), 'filename' => array('text', 'Services/Badge/classes/class.ilObjBadgeAdministrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wh')));
+'class' => array('text', 'ilbadgeusertablegui'), 'filename' => array('text', 'Services/Badge/classes/class.ilBadgeUserTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wh')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsingleusersharegui'), 'filename' => array('text', 'Services/PersonalWorkspace/classes/class.ilSingleUserShareGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wi')));
+'class' => array('text', 'ilobjbadgeadministrationgui'), 'filename' => array('text', 'Services/Badge/classes/class.ilObjBadgeAdministrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wi')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilworkspacesharetablegui'), 'filename' => array('text', 'Services/PersonalWorkspace/classes/class.ilWorkspaceShareTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wj')));
+'class' => array('text', 'ilsingleusersharegui'), 'filename' => array('text', 'Services/PersonalWorkspace/classes/class.ilSingleUserShareGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wj')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsharedresourcegui'), 'filename' => array('text', 'Services/PersonalWorkspace/classes/class.ilSharedResourceGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wk')));
+'class' => array('text', 'ilworkspacesharetablegui'), 'filename' => array('text', 'Services/PersonalWorkspace/classes/class.ilWorkspaceShareTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wk')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpersonalworkspacegui'), 'filename' => array('text', 'Services/PersonalWorkspace/classes/class.ilPersonalWorkspaceGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wl')));
+'class' => array('text', 'ilsharedresourcegui'), 'filename' => array('text', 'Services/PersonalWorkspace/classes/class.ilSharedResourceGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wl')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilworkspaceaccessgui'), 'filename' => array('text', 'Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wm')));
+'class' => array('text', 'ilpersonalworkspacegui'), 'filename' => array('text', 'Services/PersonalWorkspace/classes/class.ilPersonalWorkspaceGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wm')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilworkspaceaccesstablegui'), 'filename' => array('text', 'Services/PersonalWorkspace/classes/class.ilWorkspaceAccessTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wn')));
+'class' => array('text', 'ilworkspaceaccessgui'), 'filename' => array('text', 'Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wn')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsubitemselectiontablegui'), 'filename' => array('text', 'Services/Export/classes/class.ilSubItemSelectionTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wo')));
+'class' => array('text', 'ilworkspaceaccesstablegui'), 'filename' => array('text', 'Services/PersonalWorkspace/classes/class.ilWorkspaceAccessTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wo')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilexporttablegui'), 'filename' => array('text', 'Services/Export/classes/class.ilExportTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wp')));
+'class' => array('text', 'ilsubitemselectiontablegui'), 'filename' => array('text', 'Services/Export/classes/class.ilSubItemSelectionTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wp')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilexportselectiontablegui'), 'filename' => array('text', 'Services/Export/classes/class.ilExportSelectionTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wq')));
+'class' => array('text', 'ilexporttablegui'), 'filename' => array('text', 'Services/Export/classes/class.ilExportTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wq')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilexportgui'), 'filename' => array('text', 'Services/Export/classes/class.ilExportGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wr')));
+'class' => array('text', 'ilexportselectiontablegui'), 'filename' => array('text', 'Services/Export/classes/class.ilExportSelectionTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wr')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilecscommunitytablegui'), 'filename' => array('text', 'Services/WebServices/ECS/classes/class.ilECSCommunityTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ws')));
+'class' => array('text', 'ilexportgui'), 'filename' => array('text', 'Services/Export/classes/class.ilExportGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ws')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilecsreleasedcontenttablegui'), 'filename' => array('text', 'Services/WebServices/ECS/classes/class.ilECSReleasedContentTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wt')));
+'class' => array('text', 'ilecscommunitytablegui'), 'filename' => array('text', 'Services/WebServices/ECS/classes/class.ilECSCommunityTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wt')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilecsimportedcontenttablegui'), 'filename' => array('text', 'Services/WebServices/ECS/classes/class.ilECSImportedContentTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wu')));
+'class' => array('text', 'ilecsreleasedcontenttablegui'), 'filename' => array('text', 'Services/WebServices/ECS/classes/class.ilECSReleasedContentTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wu')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilecscategorymappingtablegui'), 'filename' => array('text', 'Services/WebServices/ECS/classes/class.ilECSCategoryMappingTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wv')));
+'class' => array('text', 'ilecsimportedcontenttablegui'), 'filename' => array('text', 'Services/WebServices/ECS/classes/class.ilECSImportedContentTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wv')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilecsnodemappingtreetablegui'), 'filename' => array('text', 'Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingTreeTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ww')));
+'class' => array('text', 'ilecscategorymappingtablegui'), 'filename' => array('text', 'Services/WebServices/ECS/classes/class.ilECSCategoryMappingTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ww')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilecsmappingsettingsgui'), 'filename' => array('text', 'Services/WebServices/ECS/classes/Mapping/class.ilECSMappingSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wx')));
+'class' => array('text', 'ilecsnodemappingtreetablegui'), 'filename' => array('text', 'Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingTreeTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wx')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilremoteobjectbasegui'), 'filename' => array('text', 'Services/WebServices/ECS/classes/class.ilRemoteObjectBaseGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wy')));
+'class' => array('text', 'ilecsmappingsettingsgui'), 'filename' => array('text', 'Services/WebServices/ECS/classes/Mapping/class.ilECSMappingSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wy')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilecsparticipantsettingsgui'), 'filename' => array('text', 'Services/WebServices/ECS/classes/class.ilECSParticipantSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wz')));
+'class' => array('text', 'ilremoteobjectbasegui'), 'filename' => array('text', 'Services/WebServices/ECS/classes/class.ilRemoteObjectBaseGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'wz')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjecssettingsgui'), 'filename' => array('text', 'Services/WebServices/ECS/classes/class.ilObjECSSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'x0')));
+'class' => array('text', 'ilecsparticipantsettingsgui'), 'filename' => array('text', 'Services/WebServices/ECS/classes/class.ilECSParticipantSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'x0')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilecsservertablegui'), 'filename' => array('text', 'Services/WebServices/ECS/classes/class.ilECSServerTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'x1')));
+'class' => array('text', 'ilobjecssettingsgui'), 'filename' => array('text', 'Services/WebServices/ECS/classes/class.ilObjECSSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'x1')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilecssettingsgui'), 'filename' => array('text', 'Services/WebServices/ECS/classes/class.ilECSSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'x2')));
+'class' => array('text', 'ilecsservertablegui'), 'filename' => array('text', 'Services/WebServices/ECS/classes/class.ilECSServerTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'x2')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilfmsettingsgui'), 'filename' => array('text', 'Services/WebServices/FileManager/classes/class.ilFMSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'x3')));
+'class' => array('text', 'ilecssettingsgui'), 'filename' => array('text', 'Services/WebServices/ECS/classes/class.ilECSSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'x3')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsctreetasksgui'), 'filename' => array('text', 'Services/Tree/classes/class.ilSCTreeTasksGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'x4')));
+'class' => array('text', 'ilfmsettingsgui'), 'filename' => array('text', 'Services/WebServices/FileManager/classes/class.ilFMSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'x4')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpathgui'), 'filename' => array('text', 'Services/Tree/classes/class.ilPathGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'x5')));
+'class' => array('text', 'ilsctreetasksgui'), 'filename' => array('text', 'Services/Tree/classes/class.ilSCTreeTasksGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'x5')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsctreeduplicatestablegui'), 'filename' => array('text', 'Services/Tree/classes/class.ilSCTreeDuplicatesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'x6')));
+'class' => array('text', 'ilpathgui'), 'filename' => array('text', 'Services/Tree/classes/class.ilPathGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'x6')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilconfirmationtablegui'), 'filename' => array('text', 'Services/Utilities/classes/class.ilConfirmationTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'x7')));
+'class' => array('text', 'ilsctreeduplicatestablegui'), 'filename' => array('text', 'Services/Tree/classes/class.ilSCTreeDuplicatesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'x7')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilconfirmationgui'), 'filename' => array('text', 'Services/Utilities/classes/class.ilConfirmationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'x8')));
+'class' => array('text', 'ilconfirmationtablegui'), 'filename' => array('text', 'Services/Utilities/classes/class.ilConfirmationTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'x8')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illocatorgui'), 'filename' => array('text', 'Services/Locator/classes/class.ilLocatorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'x9')));
+'class' => array('text', 'ilconfirmationgui'), 'filename' => array('text', 'Services/Utilities/classes/class.ilConfirmationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'x9')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcaptchainputgui'), 'filename' => array('text', 'Services/Captcha/classes/class.ilCaptchaInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xa')));
+'class' => array('text', 'illocatorgui'), 'filename' => array('text', 'Services/Locator/classes/class.ilLocatorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xa')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilrenderertablegui'), 'filename' => array('text', 'Services/Preview/classes/class.ilRendererTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xb')));
+'class' => array('text', 'ilcaptchainputgui'), 'filename' => array('text', 'Services/Captcha/classes/class.ilCaptchaInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xb')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpreviewgui'), 'filename' => array('text', 'Services/Preview/classes/class.ilPreviewGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xc')));
+'class' => array('text', 'ilrenderertablegui'), 'filename' => array('text', 'Services/Preview/classes/class.ilRendererTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xc')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illogcomponenttablegui'), 'filename' => array('text', 'Services/Logging/classes/class.ilLogComponentTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xd')));
+'class' => array('text', 'ilpreviewgui'), 'filename' => array('text', 'Services/Preview/classes/class.ilPreviewGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xd')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjloggingsettingsgui'), 'filename' => array('text', 'Services/Logging/classes/class.ilObjLoggingSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xe')));
+'class' => array('text', 'illogcomponenttablegui'), 'filename' => array('text', 'Services/Logging/classes/class.ilLogComponentTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xe')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilshibbolethroleassignmenttablegui'), 'filename' => array('text', 'Services/AuthShibboleth/classes/class.ilShibbolethRoleAssignmentTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xf')));
+'class' => array('text', 'ilobjloggingsettingsgui'), 'filename' => array('text', 'Services/Logging/classes/class.ilObjLoggingSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xf')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilauthshibbolethsettingsgui'), 'filename' => array('text', 'Services/AuthShibboleth/classes/class.ilAuthShibbolethSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xg')));
+'class' => array('text', 'ilshibbolethroleassignmenttablegui'), 'filename' => array('text', 'Services/AuthShibboleth/classes/class.ilShibbolethRoleAssignmentTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xg')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpdselecteditemsblockgui'), 'filename' => array('text', 'Services/PersonalDesktop/classes/class.ilPDSelectedItemsBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xh')));
+'class' => array('text', 'ilauthshibbolethsettingsgui'), 'filename' => array('text', 'Services/AuthShibboleth/classes/class.ilAuthShibbolethSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xh')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ildesktopitemgui'), 'filename' => array('text', 'Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xi')));
+'class' => array('text', 'ilpdselecteditemsblockgui'), 'filename' => array('text', 'Services/PersonalDesktop/classes/class.ilPDSelectedItemsBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xi')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilusersonlineblockgui'), 'filename' => array('text', 'Services/PersonalDesktop/classes/class.ilUsersOnlineBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xj')));
+'class' => array('text', 'ildesktopitemgui'), 'filename' => array('text', 'Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xj')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpdcontentblockgui'), 'filename' => array('text', 'Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xk')));
+'class' => array('text', 'ilusersonlineblockgui'), 'filename' => array('text', 'Services/PersonalDesktop/classes/class.ilUsersOnlineBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xk')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpersonaldesktopgui'), 'filename' => array('text', 'Services/PersonalDesktop/classes/class.ilPersonalDesktopGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xl')));
+'class' => array('text', 'ilpdcontentblockgui'), 'filename' => array('text', 'Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xl')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjpersonaldesktopsettingsgui'), 'filename' => array('text', 'Services/PersonalDesktop/classes/class.ilObjPersonalDesktopSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xm')));
+'class' => array('text', 'ilpersonaldesktopgui'), 'filename' => array('text', 'Services/PersonalDesktop/classes/class.ilPersonalDesktopGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xm')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilaccordiongui'), 'filename' => array('text', 'Services/Accordion/classes/class.ilAccordionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xn')));
+'class' => array('text', 'ilobjpersonaldesktopsettingsgui'), 'filename' => array('text', 'Services/PersonalDesktop/classes/class.ilObjPersonalDesktopSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xn')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilaccordionpropertiesstorage'), 'filename' => array('text', 'Services/Accordion/classes/class.ilAccordionPropertiesStorage.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xo')));
+'class' => array('text', 'ilaccordiongui'), 'filename' => array('text', 'Services/Accordion/classes/class.ilAccordionGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xo')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilnotification'), 'filename' => array('text', 'Services/Notification/classes/class.ilNotification.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xp')));
+'class' => array('text', 'ilaccordionpropertiesstorage'), 'filename' => array('text', 'Services/Accordion/classes/class.ilAccordionPropertiesStorage.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xp')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpermanentlinkgui'), 'filename' => array('text', 'Services/PermanentLink/classes/class.ilPermanentLinkGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xq')));
+'class' => array('text', 'ilnotification'), 'filename' => array('text', 'Services/Notification/classes/class.ilNotification.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xq')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltablegui'), 'filename' => array('text', 'Services/Table/classes/class.ilTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xr')));
+'class' => array('text', 'ilpermanentlinkgui'), 'filename' => array('text', 'Services/PermanentLink/classes/class.ilPermanentLinkGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xr')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltabletemplatesstorage'), 'filename' => array('text', 'Services/Table/classes/class.ilTableTemplatesStorage.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xs')));
+'class' => array('text', 'iltablegui'), 'filename' => array('text', 'Services/Table/classes/class.ilTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xs')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltable2gui'), 'filename' => array('text', 'Services/Table/classes/class.ilTable2GUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xt')));
+'class' => array('text', 'iltabletemplatesstorage'), 'filename' => array('text', 'Services/Table/classes/class.ilTableTemplatesStorage.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xt')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltablepropertiesstorage'), 'filename' => array('text', 'Services/Table/classes/class.ilTablePropertiesStorage.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xu')));
+'class' => array('text', 'iltable2gui'), 'filename' => array('text', 'Services/Table/classes/class.ilTable2GUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xu')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjmediaobjectssettingsgui'), 'filename' => array('text', 'Services/MediaObjects/classes/class.ilObjMediaObjectsSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xv')));
+'class' => array('text', 'iltablepropertiesstorage'), 'filename' => array('text', 'Services/Table/classes/class.ilTablePropertiesStorage.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xv')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilimagemapeditorgui'), 'filename' => array('text', 'Services/MediaObjects/classes/class.ilImageMapEditorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xw')));
+'class' => array('text', 'ilobjmediaobjectssettingsgui'), 'filename' => array('text', 'Services/MediaObjects/classes/class.ilObjMediaObjectsSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xw')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmultisrtconfirmationtable2gui'), 'filename' => array('text', 'Services/MediaObjects/classes/class.ilMultiSrtConfirmationTable2GUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xx')));
+'class' => array('text', 'ilimagemapeditorgui'), 'filename' => array('text', 'Services/MediaObjects/classes/class.ilImageMapEditorGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xx')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilwidthheightinputgui'), 'filename' => array('text', 'Services/MediaObjects/classes/class.ilWidthHeightInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xy')));
+'class' => array('text', 'ilmultisrtconfirmationtable2gui'), 'filename' => array('text', 'Services/MediaObjects/classes/class.ilMultiSrtConfirmationTable2GUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xy')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilimagemaptablegui'), 'filename' => array('text', 'Services/MediaObjects/classes/class.ilImageMapTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xz')));
+'class' => array('text', 'ilwidthheightinputgui'), 'filename' => array('text', 'Services/MediaObjects/classes/class.ilWidthHeightInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'xz')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmediaplayergui'), 'filename' => array('text', 'Services/MediaObjects/classes/class.ilMediaPlayerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'y0')));
+'class' => array('text', 'ilimagemaptablegui'), 'filename' => array('text', 'Services/MediaObjects/classes/class.ilImageMapTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'y0')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjmediaobjectgui'), 'filename' => array('text', 'Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'y1')));
+'class' => array('text', 'ilmediaplayergui'), 'filename' => array('text', 'Services/MediaObjects/classes/class.ilMediaPlayerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'y1')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmediaobjectusagestablegui'), 'filename' => array('text', 'Services/MediaObjects/classes/class.ilMediaObjectUsagesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'y2')));
+'class' => array('text', 'ilobjmediaobjectgui'), 'filename' => array('text', 'Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'y2')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmobsubtitletablegui'), 'filename' => array('text', 'Services/MediaObjects/classes/class.ilMobSubtitleTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'y3')));
+'class' => array('text', 'ilmediaobjectusagestablegui'), 'filename' => array('text', 'Services/MediaObjects/classes/class.ilMediaObjectUsagesTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'y3')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilnewsforcontexttablegui'), 'filename' => array('text', 'Services/News/classes/class.ilNewsForContextTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'y4')));
+'class' => array('text', 'ilmobsubtitletablegui'), 'filename' => array('text', 'Services/MediaObjects/classes/class.ilMobSubtitleTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'y4')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpdnewsgui'), 'filename' => array('text', 'Services/News/classes/class.ilPDNewsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'y5')));
+'class' => array('text', 'ilnewsforcontexttablegui'), 'filename' => array('text', 'Services/News/classes/class.ilNewsForContextTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'y5')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilnewstimelineitemgui'), 'filename' => array('text', 'Services/News/classes/class.ilNewsTimelineItemGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'y6')));
+'class' => array('text', 'ilpdnewsgui'), 'filename' => array('text', 'Services/News/classes/class.ilPDNewsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'y6')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilnewstimelinegui'), 'filename' => array('text', 'Services/News/classes/class.ilNewsTimelineGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'y7')));
+'class' => array('text', 'ilnewstimelineitemgui'), 'filename' => array('text', 'Services/News/classes/class.ilNewsTimelineItemGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'y7')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilnewsforcontextblockgui'), 'filename' => array('text', 'Services/News/classes/class.ilNewsForContextBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'y8')));
+'class' => array('text', 'ilnewstimelinegui'), 'filename' => array('text', 'Services/News/classes/class.ilNewsTimelineGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'y8')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpdnewstablegui'), 'filename' => array('text', 'Services/News/classes/class.ilPDNewsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'y9')));
+'class' => array('text', 'ilnewsforcontextblockgui'), 'filename' => array('text', 'Services/News/classes/class.ilNewsForContextBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'y9')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjnewssettingsgui'), 'filename' => array('text', 'Services/News/classes/class.ilObjNewsSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ya')));
+'class' => array('text', 'ilpdnewstablegui'), 'filename' => array('text', 'Services/News/classes/class.ilPDNewsTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ya')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilrssbuttongui'), 'filename' => array('text', 'Services/News/classes/class.ilRSSButtonGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yb')));
+'class' => array('text', 'ilobjnewssettingsgui'), 'filename' => array('text', 'Services/News/classes/class.ilObjNewsSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yb')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilnewsdefaultrenderergui'), 'filename' => array('text', 'Services/News/classes/class.ilNewsDefaultRendererGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yc')));
+'class' => array('text', 'ilrssbuttongui'), 'filename' => array('text', 'Services/News/classes/class.ilRSSButtonGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yc')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilnewsitemgui'), 'filename' => array('text', 'Services/News/classes/class.ilNewsItemGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yd')));
+'class' => array('text', 'ilnewsdefaultrenderergui'), 'filename' => array('text', 'Services/News/classes/class.ilNewsDefaultRendererGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yd')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilpdnewsblockgui'), 'filename' => array('text', 'Services/News/classes/class.ilPDNewsBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ye')));
+'class' => array('text', 'ilnewsitemgui'), 'filename' => array('text', 'Services/News/classes/class.ilNewsItemGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ye')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iltimelinegui'), 'filename' => array('text', 'Services/News/Timeline/classes/class.ilTimelineGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yf')));
+'class' => array('text', 'ilpdnewsblockgui'), 'filename' => array('text', 'Services/News/classes/class.ilPDNewsBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yf')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjprivacysecuritygui'), 'filename' => array('text', 'Services/PrivacySecurity/classes/class.ilObjPrivacySecurityGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yg')));
+'class' => array('text', 'iltimelinegui'), 'filename' => array('text', 'Services/News/Timeline/classes/class.ilTimelineGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yg')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilinternallinkgui'), 'filename' => array('text', 'Services/Link/classes/class.ilInternalLinkGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yh')));
+'class' => array('text', 'ilobjprivacysecuritygui'), 'filename' => array('text', 'Services/PrivacySecurity/classes/class.ilObjPrivacySecurityGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yh')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illinktargetobjectexplorergui'), 'filename' => array('text', 'Services/Link/classes/class.ilLinkTargetObjectExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yi')));
+'class' => array('text', 'ilinternallinkgui'), 'filename' => array('text', 'Services/Link/classes/class.ilInternalLinkGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yi')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilintlinkrepitemexplorergui'), 'filename' => array('text', 'Services/Link/classes/class.ilIntLinkRepItemExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yj')));
+'class' => array('text', 'illinktargetobjectexplorergui'), 'filename' => array('text', 'Services/Link/classes/class.ilLinkTargetObjectExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yj')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilratinggui'), 'filename' => array('text', 'Services/Rating/classes/class.ilRatingGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yk')));
+'class' => array('text', 'ilintlinkrepitemexplorergui'), 'filename' => array('text', 'Services/Link/classes/class.ilIntLinkRepItemExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yk')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilratingcategorygui'), 'filename' => array('text', 'Services/Rating/classes/class.ilRatingCategoryGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yl')));
+'class' => array('text', 'ilratinggui'), 'filename' => array('text', 'Services/Rating/classes/class.ilRatingGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yl')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilratingcategorytablegui'), 'filename' => array('text', 'Services/Rating/classes/class.ilRatingCategoryTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ym')));
+'class' => array('text', 'ilratingcategorygui'), 'filename' => array('text', 'Services/Rating/classes/class.ilRatingCategoryGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ym')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmultilingualismgui'), 'filename' => array('text', 'Services/Multilingualism/classes/class.ilMultilingualismGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yn')));
+'class' => array('text', 'ilratingcategorytablegui'), 'filename' => array('text', 'Services/Rating/classes/class.ilRatingCategoryTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yn')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmultilingualismtablegui'), 'filename' => array('text', 'Services/Multilingualism/classes/class.ilMultilingualismTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yo')));
+'class' => array('text', 'ilmultilingualismgui'), 'filename' => array('text', 'Services/Multilingualism/classes/class.ilMultilingualismGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yo')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcronmanagergui'), 'filename' => array('text', 'Services/Cron/classes/class.ilCronManagerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yp')));
+'class' => array('text', 'ilmultilingualismtablegui'), 'filename' => array('text', 'Services/Multilingualism/classes/class.ilMultilingualismTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yp')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilcronmanagertablegui'), 'filename' => array('text', 'Services/Cron/classes/class.ilCronManagerTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yq')));
+'class' => array('text', 'ilcronmanagergui'), 'filename' => array('text', 'Services/Cron/classes/class.ilCronManagerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yq')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsearchresulttablegui'), 'filename' => array('text', 'Services/Search/classes/class.ilSearchResultTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yr')));
+'class' => array('text', 'ilcronmanagertablegui'), 'filename' => array('text', 'Services/Cron/classes/class.ilCronManagerTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yr')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilrepositoryobjectresulttablegui'), 'filename' => array('text', 'Services/Search/classes/class.ilRepositoryObjectResultTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ys')));
+'class' => array('text', 'ilsearchresulttablegui'), 'filename' => array('text', 'Services/Search/classes/class.ilSearchResultTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ys')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsearchcontroller'), 'filename' => array('text', 'Services/Search/classes/class.ilSearchController.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yt')));
+'class' => array('text', 'ilrepositoryobjectresulttablegui'), 'filename' => array('text', 'Services/Search/classes/class.ilRepositoryObjectResultTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yt')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilrepositoryobjectsearchresulttablegui'), 'filename' => array('text', 'Services/Search/classes/class.ilRepositoryObjectSearchResultTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yu')));
+'class' => array('text', 'ilsearchcontroller'), 'filename' => array('text', 'Services/Search/classes/class.ilSearchController.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yu')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilrepositoryuserresulttablegui'), 'filename' => array('text', 'Services/Search/classes/class.ilRepositoryUserResultTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yv')));
+'class' => array('text', 'ilrepositoryobjectsearchresulttablegui'), 'filename' => array('text', 'Services/Search/classes/class.ilRepositoryObjectSearchResultTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yv')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illucenequeryinputgui'), 'filename' => array('text', 'Services/Search/classes/Form/class.ilLuceneQueryInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yw')));
+'class' => array('text', 'ilrepositoryuserresulttablegui'), 'filename' => array('text', 'Services/Search/classes/class.ilRepositoryUserResultTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yw')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsearchbasegui'), 'filename' => array('text', 'Services/Search/classes/class.ilSearchBaseGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yx')));
+'class' => array('text', 'illucenequeryinputgui'), 'filename' => array('text', 'Services/Search/classes/Form/class.ilLuceneQueryInputGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yx')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsearchgui'), 'filename' => array('text', 'Services/Search/classes/class.ilSearchGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yy')));
+'class' => array('text', 'ilsearchbasegui'), 'filename' => array('text', 'Services/Search/classes/class.ilSearchBaseGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yy')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilrepositoryobjectsearchgui'), 'filename' => array('text', 'Services/Search/classes/class.ilRepositoryObjectSearchGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yz')));
+'class' => array('text', 'ilsearchgui'), 'filename' => array('text', 'Services/Search/classes/class.ilSearchGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'yz')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilobjsearchsettingsgui'), 'filename' => array('text', 'Services/Search/classes/class.ilObjSearchSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'z0')));
+'class' => array('text', 'ilrepositoryobjectsearchgui'), 'filename' => array('text', 'Services/Search/classes/class.ilRepositoryObjectSearchGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'z0')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illuceneusersearchgui'), 'filename' => array('text', 'Services/Search/classes/Lucene/class.ilLuceneUserSearchGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'z1')));
+'class' => array('text', 'ilobjsearchsettingsgui'), 'filename' => array('text', 'Services/Search/classes/class.ilObjSearchSettingsGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'z1')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illuceneadvancedsearchgui'), 'filename' => array('text', 'Services/Search/classes/Lucene/class.ilLuceneAdvancedSearchGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'z2')));
+'class' => array('text', 'illuceneusersearchgui'), 'filename' => array('text', 'Services/Search/classes/Lucene/class.ilLuceneUserSearchGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'z2')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illucenesearchgui'), 'filename' => array('text', 'Services/Search/classes/Lucene/class.ilLuceneSearchGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'z3')));
+'class' => array('text', 'illuceneadvancedsearchgui'), 'filename' => array('text', 'Services/Search/classes/Lucene/class.ilLuceneAdvancedSearchGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'z3')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'illuceneadvancedsearchactivationtablegui'), 'filename' => array('text', 'Services/Search/classes/Lucene/class.ilLuceneAdvancedSearchActivationTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'z4')));
+'class' => array('text', 'illucenesearchgui'), 'filename' => array('text', 'Services/Search/classes/Lucene/class.ilLuceneSearchGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'z4')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iladvancedsearchgui'), 'filename' => array('text', 'Services/Search/classes/class.ilAdvancedSearchGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'z5')));
+'class' => array('text', 'illuceneadvancedsearchactivationtablegui'), 'filename' => array('text', 'Services/Search/classes/Lucene/class.ilLuceneAdvancedSearchActivationTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'z5')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'iluserfiltergui'), 'filename' => array('text', 'Services/Search/classes/class.ilUserFilterGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'z6')));
+'class' => array('text', 'iladvancedsearchgui'), 'filename' => array('text', 'Services/Search/classes/class.ilAdvancedSearchGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'z6')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilrepositoryobjectsearchblockgui'), 'filename' => array('text', 'Services/Search/classes/class.ilRepositoryObjectSearchBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'z7')));
+'class' => array('text', 'iluserfiltergui'), 'filename' => array('text', 'Services/Search/classes/class.ilUserFilterGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'z7')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilmainmenusearchgui'), 'filename' => array('text', 'Services/Search/classes/class.ilMainMenuSearchGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'z8')));
+'class' => array('text', 'ilrepositoryobjectsearchblockgui'), 'filename' => array('text', 'Services/Search/classes/class.ilRepositoryObjectSearchBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'z8')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilrepositorysearchgui'), 'filename' => array('text', 'Services/Search/classes/class.ilRepositorySearchGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'z9')));
+'class' => array('text', 'ilmainmenusearchgui'), 'filename' => array('text', 'Services/Search/classes/class.ilMainMenuSearchGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'z9')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilbookmarkadministrationgui'), 'filename' => array('text', 'Services/Bookmarks/classes/class.ilBookmarkAdministrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'za')));
+'class' => array('text', 'ilrepositorysearchgui'), 'filename' => array('text', 'Services/Search/classes/class.ilRepositorySearchGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'za')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilbookmarkexplorergui'), 'filename' => array('text', 'Services/Bookmarks/classes/class.ilBookmarkExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'zb')));
+'class' => array('text', 'ilbookmarkadministrationgui'), 'filename' => array('text', 'Services/Bookmarks/classes/class.ilBookmarkAdministrationGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'zb')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilbookmarkmoveexplorergui'), 'filename' => array('text', 'Services/Bookmarks/classes/class.ilBookmarkMoveExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'zc')));
+'class' => array('text', 'ilbookmarkexplorergui'), 'filename' => array('text', 'Services/Bookmarks/classes/class.ilBookmarkExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'zc')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilbookmarkblockexplorergui'), 'filename' => array('text', 'Services/Bookmarks/classes/class.ilBookmarkBlockExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'zd')));
+'class' => array('text', 'ilbookmarkmoveexplorergui'), 'filename' => array('text', 'Services/Bookmarks/classes/class.ilBookmarkMoveExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'zd')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilbookmarkblockgui'), 'filename' => array('text', 'Services/Bookmarks/classes/class.ilBookmarkBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ze')));
+'class' => array('text', 'ilbookmarkblockexplorergui'), 'filename' => array('text', 'Services/Bookmarks/classes/class.ilBookmarkBlockExplorerGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'ze')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilbookmarkadministrationtablegui'), 'filename' => array('text', 'Services/Bookmarks/classes/class.ilBookmarkAdministrationTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'zf')));
+'class' => array('text', 'ilbookmarkblockgui'), 'filename' => array('text', 'Services/Bookmarks/classes/class.ilBookmarkBlockGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'zf')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsetupgui'), 'filename' => array('text', 'setup/classes/class.ilSetupGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'zg')));
+'class' => array('text', 'ilbookmarkadministrationtablegui'), 'filename' => array('text', 'Services/Bookmarks/classes/class.ilBookmarkAdministrationTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'zg')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilclientlisttablegui'), 'filename' => array('text', 'setup/classes/class.ilClientListTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'zh')));
+'class' => array('text', 'ilsetupgui'), 'filename' => array('text', 'setup/classes/class.ilSetupGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'zh')));
 
 $ilDB->insert("ctrl_classfile", array(
-'class' => array('text', 'ilsetuplanguagetablegui'), 'filename' => array('text', 'setup/classes/class.ilSetupLanguageTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'zi')));
+'class' => array('text', 'ilclientlisttablegui'), 'filename' => array('text', 'setup/classes/class.ilClientListTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'zi')));
+
+$ilDB->insert("ctrl_classfile", array(
+'class' => array('text', 'ilsetuplanguagetablegui'), 'filename' => array('text', 'setup/classes/class.ilSetupLanguageTableGUI.php'), 'comp_prefix' => array('text', ''), 'plugin_path' => array('text', ''), 'cid' => array('text', 'zj')));
 
 
 //
@@ -22645,6 +22648,9 @@ $ilDB->insert("il_event_handling", array(
 'component' => array('text', 'Services/Object'), 'type' => array('text', 'raise'), 'id' => array('text', 'update')));
 
 $ilDB->insert("il_event_handling", array(
+'component' => array('text', 'Services/OnScreenChat'), 'type' => array('text', 'listen'), 'id' => array('text', 'Services/User')));
+
+$ilDB->insert("il_event_handling", array(
 'component' => array('text', 'Services/Search'), 'type' => array('text', 'listen'), 'id' => array('text', 'Services/Object')));
 
 $ilDB->insert("il_event_handling", array(
@@ -28772,7 +28778,7 @@ $ilDB->insert("lng_modules", array(
 'module' => array('text', 'auth'), 'lang_key' => array('text', 'en'), 'lang_array' => array('clob', 'a:33:{s:27:"auth_account_migration_keep";s:29:"Migrate Existing User Account";s:27:"auth_account_migration_name";s:9:"Migration";s:26:"auth_account_migration_new";s:23:"Create New User Account";s:22:"auth_account_migration";s:17:"New ILIAS Account";s:13:"auth_info_add";s:88:"Choose this option if you have never registered to ILIAS. A new account will be created.";s:17:"auth_info_migrate";s:120:"If you have already an ILIAS account, enter username and password to migrate your personal data (mail, test results...).";s:23:"auth_rad_migration_info";s:121:"Activate this option to give new users the possibility to migrate their existing ILIAS accounts to Radius authentication.";s:18:"auth_rad_migration";s:18:"Account Migration:";s:24:"auth_radius_charset_info";s:107:"Please choose the character encoding for the communication with the radius server. If unsure, choose UTF-8.";s:19:"auth_radius_charset";s:18:"Character Encoding";s:20:"auth_radius_sync_rad";s:37:"Automatic generation of user accounts";s:25:"auth_radius_sync_rad_info";s:137:"Creates automatically ILIAS user accounts, for users that successfully authenticated against Radius, without having an ILIAS account yet.";s:16:"auth_radius_ldap";s:26:"Synchronization using LDAP";s:21:"auth_radius_ldap_info";s:115:"If enabled, the synchronization of user accounts and role assignments is done using an existing LDAP configuration.";s:9:"auth_sync";s:20:"User Synchronisation";s:13:"auth_sync_cas";s:37:"Automatic generation of user accounts";s:18:"auth_sync_cas_info";s:134:"Creates automatically ILIAS user accounts, for users that successfully authenticated against CAS, without having an ILIAS account yet.";s:21:"login_page_switch_rte";s:20:"Use Rich-text editor";s:21:"login_page_switch_ipe";s:21:"Use ILIAS page editor";s:26:"login_page_editor_switched";s:39:"The active page editor has been changed";s:19:"login_page_activate";s:38:"Activate Editor for Selected Languages";s:17:"auth_account_code";s:4:"Code";s:22:"auth_account_code_info";s:62:"To re-activate your account you can use an ILIAS account code.";s:23:"auth_account_code_title";s:12:"Account Code";s:22:"auth_account_code_used";s:81:"Your account has been re-activated. Please login once again for security reasons.";s:17:"auth_login_editor";s:18:"Loginscreen Editor";s:18:"auth_auth_settings";s:8:"Settings";s:19:"auth_ldap_server_ds";s:11:"LDAP-Server";s:29:"auth_err_invalid_user_account";s:49:"Authentication failed due to an internal failure.";s:16:"auth_err_expired";s:52:"Your session has been deactivated due to inactivity.";s:23:"auth_err_ldap_exception";s:71:"Authentication failed due to an internal authentication failure (LDAP).";s:28:"auth_activation_code_success";s:62:"Your account has been reactivated. You can now login to ILIAS.";s:36:"auth_err_login_attempts_deactivation";s:63:"The user account has been deactivated due wrong login attempts.";}')));
 
 $ilDB->insert("lng_modules", array(
-'module' => array('text', 'awrn'), 'lang_key' => array('text', 'en'), 'lang_array' => array('clob', 'a:19:{s:20:"awareness_now_online";s:10:"Online Now";s:26:"awareness_now_online_users";s:19:"[ONLINE_USER_NAMES]";s:18:"awareness_settings";s:8:"Settings";s:11:"awrn_enable";s:32:"Enable ‘Who is online?’-Tool";s:13:"awrn_inactive";s:10:"Not Listed";s:16:"awrn_online_only";s:11:"Online Only";s:17:"awrn_incl_offline";s:18:"Online and Offline";s:19:"awrn_caching_period";s:14:"Caching Period";s:24:"awrn_caching_period_info";s:109:"Time that is waited before the number of users in the top bar is updated and new online users are determined.";s:12:"awrn_seconds";s:3:"sec";s:19:"awrn_max_nr_entries";s:20:"Max. Number of Items";s:24:"awrn_max_nr_entries_info";s:57:"Maximum number of items in the ‘Who is online?’ list.";s:24:"awrn_hide_from_awareness";s:38:"Hide Me From ‘Who is online?’-Tool";s:29:"awrn_hide_from_awareness_info";s:118:"The ‘Who is online?’-Tool is in the top bar and listing selected users (e.g. contacts or members of your courses).";s:19:"awrn_max_inactivity";s:25:"Maximum Inactivity Period";s:24:"awrn_max_inactivity_info";s:103:"After this period users are considered being offline. If nothing is set, the session time will be used.";s:12:"awrn_minutes";s:3:"min";s:12:"awrn_use_osd";s:18:"Popup Online Users";s:17:"awrn_use_osd_info";s:78:"Display a popup to indicate new online users in the ‘Who is online?’ list.";}')));
+'module' => array('text', 'awrn'), 'lang_key' => array('text', 'en'), 'lang_array' => array('clob', 'a:19:{s:20:"awareness_now_online";s:10:"Online Now";s:26:"awareness_now_online_users";s:19:"[ONLINE_USER_NAMES]";s:18:"awareness_settings";s:8:"Settings";s:11:"awrn_enable";s:32:"Enable ‘Who is online?’-Tool";s:13:"awrn_inactive";s:10:"Not Listed";s:16:"awrn_online_only";s:11:"Online Only";s:17:"awrn_incl_offline";s:18:"Online and Offline";s:19:"awrn_caching_period";s:14:"Caching Period";s:24:"awrn_caching_period_info";s:109:"Time that is waited before the number of users in the top bar is updated and new online users are determined.";s:12:"awrn_seconds";s:3:"sec";s:19:"awrn_max_nr_entries";s:20:"Max. Number of Items";s:24:"awrn_max_nr_entries_info";s:150:"Maximum number of items in the ‘Who is online?’ list. This setting has only minimal performance influence when displaying the tool in the top bar.";s:24:"awrn_hide_from_awareness";s:38:"Hide Me From ‘Who is online?’-Tool";s:29:"awrn_hide_from_awareness_info";s:118:"The ‘Who is online?’-Tool is in the top bar and listing selected users (e.g. contacts or members of your courses).";s:19:"awrn_max_inactivity";s:25:"Maximum Inactivity Period";s:24:"awrn_max_inactivity_info";s:103:"After this period users are considered being offline. If nothing is set, the session time will be used.";s:12:"awrn_minutes";s:3:"min";s:12:"awrn_use_osd";s:18:"Popup Online Users";s:17:"awrn_use_osd_info";s:78:"Display a popup to indicate new online users in the ‘Who is online?’ list.";}')));
 
 $ilDB->insert("lng_modules", array(
 'module' => array('text', 'badge'), 'lang_key' => array('text', 'en'), 'lang_array' => array('clob', 'a:62:{s:14:"badge_settings";s:14:"Badge Settings";s:22:"badge_service_activate";s:16:"Activate Service";s:27:"badge_service_activate_info";s:45:"Activate the service to make badges available";s:18:"badge_obi_activate";s:43:"Activate Mozilla Open Badges Infrastructure";s:23:"badge_obi_activate_info";s:117:"Users can export Badges from ILIAS. They can use their Badges to prove their qualification in other web applications.";s:22:"badge_obi_organisation";s:12:"Organisation";s:27:"badge_obi_organisation_info";s:56:"This entry will be displayed as the Issuer of the Badge.";s:17:"badge_obi_contact";s:13:"Contact Email";s:22:"badge_obi_contact_info";s:62:"This E-Mail adress will not be shown but baked into the Badge.";s:14:"badge_obi_salt";s:4:"Salt";s:19:"badge_obi_salt_info";s:152:"Enter a combination of characters and numbers to allow third parties to validate the authenticity of a Badge. Please do not change the entry afterwards.";s:11:"badge_types";s:5:"Types";s:21:"badge_image_templates";s:15:"Image Templates";s:21:"badge_activity_badges";s:15:"Activity Badges";s:15:"badge_crs_merit";s:5:"Merit";s:12:"badge_manual";s:15:"Manual Awarding";s:18:"badge_user_profile";s:11:"User Profil";s:11:"badge_badge";s:5:"Badge";s:18:"badge_add_template";s:12:"Add Template";s:25:"badge_image_template_form";s:14:"Image Template";s:23:"badge_image_from_upload";s:12:"Upload Image";s:25:"badge_image_from_template";s:12:"Use Template";s:17:"badge_award_badge";s:11:"Award Badge";s:18:"badge_remove_badge";s:12:"Revoke Badge";s:36:"badge_template_deletion_confirmation";s:62:"Are you sure you want to delete the following image templates?";s:38:"badge_assignment_deletion_confirmation";s:73:"Are you sure you want to revoke the following badge assignments for "%s"?";s:27:"badge_deletion_confirmation";s:90:"Are you sure you want to delete the following badges and all their respective assignments?";s:20:"badge_template_types";s:11:"Valid Types";s:24:"badge_template_types_all";s:3:"All";s:29:"badge_template_types_specific";s:8:"Specific";s:11:"badge_valid";s:11:"Valid until";s:19:"badge_object_badges";s:13:"Object Badges";s:29:"badge_backpack_connect_failed";s:51:"The Mozilla Backpack could not be requested for %s.";s:24:"badge_backpack_no_groups";s:44:"The Mozilla Backpack is empty or non-public.";s:19:"badge_backpack_list";s:11:"My Backpack";s:21:"badge_personal_badges";s:9:"My Badges";s:15:"badge_issued_on";s:9:"Issued On";s:21:"badge_add_to_backpack";s:15:"Add to Backpack";s:27:"badge_add_to_backpack_multi";s:28:"Trying to add %s to Backpack";s:20:"badge_backpack_email";s:32:"Mozilla Backpack Account (Email)";s:26:"badge_notification_subject";s:15:"Badges received";s:23:"badge_notification_body";s:29:"you just received new badges.";s:22:"badge_notification_osd";s:42:"You just received new badges: [BADGE_LIST]";s:25:"badge_notification_badges";s:10:"New Badges";s:30:"badge_notification_badges_goto";s:14:"To your badges";s:30:"badge_notification_parent_goto";s:13:"To repository";s:25:"badge_notification_reason";s:76:"You are receiving this message to be able to add the badges to your profile.";s:16:"badge_in_profile";s:10:"In Profile";s:20:"badge_add_to_profile";s:14:"Add to Profile";s:25:"badge_remove_from_profile";s:19:"Remove from Profile";s:14:"badge_criteria";s:8:"Criteria";s:25:"badge_edit_with_published";s:178:"%s users have already added this badge to their backpack. Because of this changing badge attributes will lead to inconsistencies. Creating a new badge might be a better solution.";s:28:"badge_no_valid_types_for_obj";s:107:"There are currently no active badge types. You cannot create new badges. Please contact your administrator.";s:15:"badge_course_lp";s:9:"Course LP";s:18:"badge_profile_more";s:8:"Show all";s:18:"badge_profile_less";s:9:"Show less";s:27:"badge_backpack_gallery_info";s:68:"These are your published badge collections in your Mozilla Backpack.";s:18:"badge_profile_view";s:4:"View";s:20:"badge_profile_manage";s:6:"Manage";s:20:"badge_subtype_manual";s:6:"manual";s:18:"badge_subtype_auto";s:9:"automatic";s:23:"badge_course_lp_invalid";s:64:"The following objects have a LP mode which is not supported: %s.";}')));
@@ -28814,7 +28820,7 @@ $ilDB->insert("lng_modules", array(
 'module' => array('text', 'chat'), 'lang_key' => array('text', 'en'), 'lang_array' => array('clob', 'a:211:{s:11:"cancel_talk";s:14:"Cancel address";s:14:"cancel_whisper";s:14:"Cancel whisper";s:19:"chat_access_blocked";s:38:"You are excluded from these chat rooms";s:17:"chat_active_users";s:26:"Present Users in Chat Room";s:11:"chat_active";s:6:"Active";s:22:"chat_add_allowed_hosts";s:82:"Please add the address of the host(s) which are allowed to access the chat server.";s:17:"chat_add_blocking";s:10:"Block user";s:20:"chat_add_external_ip";s:36:"Please add the server\'s external IP.";s:20:"chat_add_internal_ip";s:36:"Please add the server\'s internal IP.";s:27:"chat_add_moderator_password";s:32:"Please add a moderator password.";s:13:"chat_add_port";s:27:"Please add the server port.";s:25:"chat_add_private_chatroom";s:21:"Add Private Chat Room";s:15:"chat_add_smiley";s:10:"Add Smiley";s:17:"chat_add_ssl_port";s:31:"Please add the server SSL port.";s:23:"chat_add_to_addressbook";s:15:"Add to Contacts";s:20:"chat_add_to_bookmark";s:16:"Add to Bookmarks";s:25:"chat_added_to_addressbook";s:48:"The User \' %s \' has been added to your Contacts.";s:23:"chat_added_to_bookmarks";s:66:"The Room \' %s \' has been added to the top folder of your Bookmarks";s:17:"chat_address_user";s:7:"Address";s:12:"chat_address";s:7:"Address";s:9:"chat_aqua";s:4:"aqua";s:10:"chat_arial";s:5:"Arial";s:22:"chat_available_smilies";s:17:"Available Smileys";s:10:"chat_black";s:5:"black";s:15:"chat_block_user";s:5:"Block";s:21:"chat_blocked_unlocked";s:6:"Unlock";s:18:"chat_blocked_users";s:13:"Blocked users";s:12:"chat_blocked";s:17:"Restricted access";s:9:"chat_blue";s:4:"blue";s:9:"chat_bold";s:4:"Bold";s:29:"chat_cannot_connect_to_server";s:58:"ILIAS cannot build a socket connection to the chat server.";s:20:"chat_chat_invitation";s:16:"Chat Invitations";s:18:"chat_chatroom_body";s:10:"Chat room:";s:20:"chat_chatroom_rename";s:14:"Edit chat room";s:14:"chat_chatrooms";s:10:"Chat Rooms";s:15:"chat_chatviewer";s:11:"Chat Viewer";s:10:"chat_color";s:10:"Font color";s:32:"chat_confirm_delete_private_room";s:41:"Are you sure to delete this private room?";s:26:"chat_confirm_delete_smiley";s:57:"Are you sure that all selected Smileys should be deleted?";s:19:"chat_confirm_delete";s:48:"Are you sure that you want to delete this rooms?";s:22:"chat_confirm_kick_user";s:31:"Are you sure to kick this user?";s:24:"chat_confirm_user_invite";s:42:"The User will be invited to this Chat Room";s:23:"chat_current_image_path";s:18:"Current Image Path";s:33:"chat_default_bookmark_description";s:24:"Link to Chat Room \' %s \'";s:27:"chat_default_bookmark_title";s:13:"Chat Link: %s";s:20:"chat_delete_selected";s:23:"Delete selected Smileys";s:16:"chat_delete_sure";s:47:"Are you sure, you want to delete this chat room";s:19:"chat_disinvite_user";s:44:"Disinvite/remove user from private chat room";s:14:"chat_disinvite";s:9:"Disinvite";s:14:"chat_drop_user";s:11:"User kicked";s:16:"chat_edit_smiley";s:11:"Edit Smiley";s:9:"chat_edit";s:9:"Edit chat";s:10:"chat_empty";s:5:"Empty";s:22:"chat_enable_autoscroll";s:17:"Enable Autoscroll";s:25:"chat_enter_valid_username";s:30:"Please enter a valid username.";s:15:"chat_export_all";s:50:"No restrictions (all users with access may export)";s:16:"chat_export_info";s:86:"Displays an export button for the current room. The messages will be exported to html.";s:21:"chat_export_moderator";s:15:"Moderators only";s:23:"chat_export_period_info";s:31:"Export the given number of days";s:18:"chat_export_period";s:13:"Export period";s:18:"chat_export_status";s:27:"Required export permissions";s:9:"chat_face";s:9:"Font type";s:12:"chat_fuchsia";s:7:"fuchsia";s:21:"chat_general_settings";s:16:"General Settings";s:9:"chat_gray";s:4:"gray";s:10:"chat_green";s:5:"green";s:17:"chat_hide_details";s:12:"Hide details";s:17:"chat_hide_smilies";s:12:"Hide smileys";s:20:"chat_hide_textformat";s:15:"Hide Textformat";s:16:"chat_html_export";s:11:"HTML export";s:10:"chat_ilias";s:17:"ILIAS Chat module";s:15:"chat_image_path";s:10:"Image Path";s:13:"chat_inactive";s:8:"Inactive";s:10:"chat_input";s:5:"Input";s:19:"chat_insert_message";s:23:"Please insert a message";s:20:"chat_invitation_body";s:24:"Invitation to chat from:";s:23:"chat_invitation_subject";s:15:"Chat invitation";s:16:"chat_invite_user";s:11:"Invite user";s:11:"chat_invite";s:6:"Invite";s:15:"chat_invited_by";s:10:"Invited by";s:11:"chat_italic";s:6:"Italic";s:22:"chat_kick_user_session";s:9:"Kick user";s:9:"chat_kick";s:4:"Kick";s:21:"chat_kicked_from_room";s:68:"You have been kicked from this chat room, you cannot write messages.";s:14:"chat_level_all";s:3:"All";s:16:"chat_level_debug";s:5:"Debug";s:16:"chat_level_error";s:5:"Error";s:16:"chat_level_fatal";s:5:"Fatal";s:15:"chat_level_info";s:4:"Info";s:9:"chat_lime";s:4:"lime";s:11:"chat_maroon";s:6:"maroon";s:28:"chat_message_notify_activate";s:18:"Chat Notifications";s:30:"chat_message_notify_deactivate";s:25:"Deactivate Message Notify";s:19:"chat_message_notify";s:16:"Message Notifier";s:21:"chat_messages_deleted";s:27:"Messages have been deleted.";s:23:"chat_moderator_password";s:18:"Moderator password";s:9:"chat_navy";s:4:"navy";s:32:"chat_new_invitation_sound_status";s:57:"Play a sound when user receives an invitation to the chat";s:29:"chat_new_message_sound_status";s:59:"Play a sound when a new message has been posted to the chat";s:16:"chat_new_message";s:11:"New message";s:20:"chat_no_active_users";s:25:"No further users present.";s:15:"chat_no_blocked";s:26:"No blocked users available";s:18:"chat_no_connection";s:27:"Cannot contact chat server.";s:21:"chat_no_delete_public";s:38:"The public chat room cannot be deleted";s:20:"chat_no_online_users";s:24:"No further users online.";s:28:"chat_no_recordings_available";s:42:"No recordings are available at the moment.";s:22:"chat_no_refresh_public";s:41:"The public chat room cannot be refreshed.";s:21:"chat_no_rename_public";s:33:"The public room cannot be renamed";s:21:"chat_no_room_selected";s:26:"No room has been selected.";s:22:"chat_no_users_selected";s:28:"You have to select one user.";s:18:"chat_no_write_perm";s:22:"No permission to write";s:23:"chat_notification_intro";s:72:"This mail was automatically sent to you by the ILIAS installation %s, %s";s:10:"chat_olive";s:5:"olive";s:17:"chat_online_users";s:18:"Other Users Online";s:9:"chat_open";s:10:"Enter Room";s:20:"chat_private_message";s:15:"Private Message";s:12:"chat_profile";s:7:"Profile";s:16:"chat_public_room";s:16:"Public chat room";s:11:"chat_purple";s:6:"purple";s:20:"chat_recent_postings";s:20:"Recent Chat Postings";s:21:"chat_recording_action";s:6:"Action";s:26:"chat_recording_description";s:11:"Description";s:24:"chat_recording_moderator";s:9:"Moderator";s:24:"chat_recording_not_found";s:25:"Could not find recording.";s:22:"chat_recording_running";s:17:"Recording running";s:22:"chat_recording_started";s:17:"Recording started";s:22:"chat_recording_stopped";s:17:"Recording stopped";s:25:"chat_recording_time_frame";s:10:"Time frame";s:20:"chat_recording_title";s:18:"Title of recording";s:27:"chat_recordings_delete_sure";s:32:"Deleting records - are you sure?";s:23:"chat_recordings_deleted";s:24:"Recordings were deleted.";s:26:"chat_recordings_select_one";s:50:"Please choose recordings you would like to delete.";s:15:"chat_recordings";s:10:"Recordings";s:8:"chat_red";s:3:"red";s:12:"chat_refresh";s:7:"Refresh";s:14:"chat_refreshed";s:48:"Deleted all messages of the selected chat rooms.";s:15:"chat_room_added";s:19:"Added new chat room";s:24:"chat_room_does_not_exist";s:84:"The Chat Room does not exist. Maybe it has been removed or you used an invalid link.";s:14:"chat_room_name";s:17:"Name of chat room";s:17:"chat_room_renamed";s:18:"Chat room renamed.";s:16:"chat_room_select";s:17:"Private chat room";s:18:"chat_rooms_deleted";s:21:"Chat room(s) deleted.";s:10:"chat_rooms";s:10:"Chat Rooms";s:20:"chat_select_one_room";s:27:"Please select one chat room";s:21:"chat_server_allowed_b";s:30:"(e.g. 192.168.1.1,192.168.1.2)";s:19:"chat_server_allowed";s:13:"Allowed hosts";s:23:"chat_server_external_ip";s:14:"Server Address";s:23:"chat_server_internal_ip";s:18:"Server internal IP";s:19:"chat_server_logfile";s:13:"Log file path";s:20:"chat_server_loglevel";s:9:"Log level";s:22:"chat_server_not_active";s:29:"The chat server is not active";s:16:"chat_server_port";s:11:"Server Port";s:20:"chat_server_settings";s:20:"Chat server settings";s:22:"chat_server_ssl_active";s:10:"SSL active";s:20:"chat_server_ssl_port";s:15:"Server SSL Port";s:24:"chat_server_ssl_settings";s:12:"SSL Settings";s:19:"chat_settings_saved";s:14:"Settings saved";s:17:"chat_show_details";s:12:"Show details";s:17:"chat_show_smilies";s:12:"Show smileys";s:20:"chat_show_textformat";s:11:"Format text";s:11:"chat_silver";s:6:"silver";s:33:"chat_smiley_image_only_if_changed";s:122:"Please enter a new Image only if you want to change the existing. If no new Image is given, the existing won\'t be changed.";s:17:"chat_smiley_image";s:12:"Smiley Image";s:19:"chat_smiley_keyword";s:15:"Smiley Shortcut";s:38:"chat_smiley_keywords_one_per_line_note";s:94:"You can enter multiple Keywords for each Smiley. Each line will be used as a seperate Keyword.";s:20:"chat_smiley_keywords";s:16:"Smiley Shortcuts";s:21:"chat_smilies_activate";s:16:"Activate Smileys";s:23:"chat_smilies_deactivate";s:18:"Deactivate Smileys";s:30:"chat_smilies_dir_not_available";s:126:"The smiley data directory could not be created. This ILIAS will not be able to use chat smileys as further actions are needed.";s:27:"chat_smilies_dir_not_exists";s:79:"The smiley data directory does not exist. Trying to setup folders and database.";s:29:"chat_smilies_dir_not_writable";s:90:"Your smiley data directory exists but is not writable. You will not be able to add smiles.";s:24:"chat_smilies_initialized";s:57:"The smiley data has been initialized and is ready to use.";s:19:"chat_smilies_status";s:12:"Chat Smileys";s:26:"chat_sound_status_activate";s:15:"Activate Sounds";s:28:"chat_sound_status_deactivate";s:17:"Deactivate Sounds";s:11:"chat_sounds";s:6:"Sounds";s:20:"chat_start_recording";s:15:"Start recording";s:17:"chat_status_saved";s:27:"The status has been changed";s:11:"chat_status";s:6:"Status";s:19:"chat_stop_recording";s:14:"Stop recording";s:11:"chat_tahoma";s:6:"Tahoma";s:9:"chat_teal";s:4:"teal";s:15:"chat_textformat";s:11:"Format text";s:10:"chat_times";s:5:"Times";s:18:"chat_title_missing";s:21:"Please insert a name.";s:17:"chat_to_chat_body";s:11:"To the chat";s:9:"chat_type";s:9:"Font face";s:19:"chat_unblocked_user";s:37:"The selected user have been unlocked.";s:15:"chat_underlined";s:10:"Underlined";s:24:"chat_unkick_user_session";s:11:"Unkick user";s:11:"chat_unkick";s:6:"Unkick";s:18:"chat_upload_smiley";s:13:"Upload Smiley";s:25:"chat_user_already_blocked";s:52:"The access for the selected user is already blocked.";s:32:"chat_user_already_in_addressbook";s:37:"The User is already in your Contacts.";s:17:"chat_user_blocked";s:37:"Blocked access for the selected user.";s:25:"chat_user_dropped_private";s:59:"The user was disinvited/removed from the private chat room.";s:17:"chat_user_dropped";s:11:"User kicked";s:16:"chat_user_hidden";s:6:"hidden";s:25:"chat_user_invited_private";s:51:"The user was invited to the private chat room \'%s\'.";s:24:"chat_user_invited_public";s:38:"The user was invited to the chat \'%s\'.";s:17:"chat_user_invited";s:21:"Invited user to chat.";s:14:"chat_user_name";s:8:"Username";s:18:"chat_user_unkicked";s:27:"The user has been unkicked.";s:17:"chat_user_visible";s:7:"visible";s:12:"chat_whisper";s:7:"Whisper";s:11:"chat_yellow";s:6:"yellow";s:5:"chats";s:5:"Chats";s:19:"check_configuration";s:40:"Please check the chat server\'s settings.";s:12:"edit_smilies";s:12:"Edit Smileys";s:8:"my_chats";s:8:"My Chats";s:33:"chat_activate_status_notification";s:74:"Show notification about new chat invitations and messages in main menu bar";}')));
 
 $ilDB->insert("lng_modules", array(
-'module' => array('text', 'chatroom'), 'lang_key' => array('text', 'en'), 'lang_array' => array('clob', 'a:165:{s:22:"chat_enable_autoscroll";s:17:"Enable Autoscroll";s:13:"chat_settings";s:13:"Chat Settings";s:16:"chat_select_room";s:16:"Select Chat Room";s:14:"history_by_day";s:13:"Daily History";s:17:"no_username_given";s:24:"Please choose a username";s:18:"history_by_session";s:15:"Session History";s:6:"period";s:6:"Period";s:15:"allow_anonymous";s:21:"Allow Anonymous Login";s:17:"autogen_usernames";s:25:"Auto Generated User Names";s:22:"allow_custom_usernames";s:23:"Allow Custom User Names";s:14:"enable_history";s:14:"Enable History";s:16:"settings_general";s:7:"General";s:22:"autogen_usernames_info";s:134:"Pattern for auto generated user names that is assigned to anonymous user accounts. ‘#’ will be automatically replaced by a number.";s:4:"bans";s:4:"Bans";s:11:"permissions";s:11:"Permissions";s:7:"session";s:7:"Session";s:9:"fontcolor";s:10:"Font Color";s:9:"fontstyle";s:10:"Font Style";s:8:"fontsize";s:9:"Font Size";s:6:"italic";s:6:"Italic";s:10:"underlined";s:10:"Underlined";s:22:"select_custom_username";s:22:"Select Custom Username";s:15:"custom_username";s:15:"Custom Username";s:5:"enter";s:15:"Enter Chat Room";s:10:"fontfamily";s:11:"Font Family";s:5:"small";s:5:"Small";s:5:"large";s:5:"Large";s:13:"duration_from";s:4:"From";s:11:"duration_to";s:2:"To";s:8:"obj_chtr";s:9:"Chat Room";s:12:"chat_message";s:7:"Message";s:19:"chat_message_to_all";s:6:"To All";s:20:"chat_message_options";s:7:"Display";s:20:"chat_message_display";s:7:"Options";s:13:"chat_mainroom";s:9:"Main Room";s:9:"chat_join";s:4:"Join";s:11:"chat_invite";s:6:"Invite";s:9:"chat_kick";s:4:"Kick";s:8:"chat_ban";s:3:"Ban";s:12:"chat_address";s:7:"Address";s:12:"chat_whisper";s:7:"Whisper";s:27:"chat_connection_established";s:47:"+++ <b>#username#</b> has entered chat room +++";s:28:"chat_connection_disconnected";s:44:"--- <b>#username#</b> left the chat room ---";s:16:"chat_to_mainroom";s:12:"To Main Room";s:31:"chat_create_private_room_button";s:19:"Create Private Room";s:23:"chatroom_smiley_keyword";s:7:"Keyword";s:15:"chat_invitation";s:57:""[INVITER_NAME]" invites you into chat room "[ROOM_NAME]"";s:20:"chat_invitation_long";s:179:"[SALUTATION]\\n\\nYou have been invited to a chat room:\\nChat Room Title: [ROOM_NAME]\\nInvited by: [INVITER_NAME]\\nURL: [LINK]\\n\\nTo join the chat room, please follow the given URL.";s:21:"chat_invitation_short";s:51:"Please click the title link to enter the chat room.";s:14:"settings_title";s:8:"Settings";s:19:"history_byday_title";s:25:"Show Conversation per Day";s:23:"history_bysession_title";s:29:"Show Conversation per Session";s:15:"ban_table_title";s:12:"Banned Users";s:4:"main";s:9:"Main Room";s:11:"auto_scroll";s:16:"Scroll to Bottom";s:19:"public_chat_created";s:54:"The public chat room has been added to the repository.";s:15:"lost_connection";s:50:"The connection to the chat server was interrupted.";s:6:"banned";s:40:"You have been banned from this chat room";s:6:"kicked";s:40:"You have been kicked from this chat room";s:5:"unban";s:5:"Unban";s:17:"unable_to_connect";s:59:"The connection to the chat server could not be established.";s:26:"server_further_information";s:118:"You can find further information about the server configuration in the <a href="%1$s" target="_blank">readme file</a>.";s:8:"chtr_new";s:13:"New Chat Room";s:8:"chtr_add";s:13:"Add Chat Room";s:15:"welcome_to_chat";s:24:"Welcome to the chat room";s:12:"user_invited";s:26:"The user has been invited.";s:11:"user_kicked";s:39:"The user <b>#user#</b> has been kicked.";s:17:"user_invited_self";s:57:"<b>#user#</b> invited you to the chat room <b>#room#</b>.";s:19:"private_room_closed";s:45:"The chat room <b>#title#</b> has been closed.";s:20:"private_room_entered";s:43:"Welcome to the private room <b>#title#</b>.";s:17:"private_room_left";s:64:"The user <b>#user#</b> has left the private room <b>#title#</b>.";s:25:"private_room_entered_user";s:71:"The user <b>#username#</b> has entered the private room <b>#title#</b>.";s:24:"kicked_from_private_room";s:58:"You have been kicked from the private room <b>#title#</b>.";s:18:"chatserver_address";s:29:"IP-Address/FQN of Chat Server";s:15:"chatserver_port";s:19:"Port of Chat Server";s:8:"hint_osd";s:64:"If enabled, users are notified by a popup about new invitations.";s:17:"hint_osd_interval";s:165:"Polling interval for checking of new notifications. A lower number will notify the user more quickly but increases the number of requests the web server must handle.";s:14:"enable_smilies";s:14:"Enable Smileys";s:19:"hint_enable_smilies";s:101:"If activated, configured text sequences are replaced with an icon. See Smileys tab for configuration.";s:17:"display_past_msgs";s:23:"Number of Past Messages";s:22:"hint_display_past_msgs";s:102:"Number of previous messages shown when chat room is entered. A value of ‘0’ disables this feature.";s:8:"speak_to";s:22:"Speak to <b>#user#</b>";s:10:"whisper_to";s:24:"Whisper to <b>#user#</b>";s:18:"leave_private_room";s:18:"Leave Private Room";s:17:"left_private_room";s:17:"Left private room";s:19:"delete_private_room";s:19:"Delete Private Room";s:22:"invite_to_private_room";s:22:"Invite to Current Room";s:5:"scope";s:17:"Room/Private Room";s:12:"user_in_room";s:34:"Invite user from current chat room";s:13:"user_in_ilias";s:33:"Search and invite user from ILIAS";s:13:"kick_question";s:54:"Do you really want to kick the user from current room?";s:12:"ban_question";s:53:"Do you really want to ban the user from current room?";s:15:"history_cleared";s:47:"The message history was deleted by a moderator.";s:18:"clear_room_history";s:22:"Delete Message History";s:27:"clear_room_history_question";s:62:"Do you really want to delete all messages of the current room?";s:14:"anonymous_hint";s:124:"Make sure to set the proper permissions in the ‘Permissions’ tab to allow anonymous user access to this repository item.";s:24:"create_private_room_text";s:17:"Private room name";s:15:"invite_username";s:8:"Username";s:6:"layout";s:6:"Layout";s:13:"show_settings";s:13:"Show Settings";s:13:"hide_settings";s:13:"Hide Settings";s:21:"private_rooms_enabled";s:19:"Allow Private Rooms";s:26:"private_rooms_enabled_info";s:91:"If activated, users can create private rooms. Only invited users have access to this rooms.";s:16:"no_further_users";s:22:"No other users present";s:5:"users";s:5:"Users";s:11:"no_messages";s:49:"There are no saved messages for the given period.";s:21:"history_title_general";s:30:"Conversation in Chat Room "%s"";s:26:"history_title_private_room";s:33:"Conversation in Private Room "%s"";s:11:"end_whisper";s:6:"Cancel";s:17:"room_in_container";s:11:"%s (in: %s)";s:13:"chatroom_auth";s:14:"Authentication";s:17:"chatroom_auth_key";s:18:"Authentication-Key";s:20:"chatroom_auth_secret";s:21:"Authentication-Secret";s:21:"chatroom_auth_btn_txt";s:13:"Generate Keys";s:3:"key";s:3:"Key";s:7:"dhparam";s:24:"Diffie-Hellman Parameter";s:27:"ilias_chatserver_connection";s:26:"ILIAS to Server Connection";s:16:"ilias_proxy_info";s:142:"If the Server is not accessible with the default IP-Address and Port, it is possible to configure a custom URL for ILIAS to Server connection.";s:28:"client_chatserver_connection";s:27:"Client to Server Connection";s:17:"client_proxy_info";s:143:"If the Server is not accessible with the default IP-Address and Port, it is possible to configure a custom URL for Client to Server connection.";s:19:"connection_url_info";s:47:"Please insert an URL for the Server connection.";s:3:"log";s:14:"Chatserver Log";s:9:"error_log";s:20:"Chatserver Error-Log";s:28:"delete_private_room_question";s:28:"Confirm delete private room?";s:20:"chat_auth_token_info";s:322:"Please define unique strings used by ILIAS for authentication purposes when sending requests to the chat server. You can automatically create these strings by clicking the corresponding button. Please note that the chat server is able to communicate with multiple ILIAS clients, but each client id has to be <b>unique</b>.";s:20:"chat_https_cert_info";s:100:"Please define an absolute server path to the SSL certificate file (e.g.: /etc/ssl/certs/server.pem).";s:19:"chat_https_key_info";s:99:"Please define an absolute server path to the private key file (e.g..: /etc/ssl/private/server.key).";s:23:"chat_https_dhparam_info";s:218:"Please define an absolute server path to a file (e.g.: /etc/ssl/private/dhparam.pem), used for the negotiation of Diffie Hellman parameters (e.g. generated via: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 ).";s:13:"chat_log_info";s:222:"Please define an absolute server path to the chat server\'s log file (e.g.: /var/www/ilias/data/chat.log). If you do not specify a path, the chat server will automatically create a file located in the chat server directory.";s:19:"chat_error_log_info";s:234:"Please define an absolute server path to the chat server\'s error log file (e.g.: /var/www/ilias/data/chat_error.log). If you do not specify a path, the chat server will automatically create a file located in the chat server directory.";s:19:"chatroom_enable_osc";s:21:"Enable On-Screen-Chat";s:24:"chatroom_enable_osc_info";s:217:"If activated, the On-Screen Chat will be available for each user. But every user can decided whether or not he/she would like to be contacted by others. Conversations could be started in the ‘Who is online?’-Tool.";s:27:"chat_osc_start_conversation";s:18:"Start Conversation";s:19:"chat_osc_accept_msg";s:34:"Allow On-Screen Chat Conversations";s:24:"chat_osc_accept_msg_info";s:67:"If activated, other users are allowed start a conversation with me.";s:28:"chat_osc_accepts_messages_no";s:29:"Doesn\'t Receive Chat Messages";s:29:"chat_osc_accepts_messages_yes";s:22:"Receives Chat Messages";s:22:"chat_osc_conversations";s:13:"Conversations";s:13:"chat_osc_send";s:4:"Send";s:31:"chat_osc_invite_to_conversation";s:19:"Add to Conversation";s:17:"chat_osc_add_user";s:17:"Add Further Users";s:13:"chat_osc_user";s:4:"User";s:20:"chat_osc_write_a_msg";s:19:"Write a Message ...";s:18:"chat_osc_emoticons";s:9:"Emoticons";s:21:"chat_osc_no_usr_found";s:45:"Could not find any user matching your search.";s:33:"chat_osc_section_head_other_rooms";s:15:"Public Chatroom";s:31:"chat_osc_sure_to_leave_grp_conv";s:54:"Are you sure you want to leave the group conversation?";s:23:"chat_osc_leave_grp_conv";s:18:"Leave Conversation";s:27:"chat_osc_user_left_grp_conv";s:42:"User \'%s\' has left the group conversation.";s:24:"chat_osc_dont_accept_msg";s:126:"You currently cannot be invited to conversations. If desired you can change this in your <a href="%s">\'Personal Settings\'</a>.";s:26:"chat_osc_doesnt_accept_msg";s:26:"Conversations not possible";s:35:"chat_user_action_invite_public_room";s:25:"Invite to Public Chatroom";s:27:"chat_user_action_invite_osd";s:24:"Invite to On-Screen Chat";s:16:"chat_osc_no_conv";s:17:"No conversations.";s:25:"chat_osc_no_sub_directory";s:13:"Sub-Directory";s:30:"chat_osc_no_sub_directory_info";s:164:"If the Chatserver is only reachable through a sub directory with an URL like "http(s)://[IP/Domain]/[PATH]" it is required to insert the [PATH] for this Chatserver.";s:26:"chat_deletion_section_head";s:24:"Deletion of old Messages";s:22:"chat_deletion_disabled";s:8:"Disabled";s:22:"chat_deletion_interval";s:8:"Interval";s:27:"chat_deletion_interval_info";s:119:"If chosen, messages in the repository chat on On-Screen-Chat conversations will be deleted after the defined threshold.";s:27:"chat_deletion_interval_unit";s:4:"Unit";s:28:"chat_deletion_interval_value";s:5:"Value";s:26:"chat_deletion_ival_max_val";s:48:"The maximum value for the chose unit \'%s\' is: %s";s:29:"chat_deletion_interval_run_at";s:4:"Time";s:34:"chat_deletion_interval_run_at_info";s:91:"Please define the time (format: HH:MM) when the server should process the message deletion.";}')));
+'module' => array('text', 'chatroom'), 'lang_key' => array('text', 'en'), 'lang_array' => array('clob', 'a:168:{s:22:"chat_enable_autoscroll";s:17:"Enable Autoscroll";s:13:"chat_settings";s:13:"Chat Settings";s:16:"chat_select_room";s:16:"Select Chat Room";s:14:"history_by_day";s:13:"Daily History";s:17:"no_username_given";s:24:"Please choose a username";s:18:"history_by_session";s:15:"Session History";s:6:"period";s:6:"Period";s:15:"allow_anonymous";s:21:"Allow Anonymous Login";s:17:"autogen_usernames";s:25:"Auto Generated User Names";s:22:"allow_custom_usernames";s:23:"Allow Custom User Names";s:14:"enable_history";s:14:"Enable History";s:16:"settings_general";s:7:"General";s:22:"autogen_usernames_info";s:134:"Pattern for auto generated user names that is assigned to anonymous user accounts. ‘#’ will be automatically replaced by a number.";s:4:"bans";s:4:"Bans";s:11:"permissions";s:11:"Permissions";s:7:"session";s:7:"Session";s:9:"fontcolor";s:10:"Font Color";s:9:"fontstyle";s:10:"Font Style";s:8:"fontsize";s:9:"Font Size";s:6:"italic";s:6:"Italic";s:10:"underlined";s:10:"Underlined";s:22:"select_custom_username";s:22:"Select Custom Username";s:15:"custom_username";s:15:"Custom Username";s:5:"enter";s:15:"Enter Chat Room";s:10:"fontfamily";s:11:"Font Family";s:5:"small";s:5:"Small";s:5:"large";s:5:"Large";s:13:"duration_from";s:4:"From";s:11:"duration_to";s:2:"To";s:8:"obj_chtr";s:9:"Chat Room";s:12:"chat_message";s:7:"Message";s:19:"chat_message_to_all";s:6:"To All";s:20:"chat_message_options";s:7:"Display";s:20:"chat_message_display";s:7:"Options";s:13:"chat_mainroom";s:9:"Main Room";s:9:"chat_join";s:4:"Join";s:11:"chat_invite";s:6:"Invite";s:9:"chat_kick";s:4:"Kick";s:8:"chat_ban";s:3:"Ban";s:12:"chat_address";s:7:"Address";s:12:"chat_whisper";s:7:"Whisper";s:27:"chat_connection_established";s:47:"+++ <b>#username#</b> has entered chat room +++";s:28:"chat_connection_disconnected";s:44:"--- <b>#username#</b> left the chat room ---";s:16:"chat_to_mainroom";s:12:"To Main Room";s:31:"chat_create_private_room_button";s:19:"Create Private Room";s:23:"chatroom_smiley_keyword";s:7:"Keyword";s:15:"chat_invitation";s:57:""[INVITER_NAME]" invites you into chat room "[ROOM_NAME]"";s:20:"chat_invitation_long";s:179:"[SALUTATION]\\n\\nYou have been invited to a chat room:\\nChat Room Title: [ROOM_NAME]\\nInvited by: [INVITER_NAME]\\nURL: [LINK]\\n\\nTo join the chat room, please follow the given URL.";s:21:"chat_invitation_short";s:51:"Please click the title link to enter the chat room.";s:14:"settings_title";s:8:"Settings";s:19:"history_byday_title";s:25:"Show Conversation per Day";s:23:"history_bysession_title";s:29:"Show Conversation per Session";s:15:"ban_table_title";s:12:"Banned Users";s:4:"main";s:9:"Main Room";s:11:"auto_scroll";s:16:"Scroll to Bottom";s:19:"public_chat_created";s:54:"The public chat room has been added to the repository.";s:15:"lost_connection";s:50:"The connection to the chat server was interrupted.";s:6:"banned";s:40:"You have been banned from this chat room";s:6:"kicked";s:40:"You have been kicked from this chat room";s:5:"unban";s:5:"Unban";s:17:"unable_to_connect";s:59:"The connection to the chat server could not be established.";s:26:"server_further_information";s:118:"You can find further information about the server configuration in the <a href="%1$s" target="_blank">readme file</a>.";s:8:"chtr_new";s:13:"New Chat Room";s:8:"chtr_add";s:13:"Add Chat Room";s:15:"welcome_to_chat";s:24:"Welcome to the chat room";s:12:"user_invited";s:26:"The user has been invited.";s:11:"user_kicked";s:39:"The user <b>#user#</b> has been kicked.";s:17:"user_invited_self";s:57:"<b>#user#</b> invited you to the chat room <b>#room#</b>.";s:19:"private_room_closed";s:45:"The chat room <b>#title#</b> has been closed.";s:20:"private_room_entered";s:43:"Welcome to the private room <b>#title#</b>.";s:17:"private_room_left";s:64:"The user <b>#user#</b> has left the private room <b>#title#</b>.";s:25:"private_room_entered_user";s:71:"The user <b>#username#</b> has entered the private room <b>#title#</b>.";s:24:"kicked_from_private_room";s:58:"You have been kicked from the private room <b>#title#</b>.";s:18:"chatserver_address";s:29:"IP-Address/FQN of Chat Server";s:15:"chatserver_port";s:19:"Port of Chat Server";s:8:"hint_osd";s:64:"If enabled, users are notified by a popup about new invitations.";s:17:"hint_osd_interval";s:165:"Polling interval for checking of new notifications. A lower number will notify the user more quickly but increases the number of requests the web server must handle.";s:14:"enable_smilies";s:14:"Enable Smileys";s:19:"hint_enable_smilies";s:101:"If activated, configured text sequences are replaced with an icon. See Smileys tab for configuration.";s:17:"display_past_msgs";s:23:"Number of Past Messages";s:22:"hint_display_past_msgs";s:102:"Number of previous messages shown when chat room is entered. A value of ‘0’ disables this feature.";s:8:"speak_to";s:22:"Speak to <b>#user#</b>";s:10:"whisper_to";s:24:"Whisper to <b>#user#</b>";s:18:"leave_private_room";s:18:"Leave Private Room";s:17:"left_private_room";s:17:"Left private room";s:19:"delete_private_room";s:19:"Delete Private Room";s:22:"invite_to_private_room";s:22:"Invite to Current Room";s:5:"scope";s:17:"Room/Private Room";s:12:"user_in_room";s:34:"Invite user from current chat room";s:13:"user_in_ilias";s:33:"Search and invite user from ILIAS";s:13:"kick_question";s:54:"Do you really want to kick the user from current room?";s:12:"ban_question";s:53:"Do you really want to ban the user from current room?";s:15:"history_cleared";s:47:"The message history was deleted by a moderator.";s:18:"clear_room_history";s:22:"Delete Message History";s:27:"clear_room_history_question";s:62:"Do you really want to delete all messages of the current room?";s:14:"anonymous_hint";s:124:"Make sure to set the proper permissions in the ‘Permissions’ tab to allow anonymous user access to this repository item.";s:24:"create_private_room_text";s:17:"Private room name";s:15:"invite_username";s:8:"Username";s:6:"layout";s:6:"Layout";s:13:"show_settings";s:13:"Show Settings";s:13:"hide_settings";s:13:"Hide Settings";s:21:"private_rooms_enabled";s:19:"Allow Private Rooms";s:26:"private_rooms_enabled_info";s:91:"If activated, users can create private rooms. Only invited users have access to this rooms.";s:16:"no_further_users";s:22:"No other users present";s:5:"users";s:5:"Users";s:11:"no_messages";s:49:"There are no saved messages for the given period.";s:21:"history_title_general";s:30:"Conversation in Chat Room "%s"";s:26:"history_title_private_room";s:33:"Conversation in Private Room "%s"";s:11:"end_whisper";s:6:"Cancel";s:17:"room_in_container";s:11:"%s (in: %s)";s:13:"chatroom_auth";s:14:"Authentication";s:17:"chatroom_auth_key";s:18:"Authentication-Key";s:20:"chatroom_auth_secret";s:21:"Authentication-Secret";s:21:"chatroom_auth_btn_txt";s:13:"Generate Keys";s:3:"key";s:3:"Key";s:7:"dhparam";s:24:"Diffie-Hellman Parameter";s:27:"ilias_chatserver_connection";s:26:"ILIAS to Server Connection";s:16:"ilias_proxy_info";s:142:"If the Server is not accessible with the default IP-Address and Port, it is possible to configure a custom URL for ILIAS to Server connection.";s:28:"client_chatserver_connection";s:27:"Client to Server Connection";s:17:"client_proxy_info";s:143:"If the Server is not accessible with the default IP-Address and Port, it is possible to configure a custom URL for Client to Server connection.";s:19:"connection_url_info";s:47:"Please insert an URL for the Server connection.";s:3:"log";s:14:"Chatserver Log";s:9:"error_log";s:20:"Chatserver Error-Log";s:28:"delete_private_room_question";s:28:"Confirm delete private room?";s:20:"chat_auth_token_info";s:322:"Please define unique strings used by ILIAS for authentication purposes when sending requests to the chat server. You can automatically create these strings by clicking the corresponding button. Please note that the chat server is able to communicate with multiple ILIAS clients, but each client id has to be <b>unique</b>.";s:20:"chat_https_cert_info";s:100:"Please define an absolute server path to the SSL certificate file (e.g.: /etc/ssl/certs/server.pem).";s:19:"chat_https_key_info";s:99:"Please define an absolute server path to the private key file (e.g..: /etc/ssl/private/server.key).";s:23:"chat_https_dhparam_info";s:218:"Please define an absolute server path to a file (e.g.: /etc/ssl/private/dhparam.pem), used for the negotiation of Diffie Hellman parameters (e.g. generated via: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 ).";s:13:"chat_log_info";s:222:"Please define an absolute server path to the chat server\'s log file (e.g.: /var/www/ilias/data/chat.log). If you do not specify a path, the chat server will automatically create a file located in the chat server directory.";s:19:"chat_error_log_info";s:234:"Please define an absolute server path to the chat server\'s error log file (e.g.: /var/www/ilias/data/chat_error.log). If you do not specify a path, the chat server will automatically create a file located in the chat server directory.";s:19:"chatroom_enable_osc";s:21:"Enable On-Screen-Chat";s:24:"chatroom_enable_osc_info";s:217:"If activated, the On-Screen Chat will be available for each user. But every user can decided whether or not he/she would like to be contacted by others. Conversations could be started in the ‘Who is online?’-Tool.";s:27:"chat_osc_start_conversation";s:18:"Start Conversation";s:19:"chat_osc_accept_msg";s:34:"Allow On-Screen Chat Conversations";s:24:"chat_osc_accept_msg_info";s:67:"If activated, other users are allowed start a conversation with me.";s:28:"chat_osc_accepts_messages_no";s:29:"Doesn\'t Receive Chat Messages";s:29:"chat_osc_accepts_messages_yes";s:22:"Receives Chat Messages";s:22:"chat_osc_conversations";s:13:"Conversations";s:13:"chat_osc_send";s:4:"Send";s:31:"chat_osc_invite_to_conversation";s:19:"Add to Conversation";s:17:"chat_osc_add_user";s:17:"Add Further Users";s:13:"chat_osc_user";s:4:"User";s:20:"chat_osc_write_a_msg";s:19:"Write a Message ...";s:18:"chat_osc_emoticons";s:9:"Emoticons";s:21:"chat_osc_no_usr_found";s:45:"Could not find any user matching your search.";s:33:"chat_osc_section_head_other_rooms";s:15:"Public Chatroom";s:31:"chat_osc_sure_to_leave_grp_conv";s:54:"Are you sure you want to leave the group conversation?";s:23:"chat_osc_leave_grp_conv";s:18:"Leave Conversation";s:27:"chat_osc_user_left_grp_conv";s:42:"User \'%s\' has left the group conversation.";s:24:"chat_osc_dont_accept_msg";s:126:"You currently cannot be invited to conversations. If desired you can change this in your <a href="%s">\'Personal Settings\'</a>.";s:26:"chat_osc_doesnt_accept_msg";s:26:"Conversations not possible";s:22:"chat_osc_subs_rej_msgs";s:119:"Currently it is not possible to continue this conversation. Your chat-partner must activate chats in the chat-settings.";s:24:"chat_osc_subs_rej_msgs_p";s:92:"The following chat partners of your conversation do not want to receive messages anymore: %s";s:22:"chat_osc_self_rej_msgs";s:111:"You currently cannot take part in this conversation because you suppressed receiving messages in your settings.";s:35:"chat_user_action_invite_public_room";s:25:"Invite to Public Chatroom";s:27:"chat_user_action_invite_osd";s:24:"Invite to On-Screen Chat";s:16:"chat_osc_no_conv";s:17:"No conversations.";s:25:"chat_osc_no_sub_directory";s:13:"Sub-Directory";s:30:"chat_osc_no_sub_directory_info";s:164:"If the Chatserver is only reachable through a sub directory with an URL like "http(s)://[IP/Domain]/[PATH]" it is required to insert the [PATH] for this Chatserver.";s:26:"chat_deletion_section_head";s:24:"Deletion of old Messages";s:22:"chat_deletion_disabled";s:8:"Disabled";s:22:"chat_deletion_interval";s:8:"Interval";s:27:"chat_deletion_interval_info";s:119:"If chosen, messages in the repository chat on On-Screen-Chat conversations will be deleted after the defined threshold.";s:27:"chat_deletion_interval_unit";s:4:"Unit";s:28:"chat_deletion_interval_value";s:5:"Value";s:26:"chat_deletion_ival_max_val";s:48:"The maximum value for the chose unit \'%s\' is: %s";s:29:"chat_deletion_interval_run_at";s:4:"Time";s:34:"chat_deletion_interval_run_at_info";s:91:"Please define the time (format: HH:MM) when the server should process the message deletion.";}')));
 
 $ilDB->insert("lng_modules", array(
 'module' => array('text', 'chatroom_adm'), 'lang_key' => array('text', 'en'), 'lang_array' => array('clob', 'a:31:{s:26:"chatroom_available_smilies";s:17:"Available Smileys";s:24:"chatroom_delete_selected";s:23:"Delete Selected Smileys";s:21:"chatroom_smiley_image";s:6:"Smiley";s:19:"chatroom_add_smiley";s:10:"Add Smiley";s:19:"chatroom_image_path";s:14:"Path to Smiley";s:24:"chatroom_smiley_keywords";s:8:"Keywords";s:42:"chatroom_smiley_keywords_one_per_line_note";s:20:"One Keyword per Line";s:22:"chatroom_upload_smiley";s:13:"Upload Smiley";s:8:"protocol";s:8:"Protocol";s:6:"smiley";s:7:"Smilies";s:20:"chatroom_edit_smiley";s:11:"Edit Smiley";s:34:"chatroom_current_smiley_image_path";s:14:"Current Smiley";s:29:"chatroom_current_smiley_image";s:19:"Current Smiley Icon";s:37:"chatroom_smiley_image_only_if_changed";s:67:"Choose a new smiley icon only if the current one is to be replaced.";s:15:"server_settings";s:19:"Chatserver Settings";s:15:"client_settings";s:16:"General Settings";s:5:"https";s:5:"HTTPS";s:12:"chat_enabled";s:11:"Enable Chat";s:10:"enable_osd";s:30:"Enable On-Screen Notifications";s:22:"general_settings_title";s:21:"General Chat Settings";s:13:"osd_intervall";s:25:"Refreshinterval (seconds)";s:25:"chatserver_settings_title";s:19:"Chatserver Settings";s:30:"chatroom_confirm_delete_smiley";s:52:"Are you sure you want to delete the selected smiley?";s:27:"chat_smilies_dir_not_exists";s:33:"Smilies directory does not exist.";s:24:"chat_smilies_initialized";s:24:"Chat smileys initialized";s:23:"settings_has_been_saved";s:23:"Settings has been saved";s:9:"port_info";s:179:"Rarely used ports are often blocked by firewalls or proxy servers. The user\'s browser will not be able to establish a connection to the chat server if the defined port is blocked.";s:29:"chat_cannot_connect_to_server";s:58:"ILIAS cannot build a socket connection to the chat server.";s:20:"public_chat_settings";s:25:"Public Chat Room Settings";s:23:"public_chat_permissions";s:28:"Public Chat Room Permissions";s:21:"play_invitation_sound";s:44:"Play a sound when receiving a new invitation";}')));
@@ -29105,10 +29111,10 @@ $ilDB->insert("lng_modules", array(
 'module' => array('text', 'sop'), 'lang_key' => array('text', 'en'), 'lang_array' => array('clob', 'a:23:{s:29:"sop_check_system_requirements";s:28:"Checking system requirements";s:20:"sop_already_exported";s:153:"This Learning Module has already been exported. Please open it with the computer on which you have installed Firefox with the SCORM Offline Player addon.";s:20:"sop_firefox_required";s:73:"Using a SCORM module offline requires Mozilla Firefox Browser Version 38.";s:15:"sop_xpi_install";s:226:"Please install the following Firefox addon: %s<br />After having successfully installed the xpi you have to refresh the page using the ‘Reload page’ button. Afterwards the SCORM Learning Module can be used in offline mode.";s:15:"sop_reload_page";s:11:"Reload page";s:15:"sop_text_export";s:44:"Export SCORM Learning Module for offline use";s:10:"sop_export";s:28:"SCORM Learning Module Export";s:15:"sop_desc_export";s:157:"A learning module in offline mode can only be used offline. Once the tracking data has been imported back to ILIAS, the learning module will be online again.";s:22:"sop_text_start_offline";s:37:"Start learning module in offline mode";s:17:"sop_start_offline";s:29:"Start learning module offline";s:18:"sop_text_start_som";s:27:"Start SCORM Offline Manager";s:13:"sop_start_som";s:9:"Start SOM";s:22:"sop_text_push_tracking";s:63:"Import offline tracking data to ILIAS and switch to online mode";s:17:"sop_push_tracking";s:20:"Import tracking data";s:21:"sop_msg_lm_not_exists";s:86:"The learning module does either not exist or is inactive in the SCORM Offline Manager.";s:16:"sop_msg_close_lm";s:73:"The learning module is still open. Please close the SCORM Offline Player.";s:22:"sop_msg_export_failure";s:73:"Transferring content or data to SCORM Offline Manager was not successful.";s:17:"sop_msg_export_ok";s:53:"Transferring content and tracking data was successful";s:22:"sop_msg_export_content";s:91:"Transferring content to SCORM Offline Manager. This might need a moment. Please be patient.";s:23:"sop_msg_export_tracking";s:77:"Transferring tracking data to SCORM Offline Manager. Please wait some seconds";s:21:"sop_msg_push_tracking";s:58:"Transferring tracking data to ILIAS. Please wait a moment.";s:29:"sop_msg_push_tracking_failure";s:45:"Transfer of tracking data was not successful.";s:24:"sop_msg_push_tracking_ok";s:41:"Transfer of tracking data was successful.";}')));
 
 $ilDB->insert("lng_modules", array(
-'module' => array('text', 'style'), 'lang_key' => array('text', 'en'), 'lang_array' => array('clob', 'a:439:{s:9:"sty_acopy";s:4:"Copy";s:22:"sty_add_characteristic";s:15:"Add Style Class";s:13:"sty_add_color";s:9:"Add Color";s:13:"sty_add_image";s:9:"Add Image";s:11:"sty_add_pgl";s:15:"Add Page Layout";s:16:"sty_add_template";s:12:"Add Template";s:24:"sty_added_characteristic";s:18:"Added style class.";s:7:"sty_all";s:3:"All";s:25:"sty_background_attachment";s:21:"Background Attachment";s:20:"sty_background_color";s:16:"Background Color";s:20:"sty_background_image";s:16:"Background Image";s:23:"sty_background_position";s:19:"Background Position";s:21:"sty_background_repeat";s:17:"Background Repeat";s:14:"sty_background";s:10:"Background";s:14:"sty_base_color";s:10:"Base Color";s:12:"sty_based_on";s:8:"Based on";s:19:"sty_border_collapse";s:15:"Border Collapse";s:16:"sty_border_color";s:12:"Border Color";s:16:"sty_border_style";s:12:"Border Style";s:16:"sty_border_width";s:12:"Border Width";s:10:"sty_border";s:6:"Border";s:10:"sty_bottom";s:6:"Bottom";s:17:"sty_caption_class";s:7:"Caption";s:16:"sty_caption_side";s:12:"Caption Side";s:11:"sty_caption";s:7:"Caption";s:33:"sty_characteristic_already_exists";s:63:"A style class with this title already exists within this style.";s:9:"sty_clear";s:5:"Clear";s:18:"sty_col_foot_class";s:13:"Column Footer";s:18:"sty_col_head_class";s:13:"Column Header";s:24:"sty_color_already_exists";s:52:"A color with this name already exists in this style.";s:14:"sty_color_code";s:10:"Color Code";s:17:"sty_color_flavors";s:13:"Color Flavors";s:14:"sty_color_info";s:290:"Predefined colors make it easy to reuse a color for different purposes. You refer to a predefined color by using its name with a leading ‘!’ for any color attribute in your style classes. To use a flavour, append a lightness value in brackets to the color name, e.g. ‘!MyColor(20)’.";s:14:"sty_color_name";s:10:"Color Name";s:9:"sty_color";s:5:"Color";s:10:"sty_colors";s:6:"Colors";s:12:"sty_commands";s:8:"Commands";s:25:"sty_confirm_char_deletion";s:67:"Are you sure that you want to delete the following style class(es)?";s:26:"sty_confirm_color_deletion";s:22:"Confirm Color Deletion";s:31:"sty_confirm_del_ind_styles_desc";s:154:"All learning modules with individual styles will be assigned to style \'%s\'. This will also delete all individual content styles. Are you sure to continue?";s:26:"sty_confirm_del_ind_styles";s:45:"Confirm Deletion of Individual Content Styles";s:29:"sty_confirm_template_deletion";s:25:"Confirm Template Deletion";s:25:"sty_copy_other_stylesheet";s:28:"Copy Style from Local Source";s:20:"sty_create_ind_style";s:23:"Create Individual Style";s:25:"sty_create_new_stylesheet";s:16:"Create new Style";s:14:"sty_create_pgl";s:18:"Create Page Layout";s:10:"sty_cursor";s:6:"Cursor";s:17:"sty_default_style";s:13:"Default Style";s:29:"sty_del_template_keep_classes";s:29:"Delete and keep Style Classes";s:16:"sty_del_template";s:28:"Delete Templates and Classes";s:16:"sty_delete_color";s:12:"Delete Color";s:29:"sty_disable_auto_margins_info";s:99:"Disables automatic setting of left/right to 0px, if media objects or tables are left/right aligned.";s:24:"sty_disable_auto_margins";s:20:"Disable Auto Margins";s:17:"sty_edit_template";s:13:"Edit Template";s:18:"sty_even_col_class";s:12:"Even Columns";s:18:"sty_even_row_class";s:9:"Even Rows";s:11:"sty_example";s:7:"Example";s:14:"sty_flist_char";s:9:"File List";s:9:"sty_float";s:5:"Float";s:15:"sty_font_family";s:11:"Font Family";s:13:"sty_font_size";s:9:"Font Size";s:16:"sty_font_stretch";s:12:"Font Stretch";s:14:"sty_font_style";s:10:"Font Style";s:16:"sty_font_variant";s:12:"Font Variant";s:15:"sty_font_weight";s:11:"Font Weight";s:21:"sty_generate_template";s:17:"Generate Template";s:17:"sty_ha_cntr_class";s:24:"Hor. Accordion Container";s:18:"sty_ha_icntr_class";s:29:"Hor. Accordion Item Container";s:18:"sty_ha_icont_class";s:27:"Hor. Accordion Item Content";s:18:"sty_ha_ihead_class";s:26:"Hor. Accordion Item Header";s:24:"sty_haccordion_templates";s:24:"Hor. Accordion Templates";s:10:"sty_height";s:6:"Height";s:8:"sty_hide";s:4:"Hide";s:14:"sty_horizontal";s:10:"Horizontal";s:14:"sty_image_file";s:10:"Image File";s:10:"sty_images";s:6:"Images";s:21:"sty_import_stylesheet";s:12:"Import Style";s:20:"sty_individual_style";s:16:"Individual Style";s:21:"sty_individual_styles";s:17:"Individual Styles";s:22:"sty_left_right_padding";s:23:"Cell Padding Left/Right";s:8:"sty_left";s:4:"Left";s:18:"sty_letter_spacing";s:14:"Letter Spacing";s:20:"sty_lightness_border";s:16:"Lightness Border";s:22:"sty_lightness_cell1_bg";s:27:"Lightness Cell 1 Background";s:24:"sty_lightness_cell1_text";s:21:"Lightness Cell 1 Text";s:22:"sty_lightness_cell2_bg";s:27:"Lightness Cell 2 Background";s:24:"sty_lightness_cell2_text";s:21:"Lightness Cell 2 Text";s:23:"sty_lightness_header_bg";s:27:"Lightness Header Background";s:25:"sty_lightness_header_text";s:21:"Lightness Header Text";s:15:"sty_line_height";s:11:"Line Height";s:13:"sty_link_char";s:4:"Link";s:13:"sty_list_char";s:4:"List";s:20:"sty_list_style_image";s:16:"List Style Image";s:23:"sty_list_style_position";s:19:"List Style Position";s:19:"sty_list_style_type";s:15:"List Style Type";s:22:"sty_margin_and_padding";s:18:"Margin and Padding";s:10:"sty_margin";s:6:"Margin";s:14:"sty_media_char";s:5:"Media";s:14:"sty_min_height";s:14:"Minimum Height";s:18:"sty_move_lm_styles";s:32:"Change Style of Learning Modules";s:14:"sty_move_style";s:12:"Change Style";s:37:"sty_msg_characteristic_already_exists";s:59:"A style class with this title already exists in this style.";s:40:"sty_msg_characteristic_must_only_include";s:69:"The title of style classes may only include the following characters:";s:31:"sty_msg_color_must_only_include";s:57:"The color name may only include the following characters:";s:29:"sty_msg_input_must_be_numeric";s:22:"Input must be numeric.";s:8:"sty_name";s:4:"Name";s:23:"sty_nr_learning_modules";s:26:"Number of Learning Modules";s:17:"sty_odd_col_class";s:11:"Odd Columns";s:17:"sty_odd_row_class";s:8:"Odd Rows";s:6:"sty_ol";s:13:"Numbered List";s:11:"sty_opacity";s:7:"Opacity";s:13:"sty_opt_saved";s:13:"Options saved";s:12:"sty_overflow";s:8:"Overflow";s:11:"sty_padding";s:7:"Padding";s:13:"sty_page_char";s:4:"Page";s:12:"sty_position";s:8:"Position";s:15:"sty_positioning";s:11:"Positioning";s:11:"sty_preview";s:7:"Preview";s:17:"sty_question_char";s:8:"Question";s:9:"sty_right";s:5:"Right";s:18:"sty_row_foot_class";s:10:"Row Footer";s:18:"sty_row_head_class";s:10:"Row Header";s:22:"sty_save_active_styles";s:18:"Save Active Styles";s:20:"sty_save_hide_status";s:16:"Save Hide Status";s:24:"sty_save_standard_styles";s:20:"Save Standard Styles";s:12:"sty_sco_char";s:17:"SCO and Objective";s:9:"sty_scope";s:5:"Scope";s:16:"sty_section_char";s:7:"Section";s:13:"sty_set_scope";s:9:"Set Scope";s:10:"sty_source";s:6:"Source";s:11:"sty_special";s:7:"Special";s:18:"sty_standard_style";s:14:"Standard Style";s:15:"sty_style_chars";s:13:"Style Classes";s:15:"sty_style_class";s:13:"Style Classes";s:19:"sty_table_cell_char";s:10:"Table Cell";s:14:"sty_table_char";s:5:"Table";s:15:"sty_table_class";s:17:"Table Style Class";s:27:"sty_table_template_bw_zebra";s:10:"Gray Zebra";s:32:"sty_table_template_colored_zebra";s:13:"Colored Zebra";s:27:"sty_table_template_no_zebra";s:8:"No Zebra";s:19:"sty_table_templates";s:15:"Table Templates";s:9:"sty_table";s:5:"Table";s:13:"sty_tabs_char";s:21:"Accordions and Panels";s:13:"sty_tag_hover";s:6:":hover";s:14:"sty_tag_normal";s:6:"Normal";s:19:"sty_template_layout";s:15:"Template Layout";s:17:"sty_template_name";s:4:"Name";s:13:"sty_templates";s:9:"Templates";s:14:"sty_text_align";s:14:"Text Alignment";s:19:"sty_text_block_char";s:12:"Text (Block)";s:19:"sty_text_decoration";s:15:"Text Decoration";s:15:"sty_text_indent";s:16:"Text Indentation";s:20:"sty_text_inline_char";s:16:"Text (Character)";s:18:"sty_text_transform";s:14:"Text Transform";s:8:"sty_text";s:4:"Text";s:22:"sty_top_bottom_padding";s:23:"Cell Padding Top/Bottom";s:7:"sty_top";s:3:"Top";s:16:"sty_type_flist_a";s:19:"File List Item Link";s:19:"sty_type_flist_cont";s:19:"File List Container";s:19:"sty_type_flist_head";s:17:"File List Heading";s:17:"sty_type_flist_li";s:14:"File List Item";s:14:"sty_type_flist";s:9:"File List";s:16:"sty_type_ha_cntr";s:24:"Hor. Accordion Container";s:17:"sty_type_ha_icntr";s:29:"Hor. Accordion Item Container";s:17:"sty_type_ha_icont";s:27:"Hor. Accordion Item Content";s:17:"sty_type_ha_ihead";s:26:"Hor. Accordion Item Header";s:17:"sty_type_heading1";s:9:"Heading 1";s:17:"sty_type_heading2";s:9:"Heading 2";s:17:"sty_type_heading3";s:9:"Heading 3";s:13:"sty_type_link";s:4:"Link";s:18:"sty_type_list_item";s:9:"List Item";s:15:"sty_type_list_o";s:13:"Numbered List";s:15:"sty_type_list_u";s:13:"Bulleted List";s:22:"sty_type_media_caption";s:13:"Media Caption";s:19:"sty_type_media_cont";s:15:"Media Container";s:14:"sty_type_media";s:5:"Media";s:18:"sty_type_page_bnav";s:17:"Bottom Navigation";s:18:"sty_type_page_cont";s:14:"Page Container";s:16:"sty_type_page_fn";s:8:"Footnote";s:19:"sty_type_page_frame";s:10:"Page Frame";s:18:"sty_type_page_lnav";s:15:"Left Navigation";s:23:"sty_type_page_lnavimage";s:21:"Left Navigation Image";s:22:"sty_type_page_lnavlink";s:20:"Left Navigation Link";s:17:"sty_type_page_nav";s:8:"Footnote";s:18:"sty_type_page_rnav";s:16:"Right Navigation";s:23:"sty_type_page_rnavimage";s:22:"Right Navigation Image";s:22:"sty_type_page_rnavlink";s:21:"Right Navigation Link";s:19:"sty_type_page_title";s:10:"Page Title";s:18:"sty_type_page_tnav";s:14:"Top Navigation";s:13:"sty_type_page";s:4:"Page";s:16:"sty_type_qanswer";s:6:"Answer";s:15:"sty_type_qfeedr";s:15:"Feedback, Right";s:15:"sty_type_qfeedw";s:15:"Feedback, Wrong";s:15:"sty_type_qinput";s:10:"Text Input";s:16:"sty_type_qlinput";s:15:"Long Text Input";s:16:"sty_type_qsubmit";s:23:"Question Submit Buttons";s:15:"sty_type_qtitle";s:14:"Question Title";s:17:"sty_type_question";s:8:"Question";s:17:"sty_type_sco_desc";s:15:"SCO Description";s:18:"sty_type_sco_desct";s:23:"SCO Description Heading";s:17:"sty_type_sco_keyw";s:12:"SCO Keywords";s:16:"sty_type_sco_obj";s:13:"SCO Objective";s:17:"sty_type_sco_objt";s:22:"SCO Objectives Heading";s:18:"sty_type_sco_title";s:9:"SCO Title";s:12:"sty_type_sco";s:3:"SCO";s:16:"sty_type_section";s:7:"Section";s:22:"sty_type_table_caption";s:13:"Table Caption";s:19:"sty_type_table_cell";s:10:"Table Cell";s:14:"sty_type_table";s:5:"Table";s:19:"sty_type_text_block";s:10:"Text Block";s:20:"sty_type_text_inline";s:9:"Character";s:16:"sty_type_va_cntr";s:25:"Vert. Accordion Container";s:17:"sty_type_va_icntr";s:30:"Vert. Accordion Item Container";s:17:"sty_type_va_icont";s:28:"Vert. Accordion Item Content";s:17:"sty_type_va_ihead";s:27:"Vert. Accordion Item Header";s:8:"sty_type";s:4:"Type";s:6:"sty_ul";s:11:"Bullet List";s:17:"sty_va_cntr_class";s:25:"Vert. Accordion Container";s:18:"sty_va_icntr_class";s:30:"Vert. Accordion Item Container";s:18:"sty_va_icont_class";s:28:"Vert. Accordion Item Content";s:18:"sty_va_ihead_class";s:27:"Vert. Accordion Item Header";s:24:"sty_vaccordion_templates";s:25:"Vert. Accordion Templates";s:18:"sty_vertical_align";s:18:"Vertical Alignment";s:12:"sty_vertical";s:8:"Vertical";s:15:"sty_white_space";s:11:"White Space";s:16:"sty_width_height";s:14:"Width x Height";s:9:"sty_width";s:5:"Width";s:16:"sty_word_spacing";s:12:"Word Spacing";s:19:"style_current_style";s:13:"Current Style";s:18:"style_delete_style";s:12:"Delete Style";s:16:"style_edit_style";s:10:"Edit Style";s:12:"sty_glo_char";s:8:"Glossary";s:20:"sty_type_glo_overlay";s:16:"Glossary Overlay";s:20:"sty_type_glo_ovtitle";s:20:"Term/Title (Overlay)";s:38:"sty_some_styles_obligatory_delete_rest";s:138:"The following style classes are compulsory and cannot be deleted. Do you want to continue and delete the remaining selected style classes?";s:25:"sty_delete_other_selected";s:8:"Continue";s:25:"sty_all_styles_obligatory";s:57:"All selected styles are compulsory and cannot be deleted.";s:31:"sty_copied_please_select_target";s:101:"The style classes have been copied. Please open the target style and click ‘Paste Style Classes’.";s:23:"sty_paste_style_classes";s:19:"Paste Style Classes";s:33:"sty_if_style_class_already_exists";s:32:"If style class already exists...";s:13:"sty_overwrite";s:9:"Overwrite";s:17:"sty_keep_existing";s:13:"Keep Existing";s:25:"sty_paste_characteristics";s:19:"Paste Style Classes";s:24:"sty_style_classes_copied";s:31:"Style classes have been copied.";s:20:"sty_type_glo_ovclink";s:27:"Glossary Overlay Close Link";s:21:"sty_type_glo_ovuglink";s:18:"Unit Glossary Link";s:25:"sty_type_glo_ovuglistlink";s:23:"Unit Glossary List Link";s:21:"style_move_style_into";s:4:"Into";s:12:"sty_rte_char";s:9:"SCORM RTE";s:17:"sty_type_rte_menu";s:8:"RTE Menu";s:18:"sty_type_rte_mlink";s:13:"RTE Menu Link";s:17:"sty_type_rte_tree";s:16:"RTE Tree Section";s:17:"sty_type_rte_node";s:13:"RTE Tree Node";s:19:"sty_type_rte_status";s:10:"RTE Status";s:18:"sty_type_rte_tlink";s:18:"RTE Tree Node Link";s:8:"sty_from";s:4:"From";s:6:"sty_to";s:2:"To";s:21:"sty_add_content_style";s:17:"Add Content Style";s:31:"sty_remove_global_default_state";s:27:"Remove Global Default State";s:29:"sty_remove_global_fixed_state";s:25:"Remove Global Fixed State";s:23:"sty_make_global_default";s:20:"Set as default style";s:21:"sty_make_global_fixed";s:31:"Force this style on all objects";s:18:"sty_type_sco_fmess";s:19:"SCORM Final Message";s:13:"sty_type_qimg";s:14:"Question Image";s:14:"sty_type_qimgd";s:18:"Image Details Link";s:15:"sty_type_qordli";s:15:"Order List Item";s:15:"sty_type_qordul";s:10:"Order List";s:16:"sty_type_qetitem";s:15:"Error Text Item";s:16:"sty_type_qetcorr";s:20:"Error Text Corrected";s:12:"sty_type_iim";s:31:"Interactive Image Content Popup";s:15:"sty_type_marker";s:24:"Interactive Image Marker";s:22:"sty_import_page_layout";s:18:"Import Page Layout";s:14:"sty_type_qover";s:17:"Question Overview";s:30:"style_page_layout_module_scorm";s:5:"Scorm";s:34:"style_page_layout_module_portfolio";s:9:"Portfolio";s:17:"sty_type_rte_drag";s:8:"Drag Bar";s:19:"sty_type_rte_tclink";s:17:"Tree Control Link";s:17:"sty_type_rte_texp";s:9:"Tree Icon";s:16:"sty_type_rte_tli";s:14:"Tree List Item";s:16:"sty_type_rte_tul";s:9:"Tree List";s:20:"sty_move_user_styles";s:21:"Change Style of Users";s:13:"sty_substyles";s:9:"Substyles";s:21:"sty_assign_categories";s:17:"Assign Categories";s:12:"sty_substyle";s:8:"Substyle";s:19:"sty_cat_assignments";s:26:"Style/Category Assignments";s:18:"sty_add_assignment";s:14:"Add Assignment";s:10:"sty_switch";s:6:"Switch";s:11:"sty_default";s:7:"Default";s:17:"sty_media_queries";s:13:"Media Queries";s:19:"sty_add_media_query";s:15:"Add Media Query";s:20:"sty_edit_media_query";s:16:"Edit Media Query";s:20:"sty_media_query_info";s:100:"A separate CSS block is added for each media query after the default (no special media query) block.";s:9:"sty_order";s:5:"Order";s:9:"sty_query";s:5:"Query";s:14:"sty_save_order";s:10:"Save Order";s:21:"sty_sure_del_mqueries";s:72:"Do you really want to delete this media query and all related CSS rules?";s:10:"sty_custom";s:6:"Custom";s:14:"sty_custom_par";s:17:"Custom Parameters";s:19:"sty_custom_par_info";s:62:"Add custom CSS parameters using format ‘parameter: value’.";s:13:"sty_transform";s:9:"Transform";s:20:"sty_transform_origin";s:16:"Transform-Origin";s:16:"sty_type_ca_cntr";s:18:"Carousel Container";s:17:"sty_type_ca_icntr";s:23:"Carousel Item Container";s:17:"sty_type_ca_icont";s:21:"Carousel Item Content";s:17:"sty_type_ca_ihead";s:20:"Carousel Item Header";s:12:"sty_type_sub";s:9:"Subscript";s:12:"sty_type_sup";s:11:"Superscript";s:22:"sty_carousel_templates";s:18:"Carousel Templates";s:17:"sty_ca_cntr_class";s:18:"Carousel Container";s:18:"sty_ca_icntr_class";s:23:"Carousel Item Container";s:18:"sty_ca_icont_class";s:21:"Carousel Item Content";s:18:"sty_ca_ihead_class";s:20:"Carousel Item Header";s:18:"sty_type_ha_iheada";s:30:"Hor. Accordion Header (active)";s:17:"sty_type_ha_ihcap";s:22:"Hor. Accordion Caption";s:18:"sty_type_va_iheada";s:31:"Vert. Accordion Header (active)";s:17:"sty_type_va_ihcap";s:23:"Vert. Accordion Caption";s:19:"sty_ha_iheada_class";s:30:"Hor. Accordion Header (active)";s:18:"sty_ha_ihcap_class";s:22:"Hor. Accordion Caption";s:19:"sty_va_iheada_class";s:31:"Vert. Accordion Header (active)";s:18:"sty_va_ihcap_class";s:23:"Vert. Accordion Caption";s:16:"add_system_style";s:16:"Add System Style";s:12:"add_substyle";s:13:"Add Sub Style";s:7:"skin_id";s:7:"Skin ID";s:9:"skin_name";s:9:"Skin Name";s:4:"skin";s:4:"Skin";s:8:"style_id";s:8:"Style ID";s:5:"Style";s:5:"Style";s:10:"style_name";s:10:"Style Name";s:9:"image_dir";s:15:"Image Directory";s:8:"font_dir";s:14:"Font Directory";s:9:"sound_dir";s:15:"Sound Directory";s:23:"system_style_activation";s:22:"System Style Activated";s:8:"personal";s:8:"Personal";s:23:"system_styel_activation";s:21:"Activate System Style";s:4:"less";s:4:"Less";s:5:"icons";s:5:"Icons";s:13:"documentation";s:13:"Documentation";s:24:"less_can_not_be_modified";s:23:"Less cannot be modified";s:16:"no_less_path_set";s:16:"No Less Path set";s:31:"less_less_installation_detected";s:30:"Less installation detected at:";s:11:"grey_colors";s:11:"Gray Colors";s:10:"grey_color";s:10:"Gray Color";s:23:"grey_colors_description";s:22:"Gray Color Description";s:10:"red_colors";s:10:"Red Colors";s:9:"red_color";s:9:"Red Color";s:22:"red_colors_description";s:21:"Red Color Description";s:12:"green_colors";s:12:"Green Colors";s:11:"green_color";s:11:"Green Color";s:24:"green_colors_description";s:23:"Green Color Description";s:11:"blue_colors";s:11:"Blue Colors";s:10:"blue_color";s:10:"Blue Color";s:23:"blue_colors_description";s:22:"Blue Color Description";s:11:"reset_icons";s:11:"Reset Icons";s:13:"update_colors";s:13:"Update Colors";s:17:"style_not_deleted";s:57:"The style could not be deleted for the following reasons:";s:18:"styles_not_deleted";s:65:"The styles could not have been deleted for the following reasons:";s:27:"cant_delete_activated_style";s:32:"Active Styles cannot be deleted.";s:13:"style_deleted";s:14:"Deleted Style:";s:20:"dir_preserved_linked";s:15:"Preserved Link:";s:12:"file_deleted";s:32:"Following file has been deleted:";s:12:"skin_deleted";s:32:"Following skin has been deleted:";s:20:"msg_sys_style_update";s:31:"System Styles have been updated";s:29:"cant_deactivate_default_style";s:37:"Default styles cannot be deactivated.";s:29:"cant_delete_if_users_assigned";s:54:"Styles can not be deleted if users are still assigned.";s:20:"default_style_set_to";s:41:"The default system style has been set to:";s:21:"personal_style_set_to";s:36:"Your personal style has been set to:";s:15:"refresh_entries";s:15:"Refresh Entries";s:16:"entries_reloaded";s:30:"All entries have been reloaded";s:21:"msg_sub_style_created";s:31:"The sub style has been created.";s:5:"style";s:5:"Style";s:18:"sub_style_settings";s:20:"Sub Style Assignment";s:6:"parent";s:12:"Parent Style";s:15:"sty_substyle_of";s:12:"Sub Style of";s:10:"assignment";s:10:"Assignment";s:17:"remove_assignment";s:17:"Remove Assignment";s:15:"reset_variables";s:15:"Reset Variables";s:16:"update_variables";s:16:"Update Variables";s:17:"less_file_updated";s:37:"The less variables have been updated.";s:20:"settings_of_substyle";s:16:"Manage sub style";s:17:"settings_of_style";s:12:"Manage style";s:9:"of_parent";s:10:"of parent:";s:9:"from_skin";s:8:"of skin:";s:15:"dir_copied_from";s:38:"The directory has been copied to from:";s:2:"to";s:3:"to:";s:11:"dir_deleted";s:41:"The following directory has been deleted:";s:27:"sty_create_new_system_style";s:26:"Create a new system style.";s:31:"sty_create_new_system_sub_style";s:30:"Create a new system sub style.";s:23:"sty_import_system_style";s:39:"Import an existing system style as zip.";s:27:"sty_copy_other_system_style";s:31:"Clone an existing system style.";s:12:"sub_style_id";s:12:"Sub Style ID";s:14:"sub_style_name";s:14:"Sub Style Name";s:32:"less_variables_file_not_included";s:24:"The less variables file:";s:17:"in_main_less_file";s:56:"is not imported inside the system styles main less file:";s:22:"can_not_read_less_file";s:28:"Cannot read less file. Path:";s:21:"msg_sys_style_created";s:51:"The new system style has successfully been created.";s:19:"skin_id_description";s:228:"Skins are container for styles and sub styles. The skin ID sets the name of the folder that holds all style and sub style information. Only letters, numbers as well as hyphens or underline characters are to be used in skin ID\'s.";s:21:"skin_name_description";s:164:"The skin name can be used to describe the area of application of the skin in human readable form. It will appear in all UI elements allowing the selection of skins.";s:20:"style_id_description";s:201:"The style id is used as name for style specific files such as css and less placed inside the skins folder. Only letters, numbers as well as hyphens or underline characters are to be used in style ID\'s.";s:22:"style_name_description";s:167:"The style name can be used to describe the area of application of the style in human readable form. It will appear in all UI elements allowing the selection of styles.";s:9:"sub_style";s:9:"Sub Style";s:21:"image_dir_description";s:131:"Folder to store images (mostly icons) of the skin into. This directory can be shared with other styles and sub styles of this skin.";s:20:"font_dir_description";s:115:"Folder to store fonts of the skin into. This directory can be shared with other styles and sub styles of this skin.";s:21:"sound_dir_description";s:116:"Folder to store sounds of the skin into. This directory can be shared with other styles and sub styles of this skin.";s:34:"sub_style_parent_style_description";s:236:"Sub styles are assigned to exactly one parent style. They are only displayed to a specific user if the parent style is assigned to a this exact user. The parent style of a substyle can not be changed after the creation of the sub style.";s:24:"sub_style_id_description";s:208:"The sub style id is used as name for sub style specific files such as css and less placed inside the skins folder. Only letters, numbers as well as hyphens or underline characters are to be used in skin ID\'s.";s:26:"sub_style_name_description";s:170:"The sub style name can be used to describe the area of application of the style in human readable form. It will appear in all UI elements allowing the selection of skins.";s:35:"system_style_activation_description";s:167:"Active system styles can be assigned to users or even selected by users if this setting is activated (see User Management / Settings / Standard Fields / Default Skin).";s:32:"system_style_default_description";s:152:"Set this style as the default system style. The default system style is used if the current user has not style assigned or if the user is not logged in.";s:33:"system_style_personal_description";s:114:"Set this style as your personal system style. This might be handy to see the changes that are currently performed.";s:19:"less_compile_failed";s:135:"Something in the compilation of the less file went wrong. Is lessc installed and the path set correctly in ILIAS setup? Original error:";s:17:"zip_export_failed";s:51:"The ZIP export failed. The following error occured:";s:17:"no_style_selected";s:31:"No sub style has been selected.";s:10:"adapt_less";s:10:"Adapt Less";s:22:"adapt_less_description";s:394:"This is a direct representation of all less variables from the variables.less file used in the selected skin. Variable names and descriptions are drawn directly from this file and are therefore only available in their original language. The selected style will be recompiled completely by updating/reseting the variables. Resetting variables will create a exact copy of the default delos style.";s:23:"adapt_icons_description";s:175:"All icons that could be found in svg icons in the skins images folder are listed here. If one color is changed, it will be changed in all icons containing this colors at once.";s:11:"adapt_icons";s:17:"Adapt Icon Colors";s:17:"invalid_less_path";s:241:"The provided lessc path is not valid or the webserver does not have the proper permission to read and execute lessc. Lessc (or the file linked to by the file pointed to by the lessc path) has to be readabele and executable by your webserver.";s:18:"provided_less_path";s:20:"Provided lessc path:";s:11:"used_colors";s:12:"Used Colors:";s:14:"style_imported";s:42:"Style has been successfully imported into:";s:12:"style_copied";s:35:"Style has been successfully copied.";s:17:"directory_created";s:18:"Directory created:";s:18:"color_changed_from";s:19:"Color changed from:";s:16:"color_changed_to";s:3:"to:";s:13:"edit_by_color";s:13:"Edit by Color";s:12:"edit_by_icon";s:12:"Edit by Icon";s:11:"update_icon";s:11:"Update Icon";s:11:"select_icon";s:11:"Select Icon";s:11:"change_icon";s:11:"Change Icon";s:5:"color";s:5:"Color";s:10:"adapt_icon";s:10:"Adapt Icon";s:22:"adapt_icon_description";s:44:"Adapt icon colors or change the icon itself.";s:7:"preview";s:7:"Preview";s:13:"icons_gallery";s:13:"Icons Gallery";s:32:"cant_delete_style_with_substyles";s:41:"Styles with sub styles cannot be deleted.";s:25:"style_assignments_deleted";s:63:"Style assignments of the following Sub Style have been deleted:";s:14:"skin_id_exists";s:41:"There exists already a skin with this ID.";s:6:"usages";s:7:"Usages:";s:45:"enable_system_styles_management_no_write_perm";s:162:"System styles management is enabled but ILIAS does not have write permission on the Customizing/global/skin folder. No new styles can therefore be created/edited.";}')));
+'module' => array('text', 'style'), 'lang_key' => array('text', 'en'), 'lang_array' => array('clob', 'a:441:{s:9:"sty_acopy";s:4:"Copy";s:22:"sty_add_characteristic";s:15:"Add Style Class";s:13:"sty_add_color";s:9:"Add Color";s:13:"sty_add_image";s:9:"Add Image";s:11:"sty_add_pgl";s:15:"Add Page Layout";s:16:"sty_add_template";s:12:"Add Template";s:24:"sty_added_characteristic";s:18:"Added style class.";s:7:"sty_all";s:3:"All";s:25:"sty_background_attachment";s:21:"Background Attachment";s:20:"sty_background_color";s:16:"Background Color";s:20:"sty_background_image";s:16:"Background Image";s:23:"sty_background_position";s:19:"Background Position";s:21:"sty_background_repeat";s:17:"Background Repeat";s:14:"sty_background";s:10:"Background";s:14:"sty_base_color";s:10:"Base Color";s:12:"sty_based_on";s:8:"Based on";s:19:"sty_border_collapse";s:15:"Border Collapse";s:16:"sty_border_color";s:12:"Border Color";s:16:"sty_border_style";s:12:"Border Style";s:16:"sty_border_width";s:12:"Border Width";s:10:"sty_border";s:6:"Border";s:10:"sty_bottom";s:6:"Bottom";s:17:"sty_caption_class";s:7:"Caption";s:16:"sty_caption_side";s:12:"Caption Side";s:11:"sty_caption";s:7:"Caption";s:33:"sty_characteristic_already_exists";s:63:"A style class with this title already exists within this style.";s:9:"sty_clear";s:5:"Clear";s:18:"sty_col_foot_class";s:13:"Column Footer";s:18:"sty_col_head_class";s:13:"Column Header";s:24:"sty_color_already_exists";s:52:"A color with this name already exists in this style.";s:14:"sty_color_code";s:10:"Color Code";s:17:"sty_color_flavors";s:13:"Color Flavors";s:14:"sty_color_info";s:290:"Predefined colors make it easy to reuse a color for different purposes. You refer to a predefined color by using its name with a leading ‘!’ for any color attribute in your style classes. To use a flavour, append a lightness value in brackets to the color name, e.g. ‘!MyColor(20)’.";s:14:"sty_color_name";s:10:"Color Name";s:9:"sty_color";s:5:"Color";s:10:"sty_colors";s:6:"Colors";s:12:"sty_commands";s:8:"Commands";s:25:"sty_confirm_char_deletion";s:67:"Are you sure that you want to delete the following style class(es)?";s:26:"sty_confirm_color_deletion";s:22:"Confirm Color Deletion";s:31:"sty_confirm_del_ind_styles_desc";s:154:"All learning modules with individual styles will be assigned to style \'%s\'. This will also delete all individual content styles. Are you sure to continue?";s:26:"sty_confirm_del_ind_styles";s:45:"Confirm Deletion of Individual Content Styles";s:29:"sty_confirm_template_deletion";s:25:"Confirm Template Deletion";s:25:"sty_copy_other_stylesheet";s:28:"Copy Style from Local Source";s:20:"sty_create_ind_style";s:23:"Create Individual Style";s:25:"sty_create_new_stylesheet";s:16:"Create new Style";s:14:"sty_create_pgl";s:18:"Create Page Layout";s:10:"sty_cursor";s:6:"Cursor";s:17:"sty_default_style";s:13:"Default Style";s:29:"sty_del_template_keep_classes";s:29:"Delete and keep Style Classes";s:16:"sty_del_template";s:28:"Delete Templates and Classes";s:16:"sty_delete_color";s:12:"Delete Color";s:29:"sty_disable_auto_margins_info";s:99:"Disables automatic setting of left/right to 0px, if media objects or tables are left/right aligned.";s:24:"sty_disable_auto_margins";s:20:"Disable Auto Margins";s:17:"sty_edit_template";s:13:"Edit Template";s:18:"sty_even_col_class";s:12:"Even Columns";s:18:"sty_even_row_class";s:9:"Even Rows";s:11:"sty_example";s:7:"Example";s:14:"sty_flist_char";s:9:"File List";s:9:"sty_float";s:5:"Float";s:15:"sty_font_family";s:11:"Font Family";s:13:"sty_font_size";s:9:"Font Size";s:16:"sty_font_stretch";s:12:"Font Stretch";s:14:"sty_font_style";s:10:"Font Style";s:16:"sty_font_variant";s:12:"Font Variant";s:15:"sty_font_weight";s:11:"Font Weight";s:21:"sty_generate_template";s:17:"Generate Template";s:17:"sty_ha_cntr_class";s:24:"Hor. Accordion Container";s:18:"sty_ha_icntr_class";s:29:"Hor. Accordion Item Container";s:18:"sty_ha_icont_class";s:27:"Hor. Accordion Item Content";s:18:"sty_ha_ihead_class";s:26:"Hor. Accordion Item Header";s:24:"sty_haccordion_templates";s:24:"Hor. Accordion Templates";s:10:"sty_height";s:6:"Height";s:8:"sty_hide";s:4:"Hide";s:14:"sty_horizontal";s:10:"Horizontal";s:14:"sty_image_file";s:10:"Image File";s:10:"sty_images";s:6:"Images";s:21:"sty_import_stylesheet";s:12:"Import Style";s:20:"sty_individual_style";s:16:"Individual Style";s:21:"sty_individual_styles";s:17:"Individual Styles";s:22:"sty_left_right_padding";s:23:"Cell Padding Left/Right";s:8:"sty_left";s:4:"Left";s:18:"sty_letter_spacing";s:14:"Letter Spacing";s:20:"sty_lightness_border";s:16:"Lightness Border";s:22:"sty_lightness_cell1_bg";s:27:"Lightness Cell 1 Background";s:24:"sty_lightness_cell1_text";s:21:"Lightness Cell 1 Text";s:22:"sty_lightness_cell2_bg";s:27:"Lightness Cell 2 Background";s:24:"sty_lightness_cell2_text";s:21:"Lightness Cell 2 Text";s:23:"sty_lightness_header_bg";s:27:"Lightness Header Background";s:25:"sty_lightness_header_text";s:21:"Lightness Header Text";s:15:"sty_line_height";s:11:"Line Height";s:13:"sty_link_char";s:4:"Link";s:13:"sty_list_char";s:4:"List";s:20:"sty_list_style_image";s:16:"List Style Image";s:23:"sty_list_style_position";s:19:"List Style Position";s:19:"sty_list_style_type";s:15:"List Style Type";s:22:"sty_margin_and_padding";s:18:"Margin and Padding";s:10:"sty_margin";s:6:"Margin";s:14:"sty_media_char";s:5:"Media";s:14:"sty_min_height";s:14:"Minimum Height";s:18:"sty_move_lm_styles";s:32:"Change Style of Learning Modules";s:14:"sty_move_style";s:12:"Change Style";s:37:"sty_msg_characteristic_already_exists";s:59:"A style class with this title already exists in this style.";s:40:"sty_msg_characteristic_must_only_include";s:69:"The title of style classes may only include the following characters:";s:31:"sty_msg_color_must_only_include";s:57:"The color name may only include the following characters:";s:29:"sty_msg_input_must_be_numeric";s:22:"Input must be numeric.";s:8:"sty_name";s:4:"Name";s:23:"sty_nr_learning_modules";s:26:"Number of Learning Modules";s:17:"sty_odd_col_class";s:11:"Odd Columns";s:17:"sty_odd_row_class";s:8:"Odd Rows";s:6:"sty_ol";s:13:"Numbered List";s:11:"sty_opacity";s:7:"Opacity";s:13:"sty_opt_saved";s:13:"Options saved";s:12:"sty_overflow";s:8:"Overflow";s:11:"sty_padding";s:7:"Padding";s:13:"sty_page_char";s:4:"Page";s:12:"sty_position";s:8:"Position";s:15:"sty_positioning";s:11:"Positioning";s:11:"sty_preview";s:7:"Preview";s:17:"sty_question_char";s:8:"Question";s:9:"sty_right";s:5:"Right";s:18:"sty_row_foot_class";s:10:"Row Footer";s:18:"sty_row_head_class";s:10:"Row Header";s:22:"sty_save_active_styles";s:18:"Save Active Styles";s:20:"sty_save_hide_status";s:16:"Save Hide Status";s:24:"sty_save_standard_styles";s:20:"Save Standard Styles";s:12:"sty_sco_char";s:17:"SCO and Objective";s:9:"sty_scope";s:5:"Scope";s:16:"sty_section_char";s:7:"Section";s:13:"sty_set_scope";s:9:"Set Scope";s:10:"sty_source";s:6:"Source";s:11:"sty_special";s:7:"Special";s:18:"sty_standard_style";s:14:"Standard Style";s:15:"sty_style_chars";s:13:"Style Classes";s:15:"sty_style_class";s:13:"Style Classes";s:19:"sty_table_cell_char";s:10:"Table Cell";s:14:"sty_table_char";s:5:"Table";s:15:"sty_table_class";s:17:"Table Style Class";s:27:"sty_table_template_bw_zebra";s:10:"Gray Zebra";s:32:"sty_table_template_colored_zebra";s:13:"Colored Zebra";s:27:"sty_table_template_no_zebra";s:8:"No Zebra";s:19:"sty_table_templates";s:15:"Table Templates";s:9:"sty_table";s:5:"Table";s:13:"sty_tabs_char";s:21:"Accordions and Panels";s:13:"sty_tag_hover";s:6:":hover";s:14:"sty_tag_normal";s:6:"Normal";s:19:"sty_template_layout";s:15:"Template Layout";s:17:"sty_template_name";s:4:"Name";s:13:"sty_templates";s:9:"Templates";s:14:"sty_text_align";s:14:"Text Alignment";s:19:"sty_text_block_char";s:12:"Text (Block)";s:19:"sty_text_decoration";s:15:"Text Decoration";s:15:"sty_text_indent";s:16:"Text Indentation";s:20:"sty_text_inline_char";s:16:"Text (Character)";s:18:"sty_text_transform";s:14:"Text Transform";s:8:"sty_text";s:4:"Text";s:22:"sty_top_bottom_padding";s:23:"Cell Padding Top/Bottom";s:7:"sty_top";s:3:"Top";s:16:"sty_type_flist_a";s:19:"File List Item Link";s:19:"sty_type_flist_cont";s:19:"File List Container";s:19:"sty_type_flist_head";s:17:"File List Heading";s:17:"sty_type_flist_li";s:14:"File List Item";s:14:"sty_type_flist";s:9:"File List";s:16:"sty_type_ha_cntr";s:24:"Hor. Accordion Container";s:17:"sty_type_ha_icntr";s:29:"Hor. Accordion Item Container";s:17:"sty_type_ha_icont";s:27:"Hor. Accordion Item Content";s:17:"sty_type_ha_ihead";s:26:"Hor. Accordion Item Header";s:17:"sty_type_heading1";s:9:"Heading 1";s:17:"sty_type_heading2";s:9:"Heading 2";s:17:"sty_type_heading3";s:9:"Heading 3";s:13:"sty_type_link";s:4:"Link";s:18:"sty_type_list_item";s:9:"List Item";s:15:"sty_type_list_o";s:13:"Numbered List";s:15:"sty_type_list_u";s:13:"Bulleted List";s:22:"sty_type_media_caption";s:13:"Media Caption";s:19:"sty_type_media_cont";s:15:"Media Container";s:14:"sty_type_media";s:5:"Media";s:18:"sty_type_page_bnav";s:17:"Bottom Navigation";s:18:"sty_type_page_cont";s:14:"Page Container";s:16:"sty_type_page_fn";s:8:"Footnote";s:19:"sty_type_page_frame";s:10:"Page Frame";s:18:"sty_type_page_lnav";s:15:"Left Navigation";s:23:"sty_type_page_lnavimage";s:21:"Left Navigation Image";s:22:"sty_type_page_lnavlink";s:20:"Left Navigation Link";s:17:"sty_type_page_nav";s:8:"Footnote";s:18:"sty_type_page_rnav";s:16:"Right Navigation";s:23:"sty_type_page_rnavimage";s:22:"Right Navigation Image";s:22:"sty_type_page_rnavlink";s:21:"Right Navigation Link";s:19:"sty_type_page_title";s:10:"Page Title";s:18:"sty_type_page_tnav";s:14:"Top Navigation";s:13:"sty_type_page";s:4:"Page";s:16:"sty_type_qanswer";s:6:"Answer";s:15:"sty_type_qfeedr";s:15:"Feedback, Right";s:15:"sty_type_qfeedw";s:15:"Feedback, Wrong";s:15:"sty_type_qinput";s:10:"Text Input";s:16:"sty_type_qlinput";s:15:"Long Text Input";s:16:"sty_type_qsubmit";s:23:"Question Submit Buttons";s:15:"sty_type_qtitle";s:14:"Question Title";s:17:"sty_type_question";s:8:"Question";s:17:"sty_type_sco_desc";s:15:"SCO Description";s:18:"sty_type_sco_desct";s:23:"SCO Description Heading";s:17:"sty_type_sco_keyw";s:12:"SCO Keywords";s:16:"sty_type_sco_obj";s:13:"SCO Objective";s:17:"sty_type_sco_objt";s:22:"SCO Objectives Heading";s:18:"sty_type_sco_title";s:9:"SCO Title";s:12:"sty_type_sco";s:3:"SCO";s:16:"sty_type_section";s:7:"Section";s:22:"sty_type_table_caption";s:13:"Table Caption";s:19:"sty_type_table_cell";s:10:"Table Cell";s:14:"sty_type_table";s:5:"Table";s:19:"sty_type_text_block";s:10:"Text Block";s:20:"sty_type_text_inline";s:9:"Character";s:16:"sty_type_va_cntr";s:25:"Vert. Accordion Container";s:17:"sty_type_va_icntr";s:30:"Vert. Accordion Item Container";s:17:"sty_type_va_icont";s:28:"Vert. Accordion Item Content";s:17:"sty_type_va_ihead";s:27:"Vert. Accordion Item Header";s:8:"sty_type";s:4:"Type";s:6:"sty_ul";s:11:"Bullet List";s:17:"sty_va_cntr_class";s:25:"Vert. Accordion Container";s:18:"sty_va_icntr_class";s:30:"Vert. Accordion Item Container";s:18:"sty_va_icont_class";s:28:"Vert. Accordion Item Content";s:18:"sty_va_ihead_class";s:27:"Vert. Accordion Item Header";s:24:"sty_vaccordion_templates";s:25:"Vert. Accordion Templates";s:18:"sty_vertical_align";s:18:"Vertical Alignment";s:12:"sty_vertical";s:8:"Vertical";s:15:"sty_white_space";s:11:"White Space";s:16:"sty_width_height";s:14:"Width x Height";s:9:"sty_width";s:5:"Width";s:16:"sty_word_spacing";s:12:"Word Spacing";s:19:"style_current_style";s:13:"Current Style";s:18:"style_delete_style";s:12:"Delete Style";s:16:"style_edit_style";s:10:"Edit Style";s:12:"sty_glo_char";s:8:"Glossary";s:20:"sty_type_glo_overlay";s:16:"Glossary Overlay";s:20:"sty_type_glo_ovtitle";s:20:"Term/Title (Overlay)";s:38:"sty_some_styles_obligatory_delete_rest";s:138:"The following style classes are compulsory and cannot be deleted. Do you want to continue and delete the remaining selected style classes?";s:25:"sty_delete_other_selected";s:8:"Continue";s:25:"sty_all_styles_obligatory";s:57:"All selected styles are compulsory and cannot be deleted.";s:31:"sty_copied_please_select_target";s:101:"The style classes have been copied. Please open the target style and click ‘Paste Style Classes’.";s:23:"sty_paste_style_classes";s:19:"Paste Style Classes";s:33:"sty_if_style_class_already_exists";s:32:"If style class already exists...";s:13:"sty_overwrite";s:9:"Overwrite";s:17:"sty_keep_existing";s:13:"Keep Existing";s:25:"sty_paste_characteristics";s:19:"Paste Style Classes";s:24:"sty_style_classes_copied";s:31:"Style classes have been copied.";s:20:"sty_type_glo_ovclink";s:27:"Glossary Overlay Close Link";s:21:"sty_type_glo_ovuglink";s:18:"Unit Glossary Link";s:25:"sty_type_glo_ovuglistlink";s:23:"Unit Glossary List Link";s:21:"style_move_style_into";s:4:"Into";s:12:"sty_rte_char";s:9:"SCORM RTE";s:17:"sty_type_rte_menu";s:8:"RTE Menu";s:18:"sty_type_rte_mlink";s:13:"RTE Menu Link";s:17:"sty_type_rte_tree";s:16:"RTE Tree Section";s:17:"sty_type_rte_node";s:13:"RTE Tree Node";s:19:"sty_type_rte_status";s:10:"RTE Status";s:18:"sty_type_rte_tlink";s:18:"RTE Tree Node Link";s:8:"sty_from";s:4:"From";s:6:"sty_to";s:2:"To";s:21:"sty_add_content_style";s:17:"Add Content Style";s:31:"sty_remove_global_default_state";s:27:"Remove Global Default State";s:29:"sty_remove_global_fixed_state";s:25:"Remove Global Fixed State";s:23:"sty_make_global_default";s:20:"Set as default style";s:21:"sty_make_global_fixed";s:31:"Force this style on all objects";s:18:"sty_type_sco_fmess";s:19:"SCORM Final Message";s:13:"sty_type_qimg";s:14:"Question Image";s:14:"sty_type_qimgd";s:18:"Image Details Link";s:15:"sty_type_qordli";s:15:"Order List Item";s:15:"sty_type_qordul";s:10:"Order List";s:16:"sty_type_qetitem";s:15:"Error Text Item";s:16:"sty_type_qetcorr";s:20:"Error Text Corrected";s:12:"sty_type_iim";s:31:"Interactive Image Content Popup";s:15:"sty_type_marker";s:24:"Interactive Image Marker";s:22:"sty_import_page_layout";s:18:"Import Page Layout";s:14:"sty_type_qover";s:17:"Question Overview";s:30:"style_page_layout_module_scorm";s:5:"Scorm";s:34:"style_page_layout_module_portfolio";s:9:"Portfolio";s:17:"sty_type_rte_drag";s:8:"Drag Bar";s:19:"sty_type_rte_tclink";s:17:"Tree Control Link";s:17:"sty_type_rte_texp";s:9:"Tree Icon";s:16:"sty_type_rte_tli";s:14:"Tree List Item";s:16:"sty_type_rte_tul";s:9:"Tree List";s:20:"sty_move_user_styles";s:21:"Change Style of Users";s:13:"sty_substyles";s:9:"Substyles";s:21:"sty_assign_categories";s:17:"Assign Categories";s:12:"sty_substyle";s:8:"Substyle";s:19:"sty_cat_assignments";s:26:"Style/Category Assignments";s:18:"sty_add_assignment";s:14:"Add Assignment";s:10:"sty_switch";s:6:"Switch";s:11:"sty_default";s:7:"Default";s:17:"sty_media_queries";s:13:"Media Queries";s:19:"sty_add_media_query";s:15:"Add Media Query";s:20:"sty_edit_media_query";s:16:"Edit Media Query";s:20:"sty_media_query_info";s:100:"A separate CSS block is added for each media query after the default (no special media query) block.";s:9:"sty_order";s:5:"Order";s:9:"sty_query";s:5:"Query";s:14:"sty_save_order";s:10:"Save Order";s:21:"sty_sure_del_mqueries";s:72:"Do you really want to delete this media query and all related CSS rules?";s:10:"sty_custom";s:6:"Custom";s:14:"sty_custom_par";s:17:"Custom Parameters";s:19:"sty_custom_par_info";s:62:"Add custom CSS parameters using format ‘parameter: value’.";s:13:"sty_transform";s:9:"Transform";s:20:"sty_transform_origin";s:16:"Transform-Origin";s:16:"sty_type_ca_cntr";s:18:"Carousel Container";s:17:"sty_type_ca_icntr";s:23:"Carousel Item Container";s:17:"sty_type_ca_icont";s:21:"Carousel Item Content";s:17:"sty_type_ca_ihead";s:20:"Carousel Item Header";s:12:"sty_type_sub";s:9:"Subscript";s:12:"sty_type_sup";s:11:"Superscript";s:22:"sty_carousel_templates";s:18:"Carousel Templates";s:17:"sty_ca_cntr_class";s:18:"Carousel Container";s:18:"sty_ca_icntr_class";s:23:"Carousel Item Container";s:18:"sty_ca_icont_class";s:21:"Carousel Item Content";s:18:"sty_ca_ihead_class";s:20:"Carousel Item Header";s:18:"sty_type_ha_iheada";s:30:"Hor. Accordion Header (active)";s:17:"sty_type_ha_ihcap";s:22:"Hor. Accordion Caption";s:18:"sty_type_va_iheada";s:31:"Vert. Accordion Header (active)";s:17:"sty_type_va_ihcap";s:23:"Vert. Accordion Caption";s:19:"sty_ha_iheada_class";s:30:"Hor. Accordion Header (active)";s:18:"sty_ha_ihcap_class";s:22:"Hor. Accordion Caption";s:19:"sty_va_iheada_class";s:31:"Vert. Accordion Header (active)";s:18:"sty_va_ihcap_class";s:23:"Vert. Accordion Caption";s:16:"add_system_style";s:16:"Add System Style";s:12:"add_substyle";s:13:"Add Sub Style";s:7:"skin_id";s:7:"Skin ID";s:9:"skin_name";s:9:"Skin Name";s:12:"skin_version";s:12:"Skin Version";s:4:"skin";s:4:"Skin";s:8:"style_id";s:8:"Style ID";s:5:"Style";s:5:"Style";s:10:"style_name";s:10:"Style Name";s:9:"image_dir";s:15:"Image Directory";s:8:"font_dir";s:14:"Font Directory";s:9:"sound_dir";s:15:"Sound Directory";s:23:"system_style_activation";s:22:"System Style Activated";s:8:"personal";s:8:"Personal";s:23:"system_styel_activation";s:21:"Activate System Style";s:4:"less";s:4:"Less";s:5:"icons";s:5:"Icons";s:13:"documentation";s:13:"Documentation";s:24:"less_can_not_be_modified";s:23:"Less cannot be modified";s:16:"no_less_path_set";s:16:"No Less Path set";s:31:"less_less_installation_detected";s:30:"Less installation detected at:";s:11:"grey_colors";s:11:"Gray Colors";s:10:"grey_color";s:10:"Gray Color";s:23:"grey_colors_description";s:22:"Gray Color Description";s:10:"red_colors";s:10:"Red Colors";s:9:"red_color";s:9:"Red Color";s:22:"red_colors_description";s:21:"Red Color Description";s:12:"green_colors";s:12:"Green Colors";s:11:"green_color";s:11:"Green Color";s:24:"green_colors_description";s:23:"Green Color Description";s:11:"blue_colors";s:11:"Blue Colors";s:10:"blue_color";s:10:"Blue Color";s:23:"blue_colors_description";s:22:"Blue Color Description";s:11:"reset_icons";s:11:"Reset Icons";s:13:"update_colors";s:13:"Update Colors";s:17:"style_not_deleted";s:57:"The style could not be deleted for the following reasons:";s:18:"styles_not_deleted";s:65:"The styles could not have been deleted for the following reasons:";s:27:"cant_delete_activated_style";s:32:"Active Styles cannot be deleted.";s:13:"style_deleted";s:14:"Deleted Style:";s:20:"dir_preserved_linked";s:15:"Preserved Link:";s:12:"file_deleted";s:32:"Following file has been deleted:";s:12:"skin_deleted";s:32:"Following skin has been deleted:";s:20:"msg_sys_style_update";s:31:"System Styles have been updated";s:29:"cant_deactivate_default_style";s:37:"Default styles cannot be deactivated.";s:29:"cant_delete_if_users_assigned";s:54:"Styles can not be deleted if users are still assigned.";s:20:"default_style_set_to";s:41:"The default system style has been set to:";s:21:"personal_style_set_to";s:36:"Your personal style has been set to:";s:15:"refresh_entries";s:15:"Refresh Entries";s:16:"entries_reloaded";s:30:"All entries have been reloaded";s:21:"msg_sub_style_created";s:31:"The sub style has been created.";s:5:"style";s:5:"Style";s:18:"sub_style_settings";s:20:"Sub Style Assignment";s:6:"parent";s:12:"Parent Style";s:15:"sty_substyle_of";s:12:"Sub Style of";s:10:"assignment";s:10:"Assignment";s:17:"remove_assignment";s:17:"Remove Assignment";s:15:"reset_variables";s:15:"Reset Variables";s:16:"update_variables";s:16:"Update Variables";s:17:"less_file_updated";s:37:"The less variables have been updated.";s:20:"settings_of_substyle";s:16:"Manage sub style";s:17:"settings_of_style";s:12:"Manage style";s:9:"of_parent";s:10:"of parent:";s:9:"from_skin";s:8:"of skin:";s:15:"dir_copied_from";s:38:"The directory has been copied to from:";s:2:"to";s:3:"to:";s:11:"dir_deleted";s:41:"The following directory has been deleted:";s:27:"sty_create_new_system_style";s:26:"Create a new system style.";s:31:"sty_create_new_system_sub_style";s:30:"Create a new system sub style.";s:23:"sty_import_system_style";s:39:"Import an existing system style as zip.";s:27:"sty_copy_other_system_style";s:31:"Clone an existing system style.";s:12:"sub_style_id";s:12:"Sub Style ID";s:14:"sub_style_name";s:14:"Sub Style Name";s:32:"less_variables_file_not_included";s:24:"The less variables file:";s:17:"in_main_less_file";s:56:"is not imported inside the system styles main less file:";s:22:"can_not_read_less_file";s:28:"Cannot read less file. Path:";s:21:"msg_sys_style_created";s:51:"The new system style has successfully been created.";s:19:"skin_id_description";s:228:"Skins are container for styles and sub styles. The skin ID sets the name of the folder that holds all style and sub style information. Only letters, numbers as well as hyphens or underline characters are to be used in skin ID\'s.";s:21:"skin_name_description";s:164:"The skin name can be used to describe the area of application of the skin in human readable form. It will appear in all UI elements allowing the selection of skins.";s:24:"skin_version_description";s:92:"The skin version is used to re-cache the style after changes. It gets automatically updated.";s:20:"style_id_description";s:201:"The style id is used as name for style specific files such as css and less placed inside the skins folder. Only letters, numbers as well as hyphens or underline characters are to be used in style ID\'s.";s:22:"style_name_description";s:167:"The style name can be used to describe the area of application of the style in human readable form. It will appear in all UI elements allowing the selection of styles.";s:9:"sub_style";s:9:"Sub Style";s:21:"image_dir_description";s:131:"Folder to store images (mostly icons) of the skin into. This directory can be shared with other styles and sub styles of this skin.";s:20:"font_dir_description";s:115:"Folder to store fonts of the skin into. This directory can be shared with other styles and sub styles of this skin.";s:21:"sound_dir_description";s:116:"Folder to store sounds of the skin into. This directory can be shared with other styles and sub styles of this skin.";s:34:"sub_style_parent_style_description";s:236:"Sub styles are assigned to exactly one parent style. They are only displayed to a specific user if the parent style is assigned to a this exact user. The parent style of a substyle can not be changed after the creation of the sub style.";s:24:"sub_style_id_description";s:208:"The sub style id is used as name for sub style specific files such as css and less placed inside the skins folder. Only letters, numbers as well as hyphens or underline characters are to be used in skin ID\'s.";s:26:"sub_style_name_description";s:170:"The sub style name can be used to describe the area of application of the style in human readable form. It will appear in all UI elements allowing the selection of skins.";s:35:"system_style_activation_description";s:167:"Active system styles can be assigned to users or even selected by users if this setting is activated (see User Management / Settings / Standard Fields / Default Skin).";s:32:"system_style_default_description";s:152:"Set this style as the default system style. The default system style is used if the current user has not style assigned or if the user is not logged in.";s:33:"system_style_personal_description";s:114:"Set this style as your personal system style. This might be handy to see the changes that are currently performed.";s:19:"less_compile_failed";s:135:"Something in the compilation of the less file went wrong. Is lessc installed and the path set correctly in ILIAS setup? Original error:";s:17:"zip_export_failed";s:51:"The ZIP export failed. The following error occured:";s:17:"no_style_selected";s:31:"No sub style has been selected.";s:10:"adapt_less";s:10:"Adapt Less";s:22:"adapt_less_description";s:394:"This is a direct representation of all less variables from the variables.less file used in the selected skin. Variable names and descriptions are drawn directly from this file and are therefore only available in their original language. The selected style will be recompiled completely by updating/reseting the variables. Resetting variables will create a exact copy of the default delos style.";s:23:"adapt_icons_description";s:175:"All icons that could be found in svg icons in the skins images folder are listed here. If one color is changed, it will be changed in all icons containing this colors at once.";s:11:"adapt_icons";s:17:"Adapt Icon Colors";s:17:"invalid_less_path";s:241:"The provided lessc path is not valid or the webserver does not have the proper permission to read and execute lessc. Lessc (or the file linked to by the file pointed to by the lessc path) has to be readabele and executable by your webserver.";s:18:"provided_less_path";s:20:"Provided lessc path:";s:11:"used_colors";s:12:"Used Colors:";s:14:"style_imported";s:42:"Style has been successfully imported into:";s:12:"style_copied";s:35:"Style has been successfully copied.";s:17:"directory_created";s:18:"Directory created:";s:18:"color_changed_from";s:19:"Color changed from:";s:16:"color_changed_to";s:3:"to:";s:13:"edit_by_color";s:13:"Edit by Color";s:12:"edit_by_icon";s:12:"Edit by Icon";s:11:"update_icon";s:11:"Update Icon";s:11:"select_icon";s:11:"Select Icon";s:11:"change_icon";s:11:"Change Icon";s:5:"color";s:5:"Color";s:10:"adapt_icon";s:10:"Adapt Icon";s:22:"adapt_icon_description";s:44:"Adapt icon colors or change the icon itself.";s:7:"preview";s:7:"Preview";s:13:"icons_gallery";s:13:"Icons Gallery";s:32:"cant_delete_style_with_substyles";s:41:"Styles with sub styles cannot be deleted.";s:25:"style_assignments_deleted";s:63:"Style assignments of the following Sub Style have been deleted:";s:14:"skin_id_exists";s:41:"There exists already a skin with this ID.";s:6:"usages";s:7:"Usages:";s:45:"enable_system_styles_management_no_write_perm";s:162:"System styles management is enabled but ILIAS does not have write permission on the Customizing/global/skin folder. No new styles can therefore be created/edited.";}')));
 
 $ilDB->insert("lng_modules", array(
-'module' => array('text', 'survey'), 'lang_key' => array('text', 'en'), 'lang_array' => array('clob', 'a:826:{s:12:"add_category";s:10:"Add Answer";s:11:"add_heading";s:11:"Add Heading";s:31:"add_limits_for_standard_numbers";s:89:"Please enter a lower and upper limit for the standard numbers you want to add as answers.";s:12:"add_material";s:12:"Add Material";s:23:"add_phrase_introduction";s:23:"Please select a Phrase:";s:10:"add_phrase";s:10:"Add Phrase";s:20:"add_standard_numbers";s:20:"Add Standard Numbers";s:20:"adm_no_special_users";s:79:"There are no special users defined who are able to run a survey more than once.";s:18:"adm_no_users_found";s:49:"No users were found that match the search string.";s:22:"adm_remove_select_user";s:44:"Please select at least one user for removal!";s:17:"adm_removed_users";s:13:"Users removed";s:22:"adm_search_select_user";s:32:"Please select at least one user!";s:27:"adm_search_string_too_small";s:57:"Please enter at least two characters in the search field!";s:17:"adm_special_users";s:57:"Special users who are able to run a survey more than once";s:24:"already_completed_survey";s:81:"You have already finished the survey! You are not able to enter the survey again.";s:13:"anonymization";s:13:"Anonymization";s:32:"anonymize_anonymous_introduction";s:185:"To grant you access to the survey, you must use a 5-character survey code which you can receive from the creator/maintainer of this survey.<br />Please enter it in the text field above.";s:25:"anonymize_registered_user";s:24:"Anonymized Survey Access";s:29:"anonymize_resume_introduction";s:124:"Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.";s:34:"anonymous_with_personalized_survey";s:59:"You must be a registered user to run a personalized survey!";s:6:"answer";s:6:"Answer";s:5:"apply";s:5:"Apply";s:15:"arithmetic_mean";s:15:"Arithmetic Mean";s:25:"ask_insert_questionblocks";s:78:"Are you sure you want to insert the following question block(s) to the survey?";s:20:"ask_insert_questions";s:72:"Are you sure you want to insert the following question(s) to the survey?";s:4:"back";s:4:"Back";s:6:"before";s:6:"before";s:20:"browse_for_questions";s:13:"Add from Pool";s:13:"cancel_survey";s:18:"Suspend the Survey";s:26:"cannot_create_survey_codes";s:72:"You do not possess sufficient permissions to create survey access codes!";s:18:"cannot_edit_survey";s:61:"You do not possess sufficient permissions to edit the survey!";s:26:"cannot_export_questionpool";s:77:"You do not possess sufficient permissions to export the survey question pool!";s:20:"cannot_export_survey";s:63:"You do not possess sufficient permissions to export the survey!";s:22:"cannot_maintain_survey";s:65:"You do not possess sufficient permissions to maintain the survey!";s:21:"cannot_manage_phrases";s:64:"You do not possess sufficient permissions to manage the phrases!";s:25:"cannot_participate_survey";s:71:"You do not possess sufficient permissions to participate in the survey!";s:24:"cannot_read_questionpool";s:73:"You do not possess sufficient permissions to read the question pool data!";s:18:"cannot_read_survey";s:66:"You do not possess sufficient permissions to read the survey data!";s:22:"cannot_save_metaobject";s:64:"You do not possess sufficient permissions to save the meta data!";s:36:"cannot_switch_to_online_no_questions";s:96:"The status cannot be changed to &quot;online&quot; because there are no questions in the survey!";s:10:"categories";s:7:"Answers";s:23:"category_delete_confirm";s:54:"Are you sure you want to delete the following answers?";s:27:"category_delete_select_none";s:46:"Please check at least one answer to delete it!";s:20:"category_nr_selected";s:20:"Number of selections";s:8:"category";s:6:"Answer";s:5:"chart";s:5:"Chart";s:29:"check_category_to_save_phrase";s:50:"You must have a least one answer to save a phrase!";s:13:"codes_created";s:15:"Code(s) created";s:13:"codes_deleted";s:15:"Code(s) deleted";s:5:"codes";s:12:"Access Codes";s:8:"combobox";s:8:"Combobox";s:13:"concatenation";s:13:"Concatenation";s:28:"confirm_delete_all_user_data";s:60:"Are you sure you want to delete all user data of the survey?";s:31:"confirm_delete_single_user_data";s:70:"Are you sure you want to delete the survey data of the selected users?";s:22:"confirm_remove_heading";s:44:"Are you sure you want to remove the heading?";s:22:"confirm_sync_questions";s:145:"The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?";s:14:"constraint_add";s:16:"Add Routing Rule";s:38:"constraints_first_question_description";s:84:"The first entity could not have any routing because there are no previous questions.";s:24:"constraints_introduction";s:442:"You can add a routing rule to a single question or a question block with multiple questions. Depending on the specific answer given to an earlier question participants get presented with a defined next question. Thus questions irrelevant to a participant will not be asked and the survey gets shorter or more specific depending on the answers provided earlier. No routing rules can be set for the first question or question block in a survey.";s:28:"constraints_list_of_entities";s:33:"Available hooks for routing rules";s:33:"constraints_no_nonessay_available";s:153:"There are no previous questions available to define routing rules. The following types are supported: Metric, Single Choice and Multiple Choice question.";s:51:"constraints_no_questions_or_questionblocks_selected";s:54:"Please select at least one question or question block!";s:11:"constraints";s:7:"Routing";s:8:"contains";s:8:"Contains";s:8:"continue";s:11:"Continue >>";s:11:"create_date";s:7:"Created";s:10:"create_new";s:10:"Create New";s:39:"create_questionpool_before_add_question";s:67:"You must create at least one question pool to store your questions!";s:8:"dc_agree";s:5:"agree";s:9:"dc_always";s:6:"always";s:18:"dc_definitelyfalse";s:16:"definitely false";s:17:"dc_definitelytrue";s:15:"definitely true";s:10:"dc_desired";s:7:"desired";s:11:"dc_disagree";s:8:"disagree";s:7:"dc_fair";s:4:"fair";s:8:"dc_false";s:5:"false";s:7:"dc_good";s:4:"good";s:12:"dc_manytimes";s:10:"many times";s:15:"dc_morenegative";s:13:"more negative";s:15:"dc_morepositive";s:13:"more positive";s:16:"dc_mostcertainly";s:14:"most certainly";s:19:"dc_mostcertainlynot";s:18:"most certainly not";s:7:"dc_must";s:4:"must";s:10:"dc_mustnot";s:8:"must not";s:10:"dc_neutral";s:7:"neutral";s:8:"dc_never";s:5:"never";s:5:"dc_no";s:2:"no";s:16:"dc_notacceptable";s:14:"not acceptable";s:7:"dc_poor";s:4:"poor";s:9:"dc_rarely";s:6:"rarely";s:9:"dc_should";s:6:"should";s:12:"dc_shouldnot";s:10:"should not";s:12:"dc_sometimes";s:9:"sometimes";s:16:"dc_stronglyagree";s:14:"strongly agree";s:18:"dc_stronglydesired";s:16:"strongly desired";s:19:"dc_stronglydisagree";s:17:"strongly disagree";s:20:"dc_stronglyundesired";s:18:"strongly undesired";s:7:"dc_true";s:4:"true";s:12:"dc_undecided";s:9:"undecided";s:12:"dc_undesired";s:9:"undesired";s:10:"dc_varying";s:7:"varying";s:11:"dc_verygood";s:9:"very good";s:6:"dc_yes";s:3:"yes";s:20:"define_questionblock";s:21:"Define Question Block";s:16:"delete_user_data";s:44:"Delete the Survey Data of the Selected Users";s:20:"description_maxchars";s:86:"If nothing entered the maximum number of characters for this text answer is unlimited.";s:9:"disinvite";s:26:"Take from Personal Desktop";s:21:"display_all_available";s:21:"Display all available";s:35:"dp_standard_attitude_agree_disagree";s:34:"Standard Attitude (agree-disagree)";s:45:"dp_standard_attitude_agree_undecided_disagree";s:44:"Standard Attitude (agree-undecided-disagree)";s:27:"dp_standard_attitude_agree5";s:77:"Standard Attitude (strongly agree-agree-undecided-disagree-strongly disagree)";s:46:"dp_standard_attitude_desired_neutral_undesired";s:45:"Standard Attitude (desired-neutral-undesired)";s:38:"dp_standard_attitude_desired_undesired";s:37:"Standard Attitude (desired-undesired)";s:29:"dp_standard_attitude_desired5";s:81:"Standard Attitude (strongly desired-desired-neutral-undesired-strongly undesired)";s:44:"dp_standard_attitude_good_fair_notacceptable";s:44:"Standard Attitude (good-fair-not acceptable)";s:39:"dp_standard_attitude_good_notacceptable";s:39:"Standard Attitude (good-not acceptable)";s:26:"dp_standard_attitude_good5";s:59:"Standard Attitude (very good-good-fair-poor-not acceptable)";s:26:"dp_standard_attitude_must5";s:61:"Standard Attitude (must-should-undecided-should not-must not)";s:36:"dp_standard_attitude_shold_shouldnot";s:37:"Standard Attitude (should-should not)";s:47:"dp_standard_attitude_should_undecided_shouldnot";s:47:"Standard Attitude (should-undecided-should not)";s:32:"dp_standard_behaviour_certainly5";s:91:"Standard Behavior (most certainly-more positive-undecided-more negative-most certainly not)";s:28:"dp_standard_behaviour_yes_no";s:26:"Standard Behavior (yes-no)";s:38:"dp_standard_behaviour_yes_undecided_no";s:36:"Standard Behavior (yes-undecided-no)";s:32:"dp_standard_beliefs_always_never";s:31:"Standard Beliefs (always-never)";s:42:"dp_standard_beliefs_always_sometimes_never";s:41:"Standard Beliefs (always-sometimes-never)";s:27:"dp_standard_beliefs_always5";s:57:"Standard Beliefs (always-many times-varying-rarely-never)";s:30:"dp_standard_beliefs_true_false";s:29:"Standard Beliefs (true-false)";s:40:"dp_standard_beliefs_true_undecided_false";s:39:"Standard Beliefs (true-undecided-false)";s:25:"dp_standard_beliefs_true5";s:72:"Standard Beliefs (definitely true-true-undecided-false-definitely false)";s:19:"dp_standard_numbers";s:16:"Standard Numbers";s:13:"duplicate_svy";s:16:"Duplicate Survey";s:9:"duplicate";s:9:"Duplicate";s:17:"edit_ask_continue";s:47:"Do you want to continue and edit this question?";s:29:"edit_constraints_introduction";s:87:"You have selected the following question(s)/question block(s) to edit the routing rules";s:12:"edit_heading";s:12:"Edit Heading";s:16:"end_date_reached";s:53:"You cannot start the survey. The end date is reached!";s:8:"end_date";s:8:"End Date";s:18:"enter_anonymous_id";s:18:"Survey Access Code";s:18:"enter_phrase_title";s:27:"Please enter a Phrase Title";s:25:"enter_questionblock_title";s:36:"Please enter a Question Block Title!";s:27:"enter_valid_number_of_codes";s:60:"Please enter a valid number to generate survey access codes!";s:11:"enter_value";s:13:"Enter a Value";s:16:"err_no_pool_name";s:47:"Please enter the name of a survey question pool";s:17:"error_add_heading";s:36:"Please enter a text for the heading!";s:24:"error_importing_question";s:77:"There was an error importing the question(s) from the file you have selected!";s:33:"error_retrieving_anonymous_survey";s:121:"The system could not find your survey data for survey code &quot;%s&quot;. Please check the survey code you have entered!";s:16:"eval_legend_link";s:72:"Please refer to the legend for the meaning of the column header symbols.";s:21:"evaluation_access_all";s:43:"All Registered Users can Access the Results";s:22:"evaluation_access_info";s:37:"You have access to the survey results";s:21:"evaluation_access_off";s:34:"Participants Cannot Access Results";s:30:"evaluation_access_participants";s:46:"All Survey Participants can Access the Results";s:17:"evaluation_access";s:31:"Participants\' Access to Results";s:10:"evaluation";s:10:"Statistics";s:20:"existing_constraints";s:22:"Existing Routing Rules";s:4:"exit";s:4:"Exit";s:12:"exp_type_csv";s:27:"Comma Separated Value (CSV)";s:14:"exp_type_excel";s:15:"Microsoft Excel";s:23:"export_all_survey_codes";s:23:"Export all Access Codes";s:14:"export_data_as";s:14:"Export Data As";s:28:"fill_out_all_category_fields";s:59:"Please fill out all answer fields before you add a new one!";s:41:"fill_out_all_required_fields_add_category";s:59:"Please fill out all required fields before you add answers!";s:44:"fill_out_all_required_fields_delete_category";s:62:"Please fill out all required fields before you delete answers!";s:42:"fill_out_all_required_fields_move_category";s:60:"Please fill out all required fields before you move answers!";s:40:"fill_out_all_required_fields_save_phrase";s:61:"Please fill out all required fields before you save a phrase!";s:25:"filter_all_question_types";s:18:"All Question Types";s:24:"filter_all_questionpools";s:18:"All Question Pools";s:26:"filter_show_question_types";s:19:"Show Question Types";s:25:"filter_show_questionpools";s:19:"Show Question Pools";s:6:"filter";s:6:"Filter";s:29:"form_data_modified_press_save";s:75:"The form data has been modified. Press the save button to keep the changes.";s:15:"found_questions";s:15:"Found Questions";s:11:"found_users";s:11:"Found Users";s:14:"geometric_mean";s:14:"Geometric Mean";s:13:"given_answers";s:13:"Given Answers";s:13:"glossary_term";s:13:"Glossary Term";s:13:"harmonic_mean";s:13:"Harmonic Mean";s:7:"heading";s:7:"Heading";s:10:"horizontal";s:10:"Horizontal";s:25:"import_error_closing_file";s:30:"Error closing the import file!";s:25:"import_error_opening_file";s:30:"Error opening the import file!";s:36:"import_error_survey_no_proper_values";s:51:"The survey properties do not contain proper values!";s:33:"import_error_survey_no_properties";s:53:"No survey properties found. Cannot import the survey!";s:23:"import_no_file_selected";s:17:"No file selected!";s:15:"import_question";s:18:"Import Question(s)";s:22:"import_wrong_file_type";s:16:"Wrong file type!";s:30:"info_anonymize_registered_user";s:17:"Anonymized Survey";s:24:"info_anonymize_with_code";s:41:"Anonymized Survey with Survey Code Access";s:27:"info_anonymize_without_code";s:45:"Anonymized Survey without Access Restrictions";s:12:"insert_after";s:12:"Insert After";s:13:"insert_before";s:13:"Insert Before";s:23:"insert_missing_question";s:65:"Please select at least one question to insert it into the survey!";s:28:"insert_missing_questionblock";s:71:"Please select at least one question block to insert it into the survey!";s:13:"internal_link";s:13:"Internal Link";s:27:"introduction_manage_phrases";s:90:"Manage your own phrases which are available for all the ordinal questions you edit/create.";s:12:"introduction";s:20:"Introductory Message";s:20:"invitation_mode_desc";s:73:"A link reference to the survey is created on the users\' personal desktop.";s:15:"invitation_mode";s:45:"Put Link to Survey on the Personal Desktop of";s:14:"invitation_off";s:25:"Do not put on any Desktop";s:10:"invitation";s:28:"Put Link On Personal Desktop";s:14:"invited_groups";s:14:"Invited Groups";s:13:"invited_users";s:14:"Selected Users";s:19:"label_resume_survey";s:30:"Enter your 5 digit survey code";s:16:"language_changed";s:16:"Language changed";s:11:"last_update";s:11:"Last Update";s:6:"layout";s:6:"Layout";s:6:"legend";s:6:"Legend";s:11:"lower_limit";s:11:"Lower Limit";s:11:"maintenance";s:12:"Participants";s:14:"manage_phrases";s:10:"My Phrases";s:27:"material_added_successfully";s:37:"You successfully set a material link!";s:13:"material_file";s:13:"Material File";s:8:"material";s:8:"Material";s:17:"materials_deleted";s:19:"Material(s) deleted";s:9:"materials";s:9:"Materials";s:17:"matrix_appearance";s:10:"Appearance";s:37:"matrix_bipolar_adjectives_description";s:104:"You may use a pair of bipolar adjectives to scale the column responses to words, short phrases, or texts";s:25:"matrix_bipolar_adjectives";s:18:"Bipolar Adjectives";s:32:"matrix_column_delete_select_none";s:46:"Please check at least one column to delete it!";s:36:"matrix_column_separators_description";s:121:"Select the check box if you want to have separators (thin lines) between the columns in the output of the Matrix Question";s:24:"matrix_column_separators";s:17:"Column Separators";s:22:"matrix_column_settings";s:22:"Matrix Column Settings";s:19:"matrix_columns_rows";s:17:"Column/Row Editor";s:14:"matrix_columns";s:14:"Matrix Columns";s:23:"matrix_error_no_columns";s:40:"Please fill in at least one column text!";s:20:"matrix_error_no_rows";s:37:"Please fill in at least one row text!";s:16:"matrix_left_pole";s:9:"Left Pole";s:21:"matrix_neutral_answer";s:72:"Text for a Neutral Column (‘Not Specified’, ‘I don\'t know’ etc.)";s:43:"matrix_neutral_column_separator_description";s:151:"Select the check box if you want to have a separator (thick line) between the neutral column and the other columns in the output of the Matrix Question";s:31:"matrix_neutral_column_separator";s:24:"Neutral Column Separator";s:36:"matrix_question_checkbox_not_checked";s:49:"Please check at least one check box in every row!";s:40:"matrix_question_radio_button_not_checked";s:45:"Please select an option button for every row!";s:17:"matrix_right_pole";s:10:"Right Pole";s:29:"matrix_row_delete_select_none";s:43:"Please check at least one row to delete it!";s:33:"matrix_row_separators_description";s:118:"Select the check box if you want to have separators (thin lines) between the rows in the output of the Matrix Question";s:21:"matrix_row_separators";s:14:"Row Separators";s:11:"matrix_rows";s:11:"Matrix Rows";s:23:"matrix_standard_answers";s:11:"Column Text";s:19:"matrix_subtype_date";s:4:"Date";s:26:"matrix_subtype_description";s:85:"Please select one of the above subtypes to define the behaviour of the answer fields.";s:21:"matrix_subtype_double";s:14:"Floating Point";s:22:"matrix_subtype_integer";s:7:"Integer";s:17:"matrix_subtype_mr";s:31:"Check Boxes (Multiple Response)";s:17:"matrix_subtype_sr";s:32:"Option Buttons (Single Response)";s:19:"matrix_subtype_text";s:4:"Text";s:19:"matrix_subtype_time";s:4:"Time";s:8:"maxchars";s:28:"Maximum Number of Characters";s:7:"maximum";s:13:"Maximum Value";s:14:"median_between";s:7:"between";s:6:"median";s:6:"Median";s:8:"menuback";s:4:"Back";s:16:"menubacktosurvey";s:18:"Back to the Survey";s:22:"message_mail_survey_id";s:239:"You have started the anonymized survey &quot;%s&quot;. To resume this survey you need the following 5 digit survey code:<br><br><strong>%s</strong><br><br>Resuming a survey is only possible, if you interrupt the survey before finishing it.";s:30:"metric_question_floating_point";s:110:"The value you entered is a floating point value. Floating point values are not allowed for this question type!";s:27:"metric_question_not_a_value";s:45:"The value you entered is not a numeric value!";s:29:"metric_question_out_of_bounds";s:67:"The value you entered is not between the minimum and maximum value!";s:35:"metric_subtype_description_interval";s:287:"Equivalent intervals between measurements allow a meaningful comparison between arbitrary pairs of measurements. The zero point on the scale is arbitrary, so negative values can be used. Examples of interval values are the year date in many calendars or the temperature in Celsius scale.";s:40:"metric_subtype_description_ratioabsolute";s:157:"The ratio absolute measurement uses natural numbers additional to the non-arbitrary zero point for example the number of children in a family or probability.";s:43:"metric_subtype_description_rationonabsolute";s:267:"In addition to the interval measurement there are also meaningful ratios between arbitrary pairs of numbers. The zero value on a ratio scale is non-arbitrary. Most physical quantities, such as length in centimeters or duration in seconds are measured on ratio scales.";s:7:"minimum";s:13:"Minimum Value";s:28:"missing_upper_or_lower_limit";s:40:"Please enter a lower and an upper limit!";s:21:"mode_nr_of_selections";s:16:"Nr of Selections";s:9:"mode_text";s:26:"Most Selected Value (Text)";s:4:"mode";s:19:"Most Selected Value";s:24:"msg_deleted_export_files";s:22:"Export file(s) deleted";s:36:"msg_enter_value_for_valid_constraint";s:52:"Please enter a value to create a valid routing rule!";s:20:"msg_users_disinvited";s:18:"User(s) disinvited";s:33:"multiple_choice_multiple_response";s:35:"Multiple Choice (Multiple Response)";s:31:"multiple_choice_single_response";s:33:"Multiple Choice (Single Response)";s:35:"multiple_choice_subtype_description";s:196:"Choose Multiple Choice (Single Response) if you want the participants to select only one answer and Multiple Choice (Multiple Response) if you want the participants to select one ore more answers.";s:16:"new_survey_codes";s:25:"new survey access code(s)";s:18:"next_question_rows";s:26:"Questions %d - %d of %d >>";s:24:"no_available_constraints";s:35:"There are no routing rules defined!";s:33:"no_category_selected_for_deleting";s:63:"Please select a least one answer if you want to delete answers!";s:29:"no_category_selected_for_move";s:44:"Please check at least one answer to move it!";s:22:"no_constraints_checked";s:79:"Please select a least one question or question block to edit the routing rules!";s:29:"no_question_selected_for_move";s:46:"Please check at least one question to move it!";s:32:"no_question_selected_for_removal";s:66:"Please check at least one question or question block to remove it!";s:27:"no_questionblocks_available";s:38:"There are no question blocks available";s:22:"no_questions_available";s:33:"There are no questions available!";s:17:"no_search_results";s:28:"There are no search results!";s:27:"no_target_selected_for_move";s:34:"You must select a target position!";s:15:"no_user_invited";s:96:"All invited users did not possess sufficient permissions to run the survey. No user was invited.";s:25:"no_user_or_group_selected";s:72:"Please check an option what are you searching for (users and/or groups)!";s:23:"no_user_phrases_defined";s:44:"There are no user defined phrases available!";s:28:"nominal_question_not_checked";s:40:"Please check one of the offered answers!";s:9:"non_ratio";s:8:"Interval";s:8:"not_used";s:12:"not used yet";s:10:"obligatory";s:10:"Compulsory";s:3:"off";s:3:"Off";s:7:"offline";s:7:"offline";s:13:"on_additional";s:18:"On, and additional";s:2:"on";s:2:"On";s:2:"or";s:2:"or";s:11:"orientation";s:11:"Orientation";s:5:"outro";s:18:"Concluding Remarks";s:28:"percentage_of_entered_values";s:43:"Percentage of users that entered this value";s:29:"percentage_of_offered_answers";s:29:"Percentage of offered answers";s:24:"percentage_of_selections";s:24:"Percentage of selections";s:12:"phrase_added";s:12:"Phrase added";s:12:"phrase_saved";s:34:"The phrase was saved successfully!";s:13:"please_select";s:19:"-- please select --";s:16:"predefined_users";s:33:"Put on desktops of selected users";s:7:"preview";s:7:"Preview";s:22:"previous_question_rows";s:26:"<< Questions %d - %d of %d";s:26:"qpl_confirm_delete_phrases";s:56:"Are you sure you want to delete the following phrase(s)?";s:28:"qpl_confirm_delete_questions";s:58:"Are you sure you want to delete the following question(s)?";s:20:"qpl_copy_select_none";s:46:"Please check at least one question to copy it!";s:39:"qpl_define_questionblock_select_missing";s:75:"Please select a least two questions if you want to define a question block!";s:29:"qpl_delete_phrase_select_none";s:45:"Please check at least one phrase to delete it";s:21:"qpl_delete_rbac_error";s:45:"You have no rights to delete the question(s)!";s:22:"qpl_delete_select_none";s:48:"Please check at least one question to delete it!";s:22:"qpl_export_select_none";s:47:"Please check at least one question to export it";s:31:"qpl_past_questions_confirmation";s:78:"Are you sure you want to paste the following question(s) in the question pool?";s:19:"qpl_phrases_deleted";s:18:"Phrase(s) deleted.";s:21:"qpl_questions_deleted";s:20:"Question(s) deleted.";s:20:"qpl_questions_pasted";s:19:"Question(s) pasted.";s:20:"qpl_savephrase_empty";s:28:"Please enter a phrase title!";s:21:"qpl_savephrase_exists";s:67:"The phrase title already exists! Please enter another phrase title.";s:22:"qpl_unfold_select_none";s:80:"Please select at least one question block if you want to unfold question blocks!";s:31:"question_contains_no_categories";s:46:"There are no answers defined for this question";s:24:"question_has_constraints";s:13:"Routing Rules";s:13:"question_icon";s:13:"Question Icon";s:23:"question_mr_not_checked";s:49:"Please check at least one of the offered answers!";s:20:"question_not_checked";s:40:"Please check one of the offered answers!";s:19:"question_obligatory";s:27:"The question is compulsory!";s:25:"question_saved_for_upload";s:224:"The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you must delete the question in the question pool if you do not want to keep it!";s:13:"question_type";s:13:"Question Type";s:29:"questionblock_has_constraints";s:13:"Routing Rules";s:18:"questionblock_icon";s:18:"Questionblock Icon";s:22:"questionblock_inserted";s:23:"Question Block inserted";s:13:"questionblock";s:14:"Question Block";s:23:"questionblocks_inserted";s:24:"Question Blocks inserted";s:14:"questionblocks";s:15:"Question Blocks";s:18:"questions_inserted";s:21:"Question(s) inserted!";s:17:"questions_removed";s:45:"Question(s) and/or question block(s) removed!";s:9:"questions";s:9:"Questions";s:12:"questiontype";s:13:"Question Type";s:14:"ratio_absolute";s:14:"Ratio-Absolute";s:18:"ratio_non_absolute";s:18:"Ratio-Non-Absolute";s:19:"ratio_scale_ge_zero";s:65:"The minimum value for a ratio scale must be greater or equal zero";s:15:"remove_question";s:6:"Remove";s:16:"remove_questions";s:99:"Are you sure you want to remove the following question(s) and/or question block(s) from the survey?";s:12:"reset_filter";s:12:"Reset Filter";s:7:"results";s:7:"Results";s:13:"resume_survey";s:17:"Resume the Survey";s:8:"row_text";s:8:"Row Text";s:19:"save_back_to_survey";s:30:"Save and go back to the survey";s:21:"save_obligatory_state";s:32:"Save Compulsory States and Order";s:34:"save_phrase_categories_not_checked";s:66:"Please check at least two answers to save answers in a new phrase!";s:24:"save_phrase_introduction";s:175:"If you want to save the answers below as default phrase, please enter a phrase title. You can access a default phrase whenever you want to add a phrase to an ordinal question.";s:11:"save_phrase";s:14:"Save as Phrase";s:5:"scale";s:5:"Scale";s:16:"search_field_all";s:20:"Search in all fields";s:10:"search_for";s:10:"Search for";s:13:"search_groups";s:12:"Found Groups";s:17:"search_invitation";s:36:"Search for users or groups to invite";s:16:"search_questions";s:16:"Search Questions";s:12:"search_roles";s:11:"Found Roles";s:11:"search_term";s:11:"Search Term";s:15:"search_type_all";s:28:"Search in all Question Types";s:12:"search_users";s:12:"Search Users";s:13:"select_option";s:31:"--- Please select an option ---";s:20:"select_phrase_to_add";s:49:"Please select a phrase to add it to the question!";s:21:"select_prior_question";s:23:"Select a prior question";s:25:"select_questionpool_short";s:20:"Question Pool Survey";s:19:"select_questionpool";s:59:"Please select a question pool to store the created question";s:15:"select_relation";s:17:"Select a Relation";s:17:"select_svy_option";s:30:"--- Please select a survey ---";s:40:"select_target_position_for_move_question";s:92:"Please select a target position to move the question(s) and press one of the insert buttons!";s:31:"select_target_position_for_move";s:88:"Please select a target position to move the answers and press one of the insert buttons!";s:12:"select_value";s:13:"Enter a Value";s:9:"selection";s:9:"Selection";s:10:"set_filter";s:10:"Set Filter";s:29:"show_questiontext_description";s:211:"If this checkbox is selected, for every question in the question block the question text will be shown. If this checkbox is not selected, the question text of every question in the question block will be hidden.";s:17:"show_questiontext";s:25:"Display the Question Text";s:7:"skipped";s:7:"skipped";s:12:"specialusers";s:13:"Special Users";s:25:"spl_copy_insert_clipboard";s:52:"The selected question(s) are copied to the clipboard";s:20:"spl_copy_select_none";s:62:"Please check at least one question to copy it to the clipboard";s:22:"spl_general_properties";s:18:"General Properties";s:25:"spl_move_insert_clipboard";s:46:"The selected question(s) are marked for moving";s:18:"spl_move_same_pool";s:70:"It has no effect to move questions from inside the same question pool.";s:20:"spl_move_select_none";s:58:"Please check at least one question to select it for moving";s:31:"spl_online_property_description";s:65:"If the question pool is not online, it cannot be used in surveys.";s:19:"spl_online_property";s:6:"Online";s:20:"spl_paste_no_objects";s:91:"There are no questions in the clipboard. Please copy or move a question into the clipboard.";s:17:"spl_paste_success";s:55:"The question(s) have been pasted into the question pool";s:26:"spl_select_file_for_import";s:34:"You must select a file for import!";s:22:"start_date_not_reached";s:60:"You cannot start the survey until the start date is reached!";s:10:"start_date";s:10:"Start Date";s:12:"start_survey";s:12:"Start Survey";s:22:"subject_mail_survey_id";s:25:"Your survey code for "%s"";s:7:"subtype";s:7:"Subtype";s:24:"survey_code_message_sent";s:75:"A survey code which allows you to resume the survey was sent to your INBOX!";s:20:"survey_code_no_codes";s:49:"You have not created any survey access codes yet.";s:20:"survey_code_url_name";s:55:"URL <small>(use right mouse button to copy URL)</small>";s:15:"survey_code_url";s:21:"URL for Direct Access";s:16:"survey_code_used";s:11:"Code was ..";s:11:"survey_code";s:18:"Survey Access Code";s:17:"survey_codes_lang";s:27:"Preselected Survey Language";s:29:"survey_codes_no_anonymization";s:82:"You must create an anonymized survey with access codes to create new access codes!";s:39:"survey_error_insert_incomplete_question";s:82:"You tried to add an incomplete question to the survey! The question was not added.";s:13:"survey_finish";s:13:"Finish Survey";s:15:"survey_finished";s:63:"You have finished the survey. Thank you for your participation!";s:27:"survey_has_datasets_warning";s:137:"The survey already contains data sets. You cannot edit the survey questions until you remove these data sets in the participants section.";s:17:"survey_is_offline";s:61:"You cannot start the survey! The survey is currently offline.";s:11:"survey_next";s:7:"Next >>";s:22:"survey_offline_message";s:42:"Can\'t invite users. The survey is offline!";s:21:"survey_online_warning";s:59:"The survey is online. You cannot edit the survey questions!";s:15:"survey_previous";s:11:"<< Previous";s:22:"survey_question_editor";s:9:"List View";s:26:"survey_question_obligatory";s:58:"This question is compulsory. You must answer the question!";s:24:"survey_question_optional";s:10:"(Optional)";s:16:"survey_questions";s:9:"Questions";s:33:"survey_selected_user_data_deleted";s:64:"The survey data of the selected user(s) was deleted successfully";s:18:"survey_skip_finish";s:22:"Skip and Finish Survey";s:16:"survey_skip_next";s:7:"Skip >>";s:20:"survey_skip_previous";s:7:"<< Skip";s:17:"survey_skip_start";s:25:"Skip and Go To Start Page";s:12:"survey_start";s:16:"Go To Start Page";s:27:"survey_text_textheight_desc";s:55:"Enter the height in characters for the text input field";s:26:"survey_text_textwidth_desc";s:54:"Enter the width in characters for the text input field";s:23:"survey_use_start_button";s:49:"You must enter the survey using the start button!";s:20:"SurveyMatrixQuestion";s:15:"Matrix Question";s:20:"SurveyMetricQuestion";s:15:"Metric Question";s:28:"SurveyMultipleChoiceQuestion";s:44:"Multiple Choice Question (Multiple Response)";s:26:"SurveySingleChoiceQuestion";s:42:"Multiple Choice Question (Single Response)";s:18:"SurveyTextQuestion";s:5:"Essay";s:25:"svy_all_user_data_deleted";s:46:"All user data of this survey has been deleted!";s:40:"svy_check_evaluation_access_introduction";s:136:"Since this survey evaluation is only accessible by survey participants you need to enter your survey access code to open the evaluation.";s:42:"svy_check_evaluation_authentication_needed";s:21:"Authentication needed";s:30:"svy_check_evaluation_wrong_key";s:127:"You entered a wrong survey access code or you have not participated the survey. Your access to the survey evaluation is denied.";s:22:"svy_create_export_file";s:18:"Create Export File";s:24:"svy_delete_all_user_data";s:20:"Delete all User Data";s:18:"svy_eval_cumulated";s:8:"Overview";s:15:"svy_eval_detail";s:7:"Details";s:13:"svy_eval_user";s:15:"Per Participant";s:16:"svy_export_files";s:12:"Export Files";s:8:"svy_file";s:4:"File";s:22:"svy_general_properties";s:18:"General Properties";s:38:"svy_maintenance_information_no_results";s:110:"There are no existing user data sets for the survey. You need at least one user data set to maintain the data.";s:18:"svy_missing_author";s:92:"You have not entered the author\'s name in the survey properties! Please add an authors name.";s:21:"svy_missing_questions";s:92:"You do not have any questions in the survey! Please add at least one question to the survey.";s:17:"svy_missing_title";s:89:"You have not entered a survey title! Please go to the metadata section and enter a title.";s:14:"svy_page_error";s:114:"There was an error answering a survey question. Please refer to the question to get more information on the error!";s:15:"svy_page_errors";s:118:"There were errors answering the survey questions. Please refer to the questions to get more information on the errors!";s:26:"svy_select_file_for_import";s:34:"You must select a file for import!";s:24:"svy_select_questionpools";s:61:"Please select a question pool to store the imported questions";s:18:"svy_select_surveys";s:38:"Please select a survey for duplication";s:30:"svy_selected_user_data_deleted";s:64:"The survey data of the selected user(s) was deleted successfully";s:23:"svy_show_questiontitles";s:19:"Show Question Title";s:8:"svy_size";s:4:"Size";s:26:"svy_statistical_evaluation";s:22:"Statistical Evaluation";s:27:"svy_status_missing_elements";s:35:"The following elements are missing:";s:18:"svy_status_missing";s:51:"There are required elements missing in this survey!";s:13:"svy_status_ok";s:62:"The status of the survey is OK. There are no missing elements.";s:26:"text_maximum_chars_allowed";s:91:"Please do not enter more than a maximum of %s characters. Any characters above will be cut.";s:28:"text_question_not_filled_out";s:33:"Please fill out the answer field!";s:18:"text_resume_survey";s:355:"You are trying to resume an anonymized survey. To continue the survey with your previously entered values please enter the 5 digit survey code which you received after starting the survey (it was sent with a message to your ILIAS mail folder). Instead of typing your survey code you also can copy it from your inbox and paste it into the text field below.";s:19:"title_resume_survey";s:37:"Resume the Survey - Enter Survey Code";s:6:"unfold";s:6:"Unfold";s:15:"unlimited_users";s:39:"Put on desktops of all registered users";s:17:"uploaded_material";s:17:"Uploaded Material";s:27:"upper_limit_must_be_greater";s:53:"The upper limit must be greater than the lower limit!";s:11:"upper_limit";s:11:"Upper Limit";s:21:"use_anonymous_id_desc";s:130:"If checked, the username in anonymized surveys will be shown as the survey code, otherwise the text ‘Anonymous’ will be shown.";s:16:"use_anonymous_id";s:16:"Show Survey Code";s:26:"use_browser_print_function";s:50:"Please use the print function of your web browser.";s:25:"use_google_chart_api_desc";s:278:"If checked, the charts in the cumulated results details of the survey statistics are drawn using the <a href="http://code.google.com/apis/chart/" target="_blank">Google Chart API</a>. Please note that a permanent internet connection is required for the Google Chart API to work.";s:20:"use_google_chart_api";s:20:"Use Google Chart API";s:4:"used";s:4:"used";s:14:"users_answered";s:14:"Users Answered";s:13:"users_invited";s:26:"%s users have been invited";s:13:"users_skipped";s:13:"Users Skipped";s:16:"value_nr_entered";s:39:"Number of users that entered that value";s:6:"values";s:6:"Values";s:8:"vertical";s:8:"Vertical";s:29:"view_constraints_introduction";s:75:"You are viewing the preconditions of the following question/question block:";s:11:"view_phrase";s:11:"View Phrase";s:23:"warning_question_in_use";s:345:"Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.";s:29:"warning_question_not_complete";s:29:"The question is not complete!";s:36:"wrong_categories_selected_for_insert";s:95:"ILIAS could not perform the desired action. Please check exactly one answer as target position!";s:22:"wrong_survey_code_used";s:74:"No access to survey. Your survey code is invalid or has already been used.";s:16:"svy_search_users";s:23:"Search for participants";s:21:"dont_use_questionpool";s:77:"Don\'t insert the questions in a question pool (only available in this survey)";s:17:"other_answer_desc";s:51:"Add an additional choice (other) with a text field.";s:18:"other_answer_label";s:32:"Label of other answer (optional)";s:16:"use_other_answer";s:11:"Open answer";s:27:"question_mr_no_other_answer";s:40:"Please enter a text for the other answer";s:35:"question_mr_no_other_answer_checked";s:65:"You need to select the checkbox if you enter a text for an answer";s:35:"question_sr_no_other_answer_checked";s:69:"You need to select the radio button if you enter a text for an answer";s:15:"use_min_answers";s:17:"Answer selections";s:22:"use_min_answers_option";s:33:"Set a number of answer selections";s:14:"nr_min_answers";s:7:"Minimum";s:14:"nr_max_answers";s:7:"Maximum";s:22:"err_maxvaluegeminvalue";s:119:"The maximum value must be greater or equal than the minimum value and less or equal than the maximum number of answers.";s:20:"err_minvalueganswers";s:69:"The minimum must be less or equal than the maximum number of answers.";s:18:"err_no_min_answers";s:35:"Please check at least %s answer(s).";s:18:"err_no_max_answers";s:32:"Please check at most %s answers.";s:20:"err_no_exact_answers";s:34:"Please check exactly %s answer(s).";s:5:"label";s:5:"Label";s:10:"label_info";s:65:"Alternative identifier for further data processing (e.g. in SPSS)";s:17:"export_label_only";s:17:"Export label only";s:17:"export_title_only";s:17:"Export title only";s:18:"export_title_label";s:22:"Export title and label";s:16:"mailnotification";s:40:"Seperate E-Mail for Each Finished Survey";s:13:"mailaddresses";s:19:"Recipient addresses";s:18:"mailaddresses_info";s:95:"Enter a comma separated list of recipients who will receive a notification on finished surveys.";s:19:"mailparticipantdata";s:27:"Additional participant data";s:24:"mailparticipantdata_info";s:101:"This information will be precede the automatically included results section of the notification mail.";s:12:"table_fields";s:44:"Definition of field names for external mails";s:11:"tablefields";s:11:"Field names";s:20:"mail_import_example1";s:24:"email;firstname;lastname";s:20:"mail_import_example2";s:33:"sandraowen@domain.tld;Sandra;Owen";s:20:"mail_import_example3";s:35:"kennethbirt@domain.tld;Kenneth;Birt";s:16:"tablefields_info";s:70:"Please enter a comma separated list of field names for external mails.";s:18:"externalRecipients";s:24:"External code recipients";s:11:"edit_phrase";s:11:"Edit phrase";s:10:"phrase_new";s:17:"Create new phrase";s:18:"no_phrase_selected";s:17:"Nothing selected.";s:12:"other_answer";s:12:"Other answer";s:20:"constraint_fulfilled";s:9:"Show page";s:15:"conjunction_and";s:31:"if each constraint is fulfilled";s:14:"conjunction_or";s:30:"if one constraint is fulfilled";s:21:"conjunction_and_title";s:41:"Fulfill each of the following constraints";s:20:"conjunction_or_title";s:40:"Fulfill one of the following constraints";s:25:"err_external_rcp_no_email";s:58:"The import data must at least contain an ‘email’ field";s:32:"err_external_rcp_no_email_column";s:148:"The import data must at least contain a column ‘email’ with the title ‘email’ in the first row and the email addresses in the following rows";s:16:"err_no_selection";s:22:"You made no selection.";s:27:"external_recipients_deleted";s:29:"Deleted external recipient(s)";s:28:"external_recipients_imported";s:39:"External recipients have been imported.";s:21:"external_mails_import";s:41:"Import external recipients of survey keys";s:13:"externalmails";s:11:"Import file";s:17:"mail_survey_codes";s:29:"Mail access codes or messages";s:18:"externalmails_info";s:196:"The import file must be a CSV file, columns separated by a semicolon. The first row contains the column titles. The file must at least contain an ‘email’ column containing the recipient email.";s:12:"externaltext";s:11:"Import text";s:17:"externaltext_info";s:214:"The import text must be arranged in rows and columns, columns separated by a semicolon. The first row contains the column titles. The text must at least contain an ‘email’ column containing the recipient email.";s:16:"import_from_file";s:28:"Import user data from a file";s:16:"import_from_text";s:28:"Import user data from a text";s:19:"import_from_dataset";s:22:"Import from a data set";s:10:"recipients";s:10:"Recipients";s:11:"send_to_all";s:17:"To all recipients";s:13:"not_sent_only";s:55:"Only to new recipients (who did not receive a mail yet)";s:16:"send_to_answered";s:43:"To all recipients who did finish the survey";s:18:"send_to_unanswered";s:58:"To all recipients who did not finish the survey (reminder)";s:20:"message_content_info";s:326:"Enter the mail message for the notification mail containing the survey codes for the participants. You may use the placeholders [code] (the access code), [url] (the URL to this survey), and participant related data depending on your import fields: %s. The placeholders will be replaced with the imported user data in the mail.";s:26:"default_codes_mail_subject";s:23:"Your access code for %s";s:26:"default_codes_mail_message";s:99:"Your survey access code is [code]. You can start the survey in your web browser using the URL [url]";s:25:"please_enter_mail_subject";s:27:"Please enter a mail subject";s:25:"please_enter_mail_message";s:27:"Please enter a mail message";s:19:"participating_users";s:19:"Participating Users";s:22:"please_enter_mail_code";s:47:"Please enter the access code placeholder [code]";s:15:"mail_sent_short";s:4:"Sent";s:21:"finished_mail_subject";s:28:"The survey "%s" was finished";s:18:"msg_min_nr_answers";s:35:"Please check at least %s answer(s).";s:18:"msg_max_nr_answers";s:32:"Please check at most %s answers.";s:22:"msg_min_max_nr_answers";s:48:"Please check at least %s and at most %s answers.";s:25:"msg_min_max_exact_answers";s:34:"Please check exactly %s answer(s).";s:19:"msg_duplicate_scale";s:33:"Please enter unique scale values.";s:11:"workingtime";s:12:"Working time";s:18:"save_reuse_message";s:31:"Save message text for later use";s:16:"save_reuse_title";s:18:"Message text title";s:14:"saved_messages";s:18:"Available messages";s:20:"insert_saved_message";s:19:"Insert Message Text";s:20:"delete_saved_message";s:19:"Delete Message Text";s:20:"msg_message_inserted";s:20:"Messagetext inserted";s:23:"msg_no_message_inserted";s:28:"Please select a message text";s:19:"msg_message_deleted";s:19:"Messagetext deleted";s:22:"msg_no_message_deleted";s:34:"Please select a saved message text";s:31:"question_changed_in_survey_only";s:35:"Question was changed only in survey";s:20:"survey_prev_question";s:13:"Previous Page";s:20:"survey_next_question";s:9:"Next Page";s:14:"survey_jump_to";s:7:"Jump to";s:23:"survey_add_new_question";s:15:"Create Question";s:15:"survey_use_pool";s:8:"Use Pool";s:21:"svy_settings_template";s:8:"Template";s:20:"survey_per_page_view";s:9:"Page View";s:20:"survey_dnd_move_next";s:17:"Move to Next Page";s:24:"survey_dnd_move_previous";s:21:"Move to Previous Page";s:21:"survey_dnd_split_page";s:10:"Split Page";s:33:"survey_dnd_double_click_to_delete";s:72:"Double click on a content element to select it for cutting and deleting.";s:26:"survey_dnd_clear_clipboard";s:15:"Clear Clipboard";s:16:"survey_dnd_paste";s:5:"Paste";s:37:"survey_has_datasets_warning_page_view";s:108:"The survey already contains data sets. You cannot edit the survey questions until you remove these datasets.";s:42:"survey_has_datasets_warning_page_view_link";s:17:"Edit Participants";s:21:"survey_using_template";s:126:"This survey uses the template %s. If you do not want to use a template and have access to all settings, please click here: %s.";s:26:"survey_using_template_link";s:27:"Do not use template anymore";s:29:"survey_confirm_template_reset";s:62:"Are you sure that you do not want to use the template anymore?";s:21:"survey_template_reset";s:30:"The template has been removed.";s:24:"survey_introduction_info";s:60:"This message is permanently displayed on the ‘Info’-tab.";s:20:"survey_question_pool";s:13:"Question Pool";s:26:"survey_question_pool_usage";s:13:"Question Pool";s:21:"survey_pool_selection";s:14:"Pool Selection";s:14:"survey_no_pool";s:24:"Do not use question pool";s:15:"survey_new_pool";s:24:"Create new question pool";s:20:"survey_existing_pool";s:26:"Use existing question pool";s:18:"survey_delete_page";s:11:"Delete Page";s:19:"survey_at_beginning";s:16:"At The Beginning";s:18:"survey_behind_page";s:6:"Behind";s:22:"survey_show_blocktitle";s:16:"Show Block Title";s:34:"survey_show_blocktitle_description";s:57:"If activated the block title will be shown in the survey.";s:19:"survey_block_hidden";s:6:"hidden";s:20:"survey_block_visible";s:7:"visible";s:28:"survey_question_text_visible";s:12:"Text visible";s:27:"survey_question_text_hidden";s:11:"Text hidden";s:16:"survey_move_page";s:9:"Move Page";s:17:"survey_page_moved";s:24:"The page has been moved.";s:29:"survey_copy_questions_to_pool";s:20:"Add to question pool";s:37:"no_question_selected_for_copy_to_pool";s:84:"Please select at least one question, which is not already linked to a question pool.";s:31:"survey_copy_select_questionpool";s:31:"Question pool to put the copies";s:35:"survey_copy_to_questionpool_success";s:53:"The questions were copied into the pool successfully.";s:23:"survey_auto_block_title";s:11:"Page Header";s:20:"survey_edit_settings";s:13:"Edit Settings";s:12:"survey_order";s:10:"Sort Order";s:21:"survey_cancel_preview";s:14:"Cancel Preview";s:28:"survey_cannot_preview_survey";s:21:"Preview not available";s:33:"survey_questions_to_clipboard_cut";s:88:"Question(s) were copied to the clipboard. Please select a target or empty the clipboard.";s:34:"survey_questions_to_clipboard_copy";s:88:"Question(s) were copied to the clipboard. Please select a target or empty the clipboard.";s:23:"survey_clipboard_notice";s:90:"There are question(s) in the clipboard. Select the target position or empty the clipboard.";s:19:"survey_edit_heading";s:12:"Edit Heading";s:21:"survey_delete_heading";s:14:"Remove Heading";s:31:"survey_available_question_pools";s:15:"Available Pools";s:26:"survey_question_pool_title";s:10:"Pool Title";s:27:"survey_sync_question_copies";s:20:"Sync Question Copies";s:32:"survey_sync_question_copies_info";s:70:"The selected questions will be replaced with the current pool version.";s:36:"survey_sync_insufficient_permissions";s:24:"Insufficient Permissions";s:19:"survey_sync_success";s:36:"The selected questions were updated.";s:27:"svy_presentation_properties";s:12:"Presentation";s:13:"svy_save_sync";s:29:"Save and Sync Question Copies";s:21:"survey_question_title";s:14:"Question Title";s:40:"survey_question_editor_settings_template";s:34:"List View (in Tab ‘Questions’)";s:28:"survey_sure_delete_questions";s:73:"Are you sure that you want to delete the following questions or headings?";s:17:"svy_participation";s:13:"Participation";s:21:"svy_page_add_question";s:10:"Add new %s";s:19:"svy_create_question";s:15:"Create Question";s:16:"freetext_answers";s:12:"Open Answers";s:18:"svy_neutral_answer";s:72:"Text for a Neutral Answer (‘Not Specified’, ‘I don\'t know’ etc.)";s:41:"svy_matrix_layout_percentages_sum_invalid";s:42:"The column settings do not sum up to 100%.";s:8:"svy_copy";s:11:"Copy Survey";s:26:"svy_activation_online_info";s:56:"Only if a survey is online, users can participate in it.";s:31:"svy_availability_limitless_info";s:59:"Choose this mode for making the survey available limitless.";s:27:"svy_availability_until_info";s:76:"Choose this mode for making the survey available for a fixed period of time.";s:38:"svy_activation_limited_visibility_info";s:115:"Outside the indicated period, only the title of the survey will be displayed while the question are not accessible.";s:33:"survey_question_pool_usage_active";s:52:"Questions can be added optionally to a question pool";s:38:"survey_question_pool_usage_active_info";s:86:"Each time a question is created it has to be decided if a question pool is to be used.";s:35:"survey_question_pool_usage_inactive";s:45:"Questions are created directly in the survey.";s:40:"survey_question_pool_usage_inactive_info";s:104:"The questions can be added to a question pool manually later but are created only for this survey first.";s:17:"svy_invite_action";s:23:"Put on Personal Desktop";s:23:"survey_code_delete_sure";s:59:"Are you sure you want to delete the following access codes?";s:16:"survey_360_title";s:5:"360°";s:15:"survey_360_mode";s:14:"360° Feedback";s:26:"survey_360_self_evaluation";s:15:"Self-Evaluation";s:22:"survey_360_self_raters";s:28:"Appraisees Select Own Raters";s:25:"survey_360_self_appraisee";s:19:"Open 360° Feedback";s:18:"survey_360_results";s:32:"Access To Results For Appraisees";s:23:"survey_360_results_none";s:20:"No Access to Results";s:22:"survey_360_results_own";s:32:"Access to Feedback of Own Raters";s:22:"survey_360_results_all";s:13:"All Feedbacks";s:21:"survey_360_appraisees";s:10:"Appraisees";s:22:"survey_360_edit_raters";s:13:"Manage Raters";s:32:"survey_360_sure_delete_appraises";s:57:"Are you sure you want to remove the following appraisees?";s:29:"survey_360_sure_delete_raters";s:60:"Are you sure you want to remove the following raters for %s?";s:29:"survey_360_add_external_rater";s:18:"Add External Rater";s:24:"survey_360_no_appraisees";s:50:"There are currently no appraisees for you to rate.";s:29:"survey_360_add_self_appraisee";s:40:"Add yourself as appraisee to this survey";s:21:"survey_360_list_title";s:10:"360° Mode";s:27:"survey_360_select_appraisee";s:6:"Select";s:20:"survey_360_appraisee";s:9:"Appraisee";s:29:"survey_activate_skill_service";s:27:"Activate Competence Service";s:19:"survey_skill_assign";s:30:"Question/Competence Assignment";s:12:"survey_skill";s:10:"Competence";s:24:"survey_assign_competence";s:17:"Assign Competence";s:24:"survey_remove_competence";s:17:"Remove Competence";s:23:"survey_skill_thresholds";s:21:"Competence Thresholds";s:18:"survey_skill_level";s:16:"Competence Level";s:21:"survey_up_to_x_points";s:14:"Up to x points";s:17:"survey_skill_nr_q";s:19:"Number of Questions";s:29:"survey_skill_max_scale_points";s:17:"Max. Scale Points";s:20:"survey_reached_level";s:13:"Reached Level";s:19:"survey_sum_of_means";s:33:"Sum of Arithm. Means per Question";s:18:"survey_calc_skills";s:27:"Determine Competence Levels";s:19:"survey_write_skills";s:17:"Write Competences";s:26:"survey_360_rater_mail_sent";s:9:"Mail sent";s:36:"survey_360_rater_code_mail_on_demand";s:19:"generated on demand";s:43:"survey_360_rater_message_content_registered";s:28:"Message Content (Registered)";s:42:"survey_360_rater_message_content_anonymous";s:27:"Message Content (Anonymous)";s:51:"survey_360_rater_message_content_registered_default";s:65:"You can start the survey in your web browser using the URL [url].";s:50:"survey_360_rater_message_content_anonymous_default";s:100:"Your survey access code is [code]. You can start the survey in your web browser using the URL [url].";s:32:"survey_360_rater_subject_default";s:49:"You have been invited as rater to a 360° survey.";s:26:"survey_360_raters_finished";s:15:"Raters Finished";s:25:"survey_360_rater_finished";s:15:"Survey Finished";s:18:"survey_competences";s:11:"Competences";s:34:"svy_skl_comp_assignm_not_supported";s:62:"Competence assignment is not supported for this question type.";s:8:"svy_back";s:4:"Back";s:30:"survey_360_appraisee_is_closed";s:36:"The appraisee has closed his survey.";s:31:"survey_360_no_closed_appraisees";s:39:"No appraisee has closed his survey yet.";s:32:"survey_360_rate_other_appraisees";s:15:"Rate appraisees";s:25:"survey_360_appraisee_info";s:14:"Appraisee Info";s:29:"survey_360_raters_status_info";s:15:"Raters finished";s:33:"survey_360_appraisee_close_action";s:23:"Close Survey For Raters";s:38:"survey_360_appraisee_close_action_info";s:41:"This will give access to your statistics.";s:44:"survey_360_appraisee_close_action_info_skill";s:75:"This will give access to your statistics and update your competence levels.";s:41:"survey_360_appraisee_close_action_success";s:50:"You have closed your 360° survey for your raters.";s:40:"survey_360_appraisee_close_action_status";s:24:"Survey was closed on %s.";s:31:"survey_360_sure_appraisee_close";s:65:"Are you sure you want to close the survey for all of your raters?";s:32:"survey_360_appraisee_close_table";s:9:"Closed on";s:20:"svy_eval_competences";s:18:"Competence Results";s:16:"svy_gap_analysis";s:12:"Gap Analysis";s:26:"svy_all_survey_competences";s:22:"All Survey Competences";s:17:"survey_360_raters";s:6:"Raters";s:11:"svy_results";s:7:"Results";s:12:"svy_analysis";s:8:"Analysis";s:28:"survey_notification_settings";s:12:"Notification";s:23:"survey_reminder_setting";s:27:"Remind Users to Participate";s:21:"survey_reminder_start";s:5:"Start";s:19:"survey_reminder_end";s:3:"End";s:25:"survey_reminder_frequency";s:9:"Frequency";s:30:"survey_reminder_frequency_days";s:4:"Days";s:32:"survey_notification_target_group";s:12:"Target Group";s:46:"survey_notification_target_group_parent_course";s:34:"All members of parent course/group";s:55:"survey_notification_target_group_parent_course_inactive";s:57:"No parent course/group given - no reminders will be sent!";s:40:"survey_notification_target_group_invited";s:58:"All users who got the survey put on their Personal Desktop";s:45:"survey_notification_target_group_invited_info";s:32:"Number of current recipients: %s";s:33:"survey_notification_tutor_setting";s:42:"One E-Mail after all Participants Finished";s:36:"survey_notification_tutor_recipients";s:17:"Tutors (Login[s])";s:44:"survey_notification_tutor_recipients_invalid";s:41:"Please state users with write permission.";s:33:"survey_notification_tutor_subject";s:46:"All participants have finished the survey "%s"";s:36:"survey_notification_tutor_salutation";s:9:"Hello %s,";s:30:"survey_notification_tutor_body";s:58:"The following survey has been finished by all participants";s:30:"survey_notification_tutor_link";s:14:"Link to Survey";s:23:"survey_reminder_subject";s:28:"Survey "%s" was not finished";s:26:"survey_reminder_salutation";s:9:"Hello %s,";s:20:"survey_reminder_body";s:53:"the following survey has not been finished by you yet";s:20:"survey_reminder_link";s:3:"URL";s:11:"survey_mode";s:4:"Mode";s:19:"survey_default_mode";s:6:"Survey";s:24:"survey_default_mode_info";s:27:"Use for evaluation purposes";s:20:"survey_360_mode_info";s:33:"Use for peer-reviewing of persons";s:47:"survey_360_appraisee_close_action_success_admin";s:63:"The 360° surveys of the appraisees were closed for the raters.";s:37:"survey_360_sure_appraisee_close_admin";s:72:"Are you sure you want to close the surveys for the following appraisees?";s:28:"survey_360_remove_appraisees";s:19:"Remove Appraisee(s)";s:41:"survey_notification_finished_introduction";s:50:"The following participant has finished the survey.";s:35:"survey_notification_finished_reason";s:96:"You are receiving this email because you activated notifications for the survey mentioned above.";s:33:"svy_result_mail_notification_info";s:95:"On finishing the survey the answers of each participant will be sent to the defined recipients.";s:25:"survey_reminder_cron_info";s:63:"If activated, users will be reminded to participate in surveys.";s:31:"mailparticipantdata_placeholder";s:89:"These placeholders are replaced by actual user data if ‘Privacy’ is ‘With Names’:";s:25:"spl_save_obligatory_state";s:22:"Save Compulsory States";s:20:"survey_not_available";s:3:"n/a";s:23:"survey_results_finished";s:15:"Survey finished";s:20:"svy_view_own_results";s:18:"View given answers";s:20:"svy_mail_own_results";s:18:"Mail given answers";s:28:"svy_mail_own_results_subject";s:26:"Survey "%s" - Your Answers";s:20:"svy_results_view_own";s:33:"Participants can View Own Answers";s:22:"svy_eval_skipped_value";s:22:"Results: ‘skipped’";s:26:"svy_eval_skipped_value_lng";s:23:"Use language file entry";s:31:"svy_eval_skipped_value_lng_info";s:19:"Current value: "%s"";s:29:"svy_eval_skipped_value_custom";s:16:"Use custom value";s:34:"svy_eval_skipped_value_custom_info";s:54:"Define any (or empty) value to use for skipped answers";s:35:"svy_eval_skipped_value_custom_value";s:5:"Value";s:16:"svy_import_codes";s:12:"Import Codes";s:21:"svy_import_codes_info";s:40:"This import requires a "%s" export file.";s:30:"svy_evaluation_access_all_info";s:92:"All registered users that can access the survey can also look at the results of this survey.";s:30:"svy_evaluation_access_off_info";s:91:"Only Users that can edit the survey (write permission) have access to the survey\'s results.";s:39:"svy_evaluation_access_participants_info";s:95:"All users that participated in the survey may choose to look at the results after finishing it.";s:25:"svy_results_view_own_info";s:119:"After finishing the survey, participants can view a list of all answers they provided. They cannot change their answers";s:31:"survey_360_self_evaluation_info";s:62:"Appraisees are allowed to rate themselves using the questions.";s:27:"survey_360_self_raters_info";s:102:"Appraisees autonomously select and invite those persons that are supposed to provide feedback to them.";s:30:"survey_360_self_appraisee_info";s:136:"On the ‘Info’-tab a link is displayed to all users. By clicking this link they can add themselves as appraisee and receive feedback.";s:28:"survey_360_results_none_info";s:58:"Appraisees can not access the feedback provided by raters.";s:27:"survey_360_results_own_info";s:60:"Appraisees can access only the feedback of their own raters.";s:27:"survey_360_results_all_info";s:128:"All appraisees of the 360°-Survey can view all feedback provided by all raters of all appraisees, not only by their own raters.";s:34:"survey_activate_skill_service_info";s:173:"A new tab ‘Competences’ will be displayed. In this tab questions are assigned to competences, then thresholds are ascribed for reaching a specific level of a competence.";s:28:"survey_execution_sure_finish";s:97:"Are you sure you want to finish the survey? You will not be able to edit your answers afterwards.";s:21:"survey_execution_exit";s:18:"Back to repository";s:19:"survey_access_codes";s:30:"Authentication by Access Codes";s:24:"survey_access_codes_info";s:168:"Users get access to the survey by entering a code on the ‘Info’-tab. These access codes are generated in a sub-tab ‘Access Codes’ in the tab ‘Participants’.";s:28:"survey_results_anonymization";s:7:"Privacy";s:27:"survey_results_personalized";s:10:"With Names";s:32:"survey_results_personalized_info";s:170:"In the tab ‘Results’ the names of the participants and their respective answers are listed. Users having access to this tab can inspect who has provided which answer.";s:25:"survey_results_anonymized";s:32:"Without Names / Anonymous Survey";s:30:"survey_results_anonymized_info";s:186:"In the tab ‘Results’ participants\' names are replaced by codes. Users having access to this tab cannot attribute answers to named participants but only to user ‘iTXaF’ (example).";s:20:"material_added_empty";s:47:"The object does not have any suitable material.";s:29:"survey_sure_delete_constraint";s:80:"Are you sure you want to delete the routing rule "%1$s" for the question "%2$s"?";s:25:"survey_constraint_deleted";s:34:"The routing rule has been deleted.";s:33:"svy_settings_section_before_start";s:34:"Information before start of survey";s:27:"svy_settings_section_access";s:32:"Administering the survey: Access";s:39:"svy_settings_section_question_behaviour";s:47:"Administering the survey: Behaviour of question";s:30:"svy_settings_section_finishing";s:20:"Finishing the survey";s:30:"svy_settings_section_reminders";s:9:"Reminders";s:20:"svy_print_title_only";s:16:"Show only titles";s:20:"svy_print_label_only";s:16:"Show only labels";s:21:"svy_print_title_label";s:22:"Show titles and labels";s:17:"svy_export_format";s:21:"Export survey data as";s:26:"svy_fraction_of_selections";s:22:"Fraction of selections";s:24:"svy_results_mail_confirm";s:51:"Participants can request participation confirmation";s:29:"svy_results_mail_confirm_info";s:94:"Participants can request a mail with a confirmation of participation at the end of the survey.";s:20:"svy_results_mail_own";s:21:"Include given answers";s:25:"svy_results_mail_own_info";s:72:"The given answers will be included in the confirmation of participation.";s:26:"svy_mail_send_confirmation";s:31:"Send Participation Confirmation";s:29:"svy_mail_confirmation_subject";s:45:"Survey "%s" - Your participation confirmation";s:26:"svy_anonymous_participants";s:20:"List of Participants";s:31:"svy_anonymous_participants_info";s:72:"If activated a list of participants can be enabled in anonymous surveys.";s:30:"svy_anonymous_participants_min";s:30:"Minimum Number of Participants";s:35:"svy_anonymous_participants_min_info";s:89:"The list will only be available if there are at least the minimum number of participants.";s:30:"svy_anonymous_participants_svy";s:20:"List of Participants";s:35:"svy_anonymous_participants_svy_info";s:68:"If activated a list of participants is available after the end date.";s:22:"survey_results_started";s:14:"Survey started";s:26:"survey_results_not_started";s:18:"Survey not started";s:25:"svy_mail_own_results_body";s:41:"you participated in the following survey:";s:31:"svy_mail_context_reminder_title";s:15:"Survey Reminder";s:30:"svy_mail_context_reminder_info";s:38:"Reminds users to participate in survey";s:38:"svy_mail_context_reminder_survey_title";s:12:"Survey Title";s:26:"svy_reminder_mail_template";s:13:"Mail Template";s:31:"svy_reminder_mail_template_none";s:24:"Do not use mail template";s:13:"svy_eval_view";s:4:"View";s:27:"svy_eval_view_tables_charts";s:15:"Table and chart";s:20:"svy_eval_view_tables";s:5:"Table";s:20:"svy_eval_view_charts";s:5:"Chart";s:17:"svy_eval_captions";s:7:"Figures";s:26:"svy_eval_captions_abs_perc";s:23:"Absolute and Percentage";s:21:"svy_eval_captions_abs";s:8:"Absolute";s:22:"svy_eval_captions_perc";s:10:"Percentage";s:31:"msg_input_only_positive_numbers";s:46:"Please enter positive numbers in scale values.";s:15:"error_save_code";s:103:"Value not saved properly. <b>The E- mail: \'%s\' is not valid</b>. First name: \'%s\', Last name: \'%s\'.<br>";s:29:"cant_send_email_smtp_disabled";s:77:"Sending external mails is not available. This option is deactivated globally.";s:18:"cannot_send_emails";s:57:"You do not possess sufficient permissions to send emails.";}')));
+'module' => array('text', 'survey'), 'lang_key' => array('text', 'en'), 'lang_array' => array('clob', 'a:827:{s:12:"add_category";s:10:"Add Answer";s:11:"add_heading";s:11:"Add Heading";s:31:"add_limits_for_standard_numbers";s:89:"Please enter a lower and upper limit for the standard numbers you want to add as answers.";s:12:"add_material";s:12:"Add Material";s:23:"add_phrase_introduction";s:23:"Please select a Phrase:";s:10:"add_phrase";s:10:"Add Phrase";s:20:"add_standard_numbers";s:20:"Add Standard Numbers";s:20:"adm_no_special_users";s:79:"There are no special users defined who are able to run a survey more than once.";s:18:"adm_no_users_found";s:49:"No users were found that match the search string.";s:22:"adm_remove_select_user";s:44:"Please select at least one user for removal!";s:17:"adm_removed_users";s:13:"Users removed";s:22:"adm_search_select_user";s:32:"Please select at least one user!";s:27:"adm_search_string_too_small";s:57:"Please enter at least two characters in the search field!";s:17:"adm_special_users";s:57:"Special users who are able to run a survey more than once";s:24:"already_completed_survey";s:81:"You have already finished the survey! You are not able to enter the survey again.";s:13:"anonymization";s:13:"Anonymization";s:32:"anonymize_anonymous_introduction";s:185:"To grant you access to the survey, you must use a 5-character survey code which you can receive from the creator/maintainer of this survey.<br />Please enter it in the text field above.";s:25:"anonymize_registered_user";s:24:"Anonymized Survey Access";s:29:"anonymize_resume_introduction";s:124:"Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.";s:34:"anonymous_with_personalized_survey";s:59:"You must be a registered user to run a personalized survey!";s:6:"answer";s:6:"Answer";s:5:"apply";s:5:"Apply";s:15:"arithmetic_mean";s:15:"Arithmetic Mean";s:25:"ask_insert_questionblocks";s:78:"Are you sure you want to insert the following question block(s) to the survey?";s:20:"ask_insert_questions";s:72:"Are you sure you want to insert the following question(s) to the survey?";s:4:"back";s:4:"Back";s:6:"before";s:6:"before";s:20:"browse_for_questions";s:13:"Add from Pool";s:13:"cancel_survey";s:18:"Suspend the Survey";s:26:"cannot_create_survey_codes";s:72:"You do not possess sufficient permissions to create survey access codes!";s:18:"cannot_edit_survey";s:61:"You do not possess sufficient permissions to edit the survey!";s:26:"cannot_export_questionpool";s:77:"You do not possess sufficient permissions to export the survey question pool!";s:20:"cannot_export_survey";s:63:"You do not possess sufficient permissions to export the survey!";s:22:"cannot_maintain_survey";s:65:"You do not possess sufficient permissions to maintain the survey!";s:21:"cannot_manage_phrases";s:64:"You do not possess sufficient permissions to manage the phrases!";s:25:"cannot_participate_survey";s:71:"You do not possess sufficient permissions to participate in the survey!";s:24:"cannot_read_questionpool";s:73:"You do not possess sufficient permissions to read the question pool data!";s:18:"cannot_read_survey";s:66:"You do not possess sufficient permissions to read the survey data!";s:22:"cannot_save_metaobject";s:64:"You do not possess sufficient permissions to save the meta data!";s:36:"cannot_switch_to_online_no_questions";s:96:"The status cannot be changed to &quot;online&quot; because there are no questions in the survey!";s:10:"categories";s:7:"Answers";s:23:"category_delete_confirm";s:54:"Are you sure you want to delete the following answers?";s:27:"category_delete_select_none";s:46:"Please check at least one answer to delete it!";s:20:"category_nr_selected";s:20:"Number of selections";s:8:"category";s:6:"Answer";s:5:"chart";s:5:"Chart";s:29:"check_category_to_save_phrase";s:50:"You must have a least one answer to save a phrase!";s:13:"codes_created";s:15:"Code(s) created";s:13:"codes_deleted";s:15:"Code(s) deleted";s:5:"codes";s:12:"Access Codes";s:8:"combobox";s:8:"Combobox";s:13:"concatenation";s:13:"Concatenation";s:28:"confirm_delete_all_user_data";s:60:"Are you sure you want to delete all user data of the survey?";s:31:"confirm_delete_single_user_data";s:70:"Are you sure you want to delete the survey data of the selected users?";s:22:"confirm_remove_heading";s:44:"Are you sure you want to remove the heading?";s:22:"confirm_sync_questions";s:145:"The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?";s:14:"constraint_add";s:16:"Add Routing Rule";s:38:"constraints_first_question_description";s:84:"The first entity could not have any routing because there are no previous questions.";s:24:"constraints_introduction";s:442:"You can add a routing rule to a single question or a question block with multiple questions. Depending on the specific answer given to an earlier question participants get presented with a defined next question. Thus questions irrelevant to a participant will not be asked and the survey gets shorter or more specific depending on the answers provided earlier. No routing rules can be set for the first question or question block in a survey.";s:28:"constraints_list_of_entities";s:33:"Available hooks for routing rules";s:33:"constraints_no_nonessay_available";s:153:"There are no previous questions available to define routing rules. The following types are supported: Metric, Single Choice and Multiple Choice question.";s:51:"constraints_no_questions_or_questionblocks_selected";s:54:"Please select at least one question or question block!";s:11:"constraints";s:7:"Routing";s:8:"contains";s:8:"Contains";s:8:"continue";s:11:"Continue >>";s:11:"create_date";s:7:"Created";s:10:"create_new";s:10:"Create New";s:39:"create_questionpool_before_add_question";s:67:"You must create at least one question pool to store your questions!";s:8:"dc_agree";s:5:"agree";s:9:"dc_always";s:6:"always";s:18:"dc_definitelyfalse";s:16:"definitely false";s:17:"dc_definitelytrue";s:15:"definitely true";s:10:"dc_desired";s:7:"desired";s:11:"dc_disagree";s:8:"disagree";s:7:"dc_fair";s:4:"fair";s:8:"dc_false";s:5:"false";s:7:"dc_good";s:4:"good";s:12:"dc_manytimes";s:10:"many times";s:15:"dc_morenegative";s:13:"more negative";s:15:"dc_morepositive";s:13:"more positive";s:16:"dc_mostcertainly";s:14:"most certainly";s:19:"dc_mostcertainlynot";s:18:"most certainly not";s:7:"dc_must";s:4:"must";s:10:"dc_mustnot";s:8:"must not";s:10:"dc_neutral";s:7:"neutral";s:8:"dc_never";s:5:"never";s:5:"dc_no";s:2:"no";s:16:"dc_notacceptable";s:14:"not acceptable";s:7:"dc_poor";s:4:"poor";s:9:"dc_rarely";s:6:"rarely";s:9:"dc_should";s:6:"should";s:12:"dc_shouldnot";s:10:"should not";s:12:"dc_sometimes";s:9:"sometimes";s:16:"dc_stronglyagree";s:14:"strongly agree";s:18:"dc_stronglydesired";s:16:"strongly desired";s:19:"dc_stronglydisagree";s:17:"strongly disagree";s:20:"dc_stronglyundesired";s:18:"strongly undesired";s:7:"dc_true";s:4:"true";s:12:"dc_undecided";s:9:"undecided";s:12:"dc_undesired";s:9:"undesired";s:10:"dc_varying";s:7:"varying";s:11:"dc_verygood";s:9:"very good";s:6:"dc_yes";s:3:"yes";s:20:"define_questionblock";s:21:"Define Question Block";s:16:"delete_user_data";s:44:"Delete the Survey Data of the Selected Users";s:20:"description_maxchars";s:86:"If nothing entered the maximum number of characters for this text answer is unlimited.";s:9:"disinvite";s:26:"Take from Personal Desktop";s:21:"display_all_available";s:21:"Display all available";s:35:"dp_standard_attitude_agree_disagree";s:34:"Standard Attitude (agree-disagree)";s:45:"dp_standard_attitude_agree_undecided_disagree";s:44:"Standard Attitude (agree-undecided-disagree)";s:27:"dp_standard_attitude_agree5";s:77:"Standard Attitude (strongly agree-agree-undecided-disagree-strongly disagree)";s:46:"dp_standard_attitude_desired_neutral_undesired";s:45:"Standard Attitude (desired-neutral-undesired)";s:38:"dp_standard_attitude_desired_undesired";s:37:"Standard Attitude (desired-undesired)";s:29:"dp_standard_attitude_desired5";s:81:"Standard Attitude (strongly desired-desired-neutral-undesired-strongly undesired)";s:44:"dp_standard_attitude_good_fair_notacceptable";s:44:"Standard Attitude (good-fair-not acceptable)";s:39:"dp_standard_attitude_good_notacceptable";s:39:"Standard Attitude (good-not acceptable)";s:26:"dp_standard_attitude_good5";s:59:"Standard Attitude (very good-good-fair-poor-not acceptable)";s:26:"dp_standard_attitude_must5";s:61:"Standard Attitude (must-should-undecided-should not-must not)";s:36:"dp_standard_attitude_shold_shouldnot";s:37:"Standard Attitude (should-should not)";s:47:"dp_standard_attitude_should_undecided_shouldnot";s:47:"Standard Attitude (should-undecided-should not)";s:32:"dp_standard_behaviour_certainly5";s:91:"Standard Behavior (most certainly-more positive-undecided-more negative-most certainly not)";s:28:"dp_standard_behaviour_yes_no";s:26:"Standard Behavior (yes-no)";s:38:"dp_standard_behaviour_yes_undecided_no";s:36:"Standard Behavior (yes-undecided-no)";s:32:"dp_standard_beliefs_always_never";s:31:"Standard Beliefs (always-never)";s:42:"dp_standard_beliefs_always_sometimes_never";s:41:"Standard Beliefs (always-sometimes-never)";s:27:"dp_standard_beliefs_always5";s:57:"Standard Beliefs (always-many times-varying-rarely-never)";s:30:"dp_standard_beliefs_true_false";s:29:"Standard Beliefs (true-false)";s:40:"dp_standard_beliefs_true_undecided_false";s:39:"Standard Beliefs (true-undecided-false)";s:25:"dp_standard_beliefs_true5";s:72:"Standard Beliefs (definitely true-true-undecided-false-definitely false)";s:19:"dp_standard_numbers";s:16:"Standard Numbers";s:13:"duplicate_svy";s:16:"Duplicate Survey";s:9:"duplicate";s:9:"Duplicate";s:17:"edit_ask_continue";s:47:"Do you want to continue and edit this question?";s:29:"edit_constraints_introduction";s:87:"You have selected the following question(s)/question block(s) to edit the routing rules";s:12:"edit_heading";s:12:"Edit Heading";s:16:"end_date_reached";s:53:"You cannot start the survey. The end date is reached!";s:8:"end_date";s:8:"End Date";s:18:"enter_anonymous_id";s:18:"Survey Access Code";s:18:"enter_phrase_title";s:27:"Please enter a Phrase Title";s:25:"enter_questionblock_title";s:36:"Please enter a Question Block Title!";s:27:"enter_valid_number_of_codes";s:60:"Please enter a valid number to generate survey access codes!";s:11:"enter_value";s:13:"Enter a Value";s:16:"err_no_pool_name";s:47:"Please enter the name of a survey question pool";s:17:"error_add_heading";s:36:"Please enter a text for the heading!";s:24:"error_importing_question";s:77:"There was an error importing the question(s) from the file you have selected!";s:33:"error_retrieving_anonymous_survey";s:121:"The system could not find your survey data for survey code &quot;%s&quot;. Please check the survey code you have entered!";s:16:"eval_legend_link";s:72:"Please refer to the legend for the meaning of the column header symbols.";s:21:"evaluation_access_all";s:43:"All Registered Users can Access the Results";s:22:"evaluation_access_info";s:37:"You have access to the survey results";s:21:"evaluation_access_off";s:34:"Participants Cannot Access Results";s:30:"evaluation_access_participants";s:46:"All Survey Participants can Access the Results";s:17:"evaluation_access";s:31:"Participants\' Access to Results";s:10:"evaluation";s:10:"Statistics";s:20:"existing_constraints";s:22:"Existing Routing Rules";s:4:"exit";s:4:"Exit";s:12:"exp_type_csv";s:27:"Comma Separated Value (CSV)";s:14:"exp_type_excel";s:15:"Microsoft Excel";s:23:"export_all_survey_codes";s:23:"Export all Access Codes";s:14:"export_data_as";s:14:"Export Data As";s:28:"fill_out_all_category_fields";s:59:"Please fill out all answer fields before you add a new one!";s:41:"fill_out_all_required_fields_add_category";s:59:"Please fill out all required fields before you add answers!";s:44:"fill_out_all_required_fields_delete_category";s:62:"Please fill out all required fields before you delete answers!";s:42:"fill_out_all_required_fields_move_category";s:60:"Please fill out all required fields before you move answers!";s:40:"fill_out_all_required_fields_save_phrase";s:61:"Please fill out all required fields before you save a phrase!";s:25:"filter_all_question_types";s:18:"All Question Types";s:24:"filter_all_questionpools";s:18:"All Question Pools";s:26:"filter_show_question_types";s:19:"Show Question Types";s:25:"filter_show_questionpools";s:19:"Show Question Pools";s:6:"filter";s:6:"Filter";s:29:"form_data_modified_press_save";s:75:"The form data has been modified. Press the save button to keep the changes.";s:15:"found_questions";s:15:"Found Questions";s:11:"found_users";s:11:"Found Users";s:14:"geometric_mean";s:14:"Geometric Mean";s:13:"given_answers";s:13:"Given Answers";s:13:"glossary_term";s:13:"Glossary Term";s:13:"harmonic_mean";s:13:"Harmonic Mean";s:7:"heading";s:7:"Heading";s:10:"horizontal";s:10:"Horizontal";s:25:"import_error_closing_file";s:30:"Error closing the import file!";s:25:"import_error_opening_file";s:30:"Error opening the import file!";s:36:"import_error_survey_no_proper_values";s:51:"The survey properties do not contain proper values!";s:33:"import_error_survey_no_properties";s:53:"No survey properties found. Cannot import the survey!";s:23:"import_no_file_selected";s:17:"No file selected!";s:15:"import_question";s:18:"Import Question(s)";s:22:"import_wrong_file_type";s:16:"Wrong file type!";s:30:"info_anonymize_registered_user";s:17:"Anonymized Survey";s:24:"info_anonymize_with_code";s:41:"Anonymized Survey with Survey Code Access";s:27:"info_anonymize_without_code";s:45:"Anonymized Survey without Access Restrictions";s:12:"insert_after";s:12:"Insert After";s:13:"insert_before";s:13:"Insert Before";s:23:"insert_missing_question";s:65:"Please select at least one question to insert it into the survey!";s:28:"insert_missing_questionblock";s:71:"Please select at least one question block to insert it into the survey!";s:13:"internal_link";s:13:"Internal Link";s:27:"introduction_manage_phrases";s:90:"Manage your own phrases which are available for all the ordinal questions you edit/create.";s:12:"introduction";s:20:"Introductory Message";s:20:"invitation_mode_desc";s:73:"A link reference to the survey is created on the users\' personal desktop.";s:15:"invitation_mode";s:45:"Put Link to Survey on the Personal Desktop of";s:14:"invitation_off";s:25:"Do not put on any Desktop";s:10:"invitation";s:28:"Put Link On Personal Desktop";s:14:"invited_groups";s:14:"Invited Groups";s:13:"invited_users";s:14:"Selected Users";s:19:"label_resume_survey";s:30:"Enter your 5 digit survey code";s:16:"language_changed";s:16:"Language changed";s:11:"last_update";s:11:"Last Update";s:6:"layout";s:6:"Layout";s:6:"legend";s:6:"Legend";s:11:"lower_limit";s:11:"Lower Limit";s:11:"maintenance";s:12:"Participants";s:14:"manage_phrases";s:10:"My Phrases";s:27:"material_added_successfully";s:37:"You successfully set a material link!";s:13:"material_file";s:13:"Material File";s:8:"material";s:8:"Material";s:17:"materials_deleted";s:19:"Material(s) deleted";s:9:"materials";s:9:"Materials";s:17:"matrix_appearance";s:10:"Appearance";s:37:"matrix_bipolar_adjectives_description";s:104:"You may use a pair of bipolar adjectives to scale the column responses to words, short phrases, or texts";s:25:"matrix_bipolar_adjectives";s:18:"Bipolar Adjectives";s:32:"matrix_column_delete_select_none";s:46:"Please check at least one column to delete it!";s:36:"matrix_column_separators_description";s:121:"Select the check box if you want to have separators (thin lines) between the columns in the output of the Matrix Question";s:24:"matrix_column_separators";s:17:"Column Separators";s:22:"matrix_column_settings";s:22:"Matrix Column Settings";s:19:"matrix_columns_rows";s:17:"Column/Row Editor";s:14:"matrix_columns";s:14:"Matrix Columns";s:23:"matrix_error_no_columns";s:40:"Please fill in at least one column text!";s:20:"matrix_error_no_rows";s:37:"Please fill in at least one row text!";s:16:"matrix_left_pole";s:9:"Left Pole";s:21:"matrix_neutral_answer";s:72:"Text for a Neutral Column (‘Not Specified’, ‘I don\'t know’ etc.)";s:43:"matrix_neutral_column_separator_description";s:151:"Select the check box if you want to have a separator (thick line) between the neutral column and the other columns in the output of the Matrix Question";s:31:"matrix_neutral_column_separator";s:24:"Neutral Column Separator";s:36:"matrix_question_checkbox_not_checked";s:49:"Please check at least one check box in every row!";s:40:"matrix_question_radio_button_not_checked";s:45:"Please select an option button for every row!";s:17:"matrix_right_pole";s:10:"Right Pole";s:29:"matrix_row_delete_select_none";s:43:"Please check at least one row to delete it!";s:33:"matrix_row_separators_description";s:118:"Select the check box if you want to have separators (thin lines) between the rows in the output of the Matrix Question";s:21:"matrix_row_separators";s:14:"Row Separators";s:11:"matrix_rows";s:11:"Matrix Rows";s:23:"matrix_standard_answers";s:11:"Column Text";s:19:"matrix_subtype_date";s:4:"Date";s:26:"matrix_subtype_description";s:85:"Please select one of the above subtypes to define the behaviour of the answer fields.";s:21:"matrix_subtype_double";s:14:"Floating Point";s:22:"matrix_subtype_integer";s:7:"Integer";s:17:"matrix_subtype_mr";s:31:"Check Boxes (Multiple Response)";s:17:"matrix_subtype_sr";s:32:"Option Buttons (Single Response)";s:19:"matrix_subtype_text";s:4:"Text";s:19:"matrix_subtype_time";s:4:"Time";s:8:"maxchars";s:28:"Maximum Number of Characters";s:7:"maximum";s:13:"Maximum Value";s:14:"median_between";s:7:"between";s:6:"median";s:6:"Median";s:8:"menuback";s:4:"Back";s:16:"menubacktosurvey";s:18:"Back to the Survey";s:22:"message_mail_survey_id";s:239:"You have started the anonymized survey &quot;%s&quot;. To resume this survey you need the following 5 digit survey code:<br><br><strong>%s</strong><br><br>Resuming a survey is only possible, if you interrupt the survey before finishing it.";s:30:"metric_question_floating_point";s:110:"The value you entered is a floating point value. Floating point values are not allowed for this question type!";s:27:"metric_question_not_a_value";s:45:"The value you entered is not a numeric value!";s:29:"metric_question_out_of_bounds";s:67:"The value you entered is not between the minimum and maximum value!";s:35:"metric_subtype_description_interval";s:287:"Equivalent intervals between measurements allow a meaningful comparison between arbitrary pairs of measurements. The zero point on the scale is arbitrary, so negative values can be used. Examples of interval values are the year date in many calendars or the temperature in Celsius scale.";s:40:"metric_subtype_description_ratioabsolute";s:157:"The ratio absolute measurement uses natural numbers additional to the non-arbitrary zero point for example the number of children in a family or probability.";s:43:"metric_subtype_description_rationonabsolute";s:267:"In addition to the interval measurement there are also meaningful ratios between arbitrary pairs of numbers. The zero value on a ratio scale is non-arbitrary. Most physical quantities, such as length in centimeters or duration in seconds are measured on ratio scales.";s:7:"minimum";s:13:"Minimum Value";s:28:"missing_upper_or_lower_limit";s:40:"Please enter a lower and an upper limit!";s:21:"mode_nr_of_selections";s:16:"Nr of Selections";s:9:"mode_text";s:26:"Most Selected Value (Text)";s:4:"mode";s:19:"Most Selected Value";s:24:"msg_deleted_export_files";s:22:"Export file(s) deleted";s:36:"msg_enter_value_for_valid_constraint";s:52:"Please enter a value to create a valid routing rule!";s:20:"msg_users_disinvited";s:18:"User(s) disinvited";s:33:"multiple_choice_multiple_response";s:35:"Multiple Choice (Multiple Response)";s:31:"multiple_choice_single_response";s:33:"Multiple Choice (Single Response)";s:35:"multiple_choice_subtype_description";s:196:"Choose Multiple Choice (Single Response) if you want the participants to select only one answer and Multiple Choice (Multiple Response) if you want the participants to select one ore more answers.";s:16:"new_survey_codes";s:25:"new survey access code(s)";s:18:"next_question_rows";s:26:"Questions %d - %d of %d >>";s:24:"no_available_constraints";s:35:"There are no routing rules defined!";s:33:"no_category_selected_for_deleting";s:63:"Please select a least one answer if you want to delete answers!";s:29:"no_category_selected_for_move";s:44:"Please check at least one answer to move it!";s:22:"no_constraints_checked";s:79:"Please select a least one question or question block to edit the routing rules!";s:29:"no_question_selected_for_move";s:46:"Please check at least one question to move it!";s:32:"no_question_selected_for_removal";s:66:"Please check at least one question or question block to remove it!";s:27:"no_questionblocks_available";s:38:"There are no question blocks available";s:22:"no_questions_available";s:33:"There are no questions available!";s:17:"no_search_results";s:28:"There are no search results!";s:27:"no_target_selected_for_move";s:34:"You must select a target position!";s:15:"no_user_invited";s:96:"All invited users did not possess sufficient permissions to run the survey. No user was invited.";s:25:"no_user_or_group_selected";s:72:"Please check an option what are you searching for (users and/or groups)!";s:23:"no_user_phrases_defined";s:44:"There are no user defined phrases available!";s:28:"nominal_question_not_checked";s:40:"Please check one of the offered answers!";s:9:"non_ratio";s:8:"Interval";s:8:"not_used";s:12:"not used yet";s:10:"obligatory";s:10:"Compulsory";s:3:"off";s:3:"Off";s:7:"offline";s:7:"offline";s:13:"on_additional";s:18:"On, and additional";s:2:"on";s:2:"On";s:2:"or";s:2:"or";s:11:"orientation";s:11:"Orientation";s:5:"outro";s:18:"Concluding Remarks";s:28:"percentage_of_entered_values";s:43:"Percentage of users that entered this value";s:29:"percentage_of_offered_answers";s:29:"Percentage of offered answers";s:24:"percentage_of_selections";s:24:"Percentage of selections";s:12:"phrase_added";s:12:"Phrase added";s:12:"phrase_saved";s:34:"The phrase was saved successfully!";s:13:"please_select";s:19:"-- please select --";s:16:"predefined_users";s:33:"Put on desktops of selected users";s:7:"preview";s:7:"Preview";s:22:"previous_question_rows";s:26:"<< Questions %d - %d of %d";s:26:"qpl_confirm_delete_phrases";s:56:"Are you sure you want to delete the following phrase(s)?";s:28:"qpl_confirm_delete_questions";s:58:"Are you sure you want to delete the following question(s)?";s:20:"qpl_copy_select_none";s:46:"Please check at least one question to copy it!";s:39:"qpl_define_questionblock_select_missing";s:75:"Please select a least two questions if you want to define a question block!";s:29:"qpl_delete_phrase_select_none";s:45:"Please check at least one phrase to delete it";s:21:"qpl_delete_rbac_error";s:45:"You have no rights to delete the question(s)!";s:22:"qpl_delete_select_none";s:48:"Please check at least one question to delete it!";s:22:"qpl_export_select_none";s:47:"Please check at least one question to export it";s:31:"qpl_past_questions_confirmation";s:78:"Are you sure you want to paste the following question(s) in the question pool?";s:19:"qpl_phrases_deleted";s:18:"Phrase(s) deleted.";s:21:"qpl_questions_deleted";s:20:"Question(s) deleted.";s:20:"qpl_questions_pasted";s:19:"Question(s) pasted.";s:20:"qpl_savephrase_empty";s:28:"Please enter a phrase title!";s:21:"qpl_savephrase_exists";s:67:"The phrase title already exists! Please enter another phrase title.";s:22:"qpl_unfold_select_none";s:80:"Please select at least one question block if you want to unfold question blocks!";s:31:"question_contains_no_categories";s:46:"There are no answers defined for this question";s:24:"question_has_constraints";s:13:"Routing Rules";s:13:"question_icon";s:13:"Question Icon";s:23:"question_mr_not_checked";s:49:"Please check at least one of the offered answers!";s:20:"question_not_checked";s:40:"Please check one of the offered answers!";s:19:"question_obligatory";s:27:"The question is compulsory!";s:25:"question_saved_for_upload";s:224:"The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you must delete the question in the question pool if you do not want to keep it!";s:13:"question_type";s:13:"Question Type";s:29:"questionblock_has_constraints";s:13:"Routing Rules";s:18:"questionblock_icon";s:18:"Questionblock Icon";s:22:"questionblock_inserted";s:23:"Question Block inserted";s:13:"questionblock";s:14:"Question Block";s:23:"questionblocks_inserted";s:24:"Question Blocks inserted";s:14:"questionblocks";s:15:"Question Blocks";s:18:"questions_inserted";s:21:"Question(s) inserted!";s:17:"questions_removed";s:45:"Question(s) and/or question block(s) removed!";s:9:"questions";s:9:"Questions";s:12:"questiontype";s:13:"Question Type";s:14:"ratio_absolute";s:14:"Ratio-Absolute";s:18:"ratio_non_absolute";s:18:"Ratio-Non-Absolute";s:19:"ratio_scale_ge_zero";s:65:"The minimum value for a ratio scale must be greater or equal zero";s:15:"remove_question";s:6:"Remove";s:16:"remove_questions";s:99:"Are you sure you want to remove the following question(s) and/or question block(s) from the survey?";s:12:"reset_filter";s:12:"Reset Filter";s:7:"results";s:7:"Results";s:13:"resume_survey";s:17:"Resume the Survey";s:8:"row_text";s:8:"Row Text";s:19:"save_back_to_survey";s:30:"Save and go back to the survey";s:21:"save_obligatory_state";s:32:"Save Compulsory States and Order";s:34:"save_phrase_categories_not_checked";s:66:"Please check at least two answers to save answers in a new phrase!";s:24:"save_phrase_introduction";s:175:"If you want to save the answers below as default phrase, please enter a phrase title. You can access a default phrase whenever you want to add a phrase to an ordinal question.";s:11:"save_phrase";s:14:"Save as Phrase";s:5:"scale";s:5:"Scale";s:16:"search_field_all";s:20:"Search in all fields";s:10:"search_for";s:10:"Search for";s:13:"search_groups";s:12:"Found Groups";s:17:"search_invitation";s:36:"Search for users or groups to invite";s:16:"search_questions";s:16:"Search Questions";s:12:"search_roles";s:11:"Found Roles";s:11:"search_term";s:11:"Search Term";s:15:"search_type_all";s:28:"Search in all Question Types";s:12:"search_users";s:12:"Search Users";s:13:"select_option";s:31:"--- Please select an option ---";s:20:"select_phrase_to_add";s:49:"Please select a phrase to add it to the question!";s:21:"select_prior_question";s:23:"Select a prior question";s:25:"select_questionpool_short";s:20:"Question Pool Survey";s:19:"select_questionpool";s:59:"Please select a question pool to store the created question";s:15:"select_relation";s:17:"Select a Relation";s:17:"select_svy_option";s:30:"--- Please select a survey ---";s:40:"select_target_position_for_move_question";s:92:"Please select a target position to move the question(s) and press one of the insert buttons!";s:31:"select_target_position_for_move";s:88:"Please select a target position to move the answers and press one of the insert buttons!";s:12:"select_value";s:13:"Enter a Value";s:9:"selection";s:9:"Selection";s:10:"set_filter";s:10:"Set Filter";s:29:"show_questiontext_description";s:211:"If this checkbox is selected, for every question in the question block the question text will be shown. If this checkbox is not selected, the question text of every question in the question block will be hidden.";s:17:"show_questiontext";s:25:"Display the Question Text";s:7:"skipped";s:7:"skipped";s:12:"specialusers";s:13:"Special Users";s:25:"spl_copy_insert_clipboard";s:52:"The selected question(s) are copied to the clipboard";s:20:"spl_copy_select_none";s:62:"Please check at least one question to copy it to the clipboard";s:22:"spl_general_properties";s:18:"General Properties";s:25:"spl_move_insert_clipboard";s:46:"The selected question(s) are marked for moving";s:18:"spl_move_same_pool";s:70:"It has no effect to move questions from inside the same question pool.";s:20:"spl_move_select_none";s:58:"Please check at least one question to select it for moving";s:31:"spl_online_property_description";s:65:"If the question pool is not online, it cannot be used in surveys.";s:19:"spl_online_property";s:6:"Online";s:20:"spl_paste_no_objects";s:91:"There are no questions in the clipboard. Please copy or move a question into the clipboard.";s:17:"spl_paste_success";s:55:"The question(s) have been pasted into the question pool";s:26:"spl_select_file_for_import";s:34:"You must select a file for import!";s:22:"start_date_not_reached";s:60:"You cannot start the survey until the start date is reached!";s:10:"start_date";s:10:"Start Date";s:12:"start_survey";s:12:"Start Survey";s:22:"subject_mail_survey_id";s:25:"Your survey code for "%s"";s:7:"subtype";s:7:"Subtype";s:24:"survey_code_message_sent";s:75:"A survey code which allows you to resume the survey was sent to your INBOX!";s:20:"survey_code_no_codes";s:49:"You have not created any survey access codes yet.";s:20:"survey_code_url_name";s:55:"URL <small>(use right mouse button to copy URL)</small>";s:15:"survey_code_url";s:21:"URL for Direct Access";s:16:"survey_code_used";s:11:"Code was ..";s:11:"survey_code";s:18:"Survey Access Code";s:17:"survey_codes_lang";s:27:"Preselected Survey Language";s:29:"survey_codes_no_anonymization";s:82:"You must create an anonymized survey with access codes to create new access codes!";s:39:"survey_error_insert_incomplete_question";s:82:"You tried to add an incomplete question to the survey! The question was not added.";s:13:"survey_finish";s:13:"Finish Survey";s:15:"survey_finished";s:63:"You have finished the survey. Thank you for your participation!";s:27:"survey_has_datasets_warning";s:137:"The survey already contains data sets. You cannot edit the survey questions until you remove these data sets in the participants section.";s:17:"survey_is_offline";s:61:"You cannot start the survey! The survey is currently offline.";s:11:"survey_next";s:7:"Next >>";s:22:"survey_offline_message";s:42:"Can\'t invite users. The survey is offline!";s:21:"survey_online_warning";s:59:"The survey is online. You cannot edit the survey questions!";s:15:"survey_previous";s:11:"<< Previous";s:22:"survey_question_editor";s:9:"List View";s:26:"survey_question_obligatory";s:58:"This question is compulsory. You must answer the question!";s:24:"survey_question_optional";s:10:"(Optional)";s:16:"survey_questions";s:9:"Questions";s:33:"survey_selected_user_data_deleted";s:64:"The survey data of the selected user(s) was deleted successfully";s:18:"survey_skip_finish";s:22:"Skip and Finish Survey";s:16:"survey_skip_next";s:7:"Skip >>";s:20:"survey_skip_previous";s:7:"<< Skip";s:17:"survey_skip_start";s:25:"Skip and Go To Start Page";s:12:"survey_start";s:16:"Go To Start Page";s:27:"survey_text_textheight_desc";s:55:"Enter the height in characters for the text input field";s:26:"survey_text_textwidth_desc";s:54:"Enter the width in characters for the text input field";s:23:"survey_use_start_button";s:49:"You must enter the survey using the start button!";s:20:"SurveyMatrixQuestion";s:15:"Matrix Question";s:20:"SurveyMetricQuestion";s:15:"Metric Question";s:28:"SurveyMultipleChoiceQuestion";s:44:"Multiple Choice Question (Multiple Response)";s:26:"SurveySingleChoiceQuestion";s:42:"Multiple Choice Question (Single Response)";s:18:"SurveyTextQuestion";s:5:"Essay";s:25:"svy_all_user_data_deleted";s:46:"All user data of this survey has been deleted!";s:40:"svy_check_evaluation_access_introduction";s:136:"Since this survey evaluation is only accessible by survey participants you need to enter your survey access code to open the evaluation.";s:42:"svy_check_evaluation_authentication_needed";s:21:"Authentication needed";s:30:"svy_check_evaluation_wrong_key";s:127:"You entered a wrong survey access code or you have not participated the survey. Your access to the survey evaluation is denied.";s:22:"svy_create_export_file";s:18:"Create Export File";s:24:"svy_delete_all_user_data";s:20:"Delete all User Data";s:18:"svy_eval_cumulated";s:8:"Overview";s:15:"svy_eval_detail";s:7:"Details";s:13:"svy_eval_user";s:15:"Per Participant";s:16:"svy_export_files";s:12:"Export Files";s:8:"svy_file";s:4:"File";s:22:"svy_general_properties";s:18:"General Properties";s:38:"svy_maintenance_information_no_results";s:110:"There are no existing user data sets for the survey. You need at least one user data set to maintain the data.";s:18:"svy_missing_author";s:92:"You have not entered the author\'s name in the survey properties! Please add an authors name.";s:21:"svy_missing_questions";s:92:"You do not have any questions in the survey! Please add at least one question to the survey.";s:17:"svy_missing_title";s:89:"You have not entered a survey title! Please go to the metadata section and enter a title.";s:14:"svy_page_error";s:114:"There was an error answering a survey question. Please refer to the question to get more information on the error!";s:15:"svy_page_errors";s:118:"There were errors answering the survey questions. Please refer to the questions to get more information on the errors!";s:26:"svy_select_file_for_import";s:34:"You must select a file for import!";s:24:"svy_select_questionpools";s:61:"Please select a question pool to store the imported questions";s:18:"svy_select_surveys";s:38:"Please select a survey for duplication";s:30:"svy_selected_user_data_deleted";s:64:"The survey data of the selected user(s) was deleted successfully";s:23:"svy_show_questiontitles";s:19:"Show Question Title";s:8:"svy_size";s:4:"Size";s:26:"svy_statistical_evaluation";s:22:"Statistical Evaluation";s:27:"svy_status_missing_elements";s:35:"The following elements are missing:";s:18:"svy_status_missing";s:51:"There are required elements missing in this survey!";s:13:"svy_status_ok";s:62:"The status of the survey is OK. There are no missing elements.";s:26:"text_maximum_chars_allowed";s:91:"Please do not enter more than a maximum of %s characters. Any characters above will be cut.";s:28:"text_question_not_filled_out";s:33:"Please fill out the answer field!";s:18:"text_resume_survey";s:355:"You are trying to resume an anonymized survey. To continue the survey with your previously entered values please enter the 5 digit survey code which you received after starting the survey (it was sent with a message to your ILIAS mail folder). Instead of typing your survey code you also can copy it from your inbox and paste it into the text field below.";s:19:"title_resume_survey";s:37:"Resume the Survey - Enter Survey Code";s:6:"unfold";s:6:"Unfold";s:15:"unlimited_users";s:39:"Put on desktops of all registered users";s:17:"uploaded_material";s:17:"Uploaded Material";s:27:"upper_limit_must_be_greater";s:53:"The upper limit must be greater than the lower limit!";s:11:"upper_limit";s:11:"Upper Limit";s:21:"use_anonymous_id_desc";s:130:"If checked, the username in anonymized surveys will be shown as the survey code, otherwise the text ‘Anonymous’ will be shown.";s:16:"use_anonymous_id";s:16:"Show Survey Code";s:26:"use_browser_print_function";s:50:"Please use the print function of your web browser.";s:25:"use_google_chart_api_desc";s:278:"If checked, the charts in the cumulated results details of the survey statistics are drawn using the <a href="http://code.google.com/apis/chart/" target="_blank">Google Chart API</a>. Please note that a permanent internet connection is required for the Google Chart API to work.";s:20:"use_google_chart_api";s:20:"Use Google Chart API";s:4:"used";s:4:"used";s:14:"users_answered";s:14:"Users Answered";s:13:"users_invited";s:26:"%s users have been invited";s:13:"users_skipped";s:13:"Users Skipped";s:16:"value_nr_entered";s:39:"Number of users that entered that value";s:6:"values";s:6:"Values";s:8:"vertical";s:8:"Vertical";s:29:"view_constraints_introduction";s:75:"You are viewing the preconditions of the following question/question block:";s:11:"view_phrase";s:11:"View Phrase";s:23:"warning_question_in_use";s:345:"Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.";s:29:"warning_question_not_complete";s:29:"The question is not complete!";s:36:"wrong_categories_selected_for_insert";s:95:"ILIAS could not perform the desired action. Please check exactly one answer as target position!";s:22:"wrong_survey_code_used";s:74:"No access to survey. Your survey code is invalid or has already been used.";s:16:"svy_search_users";s:23:"Search for participants";s:21:"dont_use_questionpool";s:77:"Don\'t insert the questions in a question pool (only available in this survey)";s:17:"other_answer_desc";s:51:"Add an additional choice (other) with a text field.";s:18:"other_answer_label";s:32:"Label of other answer (optional)";s:16:"use_other_answer";s:11:"Open answer";s:27:"question_mr_no_other_answer";s:40:"Please enter a text for the other answer";s:35:"question_mr_no_other_answer_checked";s:65:"You need to select the checkbox if you enter a text for an answer";s:35:"question_sr_no_other_answer_checked";s:69:"You need to select the radio button if you enter a text for an answer";s:15:"use_min_answers";s:17:"Answer selections";s:22:"use_min_answers_option";s:33:"Set a number of answer selections";s:14:"nr_min_answers";s:7:"Minimum";s:14:"nr_max_answers";s:7:"Maximum";s:22:"err_maxvaluegeminvalue";s:119:"The maximum value must be greater or equal than the minimum value and less or equal than the maximum number of answers.";s:20:"err_minvalueganswers";s:69:"The minimum must be less or equal than the maximum number of answers.";s:18:"err_no_min_answers";s:35:"Please check at least %s answer(s).";s:18:"err_no_max_answers";s:32:"Please check at most %s answers.";s:20:"err_no_exact_answers";s:34:"Please check exactly %s answer(s).";s:5:"label";s:5:"Label";s:10:"label_info";s:65:"Alternative identifier for further data processing (e.g. in SPSS)";s:17:"export_label_only";s:17:"Export label only";s:17:"export_title_only";s:17:"Export title only";s:18:"export_title_label";s:22:"Export title and label";s:16:"mailnotification";s:40:"Seperate E-Mail for Each Finished Survey";s:13:"mailaddresses";s:19:"Recipient addresses";s:18:"mailaddresses_info";s:95:"Enter a comma separated list of recipients who will receive a notification on finished surveys.";s:19:"mailparticipantdata";s:27:"Additional participant data";s:24:"mailparticipantdata_info";s:101:"This information will be precede the automatically included results section of the notification mail.";s:12:"table_fields";s:44:"Definition of field names for external mails";s:11:"tablefields";s:11:"Field names";s:20:"mail_import_example1";s:24:"email;firstname;lastname";s:20:"mail_import_example2";s:33:"sandraowen@domain.tld;Sandra;Owen";s:20:"mail_import_example3";s:35:"kennethbirt@domain.tld;Kenneth;Birt";s:16:"tablefields_info";s:70:"Please enter a comma separated list of field names for external mails.";s:18:"externalRecipients";s:24:"External code recipients";s:11:"edit_phrase";s:11:"Edit phrase";s:10:"phrase_new";s:17:"Create new phrase";s:18:"no_phrase_selected";s:17:"Nothing selected.";s:12:"other_answer";s:12:"Other answer";s:20:"constraint_fulfilled";s:9:"Show page";s:15:"conjunction_and";s:31:"if each constraint is fulfilled";s:14:"conjunction_or";s:30:"if one constraint is fulfilled";s:21:"conjunction_and_title";s:41:"Fulfill each of the following constraints";s:20:"conjunction_or_title";s:40:"Fulfill one of the following constraints";s:25:"err_external_rcp_no_email";s:58:"The import data must at least contain an ‘email’ field";s:32:"err_external_rcp_no_email_column";s:148:"The import data must at least contain a column ‘email’ with the title ‘email’ in the first row and the email addresses in the following rows";s:16:"err_no_selection";s:22:"You made no selection.";s:27:"external_recipients_deleted";s:29:"Deleted external recipient(s)";s:28:"external_recipients_imported";s:39:"External recipients have been imported.";s:21:"external_mails_import";s:41:"Import external recipients of survey keys";s:13:"externalmails";s:11:"Import file";s:17:"mail_survey_codes";s:29:"Mail access codes or messages";s:18:"externalmails_info";s:196:"The import file must be a CSV file, columns separated by a semicolon. The first row contains the column titles. The file must at least contain an ‘email’ column containing the recipient email.";s:12:"externaltext";s:11:"Import text";s:17:"externaltext_info";s:214:"The import text must be arranged in rows and columns, columns separated by a semicolon. The first row contains the column titles. The text must at least contain an ‘email’ column containing the recipient email.";s:16:"import_from_file";s:28:"Import user data from a file";s:16:"import_from_text";s:28:"Import user data from a text";s:19:"import_from_dataset";s:22:"Import from a data set";s:10:"recipients";s:10:"Recipients";s:11:"send_to_all";s:17:"To all recipients";s:13:"not_sent_only";s:55:"Only to new recipients (who did not receive a mail yet)";s:16:"send_to_answered";s:43:"To all recipients who did finish the survey";s:18:"send_to_unanswered";s:58:"To all recipients who did not finish the survey (reminder)";s:20:"message_content_info";s:326:"Enter the mail message for the notification mail containing the survey codes for the participants. You may use the placeholders [code] (the access code), [url] (the URL to this survey), and participant related data depending on your import fields: %s. The placeholders will be replaced with the imported user data in the mail.";s:26:"default_codes_mail_subject";s:23:"Your access code for %s";s:26:"default_codes_mail_message";s:99:"Your survey access code is [code]. You can start the survey in your web browser using the URL [url]";s:25:"please_enter_mail_subject";s:27:"Please enter a mail subject";s:25:"please_enter_mail_message";s:27:"Please enter a mail message";s:19:"participating_users";s:19:"Participating Users";s:22:"please_enter_mail_code";s:47:"Please enter the access code placeholder [code]";s:21:"please_enter_mail_url";s:45:"Please enter the access url placeholder [url]";s:15:"mail_sent_short";s:4:"Sent";s:21:"finished_mail_subject";s:28:"The survey "%s" was finished";s:18:"msg_min_nr_answers";s:35:"Please check at least %s answer(s).";s:18:"msg_max_nr_answers";s:32:"Please check at most %s answers.";s:22:"msg_min_max_nr_answers";s:48:"Please check at least %s and at most %s answers.";s:25:"msg_min_max_exact_answers";s:34:"Please check exactly %s answer(s).";s:19:"msg_duplicate_scale";s:33:"Please enter unique scale values.";s:11:"workingtime";s:12:"Working time";s:18:"save_reuse_message";s:31:"Save message text for later use";s:16:"save_reuse_title";s:18:"Message text title";s:14:"saved_messages";s:18:"Available messages";s:20:"insert_saved_message";s:19:"Insert Message Text";s:20:"delete_saved_message";s:19:"Delete Message Text";s:20:"msg_message_inserted";s:20:"Messagetext inserted";s:23:"msg_no_message_inserted";s:28:"Please select a message text";s:19:"msg_message_deleted";s:19:"Messagetext deleted";s:22:"msg_no_message_deleted";s:34:"Please select a saved message text";s:31:"question_changed_in_survey_only";s:35:"Question was changed only in survey";s:20:"survey_prev_question";s:13:"Previous Page";s:20:"survey_next_question";s:9:"Next Page";s:14:"survey_jump_to";s:7:"Jump to";s:23:"survey_add_new_question";s:15:"Create Question";s:15:"survey_use_pool";s:8:"Use Pool";s:21:"svy_settings_template";s:8:"Template";s:20:"survey_per_page_view";s:9:"Page View";s:20:"survey_dnd_move_next";s:17:"Move to Next Page";s:24:"survey_dnd_move_previous";s:21:"Move to Previous Page";s:21:"survey_dnd_split_page";s:10:"Split Page";s:33:"survey_dnd_double_click_to_delete";s:72:"Double click on a content element to select it for cutting and deleting.";s:26:"survey_dnd_clear_clipboard";s:15:"Clear Clipboard";s:16:"survey_dnd_paste";s:5:"Paste";s:37:"survey_has_datasets_warning_page_view";s:108:"The survey already contains data sets. You cannot edit the survey questions until you remove these datasets.";s:42:"survey_has_datasets_warning_page_view_link";s:17:"Edit Participants";s:21:"survey_using_template";s:126:"This survey uses the template %s. If you do not want to use a template and have access to all settings, please click here: %s.";s:26:"survey_using_template_link";s:27:"Do not use template anymore";s:29:"survey_confirm_template_reset";s:62:"Are you sure that you do not want to use the template anymore?";s:21:"survey_template_reset";s:30:"The template has been removed.";s:24:"survey_introduction_info";s:60:"This message is permanently displayed on the ‘Info’-tab.";s:20:"survey_question_pool";s:13:"Question Pool";s:26:"survey_question_pool_usage";s:13:"Question Pool";s:21:"survey_pool_selection";s:14:"Pool Selection";s:14:"survey_no_pool";s:24:"Do not use question pool";s:15:"survey_new_pool";s:24:"Create new question pool";s:20:"survey_existing_pool";s:26:"Use existing question pool";s:18:"survey_delete_page";s:11:"Delete Page";s:19:"survey_at_beginning";s:16:"At The Beginning";s:18:"survey_behind_page";s:6:"Behind";s:22:"survey_show_blocktitle";s:16:"Show Block Title";s:34:"survey_show_blocktitle_description";s:57:"If activated the block title will be shown in the survey.";s:19:"survey_block_hidden";s:6:"hidden";s:20:"survey_block_visible";s:7:"visible";s:28:"survey_question_text_visible";s:12:"Text visible";s:27:"survey_question_text_hidden";s:11:"Text hidden";s:16:"survey_move_page";s:9:"Move Page";s:17:"survey_page_moved";s:24:"The page has been moved.";s:29:"survey_copy_questions_to_pool";s:20:"Add to question pool";s:37:"no_question_selected_for_copy_to_pool";s:84:"Please select at least one question, which is not already linked to a question pool.";s:31:"survey_copy_select_questionpool";s:31:"Question pool to put the copies";s:35:"survey_copy_to_questionpool_success";s:53:"The questions were copied into the pool successfully.";s:23:"survey_auto_block_title";s:11:"Page Header";s:20:"survey_edit_settings";s:13:"Edit Settings";s:12:"survey_order";s:10:"Sort Order";s:21:"survey_cancel_preview";s:14:"Cancel Preview";s:28:"survey_cannot_preview_survey";s:21:"Preview not available";s:33:"survey_questions_to_clipboard_cut";s:88:"Question(s) were copied to the clipboard. Please select a target or empty the clipboard.";s:34:"survey_questions_to_clipboard_copy";s:88:"Question(s) were copied to the clipboard. Please select a target or empty the clipboard.";s:23:"survey_clipboard_notice";s:90:"There are question(s) in the clipboard. Select the target position or empty the clipboard.";s:19:"survey_edit_heading";s:12:"Edit Heading";s:21:"survey_delete_heading";s:14:"Remove Heading";s:31:"survey_available_question_pools";s:15:"Available Pools";s:26:"survey_question_pool_title";s:10:"Pool Title";s:27:"survey_sync_question_copies";s:20:"Sync Question Copies";s:32:"survey_sync_question_copies_info";s:70:"The selected questions will be replaced with the current pool version.";s:36:"survey_sync_insufficient_permissions";s:24:"Insufficient Permissions";s:19:"survey_sync_success";s:36:"The selected questions were updated.";s:27:"svy_presentation_properties";s:12:"Presentation";s:13:"svy_save_sync";s:29:"Save and Sync Question Copies";s:21:"survey_question_title";s:14:"Question Title";s:40:"survey_question_editor_settings_template";s:34:"List View (in Tab ‘Questions’)";s:28:"survey_sure_delete_questions";s:73:"Are you sure that you want to delete the following questions or headings?";s:17:"svy_participation";s:13:"Participation";s:21:"svy_page_add_question";s:10:"Add new %s";s:19:"svy_create_question";s:15:"Create Question";s:16:"freetext_answers";s:12:"Open Answers";s:18:"svy_neutral_answer";s:72:"Text for a Neutral Answer (‘Not Specified’, ‘I don\'t know’ etc.)";s:41:"svy_matrix_layout_percentages_sum_invalid";s:42:"The column settings do not sum up to 100%.";s:8:"svy_copy";s:11:"Copy Survey";s:26:"svy_activation_online_info";s:56:"Only if a survey is online, users can participate in it.";s:31:"svy_availability_limitless_info";s:59:"Choose this mode for making the survey available limitless.";s:27:"svy_availability_until_info";s:76:"Choose this mode for making the survey available for a fixed period of time.";s:38:"svy_activation_limited_visibility_info";s:115:"Outside the indicated period, only the title of the survey will be displayed while the question are not accessible.";s:33:"survey_question_pool_usage_active";s:52:"Questions can be added optionally to a question pool";s:38:"survey_question_pool_usage_active_info";s:86:"Each time a question is created it has to be decided if a question pool is to be used.";s:35:"survey_question_pool_usage_inactive";s:45:"Questions are created directly in the survey.";s:40:"survey_question_pool_usage_inactive_info";s:104:"The questions can be added to a question pool manually later but are created only for this survey first.";s:17:"svy_invite_action";s:23:"Put on Personal Desktop";s:23:"survey_code_delete_sure";s:59:"Are you sure you want to delete the following access codes?";s:16:"survey_360_title";s:5:"360°";s:15:"survey_360_mode";s:14:"360° Feedback";s:26:"survey_360_self_evaluation";s:15:"Self-Evaluation";s:22:"survey_360_self_raters";s:28:"Appraisees Select Own Raters";s:25:"survey_360_self_appraisee";s:19:"Open 360° Feedback";s:18:"survey_360_results";s:32:"Access To Results For Appraisees";s:23:"survey_360_results_none";s:20:"No Access to Results";s:22:"survey_360_results_own";s:32:"Access to Feedback of Own Raters";s:22:"survey_360_results_all";s:13:"All Feedbacks";s:21:"survey_360_appraisees";s:10:"Appraisees";s:22:"survey_360_edit_raters";s:13:"Manage Raters";s:32:"survey_360_sure_delete_appraises";s:57:"Are you sure you want to remove the following appraisees?";s:29:"survey_360_sure_delete_raters";s:60:"Are you sure you want to remove the following raters for %s?";s:29:"survey_360_add_external_rater";s:18:"Add External Rater";s:24:"survey_360_no_appraisees";s:50:"There are currently no appraisees for you to rate.";s:29:"survey_360_add_self_appraisee";s:40:"Add yourself as appraisee to this survey";s:21:"survey_360_list_title";s:10:"360° Mode";s:27:"survey_360_select_appraisee";s:6:"Select";s:20:"survey_360_appraisee";s:9:"Appraisee";s:29:"survey_activate_skill_service";s:27:"Activate Competence Service";s:19:"survey_skill_assign";s:30:"Question/Competence Assignment";s:12:"survey_skill";s:10:"Competence";s:24:"survey_assign_competence";s:17:"Assign Competence";s:24:"survey_remove_competence";s:17:"Remove Competence";s:23:"survey_skill_thresholds";s:21:"Competence Thresholds";s:18:"survey_skill_level";s:16:"Competence Level";s:21:"survey_up_to_x_points";s:14:"Up to x points";s:17:"survey_skill_nr_q";s:19:"Number of Questions";s:29:"survey_skill_max_scale_points";s:17:"Max. Scale Points";s:20:"survey_reached_level";s:13:"Reached Level";s:19:"survey_sum_of_means";s:33:"Sum of Arithm. Means per Question";s:18:"survey_calc_skills";s:27:"Determine Competence Levels";s:19:"survey_write_skills";s:17:"Write Competences";s:26:"survey_360_rater_mail_sent";s:9:"Mail sent";s:36:"survey_360_rater_code_mail_on_demand";s:19:"generated on demand";s:43:"survey_360_rater_message_content_registered";s:28:"Message Content (Registered)";s:42:"survey_360_rater_message_content_anonymous";s:27:"Message Content (Anonymous)";s:51:"survey_360_rater_message_content_registered_default";s:65:"You can start the survey in your web browser using the URL [url].";s:50:"survey_360_rater_message_content_anonymous_default";s:100:"Your survey access code is [code]. You can start the survey in your web browser using the URL [url].";s:32:"survey_360_rater_subject_default";s:49:"You have been invited as rater to a 360° survey.";s:26:"survey_360_raters_finished";s:15:"Raters Finished";s:25:"survey_360_rater_finished";s:15:"Survey Finished";s:18:"survey_competences";s:11:"Competences";s:34:"svy_skl_comp_assignm_not_supported";s:62:"Competence assignment is not supported for this question type.";s:8:"svy_back";s:4:"Back";s:30:"survey_360_appraisee_is_closed";s:36:"The appraisee has closed his survey.";s:31:"survey_360_no_closed_appraisees";s:39:"No appraisee has closed his survey yet.";s:32:"survey_360_rate_other_appraisees";s:15:"Rate appraisees";s:25:"survey_360_appraisee_info";s:14:"Appraisee Info";s:29:"survey_360_raters_status_info";s:15:"Raters finished";s:33:"survey_360_appraisee_close_action";s:23:"Close Survey For Raters";s:38:"survey_360_appraisee_close_action_info";s:41:"This will give access to your statistics.";s:44:"survey_360_appraisee_close_action_info_skill";s:75:"This will give access to your statistics and update your competence levels.";s:41:"survey_360_appraisee_close_action_success";s:50:"You have closed your 360° survey for your raters.";s:40:"survey_360_appraisee_close_action_status";s:24:"Survey was closed on %s.";s:31:"survey_360_sure_appraisee_close";s:65:"Are you sure you want to close the survey for all of your raters?";s:32:"survey_360_appraisee_close_table";s:9:"Closed on";s:20:"svy_eval_competences";s:18:"Competence Results";s:16:"svy_gap_analysis";s:12:"Gap Analysis";s:26:"svy_all_survey_competences";s:22:"All Survey Competences";s:17:"survey_360_raters";s:6:"Raters";s:11:"svy_results";s:7:"Results";s:12:"svy_analysis";s:8:"Analysis";s:28:"survey_notification_settings";s:12:"Notification";s:23:"survey_reminder_setting";s:27:"Remind Users to Participate";s:21:"survey_reminder_start";s:5:"Start";s:19:"survey_reminder_end";s:3:"End";s:25:"survey_reminder_frequency";s:9:"Frequency";s:30:"survey_reminder_frequency_days";s:4:"Days";s:32:"survey_notification_target_group";s:12:"Target Group";s:46:"survey_notification_target_group_parent_course";s:34:"All members of parent course/group";s:55:"survey_notification_target_group_parent_course_inactive";s:57:"No parent course/group given - no reminders will be sent!";s:40:"survey_notification_target_group_invited";s:58:"All users who got the survey put on their Personal Desktop";s:45:"survey_notification_target_group_invited_info";s:32:"Number of current recipients: %s";s:33:"survey_notification_tutor_setting";s:42:"One E-Mail after all Participants Finished";s:36:"survey_notification_tutor_recipients";s:17:"Tutors (Login[s])";s:44:"survey_notification_tutor_recipients_invalid";s:41:"Please state users with write permission.";s:33:"survey_notification_tutor_subject";s:46:"All participants have finished the survey "%s"";s:36:"survey_notification_tutor_salutation";s:9:"Hello %s,";s:30:"survey_notification_tutor_body";s:58:"The following survey has been finished by all participants";s:30:"survey_notification_tutor_link";s:14:"Link to Survey";s:23:"survey_reminder_subject";s:28:"Survey "%s" was not finished";s:26:"survey_reminder_salutation";s:9:"Hello %s,";s:20:"survey_reminder_body";s:53:"the following survey has not been finished by you yet";s:20:"survey_reminder_link";s:3:"URL";s:11:"survey_mode";s:4:"Mode";s:19:"survey_default_mode";s:6:"Survey";s:24:"survey_default_mode_info";s:27:"Use for evaluation purposes";s:20:"survey_360_mode_info";s:33:"Use for peer-reviewing of persons";s:47:"survey_360_appraisee_close_action_success_admin";s:63:"The 360° surveys of the appraisees were closed for the raters.";s:37:"survey_360_sure_appraisee_close_admin";s:72:"Are you sure you want to close the surveys for the following appraisees?";s:28:"survey_360_remove_appraisees";s:19:"Remove Appraisee(s)";s:41:"survey_notification_finished_introduction";s:50:"The following participant has finished the survey.";s:35:"survey_notification_finished_reason";s:96:"You are receiving this email because you activated notifications for the survey mentioned above.";s:33:"svy_result_mail_notification_info";s:95:"On finishing the survey the answers of each participant will be sent to the defined recipients.";s:25:"survey_reminder_cron_info";s:63:"If activated, users will be reminded to participate in surveys.";s:31:"mailparticipantdata_placeholder";s:89:"These placeholders are replaced by actual user data if ‘Privacy’ is ‘With Names’:";s:25:"spl_save_obligatory_state";s:22:"Save Compulsory States";s:20:"survey_not_available";s:3:"n/a";s:23:"survey_results_finished";s:15:"Survey finished";s:20:"svy_view_own_results";s:18:"View given answers";s:20:"svy_mail_own_results";s:18:"Mail given answers";s:28:"svy_mail_own_results_subject";s:26:"Survey "%s" - Your Answers";s:20:"svy_results_view_own";s:33:"Participants can View Own Answers";s:22:"svy_eval_skipped_value";s:22:"Results: ‘skipped’";s:26:"svy_eval_skipped_value_lng";s:23:"Use language file entry";s:31:"svy_eval_skipped_value_lng_info";s:19:"Current value: "%s"";s:29:"svy_eval_skipped_value_custom";s:16:"Use custom value";s:34:"svy_eval_skipped_value_custom_info";s:54:"Define any (or empty) value to use for skipped answers";s:35:"svy_eval_skipped_value_custom_value";s:5:"Value";s:16:"svy_import_codes";s:12:"Import Codes";s:21:"svy_import_codes_info";s:40:"This import requires a "%s" export file.";s:30:"svy_evaluation_access_all_info";s:92:"All registered users that can access the survey can also look at the results of this survey.";s:30:"svy_evaluation_access_off_info";s:91:"Only Users that can edit the survey (write permission) have access to the survey\'s results.";s:39:"svy_evaluation_access_participants_info";s:95:"All users that participated in the survey may choose to look at the results after finishing it.";s:25:"svy_results_view_own_info";s:119:"After finishing the survey, participants can view a list of all answers they provided. They cannot change their answers";s:31:"survey_360_self_evaluation_info";s:62:"Appraisees are allowed to rate themselves using the questions.";s:27:"survey_360_self_raters_info";s:102:"Appraisees autonomously select and invite those persons that are supposed to provide feedback to them.";s:30:"survey_360_self_appraisee_info";s:136:"On the ‘Info’-tab a link is displayed to all users. By clicking this link they can add themselves as appraisee and receive feedback.";s:28:"survey_360_results_none_info";s:58:"Appraisees can not access the feedback provided by raters.";s:27:"survey_360_results_own_info";s:60:"Appraisees can access only the feedback of their own raters.";s:27:"survey_360_results_all_info";s:128:"All appraisees of the 360°-Survey can view all feedback provided by all raters of all appraisees, not only by their own raters.";s:34:"survey_activate_skill_service_info";s:173:"A new tab ‘Competences’ will be displayed. In this tab questions are assigned to competences, then thresholds are ascribed for reaching a specific level of a competence.";s:28:"survey_execution_sure_finish";s:97:"Are you sure you want to finish the survey? You will not be able to edit your answers afterwards.";s:21:"survey_execution_exit";s:18:"Back to repository";s:19:"survey_access_codes";s:30:"Authentication by Access Codes";s:24:"survey_access_codes_info";s:168:"Users get access to the survey by entering a code on the ‘Info’-tab. These access codes are generated in a sub-tab ‘Access Codes’ in the tab ‘Participants’.";s:28:"survey_results_anonymization";s:7:"Privacy";s:27:"survey_results_personalized";s:10:"With Names";s:32:"survey_results_personalized_info";s:170:"In the tab ‘Results’ the names of the participants and their respective answers are listed. Users having access to this tab can inspect who has provided which answer.";s:25:"survey_results_anonymized";s:32:"Without Names / Anonymous Survey";s:30:"survey_results_anonymized_info";s:186:"In the tab ‘Results’ participants\' names are replaced by codes. Users having access to this tab cannot attribute answers to named participants but only to user ‘iTXaF’ (example).";s:20:"material_added_empty";s:47:"The object does not have any suitable material.";s:29:"survey_sure_delete_constraint";s:80:"Are you sure you want to delete the routing rule "%1$s" for the question "%2$s"?";s:25:"survey_constraint_deleted";s:34:"The routing rule has been deleted.";s:33:"svy_settings_section_before_start";s:34:"Information before start of survey";s:27:"svy_settings_section_access";s:32:"Administering the survey: Access";s:39:"svy_settings_section_question_behaviour";s:47:"Administering the survey: Behaviour of question";s:30:"svy_settings_section_finishing";s:20:"Finishing the survey";s:30:"svy_settings_section_reminders";s:9:"Reminders";s:20:"svy_print_title_only";s:16:"Show only titles";s:20:"svy_print_label_only";s:16:"Show only labels";s:21:"svy_print_title_label";s:22:"Show titles and labels";s:17:"svy_export_format";s:21:"Export survey data as";s:26:"svy_fraction_of_selections";s:22:"Fraction of selections";s:24:"svy_results_mail_confirm";s:51:"Participants can request participation confirmation";s:29:"svy_results_mail_confirm_info";s:94:"Participants can request a mail with a confirmation of participation at the end of the survey.";s:20:"svy_results_mail_own";s:21:"Include given answers";s:25:"svy_results_mail_own_info";s:72:"The given answers will be included in the confirmation of participation.";s:26:"svy_mail_send_confirmation";s:31:"Send Participation Confirmation";s:29:"svy_mail_confirmation_subject";s:45:"Survey "%s" - Your participation confirmation";s:26:"svy_anonymous_participants";s:20:"List of Participants";s:31:"svy_anonymous_participants_info";s:72:"If activated a list of participants can be enabled in anonymous surveys.";s:30:"svy_anonymous_participants_min";s:30:"Minimum Number of Participants";s:35:"svy_anonymous_participants_min_info";s:89:"The list will only be available if there are at least the minimum number of participants.";s:30:"svy_anonymous_participants_svy";s:20:"List of Participants";s:35:"svy_anonymous_participants_svy_info";s:68:"If activated a list of participants is available after the end date.";s:22:"survey_results_started";s:14:"Survey started";s:26:"survey_results_not_started";s:18:"Survey not started";s:25:"svy_mail_own_results_body";s:41:"you participated in the following survey:";s:31:"svy_mail_context_reminder_title";s:15:"Survey Reminder";s:30:"svy_mail_context_reminder_info";s:38:"Reminds users to participate in survey";s:38:"svy_mail_context_reminder_survey_title";s:12:"Survey Title";s:26:"svy_reminder_mail_template";s:13:"Mail Template";s:31:"svy_reminder_mail_template_none";s:24:"Do not use mail template";s:13:"svy_eval_view";s:4:"View";s:27:"svy_eval_view_tables_charts";s:15:"Table and chart";s:20:"svy_eval_view_tables";s:5:"Table";s:20:"svy_eval_view_charts";s:5:"Chart";s:17:"svy_eval_captions";s:7:"Figures";s:26:"svy_eval_captions_abs_perc";s:23:"Absolute and Percentage";s:21:"svy_eval_captions_abs";s:8:"Absolute";s:22:"svy_eval_captions_perc";s:10:"Percentage";s:31:"msg_input_only_positive_numbers";s:46:"Please enter positive numbers in scale values.";s:15:"error_save_code";s:103:"Value not saved properly. <b>The E- mail: \'%s\' is not valid</b>. First name: \'%s\', Last name: \'%s\'.<br>";s:29:"cant_send_email_smtp_disabled";s:77:"Sending external mails is not available. This option is deactivated globally.";s:18:"cannot_send_emails";s:57:"You do not possess sufficient permissions to send emails.";}')));
 
 $ilDB->insert("lng_modules", array(
 'module' => array('text', 'sysc'), 'lang_key' => array('text', 'en'), 'lang_array' => array('clob', 'a:48:{s:14:"sysc_tab_trash";s:15:"Deleted Objects";s:25:"sysc_administrate_deleted";s:28:"Administrate Deleted Objects";s:18:"sysc_trash_restore";s:23:"Restore Deleted Objects";s:23:"sysc_trash_restore_info";s:80:"Restore deleted objects from trash bin and move the to the ‘Recovery Folder’";s:17:"sysc_trash_action";s:6:"Action";s:17:"sysc_trash_remove";s:34:"Remove deleted objects from system";s:22:"sysc_trash_remove_info";s:50:"Remove deleted objects (trash bin) from the system";s:20:"sysc_trash_limit_num";s:12:"Limit Number";s:20:"sysc_trash_limit_age";s:9:"Limit Age";s:21:"sysc_trash_limit_type";s:13:"Limit by Type";s:13:"sysc_overview";s:8:"Overview";s:11:"sysc_groups";s:19:"System Check Groups";s:13:"sysc_grp_tree";s:15:"Repository Tree";s:18:"sysc_grp_tree_desc";s:84:"Performs an analysis of the tree and prints all tree nodes along with analysis data.";s:18:"sysc_completed_num";s:15:"Fulfilled Tasks";s:15:"sysc_failed_num";s:19:"Not Fulfilled Tasks";s:18:"sysc_task_overview";s:5:"Tasks";s:20:"sysc_action_validate";s:8:"Validate";s:18:"sysc_action_repair";s:6:"Repair";s:25:"sysc_task_tree_duplicates";s:36:"Duplicate Entries in Repository Tree";s:30:"sysc_task_tree_duplicates_desc";s:62:"Search for duplicate entries in the repository tree structure.";s:19:"sysc_task_tree_dump";s:9:"List Tree";s:24:"sysc_task_tree_dump_desc";s:49:"Analyses and prints the repository tree structure";s:21:"sysc_action_list_tree";s:27:"Create Repository Tree Dump";s:21:"sysc_action_show_tree";s:25:"Show Repository Tree Dump";s:28:"sysc_tree_duplicate_failures";s:70:"Found duplicate entries in tree structure. Number of duplicate entries";s:20:"sysc_message_success";s:15:"No errors found";s:23:"sysc_tree_list_failures";s:87:"A dump of the the repository tree has been created. Number of errors in tree structure:";s:14:"sysc_status_na";s:12:"Not Executed";s:19:"sysc_status_running";s:7:"Running";s:18:"sysc_status_failed";s:6:"Failed";s:21:"sysc_status_completed";s:9:"Completed";s:22:"sysc_task_tree_missing";s:34:"Missing Entries in Repository Tree";s:27:"sysc_task_tree_missing_desc";s:60:"Searches and repairs missing entries in the repository tree.";s:33:"sysc_message_tree_missing_confirm";s:79:"Do you really want to restore missing entries in the repository tree structure?";s:21:"sysc_btn_tree_missing";s:15:"Restore Missing";s:26:"sysc_tree_missing_failures";s:71:"Found missing entries in the tree structure. Number of missing entries:";s:21:"sysc_cron_empty_trash";s:16:"Delete Trash Bin";s:26:"sysc_cron_empty_trash_desc";s:118:"If enabled, the repository trash bin will be purged by given criteria (age, object type or maximum number of objects).";s:27:"sysc_task_tree_missing_tree";s:34:"Missing Entries in Repository Tree";s:32:"sysc_task_tree_missing_tree_desc";s:60:"Searches and repairs missing entries in the repository tree.";s:32:"sysc_task_tree_missing_reference";s:25:"Missing Object References";s:37:"sysc_task_tree_missing_reference_desc";s:70:"Searches and repairs missing object references in the repository tree.";s:19:"sysc_task_structure";s:14:"Tree structure";s:24:"sysc_task_structure_desc";s:52:"Analyzes and corrects the repository tree structure.";s:28:"sysc_tree_structure_failures";s:59:"Number of failures in the tree structure (parent-Relation):";s:35:"sysc_message_tree_structure_confirm";s:100:"Do you really want to repair the tree structure? Please create a database backup before you proceed.";s:23:"sysc_btn_tree_structure";s:23:"Recreate Tree Structure";}')));
@@ -29135,7 +29141,7 @@ $ilDB->insert("lng_modules", array(
 'module' => array('text', 'tstv'), 'lang_key' => array('text', 'en'), 'lang_array' => array('clob', 'a:2:{s:11:"tstv_create";s:23:"Create Test Certificate";s:16:"tstv_create_info";s:56:"Select a completed test to generate a certificate for it";}')));
 
 $ilDB->insert("lng_modules", array(
-'module' => array('text', 'user'), 'lang_key' => array('text', 'en'), 'lang_array' => array('clob', 'a:109:{s:17:"clipboard_add_btn";s:16:"Add to Clipboard";s:22:"clipboard_add_from_btn";s:18:"Add from Clipboard";s:20:"clipboard_user_added";s:34:"Added selected users to clipboard.";s:21:"clipboard_table_title";s:25:"Clipboard (User Accounts)";s:20:"clipboard_remove_btn";s:21:"Remove from Clipboard";s:19:"clipboard_empty_btn";s:15:"Empty Clipboard";s:19:"user_access_limited";s:7:"Limited";s:21:"user_access_unlimited";s:9:"Unlimited";s:33:"user_activate_public_profile_info";s:79:"First and last name will always be visible in your profile, if it is activated.";s:28:"user_activate_public_profile";s:10:"Activation";s:15:"user_activation";s:10:"Activation";s:8:"user_all";s:3:"All";s:8:"user_any";s:3:"Any";s:10:"user_field";s:5:"Field";s:16:"user_global_role";s:11:"Global Role";s:22:"user_last_login_before";s:17:"Last Login Before";s:19:"user_limited_access";s:14:"Limited Access";s:27:"user_member_of_course_group";s:22:"Member of Course/Group";s:15:"user_no_courses";s:19:"No Courses Assigned";s:14:"user_no_groups";s:18:"No Groups Assigned";s:31:"user_please_select_course_group";s:34:"Please select a course or a group.";s:24:"user_public_profile_info";s:114:"Please select which personal data is visible in your profile and which users should be able to visit your profile.";s:36:"user_screen_reader_optimization_info";s:44:"Improve ILIAS for usage with screen readers.";s:31:"user_screen_reader_optimization";s:26:"Screen Reader Optimization";s:24:"user_select_course_group";s:19:"Select Course/Group";s:23:"user_visible_in_profile";s:24:"Visible in Personal Data";s:19:"usr_link_to_profile";s:15:"Link to Profile";s:32:"usr_public_profile_disabled_info";s:57:"Your information is only visible to administrative staff.";s:27:"usr_public_profile_disabled";s:16:"Profile Disabled";s:30:"usr_public_profile_global_info";s:40:"Your profile is visible to the internet.";s:25:"usr_public_profile_global";s:46:"WWW / Accessible for all Users on the Internet";s:33:"usr_public_profile_logged_in_info";s:65:"Your information is only visible to users logged into the system.";s:28:"usr_public_profile_logged_in";s:27:"Visible for Logged in Users";s:32:"enable_local_user_administration";s:32:"Enable Local User Administration";s:37:"enable_local_user_administration_info";s:92:"If enabled, local user accounts can be administrated in categories and organisational units.";s:20:"restrict_user_access";s:34:"Restricted Access to User Accounts";s:25:"restrict_user_access_info";s:211:"Enabled this option only if you want to restrict the access to user accounts. If enabled access to local and global user accounts is only granted when a role has the permission ‘Read Access to User Account’.";s:25:"user_adm_enable_alpha_nav";s:46:"Alphabetical Navigation in User Administration";s:17:"user_ext_profiles";s:17:"Extended Profiles";s:22:"user_ext_profiles_desc";s:54:"Allows users to add individual tabs to their profiles.";s:16:"user_ext_profile";s:16:"Extended Profile";s:21:"user_new_profile_page";s:16:"New Profile Page";s:13:"user_add_page";s:8:"Add Page";s:10:"user_order";s:5:"Order";s:22:"user_sure_delete_pages";s:57:"Are you sure that you want to delete the following pages?";s:27:"user_selected_pages_deleted";s:37:"The selected pages have been deleted.";s:29:"user_save_ordering_and_titles";s:24:"Save ordering and titles";s:20:"user_profile_preview";s:7:"Preview";s:15:"user_portfolios";s:10:"Portfolios";s:20:"user_portfolios_desc";s:52:"Users can create portfolios and use them as profile.";s:22:"user_profile_portfolio";s:120:"If you want to use a portfolio as your profile, go to the portfolio section and set ‘My Profile’ for that portfolio.";s:18:"user_account_codes";s:26:"Account Reactivation Codes";s:22:"user_account_codes_add";s:9:"Add Codes";s:25:"user_account_codes_export";s:12:"Export Codes";s:30:"user_account_codes_edit_header";s:9:"Add Codes";s:25:"user_account_codes_number";s:15:"Number Of Codes";s:17:"user_account_code";s:4:"Code";s:29:"user_account_code_valid_until";s:11:"Valid Until";s:36:"user_account_code_valid_until_static";s:8:"End Date";s:37:"user_account_code_valid_until_dynamic";s:14:"Number of Days";s:27:"user_account_code_generated";s:18:"Date Of Generation";s:22:"user_account_code_used";s:11:"Date Of Use";s:17:"user_account_used";s:13:"Date Of Usage";s:31:"user_account_code_generated_all";s:9:"All Dates";s:33:"user_account_export_codes_no_data";s:33:"No codes to export were selected.";s:27:"user_account_code_not_valid";s:71:"The given registration code is either invalid or already has been used.";s:39:"user_account_code_valid_until_unlimited";s:9:"Unlimited";s:25:"user_account_code_setting";s:36:"Enable Account Re-Activation By Code";s:30:"user_account_code_setting_info";s:70:"Inactive Accounts can be re-activated by users with pre-defined codes.";s:31:"user_profile_portfolio_selected";s:107:"You are currently using a portfolio as your profile. Activation can be set there using the ‘Share’ tab.";s:29:"user_allow_delete_own_account";s:33:"Allow users to delete own account";s:42:"user_delete_own_account_notification_email";s:18:"Notification Email";s:28:"user_delete_own_account_info";s:110:"Here you can delete your current user account. Keep in mind that the deletion of your account is irreversible!";s:45:"user_delete_own_account_password_confirmation";s:32:"Enter password for authorisation";s:42:"user_delete_own_account_final_confirmation";s:72:"Please confirm for the last time to remove your user account from ILIAS!";s:37:"user_delete_own_account_email_subject";s:20:"User account deleted";s:34:"user_delete_own_account_email_body";s:54:"Your user account "%s" has been deleted from %s on %s.";s:23:"user_store_last_visited";s:12:"Last Visited";s:20:"user_lv_keep_entries";s:21:"Remember last visited";s:29:"user_lv_keep_only_for_session";s:36:"Remember only during current session";s:20:"user_lv_do_not_store";s:27:"Never remember last visited";s:14:"user_ownership";s:18:"Repository Objects";s:23:"user_delete_own_account";s:14:"Delete Account";s:33:"user_account_deleted_confirmation";s:93:"Your account has been deleted. An email containing detailed information has been sent to you.";s:20:"tos_show_signed_text";s:12:"Show Details";s:20:"tos_not_accepted_yet";s:16:"Not accepted yet";s:20:"tos_accepted_content";s:16:"Accepted Content";s:43:"user_delete_own_account_logout_confirmation";s:88:"Your account has been flagged for deletion. Please authenticate to continue the process.";s:37:"user_delete_own_account_logout_button";s:25:"Proceed to Authentication";s:31:"user_delete_own_account_aborted";s:42:"Aborted deletion, account was not changed.";s:21:"inform_user_mail_info";s:142:"If activated, an email will be sent to the user. Its content can be defined in Administration > User Management > Settings > New Account Mail.";s:6:"usr_id";s:7:"User ID";s:9:"interests";s:9:"Interests";s:17:"interests_general";s:17:"General Interests";s:22:"interests_help_offered";s:13:"Offering Help";s:22:"interests_help_looking";s:16:"Looking For Help";s:27:"send_mail_to_inactive_users";s:12:"Warning Mail";s:32:"send_mail_to_inactive_users_desc";s:305:"If set, a warning mail will be sent to the user before his/her account is deleted due to inactivity. Please make sure that sending external mails is possible. On activation with reminder mail, it may happen, that the time frame between reminder mail and deletion is smaller than the configured time frame.";s:34:"send_mail_to_inactive_users_suffix";s:21:"Days before Deletion.";s:40:"send_mail_to_inactive_users_numbers_only";s:47:"Only positive non decimal numbers are accepted.";s:48:"send_mail_to_inactive_users_must_be_smaller_than";s:77:"This value must be smaller than the value ‘Days passed since last login’.";s:16:"del_mail_subject";s:40:"(ILIAS) – Your account will be deleted";s:13:"del_mail_body";s:189:"Hello %1$s, %2$s you haven\'t logged in for a long period of time, on %3$s. So your account will be probably deleted on %4$s. You have to login again to prevent the deletion of your account.";s:39:"delete_inactive_user_accounts_frequency";s:9:"Frequency";s:44:"delete_inactive_user_accounts_frequency_desc";s:71:"Frequency, in which the deletion and email distribution will be tested.";s:35:"send_mail_reminder_window_too_small";s:60:"Your Frequency setting is too large for this reminder value.";s:19:"user_awrn_all_users";s:9:"All Users";s:24:"user_awrn_all_users_info";s:37:"All users of the platform are listed.";s:8:"feedhash";s:12:"Newsfeedhash";}')));
+'module' => array('text', 'user'), 'lang_key' => array('text', 'en'), 'lang_array' => array('clob', 'a:109:{s:17:"clipboard_add_btn";s:16:"Add to Clipboard";s:22:"clipboard_add_from_btn";s:18:"Add from Clipboard";s:20:"clipboard_user_added";s:34:"Added selected users to clipboard.";s:21:"clipboard_table_title";s:25:"Clipboard (User Accounts)";s:20:"clipboard_remove_btn";s:21:"Remove from Clipboard";s:19:"clipboard_empty_btn";s:15:"Empty Clipboard";s:19:"user_access_limited";s:7:"Limited";s:21:"user_access_unlimited";s:9:"Unlimited";s:33:"user_activate_public_profile_info";s:79:"First and last name will always be visible in your profile, if it is activated.";s:28:"user_activate_public_profile";s:10:"Activation";s:15:"user_activation";s:10:"Activation";s:8:"user_all";s:3:"All";s:8:"user_any";s:3:"Any";s:10:"user_field";s:5:"Field";s:16:"user_global_role";s:11:"Global Role";s:22:"user_last_login_before";s:17:"Last Login Before";s:19:"user_limited_access";s:14:"Limited Access";s:27:"user_member_of_course_group";s:22:"Member of Course/Group";s:15:"user_no_courses";s:19:"No Courses Assigned";s:14:"user_no_groups";s:18:"No Groups Assigned";s:31:"user_please_select_course_group";s:34:"Please select a course or a group.";s:24:"user_public_profile_info";s:114:"Please select which personal data is visible in your profile and which users should be able to visit your profile.";s:36:"user_screen_reader_optimization_info";s:44:"Improve ILIAS for usage with screen readers.";s:31:"user_screen_reader_optimization";s:26:"Screen Reader Optimization";s:24:"user_select_course_group";s:19:"Select Course/Group";s:23:"user_visible_in_profile";s:24:"Visible in Personal Data";s:19:"usr_link_to_profile";s:15:"Link to Profile";s:32:"usr_public_profile_disabled_info";s:57:"Your information is only visible to administrative staff.";s:27:"usr_public_profile_disabled";s:16:"Profile Disabled";s:30:"usr_public_profile_global_info";s:40:"Your profile is visible to the internet.";s:25:"usr_public_profile_global";s:46:"WWW / Accessible for all Users on the Internet";s:33:"usr_public_profile_logged_in_info";s:65:"Your information is only visible to users logged into the system.";s:28:"usr_public_profile_logged_in";s:27:"Visible for Logged in Users";s:32:"enable_local_user_administration";s:32:"Enable Local User Administration";s:37:"enable_local_user_administration_info";s:92:"If enabled, local user accounts can be administrated in categories and organisational units.";s:20:"restrict_user_access";s:34:"Restricted Access to User Accounts";s:25:"restrict_user_access_info";s:211:"Enabled this option only if you want to restrict the access to user accounts. If enabled access to local and global user accounts is only granted when a role has the permission ‘Read Access to User Account’.";s:25:"user_adm_enable_alpha_nav";s:46:"Alphabetical Navigation in User Administration";s:17:"user_ext_profiles";s:17:"Extended Profiles";s:22:"user_ext_profiles_desc";s:54:"Allows users to add individual tabs to their profiles.";s:16:"user_ext_profile";s:16:"Extended Profile";s:21:"user_new_profile_page";s:16:"New Profile Page";s:13:"user_add_page";s:8:"Add Page";s:10:"user_order";s:5:"Order";s:22:"user_sure_delete_pages";s:57:"Are you sure that you want to delete the following pages?";s:27:"user_selected_pages_deleted";s:37:"The selected pages have been deleted.";s:29:"user_save_ordering_and_titles";s:24:"Save ordering and titles";s:20:"user_profile_preview";s:7:"Preview";s:15:"user_portfolios";s:10:"Portfolios";s:20:"user_portfolios_desc";s:52:"Users can create portfolios and use them as profile.";s:22:"user_profile_portfolio";s:120:"If you want to use a portfolio as your profile, go to the portfolio section and set ‘My Profile’ for that portfolio.";s:18:"user_account_codes";s:26:"Account Reactivation Codes";s:22:"user_account_codes_add";s:9:"Add Codes";s:25:"user_account_codes_export";s:12:"Export Codes";s:30:"user_account_codes_edit_header";s:9:"Add Codes";s:25:"user_account_codes_number";s:15:"Number Of Codes";s:17:"user_account_code";s:4:"Code";s:29:"user_account_code_valid_until";s:11:"Valid Until";s:36:"user_account_code_valid_until_static";s:8:"End Date";s:37:"user_account_code_valid_until_dynamic";s:14:"Number of Days";s:27:"user_account_code_generated";s:18:"Date Of Generation";s:22:"user_account_code_used";s:11:"Date Of Use";s:17:"user_account_used";s:13:"Date Of Usage";s:31:"user_account_code_generated_all";s:9:"All Dates";s:33:"user_account_export_codes_no_data";s:33:"No codes to export were selected.";s:27:"user_account_code_not_valid";s:71:"The given registration code is either invalid or already has been used.";s:39:"user_account_code_valid_until_unlimited";s:9:"Unlimited";s:25:"user_account_code_setting";s:36:"Enable Account Re-Activation By Code";s:30:"user_account_code_setting_info";s:70:"Inactive Accounts can be re-activated by users with pre-defined codes.";s:31:"user_profile_portfolio_selected";s:107:"You are currently using a portfolio as your profile. Activation can be set there using the ‘Share’ tab.";s:29:"user_allow_delete_own_account";s:33:"Allow users to delete own account";s:42:"user_delete_own_account_notification_email";s:18:"Notification Email";s:28:"user_delete_own_account_info";s:110:"Here you can delete your current user account. Keep in mind that the deletion of your account is irreversible!";s:45:"user_delete_own_account_password_confirmation";s:32:"Enter password for authorisation";s:42:"user_delete_own_account_final_confirmation";s:72:"Please confirm for the last time to remove your user account from ILIAS!";s:37:"user_delete_own_account_email_subject";s:20:"User account deleted";s:34:"user_delete_own_account_email_body";s:54:"Your user account "%s" has been deleted from %s on %s.";s:23:"user_store_last_visited";s:12:"Last Visited";s:20:"user_lv_keep_entries";s:21:"Remember last visited";s:29:"user_lv_keep_only_for_session";s:36:"Remember only during current session";s:20:"user_lv_do_not_store";s:27:"Never remember last visited";s:14:"user_ownership";s:18:"Repository Objects";s:23:"user_delete_own_account";s:14:"Delete Account";s:33:"user_account_deleted_confirmation";s:93:"Your account has been deleted. An email containing detailed information has been sent to you.";s:20:"tos_show_signed_text";s:12:"Show Details";s:20:"tos_not_accepted_yet";s:16:"Not accepted yet";s:20:"tos_accepted_content";s:16:"Accepted Content";s:43:"user_delete_own_account_logout_confirmation";s:88:"Your account has been flagged for deletion. Please authenticate to continue the process.";s:37:"user_delete_own_account_logout_button";s:25:"Proceed to Authentication";s:31:"user_delete_own_account_aborted";s:42:"Aborted deletion, account was not changed.";s:21:"inform_user_mail_info";s:142:"If activated, an email will be sent to the user. Its content can be defined in Administration > User Management > Settings > New Account Mail.";s:6:"usr_id";s:7:"User ID";s:9:"interests";s:9:"Interests";s:17:"interests_general";s:17:"General Interests";s:22:"interests_help_offered";s:13:"Offering Help";s:22:"interests_help_looking";s:16:"Looking For Help";s:27:"send_mail_to_inactive_users";s:12:"Warning Mail";s:32:"send_mail_to_inactive_users_desc";s:305:"If set, a warning mail will be sent to the user before his/her account is deleted due to inactivity. Please make sure that sending external mails is possible. On activation with reminder mail, it may happen, that the time frame between reminder mail and deletion is smaller than the configured time frame.";s:34:"send_mail_to_inactive_users_suffix";s:21:"Days before Deletion.";s:40:"send_mail_to_inactive_users_numbers_only";s:47:"Only positive non decimal numbers are accepted.";s:48:"send_mail_to_inactive_users_must_be_smaller_than";s:77:"This value must be smaller than the value ‘Days passed since last login’.";s:16:"del_mail_subject";s:40:"(ILIAS) – Your account will be deleted";s:13:"del_mail_body";s:189:"Hello %1$s, %2$s you haven\'t logged in for a long period of time, on %3$s. So your account will be probably deleted on %4$s. You have to login again to prevent the deletion of your account.";s:39:"delete_inactive_user_accounts_frequency";s:9:"Frequency";s:44:"delete_inactive_user_accounts_frequency_desc";s:71:"Frequency, in which the deletion and email distribution will be tested.";s:35:"send_mail_reminder_window_too_small";s:60:"Your Frequency setting is too large for this reminder value.";s:19:"user_awrn_all_users";s:9:"All Users";s:24:"user_awrn_all_users_info";s:164:"All users of the platform are listed. Please not that the setting "Online and Offline" can reduce performance greatly on installations with a large number of users.";s:8:"feedhash";s:12:"Newsfeedhash";}')));
 
 $ilDB->insert("lng_modules", array(
 'module' => array('text', 'usr'), 'lang_key' => array('text', 'en'), 'lang_array' => array('clob', 'a:3:{s:12:"user_actions";s:12:"User Actions";s:11:"user_action";s:11:"User Action";s:28:"user_actions_activation_info";s:147:"Actions will only be listet for users, if the corresponding services are activated and all preconditions are given (e.g. permissions requirements).";}')));
@@ -32249,7 +32255,7 @@ $ilDB->insert("object_data", array(
 'obj_id' => array('integer', '37'), 'type' => array('text', 'typ'), 'title' => array('text', 'frm'), 'description' => array('text', 'Forum object'), 'owner' => array('integer', '-1'), 'create_date' => array('timestamp', '2002-07-15 15:54:22'), 'last_update' => array('timestamp', '2003-08-15 12:36:40'), 'import_id' => array('text', '')));
 
 $ilDB->insert("object_data", array(
-'obj_id' => array('integer', '70'), 'type' => array('text', 'lng'), 'title' => array('text', 'en'), 'description' => array('text', 'installed'), 'owner' => array('integer', '-1'), 'create_date' => array('timestamp', ''), 'last_update' => array('timestamp', '2017-11-22 18:11:17'), 'import_id' => array('text', '')));
+'obj_id' => array('integer', '70'), 'type' => array('text', 'lng'), 'title' => array('text', 'en'), 'description' => array('text', 'installed'), 'owner' => array('integer', '-1'), 'create_date' => array('timestamp', ''), 'last_update' => array('timestamp', '2018-01-10 17:03:18'), 'import_id' => array('text', '')));
 
 $ilDB->insert("object_data", array(
 'obj_id' => array('integer', '71'), 'type' => array('text', 'lng'), 'title' => array('text', 'de'), 'description' => array('text', 'not_installed'), 'owner' => array('integer', '6'), 'create_date' => array('timestamp', '2003-08-15 10:25:19'), 'last_update' => array('timestamp', '2015-12-22 16:29:24'), 'import_id' => array('text', '')));
@@ -48649,7 +48655,7 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'user_account'), 'keyword' => array('text', 'lua_enabled'), 'value' => array('clob', '')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_5_2'), 'value' => array('clob', '18')));
+'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_5_2'), 'value' => array('clob', '20')));
 
 $ilDB->insert("settings", array(
 'module' => array('text', 'mobs'), 'keyword' => array('text', 'black_list_file_types'), 'value' => array('clob', 'html')));
