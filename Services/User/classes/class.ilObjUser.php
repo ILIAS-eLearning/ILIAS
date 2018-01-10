@@ -4852,6 +4852,8 @@ class ilObjUser extends ilObject
 		$ilDB       = $DIC->database();
 		$rbacreview = $DIC->rbac()->review();
 
+		$log = ilLoggerFactory::getLogger("user");
+
 		$pd_set = new ilSetting('pd');
 		$atime  = $pd_set->get('user_activity_time') * 60;
 		$ctime  = time();
@@ -4888,7 +4890,7 @@ class ilObjUser extends ilObject
 
 		$where = 'WHERE ' . implode(' AND ', $where);
 
-		$r = $ilDB->queryF("
+		$r = $ilDB->queryF($q = "
 			SELECT COUNT(user_id) num, user_id, firstname, lastname, title, login, last_login, MAX(ctime) ctime, context, agree_date
 			FROM usr_session
 			LEFT JOIN usr_data u
@@ -4903,6 +4905,8 @@ class ilObjUser extends ilObject
 			array('hide_own_online_status')
 		);
 
+		$log->debug("Query: ".$q);
+
 		$users = array();
 		while($user = $ilDB->fetchAssoc($r))
 		{
@@ -4911,6 +4915,8 @@ class ilObjUser extends ilObject
 				$users[$user['user_id']] = $user;
 			}
 		}
+
+		$log->debug("Found users: ".count($users));
 
 		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
 		if (ilTermsOfServiceHelper::isEnabled()) {
@@ -4922,6 +4928,8 @@ class ilObjUser extends ilObject
 
 				return isset($adminRoleUserIds[$user['user_id']]);
 			});
+
+			$log->debug("TOS filtered to users: ".count($users));
 		}
 
 		return $users;
