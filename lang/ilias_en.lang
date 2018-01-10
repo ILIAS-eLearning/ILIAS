@@ -14144,4 +14144,3 @@ common#:#obj_exc_duplicate#:#Copy Exercise
 meta#:#adt_error_max_length#:#Please enter a shorter text.
 form#:#form_chars_remaining#:#Characters remaining:
 crs#:#crs_subscription_min_members_err#:#The minimum number is not allowed to be greater than the maximum number of participants.
-
