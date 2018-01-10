@@ -11,7 +11,7 @@ include_once "Services/Cron/classes/class.ilCronJob.php";
  * @ingroup ServicesTracking
  */
 class ilLPCronObjectStatistics extends ilCronJob
-{		
+{
 	protected $date; // [string]
 	
 	public function getId()
@@ -80,9 +80,17 @@ class ilLPCronObjectStatistics extends ilCronJob
 		return $result;
 	}	
 	
+	/**
+	 * gather course data
+	 * @global type $tree
+	 * @global type $ilDB
+	 * @return int
+	 */
 	protected function gatherCourseLPData()
 	{
 		global $tree, $ilDB;
+		
+		$logger = $GLOBALS['DIC']->logger()->trac();
 		
 		$count = 0;
 				
@@ -101,6 +109,13 @@ class ilLPCronObjectStatistics extends ilCronJob
 				// trashed objects will not change
 				if(!in_array($crs_id, $trashed_objects))
 				{
+					$refs = ilObject::_getAllReferences($crs_id);
+					if(!count($refs))
+					{
+						$logger->warning('Found course without reference: obj_id = ' . $crs_id);
+						continue;
+					}
+					
 					// only if LP is active
 					$olp = ilObjectLP::getInstance($crs_id);										
 					if(!$olp->isActive())
