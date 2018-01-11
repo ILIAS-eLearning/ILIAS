@@ -203,26 +203,6 @@ sudo apt-get install php5-xdebug
 sudo apt-get install php-xdebug
 ```
 
-<a name="setup-for-macos"></a>
-#### Setup for macOS
-- Install the following package with brew or your own favourite package manager.
-```
-# brew install homebrew/php/<php-version>-xdebug
-brew install homebrew/php/php71-xdebug
-```
-
-<a name="windows"></a>
-#### Windows
-- Open the browser and navigate to the 
-[xdebug installation wizard](https://xdebug.org/wizard.php).
-- Copy the output of the following command into the wizard.
-```
-# Output is redirected to the clipboard.
-php -i | clip
-```
-The xdebug wizard will provide a link to the correct xdebug binary and further 
-installation steps.
-
 <a name="configuration"></a>
 #### Configuration
 Please make sure to add the xdebug extension to one of your php.ini files.
