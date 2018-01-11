@@ -1585,10 +1585,6 @@ xDebug Documentation: <https://xdebug.org/docs/>
 
 Dicto.php: <https://github.com/lechimp-p/dicto.php>
 
-<a name="old-documentation"></a>
-## Old Documentation
-[Old ILIAS Unit Test Guide](https://www.ilias.de/docu/goto_docu_pg_29759_42.html)
-
 <a name="faq"></a>
 ## FAQ
 <a name="what-needs-to-be-tested-"></a>
