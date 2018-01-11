@@ -14269,6 +14269,7 @@ tms#:#show_all#:#Alle anzeigen
 tms#:#period#:#Zeitplan
 tms#:#time_suffix#:#Uhr
 tms#:#duplicate_course_booked#:#Ein Training dieser Vorlage ist bereits gebucht und noch nicht beendet. Sie dürfen dieses Angebot daher nicht buchen. Sie können die Buchungen in der Übersicht ihrer gebuchten Trainings im Cockpit einsehen und dort ggf. Stornierungen vornehmen.
+tms#:#superior_duplicate_course_booked#:#Ein Training dieser Vorlage ist für %s bereits gebucht. Eine Buchung dieses Angebots ist daher nicht möglich. In Ihrem Cockpit können Sie über "Buchungen meiner Mitarbeiter" bereits gebuchte Trainings stornieren.
 tms#:#tutor_assignment_period#:#Trainereinsatztage
 tms#:#request_book#:#Buchungsanfrage
 tms#:#user_bookings#:#Buchungen
@@ -14283,3 +14284,7 @@ tms#:#hide_menu_tree_info#:#Mit dieser Einstellung wird der Navigationsbaum für
 tms#:#form_hours#:#Stunden
 tms#:#form_minutes#:#Minuten
 tms#:#form_seconds#:#Sekunden
+tms#:#to_course#:#Zum Training
+tms#:#booking_waiting#:#Buchung auf Warteliste
+tms#:#book_waiting_for#:#Buchung auf Warteliste für %s
+tms#:#book_waiting_confirm#:#Verbindlich auf Warteliste buchen

@@ -28,7 +28,7 @@ class ilTMSAppEventListener
 	static public function createUnboundCourseProvider(\ilObject $crs) {
 		require_once(__DIR__."/UnboundCourseProvider.php");
 		$provider_db = self::getProviderDB();
-		$provider_db->create($crs, "crs", UnboundCourseProvider::class, __DIR__."/UnboundCourseProvider.php");
+		$provider_db->createSeparatedUnboundProvider($crs, "crs", UnboundCourseProvider::class, __DIR__."/UnboundCourseProvider.php");
 	}
 
 	static public function deleteUnboundCourseProvider(\ilObject $crs) {

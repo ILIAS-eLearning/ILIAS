@@ -13,7 +13,7 @@ require_once("Services/TMS/Cancel/classes/class.ilTMSCancelPlayerStateDB.php");
  *
  * @author Richard Klees <richard.klees@concepts-and-training.de>
  */
-class ilTMSCancelGUI  extends Booking\Player {
+abstract class ilTMSCancelGUI  extends Booking\Player {
 	use ILIAS\TMS\MyUsersHelper;
 
 	/**
@@ -83,9 +83,7 @@ class ilTMSCancelGUI  extends Booking\Player {
 		$process_db = new ilTMSCancelPlayerStateDB();
 
 		$this->init($DIC, $crs_ref_id, $usr_id, $process_db);
-
-		$this->g_ctrl->setParameterByClass("ilTMSCancelGUI", "crs_ref_id", $crs_ref_id);
-		$this->g_ctrl->setParameterByClass("ilTMSCancelGUI", "usr_id", $usr_id);
+		$this->setParameter($crs_ref_id, $usr_id);
 
 		$cmd = $this->g_ctrl->getCmd("start");
 		$content = $this->process($cmd, $_POST);
@@ -131,8 +129,8 @@ class ilTMSCancelGUI  extends Booking\Player {
 	 * @inheritdocs
 	 */
 	protected function redirectToPreviousLocation($messages, $success) {
-		$this->g_ctrl->setParameterByClass("ilTMSCancelGUI", "crs_ref_id", null);
-		$this->g_ctrl->setParameterByClass("ilTMSCancelGUI", "usr_id", null);
+		$this->setParameter(null, null);
+
 		if (count($messages)) {
 			$message = join("<br/>", $messages);
 			if ($success) {

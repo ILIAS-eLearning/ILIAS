@@ -9,7 +9,7 @@ require_once("Services/TMS/TrainingSearch/classes/Helper.php");
  * Displays the TMS training search
  *
  * @author Stefan Hecken 	<stefan.hecken@concepts-and-training.de>
- * @ilCtrl_Calls	ilTrainingSearchGUI: ilTMSBookingGUI
+ * @ilCtrl_Calls	ilTrainingSearchGUI: ilTMSSelfBookingGUI, ilTMSSuperiorBookingGUI, ilTMSSelfBookWaitingGUI, ilTMSSuperiorBookWaitingGUI
  */
 class ilTrainingSearchGUI {
 	const CMD_SHOW = "show";
@@ -86,9 +86,24 @@ class ilTrainingSearchGUI {
 		$this->changeUser();
 
 		switch ($next_class) {
-			case "iltmsbookinggui":
-				require_once("Services/TMS/Booking/classes/class.ilTMSBookingGUI.php");
-				$gui = new ilTMSBookingGUI($this, self::CMD_SHOW);
+			case "iltmsselfbookinggui":
+				require_once("Services/TMS/Booking/classes/class.ilTMSSelfBookingGUI.php");
+				$gui = new ilTMSSelfBookingGUI($this, self::CMD_SHOW);
+				$this->g_ctrl->forwardCommand($gui);
+				break;
+			case "iltmsselfbookwaitinggui":
+				require_once("Services/TMS/Booking/classes/class.ilTMSSelfBookWaitingGUI.php");
+				$gui = new ilTMSSelfBookWaitingGUI($this, self::CMD_SHOW);
+				$this->g_ctrl->forwardCommand($gui);
+				break;
+			case "iltmssuperiorbookinggui":
+				require_once("Services/TMS/Booking/classes/class.ilTMSSuperiorBookingGUI.php");
+				$gui = new ilTMSSuperiorBookingGUI($this, self::CMD_SHOW);
+				$this->g_ctrl->forwardCommand($gui);
+				break;
+			case "iltmssuperiorbookwaitinggui":
+				require_once("Services/TMS/Booking/classes/class.ilTMSSuperiorBookWaitingGUI.php");
+				$gui = new ilTMSSuperiorBookWaitingGUI($this, self::CMD_SHOW);
 				$this->g_ctrl->forwardCommand($gui);
 				break;
 			default:
@@ -321,11 +336,18 @@ class ilTrainingSearchGUI {
 	 * @return	string
 	 */
 	public function getBookingLink(BookableCourse $course) {
-		$this->g_ctrl->setParameterByClass("ilTMSBookingGUI", "crs_ref_id", $course->getRefId());
-		$this->g_ctrl->setParameterByClass("ilTMSBookingGUI", "usr_id", $this->search_user_id);
-		$link = $this->g_ctrl->getLinkTargetByClass("ilTMSBookingGUI", "start");
-		$this->g_ctrl->setParameterByClass("ilTMSBookingGUI", "crs_ref_id", null);
-		$this->g_ctrl->setParameterByClass("ilTMSBookingGUI", "usr_id", null);
+		if($this->search_user_id == $this->g_user->getId()) {
+			$class = "ilTMSSelfBookingGUI";
+		} else {
+			$class = "ilTMSSuperiorBookingGUI";
+		}
+
+		$this->g_ctrl->setParameterByClass($class, "crs_ref_id", $course->getRefId());
+		$this->g_ctrl->setParameterByClass($class, "usr_id", $this->search_user_id);
+		$link = $this->g_ctrl->getLinkTargetByClass($class, "start");
+		$this->g_ctrl->setParameterByClass($class, "crs_ref_id", null);
+		$this->g_ctrl->setParameterByClass($class, "usr_id", null);
+
 		return $link;
 	}
 

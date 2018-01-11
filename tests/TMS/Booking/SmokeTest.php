@@ -8,10 +8,10 @@ class DummyStep implements Booking\Step {
 	public function getLabel() {}
 	public function getDescription() {}
 	public function getPriority() {}
-	public function appendToStepForm(\ilPropertyFormGUI $form) {}
+	public function appendToStepForm(\ilPropertyFormGUI $form, $usr_id) {}
 	public function isApplicableFor($usr_id) {}
 	public function getData(\ilPropertyFormGUI $form) {}
-	public function appendToOverviewForm($data, \ilPropertyFormGUI $form) {}
+	public function appendToOverviewForm($data, \ilPropertyFormGUI $form, $usr_id) {}
 	public function	processStep($crs_id, $usr_id, $data) {}
 	public function entity() {}
 	public function addDataToForm(\ilPropertyFormGUI $form, $data) {}
@@ -34,6 +34,9 @@ class DummyPlayer extends Booking\Player {
 		throw new \LogicException("Mock me!");
 	}
 	protected function getConfirmButtonLabel() {
+		throw new \LogicException("Mock me!");
+	}
+	protected function getComponentClass() {
 		throw new \LogicException("Mock me!");
 	}
 }
