@@ -25,6 +25,10 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
             'Symfony\\Component\\Yaml\\' => 23,
             'Symfony\\Component\\Process\\' => 26,
         ),
+        'P' => 
+        array (
+            'Psr\\Log\\' => 8,
+        ),
         'M' => 
         array (
             'Monolog\\' => 8,
@@ -52,6 +56,10 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
         array (
             0 => __DIR__ . '/..' . '/symfony/process',
         ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
         'Monolog\\' => 
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
@@ -65,10 +73,6 @@ class ComposerStaticInit0b7e5ccf6ad3b6544d6c5a11478f9b6b
     public static $prefixesPsr0 = array (
         'P' => 
         array (
-            'Psr\\Log\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/psr/log',
-            ),
             'Pimple' => 
             array (
                 0 => __DIR__ . '/..' . '/pimple/pimple/src',
