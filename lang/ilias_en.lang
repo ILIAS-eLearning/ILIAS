@@ -7914,6 +7914,7 @@ survey#:#message_content_info#:#Enter the mail message for the notification mail
 survey#:#default_codes_mail_subject#:#Your access code for %s
 survey#:#default_codes_mail_message#:#Your survey access code is [code]. You can start the survey in your web browser using the URL [url]
 survey#:#please_enter_mail_code#:#Please enter the access code placeholder [code]
+survey#:#please_enter_mail_url#:#Please enter the access url placeholder [url]
 survey#:#mail_sent_short#:#Sent
 survey#:#finished_mail_subject#:#The survey "%s" was finished
 survey#:#msg_min_nr_answers#:#Please check at least %s answer(s).
@@ -14080,6 +14081,7 @@ prtf#:#prtf_signature_info#:#Adds a field to the print where the author can sign
 prtf#:#prtf_signature_date#:#Date, Signature
 lti#:#lti_not_allowed#:#Access denied. Your request was redirected to the root LTI object.
 lti#:#lti_navigation#:#Navigation
+lti#:#lti_session#:#LTI Session
 lti#:#lti_exit#:#Close LTI Session
 lti#:#lti_exited#:#LTI Session closed
 lti#:#lti_exited_info#:#LTI Session successfully closed
@@ -14142,3 +14144,4 @@ common#:#usr_name_undisclosed#:#Undisclosed
 common#:#obj_exc_duplicate#:#Copy Exercise
 meta#:#adt_error_max_length#:#Please enter a shorter text.
 form#:#form_chars_remaining#:#Characters remaining:
+crs#:#crs_subscription_min_members_err#:#The minimum number is not allowed to be greater than the maximum number of participants.
