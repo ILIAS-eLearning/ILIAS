@@ -1575,15 +1575,15 @@ cd %system.teamcity.build.workingDir%/libs/composer && rm -rf vendor/geshi/ && /
 
 <a name="external-documentation"></a>
 ## External Documentation
-[PHP Unit Documentation](https://phpunit.de/manual/5.7/en/index.html)
+PHP Unit Documentation: <https://phpunit.de/manual/5.7/en/index.html>
 
-[Mockery Documentation](http://docs.mockery.io/en/latest/)
+Mockery Documentation: <http://docs.mockery.io/en/latest/>
 
-[ILIAS CI Server](https://ci.ilias.de/)
+ILIAS CI Server: <https://ci.ilias.de/>
 
-[xDebug Documentation](https://xdebug.org/docs/)
+xDebug Documentation: <https://xdebug.org/docs/>
 
-[Dicto.php](https://github.com/lechimp-p/dicto.php)
+Dicto.php: <https://github.com/lechimp-p/dicto.php>
 
 <a name="old-documentation"></a>
 ## Old Documentation
