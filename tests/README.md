@@ -321,6 +321,9 @@ The reason for this is that unit testing in his very nature is the same in
 every language. The second reason is that no recently written books are
 on the market which describe modern unit testing with PHPUnit.
 
+There is no major reason why this particular book was taken. For the initial author
+this book seemed like a good starting point to create the unit test investigation.
+
 <a name="naming"></a>
 ### Naming
 "Rework test names and code to tell stories." [1, Location 1324]
