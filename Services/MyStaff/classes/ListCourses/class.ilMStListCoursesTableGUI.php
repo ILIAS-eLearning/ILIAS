@@ -331,9 +331,21 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 		}
 
 		foreach ($action_collection->getActions() as $action) {
-			$selection->addItem($action->getText(), '', $action->getHref());
+			if ($action->getType() == "profile") {
+				$selection->addItem($action->getText(), '', $action->getHref() . "&back_url=" . $this->getProfileBackUrl() );
+			} else {
+				$selection->addItem($action->getText(), '', $action->getHref());
+			}
 		}
 		$this->tpl->setVariable('ACTIONS', $selection->getHTML());
+	}
+
+	/**
+	 * Get profile back url
+	 */
+	function getProfileBackUrl()
+	{
+		return rawurlencode($this->ctrl()->getLinkTargetByClass(strtolower(ilMStListCoursesGUI::class), "index"));
 	}
 
 
