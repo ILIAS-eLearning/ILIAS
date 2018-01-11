@@ -385,7 +385,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 		$propGetter = Closure::bind(function ($prop) { return $this->$prop; }, $my_staff_course, $my_staff_course);
 
 		$field_values = array();
-		foreach ($this->getSelectableColumns() as $k => $v) {
+		foreach ($this->getSelectedColumns() as $k => $v) {
 			switch ($k) {
 				case 'usr_assinged_orgus':
 					$field_values[$k] = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($my_staff_course->getUsrId());
