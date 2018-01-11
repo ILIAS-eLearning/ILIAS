@@ -137,7 +137,7 @@ insight into the test results and how much of the code base remains untested.
 <a name="mockery"></a>
 ### Mockery
 Mockery is a lightweight and flexible mocking object framework which is used for unit testing with PHP Unit and other unit testing frameworks.
-It is designed as a drop in replacement for the PHP Unit mock functionality, but can also work alongside with the PHP Unit mock objects.
+It is designed as a drop in replacement for the PHP Unit mock functionality, but can also work alongside with the PHP Unit mock objects. [2]
 
 <a name="mock-objects"></a>
 #### Mock Objects
@@ -147,7 +147,7 @@ missing implementation can be replaced by a mock object.
 
 The benefit of mocking frameworks are the dynamic creation of such mock objects and stubs. They enable developers to describe the behaviour
 of the mock objects with a flexible API. The API also aims to be as close as possible to natural language descriptions to make the test code
-even more expressive.
+even more expressive. [3]
 
 <a name="setup-test-environment"></a>
 ## Setup test environment
@@ -317,7 +317,7 @@ The commands bellow must be run from the ILIAS web root directory.
 
 <a name="foreword"></a>
 ### Foreword
-May the reader is asking him self why this guidelines refer to a book
+Maybe the reader is asking him self why this guidelines refers to a book
 which writes about JUnit testing in Java 8.
 
 The reason for this is that unit testing in his very nature is the same in
@@ -326,9 +326,9 @@ on the market which describe modern unit testing with PHPUnit.
 
 <a name="naming"></a>
 ### Naming
-"Rework test names and code to tell stories." (Langr 2015)
+"Rework test names and code to tell stories." [1, Location 1324]
 This means to treat the tests as a specification which tells everything
-about the behaviours of a class.
+about the behaviours of the unit under test.
 
 <a name="class"></a>
 #### Class
@@ -344,9 +344,9 @@ much about the test. It is also possible that the test is actually testing multi
 generic name.
 
 Some good, more descriptive names have the following forms:
-- doingSomeOperationGeneratesSomeResult
-- someResultOccursUnderSomeCondition
-- whenDoingSomeBehaviourThenSomeResultOccurs
+- "doingSomeOperationGeneratesSomeResult"       [1, Location 1309]
+- "someResultOccursUnderSomeCondition"          [ebenda]
+- "whenDoingSomeBehaviourThenSomeResultOccurs"  [ebenda]
 
 <a name="current-state"></a>
 ##### Current state
@@ -362,11 +362,10 @@ camel case class names in a more consistent way.
 
 <a name="further-improvements"></a>
 #### Further improvements
-If the test code is still hard to understand following improvements could be made after
-the test have more meaningful names.
-- Improve any local variable names
-- Use meaningful constants
-- split large test into more specific ones to make them more meaningful.
+If the test code is still hard to understand following improvements could be made:
+- Improve any local variable names.
+- Use meaningful constants.
+- Split large test into more specific ones to make them more meaningful.
 - Move the test clutter into setUp and helper methods.  
 
 <a name="directory-structure"></a>
@@ -449,8 +448,8 @@ The legacy class *PHPUnit_Framework_TestCase* will be entirely removed with PHPU
 
 <a name="unit-test-structure"></a>
 ### Unit-Test structure
-Each unit test is usually structured into three parts: arrange, act and assert. This are also known as
-the triple-A (see Langr 2015).
+Each unit test is usually structured into three parts: arrange, act and assert. 
+These are also known as the triple A mnemonic. [1, Location 1161]
 
 - **Arrange** A proper system state is created by creating objects and interacting with them.
 - **Act** Invoke the part of the code which should be tested. This is usually one method call.
@@ -483,7 +482,9 @@ Example ILIAS Filesystem service (LegacyPathHelperTest):
 
 <a name="good-tests-are-first"></a>
 ### Good tests are FIRST
-Many problems while unit testing can be avoided by following the FIRST principles (see Langr 2015).
+The following chapters about FIRST are based on the content of [1, Location 1471].
+
+Many problems while unit testing can be avoided by following the FIRST principles.
 - **F** ast
 - **I** solated
 - **R** epeatable
@@ -518,9 +519,9 @@ due to the high coupling between each test.
 
 Therefore, unit test must be executable any time in any possible order.
 
-The Single Responsibility Principle (SRP) of the SOLID class design principle describes that class should be
-small and only serve one purpose. This principe is also really good for unit tests because if a test can for more than one
-reason. It's the best to split the test in multiple cases. If a focused test breaks it is normally obvious why.
+The Single Responsibility Principle (SRP) of the SOLID class design principle describes that class should only
+have one reason to change. This principe is also really good for unit tests because if a test can break for more than one
+reason. It's the best to split the test in multiple cases. "When a focused unit test breaks, it's usually obvious why." [1, Location 1680]
 
 <a name="repeatable"></a>
 #### Repeatable
@@ -548,8 +549,10 @@ There are developers which even develop the unit test before they write the actu
 
 <a name="write-correct-tests"></a>
 ### Write CORRECT tests
+The following chapters about CORRECT are based on the content of [1, Location 2139].
+
 Found bugs are often involve so called boundary conditions. These are the edges of the sane-path where many problems appear.
-The CORRECT acronym can be used to think of possible problems while writing unit tests (see Langr 2015).
+The CORRECT acronym can be used to think of possible problems while writing unit tests.
 - **C** onformance (Is the value conform with an expected format ?)
 - **O** rdering (Is the collection of values ordered or unordered as expected ?)
 - **R** ange (Is the value between the expected min and max value ?)
@@ -593,15 +596,15 @@ The the 64bit integer of PHP has far more capacity than needed. For example the 
 
 The excessive usage of primitives is known as a code smell with the name *primitive obsession*. One of the primal benefit of PHP is that data can be abstracted with its own logic. For example a dog has at most four legs and its age is between 1 second and 30 years.  
 
-To abstract these values and test the constraints of the abstraction makes the rest of the application more resistant again such errors.
+To abstract these values and test the constraints of the abstraction makes the rest of the application more resistant against such errors.
 
 <a name="reference"></a>
 #### Reference
 When a method is tested the following criteria should be considered:
-- What is the method referencing outside of the scope
-- Which dependencies are there
-- If the method depends on objects being in a specific state
-- Other conditions which must exist for the method
+- What is the method referencing outside of the scope ?
+- Which dependencies are there ? 
+- If the method depends on objects being in a specific state. 
+- Other conditions which must exist for the method.
 
 If assumptions are made about a state, the code should be tested that it is not behaving in a wrong way
 when the assumption is not true. For example a plane has to expand the wheels before landing or the plane will most likely be destroyed
@@ -896,7 +899,7 @@ tests as useless. Useless test are always threaded as failed. Furthermore, the t
 is not really telling whats exactly tested.
 
 Another aspect of the whole *ButtonTest* class is that a factory is used to create concrete instances of
-the Buttons. But the factory nor the concrete subclasses of the Button class is a test subject here only the
+the Buttons. But neither the factory nor the concrete subclasses of the Button class is a test subject here only the
 Button class itself. Of course to test all button instances is not really effective. However, the button can
 also be created with the help of mockery which subclasses the button dynamically within the tests. This allows
 to test the Button class in a dedicated way. If logic is added to one of the specific implementations only
@@ -937,7 +940,7 @@ class ButtonTest extends ILIAS_UI_TestBase {
 <a name="example-solution-1"></a>
 ##### Example solution
 The proposed solution of this example would be to remove the test because the trait should be tested in a separate
-class dedicated to the trait. However, if the author decides to test the class which use the trait in stead of the trait itself
+class dedicated to the trait. However, if the author decides to test the class which uses the trait in stead of the trait itself
 the solution would look like this.
 
 First the *Factory* was removed because this class is meant for the *Button* class.
@@ -1274,26 +1277,26 @@ with the expectation set on it. The pattern is *{method name}->{method name}* th
 ### Rise testability
 <a name="solid"></a>
 #### SOLID
-Robert C. Martin gathered 5 principles for object oriented class design, for building maintainable object oriented system (see Langr 2015).
+"Robert C. Martin gathered five principles for object-oriented class design" [1, Location 3101], for building maintainable object oriented system.
 <a name="single-responsibility-principle-srp"></a>
 ##### Single Responsibility Principle (SRP)
-Classes should have one reason to change. Keep the classes small and single-purposed.
+Classes should have one reason to change. Keep the classes small and single-purposed. [4]
 <a name="open-closed-principle-ocp"></a>
 ##### Open-Closed Principle (OCP)
 Classes should be design to be open for extension but closed for modification. The need to make changes to existing classes
-should be minimized.
+should be minimized. [4]
 <a name="liskov-substitution-principle-lsp"></a>
 ##### Liskov Substitution Principle (LSP)
 Subtypes should be substitutable for their base types. From a clients perspective overriding methods should not break
-functionality.
+functionality. [4]
 <a name="interface-segregation-principle-isp"></a>
 ##### Interface Segregation Principle (ISP)
 Clients should not be forced to depend on methods they don't use. Split a larger interface into
-a number of smaller interfaces.
+a number of smaller interfaces. [4]
 <a name="dependency-inversion-principal-dip"></a>
 ##### Dependency Inversion Principal (DIP)
 High-level modules should not depend on low-level modules; both should depend on abstractions.
-Abstractions should not depend on details; details should depend on abstractions.
+Abstractions should not depend on details; details should depend on abstractions. [4]
 
 <a name="a-solid-way-to-use-the-dic"></a>
 #### A SOLID way to use the DIC
@@ -1506,5 +1509,15 @@ The unit tests must be green before pushing the code to the ILIAS repo. Another 
 add and update the unit tests as the production code evolves.
 
 <a name="sources"></a>
+## Glossary
+| Term          | Description   |
+| :-----------: | ------------- |
+| Stub          | A stub is the same as a mock, however the stub only returns preset values. In contrast, the mock object requires expectations to verify the actual behaviour. [5] |
+| Test Coverage | Test coverage indicates which part of the code has been run for a specific test suite. A high test coverage indicates that most of the code runs most likely as expected. [6] |    
 ## Sources
-Langr, Jeff (2015): Pragmatic Unit Testing in Java 8 with JUnit.
+[1] Langr, Jeff (2015): Pragmatic Unit Testing in Java 8 with JUnit.
+[2] Pádraic Brady, Dave Marshall and contributors, (11.05.2017): Mockery, <http://docs.mockery.io/en/latest/>
+[3] Pádraic Brady, Dave Marshall and contributors, (11.05.2017): Mock Objects, <http://docs.mockery.io/en/latest/>
+[4] Martin Robin C., (17.07.2014): The Principles of OOD, <http://butunclebob.com/ArticleS.UncleBob.PrinciplesOfOod>
+[5] Pádraic Brady, Dave Marshall and contributors, (11.05.2017): Creating Test Doubles, <http://docs.mockery.io/en/latest/reference/creating_test_doubles.html>
+[6] (30.11.2017): Code coverage, <https://en.wikipedia.org/wiki/Code_coverage>
