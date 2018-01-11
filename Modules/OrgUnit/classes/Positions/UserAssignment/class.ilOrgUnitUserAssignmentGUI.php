@@ -106,14 +106,14 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands {
 
 		if (!count($user_ids)) {
 			ilUtil::sendFailure($this->txt("user_not_found"), true);
-			$this->ctrl()->redirect($this, "showStaff");
+			$this->ctrl()->redirect($this, self::CMD_INDEX);
 		}
 
 		$position_id = isset($_POST['user_type']) ? $_POST['user_type'] : 0;
 
 		if (!$position_id && !$position = ilOrgUnitPosition::find($position_id)) {
 			ilUtil::sendFailure($this->txt("user_not_found"), true);
-			$this->ctrl()->redirect($this, "showStaff");
+			$this->ctrl()->redirect($this, self::CMD_INDEX);
 		}
 		foreach ($user_ids as $user_id) {
 			ilOrgUnitUserAssignment::findOrCreateAssignment($user_id, $position_id, $this->getParentRefId());
