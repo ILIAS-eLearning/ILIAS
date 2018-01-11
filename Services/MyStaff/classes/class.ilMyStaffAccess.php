@@ -36,6 +36,10 @@ class ilMyStaffAccess extends ilObjectAccess {
 		global $DIC;
 		$ilUser = $DIC['ilUser'];
 
+		if (!$DIC->settings()->get("enable_my_staff")) {
+			return false;
+		}
+
 		$operation = ilOrgUnitOperationQueries::findByOperationString(ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, 'crs');
 		if(!$operation) {
 			return false;

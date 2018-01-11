@@ -690,7 +690,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 		{
 			if (preg_match("/^il_./", $role["title"]))
 			{
-				$role_title = ilPlugin::lookupTxtById($type, ilObjRole::_removeObjectId($role["title"]));
+				$role_title = ilObjectPlugin::lookupTxtById($type, ilObjRole::_removeObjectId($role["title"]));
 			}
 		}
 
