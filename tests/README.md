@@ -485,6 +485,7 @@ verification of a return value or state of any objects involved. It can also
 involve verifications of interactions between objects with the help of mocks.
 
 If there is the need to clean up resources, a fourth step should be added.
+This step should hardly ever be required. 
 - **After** Ensures the cleanup of the used resources.
 
 All parts should be visually separated by a blank line to highlight the different parts.
