@@ -287,7 +287,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
 
 		$field_values = array();
 
-		foreach ($this->getSelectableColumns() as $k => $v) {
+		foreach ($this->getSelectedColumns() as $k => $v) {
 			switch ($k) {
 				case 'org_units':
 					$field_values[$k] = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($my_staff_user->getUsrId());
