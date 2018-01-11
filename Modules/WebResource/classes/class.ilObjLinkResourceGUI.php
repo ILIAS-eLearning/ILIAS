@@ -1127,7 +1127,10 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 	{
 		global $ilTabs;
 
-		$this->checkPermission('visible');
+		if(!$this->checkPermissionBool('visible'))
+		{
+			$this->checkPermission('read');
+		}
 		$ilTabs->activateTab('id_info');
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
@@ -1363,7 +1366,10 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 				$this->ctrl->getLinkTarget($this, "view"));
 		}
 		
-		if ($this->checkPermissionBool('visible'))
+		if(
+			$this->checkPermissionBool('visible') ||
+			$this->checkPermissionBool('read')
+		)
 		{
 			$ilTabs->addTab("id_info",
 				$lng->txt("info_short"),
