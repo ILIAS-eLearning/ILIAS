@@ -296,7 +296,7 @@ class assFormulaQuestionResult
 		$math->suppress_errors = false;
 		$result                = $math->evaluate($formula); // baseunit-result!!
 
-		$resultWithRespectedUnit = $result; 
+		$resultWithRespectedUnit = ilMath::_round($result, $this->getPrecision());
 		if(is_object($this->getUnit()))
 		{
 			//there is a "fix" result_unit defined!
@@ -350,6 +350,8 @@ class assFormulaQuestionResult
 				{
 					$check_fraction = TRUE;
 				}
+				
+				$frac_value =  ilMath::_round($frac_value, $this->getPrecision());
 
 				if(substr_count($value, '.') == 1 || substr_count($value, ',') == 1)
 				{
