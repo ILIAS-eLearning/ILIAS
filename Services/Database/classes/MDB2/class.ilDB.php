@@ -2137,15 +2137,7 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	{
 		return "UNIX_TIMESTAMP()";
 	}
-	
-	/**
-	* Optimize Table
-	*/
-	function optimizeTable($a_table)
-	{
-		// needs to be overwritten in DBMS specific class
-		// if necessary and possible
-	}
+
 	
 	//
 	// Schema related functions
