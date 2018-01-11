@@ -418,14 +418,6 @@ interface ilDBInterface {
 	 */
 	public function execute($stmt, $data = array());
 
-
-	/**
-	 * @param $a_table
-	 * @return bool
-	 */
-	public function optimizeTable($a_table);
-
-
 	/**
 	 * @param $sequence
 	 * @return mixed

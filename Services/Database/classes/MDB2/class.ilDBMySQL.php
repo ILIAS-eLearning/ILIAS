@@ -348,13 +348,6 @@ class ilDBMySQL extends ilDB
 		return "NOW()";
 	}
 
-	/**
-	* Optimize Table
-	*/
-	function optimizeTable($a_table)
-	{
-		$this->query("OPTIMIZE TABLE ".$a_table);
-	}
 
 	/**
 	* get mysql version
