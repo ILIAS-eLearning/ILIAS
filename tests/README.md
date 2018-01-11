@@ -326,7 +326,7 @@ this book seemed like a good starting point to create the unit test investigatio
 
 <a name="naming"></a>
 ### Naming
-"Rework test names and code to tell stories." [1, Location 1324]
+"Rework test names and code to tell stories." [1, Chap. 4]
 This means to treat the tests as a specification which tells everything
 about the behaviours of the unit under test.
 
@@ -346,7 +346,7 @@ that the test is actually testing multiple behaviours because of the
 generic name.
 
 Some good, more descriptive names have the following forms:
-- "doingSomeOperationGeneratesSomeResult"       [1, Location 1309]
+- "doingSomeOperationGeneratesSomeResult"       [1, Chap. 4]
 - "someResultOccursUnderSomeCondition"          [ebenda]
 - "whenDoingSomeBehaviourThenSomeResultOccurs"  [ebenda]
 
@@ -457,7 +457,7 @@ be entirely removed with PHPUnit 6.
 <a name="unit-test-structure"></a>
 ### Unit-Test structure
 Each unit test is usually structured into three parts: arrange, act and assert. 
-These are also known as the triple A mnemonic. [1, Location 1161]
+These are also known as the triple A mnemonic. [1, Chap. 4]
 
 - **Arrange** A proper system state is created by creating objects and 
 interacting with them.
@@ -493,7 +493,7 @@ Example ILIAS Filesystem service (LegacyPathHelperTest):
 
 <a name="good-tests-are-first"></a>
 ### Good tests are FIRST
-The following chapters about FIRST are based on the content of [1, Location 1471].
+The following chapters about FIRST are based on the content of [1, Chap. 5].
 
 Many problems while unit testing can be avoided by following the FIRST principles.
 - **F** ast
@@ -539,7 +539,7 @@ The Single Responsibility Principle (SRP) of the SOLID class design principle
 describes that class should only have one reason to change. This principe is also 
 really good for unit tests because if a test can break for more than one
 reason. It's the best to split the test in multiple cases. 
-"When a focused unit test breaks, it's usually obvious why." [1, Location 1680]
+"When a focused unit test breaks, it's usually obvious why." [1, Chap. 5]
 
 <a name="repeatable"></a>
 #### Repeatable
@@ -578,7 +578,7 @@ the actual code, this technique is called test driven development or short (TDD)
 
 <a name="write-correct-tests"></a>
 ### Write CORRECT tests
-The following chapters about CORRECT are based on the content of [1, Location 2139].
+The following chapters about CORRECT are based on the content of [1, Chap. 7].
 
 Found bugs are often involve so called boundary conditions. 
 These are the edges of the sane-path where many problems appear.
@@ -1375,7 +1375,7 @@ expectations defined after the *shouldReceive* call.
 <a name="solid"></a>
 #### SOLID
 "Robert C. Martin gathered five principles for object-oriented class 
-design" [1, Location 3101], for building maintainable object oriented system.
+design" [1, Chap. 9], for building maintainable object oriented system.
 
 <a name="single-responsibility-principle-srp"></a>
 ##### Single Responsibility Principle (SRP)
