@@ -1327,16 +1327,6 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 
 	/**
-	 * @param $a_table
-	 * @return \ilDBStatement
-	 * @throws \ilDatabaseException
-	 */
-	public function optimizeTable($a_table) {
-		return $this->query($this->manager->getQueryUtils()->optimize($a_table));
-	}
-
-
-	/**
 	 * @return bool
 	 */
 	public function supportsSlave() {
