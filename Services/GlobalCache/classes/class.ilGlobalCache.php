@@ -412,11 +412,7 @@ class ilGlobalCache {
 	 */
 	public function flush($complete = false) {
 		if ($this->global_cache->isActive()) {
-			if ($complete) {
-				return $this->global_cache->flush();
-			} else {
-				$this->global_cache->setInvalid();
-			}
+			return $this->global_cache->flush();
 		}
 
 		return false;
