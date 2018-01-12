@@ -340,12 +340,12 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable('ACTIONS', $selection->getHTML());
 	}
 
+
 	/**
-	 * Get profile back url
+	 * @return string
 	 */
-	function getProfileBackUrl()
-	{
-		return rawurlencode($this->ctrl()->getLinkTargetByClass(strtolower(ilMStListCoursesGUI::class), "index"));
+	private function getProfileBackUrl() {
+		return rawurlencode($this->ctrl()->getLinkTargetByClass(strtolower(ilMStListCoursesGUI::class), ilMStListCoursesGUI::CMD_INDEX));
 	}
 
 
