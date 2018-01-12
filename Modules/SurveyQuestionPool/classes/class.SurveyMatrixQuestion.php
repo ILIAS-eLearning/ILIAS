@@ -1163,10 +1163,18 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			foreach ($answer_data as $item)
 			{						
 				$next_id = $ilDB->nextId('svy_answer');							
-				$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, rowvalue, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-					array('integer','integer','integer','float','text','integer','integer'),
-					array($next_id, $this->getId(), $active_id, $item['value'], $item['textanswer'], $item['rowvalue'], time())
-				);						
+				#20216
+				$fields = array();
+				$fields['answer_id'] = array("integer", $next_id);
+				$fields['question_fi'] = array("integer", $this->getId());
+				$fields['active_fi'] = array("integer", $active_id);
+				$fields['value'] = array("float", $item['value']);
+				$fields['textanswer'] = array("clob", $item['textanswer']);
+				$fields['rowvalue'] = array("integer", $item['rowvalue']);
+				$fields['tstamp'] = array("integer", time());
+
+				$affectedRows = $ilDB->insert("svy_answer", $fields);	
+
 			}			
 		}		
 	}

@@ -411,10 +411,17 @@ class SurveyTextQuestion extends SurveyQuestion
 		if (strlen($entered_value) == 0) return;	
 		
 		$next_id = $ilDB->nextId('svy_answer');
-		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
-			array('integer', 'integer', 'integer', 'float', 'text', 'integer'),
-			array($next_id, $this->getId(), $active_id, NULL, (strlen($entered_value)) ? $entered_value : NULL, time())
-		);
+		#20216
+		$fields = array();
+		$fields['answer_id'] = array("integer", $next_id);
+		$fields['question_fi'] = array("integer", $this->getId());
+		$fields['active_fi'] = array("integer", $active_id);
+		$fields['value'] = array("float", NULL);
+		$fields['textanswer'] = array("clob", (strlen($entered_value)) ? $entered_value : NULL);
+		$fields['tstamp'] = array("integer", time());
+
+		$affectedRows = $ilDB->insert("svy_answer", $fields);
+
 	}
 	
 	function &getCumulatedResults($survey_id, $nr_of_users, $finished_ids)

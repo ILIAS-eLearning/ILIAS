@@ -574,10 +574,21 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		if (strlen($entered_value) == 0) return;
 		
 		$next_id = $ilDB->nextId('svy_answer');
-		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
+
+		/*$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
 			array('integer','integer','integer','float','text','integer'),
 			array($next_id, $this->getId(), $active_id, (strlen($entered_value)) ? $entered_value : NULL, ($post_data[$this->getId() . "_" . $entered_value . "_other"]) ? $post_data[$this->getId() . "_" . $entered_value . "_other"] : null, time())
-		);
+		);*/
+		#20216
+		$fields = array();
+		$fields['answer_id'] = array("integer", $next_id);
+		$fields['question_fi'] = array("integer", $this->getId());
+		$fields['active_fi'] = array("integer", $active_id);
+		$fields['value'] = array("float", (strlen($entered_value)) ? $entered_value : NULL);
+		$fields['textanswer'] = array("clob", ($post_data[$this->getId() . "_" . $entered_value . "_other"]) ? $post_data[$this->getId() . "_" . $entered_value . "_other"] : null);
+		$fields['tstamp'] = array("integer", time());
+
+		$affectedRows = $ilDB->insert("svy_answer", $fields);
 	}
 	
 	function &getCumulatedResults($survey_id, $nr_of_users, $finished_ids)
