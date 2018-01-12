@@ -10539,6 +10539,7 @@ common#:#file_rollback_done#:#Dateiversion %s ist nun die aktuelle Version.
 common#:#file_version_new_version#:#Neue Version
 common#:#file_version_create#:#Initiale Version
 common#:#file_version_replace#:#Alle Versionen ersetzt
+common#:#file_version_rollback#:#Auf Version %s von %s zurückkehren
 common#:#file_rollback#:#Zur aktuellen Version machen
 obj#:#edit_questions#:#Fragen bearbeiten
 common#:#frm_import#:#Forum importieren
