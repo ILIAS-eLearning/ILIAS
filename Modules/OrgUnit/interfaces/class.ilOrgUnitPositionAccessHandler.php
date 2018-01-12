@@ -77,6 +77,13 @@ interface ilOrgUnitPositionAccessHandler {
 
 
 	/**
+	 * @param int $ref_id
+	 *
+	 * @return bool
+	 */
+	public function hasCurrentUserAnyPositionAccess($ref_id);
+
+	/**
 	 * @param string $pos_perm
 	 * @param int    $ref_id
 	 * @param int[]  $user_ids
