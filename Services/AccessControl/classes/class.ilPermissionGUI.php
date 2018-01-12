@@ -892,31 +892,28 @@ class ilPermissionGUI extends ilPermission2GUI
 
 		// handle local sets
 		foreach ($positions as $position_id) {
+			// handle sets
 			if (isset($_POST['local'][$position_id])) {
 				ilOrgUnitPermissionQueries::findOrCreateSetForRefId($ref_id, $position_id);
 			} else {
 				ilOrgUnitPermissionQueries::removeLocalSetForRefId($ref_id, $position_id);
+				continue;
 			}
-		}
-
-		if ($_POST['position_perm']) {
-			foreach ($_POST['position_perm'] as $position_id => $ops) {
-				if(!isset($_POST['local'][$position_id])) {
-					continue;
-				}
-				$ilOrgUnitPermission = ilOrgUnitPermissionQueries::getSetForRefId($ref_id, $position_id);
+			// Handle operations
+			$ilOrgUnitPermission = ilOrgUnitPermissionQueries::getSetForRefId($ref_id, $position_id);
+			if (isset($_POST['position_perm'][$position_id])) {
+				$ops = $_POST['position_perm'][$position_id];
 				$new_ops = [];
 				foreach ($ops as $op_id => $op) {
 					$new_ops[] = ilOrgUnitOperationQueries::findById($op_id);
 				}
 				$ilOrgUnitPermission->setOperations($new_ops);
-				$ilOrgUnitPermission->save();
+			} elseif (!$ilOrgUnitPermission->isNewlyCreated()) {
+				$ilOrgUnitPermission->setOperations([]);
 			}
+			$ilOrgUnitPermission->save();
 		}
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
 		$this->ctrl->redirect($this, self::CMD_PERM_POSITIONS);
-
 	}
-
-
 }
