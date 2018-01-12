@@ -246,9 +246,22 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
 			                                                                    'ilMStShowUserGUI',
 		                                                                    )));
 		foreach ($action_collection->getActions() as $action) {
-			$selection->addItem($action->getText(), '', $action->getHref());
+			if ($action->getType() == "profile") {
+				$selection->addItem($action->getText(), '', $action->getHref() . "&back_url=" . $this->getProfileBackUrl() );
+			} else {
+				$selection->addItem($action->getText(), '', $action->getHref());
+			}
 		}
 		$this->tpl->setVariable('ACTIONS', $selection->getHTML());
+	}
+
+
+	/**
+	 * Get profile back url
+	 * @return string
+	 */
+	private function getProfileBackUrl() {
+		return rawurlencode($this->ctrl()->getLinkTargetByClass(strtolower(ilMyStaffGUI::class), ilMyStaffGUI::CMD_INDEX));
 	}
 
 
