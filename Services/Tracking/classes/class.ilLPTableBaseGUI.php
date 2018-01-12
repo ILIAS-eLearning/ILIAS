@@ -729,8 +729,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 			$data[$lng->txt("trac_object_owner")] = ilObjUser::_lookupFullname(ilObject::_lookupOwner($this->obj_id));
 		}
 		
-		$data[$lng->txt("trac_report_date")] =
-				ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX), IL_CAL_DATETIME);
+		$data[$lng->txt("trac_report_date")] = ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX));
 		$data[$lng->txt("trac_report_owner")] = $ilUser->getFullName();
 		
 		return $data;

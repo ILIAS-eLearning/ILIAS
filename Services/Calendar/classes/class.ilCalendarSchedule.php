@@ -537,6 +537,8 @@ class ilCalendarSchedule
 				if(!$this->strict_period) {
 					$this->start->increment(IL_CAL_DAY, -2);
 					$this->end->increment(IL_CAL_DAY, 2);
+				} else {
+					$this->end->increment(IL_CAL_DAY, 1);
 				}
 				break;
 			
@@ -554,7 +556,7 @@ class ilCalendarSchedule
 				if($this->strict_period) {
 					$this->start->increment(IL_CAL_DAY,$day_diff);
 					$this->end = clone $this->start;
-					$this->end->increment(IL_CAL_DAY,6);
+					$this->end->increment(IL_CAL_WEEK); #22173
 				} else {
 					$this->start->increment(IL_CAL_DAY,$day_diff);
 					$this->start->increment(IL_CAL_DAY,-1);

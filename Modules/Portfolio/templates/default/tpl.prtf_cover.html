@@ -3,28 +3,29 @@
 	<h1 class="media-heading ilHeader"><a class="ilAccAnchor" id="il_mhead_t_focus" name="il_mhead_t_focus">{PORTFOLIO_TITLE}</a></h1>
 </div>
 
-<div class="row">
-	<div class="col-sm-3">{TXT_AUTHOR}</div>
-	<div class="col-sm-9">{AUTHOR}</div>
-</div>
-<div class="row">
-	<div class="col-sm-3">{TXT_LINK}</div>
-	<div class="col-sm-9">{LINK}</div>
-</div>
-<div class="row">
-	<div class="col-sm-3">{TXT_DATE}</div>
-	<div class="col-sm-9">{DATE}</div>
-</div>
+<table class="ilPrtfMetaInfo">
+<tr>
+	<th class="small">{TXT_AUTHOR}</th>
+	<td class="small">{AUTHOR}</td>
+</tr>
+<tr>
+	<th class="small">{TXT_LINK}</th>
+	<td class="small"><a href="{LINK}">{LINK}</a></td>
+</tr>
+<tr>
+	<th class="small">{TXT_DATE}</th>
+	<td class="small">{DATE}</td>
+</tr>
+</table>
+
 <!-- BEGIN signature -->
-<div class="row">
-	<div class="col-sm-3"><div style="margin-top: 50px; border-top:1px solid black;">{TXT_SIGNATURE}</div></div>
-</div>
+<div class="ilPrtfSignature">{TXT_SIGNATURE}</div>
 <!-- END signature -->
 
 
-
-
+<div class="ilPrtfToc">
 <h1>Table of Contents</h1>
 <!-- BEGIN content_item -->
 <p>{ITEM_TITLE}</p>
 <!-- END content_item -->
+</div>

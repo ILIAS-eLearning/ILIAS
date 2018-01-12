@@ -50,7 +50,7 @@ lti#:#lti_released_objects#:#Objekt-Freigaben
 lti#:#lti_consumer#:#Released for
 orgu#:#orgu_global_set_form#:#Globale Einstellungen
 orgu#:#orgu_global_set_positions#:#Anzeige von Benutzerdaten nach Positionen in Organisationseinheiten
-orgu#:#orgu_global_set_positions_type_active#:#Positionen in 
+orgu#:#orgu_global_set_positions_type_active#:#Positionen in: 
 orgu#:#orgu_global_set_type_changeable#:#Verhalten neuer Objekte
 orgu#:#orgu_global_set_type_changeable_object#:#Änderbare Einstellung im Objekt
 orgu#:#orgu_global_set_type_changeable_no#:#Positionen sind im Objekt nicht deaktivierbar
@@ -555,16 +555,16 @@ assessment#:#dont_use_questionpool#:#Fragen nicht in einen Fragenpool einfügen 
 assessment#:#duplicate#:#Kopieren
 assessment#:#duplicate_matching_values_selected#:#Sie haben mindestens einen doppelten Zuordnungswert ausgewählt!
 assessment#:#duplicate_order_values_entered#:#Sie haben mindestens eine doppelte Reihenfolge angegeben!
-assessment#:#ects_allow_ects_grades#:#ECTS-Note zusätzlich zur erreichten Note anzeigen
+assessment#:#ects_grade_desc_prefix#:#Bedeutung der Note: 
+assessment#:#ects_grade_a_desc#:#ausgezeichnete Leistungen und nur wenige unbedeutende Fehler
+assessment#:#ects_grade_b_desc#:#überdurchschnittliche Leistungen, aber einige Fehler
+assessment#:#ects_grade_c_desc#:#insgesamt gute und solide Arbeit, jedoch mit einigen grundlegenden Fehlern
+assessment#:#ects_grade_d_desc#:#mittelmäßig, jedoch deutliche Mängel
+assessment#:#ects_grade_e_desc#:#die gezeigten Leistungen entsprechen den Mindestanforderungen
+assessment#:#ects_grade_f_desc#:#es sind erhebliche Verbesserungen erforderlich
+assessment#:#ects_grade_fx_desc#:#es sind Verbesserungen erforderlich, bevor die Leistung anerkannt wird
 assessment#:#ects_grade#:#ECTS-Note
-assessment#:#ects_grade_a#:#ausgezeichnete Leistungen und nur wenige unbedeutende Fehler
-assessment#:#ects_grade_a_short#:#HERVORRAGEND
-assessment#:#ects_grade_b_short#:#SEHR GUT
-assessment#:#ects_grade_c_short#:#GUT
-assessment#:#ects_grade_d_short#:#BEFRIEDIGEND
-assessment#:#ects_grade_e_short#:#AUSREICHEND
-assessment#:#ects_grade_f#:#es sind erhebliche Verbesserungen erforderlich
-assessment#:#ects_grade_fx#:#es sind Verbesserungen erforderlich, bevor die Leistung anerkannt wird
+assessment#:#ects_allow_ects_grades#:#ECTS-Note zusätzlich zur erreichten Note anzeigen
 assessment#:#ects_output_of_ects_grades#:#Ausgabe von ECTS-Noten
 assessment#:#use_ects_fx#:#Verwenden der ECTS-Note 'FX'
 assessment#:#ects_fx_threshold#:#Grenzwert
@@ -670,7 +670,7 @@ assessment#:#kiosk_options#:#Angezeigte Informationen
 assessment#:#kiosk_options_desc#:#Die ausgewählten Informationen werden im Kopfbereich der Seite angezeigt.
 assessment#:#kiosk_show_participant#:#Name des Teilnehmers
 assessment#:#kiosk_show_title#:#Titel des Tests
-assessment#:#last_update#:#Letzte Aktualisierung
+assessment#:#last_update#:#Aktualisiert
 assessment#:#legend#:#Legende
 assessment#:#qpl_lac_legend_header_common#:#Aussagenlogik
 assessment#:#qpl_lac_desc_logical_and#:#Logisches UND
@@ -788,7 +788,7 @@ assessment#:#grading_obligations_listlabel#:#Verpflichtende Fragen
 assessment#:#grading_obligations_answered_listentry#:#Beantwortet
 assessment#:#grading_obligations_missing_listentry#:#Offen
 assessment#:#grading_mark_msg#:#Sie haben die Note &quot;[mark]&quot; erzielt.
-assessment#:#mark_tst_ects#:#Ihre ECTS-Note lautet &quot;[markects]&quot;
+assessment#:#mark_tst_ects#:#Ihre ECTS-Note lautet "[markects]" (European Credit Transfer System)
 assessment#:#tst_pass_finished_on#:#Testdurchlauf beendet am
 assessment#:#matches#:#passt zu
 assessment#:#matching_pairs#:#Zuordnungspaare
@@ -830,6 +830,7 @@ assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#Zeitpunkt der letzten
 assessment#:#tst_msg_rand_quest_set_pass_buildable#:#Ein Test mit zufälliger Fragenauswahl ist mit der aktuellen Konfiguration möglich.
 assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#<b>Mit der aktuellen Auswahl an Fragenpools und der Fragenanzahl kann kein Test mit zufälliger Fragenauswahl erzeugt werden.</b><br />
 assessment#:#tst_msg_rand_quest_set_lost_pools#:#Die Fragenziehungskonfiguration des Tests wurde eingefroren, da die folgenden in der Konfiguration involvierten Fragenpools nicht mehr zur Verfügung stehen:<br />%s
+assessment#:#tst_msg_rand_quest_set_lost_pools_link#:#Die nicht verfügbaren Fragenpools können unter dem Unterreiter %s neu abgeleitet werden.
 assessment#:#tst_msg_rand_quest_set_no_src_pool_defs#:#Um einen Test mit zufälliger Fragenauswahl zu ermöglichen, muss mindestens ein Fragenpool ausgewählt sein, aus dem Fragen entnommen werden können.
 assessment#:#tst_msg_rand_quest_set_incomplete_quest_amount_cfg#:#Ohne die Angabe einer Fragenanzahl kann kein Test mit zufälliger Fragenauswahl erzeugt werden.
 assessment#:#tst_msg_rand_quest_set_no_pools_available#:#Aktuell können Sie keine neuen Regeln für die Fragenauswahl hinzufügen, da keine Fragenpools zur Verfügung stehen.
@@ -1144,7 +1145,7 @@ assessment#:#finish_pass_for_user_confirmation#:#Wollen Sie wirklich den Test Du
 assessment#:#finish_pass_for_all_users#:#Wollen Sie wirklich die Test Durchläufe für alle Benutzer beenden?
 assessment#:#finish_all_user_passes#:#Alle Testdurchläufe beenden
 assessment#:#finish_unfinished_passes#:#Beendet noch offene Testdurchläufe
-assessment#:#finish_unfinished_passes_desc#:#Testdurchläufe, welche noch nicht beendet wurden, wo aber entweder ein Ende konfiguriert ist, oder welche die Maximale Bearbietungsdauer überschritten haben, werden beendet. 
+assessment#:#finish_unfinished_passes_desc#:#Testdurchläufe, welche noch nicht beendet wurden, wo aber entweder ein Ende konfiguriert ist, oder welche die Maximale Bearbietungsdauer überschritten haben, werden beendet.
 assessment#:#tst_general_properties#:#Einstellungen des Tests
 assessment#:#tst_heading_scoring#:#Bewertung
 assessment#:#tst_hide_side_list#:#Fragenliste aus
@@ -1923,6 +1924,7 @@ cmps#:#cmps_id#:#ID
 cmps#:#cmps_ilias_max_version#:#Maximale ILIAS-Version
 cmps#:#cmps_ilias_min_version#:#Minimale ILIAS-Version
 cmps#:#cmps_inactive#:#Inaktiv
+cmps#:#cmps_install#:#Installieren
 cmps#:#cmps_lang_files#:#Sprachdatei
 cmps#:#cmps_lang_prefix#:#Präfix Sprachvariable
 cmps#:#cmps_languages#:#Sprachen
@@ -3016,7 +3018,7 @@ common#:#last_edited_on#:#Zuletzt bearbeitet am
 common#:#last_login#:#Letztes Login
 common#:#last_refresh#:#Letzte Aktualisierung
 common#:#last_reminder#:#Letzte Erinnerung
-common#:#last_update#:#Letzte Aktualisierung
+common#:#last_update#:#Aktualisiert
 common#:#last_visited#:#Zuletzt besucht
 common#:#lastname#:#Nachname
 common#:#launch#:#Start
@@ -5212,9 +5214,9 @@ crs#:#crs_members_print_title#:#Kursmitglieder
 crs#:#crs_min_one_admin#:#Diesem Kurs muß mindestens ein Administrator zugeordnet bleiben.
 crs#:#crs_new_status#:#Ihr Status:
 crs#:#crs_new_subscription#:#Beitritt zum Kurs "%s"
-crs#:#crs_new_subscription_body#:#%s1 ist dem Kurs %s2 beigetreten.
+crs#:#crs_new_subscription_body#:#%1$s ist dem Kurs %2$s beigetreten.
 crs#:#crs_new_subscription_request#:#Aufnahmeantrag für Kurs "%s"
-crs#:#crs_new_subscription_request_body#:#%s hat einen Aufnahmeantrag für den Kurs "%s" gestellt.
+crs#:#crs_new_subscription_request_body#:#%1$s hat einen Aufnahmeantrag für den Kurs "%2$s" gestellt.
 crs#:#crs_new_subscription_request_body2#:#Um den Benutzer zum Kurs zuzulassen oder den Antrag abzuweisen, müssen Sie die Mitgliederverwaltung des Kurses aufrufen.\nWählen Sie dazu bitte folgenden Link:
 crs#:#crs_news#:#Mail zum Kurs
 crs#:#crs_no_archive_selected#:#Sie haben kein Archiv ausgewählt
@@ -7350,7 +7352,7 @@ news#:#news_period_x_days#:#Letzte %s Tage
 news#:#news_period_x_months#:#Letzte %s Monate
 news#:#news_period_x_weeks#:#Letzte %s Wochen
 news#:#news_public_feed#:#Eigener Webfeed
-news#:#news_public_feed_info#:#Es wird ein RSS-Icon mit einer separaten Webfeed-URL angezeigt. 
+news#:#news_public_feed_info#:#Es wird ein RSS-Icon mit einer separaten Webfeed-URL angezeigt.
 news#:#news_rss_period#:#RSS-Zeitraum
 news#:#news_rss_title_format#:#RSS-Titelformat
 news#:#news_rss_title_format_news_obj#:#Nachrichtentitel (Objekttitel)
@@ -8133,7 +8135,7 @@ search#:#lucene_show_relevance_info#:#Suchergebnisse werden sortiert nach ihrer 
 search#:#lucene_size_frag_info#:#Bitte wählen Sie die maximale Länge der Textabschnitte, die zur Hervorhebung der Suchtreffer ausgegeben werden.
 search#:#lucene_size_fragments#:#Länge der Textabschnitte
 search#:#lucene_tbl_create_ini#:#Java-Server Konfigurationsdatei erstellen
-search#:#search_adv_md#:#Erweiterte Metadaten
+search#:#search_adv_md#:#Benutzerdefinierte Metadaten
 search#:#search_advanced#:#Erweiterte Suche
 search#:#search_all_words#:#Alle Begriffe <small>(<i>UND</i>)</small>
 search#:#search_any#:#-- Beliebig --
@@ -8726,7 +8728,7 @@ survey#:#invited_users#:#Ausgewählte Benutzer
 survey#:#label#:#Label
 survey#:#label_info#:#Alternative Bezeichnung für die weitere Verarbeitung (z.B. in SPSS) der Fragendaten
 survey#:#language_changed#:#Sprache geändert
-survey#:#last_update#:#Letzte Aktualisierung
+survey#:#last_update#:#Aktualisiert
 survey#:#layout#:#Layout
 survey#:#legend#:#Legende
 survey#:#lower_limit#:#Untere Schranke
@@ -8821,6 +8823,7 @@ survey#:#phrase_added#:#Phrase hinzugefügt
 survey#:#phrase_new#:#Neue Phrase erstellen
 survey#:#phrase_saved#:#Die Phrase wurde erfolgreich gespeichert
 survey#:#please_enter_mail_code#:#Bitte verwenden Sie den Platzhalter für den Zugangscode [code].
+survey#:#please_enter_mail_url#:#Bitte verwenden Sie den Platzhalter für die URL [url].
 survey#:#please_select#:#-- bitte auswählen --
 survey#:#predefined_users#:#Ausgewählten Benutzern auf den Schreibtisch legen
 survey#:#preview#:#Vorschau
@@ -9086,7 +9089,7 @@ trac#:#trac_first_access#:#Erster Zugriff
 trac#:#trac_first_and_last_access#:#Erster und letzter Zugriff
 trac#:#trac_group_materials#:#Gruppierung mit optionalen Materialien erstellen
 trac#:#trac_group_materials_save#:#Anzahl verpflichtender Materialien speichern
-trac#:#trac_grouped_material_obligatory_err#:#Die Anzahl der obligatorischen Materialien muss größer als 0 sein und kleiner als die Anzahl der Materialien, die dieser Gruppierung zugeordnet sind. 
+trac#:#trac_grouped_material_obligatory_err#:#Die Anzahl der obligatorischen Materialien muss größer als 0 sein und kleiner als die Anzahl der Materialien, die dieser Gruppierung zugeordnet sind.
 trac#:#trac_hide#:#Ausblenden
 trac#:#trac_hide_selected#:#Ausgewählte Inhalte ausblenden
 trac#:#trac_in_progress#:#In Bearbeitung
@@ -9956,6 +9959,7 @@ dcl#:#dcl_tableview_confirm_delete#:#Sind Sie sicher, dass die folgende Ansicht 
 dcl#:#dcl_tableview_fieldsettings#:#Feldspezifische Einstellungen
 dcl#:#dcl_field_visible#:#Sichtbar
 dcl#:#dcl_std_filter#:#Filtervorbelegung
+dcl#:#dcl_msg_mc_to_sc_confirmation#:#Ein Wechsel von Mehrfachauswahl auf Einfachauswahl kann bei existierenden Datensätzen zu Datenverlust führen. Sind Sie sicher, dass Sie fortfahren möchten?
 dcl#:#dcl_filter_changeable#:#Filter änderbar
 common#:#obj_tool_setting_calendar#:#Kalender
 common#:#obj_tool_setting_calendar_info#:#Der Block "Kalender" wird im Reiter "Inhalt" angezeigt.
@@ -10124,7 +10128,7 @@ ecs#:#ecs_cms_tree_synchronized#:#Der Baum wurde synchronisiert.
 rep#:#rep_activation_online_object_info#:#Diese Einstellung wirkt sich auf alle Referenzen im Repository aus.
 rep#:#rep_activation_access_ref_info#:#Dieses Einstellung betrifft nur die aktuelle und keine andere Referenz.
 poll#:#poll_block_results_available_on#:#Die Ergebnisse werden am %s veröffentlicht.
-survey#:#svy_activation_online_info#:#Nur wenn die Umfrage online ist, können Benutzer an der Umfrage teilnehmen. 
+survey#:#svy_activation_online_info#:#Nur wenn die Umfrage online ist, können Benutzer an der Umfrage teilnehmen.
 survey#:#svy_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird nur der Titel der Umfrage angezeigt, die Fragen sind nicht zugänglich.
 blog#:#blog_add_contributor#:#Mitwirkende hinzufügen
 common#:#il_blog_contributor#:#Blog-Autor
@@ -10559,6 +10563,7 @@ common#:#file_rollback_done#:#Dateiversion %s ist nun die aktuelle Version.
 common#:#file_version_new_version#:#Neue Version
 common#:#file_version_create#:#Initiale Version
 common#:#file_version_replace#:#Alle Versionen ersetzt
+common#:#file_version_rollback#:#Auf Version %s von %s zurückkehren
 common#:#file_rollback#:#Zur aktuellen Version machen
 obj#:#edit_questions#:#Fragen bearbeiten
 common#:#frm_import#:#Forum importieren
@@ -11007,6 +11012,7 @@ obj#:#obj_orgunit_positions#:#Zugriffsregelungen nach Organisationseinheiten
 obj#:#obj_orgunit_positions_info#:#Wenn aktiviert, können zusätzliche Zugriffsregelungen über Positionen in Organisationseinheiten vergeben werden.
 orgu#:#authorities#:#Befugnisse
 orgu#:#positions#:#Positionen
+orgu#:#add_position#:#Position hinzufügen
 orgu#:#scope_1#:#eigener Organisationseinheit
 orgu#:#scope_2#:#untergeordneten Organisationseinheiten
 orgu#:#scope_3#:#allen Organisationseinheiten
@@ -11027,14 +11033,14 @@ mst#:#mst_show_courses#:#Einschreibungen
 mst#:#mst_courses_of#:#Einschreibungen von %s
 orgu#:#msg_position_udpated#:#Position updated
 orgu#:#remove_successful#:#Der Benutzer wurde erfolgreich entfernt.
-orgu#:#add_position#:#Position hinzufügen
 orgu#:#orgu_enable_my_staff#:#‘Ansicht Mitarbeiter’ aktivieren
-orgu#:#orgu_enable_my_staff_info#:#The Ansicht ‘Meine Mitarbeiter’ zeigt die Lernfortschritte der eigenen Mitarbeiter an.
+orgu#:#orgunit_position_permissions_not_active_for#:#Das Überschreiben der Zugriffsregelung für die Positionen darf nicht lokal vorgenommen werden für den Typ:
+orgu#:#orgu_enable_my_staff_info#:#Die Ansicht ‘Meine Mitarbeiter’ zeigt die Lernfortschritte der eigenen Mitarbeiter an.
 orgu#:#org_op_manage_members#:#Mitglieder bearbeiten
 orgu#:#org_op_read_learning_progress#:#Lernfortschritt von anderen Benutzern einsehen
-orgu#:#org_op_edit_submissions_grades#:#Abgaben von anderen Benutzern bearbeiten.
-rbac#:#org_op_edit_submissions_grades#:#Abgaben von anderen Benutzern bearbeiten.
-orgu#:#org_op_write_learning_progress#:#Lernfortschritt von anderen Benutzern setzen.
+orgu#:#org_op_edit_submissions_grades#:#Abgaben von anderen Benutzern bearbeiten
+rbac#:#org_op_edit_submissions_grades#:#Abgaben von anderen Benutzern bearbeiten
+orgu#:#org_op_write_learning_progress#:#Lernfortschritt von anderen Benutzern setzen
 rbac#:#org_op_write_learning_progress#:#Lernfortschritt untergeordneter Benutzer setzen
 rbac#:#positions_override_operations#:#Globale Einstellungen überschreiben
 orgu#:#form_title_org_default_permissions_update#:#Standardrechte
@@ -11733,7 +11739,7 @@ survey#:#svy_mail_own_results_subject#:#Umfrage "%s" - Ihre Antworten
 survey#:#svy_results_view_own#:#Teilnehmer kann eigene Antworten einsehen
 exercise#:#exc_to_desktop_info#:#Nach Abgabe die Übung auf den Schreibtisch legen
 wiki#:#wiki_wpg#:#Wiki-Seite
-wiki#:#wiki_advmd_block_title#:#Erweiterte Metadaten der Seite
+wiki#:#wiki_advmd_block_title#:#Benutzerdefinierte Metadaten der Seite
 content#:#cont_ed_insert_amd_page_list#:#Seitenliste einfügen
 content#:#cont_insert_amd_page_list#:#Seitenliste einfügen
 content#:#cont_update_amd_page_list#:#Seitenliste bearbeiten
@@ -11807,8 +11813,8 @@ tagging#:#tagging_other_users#:#Tags anderer Benutzer
 common#:#autocomplete_more#:#mehr
 mail#:#mail_max_size_attachments_total#:#Bitte geben Sie hier die erlaubte Dateigröße für Mailanhänge an. Diese Einstellung hat keinen Einfluss auf das Hochladen von Dateien (hier gelten die Serverlimitierungen, z.B. upload_max_filesize), sondern lediglich auf die Datenmenge der als Anhang einer Mail ausgewählten Dateien.
 mail#:#mail_max_size_attachments_total_error#:#Die maximal erlaubte Dateigröße für Anhänge beträgt:
-grp#:#grp_cdf_tbl_last_edit#:#Letzte Änderung (Gruppenspezifische Daten)
-crs#:#crs_cdf_tbl_last_edit#:#Letzte Änderung (Kursspezifische Daten)
+grp#:#grp_cdf_tbl_last_edit#:#Aktualisiert (Gruppenspezifische Daten)
+crs#:#crs_cdf_tbl_last_edit#:#Aktualisiert (Kursspezifische Daten)
 ps#:#cdf_edited_by_self#:#durch den Benutzer
 rbac#:#excs_visible#:#Übungs-Administration ist sichtbar
 rbac#:#excs_read#:#Lesezugriff auf Übungs-Administration
@@ -11922,20 +11928,20 @@ orgu#:#orgu_orgu_type#:#Organisationseinheitentyp
 orgu#:#orgu_type_custom_icon#:#Benutzerdefiniertes Icon für diesen Organisationseinheitentyp
 orgu#:#orgu_adv_settings#:#Erweiterte Einstellungen
 orgu#:#orgu_type_msg_error_custom_icon#:#Icon konnte nicht gespeichert werden
-orgu#:#orgu_type_available_amd_sets#:#Verfügbare Erweiterte Metadaten
-orgu#:#orgu_type_assign_amd_sets#:#Erweiterte Metadaten zuweisen
+orgu#:#orgu_type_available_amd_sets#:#Verfügbare benutzerdefinierte Metadaten
+orgu#:#orgu_type_assign_amd_sets#:#Benutzerdefinierte Metadaten zuweisen
 content#:#cont_help_no_valid_tooltip_id#:#Die eingegebene Tooltip-ID ist nicht gültig.
-wiki#:#wiki_page_templates#:#Seitentemplates
-wiki#:#wiki_template_status_removed#:#Nutzung als Seitenvorlage aufgehoben.
-wiki#:#wiki_remove_template_status#:#Nicht mehr als Seitenvorlage nutzen
-wiki#:#wiki_template_added#:#Seitenvorlage hinzugefügt
+wiki#:#wiki_page_templates#:#Inhaltsvorlagen
+wiki#:#wiki_template_status_removed#:#Nutzung als Inhaltsvorlage aufgehoben.
+wiki#:#wiki_remove_template_status#:#Nicht mehr als Inhaltsvorlage nutzen
+wiki#:#wiki_template_added#:#Inhaltsvorlage hinzugefügt
 wiki#:#wiki_templ_new_pages#:#Verfügbar für neue Seite
 wiki#:#wiki_templ_add_to_page#:#Verfügbar für bestehende Seite
-wiki#:#wiki_add_template#:#Als Seitenvorlage nutzen
+wiki#:#wiki_add_template#:#Als Inhaltsvorlage nutzen
 wiki#:#wiki_empty_page_template#:#Erstellen einer neuen Seite ohne Vorlage anbieten (leere Seite)
 wiki#:#wiki_page_not_exist_select_templ#:#Diese Seite existiert noch nicht. Bitte wählen Sie eine Vorlage für die neue Seite.
 wiki#:#wiki_new_page#:#Neue Seite
-wiki#:#wiki_page_template#:#Seitenvorlage
+wiki#:#wiki_page_template#:#Inhaltsvorlage
 wiki#:#wiki_empty_page#:#Leere Seite
 wiki#:#wiki_create_page#:#Seite erstellen
 content#:#cont_ed_insert_templ#:#Inhaltsvorlage einfügen
@@ -12447,7 +12453,7 @@ mail#:#mail_threshold#:#Schwellenwert
 mail#:#mail_threshold_info#:#Interne Mails, die älter als der hier definierte Schwellenwert sind, werden unwiderruflich gelöscht (inklusive evtl vorhandener Anhänge).<br> Bitte bedenken Sie, dass bei erstmaliger Ausführung dieses Cron-Jobs je nach Schwellenwert sehr viele Nachrichten gelöscht werden und eine E-Mail als Warnung nicht mehr versendet werden kann.
 mail#:#mail_orphaned_mails_desc#:#Löschen alter oder verwaister Mails
 mail#:#only_inbox_trash#:#Nur Posteingang/Papierkorb berücksichtigen
-mail#:#only_inbox_trash_info#:#Fallls aktiviert, werden ausschließlich Mails gelöscht, die sich zum Zeitpunkt der Cron-Job-Ausführung im Posteingang und Papierkorb der jeweiligen Benutzer befinden. Ansonsten werden alle Mails unabhängig vom Ordner gelöscht.
+mail#:#only_inbox_trash_info#:#Falls aktiviert, werden ausschließlich Mails gelöscht, die sich zum Zeitpunkt der Cron-Job-Ausführung im Posteingang und Papierkorb der jeweiligen Benutzer befinden. Ansonsten werden alle Mails unabhängig vom Ordner gelöscht.
 mail#:#mail_notify_orphaned#:#Benachrichtigungsmail
 mail#:#mail_notify_orphaned_info#:#Wenn Sie hier einen Wert größer oder gleich 1 eintragen, sendet ILIAS eine E-Mail an den Benutzer bevor eine interne Mail gelöscht wird. Bitte stellen Sie sicher, dass ein externer E-Mail-Empfang möglich ist.
 prtt#:#prtt_portfolio_created#:#Portfoliovorlage wurde hinzugefügt
@@ -12601,7 +12607,7 @@ exc#:#exc_adopt_group_teams_conflict#:#Benutzer "%1$s" ist bereits in Gruppe "%2
 exc#:#exc_adopt_group_teams_added#:#%s Benutzer wurden hinzugefügt.
 exc#:#exc_adopt_group_teams_blocked#:#%s Benutzer waren bereits vorhanden.
 exc#:#exc_deadline_ext_mismatch#:#Die Nachfrist muss nach dem Abgabetermin enden.
-exc#:#exc_peer_review_ass_setting_info#:#Nachdem der Abgabetermin und ggfs. die Nachfrist verstrichen sind, können Teilnehmer ihre Arbeitsergebnisse gegenseitig bewerten. Genaue Einstellungen zum Peer-Feedback werden im gleichnamigen Reiter vorgenommen. Der Reiter wird eingeblendet, wenn diese Option aktiviert und gepeichert wurde. 
+exc#:#exc_peer_review_ass_setting_info#:#Nachdem der Abgabetermin und ggfs. die Nachfrist verstrichen sind, können Teilnehmer ihre Arbeitsergebnisse gegenseitig bewerten. Genaue Einstellungen zum Peer-Feedback werden im gleichnamigen Reiter vorgenommen. Der Reiter wird eingeblendet, wenn diese Option aktiviert und gespeichert wurde.
 exc#:#exc_peer_review_min_number#:#Geforderte Anzahl von Feedbacks
 exc#:#exc_peer_review_min_number_info#:#Anzahl von Feedback, die ein Teilnehmer den Peers geben muss. Sollte die Anzahl der geforderten Feedbacks die Anzahl der tatsächlichen Einreichungen übersteigen, wird die geforderte Anzahl automatisch auf die Anzahl der tatsächlichen Einreichungen reduziert.
 exc#:#exc_criteria_catalogues#:#Kriterienkataloge
@@ -12642,7 +12648,7 @@ meta#:#meta_tab_lom#:#LOM
 meta#:#meta_tab_advmd#:#Benutzerdefinierte Metadaten
 meta#:#meta_tab_advmd_def#:#Metadatensätze verwalten
 meta#:#meta_global#:#Global
-wiki#:#wiki_unhide_meta_adv_records#:#Erweiterte Metadaten anzeigen
+wiki#:#wiki_unhide_meta_adv_records#:#Benutzerdefinierte Metadaten anzeigen
 prtf#:#prtf_back_to_portfolio_owner#:#Portfolio bearbeiten
 blog#:#blog_back_to_blog_owner#:#Blog bearbeiten
 content#:#cont_assign_to_parent#:#Dem übergordneten Knoten zuordnen
@@ -12734,13 +12740,13 @@ content#:#cont_upload_multi_srt_howto#:#Erlaubt das Hochladen mehrerer Untertite
 content#:#cont_moved_srt_files#:#Die Untertitel-Dateien wurden den Medienobjekten zugeordnet.
 content#:#cont_subtitle_file#:#SRT-ZIP-Datei
 content#:#cont_multi_srt_files#:#SRT-Dateien
-content#:#cont_master_language_only#:#Hauptsprache für Übersetzung (Master)
+content#:#cont_master_language_only#:#Hauptsprache für Übersetzung - Master
 content#:#cont_import#:#Import
-content#:#cont_trans_import_info#:#Wenn Sie dieses Modul als "XML/Hauptsprache für Übersetzung (Master)" in eine andere Installation exportiert haben, können Sie hier die übersetzten Export-Dateien dieser Installation wieder importieren.
+content#:#cont_trans_import_info#:#Wenn Sie dieses Modul als "XML (Hauptsprache für Übersetzung - Master)" in eine andere Installation exportiert haben, können Sie hier die übersetzten Export-Dateien dieser Installation wieder importieren.
 content#:#cont_import_trans#:#Übersetzung importieren
 content#:#cont_import_lang#:#Zielsprache
-mep#:#mep_master_language_only#:#Hauptsprache für Übersetzung (Master)
-mep#:#mep_trans_import_info#:#Wenn Sie dieses Modul als "XML/Hauptsprache für Übersetzung (Master)" in eine andere Installation exportiert haben, können Sie hier die übersetzten Export-Dateien dieser Installation wieder importieren.
+mep#:#mep_master_language_only#:#Hauptsprache für Übersetzung - Master
+mep#:#mep_trans_import_info#:#Wenn Sie dieses Modul als "XML (Hauptsprache für Übersetzung - Master)" in eine andere Installation exportiert haben, können Sie hier die übersetzten Export-Dateien dieser Installation wieder importieren.
 mep#:#mep_import_trans#:#Übersetzung importieren
 mep#:#mep_import_lang#:#Zielsprache
 content#:#cont_snippet_from_another_installation#:#Inhaltsbaustein stammt von einer anderen ILIAS-Installation.
@@ -13391,6 +13397,7 @@ style#:#add_system_style#:#Neuer System Style
 style#:#add_substyle#:#Neuer Sub Style
 style#:#skin_id#:#Skin ID
 style#:#skin_name#:#Skin Name
+style#:#skin_version#:#Skin Version
 style#:#skin#:#Skin
 style#:#style_id#:#Style ID
 style#:#Style#:#Style
@@ -13467,6 +13474,7 @@ style#:#can_not_read_less_file#:#Less Datei kann nicht gelesen werden. Pfad:
 style#:#msg_sys_style_created#:#Die neue System Style Datei wurde erfolgreich erstellt.
 style#:#skin_id_description#:#Skins sind Behälter für Styles und Sub Styles. Die Skin ID setzt den Namen des Ordners, welcher alle Informationen zu Styles und Sub Styles beinhaltet. Die Skin ID darf sich nur aus Buchstaben, Nummern sowie Bindestrichen zusammensetzen.
 style#:#skin_name_description#:#Der Skin Name kann als Beschreibung für das Einsatzgebiet verwendet werden. Er wird in allen UI Elementen aufgelistet, in denen ein Skin ausgewählt werden kann.
+style#:#skin_version_description#:#Die Skin Version wird genutzt um die Styles, nach Änderungen, neu zu cachen. Sie wird automatisch aktualisiert.
 style#:#style_id_description#:#Die Style ID wird für Style-spezifische css- und less-Dateien unterhalb des Skin Ordners verwendet. Die Style ID darf sich nur aus Buchstaben, Nummern sowie Bindestrichen zusammensetzen.
 style#:#style_name_description#:#Der Style Name kann als Beschreibung für das Einsatzgebiet verwendet werden. Er wird in allen UI Elementen aufgelistet, in denen ein Skin ausgewählt werden kann.
 style#:#sub_style#:#Sub Style
@@ -13697,7 +13705,7 @@ chatroom#:#chat_osc_dont_accept_msg#:#Sie können aktuell von anderen Personen n
 chatroom#:#chat_osc_doesnt_accept_msg#:#Konversationen nicht möglich
 chatroom#:#chat_osc_subs_rej_msgs#:#Ihr Chat-Partner möchte zur Zeit keine Nachrichten empfangen. Er kann den Empfang von Chat-Nachrichten in seinen Chat-Einstellungen wieder aktivieren.
 chatroom#:#chat_osc_subs_rej_msgs_p#:#Die folgenden Konversationspartner möchten aktuell keine Nachrichten mehr empfangen: %s
-chatroom#:#chat_osc_self_rej_msgs#:#Sie können aktuell nicht an der Conversation teilnehmen, da Sie den Empfang von Chat-Nachrichten in Ihren Einstellungen aktuell unterdrückt haben. 
+chatroom#:#chat_osc_self_rej_msgs#:#Sie können aktuell nicht an der Conversation teilnehmen, da Sie den Empfang von Chat-Nachrichten in Ihren Einstellungen aktuell unterdrückt haben.
 usr#:#user_actions#:#Benutzeraktionen
 usr#:#user_action#:#Benuzteraktion
 chatroom#:#chtr_activation_online_info#:#Wählen Sie diese Einstellung, um den Chatraum für Benutzer verfügbar zumachen.
@@ -13991,10 +13999,10 @@ prtf#:#prtf_add_existing_blog#:#Vorhandenes Blog nutzen
 blog#:#blog_draft_text#:#Unveröffentlichter Beitrag
 user#:#usr_letter_avatars#:#Letter-Avatare
 user#:#usr_letter_avatars_info#:#Zeigt die Initialen des Benutzernamens oder Logins an, wenn kein öffentliches Profilbild vorliegt.
-mep#:#mep_master_language_only_no_media#:#Hauptsprache für Übersetzung (ohne Medienobjekte)
-content#:#cont_master_language_only_no_media#:#Hauptsprache für Übersetzung (ohne Medienobjekte)
-mep#:#mep_content#:#Content
-mep#:#mep_media_subtitles#:#Media Subtitles
+mep#:#mep_master_language_only_no_media#:#Hauptsprache für Übersetzung - ohne Medienobjekte
+content#:#cont_master_language_only_no_media#:#Hauptsprache für Übersetzung - ohne Medienobjekte
+mep#:#mep_content#:#Medienobjekte
+mep#:#mep_media_subtitles#:#Untertitel
 content#:#cont_last_visited_page#:#Zuletzt besuchte Seite
 content#:#cont_first_page#:#Erste Seite
 content#:#cont_lm_starting_point#:#Startseite für ILIAS-Lernmodule
@@ -14077,6 +14085,7 @@ prtf#:#prtf_signature_info#:#Das PDF enthält ein Feld, in welchem die Benutzer 
 prtf#:#prtf_signature_date#:#Datum, Unterschrift
 lti#:#lti_not_allowed#:#Zugriff nicht erlaubt. Sie wurden in den ursprünglichen LTI Bereich umgeleitet.
 lti#:#lti_navigation#:#Navigation
+lti#:#lti_session#:#LTI Sitzung
 lti#:#lti_exit#:#LTI Sitzung beenden
 lti#:#lti_exited#:#LTI Sitzung beendet
 lti#:#lti_exited_info#:#Die LTI Sitzung wurde erfolgreich beendet
@@ -14159,3 +14168,9 @@ content#:#cont_sc_name_setting_salutation_lastname#:#Anrede und Nachname
 content#:#cont_sc_name_setting_first_name#:#Vorname
 content#:#cont_sc_name_setting_no_name#:#Kein Name
 dateplaner#:#cal_download_files_started#:#Download der Dateien wurde gestartet.
+common#:#usr_name_undisclosed#:#Nicht freigegeben
+common#:#obj_exc_duplicate#:#Übung kopieren
+meta#:#adt_error_max_length#:#Der eingegebene Text is zu lang, bitte geben Sie einen kürzeren Text ein.
+form#:#form_chars_remaining#:#Verbleibende Zeichen:
+poll#:#poll_voting_period_full_info#:#Voting period from %s to %s###20 12 2017 new variable
+crs#:#crs_subscription_min_members_err#:#Die minimale Anzahl darf nicht größer als die maximale Anzahl sein.

@@ -35,9 +35,17 @@
     "fine-uploader": "5.13.0",
     "jquery-migrate": "3.0.0",
     "webui-popover": "1.2.18",
-    "tinymce": "4.6.7"
+    "tinymce": "4.6.7",
+    "pouchdb": "^6.3.4"
   },
   "extra": {
+    "pouchdb": {
+      "introduction-date": null,
+      "approved-by": null,
+      "developer": null,
+      "purpose": "We use pouchdb in SCORM-Offline-Player",
+      "last-update-for-ilias": "5.3.0"
+    },
     "jquery": {
       "introduction-date": null,
       "approved-by": "Jour Fixe",

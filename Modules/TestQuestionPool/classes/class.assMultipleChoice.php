@@ -638,6 +638,16 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 		return true;
 	}
 	
+	protected function isForcedEmptySolution($solutionSubmit)
+	{
+		if( !count($solutionSubmit) && !empty($_POST['tst_force_form_diff_input']) )
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
 	/**
 	 * Saves the learners input of the question to the database.
 	 * 
@@ -675,7 +685,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 			}
 
 // fau: testNav - write a dummy entry for the evil mc questions with "None of the above" checked
-			if (!empty($_POST['tst_force_form_diff_input']))
+			if ( $this->isForcedEmptySolution($solutionSubmit) )
 			{
 				$this->saveCurrentSolution($active_id, $pass, 'mc_none_above', null, $authorized);
 				$entered_values++;

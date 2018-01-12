@@ -402,7 +402,7 @@ class ilMimeMail
 	 */
 	protected function gatherImagesFromDirectory($directory)
 	{
-		foreach(new \RegexIterator(new \DirectoryIterator($directory), '/\.jpg$/i') as $file)
+		foreach(new \RegexIterator(new \DirectoryIterator($directory), '/\.(jpg|svg|png)$/i') as $file)
 		{
 			/**
 			 * @var $file \SplFileInfo

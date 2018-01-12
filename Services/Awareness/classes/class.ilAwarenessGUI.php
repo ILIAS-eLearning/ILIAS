@@ -99,8 +99,9 @@ class ilAwarenessGUI
 
 		// include user action js
 		include_once("./Services/User/Actions/classes/class.ilUserActionGUI.php");
-		$ua_gui = ilUserActionGUI::getInstance();
-		$ua_gui->addRequiredJsForContext("awrn", "toplist");
+		include_once("./Services/Awareness/classes/class.ilAwarenessUserActionContext.php");
+		$ua_gui = ilUserActionGUI::getInstance(new ilAwarenessUserActionContext(), $GLOBALS["tpl"], $ilUser->getId());
+		$ua_gui->init();
 
 		$tpl = new ilTemplate("tpl.awareness.html", true, true, "Services/Awareness");
 

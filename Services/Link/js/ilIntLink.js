@@ -64,6 +64,8 @@ il.IntLink =
 
 	init: function(cfg)
 	{
+		//console.log("init with cfgurl:" + cfg.url);
+		//console.trace();
 		// new: get link dynamically
 		if(cfg.url == "")
 		{
@@ -89,7 +91,7 @@ il.IntLink =
 		var t = il.IntLink;
 		var pars = t.getUrlParameters(url);
 
-		console.log("setInternalLinkUrl: " + url);
+		//console.log("setInternalLinkUrl: " + url);
 		for (p in t.save_pars) {
 			t.save_pars[p] = "";
 			if (pars[p]) {
@@ -120,6 +122,8 @@ il.IntLink =
 	{
 		// move node to body to prevent form in form, see e.g. #16369
 		$("#ilIntLinkModal").appendTo("body");
+		//console.log("ilIntLinkModal: appendTo body");
+		//console.trace();
 		// new: get link from onclick event
 		if(internal_link != undefined)
 		{
@@ -153,7 +157,7 @@ il.IntLink =
 			failure: this.handleAjaxFailure,
 			argument: { mode: cfg.mode}
 		};
-		console.log(cfg.mode);
+		//console.log(cfg.mode);
 		if (cfg.mode == "select_type")
 		{
 			f = document.getElementById("ilIntLinkTypeForm");
@@ -165,8 +169,8 @@ il.IntLink =
 			//this.save_pars.link_par_ref_id = "";
 			//this.save_pars.link_par_obj_id = "";
 			sUrl = this.replaceSavePars(sUrl);
-			console.log(this.save_pars);
-			console.log("Select Type: " + sUrl);
+			//console.log(this.save_pars);
+			//console.log("Select Type: " + sUrl);
 			il.Util.sendAjaxGetRequestToUrl(sUrl, {}, {}, this.handleAjaxSuccess);
 		}
 		else if (cfg.mode == "reset")
@@ -206,7 +210,7 @@ il.IntLink =
 			sUrl = this.getInternalLinkUrl() + "&cmd=setMedPoolFolder&mep_fold=" +
 				cfg.mep_fold;
 			sUrl = this.replaceSavePars(sUrl);
-			console.log("Set mep folder: " + cfg.mep_fold);
+			//console.log("Set mep folder: " + cfg.mep_fold);
 			il.Util.sendAjaxGetRequestToUrl(sUrl, {}, {}, this.handleAjaxSuccess);
 		}
 		else
@@ -261,7 +265,7 @@ il.IntLink =
 					il.IntLink.initEvents();
 				}
 			});
-			console.log("search user");
+			//console.log("search user");
 		});
 	},
 

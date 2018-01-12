@@ -48,9 +48,9 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 
 		include_once("./Services/News/classes/class.ilNewsCache.php");
 		$this->acache = new ilNewsCache();
-		$cres = $this->acache->getEntry($ilUser->getId().":0");
+		$cres = unserialize($this->acache->getEntry($ilUser->getId().":0"));
 		$this->cache_hit = false;
-		if ($this->acache->getLastAccessStatus() == "hit")
+		if ($this->acache->getLastAccessStatus() == "hit" && is_array($cres))
 		{
 			self::$st_data = ilNewsItem::prepareNewsDataFromCache($cres);;
 			$this->cache_hit = true;

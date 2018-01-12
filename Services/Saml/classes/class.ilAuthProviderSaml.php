@@ -72,22 +72,45 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 	}
 
 	/**
+	 * @throws \ilException
+	 */
+	private function determineUidFromAttributes()
+	{
+		if (
+			!array_key_exists($this->idp->getUidClaim(), $this->attributes) ||
+			!is_array($this->attributes[$this->idp->getUidClaim()]) ||
+			!array_key_exists(0, $this->attributes[$this->idp->getUidClaim()]) ||
+			0 === strlen($this->attributes[$this->idp->getUidClaim()][0])
+		) {
+			throw new \ilException(sprintf(
+				'Could not find unique SAML attribute for the configured identifier: %s',
+				var_export($this->idp->getUidClaim(), 1)
+			));
+		}
+
+		$this->uid = $this->attributes[$this->idp->getUidClaim()][0];
+	}
+
+	/**
 	 * @inheritdoc
 	 */
 	public function doAuthentication(\ilAuthStatus $status)
 	{
-		if(is_array($this->attributes) && count($this->attributes) > 0)
-		{
-			$this->uid = $this->attributes[$this->idp->getUidClaim()][0];
-		}
-		else
-		{
-			$this->getLogger()->info('Cannot find user id for external account: ' . $this->getCredentials()->getUsername());
+		if (!is_array($this->attributes) || 0 === count($this->attributes)) {
+			$this->getLogger()->warning('Could not parse any attributes from SAML response.');
 			$this->handleAuthenticationFail($status, 'err_wrong_login');
 			return false;
 		}
 
-		return $this->handleSamlAuth($status);
+		try {
+			$this->determineUidFromAttributes();
+
+			return $this->handleSamlAuth($status);
+		} catch (\ilException $e) {
+			$this->getLogger()->warning($e->getMessage());
+			$this->handleAuthenticationFail($status, 'err_wrong_login');
+			return false;
+		}
 	}
 
 	/**
@@ -217,18 +240,19 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 	 */
 	public function createNewAccount(\ilAuthStatus $status)
 	{
-		if(ilSession::get('tmp_attributes') && $this->getCredentials()->getUsername())
-		{
-			$this->uid        = $this->getCredentials()->getUsername();
-			$this->attributes = ilSession::get('tmp_attributes');
-			$this->return_to  = ilSession::get('tmp_return_to');
-		}
-		else
-		{
-			$this->getLogger()->info('Cannot find user id for external account: ' . $this->getCredentials()->getUsername());
+		if (
+			0 === strlen($this->getCredentials()->getUsername()) ||
+			!is_array(ilSession::get('tmp_attributes')) ||
+			0 === count(ilSession::get('tmp_attributes'))
+		) {
+			$this->getLogger()->warning('Cannot find user id for external account: ' . $this->getCredentials()->getUsername());
 			$this->handleAuthenticationFail($status, 'err_wrong_login');
 			return false;
 		}
+
+		$this->uid        = $this->getCredentials()->getUsername();
+		$this->attributes = ilSession::get('tmp_attributes');
+		$this->return_to  = ilSession::get('tmp_return_to');
 
 		$this->force_new_account = true;
 		return $this->handleSamlAuth($status);

@@ -14110,6 +14110,95 @@ if ($ilDB->tableExists('ut_lp_collections_tmp'))
 <#4857>
 <?php
 //usr_session_stats adding primary key
+$usr_session_stats_temp_num = "
+SELECT COUNT(*) cnt
+FROM (
+	SELECT slot_begin
+    FROM usr_session_stats
+    GROUP BY slot_begin
+    HAVING COUNT(*) > 1
+) duplicateSessionStats
+";
+$res  = $ilDB->query($usr_session_stats_temp_num);
+$data = $ilDB->fetchAssoc($res);
+if($data['cnt'])
+{
+	$usr_session_stats_dup_query = "
+	SELECT *
+	FROM usr_session_stats
+	GROUP BY slot_begin
+	HAVING COUNT(*) > 1
+	";
+	$res = $ilDB->query($usr_session_stats_dup_query);
+
+	$stmt_del = $ilDB->prepareManip("DELETE FROM usr_session_stats WHERE slot_begin = ? ", array('integer'));
+	$stmt_in  = $ilDB->prepareManip("INSERT INTO usr_session_stats ("
+		. "slot_begin"
+		. ",slot_end"
+		. ",active_min"
+		. ",active_max"
+		. ",active_avg"
+		. ",active_end"
+		. ",opened"
+		. ",closed_manual"
+		. ",closed_expire"
+		. ",closed_idle"
+		. ",closed_idle_first"
+		. ",closed_limit"
+		. ",closed_login"
+		. ",max_sessions"
+		. ",closed_misc"
+		. ") VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
+		array(
+			'integer',
+			'integer', 
+			'integer',
+			'integer', 
+			'integer',
+			'integer', 
+			'integer',
+			'integer', 
+			'integer',
+			'integer', 
+			'integer',
+			'integer', 
+			'integer',
+			'integer', 
+			'integer'
+		)
+	);
+
+	while($row = $ilDB->fetchAssoc($res))
+	{
+		$ilDB->execute($stmt_del, array($row['slot_begin']));
+		$ilDB->execute($stmt_in, array(
+				$row['slot_begin'], 
+				$row['slot_end'],
+				$row['active_min'], 
+				$row['active_max'],
+				$row['active_avg'], 
+				$row['active_end'],
+				$row['opened'], 
+				$row['closed_manual'],
+				$row['closed_expire'], 
+				$row['closed_idle'],
+				$row['closed_idle_first'], 
+				$row['closed_limit'],
+				$row['closed_login'], 
+				$row['max_sessions'],
+				$row['closed_misc']
+			)
+		);
+	}
+}
+
+$res  = $ilDB->query($usr_session_stats_temp_num);
+$data = $ilDB->fetchAssoc($res);
+if($data['cnt'] > 0)
+{
+	die("There are still duplicate entries in table 'usr_session_stats'. Please execute this database update step again.");
+}
+
 
 if($ilDB->tableExists('usr_session_stats'))
 {
@@ -21644,4 +21733,131 @@ foreach($tests as $testFi => $testQuestions)
 	}
 }
 
+?>
+<#5251>
+<?php
+$set = $ilDB->query("
+  SELECT obj_id, title, description, role_id, usr_id FROM object_data
+  INNER JOIN role_data role ON role.role_id = object_data.obj_id
+  INNER JOIN rbac_ua on role.role_id = rol_id
+  WHERE title LIKE '%il_orgu_superior%' OR title LIKE '%il_orgu_employee%'
+");
+$assigns = [];
+$superior_position_id = ilOrgUnitPosition::getCorePositionId(ilOrgUnitPosition::CORE_POSITION_SUPERIOR);
+$employee_position_id = ilOrgUnitPosition::getCorePositionId(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
+
+while ($res = $ilDB->fetchAssoc($set)) {
+  $user_id = $res['usr_id'];
+  	
+  $tmp = explode("_", $res['title']);
+  $orgu_ref_id = (int) $tmp[3];
+  if ($orgu_ref_id == 0) {
+    //$ilLog->write("User $user_id could not be assigned to position. Role description does not contain object id of orgu. Skipping.");
+    continue;
+  }
+    
+  $tmp = explode("_", $res['title']); //il_orgu_[superior|employee]_[$ref_id]
+  $role_type = $tmp[2]; // [superior|employee]
+
+  if ($role_type == 'superior')
+    $position_id = $superior_position_id;
+  elseif ($role_type == 'employee')
+    $position_id = $employee_position_id;
+  else {
+    //$ilLog->write("User $user_id could not be assigned to position. Role type seems to be neither superior nor employee. Skipping.");
+    continue;
+  }
+  if(!ilOrgUnitUserAssignment::findOrCreateAssignment(
+				$user_id,
+				$position_id,
+				$orgu_ref_id)) {
+	  //$ilLog->write("User $user_id could not be assigned to position $position_id, in orgunit $orgu_ref_id . One of the ids might not actually exist in the db. Skipping.");
+	}
+}
+?>
+<#5252>
+<?php
+$ilDB->query("
+UPDATE il_dcl_stloc1_value 
+SET value = NULL 
+WHERE value = '[]' 
+	AND record_field_id IN (
+		SELECT rf.id 
+		FROM il_dcl_record_field rf 
+		INNER JOIN il_dcl_field f ON f.id = rf.field_id 
+		WHERE f.datatype_id = 14
+	)
+");
+?>
+<#5253>
+<?php
+
+$query = "
+	SELECT	qpl.question_id qid,
+			qpl.points qpl_points,
+			answ.points answ_points
+	
+	FROM qpl_questions qpl
+	
+	INNER JOIN qpl_qst_essay qst
+	ON qst.question_fi = qpl.question_id
+	
+	INNER JOIN qpl_a_essay answ
+	ON answ.question_fi = qst.question_fi
+	
+	WHERE qpl.question_id IN(
+	
+		SELECT keywords.question_fi
+	
+		FROM qpl_a_essay keywords
+	
+		INNER JOIN qpl_qst_essay question
+		ON question.question_fi = keywords.question_fi
+		AND question.keyword_relation = {$ilDB->quote('', 'text')}
+	
+		WHERE keywords.answertext = {$ilDB->quote('', 'text')}
+		GROUP BY keywords.question_fi
+		HAVING COUNT(keywords.question_fi) = {$ilDB->quote(1, 'integer')}
+		
+	)
+";
+
+$res = $ilDB->query($query);
+
+while( $row = $ilDB->fetchAssoc($res) )
+{
+	if( $row['answ_points'] > $row['qpl_points'] )
+	{
+		$ilDB->update('qpl_questions',
+			array('points' => array('float', $row['answ_points'])),
+			array('question_id' => array('integer', $row['qid']))
+		);
+	}
+	
+	$ilDB->manipulateF(
+		"DELETE FROM qpl_a_essay WHERE question_fi = %s",
+		array('integer'), array($row['qid'])
+	);
+	
+	$ilDB->update('qpl_qst_essay',
+		array('keyword_relation' => array('text', 'non')),
+		array('question_fi' => array('integer', $row['qid']))
+	);
+}
+
+?>
+<#5254>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5255>
+<?php
+if (!$ilDB->tableColumnExists(ilOrgUnitPermission::TABLE_NAME, 'protected')) {
+	$ilDB->addTableColumn(ilOrgUnitPermission::TABLE_NAME, 'protected', [
+		"type"    => "integer",
+		"length"  => 1,
+		"default" => 0,
+	]);
+}
+$ilDB->manipulate("UPDATE il_orgu_permissions SET protected = 1 WHERE parent_id = -1");
 ?>

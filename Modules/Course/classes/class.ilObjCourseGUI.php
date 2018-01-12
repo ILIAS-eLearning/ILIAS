@@ -228,7 +228,11 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $ilErr,$ilAccess, $ilUser, $ilSetting;
 
-		$this->checkPermission('visible');
+		if(!$this->checkPermissionBool('read'))
+		{
+			$this->checkPermission('visible');
+		}
+		
 		// Fill meta header tags
 		include_once('Services/MetaData/classes/class.ilMDUtils.php');
 		ilMDUtils::_fillHTMLMetaTags($this->object->getId(),$this->object->getId(),'crs');
@@ -814,6 +818,19 @@ class ilObjCourseGUI extends ilContainerGUI
 		if(!$form->checkInput())
 		{
 			$form->setValuesByPost();
+			ilUtil::sendFailure($GLOBALS['DIC']->language()->txt('err_check_input'));
+			return $this->editObject($form);
+		}
+		
+		// Additional checks
+		if(
+			$form->getInput('subscription_max') &&
+			$form->getInput('subscription_min') &&
+			($form->getInput('subscription_max') < $form->getInput('subscription_min'))
+		)
+		{
+			$min = $form->getItemByPostVar('subscription_min');
+			$min->setAlert($this->lng->txt('crs_subscription_min_members_err'));
 			ilUtil::sendFailure($GLOBALS['DIC']->language()->txt('err_check_input'));
 			return $this->editObject($form);
 		}
@@ -2022,7 +2039,9 @@ class ilObjCourseGUI extends ilContainerGUI
 	*/
 	function getTabs()
 	{
-		global $ilAccess,$ilUser, $lng, $ilHelp;
+		global $ilUser, $lng, $ilHelp;
+		
+		$ilAccess = $GLOBALS['DIC']->access();
 
 		$ilHelp->setScreenIdComponent("crs");
 		
@@ -2066,7 +2085,11 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 		}
 		
-		if ($ilAccess->checkAccess('visible','',$this->ref_id))
+		if(
+			$ilAccess->checkAccess('visible','',$this->ref_id) ||
+			$ilAccess->checkAccess('join','',$this->ref_id) ||
+			$ilAccess->checkAccess('read','',$this->ref_id)
+		)
 		{
 			//$next_class = $this->ctrl->getNextClass($this);
 			

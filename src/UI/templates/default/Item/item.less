@@ -34,17 +34,21 @@
 
 	.il-item-property-name {
 		font-size: @font-size-small;
-		overflow:auto;
+		overflow: hidden;
 	}
 
 	.il-item-property-value {
 		font-size: @font-size-small;
 		color: @il-light-text-color;
-		overflow:auto;
+		overflow: hidden;
 	}
 
 	.col-sm-9 > .row {
 		clear: both;
+	}
+
+	.row .row > .col-md-6 {
+		margin-bottom: 6px;
 	}
 
 }
@@ -167,7 +171,9 @@
 		}
 
 		.il-item-divider {
-			display: none;
+			padding: @il-item-divider-padding;
+			margin: 0;
+			border-bottom: 0;
 		}
 	}
 }

@@ -19,13 +19,13 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 	const TAB_SETTINGS = 'settings';
 	const CMD_DEFAULT = 'view';
 	/**
+	 * @var string this is the ILIAS-type, not the Bib-type
+	 */
+	protected $type = 'bibs';
+	/**
 	 * @var ilObjBibliographicAdmin
 	 */
 	public $object;
-	/**
-	 * @var string this is the ILIAS-type, not the Bib-type
-	 */
-	protected $type;
 	/**
 	 * @var \ilBiblAdminFactoryFacadeInterface
 	 */
@@ -33,16 +33,21 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 
 
 	/**
+	 * ilObjBibliographicAdminGUI constructor.
+	 *
 	 * @param      $a_data
 	 * @param      $a_id
 	 * @param bool $a_call_by_reference
 	 * @param bool $a_prepare_output
+	 *
+	 * @throws \ilObjectException
 	 */
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true) {
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 		$this->type = 'bibs';
 		$this->lng->loadLanguageModule('bibl');
-		$this->checkPermission('write');
+		// Check Permissions globally for all SubGUIs. We check read-permission first
+		$this->checkPermission('read');
 	}
 
 

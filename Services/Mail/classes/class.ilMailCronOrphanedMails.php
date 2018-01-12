@@ -99,7 +99,22 @@ class ilMailCronOrphanedMails extends ilCronJob
 	 */
 	public function hasFlexibleSchedule()
 	{
-		return false;
+		return true;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getValidScheduleTypes()
+	{
+		return array(
+			self::SCHEDULE_TYPE_DAILY,
+			self::SCHEDULE_TYPE_WEEKLY,
+			self::SCHEDULE_TYPE_MONTHLY,
+			self::SCHEDULE_TYPE_QUARTERLY,
+			self::SCHEDULE_TYPE_YEARLY,
+			self::SCHEDULE_TYPE_IN_DAYS
+		);
 	}
 
 	/**

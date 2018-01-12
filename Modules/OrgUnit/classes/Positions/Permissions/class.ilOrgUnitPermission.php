@@ -8,6 +8,7 @@
 class ilOrgUnitPermission extends ActiveRecord {
 
 	const PARENT_TEMPLATE = - 1;
+	const TABLE_NAME = 'il_orgu_permissions';
 	/**
 	 * @var int
 	 *
@@ -64,7 +65,11 @@ class ilOrgUnitPermission extends ActiveRecord {
 	 */
 	protected $context;
 	/**
-	 * @var bool
+	 * @var int
+	 *
+	 * @con_has_field  true
+	 * @con_fieldtype  integer
+	 * @con_length     1
 	 */
 	protected $protected = false;
 
@@ -213,7 +218,7 @@ class ilOrgUnitPermission extends ActiveRecord {
 	 * @return string
 	 */
 	public static function returnDbTableName() {
-		return 'il_orgu_permissions';
+		return self::TABLE_NAME;
 	}
 
 

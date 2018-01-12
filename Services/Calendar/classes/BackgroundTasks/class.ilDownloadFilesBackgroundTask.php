@@ -158,7 +158,20 @@ class ilDownloadFilesBackgroundTask
 			{
 				$object_ids[] = $obj_id;
 				$folder_date = $event['event']->getStart()->get(IL_CAL_FKT_DATE,'Y-m-d');
-				$folder_app = ilUtil::getASCIIFilename($event['event']->getPresentationTitle());   //title formalized
+
+				if($event['fullday'])
+				{
+					$folder_app = ilUtil::getASCIIFilename($event['event']->getPresentationTitle());   //title formalized
+				}
+				else
+				{
+					$time = $event['event']->getStart()->get(IL_CAL_FKT_DATE,'H.i');
+					$end_time = $event['event']->getEnd()->get(IL_CAL_FKT_DATE,'H.i');
+					if($time != $end_time) {
+						$time .= " - ".$end_time;
+					}
+					$folder_app = $time." ".ilUtil::getASCIIFilename($event['event']->getPresentationTitle());   //title formalized
+				}
 
 				$this->logger->debug("collecting files...event title = ".$folder_app);
 
@@ -172,7 +185,10 @@ class ilDownloadFilesBackgroundTask
 				//otherwise $file_with_absolut_path is the path. ($file->getName())
 				foreach($files as $file_system_path => $file_with_absolut_path)
 				{
-					if($file_system_path)
+					#22198 check if the key is a string defined by ILIAS or a number set by PHP as a sequential key
+					//[/Sites/data/client/ilCourse/2/crs_xx/info/1] => /Sites/data/client/ilCourse/2/crs_xxx/info/image.png
+					//[0] =>  /Sites/data/client/ilFile/3/file_3xx/001/image.png
+					if(is_string($file_system_path))
 					{
 						$file_with_absolut_path = $file_system_path;
 						$file_id = (int)basename($file_system_path);

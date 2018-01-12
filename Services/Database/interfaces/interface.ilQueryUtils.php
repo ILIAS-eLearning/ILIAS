@@ -103,11 +103,4 @@ interface ilQueryUtilsInterface {
 	 * @return mixed
 	 */
 	public function createDatabase($a_name, $a_charset = "utf8", $a_collation = "");
-
-
-	/**
-	 * @param $table
-	 * @return string
-	 */
-	public function optimize($table);
 }

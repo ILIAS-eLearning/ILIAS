@@ -257,7 +257,7 @@ class ilCalendarViewGUI
 
 				$modal_title = ilDatePresentation::formatPeriod($dates["start"], $dates["end"]);
 				$modal_title = $this->getModalTitleByPlugins($modal_title);
-				$modal = $f->modal()->roundtrip($modal_title,$f->legacy($content));
+				$modal = $f->modal()->roundtrip($modal_title,$f->legacy($content))->withCancelButtonLabel("close");
 
 				echo $r->renderAsync($modal);
 			}
@@ -294,7 +294,7 @@ class ilCalendarViewGUI
 		}
 
 
-		$comps = [$f->button()->shy($title, "")->withOnClick($modal->getShowSignal()), $modal];
+		$comps = [$f->button()->shy($title, "#")->withOnClick($modal->getShowSignal()), $modal];
 
 		return $r->render($comps);
 	}
@@ -322,7 +322,7 @@ class ilCalendarViewGUI
 		//"capm" is the plugin slot id for Appointment presentations (modals)
 		foreach($this->getActivePlugins("capm") as $plugin)
 		{
-			$modal_title = ($new_title = $plugin->editModalTitle($a_current_title))? $new_title : "";
+			$modal_title = ($new_title = $plugin->editModalTitle($a_current_title))? $new_title : $a_current_title;
 		}
 		return $modal_title;
 	}
@@ -449,7 +449,7 @@ class ilCalendarViewGUI
 			case self::CAL_PRESENTATION_MONTH:
 				$year_month = $this->seed->get(IL_CAL_FKT_DATE,'Y-m','UTC');
 				$char = strtolower(mb_substr($this->lng->txt("month"),0,1));
-				$bucket_title .= " ".$year_month."-01 1".$char;
+				$bucket_title .= " ".$year_month." 1".$char;
 				break;
 			case self::CAL_PRESENTATION_AGENDA_LIST:
 				$bucket_title .= " ".$this->seed->get(IL_CAL_DATE);

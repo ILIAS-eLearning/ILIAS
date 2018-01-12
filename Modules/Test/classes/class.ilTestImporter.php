@@ -13,6 +13,11 @@ include_once("./Services/Export/classes/class.ilXmlImporter.php");
 class ilTestImporter extends ilXmlImporter
 {
 	/**
+	 * @var array
+	 */
+	static $finallyProcessedTestsRegistry = array();
+	
+	/**
 	 * Import XML
 	 *
 	 * @param
@@ -153,6 +158,11 @@ class ilTestImporter extends ilXmlImporter
 			{
 				continue;
 			}
+			
+			if( isset(self::$finallyProcessedTestsRegistry[$new]) )
+			{
+				continue;
+			}
 
 			/* @var ilObjTest $testOBJ */
 			$testOBJ = ilObjectFactory::getInstanceByObjId($new, false);
@@ -160,6 +170,8 @@ class ilTestImporter extends ilXmlImporter
 			{
 				$this->finalRandomTestTaxonomyProcessing($a_mapping, $old, $new, $testOBJ);
 			}
+			
+			self::$finallyProcessedTestsRegistry[$new] = true;
 		}
 	}
 	
