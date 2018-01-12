@@ -14,7 +14,7 @@ include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 class ilUserDefinedFieldSearch extends ilAbstractSearch
 {
 	
-	function &performSearch()
+	public function performSearch()
 	{
 		$where = $this->__createWhereCondition();
 		$locate = $this->__createLocateString();
