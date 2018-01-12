@@ -82,9 +82,6 @@ class ilOrgUnitPermissionQueries {
 		if (!$ilOrgUnitObjectPositionSetting->isActive()) {
 			throw new ilException("Postion-related permissions not active in {$context->getContext()}");
 		}
-		if (!$ilOrgUnitObjectPositionSetting->isChangeableForObject()) {
-			return ilOrgUnitPermissionQueries::getTemplateSetForContextName($context->getContext(), $position_id);
-		}
 
 		/**
 		 * @var $dedicated_set ilOrgUnitPermission
@@ -121,9 +118,6 @@ class ilOrgUnitPermissionQueries {
 		$ilOrgUnitObjectPositionSetting = $ilOrgUnitGlobalSettings->getObjectPositionSettingsByType($context->getContext());
 
 		if (!$ilOrgUnitObjectPositionSetting->isActive()) {
-			throw new ilException("Position-related permissions not active in {$context->getContext()}");
-		}
-		if (!$ilOrgUnitObjectPositionSetting->isChangeableForObject()) {
 			throw new ilException("Position-related permissions not active in {$context->getContext()}");
 		}
 
