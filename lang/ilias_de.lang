@@ -556,11 +556,11 @@ assessment#:#duplicate#:#Kopieren
 assessment#:#duplicate_matching_values_selected#:#Sie haben mindestens einen doppelten Zuordnungswert ausgewählt!
 assessment#:#duplicate_order_values_entered#:#Sie haben mindestens eine doppelte Reihenfolge angegeben!
 assessment#:#ects_grade_desc_prefix#:#Bedeutung der Note: 
-assessment#:#ects_grade_a_desc#:#hervorragende Leistungen mit nur geringen Fehlern
-assessment#:#ects_grade_b_desc#:#über dem durchschnittlichen Standard, aber mit einigen Fehlern
-assessment#:#ects_grade_c_desc#:#allgemeine Leistung mit nennenswerten Fehlern
-assessment#:#ects_grade_d_desc#:#gerechte Leistung, aber mit erheblichen Mängeln
-assessment#:#ects_grade_e_desc#:#die Leistung erfüllt die Mindestkriterien
+assessment#:#ects_grade_a_desc#:#ausgezeichnete Leistungen und nur wenige unbedeutende Fehler
+assessment#:#ects_grade_b_desc#:#überdurchschnittliche Leistungen, aber einige Fehler
+assessment#:#ects_grade_c_desc#:#insgesamt gute und solide Arbeit, jedoch mit einigen grundlegenden Fehlern
+assessment#:#ects_grade_d_desc#:#mittelmäßig, jedoch deutliche Mängel
+assessment#:#ects_grade_e_desc#:#die gezeigten Leistungen entsprechen den Mindestanforderungen
 assessment#:#ects_grade_f_desc#:#es sind erhebliche Verbesserungen erforderlich
 assessment#:#ects_grade_fx_desc#:#es sind Verbesserungen erforderlich, bevor die Leistung anerkannt wird
 assessment#:#ects_grade#:#ECTS-Note
