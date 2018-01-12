@@ -55,8 +55,9 @@ class ilOrgUnitPermissionQueries {
 	 * @return bool
 	 */
 	public static function hasLocalSet($ref_id, $position_id) {
-		return (ilOrgUnitPermission::where([ 'parent_id'   => $ref_id,
-		                                     'position_id' => $position_id,
+		return (ilOrgUnitPermission::where([
+			'parent_id'   => $ref_id,
+			'position_id' => $position_id,
 		])->hasSets());
 	}
 
@@ -80,10 +81,7 @@ class ilOrgUnitPermissionQueries {
 		$ilOrgUnitObjectPositionSetting = $ilOrgUnitGlobalSettings->getObjectPositionSettingsByType($context->getContext());
 
 		if (!$ilOrgUnitObjectPositionSetting->isActive()) {
-			throw new ilException("Postion-related permissions not active in {$context->getContext()}");
-		}
-		if (!$ilOrgUnitObjectPositionSetting->isChangeableForObject()) {
-			return ilOrgUnitPermissionQueries::getTemplateSetForContextName($context->getContext(), $position_id);
+			throw new ilPositionPermissionsNotActive("Postion-related permissions not active in {$context->getContext()}", $context->getContext());
 		}
 
 		/**
@@ -121,10 +119,7 @@ class ilOrgUnitPermissionQueries {
 		$ilOrgUnitObjectPositionSetting = $ilOrgUnitGlobalSettings->getObjectPositionSettingsByType($context->getContext());
 
 		if (!$ilOrgUnitObjectPositionSetting->isActive()) {
-			throw new ilException("Position-related permissions not active in {$context->getContext()}");
-		}
-		if (!$ilOrgUnitObjectPositionSetting->isChangeableForObject()) {
-			throw new ilException("Position-related permissions not active in {$context->getContext()}");
+			throw new ilPositionPermissionsNotActive("Position-related permissions not active in {$context->getContext()}", $context->getContext());
 		}
 
 		$dedicated_set = ilOrgUnitPermission::where([
@@ -158,8 +153,7 @@ class ilOrgUnitPermissionQueries {
 	 */
 	public static function getAllTemplateSetsForAllActivedContexts($position_id, $editable = false) {
 		$activated_components = [];
-		foreach (ilOrgUnitGlobalSettings::getInstance()
-		                                ->getPositionSettings() as $ilOrgUnitObjectPositionSetting) {
+		foreach (ilOrgUnitGlobalSettings::getInstance()->getPositionSettings() as $ilOrgUnitObjectPositionSetting) {
 			if ($ilOrgUnitObjectPositionSetting->isActive()) {
 				$activated_components[] = $ilOrgUnitObjectPositionSetting->getType();
 			}

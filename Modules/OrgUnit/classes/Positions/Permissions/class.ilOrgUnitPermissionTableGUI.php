@@ -134,8 +134,8 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI {
 			foreach ($positions as $position) {
 				$ilOrgUnitPermission = ilOrgUnitPermissionQueries::getSetForRefId($this->getRefId(), $position->getId());
 
-				$isTemplate = $ilOrgUnitPermission->isTemplate();
-				$from_templates[$position->getId()] = $isTemplate;
+				$is_template = $ilOrgUnitPermission->isTemplate();
+				$from_templates[$position->getId()] = $is_template;
 
 				$ops[] = [
 					"op_id"          => $op->getOperationId(),
@@ -143,7 +143,7 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI {
 					"position"       => $position,
 					"permission"     => $ilOrgUnitPermission,
 					"permission_set" => $ilOrgUnitPermission->isOperationIdSelected($op->getOperationId()),
-					"from_template"  => $isTemplate,
+					"from_template"  => $is_template,
 				];
 			}
 			$perms[] = $ops;
