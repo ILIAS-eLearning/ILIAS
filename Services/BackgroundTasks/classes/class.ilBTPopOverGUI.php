@@ -79,7 +79,7 @@ class ilBTPopOverGUI {
 					]));
 					break;
 				default:
-					$expected = (int)$current_task->getExpectedTimeOfTaksInSeconds();
+					$expected = (int)$current_task->getExpectedTimeOfTaskInSeconds();
 					$possibly_failed = (bool)($observer->getLastHeartbeat() < (time() - $expected));
 
 					if ($possibly_failed) {
