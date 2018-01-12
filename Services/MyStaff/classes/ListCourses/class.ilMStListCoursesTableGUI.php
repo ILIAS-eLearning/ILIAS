@@ -332,8 +332,10 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 		foreach (ilOrgUnitUserAssignment::innerjoin('object_reference','orgu_id','ref_id')
 			         ->where(array( 'user_id' => $my_staff_course->getUsrId(),'object_reference.deleted' => NULL ), array( 'user_id' => '=', 'object_reference.deleted' => '!='))
 		                                ->get() as $org_unit_assignment) {
-			$link = ilLink::_getStaticLink($org_unit_assignment->getOrguId(), 'orgu');
-			$selection->addItem($org_units[$org_unit_assignment->getOrguId()], '', $link);
+			if($ilAccess->checkAccess("read","",$org_unit_assignment->getOrguId()))	{
+				$link = ilLink::_getStaticLink($org_unit_assignment->getOrguId(), 'orgu');
+				$selection->addItem($org_units[$org_unit_assignment->getOrguId()], '', $link);
+			}
 		}
 
 		foreach ($action_collection->getActions() as $action) {
