@@ -339,7 +339,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 			if ($action->getType() == "profile") {
 				$selection->addItem($action->getText(), '', $action->getHref() . "&back_url=" . $this->getProfileBackUrl() );
 			} else {
-				$selection->addItem($action->getText(), '', $action->getHref());
+				$selection->addItem($action->getText(), "", $action->getHref(), "", "", "", "", false, "","","","",true, $action->getData());
 			}
 		}
 		$this->tpl->setVariable('ACTIONS', $selection->getHTML());
