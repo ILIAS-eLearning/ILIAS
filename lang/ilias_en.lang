@@ -381,20 +381,13 @@ assessment#:#duplicate_order_values_entered#:#You have entered duplicate order v
 assessment#:#duplicate#:#Duplicate
 assessment#:#ects_allow_ects_grades#:#Show ECTS grade additional to received mark
 assessment#:#ects_fill_out_all_values#:#Please enter a value for every ECTS grade!
-assessment#:#ects_grade_a_short#:#EXCELLENT
-assessment#:#ects_grade_a#:#outstanding performance with only minor errors
-assessment#:#ects_grade_b_short#:#VERY GOOD
-assessment#:#ects_grade_b#:#above the average standard but with some errors
-assessment#:#ects_grade_c_short#:#GOOD
-assessment#:#ects_grade_c#:#generally sound work with a number of notable errors
-assessment#:#ects_grade_d_short#:#SATISFACTORY
-assessment#:#ects_grade_d#:#fair but with significant shortcomings
-assessment#:#ects_grade_e_short#:#SUFFICIENT
-assessment#:#ects_grade_e#:#performance meets the minimum criteria
-assessment#:#ects_grade_f_short#:#FAIL
-assessment#:#ects_grade_f#:#considerable further work is required
-assessment#:#ects_grade_fx_short#:#FAIL
-assessment#:#ects_grade_fx#:#some more work required before the credit can be awarded
+assessment#:#ects_grade_a_desc#:#outstanding performance with only minor errors
+assessment#:#ects_grade_b_desc#:#above the average standard but with some errors
+assessment#:#ects_grade_c_desc#:#generally sound work with a number of notable errors
+assessment#:#ects_grade_d_desc#:#fair but with significant shortcomings
+assessment#:#ects_grade_e_desc#:#performance meets the minimum criteria
+assessment#:#ects_grade_f_desc#:#considerable further work is required
+assessment#:#ects_grade_fx_desc#:#some more work required before the credit can be awarded
 assessment#:#ects_grade#:#ECTS Grade
 assessment#:#ects_output_of_ects_grades#:#Output of ECTS grades
 assessment#:#ects_range_error_a#:#Please enter a value between 0 and 100 for ECTS grade A!
