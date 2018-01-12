@@ -36,7 +36,7 @@ include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 
 class ilLMContentSearch extends ilAbstractSearch
 {
-	function &performSearch()
+	public function performSearch()
 	{
 		$this->setFields(array('content'));
 
