@@ -7246,15 +7246,18 @@ hr.il-divider-with-label {
 }
 .il-item .il-item-property-name {
   font-size: 12px;
-  overflow: auto;
+  overflow: hidden;
 }
 .il-item .il-item-property-value {
   font-size: 12px;
   color: #909090;
-  overflow: auto;
+  overflow: hidden;
 }
 .il-item .col-sm-9 > .row {
   clear: both;
+}
+.il-item .row .row > .col-md-6 {
+  margin-bottom: 6px;
 }
 .il-item-marker {
   border-left: 5px solid;
@@ -7352,7 +7355,9 @@ hr.il-divider-with-label {
     display: none;
   }
   .il-item .il-item-divider {
-    display: none;
+    padding: 10px 0 0 0;
+    margin: 0;
+    border-bottom: 0;
   }
 }
 .icon {
@@ -14051,8 +14056,28 @@ span.ilNewsRssIcon:hover {
   overflow: hidden;
   width: 100px;
 }
+@media only screen and (max-width: 767px) {
+  .ilNewsTimelineUserImage {
+    width: 50px;
+  }
+}
+.ilNewsTimelineUserImage img {
+  width: 75px;
+  height: 75px;
+}
+@media only screen and (max-width: 767px) {
+  .ilNewsTimelineUserImage img {
+    width: 40px;
+    height: 40px;
+  }
+}
 .ilNewsTimelineContentSection {
   padding-left: 100px;
+}
+@media only screen and (max-width: 767px) {
+  .ilNewsTimelineContentSection {
+    padding-left: 50px;
+  }
 }
 .ilNewsTimelineEditInfo {
   width: 90%;
@@ -14219,7 +14244,7 @@ ul.ilPCMyCoursesCourseList > li {
 }
 ul.ilPCMyCoursesObjectiveList > li {
   margin-top: 5px;
-  margin-left: 15px;
+  margin-left: 40px;
 }
 a.ilPCMyCoursesToggle {
   outline: 0;
@@ -14256,6 +14281,9 @@ body.ilPrtfPdfBody > #ilAll > div.ilInvisibleBorder {
 }
 body.ilPrtfPdfBody h1.ilc_PrintPageTitle {
   border-bottom: 1px solid #000000;
+}
+body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
+  visibility: hidden;
 }
 /* Services/Awareness */
 .ilAwarenessDropDown .popover {

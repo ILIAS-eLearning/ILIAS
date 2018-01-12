@@ -146,7 +146,6 @@ class ilSystemStyleSkinContainer {
 		//Delete old template.xml and write a new one
 		unlink($this->getSkinDirectory()."template.xml");
 		$this->writeSkinToXML();
-		$this->setSkin(ilSkinXML::parseFromXML($this->getSkinDirectory()."template.xml"));
 	}
 
 	/**
@@ -547,7 +546,7 @@ class ilSystemStyleSkinContainer {
 	 * Exports the complete skin to an zip file.
 	 */
 	public function export(){
-		ilFileDelivery::deliverFileAttached($this->createTempZip(), $this->getSkin()->getId().".zip",null, true);
+		ilFileDelivery::deliverFileAttached($this->createTempZip(), $this->getSkin()->getId().".zip",'', true);
 	}
 
 	/**

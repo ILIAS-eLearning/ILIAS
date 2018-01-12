@@ -119,7 +119,10 @@ interface Factory {
 	 *       linear workflow redirecting to the newly added item setting- or content-tab.
 	 *     5: >
 	 *       Round-Trip modals SHOULD NOT be used to perform complex workflows.
-	 *
+	 *   wording:
+	 *     1: >
+	 *       The label of the Button used to close the Round-Trip-Modal MAY be adapted, if the default label (cancel)
+	 *       does not fit the workflow presented on the screen.
 	 * ---
 	 * @param string $title
 	 * @param Component\Component|Component\Component[] $content

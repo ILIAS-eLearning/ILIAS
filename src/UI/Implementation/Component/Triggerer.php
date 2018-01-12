@@ -29,7 +29,7 @@ trait Triggerer {
 	 */
 	protected function appendTriggeredSignal(Component\Signal $signal, $event) {
 		$clone = clone $this;
-		if (!is_array($clone->triggered_signals[$event])) {
+		if (!isset($clone->triggered_signals[$event])) {
 			$clone->triggered_signals[$event] = array();
 		}
 		$clone->triggered_signals[$event][] = new TriggeredSignal($signal, $event);

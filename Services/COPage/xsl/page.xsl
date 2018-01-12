@@ -83,6 +83,7 @@
 <xsl:param name="enable_amd_page_list"/>
 <xsl:param name="current_ts"/>
 <xsl:param name="enable_html_mob"/>
+<xsl:param name="page_perma_link"/>
 
 <xsl:template match="PageObject">
 	<xsl:if test="$mode != 'edit'">
@@ -2040,9 +2041,17 @@
 			</xsl:if>
 		</xsl:if>
 		<xsl:if test="$mode = 'print'">
-			<span class="ilc_Print_FileItem">
-				<xsl:call-template name="FileItemText"/>
-			</span>
+			<xsl:if test="$page_perma_link = ''">
+				<span class="ilc_Print_FileItem">
+					<xsl:call-template name="FileItemText"/>
+				</span>
+			</xsl:if>
+			<xsl:if test="$page_perma_link != ''">
+				<a class="ilc_flist_a_FileListItemLink" target="_blank">
+					<xsl:attribute name="href"><xsl:value-of select="$page_perma_link"/></xsl:attribute>
+					<xsl:call-template name="FileItemText"/>
+				</a>
+			</xsl:if>
 		</xsl:if>
 	</li>
 </xsl:template>
@@ -2571,7 +2580,15 @@
 		<xsl:when test="$mode = 'print'">
 			<div class="ilCOPGMediaPrint">
 				<xsl:attribute name="style">width:<xsl:value-of select="$width"/>px; height:<xsl:value-of select="$height"/>px; max-width: 100%;</xsl:attribute>
-				<xsl:value-of select="$title"/>
+				<xsl:if test="$page_perma_link = ''">
+					<xsl:value-of select="$title"/>
+				</xsl:if>
+				<xsl:if test="$page_perma_link != ''">
+					<a>
+						<xsl:attribute name="href"><xsl:value-of select="$page_perma_link"/></xsl:attribute>
+						<xsl:value-of select="$title"/>
+					</a>
+				</xsl:if>
 			</div>
 		</xsl:when>
 

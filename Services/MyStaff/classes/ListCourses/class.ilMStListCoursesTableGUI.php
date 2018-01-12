@@ -331,9 +331,21 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 		}
 
 		foreach ($action_collection->getActions() as $action) {
-			$selection->addItem($action->getText(), '', $action->getHref());
+			if ($action->getType() == "profile") {
+				$selection->addItem($action->getText(), '', $action->getHref() . "&back_url=" . $this->getProfileBackUrl() );
+			} else {
+				$selection->addItem($action->getText(), '', $action->getHref());
+			}
 		}
 		$this->tpl->setVariable('ACTIONS', $selection->getHTML());
+	}
+
+
+	/**
+	 * @return string
+	 */
+	private function getProfileBackUrl() {
+		return rawurlencode($this->ctrl()->getLinkTargetByClass(strtolower(ilMStListCoursesGUI::class), ilMStListCoursesGUI::CMD_INDEX));
 	}
 
 
@@ -373,7 +385,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 		$propGetter = Closure::bind(function ($prop) { return $this->$prop; }, $my_staff_course, $my_staff_course);
 
 		$field_values = array();
-		foreach ($this->getSelectableColumns() as $k => $v) {
+		foreach ($this->getSelectedColumns() as $k => $v) {
 			switch ($k) {
 				case 'usr_assinged_orgus':
 					$field_values[$k] = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($my_staff_course->getUsrId());

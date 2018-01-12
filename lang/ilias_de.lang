@@ -50,7 +50,7 @@ lti#:#lti_released_objects#:#Objekt-Freigaben
 lti#:#lti_consumer#:#Released for
 orgu#:#orgu_global_set_form#:#Globale Einstellungen
 orgu#:#orgu_global_set_positions#:#Anzeige von Benutzerdaten nach Positionen in Organisationseinheiten
-orgu#:#orgu_global_set_positions_type_active#:#Positionen in
+orgu#:#orgu_global_set_positions_type_active#:#Positionen in: 
 orgu#:#orgu_global_set_type_changeable#:#Verhalten neuer Objekte
 orgu#:#orgu_global_set_type_changeable_object#:#Änderbare Einstellung im Objekt
 orgu#:#orgu_global_set_type_changeable_no#:#Positionen sind im Objekt nicht deaktivierbar
@@ -1924,6 +1924,7 @@ cmps#:#cmps_id#:#ID
 cmps#:#cmps_ilias_max_version#:#Maximale ILIAS-Version
 cmps#:#cmps_ilias_min_version#:#Minimale ILIAS-Version
 cmps#:#cmps_inactive#:#Inaktiv
+cmps#:#cmps_install#:#Installieren
 cmps#:#cmps_lang_files#:#Sprachdatei
 cmps#:#cmps_lang_prefix#:#Präfix Sprachvariable
 cmps#:#cmps_languages#:#Sprachen
@@ -8822,6 +8823,7 @@ survey#:#phrase_added#:#Phrase hinzugefügt
 survey#:#phrase_new#:#Neue Phrase erstellen
 survey#:#phrase_saved#:#Die Phrase wurde erfolgreich gespeichert
 survey#:#please_enter_mail_code#:#Bitte verwenden Sie den Platzhalter für den Zugangscode [code].
+survey#:#please_enter_mail_url#:#Bitte verwenden Sie den Platzhalter für die URL [url].
 survey#:#please_select#:#-- bitte auswählen --
 survey#:#predefined_users#:#Ausgewählten Benutzern auf den Schreibtisch legen
 survey#:#preview#:#Vorschau
@@ -10537,6 +10539,7 @@ common#:#file_rollback_done#:#Dateiversion %s ist nun die aktuelle Version.
 common#:#file_version_new_version#:#Neue Version
 common#:#file_version_create#:#Initiale Version
 common#:#file_version_replace#:#Alle Versionen ersetzt
+common#:#file_version_rollback#:#Auf Version %s von %s zurückkehren
 common#:#file_rollback#:#Zur aktuellen Version machen
 obj#:#edit_questions#:#Fragen bearbeiten
 common#:#frm_import#:#Forum importieren
@@ -10985,6 +10988,7 @@ obj#:#obj_orgunit_positions#:#Zugriffsregelungen nach Organisationseinheiten
 obj#:#obj_orgunit_positions_info#:#Wenn aktiviert, können zusätzliche Zugriffsregelungen über Positionen in Organisationseinheiten vergeben werden.
 orgu#:#authorities#:#Befugnisse
 orgu#:#positions#:#Positionen
+orgu#:#add_position#:#Position hinzufügen
 orgu#:#scope_1#:#eigener Organisationseinheit
 orgu#:#scope_2#:#untergeordneten Organisationseinheiten
 orgu#:#scope_3#:#allen Organisationseinheiten
@@ -11005,15 +11009,14 @@ mst#:#mst_show_courses#:#Einschreibungen
 mst#:#mst_courses_of#:#Einschreibungen von %s
 orgu#:#msg_position_udpated#:#Position updated
 orgu#:#remove_successful#:#Der Benutzer wurde erfolgreich entfernt.
-orgu#:#add_position#:#Position hinzufügen
 orgu#:#orgu_enable_my_staff#:#‘Ansicht Mitarbeiter’ aktivieren
 orgu#:#orgunit_position_permissions_not_active_for#:#Das Überschreiben der Zugriffsregelung für die Positionen darf nicht lokal vorgenommen werden für den Typ:
 orgu#:#orgu_enable_my_staff_info#:#Die Ansicht ‘Meine Mitarbeiter’ zeigt die Lernfortschritte der eigenen Mitarbeiter an.
 orgu#:#org_op_manage_members#:#Mitglieder bearbeiten
 orgu#:#org_op_read_learning_progress#:#Lernfortschritt von anderen Benutzern einsehen
-orgu#:#org_op_edit_submissions_grades#:#Abgaben von anderen Benutzern bearbeiten.
-rbac#:#org_op_edit_submissions_grades#:#Abgaben von anderen Benutzern bearbeiten.
-orgu#:#org_op_write_learning_progress#:#Lernfortschritt von anderen Benutzern setzen.
+orgu#:#org_op_edit_submissions_grades#:#Abgaben von anderen Benutzern bearbeiten
+rbac#:#org_op_edit_submissions_grades#:#Abgaben von anderen Benutzern bearbeiten
+orgu#:#org_op_write_learning_progress#:#Lernfortschritt von anderen Benutzern setzen
 rbac#:#org_op_write_learning_progress#:#Lernfortschritt untergeordneter Benutzer setzen
 rbac#:#positions_override_operations#:#Globale Einstellungen überschreiben
 orgu#:#form_title_org_default_permissions_update#:#Standardrechte
@@ -12580,7 +12583,7 @@ exc#:#exc_adopt_group_teams_conflict#:#Benutzer "%1$s" ist bereits in Gruppe "%2
 exc#:#exc_adopt_group_teams_added#:#%s Benutzer wurden hinzugefügt.
 exc#:#exc_adopt_group_teams_blocked#:#%s Benutzer waren bereits vorhanden.
 exc#:#exc_deadline_ext_mismatch#:#Die Nachfrist muss nach dem Abgabetermin enden.
-exc#:#exc_peer_review_ass_setting_info#:#Nachdem der Abgabetermin und ggfs. die Nachfrist verstrichen sind, können Teilnehmer ihre Arbeitsergebnisse gegenseitig bewerten. Genaue Einstellungen zum Peer-Feedback werden im gleichnamigen Reiter vorgenommen. Der Reiter wird eingeblendet, wenn diese Option aktiviert und gepeichert wurde. 
+exc#:#exc_peer_review_ass_setting_info#:#Nachdem der Abgabetermin und ggfs. die Nachfrist verstrichen sind, können Teilnehmer ihre Arbeitsergebnisse gegenseitig bewerten. Genaue Einstellungen zum Peer-Feedback werden im gleichnamigen Reiter vorgenommen. Der Reiter wird eingeblendet, wenn diese Option aktiviert und gespeichert wurde.
 exc#:#exc_peer_review_min_number#:#Geforderte Anzahl von Feedbacks
 exc#:#exc_peer_review_min_number_info#:#Anzahl von Feedback, die ein Teilnehmer den Peers geben muss. Sollte die Anzahl der geforderten Feedbacks die Anzahl der tatsächlichen Einreichungen übersteigen, wird die geforderte Anzahl automatisch auf die Anzahl der tatsächlichen Einreichungen reduziert.
 exc#:#exc_criteria_catalogues#:#Kriterienkataloge
@@ -14058,6 +14061,7 @@ prtf#:#prtf_signature_info#:#Das PDF enthält ein Feld, in welchem die Benutzer 
 prtf#:#prtf_signature_date#:#Datum, Unterschrift
 lti#:#lti_not_allowed#:#Zugriff nicht erlaubt. Sie wurden in den ursprünglichen LTI Bereich umgeleitet.
 lti#:#lti_navigation#:#Navigation
+lti#:#lti_session#:#LTI Sitzung
 lti#:#lti_exit#:#LTI Sitzung beenden
 lti#:#lti_exited#:#LTI Sitzung beendet
 lti#:#lti_exited_info#:#Die LTI Sitzung wurde erfolgreich beendet
@@ -14144,3 +14148,5 @@ common#:#usr_name_undisclosed#:#Nicht freigegeben
 common#:#obj_exc_duplicate#:#Übung kopieren
 meta#:#adt_error_max_length#:#Der eingegebene Text is zu lang, bitte geben Sie einen kürzeren Text ein.
 form#:#form_chars_remaining#:#Verbleibende Zeichen:
+poll#:#poll_voting_period_full_info#:#Voting period from %s to %s###20 12 2017 new variable
+crs#:#crs_subscription_min_members_err#:#Die minimale Anzahl darf nicht größer als die maximale Anzahl sein.

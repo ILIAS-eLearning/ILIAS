@@ -21846,3 +21846,18 @@ while( $row = $ilDB->fetchAssoc($res) )
 }
 
 ?>
+<#5254>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5255>
+<?php
+if (!$ilDB->tableColumnExists(ilOrgUnitPermission::TABLE_NAME, 'protected')) {
+	$ilDB->addTableColumn(ilOrgUnitPermission::TABLE_NAME, 'protected', [
+		"type"    => "integer",
+		"length"  => 1,
+		"default" => 0,
+	]);
+}
+$ilDB->manipulate("UPDATE il_orgu_permissions SET protected = 1 WHERE parent_id = -1");
+?>
