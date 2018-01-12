@@ -153,20 +153,22 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 		$item->readFromSession();
 		$this->filter['user'] = $item->getValue();
 
-		//org unit
-		$root = ilObjOrgUnit::getRootOrgRefId();
-		$tree = ilObjOrgUnitTree::_getInstance();
-		$nodes = $tree->getAllChildren($root);
-		$paths = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
-		$options[0] = $this->lng()->txt('mst_opt_all');
-		foreach ($paths as $org_ref_id => $path) {
-			$options[$org_ref_id] = $path;
+		if(ilUserSearchOptions::_isEnabled('org_units')) {
+			//org unit
+			$root = ilObjOrgUnit::getRootOrgRefId();
+			$tree = ilObjOrgUnitTree::_getInstance();
+			$nodes = $tree->getAllChildren($root);
+			$paths = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
+			$options[0] = $this->lng()->txt('mst_opt_all');
+			foreach ($paths as $org_ref_id => $path) {
+				$options[$org_ref_id] = $path;
+			}
+			$item = new ilSelectInputGUI($this->lng()->txt('obj_orgu'), 'org_unit');
+			$item->setOptions($options);
+			$this->addFilterItem($item);
+			$item->readFromSession();
+			$this->filter['org_unit'] = $item->getValue();
 		}
-		$item = new ilSelectInputGUI($this->lng()->txt('obj_orgu'), 'org_unit');
-		$item->setOptions($options);
-		$this->addFilterItem($item);
-		$item->readFromSession();
-		$this->filter['org_unit'] = $item->getValue();
 	}
 
 
@@ -232,11 +234,14 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 				'sort_field' => 'usr_email',
 			);
 		}
-		$cols['usr_assinged_orgus'] = array(
-			'txt'     => $this->lng()->txt('objs_orgu'),
-			'default' => true,
-			'width'   => 'auto',
-		);
+
+		if ($arr_searchable_user_columns['org_units']) {
+			$cols['usr_assinged_orgus'] = array(
+				'txt'     => $this->lng()->txt('objs_orgu'),
+				'default' => true,
+				'width'   => 'auto',
+			);
+		}
 
 		return $cols;
 	}
