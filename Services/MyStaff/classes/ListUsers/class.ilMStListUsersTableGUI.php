@@ -255,12 +255,13 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable('ACTIONS', $selection->getHTML());
 	}
 
+
 	/**
 	 * Get profile back url
+	 * @return string
 	 */
-	function getProfileBackUrl()
-	{
-		return rawurlencode($this->ctrl()->getLinkTargetByClass(strtolower(ilMyStaffGUI::class), "index"));
+	private function getProfileBackUrl() {
+		return rawurlencode($this->ctrl()->getLinkTargetByClass(strtolower(ilMyStaffGUI::class), ilMyStaffGUI::CMD_INDEX));
 	}
 
 
