@@ -134,6 +134,7 @@ class ilOrgUnitPermissionQueries {
 		$template = self::getTemplateSetForContextName($context->getContext(), $position_id);
 
 		$set = new ilOrgUnitPermission();
+		$set->setProtected(false);
 		$set->setParentId($ref_id);
 		$set->setPositionId($position_id);
 		$set->setContextId($context->getId());
@@ -141,6 +142,44 @@ class ilOrgUnitPermissionQueries {
 		$set->create();
 
 		return $set;
+	}
+
+
+	/**
+	 * @param $ref_id
+	 * @param $position_id
+	 *
+	 * @return bool
+	 * @throws \ilException
+	 */
+	public static function removeLocalSetForRefId($ref_id, $position_id) {
+		/**
+		 * @var $dedicated_set ilOrgUnitPermission
+		 */
+		self::checkRefIdAndPositionId($ref_id, $position_id);
+
+		$context = self::getContextByRefId($ref_id);
+
+		$ilOrgUnitGlobalSettings = ilOrgUnitGlobalSettings::getInstance();
+		$ilOrgUnitObjectPositionSetting = $ilOrgUnitGlobalSettings->getObjectPositionSettingsByType($context->getContext());
+
+		if (!$ilOrgUnitObjectPositionSetting->isActive()) {
+			throw new ilPositionPermissionsNotActive("Position-related permissions not active in {$context->getContext()}", $context->getContext());
+		}
+
+		$dedicated_set = ilOrgUnitPermission::where([
+			'parent_id'   => $ref_id,
+			'context_id'  => $context->getId(),
+			'position_id' => $position_id,
+			'protected'   => false,
+		])->first();
+		if ($dedicated_set) {
+			$dedicated_set->delete();
+
+			return true;
+		}
+
+		return false;
 	}
 
 
