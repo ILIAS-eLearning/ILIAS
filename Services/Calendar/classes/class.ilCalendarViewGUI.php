@@ -257,7 +257,7 @@ class ilCalendarViewGUI
 
 				$modal_title = ilDatePresentation::formatPeriod($dates["start"], $dates["end"]);
 				$modal_title = $this->getModalTitleByPlugins($modal_title);
-				$modal = $f->modal()->roundtrip($modal_title,$f->legacy($content));
+				$modal = $f->modal()->roundtrip($modal_title,$f->legacy($content))->withCancelButtonLabel("close");
 
 				echo $r->renderAsync($modal);
 			}
