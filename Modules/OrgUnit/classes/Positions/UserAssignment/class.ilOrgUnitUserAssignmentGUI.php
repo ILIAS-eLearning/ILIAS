@@ -79,7 +79,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands {
 		$ua = ilOrgUnitUserAssignmentQueries::getInstance()
 		                                    ->getAssignmentOrFail($_POST['usr_id'], $r->getQueryParams()['position_id']);
 		$ua->delete();
-		ilUtil::sendSuccess($this->txt('remove_successful'));
+		ilUtil::sendSuccess($this->txt('remove_successful'), true);
 		$this->cancel();
 	}
 
