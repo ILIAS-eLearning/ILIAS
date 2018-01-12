@@ -10554,6 +10554,7 @@ common#:#file_rollback_done#:#File version %s is now the current version.
 common#:#file_version_new_version#:#New version
 common#:#file_version_create#:#Initial version
 common#:#file_version_replace#:#All versions replaced
+common#:#file_version_rollback#:#Rollback to version %s from %s
 common#:#file_rollback#:#Make this the current version
 obj#:#edit_questions#:#Edit Questions
 common#:#frm_import#:#Import Forum
@@ -11014,7 +11015,7 @@ common#:#view_learning_progress_rec#:#View Learning Progress of Unit incl. Subun
 rbac#:#rbac_info_only_position_access#:#You are presented only with those members with a Position within your organisational unit. Members with other organisational Positions are not shown to you but may reside in this coures without being shown to you.
 obj#:#obj_orgunit_positions#:#Access Control by Organisation Unit Positions
 obj#:#obj_orgunit_positions_info#:#If enabled, additional access control rules can be defined by positions in organisational units.
-orgu#:#msg_confirm_deletion#:#Would you really like to delete tho following Position?
+orgu#:#msg_confirm_deletion#:#Would you really like to delete the following Position?
 orgu#:#remove_user#:#Remove
 orgu#:#msg_confirm_remove_user#:#Would you really like to remove the following User from the Position %s?
 orgu#:#msg_confirm_d_ua#:#Would you like to assign these person to the position Employee of their respective Organisational Units?
@@ -11022,6 +11023,7 @@ orgu#:#user_assignments#:#User Assignments
 orgu#:#authorities#:#Authorities
 orgu#:#authority#:#Authority
 orgu#:#positions#:#Positions
+orgu#:#add_position#:#Add Position
 orgu#:#scope_1#:#Same Organisational Unit
 orgu#:#scope_2#:#Subsequent Organisational Units
 orgu#:#scope_3#:#All Organisational Units
@@ -11040,6 +11042,8 @@ mst#:#mst_memb_status_waitinglist#:#Waiting List
 mst#:#mst_memb_status_registered#:#Registered
 mst#:#mst_show_courses#:#Enrolments
 mst#:#mst_courses_of#:#Enrolments of %s
+orgu#:#msg_position_udpated#:#Position aktualisiert
+orgu#:#remove_successful#:#User was removed successfully.
 orgu#:#orgu_enable_my_staff#:#Enable View ‘Staff’
 orgu#:#orgu_enable_my_staff_info#:#The View ‘Staff’ shows the Learning Progress of the own Employees.
 orgu#:#org_op_manage_members#:#Manage Members

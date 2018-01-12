@@ -23,14 +23,7 @@ class ilObjOrgUnit extends ilContainer {
 	 * @var int
 	 */
 	protected static $root_id;
-	/**
-	 * @var int
-	 */
-	protected $employee_role;
-	/**
-	 * @var int
-	 */
-	protected $superior_role;
+
 	/**
 	 * Cache storing OrgUnit objects that have OrgUnit types with custom icons assigned
 	 *
@@ -242,83 +235,53 @@ class ilObjOrgUnit extends ilContainer {
 		}
 	}
 
-
-	private function loadRoles() {
-		global $DIC;
-		$ilLog = $DIC['ilLog'];
-		if (!$this->employee_role || !$this->superior_role) {
-			$this->doLoadRoles();
-		}
-
-		if (!$this->employee_role || !$this->superior_role) {
-			$this->initDefaultRoles();
-			$this->doLoadRoles();
-			if (!$this->employee_role || !$this->superior_role) {
-				throw new Exception("The standard roles the orgu object with id: " . $this->getId()
-				                    . " aren't initialized or have been deleted, newly creating them didn't work!");
-			} else {
-				$ilLog->write("[" . __FILE__ . ":" . __LINE__
-				              . "] The standard roles for the orgu obj with id: " . $this->getId()
-				              . " were newly created as they couldnt be found.");
-			}
-		}
-	}
-
-
-	private function doLoadRoles() {
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
-		if (!$this->employee_role || !$this->superior_role) {
-			$q = "SELECT obj_id, title FROM object_data WHERE title = 'il_orgu_employee_"
-			     . $ilDB->quote($this->getRefId(), "integer") . "' OR title = 'il_orgu_superior_"
-			     . $ilDB->quote($this->getRefId(), "integer") . "'";
-			$set = $ilDB->query($q);
-			while ($res = $ilDB->fetchAssoc($set)) {
-				if ($res["title"] == "il_orgu_employee_" . $this->getRefId()) {
-					$this->employee_role = $res["obj_id"];
-				} elseif ($res["title"] == "il_orgu_superior_" . $this->getRefId()) {
-					$this->superior_role = $res["obj_id"];
-				}
-			}
-
-			if (!$this->employee_role || !$this->superior_role) {
-				throw new Exception("The standard roles the orgu object with id: " . $this->getId()
-				                    . " aren't initialized or have been deleted!");
-			}
-		}
-	}
-
-
+	/**
+	 * Adds the user ids to the position employee.
+	 *
+	 * @param $user_ids
+	 */
 	public function assignUsersToEmployeeRole($user_ids) {
 		global $DIC;
-		$rbacadmin = $DIC['rbacadmin'];
 		$ilAppEventHandler = $DIC['ilAppEventHandler'];
+		$position_id = ilOrgUnitPosition::getCorePositionId(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
+
 		foreach ($user_ids as $user_id) {
-			$rbacadmin->assignUser($this->getEmployeeRole(), $user_id);
+			ilOrgUnitUserAssignment::findOrCreateAssignment(
+				$user_id,
+				$position_id,
+				$this->getId());
 
 			$ilAppEventHandler->raise('Modules/OrgUnit', 'assignUsersToEmployeeRole', array(
 				'object'  => $this,
 				'obj_id'  => $this->getId(),
 				'ref_id'  => $this->getRefId(),
-				'role_id' => $this->getEmployeeRole(),
+				'position_id' => $position_id,
 				'user_id' => $user_id,
 			));
 		}
 	}
 
-
+	/**
+	 * Adds the user ids to the position superior.
+	 *
+	 * @param $user_ids
+	 */
 	public function assignUsersToSuperiorRole($user_ids) {
 		global $DIC;
-		$rbacadmin = $DIC['rbacadmin'];
 		$ilAppEventHandler = $DIC['ilAppEventHandler'];
+		$position_id = ilOrgUnitPosition::getCorePositionId(ilOrgUnitPosition::CORE_POSITION_SUPERIOR);
+
 		foreach ($user_ids as $user_id) {
-			$rbacadmin->assignUser($this->getSuperiorRole(), $user_id);
+			ilOrgUnitUserAssignment::findOrCreateAssignment(
+				$user_id,
+				$position_id,
+				$this->getId());
 
 			$ilAppEventHandler->raise('Modules/OrgUnit', 'assignUsersToSuperiorRole', array(
 				'object'  => $this,
 				'obj_id'  => $this->getId(),
 				'ref_id'  => $this->getRefId(),
-				'role_id' => $this->getSuperiorRole(),
+				'position_id' => $position_id,
 				'user_id' => $user_id,
 			));
 		}
@@ -327,15 +290,19 @@ class ilObjOrgUnit extends ilContainer {
 
 	public function deassignUserFromEmployeeRole($user_id) {
 		global $DIC;
-		$rbacadmin = $DIC['rbacadmin'];
+		$position_id = ilOrgUnitPosition::getCorePositionId(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
+
 		$ilAppEventHandler = $DIC['ilAppEventHandler'];
-		$rbacadmin->deassignUser($this->getEmployeeRole(), $user_id);
+		ilOrgUnitUserAssignment::findOrCreateAssignment(
+			$user_id,
+			$position_id,
+			$this->getId())->delete();
 
 		$ilAppEventHandler->raise('Modules/OrgUnit', 'deassignUserFromEmployeeRole', array(
 			'object'  => $this,
 			'obj_id'  => $this->getId(),
 			'ref_id'  => $this->getRefId(),
-			'role_id' => $this->getEmployeeRole(),
+			'position_id' => $position_id,
 			'user_id' => $user_id,
 		));
 	}
@@ -343,15 +310,19 @@ class ilObjOrgUnit extends ilContainer {
 
 	public function deassignUserFromSuperiorRole($user_id) {
 		global $DIC;
-		$rbacadmin = $DIC['rbacadmin'];
+		$position_id = ilOrgUnitPosition::getCorePositionId(ilOrgUnitPosition::CORE_POSITION_SUPERIOR);
+
 		$ilAppEventHandler = $DIC['ilAppEventHandler'];
-		$rbacadmin->deassignUser($this->getSuperiorRole(), $user_id);
+		ilOrgUnitUserAssignment::findOrCreateAssignment(
+			$user_id,
+			$position_id,
+			$this->getId())->delete();
 
 		$ilAppEventHandler->raise('Modules/OrgUnit', 'deassignUserFromSuperiorRole', array(
 			'object'  => $this,
 			'obj_id'  => $this->getId(),
 			'ref_id'  => $this->getRefId(),
-			'role_id' => $this->getSuperiorRole(),
+			'position_id' => $position_id,
 			'user_id' => $user_id,
 		));
 	}
@@ -420,15 +391,6 @@ class ilObjOrgUnit extends ilContainer {
 		return $return;
 	}
 
-
-	/**
-	 * @param int $employee_role
-	 */
-	public function setEmployeeRole($employee_role) {
-		$this->employee_role = $employee_role;
-	}
-
-
 	/**
 	 * @param $a_id
 	 * @param bool $a_reference
@@ -438,60 +400,6 @@ class ilObjOrgUnit extends ilContainer {
 	public static function _exists($a_id, $a_reference = false, $type = "orgu") {
 		return parent::_exists($a_id, $a_reference, "orgu");
 	}
-
-
-	/**
-	 * @return int
-	 */
-	public function getEmployeeRole() {
-		$this->loadRoles();
-
-		return $this->employee_role;
-	}
-
-
-	/**
-	 * @param int $superior_role
-	 */
-	public function setSuperiorRole($superior_role) {
-		$this->superior_role = $superior_role;
-	}
-
-
-	/**
-	 * @return int
-	 */
-	public function getSuperiorRole() {
-		$this->loadRoles();
-
-		return $this->superior_role;
-	}
-
-
-	public function initDefaultRoles() {
-		global $DIC;
-		$ilAppEventHandler = $DIC['ilAppEventHandler'];
-
-
-        $role_emp = new ilObjRole();
-        $role_emp->setTitle("il_orgu_employee_" . $this->getRefId());
-        $role_emp->setDescription("Emplyee of org unit obj_no." . $this->getId());
-        $role_emp->create();
-        $GLOBALS['rbacadmin']->assignRoleToFolder($role_emp->getId(),$this->getRefId(),'y');
-        
-		$role_sup = ilObjRole::createDefaultRole('il_orgu_superior_'
-		                                         . $this->getRefId(), "Superior of org unit obj_no."
-		                                                              . $this->getId(), 'il_orgu_superior', $this->getRefId());
-
-		$ilAppEventHandler->raise('Modules/OrgUnit', 'initDefaultRoles', array(
-			'object'           => $this,
-			'obj_id'           => $this->getId(),
-			'ref_id'           => $this->getRefId(),
-			'role_superior_id' => $role_sup->getId(),
-			'role_employee_id' => $role_emp->getId(),
-		));
-	}
-
 
 	/**
 	 * Return title
@@ -530,14 +438,12 @@ class ilObjOrgUnit extends ilContainer {
 		$lng = $DIC['lng'];
 		$ilDB = $DIC['ilDB'];
 
-		$translations = array();
-
 		$q = "SELECT * FROM object_translation WHERE obj_id = "
 		     . $ilDB->quote($this->getId(), 'integer') . " ORDER BY lang_default DESC";
-		$r = $this->ilias->db->query($q);
+		$r = $this->db->query($q);
 
 		$num = 0;
-
+		$data = ["Fobject" => []];
 		while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
 			$data["Fobject"][$num] = array(
 				"title"        => $row->title,
@@ -585,7 +491,7 @@ class ilObjOrgUnit extends ilContainer {
 
 		$query = "DELETE FROM object_translation WHERE obj_id = "
 		         . $ilDB->quote($this->getId(), 'integer');
-		$res = $ilDB->manipulate($query);
+		$ilDB->manipulate($query);
 
 		$ilAppEventHandler->raise('Modules/OrgUnit', 'delete', array(
 			'object' => $this,
@@ -601,15 +507,13 @@ class ilObjOrgUnit extends ilContainer {
 			$path->delete();
 		}
 
-		if (!$this->employee_role || !$this->superior_role) {
-			$this->doLoadRoles();
+		// Delete all position assignments to this object.
+		$assignments = ilOrgUnitUserAssignment::where(array(
+			'orgu_id'     => $this->getId(),
+		))->get();
+		foreach ($assignments as $assignment) {
+			$assignment->delete();
 		}
-		$emp = new ilObjRole($this->employee_role);
-		$emp->setParent($this->getRefId());
-		$emp->delete();
-		$sup = new ilObjRole($this->superior_role);
-		$sup->setParent($this->getRefId());
-		$sup->delete();
 
 		return true;
 	}
@@ -684,7 +588,6 @@ class ilObjOrgUnit extends ilContainer {
 	public function updateTranslation($a_title, $a_desc, $a_lang, $a_lang_default) {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
-		$ilLog = $DIC['ilLog'];
 
 		if (empty($a_title)) {
 			$a_title = "NO TITLE";
@@ -704,7 +607,7 @@ class ilObjOrgUnit extends ilContainer {
 
 		$query .= " WHERE obj_id = " . $ilDB->quote($this->getId(), 'integer') . " AND lang_code = "
 		          . $ilDB->quote($a_lang, 'text');
-		$res = $ilDB->manipulate($query);
+		$ilDB->manipulate($query);
 
 		return true;
 	}
