@@ -690,5 +690,20 @@ interface Factory {
 	 */
 	public function chart();
 
-
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *      In opposite to components with a purely receptive or at most
+	 *      navigational character, input elements are used to relay user-induced
+	 *      data to the system.
+	 *   composition: >
+	 *      An input consists of fields that define the way data is entered
+	 *      and a container around those fields that defines the way the data
+	 *      is submitted to the system.
+	 *
+	 * ---
+	 * @return  \ILIAS\UI\Component\Input\Factory
+	 */
+	public function input();
 }

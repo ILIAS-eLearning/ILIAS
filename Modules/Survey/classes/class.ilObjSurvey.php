@@ -4680,8 +4680,8 @@ class ilObjSurvey extends ilObject
 						array(
 							"accesscode" => $data["code"],
 							"lang" => $lang
-						));				
-					$messagetext = str_replace('[url]', "<" . $url . ">", $messagetext);
+						));
+					$messagetext = str_replace('[url]', $url, $messagetext);
 					foreach ($data as $key => $value)
 					{
 						$messagetext = str_replace('[' . $key . ']', $value, $messagetext);
@@ -5683,6 +5683,7 @@ class ilObjSurvey extends ilObject
 			else
 			{			
 				$name = ilObjUser::_lookupName($row["user_id"]);
+				$name["name"] = $name["lastname"].", ".$name["firstname"];
 				$name["user_id"] = "u".$name["user_id"];
 				$name["email"] = ilObjUser::_lookupEmail($row["user_id"]);
 				$name["sent"] = $row["mail_sent"];
@@ -5701,7 +5702,8 @@ class ilObjSurvey extends ilObject
 					$res["a".$item["id"]] = array(
 						"user_id" => "a".$item["id"],
 						"lastname" => $item["last_name"],
-						"firstname" => $item["first_name"],						
+						"firstname" => $item["first_name"],
+						"name" => $item["last_name"].", ".$item["first_name"],
 						"login" => "",
 						"email" => $item["email"],
 						"code" => $item["code"],

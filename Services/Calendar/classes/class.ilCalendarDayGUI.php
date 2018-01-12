@@ -358,9 +358,7 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 
 		$shy = $this->getAppointmentShyButton($a_app['event'], $a_app['dstart'], "");
 
-		$title = ($new_title = $this->getContentByPlugins($a_app['event'], $a_app['dstart'], $shy))? $new_title : $shy;
-
-		$event_tpl->setVariable('F_APP_TITLE',$title.$compl);
+		$event_tpl->setVariable('F_APP_TITLE',$shy.$compl);
 
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
 		$event_tpl->setVariable('F_APP_BGCOLOR',$color);
@@ -444,7 +442,7 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
 		$event_tpl->setVariable('APP_BGCOLOR',$color);
-		$this->tpl->setVariable('APP_BGCOLOR',$color);
+		//$this->tpl->setVariable('APP_BGCOLOR',$color);
 		$event_tpl->setVariable('APP_COLOR',ilCalendarUtil::calculateFontColor($color));
 		$this->tpl->setVariable('APP_COLOR',ilCalendarUtil::calculateFontColor($color));
 		$event_tpl->setVariable('APP_ADD_STYLES',$a_app['event']->getPresentationStyle());
@@ -526,8 +524,7 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 				continue;
 			}
 			// start hour for this day
-			#21132
-			/*
+			#21132 #21636
 			if($app['start_info']['mday'] != $this->seed_info['mday'])
 			{
 				$start = 0;
@@ -536,12 +533,11 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 			{
 				$start = $app['start_info']['hours']*60+$app['start_info']['minutes'];
 			}
-			*/
-			$start = $app['start_info']['hours']*60+$app['start_info']['minutes'];
+			#21636
+			//$start = $app['start_info']['hours']*60+$app['start_info']['minutes'];
 
 			// end hour for this day
 			#21132
-			/*
 			if($app['end_info']['mday'] != $this->seed_info['mday'])
 			{
 				$end = 23*60;
@@ -554,8 +550,7 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 			{
 				$end = $app['end_info']['hours']*60+$app['end_info']['minutes'];
 			}
-			*/
-			$end = $app['end_info']['hours']*60+$app['end_info']['minutes'];
+			//$end = $app['end_info']['hours']*60+$app['end_info']['minutes'];
 
 			// set end to next hour for screen readers
 			if ($ilUser->prefs["screen_reader_optimization"])

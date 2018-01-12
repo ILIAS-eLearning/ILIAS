@@ -50,7 +50,7 @@ class ilCourseXMLWriter extends ilXmlWriter
 	private  $course_obj;
 	private  $attach_users = true;
 	
-
+	
 	/**
 	 * constructor
 	 * 
@@ -120,7 +120,7 @@ class ilCourseXMLWriter extends ilXmlWriter
 	function getXML()
 	{
 		#var_dump("<pre>", htmlentities($this->xmlDumpMem()),"<pre>");
-		return $this->xmlDumpMem(false);
+		return $this->xmlDumpMem(true);
 	}
 
 	// Called from nested class
@@ -178,7 +178,15 @@ class ilCourseXMLWriter extends ilXmlWriter
 	
 	function __buildAdmin()
 	{
-		foreach($this->course_obj->getMembersObject()->getAdmins() as $id)
+		$admins = $this->course_obj->getMembersObject()->getAdmins();
+		$admins = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+			'manage_members',
+			ilOrgUnitOperation::OP_MANAGE_MEMBERS,
+			$this->course_obj->getRefId(),
+			$admins
+		);
+		
+		foreach($admins as $id)
 		{
 			$attr['id'] = 'il_'.$this->ilias->getSetting('inst_id').'_usr_'.$id;
 			$attr['notification'] = ($this->course_obj->getMembersObject()->isNotificationEnabled($id)) ? 'Yes' : 'No';
@@ -192,7 +200,14 @@ class ilCourseXMLWriter extends ilXmlWriter
 
 	function __buildTutor()
 	{
-		foreach($this->course_obj->getMembersObject()->getTutors() as $id)
+		$tutors = $this->course_obj->getMembersObject()->getTutors();
+		$tutors = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+			'manage_members',
+			ilOrgUnitOperation::OP_MANAGE_MEMBERS,
+			$this->course_obj->getRefId(),
+			$tutors
+		);
+		foreach($tutors as $id)
 		{
 			$attr['id'] = 'il_'.$this->ilias->getSetting('inst_id').'_usr_'.$id;
 			$attr['notification'] = ($this->course_obj->getMembersObject()->isNotificationEnabled($id)) ? 'Yes' : 'No';
@@ -205,7 +220,14 @@ class ilCourseXMLWriter extends ilXmlWriter
 	}
 	function __buildMember()
 	{
-		foreach($this->course_obj->getMembersObject()->getMembers() as $id)
+		$members = $this->course_obj->getMembersObject()->getMembers();
+		$members = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+			'manage_members',
+			ilOrgUnitOperation::OP_MANAGE_MEMBERS,
+			$this->course_obj->getRefId(),
+			$members
+		);
+		foreach($members as $id)
 		{
 			$attr['id'] = 'il_'.$this->ilias->getSetting('inst_id').'_usr_'.$id;
 			$attr['blocked'] = ($this->course_obj->getMembersObject()->isBlocked($id)) ? 'Yes' : 'No';
@@ -219,7 +241,15 @@ class ilCourseXMLWriter extends ilXmlWriter
 
 	function __buildSubscriber()
 	{
-		foreach($this->course_obj->getMembersObject()->getSubscribers() as $id)
+		$subs = $this->course_obj->getMembersObject()->getSubscribers();
+		$subs = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+			'manage_members',
+			ilOrgUnitOperation::OP_MANAGE_MEMBERS,
+			$this->course_obj->getRefId(),
+			$subs
+		);
+		
+		foreach($subs as $id)
 		{
 			$data = $this->course_obj->getMembersObject()->getSubscriberData($id);
 
@@ -235,11 +265,23 @@ class ilCourseXMLWriter extends ilXmlWriter
 	function __buildWaitingList()
 	{
 		include_once 'Modules/Course/classes/class.ilCourseWaitingList.php';
-
 		$waiting_list = new ilCourseWaitingList($this->course_obj->getId());
+
+		$wait = $waiting_list->getAllUsers();
 		
-		foreach($waiting_list->getAllUsers() as $data)
+		foreach($wait as $data)
 		{
+			$is_accessible = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+				'manage_members',
+				ilOrgUnitOperation::OP_MANAGE_MEMBERS,
+				$this->course_obj->getRefId(),
+				[$data['usr_id']]
+			);
+			if(!count($is_accessible))
+			{
+				continue;
+			}
+			
 			$attr['id'] = 'il_'.$this->ilias->getSetting('inst_id').'_usr_'.$data['usr_id'];
 			$attr['position'] = $data['position'];
 			$attr['subscriptionTime'] = $data['time'];

@@ -256,7 +256,7 @@ class ilBookingEntry
 		}
 		
 		$query = "UPDATE booking_entry SET ".
-			"SET obj_id = ".$ilDB->quote($this->getObjId(),'integer').", ".
+			" obj_id = ".$ilDB->quote($this->getObjId(),'integer').", ".
 			" deadline = ".$ilDB->quote($this->getDeadlineHours(),'integer').", ".
 			" num_bookings = ".$ilDB->quote($this->getNumberOfBookings(),'integer').', '.
 			'booking_group = '.$ilDB->quote($this->getBookingGroup(),'integer');

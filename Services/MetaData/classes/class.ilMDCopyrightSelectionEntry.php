@@ -31,6 +31,7 @@
 */
 class ilMDCopyrightSelectionEntry
 {
+	protected $logger = null;
 	protected $db;
 	
 	private $entry_id;
@@ -51,9 +52,11 @@ class ilMDCopyrightSelectionEntry
 	 */
 	public function __construct($a_entry_id)
 	{
-	 	global $ilDB;
-	 	
-	 	$this->db = $ilDB;
+		global $DIC;
+		
+		
+	 	$this->logger = $GLOBALS['DIC']->logger()->meta();
+	 	$this->db = $GLOBALS['DIC']->database();
 	 	$this->entry_id = $a_entry_id;
 	 	$this->read();
 	}
@@ -409,9 +412,11 @@ class ilMDCopyrightSelectionEntry
 	 		$this->setCopyrightAndOtherRestrictions(true);
 	 	}
 	 	
-	 	$desc = $ilDB->quote('il_copyright_entry__'.IL_INST_ID.'__'.$this->getEntryId(),'text');
 	 	$query = "SELECT count(meta_rights_id) used FROM il_meta_rights ".
-	 		"WHERE description = ".$ilDB->quote($desc ,'text');
+	 		"WHERE description = ".$ilDB->quote('il_copyright_entry__'.IL_INST_ID.'__'.$this->getEntryId(),'text');
+		
+		$this->logger->debug($query);
+		
 	 	$res = $this->db->query($query);
 	 	$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 	 	$this->usage = $row->used;

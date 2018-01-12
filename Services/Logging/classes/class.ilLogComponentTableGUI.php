@@ -15,6 +15,8 @@ include_once './Services/Table/classes/class.ilTable2GUI.php';
 class ilLogComponentTableGUI extends ilTable2GUI
 {
 	protected $settings = null;
+	
+	protected $editable = true;
 
 
 
@@ -24,6 +26,24 @@ class ilLogComponentTableGUI extends ilTable2GUI
 		$this->setId('il_log_component');
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
+	}
+	
+	/**
+	 * Set ediatable (write permission granted)
+	 * @param bool $a_status
+	 */
+	public function setEditable($a_status)
+	{
+		$this->editable = $a_status;
+	}
+	
+	/**
+	 * Check if ediatable (write permission granted)
+	 * @return type
+	 */
+	public function isEditable()
+	{
+		return $this->editable;
 	}
 	
 	/**
@@ -43,8 +63,11 @@ class ilLogComponentTableGUI extends ilTable2GUI
 		
 		$this->setDefaultOrderField('component_sortable');
 		
-		$this->addCommandButton('saveComponentLevels', $this->lng->txt('save'));
-		$this->addCommandButton('resetComponentLevels', $this->lng->txt('log_component_btn_reset'));
+		if($this->isEditable())
+		{
+			$this->addCommandButton('saveComponentLevels', $this->lng->txt('save'));
+			$this->addCommandButton('resetComponentLevels', $this->lng->txt('log_component_btn_reset'));
+		}
 		
 		$this->setShowRowsSelector(FALSE);
 		$this->setLimit(500);

@@ -117,7 +117,7 @@ abstract class ilAppointmentCustomModalPlugin extends ilPlugin
 	/**
 	 * Add elements in the toolbar
 	 * @param ilToolbarGUI $a_toolbar
-	 * @return mixed
+	 * @return ilToolbarGUI
 	 */
 	abstract function toolbarAddItems(ilToolbarGUI $a_toolbar);
 

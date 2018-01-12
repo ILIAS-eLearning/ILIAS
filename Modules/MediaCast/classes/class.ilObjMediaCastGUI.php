@@ -1243,7 +1243,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		
 		$lng->loadLanguageModule("mcst");
 		
-		include("Services/Form/classes/class.ilPropertyFormGUI.php");
+		require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form_gui = new ilPropertyFormGUI();
 		$this->form_gui->setTitle($lng->txt("mcst_settings"));
 		

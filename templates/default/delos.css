@@ -2547,14 +2547,14 @@ output {
 .form-control {
   display: block;
   width: 100%;
-  height: 28px;
+  height: 25px;
   padding: 3px 8px;
   font-size: 14px;
   line-height: 1.42857143;
   color: #555555;
   background-color: white;
   background-image: none;
-  border: 1px solid #ccc;
+  border: 1px solid #CCCCCC;
   border-radius: 0;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
@@ -2603,7 +2603,7 @@ input[type="search"] {
   input[type="time"].form-control,
   input[type="datetime-local"].form-control,
   input[type="month"].form-control {
-    line-height: 28px;
+    line-height: 25px;
   }
   input[type="date"].input-sm,
   input[type="time"].input-sm,
@@ -2780,7 +2780,7 @@ select[multiple].input-lg {
   position: relative;
 }
 .has-feedback .form-control {
-  padding-right: 35px;
+  padding-right: 31.25px;
 }
 .form-control-feedback {
   position: absolute;
@@ -2788,9 +2788,9 @@ select[multiple].input-lg {
   right: 0;
   z-index: 2;
   display: block;
-  width: 28px;
-  height: 28px;
-  line-height: 28px;
+  width: 25px;
+  height: 25px;
+  line-height: 25px;
   text-align: center;
   pointer-events: none;
 }
@@ -3897,7 +3897,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   color: #555555;
   text-align: center;
   background-color: #eeeeee;
-  border: 1px solid #ccc;
+  border: 1px solid #CCCCCC;
   border-radius: 0;
 }
 .input-group-addon.input-sm {
@@ -4363,8 +4363,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   border-bottom: 1px solid transparent;
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
-  margin-top: 6px;
-  margin-bottom: 6px;
+  margin-top: 7.5px;
+  margin-bottom: 7.5px;
 }
 @media (min-width: 768px) {
   .navbar-form .form-group {
@@ -4449,8 +4449,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   border-bottom-left-radius: 0;
 }
 .navbar-btn {
-  margin-top: 6px;
-  margin-bottom: 6px;
+  margin-top: 7.5px;
+  margin-bottom: 7.5px;
 }
 .navbar-btn.btn-sm {
   margin-top: 7px;
@@ -6863,7 +6863,7 @@ button.close {
 .il-panel-report .il-card {
   background-color: #f9f9f9;
 }
-@media (min-width: 992px) {
+@media (min-width: 768px) {
   .row-eq-height .il-card {
     display: flex;
     flex-direction: column;
@@ -6881,12 +6881,19 @@ button.close {
   padding-right: 5px;
   margin-bottom: 6px;
 }
-@media (min-width: 992px) {
+.il-deck .row.row-eq-height:before {
+  content: none !important;
+}
+.il-deck .row.row-eq-height:after {
+  content: none !important;
+}
+@media (min-width: 768px) {
   .row-eq-height {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
+    flex-wrap: wrap;
   }
   .row-eq-height > div {
     display: flex;
@@ -7239,15 +7246,18 @@ hr.il-divider-with-label {
 }
 .il-item .il-item-property-name {
   font-size: 12px;
-  overflow: auto;
+  overflow: hidden;
 }
 .il-item .il-item-property-value {
   font-size: 12px;
   color: #909090;
-  overflow: auto;
+  overflow: hidden;
 }
 .il-item .col-sm-9 > .row {
   clear: both;
+}
+.il-item .row .row > .col-md-6 {
+  margin-bottom: 6px;
 }
 .il-item-marker {
   border-left: 5px solid;
@@ -7345,7 +7355,9 @@ hr.il-divider-with-label {
     display: none;
   }
   .il-item .il-item-divider {
-    display: none;
+    padding: 10px 0 0 0;
+    margin: 0;
+    border-bottom: 0;
   }
 }
 .icon {
@@ -7893,6 +7905,59 @@ ul.breadcrumb li:hover {
 .il-chart-scale-bar-active {
   color: white;
   background-color: #4c6586;
+}
+.il-standard-form {
+  background-color: #fdfdfd;
+  margin-top: 6px;
+}
+.il-standard-form .il-standard-form-cmd {
+  float: right;
+}
+.il-standard-form .il-standard-form-cmd .btn {
+  display: inline-block;
+  min-width: 60px;
+  vertical-align: top;
+}
+@media (max-width: 767px) {
+  .il-standard-form .il-standard-form-cmd .btn {
+    min-width: 0;
+  }
+}
+.il-standard-form .il-standard-form-header,
+.il-standard-form .il-standard-form-footer,
+.il-standard-form .il-section-input-header {
+  background-color: #f0f0f0;
+  color: #9a9a9a;
+}
+.il-standard-form .il-standard-form-header h3,
+.il-standard-form .il-section-input-header h3 {
+  font-size: 19px;
+  text-transform: uppercase;
+  padding-top: 6px;
+  margin-bottom: 3px;
+}
+.il-standard-form .il-standar-form-header-byline,
+.il-standard-form .il-section-input-header-byline {
+  font-size: 12px;
+}
+.il-standard-form .il-standard-form-header + .il-section-input {
+  margin-top: -25.14285715px;
+  padding: 0;
+}
+.il-standard-form .il-standard-form-header + .il-section-input .il-section-input-header h3 {
+  margin-top: 0;
+  padding-top: 0;
+}
+.il-standard-form .il-dependant-group {
+  background-color: #f8f8f8;
+  padding: 3px 0;
+}
+.il-standard-form .il-dependant-group .form-group {
+  margin: 0;
+}
+.il-standard-form input[type="radio"],
+.il-standard-form input[type="checkbox"] {
+  margin: 0;
 }
 /*		Color scheme
 		Dark BLue: #0f2152;
@@ -9887,24 +9952,16 @@ select {
 }
 .form-control {
   font-size: 12px;
-  line-height: 20px;
-}
-.btn {
-  line-height: 20px;
-}
-.form-control-static {
-  min-height: 0;
-  display: inline-block;
 }
 .form-horizontal {
   margin-bottom: 20px;
-  background-color: #fdfdfd;
-}
-.form-horizontal .form-group {
-  margin: 10px 0;
+  background: #fdfdfd;
 }
 form.form-inline {
   margin-bottom: 20px;
+}
+.form-horizontal .form-group {
+  margin: 10px 0;
 }
 .form-control,
 .form-control:focus {
@@ -9942,7 +9999,7 @@ select.form-control {
   line-height: normal;
 }
 .form-horizontal div.radio label.radio-inline {
-  line-height: 28px;
+  line-height: 25px;
 }
 .radio input[type="radio"],
 .radio-inline input[type="radio"],
@@ -9999,8 +10056,7 @@ input[type="file"].form-control {
 }
 .ilFormHeader,
 .ilFormFooter {
-  color: #4d4d4d;
-  /* background-color: lighten(@ilFormColor, 45%); */
+  color: #9a9a9a;
   background-color: #f0f0f0;
 }
 .ilSubForm {
@@ -10049,7 +10105,7 @@ div[id^="ilFormField"] {
 /* Hierarchy Form */
 div.ilHFormHeader,
 div.ilHFormFooter {
-  color: #4d4d4d;
+  color: #9a9a9a;
   background-color: #f0f0f0;
   padding: 4px 0 4px 22px;
 }
@@ -11026,6 +11082,15 @@ div.ilc_question_MultipleChoice .ilc_qanswer_Answer > div:first-child {
     display: none;
   }
 }
+div.ilCOPGMediaPrint {
+  background-color: #f9f9f9 !important;
+  position: relative !important;
+  background-image: url("images/play.svg") !important;
+  background-position: 50% 50% !important;
+  background-repeat: no-repeat !important;
+  background-size: auto 90% !important;
+  padding: 1px !important;
+}
 /* Services/Calendar */
 td.even {
   color: #222;
@@ -11152,6 +11217,7 @@ a.callink:visited {
 }
 .il_calevent > .btn.btn-link {
   color: inherit;
+  vertical-align: inherit;
 }
 .cal_modal_infoscreen .il_InfoScreenPropertyValue .btn-link {
   text-align: left;
@@ -12692,6 +12758,9 @@ td.legendColorBox,
 td.legendLabel {
   padding: 3px;
 }
+div.ilChartWrapper {
+  max-width: 100%;
+}
 /* Services/Captcha */
 div.iosCaptchaInfoContainer {
   margin: 10px 0 0 0;
@@ -13987,8 +14056,28 @@ span.ilNewsRssIcon:hover {
   overflow: hidden;
   width: 100px;
 }
+@media only screen and (max-width: 767px) {
+  .ilNewsTimelineUserImage {
+    width: 50px;
+  }
+}
+.ilNewsTimelineUserImage img {
+  width: 75px;
+  height: 75px;
+}
+@media only screen and (max-width: 767px) {
+  .ilNewsTimelineUserImage img {
+    width: 40px;
+    height: 40px;
+  }
+}
 .ilNewsTimelineContentSection {
   padding-left: 100px;
+}
+@media only screen and (max-width: 767px) {
+  .ilNewsTimelineContentSection {
+    padding-left: 50px;
+  }
 }
 .ilNewsTimelineEditInfo {
   width: 90%;
@@ -14155,7 +14244,7 @@ ul.ilPCMyCoursesCourseList > li {
 }
 ul.ilPCMyCoursesObjectiveList > li {
   margin-top: 5px;
-  margin-left: 15px;
+  margin-left: 40px;
 }
 a.ilPCMyCoursesToggle {
   outline: 0;
@@ -14164,6 +14253,37 @@ div.ilPCMyCoursesPath {
   margin-bottom: 10px;
   font-size: 90%;
   /* font-style: italic; */
+}
+div.ilPrtfSignature {
+  margin-top: 60px;
+  border-top: 1px solid black;
+}
+.ilPrtfMetaInfo {
+  margin-top: 20px;
+}
+.ilPrtfMetaInfo td {
+  padding-left: 20px;
+}
+.ilPrtfMetaInfo td,
+.ilPrtfMetaInfo th {
+  padding-top: 5px;
+  vertical-align: top;
+}
+div.ilPrtfToc {
+  margin-top: 40px;
+}
+body.ilPrtfPdfBody {
+  margin: 0;
+}
+body.ilPrtfPdfBody > #ilAll > div.ilInvisibleBorder {
+  padding: 0;
+  padding-left: 40px;
+}
+body.ilPrtfPdfBody h1.ilc_PrintPageTitle {
+  border-bottom: 1px solid #000000;
+}
+body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
+  visibility: hidden;
 }
 /* Services/Awareness */
 .ilAwarenessDropDown .popover {

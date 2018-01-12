@@ -207,7 +207,6 @@ class ilObjLanguage extends ilObject
 				}
 				$this->setDescription($newDesc);
 				$this->update();
-				$this->optimizeData();
 				return $this->getKey();
 			}
 		}
@@ -251,7 +250,6 @@ class ilObjLanguage extends ilObject
 				$this->setTitle($this->getKey());
 				$this->setDescription($this->getStatus());
 				$this->update();
-				$this->optimizeData();
 
 				if ($this->isLocal() == true)
 				{
@@ -261,7 +259,6 @@ class ilObjLanguage extends ilObject
 						$this->setTitle($this->getKey());
 						$this->setDescription($this->getStatus());
 						$this->update();
-						$this->optimizeData();
 					}
 				}
 				return true;
@@ -801,12 +798,11 @@ class ilObjLanguage extends ilObject
 	 * optimizes the db-table langdata
 	 *
 	 * @return	boolean	true on success
+	 * @deprecated
 	 */
 	function optimizeData()
 	{
-		global $ilDB;
-		
-		$ilDB->optimizeTable("lng_data");
+		// Mantis #22313: removed table optimization
 		return true;
 	}
 

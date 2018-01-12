@@ -41,9 +41,7 @@ class ilSCCronTrash extends ilCronJob
 	}
 	
 	/**
-	 * Get all available schedule types
-	 * 
-	 * @return int
+	 * @inheritdoc
 	 */
 	public function getValidScheduleTypes()
 	{

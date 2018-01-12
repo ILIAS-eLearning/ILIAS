@@ -284,7 +284,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 					$langObj->setTitle($langObj->getKey());
 					$langObj->setDescription('installed');
 					$langObj->update();
-					$langObj->optimizeData();
 				}
 				$this->data .= "<br />". $lng->txt("meta_l_".$langObj->getKey());
 			}

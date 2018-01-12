@@ -176,8 +176,7 @@ class ilPDNewsTableGUI extends ilTable2GUI
 			{
 				if (ilObject::_exists($a_set["user_id"]))
 				{
-					$user_obj = new ilObjUser($a_set["user_id"]);
-					$this->tpl->setVariable("VAL_AUTHOR", $user_obj->getLogin());
+					$this->tpl->setVariable("VAL_AUTHOR", ilObjUser::_lookupLogin($a_set["user_id"]));
 				}
 			}
 			$this->tpl->setVariable("TXT_AUTHOR", $lng->txt("author"));

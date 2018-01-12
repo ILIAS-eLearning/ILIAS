@@ -438,7 +438,6 @@ class ilSCORM13Player
 		$this->tpl->setVariable('TREE_JS', "./Modules/Scorm2004/scripts/ilNestedList.js");
 		$this->tpl->setVariable($langstrings);
 		$this->tpl->setVariable('DOC_TITLE', 'ILIAS SCORM 2004 Player');
-		if ($this->slm->getIe_compatibility()) $this->tpl->setVariable('IE_COMPATIBILITY', '<meta http-equiv="X-UA-Compatible" content="IE=7" />');
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable('INIT_CP_DATA', json_encode(json_decode($this->getCPDataInit())));
 		$this->tpl->setVariable('INIT_CMI_DATA', json_encode($this->getCMIData($this->userId, $this->packageId)));

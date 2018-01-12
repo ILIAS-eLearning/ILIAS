@@ -2297,6 +2297,25 @@ abstract class assQuestion
 		}
 	}
 	
+	public static function isFileAvailable($file)
+	{
+		if( !file_exists($file) )
+		{
+			return false;
+		}
+		
+		if( !is_file($file) )
+		{
+			return false;
+		}
+		
+		if( !is_readable($file) )
+		{
+			return false;
+		}
+		
+		return true;
+	}
 	
 	function copyXHTMLMediaObjectsOfQuestion($a_q_id)
 	{
@@ -3868,10 +3887,8 @@ abstract class assQuestion
 		$collected = $this->getQuestion();
 		$collected .= $this->feedbackOBJ->getGenericFeedbackContent($this->getId(), false);
 		$collected .= $this->feedbackOBJ->getGenericFeedbackContent($this->getId(), true);
-		for( $i = 0; $i <= $this->getTotalAnswers(); $i++ )
-		{
-			$collected .= $this->feedbackOBJ->getSpecificAnswerFeedbackContent($this->getId(), $i);
-		}
+		$collected .= $this->feedbackOBJ->getAllSpecificAnswerFeedbackContents($this->getId());
+		
 		foreach ($this->suggested_solutions as $solution_array)
 		{
 			$collected .= $solution_array["value"];

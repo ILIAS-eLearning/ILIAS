@@ -44,43 +44,12 @@ var ilBlockSuccessHandler = function(o)
 	// perform block modification
 	if(typeof o.responseText != "undefined")
 	{
-$('#' + o.argument.block_id).html(o.responseText);
-/*
-		// this a little bit complex procedure fixes innerHTML with forms in IE
-		var newdiv = document.createElement("div");
-		newdiv.innerHTML = o.responseText;
-		var block_div = document.getElementById(o.argument.block_id);
-		block_div.innerHTML = '';
-		block_div.appendChild(newdiv);
-		
-		// for safari: eval all javascript nodes
-		if ((YAHOO.env.ua.webkit != "0" && YAHOO.env.ua.webkit != "1") ||
-			(YAHOO.env.ua.ie != "0" && YAHOO.env.ua.ie != "1"))
-		{
-			//alert("webkit or ie!");
-			var els = YAHOO.util.Dom.getElementsBy(function(el){return true;}, "script", newdiv);
-			for(var i= 0; i<=els.length; i++)
-			{
-				if (typeof els[i] != 'undefined')
-				{
-					eval(els[i].innerHTML);
-				}
-			}
-		}
-*/
+		$('#' + o.argument.block_id).html(o.responseText);
+		il.UICore.initDropDowns('#' + o.argument.block_id);
 		if (typeof il_sr_opt != "undefined")
 		{
 			il.Util.setScreenReaderFocus(o.argument.block_id + "_blhead");
 		}
-		
-		
-		//div.innerHTML = "Transaction id: " + o.tId;
-		//div.innerHTML += "HTTP status: " + o.status;
-		//div.innerHTML += "Status code message: " + o.statusText;
-		//div.innerHTML += "HTTP headers: " + parseHeaders();
-		//div.innerHTML += "Server response: " + o.responseText;
-		//div.innerHTML += "Argument object: property foo = " + o.argument.foo +
-		//				 "and property bar = " + o.argument.bar;
 	}
 }
 

@@ -355,7 +355,7 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 
 		if(!ilSearchSettings::getInstance()->isInactiveUserVisible() && $this->getUserLimitations())
 		{
-			$u_query->setActionFilter("activ");
+			$u_query->setActionFilter("active");
 		}
 
 		if(!ilSearchSettings::getInstance()->isLimitedUserVisible() && $this->getUserLimitations())

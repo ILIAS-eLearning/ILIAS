@@ -225,18 +225,27 @@ class ilCalendarAppointmentPresentationGUI
 			//pass only the appointment stuff
 			$plugin->setAppointment($this->appointment['event'], new ilDateTime($this->appointment['dstart']));
 
-			if($new_content = $plugin->replaceContent()) {
-				$content = $new_content;
-			} else {
-				$this->info_screen = $plugin->infoscreenAddContent($this->info_screen);
-				$extra_content = $plugin->addExtraContent();
-				$content =  $this->info_screen->getHTML().$extra_content;
+			if($new_infoscreen = $plugin->infoscreenAddContent($this->info_screen)) {
+				$this->info_screen = $new_infoscreen;
 			}
 
-			if($toolbar = $plugin->toolbarReplaceContent()) {
-				$toolbar->setId($a_toolbar->getId());
-			} else {
-				$toolbar = $plugin->toolbarAddItems($a_toolbar);
+			$content =  $this->info_screen->getHTML();
+			$extra_content = $plugin->addExtraContent();
+			if($extra_content != '') {
+				$content .= $extra_content;
+			}
+
+			if($new_content = $plugin->replaceContent()) {
+				$content = $new_content;
+			}
+
+			if($new_toolbar = $plugin->toolbarAddItems($toolbar)) {
+				$toolbar = $new_toolbar;
+			}
+
+			if($new_toolbar = $plugin->toolbarReplaceContent()) {
+				$new_toolbar->setId($a_toolbar->getId());
+				$toolbar = $new_toolbar;
 			}
 		}
 

@@ -230,7 +230,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 				$lead_text = ilDatePresentation::formatPeriod($begin, $end, true);
 			}
 			$li = $this->ui_factory->item()->standard($shy)
-				->withDescription("".ilUtil::makeClickable(nl2br($e["event"]->getDescription())))
+				->withDescription("".nl2br(strip_tags($e["event"]->getDescription())))
 				->withLeadText($lead_text)
 				->withProperties($properties)
 				->withColor($df->color('#'.$cat_info["color"]));
