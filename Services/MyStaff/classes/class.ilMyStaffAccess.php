@@ -169,7 +169,7 @@ class ilMyStaffAccess extends ilObjectAccess {
 								OR
 								(
 									/* Position Egal */
-									auth.over <> -1
+									auth.over = -1
 								)
 							)
 							AND auth.scope = 2
