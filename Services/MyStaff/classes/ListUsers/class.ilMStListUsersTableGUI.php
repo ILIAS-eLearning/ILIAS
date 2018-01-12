@@ -233,7 +233,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
 
 		//TODO Context!
 		$user_action_collector = ilUserActionCollector::getInstance($ilUser->getId(),new ilAwarenessUserActionContext());
-		$action_collection = $user_action_collector->getActionsForTargetUser($my_staff_user->getUsrId(), 'awrn', 'toplist');
+		$action_collection = $user_action_collector->getActionsForTargetUser($my_staff_user->getUsrId());
 
 		//TODO Async?
 		$selection = new ilAdvancedSelectionListGUI();
@@ -251,7 +251,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
 			if ($action->getType() == "profile") {
 				$selection->addItem($action->getText(), '', $action->getHref() . "&back_url=" . $this->getProfileBackUrl() );
 			} else {
-				$selection->addItem($action->getText(), '', $action->getHref());
+				$selection->addItem($action->getText(), "", $action->getHref(), "", "", "", "", false, "","","","",true, $action->getData());
 			}
 		}
 		$this->tpl->setVariable('ACTIONS', $selection->getHTML());
