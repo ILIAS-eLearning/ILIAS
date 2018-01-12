@@ -102,8 +102,8 @@ class ilAdvancedMDSearch extends ilAbstractSearch
 	 * @param
 	 * 
 	 */
-	public function performSearch()
-	{	 		
+	public function &performSearch()
+	{
 		$this->query_parser->parse();
 		
 		$locate = null;
