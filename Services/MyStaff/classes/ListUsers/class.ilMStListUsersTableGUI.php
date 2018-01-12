@@ -266,15 +266,6 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
 
 
 	/**
-	 * Get profile back url
-	 * @return string
-	 */
-	private function getProfileBackUrl() {
-		return rawurlencode($this->ctrl()->getLinkTargetByClass(strtolower(ilMyStaffGUI::class), ilMyStaffGUI::CMD_INDEX));
-	}
-
-
-	/**
 	 * @param ilExcel       $a_excel excel wrapper
 	 * @param int           $a_row
 	 * @param ilMyStaffUser $my_staff_user

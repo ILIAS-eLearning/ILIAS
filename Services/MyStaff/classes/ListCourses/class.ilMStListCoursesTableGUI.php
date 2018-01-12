@@ -350,14 +350,6 @@ class ilMStListCoursesTableGUI extends ilTable2GUI {
 
 
 	/**
-	 * @return string
-	 */
-	private function getProfileBackUrl() {
-		return rawurlencode($this->ctrl()->getLinkTargetByClass(strtolower(ilMStListCoursesGUI::class), ilMStListCoursesGUI::CMD_INDEX));
-	}
-
-
-	/**
 	 * @param ilExcel         $a_excel excel wrapper
 	 * @param int             $a_row
 	 * @param ilMStListCourse $my_staff_course
