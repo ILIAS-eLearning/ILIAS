@@ -555,16 +555,16 @@ assessment#:#dont_use_questionpool#:#Fragen nicht in einen Fragenpool einfügen 
 assessment#:#duplicate#:#Kopieren
 assessment#:#duplicate_matching_values_selected#:#Sie haben mindestens einen doppelten Zuordnungswert ausgewählt!
 assessment#:#duplicate_order_values_entered#:#Sie haben mindestens eine doppelte Reihenfolge angegeben!
-assessment#:#ects_allow_ects_grades#:#ECTS-Note zusätzlich zur erreichten Note anzeigen
+assessment#:#ects_grade_desc_prefix#:#Bedeutung der Note: 
+assessment#:#ects_grade_a_desc#:#hervorragende Leistungen mit nur geringen Fehlern
+assessment#:#ects_grade_b_desc#:#über dem durchschnittlichen Standard, aber mit einigen Fehlern
+assessment#:#ects_grade_c_desc#:#allgemeine Leistung mit nennenswerten Fehlern
+assessment#:#ects_grade_d_desc#:#gerechte Leistung, aber mit erheblichen Mängeln
+assessment#:#ects_grade_e_desc#:#die Leistung erfüllt die Mindestkriterien
+assessment#:#ects_grade_f_desc#:#es sind erhebliche Verbesserungen erforderlich
+assessment#:#ects_grade_fx_desc#:#es sind Verbesserungen erforderlich, bevor die Leistung anerkannt wird
 assessment#:#ects_grade#:#ECTS-Note
-assessment#:#ects_grade_a#:#ausgezeichnete Leistungen und nur wenige unbedeutende Fehler
-assessment#:#ects_grade_a_short#:#HERVORRAGEND
-assessment#:#ects_grade_b_short#:#SEHR GUT
-assessment#:#ects_grade_c_short#:#GUT
-assessment#:#ects_grade_d_short#:#BEFRIEDIGEND
-assessment#:#ects_grade_e_short#:#AUSREICHEND
-assessment#:#ects_grade_f#:#es sind erhebliche Verbesserungen erforderlich
-assessment#:#ects_grade_fx#:#es sind Verbesserungen erforderlich, bevor die Leistung anerkannt wird
+assessment#:#ects_allow_ects_grades#:#ECTS-Note zusätzlich zur erreichten Note anzeigen
 assessment#:#ects_output_of_ects_grades#:#Ausgabe von ECTS-Noten
 assessment#:#use_ects_fx#:#Verwenden der ECTS-Note 'FX'
 assessment#:#ects_fx_threshold#:#Grenzwert
@@ -788,7 +788,7 @@ assessment#:#grading_obligations_listlabel#:#Verpflichtende Fragen
 assessment#:#grading_obligations_answered_listentry#:#Beantwortet
 assessment#:#grading_obligations_missing_listentry#:#Offen
 assessment#:#grading_mark_msg#:#Sie haben die Note &quot;[mark]&quot; erzielt.
-assessment#:#mark_tst_ects#:#Ihre ECTS-Note lautet &quot;[markects]&quot;
+assessment#:#mark_tst_ects#:#Ihre ECTS-Note lautet "[markects]" (European Credit Transfer System)
 assessment#:#tst_pass_finished_on#:#Testdurchlauf beendet am
 assessment#:#matches#:#passt zu
 assessment#:#matching_pairs#:#Zuordnungspaare

@@ -456,16 +456,16 @@ assessment#:#direct_feedback#:#Verify Your Solution
 assessment#:#duplicate_matching_values_selected#:#You have selected duplicate matching values!
 assessment#:#duplicate_order_values_entered#:#You have entered duplicate order values!
 assessment#:#duplicate#:#Duplicate
-assessment#:#ects_allow_ects_grades#:#Show ECTS grade additional to received mark
-assessment#:#ects_grade_a_short#:#EXCELLENT
-assessment#:#ects_grade_a#:#outstanding performance with only minor errors
-assessment#:#ects_grade_b_short#:#VERY GOOD
-assessment#:#ects_grade_c_short#:#GOOD
-assessment#:#ects_grade_d_short#:#SATISFACTORY
-assessment#:#ects_grade_e_short#:#SUFFICIENT
-assessment#:#ects_grade_f#:#considerable further work is required
-assessment#:#ects_grade_fx#:#some more work required before the credit can be awarded
+assessment#:#ects_grade_desc_prefix#:#Meaning of grade:
+assessment#:#ects_grade_a_desc#:#outstanding performance with only minor errors
+assessment#:#ects_grade_b_desc#:#above the average standard but with some errors
+assessment#:#ects_grade_c_desc#:#generally sound work with a number of notable errors
+assessment#:#ects_grade_d_desc#:#fair but with significant shortcomings
+assessment#:#ects_grade_e_desc#:#performance meets the minimum criteria
+assessment#:#ects_grade_fx_desc#:#some more work required before the credit can be awarded
+assessment#:#ects_grade_f_desc#:#considerable further work is required
 assessment#:#ects_grade#:#ECTS Grade
+assessment#:#ects_allow_ects_grades#:#Show ECTS grade additional to received mark
 assessment#:#ects_output_of_ects_grades#:#Output of ECTS grades
 assessment#:#use_ects_fx#:#Use the ‘FX’ grade
 assessment#:#ects_fx_threshold#:#Threshold
@@ -688,7 +688,7 @@ assessment#:#grading_obligations_listlabel#:#Compulsory Questions
 assessment#:#grading_obligations_answered_listentry#:#Answered
 assessment#:#grading_obligations_missing_listentry#:#Open
 assessment#:#grading_mark_msg#:#Your mark is: &quot;[mark]&quot;
-assessment#:#mark_tst_ects#:#Your ECTS grade is &quot;[markects]&quot;
+assessment#:#mark_tst_ects#:#Your ECTS grade is "[markects]" (European Credit Transfer System)
 assessment#:#tst_pass_finished_on#:#Test pass finished on
 assessment#:#matches#:#matches
 assessment#:#matching_pairs#:#Matching Pairs
