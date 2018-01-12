@@ -293,6 +293,8 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
 
 	/**
 	 * @param ilMyStaffUser $my_staff_user
+	 *
+	 * @return array
 	 */
 	protected function getFieldValuesForExport($my_staff_user) {
 
