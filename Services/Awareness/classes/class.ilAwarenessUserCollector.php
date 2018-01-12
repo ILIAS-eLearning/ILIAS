@@ -110,11 +110,15 @@ class ilAwarenessUserCollector
 
 		$awrn_logger = ilLoggerFactory::getLogger('awrn');
 
+		$awrn_logger->debug("Start, Online Only: ".$a_online_only.", Current User: ".$this->user_id);
+
 		self::getOnlineUsers();
 		include_once("./Services/Awareness/classes/class.ilAwarenessUserProviderFactory.php");
 		$all_users = array();
 		foreach (ilAwarenessUserProviderFactory::getAllProviders() as $prov)
 		{
+			$awrn_logger->debug("Provider: ".$prov->getProviderId().", Activation Mode: ".$prov->getActivationMode().", Current User: ".$this->user_id);
+
 			// overall collection of users
 			include_once("./Services/Awareness/classes/class.ilAwarenessUserCollection.php");
 			$collection = ilAwarenessUserCollection::getInstance();
@@ -126,10 +130,13 @@ class ilAwarenessUserCollector
 				$prov->setOnlineUserFilter(false);
 				if ($prov->getActivationMode() == ilAwarenessUserProvider::MODE_ONLINE_ONLY || $a_online_only)
 				{
+					$awrn_logger->debug("Provider: ".$prov->getProviderId().", Online Filter Users: ".count(self::$online_user_ids).", Current User: ".$this->user_id);
 					$prov->setOnlineUserFilter(self::$online_user_ids);
 				}
 
 				$coll = $prov->collectUsers();
+				$awrn_logger->debug("Provider: ".$prov->getProviderId().", Collected Users: ".count($coll).", Current User: ".$this->user_id);
+
 				foreach ($coll->getUsers() as $user_id)
 				{
 					// filter out the anonymous user
@@ -138,7 +145,7 @@ class ilAwarenessUserCollector
 						continue;
 					}
 
-					$awrn_logger->debug("AwarenessUserCollector: Current User: ".$this->user_id.", ".
+					$awrn_logger->debug("Current User: ".$this->user_id.", ".
 						"Provider: ".$prov->getProviderId().", Collected User: ".$user_id);
 
 					// cross check online, filter out offline users (if necessary)

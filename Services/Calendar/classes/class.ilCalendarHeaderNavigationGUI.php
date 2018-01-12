@@ -129,7 +129,8 @@ class ilCalendarHeaderNavigationGUI
 		$b3 = $ui->factory()->button()->standard($lng->txt("next"), $this->ctrl->getLinkTarget($this->cmdClass,$this->cmd));
 		$this->ctrl->setParameterByClass(get_class($this->cmdClass),'seed','');
 
-		$toolbar->addComponent($ui->factory()->viewControl()->section($b1,$b2,$b3));
+		//$toolbar->addComponent($ui->factory()->viewControl()->section($b1,$b2,$b3));
+		$toolbar->addStickyItem($ui->factory()->viewControl()->section($b1,$b2,$b3));
 		$toolbar->addSeparator();
 
 		return $tpl->get();

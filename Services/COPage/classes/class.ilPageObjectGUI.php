@@ -1768,7 +1768,8 @@ return;
 						 'enable_amd_page_list' =>  $cfg->getEnablePCType("AMDPageList") ? "y" : "n",
 						 'current_ts' => $current_ts,
 			 			 'enable_html_mob' =>  ilObjMediaObject::isTypeAllowed("html") ? "y" : "n",
-						 'flv_video_player' => $flv_video_player
+						 'flv_video_player' => $flv_video_player,
+					     'page_perma_link' => $this->getPagePermaLink()
 						);
 		if($this->link_frame != "")		// todo other link types
 			$params["pg_frame"] = $this->link_frame;
@@ -3731,5 +3732,17 @@ return;
 			$this->getRenderPageContainer() || $this->getOutputMode() == IL_PAGE_PREVIEW
 		);
 	}
+
+	/**
+	 * Get page perma link
+	 *
+	 * @param
+	 * @return
+	 */
+	function getPagePermaLink()
+	{
+		return "";
+	}
+
 }
 ?>

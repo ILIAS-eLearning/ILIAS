@@ -70,9 +70,9 @@ class PlusJob extends AbstractJob {
 
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
-	public function getExpectedTimeOfTaksInSeconds() {
+	public function getExpectedTimeOfTaskInSeconds() {
 		return 1;
 	}
 }

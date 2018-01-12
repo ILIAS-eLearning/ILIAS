@@ -39,7 +39,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
 	protected $participantDataExists;
 
 	/**
-	 * @var array
+	 * @var ilTestRandomQuestionSetNonAvailablePool[]
 	 */
 	protected $lostPools;
 
@@ -70,7 +70,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
 	}
 
 	/**
-	 * @return array
+	 * @return ilTestRandomQuestionSetNonAvailablePool[]
 	 */
 	public function getLostPools()
 	{
@@ -78,7 +78,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
 	}
 
 	/**
-	 * @param array $lostPools
+	 * @param ilTestRandomQuestionSetNonAvailablePool[] $lostPools
 	 */
 	public function setLostPools($lostPools)
 	{
@@ -197,9 +197,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
         }
         elseif( $this->getLostPools() )
 		{
-			$this->addValidationReport( sprintf(
-				$this->lng->txt('tst_msg_rand_quest_set_lost_pools'), $this->buildLostQuestionPoolsString()
-			));
+			$this->addValidationReport( $this->buildLostPoolsReport() );
 		}
 		elseif( !$this->questionSetConfig->isQuestionAmountConfigComplete() )
 		{
@@ -399,5 +397,38 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
 		}
 
 		return true;
+	}
+	
+	/**
+	 * @return string
+	 */
+	protected function buildLostPoolsReport()
+	{
+		$report = sprintf(
+			$this->lng->txt('tst_msg_rand_quest_set_lost_pools'), $this->buildLostQuestionPoolsString()
+		);
+		
+		if ($this->getContext() == self::CONTEXT_GENERAL_CONFIG)
+		{
+			$report .= '<br /><br />' . sprintf(
+				$this->lng->txt('tst_msg_rand_quest_set_lost_pools_link'), $this->buildQuestionPoolsTabLink()
+			);
+		}
+		
+		return $report;
+	}
+	
+	/**
+	 * @return string
+	 */
+	protected function buildQuestionPoolsTabLink()
+	{
+		$href = $this->ctrl->getLinkTarget( $this->getTargetGUI(),
+			ilTestRandomQuestionSetConfigGUI::CMD_SHOW_SRC_POOL_DEF_LIST
+		);
+		
+		$label = $this->getTargetGUI()->getPoolConfigTabLabel();
+		
+		return "<a href=\"{$href}\">{$label}</a>";
 	}
 }

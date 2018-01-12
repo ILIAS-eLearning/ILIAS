@@ -3421,6 +3421,29 @@ function getAnswerFeedbackPoints()
 		$question->delete($question_id);
 	}
 	
+	/**
+	 * - at the time beeing ilObjTest::removeTestResults needs to call the LP service for deletion
+	 * - ilTestLP calls ilObjTest::removeTestResultsByUserIds
+	 * 
+	 * this method should only be used from non refactored soap context i think
+	 * 
+	 * @param $userIds
+	 */
+	public function removeTestResultsFromSoapLpAdministration($userIds)
+	{
+		$this->removeTestResultsByUserIds($userIds);
+		
+		$ilDB = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilDB'] : $GLOBALS['ilDB'];
+		$lng = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['lng'] : $GLOBALS['lng'];
+		
+		require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
+		$participantData = new ilTestParticipantData($ilDB, $lng);
+		$participantData->setUserIds($userIds);
+		$participantData->load($this->getTestId());
+		
+		$this->removeTestActives($participantData->getActiveIds());
+	}
+	
 	public function removeTestResults(ilTestParticipantData $participantData)
 	{
 		if( count($participantData->getAnonymousActiveIds()) )

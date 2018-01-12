@@ -151,7 +151,7 @@ class ilUserUtil
 		foreach($a_user_id as $id)
 		{
 			if (!$names[$id])
-				$names[$id] = "unknown";
+				$names[$id] = $lng->txt('usr_name_undisclosed');
 		}
 
 		if ($a_return_data_array)
@@ -339,7 +339,8 @@ class ilUserUtil
 		$by_default = true;
 
 		//configuration by user preference
-		if(self::hasPersonalStartingPoint())
+		#21782
+		if(self::hasPersonalStartingPoint() && $ilUser->getPref('usr_starting_point') != NULL)
 		{
 			$current = self::getPersonalStartingPoint();
 			if($current == self::START_REPOSITORY_OBJ)

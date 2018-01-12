@@ -569,7 +569,7 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI {
 	/**
 	 * @param bool $render_one_for_empty_value
 	 */
-	public function setRenderOneForEmptyValue(bool $render_one_for_empty_value) {
+	public function setRenderOneForEmptyValue($render_one_for_empty_value) {
 		$this->render_one_for_empty_value = $render_one_for_empty_value;
 	}
 }

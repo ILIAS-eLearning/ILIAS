@@ -216,7 +216,7 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 			}
 		}
 
-		if(!$rbacsystem->checkAccess('write',$group_id))
+		if(!$rbacsystem->checkAccess('manage_members',$group_id))
 		{
 			return $this->__raiseError('Check access failed. No permission to write to group','Server');
 		}
@@ -295,7 +295,7 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 			return $this->__raiseError('Cannot create group instance!','Server');
 		}
 
-		if(!$rbacsystem->checkAccess('write',$group_id))
+		if(!$rbacsystem->checkAccess('manage_members',$group_id))
 		{
 			return $this->__raiseError('Check access failed. No permission to write to group','Server');
 		}

@@ -66,15 +66,6 @@ interface Task {
 
 
 	/**
-	 * @return int the amount of seconds this task usually taskes. If your task-duration scales
-	 *             with the the amount of data, try to set a possible high value of try to
-	 *             calculate it. If a task duration exceeds this value, it will be displayed as
-	 *             "possibly failed" to the user
-	 */
-	public function getExpectedTimeOfTaksInSeconds();
-
-
-	/**
 	 * @return Option   An Option to dismiss the current task and do some cleanup if possible. This
 	 *                  Option is displayed if the Bucket is completed. You do not have to provide
 	 *                  an additional Option to dismiss in your UserInteraction, the dismiss-Option

@@ -17,32 +17,52 @@ class ilUserActionGUI
 	protected $tpl;
 
 	/**
-	 * Constructor
+	 * @var ilUserActionContext
 	 */
-	protected function __construct()
-	{
-		global $DIC;
+	protected $user_action_context;
 
-		$this->tpl = $DIC["tpl"];
+	/**
+	 * @var bool
+	 */
+	protected $init_done = false;
+
+	/**
+	 * @var int
+	 */
+	protected $current_user_id;
+
+	/**
+	 * Constructor
+	 *
+	 * @param ilUserActionContext $a_user_action_context
+	 * @param ilTemplate $a_global_tpl
+	 * @param int $a_current_user_id
+	 */
+	protected function __construct(ilUserActionContext $a_user_action_context, ilTemplate $a_global_tpl,
+		$a_current_user_id)
+	{
+		$this->tpl = $a_global_tpl;
+		$this->user_action_context = $a_user_action_context;
+		$this->current_user_id = $a_current_user_id;
 	}
 
 	/**
 	 * Get instance
 	 *
+	 * @param ilUserActionContext $a_user_action_context
+	 * @param ilTemplate $a_global_tpl
+	 * @param int $a_current_user_id
 	 * @return ilUserActionGUI
 	 */
-	static function getInstance()
+	static function getInstance(ilUserActionContext $a_user_action_context, ilTemplate $a_global_tpl, $a_current_user_id)
 	{
-		return new ilUserActionGUI();
+		return new ilUserActionGUI($a_user_action_context, $a_global_tpl, $a_current_user_id);
 	}
 
 	/**
 	 * Add requried js for an action context
-	 *
-	 * @param string $a_context_component_id
-	 * @param string $a_context_id
 	 */
-	function addRequiredJsForContext($a_context_component_id, $a_context_id)
+	function init()
 	{
 		$tpl = $this->tpl;
 
@@ -52,7 +72,10 @@ class ilUserActionGUI
 		{
 			foreach ($prov->getActionTypes() as $act_type => $txt)
 			{
-				if (ilUserActionAdmin::lookupActive($a_context_component_id, $a_context_id, $prov->getComponentId(), $act_type))
+				if (ilUserActionAdmin::lookupActive(
+					$this->user_action_context->getComponentId(),
+					$this->user_action_context->getContextId(),
+					$prov->getComponentId(), $act_type))
 				{
 					foreach ($prov->getJsScripts($act_type) as $script)
 					{
@@ -62,5 +85,32 @@ class ilUserActionGUI
 			}
 		}
 	}
+
+	/**
+	 * Render drop down
+	 *
+	 * @param int $a_user_id target user id
+	 * @return string
+	 */
+	function renderDropDown($a_target_user_id)
+	{
+		if (!$this->init_done)
+		{
+			$this->init();
+		}
+		include_once("./Services/User/Gallery/classes/class.ilGalleryUserActionContext.php");
+		include_once("./Services/User/Actions/classes/class.ilUserActionCollector.php");
+		$act_collector = ilUserActionCollector::getInstance($this->current_user_id, $this->user_action_context);
+		$action_collection = $act_collector->getActionsForTargetUser($a_target_user_id);
+		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+		$list = new ilAdvancedSelectionListGUI();
+		$list->setListTitle("");
+		foreach ($action_collection->getActions() as $action)
+		{
+			$list->addItem($action->getText(), "", $action->getHref(), "", "", "", "", false, "","","","",true, $action->getData());
+		}
+		return $list->getHTML();
+	}
+
 
 }

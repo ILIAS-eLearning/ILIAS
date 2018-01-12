@@ -296,7 +296,10 @@ class ilMarkSchemaGUI
 		{
 			$mark = chr($i);
 
-			$mark_step = new ilNumberInputGUI(chr($i - 32) . ' - ' . $this->lng->txt('ects_grade_' . $mark . '_short'), 'ects_grade_' . $mark);
+			$mark_step = new ilNumberInputGUI(chr($i - 32), 'ects_grade_' . $mark);
+			$mark_step->setInfo(
+				$this->lng->txt('ects_grade_desc_prefix') . ' ' . $this->lng->txt('ects_grade_' . $mark . '_desc')
+			);
 			$mark_step->setSize(5);
 			$mark_step->allowDecimals(true);
 			$mark_step->setMinValue(0, true);
@@ -306,9 +309,23 @@ class ilMarkSchemaGUI
 			$mark_step->setDisabled($disabled);
 			$allow_ects_marks->addSubItem($mark_step);
 		}
+		
+		$mark_step = new ilNonEditableValueGUI('F', 'ects_grade_f');
+		$mark_step->setInfo(
+			$this->lng->txt('ects_grade_desc_prefix') . ' ' . $this->lng->txt('ects_grade_f_desc')
+		);
+		$allow_ects_marks->addSubItem($mark_step);
 
 		$use_ects_fx = new ilCheckboxInputGUI($this->lng->txt('use_ects_fx'), 'use_ects_fx');
 		$use_ects_fx->setDisabled($disabled);
+		$allow_ects_marks->addSubItem($use_ects_fx);
+		
+		$mark_step = new ilNonEditableValueGUI('FX', 'ects_grade_fx');
+		$mark_step->setInfo(
+			$this->lng->txt('ects_grade_desc_prefix') . ' ' . $this->lng->txt('ects_grade_fx_desc')
+		);
+		$use_ects_fx->addSubItem($mark_step);
+		
 		$threshold = new ilNumberInputGUI($this->lng->txt('ects_fx_threshold'), 'ects_fx_threshold');
 		$threshold->setInfo($this->lng->txt('ects_fx_threshold_info'));
 		$threshold->setSuffix($this->lng->txt('percentile'));
@@ -317,7 +334,7 @@ class ilMarkSchemaGUI
 		$threshold->setRequired(true);
 		$threshold->setDisabled($disabled);
 		$use_ects_fx->addSubItem($threshold);
-		$allow_ects_marks->addSubItem($use_ects_fx);
+		
 
 		$form->addItem($allow_ects_marks);
 

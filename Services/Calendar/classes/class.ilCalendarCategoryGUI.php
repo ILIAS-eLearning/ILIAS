@@ -40,7 +40,6 @@ class ilCalendarCategoryGUI
 	const VIEW_MANAGE = 1;
 	
 	protected $user_id;
-	protected $tpl;
 
 	/**
 	 * @var ilCtrl
@@ -66,6 +65,11 @@ class ilCalendarCategoryGUI
 	protected $category_id = 0;
 
 	/**
+	 * @var ilTemplate
+	 */
+	protected $tpl;
+
+	/**
 	 * Constructor
 	 *
 	 * @access public
@@ -85,6 +89,9 @@ class ilCalendarCategoryGUI
 		$this->ref_id = $a_ref_id;
 		$this->obj_id = ilObject::_lookupObjId($a_ref_id);
 		$this->tabs = $DIC->tabs();
+		$this->tpl = $DIC->ui()->mainTemplate();
+
+		$this->lng->loadLanguageModule("dateplaner");
 
 		if (in_array($this->ctrl->getNextClass(), array("", "ilcalendarcategorygui")) && $this->ctrl->getCmd() == "manage")
 		{
@@ -178,14 +185,14 @@ class ilCalendarCategoryGUI
 		
 		$ilTabs->setBackTarget($this->lng->txt("cal_back_to_list"),  $this->ctrl->getLinkTarget($this, $back));
 		
-		$this->tpl = new ilTemplate('tpl.edit_category.html',true,true,'Services/Calendar');
+		$ed_tpl = new ilTemplate('tpl.edit_category.html',true,true,'Services/Calendar');
 		
 		if(!$form instanceof ilPropertyFormGUI)
 		{
 			$form = $this->initFormCategory('create');
 		}
-		$this->tpl->setVariable('EDIT_CAT',$form->getHTML());
-		$tpl->setContent($this->tpl->get());
+		$ed_tpl->setVariable('EDIT_CAT',$form->getHTML());
+		$tpl->setContent($ed_tpl->get());
 	}
 	
 	/**
@@ -1453,6 +1460,8 @@ class ilCalendarCategoryGUI
 	{
 		global $lng, $ilCtrl, $tpl;
 
+		$this->addSubTabs("manage");
+
 		include_once('./Services/Calendar/classes/class.ilCalendarManageTableGUI.php');
 		$table_gui = new ilCalendarManageTableGUI($this);
 		
@@ -1575,5 +1584,130 @@ class ilCalendarCategoryGUI
 		
 		return $assigned_after - $assigned_before;
 	}
+
+	/**
+	 * Add subtabs
+	 *
+	 * @param
+	 * @return
+	 */
+	function addSubTabs($a_active)
+	{
+		$ilTabs = $this->tabs;
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+
+		$ilTabs->addSubTab("manage", $lng->txt("calendar"),
+			$ilCtrl->getLinkTarget($this, "manage"));
+
+		$status = new ilCalendarSharedStatus($this->user_id);
+		$calendars = $status->getOpenInvitations();
+
+		//if (count($calendars) > 0)
+		//{
+			$ilTabs->addSubTab("invitations", $lng->txt("cal_shared_calendars"),
+				$ilCtrl->getLinkTarget($this, "invitations"));
+		//}
+
+		$ilTabs->activateSubTab($a_active);
+	}
+
+	/**
+	 * Invitations
+	 *
+	 * @param
+	 * @return
+	 */
+	function invitations()
+	{
+		$this->addSubTabs("invitations");
+
+		// shared calendar invitations: @todo needs to be moved
+		include_once('./Services/Calendar/classes/class.ilCalendarInboxSharedTableGUI.php');
+		include_once('./Services/Calendar/classes/class.ilCalendarShared.php');
+
+		$table = new ilCalendarInboxSharedTableGUI($this,'inbox');
+		$table->setCalendars(ilCalendarShared::getSharedCalendarsForUser());
+
+		//if($table->parse())
+		//{
+			$this->tpl->setContent($table->getHTML());
+		//}
+	}
+
+	/**
+	 * accept shared calendar
+	 *
+	 * @access protected
+	 * @return
+	 */
+	protected function acceptShared()
+	{
+		global $ilUser;
+
+		if(!$_POST['cal_ids'] or !is_array($_POST['cal_ids']))
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'));
+			$this->inbox();
+			return false;
+		}
+
+		include_once('./Services/Calendar/classes/class.ilCalendarSharedStatus.php');
+		$status = new ilCalendarSharedStatus($ilUser->getId());
+
+		include_once('./Services/Calendar/classes/class.ilCalendarShared.php');
+		foreach($_POST['cal_ids'] as $calendar_id)
+		{
+			if(!ilCalendarShared::isSharedWithUser($ilUser->getId(),$calendar_id))
+			{
+				ilUtil::sendFailure($this->lng->txt('permission_denied'));
+				$this->inbox();
+				return false;
+			}
+			$status->accept($calendar_id);
+		}
+
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
+
+		$this->ctrl->redirect($this,'invitations');
+	}
+
+	/**
+	 * accept shared calendar
+	 *
+	 * @access protected
+	 * @return
+	 */
+	protected function declineShared()
+	{
+		global $ilUser;
+
+		if(!$_POST['cal_ids'] or !is_array($_POST['cal_ids']))
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'));
+			$this->inbox();
+			return false;
+		}
+
+		include_once('./Services/Calendar/classes/class.ilCalendarSharedStatus.php');
+		$status = new ilCalendarSharedStatus($ilUser->getId());
+
+		include_once('./Services/Calendar/classes/class.ilCalendarShared.php');
+		foreach($_POST['cal_ids'] as $calendar_id)
+		{
+			if(!ilCalendarShared::isSharedWithUser($ilUser->getId(),$calendar_id))
+			{
+				ilUtil::sendFailure($this->lng->txt('permission_denied'));
+				$this->inbox();
+				return false;
+			}
+			$status->decline($calendar_id);
+		}
+
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+
+		$this->ctrl->redirect($this,'invitations');
+	}
+
 }
 ?>

@@ -117,98 +117,10 @@ class ilCalendarInboxGUI extends ilCalendarViewGUI
 
 		$this->tpl = new ilTemplate('tpl.inbox.html',true,true,'Services/Calendar');
 
-		// shared calendar invitations: @todo needs to be moved
-		include_once('./Services/Calendar/classes/class.ilCalendarInboxSharedTableGUI.php');
-		include_once('./Services/Calendar/classes/class.ilCalendarShared.php');
-
-		$table = new ilCalendarInboxSharedTableGUI($this,'inbox');
-		$table->setCalendars(ilCalendarShared::getSharedCalendarsForUser());
-
-		if($table->parse())
-		{
-			$this->tpl->setVariable('SHARED_CAL_TABLE',$table->getHTML());
-		}
-
 		// agenda list
 		$cal_list = new ilCalendarAgendaListGUI($this->seed);
 		$html = $ilCtrl->getHTML($cal_list);
 		$this->tpl->setVariable('CHANGED_TABLE', $html);
 	}
-	
-	/**
-	 * accept shared calendar
-	 *
-	 * @access protected
-	 * @return
-	 */
-	protected function acceptShared()
-	{
-		global $ilUser;
-		
-		if(!$_POST['cal_ids'] or !is_array($_POST['cal_ids']))
-		{
-			ilUtil::sendFailure($this->lng->txt('select_one'));
-			$this->inbox();
-			return false;
-		}
-		
-		include_once('./Services/Calendar/classes/class.ilCalendarSharedStatus.php');
-		$status = new ilCalendarSharedStatus($ilUser->getId());
-		
-		include_once('./Services/Calendar/classes/class.ilCalendarShared.php');
-		foreach($_POST['cal_ids'] as $calendar_id)
-		{
-			if(!ilCalendarShared::isSharedWithUser($ilUser->getId(),$calendar_id))
-			{
-				ilUtil::sendFailure($this->lng->txt('permission_denied'));
-				$this->inbox();
-				return false;
-			}
-			$status->accept($calendar_id);
-		}
-		
-		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
-		// redfirect for loading new calendar+
-		$this->ctrl->redirect($this,'inbox');
-		return true;
-	}
-	
-	/**
-	 * accept shared calendar
-	 *
-	 * @access protected
-	 * @return
-	 */
-	protected function declineShared()
-	{
-		global $ilUser;
-
-		if(!$_POST['cal_ids'] or !is_array($_POST['cal_ids']))
-		{
-			ilUtil::sendFailure($this->lng->txt('select_one'));
-			$this->inbox();
-			return false;
-		}
-		
-		include_once('./Services/Calendar/classes/class.ilCalendarSharedStatus.php');
-		$status = new ilCalendarSharedStatus($ilUser->getId());
-		
-		include_once('./Services/Calendar/classes/class.ilCalendarShared.php');
-		foreach($_POST['cal_ids'] as $calendar_id)
-		{
-			if(!ilCalendarShared::isSharedWithUser($ilUser->getId(),$calendar_id))
-			{
-				ilUtil::sendFailure($this->lng->txt('permission_denied'));
-				$this->inbox();
-				return false;
-			}
-			$status->decline($calendar_id);
-		}
-		
-		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
-		$this->inbox();
-		return true;
-	}
-	
 }
 ?>

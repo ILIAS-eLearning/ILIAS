@@ -187,7 +187,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 			}
 		}
 
-		if(!$rbacsystem->checkAccess('write',$course_id))
+		if(!$rbacsystem->checkAccess('manage_members',$course_id))
 		{
 			return $this->__raiseError('Check access failed. No permission to write to course','Server');
 		}
@@ -275,7 +275,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 			return $this->__raiseError('Cannot create course instance!','Server');
 		}
 
-		if(!$rbacsystem->checkAccess('write',$course_id))
+		if(!$rbacsystem->checkAccess('manage_members',$course_id))
 		{
 			return $this->__raiseError('Check access failed. No permission to write to course','Server');
 		}
@@ -329,7 +329,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 			return $this->__raiseError('Cannot create course instance!','Server');
 		}
 
-		if(!$rbacsystem->checkAccess('write',$course_id))
+		if(!$rbacsystem->checkAccess('manage_members',$course_id))
 		{
 			return $this->__raiseError('Check access failed. No permission to write to course','Server');
 		}

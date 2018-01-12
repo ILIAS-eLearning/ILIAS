@@ -6,6 +6,7 @@ require_once(__DIR__."/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__."/../../Base.php");
 
 use \ILIAS\UI\Component as C;
+use \ILIAS\UI\Implementation\Component\Signal;
 
 /**
  * Test on button implementation.
@@ -144,9 +145,9 @@ class ButtonTest extends ILIAS_UI_TestBase {
 		$html = $this->normalizeHTML($r->render($b));
 
 		$css_classes = self::$canonical_css_classes[$factory_method];
-		$expected = "<a class=\"$css_classes\" href=\"$ln\" data-action=\"$ln\">".
+		$expected = "<button class=\"$css_classes\" data-action=\"$ln\" id=\"id_1\">".
 					"label".
-					"</a>";
+					"</button>";
 		$this->assertHTMLEquals($expected, $html);
 	}
 
@@ -164,9 +165,9 @@ class ButtonTest extends ILIAS_UI_TestBase {
 
 		$css_classes = self::$canonical_css_classes[$factory_method];
 		$css_class_inactive = self::$canonical_css_inactivation_classes[$factory_method];
-		$expected = "<a class=\"$css_classes $css_class_inactive\" data-action=\"$ln\">".
+		$expected = "<button class=\"$css_classes $css_class_inactive\" data-action=\"$ln\">".
 					"label".
-					"</a>";
+					"</button>";
 		$this->assertHTMLEquals($expected, $html);
 	}
 
@@ -204,9 +205,9 @@ class ButtonTest extends ILIAS_UI_TestBase {
 
 		$id = $ids[0];
 		$css_classes = self::$canonical_css_classes[$factory_method];
-		$expected = "<a class=\"$css_classes\" href=\"$ln\" data-action=\"$ln\" id=\"$id\">".
+		$expected = "<button class=\"$css_classes\" data-action=\"$ln\" id=\"$id\">".
 					"label".
-					"</a>";
+					"</button>";
 		$this->assertHTMLEquals($expected, $html);
 	}
 
@@ -253,11 +254,11 @@ class ButtonTest extends ILIAS_UI_TestBase {
 
 	public function test_render_btn_tag_relevance() {
 		$expectations = array(
-			'<a class="btn btn-tag btn-tag-relevance-verylow" href="#" data-action="#">tag</a>',
-			'<a class="btn btn-tag btn-tag-relevance-low" href="#" data-action="#">tag</a>',
-			'<a class="btn btn-tag btn-tag-relevance-middle" href="#" data-action="#">tag</a>',
-			'<a class="btn btn-tag btn-tag-relevance-high" href="#" data-action="#">tag</a>',
-			'<a class="btn btn-tag btn-tag-relevance-veryhigh" href="#" data-action="#">tag</a>'
+			'<button class="btn btn-tag btn-tag-relevance-verylow" data-action="#" id="id_1">tag</button>',
+			'<button class="btn btn-tag btn-tag-relevance-low" data-action="#" id="id_2">tag</button>',
+			'<button class="btn btn-tag btn-tag-relevance-middle" data-action="#" id="id_3">tag</button>',
+			'<button class="btn btn-tag btn-tag-relevance-high" data-action="#" id="id_4">tag</button>',
+			'<button class="btn btn-tag btn-tag-relevance-veryhigh" data-action="#" id="id_5">tag</button>'
 		);
 
 		$f = $this->getButtonFactory();
@@ -289,13 +290,13 @@ class ButtonTest extends ILIAS_UI_TestBase {
 		$b = $f->tag('tag', '#')
 			->withBackgroundColor($bgcol);
 		$html = $this->normalizeHTML($r->render($b));
-		$expected = '<a class="btn btn-tag btn-tag-relevance-veryhigh" style="background-color: #00ff00; color: #000000;" href="#" data-action="#">tag</a>';
+		$expected = '<button class="btn btn-tag btn-tag-relevance-veryhigh" style="background-color: #00ff00; color: #000000;" data-action="#" id="id_1">tag</button>';
 		$this->assertEquals($expected, $html);
 
 		$fcol = $df->color('#ddd');
 		$b = $b->withForegroundColor($fcol);
 		$html = $this->normalizeHTML($r->render($b));
-		$expected = '<a class="btn btn-tag btn-tag-relevance-veryhigh" style="background-color: #00ff00; color: #dddddd;" href="#" data-action="#">tag</a>';
+		$expected = '<button class="btn btn-tag btn-tag-relevance-veryhigh" style="background-color: #00ff00; color: #dddddd;" data-action="#" id="id_2">tag</button>';
 		$this->assertEquals($expected, $html);
 	}
 
@@ -310,7 +311,7 @@ class ButtonTest extends ILIAS_UI_TestBase {
 		$this->assertEquals($classes, $b->getClasses());
 
 		$html = $this->normalizeHTML($r->render($b));
-		$expected = '<a class="btn btn-tag btn-tag-relevance-veryhigh cl1 cl2" href="#" data-action="#">tag</a>';
+		$expected = '<button class="btn btn-tag btn-tag-relevance-veryhigh cl1 cl2" data-action="#" id="id_1">tag</button>';
 		$this->assertEquals($expected, $html);
 	}
 	/**
@@ -349,9 +350,9 @@ class ButtonTest extends ILIAS_UI_TestBase {
 
 			$html = $this->normalizeHTML($r->render($b));
 			$css_classes = self::$canonical_css_classes[$factory_method];
-			$expected = "<a class=\"$css_classes\" href=\"$ln\" aria-label=\"$aria_label\" data-action=\"$ln\">".
+			$expected = "<button class=\"$css_classes\" aria-label=\"$aria_label\" data-action=\"$ln\" id=\"id_1\">".
 				"label".
-				"</a>";
+				"</button>";
 			$this->assertHTMLEquals($expected, $html);
 		}
 	}
@@ -371,13 +372,78 @@ class ButtonTest extends ILIAS_UI_TestBase {
 
 			$html = $this->normalizeHTML($r->render($b));
 			$css_classes = self::$canonical_css_classes[$factory_method];
-			$expected = "<a class=\"$css_classes\" href=\"$ln\" aria-checked=\"true\" data-action=\"$ln\">".
+			$expected = "<button class=\"$css_classes\" aria-checked=\"true\" data-action=\"$ln\" id=\"id_1\">".
 				"label".
-				"</a>";
+				"</button>";
 			$this->assertHTMLEquals($expected, $html);
 		}
 	}
 
+	/**
+	 * @dataProvider button_type_provider
+	 */
+	public function test_withOnClick_removes_action($factory_method) {
+		$f = $this->getButtonFactory();
+		$signal = $this->createMock(C\Signal::class);
+		$button = $f->$factory_method("label", "http://www.example.com");
+		$this->assertEquals("http://www.example.com", $button->getAction());
+
+		$button = $button->withOnClick($signal);
+
+		$this->assertEquals([$signal], $button->getAction());
+	}
+
+	/**
+	 * @dataProvider button_type_provider
+	 */
+	public function test_appendOnClick_appends_to_action($factory_method) {
+		$f = $this->getButtonFactory();
+		$signal1 = $this->createMock(C\Signal::class);
+		$signal2 = $this->createMock(C\Signal::class);
+		$button = $f->$factory_method("label", "http://www.example.com");
+
+		$button = $button->withOnClick($signal1)->appendOnClick($signal2);
+
+		$this->assertEquals([$signal1, $signal2], $button->getAction());
+	}
+
+	/**
+	 * @dataProvider button_type_provider
+	 */
+	public function test_render_button_with_signal($factory_method) {
+		$ln = "http://www.ilias.de";
+		$f = $this->getButtonFactory();
+		$signal = $this->createMock(Signal::class);
+		$signal->method("__toString")
+			->willReturn("MOCK_SIGNAL");
+
+		$b = $f->$factory_method("label", $ln)
+				->withOnClick($signal);
+		$r = $this->getDefaultRenderer();
+
+		$html = $this->normalizeHTML($r->render($b));
+
+		$css_classes = self::$canonical_css_classes[$factory_method];
+		$expected = "<button class=\"$css_classes\" id=\"id_1\">".
+					"label".
+					"</button>";
+		$this->assertHTMLEquals($expected, $html);
+	}
+
+	// TODO: We are missing a test for the rendering of a button with an signal
+	// here. Does it still render the action js?
+
+	/**
+	 * @dataProvider button_type_provider
+	 */
+	public function test_factory_accepts_signal_as_action($factory_method) {
+		$f = $this->getButtonFactory();
+		$signal = $this->createMock(C\Signal::class);
+
+		$button = $f->$factory_method("label", $signal);
+
+		$this->assertEquals([$signal], $button->getAction());
+	}
 
 	public function button_type_provider() {
 		return array

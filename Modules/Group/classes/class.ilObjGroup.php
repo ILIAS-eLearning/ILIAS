@@ -923,11 +923,6 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		$obj_settings->cloneSettings($new_obj->getId());
 		unset($obj_settings);
 		
-		// clone icons
-		$new_obj->saveIcons($this->getBigIconPath(),
-			$this->getSmallIconPath(),
-			$this->getTinyIconPath());
-
 		return $new_obj;
 	}
 

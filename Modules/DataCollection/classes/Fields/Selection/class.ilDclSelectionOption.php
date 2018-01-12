@@ -107,7 +107,7 @@ class ilDclSelectionOption extends ActiveRecord {
 	 * @return int
 	 */
 	public function getOptId() {
-		return $this->opt_id;
+		return (int) $this->opt_id;
 	}
 
 

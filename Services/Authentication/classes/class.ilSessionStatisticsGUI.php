@@ -794,10 +794,9 @@ class ilSessionStatisticsGUI
 		// meta
 		$meta = array(
 			$lng->txt("trac_name_of_installation") => $ilClientIniFile->readVariable('client', 'name'),
-			$lng->txt("trac_report_date") =>
-				ilDatePresentation::formatDate(new ilDateTime($now, IL_CAL_UNIX), IL_CAL_DATETIME),
+			$lng->txt("trac_report_date") => ilDatePresentation::formatDate(new ilDateTime($now, IL_CAL_UNIX)),
 			$lng->txt("trac_report_owner") => $ilUser->getFullName(),
-			);		
+			);
 		foreach($a_data as $idx => $item)
 		{
 			switch($idx)

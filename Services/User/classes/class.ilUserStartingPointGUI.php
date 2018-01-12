@@ -134,6 +134,7 @@ class ilUserStartingPointGUI
 		include_once "Services/User/classes/class.ilUserUtil.php";
 
 		$form = new ilPropertyFormGUI();
+		$ilCtrl->saveParameter($this, array("spid"));
 
 		$spoint_id = $_REQUEST['spid'];
 
@@ -275,7 +276,7 @@ class ilUserStartingPointGUI
 	 */
 	protected function saveStartingPoint()
 	{
-		global $ilCtrl, $tree, $rbacsystem, $ilErr;
+		global $ilCtrl, $tree, $rbacsystem, $ilErr, $tpl;
 
 		if (!$rbacsystem->checkAccess("write",$this->parent_ref_id))
 		{
@@ -344,8 +345,9 @@ class ilUserStartingPointGUI
 
 			$ilCtrl->redirect($this, "startingPoints");
 		}
-		ilUtil::sendFailure($this->lng->txt("msg_error"), true);
-		$ilCtrl->redirect($this, "startingPoints");
+		$tpl->setContent($form->getHTML());
+
+		//$ilCtrl->redirect($this, "startingPoints");
 	}
 
 	function saveOrder()
