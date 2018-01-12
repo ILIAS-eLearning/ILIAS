@@ -98,20 +98,22 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
 		$item->readFromSession();
 		$this->filter['user'] = $item->getValue();
 
-		$root = ilObjOrgUnit::getRootOrgRefId();
-		$tree = ilObjOrgUnitTree::_getInstance();
-		$nodes = $tree->getAllChildren($root);
-		$paths = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
-		$options[0] = $this->lng()->txt('mst_opt_all');
-		foreach ($paths as $org_ref_id => $path) {
-			$options[$org_ref_id] = $path;
+		if(ilUserSearchOptions::_isEnabled('org_units')) {
+			$root = ilObjOrgUnit::getRootOrgRefId();
+			$tree = ilObjOrgUnitTree::_getInstance();
+			$nodes = $tree->getAllChildren($root);
+			$paths = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
+			$options[0] = $this->lng()->txt('mst_opt_all');
+			foreach ($paths as $org_ref_id => $path) {
+				$options[$org_ref_id] = $path;
+			}
+			$item = new ilSelectInputGUI($this->lng()->txt('obj_orgu'), 'org_unit');
+			$item->setOptions($options);
+			$item->addCustomAttribute("style='width:100%'");
+			$this->addFilterItem($item);
+			$item->readFromSession();
+			$this->filter['org_unit'] = $item->getValue();
 		}
-		$item = new ilSelectInputGUI($this->lng()->txt('obj_orgu'), 'org_unit');
-		$item->setOptions($options);
-		$item->addCustomAttribute("style='width:100%'");
-		$this->addFilterItem($item);
-		$item->readFromSession();
-		$this->filter['org_unit'] = $item->getValue();
 	}
 
 
