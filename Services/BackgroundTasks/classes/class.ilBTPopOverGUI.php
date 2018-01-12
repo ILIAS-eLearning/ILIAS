@@ -78,7 +78,7 @@ class ilBTPopOverGUI {
 						$this->getUserInteractionContent($observer, $redirect_uri),
 					]));
 					break;
-				default:
+				case State::RUNNING:
 					$expected = (int)$current_task->getExpectedTimeOfTaskInSeconds();
 					$possibly_failed = (bool)($observer->getLastHeartbeat() < (time() - $expected));
 
@@ -88,6 +88,9 @@ class ilBTPopOverGUI {
 						$bucket->parseCurrentBlock();
 						$this->addButton($current_task->getAbortOption(), $redirect_uri, $bucket, $observer);
 					}
+					$bucket->setVariable("CONTENT", $r->render($this->getDefaultCardContent($observer)));
+					break;
+				default:
 					$bucket->setVariable("CONTENT", $r->render($this->getDefaultCardContent($observer)));
 					break;
 			}
