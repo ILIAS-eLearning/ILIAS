@@ -292,6 +292,16 @@ class ilObjCategoryGUI extends ilContainerGUI
 		return true;
 	}
 
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function addHeaderAction() {
+		ilPreviewGUI::initPreview();
+		parent::addHeaderAction();
+	}
+
+
 	/**
 	 * Get object metadata gui
 	 *
