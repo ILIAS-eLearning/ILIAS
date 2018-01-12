@@ -53,7 +53,7 @@ class ilBTPopOverGUI {
 		$f = $this->ui()->factory();
 		$persistence = $this->dic()->backgroundTasks()->persistence();
 
-		$observer_ids = $this->btPersistence->getBucketIdsOfUser($user_id);
+		$observer_ids = $this->btPersistence->getBucketIdsOfUser($user_id, 'id', 'DESC');
 		$observers = $this->btPersistence->loadBuckets($observer_ids);
 
 		$metas = $persistence->getBucketMetaOfUser($this->user()->getId());
@@ -70,8 +70,7 @@ class ilBTPopOverGUI {
 		foreach ($observers as $observer) {
 			$state = (int)$observer->getState();
 			$current_task = $observer->getCurrentTask();
-			$expected = (int)$current_task->getExpectedTimeOfTaksInSeconds();
-			$possibly_failed = (bool)($observer->getLastHeartbeat() < (time() - $expected));
+
 			switch ($state) {
 				case State::USER_INTERACTION:
 					$bucket->setVariable("CONTENT", $r->render($this->getProgressbar($observer)));
@@ -80,16 +79,17 @@ class ilBTPopOverGUI {
 					]));
 					break;
 				default:
+					$expected = (int)$current_task->getExpectedTimeOfTaksInSeconds();
+					$possibly_failed = (bool)($observer->getLastHeartbeat() < (time() - $expected));
+
 					if ($possibly_failed) {
 						$bucket->setCurrentBlock('failed');
 						$bucket->setVariable("ALERT", $this->lng()->txt('task_might_be_failed'));
 						$bucket->parseCurrentBlock();
+						$this->addButton($current_task->getAbortOption(), $redirect_uri, $bucket, $observer);
 					}
 					$bucket->setVariable("CONTENT", $r->render($this->getDefaultCardContent($observer)));
 					break;
-			}
-			if ($possibly_failed) {
-				$this->addButton($current_task->getAbortOption(), $redirect_uri, $bucket, $observer);
 			}
 
 			if ($state === State::USER_INTERACTION) {
