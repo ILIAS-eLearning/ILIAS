@@ -23,6 +23,7 @@ class ilSearchSettings
 	protected static $instance = null;
 	
 	protected $default_operator = self::OPERATOR_AND;
+	protected $is_detail_search_default = false;
 	protected $fragmentSize = 30;
 	protected $fragmentCount =  3;
 	protected $numSubitems = 5;
@@ -224,6 +225,16 @@ class ilSearchSettings
 		return $this->default_operator;
 	}
 	
+	public function isDetailSearchDefault()
+	{
+		return $this->is_detail_search_default ? true : false;
+	}
+	
+	public function setDetailSearchDefault($isDefault)
+	{
+		$this->is_detail_search_default = (bool)$isDefault;
+	}
+
 	public function setDefaultOperator($a_op)
 	{
 		$this->default_operator = $a_op;
@@ -446,7 +457,8 @@ class ilSearchSettings
 		$this->ilias->setSetting('search_max_hits',$this->getMaxHits());
 		$this->ilias->setSetting('search_index',(int) $this->enabledIndex());
 		$this->ilias->setSetting('search_lucene',(int) $this->enabledLucene());
-		
+		$this->ilias->setSetting('search_detail_default', (int)$this->isDetailSearchDefault());
+
 		$this->ilias->setSetting('lucene_default_operator',$this->getDefaultOperator());
 		$this->ilias->setSetting('lucene_fragment_size',$this->getFragmentSize());
 		$this->ilias->setSetting('lucene_fragment_count',$this->getFragmentCount());
@@ -479,7 +491,8 @@ class ilSearchSettings
 		$this->setMaxHits($this->ilias->getSetting('search_max_hits',10));
 		$this->enableIndex($this->ilias->getSetting('search_index',0));
 		$this->enableLucene($this->ilias->getSetting('search_lucene',0));
-		
+		$this->setDetailSearchDefault($this->ilias->getSetting('search_detail_default', false));
+
 		$this->setDefaultOperator($this->ilias->getSetting('lucene_default_operator',self::OPERATOR_AND));
 		$this->setFragmentSize($this->ilias->getSetting('lucene_fragment_size',50));
 		$this->setFragmentCount($this->ilias->getSetting('lucene_fragment_count',3));

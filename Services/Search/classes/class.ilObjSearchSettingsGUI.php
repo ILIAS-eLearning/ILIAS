@@ -101,10 +101,11 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$this->object->settings_obj->enableLucene($_POST['search_lucene']);
 		$this->object->settings_obj->setHideAdvancedSearch($_POST['hide_adv_search']);
 		$this->object->settings_obj->setAutoCompleteLength($_POST['auto_complete_length']);
+		$this->object->settings_obj->setDetailSearchDefault((int)$_POST['search_detail_default']);
 		$this->object->settings_obj->setDefaultOperator((int) $_POST['operator']);
 		$this->object->settings_obj->enableLuceneItemFilter((int) $_POST['if']);
 		$this->object->settings_obj->setLuceneItemFilter((array) $_POST['filter']);
-		
+
 
 		$rpc_settings = ilRPCServerSettings::getInstance();
 		if($this->object->settings_obj->enabledLucene() and !$rpc_settings->pingServer())
@@ -233,7 +234,6 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$us->setChecked($settings->isLuceneUserSearchEnabled());
 		$this->form->addItem($us);
 		
-		
 		// Item filter
 		$if = new ilCheckboxInputGUI($this->lng->txt('search_item_filter_form'),'if');
 		$if->setValue(1);
@@ -252,7 +252,13 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 			$ch->setValue(1);
 			$if->addSubItem($ch);
 		}
-		
+
+		$defaultType = new ilCheckboxInputGUI($this->lng->txt('search_detail_default'), 'search_detail_default');
+		$defaultType->setInfo($this->lng->txt('search_detail_default_info'));
+		$defaultType->setValue(1);
+		$defaultType->setChecked($settings->isDetailSearchDefault());
+		$this->form->addItem($defaultType);
+
 		$cdate = new ilCheckboxInputGUI($this->lng->txt('search_cdate_filter'), 'cdate');
 		$cdate->setInfo($this->lng->txt('search_cdate_filter_info'));
 		$cdate->setChecked($settings->isDateFilterEnabled());
@@ -340,6 +346,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 				break;
 		}
 
+		$settings->setDetailSearchDefault((int)$_POST['search_detail_default']);
 		$settings->setDefaultOperator((int) $_POST['operator']);
 		$settings->enableLuceneItemFilter((int) $_POST['if']);
 		$settings->setLuceneItemFilter((array) $_POST['filter']);

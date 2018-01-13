@@ -46,6 +46,24 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$new_search = isset($_POST['cmd']['performSearch']) ? true : false;
 
 		$enabled_types = ilSearchSettings::getInstance()->getEnabledLuceneItemFilterDefinitions();
+
+		/*
+		 * set detail search checkboxes and search type to the default values.
+		 */
+		if(!isset($_SESSION['search']))
+		{
+			if (ilSearchSettings::getInstance()->isLuceneItemFilterEnabled()
+				&& ilSearchSettings::getInstance()->isDetailSearchDefault()
+			) {
+				$_SESSION['search']['type'] = 2;
+			}
+
+			foreach($enabled_types as $type => $pval)
+			{
+				$_SESSION['search']['details'][$type] = 1;
+			}
+		}
+
 		foreach($enabled_types as $type => $pval)
 		{
 			if($_POST['filter_type'][$type] == 1)
