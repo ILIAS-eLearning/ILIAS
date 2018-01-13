@@ -233,7 +233,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
 
 		//TODO Context!
 		$user_action_collector = ilUserActionCollector::getInstance($ilUser->getId(),new ilAwarenessUserActionContext());
-		$action_collection = $user_action_collector->getActionsForTargetUser($my_staff_user->getUsrId(), 'awrn', 'toplist');
+		$action_collection = $user_action_collector->getActionsForTargetUser($my_staff_user->getUsrId());
 
 		//TODO Async?
 		$selection = new ilAdvancedSelectionListGUI();
@@ -248,10 +248,21 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
 			                                                                    'ilMStShowUserGUI',
 		                                                                    )));
 		foreach ($action_collection->getActions() as $action) {
-			if ($action->getType() == "profile") {
-				$selection->addItem($action->getText(), '', $action->getHref() . "&back_url=" . $this->getProfileBackUrl() );
-			} else {
-				$selection->addItem($action->getText(), '', $action->getHref());
+			switch ($action->getType()) {
+				case "profile": //personal profile
+					$selection->addItem($action->getText(), '', $action->getHref() . "&back_url=" . $this->getProfileBackUrl() );
+				break;
+				case "compose": //mail
+				case "invite": //public chat
+				case "invite_osd": //direct chat (start conversation)
+					//do only display those actions if the displayed user is not the current user
+					if($my_staff_user->getUsrId() != $ilUser->getId()) {
+						$selection->addItem($action->getText(), "", $action->getHref(), "", "", "", "", false, "","","","",true, $action->getData());
+					}
+					break;
+				default:
+					$selection->addItem($action->getText(), "", $action->getHref(), "", "", "", "", false, "","","","",true, $action->getData());
+				break;
 			}
 		}
 		$this->tpl->setVariable('ACTIONS', $selection->getHTML());
