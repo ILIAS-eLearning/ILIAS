@@ -99,3 +99,7 @@ if (!$ilDB->tableColumnExists(ilOrgUnitPermission::TABLE_NAME, 'protected')) {
 }
 $ilDB->manipulate("UPDATE il_orgu_permissions SET protected = 1 WHERE parent_id = -1");
 ?>
+<#6>
+<?php
+$ilDB->dropIndexByFields('cmi_objective',array('id'));
+?>
