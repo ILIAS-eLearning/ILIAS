@@ -1682,8 +1682,6 @@ certificate#:#certificate_background_image#:#Hintergrundbild
 certificate#:#certificate_confirm_deletion_text#:#Wollen Sie wirklich die Zertifikat-Vorlage und alle zugehörigen Daten löschen?
 certificate#:#certificate_custom#:#Eigenes Format...
 certificate#:#certificate_edit#:#Zertifikat-Vorlage erstellen/bearbeiten
-certificate#:#certificate_enabled_scorm#:#Aktiviert
-certificate#:#certificate_enabled_scorm_introduction#:#Wenn ausgewählt, wird das Zertifikat für alle Teilnehmer des SCORM-Lernmoduls angeboten, die das Lernmodul durchgearbeitet haben.
 certificate#:#certificate_error_import#:#Während des Zertifikat-Imports ist ein Fehler aufgetreten!
 certificate#:#certificate_error_upload_bgimage#:#Beim Hochladen des Hintergrundbildes ist ein Fehler aufgetreten!
 certificate#:#certificate_export#:#Exportieren

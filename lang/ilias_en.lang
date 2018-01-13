@@ -1419,8 +1419,6 @@ certificate#:#certificate_background_image#:#Background Image
 certificate#:#certificate_confirm_deletion_text#:#Do you really want to delete the certificate and all its related data?
 certificate#:#certificate_custom#:#Custom...
 certificate#:#certificate_edit#:#Create/Edit a Certificate Template
-certificate#:#certificate_enabled_scorm_introduction#:#If checked, the certificate will be offered for all users who finished the SCORM learning module.
-certificate#:#certificate_enabled_scorm#:#Enabled
 certificate#:#certificate_error_import#:#An error occurred during the import of a certificate!
 certificate#:#certificate_error_upload_bgimage#:#An error occurred during the upload of the background image!
 certificate#:#certificate_export#:#Export
