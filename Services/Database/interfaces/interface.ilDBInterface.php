@@ -112,6 +112,14 @@ interface ilDBInterface {
 
 
 	/**
+	 * Run a (read-only) Query on the database
+	 *
+	 * The implementation MUST start and stop a $ilBench Database-Benchmark, e.g.:
+	 *
+	 * $ilBench->startDbBench($sql);
+	 * .... [run the query]
+	 * $ilBench->stopDbBench();
+	 *
 	 * @param $query string
 	 *
 	 * @return \ilPDOStatement
@@ -174,6 +182,14 @@ interface ilDBInterface {
 
 
 	/**
+	 * Run a (write) Query on the database
+	 *
+	 * The implementation MUST start and stop a $ilBench Database-Benchmark, e.g.:
+	 *
+	 * $ilBench->startDbBench($sql);
+	 * .... [run the query]
+	 * $ilBench->stopDbBench();
+	 *
 	 * @param $query string
 	 * @return int|void
 	 */

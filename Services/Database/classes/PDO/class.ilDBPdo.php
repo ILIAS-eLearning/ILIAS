@@ -488,14 +488,24 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 	/**
 	 * @param $query string
+	 *
 	 * @return ilPDOStatement
 	 * @throws ilDatabaseException
 	 */
 	public function query($query) {
+		global $DIC;
+		$ilBench = $DIC['ilBench'];
+
 		$query = $this->appendLimit($query);
 
 		try {
+			if ($ilBench instanceof ilBenchmark) {
+				$ilBench->startDbBench($query);
+			}
 			$res = $this->pdo->query($query);
+			if ($ilBench instanceof ilBenchmark) {
+				$ilBench->stopDbBench();
+			}
 		} catch (PDOException $e) {
 			throw new ilDatabaseException($e->getMessage() . ' QUERY: ' . $query);
 		}
@@ -708,8 +718,16 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @throws \ilDatabaseException
 	 */
 	public function manipulate($query) {
+		global $DIC;
+		$ilBench = $DIC['ilBench'];
 		try {
+			if ($ilBench instanceof ilBenchmark) {
+				$ilBench->startDbBench($query);
+			}
 			$r = $this->pdo->exec($query);
+			if ($ilBench instanceof ilBenchmark) {
+				$ilBench->stopDbBench();
+			}
 		} catch (PDOException $e) {
 			throw new ilDatabaseException($e->getMessage() . ' QUERY: ' . $query);
 		}
