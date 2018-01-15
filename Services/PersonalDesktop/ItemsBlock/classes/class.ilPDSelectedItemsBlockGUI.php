@@ -395,9 +395,10 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 					$item_list_gui = $list_factory->byType($item['type']);
 					ilObjectActivation::addListGUIActivationProperty($item_list_gui, $item);
 
+					// #15232
 					if($this->manage)
 					{
-						if($rbacsystem->checkAccess('leave', $item['ref_id']))
+						if($this->view->mayRemoveItem((int)$item['ref_id']))
 						{
 							$item_list_gui->enableCheckbox(true);
 						}
@@ -459,7 +460,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		$tpl = $this->newBlockTemplate();
 
 		$this->renderGroupedItems(
-			$tpl, $this->view->getItemsGroups(),
+			$tpl, $this->view->getItemGroups(),
 			($this->getCurrentDetailLevel() >= $this->view->getMinimumDetailLevelForSection())
 		);
 
