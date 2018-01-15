@@ -84,7 +84,7 @@ class ilFileXMLParser extends ilSaxParser {
 	 */
 	protected $usr_id = null;
 	/**
-	 * @var string[]
+	 * @var array
 	 */
 	protected $versions = [];
 
