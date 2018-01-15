@@ -249,8 +249,10 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 	 * @access protected
 	 * @param array appointment
 	 */
-	protected function showAppointment($event_tpl, $a_app)
+	protected function showAppointment($a_app)
 	{
+		$event_tpl = new ilTemplate('tpl.week_event_view.html',true,true,'Services/Calendar');
+
 		$ilUser = $this->user;
 
 		if (!$ilUser->prefs["screen_reader_optimization"])
@@ -667,11 +669,9 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 					}
 				}
 
-				$event_tpl = new ilTemplate('tpl.week_event_view.html',true,true,'Services/Calendar');
-
 				foreach($hour['apps_start'] as $app)
 				{
-					$this->showAppointment($event_tpl, $app);
+					$this->showAppointment($app);
 				}
 
 				// screen reader: appointments are divs, now output cell
