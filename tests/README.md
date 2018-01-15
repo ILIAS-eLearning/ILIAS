@@ -136,7 +136,7 @@ the current code base.
 ### PHP Unit
 PHP Unit is a collection of tools (PHP classes and executables) which makes not 
 only testing easy, but also helps to gain insight into the test results and 
-how much of the code base remains untested.
+how much of the code base remains untested. [8]
 
 <a name="mockery"></a>
 ### Mockery
@@ -1641,4 +1641,5 @@ important part is to add and update the unit tests as the production code evolve
 [4] Martin Robin C., (17.07.2014): The Principles of OOD, <http://butunclebob.com/ArticleS.UncleBob.PrinciplesOfOod>
 [5] Pádraic Brady, Dave Marshall and contributors, (11.05.2017): Creating Test Doubles, <http://docs.mockery.io/en/latest/reference/creating_test_doubles.html>
 [6] (30.11.2017): Code coverage, <https://en.wikipedia.org/wiki/Code_coverage>
-[7] Roy Osherove (15.01.2018): Unit Test - Definition, <http://artofunittesting.com/definition-of-a-unit-test/>
+[7] Roy Osherove, (15.01.2018): Unit Test - Definition, <http://artofunittesting.com/definition-of-a-unit-test/>
+[8] Bruno Skvorc, (31.07.2017): Re-Introducing PHPUnit – Getting Started with TDD in PHP, <https://www.sitepoint.com/re-introducing-phpunit-getting-started-tdd-php/>
