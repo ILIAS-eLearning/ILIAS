@@ -115,7 +115,20 @@ class ilMStListCourses {
 		}
 
 		if (!empty($arr_filter['lp_status']) or $arr_filter['lp_status'] === 0) {
-			$where[] = '(lp_status = ' . $ilDB->quote($arr_filter['lp_status'], 'integer') . ')';
+
+			switch ($arr_filter['lp_status']) {
+				case ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM:
+					//if a user has the lp status not attempted it could be, that the user hase no records in table ut_lp_marks
+					$where[] = '(lp_status = ' . $ilDB->quote($arr_filter['lp_status'], 'integer') . ' OR lp_status is NULL)';
+					break;
+				default:
+					$where[] = '(lp_status = ' . $ilDB->quote($arr_filter['lp_status'], 'integer') . ')';
+					break;
+			}
+
+
+
+
 		}
 
 		if (!empty($arr_filter['memb_status'])) {

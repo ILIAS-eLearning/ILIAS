@@ -26,6 +26,7 @@ class ilFileImporter extends ilXmlImporter
 		if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_id))
 		{
 			$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
+			$newObj->setVersion(0); // If $version is 0 from database, it will be set to 1 in ilObFile::doRead(). In ilFileXMLParser::handlerBeginTag $version will being increased. So its incorrectly 2. Set $version to 0 like case ii, non container
 		}
 		else	// case ii, non container
 		{

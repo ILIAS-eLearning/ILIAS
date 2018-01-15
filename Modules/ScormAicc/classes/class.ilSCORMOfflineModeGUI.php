@@ -109,7 +109,9 @@ class ilSCORMOfflineModeGUI
 
 			case 'offlineMode_sop2ilOk':
 				$this->offlineMode->setOfflineMode("online");
-				$this->view($this->offlineMode->getOfflineMode(),$cmd);
+				ilUtil::sendSuccess($this->lng->txt('sop_msg_push_tracking_ok'),true);
+				ilUtil::redirect($this->offlineMode->lm_info_url);
+				//$this->view($this->offlineMode->getOfflineMode(),$cmd);
 				break;
 				
 			case 'offlineMode_player12' :

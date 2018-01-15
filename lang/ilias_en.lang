@@ -456,16 +456,16 @@ assessment#:#direct_feedback#:#Verify Your Solution
 assessment#:#duplicate_matching_values_selected#:#You have selected duplicate matching values!
 assessment#:#duplicate_order_values_entered#:#You have entered duplicate order values!
 assessment#:#duplicate#:#Duplicate
-assessment#:#ects_allow_ects_grades#:#Show ECTS grade additional to received mark
-assessment#:#ects_grade_a_short#:#EXCELLENT
-assessment#:#ects_grade_a#:#outstanding performance with only minor errors
-assessment#:#ects_grade_b_short#:#VERY GOOD
-assessment#:#ects_grade_c_short#:#GOOD
-assessment#:#ects_grade_d_short#:#SATISFACTORY
-assessment#:#ects_grade_e_short#:#SUFFICIENT
-assessment#:#ects_grade_f#:#considerable further work is required
-assessment#:#ects_grade_fx#:#some more work required before the credit can be awarded
+assessment#:#ects_grade_desc_prefix#:#Meaning of grade:
+assessment#:#ects_grade_a_desc#:#outstanding performance with only minor errors
+assessment#:#ects_grade_b_desc#:#above the average standard but with some errors
+assessment#:#ects_grade_c_desc#:#generally sound work with a number of notable errors
+assessment#:#ects_grade_d_desc#:#fair but with significant shortcomings
+assessment#:#ects_grade_e_desc#:#performance meets the minimum criteria
+assessment#:#ects_grade_fx_desc#:#some more work required before the credit can be awarded
+assessment#:#ects_grade_f_desc#:#considerable further work is required
 assessment#:#ects_grade#:#ECTS Grade
+assessment#:#ects_allow_ects_grades#:#Show ECTS grade additional to received mark
 assessment#:#ects_output_of_ects_grades#:#Output of ECTS grades
 assessment#:#use_ects_fx#:#Use the ‘FX’ grade
 assessment#:#ects_fx_threshold#:#Threshold
@@ -640,6 +640,7 @@ assessment#:#ass_lac_expression#:#Expression
 assessment#:#ass_lac_unable_to_parse_condition#:#The condition "%s" can not be validated.
 assessment#:#tst_skill_triggerings_num_req_answers#:#Required Amount of Answers for Competence Triggers
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Competences aren't triggered before this amount of answered questions contributes to the competence level calculation.
+assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#At least one of the competences addressed by this test is not triggered by the minimal required amount of questions.<br />The required amount of questions: %s
 assessment#:#export_essay_qst_with_html#:#Export Essay Question with HTML code
 assessment#:#export_essay_qst_with_html_desc#:#If activated it is possible to export Essay Question with HTML to Excel.
 assessment#:#qpl_qst_skl_usg_skill_col#:#Competence
@@ -688,7 +689,7 @@ assessment#:#grading_obligations_listlabel#:#Compulsory Questions
 assessment#:#grading_obligations_answered_listentry#:#Answered
 assessment#:#grading_obligations_missing_listentry#:#Open
 assessment#:#grading_mark_msg#:#Your mark is: &quot;[mark]&quot;
-assessment#:#mark_tst_ects#:#Your ECTS grade is &quot;[markects]&quot;
+assessment#:#mark_tst_ects#:#Your ECTS grade is "[markects]" (European Credit Transfer System)
 assessment#:#tst_pass_finished_on#:#Test pass finished on
 assessment#:#matches#:#matches
 assessment#:#matching_pairs#:#Matching Pairs
@@ -1418,8 +1419,6 @@ certificate#:#certificate_background_image#:#Background Image
 certificate#:#certificate_confirm_deletion_text#:#Do you really want to delete the certificate and all its related data?
 certificate#:#certificate_custom#:#Custom...
 certificate#:#certificate_edit#:#Create/Edit a Certificate Template
-certificate#:#certificate_enabled_scorm_introduction#:#If checked, the certificate will be offered for all users who finished the SCORM learning module.
-certificate#:#certificate_enabled_scorm#:#Enabled
 certificate#:#certificate_error_import#:#An error occurred during the import of a certificate!
 certificate#:#certificate_error_upload_bgimage#:#An error occurred during the upload of the background image!
 certificate#:#certificate_export#:#Export
@@ -13355,6 +13354,7 @@ wfe#:#start_event_form_header#:#Relevant Events for the Start of Workflows
 wfe#:#wfe_sure_to_delete_process_def#:#Are you sure you want to delete the definition?
 wfe#:#wfe_request_missing_process_id#:#The process id is missing, cannot perform the desired action.
 wfe#:#wfe_started_listening#:#Process armed
+wfe#:#wfe_stopped_listening#:#Process disarmed
 glo#:#glo_link_glo_in_glo#:#Should all glossary terms of the target glossary be linked in the current glossary now?
 glo#:#glo_add_from_other#:#Collect Terms
 glo#:#glo_select_terms#:#Select Terms

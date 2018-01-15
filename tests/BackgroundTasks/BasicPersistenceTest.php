@@ -162,7 +162,7 @@ class BasicPersistenceTest extends TestCase {
 
 		$this->persistence->setConnector($observerConnector);
 		$observer_ids = $this->persistence->getBucketIdsOfUser(5);
-		$this->assertEquals($observer_ids, [2 => 2, 3 => 3]);
+		$this->assertEquals($observer_ids, [0 => 2, 1 => 3]);
 	}
 
 	public function testGetObserverIdsByState() {
