@@ -121,9 +121,9 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	 */
 	public function fillDetailRow()
 	{
-		$this->ctrl->setParameterByClass('ilpersonaldesktopgui', 'view', $this->viewSettings->getCurrentView());
+//		$this->ctrl->setParameterByClass('ilpersonaldesktopgui', 'view', $this->viewSettings->getCurrentView());
 		parent::fillDetailRow();
-		$this->ctrl->setParameterByClass('ilpersonaldesktopgui', 'view', '');
+//		$this->ctrl->setParameterByClass('ilpersonaldesktopgui', 'view', '');
 	}
 
 	/**
@@ -216,7 +216,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			$this->setEnableDetailRow(false);
 		}
 
-		$this->ctrl->clearParametersByClass('ilpersonaldesktopgui');
+//		$this->ctrl->clearParametersByClass('ilpersonaldesktopgui');
 		$this->ctrl->clearParameters($this);
 
 		$DIC->database()->useSlave(false);
