@@ -109,7 +109,7 @@ Unit testing is the process of testing the smallest testable part of an
 application, called units. Units are usually one behaviour of a class 
 or one logical concept of a method.
 
-Unit tests fulfil the following criteria:
+Unit tests fulfil the following criteria: [7]
 - Able to be **fully automated**
 - **Isolated** (Dependencies of the class under test are mocked)
 - Runnable in **any order**, if the test is part of many other tests
@@ -1641,3 +1641,4 @@ important part is to add and update the unit tests as the production code evolve
 [4] Martin Robin C., (17.07.2014): The Principles of OOD, <http://butunclebob.com/ArticleS.UncleBob.PrinciplesOfOod>
 [5] Pádraic Brady, Dave Marshall and contributors, (11.05.2017): Creating Test Doubles, <http://docs.mockery.io/en/latest/reference/creating_test_doubles.html>
 [6] (30.11.2017): Code coverage, <https://en.wikipedia.org/wiki/Code_coverage>
+[7] Roy Osherove (15.01.2018): Unit Test - Definition, <http://artofunittesting.com/definition-of-a-unit-test/>
