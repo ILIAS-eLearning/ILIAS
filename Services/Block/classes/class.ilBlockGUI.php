@@ -650,7 +650,7 @@ abstract class ilBlockGUI
 				$this->setCurrentDetailLevel($_GET[$this->getDetailParameter()]);
 				if ((int) $_GET[$this->getDetailParameter()] == 0)
 				{
-					$ilCtrl->redirectByClass("ilcolumngui", "");
+					$ilCtrl->redirectByClass(ilColumnGUI::class, "");
 				}
 			}
 			else
@@ -935,11 +935,10 @@ abstract class ilBlockGUI
 				}
 				else
 				{
-					$ilCtrl->setParameterByClass("ilcolumngui",
-						$this->getDetailParameter(), "0");
-					$url = $ilCtrl->getLinkTargetByClass("ilcolumngui", "");					
-					$ilCtrl->setParameterByClass("ilcolumngui",
-						$this->getDetailParameter(), "");
+					$ilCtrl->setParameterByClass(ilColumnGUI::class, $this->getDetailParameter(), "0");
+					$ilCtrl->setParameterByClass(ilColumnGUI::class, 'fallBackCmd', $ilCtrl->getCmd());
+					$url = $ilCtrl->getLinkTargetByClass(ilColumnGUI::class, "");
+					$ilCtrl->setParameterByClass(ilColumnGUI::class, $this->getDetailParameter(), "");
 				}
 				
 				$this->dropdown[] = array("text" => $alt,

@@ -74,7 +74,7 @@ class ilPersonalDesktopGUI
 		global $ilSetting, $rbacsystem, $ilErr;
 
 		$next_class = $this->ctrl->getNextClass();
-		$this->ctrl->setReturn($this, "show");
+		$this->ctrl->setReturn($this, $_GET["fallBackCmd"] ? $_GET["fallBackCmd"] : "show");
 
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation('filesystem','delos.css','Services/Calendar'));
 
