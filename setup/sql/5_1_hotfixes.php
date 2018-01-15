@@ -432,7 +432,7 @@ while( $row = $ilDB->fetchAssoc($res) )
 }
 
 ?>
-<#3>
+<#33>
 <?php
 if($ilDB->tableExists('svy_answer'))
 {
