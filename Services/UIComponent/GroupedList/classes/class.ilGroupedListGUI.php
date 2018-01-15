@@ -140,7 +140,7 @@ class ilGroupedListGUI
 						$tpl->setVariable("TXT_ENTRY", $i["content"]);
 						if ($i["target"] != "")
 						{
-							$tpl->setVariable("TARGET", 'target="'.$i["target"].'"');
+							$tpl->setVariable("TARGET", 'target="'. ilUtil::secureUrl($i["target"]).'"');
 						}
 						else
 						{
