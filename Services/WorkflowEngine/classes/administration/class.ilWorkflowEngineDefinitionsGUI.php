@@ -65,6 +65,7 @@ class ilWorkflowEngineDefinitionsGUI
 				break;
 
 			case'stoplistening':
+				return $this->stopListening();
 				break;
 
 			case 'view':
@@ -293,6 +294,21 @@ class ilWorkflowEngineDefinitionsGUI
 		}
 
 		ilUtil::sendSuccess($this->parent_gui->lng->txt('started_listening'), true);
+		ilUtil::redirect(
+			html_entity_decode(
+				$this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.view')
+			)
+		);
+	}
+
+	public function stopListening()
+	{
+		$process_id = ilUtil::stripSlashes($_GET['process_id']);
+
+		require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowDbHelper.php';
+		ilWorkflowDbHelper::deleteStartEventData($process_id);
+
+		ilUtil::sendSuccess($this->parent_gui->lng->txt('wfe_stopped_listening'), true);
 		ilUtil::redirect(
 			html_entity_decode(
 				$this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.view')
