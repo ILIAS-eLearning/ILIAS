@@ -11226,7 +11226,8 @@ td.calempty_border {
   border-bottom-color: #ddd;
 }
 tr.calstd {
-  background-color: inherit;
+  /*background-color: inherit;*/
+  background-color: white;
   height: 6em;
 }
 table.il-cal-day tr.calstd + tr.calstdtime td.calempty,
@@ -11309,19 +11310,23 @@ p.il_calevent .btn-link {
 }
 td.calevent {
   vertical-align: top;
-  padding: 3px;
+  /*padding: 3px;*/
   border-spacing: 0px;
   border-collapse: collapse;
   border-width: 1px;
   border-style: solid;
   border-color: #ddd;
   font-size: 90%;
-  background-color: white;
+  /*background-color:white;*/
 }
 div.calevent {
   font-size: 90%;
   padding: 3px;
   margin: 3px;
+}
+div.calfullcontent {
+  padding: 4px;
+  height: 100%;
 }
 p.il_cal_monthday {
   padding: 2px;
@@ -11415,6 +11420,10 @@ th.calminiweek {
 }
 span.calminiinactive {
   color: #CCCCCC;
+}
+.calnewapplink {
+  float: right;
+  visibility: hidden;
 }
 /* Modules/Wiki */
 a.ilWikiPageMissing:link,
