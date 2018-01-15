@@ -439,7 +439,7 @@ class ilExSubmission
 					"/".$row["user_id"]."/".basename($row["filename"]);
 
 				// see 22301
-				if (is_file($row["filename"]))
+				if (is_file($row["filename"]) || $this->assignment->getType() == ilExAssignment::TYPE_TEXT)
 				{
 					array_push($delivered_files, $row);
 				}
