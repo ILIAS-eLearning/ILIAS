@@ -9,7 +9,7 @@
 <!--
 	Represents on mail
 -->
-<!ELEMENT Mail (Sender, To+ ,Cc*, Bcc*, Subject, Body?, Attachment*)>
+<!ELEMENT Mail (Sender, To+ ,Cc*, Bcc*, Subject, Message?, Attachment*)>
 
 <!-- 
 	usePlaceholders
