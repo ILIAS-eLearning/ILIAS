@@ -387,14 +387,6 @@ assessment#:#duplicate_matching_values_selected#:#თქვენ აირჩ�
 assessment#:#duplicate_order_values_entered#:#თქვენ შეიყვანეთ თანმიმდევრობითი ღირებულებების დუბლირება
 assessment#:#ects_allow_ects_grades#:#აჩვენე კრედიტების ქულები დამატებით მიღებულ ქულასთან ერთად
 assessment#:#ects_grade#:#კრედიტის ქულა
-assessment#:#ects_grade_a#:#შესანიშნავი შედეგი პატარა შეცდომებით
-assessment#:#ects_grade_a_short#:#შესანიშნავი/ ფრიადი
-assessment#:#ects_grade_b_short#:#ძალიან კარგი
-assessment#:#ects_grade_c_short#:#კარგი
-assessment#:#ects_grade_d_short#:#დამაკმაყოფილებელი
-assessment#:#ects_grade_e_short#:#საკმარისი
-assessment#:#ects_grade_f#:#საჭიროა დამატებიტ მუშაობა
-assessment#:#ects_grade_fx#:#მეტი მუშაობაა საჭირო ვიდრე კრედიტს აიღებდეს
 assessment#:#ects_output_of_ects_grades#:#კრედიტების ქულების შედეგი
 assessment#:#edit_page#:#Edit Page
 assessment#:#edit_question#:#Edit Question
@@ -1153,8 +1145,6 @@ certificate#:#certificate_background_image#:#ფონის სურათი
 certificate#:#certificate_confirm_deletion_text#:#ნამდვილად გსურთ ამ სერთიფიკატის და მასთან დაკავშირებული მთლიანი ინფორმაციის წაშლა?
 certificate#:#certificate_custom#:#საკუთარი
 certificate#:#certificate_edit#:#სერთიფიკატის ნიმუშის წაშლა/რედაქტირება
-certificate#:#certificate_enabled_scorm#:#გააქტიურებულია
-certificate#:#certificate_enabled_scorm_introduction#:#თუ შემოწმებულია, ყველა მონაწილეს ვინც სკორმის სასწავლო მოდულს დაასრულებს პროგრამა შესთავაზებს სერთიფიკატს
 certificate#:#certificate_error_import#:#შეცდომა მოხდა სერთიფიკატის გადმოტანის დროს!
 certificate#:#certificate_error_upload_bgimage#:#შეცდომა მოხდა ფონის სურათის ატვირთვის დროს!
 certificate#:#certificate_export#:#სერთიფიკატის გადაგზავნა
@@ -14141,3 +14131,21 @@ common#:#usr_name_undisclosed#:#Undisclosed###20 12 2017 new variable
 common#:#obj_exc_duplicate#:#Copy Exercise###20 12 2017 new variable
 meta#:#adt_error_max_length#:#Please enter a shorter text.###20 12 2017 new variable
 form#:#form_chars_remaining#:#Characters remaining:###20 12 2017 new variable
+assessment#:#ects_grade_desc_prefix#:#Meaning of grade:###16 01 2018 new variable
+assessment#:#ects_grade_a_desc#:#outstanding performance with only minor errors###16 01 2018 new variable
+assessment#:#ects_grade_b_desc#:#above the average standard but with some errors###16 01 2018 new variable
+assessment#:#ects_grade_c_desc#:#generally sound work with a number of notable errors###16 01 2018 new variable
+assessment#:#ects_grade_d_desc#:#fair but with significant shortcomings###16 01 2018 new variable
+assessment#:#ects_grade_e_desc#:#performance meets the minimum criteria###16 01 2018 new variable
+assessment#:#ects_grade_fx_desc#:#some more work required before the credit can be awarded###16 01 2018 new variable
+assessment#:#ects_grade_f_desc#:#considerable further work is required###16 01 2018 new variable
+assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#At least one of the competences addressed by this test is not triggered by the minimal required amount of questions.<br />The required amount of questions: %s###16 01 2018 new variable
+cmps#:#cmps_install#:#Install###16 01 2018 new variable
+survey#:#please_enter_mail_url#:#Please enter the access url placeholder [url]###16 01 2018 new variable
+common#:#file_version_rollback#:#Rollback to version %s from %s###16 01 2018 new variable
+orgu#:#add_position#:#Add Position###16 01 2018 new variable
+orgu#:#msg_position_udpated#:#Position aktualisiert###16 01 2018 new variable
+orgu#:#remove_successful#:#User was removed successfully.###16 01 2018 new variable
+wfe#:#wfe_stopped_listening#:#Process disarmed###16 01 2018 new variable
+lti#:#lti_session#:#LTI Session###16 01 2018 new variable
+crs#:#crs_subscription_min_members_err#:#The minimum number is not allowed to be greater than the maximum number of participants.###16 01 2018 new variable

@@ -457,14 +457,6 @@ assessment#:#duplicate_matching_values_selected#:#Többszörösen illeszkedő é
 assessment#:#duplicate_order_values_entered#:#Többszörös sorrendi értékeket adott meg.
 assessment#:#duplicate#:#Másodpéldány létrehozása
 assessment#:#ects_allow_ects_grades#:#ETCS értékelések megjelenítése a kapott érdemjegyhez
-assessment#:#ects_grade_a_short#:#KITŰNŐ
-assessment#:#ects_grade_a#:#kiváló megoldás esetleges kisebb hibákkal
-assessment#:#ects_grade_b_short#:#NAGYON JÓ
-assessment#:#ects_grade_c_short#:#JÓ
-assessment#:#ects_grade_d_short#:#KIELÉGÍTŐ
-assessment#:#ects_grade_e_short#:#ELÉGSÉGES
-assessment#:#ects_grade_f#:#jelentős további munka javasolt
-assessment#:#ects_grade_fx#:#további tanulás szükséges még a kredit megszerzéséhez
 assessment#:#ects_grade#:#ETCS kategória
 assessment#:#ects_output_of_ects_grades#:#ECTS minősítés eredménye
 assessment#:#use_ects_fx#:#'FX' osztályzat használata
@@ -1418,8 +1410,6 @@ certificate#:#certificate_background_image#:#Háttérkép
 certificate#:#certificate_confirm_deletion_text#:#Valóban törli az igazolást és annak minden kapcsolódó adatát?
 certificate#:#certificate_custom#:#Egyéni...
 certificate#:#certificate_edit#:#Igazolássablon létrehozása/módosítása
-certificate#:#certificate_enabled_scorm_introduction#:#Ha bejelölt, az igazolás fel lesz ajánlva minden felhasználónak, aki befejezte a SCORM-tananyagot.
-certificate#:#certificate_enabled_scorm#:#Engedélyezve
 certificate#:#certificate_error_import#:#Hiba fordult elő egy igazolás importálásakor.
 certificate#:#certificate_error_upload_bgimage#:#Hiba fordult elő a háttérkép feltöltése közben.
 certificate#:#certificate_export#:#Exportálás
@@ -11044,7 +11034,6 @@ orgu#:#add_position#:#A pozíciót sikeresen hozzáadta
 orgu#:#orgu_enable_my_staff#:#'Munkatársak' nézete bekapcsolása
 orgu#:#orgu_enable_my_staff_info#:#'Munkatársak' nézet a saját beosztottak tanulási haladását jeleníti meg.
 orgu#:#org_op_manage_members#:#Tagok kezelése
-orgu#:#orgunit_position_permissions_not_active_for#:#Nem írhatja felül a típus pozíciófüggő jogosultságait:
 orgu#:#org_op_read_learning_progress#:#Más felhasználók tanulási haladásának megtekintése
 orgu#:#org_op_write_learning_progress#:#Más felhasználók tanulási haladásának módosítása
 rbac#:#org_op_write_learning_progress#:#Alárendelt felhasználók tanulási haladásának módosítása
@@ -14145,3 +14134,18 @@ common#:#usr_name_undisclosed#:#Nem publikus
 common#:#obj_exc_duplicate#:#Feladat másolása
 meta#:#adt_error_max_length#:#Kérem, rövidebb szöveget írjon.
 form#:#form_chars_remaining#:#Fennmaradó karakterszám:
+assessment#:#ects_grade_desc_prefix#:#Meaning of grade:###16 01 2018 new variable
+assessment#:#ects_grade_a_desc#:#outstanding performance with only minor errors###16 01 2018 new variable
+assessment#:#ects_grade_b_desc#:#above the average standard but with some errors###16 01 2018 new variable
+assessment#:#ects_grade_c_desc#:#generally sound work with a number of notable errors###16 01 2018 new variable
+assessment#:#ects_grade_d_desc#:#fair but with significant shortcomings###16 01 2018 new variable
+assessment#:#ects_grade_e_desc#:#performance meets the minimum criteria###16 01 2018 new variable
+assessment#:#ects_grade_fx_desc#:#some more work required before the credit can be awarded###16 01 2018 new variable
+assessment#:#ects_grade_f_desc#:#considerable further work is required###16 01 2018 new variable
+assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#At least one of the competences addressed by this test is not triggered by the minimal required amount of questions.<br />The required amount of questions: %s###16 01 2018 new variable
+cmps#:#cmps_install#:#Install###16 01 2018 new variable
+survey#:#please_enter_mail_url#:#Please enter the access url placeholder [url]###16 01 2018 new variable
+common#:#file_version_rollback#:#Rollback to version %s from %s###16 01 2018 new variable
+wfe#:#wfe_stopped_listening#:#Process disarmed###16 01 2018 new variable
+lti#:#lti_session#:#LTI Session###16 01 2018 new variable
+crs#:#crs_subscription_min_members_err#:#The minimum number is not allowed to be greater than the maximum number of participants.###16 01 2018 new variable

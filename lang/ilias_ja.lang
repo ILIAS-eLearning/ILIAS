@@ -506,14 +506,6 @@ assessment#:#ects_allow_ects_grades#:#ECTS成績に受領マークを追加し�
 assessment#:#ects_fx_threshold#:#しきい値
 assessment#:#ects_fx_threshold_info#:#FX’グレード評価用の百分位数要件を入力してください。
 assessment#:#ects_grade#:#ECTS成績
-assessment#:#ects_grade_a#:#優れた成績ながらわずかにミスがある
-assessment#:#ects_grade_a_short#:#優秀
-assessment#:#ects_grade_b_short#:#大変良い
-assessment#:#ects_grade_c_short#:#良
-assessment#:#ects_grade_d_short#:#可
-assessment#:#ects_grade_e_short#:#十分
-assessment#:#ects_grade_f#:#今後相当の努力を要する
-assessment#:#ects_grade_fx#:#合格するにはさらなる努力が必要
 assessment#:#ects_output_of_ects_grades#:#ECTS成績の出力
 assessment#:#edit_page#:#ページ編集
 assessment#:#edit_question#:#問題編集
@@ -1778,8 +1770,6 @@ certificate#:#certificate_background_image#:#バックグラウンドイメー�
 certificate#:#certificate_confirm_deletion_text#:#本当に証明書と関係するデータを削除しますか?
 certificate#:#certificate_custom#:#カスタム...
 certificate#:#certificate_edit#:#証明書テンプレートを作成/編集
-certificate#:#certificate_enabled_scorm#:#有効
-certificate#:#certificate_enabled_scorm_introduction#:#チェックすると証明書はSCORMラーニングモジュールを終了した全てのユーザに提供されます。
 certificate#:#certificate_error_import#:#証明書のインポート中にエラーが発生しました!
 certificate#:#certificate_error_upload_bgimage#:#バックグラウンドイメージをアップロード中にエラーが発生しました!
 certificate#:#certificate_export#:#証明書をエクスポート
@@ -14141,3 +14131,21 @@ common#:#usr_name_undisclosed#:#Undisclosed###20 12 2017 new variable
 common#:#obj_exc_duplicate#:#Copy Exercise###20 12 2017 new variable
 meta#:#adt_error_max_length#:#Please enter a shorter text.###20 12 2017 new variable
 form#:#form_chars_remaining#:#Characters remaining:###20 12 2017 new variable
+assessment#:#ects_grade_desc_prefix#:#Meaning of grade:###16 01 2018 new variable
+assessment#:#ects_grade_a_desc#:#outstanding performance with only minor errors###16 01 2018 new variable
+assessment#:#ects_grade_b_desc#:#above the average standard but with some errors###16 01 2018 new variable
+assessment#:#ects_grade_c_desc#:#generally sound work with a number of notable errors###16 01 2018 new variable
+assessment#:#ects_grade_d_desc#:#fair but with significant shortcomings###16 01 2018 new variable
+assessment#:#ects_grade_e_desc#:#performance meets the minimum criteria###16 01 2018 new variable
+assessment#:#ects_grade_fx_desc#:#some more work required before the credit can be awarded###16 01 2018 new variable
+assessment#:#ects_grade_f_desc#:#considerable further work is required###16 01 2018 new variable
+assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#At least one of the competences addressed by this test is not triggered by the minimal required amount of questions.<br />The required amount of questions: %s###16 01 2018 new variable
+cmps#:#cmps_install#:#Install###16 01 2018 new variable
+survey#:#please_enter_mail_url#:#Please enter the access url placeholder [url]###16 01 2018 new variable
+common#:#file_version_rollback#:#Rollback to version %s from %s###16 01 2018 new variable
+orgu#:#add_position#:#Add Position###16 01 2018 new variable
+orgu#:#msg_position_udpated#:#Position aktualisiert###16 01 2018 new variable
+orgu#:#remove_successful#:#User was removed successfully.###16 01 2018 new variable
+wfe#:#wfe_stopped_listening#:#Process disarmed###16 01 2018 new variable
+lti#:#lti_session#:#LTI Session###16 01 2018 new variable
+crs#:#crs_subscription_min_members_err#:#The minimum number is not allowed to be greater than the maximum number of participants.###16 01 2018 new variable

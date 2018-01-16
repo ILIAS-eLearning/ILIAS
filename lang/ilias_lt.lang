@@ -146,14 +146,6 @@ assessment#:#duplicate_matching_values_selected#:#Jūs pasirinkote besidubliuoja
 assessment#:#duplicate_order_values_entered#:#Jūs įrašėte dubliuotas rūšiavimo reikšmes!
 assessment#:#ects_allow_ects_grades#:#Rodyti ECTS įvertinimą kartu su gautu pažymiu
 assessment#:#ects_grade#:#ECTS įvertinimas
-assessment#:#ects_grade_a#:#išskirtinis pasirodymas su nedidelėmis klaidomis
-assessment#:#ects_grade_a_short#:#PUIKIAI
-assessment#:#ects_grade_b_short#:#LABAI GERAI
-assessment#:#ects_grade_c_short#:#GERAI
-assessment#:#ects_grade_d_short#:#PATENKINAMAI
-assessment#:#ects_grade_e_short#:#PAKANKAMAI
-assessment#:#ects_grade_f#:#reikia papildomo darbo
-assessment#:#ects_grade_fx#:#reikia žymiai daugiau darbo prieš gaunant kreditą
 assessment#:#ects_output_of_ects_grades#:#ECTS įvertinimų išvestis
 assessment#:#end_tag#:#Pabaigos žymė
 assessment#:#enlarge#:#padidinti
@@ -5582,8 +5574,6 @@ certificate#:#certificate_var_user_street#:#100 Main Street###24 02 2009 new var
 certificate#:#certificate_var_user_city#:#Anytown, NY###24 02 2009 new variable
 certificate#:#certificate_var_user_zipcode#:#12345###24 02 2009 new variable
 certificate#:#certificate_var_user_country#:#USA###24 02 2009 new variable
-certificate#:#certificate_enabled_scorm#:#Enabled###24 02 2009 new variable
-certificate#:#certificate_enabled_scorm_introduction#:#If checked, the certificate will be offered for all users who finished the SCORM learning module.###24 02 2009 new variable
 certificate#:#certificate_ph_lastaccess#:#Last access date and time of the user###24 02 2009 new variable
 certificate#:#certificate_ph_scormtitle#:#Title of the SCORM learning module###24 02 2009 new variable
 certificate#:#certificate_ph_title#:#Title of the user###24 02 2009 new variable
@@ -14141,3 +14131,21 @@ common#:#usr_name_undisclosed#:#Undisclosed###20 12 2017 new variable
 common#:#obj_exc_duplicate#:#Copy Exercise###20 12 2017 new variable
 meta#:#adt_error_max_length#:#Please enter a shorter text.###20 12 2017 new variable
 form#:#form_chars_remaining#:#Characters remaining:###20 12 2017 new variable
+assessment#:#ects_grade_desc_prefix#:#Meaning of grade:###16 01 2018 new variable
+assessment#:#ects_grade_a_desc#:#outstanding performance with only minor errors###16 01 2018 new variable
+assessment#:#ects_grade_b_desc#:#above the average standard but with some errors###16 01 2018 new variable
+assessment#:#ects_grade_c_desc#:#generally sound work with a number of notable errors###16 01 2018 new variable
+assessment#:#ects_grade_d_desc#:#fair but with significant shortcomings###16 01 2018 new variable
+assessment#:#ects_grade_e_desc#:#performance meets the minimum criteria###16 01 2018 new variable
+assessment#:#ects_grade_fx_desc#:#some more work required before the credit can be awarded###16 01 2018 new variable
+assessment#:#ects_grade_f_desc#:#considerable further work is required###16 01 2018 new variable
+assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#At least one of the competences addressed by this test is not triggered by the minimal required amount of questions.<br />The required amount of questions: %s###16 01 2018 new variable
+cmps#:#cmps_install#:#Install###16 01 2018 new variable
+survey#:#please_enter_mail_url#:#Please enter the access url placeholder [url]###16 01 2018 new variable
+common#:#file_version_rollback#:#Rollback to version %s from %s###16 01 2018 new variable
+orgu#:#add_position#:#Add Position###16 01 2018 new variable
+orgu#:#msg_position_udpated#:#Position aktualisiert###16 01 2018 new variable
+orgu#:#remove_successful#:#User was removed successfully.###16 01 2018 new variable
+wfe#:#wfe_stopped_listening#:#Process disarmed###16 01 2018 new variable
+lti#:#lti_session#:#LTI Session###16 01 2018 new variable
+crs#:#crs_subscription_min_members_err#:#The minimum number is not allowed to be greater than the maximum number of participants.###16 01 2018 new variable

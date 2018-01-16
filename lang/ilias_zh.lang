@@ -258,14 +258,6 @@ assessment#:#duplicate_matching_values_selected#:#You have selected duplicate ma
 assessment#:#duplicate_order_values_entered#:#You have entered duplicate order values!
 assessment#:#ects_allow_ects_grades#:#Show ECTS grade additional to received mark
 assessment#:#ects_grade#:#ECTS grade
-assessment#:#ects_grade_a#:#outstanding performance with only minor errors
-assessment#:#ects_grade_a_short#:#EXCELLENT
-assessment#:#ects_grade_b_short#:#非常好
-assessment#:#ects_grade_c_short#:#好
-assessment#:#ects_grade_d_short#:#满意度
-assessment#:#ects_grade_e_short#:#SUFFICIENT
-assessment#:#ects_grade_f#:#需要进一步努力
-assessment#:#ects_grade_fx#:#需要更多的努力才能被认可
 assessment#:#ects_output_of_ects_grades#:#ECTS等级输出
 assessment#:#edit_test_questions#:#编辑试题
 assessment#:#element_height#:#最小高度
@@ -743,8 +735,6 @@ certificate#:#certificate_background_image#:#背景图片
 certificate#:#certificate_confirm_deletion_text#:#您真的要删除证书及其所有相关数据吗？
 certificate#:#certificate_custom#:#客户...
 certificate#:#certificate_edit#:#创建/编辑一个证书模板
-certificate#:#certificate_enabled_scorm#:#启用
-certificate#:#certificate_enabled_scorm_introduction#:#如果勾选，证书将为所有已完成SCORM学习模块的用户提供证书。
 certificate#:#certificate_error_import#:#在导入证书时发生了一个错误！
 certificate#:#certificate_error_upload_bgimage#:#在背景图片上传的过程中发生了一个错误！
 certificate#:#certificate_export#:#导出证书
@@ -14140,3 +14130,21 @@ common#:#usr_name_undisclosed#:#Undisclosed###20 12 2017 new variable
 common#:#obj_exc_duplicate#:#Copy Exercise###20 12 2017 new variable
 meta#:#adt_error_max_length#:#Please enter a shorter text.###20 12 2017 new variable
 form#:#form_chars_remaining#:#Characters remaining:###20 12 2017 new variable
+assessment#:#ects_grade_desc_prefix#:#Meaning of grade:###16 01 2018 new variable
+assessment#:#ects_grade_a_desc#:#outstanding performance with only minor errors###16 01 2018 new variable
+assessment#:#ects_grade_b_desc#:#above the average standard but with some errors###16 01 2018 new variable
+assessment#:#ects_grade_c_desc#:#generally sound work with a number of notable errors###16 01 2018 new variable
+assessment#:#ects_grade_d_desc#:#fair but with significant shortcomings###16 01 2018 new variable
+assessment#:#ects_grade_e_desc#:#performance meets the minimum criteria###16 01 2018 new variable
+assessment#:#ects_grade_fx_desc#:#some more work required before the credit can be awarded###16 01 2018 new variable
+assessment#:#ects_grade_f_desc#:#considerable further work is required###16 01 2018 new variable
+assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#At least one of the competences addressed by this test is not triggered by the minimal required amount of questions.<br />The required amount of questions: %s###16 01 2018 new variable
+cmps#:#cmps_install#:#Install###16 01 2018 new variable
+survey#:#please_enter_mail_url#:#Please enter the access url placeholder [url]###16 01 2018 new variable
+common#:#file_version_rollback#:#Rollback to version %s from %s###16 01 2018 new variable
+orgu#:#add_position#:#Add Position###16 01 2018 new variable
+orgu#:#msg_position_udpated#:#Position aktualisiert###16 01 2018 new variable
+orgu#:#remove_successful#:#User was removed successfully.###16 01 2018 new variable
+wfe#:#wfe_stopped_listening#:#Process disarmed###16 01 2018 new variable
+lti#:#lti_session#:#LTI Session###16 01 2018 new variable
+crs#:#crs_subscription_min_members_err#:#The minimum number is not allowed to be greater than the maximum number of participants.###16 01 2018 new variable

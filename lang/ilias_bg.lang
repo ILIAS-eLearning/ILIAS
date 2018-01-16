@@ -126,14 +126,6 @@ assessment#:#duplicate_matching_values_selected#:#Избрали сте дубл
 assessment#:#duplicate_order_values_entered#:#Въвели сте дублирани поредни номера!
 assessment#:#ects_allow_ects_grades#:#Показване на оценката от ECTS в допълнение към получената оценка
 assessment#:#ects_grade#:#Оценка от ECTS
-assessment#:#ects_grade_a#:#забележително представяне с минимални грешки
-assessment#:#ects_grade_a_short#:#ОТЛИЧНО
-assessment#:#ects_grade_b_short#:#МНОГО ДОБРЕ
-assessment#:#ects_grade_c_short#:#ДОБРЕ
-assessment#:#ects_grade_d_short#:#ЗАДОВОЛИТЕЛНО
-assessment#:#ects_grade_e_short#:#ЗАЧИТА СЕ
-assessment#:#ects_grade_f#:#необходима е значителна допълнителна работа
-assessment#:#ects_grade_fx#:#необходима повече допълнителна работа, преди да бъде зачетен резултатът
 assessment#:#ects_output_of_ects_grades#:#Представяне на оценките от ECTS
 assessment#:#end_tag#:#Прозорец за край
 assessment#:#error_importing_question#:#Възникнала е грешка при импортиране на въпрос(и) от избрания от вас файл!
@@ -5563,8 +5555,6 @@ certificate#:#certificate_failed#:#failed###24 02 2009 new variable
 certificate#:#certificate_pageheight#:#Page Height###24 02 2009 new variable
 certificate#:#certificate_pagewidth#:#Page Width###24 02 2009 new variable
 certificate#:#certificate_confirm_deletion_text#:#Do you really want to delete the certificate and all its related data?###24 02 2009 new variable
-certificate#:#certificate_enabled_scorm#:#Enabled###24 02 2009 new variable
-certificate#:#certificate_enabled_scorm_introduction#:#If checked, the certificate will be offered for all users who finished the SCORM learning module.###24 02 2009 new variable
 certificate#:#certificate_ph_lastaccess#:#Last access date and time of the user###24 02 2009 new variable
 certificate#:#certificate_ph_scormtitle#:#Title of the SCORM learning module###24 02 2009 new variable
 certificate#:#certificate_ph_introduction#:#The following placeholders may be used###24 02 2009 new variable
@@ -14141,3 +14131,21 @@ common#:#usr_name_undisclosed#:#Undisclosed###20 12 2017 new variable
 common#:#obj_exc_duplicate#:#Copy Exercise###20 12 2017 new variable
 meta#:#adt_error_max_length#:#Please enter a shorter text.###20 12 2017 new variable
 form#:#form_chars_remaining#:#Characters remaining:###20 12 2017 new variable
+assessment#:#ects_grade_desc_prefix#:#Meaning of grade:###16 01 2018 new variable
+assessment#:#ects_grade_a_desc#:#outstanding performance with only minor errors###16 01 2018 new variable
+assessment#:#ects_grade_b_desc#:#above the average standard but with some errors###16 01 2018 new variable
+assessment#:#ects_grade_c_desc#:#generally sound work with a number of notable errors###16 01 2018 new variable
+assessment#:#ects_grade_d_desc#:#fair but with significant shortcomings###16 01 2018 new variable
+assessment#:#ects_grade_e_desc#:#performance meets the minimum criteria###16 01 2018 new variable
+assessment#:#ects_grade_fx_desc#:#some more work required before the credit can be awarded###16 01 2018 new variable
+assessment#:#ects_grade_f_desc#:#considerable further work is required###16 01 2018 new variable
+assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#At least one of the competences addressed by this test is not triggered by the minimal required amount of questions.<br />The required amount of questions: %s###16 01 2018 new variable
+cmps#:#cmps_install#:#Install###16 01 2018 new variable
+survey#:#please_enter_mail_url#:#Please enter the access url placeholder [url]###16 01 2018 new variable
+common#:#file_version_rollback#:#Rollback to version %s from %s###16 01 2018 new variable
+orgu#:#add_position#:#Add Position###16 01 2018 new variable
+orgu#:#msg_position_udpated#:#Position aktualisiert###16 01 2018 new variable
+orgu#:#remove_successful#:#User was removed successfully.###16 01 2018 new variable
+wfe#:#wfe_stopped_listening#:#Process disarmed###16 01 2018 new variable
+lti#:#lti_session#:#LTI Session###16 01 2018 new variable
+crs#:#crs_subscription_min_members_err#:#The minimum number is not allowed to be greater than the maximum number of participants.###16 01 2018 new variable

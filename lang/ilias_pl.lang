@@ -387,14 +387,6 @@ assessment#:#duplicate_matching_values_selected#:#Wybrałeś identyczne wartośc
 assessment#:#duplicate_order_values_entered#:#Wprowadziłeś identyczne wartości porządkowe!
 assessment#:#ects_allow_ects_grades#:#Pokaż dodatkowo  ocenę ECTS do uzyskanego wyniku
 assessment#:#ects_grade#:#Ocena ECTS
-assessment#:#ects_grade_a#:#świetny wynik tylko z drobnymi błędami
-assessment#:#ects_grade_a_short#:#WSPANIALE
-assessment#:#ects_grade_b_short#:#BARDZO DOBRZE
-assessment#:#ects_grade_c_short#:#DOBRZE
-assessment#:#ects_grade_d_short#:#DOŚĆ DOBRZE
-assessment#:#ects_grade_e_short#:#DOSTATECZNIE
-assessment#:#ects_grade_f#:#przydało by się więcej pracy nad tym materiałem
-assessment#:#ects_grade_fx#:#wymagana jest dodatkowa praca aby zaliczyć
 assessment#:#ects_output_of_ects_grades#:#Wyniki ocen ECTS
 assessment#:#edit_page#:#Edit Page
 assessment#:#edit_question#:#Edit Question
@@ -1173,8 +1165,6 @@ certificate#:#certificate_background_image#:#Obraz tła
 certificate#:#certificate_confirm_deletion_text#:#Czy chcesz usunąć certyfikat i wszystkie jego dane?
 certificate#:#certificate_custom#:#Użytkownika...
 certificate#:#certificate_edit#:#Twórz/edytuj szablon certyfikatu
-certificate#:#certificate_enabled_scorm#:#Włączone
-certificate#:#certificate_enabled_scorm_introduction#:#Jeśli włączone, certyfikat będzie dostępny dla wszystkich użytkowników, którzy ukończyli moduł nauczania SCORM.
 certificate#:#certificate_error_import#:#Wystąpił błąd podczas importu certyfikatu!
 certificate#:#certificate_error_upload_bgimage#:#Wystąpił błąd podczas ładowania obrazka tła!
 certificate#:#certificate_export#:#Eksport certyfikatu
@@ -14141,3 +14131,21 @@ common#:#usr_name_undisclosed#:#Undisclosed###20 12 2017 new variable
 common#:#obj_exc_duplicate#:#Copy Exercise###20 12 2017 new variable
 meta#:#adt_error_max_length#:#Please enter a shorter text.###20 12 2017 new variable
 form#:#form_chars_remaining#:#Characters remaining:###20 12 2017 new variable
+assessment#:#ects_grade_desc_prefix#:#Meaning of grade:###16 01 2018 new variable
+assessment#:#ects_grade_a_desc#:#outstanding performance with only minor errors###16 01 2018 new variable
+assessment#:#ects_grade_b_desc#:#above the average standard but with some errors###16 01 2018 new variable
+assessment#:#ects_grade_c_desc#:#generally sound work with a number of notable errors###16 01 2018 new variable
+assessment#:#ects_grade_d_desc#:#fair but with significant shortcomings###16 01 2018 new variable
+assessment#:#ects_grade_e_desc#:#performance meets the minimum criteria###16 01 2018 new variable
+assessment#:#ects_grade_fx_desc#:#some more work required before the credit can be awarded###16 01 2018 new variable
+assessment#:#ects_grade_f_desc#:#considerable further work is required###16 01 2018 new variable
+assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#At least one of the competences addressed by this test is not triggered by the minimal required amount of questions.<br />The required amount of questions: %s###16 01 2018 new variable
+cmps#:#cmps_install#:#Install###16 01 2018 new variable
+survey#:#please_enter_mail_url#:#Please enter the access url placeholder [url]###16 01 2018 new variable
+common#:#file_version_rollback#:#Rollback to version %s from %s###16 01 2018 new variable
+orgu#:#add_position#:#Add Position###16 01 2018 new variable
+orgu#:#msg_position_udpated#:#Position aktualisiert###16 01 2018 new variable
+orgu#:#remove_successful#:#User was removed successfully.###16 01 2018 new variable
+wfe#:#wfe_stopped_listening#:#Process disarmed###16 01 2018 new variable
+lti#:#lti_session#:#LTI Session###16 01 2018 new variable
+crs#:#crs_subscription_min_members_err#:#The minimum number is not allowed to be greater than the maximum number of participants.###16 01 2018 new variable
