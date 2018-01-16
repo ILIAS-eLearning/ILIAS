@@ -185,7 +185,7 @@ class ilSoapUtils extends ilSoapAdministration
 				implode(',',(array) $mail['cc']),
 				implode(',',(array) $mail['bcc']),
 				$mail['subject'],
-				implode("\n",$mail['body']),
+				implode("\n", (array)$mail['body']),
 				(array) $attachments,
 				array($mail['type']),
 				(bool) $mail['usePlaceholders']
