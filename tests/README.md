@@ -950,10 +950,12 @@ class ButtonFactoryTest extends AbstractFactoryTest {
 	 * @small
 	 */
 	public function test_creation_of_standard_button() {
-		$this->assertInstanceOf
-				( Standard::class
-				, $this->subject->standard("label", "http://www.ilias.de")
-				);
+		$label = "standard";
+		$url = "http://www.ilias.de";
+		
+		$result = $this->subject->standard($label, $url);
+		
+		$this->assertInstanceOf(Standard::class, $result);
 	}
 
 	/**
@@ -961,10 +963,12 @@ class ButtonFactoryTest extends AbstractFactoryTest {
 	 * @small
 	 */
 	public function test_creation_of_primary_button() {
-		$this->assertInstanceOf
-					( Primary::class
-					, $this->subject->primary("label", "http://www.ilias.de")
-					);
+		$label = "primary";
+		$url = "http://www.ilias.de";
+		
+		$result = $this->subject->primary($label, $url);
+		
+		$this->assertInstanceOf(Primary::class, $result);
 	}
 
 	/**
@@ -972,10 +976,12 @@ class ButtonFactoryTest extends AbstractFactoryTest {
 	 * @small
 	 */
 	public function test_creation_of_Shy_button() {
-		$this->assertInstanceOf
-					( Shy::class
-					, $this->subject->shy("label", "http://www.ilias.de")
-					);
+		$label = "shy";
+		$url = "http://www.ilias.de";
+		
+		$result = $this->subject->shy($label, $url);
+		
+		$this->assertInstanceOf(Shy::class, $result);
 	}
 
 	/**
@@ -983,10 +989,12 @@ class ButtonFactoryTest extends AbstractFactoryTest {
 	 * @small
 	 */
 	public function test_creation_of_close_button() {
-		$this->assertInstanceOf
-					( Close::class
-					, $this->subject->close("label", "http://www.ilias.de")
-					);
+		$label = "close";
+		$url = "http://www.ilias.de";
+		
+		$result = $this->subject->close($label, $url);
+		
+		$this->assertInstanceOf(Close::class, $result);
 	}
 }
 ```
