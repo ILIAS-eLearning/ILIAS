@@ -103,3 +103,7 @@ $ilDB->manipulate("UPDATE il_orgu_permissions SET protected = 1 WHERE parent_id 
 <?php
 $ilDB->dropIndexByFields('cmi_objective',array('id'));
 ?>
+<#7>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
