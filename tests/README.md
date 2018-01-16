@@ -330,6 +330,12 @@ this book seemed like a good starting point to create the unit test investigatio
 This means to treat the tests as a specification which tells everything
 about the behaviours of the unit under test.
 
+#### Namespace
+The test class should always life in the same namespace as the test subject.
+For example the `ILIAS\HTTP\Cookies\CookieJarWrapperTest` 
+and the implementation `ILIAS\HTTP\Cookies\CookieJarWrapper` are in the same 
+namespace.
+
 <a name="class"></a>
 #### Class
 The filename of the test class should always be named like 
