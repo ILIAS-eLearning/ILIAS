@@ -971,31 +971,7 @@ class ButtonFactoryTest extends AbstractFactoryTest {
 		$this->assertInstanceOf(Primary::class, $result);
 	}
 
-	/**
-	 * @test
-	 * @small
-	 */
-	public function test_creation_of_Shy_button() {
-		$label = "shy";
-		$url = "http://www.ilias.de";
-		
-		$result = $this->subject->shy($label, $url);
-		
-		$this->assertInstanceOf(Shy::class, $result);
-	}
-
-	/**
-	 * @test
-	 * @small
-	 */
-	public function test_creation_of_close_button() {
-		$label = "close";
-		$url = "http://www.ilias.de";
-		
-		$result = $this->subject->close($label, $url);
-		
-		$this->assertInstanceOf(Close::class, $result);
-	}
+	// ... other button type tests ...
 }
 ```
 
