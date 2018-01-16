@@ -237,7 +237,7 @@ Select the test in the top right corner and press the play button to let the
 global suite run.
 
 <a name="configure-ilias-bound-tests"></a>
-#### Configure ILIAS bound tests
+#### Configure ILIAS installation bound tests
 The ILIAS bound test uses a configuration located in 
 {ILIAS root}/Services/PHPUnit/config/cfg.phpunit.php. If the file doesn't exist 
 the template file must be copied and configured as shown bellow. 
@@ -255,14 +255,14 @@ $_GET["client_id"] = 'default';
 The values should be set accordingly to the ILIAS setup.
 
 <a name="exclude-ilias-bound-tests"></a>
-#### Exclude ILIAS bound tests
+#### Exclude ILIAS installation bound tests
 - Navigate to "Run -> Edit Configurations..."
 - Select your PHPUnit run configuration
 - Add "--exclude-group needInstalledILIAS" to the Test runner options.
 - Hit OK to save the changes
 
 <a name="run-only-ilias-bound-tests"></a>
-#### Run only ILIAS bound tests
+#### Run only ILIAS installation bound tests
 - Navigate to "Run -> Edit Configurations..."
 - Select your PHPUnit run configuration
 - Add "--group needsInstalledILIAS" to the Test runner options.
