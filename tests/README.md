@@ -236,6 +236,15 @@ autoload.php -> {ILIAS root}/libs/composer/vendor/autoload.php
 Select the test in the top right corner and press the play button to let the 
 global suite run.
 
+#### Explanation ILIAS installation bound tests
+ILIAS with the version 5.3 contains installation bound tests which require 
+a fully installed ILIAS. All tests which are bound belong to a special test group
+called *needInstalledILIAS* which can be excluded to run the remaining test 
+for example on a continuous integration server.
+
+The tests in the *needInstalledILIAS* group also need an additional configuration
+which is shown bellow. 
+
 <a name="configure-ilias-bound-tests"></a>
 #### Configure ILIAS installation bound tests
 The ILIAS bound test uses a configuration located in 
