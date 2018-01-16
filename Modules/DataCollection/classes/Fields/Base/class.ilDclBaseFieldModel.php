@@ -117,9 +117,9 @@ class ilDclBaseFieldModel {
 	 */
 	public static function _getTitleInvalidChars($a_as_regex = true) {
 		if ($a_as_regex) {
-			return '/^[^<>\\\\"]*$/i';
+			return '/^[^<>\\\\":]*$/i';
 		} else {
-			return '\ < > "';
+			return '\ < > " :';
 		}
 	}
 
