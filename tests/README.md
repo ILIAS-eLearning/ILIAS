@@ -257,11 +257,21 @@ Rename the template *cfg.phpunit.template.php* to *cfg.phpunit.php*.
 
 ```
 $_SESSION["AccountId"] = '6';
-$_POST["username"] = 'admin';
+$_POST["username"] = 'root';
 $_GET["client_id"] = 'default';
 ```
 
-The values should be set accordingly to the ILIAS setup.
+The values above shows an example configuration which loads the root user which 
+has the id 6 and the ILIAS client with the id "default".
+
+##### Find installation specific values
+* The account id is equal to the user id which can be found
+at *Administration -> User Management -> Username*.
+* The value for the username is equal to the field called "Login"
+right after the user id. 
+* A full list of installed clients is provided in the setup screen which is located
+at {ILIAS URL}/setup/setup.php. In order to see all clients a master password
+login is required.
 
 <a name="exclude-ilias-bound-tests"></a>
 #### Exclude ILIAS installation bound tests
