@@ -3,6 +3,8 @@
 use CaT\Ente\ILIAS\ilHandlerObjectHelper;
 use ILIAS\TMS\CourseInfo;
 use ILIAS\TMS\CourseInfoHelper;
+use ILIAS\TMS\CourseAction;
+use ILIAS\TMS\CourseActionHelper;
 
 /**
  * cat-tms-patch start
@@ -163,6 +165,7 @@ class BookableCourse {
 
 	use ilHandlerObjectHelper;
 	use CourseInfoHelper;
+	use CourseActionHelper;
 	use \ILIAS\TMS\MyUsersHelper;
 
 	/**
@@ -204,18 +207,18 @@ class BookableCourse {
 		return $this->small_detail_info;
 	}
 
-	protected function getShowBookButton() {
-		if ($this->show_book_button === null) {
-			$this->show_book_button = $this->getCourseInfo(CourseInfo::CONTEXT_USER_CAN_BOOK);
+	protected function getSearchActions() {
+		if ($this->search_actions === null) {
+			$this->search_actions = $this->getCourseAction(CourseAction::CONTEXT_SEARCH);
 		}
-		return $this->show_book_button;
+		return $this->search_actions;
 	}
 
-	protected function getShowRequestButton() {
-		if ($this->show_request_button === null) {
-			$this->show_request_button = $this->getCourseInfo(CourseInfo::CONTEXT_USER_CAN_ASK_FOR_BOOKING);
+	protected function getSuperiorSearchActions() {
+		if ($this->superior_search_actions === null) {
+			$this->superior_search_actions = $this->getCourseAction(CourseAction::CONTEXT_SUPERIOR_SEARCH);
 		}
-		return $this->show_request_button;
+		return $this->superior_search_actions;
 	}
 
 	public function getTitleValue() {
@@ -256,50 +259,21 @@ class BookableCourse {
 		return ["" => $this->getNoDetailInfoMessage()];
 	}
 
-	public function getBookButton($label, $link, $usr_id) {
-		$book_info = $this->getShowBookButton();
-		if(count($book_info) > 0) {
-			foreach($book_info as $book) {
-				if($this->isAllowedToBook($book->getValue(), $usr_id)) {
-					return [$this->getUIFactory()
-							->button()->primary
-								( $label,
-									$link
-								)
-							];
-				}
+	public function getSearchActionLinks(\ilCtrl $ctrl, $usr_id, $superior) {
+		if($superior) {
+			$search_actions = $this->getSuperiorSearchActions();
+		} else {
+			$search_actions = $this->getSearchActions();
+		}
+
+		$ret = array();
+		foreach($search_actions as $search_action) {
+			if($search_action->isAllowedFor($usr_id)) {
+				$ret[$search_action->getLabel()] = $search_action->getLink($ctrl, $usr_id);
 			}
 		}
 
-		return null;
-	}
-
-	public function getRequestButton($label) {
-		$book_info = $this->getShowRequestButton();
-		if(count($book_info) >= 2) {
-			$mails = null;
-			$button = null;
-			foreach($book_info as $book) {
-				if(is_array($book->getValue())) {
-					$mails = $book->getValue();
-				}
-
-				if((int)$book->getValue() === 1) {
-					$button = true;
-				}
-			}
-
-			if($button && !is_null($mails)) {
-				return [$this->getUIFactory()
-						->button()->primary
-							( $label,
-								"mailto:".join(";", $mails)
-							)
-						];
-			}
-		}
-
-		return null;
+		return $ret;
 	}
 
 	/**

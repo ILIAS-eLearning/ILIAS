@@ -4,13 +4,14 @@ use \CaT\Ente\ILIAS\SeparatedUnboundProvider;
 use \CaT\Ente\ILIAS\Entity;
 use \ILIAS\TMS\CourseInfo;
 use \ILIAS\TMS\CourseInfoImpl;
+use \ILIAS\TMS\CourseAction;
 
 class UnboundCourseProvider extends SeparatedUnboundProvider {
 	/**
 	 * @inheritdocs
 	 */
 	public function componentTypes() {
-		return [CourseInfo::class];
+		return [CourseInfo::class, CourseAction::class];
 	}
 
 	/**
@@ -29,6 +30,10 @@ class UnboundCourseProvider extends SeparatedUnboundProvider {
 		$this->user = $DIC->user();
 		$object = $entity->object();
 
+		if ($component_type === CourseAction::class) {
+			return $this->getCourseActions($entity, $this->owner());
+		}
+
 		if ($component_type === CourseInfo::class) {
 			$ret = array();
 
@@ -41,14 +46,57 @@ class UnboundCourseProvider extends SeparatedUnboundProvider {
 			$ret = $this->getCourseInfoForTrainingProvider($ret, $entity, (int)$object->getId());
 			$ret = $this->getCourseInfoForImportantInformation($ret, $entity, $object);
 			$ret = $this->getCourseInfoForTutors($ret, $entity, $object);
-			$ret = $this->getCourseInfoForToCourseButton($ret, $entity, $object);
-			$ret = $this->getCourseInfoForCourseMemberButton($ret, $entity, $object);
 			$ret = $this->getCourseInfoForCourseMemberCountings($ret, $entity, $object);
-			$ret = $this->getCourseInfoForCourseAdminMails($ret, $entity, $object);
 
 			return $ret;
 		}
 		throw new \InvalidArgumentException("Unexpected component type '$component_type'");
+	}
+
+	/**
+	 * Get all possible actions depentent on Booking modalities
+	 *
+	 * @return CourseAction[]
+	 */
+	protected function getCourseActions(Entity $entity, $owner)
+	{
+		require_once("Services/TMS/CourseActions/ToCourse.php");
+		require_once("Services/TMS/CourseActions/ToCourseMemberTab.php");
+		require_once("Services/TMS/CourseActions/CancelCourse.php");
+		return [
+			new ToCourse(
+				$entity,
+				$owner,
+				$this->user,
+				10,
+				[
+					CourseAction::CONTEXT_USER_BOOKING,
+					CourseAction::CONTEXT_EMPLOYEE_BOOKING,
+					CourseAction::CONTEXT_MY_ADMIN_TRAININGS,
+					CourseAction::CONTEXT_MY_TRAININGS
+				]
+			),
+			new ToCourseMemberTab(
+				$entity,
+				$owner,
+				$this->user,
+				70,
+				[
+					CourseAction::CONTEXT_MY_ADMIN_TRAININGS,
+					CourseAction::CONTEXT_MY_TRAININGS
+				]
+			),
+			new CancelCourse(
+				$entity,
+				$owner,
+				$this->user,
+				80,
+				[
+					CourseAction::CONTEXT_MY_ADMIN_TRAININGS,
+					CourseAction::CONTEXT_MY_TRAININGS
+				]
+			)
+		];
 	}
 
 	/**
@@ -317,37 +365,6 @@ class UnboundCourseProvider extends SeparatedUnboundProvider {
 	}
 
 	/**
-	 * Get a course info with mail addresses of course admins
-	 *
-	 * @param CourseInfo[]
-	 * @param Entity $entity
-	 * @param Object 	$object
-	 *
-	 * @return CourseInfo[]
-	 */
-	protected function getCourseInfoForCourseAdminMails(array $ret, Entity $entity, $object) {
-		$admin_ids = $object->getMembersObject()->getAdmins();
-
-		if(count($admin_ids) > 0) {
-			foreach ($admin_ids as $admin_id) {
-				$admin = new \ilObjUser($admin_id);
-				$admin_mails[] = $admin->getEmail();
-			}
-
-			$ret[] = $this->createCourseInfoObject($entity
-					, ""
-					, $admin_mails
-					, 200
-					, [
-						CourseInfo::CONTEXT_USER_CAN_ASK_FOR_BOOKING
-					  ]
-				);
-		}
-
-		return $ret;
-	}
-
-	/**
 	 * Get a course info with session appointments
 	 *
 	 * @param Entity $entity
@@ -547,64 +564,6 @@ class UnboundCourseProvider extends SeparatedUnboundProvider {
 					);
 			}
 		}
-		return $ret;
-	}
-
-	/**
-	 * Get a course infomation object to decide showing a to course button or not
-	 *
-	 * @param CourseInfo[]
-	 * @param Entity $entity
-	 * @param Object 	$object
-	 *
-	 * @return CourseInfo[]
-	 */
-	protected function getCourseInfoForToCourseButton(array $ret, Entity $entity, $object) {
-		$show_button = 0;
-		if($this->g_access->checkAccess("read", "", $object->getRefId())) {
-			$show_button = 1;
-		}
-
-		$ret[] = $this->createCourseInfoObject($entity
-			, ""
-			, $show_button
-			,1
-			, [CourseInfo::CONTEXT_TO_COURSE_BUTTON]
-		);
-
-		return $ret;
-	}
-
-	/**
-	 * Get a course infomation object to decide showing a course member button or not
-	 *
-	 * @param CourseInfo[]
-	 * @param Entity $entity
-	 * @param Object 	$object
-	 *
-	 * @return CourseInfo[]
-	 */
-	protected function getCourseInfoForCourseMemberButton(array $ret, Entity $entity, $object) {
-		$course_member_objects = $this->getAllChildrenOfByType($object->getRefId(), "xcmb");
-		if(count($course_member_objects) === 0) {
-			return $ret;
-		}
-
-		$course_member_object = array_shift($course_member_objects);
-
-		if($course_member_object !== null) {
-			$link = $course_member_object->getLinkToMemberView();
-
-			if($link !== null) {
-				$ret[] = $this->createCourseInfoObject($entity
-					, ""
-					, $link
-					,1
-					, [CourseInfo::CONTEXT_COURSE_MEMBER_BUTTON]
-				);
-			}
-		}
-
 		return $ret;
 	}
 

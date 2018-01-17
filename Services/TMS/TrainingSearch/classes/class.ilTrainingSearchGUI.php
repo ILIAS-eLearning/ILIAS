@@ -330,28 +330,6 @@ class ilTrainingSearchGUI {
 	}
 
 	/**
-	 * Get a link to book the given training.
-	 *
-	 * @param	BookableCourse	$course
-	 * @return	string
-	 */
-	public function getBookingLink(BookableCourse $course) {
-		if($this->search_user_id == $this->g_user->getId()) {
-			$class = "ilTMSSelfBookingGUI";
-		} else {
-			$class = "ilTMSSuperiorBookingGUI";
-		}
-
-		$this->g_ctrl->setParameterByClass($class, "crs_ref_id", $course->getRefId());
-		$this->g_ctrl->setParameterByClass($class, "usr_id", $this->search_user_id);
-		$link = $this->g_ctrl->getLinkTargetByClass($class, "start");
-		$this->g_ctrl->setParameterByClass($class, "crs_ref_id", null);
-		$this->g_ctrl->setParameterByClass($class, "usr_id", null);
-
-		return $link;
-	}
-
-	/**
 	 * Change user courses are searched for to selected user
 	 *
 	 * @return void

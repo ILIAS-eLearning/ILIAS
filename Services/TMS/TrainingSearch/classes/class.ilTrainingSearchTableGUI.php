@@ -31,6 +31,7 @@ class ilTrainingSearchTableGUI {
 		$this->g_ctrl = $DIC->ctrl();
 		$this->g_user = $DIC->user();
 		$this->search_user_id = $search_user_id;
+		$this->primary = true;
 
 		$this->helper = $helper;
 
@@ -76,14 +77,11 @@ class ilTrainingSearchTableGUI {
 			$view_constrols,
 			function ($row, BookableCourse $record, $ui_factory, $environment) { //mapping-closure
 				$buttons = array();
-				$book_button = $record->getBookButton($this->g_lng->txt("book_course"), $this->parent->getBookingLink($record), $this->search_user_id);
-				$request_button = $record->getRequestButton($this->g_lng->txt("request_book"));
+				$this->primary = true;
+				$search_actions = $record->getSearchActionLinks($this->g_ctrl, $this->search_user_id, $this->search_user_id != $this->g_user->getId());
 
-				if(!is_null($book_button)) {
-					$buttons[] = $book_button;
-				}
-				if(!is_null($request_button)) {
-					$buttons[] = $request_button;
+				foreach ($search_actions as $label => $search_action) {
+					$buttons[] = $this->createButton($label, $search_action, $ui_factory);
 				}
 
 				return $row
@@ -103,42 +101,25 @@ class ilTrainingSearchTableGUI {
 	}
 
 	/**
-	 * Get all sorting and filter items for the table
+	 * Create an ui button
 	 *
-	 * @param 	$f
+	 * @param string 	$link
 	 *
-	 * @return Sortation[]
+	 * @return Button
 	 */
-	protected function getSortationObjects($f) {
-		$ret = array();
-		require_once("Services/Component/classes/class.ilPluginAdmin.php");
-
-		if(ilPluginAdmin::isPluginActive('xccl')) {
-			$plugin = ilPluginAdmin::getPluginObjectById('xccl');
-			$actions = $plugin->getActions();
-			$link = $this->g_ctrl->getLinkTarget($this->parent, ilTrainingSearchGUI::CMD_QUICKFILTER);
-
-			$options = array(null => "Alle");
-			$ret[] = $f->viewControl()->sortation($options + $actions->getTypeOptions())
-						->withTargetURL($link, Helper::F_TYPE)
-						->withLabel($plugin->txt("conf_options_type"));
-
-			$ret[] = $f->viewControl()->sortation($options + $actions->getTopicOptions())
-						->withTargetURL($link, Helper::F_TOPIC)
-						->withLabel($plugin->txt("conf_options_topic"));
+	protected function createButton($label, $link, $ui_factory) {
+		if($this->primary) {
+			$this->primary = false;
+			return $ui_factory->button()->primary
+							( $label,
+								$link
+							);
 		}
 
-		$link = $this->g_ctrl->getLinkTarget($this->parent, ilTrainingSearchGUI::CMD_SORT);
-		$ret[] = $f->viewControl()->sortation($this->helper->getSortOptions())
-						->withTargetURL($link, Helper::F_SORT_VALUE)
-						->withLabel($this->g_lng->txt("sorting"));
-
-		$link = $this->g_ctrl->getLinkTarget($this->parent, ilTrainingSearchGUI::CMD_CHANGE_USER);
-		$ret[] = $f->viewControl()->sortation($this->helper->getUserWhereCurrentCanBookFor((int)$this->g_user->getId()))
-						->withTargetURL($link, Helper::S_USER)
-						->withLabel($this->g_lng->txt("employees"));
-
-		return $ret;
+		return $ui_factory->button()->standard
+							( $label,
+								$link
+							);
 	}
 }
 
