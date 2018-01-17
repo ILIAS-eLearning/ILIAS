@@ -498,24 +498,6 @@ This step should hardly ever be required.
 
 All parts should be visually separated by a blank line to highlight the different parts.
 
-Example ILIAS Filesystem service (LegacyPathHelperTest):  
-
-```php
-<?php
-	/**
-	 * @Test
-	 * @small
-	 */
-	public function testCreateRelativePathWithWebTargetWhichShouldSucceed() {
-		$expectedPath = 'testtarget/subdir';
-		$target = $this->webPath . '/' . $expectedPath;
-
-		$result = LegacyPathHelper::createRelativePath($target);
-
-		$this->assertEquals($expectedPath, $result);
-	}
-```
-
 <a name="good-tests-are-first"></a>
 ### Good tests are FIRST
 The following chapters about FIRST are based on the content of [1, Chap. 5].
