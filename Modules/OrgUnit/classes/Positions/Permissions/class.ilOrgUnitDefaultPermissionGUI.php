@@ -12,7 +12,9 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
 class ilOrgUnitDefaultPermissionGUI extends BaseCommands {
 
 	protected function index() {
+		global $DIC;
 		$this->getParentGui()->addSubTabs();
+		$DIC->tabs()->setSubTabActive(ilOrgUnitPositionGUI::SUBTAB_PERMISSIONS);
 		$ilOrgUnitPermissions = ilOrgUnitPermissionQueries::getAllTemplateSetsForAllActivedContexts($this->getCurrentPositionId());
 		$ilOrgUnitDefaultPermissionFormGUI = new ilOrgUnitDefaultPermissionFormGUI($this, $ilOrgUnitPermissions);
 		$ilOrgUnitDefaultPermissionFormGUI->fillForm();
