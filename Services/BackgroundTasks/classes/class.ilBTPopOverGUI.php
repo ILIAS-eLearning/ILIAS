@@ -96,7 +96,7 @@ class ilBTPopOverGUI {
 			}
 
 			if ($state === State::USER_INTERACTION) {
-				$this->addButton($current_task->getDismissOption(), $redirect_uri, $bucket, $observer);
+				$this->addButton($current_task->getRemoveOption(), $redirect_uri, $bucket, $observer);
 			}
 
 			$bucket->setCurrentBlock("bucket");
@@ -211,9 +211,9 @@ class ilBTPopOverGUI {
 				$action = $this->ctrl()
 				               ->getLinkTargetByClass([ ilBTControllerGUI::class ], ilBTControllerGUI::CMD_ABORT);
 				break;
-			case AbstractTask::MAIN_DISMISS:
+			case AbstractTask::MAIN_REMOVE:
 				$action = $this->ctrl()
-				               ->getLinkTargetByClass([ ilBTControllerGUI::class ], ilBTControllerGUI::CMD_DISMISS);
+				               ->getLinkTargetByClass([ ilBTControllerGUI::class ], ilBTControllerGUI::CMD_REMOVE);
 				break;
 			default:
 				$this->ctrl()

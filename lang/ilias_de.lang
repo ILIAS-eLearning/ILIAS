@@ -13789,8 +13789,8 @@ ecs#:#ecs_member_auth_type#:#Authentifizierungsmethode für Kursmitglieder
 background_tasks#:#background_tasks#:#Background Tasks
 background_tasks#:#background_tasks_running#:#Background Tasks
 background_tasks#:#scheduled#:#Geplant
-background_tasks#:#dismiss#:#Schliessen
-background_tasks#:#abort#:#Beenden
+background_tasks#:#dismiss#:#Entfernen
+background_tasks#:#remove#:#Beenden
 background_tasks#:#completed#:#Abgeschlossen
 background_tasks#:#waiting#:#Warten
 background_tasks#:#proceed_job#:#Weiter
