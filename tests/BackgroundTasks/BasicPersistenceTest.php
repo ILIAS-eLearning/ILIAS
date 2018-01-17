@@ -201,7 +201,7 @@ class BasicPersistenceTest extends TestCase {
 
 		$options = $download_integer->getOptions([]); // Download, Dismiss (the input doesnt matter so we pass an empty array)
 
-		$dismiss = $download_integer->getDismissOption();
+		$dismiss = $download_integer->getRemoveOption();
 
 		$this->bucket->userInteraction($dismiss); // We "click" Dismiss.
 
@@ -237,7 +237,7 @@ class BasicPersistenceTest extends TestCase {
 
 		$options = $download_integer->getOptions([]); // Download, Dismiss (the input doesn't matter so we pass an empty array)
 
-		$dismiss = $download_integer->getDismissOption();
+		$dismiss = $download_integer->getRemoveOption();
 
 		$this->bucket->userInteraction($dismiss); // We "click" Dismiss.
 
