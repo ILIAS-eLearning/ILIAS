@@ -259,7 +259,7 @@
 			"last_update": "2018-01-17",
 			"last_update_by": "Nicolas Schäfli <ns@studer-raimann.ch>",
 			"approved-by": "Only added to ensure PHP 5 compatibility",
-			"approved-date": "YYYY-MM-DD"
+			"approved-date": "2018-01-17"
 		},
 		"phpunit/php-token-stream" : {
 			"source": "https://github.com/phpDocumentor/ReflectionDocBlock",
@@ -269,7 +269,7 @@
 			"last_update": "2018-01-17",
 			"last_update_by": "Nicolas Schäfli <ns@studer-raimann.ch>",
 			"approved-by": "Only added to ensure PHP 5 compatibility",
-			"approved-date": "YYYY-MM-DD"
+			"approved-date": "2018-01-17"
 		},
 		"patches": {
 			"tecnickcom/tcpdf": {
