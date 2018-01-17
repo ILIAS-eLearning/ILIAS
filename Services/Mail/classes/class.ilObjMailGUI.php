@@ -444,6 +444,7 @@ class ilObjMailGUI extends ilObjectGUI
 
 		$password = new ilPasswordInputGUI($this->lng->txt('mail_smtp_password'), 'mail_smtp_password');
 		$password->setRetype(false);
+		$password->setSkipSyntaxCheck(true);
 		$password->setDisabled(!$this->isEditingAllowed());
 		$smtp->addSubItem($password);
 
