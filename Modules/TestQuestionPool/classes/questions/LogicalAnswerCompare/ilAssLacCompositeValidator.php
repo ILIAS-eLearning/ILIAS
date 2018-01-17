@@ -152,7 +152,7 @@ class ilAssLacCompositeValidator
 
 					if($answer_expression instanceof ilAssLacStringResultExpression)
 					{
-						foreach($options->getItems() as $item)
+						foreach($options->getItems($this->getNonShuffler()) as $item)
 						{
 							if($item->getAnswertext() == $answer_expression->getText())
 							{
@@ -270,6 +270,12 @@ class ilAssLacCompositeValidator
 		{
 			throw new ilAssLacOperatorNotSupportedByExpression($answer_expression->getValue(),$pattern);
 		}
+	}
+	
+	protected function getNonShuffler()
+	{
+		require_once 'Services/Randomization/classes/class.ilArrayElementOrderKeeper.php';
+		return new ilArrayElementOrderKeeper();
 	}
 }
  
