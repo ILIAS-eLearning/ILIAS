@@ -5419,6 +5419,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilSamlIdpSelectionTableGUI' => __DIR__ . '/../..' . '/../../Services/Saml/classes/class.ilSamlIdpSelectionTableGUI.php',
         'ilSamlIdpTableGUI' => __DIR__ . '/../..' . '/../../Services/Saml/classes/class.ilSamlIdpTableGUI.php',
         'ilSamlIdpXmlMetadataParser' => __DIR__ . '/../..' . '/../../Services/Saml/classes/class.ilSamlIdpXmlMetadataParser.php',
+        'ilSamlMappedUserAttributeValueParser' => __DIR__ . '/../..' . '/../../Services/Saml/classes/class.ilSamlMappedUserAttributeValueParser.php',
         'ilSamlSettings' => __DIR__ . '/../..' . '/../../Services/Saml/classes/class.ilSamlSettings.php',
         'ilSamlSettingsGUI' => __DIR__ . '/../..' . '/../../Services/Saml/classes/class.ilSamlSettingsGUI.php',
         'ilSaxController' => __DIR__ . '/../..' . '/../../Services/Utilities/classes/class.ilSaxController.php',

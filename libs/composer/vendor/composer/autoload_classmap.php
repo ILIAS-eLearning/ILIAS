@@ -5280,6 +5280,7 @@ return array(
     'ilSamlIdpSelectionTableGUI' => $baseDir . '/../../Services/Saml/classes/class.ilSamlIdpSelectionTableGUI.php',
     'ilSamlIdpTableGUI' => $baseDir . '/../../Services/Saml/classes/class.ilSamlIdpTableGUI.php',
     'ilSamlIdpXmlMetadataParser' => $baseDir . '/../../Services/Saml/classes/class.ilSamlIdpXmlMetadataParser.php',
+    'ilSamlMappedUserAttributeValueParser' => $baseDir . '/../../Services/Saml/classes/class.ilSamlMappedUserAttributeValueParser.php',
     'ilSamlSettings' => $baseDir . '/../../Services/Saml/classes/class.ilSamlSettings.php',
     'ilSamlSettingsGUI' => $baseDir . '/../../Services/Saml/classes/class.ilSamlSettingsGUI.php',
     'ilSaxController' => $baseDir . '/../../Services/Utilities/classes/class.ilSaxController.php',
