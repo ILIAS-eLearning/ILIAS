@@ -20,7 +20,7 @@ use ILIAS\BackgroundTasks\Value;
 abstract class AbstractTask implements Task {
 
 	use BasicScalarValueFactory;
-	const MAIN_DISMISS = 'bt_main_dismiss';
+	const MAIN_REMOVE = 'bt_main_remove';
 	const MAIN_ABORT = 'bt_main_abort';
 	/**
 	 * @var Value[]
@@ -150,8 +150,8 @@ abstract class AbstractTask implements Task {
 	/**
 	 * @inheritdoc
 	 */
-	public function getDismissOption() {
-		return new UserInteractionOption('dismiss', self::MAIN_DISMISS);
+	public function getRemoveOption() {
+		return new UserInteractionOption('remove', self::MAIN_REMOVE);
 	}
 
 
