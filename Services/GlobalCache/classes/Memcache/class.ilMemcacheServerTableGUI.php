@@ -102,4 +102,3 @@ class ilMemcacheServerTableGUI extends ilTable2GUI {
 }
 
 ?>
-
