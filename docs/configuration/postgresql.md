@@ -17,6 +17,9 @@ On RHEL/CentOS execute:
 `yum install postgresql php5-pgsql`
 ```
 
+##Memory
+You may to need increase PHP memory limit?
+
 ##Create database
 
 We RECOMMEND to create a dedicated database user for ILIAS:
@@ -47,9 +50,3 @@ In the ILIAS setup select `Postgres (experimental)` as database type.
 In `Database Host` enter `localhost` and in `Database Name` your created PostgreSQL database name.
 In `Database user` and `Database Password` enter your PostgreSQL user and password.
 
-
-######TODO
-You may to need increase PHP memory limit?
-```
-memory_limit=1G
-```
