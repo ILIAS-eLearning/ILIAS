@@ -13806,7 +13806,7 @@ ecs#:#ecs_member_auth_type#:#Course Member Auth Mode
 background_tasks#:#background_tasks#:#Background Tasks
 background_tasks#:#background_tasks_running#:#Background Tasks
 background_tasks#:#scheduled#:#Scheduled
-background_tasks#:#dismiss#:#Dismiss
+background_tasks#:#remove#:#Remove
 background_tasks#:#abort#:#Abort
 background_tasks#:#completed#:#Completed
 background_tasks#:#waiting#:#Waiting
@@ -14095,6 +14095,7 @@ blog#:#blog_nav_mode_month_list_num_month_with_post_info#:#These months will be 
 orgu#:#org_op_access_enrolments#:#View Enrolments
 orgu#:#msg_position_updated#:#Position updated.
 orgu#:#msg_position_created#:#Position created.
+orgu#:#msg_success_permission_saved#:#Permissions saved.
 pdfgen#:#cleanup#:#Cleanup
 skmg#:#skmg_order_nr_info#:#Positions competence in the list of competences.
 common#:#position_permission_settings#:#Orgunit-Specific Permissions

@@ -1,11 +1,6 @@
 <?php
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Authentication/classes/Provider/class.ilAuthProvider.php';
-require_once 'Services/Authentication/interfaces/interface.ilAuthProviderInterface.php';
-require_once 'Services/Authentication/interfaces/interface.ilAuthProviderAccountMigrationInterface.php';
-require_once 'Services/Authentication/classes/class.ilAuthUtils.php';
-
 /**
  * Class ilAuthProviderSaml
  */
@@ -49,11 +44,6 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 	public function __construct(\ilAuthFrontendCredentials $credentials, $a_idp_id = null)
 	{
 		parent::__construct($credentials);
-
-		require_once 'Services/User/classes/class.ilUserDefinedFields.php';
-		require_once 'Services/Saml/classes/class.ilSamlSettings.php';
-		require_once 'Services/Authentication/classes/External/UserAttributeMapping/class.ilExternalAuthUserAttributeMapping.php';
-		require_once 'Services/Saml/classes/class.ilSamlIdp.php';
 
 		if(null === $a_idp_id)
 		{
@@ -299,8 +289,6 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 	 */
 	public function importUser($a_internal_login, $a_external_account, $a_user_data = array())
 	{
-		require_once 'Services/Xml/classes/class.ilXmlWriter.php';
-
 		$mapping = new ilExternalAuthUserAttributeMapping('saml', $this->idp->getIdpId());
 
 		$xml_writer = new ilXmlWriter();
@@ -327,7 +315,6 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 			$xml_writer->xmlElement('AuthMode', array('type' => $this->getUserAuthModeName()), $this->getUserAuthModeName());
 			$xml_writer->xmlElement('ExternalAccount', array(), $a_external_account);
 
-			require_once 'Services/Authentication/classes/External/UserAttributeMapping/class.ilExternalAuthUserCreationAttributeMappingFilter.php';
 			$mapping = new ilExternalAuthUserCreationAttributeMappingFilter($mapping);
 		}
 		else
@@ -344,133 +331,24 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 				$xml_writer->xmlElement('Login', array(), $login);
 			}
 
-			require_once 'Services/Authentication/classes/External/UserAttributeMapping/class.ilExternalAuthUserUpdateAttributeMappingFilter.php';
 			$mapping = new ilExternalAuthUserUpdateAttributeMappingFilter($mapping);
 		}
 
-		foreach($mapping as $rule)
-		{
-			/**
-			 * @var $rule ilExternalAuthUserAttributeMappingRule
-			 */
-			$value = $this->getValueForRule($rule, $a_user_data);
-
-			switch(strtolower($rule->getAttribute()))
-			{
-				case 'gender':
-					switch(strtolower($value))
-					{
-						case 'm':
-						case 'male':
-							$xml_writer->xmlElement('Gender', array(), 'm');
-							break;
-
-						case 'f':
-						case 'female':
-						default:
-							$xml_writer->xmlElement('Gender', array(), 'f');
-							break;
-					}
-					break;
-
-				case 'firstname':
-					$xml_writer->xmlElement('Firstname', array(), $value);
-					break;
-
-				case 'lastname':
-					$xml_writer->xmlElement('Lastname', array(), $value);
-					break;
-
-				case 'email':
-					$xml_writer->xmlElement('Email', array(), $value);
-					break;
-
-				case 'institution':
-					$xml_writer->xmlElement('Institution', array(), $value);
-					break;
-
-				case 'department':
-					$xml_writer->xmlElement('Department', array(), $value);
-					break;
-
-				case 'hobby':
-					$xml_writer->xmlElement('Hobby', array(), $value);
-					break;
-
-				case 'title':
-					$xml_writer->xmlElement('Title', array(), $value);
-					break;
-
-				case 'street':
-					$xml_writer->xmlElement('Street', array(), $value);
-					break;
-
-				case 'city':
-					$xml_writer->xmlElement('City', array(), $value);
-					break;
-
-				case 'zipcode':
-					$xml_writer->xmlElement('PostalCode', array(), $value);
-					break;
-
-				case 'country':
-					$xml_writer->xmlElement('Country', array(), $value);
-					break;
-
-				case 'phone_office':
-					$xml_writer->xmlElement('PhoneOffice', array(), $value);
-					break;
-
-				case 'phone_home':
-					$xml_writer->xmlElement('PhoneHome', array(), $value);
-					break;
-
-				case 'phone_mobile':
-					$xml_writer->xmlElement('PhoneMobile', array(), $value);
-					break;
-
-				case 'fax':
-					$xml_writer->xmlElement('Fax', array(), $value);
-					break;
-
-				case 'referral_comment':
-					$xml_writer->xmlElement('Comment', array(), $value);
-					break;
-
-				case 'matriculation':
-					$xml_writer->xmlElement('Matriculation', array(), $value);
-					break;
-
-				case 'birthday':
-					$xml_writer->xmlElement('Birthday', array(), $value);
-					break;
-
-				default:
-					if(substr($rule->getAttribute(), 0, 4) != 'udf_')
-					{
-						continue;
-					}
-
-					$udf_data = explode('_', $rule->getAttribute());
-					if(!isset($udf_data[1]))
-					{
-						continue;
-					}
-
-					$definition = ilUserDefinedFields::_getInstance()->getDefinition($udf_data[1]);
-					$xml_writer->xmlElement(
-						'UserDefinedField',
-						array('Id' => $definition['il_id'], 'Name' => $definition['field_name']),
-						$value
-					);
-					break;
+		foreach ($mapping as $rule) {
+			try {
+				$attributeValueParser = new ilSamlMappedUserAttributeValueParser($rule, $a_user_data);
+				$value = $attributeValueParser->parse();
+				$this->buildUserAttributeXml($xml_writer, $rule, $value);
+			} catch (\ilSamlException $e) {
+				$this->getLogger()->warning($e->getMessage());
+				continue;
 			}
 		}
 
 		$xml_writer->xmlEndTag('User');
 		$xml_writer->xmlEndTag('Users');
 
-		ilLoggerFactory::getLogger('auth')->debug(sprintf('Started import of user "%s" with ext_account "%s" and auch_mode "%s".', $login, $a_external_account, $this->getUserAuthModeName()));
+		ilLoggerFactory::getLogger('auth')->debug(sprintf('Started import of user "%s" with ext_account "%s" and auth_mode "%s".', $login, $a_external_account, $this->getUserAuthModeName()));
 		include_once './Services/User/classes/class.ilUserImportParser.php';
 		$importParser = new ilUserImportParser();
 		$importParser->setXMLContent($xml_writer->xmlDumpMem(false));
@@ -485,40 +363,117 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 	}
 
 	/**
-	 * @param ilExternalAuthUserAttributeMappingRule $rule
-	 * @param array $a_user_data
-	 * @return string
+	 * @param \ilXmlWriter $xml_writer
+	 * @param \ilExternalAuthUserAttributeMappingRule $rule
+	 * @param $value
 	 */
-	protected function getValueForRule(ilExternalAuthUserAttributeMappingRule $rule, array $a_user_data)
+	protected function buildUserAttributeXml(\ilXmlWriter $xml_writer, \ilExternalAuthUserAttributeMappingRule $rule, $value)
 	{
-		$value = '';
+		switch (strtolower($rule->getAttribute())) {
+			case 'gender':
+				switch (strtolower($value)) {
+					case 'm':
+					case 'male':
+						$xml_writer->xmlElement('Gender', array(), 'm');
+						break;
 
-		$matches = null;
-		if(preg_match('/^(.*?)\|(\d+)$/', $rule->getExternalAttribute(), $matches))
-		{
-			$ruleAttr  = $matches[1];
-			$attrIndex = $matches[2];
+					case 'f':
+					case 'female':
+					default:
+						$xml_writer->xmlElement('Gender', array(), 'f');
+						break;
+				}
+				break;
 
-			if(
-				isset($a_user_data[$ruleAttr]) && is_array($a_user_data[$ruleAttr]) &&
-				isset($a_user_data[$ruleAttr][$attrIndex])
-			)
-			{
-				$value = $a_user_data[$ruleAttr][$attrIndex];
-			}
+			case 'firstname':
+				$xml_writer->xmlElement('Firstname', array(), $value);
+				break;
+
+			case 'lastname':
+				$xml_writer->xmlElement('Lastname', array(), $value);
+				break;
+
+			case 'email':
+				$xml_writer->xmlElement('Email', array(), $value);
+				break;
+
+			case 'institution':
+				$xml_writer->xmlElement('Institution', array(), $value);
+				break;
+
+			case 'department':
+				$xml_writer->xmlElement('Department', array(), $value);
+				break;
+
+			case 'hobby':
+				$xml_writer->xmlElement('Hobby', array(), $value);
+				break;
+
+			case 'title':
+				$xml_writer->xmlElement('Title', array(), $value);
+				break;
+
+			case 'street':
+				$xml_writer->xmlElement('Street', array(), $value);
+				break;
+
+			case 'city':
+				$xml_writer->xmlElement('City', array(), $value);
+				break;
+
+			case 'zipcode':
+				$xml_writer->xmlElement('PostalCode', array(), $value);
+				break;
+
+			case 'country':
+				$xml_writer->xmlElement('Country', array(), $value);
+				break;
+
+			case 'phone_office':
+				$xml_writer->xmlElement('PhoneOffice', array(), $value);
+				break;
+
+			case 'phone_home':
+				$xml_writer->xmlElement('PhoneHome', array(), $value);
+				break;
+
+			case 'phone_mobile':
+				$xml_writer->xmlElement('PhoneMobile', array(), $value);
+				break;
+
+			case 'fax':
+				$xml_writer->xmlElement('Fax', array(), $value);
+				break;
+
+			case 'referral_comment':
+				$xml_writer->xmlElement('Comment', array(), $value);
+				break;
+
+			case 'matriculation':
+				$xml_writer->xmlElement('Matriculation', array(), $value);
+				break;
+
+			case 'birthday':
+				$xml_writer->xmlElement('Birthday', array(), $value);
+				break;
+
+			default:
+				if (substr($rule->getAttribute(), 0, 4) != 'udf_') {
+					continue;
+				}
+
+				$udf_data = explode('_', $rule->getAttribute());
+				if (!isset($udf_data[1])) {
+					continue;
+				}
+
+				$definition = ilUserDefinedFields::_getInstance()->getDefinition($udf_data[1]);
+				$xml_writer->xmlElement(
+					'UserDefinedField',
+					array('Id' => $definition['il_id'], 'Name' => $definition['field_name']),
+					$value
+				);
+				break;
 		}
-		else if(isset($a_user_data[$rule->getExternalAttribute()]))
-		{
-			if(is_array($a_user_data[$rule->getExternalAttribute()]))
-			{
-				$value = current($a_user_data[$rule->getExternalAttribute()]);
-			}
-			else
-			{
-				$value = $a_user_data[$rule->getExternalAttribute()];
-			}
-		}
-
-		return $value;
 	}
 }

@@ -13790,8 +13790,8 @@ ecs#:#ecs_member_auth_type#:#Authentifizierungsmethode für Kursmitglieder
 background_tasks#:#background_tasks#:#Background Tasks
 background_tasks#:#background_tasks_running#:#Background Tasks
 background_tasks#:#scheduled#:#Geplant
-background_tasks#:#dismiss#:#Schliessen
-background_tasks#:#abort#:#Beenden
+background_tasks#:#dismiss#:#Entfernen
+background_tasks#:#remove#:#Entfernen
 background_tasks#:#completed#:#Abgeschlossen
 background_tasks#:#waiting#:#Warten
 background_tasks#:#proceed_job#:#Weiter
@@ -14077,6 +14077,7 @@ orgu#:#confirm_deletion_button#:#Löschen
 orgu#:#msg_deleted#:#Gelöscht
 orgu#:#msg_position_updated#:#Position wurde aktualisiert.
 orgu#:#msg_position_created#:#Position wurde erstellt.
+orgu#:#msg_success_permission_saved#:#Rechte wurden gespeichert.
 common#:#scorm_login_as_learner_id#:#SCORM 2004: set ILIAS Username as cmi.learner_id###31 08 2017 new variable
 common#:#scorm_login_as_learner_id_info#:#If enabled, the Username instead of the User ID is set for cmi.learner_id.###31 08 2017 new variable
 iass#:#iass_upload_file#:#Prüfungsblatt

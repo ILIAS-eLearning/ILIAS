@@ -14,4 +14,11 @@ class Factory implements \ILIAS\UI\Component\Chart\Factory {
 		return new ScaleBar($items);
 	}
 
+    /**
+     * @inheritdoc
+     */
+    public function progressMeter()
+    {
+        return new ProgressMeter\Factory();
+    }
 }
