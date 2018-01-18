@@ -363,3 +363,10 @@ if($ilDB->tableExists('svy_answer'))
 	}
 }
 ?>
+<#22>
+<?php
+if( $ilDB->indexExistsByFields('cmi_objective', array('id')) )
+{
+	$ilDB->dropIndexByFields('cmi_objective',array('id'));
+}
+?>
