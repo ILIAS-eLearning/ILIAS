@@ -68,7 +68,7 @@ class ilAssLacCompositeValidator
 				$answer_index = $question_expression->getAnswerIndex()-1;
 				$this->checkIfAnswerIndexOfQuestionExists($question, $question_index, $answer_index);
 			}
-			if($answer_expression instanceof ilAssLacNumberOfResultExpression)
+			if($answer_expression instanceof ilAssLacNumberOfResultExpression && !($question instanceof assClozeTest))
 			{
 				$this->checkIfAnswerIndexOfQuestionExists($question, $question_index, $answer_expression->getNumericValue()-1);
 			}
