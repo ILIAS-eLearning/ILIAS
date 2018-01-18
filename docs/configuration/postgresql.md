@@ -2,7 +2,7 @@
 ## Installation
 First install PostgreSQL database server and PostgreSQL PHP support on your machine.
 
-You need min. PostgreSQL 9.5.
+You need at least PostgreSQL 9.5.
 
 On Debian/Ubuntu 14.04 execute:
 ```
@@ -14,12 +14,12 @@ sudo apt-get install postgresql-9.5 php5-pgsql
 
 On Debian/Ubuntu 16.04 execute:
 ```
-apt-get install postgresql-9.5 php7-pgsql
+sudo apt-get install postgresql-9.5 php7-pgsql
 ```
 
 On RHEL/CentOS execute:
 ```
-yum install postgresql-9.5 php5-pgsql
+sudo yum install postgresql-9.5 php5-pgsql
 ```
 
 ##Memory
@@ -41,12 +41,12 @@ After changing the configuration remember to reload the web server daemon:
 
 On Debian/Ubuntu: 
 ```
-systemctl restart apache2.service
+sudo systemctl restart apache2.service
 ```
 
 On RHEL/CentOS: 
 ```
-systemctl restart httpd.service
+sudo systemctl restart httpd.service
 ```
 
 ##ILIAS setup
