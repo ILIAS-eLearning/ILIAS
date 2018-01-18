@@ -597,7 +597,7 @@ class ilContainerSorting
 
 		}
 		$count = $this->getSortingSettings()->getSortNewItemsPosition()
-			== ilContainer::SORT_NEW_ITEMS_POSITION_TOP ? 0 : 900000;
+			== ilContainer::SORT_NEW_ITEMS_POSITION_TOP ? -900000 : 900000;
 
 		foreach($no_position as $values)
 		{
