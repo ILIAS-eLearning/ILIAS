@@ -1,6 +1,8 @@
 # Configure PostgreSQL for ILIAS
 ## Installation
-First install PostgreSQL database server and PostgreSQL PHP support on your machine
+First install PostgreSQL database server and PostgreSQL PHP support on your machine.
+
+You need PostgreSQL 9.6.
 
 On Debian/Ubuntu 14.04 execute:
 ```
@@ -21,7 +23,6 @@ On RHEL/CentOS execute:
 You may to need increase PHP memory limit?
 
 ##Create database
-
 We RECOMMEND to create a dedicated database user for ILIAS:
 
 ```
