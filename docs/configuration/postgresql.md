@@ -2,21 +2,24 @@
 ## Installation
 First install PostgreSQL database server and PostgreSQL PHP support on your machine.
 
-You need PostgreSQL 9.6.
+You need min. PostgreSQL 9.5.
 
 On Debian/Ubuntu 14.04 execute:
 ```
-`apt-get install postgresql php5-pgsql`
+sudo add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main"
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+sudo apt-get update
+sudo apt-get install postgresql-9.5 php5-pgsql
 ```
 
 On Debian/Ubuntu 16.04 execute:
 ```
-`apt-get install postgresql php7-pgsql`
+apt-get install postgresql-9.5 php7-pgsql
 ```
 
 On RHEL/CentOS execute:
 ```
-`yum install postgresql php5-pgsql`
+yum install postgresql-9.5 php5-pgsql
 ```
 
 ##Memory
