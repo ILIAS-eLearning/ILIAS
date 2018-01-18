@@ -51,5 +51,5 @@ In `Database user` and `Database Password` enter your PostgreSQL user and passwo
 ######TODO
 You may to need increase PHP memory limit?
 ```
-memory_limit=1GB
+memory_limit=1G
 ```
