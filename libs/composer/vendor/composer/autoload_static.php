@@ -29,6 +29,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         ),
         'P' => 
         array (
+            'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
         ),
         'M' => 
@@ -70,6 +71,10 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'Symfony\\Component\\Yaml\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/yaml',
+        ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
         'Psr\\Http\\Message\\' => 
         array (
@@ -115,10 +120,6 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         ),
         'P' => 
         array (
-            'Psr\\Log\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/psr/log',
-            ),
             'Pimple' => 
             array (
                 0 => __DIR__ . '/..' . '/pimple/pimple/src',
@@ -892,6 +893,11 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ILIAS\\UI\\Component\\Card\\Card' => __DIR__ . '/../..' . '/../../src/UI/Component/Card/Card.php',
         'ILIAS\\UI\\Component\\Changeable' => __DIR__ . '/../..' . '/../../src/UI/Component/Changeable.php',
         'ILIAS\\UI\\Component\\Chart\\Factory' => __DIR__ . '/../..' . '/../../src/UI/Component/Chart/Factory.php',
+        'ILIAS\\UI\\Component\\Chart\\ProgressMeter\\Factory' => __DIR__ . '/../..' . '/../../src/UI/Component/Chart/ProgressMeter/Factory.php',
+        'ILIAS\\UI\\Component\\Chart\\ProgressMeter\\FixedSize' => __DIR__ . '/../..' . '/../../src/UI/Component/Chart/ProgressMeter/FixedSize.php',
+        'ILIAS\\UI\\Component\\Chart\\ProgressMeter\\Mini' => __DIR__ . '/../..' . '/../../src/UI/Component/Chart/ProgressMeter/Mini.php',
+        'ILIAS\\UI\\Component\\Chart\\ProgressMeter\\ProgressMeter' => __DIR__ . '/../..' . '/../../src/UI/Component/Chart/ProgressMeter/ProgressMeter.php',
+        'ILIAS\\UI\\Component\\Chart\\ProgressMeter\\Standard' => __DIR__ . '/../..' . '/../../src/UI/Component/Chart/ProgressMeter/Standard.php',
         'ILIAS\\UI\\Component\\Chart\\ScaleBar' => __DIR__ . '/../..' . '/../../src/UI/Component/Chart/ScaleBar.php',
         'ILIAS\\UI\\Component\\Clickable' => __DIR__ . '/../..' . '/../../src/UI/Component/Clickable.php',
         'ILIAS\\UI\\Component\\Component' => __DIR__ . '/../..' . '/../../src/UI/Component/Component.php',
@@ -988,6 +994,12 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ILIAS\\UI\\Implementation\\Component\\Card\\Card' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Component/Card/Card.php',
         'ILIAS\\UI\\Implementation\\Component\\Card\\Renderer' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Component/Card/Renderer.php',
         'ILIAS\\UI\\Implementation\\Component\\Chart\\Factory' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Component/Chart/Factory.php',
+        'ILIAS\\UI\\Implementation\\Component\\Chart\\ProgressMeter\\Factory' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Component/Chart/ProgressMeter/Factory.php',
+        'ILIAS\\UI\\Implementation\\Component\\Chart\\ProgressMeter\\FixedSize' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Component/Chart/ProgressMeter/FixedSize.php',
+        'ILIAS\\UI\\Implementation\\Component\\Chart\\ProgressMeter\\Mini' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Component/Chart/ProgressMeter/Mini.php',
+        'ILIAS\\UI\\Implementation\\Component\\Chart\\ProgressMeter\\ProgressMeter' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Component/Chart/ProgressMeter/ProgressMeter.php',
+        'ILIAS\\UI\\Implementation\\Component\\Chart\\ProgressMeter\\Renderer' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Component/Chart/ProgressMeter/Renderer.php',
+        'ILIAS\\UI\\Implementation\\Component\\Chart\\ProgressMeter\\Standard' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Component/Chart/ProgressMeter/Standard.php',
         'ILIAS\\UI\\Implementation\\Component\\Chart\\Renderer' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Component/Chart/Renderer.php',
         'ILIAS\\UI\\Implementation\\Component\\Chart\\ScaleBar' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Component/Chart/ScaleBar.php',
         'ILIAS\\UI\\Implementation\\Component\\ComponentHelper' => __DIR__ . '/../..' . '/../../src/UI/Implementation/Component/ComponentHelper.php',
