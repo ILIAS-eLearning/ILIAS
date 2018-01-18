@@ -5239,7 +5239,7 @@ abstract class assQuestion
 
 		if( $this->getStep() !== NULL )
 		{
-			$query .= " AND step = %s " . $ilDB->quote((int)$this->getStep(), 'integer') . " ";
+			$query .= " AND step = " . $ilDB->quote((int)$this->getStep(), 'integer') . " ";
 		}
 
 		$query .= "
