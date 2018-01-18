@@ -159,7 +159,7 @@ class ilBadgeUserTableGUI extends ilTable2GUI
 				$assignments[$ass->getUserId()][] = $ass;			
 			}
 		}
-		
+
 		// administration context: show only existing assignments
 		if(!$user_ids)
 		{
@@ -172,6 +172,7 @@ class ilBadgeUserTableGUI extends ilTable2GUI
 		if (count($user_ids) > 0)
 		{
 			$uquery = new ilUserQuery();
+			$uquery->setLimit(9999);
 			$uquery->setUserFilter($user_ids);
 
 			if ($this->filter["name"])

@@ -127,6 +127,13 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
 		{
 			$post = array($post);
 		}
+		elseif( !is_array($post) )
+		{
+			// BH: when multi values are ENABLED and $form->checkInput is NOT called
+			// there is no post parameter available WHEN the selection is left empty
+			// - fixed mantis #22186 - the followup issue
+			$post = array();
+		}
 
 		$current_ass = $tax_node_ass->getAssignmentsOfItem($a_item_id);
 		$exising = array();

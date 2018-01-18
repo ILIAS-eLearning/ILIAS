@@ -15946,3 +15946,9 @@ dcl#:#dcl_no_export_content_available#:#No data available for export.###22 11 20
 dcl#:#dcl_no_export_fields_available#:#No fields activated for export. Mark at least one field as exportable in the <a href="%s">table settings</a>.###22 11 2017 new variable
 iass#:#iass_copy#:#Copy Individual Assessment###22 11 2017 new variable
 content#:#cont_transl_master_language_not_allowed#:#To import a translation you need to activate at least one additional language under Settings > Multilingualism###22 11 2017 new variable
+survey#:#please_enter_mail_url#:#Please enter the access url placeholder [url]###10 01 2018 new variable
+style#:#skin_version#:#Skin Version###10 01 2018 new variable
+style#:#skin_version_description#:#The skin version is used to re-cache the style after changes. It gets automatically updated.###10 01 2018 new variable
+chatroom#:#chat_osc_subs_rej_msgs#:#Currently it is not possible to continue this conversation. Your chat-partner must activate chats in the chat-settings.###10 01 2018 new variable
+chatroom#:#chat_osc_subs_rej_msgs_p#:#The following chat partners of your conversation do not want to receive messages anymore: %s###10 01 2018 new variable
+chatroom#:#chat_osc_self_rej_msgs#:#You currently cannot take part in this conversation because you suppressed receiving messages in your settings.###10 01 2018 new variable

@@ -30,7 +30,7 @@ class ilLikeUserMultiFieldSearch extends ilAbstractSearch
 	 * Perform search
 	 * @return type
 	 */
-	public function performSearch()
+	public function &performSearch()
 	{
 		$where = $this->__createWhereCondition();
 		$locate = $this->__createLocateString();

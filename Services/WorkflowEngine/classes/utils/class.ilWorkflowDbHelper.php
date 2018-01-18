@@ -485,4 +485,37 @@ class ilWorkflowDbHelper
 
 		return $retval;
 	}
+
+	public static function deleteStartEventData($event_id)
+	{
+		global $DIC;
+		/** @var ilDB $ilDB */
+		$ilDB = $DIC['ilDB'];
+
+		$result = $ilDB->query(
+			'SELECT event_id FROM wfe_startup_events 
+				  WHERE workflow_id = ' . $ilDB->quote($event_id, 'text')
+		);
+
+		$events = array();
+		while($row = $ilDB->fetchAssoc($result))
+		{
+			$events = $row['revent_id'];
+		}
+
+		$ilDB->manipulate(
+			'DELETE
+				FROM wfe_startup_events
+				WHERE workflow_id = ' . $ilDB->quote($event_id, 'text')
+		);
+
+		if(count($events))
+		{
+			$ilDB->manipulate(
+				'DELETE
+				FROM wfe_static_inputs
+				WHERE ' . $ilDB->in('event_id', $events, false, 'integer')
+			);
+		}
+	}
 }
