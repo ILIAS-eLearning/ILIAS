@@ -350,3 +350,10 @@ while( $row = $ilDB->fetchAssoc($res) )
 }
 
 ?>
+<#21>
+<?php
+if( $ilDB->indexExistsByFields('cmi_objective', array('id')) )
+{
+	$ilDB->dropIndexByFields('cmi_objective',array('id'));
+}
+?>
