@@ -36,6 +36,13 @@ include_once "./Services/Object/classes/class.ilObjectGUI.php";
  */
 class ilObjFileAccessSettingsGUI extends ilObjectGUI {
 
+	/**
+	 * @var \ilSetting
+	 */
+	protected $folderSettings;
+	/**
+	 * @var \ilObjDiskQuotaSettings
+	 */
 	private $disk_quota_obj;
 
 
@@ -45,9 +52,6 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI {
 	 * @access public
 	 */
 	function __construct($a_data, $a_id, $a_call_by_reference) {
-		global $DIC;
-		$tree = $DIC['tree'];
-
 		$this->type = "facs";
 		parent::__construct($a_data, $a_id, $a_call_by_reference, false);
 		$this->folderSettings = new ilSetting('fold');
@@ -67,8 +71,6 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI {
 	 */
 	public function executeCommand() {
 		global $DIC;
-		$rbacsystem = $DIC['rbacsystem'];
-		$ilErr = $DIC['ilErr'];
 		$ilAccess = $DIC['ilAccess'];
 		$ilias = $DIC['ilias'];
 		$lng = $DIC['lng'];
@@ -119,7 +121,6 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI {
 	public function getAdminTabs() {
 		global $DIC;
 		$rbacsystem = $DIC['rbacsystem'];
-		$ilAccess = $DIC['ilAccess'];
 
 		$GLOBALS['DIC']['lng']->loadLanguageModule('fm');
 
@@ -151,11 +152,8 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI {
 	 */
 	protected function initDownloadingSettingsForm() {
 		global $DIC;
-		global $DIC;
-		$tpl = $DIC['tpl'];
 		$ilCtrl = $DIC['ilCtrl'];
 		$lng = $DIC['lng'];
-		$tree = $DIC['tree'];
 
 		require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		require_once("./Services/Form/classes/class.ilCheckboxInputGUI.php");
@@ -310,12 +308,9 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI {
 		global $DIC;
 		$rbacsystem = $DIC['rbacsystem'];
 		$ilErr = $DIC['ilErr'];
-		$ilTabs = $DIC['ilTabs'];
-		global $DIC;
 		$tpl = $DIC['tpl'];
 		$ilCtrl = $DIC['ilCtrl'];
 		$lng = $DIC['lng'];
-		$tree = $DIC['tree'];
 
 		$this->tabs_gui->setTabActive('webdav');
 
