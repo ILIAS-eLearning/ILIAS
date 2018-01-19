@@ -89,7 +89,12 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 				if($file['type'] == "file") {
 					$this->has_files = true;
 					$href = ilLink::_getStaticLink($file['ref_id'], "file", true,"download");
-					$str[$file['title']] = $r->render($f->button()->shy($file['title'], $href));
+					$link = $f->link()->standard($file['title'], $href);
+					require_once('Modules/File/classes/class.ilObjFileAccess.php');
+					if (ilObjFileAccess::_isFileInline($file["title"])) {
+						$link = $link->withOpenInNewViewport(true);
+					}
+					$str[$file['title']] = $r->render($link);
 				}
 			}
 			if($this->has_files)
