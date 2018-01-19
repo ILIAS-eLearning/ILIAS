@@ -4871,7 +4871,8 @@ content#:#cont_saved_interactive_image#:#Interaktives Bild gespeichert
 content#:#cont_saved_map_area#:#Link-Bereich gespeichert.
 content#:#cont_saved_map_data#:#Image-Map gespeichert.
 content#:#cont_saving#:#Speichern...
-content#:#cont_sc_auto_continue#:#Automatische Fortsetzung
+content#:#cont_sc_auto_continue#:#Benutzer weiterleiten
+content#:#cont_sc_auto_continue_info#:#Leitet Benutzer automatisch nach der letzten Aktivität in das nächste SCO weiter. Diese Funktion wird nicht von allen SCORM 1.2 Lernmodulen unterstützt.
 content#:#cont_sc_less_mode_browse#:#Nur Vorschau / Preview ('browse')
 content#:#cont_sc_less_mode_normal#:#Normale Nutzung ('normal')
 content#:#cont_sc_max_attempt_exceed#:#Die maximale Anzahl an Versuchen für dieses Modul wurde erreicht.
