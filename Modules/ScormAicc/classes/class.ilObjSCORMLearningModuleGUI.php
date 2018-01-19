@@ -199,6 +199,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_sc_auto_continue"), "auto_continue");
 		$cb->setValue("y");
 		$cb->setChecked($this->object->getAutoContinue());
+		$cb->setInfo($this->lng->txt("cont_sc_auto_continue_info"));
 		$this->form->addItem($cb);
 
 		//
@@ -207,13 +208,6 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$sh = new ilFormSectionHeaderGUI();
 		$sh->setTitle($this->lng->txt("cont_scorm_options"));
 		$this->form->addItem($sh);
-
-		// max attempts
-		// $ni = new ilNumberInputGUI($this->lng->txt("cont_sc_max_attempt"), "max_attempt");
-		// $ni->setMaxLength(3);
-		// $ni->setSize(3);
-		// $ni->setValue($this->object->getMaxAttempt());
-		// $this->form->addItem($ni);
 		
 		// lesson mode
 		$options = array("normal" => $this->lng->txt("cont_sc_less_mode_normal"),
