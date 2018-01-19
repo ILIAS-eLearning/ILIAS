@@ -22,10 +22,10 @@ On RHEL/CentOS execute:
 sudo yum install postgresql-9.5 php5-pgsql
 ```
 
-##Memory
+## Memory
 Remember you may to need increase PHP memory limit.
 
-##Create database
+## Create database
 We RECOMMEND to create a dedicated database user for ILIAS:
 
 ```
@@ -36,7 +36,7 @@ GRANT ALL PRIVILEGES ON DATABASE ilias TO ilias;
 \q
 ```
 
-##Restart apache server
+## Restart apache server
 After changing the configuration remember to reload the web server daemon.
 
 On Debian/Ubuntu execute: 
@@ -49,10 +49,10 @@ On RHEL/CentOS execute:
 sudo service restart httpd restart
 ```
 
-##ILIAS setup
+## ILIAS setup
 In the ILIAS setup select `Postgres (experimental)` as database type.
 In `Database Host` enter `localhost` and in `Database Name` your created PostgreSQL database name.
 In `Database user` and `Database Password` enter your PostgreSQL user and password.
 
-#Hint
+# Hint
 The PostgresSQL support in ILIAS is experimental so may some database actions will fail!
