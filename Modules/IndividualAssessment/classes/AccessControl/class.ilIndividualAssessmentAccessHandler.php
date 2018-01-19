@@ -6,6 +6,7 @@ require_once 'Services/AccessControl/classes/class.ilObjRole.php';
  * Deal with ilias rbac-system
  */
 class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessHandler {
+	const self::ADMIN = "Administrator";
 
 	/**
 	 * @var ilObjIndividualAssessment
@@ -248,7 +249,7 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
 	{
 		$global_roles = $this->review->assignedGlobalRoles($this->usr->getId());
 		foreach ($global_roles as $global_role) {
-			if(ilObject::_lookupTitle($global_role) == "Administrator") {
+			if(ilObject::_lookupTitle($global_role) == self::ADMIN) {
 				return true;
 			}
 		}
