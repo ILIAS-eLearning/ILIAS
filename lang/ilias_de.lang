@@ -1231,7 +1231,7 @@ assessment#:#tst_processing_time#:#Bearbeitungsdauer begrenzen
 assessment#:#tst_processing_time_desc#:#Teilnehmer können den Test nur für eine begrenzte Zeit bearbeiten. Die Zeit läuft von dem Moment des ersten Startens durch den Teilnehmer. "Test unterbrechen" stoppt den Ablauf der Bearbeitungsdauer nicht.
 assessment#:#tst_qst_order#:#Nr.
 assessment#:#tst_question#:#Frage
-assessment#:#tst_question_mark#:#Frage markieren###fau: testNav
+assessment#:#tst_question_mark#:#Frage markieren
 assessment#:#tst_question_marked#:#Sie haben die Frage markiert
 assessment#:#tst_question_marker#:#Markiert
 assessment#:#tst_question_no#:#Reihenfolge
@@ -1308,11 +1308,11 @@ assessment#:#tst_score_cut_question_desc#:#Bei der Vergabe negativer Punkte für
 assessment#:#tst_score_cut_test#:#Negatives Gesamttestergebnis in "0 Punkte" ändern
 assessment#:#tst_score_cut_test_desc#:#Es können pro Frage Minuspunkte erzielt werden. Die Punktestände aller Fragen werden aufsummiert und erst wenn diese Summe noch negativ ist, wird das Gesamtergebnis des Tests auf 0 Punkte gesetzt. Mit dieser Einstellung fallen negative Punkte sehr stark ins Gewicht.
 assessment#:#tst_score_cutting#:#Negative Punkte
-assessment#:#tst_score_mcmr_questions#:#Multiple-Choice-Fragen mit leerer Antwort###fau: testNav
-assessment#:#tst_score_mcmr_use_scoring_system#:#Leere Antworten speichern und bewerten (veraltet)###fau: testNav
-assessment#:#tst_score_mcmr_use_scoring_system_desc#:#Eine zusätzliche Option "Keine der obigen" erlaubt es, leere Antworten zu speichern. Die nicht ausgewählten Optionen werden so bewertet, wie in der Frage definiert ist. Diese Einstellung ist nur noch für bestehende Tests verfügbar und wird in einer folgenden ILIAS-Version nicht mehr unterstützt.###fau: testNav
-assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Leere Antworten nicht speichern###fau: testNav
-assessment#:#tst_score_mcmr_zero_points_when_unanswered_desc#:#Antworten ohne ausgewählte Option werden nicht gespeichert. Die Teilnehmer erhalten 0 Punkte auf diese Fragen.###fau: testNav
+assessment#:#tst_score_mcmr_questions#:#Multiple-Choice-Fragen mit leerer Antwort
+assessment#:#tst_score_mcmr_use_scoring_system#:#Leere Antworten speichern und bewerten (veraltet)
+assessment#:#tst_score_mcmr_use_scoring_system_desc#:#Eine zusätzliche Option "Keine der obigen" erlaubt es, leere Antworten zu speichern. Die nicht ausgewählten Optionen werden so bewertet, wie in der Frage definiert ist. Diese Einstellung ist nur noch für bestehende Tests verfügbar und wird in einer folgenden ILIAS-Version nicht mehr unterstützt.
+assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Leere Antworten nicht speichern
+assessment#:#tst_score_mcmr_zero_points_when_unanswered_desc#:#Antworten ohne ausgewählte Option werden nicht gespeichert. Die Teilnehmer erhalten 0 Punkte auf diese Fragen.
 assessment#:#tst_score_reporting#:#Ergebnisausgabe
 assessment#:#tst_score_reporting_date#:#Datum der Ergebnisausgabe
 assessment#:#tst_search_users#:#Teilnehmer suchen
@@ -10177,7 +10177,7 @@ mathjax#:#mathjax_server_timeout_info#:#Maximale Wartezeit auf eine Antwort des 
 mathjax#:#mathjax_server_for_pdf#:#Für die PDF-Erzeugung verwenden
 mathjax#:#mathjax_server_for_pdf_info#:#Der Server wird zur Darstellung von TeX in PDF-Dokumenten verwendet.
 mathjax#:#mathjax_server_for_browser#:#Für den Browser verwenden
-mathjax#:#mathjax_server_for_browser_info#:#TeX wird als SVG-Grafik eingebunden. Damit ist die Aktivierung von MathJax im Browser überflüssig.###fau: lateex
+mathjax#:#mathjax_server_for_browser_info#:#TeX wird als SVG-Grafik eingebunden. Damit ist die Aktivierung von MathJax im Browser überflüssig.
 mathjax#:#mathjax_server_for_export#:#Für HTML-Exporte verwenden
 mathjax#:#mathjax_server_for_export_info#:#TeX wird in HTML-Exporten von Lernmodulen als SVG-Grafik exportiert.
 mathjax#:#mathjax_server_clear_cache#:# » Cache leeren
@@ -12998,8 +12998,8 @@ common#:#objs_prg#:#Studienprogramme
 common#:#obj_prgs_desc#:#Studienprogramm Administration
 trac#:#trac_mode_study_programme#:#Studienprogramm abgeschlossen
 common#:#manage_members#:#Mitglieder verwalten
-maps#:#maps_tile_server#:#Server for Tiles###30 08 2015 new variable
-maps#:#maps_geolocation_server#:#Server for Reverse Geolocation###30 08 2015 new variable
+maps#:#maps_tile_server#:#Server für Kacheln
+maps#:#maps_geolocation_server#:#Server für Reverse Geolocation
 mail#:#orphaned_mail_subject#:#Benachrichtigung über verwaiste Mails
 mail#:#orphaned_mail_body#:#Es existieren veraltete oder verwaiste Mails in den folgenden Postfächern. Beachten Sie, dass diese Mails in kürze automatisch gelöscht werden.
 rbac#:#rbac_permissions#:#Rechte
@@ -13470,8 +13470,8 @@ style#:#adapt_less#:#Anpassung der Less Datei
 style#:#adapt_less_description#:#Dies ist die Darstellung aller less Variablen aus dem aktuellen Skin. Variablennamen und Beschreibungen sind direkt aus den Dateien ausgelesen und daher nur in Originalsprache vorhanden. Der ausgewählte Style wird beim Aktualisieren/Zurücksetzen der Variablen vollständig neu kompiliert. Das Zurücksetzten der Variablen erstellt eine exakte Kopie des ursprünglichen "delos style".
 style#:#adapt_icons_description#:#Alle svg Icons, welche im Ordner images gefunden wurden, werden hier aufgelistet. Wenn eine Farbe geändert wird, ist dies in allen hier aufgelisteten Icons sofort ersichtlich.
 style#:#adapt_icons#:#Anpassung der Iconfarben
-style#:#invalid_less_path#:#Der angegebene lessc Pfad ist ungültig oder kann vom Webserver nicht gelesen und ausgeführt werden. Die lessc Datei unter dem angegebenen Pfad (oder die verlinkte Datei, falls der Pfad auf einen symlink verweist) muss vom Webserver gelesen und ausgeführt werden können.
-style#:#provided_less_path#:#Angegebener lessc Pfad:
+style#:#invalid_less_path#:#Der angegebene lessc-Pfad ist ungültig oder kann vom Webserver nicht gelesen und ausgeführt werden. Die lessc-Datei unter dem angegebenen Pfad (oder die verlinkte Datei, falls der Pfad auf einen symlink verweist) muss vom Webserver gelesen und ausgeführt werden können.
+style#:#provided_less_path#:#Angegebener lessc-Pfad:
 style#:#used_colors#:#Benutzte Farben:
 style#:#style_imported#:#Style wurde erfolgreich importiert nach:
 style#:#style_copied#:#Style wurde erfolgreich kopiert.
@@ -13778,8 +13778,8 @@ crs#:#crs_edit_lo_introduction#:#Einleitung bearbeiten
 rbac#:#grp_manage_members#:#Mitglieder einer Gruppe verwalten
 rbac#:#crs_manage_members#:#Mitglieder eines Kurses verwalten
 iass#:#iass_copy#:#Individuelle Bewertung kopieren
-survey#:#error_save_code#:#Value not saved properly. <b>The E- mail: '%s' is not valid</b>. First name: '%s', Last name: '%s'.<br>###07 02 2017 new variable
-survey#:#cannot_send_emails#:#You do not possess sufficient permissions to send emails.###07 02 2017 new variable
+survey#:#error_save_code#:#Werte wurden nicht korrekt gespeichert. <b>Die E-Mail '%s' ist nicht gültig.</b>. Vorname: '%s', Nachname: '%s'.<br>
+survey#:#cannot_send_emails#:#Sie haben keine ausreichenden Rechte, um E-Mails zu versenden.
 rbac#:#book_copy#:#Buchungspool kopieren
 mep#:#mobs_black_list_file_types#:#Verbotene Dateitypen
 mep#:#mobs_black_list_file_types_info#:#Diese List schränkt die Menge der erlaubten Dateitypen ein. Tragen Sie dazu die jeweilige Dateiendungen mit Komma getrennt ein (z.B. jpg,gif). Dies ist sinnvoll, wenn die vorangegangene Option leer ist (alle Typen erlaubt).
@@ -14084,11 +14084,11 @@ iass#:#iass_upload_file#:#Prüfungsblatt
 iass#:#iass_file_visible_examinee#:#Datei für Teilnehmer sichtbar
 iass#:#iass_usr_download_attachment#:#Datei herunterladen
 iass#:#iass_save_amend#:#Geänderte Prüfungsdaten speichern
-dateplaner#:#cal_exc_inst_files#:#Instruction Files###31 08 2017 new variable
+dateplaner#:#cal_exc_inst_files#:#Datei
 dateplaner#:#cal_repo_obj#:#Magazinobjekt
-survey#:#sub_tab_dashboard#:#Dashboard###31 08 2017 new variable
-survey#:#svy_print_show_labels#:#Show labels###31 08 2017 new variable
-survey#:#svy_print_hide_labels#:#Hide labels###31 08 2017 new variable
+survey#:#sub_tab_dashboard#:#Dashboard
+survey#:#svy_print_show_labels#:#Labels anzeigen
+survey#:#svy_print_hide_labels#:#Labels ausblenden
 content#:#cont_grid_width_m#:#Medium
 grp#:#grp_created_and_user_been_added#:#Die Gruppe wurde erstellt und der Benutzer hinzugefügt.
 cont#:#cont_assign_skills#:#Kompetenzen zuweisen
