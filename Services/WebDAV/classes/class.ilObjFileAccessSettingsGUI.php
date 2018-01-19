@@ -36,6 +36,7 @@ include_once "./Services/Object/classes/class.ilObjectGUI.php";
  */
 class ilObjFileAccessSettingsGUI extends ilObjectGUI {
 
+	const CMD_EDIT_DOWNLOADING_SETTINGS = 'editDownloadingSettings';
 	/**
 	 * @var \ilSetting
 	 */
@@ -101,7 +102,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI {
 
 			default:
 				if (!$cmd || $cmd == 'view') {
-					$cmd = "editDownloadingSettings";
+					$cmd = self::CMD_EDIT_DOWNLOADING_SETTINGS;
 				}
 
 				$this->$cmd();
@@ -125,8 +126,8 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI {
 		$GLOBALS['DIC']['lng']->loadLanguageModule('fm');
 
 		if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
-			$this->tabs_gui->addTarget('downloading_settings', $this->ctrl->getLinkTarget($this, "editDownloadingSettings"),
-				array("editDownloadingSettings", "view"));
+			$this->tabs_gui->addTarget('downloading_settings', $this->ctrl->getLinkTarget($this, self::CMD_EDIT_DOWNLOADING_SETTINGS),
+				array(self::CMD_EDIT_DOWNLOADING_SETTINGS, "view"));
 
 			$this->tabs_gui->addTarget('upload_settings', $this->ctrl->getLinkTarget($this, "editUploadSettings"),
 				array("editUploadSettings", "view"));
@@ -268,12 +269,10 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI {
 	public function saveDownloadingSettings() {
 		global $DIC;
 		$rbacsystem = $DIC['rbacsystem'];
-		$ilErr = $DIC['ilErr'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
 
 		if (!$rbacsystem->checkAccess("write", $this->object->getRefId())) {
-			$ilErr->raiseError($lng->txt("no_permission"), $ilErr->WARNING);
+			ilUtil::sendFailure($DIC->language()->txt("no_permission"), true);
+			$DIC->ctrl()->redirect($this, self::CMD_EDIT_DOWNLOADING_SETTINGS);
 		}
 
 		$form = $this->initDownloadingSettingsForm();
@@ -292,8 +291,8 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI {
 				$this->folderSettings->set("bgtask_download_tsize", (int)$_POST["bg_tsize"]);
 			}
 
-			ilUtil::sendSuccess($lng->txt('settings_saved'), true);
-			$ilCtrl->redirect($this, "editDownloadingSettings");
+			ilUtil::sendSuccess($DIC->language()->txt('settings_saved'), true);
+			$DIC->ctrl()->redirect($this, self::CMD_EDIT_DOWNLOADING_SETTINGS);
 		}
 
 		$form->setValuesByPost();
