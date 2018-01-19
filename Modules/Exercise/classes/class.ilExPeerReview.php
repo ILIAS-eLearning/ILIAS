@@ -51,7 +51,14 @@ class ilExPeerReview
 	protected function initPeerReviews()
 	{
 		global $ilDB;
-				
+
+
+		// see #22246
+		if (!$this->assignment->afterDeadlineStrict())
+		{
+			return false;
+		}
+
 		if(!$this->hasPeerReviewGroups())
 		{
 			$user_ids = $this->getValidPeerReviewUsers();
