@@ -16,38 +16,38 @@
 <!-- language file start -->
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Learning Tools Interoperability
-common#:#lti_outcome#:#LTI Lernfortschritt Benachrichtigung
-common#:#lti_outcome_info#:#Sendet den Lernfortschrittstatus von LTI-Benutzern an LTI Tool Consumer.
-lti#:#act_lti_for_obj_type#:#Activate LTI for Type of Object
-lti#:#gbl_roles_to_users#:#Global Role assigned to LTI Users
-lti#:#consumers#:#Consumers
+common#:#lti_outcome#:#Übermittlung LTI-Lernfortschritt
+common#:#lti_outcome_info#:#Sendet den Lernfortschrittstatus von LTI-Benutzern an LTI-Tool-Consumer.
+lti#:#act_lti_for_obj_type#:#LTI für diese Objekttypen aktivieren
+lti#:#gbl_roles_to_users#:#LTI-Nutzern zugeordnete globale Rolle
+lti#:#consumers#:#Konsumenten
 lti#:#prefix#:#Prefix
 lti#:#lti_consumer_key#:#Consumer Key
 lti#:#lti_consumer_secret#:#Consumer Secret
-lti#:#user_lng#:#User Languague
-lti#:#lti_create_consumer#:#Create Consumer
-lti#:#lti_object_consumer#:#LTI Consumers
-lti#:#lti_settings#:#LTI Settings
-lti#:#lti_consumer_created#:#Consumer created
-lti#:#lti_consumer_updated#:#Consumer updated
-lti#:#lti_consumer_deleted#:#Consumer deleted
-lti#:#lti_consumer_set_active#:#Consumer activated
-lti#:#lti_consumer_set_inactive#:#Consumer deactivated
-lti#:#lm_only_one_download_per_type#:#Please note that you can only make one file per type (XML, HTML, SCORM) public accessible.
-lti#:#lti_auth_failed_invalid_key#:#Authentication failed, no valid consumer key given.
+lti#:#user_lng#:#Benutzersprache
+lti#:#lti_create_consumer#:#Konsumenten hinzufügen
+lti#:#lti_object_consumer#:#LTI-Konsumenten
+lti#:#lti_settings#:#LTI-Einstellungen
+lti#:#lti_consumer_created#:#Konsument hinzugefügt
+lti#:#lti_consumer_updated#:#Konsument aktualisiert
+lti#:#lti_consumer_deleted#:#Konsument gelöscht
+lti#:#lti_consumer_set_active#:#Konsument aktiviert
+lti#:#lti_consumer_set_inactive#:#Konsument deaktiviert
+lti#:#lm_only_one_download_per_type#:#Pro Typ (XML, HTML, SCORM) können Sie nur eine Datei zum Download verfügbar machen.
+lti#:#lti_auth_failed_invalid_key#:#Authentifizierung nicht möglich. Es wurde kein gültiger Consumer-Key übermittelt.
 lti#:#auth_lti#:#LTI Auth
-lti#:#lti_edit_consumer#:#Edit LTI Consumer
-lti#:#lti_obj_active#:#LTI-Tool Provider
-lti#:#lti_obj_active_info#:#If enabled, this object acts as a LTI tool provider.
+lti#:#lti_edit_consumer#:#LTI-Konsument bearbeiten
+lti#:#lti_obj_active#:#LTI-Tool-Provider
+lti#:#lti_obj_active_info#:#Wenn aktiviert, kann dieses Objekt über die LTI-Schnittstelle von anderen Plattformen eingebunden werden.
 lti#:#lti_admin#:#LTI-Administrator
 lti#:#lti_tutor#:#LTI-Tutor
 lti#:#lti_member#:#LTI-Member
-auth#:#lti_consumer_inactive#:#LTI tool consumer is disabled.
-lti#:#lti_object_release_settings_form#:#LTI Freigaben bearbeiten
+auth#:#lti_consumer_inactive#:#LTI-Tool-Consumer ist deaktivert
+lti#:#lti_object_release_settings_form#:#LTI-Freigaben bearbeiten
 lti#:#lti_provider#:#LTI-Freigaben
-lti#:#lti_launch_url#:#Url
+lti#:#lti_launch_url#:#URL
 lti#:#lti_released_objects#:#Objekt-Freigaben
-lti#:#lti_consumer#:#Released for
+lti#:#lti_consumer#:#Freigegeben für
 orgu#:#orgu_global_set_form#:#Globale Einstellungen
 orgu#:#orgu_global_set_positions#:#Anzeige von Benutzerdaten nach Positionen in Organisationseinheiten
 orgu#:#orgu_global_set_positions_type_active#:#Positionen in: 
@@ -13409,8 +13409,8 @@ style#:#style_deleted#:#Gelöschter Style:
 style#:#dir_preserved_linked#:#Behaltene Links:
 style#:#file_deleted#:#Folgende Datei wurde gelöscht:
 style#:#skin_deleted#:#Folgender Skin wurde gelöscht:
-style#:#msg_sys_style_update#:#System Styles wurden aktualisiert.
-common#:#set_style_does_not_exist#:#Ausgewählter System Style existiert nicht mehr. In den persönlichen Einstellungen kann ein neuer System Style aktiviert oder ein Admin kontaktiert werden. Aktuelle Auswahl:
+style#:#msg_sys_style_update#:#System-Styles wurden aktualisiert.
+common#:#set_style_does_not_exist#:#Ausgewählter System-Style existiert nicht mehr. In den persönlichen Einstellungen kann ein neuer System-Style aktiviert oder ein Admin kontaktiert werden. Aktuelle Auswahl:
 common#:#set_skin_does_not_exist#:#Ausgewählter Skin existiert nicht mehr. In den persönlichen Einstellungen kann ein neuer Skin aktiviert oder ein Admin kontaktiert werden. Aktuelle Auswahl:
 style#:#cant_deactivate_default_style#:#Standard Styles können nicht deaktiviert werden.
 style#:#cant_delete_if_users_assigned#:#Styles können nicht gelöscht werden, solange Benutzer ihnen zugewiesen sind.
@@ -13439,14 +13439,14 @@ style#:#to#:#nach:
 style#:#dir_deleted#:#Der folgende Ordner wurde gelöscht:
 style#:#sty_create_new_system_style#:#Neuen System-Style anlegen
 style#:#sty_create_new_system_sub_style#:#Neuen Sub Style anlegen
-style#:#sty_import_system_style#:#System Style importieren
+style#:#sty_import_system_style#:#System-Style importieren
 style#:#sty_copy_other_system_style#:#System-Style kopieren
 style#:#sub_style_id#:#Sub Style ID
 style#:#sub_style_name#:#Sub Style Name
 style#:#less_variables_file_not_included#:#Die Less Variablen Datei:
-style#:#in_main_less_file#:#ist nicht in der System Styles main Less Datei importiert:
+style#:#in_main_less_file#:#ist nicht in der System-Styles main Less Datei importiert:
 style#:#can_not_read_less_file#:#Less Datei kann nicht gelesen werden. Pfad:
-style#:#msg_sys_style_created#:#Die neue System Style Datei wurde erfolgreich erstellt.
+style#:#msg_sys_style_created#:#Die neue System-Style-Datei wurde erfolgreich erstellt.
 style#:#skin_id_description#:#Skins sind Behälter für Styles und Sub Styles. Die Skin ID setzt den Namen des Ordners, welcher alle Informationen zu Styles und Sub Styles beinhaltet. Die Skin ID darf sich nur aus Buchstaben, Nummern sowie Bindestrichen zusammensetzen.
 style#:#skin_name_description#:#Der Skin Name kann als Beschreibung für das Einsatzgebiet verwendet werden. Er wird in allen UI Elementen aufgelistet, in denen ein Skin ausgewählt werden kann.
 style#:#skin_version_description#:#Die Skin Version wird genutzt um die Styles, nach Änderungen, neu zu cachen. Sie wird automatisch aktualisiert.
@@ -13459,8 +13459,8 @@ style#:#sound_dir_description#:#Ordner für das Speichern von Tönen vom betreff
 style#:#sub_style_parent_style_description#:#Sub Styles werden genau einem Parent Style zugewiesen. Sie werden nur den Usern angezeigt, welche auch Zugang zum Parent Style haben. Der Parent Style eines Sub Styles kann nur während der Erstellung des Sub Styles einmalig zugeordnet werden.
 style#:#sub_style_id_description#:#Die Sub Style ID wird für die betreffenden css und less Dateien verwendet. Diese sind innerhalb des betreffenden Skin Ordners. Die Sub Style ID darf sich nur aus Buchstaben, Nummern sowie Bindestrichen zusammensetzen.
 style#:#sub_style_name_description#:#Der Sub Style Name kann als Beschreibung für das Einsatzgebiet verwendet werden. Es wird in allen UI Elementen aufgelistet, welche eine Selektierung des Skins erlauben.
-style#:#system_style_activation_description#:#Aktive System Styles können bestimmten Benutzern zugewiesen, oder durch diese ausgewählt werden wenn die betreffende Einstellung (Benutzerverwaltung / Einstellungen / Standardfelder / Standard-Skin/ -Style) aktiviert ist.
-style#:#system_style_default_description#:#Wenn aktiviert, ist dieser Style als Standard System Style festgelegt. Der Standard System Style wird verwendet, sofern der Benutzer noch keinen eigenen Style zugewiesen hat, oder der Benutzer nicht eingeloggt ist.
+style#:#system_style_activation_description#:#Aktive System-Styles können bestimmten Benutzern zugewiesen, oder durch diese ausgewählt werden wenn die betreffende Einstellung (Benutzerverwaltung / Einstellungen / Standardfelder / Standard-Skin/ -Style) aktiviert ist.
+style#:#system_style_default_description#:#Wenn aktiviert, ist dieser Style als Standard-System-Style festgelegt. Der Standard-System-Style wird verwendet, sofern der Benutzer noch keinen eigenen Style zugewiesen hat, oder der Benutzer nicht eingeloggt ist.
 style#:#system_style_personal_description#:#Wenn aktiviert, ist dieser Style als persönlicher Style festgelegt. Das stellt eine gute Hilfe dar, wenn aktuelle Änderungen am Skin mitverfolgt werden möchten.
 style#:#less_compile_failed#:#Die Less Datei konnte nicht kompiliert werden. Lessc muss dafür installiert und der Pfad im ILIAS setup richtig gesetzt sein.
 style#:#zip_export_failed#:#Der ZIP Export ist mit folgender Error Meldung fehlgeschlagen:
@@ -13572,7 +13572,7 @@ bgtask#:#bgtask_setting_threshold_size#:#Minimale Grösse
 bgtask#:#bgtask_setting_threshold_size_info#:#Ab dieser Grösse erfolgt der Download asynchron.
 bgtask#:#bgtask_cron_gc_title#:#Hintergrundaufgaben-Bereinigung
 bgtask#:#bgtask_cron_gc_desc#:#Löscht nicht mehr benötigte durch Hintergrundprozesse erzeugte Dateien.
-style#:#enable_system_styles_management_no_write_perm#:#'System Styles Management' ist aktiviert ILIAS hat aber keinen Schreibzugriff auf das Customizing/global/skin Verzeichnis. Es können deshalb keine neuen Styles erstellt/editiert werden.
+style#:#enable_system_styles_management_no_write_perm#:#'System-Styles-Management' ist aktiviert. ILIAS hat aber keinen Schreibzugriff auf das Customizing/global/skin Verzeichnis. Es können deshalb keine neuen Styles erstellt/editiert werden.
 awrn#:#awrn_use_osd#:#Popup Online-Benutzer
 awrn#:#awrn_use_osd_info#:#Zeigt ein Popup an, wenn neue Benutzer in der „Wer ist online?“-Anzeige mit dem Online-Status erscheinen.
 exc#:#exc_tbl_filter_submission#:#Abgabe
@@ -13802,7 +13802,7 @@ exc#:#exc_settings_feedback_file_info#:#Tutoren laden ihre Datei hoch. Der jewei
 exc#:#exc_settings_feedback_text_info#:#Tutoren geben ihre Rückmeldungen in ein Textfeld ein. Der jeweilige Teilnehmer erhält eine Benachrichtigung und der Text wird ihm in der Übungseinheiten-Übersicht angezeigt.
 rbac#:#file_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
 rbac#:#stys_sty_write_content#:#Content-Styles bearbeiten
-style#:#manage_system_styles#:#System Styles verwalten
+style#:#manage_system_styles#:#System-Styles verwalten
 style#:#scope#:#Gültigkeitsbereich
 auth#:#auth_saml#:#SAML
 common#:#auth_saml#:#SAML
