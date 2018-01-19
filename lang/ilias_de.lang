@@ -14067,9 +14067,9 @@ lti#:#lti_exited_info#:#Die LTI Sitzung wurde erfolgreich beendet
 blog#:#blog_nav_mode_month_list_num_month_with_post#:#Anzahl Monate mit angezeigten Beiträgen
 blog#:#blog_nav_mode_month_list_num_month_with_post_info#:#Die Monate werden im Navigationsblock mit der vollständigen Liste der Beiträge angezeigt.
 orgu#:#org_op_access_enrolments#:#Einsicht Einschreibungen
-assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_missing#:#Rule %s requires %s questions, but there are only %s questions provided.###31 08 2017 new variable
+assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_missing#:#Regel %s erfordert %s Fragen. Es stehen aber nur %s Fragen zur Verfügung.
 orgu#:#msg_confirm_d_ua#:#Wollen Sie folgende Benutzer der Position Mitarbeiter in ihrer jeweiligen Organisationseinheit zuweisen?
-orgu#:#user_assignments#:#User Assignments###31 08 2017 new variable
+orgu#:#user_assignments#:#Benutzerzuweisung
 orgu#:#authority#:#Befugnisse
 orgu#:#confirm_deletion_and_assign#:#Löschen und Benutzer zuweisen
 orgu#:#confirm_deletion_button#:#Löschen
@@ -14077,8 +14077,8 @@ orgu#:#msg_deleted#:#Gelöscht
 orgu#:#msg_position_updated#:#Position wurde aktualisiert.
 orgu#:#msg_position_created#:#Position wurde erstellt.
 orgu#:#msg_success_permission_saved#:#Rechte wurden gespeichert.
-common#:#scorm_login_as_learner_id#:#SCORM 2004: set ILIAS Username as cmi.learner_id###31 08 2017 new variable
-common#:#scorm_login_as_learner_id_info#:#If enabled, the Username instead of the User ID is set for cmi.learner_id.###31 08 2017 new variable
+common#:#scorm_login_as_learner_id#:#SCORM 2004: Setze ILIAS-Benutzernamen als cmi.learner_id
+common#:#scorm_login_as_learner_id_info#:#Wenn aktiviert wird der ILIAS-Benutzername an Stelle der ILIAS-Benutzer-ID für die cmi.learner_id gesetzt.
 iass#:#iass_upload_file#:#Prüfungsblatt
 iass#:#iass_file_visible_examinee#:#Datei für Teilnehmer sichtbar
 iass#:#iass_usr_download_attachment#:#Datei herunterladen
@@ -14120,11 +14120,11 @@ awrn#:#awrn_online#:#Online
 rbac#:#edit_submissions_grades#:#Abgaben und Noten bearbeiten
 rbac#:#exc_edit_submissions_grades#:#Benutzer kann Abgaben und Noten bearbeiten
 rbac#:#release_objects#:#Objekte freigeben
-rbac#:#ltis_release_objects#:#Benutzer kann Objekte freigeben für LTI Consumer
+rbac#:#ltis_release_objects#:#Benutzer kann Objekte für LTI Consumer freigeben
 rbac#:#ltis_visible#:#LTI-Administration ist sichtbar
 rbac#:#ltis_read#:#Lesezugriff auf LTI-Administration
 rbac#:#ltis_write#:#Einstellungen in LTI-Administration bearbeiten
-rbac#:#ltis_edit_permission#:#Rechteeinstellungen für die LTI-Administration ändern
+rbac#:#ltis_edit_permission#:#Rechteeinstellungen für LTI-Administration ändern
 content#:#cont_sc_id_setting#:#student_id gemäß SCORM 1.2 entspricht
 content#:#cont_sc_id_setting_2004#:#learner_id gemäß SCORM 2004 entspricht
 content#:#cont_sc_id_setting_info#:#Für den Fall, dass eine numerische Id für student_id (SCORM 1.2) bzw. learner_id (SCORM 2004) beim Lernmodul zu Problemen führt, nutzen Sie die Option 'ILIAS-Benutzername'. Der Zusatz RefId bzw. ObjId kann für Lernmodule sinnvoll sein, die sich mit einem externen Server verbinden.
@@ -14146,7 +14146,7 @@ content#:#cont_sc_name_setting_no_name#:#Kein Name
 dateplaner#:#cal_download_files_started#:#Download der Dateien wurde gestartet.
 common#:#usr_name_undisclosed#:#Nicht freigegeben
 common#:#obj_exc_duplicate#:#Übung kopieren
-meta#:#adt_error_max_length#:#Der eingegebene Text is zu lang, bitte geben Sie einen kürzeren Text ein.
+meta#:#adt_error_max_length#:#Der eingegebene Text ist zu lang. Bitte geben Sie einen kürzeren Text ein.
 form#:#form_chars_remaining#:#Verbleibende Zeichen:
-poll#:#poll_voting_period_full_info#:#Voting period from %s to %s###20 12 2017 new variable
+poll#:#poll_voting_period_full_info#:#Abstimmung von %s bis %s
 crs#:#crs_subscription_min_members_err#:#Die minimale Anzahl darf nicht größer als die maximale Anzahl sein.
