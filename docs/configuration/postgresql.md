@@ -1,8 +1,8 @@
 # Configure PostgreSQL for ILIAS
 ## Installation
-First install PostgreSQL database server and PostgreSQL PHP support on your machine.
+First you need to install PostgreSQL database server and PostgreSQL PHP support on your machine.
 
-You need at least PostgreSQL 9.5.
+You need at least PostgreSQL 9.5 or 9.6 (9.3 not work, 9.4 and 10 are untested).
 
 On Debian/Ubuntu 14.04 execute:
 ```
@@ -23,7 +23,7 @@ sudo yum install postgresql-9.5 php5-pgsql
 ```
 
 ##Memory
-You may to need increase PHP memory limit?
+Remember you may to need increase PHP memory limit.
 
 ##Create database
 We RECOMMEND to create a dedicated database user for ILIAS:
@@ -37,16 +37,16 @@ GRANT ALL PRIVILEGES ON DATABASE ilias TO ilias;
 ```
 
 ##Restart apache server
-After changing the configuration remember to reload the web server daemon:
+After changing the configuration remember to reload the web server daemon.
 
-On Debian/Ubuntu: 
+On Debian/Ubuntu execute: 
 ```
-sudo systemctl restart apache2.service
+sudo service restart apache2 restart
 ```
 
-On RHEL/CentOS: 
+On RHEL/CentOS execute: 
 ```
-sudo systemctl restart httpd.service
+sudo service restart httpd restart
 ```
 
 ##ILIAS setup
@@ -54,3 +54,5 @@ In the ILIAS setup select `Postgres (experimental)` as database type.
 In `Database Host` enter `localhost` and in `Database Name` your created PostgreSQL database name.
 In `Database user` and `Database Password` enter your PostgreSQL user and password.
 
+#Hint
+The PostgresSQL support in ILIAS is experimental so may some database actions will fail!
