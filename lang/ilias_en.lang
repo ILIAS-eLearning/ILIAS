@@ -3971,7 +3971,7 @@ content#:#cont_header#:#Header
 content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
 content#:#cont_Headline3#:#Headline 3
-content#:#cont_height#:#Height
+content#:#cont_height#:#Height in pixels
 content#:#cont_hidenavig#:#Hide Navigation Tree
 content#:#cont_href#:#href
 content#:#cont_html_table#:#HTML Table
@@ -4296,7 +4296,7 @@ content#:#cont_users_have_mob_in_clip2#:#user(s).
 content#:#cont_validate_file#:#Validate File
 content#:#cont_version#:#version
 content#:#cont_versions#:#Versions
-content#:#cont_width#:#Width
+content#:#cont_width#:#Width in pixels
 content#:#cont_wiki_page_link#:#Wiki Page Link
 content#:#cont_xml_base#:#xml:base
 content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.

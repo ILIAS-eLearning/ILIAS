@@ -4582,7 +4582,7 @@ content#:#cont_header#:#Kopfzeile
 content#:#cont_Headline1#:#Überschrift 1
 content#:#cont_Headline2#:#Überschrift 2
 content#:#cont_Headline3#:#Überschrift 3
-content#:#cont_height#:#Höhe
+content#:#cont_height#:#Höhe in Pixel
 content#:#cont_hidenavig#:#Linken Navigationsbaum ausblenden
 content#:#cont_href#:#href
 content#:#cont_html_export_ids#:#HTML-Export-IDs
@@ -5016,7 +5016,7 @@ content#:#cont_version#:#Version
 content#:#cont_versions#:#Versionen
 content#:#cont_whole_glossary#:#Gesamtes Glossar
 content#:#cont_WholePicture#:#Ganzes Bild
-content#:#cont_width#:#Breite
+content#:#cont_width#:#Breite in Pixel
 content#:#cont_wiki_page_link#:#Wiki-Seiten-Link
 content#:#cont_wrong_answers#:#Anzahl Fehler
 content#:#cont_wrong_answers_single#:#Falsche Wahl.
