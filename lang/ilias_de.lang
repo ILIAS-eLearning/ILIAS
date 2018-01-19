@@ -10217,7 +10217,6 @@ content#:#cont_scorm_options#:#Aufzeichnung von Bearbeitungsdaten
 content#:#cont_rte_settings#:#RTE-Einstellungen
 content#:#cont_debugging#:#Debugging
 content#:#cont_auto_last_visited_info#:#Dem Benutzer wird beim erneuten Aufrufen des SCORM-Lernmoduls das zuletzt besuchte SCO oder Asset angezeigt.
-content#:#cont_credit_mode_info#:#Diese Einstellung ist nur wirksam im Modus 'normal'.
 content#:#cont_sc_usession_info#:#Es werden regelmäßig Anfragen an ILIAS gesendet, damit der Benutzer in der Plattform weiter eingeloggt bleibt. ILIAS würde sonst die Bearbeitung des SCORM-Lernmoduls nicht als Aktivität werten und die ILIAS-Sitzung beenden. Dadurch gingen Bearbeitungsdaten verloren.
 content#:#cont_sequencing_info#:#Aktiviert die Vorgaben des Lernmoduls zur interaktiven Steuerung der Navigationsmöglichkeiten von Benutzern innerhalb des Lernmoduls in Abhängigkeit von Ereignissen oder Ergebnissen. <br />Prüfen Sie zunächst, ob Ihr Lernmodul solche Angaben zu 'Sequencing & Navigation' überhaupt enthält. Dies ist nur selten der Fall.
 content#:#cont_time_from_lms_info#:#Um häufig auftretende Schwierigkeiten bei der Zeiterfassung durch das SCORM-Lernmodul vorzubeugen, kann die Zeiterfassung durch ILIAS selbst vorgenommen werden. Die strikten Vorgaben des SCORM-Standards werden hierbei eingehalten.

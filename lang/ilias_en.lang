@@ -10178,7 +10178,6 @@ content#:#cont_scorm_options#:#SCORM Options
 content#:#cont_rte_settings#:#RTE Settings
 content#:#cont_debugging#:#Debugging
 content#:#cont_auto_last_visited_info#:#Users are presented with the SCO/Asset they most recently visited when opening the learning module again.
-content#:#cont_credit_mode_info#:#This setting is only affective if the lesson mode is ‘normal’.
 content#:#cont_sc_usession_info#:#Periodical requests will be sent to ILIAS to keep the session alive. Otherwise ILIAS will categorize working on the learning module as idleness, terminate the session and loose the tracking data.
 content#:#cont_sequencing_info#:#Enable the sequencing and navigation behaviour as defined by the learning module: Navigational options will be determined from the results of interactions with the content. Please check whether or not your learning module does actually contain this kind of sequencing & navigation data, since this is rare.
 content#:#cont_time_from_lms_info#:#Frequently SCORM learning modules are returning faulted data on processing time. To avoid this issue ILIAS can determine the processing time adhering to the strict standards of SCORM.
