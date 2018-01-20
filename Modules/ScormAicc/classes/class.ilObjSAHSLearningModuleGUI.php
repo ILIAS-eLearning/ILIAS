@@ -4,7 +4,7 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 require_once("./Services/FileSystem/classes/class.ilFileSystemGUI.php");
 
 /**
-* SCORM/AICC/HACP Learning Modules
+* SCORM Learning Modules
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * $Id$
