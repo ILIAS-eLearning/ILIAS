@@ -129,13 +129,13 @@ class Renderer extends AbstractComponentRenderer {
 
 		for ($i = 1; $i<=12; $i++)
 		{
-			$this->toJS(array("month_".str_pad($i, 2, "0", STR_PAD_LEFT)."_long"));
+			$this->toJS(array("month_".str_pad($i, 2, "0", STR_PAD_LEFT)."_short"));
 		}
 
 		$tpl = $this->getTemplate("tpl.month.html", true, true);
 
 		$month = explode("-", $def);
-		$tpl->setVariable("DEFAULT_LABEL", $this->txt("month_".str_pad($month[0], 2, "0", STR_PAD_LEFT)."_long")." ".$month[1]);
+		$tpl->setVariable("DEFAULT_LABEL", $this->txt("month_".str_pad($month[0], 2, "0", STR_PAD_LEFT)."_short")." ".$month[1]);
 		$tpl->setVariable("DEF_DATE", $month[0]."/1/".$month[1]);
 		// see https://github.com/moment/moment/tree/develop/locale
 		$lang_key = in_array($this->getLangKey(), array("ar", "bg", "cs", "da", "de", "el", "en", "es", "et", "fa", "fr", "hu", "it",

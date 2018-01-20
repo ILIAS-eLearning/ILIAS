@@ -7860,6 +7860,12 @@ hr.il-divider-with-label {
 .il-viewcontrol-sortation .dropdown-toggle .caret:before {
   content: "\21f5";
 }
+.ilBlockContent .il-viewcontrol-section .btn.btn-default {
+  background-color: transparent;
+  border: 0;
+  color: #557196;
+  padding: 3px 3px;
+}
 ul.breadcrumb {
   margin: 0;
   font-weight: 600;
