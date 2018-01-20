@@ -349,7 +349,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		}
 		else
 		{
-			$cb->setInfo($this->lng->txt("cont_debug_deactivate"));
+			$cb->setInfo($this->lng->txt("cont_debug_deactivate12"));
 		}
 		$this->form->addItem($cb);
 		$this->form->addCommandButton("saveProperties", $lng->txt("save"));
