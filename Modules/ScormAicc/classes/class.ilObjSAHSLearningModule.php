@@ -1483,5 +1483,28 @@ class ilObjSAHSLearningModule extends ilObject
 		return $studentName;
 	}
 
+	/**
+	* get button for view
+	*/
+	public function getViewButton() {
+		$setUrl = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->getRefID();
+		// $setUrl = $this->getLinkTargetByClass("ilsahspresentationgui", "")."&amp;ref_id=".$this->getRefID();
+		$setTarget = "ilContObj".$this->getId();
+		$om = $this->getOpenMode();
+		$width = $this->getWidth();
+		$height = $this->getHeight();
+		if ( ($om == 5 || $om == 1) && $width > 0 && $height > 0) $om++;
+		if ($om != 0) {
+			$setUrl = "javascript:void(0); onclick=startSAHS('".$setUrl."','ilContObj".$this->getId()."',".$om.",".$width.",".$height.");";
+			$setTarget = "";
+		}
+		include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+		$button = ilLinkButton::getInstance();
+		$button->setCaption("view");
+		$button->setPrimary(true);
+		$button->setUrl($setUrl);
+		$button->setTarget($setTarget);
+		return $button;
+	}
 }
 ?>

@@ -81,9 +81,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$ilTabs->setSubTabActive('cont_settings');
 
 		// view
-		$ilToolbar->addButton($this->lng->txt("view"),
-			"ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->object->getRefID(),
-			"_blank");
+		$ilToolbar->addButtonInstance($this->object->getViewButton());
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
