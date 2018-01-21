@@ -11545,6 +11545,7 @@ content#:#cont_fourth_edition#:#Neueste Version 'SCORM 2004 4th edition'
 content#:#cont_fourth_edition_info#:#'SCORM 2004 4th edition' bietet gegenüber der '3rd edition' einige Erweiterungen. Es können Daten über SCO-Grenzen hinweg ausgetauscht werden. Diese Möglichkeiten werden allerdings nur selten genutzt und wirken sich negativ auf die Geschwindigkeit aus.
 content#:#offline_mode_manager#:#Offline-Nutzung
 content#:#offline_mode_users#:#Nutzer im Offline-Modus
+content#:#offline_mode_users_info#:#Benutzer können händisch auf dem Offline-Modus herausgenommen werden und danach auch wieder das Lernmodul online benutzen. Dies ergibt Sinn, wenn z.B. der Laptop mit den Lernmodulen gestohlen wurde.
 content#:#cont_offline_mode_disable_not_allowed_info#:#Da das Lernmodul von Nutzern aktuell im Offline-Modus genutzt wird, kann der Offline-Modus nicht deaktiviert werden.
 content#:#stop_user_offline_mode#:#Offline-Modus beenden
 content#:#stop_user_offline_mode_for_user#:#Offline-Modus beenden für
