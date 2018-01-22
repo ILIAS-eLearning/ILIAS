@@ -380,15 +380,7 @@ var Database = function Database(config) {
 	 * @param {Conversation} conversation
 	 */
 	this.updateConversation = function(conversation) {
-		var participantsJson = [];
-		var participants = conversation.getParticipants();
-
-		for(var index in participants) {
-			if(participants.hasOwnProperty(index)){
-				participantsJson.push(participants[index].json())
-			}
-		}
-		participantsJson = JSON.stringify(participantsJson);
+		var participantsJson = JSON.stringify(getConversationParticipantsJson(conversation));
 
 		_pool.query('UPDATE osc_conversation SET participants = ?, is_group = ? WHERE id = ?',
 			[participantsJson, conversation.isGroup(), conversation.getId()],
@@ -403,13 +395,17 @@ var Database = function Database(config) {
 	 * @param {Conversation} conversation
 	 */
 	this.persistConversation = function(conversation) {
-		_pool.query('INSERT INTO osc_conversation SET ?', {
-			id: conversation.getId(),
-			is_group: conversation.isGroup(),
-			participants: JSON.stringify(conversation.getParticipants())
-		}, function(err){
-			if(err) throw err;
-		});
+		var participantsJson = JSON.stringify(getConversationParticipantsJson(conversation));
+
+		_pool.query(
+			'INSERT INTO osc_conversation SET ?',
+			{
+				id: conversation.getId(),
+				is_group: conversation.isGroup(),
+				participants: participantsJson
+			},
+			handleError
+		);
 	};
 
 
@@ -432,6 +428,22 @@ var Database = function Database(config) {
 	this.getConnection = function(callback) {
 		_pool.getConnection(callback);
 	};
+
+	function getConversationParticipantsJson(conversation) {
+		var participantsJson = {};
+		var participants = conversation.getParticipants();
+
+		for (var index in participants) {
+			if(participants.hasOwnProperty(index)) {
+				var p = participants[index];
+				if (p.getId() !== null && p.getId() > 0 && !participantsJson.hasOwnProperty(p.getId())) {
+					participantsJson[p.getId()] = p.json();
+				}
+			}
+		}
+
+		return Object.values(participantsJson);
+	}
 
 	function _onQueryEvents(query, onResult, onEnd) {
 		query.on('result', onResult);
