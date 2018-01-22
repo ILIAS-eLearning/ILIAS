@@ -12349,6 +12349,8 @@ grp#:#grp_admission_link_failure_membership_limited#:#Can't register: Group memb
 crs#:#crs_admission_link_failure_membership_limited#:#Can't register: Course membership is limited.
 grp#:#grp_admission_link_success_registration#:#Successfully registered to group "%s".
 crs#:#crs_admission_link_success_registration#:#Successfully registered to course "%s".
+crs#:#crs_admission_link_failure_offline#:#Can't register: Course is offline.
+crs#:#crs_admission_link_failure_availability#:#Can't register: Course is not online.
 rbac#:#ilias_id#:#ILIAS-ID
 scormtrac#:#exportselectedraw#:#CMI (RAW) data
 scormtrac#:#lvalue#:#Key

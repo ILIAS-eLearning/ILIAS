@@ -12368,6 +12368,8 @@ grp#:#grp_admission_link_failure_membership_limited#:#Kein Beitritt möglich. Di
 crs#:#crs_admission_link_failure_membership_limited#:#Kein Beitritt möglich. Die Mitgliederzahl der Gruppe ist begrenzt.
 grp#:#grp_admission_link_success_registration#:#Erfolgreich zur Gruppe "%s" beigetreten.
 crs#:#crs_admission_link_success_registration#:#Erfolgreich zum Kurs "%s" beigetreten.
+crs#:#crs_admission_link_failure_offline#:#Kein Beitritt möglich. Der Kurs ist offline.
+crs#:#crs_admission_link_failure_availability#:#Kein Beitritt möglich. Der Kurs ist online.
 rbac#:#ilias_id#:#ILIAS-ID
 scormtrac#:#exportselectedraw#:#Rohdaten
 scormtrac#:#lvalue#:#Key
