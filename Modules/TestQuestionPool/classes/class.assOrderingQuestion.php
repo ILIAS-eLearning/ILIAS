@@ -1578,22 +1578,22 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 			$newKey = explode(":", $row["value2"]);
 
-			foreach( $this->getOrderElements() as $key => $answer)
+			foreach( $this->getOrderingElementList() as $answer)
 			{
 				// Images nut supported
-				if($this->getOrderingType() == OQ_TERMS)
+				if( !$this->isOrderingTypeNested() )
 				{
-					if($key == $row["value1"])
+					if($answer->getSolutionIdentifier() == $row["value1"])
 					{
-						$elements[$key] = $row["value2"];
+						$elements[$row["value2"]] = $answer->getSolutionIdentifier() + 1;
 						break;
 					}
 				}
 				else
 				{
-					if($answer->getRandomId() == $newKey[0])
+					if($answer->getRandomIdentifier() == $newKey[0])
 					{
-						$elements[$key] = $row["value1"];
+						$elements[$row["value1"]] = $answer->getSolutionIdentifier() + 1;
 						break;
 					}
 				}

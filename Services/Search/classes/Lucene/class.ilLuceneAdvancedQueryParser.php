@@ -73,9 +73,19 @@ class ilLuceneAdvancedQueryParser extends ilLuceneQueryParser
 			$parsed = $this->getFieldDefinition()->parseFieldQuery($field,$query);
 			if(strlen($parsed))
 			{
-				$this->parsed_query .= " +(";
-				$this->parsed_query .= $parsed;
-				$this->parsed_query .= ") ";
+				// no plus before the prohibit operator
+				if(strcmp('-', substr($parsed, 0, 1)) === 0)
+				{
+					$this->parsed_query .= ' ';
+					$this->parsed_query .= $parsed;
+				}
+				else
+				{
+					$this->parsed_query .= ' +';
+					$this->parsed_query .= "(";
+					$this->parsed_query .= $parsed;
+					$this->parsed_query .= ") ";
+				}
 			}
 		}		
 		return true;

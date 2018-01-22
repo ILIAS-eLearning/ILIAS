@@ -62,6 +62,7 @@
                 handleRowCleanUpCallback: function(rowElem)
                 {
                     $(rowElem).find('div.imagepresentation').remove();
+                    $(rowElem).find('input[type=text]').val('');
                 }
             });
 

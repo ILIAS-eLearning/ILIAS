@@ -113,6 +113,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 				{
 					return;
 				}
+				$this->$cmd();
 				$this->tpl->show(true);
 				break;
 		}
@@ -163,7 +164,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 
 			case self::LP_CONTEXT_REPOSITORY:
 				$cmd = $this->ctrl->getCmd();
-				if(in_array($cmd, array("editmanual", "updatemanual", "showtlt")))
+				if(in_array($cmd, array("editManual", "updatemanual", "showtlt")))
 				{
 					return "";
 				}
@@ -258,14 +259,16 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 		}
 	}
 	
+	/**
+	 * Show progress screen for "edit manual"
+	 * @global type $tpl
+	 */
 	protected function editManual()
 	{
 		global $tpl;
 		
-		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 		if(ilLearningProgressAccess::checkAccess($this->getRefId()))
-		{					
-			include_once './Services/Object/classes/class.ilObjectLP.php';
+		{	
 			$olp = ilObjectLP::getInstance(ilObject::_lookupObjId($this->getRefId()));			
 			if($olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION_MANUAL)
 			{
@@ -381,7 +384,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 					ilUtil::sendSuccess($lng->txt("settings_saved"), true);
 				}							
 				
-				$ilCtrl->redirect($this, "editmanual");
+				$ilCtrl->redirect($this, "editManual");
 			}
 		}		
 	}

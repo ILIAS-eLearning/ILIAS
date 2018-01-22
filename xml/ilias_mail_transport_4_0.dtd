@@ -9,7 +9,7 @@
 <!--
 	Represents on mail
 -->
-<!ELEMENT Mail (Sender, To+ ,Cc*, Bcc*, Subject, Body?, Attachment*)>
+<!ELEMENT Mail (Sender, To+ ,Cc*, Bcc*, Subject, Message?, Attachment*)>
 
 <!-- 
 	usePlaceholders
@@ -113,7 +113,7 @@
 <!--
 	P one paragraph for each message line
 -->
-<!ELEMENT P (#PCDATA)
+<!ELEMENT P (#PCDATA)>
 
 <!--
 	Attachments should be base64 encoded

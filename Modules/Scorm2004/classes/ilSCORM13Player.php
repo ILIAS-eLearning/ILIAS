@@ -438,7 +438,6 @@ class ilSCORM13Player
 		$this->tpl->setVariable('TREE_JS', "./Modules/Scorm2004/scripts/ilNestedList.js");
 		$this->tpl->setVariable($langstrings);
 		$this->tpl->setVariable('DOC_TITLE', 'ILIAS SCORM 2004 Player');
-		if ($this->slm->getIe_compatibility()) $this->tpl->setVariable('IE_COMPATIBILITY', '<meta http-equiv="X-UA-Compatible" content="IE=7" />');
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable('INIT_CP_DATA', json_encode(json_decode($this->getCPDataInit())));
 		$this->tpl->setVariable('INIT_CMI_DATA', json_encode($this->getCMIData($this->userId, $this->packageId)));
@@ -1850,14 +1849,16 @@ class ilSCORM13Player
 		{
 			$sqlwrite = true;
 			$sql_data = $this->getNodeData($logdata->scoid,$fh_csv);
-			foreach ($sql_data as $key => $value) {
-				$sql_string =  $this->packageId.';"'
-					.$logdata->scoid.'";"'
-					.$logdata->scotitle.'";'
-					.$timestamp.';"SQL";"'
-					.$key.'";"'
-					.str_replace("\"","\"\"",$value).'";;;;'."\n";
-				fwrite($fh_csv,$sql_string);
+			if (count($sql_data) != 0){
+				foreach ($sql_data as $key => $value) {
+					$sql_string =  $this->packageId.';"'
+						.$logdata->scoid.'";"'
+						.$logdata->scotitle.'";'
+						.$timestamp.';"SQL";"'
+						.$key.'";"'
+						.str_replace("\"","\"\"",$value).'";;;;'."\n";
+					fwrite($fh_csv,$sql_string);
+				}
 			}
 		}
 		

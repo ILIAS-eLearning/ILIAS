@@ -62,8 +62,13 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
 
 	/**
 	 * run the job
-	 * @param Value $input
+	 *
+	 * @param array $input
 	 * @param Observer $observer
+	 *
+	 * @return StringValue
+	 *
+	 * @throws \ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException
 	 */
 	public function run(array $input, Observer $observer)
 	{
@@ -151,7 +156,7 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
 	/**
 	 * @inheritdoc
 	 */
-	public function getExpectedTimeOfTaksInSeconds() {
+	public function getExpectedTimeOfTaskInSeconds() {
 		return 30;
 	}
 }

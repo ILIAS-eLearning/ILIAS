@@ -85,9 +85,10 @@ class ilSkinXML implements \Iterator, \Countable{
 					throw new ilSystemStyleException(ilSystemStyleException::NO_PARENT_STYLE, $style->getId());
 				}
 				$style->setSubstyleOf($last_style->getId());
+			}else{
+				$last_style = $style;
 			}
 			$skin->addStyle($style);
-			$last_style = $style;
 
 		}
 		return $skin;

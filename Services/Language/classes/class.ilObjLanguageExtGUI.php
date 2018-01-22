@@ -410,7 +410,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 
 		if ($_POST['cmd']['upload'])
 		{
-			$file = $_FILES['userfile']['tmp_name'].'x';
+			$file = ilUtil::ilTempnam();
 			
 			if (ilUtil::moveUploadedFile($_FILES['userfile']['tmp_name'],
 									 	 $_FILES['userfile']['name'],
@@ -419,6 +419,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 				$this->object->importLanguageFile($file,$_POST['mode_existing']);
 				ilUtil::sendSuccess(sprintf($this->lng->txt("language_file_imported"), $_FILES['userfile']['name']) , true);
 			}
+			@unlink($file);
 		}
 
         $this->ctrl->redirect($this, 'import');

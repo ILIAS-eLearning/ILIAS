@@ -1235,6 +1235,10 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$form->addItem($radg);
 
 		$form->addCommandButton("exportPDF", $lng->txt("prtf_pdf"));
+		if (DEVMODE == "1")
+		{
+			$form->addCommandButton("exportPDFDev", $lng->txt("prtf_pdf")." (DEV)");
+		}
 
 		$form->setTitle($lng->txt("prtf_print_options"));
 		$form->setFormAction($ilCtrl->getFormAction($this, "exportPDF"));
@@ -1242,8 +1246,23 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		return $form;
 	}
 
-	public function exportPDF()
+	/**
+	 * @throws ilWACException
+	 */
+	public function exportPDFDev()
 	{
+		$this->exportPDF(true);
+	}
+
+	/**
+	 * @param bool $a_dev_mode
+	 * @throws ilWACException
+	 */
+	public function exportPDF($a_dev_mode = false)
+	{
+		require_once 'Services/WebAccessChecker/classes/class.ilWACSignedPath.php';
+		ilWACSignedPath::setTokenMaxLifetimeInSeconds(180);
+
 		$html = $this->printView(true);
 
 		// :TODO: fixing css dummy parameters
@@ -1253,7 +1272,14 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$html = preg_replace("/src=\"\\.\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $html);
 		$html = preg_replace("/href=\"\\.\\//ims", "href=\"" . ILIAS_HTTP_PATH . "/", $html);
 
-		//echo $html; exit;
+
+		if ($a_dev_mode)
+		{
+			echo $html;
+			exit;
+		}
+
+		//$html = str_replace("&amp;", "&", $html);
 
 		$pdf_factory = new ilHtmlToPdfTransformerFactory();
 		$pdf_factory->deliverPDFFromHTMLString($html, "portfolio.pdf", ilHtmlToPdfTransformerFactory::PDF_OUTPUT_DOWNLOAD, "Portfolio", "ContentExport");
@@ -1261,12 +1287,16 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
 	public function printView($a_pdf_export = false)
 	{
+		global $tpl;
+
 		$lng = $this->lng;
 
 		$pages = ilPortfolioPage::getAllPortfolioPages($this->object->getId());
 
 
 		$tpl = new ilTemplate("tpl.main.html", true, true);
+
+		$tpl->setBodyClass("ilPrtfPdfBody");
 
 		$tpl->setCurrentBlock("AdditionalStyle");
 		$tpl->setVariable("LOCATION_ADDITIONAL_STYLESHEET", ilUtil::getStyleSheetLocation("filesystem"));
@@ -1278,7 +1308,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$tpl->parseCurrentBlock();
 
 		$tpl->setVariable("LOCATION_STYLESHEET", ilObjStyleSheet::getContentPrintStyle());
-		$this->setContentStyleSheet($tpl);
+		//$this->setContentStyleSheet($tpl);
 
 		// syntax style
 		$tpl->setCurrentBlock("SyntaxStyle");
@@ -1330,7 +1360,11 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$author = ilObjUser::_lookupName($this->object->getOwner());
 		$author_str = $author["firstname"]." ".$author["lastname"];
 		$cover_tpl->setVariable("AUTHOR", $author_str);
-		$cover_tpl->setVariable("LINK", "http://anderson.local/ilias/goto.php?target=prtf_301_7&client_id=iliastrunk2");
+
+		include_once('./Services/Link/classes/class.ilLink.php');
+		$href = ilLink::_getStaticLink($this->object->getId(), "prtf");
+		$cover_tpl->setVariable("LINK", $href);
+
 		ilDatePresentation::setUseRelativeDates(false);
 		$date_str = ilDatePresentation::formatDate(new ilDate(date("Y-m-d"), IL_CAL_DATE));
 		$cover_tpl->setVariable("DATE", $date_str);
@@ -1376,7 +1410,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 					$page_gui->setFullscreenLink("#");
 					$page_gui->setSourcecodeDownloadScript("#");
 					$page_gui->setOutputMode("print");
-					$page_content .= $page_head_str.$page_gui->showPage();
+					$page_content .= $page_head_str.$page_gui->showPage(ilObject::_lookupTitle($page["title"]).": ".$page_gui->getBlogPosting()->getTitle());
 
 					if ($a_pdf_export)
 					{
@@ -1408,6 +1442,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		}
 		else
 		{
+			$tpl->fillJavaScriptFiles();
 			$ret = $tpl->get("DEFAULT", false, false, false, true, false, false);
 			return $ret;
 		}

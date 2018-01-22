@@ -53,6 +53,7 @@ class ilSCORMOfflineMode
 		$this->type = ilObjSAHSLearningModule::_lookupSubType($this->obj_id);
 		$this->cmd_url = './ilias.php?baseClass=ilSAHSPresentationGUI&cmd=';
 		$this->lm_cmd_url = './ilias.php?baseClass=ilSAHSPresentationGUI&ref_id=' . $this->id . '&cmd=';
+		$this->lm_info_url = $this->lm_cmd_url . 'infoScreen';
 		$this->player12_url = $this->cmd_url . 'offlineMode_player12';
 		$this->player2004_url = $this->cmd_url . 'offlineMode_player2004'; // ToDo: does not exist yet
 		$this->som_url = $this->cmd_url . 'offlineMode_som';

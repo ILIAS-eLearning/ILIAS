@@ -545,11 +545,21 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 				{
 					ilUtil::makeDirParents($imagepath);
 				}
-				if (!copy($imagepath_original . $filename, $imagepath . $filename)) 
+
+				if( assQuestion::isFileAvailable($imagepath_original . $filename) )
+				{
+					copy($imagepath_original . $filename, $imagepath . $filename);
+				}
+				else
 				{
 					$ilLog->write("matching question image could not be copied: $imagepath_original$filename");
 				}
-				if (!copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename)) 
+				
+				if( assQuestion::isFileAvailable($imagepath_original . $this->getThumbPrefix() . $filename) )
+				{
+					copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename);
+				}
+				else
 				{
 					$ilLog->write("matching question image thumbnail could not be copied: $imagepath_original" . $this->getThumbPrefix() . $filename);
 				}
@@ -1613,7 +1623,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		}
 
 		$data = $ilDB->queryF(
-			"SELECT term_id FROM qpl_a_mterm WHERE question_fi = %s ORDER BY term_id",
+			"SELECT ident FROM qpl_a_mterm WHERE question_fi = %s ORDER BY term_id",
 			array("integer"),
 			array($this->getId())
 		);
@@ -1622,7 +1632,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		for($index=1; $index <= $ilDB->numRows($data); ++$index)
 		{
 			$row = $ilDB->fetchAssoc($data);
-			$terms[$row["term_id"]] = $index;
+			$terms[$row["ident"]] = $index;
 		}
 
 		$maxStep = $this->lookupMaxStep($active_id, $pass);

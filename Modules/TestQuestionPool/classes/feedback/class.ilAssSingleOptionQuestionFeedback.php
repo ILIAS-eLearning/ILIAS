@@ -73,6 +73,20 @@ abstract class ilAssSingleOptionQuestionFeedback extends ilAssQuestionFeedback
 	 */
 	public function getSpecificAnswerFeedbackContent($questionId, $answerIndex)
 	{
+		return '';
+	}
+	
+	/**
+	 * returns the SPECIFIC feedback content for a given question id and answer index.
+	 *
+	 * @abstract
+	 * @access public
+	 * @param integer $questionId
+	 * @return string $feedbackContent
+	 */
+	public function getAllSpecificAnswerFeedbackContents($questionId)
+	{
+		return '';
 	}
 	
 	/**

@@ -23,7 +23,7 @@ class ilSCORM2004StoreData
 			$userId=(int) $data->p;
 			self::checkIfAllowed($packageId,$userId,$data->hash); 
 		}
-		$last_visited = "";
+		$last_visited = null;
 		if ($data->last !="") $last_visited = $data->last;
 		$endDate = date('Y-m-d H:i:s', mktime(date('H'), date('i')+5, date('s'), date('m'), date('d'), date('Y')));
 		$total_time_sec = null;
@@ -214,8 +214,8 @@ class ilSCORM2004StoreData
 						);
 						
 						if($b_node_update==false) {
-							$ilLog->write("Want to insert row: ".count($row) );
 							$ilDB->insert('cmi_node', $a_data);
+							$ilLog->write("inserted");
 						} else {
 							$ilDB->update('cmi_node', $a_data, array('cmi_node_id' => array('integer', $cmi_node_id)));
 							$ilLog->write("updated");

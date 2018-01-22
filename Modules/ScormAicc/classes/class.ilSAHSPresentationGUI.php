@@ -11,7 +11,7 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilSAHSPresentationGUI: ilSCORMPresentationGUI, ilAICCPresentationGUI, ilHACPPresentationGUI
+* @ilCtrl_Calls ilSAHSPresentationGUI: ilSCORMPresentationGUI
 * @ilCtrl_Calls ilSAHSPresentationGUI: ilInfoScreenGUI, ilscorm13player
 * @ilCtrl_Calls ilSAHSPresentationGUI: ilLearningProgressGUI, ilSCORMOfflineModeGUI
 * @ilCtrl_Calls ilSAHSPresentationGUI: ilObjSCORMLearningModuleGUI, ilObjSCORM2004LearningModuleGUI
@@ -76,29 +76,8 @@ class ilSAHSPresentationGUI
 		
 		if (substr($cmd,0,11) == "offlineMode" || $this->offline_mode) $next_class = "ilscormofflinemodegui";
 		
-		switch($type)
-		{
-			
-			case "scorm2004":
-				include_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModuleGUI.php");
-				$this->slm_gui = new ilObjSCORMLearningModuleGUI("", $_GET["ref_id"],true,false);
-				break;
-				
-			case "scorm":
-				include_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModuleGUI.php");
-				$this->slm_gui = new ilObjSCORMLearningModuleGUI("", $_GET["ref_id"],true,false);
-				break;
-
-			case "aicc":
-				include_once("./Modules/ScormAicc/classes/class.ilObjAICCLearningModuleGUI.php");
-				$this->slm_gui = new ilObjAICCLearningModuleGUI("", $_GET["ref_id"],true,false);
-				break;
-				
-			case "hacp":
-				include_once("./Modules/ScormAicc/classes/class.ilObjHACPLearningModuleGUI.php");
-				$this->slm_gui = new ilObjHACPLearningModuleGUI("", $_GET["ref_id"],true,false);
-				break;
-		}
+		include_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModuleGUI.php");
+		$this->slm_gui = new ilObjSCORMLearningModuleGUI("", $_GET["ref_id"],true,false);
 
 		if ($next_class != "ilinfoscreengui" &&
 			$cmd != "infoScreen" && 
@@ -119,14 +98,6 @@ class ilSAHSPresentationGUI
 				case "scorm":
 					$this->ctrl->setCmdClass("ilscormpresentationgui");
 					$this->slm_gui = new ilObjSCORMLearningModuleGUI("", $_GET["ref_id"],true,false);
-					break;
-
-				case "aicc":
-					$this->ctrl->setCmdClass("ilaiccpresentationgui");
-					break;
-					
-				case "hacp":
-					$this->ctrl->setCmdClass("ilhacppresentationgui");
 					break;
 			}
 			$next_class = $this->ctrl->getNextClass($this);
@@ -150,17 +121,6 @@ class ilSAHSPresentationGUI
 				$ret = $this->ctrl->forwardCommand($scorm_gui);
 				break;
 
-			case "ilaiccpresentationgui":
-				require_once "./Modules/ScormAicc/classes/AICC/class.ilAICCPresentationGUI.php";
-				$aicc_gui = new ilAICCPresentationGUI();
-				$ret = $this->ctrl->forwardCommand($aicc_gui);
-				break;
-
-			case "ilhacppresentationgui":
-				require_once "./Modules/ScormAicc/classes/HACP/class.ilHACPPresentationGUI.php";
-				$hacp_gui = new ilHACPPresentationGUI();
-				$ret = $this->ctrl->forwardCommand($hacp_gui);
-				break;
 			
 			case "illearningprogressgui":
 				$this->setInfoTabs("learning_progress");
@@ -605,10 +565,7 @@ class ilSAHSPresentationGUI
 		// $ilTabs->clearTargets();
 		// #9658 / #11753
 		include_once "Services/Tracking/classes/class.ilLearningProgressAccess.php";
-		if(ilLearningProgressAccess::checkAccess($_GET["ref_id"]) &&
-			((!$ilAccess->checkAccess("edit_learning_progress", "", $_GET["ref_id"]) &&
-				!$ilAccess->checkAccess("read_learning_progress", "", $_GET["ref_id"])) ||
-			!$ilAccess->checkAccess("write", "", $_GET["ref_id"])))
+		if(ilLearningProgressAccess::checkAccess($_GET["ref_id"]))
 		{
 			$ilTabs->addTab("info_short", $this->lng->txt("info_short"), 
 				$this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
@@ -690,32 +647,8 @@ class ilSAHSPresentationGUI
 		// add read / back button
 		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
-			include_once './Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
-			$sahs_obj = new ilObjSAHSLearningModule($_GET["ref_id"]);
-			$om = $sahs_obj->getOpenMode();
-			$width = $sahs_obj->getWidth();
-			$height = $sahs_obj->getHeight();
 			$ilToolbar = $GLOBALS['DIC']->toolbar();
-			if ( ($om == 5 || $om == 1) && $width > 0 && $height > 0) $om++;
-			if ($om != 0)
-			{
-				include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
-				$button = ilLinkButton::getInstance();
-				$button->setCaption("view");
-				$button->setPrimary(true);
-				$button->setUrl("javascript:void(0); onclick=startSAHS('".$this->ctrl->getLinkTarget($this, "")."','ilContObj".$this->slm_gui->object->getId()."',".$om.",".$width.",".$height.");");
-				$button->setTarget('');
-			}
-			else
-			{
-				include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
-				$button = ilLinkButton::getInstance();
-				$button->setCaption("view");
-				$button->setPrimary(true);
-				$button->setUrl($this->ctrl->getLinkTarget($this, ""));
-				$button->setTarget("ilContObj".$this->slm_gui->object->getId());
-			}
-			$ilToolbar->addButtonInstance($button);
+			$ilToolbar->addButtonInstance($this->slm_gui->object->getViewButton());
 		}
 		
 		// show standard meta data section
@@ -732,7 +665,6 @@ class ilSAHSPresentationGUI
 		{*/
 			// forward the command
 			$this->ctrl->forwardCommand($info);
-			//$this->tpl->setContent("aa");
 			$this->tpl->show();
 		//}
 	}

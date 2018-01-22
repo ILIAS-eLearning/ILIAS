@@ -158,7 +158,20 @@ class ilDownloadFilesBackgroundTask
 			{
 				$object_ids[] = $obj_id;
 				$folder_date = $event['event']->getStart()->get(IL_CAL_FKT_DATE,'Y-m-d');
-				$folder_app = ilUtil::getASCIIFilename($event['event']->getPresentationTitle());   //title formalized
+
+				if($event['fullday'])
+				{
+					$folder_app = ilUtil::getASCIIFilename($event['event']->getPresentationTitle());   //title formalized
+				}
+				else
+				{
+					$time = $event['event']->getStart()->get(IL_CAL_FKT_DATE,'H.i');
+					$end_time = $event['event']->getEnd()->get(IL_CAL_FKT_DATE,'H.i');
+					if($time != $end_time) {
+						$time .= " - ".$end_time;
+					}
+					$folder_app = $time." ".ilUtil::getASCIIFilename($event['event']->getPresentationTitle());   //title formalized
+				}
 
 				$this->logger->debug("collecting files...event title = ".$folder_app);
 

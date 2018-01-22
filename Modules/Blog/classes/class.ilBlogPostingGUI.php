@@ -293,13 +293,20 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	 *
 	 * @return string
 	 */
-	function showPage()
+	function showPage($a_title = "")
 	{
 		$this->setTemplateOutput(false);
 
 		if (!$this->getAbstractOnly())
 		{
-			$this->setPresentationTitle($this->getBlogPosting()->getTitle());
+			if ($a_title != "")
+			{
+				$this->setPresentationTitle($a_title);
+			}
+			else
+			{
+				$this->setPresentationTitle($this->getBlogPosting()->getTitle());
+			}
 		}
 		$this->getBlogPosting()->increaseViewCnt();
 		
