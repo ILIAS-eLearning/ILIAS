@@ -533,7 +533,11 @@ var Database = function Database(config) {
 			}
 		}
 
-		return Object.values(participantsJson);
+		if (typeof Object.values === "function") {
+			return Object.values(participantsJson);
+		} else {
+			return Object.keys(participantsJson).map((k) => participantsJson[k]);
+		}
 	}
 
 	function _onQueryEvents(query, onResult, onEnd) {
