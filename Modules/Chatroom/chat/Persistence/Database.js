@@ -404,7 +404,9 @@ var Database = function Database(config) {
 				is_group: conversation.isGroup(),
 				participants: participantsJson
 			},
-			handleError
+			function(err){
+				if(err) throw err;
+			}
 		);
 	};
 
