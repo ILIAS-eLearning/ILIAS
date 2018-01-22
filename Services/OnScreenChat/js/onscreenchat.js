@@ -242,7 +242,7 @@
 		open: function(conversation) {
 			var conversationWindow = $('[data-onscreenchat-window=' + conversation.id + ']');
 
-			if (conversationWindow.length == 0) {
+			if (conversationWindow.length === 0) {
 				conversationWindow = $(getModule().createWindow(conversation));
 				conversationWindow.find('.panel-body').scroll(getModule().onScroll);
 				conversationWindow
@@ -580,7 +580,7 @@
 			var chatWindow = $('[data-onscreenchat-window='+conversation.id+']');
 			getModule().requestUserImages(conversation);
 
-			if(chatWindow.length != 0) {
+			if(chatWindow.length !== 0) {
 				chatWindow.find('[data-onscreenchat-window-participants]').html(
 					getParticipantsNames(conversation).join(', ')
 				);
@@ -661,14 +661,14 @@
 							$.getJSON(that.options.requestUrl, {
 								term: request.term
 							}, function(data) {
-								if (typeof data.items == "undefined") {
-									if (data.length == 0) {
+								if (typeof data.items === "undefined") {
+									if (data.length === 0) {
 										modalBody.find('[data-onscreenchat-no-usr-found]').removeClass("ilNoDisplay");
 									}
 									response(data);
 								} else {
 									that.more = data.hasMoreResults;
-									if (data.items.length == 0) {
+									if (data.items.length === 0) {
 										modalBody.find('[data-onscreenchat-no-usr-found]').removeClass("ilNoDisplay");
 									}
 									response(data.items);
