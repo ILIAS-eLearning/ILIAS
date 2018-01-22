@@ -161,7 +161,7 @@ class ilDownloadFilesBackgroundTask
 
 				if($event['fullday'])
 				{
-					$folder_app = ilUtil::getASCIIFilename($event['event']->getPresentationTitle());   //title formalized
+					$folder_app = ilUtil::getASCIIFilename($event['event']->getPresentationTitle(false));   //title formalized
 				}
 				else
 				{
@@ -170,7 +170,7 @@ class ilDownloadFilesBackgroundTask
 					if($time != $end_time) {
 						$time .= " - ".$end_time;
 					}
-					$folder_app = $time." ".ilUtil::getASCIIFilename($event['event']->getPresentationTitle());   //title formalized
+					$folder_app = $time." ".ilUtil::getASCIIFilename($event['event']->getPresentationTitle(false));   //title formalized
 				}
 
 				$this->logger->debug("collecting files...event title = ".$folder_app);
