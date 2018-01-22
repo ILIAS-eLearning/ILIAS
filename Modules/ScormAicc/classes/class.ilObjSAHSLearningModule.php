@@ -152,7 +152,7 @@ class ilObjSAHSLearningModule extends ilObject
 	}
 
 	/**
-	* lookup subtype id (scorm, aicc, hacp)
+	* lookup subtype id (scorm, )
 	*
 	* @param	int		$a_id		object id
 	*/
@@ -354,14 +354,14 @@ class ilObjSAHSLearningModule extends ilObject
 
 
 	/**
-	* set auto review as true/false for SCORM 1.2, HACP, SAHS, AICC
+	* set auto review as true/false for SCORM 1.2
 	*/
 	function setAutoReview($a_auto_review)
 	{
 		$this->auto_review = ilUtil::tf2yn($a_auto_review);
 	}
 	/**
-	* get auto review as true/false for SCORM 1.2, HACP, SAHS, AICC
+	* get auto review as true/false for SCORM 1.2
 	*/
 	function getAutoReview()
 	{
@@ -1404,19 +1404,6 @@ class ilObjSAHSLearningModule extends ilObject
 				$source_obj = new ilObjSCORM2004LearningModule($this->getRefId());
 				$new_obj = new ilObjSCORM2004LearningModule($new_obj->getRefId());
 				break;
-
-			case "aicc":
-				include_once("./Modules/ScormAicc/classes/class.ilObjAICCLearningModule.php");
-				$source_obj = new ilObjAICCLearningModule($this->getRefId());
-				$new_obj = new ilObjAICCLearningModule($new_obj->getRefId());
-				break;
-
-			case "hacp":
-				include_once("./Modules/ScormAicc/classes/class.ilObjHACPLearningModule.php");
-				$source_obj = new ilObjHACPLearningModule($this->getRefId());
-				$new_obj = new ilObjHACPLearningModule($new_obj->getRefId());
-				break;
-
 		}
 
 		// copy data directory
@@ -1496,5 +1483,28 @@ class ilObjSAHSLearningModule extends ilObject
 		return $studentName;
 	}
 
+	/**
+	* get button for view
+	*/
+	public function getViewButton() {
+		$setUrl = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->getRefID();
+		// $setUrl = $this->getLinkTargetByClass("ilsahspresentationgui", "")."&amp;ref_id=".$this->getRefID();
+		$setTarget = "ilContObj".$this->getId();
+		$om = $this->getOpenMode();
+		$width = $this->getWidth();
+		$height = $this->getHeight();
+		if ( ($om == 5 || $om == 1) && $width > 0 && $height > 0) $om++;
+		if ($om != 0) {
+			$setUrl = "javascript:void(0); onclick=startSAHS('".$setUrl."','ilContObj".$this->getId()."',".$om.",".$width.",".$height.");";
+			$setTarget = "";
+		}
+		include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+		$button = ilLinkButton::getInstance();
+		$button->setCaption("view");
+		$button->setPrimary(true);
+		$button->setUrl($setUrl);
+		$button->setTarget($setTarget);
+		return $button;
+	}
 }
 ?>

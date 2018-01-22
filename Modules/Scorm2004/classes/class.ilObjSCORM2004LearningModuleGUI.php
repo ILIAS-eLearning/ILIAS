@@ -285,9 +285,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			ilObjSAHSLearningModuleGUI::setSettingsSubTabs();
 			$ilTabs->setSubTabActive('cont_settings');
 			// view
-			$ilToolbar->addButton($this->lng->txt("view"),
-				"ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->object->getRefID(),
-				"_blank");
+			$ilToolbar->addButtonInstance($this->object->getViewButton());
 		}
 		else  	// editable
 		{

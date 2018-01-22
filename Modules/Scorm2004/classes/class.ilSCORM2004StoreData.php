@@ -214,8 +214,8 @@ class ilSCORM2004StoreData
 						);
 						
 						if($b_node_update==false) {
-							$ilLog->write("Want to insert row: ".count($row) );
 							$ilDB->insert('cmi_node', $a_data);
+							$ilLog->write("inserted");
 						} else {
 							$ilDB->update('cmi_node', $a_data, array('cmi_node_id' => array('integer', $cmi_node_id)));
 							$ilLog->write("updated");

@@ -3,23 +3,23 @@ var Conversation = require('../Model/Conversation');
 var UUID = require('node-uuid');
 
 module.exports = function(conversationId, userId, name) {
-	if(conversationId !== null && userId !== null && name !== null)
-	{
+	if (conversationId !== null && userId !== null && name !== null) {
 		var namespace = Container.getNamespace(this.nsp.name);
 		var conversation = namespace.getConversations().getById(conversationId);
 
-		if(conversation.isParticipant(this.participant))
-		{
-			if(!conversation.isGroup()) {
-				var participants = conversation.getParticipants();
+		if (conversation.isParticipant(this.participant)) {
+			var newParticipant = namespace.getSubscriberWithOfflines(userId, name);
+			var participants   = conversation.getParticipants();
+
+			if (!conversation.isGroup()) {
 				conversation = new Conversation(UUID.v4());
 				conversation.setIsGroup(true);
-				namespace.getConversations().add(conversation);
 
+				namespace.getConversations().add(conversation);
 				namespace.getDatabase().persistConversation(conversation);
 
-				for(var key in participants) {
-					if(participants.hasOwnProperty(key)) {
+				for (var key in participants) {
+					if (participants.hasOwnProperty(key)) {
 						conversation.addParticipant(participants[key]);
 					}
 				}
@@ -27,20 +27,25 @@ module.exports = function(conversationId, userId, name) {
 				Container.getLogger().info('Conversation %s transformed to group conversation.', conversation.getId())
 			}
 
-			var participant = namespace.getSubscriberWithOfflines(userId, name);
-			conversation.addParticipant(participant);
-			participants.push(participant);
-			participant.join(conversation.id);
+			if (conversation.isParticipant(newParticipant)) {
+				Container.getLogger().info('Participant %s is already subscribed to conversation %s.', newParticipant.getName(), conversation.getId());
+				return;
+			}
 
-			for(var key in participants) {
-				if(participants.hasOwnProperty(key)){
+			conversation.addParticipant(newParticipant);
+			newParticipant.join(conversation.id);
+
+			participants = conversation.getParticipants();
+			for (var key in participants) {
+				if (participants.hasOwnProperty(key)){
 					namespace.getDatabase().trackActivity(conversation.getId(), participants[key].getId(), 0);
 				}
 			}
 
-			Container.getLogger().info('New Participant %s for group conversation %s', participant.getName(), conversation.getId());
+			Container.getLogger().info('New Participant %s for group conversation %s', newParticipant.getName(), newParticipant.getId());
 
 			namespace.getDatabase().updateConversation(conversation);
+
 			this.participant.emit('conversation', conversation.json());
 			this.emit('addUser', conversation.json());
 		}
