@@ -154,7 +154,9 @@ class ilDownloadFilesBackgroundTask
 		{
 			$cat = ilCalendarCategory::getInstanceByCategoryId($event['category_id']);
 			$obj_id = $cat->getObjId();
-			if(!in_array($obj_id, $object_ids))
+
+			//22295 If the object type is exc then we need all the assignments.Otherwise we will get only one.
+			if(!in_array($obj_id, $object_ids) || $cat->getObjType() == "exc")
 			{
 				$object_ids[] = $obj_id;
 				$folder_date = $event['event']->getStart()->get(IL_CAL_FKT_DATE,'Y-m-d');
