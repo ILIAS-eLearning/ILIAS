@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @translator   5.3.x 2017-10-22 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @translator   5.3.x 2018-01-23 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @module       setup language file hungarian
 * @modulegroup  language
 * @author       Matthias Kunkel <mkunkel@me.com>
@@ -58,8 +58,8 @@ client_setup_not_finished#:#A kliens beállítása még nem fejeződött be.
 client#:#Kliens
 clients#:#Kliensek
 client_cloned#:#A forrás minden fájlja és beállításának kliensre másolás megtörtént.
-clone_clientnotdisabled#:#A kliens még aktív. Tiltsa le a klienst feltöltése előtt.
-clone_clientismaster#:#A kliens mester azon a néven, ezért nem írható felül.
+clone_clientnotdisabled#:#A kliens még aktív. Tiltsa le a klienst a feltöltés előtt.
+clone_clientismaster#:#A kliens nevében szerepel a 'mester', ezért nem írható felül.
 clone_clientisnotmysql#:#A kliensnek nincs MySQL adatbázisa.
 clone_clientnodatabase#:#Jelenleg csak MySQL adatbázis támogatott.
 clone_disabledmessage#:#A klónozás az alábbi ok(ok) miatt le van tiltva:
@@ -122,11 +122,11 @@ db_port#:#Adatbázisport
 db_selection#:#Adatbázis kiválasztása
 db_service_name#:#Szolgáltatásnév
 db_type#:#Adatbázistípus
-db_update_interrupted_avoid#:#A hiba elkerülés érdekében ellenőrizze a php.ini-ben a 'max_execution_time' és a 'memory_limit settings' értékeit. Kevesebb lépést futtasson egyszerre, így csökkentheti a szükséges erőforrásokat.
+db_update_interrupted_avoid#:#A hiba elkerülés érdekében ellenőrizze a php.ini-ben a 'max_execution_time' és a 'memory_limit' értékét. Kevesebb lépést futtasson egyszerre, így csökkentheti a szükséges erőforrásokat.
 db_update_interrupted#:#Az adatbázist frissítő script váratlanul elakadt az előző futás során. Ez rendszerében <b>inkonzisztens</b> állapotot idézhetett elő. Javasoljuk, hogy állítsa vissza utolsó biztonsági mentését, majd  futtassa újra a frissítést. 
 db_user#:#Adatbázis-felhasználó
 db_version#:#Adatbázis-változat
-default_client_changed#:#Alapértelmezett kliens cserélve.
+default_client_changed#:#Az alapértelmezett klienst sikeresen lecserélte.
 default_language#:#Alapértelmezett nyelv
 default#:#Alapértelmezett
 delete_confirm#:#Kliens törlésének megerősítése
@@ -140,7 +140,7 @@ disable_logging#:#Naplózás tiltása
 disable#:#Tiltás
 disabled#:#Tiltva
 display_clientlist#:#A kliensválasztás elérhető a felhasználók számára.
-duplicate_ctrl#:#Hiba: Duplikált hívási struktúra definíció (%s osztály) ezekben a fájlokban:<br /><br />- %s<br />- %s<br /><br />Távolítsa el a fájlt, hogy ne legyen része a IIAS hivatalos disztribúciónak.<br />Aztán hívja az 'Eszközök' -> 'Irányítási struktúra újra letöltés'-t az ILIAS setup-ban.
+duplicate_ctrl#:#Hiba: Duplikált hívási struktúradefiníció (%s osztály) ezekben a fájlokban:<br /><br />- %s<br />- %s<br /><br />Távolítsa el a fájlt, hogy ne legyen része a IIAS hivatalos disztribúciójának.<br />Aztán válassza az 'Eszközök' -> 'Irányítási struktúra újra letöltés'-t az ILIAS setup-ban.
 email_not_valid#:#Nem megfelelő e-mail cím
 email#:#E-mail
 en_by_default#:#(Az angol alapértelmezettként telepített és nem törölhető).
@@ -150,7 +150,7 @@ enter_dir_and_filename#:#Adja meg a teljes elérési utat (abszolút útvonalat)
 enter_password#:#Gépelje be a jelszót
 env_ok#:#Rendben. Jól hangzik.
 env_using#:#Az ILIAS mindjárt működik ezen:
-env_warning#:#Az ILIAS csak Linux-on és Windows-on volt tesztelve Apache webszerver használatával.<br/>Emellett működhet más környezetben is.
+env_warning#:#Az ILIAS-t csak Linux-on és Windows-on teszteltük Apache webszerveren.<br/>Emellett működhet más környezetben is.
 environment#:#Környezet
 err_create_database_failed#:#Az adatbázis létrehozása nem sikerült.
 err_wrong_login#:#Hibás bejelentkezés
@@ -628,7 +628,7 @@ async#:#Aszinkron
 max_number_of_concurrent_tasks#:#Egyidőben futó feladatok maximális száma
 cancel#:#Mégsem
 background_task_configuration#:#Háttérfeladatok konfigurálása
-bt_available#:#Elérhető háttérfeladatok
+bt_available#:#Háttérfeladatok elérhető-e
 running_tasks#:#Futó feladatok
 waiting_tasks#:#Várakozó feladatok
 actions#:#Műveletek
