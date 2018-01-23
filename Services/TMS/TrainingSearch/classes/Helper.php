@@ -12,6 +12,8 @@ class Helper {
 	const F_TOPIC = "f_topic";
 	const F_DURATION = "f_duration";
 	const F_SORT_VALUE = "f_sort_value";
+	const F_ONLY_BOOKABLE = "f_only_bookable";
+	const F_IDD_RELEVANT = "f_idd_relevant";
 
 	const S_TITLE_ASC = "s_title_asc";
 	const S_PERIOD_ASC = "s_period_asc";
@@ -141,6 +143,12 @@ class Helper {
 		$item->setEnd(new ilDateTime(date("Y-12-31 23:59:59"), IL_CAL_DATETIME));
 		$form->addItem($item);
 
+		$item = new ilCheckboxInputGUI($this->g_lng->txt('only_bookable'), self::F_ONLY_BOOKABLE);
+		$form->addItem($item);
+
+		$item = new ilCheckboxInputGUI($this->g_lng->txt('idd_relevant'), self::F_IDD_RELEVANT);
+		$form->addItem($item);
+
 		$item = new ilHiddenInputGUI('cmd');
 		$item->setValue('submit');
 		$form->addItem($item);
@@ -164,6 +172,8 @@ class Helper {
 				$('#f_type option').removeAttr('selected').filter('[value=-1]').attr('selected', true);
 				$('#f_topic option').removeAttr('selected').filter('[value=-1]').attr('selected', true);
 				$('#f_not_min_member').prop('checked', false );
+				$('#f_only_bookable').prop('checked', false );
+				$('#f_idd_relevant').prop('checked', false );
 				".$dur1."
 				".$dur2."
 				return false; 
@@ -208,6 +218,9 @@ class Helper {
 		if(array_key_exists(self::F_DURATION, $values)) {
 			$filter[self::F_DURATION] = $values[self::F_DURATION];
 		}
+
+		$filter[self::F_ONLY_BOOKABLE] = (bool)$values[self::F_ONLY_BOOKABLE];
+		$filter[self::F_IDD_RELEVANT] = (bool)$values[self::F_IDD_RELEVANT];
 
 		return $filter;
 	}

@@ -14290,3 +14290,5 @@ tms#:#book_waiting_for#:#Buchung auf Warteliste für %s
 tms#:#book_waiting_confirm#:#Verbindlich auf Warteliste buchen
 tms#:#to_course_member_tab#:#Buchungen vornehmen
 tms#:#cancel_course#:#Training absagen
+tms#:#only_bookable#:#Nur buchbare Trainings
+tms#:#idd_relevant#:#Nur IDD relevante Trainings
