@@ -11044,7 +11044,6 @@ mst#:#mst_show_courses#:#Felvételek
 mst#:#mst_courses_of#:#%s beiratkozásai
 orgu#:#msg_position_udpated#:#A pozíciót sikeresen módosította
 orgu#:#remove_successful#:#A felhasználót sikeresen eltávolította.
-orgu#:#add_position#:#A pozíciót sikeresen hozzáadta.
 orgu#:#orgu_enable_my_staff#:#'Munkatársak' nézete bekapcsolása
 orgu#:#orgu_enable_my_staff_info#:#'Munkatársak' nézet a saját beosztottak tanulási haladását jeleníti meg.
 orgu#:#org_op_manage_members#:#Tagok kezelése
