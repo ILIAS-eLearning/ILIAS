@@ -102,6 +102,11 @@ class ilImportExportFactory
 			{
 				return $class;
 			}
+			// the page component plugin is not installed or not active
+			elseif ($component_type == 'Plugins')
+			{
+				return "";
+			}
 
 			if (is_file ("./".$a_component."/classes/class.".$class.".php"))
 			{
