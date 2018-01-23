@@ -2846,7 +2846,7 @@ class ilTree
 	{
 		global $ilDB;
 		
-		$query = 'SELECT DISTINCT(o.type) type FROM tree t JOIN object_reference r ON child = r.ref_id '.
+		$query = 'SELECT DISTINCT(o.type) '.$ilDB->quoteIdentifier('type').' FROM tree t JOIN object_reference r ON child = r.ref_id '.
 				'JOIN object_data o on r.obj_id = o.obj_id '.
 				'WHERE tree < '.$ilDB->quote(0,'integer').' '.
 				'AND child = -tree '.
