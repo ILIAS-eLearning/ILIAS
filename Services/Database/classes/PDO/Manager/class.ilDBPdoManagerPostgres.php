@@ -295,8 +295,8 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager {
 	public function dropIndex($table, $name) {
 		$db = $this->db_instance;
 
-		$name = $db->quoteIdentifier($this->getIndexName($name), true);
-		$name = $this->getDBInstance()->constraintName($table, $name);
+		$name = $this->getIndexName($name);
+		$name = $db->quoteIdentifier($this->getDBInstance()->constraintName($table, $name), true);
 
 		return $db->manipulate("DROP INDEX $name");
 	}
@@ -349,7 +349,7 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager {
 	 */
 	public function dropConstraint($table, $name, $primary = false) {
 		$table_quoted = $this->getDBInstance()->quoteIdentifier($table, true);
-		$name = $table . '_' . $this->getDBInstance()->quoteIdentifier($this->getDBInstance()->getIndexName($name), true);
+		$name = $this->getDBInstance()->quoteIdentifier($table . '_' . $this->getDBInstance()->getIndexName($name), true);
 
 		return $this->pdo->exec("ALTER TABLE $table_quoted DROP CONSTRAINT $name");
 	}
