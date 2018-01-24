@@ -21869,3 +21869,10 @@ if( $ilDB->indexExistsByFields('cmi_objective', array('id')) )
 	$ilDB->dropIndexByFields('cmi_objective',array('id'));
 }
 ?>
+<#5257>
+<?php
+if (!$ilDB->indexExistsByFields('page_style_usage', array('page_id', 'page_type', 'page_lang', 'page_nr')) )
+{
+	$ilDB->addIndex('page_style_usage',array('page_id', 'page_type', 'page_lang', 'page_nr'),'i1');
+}
+?>
