@@ -191,6 +191,7 @@ class ilObjTestGUI extends ilObjectGUI
 				break;
 
 			case "iltestplayerfixedquestionsetgui":
+				$this->trackTestObjectReadEvent();
 				require_once "./Modules/Test/classes/class.ilTestPlayerFixedQuestionSetGUI.php";
 				if(!$this->object->getKioskMode()) $this->prepareOutput();
 				$gui = new ilTestPlayerFixedQuestionSetGUI($this->object);
@@ -199,6 +200,7 @@ class ilObjTestGUI extends ilObjectGUI
 				break;
 
 			case "iltestplayerrandomquestionsetgui":
+				$this->trackTestObjectReadEvent();
 				require_once "./Modules/Test/classes/class.ilTestPlayerRandomQuestionSetGUI.php";
 				if(!$this->object->getKioskMode()) $this->prepareOutput();
 				$gui = new ilTestPlayerRandomQuestionSetGUI($this->object);
@@ -207,6 +209,7 @@ class ilObjTestGUI extends ilObjectGUI
 				break;
 
 			case "iltestplayerdynamicquestionsetgui":
+				$this->trackTestObjectReadEvent();
 				require_once "./Modules/Test/classes/class.ilTestPlayerDynamicQuestionSetGUI.php";
 				if (!$this->object->getKioskMode()) $this->prepareOutput();
 				$gui = new ilTestPlayerDynamicQuestionSetGUI($this->object);
@@ -724,6 +727,18 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->tpl->show();
 		}
+	}
+	
+	protected function trackTestObjectReadEvent()
+	{
+		/* @var ILIAS\DI\Container $DIC */ global $DIC;
+		
+		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
+		
+		ilChangeEvent::_recordReadEvent(
+			$this->object->getType(), $this->object->getRefId(),
+			$this->object->getId(), $DIC->user()->getId()
+		);
 	}
 
 	private function questionsTabGatewayObject()
@@ -3589,6 +3604,8 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
+		
+		$this->trackTestObjectReadEvent();
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
