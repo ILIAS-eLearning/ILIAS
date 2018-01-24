@@ -110,3 +110,10 @@ if( $ilDB->indexExistsByFields('cmi_objective', array('id')) )
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#8>
+<?php
+if (!$ilDB->indexExistsByFields('page_style_usage', array('page_id', 'page_type', 'page_lang', 'page_nr')) )
+{
+	$ilDB->addIndex('page_style_usage',array('page_id', 'page_type', 'page_lang', 'page_nr'),'i1');
+}
+?>
