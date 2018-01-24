@@ -66,6 +66,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 		$this->setFilterCommand('filterAvailableQuestions');
 		$this->setResetCommand('resetfilterAvailableQuestions');
 		$this->initFilter();
+		$this->setDisableFilterHiding(true);
 	}
 
 	/**
