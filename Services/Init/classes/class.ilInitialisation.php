@@ -1415,7 +1415,7 @@ class ilInitialisation
 		
 		self::initGlobal("tpl", $tpl);
 
-		if (ilContext::hasUser() && ilContext::doAuthentication()) {
+		if (ilContext::hasUser()) {
 			require_once 'Services/User/classes/class.ilUserRequestTargetAdjustment.php';
 			$request_adjuster = new ilUserRequestTargetAdjustment($ilUser, $GLOBALS['DIC']['ilCtrl']);
 			$request_adjuster->adjust();
