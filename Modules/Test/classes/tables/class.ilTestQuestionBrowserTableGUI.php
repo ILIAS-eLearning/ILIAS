@@ -28,6 +28,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 	const MODE_BROWSE_TESTS = 'modeBrowseTests';
 	
 	const CMD_BROWSE_QUESTIONS = 'browseQuestions';
+	const CMD_SHOW_QUESTIONS = 'showQuestions';
 	const CMD_APPLY_FILTER = 'applyFilter';
 	const CMD_RESET_FILTER = 'resetFilter';
 	const CMD_INSERT_QUESTIONS = 'insertQuestions';
@@ -170,12 +171,17 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 
 			default:
 
-				$this->ctrl->setReturn($this, self::CMD_BROWSE_QUESTIONS);
+				$this->ctrl->setReturn($this, self::CMD_SHOW_QUESTIONS);
 				return parent::executeCommand();
 		}
 	}
 	
 	private function browseQuestionsCmd()
+	{
+		$this->resetFilterCmd();
+	}
+	
+	private function showQuestionsCmd()
 	{
 		$this->setData($this->getQuestionsData());
 		
@@ -185,13 +191,13 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 	private function applyFilterCmd()
 	{
 		$this->writeFilterToSession();
-		$this->ctrl->redirect($this, self::CMD_BROWSE_QUESTIONS);
+		$this->ctrl->redirect($this, self::CMD_SHOW_QUESTIONS);
 	}
 	
 	private function resetFilterCmd()
 	{
 		$this->resetFilter();
-		$this->ctrl->redirect($this, self::CMD_BROWSE_QUESTIONS);
+		$this->ctrl->redirect($this, self::CMD_SHOW_QUESTIONS);
 	}
 	
 	private function insertQuestionsCmd()
@@ -200,7 +206,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 		if (!count($selected_array))
 		{
 			ilUtil::sendInfo($this->lng->txt("tst_insert_missing_question"), true);
-			$this->ctrl->redirect($this, self::CMD_BROWSE_QUESTIONS);
+			$this->ctrl->redirect($this, self::CMD_SHOW_QUESTIONS);
 		}
 		
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
@@ -364,7 +370,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 
 	private function getBrowseQuestionsTabUrl()
 	{
-		return $this->ctrl->getLinkTarget($this, self::CMD_BROWSE_QUESTIONS);
+		return $this->ctrl->getLinkTarget($this, self::CMD_SHOW_QUESTIONS);
 	}
 
 	public function initFilter()
