@@ -1009,10 +1009,8 @@ class ButtonTest extends ILIAS_UI_TestBase {
 
 <a name="example-solution-1"></a>
 ##### Example solution
-The proposed solution of this example would be to remove the test because the 
-trait should be tested in a separate class dedicated to the trait. However, 
-if the author decides to test the class which uses the trait in stead of the 
-trait itself the solution would look like this.
+The proposed solution of this example would be to write a dedicated test class
+for the Button class it self, as shown below.
 
 First the *Factory* was removed because this class is meant for the *Button* 
 class. Second the data provider has been removed due to the fact that the 
