@@ -553,63 +553,50 @@ class ilForum
 
 		return $objNewPost->getId();
 	}
-	
+
 	/**
-	* generate new dataset in frm_threads
-	* @param	integer	$topic
-	* @param	integer	$author_id
-	* @param	integer	$display_user_id
-	* @param	string	$subject
-	* @param	string	$message
-	* @param	integer	$notify
-	* @param	integer	$notify_posts
-	* @param	integer	$anonymize
-	* @param	datetime	$date
-	* @return	integer	new post ID
-	* @access public
-	*/
-	public function generateThread($forum_id, $author_id, $display_user_id, $subject, $message, $notify, $notify_posts, $alias = '', $date = '', $status = 1)
-	{	
+	 * @param ilForumTopic $thread
+	 * @param string       $message
+	 * @param int          $notify
+	 * @param int          $notify_posts
+	 * @param int          $status
+	 * @return int The id of the new posting, created implicitly when creating new threads
+	 */
+	public function generateThread(ilForumTopic $thread, $message, $notify, $notify_posts, $status = 1)
+	{
 		global $ilDB;
 
-		$objNewThread = new ilForumTopic();
-		$objNewThread->setForumId($forum_id);
-		$objNewThread->setDisplayUserId($display_user_id);
-		$objNewThread->setSubject($subject);
-		$objNewThread->setThrAuthorId($author_id);
-		
-		if ($date == "")
+		if(!$thread->getCreateDate())
 		{
-			$objNewThread->setCreateDate(date("Y-m-d H:i:s"));
+			$thread->setCreateDate(date('Y-m-d H:i:s'));
 		}
-		else
+
+		$thread->setImportName($this->getImportName());
+		$thread->insert();
+
+		if($notify_posts == 1)
 		{
-			if (strpos($date, "-") >  0)		// in mysql format
-			{
-				$objNewThread->setCreateDate($date);
-			}
-			else								// a timestamp
-			{
-				$objNewThread->setCreateDate(date("Y-m-d H:i:s", $date));
-			}
+			$thread->enableNotification($thread->getThrAuthorId());
 		}
-		$objNewThread->setImportName($this->getImportName());
-		$objNewThread->setUserAlias($alias);
-		$objNewThread->insert();
-		
-		if ($notify_posts == 1)
-		{
-			$objNewThread->enableNotification($author_id);
-		}
-			
-		// update forum
-		$statement = $ilDB->manipulateF('
+
+		$ilDB->manipulateF('
 			UPDATE frm_data 
 			SET top_num_threads = top_num_threads + 1
 			WHERE top_pk = %s',
-			array('integer'), array($forum_id));
+			array('integer'), array($thread->getForumId()));
 		
-		return $this->generatePost($forum_id, $objNewThread->getId(), $author_id, $display_user_id, $message, 0, $notify, $subject, $alias, $objNewThread->getCreateDate(), $status, 0);
+		return $this->generatePost(
+			$thread->getForumId(),
+			$thread->getId(),
+			$thread->getThrAuthorId(),
+			$thread->getDisplayUserId(),
+			$message, 0, $notify,
+			$thread->getSubject(),
+			$thread->getUserAlias(),
+			$thread->getCreateDate(),
+			$status,
+			0
+		);
 	}
 	
 	/**
