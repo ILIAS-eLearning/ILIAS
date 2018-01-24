@@ -486,34 +486,25 @@ class UnboundCourseProvider extends SeparatedUnboundProvider {
 		if(ilPluginAdmin::isPluginActive('venues')) {
 			$vplug = ilPluginAdmin::getPluginObjectById('venues');
 			$txt = $vplug->txtClosure();
-			list($venue_id, $city, $address, $name, $postcode) = $vplug->getVenueInfos($crs_id);
+			list($venue_id, $city, $address, $name, $postcode, $custom_assignment) = $vplug->getVenueInfos($crs_id);
 
-			if($city != "") {
+			if($custom_assignment) {
+				$short_name = $name;
+				if(strlen($name) > 50) {
+					$short_name = substr($name, 0, 50)."...";
+				}
 				$ret[] = $this->createCourseInfoObject($entity
 				, ""
-				, $city
+				, $short_name
 				, 400
 				, [CourseInfo::CONTEXT_SEARCH_SHORT_INFO,
 					CourseInfo::CONTEXT_USER_BOOKING_SHORT_INFO
 				  ]
 				);
-			}
-
-			if($name != "") {
-				$val = array();
-				$val[] = $name;
-
-				if($address != "") {
-					$val[] = $address;
-				}
-
-				if($postcode != "" || $city != "") {
-					$val[] = $postcode." ".$city;
-				}
 
 				$ret[] = $this->createCourseInfoObject($entity
 					, $txt("title").":"
-					, join("<br />", $val)
+					, nl2br($name)
 					, 350
 					, [CourseInfo::CONTEXT_SEARCH_FURTHER_INFO,
 						CourseInfo::CONTEXT_BOOKING_DEFAULT_INFO,
@@ -522,20 +513,61 @@ class UnboundCourseProvider extends SeparatedUnboundProvider {
 				);
 
 				$ret[] = $this->createCourseInfoObject($entity
-					, $this->lng->txt("venue")
-					, join(", ", $val)
-					, 350
-					, [
-						CourseInfo::CONTEXT_ICAL
+						, $txt("title")
+						, nl2br($name)
+						, 1200
+						, [CourseInfo::CONTEXT_BOOKING_DEFAULT_INFO]
+					);
+			} else {
+				if($city != "") {
+					$ret[] = $this->createCourseInfoObject($entity
+					, ""
+					, $city
+					, 400
+					, [CourseInfo::CONTEXT_SEARCH_SHORT_INFO,
+						CourseInfo::CONTEXT_USER_BOOKING_SHORT_INFO
 					  ]
-				);
+					);
+				}
 
-				$ret[] = $this->createCourseInfoObject($entity
-					, $txt("title")
-					, join("<br />", $val)
-					, 1200
-					, [CourseInfo::CONTEXT_BOOKING_DEFAULT_INFO]
-				);
+
+				if($name != "") {
+					$val = array();
+					$val[] = $name;
+
+					if($address != "") {
+						$val[] = $address;
+					}
+
+					if($postcode != "" || $city != "") {
+						$val[] = $postcode." ".$city;
+					}
+
+					$ret[] = $this->createCourseInfoObject($entity
+						, $txt("title").":"
+						, join("<br />", $val)
+						, 350
+						, [CourseInfo::CONTEXT_SEARCH_FURTHER_INFO,
+							CourseInfo::CONTEXT_USER_BOOKING_FURTHER_INFO
+						  ]
+					);
+
+					$ret[] = $this->createCourseInfoObject($entity
+						, $this->lng->txt("venue")
+						, join(", ", $val)
+						, 350
+						, [
+							CourseInfo::CONTEXT_ICAL
+						  ]
+					);
+
+					$ret[] = $this->createCourseInfoObject($entity
+						, $txt("title")
+						, join("<br />", $val)
+						, 1200
+						, [CourseInfo::CONTEXT_BOOKING_DEFAULT_INFO]
+					);
+				}
 			}
 		}
 		return $ret;
