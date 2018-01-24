@@ -251,7 +251,7 @@ class ilExAssignmentEditorGUI
 
 			$max_char_limit = new ilNumberInputGUI($lng->txt("exc_max_char_limit"), "max_char_limit");
 			$max_char_limit->allowDecimals(false);
-			$max_char_limit->setMinValue($_POST['min_char_limit'] + 1);
+			$max_char_limit->setMinValue((int) $_POST['min_char_limit'] + 1);
 
 			$max_char_limit->setSize(3);
 
