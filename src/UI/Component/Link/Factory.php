@@ -22,6 +22,9 @@ interface Factory {
 	 *       1: >
 	 *          Standard links MUST be used if there is no good reason using
 	 *          another instance.
+	 *       2: >
+	 *          Links to ILIAS screens that contain the general ILIAS
+	 *          navigation MUST NOT be opened in a new viewport.
 	 * ---
 	 * @param	string		$label
 	 * @param	string		$action
