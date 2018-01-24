@@ -931,7 +931,7 @@ class ButtonFactoryTest extends AbstractFactoryTest {
 	 * @test
 	 * @small
 	 */
-	public function test_creation_of_standard_button() {
+	public function testCreationOfStandardButton() {
 		$label = "standard";
 		$url = "http://www.ilias.de";
 		
@@ -944,7 +944,7 @@ class ButtonFactoryTest extends AbstractFactoryTest {
 	 * @test
 	 * @small
 	 */
-	public function test_creation_of_primary_button() {
+	public function testCreationOfPrimaryButton() {
 		$label = "primary";
 		$url = "http://www.ilias.de";
 		
@@ -1036,7 +1036,7 @@ class ButtonTest extends ILIAS_UI_TestBase {
 	 * @test
 	 * @small
 	 */
-	public function test_button_creation_with_invalid_argument_which_should_fail() {
+	public function testButtonCreationWithInvalidArgumentWhichShouldFail() {
 
 		$constructorArgs = [$this, 'http://www.ilias.de'];
 
