@@ -1038,10 +1038,12 @@ class ButtonTest extends ILIAS_UI_TestBase {
 	 */
 	public function test_button_creation_with_invalid_argument_which_should_fail() {
 
+		$constructorArgs = [$this, 'http://www.ilias.de'];
+
 		$this->expectException(InvalidArgumentException::class);
 
 		//create a partial mock because the button is abstract
-		Mockery::mock(Button::class . '[]', [$this, 'http://www.ilias.de']);
+		Mockery::mock(Button::class . '[]', $constructorArgs);
 	}
 }
 ```
