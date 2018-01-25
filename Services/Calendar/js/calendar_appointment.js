@@ -1,8 +1,9 @@
 (function($) {
     $(document).ready(function(){
         $('.calfullcontent').each(function(){
-            var fs = parseInt($(this).parents(".calevent").height());
-            $(this).css('height',fs);
+            /*22476*/
+            var event_color = $(this).css('backgroundColor');
+            $(this).parents(".calevent").css('background-color',event_color);
         });
 
         $('.createhover').mouseover(function(){
