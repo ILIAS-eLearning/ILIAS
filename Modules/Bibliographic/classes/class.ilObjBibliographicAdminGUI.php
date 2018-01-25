@@ -45,7 +45,9 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 		$this->lng->loadLanguageModule('bibl');
 		// Check Permissions globally for all SubGUIs. We check read-permission first
-		$this->checkPermission('read');
+		if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+			$this->ilErr->raiseError($this->lng->txt("no_permission"), $this->ilErr->WARNING);
+		}
 	}
 
 
