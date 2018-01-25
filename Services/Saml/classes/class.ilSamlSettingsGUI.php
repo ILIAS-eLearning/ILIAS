@@ -65,6 +65,10 @@ class ilSamlSettingsGUI
 	 * @var ilAccessHandler
 	 */
 	protected $access;
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
 
 	/**
 	 * @var ilErrorHandling
@@ -118,6 +122,7 @@ class ilSamlSettingsGUI
 		$this->tpl           = $DIC->ui()->mainTemplate();
 		$this->lng           = $DIC->language();
 		$this->access        = $DIC->access();
+		$this->rbacsystem    = $DIC->rbac();
 		$this->error_handler = $DIC['ilErr'];
 		$this->tabs          = $DIC->tabs();
 		$this->rbacreview    = $DIC->rbac()->review();
@@ -133,7 +138,7 @@ class ilSamlSettingsGUI
 	 */
 	protected function ensureAccess($operation)
 	{
-		if(!$this->access->checkAccess($operation, '', $this->getRefId()))
+		if(!$this->rbacsystem->system()->checkAccess($operation, $this->getRefId()))
 		{
 			$this->error_handler->raiseError($this->lng->txt('msg_no_perm_read'), $this->error_handler->WARNING);
 		}
@@ -253,7 +258,7 @@ class ilSamlSettingsGUI
 	 */
 	protected function listIdps()
 	{
-		if ($this->samlAuth) {
+		if($this->samlAuth && $this->rbacsystem->system()->checkAccess('visible,read', $this->ref_id)) {
 			$addIdpButton = ilLinkButton::getInstance();
 			$addIdpButton->setCaption('auth_saml_add_idp_btn');
 			$addIdpButton->setUrl($this->ctrl->getLinkTarget($this, 'showNewIdpForm'));

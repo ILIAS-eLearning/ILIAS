@@ -63,18 +63,14 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
 	 */
 	public function executeCommand()
 	{
-		$rbacsystem = $this->rbacsystem;
-		$ilErr = $this->error;
-		$ilAccess = $this->access;
-
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
 		$this->prepareOutput();
 
-		if(!$ilAccess->checkAccess('read','',$this->object->getRefId()))
+		if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
 		{
-			$ilErr->raiseError($this->lng->txt('no_permission'),$ilErr->WARNING);
+			$this->error->raiseError($this->lng->txt('no_permission'),$this->error->WARNING);
 		}
 
 		switch($next_class)
@@ -130,23 +126,20 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
 	function addSubTabs()
 	{
 		$ilTabs = $this->tabs;
-		$lng = $this->lng;
-		$ilCtrl = $this->ctrl;
-		$ilAccess = $this->access;
-		
+
 		$tags_set = new ilSetting("tags");
 		if ($tags_set->get("enable"))
 		{
-			$ilTabs->addSubTab("settings", $lng->txt("settings"),
-				$ilCtrl->getLinkTarget($this, "editSettings"));
+			$ilTabs->addSubTab("settings", $this->lng->txt("settings"),
+				$this->ctrl->getLinkTarget($this, "editSettings"));
 
-			if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+			if ($this->rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
 			{
-				$ilTabs->addSubTab("forbidden_tags", $lng->txt("tagging_forbidden_tags"),
-					$ilCtrl->getLinkTarget($this, "editForbiddenTags"));
+				$ilTabs->addSubTab("forbidden_tags", $this->lng->txt("tagging_forbidden_tags"),
+					$this->ctrl->getLinkTarget($this, "editForbiddenTags"));
 	
-				$ilTabs->addSubTab("users", $lng->txt("users"),
-					$ilCtrl->getLinkTarget($this, "showUsers"));
+				$ilTabs->addSubTab("users", $this->lng->txt("users"),
+					$this->ctrl->getLinkTarget($this, "showUsers"));
 			}
 		}
 	}

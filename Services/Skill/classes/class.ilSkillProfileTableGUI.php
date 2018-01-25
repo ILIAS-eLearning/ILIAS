@@ -25,6 +25,11 @@ class ilSkillProfileTableGUI extends ilTable2GUI
 	protected $access;
 
 	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
 	 * Constructor
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_write_permission = false)
@@ -34,9 +39,8 @@ class ilSkillProfileTableGUI extends ilTable2GUI
 		$this->ctrl = $DIC->ctrl();
 		$this->lng = $DIC->language();
 		$this->access = $DIC->access();
+		$this->rbacsystem = $DIC->rbac()->system();
 		$ilCtrl = $DIC->ctrl();
-		$lng = $DIC->language();
-		$ilAccess = $DIC->access();
 		$lng = $DIC->language();
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -80,12 +84,13 @@ class ilSkillProfileTableGUI extends ilTable2GUI
 		$ilCtrl = $this->ctrl;
 
 		$this->tpl->setCurrentBlock("cmd");
-		$this->tpl->setVariable("CMD", $lng->txt("edit"));
-		$ilCtrl->setParameter($this->parent_obj, "sprof_id", $a_set["id"]);
-		$this->tpl->setVariable("CMD_HREF", $ilCtrl->getLinkTarget($this->parent_obj, "showUsers"));
-		$ilCtrl->setParameter($this->parent_obj, "sprof_id", $_GET["sprof_id"]);
-		$this->tpl->parseCurrentBlock();
-		
+		if ($this->rbacsystem->checkAccess('write', $_GET['ref_id'])) {
+			$this->tpl->setVariable("CMD", $lng->txt("edit"));
+			$ilCtrl->setParameter($this->parent_obj, "sprof_id", $a_set["id"]);
+			$this->tpl->setVariable("CMD_HREF", $ilCtrl->getLinkTarget($this->parent_obj, "showUsers"));
+			$ilCtrl->setParameter($this->parent_obj, "sprof_id", $_GET["sprof_id"]);
+			$this->tpl->parseCurrentBlock();
+		}
 		$this->tpl->setVariable("ID", $a_set["id"]);
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("NUM_USERS", ilSkillProfile::countUsers($a_set["id"]));

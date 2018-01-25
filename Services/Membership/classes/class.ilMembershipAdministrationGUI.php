@@ -34,20 +34,16 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
 	abstract protected function getAdministrationFormId();
 
 	public function executeCommand()
-	{		
+	{
 		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
-		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
 		$this->prepareOutput();
 
-		if(!$ilAccess->checkAccess("read", "", $this->object->getRefId()))
+		if (!$DIC->rbac()->system()->checkAccess("visible,read", $this->object->getRefId()))
 		{
-			$ilErr->raiseError($this->lng->txt("no_permission"), $ilErr->WARNING);
+			$DIC['ilErr']->raiseError($this->lng->txt("no_permission"), $DIC['ilErr']->WARNING);
 		}
 
 		switch($next_class)

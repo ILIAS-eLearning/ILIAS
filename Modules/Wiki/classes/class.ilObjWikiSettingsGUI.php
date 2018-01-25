@@ -71,7 +71,6 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
 	 */
 	public function executeCommand()
 	{
-		$rbacsystem = $this->rbacsystem;
 		$ilErr = $this->error;
 		$ilAccess = $this->access;
 		$lng = $this->lng;
@@ -83,7 +82,7 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
 
 		$this->prepareOutput();
 
-		if (!$ilAccess->checkAccess('read','',$this->object->getRefId()))
+		if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
 		{
 			$ilErr->raiseError($this->lng->txt('no_permission'),$ilErr->WARNING);
 		}
@@ -121,8 +120,8 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
 		$tpl = $this->tpl;
 		
 		$ilTabs->activateTab("settings");
-		
-		if ($this->checkPermissionBool("read"))
+
+		if ($this->rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
 		{
 			if(!$form)
 			{

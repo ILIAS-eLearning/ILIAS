@@ -100,7 +100,7 @@ class ilObjMailGUI extends ilObjectGUI
 	 */
 	private function isViewAllowed()
 	{
-		return $this->rbacsystem->checkAccess('read', $this->object->getRefId());
+		return $this->rbacsystem->checkAccess("visible,read", $this->object->getRefId());
 	}
 
 	/**
@@ -346,7 +346,7 @@ class ilObjMailGUI extends ilObjectGUI
 			$this->populateExternalSettingsForm($form);
 		}
 
-		if (strlen($GLOBALS['DIC']->user()->getEmail()) > 0) {
+		if (strlen($GLOBALS['DIC']->user()->getEmail()) > 0 && $this->rbacsystem->checkAccess('write', $this->ref_id)) {
 			require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
 
 			$btn = ilLinkButton::getInstance();

@@ -37,6 +37,18 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 {
 
 	/**
+	 * @var \ILIAS\DI\Container
+	 */
+	protected $dic;
+	/**
+	 * @var ilSetupErrorHandling
+	 */
+	protected $error;
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+	/**
 	 * Contructor
 	 *
 	 * @access public
@@ -44,13 +56,14 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
 		global $DIC;
-
-		$lng = $DIC['lng'];
+		$this->dic = $DIC;
+		$this->error = $DIC['ilErr'];
+		$this->rbacsystem = $this->dic->rbac()->system();
 		
 		$this->type = 'mds';
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
-		$this->lng = $lng;
+		$this->lng = $this->dic->language();
 		$this->lng->loadLanguageModule("meta");
 	}
 
@@ -62,20 +75,14 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 	 */
 	public function executeCommand()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-		$ilErr = $DIC['ilErr'];
-		$ilAccess = $DIC['ilAccess'];
-
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
 		$this->prepareOutput();
 
-		if(!$ilAccess->checkAccess('read','',$this->object->getRefId()))
+		if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
 		{
-			$ilErr->raiseError($this->lng->txt('no_permission'),$ilErr->WARNING);
+			$this->error->raiseError($this->lng->txt('no_permission'),$this->error->WARNING);
 		}
 
 		switch($next_class)

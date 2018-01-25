@@ -82,8 +82,8 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
 	public function general(ilPropertyFormGUI $settingsForm = null)
 	{
 		if(!ilChatroom::checkUserPermissions(array(
-			'read',
-			'write'
+			'visible',
+			'read'
 		), $this->gui->ref_id)
 		)
 		{

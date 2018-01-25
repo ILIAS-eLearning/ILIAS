@@ -69,18 +69,14 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 	{
 		global $DIC;
 
-		$rbacsystem = $DIC['rbacsystem'];
-		$ilErr = $DIC['ilErr'];
-		$ilAccess = $DIC['ilAccess'];
-
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
 		$this->prepareOutput();
 
-		if(!$ilAccess->checkAccess('read','',$this->object->getRefId()))
+		if(!$DIC->rbac()->system()->checkAccess('visible,read',$this->object->getRefId()))
 		{
-			$ilErr->raiseError($this->lng->txt('no_permission'),$ilErr->WARNING);
+			$DIC['ilErr']->raiseError($this->lng->txt('no_permission'),$DIC['ilErr']->WARNING);
 		}
 
 		switch($next_class)

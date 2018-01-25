@@ -16,10 +16,21 @@ include_once "Services/Tracking/classes/class.ilLearningProgressBaseGUI.php";
 * @package ilias-tracking
 *
 */
+
+
 class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 {
+
+	/**
+	 * @var \ILIAS\DI\Container
+	 */
+	protected $dic;
+
 	function __construct($a_mode,$a_ref_id = 0)
 	{
+		global $DIC;
+
+		$this->dic = $DIC;
 		parent::__construct($a_mode,$a_ref_id);
 	
 		if(!$this->ref_id)
@@ -46,9 +57,9 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 		$this->tabs_gui->addSubTab('trac_object_stat_types', 
 				$this->lng->txt('trac_object_stat_types'),
 				$this->ctrl->getLinkTarget($this, 'typesFilter'));
-		
-		if($ilAccess->checkAccess("write", "", $this->ref_id))
-		{		
+
+		if ($this->dic->rbac()->system()->checkAccess("visible,read", $this->ref_id))
+		{
 			$this->tabs_gui->addSubTab('trac_object_stat_admin', 
 					$this->lng->txt('trac_object_stat_admin'),
 					$this->ctrl->getLinkTarget($this, 'admin'));
@@ -286,8 +297,10 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 		
 		$this->showAggregationInfo(false);
 
-		$ilToolbar->addButton($lng->txt("trac_sync_obj_stats"),
-			$ilCtrl->getLinkTarget($this, "adminSync"));
+		if($this->dic->rbac()->system()->checkAccess('write', $this->ref_id)) {
+			$ilToolbar->addButton($lng->txt("trac_sync_obj_stats"),
+				$ilCtrl->getLinkTarget($this, "adminSync"));
+		}
 
 		if($ilAccess->checkAccess("delete", "", $this->ref_id))
 		{
