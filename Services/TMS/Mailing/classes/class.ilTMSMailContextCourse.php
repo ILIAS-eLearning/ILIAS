@@ -8,17 +8,17 @@ use ILIAS\TMS\Mailing;
  */
 class ilTMSMailContextCourse implements Mailing\MailContext {
 	private static $PLACEHOLDER = array(
-		'COURSE_TITLE' => 'crsTitle',
-		'COURSE_LINK' => 'crsLink',
-		'SCHEDULE' => 'crsSchedule',
-		'COURSE_START_DATE' => 'crsStartdate',
-		'COURSE_END_DATE' => 'crsEnddate',
-		'TRAINER_FIRST_NAME' => 'trainerFirstname',
-		'TRAINER_LAST_NAME' => 'trainerLastname',
-		'OFFICE_FIRST_NAME' => 'adminFirstname',
-		'OFFICE_LAST_NAME' => 'adminLastname',
-		'VENUE' => 'crsVenue',
-		'TRAINING_PROVIDER' => 'crsProvider'
+		'COURSE_TITLE' => 'placeholder_desc_crs_title',
+		'COURSE_LINK' => 'placeholder_desc_crs_link',
+		'SCHEDULE' => 'placeholder_desc_crs_schedule',
+		'COURSE_START_DATE' => 'placeholder_desc_crs_startdate',
+		'COURSE_END_DATE' => 'placeholder_desc_crs_enddate',
+		'TRAINER_FIRST_NAME' => 'placeholder_desc_crs_trainer_firstname',
+		'TRAINER_LAST_NAME' => 'placeholder_desc_crs_trainer_lastname',
+		'OFFICE_FIRST_NAME' => 'placeholder_desc_crs_admin_firstname',
+		'OFFICE_LAST_NAME' => 'placeholder_desc_crs_admin_lastname',
+		'VENUE' => 'placeholder_desc_crs_venue',
+		'TRAINING_PROVIDER' => 'placeholder_desc_crs_provider'
 	);
 
 	/**
@@ -31,9 +31,18 @@ class ilTMSMailContextCourse implements Mailing\MailContext {
 	 */
 	protected $crs_obj;
 
+	/**
+	 * @var ilLanguage
+	 */
+	protected $g_lang;
+
 	public function __construct($crs_ref_id) {
 		assert('is_int($crs_ref_id)');
 		$this->crs_ref_id = $crs_ref_id;
+
+		global $DIC;
+		$this->g_lang = $DIC->language();
+		$this->g_lang->loadLanguageModule("tms");
 	}
 
 	/**
@@ -52,6 +61,13 @@ class ilTMSMailContextCourse implements Mailing\MailContext {
 	 */
 	public function placeholderIds() {
 		return array_keys($this::$PLACEHOLDER);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function placeholderDescriptionForId($placeholder_id) {
+		return $this->g_lang->txt(self::$PLACEHOLDER[$placeholder_id]);
 	}
 
 	/**

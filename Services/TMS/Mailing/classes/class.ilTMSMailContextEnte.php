@@ -8,7 +8,7 @@ use ILIAS\TMS\Mailing;
  * Course- and Plugin-related placeholder-values
  * Subclass and provide this at plugins.
  */
-class ilTMSMailContextEnte implements Mailing\MailContext {
+abstract class ilTMSMailContextEnte implements Mailing\MailContext {
 	use ilHandlerObjectHelper;
 
 	protected $entity;
@@ -23,17 +23,17 @@ class ilTMSMailContextEnte implements Mailing\MailContext {
 	/**
 	 * @inheritdoc
 	 */
-	public function placeholderIds() {
-		return array();
-	}
+	abstract public function placeholderIds();
 
 	/**
 	 * @inheritdoc
 	 */
-	public function valueFor($placeholder_id, $contexts = array()) {
-		return null;
-	}
+	abstract public function valueFor($placeholder_id, $contexts = array());
 
+	/**
+	 * @inheritdoc
+	 */
+	abstract public function placeholderDescriptionForId($placeholder_id);
 
 	/**
 	 * @inheritdoc

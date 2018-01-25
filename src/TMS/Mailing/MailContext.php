@@ -33,4 +33,12 @@ interface MailContext {
 	 */
 	public function placeholderIds();
 
+	/**
+	 * get a description for this placeholder
+	 *
+	 * @param string 	$placeholder_id
+	 * @return string
+	 */
+	public function placeholderDescriptionForId($placeholder_id);
+
 }

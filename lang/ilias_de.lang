@@ -14292,3 +14292,20 @@ tms#:#to_course_member_tab#:#Buchungen vornehmen
 tms#:#cancel_course#:#Training absagen
 tms#:#only_bookable#:#Nur buchbare Trainings
 tms#:#idd_relevant#:#Nur IDD relevante Trainings
+tms#:#placeholder_desc_user_salutation#:#Anrede des Benutzers
+tms#:#placeholder_desc_user_firstName#:#Vorname des Benutzers
+tms#:#placeholder_desc_user_lastName#:#Nachname des Benutzers
+tms#:#placeholder_desc_user_login#:#Login des Benutzers
+tms#:#placeholder_desc_ilias_ilias_url#:#ILIAS-URL
+tms#:#placeholder_desc_ilias_client_name#:#Name der ILIAS-Instanz
+tms#:#placeholder_desc_crs_title#:#Kurstitel
+tms#:#placeholder_desc_crs_link#:#Link zum Kurs
+tms#:#placeholder_desc_crs_schedule#:#Zeitplan des Kurses
+tms#:#placeholder_desc_crs_startdate#:#Startdatum des Kurses
+tms#:#placeholder_desc_crs_enddate#:#Enddatum des Kurses
+tms#:#placeholder_desc_crs_trainer_firstname#:#Vorname des Trainers am Kurs
+tms#:#placeholder_desc_crs_trainer_lastname#:#Nachname des Trainers am Kurs
+tms#:#placeholder_desc_crs_admin_firstname#:#Vorname des Admins am Kurs
+tms#:#placeholder_desc_crs_admin_lastname#:#Nachname des Admins am Kurs
+tms#:#placeholder_desc_crs_venue#:#Veranstaltungsort des Kurses
+tms#:#placeholder_desc_crs_provider#:#Trainingsanbieter
