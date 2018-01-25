@@ -154,14 +154,16 @@ class ilDownloadFilesBackgroundTask
 		{
 			$cat = ilCalendarCategory::getInstanceByCategoryId($event['category_id']);
 			$obj_id = $cat->getObjId();
-			if(!in_array($obj_id, $object_ids))
+
+			//22295 If the object type is exc then we need all the assignments.Otherwise we will get only one.
+			if(!in_array($obj_id, $object_ids) || $cat->getObjType() == "exc")
 			{
 				$object_ids[] = $obj_id;
 				$folder_date = $event['event']->getStart()->get(IL_CAL_FKT_DATE,'Y-m-d');
 
 				if($event['fullday'])
 				{
-					$folder_app = ilUtil::getASCIIFilename($event['event']->getPresentationTitle());   //title formalized
+					$folder_app = ilUtil::getASCIIFilename($event['event']->getPresentationTitle(false));   //title formalized
 				}
 				else
 				{
@@ -170,7 +172,7 @@ class ilDownloadFilesBackgroundTask
 					if($time != $end_time) {
 						$time .= " - ".$end_time;
 					}
-					$folder_app = $time." ".ilUtil::getASCIIFilename($event['event']->getPresentationTitle());   //title formalized
+					$folder_app = $time." ".ilUtil::getASCIIFilename($event['event']->getPresentationTitle(false));   //title formalized
 				}
 
 				$this->logger->debug("collecting files...event title = ".$folder_app);

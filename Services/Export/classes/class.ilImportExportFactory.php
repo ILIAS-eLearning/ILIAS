@@ -70,7 +70,14 @@ class ilImportExportFactory
 			return $objDefinition->getComponentForType($a_type);
 		}		
 	}
-	
+
+	/**
+	 * Get the importer class of a component
+	 *
+	 * @param string $a_component	component
+	 * @return string	class name of the importer class (or empty if the importer should be ignored)
+	 * @throws	InvalidArgumentException	the importer class is not found but should not be ignored
+	 */
 	public static function getImporterClass($a_component)
 	{
 		/**
@@ -96,11 +103,21 @@ class ilImportExportFactory
 		{							
 			$class = "il".$component."Importer";
 
-			// page component plugin importer classes are already included
-			// the component is not registered by ilObjDefinition
+			// treat special case of page component plugins
+			// they are imported with component type PLUGINS_DIR
+			// but are not yet recognized by ilObjDefinition::isPlugin()
+			//
+			// if they are active, then their importer class is already included by ilCOPageImporter::init()
 			if (class_exists($class))
 			{
 				return $class;
+			}
+			// the page component plugin is not installed or not active
+			// return an empty class name instead of throwing an exception
+			// in this case the import should be continued without treating the page component
+			elseif ($component_type == self::PLUGINS_DIR)
+			{
+				return "";
 			}
 
 			if (is_file ("./".$a_component."/classes/class.".$class.".php"))

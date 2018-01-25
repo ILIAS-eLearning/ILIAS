@@ -32,4 +32,14 @@ interface ilOrgUnitPositionAndRBACAccessHandler {
 	 * @return int[]
 	 */
 	public function filterUserIdsByRbacOrPositionOfCurrentUser($rbac_perm, $pos_perm, $ref_id, array $user_ids);
+
+
+	/**
+	 * @param string $rbac_perm
+	 *
+	 * @param int $ref_id
+	 *
+	 * @return bool
+	 */
+	public function hasUserRBACorAnyPositionAccess($rbac_perm, $ref_id);
 }
