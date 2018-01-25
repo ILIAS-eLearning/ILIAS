@@ -13793,7 +13793,6 @@ ecs#:#ecs_member_auth_type#:#Authentifizierungsmethode für Kursmitglieder
 background_tasks#:#background_tasks#:#Background Tasks
 background_tasks#:#background_tasks_running#:#Background Tasks
 background_tasks#:#scheduled#:#Geplant
-background_tasks#:#dismiss#:#Entfernen
 background_tasks#:#remove#:#Entfernen
 background_tasks#:#completed#:#Abgeschlossen
 background_tasks#:#waiting#:#Warten
@@ -14154,3 +14153,4 @@ meta#:#adt_error_max_length#:#Der eingegebene Text ist zu lang. Bitte geben Sie 
 form#:#form_chars_remaining#:#Verbleibende Zeichen:
 poll#:#poll_voting_period_full_info#:#Abstimmung von %s bis %s
 crs#:#crs_subscription_min_members_err#:#Die minimale Anzahl darf nicht größer als die maximale Anzahl sein.
+background_tasks#:#abort#:#Abort###25 01 2018 new variable
