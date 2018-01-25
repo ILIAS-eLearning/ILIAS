@@ -53,4 +53,19 @@ class LinkTest extends ILIAS_UI_TestBase {
 
 		$this->assertHTMLEquals($expected_html, $html);
 	}
+
+	public function test_render_with_new_viewport() {
+		$f = $this->getLinkFactory();
+		$r = $this->getDefaultRenderer();
+
+		$c = $f->standard("label", "http://www.ilias.de")->withOpenInNewViewport(true);
+
+		$html = $r->render($c);
+
+		$expected_html =
+			'<a href="http://www.ilias.de" target="_blank">label</a>';
+
+		$this->assertHTMLEquals($expected_html, $html);
+	}
+
 }

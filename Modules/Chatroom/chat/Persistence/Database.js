@@ -473,15 +473,7 @@ var Database = function Database(config) {
 	 * @param {Conversation} conversation
 	 */
 	this.updateConversation = function(conversation) {
-		var participantsJson = [];
-		var participants = conversation.getParticipants();
-
-		for(var index in participants) {
-			if(participants.hasOwnProperty(index)){
-				participantsJson.push(participants[index].json())
-			}
-		}
-		participantsJson = JSON.stringify(participantsJson);
+		var participantsJson = JSON.stringify(getConversationParticipantsJson(conversation));
 
 		_pool.query('UPDATE osc_conversation SET participants = ?, is_group = ? WHERE id = ?',
 			[participantsJson, conversation.isGroup(), conversation.getId()],
@@ -494,12 +486,14 @@ var Database = function Database(config) {
 	 * @param {Conversation} conversation
 	 */
 	this.persistConversation = function(conversation) {
+		var participantsJson = JSON.stringify(getConversationParticipantsJson(conversation));
+
 		_pool.query(
 			'INSERT INTO osc_conversation SET ?',
 			{
 				id: conversation.getId(),
 				is_group: conversation.isGroup(),
-				participants: JSON.stringify(conversation.getParticipants())
+				participants: participantsJson
 			},
 			handleError
 		);
@@ -525,6 +519,26 @@ var Database = function Database(config) {
 	this.getConnection = function(callback) {
 		_pool.getConnection(callback);
 	};
+
+	function getConversationParticipantsJson(conversation) {
+		var participantsJson = {};
+		var participants = conversation.getParticipants();
+
+		for (var index in participants) {
+			if(participants.hasOwnProperty(index)) {
+				var p = participants[index];
+				if (p.getId() !== null && p.getId() > 0 && !participantsJson.hasOwnProperty(p.getId())) {
+					participantsJson[p.getId()] = p.json();
+				}
+			}
+		}
+
+		if (typeof Object.values === "function") {
+			return Object.values(participantsJson);
+		} else {
+			return Object.keys(participantsJson).map((k) => participantsJson[k]);
+		}
+	}
 
 	function _onQueryEvents(query, onResult, onEnd) {
 		query.on('result', onResult);

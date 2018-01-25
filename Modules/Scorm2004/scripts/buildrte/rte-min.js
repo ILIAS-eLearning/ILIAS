@@ -1,4 +1,4 @@
-// Build: 2017826164616 
+// Build: 2018118230830 
 
 function ADLAuxiliaryResource()
 {}
@@ -2322,9 +2322,7 @@ if(log_auto_flush)
 else
 {log_buffer=log_buffer+mess+'<br />';}}
 function sclogflush()
-{return;elm=all("ilLogPre");if(elm)
-{elm.innerHTML=elm.innerHTML+log_buffer;sclogscroll();}
-log_buffer="";}
+{return;}
 function sclogclear()
 {elm=all("ilLogPre");if(elm)
 {elm.innerHTML='';}}
@@ -2892,9 +2890,8 @@ return api;}
 var api={cmi:{},adl:{}};var data=activitiesByCAM[cp_node_id];getAPIWalk(Runtime.models.cmi.cmi,data,api.cmi);return api;}
 function setItemValue(key,dest,source,destkey)
 {if(source&&source.hasOwnProperty(key))
-{var d=source[key];var temp=d;if(d!=""&&!isNaN(Number(d))&&(/^-?\d{1,32}(\.\d{1,32})?$/.test(d))){d=Number(d);}else if(d==="true"){d=true;}else if(d==="false"){d=false;}
-if(key=="title"){d=temp;}
-dest[destkey?destkey:key]=d;}}
+{var d=source[key];var dk=destkey?destkey:key;if(dk!="location"&&dk!="suspend_data"&&dk!="title"){if(d!=""&&!isNaN(Number(d))&&(/^-?\d{1,32}(\.\d{1,32})?$/.test(d))){d=Number(d);}else if(d==="true"){d=true;}else if(d==="false"){d=false;}}
+dest[dk]=d;}}
 function setAPI(cp_node_id,api)
 {function setAPIWalk(model,data,api)
 {var k,i;if(!model.children)return;for(k in model.children)
@@ -3055,7 +3052,7 @@ else if(!activities[tree[i].mActivityID].href&&elm!=null&&elm.parentNode)
 {toggleClass(elm.parentNode,"ilc_rte_node_RTEChapter"+disabled_str,1);}
 else
 {toggleClass(elm.parentNode,"ilc_rte_node_RTECourse"+disabled_str,1);}}}
-signActNode();first=false;}}
+if(elm)signActNode();first=false;}}
 function updateNavForSequencing(){if(this.config.sequencing_enabled){var valid=new ADLValidRequests();valid=msequencer.getValidRequests(valid);msequencer.mSeqTree.setValidRequests(valid);mlaunch.mNavState=msequencer.mSeqTree.getValidRequests();updateNav(false);updateControls();}}
 function isIE(versionNumber){var detect=navigator.userAgent.toLowerCase();if(!(navigator&&navigator.userAgent&&navigator.userAgent.toLowerCase)){return false;}else{if(detect.indexOf('msie')+1){var ver=function(){var rv=-1;if(navigator.appName=='Microsoft Internet Explorer'){var ua=navigator.userAgent;var re=new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");if(re.exec(ua)!=null){rv=parseFloat(RegExp.$1);}}
 return rv;};var valid=true;if((ver>-1)&&(ver<versionNumber)){valid=false;}

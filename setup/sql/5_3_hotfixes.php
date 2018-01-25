@@ -101,9 +101,19 @@ $ilDB->manipulate("UPDATE il_orgu_permissions SET protected = 1 WHERE parent_id 
 ?>
 <#6>
 <?php
-$ilDB->dropIndexByFields('cmi_objective',array('id'));
+if( $ilDB->indexExistsByFields('cmi_objective', array('id')) )
+{
+	$ilDB->dropIndexByFields('cmi_objective',array('id'));
+}
 ?>
 <#7>
 <?php
 $ilCtrlStructureReader->getStructure();
+?>
+<#8>
+<?php
+if (!$ilDB->indexExistsByFields('page_style_usage', array('page_id', 'page_type', 'page_lang', 'page_nr')) )
+{
+	$ilDB->addIndex('page_style_usage',array('page_id', 'page_type', 'page_lang', 'page_nr'),'i1');
+}
 ?>
