@@ -49,11 +49,33 @@ class ilTMSMailContextCourse implements Mailing\MailContext {
 	 * @inheritdoc
 	 */
 	public function valueFor($placeholder_id, $contexts = array()) {
-		if(array_key_exists($placeholder_id, $this::$PLACEHOLDER)){
-			$func = $this::$PLACEHOLDER[$placeholder_id];
-			return $this->$func();
+		switch ($placeholder_id) {
+			case 'COURSE_TITLE':
+				return $this->crsTitle();
+			case 'COURSE_LINK':
+				return $this->crsLink();
+			case 'SCHEDULE':
+				return $this->crsSchedule();
+			case 'COURSE_START_DATE':
+				return $this->crsStartdate();
+			case 'COURSE_END_DATE':
+				return $this->crsEnddate();
+			case 'TRAINER_FIRST_NAME':
+				return $this->trainerFirstname();
+			case 'TRAINER_LAST_NAME':
+				return $this->trainerLastname();
+			case 'OFFICE_FIRST_NAME':
+				return $this->adminFirstname();
+			case 'OFFICE_LAST_NAME':
+				return $this->adminLastname();
+			case 'VENUE':
+				return $this->crsVenue();
+			case 'TRAINING_PROVIDER':
+				return $this->crsProvider();
+			default:
+				return null;
 		}
-		return null;
+
 	}
 
 	/**

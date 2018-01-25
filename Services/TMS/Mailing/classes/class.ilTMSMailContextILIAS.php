@@ -31,10 +31,8 @@ class ilTMSMailContextILIAS implements Mailing\MailContext {
 		switch ($placeholder_id) {
 			case 'ILIAS_URL':
 				return ILIAS_HTTP_PATH . '/login.php?client_id=' . CLIENT_ID;
-				break;
 			case 'CLIENT_NAME':
 				return CLIENT_NAME;
-				break;
 			default:
 				return null;
 		}
