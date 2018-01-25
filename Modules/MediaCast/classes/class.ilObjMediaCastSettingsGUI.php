@@ -36,10 +36,6 @@ include_once("./Services/Object/classes/class.ilObjectGUI.php");
 */
 class ilObjMediaCastSettingsGUI extends ilObjectGUI
 {
-	/**
-	 * @var ilRbacSystem
-	 */
-	protected $rbacsystem;
 
 	/**
 	 * @var ilErrorHandling
@@ -55,8 +51,6 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
 		global $DIC;
-
-		$this->rbacsystem = $DIC->rbac()->system();
 		$this->error = $DIC["ilErr"];
 		$this->access = $DIC->access();
 		$this->ctrl = $DIC->ctrl();
@@ -76,18 +70,14 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
 	 */
 	public function executeCommand()
 	{
-		$rbacsystem = $this->rbacsystem;
-		$ilErr = $this->error;
-		$ilAccess = $this->access;
-
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
 		$this->prepareOutput();
 
-		if(!$ilAccess->checkAccess('read','',$this->object->getRefId()))
+		if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
 		{
-			$ilErr->raiseError($this->lng->txt('no_permission'),$ilErr->WARNING);
+			$this->error->raiseError($this->lng->txt('no_permission'),$this->error->WARNING);
 		}
 
 		switch($next_class)

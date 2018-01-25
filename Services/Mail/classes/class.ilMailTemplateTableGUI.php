@@ -11,6 +11,11 @@ require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
  */
 class ilMailTemplateTableGUI extends ilTable2GUI
 {
+
+	/**
+	 * @var \ILIAS\DI\Container
+	 */
+	protected $dic;
 	/**
 	 * @var ilCtrl
 	 */
@@ -37,7 +42,8 @@ class ilMailTemplateTableGUI extends ilTable2GUI
 
 		$this->readOnly = $readOnly;
 
-		$this->ctrl = $DIC->ctrl();
+		$this->dic = $DIC;
+		$this->ctrl = $this->dic->ctrl();
 
 		$this->setId('mail_man_tpl');
 		parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -109,22 +115,24 @@ class ilMailTemplateTableGUI extends ilTable2GUI
 		}
 
 		$this->ctrl->setParameter($this->getParentObject(), 'tpl_id', $row['tpl_id']);
-		$actions = new ilAdvancedSelectionListGUI();
-		$actions->setListTitle($this->lng->txt('actions'));
-		$actions->setId('act_' . $row['tpl_id']);
-		if(count($this->contexts))
-		{
-			if (!$this->readOnly) {
-				$actions->addItem($this->lng->txt('edit'), '', $this->ctrl->getLinkTarget($this->parent_obj, 'showEditTemplateForm'));
-			} else {
-				$actions->addItem($this->lng->txt('view'), '', $this->ctrl->getLinkTarget($this->parent_obj, 'showEditTemplateForm'));
+		if($this->dic->rbac()->system()->checkAccess('write', $_GET['ref_id'])) {
+			$actions = new ilAdvancedSelectionListGUI();
+			$actions->setListTitle($this->lng->txt('actions'));
+			$actions->setId('act_' . $row['tpl_id']);
+			if(count($this->contexts))
+			{
+				if (!$this->readOnly) {
+					$actions->addItem($this->lng->txt('edit'), '', $this->ctrl->getLinkTarget($this->parent_obj, 'showEditTemplateForm'));
+				} else {
+					$actions->addItem($this->lng->txt('view'), '', $this->ctrl->getLinkTarget($this->parent_obj, 'showEditTemplateForm'));
+				}
 			}
+			if (!$this->readOnly) {
+				$actions->addItem($this->lng->txt('delete'), '',
+					$this->ctrl->getLinkTarget($this->parent_obj, 'confirmDeleteTemplate'));
+			}
+			$this->tpl->setVariable('VAL_ACTION', $actions->getHTML());
 		}
-		if (!$this->readOnly) {
-			$actions->addItem($this->lng->txt('delete'), '',
-				$this->ctrl->getLinkTarget($this->parent_obj, 'confirmDeleteTemplate'));
-		}
-		$this->tpl->setVariable('VAL_ACTION', $actions->getHTML());
 		$this->ctrl->clearParameters($this->getParentObject());
 	}
 }

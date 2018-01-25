@@ -41,15 +41,17 @@ class ilRegistrationSettingsGUI
 	var $ctrl;
 	var $tpl;
 	var $ref_id;
+	var $rbacsystem;
 
 	function __construct()
 	{
-		global $ilCtrl,$tpl,$lng;
+		global $DIC;
 
-		$this->tpl = $tpl;
-		$this->ctrl = $ilCtrl;
+		$this->tpl = $DIC['tpl'];
+		$this->ctrl = $DIC->ctrl();
+		$this->rbacsystem = $DIC->rbac();
 		
-		$this->lng = $lng;
+		$this->lng = $DIC->language();
 		$this->lng->loadLanguageModule('administration');
 		$this->lng->loadLanguageModule('registration');
 		$this->lng->loadLanguageModule('user');
@@ -186,7 +188,9 @@ class ilRegistrationSettingsGUI
 		$domains->setInfo($this->lng->txt('reg_allowed_domains_info'));
 		$this->form_gui->addItem($domains);
 
-		$this->form_gui->addCommandButton('save', $this->lng->txt('save'));
+		if ($this->rbacsystem->system()->checkAccess("write", $this->ref_id)) {
+			$this->form_gui->addCommandButton('save', $this->lng->txt('save'));
+		}
 	}
 	
 	function initFormValues()
@@ -224,10 +228,9 @@ class ilRegistrationSettingsGUI
 	
 	function view()
 	{
-		global $ilAccess, $ilErr, $ilCtrl, $ilToolbar, $ilTabs;
+		global $rbacsystem, $ilErr, $ilCtrl, $ilToolbar, $ilTabs;
 
-		if(!$ilAccess->checkAccess('read','',$this->ref_id))
-		{
+		if (!$rbacsystem->checkAccess("visible,read", $this->ref_id)) {
 			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
 		}
 		
@@ -235,9 +238,13 @@ class ilRegistrationSettingsGUI
 		
 		// edit new accout mail
 		$ilCtrl->setParameterByClass("ilobjuserfoldergui", "ref_id", USER_FOLDER_ID);
-		$ilToolbar->addButton($this->lng->txt('registration_user_new_account_mail'),
-			$ilCtrl->getLinkTargetByClass(array("iladministrationgui", "ilobjuserfoldergui"), "newAccountMail"));
-		$ilCtrl->setParameterByClass("ilobjuserfoldergui", "ref_id", $_GET["ref_id"]);
+		if ($rbacsystem->checkAccess("write", $this->ref_id)) {
+			$ilToolbar->addButton($this->lng->txt('registration_user_new_account_mail'), $ilCtrl->getLinkTargetByClass(array(
+				"iladministrationgui",
+				"ilobjuserfoldergui"
+			), "newAccountMail"));
+			$ilCtrl->setParameterByClass("ilobjuserfoldergui", "ref_id", $_GET["ref_id"]);
+		}
 
 		$this->initForm();
 		$this->initFormValues();
@@ -830,17 +837,18 @@ class ilRegistrationSettingsGUI
 	
 	function listCodes()
 	{
-		global $ilAccess, $ilErr, $ilCtrl, $ilToolbar;
+		global $ilErr, $ilToolbar;
 
-		if(!$ilAccess->checkAccess('read','',$this->ref_id))
-		{
+		if (!$this->rbacsystem->system()->checkAccess("visible,read", $this->ref_id)) {
 			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
 		}
 
 		$this->setSubTabs('registration_codes');
 
-		$ilToolbar->addButton($this->lng->txt("registration_codes_add"),
-			$this->ctrl->getLinkTarget($this, "addCodes"));
+		if($this->rbacsystem->system()->checkAccess("write", $this->ref_id)) {
+			$ilToolbar->addButton($this->lng->txt("registration_codes_add"),
+				$this->ctrl->getLinkTarget($this, "addCodes"));
+		}
 
 		include_once("./Services/Registration/classes/class.ilRegistrationCodesTableGUI.php");
 		$ctab = new ilRegistrationCodesTableGUI($this, "listCodes");

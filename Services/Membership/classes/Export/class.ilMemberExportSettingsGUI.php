@@ -17,6 +17,10 @@ class ilMemberExportSettingsGUI
 
 	private $parent_type = '';
 	private $parent_obj_id = 0;
+	/**
+	 * @var \ILIAS\DI\Container
+	 */
+	private $dic;
 	
 	
 	/**
@@ -24,6 +28,8 @@ class ilMemberExportSettingsGUI
 	 */
 	public function __construct($a_parent_type, $a_parent_obj_id = 0)
 	{
+		global $DIC;
+		$this->dic = $DIC;
 		$this->parent_type = $a_parent_type;
 		$this->parent_obj_id = $a_parent_obj_id;
 		
@@ -186,7 +192,9 @@ class ilMemberExportSettingsGUI
 		switch($a_type)
 		{
 			case self::TYPE_PRINT_VIEW_SETTINGS:
-				$form->addCommandButton('savePrintViewSettings', $this->getLang()->txt('save'));
+				if ($this->dic->rbac()->system()->checkAccess('write', $_GET['ref_id'])) {
+					$form->addCommandButton('savePrintViewSettings', $this->getLang()->txt('save'));
+				}
 				break;
 		}
 		

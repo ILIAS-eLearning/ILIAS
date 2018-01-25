@@ -76,7 +76,6 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 	{
 		$rbacsystem = $this->rbacsystem;
 		$ilErr = $this->error;
-		$ilAccess = $this->access;
 		$ilTabs = $this->tabs;
 
 		$next_class = $this->ctrl->getNextClass($this);
@@ -84,7 +83,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
 		$this->prepareOutput();
 
-		if(!$ilAccess->checkAccess('read','',$this->object->getRefId()))
+		if (!$rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
 		{
 			$ilErr->raiseError($this->lng->txt('no_permission'),$ilErr->WARNING);
 		}
@@ -602,7 +601,9 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 
-		$this->form->addCommandButton("test", $lng->txt("execute"));
+		if($this->rbacsystem->checkAccess('write', $_GET['ref_id'])) {
+			$this->form->addCommandButton("test", $lng->txt("execute"));
+		}
 
 		$this->form->setTitle("getCompletionDateForTriggerRefId()");
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
@@ -668,7 +669,9 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 
-		$this->form->addCommandButton("testCert", $lng->txt("execute"));
+		if($this->rbacsystem->checkAccess('write', $_GET['ref_id'])) {
+			$this->form->addCommandButton("testCert", $lng->txt("execute"));
+		}
 
 		$this->form->setTitle("checkUserCertificateForTriggerRefId()");
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
@@ -734,6 +737,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 
+		if($this->rbacsystem->checkAccess('write', $_GET['ref_id']))
 		$this->form->addCommandButton("testAllCert", $lng->txt("execute"));
 
 		$this->form->setTitle("getTriggerOfAllCertificates()");
@@ -785,7 +789,9 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 
-		$this->form->addCommandButton("testLevels", $lng->txt("execute"));
+		if($this->rbacsystem->checkAccess('write', $_GET['ref_id'])) {
+			$this->form->addCommandButton("testLevels", $lng->txt("execute"));
+		}
 
 		$this->form->setTitle("getTriggerOfAllCertificates()");
 		$this->form->setFormAction($ilCtrl->getFormAction($this));

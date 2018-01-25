@@ -12,6 +12,24 @@ require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
  */
 class ilObjContactAdministrationGUI extends ilObject2GUI
 {
+
+	/**
+	 * @var \ILIAS\DI\Container
+	 */
+	protected $dic;
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+	/**
+	 * @var ilSetupErrorHandling
+	 */
+	protected $error;
+	/**
+	 * @var ilLanguage
+	 */
+	public $lng;
+
 	/**
 	 * @param int $a_id
 	 * @param int $a_id_type
@@ -19,6 +37,12 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
 	 */
 	public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
 	{
+		global $DIC, $ilErr;
+
+		$this->dic = $DIC;
+		$this->rbacsystem = $this->dic->rbac()->system();
+		$this->lng = $this->dic->language();
+		$this->error = $ilErr;
 		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 		$this->lng->loadLanguageModule('buddysystem');
 	}
@@ -109,7 +133,10 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
 	 */
 	protected function showConfigurationForm(ilPropertyFormGUI $form = null)
 	{
-		$this->checkPermission('read');
+
+		if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+			$this->error->raiseError($this->lng->txt("no_permission"), $this->error->WARNING);
+		}
 
 		if(!($form instanceof ilPropertyFormGUI))
 		{

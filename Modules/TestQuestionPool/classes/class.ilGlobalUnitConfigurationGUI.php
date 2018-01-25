@@ -50,9 +50,11 @@ class ilGlobalUnitConfigurationGUI extends ilUnitConfigurationGUI
 		/**
 		 * @var $ilToolbar ilToolbarGUI
 		 */
-		global $ilToolbar;
+		global $ilToolbar, $rbacsystem;
 
-		$ilToolbar->addButton($this->lng->txt('un_add_category'), $this->ctrl->getLinkTarget($this, 'showUnitCategoryCreationForm'));
+		if($rbacsystem->checkAccess('write', $_GET['ref_id'])) {
+			$ilToolbar->addButton($this->lng->txt('un_add_category'), $this->ctrl->getLinkTarget($this, 'showUnitCategoryCreationForm'));
+		}
 
 		parent::showGlobalUnitCategories();
 	}

@@ -189,7 +189,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 	 */
 	public function initSmiliesForm()
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $rbacsystem;
 
 		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
 
@@ -222,10 +222,9 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 		$inp->setUseRte(false);
 		$inp->setInfo($lng->txt('chatroom_smiley_keywords_one_per_line_note'));
 		$this->form_gui->addItem($inp);
-		$this->form_gui->addCommandButton(
-			'smiley-uploadSmileyObject', $lng->txt('chatroom_upload_smiley')
-		);
-
+		if ($rbacsystem->checkAccess("write", $this->gui->ref_id)) {
+			$this->form_gui->addCommandButton('smiley-uploadSmileyObject', $lng->txt('chatroom_upload_smiley'));
+		}
 		return $this->form_gui;
 	}
 

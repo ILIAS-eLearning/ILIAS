@@ -39,6 +39,10 @@ include_once "./Services/Object/classes/class.ilObjectGUI.php";
 class ilObjFileAccessSettingsGUI extends ilObjectGUI
 {
 	private $disk_quota_obj;
+	/**
+	 * @var \ILIAS\DI\Container
+	 */
+	private $dic;
 
 	/**
 	* Constructor
@@ -47,8 +51,8 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 	function __construct($a_data,$a_id,$a_call_by_reference)
 	{
 		global $DIC;
-		$tree = $DIC['tree'];
 
+		$this->dic = $DIC;
 		$this->type = "facs";
 		parent::__construct($a_data,$a_id,$a_call_by_reference, false);
 		$this->folderSettings = new ilSetting('fold');
@@ -64,52 +68,47 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 	 * @access public
 	 *
 	 */
-	public function executeCommand()
-	{
-		global $DIC;
-		$rbacsystem = $DIC['rbacsystem'];
-		$ilErr = $DIC['ilErr'];
-		$ilAccess = $DIC['ilAccess'];
-		$ilias = $DIC['ilias'];
-		$lng = $DIC['lng'];
+	public function executeCommand() {
+		$rbacsystem = $this->dic['rbacsystem'];
+		$ilias = $this->dic['ilias'];
+		$lng = $this->dic['lng'];
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
 		$this->prepareOutput();
 
-		if(!$ilAccess->checkAccess('read','',$this->object->getRefId()))
-		{
-			$ilias->raiseError($lng->txt('no_permission'),$ilias->error_obj->MESSAGE);
+		if (!$rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
+			{
+				$ilias->raiseError($lng->txt('no_permission'), $ilias->error_obj->MESSAGE);
+			}
+
+			switch ($next_class) {
+				case 'ilpermissiongui':
+					$this->tabs_gui->setTabActive('perm_settings');
+					include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
+					$perm_gui = new ilPermissionGUI($this);
+					$ret =& $this->ctrl->forwardCommand($perm_gui);
+					break;
+
+				case 'ilfmsettingsgui':
+					$this->tabs_gui->setTabActive('fm_settings_tab');
+					include_once './Services/WebServices/FileManager/classes/class.ilFMSettingsGUI.php';
+					$fmg = new ilFMSettingsGUI($this);
+					$this->ctrl->forwardCommand($fmg);
+					break;
+
+				default:
+					if (!$cmd || $cmd == 'view') {
+						$cmd = "editDownloadingSettings";
+					}
+
+					$this->$cmd();
+					break;
+			}
+
+			return true;
 		}
-
-		switch($next_class)
-		{
-			case 'ilpermissiongui':
-				$this->tabs_gui->setTabActive('perm_settings');
-				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui = new ilPermissionGUI($this);
-				$ret =& $this->ctrl->forwardCommand($perm_gui);
-				break;
-
-			case 'ilfmsettingsgui':
-				$this->tabs_gui->setTabActive('fm_settings_tab');
-				include_once './Services/WebServices/FileManager/classes/class.ilFMSettingsGUI.php';
-				$fmg = new ilFMSettingsGUI($this);
-				$this->ctrl->forwardCommand($fmg);
-				break;
-
-			default:
-				if(!$cmd || $cmd == 'view')
-				{
-					$cmd = "editDownloadingSettings";
-				}
-
-				$this->$cmd();
-				break;
-		}
-		return true;
-	}
 
 	/**
 	 * Get tabs
@@ -119,9 +118,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 	 */
 	public function getAdminTabs()
 	{
-		global $DIC;
-		$rbacsystem = $DIC['rbacsystem'];
-		$ilAccess = $DIC['ilAccess'];
+		$rbacsystem = $this->dic['rbacsystem'];
 
 		$GLOBALS['DIC']['lng']->loadLanguageModule('fm');
 
@@ -255,9 +252,11 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$tai_prop->setRows(5);
 		$form->addItem($tai_prop);
 
-		// command buttons
-		$form->addCommandButton('saveDownloadingSettings', $lng->txt('save'));
-		$form->addCommandButton('view', $lng->txt('cancel'));
+		if ($this->rbacsystem->checkAccess("write", $this->object->getRefId())) {
+			// command buttons
+			$form->addCommandButton('saveDownloadingSettings', $lng->txt('save'));
+			$form->addCommandButton('view', $lng->txt('cancel'));
+		}
 
 		return $form;
 	}
@@ -378,9 +377,11 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$tai_prop->setRows(20);
 		$form->addItem($tai_prop);
 
-		// command buttons
-		$form->addCommandButton('saveWebDAVSettings', $lng->txt('save'));
-		$form->addCommandButton('view', $lng->txt('cancel'));
+		if ($this->rbacsystem->checkAccess("write", $this->object->getRefId())) {
+			// command buttons
+			$form->addCommandButton('saveWebDAVSettings', $lng->txt('save'));
+			$form->addCommandButton('view', $lng->txt('cancel'));
+		}
 
 		$tpl->setContent($form->getHTML());
 	}
@@ -810,10 +811,12 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 			$sal_m->setValue($amail["sal_m"]);
 			$body->setValue($amail["body"]);			
 		}
-		
-		$form->addCommandButton("saveDiskQuotaMailTemplate", $lng->txt("save"));
-		$form->addCommandButton("editDiskQuotaSettings", $lng->txt("cancel"));
-		
+
+		if($this->rbacsystem->checkAccess('write', $this->object->getRefId())) {
+			$form->addCommandButton("saveDiskQuotaMailTemplate", $lng->txt("save"));
+			$form->addCommandButton("editDiskQuotaSettings", $lng->txt("cancel"));
+		}
+
 		return $form;
 	}
 
@@ -941,9 +944,11 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$ti->setInfo($this->lng->txt("file_suffix_repl_info")." ".SUFFIX_REPL_DEFAULT);
 		$form->addItem($ti);
 
-		// command buttons
-		$form->addCommandButton('saveUploadSettings', $lng->txt('save'));
-		$form->addCommandButton('view', $lng->txt('cancel'));
+		if ($this->rbacsystem->checkAccess("write", $this->object->getRefId())) {
+			// command buttons
+			$form->addCommandButton('saveUploadSettings', $lng->txt('save'));
+			$form->addCommandButton('view', $lng->txt('cancel'));
+		}
 		
 		return $form;
 	}
@@ -1059,9 +1064,11 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$num_prop->setInfo($lng->txt('max_previews_per_object_info'));
 		$form->addItem($num_prop);
 
-		// command buttons
-		$form->addCommandButton('savePreviewSettings', $lng->txt('save'));
-		$form->addCommandButton('view', $lng->txt('cancel'));
+		if ($this->rbacsystem->checkAccess("write", $this->object->getRefId())) {
+			// command buttons
+			$form->addCommandButton('savePreviewSettings', $lng->txt('save'));
+			$form->addCommandButton('view', $lng->txt('cancel'));
+		}
 		
 		return $form;
 	}
@@ -1072,14 +1079,13 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 	public function editPreviewSettings()
 	{
 		global $DIC;
-		$rbacsystem = $DIC['rbacsystem'];
 		$ilErr = $DIC['ilErr'];
 		$tpl = $DIC['tpl'];
 		$lng = $DIC['lng'];
 
 		$this->tabs_gui->setTabActive('preview_settings');
 
-		if (!$rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
+		if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
 		{
 			$ilErr->raiseError($lng->txt("no_permission"),$ilErr->WARNING);
 		}
