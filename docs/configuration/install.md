@@ -109,7 +109,7 @@ Please note that different configurations SHOULD be possible, but it might be ha
   * Server OS: Linux
   * Web Server: Apache 2 (mod_php, php-fpm)
   * Databases: MySQL/MariaDB 5.0+ and Galera (experimental), Oracle 10g+ (experimental), PostgreSQL (experimental)
-  * PHP: Version 5.5+ and 7.0+ are supported
+  * PHP: Version 5.6, 7.0 and 7.1 are supported
   
 <a name="client"></a>
 ### Client
@@ -247,8 +247,6 @@ We RECOMMEND the following settings for your php.ini:
 max_execution_time = 600
 memory_limit = 512M
  
-error_reporting = E_ALL & ~E_NOTICE ; up to PHP 5.2.x
-error_reporting = E_ALL & ~E_NOTICE & ~E_DEPRECATED ; PHP 5.3.0 and higher
 error_reporting = E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT ; PHP 5.4.0 and higher
 display_errors = Off
  
@@ -647,6 +645,7 @@ When you upgrade from rather old versions please make sure that the dependencies
 
 | ILIAS Version   | PHP Version                           |
 |-----------------|---------------------------------------|
+| 5.3.x           | 5.6.x, 7.0.x, 7.1.x                   |
 | 5.2.x           | 5.5.x - 5.6.x, 7.0.x                  |
 | 5.0.x - 5.1.x   | 5.3.x - 5.5.x                         |
 | 4.4.x           | 5.3.x - 5.5.x                         |
@@ -660,6 +659,7 @@ When you upgrade from rather old versions please make sure that the dependencies
 
 | ILIAS Version   | MySQL Version                         |
 |-----------------|---------------------------------------|
+| 5.3.x - x.x.x   | 5.5.x, 5.6.x, 5.7.x                   |
 | 4.4.x - 5.2.x   | 5.0.x, 5.1.32 - 5.1.x, 5.5.x, 5.6.x   |
 | 4.2.x - 4.3.x   | 5.0.x, 5.1.32 - 5.1.x, 5.5.x          |
 | 4.0.x - 4.1.x   | 5.0.x, 5.1.32 - 5.1.x                 |
@@ -694,7 +694,7 @@ Pull-Request will be assigned to the responsible maintainer(s). See further info
 <a name="reference-system"></a>
 ## Reference System
 
-The ILIAS Testserver (http://ilias.de/test52) is currently configured as follows:
+The ILIAS Testserver (http://ilias.de/test53) is currently configured as follows:
 
 | Package        | Version                     |
 |----------------|-----------------------------|
