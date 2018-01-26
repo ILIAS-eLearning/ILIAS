@@ -636,20 +636,6 @@ assessment#:#ects_fill_out_all_values#:#Per favore, inserisci un valore per ognu
 assessment#:#ects_fx_threshold#:#Soglia
 assessment#:#ects_fx_threshold_info#:#Per favore inserisci il percentile necessario per garantire il grado 'FX'.
 assessment#:#ects_grade#:#Scala ECTS
-assessment#:#ects_grade_a#:#risultato eccezionale con solo qualche errore trascurabile
-assessment#:#ects_grade_a_short#:#ECCELLENTE
-assessment#:#ects_grade_b#:#risultato superiore alla media ma con qualche errore
-assessment#:#ects_grade_b_short#:#OTTIMO
-assessment#:#ects_grade_c#:#buon risultato complessivo ma con qualche errore significativo
-assessment#:#ects_grade_c_short#:#BUONO
-assessment#:#ects_grade_d#:#discreto ma con gravi carenze
-assessment#:#ects_grade_d_short#:#SODDISFACENTE
-assessment#:#ects_grade_e#:#il risultato soddisfa i criteri minimi
-assessment#:#ects_grade_e_short#:#SUFFICIENTE
-assessment#:#ects_grade_f#:#lo studente deve prepararsi ulteriormente per conseguire un punteggio sufficiente
-assessment#:#ects_grade_f_short#:#INSUFFICIENTE
-assessment#:#ects_grade_fx#:#lo studente necessita di una preparazione migliore prima che il credito possa essere assegnato
-assessment#:#ects_grade_fx_short#:#RESPINTO
 assessment#:#ects_output_of_ects_grades#:#Non catalogabile secondo la scala ECTS
 assessment#:#ects_range_error_a#:#Per favore inserisci un valore tra 0 e 100 per il voto A nella scala ECTS!
 assessment#:#ects_range_error_b#:#Per favore inserisci un valore tra 0 e 100 per il voto B nella scala ECTS!
@@ -15952,3 +15938,17 @@ style#:#skin_version_description#:#The skin version is used to re-cache the styl
 chatroom#:#chat_osc_subs_rej_msgs#:#Currently it is not possible to continue this conversation. Your chat-partner must activate chats in the chat-settings.###10 01 2018 new variable
 chatroom#:#chat_osc_subs_rej_msgs_p#:#The following chat partners of your conversation do not want to receive messages anymore: %s###10 01 2018 new variable
 chatroom#:#chat_osc_self_rej_msgs#:#You currently cannot take part in this conversation because you suppressed receiving messages in your settings.###10 01 2018 new variable
+assessment#:#ects_grade_a_desc#:#outstanding performance with only minor errors###26 01 2018 new variable
+assessment#:#ects_grade_b_desc#:#above the average standard but with some errors###26 01 2018 new variable
+assessment#:#ects_grade_c_desc#:#generally sound work with a number of notable errors###26 01 2018 new variable
+assessment#:#ects_grade_d_desc#:#fair but with significant shortcomings###26 01 2018 new variable
+assessment#:#ects_grade_e_desc#:#performance meets the minimum criteria###26 01 2018 new variable
+assessment#:#ects_grade_f_desc#:#considerable further work is required###26 01 2018 new variable
+assessment#:#ects_grade_fx_desc#:#some more work required before the credit can be awarded###26 01 2018 new variable
+assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#At least one of the competences addressed by this test is not triggered by the minimal required amount of questions.<br />The required amount of questions: %s###26 01 2018 new variable
+rbac#:#file_read_learning_progress#:#User can view learning progress of other users###26 01 2018 new variable
+rbac#:#mcst_read_learning_progress#:#User can view learning progress of other users###26 01 2018 new variable
+wfe#:#wfe_sure_to_delete_process_def#:#Are you sure you want to delete the definition?###26 01 2018 new variable
+wfe#:#wfe_request_missing_process_id#:#The process id is missing, cannot perform the desired action.###26 01 2018 new variable
+wfe#:#wfe_started_listening#:#Process armed###26 01 2018 new variable
+wfe#:#wfe_stopped_listening#:#Process disarmed###26 01 2018 new variable
