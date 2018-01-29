@@ -909,6 +909,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		$gui->setTaxonomyFilterEnabled($this->dynamicQuestionSetConfig->isTaxonomyFilterEnabled());
 		$gui->setAnswerStatusFilterEnabled($this->dynamicQuestionSetConfig->isAnswerStatusFilterEnabled());
 
+		$gui->setFilterSelection($this->testSession->getQuestionSetFilterSelection());
 		$gui->initFilter();
 		$gui->setFilterCommand('filterQuestionSelection');
 		$gui->setResetCommand('resetQuestionSelection');
