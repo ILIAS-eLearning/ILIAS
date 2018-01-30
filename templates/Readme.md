@@ -13,6 +13,7 @@ To generate a customized System Style, first install the necessary tools to your
 ```
 npm install -g less
 ```
+
 or
 
 ```
