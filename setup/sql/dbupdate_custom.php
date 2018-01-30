@@ -263,3 +263,14 @@ while ($row = $ilDB->fetchAssoc($result)) {
 	}
 }
 ?>
+<#23>
+<?php
+if($ilDB->tableColumnExists('usr_data', 'email')) {
+	$field = array(
+		"type" => "text",
+		"length" => 140,
+		"notnull" => false
+	);
+	$ilDB->modifyTableColumn('usr_data', 'email', $field);
+}
+?>

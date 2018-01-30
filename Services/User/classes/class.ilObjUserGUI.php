@@ -1526,6 +1526,10 @@ class ilObjUserGUI extends ilObjectGUI
 		if($this->isSettingChangeable('email'))
 		{
 			$em = new ilEMailInputGUI($lng->txt("email"), "email");
+			// cat-tms-patch start 735
+			$em->setMaxLength(140);
+			$em->setSize(140);
+			// cat-tms-patch end
 			$em->setRequired(isset($settings["require_email"]) &&
 				$settings["require_email"]);
 			$this->form_gui->addItem($em);
