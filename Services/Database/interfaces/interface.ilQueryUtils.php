@@ -103,4 +103,13 @@ interface ilQueryUtilsInterface {
 	 * @return mixed
 	 */
 	public function createDatabase($a_name, $a_charset = "utf8", $a_collation = "");
+	
+	
+	/**
+	 * 
+	 * @param type $a_name
+	 * @param type $a_seperator
+	 * @return string
+	 */
+	public function stringAgg($a_name, $a_seperator = ",", $a_order = NULL);
 }
