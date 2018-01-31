@@ -436,5 +436,22 @@ class ilDBPdoPostgreSQL extends ilDBPdo implements ilDBInterface {
 	public function dropPrimaryKey($table_name) {
 		return $this->manager->dropConstraint($table_name, "pk", true);
 	}
+
+	/**
+	 * 
+	 * @param string $a_field_name
+	 * @param string $a_seperator
+	 * @param string $a_order
+	 * @return string
+	 */
+	public function groupConcat($a_field_name, $a_seperator = ",", $a_order = NULL) {
+		if ($a_order === NULL) {
+			$sql = "STRING_AGG(" . $a_field_name . ", " . $this->quote($a_seperator, "text") . ")";
+		} else {
+			$sql = "STRING_AGG(" . $a_field_name . ", " . $this->quote($a_seperator, "text") . " ORDER BY " . $a_order . ")";
+			
+		}
+		return $sql;
+	}
 }
 

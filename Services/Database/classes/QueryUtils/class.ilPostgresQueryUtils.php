@@ -288,22 +288,4 @@ class ilPostgresQueryUtils extends ilQueryUtils {
 
 		return $sql;
 	}
-	
-
-	/**
-	 * 
-	 * @param type $a_name
-	 * @param type $a_seperator
-	 * @return string
-	 */
-	public function stringAgg($a_name, $a_seperator = ",", $a_order = NULL) {
-		if ($a_order === NULL) {
-			$sql = "STRING_AGG(" . $a_name . ", " . $this->quote($a_seperator, "text") . ")";
-		} else {
-			$sql = "STRING_AGG(" . $a_name . ", " . $this->quote($a_seperator, "text") . " ORDER BY " . $a_order . ")";
-			
-		}
-		return $sql;
-	}
-
 }
