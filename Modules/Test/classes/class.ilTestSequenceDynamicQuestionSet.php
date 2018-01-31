@@ -702,9 +702,9 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
 		return $this->questionSet->getCompleteQuestionList()->getQuestionDataArray();
 	}
 	
-	public function getFilteredQuestionsData()
+	public function getSelectedQuestionsData()
 	{
-		return $this->questionSet->getFilteredQuestionList()->getQuestionDataArray();
+		return $this->questionSet->getSelectionQuestionList()->getQuestionDataArray();
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------

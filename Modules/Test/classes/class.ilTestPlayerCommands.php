@@ -49,6 +49,7 @@ class ilTestPlayerCommands
 	const TOGGLE_SIDE_LIST = 'toggleSideList';
 	
 	const SHOW_QUESTION_SELECTION = 'showQuestionSelection';
+	const FILTER_ANSWER_STATUS = 'filterAnswerStatus';
 	const UNFREEZE_ANSWERS = 'unfreezeCheckedQuestionsAnswers';
 	
 	const AUTO_SAVE = 'autosave';
