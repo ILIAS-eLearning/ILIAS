@@ -82,10 +82,25 @@ class ilTestDynamicQuestionSetFilterSelection
 		
 		return false;
 	}
+	
+	public function getDefaultAnswerStatusSelection()
+	{
+		return self::ANSWER_STATUS_FILTER_VALUE_ALL_NON_CORRECT;
+	}
 
 	public function isAnswerStatusSelectionWrongAnswered()
 	{
 		return $this->getAnswerStatusSelection() == self::ANSWER_STATUS_FILTER_VALUE_WRONG_ANSWERED;
+	}
+	
+	public function getAnswerStatusAlternatives()
+	{
+		return array_diff(array(
+				self::ANSWER_STATUS_FILTER_VALUE_ALL_NON_CORRECT,
+				self::ANSWER_STATUS_FILTER_VALUE_NON_ANSWERED,
+				self::ANSWER_STATUS_FILTER_VALUE_WRONG_ANSWERED,
+			), array($this->getAnswerStatusSelection())
+		);
 	}
 
 	/**

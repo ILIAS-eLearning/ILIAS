@@ -28,6 +28,8 @@ require_once 'Modules/Test/classes/class.ilTestPlayerAbstractGUI.php';
  */
 class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 {
+	const QUESTION_ANSWER_STATUS_PARAMETER = 'question_answer_status';
+	
 	/**
 	 * @var ilObjTestDynamicQuestionSetConfig
 	 */
@@ -244,7 +246,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		}
 		
 		$filteredData = array($this->buildQuestionSetAnswerStatisticRowArray(
-			$this->testSequence->getFilteredQuestionsData(), $this->testSequence->getTrackedQuestionList()
+			$this->testSequence->getSelectedQuestionsData(), $this->testSequence->getTrackedQuestionList()
 		)); #vd($filteredData);
 		$filteredTableGUI = $this->buildQuestionSetFilteredStatisticTableGUI();
 		$filteredTableGUI->setData($filteredData);
@@ -273,7 +275,6 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		$tableGUI->writeFilterToSession();
 
 		$taxFilterSelection = array();
-		$answerStatusFilterSelection = ilAssQuestionList::ANSWER_STATUS_FILTER_ALL_NON_CORRECT;
 		
 		foreach( $tableGUI->getFilterItems() as $item )
 		{
@@ -282,14 +283,9 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 				$taxId = substr( $item->getPostVar(), strlen('tax_') );
 				$taxFilterSelection[$taxId] = $item->getValue();
 			}
-			elseif( $item->getPostVar() == 'question_answer_status' )
-			{
-				$answerStatusFilterSelection = $item->getValue();
-			}
 		}
 		
 		$this->testSession->getQuestionSetFilterSelection()->setTaxonomySelection($taxFilterSelection);
-		$this->testSession->getQuestionSetFilterSelection()->setAnswerStatusSelection($answerStatusFilterSelection);
 		$this->testSession->saveToDb();
 		
 		$this->testSequence->resetTrackedQuestionList();
@@ -305,13 +301,41 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		$tableGUI->resetFilter();
 		
 		$this->testSession->getQuestionSetFilterSelection()->setTaxonomySelection( array() );
-		$this->testSession->getQuestionSetFilterSelection()->setAnswerStatusSelection( null );
 		$this->testSession->saveToDb();
 		
 		$this->testSequence->resetTrackedQuestionList();
 		$this->testSequence->saveToDb();
 		
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION_SELECTION);
+	}
+	
+	protected function getQuestionAnswerStatusParameter()
+	{
+		if( isset($_GET[self::QUESTION_ANSWER_STATUS_PARAMETER]) )
+		{
+			return $_GET[self::QUESTION_ANSWER_STATUS_PARAMETER]; 
+		}
+		
+		return ilAssQuestionList::ANSWER_STATUS_FILTER_ALL_NON_CORRECT;
+	}
+	
+	protected function filterAnswerStatusCmd()
+	{
+		$answerStatusFilter = $this->getQuestionAnswerStatusParameter();
+		
+		if( $answerStatusFilter != $this->testSession->getQuestionSetFilterSelection()->getAnswerStatusSelection() )
+		{
+			$this->testSequence->resetTrackedQuestionList();
+			$this->testSequence->saveToDb();
+		}
+		
+		$this->testSession->getQuestionSetFilterSelection()->setAnswerStatusSelection($answerStatusFilter);
+		$this->testSession->setCurrentQuestionId(null);
+		$this->testSession->saveToDb();
+		
+		$this->ctrl->setParameter($this, 'sequence', $this->testSession->getCurrentQuestionId());
+		$this->ctrl->setParameter($this, 'pmode', '');
+		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 
 	protected function previousQuestionCmd()
@@ -483,6 +507,56 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		return false;
 	}
 	
+	/**
+	 * @param string $answerStatusFilter
+	 * @return string
+	 */
+	protected function getAnswerStatusOptionLabel($answerStatusFilter)
+	{
+		switch( $answerStatusFilter )
+		{
+			case ilAssQuestionList::ANSWER_STATUS_FILTER_ALL_NON_CORRECT:
+				return $this->lng->txt('tst_question_answer_status_all_non_correct');
+				
+			case ilAssQuestionList::ANSWER_STATUS_FILTER_NON_ANSWERED_ONLY:
+				return $this->lng->txt('tst_question_answer_status_non_answered');
+				
+			case ilAssQuestionList::ANSWER_STATUS_FILTER_WRONG_ANSWERED_ONLY:
+				return $this->lng->txt('tst_question_answer_status_wrong_answered');
+		}
+		
+		return '';
+	}
+	
+	/**
+	 * @param ilTestNavigationToolbarGUI $toolbar
+	 */
+	protected function addAnswerStatusControl(ilTestNavigationToolbarGUI $toolbar)
+	{
+		/* @var ILIAS\DI\Container $DIC */ global $DIC;
+		
+		$buttons = array();
+		
+		foreach($this->testSession->getQuestionSetFilterSelection()->getAnswerStatusAlternatives() as $alt)
+		{
+			$this->ctrl->setParameter($this, self::QUESTION_ANSWER_STATUS_PARAMETER, $alt);
+			
+			$buttons[] = $DIC->ui()->factory()->button()->shy( $this->getAnswerStatusOptionLabel($alt),
+				$this->ctrl->getLinkTarget($this, ilTestPlayerCommands::FILTER_ANSWER_STATUS)
+			);
+		}
+		
+		$this->ctrl->setParameter($this, self::QUESTION_ANSWER_STATUS_PARAMETER, '');
+		
+		$label = $this->getAnswerStatusOptionLabel(
+			$this->testSession->getQuestionSetFilterSelection()->getAnswerStatusSelection()
+		);
+		
+		$toolbar->addComponent(
+			$DIC->ui()->factory()->dropdown()->standard($buttons)->withLabel($label)
+		);
+	}
+	
 	protected function showQuestionCmd()
 	{
 		$this->updateWorkingTime();
@@ -519,7 +593,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 		$navigationToolbarGUI = $this->getTestNavigationToolbarGUI();
 		$navigationToolbarGUI->setQuestionSelectionButtonEnabled(true);
-
+		
 		if( $this->testSession->getCurrentQuestionId() )
 		{
 			$questionGui = $this->getQuestionGuiInstance($this->testSession->getCurrentQuestionId());
@@ -605,6 +679,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			}
 			
 			$navigationToolbarGUI->build();
+			$this->addAnswerStatusControl($navigationToolbarGUI);
 			$this->populateTestNavigationToolbar($navigationToolbarGUI);
 
 // fau: testNav - enable the question navigation in edit mode
@@ -635,6 +710,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			$this->prepareTestPage(ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW, null, null);
 
 			$navigationToolbarGUI->build();
+			$this->addAnswerStatusControl($navigationToolbarGUI);
 			$this->populateTestNavigationToolbar($navigationToolbarGUI);
 			
 			$this->outCurrentlyFinishedPage();
