@@ -751,13 +751,12 @@ class ilObjTestGUI extends ilObjectGUI
 	
 	protected function trackTestObjectReadEvent()
 	{
-		/* @var ILIAS\DI\Container $DIC */ global $DIC;
-		
+		$ilUser = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilUser'] : $GLOBALS['ilUser'];
 		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
 		
 		ilChangeEvent::_recordReadEvent(
 			$this->object->getType(), $this->object->getRefId(),
-			$this->object->getId(), $DIC->user()->getId()
+			$this->object->getId(), $ilUser->getId()
 		);
 	}
 
