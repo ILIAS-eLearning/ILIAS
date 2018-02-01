@@ -626,20 +626,6 @@ assessment#:#ects_fill_out_all_values#:#各ECTS成績の値を入力してくだ
 assessment#:#ects_fx_threshold#:#しきい値
 assessment#:#ects_fx_threshold_info#:#FX’グレード評価用の百分位数要件を入力してください。
 assessment#:#ects_grade#:#ECTS成績
-assessment#:#ects_grade_a#:#優れた成績ながらわずかにミスがある
-assessment#:#ects_grade_a_short#:#優秀
-assessment#:#ects_grade_b#:#平均以上ながらミスが見受けられる
-assessment#:#ects_grade_b_short#:#大変良い
-assessment#:#ects_grade_c#:#可ではあるもののミスの数が目立つ
-assessment#:#ects_grade_c_short#:#良
-assessment#:#ects_grade_d#:#可ではあるもののかなり欠点がある
-assessment#:#ects_grade_d_short#:#可
-assessment#:#ects_grade_e#:#最低基準を満たす
-assessment#:#ects_grade_e_short#:#十分
-assessment#:#ects_grade_f#:#今後相当の努力を要する
-assessment#:#ects_grade_f_short#:#不合格
-assessment#:#ects_grade_fx#:#合格するにはさらなる努力が必要
-assessment#:#ects_grade_fx_short#:#不合格
 assessment#:#ects_output_of_ects_grades#:#ECTS成績の出力
 assessment#:#ects_range_error_a#:#ECTS成績Aの0～100の値を入力してください!
 assessment#:#ects_range_error_b#:#ECTS成績Bの0～100の値を入力してください!
@@ -16237,3 +16223,11 @@ wsp#:#element_shared#:#Element shared###17 05 2017 new variable
 wsp#:#share#:#Share###17 05 2017 new variable
 assessment#:#use_previous_solution_advice#:#The shown solution for the question is your previously given one. You have to save the prepared solution unchanged or modified to adopt it for the current pass.###19 07 2017 new variable
 wiki#:#wiki_pg_list_no_search_fields#:#No searchable meta data fields found in the metadata sets of the wiki.###13 10 2017 new variable
+assessment#:#ects_grade_a_desc#:#outstanding performance with only minor errors###01 02 2018 new variable
+assessment#:#ects_grade_b_desc#:#above the average standard but with some errors###01 02 2018 new variable
+assessment#:#ects_grade_c_desc#:#generally sound work with a number of notable errors###01 02 2018 new variable
+assessment#:#ects_grade_d_desc#:#fair but with significant shortcomings###01 02 2018 new variable
+assessment#:#ects_grade_e_desc#:#performance meets the minimum criteria###01 02 2018 new variable
+assessment#:#ects_grade_f_desc#:#considerable further work is required###01 02 2018 new variable
+assessment#:#ects_grade_fx_desc#:#some more work required before the credit can be awarded###01 02 2018 new variable
+survey#:#please_enter_mail_url#:#Please enter the access url placeholder [url]###01 02 2018 new variable

@@ -626,20 +626,6 @@ assessment#:#ects_fill_out_all_values#:#Veuillez saisir une valeur pour chaque n
 assessment#:#ects_fx_threshold#:#Threshold
 assessment#:#ects_fx_threshold_info#:#Please enter the required percentile for granting the 'FX' grade.
 assessment#:#ects_grade#:#Niveau ECTS
-assessment#:#ects_grade_a#:#performance exceptionnelle avec seulement quelques erreurs mineures
-assessment#:#ects_grade_a_short#:#EXCELLENT
-assessment#:#ects_grade_b#:#au-dessus de la moyenne, mais avec quelques erreurs
-assessment#:#ects_grade_b_short#:#TRES BIEN
-assessment#:#ects_grade_c#:#travail globalement satisfaisant avec un certain nombre d'erreurs notables
-assessment#:#ects_grade_c_short#:#BIEN
-assessment#:#ects_grade_d#:#correct, mais avec des trous importants
-assessment#:#ects_grade_d_short#:#SATISFAISANT
-assessment#:#ects_grade_e#:#la performance répond aux critères minimaux
-assessment#:#ects_grade_e_short#:#TRES MOYEN
-assessment#:#ects_grade_f#:#un travail supplémentaire important est nécessaire
-assessment#:#ects_grade_f_short#:#ECHEC
-assessment#:#ects_grade_fx#:#du travail supplémentaire est requis avant que le niveau soit suffisant
-assessment#:#ects_grade_fx_short#:#ECHEC
 assessment#:#ects_output_of_ects_grades#:#Sortie des niveaux ECTS
 assessment#:#ects_range_error_a#:#Veuillez saisir une valeur entre 0 et 100 pour le niveau ECTS A.
 assessment#:#ects_range_error_b#:#Veuillez saisir une valeur entre 0 et 100 pour le niveau ECTS B.
@@ -16237,3 +16223,11 @@ wsp#:#wsp_type_webr#:#Lien Web
 wsp#:#wsp_type_wfld#:#Dossier
 assessment#:#use_previous_solution_advice#:#The shown solution for the question is your previously given one. You have to save the prepared solution unchanged or modified to adopt it for the current pass.###19 07 2017 new variable
 wiki#:#wiki_pg_list_no_search_fields#:#No searchable meta data fields found in the metadata sets of the wiki.###13 10 2017 new variable
+assessment#:#ects_grade_a_desc#:#outstanding performance with only minor errors###01 02 2018 new variable
+assessment#:#ects_grade_b_desc#:#above the average standard but with some errors###01 02 2018 new variable
+assessment#:#ects_grade_c_desc#:#generally sound work with a number of notable errors###01 02 2018 new variable
+assessment#:#ects_grade_d_desc#:#fair but with significant shortcomings###01 02 2018 new variable
+assessment#:#ects_grade_e_desc#:#performance meets the minimum criteria###01 02 2018 new variable
+assessment#:#ects_grade_f_desc#:#considerable further work is required###01 02 2018 new variable
+assessment#:#ects_grade_fx_desc#:#some more work required before the credit can be awarded###01 02 2018 new variable
+survey#:#please_enter_mail_url#:#Please enter the access url placeholder [url]###01 02 2018 new variable

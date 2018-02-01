@@ -381,20 +381,6 @@ assessment#:#duplicate_order_values_entered#:#Többszörös sorrendi értékeket
 assessment#:#duplicate#:#Másodpéldány létrehozása
 assessment#:#ects_allow_ects_grades#:#ETCS értékelések megjelenítése a kapott érdemjegyhez
 assessment#:#ects_fill_out_all_values#:#Adjon meg értékelést minden ECTS százalékhoz!
-assessment#:#ects_grade_a_short#:#KITŰNŐ
-assessment#:#ects_grade_a#:#kiváló megoldás esetleges kisebb hibákkal
-assessment#:#ects_grade_b_short#:#NAGYON JÓ
-assessment#:#ects_grade_b#:#átlag feletti teljesítmény, de van néhány hiba
-assessment#:#ects_grade_c_short#:#JÓ
-assessment#:#ects_grade_c#:#általában jó munka, számos jelentős hibával
-assessment#:#ects_grade_d_short#:#KIELÉGÍTŐ
-assessment#:#ects_grade_d#:#elfogadható, de jelentős hiányosságok
-assessment#:#ects_grade_e_short#:#ELÉGSÉGES
-assessment#:#ects_grade_e#:#a teljesítmény a minimumkritériumokat elégíti ki
-assessment#:#ects_grade_f_short#:#ELÉGTELEN
-assessment#:#ects_grade_f#:#jelentős további munka javasolt
-assessment#:#ects_grade_fx_short#:#ELÉGTELEN
-assessment#:#ects_grade_fx#:#további tanulás szükséges még a kredit megszerzéséhez
 assessment#:#ects_grade#:#ETCS kategória
 assessment#:#ects_output_of_ects_grades#:#ECTS minősítés eredménye
 assessment#:#ects_range_error_a#:#0..100 közötti értéket adjon meg az 'A' ECTS minősítéshez!
@@ -16237,3 +16223,11 @@ wsp#:#element_shared#:#Element shared###17 05 2017 new variable
 wsp#:#share#:#Share###17 05 2017 new variable
 assessment#:#use_previous_solution_advice#:#The shown solution for the question is your previously given one. You have to save the prepared solution unchanged or modified to adopt it for the current pass.###19 07 2017 new variable
 wiki#:#wiki_pg_list_no_search_fields#:#No searchable meta data fields found in the metadata sets of the wiki.###13 10 2017 new variable
+assessment#:#ects_grade_a_desc#:#outstanding performance with only minor errors###01 02 2018 new variable
+assessment#:#ects_grade_b_desc#:#above the average standard but with some errors###01 02 2018 new variable
+assessment#:#ects_grade_c_desc#:#generally sound work with a number of notable errors###01 02 2018 new variable
+assessment#:#ects_grade_d_desc#:#fair but with significant shortcomings###01 02 2018 new variable
+assessment#:#ects_grade_e_desc#:#performance meets the minimum criteria###01 02 2018 new variable
+assessment#:#ects_grade_f_desc#:#considerable further work is required###01 02 2018 new variable
+assessment#:#ects_grade_fx_desc#:#some more work required before the credit can be awarded###01 02 2018 new variable
+survey#:#please_enter_mail_url#:#Please enter the access url placeholder [url]###01 02 2018 new variable

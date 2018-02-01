@@ -449,20 +449,6 @@ assessment#:#duplicate_order_values_entered#:#თქვენ შეიყვა
 assessment#:#ects_allow_ects_grades#:#აჩვენე კრედიტების ქულები დამატებით მიღებულ ქულასთან ერთად
 assessment#:#ects_fill_out_all_values#:#გთხოვთ შეიყვანოთ ღირებულება ყოველი კრედიტის ქულისთვის
 assessment#:#ects_grade#:#კრედიტის ქულა
-assessment#:#ects_grade_a#:#შესანიშნავი შედეგი პატარა შეცდომებით
-assessment#:#ects_grade_a_short#:#შესანიშნავი/ ფრიადი
-assessment#:#ects_grade_b#:#საშუალო სტანდარტებზე მაღალი მაგრამ რამოდენიმე შეცდომით
-assessment#:#ects_grade_b_short#:#ძალიან კარგი
-assessment#:#ects_grade_c#:#ზოგადად კარგი მაგრამ ბევრი აღსანიშნი შეცდომით
-assessment#:#ects_grade_c_short#:#კარგი
-assessment#:#ects_grade_d#:#კარგი მაგრამ მნიშვნელოვანი დანაკლისით
-assessment#:#ects_grade_d_short#:#დამაკმაყოფილებელი
-assessment#:#ects_grade_e#:#შედეგი მინიმუმ კრიტერიუმში ჯდება
-assessment#:#ects_grade_e_short#:#საკმარისი
-assessment#:#ects_grade_f#:#საჭიროა დამატებიტ მუშაობა
-assessment#:#ects_grade_f_short#:#ჩაჭრა
-assessment#:#ects_grade_fx#:#მეტი მუშაობაა საჭირო ვიდრე კრედიტს აიღებდეს
-assessment#:#ects_grade_fx_short#:#ჩაჭრა
 assessment#:#ects_output_of_ects_grades#:#კრედიტების ქულების შედეგი
 assessment#:#ects_range_error_a#:#გთხოვთ შეიყვანოთ ღირებულება 0-დან 100-ის ჩათვლით A შეფასებისთვის
 assessment#:#ects_range_error_b#:#გთხოვთ შეიყვანოთ ღირებულება 0-დან 100-ის ჩათვლით B შეფასებისთვის
@@ -16237,3 +16223,11 @@ wsp#:#element_shared#:#Element shared###17 05 2017 new variable
 wsp#:#share#:#Share###17 05 2017 new variable
 assessment#:#use_previous_solution_advice#:#The shown solution for the question is your previously given one. You have to save the prepared solution unchanged or modified to adopt it for the current pass.###19 07 2017 new variable
 wiki#:#wiki_pg_list_no_search_fields#:#No searchable meta data fields found in the metadata sets of the wiki.###13 10 2017 new variable
+assessment#:#ects_grade_a_desc#:#outstanding performance with only minor errors###01 02 2018 new variable
+assessment#:#ects_grade_b_desc#:#above the average standard but with some errors###01 02 2018 new variable
+assessment#:#ects_grade_c_desc#:#generally sound work with a number of notable errors###01 02 2018 new variable
+assessment#:#ects_grade_d_desc#:#fair but with significant shortcomings###01 02 2018 new variable
+assessment#:#ects_grade_e_desc#:#performance meets the minimum criteria###01 02 2018 new variable
+assessment#:#ects_grade_f_desc#:#considerable further work is required###01 02 2018 new variable
+assessment#:#ects_grade_fx_desc#:#some more work required before the credit can be awarded###01 02 2018 new variable
+survey#:#please_enter_mail_url#:#Please enter the access url placeholder [url]###01 02 2018 new variable

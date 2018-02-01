@@ -574,20 +574,6 @@ assessment#:#ects_fill_out_all_values#:#Vložte prosím hodnotu pre každé ECTS
 assessment#:#ects_fx_threshold#:#prah
 assessment#:#ects_fx_threshold_info#:#Prosím, zadajte požadovaný percentil pre udelenie ""FX"" známky."
 assessment#:#ects_grade#:#Hodnotenia ECTS
-assessment#:#ects_grade_a#:#výnimo_ný výkon len s minimom chýb
-assessment#:#ects_grade_a_short#:#VÝBORNE
-assessment#:#ects_grade_b#:#nadpriemerný výkon, ale s nieko_kými chybami
-assessment#:#ects_grade_b_short#:#VÝBORNE-MÍNUS
-assessment#:#ects_grade_c#:#všeobecne dobrá práca, ale s po_tom zjavných chýb
-assessment#:#ects_grade_c_short#:#VE_MI DOBRE
-assessment#:#ects_grade_d#:#podpriemerný výkon s vä_ším po_tom chýb
-assessment#:#ects_grade_d_short#:#VE_MI DOBRE-MÍNUS
-assessment#:#ects_grade_e#:#odvedená práca sp__a len minimálne kritériá
-assessment#:#ects_grade_e_short#:#DOBRE
-assessment#:#ects_grade_f#:#požadované je podstatné zlepšenie
-assessment#:#ects_grade_f_short#:#NEUSPOKOJIVÉ!
-assessment#:#ects_grade_fx#:#ešte je požadované ur_ité zlepšenie, než môže by_ kredit udelený
-assessment#:#ects_grade_fx_short#:#NEUSPOKOJIVÉ!
 assessment#:#ects_output_of_ects_grades#:#Výstup hodnotenia ECTS
 assessment#:#ects_range_error_a#:#Vložte hodnotu medzi 0 a 100 pre ECTS hodnotenie A!
 assessment#:#ects_range_error_b#:#Vložte hodnotu medzi 0 a 100 pre ECTS hodnotenie B!
@@ -16237,3 +16223,11 @@ wsp#:#element_shared#:#Element shared###17 05 2017 new variable
 wsp#:#share#:#Share###17 05 2017 new variable
 assessment#:#use_previous_solution_advice#:#The shown solution for the question is your previously given one. You have to save the prepared solution unchanged or modified to adopt it for the current pass.###19 07 2017 new variable
 wiki#:#wiki_pg_list_no_search_fields#:#No searchable meta data fields found in the metadata sets of the wiki.###13 10 2017 new variable
+assessment#:#ects_grade_a_desc#:#outstanding performance with only minor errors###01 02 2018 new variable
+assessment#:#ects_grade_b_desc#:#above the average standard but with some errors###01 02 2018 new variable
+assessment#:#ects_grade_c_desc#:#generally sound work with a number of notable errors###01 02 2018 new variable
+assessment#:#ects_grade_d_desc#:#fair but with significant shortcomings###01 02 2018 new variable
+assessment#:#ects_grade_e_desc#:#performance meets the minimum criteria###01 02 2018 new variable
+assessment#:#ects_grade_f_desc#:#considerable further work is required###01 02 2018 new variable
+assessment#:#ects_grade_fx_desc#:#some more work required before the credit can be awarded###01 02 2018 new variable
+survey#:#please_enter_mail_url#:#Please enter the access url placeholder [url]###01 02 2018 new variable
