@@ -891,6 +891,8 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
 		$solved_questions = ilObjTest::_getSolvedQuestions($this->getActiveId());
 
 		$key = 1;
+		
+		$summary = array();
 
 		foreach ($questionOrder as $qId)
 		{
