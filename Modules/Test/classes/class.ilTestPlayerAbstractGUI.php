@@ -2348,6 +2348,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 		return $this->testSession->getLastSequence();
 	}
+	
+	protected function resetSequenceElementParameter()
+	{
+		unset($_GET['sequence']);
+		$this->ctrl->setParameter($this, 'sequence', null);
+	}
 
 	protected function getSequenceElementParameter()
 	{
