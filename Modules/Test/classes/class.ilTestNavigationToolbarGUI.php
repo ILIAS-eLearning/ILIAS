@@ -232,6 +232,11 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 	
 	public function build()
 	{
+		if( $this->isQuestionSelectionButtonEnabled() )
+		{
+			$this->addQuestionSelectionButton();
+		}
+		
 		if( $this->isQuestionTreeButtonEnabled() )
 		{
 			$this->addQuestionTreeButton();
@@ -240,11 +245,6 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 		if( $this->isQuestionListButtonEnabled() )
 		{
 			$this->addQuestionListButton();
-		}
-
-		if( $this->isQuestionSelectionButtonEnabled() )
-		{
-			$this->addQuestionSelectionButton();
 		}
 
 		if( $this->isSuspendTestButtonEnabled() )

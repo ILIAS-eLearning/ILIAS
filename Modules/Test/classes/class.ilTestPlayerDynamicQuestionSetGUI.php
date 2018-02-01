@@ -593,6 +593,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 		$navigationToolbarGUI = $this->getTestNavigationToolbarGUI();
 		$navigationToolbarGUI->setQuestionSelectionButtonEnabled(true);
+		$this->addAnswerStatusControl($navigationToolbarGUI);
 		
 		if( $this->testSession->getCurrentQuestionId() )
 		{
@@ -679,7 +680,6 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			}
 			
 			$navigationToolbarGUI->build();
-			$this->addAnswerStatusControl($navigationToolbarGUI);
 			$this->populateTestNavigationToolbar($navigationToolbarGUI);
 
 // fau: testNav - enable the question navigation in edit mode
@@ -710,7 +710,6 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			$this->prepareTestPage(ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW, null, null);
 
 			$navigationToolbarGUI->build();
-			$this->addAnswerStatusControl($navigationToolbarGUI);
 			$this->populateTestNavigationToolbar($navigationToolbarGUI);
 			
 			$this->outCurrentlyFinishedPage();
