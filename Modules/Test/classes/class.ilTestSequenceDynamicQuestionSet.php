@@ -784,7 +784,7 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
 		return $orderedSequence;
 	}
 	
-	private function fetchQuestionSequence($nonPostponedQuestions, $nonAnsweredQuestions, $excludeQuestionId)
+	private function fetchQuestionSequence($nonPostponedQuestions, $nonAnsweredQuestions)
 	{
 		$questionSequence = array();
 		
@@ -794,11 +794,6 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
 
 			foreach($questions as $pos => $qId)
 			{
-				if( $qId == $excludeQuestionId )
-				{
-					continue;
-				}
-				
 				if( isset($this->correctAnsweredQuestions[$qId]) )
 				{
 					continue;
@@ -835,18 +830,13 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
 		return $questionSequence;
 	}
 	
-	private function fetchTrackedCorrectAnsweredSequence($excludeQuestionId)
+	private function fetchTrackedCorrectAnsweredSequence()
 	{
 		$questionSequence = array();
 		
 		foreach($this->questionTracking as $key => $question)
 		{
 			$qId = $question['qid'];
-			
-			if($qId == $excludeQuestionId)
-			{
-				continue;
-			}
 			
 			if( !isset($this->correctAnsweredQuestions[$qId]) )
 			{
@@ -861,28 +851,25 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
 
 	private function getOrderedSequence()
 	{
-		$correctAnsweredQuestions = $this->fetchTrackedCorrectAnsweredSequence(
-			$this->getCurrentQuestionId()
-		);
+		$correctAnsweredQuestions = $this->fetchTrackedCorrectAnsweredSequence();
 		
 		$nonAnsweredQuestions = $this->fetchQuestionSequence(
-			true, true, $this->getCurrentQuestionId()
+			true, true
 		);
 		
 		$postponedNonAnsweredQuestions = $this->fetchQuestionSequence(
-			false, true, $this->getCurrentQuestionId()
+			false, true
 		);
 		
 		$wrongAnsweredQuestions = $this->fetchQuestionSequence(
-			true, false, $this->getCurrentQuestionId()
+			true, false
 		);
 		
 		$postponedWrongAnsweredQuestions = $this->fetchQuestionSequence(
-			false, false, $this->getCurrentQuestionId()
+			false, false
 		);
 		
-		$questionOrder = array_merge(
-			$correctAnsweredQuestions, array($this->getCurrentQuestionId()),
+		$questionOrder = array_merge( $correctAnsweredQuestions,
 			$nonAnsweredQuestions, $postponedNonAnsweredQuestions,
 			$wrongAnsweredQuestions, $postponedWrongAnsweredQuestions
 		);
@@ -900,6 +887,11 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
 
 		foreach ($questionOrder as $qId)
 		{
+			if( !$this->getQuestionSet()->getSelectionQuestionList()->isInList($qId) )
+			{
+				continue;
+			}
+			
 			$question =& ilObjTest::_instanciateQuestion($qId);
 			if(is_object($question))
 			{
