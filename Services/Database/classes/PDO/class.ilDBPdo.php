@@ -2021,4 +2021,16 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 		return ($d->version ? $d->version : 'Unknown');
 	}
+
+
+	/**
+	 * 
+	 * @param string $a_field_name
+	 * @param string $a_seperator
+	 * @param string $a_order
+	 * @return string
+	 */
+	public function groupConcat($a_field_name, $a_seperator = ",", $a_order = NULL) {
+		return $this->manager->groupConcat($a_field_name, $a_seperator, $a_order);
+	}
 }
