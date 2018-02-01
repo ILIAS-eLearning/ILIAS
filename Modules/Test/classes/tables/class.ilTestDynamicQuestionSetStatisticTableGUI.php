@@ -108,7 +108,7 @@ class ilTestDynamicQuestionSetStatisticTableGUI extends ilTable2GUI
 
 				$inp = new ilTaxSelectInputGUI($taxId, $postvar, true);
 				$this->addFilterItem($inp);
-				$inp->readFromSession();
+				#$inp->readFromSession();
 				
 				if( $this->getFilterSelection()->hasSelectedTaxonomy($taxId) )
 				{
