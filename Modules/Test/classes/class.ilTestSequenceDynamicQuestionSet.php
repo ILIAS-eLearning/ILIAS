@@ -696,7 +696,15 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
-
+	
+	/**
+	 * @return ilTestDynamicQuestionSet
+	 */
+	public function getQuestionSet()
+	{
+		return $this->questionSet;
+	}
+	
 	public function getCompleteQuestionsData()
 	{
 		return $this->questionSet->getCompleteQuestionList()->getQuestionDataArray();
