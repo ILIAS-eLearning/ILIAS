@@ -585,16 +585,13 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
 	{
 		$i = 0;
 		
-		foreach($this->questionSet->getActualQuestionSequence() as $level => $questions)
+		foreach($this->getSelectionOrderedSequence() as $qId)
 		{
-			foreach($questions as $pos => $qId)
+			$i++;
+			
+			if($qId == $questionId)
 			{
-				$i++;
-				
-				if($qId == $questionId)
-				{
-					return $i;
-				}
+				return $i;
 			}
 		}
 
@@ -603,14 +600,7 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
 	
 	public function getLastPositionIndex()
 	{
-		$count = 0;
-		
-		foreach($this->questionSet->getActualQuestionSequence() as $level => $questions)
-		{
-			$count += count($questions);
-		}
-		
-		return $count;
+		return count($this->getSelectionOrderedSequence());
 	}
 	
 	// -----------------------------------------------------------------------------------------------------------------
@@ -876,10 +866,27 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
 
 		return $questionOrder;
 	}
+	
+	public function getSelectionOrderedSequence()
+	{
+		$sequence = array();
+		
+		foreach($this->getOrderedSequence() as $qId)
+		{
+			if( !$this->getQuestionSet()->getSelectionQuestionList()->isInList($qId) )
+			{
+				continue;
+			}
+			
+			$sequence[] = $qId;
+		}
+		
+		return $sequence;
+	}
 
 	public function getSequenceSummary($obligationsFilterEnabled = false)
 	{
-		$questionOrder = $this->getOrderedSequence();
+		$questionOrder = $this->getSelectionOrderedSequence();
 
 		$solved_questions = ilObjTest::_getSolvedQuestions($this->getActiveId());
 
@@ -887,11 +894,6 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
 
 		foreach ($questionOrder as $qId)
 		{
-			if( !$this->getQuestionSet()->getSelectionQuestionList()->isInList($qId) )
-			{
-				continue;
-			}
-			
 			$question =& ilObjTest::_instanciateQuestion($qId);
 			if(is_object($question))
 			{
