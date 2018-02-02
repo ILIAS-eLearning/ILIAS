@@ -116,6 +116,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 				break;
 			case 'ilexportgui':
 				// only if plugin supports it?
+				$this->tabs->setTabActive("export");
 				include_once './Services/Export/classes/class.ilExportGUI.php';
 				$exp = new ilExportGUI($this);
 				$exp->addFormat('xml');
