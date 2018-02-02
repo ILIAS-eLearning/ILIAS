@@ -55,13 +55,6 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	*/
 	function executeCommand()
 	{
-		$this->ctrl = $this->ctrl;
-		$this->tpl = $this->tpl;
-		$this->access = $this->access;
-		$this->lng = $this->lng;
-		$this->nav_history = $this->nav_history;
-		$this->tabs = $this->tabs;
-
 		// get standard template (includes main menu and general layout)
 		$this->tpl->getStandardTemplate();
 
@@ -180,8 +173,6 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	*/
 	function addLocatorItems()
 	{
-		$this->locator = $this->locator;
-
 		if (!$this->getCreationMode())
 		{
 			$this->locator->addItem($this->object->getTitle(),
@@ -305,9 +296,6 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	*/
 	public function initEditForm()
 	{
-		$this->lng = $this->lng;
-		$this->ctrl = $this->ctrl;
-
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setTarget("_top");
@@ -365,7 +353,6 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	*/
 	function afterSave(ilObject $newObj)
 	{
-		$this->ctrl = $this->ctrl;
 		// always send a message
 		ilUtil::sendSuccess($this->lng->txt("object_added"),true);
 
@@ -396,9 +383,6 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	*/
 	function addInfoTab()
 	{
-		$this->access = $this->access;
-		$this->tabs = $this->tabs;
-
 		// info screen
 		if ($this->access->checkAccess('visible', "", $this->object->getRefId()))
 		{
@@ -414,10 +398,6 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	*/
 	function addPermissionTab()
 	{
-		$this->access = $this->access;
-		$this->tabs = $this->tabs;
-		$this->ctrl = $this->ctrl;
-
 		// edit permissions
 		if($this->access->checkAccess('edit_permission', "", $this->object->getRefId()))
 		{
@@ -432,15 +412,8 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	*/
 	function infoScreen()
 	{
-		$this->access = $this->access;
-		$this->user = $this->user;
-		$this->lng = $this->lng;
-		$this->ctrl = $this->ctrl;
-		$this->tpl = $this->tpl;
-		$this->tabs = $this->tabs;
-
 		$this->tabs->setTabActive("info_short");
-		
+
 		$this->checkPermission("visible");
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
@@ -508,8 +481,6 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	 * @return bool
 	 */
 	protected function supportsExport() {
-		$this->plugin_admin = $this->plugin_admin;
-
 		return $this->plugin_admin->supportsExport(IL_COMP_SERVICE, "Repository", "robj", $this->getPlugin()->getPluginName());
 	}
 
