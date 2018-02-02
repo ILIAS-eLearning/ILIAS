@@ -409,6 +409,23 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	}
 
 	/**
+	* Add export tab
+	*/
+	function addExportTab()
+	{
+		// write
+		if($this->access->checkAccess('write', "", $this->object->getRefId()))
+		{
+			$this->tabs->addTarget(
+				'export',
+				$this->ctrl->getLinkTargetByClass("ilexportgui",''),
+				'export',
+				'ilexportgui'
+			);
+		}
+	}
+
+	/**
 	* show information screen
 	*/
 	function infoScreen()
