@@ -497,7 +497,7 @@ var Database = function Database(config) {
 				participants: participantsJson
 			},
 			handleError
-		);1514804400
+		);
 	};
 
 
