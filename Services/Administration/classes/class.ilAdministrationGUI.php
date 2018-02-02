@@ -490,9 +490,9 @@ class ilAdministrationGUI
 		$layout = array(
 			1 => array(
 				"basic" =>
-					array("adm", "stys", "adve", "lngf", "hlps", "accs", "cmps", "extt"),
+					array("adm", "stys", "adve", "lngf", "hlps", "accs", "cmps", "extt", "wfe"),
 				"user_administration" =>
-					array("usrf", 'tos', "rolf", "auth", "ps", "orgu"),
+					array("usrf", 'tos', "rolf", "orgu", "auth", "ps"),
 				"learning_outcomes" =>
 					array("skmg", "bdga", "cert", "trac")
 				),
@@ -500,9 +500,9 @@ class ilAdministrationGUI
 				"user_services" =>
 					array("pdts", "prfa", "nwss", "awra", "cadm", "cals", "mail"),
 				"content_services" =>
-					array("seas", "mds", "tags", "taxs", 'ecss', "otpl", "pdfg", "ltis"),
+					array("seas", "mds", "tags", "taxs", 'ecss', "ltis", "otpl", "pdfg"),
 				"maintenance" =>
-					array('sysc', "recf", 'logs', "root", "wfe")
+					array('logs', 'sysc', "recf", "root")
 				),
 			3 => array(
 				"container" =>

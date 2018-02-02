@@ -304,7 +304,8 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 			
 			if ($ilUser->prefs["screen_reader_optimization"])
 			{
-				$this->tpl->touchBlock('scrd_app_cell');
+				// see #0022492
+				//$this->tpl->touchBlock('scrd_app_cell');
 			}
 			
 			for($i = ($colspan - 1);$i > $hour['apps_num'];$i--)

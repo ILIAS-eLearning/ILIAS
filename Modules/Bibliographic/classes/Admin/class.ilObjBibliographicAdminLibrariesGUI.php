@@ -12,6 +12,10 @@
 class ilObjBibliographicAdminLibrariesGUI {
 
 	/**
+	 * @var \ILIAS\DI\Container
+	 */
+	protected $dic;
+	/**
 	 * @var ilObjBibliographicAdminGUI
 	 */
 	protected $parent_gui;
@@ -23,6 +27,14 @@ class ilObjBibliographicAdminLibrariesGUI {
 	 * @var ilLanguage
 	 */
 	protected $lng;
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+	/**
+	 * @var ilSetupErrorHandling
+	 */
+	protected $error;
 
 
 	/**
@@ -32,11 +44,13 @@ class ilObjBibliographicAdminLibrariesGUI {
 	 */
 	public function __construct($parent_gui) {
 		global $DIC;
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
+		$this->dic = $DIC;
+		$lng = $this->dic->language();
+		$ilCtrl = $this->dic->ctrl();
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
 		$this->parent_gui = $parent_gui;
+		$this->rbacsystem = $this->dic->rbac()->system();
 	}
 
 
@@ -47,11 +61,10 @@ class ilObjBibliographicAdminLibrariesGUI {
 	 *
 	 */
 	public function executeCommand() {
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$cmd = $ilCtrl->getCmd();
-		$this->checkPermission('read');
+		$cmd = $this->ctrl->getCmd();
+		if (!$this->rbacsystem->checkAccess("visible,read", $_GET['ref_id'])) {
+			$this->error->raiseError($this->lng->txt("no_permission"), $this->error->WARNING);
+		}
 		switch ($cmd) {
 			case 'view':
 				$this->view();

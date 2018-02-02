@@ -1971,10 +1971,11 @@ div.ilGoogleMap {
 @media print {
     //bootstrap print.less
     * {
-        text-shadow: none !important;
+		/* see bug 0022342 */
+        /* text-shadow: none !important;
         color: black !important; // Black prints faster: h5bp.com/s
         background: transparent !important;
-        box-shadow: none !important;
+        box-shadow: none !important; */
     }
 
     a,

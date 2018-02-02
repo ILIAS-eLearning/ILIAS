@@ -5089,7 +5089,6 @@ content#:#cont_cp_question_diff_formats_info#:#Veuillez noter que certains forma
 content#:#cont_create_link#:#Créer lien
 content#:#cont_create_mob#:#Créer Média
 content#:#cont_credit_mode#:#Option "Credit"
-content#:#cont_credit_mode_info#:#Cette option n'est utilisée que si l'option "Lesson Mode" est à "Normal".
 content#:#cont_credit_off#:#Pas de crédit
 content#:#cont_credit_on#:#Crédit
 content#:#cont_credits#:#Crédits
@@ -13811,7 +13810,6 @@ ecs#:#ecs_member_auth_type#:#Course Member Auth Mode###16 01 2018 new variable
 background_tasks#:#background_tasks#:#Background Tasks###16 01 2018 new variable
 background_tasks#:#background_tasks_running#:#Background Tasks###16 01 2018 new variable
 background_tasks#:#scheduled#:#Scheduled###16 01 2018 new variable
-background_tasks#:#dismiss#:#Dismiss###16 01 2018 new variable
 background_tasks#:#abort#:#Abort###16 01 2018 new variable
 background_tasks#:#completed#:#Completed###16 01 2018 new variable
 background_tasks#:#waiting#:#Waiting###16 01 2018 new variable
@@ -14149,3 +14147,10 @@ common#:#usr_name_undisclosed#:#Undisclosed###16 01 2018 new variable
 meta#:#adt_error_max_length#:#Please enter a shorter text.###16 01 2018 new variable
 form#:#form_chars_remaining#:#Characters remaining:###16 01 2018 new variable
 crs#:#crs_subscription_min_members_err#:#The minimum number is not allowed to be greater than the maximum number of participants.###16 01 2018 new variable
+content#:#cont_debug_deactivate12#:#A Test Tool will be displayed in the presentation mode of the learning module. Based on the data provided by it the interaction of the learning module and ILIAS can be evaluated.###25 01 2018 new variable
+content#:#cont_sc_auto_continue_info#:#After finishing their last activity users will be automatically redirected to the next SCO. This function is not supported by all SCORM 1.2 Learning Modules.###25 01 2018 new variable
+content#:#offline_mode_users_info#:#Users can be manually taken from the Off-line Mode and after doing so these users can again use the online-version of the learning module. This makes sense if e.g. the laptop with the learning modules was stolen.###25 01 2018 new variable
+crs#:#crs_admission_link_failure_offline#:#Can't register: Course is offline.###25 01 2018 new variable
+crs#:#crs_admission_link_failure_availability#:#Can't register: Course is not online.###25 01 2018 new variable
+background_tasks#:#remove#:#Remove###25 01 2018 new variable
+orgu#:#msg_success_permission_saved#:#Permissions saved.###25 01 2018 new variable

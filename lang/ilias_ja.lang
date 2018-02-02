@@ -4502,7 +4502,6 @@ content#:#cont_cp_question_diff_formats_info#:#フォーマットによっては
 content#:#cont_create_link#:#リンク作成
 content#:#cont_create_mob#:#メディアオブジェクトを作成
 content#:#cont_credit_mode#:#履修単位モード(レッスンモード'ノーマル'用)
-content#:#cont_credit_mode_info#:#レッスンモードが'ノーマル'の場合は、この設定のみ有効です。
 content#:#cont_credit_off#:#未履修
 content#:#cont_credit_on#:#履修単位
 content#:#cont_credits#:#単位取得
@@ -13702,7 +13701,6 @@ ecs#:#ecs_member_auth_type#:#Course Member Auth Mode###31 08 2017 new variable
 background_tasks#:#background_tasks#:#Background Tasks###31 08 2017 new variable
 background_tasks#:#background_tasks_running#:#Running Tasks###31 08 2017 new variable
 background_tasks#:#scheduled#:#Scheduled###31 08 2017 new variable
-background_tasks#:#dismiss#:#Quit###31 08 2017 new variable
 background_tasks#:#completed#:#Completed###31 08 2017 new variable
 background_tasks#:#waiting#:#Waiting###31 08 2017 new variable
 background_tasks#:#proceed_job#:#Proceed###31 08 2017 new variable
@@ -14149,3 +14147,10 @@ orgu#:#remove_successful#:#User was removed successfully.###16 01 2018 new varia
 wfe#:#wfe_stopped_listening#:#Process disarmed###16 01 2018 new variable
 lti#:#lti_session#:#LTI Session###16 01 2018 new variable
 crs#:#crs_subscription_min_members_err#:#The minimum number is not allowed to be greater than the maximum number of participants.###16 01 2018 new variable
+content#:#cont_debug_deactivate12#:#A Test Tool will be displayed in the presentation mode of the learning module. Based on the data provided by it the interaction of the learning module and ILIAS can be evaluated.###25 01 2018 new variable
+content#:#cont_sc_auto_continue_info#:#After finishing their last activity users will be automatically redirected to the next SCO. This function is not supported by all SCORM 1.2 Learning Modules.###25 01 2018 new variable
+content#:#offline_mode_users_info#:#Users can be manually taken from the Off-line Mode and after doing so these users can again use the online-version of the learning module. This makes sense if e.g. the laptop with the learning modules was stolen.###25 01 2018 new variable
+crs#:#crs_admission_link_failure_offline#:#Can't register: Course is offline.###25 01 2018 new variable
+crs#:#crs_admission_link_failure_availability#:#Can't register: Course is not online.###25 01 2018 new variable
+background_tasks#:#remove#:#Remove###25 01 2018 new variable
+orgu#:#msg_success_permission_saved#:#Permissions saved.###25 01 2018 new variable

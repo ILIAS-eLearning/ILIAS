@@ -217,6 +217,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
+		$user_name = trim($user_name);
+
 		if(!strlen($user_name))
 		{
 			return $this->__raiseError('No username given. Aborting','Client');
