@@ -1,7 +1,6 @@
 <?php
 function show_the_same_modal_with_different_buttons()
 {
-	return "";
 	global $DIC;
 	$factory = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();

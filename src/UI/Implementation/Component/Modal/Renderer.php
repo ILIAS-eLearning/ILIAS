@@ -51,11 +51,9 @@ class Renderer extends AbstractComponentRenderer {
 		$show = $modal->getShowSignal();
 		$close = $modal->getCloseSignal();
 
-		$is_async = false;
 		$replace = "";
 		if ($modal instanceof Component\Modal\RoundTrip) {
 			$replace = $modal->getReplaceContentSignal();
-			$is_async = $modal->getAsyncContentUrl();
 		}
 
 		$options = array(
@@ -78,10 +76,8 @@ class Renderer extends AbstractComponentRenderer {
 		//   created
 		// * since withAdditionalOnLoadCode refers to some yet unknown future, it disencourages
 		//   tempering with the id _here_.
-		return $modal->withAdditionalOnLoadCode(function($id) use ($show, $close, $options, $replace, $is_async) {
-			if (!$is_async) {
-				$options["url"] = "#{$id}";
-			}
+		return $modal->withAdditionalOnLoadCode(function($id) use ($show, $close, $options, $replace) {
+			$options["url"] = "#{$id}";
 			$options = json_encode($options);
 			$code =
 				"$(document).on('{$show}', function(event, signalData) { il.UI.modal.showModal('{$id}', {$options}, signalData); return false; });".

@@ -74,15 +74,6 @@ interface RoundTrip extends Modal {
 	public function getReplaceContentSignal();
 
 	/**
-	 * Get the url returning the rendered content, if the popovers content is rendered via ajax.
-	 *
-	 * @return string
-	 */
-	public function getAsyncContentUrl();
-
-	public function withAsyncContentUrl($url);
-
-	/**
 	 * Init the default signals plus extra signals like replaceContent
 	 */
 	public function initSignals();

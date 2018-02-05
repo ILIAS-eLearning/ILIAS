@@ -106,23 +106,6 @@ class RoundTrip extends Modal implements Component\Modal\RoundTrip {
 	/**
 	 * @inheritdoc
 	 */
-	public function withAsyncContentUrl($url) {
-		$this->checkStringArg('url', $url);
-		$clone = clone $this;
-		$clone->ajax_content_url = $url;
-
-		return $clone;
-	}
-
-	public function getAsyncContentUrl()
-	{
-		//remove this dummy line
-		return $this->ajax_content_url;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
 	public function getReplaceContentSignal() {
 		return $this->replace_content_signal;
 	}
