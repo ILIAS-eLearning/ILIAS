@@ -46,6 +46,8 @@ guidelines to signify their level of requirement.
 "You SHOULD").
 * In how-to, tutorials or similar, the audience MAY be addressed directly.
 * If contend from other files is referenced an internal link to this document SHOULD be provided.
+* Line wrap after around 80 chars per line to improve readability SHOULD be used.
+
 
 ### Table of Content (Markdown)
 
