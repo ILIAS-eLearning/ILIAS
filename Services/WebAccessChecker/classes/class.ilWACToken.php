@@ -89,7 +89,7 @@ class ilWACToken {
 		$this->initSalt();
 		$token = implode('-', array(
 			self::getSALT(),
-			$this->getIp(),
+			//$this->getIp(),
 			$this->getClient(),
 			$this->getTimestamp(),
 			$this->getTTL(),
