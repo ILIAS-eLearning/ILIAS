@@ -17,11 +17,20 @@ class Renderer extends AbstractComponentRenderer {
 	public function render(Component\Component $component, RendererInterface $default_renderer) {
 		$this->checkComponent($component);
 
+		global $DIC;
+
+		$log = $DIC->logger()->root();
+
 		// If the modal is rendered async, we just create a fake container which will be
 		// replaced by the modal upon successful ajax request
 		/** @var Modal $component */
 		if ($component->getAsyncRenderUrl()) {
+
+			$log->debug("///// Modal getAsyncRenderURL");
 			return $this->renderAsync($component);
+		} else
+		{
+			$log->debug("///// MOdal else not async render URL");
 		}
 
 		if ($component instanceof Component\Modal\Interruptive) {
@@ -50,10 +59,18 @@ class Renderer extends AbstractComponentRenderer {
 	protected function registerSignals(Component\Modal\Modal $modal) {
 		$show = $modal->getShowSignal();
 		$close = $modal->getCloseSignal();
-		$options = json_encode(array(
+
+		$is_async = false;
+		$replace = "";
+		if ($modal instanceof Component\Modal\RoundTrip) {
+			$replace = $modal->getReplaceContentSignal();
+			$is_async = $modal->getAsyncContentUrl();
+		}
+
+		$options = array(
 			'ajaxRenderUrl' => $modal->getAsyncRenderUrl(),
-			'keyboard' => $modal->getCloseWithKeyboard(),
-		));
+			'keyboard' => $modal->getCloseWithKeyboard()
+		);
 		// ATTENTION, ATTENTION:
 		// with(Additional)OnLoadCode opens a wormhole into the future, where some unspecified
 		// entity magically created an id for the component that can be used to refer to it
@@ -70,10 +87,18 @@ class Renderer extends AbstractComponentRenderer {
 		//   created
 		// * since withAdditionalOnLoadCode refers to some yet unknown future, it disencourages
 		//   tempering with the id _here_.
-		return $modal->withAdditionalOnLoadCode(function($id) use ($show, $close, $options) {
-			return
-				"$(document).on('{$show}', function() { il.UI.modal.showModal('{$id}', {$options}); return false; });".
+		return $modal->withAdditionalOnLoadCode(function($id) use ($show, $close, $options, $replace, $is_async) {
+			if (!$is_async) {
+				$options["url"] = "#{$id}";
+			}
+			$options = json_encode($options);
+			$code =
+				"$(document).on('{$show}', function(event, signalData) { il.UI.modal.showModal('{$id}', {$options}, signalData); return false; });".
 				"$(document).on('{$close}', function() { il.UI.modal.closeModal('{$id}'); return false; });";
+			if ($replace != "") {
+				$code.= "$(document).on('{$replace}', function(event, signalData) { il.UI.modal.replaceContentFromSignal('{$show}', signalData);});";
+			}
+			return $code;
 		});
 	}
 
@@ -128,7 +153,6 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function renderRoundTrip(Component\Modal\RoundTrip $modal, RendererInterface $default_renderer) {
 		$tpl = $this->getTemplate('tpl.roundtrip.html', true, true);
-		$modal = $this->registerSignals($modal);
 		$id = $this->bindJavaScript($modal);
 		$tpl->setVariable('ID', $id);
 		$tpl->setVariable('TITLE', $modal->getTitle());

@@ -30,6 +30,9 @@ class RoundTrip extends Modal implements Component\Modal\RoundTrip {
 	 */
 	protected $cancel_button_label = 'cancel';
 
+	protected $ajax_content_url;
+	protected $replace_content_signal;
+
 
 	/**
 	 * @param string $title
@@ -99,4 +102,48 @@ class RoundTrip extends Modal implements Component\Modal\RoundTrip {
 		$clone->cancel_button_label = $label;
 		return $clone;
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withAsyncContentUrl($url) {
+		$this->checkStringArg('url', $url);
+		$clone = clone $this;
+		$clone->ajax_content_url = $url;
+
+		return $clone;
+	}
+
+	public function getAsyncContentUrl()
+	{
+		//remove this dummy line
+		return $this->ajax_content_url;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getReplaceContentSignal() {
+		return $this->replace_content_signal;
+	}
+
+	/**
+	 * Set the show/close/replace signals for this modal
+	 */
+	public function initSignals() {
+		parent::initSignals();
+		//signal generator from parent class
+		$this->replace_content_signal = $this->signal_generator->create("ILIAS\\UI\\Implementation\\Component\\Modal\\ReplaceContentSignal");
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withContent($content) {
+		$clone = clone $this;
+		$clone->content = $content;
+
+		return $clone;
+	}
+
 }
