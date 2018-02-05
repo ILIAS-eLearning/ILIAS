@@ -67,27 +67,10 @@ il.UI = il.UI || {};
 			});
         };
 
-        /**
-         * Replace the content of the modalbox of the $triggerer JQuery object with the data returned by the
-         * given url.
-         *
-         * @param $triggerer JQuery object where the modalbox belongs to
-         * @param url The URL where the ajax GET request is sent to load the new content
-         */
-        var replaceContent = function($triggerer, url) {
-            var $content = $('#' + $triggerer.attr('data-target')).find('.modal-content');
-            if (!$content.length) return;
-            $content.html('<i class="icon-refresh"></i><p>&nbsp;</p>');
-            $content.load(url, function() {
-                console.log('loaded');
-            });
-        };
-
         return {
             showModal: showModal,
             closeModal: closeModal,
-            replaceContentFromSignal: replaceContentFromSignal,
-            replaceContent: replaceContent
+            replaceContentFromSignal: replaceContentFromSignal
         };
 
     })($);
