@@ -17,20 +17,11 @@ class Renderer extends AbstractComponentRenderer {
 	public function render(Component\Component $component, RendererInterface $default_renderer) {
 		$this->checkComponent($component);
 
-		global $DIC;
-
-		$log = $DIC->logger()->root();
-
 		// If the modal is rendered async, we just create a fake container which will be
 		// replaced by the modal upon successful ajax request
 		/** @var Modal $component */
 		if ($component->getAsyncRenderUrl()) {
-
-			$log->debug("///// Modal getAsyncRenderURL");
 			return $this->renderAsync($component);
-		} else
-		{
-			$log->debug("///// MOdal else not async render URL");
 		}
 
 		if ($component instanceof Component\Modal\Interruptive) {

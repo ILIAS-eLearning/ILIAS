@@ -1,10 +1,6 @@
 <?php
 namespace ILIAS\UI\Implementation\Component;
 
-//Cannot use ILIAS\UI\Component\Signal as Signal because the name is already in use in
-// /Users/leifos/Sites/ILIAS/src/UI/Implementation/Component/SignalGeneratorInterface.php:5
-use ILIAS\UI\Component\Signal as Sig;
-
 /**
  * Interface SignalGeneratorInterface
  *
