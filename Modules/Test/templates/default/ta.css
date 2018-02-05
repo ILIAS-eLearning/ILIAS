@@ -422,6 +422,14 @@ ul.shortlist li.unanswered {
 }
 /* fau. */
 
+ul.shortlist li.passed {
+	background-image: url('../../../../templates/default/images/scorm/passed.svg');
+}
+
+ul.shortlist li.failed {
+	background-image: url('../../../../templates/default/images/scorm/failed.svg');
+}
+
 ul.shortlist li.active {
 	font-weight: bold;
 }

@@ -911,6 +911,8 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
 
 				$row = array("nr" => "$key", "title" => $question->getTitle(), "qid" => $question->getId(), "visited" => $worked_through, "solved" => (($solved) ? "1" : "0"), "description" => $question->getComment(), "points" => $question->getMaximumPoints(), "worked_through" => $worked_through, "postponed" => $is_postponed, "sequence" => $qId, "obligatory" => ilObjTest::isQuestionObligatory($question->getId()), 'isAnswered' => $question->isAnswered($this->getActiveId(), $this->getPass()));
 
+				$row['answerstatus'] = $this->getQuestionAnswerStatus($qId);
+				
 				if(!$obligationsFilterEnabled || $row['obligatory'])
 				{
 					$summary[] = $row;
@@ -921,6 +923,23 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
 		}
 
 		return $summary;
+	}
+	
+	protected function getQuestionAnswerStatus($qId)
+	{
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
+		
+		if( isset($this->correctAnsweredQuestions[$qId]) )
+		{
+			return ilAssQuestionList::QUESTION_ANSWER_STATUS_CORRECT_ANSWERED;
+		}
+		
+		if( isset($this->wrongAnsweredQuestions[$qId]) )
+		{
+			return ilAssQuestionList::QUESTION_ANSWER_STATUS_WRONG_ANSWERED;
+		}
+
+		return ilAssQuestionList::QUESTION_ANSWER_STATUS_NON_ANSWERED;
 	}
 
 	public function hasFilteredQuestionListCheckedQuestions()
