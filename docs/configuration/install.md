@@ -386,6 +386,8 @@ On RHEL/CentOS execute:
 yum install zip unzip php-gd libxslt ImageMagick java-1.7.0-openjdk phantomjs
 ```
 
+Please ensure that the phantomjs version you use is at least 2.0.0.
+
 Depending on your use case, you MAY want to install further dependencies (exact package names vary by distribution):
 * php-curl
 * php-xmlrpc
