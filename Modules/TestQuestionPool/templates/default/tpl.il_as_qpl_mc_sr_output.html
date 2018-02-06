@@ -1,11 +1,12 @@
+<div class="ilc_question_SingleChoice">
 	{QUESTIONTEXT}
-	<table class="nobackground ilClearFloat">
-<!-- BEGIN answer_row -->	
-		<tr>
-			<td class="middle" width="15">
+	<div class="ilc_answers answers answer-table ilClearFloat">
+<!-- BEGIN answer_row -->
+		<div class="ilc_qanswer_Answer">
+			<div>
 				<input type="radio" name="multiple_choice_result{QID}" value="{ANSWER_ID}" id="answer_{ANSWER_ID}"{CHECKED_ANSWER} />
-			</td>
-			<td class="middle">
+			</div>
+			<div>
 				<label for="answer_{ANSWER_ID}">
 <!-- BEGIN preview -->
 					<table class="ilc_media_cont_MediaContainer">
@@ -24,15 +25,13 @@
 <!-- END answer_image -->
 					{ANSWER_TEXT}
 				</label>
-			</td>
-		</tr>
+			</div>
+		</div>
 <!-- BEGIN feedback -->
-		<tr>
-			<td></td>
-			<td>
-				<span class="feedback">{FEEDBACK}</span>
-			</td>
-		</tr>
+		<div>
+			<span class="feedback">{FEEDBACK}</span>
+		</div>
 <!-- END feedback -->
 <!-- END answer_row -->	
-	</table>
+	</div>
+</div>
