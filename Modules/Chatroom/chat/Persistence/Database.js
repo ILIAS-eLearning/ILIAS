@@ -209,13 +209,14 @@ var Database = function Database(config) {
 		);
 	};
 
-	this.clearChatMessagesProcess = function (bound, namespaceName, callback) {
-		bound = parseInt(bound / 1000);
+	this.clearChatMessagesProcess = function(bound, namespaceName, callback) {
+		var boundMilliseconds = parseInt(bound),
+			boundSeconds      = parseInt(bound / 1000);
 
 		async.waterfall([
 			function(next) {
 				_pool.query('DELETE FROM chatroom_history WHERE timestamp < ?',
-					[bound],
+					[boundSeconds],
 					function (err, result) {
 						if (err) throw err;
 						Container.getLogger().info("Clear Messages for namespace %s affected %s rows", namespaceName, result.affectedRows)
@@ -226,7 +227,7 @@ var Database = function Database(config) {
 			function(result, next)
 			{
 				_pool.query('DELETE FROM osc_messages WHERE timestamp < ?',
-					[bound],
+					[boundMilliseconds],
 					function (err, result) {
 						if (err) throw err;
 						Container.getLogger().info("Clear OSC-Messages for namespace %s affected %s rows", namespaceName, result.affectedRows)
@@ -237,7 +238,7 @@ var Database = function Database(config) {
 			function(result, next)
 			{
 				_pool.query('DELETE c FROM osc_conversation c LEFT JOIN osc_messages m ON m.conversation_id = c.id WHERE m.id IS NULL',
-					[bound],
+					[boundMilliseconds],
 					function (err, result) {
 						if (err) throw err;
 						Container.getLogger().info("Clear OSC-Conversations for namespace %s affected %s rows", namespaceName, result.affectedRows)
@@ -248,7 +249,7 @@ var Database = function Database(config) {
 			function(result, next)
 			{
 				_pool.query('DELETE a FROM osc_activity a LEFT JOIN osc_conversation c ON a.conversation_id = c.id WHERE c.id IS NULL',
-					[bound],
+					[boundMilliseconds],
 					function (err, result) {
 						if (err) throw err;
 						Container.getLogger().info("Clear OSC-Activity for namespace %s affected %s rows", namespaceName, result.affectedRows)

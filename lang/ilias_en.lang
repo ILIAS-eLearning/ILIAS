@@ -14090,6 +14090,8 @@ rbac#:#sahs_read_learning_progress#:#User can view learning progress of other us
 rbac#:#tst_read_learning_progress#:#User can view learning progress of other users
 rbac#:#exc_read_learning_progress#:#User can view learning progress of other users
 rbac#:#sess_read_learning_progress#:#User can view learning progress of other users
+rbac#:#file_read_learning_progress#:#User can view learning progress of other users
+rbac#:#mcst_read_learning_progress#:#User can view learning progress of other users
 content#:#cont_progress_icons#:#Progress Icons
 content#:#cont_progress_icons_info#:#Show progress icons instead of chapter page icons in presentation mode. Please note that progress information is stored only with ILIAS 5.0 and higher.
 content#:#cont_self_assessment#:#Self Assessment

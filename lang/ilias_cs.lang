@@ -514,20 +514,6 @@ assessment#:#duplicate_order_values_entered#:#Vložil(a) jste duplikované hodno
 assessment#:#ects_allow_ects_grades#:#Zobrazit dodatečné hodnocení ECTS k získané známce
 assessment#:#ects_fill_out_all_values#:#Vložte prosím hodnotu pro každé ECTS hodnocení!###deprecated 
 assessment#:#ects_grade#:#Hodnocení ECTS
-assessment#:#ects_grade_a#:#vyjímečný výkon jen s minimem chyb
-assessment#:#ects_grade_a_short#:#VÝBORNĚ
-assessment#:#ects_grade_b#:#nadprůměrný výkon, ale s několika chybami###deprecated 
-assessment#:#ects_grade_b_short#:#VÝBORNĚ-MÍNUS
-assessment#:#ects_grade_c#:#všeobecně dobrá práce, ale s počtem patrných chyb###deprecated 
-assessment#:#ects_grade_c_short#:#VELMI DOBŘE
-assessment#:#ects_grade_d#:#podprůměrný výkon s větším počtem chyb###deprecated 
-assessment#:#ects_grade_d_short#:#VELMI DOBŘE-MÍNUS
-assessment#:#ects_grade_e#:#odvedená práce splňuje jen minimální kriteria###deprecated 
-assessment#:#ects_grade_e_short#:#DOBŘE
-assessment#:#ects_grade_f#:#požadováno je podstatné zlepšení
-assessment#:#ects_grade_f_short#:#NEVYHOVUJÍCÍ!###deprecated 
-assessment#:#ects_grade_fx#:#ještě je požadováno určité zlepšení, než může být kredit udělen
-assessment#:#ects_grade_fx_short#:#NEVYHOVUJÍCÍ###deprecated 
 assessment#:#ects_output_of_ects_grades#:#Výstup hodnocení ECTS
 assessment#:#ects_range_error_a#:#Vložte hodnotu mezi 0 a 100 pro ECTS hodnocení A!###deprecated 
 assessment#:#ects_range_error_b#:#Vložte hodnotu mezi 0 a 100 pro ECTS hodnocení B!###deprecated 
@@ -15952,3 +15938,17 @@ style#:#skin_version_description#:#The skin version is used to re-cache the styl
 chatroom#:#chat_osc_subs_rej_msgs#:#Currently it is not possible to continue this conversation. Your chat-partner must activate chats in the chat-settings.###10 01 2018 new variable
 chatroom#:#chat_osc_subs_rej_msgs_p#:#The following chat partners of your conversation do not want to receive messages anymore: %s###10 01 2018 new variable
 chatroom#:#chat_osc_self_rej_msgs#:#You currently cannot take part in this conversation because you suppressed receiving messages in your settings.###10 01 2018 new variable
+assessment#:#ects_grade_a_desc#:#outstanding performance with only minor errors###26 01 2018 new variable
+assessment#:#ects_grade_b_desc#:#above the average standard but with some errors###26 01 2018 new variable
+assessment#:#ects_grade_c_desc#:#generally sound work with a number of notable errors###26 01 2018 new variable
+assessment#:#ects_grade_d_desc#:#fair but with significant shortcomings###26 01 2018 new variable
+assessment#:#ects_grade_e_desc#:#performance meets the minimum criteria###26 01 2018 new variable
+assessment#:#ects_grade_f_desc#:#considerable further work is required###26 01 2018 new variable
+assessment#:#ects_grade_fx_desc#:#some more work required before the credit can be awarded###26 01 2018 new variable
+assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#At least one of the competences addressed by this test is not triggered by the minimal required amount of questions.<br />The required amount of questions: %s###26 01 2018 new variable
+rbac#:#file_read_learning_progress#:#User can view learning progress of other users###26 01 2018 new variable
+rbac#:#mcst_read_learning_progress#:#User can view learning progress of other users###26 01 2018 new variable
+wfe#:#wfe_sure_to_delete_process_def#:#Are you sure you want to delete the definition?###26 01 2018 new variable
+wfe#:#wfe_request_missing_process_id#:#The process id is missing, cannot perform the desired action.###26 01 2018 new variable
+wfe#:#wfe_started_listening#:#Process armed###26 01 2018 new variable
+wfe#:#wfe_stopped_listening#:#Process disarmed###26 01 2018 new variable
