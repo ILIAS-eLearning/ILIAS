@@ -183,6 +183,25 @@ while ($rec = $ilDB->fetchAssoc($set))
 	{
 		$ilDB->dropPrimaryKey('page_question');
 	}
+
+	$set = $ilDB->query("select page_parent_type, page_id, question_id, page_lang, count(*) from page_question group by page_parent_type, page_id, question_id, page_lang HAVING count(*) > 1");
+	while ($rec = $this->db->fetchAssoc($set))
+	{
+		// remove all datasets with duplicates
+		$del = "DELETE FROM page_question ".
+			" WHERE page_parent_type = ".$ilDB->quote($rec['page_parent_type'], 'text').
+			" AND page_id = ".$ilDB->quote($rec['page_id'], 'integer').
+			" AND question_id = ".$ilDB->quote($rec['question_id'], 'integer').
+			" AND page_lang = ".$ilDB->quote($rec['page_lang'], 'text');
+		$ilDB->manipulate($del);
+		$ilDB->insert('page_question', array(
+			'page_parent_type' => array('text', $rec['page_parent_type']),
+			'page_id' => array('integer', $rec['page_id']),
+			'question_id' => array('integer', $rec['question_id']),
+			'page_lang' => array('text', $rec['page_lang'])
+		));
+	}
+
 	$ilDB->addPrimaryKey('page_question', array('page_parent_type', 'page_id', 'question_id', 'page_lang'));
 ?>
 <#12>
