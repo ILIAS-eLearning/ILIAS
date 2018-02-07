@@ -648,7 +648,7 @@ When you upgrade from rather old versions please make sure that the dependencies
 | ILIAS Version   | PHP Version                           |
 |-----------------|---------------------------------------|
 | 5.3.x           | 5.6.x, 7.0.x, 7.1.x                   |
-| 5.2.x           | 5.5.x - 5.6.x, 7.0.x                  |
+| 5.2.x           | 5.5.x - 5.6.x, 7.0.x, 7.1.x           |
 | 5.0.x - 5.1.x   | 5.3.x - 5.5.x                         |
 | 4.4.x           | 5.3.x - 5.5.x                         |
 | 4.3.x           | 5.2.6 - 5.4.x                         |
