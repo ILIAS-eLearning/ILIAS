@@ -14154,3 +14154,5 @@ common#:#obj_exc_duplicate#:#Feladat másolása
 meta#:#adt_error_max_length#:#Kérem, rövidebb szöveget írjon.
 form#:#form_chars_remaining#:#Fennmaradó karakterszám:
 crs#:#crs_subscription_min_members_err#:#A résztvevők minimális száma nem lehet kisebb a résztvevők maximális számánál.
+rbac#:#file_read_learning_progress#:#User can view learning progress of other users###07 02 2018 new variable
+rbac#:#mcst_read_learning_progress#:#User can view learning progress of other users###07 02 2018 new variable

@@ -1409,7 +1409,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 
 	/**
-	 * @return array
+	 * @inheritdoc
 	 */
 	public function getAllowedAttributes() {
 		return $this->field_definition->getAllowedAttributes();
