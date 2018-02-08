@@ -209,5 +209,44 @@ interface Factory {
 	 */
 	public function tag($label, $action);
 
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     The graphical button combines the recognisability of a graphical
+	 *     element with the explicity of a text-label.
+	 *     These button are used in prominent places as triggers for navigation.
+	 *     They are not to be used e.g. as form controls.
+	 *
+	 *   composition: >
+	 *     The graphical button consists of an icon or glyph and a (very short) text.
+	 *
+	 *   effect: >
+	 *     Both, icon and text, form an entity an can only be operated together.
+	 *     The button MAY have a "down"-state: When the button is used to toggle
+	 *     the visibility of an element, it stays engaged until the element is hidden again.
+	 *
+	 *
+	 * rules:
+	 *   style:
+	 *       1: Graphical Buttons SHOULD only be used in the Sidebar.
+	 *       2: Graphical Buttons MUST trigger navigation.
+	 *       3: >
+	 *         When used to toggle the visibility of another element,
+	 *         the button MUST reflect the elements state of visibility.
+	 *
+	 *   accessibility:
+	 *       1: >
+	 *           The functionality of the graphical button MUST be indicated for screen
+	 *           readers by an aria-label.
+	 *       2: Graphical buttons MUST define aria-pressed attribute.
+	 *
+	 * ---
+	 * @param	\ILIAS\UI\Component\Icon\Icon | \ILIAS\UI\Component\Glyph\Glyph		$icon_or_glyph
+	 * @param	string		$label
+	 * @param	string		$action
+	 * @return  \ILIAS\UI\Component\Button\Graphical
+	 */
+	public function graphical($icon_or_glyph, $label, $action);
 
 }

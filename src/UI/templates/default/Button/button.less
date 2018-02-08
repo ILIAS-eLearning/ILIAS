@@ -36,6 +36,17 @@ input.btn{
       cursor: default;
     }
   }
+  &.engaged {
+    &,
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+      background-color: @il-disabled-btn-bg;
+      border-color: @il-disabled-btn-border;
+      color: @il-disabled-btn-color;
+    }
+  }
 }
 
 // #16322
