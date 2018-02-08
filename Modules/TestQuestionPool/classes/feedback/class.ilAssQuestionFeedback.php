@@ -13,6 +13,9 @@
  */
 abstract class ilAssQuestionFeedback
 {
+	const CSS_CLASS_FEEDBACK_CORRECT = 'ilc_qfeedr_FeedbackRight';
+	const CSS_CLASS_FEEDBACK_WRONG = 'ilc_qfeedw_FeedbackWrong';
+	
 	/**
 	 * type for generic feedback page objects
 	 */
