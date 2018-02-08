@@ -14155,3 +14155,4 @@ form#:#form_chars_remaining#:#Verbleibende Zeichen:
 poll#:#poll_voting_period_full_info#:#Abstimmung von %s bis %s
 crs#:#crs_subscription_min_members_err#:#Die minimale Anzahl darf nicht größer als die maximale Anzahl sein.
 background_tasks#:#abort#:#Abort###25 01 2018 new variable
+rbac#:#sess_read_learning_progress#:#User can view learning progress of other users###07 02 2018 new variable
