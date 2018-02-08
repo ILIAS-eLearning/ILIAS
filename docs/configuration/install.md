@@ -147,7 +147,8 @@ We RECOMMEND to use MySQL/MariaDB with the following settings:
 On MySQL 5.6+ and Galera the `Strict SQL Mode` MUST be disabled. See [MySQL
 Strict Mode](#mysql-strict-mode-56) for details.
 
-On MySQL/MariaDB ```innodb_large_prefix``` must be set to ```OFF``` if the ```ROW_FORMAT ``` is set to ```COMPACT```.
+On MySQL/MariaDB `innodb_large_prefix` must be set to `OFF` if the `ROW_FORMAT`
+is set to `COMPACT`.
 
 <a name="manual-installation-on-linux"></a>
 ## Manual Installation on Linux
