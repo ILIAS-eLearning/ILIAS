@@ -2152,6 +2152,14 @@ abstract class assQuestionGUI
 		$show_question_text = TRUE
 	);
 	
+	protected function hasCorrectSolution($activeId, $passIndex)
+	{
+		$reachedPoints = $this->object->getAdjustedReachedPoints($activeId, $passIndex, true);
+		$maximumPoints = $this->object->getMaximumPoints();
+		
+		return $reachedPoints == $maximumPoints;
+	}
+	
 	public function isAutosaveable()
 	{
 		return $this->object->isAutosaveable();
