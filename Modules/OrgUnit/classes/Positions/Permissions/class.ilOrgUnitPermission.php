@@ -7,7 +7,7 @@
  */
 class ilOrgUnitPermission extends ActiveRecord {
 
-	const PARENT_TEMPLATE = - 1;
+	const PARENT_TEMPLATE = -1;
 	const TABLE_NAME = 'il_orgu_permissions';
 	/**
 	 * @var int
@@ -72,6 +72,10 @@ class ilOrgUnitPermission extends ActiveRecord {
 	 * @con_length     1
 	 */
 	protected $protected = false;
+	/**
+	 * @var bool
+	 */
+	protected $newly_created = false;
 
 
 	public function update() {
@@ -267,6 +271,22 @@ class ilOrgUnitPermission extends ActiveRecord {
 	 */
 	public function setProtected($protected) {
 		$this->protected = $protected;
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function isNewlyCreated() {
+		return $this->newly_created;
+	}
+
+
+	/**
+	 * @param bool $newly_created
+	 */
+	public function setNewlyCreated($newly_created) {
+		$this->newly_created = $newly_created;
 	}
 
 

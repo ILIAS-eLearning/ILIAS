@@ -38,6 +38,7 @@ class ilOrgUnitPermissionQueries {
 			$template_set->setParentId(ilOrgUnitPermission::PARENT_TEMPLATE);
 			$template_set->setContextId($context->getId());
 			$template_set->setPositionId($position_id);
+			$template_set->setNewlyCreated(true);
 			$template_set->create();
 			$template_set->afterObjectLoad();
 		}
@@ -139,6 +140,7 @@ class ilOrgUnitPermissionQueries {
 		$set->setPositionId($position_id);
 		$set->setContextId($context->getId());
 		$set->setOperations($template->getOperations());
+		$set->setNewlyCreated(true);
 		$set->create();
 
 		return $set;
