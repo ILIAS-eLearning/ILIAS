@@ -4,8 +4,6 @@
 
 namespace ILIAS\TMS\Booking;
 
-use CaT\Ente\Component;
-
 /**
  * This is one step in the booking process of the user.
  */

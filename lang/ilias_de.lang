@@ -14230,7 +14230,7 @@ tms#:#duration#:#Zeitraum
 tms#:#not_min_member#:#Nur Trainings anzeigen, deren Mindestteilnehmerzahl noch nicht erreicht wurde.
 tms#:#filter#:#Erweiterte Suche
 tms#:#search#:#Suchen
-tms#:#booking_aborted#:#Ihr Buchungsvorgang wurde abgebrochen.
+tms#:#process_aborted#:#Der Vorgang wurde abgebrochen.
 common#:#cockpit#:#Cockpit
 tms#:#no_detail_infos#:#<strong><i>Es liegen keine weiteren Informationen zu diesem Angebot vor.</i></strong>
 tms#:#overview_header#:#Zusammenfassung
@@ -14309,3 +14309,5 @@ tms#:#placeholder_desc_crs_admin_firstname#:#Vorname des Admins am Kurs
 tms#:#placeholder_desc_crs_admin_lastname#:#Nachname des Admins am Kurs
 tms#:#placeholder_desc_crs_venue#:#Veranstaltungsort des Kurses
 tms#:#placeholder_desc_crs_provider#:#Trainingsanbieter
+tms#:#booking_not_available#:#Sie haben nicht die Berechtigung dieses Training zu buchen. In der „Trainingssuche“ finden Sie die für Sie verfügbaren Trainings.
+tms#:#no_permissions_to_book#:#Sie haben keine Berechtigung dieses Training für sich oder einen anderen Benutzer zu buchen.
