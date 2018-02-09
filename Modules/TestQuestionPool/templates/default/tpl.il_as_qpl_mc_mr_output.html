@@ -1,38 +1,38 @@
-	{QUESTIONTEXT}
-	<table class="nobackground ilClearFloat">
-<!-- BEGIN answer_row -->	
-		<tr>
-			<td class="middle" width="15">
-				<input type="checkbox" name="multiple_choice_result_{ANSWER_ID}" value="{ANSWER_ID}" id="answer_{ANSWER_ID}"{CHECKED_ANSWER} />
-			</td>
-			<td class="middle">
+<div class="ilc_question_MultipleChoice">
+	<div class="ilc_qtitle_Title">{QUESTIONTEXT}</div>
+	<!-- BEGIN selection_limit_hint -->
+	<p class="ilAdditionalAssQuestionInstruction">{SELECTION_LIMIT_HINT}</p>
+	<!-- END selection_limit_hint -->
+	<div class="ilc_answers answers answer-table ilClearFloat">
+<!-- BEGIN answer_row -->
+		<div class="ilc_qanswer_Answer">
+			<div>
+				<input type="checkbox" name="multiple_choice_result_{ANSWER_ID}" value="{ANSWER_ID}" id="answer_{ANSWER_ID}"{CHECKED_ANSWER} class="ilAssMultipleChoiceOption ilAssMultipleChoiceResult" data-qst-id="{QID}" data-ans-id="{ANSWER_ID}" />
+			</div>
+			<div>
 				<label for="answer_{ANSWER_ID}">
 <!-- BEGIN preview -->
-					<table class="ilc_media_cont_MediaContainer">
-						<tr>
-							<td class="ilc_Mob"><img border="0" src="{ANSWER_IMAGE_URL}" alt="{ANSWER_IMAGE_ALT}" title="{ANSWER_IMAGE_TITLE}" /></td>
-						</tr>
-						<tr>
-							<td>
-								<div class="ilc_media_caption_MediaCaption"><a target="_blank" href="{URL_PREVIEW}" title="{TEXT_PREVIEW}"><img border="0" align="right" src="{IMG_PREVIEW}"/></a></div>
-							</td>
-						</tr>
-					</table>
+					<div class="ilc_media_cont_MediaContainer">
+						<div class="ilc_qimg_QuestionImage ilc_Mob"><img border="0" src="{ANSWER_IMAGE_URL}" alt="{ANSWER_IMAGE_ALT}" title="{ANSWER_IMAGE_TITLE}" /></div>
+						<div class="ilc_qimgd_ImageDetailsLink ilc_media_caption_MediaCaption"><a target="_blank" href="{URL_PREVIEW}" title="{TEXT_PREVIEW}"><img border="0" align="right" src="{IMG_PREVIEW}"/></a></div>
+					</div>
 <!-- END preview -->
 <!-- BEGIN answer_image -->
-					<img src="{ANSWER_IMAGE_URL}" alt="{ANSWER_IMAGE_ALT}" title="{ANSWER_IMAGE_TITLE}" />
+					<div class="ilc_media_cont_MediaContainer">
+						<div class="ilc_qimg_QuestionImage ilc_Mob">
+							<img src="{ANSWER_IMAGE_URL}" alt="{ANSWER_IMAGE_ALT}" title="{ANSWER_IMAGE_TITLE}" />
+						</div>
+					</div>
 <!-- END answer_image -->
 					{ANSWER_TEXT}
 				</label>
-			</td>
-		</tr>
+			</div>
+		</div>
 <!-- BEGIN feedback -->
-		<tr>
-			<td></td>
-			<td>
-				<span class="feedback">{FEEDBACK}</span>
-			</td>
-		</tr>
+		<div>
+			<span class="feedback">{FEEDBACK}</span>
+		</div>
 <!-- END feedback -->
-<!-- END answer_row -->	
-	</table>
+<!-- END answer_row -->
+	</div>
+</div>
