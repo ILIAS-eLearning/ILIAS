@@ -499,7 +499,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 	{
 		global $ilDB;
 		$q = ' UPDATE tree
-			SET path = CONCAT(COALESCE(' . $ilDB->quote($parentPath, 'text') . ', \'\'), COALESCE(cast(child as varchar), \'\'))
+			SET path = CONCAT(COALESCE(' . $ilDB->quote($parentPath, 'text') . ', \'\'), COALESCE( ' . $ilDB->cast("child","text") . ' , \'\'))
 			WHERE parent = %s';
 		$r = $ilDB->manipulateF($q, array('integer'), array($parent));
 

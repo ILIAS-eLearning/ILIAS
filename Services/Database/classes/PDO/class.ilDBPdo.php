@@ -2021,4 +2021,11 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 		return ($d->version ? $d->version : 'Unknown');
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function cast($a_field_name, $a_dest_type) {
+		return $this->manager->getQueryUtils()->cast($a_field_name, $a_dest_type);
+	}
 }

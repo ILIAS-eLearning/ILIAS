@@ -2541,4 +2541,13 @@ abstract class ilDB extends PEAR implements ilDBInterface
 
 		return new ilAtomQueryLock($this);
 	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function cast($a_field_name, $a_dest_type): string {
+		$manager = $this->db->loadModule('Manager');
+		return $manager->getQueryUtils()->cast($a_field_name, $a_dest_type);
+	}
 }
