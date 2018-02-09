@@ -345,7 +345,6 @@ table.kprimchoicewizard th
     font-weight: bold;
     text-align: center;
 }
-table.ilAssKprimChoiceTable,
 table.kprimchoicewizard
 {
 }
@@ -357,22 +356,12 @@ table.kprimchoicewizard td
 {
     padding-top: 15px;
 }
-table.ilAssKprimChoiceTable th,
-table.ilAssKprimChoiceTable td
-{
-    padding: 5px 15px;
-}
-table.ilAssKprimChoiceTable th,
+div.ilAssKprimChoiceTable div.optionLabel,
 table.kprimchoicewizard th.optionLabel
 {
     background-color: lightgrey;
-    white-space: nowrap;
 }
-table.ilAssKprimChoiceTable td.kprimInput
-{
-    text-align: center;
-    vertical-align: middle;
-}
+
 #tst_output {
 	clear: both;
 	overflow: hidden;
@@ -585,8 +574,7 @@ p.ilAdditionalAssQuestionInstruction
     margin:5px 0 15px 0 !important;
 }
 
-table.kprimchoicewizard  th.optionLabel,
-table.ilAssKprimChoiceTable th.optionLabel
+table.kprimchoicewizard  th.optionLabel
 {
 	font-size: 1.1em;
 }
