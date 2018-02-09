@@ -15,7 +15,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-This directory holds all customized files for this ilias installation.
+This directory holds all customized files for this ILIAS installation.
 
 On the top level two directories may be created: `/Customizing/global` for
 global changes and `/Customizing/clients` for changes that should be applied to
