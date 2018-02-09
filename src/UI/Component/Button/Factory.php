@@ -213,33 +213,44 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     The graphical button combines the recognisability of a graphical
-	 *     element with the explicity of a text-label.
-	 *     These button are used in prominent places as triggers for navigation.
-	 *     They are not to be used e.g. as form controls.
+	 *     The graphical button combines the recognisability of a graphical element
+	 *     with the explicity of a text-label. It has an obtrusive presentation that
+	 *     indicate import actions on the screen and make them hard to overlook.
 	 *
 	 *   composition: >
 	 *     The graphical button consists of an icon or glyph and a (very short) text.
 	 *
 	 *   effect: >
-	 *     Both, icon and text, form an entity an can only be operated together.
-	 *     The button MAY have a "down"-state: When the button is used to toggle
-	 *     the visibility of an element, it stays engaged until the element is hidden again.
+	 *     Both, icon/glyph and text, form an entity an can only be operated together.
+	 *     The button has a "engaged"-state: When the button is used to toggle the
+	 *     visibility of an element, it stays engaged until the element is hidden again.
 	 *
+	 *   rival:
+	 *     Primary Button: >
+	 *       Primary Buttons indicate the most important action among a collection
+	 *       of actions, e.g. in a tool bar, controls of a form or in a modal. Graphical
+	 *       buttons make it hard to miss the indicated action by occupying space.
 	 *
 	 * rules:
+	 *   usage:
+	 *     1: >
+	 *       Since Graphical Buttons are so obtrusive they MUST only be used
+	 *       to indicate important actions on the screen.
+	 *   wording:
+	 *     1: The icon/glyph and the text on the Graphical Button MUST be corresponding.
 	 *   style:
-	 *       1: Graphical Buttons SHOULD only be used in the Sidebar.
-	 *       2: Graphical Buttons MUST trigger navigation.
-	 *       3: >
-	 *         When used to toggle the visibility of another element,
-	 *         the button MUST reflect the elements state of visibility.
+	 *     1: >
+	 *       Graphical Buttons MUST occupy as much space as their container
+	 *       leaves them.
+	 *     2: >
+	 *       When used to toggle the visibility of another element,
+	 *       the button MUST reflect the elements state of visibility.
 	 *
 	 *   accessibility:
-	 *       1: >
-	 *           The functionality of the graphical button MUST be indicated for screen
-	 *           readers by an aria-label.
-	 *       2: Graphical buttons MUST define aria-pressed attribute.
+	 *     1: >
+	 *       The functionality of the graphical button MUST be indicated for screen
+	 *       readers by an aria-label.
+	 *     2: Graphical buttons MUST define aria-pressed attribute.
 	 *
 	 * ---
 	 * @param	\ILIAS\UI\Component\Icon\Icon | \ILIAS\UI\Component\Glyph\Glyph		$icon_or_glyph
