@@ -215,7 +215,7 @@ interface Factory {
 	 *   purpose: >
 	 *     The graphical button combines the recognisability of a graphical element
 	 *     with the explicity of a text-label. It has an obtrusive presentation that
-	 *     indicate import actions on the screen and make them hard to overlook.
+	 *     indicate important actions on the screen and make them hard to overlook.
 	 *
 	 *   composition: >
 	 *     The graphical button consists of an icon or glyph and a (very short) text.
