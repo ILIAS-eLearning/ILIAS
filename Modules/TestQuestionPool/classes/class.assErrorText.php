@@ -710,11 +710,9 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 					$passage_end = false;
 					if($correct_solution)
 					{
-						$class = '';
-						if($this->isTokenSelected($counter, $selections))
-						{
-							$class = "sel";
-						}
+						$class = ( $this->isTokenSelected($counter, $selections) ?
+							"ilc_qetitem_ErrorTextSelected" : "ilc_qetitem_ErrorTextItem"
+						);
 						
 						$errorobject = $this->errordata[$errorcounter];
 						if (is_object($errorobject) )
@@ -754,19 +752,15 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 					$start_idx = $passage_start_idx;
 					foreach($items_in_passage as $tmp_idx => $tmp_item)
 					{
-						$class = '';
-						if($this->isTokenSelected($start_idx, $selections))
-						{
-							$class = "sel";
-						}
+						$class = ( $this->isTokenSelected($counter, $selections) ?
+							"ilc_qetitem_ErrorTextSelected" : "ilc_qetitem_ErrorTextItem"
+						);
 						$item_stack[] = $this->getErrorTokenHtml($tmp_item, $class, $use_link_tags) . $img;
 						$start_idx++;
 					}
-					$class = '';
-					if($this->isTokenSelected($counter, $selections))
-					{
-						$class = "sel";
-					}
+					$class = ( $this->isTokenSelected($counter, $selections) ?
+						"ilc_qetitem_ErrorTextSelected" : "ilc_qetitem_ErrorTextItem"
+					);
 					if($graphicalOutput)
 					{
 						if ($group_selected)
@@ -797,11 +791,11 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 				}
 
 				// Errors markes with #, group errors (()) are handled above
-				$class = '';
+				$class = 'ilc_qetitem_ErrorTextItem';
 				$img = '';
 				if($this->isTokenSelected($counter, $selections))
 				{
-					$class = "sel";
+					$class = "ilc_qetitem_ErrorTextSelected";
 					if($graphicalOutput)
 					{
 						if ($this->getPointsForSelectedPositions(array($counter)) > 0)
