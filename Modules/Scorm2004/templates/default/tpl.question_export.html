@@ -85,7 +85,7 @@
 (function(questionData){
 
 	ilias.questions.shuffle(questionData);
-console.log(questionData);
+
 	$('div#container'+questionData.id+' div.question_head').autoRender(questionData);
 
 	$('div#container'+questionData.id).render(questionData, {
