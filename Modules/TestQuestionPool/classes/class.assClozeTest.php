@@ -1603,8 +1603,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		$result['id'] = (int) $this->getId();
 		$result['type'] = (string) $this->getQuestionType();
 		$result['title'] = (string) $this->getTitle();
-		$result['question'] =  $this->formatSAQuestion($this->getQuestion()).'<br/>'.
-			$this->formatSAQuestion($this->getClozeText());
+		$result['question'] =  $this->formatSAQuestion($this->getQuestion());
+		$result['clozetext'] =  $this->formatSAQuestion($this->getClozeText());
 		$result['nr_of_tries'] = (int) $this->getNrOfTries();
 		$result['shuffle'] = (bool) $this->getShuffle();
 		$result['feedback'] = array(
