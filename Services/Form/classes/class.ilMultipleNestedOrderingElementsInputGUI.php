@@ -12,6 +12,13 @@ require_once 'Modules/Test/classes/inc.AssessmentConstants.php';
 
 abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMultiValuesInputGUI
 {
+	const HTML_LIST_TAG_UL = 'ul';
+	const HTML_LIST_TAG_OL = 'ol';
+	
+	const CSS_LIST_CLASS = 'dd-list';
+	const CSS_ITEM_CLASS = 'dd-item';
+	const CSS_HANDLE_CLASS = 'dd-handle';
+	
 	const POSTVAR_SUBFIELD_NEST_ELEM = 'content';
 	const POSTVAR_SUBFIELD_NEST_INDENT = 'indentation';
 	
@@ -26,6 +33,14 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
 	protected $stylingDisabled = false;
 	
 	protected $listTpl = null;
+	
+	protected $cssListClass = self::CSS_LIST_CLASS;
+	
+	protected $cssItemClass = self::CSS_ITEM_CLASS;
+	
+	protected $cssHandleClass = self::CSS_HANDLE_CLASS;
+	
+	protected $htmlListTag = self::HTML_LIST_TAG_OL;
 	
 	public function __construct($a_title = '', $a_postvar = '')
 	{
@@ -79,6 +94,70 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
 	protected function isStylingEnabled()
 	{
 		return !$this->isStylingDisabled();
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getCssListClass()
+	{
+		return $this->cssListClass;
+	}
+	
+	/**
+	 * @param string $cssListClass
+	 */
+	public function setCssListClass($cssListClass)
+	{
+		$this->cssListClass = $cssListClass;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getCssItemClass()
+	{
+		return $this->cssItemClass;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getCssHandleClass()
+	{
+		return $this->cssHandleClass;
+	}
+	
+	/**
+	 * @param string $cssHandleClass
+	 */
+	public function setCssHandleClass($cssHandleClass)
+	{
+		$this->cssHandleClass = $cssHandleClass;
+	}
+	
+	/**
+	 * @param string $cssItemClass
+	 */
+	public function setCssItemClass($cssItemClass)
+	{
+		$this->cssItemClass = $cssItemClass;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getHtmlListTag()
+	{
+		return $this->htmlListTag;
+	}
+	
+	/**
+	 * @param string $htmlListTag
+	 */
+	public function setHtmlListTag($htmlListTag)
+	{
+		$this->htmlListTag = $htmlListTag;
 	}
 	
 	/**
@@ -137,6 +216,8 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
 	
 		$this->getListTpl()->setCurrentBlock('item_value');
 		
+		$this->getListTpl()->setVariable('ILC_HANDLE_CSS_CLASS', $this->getCssHandleClass());
+		
 		$this->getListTpl()->setVariable('LIST_ITEM_VALUE', $this->getItemHtml(
 			$value, $identifier, $position, $subPostVar, $subFieldId
 		));
@@ -160,6 +241,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
 	{
 		$this->getListTpl()->setCurrentBlock('begin_list_item');
 		$this->getListTpl()->setVariable('LIST_ITEM_ID', $identifier);
+		$this->getListTpl()->setVariable('ILC_ITEM_CSS_CLASS', $this->getCssItemClass());
 		$this->getListTpl()->parseCurrentBlock();
 		$this->renderListSnippet();
 	}
@@ -175,7 +257,8 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
 	protected function renderBeginSubList()
 	{
 		$this->getListTpl()->setCurrentBlock('begin_sublist');
-		$this->getListTpl()->touchBlock('begin_sublist');
+		$this->getListTpl()->setVariable('BEGIN_HTML_LIST_TAG', $this->getHtmlListTag());
+		$this->getListTpl()->setVariable('ILC_LIST_CSS_CLASS', $this->getCssListClass());
 		$this->getListTpl()->parseCurrentBlock();
 		$this->renderListSnippet();
 	}
@@ -183,7 +266,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
 	protected function renderEndSubList()
 	{
 		$this->getListTpl()->setCurrentBlock('end_sublist');
-		$this->getListTpl()->touchBlock('end_sublist');
+		$this->getListTpl()->setVariable('END_HTML_LIST_TAG', $this->getHtmlListTag());
 		$this->getListTpl()->parseCurrentBlock();
 		$this->renderListSnippet();
 	}
@@ -346,10 +429,10 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
 					{
 						// (9) pcn: 120 
 						//							echo"(9)";
+						$this->renderBeginListItem($identifier);
 						$this->renderListItem($value, $identifier, $counter);
 						for($openlists = $nextIndent; $openlists < $curIndent; $openlists++)
 						{
-							$this->renderBeginListItem($identifier);
 							$this->renderEndListItem();
 							$this->renderEndSubList();
 						}
@@ -388,6 +471,9 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
 		$jsTpl->setCurrentBlock('nested_ordering_init');
 		$jsTpl->setVariable('INSTANCE_ID', $this->getInstanceId());
 		$jsTpl->setVariable('INDENTATION_POSTVAR', $this->getPostVarSubField('indentation'));
+		$jsTpl->setVariable('HTML_LIST_TAG', $this->getHtmlListTag());
+		$jsTpl->setVariable('CSS_LIST_CLASS', $this->getCssListClass());
+		$jsTpl->setVariable('CSS_ITEM_CLASS', $this->getCssItemClass());
 		$jsTpl->parseCurrentBlock();
 		
 		return $jsTpl->get();
