@@ -1,8 +1,15 @@
-{QUESTIONTEXT}
+<div class="ilc_question_OrderingQuestion">
+<!-- BEGIN question_text -->
+<div class="ilc_qtitle_Title">{QUESTIONTEXT}</div>
+<!-- END question_text -->
 <div class="ilClearFloat">
 {SOLUTION_TEXT}
-<ul class="horizontal"{STYLE}>
-<!-- BEGIN element --><li id="{ELEMENT_ID}">{ELEMENT_VALUE}</li><!-- END element -->
+<ul class="ilc_qordul_OrderListHorizontal"{STYLE}>
+<!-- BEGIN element -->
+	<li id="{ELEMENT_ID}" class="answers ilc_qordli_OrderListItemHorizontal">
+		<div class="ilc_qanswer_Answer">{ELEMENT_VALUE}</div>
+	</li>
+<!-- END element -->
 </ul>
 <!-- BEGIN icon_ok -->
 			<img src="{ICON_OK}" alt="{TEXT_OK}" title="{TEXT_OK}" />
@@ -15,3 +22,4 @@
 <!-- END result_output -->
 </div>
 <div class="ilClearFloat"></div>
+</div>
