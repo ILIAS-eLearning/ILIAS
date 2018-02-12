@@ -1,10 +1,13 @@
-<div>{QUESTIONTEXT}</div>
+<div class="ilc_question_FileUpload">
+<!-- BEGIN question_text -->
+<div class="ilc_qtitle_Title">{QUESTIONTEXT}</div>
+<!-- END question_text -->
 <div class="ilClearFloat assFileUpload">
 <!-- BEGIN files -->
-<div class="filesContainer">{FILES}</div>
+<div class="ilc_qanswer_Answer ilc_answers answers filesContainer">{FILES}</div>
 <!-- END files -->
 <h2>{TXT_UPLOAD_FILE}</h2>
-<div class="uploadContainer"><input type="file" name="upload" disabled readonly /> <input type="submit" class="btn btn-default" name="cmd[{CMD_UPLOAD}]" value="{TEXT_UPLOAD}" disabled readonly /></div>
+<div class="uploadContainer"><input type="file" name="upload" disabled readonly /> <input type="submit" class="ilc_qsubmit_Submit btn btn-default" name="cmd[{CMD_UPLOAD}]" value="{TEXT_UPLOAD}" disabled readonly /></div>
 <div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{TXT_MAX_SIZE}</span></div>
 <!-- BEGIN allowed_extensions -->
 <div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{TXT_ALLOWED_EXTENSIONS}</span></div>
@@ -20,4 +23,5 @@
 		<em>{RESULT_OUTPUT}</em>
 <!-- END result_output -->
 </p>
+</div>
 </div>

@@ -53,7 +53,7 @@ class assFileUploadFileTableGUI extends ilTable2GUI
 	{
 		if( count($this->getData()) )
 		{
-			$this->addCommandButton($this->parent_cmd, $this->lng->txt('delete'));
+			$this->addCommandButton($this->parent_cmd, $this->lng->txt('delete'), '', '', 'ilc_qsubmit_Submit');
 		}
 	}
 	
