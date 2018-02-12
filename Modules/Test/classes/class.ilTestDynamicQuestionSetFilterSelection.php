@@ -65,6 +65,23 @@ class ilTestDynamicQuestionSetFilterSelection
 	{
 		return $this->answerStatusSelection;
 	}
+	
+	/**
+	 * @return bool
+	 */
+	public function hasAnswerStatusSelection()
+	{
+		switch( $this->getAnswerStatusSelection() )
+		{
+			case self::ANSWER_STATUS_FILTER_VALUE_ALL_NON_CORRECT:
+			case self::ANSWER_STATUS_FILTER_VALUE_NON_ANSWERED:
+			case self::ANSWER_STATUS_FILTER_VALUE_WRONG_ANSWERED:
+				
+				return true;
+		}
+		
+		return false;
+	}
 
 	public function isAnswerStatusSelectionWrongAnswered()
 	{
@@ -85,6 +102,24 @@ class ilTestDynamicQuestionSetFilterSelection
 	public function getTaxonomySelection()
 	{
 		return $this->taxonomySelection;
+	}
+	
+	/**
+	 * @param $taxonomyId
+	 * @return bool
+	 */
+	public function hasSelectedTaxonomy($taxonomyId)
+	{
+		return isset($this->taxonomySelection[$taxonomyId]);
+	}
+	
+	/**
+	 * @param integer $taxonomyId
+	 * @return array
+	 */
+	public function getSelectedTaxonomy($taxonomyId)
+	{
+		return $this->taxonomySelection[$taxonomyId];
 	}
 
 	/**

@@ -1656,6 +1656,7 @@ class ilObjectGUI
 			$this->ctrl->setParameter($this, "obj_id", $this->obj_id); 
 		}
 		$itab = new ilAdminSubItemsTableGUI($this, "view", $_GET["ref_id"]);
+		$itab->setEditable($this->checkPermissionBool('write'));
 		
 		$tpl->setContent($itab->getHTML());
 	}

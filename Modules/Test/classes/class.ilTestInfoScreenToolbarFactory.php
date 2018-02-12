@@ -110,7 +110,7 @@ class ilTestInfoScreenToolbarFactory
 		
 		$d = $GLOBALS['DIC'];
 		
-		$toolbar = new ilTestInfoScreenToolbarGUI($d['ilDB'], $d['ilAccess'], $d['ilCtrl'], $d['lng']);
+		$toolbar = new ilTestInfoScreenToolbarGUI($d['ilDB'], $d['ilAccess'], $d['ilCtrl'], $d['lng'], $d['ilPluginAdmin']);
 		
 		$toolbar->setTestOBJ($this->getTestOBJ());
 		$toolbar->setTestPlayerGUI($this->testPlayerFactory->getPlayerGUI());

@@ -34,6 +34,11 @@ abstract class ilPDSelectedItemsBlockViewGUI
 	protected $object_cache;
 
 	/**
+	 * @var ilRbacSystem
+	 */
+	protected $accessHandler;
+
+	/**
 	 * ilPDSelectedItemsBlockViewGUI constructor.
 	 * @param ilPDSelectedItemsBlockViewSettings $viewSettings
 	 * @param ilPDSelectedItemsBlockProvider                       $provider
@@ -42,9 +47,10 @@ abstract class ilPDSelectedItemsBlockViewGUI
 	{
 		global $DIC;
 
-		$this->lng          = $DIC->language();
-		$this->tree         = $DIC->repositoryTree();
-		$this->object_cache = $DIC['ilObjDataCache'];
+		$this->lng            = $DIC->language();
+		$this->tree           = $DIC->repositoryTree();
+		$this->object_cache   = $DIC['ilObjDataCache'];
+		$this->accessHandler  = $DIC->rbac()->system();
 
 		$this->viewSettings = $viewSettings;
 		$this->provider     = $provider;
@@ -89,9 +95,18 @@ abstract class ilPDSelectedItemsBlockViewGUI
 	abstract function getGroups();
 
 	/**
+	 * @param int $refId
+	 * @return bool
+	 */
+	public function mayRemoveItem($refId)
+	{
+		return true;
+	}
+
+	/**
 	 * @return ilPDSelectedItemsBlockGroup[]
 	 */
-	public function getItemsGroups()
+	public function getItemGroups()
 	{
 		$items_groups = $this->getGroups();
 

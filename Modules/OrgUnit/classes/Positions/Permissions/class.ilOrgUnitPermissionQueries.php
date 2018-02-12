@@ -38,6 +38,7 @@ class ilOrgUnitPermissionQueries {
 			$template_set->setParentId(ilOrgUnitPermission::PARENT_TEMPLATE);
 			$template_set->setContextId($context->getId());
 			$template_set->setPositionId($position_id);
+			$template_set->setNewlyCreated(true);
 			$template_set->create();
 			$template_set->afterObjectLoad();
 		}
@@ -83,9 +84,6 @@ class ilOrgUnitPermissionQueries {
 		if (!$ilOrgUnitObjectPositionSetting->isActive()) {
 			throw new ilPositionPermissionsNotActive("Postion-related permissions not active in {$context->getContext()}", $context->getContext());
 		}
-		if (!$ilOrgUnitObjectPositionSetting->isChangeableForObject()) {
-			return ilOrgUnitPermissionQueries::getTemplateSetForContextName($context->getContext(), $position_id);
-		}
 
 		/**
 		 * @var $dedicated_set ilOrgUnitPermission
@@ -124,9 +122,6 @@ class ilOrgUnitPermissionQueries {
 		if (!$ilOrgUnitObjectPositionSetting->isActive()) {
 			throw new ilPositionPermissionsNotActive("Position-related permissions not active in {$context->getContext()}", $context->getContext());
 		}
-		if (!$ilOrgUnitObjectPositionSetting->isChangeableForObject()) {
-			throw new ilPositionPermissionsNotActive("Position-related permissions not active in {$context->getContext()}", $context->getContext());
-		}
 
 		$dedicated_set = ilOrgUnitPermission::where([
 			'parent_id'   => $ref_id,
@@ -140,13 +135,53 @@ class ilOrgUnitPermissionQueries {
 		$template = self::getTemplateSetForContextName($context->getContext(), $position_id);
 
 		$set = new ilOrgUnitPermission();
+		$set->setProtected(false);
 		$set->setParentId($ref_id);
 		$set->setPositionId($position_id);
 		$set->setContextId($context->getId());
 		$set->setOperations($template->getOperations());
+		$set->setNewlyCreated(true);
 		$set->create();
 
 		return $set;
+	}
+
+
+	/**
+	 * @param $ref_id
+	 * @param $position_id
+	 *
+	 * @return bool
+	 * @throws \ilException
+	 */
+	public static function removeLocalSetForRefId($ref_id, $position_id) {
+		/**
+		 * @var $dedicated_set ilOrgUnitPermission
+		 */
+		self::checkRefIdAndPositionId($ref_id, $position_id);
+
+		$context = self::getContextByRefId($ref_id);
+
+		$ilOrgUnitGlobalSettings = ilOrgUnitGlobalSettings::getInstance();
+		$ilOrgUnitObjectPositionSetting = $ilOrgUnitGlobalSettings->getObjectPositionSettingsByType($context->getContext());
+
+		if (!$ilOrgUnitObjectPositionSetting->isActive()) {
+			throw new ilPositionPermissionsNotActive("Position-related permissions not active in {$context->getContext()}", $context->getContext());
+		}
+
+		$dedicated_set = ilOrgUnitPermission::where([
+			'parent_id'   => $ref_id,
+			'context_id'  => $context->getId(),
+			'position_id' => $position_id,
+			'protected'   => false,
+		])->first();
+		if ($dedicated_set) {
+			$dedicated_set->delete();
+
+			return true;
+		}
+
+		return false;
 	}
 
 
@@ -193,15 +228,15 @@ WHERE il_orgu_op_contexts.context IN(\'crs\', \'object\') AND operation_string =
 		 FROM object_reference
 		 JOIN object_data ON object_data.obj_id = object_reference.obj_id
 		 WHERE object_reference.ref_id = %s;';
-		$db->queryF($q, ['integer'], [$ref_id]);
+		$db->queryF($q, [ 'integer' ], [ $ref_id ]);
 
 		$q = 'SELECT @OP_ID:= CONCAT("%\"", il_orgu_operations.operation_id, "%\"")
 					FROM il_orgu_operations 
 					JOIN il_orgu_op_contexts ON il_orgu_op_contexts.context = @CONTEXT_TYPE -- AND il_orgu_op_contexts.id = il_orgu_operations.context_id
 				WHERE il_orgu_operations.operation_string = %s';
-		$db->queryF($q, ['text'], [$pos_perm]);
+		$db->queryF($q, [ 'text' ], [ $pos_perm ]);
 		$q = 'SELECT * FROM il_orgu_permissions WHERE operations LIKE @OP_ID AND position_id = %s;';
-		$r = $db->queryF($q, ['integer'], [$position_id]);
+		$r = $db->queryF($q, [ 'integer' ], [ $position_id ]);
 
 		($r->numRows() > 0);
 	}

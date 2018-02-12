@@ -454,7 +454,8 @@ class ilErrorHandling extends PEAR
 			if (version_compare(PHP_VERSION, '7.0.0', '<')) {
 				if ($level == E_STRICT) {
 					if (!stristr($message, "should be compatible") &&
-						!stristr($message, "should not be called statically")) {
+						!stristr($message, "should not be called statically") &&
+						!stristr($message, "should not be abstract")) {
 						return true;
 					};
 				}

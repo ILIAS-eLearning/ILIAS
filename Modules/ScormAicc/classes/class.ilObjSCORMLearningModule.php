@@ -1083,14 +1083,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	   	$timestamp = time();
 		$refid = $this->getRefId();
 		$filename = "scorm_tracking_".$refid."_".$timestamp.".csv";
-		//Header
-		header("Expires: 0");
-		header("Cache-control: private");
-		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-		header("Content-Description: File Transfer");
-		header("Content-Type: application/octet-stream");
-		header("Content-disposition: attachment; filename=$filename");
-		echo $a_header.$a_content;
+		ilUtil::deliverData($a_header.$a_content, $filename);
 		exit;	
 	}
 	

@@ -13,6 +13,9 @@
  */
 abstract class ilAssQuestionFeedback
 {
+	const CSS_CLASS_FEEDBACK_CORRECT = 'ilc_qfeedr_FeedbackRight';
+	const CSS_CLASS_FEEDBACK_WRONG = 'ilc_qfeedw_FeedbackWrong';
+	
 	/**
 	 * type for generic feedback page objects
 	 */
@@ -343,6 +346,16 @@ abstract class ilAssQuestionFeedback
 	 * @return string $feedbackContent
 	 */
 	abstract public function getSpecificAnswerFeedbackContent($questionId, $answerIndex);
+
+	/**
+	 * returns the SPECIFIC feedback content for a given question id and answer index.
+	 *
+	 * @abstract
+	 * @access public
+	 * @param integer $questionId
+	 * @return string $feedbackContent
+	 */
+	abstract public function getAllSpecificAnswerFeedbackContents($questionId);
 
 	/**
 	 * saves GENERIC feedback content for the given question id to the database.

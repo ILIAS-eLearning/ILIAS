@@ -39,42 +39,50 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	 */
 	function viewObject()
 	{
-		global $rbacsystem, $ilSetting, $tpl, $ilToolbar, $lng, $ilClientIniFile;
-		
-		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
+		global $DIC;
 
-		// refresh
-		$ilToolbar->addButton($lng->txt("refresh_languages"),
-			$this->ctrl->getLinkTarget($this, "confirmRefresh"));
-
-		// check languages
-		$ilToolbar->addButton($lng->txt("check_languages"),
-			$this->ctrl->getLinkTarget($this, "checkLanguage"));
-		
-		// extended language maintenance
-		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
+		if ($this->checkPermissionBool('write'))
 		{
-			if(!$ilSetting->get('lang_detection'))
+			// refresh
+			$refresh = ilLinkButton::getInstance();
+			$refresh->setUrl($this->ctrl->getLinkTarget($this, "confirmRefresh"));
+			$refresh->setCaption("refresh_languages");
+			$this->toolbar->addButtonInstance($refresh);
+
+			// check languages
+			$check = ilLinkButton::getInstance();
+			$check->setUrl($this->ctrl->getLinkTarget($this, "checkLanguage"));
+			$check->setCaption("check_languages");
+			$this->toolbar->addButtonInstance($check);
+
+
+			if (!$this->settings->get('lang_detection'))
 			{
-				$ilToolbar->addButton($lng->txt('lng_enable_language_detection'), $this->ctrl->getLinkTarget($this, 'enableLanguageDetection'));
+				$detect = ilLinkButton::getInstance();
+				$detect->setUrl($this->ctrl->getLinkTarget($this, "enableLanguageDetection"));
+				$detect->setCaption("lng_enable_language_detection");
+				$this->toolbar->addButtonInstance($detect);
 			}
 			else
 			{
-				$ilToolbar->addButton($lng->txt('lng_disable_language_detection'),	$this->ctrl->getLinkTarget($this, 'disableLanguageDetection'));
+				$detect = ilLinkButton::getInstance();
+				$detect->setUrl($this->ctrl->getLinkTarget($this, "disableLanguageDetection"));
+				$detect->setCaption("lng_disable_language_detection");
+				$this->toolbar->addButtonInstance($detect);
 			}
 		}
 
+		$ilClientIniFile = $DIC['ilClientIniFile'];
 		if($ilClientIniFile->variableExists('system', 'LANGUAGE_LOG'))
 		{
-			$ilToolbar->addButton($lng->txt('lng_download_deprecated'),	$this->ctrl->getLinkTarget($this, 'listDeprecated'));
+			$download = ilLinkButton::getInstance();
+			$download->setUrl($this->ctrl->getLinkTarget($this, "listDeprecated"));
+			$download->setCaption("lng_download_deprecated");
+			$this->toolbar->addButtonInstance($download);
 		}
 
-		include_once("./Services/Language/classes/class.ilLanguageTableGUI.php");
 		$ltab = new ilLanguageTableGUI($this, "view", $this->object);
-		$tpl->setContent($ltab->getHTML());
+		$this->tpl->setContent($ltab->getHTML());
 	}
 
 	/**
@@ -82,6 +90,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	 */
 	function installObject()
 	{
+		$this->checkPermission('write');
 		$this->lng->loadLanguageModule("meta");
 
 		if (!isset($_POST["id"]))
@@ -131,6 +140,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	 */
 	function installLocalObject()
 	{
+		$this->checkPermission('write');
 		$this->lng->loadLanguageModule("meta");
 
 		if (!isset($_POST["id"]))
@@ -206,6 +216,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	 */
 	function uninstallObject()
 	{
+		$this->checkPermission('write');
 		$this->lng->loadLanguageModule("meta");
 
 		if (!isset($_POST["id"]))
@@ -266,10 +277,10 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	 */
 	function uninstallChangesObject()
 	{
-		global $lng;
+		$this->checkPermission('write');
 
 		$this->data = $this->lng->txt("selected_languages_updated");
-		$lng->loadLanguageModule("meta");
+		$this->lng->loadLanguageModule("meta");
 
 		foreach ($_POST["id"] as $id)
 		{
@@ -284,9 +295,8 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 					$langObj->setTitle($langObj->getKey());
 					$langObj->setDescription('installed');
 					$langObj->update();
-					$langObj->optimizeData();
 				}
-				$this->data .= "<br />". $lng->txt("meta_l_".$langObj->getKey());
+				$this->data .= "<br />". $this->lng->txt("meta_l_".$langObj->getKey());
 			}
 
 			unset($langObj);
@@ -301,6 +311,8 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	 */
 	function refreshObject()
 	{
+		$this->checkPermission('write');
+
 		ilObjLanguage::refreshAll();
 		$this->data = $this->lng->txt("languages_updated");
 		$this->out();
@@ -312,10 +324,9 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	 */
 	function refreshSelectedObject()
 	{
-		global $lng;
-		
+		$this->checkPermission('write');
 		$this->data = $this->lng->txt("selected_languages_updated");
-		$lng->loadLanguageModule("meta");
+		$this->lng->loadLanguageModule("meta");
 
 		$refreshed = array();
 		foreach ($_POST["id"] as $id)
@@ -324,7 +335,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 			if ($langObj->refresh())
 			{
 				$refreshed[] = $langObj->getKey();
-				$this->data .= "<br />". $lng->txt("meta_l_".$langObj->getKey());
+				$this->data .= "<br />". $this->lng->txt("meta_l_".$langObj->getKey());
 			}
 			unset($langObj);
 		}
@@ -339,6 +350,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	 */
 	function setUserLanguageObject()
 	{
+		$this->checkPermission('write');
 		$this->lng->loadLanguageModule("meta");
 
 		require_once './Services/User/classes/class.ilObjUser.php';
@@ -383,6 +395,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	 */
 	function setSystemLanguageObject()
 	{
+		$this->checkPermission('write');
 		$this->lng->loadLanguageModule("meta");
 
 		if (!isset($_POST["id"]))
@@ -426,8 +439,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	 */
 	function checkLanguageObject()
 	{
-		//$langFoldObj = new ilObjLanguageFolder($_GET["obj_id"]);
-		//$this->data = $langFoldObj->checkAllLanguages();
+		$this->checkPermission('write');
 		$this->data = $this->object->checkAllLanguages();
 		$this->out();
 	}
@@ -451,23 +463,22 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	*/
 	function getTabs()
 	{
-		global $rbacsystem;
-
-		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		if ($this->checkPermissionBool("read"))
 		{
-			$this->tabs_gui->addTarget("settings",
-				$this->ctrl->getLinkTarget($this, "view"), array("view",""), "", "");
+			$this->tabs_gui->addTab('settings', $this->lng->txt('settings'), $this->ctrl->getLinkTarget($this, "view"));
 		}
 
-		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
+		if ($this->checkPermissionBool('edit_permission'))
 		{
-			$this->tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
+			$this->tabs_gui->addTab('perm_settings', $this->lng->txt('perm_settings'), $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"));
 		}
 	}
 	
 	function executeCommand()
 	{
+		// always check read permission, needed write permissions are checked in the *Object functions
+		$this->checkPermission('read', '', $this->type, $this->ref_id);
+
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
@@ -477,14 +488,18 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 			case 'ilpermissiongui':
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
-				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				$this->tabs_gui->activateTab('perm_settings');
+				$this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			default:
+				$this->tabs_gui->activateTab('settings');
+
 				if(!$cmd)
 				{
 					$cmd = "view";
 				}
+
 				$cmd .= "Object";
 				$this->$cmd();
 
@@ -495,6 +510,8 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 
 	function confirmRefreshObject()
 	{
+		$this->checkPermission('write');
+
 		$languages = ilObject::_getObjectsByType("lng");
 
 		$ids = array();
@@ -511,32 +528,31 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 
 	function confirmRefreshSelectedObject($a_ids = array())
 	{
-		global $ilCtrl, $lng;
+		$this->checkPermission('write');
+		$this->lng->loadLanguageModule("meta");
 
 		if (!empty($a_ids))
 		{
 			$ids = $a_ids;
-			$header = $lng->txt("lang_refresh_confirm");
+			$header = $this->lng->txt("lang_refresh_confirm");
 		}
 		elseif (!empty($_POST["id"]))
 		{
 			$ids = $_POST["id"];
-			$header = $lng->txt("lang_refresh_confirm_selected");
+			$header =  $this->lng->txt("lang_refresh_confirm_selected");
 		}
 		else
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
-		
-		$lng->loadLanguageModule("meta");
-		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+
 
 		$conf_screen = new ilConfirmationGUI();
 		$some_changed = false;
 		foreach ($ids as $id)
 		{
 			$lang_key = ilObject::_lookupTitle($id);
-			$lang_title = $lng->txt('meta_l_'.$lang_key);
+			$lang_title = $this->lng->txt('meta_l_'.$lang_key);
 			$last_change = ilObjLanguage::_getLastLocalChange($lang_key);
 			if (!empty($last_change))
 			{
@@ -547,73 +563,72 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 			$conf_screen->addItem("id[]", $id, $lang_title);
 		}
 
-		$conf_screen->setFormAction($ilCtrl->getFormAction($this));
+		$conf_screen->setFormAction($this->ctrl->getFormAction($this));
 		if ($some_changed)
 		{
-			$header .= '<br />' . $lng->txt("lang_refresh_confirm_info");
+			$header .= '<br />' . $this->lng->txt("lang_refresh_confirm_info");
 		}
 		$conf_screen->setHeaderText($header);
-		$conf_screen->setCancel($lng->txt("cancel"), "view");
-		$conf_screen->setConfirm($lng->txt("ok"), "refreshSelected");
+		$conf_screen->setCancel($this->lng->txt("cancel"), "view");
+		$conf_screen->setConfirm($this->lng->txt("ok"), "refreshSelected");
 		$this->tpl->setContent($conf_screen->getHTML());
 	}
 
 	function confirmUninstallObject()
 	{
-		global $ilCtrl, $lng;
+		$this->checkPermission('write');
 
 		if (!isset($_POST["id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$lng->loadLanguageModule("meta");
+		$this->lng->loadLanguageModule("meta");
 		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$conf_screen = new ilConfirmationGUI();
-		$conf_screen->setFormAction($ilCtrl->getFormAction($this));
-		$conf_screen->setHeaderText($lng->txt("lang_uninstall_confirm"));
+		$conf_screen->setFormAction($this->ctrl->getFormAction($this));
+		$conf_screen->setHeaderText($this->lng->txt("lang_uninstall_confirm"));
 		foreach ($_POST["id"] as $id)
 		{
 			$lang_title = ilObject::_lookupTitle($id);
-			$conf_screen->addItem("id[]", $id, $lng->txt("meta_l_".$lang_title));
+			$conf_screen->addItem("id[]", $id, $this->lng->txt("meta_l_".$lang_title));
 		}
-		$conf_screen->setCancel($lng->txt("cancel"), "view");
-		$conf_screen->setConfirm($lng->txt("ok"), "uninstall");
+		$conf_screen->setCancel($this->lng->txt("cancel"), "view");
+		$conf_screen->setConfirm($this->lng->txt("ok"), "uninstall");
 		$this->tpl->setContent($conf_screen->getHTML());
 	}
 
 
 	function confirmUninstallChangesObject()
 	{
-		global $ilCtrl, $lng;
+		$this->checkPermission('write');
 
 		if (!isset($_POST["id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$lng->loadLanguageModule("meta");
+		$this->lng->loadLanguageModule("meta");
 		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$conf_screen = new ilConfirmationGUI();
-		$conf_screen->setFormAction($ilCtrl->getFormAction($this));
-		$conf_screen->setHeaderText($lng->txt("lang_uninstall_changes_confirm"));
+		$conf_screen->setFormAction($this->ctrl->getFormAction($this));
+		$conf_screen->setHeaderText($this->lng->txt("lang_uninstall_changes_confirm"));
 		foreach ($_POST["id"] as $id)
 		{
 			$lang_title = ilObject::_lookupTitle($id);
-			$conf_screen->addItem("id[]", $id, $lng->txt("meta_l_".$lang_title));
+			$conf_screen->addItem("id[]", $id, $this->lng->txt("meta_l_".$lang_title));
 		}
-		$conf_screen->setCancel($lng->txt("cancel"), "view");
-		$conf_screen->setConfirm($lng->txt("ok"), "uninstallChanges");
+		$conf_screen->setCancel($this->lng->txt("cancel"), "view");
+		$conf_screen->setConfirm($this->lng->txt("ok"), "uninstallChanges");
 		$this->tpl->setContent($conf_screen->getHTML());
 	}
 
 	/**
-	* Get Actions
+	 * Get Actions
+	 * @deprecated	seems to be not needed anymore
 	*/
 	function getActions()
 	{
-		global $ilSetting;
-		
 		// standard actions for container
 		return array(
 			"install" => array("name" => "install", "lng" => "install"),
@@ -626,31 +641,21 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	}
 
 	/**
-	 *
+	 * Disable language detection
 	 */
 	protected function disableLanguageDetectionObject()
 	{
-		/**
-		 * @var $ilSetting ilSetting
-		 */
-		global $ilSetting;
-
-		$ilSetting->set('lang_detection', 0);
+		$this->settings->set('lang_detection', 0);
 		ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
 		$this->viewObject();
 	}
 
 	/**
-	 *
+	 * Enable language detection
 	 */
 	protected function enableLanguageDetectionObject()
 	{
-		/**
-		 * @var $ilSetting ilSetting
-		 */
-		global $ilSetting;
-
-		$ilSetting->set('lang_detection', 1);
+		$this->settings->set('lang_detection', 1);
 		ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
 		$this->viewObject();
 	}
@@ -660,21 +665,10 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	 */
 	function listDeprecatedObject()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC->rbac()->system();
-		$tpl = $DIC["tpl"];
-		$ilToolbar = $DIC->toolbar();
-		$ctrl = $DIC->ctrl();
-		$lng = $DIC->language();
-
-		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		$ilToolbar->addButton($lng->txt("download"),
-			$ctrl->getLinkTarget($this, "downloadDeprecated"));
+		$button = ilLinkButton::getInstance();
+		$button->setCaption("download");
+		$button->setUrl($this->ctrl->getLinkTarget($this, "downloadDeprecated"));
+		$this->toolbar->addButtonInstance($button);
 
 		include_once("./Services/Language/classes/class.ilLangDeprecated.php");
 
@@ -685,7 +679,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 			$res.= $mod.",".$key."\n";
 		}
 
-		$tpl->setContent("<pre>".$res."</pre>");
+		$this->tpl->setContent("<pre>".$res."</pre>");
 	}
 
 	/**
@@ -693,15 +687,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	 */
 	function downloadDeprecatedObject()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC->rbac()->system();
-
-		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
-
 		include_once("./Services/Language/classes/class.ilLangDeprecated.php");
 		$d = new ilLangDeprecated();
 		$res = "";

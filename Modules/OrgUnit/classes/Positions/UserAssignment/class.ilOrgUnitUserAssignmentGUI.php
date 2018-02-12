@@ -77,9 +77,9 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands {
 	protected function delete() {
 		$r = $this->http()->request();
 		$ua = ilOrgUnitUserAssignmentQueries::getInstance()
-		                                    ->getAssignmentOrFail($_POST['usr_id'], $r->getQueryParams()['position_id']);
+		                                    ->getAssignmentOrFail($_POST['usr_id'], $r->getQueryParams()['position_id'], $this->getParentRefId());
 		$ua->delete();
-		ilUtil::sendSuccess($this->txt('remove_successful'));
+		ilUtil::sendSuccess($this->txt('remove_successful'), true);
 		$this->cancel();
 	}
 
@@ -106,14 +106,14 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands {
 
 		if (!count($user_ids)) {
 			ilUtil::sendFailure($this->txt("user_not_found"), true);
-			$this->ctrl()->redirect($this, "showStaff");
+			$this->ctrl()->redirect($this, self::CMD_INDEX);
 		}
 
 		$position_id = isset($_POST['user_type']) ? $_POST['user_type'] : 0;
 
 		if (!$position_id && !$position = ilOrgUnitPosition::find($position_id)) {
 			ilUtil::sendFailure($this->txt("user_not_found"), true);
-			$this->ctrl()->redirect($this, "showStaff");
+			$this->ctrl()->redirect($this, self::CMD_INDEX);
 		}
 		foreach ($user_ids as $user_id) {
 			ilOrgUnitUserAssignment::findOrCreateAssignment($user_id, $position_id, $this->getParentRefId());

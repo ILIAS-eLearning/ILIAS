@@ -31,8 +31,8 @@ class DefaultRenderer implements Renderer {
 	 * @inheritdoc
 	 */
 	public function render($component) {
+		$out = '';
 		if (is_array($component)) {
-			$out = '';
 			foreach ($component as $_component) {
 				$renderer = $this->getRendererFor($_component);
 				$out .= $renderer->render($_component, $this);
@@ -49,11 +49,23 @@ class DefaultRenderer implements Renderer {
 	 * @inheritdoc
 	 */
 	public function renderAsync($component) {
-		$out = $this->render($component) .
+		$out = '';
+
+		if (is_array($component)) {
+			foreach ($component as $_component) {
+				$out .= $this->render($_component) .
 				$this->component_renderer_loader
-						->getRendererFactoryFor($component)
+						->getRendererFactoryFor($_component)
 						->getJSBinding()
 						->getOnLoadCodeAsync();
+			}
+		} else {
+			$out =  $this->render($component) .
+			$this->component_renderer_loader
+					->getRendererFactoryFor($component)
+					->getJSBinding()
+					->getOnLoadCodeAsync();
+		}
 		return $out;
 	}
 

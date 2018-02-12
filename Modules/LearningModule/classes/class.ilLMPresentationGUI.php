@@ -809,19 +809,24 @@ class ilLMPresentationGUI
 	*/
 	function ilMainMenu()
 	{
-		$ilMainMenu = new ilMainMenuGUI("_top", false, $this->tpl);
+		// LTI
+		global $DIC;
+		$ltiview = $DIC["lti"];
+ 		if ($ltiview->isActive()) 
+ 		{
+ 			include_once './Services/LTI/classes/class.ilMainMenuGUI.php';
+ 			$ilMainMenu = new LTI\ilMainMenuGUI("_top", false, $this->tpl);
+ 		}
+ 		else 
+ 		{
+ 			include_once './Services/MainMenu/classes/class.ilMainMenuGUI.php';
+ 			$ilMainMenu = new ilMainMenuGUI("_top", false, $this->tpl);
+ 		}
 
 		if ($this->offlineMode())
 		{
 			$this->tpl->touchBlock("pg_intro");
 			$this->tpl->touchBlock("pg_outro");
-			// LTI
-			// stefan, please get in contact with me, before hacking in my code...
-			// these lines are breaking the LM HTML export, see #0021822
-			// i cannot see why the offline version is related to lti at all
-			// no uncommenting it.
-			//$this->tpl->setVariable("MAINMENU", $ilMainMenu->getHTML());
-			//$this->tpl->setVariable("MAINMENU_SPACER", $ilMainMenu->getSpacerClass());
 			return;
 		}
 
@@ -1160,6 +1165,8 @@ class ilLMPresentationGUI
 	*/
 	function ilLocator($a_std_templ_loaded = false)
 	{
+		global $DIC;
+		$ltiview = $DIC["lti"];
 		$ilLocator = $this->locator;
 		$tree = $this->tree;
 		$ilCtrl = $this->ctrl;
@@ -1199,7 +1206,7 @@ class ilLMPresentationGUI
 		if (!$this->offlineMode())
 		{
 			// LTI
-			if (isset($_SESSION['il_lti_mode'])) 
+			if ($ltiview->isActive()) 
 			{
 				// Do nothing, its complicated...
 			}
@@ -1828,7 +1835,15 @@ class ilLMPresentationGUI
 			$a_page_gui->setOfflineDirectory($this->getOfflineDirectory());
 			$this->fill_on_load_code = false;
 		}
+		if (!$this->offlineMode())
+		{
+			$this->ctrl->setParameter($this, "obj_id", $this->getCurrentPageId());		// see #22403
+		}
 		$a_page_gui->setFileDownloadLink($this->getLink($_GET["ref_id"], "downloadFile"));
+		if (!$this->offlineMode())
+		{
+			$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+		}
 		$a_page_gui->setFullscreenLink($this->getLink($_GET["ref_id"], "fullscreen"));
 	}
 

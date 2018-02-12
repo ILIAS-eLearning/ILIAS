@@ -62,9 +62,10 @@ class ilFileVersionTableGUI extends ilTable2GUI
 		$this->addColumn($lng->txt("file_uploaded_by"));
 		$this->addColumn($lng->txt("filename"));
 		$this->addColumn($lng->txt("filesize"), "", "", false, "ilRight");
-		
+
 		if (!$this->confirmDelete)
 		{
+			$this->addColumn($lng->txt("type"));
 			$this->addColumn($lng->txt("action"));
 			$this->addColumn("", "", "1");
 		}

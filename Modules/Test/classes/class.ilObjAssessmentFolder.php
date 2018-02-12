@@ -23,6 +23,7 @@ class ilObjAssessmentFolder extends ilObject
 	const ASS_PROC_LOCK_MODE_FILE = 'file';
 	const ASS_PROC_LOCK_MODE_DB = 'db';
 
+	const SETTINGS_KEY_SKL_TRIG_NUM_ANSWERS_BARRIER = 'ass_skl_trig_num_answ_barrier';
 	const DEFAULT_SKL_TRIG_NUM_ANSWERS_BARRIER = 1;
 	
 	var $setting;
@@ -59,6 +60,16 @@ class ilObjAssessmentFolder extends ilObject
 		return true;
 	}
 
+	public static function getSkillTriggerAnswerNumberBarrier()
+	{
+		require_once 'Services/Administration/classes/class.ilSetting.php';
+		$assSettings = new ilSetting('assessment');
+		
+		return $assSettings->get(
+			self::SETTINGS_KEY_SKL_TRIG_NUM_ANSWERS_BARRIER,
+			self::DEFAULT_SKL_TRIG_NUM_ANSWERS_BARRIER
+		);
+	}
 
 	/**
 	* delete object and all related data

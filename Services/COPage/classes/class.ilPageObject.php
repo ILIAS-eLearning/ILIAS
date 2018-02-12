@@ -1730,7 +1730,7 @@ abstract class ilPageObject
 			if (ilObject::_lookupType($mob_id) == "mob")
 			{
 				$mob_obj = new ilObjMediaObject($mob_id);
-				$mobs_xml .= $mob_obj->getXML(IL_MODE_OUTPUT);
+				$mobs_xml .= $mob_obj->getXML(IL_MODE_OUTPUT, $a_inst = 0, true);
 			}
 		}
 //var_dump($mobs_xml);

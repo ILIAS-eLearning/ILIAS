@@ -28,6 +28,10 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl = $this->getTemplate($tpl_name, true, true);
 		$action = $component->getAction();
 		$label = $component->getLabel();
+		if ($component->getOpenInNewViewport())
+		{
+			$tpl->touchBlock("open_in_new_viewport");
+		}
 		$tpl->setVariable("LABEL", $label);
 		$tpl->setVariable("HREF", $action);
 

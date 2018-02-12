@@ -453,9 +453,9 @@ class ilPortfolioPage extends ilPageObject
 	 */
 	static function fixLinksOnTitleChange($a_port_id, $a_title_changes)
 	{
-		foreach(ilPortfolioPage::getAllPortfolioPages($a_port_id) as $page)
+		foreach(ilPortfolioPage::getAllPortfolioPages($a_port_id) as $port_page)
 		{
-			$page = new ilPortfolioPage($page);
+			$page = new ilPortfolioPage($port_page["id"]);
 			if ($page->renameLinksOnTitleChange($a_title_changes))
 			{
 				$page->update(true, true);

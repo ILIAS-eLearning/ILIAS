@@ -1,4 +1,4 @@
-* Copyright (c) 1998-2017 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+* Copyright (c) 1998-2018 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -111,8 +111,8 @@ itgr#:#itgr_behaviour_info#:#The system will store the opened/closed state for t
 itgr#:#itgr_always_open#:#Always Open
 itgr#:#itgr_expandable_closed#:#Expandable (initially closed)
 itgr#:#itgr_expandable_open#:#Expandable (initially opened)
-exc#:#exc_submission_and_grades_notification_link#:#Link to Exercise (Submissions and Grades): %s
-exc#:#exc_submission_downloads_notification_link#:#Download New Submissions: %s
+exc#:#exc_submission_and_grades_notification_link#:#Link to "Submissions and Grades" of exercise: %s
+exc#:#exc_submission_downloads_notification_link#:#Download new submissions: %s
 exc#:#exc_submission_no_new_files#:#No new submissions available.
 exc#:#exc_wait_for_files#:#Your download should start automatically. If the download doesn't start in 5 secs, please click here
 exc#:#exc_target_not_valid#:#Target requested is not valid or incomplete.
@@ -456,16 +456,16 @@ assessment#:#direct_feedback#:#Verify Your Solution
 assessment#:#duplicate_matching_values_selected#:#You have selected duplicate matching values!
 assessment#:#duplicate_order_values_entered#:#You have entered duplicate order values!
 assessment#:#duplicate#:#Duplicate
-assessment#:#ects_allow_ects_grades#:#Show ECTS grade additional to received mark
-assessment#:#ects_grade_a_short#:#EXCELLENT
-assessment#:#ects_grade_a#:#outstanding performance with only minor errors
-assessment#:#ects_grade_b_short#:#VERY GOOD
-assessment#:#ects_grade_c_short#:#GOOD
-assessment#:#ects_grade_d_short#:#SATISFACTORY
-assessment#:#ects_grade_e_short#:#SUFFICIENT
-assessment#:#ects_grade_f#:#considerable further work is required
-assessment#:#ects_grade_fx#:#some more work required before the credit can be awarded
+assessment#:#ects_grade_desc_prefix#:#Meaning of grade:
+assessment#:#ects_grade_a_desc#:#outstanding performance with only minor errors
+assessment#:#ects_grade_b_desc#:#above the average standard but with some errors
+assessment#:#ects_grade_c_desc#:#generally sound work with a number of notable errors
+assessment#:#ects_grade_d_desc#:#fair but with significant shortcomings
+assessment#:#ects_grade_e_desc#:#performance meets the minimum criteria
+assessment#:#ects_grade_fx_desc#:#some more work required before the credit can be awarded
+assessment#:#ects_grade_f_desc#:#considerable further work is required
 assessment#:#ects_grade#:#ECTS Grade
+assessment#:#ects_allow_ects_grades#:#Show ECTS grade additional to received mark
 assessment#:#ects_output_of_ects_grades#:#Output of ECTS grades
 assessment#:#use_ects_fx#:#Use the ‘FX’ grade
 assessment#:#ects_fx_threshold#:#Threshold
@@ -640,6 +640,7 @@ assessment#:#ass_lac_expression#:#Expression
 assessment#:#ass_lac_unable_to_parse_condition#:#The condition "%s" can not be validated.
 assessment#:#tst_skill_triggerings_num_req_answers#:#Required Amount of Answers for Competence Triggers
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Competences aren't triggered before this amount of answered questions contributes to the competence level calculation.
+assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#At least one of the competences addressed by this test is not triggered by the minimal required amount of questions.<br />The required amount of questions: %s
 assessment#:#export_essay_qst_with_html#:#Export Essay Question with HTML code
 assessment#:#export_essay_qst_with_html_desc#:#If activated it is possible to export Essay Question with HTML to Excel.
 assessment#:#qpl_qst_skl_usg_skill_col#:#Competence
@@ -688,7 +689,7 @@ assessment#:#grading_obligations_listlabel#:#Compulsory Questions
 assessment#:#grading_obligations_answered_listentry#:#Answered
 assessment#:#grading_obligations_missing_listentry#:#Open
 assessment#:#grading_mark_msg#:#Your mark is: &quot;[mark]&quot;
-assessment#:#mark_tst_ects#:#Your ECTS grade is &quot;[markects]&quot;
+assessment#:#mark_tst_ects#:#Your ECTS grade is "[markects]" (European Credit Transfer System)
 assessment#:#tst_pass_finished_on#:#Test pass finished on
 assessment#:#matches#:#matches
 assessment#:#matching_pairs#:#Matching Pairs
@@ -1418,8 +1419,6 @@ certificate#:#certificate_background_image#:#Background Image
 certificate#:#certificate_confirm_deletion_text#:#Do you really want to delete the certificate and all its related data?
 certificate#:#certificate_custom#:#Custom...
 certificate#:#certificate_edit#:#Create/Edit a Certificate Template
-certificate#:#certificate_enabled_scorm_introduction#:#If checked, the certificate will be offered for all users who finished the SCORM learning module.
-certificate#:#certificate_enabled_scorm#:#Enabled
 certificate#:#certificate_error_import#:#An error occurred during the import of a certificate!
 certificate#:#certificate_error_upload_bgimage#:#An error occurred during the upload of the background image!
 certificate#:#certificate_export#:#Export
@@ -1511,6 +1510,7 @@ cmps#:#cmps_id#:#ID
 cmps#:#cmps_ilias_max_version#:#Max. ILIAS Version
 cmps#:#cmps_ilias_min_version#:#Min. ILIAS Version
 cmps#:#cmps_inactive#:#Inactive
+cmps#:#cmps_install#:#Install
 cmps#:#cmps_lang_files#:#Language Files
 cmps#:#cmps_lang_prefix#:#Language Variables Prefix
 cmps#:#cmps_languages#:#Languages
@@ -3182,7 +3182,7 @@ common#:#refresh#:#Refresh
 common#:#refuse#:#Refuse
 common#:#reg_account_confirmation_successful#:#Your user account has been activated.
 common#:#reg_mail_body_2_confirmation#:#The link will only be good for %s, after that you will have to try again from the beginning.
-common#:#reg_mail_body_3_confirmation#:#If this email means nothing to you, then it is possible that somebody else has entered your email address either deliberately or accidentally, so please ignore this email.
+common#:#reg_mail_body_3_confirmation#:#If this e-mail means nothing to you, then it is possible that somebody else has entered your e-mail address either deliberately or accidentally, so please ignore this e-mail.
 common#:#reg_mail_body_forgot_password_info#:#To get your password, please use the function « Forgot password? » at the login screen to request a new password for this account.
 common#:#reg_mail_body_salutation#:#Hello
 common#:#reg_mail_body_text1#:#Welcome to ILIAS eLearning!
@@ -3971,7 +3971,7 @@ content#:#cont_header#:#Header
 content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
 content#:#cont_Headline3#:#Headline 3
-content#:#cont_height#:#Height
+content#:#cont_height#:#Height in pixels
 content#:#cont_hidenavig#:#Hide Navigation Tree
 content#:#cont_href#:#href
 content#:#cont_html_table#:#HTML Table
@@ -4296,7 +4296,7 @@ content#:#cont_users_have_mob_in_clip2#:#user(s).
 content#:#cont_validate_file#:#Validate File
 content#:#cont_version#:#version
 content#:#cont_versions#:#Versions
-content#:#cont_width#:#Width
+content#:#cont_width#:#Width in pixels
 content#:#cont_wiki_page_link#:#Wiki Page Link
 content#:#cont_xml_base#:#xml:base
 content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.
@@ -5525,7 +5525,7 @@ mail#:#goto_invitation_chat#:#Open Chat Room
 mail#:#invite_to_chat#:#Invite to Chat
 mail#:#linebreak#:#Line break
 mail#:#mail_send_html#:#HTML Frame
-mail#:#mail_send_html_info#:#If enabled, the body of external emails will be embedded in a HTML frame. The corresponding template can be customized by creating a copy of './Services/Mail/templates/default/tpl.html_mail_template.html' at './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' .
+mail#:#mail_send_html_info#:#If enabled, the body of external e-mails will be embedded in a HTML frame. The corresponding template can be customized by creating a copy of './Services/Mail/templates/default/tpl.html_mail_template.html' at './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' .
 mail#:#mail_account_mail#:#Account Mail
 mail#:#mail_add_recipient#:#Please enter a recipient
 mail#:#mail_add_subfolder#:#Add Sub-folder
@@ -6655,7 +6655,7 @@ registration#:#reg_role_info#:#Assigned Roles
 registration#:#reg_select_one#:#Please select one entry.
 registration#:#reg_selectable_roles#:#Selectable Roles
 registration#:#reg_settings_header#:#New Registration Settings
-registration#:#reg_type_confirmation_info#:#This type allows self-registration of users but requires an email confirmation to activate the account. This avoids self-registration to ILIAS with wrong or non-existent email addresses.
+registration#:#reg_type_confirmation_info#:#This type allows self-registration of users but requires an e-mail confirmation to activate the account. This avoids self-registration to ILIAS with wrong or non-existent e-mail addresses.
 registration#:#reg_type_confirmation#:#Registration with E-Mail Confirmation
 registration#:#reg_type#:#Registration Type
 registration#:#reg_unknown_recipients#:#The following accounts are not valid:
@@ -7584,7 +7584,7 @@ common#:#session_max_idle_info#:#Defines the maximum period of idle time a user 
 common#:#session_max_idle_after_first_request#:#Max session idle after first request (in minutes)
 common#:#session_max_idle_after_first_request_info#:#All sessions that idles for at least this period of time after first request will be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.
 common#:#reached_session_limit#:#The limit of online users is reached. Please try again later.
-forum#:#forums_post_activation_mail#:#Unless the following posting is not activated, it is not visible for other forum users. You receive this email because you are assigned as moderator and have the permission to activate this posting.
+forum#:#forums_post_activation_mail#:#Unless the following posting is not activated, it is not visible for other forum users. You receive this e-mail because you are assigned as moderator and have the permission to activate this posting.
 rbac#:#mail_mail_to_global_roles#:#User can send mails to global roles
 common#:#mail_to_global_roles_not_allowed#:#%1$s (it is not allowed to send mails to global roles) 
 assessment#:#tst_search_users#:#Search Participants
@@ -7625,15 +7625,15 @@ common#:#delete_inactivated_user_accounts_period#:#Days passed since inactivatio
 common#:#delete_inactivated_user_accounts_period_desc#:#Accounts will be deleted if this period of time has passed since inactivation.
 common#:#delete_inactivated_user_accounts_include_roles#:#Included roles
 common#:#delete_inactivated_user_accounts_include_roles_desc#:#Defines the roles that will participate in the deletion.
-mail#:#mail_allow_external#:#External Emails
-mail#:#mail_allow_external_info#:#If disabled, the delivery of external emails (via SMTP) is globally disabled.
+mail#:#mail_allow_external#:#External E-Mails
+mail#:#mail_allow_external_info#:#If disabled, the delivery of external e-mails (via SMTP) is globally disabled.
 mail#:#mail_settings_general_tab#:#General
 mail#:#mail_settings_external_tab#:#External
-mail#:#mail_settings_external_frm_head#:#External Emails
-mail#:#mail_settings_user_frm_head#:#User Emails
-mail#:#mail_settings_system_frm_head#:#System Emails
+mail#:#mail_settings_external_frm_head#:#External E-Mails
+mail#:#mail_settings_user_frm_head#:#User E-Mails
+mail#:#mail_settings_system_frm_head#:#System E-Mails
 mail#:#mail_smtp_status#:#Send via SMTP
-mail#:#mail_smtp_status_info#:#If enabled, ILIAS will dispatch external emails to an SMTP server instead of using the the internal functionality provided by the PHP runtime (mail() function, sendmail).
+mail#:#mail_smtp_status_info#:#If enabled, ILIAS will dispatch external e-mails to an SMTP server instead of using the the internal functionality provided by the PHP runtime (mail() function, sendmail).
 mail#:#mail_smtp_host#:#Host
 mail#:#mail_smtp_host_info#:#Please enter the hostname or IP of the desired mail server.
 mail#:#mail_smtp_port#:#Port
@@ -7641,19 +7641,19 @@ mail#:#mail_smtp_port_info#:#Please enter a numeric value for the mail server po
 mail#:#mail_smtp_encryption#:#Encryption
 mail#:#mail_smtp_encryption_tls#:#TLS
 mail#:#mail_smtp_encryption_ssl#:#SSL
-mail#:#mail_external_send_test_usr#:#Send Test Email (User Mail)
-mail#:#mail_external_send_test_sys#:#Send Test Email (System Mail)
-mail#:#mail_external_test_sent#:#An email was sent to the email address defined in your profile.
+mail#:#mail_external_send_test_usr#:#Send Test E-Mail (User Mail)
+mail#:#mail_external_send_test_sys#:#Send Test E-Mail (System Mail)
+mail#:#mail_external_test_sent#:#An e-mail was sent to the e-mail address defined in your profile.
 mail#:#mail_smtp_user#:#User
 mail#:#mail_smtp_password#:#Password
 mail#:#mail_smtp_password_req#:#If you defined a user for authentication purposes, a password must be set.
-mail#:#mail_system_usr_from_addr#:#Sender Email (From)
+mail#:#mail_system_usr_from_addr#:#Sender E-Mail (From)
 mail#:#mail_system_usr_from_name#:#Sender Fullname (From)
-mail#:#mail_system_usr_from_name_info#:#You can use the placeholders [FULLNAME], [FIRSTNAME] and [LASTNAME]. These will then be replaced by the respective date of the email initiator.
+mail#:#mail_system_usr_from_name_info#:#You can use the placeholders [FULLNAME], [FIRSTNAME] and [LASTNAME]. These will then be replaced by the respective date of the e-mail initiator.
 mail#:#mail_system_usr_env_from_addr#:#Technical Sender
-mail#:#mail_system_usr_env_from_addr_info#:#If you leave this field empty, the sender email address will be used if SMTP transfer is enabled. Otherwise it is the server administrator's responsibility to configure this value.
-mail#:#mail_system_sys_env_from_addr_info#:#If you leave this field empty, the sender email address will be used if SMTP transfer is enabled. Otherwise it is the server administrator's responsibility to configure this value.
-mail#:#mail_system_sys_from_addr#:#Sender Email (From)
+mail#:#mail_system_usr_env_from_addr_info#:#If you leave this field empty, the sender e-mail address will be used if SMTP transfer is enabled. Otherwise it is the server administrator's responsibility to configure this value.
+mail#:#mail_system_sys_env_from_addr_info#:#If you leave this field empty, the sender e-mail address will be used if SMTP transfer is enabled. Otherwise it is the server administrator's responsibility to configure this value.
+mail#:#mail_system_sys_from_addr#:#Sender E-Mail (From)
 mail#:#mail_system_sys_from_name#:#Sender Fullname (From)
 mail#:#mail_system_sys_reply_to_addr#:#Reply-To
 mail#:#mail_system_sys_env_from_addr#:#Technical Sender
@@ -7758,9 +7758,9 @@ wiki#:#wiki_import#:#Import Wiki
 mcst#:#mcst_import#:#Import Mediacast
 exc#:#exc_submission_notification#:#E-Mail Notification on Submissions
 exc#:#exc_submission_notification_info#:#You will be notified when submissions are uploaded. This is a personal setting which does not affect other administrators of the exercise.
-exc#:#exc_submission_notification_body#:#A new submission was uploaded for exercise "%s"
-exc#:#exc_submission_notification_link#:#Link to Exercise: %s
-exc#:#exc_submission_notification_subject#:#A new submission was uploaded for exercise "%s"
+exc#:#exc_submission_notification_body#:#A new submission for exercise "%s" has been uploaded.
+exc#:#exc_submission_notification_link#:#Link to exercise: %s
+exc#:#exc_submission_notification_subject#:#Exercise "%s" - New submission uploaded
 wiki#:#wiki_change_notification_subject#:#Wiki "%1$s" has been changed: %2$s
 wiki#:#wiki_change_notification_page_body_update#:#the following wiki page has been updated
 wiki#:#wiki_change_notification_page_link#:#URL
@@ -7895,13 +7895,13 @@ survey#:#conjunction_or#:#if one constraint is fulfilled
 survey#:#conjunction_and_title#:#Fulfill each of the following constraints
 survey#:#conjunction_or_title#:#Fulfill one of the following constraints
 survey#:#err_external_rcp_no_email#:#The import data must at least contain an ‘email’ field
-survey#:#err_external_rcp_no_email_column#:#The import data must at least contain a column ‘email’ with the title ‘email’ in the first row and the email addresses in the following rows
+survey#:#err_external_rcp_no_email_column#:#The import data must at least contain a column ‘email’ with the title ‘email’ in the first row and the e-mail addresses in the following rows
 survey#:#external_recipients_imported#:#External recipients have been imported.
 survey#:#externalmails#:#Import file
 survey#:#mail_survey_codes#:#Mail access codes or messages
-survey#:#externalmails_info#:#The import file must be a CSV file, columns separated by a semicolon. The first row contains the column titles. The file must at least contain an ‘email’ column containing the recipient email.
+survey#:#externalmails_info#:#The import file must be a CSV file, columns separated by a semicolon. The first row contains the column titles. The file must at least contain an ‘email’ column containing the recipient e-mail.
 survey#:#externaltext#:#Import text
-survey#:#externaltext_info#:#The import text must be arranged in rows and columns, columns separated by a semicolon. The first row contains the column titles. The text must at least contain an ‘email’ column containing the recipient email.
+survey#:#externaltext_info#:#The import text must be arranged in rows and columns, columns separated by a semicolon. The first row contains the column titles. The text must at least contain an ‘email’ column containing the recipient e-mail.
 survey#:#import_from_file#:#Import user data from a file
 survey#:#import_from_text#:#Import user data from a text
 survey#:#recipients#:#Recipients
@@ -7913,6 +7913,7 @@ survey#:#message_content_info#:#Enter the mail message for the notification mail
 survey#:#default_codes_mail_subject#:#Your access code for %s
 survey#:#default_codes_mail_message#:#Your survey access code is [code]. You can start the survey in your web browser using the URL [url]
 survey#:#please_enter_mail_code#:#Please enter the access code placeholder [code]
+survey#:#please_enter_mail_url#:#Please enter the access url placeholder [url]
 survey#:#mail_sent_short#:#Sent
 survey#:#finished_mail_subject#:#The survey "%s" was finished
 survey#:#msg_min_nr_answers#:#Please check at least %s answer(s).
@@ -8452,10 +8453,10 @@ adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp
 adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for strong, emphatic and important with physical attribute buttons b (bold), i (italic) and u (underline). Please note, that this may result in inconsistencies, if the style editor is used and other physical attributes are assigned to the strong/emphatic/important style classes.
 content#:#cont_tex#:#Latex Code
 tstv#:#tstv_create#:#Create Test Certificate
-tstv#:#tstv_create_info#:#Select a completed test to generate a certificate for it
+tstv#:#tstv_create_info#:#Select a completed test to generate a certificate for it.
 wsp#:#wsp_type_excv#:#Certificate: Exercise
 excv#:#excv_create#:#Create Exercise Certificate
-excv#:#excv_create_info#:#Select a completed exercise to generate a certificate for it
+excv#:#excv_create_info#:#Select a completed exercise to generate a certificate for it.
 content#:#cont_fn#:#Footnote
 common#:#enable_course_group_notifications#:#Daily Mail for Groups and Course News
 common#:#enable_course_group_notifications_desc#:#If enabled, Participants can subscribe to a daily summary of news.
@@ -8804,10 +8805,10 @@ didactic#:#didactic_import_failed#:#Importing the didactic template failed with 
 rbac#:#rbac_context_global#:#Global
 content#:#cont_select_other_qpool#:#Select other Pool
 content#:#cont_copy_question_into_page#:#Copy into Page
-blog#:#blog_exercise_info#:#This blog is part of the assignment "%s" of the exercise "%s".
+blog#:#blog_exercise_info#:#This blog is part of the assignment "%s" of exercise "%s".
 blog#:#blog_finalize_blog#:#Finalize and Submit Blog
 blog#:#blog_finalized#:#The Blog has been submitted.
-prtf#:#prtf_exercise_info#:#This portfolio is part of the assignment "%s" of the exercise "%s".
+prtf#:#prtf_exercise_info#:#This portfolio is part of the assignment "%s" of exercise "%s".
 prtf#:#prtf_finalize_portfolio#:#Finalize and Submit Portfolio
 prtf#:#prtf_finalized#:#The portfolio has been submitted.
 administration#:#obj_blga#:#Blog
@@ -8956,6 +8957,7 @@ content#:#cont_open_normal#:#Opens in a New Tab or Alternatively in a New Window
 scormdebug#:#scormdebug_global_activate#:#Enable SCORM test tool
 scormdebug#:#scormdebug_global_activate_info#:#If enabled, the SCORM test tool can be activated for desired learning modules. If disabled, the test tool is deactivated for all learning modules.
 content#:#cont_debug_deactivate#:#A Test Tool will be displayed in the presentation mode of the learning module. Based on the data provided by it the interaction of the learning module and ILIAS can be evaluated. To use the Test Tool, the navigation tree has to be switched on.
+content#:#cont_debug_deactivate12#:#A Test Tool will be displayed in the presentation mode of the learning module. Based on the data provided by it the interaction of the learning module and ILIAS can be evaluated.
 content#:#cont_debug_deactivated#:#The test tool is currently globally deactivated in the ILIAS administration (Administration » Learning Resources).
 scormdebug#:#error0#:#No error
 scormdebug#:#error101#:#General Exception
@@ -9126,8 +9128,8 @@ common#:#public_room#:#Public room
 chatroom#:#server_further_information#:#You can find further information about the server configuration in the <a href="%1$s" target="_blank">readme file</a>.
 chatroom#:#chtr_new#:#New Chat Room
 chatroom#:#chtr_add#:#Add Chat Room
-blog#:#blog_exercise_submitted_info#:#Your last submission was on %s, please check the export file: %s
-prtf#:#prtf_exercise_submitted_info#:#You submitted your portfolio on %s, Additionally you might want to save a copy for your own files: %s
+blog#:#blog_exercise_submitted_info#:#Your last submission was on %s. Please check the export file: %s
+prtf#:#prtf_exercise_submitted_info#:#You submitted your portfolio on %s. Additionally, you might want to save a copy for your own files: %s
 exc#:#exc_select_blog#:#Use Existing Blog
 exc#:#exc_select_portfolio#:#Use Existing Portfolio
 exc#:#exc_select_blog_info#:#Please select one of your blogs to use it with this assignment.
@@ -9138,6 +9140,7 @@ exc#:#exc_blog_selected#:#The blog has been assigned.
 exc#:#exc_portfolio_selected#:#The portfolio has been assigned.
 common#:#my_courses_groups#:#Courses and Groups
 content#:#cont_sc_auto_continue#:#Redirect Users
+content#:#cont_sc_auto_continue_info#:#After finishing their last activity users will be automatically redirected to the next SCO. This function is not supported by all SCORM 1.2 Learning Modules.
 user#:#user_profile_portfolio_selected#:#You are currently using a portfolio as your profile. Activation can be set there using the ‘Share’ tab.
 blog#:#blog_admin_toggle_info#:#You can deactivate the blog feature completely in the Personal Desktop Administration.
 skmg#:#skmg_edit_skll#:#Edit Competence Settings
@@ -9527,7 +9530,7 @@ rep#:#rep_multiple_reference_deletion_instruction#:#Please select the ones which
 blog#:#blog_enable_rss#:#Activate RSS
 blog#:#blog_enable_rss_info#:#The RSS feed is public and independent of blog sharing or user permissions.
 user#:#user_allow_delete_own_account#:#Allow users to delete own account
-user#:#user_delete_own_account_notification_email#:#Notification Email
+user#:#user_delete_own_account_notification_email#:#Notification E-Mail
 user#:#user_delete_own_account_info#:#Here you can delete your current user account. Keep in mind that the deletion of your account is irreversible!
 user#:#user_delete_own_account_final_confirmation#:#Please confirm for the last time to remove your user account from ILIAS!
 user#:#user_delete_own_account_email_subject#:#User account deleted
@@ -9798,7 +9801,7 @@ dcl#:#dcl_unknown_exception#:#The value you entered is not valid.
 dcl#:#dcl_checked#:#Checked.
 dcl#:#dcl_not_checked#:#Not checked.
 dcl#:#dcl_any#:#Any
-dcl#:#dcl_noturl_exception#:#You have to enter a Link (beginning with http:// or www.) or an email address.
+dcl#:#dcl_noturl_exception#:#You have to enter a Link (beginning with http:// or www.) or an e-mail address.
 dcl#:#dcl_no_search_results_found_for#:#No modules have been found for
 dcl#:#dcl_export_enabled#:#Allow export function for all users
 dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.
@@ -9829,6 +9832,7 @@ dcl#:#dcl_tableview_fieldsettings#:#Fieldspecific Settings
 dcl#:#dcl_std_filter#:#Standardfilter
 dcl#:#dcl_field_visible#:#Visible
 dcl#:#dcl_filter_changeable#:#Filter changeable
+dcl#:#dcl_msg_mc_to_sc_confirmation#:#Swichting from multiple selection to single selection might lead to a loss of data in existing entries. Are you sure to continue?
 common#:#mail_member#:#Mail to Member
 exc#:#exc_type_upload_team#:#Team Upload
 exc#:#exc_team#:#Team
@@ -9890,8 +9894,8 @@ administration#:#adm_user_starting_point_info#:#Select the page or object which 
 content#:#cont_AdvancedKnowledge#:#Advanced Knowledge
 content#:#cont_show_adv#:#Show Advanced Knowledge
 content#:#cont_hide_adv#:#Hide Advanced Knowledge
-registration#:#reg_email_domains#:#The following email address domains are valid: %s
-registration#:#reg_allowed_domains#:#Allowed Email Address Domains
+registration#:#reg_email_domains#:#The following e-mail address domains are valid: %s
+registration#:#reg_allowed_domains#:#Allowed E-Mail Address Domains
 registration#:#reg_allowed_domains_info#:#Use * as wildcard and ; as separator. Registration codes override these rules.
 pd#:#block_show_pdcal#:#Show Calendar
 pd#:#block_show_pdmail#:#Show Mail
@@ -10052,7 +10056,7 @@ dcl#:#dcl_delete_perm#:#User can delete entries
 dcl#:#dcl_limited#:#Limited Add / Edit / Delete Period
 dcl#:#dcl_limit_start#:#Start
 dcl#:#dcl_limit_end#:#End
-dcl#:#dcl_url#:#URL or Email
+dcl#:#dcl_url#:#URL or E-Mail
 dateplaner#:#cal_setting_global_vis_repos#:#Repository Calendar
 dateplaner#:#cal_setting_global_crs_vis#:#Show in Courses
 dateplaner#:#cal_setting_global_grp_vis#:#Show in Groups
@@ -10121,7 +10125,7 @@ book#:#book_download_info#:#Download Additional Description
 exc#:#exc_team_notification_subject_add#:#Added as team member to upload assignment of exercise "%s"
 exc#:#exc_team_notification_body_add#:#you have been added to a team upload assignment.
 exc#:#exc_team_notification_subject_rmv#:#Removed from a team upload assignment of exercise "%s"
-exc#:#exc_team_notification_body_rmv#:#you have been removed from  a team upload assignment.
+exc#:#exc_team_notification_body_rmv#:#you have been removed from a team upload assignment.
 exc#:#exc_team_notification_link#:#Link to exercise
 poll#:#poll_absolute#:#Current Votes
 dcl#:#dcl_reference_link#:#Show as link to referenced entry
@@ -10159,7 +10163,7 @@ rating#:#rating_number_votes#:#%s Ratings
 administration#:#system_check_no_owner#:#Ownerless Objects
 blog#:#blog_import#:#Import Blog
 poll#:#poll_import#:#Import Poll
-user#:#user_account_deleted_confirmation#:#Your account has been deleted. An email containing detailed information has been sent to you.
+user#:#user_account_deleted_confirmation#:#Your account has been deleted. An e-mail containing detailed information has been sent to you.
 content#:#cont_initial_attached_content#:#Initial Extra Content
 content#:#cont_topic#:#Topic
 content#:#cont_selected_topic#:#Selected Topic
@@ -10175,7 +10179,6 @@ content#:#cont_scorm_options#:#SCORM Options
 content#:#cont_rte_settings#:#RTE Settings
 content#:#cont_debugging#:#Debugging
 content#:#cont_auto_last_visited_info#:#Users are presented with the SCO/Asset they most recently visited when opening the learning module again.
-content#:#cont_credit_mode_info#:#This setting is only affective if the lesson mode is ‘normal’.
 content#:#cont_sc_usession_info#:#Periodical requests will be sent to ILIAS to keep the session alive. Otherwise ILIAS will categorize working on the learning module as idleness, terminate the session and loose the tracking data.
 content#:#cont_sequencing_info#:#Enable the sequencing and navigation behaviour as defined by the learning module: Navigational options will be determined from the results of interactions with the content. Please check whether or not your learning module does actually contain this kind of sequencing & navigation data, since this is rare.
 content#:#cont_time_from_lms_info#:#Frequently SCORM learning modules are returning faulted data on processing time. To avoid this issue ILIAS can determine the processing time adhering to the strict standards of SCORM.
@@ -10196,9 +10199,9 @@ mcst#:#mcst_second#:#Second
 dateplaner#:#cal_notification_crsgrp#:#Notification for Course/Group Participants
 dateplaner#:#cal_notification_users#:#Notification for Selected Users
 dateplaner#:#cal_adm_notification_user_info#:#Choose this option, to send optional mail notifications to selected users.
-dateplaner#:#cal_err_invalid_notification_rcps#:#The list of notification recipients is not valid. Please choose only ILIAS user account names or valid email addresses.
+dateplaner#:#cal_err_invalid_notification_rcps#:#The list of notification recipients is not valid. Please choose only ILIAS user account names or valid e-mail addresses.
 dateplaner#:#cal_user_notification#:#User Notification
-dateplaner#:#cal_user_notification_info#:#Selected users will be notified about this appointment by email. Please enter ILIAS user names or email addresses.
+dateplaner#:#cal_user_notification_info#:#Selected users will be notified about this appointment by e-mail. Please enter ILIAS user names or e-mail addresses.
 dateplaner#:#cal_cg_notification#:#Course/Group Notification
 dateplaner#:#cal_mail_notification_subject#:#Appointment Invitation: "%s"
 dateplaner#:#cal_mail_notification_body#:#you have been invited to an appointment.
@@ -10551,6 +10554,7 @@ common#:#file_rollback_done#:#File version %s is now the current version.
 common#:#file_version_new_version#:#New version
 common#:#file_version_create#:#Initial version
 common#:#file_version_replace#:#All versions replaced
+common#:#file_version_rollback#:#Rollback to version %s from %s
 common#:#file_rollback#:#Make this the current version
 obj#:#edit_questions#:#Edit Questions
 common#:#frm_import#:#Import Forum
@@ -10706,7 +10710,7 @@ dateplaner#:#cal_ch_booking_reminder_body#:#your appointment with "%s" starts so
 dateplaner#:#cal_ch_cron_reminder#:#Send Consultation Hour Reminder
 dateplaner#:#cal_ch_cron_reminder_info#:#If enabled, notification mails about upcoming consultation hour events will be send.
 dateplaner#:#cal_ch_cron_reminder_days#:#Number of Days
-dateplaner#:#cal_ch_delete_booking_info#:#‘Delete Booking’ will not notify users by email. If you want to notify users, please choose the action ‘Cancel Booking’.
+dateplaner#:#cal_ch_delete_booking_info#:#‘Delete Booking’ will not notify users by e-mail. If you want to notify users, please choose the action ‘Cancel Booking’.
 dateplaner#:#cal_ch_cancel_booking_info#:#‘Cancel Booking’ sends notification mails to the users. If you do not want to notify the users, choose the option ‘Delete Booking’.
 dateplaner#:#cal_ch_delete_app_booking_info#:#The following appointments have existing bookings. If you delete these appointments, the users will not be notified.
 dateplaner#:#cal_ch_user_assignment_failed_info#:#The following users could not be assigned to appointments, since the maximum number of bookings is exceeded.
@@ -10908,11 +10912,11 @@ exc#:#exc_feedback_notification_subject#:#Feedback is available for assignment o
 exc#:#exc_feedback_notification_body#:#Feedback is now available for the following assignment.
 exc#:#exc_feedback_notification_link#:#Link to exercise
 mail#:#system_notification_installation_changed_by#:#Changed By
-exc#:#exc_feedback_notification_reason#:#You are receiving this email because you are a participant of the exercise mentioned above.
-exc#:#exc_team_notification_reason#:#You are receiving this email because you are a participant of the exercise mentioned above.
-blog#:#blog_change_notification_reason#:#You are receiving this email because you activated notifications for the blog mentioned above.
+exc#:#exc_feedback_notification_reason#:#You are receiving this e-mail because you are a participant of the exercise mentioned above.
+exc#:#exc_team_notification_reason#:#You are receiving this e-mail because you are a participant of the exercise mentioned above.
+blog#:#blog_change_notification_reason#:#You are receiving this e-mail because you activated notifications for the blog mentioned above.
 survey#:#survey_notification_finished_introduction#:#The following participant has finished the survey.
-survey#:#survey_notification_finished_reason#:#You are receiving this email because you activated notifications for the survey mentioned above.
+survey#:#survey_notification_finished_reason#:#You are receiving this e-mail because you activated notifications for the survey mentioned above.
 content#:#cont_offline_mode_allow#:#Enable Offline Mode
 content#:#cont_offline_mode_allow_info#:#Users can use the learning module without connecting to the Internet in the SCORM Offline Player. They download the learning module using the &#x25bc;-menu. The learning module is presented with an add-on to the Firefox browser. The tracking data are transferred when the user clicks on ‘finish offline mode’.
 wiki#:#wiki_start_page_info#:#If there does not exist a page with this title yet, a new page will be created.
@@ -11011,7 +11015,7 @@ common#:#view_learning_progress_rec#:#View Learning Progress of Unit incl. Subun
 rbac#:#rbac_info_only_position_access#:#You are presented only with those members with a Position within your organisational unit. Members with other organisational Positions are not shown to you but may reside in this coures without being shown to you.
 obj#:#obj_orgunit_positions#:#Access Control by Organisation Unit Positions
 obj#:#obj_orgunit_positions_info#:#If enabled, additional access control rules can be defined by positions in organisational units.
-orgu#:#msg_confirm_deletion#:#Would you really like to delete tho following Position?
+orgu#:#msg_confirm_deletion#:#Would you really like to delete the following Position?
 orgu#:#remove_user#:#Remove
 orgu#:#msg_confirm_remove_user#:#Would you really like to remove the following User from the Position %s?
 orgu#:#msg_confirm_d_ua#:#Would you like to assign these person to the position Employee of their respective Organisational Units?
@@ -11019,6 +11023,7 @@ orgu#:#user_assignments#:#User Assignments
 orgu#:#authorities#:#Authorities
 orgu#:#authority#:#Authority
 orgu#:#positions#:#Positions
+orgu#:#add_position#:#Add Position
 orgu#:#scope_1#:#Same Organisational Unit
 orgu#:#scope_2#:#Subsequent Organisational Units
 orgu#:#scope_3#:#All Organisational Units
@@ -11039,7 +11044,6 @@ mst#:#mst_show_courses#:#Enrolments
 mst#:#mst_courses_of#:#Enrolments of %s
 orgu#:#msg_position_udpated#:#Position aktualisiert
 orgu#:#remove_successful#:#User was removed successfully.
-orgu#:#add_position#:#Position hinzufügen
 orgu#:#orgu_enable_my_staff#:#Enable View ‘Staff’
 orgu#:#orgu_enable_my_staff_info#:#The View ‘Staff’ shows the Learning Progress of the own Employees.
 orgu#:#org_op_manage_members#:#Manage Members
@@ -11350,8 +11354,8 @@ exc#:#exc_save_all#:#Save All
 exc#:#exc_save_selected#:#Save Selected
 mail#:#search_content#:#Search Result
 book#:#book_reservation_available#:#%s available
-form#:#form_retype_email#:#Retype Email
-form#:#email_not_match#:#Your entries for the email address don't match! Please re-enter your email address.
+form#:#form_retype_email#:#Retype E-Mail
+form#:#email_not_match#:#Your entries for the e-mail address don't match! Please re-enter your e-mail address.
 form#:#captcha_code#:#User Verification
 content#:#save_new#:#Save and New
 cptch#:#captcha_code_info#:#Please type in the letters and characters of the image.
@@ -11471,7 +11475,7 @@ exc#:#exc_create_team#:#Create Team
 exc#:#exc_create_team_times_up_warning#:#You cannot create a team anymore - please contact your tutor.
 exc#:#exc_instruction_files#:#Instruction Files
 registration#:#reg_mail_new_user_confirmation#:#Request for account confirmation
-user#:#inform_user_mail_info#:#If activated, an email will be sent to the user. Its content can be defined in Administration > User Management > Settings > New Account Mail.
+user#:#inform_user_mail_info#:#If activated, an e-mail will be sent to the user. Its content can be defined in Administration > User Management > Settings > New Account Mail.
 registration#:#reg_mail_body_timelimit#:#Your account has a limited period of validity: %s.
 mail#:#mail_nacc_if_timelimit#:#This text is only included, if the user has a limited access period.
 mail#:#mail_nacc_timelimit#:#User access period 
@@ -11562,7 +11566,7 @@ ldap#:#ldap_choose_role#:#Choose Role
 skmg#:#skmg_no_nodes_selectable#:#Currently there are no competences selectable.
 skmg#:#skmg_suggested_resources#:#Suggested Resources
 cntr#:#exc_next_deadline_single#:#Deadline
-file#:#repository_disk_quota_info#:#If activated, the disk-quota of the magazine will be checked for each user and emails will be sent to administrators and users optionally.
+file#:#repository_disk_quota_info#:#If activated, the disk-quota of the magazine will be checked for each user and e-mails will be sent to administrators and users optionally.
 trac#:#trac_object_statistics_info#:#If activated, the basic data for the usage statistics will be gathered and processed.
 ldap#:#ldap_user_sync_cron_info#:#If activated, user accounts will be imported from the LDAP directory and synchronised continuously as an option.
 survey#:#survey_reminder_cron_info#:#If activated, users will be reminded to participate in surveys.
@@ -11602,6 +11606,7 @@ content#:#cont_fourth_edition#:#SCORM 2004 4th edition
 content#:#cont_fourth_edition_info#:#SCORM 2004 4th edition offers some advantages compared to the 3rd Edition: Data can be carried over between SCOs. Few learning modules actually use this feature and it has a negative Impact on performance.
 content#:#offline_mode_manager#:#Offline use
 content#:#offline_mode_users#:#Users in offline mode
+content#:#offline_mode_users_info#:#Users can be manually taken from the Off-line Mode and after doing so these users can again use the online-version of the learning module. This makes sense if e.g. the laptop with the learning modules was stolen.
 content#:#cont_offline_mode_disable_not_allowed_info#:#Since the learning module is currently used in offline mode, the offline mode can not be disabled.
 content#:#stop_user_offline_mode#:#Stop offline mode
 content#:#stop_user_offline_mode_for_user#:#Stop offline mode for
@@ -11646,7 +11651,7 @@ poll#:#poll_notification_unsubscribe#:#Deactivate Notification
 poll#:#poll_vote_notification_subject#:#Poll "%s": new vote
 poll#:#poll_vote_notification_body#:#the following poll has received a vote.
 poll#:#poll_vote_notification_link#:#Link to Poll
-poll#:#poll_vote_notification_reason#:#You are receiving this email because you activated notifications for the poll mentioned above.
+poll#:#poll_vote_notification_reason#:#You are receiving this e-mail because you activated notifications for the poll mentioned above.
 exc#:#exc_create_portfolio_no_template#:#Do not use template
 rbac#:#orgu_view_learning_progress#:#View Learning Progress
 rbac#:#orgu_visible#:#Organisational Unit is visible
@@ -11896,6 +11901,8 @@ rbac#:#sahs_read_learning_progress#:#User can view learning progress of other us
 rbac#:#tst_read_learning_progress#:#User can view learning progress of other users
 rbac#:#exc_read_learning_progress#:#User can view learning progress of other users
 rbac#:#sess_read_learning_progress#:#User can view learning progress of other users
+rbac#:#file_read_learning_progress#:#User can view learning progress of other users
+rbac#:#mcst_read_learning_progress#:#User can view learning progress of other users
 content#:#cont_progress_icons#:#Progress Icons
 content#:#cont_progress_icons_info#:#Show progress icons instead of chapter page icons in presentation mode. Please note that progress information is stored only with ILIAS 5.0 and higher.
 content#:#cont_self_assessment#:#Self Assessment
@@ -11933,7 +11940,7 @@ user#:#send_mail_to_inactive_users_must_be_smaller_than#:#This value must be sma
 user#:#del_mail_subject#:#(ILIAS) – Your account will be deleted
 user#:#del_mail_body#:#Hello %1$s, %2$s you haven't logged in for a long period of time, on %3$s. So your account will be probably deleted on %4$s. You have to login again to prevent the deletion of your account.
 user#:#delete_inactive_user_accounts_frequency#:#Frequency
-user#:#delete_inactive_user_accounts_frequency_desc#:#Frequency, in which the deletion and email distribution will be tested.
+user#:#delete_inactive_user_accounts_frequency_desc#:#Frequency, in which the deletion and e-mail distribution will be tested.
 user#:#send_mail_reminder_window_too_small#:#Your Frequency setting is too large for this reminder value.
 exc#:#exc_msg_new_feedback_text_uploaded#:#A new comment has been added to exercise "%s".
 exc#:#exc_msg_new_feedback_text_uploaded2#:#a tutor has added a new comment for you.
@@ -12344,6 +12351,8 @@ grp#:#grp_admission_link_failure_membership_limited#:#Can't register: Group memb
 crs#:#crs_admission_link_failure_membership_limited#:#Can't register: Course membership is limited.
 grp#:#grp_admission_link_success_registration#:#Successfully registered to group "%s".
 crs#:#crs_admission_link_success_registration#:#Successfully registered to course "%s".
+crs#:#crs_admission_link_failure_offline#:#Can't register: Course is offline.
+crs#:#crs_admission_link_failure_availability#:#Can't register: Course is not online.
 rbac#:#ilias_id#:#ILIAS-ID
 scormtrac#:#exportselectedraw#:#CMI (RAW) data
 scormtrac#:#lvalue#:#Key
@@ -12416,9 +12425,9 @@ mail#:#mail_threshold#:#Threshold
 mail#:#mail_threshold_info#:#Internal messages that are older than the defined threshold value here, will be deleted (including possibly existing attachments). <br> Please keep in mind that on the first run of this cronjob  a lot of messages will be deleted and because of this it is not possible to send a mail as a warning.
 mail#:#mail_orphaned_mails_desc#:#Delete old or orphaned mails
 mail#:#only_inbox_trash#:#Only consider inbox / trash
-mail#:#only_inbox_trash_info#:#If enabled, emails are only deleted if they are located in the Inbox and Trash of the respective user. Otherwise, all messages are deleted regardless of the folder. 
+mail#:#only_inbox_trash_info#:#If enabled, e-mails are only deleted if they are located in the Inbox and Trash of the respective user. Otherwise, all messages are deleted regardless of the folder.
 mail#:#mail_notify_orphaned#:#Notification Mail
-mail#:#mail_notify_orphaned_info#:#If you enter a value here is larger than or equal to 1, ILIAS will send an email to the user before an internal mail is deleted. Please make sure that an external e-mail reception is possible.
+mail#:#mail_notify_orphaned_info#:#If you enter a value here is larger than or equal to 1, ILIAS will send an e-mail to the user before an internal mail is deleted. Please make sure that an external e-mail reception is possible.
 mail#:#orphaned_mail_subject#:#Notification about orphaned mails
 mail#:#orphaned_mail_body#:#The following old or orphaned mails are in your mailbox. Please note, that these mails will be deleted automatically soon.
 prtt#:#prtt_portfolio_created#:#Portfolio Template added
@@ -12530,10 +12539,10 @@ forum#:#frm_noti_subject_upt_post#:#Posting modified in forum "%1$s", thread "%2
 forum#:#frm_noti_subject_cens_post#:#Posting censored in forum "%1$s", thread "%2$s"
 forum#:#frm_noti_subject_uncens_post#:#Posting uncensored in forum "%1$s", thread "%2$s"
 forum#:#frm_noti_subject_del_post#:#Posting deleted in forum "%1$s", thread "%2$s"
-search#:#search_show_inactive_user#:#Show inactive users
+search#:#search_show_inactive_user#:#Show Inactive Users
 search#:#search_show_inactive_user_info#:#If enabled, the user search will show inactive users, too.
-search#:#search_show_limited_user#:#Show users with limited access
-search#:#search_show_limited_user_info#:#If enabled, the user search will also show users with limited access and outside their allowed time period.
+search#:#search_show_limited_user#:#Show Users with Limited Access
+search#:#search_show_limited_user_info#:#If enabled, the user search will also show users with limited access outside their allowed time period.
 trac#:#trac_mode_visited_pages#:#Visiting All Pages
 trac#:#trac_mode_visited_pages_info#:#The status ‘Completed’ is automatically assigned to a user once this user visited all pages of the learning module.
 exc#:#exc_peer_review_given#:#Show Given Feedback
@@ -13108,9 +13117,9 @@ prg#:#prg_show_programmes#:#Visibility
 content#:#cont_not_saved_edit_lock_expired#:#Sorry, but another user obtained the edit lock for this page in the meantime. You may close this message and copy the content to your clipboard.
 content#:#cont_error#:#An Error Occured
 prtf#:#prtf_shared_offline_info#:#A portfolio has to be online to be accessible by shared users.
-crs#:#crs_mail_context_member_info#:#For the contact emails on the info screen of a course 
-crs#:#crs_mail_context_tutor_info#:#For the participant emails on the member and learning progress screens of a course
-sahs#:#sahs_mail_context_lp_info#:#For the participant emails on the learning progress screens of a scorm module
+crs#:#crs_mail_context_member_info#:#For the contact e-mails on the info screen of a course
+crs#:#crs_mail_context_tutor_info#:#For the participant e-mails on the member and learning progress screens of a course
+sahs#:#sahs_mail_context_lp_info#:#For the participant e-mails on the learning progress screens of a scorm module
 style#:#sty_type_ha_iheada#:#Hor. Accordion Header (active)
 style#:#sty_type_ha_ihcap#:#Hor. Accordion Caption
 style#:#sty_type_va_iheada#:#Vert. Accordion Header (active)
@@ -13244,7 +13253,7 @@ badge#:#badge_obi_activate#:#Activate Mozilla Open Badges Infrastructure
 badge#:#badge_obi_activate_info#:#Users can export Badges from ILIAS. They can use their Badges to prove their qualification in other web applications. 
 badge#:#badge_obi_organisation#:#Organisation
 badge#:#badge_obi_organisation_info#:#This entry will be displayed as the Issuer of the Badge.
-badge#:#badge_obi_contact#:#Contact Email
+badge#:#badge_obi_contact#:#Contact E-Mail
 badge#:#badge_obi_contact_info#:#This E-Mail adress will not be shown but baked into the Badge. 
 badge#:#badge_obi_salt#:#Salt
 badge#:#badge_obi_salt_info#:#Enter a combination of characters and numbers to allow third parties to validate the authenticity of a Badge. Please do not change the entry afterwards. 
@@ -13278,7 +13287,7 @@ badge#:#badge_personal_badges#:#My Badges
 badge#:#badge_issued_on#:#Issued On
 badge#:#badge_add_to_backpack#:#Add to Backpack
 badge#:#badge_add_to_backpack_multi#:#Trying to add %s to Backpack
-badge#:#badge_backpack_email#:#Mozilla Backpack Account (Email)
+badge#:#badge_backpack_email#:#Mozilla Backpack Account (E-Mail)
 badge#:#badge_notification_subject#:#Badges received
 badge#:#badge_notification_body#:#you just received new badges.
 badge#:#badge_notification_osd#:#You just received new badges: [BADGE_LIST]
@@ -13352,6 +13361,7 @@ wfe#:#start_event_form_header#:#Relevant Events for the Start of Workflows
 wfe#:#wfe_sure_to_delete_process_def#:#Are you sure you want to delete the definition?
 wfe#:#wfe_request_missing_process_id#:#The process id is missing, cannot perform the desired action.
 wfe#:#wfe_started_listening#:#Process armed
+wfe#:#wfe_stopped_listening#:#Process disarmed
 glo#:#glo_link_glo_in_glo#:#Should all glossary terms of the target glossary be linked in the current glossary now?
 glo#:#glo_add_from_other#:#Collect Terms
 glo#:#glo_select_terms#:#Select Terms
@@ -13587,7 +13597,7 @@ awrn#:#awrn_use_osd_info#:#Display a popup to indicate new online users in the �
 exc#:#exc_tbl_filter_submission#:#Submission
 exc#:#exc_tbl_filter_has_submission#:#Has submitted
 exc#:#exc_tbl_filter_has_no_submission#:#Has not submitted yet
-iass#:#iass_assessment_not_completed#:#Assessment not completet
+iass#:#iass_assessment_not_completed#:#Not completed yet
 iass#:#iass_changed_by#:#Changed after finalization
 iass#:#iass_upload_file#:#Record file
 iass#:#iass_file_visible_examinee#:#File visible for participant
@@ -13646,7 +13656,7 @@ iass#:#grading_info#:#Grading info
 iass#:#grading_record#:#Grading record
 iass#:#iass_content_explanation#:#Contents of the assessment, e.g., relevant topics.
 iass#:#iass_record_template_explanation#:#Template for examinee grading record. Will be used automatically for any new examinee.
-iass#:#iass_notify_explanation#:#The examinee will be notified via email after finalisation and will get access to her or his record on the Info screen.
+iass#:#iass_notify_explanation#:#The examinee will be notified via e-mail after finalisation and will get access to her or his record on the Info screen.
 iass#:#iass_contact#:#Name
 iass#:#iass_responsibility#:#Responsibility
 iass#:#iass_phone#:#Phone
@@ -13666,7 +13676,7 @@ iass#:#iass_event_time_place_required#:#Date and place required
 iass#:#iass_event_time_place_required_info#:#Date and place of assessment have to be added to each participant record.
 iass#:#iass_file_required#:#Record file required
 iass#:#iass_file_required_info#:#A record file has to be uploaded to each participant record.
-registration#:#reg_mail_body_activation#:#to activate your account and confirm ownership of this email address, click the link below:
+registration#:#reg_mail_body_activation#:#to activate your account and confirm ownership of this e-mail address, click the link below:
 chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for authentication purposes when sending requests to the chat server. You can automatically create these strings by clicking the corresponding button. Please note that the chat server is able to communicate with multiple ILIAS clients, but each client id has to be <b>unique</b>.
 chatroom#:#chat_https_cert_info#:#Please define an absolute server path to the SSL certificate file (e.g.: /etc/ssl/certs/server.pem).
 chatroom#:#chat_https_key_info#:#Please define an absolute server path to the private key file (e.g..: /etc/ssl/private/server.key).
@@ -13791,7 +13801,7 @@ crs#:#crs_edit_lo_introduction#:#Edit Introduction
 rbac#:#grp_manage_members#:#Manage Members of Group
 rbac#:#crs_manage_members#:#Manage Members of Course
 iass#:#iass_copy#:#Copy Individual Assessment
-survey#:#cannot_send_emails#:#You do not possess sufficient permissions to send emails.
+survey#:#cannot_send_emails#:#You do not possess sufficient permissions to send e-mails.
 rbac#:#book_copy#:#User can copy booking pool
 mep#:#mobs_black_list_file_types#:#Forbidden File Types
 mep#:#mobs_black_list_file_types_info#:#Enter a comma separated list of file suffixes. This list will restrict the set of allowed file types. Usually you need this if the former list is empty (all file types are allowed).
@@ -13802,7 +13812,7 @@ ecs#:#ecs_member_auth_type#:#Course Member Auth Mode
 background_tasks#:#background_tasks#:#Background Tasks
 background_tasks#:#background_tasks_running#:#Background Tasks
 background_tasks#:#scheduled#:#Scheduled
-background_tasks#:#dismiss#:#Dismiss
+background_tasks#:#remove#:#Remove
 background_tasks#:#abort#:#Abort
 background_tasks#:#completed#:#Completed
 background_tasks#:#waiting#:#Waiting
@@ -13891,12 +13901,12 @@ dateplaner#:#cal_consultation_hours_for_user#:#Consultation Hours for %1
 dateplaner#:#cal_open_calendar#:#Open Calendar
 dateplaner#:#cal_delete_cal#:#Delete Calendar
 survey#:#sub_tab_dashboard#:#Dashboard
-mail#:#first_email_missing_info#:#Selection not possible because no email address has been entered
-mail#:#second_email_missing_info#:#Selection not possible because no second email address has been entered
-mail#:#mail_first_email#:#First Email Address
-mail#:#mail_second_email#:#Second Email Address
-mail#:#mail_both_email#:#Both Email Addresses
-common#:#second_email#:#Second Email
+mail#:#first_email_missing_info#:#Selection not possible because no e-mail address has been entered
+mail#:#second_email_missing_info#:#Selection not possible because no second e-mail address has been entered
+mail#:#mail_first_email#:#First E-Mail Address
+mail#:#mail_second_email#:#Second E-Mail Address
+mail#:#mail_both_email#:#Both E-Mail Addresses
+common#:#second_email#:#Second E-Mail
 survey#:#svy_print_show_labels#:#Show labels
 survey#:#svy_print_hide_labels#:#Hide labels
 skmg#:#skmg_assigned_profiles#:#Assigned Profiles
@@ -14082,6 +14092,7 @@ prtf#:#prtf_signature_info#:#Adds a field to the print where the author can sign
 prtf#:#prtf_signature_date#:#Date, Signature
 lti#:#lti_not_allowed#:#Access denied. Your request was redirected to the root LTI object.
 lti#:#lti_navigation#:#Navigation
+lti#:#lti_session#:#LTI Session
 lti#:#lti_exit#:#Close LTI Session
 lti#:#lti_exited#:#LTI Session closed
 lti#:#lti_exited_info#:#LTI Session successfully closed
@@ -14090,6 +14101,7 @@ blog#:#blog_nav_mode_month_list_num_month_with_post_info#:#These months will be 
 orgu#:#org_op_access_enrolments#:#View Enrolments
 orgu#:#msg_position_updated#:#Position updated.
 orgu#:#msg_position_created#:#Position created.
+orgu#:#msg_success_permission_saved#:#Permissions saved.
 pdfgen#:#cleanup#:#Cleanup
 skmg#:#skmg_order_nr_info#:#Positions competence in the list of competences.
 common#:#position_permission_settings#:#Orgunit-Specific Permissions
@@ -14144,3 +14156,4 @@ common#:#usr_name_undisclosed#:#Undisclosed
 common#:#obj_exc_duplicate#:#Copy Exercise
 meta#:#adt_error_max_length#:#Please enter a shorter text.
 form#:#form_chars_remaining#:#Characters remaining:
+crs#:#crs_subscription_min_members_err#:#The minimum number is not allowed to be greater than the maximum number of participants.

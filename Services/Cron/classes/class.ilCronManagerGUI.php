@@ -15,45 +15,72 @@ include_once "Services/Cron/classes/class.ilCronManager.php";
  */
 class ilCronManagerGUI 
 {
-	function executeCommand()
-	{
-		global $ilCtrl, $lng;
-		
-		$lng->loadLanguageModule("cron");
+	/**
+	 * @var \ilLanguage
+	 */
+	protected $lng;
 
-		$cmd = $ilCtrl->getCmd("render");		
+	/**
+	 * @var \ilCtrl
+	 */
+	protected $ctrl;
+
+	/**
+	 * @var \ilSetting
+	 */
+	protected $settings;
+	
+	/**
+	 * @var \ilTemplate
+	 */
+	protected $tpl;
+
+	/**
+	 * ilCronManagerGUI constructor.
+	 */
+	public function __construct()
+	{
+		global $DIC;
+
+		$this->lng      = $DIC->language();
+		$this->ctrl     = $DIC->ctrl();
+		$this->settings = $DIC->settings();
+		$this->tpl      = $DIC->ui()->mainTemplate();
+
+		$this->lng->loadLanguageModule('cron');
+	}
+
+	public function executeCommand()
+	{	
+		$cmd = $this->ctrl->getCmd("render");
 		$this->$cmd();
-		
+
 		return true;
 	}
-	
-	function render()
+
+	protected function render()
 	{
-		global $tpl, $ilSetting, $lng;
-		
-		if($ilSetting->get('last_cronjob_start_ts'))
+		if($this->settings->get('last_cronjob_start_ts'))
 		{
-			$tstamp = ilDatePresentation::formatDate(new ilDateTime($ilSetting->get('last_cronjob_start_ts'), IL_CAL_UNIX));
+			$tstamp = ilDatePresentation::formatDate(new ilDateTime($this->settings->get('last_cronjob_start_ts'), IL_CAL_UNIX));
 		}
 		else
 		{
-			$tstamp = $lng->txt('cronjob_last_start_unknown');
+			$tstamp = $this->lng->txt('cronjob_last_start_unknown');
 		}		
-		ilUtil::sendInfo($lng->txt('cronjob_last_start').": ".$tstamp);
+		ilUtil::sendInfo($this->lng->txt('cronjob_last_start').": ".$tstamp);
 		
 		include_once "Services/Cron/classes/class.ilCronManagerTableGUI.php";
 		$tbl = new ilCronManagerTableGUI($this, "render");
-		$tpl->setContent($tbl->getHTML());		
+		$this->tpl->setContent($tbl->getHTML());
 	}
 	
 	function edit(ilPropertyFormGUI $a_form = null)
 	{
-		global $ilCtrl, $tpl;
-		
 		$id = $_REQUEST["jid"];
 		if(!$id)
 		{
-			$ilCtrl->redirect($this, "render");
+			$this->ctrl->redirect($this, "render");
 		}
 		
 		if(!$a_form)
@@ -61,75 +88,114 @@ class ilCronManagerGUI
 			$a_form = $this->initEditForm($id);
 		}
 		
-		$tpl->setContent($a_form->getHTML());
+		$this->tpl->setContent($a_form->getHTML());
 	}
-	
-	function initEditForm($a_job_id)
+
+	/**
+	 * @param int $scheduleTypeId
+	 * @return string
+	 * @throws \InvalidArgumentException
+	 */
+	protected function getScheduleTypeFormElementName($scheduleTypeId)
 	{
-		global $ilCtrl, $lng;
-		
+		switch ($scheduleTypeId) {
+			case ilCronJob::SCHEDULE_TYPE_DAILY:
+				return $this->lng->txt('cron_schedule_daily');
+
+			case ilCronJob::SCHEDULE_TYPE_WEEKLY:
+				return $this->lng->txt('cron_schedule_weekly');
+
+			case ilCronJob::SCHEDULE_TYPE_MONTHLY:
+				return $this->lng->txt('cron_schedule_monthly');
+
+			case ilCronJob::SCHEDULE_TYPE_QUARTERLY:
+				return $this->lng->txt('cron_schedule_quarterly');
+
+			case ilCronJob::SCHEDULE_TYPE_YEARLY:
+				return $this->lng->txt('cron_schedule_yearly');
+
+			case ilCronJob::SCHEDULE_TYPE_IN_MINUTES:
+				return sprintf($this->lng->txt('cron_schedule_in_minutes'), 'x');
+
+			case ilCronJob::SCHEDULE_TYPE_IN_HOURS:
+				return sprintf($this->lng->txt('cron_schedule_in_hours'), 'x');
+
+			case ilCronJob::SCHEDULE_TYPE_IN_DAYS:
+				return sprintf($this->lng->txt('cron_schedule_in_days'), 'x');
+		}
+
+		throw new \InvalidArgumentException(sprintf('The passed argument %s is invalid!', var_export($scheduleTypeId, 1)));
+	}
+
+	/**
+	 * @param int $scheduleTypeId
+	 * @return string
+	 * @throws \InvalidArgumentException
+	 */
+	protected function getScheduleValueFormElementName($scheduleTypeId)
+	{
+		switch ($scheduleTypeId) {
+			case ilCronJob::SCHEDULE_TYPE_IN_MINUTES:
+				return 'smini';
+
+			case ilCronJob::SCHEDULE_TYPE_IN_HOURS:
+				return 'shri';
+
+			case ilCronJob::SCHEDULE_TYPE_IN_DAYS:
+				return 'sdyi';
+		}
+
+		throw new \InvalidArgumentException(sprintf('The passed argument %s is invalid!', var_export($scheduleTypeId, 1)));
+ 	}
+
+	protected function initEditForm($a_job_id)
+	{
 		$job = ilCronManager::getJobInstanceById($a_job_id);		
 		if(!$job)
 		{			
-			$ilCtrl->redirect($this, "render");
+			$this->ctrl->redirect($this, "render");
 		}
-		
-		$ilCtrl->setParameter($this, "jid", $a_job_id);
+
+		$this->ctrl->setParameter($this, "jid", $a_job_id);
 		
 		$data = array_pop(ilCronManager::getCronJobData($job->getId()));				
 		
 		include_once("Services/Cron/classes/class.ilCronJob.php");
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();	
-		$form->setFormAction($ilCtrl->getFormAction($this, "update"));
-		$form->setTitle($lng->txt("cron_action_edit").': "'.$job->getTitle().'"');		
-		
-		if($job->hasFlexibleSchedule())
-		{
-			$type = new ilRadioGroupInputGUI($lng->txt("cron_schedule_type"), "type");
+		$form->setFormAction($this->ctrl->getFormAction($this, "update"));
+		$form->setTitle($this->lng->txt("cron_action_edit").': "'.$job->getTitle().'"');		
+
+		if ($job->hasFlexibleSchedule()) {
+			$type = new ilRadioGroupInputGUI($this->lng->txt('cron_schedule_type'), 'type');
 			$type->setRequired(true);
-			$type->setValue($data["schedule_type"]);
-			$type->addOption(new ilRadioOption($lng->txt("cron_schedule_daily"), ilCronJob::SCHEDULE_TYPE_DAILY));
-			$type->addOption(new ilRadioOption($lng->txt("cron_schedule_weekly"), ilCronJob::SCHEDULE_TYPE_WEEKLY));
-			$type->addOption(new ilRadioOption($lng->txt("cron_schedule_monthly"), ilCronJob::SCHEDULE_TYPE_MONTHLY));
-			$type->addOption(new ilRadioOption($lng->txt("cron_schedule_quarterly"), ilCronJob::SCHEDULE_TYPE_QUARTERLY));
-			$type->addOption(new ilRadioOption($lng->txt("cron_schedule_yearly"), ilCronJob::SCHEDULE_TYPE_YEARLY));
+			$type->setValue($data['schedule_type']);
 
-			$min = new ilRadioOption(sprintf($lng->txt("cron_schedule_in_minutes"), "x"), 
-				ilCronJob::SCHEDULE_TYPE_IN_MINUTES);
-			$mini = new ilNumberInputGUI($lng->txt("cron_schedule_value"), "smini");
-			$mini->setRequired(true);
-			$mini->setSize(5);
-			if($data["schedule_type"] == ilCronJob::SCHEDULE_TYPE_IN_MINUTES)
-			{
-				$mini->setValue($data["schedule_value"]);
-			}
-			$min->addSubItem($mini);
-			$type->addOption($min);
+			foreach ($job->getAllScheduleTypes() as $typeId) {
+				if (!in_array($typeId, $job->getValidScheduleTypes())) {
+					continue;
+				}
 
-			$hr = new ilRadioOption(sprintf($lng->txt("cron_schedule_in_hours"), "x"), 
-				ilCronJob::SCHEDULE_TYPE_IN_HOURS);
-			$hri = new ilNumberInputGUI($lng->txt("cron_schedule_value"), "shri");
-			$hri->setRequired(true);
-			$hri->setSize(5);
-			if($data["schedule_type"] == ilCronJob::SCHEDULE_TYPE_IN_HOURS)
-			{
-				$hri->setValue($data["schedule_value"]);
-			}
-			$hr->addSubItem($hri);
-			$type->addOption($hr);
+				$option = new ilRadioOption(
+					$this->getScheduleTypeFormElementName($typeId),
+					$typeId
+				);
+				$type->addOption($option);
 
-			$dy = new ilRadioOption(sprintf($lng->txt("cron_schedule_in_days"), "x"), 
-				ilCronJob::SCHEDULE_TYPE_IN_DAYS);
-			$dyi = new ilNumberInputGUI($lng->txt("cron_schedule_value"), "sdyi");
-			$dyi->setRequired(true);
-			$dyi->setSize(5);
-			if($data["schedule_type"] == ilCronJob::SCHEDULE_TYPE_IN_DAYS)
-			{
-				$dyi->setValue($data["schedule_value"]);
+				if (in_array($typeId, $job->getScheduleTypesWithValues())) {
+					$scheduleValue = new ilNumberInputGUI(
+						$this->lng->txt('cron_schedule_value'),
+						$this->getScheduleValueFormElementName($typeId)
+					);
+					$scheduleValue->allowDecimals(false);
+					$scheduleValue->setRequired(true);
+					$scheduleValue->setSize(5);
+					if ($data['schedule_type'] == $typeId) {
+						$scheduleValue->setValue($data['schedule_value']);
+					}
+					$option->addSubItem($scheduleValue);
+				}
 			}
-			$dy->addSubItem($dyi);		
-			$type->addOption($dy);
 
 			$form->addItem($type);
 		}
@@ -139,20 +205,18 @@ class ilCronManagerGUI
 			$job->addCustomSettingsToForm($form);		
 		}
 		
-		$form->addCommandButton("update", $lng->txt("save"));
-		$form->addCommandButton("render", $lng->txt("cancel"));
+		$form->addCommandButton("update", $this->lng->txt("save"));
+		$form->addCommandButton("render", $this->lng->txt("cancel"));
 		
 		return $form;		
 	}
 	
 	function update()
 	{
-		global $ilCtrl, $lng;
-		
 		$id = $_REQUEST["jid"];
 		if(!$id)
 		{
-			$ilCtrl->redirect($this, "render");
+			$this->ctrl->redirect($this, "render");
 		}
 		
 		$form = $this->initEditForm($id);
@@ -171,30 +235,23 @@ class ilCronManagerGUI
 				if($valid && $job->hasFlexibleSchedule())
 				{
 					$type = $form->getInput("type");
-					switch($type)
+					switch(true)
 					{
-						case ilCronJob::SCHEDULE_TYPE_IN_MINUTES:
-							$value = $form->getInput("smini");
-							break;
-
-						case ilCronJob::SCHEDULE_TYPE_IN_HOURS:
-							$value = $form->getInput("shri");
-							break;
-
-						case ilCronJob::SCHEDULE_TYPE_IN_DAYS:
-							$value = $form->getInput("sdyi");
+						case $this->hasScheduleValue($type):
+							$value = $form->getInput($this->getScheduleValueFormElementName($type));
 							break;
 
 						default:
-							$value = null;					
+							$value = null;
+							break;
 					}
 
 					ilCronManager::updateJobSchedule($job, $type, $value);
 				}
 				if($valid)
 				{
-					ilUtil::sendSuccess($lng->txt("cron_action_edit_success"), true);
-					$ilCtrl->redirect($this, "render");
+					ilUtil::sendSuccess($this->lng->txt("cron_action_edit_success"), true);
+					$this->ctrl->redirect($this, "render");
 				}
 			}
 		}
@@ -210,22 +267,20 @@ class ilCronManagerGUI
 	
 	function confirmedRun()
 	{
-		global $ilCtrl, $lng;
-		
 		$job_id = $_GET["jid"];
 		if($job_id)
 		{
 			if(ilCronManager::runJobManual($job_id))
 			{
-				ilUtil::sendSuccess($lng->txt("cron_action_run_success"), true);				
+				ilUtil::sendSuccess($this->lng->txt("cron_action_run_success"), true);				
 			}
 			else
 			{
-				ilUtil::sendFailure($lng->txt("cron_action_run_fail"), true);	
+				ilUtil::sendFailure($this->lng->txt("cron_action_run_fail"), true);	
 			}
-		}		
-		
-		$ilCtrl->redirect($this, "render");
+		}
+
+		$this->ctrl->redirect($this, "render");
 	}	
 	
 	function activate()
@@ -235,8 +290,6 @@ class ilCronManagerGUI
 	
 	function confirmedActivate()
 	{
-		global $ilCtrl, $lng;
-		
 		$jobs = $this->getMultiActionData();
 		if($jobs)
 		{
@@ -249,10 +302,10 @@ class ilCronManagerGUI
 				}
 			}
 			
-			ilUtil::sendSuccess($lng->txt("cron_action_activate_success"), true);	
-		}		
-			
-		$ilCtrl->redirect($this, "render");
+			ilUtil::sendSuccess($this->lng->txt("cron_action_activate_success"), true);	
+		}
+
+		$this->ctrl->redirect($this, "render");
 	}
 	
 	function deactivate()
@@ -262,8 +315,6 @@ class ilCronManagerGUI
 	
 	function confirmedDeactivate()
 	{
-		global $ilCtrl, $lng;
-		
 		$jobs = $this->getMultiActionData();
 		if($jobs)
 		{
@@ -275,10 +326,10 @@ class ilCronManagerGUI
 				}
 			}
 			
-			ilUtil::sendSuccess($lng->txt("cron_action_deactivate_success"), true);	
-		}	
-		
-		$ilCtrl->redirect($this, "render");
+			ilUtil::sendSuccess($this->lng->txt("cron_action_deactivate_success"), true);	
+		}
+
+		$this->ctrl->redirect($this, "render");
 	}
 	
 	function reset()
@@ -288,8 +339,6 @@ class ilCronManagerGUI
 	
 	function confirmedReset()
 	{
-		global $ilCtrl, $lng;
-
 		$jobs = $this->getMultiActionData();
 		if($jobs)
 		{
@@ -300,10 +349,10 @@ class ilCronManagerGUI
 					ilCronManager::resetJob($job);
 				}
 			}
-			ilUtil::sendSuccess($lng->txt("cron_action_reset_success"), true);
+			ilUtil::sendSuccess($this->lng->txt("cron_action_reset_success"), true);
 		}
 
-		$ilCtrl->redirect($this, "render");
+		$this->ctrl->redirect($this, "render");
 	}
 	
 	protected function getMultiActionData()
@@ -336,12 +385,10 @@ class ilCronManagerGUI
 	
 	protected function confirm($a_action)
 	{
-		global $ilCtrl, $tpl, $lng;
-		
 		$jobs = $this->getMultiActionData();
 		if(!$jobs)
 		{
-			$ilCtrl->redirect($this, "render");
+			$this->ctrl->redirect($this, "render");
 		}
 
 		if('run' == $a_action)
@@ -356,8 +403,8 @@ class ilCronManagerGUI
 
 			if(0 == count($jobs))
 			{
-				ilUtil::sendFailure($lng->txt('cron_no_executable_job_selected'), true);
-				$ilCtrl->redirect($this, 'render');
+				ilUtil::sendFailure($this->lng->txt('cron_no_executable_job_selected'), true);
+				$this->ctrl->redirect($this, 'render');
 			}
 		}
 
@@ -374,14 +421,14 @@ class ilCronManagerGUI
 				$title = preg_replace("[^A-Za-z0-9_\-]", "", $job->getId());
 			}
 
-			$cgui->setHeaderText(sprintf($lng->txt("cron_action_".$a_action."_sure"), 
+			$cgui->setHeaderText(sprintf($this->lng->txt("cron_action_".$a_action."_sure"), 
 				$title));
 
-			$ilCtrl->setParameter($this, "jid", $job_id);
+			$this->ctrl->setParameter($this, "jid", $job_id);
 		}
 		else
 		{
-			$cgui->setHeaderText($lng->txt("cron_action_".$a_action."_sure_multi"));
+			$cgui->setHeaderText($this->lng->txt("cron_action_".$a_action."_sure_multi"));
 			
 			foreach($jobs as $job_id => $job)
 			{
@@ -389,11 +436,11 @@ class ilCronManagerGUI
 			}			
 		}
 		
-		$cgui->setFormAction($ilCtrl->getFormAction($this, "confirmed".ucfirst($a_action)));
-		$cgui->setCancel($lng->txt("cancel"), "render");
-		$cgui->setConfirm($lng->txt("cron_action_".$a_action), "confirmed".ucfirst($a_action));
+		$cgui->setFormAction($this->ctrl->getFormAction($this, "confirmed".ucfirst($a_action)));
+		$cgui->setCancel($this->lng->txt("cancel"), "render");
+		$cgui->setConfirm($this->lng->txt("cron_action_".$a_action), "confirmed".ucfirst($a_action));
 
-		$tpl->setContent($cgui->getHTML());		
+		$this->tpl->setContent($cgui->getHTML());		
 	}
 	
 	public function addToExternalSettingsForm($a_form_id)
@@ -418,5 +465,3 @@ class ilCronManagerGUI
 		}
 	}
 }
-
-?>

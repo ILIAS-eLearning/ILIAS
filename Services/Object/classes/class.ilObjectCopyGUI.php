@@ -1175,12 +1175,8 @@ class ilObjectCopyGUI
 		{
 			ilLoggerFactory::getLogger('obj')->info('Object copy completed.');
 			ilUtil::sendSuccess($this->lng->txt("object_duplicated"),true);
-			$ilCtrl->setParameterByClass(
-					"ilrepositorygui", 
-					"ref_id",
-					$result['ref_id']
-			);
-			$ilCtrl->redirectByClass("ilrepositorygui", "");
+			$link = ilLink::_getLink($result['ref_id']);
+			$GLOBALS['DIC']->ctrl()->redirectToUrl($link);
 		}
 		else
 		{

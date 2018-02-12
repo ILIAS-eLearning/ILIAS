@@ -372,12 +372,11 @@ class ilContainerSorting
 	 */
 	public function savePost($a_type_positions)
 	{
-		$ilLog = $this->log;
-
 	 	if(!is_array($a_type_positions))
 	 	{
 	 		return false;
 	 	}
+		$items = [];
 	 	foreach($a_type_positions as $key => $position)
 	 	{
 			if($key == "blocks")
@@ -390,14 +389,26 @@ class ilContainerSorting
 	 		}
 			else
 			{
-				$ilLog->write(__METHOD__.': Deprecated call');
 				foreach($position as $parent_id => $sub_items)
 				{
 					$this->saveSubItems($key,$parent_id,$sub_items ? $sub_items : array());
 				}
 			}
 	 	}
-	 	$this->saveItems($items ? $items : array());
+		
+		if(!count($items)) {
+			return $this->saveItems(array());
+		}
+		
+		asort($items);
+		$new_indexed = [];
+		$position = 0;
+		foreach($items as $key => $null)
+		{
+			$new_indexed[$key] = ++$position;
+		}
+		
+		$this->saveItems($new_indexed);
 	}
 	
 	
@@ -586,7 +597,7 @@ class ilContainerSorting
 
 		}
 		$count = $this->getSortingSettings()->getSortNewItemsPosition()
-			== ilContainer::SORT_NEW_ITEMS_POSITION_TOP ? 0 : 900000;
+			== ilContainer::SORT_NEW_ITEMS_POSITION_TOP ? -900000 : 900000;
 
 		foreach($no_position as $values)
 		{

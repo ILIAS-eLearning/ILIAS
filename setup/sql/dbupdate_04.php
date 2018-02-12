@@ -20469,18 +20469,19 @@ try{
 	ilOrgUnitOperationContextQueries::registerNewContext(ilOrgUnitOperationContext::CONTEXT_EXC, ilOrgUnitOperationContext::CONTEXT_OBJECT);
 	ilOrgUnitOperationContextQueries::registerNewContext(ilOrgUnitOperationContext::CONTEXT_SVY, ilOrgUnitOperationContext::CONTEXT_OBJECT);
 
-	ilOrgUnitOperationQueries::registerNewOperationForMultipleContexts(ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS, 'Read the learning Progress of a User', array(
-		ilOrgUnitOperationContext::CONTEXT_CRS,
-		ilOrgUnitOperationContext::CONTEXT_GRP,
-		ilOrgUnitOperationContext::CONTEXT_IASS,
-		ilOrgUnitOperationContext::CONTEXT_EXC,
-		ilOrgUnitOperationContext::CONTEXT_SVY,
-	));
-
-	ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_MANAGE_MEMBERS, 'Edit Members in a course', ilOrgUnitOperationContext::CONTEXT_CRS);
-	ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_MANAGE_MEMBERS, 'Edit Members in a group', ilOrgUnitOperationContext::CONTEXT_GRP);
-	ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_EDIT_SUBMISSION_GRADES, '', ilOrgUnitOperationContext::CONTEXT_EXC);
-	ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_ACCESS_RESULTS, '', ilOrgUnitOperationContext::CONTEXT_SVY);
+// These actions will be registred in step 5186
+// ilOrgUnitOperationQueries::registerNewOperationForMultipleContexts(ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS, 'Read the learning Progress of a User', array(
+// 		ilOrgUnitOperationContext::CONTEXT_CRS,
+// 		ilOrgUnitOperationContext::CONTEXT_GRP,
+// 		ilOrgUnitOperationContext::CONTEXT_IASS,
+// 		ilOrgUnitOperationContext::CONTEXT_EXC,
+// 		ilOrgUnitOperationContext::CONTEXT_SVY,
+// 	));
+//
+// 	ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_MANAGE_MEMBERS, 'Edit Members in a course', ilOrgUnitOperationContext::CONTEXT_CRS);
+// 	ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_MANAGE_MEMBERS, 'Edit Members in a group', ilOrgUnitOperationContext::CONTEXT_GRP);
+// 	ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_EDIT_SUBMISSION_GRADES, '', ilOrgUnitOperationContext::CONTEXT_EXC);
+// 	ilOrgUnitOperationQueries::registerNewOperation(ilOrgUnitOperation::OP_ACCESS_RESULTS, '', ilOrgUnitOperationContext::CONTEXT_SVY);
 }catch(ilException $e){
 }
 
@@ -21775,4 +21776,129 @@ while ($res = $ilDB->fetchAssoc($set)) {
 	}
 }
 ?>
+<#5252>
+<?php
+$ilDB->query("
+UPDATE il_dcl_stloc1_value 
+SET value = NULL 
+WHERE value = '[]' 
+	AND record_field_id IN (
+		SELECT rf.id 
+		FROM il_dcl_record_field rf 
+		INNER JOIN il_dcl_field f ON f.id = rf.field_id 
+		WHERE f.datatype_id = 14
+	)
+");
+?>
+<#5253>
+<?php
 
+$query = "
+	SELECT	qpl.question_id qid,
+			qpl.points qpl_points,
+			answ.points answ_points
+	
+	FROM qpl_questions qpl
+	
+	INNER JOIN qpl_qst_essay qst
+	ON qst.question_fi = qpl.question_id
+	
+	INNER JOIN qpl_a_essay answ
+	ON answ.question_fi = qst.question_fi
+	
+	WHERE qpl.question_id IN(
+	
+		SELECT keywords.question_fi
+	
+		FROM qpl_a_essay keywords
+	
+		INNER JOIN qpl_qst_essay question
+		ON question.question_fi = keywords.question_fi
+		AND question.keyword_relation = {$ilDB->quote('', 'text')}
+	
+		WHERE keywords.answertext = {$ilDB->quote('', 'text')}
+		GROUP BY keywords.question_fi
+		HAVING COUNT(keywords.question_fi) = {$ilDB->quote(1, 'integer')}
+		
+	)
+";
+
+$res = $ilDB->query($query);
+
+while( $row = $ilDB->fetchAssoc($res) )
+{
+	if( $row['answ_points'] > $row['qpl_points'] )
+	{
+		$ilDB->update('qpl_questions',
+			array('points' => array('float', $row['answ_points'])),
+			array('question_id' => array('integer', $row['qid']))
+		);
+	}
+	
+	$ilDB->manipulateF(
+		"DELETE FROM qpl_a_essay WHERE question_fi = %s",
+		array('integer'), array($row['qid'])
+	);
+	
+	$ilDB->update('qpl_qst_essay',
+		array('keyword_relation' => array('text', 'non')),
+		array('question_fi' => array('integer', $row['qid']))
+	);
+}
+
+?>
+<#5254>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5255>
+<?php
+if (!$ilDB->tableColumnExists(ilOrgUnitPermission::TABLE_NAME, 'protected')) {
+	$ilDB->addTableColumn(ilOrgUnitPermission::TABLE_NAME, 'protected', [
+		"type"    => "integer",
+		"length"  => 1,
+		"default" => 0,
+	]);
+}
+$ilDB->manipulate("UPDATE il_orgu_permissions SET protected = 1 WHERE parent_id = -1");
+?>
+<#5256>
+<?php
+if( $ilDB->indexExistsByFields('cmi_objective', array('id')) )
+{
+	$ilDB->dropIndexByFields('cmi_objective',array('id'));
+}
+?>
+<#5257>
+<?php
+if (!$ilDB->indexExistsByFields('page_style_usage', array('page_id', 'page_type', 'page_lang', 'page_nr')) )
+{
+	$ilDB->addIndex('page_style_usage',array('page_id', 'page_type', 'page_lang', 'page_nr'),'i1');
+}
+?>
+<#5258>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$rp_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId("read_learning_progress");
+$ep_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_learning_progress');
+$w_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+if($rp_ops_id && $ep_ops_id && $w_ops_id)
+{			
+	// see ilObjectLP
+	$lp_types = array('mcst');
+
+	foreach($lp_types as $lp_type)
+	{
+		$lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId($lp_type);
+		if($lp_type_id)
+		{			
+			ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $rp_ops_id);				
+			ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $ep_ops_id);				
+			ilDBUpdateNewObjectType::cloneOperation($lp_type, $w_ops_id, $rp_ops_id);
+			ilDBUpdateNewObjectType::cloneOperation($lp_type, $w_ops_id, $ep_ops_id);
+		}
+	}
+}
+?>

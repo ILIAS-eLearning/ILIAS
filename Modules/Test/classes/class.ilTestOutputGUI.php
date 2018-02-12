@@ -526,19 +526,38 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
+	
+	protected function handleQuestionPostponing($sequenceElement)
+	{
+		$questionId = $this->testSequence->getQuestionForSequence($sequenceElement);
+	
+		$isQuestionWorkedThrough = assQuestion::_isWorkedThrough(
+			$this->testSession->getActiveId(), $questionId, $this->testSession->getPass()
+		);
+		
+		if( !$isQuestionWorkedThrough )
+		{
+			$this->testSequence->postponeQuestion($questionId);
+			$this->testSequence->saveToDb();
+		}
+	}
 
 	protected function nextQuestionCmd()
 	{
-		$sequenceElement = $this->testSequence->getNextSequence(
-			$this->getCurrentSequenceElement()
-		);
-
-		if(!$this->isValidSequenceElement($sequenceElement))
+		$lastSequenceElement = $this->getCurrentSequenceElement();
+		$nextSequenceElement = $this->testSequence->getNextSequence($lastSequenceElement);
+		
+		if( $this->object->isPostponingEnabled() )
 		{
-			$sequenceElement = $this->testSequence->getFirstSequence();
+			$this->handleQuestionPostponing($lastSequenceElement);
+		}
+		
+		if(!$this->isValidSequenceElement($nextSequenceElement))
+		{
+			$nextSequenceElement = $this->testSequence->getFirstSequence();
 		}
 
-		$this->ctrl->setParameter($this, 'sequence', $sequenceElement);
+		$this->ctrl->setParameter($this, 'sequence', $nextSequenceElement);
 		$this->ctrl->setParameter($this, 'pmode', '');
 
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);

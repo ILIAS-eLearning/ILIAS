@@ -101,15 +101,10 @@ class BasicPersistence implements Persistence {
 	/**
 	 * @inheritdoc
 	 */
-	public function getBucketIdsOfUser($user_id, $order_by = 'id', $order_direction = 'ASC') {
-		$buckets = BucketContainer::where([ 'user_id' => $user_id ])
-			->orderBy($order_by, $order_direction)
-			->get();
-		$ids = array_map(function (BucketContainer $bucket_container) {
-			return $bucket_container->getId();
-		}, $buckets);
-
-		return $ids;
+	public function getBucketIdsOfUser($user_id, $order_by = "id", $order_direction = "ASC") {
+		return BucketContainer::where(['user_id' => $user_id])
+		                      ->orderBy($order_by, $order_direction)
+		                      ->getArray(null, 'id');
 	}
 
 

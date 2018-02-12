@@ -50,20 +50,29 @@ class Renderer extends AbstractComponentRenderer {
 		$action = $component->getAction();
 		// The action is always put in the data-action attribute to have it available
 		// on the client side, even if it is not available on rendering.
-		$tpl->setVariable("ACTION", $action);
+		if (is_string($action)) {
+			$tpl->setCurrentBlock("with_data_action");
+			$tpl->setVariable("ACTION", $action);
+			$tpl->parseCurrentBlock();
+		}
 
 		$label = $component->getLabel();
 		if ($label !== null) {
 			$tpl->setVariable("LABEL", $component->getLabel());
 		}
 		if ($component->isActive()) {
-			$component = $component->withAdditionalOnLoadCode(function ($id) use ($action) {
-				$action = str_replace("&amp;", "&", $action);
+			// The actions might also be a list of signals, these will be appended by
+			// bindJavascript in maybeRenderId.
+			if (is_string($action)) {
+				$component = $component->withAdditionalOnLoadCode(function ($id) use ($action) {
+					$action = str_replace("&amp;", "&", $action);
 
-				return "$('#$id').on('click', function(event) {
-						window.location = '{$action}';
-				});";
-			});
+					return "$('#$id').on('click', function(event) {
+							window.location = '{$action}';
+							return false; // stop event propagation
+					});";
+				});
+			}
 		} else {
 			$tpl->touchBlock("disabled");
 		}
@@ -120,13 +129,13 @@ class Renderer extends AbstractComponentRenderer {
 
 		for ($i = 1; $i<=12; $i++)
 		{
-			$this->toJS(array("month_".str_pad($i, 2, "0", STR_PAD_LEFT)."_long"));
+			$this->toJS(array("month_".str_pad($i, 2, "0", STR_PAD_LEFT)."_short"));
 		}
 
 		$tpl = $this->getTemplate("tpl.month.html", true, true);
 
 		$month = explode("-", $def);
-		$tpl->setVariable("DEFAULT_LABEL", $this->txt("month_".str_pad($month[0], 2, "0", STR_PAD_LEFT)."_long")." ".$month[1]);
+		$tpl->setVariable("DEFAULT_LABEL", $this->txt("month_".str_pad($month[0], 2, "0", STR_PAD_LEFT)."_short")." ".$month[1]);
 		$tpl->setVariable("DEF_DATE", $month[0]."/1/".$month[1]);
 		// see https://github.com/moment/moment/tree/develop/locale
 		$lang_key = in_array($this->getLangKey(), array("ar", "bg", "cs", "da", "de", "el", "en", "es", "et", "fa", "fr", "hu", "it",

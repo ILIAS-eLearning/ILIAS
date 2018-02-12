@@ -361,6 +361,12 @@ class ilTestSkillEvaluation
 			$skillLevelId, $this->getUserId(), $this->refId,
 			$skillTrefId, ilBasicSkill::ACHIEVED, true, 0, $this->getPass()
 		);
+		
+		/* @var ILIAS\DI\Container $DIC */ global $DIC;
+		
+		$DIC->logger()->root()->info(
+			"refId={$this->refId} / usrId={$this->getUserId()} / levelId={$skillLevelId} / trefId={$skillTrefId}"
+		);
 
 		//mail('bheyser@databay.de', "trigger skill level $skillLevelId for user {$this->getUserId()}", '');
 	}
