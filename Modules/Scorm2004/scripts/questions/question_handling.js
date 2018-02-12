@@ -618,7 +618,7 @@ ilias.questions.initLongMenu = function(a_id) {
 		{
 			if(questions[a_id].correct_answers[key][2] == 1)
 			{
-				replaced_text += '<input class="long_menu_input" name="answer[' + key + ']" value=""/>';
+				replaced_text += '<input class="ilc_qinput_TextInput long_menu_input" name="answer[' + key + ']" value=""/>';
 			}
 			else
 			{
