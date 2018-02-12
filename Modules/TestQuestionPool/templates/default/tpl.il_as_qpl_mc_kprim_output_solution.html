@@ -1,56 +1,58 @@
-{QUESTIONTEXT}
+<div class="ilc_question_KprimChoice">
+<div class="ilc_qtitle_Title">{QUESTIONTEXT}</div>
 <p class="ilAssKprimInstruction ilClearFloat">{INSTRUCTIONTEXT}</p>
-<table class="nobackground ilAssKprimChoiceTable">
-	<tr>
-		<th class="optionLabel">{OPTION_LABEL_TRUE}</th>
-		<th class="optionLabel">{OPTION_LABEL_FALSE}</th>
-		<th></th>
-	</tr>
+<div class="container-fluid ilc_answers answers ilAssKprimChoiceTable ilClearFloat">
+	<div class="row ilc_qanswer_Answer">
+		<div class="col-sm-1 optionLabel">{OPTION_LABEL_TRUE}</div>
+		<div class="col-sm-1 optionLabel">{OPTION_LABEL_FALSE}</div>
+	</div>
 	<!-- BEGIN answer_row -->
-	<tr>
-		<td class="kprimInput">
+	<div class="row ilc_qanswer_Answer">
+		<div class="col-sm-1 kprimInput">
 			<!-- BEGIN solution_true_image -->
 			<img src="{SOLUTION_IMAGE_TRUE}" alt="{SOLUTION_ALT_TRUE}" title="{SOLUTION_ALT_TRUE}" />
 			<!-- END solution_true_image -->
 			<!-- BEGIN solution_true_field -->
 			<input type="radio" name="kprim_result_q{SOL_QID}_{SOL_SUFFIX}_{SOL_POSITION}" value="{SOL_TRUE_VALUE}" readonly disabled {SOL_TRUE_CHECKED} />
 			<!-- END solution_true_field -->
-		</td>
-		<td class="kprimInput">
+		</div>
+		<div class="col-sm-1 kprimInput">
 			<!-- BEGIN solution_false_image -->
 			<img src="{SOLUTION_IMAGE_FALSE}" alt="{SOLUTION_ALT_FALSE}" title="{SOLUTION_ALT_FALSE}" />
 			<!-- END solution_false_image -->
 			<!-- BEGIN solution_false_field -->
 			<input type="radio" name="kprim_result_q{SOL_QID}_{SOL_SUFFIX}_{SOL_POSITION}" value="{SOL_FALSE_VALUE}" readonly disabled {SOL_FALSE_CHECKED} />
 			<!-- END solution_false_field -->
-		</td>
-		<td>
+		</div>
+		<div class="col-sm-4">
 			<!-- BEGIN answer_image -->
-			<img src="{ANSWER_IMAGE_URL}" alt="{ANSWER_IMAGE_ALT}" title="{ANSWER_IMAGE_TITLE}" {ATTR} />
+			<div class="ilc_media_cont_MediaContainer">
+				<div class="ilc_qimg_QuestionImage ilc_Mob">
+					<img src="{ANSWER_IMAGE_URL}" alt="{ANSWER_IMAGE_ALT}" title="{ANSWER_IMAGE_TITLE}" {ATTR} />
+				</div>
+			</div>
 			<!-- END answer_image -->
 			{ANSWER_TEXT}
-		</td>
-		<td>
+		</div>
+		<div class="col-sm-1">
 			<!-- BEGIN icon_ok -->
 			<img src="{ICON_OK}" alt="{TEXT_OK}" title="{TEXT_OK}" />
 			<!-- END icon_ok -->
 			<!-- BEGIN icon_not_ok -->
 			<img src="{ICON_NOT_OK}" alt="{TEXT_NOT_OK}" title="{TEXT_NOT_OK}" />
 			<!-- END icon_not_ok -->
-		</td>
-		<td class="middle">
+		</div>
+		<div class="col-sm-2">
 			<!-- BEGIN result_output -->
 			<em>{RESULT_OUTPUT}</em>
 			<!-- END result_output -->
-		</td>
-	</tr>
+		</div>
+	</div>
 	<!-- BEGIN feedback -->
-	<tr>
-		<td colspan="2"></td>
-		<td colspan="3">
-			<span class="feedback">{FEEDBACK}</span>
-		</td>
-	</tr>
+	<div>
+		<span class="feedback">{FEEDBACK}</span>
+	</div>
 	<!-- END feedback -->
 	<!-- END answer_row -->
-</table>
+</div>
+</div>

@@ -1,16 +1,19 @@
-{QUESTIONTEXT}
+<div class="ilc_question_OrderingQuestion">
+<div class="ilc_qtitle_Title">{QUESTIONTEXT}</div>
 <div class="ilClearFloat">
-	<ul id="horizontal_{QUESTION_ID}" class="horizontal" {STYLE}><!-- BEGIN element -->
-	<li id="{ELEMENT_ID}">
+	<ul id="horizontal_{QUESTION_ID}" class="ilc_qordul_OrderListHorizontal" {STYLE}><!-- BEGIN element -->
+	<li id="{ELEMENT_ID}" class="answers ilc_qordli_OrderListItemHorizontal">
+		<div class="ilc_qanswer_Answer">
 		<span class="tex2jax_ignore ilOrderingValue ilNoDisplay">{ORDERING_VALUE}</span>
 		<span>{ELEMENT_VALUE}</span>
+		</div>
 	</li>
 	<!-- END element -->
 	</ul>
 	<input type="hidden" id="orderresult_{QUESTION_ID}" name="orderresult"{VALUE_ORDERRESULT} />
 </div>
 <div class="ilClearFloat"></div>
-
+</div>
 <script type="text/javascript">
 	$().ready(function() {
 		if (typeof $.fn.ilHorizontalOrderingQuestion != 'undefined') {
