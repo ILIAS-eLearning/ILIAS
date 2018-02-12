@@ -30,6 +30,8 @@ ul.boxy li {
     width:550px;
     margin: 5px;
     padding: 0.5em;
+	margin-left: 5px !important;
+	margin-right: 5px !important;
 }
 
 .ilMatchingQuestionDefinition
@@ -58,6 +60,8 @@ ul.boxy li {
     margin: 5px;
     padding: 0.5em;
     cursor:pointer;
+	margin-left: 5px !important;
+	margin-right: 5px !important;
 }
 
 .droppedDraggable

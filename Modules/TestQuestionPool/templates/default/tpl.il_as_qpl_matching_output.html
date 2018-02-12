@@ -1,6 +1,7 @@
-<div>{QUESTIONTEXT}</div>
+<div class="ilc_question_MatchingQuestion">
+<div class="ilc_qtitle_Title">{QUESTIONTEXT}</div>
 
-<div class="ilClearFloat" id="ilMatchingQuestionContainer_{QUESTION_ID}" data-type="ilMatchingQuestion" data-id="{QUESTION_ID}">
+<div class="ilc_answers answers ilClearFloat" id="ilMatchingQuestionContainer_{QUESTION_ID}" data-type="ilMatchingQuestion" data-id="{QUESTION_ID}">
 
 	<div class="noprint" style="text-align: right; margin: 0 0 1em 0;">
 		<input id="ilMatchingResetButton_{QUESTION_ID}" type="button" class="btn btn-default" name="reset" value="{RESET_BUTTON}">
@@ -15,16 +16,22 @@
 					<tr>
 						<td class="ilMatchingQuestionDefinition">
 							<!-- BEGIN definition_text -->
-							{DEFINITION}
+							<div class="ilc_qanswer_Answer">{DEFINITION}</div>
 							<!-- END definition_text -->
 							<!-- BEGIN definition_picture -->
 							<table class="ilc_media_cont_MediaContainer">
 								<tr>
-									<td class="ilc_Mob"><img border="0" src="{THUMBNAIL_HREF}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" /></td>
+									<td class="ilc_Mob">
+										<div class="ilc_qanswer_Answer">
+											<img class="ilc_qimg_QuestionImage" border="0" src="{THUMBNAIL_HREF}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" />
+										</div>
+									</td>
 								</tr>
 								<tr>
 									<td>
-										<div class="ilc_media_caption_MediaCaption"><a target="_blank" href="{IMAGE_HREF}" title="{TEXT_PREVIEW}">{TEXT_DEFINITION} <img border="0" align="right" src="{IMG_PREVIEW}"/></a></div>
+										<div class="ilc_media_caption_MediaCaption">
+											<a class="ilc_qimgd_ImageDetailsLink" target="_blank" href="{IMAGE_HREF}" title="{TEXT_PREVIEW}">{TEXT_DEFINITION} <img border="0" align="right" src="{IMG_PREVIEW}"/></a>
+										</div>
 									</td>
 								</tr>
 							</table>
@@ -41,16 +48,22 @@
 				<!-- BEGIN draggable -->
 				<div class="draggable" id="term_{ID_DRAGGABLE}" data-id="{ID_DRAGGABLE}" data-type="term">
 				<!-- BEGIN term_text -->
-				{TERM_TEXT}
+				<div class="ilc_qanswer_Answer">{TERM_TEXT}</div>
 				<!-- END term_text -->
 				<!-- BEGIN term_picture -->
 				<table class="ilc_media_cont_MediaContainer">
 					<tr>
-						<td class="ilc_Mob"><img border="0" src="{THUMBNAIL_HREF}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" /></td>
+						<td class="ilc_Mob">
+							<div class="ilc_qanswer_Answer">
+								<img class="ilc_qimg_QuestionImage" border="0" src="{THUMBNAIL_HREF}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" />
+							</div>
+						</td>
 					</tr>
 					<tr>
 						<td>
-							<div class="ilc_media_caption_MediaCaption"><a target="_blank" href="{IMAGE_HREF}" title="{TEXT_PREVIEW}">{TEXT_TERM} <img border="0" align="right" src="{IMG_PREVIEW}"/></a></div>
+							<div class="ilc_media_caption_MediaCaption">
+								<a class="ilc_qimgd_ImageDetailsLink" target="_blank" href="{IMAGE_HREF}" title="{TEXT_PREVIEW}">{TEXT_TERM} <img border="0" align="right" src="{IMG_PREVIEW}"/></a>
+							</div>
 						</td>
 					</tr>
 				</table>
@@ -62,7 +75,7 @@
 	</table>
 
 </div>
-	
+</div>
 <script type="text/javascript">
 	(function($){
 
