@@ -1,33 +1,40 @@
-{QUESTIONTEXT}
+<div class="ilc_question_OrderingQuestion">
+<div class="ilc_qtitle_Title">{QUESTIONTEXT}</div>
 <!-- BEGIN ordering_with_javascript -->
 <div class="ilVerticalOrderingQuestion ilClearFloat">
 	<div class="ilFloatRight">
 		<a class="btn btn-default reset" href="#">{RESET_POSITIONS}</a>
 	</div>
 	<div class="ilClearFloat"></div>
-
-	<ul id="vertical_{QUESTION_ID}" class="boxy">
+<div>
+	<ul class="ilc_qordul_OrderList" id="vertical_{QUESTION_ID}" class="boxy">
 	<!-- BEGIN ordering_row_javascript_text -->
-		<li class="ilOrderingValue" id="id_{ANSWER_ID}">{ANSWER_TEXT}</li>
+		<li class="ilc_qordli_OrderListItem ilOrderingValue" id="id_{ANSWER_ID}">
+			<div class="ilc_qanswer_Answer answertext">{ANSWER_TEXT}</div>
+		</li>
 	<!-- END ordering_row_javascript_text -->
 	<!-- BEGIN ordering_row_javascript_pictures -->
-		<li class="ilOrderingValue" id="id_{ANSWER_ID}">
+		<li class="ilc_qordli_OrderListItem ilOrderingValue" id="id_{ANSWER_ID}">
+			<div class="ilc_qanswer_Answer answertext">
 			<table border="0">
 				<tr>
 					<td class="text-right">
-						<img border="0" src="{THUMB_HREF}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" />
+						<img class="ilc_qimg_QuestionImage" border="0" src="{THUMB_HREF}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" />
 					</td>
 					<td class="ilValignTop">
-						<a target="_new" href="{PICTURE_HREF}"><img border="0" src="{ENLARGE_HREF}" alt="{ENLARGE_ALT}" title="{ENLARGE_TITLE}" /></a>
+						<a class="ilc_qimgd_ImageDetailsLink" target="_new" href="{PICTURE_HREF}"><img border="0" src="{ENLARGE_HREF}" alt="{ENLARGE_ALT}" title="{ENLARGE_TITLE}" /></a>
 					</td>
 				</tr>
 			</table>
+			</div>
 		</li>
 	<!-- END ordering_row_javascript_pictures -->
 	</ul>
 	<input type="hidden" id="orderresult_{QUESTION_ID}" name="orderresult" {VALUE_ORDERRESULT} />
 </div>
+</div>
 <div class="ilClearFloat"></div>
+</div>
 <script type="text/javascript">
 	$().ready(function() {
 		if (typeof $.fn.ilOrderingQuestion != 'undefined') {
