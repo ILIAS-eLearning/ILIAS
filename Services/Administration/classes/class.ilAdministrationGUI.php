@@ -518,8 +518,8 @@ class ilAdministrationGUI
 							if ($_GET["admin_mode"] == "settings" && $titems[$e]["ref_id"] == ROOT_FOLDER_ID)
 							{
 								$gl->addEntry($icon.$titems[$e]["title"],
-									"ilias.php?baseClass=ilAdministrationGUI&amp;ref_id=".
-									$titems[$e]["ref_id"]."&amp;admin_mode=repository",
+									"ilias.php?baseClass=ilAdministrationGUI&ref_id=".
+									$titems[$e]["ref_id"]."&admin_mode=repository",
 									"_top", "", "", "mm_adm_rep",
 									ilHelp::getMainMenuTooltip("mm_adm_rep"),
 									"bottom center", "top center", false);
@@ -527,8 +527,8 @@ class ilAdministrationGUI
 							else
 							{
 								$gl->addEntry($icon.$titems[$e]["title"],
-									"ilias.php?baseClass=ilAdministrationGUI&amp;ref_id=".
-										$titems[$e]["ref_id"]."&amp;cmd=jump",
+									"ilias.php?baseClass=ilAdministrationGUI&ref_id=".
+										$titems[$e]["ref_id"]."&cmd=jump",
 									"_top", "", "", "mm_adm_".$titems[$e]["type"],
 									ilHelp::getMainMenuTooltip("mm_adm_".$titems[$e]["type"]),
 									"bottom center", "top center", false);
