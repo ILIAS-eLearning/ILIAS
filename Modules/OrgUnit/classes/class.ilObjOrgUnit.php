@@ -432,7 +432,7 @@ class ilObjOrgUnit extends ilContainer {
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 		$role_emp = ilObjRole::createDefaultRole('il_orgu_employee_'
 		                                         . $this->getRefId(), "Emplyee of org unit obj_no."
-		                                                              . $this->getId(), 'il_orgu_superior', $this->getRefId());
+		                                                              . $this->getId(), 'il_orgu_employee', $this->getRefId());
 
 		$role_sup = ilObjRole::createDefaultRole('il_orgu_superior_'
 		                                         . $this->getRefId(), "Superior of org unit obj_no."
