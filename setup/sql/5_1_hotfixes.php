@@ -445,3 +445,8 @@ if($ilDB->tableExists('svy_answer'))
 	}
 }
 ?>
+<#34>
+<?php
+require_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::addRBACTemplate('orgu', 'il_orgu_employee', "OrgUnit Employee Role Template", null);
+?>
