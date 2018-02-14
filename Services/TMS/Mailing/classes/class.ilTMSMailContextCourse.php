@@ -1,5 +1,8 @@
 <?php
 use ILIAS\TMS\Mailing;
+use ILIAS\TMS\CourseInfoHelper;
+use \ILIAS\TMS\CourseInfo;
+use CaT\Ente\ILIAS\ilHandlerObjectHelper;
 
 /* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> */
 
@@ -7,6 +10,10 @@ use ILIAS\TMS\Mailing;
  * Course-related placeholder-values
  */
 class ilTMSMailContextCourse implements Mailing\MailContext {
+
+	use CourseInfoHelper;
+	use ilHandlerObjectHelper;
+
 	private static $PLACEHOLDER = array(
 		'COURSE_TITLE' => 'placeholder_desc_crs_title',
 		'COURSE_LINK' => 'placeholder_desc_crs_link',
@@ -15,10 +22,15 @@ class ilTMSMailContextCourse implements Mailing\MailContext {
 		'COURSE_END_DATE' => 'placeholder_desc_crs_enddate',
 		'TRAINER_FIRST_NAME' => 'placeholder_desc_crs_trainer_firstname',
 		'TRAINER_LAST_NAME' => 'placeholder_desc_crs_trainer_lastname',
+		'ALL_TRAINERS' => 'placeholder_desc_crs_all_trainers',
 		'OFFICE_FIRST_NAME' => 'placeholder_desc_crs_admin_firstname',
 		'OFFICE_LAST_NAME' => 'placeholder_desc_crs_admin_lastname',
+		'OFFICE_MAIL' => 'placeholder_desc_crs_admin_mail',
 		'VENUE' => 'placeholder_desc_crs_venue',
-		'TRAINING_PROVIDER' => 'placeholder_desc_crs_provider'
+		'VENUE_NAME' => 'placeholder_desc_crs_venuename',
+		'TRAINING_PROVIDER' => 'placeholder_desc_crs_provider',
+		'BOOKING_LINK' => 'placeholder_desc_crs_booking_link',
+		'MEMBERS_COUNT' => 'placeholder_desc_crs_members_count'
 	);
 
 	/**
@@ -41,8 +53,22 @@ class ilTMSMailContextCourse implements Mailing\MailContext {
 		$this->crs_ref_id = $crs_ref_id;
 
 		global $DIC;
-		$this->g_lang = $DIC->language();
+		$this->DIC = $DIC;
+		$this->g_lang = $this->DIC->language();
 		$this->g_lang->loadLanguageModule("tms");
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getDIC() {
+		return $this->DIC;
+	}
+	/**
+	 * @inheritdoc
+	 */
+	public function getEntityRefId() {
+		return $this->crs_ref_id;
 	}
 
 	/**
@@ -64,14 +90,26 @@ class ilTMSMailContextCourse implements Mailing\MailContext {
 				return $this->trainerFirstname();
 			case 'TRAINER_LAST_NAME':
 				return $this->trainerLastname();
+			case 'ALL_TRAINERS':
+				return $this->trainerAll();
 			case 'OFFICE_FIRST_NAME':
 				return $this->adminFirstname();
 			case 'OFFICE_LAST_NAME':
 				return $this->adminLastname();
+			case 'OFFICE_MAIL':
+				return $this->adminEmail();
 			case 'VENUE':
 				return $this->crsVenue();
+			case 'VENUE_NAME':
+				return $this->crsVenueName();
 			case 'TRAINING_PROVIDER':
 				return $this->crsProvider();
+			case 'BOOKING_LINK':
+				return $this->crsBookingLink();
+			case 'MEMBERS_COUNT':
+				return $this->crsMembersCount();
+
+
 			default:
 				return null;
 		}
@@ -164,11 +202,12 @@ class ilTMSMailContextCourse implements Mailing\MailContext {
 	 * @return string | null
 	 */
 	public function trainerFirstname() {
-		$trainer = $this->getTrainer();
-		if($trainer !== null) {
-			return $trainer->getFirstname();
+		$trainers = $this->getTrainers();
+		if(count($trainers) === 0) {
+			return null;
 		}
-		return $trainer;
+		$trainer = array_shift($trainers);
+		return $trainer->getFirstname();
 	}
 
 	/**
@@ -422,18 +461,19 @@ class ilTMSMailContextCourse implements Mailing\MailContext {
 	}
 
 	/**
-	 * Get first member with trainer-role
+	 * Get members with trainer-role
 	 *
-	 * @return ilObjUser | null
+	 * @return ilObjUser[]
 	 */
-	protected function getTrainer() {
+	protected function getTrainers() {
 		$participants = $this->getCourseObject()->getMembersObject();
 		$trainers = $participants->getTutors();
-		if(count($trainers) > 0) {
-			$trainer_id = (int)$trainers[0];
-			return new \ilObjUser($trainer_id);
+		$ret = [];
+		foreach ($trainers as $trainer_id) {
+
+			$ret[] = new \ilObjUser((int)$trainer_id);
 		}
-		return null;
+		return $ret;
 	}
 
 	/**
@@ -449,6 +489,33 @@ class ilTMSMailContextCourse implements Mailing\MailContext {
 			return new \ilObjUser($admin_id);
 		}
 		return null;
+	}
+
+	/**
+	 * Get url to course-booking (via ente).
+	 *
+	 * @return string | null
+	 */
+	protected function crsBookingLink() {
+		$course_info = $this->getCourseInfo(CourseInfo::CONTEXT_GENERAL_BOOKING_LINK);
+		if(count($course_info) > 0) {
+			$course_info = array_shift($course_info);
+			return $course_info->getValue();
+		}
+
+		return null;
+	}
+
+	/**
+	 * Get the number of tutors and members for this course
+	 *
+	 * @return string
+	 */
+	protected function crsMembersCount() {
+		$participants = $this->getCourseObject()->getMembersObject();
+		$sum = $participants->getCountMembers()
+			+ count($participants->getTutors());
+		return (string)$sum;
 	}
 
 }

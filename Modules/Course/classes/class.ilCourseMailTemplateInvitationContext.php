@@ -104,6 +104,19 @@ class ilCourseMailTemplateInvitationContext extends ilMailTemplateContext
 				);
 			}
 		}
+
+		//ilMailContextReminder
+		if(ilPluginAdmin::isPluginActive('xcml')) { //coursemailing
+			$reminder_context = new CaT\Plugins\CourseMailing\AutomaticMails\ilMailContextReminder();
+			foreach ($reminder_context->placeholderIds() as $placeholder_id) {
+				$id = get_class($reminder_context) .$placeholder_id;
+				$placeholders[$id] = array(
+					'placeholder' => $placeholder_id,
+					'label'	=> $reminder_context->placeholderDescriptionForId($placeholder_id)
+				);
+			}
+		}
+
 		return $placeholders;
 	}
 
