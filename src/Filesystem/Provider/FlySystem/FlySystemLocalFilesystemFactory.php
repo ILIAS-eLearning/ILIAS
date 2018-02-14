@@ -6,9 +6,6 @@ use ILIAS\Filesystem\FilesystemFacade;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
 use League\Flysystem\Adapter\Local;
-use ReflectionClass;
-use ReflectionException;
-use ReflectionObject;
 
 /**
  * Class FlySystemLocalFilesystemFactory
