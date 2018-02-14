@@ -507,7 +507,7 @@ class ilMainMenuGUI
 			
 			// overview
 			$gl->addEntry($lng->txt("overview"),
-				"ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToSelectedItems",
+				"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSelectedItems",
 				"_top", "", "", "mm_pd_sel_items", ilHelp::getMainMenuTooltip("mm_pd_sel_items"),
 					"left center", "right center", false);
 			
@@ -516,7 +516,7 @@ class ilMainMenuGUI
 				$ilSetting->get('disable_my_memberships') == 0)
 			{
 				$gl->addEntry($lng->txt("my_courses_groups"),
-					"ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToMemberships",
+					"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToMemberships",
 					"_top", "", "", "mm_pd_crs_grp", ilHelp::getMainMenuTooltip("mm_pd_crs_grp"),
 					"left center", "right center", false);
 			}
@@ -524,7 +524,7 @@ class ilMainMenuGUI
 			// bookmarks
 			if (!$this->ilias->getSetting("disable_bookmarks"))
 			{
-				$gl->addEntry($lng->txt("bookmarks"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToBookmarks",
+				$gl->addEntry($lng->txt("bookmarks"), "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToBookmarks",
 					"_top", "", "", "mm_pd_bookm", ilHelp::getMainMenuTooltip("mm_pd_bookm"),
 					"left center", "right center", false);
 			}
@@ -544,7 +544,7 @@ class ilMainMenuGUI
 					$t = $lng->txt("notes_comments");
 					$c = "jumpToComments";
 				}
-				$gl->addEntry($t, "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=".$c,
+				$gl->addEntry($t, "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=".$c,
 					"_top", "", "", "mm_pd_notes", ilHelp::getMainMenuTooltip("mm_pd_notes"),
 					"left center", "right center", false);
 			}
@@ -552,7 +552,7 @@ class ilMainMenuGUI
 			// news
 			if ($ilSetting->get("block_activated_news"))
 			{
-				$gl->addEntry($lng->txt("news"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToNews",
+				$gl->addEntry($lng->txt("news"), "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToNews",
 					"_top", "", "", "mm_pd_news", ilHelp::getMainMenuTooltip("mm_pd_news"),
 					"left center", "right center", false);
 			}
@@ -565,7 +565,7 @@ class ilMainMenuGUI
 			if(!$ilSetting->get("disable_personal_workspace"))
 			{
 				// workspace
-				$gl->addEntry($lng->txt("personal_workspace"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToWorkspace",
+				$gl->addEntry($lng->txt("personal_workspace"), "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToWorkspace",
 					"_top", "", "", "mm_pd_wsp", ilHelp::getMainMenuTooltip("mm_pd_wsp"),
 					"left center", "right center", false);
 				
@@ -575,7 +575,7 @@ class ilMainMenuGUI
 			// portfolio
 			if ($ilSetting->get('user_portfolios'))
 			{
-				$gl->addEntry($lng->txt("portfolio"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToPortfolio",
+				$gl->addEntry($lng->txt("portfolio"), "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToPortfolio",
 					"_top", "", "", "mm_pd_port", ilHelp::getMainMenuTooltip("mm_pd_port"),
 					"left center", "right center", false);
 				
@@ -586,7 +586,7 @@ class ilMainMenuGUI
 			$skmg_set = new ilSetting("skmg");
 			if ($skmg_set->get("enable_skmg"))
 			{
-				$gl->addEntry($lng->txt("skills"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToSkills",
+				$gl->addEntry($lng->txt("skills"), "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSkills",
 					"_top", "", "", "mm_pd_skill", ilHelp::getMainMenuTooltip("mm_pd_skill"),
 					"left center", "right center", false);
 				
@@ -600,7 +600,7 @@ class ilMainMenuGUI
 				ilObjUserTracking::_hasLearningProgressLearner()))
 			{
 				//$ilTabs->addTarget("learning_progress", $this->ctrl->getLinkTargetByClass("ilLearningProgressGUI"));
-				$gl->addEntry($lng->txt("learning_progress"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToLP",
+				$gl->addEntry($lng->txt("learning_progress"), "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToLP",
 					"_top", "", "", "mm_pd_lp", ilHelp::getMainMenuTooltip("mm_pd_lp"),
 					"left center", "right center", false);
 				
@@ -619,7 +619,7 @@ class ilMainMenuGUI
 			$settings = ilCalendarSettings::_getInstance();
 			if($settings->isEnabled())
 			{
-				$gl->addEntry($lng->txt("calendar"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToCalendar",
+				$gl->addEntry($lng->txt("calendar"), "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToCalendar",
 					"_top", "", "", "mm_pd_cal", ilHelp::getMainMenuTooltip("mm_pd_cal"),
 					"left center", "right center", false);
 				
@@ -641,7 +641,7 @@ class ilMainMenuGUI
 			if(ilBuddySystem::getInstance()->isEnabled())
 			{
 				$gl->addEntry($lng->txt('mail_addressbook'),
-					'ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToContacts', '_top'
+					'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToContacts', '_top'
 					, "", "", "mm_pd_contacts", ilHelp::getMainMenuTooltip("mm_pd_contacts"),
 					"left center", "right center", false);
 				
@@ -657,7 +657,7 @@ class ilMainMenuGUI
 			if(ilBadgeHandler::getInstance()->isActive())
 			{
 				$gl->addEntry($lng->txt('obj_bdga'),
-					'ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToBadges', '_top'
+					'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToBadges', '_top'
 					, "", "", "mm_pd_contacts", ilHelp::getMainMenuTooltip("mm_pd_badges"),
 					"left center", "right center", false);
 				
@@ -665,12 +665,12 @@ class ilMainMenuGUI
 			}
 			
 			// profile
-			$gl->addEntry($lng->txt("personal_profile"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToProfile",
+			$gl->addEntry($lng->txt("personal_profile"), "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToProfile",
 				"_top", "", "", "mm_pd_profile", ilHelp::getMainMenuTooltip("mm_pd_profile"),
 					"left center", "right center", false);
 
 			// settings
-			$gl->addEntry($lng->txt("personal_settings"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToSettings",
+			$gl->addEntry($lng->txt("personal_settings"), "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSettings",
 				"_top", "", "", "mm_pd_sett", ilHelp::getMainMenuTooltip("mm_pd_sett"),
 					"left center", "right center", false);
 
