@@ -930,8 +930,7 @@ class ilExerciseManagementGUI
 			{
 				$data[-1][$user_id]["notice"] = ilUtil::stripSlashes($_POST["notice"][$user_id]);
 			}
-		}				
-		
+		}
 		$this->saveStatus($data);
 	}
 	
@@ -964,7 +963,6 @@ class ilExerciseManagementGUI
 			$ass = ($ass_id < 0)
 				? $this->assignment
 				: new ilExAssignment($ass_id);
-			
 			foreach($users as $user_id => $values)
 			{				
 				// this will add team members if available
@@ -975,7 +973,14 @@ class ilExerciseManagementGUI
 					$saved_for[$sub_user_id] = $uname["lastname"].", ".$uname["firstname"];					
 
 					$member_status = $ass->getMemberStatus($sub_user_id);
-					$member_status->setStatus($values["status"]);	
+
+					// see bug #22566
+					$status = $values["status"];
+					if ($status == "")
+					{
+						$status = "notgraded";
+					}
+					$member_status->setStatus($status);
 					if(array_key_exists("mark", $values))
 					{
 						$member_status->setMark($values["mark"]);					
