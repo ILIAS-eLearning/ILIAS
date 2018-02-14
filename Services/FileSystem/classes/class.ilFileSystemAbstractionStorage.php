@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Filesystem\Util\LegacyPathHelper;
 
 /**
@@ -188,7 +189,13 @@ abstract class ilFileSystemAbstractionStorage {
 
 
 	/**
-	 * @return string
+	 * Calculates the full path on the filesystem.
+	 * This method is filesystem aware and will create the absolute path
+	 * if it's not already existing.
+	 *
+	 * @return string Absolute filesystem path.
+	 *
+	 * @throws IOException Thrown if the absolute path could not be created.
 	 */
 	public function getAbsolutePath() {
 		return $this->getLegacyAbsolutePath();
@@ -196,15 +203,20 @@ abstract class ilFileSystemAbstractionStorage {
 
 
 	/**
-	 * @return string
+	 * Calculates the absolute filesystem storage location.
+	 *
+	 * @return string The absolute path.
+	 *
+	 * @throws IOException Thrown if the directory could not be created.
 	 */
 	protected function getLegacyAbsolutePath() {
 		if (!$this->getFileSystemService()->has($this->path)) {
 			$this->getFileSystemService()->createDir($this->path);
 		}
-		$stream = $this->getFileSystemService()->readStream($this->path);
 
-		return $stream->getMetadata('uri');
+		if($this->getStorageType() === self::STORAGE_DATA)
+			return CLIENT_DATA_DIR . '/' . $this->path;
+		return CLIENT_WEB_DIR . '/' . $this->path;
 	}
 
 

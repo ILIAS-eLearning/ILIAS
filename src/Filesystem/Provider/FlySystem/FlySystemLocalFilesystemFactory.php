@@ -6,6 +6,9 @@ use ILIAS\Filesystem\FilesystemFacade;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
 use League\Flysystem\Adapter\Local;
+use ReflectionClass;
+use ReflectionException;
+use ReflectionObject;
 
 /**
  * Class FlySystemLocalFilesystemFactory
@@ -49,6 +52,18 @@ class FlySystemLocalFilesystemFactory {
 				]
 			]
 			);
+
+		//switch the path separator to a forward slash
+		$reflaction = new \ReflectionObject($adapter);
+		$property = $reflaction->getProperty("pathSeparator");
+		$property->setAccessible(true);
+		$property->setValue($adapter, '/');
+
+		/* set new path separator in path prefix, the library will replace the old path ending
+		   while setting the path prefix.
+		*/
+		$adapter->setPathPrefix($adapter->getPathPrefix());
+
 
 		$filesystem = new \League\Flysystem\Filesystem($adapter);
 		$fileAccess = new FlySystemFileAccess($filesystem);
