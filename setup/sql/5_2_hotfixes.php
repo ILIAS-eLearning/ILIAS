@@ -422,3 +422,17 @@ if($rp_ops_id && $ep_ops_id && $w_ops_id)
 	}
 }
 ?>
+<#25>
+<?php
+//ORGU TEMPLATE EMPLOYEE
+//$orgu_employee_contributor_tpl_id = $ilDB->nextId('object_data');
+//
+//$ilDB->manipulateF("INSERT INTO object_data (obj_id, type, title, description,".
+//	" owner, create_date, last_update) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+//	array("integer", "text", "text", "text", "integer", "timestamp", "timestamp"),
+//	array($orgu_employee_contributor_tpl_id, "rolt", "il_orgu_employee",
+//		"OrgUnit Employee Role Template", -1, ilUtil::now(), ilUtil::now()));
+require_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::addRBACTemplate('orgu', 'il_orgu_employee', "OrgUnit Employee Role Template", null);
+
+?>
