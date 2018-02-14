@@ -638,7 +638,7 @@ class ilMainMenuGUI
             if($ilSetting->get("enable_my_staff") and ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff() == true)
             {
                 // my staff
-                $gl->addEntry($lng->txt("my_staff"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToMyStaff",
+                $gl->addEntry($lng->txt("my_staff"), "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToMyStaff",
                     "_top", "", "", "mm_pd_mst", ilHelp::getMainMenuTooltip("mm_pd_mst"),
                     "left center", "right center", false);
                 $separator = true;
@@ -680,7 +680,7 @@ class ilMainMenuGUI
 			if(ilBadgeHandler::getInstance()->isActive())
 			{
 				$gl->addEntry($lng->txt('obj_bdga'),
-					'ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToBadges', '_top'
+					'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToBadges', '_top'
 					, "", "", "mm_pd_contacts", ilHelp::getMainMenuTooltip("mm_pd_badges"),
 					"left center", "right center", false);
 
