@@ -51,8 +51,8 @@ class FlySystemLocalFilesystemFactory {
 			);
 
 		//switch the path separator to a forward slash
-		$reflaction = new \ReflectionObject($adapter);
-		$property = $reflaction->getProperty("pathSeparator");
+		$reflection = new \ReflectionObject($adapter);
+		$property = $reflection->getProperty("pathSeparator");
 		$property->setAccessible(true);
 		$property->setValue($adapter, '/');
 
