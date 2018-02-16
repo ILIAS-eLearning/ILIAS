@@ -136,7 +136,7 @@ class ilGroupedListGUI
 						{
 							$tpl->setVariable("ADD_CLASS", $i["add_class"]);
 						}
-						$tpl->setVariable("HREF", $i["href"]);
+						$tpl->setVariable("HREF", str_replace('&amp;', '&', ilUtil::secureUrl($i["href"])));
 						$tpl->setVariable("TXT_ENTRY", $i["content"]);
 						if ($i["target"] != "")
 						{
