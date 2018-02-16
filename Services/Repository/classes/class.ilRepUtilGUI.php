@@ -119,6 +119,11 @@ class ilRepUtilGUI
 			$alt = ($objDefinition->isPlugin($type))
 				? $lng->txt("icon")." ".ilObjectPlugin::lookupTxtById($type, "obj_".$type)
 				: $lng->txt("icon")." ".$lng->txt("obj_".$type);
+
+			if($type == "orgu" && isset($msg)) {
+				$msg .= $lng->txt("info_delete_warning_no_trash_for_org_units");
+				$cgui->setHeaderText($msg);
+			}
 			
 			$title .= $this->handleMultiReferences($obj_id, $ref_id, $form_name);		
 			

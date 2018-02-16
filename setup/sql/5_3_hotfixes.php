@@ -107,3 +107,19 @@ $ilDB->dropIndexByFields('cmi_objective',array('id'));
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#8>
+<?php
+//removes org units from trash
+global $DIC;
+$obj_set = $DIC->database()->queryF('SELECT * FROM tree JOIN object_reference 
+ON tree.child=object_reference.ref_id JOIN object_data 
+ON object_reference.obj_id=object_data.obj_id 
+WHERE tree.tree < %s AND object_data.type = %s',array('integer', 'text'),array(0, "orgu"));
+$a_org_unit_ref_ids = array();
+while($row = $DIC->database()->fetchAssoc($obj_set))
+{
+	$a_org_unit_ref_ids[] = $row;
+}
+ilRepUtil::removeObjectsFromSystem($a_org_unit_ref_ids);
+
+?>

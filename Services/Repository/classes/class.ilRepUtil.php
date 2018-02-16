@@ -141,6 +141,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 			// SAVE SUBTREE AND DELETE SUBTREE FROM TREE
 			$affected_ids = array();
 			$affected_parents = array();
+			$org_unit_ids = array();
 			foreach ($a_ids as $id)
 			{
 				if($tree->isDeleted($id))
@@ -188,6 +189,11 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 
 				// TODO: inform users by mail that object $id was deleted
 				//$mail->sendMail($id,$msg,$affected_users);
+
+				$type = ilObject2::_lookupType($id);
+				if($type == "orgu") {
+					$org_unit_ids[] = $id;
+				}
 			}
 			
 			// send global events
@@ -200,11 +206,14 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 						 ));
 			}
 		}
-		
 		if (!$ilSetting->get('enable_trash'))
 		{
 			ilRepUtil::removeObjectsFromSystem($a_ids);
 		}
+		if($ilSetting->get('enable_trash') && !empty($org_unit_ids)) {
+			ilRepUtil::removeObjectsFromSystem($org_unit_ids);
+		}
+
 	}
 	
 	/**
