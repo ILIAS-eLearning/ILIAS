@@ -6905,7 +6905,7 @@ button.close {
 }
 .il-upload-file-item.standard {
   background: white;
-  border: 1px solid #C0C0C0;
+  border: 1px solid #9C9C9C;
   -moz-border-radius: 0px;
   -webkit-border-radius: 0px;
   border-radius: 0px;
@@ -6929,7 +6929,7 @@ button.close {
 }
 .il-dropzone.standard {
   background: white;
-  border: 1px dashed #C0C0C0;
+  border: 1px dashed #9C9C9C;
   -moz-border-radius: 0px;
   -webkit-border-radius: 0px;
   border-radius: 0px;
@@ -6941,7 +6941,7 @@ button.close {
   border-radius: 0;
   font-size: 12px;
   border: 1px solid transparent;
-  color: #C0C0C0;
+  color: #9C9C9C;
   display: inline-block;
 }
 .il-dropzone.wrapper {
@@ -6950,14 +6950,14 @@ button.close {
 .il-dropzone.darkened-highlight {
   z-index: 1100;
   position: relative;
-  border: 1px dashed #C0C0C0;
+  border: 1px dashed #9C9C9C;
   -moz-border-radius: 0px;
   -webkit-border-radius: 0px;
   border-radius: 0px;
   background: #FFFFD6;
 }
 .il-dropzone.default-highlight {
-  border: 1px dashed #C0C0C0;
+  border: 1px dashed #9C9C9C;
   -moz-border-radius: 0px;
   -webkit-border-radius: 0px;
   border-radius: 0px;
@@ -7859,6 +7859,12 @@ hr.il-divider-with-label {
 }
 .il-viewcontrol-sortation .dropdown-toggle .caret:before {
   content: "\21f5";
+}
+.ilBlockContent .il-viewcontrol-section .btn.btn-default {
+  background-color: transparent;
+  border: 0;
+  color: #557196;
+  padding: 3px 3px;
 }
 ul.breadcrumb {
   margin: 0;

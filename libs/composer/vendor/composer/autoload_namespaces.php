@@ -8,7 +8,6 @@ $baseDir = dirname($vendorDir);
 return array(
     'SimpleSAML' => array($vendorDir . '/simplesamlphp/simplesamlphp/lib'),
     'SAML2_' => array($vendorDir . '/simplesamlphp/saml2/src'),
-    'Psr\\Log\\' => array($vendorDir . '/psr/log'),
     'Pimple' => array($vendorDir . '/pimple/pimple/src'),
     'PHPExcel' => array($vendorDir . '/phpoffice/phpexcel/Classes'),
     'LibRIS' => array($vendorDir . '/technosophos/LibRIS/src'),

@@ -820,7 +820,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			}
 			else
 			{
-				$areaAction = 'selImage';
+				$areaAction = 'remImage';
 			}
 			
 			$selection = $areaIndex;

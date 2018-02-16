@@ -5,7 +5,7 @@
 * @module	language file Hungarian
 * @modulegroup	language
 * @author	Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version	5.3.x 2018-01-06
+* @version	5.3.x 2018-01-18
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -18,7 +18,7 @@ common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Tanulási eszközök átjárhatósága (Learning Tools Interoperability)
 common#:#lti_outcome#:#LTI tanulási haladás bejelentése
 common#:#lti_outcome_info#:#LTI-felhasználó tanulási haladási állapotát küldjük egy LTI-eszközfogyasztónak.
-lti#:#act_lti_for_obj_type#:#Objektumtípusa LTI aktiválása
+lti#:#act_lti_for_obj_type#:#Objektumtípusra LTI aktiválása
 lti#:#gbl_roles_to_users#:#LTI-felhasználókhoz rendelt globális szabály
 lti#:#consumers#:#Fogyasztók
 lti#:#prefix#:#Előtag
@@ -111,7 +111,7 @@ itgr#:#itgr_behaviour_info#:#A rendszer megőrzi a nyitott/zárt állapotot a je
 itgr#:#itgr_always_open#:#Mindig nyitva
 itgr#:#itgr_expandable_closed#:#Kibontható (kezdetben zárt)
 itgr#:#itgr_expandable_open#:#Kibontható (kezdetben nyitott)
-exc#:#exc_submission_and_grades_notification_link#:#Link a feladatra (Megoldások és értékelések): %s
+exc#:#exc_submission_and_grades_notification_link#:#Link a feladat 'Megoldások és értékelések' részére: %s
 exc#:#exc_submission_downloads_notification_link#:#Új megoldások letöltése: %s
 exc#:#exc_submission_no_new_files#:#Egy új megoldás sem érhető el.
 exc#:#exc_wait_for_files#:#Letöltése automatikusan elindul 5 másodpercen belül. Amennyiben mégsem, kattintson ide
@@ -456,9 +456,17 @@ assessment#:#direct_feedback#:#Válasz ellenőrzése
 assessment#:#duplicate_matching_values_selected#:#Többszörösen illeszkedő értékeket választott ki.
 assessment#:#duplicate_order_values_entered#:#Többszörös sorrendi értékeket adott meg.
 assessment#:#duplicate#:#Másodpéldány létrehozása
-assessment#:#ects_allow_ects_grades#:#ETCS értékelések megjelenítése a kapott érdemjegyhez
-assessment#:#ects_grade#:#ETCS kategória
-assessment#:#ects_output_of_ects_grades#:#ECTS minősítés eredménye
+assessment#:#ects_grade_desc_prefix#:#Értékelés jelentése:
+assessment#:#ects_grade_a_desc#:#kiemelkedő teljesítmény, csak kisebb hibák vannak
+assessment#:#ects_grade_b_desc#:#átlagon felüli teljesítmény, kevés hibával
+assessment#:#ects_grade_c_desc#:#általában elfogadható, de van számos jelentős hiba
+assessment#:#ects_grade_d_desc#:#elfogadható, de vannak jelentős hiányosságok
+assessment#:#ects_grade_e_desc#:#a teljesítmény megfelel a minimális követelményeknek
+assessment#:#ects_grade_fx_desc#:#további munka szükséges még a kredit megszerzéséhez
+assessment#:#ects_grade_f_desc#:#jelentős további munka szükséges
+assessment#:#ects_grade#:#ETCS-értékelés
+assessment#:#ects_allow_ects_grades#:#A kapott érdemjegyen túl az ETCS-értékelés megjelenítése
+assessment#:#ects_output_of_ects_grades#:#ECTS-minősítés eredménye
 assessment#:#use_ects_fx#:#'FX' osztályzat használata
 assessment#:#ects_fx_threshold#:#Küszöbérték
 assessment#:#ects_fx_threshold_info#:#Adja meg az 'FX' osztályzat értékeihez szükséges százalékokat. 
@@ -632,6 +640,7 @@ assessment#:#ass_lac_expression#:#Kifejezés
 assessment#:#ass_lac_unable_to_parse_condition#:#'%s' feltétel nem validálható.
 assessment#:#tst_skill_triggerings_num_req_answers#:#Kompetencia felméréséhez szükséges válaszok száma
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetenciára nem váltunk át amíg a válaszok száma nem elegendő a kompetenciaszint számításához.
+assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#A teszt által legalább egy mérni kívánt kompetenciához nincs elegendő kérdés.<br />A szükséges minimális kérdésszám: %s
 assessment#:#export_essay_qst_with_html#:#Esszé kérdések exportálása HTML kódként
 assessment#:#export_essay_qst_with_html_desc#:#Ha be van kapcsolva, lehetővé válik esszékérdések exportálása HTML segítségével Excelbe.
 assessment#:#qpl_qst_skl_usg_skill_col#:#Kompetencia
@@ -680,7 +689,7 @@ assessment#:#grading_obligations_listlabel#:#Kötelező kérdések
 assessment#:#grading_obligations_answered_listentry#:#Megválaszoltak
 assessment#:#grading_obligations_missing_listentry#:#Megnyitottak
 assessment#:#grading_mark_msg#:#Érdemjegye: &quot;[mark]&quot;
-assessment#:#mark_tst_ects#:#Az Ön ECTS érdemjegye: &quot;[markects]&quot;
+assessment#:#mark_tst_ects#:#Az Ön ECTS-értékelése (ECTS = Európai Kreditátviteli Rendszer): '[markects]'
 assessment#:#tst_pass_finished_on#:#Tesztkitöltés befejezésének időpontja
 assessment#:#matches#:#összeillők
 assessment#:#matching_pairs#:#Összeillő párok
@@ -1501,6 +1510,7 @@ cmps#:#cmps_id#:#Azonosító
 cmps#:#cmps_ilias_max_version#:#Maximum ILIAS-verzió
 cmps#:#cmps_ilias_min_version#:#Minimum ILIAS-verzió
 cmps#:#cmps_inactive#:#Inaktív
+cmps#:#cmps_install#:#Telepítés
 cmps#:#cmps_lang_files#:#Nyelvi fájlok
 cmps#:#cmps_lang_prefix#:#Nyelvi változó előtag
 cmps#:#cmps_languages#:#Nyelvek
@@ -7748,9 +7758,9 @@ wiki#:#wiki_import#:#Wiki importálása
 mcst#:#mcst_import#:#Médiasugárzás importálása
 exc#:#exc_submission_notification#:#E-mail értesítés beadásról
 exc#:#exc_submission_notification_info#:#Értesítjük, ha megoldást feltöltenek fel.
-exc#:#exc_submission_notification_body#:#ezúton értesítjük, hogy '%s' beadandó feladatba új megoldás töltöttek fel.
+exc#:#exc_submission_notification_body#:#ezúton értesítjük, hogy '%s' beadandó feladathoz új megoldás töltöttek fel.
 exc#:#exc_submission_notification_link#:#A beadandó feladat linkje: %s
-exc#:#exc_submission_notification_subject#:#'%s' beadandó feladathoz új megoldást feltöltöttek fel
+exc#:#exc_submission_notification_subject#:#'%s' beadandó feladat - új megoldást feltöltöttek fel
 wiki#:#wiki_change_notification_subject#:#'%1$s' wiki megváltozott: %2$s
 wiki#:#wiki_change_notification_page_body_update#:#ezúton értesítjük, hogy az alábbi wikilapokat sikeresen frissítette
 wiki#:#wiki_change_notification_page_link#:#URL
@@ -7902,7 +7912,8 @@ survey#:#send_to_unanswered#:#Minden címzettnek, akik még nem fejezték be a k
 survey#:#message_content_info#:#Írjon üzenet a válaszadóknak, ami tartalmazza a kérdőívkódjukat. Használjon helyőrzőket [code] (=hozzáférési kód), [url] (=link ehhez a kérdőívhez), és a válaszadókhoz kapcsolódó adatokat a válaszadók importmezői szerint: %s. Az e-mail küldésekor az összes helyőrzőt lecseréljük a megfelelő értékére.
 survey#:#default_codes_mail_subject#:#'%s' kérdőívhez hozzáférési kód
 survey#:#default_codes_mail_message#:#Tisztelt [lastname] [firstname], az Ön kérdőívkódja: [code]. A kérdőívet az következő linken éri el: [url]. Üdvözlettel:
-survey#:#please_enter_mail_code#:#Adja meg a hozzáférési kód helyőrzőt [code].
+survey#:#please_enter_mail_code#:#Adja meg a hozzáférési kód helyőrzőt [code]
+survey#:#please_enter_mail_url#:#Adja meg a hozzáférési url helyőrzőt [url]
 survey#:#mail_sent_short#:#Elküldés
 survey#:#finished_mail_subject#:#'%s' kérdőívet befejezte
 survey#:#msg_min_nr_answers#:#Legalább %s választ jelöljön meg!
@@ -10542,6 +10553,7 @@ common#:#file_rollback_done#:#%s fájlverzió már az aktuális.
 common#:#file_version_new_version#:#Új verzió
 common#:#file_version_create#:#Kiindulási verzió
 common#:#file_version_replace#:#Összes verziót lecserélte
+common#:#file_version_rollback#:#Visszaállítás %s verzióról %s verzióra
 common#:#file_rollback#:#Ez legyen az aktuális verzió
 obj#:#edit_questions#:#Kérdések módosítása
 common#:#frm_import#:#Fórum importálása
@@ -11004,12 +11016,13 @@ obj#:#obj_orgunit_positions#:#Hozzáférés-szabályozás a szervezeti egység p
 obj#:#obj_orgunit_positions_info#:#Ha be van kapcsolva, további hozzáférési szabályok hozhatóak létre a szervezeti egységek pozíciói alapján.
 orgu#:#msg_confirm_deletion#:#Biztos, hogy törli az alábbi pozíciókat?
 orgu#:#remove_user#:#Eltávolítás
-orgu#:#msg_confirm_remove_user#:#Biztos, hogy eltávolítja az alábbi felhasználót a(z) '%s' pozícióból?
-orgu#:#msg_confirm_d_ua#:#Biztos, hogy hozzárendeli ezeket a személyeket szervezeti egységeik pozíciójához?
+orgu#:#msg_confirm_remove_user#:#Biztos, hogy eltávolítja az alábbi felhasználót a(z) '%s' pozíciójából?
+orgu#:#msg_confirm_d_ua#:#Biztos, hogy hozzárendeli ezeket a személyeket szervezeti egységeik 'Beosztott' pozíciójához?
 orgu#:#user_assignments#:#Felhasználó hozzárendelései
 orgu#:#authorities#:#Hatóságok
 orgu#:#authority#:#Hatóság
-orgu#:#positions#:#Beosztások
+orgu#:#positions#:#Pozíciók
+orgu#:#add_position#:#Pozíciók hozzáadása
 orgu#:#scope_1#:#Ugyanaz a szervezeti egység
 orgu#:#scope_2#:#Következő a szervezeti egység
 orgu#:#scope_3#:#Összes szervezeti egység
@@ -11030,10 +11043,10 @@ mst#:#mst_show_courses#:#Felvételek
 mst#:#mst_courses_of#:#%s beiratkozásai
 orgu#:#msg_position_udpated#:#A pozíciót sikeresen módosította
 orgu#:#remove_successful#:#A felhasználót sikeresen eltávolította.
-orgu#:#add_position#:#A pozíciót sikeresen hozzáadta
 orgu#:#orgu_enable_my_staff#:#'Munkatársak' nézete bekapcsolása
 orgu#:#orgu_enable_my_staff_info#:#'Munkatársak' nézet a saját beosztottak tanulási haladását jeleníti meg.
 orgu#:#org_op_manage_members#:#Tagok kezelése
+orgu#:#orgunit_position_permissions_not_active_for#:#Nem írhatja felül a típus pozíciófüggő jogosultságait:
 orgu#:#org_op_read_learning_progress#:#Más felhasználók tanulási haladásának megtekintése
 orgu#:#org_op_write_learning_progress#:#Más felhasználók tanulási haladásának módosítása
 rbac#:#org_op_write_learning_progress#:#Alárendelt felhasználók tanulási haladásának módosítása
@@ -11047,7 +11060,7 @@ orgu#:#deassign_user_successful#:#Felhasználót sikeresen eltávolította a cso
 orgu#:#il_orgu_superior#:#Felettes
 orgu#:#orgu_staff#:#Személyi állomány
 orgu#:#confirm_deletion_and_assign#:#Törlés és felhasználók hozzárendelése
-orgu#:#msg_assignment_to_employee_done#:#A beosztott szerephez a hozzárendelés sikeres
+orgu#:#msg_assignment_to_employee_done#:#A 'Beosztott' szerephez a hozzárendelés sikeres
 orgu#:#confirm_deletion_button#:#Törlés
 orgu#:#msg_deleted#:#Törölt
 orgu#:#Staff#:#Személyi állomány
@@ -13342,6 +13355,7 @@ wfe#:#start_event_form_header#:#Munkafolyamatok indításával összefüggő ese
 wfe#:#wfe_sure_to_delete_process_def#:#Biztos, hogy törli a meghatározást?
 wfe#:#wfe_request_missing_process_id#:#A folyamat id hiányzik, a kívánt művelet nem hajtható végre.
 wfe#:#wfe_started_listening#:#A folyamat élesítve
+wfe#:#wfe_stopped_listening#:#A folyamat hatástalanítva
 glo#:#glo_link_glo_in_glo#:#Biztos, hogy a cél fogalomtár összes kifejezését linkeli a jelenlegi fogalomtárban?
 glo#:#glo_add_from_other#:#Kifejezések gyűjtése
 glo#:#glo_select_terms#:#Kifejezések kiválasztása
@@ -13784,7 +13798,7 @@ iass#:#iass_copy#:#Egyéni értékelés másolása
 survey#:#cannot_send_emails#:#Nincs megfelelő jogosultsága e-mailek küldéséhez.
 rbac#:#book_copy#:#A felhasználó másolhat foglalásgyűjteményt.
 mep#:#mobs_black_list_file_types#:#Tiltott fájltípusok
-mep#:#mobs_black_list_file_types_info#:#Itt adhatja meg az engedélyezett fájltípusokat korlátozó fájltípusokat, vesszővel elválasztva. Általában erre akkor van szükség, amikor az engedélyzett fájltípusok listája üres, azaz az összes fájltípus engedélyzett.
+mep#:#mobs_black_list_file_types_info#:#Itt adhatja meg az engedélyezett fájltípusokat korlátozó fájltípusokat, vesszővel elválasztva. Általában erre akkor van szükség, amikor az engedélyezett fájltípusok listája üres, azaz az összes fájltípus engedélyezett.
 form#:#form_msg_file_type_is_not_allowed#:#Ez a fájltípus nem engedélyezett.
 common#:#file_no_valid_file_type#:#Ez a fájltípus nem engedélyezett.
 common#:#file_some_invalid_file_types_removed#:#Néhány fájltípus nem engedélyezett, az ilyen fájlokat eltávolítottuk.
@@ -13792,7 +13806,7 @@ ecs#:#ecs_member_auth_type#:#Kurzustagok hitelesítési módja
 background_tasks#:#background_tasks#:#Háttérfolyamatok
 background_tasks#:#background_tasks_running#:#Háttérfolyamatok
 background_tasks#:#scheduled#:#Időzített
-background_tasks#:#dismiss#:#Elutasított
+background_tasks#:#remove#:#Eltávolítás
 background_tasks#:#abort#:#Megállított
 background_tasks#:#completed#:#Befejezett
 background_tasks#:#waiting#:#Várakozó
@@ -14072,14 +14086,16 @@ prtf#:#prtf_signature_info#:#Egy mezőt ad a nyomtatáshoz, ahol a szerző alá�
 prtf#:#prtf_signature_date#:#Dátum, aláírása
 lti#:#lti_not_allowed#:#Hozzáférés megtagadva. Kérését átirányítjuk az LTI-objektum gyökérébe.
 lti#:#lti_navigation#:#Navigáció
+lti#:#lti_session#:#LTI-munkamenet
 lti#:#lti_exit#:#LTI-munkamenet lezárása
-lti#:#lti_exited#:#LTI-munkamenet
-lti#:#lti_exited_info#:#LTI-munkamenet sikeresen lezárult.
+lti#:#lti_exited#:#LTI-munkamenet lezárva
+lti#:#lti_exited_info#:#LTI-munkamenet sikeresen lezárult
 blog#:#blog_nav_mode_month_list_num_month_with_post#:#Hónapok száma
 blog#:#blog_nav_mode_month_list_num_month_with_post_info#:#A navigációs blokkban ezek a hónap jelennek meg a bejegyzéseikkel együtt.
 orgu#:#org_op_access_enrolments#:#Bejegyzések megtekintése
 orgu#:#msg_position_updated#:#Pozíciót sikeresen módosította.
 orgu#:#msg_position_created#:#Pozíciót sikeresen létrehozta.
+orgu#:#msg_success_permission_saved#:#Jogosultságokat sikeresen mentette.
 pdfgen#:#cleanup#:#Takarítás
 skmg#:#skmg_order_nr_info#:#Kompetencia pozíciója a kompetenciák felsorolásában.
 common#:#position_permission_settings#:#Szervezeti egység alapú jogosultságok
@@ -14134,18 +14150,4 @@ common#:#usr_name_undisclosed#:#Nem publikus
 common#:#obj_exc_duplicate#:#Feladat másolása
 meta#:#adt_error_max_length#:#Kérem, rövidebb szöveget írjon.
 form#:#form_chars_remaining#:#Fennmaradó karakterszám:
-assessment#:#ects_grade_desc_prefix#:#Meaning of grade:###16 01 2018 new variable
-assessment#:#ects_grade_a_desc#:#outstanding performance with only minor errors###16 01 2018 new variable
-assessment#:#ects_grade_b_desc#:#above the average standard but with some errors###16 01 2018 new variable
-assessment#:#ects_grade_c_desc#:#generally sound work with a number of notable errors###16 01 2018 new variable
-assessment#:#ects_grade_d_desc#:#fair but with significant shortcomings###16 01 2018 new variable
-assessment#:#ects_grade_e_desc#:#performance meets the minimum criteria###16 01 2018 new variable
-assessment#:#ects_grade_fx_desc#:#some more work required before the credit can be awarded###16 01 2018 new variable
-assessment#:#ects_grade_f_desc#:#considerable further work is required###16 01 2018 new variable
-assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#At least one of the competences addressed by this test is not triggered by the minimal required amount of questions.<br />The required amount of questions: %s###16 01 2018 new variable
-cmps#:#cmps_install#:#Install###16 01 2018 new variable
-survey#:#please_enter_mail_url#:#Please enter the access url placeholder [url]###16 01 2018 new variable
-common#:#file_version_rollback#:#Rollback to version %s from %s###16 01 2018 new variable
-wfe#:#wfe_stopped_listening#:#Process disarmed###16 01 2018 new variable
-lti#:#lti_session#:#LTI Session###16 01 2018 new variable
-crs#:#crs_subscription_min_members_err#:#The minimum number is not allowed to be greater than the maximum number of participants.###16 01 2018 new variable
+crs#:#crs_subscription_min_members_err#:#A résztvevők minimális száma nem lehet kisebb a résztvevők maximális számánál.

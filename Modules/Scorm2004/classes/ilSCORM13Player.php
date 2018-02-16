@@ -1849,14 +1849,16 @@ class ilSCORM13Player
 		{
 			$sqlwrite = true;
 			$sql_data = $this->getNodeData($logdata->scoid,$fh_csv);
-			foreach ($sql_data as $key => $value) {
-				$sql_string =  $this->packageId.';"'
-					.$logdata->scoid.'";"'
-					.$logdata->scotitle.'";'
-					.$timestamp.';"SQL";"'
-					.$key.'";"'
-					.str_replace("\"","\"\"",$value).'";;;;'."\n";
-				fwrite($fh_csv,$sql_string);
+			if (count($sql_data) != 0){
+				foreach ($sql_data as $key => $value) {
+					$sql_string =  $this->packageId.';"'
+						.$logdata->scoid.'";"'
+						.$logdata->scotitle.'";'
+						.$timestamp.';"SQL";"'
+						.$key.'";"'
+						.str_replace("\"","\"\"",$value).'";;;;'."\n";
+					fwrite($fh_csv,$sql_string);
+				}
 			}
 		}
 		

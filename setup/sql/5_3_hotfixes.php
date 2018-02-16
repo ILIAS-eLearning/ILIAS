@@ -101,7 +101,10 @@ $ilDB->manipulate("UPDATE il_orgu_permissions SET protected = 1 WHERE parent_id 
 ?>
 <#6>
 <?php
-$ilDB->dropIndexByFields('cmi_objective',array('id'));
+if( $ilDB->indexExistsByFields('cmi_objective', array('id')) )
+{
+	$ilDB->dropIndexByFields('cmi_objective',array('id'));
+}
 ?>
 <#7>
 <?php

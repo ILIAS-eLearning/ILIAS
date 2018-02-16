@@ -27,6 +27,11 @@ class PlainTextHandler extends Handler
     protected $logger;
 
     /**
+     * @var callable
+     */
+    protected $dumper;
+
+    /**
      * @var bool
      */
     private $addTraceToOutput = true;
@@ -84,6 +89,17 @@ class PlainTextHandler extends Handler
     }
 
     /**
+     * Set var dumper callback function.
+     *
+     * @param  callable $dumper
+     * @return void
+     */
+    public function setDumper(callable $dumper)
+    {
+        $this->dumper = $dumper;
+    }
+
+    /**
      * Add error trace to output.
      * @param  bool|null  $addTraceToOutput
      * @return bool|$this
@@ -126,6 +142,23 @@ class PlainTextHandler extends Handler
     public function setTraceFunctionArgsOutputLimit($traceFunctionArgsOutputLimit)
     {
         $this->traceFunctionArgsOutputLimit = (integer) $traceFunctionArgsOutputLimit;
+    }
+
+    /**
+     * Create plain text response and return it as a string
+     * @return string
+     */
+    public function generateResponse()
+    {
+        $exception = $this->getException();
+        return sprintf(
+            "%s: %s in file %s on line %d%s\n",
+            get_class($exception),
+            $exception->getMessage(),
+            $exception->getFile(),
+            $exception->getLine(),
+            $this->getTraceOutput()
+        );
     }
 
     /**
@@ -177,7 +210,7 @@ class PlainTextHandler extends Handler
 
         // Dump the arguments:
         ob_start();
-        var_dump($frame->getArgs());
+        $this->dump($frame->getArgs());
         if (ob_get_length() > $this->getTraceFunctionArgsOutputLimit()) {
             // The argument var_dump is to big.
             // Discarded to limit memory usage.
@@ -189,9 +222,25 @@ class PlainTextHandler extends Handler
             );
         }
 
-        return sprintf("\n%s",
+        return sprintf(
+            "\n%s",
             preg_replace('/^/m', self::VAR_DUMP_PREFIX, ob_get_clean())
         );
+    }
+
+    /**
+     * Dump variable.
+     *
+     * @param mixed $var
+     * @return void
+     */
+    protected function dump($var)
+    {
+        if ($this->dumper) {
+            call_user_func($this->dumper, $var);
+        } else {
+            var_dump($var);
+        }
     }
 
     /**
@@ -240,15 +289,7 @@ class PlainTextHandler extends Handler
      */
     public function handle()
     {
-        $exception = $this->getException();
-
-        $response = sprintf("%s: %s in file %s on line %d%s\n",
-                get_class($exception),
-                $exception->getMessage(),
-                $exception->getFile(),
-                $exception->getLine(),
-                $this->getTraceOutput()
-            );
+        $response = $this->generateResponse();
 
         if ($this->getLogger()) {
             $this->getLogger()->error($response);
@@ -258,12 +299,16 @@ class PlainTextHandler extends Handler
             return Handler::DONE;
         }
 
-        if (\Whoops\Util\Misc::canSendHeaders()) {
-            header('Content-Type: text/plain');
-        }
-
         echo $response;
 
         return Handler::QUIT;
+    }
+
+    /**
+     * @return string
+     */
+    public function contentType()
+    {
+        return 'text/plain';
     }
 }
