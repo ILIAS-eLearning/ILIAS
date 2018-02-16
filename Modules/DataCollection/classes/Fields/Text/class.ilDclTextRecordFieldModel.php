@@ -60,6 +60,22 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
 
 
 	/**
+	 * @return string
+	 */
+	public function getPlainText() {
+		$value = $this->getValue();
+
+		if (is_array($value)) {
+			if ($value['title']) {
+				return $value['title'];
+			}
+			return isset($value['link']) ? $value['link'] : '';
+		} else {
+			return $value;
+		}
+	}
+
+	/**
      * @return mixed|string
      */
     public function getExportValue() {
@@ -71,7 +87,6 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
         } else {
             return $value;
         }
-        return $value;
     }
 
     public function getValueFromExcel($excel, $row, $col) {

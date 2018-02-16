@@ -1439,7 +1439,7 @@ class ilObjMediaObject extends ilObject
 							$pinfo = ilPCQuestion::_getPageForQuestionId($id, "sahs");
 							if ($pinfo && $pinfo["parent_type"] == "sahs")
 							{
-								include_once("./Modules/SCORM2004/classes/class.ilSCORM2004Node.php");
+								include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
 								$obj_id = ilSCORM2004Node::_lookupSLMID($pinfo["page_id"]);
 							}
 						}

@@ -112,20 +112,97 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#8>
 <?php
-/*
- * removes org units from trash
- * https://www.ilias.de/mantis/view.php?id=20168
-*/
-global $DIC;
-$obj_set = $DIC->database()->queryF('SELECT * FROM tree JOIN object_reference 
+if (!$ilDB->indexExistsByFields('page_style_usage', array('page_id', 'page_type', 'page_lang', 'page_nr')) )
+{
+	$ilDB->addIndex('page_style_usage',array('page_id', 'page_type', 'page_lang', 'page_nr'),'i1');
+}
+?>
+<#9>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$rp_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId("read_learning_progress");
+$ep_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_learning_progress');
+$w_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+if($rp_ops_id && $ep_ops_id && $w_ops_id)
+{
+	// see ilObjectLP
+	$lp_types = array('mcst');
+
+	foreach($lp_types as $lp_type)
+	{
+		$lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId($lp_type);
+		if($lp_type_id)
+		{
+			ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $rp_ops_id);
+			ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $ep_ops_id);
+			ilDBUpdateNewObjectType::cloneOperation($lp_type, $w_ops_id, $rp_ops_id);
+			ilDBUpdateNewObjectType::cloneOperation($lp_type, $w_ops_id, $ep_ops_id);
+		}
+	}
+}
+?>
+<#10>
+<?php
+$set = $ilDB->query("
+  SELECT obj_id, title, description, role_id, usr_id FROM object_data
+  INNER JOIN role_data role ON role.role_id = object_data.obj_id
+  INNER JOIN rbac_ua on role.role_id = rol_id
+  WHERE title LIKE '%il_orgu_superior%' OR title LIKE '%il_orgu_employee%'
+");
+$assigns = [];
+$superior_position_id = ilOrgUnitPosition::getCorePositionId(ilOrgUnitPosition::CORE_POSITION_SUPERIOR);
+$employee_position_id = ilOrgUnitPosition::getCorePositionId(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
+
+while ($res = $ilDB->fetchAssoc($set)) {
+	$user_id = $res['usr_id'];
+
+	$tmp = explode("_", $res['title']);
+	$orgu_ref_id = (int) $tmp[3];
+	if ($orgu_ref_id == 0) {
+		//$ilLog->write("User $user_id could not be assigned to position. Role description does not contain object id of orgu. Skipping.");
+		continue;
+	}
+
+	$tmp = explode("_", $res['title']); //il_orgu_[superior|employee]_[$ref_id]
+	$role_type = $tmp[2]; // [superior|employee]
+
+	if ($role_type == 'superior')
+		$position_id = $superior_position_id;
+	elseif ($role_type == 'employee')
+		$position_id = $employee_position_id;
+	else {
+		//$ilLog->write("User $user_id could not be assigned to position. Role type seems to be neither superior nor employee. Skipping.");
+		continue;
+	}
+	if(!ilOrgUnitUserAssignment::findOrCreateAssignment(
+		$user_id,
+		$position_id,
+		$orgu_ref_id)) {
+		//$ilLog->write("User $user_id could not be assigned to position $position_id, in orgunit $orgu_ref_id . One of the ids might not actually exist in the db. Skipping.");
+	}
+}
+?>
+<#11>
+<?php
+	$ilDB->manipulate('UPDATE exc_mem_ass_status SET status='.$ilDB->quote('notgraded', 'text').' WHERE status = '.$ilDB->quote('', 'text'));
+?>
+<#12>
+<?php
+	/*
+	 * removes org units from trash
+	 * https://www.ilias.de/mantis/view.php?id=20168
+	*/
+	global $DIC;
+	$obj_set = $DIC->database()->queryF('SELECT * FROM tree JOIN object_reference 
 ON tree.child=object_reference.ref_id JOIN object_data 
 ON object_reference.obj_id=object_data.obj_id 
 WHERE tree.tree < %s AND object_data.type = %s',array('integer', 'text'),array(0, "orgu"));
-$a_org_unit_ref_ids = array();
-while($row = $DIC->database()->fetchAssoc($obj_set))
-{
-	$a_org_unit_ref_ids[] = $row['child'];
-}
-ilRepUtil::removeObjectsFromSystem($a_org_unit_ref_ids);
-
+	$a_org_unit_ref_ids = array();
+	while($row = $DIC->database()->fetchAssoc($obj_set))
+	{
+		$a_org_unit_ref_ids[] = $row['child'];
+	}
+	ilRepUtil::removeObjectsFromSystem($a_org_unit_ref_ids);
 ?>

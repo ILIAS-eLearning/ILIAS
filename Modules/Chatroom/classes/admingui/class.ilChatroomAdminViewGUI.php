@@ -256,6 +256,10 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 			'auth'                  => $form->getInput('auth')
 		);
 
+		if (!$settings['chat_enabled']) {
+			$settings['enable_osc'] = false;
+		}
+
 		$notificationSettings = new ilSetting('notifications');
 		$notificationSettings->set('osd_polling_intervall', (int)$form->getInput('osd_intervall'));
 		$notificationSettings->set('enable_osd', (boolean)$form->getInput('enable_osd'));

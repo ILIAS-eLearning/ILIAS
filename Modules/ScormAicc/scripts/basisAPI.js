@@ -482,11 +482,8 @@ function onWindowUnload () {
 	} else {
 		var s_unload="";
 		if (iv.b_autoLastVisited==true) s_unload="last_visited="+iv.launchId;
-		if(typeof iv.b_sessionDeactivated!="undefined" && iv.b_sessionDeactivated==true) {
+		// if(typeof iv.b_sessionDeactivated!="undefined" && iv.b_sessionDeactivated==true)
 			sendRequest ("./storeScorm.php?package_id="+iv.objId+"&ref_id="+iv.refId+"&client_id="+iv.clientId+"&hash="+iv.status.hash+"&p="+iv.status.p+"&do=unload", s_unload);
-		} else {
-			sendRequest ("./Modules/ScormAicc/sahs_server.php?cmd=scorm12PlayerUnload&package_id="+iv.objId+"&ref_id="+iv.refId+"&p="+iv.status.p, s_unload);
-		}
 	}
 }
 

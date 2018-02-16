@@ -14,6 +14,18 @@ include_once './Services/WebServices/FileManager/classes/class.ilFMSettings.php'
 class ilFMSettingsGUI
 {
 
+	/**
+	 * @var \ILIAS\DI\Container
+	 */
+	private $dic;
+	/**
+	 * @var ilCtrl
+	 */
+	private $ctrl;
+	/**
+	 * @var ilRbacSystem
+	 */
+	private $rbacsystem;
 	private $parent_obj = null;
 	
 	/**
@@ -21,6 +33,10 @@ class ilFMSettingsGUI
 	 */
 	public function __construct($a_parent_gui)
 	{
+		global $DIC;
+		$this->dic = $DIC;
+		$this->ctrl = $this->dic->ctrl();
+		$this->rbacsystem = $this->dic->rbac()->system();
 		$this->parent_obj = $a_parent_gui;
 	}
 
@@ -98,8 +114,11 @@ class ilFMSettingsGUI
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this));
 		$form->setTitle($GLOBALS['lng']->txt('settings'));
-		$form->addCommandButton('update', $GLOBALS['lng']->txt('save'));
-		$form->addCommandButton('settings', $GLOBALS['lng']->txt('cancel'));
+
+		if($this->rbacsystem->checkAccess('write', $_GET['ref_id'])) {
+			$form->addCommandButton('update', $GLOBALS['lng']->txt('save'));
+			$form->addCommandButton('settings', $GLOBALS['lng']->txt('cancel'));
+		}
 
 		// activation
 		$active = new ilCheckboxInputGUI($GLOBALS['lng']->txt('fm_settings_active'), 'active');

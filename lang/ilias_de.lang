@@ -11830,7 +11830,8 @@ rbac#:#htlm_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benut
 rbac#:#sahs_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
 rbac#:#tst_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
 rbac#:#exc_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
-rbac#:#sess_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
+rbac#:#file_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
+rbac#:#mcst_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
 content#:#cont_progress_icons#:#Fortschritts-Icons
 content#:#cont_progress_icons_info#:#Zeigt Fortschritts-Icons anstatt der Kapitel- und Seiten-Icons im Inhaltsverzeichnis an. Fortschrittsinformationen werden von ILIAS ab Version 5.0 gespeichert.
 content#:#cont_self_assessment#:#Selbsttests
@@ -12368,6 +12369,8 @@ grp#:#grp_admission_link_failure_membership_limited#:#Kein Beitritt möglich. Di
 crs#:#crs_admission_link_failure_membership_limited#:#Kein Beitritt möglich. Die Mitgliederzahl der Gruppe ist begrenzt.
 grp#:#grp_admission_link_success_registration#:#Erfolgreich zur Gruppe "%s" beigetreten.
 crs#:#crs_admission_link_success_registration#:#Erfolgreich zum Kurs "%s" beigetreten.
+crs#:#crs_admission_link_failure_offline#:#Kein Beitritt möglich. Der Kurs ist offline.
+crs#:#crs_admission_link_failure_availability#:#Kein Beitritt möglich. Der Kurs ist online.
 rbac#:#ilias_id#:#ILIAS-ID
 scormtrac#:#exportselectedraw#:#Rohdaten
 scormtrac#:#lvalue#:#Key
@@ -13792,7 +13795,6 @@ ecs#:#ecs_member_auth_type#:#Authentifizierungsmethode für Kursmitglieder
 background_tasks#:#background_tasks#:#Background Tasks
 background_tasks#:#background_tasks_running#:#Background Tasks
 background_tasks#:#scheduled#:#Geplant
-background_tasks#:#dismiss#:#Entfernen
 background_tasks#:#remove#:#Entfernen
 background_tasks#:#completed#:#Abgeschlossen
 background_tasks#:#waiting#:#Warten
@@ -14153,3 +14155,5 @@ meta#:#adt_error_max_length#:#Der eingegebene Text ist zu lang. Bitte geben Sie 
 form#:#form_chars_remaining#:#Verbleibende Zeichen:
 poll#:#poll_voting_period_full_info#:#Abstimmung von %s bis %s
 crs#:#crs_subscription_min_members_err#:#Die minimale Anzahl darf nicht größer als die maximale Anzahl sein.
+background_tasks#:#abort#:#Abort###25 01 2018 new variable
+rbac#:#sess_read_learning_progress#:#User can view learning progress of other users###07 02 2018 new variable

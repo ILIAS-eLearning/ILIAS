@@ -328,8 +328,8 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 
 
 	public function view() {
-		if (!$this->ilAccess->checkAccess("read", "", $_GET["ref_id"])) {
-			if ($this->ilAccess->checkAccess("visible", "", $_GET["ref_id"])) {
+		if (!$this->rbacsystem->checkAccess("read", $_GET["ref_id"])) {
+			if ($this->rbacsystem->checkAccess("visible", $_GET["ref_id"])) {
 				ilUtil::sendFailure($this->lng->txt("msg_no_perm_read"));
 				$this->ctrl->redirectByClass('ilinfoscreengui', '');
 			}
@@ -451,28 +451,25 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	 * @param ilTabsGUI $tabs_gui
 	 */
 	public function getTabs() {
-		$read_access_ref_id = $this->ilAccess->checkAccess('read', '', $this->object->getRefId());
+		$read_access_ref_id = $this->rbacsystem->checkAccess('visible,read', $this->object->getRefId());
 		if ($read_access_ref_id) {
 			$this->tabs_gui->addTab("view_content", $this->lng->txt("content"), $this->ctrl->getLinkTarget($this, ""));
 			$this->tabs_gui->addTab("info_short", "Info", $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
 		}
 
 		// Tabs for OrgUnits exclusive root!
-		$write_access_ref_id = $this->ilAccess->checkAccess('write', '', $this->object->getRefId());
 		if ($this->object->getRefId() != ilObjOrgUnit::getRootOrgRefId()) {
 			if (ilObjOrgUnitAccess::_checkAccessStaff($this->object->getRefId())) {
 				// $this->tabs_gui->addTab('legacy_staff', 'legacy_staff', $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "showStaff"));
 				$this->tabs_gui->addTab(self::TAB_STAFF, $this->lng->txt(self::TAB_STAFF), $this->ctrl->getLinkTargetByClass(ilOrgUnitUserAssignmentGUI::class, ilOrgUnitUserAssignmentGUI::CMD_INDEX));
 			}
-			if ($write_access_ref_id) {
+			if ($read_access_ref_id) {
 				$this->tabs_gui->addTab(self::TAB_SETTINGS, $this->lng->txt(self::TAB_SETTINGS), $this->ctrl->getLinkTarget($this, 'editSettings'));
-			}
-			if (ilObjOrgUnitAccess::_checkAccessAdministrateUsers($this->object->getRefId())) {
 				$this->tabs_gui->addTab("administrate_users", $this->lng->txt("administrate_users"), $this->ctrl->getLinkTargetByClass("ilLocalUserGUI", "index"));
 			}
 		}
 
-		if ($write_access_ref_id) {
+		if ($read_access_ref_id) {
 			if ($this->object->getRefId() == ilObjOrgUnit::getRootOrgRefId()) {
 				$this->tabs_gui->addTab(self::TAB_GLOBAL_SETTINGS, $this->lng->txt('settings'), $this->ctrl->getLinkTargetByClass(ilOrgUnitGlobalSettingsGUI::class));
 			}
@@ -532,7 +529,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	function setContentSubTabs() {
 		$this->addStandardContainerSubTabs();
 		//only display the import tab at the first level
-		if ($this->ilAccess->checkAccess("write", "", $_GET["ref_id"]) AND $this->object->getRefId()
+		if ($this->rbacsystem->checkAccess("visible, read", $_GET["ref_id"]) AND $this->object->getRefId()
 		                                                                   == ilObjOrgUnit::getRootOrgRefId()) {
 			$this->tabs_gui->addSubTab("import", $this->lng->txt("import"), $this->ctrl->getLinkTargetByClass("ilOrgUnitSimpleImportGUI", "chooseImport"));
 		}
