@@ -109,7 +109,10 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#8>
 <?php
-//removes org units from trash
+/*
+ * removes org units from trash
+ * https://www.ilias.de/mantis/view.php?id=20168
+*/
 global $DIC;
 $obj_set = $DIC->database()->queryF('SELECT * FROM tree JOIN object_reference 
 ON tree.child=object_reference.ref_id JOIN object_data 
@@ -118,7 +121,7 @@ WHERE tree.tree < %s AND object_data.type = %s',array('integer', 'text'),array(0
 $a_org_unit_ref_ids = array();
 while($row = $DIC->database()->fetchAssoc($obj_set))
 {
-	$a_org_unit_ref_ids[] = $row;
+	$a_org_unit_ref_ids[] = $row['child'];
 }
 ilRepUtil::removeObjectsFromSystem($a_org_unit_ref_ids);
 
