@@ -114,7 +114,9 @@ class ilPersonalDesktopGUI
 			$ilErr->raiseError($this->lng->txt("msg_not_available_for_anon"), $ilErr->MESSAGE);
 		}
 		$this->cmdClass = $_GET['cmdClass'];
-		
+
+		$this->ctrl->saveParameter($this, array("view"));
+
 		//$tree->useCache(false);
 
 		$this->action_menu = new ilAdvancedSelectionListGUI();
@@ -629,6 +631,7 @@ class ilPersonalDesktopGUI
 		if($viewSettings->enabledMemberships())
 		{
 			$_GET['view'] = $viewSettings->getMembershipsView();
+			$this->ctrl->setParameter($this, "view", $viewSettings->getMembershipsView());
 		}
 		$this->show();
 	}
@@ -643,6 +646,7 @@ class ilPersonalDesktopGUI
 		if($viewSettings->enabledSelectedItems())
 		{
 			$_GET['view'] = $viewSettings->getSelectedItemsView();
+			$this->ctrl->setParameter($this, "view", $viewSettings->getSelectedItemsView());
 		}
 		$this->show();
 	}

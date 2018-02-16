@@ -279,7 +279,7 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI {
 
 		$field_values = array();
 
-		foreach ($this->getSelectableColumns() as $k => $v) {
+		foreach ($this->getSelectedColumns() as $k => $v) {
 			switch ($k) {
 				case 'usr_reg_status':
 					$field_values[$k] = ilMStListCourse::getMembershipStatusText($my_staff_course->getUsrRegStatus());

@@ -162,7 +162,7 @@ class BasicPersistenceTest extends TestCase {
 
 		$this->persistence->setConnector($observerConnector);
 		$observer_ids = $this->persistence->getBucketIdsOfUser(5);
-		$this->assertEquals($observer_ids, [2 => 2, 3 => 3]);
+		$this->assertEquals($observer_ids, [0 => 2, 1 => 3]);
 	}
 
 	public function testGetObserverIdsByState() {
@@ -201,7 +201,7 @@ class BasicPersistenceTest extends TestCase {
 
 		$options = $download_integer->getOptions([]); // Download, Dismiss (the input doesnt matter so we pass an empty array)
 
-		$dismiss = $download_integer->getDismissOption();
+		$dismiss = $download_integer->getRemoveOption();
 
 		$this->bucket->userInteraction($dismiss); // We "click" Dismiss.
 
@@ -237,7 +237,7 @@ class BasicPersistenceTest extends TestCase {
 
 		$options = $download_integer->getOptions([]); // Download, Dismiss (the input doesn't matter so we pass an empty array)
 
-		$dismiss = $download_integer->getDismissOption();
+		$dismiss = $download_integer->getRemoveOption();
 
 		$this->bucket->userInteraction($dismiss); // We "click" Dismiss.
 

@@ -963,7 +963,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			AND objective_id = %s
 			AND user_id = %s',
 			array('integer','text','integer'),
-			array($a_obj_id,'course_overall_status',$a_user_id)
+			array($a_obj_id,'-course_overall_status-',$a_user_id)
 		);
 
 		if ($status_rec = $ilDB->fetchAssoc($status_set))
@@ -987,7 +987,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			AND objective_id = %s
 			AND user_id = %s',
 			array('integer','text','integer'),
-			array($a_obj_id,'course_overall_status',$a_user_id)
+			array($a_obj_id,'-course_overall_status-',$a_user_id)
 		);
 
 		if ($status_rec = $ilDB->fetchAssoc($status_set))		
@@ -1010,7 +1010,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			AND objective_id = %s
 			AND user_id = %s',
 			array('integer','text','integer'),
-			array($a_obj_id,'course_overall_status',$a_user_id)
+			array($a_obj_id,'-course_overall_status-',$a_user_id)
 		);
 
 		if ($status_rec = $ilDB->fetchAssoc($status_set))		

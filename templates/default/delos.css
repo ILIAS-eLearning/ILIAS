@@ -6905,7 +6905,7 @@ button.close {
 }
 .il-upload-file-item.standard {
   background: white;
-  border: 1px solid #C0C0C0;
+  border: 1px solid #9C9C9C;
   -moz-border-radius: 0px;
   -webkit-border-radius: 0px;
   border-radius: 0px;
@@ -6929,7 +6929,7 @@ button.close {
 }
 .il-dropzone.standard {
   background: white;
-  border: 1px dashed #C0C0C0;
+  border: 1px dashed #9C9C9C;
   -moz-border-radius: 0px;
   -webkit-border-radius: 0px;
   border-radius: 0px;
@@ -6941,7 +6941,7 @@ button.close {
   border-radius: 0;
   font-size: 12px;
   border: 1px solid transparent;
-  color: #C0C0C0;
+  color: #9C9C9C;
   display: inline-block;
 }
 .il-dropzone.wrapper {
@@ -6950,14 +6950,14 @@ button.close {
 .il-dropzone.darkened-highlight {
   z-index: 1100;
   position: relative;
-  border: 1px dashed #C0C0C0;
+  border: 1px dashed #9C9C9C;
   -moz-border-radius: 0px;
   -webkit-border-radius: 0px;
   border-radius: 0px;
   background: #FFFFD6;
 }
 .il-dropzone.default-highlight {
-  border: 1px dashed #C0C0C0;
+  border: 1px dashed #9C9C9C;
   -moz-border-radius: 0px;
   -webkit-border-radius: 0px;
   border-radius: 0px;
@@ -7859,6 +7859,12 @@ hr.il-divider-with-label {
 }
 .il-viewcontrol-sortation .dropdown-toggle .caret:before {
   content: "\21f5";
+}
+.ilBlockContent .il-viewcontrol-section .btn.btn-default {
+  background-color: transparent;
+  border: 0;
+  color: #557196;
+  padding: 3px 3px;
 }
 ul.breadcrumb {
   margin: 0;
@@ -11226,7 +11232,8 @@ td.calempty_border {
   border-bottom-color: #ddd;
 }
 tr.calstd {
-  background-color: inherit;
+  /*background-color: inherit;*/
+  background-color: white;
   height: 6em;
 }
 table.il-cal-day tr.calstd + tr.calstdtime td.calempty,
@@ -11309,19 +11316,23 @@ p.il_calevent .btn-link {
 }
 td.calevent {
   vertical-align: top;
-  padding: 3px;
+  /*padding: 3px;*/
   border-spacing: 0px;
   border-collapse: collapse;
   border-width: 1px;
   border-style: solid;
   border-color: #ddd;
   font-size: 90%;
-  background-color: white;
+  /*background-color:white;*/
 }
 div.calevent {
   font-size: 90%;
   padding: 3px;
   margin: 3px;
+}
+div.calfullcontent {
+  padding: 4px;
+  height: 100%;
 }
 p.il_cal_monthday {
   padding: 2px;
@@ -11415,6 +11426,10 @@ th.calminiweek {
 }
 span.calminiinactive {
   color: #CCCCCC;
+}
+.calnewapplink {
+  float: right;
+  visibility: hidden;
 }
 /* Modules/Wiki */
 a.ilWikiPageMissing:link,
@@ -15326,10 +15341,11 @@ table.mceToolbar td {
 /* print css */
 @media print {
   * {
-    text-shadow: none !important;
-    color: black !important;
-    background: transparent !important;
-    box-shadow: none !important;
+    /* see bug 0022342 */
+    /* text-shadow: none !important;
+        color: black !important; // Black prints faster: h5bp.com/s
+        background: transparent !important;
+        box-shadow: none !important; */
   }
   a,
   a:visited {

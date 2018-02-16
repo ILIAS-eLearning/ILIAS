@@ -66,7 +66,7 @@ class ilOrgUnitPositionTableGUI extends ilTable2GUI {
 		                                                                           ->getLinkTargetByClass(ilOrgUnitPositionGUI::class, ilOrgUnitPositionGUI::CMD_EDIT));
 		if(!$obj->isCorePosition()) {
 			$selection->addItem($this->DIC->language()->txt('delete'), 'delete', $this->DIC->ctrl()
-			                                                                               ->getLinkTargetByClass(ilOrgUnitPositionGUI::class, ilOrgUnitPositionGUI::CMD_CONFIRM));
+			                                                                               ->getLinkTargetByClass(ilOrgUnitPositionGUI::class, ilOrgUnitPositionGUI::CMD_CONFIRM_DELETION));
 		}
 
 		$this->tpl->setVariable('ACTIONS', $selection->getHTML());

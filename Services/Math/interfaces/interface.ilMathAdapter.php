@@ -95,4 +95,11 @@ interface ilMathAdapter
 	 * @return mixed
 	 */
 	public function applyScale($left_operand, $scale = null);
+
+	/**
+	 * @param mixed $value
+	 * @param int $precision
+	 * @return string
+	 */
+	public function round($value, $precision = 0);
 }

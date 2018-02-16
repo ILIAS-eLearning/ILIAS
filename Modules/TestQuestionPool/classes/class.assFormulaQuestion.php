@@ -395,11 +395,11 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 
 				if($forsolution)
 				{
-					$input = '<span class="solutionbox">' . ilUtil::prepareFormOutput($value) . '</span>';
+					$input = '<span class="ilc_qinput_TextInput solutionbox">' . ilUtil::prepareFormOutput($value) . '</span>';
 				}
 				else
 				{
-					$input = '<input type="text" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" name="result_' . $result . '"' . $value . ' />';
+					$input = '<input class="ilc_qinput_TextInput" type="text" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" name="result_' . $result . '"' . $value . ' />';
 				}
 				
 				$units = "";
@@ -1059,8 +1059,20 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 				$matches = null;
 				if(preg_match("/^result_(\\\$r\\d+)$/", $key, $matches))
 				{
-					if(strlen($value)) $entered_values = TRUE;
-					$result = $ilDB->queryF("SELECT solution_id FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND authorized = %s  AND " . $ilDB->like('value1', 'clob', $matches[1]),
+					if(strlen($value))
+					{
+						$entered_values = TRUE;
+					}
+
+					$queryResult = "SELECT solution_id FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND authorized = %s  AND " . $ilDB->like('value1', 'clob', $matches[1]);
+
+					if( $this->getStep() !== NULL )
+					{
+						$queryResult .= " AND step = " . $ilDB->quote((int)$this->getStep(), 'integer') . " ";
+					}
+
+					$result = $ilDB->queryF(
+						$queryResult,
 						array('integer', 'integer', 'integer', 'integer'),
 						array($active_id, $pass, $this->getId(), (int)$authorized)
 					);
@@ -1079,7 +1091,15 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 				}
 				else if(preg_match("/^result_(\\\$r\\d+)_unit$/", $key, $matches))
 				{
-					$result = $ilDB->queryF("SELECT solution_id FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND authorized = %s AND " . $ilDB->like('value1', 'clob', $matches[1] . "_unit"),
+					$queryResultUnit = "SELECT solution_id FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND authorized = %s AND " . $ilDB->like('value1', 'clob', $matches[1] . "_unit");
+
+					if( $this->getStep() !== NULL )
+					{
+						$queryResultUnit .= " AND step = " . $ilDB->quote((int)$this->getStep(), 'integer') . " ";
+					}
+
+					$result = $ilDB->queryF(
+						$queryResultUnit,
 						array('integer', 'integer', 'integer', 'integer'),
 						array($active_id, $pass, $this->getId(), (int)$authorized)
 					);
@@ -1145,8 +1165,17 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 			AND value1 like '\$r%'
 			AND value2 is not null
 			AND value2 <> ''
+		";
+
+		if( $this->getStep() !== NULL )
+		{
+			$query .= " AND step = " . $ilDB->quote((int)$this->getStep(), 'integer') . " ";
+		}
+
+		$query .= "
 			GROUP BY authorized
 		";
+
 		$result = $ilDB->query($query);
 
 		while ($row = $ilDB->fetchAssoc($result))
@@ -1181,6 +1210,11 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 			AND pass = " .$ilDB->quote($pass, 'integer') ."
 			AND value1 like '\$r%'
 		";
+
+		if( $this->getStep() !== NULL )
+		{
+			$query .= " AND step = " . $ilDB->quote((int)$this->getStep(), 'integer') . " ";
+		}
 
 		return $ilDB->manipulate($query);
 	}
