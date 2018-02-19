@@ -194,10 +194,15 @@ class ilMemberExportSettingsGUI
 		$identifier = $this->parent_type.'s_pview';
 		if($this->parent_obj_id)
 		{
-			$identifier .= '_'.$this->parent_obj_id;
+			$identifier_for_object = $identifier . '_' . $this->parent_obj_id;
 		}
 			
-		$settings = new ilUserFormSettings($identifier,-1);
+		$settings = new ilUserFormSettings($identifier_for_object,-1);
+		if(!$settings->hasStoredEntry())
+		{
+			// use default settings
+			$settings = new ilUserFormSettings($identifier,-1);
+		}
 		$settings->exportToForm($form);
 		
 		return $form;
