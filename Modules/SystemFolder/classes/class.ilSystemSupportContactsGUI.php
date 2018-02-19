@@ -96,7 +96,7 @@ class ilSystemSupportContactsGUI
 			}
 			else
 			{
-				return $ilCtrl->getLinkTargetByClass("ilsystemsupportcontactsgui", "");
+				return $ilCtrl->getLinkTargetByClass("ilsystemsupportcontactsgui", "", "", false, false);
 			}
 		}
 
