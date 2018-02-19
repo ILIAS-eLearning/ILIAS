@@ -570,6 +570,111 @@ class ilObjSession extends ilObject
 		return true;
 	}
 
+	// cat-tms-patch end
+
+	// for course creation
+	/**
+	 * Will be called after course creation with configuration options.
+	 *
+	 * @param	mixed	$config
+	 * @return	void
+	 */
+	public function afterCourseCreation($config) {
+		foreach ($config as $key => $value) {
+			if($key == "session_time") {
+				$this->updateFromConfig($value);
+			} else if($key == "update_from_agenda") {
+				$this->updateFromAgenda();
+			}
+			else {
+				throw new \RuntimeException("Can't process configuration '$key'");
+			}
+		}
+	}
+
+	/**
+	 * Update appointment from config values
+	 *
+	 * @param mixed 	$value
+	 *
+	 * @return void
+	 */
+	protected function updateFromConfig($value) {
+		$appointment = $this->getFirstAppointment();
+		$start_date = $appointment->getStart()->get(IL_CAL_FKT_DATE, "Y-m-d");
+		$end_date = $appointment->getEnd()->get(IL_CAL_FKT_DATE, "Y-m-d");
+
+		$start_hh = $value["hh"];
+		$start_mm = $value["mm"];
+
+		$start_hour = $appointment->getStart()->get(IL_CAL_FKT_DATE, "H");
+		$end_hour = $appointment->getEnd()->get(IL_CAL_FKT_DATE, "H");
+		$start_minutes = $appointment->getStart()->get(IL_CAL_FKT_DATE, "i");
+		$end_minutes = $appointment->getEnd()->get(IL_CAL_FKT_DATE, "i");
+
+		$end_hh = (int)$start_hh + $end_hour - $start_hour;
+		$end_mm = (int)$start_mm + $end_minutes - $start_minutes;
+
+		if ($end_mm < 0) {
+			$end_hh = $end_hh - 1;
+			$end_mm = 60 + $end_mm;
+		}
+
+		if ($end_mm >= 60) {
+			$end_hh = $end_hh + 1;
+			$end_mm = $end_mm - 60;
+		}
+
+		$start_hh = str_pad($start_hh, 2, "0", STR_PAD_LEFT);
+		$start_mm = str_pad($start_mm, 2, "0", STR_PAD_LEFT);
+		$end_hh = str_pad($end_hh, 2, "0", STR_PAD_LEFT);
+		$end_mm = str_pad($end_mm, 2, "0", STR_PAD_LEFT);
+
+		$dt_start = $start_date." $start_hh:$start_mm:00";
+		$new_start_date = new ilDateTime($dt_start, IL_CAL_DATETIME);
+
+		$dt_end = $end_date." $end_hh:$end_mm:00";
+		$new_end_date = new ilDateTime($dt_end, IL_CAL_DATETIME);
+
+		$appointment->setStart($new_start_date);
+		$appointment->setEnd($new_end_date);
+		$appointment->update();
+	}
+
+	/**
+	 * Updates the first appointmen according to references agenda
+	 *
+	 * @return void
+	 */
+	public function updateFromAgenda() {
+		include_once('./Modules/Session/classes/class.ilEventItems.php');
+		$event_items = (new \ilEventItems($this->getId()))->getItems();
+		foreach ($event_items as $event_item) {
+			if(\ilObject::_lookupType($event_item, true) == "xage") {
+				$agenda = ilObjectFactory::getInstanceByRefId($event_item);
+				$actions = $agenda->getAgendaEntryActions();
+				$start_and_end = $actions->getDayStartAndEnd();
+				if(is_null($start_and_end["start"]) || is_null($start_and_end["end"])) {
+					continue;
+				}
+
+				$appointment = $this->getFirstAppointment();
+				$start_date = $appointment->getStart()->get(IL_CAL_FKT_DATE, "Y-m-d");
+				$end_date = $appointment->getEnd()->get(IL_CAL_FKT_DATE, "Y-m-d");
+
+				$dt_start = $start_date." ".$start_and_end["start"];
+				$new_start_date = new ilDateTime($dt_start, IL_CAL_DATETIME);
+
+				$dt_end = $end_date." ".$start_and_end["end"];
+				$new_end_date = new ilDateTime($dt_end, IL_CAL_DATETIME);
+
+				$appointment->setStart($new_start_date);
+				$appointment->setEnd($new_end_date);
+				$appointment->update();
+			}
+		}
+	}
+	// cat-tms-patch end
 
 
 	/**

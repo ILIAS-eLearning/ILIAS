@@ -8,6 +8,16 @@ require_once("./Services/Form/classes/class.ilDurationInputGUI.php");
 class ilSessionDurationInputGUI extends ilDurationInputGUI
 {
 	protected $minute_step_size = 0;
+	protected $read_only = false;
+
+	/**
+	 * @param	bool	$readonly
+	 */
+	public function setReadOnly($read_only)
+	{
+		assert('is_bool($read_only)');
+		$this->read_only = $read_only;
+	}
 
 
 	/**
@@ -20,6 +30,13 @@ class ilSessionDurationInputGUI extends ilDurationInputGUI
 
 		$tpl = new ilTemplate("tpl.prop_duration.html", true, true, "Services/Form");
 
+		if ($this->read_only) {
+			$attributes = ["disabled" => "disabled"];
+		}
+		else {
+			$attributes = "";
+		}
+
 		if($this->getShowMonths())
 		{
 			$tpl->setCurrentBlock("dur_months");
@@ -31,7 +48,7 @@ class ilSessionDurationInputGUI extends ilDurationInputGUI
 			}
 			$tpl->setVariable("SELECT_MONTHS",
 				ilUtil::formSelect($this->getMonths(), $this->getPostVar()."[MM]",
-				$val, false, true, 0, '', '', $this->getDisabled()));
+				$val, false, true, 0, '', $attributes, $this->getDisabled()));
 			$tpl->parseCurrentBlock();
 		}
 		if ($this->getShowDays())
@@ -45,7 +62,7 @@ class ilSessionDurationInputGUI extends ilDurationInputGUI
 			}
 			$tpl->setVariable("SELECT_DAYS",
 				ilUtil::formSelect($this->getDays(), $this->getPostVar()."[dd]",
-				$val, false, true, 0, '', '', $this->getDisabled()));
+				$val, false, true, 0, '', $attributes, $this->getDisabled()));
 			$tpl->parseCurrentBlock();
 		}
 		if ($this->getShowHours())
@@ -59,7 +76,7 @@ class ilSessionDurationInputGUI extends ilDurationInputGUI
 			}
 			$tpl->setVariable("SELECT_HOURS",
 				ilUtil::formSelect($this->getHours(), $this->getPostVar()."[hh]",
-				$val, false, true, 0, '', '', $this->getDisabled()));
+				$val, false, true, 0, '', $attributes, $this->getDisabled()));
 			$tpl->parseCurrentBlock();
 		}
 		if ($this->getShowMinutes())
@@ -76,7 +93,7 @@ class ilSessionDurationInputGUI extends ilDurationInputGUI
 
 			$tpl->setVariable("SELECT_MINUTES",
 				ilUtil::formSelect($this->getMinutes(), $this->getPostVar()."[mm]",
-				$val, false, true, 0, '', '', $this->getDisabled()));
+				$val, false, true, 0, '', $attributes, $this->getDisabled()));
 			$tpl->parseCurrentBlock();
 		}
 		if ($this->getShowSeconds())

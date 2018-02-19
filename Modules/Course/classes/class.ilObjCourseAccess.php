@@ -18,6 +18,9 @@ include_once './Services/AccessControl/interfaces/interface.ilConditionHandling.
 */
 class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 {
+	// cat-tms-patch start
+	use \ILIAS\TMS\CourseCreation\CourseAccessExtension;
+	// cat-tms-patch end
 
 	protected static $using_code = false;
 
@@ -74,6 +77,13 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 		{
 			$a_user_id = $ilUser->getId();
 		}
+
+		// cat-tms-patch start
+		$decision = self::_checkAccessExtension($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id);
+		if ($decision !== null) {
+			return $decision;
+		}
+		// cat-tms-patch end
 		
 		if($ilUser->getId() == $a_user_id)
 		{

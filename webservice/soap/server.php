@@ -10,6 +10,8 @@
 * @package ilias
 */
 
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT & ~E_NOTICE);
+
 chdir("../..");
 define ("ILIAS_MODULE", "webservice/soap");
 define ("IL_SOAPMODE_NUSOAP", 0);
