@@ -115,6 +115,14 @@ bugs much faster and in an earlier state of development. Due to a faster handlin
 of side effects and other bugs, more time is left to actually refactor and improve 
 the current code base.
 
+
+
+We're not there yet with UnitTests in ILIAS! It has to become a habit to concern 
+about UnitTests in ILIAS Development:
+- if you are a developer: write them
+- if you are a service provider: offer them
+- if you are a customer: fund them
+
 <a name="tools"></a>
 ## Tools
 <a name="php-unit"></a>
