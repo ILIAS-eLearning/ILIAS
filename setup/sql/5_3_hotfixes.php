@@ -188,3 +188,7 @@ while ($res = $ilDB->fetchAssoc($set)) {
 <?php
 	$ilDB->manipulate('UPDATE exc_mem_ass_status SET status='.$ilDB->quote('notgraded', 'text').' WHERE status = '.$ilDB->quote('', 'text'));
 ?>
+<#12>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
