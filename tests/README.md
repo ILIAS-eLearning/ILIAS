@@ -505,6 +505,14 @@ Many problems while unit testing can be avoided by following the FIRST principle
 - **S** elf-validating
 - **T** imely
 
+Following the FIRST principles, tests are independent and do not rely on other tests to 
+be processed. This makes it independent in which order tests are performed. Furthermore, 
+the performance of the entire test suite is kept at a level that makes it possible to 
+make sensible use of the suite and to run it as often as possible without long waiting times.
+The FIRST principles makes tests reliable for developers and always delivers the same result
+(no flickering tests). Because the tests themselves verify the result, there are no manual 
+steps to verify the tests.
+
 <a name="fast"></a>
 #### Fast
 Keep the unit tests as fast as possible. They will be run multiple times a day 
