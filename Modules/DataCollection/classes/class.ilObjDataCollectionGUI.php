@@ -27,6 +27,7 @@ require_once('./Modules/DataCollection/classes/class.ilDclExportGUI.php');
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclTableListGUI, ilObjFileGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilObjUserGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilRatingGUI
+ * @ilCtrl_Calls ilObjDataCollectionGUI: ilPropertyFormGUI
  *
  * @extends      ilObject2GUI
  */

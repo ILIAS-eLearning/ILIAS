@@ -12,7 +12,7 @@ require_once("./Modules/DataCollection/classes/Helpers/class.ilDclTreePickInputG
 class ilDclIliasReferenceFieldRepresentation extends ilDclBaseFieldRepresentation {
 
 	public function getInputField(ilPropertyFormGUI $form, $record_id = 0) {
-		$input = new ilDclTreePickInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
+		$input = new ilRepositorySelector2InputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
 		$this->setupInputField($input, $this->getField());
 
 		return $input;
