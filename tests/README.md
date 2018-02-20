@@ -1,6 +1,6 @@
 # ILIAS Unit Testing investigation
 
-<!-- MarkdownTOC depth=0 autolink="true" bracket="round" autoanchor="true" style="ordered" indent="   " -->
+<!-- MarkdownTOC depth=3 autolink="true" bracket="round" autoanchor="true" style="ordered" indent="   " -->
 
 1. [Definition](#definition)
    1. [Role in ILIAS](#role-in-ilias)
@@ -13,18 +13,15 @@
    1. [Setup ILIAS](#setup-ilias)
    1. [Setup xDebug \(test coverage\)](#setup-xdebug-test-coverage)
       1. [Setup for Ubuntu](#setup-for-ubuntu)
-         1. [Trusty](#trusty)
-         1. [Xenial](#xenial)
-      1. [Setup for macOS](#setup-for-macos)
-      1. [Windows](#windows)
       1. [Configuration](#configuration)
    1. [Run tests with PHPStorm](#run-tests-with-phpstorm)
       1. [Configure Testframework](#configure-testframework)
       1. [Create run configuration](#create-run-configuration)
       1. [Run the tests](#run-the-tests)
-      1. [Configure ILIAS bound tests](#configure-ilias-bound-tests)
-      1. [Exclude ILIAS bound tests](#exclude-ilias-bound-tests)
-      1. [Run only ILIAS bound tests](#run-only-ilias-bound-tests)
+      1. [Explanation ILIAS installation bound tests](#explanation-ilias-installation-bound-tests)
+      1. [Configure ILIAS installation bound tests](#configure-ilias-installation-bound-tests)
+      1. [Exclude ILIAS installation bound tests](#exclude-ilias-installation-bound-tests)
+      1. [Run only ILIAS installation bound tests](#run-only-ilias-installation-bound-tests)
    1. [Run tests with CLI](#run-tests-with-cli)
       1. [Execute ILIAS installation bound tests](#execute-ilias-installation-bound-tests)
       1. [Execute all tests](#execute-all-tests)
@@ -32,16 +29,13 @@
 1. [Guidelines](#guidelines)
    1. [Foreword](#foreword)
    1. [Naming](#naming)
+      1. [Namespace](#namespace)
       1. [Class](#class)
       1. [Unit-Test \(Method\)](#unit-test-method)
-         1. [Current state](#current-state)
-            1. [Proposal](#proposal)
       1. [Further improvements](#further-improvements)
    1. [Directory structure](#directory-structure)
       1. [Old parts](#old-parts)
-         1. [Collector ilGlobalSuite](#collector-ilglobalsuite)
       1. [New parts \(/src\)](#new-parts-src)
-         1. [Collector ilGlobalSuite](#collector-ilglobalsuite-1)
    1. [Unit-Test structure](#unit-test-structure)
    1. [Good tests are FIRST](#good-tests-are-first)
       1. [Fast](#fast)
@@ -61,25 +55,16 @@
    1. [Negative Examples](#negative-examples)
       1. [Wrong Location and Bloated](#wrong-location-and-bloated)
       1. [Testing PHP behaviour / Wrong class](#testing-php-behaviour--wrong-class)
-         1. [Example solution](#example-solution)
       1. [Useless test / Generic naming](#useless-test--generic-naming)
-         1. [Example solution](#example-solution-1)
       1. [Test regression](#test-regression)
    1. [Test Examples](#test-examples-1)
       1. [Template](#template)
       1. [Normal test](#normal-test)
       1. [Fat legacy class with parent](#fat-legacy-class-with-parent)
-         1. [Partial mocks](#partial-mocks)
-         1. [Class overload](#class-overload)
       1. [Mock static calls](#mock-static-calls)
       1. [Fluent interfaces](#fluent-interfaces)
    1. [Rise testability](#rise-testability)
       1. [SOLID](#solid)
-         1. [Single Responsibility Principle \(SRP\)](#single-responsibility-principle-srp)
-         1. [Open-Closed Principle \(OCP\)](#open-closed-principle-ocp)
-         1. [Liskov Substitution Principle \(LSP\)](#liskov-substitution-principle-lsp)
-         1. [Interface Segregation Principle \(ISP\)](#interface-segregation-principle-isp)
-         1. [Dependency Inversion Principal \(DIP\)](#dependency-inversion-principal-dip)
       1. [A SOLID way to use the DIC](#a-solid-way-to-use-the-dic)
       1. [Distinction between unit and integration tests](#distinction-between-unit-and-integration-tests)
 1. [Continues integration](#continues-integration)
@@ -89,7 +74,6 @@
       1. [External PHPUnit version](#external-phpunit-version)
       1. [Risky prebuild step](#risky-prebuild-step)
 1. [External Documentation](#external-documentation)
-1. [Old Documentation](#old-documentation)
 1. [FAQ](#faq)
    1. [What needs to be tested ?](#what-needs-to-be-tested-)
    1. [How is a local test environment set up ?](#how-is-a-local-test-environment-set-up-)
@@ -98,6 +82,7 @@
    1. [Where do I put my unit tests ?](#where-do-i-put-my-unit-tests-)
    1. [What is the ILIAS CI-Server and how can I benefit from it in terms of unit tests ?](#what-is-the-ilias-ci-server-and-how-can-i-benefit-from-it-in-terms-of-unit-tests-)
    1. [What do I need to consider concerning unit tests before pushing code to the ILIAS repo ?](#what-do-i-need-to-consider-concerning-unit-tests-before-pushing-code-to-the-ilias-repo-)
+1. [Glossary](#glossary)
 1. [Sources](#sources)
 
 <!-- /MarkdownTOC -->
@@ -236,6 +221,7 @@ autoload.php -> {ILIAS root}/libs/composer/vendor/autoload.php
 Select the test in the top right corner and press the play button to let the 
 global suite run.
 
+<a name="explanation-ilias-installation-bound-tests"></a>
 #### Explanation ILIAS installation bound tests
 ILIAS with the version 5.3 contains installation bound tests which require 
 a fully installed ILIAS. All tests which are bound belong to a special test group
@@ -245,7 +231,7 @@ for example on a continuous integration server.
 The tests in the *needInstalledILIAS* group also need an additional configuration
 which is shown bellow. 
 
-<a name="configure-ilias-bound-tests"></a>
+<a name="configure-ilias-installation-bound-tests"></a>
 #### Configure ILIAS installation bound tests
 The ILIAS bound test uses a configuration located in 
 {ILIAS root}/Services/PHPUnit/config/cfg.phpunit.php. If the file doesn't exist 
@@ -264,6 +250,7 @@ $_GET["client_id"] = 'default';
 The values above shows an example configuration which loads the root user which 
 has the id 6 and the ILIAS client with the id "default".
 
+<a name="find-installation-specific-values"></a>
 ##### Find installation specific values
 * The account id is equal to the user id which can be found
 at *Administration -> User Management -> Username*.
@@ -273,14 +260,14 @@ right after the user id.
 at {ILIAS URL}/setup/setup.php. In order to see all clients a master password
 login is required.
 
-<a name="exclude-ilias-bound-tests"></a>
+<a name="exclude-ilias-installation-bound-tests"></a>
 #### Exclude ILIAS installation bound tests
 - Navigate to "Run -> Edit Configurations..."
 - Select your PHPUnit run configuration
 - Add "--exclude-group needInstalledILIAS" to the Test runner options.
 - Hit OK to save the changes
 
-<a name="run-only-ilias-bound-tests"></a>
+<a name="run-only-ilias-installation-bound-tests"></a>
 #### Run only ILIAS installation bound tests
 - Navigate to "Run -> Edit Configurations..."
 - Select your PHPUnit run configuration
@@ -349,6 +336,7 @@ this book seemed like a good starting point to create the unit test investigatio
 This means to treat the tests as a specification which tells everything
 about the behaviours of the unit under test.
 
+<a name="namespace"></a>
 #### Namespace
 The test class should always life in the same namespace as the test subject.
 For example the `ILIAS\HTTP\Cookies\CookieJarWrapperTest` 
@@ -1618,13 +1606,14 @@ no unit tests.
 The unit tests must be green before pushing the code to the ILIAS repo. Another 
 important part is to add and update the unit tests as the production code evolves.
 
-<a name="sources"></a>
+<a name="glossary"></a>
 ## Glossary
 | Term          | Description   |
 | :-----------: | ------------- |
 | Stub          | A stub is the same as a mock, however the stub only returns preset values. In contrast, the mock object requires expectations to verify the actual behaviour. [5] |
 | Test Coverage | Test coverage indicates which part of the code has been run for a specific test suite. A high test coverage indicates that most of the code runs most likely as expected. [6] |
     
+<a name="sources"></a>
 ## Sources
 [1] Langr, Jeff (2015): Pragmatic Unit Testing in Java 8 with JUnit.
 [2] Pádraic Brady, Dave Marshall and contributors, (11.05.2017): Mockery, <http://docs.mockery.io/en/latest/>
