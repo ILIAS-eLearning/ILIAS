@@ -1080,7 +1080,9 @@ class ilInitialisation
 	public static function handleErrorReporting()
 	{		
 		// push the error level as high as possible / sane
-		error_reporting(E_ALL & ~E_NOTICE);
+		// cat-tms-patch start
+		error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
+		// cat-tms-patch end
 		
 		// see handleDevMode() - error reporting might be overwritten again
 		// but we need the client ini first
