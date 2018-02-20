@@ -129,6 +129,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 			
 			case 'ilexportgui':
 				// only if plugin supports it?
+				$this->tabs->setTabActive("export");
 				include_once './Services/Export/classes/class.ilExportGUI.php';
 				$exp = new ilExportGUI($this);		
 				$exp->addFormat('xml');
@@ -439,6 +440,23 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	}
 	
 	
+	/**
+	* Add export tab
+	*/
+	function addExportTab()
+	{
+		// write
+		if($this->access->checkAccess('write', "", $this->object->getRefId()))
+		{
+			$this->tabs->addTarget(
+				'export',
+				$this->ctrl->getLinkTargetByClass("ilexportgui",''),
+				'export',
+				'ilexportgui'
+			);
+		}
+	}
+
 	/**
 	* show information screen
 	*/
