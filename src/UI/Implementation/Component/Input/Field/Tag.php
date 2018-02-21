@@ -43,7 +43,7 @@ class Tag extends Input implements C\Input\Field\Tag {
 	/**
 	 * @var array
 	 */
-	protected $options = [];
+	protected $tags = [];
 	/**
 	 * @var array
 	 */
@@ -65,10 +65,10 @@ class Tag extends Input implements C\Input\Field\Tag {
 		\ILIAS\Transformation\Factory $transformation_factory,
 		$label,
 		$byline,
-		array $options
+		array $tags
 	) {
 		parent::__construct($data_factory, $validation_factory, $transformation_factory, $label, $byline);
-		$this->options = $options;
+		$this->tags = $tags;
 		$this->setAdditionalTransformation($this->transformation_factory->custom(function ($raw_value) {
 			$json_decode = json_decode($raw_value);
 			$values = [];
@@ -80,7 +80,7 @@ class Tag extends Input implements C\Input\Field\Tag {
 		}
 
 		));
-		$this->setAdditionalConstraint($this->validation_factory->isArrayOf($this->validation_factory->isString()));
+//		$this->setAdditionalConstraint($this->validation_factory->isArrayOf($this->validation_factory->isString()));
 	}
 
 
@@ -105,7 +105,8 @@ class Tag extends Input implements C\Input\Field\Tag {
 	 * @inheritDoc
 	 */
 	protected function getConstraintForRequirement() {
-		throw new \LogicException("NYI: What could 'required' mean here?");
+		return null;
+		// throw new \LogicException("NYI: What could 'required' mean here?");
 	}
 
 
@@ -114,6 +115,7 @@ class Tag extends Input implements C\Input\Field\Tag {
 	 */
 	protected function isClientSideValueOk($value) {
 		return $this->validation_factory->isArrayOf($this->validation_factory->isString())->accepts($value);
+//		return $this->validation_factory->isString()->accepts($value);
 	}
 
 
@@ -121,7 +123,7 @@ class Tag extends Input implements C\Input\Field\Tag {
 	 * @inheritDoc
 	 */
 	public function getTags(): array {
-		return $this->options;
+		return $this->tags;
 	}
 
 

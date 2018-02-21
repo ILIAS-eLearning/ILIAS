@@ -6,9 +6,7 @@
 var il = il || {};
 il.UI = il.UI || {};
 il.UI.Input = il.UI.Input || {};
-(function ($, UI) {
-
-
+(function ($) {
     il.UI.Input.tagInput = (function ($) {
         var _DEBUG = false;
         var _CONFIG = {
@@ -28,24 +26,9 @@ il.UI.Input = il.UI.Input || {};
 
 
         var _initData = function () {
-            // var bhLocalConfig = Object.assign({}, _BLOODHOUND_DEFAULT);
-            // bhLocalConfig.local = _CONFIG.options;
-            //
-            // var bhLocal = new Bloodhound(bhLocalConfig);
-            // bhLocal.initialize();
-            //
-            // var localSource = Object.assign({}, _SOURCE_DEFAULT);
-            // localSource.name = 'local';
-            // localSource.source = bhLocal.ttAdapter();
-            //
-            // return localSource
-
-
             var bloodHoundObj = new Bloodhound({
                 datumTokenizer: Bloodhound.tokenizers.whitespace,
                 queryTokenizer: Bloodhound.tokenizers.whitespace,
-                // url points to a json file that contains an array of country names, see
-                // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
                 local: _CONFIG.options
             });
             bloodHoundObj.initialize();
@@ -95,23 +78,17 @@ il.UI.Input = il.UI.Input || {};
             $(id).on('beforeItemAdd', function (event) {
                 _log("item", event.item);
             });
+
             $(id).on('itemAdded', function (event) {
                 _log("Added Item", event.item);
-                // $("input").tagsinput('items')
-
-                var hidden = $('#hidden-' + _CONFIG.id);
-                // var val = hidden.val();
-                // var items = [];
-                // try {
-                //     items = JSON.parse(val);
-                // } catch (e) {
-                // }
-                // items.push(event.item);
+                var hidden = $('#hidden-' + raw_id);
                 var items = $(id).tagsinput('items');
                 _log('Items', items);
-                hidden.val(JSON.stringify(items));
+                var stringify = JSON.stringify(items);
+                _log('json', stringify);
+                _log('hidden', hidden);
+                hidden.val(stringify);
             });
-
         };
 
         var _log = function (key, data) {

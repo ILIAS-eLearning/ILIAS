@@ -12,20 +12,21 @@ function base_with_data() {
 
 	//Step 1: Define the tag input field
 	$multi_select_input = $ui->input()->field()->tag(
-			"Basic TagInput", ['Interesting', 'Boring', 'Animating', 'Repetitious'], "Just some tags"
-		);
-
-	//Step 2, define form and form actions
-	foreach ($DIC->ctrl()->getParameterArrayByClass(ilSystemStyleDocumentationGUI::class) as $item) {
-		$DIC->ctrl()->saveParameterByClass(
-			ilSystemStyleDocumentationGUI::class, $item
-		);
-	}
-	$DIC->ctrl()->setParameterByClass(
-		ilSystemStyleDocumentationGUI::class, 'example_name', 'tag_inputs'
+		"Basic TagInput", ['Interesting', 'Boring', 'Animating', 'Repetitious'], "Just some tags"
 	);
 
-	$form_action = $DIC->ctrl()->getFormActionByClass(ilSystemStyleDocumentationGUI::class);
+	//Step 2, define form and form actions
+	//	foreach ($DIC->ctrl()->getParameterArrayByClass(ilSystemStyleDocumentationGUI::class) as $item) {
+	//		$DIC->ctrl()->saveParameterByClass(
+	//			ilSystemStyleDocumentationGUI::class, $item
+	//		);
+	//	}
+	//	$DIC->ctrl()->setParameterByClass(
+	//		ilSystemStyleDocumentationGUI::class, 'example_name', 'tag_inputs'
+	//	);
+	//
+	//	$form_action = $DIC->ctrl()->getFormActionByClass(ilSystemStyleDocumentationGUI::class);
+	$form_action = $_SERVER['HTTP_REFERER'];
 	$form = $ui->input()->container()->form()->standard($form_action, [$multi_select_input]);
 
 	//Step 4, implement some form data processing.
