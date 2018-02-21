@@ -263,5 +263,5 @@ interface Factory {
 	 *
 	 * @return    \ILIAS\UI\Component\Input\Field\Tag
 	 */
-	public function tag(string $label, $byline = null, array $tags);
+	public function tag(string $label, array $tags, $byline = null);
 }
