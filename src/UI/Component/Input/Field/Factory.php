@@ -238,6 +238,9 @@ interface Factory {
 	 *     + SelectInput: Currently not part of the UI-Service.
 	 *     + Checkbox Group
 	 *
+	 * context:
+	 *   - Tag Input is used in forms.
+	 *
 	 * rules:
 	 *   usage:
 	 *     1: >
