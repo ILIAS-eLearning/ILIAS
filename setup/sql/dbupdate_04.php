@@ -19134,7 +19134,7 @@ foreach($sessions as $idx => $sess_info)
 	$meta_des_id = $ilDB->nextId('il_meta_description');
 	$insert = 'INSERT INTO il_meta_description (meta_description_id, rbac_id, obj_id, obj_type, parent_type, parent_id, description, description_language) '.
 		'VALUES( '.
-		$ilDB->quote($meta_id,'integer').', '.
+		$ilDB->quote($meta_des_id,'integer').', '.
 		$ilDB->quote($sess_info['obj_id'],'integer').', '.
 		$ilDB->quote($sess_info['obj_id'],'integer').', '.
 		$ilDB->quote('sess','text').', '.
