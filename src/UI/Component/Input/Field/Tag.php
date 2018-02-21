@@ -16,7 +16,7 @@ use ILIAS\UI\Component\Signal;
 interface Tag extends Input, JavaScriptBindable {
 
 	/**
-	 * @return array of tags such as [ 'Interesting', 'Boring', 'Animating', 'Repetitious' ]
+	 * @return string[] of tags such as [ 'Interesting', 'Boring', 'Animating', 'Repetitious' ]
 	 */
 	public function getTags(): array;
 
