@@ -137,6 +137,12 @@ Mockery is a lightweight and flexible mocking object framework which is used for
 unit testing with PHP Unit and other unit testing frameworks. It is designed 
 as a drop in replacement for the PHP Unit mock functionality, but can also work 
 alongside with the PHP Unit mock objects. [2]
+Before using Mockery please consider that you add an additional dependency to
+your code. Mockery has functionality that allows testing older ILIAS-code which
+is not provided by PHPUnit. Many similar functionalities are also native to
+PHPUnit. It is recommended to only use Mockery if required and prefer PHPUnit
+otherwise.
+
 
 <a name="mock-objects"></a>
 #### Mock Objects
