@@ -80,7 +80,7 @@ class Tag extends Input implements C\Input\Field\Tag {
 		}
 
 		));
-		$this->setAdditionalConstraint($this->validation_factory->isArray());
+		$this->setAdditionalConstraint($this->validation_factory->isArrayOf($this->validation_factory->isString()));
 	}
 
 
@@ -113,7 +113,7 @@ class Tag extends Input implements C\Input\Field\Tag {
 	 * @inheritDoc
 	 */
 	protected function isClientSideValueOk($value) {
-		return $this->validation_factory->isString()->accepts($value);
+		return $this->validation_factory->isArrayOf($this->validation_factory->isString())->accepts($value);
 	}
 
 

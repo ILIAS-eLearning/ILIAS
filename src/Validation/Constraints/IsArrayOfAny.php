@@ -6,14 +6,14 @@ use ILIAS\Validation\Constraint;
 use ILIAS\Data;
 
 /**
- * Class IsArray
+ * Class IsArrayOfAny
  *
  * @package ILIAS\Validation\Constraints
  */
-class IsArray extends Custom implements Constraint {
+class IsArrayOfAny extends Custom implements Constraint {
 
 	/**
-	 * IsArray constructor.
+	 * IsArrayOfAny constructor.
 	 *
 	 * @param \ILIAS\Data\Factory $data_factory
 	 */
