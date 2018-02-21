@@ -486,8 +486,11 @@ interface ilDBInterface {
 
 
 	/**
-	 * @param $module
+	 * @param string $module Manager|Reverse
+	 *
 	 * @return ilDBReverse|ilDBManager
+	 *
+	 * @internal Please do not use this in consumer code outside the Setup-Process or DB-Update-Steps.
 	 */
 	public function loadModule($module);
 

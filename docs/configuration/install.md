@@ -109,7 +109,7 @@ Please note that different configurations SHOULD be possible, but it might be ha
   * Server OS: Linux
   * Web Server: Apache 2 (mod_php, php-fpm)
   * Databases: MySQL/MariaDB 5.0+ and Galera (experimental), Oracle 10g+ (experimental), PostgreSQL (experimental)
-  * PHP: Version 5.5+ and 7.0+ are supported
+  * PHP: Version 5.6, 7.0 and 7.1 are supported
   
 <a name="client"></a>
 ### Client
@@ -130,6 +130,9 @@ We RECOMMEND to use MySQL/MariaDB with the following settings:
   * innodb_buffer_pool_size (>= 2G, depending on DB size)
 
 On MySQL 5.6+ and Galera the ```Strict SQL Mode``` MUST be disabled. See [MySQL Strict Mode](#mysql-strict-mode-56) for details.
+
+On MySQL/MariaDB `innodb_large_prefix` must be set to `OFF` if the `ROW_FORMAT`
+is set to `COMPACT`.
 
 <a name="manual-installation-on-linux"></a>
 # Manual Installation on Linux
@@ -247,8 +250,6 @@ We RECOMMEND the following settings for your php.ini:
 max_execution_time = 600
 memory_limit = 512M
  
-error_reporting = E_ALL & ~E_NOTICE ; up to PHP 5.2.x
-error_reporting = E_ALL & ~E_NOTICE & ~E_DEPRECATED ; PHP 5.3.0 and higher
 error_reporting = E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT ; PHP 5.4.0 and higher
 display_errors = Off
  
@@ -385,6 +386,8 @@ On RHEL/CentOS execute:
 ```
 yum install zip unzip php-gd libxslt ImageMagick java-1.7.0-openjdk phantomjs
 ```
+
+Please ensure that the phantomjs version you use is at least 2.0.0.
 
 Depending on your use case, you MAY want to install further dependencies (exact package names vary by distribution):
 * php-curl
@@ -647,7 +650,8 @@ When you upgrade from rather old versions please make sure that the dependencies
 
 | ILIAS Version   | PHP Version                           |
 |-----------------|---------------------------------------|
-| 5.2.x           | 5.5.x - 5.6.x, 7.0.x                  |
+| 5.3.x           | 5.6.x, 7.0.x, 7.1.x                   |
+| 5.2.x           | 5.5.x - 5.6.x, 7.0.x, 7.1.x           |
 | 5.0.x - 5.1.x   | 5.3.x - 5.5.x                         |
 | 4.4.x           | 5.3.x - 5.5.x                         |
 | 4.3.x           | 5.2.6 - 5.4.x                         |
@@ -660,6 +664,7 @@ When you upgrade from rather old versions please make sure that the dependencies
 
 | ILIAS Version   | MySQL Version                         |
 |-----------------|---------------------------------------|
+| 5.3.x - x.x.x   | 5.5.x, 5.6.x, 5.7.x                   |
 | 4.4.x - 5.2.x   | 5.0.x, 5.1.32 - 5.1.x, 5.5.x, 5.6.x   |
 | 4.2.x - 4.3.x   | 5.0.x, 5.1.32 - 5.1.x, 5.5.x          |
 | 4.0.x - 4.1.x   | 5.0.x, 5.1.32 - 5.1.x                 |
@@ -694,7 +699,7 @@ Pull-Request will be assigned to the responsible maintainer(s). See further info
 <a name="reference-system"></a>
 ## Reference System
 
-The ILIAS Testserver (http://ilias.de/test52) is currently configured as follows:
+The ILIAS Testserver (http://ilias.de/test53) is currently configured as follows:
 
 | Package        | Version                     |
 |----------------|-----------------------------|
