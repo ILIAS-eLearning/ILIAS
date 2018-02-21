@@ -251,7 +251,7 @@ interface Factory {
 	 *      A Tag Input MUST NOT be used when a User has to choose from a finite list of options
 	 *      which can't be extended by users Input, a Multi Select MUST be used in this case
 	 *      (Not yet part of the KitchenSink).
-	 *     5: The tags provided SHOULD NOT have long titles.
+	 *     5: The tags provided SHOULD NOT have long titles (50 characters).
 	 *
 	 * ---
 	 * @param string $label
