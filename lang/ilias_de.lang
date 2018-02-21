@@ -13739,7 +13739,7 @@ wsp#:#element_shared#:#Die Ressource wurde freigegeben.
 wsp#:#share#:#Freigeben
 common#:#obj_pdfg#:#PDF-Erstellung
 common#:#obj_pdfg_desc#:#Administrationseinstellungen für die PDF-Erstellung
-common#:#building_export_file#:#Erstelle Export Datei...
+common#:#building_export_file#:#Erstelle Export-Datei...
 common#:#pdfg_read#:#Lesezugrif auf PDF-Erstellung
 common#:#pdfg_visible#:#PDF-Erstellungs ist sichtbar.
 common#:#pdfg_write#:#Einstellungen der PDF-Erstellung bearbeiten
@@ -13747,7 +13747,7 @@ common#:#pdfg_edit_permission#:#Rechteeinstellungen ändern
 pdfgen#:#phantomjs#:#PhantomJS
 pdfgen#:#page_settings#:#Seiteneinstellungen
 pdfgen#:#orientation#:#Orientierung
-pdfgen#:#print_media_type#:#Benutze Druck Media Type anstatt Bildschirm
+pdfgen#:#print_media_type#:#Benutze 'Druck Media Type' anstatt 'Bildschirm'
 pdfgen#:#margin#:#Rand
 pdfgen#:#header_type#:#Kopfzeile
 pdfgen#:#text#:#Text
@@ -13765,10 +13765,10 @@ pdfgen#:#configure#:#Konfiguriere Renderer
 pdfgen#:#image_scale#:#Bildskalierung
 pdfgen#:#config_saved#:#Speichern erfolgreich.
 pdfgen#:#config_not_saved#:#Speichern fehlgeschlagen.
-pdfgen#:#margin_left#:#Margin Links
-pdfgen#:#margin_top#:#Margin Oben
-pdfgen#:#margin_right#:#Margin Rechts
-pdfgen#:#margin_bottom#:#Margin Unten
+pdfgen#:#margin_left#:#Margin links
+pdfgen#:#margin_top#:#Margin oben
+pdfgen#:#margin_right#:#Margin rechts
+pdfgen#:#margin_bottom#:#Margin unten
 pdfgen#:#viewport#:#Viewport
 pdfgen#:#viewport_info#:#Viewport in Pixeln z.B "1920*1080"
 pdfgen#:#zoom#:#Zoom
@@ -13855,14 +13855,14 @@ dateplaner#:#cal_grp_personal#:#Persönlich
 dateplaner#:#cal_grp_others#:#Andere
 dateplaner#:#cal_download_all_files#:#Alle Dateien herunterladen
 dateplaner#:#cal_owner#:#Eigentümer
-dateplaner#:#cal_contained_in#:#Contained in
+dateplaner#:#cal_contained_in#:#Enthalten in
 dateplaner#:#cal_app_info#:#Information zur Übungseinheit
 dateplaner#:#cal_crs_info#:#Course Information
 crs#:#crs_open#:#Kurs öffnen
 grp#:#grp_grp_open#:#Gruppe öffnen
 dateplaner#:#cal_grp_info#:#Information zur Gruppe
 dateplaner#:#cal_exc_info#:#Information zur Übungseinheit
-dateplaner#:#cal_sess_info#:#Session Information
+dateplaner#:#cal_sess_info#:#Information zur Sitzung
 dateplaner#:#cal_agenda#:#Agenda
 dateplaner#:#cal_exc_open#:#Übungseinheit öffnen
 book#:#book_open#:#Buchungspool öffnen
