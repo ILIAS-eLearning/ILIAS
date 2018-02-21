@@ -148,6 +148,9 @@ class Tag extends Input implements C\Input\Field\Tag {
 	 * @inheritDoc
 	 */
 	public function withSuggestionsStartAfter(int $characters): C\Input\Field\Tag {
+		if ($characters < 1) {
+			throw new \InvalidArgumentException("The amount of characters must be at least 1, {$characters} given.");
+		}
 		$clone = clone $this;
 		$clone->suggestion_starts_with = $characters;
 

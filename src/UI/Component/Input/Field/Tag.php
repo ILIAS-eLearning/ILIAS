@@ -45,6 +45,7 @@ interface Tag extends Input, JavaScriptBindable {
 	 * user has to provide before the suggestions start (Default: 1)
 	 *
 	 * @param int $characters , defaults to 1
+	 * @throws \InvalidArgumentException
 	 *
 	 * @return \ILIAS\UI\Component\Input\Field\Tag
 	 */
