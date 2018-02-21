@@ -14,8 +14,8 @@ function base_with_data() {
 	$multi_select_input = $ui->input()
 	                         ->field()
 	                         ->tag("Basic TagInput",
-		                         "Just some tags",
-		                         ['Interesting', 'Boring', 'Animating', 'Repetitious']
+		                         ['Interesting', 'Boring', 'Animating', 'Repetitious'],
+		                         "Just some tags"
 	                         );
 
 	//Step 2, define form and form actions
