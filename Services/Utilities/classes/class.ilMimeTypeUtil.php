@@ -1445,7 +1445,7 @@ class ilMimeTypeUtil {
 	 * @param $path_to_file
 	 */
 	protected function __construct($path_to_file) {
-		if (strpos($path_to_file, 'http://') !== FALSE || strpos($path_to_file, 'https://') !== FALSE) {
+		if (strpos($path_to_file, 'http://') !== false || strpos($path_to_file, 'https://') !== false) {
 			$this->setExternal(true);
 		}
 		$parts = parse_url($path_to_file);
