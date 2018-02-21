@@ -11,34 +11,33 @@ function base_with_data() {
 	$request = $DIC->http()->request();
 
 	//Step 1: Define the tag input field
-	$multi_select_input = $ui->input()
-	                         ->field()
-	                         ->tag("Basic TagInput",
-		                         ['Interesting', 'Boring', 'Animating', 'Repetitious'],
-		                         "Just some tags"
-	                         );
+	$multi_select_input = $ui->input()->field()->tag(
+			"Basic TagInput", ['Interesting', 'Boring', 'Animating', 'Repetitious'], "Just some tags"
+		);
 
 	//Step 2, define form and form actions
+	foreach ($DIC->ctrl()->getParameterArrayByClass(ilSystemStyleDocumentationGUI::class) as $item) {
+		$DIC->ctrl()->saveParameterByClass(
+			ilSystemStyleDocumentationGUI::class, $item
+		);
+	}
 	$DIC->ctrl()->setParameterByClass(
-		'ilsystemstyledocumentationgui',
-		'example_name',
-		'numeric_inputs'
+		ilSystemStyleDocumentationGUI::class, 'example_name', 'tag_inputs'
 	);
-	$form_action = $DIC->ctrl()->getFormActionByClass('ilsystemstyledocumentationgui');
-	$form = $ui->input()->container()->form()->standard($form_action, [ $multi_select_input]);
+
+	$form_action = $DIC->ctrl()->getFormActionByClass(ilSystemStyleDocumentationGUI::class);
+	$form = $ui->input()->container()->form()->standard($form_action, [$multi_select_input]);
 
 	//Step 4, implement some form data processing.
-	if ($request->getMethod() == "POST"
-	    && $request->getQueryParams()['example_name'] =='numeric_inputs') {
+	if ($request->getMethod() === "POST"
+		&& $request->getQueryParams()['example_name'] === 'tag_inputs'
+	) {
 		$form = $form->withRequest($request);
 		$result = $form->getData();
-	}
-	else {
+	} else {
 		$result = "No result yet.";
 	}
 
 	//Return the rendered form
-	return
-		"<pre>".print_r($result, true)."</pre><br/>".
-		$renderer->render($form);
+	return "<pre>" . print_r($result, true) . "</pre><br/>" . $renderer->render($form);
 }
