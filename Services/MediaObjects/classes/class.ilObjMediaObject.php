@@ -1551,7 +1551,7 @@ class ilObjMediaObject extends ilObject
 	* @return	string					mime type
 	* static
 	*/
-	static function getMimeType($a_file, $a_external = false)
+	static function getMimeType($a_file, $a_external = null)
 	{
 		include_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
 		$mime = ilMimeTypeUtil::lookupMimeType($a_file, ilMimeTypeUtil::APPLICATION__OCTET_STREAM, $a_external);
