@@ -1769,6 +1769,9 @@ certificate#:#certificate_visibility_passed#:#Nur sichtbar, wenn der Teilnehmer 
 certificate#:#certificate_visibility_passed_exercise#:#Nur sichtbar, wenn der Teilnehmer oder die Teilnehmerin die Übung bestanden hat
 certificate#:#default_background_info#:#Das hier angegebene Hintergrundbild wird bei allen Zertifikaten als Standard-Hintergrund verwendet, es sei denn, Sie geben im Zertifikat-Editor explizit ein anderes Hintergrundbild an.
 certificate#:#download_certificate#:#Zertifikat herunterladen
+certificate#:#cert_form_sec_availability#:#Verfügbarkeit
+certificate#:#cert_form_sec_layout#:#Layout und Text
+certificate#:#cert_form_sec_add_features#:#Zusätzliche Funktionen
 common#:#chat_chatviewer#:#Chatviewer
 chatroom#:#chat_enable_autoscroll#:#aktiviere automatisches Scrollen
 chatroom#:#no_username_given#:#Bitte wählen Sie einen Benutzernamen

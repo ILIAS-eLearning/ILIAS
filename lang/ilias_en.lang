@@ -1490,6 +1490,9 @@ certificate#:#certificate_visibility_passed#:#Only Visible if a User Passed the 
 certificate#:#certificate_visibility#:#Visibility
 certificate#:#default_background_info#:#This background image will be chosen as default background for all certificates. If you need another background image in a certficiate, you have to upload one in the certificate editor.
 certificate#:#download_certificate#:#Download Certificate
+certificate#:#cert_form_sec_availability#:#Availability
+certificate#:#cert_form_sec_layout#:#Layout and Text
+certificate#:#cert_form_sec_add_features#:#Additional Features
 common#:#chat_chatviewer#:#Chat Viewer
 chatroom#:#chat_enable_autoscroll#:#Enable Autoscroll
 cmps#:#cmps_activate#:#Activate
