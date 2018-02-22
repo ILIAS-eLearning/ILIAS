@@ -57,8 +57,22 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
 			$this->tstamp = $row["tstamp"];
 
 			$this->questionSetFilterSelection->setTaxonomySelection(unserialize($row['taxfilter']));
-			$this->questionSetFilterSelection->setAnswerStatusSelection($row['answerstatusfilter']);
-			$this->questionSetFilterSelection->setAnswerStatusActiveId($row['active_id']);
+			
+			if( $row['active_id'] > 0 )
+			{
+				if( strlen($row['answerstatusfilter']) )
+				{
+					$this->questionSetFilterSelection->setAnswerStatusSelection($row['answerstatusfilter']);
+				}
+				else
+				{
+					$this->questionSetFilterSelection->setAnswerStatusSelection(
+						$this->questionSetFilterSelection->getDefaultAnswerStatusSelection()
+					);
+				}
+				
+				$this->questionSetFilterSelection->setAnswerStatusActiveId($row['active_id']);
+			}
 		}
 	}
 	
