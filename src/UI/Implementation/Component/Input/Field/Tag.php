@@ -78,7 +78,7 @@ class Tag extends Input implements C\Input\Field\Tag {
 		$configuration->suggestion_starts = $this->getSuggestionsStartAfter();
 		$configuration->max_chars = 2000;
 		$configuration->suggestion_limit = 50;
-		$configuration->debug = true;
+		$configuration->debug = false;
 
 		return $configuration;
 	}
