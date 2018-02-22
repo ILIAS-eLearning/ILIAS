@@ -106,7 +106,7 @@ class Tag extends Input implements C\Input\Field\Tag {
 	 * @inheritDoc
 	 */
 	protected function isClientSideValueOk($value) {
-		return (is_null($value) || $this->validation_factory->isArrayOf($this->validation_factory->isString())->accepts($value));
+		return ($this->validation_factory->isNull()->accepts($value) || $this->validation_factory->isArrayOf($this->validation_factory->isString())->accepts($value));
 	}
 
 
