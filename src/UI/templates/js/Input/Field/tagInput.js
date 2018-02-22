@@ -24,8 +24,12 @@ il.UI.Input = il.UI.Input || {};
             tag_class: "label label-primary"
         };
 
+        var _ELEMENTS = {
+            hidden: null
+        };
 
-        var _initData = function () {
+
+        var _initBloodhound = function () {
             var bloodHoundObj = new Bloodhound({
                 datumTokenizer: Bloodhound.tokenizers.whitespace,
                 queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -52,8 +56,11 @@ il.UI.Input = il.UI.Input || {};
             _CONFIG.id = raw_id;
             _log("config", _CONFIG);
 
+            // Elements
+            _ELEMENTS.hidden = $('#hidden-' + raw_id);
+
             // Bloodhound
-            var localSource = _initData();
+            var localSource = _initBloodhound();
             _log('datasources', localSource);
 
             // TagInput
@@ -74,6 +81,14 @@ il.UI.Input = il.UI.Input || {};
                 }
             });
 
+            // Selected data
+            // var json = _ELEMENTS.hidden.val();
+            // if (json.length > 0) {
+            //     _log('existing data', json);
+            //     var existing = JSON.parse(json);
+            //     _log('existing data', existing);
+            // }
+
             // Hooks
             $(id).on('beforeItemAdd', function (event) {
                 _log("item", event.item);
@@ -81,13 +96,11 @@ il.UI.Input = il.UI.Input || {};
 
             $(id).on('itemAdded', function (event) {
                 _log("Added Item", event.item);
-                var hidden = $('#hidden-' + raw_id);
                 var items = $(id).tagsinput('items');
                 _log('Items', items);
                 var stringify = JSON.stringify(items);
                 _log('json', stringify);
-                _log('hidden', hidden);
-                hidden.val(stringify);
+                _ELEMENTS.hidden.val(stringify);
             });
         };
 

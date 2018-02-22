@@ -287,6 +287,7 @@ class Renderer extends AbstractComponentRenderer {
 				if ($input->getValue()) {
 					$value = $input->getValue();
 					$tpl->setVariable("VALUE_JSON", json_encode($value));
+					$tpl->setVariable("VALUE_COMMA_SEPARATED", implode(",", $value));
 				}
 
 				break;
