@@ -6,6 +6,7 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Implementation\Component\Input\PostData;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
 use ILIAS\Validation\Factory as ValidationFactory;
@@ -58,29 +59,11 @@ class Tag extends Input implements C\Input\Field\Tag {
 	 * @param \ILIAS\Transformation\Factory $transformation_factory
 	 * @param string                        $label
 	 * @param string                        $byline
+	 * @param array                         $tags
 	 */
-	public function __construct(
-		DataFactory $data_factory,
-		ValidationFactory $validation_factory,
-		\ILIAS\Transformation\Factory $transformation_factory,
-		$label,
-		$byline,
-		array $tags
-	) {
+	public function __construct(DataFactory $data_factory, ValidationFactory $validation_factory, \ILIAS\Transformation\Factory $transformation_factory, $label, $byline, array $tags) {
 		parent::__construct($data_factory, $validation_factory, $transformation_factory, $label, $byline);
 		$this->tags = $tags;
-		$this->setAdditionalTransformation($this->transformation_factory->custom(function ($raw_value) {
-			$json_decode = json_decode($raw_value);
-			$values = [];
-			foreach ($json_decode as $item) {
-				$values[] = trim($item);
-			}
-
-			return $values;
-		}
-
-		));
-//		$this->setAdditionalConstraint($this->validation_factory->isArrayOf($this->validation_factory->isString()));
 	}
 
 
@@ -105,8 +88,17 @@ class Tag extends Input implements C\Input\Field\Tag {
 	 * @inheritDoc
 	 */
 	protected function getConstraintForRequirement() {
-		return null;
-		// throw new \LogicException("NYI: What could 'required' mean here?");
+		$constraint = $this->validation_factory->custom(
+			function ($value) {
+				return (is_array($value) && count($value) > 0);
+			}, "Empty array"
+		);
+
+		return $this->validation_factory->sequential(
+			[
+				$constraint, $this->validation_factory->isArrayOf($this->validation_factory->isString()),
+			]
+		);
 	}
 
 
@@ -114,8 +106,7 @@ class Tag extends Input implements C\Input\Field\Tag {
 	 * @inheritDoc
 	 */
 	protected function isClientSideValueOk($value) {
-		return $this->validation_factory->isArrayOf($this->validation_factory->isString())->accepts($value);
-//		return $this->validation_factory->isString()->accepts($value);
+		return (is_null($value) || $this->validation_factory->isArrayOf($this->validation_factory->isString())->accepts($value));
 	}
 
 
@@ -204,6 +195,16 @@ class Tag extends Input implements C\Input\Field\Tag {
 	public function getMaxTags(): int {
 		return $this->max_tags;
 	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withInput(PostData $input) {
+		return parent::withInput($input);
+	}
+
+
 
 	// Events
 

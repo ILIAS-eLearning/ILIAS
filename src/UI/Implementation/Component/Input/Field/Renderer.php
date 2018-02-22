@@ -273,11 +273,13 @@ class Renderer extends AbstractComponentRenderer {
 				break;
 			case ($input instanceof Tag):
 				$configuration = $input->getConfiguration();
-				$input = $input->withAdditionalOnLoadCode(function ($id) use ($configuration) {
-					$encoded = json_encode($configuration);
+				$input = $input->withAdditionalOnLoadCode(
+					function ($id) use ($configuration) {
+						$encoded = json_encode($configuration);
 
-					return "il.UI.Input.tagInput.init('{$id}', {$encoded});";
-				});
+						return "il.UI.Input.tagInput.init('{$id}', {$encoded});";
+					}
+				);
 				$id = $this->bindJavaScript($input);
 				/**
 				 * @var $input \ILIAS\UI\Implementation\Component\Input\Field\Tag
@@ -286,8 +288,14 @@ class Renderer extends AbstractComponentRenderer {
 				$tpl->setVariable("NAME", $input->getName());
 				if ($input->getValue()) {
 					$value = $input->getValue();
-					$tpl->setVariable("VALUE_JSON", json_encode($value));
 					$tpl->setVariable("VALUE_COMMA_SEPARATED", implode(",", $value));
+					foreach ($value as $tag) {
+						$tpl->setCurrentBlock('existing_tags');
+						$tpl->setVariable("FIELD_ID", $id);
+						$tpl->setVariable("FIELD_NAME", $input->getName());
+						$tpl->setVariable("TAG_NAME", $tag);
+						$tpl->parseCurrentBlock();
+					}
 				}
 
 				break;

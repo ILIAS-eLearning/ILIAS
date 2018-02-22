@@ -49,7 +49,7 @@ class TagInputTest extends ILIAS_UI_TestBase {
 		$r = $this->getDefaultRenderer();
 		$html = $this->normalizeHTML($r->render($text));
 
-		$expected = "<div class=\"form-group row\">	<label for=\"{$name}\" class=\"control-label col-sm-3\">label</label>	<div class=\"col-sm-9\">		<input type=\"text\" id=\"id_1\" value=\"\" class=\"form-control form-control-sm bootstrap-tagsinput\"/><input type=\"hidden\" id=\"hidden-id_1\" name=\"{$name}\" value=''>		<div class=\"help-block\">byline</div>			</div></div>";
+		$expected = "<div class=\"form-group row\">	<label for=\"{$name}\" class=\"control-label col-sm-3\">label</label>	<div class=\"col-sm-9\">		<div id=\"container-id_1\">	<input type=\"text\" id=\"id_1\" value=\"\" class=\"form-control form-control-sm bootstrap-tagsinput\"/> <input type=\"hidden\" id=\"template-id_1\" value='{$name}[]'>	</div>		<div class=\"help-block\">byline</div>			</div></div>";
 		$this->assertEquals($expected, $html);
 	}
 
@@ -67,7 +67,7 @@ class TagInputTest extends ILIAS_UI_TestBase {
 		$html = $this->normalizeHTML($r->render($text));
 
 		$expected
-			= "<div class=\"form-group row\">	<label for=\"{$name}\" class=\"control-label col-sm-3\">label</label>	<div class=\"col-sm-9\">		<input type=\"text\" id=\"id_1\" value=\"\" class=\"form-control form-control-sm bootstrap-tagsinput\"/><input type=\"hidden\" id=\"hidden-id_1\" name=\"{$name}\" value=''>		<div class=\"help-block\">byline</div>		<div class=\"help-block alert alert-danger\" role=\"alert\">			<img border=\"0\" src=\"./templates/default/images/icon_alert.svg\" alt=\"alert\">			an_error		</div>	</div></div>";
+			= "<div class=\"form-group row\">	<label for=\"{$name}\" class=\"control-label col-sm-3\">label</label>	<div class=\"col-sm-9\">		<div id=\"container-id_1\">	<input type=\"text\" id=\"id_1\" value=\"\" class=\"form-control form-control-sm bootstrap-tagsinput\"/> <input type=\"hidden\" id=\"template-id_1\" value='{$name}[]'>	</div>		<div class=\"help-block\">byline</div>		<div class=\"help-block alert alert-danger\" role=\"alert\">			<img border=\"0\" src=\"./templates/default/images/icon_alert.svg\" alt=\"alert\">			an_error		</div>	</div></div>";
 		$this->assertEquals($expected, $html);
 	}
 
@@ -82,7 +82,7 @@ class TagInputTest extends ILIAS_UI_TestBase {
 		$r = $this->getDefaultRenderer();
 		$html = $this->normalizeHTML($r->render($text));
 
-		$expected = "<div class=\"form-group row\">	<label for=\"{$name}\" class=\"control-label col-sm-3\">label</label>	<div class=\"col-sm-9\">		<input type=\"text\" id=\"id_1\" value=\"\" class=\"form-control form-control-sm bootstrap-tagsinput\"/><input type=\"hidden\" id=\"hidden-id_1\" name=\"{$name}\" value=''>					</div></div>";
+		$expected = "<div class=\"form-group row\">	<label for=\"{$name}\" class=\"control-label col-sm-3\">label</label>	<div class=\"col-sm-9\">		<div id=\"container-id_1\">	<input type=\"text\" id=\"id_1\" value=\"\" class=\"form-control form-control-sm bootstrap-tagsinput\"/> <input type=\"hidden\" id=\"template-id_1\" value='{$name}[]'>	</div>					</div></div>";
 		$this->assertEquals($expected, $html);
 	}
 
@@ -98,7 +98,7 @@ class TagInputTest extends ILIAS_UI_TestBase {
 		$r = $this->getDefaultRenderer();
 		$html = $this->normalizeHTML($r->render($text));
 
-		$expected = "<div class=\"form-group row\">	<label for=\"{$name}\" class=\"control-label col-sm-3\">label</label>	<div class=\"col-sm-9\">		<input type=\"text\" id=\"id_1\" value=\"" . implode(",", $value) . "\" class=\"form-control form-control-sm bootstrap-tagsinput\"/><input type=\"hidden\" id=\"hidden-id_1\" name=\"{$name}\" value='" . json_encode($value) . "'>					</div></div>";
+		$expected = "<div class=\"form-group row\">	<label for=\"{$name}\" class=\"control-label col-sm-3\">label</label>	<div class=\"col-sm-9\">		<div id=\"container-id_1\">	<input type=\"text\" id=\"id_1\" value=\"lorem,ipsum\" class=\"form-control form-control-sm bootstrap-tagsinput\"/> <input type=\"hidden\" id=\"template-id_1\" value='{$name}[]'>		<input type=\"hidden\" id=\"tag-id_1-lorem\" name=\"{$name}[]\" value='lorem'>		<input type=\"hidden\" id=\"tag-id_1-ipsum\" name=\"{$name}[]\" value='ipsum'>	</div>					</div></div>";
 		$this->assertEquals($expected, $html);
 	}
 
@@ -113,7 +113,7 @@ class TagInputTest extends ILIAS_UI_TestBase {
 		$r = $this->getDefaultRenderer();
 		$html = $this->normalizeHTML($r->render($text));
 
-		$expected = "<div class=\"form-group row\">	<label for=\"$name\" class=\"control-label col-sm-3\">label<span class=\"asterisk\">*</span></label>	<div class=\"col-sm-9\">		<input type=\"text\" id=\"id_1\" value=\"\" class=\"form-control form-control-sm bootstrap-tagsinput\"/><input type=\"hidden\" id=\"hidden-id_1\" name=\"$name\" value=''>					</div></div>";
+		$expected = "<div class=\"form-group row\">	<label for=\"{$name}\" class=\"control-label col-sm-3\">label<span class=\"asterisk\">*</span></label>	<div class=\"col-sm-9\">		<div id=\"container-id_1\">	<input type=\"text\" id=\"id_1\" value=\"\" class=\"form-control form-control-sm bootstrap-tagsinput\"/> <input type=\"hidden\" id=\"template-id_1\" value='{$name}[]'>	</div>					</div></div>";
 
 		$this->assertEquals($expected, $html);
 	}
@@ -127,12 +127,17 @@ class TagInputTest extends ILIAS_UI_TestBase {
 		$tag = $f->tag($label, $tags)->withNameFrom($this->name_source)->withRequired(true);
 
 		$raw_value1 = ["lorem", "ipsum"];
-		$tag1 = $tag->withInput(new DefPostData([$name => json_encode($raw_value1)]));
+		$tag1 = $tag->withInput(new DefPostData([$name => $raw_value1]));
 		$value1 = $tag1->getContent();
 		$this->assertTrue($value1->isOk());
-		$this->assertEquals($raw_value1, $value1->value());
+		$value = $value1->value();
+		$this->assertEquals($raw_value1, $value);
 
-		$tag2 = $tag->withInput(new DefPostData([$name => ""]));
+		$tag2 = $tag->withInput(new DefPostData([$name => []]));
+		$value2 = $tag2->getContent();
+		$this->assertTrue($value2->isError());
+
+		$tag2 = $tag->withInput(new DefPostData([$name => null]));
 		$value2 = $tag2->getContent();
 		$this->assertTrue($value2->isError());
 	}
