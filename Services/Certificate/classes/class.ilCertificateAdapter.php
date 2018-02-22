@@ -91,6 +91,14 @@ abstract class ilCertificateAdapter
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function hasAdditionalFormElements()
+	{
+		return false;
+	}
+
+	/**
 	* Allows to add additional form values to the array of form values evaluating a
 	* HTTP POST action.
 	* This method will be called when the certificate editor form will be saved using
