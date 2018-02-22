@@ -1079,7 +1079,36 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	 * @return	void
 	 */
 	protected function afterCloneForTMS(\ilObjCourse $new_course) {
+		require_once("Services/Component/classes/class.ilPluginAdmin.php");
+		$src_id = (int)$this->getId();
+		$target_id = (int)$new_course->getId();
 		$this->insertCopyMappingInfoToDB($new_course);
+
+		if(ilPluginAdmin::isPluginActive('venues')) {
+			$vplug = ilPluginAdmin::getPluginObjectById('venues');
+			$vactions = $vplug->getActions();
+
+			$src = $vactions->getAssignment($src_id);
+
+			if($src->isCustomAssignment()) {
+				$vactions->createCustomVenueAssignment($target_id, $src->getVenueText());
+			} else {
+				$vactions->createListVenueAssignment($target_id, (int)$src->getVenueId());
+			}
+		}
+
+		if(ilPluginAdmin::isPluginActive('trainingprovider')) {
+			$pplug = ilPluginAdmin::getPluginObjectById('trainingprovider');
+			$pactions = $pplug->getActions();
+
+			$src = $pactions->getAssignment($src_id);
+
+			if($src->isCustomAssignment()) {
+				$pactions->createCustomProviderAssignment($target_id, $src->getProviderText());
+			} else {
+				$pactions->createListProviderAssignment($target_id, (int)$src->getProviderId());
+			}
+		}
 	}
 
 	/**
