@@ -5,6 +5,7 @@ namespace ILIAS\UI\Component\Input\Field;
 
 use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Implementation\Component\Input\Field\InputInternal;
 
 /**
  * Interface Tag
@@ -13,7 +14,7 @@ use ILIAS\UI\Component\Signal;
  *
  * @package ILIAS\UI\Component\Input\Field
  */
-interface Tag extends Input, JavaScriptBindable {
+interface Tag extends Input, JavaScriptBindable, InputInternal {
 
 	/**
 	 * @return string[] of tags such as [ 'Interesting', 'Boring', 'Animating', 'Repetitious' ]

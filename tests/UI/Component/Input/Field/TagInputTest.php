@@ -98,7 +98,8 @@ class TagInputTest extends ILIAS_UI_TestBase {
 		$r = $this->getDefaultRenderer();
 		$html = $this->normalizeHTML($r->render($text));
 
-		$expected = "<div class=\"form-group row\">	<label for=\"{$name}\" class=\"control-label col-sm-3\">label</label>	<div class=\"col-sm-9\">		<div id=\"container-id_1\">	<input type=\"text\" id=\"id_1\" value=\"lorem,ipsum\" class=\"form-control form-control-sm bootstrap-tagsinput\"/> <input type=\"hidden\" id=\"template-id_1\" value='{$name}[]'>		<input type=\"hidden\" id=\"tag-id_1-lorem\" name=\"{$name}[]\" value='lorem'>		<input type=\"hidden\" id=\"tag-id_1-ipsum\" name=\"{$name}[]\" value='ipsum'>	</div>					</div></div>";
+		$expected
+			= "<div class=\"form-group row\">	<label for=\"{$name}\" class=\"control-label col-sm-3\">label</label>	<div class=\"col-sm-9\">		<div id=\"container-id_1\">	<input type=\"text\" id=\"id_1\" value=\"lorem,ipsum\" class=\"form-control form-control-sm bootstrap-tagsinput\"/> <input type=\"hidden\" id=\"template-id_1\" value='{$name}[]'>		<input type=\"hidden\" id=\"tag-id_1-lorem\" name=\"{$name}[]\" value='lorem'>		<input type=\"hidden\" id=\"tag-id_1-ipsum\" name=\"{$name}[]\" value='ipsum'>	</div>					</div></div>";
 		$this->assertEquals($expected, $html);
 	}
 
@@ -140,5 +141,22 @@ class TagInputTest extends ILIAS_UI_TestBase {
 		$tag2 = $tag->withInput(new DefPostData([$name => null]));
 		$value2 = $tag2->getContent();
 		$this->assertTrue($value2->isError());
+	}
+
+
+	public function test_user_created_not_allowed() {
+		$f = $this->buildFactory();
+		$tags = ["lorem", "ipsum", "dolor"];
+		$tag = $f->tag("label", $tags)->withUserCreatedTagsAllowed(false)->withNameFrom($this->name_source);
+
+		$tag1 = $tag->withInput(new DefPostData(["name_0" => ["lorem", "ipsum"]]));
+		$value1 = $tag1->getContent();
+		$this->assertTrue($value1->isOk());
+		$value = $value1->value();
+		$this->assertEquals(["lorem", "ipsum"], $value);
+
+		$tag1 = $tag->withInput(new DefPostData(["name_0" => ["conseptetuer", "ipsum"]]));
+		$value1 = $tag1->getContent();
+		$this->assertTrue($value1->isError());
 	}
 }

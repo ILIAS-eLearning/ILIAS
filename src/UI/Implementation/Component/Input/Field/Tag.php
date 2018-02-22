@@ -124,8 +124,20 @@ class Tag extends Input implements C\Input\Field\Tag {
 	public function withUserCreatedTagsAllowed(bool $extendable): C\Input\Field\Tag {
 		$clone = clone $this;
 		$clone->extendable = $extendable;
+		/**
+		 * @var $with_constraint C\Input\Field\Tag
+		 */
+		$with_constraint = $clone->withAdditionalConstraint(
+			$this->validation_factory->custom(
+				function ($value) use ($clone) {
+					return (0 == count(array_diff($value, $clone->getTags())));
+				}, function ($value) use ($clone) {
+				return "user created tags are not allowed: " . implode(", ", array_diff($value, $clone->getTags()));
+			}
+			)
+		);
 
-		return $clone;
+		return $with_constraint;
 	}
 
 
