@@ -223,7 +223,7 @@ interface Factory {
 	 *
 	 *   effect: >
 	 *     The button has a "engaged"-state: When the button is used to toggle the
-	 *     visibility of an element, it stays engaged until the element is hidden again.
+	 *     visibility of an component, it stays engaged until the component is hidden again.
 	 *
 	 *   rival:
 	 *     Primary Button: >
