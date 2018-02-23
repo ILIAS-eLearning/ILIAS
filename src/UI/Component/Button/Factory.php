@@ -213,15 +213,15 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     The graphical button combines the recognisability of a graphical element
-	 *     with the explicity of a text-label. It has an obtrusive presentation that
-	 *     indicate important actions on the screen and make them hard to overlook.
+	 *     The graphical button is highly obtrusive. It combines the recognisability
+	 *     of a graphical element with an explicit textual label on an unusually
+	 *     sized button. It is hard to overlook and indicates an important action
+	 *     on the screen.
 	 *
 	 *   composition: >
 	 *     The graphical button consists of an icon or glyph and a (very short) text.
 	 *
 	 *   effect: >
-	 *     Both, icon/glyph and text, form an entity an can only be operated together.
 	 *     The button has a "engaged"-state: When the button is used to toggle the
 	 *     visibility of an element, it stays engaged until the element is hidden again.
 	 *
@@ -243,8 +243,8 @@ interface Factory {
 	 *       Graphical Buttons MUST occupy as much space as their container
 	 *       leaves them.
 	 *     2: >
-	 *       When used to toggle the visibility of another element,
-	 *       the button MUST reflect the elements state of visibility.
+	 *       When used to toggle the visibility of another component, the button
+	 *       MUST reflect the componentes state of visibility.
 	 *
 	 *   accessibility:
 	 *     1: >
