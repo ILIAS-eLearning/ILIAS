@@ -415,10 +415,17 @@ class ilObjTestGUI extends ilObjectGUI
 				break;
 
 			case 'ilrepositorysearchgui':
+				
+				if( !$this->checkManageParticipantsAccess() )
+				{
+					$this->permissionViolationRedirect();
+				}
+				
 				$this->prepareOutput();
 				$this->addHeaderAction();
 				require_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
 				$rep_search = new ilRepositorySearchGUI();
+				$rep_search->addUserAccessFilterCallable([$this, 'manageParticipantsUserFilter']);
 				$rep_search->setCallback($this,
 					'addParticipantsObject',
 					array()
