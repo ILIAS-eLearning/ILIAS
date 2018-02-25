@@ -477,7 +477,7 @@ class ilTestTabsManager
 				$this->tabs->addTarget('tst_tab_competences', $link, array(), array());
 			}
 			
-			if (!$this->isHiddenTab('participants'))
+			if( $this->checkParticipantTabAccess() && !$this->isHiddenTab('participants') )
 			{
 				// participants
 				$this->tabs->addTarget("participants",
@@ -769,6 +769,11 @@ class ilTestTabsManager
 			),
 			""
 		);
+		
+		if( !$this->checkManageParticipantsAccess() )
+		{
+			return;
+		}
 		
 		if( !$this->getTestQuestionSetConfig()->areDepenciesBroken() )
 		{
