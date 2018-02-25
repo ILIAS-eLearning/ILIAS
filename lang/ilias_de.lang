@@ -11095,6 +11095,10 @@ orgu#:#orgu_enable_my_staff_info#:#Die Ansicht ‘Meine Mitarbeiter’ zeigt die
 orgu#:#org_op_manage_members#:#Mitglieder bearbeiten
 orgu#:#org_op_access_results#:#Zugriff auf Ergebnisse
 rbac#:#org_op_access_results#:#Zugriff auf Ergebnisse untergeordneter Benutzer
+orgu#:#org_op_manage_participants#:#Teilnehmer verwalten
+rbac#:#org_op_manage_participants#:#Untergeordnete Teilnehmer verwalten
+orgu#:#org_op_score_participants#:#Teilnehmer bewerten
+rbac#:#org_op_score_participants#:#Untergeordnete Teilnehmer bewerten
 orgu#:#org_op_read_learning_progress#:#Lernfortschritt von anderen Benutzern einsehen
 orgu#:#org_op_edit_submissions_grades#:#Abgaben von anderen Benutzern bearbeiten
 rbac#:#org_op_edit_submissions_grades#:#Abgaben von anderen Benutzern bearbeiten
