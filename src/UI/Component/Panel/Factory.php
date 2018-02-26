@@ -164,7 +164,7 @@ interface Factory {
 	 *   purpose: >
 	 *       A Sticky View keeps one specific type of information or functionality available to users while they
 	 *       carry out workflows that spread over several screens.
-	 *       Envisaged Views are currently the online help and the exercise instrucion view.
+	 *       Envisaged Views are currently the online help and the exercise instruction view.
 	 *   composition: >
 	 *       A Sticky View holds one content body of a Sticky Panel.
 	 *
