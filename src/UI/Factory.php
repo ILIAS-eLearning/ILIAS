@@ -220,6 +220,8 @@ interface Factory {
 	 * description:
 	 *   purpose: >
 	 *      Buttons trigger interactions that change the system’s or view's status.
+	 *      Acceptable changes to the current view are those that do not result in
+	 *      a complete replacement of the overall screen (e.g. modals).
 	 *   composition: >
 	 *      Button is a clickable, graphically obtrusive control element. It can
 	 *      bear text.
