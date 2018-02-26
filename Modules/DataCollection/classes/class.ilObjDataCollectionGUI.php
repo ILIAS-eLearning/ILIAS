@@ -22,6 +22,7 @@
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilObjUserGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilRatingGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilPropertyFormGUI
+ * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclPropertyFormGUI
  *
  * @extends      ilObject2GUI
  */
@@ -226,6 +227,15 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 
 				$this->ctrl->forwardCommand($exp_gui);
 				break;
+
+			case strtolower(ilDclPropertyFormGUI::class):
+				$recordedit_gui = new ilDclRecordEditGUI($this);
+				$recordedit_gui->getRecord();
+				$recordedit_gui->initForm();
+				$form = $recordedit_gui->getForm();
+				$this->ctrl->forwardCommand($form);
+				break;
+
 			default:
 				return parent::executeCommand();
 		}
