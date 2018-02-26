@@ -21,7 +21,7 @@ class ilDclIliasReferenceFieldRepresentation extends ilDclBaseFieldRepresentatio
 		$input->setSubmitFormOnEnter(true);
 
 		$this->setupFilterInputField($input);
-		return $this->getFilterInputFieldValue($input);;
+		return $this->getFilterInputFieldValue($input);
 	}
 
 
