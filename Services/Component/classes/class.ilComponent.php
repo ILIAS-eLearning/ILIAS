@@ -40,8 +40,12 @@ abstract class ilComponent
 	abstract function getVersion();
 	
 	abstract function isCore();
-	
-	abstract static function getComponentType();
+
+	// cat-tms patch start
+	/**
+	 * deleted abstract static function getComponentType()
+	 */
+	// cat-tms patch end
 	
 	/**
 	* Get Name.
