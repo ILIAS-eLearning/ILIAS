@@ -141,7 +141,11 @@ interface Factory {
 	 *       be removed. The panel can be collapsed and expanded as a whole. It will be presented
 	 *       as a fixed area under the top bar. If collapsed the title of the last opened view
 	 *       will persist in the collapsed bar under the top bar.
-	 *
+	 *       The Sticky Panel will be presented on top of the right column (e.g. side blocks) of the main view.
+	 *       If no right column is currently active, an empty one will be displayed under the Sticky Panel
+	 *       to push the content of the main content column to the left (and ensure its full visibility).
+	 *       The right edge of the tabs bar and the header actions will also be pushed to the left to ensure
+	 *       its full functionality.
 	 * rules:
 	 *   usage:
 	 *      1: Usually rendering is done by by the Standard Template. Consumer code SHOULD NOT render
