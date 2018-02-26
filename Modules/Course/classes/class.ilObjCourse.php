@@ -1082,7 +1082,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		require_once("Services/Component/classes/class.ilPluginAdmin.php");
 		$src_id = (int)$this->getId();
 		$target_id = (int)$new_course->getId();
-		$this->insertCopyMappingInfoToDB($new_course);
 
 		if(ilPluginAdmin::isPluginActive('venues')) {
 			$vplug = ilPluginAdmin::getPluginObjectById('venues');
@@ -1112,20 +1111,53 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	}
 
 	/**
-	 * Inserts copy-mapping info to database.
+	 * Get all children by type recursive
 	 *
-	 * @param	\ilObjCourse	$new_course
-	 * @return	void
+	 * @param int 	$ref_id
+	 * @param string 	$search_type
+	 *
+	 * @return Object 	of search type
 	 */
-	protected function insertCopyMappingInfoToDB(\ilObjCourse $new_course) {
-		global $DIC;
-		$db = $DIC["ilDB"];
-		$db->insert("crs_copy_mappings",
-			[ "obj_id" => ["integer", $new_course->getId()]
-			, "source_id" => ["integer", $this->getId()]
-			]);
+	protected function getAllChildrenOfByType($ref_id, $search_type, $tree, $obj_definition) {
+		$childs = $tree->getChilds($ref_id);
+		$ret = array();
+
+		foreach ($childs as $child) {
+			$type = $child["type"];
+			if($type == $search_type) {
+				$ret[] = \ilObjectFactory::getInstanceByRefId($child["child"]);
+			}
+
+			if($obj_definition->isContainer($type)) {
+				$rec_ret = $this->getAllChildrenOfByType($child["child"], $search_type, $tree, $obj_definition);
+				if(! is_null($rec_ret)) {
+					$ret = array_merge($ret, $rec_ret);
+				}
+			}
+		}
+
+		return $ret;
 	}
 
+	/**
+	 * Get the txt closure from the copy settings plugin.
+	 *
+	 * @return Closure|false
+	 */
+	public function getCopySettingsTxtClosure()
+	{
+		global $DIC;
+		$tree = $DIC->repositoryTree();
+		$obj_definition = $DIC["objDefinition"];
+		$src_childs = $this->getAllChildrenOfByType((int)$this->getRefId(), "xcps", $tree, $obj_definition);
+
+		if(count($src_childs) == 0) {
+			return false;
+		}
+
+		$child = array_shift($src_childs);
+		return $child->txtClosure();
+	}
 	// cat-tms-patch end
 
 

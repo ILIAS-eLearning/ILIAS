@@ -424,7 +424,7 @@ abstract class ilTMSBookingGUI {
 	 */
 	protected function getTemplateIdOf($crs_id)
 	{
-		$query = "SELECT source_id FROM crs_copy_mappings WHERE obj_id = ".$this->g_db->quote($crs_id, "integer");
+		$query = "SELECT source_id FROM copy_mappings WHERE obj_id = ".$this->g_db->quote($crs_id, "integer");
 		$res = $this->g_db->query($query);
 		$row = $this->g_db->fetchAssoc($res);
 

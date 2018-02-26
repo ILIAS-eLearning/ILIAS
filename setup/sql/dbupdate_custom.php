@@ -274,3 +274,44 @@ if($ilDB->tableColumnExists('usr_data', 'email')) {
 	$ilDB->modifyTableColumn('usr_data', 'email', $field);
 }
 ?>
+<#24>
+<?php
+if( !$ilDB->tableExists('copy_mappings') )
+{
+	$ilDB->createTable('copy_mappings', array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'source_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+
+	$ilDB->addPrimaryKey('copy_mappings', array('obj_id', 'source_id'));
+}
+?>
+<#25>
+<?php
+// anything withing ccm not in cm
+$q = 'SELECT ccm.obj_id, ccm.source_id FROM crs_copy_mappings ccm'
+	.'	LEFT JOIN copy_mappings cm'
+	.'		ON ccm.obj_id = cm.obj_id'
+	.'			AND ccm.source_id = cm.source_id'
+	.'	WHERE cm.obj_id IS NULL';
+$res = $ilDB->query($q);
+while($rec = $ilDB->fetchAssoc($res)) {
+	$ilDB->insert('copy_mappings',
+		['obj_id' => ['integer',$rec['obj_id']]
+		,'source_id' => ['integer',$rec['source_id']]]);
+}
+?>
+<#26>
+<?php
+$ilDB->dropTable('crs_copy_mappings');
+?>
