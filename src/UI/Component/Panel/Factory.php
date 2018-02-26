@@ -144,10 +144,34 @@ interface Factory {
 	 *   composition:
 	 *      1: Consumer code CAN add single views to the Sticky Panel.
 	 * ---
-	 * @param string $title
-	 * @param Component[]|Component
+	 * @param \ILIAS\UI\Component\Panel\StickyView[]
 	 * @return \ILIAS\UI\Component\Panel\Sticky
 	 */
-	public function sticky();
+	public function sticky(array $views);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       A Sticky Panel holds information or functionality that is presented in parallel to main
+	 *       screens and workflows and persists over a longer time. Views are currently the online help
+	 *       and the exercise instrucion view.
+	 *   composition: >
+	 *       A sticky panel can hold one or multiple views which can be selected by a Dropdown.
+	 *       Views can be closed by a Close Glyph.
+	 *   rivals:
+	 *
+	 * rules:
+	 *   usage:
+	 *      1: Rendering is done by by the Standard Template. Consumer code SHOULD NOT render
+	 *         the Sticky Panel.
+	 *   composition:
+	 *      1: Consumer code CAN add single views to the Sticky Panel.
+	 * ---
+	 * @param \ILIAS\UI\Component\Panel\StickyView[]
+	 * @param \ILIAS\UI\Component\Component[]
+	 * @return \ILIAS\UI\Component\Panel\StickyView
+	 */
+	public function stickyView(string $title, array $content): \ILIAS\UI\Component\Panel\StickyView;
 
 }
