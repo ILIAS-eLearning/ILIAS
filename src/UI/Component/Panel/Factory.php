@@ -141,7 +141,6 @@ interface Factory {
 	 *       be removed. The panel can be collapsed and expanded as a whole. It will be presented
 	 *       as a fixed area under the top bar. If collapsed the title of the last opened view
 	 *       will persist in the collapsed bar under the top bar.
-	 *   rivals:
 	 *
 	 * rules:
 	 *   usage:
@@ -164,7 +163,6 @@ interface Factory {
 	 *   composition: >
 	 *       A sticky panel can hold one or multiple views which can be selected by a Dropdown.
 	 *       Views can be closed by a Close Glyph.
-	 *   rivals:
 	 *
 	 * rules:
 	 *   usage:
