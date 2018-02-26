@@ -245,12 +245,11 @@ interface Factory {
 	 *      1: >
 	 *           Buttons MUST NOT be used inside a Textual Paragraph.
 	 *   interaction:
-	 *      1: >
-	 *           A Button SHOULD trigger an action that either changes the status of the
-	 *           system or the view.
 	 *      2: >
 	 *           If an action is temporarily not available, Buttons MUST be disabled by
 	 *           setting as type 'disabled'.
+	 *      3: >
+	 *           A button MUST NOT be used for navigational purpose.
 	 *   style:
 	 *      1: >
 	 *           If Text is used inside a Button, the Button MUST be at least six characters
