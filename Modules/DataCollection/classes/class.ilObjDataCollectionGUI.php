@@ -228,7 +228,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 				$this->ctrl->forwardCommand($exp_gui);
 				break;
 
-			case "ilpropertyformgui":
+			case strtolower(ilDclPropertyFormGUI::class):
 				$recordedit_gui = new ilDclRecordEditGUI($this);
 				$recordedit_gui->getRecord();
 				$recordedit_gui->initForm();
