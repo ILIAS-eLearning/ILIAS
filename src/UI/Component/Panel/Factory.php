@@ -130,16 +130,22 @@ interface Factory {
 	 * description:
 	 *   purpose: >
 	 *       A Sticky Panel holds information or functionality that is presented in parallel to main
-	 *       screens and workflows and persists over a longer time. Views are currently the online help
-	 *       and the exercise instrucion view.
+	 *       screens and workflows and persists over a longer time.
 	 *   composition: >
 	 *       A sticky panel can hold one or multiple views which can be selected by a Dropdown.
 	 *       Views can be closed by a Close Glyph.
+	 *   effect: >
+	 *       Only one view will be presented at a time. Other views will be selectable via Dropdown.
+	 *       The last view being added to the panel will be the current view, if not
+	 *       changed by the user via Dropdown. If all views are closed, the whole panel will
+	 *       be removed. The panel can be collapsed and expanded as a whole. It will be presented
+	 *       as a fixed area under the top bar. If collapsed the title of the last opened view
+	 *       will persist in the collapsed bar under the top bar.
 	 *   rivals:
 	 *
 	 * rules:
 	 *   usage:
-	 *      1: Rendering is done by by the Standard Template. Consumer code SHOULD NOT render
+	 *      1: Usually rendering is done by by the Standard Template. Consumer code SHOULD NOT render
 	 *         the Sticky Panel.
 	 *   composition:
 	 *      1: Consumer code CAN add single views to the Sticky Panel.
@@ -153,8 +159,7 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       A Sticky Panel holds information or functionality that is presented in parallel to main
-	 *       screens and workflows and persists over a longer time. Views are currently the online help
+	 *       A Sticky View hold one view in a Sticky Panel. Views are currently the online help
 	 *       and the exercise instrucion view.
 	 *   composition: >
 	 *       A sticky panel can hold one or multiple views which can be selected by a Dropdown.
@@ -163,12 +168,17 @@ interface Factory {
 	 *
 	 * rules:
 	 *   usage:
-	 *      1: Rendering is done by by the Standard Template. Consumer code SHOULD NOT render
-	 *         the Sticky Panel.
+	 *      1: Sticky Views should be used for information or tool-like purpose where the view needs
+	 *         to persist over multiple requests. I SHOULD not be used for navigational purposes only.
+	 *         Sticky Views SHOULD usually be added using a function of the Standard Template.
 	 *   composition:
-	 *      1: Consumer code CAN add single views to the Sticky Panel.
+	 *      1: A view consists of a title and content. Since the content can be presented by any
+	 *         kitchen sink currently, each Sticky View needs to be confirmed by the Jour Fixe. The
+	 *         title is used in the Heading of the Sticky Panel, if a view is the current view. The
+	 *         title is also used in the Dropdown of the Sticky Panel to allow switching to a
+	 *         particular view.
 	 * ---
-	 * @param \ILIAS\UI\Component\Panel\StickyView[]
+	 * @param string
 	 * @param \ILIAS\UI\Component\Component[]
 	 * @return \ILIAS\UI\Component\Panel\StickyView
 	 */
