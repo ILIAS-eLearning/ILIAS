@@ -219,10 +219,7 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *      Buttons trigger interactions that change the system’s status. Usually
-	 *      Buttons are contained in an Input Collection. The Toolbar is the main
-	 *      exception to this rule, since buttons in the Toolbar might also perform
-	 *      view changes.
+	 *      Buttons trigger interactions that change the system’s or view's status.
 	 *   composition: >
 	 *      Button is a clickable, graphically obtrusive control element. It can
 	 *      bear text.
@@ -249,8 +246,8 @@ interface Factory {
 	 *           Buttons MUST NOT be used inside a Textual Paragraph.
 	 *   interaction:
 	 *      1: >
-	 *           A Button SHOULD trigger an action. Only in Toolbars, Buttons MAY also
-	 *           change the view.
+	 *           A Button SHOULD trigger an action that either changes the status of the
+	 *           system or the view.
 	 *      2: >
 	 *           If an action is temporarily not available, Buttons MUST be disabled by
 	 *           setting as type 'disabled'.
