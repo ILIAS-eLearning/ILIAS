@@ -1343,9 +1343,7 @@ class ilObjSurvey extends ilObject
 */
 	public function getShowQuestionTitles() 
 	{
-		//return ($this->display_question_titles) ? 1 : 0;
-		#19448 Question title is always shown. All calls to this method remain available (just in case)
-		return 1;
+		return ($this->display_question_titles) ? 1 : 0;
 	}
 
 	/**
