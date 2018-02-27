@@ -219,6 +219,26 @@ class ilObjRootFolderGUI extends ilContainerGUI
 		return $ret;
 	}
 
+	/**
+	 * View root folder
+	 * @return bool|void
+	 * @throws ilObjectException
+	 */
+	function viewObject()
+	{
+		$this->checkPermission('read');
+
+		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
+		{
+			parent::viewObject();
+			return true;
+		}
+
+		$this->renderObject();
+		return true;
+	}
+
+
 
 	/**
 	* called by prepare output
