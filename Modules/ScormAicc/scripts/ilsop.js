@@ -15,7 +15,7 @@ $( document ).ready( function() {
 		var progress;
 		var progressTime;
 		var progressInterval = 1000;
-		var progressMaxtime = 20000;
+		var progressMaxtime = 300000;
 		var isPurgeCookieRegEx;
 		
 		const CLIENT_SUCCESS = 'Successfully posted to client_data!';
