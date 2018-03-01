@@ -1077,6 +1077,7 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 			}
 			array_push($answers, array(
 				"answertext" => (string) $this->formatSAQuestion($answer_obj->getAnswertext()),
+				'html_id' => (int) $this->getId() . '_' . $key,
 				"points" => (float)$answer_obj->getPoints(),
 				"order" => (int)$answer_obj->getOrder(),
 				"image" => (string) $answer_obj->getImage(),
