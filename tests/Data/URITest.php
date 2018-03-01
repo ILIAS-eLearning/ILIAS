@@ -33,6 +33,9 @@ class URITest extends PHPUnit_Framework_TestCase {
 	const URI_WRONG_AUTHORITY_1 = 'git://git$,;hu<b.com:8080/someacc$,;ount/somerepo/somerepo.git/';
 	const URI_WRONG_AUTHORITY_2 = 'git://git$,;hu=b.com/someacc$,;ount/somerepo/somerepo.git/';
 
+
+	const URI_INVALID =  'https://host.de/ilias.php/"><script>alert(1)</script>?baseClass=ilObjChatroomGUI&cmd=getOSDNotifications&cmdMode=asynch&max_age=15192913';
+
 	public function test_init()
 	{
 		return new ILIAS\Data\URI(self::URI_COMPLETE);
@@ -272,6 +275,19 @@ class URITest extends PHPUnit_Framework_TestCase {
 		}
 		try {
 			new ILIAS\Data\URI(self::URI_WRONG_AUTHORITY_2);
+			$this->assertFalse('did not throw');
+		} catch(\InvalidArgumentException $e) {
+
+		}
+	}
+
+	/**
+	 * @depends test_init
+	 */
+	public function test_uri_invalid()
+	{
+		try {
+			new ILIAS\Data\URI(self::URI_INVALID);
 			$this->assertFalse('did not throw');
 		} catch(\InvalidArgumentException $e) {
 
