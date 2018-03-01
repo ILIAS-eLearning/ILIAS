@@ -121,7 +121,6 @@ class ilAssSelfAssessmentQuestionFormatter implements ilAssSelfAssessmentMigrato
 	public static function prepareQuestionForLearningModule(assQuestion $question)
 	{
 		$question->migrateContentForLearningModule(new self());
-		$question->saveQuestionDataToDb();
 	}
 	
 	/**
