@@ -435,3 +435,7 @@ ilDBUpdateNewObjectType::addRBACTemplate('orgu', 'il_orgu_employee', "OrgUnit Em
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#28>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
