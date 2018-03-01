@@ -1,76 +1,80 @@
 <?php
 
+namespace SAML2\XML\md;
+
+use SAML2\Utils;
+
 /**
  * Class representing SAML 2 SPSSODescriptor.
  *
  * @package SimpleSAMLphp
  */
-class SAML2_XML_md_SPSSODescriptor extends SAML2_XML_md_SSODescriptorType
+class SPSSODescriptor extends SSODescriptorType
 {
     /**
      * Whether this SP signs authentication requests.
      *
-     * @var bool|NULL
+     * @var bool|null
      */
-    public $AuthnRequestsSigned = NULL;
+    public $AuthnRequestsSigned = null;
 
     /**
      * Whether this SP wants the Assertion elements to be signed.
      *
-     * @var bool|NULL
+     * @var bool|null
      */
-    public $WantAssertionsSigned = NULL;
+    public $WantAssertionsSigned = null;
 
     /**
      * List of AssertionConsumerService endpoints for this SP.
      *
      * Array with IndexedEndpointType objects.
      *
-     * @var SAML2_XML_md_IndexedEndpointType[]
+     * @var \SAML2\XML\md\IndexedEndpointType[]
      */
     public $AssertionConsumerService = array();
 
     /**
      * List of AttributeConsumingService descriptors for this SP.
      *
-     * Array with SAML2_XML_md_AttributeConsumingService objects.
+     * Array with \SAML2\XML\md\AttributeConsumingService objects.
      *
-     * @var SAML2_XML_md_AttributeConsumingService[]
+     * @var \SAML2\XML\md\AttributeConsumingService[]
      */
     public $AttributeConsumingService = array();
 
     /**
      * Initialize a SPSSODescriptor.
      *
-     * @param DOMElement|NULL $xml The XML element we should load.
+     * @param \DOMElement|null $xml The XML element we should load.
      */
-    public function __construct(DOMElement $xml = NULL)
+    public function __construct(\DOMElement $xml = null)
     {
         parent::__construct('md:SPSSODescriptor', $xml);
 
-        if ($xml === NULL) {
+        if ($xml === null) {
             return;
         }
 
-        $this->AuthnRequestsSigned = SAML2_Utils::parseBoolean($xml, 'AuthnRequestsSigned', NULL);
-        $this->WantAssertionsSigned = SAML2_Utils::parseBoolean($xml, 'WantAssertionsSigned', NULL);
+        $this->AuthnRequestsSigned = Utils::parseBoolean($xml, 'AuthnRequestsSigned', null);
+        $this->WantAssertionsSigned = Utils::parseBoolean($xml, 'WantAssertionsSigned', null);
 
-        foreach (SAML2_Utils::xpQuery($xml, './saml_metadata:AssertionConsumerService') as $ep) {
-            $this->AssertionConsumerService[] = new SAML2_XML_md_IndexedEndpointType($ep);
+        foreach (Utils::xpQuery($xml, './saml_metadata:AssertionConsumerService') as $ep) {
+            $this->AssertionConsumerService[] = new IndexedEndpointType($ep);
         }
 
-        foreach (SAML2_Utils::xpQuery($xml, './saml_metadata:AttributeConsumingService') as $acs) {
-            $this->AttributeConsumingService[] = new SAML2_XML_md_AttributeConsumingService($acs);
+        foreach (Utils::xpQuery($xml, './saml_metadata:AttributeConsumingService') as $acs) {
+            $this->AttributeConsumingService[] = new AttributeConsumingService($acs);
         }
     }
 
     /**
      * Add this SPSSODescriptor to an EntityDescriptor.
      *
-     * @param DOMElement $parent The EntityDescriptor we should append this SPSSODescriptor to.
+     * @param \DOMElement $parent The EntityDescriptor we should append this SPSSODescriptor to.
      * @return void
      */
-    public function toXML(DOMElement $parent)
+    public function toXML(\DOMElement $parent)
     {
         assert('is_null($this->AuthnRequestsSigned) || is_bool($this->AuthnRequestsSigned)');
         assert('is_null($this->WantAssertionsSigned) || is_bool($this->WantAssertionsSigned)');
@@ -79,15 +83,15 @@ class SAML2_XML_md_SPSSODescriptor extends SAML2_XML_md_SSODescriptorType
 
         $e = parent::toXML($parent);
 
-        if ($this->AuthnRequestsSigned === TRUE) {
+        if ($this->AuthnRequestsSigned === true) {
             $e->setAttribute('AuthnRequestsSigned', 'true');
-        } elseif ($this->AuthnRequestsSigned === FALSE) {
+        } elseif ($this->AuthnRequestsSigned === false) {
             $e->setAttribute('AuthnRequestsSigned', 'false');
         }
 
-        if ($this->WantAssertionsSigned === TRUE) {
+        if ($this->WantAssertionsSigned === true) {
             $e->setAttribute('WantAssertionsSigned', 'true');
-        } elseif ($this->WantAssertionsSigned === FALSE) {
+        } elseif ($this->WantAssertionsSigned === false) {
             $e->setAttribute('WantAssertionsSigned', 'false');
         }
 
@@ -99,5 +103,4 @@ class SAML2_XML_md_SPSSODescriptor extends SAML2_XML_md_SSODescriptorType
             $acs->toXML($e);
         }
     }
-
 }

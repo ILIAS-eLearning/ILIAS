@@ -1,37 +1,44 @@
 <?php
 
+namespace SAML2\XML\md;
+
+use SAML2\Constants;
+use SAML2\DOMDocumentFactory;
+use SAML2\SignedElementHelper;
+use SAML2\Utils;
+
 /**
  * Class representing SAML 2 EntitiesDescriptor element.
  *
  * @package SimpleSAMLphp
  */
-class SAML2_XML_md_EntitiesDescriptor extends SAML2_SignedElementHelper
+class EntitiesDescriptor extends SignedElementHelper
 {
     /**
      * The ID of this element.
      *
-     * @var string|NULL
+     * @var string|null
      */
     public $ID;
 
     /**
      * How long this element is valid, as a unix timestamp.
      *
-     * @var int|NULL
+     * @var int|null
      */
     public $validUntil;
 
     /**
      * The length of time this element can be cached, as string.
      *
-     * @var string|NULL
+     * @var string|null
      */
     public $cacheDuration;
 
     /**
      * The name of this entity collection.
      *
-     * @var string|NULL
+     * @var string|null
      */
     public $Name;
 
@@ -47,20 +54,20 @@ class SAML2_XML_md_EntitiesDescriptor extends SAML2_SignedElementHelper
     /**
      * Child EntityDescriptor and EntitiesDescriptor elements.
      *
-     * @var (SAML2_XML_md_EntityDescriptor|SAML2_XML_md_EntitiesDescriptor)[]
+     * @var (\SAML2\XML\md\EntityDescriptor|\SAML2\XML\md\EntitiesDescriptor)[]
      */
     public $children = array();
 
     /**
      * Initialize an EntitiesDescriptor.
      *
-     * @param DOMElement|NULL $xml The XML element we should load.
+     * @param \DOMElement|null $xml The XML element we should load.
      */
-    public function __construct(DOMElement $xml = NULL)
+    public function __construct(\DOMElement $xml = null)
     {
         parent::__construct($xml);
 
-        if ($xml === NULL) {
+        if ($xml === null) {
             return;
         }
 
@@ -68,7 +75,7 @@ class SAML2_XML_md_EntitiesDescriptor extends SAML2_SignedElementHelper
             $this->ID = $xml->getAttribute('ID');
         }
         if ($xml->hasAttribute('validUntil')) {
-            $this->validUntil = SAML2_Utils::xsDateTimeToTimestamp($xml->getAttribute('validUntil'));
+            $this->validUntil = Utils::xsDateTimeToTimestamp($xml->getAttribute('validUntil'));
         }
         if ($xml->hasAttribute('cacheDuration')) {
             $this->cacheDuration = $xml->getAttribute('cacheDuration');
@@ -77,13 +84,13 @@ class SAML2_XML_md_EntitiesDescriptor extends SAML2_SignedElementHelper
             $this->Name = $xml->getAttribute('Name');
         }
 
-        $this->Extensions = SAML2_XML_md_Extensions::getList($xml);
+        $this->Extensions = Extensions::getList($xml);
 
-        foreach (SAML2_Utils::xpQuery($xml, './saml_metadata:EntityDescriptor|./saml_metadata:EntitiesDescriptor') as $node) {
+        foreach (Utils::xpQuery($xml, './saml_metadata:EntityDescriptor|./saml_metadata:EntitiesDescriptor') as $node) {
             if ($node->localName === 'EntityDescriptor') {
-                $this->children[] = new SAML2_XML_md_EntityDescriptor($node);
+                $this->children[] = new EntityDescriptor($node);
             } else {
-                $this->children[] = new SAML2_XML_md_EntitiesDescriptor($node);
+                $this->children[] = new EntitiesDescriptor($node);
             }
         }
     }
@@ -91,10 +98,10 @@ class SAML2_XML_md_EntitiesDescriptor extends SAML2_SignedElementHelper
     /**
      * Convert this EntitiesDescriptor to XML.
      *
-     * @param DOMElement|NULL $parent The EntitiesDescriptor we should append this EntitiesDescriptor to.
-     * @return DOMElement
+     * @param \DOMElement|null $parent The EntitiesDescriptor we should append this EntitiesDescriptor to.
+     * @return \DOMElement
      */
-    public function toXML(DOMElement $parent = NULL)
+    public function toXML(\DOMElement $parent = null)
     {
         assert('is_null($this->ID) || is_string($this->ID)');
         assert('is_null($this->validUntil) || is_int($this->validUntil)');
@@ -103,12 +110,12 @@ class SAML2_XML_md_EntitiesDescriptor extends SAML2_SignedElementHelper
         assert('is_array($this->Extensions)');
         assert('is_array($this->children)');
 
-        if ($parent === NULL) {
-            $doc = SAML2_DOMDocumentFactory::create();
-            $e = $doc->createElementNS(SAML2_Const::NS_MD, 'md:EntitiesDescriptor');
+        if ($parent === null) {
+            $doc = DOMDocumentFactory::create();
+            $e = $doc->createElementNS(Constants::NS_MD, 'md:EntitiesDescriptor');
             $doc->appendChild($e);
         } else {
-            $e = $parent->ownerDocument->createElementNS(SAML2_Const::NS_MD, 'md:EntitiesDescriptor');
+            $e = $parent->ownerDocument->createElementNS(Constants::NS_MD, 'md:EntitiesDescriptor');
             $parent->appendChild($e);
         }
 
@@ -128,9 +135,9 @@ class SAML2_XML_md_EntitiesDescriptor extends SAML2_SignedElementHelper
             $e->setAttribute('Name', $this->Name);
         }
 
-        SAML2_XML_md_Extensions::addList($e, $this->Extensions);
+        Extensions::addList($e, $this->Extensions);
 
-        /** @var SAML2_XML_md_EntityDescriptor|SAML2_XML_md_EntitiesDescriptor $node */
+        /** @var \SAML2\XML\md\EntityDescriptor|\SAML2\XML\md\EntitiesDescriptor $node */
         foreach ($this->children as $node) {
             $node->toXML($e);
         }
@@ -139,5 +146,4 @@ class SAML2_XML_md_EntitiesDescriptor extends SAML2_SignedElementHelper
 
         return $e;
     }
-
 }

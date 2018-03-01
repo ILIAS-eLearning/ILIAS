@@ -30,7 +30,7 @@ class sspmod_saml_Auth_Process_PersistentNameID extends sspmod_saml_BaseNameIDGe
         parent::__construct($config, $reserved);
         assert('is_array($config)');
 
-        $this->format = SAML2_Const::NAMEID_PERSISTENT;
+        $this->format = \SAML2\Constants::NAMEID_PERSISTENT;
 
         if (!isset($config['attribute'])) {
             throw new SimpleSAML_Error_Exception("PersistentNameID: Missing required option 'attribute'.");
@@ -49,26 +49,26 @@ class sspmod_saml_Auth_Process_PersistentNameID extends sspmod_saml_BaseNameIDGe
     {
 
         if (!isset($state['Destination']['entityid'])) {
-            SimpleSAML_Logger::warning('No SP entity ID - not generating persistent NameID.');
+            SimpleSAML\Logger::warning('No SP entity ID - not generating persistent NameID.');
             return null;
         }
         $spEntityId = $state['Destination']['entityid'];
 
         if (!isset($state['Source']['entityid'])) {
-            SimpleSAML_Logger::warning('No IdP entity ID - not generating persistent NameID.');
+            SimpleSAML\Logger::warning('No IdP entity ID - not generating persistent NameID.');
             return null;
         }
         $idpEntityId = $state['Source']['entityid'];
 
         if (!isset($state['Attributes'][$this->attribute]) || count($state['Attributes'][$this->attribute]) === 0) {
-            SimpleSAML_Logger::warning(
+            SimpleSAML\Logger::warning(
                 'Missing attribute '.var_export($this->attribute, true).
                 ' on user - not generating persistent NameID.'
             );
             return null;
         }
         if (count($state['Attributes'][$this->attribute]) > 1) {
-            SimpleSAML_Logger::warning(
+            SimpleSAML\Logger::warning(
                 'More than one value in attribute '.var_export($this->attribute, true).
                 ' on user - not generating persistent NameID.'
             );

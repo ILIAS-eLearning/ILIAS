@@ -9,12 +9,18 @@ $this->includeAtTemplateBase('includes/header.php');
 
 foreach ($this->data['idplist'] as $idpentry) {
     if (!empty($idpentry['name'])) {
-        $this->includeInlineTranslation('idpname_'.$idpentry['entityid'], $idpentry['name']);
+        $this->getTranslator()->includeInlineTranslation(
+            'idpname_'.$idpentry['entityid'],
+            $idpentry['name']
+        );
     } elseif (!empty($idpentry['OrganizationDisplayName'])) {
-        $this->includeInlineTranslation('idpname_'.$idpentry['entityid'], $idpentry['OrganizationDisplayName']);
+        $this->getTranslator()->includeInlineTranslation(
+            'idpname_'.$idpentry['entityid'],
+            $idpentry['OrganizationDisplayName']
+        );
     }
     if (!empty($idpentry['description'])) {
-        $this->includeInlineTranslation('idpdesc_'.$idpentry['entityid'], $idpentry['description']);
+        $this->getTranslator()->includeInlineTranslation('idpdesc_'.$idpentry['entityid'], $idpentry['description']);
     }
 }
 ?>

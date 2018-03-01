@@ -1,32 +1,76 @@
 <?php
 
+namespace SAML2;
+
+use DOMDocument;
+
+use SAML2\XML\ecp\Response as ECPResponse;
+
 /**
  * Class which implements the SOAP binding.
  *
  * @package SimpleSAMLphp
  */
-class SAML2_SOAP extends SAML2_Binding
+class SOAP extends Binding
 {
+    public function getOutputToSend(Message $message)
+    {
+        $envelope = <<<SOAP
+<?xml version="1.0" encoding="utf-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="%s">
+    <SOAP-ENV:Header />
+    <SOAP-ENV:Body />
+</SOAP-ENV:Envelope>
+SOAP;
+        $envelope = sprintf($envelope, Constants::NS_SOAP);
+
+        $doc = new DOMDocument;
+        $doc->loadXML($envelope);
+
+        // In the Artifact Resolution profile, this will be an ArtifactResolve
+        // containing another message (e.g. a Response), however in the ECP
+        // profile, this is the Response itself.
+        if ($message instanceof Response) {
+            $header = $doc->getElementsByTagNameNS(Constants::NS_SOAP, 'Header')->item(0);
+
+            $response = new ECPResponse;
+            $response->AssertionConsumerServiceURL = $this->getDestination() ?: $message->getDestination();
+
+            $response->toXML($header);
+
+            // TODO We SHOULD add ecp:RequestAuthenticated SOAP header if we
+            // authenticated the AuthnRequest. It may make sense to have a
+            // standardized way for Message objects to contain (optional) SOAP
+            // headers for use with the SOAP binding.
+            //
+            // https://docs.oasis-open.org/security/saml/Post2.0/saml-ecp/v2.0/cs01/saml-ecp-v2.0-cs01.html#_Toc366664733
+            // See Section 2.3.6.1
+        }
+
+        $body = $doc->getElementsByTagNameNs(Constants::NS_SOAP, 'Body')->item(0);
+
+        $body->appendChild($doc->importNode($message->toSignedXML(), true));
+
+        return $doc->saveXML();
+    }
+
     /**
      * Send a SAML 2 message using the SOAP binding.
      *
      * Note: This function never returns.
      *
-     * @param SAML2_Message $message The message we should send.
+     * @param \SAML2\Message $message The message we should send.
+     *
+     * @SuppressWarnings(PHPMD.ExitExpression)
      */
-    public function send(SAML2_Message $message)
+    public function send(Message $message)
     {
-        header('Content-Type: text/xml', TRUE);
-        $outputFromIdp = '<?xml version="1.0" encoding="UTF-8"?>';
-        $outputFromIdp .= '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">';
-        $outputFromIdp .= '<SOAP-ENV:Body>';
-        $xmlMessage = $message->toSignedXML();
-        SAML2_Utils::getContainer()->debugMessage($xmlMessage, 'out');
-        $tempOutputFromIdp = $xmlMessage->ownerDocument->saveXML($xmlMessage);
-        $outputFromIdp .= $tempOutputFromIdp;
-        $outputFromIdp .= '</SOAP-ENV:Body>';
-        $outputFromIdp .= '</SOAP-ENV:Envelope>';
-        print($outputFromIdp);
+        header('Content-Type: text/xml', true);
+
+        $xml = $this->getOutputToSend($message);
+        SAML2_Utils::getContainer()->debugMessage($xml, 'out');
+        echo $xml;
+
         exit(0);
     }
 
@@ -35,23 +79,27 @@ class SAML2_SOAP extends SAML2_Binding
      *
      * Throws an exception if it is unable receive the message.
      *
-     * @return SAML2_Message The received message.
-     * @throws Exception
+     * @return \SAML2\Message The received message.
+     * @throws \Exception
      */
     public function receive()
     {
-        $postText = file_get_contents('php://input');
+        $postText = $this->getInputStream();
 
         if (empty($postText)) {
-            throw new Exception('Invalid message received to AssertionConsumerService endpoint.');
+            throw new \Exception('Invalid message received to AssertionConsumerService endpoint.');
         }
 
-        $document = SAML2_DOMDocumentFactory::fromString($postText);
+        $document = DOMDocumentFactory::fromString($postText);
         $xml = $document->firstChild;
-        SAML2_Utils::getContainer()->debugMessage($xml, 'in');
-        $results = SAML2_Utils::xpQuery($xml, '/soap-env:Envelope/soap-env:Body/*[1]');
+        Utils::getContainer()->debugMessage($xml, 'in');
+        $results = Utils::xpQuery($xml, '/soap-env:Envelope/soap-env:Body/*[1]');
 
-        return SAML2_Message::fromXML($results[0]);
+        return Message::fromXML($results[0]);
     }
 
+    protected function getInputStream()
+    {
+        return file_get_contents('php://input');
+    }
 }

@@ -1,17 +1,22 @@
 <?php
 
-interface SAML2_Signature_ValidatorInterface
+namespace SAML2\Signature;
+
+use SAML2\Configuration\CertificateProvider;
+use SAML2\SignedElement;
+
+interface ValidatorInterface
 {
     /**
      * Validate the signature of the signed Element based on the configuration
      *
-     * @param SAML2_SignedElement             $signedElement
-     * @param SAML2_Configuration_CertificateProvider $configuration
+     * @param \SAML2\SignedElement             $signedElement
+     * @param \SAML2\Configuration\CertificateProvider $configuration
      *
      * @return bool
      */
     public function hasValidSignature(
-        SAML2_SignedElement $signedElement,
-        SAML2_Configuration_CertificateProvider $configuration
+        SignedElement $signedElement,
+        CertificateProvider $configuration
     );
 }

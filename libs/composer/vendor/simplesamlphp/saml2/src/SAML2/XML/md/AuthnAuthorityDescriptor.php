@@ -1,18 +1,23 @@
 <?php
 
+namespace SAML2\XML\md;
+
+use SAML2\Constants;
+use SAML2\Utils;
+
 /**
  * Class representing SAML 2 metadata AuthnAuthorityDescriptor.
  *
  * @package SimpleSAMLphp
  */
-class SAML2_XML_md_AuthnAuthorityDescriptor extends SAML2_XML_md_RoleDescriptor
+class AuthnAuthorityDescriptor extends RoleDescriptor
 {
     /**
      * List of AuthnQueryService endpoints.
      *
      * Array with EndpointType objects.
      *
-     * @var SAML2_XML_md_EndpointType[]
+     * @var \SAML2\XML\md\EndpointType[]
      */
     public $AuthnQueryService = array();
 
@@ -21,7 +26,7 @@ class SAML2_XML_md_AuthnAuthorityDescriptor extends SAML2_XML_md_RoleDescriptor
      *
      * Array with EndpointType objects.
      *
-     * @var SAML2_XML_md_EndpointType[]
+     * @var \SAML2\XML\md\EndpointType[]
      */
     public $AssertionIDRequestService = array();
 
@@ -37,38 +42,38 @@ class SAML2_XML_md_AuthnAuthorityDescriptor extends SAML2_XML_md_RoleDescriptor
     /**
      * Initialize an IDPSSODescriptor.
      *
-     * @param DOMElement|NULL $xml The XML element we should load.
-     * @throws Exception
+     * @param \DOMElement|null $xml The XML element we should load.
+     * @throws \Exception
      */
-    public function __construct(DOMElement $xml = NULL)
+    public function __construct(\DOMElement $xml = null)
     {
         parent::__construct('md:AuthnAuthorityDescriptor', $xml);
 
-        if ($xml === NULL) {
+        if ($xml === null) {
             return;
         }
 
-        foreach (SAML2_Utils::xpQuery($xml, './saml_metadata:AuthnQueryService') as $ep) {
-            $this->AuthnQueryService[] = new SAML2_XML_md_EndpointType($ep);
+        foreach (Utils::xpQuery($xml, './saml_metadata:AuthnQueryService') as $ep) {
+            $this->AuthnQueryService[] = new EndpointType($ep);
         }
         if (empty($this->AuthnQueryService)) {
-            throw new Exception('Must have at least one AuthnQueryService in AuthnAuthorityDescriptor.');
+            throw new \Exception('Must have at least one AuthnQueryService in AuthnAuthorityDescriptor.');
         }
 
-        foreach (SAML2_Utils::xpQuery($xml, './saml_metadata:AssertionIDRequestService') as $ep) {
-            $this->AssertionIDRequestService[] = new SAML2_XML_md_EndpointType($ep);
+        foreach (Utils::xpQuery($xml, './saml_metadata:AssertionIDRequestService') as $ep) {
+            $this->AssertionIDRequestService[] = new EndpointType($ep);
         }
 
-        $this->NameIDFormat = SAML2_Utils::extractStrings($xml, SAML2_Const::NS_MD, 'NameIDFormat');
+        $this->NameIDFormat = Utils::extractStrings($xml, Constants::NS_MD, 'NameIDFormat');
     }
 
     /**
      * Add this IDPSSODescriptor to an EntityDescriptor.
      *
-     * @param DOMElement $parent The EntityDescriptor we should append this AuthnAuthorityDescriptor to.
-     * @return DOMElement
+     * @param \DOMElement $parent The EntityDescriptor we should append this AuthnAuthorityDescriptor to.
+     * @return \DOMElement
      */
-    public function toXML(DOMElement $parent)
+    public function toXML(\DOMElement $parent)
     {
         assert('is_array($this->AuthnQueryService)');
         assert('!empty($this->AuthnQueryService)');
@@ -85,9 +90,8 @@ class SAML2_XML_md_AuthnAuthorityDescriptor extends SAML2_XML_md_RoleDescriptor
             $ep->toXML($e, 'md:AssertionIDRequestService');
         }
 
-        SAML2_Utils::addStrings($e, SAML2_Const::NS_MD, 'md:NameIDFormat', FALSE, $this->NameIDFormat);
+        Utils::addStrings($e, Constants::NS_MD, 'md:NameIDFormat', false, $this->NameIDFormat);
 
         return $e;
     }
-
 }

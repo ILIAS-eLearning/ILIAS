@@ -12,19 +12,21 @@
  * @author Daniel Tsosie
  * @package SimpleSAMLphp
  */
-class sspmod_adfs_XMLSecurityDSig extends XMLSecurityDSig {
-
-    function __construct($metaxml) {
+class sspmod_adfs_XMLSecurityDSig extends XMLSecurityDSig
+{
+    function __construct($metaxml)
+    {
         $template = '';
 
-        if (strpos("\n", $metaxml) === FALSE) {
-            foreach (explode("\n", self::template) as $line)
+        if (strpos("\n", $metaxml) === false) {
+            foreach (explode("\n", self::template) as $line) {
                 $template .= trim($line);
+            }
         } else {
             $template = self::template;
         }
 
-        $sigdoc = SAML2_DOMDocumentFactory::fromString($template);
+        $sigdoc = \SAML2\DOMDocumentFactory::fromString($template);
         $this->sigNode = $sigdoc->documentElement;
     }
 }

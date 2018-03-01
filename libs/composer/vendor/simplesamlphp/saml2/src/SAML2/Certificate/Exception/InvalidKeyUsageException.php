@@ -1,10 +1,15 @@
 <?php
 
+namespace SAML2\Certificate\Exception;
+
+use SAML2\Certificate\Key;
+use SAML2\Exception\Throwable;
+
 /**
  * Named exception for when a non-existent key-usage is given
  */
-class SAML2_Certificate_Exception_InvalidKeyUsageException extends InvalidArgumentException implements
-    SAML2_Exception_Throwable
+class InvalidKeyUsageException extends \InvalidArgumentException implements
+    Throwable
 {
     /**
      * @param string $usage
@@ -14,7 +19,7 @@ class SAML2_Certificate_Exception_InvalidKeyUsageException extends InvalidArgume
         $message = sprintf(
             'Invalid key usage given: "%s", usages "%s" allowed',
             is_string($usage) ? $usage : gettype($usage),
-            implode('", "', SAML2_Certificate_Key::getValidKeyUsages())
+            implode('", "', Key::getValidKeyUsages())
         );
 
         parent::__construct($message);

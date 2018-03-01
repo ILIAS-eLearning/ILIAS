@@ -1,17 +1,21 @@
 <?php
 
+namespace SAML2\XML\mdui;
+
 /**
  * Class for handling the Keywords metadata extensions for login and discovery user interface
  *
  * @link: http://docs.oasis-open.org/security/saml/Post2.0/sstc-saml-metadata-ui/v1.0/sstc-saml-metadata-ui-v1.0.pdf
  * @package SimpleSAMLphp
  */
-class SAML2_XML_mdui_Keywords
+class Keywords
 {
     /**
      * The keywords of this item.
      *
-     * @var string
+     * Array of strings.
+     *
+     * @var string[]
      */
     public $Keywords;
 
@@ -25,20 +29,20 @@ class SAML2_XML_mdui_Keywords
     /**
      * Initialize a Keywords.
      *
-     * @param DOMElement|NULL $xml The XML element we should load.
-     * @throws Exception
+     * @param \DOMElement|null $xml The XML element we should load.
+     * @throws \Exception
      */
-    public function __construct(DOMElement $xml = NULL)
+    public function __construct(\DOMElement $xml = null)
     {
-        if ($xml === NULL) {
+        if ($xml === null) {
             return;
         }
 
         if (!$xml->hasAttribute('xml:lang')) {
-            throw new Exception('Missing lang on Keywords.');
+            throw new \Exception('Missing lang on Keywords.');
         }
         if (!is_string($xml->textContent) || !strlen($xml->textContent)) {
-            throw new Exception('Missing value for Keywords.');
+            throw new \Exception('Missing value for Keywords.');
         }
         $this->Keywords = array();
         foreach (explode(' ', $xml->textContent) as $keyword) {
@@ -50,23 +54,23 @@ class SAML2_XML_mdui_Keywords
     /**
      * Convert this Keywords to XML.
      *
-     * @param DOMElement $parent The element we should append this Keywords to.
-     * @return DOMElement
-     * @throws Exception
+     * @param \DOMElement $parent The element we should append this Keywords to.
+     * @return \DOMElement
+     * @throws \Exception
      */
-    public function toXML(DOMElement $parent)
+    public function toXML(\DOMElement $parent)
     {
         assert('is_string($this->lang)');
         assert('is_array($this->Keywords)');
 
         $doc = $parent->ownerDocument;
 
-        $e = $doc->createElementNS(SAML2_XML_mdui_UIInfo::NS, 'mdui:Keywords');
+        $e = $doc->createElementNS(Common::NS, 'mdui:Keywords');
         $e->setAttribute('xml:lang', $this->lang);
         $value = '';
         foreach ($this->Keywords as $keyword) {
-            if (strpos($keyword, "+") !== FALSE) {
-                throw new Exception('Keywords may not contain a "+" character.');
+            if (strpos($keyword, "+") !== false) {
+                throw new \Exception('Keywords may not contain a "+" character.');
             }
             $value .= str_replace(' ', '+', $keyword) . ' ';
         }
@@ -76,5 +80,4 @@ class SAML2_XML_mdui_Keywords
 
         return $e;
     }
-
 }

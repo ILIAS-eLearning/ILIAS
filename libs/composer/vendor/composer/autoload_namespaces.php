@@ -6,8 +6,9 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'SimpleSAML' => array($vendorDir . '/simplesamlphp/simplesamlphp/lib'),
-    'SAML2_' => array($vendorDir . '/simplesamlphp/saml2/src'),
+    'Twig_Extensions_' => array($vendorDir . '/twig/extensions/lib'),
+    'Twig_' => array($vendorDir . '/twig/twig/lib'),
+    'SAML2\\' => array($vendorDir . '/simplesamlphp/saml2/src'),
     'Pimple' => array($vendorDir . '/pimple/pimple/src'),
     'PHPExcel' => array($vendorDir . '/phpoffice/phpexcel/Classes'),
     'LibRIS' => array($vendorDir . '/technosophos/LibRIS/src'),

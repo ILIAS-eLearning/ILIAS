@@ -1,37 +1,42 @@
 <?php
 
+namespace SAML2\XML\ds;
+
+use RobRichards\XMLSecLibs\XMLSecurityDSig;
+use SAML2\XML\Chunk;
+
 /**
  * Class representing a ds:KeyInfo element.
  *
  * @package SimpleSAMLphp
  */
-class SAML2_XML_ds_KeyInfo
+class KeyInfo
 {
     /**
      * The Id attribute on this element.
      *
-     * @var string|NULL
+     * @var string|null
      */
-    public $Id = NULL;
+    public $Id = null;
 
     /**
      * The various key information elements.
      *
      * Array with various elements describing this key.
-     * Unknown elements will be represented by SAML2_XML_Chunk.
+     * Unknown elements will be represented by \SAML2\XML\Chunk.
      *
-     * @var (SAML2_XML_Chunk|SAML2_XML_ds_KeyName|SAML2_XML_ds_X509Data)[]
+     * @var (\SAML2\XML\Chunk|\SAML2\XML\ds\KeyName|\SAML2\XML\ds\X509Data)[]
      */
     public $info = array();
 
     /**
      * Initialize a KeyInfo element.
      *
-     * @param DOMElement|NULL $xml The XML element we should load.
+     * @param \DOMElement|null $xml The XML element we should load.
      */
-    public function __construct(DOMElement $xml = NULL)
+    public function __construct(\DOMElement $xml = null)
     {
-        if ($xml === NULL) {
+        if ($xml === null) {
             return;
         }
 
@@ -39,24 +44,24 @@ class SAML2_XML_ds_KeyInfo
             $this->Id = $xml->getAttribute('Id');
         }
 
-        for ($n = $xml->firstChild; $n !== NULL; $n = $n->nextSibling) {
-            if (!($n instanceof DOMElement)) {
+        for ($n = $xml->firstChild; $n !== null; $n = $n->nextSibling) {
+            if (!($n instanceof \DOMElement)) {
                 continue;
             }
 
             if ($n->namespaceURI !== XMLSecurityDSig::XMLDSIGNS) {
-                $this->info[] = new SAML2_XML_Chunk($n);
+                $this->info[] = new Chunk($n);
                 continue;
             }
             switch ($n->localName) {
                 case 'KeyName':
-                    $this->info[] = new SAML2_XML_ds_KeyName($n);
+                    $this->info[] = new KeyName($n);
                     break;
                 case 'X509Data':
-                    $this->info[] = new SAML2_XML_ds_X509Data($n);
+                    $this->info[] = new X509Data($n);
                     break;
                 default:
-                    $this->info[] = new SAML2_XML_Chunk($n);
+                    $this->info[] = new Chunk($n);
                     break;
             }
         }
@@ -65,10 +70,10 @@ class SAML2_XML_ds_KeyInfo
     /**
      * Convert this KeyInfo to XML.
      *
-     * @param DOMElement $parent The element we should append this KeyInfo to.
-     * @return DOMElement
+     * @param \DOMElement $parent The element we should append this KeyInfo to.
+     * @return \DOMElement
      */
-    public function toXML(DOMElement $parent)
+    public function toXML(\DOMElement $parent)
     {
         assert('is_null($this->Id) || is_string($this->Id)');
         assert('is_array($this->info)');
@@ -82,12 +87,11 @@ class SAML2_XML_ds_KeyInfo
             $e->setAttribute('Id', $this->Id);
         }
 
-        /** @var SAML2_XML_Chunk|SAML2_XML_ds_KeyName|SAML2_XML_ds_X509Data $n */
+        /** @var \SAML2\XML\Chunk|\SAML2\XML\ds\KeyName|\SAML2\XML\ds\X509Data $n */
         foreach ($this->info as $n) {
             $n->toXML($e);
         }
 
         return $e;
     }
-
 }

@@ -1,32 +1,37 @@
 <?php
 
+namespace SAML2;
+
+use RobRichards\XMLSecLibs\XMLSecEnc;
+use RobRichards\XMLSecLibs\XMLSecurityKey;
+
 /**
  * Class for SAML 2 logout request messages.
  *
  * @package SimpleSAMLphp
  */
-class SAML2_LogoutRequest extends SAML2_Request
+class LogoutRequest extends Request
 {
     /**
      * The expiration time of this request.
      *
-     * @var int|NULL
+     * @var int|null
      */
     private $notOnOrAfter;
 
     /**
      * The encrypted NameID in the request.
      *
-     * If this is not NULL, the NameID needs decryption before it can be accessed.
+     * If this is not null, the NameID needs decryption before it can be accessed.
      *
-     * @var DOMElement|NULL
+     * @var \DOMElement|null
      */
     private $encryptedNameId;
 
     /**
      * The name identifier of the session that should be terminated.
      *
-     * @var array
+     * @var \SAML2\XML\saml\NameID
      */
     private $nameId;
 
@@ -40,38 +45,38 @@ class SAML2_LogoutRequest extends SAML2_Request
     /**
      * Constructor for SAML 2 logout request messages.
      *
-     * @param DOMElement|NULL $xml The input message.
-     * @throws Exception
+     * @param \DOMElement|null $xml The input message.
+     * @throws \Exception
      */
-    public function __construct(DOMElement $xml = NULL)
+    public function __construct(\DOMElement $xml = null)
     {
         parent::__construct('LogoutRequest', $xml);
 
         $this->sessionIndexes = array();
 
-        if ($xml === NULL) {
+        if ($xml === null) {
             return;
         }
 
         if ($xml->hasAttribute('NotOnOrAfter')) {
-            $this->notOnOrAfter = SAML2_Utils::xsDateTimeToTimestamp($xml->getAttribute('NotOnOrAfter'));
+            $this->notOnOrAfter = Utils::xsDateTimeToTimestamp($xml->getAttribute('NotOnOrAfter'));
         }
 
-        $nameId = SAML2_Utils::xpQuery($xml, './saml_assertion:NameID | ./saml_assertion:EncryptedID/xenc:EncryptedData');
+        $nameId = Utils::xpQuery($xml, './saml_assertion:NameID | ./saml_assertion:EncryptedID/xenc:EncryptedData');
         if (empty($nameId)) {
-            throw new Exception('Missing <saml:NameID> or <saml:EncryptedID> in <samlp:LogoutRequest>.');
+            throw new \Exception('Missing <saml:NameID> or <saml:EncryptedID> in <samlp:LogoutRequest>.');
         } elseif (count($nameId) > 1) {
-            throw new Exception('More than one <saml:NameID> or <saml:EncryptedD> in <samlp:LogoutRequest>.');
+            throw new \Exception('More than one <saml:NameID> or <saml:EncryptedD> in <samlp:LogoutRequest>.');
         }
         $nameId = $nameId[0];
         if ($nameId->localName === 'EncryptedData') {
             /* The NameID element is encrypted. */
             $this->encryptedNameId = $nameId;
         } else {
-            $this->nameId = SAML2_Utils::parseNameId($nameId);
+            $this->nameId = new XML\saml\NameID($nameId);
         }
 
-        $sessionIndexes = SAML2_Utils::xpQuery($xml, './saml_protocol:SessionIndex');
+        $sessionIndexes = Utils::xpQuery($xml, './saml_protocol:SessionIndex');
         foreach ($sessionIndexes as $sessionIndex) {
             $this->sessionIndexes[] = trim($sessionIndex->textContent);
         }
@@ -80,7 +85,7 @@ class SAML2_LogoutRequest extends SAML2_Request
     /**
      * Retrieve the expiration time of this request.
      *
-     * @return int|NULL The expiration time of this request.
+     * @return int|null The expiration time of this request.
      */
     public function getNotOnOrAfter()
     {
@@ -90,7 +95,7 @@ class SAML2_LogoutRequest extends SAML2_Request
     /**
      * Set the expiration time of this request.
      *
-     * @param int|NULL $notOnOrAfter The expiration time of this request.
+     * @param int|null $notOnOrAfter The expiration time of this request.
      */
     public function setNotOnOrAfter($notOnOrAfter)
     {
@@ -102,15 +107,15 @@ class SAML2_LogoutRequest extends SAML2_Request
     /**
      * Check whether the NameId is encrypted.
      *
-     * @return TRUE if the NameId is encrypted, FALSE if not.
+     * @return true if the NameId is encrypted, false if not.
      */
     public function isNameIdEncrypted()
     {
-        if ($this->encryptedNameId !== NULL) {
-            return TRUE;
+        if ($this->encryptedNameId !== null) {
+            return true;
         }
 
-        return FALSE;
+        return false;
     }
 
     /**
@@ -121,13 +126,13 @@ class SAML2_LogoutRequest extends SAML2_Request
     public function encryptNameId(XMLSecurityKey $key)
     {
         /* First create a XML representation of the NameID. */
-        $doc = SAML2_DOMDocumentFactory::create();
+        $doc = DOMDocumentFactory::create();
         $root = $doc->createElement('root');
         $doc->appendChild($root);
-        SAML2_Utils::addNameId($root, $this->nameId);
+        $this->nameId->toXML($root);
         $nameId = $root->firstChild;
 
-        SAML2_Utils::getContainer()->debugMessage($nameId, 'encrypt');
+        Utils::getContainer()->debugMessage($nameId, 'encrypt');
 
         /* Encrypt the NameID. */
         $enc = new XMLSecEnc();
@@ -139,7 +144,7 @@ class SAML2_LogoutRequest extends SAML2_Request
         $enc->encryptKey($key, $symmetricKey);
 
         $this->encryptedNameId = $enc->encryptNode($symmetricKey);
-        $this->nameId = NULL;
+        $this->nameId = null;
     }
 
     /**
@@ -150,29 +155,29 @@ class SAML2_LogoutRequest extends SAML2_Request
      */
     public function decryptNameId(XMLSecurityKey $key, array $blacklist = array())
     {
-        if ($this->encryptedNameId === NULL) {
+        if ($this->encryptedNameId === null) {
             /* No NameID to decrypt. */
 
             return;
         }
 
-        $nameId = SAML2_Utils::decryptElement($this->encryptedNameId, $key, $blacklist);
-        SAML2_Utils::getContainer()->debugMessage($nameId, 'decrypt');
-        $this->nameId = SAML2_Utils::parseNameId($nameId);
+        $nameId = Utils::decryptElement($this->encryptedNameId, $key, $blacklist);
+        Utils::getContainer()->debugMessage($nameId, 'decrypt');
+        $this->nameId = new XML\saml\NameID($nameId);
 
-        $this->encryptedNameId = NULL;
+        $this->encryptedNameId = null;
     }
 
     /**
      * Retrieve the name identifier of the session that should be terminated.
      *
-     * @return array The name identifier of the session that should be terminated.
-     * @throws Exception
+     * @return \SAML2\XML\saml\NameID The name identifier of the session that should be terminated.
+     * @throws \Exception
      */
     public function getNameId()
     {
-        if ($this->encryptedNameId !== NULL) {
-            throw new Exception('Attempted to retrieve encrypted NameID without decrypting it first.');
+        if ($this->encryptedNameId !== null) {
+            throw new \Exception('Attempted to retrieve encrypted NameID without decrypting it first.');
         }
 
         return $this->nameId;
@@ -181,15 +186,15 @@ class SAML2_LogoutRequest extends SAML2_Request
     /**
      * Set the name identifier of the session that should be terminated.
      *
-     * The name identifier must be in the format accepted by SAML2_message::buildNameId().
-     *
-     * @see SAML2_message::buildNameId()
-     * @param array $nameId The name identifier of the session that should be terminated.
+     * @param \SAML2\XML\saml\NameID|array|null $nameId The name identifier of the session that should be terminated.
      */
     public function setNameId($nameId)
     {
-        assert('is_array($nameId)');
+        assert('is_array($nameId) || is_a($nameId, "\SAML2\XML\saml\NameID")');
 
+        if (is_array($nameId)) {
+            $nameId = XML\saml\NameID::fromArray($nameId);
+        }
         $this->nameId = $nameId;
     }
 
@@ -216,12 +221,12 @@ class SAML2_LogoutRequest extends SAML2_Request
     /**
      * Retrieve the sesion index of the session that should be terminated.
      *
-     * @return string|NULL The sesion index of the session that should be terminated.
+     * @return string|null The sesion index of the session that should be terminated.
      */
     public function getSessionIndex()
     {
         if (empty($this->sessionIndexes)) {
-            return NULL;
+            return null;
         }
 
         return $this->sessionIndexes[0];
@@ -230,7 +235,7 @@ class SAML2_LogoutRequest extends SAML2_Request
     /**
      * Set the sesion index of the session that should be terminated.
      *
-     * @param string|NULL $sessionIndex The sesion index of the session that should be terminated.
+     * @param string|null $sessionIndex The sesion index of the session that should be terminated.
      */
     public function setSessionIndex($sessionIndex)
     {
@@ -246,29 +251,28 @@ class SAML2_LogoutRequest extends SAML2_Request
     /**
      * Convert this logout request message to an XML element.
      *
-     * @return DOMElement This logout request.
+     * @return \DOMElement This logout request.
      */
     public function toUnsignedXML()
     {
         $root = parent::toUnsignedXML();
 
-        if ($this->notOnOrAfter !== NULL) {
+        if ($this->notOnOrAfter !== null) {
             $root->setAttribute('NotOnOrAfter', gmdate('Y-m-d\TH:i:s\Z', $this->notOnOrAfter));
         }
 
-        if ($this->encryptedNameId === NULL) {
-            SAML2_Utils::addNameId($root, $this->nameId);
+        if ($this->encryptedNameId === null) {
+            $this->nameId->toXML($root);
         } else {
-            $eid = $root->ownerDocument->createElementNS(SAML2_Const::NS_SAML, 'saml:' . 'EncryptedID');
+            $eid = $root->ownerDocument->createElementNS(Constants::NS_SAML, 'saml:' . 'EncryptedID');
             $root->appendChild($eid);
-            $eid->appendChild($root->ownerDocument->importNode($this->encryptedNameId, TRUE));
+            $eid->appendChild($root->ownerDocument->importNode($this->encryptedNameId, true));
         }
 
         foreach ($this->sessionIndexes as $sessionIndex) {
-            SAML2_Utils::addString($root, SAML2_Const::NS_SAMLP, 'SessionIndex', $sessionIndex);
+            Utils::addString($root, Constants::NS_SAMLP, 'SessionIndex', $sessionIndex);
         }
 
         return $root;
     }
-
 }

@@ -1,10 +1,12 @@
 <?php
 
+namespace SAML2;
+
 /**
  * Base class for all SAML 2 response messages.
  *
  * Implements samlp:StatusResponseType. All of the elements in that type is
- * stored in the SAML2_Message class, and this class is therefore more
+ * stored in the \SAML2\Message class, and this class is therefore more
  * or less empty. It is included mainly to make it easy to separate requests from
  * responses.
  *
@@ -15,17 +17,17 @@
  *   'Message' => '<status message>',
  * )
  *
- * Only the 'Code' field is required. The others will be set to NULL if they
+ * Only the 'Code' field is required. The others will be set to null if they
  * aren't present.
  *
  * @package SimpleSAMLphp
  */
-abstract class SAML2_StatusResponse extends SAML2_Message
+abstract class StatusResponse extends Message
 {
     /**
-     * The ID of the request this is a response to, or NULL if this is an unsolicited response.
+     * The ID of the request this is a response to, or null if this is an unsolicited response.
      *
-     * @var string|NULL
+     * @var string|null
      */
     private $inResponseTo;
 
@@ -42,20 +44,20 @@ abstract class SAML2_StatusResponse extends SAML2_Message
      * Constructor for SAML 2 response messages.
      *
      * @param string          $tagName The tag name of the root element.
-     * @param DOMElement|NULL $xml     The input message.
-     * @throws Exception
+     * @param \DOMElement|null $xml     The input message.
+     * @throws \Exception
      */
-    protected function __construct($tagName, DOMElement $xml = NULL)
+    protected function __construct($tagName, \DOMElement $xml = null)
     {
         parent::__construct($tagName, $xml);
 
         $this->status = array(
-            'Code' => SAML2_Const::STATUS_SUCCESS,
-            'SubCode' => NULL,
-            'Message' => NULL,
+            'Code' => Constants::STATUS_SUCCESS,
+            'SubCode' => null,
+            'Message' => null,
             );
 
-        if ($xml === NULL) {
+        if ($xml === null) {
             return;
         }
 
@@ -63,26 +65,26 @@ abstract class SAML2_StatusResponse extends SAML2_Message
             $this->inResponseTo = $xml->getAttribute('InResponseTo');
         }
 
-        $status = SAML2_Utils::xpQuery($xml, './saml_protocol:Status');
+        $status = Utils::xpQuery($xml, './saml_protocol:Status');
         if (empty($status)) {
-            throw new Exception('Missing status code on response.');
+            throw new \Exception('Missing status code on response.');
         }
         $status = $status[0];
 
-        $statusCode = SAML2_Utils::xpQuery($status, './saml_protocol:StatusCode');
+        $statusCode = Utils::xpQuery($status, './saml_protocol:StatusCode');
         if (empty($statusCode)) {
-            throw new Exception('Missing status code in status element.');
+            throw new \Exception('Missing status code in status element.');
         }
         $statusCode = $statusCode[0];
 
         $this->status['Code'] = $statusCode->getAttribute('Value');
 
-        $subCode = SAML2_Utils::xpQuery($statusCode, './saml_protocol:StatusCode');
+        $subCode = Utils::xpQuery($statusCode, './saml_protocol:StatusCode');
         if (!empty($subCode)) {
             $this->status['SubCode'] = $subCode[0]->getAttribute('Value');
         }
 
-        $message = SAML2_Utils::xpQuery($status, './saml_protocol:StatusMessage');
+        $message = Utils::xpQuery($status, './saml_protocol:StatusMessage');
         if (!empty($message)) {
             $this->status['Message'] = trim($message[0]->textContent);
         }
@@ -92,24 +94,24 @@ abstract class SAML2_StatusResponse extends SAML2_Message
     /**
      * Determine whether this is a successful response.
      *
-     * @return boolean TRUE if the status code is success, FALSE if not.
+     * @return boolean true if the status code is success, false if not.
      */
     public function isSuccess()
     {
         assert('array_key_exists("Code", $this->status)');
 
-        if ($this->status['Code'] === SAML2_Const::STATUS_SUCCESS) {
-            return TRUE;
+        if ($this->status['Code'] === Constants::STATUS_SUCCESS) {
+            return true;
         }
 
-        return FALSE;
+        return false;
     }
 
 
     /**
      * Retrieve the ID of the request this is a response to.
      *
-     * @return string|NULL The ID of the request.
+     * @return string|null The ID of the request.
      */
     public function getInResponseTo()
     {
@@ -120,7 +122,7 @@ abstract class SAML2_StatusResponse extends SAML2_Message
     /**
      * Set the ID of the request this is a response to.
      *
-     * @param string|NULL $inResponseTo The ID of the request.
+     * @param string|null $inResponseTo The ID of the request.
      */
     public function setInResponseTo($inResponseTo)
     {
@@ -152,10 +154,10 @@ abstract class SAML2_StatusResponse extends SAML2_Message
 
         $this->status = $status;
         if (!array_key_exists('SubCode', $status)) {
-            $this->status['SubCode'] = NULL;
+            $this->status['SubCode'] = null;
         }
         if (!array_key_exists('Message', $status)) {
-            $this->status['Message'] = NULL;
+            $this->status['Message'] = null;
         }
     }
 
@@ -163,34 +165,33 @@ abstract class SAML2_StatusResponse extends SAML2_Message
     /**
      * Convert status response message to an XML element.
      *
-     * @return DOMElement This status response.
+     * @return \DOMElement This status response.
      */
     public function toUnsignedXML()
     {
         $root = parent::toUnsignedXML();
 
-        if ($this->inResponseTo !== NULL) {
+        if ($this->inResponseTo !== null) {
             $root->setAttribute('InResponseTo', $this->inResponseTo);
         }
 
-        $status = $this->document->createElementNS(SAML2_Const::NS_SAMLP, 'Status');
+        $status = $this->document->createElementNS(Constants::NS_SAMLP, 'Status');
         $root->appendChild($status);
 
-        $statusCode = $this->document->createElementNS(SAML2_Const::NS_SAMLP, 'StatusCode');
+        $statusCode = $this->document->createElementNS(Constants::NS_SAMLP, 'StatusCode');
         $statusCode->setAttribute('Value', $this->status['Code']);
         $status->appendChild($statusCode);
 
         if (!is_null($this->status['SubCode'])) {
-            $subStatusCode = $this->document->createElementNS(SAML2_Const::NS_SAMLP, 'StatusCode');
+            $subStatusCode = $this->document->createElementNS(Constants::NS_SAMLP, 'StatusCode');
             $subStatusCode->setAttribute('Value', $this->status['SubCode']);
             $statusCode->appendChild($subStatusCode);
         }
 
         if (!is_null($this->status['Message'])) {
-            SAML2_Utils::addString($status, SAML2_Const::NS_SAMLP, 'StatusMessage', $this->status['Message']);
+            Utils::addString($status, Constants::NS_SAMLP, 'StatusMessage', $this->status['Message']);
         }
 
         return $root;
     }
-
 }

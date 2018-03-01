@@ -72,7 +72,7 @@ if (array_key_exists('descr_purpose', $this->data['dstMetadata'])) {
         '{consent:consent:consent_purpose}',
         array(
             'SPNAME' => $dstName,
-            'SPDESC' => $this->getTranslation(
+            'SPDESC' => $this->getTranslator()->getPreferredTranslation(
                 SimpleSAML\Utils\Arrays::arrayize(
                     $this->data['dstMetadata']['descr_purpose'],
                     'en'
@@ -124,7 +124,7 @@ foreach ($this->data['noData'] as $name => $value) {
 <?php
 if ($this->data['sppp'] !== false) {
     echo "<p>" . htmlspecialchars($this->t('{consent:consent:consent_privacypolicy}')) . " ";
-    echo "<a target='_blank' href='" . htmlspecialchars($this->data['sppp']) . "'>" . $dstName . "</a>";
+    echo '<a target="_blank" href="' . htmlspecialchars($this->data['sppp']) . '">' . $dstName . "</a>";
     echo "</p>";
 }
 
@@ -139,6 +139,8 @@ if ($this->data['sppp'] !== false) {
  */
 function present_attributes($t, $attributes, $nameParent)
 {
+    $translator = $t->getTranslator();
+
     $alternate = array('odd', 'even');
     $i = 0;
     $summary = 'summary="' . $t->t('{consent:consent:table_summary}') . '"';
@@ -155,7 +157,7 @@ function present_attributes($t, $attributes, $nameParent)
 
     foreach ($attributes as $name => $value) {
         $nameraw = $name;
-        $name = $t->getAttributeTranslation($parentStr . $nameraw);
+        $name = $translator->getAttributeTranslation($parentStr . $nameraw);
 
         if (preg_match('/^child_/', $nameraw)) {
             // insert child table

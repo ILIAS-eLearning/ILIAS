@@ -1,11 +1,16 @@
 <?php
 
+namespace SAML2\XML\ds;
+
+use RobRichards\XMLSecLibs\XMLSecurityDSig;
+use SAML2\Utils;
+
 /**
  * Class representing a ds:KeyName element.
  *
  * @package SimpleSAMLphp
  */
-class SAML2_XML_ds_KeyName
+class KeyName
 {
     /**
      * The key name.
@@ -17,11 +22,11 @@ class SAML2_XML_ds_KeyName
     /**
      * Initialize a KeyName element.
      *
-     * @param DOMElement|NULL $xml The XML element we should load.
+     * @param \DOMElement|null $xml The XML element we should load.
      */
-    public function __construct(DOMElement $xml = NULL)
+    public function __construct(\DOMElement $xml = null)
     {
-        if ($xml === NULL) {
+        if ($xml === null) {
             return;
         }
 
@@ -31,14 +36,13 @@ class SAML2_XML_ds_KeyName
     /**
      * Convert this KeyName element to XML.
      *
-     * @param DOMElement $parent The element we should append this KeyName element to.
-     * @return DOMElement
+     * @param \DOMElement $parent The element we should append this KeyName element to.
+     * @return \DOMElement
      */
-    public function toXML(DOMElement $parent)
+    public function toXML(\DOMElement $parent)
     {
         assert('is_string($this->name)');
 
-        return SAML2_Utils::addString($parent, XMLSecurityDSig::XMLDSIGNS, 'ds:KeyName', $this->name);
+        return Utils::addString($parent, XMLSecurityDSig::XMLDSIGNS, 'ds:KeyName', $this->name);
     }
-
 }

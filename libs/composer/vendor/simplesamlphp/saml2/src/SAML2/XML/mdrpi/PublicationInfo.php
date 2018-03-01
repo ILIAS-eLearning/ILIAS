@@ -1,12 +1,16 @@
 <?php
 
+namespace SAML2\XML\mdrpi;
+
+use SAML2\Utils;
+
 /**
  * Class for handling the mdrpi:PublicationInfo element.
  *
  * @link: http://docs.oasis-open.org/security/saml/Post2.0/saml-metadata-rpi/v1.0/saml-metadata-rpi-v1.0.pdf
  * @package SimpleSAMLphp
  */
-class SAML2_XML_mdrpi_PublicationInfo
+class PublicationInfo
 {
     /**
      * The identifier of the metadata publisher.
@@ -18,14 +22,14 @@ class SAML2_XML_mdrpi_PublicationInfo
     /**
      * The creation timestamp for the metadata, as a UNIX timestamp.
      *
-     * @var int|NULL
+     * @var int|null
      */
     public $creationInstant;
 
     /**
      * Identifier for this metadata publication.
      *
-     * @var string|NULL
+     * @var string|null
      */
     public $publicationId;
 
@@ -41,38 +45,38 @@ class SAML2_XML_mdrpi_PublicationInfo
     /**
      * Create/parse a mdrpi:PublicationInfo element.
      *
-     * @param DOMElement|NULL $xml The XML element we should load.
-     * @throws Exception
+     * @param \DOMElement|null $xml The XML element we should load.
+     * @throws \Exception
      */
-    public function __construct(DOMElement $xml = NULL)
+    public function __construct(\DOMElement $xml = null)
     {
-        if ($xml === NULL) {
+        if ($xml === null) {
             return;
         }
 
         if (!$xml->hasAttribute('publisher')) {
-            throw new Exception('Missing required attribute "publisher" in mdrpi:PublicationInfo element.');
+            throw new \Exception('Missing required attribute "publisher" in mdrpi:PublicationInfo element.');
         }
         $this->publisher = $xml->getAttribute('publisher');
 
         if ($xml->hasAttribute('creationInstant')) {
-            $this->creationInstant = SAML2_Utils::xsDateTimeToTimestamp($xml->getAttribute('creationInstant'));
+            $this->creationInstant = Utils::xsDateTimeToTimestamp($xml->getAttribute('creationInstant'));
         }
 
         if ($xml->hasAttribute('publicationId')) {
             $this->publicationId = $xml->getAttribute('publicationId');
         }
 
-        $this->UsagePolicy = SAML2_Utils::extractLocalizedStrings($xml, SAML2_XML_mdrpi_Common::NS_MDRPI, 'UsagePolicy');
+        $this->UsagePolicy = Utils::extractLocalizedStrings($xml, Common::NS_MDRPI, 'UsagePolicy');
     }
 
     /**
      * Convert this element to XML.
      *
-     * @param DOMElement $parent The element we should append to.
-     * @return DOMElement
+     * @param \DOMElement $parent The element we should append to.
+     * @return \DOMElement
      */
-    public function toXML(DOMElement $parent)
+    public function toXML(\DOMElement $parent)
     {
         assert('is_string($this->publisher)');
         assert('is_int($this->creationInstant) || is_null($this->creationInstant)');
@@ -81,22 +85,21 @@ class SAML2_XML_mdrpi_PublicationInfo
 
         $doc = $parent->ownerDocument;
 
-        $e = $doc->createElementNS(SAML2_XML_mdrpi_Common::NS_MDRPI, 'mdrpi:PublicationInfo');
+        $e = $doc->createElementNS(Common::NS_MDRPI, 'mdrpi:PublicationInfo');
         $parent->appendChild($e);
 
         $e->setAttribute('publisher', $this->publisher);
 
-        if ($this->creationInstant !== NULL) {
+        if ($this->creationInstant !== null) {
             $e->setAttribute('creationInstant', gmdate('Y-m-d\TH:i:s\Z', $this->creationInstant));
         }
 
-        if ($this->publicationId !== NULL) {
+        if ($this->publicationId !== null) {
             $e->setAttribute('publicationId', $this->publicationId);
         }
 
-        SAML2_Utils::addStrings($e, SAML2_XML_mdrpi_Common::NS_MDRPI, 'mdrpi:UsagePolicy', TRUE, $this->UsagePolicy);
+        Utils::addStrings($e, Common::NS_MDRPI, 'mdrpi:UsagePolicy', true, $this->UsagePolicy);
 
         return $e;
     }
-
 }

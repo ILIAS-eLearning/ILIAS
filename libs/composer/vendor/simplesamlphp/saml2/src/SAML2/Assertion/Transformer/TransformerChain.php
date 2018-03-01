@@ -1,37 +1,45 @@
 <?php
 
-class SAML2_Assertion_Transformer_TransformerChain implements SAML2_Assertion_Transformer_Transformer
+namespace SAML2\Assertion\Transformer;
+
+use SAML2\Assertion;
+use SAML2\Configuration\IdentityProvider;
+use SAML2\Configuration\IdentityProviderAware;
+use SAML2\Configuration\ServiceProvider;
+use SAML2\Configuration\ServiceProviderAware;
+
+class TransformerChain implements Transformer
 {
     /**
-     * @var SAML2_Assertion_Transformer_Transformer[]
+     * @var \SAML2\Assertion\Transformer\Transformer[]
      */
     private $transformers = array();
 
     /**
-     * @var SAML2_Configuration_IdentityProvider
+     * @var \SAML2\Configuration\IdentityProvider
      */
     private $identityProvider;
 
     /**
-     * @var SAML2_Configuration_ServiceProvider
+     * @var \SAML2\Configuration\ServiceProvider
      */
     private $serviceProvider;
 
     public function __construct(
-        SAML2_Configuration_IdentityProvider $identityProvider,
-        SAML2_Configuration_ServiceProvider $serviceProvider
+        IdentityProvider $identityProvider,
+        ServiceProvider $serviceProvider
     ) {
         $this->identityProvider = $identityProvider;
         $this->serviceProvider  = $serviceProvider;
     }
 
-    public function addTransformerStep(SAML2_Assertion_Transformer_Transformer $transformer)
+    public function addTransformerStep(Transformer $transformer)
     {
-        if ($transformer instanceof SAML2_Configuration_IdentityProviderAware) {
+        if ($transformer instanceof IdentityProviderAware) {
             $transformer->setIdentityProvider($this->identityProvider);
         }
 
-        if ($transformer instanceof SAML2_Configuration_ServiceProviderAware) {
+        if ($transformer instanceof ServiceProviderAware) {
             $transformer->setServiceProvider($this->serviceProvider);
         }
 
@@ -39,11 +47,11 @@ class SAML2_Assertion_Transformer_TransformerChain implements SAML2_Assertion_Tr
     }
 
     /**
-     * @param SAML2_Assertion $assertion
+     * @param \SAML2\Assertion $assertion
      *
-     * @return SAML2_Assertion
+     * @return \SAML2\Assertion
      */
-    public function transform(SAML2_Assertion $assertion)
+    public function transform(Assertion $assertion)
     {
         foreach ($this->transformers as $transformer) {
             $assertion = $transformer->transform($assertion);

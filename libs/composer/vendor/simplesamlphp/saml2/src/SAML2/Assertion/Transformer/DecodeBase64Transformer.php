@@ -1,20 +1,26 @@
 <?php
 
-class SAML2_Assertion_Transformer_DecodeBase64Transformer implements
-    SAML2_Assertion_Transformer_Transformer,
-    SAML2_Configuration_IdentityProviderAware
+namespace SAML2\Assertion\Transformer;
+
+use SAML2\Assertion;
+use SAML2\Configuration\IdentityProvider;
+use SAML2\Configuration\IdentityProviderAware;
+
+class DecodeBase64Transformer implements
+    Transformer,
+    IdentityProviderAware
 {
     /**
-     * @var SAML2_Configuration_IdentityProvider
+     * @var \SAML2\Configuration\IdentityProvider
      */
     private $identityProvider;
 
-    public function setIdentityProvider(SAML2_Configuration_IdentityProvider $identityProvider)
+    public function setIdentityProvider(IdentityProvider $identityProvider)
     {
         $this->identityProvider = $identityProvider;
     }
 
-    public function transform(SAML2_Assertion $assertion)
+    public function transform(Assertion $assertion)
     {
         if (!$this->identityProvider->hasBase64EncodedAttributes()) {
             return $assertion;

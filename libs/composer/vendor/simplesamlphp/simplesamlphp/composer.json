@@ -1,10 +1,11 @@
 {
     "name": "simplesamlphp/simplesamlphp",
-    "description": "A PHP implementation of SAML 2.0 service provider and identity provider functionality. And is also compatible with Shibboleth 1.3 and 2.0.",
+    "description": "A PHP implementation of a SAML 2.0 service provider and identity provider, also compatible with Shibboleth 1.3 and 2.0.",
+    "version": "v1.15.3",
     "type": "project",
-    "keywords": [ "saml2", "shibboleth","aselect","openid","oauth","ws-federation","sp","idp" ],
+    "keywords": [ "saml2", "shibboleth","oauth","ws-federation","sp","idp" ],
     "homepage": "http://simplesamlphp.org",
-    "license": "LGPL-2.1",
+    "license": "LGPL-2.1-or-later",
     "authors": [
         {
             "name": "Andreas Åkre Solberg",
@@ -13,19 +14,20 @@
         {
             "name": "Olav Morken",
             "email": "olav.morken@uninett.no"
+        },
+        {
+            "name": "Jaime Perez",
+            "email": "jaime.perez@uninett.no"
         }
     ],
     "autoload": {
-        "psr-0": {
-            "SimpleSAML": "lib/"
+        "psr-4": {
+            "SimpleSAML\\": "lib/SimpleSAML"
         },
         "files": ["lib/_autoload_modules.php"]
     },
     "require": {
-        "php": ">=5.3",
-        "simplesamlphp/saml2": "~1.9.1",
-        "robrichards/xmlseclibs": "~1.4.1",
-        "whitehat101/apr1-md5": "~1.0",
+        "php": ">=5.4",
         "ext-SPL": "*",
         "ext-zlib": "*",
         "ext-pcre": "*",
@@ -34,12 +36,21 @@
         "ext-date": "*",
         "ext-hash": "*",
         "ext-json": "*",
-        "ext-mbstring": "*"
+        "ext-mbstring": "*",
+        "simplesamlphp/saml2": "~3.1.3",
+        "robrichards/xmlseclibs": "~3.0",
+        "whitehat101/apr1-md5": "~1.0",
+        "twig/twig": "~1.0",
+        "gettext/gettext": "^3.5",
+        "jaimeperez/twig-configurable-i18n": "^1.2"
     },
     "require-dev": {
         "ext-pdo_sqlite": "*",
-        "phpunit/phpunit": "~3.7",
-        "satooshi/php-coveralls": "^1.0"
+        "phpunit/phpunit": "~4.8",
+        "mikey179/vfsStream": "~1.6"
+    },
+    "suggests": {
+        "predis/predis": "1.1.1"
     },
     "support": {
         "issues": "https://github.com/simplesamlphp/simplesamlphp/issues",

@@ -1,8 +1,10 @@
 <?php
 
+namespace SAML2\Exception;
+
 /**
  * Named exception
  */
-class SAML2_Exception_RuntimeException extends RuntimeException implements SAML2_Exception_Throwable
+class RuntimeException extends \RuntimeException implements Throwable
 {
 }

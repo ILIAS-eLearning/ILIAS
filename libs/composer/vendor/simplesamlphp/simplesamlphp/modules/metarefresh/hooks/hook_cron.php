@@ -9,7 +9,7 @@ function metarefresh_hook_cron(&$croninfo) {
 	assert('array_key_exists("summary", $croninfo)');
 	assert('array_key_exists("tag", $croninfo)');
 
-	SimpleSAML_Logger::info('cron [metarefresh]: Running cron in cron tag [' . $croninfo['tag'] . '] ');
+	SimpleSAML\Logger::info('cron [metarefresh]: Running cron in cron tag [' . $croninfo['tag'] . '] ');
 
 	try {
 		$config = SimpleSAML_Configuration::getInstance();
@@ -21,9 +21,9 @@ function metarefresh_hook_cron(&$croninfo) {
 		foreach ($sets AS $setkey => $set) {
 			// Only process sets where cron matches the current cron tag
 			$cronTags = $set->getArray('cron');
-			if (!in_array($croninfo['tag'], $cronTags)) continue;
+			if (!in_array($croninfo['tag'], $cronTags, true)) continue;
 
-			SimpleSAML_Logger::info('cron [metarefresh]: Executing set [' . $setkey . ']');
+			SimpleSAML\Logger::info('cron [metarefresh]: Executing set [' . $setkey . ']');
 
 			$expireAfter = $set->getInteger('expireAfter', NULL);
 			if ($expireAfter !== NULL) {
@@ -86,7 +86,7 @@ function metarefresh_hook_cron(&$croninfo) {
 					$source['conditionalGET'] = $conditionalGET;
 				}
 
-				SimpleSAML_Logger::debug('cron [metarefresh]: In set [' . $setkey . '] loading source ['  . $source['src'] . ']');
+				SimpleSAML\Logger::debug('cron [metarefresh]: In set [' . $setkey . '] loading source ['  . $source['src'] . ']');
 				$metaloader->loadSource($source);
 			}
 

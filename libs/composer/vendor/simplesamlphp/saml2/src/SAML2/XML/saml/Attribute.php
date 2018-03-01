@@ -1,11 +1,16 @@
 <?php
 
+namespace SAML2\XML\saml;
+
+use SAML2\Constants;
+use SAML2\Utils;
+
 /**
  * Class representing SAML 2 Attribute.
  *
  * @package SimpleSAMLphp
  */
-class SAML2_XML_saml_Attribute
+class Attribute
 {
     /**
      * The Name of this attribute.
@@ -17,40 +22,40 @@ class SAML2_XML_saml_Attribute
     /**
      * The NameFormat of this attribute.
      *
-     * @var string|NULL
+     * @var string|null
      */
     public $NameFormat;
 
     /**
      * The FriendlyName of this attribute.
      *
-     * @var string|NULL
+     * @var string|null
      */
-    public $FriendlyName = NULL;
+    public $FriendlyName = null;
 
     /**
      * List of attribute values.
      *
-     * Array of SAML2_XML_saml_AttributeValue elements.
+     * Array of \SAML2\XML\saml\AttributeValue elements.
      *
-     * @var SAML2_XML_saml_AttributeValue[]
+     * @var \SAML2\XML\saml\AttributeValue[]
      */
     public $AttributeValue = array();
 
     /**
      * Initialize an Attribute.
      *
-     * @param DOMElement|NULL $xml The XML element we should load.
-     * @throws Exception
+     * @param \DOMElement|null $xml The XML element we should load.
+     * @throws \Exception
      */
-    public function __construct(DOMElement $xml = NULL)
+    public function __construct(\DOMElement $xml = null)
     {
-        if ($xml === NULL) {
+        if ($xml === null) {
             return;
         }
 
         if (!$xml->hasAttribute('Name')) {
-            throw new Exception('Missing Name on Attribute.');
+            throw new \Exception('Missing Name on Attribute.');
         }
         $this->Name = $xml->getAttribute('Name');
 
@@ -62,8 +67,8 @@ class SAML2_XML_saml_Attribute
             $this->FriendlyName = $xml->getAttribute('FriendlyName');
         }
 
-        foreach (SAML2_Utils::xpQuery($xml, './saml_assertion:AttributeValue') as $av) {
-            $this->AttributeValue[] = new SAML2_XML_saml_AttributeValue($av);
+        foreach (Utils::xpQuery($xml, './saml_assertion:AttributeValue') as $av) {
+            $this->AttributeValue[] = new AttributeValue($av);
         }
     }
 
@@ -71,12 +76,12 @@ class SAML2_XML_saml_Attribute
      * Internal implementation of toXML.
      * This function allows RequestedAttribute to specify the element name and namespace.
      *
-     * @param DOMElement $parent    The element we should append this Attribute to.
+     * @param \DOMElement $parent    The element we should append this Attribute to.
      * @param string     $namespace The namespace the element should be created in.
      * @param string     $name      The name of the element.
-     * @return DOMElement
+     * @return \DOMElement
      */
-    protected function toXMLInternal(DOMElement $parent, $namespace, $name)
+    protected function toXMLInternal(\DOMElement $parent, $namespace, $name)
     {
         assert('is_string($namespace)');
         assert('is_string($name)');
@@ -108,12 +113,11 @@ class SAML2_XML_saml_Attribute
     /**
      * Convert this Attribute to XML.
      *
-     * @param DOMElement $parent The element we should append this Attribute to.
-     * @return DOMElement
+     * @param \DOMElement $parent The element we should append this Attribute to.
+     * @return \DOMElement
      */
-    public function toXML(DOMElement $parent)
+    public function toXML(\DOMElement $parent)
     {
-        return $this->toXMLInternal($parent, SAML2_Const::NS_SAML, 'saml:Attribute');
+        return $this->toXMLInternal($parent, Constants::NS_SAML, 'saml:Attribute');
     }
-
 }

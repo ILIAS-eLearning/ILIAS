@@ -1,11 +1,16 @@
 <?php
 
+namespace SAML2\XML\md;
+
+use SAML2\Constants;
+use SAML2\Utils;
+
 /**
  * Class representing SAML 2 metadata AdditionalMetadataLocation element.
  *
  * @package SimpleSAMLphp
  */
-class SAML2_XML_md_AdditionalMetadataLocation
+class AdditionalMetadataLocation
 {
     /**
      * The namespace of this metadata.
@@ -24,17 +29,17 @@ class SAML2_XML_md_AdditionalMetadataLocation
     /**
      * Initialize an AdditionalMetadataLocation element.
      *
-     * @param DOMElement|NULL $xml The XML element we should load.
-     * @throws Exception
+     * @param \DOMElement|null $xml The XML element we should load.
+     * @throws \Exception
      */
-    public function __construct(DOMElement $xml = NULL)
+    public function __construct(\DOMElement $xml = null)
     {
-        if ($xml === NULL) {
+        if ($xml === null) {
             return;
         }
 
         if (!$xml->hasAttribute('namespace')) {
-            throw new Exception('Missing namespace attribute on AdditionalMetadataLocation element.');
+            throw new \Exception('Missing namespace attribute on AdditionalMetadataLocation element.');
         }
         $this->namespace = $xml->getAttribute('namespace');
 
@@ -44,18 +49,17 @@ class SAML2_XML_md_AdditionalMetadataLocation
     /**
      * Convert this AdditionalMetadataLocation to XML.
      *
-     * @param  DOMElement $parent The element we should append to.
-     * @return DOMElement This AdditionalMetadataLocation-element.
+     * @param  \DOMElement $parent The element we should append to.
+     * @return \DOMElement This AdditionalMetadataLocation-element.
      */
-    public function toXML(DOMElement $parent)
+    public function toXML(\DOMElement $parent)
     {
         assert('is_string($this->namespace)');
         assert('is_string($this->location)');
 
-        $e = SAML2_Utils::addString($parent, SAML2_Const::NS_MD, 'md:AdditionalMetadataLocation', $this->location);
+        $e = Utils::addString($parent, Constants::NS_MD, 'md:AdditionalMetadataLocation', $this->location);
         $e->setAttribute('namespace', $this->namespace);
 
         return $e;
     }
-
 }

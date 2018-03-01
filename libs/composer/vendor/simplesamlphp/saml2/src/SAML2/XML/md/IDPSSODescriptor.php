@@ -1,25 +1,31 @@
 <?php
 
+namespace SAML2\XML\md;
+
+use SAML2\Constants;
+use SAML2\Utils;
+use SAML2\XML\saml\Attribute;
+
 /**
  * Class representing SAML 2 IDPSSODescriptor.
  *
  * @package SimpleSAMLphp
  */
-class SAML2_XML_md_IDPSSODescriptor extends SAML2_XML_md_SSODescriptorType
+class IDPSSODescriptor extends SSODescriptorType
 {
     /**
      * Whether AuthnRequests sent to this IdP should be signed.
      *
-     * @var bool|NULL
+     * @var bool|null
      */
-    public $WantAuthnRequestsSigned = NULL;
+    public $WantAuthnRequestsSigned = null;
 
     /**
      * List of SingleSignOnService endpoints.
      *
      * Array with EndpointType objects.
      *
-     * @var SAML2_XML_md_EndpointType[]
+     * @var \SAML2\XML\md\EndpointType[]
      */
     public $SingleSignOnService = array();
 
@@ -28,7 +34,7 @@ class SAML2_XML_md_IDPSSODescriptor extends SAML2_XML_md_SSODescriptorType
      *
      * Array with EndpointType objects.
      *
-     * @var SAML2_XML_md_EndpointType[]
+     * @var \SAML2\XML\md\EndpointType[]
      */
     public $NameIDMappingService = array();
 
@@ -37,7 +43,7 @@ class SAML2_XML_md_IDPSSODescriptor extends SAML2_XML_md_SSODescriptorType
      *
      * Array with EndpointType objects.
      *
-     * @var SAML2_XML_md_EndpointType[]
+     * @var \SAML2\XML\md\EndpointType[]
      */
     public $AssertionIDRequestService = array();
 
@@ -53,53 +59,53 @@ class SAML2_XML_md_IDPSSODescriptor extends SAML2_XML_md_SSODescriptorType
     /**
      * List of supported attributes.
      *
-     * Array with SAML2_XML_saml_Attribute objects.
+     * Array with \SAML2\XML\saml\Attribute objects.
      *
-     * @var SAML2_XML_saml_Attribute[]
+     * @var \SAML2\XML\saml\Attribute[]
      */
     public $Attribute = array();
 
     /**
      * Initialize an IDPSSODescriptor.
      *
-     * @param DOMElement|NULL $xml The XML element we should load.
+     * @param \DOMElement|null $xml The XML element we should load.
      */
-    public function __construct(DOMElement $xml = NULL)
+    public function __construct(\DOMElement $xml = null)
     {
         parent::__construct('md:IDPSSODescriptor', $xml);
 
-        if ($xml === NULL) {
+        if ($xml === null) {
             return;
         }
 
-        $this->WantAuthnRequestsSigned = SAML2_Utils::parseBoolean($xml, 'WantAuthnRequestsSigned', NULL);
+        $this->WantAuthnRequestsSigned = Utils::parseBoolean($xml, 'WantAuthnRequestsSigned', null);
 
-        foreach (SAML2_Utils::xpQuery($xml, './saml_metadata:SingleSignOnService') as $ep) {
-            $this->SingleSignOnService[] = new SAML2_XML_md_EndpointType($ep);
+        foreach (Utils::xpQuery($xml, './saml_metadata:SingleSignOnService') as $ep) {
+            $this->SingleSignOnService[] = new EndpointType($ep);
         }
 
-        foreach (SAML2_Utils::xpQuery($xml, './saml_metadata:NameIDMappingService') as $ep) {
-            $this->NameIDMappingService[] = new SAML2_XML_md_EndpointType($ep);
+        foreach (Utils::xpQuery($xml, './saml_metadata:NameIDMappingService') as $ep) {
+            $this->NameIDMappingService[] = new EndpointType($ep);
         }
 
-        foreach (SAML2_Utils::xpQuery($xml, './saml_metadata:AssertionIDRequestService') as $ep) {
-            $this->AssertionIDRequestService[] = new SAML2_XML_md_EndpointType($ep);
+        foreach (Utils::xpQuery($xml, './saml_metadata:AssertionIDRequestService') as $ep) {
+            $this->AssertionIDRequestService[] = new EndpointType($ep);
         }
 
-        $this->AttributeProfile = SAML2_Utils::extractStrings($xml, SAML2_Const::NS_MD, 'AttributeProfile');
+        $this->AttributeProfile = Utils::extractStrings($xml, Constants::NS_MD, 'AttributeProfile');
 
-        foreach (SAML2_Utils::xpQuery($xml, './saml_assertion:Attribute') as $a) {
-            $this->Attribute[] = new SAML2_XML_saml_Attribute($a);
+        foreach (Utils::xpQuery($xml, './saml_assertion:Attribute') as $a) {
+            $this->Attribute[] = new Attribute($a);
         }
     }
 
     /**
      * Add this IDPSSODescriptor to an EntityDescriptor.
      *
-     * @param DOMElement $parent The EntityDescriptor we should append this IDPSSODescriptor to.
-     * @return DOMElement
+     * @param \DOMElement $parent The EntityDescriptor we should append this IDPSSODescriptor to.
+     * @return \DOMElement
      */
-    public function toXML(DOMElement $parent)
+    public function toXML(\DOMElement $parent)
     {
         assert('is_null($this->WantAuthnRequestsSigned) || is_bool($this->WantAuthnRequestsSigned)');
         assert('is_array($this->SingleSignOnService)');
@@ -110,9 +116,9 @@ class SAML2_XML_md_IDPSSODescriptor extends SAML2_XML_md_SSODescriptorType
 
         $e = parent::toXML($parent);
 
-        if ($this->WantAuthnRequestsSigned === TRUE) {
+        if ($this->WantAuthnRequestsSigned === true) {
             $e->setAttribute('WantAuthnRequestsSigned', 'true');
-        } elseif ($this->WantAuthnRequestsSigned === FALSE) {
+        } elseif ($this->WantAuthnRequestsSigned === false) {
             $e->setAttribute('WantAuthnRequestsSigned', 'false');
         }
 
@@ -128,7 +134,7 @@ class SAML2_XML_md_IDPSSODescriptor extends SAML2_XML_md_SSODescriptorType
             $ep->toXML($e, 'md:AssertionIDRequestService');
         }
 
-        SAML2_Utils::addStrings($e, SAML2_Const::NS_MD, 'md:AttributeProfile', FALSE, $this->AttributeProfile);
+        Utils::addStrings($e, Constants::NS_MD, 'md:AttributeProfile', false, $this->AttributeProfile);
 
         foreach ($this->Attribute as $a) {
             $a->toXML($e);
@@ -136,5 +142,4 @@ class SAML2_XML_md_IDPSSODescriptor extends SAML2_XML_md_SSODescriptorType
 
         return $e;
     }
-
 }

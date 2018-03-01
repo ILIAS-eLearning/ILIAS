@@ -144,10 +144,17 @@ class SimpleSAML_Session implements Serializable
     {
         $this->authData = array();
 
+        if (php_sapi_name() === 'cli' || defined('STDIN')) {
+            $this->trackid = 'CL'.bin2hex(openssl_random_pseudo_bytes(4));
+            SimpleSAML\Logger::setTrackId($this->trackid);
+            $this->transient = $transient;
+            return;
+        }
+
         if ($transient) { // transient session
-            $sh = SimpleSAML_SessionHandler::getSessionHandler();
+            $sh = \SimpleSAML\SessionHandler::getSessionHandler();
             $this->trackid = 'TR'.bin2hex(openssl_random_pseudo_bytes(4));
-            SimpleSAML_Logger::setTrackId($this->trackid);
+            SimpleSAML\Logger::setTrackId($this->trackid);
             $this->transient = true;
 
             /*
@@ -159,12 +166,13 @@ class SimpleSAML_Session implements Serializable
                 $this->sessionId = $sh->newSessionId();
             }
         } else { // regular session
-            $sh = SimpleSAML_SessionHandler::getSessionHandler();
+            $sh = \SimpleSAML\SessionHandler::getSessionHandler();
             $this->sessionId = $sh->newSessionId();
             $sh->setCookie($sh->getSessionCookieName(), $this->sessionId, $sh->getCookieParams());
 
+
             $this->trackid = bin2hex(openssl_random_pseudo_bytes(5));
-            SimpleSAML_Logger::setTrackId($this->trackid);
+            SimpleSAML\Logger::setTrackId($this->trackid);
 
             $this->markDirty();
 
@@ -218,7 +226,7 @@ class SimpleSAML_Session implements Serializable
 
             foreach ($parameters['RawAttributes'] as $attribute => $values) {
                 foreach ($values as $idx => $value) { // this should be originally a DOMNodeList
-                    /* @var SAML2_XML_saml_AttributeValue $value */
+                    /* @var \SAML2\XML\saml\AttributeValue $value */
                     $this->authData[$authority]['Attributes'][$attribute][$idx] = $value->element->childNodes;
                 }
             }
@@ -250,7 +258,7 @@ class SimpleSAML_Session implements Serializable
              * session here. Therefore, use just a transient session and throw the exception for someone else to handle
              * it.
              */
-            SimpleSAML_Logger::error('Error loading session: '.$e->getMessage());
+            SimpleSAML\Logger::error('Error loading session: '.$e->getMessage());
             self::useTransientSession();
             if ($e instanceof SimpleSAML_Error_Exception) {
                 $cause = $e->getCause();
@@ -262,7 +270,7 @@ class SimpleSAML_Session implements Serializable
         }
 
         // if getSession() found it, use it
-        if ($session !== null) {
+        if ($session instanceof SimpleSAML_Session) {
             return self::load($session);
         }
 
@@ -281,17 +289,21 @@ class SimpleSAML_Session implements Serializable
             self::load(new SimpleSAML_Session());
         } catch (\SimpleSAML\Error\CannotSetCookie $e) {
             // can't create a regular session because we can't set cookies. Use transient.
+            $c = SimpleSAML_Configuration::getInstance();
             self::useTransientSession();
 
             if ($e->getCode() === \SimpleSAML\Error\CannotSetCookie::SECURE_COOKIE) {
-                throw new SimpleSAML_Error_Exception($e->getMessage());
+                throw new \SimpleSAML\Error\CriticalConfigurationError(
+                    $e->getMessage(),
+                    null,
+                    $c->toArray()
+                );
             }
-            SimpleSAML_Logger::error('Error creating session: '.$e->getMessage());
+            SimpleSAML\Logger::error('Error creating session: '.$e->getMessage());
         }
 
         // we must have a session now, either regular or transient
         return self::$instance;
-
     }
 
     /**
@@ -299,14 +311,14 @@ class SimpleSAML_Session implements Serializable
      *
      * @param string|null $sessionId The session we should get, or null to get the current session.
      *
-     * @return SimpleSAML_Session The session that is stored in the session handler, or null if the session wasn't
+     * @return SimpleSAML_Session|null The session that is stored in the session handler, or null if the session wasn't
      * found.
      */
     public static function getSession($sessionId = null)
     {
         assert('is_string($sessionId) || is_null($sessionId)');
 
-        $sh = SimpleSAML_SessionHandler::getSessionHandler();
+        $sh = \SimpleSAML\SessionHandler::getSessionHandler();
 
         if ($sessionId === null) {
             $checkToken = true;
@@ -338,12 +350,11 @@ class SimpleSAML_Session implements Serializable
                     'SimpleSAMLAuthToken'
                 );
                 if (!isset($_COOKIE[$authTokenCookieName])) {
-                    SimpleSAML_Logger::warning('Missing AuthToken cookie.');
+                    SimpleSAML\Logger::warning('Missing AuthToken cookie.');
                     return null;
                 }
-
                 if (!SimpleSAML\Utils\Crypto::secureCompare($session->authToken, $_COOKIE[$authTokenCookieName])) {
-                    SimpleSAML_Logger::warning('Invalid AuthToken cookie.');
+                    SimpleSAML\Logger::warning('Invalid AuthToken cookie.');
                     return null;
                 }
             }
@@ -354,7 +365,7 @@ class SimpleSAML_Session implements Serializable
                 assert('is_callable($checkFunction)');
                 $check = call_user_func($checkFunction, $session);
                 if ($check !== true) {
-                    SimpleSAML_Logger::warning('Session did not pass check function.');
+                    SimpleSAML\Logger::warning('Session did not pass check function.');
                     return null;
                 }
             }
@@ -378,7 +389,7 @@ class SimpleSAML_Session implements Serializable
      */
     private static function load(SimpleSAML_Session $session)
     {
-        SimpleSAML_Logger::setTrackId($session->getTrackID());
+        SimpleSAML\Logger::setTrackId($session->getTrackID());
         self::$instance = $session;
         return self::$instance;
     }
@@ -428,7 +439,7 @@ class SimpleSAML_Session implements Serializable
         $this->dirty = false;
         $this->callback_registered = false;
 
-        $sh = SimpleSAML_SessionHandler::getSessionHandler();
+        $sh = \SimpleSAML\SessionHandler::getSessionHandler();
 
         try {
             $sh->saveSession($this);
@@ -436,7 +447,7 @@ class SimpleSAML_Session implements Serializable
             if (!($e instanceof SimpleSAML_Error_Exception)) {
                 $e = new SimpleSAML_Error_UnserializableException($e);
             }
-            SimpleSAML_Logger::error('Unable to save session.');
+            SimpleSAML\Logger::error('Unable to save session.');
             $e->logError();
         }
     }
@@ -451,8 +462,8 @@ class SimpleSAML_Session implements Serializable
     public function cleanup()
     {
         $this->save();
-        $sh = SimpleSAML_SessionHandler::getSessionHandler();
-        if ($sh instanceof SimpleSAML_SessionHandlerPHP) {
+        $sh = \SimpleSAML\SessionHandler::getSessionHandler();
+        if ($sh instanceof \SimpleSAML\SessionHandlerPHP) {
             $sh->restorePrevious();
         }
     }
@@ -570,7 +581,7 @@ class SimpleSAML_Session implements Serializable
         assert('is_string($authority)');
         assert('is_array($data) || is_null($data)');
 
-        SimpleSAML_Logger::debug('Session: doLogin("'.$authority.'")');
+        SimpleSAML\Logger::debug('Session: doLogin("'.$authority.'")');
 
         $this->markDirty();
 
@@ -614,7 +625,7 @@ class SimpleSAML_Session implements Serializable
                 }
 
                 // create an AttributeValue object and save it to 'RawAttributes', using same attribute name and index
-                $attrval = new SAML2_XML_saml_AttributeValue($value->item(0)->parentNode);
+                $attrval = new \SAML2\XML\saml\AttributeValue($value->item(0)->parentNode);
                 $data['RawAttributes'][$attribute][$idx] = $attrval;
             }
         }
@@ -622,7 +633,7 @@ class SimpleSAML_Session implements Serializable
         $this->authData[$authority] = $data;
 
         $this->authToken = SimpleSAML\Utils\Random::generateID();
-        $sessionHandler = SimpleSAML_SessionHandler::getSessionHandler();
+        $sessionHandler = \SimpleSAML\SessionHandler::getSessionHandler();
 
         if (!$this->transient && (!empty($data['RememberMe']) || $this->rememberMeExpire) &&
             $globalConfig->getBoolean('session.rememberme.enable', false)
@@ -644,7 +655,7 @@ class SimpleSAML_Session implements Serializable
                  */
                 unset($this->authToken);
                 unset($this->authData[$authority]);
-                \SimpleSAML_Logger::error('Cannot set authentication token cookie: '.$e->getMessage());
+                \SimpleSAML\Logger::error('Cannot set authentication token cookie: '.$e->getMessage());
                 throw $e;
             }
         }
@@ -659,10 +670,10 @@ class SimpleSAML_Session implements Serializable
      */
     public function doLogout($authority)
     {
-        SimpleSAML_Logger::debug('Session: doLogout('.var_export($authority, true).')');
+        SimpleSAML\Logger::debug('Session: doLogout('.var_export($authority, true).')');
 
         if (!isset($this->authData[$authority])) {
-            SimpleSAML_Logger::debug('Session: Already logged out of '.$authority.'.');
+            SimpleSAML\Logger::debug('Session: Already logged out of '.$authority.'.');
             return;
         }
 
@@ -693,14 +704,13 @@ class SimpleSAML_Session implements Serializable
             return;
         }
         foreach ($this->authData[$authority]['LogoutHandlers'] as $handler) {
-
             // verify that the logout handler is a valid function
             if (!is_callable($handler)) {
                 $classname = $handler[0];
                 $functionname = $handler[1];
 
                 throw new Exception(
-                    'Logout handler is not a vaild function: '.$classname.'::'.
+                    'Logout handler is not a valid function: '.$classname.'::'.
                     $functionname
                 );
             }
@@ -726,7 +736,7 @@ class SimpleSAML_Session implements Serializable
         assert('is_string($authority)');
 
         if (!isset($this->authData[$authority])) {
-            SimpleSAML_Logger::debug(
+            SimpleSAML\Logger::debug(
                 'Session: '.var_export($authority, true).
                 ' not valid because we are not authenticated.'
             );
@@ -734,11 +744,11 @@ class SimpleSAML_Session implements Serializable
         }
 
         if ($this->authData[$authority]['Expire'] <= time()) {
-            SimpleSAML_Logger::debug('Session: '.var_export($authority, true).' not valid because it is expired.');
+            SimpleSAML\Logger::debug('Session: '.var_export($authority, true).' not valid because it is expired.');
             return false;
         }
 
-        SimpleSAML_Logger::debug('Session: Valid session found with '.var_export($authority, true).'.');
+        SimpleSAML\Logger::debug('Session: Valid session found with '.var_export($authority, true).'.');
 
         return true;
     }
@@ -750,7 +760,7 @@ class SimpleSAML_Session implements Serializable
      */
     public function updateSessionCookies($params = null)
     {
-        $sessionHandler = SimpleSAML_SessionHandler::getSessionHandler();
+        $sessionHandler = \SimpleSAML\SessionHandler::getSessionHandler();
 
         if ($this->sessionId !== null) {
             $sessionHandler->setCookie($sessionHandler->getSessionCookieName(), $this->sessionId, $params);
@@ -1030,7 +1040,7 @@ class SimpleSAML_Session implements Serializable
      */
     public function hasSessionCookie()
     {
-        $sh = SimpleSAML_SessionHandler::getSessionHandler();
+        $sh = \SimpleSAML\SessionHandler::getSessionHandler();
         return $sh->hasSessionCookie();
     }
 

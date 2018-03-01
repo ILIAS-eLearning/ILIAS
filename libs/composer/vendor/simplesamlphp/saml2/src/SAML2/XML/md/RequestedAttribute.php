@@ -1,54 +1,59 @@
 <?php
 
+namespace SAML2\XML\md;
+
+use SAML2\Constants;
+use SAML2\Utils;
+use SAML2\XML\saml\Attribute;
+
 /**
  * Class representing SAML 2 metadata RequestedAttribute.
  *
  * @package SimpleSAMLphp
  */
-class SAML2_XML_md_RequestedAttribute extends SAML2_XML_saml_Attribute
+class RequestedAttribute extends Attribute
 {
     /**
      * Whether this attribute is required.
      *
-     * @var bool|NULL
+     * @var bool|null
      */
-    public $isRequired = NULL;
+    public $isRequired = null;
 
     /**
      * Initialize an RequestedAttribute.
      *
-     * @param DOMElement|NULL $xml The XML element we should load.
+     * @param \DOMElement|null $xml The XML element we should load.
      */
-    public function __construct(DOMElement $xml = NULL)
+    public function __construct(\DOMElement $xml = null)
     {
         parent::__construct($xml);
 
-        if ($xml === NULL) {
+        if ($xml === null) {
             return;
         }
 
-        $this->isRequired = SAML2_Utils::parseBoolean($xml, 'isRequired', NULL);
+        $this->isRequired = Utils::parseBoolean($xml, 'isRequired', null);
     }
 
     /**
      * Convert this RequestedAttribute to XML.
      *
-     * @param DOMElement $parent The element we should append this RequestedAttribute to.
-     * @return DOMElement
+     * @param \DOMElement $parent The element we should append this RequestedAttribute to.
+     * @return \DOMElement
      */
-    public function toXML(DOMElement $parent)
+    public function toXML(\DOMElement $parent)
     {
         assert('is_bool($this->isRequired) || is_null($this->isRequired)');
 
-        $e = $this->toXMLInternal($parent, SAML2_Const::NS_MD, 'md:RequestedAttribute');
+        $e = $this->toXMLInternal($parent, Constants::NS_MD, 'md:RequestedAttribute');
 
-        if ($this->isRequired === TRUE) {
+        if ($this->isRequired === true) {
             $e->setAttribute('isRequired', 'true');
-        } elseif ($this->isRequired === FALSE) {
+        } elseif ($this->isRequired === false) {
             $e->setAttribute('isRequired', 'false');
         }
 
         return $e;
     }
-
 }

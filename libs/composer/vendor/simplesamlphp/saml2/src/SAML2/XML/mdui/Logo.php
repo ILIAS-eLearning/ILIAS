@@ -1,12 +1,14 @@
 <?php
 
+namespace SAML2\XML\mdui;
+
 /**
  * Class for handling the Logo metadata extensions for login and discovery user interface
  *
  * @link: http://docs.oasis-open.org/security/saml/Post2.0/sstc-saml-metadata-ui/v1.0/sstc-saml-metadata-ui-v1.0.pdf
  * @package SimpleSAMLphp
  */
-class SAML2_XML_mdui_Logo
+class Logo
 {
     /**
      * The url of this logo.
@@ -18,14 +20,14 @@ class SAML2_XML_mdui_Logo
     /**
      * The width of this logo.
      *
-     * @var string
+     * @var int
      */
     public $width;
 
     /**
      * The height of this logo.
      *
-     * @var string
+     * @var int
      */
     public $height;
 
@@ -39,37 +41,37 @@ class SAML2_XML_mdui_Logo
     /**
      * Initialize a Logo.
      *
-     * @param DOMElement|NULL $xml The XML element we should load.
-     * @throws Exception
+     * @param \DOMElement|null $xml The XML element we should load.
+     * @throws \Exception
      */
-    public function __construct(DOMElement $xml = NULL)
+    public function __construct(\DOMElement $xml = null)
     {
-        if ($xml === NULL) {
+        if ($xml === null) {
             return;
         }
 
         if (!$xml->hasAttribute('width')) {
-            throw new Exception('Missing width of Logo.');
+            throw new \Exception('Missing width of Logo.');
         }
         if (!$xml->hasAttribute('height')) {
-            throw new Exception('Missing height of Logo.');
+            throw new \Exception('Missing height of Logo.');
         }
         if (!is_string($xml->textContent) || !strlen($xml->textContent)) {
-            throw new Exception('Missing url value for Logo.');
+            throw new \Exception('Missing url value for Logo.');
         }
         $this->url = $xml->textContent;
         $this->width = (int) $xml->getAttribute('width');
         $this->height = (int) $xml->getAttribute('height');
-        $this->lang = $xml->hasAttribute('xml:lang') ? $xml->getAttribute('xml:lang') : NULL;
+        $this->lang = $xml->hasAttribute('xml:lang') ? $xml->getAttribute('xml:lang') : null;
     }
 
     /**
      * Convert this Logo to XML.
      *
-     * @param DOMElement $parent The element we should append this Logo to.
-     * @return DOMElement
+     * @param \DOMElement $parent The element we should append this Logo to.
+     * @return \DOMElement
      */
-    public function toXML(DOMElement $parent)
+    public function toXML(\DOMElement $parent)
     {
         assert('is_int($this->width)');
         assert('is_int($this->height)');
@@ -77,7 +79,7 @@ class SAML2_XML_mdui_Logo
 
         $doc = $parent->ownerDocument;
 
-        $e = $doc->createElementNS(SAML2_XML_mdui_UIInfo::NS, 'mdui:Logo');
+        $e = $doc->createElementNS(Common::NS, 'mdui:Logo');
         $e->appendChild($doc->createTextNode($this->url));
         $e->setAttribute('width', (int) $this->width);
         $e->setAttribute('height', (int) $this->height);
@@ -88,5 +90,4 @@ class SAML2_XML_mdui_Logo
 
         return $e;
     }
-
 }

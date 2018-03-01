@@ -1,4 +1,7 @@
 <?php
+
+namespace SAML2;
+
 /**
  * The Artifact is part of the SAML 2.0 IdP code, and it builds an artifact object.
  * I am using strings, because I find them easier to work with.
@@ -7,19 +10,18 @@
  * @author Danny Bollaert, UGent AS. <danny.bollaert@ugent.be>
  * @package SimpleSAMLphp
  */
-class SAML2_ArtifactResolve extends SAML2_Request
+class ArtifactResolve extends Request
 {
     private $artifact;
 
-    public function __construct(DOMElement $xml = NULL)
+    public function __construct(\DOMElement $xml = null)
     {
         parent::__construct('ArtifactResolve', $xml);
 
         if (!is_null($xml)) {
-            $results = SAML2_Utils::xpQuery($xml, './saml_protocol:Artifact');
+            $results = Utils::xpQuery($xml, './saml_protocol:Artifact');
             $this->artifact = $results[0]->textContent;
         }
-
     }
 
     /**
@@ -46,15 +48,14 @@ class SAML2_ArtifactResolve extends SAML2_Request
     /**
      * Convert the response message to an XML element.
      *
-     * @return DOMElement This response.
+     * @return \DOMElement This response.
      */
     public function toUnsignedXML()
     {
         $root = parent::toUnsignedXML();
-        $artifactelement = $this->document->createElementNS(SAML2_Const::NS_SAMLP, 'Artifact', $this->artifact);
+        $artifactelement = $this->document->createElementNS(Constants::NS_SAMLP, 'Artifact', $this->artifact);
         $root->appendChild($artifactelement);
 
         return $root;
     }
-
 }

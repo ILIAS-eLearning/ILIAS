@@ -1,9 +1,11 @@
 <?php
 
+namespace SAML2\Configuration;
+
 /**
  * CertificateProvider interface.
  */
-interface SAML2_Configuration_CertificateProvider extends SAML2_Configuration_Queryable
+interface CertificateProvider extends Queryable
 {
     /**
      * Returns an array or \Traversable of keys, where each element represents a configured key.
@@ -34,6 +36,8 @@ interface SAML2_Configuration_CertificateProvider extends SAML2_Configuration_Qu
      * fingerprint is a string containing the certificate fingerprint.
      *
      * @return null|array|\Traversable
+     *
+     * @deprecated Please use getCertifiateFile() or getCertificateData()
      */
     public function getCertificateFingerprints();
 }

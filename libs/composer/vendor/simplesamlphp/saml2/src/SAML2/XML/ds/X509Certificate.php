@@ -1,11 +1,16 @@
 <?php
 
+namespace SAML2\XML\ds;
+
+use RobRichards\XMLSecLibs\XMLSecurityDSig;
+use SAML2\Utils;
+
 /**
  * Class representing a ds:X509Certificate element.
  *
  * @package SimpleSAMLphp
  */
-class SAML2_XML_ds_X509Certificate
+class X509Certificate
 {
     /**
      * The base64-encoded certificate.
@@ -17,11 +22,11 @@ class SAML2_XML_ds_X509Certificate
     /**
      * Initialize an X509Certificate element.
      *
-     * @param DOMElement|NULL $xml The XML element we should load.
+     * @param \DOMElement|null $xml The XML element we should load.
      */
-    public function __construct(DOMElement $xml = NULL)
+    public function __construct(\DOMElement $xml = null)
     {
-        if ($xml === NULL) {
+        if ($xml === null) {
             return;
         }
 
@@ -31,14 +36,13 @@ class SAML2_XML_ds_X509Certificate
     /**
      * Convert this X509Certificate element to XML.
      *
-     * @param DOMElement $parent The element we should append this X509Certificate element to.
-     * @return DOMElement
+     * @param \DOMElement $parent The element we should append this X509Certificate element to.
+     * @return \DOMElement
      */
-    public function toXML(DOMElement $parent)
+    public function toXML(\DOMElement $parent)
     {
         assert('is_string($this->certificate)');
 
-        return SAML2_Utils::addString($parent, XMLSecurityDSig::XMLDSIGNS, 'ds:X509Certificate', $this->certificate);
+        return Utils::addString($parent, XMLSecurityDSig::XMLDSIGNS, 'ds:X509Certificate', $this->certificate);
     }
-
 }

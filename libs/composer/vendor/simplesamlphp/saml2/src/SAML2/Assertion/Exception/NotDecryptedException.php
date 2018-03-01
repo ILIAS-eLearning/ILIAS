@@ -1,5 +1,9 @@
 <?php
 
-class SAML2_Assertion_Exception_NotDecryptedException extends SAML2_Exception_RuntimeException
+namespace SAML2\Assertion\Exception;
+
+use SAML2\Exception\RuntimeException;
+
+class NotDecryptedException extends RuntimeException
 {
 }

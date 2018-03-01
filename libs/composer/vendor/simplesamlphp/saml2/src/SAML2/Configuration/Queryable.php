@@ -1,9 +1,11 @@
 <?php
 
+namespace SAML2\Configuration;
+
 /**
- * Interface SAML2_Configuration_Queryable
+ * Interface \SAML2\Configuration\Queryable
  */
-interface SAML2_Configuration_Queryable
+interface Queryable
 {
     /**
      * Query for whether or not the configuration has a value for the key
@@ -22,5 +24,5 @@ interface SAML2_Configuration_Queryable
      *
      * @return mixed
      */
-    public function get($key, $default = NULL);
+    public function get($key, $default = null);
 }
