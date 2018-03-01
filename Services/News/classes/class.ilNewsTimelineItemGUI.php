@@ -209,7 +209,16 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
 		}
 		else
 		{
-			$tpl->setVariable("TITLE", $this->lng->txt($i->getTitle()));
+			$title = NULL;
+			if ($this->obj_def->isPlugin($i->getContextObjType()))
+			{
+				$title = ilObjectPlugin::lookupTxtById($i->getContextObjType(), $i->getTitle());
+			}
+			else
+			{
+				$title = $this->lng->txt($i->getTitle());
+			}
+			$tpl->setVariable("TITLE", $title);
 		}
 
 		// content

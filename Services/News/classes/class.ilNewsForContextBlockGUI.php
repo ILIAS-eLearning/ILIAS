@@ -390,7 +390,13 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	*/
 	function fillRow($news)
 	{
-		global $ilUser, $ilCtrl, $lng;
+		global $DIC;
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+		/**
+		 * @var ilObjectDefinition $objDefinition
+		 */
+		$objDefinition = $DIC['objDefinition'];
 
 		if ($this->getCurrentDetailLevel() > 2)
 		{
@@ -432,8 +438,14 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 				? "lres"
 				: "obj_".$type;
 
+			$langTypeTranslation = NULL;
+			if ($objDefinition->isPlugin($news["context_obj_type"]))
+				$langTypeTranslation = ilObjectPlugin::lookupTxtById($news["context_obj_type"], $lang_type);
+			else
+				$langTypeTranslation = $lng->txt($lang_type);
+
 			$this->tpl->setCurrentBlock("news_context");
-			$this->tpl->setVariable("TYPE", $lng->txt($lang_type));
+			$this->tpl->setVariable("TYPE", $langTypeTranslation);
 			$this->tpl->setVariable("IMG_TYPE",
 				ilObject::_getIcon($obj_id, "tiny", $type));
 			$this->tpl->setVariable("TITLE",

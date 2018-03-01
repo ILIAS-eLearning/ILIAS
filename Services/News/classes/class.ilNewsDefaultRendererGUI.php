@@ -23,6 +23,10 @@ class ilNewsDefaultRendererGUI implements ilNewsRendererGUI
 	 * @var ilLanguage
 	 */
 	protected $lng;
+	/**
+	 * @var ilObjectDefinition $obj_dev
+	 */
+	protected $obj_def;
 
 	/**
 	 * @var ilNewsItem
@@ -36,9 +40,6 @@ class ilNewsDefaultRendererGUI implements ilNewsRendererGUI
 
 	/**
 	 * Constructor
-	 *
-	 * @param
-	 * @return
 	 */
 	function __construct()
 	{
@@ -46,6 +47,7 @@ class ilNewsDefaultRendererGUI implements ilNewsRendererGUI
 
 		$this->ctrl = $DIC->ctrl();
 		$this->lng = $DIC->language();
+		$this->obj_def = $DIC['objDefinition'];
 	}
 
 	/**
@@ -102,8 +104,21 @@ class ilNewsDefaultRendererGUI implements ilNewsRendererGUI
 	{
 		if ($this->news_item->getContentTextIsLangVar())
 		{
-			$this->lng->loadLanguageModule($this->news_item->getContextObjType());
-			return $this->lng->txt($this->news_item->getContent());
+			$content = NULL;
+			if ($this->obj_def->isPlugin($this->news_item->getContextObjType()))
+			{
+				$content = ilObjectPlugin::lookupTxtById(
+					$this->news_item->getContextObjType(),
+					$this->news_item->getContent()
+				);
+			}
+			else
+			{
+				$this->lng->loadLanguageModule($this->news_item->getContextObjType());
+				$content = $this->lng->txt($this->news_item->getContent());
+			}
+
+			return $content;
 		}
 
 		$content = $this->makeClickable($this->news_item->getContent());
