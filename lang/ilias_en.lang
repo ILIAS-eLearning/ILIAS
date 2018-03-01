@@ -13932,7 +13932,7 @@ content#:#cont_ed_cell_left#:#Move Left
 content#:#cont_ed_cell_right#:#Move Right
 content#:#cont_ed_insert_grid_info#:#Adds a responsive column layout based on a grid with 12 units per row.
 content#:#cont_ed_grid_col_width#:#Column Width
-content#:#cont_ed_grid_col_width_info#:#Column width can span multiple 1/12 units of the row and depend on the overall screen size. Devices are given as examples. Their screen size determines the concrete behaviour. 12/12 equals to 100% width.
+content#:#cont_ed_grid_col_width_info#:#Column width can span multiple 1/12 units of the row and depends on the overall screen size. Devices are given as examples. Their screen size determines the concrete behaviour. 12/12 equals to 100% width.
 content#:#cont_ed_grid_col_widths#:#Column Widths
 content#:#cont_grid_cell_confirm_deletion#:#Do you really want to delete the column(s)?
 content#:#cont_grid_cell#:#Column

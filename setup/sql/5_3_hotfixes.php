@@ -190,5 +190,16 @@ while ($res = $ilDB->fetchAssoc($set)) {
 ?>
 <#12>
 <?php
+
+$query = 'SELECT MAX(meta_description_id) desc_id from il_meta_description ';
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+{
+	$query = 'UPDATE il_meta_description_seq SET sequence = '. $ilDB->quote($row->desc_id + 100);
+	$ilDB->manipulate($query);
+}
+?>
+<#13>
+<?php
 $ilCtrlStructureReader->getStructure();
 ?>

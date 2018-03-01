@@ -141,4 +141,3 @@ class assFileUploadFileTableGUI extends ilTable2GUI
 	}
 	// hey.
 }
-?>
