@@ -21906,3 +21906,7 @@ if($rp_ops_id && $ep_ops_id && $w_ops_id)
 <?php
 	$ilDB->manipulate('UPDATE exc_mem_ass_status SET status='.$ilDB->quote('notgraded', 'text').' WHERE status = '.$ilDB->quote('', 'text'));
 ?>
+<#5260>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
