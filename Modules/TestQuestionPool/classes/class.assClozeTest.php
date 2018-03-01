@@ -1594,6 +1594,14 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 	}
 	
 	/**
+	 * @param ilAssSelfAssessmentMigrator $migrator
+	 */
+	protected function lmMigrateQuestionTypeSpecificContent(ilAssSelfAssessmentMigrator $migrator)
+	{
+		$this->setClozeText( $migrator->migrateToLmContent($this->getClozeText()) );
+	}
+	
+	/**
 	* Returns a JSON representation of the question
 	*/
 	public function toJSON()

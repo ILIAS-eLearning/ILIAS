@@ -1055,6 +1055,18 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 	}
 	
 	/**
+	 * @param ilAssSelfAssessmentMigrator $migrator
+	 */
+	protected function lmMigrateQuestionTypeSpecificContent(ilAssSelfAssessmentMigrator $migrator)
+	{
+		foreach($this->getAnswers() as $answer)
+		{
+			/* @var ASS_AnswerBinaryStateImage $answer */
+			$answer->setAnswertext( $migrator->migrateToLmContent($answer->getAnswertext()) );
+		}
+	}
+	
+	/**
 	* Returns a JSON representation of the question
 	*/
 	public function toJSON()

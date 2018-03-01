@@ -4263,6 +4263,34 @@ abstract class assQuestion
 	}
 	
 	/**
+	 * @param ilAssSelfAssessmentMigrator $migrator
+	 */
+	public function migrateContentForLearningModule(ilAssSelfAssessmentMigrator $migrator)
+	{
+		$this->lmMigrateQuestionTypeGenericContent($migrator);
+		$this->lmMigrateQuestionTypeSpecificContent($migrator);
+		$this->saveToDb();
+		
+		$this->feedbackOBJ->migrateContentForLearningModule($migrator, $this->getId());
+	}
+	
+	/**
+	 * @param ilAssSelfAssessmentMigrator $migrator
+	 */
+	protected function lmMigrateQuestionTypeGenericContent(ilAssSelfAssessmentMigrator $migrator)
+	{
+		$this->setQuestion( $migrator->migrateToLmContent( $this->getQuestion() ) );
+	}
+	
+	/**
+	 * @param ilAssSelfAssessmentMigrator $migrator
+	 */
+	protected function lmMigrateQuestionTypeSpecificContent(ilAssSelfAssessmentMigrator $migrator)
+	{
+		// overwrite if any question type specific content except feedback needs to be migrated
+	}
+	
+	/**
 	 * Set Self-Assessment Editing Mode.
 	 *
 	 * @param	boolean	$a_selfassessmenteditingmode	Self-Assessment Editing Mode

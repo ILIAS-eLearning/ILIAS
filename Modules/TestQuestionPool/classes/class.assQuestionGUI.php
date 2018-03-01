@@ -1055,7 +1055,7 @@ abstract class assQuestionGUI
 
 		// questiontext
 		$question = new ilTextAreaInputGUI($this->lng->txt("question"), "question");
-		$question->setValue($this->object->prepareTextareaOutput($this->object->getQuestion()));
+		$question->setValue($this->object->getQuestion());
 		$question->setRequired(TRUE);
 		$question->setRows(10);
 		$question->setCols(80);
@@ -1075,7 +1075,8 @@ abstract class assQuestionGUI
 		}
 		else
 		{
-			$question->setRteTags(self::getSelfAssessmentTags());
+			require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssSelfAssessmentQuestionFormatter.php';
+			$question->setRteTags(ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());
 			$question->setUseTagsForRteOnly(false);
 		}
 		$form->addItem($question);
@@ -1158,30 +1159,6 @@ abstract class assQuestionGUI
 				$form->addItem($taxNodeAssign);
 			}
 		}
-	}
-
-	/**
-	 * Get tags allowed in question tags in self assessment mode
-	 * @return array array of tags
-	 */
-	function getSelfAssessmentTags()
-	{
-		// set tags we allow in self assessment mode
-		$st = ilUtil::getSecureTags();
-		
-		// we allow these tags, since they are typically used in the Tiny Assessment editor
-		// and should not be deleted, if questions are copied from pools to learning modules
-		$not_supported = array("img", "p");
-		$tags = array();
-		foreach ($st as $s)
-		{
-			if (!in_array($s, $not_supported))
-			{
-				$tags[] = $s;
-			}
-		}
-
-		return $tags;
 	}
 	
 	/**
