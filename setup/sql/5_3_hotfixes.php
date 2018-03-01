@@ -199,3 +199,7 @@ while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	$ilDB->manipulate($query);
 }
 ?>
+<#13>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
