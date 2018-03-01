@@ -1057,7 +1057,7 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 		$result = array();
 		$result['id'] = (int) $this->getId();
 		$result['type'] = (string) $this->getQuestionType();
-		$reilUtilsult['title'] = (string) $this->getTitle();
+		$result['title'] = (string) $this->getTitle();
 		$result['question'] =  $this->formatSAQuestion($this->getQuestion());
 		$result['nr_of_tries'] = (int) $this->getNrOfTries();
 		$result['shuffle'] = (bool) $this->getShuffle();
