@@ -233,10 +233,10 @@
 		},
 		"simplesamlphp/simplesamlphp" : {
 			"source": "https://github.com/simplesamlphp/simplesamlphp",
-			"used_version": "v1.14",
+			"used_version": "v1.15.3",
 			"added_by": "Michael Jansen <mjansen@databay.de>",
 			"wrapped_by": null,
-			"last_update": "2017-07-12",
+			"last_update": "2018-03-01",
 			"last_update_by": "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
