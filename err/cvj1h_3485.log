@@ -1,0 +1,220 @@
+Error thrown with message "Call to a member function getClone() on null"
+
+Stacktrace:
+#15 Error in /var/www/il/52x/Modules/TestQuestionPool/classes/class.assOrderingQuestion.php:530
+#14 assOrderingQuestion:getSolutionValuePairBrandedOrderingElementBySolutionIdentifier in /var/www/il/52x/Modules/TestQuestionPool/classes/class.assOrderingQuestion.php:556
+#13 assOrderingQuestion:getSolutionOrderingElementList in /var/www/il/52x/Modules/TestQuestionPool/classes/class.assOrderingQuestion.php:457
+#12 assOrderingQuestion:getOrderingElementListForSolutionOutput in /var/www/il/52x/Modules/TestQuestionPool/classes/class.assOrderingQuestionGUI.php:473
+#11 assOrderingQuestionGUI:getSolutionOutput in /var/www/il/52x/Modules/Test/classes/class.ilTestServiceGUI.php:727
+#10 ilTestServiceGUI:getCorrectSolutionOutput in /var/www/il/52x/Modules/Test/classes/class.ilTestServiceGUI.php:1231
+#9 ilTestServiceGUI:outCorrectSolution in /var/www/il/52x/Modules/Test/classes/class.ilTestEvaluationGUI.php:62
+#8 ilTestEvaluationGUI:executeCommand in /var/www/il/52x/Services/UICore/classes/class.ilCtrl.php:188
+#7 ilCtrl:forwardCommand in /var/www/il/52x/Modules/Test/classes/class.ilObjTestGUI.php:762
+#6 ilObjTestGUI:forwardToEvaluationGUI in /var/www/il/52x/Modules/Test/classes/class.ilObjTestGUI.php:218
+#5 ilObjTestGUI:executeCommand in /var/www/il/52x/Services/UICore/classes/class.ilCtrl.php:188
+#4 ilCtrl:forwardCommand in /var/www/il/52x/Services/Repository/classes/class.ilRepositoryGUI.php:350
+#3 ilRepositoryGUI:show in /var/www/il/52x/Services/Repository/classes/class.ilRepositoryGUI.php:304
+#2 ilRepositoryGUI:executeCommand in /var/www/il/52x/Services/UICore/classes/class.ilCtrl.php:188
+#1 ilCtrl:forwardCommand in /var/www/il/52x/Services/UICore/classes/class.ilCtrl.php:150
+#0 ilCtrl:callBaseClass in /var/www/il/52x/ilias.php:21
+
+
+-- GET Data --
+
+ref_id                   : 70
+active_id                : 2
+pass                     : 0
+evaluation               : 8
+cmd                      : outCorrectSolution
+cmdClass                 : iltestevaluationgui
+cmdNode                  : yz:y8:xy
+baseClass                : ilrepositorygui
+lang                     : en
+limit                    : 50
+
+
+-- POST Data --
+
+empty
+
+
+-- Files --
+
+empty
+
+
+-- Cookies --
+
+PHPSESSID                : cvj1hjk9oio1iibgcbp0k07296
+ilClientId               : 51update
+XDEBUG_SESSION           : PHPSTORM
+SESSID                   : 8c9e75b27f1f9d84446fb4ba7aae5068
+
+
+-- Session --
+
+lang                     : en
+tbl_limit                : 50
+post_vars                : Array
+                         (
+                         )
+                         
+referer_ref_id           : 70
+_authsession_expired     : 0
+SessionType              : 2
+_authsession_authenticated: 1
+_authsession_user_id     : 6
+orig_request_target      : 
+il_pd_history            : 
+awrn_last_update         : 1512149625
+awrn_nr_users            : 0
+awrn_nr_husers           : 0
+il_rep_mode              : flat
+il_rep_ref_id            : 1
+il_nav_history           : a:3:{s:3:"70:";a:7:{s:2:"id";s:3:"70:";s:6:"ref_id";s:2:"70";s:4:"link";s:57:"ilias.php?baseClass=ilObjTestGUI&cmd=infoScreen&ref_id=70";s:5:"title";s:17:"A-B-C-D Migration";s:4:"type";s:3:"tst";s:10:"sub_obj_id";s:0:"";s:9:"goto_link";s:0:"";}s:3:"71:";a:7:{s:2:"id";s:3:"71:";s:6:"ref_id";s:2:"71";s:4:"link";s:57:"ilias.php?baseClass=ilObjTestGUI&cmd=infoScreen&ref_id=71";s:5:"title";s:17:"Migration A-B-C-D";s:4:"type";s:3:"tst";s:10:"sub_obj_id";s:0:"";s:9:"goto_link";s:0:"";}s:3:"68:";a:7:{s:2:"id";s:3:"68:";s:6:"ref_id";s:2:"68";s:4:"link";s:61:"https://php7/il/52x/goto.php?target=cat_68&client_id=51update";s:5:"title";s:6:"#22148";s:4:"type";s:3:"cat";s:10:"sub_obj_id";s:0:"";s:9:"goto_link";s:0:"";}}
+tst_password_3           : 
+ilAssQuestionPreviewSessions: Array
+                         (
+                             [u6::q9] => Array
+                                 (
+                                     [instantResponseActive] => 0
+                                     [participantSolution] => 
+                                     [randomizerSeed] => 1512160114
+                                 )
+                         
+                         )
+                         
+referer                  : /il/52x/ilias.php?ref_id=70&active_id=2&pass=0&cmd=outUserPassDetails&cmdClass=iltestevaluationgui&cmdNode=yz:y8:xy&baseClass=ilrepositorygui
+table                    : Array
+                         (
+                             [tst_participants_71] => Array
+                                 (
+                                     [6] => Array
+                                         (
+                                             [offset] => 0
+                                         )
+                         
+                                 )
+                         
+                             [tst_pass_overview_266] => Array
+                                 (
+                                     [6] => Array
+                                         (
+                                             [offset] => 0
+                                         )
+                         
+                                 )
+                         
+                             [tst_pdo_1] => Array
+                                 (
+                                     [6] => Array
+                                         (
+                                             [offset] => 0
+                                         )
+                         
+                                 )
+                         
+                         )
+                         
+tst_password_2           : 
+
+
+-- Server/Request Data --
+
+USER                     : www-data
+HOME                     : /var/www
+ORIG_SCRIPT_NAME         : /php70-fcgi-www-ssl
+ORIG_PATH_TRANSLATED     : /var/www/il/52x/ilias.php
+ORIG_PATH_INFO           : /il/52x/ilias.php
+ORIG_SCRIPT_FILENAME     : /usr/lib/cgi-bin/php70-fcgi-www-ssl
+SCRIPT_NAME              : /il/52x/ilias.php
+REQUEST_URI              : /il/52x/ilias.php?ref_id=70&active_id=2&pass=0&evaluation=8&cmd=outCorrectSolution&cmdClass=iltestevaluationgui&cmdNode=yz:y8:xy&baseClass=ilrepositorygui
+QUERY_STRING             : ref_id=70&active_id=2&pass=0&evaluation=8&cmd=outCorrectSolution&cmdClass=iltestevaluationgui&cmdNode=yz:y8:xy&baseClass=ilrepositorygui
+REQUEST_METHOD           : GET
+SERVER_PROTOCOL          : HTTP/1.1
+GATEWAY_INTERFACE        : CGI/1.1
+REDIRECT_QUERY_STRING    : ref_id=70&active_id=2&pass=0&evaluation=8&cmd=outCorrectSolution&cmdClass=iltestevaluationgui&cmdNode=yz:y8:xy&baseClass=ilrepositorygui
+REDIRECT_URL             : /il/52x/ilias.php
+REMOTE_PORT              : 58984
+SCRIPT_FILENAME          : /var/www/il/52x/ilias.php
+SERVER_ADMIN             : [no address given]
+CONTEXT_DOCUMENT_ROOT    : /usr/lib/cgi-bin/php70-fcgi-www-ssl
+CONTEXT_PREFIX           : /php70-fcgi-www-ssl
+REQUEST_SCHEME           : https
+DOCUMENT_ROOT            : /var/www
+REMOTE_ADDR              : 127.0.0.1
+SERVER_PORT              : 443
+SERVER_ADDR              : 127.0.0.1
+SERVER_NAME              : php7
+SERVER_SOFTWARE          : Apache/2.4.18 (Ubuntu)
+SERVER_SIGNATURE         : <address>Apache/2.4.18 (Ubuntu) Server at php7 Port 443</address>
+                         
+PATH                     : /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+HTTP_COOKIE              : PHPSESSID=cvj1h (SHORTENED FOR SECURITY); ilClientId=51update; XDEBUG_SESSION=PHPSTORM; SESSID=8c9e75b27f1f9d84446fb4ba7aae5068
+HTTP_ACCEPT_LANGUAGE     : de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7
+HTTP_ACCEPT_ENCODING     : gzip, deflate, br
+HTTP_REFERER             : https://php7/il/52x/ilias.php?ref_id=70&active_id=2&pass=0&cmd=outUserPassDetails&cmdClass=iltestevaluationgui&cmdNode=yz:y8:xy&baseClass=ilrepositorygui
+HTTP_ACCEPT              : text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+HTTP_USER_AGENT          : Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/62.0.3202.94 Chrome/62.0.3202.94 Safari/537.36
+HTTP_UPGRADE_INSECURE_REQUESTS: 1
+HTTP_CONNECTION          : keep-alive
+HTTP_HOST                : php7
+SSL_SESSION_RESUMED      : Resumed
+SSL_SESSION_ID           : b631912856698e69902a41398045ae4c42b406df780b6fdb1fe98e0e9686ae30
+SSL_SERVER_A_SIG         : sha256WithRSAEncryption
+SSL_SERVER_A_KEY         : rsaEncryption
+SSL_SERVER_I_DN          : CN=ubuntu
+SSL_SERVER_S_DN          : CN=ubuntu
+SSL_SERVER_V_END         : Oct  6 11:43:48 2027 GMT
+SSL_SERVER_V_START       : Oct  8 11:43:48 2017 GMT
+SSL_SERVER_M_SERIAL      : BAA08398AF7F4635
+SSL_SERVER_M_VERSION     : 3
+SSL_CLIENT_VERIFY        : NONE
+SSL_CIPHER_ALGKEYSIZE    : 128
+SSL_CIPHER_USEKEYSIZE    : 128
+SSL_CIPHER_EXPORT        : false
+SSL_CIPHER               : ECDHE-RSA-AES128-GCM-SHA256
+SSL_COMPRESS_METHOD      : NULL
+SSL_SECURE_RENEG         : true
+SSL_PROTOCOL             : TLSv1.2
+SSL_VERSION_LIBRARY      : OpenSSL/1.0.2g
+SSL_VERSION_INTERFACE    : mod_ssl/2.4.18
+SSL_SERVER_I_DN_CN       : ubuntu
+SSL_SERVER_S_DN_CN       : ubuntu
+SSL_TLS_SNI              : php7
+HTTPS                    : on
+REDIRECT_STATUS          : 200
+REDIRECT_HANDLER         : php70-fcgi-www-ssl
+REDIRECT_SSL_SESSION_RESUMED: Resumed
+REDIRECT_SSL_SESSION_ID  : b631912856698e69902a41398045ae4c42b406df780b6fdb1fe98e0e9686ae30
+REDIRECT_SSL_SERVER_A_SIG: sha256WithRSAEncryption
+REDIRECT_SSL_SERVER_A_KEY: rsaEncryption
+REDIRECT_SSL_SERVER_I_DN : CN=ubuntu
+REDIRECT_SSL_SERVER_S_DN : CN=ubuntu
+REDIRECT_SSL_SERVER_V_END: Oct  6 11:43:48 2027 GMT
+REDIRECT_SSL_SERVER_V_START: Oct  8 11:43:48 2017 GMT
+REDIRECT_SSL_SERVER_M_SERIAL: BAA08398AF7F4635
+REDIRECT_SSL_SERVER_M_VERSION: 3
+REDIRECT_SSL_CLIENT_VERIFY: NONE
+REDIRECT_SSL_CIPHER_ALGKEYSIZE: 128
+REDIRECT_SSL_CIPHER_USEKEYSIZE: 128
+REDIRECT_SSL_CIPHER_EXPORT: false
+REDIRECT_SSL_CIPHER      : ECDHE-RSA-AES128-GCM-SHA256
+REDIRECT_SSL_COMPRESS_METHOD: NULL
+REDIRECT_SSL_SECURE_RENEG: true
+REDIRECT_SSL_PROTOCOL    : TLSv1.2
+REDIRECT_SSL_VERSION_LIBRARY: OpenSSL/1.0.2g
+REDIRECT_SSL_VERSION_INTERFACE: mod_ssl/2.4.18
+REDIRECT_SSL_SERVER_I_DN_CN: ubuntu
+REDIRECT_SSL_SERVER_S_DN_CN: ubuntu
+REDIRECT_SSL_TLS_SNI     : php7
+REDIRECT_HTTPS           : on
+FCGI_ROLE                : RESPONDER
+PHP_SELF                 : /il/52x/ilias.php
+REQUEST_TIME_FLOAT       : 1512149627.2635
+REQUEST_TIME             : 1512149627
+
+
+-- Environment Variables --
+
+empty

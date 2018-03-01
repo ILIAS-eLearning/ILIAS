@@ -93,6 +93,8 @@ class ilPCQuestion extends ilPageContent
 		$duplicate = assQuestion::_instanciateQuestion($duplicate_id);
 		$duplicate->setObjId(0);
 		
+		/* PATCH-BEGIN: moved cleanup code to central place ilAssSelfAssessmentQuestionFormatter */
+		/*
 		// we remove everything not supported by the non-tiny self
 		// assessment question editor
 		$q = $duplicate->getQuestion();
@@ -136,6 +138,12 @@ class ilPCQuestion extends ilPageContent
 		$duplicate->setQuestion($q);
 		
 		$duplicate->saveQuestionDataToDb();
+		*/
+
+		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssSelfAssessmentQuestionFormatter.php';
+		ilAssSelfAssessmentQuestionFormatter::prepareQuestionForLearningModule($duplicate);
+		
+		/* PATCH-END: moved cleanup code to central place ilAssSelfAssessmentQuestionFormatter */
 		
 		$this->q_node->set_attribute("QRef", "il__qst_".$duplicate_id);
 	}
