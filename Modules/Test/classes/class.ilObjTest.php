@@ -4864,10 +4864,7 @@ function getAnswerFeedbackPoints()
 	
 	function getUnfilteredEvaluationData()
 	{
-		/** @var $DIC ILIAS\DI\Container */
-		global $DIC;
-
-		$ilDB = $DIC->database();
+		global $ilDB;
 
 		include_once "./Modules/Test/classes/class.ilTestEvaluationPassData.php";
 		include_once "./Modules/Test/classes/class.ilTestEvaluationUserData.php";
@@ -4958,12 +4955,12 @@ function getAnswerFeedbackPoints()
 				{
 					require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
 					$dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig(
-						$DIC->repositoryTree(), $DIC->database(), $DIC['ilPluginAdmin'], $this
+						$GLOBALS['tree'], $ilDB, $GLOBALS['ilPluginAdmin'], $this
 					);
 					$dynamicQuestionSetConfig->loadFromDb();
 
 					require_once 'Modules/Test/classes/class.ilTestSequenceFactory.php';
-					$testSequenceFactory = new ilTestSequenceFactory($DIC->database(), $DIC->language(), $DIC['ilPluginAdmin'], $this);
+					$testSequenceFactory = new ilTestSequenceFactory($ilDB, $GLOBALS['lng'], $GLOBALS['ilPluginAdmin'], $this);
 					$testSequence        = $testSequenceFactory->getSequenceByActiveIdAndPass($active_id, $testpass);
 
 					$testSequence->loadFromDb($dynamicQuestionSetConfig);
@@ -4974,16 +4971,16 @@ function getAnswerFeedbackPoints()
 					$questionsIdsToRequest = array_diff(array_values($sequence), array_values($questionData));
 					if(count($questionsIdsToRequest) > 0)
 					{
-						$questionIdsCondition = ' ' . $DIC->database()->in('question_id', array_values($questionsIdsToRequest), false, 'integer') . ' ';
+						$questionIdsCondition = ' ' . $ilDB->in('question_id', array_values($questionsIdsToRequest), false, 'integer') . ' ';
 
-						$res = $DIC->database()->queryF("
+						$res = $ilDB->queryF("
 							SELECT * 
 							FROM qpl_questions
 							WHERE {$questionIdsCondition}",
 							array('integer'),
 							array($active_id)
 						);
-						while($row = $DIC->database()->fetchAssoc($res))
+						while($row = $ilDB->fetchAssoc($res))
 						{
 							$questionData[$row['question_id']] = $row;
 							$data->addQuestionTitle($row['question_id'], $row['title']);
