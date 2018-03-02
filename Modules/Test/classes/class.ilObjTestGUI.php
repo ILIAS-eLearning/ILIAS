@@ -423,9 +423,12 @@ class ilObjTestGUI extends ilObjectGUI
 				
 				$this->prepareOutput();
 				$this->addHeaderAction();
+				require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
 				require_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
 				$rep_search = new ilRepositorySearchGUI();
-				$rep_search->addUserAccessFilterCallable([$this, 'manageParticipantsUserFilter']);
+				$rep_search->addUserAccessFilterCallable(
+					ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->ref_id)
+				);
 				$rep_search->setCallback($this,
 					'addParticipantsObject',
 					array()
@@ -2632,7 +2635,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function participantsObject()
 	{
-		global $ilAccess, $ilToolbar, $lng;
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
 
 		if( !$this->checkManageParticipantsAccess() && !$this->checkParticipantsResultsAccess() )
 		{
@@ -2653,30 +2656,35 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->questionSetConfig->getDepenciesInVulnerableStateMessage($this->lng)
 			);
 		}
-
+		
+		require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
+		$manageParticipantFilter = ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->ref_id);
+		$accessResultsFilter = ilTestParticipantAccessFilter::getAccessResultsUserFilter($this->ref_id);
+		
+		$participantList = $this->object->getParticipantList();
+		$participantList = $participantList->getAccessFilteredList($manageParticipantFilter);
+		$participantList = $participantList->getAccessFilteredList($accessResultsFilter);
+		
 		if ($this->object->getFixedParticipants())
 		{
-			// search button
-			include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
-			ilRepositorySearchGUI::fillAutoCompleteToolbar(
-				$this,
-				$ilToolbar,
-				array(
-					'auto_complete_name'	=> $lng->txt('user'),
-					'submit_name'			=> $lng->txt('add')
-				)
-			);
-
-			$ilToolbar->addSeparator();
-			$search_btn = ilLinkButton::getInstance();
-			$search_btn->setCaption('tst_search_users');
-			$search_btn->setUrl($this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
-			$ilToolbar->addButtonInstance($search_btn);
-			require_once  'Services/UIComponent/Button/classes/class.ilLinkButton.php';
+			$this->addUserSearchControls($DIC->toolbar(), $DIC->language());
+		}
+		
+		if( $participantList->hasUnfinishedPasses() )
+		{
+			$this->addFinishAllPassesButton($DIC->toolbar());
+		}
+		
+		if( $participantList->hasTestResults() )
+		{
+			$this->addDeleteAllTestResultsButton($DIC->toolbar());
+		}
+		
+		if ($this->object->getFixedParticipants())
+		{
 
 			$participants =& $this->object->getInvitedUsers();
 			$rows = array();
-			$unfinished_passes = false;
 			foreach ($participants as $data)
 			{
 				$maxpass = $this->object->_getMaxPass($data["active_id"]);
@@ -2696,11 +2704,11 @@ class ilObjTestGUI extends ilObjectGUI
 				{
 					if ( strlen($data["firstname"].$data["lastname"]) == 0 )
 					{
-						$fullname = $lng->txt("deleted_user");
+						$fullname = $DIC->language()->txt("deleted_user");
 					}
 					else if($this->object->getAnonymity())
 					{
-					 	$fullname = $lng->txt('anonymous');	
+					 	$fullname = $DIC->language()->txt('anonymous');	
 					}
 					else
 					{
@@ -2715,7 +2723,6 @@ class ilObjTestGUI extends ilObjectGUI
 				if($data["unfinished_passes"] == 1)
 				{
 					$unfinished_pass_data = 1;
-					$unfinished_passes = true;
 				}
 					
 				array_push($rows, array(
@@ -2745,22 +2752,11 @@ class ilObjTestGUI extends ilObjectGUI
 			$rows = $this->applyFilterCriteria($rows);
 			$table_gui->setData($rows);
 			$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());
-
-			if(count($rows) > 0)
-			{
-				$ilToolbar->addSeparator();
-				$delete_all_results_btn = ilLinkButton::getInstance();
-				$delete_all_results_btn->setCaption('delete_all_user_data');
-				$delete_all_results_btn->setUrl($this->ctrl->getLinkTarget($this, 'deleteAllUserResults'));
-				$ilToolbar->addButtonInstance($delete_all_results_btn);
-			}
-			$this->addFinishAllPassesButton($unfinished_passes, $ilToolbar);
 		}
 		else
 		{
 			$participants =& $this->object->getTestParticipants();
 			$rows = array();
-			$unfinished_passes = false;
 
 			foreach ($participants as $data)
 			{
@@ -2781,7 +2777,6 @@ class ilObjTestGUI extends ilObjectGUI
 				if($data["unfinished_passes"] == 1)
 				{
 					$unfinished_pass_data = 1;
-					$unfinished_passes = true;
 				}
 				
 				include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
@@ -2808,17 +2803,6 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->object->getAnonymity(), count($rows)
 			);
 
-			if(count($rows) > 0)
-			{
-				require_once  'Services/UIComponent/Button/classes/class.ilLinkButton.php';
-				$delete_all_results_btn = ilLinkButton::getInstance();
-				$delete_all_results_btn->setCaption('delete_all_user_data');
-				$delete_all_results_btn->setUrl($this->ctrl->getLinkTarget($this, 'deleteAllUserResults'));
-				$ilToolbar->addStickyItem($delete_all_results_btn);
-			}
-
-			$this->addFinishAllPassesButton($unfinished_passes, $ilToolbar);
-
 			$table_gui->setFilterCommand('npSetFilter');
 			$table_gui->setResetCommand('npResetFilter');
 			$rows = $this->applyFilterCriteria($rows);
@@ -2826,21 +2810,56 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
 		}
 	}
+	
+	/**
+	 * @param ilToolbarGUI $toolbar
+	 * @param ilLanguage $lng
+	 */
+	protected function addUserSearchControls(ilToolbarGUI $toolbar, ilLanguage $lng)
+	{
+		// search button
+		include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
+		ilRepositorySearchGUI::fillAutoCompleteToolbar(
+			$this,
+			$toolbar,
+			array(
+				'auto_complete_name'	=> $lng->txt('user'),
+				'submit_name'			=> $lng->txt('add')
+			)
+		);
+		
+		require_once  'Services/UIComponent/Button/classes/class.ilLinkButton.php';
+		$search_btn = ilLinkButton::getInstance();
+		$search_btn->setCaption('tst_search_users');
+		$search_btn->setUrl($this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
+
+		$toolbar->addSeparator();
+		$toolbar->addButtonInstance($search_btn);
+	}
+	
+	/**
+	 * @param ilToolbarGUI $toolbar
+	 */
+	protected function addDeleteAllTestResultsButton(ilToolbarGUI $toolbar)
+	{
+		require_once  'Services/UIComponent/Button/classes/class.ilLinkButton.php';
+		$delete_all_results_btn = ilLinkButton::getInstance();
+		$delete_all_results_btn->setCaption('delete_all_user_data');
+		$delete_all_results_btn->setUrl($this->ctrl->getLinkTarget($this, 'deleteAllUserResults'));
+		$toolbar->addSeparator();
+		$toolbar->addButtonInstance($delete_all_results_btn);
+	}
 
 	/**
-	 * @param $unfinished_passes
-	 * @param $ilToolbar
+	 * @param ilToolbarGUI $toolbar
 	 */
-	protected function addFinishAllPassesButton($unfinished_passes, $ilToolbar)
+	protected function addFinishAllPassesButton(ilToolbarGUI $toolbar)
 	{
-		if($unfinished_passes)
-		{
-			$ilToolbar->addSeparator();
-			$finish_all_user_passes_btn = ilLinkButton::getInstance();
-			$finish_all_user_passes_btn->setCaption('finish_all_user_passes');
-			$finish_all_user_passes_btn->setUrl($this->ctrl->getLinkTargetByClass('iltestevaluationgui', 'finishAllUserPasses'));
-			$ilToolbar->addButtonInstance($finish_all_user_passes_btn);
-		}
+		$toolbar->addSeparator();
+		$finish_all_user_passes_btn = ilLinkButton::getInstance();
+		$finish_all_user_passes_btn->setCaption('finish_all_user_passes');
+		$finish_all_user_passes_btn->setUrl($this->ctrl->getLinkTargetByClass('iltestevaluationgui', 'finishAllUserPasses'));
+		$toolbar->addButtonInstance($finish_all_user_passes_btn);
 	}
 	
 	public function timingOverviewObject()
@@ -3974,51 +3993,6 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		
 		return false;
-	}
-	
-	/**
-	 * @param int[] $userIds
-	 * @return int[]
-	 */
-	public function manageParticipantsUserFilter($userIds)
-	{
-		global $DIC; /* @var ILIAS\DI\Container $DIC */
-		
-		$userIds = $DIC->access()->filterUserIdsByRbacOrPositionOfCurrentUser('write',
-			ilOrgUnitOperation::OP_MANAGE_PARTICIPANTS, $this->ref_id, $userIds
-		);
-		
-		return $userIds;
-	}
-	
-	/**
-	 * @param int[] $userIds
-	 * @return int[]
-	 */
-	public function scoreParticipantsUserFilter($userIds)
-	{
-		global $DIC; /* @var ILIAS\DI\Container $DIC */
-		
-		$userIds = $DIC->access()->filterUserIdsByRbacOrPositionOfCurrentUser('write',
-			ilOrgUnitOperation::OP_MANAGE_PARTICIPANTS, $this->ref_id, $userIds
-		);
-		
-		return $userIds;
-	}
-	
-	/**
-	 * @param int[] $userIds
-	 * @return int[]
-	 */
-	public function accessResultsUserFilter($userIds)
-	{
-		global $DIC; /* @var ILIAS\DI\Container $DIC */
-		
-		$userIds = $DIC->access()->filterUserIdsByRbacOrPositionOfCurrentUser('write',
-			ilOrgUnitOperation::OP_MANAGE_PARTICIPANTS, $this->ref_id, $userIds
-		);
-		
-		return $userIds;
 	}
 	
 	protected function permissionViolationRedirect()

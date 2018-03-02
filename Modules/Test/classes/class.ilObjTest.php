@@ -7553,6 +7553,26 @@ function getAnswerFeedbackPoints()
 		}
 		return $res;
 	}
+	
+	/**
+	 * @return ilTestParticipantList
+	 */
+	public function getParticipantList()
+	{
+		require_once 'Modules/Test/classes/class.ilTestParticipantList.php';
+		$participantList = new ilTestParticipantList($this);
+		
+		if( $this->getFixedParticipants() )
+		{
+			$participantList->initializeFromDbRows( $this->getInvitedUsers() );
+		}
+		else
+		{
+			$participantList->initializeFromDbRows( $this->getTestParticipants() );
+		}
+		
+		return $participantList;
+	}
 
 /**
 * Returns a list of all invited users in a test
