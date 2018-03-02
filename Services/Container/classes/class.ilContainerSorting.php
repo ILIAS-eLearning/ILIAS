@@ -113,15 +113,19 @@ class ilContainerSorting
 	public function cloneSorting($a_target_id,$a_copy_id)
 	{
 		global $ilDB;
-		global $ilLog;
-		
-		$ilLog->write(__METHOD__.': Cloning container sorting.');
+
+		$ilLog = ilLoggerFactory::getLogger("cont");
+
+		$ilLog->debug("Cloning container sorting.");
 		
 		$target_obj_id = ilObject::_lookupObjId($a_target_id);
 		
 		include_once('./Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
-		$mappings = ilCopyWizardOptions::_getInstance($a_copy_id)->getMappings(); 
-		
+		$mappings = ilCopyWizardOptions::_getInstance($a_copy_id)->getMappings();
+
+
+		$ilLog->debug("Read container_sorting for obj_id = ".$this->obj_id);
+
 		$query = "SELECT * FROM container_sorting ".
 			"WHERE obj_id = ".$ilDB->quote($this->obj_id, 'integer');
 
@@ -131,12 +135,13 @@ class ilContainerSorting
 		{
 	 		if(!isset($mappings[$row->child_id]) or !$mappings[$row->child_id])
 	 		{
-				#$ilLog->write(__METHOD__.': No mapping found for:'.$row->child_id);
+				$ilLog->debug("No mapping found for child id:".$row->child_id);
 	 			continue;
 	 		}
 			
 			if($row->parent_id and (!isset($mappings[$row->parent_id]) or !$mappings[$row->parent_id]))
 			{
+				$ilLog->debug("No mapping found for parent id:".$row->child_id);
 				continue;
 			}
 
@@ -145,6 +150,7 @@ class ilContainerSorting
 				"AND child_id = ".$ilDB->quote($mappings[$row->child_id],'integer')." ".
 				"AND parent_type = ".$ilDB->quote($row->parent_type,'text').' '.
 				"AND parent_id = ".$ilDB->quote((int) $mappings[$row->parent_id],'integer');
+			$ilLog->debug($query);
 			$ilDB->manipulate($query);
 	 		
 	 		// Add new value
@@ -156,6 +162,7 @@ class ilContainerSorting
 				$ilDB->quote($row->parent_type,'text').", ".
 				$ilDB->quote((int) $mappings[$row->parent_id],'integer').
 	 			")";
+			$ilLog->debug($query);
 			$ilDB->manipulate($query);
 		}
 		return true;		
@@ -456,7 +463,6 @@ class ilContainerSorting
 		global $ilDB;
 		
 		asort($a_values);
-	
 		$ilDB->replace(
 			'container_sorting_bl',
 			array(
