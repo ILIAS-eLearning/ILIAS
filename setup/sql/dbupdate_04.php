@@ -21576,7 +21576,8 @@ while($row = $ilDB->fetchAssoc($result))
 				//echo "<br> makeDirParents: ".ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$directory_relative_path;
 				ilUtil::makeDirParents(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$directory_relative_path);
 			}
-			if (!file_exists(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$file_relative_path))
+			if (!file_exists(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$file_relative_path) &&
+				file_exists($file_full_path))
 			{
 				//echo "<br> rename: $file_full_path TO ".ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$file_relative_path;
 				rename($file_full_path ,ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$file_relative_path);
