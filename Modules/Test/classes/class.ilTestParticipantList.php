@@ -119,6 +119,7 @@ class ilTestParticipantList implements Iterator
 		foreach($usrIds as $usrId)
 		{
 			$participant = $this->getParticipantByUsrId($usrId);
+			$participant = clone $participant;
 			$accessFilteredList->addParticipant($participant);
 		}
 		
@@ -174,25 +175,103 @@ class ilTestParticipantList implements Iterator
 		foreach($this as $participant)
 		{
 			$row = array(
-				'usr_id' => $data["usr_id"],
-				'active_id' => $data['active_id'],
-				'login' => $data["login"],
-				'clientip' => $data["clientip"],
-				'firstname' => $data["firstname"],
-				'lastname' => $data["lastname"],
-				'name' => $fullname,
-				'started' => ($data["active_id"] > 0) ? 1 : 0,
-				'unfinished' => $unfinished_pass_data,
-				'finished' => ($data["test_finished"] == 1) ? 1 : 0,
-				'access' => $access,
-				'maxpass' => $maxpass,
-				'result' => $this->ctrl->getLinkTargetByClass('iltestevaluationgui', 'outParticipantsResultsOverview'),
-				'finish_link' => $this->ctrl->getLinkTargetByClass('iltestevaluationgui', 'finishTestPassForSingleUser')
+				'usr_id' => $participant->getUsrId(),
+				'active_id' => $participant->getActiveId(),
+				'login' => $participant->getLogin(),
+				'clientip' => $participant->getClientIp(),
+				'firstname' => $participant->getFirstname(),
+				'lastname' => $participant->getLastname(),
+				'name' => $this->buildFullname($participant),
+				'started' => ($participant->getActiveId() > 0) ? 1 : 0,
+				'unfinished' => $participant->hasUnfinishedPasses() ? 1 : 0,
+				'finished' => $participant->isTestFinished() ? 1 : 0,
+				'access' => $this->lookupLastAccess($participant->getActiveId()),
+				'tries' => $this->lookupNrOfTries($participant->getActiveId())
 			);
 			
 			$rows[] = $row;
 		}
 		
 		return $rows;
+		
+		#$this->ctrl->setParameterByClass('iltestevaluationgui', 'active_id', $data['active_id']);
+		#$this->ctrl->getLinkTargetByClass('iltestevaluationgui', 'outParticipantsResultsOverview');
+		#$this->ctrl->getLinkTargetByClass('iltestevaluationgui', 'finishTestPassForSingleUser');
+	}
+	
+	/**
+	 * @param integer $activeId
+	 * @return int|null
+	 */
+	public function lookupNrOfTries($activeId)
+	{
+		$maxPassIndex = ilObjTest::_getMaxPass($activeId);
+		
+		if( $maxPassIndex !== null )
+		{
+			$nrOfTries = $maxPassIndex + 1;
+			return $nrOfTries;
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * @param integer $activeId
+	 * @return string
+	 */
+	protected function lookupLastAccess($activeId)
+	{
+		if( !$activeId )
+		{
+			return '';
+		}
+		
+		return $this->getTestObj()->_getLastAccess($activeId);
+	}
+	
+	/**
+	 * @param ilTestParticipant $participant
+	 * @return string
+	 */
+	protected function buildFullname(ilTestParticipant $participant)
+	{
+		if( $this->getTestObj()->getFixedParticipants() && !$participant->getActiveId() )
+		{
+			return $this->buildInviteeFullname($participant);
+		}
+		
+		return $this->buildParticipantsFullname($participant);
+	}
+	
+	/**
+	 * @param ilTestParticipant $participant
+	 * @return string
+	 */
+	protected function buildInviteeFullname(ilTestParticipant $participant)
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		if( strlen($participant->getFirstname().$participant->getLastname()) == 0 )
+		{
+			return $DIC->language()->txt("deleted_user");
+		}
+		
+		if( $this->getTestObj()->getAnonymity() )
+		{
+			return $DIC->language()->txt('anonymous');
+		}
+
+		return trim($participant->getLastname() . ", " . $participant->getFirstname() );
+	}
+	
+	/**
+	 * @param ilTestParticipant $participant
+	 * @return string
+	 */
+	protected function buildParticipantsFullname(ilTestParticipant $participant)
+	{
+		require_once 'Modules/Test/classes/class.ilObjTestAccess.php';
+		return ilObjTestAccess::_getParticipantData($participant->getActiveId());
 	}
 }

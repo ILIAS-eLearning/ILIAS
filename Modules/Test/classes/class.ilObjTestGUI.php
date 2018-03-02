@@ -2680,124 +2680,28 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->addDeleteAllTestResultsButton($DIC->toolbar());
 		}
 		
+		$rows = $participantList->getTableRows();
+		
 		if ($this->object->getFixedParticipants())
 		{
-
-			$participants =& $this->object->getInvitedUsers();
-			$rows = array();
-			foreach ($participants as $data)
-			{
-				$maxpass = $this->object->_getMaxPass($data["active_id"]);
-				if (!is_null($maxpass))
-				{
-					$maxpass += 1;
-				}
-				$access = "";
-				if (strlen($data["active_id"]))
-				{
-					$last_access = $this->object->_getLastAccess($data["active_id"]);
-					$access = $last_access;
-				}
-				$this->ctrl->setParameterByClass('iltestevaluationgui', 'active_id', $data['active_id']);
-				
-				if ($data['active_id'] == null) // if no active id is set, user is invitee not participant...
-				{
-					if ( strlen($data["firstname"].$data["lastname"]) == 0 )
-					{
-						$fullname = $DIC->language()->txt("deleted_user");
-					}
-					else if($this->object->getAnonymity())
-					{
-					 	$fullname = $DIC->language()->txt('anonymous');	
-					}
-					else
-					{
-						$fullname = trim($data["lastname"] . ", " . $data["firstname"] . " " . $data["title"]);
-					}
-				} else {
-					include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
-					$fullname = ilObjTestAccess::_getParticipantData($data['active_id']);					
-				}
-				
-				$unfinished_pass_data = 0;
-				if($data["unfinished_passes"] == 1)
-				{
-					$unfinished_pass_data = 1;
-				}
-					
-				array_push($rows, array(
-					'usr_id' => $data["usr_id"],
-					'active_id' => $data['active_id'],
-					'login' => $data["login"],
-					'clientip' => $data["clientip"],
-					'firstname' => $data["firstname"],
-					'lastname' => $data["lastname"],
-					'name' => $fullname,
-					'started' => ($data["active_id"] > 0) ? 1 : 0,
-					'unfinished' => $unfinished_pass_data,
-					'finished' => ($data["test_finished"] == 1) ? 1 : 0,
-					'access' => $access,
-					'maxpass' => $maxpass,
-					'result' => $this->ctrl->getLinkTargetByClass('iltestevaluationgui', 'outParticipantsResultsOverview'),
-					'finish_link' => $this->ctrl->getLinkTargetByClass('iltestevaluationgui', 'finishTestPassForSingleUser')
-				));
-			}
 			include_once "./Modules/Test/classes/tables/class.ilTestFixedParticipantsTableGUI.php";
 			$table_gui = new ilTestFixedParticipantsTableGUI( $this, 'participants',
 					$this->testQuestionSetConfigFactory->getQuestionSetConfig()->areDepenciesBroken(),
 					$this->object->getAnonymity(), count($rows)
 			);
+
 			$table_gui->setFilterCommand('fpSetFilter');
 			$table_gui->setResetCommand('fpResetFiler');
 			$rows = $this->applyFilterCriteria($rows);
+
 			$table_gui->setData($rows);
+
 			$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());
 		}
 		else
 		{
-			$participants =& $this->object->getTestParticipants();
-			$rows = array();
-
-			foreach ($participants as $data)
-			{
-				$maxpass = $this->object->_getMaxPass($data["active_id"]);
-				if (!is_null($maxpass))
-				{
-					$maxpass += 1;
-				}
-				$access = "";
-				if (strlen($data["active_id"]))
-				{
-					$last_access = $this->object->_getLastAccess($data["active_id"]);
-					$access = $last_access;
-				}
-				$this->ctrl->setParameterByClass('iltestevaluationgui', 'active_id', $data['active_id']);
-
-				$unfinished_pass_data = 0;
-				if($data["unfinished_passes"] == 1)
-				{
-					$unfinished_pass_data = 1;
-				}
-				
-				include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
-				$fullname = ilObjTestAccess::_getParticipantData($data['active_id']);					
-				array_push($rows, array(
-					'usr_id' 		=> $data["active_id"],
-					'active_id'		=> $data['active_id'],
-					'login'			=> $data["login"],
-					'name'			=> $fullname,
-					'firstname'		=> $data["firstname"],
-					'lastname'		=> $data["lastname"],
-					'started'		=> ($data["active_id"] > 0) ? 1 : 0,
-					'unfinished'	=> $unfinished_pass_data,
-					'finished'		=> ($data["test_finished"] == 1) ? 1 : 0,
-					'access'		=> $access,
-					'maxpass'		=> $maxpass,
-					'result'		=> $this->ctrl->getLinkTargetByClass('iltestevaluationgui', 'outParticipantsResultsOverview'),
-					'finish_link'	=> $this->ctrl->getLinkTargetByClass('iltestevaluationgui', 'finishTestPassForSingleUser')
-				));
-			}
 			include_once "./Modules/Test/classes/tables/class.ilTestParticipantsTableGUI.php";
+
 			$table_gui = new ilTestParticipantsTableGUI( $this, 'participants',
 					$this->testQuestionSetConfigFactory->getQuestionSetConfig()->areDepenciesBroken(),
 					$this->object->getAnonymity(), count($rows)
@@ -2806,7 +2710,9 @@ class ilObjTestGUI extends ilObjectGUI
 			$table_gui->setFilterCommand('npSetFilter');
 			$table_gui->setResetCommand('npResetFilter');
 			$rows = $this->applyFilterCriteria($rows);
+
 			$table_gui->setData($rows);
+
 			$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
 		}
 	}
