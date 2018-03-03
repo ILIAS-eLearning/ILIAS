@@ -6772,6 +6772,12 @@ button.close {
 .glyphicon.glyphicon-chevron-right {
   font-weight: 100;
 }
+.il-glyphicon-like:before {
+  content: "\1f44d";
+}
+.il-glyphicon-love:before {
+  content: "\2764";
+}
 .il-panel-report .thumbnail {
   margin-bottom: 0;
 }
