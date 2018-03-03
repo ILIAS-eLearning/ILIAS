@@ -499,4 +499,51 @@ interface Factory {
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
 	public function comment($action = null);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       The Like Glyph is used to indicate a like expression by a user for an item like a posting.
+	 *   composition: >
+	 *       The Like Glyph uses the "thumbs up" unicode emoji U+1F44D
+	 *   effect: >
+	 *       Clicking toggles the state of the user expression (updating its counter)
+	 *
+	 * rules:
+	 *   composition:
+	 *       1: >
+	 *          A Status Counter MUST indicate the overall amount of like expressions.
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be 'Like'.
+	 * ---
+	 * @param	string|null	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function like($action = null);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       The Love Glyph is used to indicate a love expression by a user for an item like a posting.
+	 *   composition: >
+	 *       The Love Glyph uses the "red heart" unicode emoji U+2764
+	 *   effect: >
+	 *       Clicking toggles the state of the user expression (updating its counter)
+	 *
+	 * rules:
+	 *   composition:
+	 *       1: >
+	 *          A Status Counter MUST indicate the overall amount of love expressions.
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be 'Love'.
+	 * ---
+	 * @param	string|null	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function love($action = null);
+
 }

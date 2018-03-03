@@ -140,4 +140,18 @@ class Factory implements G\Factory {
 	public function comment($action = null) {
 		return new Glyph(G\Glyph::COMMENT, "comments", $action);
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function like($action = null) {
+		return new Glyph(G\Glyph::LIKE, "like", $action);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function love($action = null) {
+		return new Glyph(G\Glyph::LOVE, "love", $action);
+	}
 }
