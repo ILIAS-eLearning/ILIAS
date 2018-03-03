@@ -14,11 +14,6 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
 class Vertical implements C\Divider\Vertical {
 	use ComponentHelper;
 
-	/**
-	 * @var string
-	 */
-	protected $label;
-
 	public function __construct() {
 	}
 }
