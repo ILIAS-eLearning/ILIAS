@@ -504,11 +504,11 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       The Like Glyph is used to indicate a like expression by a user for an item like a posting.
+	 *       Clicking the Like Glyph indicates a user affirms an item, e.g. a posting.
 	 *   composition: >
 	 *       The Like Glyph uses the "thumbs up" unicode emoji U+1F44D
 	 *   effect: >
-	 *       Clicking toggles the state of the user expression (updating its counter)
+	 *       Clicking toggles the state of the user expression. Clicking also updates the respective counter.
 	 *
 	 * rules:
 	 *   composition:
@@ -527,11 +527,11 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       The Love Glyph is used to indicate a love expression by a user for an item like a posting.
+	 *       Clicking the Love Glyph indicates a user adores an item, e.g. a posting.
 	 *   composition: >
 	 *       The Love Glyph uses the "red heart" unicode emoji U+2764
 	 *   effect: >
-	 *       Clicking toggles the state of the user expression (updating its counter)
+	 *       Clicking toggles the state of the user expression. Clicking also updates the respective counter.
 	 *
 	 * rules:
 	 *   composition:
