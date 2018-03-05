@@ -1143,7 +1143,7 @@ assessment#:#tst_finish_notification_simple#:#Nur Benutzername und Datum des Bee
 assessment#:#tst_finish_notification_no#:#Keine Benachrichtigung
 assessment#:#tst_finished#:#Beendet
 assessment#:#unfinished_passes#:#Unbeendeter Testdurchlauf
-assessment#:#finish_pass_for_user_confirmation#:#Wollen Sie wirklich den Test Durchlauf beenden?
+assessment#:#finish_pass_for_user_confirmation#:#Wollen Sie den Test Durchlauf für den Teilnehmer "%s" wirklich beenden?
 assessment#:#finish_pass_for_all_users#:#Wollen Sie wirklich die Test Durchläufe für alle Benutzer beenden?
 assessment#:#finish_all_user_passes#:#Alle Testdurchläufe beenden
 assessment#:#finish_unfinished_passes#:#Beendet noch offene Testdurchläufe

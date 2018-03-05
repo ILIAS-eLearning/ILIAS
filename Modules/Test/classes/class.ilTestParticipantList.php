@@ -24,6 +24,9 @@ class ilTestParticipantList implements Iterator
 	 */
 	protected $testObj;
 	
+	/**
+	 * @param ilObjTest $testObj
+	 */
 	public function __construct(ilObjTest $testObj)
 	{
 		$this->testObj = $testObj;
@@ -155,9 +158,9 @@ class ilTestParticipantList implements Iterator
 			
 			$participant->setActiveStatus((bool)$rowData['active']);
 			
-			if( isset($rowData['client_ip']) )
+			if( isset($rowData['clientip']) )
 			{
-				$participant->setClientIp($rowData['client_ip']);
+				$participant->setClientIp($rowData['clientip']);
 			}
 			
 			$participant->setFinishedTries((int)$rowData['tries']);
@@ -193,10 +196,6 @@ class ilTestParticipantList implements Iterator
 		}
 		
 		return $rows;
-		
-		#$this->ctrl->setParameterByClass('iltestevaluationgui', 'active_id', $data['active_id']);
-		#$this->ctrl->getLinkTargetByClass('iltestevaluationgui', 'outParticipantsResultsOverview');
-		#$this->ctrl->getLinkTargetByClass('iltestevaluationgui', 'finishTestPassForSingleUser');
 	}
 	
 	/**

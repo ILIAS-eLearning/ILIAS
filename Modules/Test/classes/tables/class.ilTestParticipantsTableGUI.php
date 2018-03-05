@@ -14,19 +14,15 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
 class ilTestParticipantsTableGUI extends ilTable2GUI
 {
-	protected $testQuestionSetDepenciesBroken;
+	protected $accessResultsCommandsEnabled = false;
+	protected $manageResultsCommandsEnabled = false;
+	protected $manageInviteesCommandsEnabled = false;
+	
+	protected $rowKeyDataField;
+	
 	protected $anonymity;
 	
-	protected $actionsColumnRequired;
-	
-	/**
-	 * Constructor
-	 *
-	 * @access public
-	 * @param
-	 * @return
-	 */
-	public function __construct($a_parent_obj, $a_parent_cmd, $testQuestionSetDepenciesBroken, $anonymity, $nrOfDatasets)
+	public function __construct($a_parent_obj, $a_parent_cmd)
 	{
 		$this->setId('tst_participants_' . $a_parent_obj->object->getRefId());
 		parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -36,59 +32,15 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
 		
-		$this->initFilter();
-		
-		$this->testQuestionSetDepenciesBroken = $testQuestionSetDepenciesBroken;
-		$this->anonymity = $anonymity;
-		$this->setFormName('participantsForm');
 		$this->setStyle('table', 'fullwidth');
-
-		$this->addColumn('','','1%');
-		$this->addColumn($this->lng->txt("name"),'name', '');
-		$this->addColumn($this->lng->txt("login"),'login', '');
-		/*
-		$this->addColumn($this->lng->txt("lastname"),'lastname', '');
-		$this->addColumn($this->lng->txt("firstname"),'firstname', '');
-		*/
-		$this->addColumn($this->lng->txt("tst_started"),'started', '');
 		
-		// maxpass => passes ;)
-		$this->addColumn($this->lng->txt("tst_nr_of_tries_of_user"),'maxpass', '');
-
-		$this->addColumn($this->lng->txt("unfinished_passes"),'unfinished_passes', '');
-		$this->addColumn($this->lng->txt("tst_finished"),'finished', '');
-		$this->addColumn($this->lng->txt("last_access"),'access', '');
-		
-		$this->actionsColumnRequired = false;
-		if( !$this->testQuestionSetDepenciesBroken )
-		{
-			$this->actionsColumnRequired = true;
-			
-			$this->addColumn('','', '');
-		}
-	
-		$this->setTitle($this->lng->txt('tst_participating_users'));
-		$this->setRowTemplate("tpl.il_as_tst_participants_row.html", "Modules/Test");
-
-		if( !$this->anonymity && !$this->testQuestionSetDepenciesBroken )
-		{
-			$this->addMultiCommand('showPassOverview', $this->lng->txt('show_pass_overview'));
-			$this->addMultiCommand('showUserAnswers', $this->lng->txt('show_user_answers'));
-			$this->addMultiCommand('showDetailedResults', $this->lng->txt('show_detailed_results'));
-		}
-		$this->addMultiCommand('deleteSingleUserResults', $this->lng->txt('delete_user_data'));
-
+		$this->setFormName('participantsForm');
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
-
-		if (!$this->anonymity)
-		{
-			$this->setDefaultOrderField("login");
-		}
-		else
-		{
-			$this->setDefaultOrderField("access");
-		}
-		$this->setDefaultOrderDirection("asc");
+		
+		$this->setRowTemplate("tpl.il_as_tst_participants_row.html", "Modules/Test");
+		
+		$this->setTitle($this->lng->txt('tst_participating_users'));
+		
 		$this->setSelectAllCheckbox('chbUser');
 		
 		$this->enable('header');
@@ -97,35 +49,118 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 		
 		$this->setShowRowsSelector(true);
 	}
-
+	
 	/**
-	 * fill row 
-	 *
-	 * @access public
-	 * @param
-	 * @return
+	 * @return bool
+	 */
+	public function isAccessResultsCommandsEnabled()
+	{
+		return $this->accessResultsCommandsEnabled;
+	}
+	
+	/**
+	 * @param bool $accessResultsCommandsEnabled
+	 */
+	public function setAccessResultsCommandsEnabled($accessResultsCommandsEnabled)
+	{
+		$this->accessResultsCommandsEnabled = $accessResultsCommandsEnabled;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isManageResultsCommandsEnabled()
+	{
+		return $this->manageResultsCommandsEnabled;
+	}
+	
+	/**
+	 * @param bool $manageResultsCommandsEnabled
+	 */
+	public function setManageResultsCommandsEnabled($manageResultsCommandsEnabled)
+	{
+		$this->manageResultsCommandsEnabled = $manageResultsCommandsEnabled;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isManageInviteesCommandsEnabled()
+	{
+		return $this->manageInviteesCommandsEnabled;
+	}
+	
+	/**
+	 * @param bool $manageInviteesCommandsEnabled
+	 */
+	public function setManageInviteesCommandsEnabled($manageInviteesCommandsEnabled)
+	{
+		$this->manageInviteesCommandsEnabled = $manageInviteesCommandsEnabled;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getRowKeyDataField()
+	{
+		return $this->rowKeyDataField;
+	}
+	
+	/**
+	 * @param string $rowKeyDataField
+	 */
+	public function setRowKeyDataField($rowKeyDataField)
+	{
+		$this->rowKeyDataField = $rowKeyDataField;
+	}
+	
+	/**
+	 * @return mixed
+	 */
+	public function getAnonymity()
+	{
+		return $this->anonymity;
+	}
+	
+	/**
+	 * @param mixed $anonymity
+	 */
+	public function setAnonymity($anonymity)
+	{
+		$this->anonymity = $anonymity;
+	}
+	
+	/**
+	 * @param array $data
 	 */
 	public function fillRow($data)
 	{
-		$finished = "<img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("icon_ok.svg") . "\" alt=\"".$this->lng->txt("ok")."\" />";
-		$started  = "<img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("icon_ok.svg") . "\" alt=\"".$this->lng->txt("ok")."\" />" ;
-		$passes = ($data['maxpass']) ? (($data['maxpass'] == 1) ? sprintf($this->lng->txt("pass_finished"), $data['maxpass']) : sprintf($this->lng->txt("passes_finished"), $data['maxpass'])) : '';
-		$this->tpl->setVariable("USER_ID", $data['usr_id']);
+		if( $this->isManageInviteesCommandsEnabled() )
+		{
+			$this->tpl->setCurrentBlock('client_ip_column');
+			$this->tpl->setVariable("CLIENT_IP", $data['clientip']);
+			$this->tpl->setVariable("ROW_KEY", $this->fetchRowKey($data));
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$this->tpl->setVariable("ROW_KEY", $this->fetchRowKey($data));
 		$this->tpl->setVariable("LOGIN", $data['login']);
 		$this->tpl->setVariable("FULLNAME", $data['name']);
-		/*
-		$this->tpl->setVariable("FIRSTNAME", $data['firstname']);
-		$this->tpl->setVariable("LASTNAME", $data['lastname']);
-		*/
-		$this->tpl->setVariable("STARTED", ($data['started']) ? $started : '');
-		$this->tpl->setVariable("PASSES", $passes);
+
+		$this->tpl->setVariable("STARTED", ($data['started']) ? $this->buildOkIcon() : '');
+		$this->tpl->setVariable("TRIES", $this->fetchTriesValue($data));
 		$unfinished_passes = $data['unfinished'] == 1 ? $this->lng->txt('yes') : $this->lng->txt('no');
 		$this->tpl->setVariable("UNFINISHED_PASSES", $unfinished_passes );
-		$this->tpl->setVariable("FINISHED", ($data['finished']) ? $finished : '');
+		
+		$this->tpl->setVariable("FINISHED", ($data['finished']) ? $this->buildOkIcon() : '');
 		$this->tpl->setVariable("ACCESS", ilDatePresentation::formatDate(new ilDateTime($data['access'],IL_CAL_DATETIME)));
 
-		if( $data['active_id'] > 0 && !$this->testQuestionSetDepenciesBroken )
+		if( $data['active_id'] > 0 )
 		{
+			$this->ctrl->setParameterByClass('iltestevaluationgui', 'active_id', $data['active_id']);
+			$resultsHref = $this->ctrl->getLinkTargetByClass('iltestevaluationgui', 'outParticipantsResultsOverview');
+			$finishHref = $this->ctrl->getLinkTargetByClass('iltestevaluationgui', 'finishTestPassForSingleUser');
+
 			if($data['unfinished'] == 1)
 			{
 				$adv = new ilAdvancedSelectionListGUI();
@@ -143,17 +178,60 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 			}
 		}
 		
-		if( $this->actionsColumnRequired )
+		if( $this->isActionsColumnRequired() )
 		{
 			$this->tpl->setCurrentBlock('actions_column');
 			$this->tpl->parseCurrentBlock();
 		}
 	}
 	
-	/**
-	* Init filter
-	*/
-	function initFilter()
+	public function initColumns()
+	{
+		$this->addColumn('','','1%');
+		$this->addColumn($this->lng->txt("name"),'name', '');
+		$this->addColumn($this->lng->txt("login"),'login', '');
+		
+		if( $this->isManageInviteesCommandsEnabled() )
+		{
+			$this->addColumn($this->lng->txt("clientip"),'clientip', '');
+		}
+			
+		$this->addColumn($this->lng->txt("tst_started"),'started', '');
+		$this->addColumn($this->lng->txt("tst_nr_of_tries_of_user"),'tries', '');
+
+		$this->addColumn($this->lng->txt("unfinished_passes"),'unfinished_passes', '');
+		$this->addColumn($this->lng->txt("tst_finished"),'finished', '');
+
+		$this->addColumn($this->lng->txt("last_access"),'access', '');
+		
+		if( $this->isActionsColumnRequired() )
+		{
+			$this->addColumn('','', '');
+		}		
+	}
+	
+	public function initCommands()
+	{
+		if( $this->isManageInviteesCommandsEnabled() )
+		{
+			$this->addMultiCommand('saveClientIP', $this->lng->txt('save'));
+			$this->addMultiCommand('removeParticipant', $this->lng->txt('remove_as_participant'));
+		}
+		
+		if( $this->isAccessResultsCommandsEnabled() && !$this->getAnonymity() )
+		{
+			$this->addMultiCommand('showPassOverview', $this->lng->txt('show_pass_overview'));
+			$this->addMultiCommand('showUserAnswers', $this->lng->txt('show_user_answers'));
+			$this->addMultiCommand('showDetailedResults', $this->lng->txt('show_detailed_results'));
+		}
+		
+		if( $this->isAccessResultsCommandsEnabled() )
+		{
+			$this->addMultiCommand('deleteSingleUserResults', $this->lng->txt('delete_user_data'));
+		}
+	}
+	
+	public function initFilter()
 	{
 		global $lng;
 
@@ -171,14 +249,69 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 		$ti->readFromSession();        // get currenty value from session (always after addFilterItem())
 		$this->filter["title"] = $ti->getValue();
 	}
-
+	
 	/**
+	 * @param string $field
 	 * @return bool
 	 */
 	public function numericOrdering($field)
 	{
 		return in_array($field, array(
-			'access', 'maxpass'
+			'access', 'tries'
 		));
+	}
+	
+	/**
+	 * @return string
+	 */
+	protected function buildOkIcon()
+	{
+		return "<img border=\"0\" align=\"middle\" src=\"" . ilUtil::getImagePath("icon_ok.svg") . "\" alt=\"" . $this->lng->txt("ok") . "\" />";
+	}
+	
+	/**
+	 * @return bool
+	 */
+	protected function isActionsColumnRequired()
+	{
+		if( $this->isAccessResultsCommandsEnabled() )
+		{
+			return true;
+		}
+		
+		if( $this->isManageResultsCommandsEnabled() )
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * @param array $data
+	 * @return string
+	 */
+	protected function fetchRowKey($data)
+	{
+		return $data[$this->getRowKeyDataField()];
+	}
+	
+	/**
+	 * @param array $data
+	 * @return string
+	 */
+	protected function fetchTriesValue($data)
+	{
+		if( $data['tries'] < 1 )
+		{
+			return '';
+		}
+		
+		if( $data['tries'] > 1 )
+		{
+			return sprintf($this->lng->txt("passes_finished"), $data['tries']);
+		}
+		
+		return sprintf($this->lng->txt("pass_finished"), $data['tries']);
 	}
 }

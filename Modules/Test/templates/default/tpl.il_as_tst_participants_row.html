@@ -1,11 +1,14 @@
 <tr class="{CSS_ROW}">
 	<td class="std" style="vertical-align: top">
-		<input type="checkbox" name="chbUser[]" value="{USER_ID}" id="cb_{USER_ID}" {VAL_CHECKED} />
+		<input type="checkbox" name="chbUser[]" value="{ROW_KEY}" id="cb_{ROW_KEY}" {VAL_CHECKED} />
 	</td>
-	<td class="std" style="vertical-align: top">{FULLNAME}</td>
-	<td class="std" style="vertical-align: top"><label for="cb_{USER_ID}">{LOGIN}</label></td>
+	<td class="std" style="vertical-align: top"><label for="cb_{ROW_KEY}">{FULLNAME}</label></td>
+	<td class="std" style="vertical-align: top"><label for="cb_{ROW_KEY}">{LOGIN}</label></td>
+	<!-- BEGIN client_ip_column -->
+	<td class="std" style="vertical-align: top"><input type="text" name="clientip_{ROW_KEY}" size="15" maxlength="15" value="{CLIENT_IP}" /></td>
+	<!-- END client_ip_column -->
 	<td class="std" style="vertical-align: top">{STARTED}</td>
-	<td class="std" style="vertical-align: top">{PASSES}</td>
+	<td class="std" style="vertical-align: top">{TRIES}</td>
 	<td class="std" style="vertical-align: top">{UNFINISHED_PASSES}</td>
 	<td class="std" style="vertical-align: top">{FINISHED}</td>
 	<td class="std" style="vertical-align: top">{ACCESS}</td>

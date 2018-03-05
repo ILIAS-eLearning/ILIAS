@@ -3438,7 +3438,7 @@ function getAnswerFeedbackPoints()
 		
 		require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
 		$participantData = new ilTestParticipantData($ilDB, $lng);
-		$participantData->setUserIds($userIds);
+		$participantData->setUserIdsFilter($userIds);
 		$participantData->load($this->getTestId());
 		
 		$this->removeTestActives($participantData->getActiveIds());
@@ -3472,7 +3472,7 @@ function getAnswerFeedbackPoints()
 		
 		require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
 		$participantData = new ilTestParticipantData($ilDB, $lng);
-		$participantData->setUserIds($userIds);
+		$participantData->setUserIdsFilter($userIds);
 		$participantData->load($this->getTestId());
 
 		$IN_userIds = $ilDB->in('usr_id', $participantData->getUserIds(), false, 'integer');

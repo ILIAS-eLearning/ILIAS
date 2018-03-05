@@ -192,7 +192,7 @@ class ilAssFileUploadUploadsExporter
 
 		require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
 		$participantData = new ilTestParticipantData($this->db, $this->lng);
-		$participantData->setActiveIds($activeIds);
+		$participantData->setActiveIdsFilter($activeIds);
 		$participantData->load($this->getTestId());
 		
 		return $participantData;

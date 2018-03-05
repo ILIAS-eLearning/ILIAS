@@ -1008,7 +1008,7 @@ assessment#:#tst_finish_notification#:#Notification
 assessment#:#tst_finish_notification_desc#:#Sends an e-mail to the test owner for every user that has completed the test.
 assessment#:#tst_finished#:#Finished
 assessment#:#unfinished_passes#:#Unfinished Passes
-assessment#:#finish_pass_for_user_confirmation#:#Are you sure you want to finish this test pass?
+assessment#:#finish_pass_for_user_confirmation#:#Are you sure you want to finish this test pass for the participant "%s"?
 assessment#:#finish_pass_for_all_users#:#Are you sure you want to finish the test passes for all Users?
 assessment#:#finish_all_user_passes#:#Finish all test Passes
 assessment#:#finish_unfinished_passes#:#Finish open Passes

@@ -3,6 +3,8 @@
 
 require_once './Modules/Test/classes/class.ilTestServiceGUI.php';
 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
+require_once 'Modules/Test/classes/class.ilTestPassFinishTasks.php';
+
 
 /**
  * Output class for assessment test evaluation
@@ -2137,20 +2139,60 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 	public function finishTestPassForSingleUser()
 	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$activeId = (int) $_GET["active_id"];
+		
+		require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
+		$accessFilter = ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->ref_id);
+		
+		require_once 'Modules/Test/classes/class.ilTestParticipantList.php';
+		$participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
+		$participantData->setActiveIdsFilter(array($activeId));
+		$participantData->setParticipantAccessFilter($accessFilter);
+		$participantData->load($this->object->getTestId());
+		
+		if( !in_array($activeId, $participantData->getActiveIds()) )
+		{
+			$this->redirectBackToParticipantsScreen();
+		}
+		
 		require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$cgui = new ilConfirmationGUI();
+		
+		$cgui->setHeaderText(sprintf( $this->lng->txt("finish_pass_for_user_confirmation"),
+			$participantData->getFormatedFullnameByActiveId($activeId)
+		));
+
+		$this->ctrl->setParameter($this, 'active_id', $activeId);
 		$cgui->setFormAction($this->ctrl->getFormAction($this, "participants"));
-		$cgui->setHeaderText($this->lng->txt("finish_pass_for_user_confirmation"));
+
 		$cgui->setCancel($this->lng->txt("cancel"), "redirectBackToParticipantsScreen");
 		$cgui->setConfirm($this->lng->txt("proceed"), "confirmFinishTestPassForUser");
+		
 		$this->tpl->setContent($cgui->getHTML());
 	}
 
 	public function confirmFinishTestPassForUser()
 	{
-		require_once 'Modules/Test/classes/class.ilTestPassFinishTasks.php';
-		$active_id = (int) $_GET["active_id"];
-		$this->finishTestPass($active_id, $this->object->getId());
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$activeId = (int) $_GET["active_id"];
+		
+		require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
+		$accessFilter = ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->ref_id);
+		
+		require_once 'Modules/Test/classes/class.ilTestParticipantList.php';
+		$participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
+		$participantData->setActiveIdsFilter(array($activeId));
+		$participantData->setParticipantAccessFilter($accessFilter);
+		$participantData->load($this->object->getTestId());
+		
+		if( in_array($activeId, $participantData->getActiveIds()) )
+		{
+			$this->finishTestPass($activeId, $this->object->getId());
+		}
+
 		$this->redirectBackToParticipantsScreen();
 	}
 
@@ -2167,15 +2209,24 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 	public function confirmFinishTestPassForAllUser()
 	{
-		require_once 'Modules/Test/classes/class.ilTestPassFinishTasks.php';
-		$participants = $this->object->getTestParticipants();
-		foreach($participants as $participant)
+		require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
+		$accessFilter = ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->ref_id);
+
+		require_once 'Modules/Test/classes/class.ilTestParticipantList.php';
+		$participantList = new ilTestParticipantList($this->object);
+		$participantList->initializeFromDbRows($this->object->getTestParticipants());
+		$participantList = $participantList->getAccessFilteredList($accessFilter);
+		
+		foreach($participantList as $participant)
 		{
-			if(array_key_exists('unfinished_passes', $participant) && $participant['unfinished_passes'] == 1)
+			if( !$participant->hasUnfinishedPasses() )
 			{
-				$this->finishTestPass($participant['active_id'], $this->object->getId());
+				continue;
 			}
+			
+			$this->finishTestPass($participant->getActiveId(), $this->object->getId());
 		}
+		
 		$this->redirectBackToParticipantsScreen();
 	}
 
