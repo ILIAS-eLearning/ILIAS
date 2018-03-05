@@ -198,7 +198,7 @@ class URI
 		if(preg_match($regexp, (string)$string) === 1) {
 			return $string;
 		} else {
-			throw new \InvalidArgumentException('ill-formated component '.$string.' '.$regexp);
+			throw new \InvalidArgumentException('ill-formated component '.$string);
 		}
 	}
 
