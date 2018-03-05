@@ -6,197 +6,201 @@ namespace ILIAS\Data;
 /**
  * The scope of this class is split ilias-conform URI's into components.
  * Please refer to RFC 3986 for details.
- * Notice: ilias-confor URI's will form a SUBSET of RFC 3986.
- * We limit the set of allowed sub-delimiters in authority.
- * We require a schema and an authority to be present.
- * If any part is located and it is invalid an exception will be thrown
- * instead of just omiting it.
+ * Notice, ilias-confor URI's will form a SUBSET of RFC 3986:
+ *  - Notice the restrictions on baseuri-subdelims.
+ *  - We require a schema and an authority to be present.
+ *  - If any part is located and it is invalid an exception will be thrown
+ *    instead of just omiting it.
  */
 class URI
 {
+	/**
+	 * @var	string
+	 */
 	protected $schema;
-	protected $authority;
+	/**
+	 * @var	string
+	 */
+	protected $host;
+	/**
+	 * @var	int|null
+	 */
+	protected $port;
+	/**
+	 * @var	string|null
+	 */
 	protected $path;
+	/**
+	 * @var	string|null
+	 */
 	protected $query;
+	/**
+	 * @var	string|null
+	 */
 	protected $fragment;
 
-
-	const ALPHA_SUB_REGEX = 'A-Za-z';
-	const DIGIT_SUB_REGEX = '0-9';
-	const ALPHA_DIGIT_SUB_REGEX = self::ALPHA_SUB_REGEX.self::DIGIT_SUB_REGEX;
-	const UNRESERVED_SUB_REGEX = self::ALPHA_DIGIT_SUB_REGEX.'\\-\\._~';
-	const PENCODED_SUB_REGEX = self::ALPHA_DIGIT_SUB_REGEX.'%';
-	const BASEURI_ALLOWED_SUBDELIMS_SUB_REGEX = '\\$,;';
-	const SUBDELIMS_SUB_REGEX = '\\$,;=!&\'"\\(\\)\\*\\+';
-
-	const BASEURI_PCHAR_SUB_REGEX =
-							self::PENCODED_SUB_REGEX
-							.self::BASEURI_ALLOWED_SUBDELIMS_SUB_REGEX
-							.self::UNRESERVED_SUB_REGEX
-							.':@';
-
-	const PCHAR_SUB_REGEX = self::PENCODED_SUB_REGEX
-							.self::SUBDELIMS_SUB_REGEX
-							.self::UNRESERVED_SUB_REGEX
-							.':@';
-
-	const SCHEMA_REGEX = '#^['.self::ALPHA_SUB_REGEX.']'
-							.'['.self::ALPHA_DIGIT_SUB_REGEX.'\\+\\-\\.]*(?=(://))#';
-
-	const AUTHORITY_REGEX = '#^['.self::UNRESERVED_SUB_REGEX
-								.self::PENCODED_SUB_REGEX
-								.self::BASEURI_ALLOWED_SUBDELIMS_SUB_REGEX
-								.']+(:['.self::DIGIT_SUB_REGEX.']+)?(?=(\\#|\\?|/|$))#';
-
-	const HOST_REGEX = '#^['.self::UNRESERVED_SUB_REGEX
-							.self::PENCODED_SUB_REGEX
-							.self::BASEURI_ALLOWED_SUBDELIMS_SUB_REGEX.']+(?=(:|\\#|\\?|/|$))#';
-
-	//starts with ':' and ends with $ within authority
-	const PORT_LOCATION_REGEX = '#(?<=:).+$#';
-	const PORT_REGEX = '#['.self::DIGIT_SUB_REGEX.']+$#';
-	
-	//starts with end authority and ends with any ?,# or $
-	const PATH_LOCATION_REGEX = '#^[^\\#^\\?]+(?=(\\#|\\?|$))#'; 
-	const PATH_REGEX = '#^['.self::BASEURI_PCHAR_SUB_REGEX.'/]+$#';
-	
-	//starts with first ? and ends with any # or $
-	const QUERY_LOCATION_REGEX = '#^\\?[^\\#]+(?=(\\#|$))#';
-	const QUERY_REGEX = '#^\\?['.self::PCHAR_SUB_REGEX.'/\\?]+$#';
-
-	//starts with first # and ends with $
-	const FRAGMENT_LOCATION_REGEX = '#\\#.+$#';
-	const FRAGMENT_REGEX = '#^\\#['.self::PCHAR_SUB_REGEX.'/\\?]+$#';
-
+	const PATH_DELIM = '/';
 
 	/**
-	 * Walk left-right and try to identify uri-building-parts.
+	 * Relevan character-groups as defined in RFC 3986 Appendix 1
 	 */
+	const ALPHA = '[A-Za-z]';
+	const DIGIT = '[0-9]';
+	const ALPHA_DIGIT = '[A-Za-z0-9]';
+	const HEXDIG = '[0-9A-F]';
+	const PCTENCODED = '%'.self::HEXDIG.self::HEXDIG;
+	/**
+	 * point|minus|plus to be used in schema.
+	 */
+	const PIMP = '[\\+\\-\\.]';
+
+	/**
+	 * valid subdelims according to RFC 3986 Appendix 1:
+	 * "!" "$" "&" "'" "(" ")" "*" "+" "," ";" "="
+	 */
+	const SUBDELIMS = '[\\$,;=!&\'\\(\\)\\*\\+]';
+	/**
+	 * subdelims without jsf**k characters +!() and =
+	 */
+	const BASEURI_SUBDELIMS = '[\\$,;&\'\\*]';
+
+	const UNRESERVED = self::ALPHA_DIGIT.'|[\\-\\._~]';
+
+	const PCHAR = self::UNRESERVED.'|'.self::SUBDELIMS.'|'.self::PCTENCODED.'|:|@';
+	const BASEURI_PCHAR = self::UNRESERVED.'|'.self::BASEURI_SUBDELIMS.'|'.self::PCTENCODED.'|:|@';
+
+	const SCHEMA = '#^'.self::ALPHA.'('.self::ALPHA_DIGIT.'|'.self::PIMP.')*$#';
+	const HOST = '#^('.self::UNRESERVED.'|'.self::PCTENCODED.'|'.self::BASEURI_SUBDELIMS.')+$#';
+	const PORT = '#^'.self::DIGIT.'+$#';
+	const PATH = '#^('.self::PCHAR.'|'.self::PATH_DELIM.')+$#';
+	const QUERY = '#^('.self::PCHAR.'|'.self::PATH_DELIM.'|\\?)+$#';
+	const FRAGMENT = '#^('.self::PCHAR.'|'.self::PATH_DELIM.'|\\?|\\#)+$#';
+
 	public function __construct($uri_string)
 	{
 		assert('is_string($uri_string)');
-		$uri_string = trim($uri_string);
-		list($uri_string, $this->schema) = $this->trimBySchema($uri_string);
-		list($uri_string, $this->authority, $this->host, $this->port) = $this->trimByAuthority($uri_string);
-		list($uri_string, $path) = $this->trimByPath($uri_string);
-		$this->path = $path;
-		list($uri_string, $query) = $this->trimByQuery($uri_string);
-		$this->query = $query;
-		list($uri_string, $fragment) = $this->trimByFragment($uri_string);
-		$this->fragment = $fragment;
+		$this->schema = $this->digestSchema(parse_url($uri_string,PHP_URL_SCHEME));
+		$this->host = $this->digestHost(parse_url($uri_string,PHP_URL_HOST));
+		$this->port = $this->digestPort(parse_url($uri_string,PHP_URL_PORT));
+		$this->path = $this->digestPath(parse_url($uri_string,PHP_URL_PATH));
+		$this->query = $this->digestQuery(parse_url($uri_string,PHP_URL_QUERY));
+		$this->fragment = $this->digestFragment(parse_url($uri_string,PHP_URL_FRAGMENT));
 	}
 
 	/**
-	 * Find schema in uri_string. Extract it and cut uri_string by the
-	 * schema-part.
+	 * Check schema formating. Return it in case of success.
 	 *
-	 * @return	[string,string]	leftover_uri,located schema
+	 * @param	string	$schema
+	 * @throws	\InvalidArgumentException
+	 * @return	string
 	 */
-	protected function trimBySchema($uri_string)
+	protected function digestSchema($schema)
 	{
-		$schema = null;
-		if(preg_match(self::SCHEMA_REGEX, $uri_string, $finding) === 1) {
-			$schema = $finding[0];
-			$uri_string = substr($uri_string, strlen($schema) + 3); // remove '://'
+		return $this->checkCorrectFormatOrThrow(self::SCHEMA, (string)$schema);
+	}
+
+	/**
+	 * Check host formating. Return it in case of success.
+	 *
+	 * @param	string	$host
+	 * @throws	\InvalidArgumentException
+	 * @return	string
+	 */
+	protected function digestHost($host)
+	{
+		return $this->checkCorrectFormatOrThrow(self::HOST, (string)$host);
+	}
+
+	/**
+	 * Check port formating. Return it in case of success.
+	 *
+ 	 * @param	int	$port
+	 * @throws	\InvalidArgumentException
+	 * @return	int|null
+	 */
+	protected function digestPort($port)
+	{
+		if($port === null)
+		{
+			return null;
+		}
+		assert('is_int($port)');
+		return (int)$this->checkCorrectFormatOrThrow(self::PORT, (string)$port);
+	}
+
+	/**
+	 * Check path formating. Return it in case of success.
+	 *
+	 * @param	string	$path
+	 * @throws	\InvalidArgumentException
+	 * @return	string|null
+	 */
+	protected function digestPath($path)
+	{
+		if($path === null)
+		{
+			return null;
+		}
+		assert('is_string($path)');
+		$path = trim($this->checkCorrectFormatOrThrow(self::PATH, $path),self::PATH_DELIM);
+		if($path !== '')
+		{
+			return $path;
+		}
+	}
+
+	/**
+	 * Check query formating. Return it in case of success.
+	 *
+	 * @param	string	$query
+	 * @throws	\InvalidArgumentException
+	 * @return	string|null
+	 */
+	protected function digestQuery($query)
+	{
+		if($query === null)
+		{
+			return null;
+		}
+		assert('is_string($query)');
+		return $this->checkCorrectFormatOrThrow(self::QUERY, $query);
+	}
+
+	/**
+	 * Check fragment formating. Return it in case of success.
+	 *
+	 * @param	string	$fragment
+	 * @throws	\InvalidArgumentException
+	 * @return	string|null
+	 */
+	protected function digestFragment($fragment)
+	{
+		if($fragment === null)
+		{
+			return null;
+		}
+		assert('is_string($fragment)');
+		return $this->checkCorrectFormatOrThrow(self::FRAGMENT, $fragment);
+	}
+
+
+	/**
+	 * Check wether a string fits a regexp. Return it, if so,
+	 * throw otherwise.
+	 *
+	 * @param	string	$regexp
+	 * @param	string	$string
+	 * @throws	\InvalidArgumentException
+	 * @return	string|null
+	 */
+	protected function checkCorrectFormatOrThrow($regexp,$string)
+	{
+		if(preg_match($regexp, (string)$string) === 1) {
+			return $string;
 		} else {
-			throw new \InvalidArgumentException('undefined schema');
+			throw new \InvalidArgumentException('ill-formated component '.$string.' '.$regexp);
 		}
-		return [$uri_string,$schema];
 	}
-
-	/**
-	 * Find authority and its subparts in uri_string.
-	 * Extract them and cut uri_string by the
-	 * authority-part.
-	 *
-	 * @return	[string,string,string,string]	leftover_uri,located schema,located host,located port
-	 */
-	protected function trimByAuthority($uri_string)
-	{
-		$authority = null;
-		if(preg_match(self::AUTHORITY_REGEX, $uri_string, $finding) === 1) {
-			$authority = $finding[0]; 
-			$uri_string = substr($uri_string, strlen($authority));
-		} else {
-			throw new \InvalidArgumentException('undefined authority');
-		}
-		$host = null;
-		if(preg_match(self::HOST_REGEX, $authority, $finding) === 1) {
-			$host = $finding[0];
-		}
-		$port = null;
-		if(preg_match(self::PORT_LOCATION_REGEX, $authority, $finding) === 1) {
-			$port = $finding[0];
-			if(!preg_match(self::PORT_REGEX, $port)) {
-				throw new \InvalidArgumentException('invalid port '.$port);
-			}
-		}
-		$uri_string = ltrim($uri_string,'/'); //remove any number of left-dangling '/' since they are irrelevant
-		return [$uri_string,$authority,$host,$port];
-	}
-
-	/**
-	 * Find path in uri_string. Extract it and cut uri_string by the
-	 * path-part.
-	 *
-	 * @return	[string,string]	leftover_uri,located path
-	 */
-	protected function trimByPath($uri_string)
-	{
-		$path = null;
-		if(preg_match(self::PATH_LOCATION_REGEX, $uri_string, $finding) === 1) {
-			$path = $finding[0]; 
-			if(!preg_match(self::PATH_REGEX, $path)) {
-				throw new \InvalidArgumentException('invalid path '.$path);
-			}
-			$uri_string = substr($uri_string, strlen($path));
-			$path = trim($path,'/');
-		}
-		ltrim($uri_string,'/');
-		return [$uri_string,$path];
-	}
-
-	/**
-	 * Find query in uri_string. Extract it and cut uri_string by the
-	 * query-part.
-	 *
-	 * @return	[string,string]	leftover_uri,located query
-	 */
-	protected function trimByQuery($uri_string)
-	{
-		$query = null;
-		if(preg_match(self::QUERY_LOCATION_REGEX, $uri_string, $finding) === 1) {
-			$query = $finding[0];
-			if(!preg_match(self::QUERY_REGEX, $query)) {
-				throw new \InvalidArgumentException('invalid query '.$query);
-			}
-			$uri_string = substr($uri_string, strlen($query));
-			$query = ltrim($query,'?');
-		}
-		return [$uri_string,$query];
-	}
-
-
-	/**
-	 * Find fragment in uri_string. Extract it and cut uri_string by the
-	 * fragment-part.
-	 *
-	 * @return	[string,string]	leftover_uri,located fragment
-	 */
-	protected function trimByFragment($uri_string)
-	{
-		$fragment = null;
-		if(preg_match(self::FRAGMENT_LOCATION_REGEX, $uri_string, $finding) === 1) {
-			$fragment = $finding[0];
-			if(!preg_match(self::FRAGMENT_REGEX, $fragment)) {
-				throw new \InvalidArgumentException('invalid fragment '.$fragment);
-			}
-			$uri_string = substr($uri_string, strlen($fragment));
-			$fragment = ltrim($fragment,'#');
-		}
-		return [$uri_string,$fragment];
-	}
-
 
 	/**
 	 * @return	string
@@ -211,11 +215,16 @@ class URI
 	 */
 	public function authority()
 	{
-		return $this->authority;
+		$port = $this->port();
+		if($port === null) {
+			return $this->host();
+		}
+		return $this->host().':'.$port;
+
 	}
 
 	/**
-	 * @return	string
+	 * @return	string|null
 	 */
 	public function port()
 	{
@@ -231,7 +240,7 @@ class URI
 	}
 
 	/**
-	 * @return	string
+	 * @return	string|null
 	 */
 	public function path()
 	{
@@ -239,7 +248,7 @@ class URI
 	}
 
 	/**
-	 * @return	string
+	 * @return	string|null
 	 */
 	public function query()
 	{
@@ -247,7 +256,7 @@ class URI
 	}
 
 	/**
-	 * @return	string
+	 * @return	string|null
 	 */
 	public function fragment()
 	{
@@ -262,11 +271,11 @@ class URI
 	 */
 	public function baseURI()
 	{
-		$return = $this->schema().'://'.$this->authority();
-		if($this->path()) {
-			$return .= '/'.$this->path();
+		$path = $this->path();
+		if($path === null) {
+			return $this->schema().'://'.$this->authority();
 		}
-		return $return;
+		return $this->schema().'://'.$this->authority().'/'.$path;
 	}
 
 }
