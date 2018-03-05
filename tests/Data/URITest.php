@@ -13,12 +13,12 @@ class URITest extends PHPUnit_Framework_TestCase {
 	const URI_NO_QUERY_1 = 'git://github.com:8080/someaccount/somerepo/somerepo.git/#fragment';
 	const URI_NO_QUERY_2 = 'git://github.com:8080/someaccount/somerepo/somerepo.git#fragment';
 
-	const URI_AUTHORITY_AND_QUERY_1 = 'git://github.com?query_p$,;:A!"\'*+()ar_1=val_1&quer?y_par_2=val_2';
-	const URI_AUTHORITY_AND_QUERY_2 = 'git://github.com/?qu/ery_p$,;:A!"\'*+()ar_1=val_1&quer?y_par_2=val_2';
+	const URI_AUTHORITY_AND_QUERY_1 = 'git://github.com?query_p$,;:A!\'*+()ar_1=val_1&quer?y_par_2=val_2';
+	const URI_AUTHORITY_AND_QUERY_2 = 'git://github.com/?qu/ery_p$,;:A!\'*+()ar_1=val_1&quer?y_par_2=val_2';
 
-	const URI_AUTHORITY_AND_FRAGMENT = 'git://github.com:8080/#fragment$,;:A!"\'*+()ar_1=val_1&';
+	const URI_AUTHORITY_AND_FRAGMENT = 'git://github.com:8080/#fragment$,;:A!\'*+()ar_1=val_1&';
 
-	const URI_AUTHORITY_PATH_FRAGMENT = 'git://git$,;hub.com:8080/someacc$,;ount/somerepo/somerepo.git#frag:A!"\'*+()arment';
+	const URI_AUTHORITY_PATH_FRAGMENT = 'git://git$,;hub.com:8080/someacc$,;ount/somerepo/somerepo.git#frag:A!\'*+()arment';
 
 	const URI_PATH = 'git://git$,;hub.com:8080/someacc$,;ount/somerepo/somerepo.git/';
 
@@ -35,6 +35,8 @@ class URITest extends PHPUnit_Framework_TestCase {
 
 
 	const URI_INVALID =  'https://host.de/ilias.php/"><script>alert(1)</script>?baseClass=ilObjChatroomGUI&cmd=getOSDNotifications&cmdMode=asynch&max_age=15192913';
+
+	const URI_FAKEPCENC = 'g+it://github.com:8080/someaccoun%t/somerepo/somerepo.git/?query_par_1=val_1&query_par_2=val_2#fragment';
 
 	public function test_init()
 	{
@@ -149,7 +151,7 @@ class URITest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($uri->host(),'github.com');
 		$this->assertNull($uri->port());
 		$this->assertNull($uri->path());
-		$this->assertEquals($uri->query(),'query_p$,;:A!"\'*+()ar_1=val_1&quer?y_par_2=val_2');
+		$this->assertEquals($uri->query(),'query_p$,;:A!\'*+()ar_1=val_1&quer?y_par_2=val_2');
 		$this->assertNull($uri->fragment());
 
 		$uri = new ILIAS\Data\URI(self::URI_AUTHORITY_AND_QUERY_2);
@@ -158,7 +160,7 @@ class URITest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($uri->host(),'github.com');
 		$this->assertNull($uri->port());
 		$this->assertNull($uri->path());
-		$this->assertEquals($uri->query(),'qu/ery_p$,;:A!"\'*+()ar_1=val_1&quer?y_par_2=val_2');
+		$this->assertEquals($uri->query(),'qu/ery_p$,;:A!\'*+()ar_1=val_1&quer?y_par_2=val_2');
 		$this->assertNull($uri->fragment());
 	}
 
@@ -174,7 +176,7 @@ class URITest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($uri->port(),'8080');
 		$this->assertNull($uri->path());
 		$this->assertNull($uri->query());
-		$this->assertEquals($uri->fragment(),'fragment$,;:A!"\'*+()ar_1=val_1&');
+		$this->assertEquals($uri->fragment(),'fragment$,;:A!\'*+()ar_1=val_1&');
 	}
 	/**
 	 * @depends test_init
@@ -188,7 +190,7 @@ class URITest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($uri->port(),'8080');
 		$this->assertEquals($uri->path(),'someacc$,;ount/somerepo/somerepo.git');
 		$this->assertNull($uri->query());
-		$this->assertEquals($uri->fragment(),'frag:A!"\'*+()arment');
+		$this->assertEquals($uri->fragment(),'frag:A!\'*+()arment');
 	}
 
 	/**
@@ -288,6 +290,19 @@ class URITest extends PHPUnit_Framework_TestCase {
 	{
 		try {
 			new ILIAS\Data\URI(self::URI_INVALID);
+			$this->assertFalse('did not throw');
+		} catch(\InvalidArgumentException $e) {
+
+		}
+	}
+
+	/**
+	 * @depends test_init
+	 */
+	public function test_fakepcenc()
+	{
+		try {
+			new ILIAS\Data\URI(self::URI_FAKEPCENC);
 			$this->assertFalse('did not throw');
 		} catch(\InvalidArgumentException $e) {
 
