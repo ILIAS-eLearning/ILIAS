@@ -94,6 +94,7 @@ class URI
 	 */
 	protected function trimBySchema($uri_string)
 	{
+		$schema = null;
 		if(preg_match(self::SCHEMA_REGEX, $uri_string, $finding) === 1) {
 			$schema = $finding[0];
 			$uri_string = substr($uri_string, strlen($schema) + 3); // remove '://'
@@ -112,15 +113,18 @@ class URI
 	 */
 	protected function trimByAuthority($uri_string)
 	{
+		$authority = null;
 		if(preg_match(self::AUTHORITY_REGEX, $uri_string, $finding) === 1) {
 			$authority = $finding[0]; 
 			$uri_string = substr($uri_string, strlen($authority));
 		} else {
 			throw new \InvalidArgumentException('undefined authority');
 		}
+		$host = null;
 		if(preg_match(self::HOST_REGEX, $authority, $finding) === 1) {
 			$host = $finding[0];
 		}
+		$port = null;
 		if(preg_match(self::PORT_LOCATION_REGEX, $authority, $finding) === 1) {
 			$port = $finding[0];
 			if(!preg_match(self::PORT_REGEX, $port)) {
@@ -139,6 +143,7 @@ class URI
 	 */
 	protected function trimByPath($uri_string)
 	{
+		$path = null;
 		if(preg_match(self::PATH_LOCATION_REGEX, $uri_string, $finding) === 1) {
 			$path = $finding[0]; 
 			if(!preg_match(self::PATH_REGEX, $path)) {
@@ -159,6 +164,7 @@ class URI
 	 */
 	protected function trimByQuery($uri_string)
 	{
+		$query = null;
 		if(preg_match(self::QUERY_LOCATION_REGEX, $uri_string, $finding) === 1) {
 			$query = $finding[0];
 			if(!preg_match(self::QUERY_REGEX, $query)) {
@@ -179,6 +185,7 @@ class URI
 	 */
 	protected function trimByFragment($uri_string)
 	{
+		$fragment = null;
 		if(preg_match(self::FRAGMENT_LOCATION_REGEX, $uri_string, $finding) === 1) {
 			$fragment = $finding[0];
 			if(!preg_match(self::FRAGMENT_REGEX, $fragment)) {
