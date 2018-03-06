@@ -69,12 +69,12 @@ interface RoundTrip extends Modal {
 	/**
 	 * Get the signal to replace the content of this modal.
 	 *
-	 * @return ReplaceContentSignal
+	 * @return \ILIAS\UI\Component\ReplaceSignal
 	 */
-	public function getReplaceContentSignal();
+	public function getReplaceSignal();
 
 	/**
-	 * Init the default signals plus extra signals like replaceContent
+	 * Init the default signals plus extra signals like Replace
 	 */
 	public function initSignals();
 }

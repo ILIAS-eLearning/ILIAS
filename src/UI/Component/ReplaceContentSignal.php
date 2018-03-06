@@ -1,20 +1,20 @@
 <?php
 
-namespace ILIAS\UI\Component\Modal;
+namespace ILIAS\UI\Component;
 
-use ILIAS\UI\Component\Signal;
 
 /**
- * This signal replaces the content of a Modal with some content returned by an ajax request.
+ * This signal replaces the content of a component by ajax
  *
+ * @author Stefan Wanzenried <sw@studer-raimann.ch>
  * @author Jesús Lópéz <lopez@leifos.com>
- * @package ILIAS\UI\Component\Modal
+ * @author Alex Killing <killing@leifos.com>
  */
 interface ReplaceContentSignal extends Signal
 {
 
 	/**
-	 * Get the same signal returning the Modal content from the given url.
+	 * Get the same signal returning an element from the given url
 	 *
 	 * @param string $url
 	 *

@@ -20,7 +20,7 @@ function show_popover_with_dynamic_changing_content()
 		// Note: The ID of the replace signal is sent explicitly as GET parameter. This is a proof of concept
 		// and may be subject to change, as the framework could send such parameters implicitly.
 		$signalId = $_GET['replaceSignal'];
-		$replaceSignal = new \ILIAS\UI\Implementation\Component\Popover\ReplaceContentSignal($signalId);
+		$replaceSignal = new \ILIAS\UI\Implementation\Component\ReplaceContentSignal($signalId);
 		$button1 = $factory->button()->standard('Go to page 1', '#')
 			->withOnClick($replaceSignal->withAsyncRenderUrl($url . '&page=1&replaceSignal=' . $signalId));
 		$button2 = $factory->button()->standard('Go to page 2', '#')
@@ -36,7 +36,7 @@ function show_popover_with_dynamic_changing_content()
 	if (isset($_GET['page'])) {
 		$page = (int) $_GET['page'];
 		$signalId = $_GET['replaceSignal'];
-		$replaceSignal = new \ILIAS\UI\Implementation\Component\Popover\ReplaceContentSignal($signalId);
+		$replaceSignal = new \ILIAS\UI\Implementation\Component\ReplaceContentSignal($signalId);
 		$button = $factory->button()->standard('Back to Overview', '#')
 			->withOnClick($replaceSignal->withAsyncRenderUrl($url . '&page=overview&replaceSignal=' . $signalId));
 		$intro = $factory->legacy("<p>You are viewing page {$page}</p>");

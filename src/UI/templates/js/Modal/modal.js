@@ -43,7 +43,7 @@ il.UI = il.UI || {};
          * @param showSignal ID of the show signal for the modalbox
          * @param signalData Object containing all data from the replace signal
          */
-        var replaceContentFromSignal = function (showSignal, signalData) {
+        var replaceFromSignal = function (showSignal, signalData) {
 
             // Find the ID of the triggerer where this modalbox belongs to
             var triggererId = (showSignal in initializedModalboxes) ? initializedModalboxes[showSignal] : 0;
@@ -70,7 +70,7 @@ il.UI = il.UI || {};
         return {
             showModal: showModal,
             closeModal: closeModal,
-            replaceContentFromSignal: replaceContentFromSignal
+            replaceFromSignal: replaceFromSignal
         };
 
     })($);

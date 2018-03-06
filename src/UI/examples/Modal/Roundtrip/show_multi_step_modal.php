@@ -11,7 +11,7 @@ function show_multi_step_modal()
 	if ($page == "")
 	{
 		$modal = $f->modal()->roundtrip("Modal Title", $f->legacy("b"));
-		$asyncUrl = $url . '&page=login&replaceSignal=' . $modal->getReplaceContentSignal()->getId();
+		$asyncUrl = $url . '&page=login&replaceSignal=' . $modal->getReplaceSignal()->getId();
 		$modal = $modal->withAsyncRenderUrl($asyncUrl);
 		$button = $f->button()->standard("Sign In", '#')
 			->withOnClick($modal->getShowSignal());
@@ -22,7 +22,7 @@ function show_multi_step_modal()
 	else
 	{
 		$signalId = $_GET['replaceSignal'];
-		$replaceSignal = new \ILIAS\UI\Implementation\Component\Modal\ReplaceContentSignal($signalId);
+		$replaceSignal = new \ILIAS\UI\Implementation\Component\ReplaceSignal($signalId);
 		$button1 = $f->button()->standard('Login', '#')
 			->withOnClick($replaceSignal->withAsyncRenderUrl($url . '&page=login&replaceSignal=' . $replaceSignal->getId()));
 		$button2 = $f->button()->standard('Registration', '#')

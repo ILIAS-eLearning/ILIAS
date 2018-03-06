@@ -1,20 +1,18 @@
 <?php
 
-namespace ILIAS\UI\Implementation\Component\Popover;
+namespace ILIAS\UI\Implementation\Component;
 
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\Signal;
 
 /**
- * Class ReplaceContentSignal
+ * Replace Signal
  *
- * @author  Stefan Wanzenried <sw@studer-raimann.ch>
- * @package ILIAS\UI\Implementation\Component\Popover
+ * @author  Jesús López <lopez@leifos.com>
  */
-class ReplaceContentSignal extends Signal implements \ILIAS\UI\Component\Popover\ReplaceContentSignal {
+class ReplaceSignal extends Signal implements \ILIAS\UI\Component\ReplaceSignal {
 
 	use ComponentHelper;
-
 
 	/**
 	 * @inheritdoc
