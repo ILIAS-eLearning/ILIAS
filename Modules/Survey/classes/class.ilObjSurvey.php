@@ -6712,11 +6712,26 @@ class ilObjSurvey extends ilObject
 		global $ilDB;
 		
 		$res = array();
-		
-		$set = $ilDB->query("SELECT obj_fi FROM svy_svy".
+
+		$log = ilLoggerFactory::getLogger("svy");
+
+
+		$q = "SELECT obj_fi FROM svy_svy".
 			" WHERE tutor_res_cron IS NULL".
 			" AND tutor_res_status = ".$ilDB->quote(1, "integer").
-			" AND enddate < ".$ilDB->quote(date("Ymd000000"), "text"));
+			" AND enddate < ".$ilDB->quote(date("Ymd000000"), "text");
+
+		if (DEVMODE)
+		{
+			$q = "SELECT obj_fi FROM svy_svy".
+				" WHERE tutor_res_status = ".$ilDB->quote(1, "integer").
+				" AND enddate < ".$ilDB->quote(date("Ymd000000"), "text");
+		}
+
+		$set = $ilDB->query($q);
+
+		$log->debug($q);
+
 		while($row = $ilDB->fetchAssoc($set))
 		{
 			$res[] = $row["obj_fi"];
@@ -6728,6 +6743,8 @@ class ilObjSurvey extends ilObject
 	public function sendTutorResults()
 	{
 		global $ilCtrl, $ilDB;
+
+		$log = ilLoggerFactory::getLogger("svy");
 		
 		include_once "./Services/Mail/classes/class.ilMail.php";
 		include_once "./Services/User/classes/class.ilObjUser.php";
@@ -6743,12 +6760,19 @@ class ilObjSurvey extends ilObject
 		
 		// yeah, I know...
 		$_GET["ref_id"] = $this->getRefId();
+		$ilCtrl->setTargetScript("ilias.php");
 		$ilCtrl->setParameterByClass("ilSurveyEvaluationGUI", "ref_id", $this->getRefId());
 			
 		include_once "./Modules/Survey/classes/class.ilSurveyEvaluationGUI.php";		
 		$gui = new ilSurveyEvaluationGUI($this);
 		$url = $ilCtrl->getLinkTargetByClass(array("ilObjSurveyGUI", "ilSurveyEvaluationGUI"), "evaluationdetails", "", false, false);
+
+
+		$log->debug("calling phantom for ref_id: ".$this->getRefId());
+
 		$pdf = $gui->callPhantom($url, "pdf", true, true);
+
+		$log->debug("phantom called : ".$pdf);
 		
 		if(!$pdf || 
 			!file_exists($pdf))
@@ -6776,12 +6800,13 @@ class ilObjSurvey extends ilObject
 			$message .= "\n".$ulng->txt('survey_notification_tutor_link').": ".$link;		
 			
 			$mail_obj = new ilMail(ANONYMOUS_USER_ID);
-			$mail_obj->appendInstallationSignature(true);			
+			$mail_obj->appendInstallationSignature(true);
+			$log->debug("send mail to user id: ".$user_id.",login: ".ilObjUser::_lookupLogin($user_id));
 			$mail_obj->sendMail(ilObjUser::_lookupLogin($user_id),
 				"", "", $subject, $message, array($att), array("system"));
 		}
 		
-		$ilDB->manipulate("UPDATE svy_vy".
+		$ilDB->manipulate("UPDATE svy_svy".
 			" SET tutor_res_cron = ".$ilDB->quote(1, "integer").
 			" WHERE survey_id = ".$ilDB->quote($this->getSurveyId(), "integer"));		 
 
