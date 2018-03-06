@@ -6759,13 +6759,20 @@ class ilObjSurvey extends ilObject
 		//$ilCtrl->initBaseClass("ilobjsurveygui");
 		
 		// yeah, I know...
+		$old_ref_id = $_GET["ref_id"];
+		$old_base_class = $_GET["baseClass"];
 		$_GET["ref_id"] = $this->getRefId();
 		$ilCtrl->setTargetScript("ilias.php");
+		$_GET["baseClass"] = "ilObjSurveyGUI";
+
 		$ilCtrl->setParameterByClass("ilSurveyEvaluationGUI", "ref_id", $this->getRefId());
 			
 		include_once "./Modules/Survey/classes/class.ilSurveyEvaluationGUI.php";		
 		$gui = new ilSurveyEvaluationGUI($this);
 		$url = $ilCtrl->getLinkTargetByClass(array("ilObjSurveyGUI", "ilSurveyEvaluationGUI"), "evaluationdetails", "", false, false);
+
+		$_GET["ref_id"] = $old_ref_id;
+		$_GET["baseClass"] = $old_base_class;
 
 
 		$log->debug("calling phantom for ref_id: ".$this->getRefId());
