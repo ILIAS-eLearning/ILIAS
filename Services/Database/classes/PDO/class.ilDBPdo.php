@@ -603,6 +603,8 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 		$fields = implode(",", $fields);
 		$query = "INSERT INTO " . $table_name . " (" . $fields . ") VALUES (" . $values . ")";
 
+		$query = $this->sanitizeMB4StringIfNotSupported($query);
+
 		return $this->pdo->exec($query);
 	}
 
@@ -640,18 +642,23 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 		$lobs = false;
 		$lob = array();
 		foreach ($columns as $k => $col) {
+			$field_value = $col[1];
 			$fields[] = $k;
 			$placeholders[] = "%s";
 			$placeholders_full[] = ":$k";
 			$types[] = $col[0];
 
-			// integer auto-typecast (this casts bool values to integer)
-			if ($col[0] == 'integer' && !is_null($col[1])) {
-				$col[1] = (int)$col[1];
+			if ($col[0] == "blob" || $col[0] == "clob" || $col[0] == 'text') {
+				$field_value = $this->sanitizeMB4StringIfNotSupported($field_value);
 			}
 
-			$values[] = $col[1];
-			$field_values[$k] = $col[1];
+			// integer auto-typecast (this casts bool values to integer)
+			if ($col[0] == 'integer' && !is_null($field_value)) {
+				$field_value = (int)$field_value;
+			}
+
+			$values[] = $field_value;
+			$field_values[$k] = $field_value;
 			if ($col[0] == "blob" || $col[0] == "clob") {
 				$lobs = true;
 				$lob[$k] = $k;
@@ -701,13 +708,19 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	}
 
 
+
 	/**
 	 * @param string $query
 	 * @return bool|int
 	 * @throws \ilDatabaseException
 	 */
 	public function manipulate($query) {
+		global $ilBench;
 		try {
+			$query = $this->sanitizeMB4StringIfNotSupported($query);
+			if ($ilBench instanceof ilBenchmark) {
+				$ilBench->startDbBench($query);
+			}
 			$r = $this->pdo->exec($query);
 		} catch (PDOException $e) {
 			throw new ilDatabaseException($e->getMessage() . ' QUERY: ' . $query);
@@ -1710,6 +1723,22 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 
 	/**
+	 * @inheritDoc
+	 */
+	public function migrateAllTablesToCollation($collation = ilDBConstants::MYSQL_COLLATION_UTF8MB4) {
+		return array();
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function supportsCollationMigration() {
+		return false;
+	}
+
+
+	/**
 	 * @return bool
 	 */
 	public function supportsEngineMigration() {
@@ -1996,10 +2025,34 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 	/**
 	 * @return string
+	 * @throws ilDatabaseException
 	 */
 	public function getDBVersion() {
 		$d = $this->fetchObject($this->query("SELECT VERSION() AS version"));
 
 		return ($d->version ? $d->version : 'Unknown');
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function sanitizeMB4StringIfNotSupported($query)
+	{
+		if (!$this->doesCollationSupportMB4Strings()) {
+			$query = preg_replace(
+				'/[\x{10000}-\x{10FFFF}]/u', ilDBConstants::MB4_REPLACEMENT, $query
+			);
+		}
+
+		return $query;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function doesCollationSupportMB4Strings()
+	{
+		return false;
 	}
 }
