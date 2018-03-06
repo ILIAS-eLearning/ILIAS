@@ -25,6 +25,11 @@ class ilTestTabsManager
 	protected $access;
 	
 	/**
+	 * @var ilTestAccess
+	 */
+	protected $testAccess;
+	
+	/**
 	 * @var ilLanguage
 	 */
 	protected $lng;
@@ -57,9 +62,10 @@ class ilTestTabsManager
 	/**
 	 * ilTestTabsManager constructor.
 	 */
-	public function __construct(ilObjTestCtrl $testCtrl)
+	public function __construct(ilObjTestCtrl $testCtrl, ilTestAccess $testAccess)
 	{
 		$this->testCtrl = $testCtrl;
+		$this->testAccess = $testAccess;
 
 		$this->tabs = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilTabs'] : $GLOBALS['ilTabs'];
 		$this->access = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilAccess'] : $GLOBALS['ilAccess'];
@@ -770,7 +776,7 @@ class ilTestTabsManager
 			""
 		);
 		
-		if( !$this->checkManageParticipantsAccess() )
+		if( !$this->testAccess->checkManageParticipantsAccess() )
 		{
 			return;
 		}

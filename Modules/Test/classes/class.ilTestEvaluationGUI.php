@@ -28,6 +28,11 @@ require_once 'Modules/Test/classes/class.ilTestPassFinishTasks.php';
 class ilTestEvaluationGUI extends ilTestServiceGUI
 {
 	/**
+	 * @var ilTestAccess
+	 */
+	protected $testAccess;
+	
+	/**
 	 * ilTestEvaluationGUI constructor
 	 *
 	 * The constructor takes possible arguments an creates an instance of the 
@@ -38,6 +43,22 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	public function __construct(ilObjTest $a_object)
 	{
 		parent::__construct($a_object);
+	}
+	
+	/**
+	 * @return ilTestAccess
+	 */
+	public function getTestAccess()
+	{
+		return $this->testAccess;
+	}
+	
+	/**
+	 * @param ilTestAccess $testAccess
+	 */
+	public function setTestAccess($testAccess)
+	{
+		$this->testAccess = $testAccess;
 	}
 
 	/**
@@ -847,23 +868,21 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	function outParticipantsPassDetails()
 	{
 		global $ilTabs, $ilAccess, $ilObjDataCache;
-
-		if (!$ilAccess->checkAccess('write', '', $this->ref_id))
+		
+		$active_id = (int)$_GET["active_id"];
+		
+		if( !$this->getTestAccess()->checkResultsAccessToActiveId($active_id) )
 		{
-			// allow only write access
-			ilUtil::sendInfo($this->lng->txt('no_permission'), true);
-			$this->ctrl->redirectByClass('ilObjTestGUI', 'infoScreen');
+			ilObjTestGUI::accessViolationRedirect();
 		}
 
 		$this->ctrl->saveParameter($this, "active_id");
-		$active_id = (int)$_GET["active_id"];
 		$testSession = $this->testSessionFactory->getSession($active_id);
 
 		// protect actives from other tests
 		if( $testSession->getTestId() != $this->object->getTestId() )
 		{
-			ilUtil::sendInfo($this->lng->txt('no_permission'), true);
-			$this->ctrl->redirectByClass('ilObjTestGUI', 'infoScreen');
+			ilObjTestGUI::accessViolationRedirect();
 		}
 		
 		$this->ctrl->saveParameter($this, "pass");
@@ -1021,23 +1040,21 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	*/
 	function outParticipantsResultsOverview()
 	{
-		global $ilTabs, $ilAccess, $ilObjDataCache;
+		global $ilTabs, $ilObjDataCache;
 		
-		if (!$ilAccess->checkAccess('write', '', $this->ref_id))
+		$active_id = (int)$_GET["active_id"];
+		
+		if( !$this->getTestAccess()->checkResultsAccessToActiveId($active_id) )
 		{
-			// allow only write access
-			ilUtil::sendInfo($this->lng->txt('no_permission'), true);
-			$this->ctrl->redirectByClass('ilObjTestGUI', 'infoScreen');
+			ilObjTestGUI::accessViolationRedirect();
 		}
 
-		$active_id = (int)$_GET["active_id"];
 		$testSession = $this->testSessionFactory->getSession($active_id);
 
 		// protect actives from other tests
 		if( $testSession->getTestId() != $this->object->getTestId() )
 		{
-			ilUtil::sendInfo($this->lng->txt('no_permission'), true);
-			$this->ctrl->redirectByClass('ilObjTestGUI', 'infoScreen');
+			ilObjTestGUI::accessViolationRedirect();
 		}
 
 		if ($this->object->getNrOfTries() == 1)

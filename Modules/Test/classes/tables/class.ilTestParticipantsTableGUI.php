@@ -3,6 +3,7 @@
 
 
 include_once('./Services/Table/classes/class.ilTable2GUI.php');
+require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
 
 /**
 *
@@ -131,59 +132,16 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 	}
 	
 	/**
-	 * @param array $data
+	 * @param string $field
+	 * @return bool
 	 */
-	public function fillRow($data)
+	public function numericOrdering($field)
 	{
-		if( $this->isManageInviteesCommandsEnabled() )
-		{
-			$this->tpl->setCurrentBlock('client_ip_column');
-			$this->tpl->setVariable("CLIENT_IP", $data['clientip']);
-			$this->tpl->setVariable("ROW_KEY", $this->fetchRowKey($data));
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		$this->tpl->setVariable("ROW_KEY", $this->fetchRowKey($data));
-		$this->tpl->setVariable("LOGIN", $data['login']);
-		$this->tpl->setVariable("FULLNAME", $data['name']);
-
-		$this->tpl->setVariable("STARTED", ($data['started']) ? $this->buildOkIcon() : '');
-		$this->tpl->setVariable("TRIES", $this->fetchTriesValue($data));
-		$unfinished_passes = $data['unfinished'] == 1 ? $this->lng->txt('yes') : $this->lng->txt('no');
-		$this->tpl->setVariable("UNFINISHED_PASSES", $unfinished_passes );
-		
-		$this->tpl->setVariable("FINISHED", ($data['finished']) ? $this->buildOkIcon() : '');
-		$this->tpl->setVariable("ACCESS", ilDatePresentation::formatDate(new ilDateTime($data['access'],IL_CAL_DATETIME)));
-
-		if( $data['active_id'] > 0 )
-		{
-			$this->ctrl->setParameterByClass('iltestevaluationgui', 'active_id', $data['active_id']);
-			$resultsHref = $this->ctrl->getLinkTargetByClass('iltestevaluationgui', 'outParticipantsResultsOverview');
-			$finishHref = $this->ctrl->getLinkTargetByClass('iltestevaluationgui', 'finishTestPassForSingleUser');
-
-			if($data['unfinished'] == 1)
-			{
-				$adv = new ilAdvancedSelectionListGUI();
-				$this->tpl->setCurrentBlock('action_results_list');
-				$adv->addItem($this->lng->txt('tst_show_results'), $data['result'], $data['result']);
-				$adv->addItem($this->lng->txt('finish_test'), $data['finish_link'], $data['finish_link']);
-				$this->tpl->setVariable('RESULTS_LIST', $adv->getHTML());
-			}
-			else
-			{
-				$this->tpl->setCurrentBlock('action_results');
-				$this->tpl->setVariable("RESULTS", $data['result']);
-				$this->tpl->setVariable("RESULTS_TEXT", ilUtil::prepareFormOutput($this->lng->txt('tst_show_results')));
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-		
-		if( $this->isActionsColumnRequired() )
-		{
-			$this->tpl->setCurrentBlock('actions_column');
-			$this->tpl->parseCurrentBlock();
-		}
+		return in_array($field, array(
+			'access', 'tries'
+		));
 	}
+	
 	
 	public function initColumns()
 	{
@@ -195,19 +153,19 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 		{
 			$this->addColumn($this->lng->txt("clientip"),'clientip', '');
 		}
-			
+		
 		$this->addColumn($this->lng->txt("tst_started"),'started', '');
 		$this->addColumn($this->lng->txt("tst_nr_of_tries_of_user"),'tries', '');
-
+		
 		$this->addColumn($this->lng->txt("unfinished_passes"),'unfinished_passes', '');
 		$this->addColumn($this->lng->txt("tst_finished"),'finished', '');
-
+		
 		$this->addColumn($this->lng->txt("last_access"),'access', '');
 		
 		if( $this->isActionsColumnRequired() )
 		{
 			$this->addColumn('','', '');
-		}		
+		}
 	}
 	
 	public function initCommands()
@@ -234,39 +192,86 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 	public function initFilter()
 	{
 		global $lng;
-
+		
 		// title/description
 		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
 		$ti = new ilSelectInputGUI($lng->txt("selection"), "selection");
 		$ti->setOptions(
 			array(
-				'all' => $lng->txt('all_participants'), 
-				'withSolutions' => $lng->txt('with_solutions_participants'), 
+				'all' => $lng->txt('all_participants'),
+				'withSolutions' => $lng->txt('with_solutions_participants'),
 				'withoutSolutions' => $lng->txt('without_solutions_participants')
 			)
-		);		
+		);
 		$this->addFilterItem($ti);
 		$ti->readFromSession();        // get currenty value from session (always after addFilterItem())
 		$this->filter["title"] = $ti->getValue();
 	}
 	
 	/**
-	 * @param string $field
-	 * @return bool
+	 * @param array $data
 	 */
-	public function numericOrdering($field)
+	public function fillRow($data)
 	{
-		return in_array($field, array(
-			'access', 'tries'
-		));
+		if( $this->isManageInviteesCommandsEnabled() )
+		{
+			$this->tpl->setCurrentBlock('client_ip_column');
+			$this->tpl->setVariable("CLIENT_IP", $data['clientip']);
+			$this->tpl->setVariable("ROW_KEY", $this->fetchRowKey($data));
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		if( $this->isActionsColumnRequired() )
+		{
+			$this->tpl->setCurrentBlock('actions_column');
+			
+			if( $data['active_id'] > 0 )
+			{
+				$this->tpl->setVariable('ACTIONS', $this->buildActionsMenu($data)->getHTML());
+			}
+			else
+			{
+				$this->tpl->touchBlock('actions_column');
+			}
+			
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$this->tpl->setVariable("ROW_KEY", $this->fetchRowKey($data));
+		$this->tpl->setVariable("LOGIN", $data['login']);
+		$this->tpl->setVariable("FULLNAME", $data['name']);
+
+		$this->tpl->setVariable("STARTED", ($data['started']) ? $this->buildOkIcon() : '');
+		$this->tpl->setVariable("TRIES", $this->fetchTriesValue($data));
+		$this->tpl->setVariable("UNFINISHED_PASSES", $this->buildUnfinishedPassesStatusString($data) );
+		
+		$this->tpl->setVariable("FINISHED", ($data['finished']) ? $this->buildOkIcon() : '');
+		$this->tpl->setVariable("ACCESS", $this->buildFormattedAccessDate($data));
 	}
 	
 	/**
-	 * @return string
+	 * @param array $data
+	 * @return ilAdvancedSelectionListGUI
 	 */
-	protected function buildOkIcon()
+	protected function buildActionsMenu($data)
 	{
-		return "<img border=\"0\" align=\"middle\" src=\"" . ilUtil::getImagePath("icon_ok.svg") . "\" alt=\"" . $this->lng->txt("ok") . "\" />";
+		$asl = new ilAdvancedSelectionListGUI();
+		
+		$this->ctrl->setParameterByClass('iltestevaluationgui', 'active_id', $data['active_id']);
+		
+		if( $this->isManageResultsCommandsEnabled() && $data['unfinished'] )
+		{
+			$finishHref = $this->ctrl->getLinkTargetByClass('ilTestEvaluationGUI', 'finishTestPassForSingleUser');
+			$asl->addItem($this->lng->txt('finish_test'), $finishHref, $finishHref);
+		}
+		
+		if( $this->isAccessResultsCommandsEnabled() )
+		{
+			$resultsHref = $this->ctrl->getLinkTargetByClass('ilTestEvaluationGUI', 'outParticipantsResultsOverview');
+			$asl->addItem($this->lng->txt('tst_show_results'), $resultsHref, $resultsHref);
+		}
+		
+		return $asl;
 	}
 	
 	/**
@@ -313,5 +318,36 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 		}
 		
 		return sprintf($this->lng->txt("pass_finished"), $data['tries']);
+	}
+	
+	/**
+	 * @param $data
+	 * @return string
+	 */
+	protected function buildUnfinishedPassesStatusString($data)
+	{
+		if( $data['unfinished'] )
+		{
+			return $this->lng->txt('yes');
+		}
+		
+		return $this->lng->txt('no');
+	}
+	
+	/**
+	 * @return string
+	 */
+	protected function buildOkIcon()
+	{
+		return "<img border=\"0\" align=\"middle\" src=\"" . ilUtil::getImagePath("icon_ok.svg") . "\" alt=\"" . $this->lng->txt("ok") . "\" />";
+	}
+	
+	/**
+	 * @param $data
+	 * @return string
+	 */
+	protected function buildFormattedAccessDate($data)
+	{
+		return ilDatePresentation::formatDate(new ilDateTime($data['access'],IL_CAL_DATETIME));
 	}
 }
