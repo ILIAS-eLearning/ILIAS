@@ -148,7 +148,7 @@ class ilTestAccess
 	 * @param integer $activeId
 	 * @return bool
 	 */
-	public function checkResultsAccessToActiveId($activeId)
+	public function checkResultsAccessForActiveId($activeId)
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
@@ -157,6 +157,26 @@ class ilTestAccess
 
 		$participantData->setParticipantAccessFilter(
 			ilTestParticipantAccessFilter::getAccessResultsUserFilter($this->getRefId())
+		);
+		
+		$participantData->load($this->getTestId());
+		
+		return in_array($activeId, $participantData->getActiveIds());
+	}
+	
+	/**
+	 * @param integer $activeId
+	 * @return bool
+	 */
+	public function checkScoreParticipantsAccessForActiveId($activeId)
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
+		$participantData->setActiveIdsFilter( array($activeId) );
+
+		$participantData->setParticipantAccessFilter(
+			ilTestParticipantAccessFilter::getScoreParticipantsUserFilter($this->getRefId())
 		);
 		
 		$participantData->load($this->getTestId());

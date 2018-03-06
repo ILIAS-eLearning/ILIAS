@@ -24,6 +24,11 @@ class ilTestScoringGUI extends ilTestServiceGUI
 	//const PART_FILTER_MANSCORING_PENDING	= 6;
 	
 	/**
+	 * @var ilTestAccess
+	 */
+	protected $testAccess;
+	
+	/**
 	* ilTestScoringGUI constructor
 	*
 	* The constructor takes the test object reference as parameter 
@@ -34,6 +39,22 @@ class ilTestScoringGUI extends ilTestServiceGUI
 	public function __construct(ilObjTest $a_object)
 	{
 		parent::__construct($a_object);
+	}
+	
+	/**
+	 * @return ilTestAccess
+	 */
+	public function getTestAccess()
+	{
+		return $this->testAccess;
+	}
+	
+	/**
+	 * @param ilTestAccess $testAccess
+	 */
+	public function setTestAccess($testAccess)
+	{
+		$this->testAccess = $testAccess;
 	}
 
 	/**
@@ -97,13 +118,9 @@ class ilTestScoringGUI extends ilTestServiceGUI
 	*/
 	function executeCommand()
 	{
-		global $ilAccess;
-		
-		if( !$ilAccess->checkAccess("write", "", $this->ref_id) )
+		if( !$this->getTestAccess()->checkScoreParticipantsAccess() )
 		{
-			// allow only write access
-			ilUtil::sendFailure($this->lng->txt("cannot_edit_test"), true);
-			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+			ilObjTestGUI::accessViolationRedirect();
 		}
 
 		require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
@@ -114,24 +131,33 @@ class ilTestScoringGUI extends ilTestServiceGUI
 			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
 		}
 		
-		$cmd = $this->ctrl->getCmd();
-		$next_class = $this->ctrl->getNextClass($this);
-
-		if (strlen($cmd) == 0)
-		{
-			$this->ctrl->redirect($this, "manscoring");
-		}
+		$this->buildSubTabs($this->getActiveSubTabId());
 		
-		$cmd = $this->getCommand($cmd);
-		$this->buildSubTabs('man_scoring');
-		switch($next_class)
+		$nextClass = $this->ctrl->getNextClass($this);
+		$command = $this->ctrl->getCmd($this->getDefaultCommand());
+		
+		switch( $nextClass )
 		{
 			default:
-				$ret =& $this->$cmd();
+				$this->$command();
 				break;
 		}
-		
-		return $ret;
+	}
+	
+	/**
+	 * @return string
+	 */
+	protected function getDefaultCommand()
+	{
+		return 'manscoring';
+	}
+	
+	/**
+	 * @return string
+	 */
+	protected function getActiveSubTabId()
+	{
+		return 'man_scoring';
 	}
 	
 	private function showManScoringParticipantsTable()
@@ -168,6 +194,12 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		global $tpl, $lng;
 		
 		$activeId = $this->fetchActiveIdParameter();
+		
+		if( !$this->getTestAccess()->checkScoreParticipantsAccessForActiveId($activeId) )
+		{
+			ilObjTestGUI::accessViolationRedirect();
+		}
+		
 		$pass = $this->fetchPassParameter($activeId);
 
 		$contentHTML = '';
@@ -207,9 +239,15 @@ class ilTestScoringGUI extends ilTestServiceGUI
 	 */
 	private function saveManScoringParticipantScreen($redirect = true)
 	{
-		global $tpl, $ilCtrl, $lng;
+		global $ilCtrl, $lng;
 			
 		$activeId = $this->fetchActiveIdParameter();
+		
+		if( !$this->getTestAccess()->checkScoreParticipantsAccessForActiveId($activeId) )
+		{
+			ilObjTestGUI::accessViolationRedirect();
+		}
+		
 		$pass = $this->fetchPassParameter($activeId);
 		
 		$questionGuiList = $this->service->getManScoringQuestionGuiList($activeId, $pass);
@@ -456,7 +494,19 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		if($withData)
 		{
 			$participantStatusFilterValue = $table->getFilterItemByPostVar('participant_status')->getValue();
-			$table->setData($this->object->getTestParticipantsForManualScoring($participantStatusFilterValue));
+			
+			require_once 'Modules/Test/classes/class.ilTestParticipantList.php';
+			$participantList = new ilTestParticipantList($this->object);
+			
+			$participantList->initializeFromDbRows(
+				$this->object->getTestParticipantsForManualScoring($participantStatusFilterValue)
+			);
+			
+			$participantList = $participantList->getAccessFilteredList(
+				ilTestParticipantAccessFilter::getScoreParticipantsUserFilter($this->ref_id)
+			);
+			
+			$table->setData($participantList->getTableRows());
 		}
 
 		return $table;

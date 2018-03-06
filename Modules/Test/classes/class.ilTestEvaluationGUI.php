@@ -871,7 +871,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		
 		$active_id = (int)$_GET["active_id"];
 		
-		if( !$this->getTestAccess()->checkResultsAccessToActiveId($active_id) )
+		if( !$this->getTestAccess()->checkResultsAccessForActiveId($active_id) )
 		{
 			ilObjTestGUI::accessViolationRedirect();
 		}
@@ -1044,7 +1044,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		
 		$active_id = (int)$_GET["active_id"];
 		
-		if( !$this->getTestAccess()->checkResultsAccessToActiveId($active_id) )
+		if( !$this->getTestAccess()->checkResultsAccessForActiveId($active_id) )
 		{
 			ilObjTestGUI::accessViolationRedirect();
 		}

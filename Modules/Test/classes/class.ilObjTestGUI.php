@@ -294,6 +294,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->addHeaderAction();
 				require_once "./Modules/Test/classes/class.ilTestScoringGUI.php";
 				$output_gui = new ilTestScoringGUI($this->object);
+				$output_gui->setTestAccess($this->getTestAccess());
 				$this->ctrl->forwardCommand($output_gui);
 				break;
 
@@ -315,6 +316,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->addHeaderAction();
 				include_once 'Modules/Test/classes/class.ilTestScoringByQuestionsGUI.php';
 				$output_gui = new ilTestScoringByQuestionsGUI($this->object);
+				$output_gui->setTestAccess($this->getTestAccess());
 				$this->ctrl->forwardCommand($output_gui);
 				break;
 			
@@ -3842,37 +3844,6 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		
 		$tabsManager->perform();
-	}
-	
-	/**
-	 * @return bool
-	 */
-	protected function checkParticipantTabAccess()
-	{
-		if( $this->testAccess->checkManageParticipantsAccess() )
-		{
-			return true;
-		}
-		
-		if( $this->testAccess->checkParticipantsResultsAccess() )
-		{
-			return true;
-		}
-		
-		return false;
-	}
-	
-	/**
-	 * @return bool
-	 */
-	protected function checkManualScoringTabAccess()
-	{
-		if( $this->testAccess->checkScoreParticipantsAccess() )
-		{
-			return true;
-		}
-		
-		return false;
 	}
 	
 	public static function accessViolationRedirect()
