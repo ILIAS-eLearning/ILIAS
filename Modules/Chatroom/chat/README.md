@@ -24,21 +24,13 @@
 <a name="requirements"></a>
 # Requirements
 
-## NodeJs
+## Node.js
 
-It is required that NodeJs is installed on the host machine.
-The chat server is tested and runs with the following versions of NodeJs:
+It is required that Node.js is installed on the host machine.
+The chat server is tested and runs with the following versions of Node.js:
 
-  * v0.10.24
-  * v0.12.04
-  * v0.12.10
-  * 4.5.0 (LTS)
-  * 6.5.0
-  * 6.11.2
-
-## HTTPS
-
-For https using highly secured TLS it is required to have NodeJS >= 0.12.04 installed on the host machine.
+  * 8.9.4 (LTS)
+  * 9.7.1
 
 You can get the latest version for your distribution from following source:
 https://github.com/nodesource/distributions#debinstall
@@ -70,7 +62,7 @@ The basic configuration is done in the ILIAS Chatroom configuration in the ILIAS
 Administration. After saving the `Server settings` and `Client Settings` two
 config files (`server.cfg` and `client.cfg`) are created in your ILIAS
 external data directory in the subfolder chatroom. These files must be addressed
-when starting the NodeJs chat server.
+when starting the Node.js chat server.
 
 If you want to handle multiple ILIAS clients with one chat server multiple `client.cfg` can be passed as start parameters.
 
