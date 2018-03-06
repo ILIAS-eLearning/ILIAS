@@ -80,14 +80,19 @@ class ilSurveyCronNotification extends ilCronJob
 	
 	public function run()
 	{
-		$tree = $this->tree;
-		
+		global $tree;
+
+		$log = ilLoggerFactory::getLogger("svy");
+		$log->debug("start");
+
 		include_once "Modules/Survey/classes/class.ilObjSurvey.php";
 		
 		$status = ilCronJobResult::STATUS_NO_ACTION;
 		$message = array();
 				
 		$tutor_res = ilObjSurvey::getSurveysWithTutorResults();
+
+		$log->debug(var_export($tutor_res, true));
 		
 		$root = $tree->getNodeData(ROOT_FOLDER_ID);
 		foreach($tree->getSubTree($root, false, "svy") as $svy_ref_id)
@@ -119,7 +124,7 @@ class ilSurveyCronNotification extends ilCronJob
 			$result->setMessage("Ref-Ids: ".implode(", ", $message));
 			$result->setCode("#".sizeof($message));
 		}
-		
+		$log->debug("end");
 		return $result;
 	}	
 }

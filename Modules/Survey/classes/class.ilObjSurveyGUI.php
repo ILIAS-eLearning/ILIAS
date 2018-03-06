@@ -283,6 +283,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->getCreationMode() != true)
 		{
 			$this->tpl->printToStdout();
+
+			//cherry pick conflict with d97cf1c77b
+			//$this->tpl->show();
+			//$this->log->debug("after tpl show");
 		}
 	}
 				
