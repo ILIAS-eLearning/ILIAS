@@ -118,7 +118,7 @@ class ilAppEventHandler
 
 		$this->logger->debug(sprintf(
 			"Event Data: %s",
-			var_export($a_parameter, 1)
+			print_r($a_parameter, 1)
 		));
 		
 		$this->logger->debug("Started event propagation for event listeners ...");
