@@ -2782,19 +2782,25 @@ class ilObjTestGUI extends ilObjectGUI
 		include_once "./Modules/Test/classes/tables/class.ilTimingOverviewTableGUI.php";
 		$table_gui = new ilTimingOverviewTableGUI($this, 'timingOverview');
 		
-		$participants =& $this->object->getTestParticipants();#
+		require_once 'Modules/Test/classes/class.ilTestParticipantList.php';
+		$participantList = new ilTestParticipantList($this->object);
+		$participantList->initializeFromDbRows($this->object->getTestParticipants());
+		
+		$participantList = $participantList->getAccessFilteredList(
+			ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->ref_id)
+		);
+		
 		$times = $this->object->getStartingTimeOfParticipants();
 		$addons = $this->object->getTimeExtensionsOfParticipants();
 
 		$tbl_data = array();
-		foreach ($participants as $participant)
+		foreach($participantList as $participant)
 		{
 			$tblRow = array();
 				
-			$started = "";
-			if ($times[$participant['active_id']])
+			if ($times[$participant->getActiveId()])
 			{
-				$started = $this->lng->txt('tst_started').': '.ilDatePresentation::formatDate(new ilDateTime($times[$participant['active_id']], IL_CAL_DATETIME));
+				$started = $this->lng->txt('tst_started').': '.ilDatePresentation::formatDate(new ilDateTime($times[$participant->getActiveId()], IL_CAL_DATETIME));
 				$tblRow['started'] = $started;
 			}
 			else
@@ -2802,12 +2808,12 @@ class ilObjTestGUI extends ilObjectGUI
 				$tblRow['started'] = '';
 			}
 			
-			if ($addons[$participant['active_id']] > 0) 
+			if ($addons[$participant->getActiveId()] > 0) 
 			{
-				$tblRow['extratime'] = $addons[$participant['active_id']];
+				$tblRow['extratime'] = $addons[$participant->getActiveId()];
 			}
 
-			$tblRow['login'] = $participant['login'];
+			$tblRow['login'] = $participant->getLogin();
 
 			if ($this->object->getAnonymity())
 			{
@@ -2815,7 +2821,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 			else
 			{
-				$tblRow['name'] = $participant['lastname'] . ', ' . $participant['firstname'];
+				$tblRow['name'] = $participant->getLastname() . ', ' . $participant->getFirstname();
 			}
 
 			$tbl_data[] = $tblRow;
@@ -2824,49 +2830,9 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		$this->tpl->setContent($table_gui->getHTML());
 	}
-	
-	public function timingObject()
+
+	private function buildTimingForm()
 	{
-		if( !$this->getTestAccess()->checkManageParticipantsAccess() )
-		{
-			self::accessViolationRedirect();
-		}
-
-		$this->getParticipantsSubTabs();
-
-		global $ilAccess;
-		
-		if (!$ilAccess->checkAccess("write", "", $this->ref_id))
-		{
-			// allow only write access
-			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
-			$this->ctrl->redirect($this, "infoScreen");
-		}
-
-		if ($this->object->getProcessingTimeInSeconds() > 0 && $this->object->getNrOfTries() == 1)
-		{
-			$form = $this->formTimingObject();
-			if (count($_POST) && $form->checkInput())
-			{
-				$res = $this->object->addExtraTime($form->getInput('participant'), $form->getInput('extratime'));
-				ilUtil::sendSuccess(sprintf($this->lng->txt('tst_extratime_added'), $form->getInput('extratime')), true);
-				$this->ctrl->redirect($this, 'timingOverview');
-			}
-			else
-			{
-				return $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
-			}
-		}
-		else
-		{
-			ilUtil::sendInfo($this->lng->txt("tst_extratime_notavailable"));
-		}
-	}
-
-	private function formTimingObject()
-	{
-		global $ilAccess;
-
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
@@ -2875,15 +2841,25 @@ class ilObjTestGUI extends ilObjectGUI
 		$form->setTitle($this->lng->txt("tst_change_workingtime"));
 
 		// test users
-		$participantslist = new ilSelectInputGUI($this->lng->txt('participants'), "participant");
-		$participants =& $this->object->getTestParticipants();
+		require_once 'Modules/Test/classes/class.ilTestParticipantList.php';
+		$participantList = new ilTestParticipantList($this->object);
+		$participantList->initializeFromDbRows($this->object->getTestParticipants());
+		
+		$participantList = $participantList->getAccessFilteredList(
+			ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->ref_id)
+		);
+		
 		$times = $this->object->getStartingTimeOfParticipants();
 		$addons = $this->object->getTimeExtensionsOfParticipants();
+		
+		$participantslist = new ilSelectInputGUI($this->lng->txt('participants'), "participant");
+
 		$options = array(
 			'' => $this->lng->txt('please_select'),
 			'0' => $this->lng->txt('all_participants')
 		);
-		foreach ($participants as $participant)
+		
+		foreach($participantList as $participant)
 		{
 			$started = "";
 
@@ -2893,17 +2869,22 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 			else
 			{
-				$name = $participant['lastname'] . ', ' . $participant['firstname']; 
+				$name = $participant->getLastname() . ', ' . $participant->getFirstname(); 
 			}
 			
-			
-			if ($times[$participant['active_id']])
+			if ($times[$participant->getActiveId()])
 			{
-				$started = ", ".$this->lng->txt('tst_started').': '.ilDatePresentation::formatDate(new ilDateTime($times[$participant['active_id']], IL_CAL_DATETIME));
+				$started = ", ".$this->lng->txt('tst_started').': '.ilDatePresentation::formatDate(new ilDateTime($times[$participant->getActiveId()], IL_CAL_DATETIME));
 			}
-			if ($addons[$participant['active_id']] > 0) $started .= ", " . $this->lng->txt('extratime') . ': ' . $addons[$participant['active_id']] . ' ' . $this->lng->txt('minutes');
-			$options[$participant['active_id']] = $participant['login'] . ' (' .$name. ')'.$started;
+			
+			if ($addons[$participant->getActiveId()] > 0)
+			{
+				$started .= ", " . $this->lng->txt('extratime') . ': ' . $addons[$participant->getActiveId()] . ' ' . $this->lng->txt('minutes');
+			}
+			
+			$options[$participant->getActiveId()] = $participant->getLogin() . ' (' .$name. ')'.$started;
 		}
+		
 		$participantslist->setRequired(true);
 		$participantslist->setOptions($options);
 		$form->addItem($participantslist);
@@ -2920,16 +2901,48 @@ class ilObjTestGUI extends ilObjectGUI
 
 		if (is_array($_POST) && strlen($_POST['cmd']['timing'])) $form->setValuesByArray($_POST);
 
-		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form->addCommandButton("timing", $this->lng->txt("save"));
+		$form->addCommandButton("timing", $this->lng->txt("save"));
 		$form->addCommandButton('timingOverview', $this->lng->txt("cancel"));
 		return $form;
 	}
 	
 	public function showTimingFormObject()
 	{
-		$form = $this->formTimingObject();
+		if( !$this->getTestAccess()->checkManageParticipantsAccess() )
+		{
+			self::accessViolationRedirect();
+		}
+		
+		$this->getParticipantsSubTabs();
+		
+		$form = $this->buildTimingForm();
 		$this->tpl->setContent($form->getHTML());
-	}	
+	}
+	
+	public function timingObject()
+	{
+		if( !$this->getTestAccess()->checkManageParticipantsAccess() )
+		{
+			self::accessViolationRedirect();
+		}
+		
+		$this->getParticipantsSubTabs();
+		
+		if ($this->object->getProcessingTimeInSeconds() > 0 && $this->object->getNrOfTries() == 1)
+		{
+			$form = $this->buildTimingForm();
+			if( $form->checkInput() )
+			{
+				$this->object->addExtraTime($form->getInput('participant'), $form->getInput('extratime'));
+				ilUtil::sendSuccess(sprintf($this->lng->txt('tst_extratime_added'), $form->getInput('extratime')), true);
+				$this->ctrl->redirect($this, 'timingOverview');
+			}
+			else
+			{
+				return $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+			}
+		}
+	}
 	
 	function applyFilterCriteria($in_rows)
 	{

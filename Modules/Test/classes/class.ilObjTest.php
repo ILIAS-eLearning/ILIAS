@@ -11790,44 +11790,43 @@ function getAnswerFeedbackPoints()
 
 	public function addExtraTime($active_id, $minutes)
 	{
-		global $ilDB;
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
 
-		$participants = array();
-		if ($active_id == 0)
+		require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
+		$participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
+		
+		$participantData->setParticipantAccessFilter(
+			ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->getRefId())
+		);
+		
+		if($active_id)
 		{
-			$result = $ilDB->queryF("SELECT active_id FROM tst_active WHERE test_fi = %s",
-				array('integer'),
-				array($this->getTestId())
-			);
-			while ($row = $ilDB->fetchAssoc($result))
-			{
-				array_push($participants, $row['active_id']);
-			}
+			$participantData->setActiveIdsFilter( array($active_id) );
 		}
-		else
+		
+		$participantData->load($this->getTestId());
+		
+		foreach($participantData->getActiveIds() as $active_id)
 		{
-			array_push($participants, $active_id);
-		}
-		foreach ($participants as $active_id)
-		{
-			$result = $ilDB->queryF("SELECT active_fi FROM tst_addtime WHERE active_fi = %s",
-				array('integer'),
-				array($active_id)
+			$result = $DIC->database()->queryF(
+				"SELECT active_fi FROM tst_addtime WHERE active_fi = %s",
+				array('integer'), array($active_id)
 			);
+			
 			if ($result->numRows() > 0)
 			{
-				$ilDB->manipulateF("DELETE FROM tst_addtime WHERE active_fi = %s",
+				$DIC->database()->manipulateF("DELETE FROM tst_addtime WHERE active_fi = %s",
 					array('integer'),
 					array($active_id)
 				);
 			}
-
-			$ilDB->manipulateF("UPDATE tst_active SET tries = %s, submitted = %s, submittimestamp = %s WHERE active_id = %s",
+			
+			$DIC->database()->manipulateF("UPDATE tst_active SET tries = %s, submitted = %s, submittimestamp = %s WHERE active_id = %s",
 				array('integer','integer','timestamp','integer'),
 				array(0, 0, NULL, $active_id)
 			);
-
-			$ilDB->manipulateF("INSERT INTO tst_addtime (active_fi, additionaltime, tstamp) VALUES (%s, %s, %s)",
+			
+			$DIC->database()->manipulateF("INSERT INTO tst_addtime (active_fi, additionaltime, tstamp) VALUES (%s, %s, %s)",
 				array('integer','integer','integer'),
 				array($active_id, $minutes, time())
 			);
