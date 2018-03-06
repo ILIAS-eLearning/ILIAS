@@ -63,4 +63,3 @@ class ilDBInnoDB extends ilDBMySQL {
 	}
 }
 
-?>

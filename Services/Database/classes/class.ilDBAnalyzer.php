@@ -24,7 +24,7 @@ class ilDBAnalyzer {
 	 */
 	protected $reverse;
 	/**
-	 * @var \ilDB|\ilDBInterface
+	 * @var \ilDBInterface
 	 */
 	protected $il_db;
 	/**

@@ -49,12 +49,20 @@ class ilDBConstants {
 	// Engines
 	const MYSQL_ENGINE_INNODB = 'InnoDB';
 	const MYSQL_ENGINE_MYISAM = 'MyISAM';
+	// Characters
+	const MYSQL_CHARACTER_UTF8 = 'utf8';
+	const MYSQL_CHARACTER_UTF8MB4 = 'utf8mb4';
+	// Collations
+	const MYSQL_COLLATION_UTF8 = 'utf8_general_ci';
+	const MYSQL_COLLATION_UTF8MB4 = 'utf8mb4_general_ci';
 	// Mapping AutoExec
 	const MDB2_AUTOQUERY_INSERT = 1;
 	const MDB2_AUTOQUERY_UPDATE = 2;
 	const MDB2_AUTOQUERY_DELETE = 3;
 	const MDB2_AUTOQUERY_SELECT = 4;
 	const MDB2_PREPARE_MANIP = false;
+	// Other
+	const MB4_REPLACEMENT = "?";
 	/**
 	 * @var array
 	 */
