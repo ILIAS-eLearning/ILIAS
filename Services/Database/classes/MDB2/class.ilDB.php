@@ -2510,9 +2510,11 @@ abstract class ilDB extends PEAR implements ilDBInterface
 
 	/**
 	 * @param string $engine
+	 *
 	 * @return array
 	 */
-	public function migrateAllTablesToEngine($engine = ilDBConstants::MYSQL_ENGINE_INNODB) {
+	public function migrateAllTablesToEngine($engine = ilDBConstants::MYSQL_ENGINE_INNODB)
+	{
 		return array();
 	}
 
@@ -2520,10 +2522,12 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	/**
 	 * @return bool
 	 */
-	public function supportsEngineMigration() {
+	public function supportsEngineMigration()
+	{
 		return false;
 	}
 
+	
 	/**
 	 * @param $table_name
 	 * @return string
@@ -2545,6 +2549,30 @@ abstract class ilDB extends PEAR implements ilDBInterface
 
 	/**
 	 * @inheritdoc
+	 */
+	public function sanitizeMB4StringIfNotSupported($query)
+	{
+		if (!$this->doesCollationSupportMB4Strings()) {
+			$query = preg_replace(
+				'/[\x{10000}-\x{10FFFF}]/u', ilDBConstants::MB4_REPLACEMENT, $query
+			);
+		}
+
+		return $query;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function doesCollationSupportMB4Strings()
+	{
+		return false;
+	}
+
+
+	/**
+	 * @inheritDoc
 	 */
 	public function cast($a_field_name, $a_dest_type): string {
 		$manager = $this->db->loadModule('Manager');
