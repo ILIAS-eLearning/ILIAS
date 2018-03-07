@@ -3,6 +3,8 @@
 /* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> */
 use ILIAS\TMS\Mailing;
 
+require_once('./Services/User/classes/class.ilObjUser.php');
+
 /**
  * This builds content for mails in TMS, as e.g. used for
  * automatic notifications in courses.
@@ -11,8 +13,10 @@ use ILIAS\TMS\Mailing;
 class ilTMSMailContentBuilder implements Mailing\MailContentBuilder {
 	const DEFAULT_WRAPPER = './Services/Mail/templates/default/tpl.html_mail_template.html';
 	const DEFAULT_IMAGES = './Services/Mail/templates/default/img/';
-	const CUSTOM_WRAPPER = './Customizing/global/skin/custom/Services/Mail/tpl.html_mail_template.html';
-	const CUSTOM_IMAGES = './Customizing/global/skin/custom/Services/Mail/img/';
+
+	const CUSTOM_WRAPPER = './Customizing/global/skin/%s/Services/Mail/tpl.html_mail_template.html';
+	const CUSTOM_IMAGES = './Customizing/global/skin/%s/Services/Mail/img/';
+	const DEFAULT_CUSTOM_SKIN = 'custom';
 
 	//get all placeholder ids (w/o [])
 	//read: lookahead for bracket, all chars, end with bracket
@@ -38,6 +42,12 @@ class ilTMSMailContentBuilder implements Mailing\MailContentBuilder {
 	 */
 	protected $template_data;
 
+	/**
+	 * @var string | null
+	 */
+	protected $skin;
+
+
 	public function __construct(Mailing\MailingDB $mailing_db) {
 		$this->mailing_db = $mailing_db;
 	}
@@ -52,6 +62,27 @@ class ilTMSMailContentBuilder implements Mailing\MailContentBuilder {
 		$clone->initTemplateData();
 		return $clone;
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withStyleFor(Mailing\Recipient $recipient) {
+		if($recipient->getUserId()) {
+			$obj_user = new \ilObjUser($recipient->getUserId());
+			$skin = $obj_user->getPref('skin');
+			if(is_null($skin)) {
+				$skin = $obj_user->getPref('style');
+			}
+
+		} else {
+			$skin = self::DEFAULT_CUSTOM_SKIN;
+		}
+
+		$clone = clone $this;
+		$clone->skin = $skin;
+		return $clone;
+	}
+
 
 	/**
 	 * @return void
@@ -156,16 +187,28 @@ class ilTMSMailContentBuilder implements Mailing\MailContentBuilder {
 
 	}
 
-
+	/**
+	 * Try to read wrapper from custom-style and fall back to defaults
+	 * if the files are not available.
+	 *
+	 * @return 	string
+	 */
 	private function getWrapper() {
-		if(!file_exists(self::CUSTOM_WRAPPER)) {
-			$bracket = file_get_contents(self::DEFAULT_WRAPPER);
-		} else {
-			$bracket = file_get_contents(self::CUSTOM_WRAPPER);
+		if(! is_null($this->skin)) {
+			$wrapper_path = sprintf(self::CUSTOM_WRAPPER, $this->skin);
+			if(file_exists($wrapper_path)) {
+				$bracket = file_get_contents($wrapper_path);
+				return $bracket;
+			}
 		}
+		$bracket = file_get_contents(self::DEFAULT_WRAPPER);
 		return $bracket;
 	}
 
+	/**
+	 * @param 	string 	$dirpath
+	 * @return 	string[]
+	 */
 	private function readDir($dirpath) {
 		$files = array_diff(scandir($dirpath), array('.', '..'));
 		$ret = array();

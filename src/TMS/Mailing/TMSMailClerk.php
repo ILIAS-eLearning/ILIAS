@@ -76,7 +76,9 @@ class TMSMailClerk {
 			$attachments = $mail->getAttachments();
 			$template_ident = $mail->getTemplateIdentifier();
 
-			$builder =  $this->content_builder->withData($template_ident, $contexts);
+			$builder =  $this->content_builder
+				->withStyleFor($recipient)
+				->withData($template_ident, $contexts);
 
 			$subject = $builder->getSubject();
 			$msg_html = $builder->getMessage();
