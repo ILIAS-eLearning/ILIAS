@@ -748,10 +748,11 @@ class ilFileSystemGUI
 
 		if (is_file($_FILES["new_file"]["tmp_name"]))
 		{
-			$tgt_file = $cur_dir."/".ilUtil::stripSlashes($_FILES["new_file"]["name"]);
-			
-			move_uploaded_file($_FILES["new_file"]["tmp_name"], $tgt_file);
-			
+			$name = ilUtil::stripSlashes($_FILES["new_file"]["name"]);
+			$tgt_file = $cur_dir."/".$name;
+
+			ilUtil::moveUploadedFile($_FILES["new_file"]["tmp_name"], $name, $tgt_file);
+
 		}
 		elseif ($_POST["uploaded_file"])
 		{					

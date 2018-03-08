@@ -962,8 +962,8 @@ class ilPropertyFormGUI extends ilFormGUI
 		{
 			ilUtil::createDirectory($temp_path);
 		}
-		
-		move_uploaded_file($a_tmp_name, $temp_path."/".$tmp_file_name);	
+
+		ilUtil::moveUploadedFile($a_tmp_name, $tmp_file_name, $temp_path."/".$tmp_file_name);
 	}
 	
 	/**
@@ -1099,7 +1099,7 @@ class ilPropertyFormGUI extends ilFormGUI
 			
 			if($data["is_upload"])
 			{
-				if (!move_uploaded_file($data["tmp_name"], $target_file))
+				if (!ilUtil::moveUploadedFile($data["tmp_name"], $data["name"], $target_file))
 				{
 					return;
 				}

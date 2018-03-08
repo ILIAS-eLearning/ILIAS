@@ -180,8 +180,7 @@ class ilBookingObject
 	
 		$path = $this->initStorage($this->id, "file");
 		$original = $a_upload["name"];
-		
-		if(@move_uploaded_file($a_upload["tmp_name"], $path.$original))
+		if (ilUtil::moveUploadedFile($a_upload["tmp_name"], $original, $path.$original))
 		{
 			chmod($path.$original, 0770);
 
@@ -272,8 +271,8 @@ class ilBookingObject
 	
 		$path = $this->initStorage($this->id, "post");
 		$original = $a_upload["name"];
-		
-		if(@move_uploaded_file($a_upload["tmp_name"], $path.$original))
+
+		if (ilUtil::moveUploadedFile($a_upload["tmp_name"], $original, $path.$original))
 		{
 			chmod($path.$original, 0770);
 
