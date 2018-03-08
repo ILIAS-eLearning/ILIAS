@@ -442,10 +442,10 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 
 			if($_FILES["chatroom_image_path"])
 			{
-				move_uploaded_file(
+				\ilUtil::moveUploadedFile(
 					$_FILES["chatroom_image_path"]["tmp_name"],
-					ilChatroomSmilies::_getSmiliesBasePath() .
-					$_FILES["chatroom_image_path"]["name"]
+					$_FILES["chatroom_image_path"]["name"],
+					ilChatroomSmilies::_getSmiliesBasePath() . $_FILES["chatroom_image_path"]["name"]
 				);
 
 				$data["smiley_path"] = $_FILES["chatroom_image_path"]["name"];
@@ -581,8 +581,9 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 		$pathinfo    = pathinfo($_FILES["chatroom_image_path"]["name"]);
 		$target_file = md5(time() + $pathinfo['basename']) . "." . $pathinfo['extension'];
 
-		move_uploaded_file(
+		\ilUtil::moveUploadedFile(
 			$_FILES["chatroom_image_path"]["tmp_name"],
+			$target_file,
 			ilChatroomSmilies::_getSmiliesBasePath() . $target_file
 		);
 
