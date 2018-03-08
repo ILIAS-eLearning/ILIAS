@@ -146,6 +146,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 	public function filterEvaluation()
 	{
+		if( !$this->getTestAccess()->checkStatisticsAccess() )
+		{
+			ilObjTestGUI::accessViolationRedirect();
+		}
+		
 		include_once "./Modules/Test/classes/tables/class.ilEvaluationAllTableGUI.php";
 		$table_gui = new ilEvaluationAllTableGUI($this, 'outEvaluation');
 		$table_gui->writeFilterToSession();
@@ -154,6 +159,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 	public function resetfilterEvaluation()
 	{
+		if( !$this->getTestAccess()->checkStatisticsAccess() )
+		{
+			ilObjTestGUI::accessViolationRedirect();
+		}
+		
 		include_once "./Modules/Test/classes/tables/class.ilEvaluationAllTableGUI.php";
 		$table_gui = new ilEvaluationAllTableGUI($this, 'outEvaluation');
 		$table_gui->resetFilter();
@@ -167,17 +177,12 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	*/
 	function outEvaluation()
 	{
-		/**
-		 * @var $ilAcccess ilAccessHandler
-		 * @var $ilToolbar ilToolbarGUI
-		 */
-		global $ilAccess, $ilToolbar;
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		$ilToolbar = $DIC->toolbar();
 		
-		if ((!$ilAccess->checkAccess("tst_statistics", "", $this->ref_id)) && (!$ilAccess->checkAccess("write", "", $this->ref_id)))
+		if( !$this->getTestAccess()->checkStatisticsAccess() )
 		{
-			// allow only evaluation access
-			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
-			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+			ilObjTestGUI::accessViolationRedirect();
 		}
 
 		include_once "./Modules/Test/classes/tables/class.ilEvaluationAllTableGUI.php";
@@ -209,17 +214,31 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		include_once "./Modules/Test/classes/class.ilTestEvaluationData.php";
 		$eval = new ilTestEvaluationData($this->object);
 		$eval->setFilterArray($arrFilter);
-		$foundParticipants =& $eval->getParticipants();
+		$foundParticipants = $eval->getParticipants();
+		
+		require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
+		require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
+		
+		$participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
+		$participantData->setActiveIdsFilter($eval->getParticipantIds());
+		
+		$participantData->setParticipantAccessFilter(
+			ilTestParticipantAccessFilter::getAccessStatisticsUserFilter($this->ref_id)
+		);
+		
+		$participantData->load($this->object->getTestId());
+		
 		$counter = 1;
-		if (count($foundParticipants) > 0)
+		if (count($participantData->getActiveIds()) > 0)
 		{
 			if ($this->object->getECTSOutput())
 			{
 				$passed_array =& $this->object->getTotalPointsPassedArray();
 			}
-			foreach ($foundParticipants as $active_id => $userdata)
+			foreach ($participantData->getActiveIds() as $active_id)
 			{
 				/* @var $userdata ilTestEvaluationUserData */
+				$userdata = $foundParticipants[$active_id];
 				
 				$remove = FALSE;
 				if ($passedonly)
@@ -298,7 +317,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		}
 		
 		$table_gui->setData($data);
-		if(count($foundParticipants) > 0)
+		if(count($participantData->getActiveIds()) > 0)
 		{
 			$ilToolbar->setFormName('form_output_eval');
 			$ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'exportEvaluation'));
@@ -348,21 +367,26 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	*/
 	function detailedEvaluation()
 	{
-		global $DIC;
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
 
-		if((!$DIC->access()->checkAccess('tst_statistics', '', $this->ref_id)) && (!$DIC->access()->checkAccess('write', '', $this->ref_id)))
+		if( !$this->getTestAccess()->checkStatisticsAccess() )
 		{
-			ilUtil::sendInfo($this->lng->txt('cannot_edit_test'), TRUE);
-			$this->ctrl->redirectByClass('ilobjtestgui', 'infoScreen');
+			ilObjTestGUI::accessViolationRedirect();
 		}
 
 		$active_id = $_GET['active_id'];
+		
+		if( !$this->getTestAccess()->checkResultsAccessForActiveId($active_id) )
+		{
+			ilObjTestGUI::accessViolationRedirect();
+		}
+		
 		if(strlen($active_id) == 0)
 		{
 			ilUtil::sendInfo($this->lng->txt('detailed_evaluation_missing_active_id'), TRUE);
 			$this->ctrl->redirect($this, 'outEvaluation');
 		}
-
+		
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation('output', 'test_print.css', 'Modules/Test'), 'print');
 
 		$toolbar = $DIC['ilToolbar'];
@@ -373,6 +397,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$backBtn->setUrl($this->ctrl->getLinkTarget($this, 'outEvaluation'));
 		$toolbar->addInputItem($backBtn);
 
+		$this->object->setAccessFilteredParticipantList(
+			$this->object->buildStatisticsAccessFilteredParticipantList()
+		);
+		
 		$data =& $this->object->getCompleteEvaluationData();
 
 		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
@@ -562,7 +590,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$question_object = assQuestion::_instanciateQuestion($_GET["qid"]);
 		if ( $question_object instanceof ilObjFileHandlingQuestionType )
 		{
-			$question_object->deliverFileUploadZIPFile($this->object->getTestId(), $this->object->getTitle());
+			$question_object->deliverFileUploadZIPFile(
+				$this->ref_id, $this->object->getTestId(), $this->object->getTitle()
+			);
 		}
 		else
 		{
@@ -579,20 +609,20 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 */
 	function eval_a()
 	{
-		/**
-		 * @var $ilAccess ilAccessHandler
-		 * @var $ilToolbar ilToolbarGUI
-		 */
-		global $ilAccess, $ilToolbar;
-
-		if ((!$ilAccess->checkAccess("tst_statistics", "", $this->ref_id)) && (!$ilAccess->checkAccess("write", "", $this->ref_id)))
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		$ilToolbar = $DIC->toolbar();
+		
+		if( !$this->getTestAccess()->checkStatisticsAccess() )
 		{
-			// allow only evaluation access
-			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
-			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+			ilObjTestGUI::accessViolationRedirect();
 		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_anonymous_aggregation.html", "Modules/Test");
+
+		$this->object->setAccessFilteredParticipantList(
+			$this->object->buildStatisticsAccessFilteredParticipantList()
+		);
+		
 		$eval =& $this->object->getCompleteEvaluationData();
 		$data = array();
 		$foundParticipants =& $eval->getParticipants();
@@ -618,12 +648,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				'result' => $this->lng->txt("tst_eval_total_persons"),
 				'value'  => count($foundParticipants)
 			));
-			$total_finished = $this->object->evalTotalFinished();
+			$total_finished = $eval->getTotalFinishedParticipants();
 			array_push($data, array(
 				'result' => $this->lng->txt("tst_eval_total_finished"),
 				'value'  => $total_finished
 			));
-			$average_time = $this->object->evalTotalStartedAverageTime();
+			$average_time = $this->object->evalTotalStartedAverageTime(
+				$eval->getParticipantIds()
+			);
 			$diff_seconds = $average_time;
 			$diff_hours    = floor($diff_seconds/3600);
 			$diff_seconds -= $diff_hours   * 3600;
@@ -816,6 +848,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$certificate = new ilCertificate(new ilTestCertificateAdapter($this->object));
 		$archive_dir = $certificate->createArchiveDirectory();
 		$total_users = array();
+		
+		$this->object->setAccessFilteredParticipantList(
+			$this->object->buildStatisticsAccessFilteredParticipantList()
+		);
+		
 		$total_users =& $this->object->evalTotalPersonsArray();
 		if (count($total_users))
 		{
@@ -1669,15 +1706,17 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	 */
 	public function singleResults()
 	{
-		global $ilAccess;
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
 
-		if ((!$ilAccess->checkAccess("tst_statistics", "", $this->ref_id)) && (!$ilAccess->checkAccess("write", "", $this->ref_id)))
+		if( !$this->getTestAccess()->checkStatisticsAccess() )
 		{
-			// allow only evaluation access
-			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
-			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+			ilObjTestGUI::accessViolationRedirect();
 		}
 
+		$this->object->setAccessFilteredParticipantList(
+			$this->object->buildStatisticsAccessFilteredParticipantList()
+		);
+		
 		$data =& $this->object->getCompleteEvaluationData();
 		$color_class = array("tblrow1", "tblrow2");
 		$counter = 0;

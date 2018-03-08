@@ -996,6 +996,10 @@ class ilTestServiceGUI
 		// REQUIRED, since we call this object regardless of the loop
 		$question_gui = $this->object->createQuestionGUI("", $question_id);
 
+		$this->object->setAccessFilteredParticipantList(
+			$this->object->buildStatisticsAccessFilteredParticipantList()
+		);
+		
 		$foundusers = $this->object->getParticipantsForTestAndQuestion($test_id, $question_id);
 		$output     = '';
 		foreach($foundusers as $active_id => $passes)

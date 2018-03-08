@@ -113,6 +113,19 @@ class ilTestParticipantList implements Iterator
 		return $usrIds;
 	}
 	
+	public function isActiveIdInList($activeId)
+	{
+		foreach($this as $participant)
+		{
+			if( $participant->getActiveId() == $activeId )
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	public function getAccessFilteredList(callable $userAccessFilter)
 	{
 		$usrIds = call_user_func_array($userAccessFilter, [$this->getAllUserIds()]);

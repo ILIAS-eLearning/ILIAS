@@ -267,14 +267,17 @@ class ilTestTabsManager
 	/**
 	 * @return bool
 	 */
-	protected function checkManualScoringTabAccess()
+	protected function checkScoreParticipantsTabAccess()
 	{
-		if( $this->testAccess->checkScoreParticipantsAccess() )
-		{
-			return true;
-		}
-		
-		return false;
+		return $this->testAccess->checkScoreParticipantsAccess();
+	}
+	
+	/**
+	 * @return bool
+	 */
+	protected function checkStatisticsTabAccess()
+	{
+		return $this->testAccess->checkStatisticsAccess();
 	}
 	
 	/**
@@ -543,7 +546,7 @@ class ilTestTabsManager
 				array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
 		}
 		
-		if( $this->checkManualScoringTabAccess()  && !$this->isHiddenTab('manscoring') )
+		if( $this->checkScoreParticipantsTabAccess()  && !$this->isHiddenTab('manscoring') )
 		{
 			include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
 			$scoring = ilObjAssessmentFolder::_getManualScoring();
@@ -577,7 +580,7 @@ class ilTestTabsManager
 			);
 		}
 		
-		if (($this->isStatisticsAccessGranted() || $this->isWriteAccessGranted())  && !$this->isHiddenTab('statistics'))
+		if ($this->checkStatisticsTabAccess()  && !$this->isHiddenTab('statistics'))
 		{
 			// statistics tab
 			$this->tabs->addTarget(

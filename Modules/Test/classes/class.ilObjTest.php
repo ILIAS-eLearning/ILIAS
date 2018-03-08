@@ -4707,6 +4707,11 @@ function getAnswerFeedbackPoints()
 		$persons_array = array();
 		while ($row = $ilDB->fetchAssoc($result))
 		{
+			if( $this->getAccessFilteredParticipantList() && !$this->getAccessFilteredParticipantList()->isActiveIdInList($row["active_id"]) )
+			{
+				continue;
+			}
+			
 			if ($this->getAnonymity())
 			{
 				$persons_array[$row["active_id"]] = $this->lng->txt("anonymous");
@@ -4773,24 +4778,6 @@ function getAnswerFeedbackPoints()
 			}
 		}
 		return $persons_array;
-	}
-
-/**
-* Returns the number of total finished tests
-*
-* @return integer The number of total finished tests
-* @access public
-*/
-	function evalTotalFinished()
-	{
-		global $ilDB;
-
-		$result = $ilDB->queryF("SELECT COUNT(active_id) total FROM tst_active WHERE test_fi = %s AND submitted = %s",
-			array('integer', 'integer'),
-			array($this->getTestId(), 1)
-		);
-		$row = $ilDB->fetchAssoc($result);
-		return $row["total"];
 	}
 
 	/**
@@ -4878,6 +4865,45 @@ function getAnswerFeedbackPoints()
 			}
 		}
 		return $qpass;
+	}
+	
+	/**
+	 * @var ilTestParticipantList
+	 */
+	protected $accessFilteredParticipantList;
+	
+	/**
+	 * @return ilTestParticipantList
+	 */
+	public function getAccessFilteredParticipantList()
+	{
+		return $this->accessFilteredParticipantList;
+	}
+	
+	/**
+	 * @param ilTestParticipantList $accessFilteredParticipantList
+	 */
+	public function setAccessFilteredParticipantList($accessFilteredParticipantList)
+	{
+		$this->accessFilteredParticipantList = $accessFilteredParticipantList;
+	}
+	
+	/**
+	 * @return ilTestParticipantList
+	 */
+	public function buildStatisticsAccessFilteredParticipantList()
+	{
+		require_once 'Modules/Test/classes/class.ilTestParticipantList.php';
+		require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
+		
+		$list = new ilTestParticipantList($this);
+		$list->initializeFromDbRows($this->getTestParticipants());
+		
+		$list = $list->getAccessFilteredList(
+			ilTestParticipantAccessFilter::getAccessStatisticsUserFilter($this->getRefId())
+		);
+		
+		return $list;
 	}
 	
 	function getUnfilteredEvaluationData()
@@ -5419,16 +5445,20 @@ function getAnswerFeedbackPoints()
 * @return integer The average processing time for all started tests
 * @access public
 */
-	function evalTotalStartedAverageTime()
+	function evalTotalStartedAverageTime($activeIdsFilter = null)
 	{
-		global $ilDB;
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
 
-		$result = $ilDB->queryF("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi",
-			array('integer'),
-			array($this->getTestId())
-		);
+		$query = "SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi";
+		
+		if( is_array($activeIdsFilter) && count($activeIdsFilter) )
+		{
+			$query .= " AND ".$DIC->database()->in('active_id', $activeIdsFilter, false, 'integer');
+		}
+		
+		$result = $DIC->database()->queryF($query, array('integer'), array($this->getTestId()));
 		$times = array();
-		while ($row = $ilDB->fetchObject($result))
+		while ($row = $DIC->database()->fetchObject($result))
 		{
 			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row->started, $matches);
 			$epoch_1 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
@@ -10538,6 +10568,11 @@ function getAnswerFeedbackPoints()
 		/** @noinspection PhpAssignmentInConditionInspection */
 		while ($row = $ilDB->fetchAssoc($result))
 		{
+			if( $this->getAccessFilteredParticipantList() && !$this->getAccessFilteredParticipantList()->isActiveIdInList($row["active_fi"]) )
+			{
+				continue;
+			}
+			
 			if (!array_key_exists($row["active_fi"], $foundusers))
 			{
 				$foundusers[$row["active_fi"]] = array();
@@ -10560,9 +10595,9 @@ function getAnswerFeedbackPoints()
 		if (count($foundParticipants)) 
 		{
 			$results["overview"][$this->lng->txt("tst_eval_total_persons")] = count($foundParticipants);
-			$total_finished = $this->evalTotalFinished();
+			$total_finished = $data->getTotalFinishedParticipants();
 			$results["overview"][$this->lng->txt("tst_eval_total_finished")] = $total_finished;
-			$average_time = $this->evalTotalStartedAverageTime();
+			$average_time = $this->evalTotalStartedAverageTime( $data->getParticipantIds() );
 			$diff_seconds = $average_time;
 			$diff_hours    = floor($diff_seconds/3600);
 			$diff_seconds -= $diff_hours   * 3600;
@@ -10619,7 +10654,6 @@ function getAnswerFeedbackPoints()
 				}
 			}
 			$percent = $max ? $reached/$max * 100.0 : 0;
-			$counter++;
 			$results["questions"][$question_id] = array(
 				$question_title, 
 				sprintf("%.2f", $answered ? $reached / $answered : 0) . " " . strtolower($this->lng->txt("of")) . " " . sprintf("%.2f", $answered ? $max / $answered : 0),
