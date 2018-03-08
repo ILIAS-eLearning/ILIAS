@@ -357,7 +357,6 @@ class SurveyQuestion
 			{
 				ilUtil::makeDirParents($materialspath);
 			}
-			//if (!move_uploaded_file($materials_tempfilename, $materialspath . $materials_filename))
 			if (ilUtil::moveUploadedFile($materials_tempfilename, $materials_filename,
 				$materialspath.$materials_filename))
 			{

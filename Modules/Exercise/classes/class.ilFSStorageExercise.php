@@ -263,7 +263,6 @@ class ilFSStorageExercise extends ilFileSystemStorage
 
 			if (!$is_unziped)
 			{
-				//move_uploaded_file($a_http_post_file["tmp_name"], $savepath . $prefix . "_" . $filename);
 				ilUtil::moveUploadedFile($a_http_post_file["tmp_name"], $a_http_post_file["name"],
 				$savepath . "/" . $prefix . "_" . $filename);
 			}

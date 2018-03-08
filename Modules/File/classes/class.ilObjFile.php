@@ -244,7 +244,6 @@ class ilObjFile extends ilObject2 {
 		}
 
 		$file = $this->getDirectory($this->getVersion())."/".$a_filename;
-		//move_uploaded_file($a_upload_file, $file);
 		ilUtil::moveUploadedFile($a_upload_file, $a_filename, $file, $this->raise_upload_error);
 		
 		$this->handleQuotaUpdate($this);
@@ -1112,7 +1111,6 @@ class ilObjFile extends ilObject2 {
 			}
 
 			$file = $this->getDirectory($this->getVersion())."/".$a_filename;
-			//move_uploaded_file($a_upload_file, $file);
 			rename($a_upload_file,  $file);
 			
 			// create preview

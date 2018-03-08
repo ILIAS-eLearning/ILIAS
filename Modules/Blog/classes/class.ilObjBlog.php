@@ -408,8 +408,8 @@ class ilObjBlog extends ilObject2
 		$original = "org_".$this->id."_".$clean_name;
 		$thumb = "thb_".$this->id."_".$clean_name;
 		$processed = $this->id."_".$clean_name;
-		
-		if(@move_uploaded_file($a_upload["tmp_name"], $path.$original))
+
+		if (ilUtil::moveUploadedFile($a_upload["tmp_name"], $original, $path.$original))
 		{
 			chmod($path.$original, 0770);
 

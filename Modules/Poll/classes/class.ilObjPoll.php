@@ -484,11 +484,11 @@ class ilObjPoll extends ilObject2
 		$success = false;
 		if(!$a_clone)
 		{
-			$success = @move_uploaded_file($a_upload["tmp_name"], $path.$original);
+			$success = ilUtil::moveUploadedFile($a_upload["tmp_name"], $original, $path.$original);
 		}
 		else
 		{
-			$success = @copy($a_upload["tmp_name"], $path.$original);
+			$success = copy($a_upload["tmp_name"], $path.$original);
 		}
 		
 		if($success)

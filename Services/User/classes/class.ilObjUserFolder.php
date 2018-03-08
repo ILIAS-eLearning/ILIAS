@@ -612,8 +612,8 @@ class ilObjUserFolder extends ilObject
 		$fs = new ilFSStorageUserFolder($this->getId());
 		$fs->create();
 		$path = $fs->getAbsolutePath()."/";
-		
-		move_uploaded_file($a_tmp_name, $path.$a_lang);		
+
+		ilUtil::moveUploadedFile($a_tmp_name, $a_lang, $path.$a_lang);
 		
 		$ilDB->update('mail_template',
 				array('att_file' => array('text', $a_name)),
