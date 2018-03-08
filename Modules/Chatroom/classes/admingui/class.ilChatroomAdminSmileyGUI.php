@@ -12,19 +12,6 @@
 class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 {
 	/**
-	 *    setup directory
-	 */
-	private static function _setupFolder()
-	{
-		$path = self::_getSmileyDir();
-
-		if(!is_dir($path))
-		{
-			mkdir($path, 0755, true);
-		}
-	}
-
-	/**
 	 * {@inheritdoc}
 	 */
 	public function executeDefault($requestedMethod)
@@ -105,11 +92,18 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 	}
 
 	/**
-	 * @return string    path to smilies
+	 * @param bool $withBaseDir
+	 * @return string
 	 */
-	public static function _getSmileyDir()
+	public static function _getSmileyDir($withBaseDir = true)
 	{
-		return ilUtil::getWebspaceDir() . '/chatroom/smilies';
+		$path = 'chatroom/smilies';
+
+		if ($withBaseDir) {
+			$path = ilUtil::getWebspaceDir() . '/' . $path;
+		}
+
+		return $path;
 	}
 
 	private static function _insertDefaultValues()
@@ -440,15 +434,22 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 			$data["smiley_keywords"] = join("\n", $keywords);
 			$data["smiley_id"]       = $_REQUEST["smiley_id"];
 
-			if($_FILES["chatroom_image_path"])
-			{
-				move_uploaded_file(
-					$_FILES["chatroom_image_path"]["tmp_name"],
-					ilChatroomSmilies::_getSmiliesBasePath() .
-					$_FILES["chatroom_image_path"]["name"]
-				);
+			if ($this->upload->hasUploads() && !$this->upload->hasBeenProcessed()) {
+				$this->upload->process();
 
-				$data["smiley_path"] = $_FILES["chatroom_image_path"]["name"];
+				/** @var \ILIAS\FileUpload\DTO\UploadResult $result */
+				$result = array_values($this->upload->getResults())[0];
+				if ($result->getStatus() == \ILIAS\FileUpload\DTO\ProcessingStatus::OK) {
+					$this->upload->moveOneFileTo(
+						$result,
+						ilChatroomSmilies::getSmiliesBasePath(),
+						\ILIAS\FileUpload\Location::WEB,
+						$result->getName(),
+						true
+					);
+
+					$data['smiley_path'] = $result->getName();
+				}
 			}
 
 			ilChatroomSmilies::_updateSmiley($data);
@@ -581,10 +582,21 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 		$pathinfo    = pathinfo($_FILES["chatroom_image_path"]["name"]);
 		$target_file = md5(time() + $pathinfo['basename']) . "." . $pathinfo['extension'];
 
-		move_uploaded_file(
-			$_FILES["chatroom_image_path"]["tmp_name"],
-			ilChatroomSmilies::_getSmiliesBasePath() . $target_file
-		);
+		if ($this->upload->hasUploads() && !$this->upload->hasBeenProcessed()) {
+			$this->upload->process();
+
+			/** @var \ILIAS\FileUpload\DTO\UploadResult $result */
+			$result = array_values($this->upload->getResults())[0];
+			if ($result->getStatus() == \ILIAS\FileUpload\DTO\ProcessingStatus::OK) {
+				$this->upload->moveOneFileTo(
+					$result,
+					ilChatroomSmilies::getSmiliesBasePath(),
+					\ILIAS\FileUpload\Location::WEB,
+					$target_file,
+					true
+				);
+			}
+		}
 
 		ilChatroomSmilies::_storeSmiley(join("\n", $keywords), $target_file);
 
