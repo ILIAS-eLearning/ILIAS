@@ -672,6 +672,7 @@ assessment#:#log_selected_user_data_removed#:#Removed test data of user %s
 assessment#:#log_user_answered_question#:#User answered a question and received %s points
 assessment#:#log_user_entered_values#:#User entered values
 assessment#:#log_user_not_entered_values#:#User did not enter values
+assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.
 assessment#:#maintenance#:#Maintenance
 assessment#:#manscoring_done#:#Scored Participants
 assessment#:#manscoring_hint#:#You have added at least one question which may require manual scoring. To avoid that participants get already access to the test results before you finished manual scoring, please define a suitable date for the access to the test results.
@@ -1490,6 +1491,9 @@ certificate#:#certificate_visibility_passed#:#Only Visible if a User Passed the 
 certificate#:#certificate_visibility#:#Visibility
 certificate#:#default_background_info#:#This background image will be chosen as default background for all certificates. If you need another background image in a certficiate, you have to upload one in the certificate editor.
 certificate#:#download_certificate#:#Download Certificate
+certificate#:#cert_form_sec_availability#:#Availability
+certificate#:#cert_form_sec_layout#:#Layout and Text
+certificate#:#cert_form_sec_add_features#:#Additional Features
 common#:#chat_chatviewer#:#Chat Viewer
 chatroom#:#chat_enable_autoscroll#:#Enable Autoscroll
 cmps#:#cmps_activate#:#Activate
@@ -13933,7 +13937,7 @@ content#:#cont_ed_cell_left#:#Move Left
 content#:#cont_ed_cell_right#:#Move Right
 content#:#cont_ed_insert_grid_info#:#Adds a responsive column layout based on a grid with 12 units per row.
 content#:#cont_ed_grid_col_width#:#Column Width
-content#:#cont_ed_grid_col_width_info#:#Column width can span multiple 1/12 units of the row and depend on the overall screen size. Devices are given as examples. Their screen size determines the concrete behaviour. 12/12 equals to 100% width.
+content#:#cont_ed_grid_col_width_info#:#Column width can span multiple 1/12 units of the row and depends on the overall screen size. Devices are given as examples. Their screen size determines the concrete behaviour. 12/12 equals to 100% width.
 content#:#cont_ed_grid_col_widths#:#Column Widths
 content#:#cont_grid_cell_confirm_deletion#:#Do you really want to delete the column(s)?
 content#:#cont_grid_cell#:#Column

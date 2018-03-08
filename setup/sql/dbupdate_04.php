@@ -21576,7 +21576,8 @@ while($row = $ilDB->fetchAssoc($result))
 				//echo "<br> makeDirParents: ".ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$directory_relative_path;
 				ilUtil::makeDirParents(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$directory_relative_path);
 			}
-			if (!file_exists(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$file_relative_path))
+			if (!file_exists(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$file_relative_path) &&
+				file_exists($file_full_path))
 			{
 				//echo "<br> rename: $file_full_path TO ".ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$file_relative_path;
 				rename($file_full_path ,ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$file_relative_path);
@@ -21905,4 +21906,8 @@ if($rp_ops_id && $ep_ops_id && $w_ops_id)
 <#5259>
 <?php
 	$ilDB->manipulate('UPDATE exc_mem_ass_status SET status='.$ilDB->quote('notgraded', 'text').' WHERE status = '.$ilDB->quote('', 'text'));
+?>
+<#5260>
+<?php
+$ilCtrlStructureReader->getStructure();
 ?>

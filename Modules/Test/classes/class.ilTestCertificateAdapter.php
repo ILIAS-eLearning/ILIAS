@@ -184,7 +184,15 @@ class ilTestCertificateAdapter extends ilCertificateAdapter
 		if (count($_POST)) $visibility->checkInput();
 		$form->addItem($visibility);
 	}
-	
+
+	/**
+	 * @inheritdoc
+	 */
+	public function hasAdditionalFormElements()
+	{
+		return true;
+	}
+
 	/**
 	* Allows to add additional form values to the array of form values evaluating a
 	* HTTP POST action.

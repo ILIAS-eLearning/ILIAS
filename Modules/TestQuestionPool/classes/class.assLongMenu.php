@@ -907,7 +907,15 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 		parent::delete($original_id);
 		$this->clearFolder(false);
 	}
-
+	
+	/**
+	 * @param ilAssSelfAssessmentMigrator $migrator
+	 */
+	protected function lmMigrateQuestionTypeSpecificContent(ilAssSelfAssessmentMigrator $migrator)
+	{
+		$this->setLongMenuTextValue( $migrator->migrateToLmContent($this->getLongMenuTextValue()) );
+	}
+	
 	/**
 	 * Returns a JSON representation of the question
 	 */
