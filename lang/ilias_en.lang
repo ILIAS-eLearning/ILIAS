@@ -714,6 +714,7 @@ assessment#:#log_user_answered_question#:#User answered a question and received 
 assessment#:#log_user_data_removed#:#Removed all user data###deprecated
 assessment#:#log_user_entered_values#:#User entered values
 assessment#:#log_user_not_entered_values#:#User did not enter values
+assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.
 assessment#:#maintenance#:#Maintenance
 assessment#:#manscoring_done#:#Scored Participants
 assessment#:#manscoring_hint#:#You have added at least one question which may require manual scoring. To avoid that participants get already access to the test results before you finished manual scoring, please define a suitable date for the access to the test results.
