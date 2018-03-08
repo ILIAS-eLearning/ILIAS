@@ -379,7 +379,11 @@ class ilSoapTestAdministration extends ilSoapAdministration
 		}
 		if (!$this->isAllowedCall($sid, $active_id, false))
 		{
-			return $this->__raiseError("The required user information is only available for active users.", "");
+			
+			if( !$this->checkActiveIdResultsAccess($active_id) )
+			{
+				return $this->__raiseError("The required user information is only available for active users.", "");
+			}
 		}
 
 		global $lng, $ilDB;
@@ -601,8 +605,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
 		}
 		global $rbacsystem, $tree, $ilLog;
 		
-		global $ilAccess; /* @var ilAccessHandler $ilAccess */
-		if( !$ilAccess->checkAccess('write', '', $test_ref_id) )
+		if( !$this->checkManageParticipantsAccess($test_ref_id) )
 		{
 			return $this->__raiseError('no permission. Aborting!', 'Client');
 		}
@@ -630,7 +633,11 @@ class ilSoapTestAdministration extends ilSoapAdministration
 		
 		include_once './Modules/Test/classes/class.ilObjTest.php';
 		include_once './Modules/Test/classes/class.ilTestParticipantData.php';
+		require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
 		$part = new ilTestParticipantData($GLOBALS['ilDB'], $GLOBALS['lng']);
+		$part->setParticipantAccessFilter(
+			ilTestParticipantAccessFilter::getManageParticipantsUserFilter($test_ref_id)
+		);
 		$part->setUserIdsFilter((array) $a_user_ids);
 		$part->load($tst->getTestId());
 		$tst->removeTestResults($part);
@@ -690,6 +697,11 @@ class ilSoapTestAdministration extends ilSoapAdministration
 				break;
 			}
 		}
+		if( !$permission_ok && $this->checkParticipantsResultsAccess($test_ref_id) )
+		{
+			$permission_ok = $this->checkParticipantsResultsAccess($test_ref_id);
+		}
+		
 		if(!$permission_ok)
 		{
 			return $this->__raiseError('No permission to edit the object with id: '.$test_ref_id,
@@ -710,6 +722,21 @@ class ilSoapTestAdministration extends ilSoapAdministration
 		$test_obj = new ilObjTest($obj_id, false);
 		$participants =  $test_obj->getTestParticipants();
 		
+		require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
+		require_once 'Modules/Test/classes/class.ilTestParticipantList.php';
+		$accessFilter = ilTestParticipantAccessFilter::getAccessResultsUserFilter($test_ref_id);
+		$participantList = new ilTestParticipantList($test_obj);
+		$participantList->initializeFromDbRows($participants);
+		$participantList = $participantList->getAccessFilteredList($accessFilter);
+		foreach($participants as $activeId => $part)
+		{
+			if( $participantList->isActiveIdInList($activeId) )
+			{
+				continue;
+			}
+			
+			unset($participants[$activeId]);
+		}
 
 		if ($sum_only)  
 		{
@@ -756,7 +783,36 @@ class ilSoapTestAdministration extends ilSoapAdministration
 		$xmlWriter->start();
 		return $xmlWriter->getXML();
 	}
-
 	
+	/**
+	 * @param $refId
+	 * @return bool
+	 */
+	protected function checkManageParticipantsAccess($refId)
+	{
+		return $this->getTestAccess($refId)->checkManageParticipantsAccess();
+	}
+	
+	/**
+	 * @param $refId
+	 * @return bool
+	 */
+	protected function checkParticipantsResultsAccess($refId)
+	{
+		return $this->getTestAccess($refId)->checkParticipantsResultsAccess();
+	}
+	
+	/**
+	 * @param $refId
+	 * @return ilTestAccess
+	 */
+	protected function getTestAccess($refId)
+	{
+		require_once 'Modules/Test/classes/class.ilTestAccess.php';
+
+		$testId = ilObjTestAccess::_getTestIDFromObjectID(ilObject::_lookupObjectId($refId));
+
+		return new ilTestAccess($refId, $testId);
+	}
 }
 ?>
