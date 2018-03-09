@@ -4151,16 +4151,14 @@ class ilUtil
 
 
 	/**
-	* move uploaded file
-	* 
-	* @static
-	* 
-	*/
+ 	 * move uploaded file
+	 * @return bool
+	 * @throws ilFileUtilsException
+	 */
 	public static function moveUploadedFile($a_file, $a_name, $a_target, $a_raise_errors = true,
 		$a_mode = "move_uploaded")
 	{
 		global $lng, $ilias;
-//echo "<br>ilUtli::moveuploadedFile($a_name)";
 
 		if (!is_file($a_file))
 		{
@@ -4199,6 +4197,8 @@ class ilUtil
 			{
 				ilUtil::sendInfo($vir[1], true);
 			}
+			include_once("./Services/Utilities/classes/class.ilFileUtils.php");
+			$a_target = ilFileUtils::getValidFilename($a_target);
 			switch ($a_mode)
 			{
 				case "rename":
