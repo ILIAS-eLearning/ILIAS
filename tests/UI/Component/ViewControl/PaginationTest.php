@@ -224,4 +224,40 @@ EOT;
 		$html = $this->getDefaultRenderer()->render($p);
 		$this->assertHTMLEquals($expected_html, $html);
 	}
+
+
+
+	public function testRenderDropdown() {
+		$p = $this->getFactory()->pagination()
+			->withTotalEntries(3)
+			->withPageSize(1)
+			->withDropdownAt(1);
+
+		$expected_html = <<<EOT
+<div class="il-viewcontrol-pagination">
+	<span class="browse previous">
+		<a class="glyph" href="?pagination_offset=0" aria-label="back">
+			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+		</a>
+	</span>
+
+	<div class="dropdown">
+		<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">1 <span class="caret"></span></button>
+		<ul class="dropdown-menu">
+			<li><button class="btn btn-link ilSubmitInactive disabled" data-action="?pagination_offset=0">1</button></li>
+			<li><button class="btn btn-link" data-action="?pagination_offset=1" id="id_1">2</button></li>
+			<li><button class="btn btn-link" data-action="?pagination_offset=2" id="id_2">3</button></li>
+		</ul>
+	</div>
+
+	<span class="browse next">
+		<a class="glyph" href="?pagination_offset=1" aria-label="next">
+			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+		</a>
+	</span>
+</div>
+EOT;
+		$html = $this->getDefaultRenderer()->render($p);
+		$this->assertHTMLEquals($expected_html, $html);
+	}
 }
