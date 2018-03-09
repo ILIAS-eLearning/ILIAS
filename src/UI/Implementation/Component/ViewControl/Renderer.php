@@ -307,8 +307,8 @@ class Renderer extends AbstractComponentRenderer
 		} else {
 			$url = $component->getTargetURL();
 			if(strpos($url, '?') === false) {
-				$url_prev .= '?' .$component->getParameterName() .'=' .$prev;
-				$url_next .= '?' .$component->getParameterName() .'=' .$next;
+				$url_prev = $url .'?' .$component->getParameterName() .'=' .$prev;
+				$url_next = $url .'?' .$component->getParameterName() .'=' .$next;
 			} else {
 				$base = substr($url, 0, strpos($url, '?') + 1);
 				$query = parse_url($url, PHP_URL_QUERY);

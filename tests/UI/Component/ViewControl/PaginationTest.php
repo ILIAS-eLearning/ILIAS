@@ -66,18 +66,18 @@ class PaginationTest extends ILIAS_UI_TestBase {
 		//rocker left disabled
 		$expected_html = <<<EOT
 <div class="il-viewcontrol-pagination">
-	<span class="rocker previous">
-		<a class="btn btn-link ilSubmitInactive disabled" data-action="?pagination_offset=0">
-			<span class="glyphicon glyphicon-chevron-left"></span>
+	<span class="browse previous">
+		<a class="glyph" href="?pagination_offset=0" aria-label="back">
+			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 		</a>
 	</span>
 
-	<a class="btn btn-link ilSubmitInactive disabled" data-action="?pagination_offset=0">1</a>
-	<a class="btn btn-link" href="?pagination_offset=1" data-action="?pagination_offset=1">2</a>
+	<button class="btn btn-link ilSubmitInactive disabled" data-action="?pagination_offset=0">1</button>
+	<button class="btn btn-link" data-action="?pagination_offset=1" id="id_1">2</button>
 
-	<span class="rocker next">
-		<a class="btn btn-link" href="?pagination_offset=1" data-action="?pagination_offset=1">
-			<span class="glyphicon glyphicon-chevron-right"></span>
+	<span class="browse next">
+		<a class="glyph" href="?pagination_offset=1" aria-label="next">
+			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 		</a>
 	</span>
 </div>
@@ -97,18 +97,18 @@ EOT;
 		//rocker right disabled
 		$expected_html = <<<EOT
 <div class="il-viewcontrol-pagination">
-	<span class="rocker previous">
-		<a class="btn btn-link" href="?pagination_offset=0" data-action="?pagination_offset=0">
-			<span class="glyphicon glyphicon-chevron-left"></span>
+	<span class="browse previous">
+		<a class="glyph" href="?pagination_offset=0" aria-label="back">
+			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 		</a>
 	</span>
 
-	<a class="btn btn-link" href="?pagination_offset=0" data-action="?pagination_offset=0">1</a>
-	<a class="btn btn-link ilSubmitInactive disabled" data-action="?pagination_offset=1">2</a>
+	<button class="btn btn-link" data-action="?pagination_offset=0" id="id_1">1</button>
+	<button class="btn btn-link ilSubmitInactive disabled" data-action="?pagination_offset=1">2</button>
 
-	<span class="rocker next">
-		<a class="btn btn-link ilSubmitInactive disabled" data-action="?pagination_offset=2">
-			<span class="glyphicon glyphicon-chevron-right"></span>
+	<span class="browse next">
+		<a class="glyph" href="?pagination_offset=2" aria-label="next">
+			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 		</a>
 	</span>
 </div>
@@ -129,21 +129,21 @@ EOT;
 		//boundary-button right
 		$expected_html = <<<EOT
 <div class="il-viewcontrol-pagination">
-	<span class="rocker previous">
-		<a class="btn btn-link ilSubmitInactive disabled" data-action="?pagination_offset=0">
-			<span class="glyphicon glyphicon-chevron-left"></span>
+	<span class="browse previous">
+		<a class="glyph" href="?pagination_offset=0" aria-label="back">
+			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 		</a>
 	</span>
 
-	<a class="btn btn-link ilSubmitInactive disabled" data-action="?pagination_offset=0">1</a>
+	<button class="btn btn-link ilSubmitInactive disabled" data-action="?pagination_offset=0">1</button>
 
 	<span class="last">
-		<a class="btn btn-link" href="?pagination_offset=2" data-action="?pagination_offset=2">3</a>
+		<button class="btn btn-link" data-action="?pagination_offset=2" id="id_1">3</button>
 	</span>
 
-	<span class="rocker next">
-		<a class="btn btn-link" href="?pagination_offset=1" data-action="?pagination_offset=1">
-			<span class="glyphicon glyphicon-chevron-right"></span>
+	<span class="browse next">
+		<a class="glyph" href="?pagination_offset=1" aria-label="next">
+			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 		</a>
 	</span>
 </div>
@@ -164,25 +164,25 @@ EOT;
 		//both boundary-buttons
 		$expected_html = <<<EOT
 <div class="il-viewcontrol-pagination">
-	<span class="rocker previous">
-		<a class="btn btn-link" href="?pagination_offset=0" data-action="?pagination_offset=0">
-			<span class="glyphicon glyphicon-chevron-left"></span>
+	<span class="browse previous">
+		<a class="glyph" href="?pagination_offset=0" aria-label="back">
+			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 		</a>
 	</span>
 
 	<span class="first">
-		<a class="btn btn-link" href="?pagination_offset=0" data-action="?pagination_offset=0">1</a>
+		<button class="btn btn-link" data-action="?pagination_offset=0" id="id_1">1</button>
 	</span>
 
-	<a class="btn btn-link ilSubmitInactive disabled" data-action="?pagination_offset=1">2</a>
+	<button class="btn btn-link ilSubmitInactive disabled" data-action="?pagination_offset=1">2</button>
 
 	<span class="last">
-		<a class="btn btn-link" href="?pagination_offset=2" data-action="?pagination_offset=2">3</a>
+		<button class="btn btn-link" data-action="?pagination_offset=2" id="id_2">3</button>
 	</span>
 
-	<span class="rocker next">
-		<a class="btn btn-link" href="?pagination_offset=2" data-action="?pagination_offset=2">
-			<span class="glyphicon glyphicon-chevron-right"></span>
+	<span class="browse next">
+		<a class="glyph" href="?pagination_offset=2" aria-label="next">
+			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 		</a>
 	</span>
 </div>
@@ -203,21 +203,20 @@ EOT;
 		//boundary-button left only
 		$expected_html = <<<EOT
 <div class="il-viewcontrol-pagination">
-	<span class="rocker previous">
-		<a class="btn btn-link" href="?pagination_offset=1" data-action="?pagination_offset=1">
-			<span class="glyphicon glyphicon-chevron-left"></span>
+	<span class="browse previous">
+		<a class="glyph" href="?pagination_offset=1" aria-label="back">
+			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 		</a>
 	</span>
-
 	<span class="first">
-		<a class="btn btn-link" href="?pagination_offset=0" data-action="?pagination_offset=0">1</a>
+		<button class="btn btn-link" data-action="?pagination_offset=0" id="id_1">1</button>
 	</span>
 
-	<a class="btn btn-link ilSubmitInactive disabled" data-action="?pagination_offset=2">3</a>
+	<button class="btn btn-link ilSubmitInactive disabled" data-action="?pagination_offset=2">3</button>
 
-	<span class="rocker next">
-		<a class="btn btn-link ilSubmitInactive disabled" data-action="?pagination_offset=3">
-			<span class="glyphicon glyphicon-chevron-right"></span>
+	<span class="browse next">
+		<a class="glyph" href="?pagination_offset=3" aria-label="next">
+			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 		</a>
 	</span>
 </div>
