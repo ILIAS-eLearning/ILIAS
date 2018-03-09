@@ -4218,6 +4218,9 @@ class ilUtil
 			return false;
 		}
 
+		include_once("./Services/Utilities/classes/class.ilFileUtils.php");
+		$targetFilename = ilFileUtils::getValidFilename($targetFilename);
+
 		$upload->moveOneFileTo($UploadResult, $targetDir, $targetFilesystem, $targetFilename, true);
 
 		return true;
