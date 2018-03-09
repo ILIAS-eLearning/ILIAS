@@ -1236,7 +1236,14 @@ class ilInitialisation
 		// $tpl
 		$tpl = new ilTemplate("tpl.main.html", true, true);
 		self::initGlobal("tpl", $tpl);
-		
+
+		if (ilContext::hasUser()) {
+			require_once 'Services/User/classes/class.ilUserRequestTargetAdjustment.php';
+			$request_adjuster = new ilUserRequestTargetAdjustment($ilUser, $GLOBALS['DIC']['ilCtrl']);
+			$request_adjuster->adjust();
+		}
+
+
 		// load style sheet depending on user's settings
 		$location_stylesheet = ilUtil::getStyleSheetLocation();
 		$tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);				
@@ -1537,10 +1544,6 @@ class ilInitialisation
 			ilInitialisation::goToPublicSection();
 			return true;
 		}
-		
-		require_once 'Services/User/classes/class.ilUserRequestTargetAdjustment.php';
-		$request_adjuster = new ilUserRequestTargetAdjustment($ilUser, $GLOBALS['ilCtrl']);
-		$request_adjuster->adjust(); // possible redirect
 
 		// for password change and incomplete profile 
 		// see ilPersonalDesktopGUI
