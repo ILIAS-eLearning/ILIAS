@@ -282,7 +282,11 @@ class ilBadge
 	{
 		return $this->image;
 	}
-	
+
+	/**
+	 * @param array $a_upload_meta
+	 * @throws ilFileUtilsException
+	 */
 	public function uploadImage(array $a_upload_meta)
 	{		
 		if($this->getId() &&
@@ -290,9 +294,9 @@ class ilBadge
 		{
 			$this->setImage($a_upload_meta["name"]);			
  			$path = $this->getImagePath();			
-			if(move_uploaded_file($a_upload_meta["tmp_name"], $path))
+
+			if (ilUtil::moveUploadedFile($a_upload_meta["tmp_name"], $this->getImagePath(false), $path))
 			{
-				
 				$this->update();			
 			}
 		}
@@ -309,12 +313,19 @@ class ilBadge
 		}
 	}
 	
-	public function getImagePath()
+	public function getImagePath($a_full_path = true)
 	{
 		if($this->getId())
 		{
 			$suffix = strtolower(array_pop(explode(".", $this->getImage())));
-			return $this->getFilePath($this->getId())."img".$this->getId().".".$suffix;
+			if ($a_full_path)
+			{
+				return $this->getFilePath($this->getId()) . "img" . $this->getId() . "." . $suffix;
+			}
+			else
+			{
+				return "img" . $this->getId() . "." . $suffix;
+			}
 		}
 	}
 	
