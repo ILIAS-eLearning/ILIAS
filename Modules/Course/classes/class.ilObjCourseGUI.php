@@ -2418,7 +2418,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->setSubTabs('members');
 				$this->tabs_gui->setTabActive('members');
 				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
-				$profile_gui->setBackUrl($this->ctrl->getLinkTargetByClass("ilUsersGalleryGUI",'view'));
+				$profile_gui->setBackUrl($this->ctrl->getLinkTargetByClass(["ilCourseMembershipGUI", "ilUsersGalleryGUI"],'view'));
 				$this->tabs_gui->setSubTabActive('crs_members_gallery');
 				$html = $this->ctrl->forwardCommand($profile_gui);
 				$this->tpl->setVariable("ADM_CONTENT", $html);				
