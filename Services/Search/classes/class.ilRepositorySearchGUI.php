@@ -414,7 +414,7 @@ class ilRepositorySearchGUI
 		
 		// call callback if that function does give a return value => show error message
 		// listener redirects if everything is ok.
-		$class->$method($_POST['user']);
+		$class->$method((array) $_POST['user']);
 
 		$this->showSearchResults();
 	}

@@ -5,9 +5,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 	<title>{SOP_TITLE}</title>
 	<link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
-	<script type="text/javascript" src="./Modules/ScormAicc/scripts/pouchdb-6.2.0.js"></script>
-	<script type="text/javascript" src="./Modules/ScormAicc/scripts/jquery-min.js"></script>
-	<script type="text/javascript" src="./Modules/ScormAicc/scripts/SOP12API.js"></script>
+	<script type="text/javascript" src="./libs/bower/bower_components/pouchdb/dist/pouchdb.min.js"></script>
+	<script type="text/javascript" src="./libs/bower/bower_components/jquery/dist/jquery.min.js"></script>
+	<script type="text/javascript">
+function iliasApi() { 
+var SOP=true;
+{SOP_SCRIPT}
+} 
+	</script>
 	<script type="text/javascript" src="./Modules/ScormAicc/scripts/sop.js"></script>
 	<style type="text/css">
 body{
@@ -77,8 +82,7 @@ body{
 		var SOP=true;
 		var API;
 		var params;
-		// ToDo: WebAccessChecker Test
-		function initPlayer() { //ToDo: check offline access! Not allow online access: look into in offline storage first
+		function initPlayer() {
 			params = gui.getPlayerParams(window);
 			gui.getData("lmGetAllByClientAndObjIdAtInitOfPlayer",[params.client,params.obj_id]);
 		}

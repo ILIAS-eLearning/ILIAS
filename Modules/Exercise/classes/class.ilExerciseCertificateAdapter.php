@@ -145,7 +145,15 @@ class ilExerciseCertificateAdapter extends ilCertificateAdapter
 		if (count($_POST)) $visibility->checkInput();
 		$form->addItem($visibility);
 	}
-	
+
+	/**
+	 * @inheritdoc
+	 */
+	public function hasAdditionalFormElements()
+	{
+		return true;
+	}
+
 	public function addFormFieldsFromPOST(&$form_fields)
 	{
 		$form_fields["certificate_visibility"] = $_POST["certificate_visibility"];

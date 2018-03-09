@@ -116,7 +116,7 @@ class ilGlossaryExporter extends ilXmlExporter
 					"ids" => $advmd_ids
 				);	
 			}
-			
+
 			// style
 			$obj_ids = (is_array($a_ids))
 				? $a_ids
@@ -140,15 +140,21 @@ class ilGlossaryExporter extends ilXmlExporter
 
 	protected function getActiveAdvMDRecords($a_id)
 	{			
-		$active = array();		
-		
-		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');				
-		foreach(ilAdvancedMDRecord::_getSelectedRecordsByObject("glo", $a_id, "term") as $record_obj)
+		include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
+		$active = array();
+		// selected globals
+		$sel_globals = ilAdvancedMDRecord::getObjRecSelection($a_id, "term");
+
+		foreach(ilAdvancedMDRecord::_getActivatedRecordsByObjectType("glo", "term") as $record_obj)
 		{
-			$active[] = $record_obj->getRecordId();
-		}		
-		
-		return $active;						
+			// local ones and globally activated for the object
+			if ($record_obj->getParentObject() == $a_id || in_array($record_obj->getRecordId(), $sel_globals))
+			{
+				$active[] = $record_obj->getRecordId();
+			}
+		}
+
+		return $active;
 	}
 
 	/**

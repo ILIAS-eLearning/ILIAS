@@ -66,6 +66,7 @@ class ilAppointmentPresentationBookingPoolGUI extends ilAppointmentPresentationG
 			// info file
 			if ($b_obj->getFile())
 			{
+				$this->has_files = true;
 				$link = $this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjBookingPoolGUI", "ilbookingobjectgui"), "deliverInfo");
 
 				$link = $this->ui->renderer()->render(
@@ -82,13 +83,17 @@ class ilAppointmentPresentationBookingPoolGUI extends ilAppointmentPresentationG
 			}
 			if ($b_obj->getPostFile())
 			{
+				$this->has_files = true;
+
 				$link = $this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjBookingPoolGUI", "ilbookingobjectgui"), "deliverPostFile");
 
 				$array_info[] = $this->ui->renderer()->render(
 					$this->ui->factory()->button()->shy($b_obj->getPostFile(), $link));
 
 			}
-			$this->addInfoProperty($this->lng->txt("book_post_booking_information"), implode("<br>",$array_info));
+			if($array_info) {
+				$this->addInfoProperty($this->lng->txt("book_post_booking_information"), implode("<br>",$array_info));
+			}
 
 		}
 

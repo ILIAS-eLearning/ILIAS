@@ -954,6 +954,18 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 		
 		return $combinedText;
 	}
+	
+	/**
+	 * @param ilAssSelfAssessmentMigrator $migrator
+	 */
+	protected function lmMigrateQuestionTypeSpecificContent(ilAssSelfAssessmentMigrator $migrator)
+	{
+		foreach($this->getAnswers() as $answer)
+		{
+			/* @var ilAssKprimChoiceAnswer $answer */
+			$answer->setAnswertext( $migrator->migrateToLmContent($answer->getAnswertext()) );
+		}
+	}
 
 	/**
 	 * Returns a JSON representation of the question
@@ -998,8 +1010,8 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 				'correctness' => (bool) $answer->getCorrectness(),
 				'order' => (int)$answer->getPosition(),
 				'image' => (string)$answer->getImageFile(),
-				'feedback' => ilRTE::_replaceMediaObjectImageSrc(
-					$this->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation($this->getId(), $key), 0
+				'feedback' => $this->formatSAQuestion(
+					$this->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation($this->getId(), $key)
 				)
 			);
 		}

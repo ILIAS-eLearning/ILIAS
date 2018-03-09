@@ -120,25 +120,43 @@ class ItemTest extends ILIAS_UI_TestBase {
 		$expected = <<<EOT
 <div class="il-item il-std-item ">
 			<h5>Item Title</h5>
-			<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></button>
-				<ul class="dropdown-menu">
-					<li><a class="btn btn-link" href="https://www.ilias.de" data-action="https://www.ilias.de">ILIAS</a></li>
-					<li><a class="btn btn-link" href="https://www.github.com" data-action="https://www.github.com">GitHub</a></li>
-				</ul>
-			</div>
+			<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" > <span class="caret"></span></button>
+<ul class="dropdown-menu">
+	<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1"  >ILIAS</button>
+</li>
+	<li><button class="btn btn-link" data-action="https://www.github.com" id="id_2"  >GitHub</button>
+</li>
+</ul>
+</div>
 			<div class="il-item-description">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</div>
 			<hr class="il-item-divider" />
 			<div class="row">
-				<div class="col-sm-4 col-md-2 il-item-property-name">Origin</div>
-				<div class="col-sm-8 col-md-4 il-item-property-value">Course Title 1</div>
-				<div class="col-sm-4 col-md-2 il-item-property-name">Last Update</div>
-				<div class="col-sm-8 col-md-4 il-item-property-value">24.11.2011</div>
+				<div class="col-md-6">
+					<div class="row">
+						<div class="col-sm-5 il-item-property-name">Origin</div>
+						<div class="col-sm-7 il-item-property-value">Course Title 1</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="row">
+						<div class="col-sm-5 il-item-property-name">Last Update</div>
+						<div class="col-sm-7 il-item-property-value">24.11.2011</div>
+					</div>
+				</div>
 			</div>
 			<div class="row">
-				<div class="col-sm-4 col-md-2 il-item-property-name">Location</div>
-				<div class="col-sm-8 col-md-4 il-item-property-value">Room 123, Main Street 44, 3012 Bern</div>
-				<div class="col-sm-4 col-md-2 il-item-property-name"></div>
-				<div class="col-sm-8 col-md-4 il-item-property-value"></div>
+				<div class="col-md-6">
+					<div class="row">
+						<div class="col-sm-5 il-item-property-name">Location</div>
+						<div class="col-sm-7 il-item-property-value">Room 123, Main Street 44, 3012 Bern</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="row">
+						<div class="col-sm-5 il-item-property-name"></div>
+						<div class="col-sm-7 il-item-property-value"></div>
+					</div>
+				</div>
 			</div>
 </div>
 EOT;
@@ -212,13 +230,23 @@ EOT;
 		$html = $r->render($c);
 		$expected = <<<EOT
 <div class="il-item il-std-item ">
-			<h5><a class="btn btn-link" href="https://www.ilias.de" data-action="https://www.ilias.de">ILIAS</a></h5>
+			<h5><button class="btn btn-link" data-action="https://www.ilias.de" id="id_2"  >ILIAS</button>
+</h5>
 			<hr class="il-item-divider" />
 			<div class="row">
-				<div class="col-sm-4 col-md-2 il-item-property-name">test</div>
-				<div class="col-sm-8 col-md-4 il-item-property-value"><a class="btn btn-link" href="https://www.github.com" data-action="https://www.github.com">GitHub</a></div>
-				<div class="col-sm-4 col-md-2 il-item-property-name"></div>
-				<div class="col-sm-8 col-md-4 il-item-property-value"></div>
+				<div class="col-md-6">
+					<div class="row">
+						<div class="col-sm-5 il-item-property-name">test</div>
+						<div class="col-sm-7 il-item-property-value"><button class="btn btn-link" data-action="https://www.github.com" id="id_1"  >GitHub</button>
+</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="row">
+						<div class="col-sm-5 il-item-property-name"></div>
+						<div class="col-sm-7 il-item-property-value"></div>
+					</div>
+				</div>
 			</div>
 </div>
 EOT;

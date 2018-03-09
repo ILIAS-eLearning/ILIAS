@@ -21,6 +21,9 @@ class ComponentMock {
 	public function _checkFloatArg($which, $value) {
 		$this->checkFloatArg($which, $value);
 	}
+	public function _checkBoolArg($which, $value) {
+		$this->checkBoolArg($which, $value);
+	}
 	public function _checkArgInstanceOf($which, $value, $class) {
 		$this->checkArgInstanceOf($which, $value, $class);
 	}
@@ -125,6 +128,25 @@ class ComponentHelperTest extends PHPUnit_Framework_TestCase {
 		}
 		catch (\InvalidArgumentException $e) {
 			$this->assertEquals("Argument 'some_arg': expected string, got integer '1'", $e->getMessage());
+		}
+	}
+
+	public function test_check_bool_arg_ok() {
+		try {
+			$this->mock->_checkBoolArg("some_arg", true);
+		}
+		catch (\InvalidArgumentException $e) {
+			$this->assertFalse("This should not happen.");
+		}
+	}
+
+	public function test_check_bool_arg_not_ok() {
+		try {
+			$this->mock->_checkBoolArg("some_arg", 1);
+			$this->assertFalse("This should not happen.");
+		}
+		catch (\InvalidArgumentException $e) {
+			$this->assertEquals("Argument 'some_arg': expected bool, got integer '1'", $e->getMessage());
 		}
 	}
 

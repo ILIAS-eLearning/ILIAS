@@ -536,7 +536,7 @@ class ilCOPageHTMLExport
 		$this->log->debug("export html mobs");
 
 		$source_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$a_mob_id;
-		if (@is_dir($source_dir))
+		if (is_dir($source_dir))
 		{
 			ilUtil::makeDir($this->mobs_dir."/mm_".$a_mob_id);
 			ilUtil::rCopy($source_dir, $this->mobs_dir."/mm_".$a_mob_id);

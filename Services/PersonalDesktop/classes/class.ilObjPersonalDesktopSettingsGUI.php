@@ -48,6 +48,8 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$this->ctrl = $DIC->ctrl();
 		$this->settings = $DIC->settings();
 		$lng = $DIC->language();
+		$this->ui_factory = $DIC->ui()->factory();
+		$this->ui_renderer = $DIC->ui()->renderer();
 		
 		$this->type = 'pdts';
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
@@ -269,19 +271,17 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$memberships_sort_defaults->setValue($this->viewSettings->getDefaultSortType());
 		$cb_prop->addSubItem($memberships_sort_defaults);
 
-		if($this->viewSettings->allViewsEnabled())
-		{
-			// Default view of personal items
-			$sb_prop = new ilSelectInputGUI($lng->txt('pd_personal_items_default_view'), 'personal_items_default_view');
-			$sb_prop->setInfo($lng->txt('pd_personal_items_default_view_info'));
-			$option = array();
-			$option[$this->viewSettings->getSelectedItemsView()] = $lng->txt('pd_my_offers');
-			$option[$this->viewSettings->getMembershipsView()]   = $lng->txt('my_courses_groups');
-			$sb_prop->setOptions($option);
-			$sb_prop->setValue($this->viewSettings->getDefaultView());
-			$form->addItem($sb_prop);
-		}
-		
+		#22357
+		$this->ctrl->setParameterByClass("iluserstartingpointgui", "ref_id", USER_FOLDER_ID);
+		$url = $this->ctrl->getLinkTargetByClass(array("iladministrationgui","ilobjuserfoldergui", "iluserstartingpointgui"), "startingpoints");
+		$this->ctrl->setParameterByClass("iluserstartingpointgui", "ref_id", $_GET['ref_id']);
+
+		$lng->loadLanguageModule("user");
+		$starting_point_button = $this->ui_factory->button()->shy($lng->txt("starting_points"), $url);
+		$button = new ilCustomInputGUI($lng->txt('pd_personal_items_default_view'),'');
+		$button->setHtml($this->ui_renderer->render($starting_point_button));
+		$form->addItem($button);
+
 		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
 			// command buttons

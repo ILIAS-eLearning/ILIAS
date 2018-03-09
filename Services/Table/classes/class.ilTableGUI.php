@@ -664,7 +664,7 @@ class ilTableGUI
 		if ($this->enabled["footer"] && $this->max_count > 0)
 		{
 			$this->tpl->setCurrentBlock("tbl_footer");
-			$this->tpl->setVariable("FOOTER_COLUMN_COUNT",$this->column_count);
+			$this->tpl->setVariable("COLUMN_COUNT",$this->column_count);
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -681,7 +681,7 @@ class ilTableGUI
 			$this->tpl->setCurrentBlock("tbl_action_row");
 			$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.svg"));
 			$this->tpl->setVariable("ALT_ARROW", $this->lng->txt("arrow_downright.svg"));
-			$this->tpl->setVariable("COLUMN_COUNTS", $this->getColumnCount());
+			$this->tpl->setVariable("COLUMN_COUNT", $this->getColumnCount());
 			$this->tpl->parseCurrentBlock();
 		}
 

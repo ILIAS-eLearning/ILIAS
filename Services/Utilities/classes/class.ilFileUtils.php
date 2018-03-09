@@ -66,7 +66,7 @@ class ilFileUtils
 		// Copy zip-file to new directory, unzip and remove it
 		// TODO: check archive for broken file
 		//copy ($a_file, $a_directory . "/" . $file);
-		move_uploaded_file($a_file, $a_directory . "/" . $file);
+		ilUtil::moveUploadedFile($a_file, $file, $a_directory . "/" . $file);
 		ilUtil::unzip($a_directory . "/" . $file);
 		unlink ($a_directory . "/" . $file);
 //echo "-".$a_directory . "/" . $file."-";

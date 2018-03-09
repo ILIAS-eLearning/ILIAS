@@ -1444,8 +1444,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			: $mob_dir;
 		if (is_file($_FILES["new_file"]["tmp_name"]))
 		{
-			//move_uploaded_file($_FILES["new_file"]["tmp_name"],
-				//$cur_dir."/".$_FILES["new_file"]["name"]);
 			$file_name = ilObjMediaObject::fixFilename($_FILES["new_file"]["name"]);
 			$file = $cur_dir."/".$file_name;
 			ilUtil::moveUploadedFile($_FILES['new_file']['tmp_name'],
@@ -1841,14 +1839,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			
 			$st_item = $this->object->getMediaItem("Standard");
 
-			// video tools
-			if (substr($st_item->getFormat(), 0, 6) == "video/" && DEVMODE)
-			{
-				$this->tabs_gui->addTarget("mob_video_tools",
-					$this->ctrl->getLinkTargetByClass("ilobjmediaobjectgui", "showVideoTool"),
-					"showVideoTool", "ilobjmediaobjectgui");
-			}
-			
 			// link areas
 			
 			if (is_object($st_item) && $this->getEnabledMapAreas())

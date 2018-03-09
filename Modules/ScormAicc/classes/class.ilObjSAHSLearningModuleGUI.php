@@ -4,7 +4,7 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 require_once("./Services/FileSystem/classes/class.ilFileSystemGUI.php");
 
 /**
-* SCORM/AICC/HACP Learning Modules
+* SCORM Learning Modules
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * $Id$
@@ -127,9 +127,8 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				{
 					if (!$this->object->getEditable())
 					{
-						$info->addButton($this->lng->txt("view"),
-							"ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->object->getRefID(),
-							' target="ilContObj'.$this->object->getId().'" ');
+						$ilToolbar = $GLOBALS['DIC']->toolbar();
+						$ilToolbar->addButtonInstance($this->object->getViewButton());
 					}
 				}
 

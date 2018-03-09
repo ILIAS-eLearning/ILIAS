@@ -99,11 +99,6 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 			
 		}
 		
-		// LTI
-		if (isset($_SESSION['lti_tree_root_id'])) 
-		{
-			$this->top_node_id = $_SESSION['lti_tree_root_id'];
-		}
 		parent::__construct("rep_exp", $a_parent_obj, $a_parent_cmd, $tree);
 
 		$this->setSkipRootNode(false);
@@ -593,14 +588,6 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 
 		switch ($a_node["type"])
 		{
-			case "crs":
-				return $ilAccess->checkAccess("read", "", $a_node["child"]);			
-
-			// visible groups can allways be clicked; group processing decides
-			// what happens next
-			case "grp":
-				return true;
-				
 			case 'tst':
 				if(!$rbacsystem->checkAccess("read", $a_node["child"]))
 				{

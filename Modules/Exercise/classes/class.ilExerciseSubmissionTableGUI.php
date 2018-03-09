@@ -407,17 +407,17 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 					}
 					// fallthrough
 					
-				case "notice":	
-					$this->tpl->setVariable("VAL_".strtoupper($col), $a_row[$col]
-						? ilUtil::prepareFormOutput(trim($a_row[$col]))
-						: "");
+				case "notice":
+					// see #22076
+					$this->tpl->setVariable("VAL_".strtoupper($col), ilUtil::prepareFormOutput(trim($a_row[$col])));
 					break;
 					
 				case "comment":							
 					// for js-updating
-					$this->tpl->setVariable("LCOMMENT_ID", $comment_id."_snip");		
-		
-					$this->tpl->setVariable("VAL_".strtoupper($col), $a_row[$col]
+					$this->tpl->setVariable("LCOMMENT_ID", $comment_id."_snip");
+
+					// see #22076
+					$this->tpl->setVariable("VAL_".strtoupper($col), (trim($a_row[$col]) !== "")
 						? nl2br(trim($a_row[$col]))
 						: "&nbsp;");
 					break;
@@ -558,7 +558,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 		}
 		
 		// peer review 
-		if($peer_review = $a_row["submission_obj"]->getPeerReview())
+		if(($peer_review = $a_row["submission_obj"]->getPeerReview()) && $a_ass->afterDeadlineStrict())	// see #22246
 		{									
 			$counter = $peer_review->countGivenFeedback(true, $a_user_id);
 			$counter = $counter

@@ -68,8 +68,7 @@ class ilCalendarViewGUI
 	 * @var string
 	 */
 	protected $seed;
-	
-	
+
 	/**
 	 * 
 	 * @param ilDate $seed
@@ -102,6 +101,13 @@ class ilCalendarViewGUI
 		$this->logger = $GLOBALS['DIC']->logger()->cal();
 		//by default "download files" button is not displayed.
 		$this->view_with_appointments = false;
+
+		if($this->presentation_type == self::CAL_PRESENTATION_DAY ||
+			$this->presentation_type == self::CAL_PRESENTATION_WEEK)
+		{
+			iljQueryUtil::initjQuery($this->tpl);
+			$this->tpl->addJavaScript('./Services/Calendar/js/calendar_appointment.js');
+		}
 	}
 
 	/**
@@ -132,56 +138,63 @@ class ilCalendarViewGUI
 	 */
 	public function getEvents()
 	{
+		$user = $this->user->getId();
+
 		switch($this->presentation_type)
 		{
 			case self::CAL_PRESENTATION_AGENDA_LIST:
 
-				if($this->period_end_day == "")
-				{
+				//if($this->period_end_day == "")
+				//{
 					$this->period = ilCalendarAgendaListGUI::getPeriod();
+
 					$end_date = clone $this->seed;
 					switch ($this->period)
 					{
 						case ilCalendarAgendaListGUI::PERIOD_DAY:
-							$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_DAY);
+							$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_DAY,$user,true);
 							$end_date->increment(IL_CAL_DAY, 1);
 							break;
 
 						case ilCalendarAgendaListGUI::PERIOD_WEEK:
-							$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_WEEK);
+							$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_WEEK,$user,true);
 							$end_date->increment(IL_CAL_WEEK, 1);
 							break;
 
 						case ilCalendarAgendaListGUI::PERIOD_MONTH:
-							$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_MONTH);
+							$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_MONTH,$user,true);
 							$end_date->increment(IL_CAL_MONTH, 1);
 							break;
 
 						case ilCalendarAgendaListGUI::PERIOD_HALF_YEAR:
-							$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_HALF_YEAR);
+							$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_HALF_YEAR,$user, true);
 							$end_date->increment(IL_CAL_MONTH, 6);
 							break;
 						default:
 							// default is week ?!
-							$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_WEEK);
+							$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_WEEK, $user, true);
 							$end_date->increment(IL_CAL_WEEK, 1);
 							break;
 					}
-
 					$this->period_end_day = $end_date->get(IL_CAL_DATE);
-				}
-				else
+					$schedule->setPeriod($this->seed, $end_date);
+
+				//}
+				/*else
 				{
 					$schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_PD_UPCOMING);
-				}
+				}*/
+
 				break;
 			case self::CAL_PRESENTATION_DAY:
-				$schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_DAY);
+				$schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_DAY, $user, true);
 				break;
 			case self::CAL_PRESENTATION_WEEK:
-				$schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_WEEK);
+				$schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_WEEK,$user,true);
 				break;
 			case self::CAL_PRESENTATION_MONTH:
+				// if we put the user and true in the call method we will get only events and
+				// files from the current month. Not from 6 days before and after.
 				$schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_MONTH);
 				break;
 		}
@@ -246,7 +259,7 @@ class ilCalendarViewGUI
 
 				$modal_title = ilDatePresentation::formatPeriod($dates["start"], $dates["end"]);
 				$modal_title = $this->getModalTitleByPlugins($modal_title);
-				$modal = $f->modal()->roundtrip($modal_title,$f->legacy($content));
+				$modal = $f->modal()->roundtrip($modal_title,$f->legacy($content))->withCancelButtonLabel("close");
 
 				echo $r->renderAsync($modal);
 			}
@@ -283,7 +296,7 @@ class ilCalendarViewGUI
 		}
 
 
-		$comps = [$f->button()->shy($title, "")->withOnClick($modal->getShowSignal()), $modal];
+		$comps = [$f->button()->shy($title, "#")->withOnClick($modal->getShowSignal()), $modal];
 
 		return $r->render($comps);
 	}
@@ -311,7 +324,7 @@ class ilCalendarViewGUI
 		//"capm" is the plugin slot id for Appointment presentations (modals)
 		foreach($this->getActivePlugins("capm") as $plugin)
 		{
-			$modal_title = ($new_title = $plugin->editModalTitle($a_current_title))? $new_title : "";
+			$modal_title = ($new_title = $plugin->editModalTitle($a_current_title))? $new_title : $a_current_title;
 		}
 		return $modal_title;
 	}
@@ -319,10 +332,11 @@ class ilCalendarViewGUI
 	/**
 	 * @param $a_cal_entry
 	 * @param $a_start_date
-	 * @param $a_title
+	 * @param $a_content
+	 * @param $a_tpl needed to adding elements in the template like extra content inside the event container
 	 * @return string
 	 */
-	public function getContentByPlugins($a_cal_entry, $a_start_date, $a_content)
+	public function getContentByPlugins($a_cal_entry, $a_start_date, $a_content, $a_tpl)
 	{
 		$content = $a_content;
 
@@ -330,24 +344,28 @@ class ilCalendarViewGUI
 		foreach($this->getActivePlugins("capg") as $plugin)
 		{
 			$plugin->setAppointment($a_cal_entry, new ilDateTime($a_start_date));
-			if($new_content = $plugin->replaceContent($a_content))
+
+			if($new_title = $plugin->editShyButtonTitle())
+			{
+				$a_tpl->setVariable('EVENT_CONTENT', $this->getAppointmentShyButton($a_cal_entry, $a_start_date, $new_title));
+			}
+
+			if($glyph = $plugin->addGlyph())
+			{
+				$a_tpl->setVariable('EXTRA_GLYPH_BY_PLUGIN', $glyph);
+			}
+
+			if($more_content = $plugin->addExtraContent())
+			{
+				$a_tpl->setVariable('EXTRA_CONTENT_BY_PLUGIN', $more_content);
+			}
+
+			$a_tpl->parseCurrentBlock();
+			$html_content = $a_tpl->get();
+
+			if($new_content = $plugin->replaceContent($html_content))
 			{
 				$content = $new_content;
-			}
-			else
-			{
-				$shy_title = ($new_title = $plugin->editShyButtonTitle())? $new_title : "";
-				$content = $this->getAppointmentShyButton($a_cal_entry, $a_start_date, $shy_title);
-
-				if($glyph = $plugin->addGlyph())
-				{
-					$content = $glyph." ".$content;
-				}
-
-				if($more_content = $plugin->addExtraContent())
-				{
-					$content = $content." ".$more_content;
-				}
 			}
 		}
 		if($content == $a_content)
@@ -400,8 +418,10 @@ class ilCalendarViewGUI
 
 		$download_job->setBucketTitle($this->getBucketTitle());
 		$download_job->setEvents($this->getEvents());
-		$download_job->run();
-		
+		if($download_job->run())
+		{
+			ilUtil::sendSuccess($this->lng->txt('cal_download_files_started'),true);
+		}
 		$GLOBALS['DIC']->ctrl()->redirect($this);
 	}
 
@@ -429,7 +449,7 @@ class ilCalendarViewGUI
 			case self::CAL_PRESENTATION_MONTH:
 				$year_month = $this->seed->get(IL_CAL_FKT_DATE,'Y-m','UTC');
 				$char = strtolower(mb_substr($this->lng->txt("month"),0,1));
-				$bucket_title .= " ".$year_month."-01 1".$char;
+				$bucket_title .= " ".$year_month." 1".$char;
 				break;
 			case self::CAL_PRESENTATION_AGENDA_LIST:
 				$bucket_title .= " ".$this->seed->get(IL_CAL_DATE);
@@ -458,7 +478,7 @@ class ilCalendarViewGUI
 	}
 
 	/**
-	 * get the events between 2 dates based in seed + view options.
+	 * get the events starting between 2 dates based in seed + view options.
 	 * @return int number of events in the calendar list view.
 	 */
 	function countEventsInView()
@@ -469,7 +489,7 @@ class ilCalendarViewGUI
 		switch ($get_list_option)
 		{
 			case ilCalendarAgendaListGUI::PERIOD_DAY:
-				$end->increment(IL_CAL_DAY,1);
+				//$end->increment(IL_CAL_DAY,1);
 				break;
 			case ilCalendarAgendaListGUI::PERIOD_MONTH:
 				$end->increment(IL_CAL_MONTH,1);
@@ -487,8 +507,8 @@ class ilCalendarViewGUI
 		foreach($events as $event)
 		{
 			$event_start = $event['event']->getStart()->get(IL_CAL_DATE);
-			$event_end = $event['event']->getEnd()->get(IL_CAL_DATE);
-			if($event_start >= $start->get(IL_CAL_DATE) &&  $event_end< $end->get(IL_CAL_DATE))
+
+			if($event_start >= $start->get(IL_CAL_DATE) &&  $event_start<= $end->get(IL_CAL_DATE))
 			{
 				$num_events++;
 			}

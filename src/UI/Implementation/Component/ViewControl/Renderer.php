@@ -219,7 +219,7 @@ class Renderer extends AbstractComponentRenderer
  			$this->setPaginationFirstLast($component, $range, $default_renderer, $tpl);
 		}
 
-		$this->setPaginationRockers($component, $default_renderer, $tpl);
+		$this->setPaginationBrowseControls($component, $default_renderer, $tpl);
 		return $tpl->get();
 	}
 
@@ -285,7 +285,7 @@ class Renderer extends AbstractComponentRenderer
 	}
 
 	/**
-	 * Add chevron-rockers to the template for left/right navigation in pagination
+	 * Add back/next-glyphs to the template for left/right browsing in pagination
 	 *
 	 * @param Component\ViewControl\Pagination 	$component
 	 * @param RendererInterface $default_renderer 	$default_renderer
@@ -293,29 +293,47 @@ class Renderer extends AbstractComponentRenderer
 	 *
 	 * @return void
 	 */
-	protected function setPaginationRockers(Component\ViewControl\Pagination $component, RendererInterface $default_renderer, &$tpl) {
+	protected function setPaginationBrowseControls(Component\ViewControl\Pagination $component, RendererInterface $default_renderer, &$tpl) {
 		$prev = max(0, $component->getCurrentPage() - 1);
-		$shy_left = $this->getPaginationShyButton(
-			(string)$prev,
-			$component,
-			'<span class="glyphicon glyphicon-chevron-left"></span>'
-		);
-		if($component->getCurrentPage() === 0) {
-			$shy_left = $shy_left->WithUnavailableAction();
-		}
-
 		$next = $component->getCurrentPage() + 1;
-		$shy_right = $this->getPaginationShyButton(
-			(string)$next,
-			$component,
-			'<span class="glyphicon glyphicon-chevron-right"></span>'
+
+		$f = new \ILIAS\UI\Implementation\Factory(
+			new \ILIAS\UI\Implementation\Component\SignalGenerator()
 		);
-		if($component->getCurrentPage() >= $component->getNumberOfPages()-1) {
-			$shy_right = $shy_right->WithUnavailableAction();
+
+		if($component->getTriggeredSignals()) {
+			$back = $f->glyph()->back('')->withOnClick($component->getInternalSignal());
+			$forward = $f->glyph()->next('')->withOnClick($component->getInternalSignal());
+		} else {
+			$url = $component->getTargetURL();
+			if(strpos($url, '?') === false) {
+				$url_prev .= '?' .$component->getParameterName() .'=' .$prev;
+				$url_next .= '?' .$component->getParameterName() .'=' .$next;
+			} else {
+				$base = substr($url, 0, strpos($url, '?') + 1);
+				$query = parse_url($url, PHP_URL_QUERY);
+				parse_str($query, $params);
+
+				$params[$component->getParameterName()] = $prev;
+				$url_prev = $base .http_build_query($params);
+				$params[$component->getParameterName()] = $next;
+				$url_next = $base .http_build_query($params);
+			}
+
+			$back = $f->glyph()->back($url_prev);
+			$forward = $f->glyph()->next($url_next);
 		}
 
-		$tpl->setVariable('ROCKER_PREVIOUS', $default_renderer->render($shy_left));
-		$tpl->setVariable('ROCKER_NEXT', $default_renderer->render($shy_right));
+		//2do: unavailable action for glyphs
+		if($component->getCurrentPage() === 0) {
+			//$back = $back->WithUnavailableAction();
+		}
+		if($component->getCurrentPage() >= $component->getNumberOfPages()-1) {
+			//$forward = $forward->WithUnavailableAction();
+		}
+
+		$tpl->setVariable('PREVIOUS', $default_renderer->render($back));
+		$tpl->setVariable('NEXT', $default_renderer->render($forward));
 	}
 
 	/**

@@ -11,6 +11,29 @@
 */
 class ilBenchmark
 {
+
+	/**
+	 * @var array
+	 */
+	protected $db_bench;
+	/**
+	 * @var int
+	 */
+	protected $start;
+	/**
+	 * @var
+	 */
+	protected $sql;
+	/**
+	 * @var
+	 */
+	protected $db_bench_stop_rec;
+	/**
+	 * @var int
+	 */
+	protected $db_enabled_user;
+
+
 	/**
 	 * Constructor
 	 */
@@ -48,35 +71,26 @@ class ilBenchmark
 
 
 	/**
-	* start measurement
-	*
-	* @param	string		$type		measurement type
-	*
-	* @return	int			measurement id
-	*/
+	 * start measurement
+	 *
+	 * @param	string		$type		measurement type
+	 *
+	 * @return	int			measurement id
+	 * @deprecated
+	 */
 	function start($a_module, $a_bench)
 	{
-return;
-		if ($this->isEnabled())
-		{
-			$this->bench[$a_module.":".$a_bench][] = microtime();
-		}
 	}
 
 
 	/**
-	* stop measurement
-	*
-	* @param	int			$mid		measurement id
-	*/
+	 * stop measurement
+	 *
+	 * @param	int			$mid		measurement id
+	 * @deprecated
+	 */
 	function stop($a_module, $a_bench)
 	{
-return;
-		if ($this->isEnabled())
-		{
-			$this->bench[$a_module.":".$a_bench][count($this->bench[$a_module.":".$a_bench]) - 1]
-				= $this->microtimeDiff($this->bench[$a_module.":".$a_bench][count($this->bench[$a_module.":".$a_bench]) - 1], microtime());
-		}
 	}
 
 
@@ -87,9 +101,7 @@ return;
 	{
 		global $DIC;
 		$ilDB = $DIC->database();
-
 		$ilUser = $DIC->user();
-
 		if ($this->isDbBenchEnabled() && is_object($ilUser) &&
 			$this->db_enabled_user == $ilUser->getLogin())
 		{
@@ -327,39 +339,43 @@ return;
 
 		if ($a_enable)
 		{
-			$ilSetting->get("enable_db_bench", 1);
+			$ilSetting->set("enable_db_bench", 1);
 			if ($a_user !== 0)
 			{
-				$ilSetting->get("db_bench_user", $a_user);
+				$ilSetting->set("db_bench_user", $a_user);
 			}
 		}
 		else
 		{
-			$ilSetting->get("enable_db_bench", 0);
+			$ilSetting->set("enable_db_bench", 0);
 			if ($a_user !== 0)
 			{
-				$ilSetting->get("db_bench_user", $a_user);
+				$ilSetting->set("db_bench_user", $a_user);
 			}
 		}
 	}
 
+
 	/**
 	 * start measurement
 	 *
-	 * @param	string		$type		measurement type
+	 * @param string $a_sql
 	 *
-	 * @return	int			measurement id
+	 * @return bool|int
 	 */
-	function startDbBench($a_sql)
+	public function startDbBench($a_sql)
 	{
 		global $DIC;
 
-		$ilUser = $DIC->user();;
+		try {
+			$ilUser = $DIC->user();
+		} catch (InvalidArgumentException $e) {
+			return false;
+		}
 
-		if ($this->isDbBenchEnabled() && is_object($ilUser) &&
-			$this->db_enabled_user == $ilUser->getLogin() &&
-			!$this->db_bench_stop_rec)
-		{
+		if ($this->isDbBenchEnabled() && is_object($ilUser)
+		    && $this->db_enabled_user == $ilUser->getLogin()
+		    && !$this->db_bench_stop_rec) {
 			$this->start = microtime();
 			$this->sql = $a_sql;
 		}
@@ -367,24 +383,31 @@ return;
 
 
 	/**
-	 * stop measurement
-	 *
-	 * @param	int			$mid		measurement id
+	 * @return bool
 	 */
-	function stopDbBench()
+	public function stopDbBench()
 	{
 		global $DIC;
 
-		$ilUser = $DIC->user();
-
-		if ($this->isDbBenchEnabled() && is_object($ilUser) &&
-			$this->db_enabled_user == $ilUser->getLogin() &&
-			!$this->db_bench_stop_rec)
-		{
-			$this->db_bench[] =
-				array("start" => $this->start, "stop" => microtime(),
-					"sql" => $this->sql);
+		try {
+			$ilUser = $DIC->user();
+		} catch (InvalidArgumentException $e) {
+			return false;
 		}
+
+		if ($this->isDbBenchEnabled() && is_object($ilUser)
+		    && $this->db_enabled_user == $ilUser->getLogin()
+		    && !$this->db_bench_stop_rec) {
+			$this->db_bench[] = array(
+				"start" => $this->start,
+				"stop"  => microtime(),
+				"sql"   => $this->sql,
+			);
+
+			return true;
+		}
+
+		return false;
 	}
 
 	/**

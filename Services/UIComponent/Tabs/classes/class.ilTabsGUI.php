@@ -27,6 +27,8 @@ class ilTabsGUI
 	var $non_tabbed_link = array();
 	var $setup_mode = false;
 
+	protected $force_one_tab = false;
+
 	/**
 	* Constructor
 	* @access	public
@@ -90,7 +92,26 @@ class ilTabsGUI
 		$this->back_2_target = $a_target;
 		$this->back_2_frame = $a_frame;
 	}
-	
+
+	/**
+	 * Set force presentation of single tab
+	 *
+	 * @param bool $a_val force presentation of single tab
+	 */
+	function setForcePresentationOfSingleTab($a_val)
+	{
+		$this->force_one_tab = $a_val;
+	}
+
+	/**
+	 * Get force presentation of single tab
+	 *
+	 * @return bool force presentation of single tab
+	 */
+	function getForcePresentationOfSingleTab()
+	{
+		return $this->force_one_tab;
+	}
 
 	/**
 	* @deprecated since version 5.0
@@ -499,7 +520,7 @@ class ilTabsGUI
 		$i=0;
 		
         // do not display one tab only
-        if ((count($targets) > 1) || ($this->back_title != "" && !$a_get_sub_tabs)
+        if ((count($targets) > 1 || $this->force_one_tab) || ($this->back_title != "" && !$a_get_sub_tabs)
         	|| (count($this->non_tabbed_link) > 0 && !$a_get_sub_tabs))
 		{
 			foreach ($targets as $target)

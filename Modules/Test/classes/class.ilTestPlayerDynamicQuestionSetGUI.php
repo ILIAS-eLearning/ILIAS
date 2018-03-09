@@ -609,7 +609,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 // fau: testNav - enable the question navigation in edit mode
 			$this->populateQuestionNavigation(
-				$this->testSession->getCurrentQuestionId(), false
+				$this->testSession->getCurrentQuestionId(), false, $this->object->isForceInstantFeedbackEnabled()
 			);
 // fau.
 
@@ -943,6 +943,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		$gui->setTaxonomyFilterEnabled($this->dynamicQuestionSetConfig->isTaxonomyFilterEnabled());
 		$gui->setAnswerStatusFilterEnabled($this->dynamicQuestionSetConfig->isAnswerStatusFilterEnabled());
 
+		$gui->setFilterSelection($this->testSession->getQuestionSetFilterSelection());
 		$gui->initFilter();
 		$gui->setFilterCommand('filterQuestionSelection');
 		$gui->setResetCommand('resetQuestionSelection');
@@ -1074,11 +1075,11 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 
-	protected function populateQuestionNavigation($sequenceElement, $disabled)
+	protected function populateQuestionNavigation($sequenceElement, $disabled, $primaryNext)
 	{
 		if( !$this->isLastQuestionInSequence($sequenceElement) )
 		{
-			$this->populateNextButtons($disabled);
+			$this->populateNextButtons($disabled, $primaryNext);
 		}
 	}
 	

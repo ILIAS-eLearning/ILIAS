@@ -308,7 +308,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 			{
 				if($objDefinition->isPlugin($this->getObjType())) {
 					if(ilPlugin::langExitsById($this->getObjType(), $row['perm']['operation'])) {
-						$perm = ilPlugin::lookupTxtById($this->getObjType(), $row['perm']['operation']);
+						$perm = ilObjectPlugin::lookupTxtById($this->getObjType(), $row['perm']['operation']);
 					}
 				}
 
@@ -625,7 +625,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 				$type = ilObject::_lookupType($this->getRefId(), true);
 				if($objDefinition->isPlugin($type))
 				{
-					$type_text = ilPlugin::lookupTxtById($type, 'obj_'.$type);
+					$type_text = ilObjectPlugin::lookupTxtById($type, 'obj_'.$type);
 				} else {
 					$type_text = $this->lng->txt('obj_'.ilObject::_lookupType($obj));
 				}
@@ -690,7 +690,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 		{
 			if (preg_match("/^il_./", $role["title"]))
 			{
-				$role_title = ilPlugin::lookupTxtById($type, ilObjRole::_removeObjectId($role["title"]));
+				$role_title = ilObjectPlugin::lookupTxtById($type, ilObjRole::_removeObjectId($role["title"]));
 			}
 		}
 

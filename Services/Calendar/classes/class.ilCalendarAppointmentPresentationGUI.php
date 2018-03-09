@@ -172,7 +172,10 @@ class ilCalendarAppointmentPresentationGUI
 		$this->ctrl->getHTML($f);
 		$content = $info_screen->getHTML();
 
-		$content = $this->getContentByPlugins($content);
+		//because #21529
+		$plugin_results = $this->getContentByPlugins($content, $toolbar);
+		$content = $plugin_results['content'];
+		$toolbar = $plugin_results['toolbar'];
 
 		// show toolbar
 		$tpl->setCurrentBlock("toolbar");
@@ -213,29 +216,42 @@ class ilCalendarAppointmentPresentationGUI
 		return $res;
 	}
 
-	protected function getContentByPlugins($a_content)
+	protected function getContentByPlugins($a_content, $a_toolbar)
 	{
 		$content = $a_content;
+		$toolbar = $a_toolbar;
 		foreach($this->getActivePlugins() as $plugin)
 		{
 			//pass only the appointment stuff
 			$plugin->setAppointment($this->appointment['event'], new ilDateTime($this->appointment['dstart']));
 
+			if($new_infoscreen = $plugin->infoscreenAddContent($this->info_screen)) {
+				$this->info_screen = $new_infoscreen;
+			}
+
+			$content =  $this->info_screen->getHTML();
+			$extra_content = $plugin->addExtraContent();
+			if($extra_content != '') {
+				$content .= $extra_content;
+			}
+
 			if($new_content = $plugin->replaceContent()) {
 				$content = $new_content;
-			} else {
-				$this->info_screen = $plugin->infoscreenAddContent($this->info_screen);
-				$extra_content = $plugin->addExtraContent();
-				$content =  $this->info_screen->getHTML().$extra_content;
+			}
+
+			if($new_toolbar = $plugin->toolbarAddItems($toolbar)) {
+				$toolbar = $new_toolbar;
 			}
 
 			if($new_toolbar = $plugin->toolbarReplaceContent()) {
-				$this->toolbar = $new_toolbar;
-			} else {
-				$this->toolbar = $plugin->toolbarAddItems($this->toolbar);
+				$new_toolbar->setId($a_toolbar->getId());
+				$toolbar = $new_toolbar;
 			}
 		}
 
-		return $content;
+		return array(
+			'content' => $content,
+			'toolbar' => $toolbar
+		);
 	}
 }

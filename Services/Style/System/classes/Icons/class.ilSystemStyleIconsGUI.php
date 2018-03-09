@@ -279,6 +279,9 @@ class  ilSystemStyleIconsGUI
 			}
 			$this->getIconFolder()->changeIconColors($color_changes);
 			$this->setIconFolder(new ilSystemStyleIconFolder($this->getStyleContainer()->getImagesSkinPath($_GET["style_id"])));
+            $skin = $this->getStyleContainer()->getSkin();
+            $skin->getVersionStep($skin->getVersion());
+            $this->getStyleContainer()->updateSkin($skin);
             $message_stack->addMessage(new ilSystemStyleMessage($this->lng->txt("color_update"),
                 ilSystemStyleMessage::TYPE_SUCCESS));
             $message_stack->sendMessages(true);
@@ -443,6 +446,14 @@ class  ilSystemStyleIconsGUI
 
             $message_stack->addMessage(new ilSystemStyleMessage($this->lng->txt("color_update"),ilSystemStyleMessage::TYPE_SUCCESS));
 
+			foreach ($message_stack->getJoinedMessages() as $type => $message) {
+			    if($type == ilSystemStyleMessage::TYPE_SUCCESS) {
+                    $skin = $this->getStyleContainer()->getSkin();
+                    $skin->getVersionStep($skin->getVersion());
+                    $this->getStyleContainer()->updateSkin($skin);
+			        continue;
+                }
+            }
 			$message_stack->sendMessages(true);
 			$this->ctrl->setParameter($this,"selected_icon",$icon->getName());
 			$this->ctrl->redirect($this,"editIcon");

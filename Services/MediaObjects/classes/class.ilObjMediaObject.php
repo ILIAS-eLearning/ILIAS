@@ -706,7 +706,7 @@ class ilObjMediaObject extends ilObject
 	* get MediaObject XLM Tag
 	*  @param	int		$a_mode		IL_MODE_ALIAS | IL_MODE_OUTPUT | IL_MODE_FULL
 	*/
-	function getXML($a_mode = IL_MODE_FULL, $a_inst = 0)
+	function getXML($a_mode = IL_MODE_FULL, $a_inst = 0, $a_sign_locals = false)
 	{
 		$ilUser = $this->user;
 		
@@ -774,9 +774,20 @@ class ilObjMediaObject extends ilObject
 
 					$xml .= "<MediaItem Purpose=\"".$item->getPurpose()."\">";
 
+					if ($a_sign_locals && $item->getLocationType() == "LocalFile")
+					{
+						require_once 'Services/WebAccessChecker/classes/class.ilWACSignedPath.php';
+						$location = ilWACSignedPath::signFile($this->getDataDirectory()."/".$item->getLocation());
+						$location = substr($location, strrpos($location, "/") + 1);
+					}
+					else
+					{
+						$location = $item->getLocation();
+					}
+
 					// Location
 					$xml.= "<Location Type=\"".$item->getLocationType()."\">".
-						$this->handleAmps($item->getLocation())."</Location>";
+						$this->handleAmps($location)."</Location>";
 
 					// Format
 					$xml.= "<Format>".$item->getFormat()."</Format>";
@@ -805,6 +816,13 @@ class ilObjMediaObject extends ilObject
 					{
 						$xml .= "<TextRepresentation>".
 							str_replace("&", "&amp;", $item->getTextRepresentation())."</TextRepresentation>";
+					}
+
+					// Title
+					if ($this->getTitle() != "")
+					{
+						$xml .= "<Title>".
+							str_replace("&", "&amp;", $this->getTitle())."</Title>";
 					}
 
 					// Parameter
@@ -1421,7 +1439,7 @@ class ilObjMediaObject extends ilObject
 							$pinfo = ilPCQuestion::_getPageForQuestionId($id, "sahs");
 							if ($pinfo && $pinfo["parent_type"] == "sahs")
 							{
-								include_once("./Modules/SCORM2004/classes/class.ilSCORM2004Node.php");
+								include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
 								$obj_id = ilSCORM2004Node::_lookupSLMID($pinfo["page_id"]);
 							}
 						}

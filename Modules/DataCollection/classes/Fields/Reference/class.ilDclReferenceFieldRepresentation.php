@@ -89,7 +89,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation {
 		$ref_table = ilDclCache::getTableCache($ref_field->getTableId());
 		$options = array();
 		foreach ($ref_table->getRecords() as $record) {
-			$options[$record->getId()] = $record->getRecordFieldValue($ref_field_id);
+			$options[$record->getId()] = $record->getRecordFieldPlainText($ref_field_id);
 		}
 		// Sort by values ASC
 		asort($options);

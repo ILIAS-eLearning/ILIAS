@@ -638,6 +638,16 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 		return true;
 	}
 	
+	protected function isForcedEmptySolution($solutionSubmit)
+	{
+		if( !count($solutionSubmit) && !empty($_POST['tst_force_form_diff_input']) )
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
 	/**
 	 * Saves the learners input of the question to the database.
 	 * 
@@ -675,7 +685,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 			}
 
 // fau: testNav - write a dummy entry for the evil mc questions with "None of the above" checked
-			if (!empty($_POST['tst_force_form_diff_input']))
+			if ( $this->isForcedEmptySolution($solutionSubmit) )
 			{
 				$this->saveCurrentSolution($active_id, $pass, 'mc_none_above', null, $authorized);
 				$entered_values++;
@@ -1074,6 +1084,18 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 	{
 		$this->thumb_size = $a_size;
 	}
+	
+	/**
+	 * @param ilAssSelfAssessmentMigrator $migrator
+	 */
+	protected function lmMigrateQuestionTypeSpecificContent(ilAssSelfAssessmentMigrator $migrator)
+	{
+		foreach($this->getAnswers() as $answer)
+		{
+			/* @var ASS_AnswerBinaryStateImage $answer */
+			$answer->setAnswertext( $migrator->migrateToLmContent($answer->getAnswertext()) );
+		}
+	}
 
 	/**
 	 * Returns a JSON representation of the question
@@ -1108,8 +1130,8 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 				"points_unchecked" => (float) $answer_obj->getPointsUnchecked(),
 				"order" => (int) $answer_obj->getOrder(),
 				"image" => (string) $answer_obj->getImage(),
-				"feedback" => ilRTE::_replaceMediaObjectImageSrc(
-						$this->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation($this->getId(), $key), 0
+				"feedback" => $this->formatSAQuestion(
+						$this->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation($this->getId(), $key)
 				)
 			));
 		}

@@ -98,27 +98,15 @@ a.il_PrintBack
 	<!-- END checkbox_col -->
 	<td class="ilNoteList" colspan="{CNT_COL}">
 	<!-- BEGIN delete_ids --><input type="hidden" name="{HID_NOTE}" value="{HID_NOTE_ID}"/><!-- END delete_ids -->
-	<div class="{CLASS}">
+
+	<div class="ilComment">
 		<!-- BEGIN user_img --><div class="ilNotesUImage"><img alt="{USR_ALT}" title="{USR_ALT}" src="{USR_IMG}" border="0"/></div><!-- END user_img -->
-		<a name="note_{NOTE_ID}">{EXP_ICON}<!-- BEGIN note_img --><!-- <img src="{IMG_NOTE}" alt="{ALT_NOTE}" title="{ALT_NOTE}" border="0" style="vertical-align:text-bottom; margin-bottom:2px;"/> --><!-- END note_img --></a>
+		<a name="note_{NOTE_ID}">{EXP_ICON}</a>
 		<span class="small light">{TXT_USR} {TXT_CREATED} {VAL_DATE} {TXT_LAST_EDIT} {DATE_LAST_EDIT}</span>
 		<!-- BEGIN author --><!-- END author -->  
 		<div class="ilNoteText"><h4 class="ilNoteTitle">{VAL_SUBJECT}</h4>{NOTE_TEXT}</div>
 	</div>
-		<!-- BEGIN target_objects -->
-			<div style="margin-top:4px;" class="subtitle">
-			<!-- BEGIN target_object -->
-				<div><!-- <img src="{IMG_CONTAINER}" border="0" />--> {TXT_CONTAINER} > <!--<img src="{IMG_TARGET}" border="0" />--> <a href="{LINK_TARGET}">{TXT_TARGET}</a>
-				<!-- BEGIN target_sub_object -->> <!-- <img src="{IMG_SUB_TARGET}" border="0" />--> <a href="{LINK_SUB_TARGET}">{TXT_SUB_TARGET}</a><!-- END target_sub_object -->
-				</div>
-			<!-- END target_object -->
-			<!-- BEGIN exp_target_object -->
-				<div><!-- <img src="{IMG_CONTAINER}" border="0" />--> {TXT_CONTAINER} > <!--<img src="{IMG_TARGET}" border="0" />--> {TXT_TARGET}
-				<!-- BEGIN exp_target_sub_object -->> <!-- <img src="{IMG_SUB_TARGET}" border="0" />--> {TXT_SUB_TARGET}<!-- END exp_target_sub_object -->
-				</div>
-			<!-- END exp_target_object -->
-			</div>
-		<!-- END target_objects -->
+		{TARGET_OBJECTS}
 		<div class="il_ContainerItemCommands2" style="text-align:right; margin: 3px 0px;">
 			<!-- BEGIN delete_note -->
 			<a class="il_ContainerItemCommand2" {ON_CLICK_DELETE_NOTE} href="{LINK_DELETE_NOTE}">{TXT_DELETE_NOTE}</a>

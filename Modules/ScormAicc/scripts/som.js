@@ -129,7 +129,7 @@ $( document ).ready( function() {
 					TITLE 		: lm.title,
 					DESCRIPTION	: lm.description,
 					CRSDETAILS 	: "detail_" + lm_id,
-					STATUSICON	: "./Modules/ScormAicc/templates/sop/images/" + st + ".png",
+					STATUSICON	: "./templates/default/images/scorm/" + st + ".png",
 					STATUSTITLE	: st
 				}
 				str += getTemplateContent(tmp,data);

@@ -546,18 +546,7 @@ class ilDBUpdate
 		$row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 		return $row;
 	}
-	
-	function optimizeTables($tables)
-	{
-		$msg = array();
-		foreach ($_POST["tables"] as $key => $value)
-		{
-			$query = "OPTIMIZE TABLE ".$key;	
-			$res = $this->db->query($query);
-			$msg[] = "table $key: ok";
-		}	
-		return $msg;
-	}
+
 	
 	////
 	//// Hotfix handling

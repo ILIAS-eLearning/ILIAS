@@ -136,6 +136,7 @@ class ilPersonalChatSettingsFormGUI extends ilPropertyFormGUI
 		if($this->shouldShowNotificationOptions())
 		{
 			$chb = new ilCheckboxInputGUI($this->lng->txt('play_invitation_sound'), 'play_invitation_sound');
+			$chb->setInfo($this->lng->txt('play_invitation_sound_info'));
 			$this->addItem($chb);
 		}
 

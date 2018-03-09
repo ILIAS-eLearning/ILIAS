@@ -1066,15 +1066,6 @@ class ilObjectCopyGUI
 					$ilCtrl->returnToParent($this);
 				}
 			}
-			foreach($this->getTargets() as $target_ref_id)
-			{
-				if(!$rbacsystem->checkAccess('create', $target_ref_id, $source_type))
-				{
-					$this->log->notice('Permission denied for target_id: ' . $target_ref_id.' source_type: ' . $source_type.' CREATE');
-					ilUtil::sendFailure($this->lng->txt('permission_denied'),true);
-					$ilCtrl->returnToParent($this);
-				}
-			}
 
 			// Copy permission
 			if(!$ilAccess->checkAccess('copy','',$source_ref_id))
@@ -1175,12 +1166,8 @@ class ilObjectCopyGUI
 		{
 			ilLoggerFactory::getLogger('obj')->info('Object copy completed.');
 			ilUtil::sendSuccess($this->lng->txt("object_duplicated"),true);
-			$ilCtrl->setParameterByClass(
-					"ilrepositorygui", 
-					"ref_id",
-					$result['ref_id']
-			);
-			$ilCtrl->redirectByClass("ilrepositorygui", "");
+			$link = ilLink::_getLink($result['ref_id']);
+			$GLOBALS['DIC']->ctrl()->redirectToUrl($link);
 		}
 		else
 		{

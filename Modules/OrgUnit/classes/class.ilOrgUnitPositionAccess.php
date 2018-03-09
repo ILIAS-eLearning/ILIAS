@@ -48,8 +48,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
 		$assignment_of_user = $this->ua->getAssignmentsOfUserId($for_user_id);
 		$other_users_in_same_org_units = [];
 		foreach ($assignment_of_user as $assignment) {
-			$other_users_in_same_org_units = $other_users_in_same_org_units
-			                                 + $this->ua->getUserIdsOfOrgUnit($assignment->getOrguId());
+			$other_users_in_same_org_units = $other_users_in_same_org_units + $this->ua->getUserIdsOfOrgUnit($assignment->getOrguId());
 		}
 
 		return array_intersect($user_ids, $other_users_in_same_org_units);
@@ -73,7 +72,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
 		$filtered_user_ids = $this->filterUserIdsForUsersPositionsAndPermission($on_user_ids, $which_user_id, $permission);
 
 		return ($on_user_ids === array_intersect($on_user_ids, $filtered_user_ids)
-		        && $filtered_user_ids === array_intersect($filtered_user_ids, $on_user_ids));
+			&& $filtered_user_ids === array_intersect($filtered_user_ids, $on_user_ids));
 	}
 
 
@@ -82,8 +81,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
 	 */
 	public function filterUserIdsByPositionOfCurrentUser($pos_perm, $ref_id, array $user_ids) {
 		// If context is not activated, return same array of $user_ids
-		if (!$this->set->getObjectPositionSettingsByType($this->getTypeForRefId($ref_id))
-		               ->isActive()) {
+		if (!$this->set->getObjectPositionSettingsByType($this->getTypeForRefId($ref_id))->isActive()) {
 			return $user_ids;
 		}
 
@@ -98,14 +96,13 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
 	 */
 	public function filterUserIdsByPositionOfUser($user_id, $pos_perm, $ref_id, array $user_ids) {
 		// If context is not activated, return same array of $user_ids
-		if (!$this->set->getObjectPositionSettingsByType($this->getTypeForRefId($ref_id))
-		               ->isActive()) {
+		if (!$this->set->getObjectPositionSettingsByType($this->getTypeForRefId($ref_id))->isActive()) {
 			return $user_ids;
 		}
 
 		// $all_available_users = $this->ua->getUserIdsOfOrgUnit()
 		$operation = ilOrgUnitOperationQueries::findByOperationString($pos_perm, $this->getTypeForRefId($ref_id));
-		if(!$operation) {
+		if (!$operation) {
 			return $user_ids;
 		}
 
@@ -160,7 +157,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
 		}
 
 		$operation = ilOrgUnitOperationQueries::findByOperationString($pos_perm, $this->getTypeForRefId($ref_id));
-		if(!$operation) {
+		if (!$operation) {
 			return false;
 		}
 		$current_user_id = $this->getCurrentUsersId();
@@ -168,6 +165,28 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
 		foreach ($this->ua->getPositionsOfUserId($current_user_id) as $position) {
 			$permissions = ilOrgUnitPermissionQueries::getSetForRefId($ref_id, $position->getId());
 			if ($permissions->isOperationIdSelected($operation->getOperationId())) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function hasCurrentUserAnyPositionAccess($ref_id) {
+		// If context is not activated, return same array of $user_ids
+		if (!$this->isPositionActiveForRefId($ref_id)) {
+			return false;
+		}
+
+		$current_user_id = $this->getCurrentUsersId();
+
+		foreach ($this->ua->getPositionsOfUserId($current_user_id) as $position) {
+			$permissions = ilOrgUnitPermissionQueries::getSetForRefId($ref_id, $position->getId());
+			if (count($permissions->getOperations()) > 0) {
 				return true;
 			}
 		}
@@ -210,6 +229,19 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
 		}
 
 		return $this->filterUserIdsByPositionOfCurrentUser($pos_perm, $ref_id, $user_ids);
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function hasUserRBACorAnyPositionAccess($rbac_perm, $ref_id) {
+		global $DIC;
+		if ($DIC->access()->checkAccess($rbac_perm, '', $ref_id)) {
+			return true;
+		}
+
+		return $this->hasCurrentUserAnyPositionAccess($ref_id);
 	}
 
 

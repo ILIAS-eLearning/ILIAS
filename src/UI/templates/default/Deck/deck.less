@@ -7,14 +7,25 @@
     padding-right: @padding-xs-horizontal;
     margin-bottom: @padding-large-vertical;
   }
+
+  &.row-eq-height {
+    &:before {
+      content: none !important;
+    }
+
+    &:after {
+      content: none !important;
+    }
+  }
 }
-@media (min-width: @screen-md-min) {
+@media (min-width: @screen-sm-min) {
   .row-eq-height {
 
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
+    flex-wrap: wrap;
 
     > div {
       display: flex;

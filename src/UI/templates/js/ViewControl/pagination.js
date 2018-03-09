@@ -23,9 +23,6 @@ il.UI.viewcontrol = il.UI.viewcontrol || {};
 				dd.dropdown('toggle');
 				dd.contents()[0].data = (parseInt(param) + 1).toString() + ' ';
 			}
-			//TODO: rockers
-			//TODO: select current page
-
 			pagination.trigger(signal, sigdata);
 		};
 

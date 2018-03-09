@@ -169,6 +169,11 @@ class ilTestServiceGUI
 		}
 
 		$scoredPass = $this->object->_getResultPass($testSession->getActiveId());
+		
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
+		$questionHintRequestRegister = ilAssQuestionHintTracking::getRequestRequestStatisticDataRegisterByActiveId(
+			$testSession->getActiveId()
+		);
 
 		foreach($passes as $pass)
 		{
@@ -200,6 +205,25 @@ class ilTestServiceGUI
 			if($withResults)
 			{
 				$result_array = $this->object->getTestResult($testSession->getActiveId(), $pass, false, $considerHiddenQuestions, $considerOptionalQuestions);
+				
+				foreach($result_array as $resultStructKEY => $question)
+				{
+					if( $resultStructKEY === 'test' || $resultStructKEY === 'pass' )
+					{
+						continue;
+					}
+					
+					$requestData = $questionHintRequestRegister->getRequestByTestPassIndexAndQuestionId($pass, $question['qid']);
+					
+					if( $requestData instanceof ilAssQuestionHintRequestStatisticData && $result_array[$resultStructKEY]['requested_hints'] === null )
+					{
+						$result_array['pass']['total_requested_hints'] += $requestData->getRequestsCount();
+						
+						$result_array[$resultStructKEY]['requested_hints'] = $requestData->getRequestsCount();
+						$result_array[$resultStructKEY]['hint_points'] = $requestData->getRequestsPoints();
+					}
+				}
+				
 				if(!$result_array['pass']['total_max_points'])
 				{
 					$percentage = 0;

@@ -2010,7 +2010,10 @@ class ilObjUser extends ilObject
 
 	public static function _lookupLanguage($a_usr_id)
 	{
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$lng = $DIC->language();
 
 		$q = "SELECT value FROM usr_pref WHERE usr_id= ".
 			$ilDB->quote($a_usr_id, "integer")." AND keyword = ".
@@ -2020,6 +2023,10 @@ class ilObjUser extends ilObject
 		while($row = $ilDB->fetchAssoc($r))
 		{
 			return $row['value'];
+		}
+		if (is_object($lng))
+		{
+			return $lng->getDefaultLanguage();
 		}
 		return 'en';
 	}
@@ -2358,28 +2365,31 @@ class ilObjUser extends ilObject
 		else return false;
     }
 
-    public function isPasswordExpired()
-    {
-		//error_reporting(E_ALL);
-		if($this->id == ANONYMOUS_USER_ID) return false;
+	public function isPasswordExpired()
+	{
+		if ($this->id == ANONYMOUS_USER_ID) {
+			return false;
+		}
 
-    	require_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
-    	$security = ilSecuritySettings::_getInstance();
-    	if( $this->getLastPasswordChangeTS() > 0 )
-    	{
-    		$max_pass_age = $security->getPasswordMaxAge();
-    		if( $max_pass_age > 0 )
-    		{
-	    		$max_pass_age_ts = ( $max_pass_age * 86400 );
-				$pass_change_ts = $this->getLastPasswordChangeTS();
-		   		$current_ts = time();
+		require_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
+		$security = ilSecuritySettings::_getInstance();
+		if ($this->getLastPasswordChangeTS() > 0) {
+			$max_pass_age = $security->getPasswordMaxAge();
+			if ($max_pass_age > 0) {
+				$max_pass_age_ts = ($max_pass_age * 86400);
+				$pass_change_ts  = $this->getLastPasswordChangeTS();
+				$current_ts      = time();
 
-				if( ($current_ts - $pass_change_ts) > $max_pass_age_ts )
-					return true;
-    		}
-     	}
-    	return false;
-    }
+				if (($current_ts - $pass_change_ts) > $max_pass_age_ts) {
+					if (!ilAuthUtils::_needsExternalAccountByAuthMode($this->getAuthMode(true))) {
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
+	}
 
     public function getPasswordAge()
     {
@@ -4599,16 +4609,10 @@ class ilObjUser extends ilObject
 	{
 		global $rbacadmin, $rbacreview, $ilDB;
 
-		// quote all ids
-		$ids = array();
-		foreach ($a_mem_ids as $mem_id) {
-			$ids [] = $ilDB->quote($mem_id);
-		}
-
 		$query = "SELECT usr_data.*, usr_pref.value AS language
 		          FROM usr_data
 		          LEFT JOIN usr_pref ON usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = %s
-		          WHERE ".$ilDB->in("usr_data.usr_id", $ids, false, "integer")."
+		          WHERE ".$ilDB->in("usr_data.usr_id", $a_mem_ids, false, "integer")."
 					AND usr_data.usr_id != %s";
 		$values[] = "language";
 		$types[] = "text";
@@ -4843,7 +4847,12 @@ class ilObjUser extends ilObject
 		/**
 		 * @var $ilDB ilDB
 		 */
-		global $ilDB;
+		global $DIC;
+
+		$ilDB       = $DIC->database();
+		$rbacreview = $DIC->rbac()->review();
+
+		$log = ilLoggerFactory::getLogger("user");
 
 		$pd_set = new ilSetting('pd');
 		$atime  = $pd_set->get('user_activity_time') * 60;
@@ -4854,12 +4863,6 @@ class ilObjUser extends ilObject
 		if($a_user_id == 0)
 		{
 			$where[] = 'user_id > 0';
-
-			require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
-			if(ilTermsOfServiceHelper::isEnabled())
-			{
-				$where[] = '(agree_date IS NOT NULL OR user_id = ' . $ilDB->quote(SYSTEM_USER_ID, 'integer') . ')';
-			}
 		}
 		else if (is_array($a_user_id))
 		{
@@ -4887,20 +4890,22 @@ class ilObjUser extends ilObject
 
 		$where = 'WHERE ' . implode(' AND ', $where);
 
-		$r = $ilDB->queryF("
-			SELECT COUNT(user_id) num, user_id, firstname, lastname, title, login, last_login, MAX(ctime) ctime, context
+		$r = $ilDB->queryF($q = "
+			SELECT COUNT(user_id) num, user_id, firstname, lastname, title, login, last_login, MAX(ctime) ctime, context, agree_date
 			FROM usr_session
 			LEFT JOIN usr_data u
 				ON user_id = u.usr_id
 			LEFT JOIN usr_pref p
 				ON (p.usr_id = u.usr_id AND p.keyword = %s)
 			{$where}
-			GROUP BY user_id, firstname, lastname, title, login, last_login, context
+			GROUP BY user_id, firstname, lastname, title, login, last_login, context, agree_date
 			ORDER BY lastname, firstname
 			",
 			array('text'),
 			array('hide_own_online_status')
 		);
+
+		$log->debug("Query: ".$q);
 
 		$users = array();
 		while($user = $ilDB->fetchAssoc($r))
@@ -4909,6 +4914,22 @@ class ilObjUser extends ilObject
 			{
 				$users[$user['user_id']] = $user;
 			}
+		}
+
+		$log->debug("Found users: ".count($users));
+
+		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
+		if (ilTermsOfServiceHelper::isEnabled()) {
+			$adminRoleUserIds = array_flip($rbacreview->assignedUsers(SYSTEM_ROLE_ID));
+			$users = array_filter($users, function($user) use ($adminRoleUserIds) {
+				if ($user['agree_date'] || $user['user_id'] == SYSTEM_USER_ID || 'root' === $user['login']) {
+					return true;
+				}
+
+				return isset($adminRoleUserIds[$user['user_id']]);
+			});
+
+			$log->debug("TOS filtered to users: ".count($users));
 		}
 
 		return $users;
@@ -4921,6 +4942,7 @@ class ilObjUser extends ilObject
 	*
 	* @param	integer	user_id User ID of the current user.
 	* @return	array
+	* @deprecated This is dead code since ILIAS 5.3.x (ilUsersOnlineBlock ...) and could be removed in future releases.
 	*/
 	public static function _getAssociatedUsersOnline($a_user_id, $a_no_anonymous = false)
 	{

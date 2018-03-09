@@ -218,6 +218,9 @@ class ilUtil
 		{
 			$vers = str_replace(" ", "-", $ilSetting->get("ilias_version"));
 			$vers = "?vers=".str_replace(".", "-", $vers);
+			// use version from template xml to force reload on changes
+            $skin = ilStyleDefinition::getSkins()[ilStyleDefinition::getCurrentSkin()];
+            $vers .= ($skin->getVersion() != '' ? str_replace(".", "-", '-' . $skin->getVersion()) : '');
 		}
 		return $filename . $vers;
 	}
@@ -1136,32 +1139,34 @@ class ilUtil
 	}
 
 	/**
-	* This preg-based function checks whether an e-mail address is formally valid.
-	* It works with all top level domains including the new ones (.biz, .info, .museum etc.)
-	* and the special ones (.arpa, .int etc.)
-	* as well as with e-mail addresses based on IPs (e.g. webmaster@123.45.123.45)
-	* Valid top level domains: http://data.iana.org/TLD/tlds-alpha-by-domain.txt
-	* @author	Unknown <mail@philipp-louis.de> (source: http://www.php.net/preg_match)
-	* @access	public
-	* @param	string	email address
-	* @return	boolean	true if valid
-	* @static
-	* 
-	*/
-	public static function is_email($a_email)
+	 * This preg-based function checks whether an e-mail address is formally valid.
+	 * It works with all top level domains including the new ones (.biz, .info, .museum etc.)
+	 * and the special ones (.arpa, .int etc.)
+	 * as well as with e-mail addresses based on IPs (e.g. webmaster@123.45.123.45)
+	 * Valid top level domains: http://data.iana.org/TLD/tlds-alpha-by-domain.txt
+	 * @author    Unknown <mail@philipp-louis.de> (source: http://www.php.net/preg_match)
+	 * @access    public
+	 * @param    string    email address
+	 * @param ilMailRfc822AddressParserFactory|null $mailAddressParserFactory
+	 * @return bool true if valid
+	 * @static
+	 */
+	public static function is_email($a_email, ilMailRfc822AddressParserFactory $mailAddressParserFactory = null)
 	{
 		global $DIC;
 
 		$ilErr = $DIC["ilErr"];
 
+		if ($mailAddressParserFactory === null) {
+			$mailAddressParserFactory = new ilMailRfc822AddressParserFactory();
+		}
 		// additional check for ilias object is needed,
 		// otherwise setup will fail with this if branch
 		if(is_object($ilErr)) // seems to work in Setup now
 		{
 			try
 			{
-				require_once 'Services/Mail/classes/Address/Parser/class.ilMailRfc822AddressParserFactory.php';
-				$parser    = ilMailRfc822AddressParserFactory::getParser($a_email);
+				$parser    = $mailAddressParserFactory->getParser($a_email);
 				$addresses = $parser->parse();
 				return count($addresses) == 1 && $addresses[0]->getHost() != ilMail::ILIAS_HOST;
 			}

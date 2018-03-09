@@ -1,4 +1,4 @@
-var OSDNotifications = function (settings) {
+var OSDNotifier, OSDNotifications = function (settings) {
 	$.extend(
 		{
 			initialNotifications: [],
@@ -41,7 +41,7 @@ var OSDNotifications = function (settings) {
 						if (items['osdNotification_' + id])
 							delete items['osdNotification_' + id];
 
-						if (typeof callback == 'function') {
+						if (typeof callback === 'function') {
 							callback();
 						}
 					}
@@ -49,12 +49,12 @@ var OSDNotifications = function (settings) {
 			};
 
 			function getParam(params, ns, defaultValue) {
-				if (typeof params == 'undefined')
+				if (typeof params === 'undefined')
 					return defaultValue;
 
 				var parts = ns.split('.', 2);
 				if (parts.length > 1) {
-					return (!params[parts[0]] || typeof params[parts[0]][parts[1]] == 'undefined') ? defaultValue : params[parts[0]][parts[1]];
+					return (!params[parts[0]] || typeof params[parts[0]][parts[1]] === 'undefined') ? defaultValue : params[parts[0]][parts[1]];
 				}
 				else {
 					return (!params[ns]) ? defaultValue : params[ns];
@@ -67,8 +67,8 @@ var OSDNotifications = function (settings) {
 					newItems = false;
 
 				$(data.notifications).each(function () {
-					if (this.type == 'osd_maint') {
-						if (this.data.title == 'deleted') {
+					if (this.type === 'osd_maint') {
+						if (this.data.title === 'deleted') {
 							closeNotification($('#osdNotification_' + this.data.shortDescription));
 						}
 					} else {
@@ -106,22 +106,19 @@ var OSDNotifications = function (settings) {
 					}
 
 					if (!init && settings.playSound && newItems) {
-						var id = 'notification_' + Math.random().toString(36).substr(2, 5);
-						if($.browser.msie)
-						{
-							var $notielm = $('<audio id="' + id + '" src="Modules/Chatroom/sounds/receive.mp3" type="audio/mp3"></audio>');
-						}
-						else
-						{
-							var $notielm = $('<audio id="' + id + '"></audio>');
-							$notielm.append($('<source src="Modules/Chatroom/sounds/receive.mp3" type="audio/mp3" />'));
-							$notielm.append($('<source src="Modules/Chatroom/sounds/receive.ogg" type="audio/ogg" />'));
-						}
+						var id = 'notification_' + Math.random().toString(36).substr(2, 5),
+							$notielm;
+
+						$notielm = $('<audio id="' + id + '"></audio>');
+						$notielm.append($('<source src="Modules/Chatroom/sounds/receive.mp3" type="audio/mp3" />'));
+						$notielm.append($('<source src="Modules/Chatroom/sounds/receive.ogg" type="audio/ogg" />'));
 						$notielm.css({
 							width: 0,
 							height: 0
 						});
+
 						$("body").append($notielm);
+
 						var player = new MediaElementPlayer('#' + id, {
 							plugins: ['flash','silverlight'],
 							features: [],

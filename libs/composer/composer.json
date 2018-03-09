@@ -8,7 +8,7 @@
 	},
 	"require": {
 		"cweagans/composer-patches": "~1.0",
-		"filp/whoops": "^2.0",
+		"filp/whoops": "^2.1.13",
 		"monolog/monolog": "^1.15",
 		"phpoffice/phpexcel": "^1.8.1",
 		"technosophos/LibRIS": "^2.0.2",
@@ -31,7 +31,9 @@
 		"mikey179/vfsStream": "^1.6",
 		"phpunit/phpunit": "^5.7",
 		"phpunit/php-code-coverage": "^4.0",
-		"mockery/mockery": "^0.9.9"
+		"mockery/mockery": "^0.9.9",
+		"phpunit/php-token-stream": "^1.4",
+		"phpdocumentor/reflection-docblock": "^3.3"
 	},
 	"autoload": {
 		"psr-4" : { "ILIAS\\" : "../../src" },
@@ -61,11 +63,11 @@
 		},
 		"filp/whoops" : {
 			"source" : "github.com/filp/whoops",
-			"used_version" : "v2.1.0",
+			"used_version" : "v2.1.14",
 			"wrapped_by" : null,
 			"added_by" : "Denis Klöpfer <denis.kloepfer@concepts-and-training.de>",
-			"last_update" : "2016-03-22",
-			"last_update_by" : "Jörg Lützenkirchen <luetzenkirchen@leifos.com>",
+			"last_update" : "2018-01-18",
+			"last_update_by" : "Richard Klees <richard.klees@concepts-and-training.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
 		},
@@ -248,6 +250,26 @@
 			"last_update_by": "Nicolas Schäfli <ns@studer-raimann.ch>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
+		},
+		"phpdocumentor/reflection-docblock" : {
+			"source": "https://github.com/phpDocumentor/ReflectionDocBlock",
+			"used_version": "v3.3.2",
+			"added_by": "Nicolas Schäfli <ns@studer-raimann.ch>",
+			"wrapped_by": null,
+			"last_update": "2018-01-17",
+			"last_update_by": "Nicolas Schäfli <ns@studer-raimann.ch>",
+			"approved-by": "Only added to ensure PHP 5 compatibility",
+			"approved-date": "2018-01-17"
+		},
+		"phpunit/php-token-stream" : {
+			"source": "https://github.com/phpDocumentor/ReflectionDocBlock",
+			"used_version": "v1.4.12",
+			"added_by": "Nicolas Schäfli <ns@studer-raimann.ch>",
+			"wrapped_by": null,
+			"last_update": "2018-01-17",
+			"last_update_by": "Nicolas Schäfli <ns@studer-raimann.ch>",
+			"approved-by": "Only added to ensure PHP 5 compatibility",
+			"approved-date": "2018-01-17"
 		},
 		"patches": {
 			"tecnickcom/tcpdf": {
