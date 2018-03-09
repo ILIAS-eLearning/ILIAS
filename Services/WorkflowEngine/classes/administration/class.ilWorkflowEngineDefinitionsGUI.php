@@ -163,7 +163,11 @@ class ilWorkflowEngineDefinitionsGUI
 
 		$file_name = $_FILES['process_file']['name'];
 		$temp_name = $_FILES['process_file']['tmp_name'];
-		move_uploaded_file($temp_name, $temp_dir_name.$file_name);
+		\ilUtil::moveUploadedFile(
+			$temp_name,
+			$file_name,
+			$temp_dir_name . $file_name
+		);
 
 		$repo_base_name = 'il'.substr($file_name,0,strpos($file_name,'.'));
 		$wf_base_name = 'wfd.'.$repo_base_name.'_v';
