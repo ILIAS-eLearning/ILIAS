@@ -2371,12 +2371,12 @@ class ilObjUser extends ilObject
 		if( $this->id == ANONYMOUS_USER_ID )
 			return false;
 
-	    if ($this->id == SYSTEM_USER_ID) {
-		    require_once './Services/User/classes/class.ilUserPasswordManager.php';
-		    if (ilUserPasswordManager::getInstance()->verifyPassword($this, base64_decode('aG9tZXI='))) {
-			    return true;
-		    }
-	    }
+		if ($this->id == SYSTEM_USER_ID) {
+			require_once './Services/User/classes/class.ilUserPasswordManager.php';
+			if (\ilUserPasswordManager::getInstance()->verifyPassword($this, base64_decode('aG9tZXI='))) {
+				return true;
+			}
+		}
 
     	require_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
     	$security = ilSecuritySettings::_getInstance();
