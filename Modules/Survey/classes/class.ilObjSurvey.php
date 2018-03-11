@@ -3929,12 +3929,6 @@ class ilObjSurvey extends ilObject
 			{
 				include_once("./Modules/Survey/exceptions/class.ilInvalidSurveyImportFileException.php");
 				throw new ilInvalidSurveyImportFileException("Unsupported survey version (< 3.8) found.");
-				/*
-				include_once "./Services/Survey/classes/class.SurveyImportParserPre38.php";
-				$import = new SurveyImportParserPre38($svy_qpl_id, "", TRUE);
-				$import->setSurveyObject($this);
-				$import->setXMLContent($xml);
-				$import->startParsing();*/
 			}
 			else
 			{
