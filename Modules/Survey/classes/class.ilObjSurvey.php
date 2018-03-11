@@ -3882,9 +3882,9 @@ class ilObjSurvey extends ilObject
 			}
 
 			unset($_SESSION["import_mob_xhtml"]);
-			if (!strpos($xml, "questestinterop"))
+			if (strpos($xml, "questestinterop"))
 			{
-				include_once("./Modules/Exercises/classes/class.ilInvalidSurveyImportFileException.php");
+				include_once("./Modules/Survey/exceptions/class.ilInvalidSurveyImportFileException.php");
 				throw new ilInvalidSurveyImportFileException("Unsupported survey version (< 3.8) found.");
 				/*
 				include_once "./Services/Survey/classes/class.SurveyImportParserPre38.php";
