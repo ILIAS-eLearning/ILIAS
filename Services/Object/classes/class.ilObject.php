@@ -201,7 +201,10 @@ class ilObject
 		$ilDB = $this->db;
 		$ilLog = $this->log;
 		$ilErr = $this->error;
-		$ilUser = $DIC["ilUser"];
+		try {
+			$ilUser = $DIC["ilUser"];
+		} catch (\InvalidArgumentException $e) {
+		}
 
 		if ($this->referenced)
 		{
