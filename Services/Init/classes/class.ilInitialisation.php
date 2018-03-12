@@ -230,12 +230,12 @@ class ilInitialisation
 
 		$dic['upload'] = function ($c) {
 			$fileUploadImpl = new \ILIAS\FileUpload\FileUploadImpl($c['upload.processor-manager'], $c['filesystem'], $c['http']);
-			$fileUploadImpl->register(new \ILIAS\FileUpload\Processor\BlacklistExtensionPreProcessor(array( "exe" )));
-			//	$fileUploadImpl->register(new \ILIAS\FileUpload\Processor\BlacklistMimeTypePreProcessor(array("exe")));
-			//	$fileUploadImpl->register(new \ILIAS\FileUpload\Processor\BlacklistFileHeaderPreProcessor(array("exe")));
+			//			$fileUploadImpl->register(new \ILIAS\FileUpload\Processor\BlacklistExtensionPreProcessor(array("exe", "php", "sh")));
 			if (IL_VIRUS_SCANNER != "None") {
 				$fileUploadImpl->register(new \ILIAS\FileUpload\Processor\VirusScannerPreProcessor(ilVirusScannerFactory::_getInstance()));
 			}
+
+			$fileUploadImpl->register(new \ILIAS\FileUpload\Processor\SecuredExtensionPreProcessor(ilFileUtils::getValidExtensions()));
 
 			return $fileUploadImpl;
 		};

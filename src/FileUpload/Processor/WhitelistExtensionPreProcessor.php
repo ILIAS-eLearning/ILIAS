@@ -63,6 +63,6 @@ final class WhitelistExtensionPreProcessor implements PreProcessor {
 		else
 			$extension = end($extensions);
 
-		return in_array($extension, $this->whitelist);
+		return in_array(strtolower($extension), $this->whitelist);
 	}
 }
