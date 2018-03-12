@@ -117,10 +117,9 @@ interface Factory {
 	 *        Report Panels contain sections as Sub Panels each displaying
 	 *        different aspects of one item.
 	 *      Presentation Table: >
-	 *        Use Presentation Tables to make data explorable that does not
-	 *        correspond to a single item or if the purpose of your listing is
-	 *        clearly explorational rather than representational.
-	 *
+	 *        Use Presentation Table if you have a data set at hand that you want to
+	 *        make explorable and/or present as a wholeness. Also use Presentation
+	 *        Table if your dataset does not contain Items that represent entities.
 	 *
 	 * rules:
 	 *   usage:

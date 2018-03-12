@@ -54,11 +54,10 @@ interface PresentationRow extends \ILIAS\UI\Component\Component, Triggerable {
 	public function withFurtherFields(array $fields);
 
 	/**
-	 * Get a row like this with buttons for actions in the expanded row.
+	 * Get a row like this with a button or a dropdown for actions in the expanded row.
 	 *
-	 * @param ILIAS\UI\Component\Button\Button[] 	$buttons
+	 * @param ILIAS\UI\Component\Button\Button|ILIAS\UI\Component\Dropdown\Dropdown 	$actions
 	 * @return \ILIAS\UI\Component\Table\PresentationRow
 	 */
-	public function withButtons(array $buttons);
-
+	public function withActions($actions);
 }
