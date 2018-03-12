@@ -684,6 +684,7 @@ class ilFileUtils
 			'wmv',   // VIDEO__X_MS_WMV,
 			'wmx',   // VIDEO__X_MS_WMX,
 			'wmz',   // VIDEO__X_MS_WMZ,
+			'woff',   // web open font format,
 			'xhtml',   // APPLICATION__XHTML_XML,
 			'xif',   // IMAGE__VND_XIFF,
 			'xls',   // APPLICATION__EXCEL,
