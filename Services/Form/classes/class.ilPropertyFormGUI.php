@@ -1027,7 +1027,12 @@ class ilPropertyFormGUI extends ilFormGUI
 	protected function keepFileUpload($a_hash, $a_field, $a_tmp_name, $a_name, $a_type, $a_index = null, $a_sub_index = null)
 	{
 		$ilUser = $this->user;
-		
+
+		if (trim($a_tmp_name) == "")
+		{
+			return;
+		}
+
 		$user_id = $ilUser->getId();
 		if(!$user_id || $user_id == ANONYMOUS_USER_ID)
 		{
