@@ -47,10 +47,8 @@ function base() {
 						'Fee: ' => $record['fee']
 					)
 				)
-				->withButtons(
-					array(
-						$ui_factory->button()->standard('book course', '#')
-					)
+				->withActions(
+					$ui_factory->button()->standard('book course', '#')
 				);
 		}
 	);

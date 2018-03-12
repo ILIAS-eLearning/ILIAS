@@ -23,19 +23,19 @@ class PresentationRow implements T\PresentationRow {
 	protected $close_signal;
 
 	/**
-	 * @var	string
+	 * @var	string|null
 	 */
-	private $title;
+	private $headline;
 
 	/**
-	 * @var	string
+	 * @var	string|null
 	 */
-	private $subtitle;
+	private $subheadline;
 
 	/**
-	 * @var	array
+	 * @var	ILIAS\UI\Component\Button\Button|ILIAS\UI\Component\Dropdown\Dropdown|null
 	 */
-	private $buttons;
+	private $actions;
 
 	/**
 	 * @var	array
@@ -64,6 +64,7 @@ class PresentationRow implements T\PresentationRow {
 
 	public function __construct(SignalGeneratorInterface $signal_generator) {
 		$this->signal_generator = $signal_generator;
+		$this->actions = null;
 		$this->initSignals();
 	}
 
@@ -203,17 +204,16 @@ class PresentationRow implements T\PresentationRow {
 	/**
 	 * @inheritdoc
 	 */
-	public function withButtons(array $buttons) {
+	public function withActions($actions) {
 		$clone = clone $this;
-		$clone->buttons = $buttons;
+		$clone->actions = $actions;
 		return $clone;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getButtons() {
-		return $this->buttons;
+	public function getActions() {
+		return $this->actions;
 	}
-
 }
