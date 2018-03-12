@@ -600,6 +600,12 @@ class ilSoapTestAdministration extends ilSoapAdministration
 									   'Client');
 		}
 		global $rbacsystem, $tree, $ilLog;
+		
+		global $ilAccess; /* @var ilAccessHandler $ilAccess */
+		if( !$ilAccess->checkAccess('write', '', $test_ref_id) )
+		{
+			return $this->__raiseError('no permission. Aborting!', 'Client');
+		}
 
 		if(ilObject::_isInTrash($test_ref_id))
 		{

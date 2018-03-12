@@ -126,7 +126,7 @@ $rp_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId("read_learning_pr
 $ep_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_learning_progress');
 $w_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
 if($rp_ops_id && $ep_ops_id && $w_ops_id)
-{
+{			
 	// see ilObjectLP
 	$lp_types = array('mcst');
 
@@ -134,9 +134,9 @@ if($rp_ops_id && $ep_ops_id && $w_ops_id)
 	{
 		$lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId($lp_type);
 		if($lp_type_id)
-		{
-			ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $rp_ops_id);
-			ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $ep_ops_id);
+		{			
+			ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $rp_ops_id);				
+			ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $ep_ops_id);				
 			ilDBUpdateNewObjectType::cloneOperation($lp_type, $w_ops_id, $rp_ops_id);
 			ilDBUpdateNewObjectType::cloneOperation($lp_type, $w_ops_id, $ep_ops_id);
 		}
@@ -190,19 +190,34 @@ while ($res = $ilDB->fetchAssoc($set)) {
 ?>
 <#12>
 <?php
-	/*
+
+$query = 'SELECT MAX(meta_description_id) desc_id from il_meta_description ';
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+{
+	$query = 'UPDATE il_meta_description_seq SET sequence = '. $ilDB->quote($row->desc_id + 100);
+	$ilDB->manipulate($query);
+}
+?>
+<#13>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#14>
+<?php
+/*
 	 * removes org units from trash
 	 * https://www.ilias.de/mantis/view.php?id=20168
 	*/
-	global $DIC;
-	$obj_set = $DIC->database()->queryF('SELECT * FROM tree JOIN object_reference 
+global $DIC;
+$obj_set = $DIC->database()->queryF('SELECT * FROM tree JOIN object_reference 
 ON tree.child=object_reference.ref_id JOIN object_data 
 ON object_reference.obj_id=object_data.obj_id 
 WHERE tree.tree < %s AND object_data.type = %s',array('integer', 'text'),array(0, "orgu"));
-	$a_org_unit_ref_ids = array();
-	while($row = $DIC->database()->fetchAssoc($obj_set))
-	{
-		$a_org_unit_ref_ids[] = $row['child'];
-	}
-	ilRepUtil::removeObjectsFromSystem($a_org_unit_ref_ids);
+$a_org_unit_ref_ids = array();
+while($row = $DIC->database()->fetchAssoc($obj_set))
+{
+	$a_org_unit_ref_ids[] = $row['child'];
+}
+ilRepUtil::removeObjectsFromSystem($a_org_unit_ref_ids);
 ?>

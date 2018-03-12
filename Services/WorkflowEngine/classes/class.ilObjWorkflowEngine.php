@@ -25,11 +25,18 @@ class ilObjWorkflowEngine extends ilObject
 	}
 
 	/**
+	 * @param bool $relative
 	 * @return string
 	 */
-	public static function getTempDir()
+	public static function getTempDir($relative = false)
 	{
-		return ILIAS_DATA_DIR . '/' . CLIENT_ID . '/wfe/upload_temp/';
+		$relativeTempPath = 'wfe/upload_temp/';
+
+		if ($relative) {
+			return $relativeTempPath;
+		}
+
+		return ILIAS_DATA_DIR . '/' . CLIENT_ID . '/' . $relativeTempPath;
 	}
 
 	/**
