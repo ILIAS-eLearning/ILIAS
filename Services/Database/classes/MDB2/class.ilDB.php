@@ -2574,7 +2574,7 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	/**
 	 * @inheritDoc
 	 */
-	public function cast($a_field_name, $a_dest_type): string {
+	public function cast($a_field_name, $a_dest_type) {
 		$manager = $this->db->loadModule('Manager');
 		return $manager->getQueryUtils()->cast($a_field_name, $a_dest_type);
 	}
