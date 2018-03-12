@@ -533,6 +533,7 @@ class ilFileUtils
 			'aiff', // AUDIO__AIFF
 			'au', 	// AUDIO__BASIC
 			'avi',  // AUDIO__BASIC
+			'bpmn', // bpmn
 			'bpmn2', // bpmn2
 			'bmp',	// IMAGE__BMP
 			'bib',	// bibtex
