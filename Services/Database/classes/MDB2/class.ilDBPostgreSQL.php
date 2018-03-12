@@ -296,5 +296,4 @@ class ilDBPostgreSQL extends ilDB
 		}
 		return $sql;
 	}
-
 }

@@ -268,7 +268,8 @@ var Database = function Database(config) {
 	};
 
 	this.clearChatMessagesProcess = function(bound, namespaceName, callback) {
-		bound = parseInt(bound / 1000);
+		var boundMilliseconds = parseInt(bound),
+			boundSeconds      = parseInt(bound / 1000);
 
 		var onError = function onError(err){
 			if(err) {
@@ -289,7 +290,7 @@ var Database = function Database(config) {
 			}
 
 			_pool.query('DELETE FROM chatroom_history WHERE timestamp < ?',
-				[bound],
+				[boundSeconds],
 				onClear
 			);
 		}
@@ -306,7 +307,7 @@ var Database = function Database(config) {
 			}
 
 			_pool.query('DELETE FROM osc_messages WHERE timestamp < ?',
-				[bound],
+				[boundMilliseconds],
 				onClear
 			);
 		}
@@ -324,7 +325,7 @@ var Database = function Database(config) {
 
 			_pool.query(
 				'DELETE c FROM osc_conversation c LEFT JOIN osc_messages m ON m.conversation_id = c.id WHERE m.id IS NULL',
-				[bound],
+				[boundMilliseconds],
 				onClear
 			);
 		}
@@ -341,7 +342,7 @@ var Database = function Database(config) {
 			};
 
 			_pool.query('DELETE a FROM osc_activity a LEFT JOIN osc_conversation c ON a.conversation_id = c.id WHERE c.id IS NULL',
-				[bound],
+				[boundMilliseconds],
 				onClear
 			);
 		}
@@ -536,7 +537,9 @@ var Database = function Database(config) {
 		if (typeof Object.values === "function") {
 			return Object.values(participantsJson);
 		} else {
-			return Object.keys(participantsJson).map((k) => participantsJson[k]);
+			return Object.keys(participantsJson).map(function(k) {
+				return participantsJson[k]
+			});
 		}
 	}
 

@@ -675,4 +675,4 @@ class ilDBMySQL extends ilDB
 		return $sql;
 	}
 }
-?>
+
