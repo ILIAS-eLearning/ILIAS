@@ -94,6 +94,7 @@ class SurveyImportParserPre38 extends ilSaxParser
 	*/
 	function __construct($a_spl_id, $a_xml_file = '', $spl_exists = FALSE)
 	{
+		die ("Class surveyImportParserPre38 is deprecated.");
 		parent::__construct($a_xml_file);
 		$this->spl_id = $a_spl_id;
 		$this->has_error = FALSE;

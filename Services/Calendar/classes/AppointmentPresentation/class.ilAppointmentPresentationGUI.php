@@ -357,7 +357,8 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 	 */
 	function addListItemProperty($a_txt, $a_val)
 	{
-		$this->list_properties[] = array("txt" => $a_txt, "val" => strip_tags($a_val));
+		#22638
+		$this->list_properties[] = array("txt" => $a_txt, "val" => $a_val);
 	}
 	
 	/**

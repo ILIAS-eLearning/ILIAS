@@ -29,6 +29,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         ),
         'P' => 
         array (
+            'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
         ),
         'M' => 
@@ -70,6 +71,10 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'Symfony\\Component\\Yaml\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/yaml',
+        ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
         'Psr\\Http\\Message\\' => 
         array (
@@ -115,10 +120,6 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         ),
         'P' => 
         array (
-            'Psr\\Log\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/psr/log',
-            ),
             'Pimple' => 
             array (
                 0 => __DIR__ . '/..' . '/pimple/pimple/src',
@@ -1816,7 +1817,6 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'SurveyTextQuestion' => __DIR__ . '/../..' . '/../../Modules/SurveyQuestionPool/classes/class.SurveyTextQuestion.php',
         'SurveyTextQuestionEvaluation' => __DIR__ . '/../..' . '/../../Modules/SurveyQuestionPool/classes/class.SurveyTextQuestionEvaluation.php',
         'SurveyTextQuestionGUI' => __DIR__ . '/../..' . '/../../Modules/SurveyQuestionPool/classes/class.SurveyTextQuestionGUI.php',
-        'Symfony\\Component\\Yaml\\Command\\LintCommand' => __DIR__ . '/..' . '/symfony/yaml/Command/LintCommand.php',
         'Symfony\\Component\\Yaml\\Dumper' => __DIR__ . '/..' . '/symfony/yaml/Dumper.php',
         'Symfony\\Component\\Yaml\\Escaper' => __DIR__ . '/..' . '/symfony/yaml/Escaper.php',
         'Symfony\\Component\\Yaml\\Exception\\DumpException' => __DIR__ . '/..' . '/symfony/yaml/Exception/DumpException.php',
@@ -1825,7 +1825,6 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'Symfony\\Component\\Yaml\\Exception\\RuntimeException' => __DIR__ . '/..' . '/symfony/yaml/Exception/RuntimeException.php',
         'Symfony\\Component\\Yaml\\Inline' => __DIR__ . '/..' . '/symfony/yaml/Inline.php',
         'Symfony\\Component\\Yaml\\Parser' => __DIR__ . '/..' . '/symfony/yaml/Parser.php',
-        'Symfony\\Component\\Yaml\\Tag\\TaggedValue' => __DIR__ . '/..' . '/symfony/yaml/Tag/TaggedValue.php',
         'Symfony\\Component\\Yaml\\Unescaper' => __DIR__ . '/..' . '/symfony/yaml/Unescaper.php',
         'Symfony\\Component\\Yaml\\Yaml' => __DIR__ . '/..' . '/symfony/yaml/Yaml.php',
         'TCPDF' => __DIR__ . '/..' . '/tecnickcom/tcpdf/tcpdf.php',
@@ -2307,6 +2306,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilAppEventHandler' => __DIR__ . '/../..' . '/../../Services/EventHandling/classes/class.ilAppEventHandler.php',
         'ilAppEventListener' => __DIR__ . '/../..' . '/../../Services/EventHandling/interfaces/interface.ilAppEventListener.php',
         'ilAppointmentBaseFileHandler' => __DIR__ . '/../..' . '/../../Services/Calendar/classes/FileHandler/class.ilAppointmentBaseFileHandler.php',
+        'ilAppointmentBookingPoolFileHandler' => __DIR__ . '/../..' . '/../../Services/Calendar/classes/FileHandler/class.ilAppointmentBookingPoolFileHandler.php',
         'ilAppointmentConsultationHoursFileHandler' => __DIR__ . '/../..' . '/../../Services/Calendar/classes/FileHandler/class.ilAppointmentConsultationHoursFileHandler.php',
         'ilAppointmentCourseFileHandler' => __DIR__ . '/../..' . '/../../Services/Calendar/classes/FileHandler/class.ilAppointmentCourseFileHandler.php',
         'ilAppointmentCustomGridPlugin' => __DIR__ . '/../..' . '/../../Services/Calendar/classes/class.ilAppointmentCustomGridPlugin.php',
@@ -4952,6 +4952,9 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilOrgUnitUserAssignmentGUI' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/Positions/UserAssignment/class.ilOrgUnitUserAssignmentGUI.php',
         'ilOrgUnitUserAssignmentQueries' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/Positions/UserAssignment/class.ilOrgUnitUserAssignmentQueries.php',
         'ilOrgUnitUserAssignmentTableGUI' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/Positions/UserAssignment/class.ilOrgUnitUserAssignmentTableGUI.php',
+        'ilOrgUnitUserQueries' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/User/class.ilOrgUnitUserQueries.php',
+        'ilOrgUnitUserQueriesInterface' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/interfaces/class.ilOrgUnitUserQueriesInterface.php',
+        'ilOrguException' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/Exceptions/class.ilOrguException.php',
         'ilOrguUserPickerToolbarInputGUI' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/class.ilOrguUserPickerToolbarInputGUI.php',
         'ilOverlayGUI' => __DIR__ . '/../..' . '/../../Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php',
         'ilPCAMDPageList' => __DIR__ . '/../..' . '/../../Modules/Wiki/classes/class.ilPCAMDPageList.php',
@@ -5154,6 +5157,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilPortfolioTemplatePage' => __DIR__ . '/../..' . '/../../Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php',
         'ilPortfolioTemplatePageConfig' => __DIR__ . '/../..' . '/../../Modules/Portfolio/classes/class.ilPortfolioTemplatePageConfig.php',
         'ilPortfolioTemplatePageGUI' => __DIR__ . '/../..' . '/../../Modules/Portfolio/classes/class.ilPortfolioTemplatePageGUI.php',
+        'ilPositionPermissionsNotActive' => __DIR__ . '/../..' . '/../../Modules/OrgUnit/classes/Exceptions/ilPositionPermissionsNotActive.php',
         'ilPostgresQueryUtils' => __DIR__ . '/../..' . '/../../Services/Database/classes/QueryUtils/class.ilPostgresQueryUtils.php',
         'ilPresentationListTableGUI' => __DIR__ . '/../..' . '/../../Modules/Glossary/classes/class.ilPresentationListTableGUI.php',
         'ilPreview' => __DIR__ . '/../..' . '/../../Services/Preview/classes/class.ilPreview.php',
@@ -5252,7 +5256,6 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilRbacSystem' => __DIR__ . '/../..' . '/../../Services/AccessControl/classes/class.ilRbacSystem.php',
         'ilReceiveTaskElement' => __DIR__ . '/../..' . '/../../Services/WorkflowEngine/classes/parser/elements/task/class.ilReceiveTaskElement.php',
         'ilRecurrenceInputGUI' => __DIR__ . '/../..' . '/../../Services/Calendar/classes/Form/class.ilRecurrenceInputGUI.php',
-        'ilRedis' => __DIR__ . '/../..' . '/../../Services/GlobalCache/classes/Redis/class.ilRedis.php',
         'ilRegConfirmationLinkExpiredException' => __DIR__ . '/../..' . '/../../Services/Registration/exceptions/class.ilRegConfirmationLinkExpiredException.php',
         'ilRegExpInputGUI' => __DIR__ . '/../..' . '/../../Services/Form/classes/class.ilRegExpInputGUI.php',
         'ilRegistrationCode' => __DIR__ . '/../..' . '/../../Services/Registration/classes/class.ilRegistrationCode.php',
@@ -5417,6 +5420,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilSamlIdpSelectionTableGUI' => __DIR__ . '/../..' . '/../../Services/Saml/classes/class.ilSamlIdpSelectionTableGUI.php',
         'ilSamlIdpTableGUI' => __DIR__ . '/../..' . '/../../Services/Saml/classes/class.ilSamlIdpTableGUI.php',
         'ilSamlIdpXmlMetadataParser' => __DIR__ . '/../..' . '/../../Services/Saml/classes/class.ilSamlIdpXmlMetadataParser.php',
+        'ilSamlMappedUserAttributeValueParser' => __DIR__ . '/../..' . '/../../Services/Saml/classes/class.ilSamlMappedUserAttributeValueParser.php',
         'ilSamlSettings' => __DIR__ . '/../..' . '/../../Services/Saml/classes/class.ilSamlSettings.php',
         'ilSamlSettingsGUI' => __DIR__ . '/../..' . '/../../Services/Saml/classes/class.ilSamlSettingsGUI.php',
         'ilSaxController' => __DIR__ . '/../..' . '/../../Services/Utilities/classes/class.ilSaxController.php',
@@ -5425,6 +5429,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilSaxSubsetParser' => __DIR__ . '/../..' . '/../../Services/Utilities/interfaces/interface.ilSaxSubsetParser.php',
         'ilScheduleInputGUI' => __DIR__ . '/../..' . '/../../Modules/BookingManager/classes/class.ilScheduleInputGUI.php',
         'ilScoringAdjustmentGUI' => __DIR__ . '/../..' . '/../../Modules/Test/classes/class.ilScoringAdjustmentGUI.php',
+        'ilScorm2004DataSet' => __DIR__ . '/../..' . '/../../Modules/Scorm2004/classes/class.ilScorm2004DataSet.php',
         'ilScorm2004Export' => __DIR__ . '/../..' . '/../../Modules/Scorm2004/classes/class.ilSCORM2004Export.php',
         'ilScormAiccDataSet' => __DIR__ . '/../..' . '/../../Modules/ScormAicc/classes/class.ilScormAiccDataSet.php',
         'ilScormAiccExporter' => __DIR__ . '/../..' . '/../../Modules/ScormAicc/classes/class.ilScormAiccExporter.php',
@@ -5735,6 +5740,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilSystemStyleLessItem' => __DIR__ . '/../..' . '/../../Services/Style/System/classes/Less/class.ilSystemStyleLessItem.php',
         'ilSystemStyleLessVariable' => __DIR__ . '/../..' . '/../../Services/Style/System/classes/Less/class.ilSystemStyleLessVariable.php',
         'ilSystemStyleLessVariableTest' => __DIR__ . '/../..' . '/../../Services/Style/System/test/ilSystemStyleLessVariableTest.php',
+        'ilSystemStyleLoggerMock' => __DIR__ . '/../..' . '/../../Services/Style/System/test/fixtures/mocks/ilSystemStyleLoggerMock.php',
         'ilSystemStyleMainGUI' => __DIR__ . '/../..' . '/../../Services/Style/System/classes/class.ilSystemStyleMainGUI.php',
         'ilSystemStyleMessage' => __DIR__ . '/../..' . '/../../Services/Style/System/classes/Utilities/class.ilSystemStyleMessage.php',
         'ilSystemStyleMessageStack' => __DIR__ . '/../..' . '/../../Services/Style/System/classes/Utilities/class.ilSystemStyleMessageStack.php',
@@ -5742,6 +5748,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilSystemStyleMessageStackTest' => __DIR__ . '/../..' . '/../../Services/Style/System/test/ilSystemStyleMessageStackTest.php',
         'ilSystemStyleMessageTest' => __DIR__ . '/../..' . '/../../Services/Style/System/test/ilSystemStyleMessageTest.php',
         'ilSystemStyleOverviewGUI' => __DIR__ . '/../..' . '/../../Services/Style/System/classes/Overview/class.ilSystemStyleOverviewGUI.php',
+        'ilSystemStyleRootLoggerMock' => __DIR__ . '/../..' . '/../../Services/Style/System/test/fixtures/mocks/ilSystemStyleLoggerMock.php',
         'ilSystemStyleSettings' => __DIR__ . '/../..' . '/../../Services/Style/System/classes/class.ilSystemStyleSettings.php',
         'ilSystemStyleSettingsGUI' => __DIR__ . '/../..' . '/../../Services/Style/System/classes/Settings/class.ilSystemStyleSettingsGUI.php',
         'ilSystemStyleSkinContainer' => __DIR__ . '/../..' . '/../../Services/Style/System/classes/Utilities/class.ilSystemStyleSkinContainer.php',
@@ -5750,7 +5757,6 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilSystemStyleSkinXMLTest' => __DIR__ . '/../..' . '/../../Services/Style/System/test/ilSystemStyleSkinXMLTest.php',
         'ilSystemStyleStyleLessFileTest' => __DIR__ . '/../..' . '/../../Services/Style/System/test/ilSystemStyleStyleLessFileTest.php',
         'ilSystemStyleXMLTest' => __DIR__ . '/../..' . '/../../Services/Style/System/test/ilSystemStyleXMLTest.php',
-        'ilSystemStylesDICMock' => __DIR__ . '/../..' . '/../../Services/Style/System/test/fixtures/mocks/ilSystemStylesDICMock.php',
         'ilSystemStylesLanguageMock' => __DIR__ . '/../..' . '/../../Services/Style/System/test/fixtures/mocks/ilSystemStylesLanguageMock.php',
         'ilSystemStylesTableGUI' => __DIR__ . '/../..' . '/../../Services/Style/System/classes/Overview/class.ilSystemStylesTableGUI.php',
         'ilSystemSupportContacts' => __DIR__ . '/../..' . '/../../Modules/SystemFolder/classes/class.ilSystemSupportContacts.php',

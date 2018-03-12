@@ -230,7 +230,6 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI {
 			                                                   ->txt('positions_override_operations'));
 			if (ilOrgUnitPermissionQueries::hasLocalSet($this->getRefId(), $position->getId())) {
 				$this->tpl->setVariable('HEADER_CHECKED', "checked='checked'");
-				$this->tpl->setVariable('HEADER_DISABLED', "disabled='disabled'");
 			}
 
 			$this->tpl->parseCurrentBlock();

@@ -285,9 +285,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			ilObjSAHSLearningModuleGUI::setSettingsSubTabs();
 			$ilTabs->setSubTabActive('cont_settings');
 			// view
-			$ilToolbar->addButton($this->lng->txt("view"),
-				"ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->object->getRefID(),
-				"_blank");
+			$ilToolbar->addButtonInstance($this->object->getViewButton());
 		}
 		else  	// editable
 		{
@@ -526,31 +524,21 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		$sh->setTitle($this->lng->txt("cont_scorm_options"));
 		$this->form->addItem($sh);
 
-		// max attempts
-		//ACHTUNG: DATENBANK KORRIGIEREN
-		// $ni = new ilNumberInputGUI($this->lng->txt("cont_sc_max_attempt"), "max_attempt");
-		// $ni->setMaxLength(3);
-		// $ni->setSize(3);
-		// $ni->setValue($this->object->getMaxAttempt());
-		// $this->form->addItem($ni);
-		
 		// lesson mode
-		$options = array("normal" => $this->lng->txt("cont_sc_less_mode_normal"),
-				"browse" => $this->lng->txt("cont_sc_less_mode_browse"));
-		$si = new ilSelectInputGUI($this->lng->txt("cont_def_lesson_mode"), "lesson_mode");
-		$si->setOptions($options);
-		$si->setValue($this->object->getDefaultLessonMode());
-		$this->form->addItem($si);
-		
+		$radg = new ilRadioGroupInputGUI($lng->txt("cont_def_lesson_mode"), "lesson_mode");
+		$op0 = new ilRadioOption($this->lng->txt("cont_sc_less_mode_normal"), "normal");
+		$radg->addOption($op0);
+		$op1 = new ilRadioOption($this->lng->txt("cont_sc_less_mode_browse"), "browse");
+		$radg->addOption($op1);
+		$radg->setValue($this->object->getDefaultLessonMode());
 		// credit mode
-		$options = array("credit" => $this->lng->txt("cont_credit_on"),
-			"no_credit" => $this->lng->txt("cont_credit_off"));
-		$si = new ilSelectInputGUI($this->lng->txt("cont_credit_mode"), "credit_mode");
-		$si->setOptions($options);
-		$si->setValue($this->object->getCreditMode());
-		$si->setInfo($this->lng->txt("cont_credit_mode_info"));
-		$this->form->addItem($si);
-		
+		$cmradg = new ilRadioGroupInputGUI($lng->txt("cont_credit_mode"), "credit_mode");
+		$cmop0 = new ilRadioOption($this->lng->txt("cont_credit_on"), "credit");
+		$cmradg->addOption($cmop0);
+		$cmop1 = new ilRadioOption($this->lng->txt("cont_credit_off"), "no_credit");
+		$cmradg->addOption($cmop1);
+		$cmradg->setValue($this->object->getCreditMode());
+		$op0->addSubItem($cmradg);
 		// set lesson mode review when completed
 		$options = array(
 			"n" => $this->lng->txt("cont_sc_auto_review_no"),
@@ -566,7 +554,10 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		$si->setOptions($options);
 		$si->setValue($this->object->getAutoReviewChar());
 		$si->setInfo($this->lng->txt("cont_sc_auto_review_info_2004"));
-		$this->form->addItem($si);
+		$op0->addSubItem($si);
+		// end lesson mode
+		$this->form->addItem($radg);
+		
 
 		// mastery_score
 		if ($this->object->getMasteryScoreValues() != "") {

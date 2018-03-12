@@ -13,6 +13,10 @@
 class ilAuthShibbolethSettingsGUI {
 
 	/**
+	 * @var ILIAS\DI\Container
+	 */
+	private $dic;
+	/**
 	 * @var ilCtrl
 	 */
 	private $ctrl;
@@ -46,11 +50,12 @@ class ilAuthShibbolethSettingsGUI {
 	 */
 	public function __construct($a_auth_ref_id) {
 		global $DIC;
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$tpl = $DIC['tpl'];
-		$ilTabs = $DIC['ilTabs'];
-		$ilias = $DIC['ilias'];
+		$this->dic = $DIC;
+		$lng = $this->dic['lng'];
+		$ilCtrl = $this->dic['ilCtrl'];
+		$tpl = $this->dic['tpl'];
+		$ilTabs = $this->dic['ilTabs'];
+		$ilias = $this->dic['ilias'];
 		$this->ctrl = $ilCtrl;
 		$this->tabs_gui = $ilTabs;
 		$this->lng = $lng;
@@ -69,18 +74,16 @@ class ilAuthShibbolethSettingsGUI {
 	 */
 	public function executeCommand() {
 		global $DIC;
-		$ilAccess = $DIC['ilAccess'];
+		$rbacsystem = $DIC->rbac();
 		$ilErr = $DIC['ilErr'];
 		$ilCtrl = $DIC['ilCtrl'];
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
-		if (! $ilAccess->checkAccess('read', '', $this->ref_id)) {
+		if (!$rbacsystem->system()->checkAccess("visible,read", $this->ref_id)) {
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->WARNING);
-		}
-		if (! $ilAccess->checkAccess('write', '', $this->ref_id) && $cmd != "settings") {
-			ilUtil::sendFailure($this->lng->txt('msg_no_perm_write'), true);
 			$ilCtrl->redirect($this, "settings");
 		}
+
 		$this->setSubTabs();
 		switch ($next_class) {
 			default:
@@ -144,8 +147,10 @@ class ilAuthShibbolethSettingsGUI {
 		$propertys = new ilPropertyFormGUI();
 		$propertys->setTitle($this->lng->txt("shib"));
 		$propertys->setFormAction($this->ctrl->getFormAction($this, "save"));
-		$propertys->addCommandButton("save", $this->lng->txt("save"));
-		$propertys->addCommandButton("settings", $this->lng->txt("cancel"));
+		if($this->dic->rbac()->system()->checkAccess('write', $this->ref_id)) {
+			$propertys->addCommandButton("save", $this->lng->txt("save"));
+			$propertys->addCommandButton("settings", $this->lng->txt("cancel"));
+		}
 		//set enable shibboleth support
 		$enable = new ilCheckboxInputGUI();
 		$enable->setTitle($this->lng->txt("shib_active"));

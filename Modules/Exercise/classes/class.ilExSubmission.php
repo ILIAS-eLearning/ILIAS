@@ -306,7 +306,7 @@ class ilExSubmission
 				$ilDB->quote($this->assignment->getExerciseId(), "integer"),
 				$ilDB->quote($this->getUserId(), "integer"),
 				$ilDB->quote($deliver_result["fullname"], "text"),
-				$ilDB->quote($a_http_post_files["name"], "text"),
+				$ilDB->quote(ilFileUtils::getValidFilename($a_http_post_files["name"]), "text"),
 				$ilDB->quote($deliver_result["mimetype"], "text"),
 				$ilDB->quote(ilUtil::now(), "timestamp"),
 				$ilDB->quote($this->assignment->getId(), "integer"),
@@ -469,7 +469,7 @@ class ilExSubmission
 					"/".$row["user_id"]."/".basename($row["filename"]);
 
 				// see 22301
-				if (is_file($row["filename"]))
+				if (is_file($row["filename"]) || $this->assignment->getType() == ilExAssignment::TYPE_TEXT)
 				{
 					array_push($delivered_files, $row);
 				}

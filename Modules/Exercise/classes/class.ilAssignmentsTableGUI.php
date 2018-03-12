@@ -116,6 +116,10 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 		$ilCtrl = $this->ctrl;
 
 		$this->tpl->setVariable("ID", $d["id"]);
+
+		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
+		$ass = new ilExAssignment($d["id"]);
+
 		if ($d["deadline"] > 0)
 		{
 			$dl = ilDatePresentation::formatDate(new ilDateTime($d["deadline"],IL_CAL_UNIX));
@@ -152,10 +156,13 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 			{
 				$this->tpl->setVariable("TXT_PEER_INVALID", $lng->txt("exc_peer_reviews_invalid_warning"));
 			}
-						
-			$this->tpl->setVariable("TXT_PEER_OVERVIEW", $lng->txt("exc_peer_review_overview"));
-			$this->tpl->setVariable("CMD_PEER_OVERVIEW", 
-				$ilCtrl->getLinkTargetByClass("ilexpeerreviewgui", "showPeerReviewOverview"));
+
+			if ($ass->afterDeadlineStrict())	// see #22246
+			{
+				$this->tpl->setVariable("TXT_PEER_OVERVIEW", $lng->txt("exc_peer_review_overview"));
+				$this->tpl->setVariable("CMD_PEER_OVERVIEW",
+					$ilCtrl->getLinkTargetByClass("ilexpeerreviewgui", "showPeerReviewOverview"));
+			}
 		}
 		else
 		{

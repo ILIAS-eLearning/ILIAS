@@ -19,11 +19,13 @@ interface Persistence {
 
 
 	/**
-	 * @param int $user_id
+	 * @param int    $user_id
+	 * @param string $order_by
+	 * @param string $order_direction
 	 *
 	 * @return \int[] Returns an array of bucket ids for the given user Id.
 	 */
-	public function getBucketIdsOfUser($user_id);
+	public function getBucketIdsOfUser($user_id, $order_by = "id", $order_direction = "ASC");
 
 
 	/**

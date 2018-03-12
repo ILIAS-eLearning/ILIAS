@@ -269,16 +269,6 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 		}
 		if (count($_POST)) $short_name->checkInput();
 		$form->addItem($short_name);
-
-		$visibility = new ilCheckboxInputGUI($this->lng->txt("certificate_enabled_scorm"), "certificate_enabled_scorm");
-		$visibility->setInfo($this->lng->txt("certificate_enabled_scorm_introduction"));
-		$visibility->setValue(1);
-		if ($form_fields["certificate_enabled_scorm"])
-		{
-			$visibility->setChecked(TRUE);
-		}
-		if (count($_POST)) $visibility->checkInput();
-		$form->addItem($visibility);
 	}
 	
 	/**

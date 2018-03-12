@@ -13,7 +13,7 @@
         {
             var found = false;
             
-            selektor += ' > ol > li';
+            selektor += ' > {HTML_LIST_TAG} > li';
             
             $(selektor).each(
                 function(pos, item)
@@ -36,6 +36,9 @@
     // activate Nestable for list 
     $('#nestable__{INSTANCE_ID}').nestable({
         <!-- BEGIN avoid_nesting -->maxDepth: 1,<!-- END avoid_nesting -->
+        listNodeName: '{HTML_LIST_TAG}',
+        listClass: '{CSS_LIST_CLASS}',
+        itemClass: '{CSS_ITEM_CLASS}',
         group:1,
         expandBtnHTML:'',
         collapseBtnHTML:''

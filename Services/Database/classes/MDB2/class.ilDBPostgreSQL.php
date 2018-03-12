@@ -264,19 +264,4 @@ class ilDBPostgreSQL extends ilDB
 	public function setStorageEngine($storage_engine) {
 		return false;
 	}
-
-
-	public function getServerVersion($native = false) {
-		// TODO: Implement getServerVersion() method.
-	}
-
-
-	public function queryCol($query, $type = ilDBConstants::FETCHMODE_DEFAULT, $colnum = 0) {
-		
-	}
-
-
-	public function queryRow($query, $types = null, $fetchmode = ilDBConstants::FETCHMODE_DEFAULT) {
-		// TODO: Implement queryRow() method.
-	}
 }

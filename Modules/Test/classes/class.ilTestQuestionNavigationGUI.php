@@ -10,6 +10,8 @@
  */
 class ilTestQuestionNavigationGUI
 {
+	const CSS_CLASS_SUBMIT_BUTTONS = 'ilc_qsubmit_Submit';
+	
 	/**
 	 * @var ilLanguage
 	 */
@@ -643,7 +645,8 @@ class ilTestQuestionNavigationGUI
 		$button->setCommand($command);
 		$button->setCaption($label);
 		$button->setPrimary($primary);
-
+		$button->addCSSClass(self::CSS_CLASS_SUBMIT_BUTTONS);
+		
 		$this->renderButtonInstance($tpl, $button);
 	}
 

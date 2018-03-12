@@ -58,7 +58,7 @@ class ilObjectSearch extends ilAbstractSearch
 
 
 
-	function &performSearch()
+	public function performSearch()
 	{
 		global $ilDB;
 		

@@ -304,7 +304,8 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 			
 			if ($ilUser->prefs["screen_reader_optimization"])
 			{
-				$this->tpl->touchBlock('scrd_app_cell');
+				// see #0022492
+				//$this->tpl->touchBlock('scrd_app_cell');
 			}
 			
 			for($i = ($colspan - 1);$i > $hour['apps_num'];$i--)
@@ -358,26 +359,33 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 
 		$shy = $this->getAppointmentShyButton($a_app['event'], $a_app['dstart'], "");
 
-		$event_tpl->setVariable('F_APP_TITLE',$shy.$compl);
+		//$title = ($new_title = $this->getContentByPlugins($a_app['event'], $a_app['dstart'], $shy))? $new_title : $shy;
+
+		$content = $shy.$compl;
+
+		$event_tpl->setVariable('EVENT_CONTENT',$content);
 
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
 		$event_tpl->setVariable('F_APP_BGCOLOR',$color);
 		$event_tpl->setVariable('F_APP_FONTCOLOR',ilCalendarUtil::calculateFontColor($color));
-		
+
 		$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 		$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->seed->get(IL_CAL_DATE));
 		$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());
 		$event_tpl->setVariable('F_APP_EDIT_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','edit'));
 
-		$event_html = $event_tpl->get();
-
-		if($event_html_by_plugin = $this->getContentByPlugins($a_app['event'], $a_app['dstart'], $event_html))
+		if($event_html_by_plugin = $this->getContentByPlugins($a_app['event'], $a_app['dstart'], $content, $event_tpl))
 		{
-			$event_html = $event_html_by_plugin;
+			$body_html = $event_html_by_plugin;
+		}
+		else
+		{
+			$event_tpl->parseCurrentBlock();
+			$body_html = $event_tpl->get();
 		}
 
 		$this->tpl->setCurrentBlock("content_fd");
-		$this->tpl->setVariable("CONTENT_EVENT",$event_html);
+		$this->tpl->setVariable("CONTENT_EVENT",$body_html);
 		$this->tpl->parseCurrentBlock();
 
 		$this->num_appointments++;
@@ -405,7 +413,7 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 		}
 
 		$this->tpl->setVariable('APP_ROWSPAN',$a_app['rowspan']);
-		$event_tpl->setVariable('APP_TITLE',$a_app['event']->getPresentationTitle(false));
+		//$event_tpl->setVariable('APP_TITLE',$a_app['event']->getPresentationTitle(false));
 
 		switch($this->user_settings->getTimeFormat())
 		{
@@ -436,28 +444,29 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 		$shy = $this->getAppointmentShyButton($a_app['event'], $a_app['dstart'],"");
 
 		$title = $shy;
-		$title = ($time != "")? $time." ".$title : $title;
+		$content = ($time != "")? $time." ".$title : $title;
 
-		$event_tpl->setVariable('APP_TITLE',$title);
+		$event_tpl->setVariable('EVENT_CONTENT',$content);
 
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
 		$event_tpl->setVariable('APP_BGCOLOR',$color);
 		//$this->tpl->setVariable('APP_BGCOLOR',$color);
 		$event_tpl->setVariable('APP_COLOR',ilCalendarUtil::calculateFontColor($color));
-		$this->tpl->setVariable('APP_COLOR',ilCalendarUtil::calculateFontColor($color));
+		//$this->tpl->setVariable('APP_COLOR',ilCalendarUtil::calculateFontColor($color));
 		$event_tpl->setVariable('APP_ADD_STYLES',$a_app['event']->getPresentationStyle());
-		$this->tpl->setVariable('APP_ADD_STYLES',$a_app['event']->getPresentationStyle());
+		//$this->tpl->setVariable('APP_ADD_STYLES',$a_app['event']->getPresentationStyle());
 
 		$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 		$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->seed->get(IL_CAL_DATE));
 		$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());
 		$event_tpl->setVariable('APP_EDIT_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','edit'));
 
-		$event_html = $event_tpl->get();
-
-		if($event_html_by_plugin = $this->getContentByPlugins($a_app['event'], $a_app['dstart'], $event_html))
+		if($event_html_by_plugin = $this->getContentByPlugins($a_app['event'], $a_app['dstart'], $content, $event_tpl))
 		{
 			$event_html = $event_html_by_plugin;
+		} else {
+			$event_tpl->parseCurrentBlock();
+			$event_html = $event_tpl->get();
 		}
 
 		$this->tpl->setCurrentBlock("event_nfd");
