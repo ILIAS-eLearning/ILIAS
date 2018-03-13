@@ -52,7 +52,7 @@ class Factory implements B\Factory {
 	/**
 	 * @inheritdoc
 	 */
-	public function graphical($icon_or_glyph, $label, $action) {
-		return new Graphical($icon_or_glyph, $label, $action);
+	public function bulky($icon_or_glyph, $label, $action) {
+		return new Bulky($icon_or_glyph, $label, $action);
 	}
 }
