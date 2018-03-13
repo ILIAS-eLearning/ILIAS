@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once("./Services/FileSystem/classes/class.ilFileData.php");
+require_once("./Services/Utilities/classes/class.ilFileUtils.php");
 
 /**
 * This class handles all operations on files for the forum object.
@@ -169,7 +170,10 @@ class ilFileDataForum extends ilFileData
 					list($pos_id, $rest) = explode('_', $rest, 2);
 					if($pos_id == $this->getPosId())
 					{
-						@rename($file->getPathname(), $this->forum_path . '/'  .$a_new_frm_id . '_' . $this->pos_id . '_' . $rest);
+						\ilFileUtils::rename(
+							$file->getPathname(),
+							$this->forum_path . '/'  . $a_new_frm_id . '_' . $this->pos_id . '_' . $rest
+						);
 					}
 				}
 			}
@@ -442,7 +446,7 @@ class ilFileDataForum extends ilFileData
 		if(file_exists($a_path))
 		{
 			$this->__rotateFiles($a_path.".old");
-			return rename($a_path,$a_path.'.old');
+			return \ilFileUtils::rename($a_path, $a_path . '.old');
 		}
 		return true;
 	}

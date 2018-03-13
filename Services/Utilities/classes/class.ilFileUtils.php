@@ -618,6 +618,7 @@ class ilFileUtils
 			'oga',   // AUDIO__OGG,
 			'ogg',   // AUDIO__OGG,
 			'ogv',   //  VIDEO__OGG,
+			'old',   //  no real file extension, but used in mail/forum components,
 			'p',   //  TEXT__X_PASCAL,
 			'pas',   //  TEXT__PASCAL,
 			'pbm',   //  IMAGE__X_PORTABLE_BITMAP,
