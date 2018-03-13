@@ -270,7 +270,15 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 		if (count($_POST)) $short_name->checkInput();
 		$form->addItem($short_name);
 	}
-	
+
+	/**
+	 * @inheritdoc
+	 */
+	public function hasAdditionalFormElements()
+	{
+		return true;
+	}
+
 	/**
 	* Allows to add additional form values to the array of form values evaluating a
 	* HTTP POST action.

@@ -19134,7 +19134,7 @@ foreach($sessions as $idx => $sess_info)
 	$meta_des_id = $ilDB->nextId('il_meta_description');
 	$insert = 'INSERT INTO il_meta_description (meta_description_id, rbac_id, obj_id, obj_type, parent_type, parent_id, description, description_language) '.
 		'VALUES( '.
-		$ilDB->quote($meta_id,'integer').', '.
+		$ilDB->quote($meta_des_id,'integer').', '.
 		$ilDB->quote($sess_info['obj_id'],'integer').', '.
 		$ilDB->quote($sess_info['obj_id'],'integer').', '.
 		$ilDB->quote('sess','text').', '.
@@ -21576,7 +21576,8 @@ while($row = $ilDB->fetchAssoc($result))
 				//echo "<br> makeDirParents: ".ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$directory_relative_path;
 				ilUtil::makeDirParents(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$directory_relative_path);
 			}
-			if (!file_exists(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$file_relative_path))
+			if (!file_exists(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$file_relative_path) &&
+				file_exists($file_full_path))
 			{
 				//echo "<br> rename: $file_full_path TO ".ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$file_relative_path;
 				rename($file_full_path ,ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$file_relative_path);
@@ -21901,4 +21902,12 @@ if($rp_ops_id && $ep_ops_id && $w_ops_id)
 		}
 	}
 }
+?>
+<#5259>
+<?php
+	$ilDB->manipulate('UPDATE exc_mem_ass_status SET status='.$ilDB->quote('notgraded', 'text').' WHERE status = '.$ilDB->quote('', 'text'));
+?>
+<#5260>
+<?php
+$ilCtrlStructureReader->getStructure();
 ?>

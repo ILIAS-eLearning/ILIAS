@@ -128,7 +128,7 @@ class ilECSMappingUtils
 				return $lecturers;
 				
 			case 'courseType':
-				return (string) $course->lectureType;
+				return array((string) $course->lectureType);
 				
 			case 'degreeProgramme':
 				$degree_programmes = array();

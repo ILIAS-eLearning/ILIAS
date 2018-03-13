@@ -32,16 +32,28 @@ abstract class ilChatroomGUIHandler
 	protected $ilLng;
 
 	/**
+	 * @var \ILIAS\Filesystem\Filesystem
+	 */
+	protected $webDirectory;
+
+	/**
+	 * @var \ILIAS\FileUpload\FileUpload
+	 */
+	protected $upload;
+
+	/**
 	 * @param ilChatroomObjectGUI $gui
 	 */
 	public function __construct(ilChatroomObjectGUI $gui)
 	{
 		global $DIC;
 
-		$this->gui        = $gui;
-		$this->ilUser     = $DIC->user();
-		$this->ilCtrl     = $DIC->ctrl();
-		$this->ilLng      = $DIC->language();
+		$this->gui          = $gui;
+		$this->ilUser       = $DIC->user();
+		$this->ilCtrl       = $DIC->ctrl();
+		$this->ilLng        = $DIC->language();
+		$this->upload       = $DIC->upload();
+		$this->webDirectory = $DIC->filesystem()->web();
 	}
 
 	/**
