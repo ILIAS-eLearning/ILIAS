@@ -8,10 +8,10 @@ function base() {
 		->standard('someExample', 'Example')
 		->withAbbreviation('E')
 		->withSize('medium');
-	$button = $f->button()->graphical($ico, 'Icon', '#');
+	$button = $f->button()->bulky($ico, 'Icon', '#');
 
 	$glyph = $f->glyph()->briefcase();
-	$button2 = $f->button()->graphical($glyph, 'Glyph', '#');
+	$button2 = $f->button()->bulky($glyph, 'Glyph', '#');
 
 	return $renderer->render([
 		$button,

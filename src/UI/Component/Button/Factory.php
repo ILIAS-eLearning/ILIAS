@@ -213,34 +213,34 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     The graphical button is highly obtrusive. It combines the recognisability
+	 *     The bulky button is highly obtrusive. It combines the recognisability
 	 *     of a graphical element with an explicit textual label on an unusually
 	 *     sized button. It is hard to overlook and indicates an important action
 	 *     on the screen.
 	 *
 	 *   composition: >
-	 *     The graphical button consists of an icon or glyph and a (very short) text.
+	 *     The Bulky Button consists of an icon or glyph and a (very short) text.
 	 *
 	 *   effect: >
-	 *     The button has a "engaged"-state: When the button is used to toggle the
-	 *     visibility of an component, it stays engaged until the component is hidden again.
+	 *     The button has an "engaged"-state: When the button is used to toggle the
+	 *     visibility of a component, it stays engaged until the component is hidden again.
 	 *
-	 *   rival:
+	 *   rivals:
 	 *     Primary Button: >
 	 *       Primary Buttons indicate the most important action among a collection
-	 *       of actions, e.g. in a tool bar, controls of a form or in a modal. Graphical
-	 *       buttons make it hard to miss the indicated action by occupying space.
+	 *       of actions, e.g. in a tool bar, controls of a form or in a modal. Bulky
+	 *       Buttons make it hard to miss the indicated action by occupying space.
 	 *
 	 * rules:
 	 *   usage:
 	 *     1: >
-	 *       Since Graphical Buttons are so obtrusive they MUST only be used
+	 *       Since Bulky Buttons are so obtrusive they MUST only be used
 	 *       to indicate important actions on the screen.
 	 *   wording:
-	 *     1: The icon/glyph and the text on the Graphical Button MUST be corresponding.
+	 *     1: The icon/glyph and the text on the Bulky Button MUST be corresponding.
 	 *   style:
 	 *     1: >
-	 *       Graphical Buttons MUST occupy as much space as their container
+	 *       Bulky Buttons MUST occupy as much space as their container
 	 *       leaves them.
 	 *     2: >
 	 *       When used to toggle the visibility of another component, the button
@@ -248,16 +248,16 @@ interface Factory {
 	 *
 	 *   accessibility:
 	 *     1: >
-	 *       The functionality of the graphical button MUST be indicated for screen
+	 *       The functionality of the Bulky Button MUST be indicated for screen
 	 *       readers by an aria-label.
-	 *     2: Graphical buttons MUST define aria-pressed attribute.
+	 *     2: Bulky Buttons MUST define aria-pressed attribute.
 	 *
 	 * ---
 	 * @param	\ILIAS\UI\Component\Icon\Icon | \ILIAS\UI\Component\Glyph\Glyph		$icon_or_glyph
 	 * @param	string		$label
 	 * @param	string		$action
-	 * @return  \ILIAS\UI\Component\Button\Graphical
+	 * @return  \ILIAS\UI\Component\Button\Bulky
 	 */
-	public function graphical($icon_or_glyph, $label, $action);
+	public function bulky($icon_or_glyph, $label, $action);
 
 }
