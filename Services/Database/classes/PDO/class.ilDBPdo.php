@@ -2041,7 +2041,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	{
 		if (!$this->doesCollationSupportMB4Strings()) {
 			$query = preg_replace(
-				'/[\x{10000}-\x{10FFFF}]/ug', ilDBConstants::MB4_REPLACEMENT, $query
+				'/[\x{10000}-\x{10FFFF}]/u', ilDBConstants::MB4_REPLACEMENT, $query
 			);
 		}
 
