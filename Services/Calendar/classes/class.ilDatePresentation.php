@@ -143,6 +143,7 @@ class ilDatePresentation
 		
 		if (!$a_skip_day)
 		{
+			$sep = ", ";
 			if (self::isToday($date) and self::useRelativeDates())
 			{
 				$date_str = self::getLanguage()->txt('today');
@@ -165,6 +166,10 @@ class ilDatePresentation
 					$date_info['year'];
 			}
 		}
+		else
+		{
+			$sep = "";
+		}
 		
 		if(!$has_time)
 		{
@@ -174,10 +179,10 @@ class ilDatePresentation
 		switch($ilUser->getTimeFormat())
 		{
 			case ilCalendarSettings::TIME_FORMAT_24:
-				return $date_str.', '.$date->get(IL_CAL_FKT_DATE,'H:i',$ilUser->getTimeZone());
+				return $date_str.$sep.$date->get(IL_CAL_FKT_DATE,'H:i',$ilUser->getTimeZone());
 				
 			case ilCalendarSettings::TIME_FORMAT_12:
-				return $date_str.', '.$date->get(IL_CAL_FKT_DATE,'g:ia',$ilUser->getTimeZone());
+				return $date_str.$sep.$date->get(IL_CAL_FKT_DATE,'g:ia',$ilUser->getTimeZone());
 		}
 	}
 	
@@ -196,7 +201,7 @@ class ilDatePresentation
 	public static function formatPeriod(ilDateTime $start,ilDateTime $end, $a_skip_starting_day = false)
 	{
 		global $ilUser;
-		
+
 		$has_time = !is_a($start,'ilDate');
 		
 		// Same day

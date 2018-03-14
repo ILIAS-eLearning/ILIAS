@@ -227,9 +227,9 @@ class ilCertificate
 	/**
 	* Clone the certificate for another test object
 	*
-	* @param $newObject The new certificate object
+	* @param $newObject \ilCertificate The new certificate object
 	*/
-	public function cloneCertificate($newObject)
+	public function cloneCertificate(\ilCertificate $newObject)
 	{
 		$xsl = $this->getXSLPath();
 		$bgimage = $this->getBackgroundImagePath();

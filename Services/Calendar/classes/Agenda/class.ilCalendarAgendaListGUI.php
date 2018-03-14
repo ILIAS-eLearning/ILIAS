@@ -230,7 +230,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 				$lead_text = ilDatePresentation::formatPeriod($begin, $end, true);
 			}
 			$li = $this->ui_factory->item()->standard($shy)
-				->withDescription("".ilUtil::makeClickable(nl2br($e["event"]->getDescription())))
+				->withDescription("".nl2br(strip_tags($e["event"]->getDescription())))
 				->withLeadText($lead_text)
 				->withProperties($properties)
 				->withColor($df->color('#'.$cat_info["color"]));
@@ -323,6 +323,22 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 		}
 		return $li;
 	}
-}
 
-?>
+	/**
+	 * needed in CalendarInboxGUI to get events using a proper period.
+	 * todo define default period only once (self::PERIOD_WEEK, protected $period = self::PERIOD_WEEK)
+	 * @return int|mixed
+	 */
+	static function getPeriod()
+	{
+		#21479
+		$qp = $_GET;
+		if ((int) $qp["cal_agenda_per"] > 0 && (int) $qp["cal_agenda_per"] <= 4) {
+			return $qp["cal_agenda_per"];
+		} else if ($period = ilSession::get('cal_list_view')) {
+			return $period;
+		} else {
+			return self::PERIOD_WEEK;
+		}
+	}
+}

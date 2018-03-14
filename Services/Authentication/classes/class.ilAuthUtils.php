@@ -771,7 +771,7 @@ class ilAuthUtils
 	
 	/**
 	 * 
-	 * @param string $a_authmode
+	 * @param string $a_auth_key
 	 */
 	public static function getAuthModeTranslation($a_auth_key)
 	{

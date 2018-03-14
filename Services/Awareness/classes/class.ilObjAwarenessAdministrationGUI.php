@@ -208,8 +208,12 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->lng->txt('awareness_settings'));
-		$form->addCommandButton('saveSettings',$this->lng->txt('save'));
-		$form->addCommandButton('cancel',$this->lng->txt('cancel'));
+
+		if ($this->checkPermissionBool("write"))
+		{
+			$form->addCommandButton('saveSettings', $this->lng->txt('save'));
+			$form->addCommandButton('cancel', $this->lng->txt('cancel'));
+		}
 
 		$en = new ilCheckboxInputGUI($lng->txt("awrn_enable"), "enable_awareness");
 		$form->addItem($en);

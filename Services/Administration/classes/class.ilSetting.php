@@ -275,18 +275,15 @@ class ilSetting
 	}
 
 	/**
-	* get the type of the value column in the database
-	*
-	* @return   string  'text' or 'clob'
-	*/
+	 * Get the type of the value column in the database
+	 *
+	 * @return string 'text' or 'clob'
+	 * @throws ilDatabaseException
+	 */
 	public static function _getValueType()
 	{
-		// php7-todo JL: PDO has no analyzer
-		return 'text';
-		
-		/*
 		include_once ('./Services/Database/classes/class.ilDBAnalyzer.php');
-		$analyzer = new ilDBAnalyzer;
+		$analyzer = new ilDBAnalyzer();
 		$info = $analyzer->getFieldInformation('settings');
 
 		if ($info['value']['type'] == 'clob')
@@ -296,8 +293,7 @@ class ilSetting
 		else
 		{
 	        return 'text';
-	    }		 
-		*/
+	    }
 	}
 
 

@@ -1,6 +1,7 @@
 <?php
 
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+require_once("libs/composer/vendor/autoload.php");
 
 use ILIAS\Validation;
 use ILIAS\Data;
@@ -11,6 +12,11 @@ use ILIAS\Data;
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
 class ValidationFactoryTest extends PHPUnit_Framework_TestCase {
+	/**
+	 * @var Validation\Factory
+	 */
+	protected $f = null;
+
 	protected function setUp() {
 		$this->f = new Validation\Factory(new Data\Factory());
 	}
@@ -20,6 +26,11 @@ class ValidationFactoryTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testIsInt() {
+		$is_numeric = $this->f->isNumeric();
+		$this->assertInstanceOf(Validation\Constraint::class, $is_numeric);
+	}
+
+	public function testIsNumeric() {
 		$is_int = $this->f->isInt();
 		$this->assertInstanceOf(Validation\Constraint::class, $is_int);
 	}
@@ -32,6 +43,11 @@ class ValidationFactoryTest extends PHPUnit_Framework_TestCase {
 	public function testLessThan() {
 		$lt = $this->f->lessThan(5);
 		$this->assertInstanceOf(Validation\Constraint::class, $lt);
+	}
+
+	public function testHasMinLength() {
+		$min = $this->f->hasMinLength(1);
+		$this->assertInstanceOf(Validation\Constraint::class, $min);
 	}
 
 	public function testCustom() {

@@ -116,15 +116,7 @@ class ilLocatorGUI
 		}
 		else
 		{
-			// LTI
-			if (isset($_SESSION['lti_tree_root_id'])) 
-			{
-				$a_start = $_SESSION['lti_tree_root_id'];
-			}
-			else 
-			{
-				$a_start = ROOT_FOLDER_ID;
-			}
+			$a_start = ROOT_FOLDER_ID;
 		}
 		
 		if ($a_ref_id > 0)
@@ -261,13 +253,20 @@ class ilLocatorGUI
 	*/
 	function addItem($a_title, $a_link, $a_frame = "", $a_ref_id = 0, $type = null)
 	{
+		// LTI
+		global $DIC;
+		$ltiview = $DIC['lti'];
+		
 		$ilAccess = $this->access;
 
 		if ($a_ref_id > 0 && !$ilAccess->checkAccess("visible", "", $a_ref_id))
 		{
 			return;
 		}
-
+		// LTI
+		if ($ltiview->isActive()) {
+			$a_frame = "_self";
+		}
 		$this->entries[] = array("title" => $a_title,
 			"link" => $a_link, "frame" => $a_frame, "ref_id" => $a_ref_id, "type" => $type); 
 	}
@@ -293,6 +292,12 @@ class ilLocatorGUI
 	*/
 	function getHTML()
 	{
+		global $DIC;
+		$ltiview = $DIC["lti"];
+		if ($ltiview->isActive() && !$ltiview->show_locator)
+		{
+ 			return "";
+ 		}
 		$lng = $this->lng;
 		$ilSetting = $this->settings;
 		

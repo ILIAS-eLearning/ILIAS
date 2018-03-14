@@ -211,7 +211,7 @@ abstract class ilExternalFeedBlockGUIGen extends ilBlockGUI
 		
 		$lng->loadLanguageModule("block");
 		
-		include("Services/Form/classes/class.ilPropertyFormGUI.php");
+		require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		
 		$this->form_gui = new ilPropertyFormGUI();
 		

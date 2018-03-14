@@ -68,7 +68,10 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI {
 	 * @var bool
 	 */
 	protected $show_info = false;
-
+	/**
+	 * @var bool
+	 */
+	protected $render_one_for_empty_value = true;
 
 	/**
 	 * Constructor
@@ -457,7 +460,20 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI {
 				$output .= $object->render($run);
 			}
 		} else {
-			$output .= $this->render(0, true);
+			if($this->render_one_for_empty_value)
+				$output .= $this->render(0, true);
+			else {
+				$tpl = new ilTemplate("tpl.prop_generic_multi_line.html", true, true, 'Modules/OrgUnit');
+				$image_plus = ilGlyphGUI::get(ilGlyphGUI::ADD);
+				$image_minus = '<span class="glyphicon glyphicon-minus hide"></span>';
+
+				$tpl->setVariable('ADDITIONAL_ATTRS', "style='float:left';");
+				$tpl->setCurrentBlock('multi_icons');
+				$tpl->setVariable('IMAGE_PLUS', $image_plus);
+				$tpl->setVariable('IMAGE_MINUS', $image_minus);
+				$tpl->parseCurrentBlock();
+				$output .= $tpl->get();
+			}
 		}
 		if ($this->getMulti()) {
 			$output = "<div id='{$this->getFieldId()}' class='multi_line_input'>{$output}</div>";
@@ -466,6 +482,7 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI {
 			$options = json_encode($this->input_options);
 			$tpl->addOnLoadCode("$('#{$this->getFieldId()}').multi_line_input({$this->getFieldId()}, '{$options}')");
 		}
+
 		$a_tpl->setCurrentBlock("prop_generic");
 		$a_tpl->setVariable("PROP_GENERIC", $output);
 		$a_tpl->parseCurrentBlock();
@@ -538,5 +555,21 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI {
 	 */
 	public function setShowInfo($show_info) {
 		$this->show_info = $show_info;
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function isRenderOneForEmptyValue() {
+		return $this->render_one_for_empty_value;
+	}
+
+
+	/**
+	 * @param bool $render_one_for_empty_value
+	 */
+	public function setRenderOneForEmptyValue($render_one_for_empty_value) {
+		$this->render_one_for_empty_value = $render_one_for_empty_value;
 	}
 }

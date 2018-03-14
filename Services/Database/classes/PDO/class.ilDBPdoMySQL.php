@@ -73,6 +73,35 @@ abstract class ilDBPdoMySQL extends ilDBPdo implements ilDBInterface {
 
 
 	/**
+	 * @inheritDoc
+	 */
+	public function migrateAllTablesToCollation($collation = ilDBConstants::MYSQL_COLLATION_UTF8MB4)
+	{
+		$ilDBPdoManager = $this->loadModule(ilDBConstants::MODULE_MANAGER);
+		$errors = array();
+		foreach ($ilDBPdoManager->listTables() as $table_name) {
+			$q = "ALTER TABLE {$this->quoteIdentifier($table_name)} CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";
+			try {
+				$this->pdo->exec($q);
+			} catch (PDOException $e) {
+				$errors[] = $table_name;
+			}
+		}
+
+		return $errors;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function supportsCollationMigration()
+	{
+		return true;
+	}
+
+
+	/**
 	 * @param string $table_name
 	 * @return int
 	 */
@@ -95,6 +124,24 @@ abstract class ilDBPdoMySQL extends ilDBPdo implements ilDBInterface {
 		}
 
 		return $value;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function doesCollationSupportMB4Strings()
+	{
+		// Currently ILIAS does not support utf8mb4, after that ilDB could check like this:
+		//		static $supported;
+		//		if (!isset($supported)) {
+		//			$q = "SELECT default_character_set_name FROM information_schema.SCHEMATA WHERE schema_name = %s;";
+		//			$res = $this->queryF($q, ['text'], [$this->getDbname()]);
+		//			$data = $this->fetchObject($res);
+		//			$supported = ($data->default_character_set_name === 'utf8mb4');
+		//		}
+
+		return false;
 	}
 }
 

@@ -15,14 +15,14 @@ $( document ).ready( function() {
 		var progress;
 		var progressTime;
 		var progressInterval = 1000;
-		var progressMaxtime = 20000;
+		var progressMaxtime = 300000;
 		var isPurgeCookieRegEx;
 		
 		const CLIENT_SUCCESS = 'Successfully posted to client_data!';
 		const USER_SUCCESS = 'Successfully posted to user_data!';
 		const LM_SUCCESS = 'Successfully posted to lm!';
 		const SAHS_SUCCESS = 'Successfully posted to sahs_user!';
-		const SCORM_SUCCESS = 'Successfully posted to scorm_tracking!';
+		const SCORM_SUCCESS = 'Successfully posted to scorm_tracking! ';
 		
 		/**
 		 * init sop
@@ -135,10 +135,35 @@ $( document ).ready( function() {
 			});
 		};
 		
+		var getScormVersion = function () {
+			var version;
+			db = new PouchDB('lm');
+			db.get(sopGlobals.ilClient+'_'+sopGlobals.lmId).then(function(result){
+				version = result.scorm_version;
+				return version;
+			}).catch(function (err) {
+				console.log(err);
+			});
+			console.log(version);
+			//return version;
+		};
+		
 		
 		var startSop = function () {
-			log("startSop: " +sopGlobals.player12_url); // ToDo: player2004 switch
-			open(sopGlobals.player12_url,"client="+sopGlobals.ilClient+"&obj_id="+sopGlobals.lmId);
+			db = new PouchDB('lm');
+			db.get(sopGlobals.ilClient+'_'+sopGlobals.lmId).then(function(result){
+				if (result.scorm_version == "1.2") {
+					log("startSop: " +sopGlobals.player12_url);
+					open(sopGlobals.player12_url,"client="+sopGlobals.ilClient+"&obj_id="+sopGlobals.lmId);
+				} else if (result.scorm_version == "2004"){
+					log("startSop: " +sopGlobals.player2004_url);
+					open(sopGlobals.player2004_url,"client="+sopGlobals.ilClient+"&obj_id="+sopGlobals.lmId);
+				} else {
+					alert("scorm_version not found");
+				}
+			}).catch(function (err) {
+				console.log(err);
+			});
 		};
 		
 		var startSom = function () {
@@ -366,6 +391,26 @@ $( document ).ready( function() {
 		/**
 		 * utils
 		 */
+		var remove2004TablesForLM = function(table, resolve) {
+			// if (resolve) { // Resolving itself
+				// return new PouchDB(table).destroy().then(function(res){ log("destroyed: " + table) }).catch( function(err) { log(err); });
+			// }
+			// else {  // returns a chainable Promise
+				// return new PouchDB(table).destroy();
+			// }
+			
+			/*
+			var db = new PouchDB(table);
+			db.destroy().then(function(response) {
+				console.log("destroyed: "+table);
+				return true;
+			}).catch(function(err){
+				log(err);
+				// db.close();
+				return false;
+			});
+			*/ 
+		}
 		
 		var removeTable = function(table, resolve) {
 			if (resolve) { // Resolving itself
@@ -473,57 +518,99 @@ $( document ).ready( function() {
 			var remoteCouch = false;
 			var cmi = "";
 			var sop2il_data = {};
-			var db = new PouchDB('sahs_user');
 			//var purgeCache = $('#chkPurgeCache').is(':checked'); // default remove appcache assets, checkbox is hidden by display: none 
-			var purgeCache = true; 
-			db.get(sopGlobals.ilClient+'_'+sopGlobals.lmId).then(function(res){
-				sop2il_data = {
-					// "cmi":[],
-					"adl_seq_utilities":{},
-					"changed_seq_utilities":0,
-					"saved_global_status":0,
-					"now_global_status":res.status,
-					"percentageCompleted":res.percentage_completed,
-					"lp_mode":6,
-					"hash":0,
-					"p":res.user_id,
-					"totalTimeCentisec":(res.sco_total_time_sec*100),
-					"packageAttempts":res.package_attempts,
-					"first_access":res.first_access,
-					"last_access":res.last_access,
-					"last_status_change":res.last_status_change,
-					"last_visited":res.last_visited,
-					"total_time_sec":null,
-					"module_version":res.module_version
-				};
-				dbtri = new PouchDB('scorm_tracking_'+sopGlobals.ilClient+'_'+sopGlobals.lmId);
-				dbtri.allDocs({include_docs: true, descending: true}).then(function(result){
-					for (var i=0; i<result.total_rows; i++) {
-						var left = result.rows[i].doc._id;
-						var ileft = left.indexOf('_');
-						cmi += ',["' + left.substr(0,ileft) +'","'+ left.substr(ileft+1) +'",'+ toJSONString(decodeURIComponent(result.rows[i].doc.rvalue)) +']';
+			var purgeCache = true;
+			db = new PouchDB('lm');
+			db.get(sopGlobals.ilClient+'_'+sopGlobals.lmId).then(function(result){
+				var scorm_version = result.scorm_version;
+
+				var db = new PouchDB('sahs_user');
+				db.get(sopGlobals.ilClient+'_'+sopGlobals.lmId).then(function(res){
+					sop2il_data = {
+						// "cmi":[],
+						"adl_seq_utilities":{},
+						"changed_seq_utilities":0,
+						"saved_global_status":0,
+						"now_global_status":res.status,
+						"percentageCompleted":res.percentage_completed,
+						"lp_mode":6,
+						"hash":0,
+						"p":res.user_id,
+						"totalTimeCentisec":(res.sco_total_time_sec*100),
+						"packageAttempts":res.package_attempts,
+						"first_access":res.first_access,
+						"last_access":res.last_access,
+						"last_status_change":res.last_status_change,
+						"last_visited":res.last_visited,
+						"total_time_sec":null,
+						"module_version":res.module_version
+					};
+					if (scorm_version == "1.2") {
+						dbtri = new PouchDB('scorm_tracking_'+sopGlobals.ilClient+'_'+sopGlobals.lmId);
+						dbtri.allDocs({include_docs: true, descending: true}).then(function(result){
+							for (var i=0; i<result.total_rows; i++) {
+								var left = result.rows[i].doc._id;
+								var ileft = left.indexOf('_');
+								cmi += ',["' + left.substr(0,ileft) +'","'+ left.substr(ileft+1) +'",'+ toJSONString(decodeURIComponent(result.rows[i].doc.rvalue)) +']';
+							}
+							if (cmi != "") cmi = cmi.substr(1);
+							s_s=toJSONString(sop2il_data);
+							var cmdUrl = document.URL.substring(0,document.URL.indexOf('?'))+'?baseClass=ilSAHSPresentationGUI&ref_id='+sopGlobals.refId+'&client_id='+sopGlobals.ilClient+'&cmd=';
+							var ret = JSON.parse(sendRequest(cmdUrl+"offlineMode_sop2ilpush", '{"cmi":['+cmi+'],'+s_s.substr(1)));
+							if (ret.msg[0] == "post data recieved") {
+								dbtri.destroy();
+								removeTableRow('sahs_user', ""+sopGlobals.ilClient+'_'+sopGlobals.lmId);
+								removeTableRow('lm', ""+sopGlobals.ilClient+'_'+sopGlobals.lmId);
+							}
+							if (purgeCache) {
+								purgeAppCache();
+							}
+							else { // deprecated
+								outProgress();
+								loadOnlineMode();
+							}
+						});
+					} else if (scorm_version == "2004") {
+						var cmi_node=[];
+						dbtri = new PouchDB('cmi_node_'+sopGlobals.ilClient+'_'+sopGlobals.lmId);
+						dbtri.allDocs({include_docs: true, descending: true}).then(function(result){
+							for (var i=0; i<result.total_rows; i++) {
+								cmi_node[i]=result.rows[i].doc.value;
+							}
+							var cmi_data={"node":[],"comment":[],"correct_response":[],"interaction":[],"objective":[],"i_check":15,"i_set":15};
+							cmi_data.node = cmi_node;
+							// cmi_data.node = JSON.parse(db.getData("sop2ilNode",[client,obj_id,sco],false,false));
+							cmi_data.comment = [];//sop2ilComment",[client,obj_id,sco]
+							cmi_data.correct_response = [];//sop2ilCorrectResponse",[client,obj_id,sco]
+							cmi_data.interaction = [];//sop2ilInteraction",[client,obj_id,sco]
+							cmi_data.objective = [];//sop2ilObjective",[client,obj_id,sco]
+							log(JSON.stringify(cmi_data));
+							sop2il_data.cmi = [];
+							sop2il_data.cmi.push(cmi_data);
+							s_s=toJSONString(sop2il_data);
+							var cmdUrl = document.URL.substring(0,document.URL.indexOf('?'))+'?baseClass=ilSAHSPresentationGUI&ref_id='+sopGlobals.refId+'&client_id='+sopGlobals.ilClient+'&cmd=';
+							var ret = JSON.parse(sendRequest(cmdUrl+"offlineMode_sop2ilpush", '{"cmi":['+cmi+'],'+s_s.substr(1)));
+							if (ret.msg[0] == "post data recieved") {
+								dbtri.destroy();
+								removeTableRow('sahs_user', ""+sopGlobals.ilClient+'_'+sopGlobals.lmId);
+								removeTableRow('lm', ""+sopGlobals.ilClient+'_'+sopGlobals.lmId);
+							}
+							if (purgeCache) {
+								purgeAppCache();
+							}
+							else { // deprecated
+								outProgress();
+								loadOnlineMode();
+							}
+						});
+					} else {
+						log("SCORM version could not be determined");
 					}
-					if (cmi != "") cmi = cmi.substr(1);
-					s_s=toJSONString(sop2il_data);
-					var cmdUrl = document.URL.substring(0,document.URL.indexOf('?'))+'?baseClass=ilSAHSPresentationGUI&ref_id='+sopGlobals.refId+'&client_id='+sopGlobals.ilClient+'&cmd=';
-					var ret = JSON.parse(sendRequest(cmdUrl+"offlineMode_sop2ilpush", '{"cmi":['+cmi+'],'+s_s.substr(1)));
-					if (ret.msg[0] == "post data recieved") {
-						dbtri.destroy();
-						removeTableRow('sahs_user', ""+sopGlobals.ilClient+'_'+sopGlobals.lmId);
-						removeTableRow('lm', ""+sopGlobals.ilClient+'_'+sopGlobals.lmId);
-					}
-					if (purgeCache) {
-						purgeAppCache();
-					}
-					else { // deprecated
-						outProgress();
-						loadOnlineMode();
-					}
+				}).catch(function (err) {
+					// dbtri.close();
+					console.log(err);
+					outProgress();
 				});
-			}).catch(function (err) {
-				// dbtri.close();
-				console.log(err);
-				outProgress();
 			});
 		}
 		
@@ -621,7 +708,7 @@ $( document ).ready( function() {
 					init_data: JSON.parse(lm[4]),
 					resources: lm[5],
 					scorm_tree: lm[6],
-					last_visited: (JSON.parse(lm[4])).launchId.toString(),
+					// last_visited: null,//UK(JSON.parse(lm[4])).launchId.toString(),
 					module_version: lm[7],
 					offline_zip_created: lm[8],
 					learning_progress_enabled: lm[9],
@@ -702,7 +789,7 @@ $( document ).ready( function() {
 		}
 		
 		var tracking2sopcmi = function(cmi, resolve) {
-			log("tracking2sopcmi");
+			log("tracking2sopcmi 1.2");
 			var dbname = 'scorm_tracking_'+sopGlobals.ilClient+'_'+sopGlobals.lmId;
 			var db = new PouchDB(dbname,{auto_compaction:true, revs_limit: 1});
 			var remoteCouch = false;
@@ -719,28 +806,55 @@ $( document ).ready( function() {
 			}
 		}
 		
+		var il2sopCmiNode  = function(cmi, resolve) {
+			log("tracking2sopcmi 2004");
+			var dbname = 'cmi_node_'+sopGlobals.ilClient+'_'+sopGlobals.lmId;
+			var db = new PouchDB(dbname,{auto_compaction:true, revs_limit: 1});
+			var remoteCouch = false;
+
+			var dat = [];
+			for (var i=0; i<cmi.length; i++) {
+				dat[i]={_id: cmi[i][15], value: cmi[i]}; //id=cmi_node_id
+			}
+			if (resolve) {
+				return db.bulkDocs(dat).then( function() { log( SCORM_SUCCESS ) } ).catch( function(err) { log(err) } ); 
+			}
+			else {
+				return db.bulkDocs(dat);
+			}
+		}
+		
 		var tracking2sop = function(d) {
 			log("tracking2sop");
 			var usrid = d.user_data[6];
-			
+			var scorm_version = d.lm[2];
 			/* no chaining, only scorm_tracking chain after removing */
 			tracking2sopclient(d.client_data, true);
 			tracking2sopuser(d.user_data, true); 
 			tracking2soplm(d.lm, true);
 			tracking2sopsahs(d.sahs_user, usrid, true);
-			removeTable('scorm_tracking_'+sopGlobals.ilClient+'_'+sopGlobals.lmId, false).then( function(res) {
-				return tracking2sopcmi(d.cmi, false); // new Promise
-			}).then( function() {
-				log(CLIENT_SUCCESS);
-			}).catch( function(err) { log(err) } );
+			if (scorm_version == "1.2") {
+				removeTable('scorm_tracking_'+sopGlobals.ilClient+'_'+sopGlobals.lmId, false).then( function(res) {
+					return tracking2sopcmi(d.cmi, false); // new Promise
+				}).then( function() {
+					log(CLIENT_SUCCESS);
+				}).catch( function(err) { log(err) } );
+			}
+			else if (scorm_version == "2004") {
+				removeTable('cmi_node_'+sopGlobals.ilClient+'_'+sopGlobals.lmId, false).then( function(res) {
+					return il2sopCmiNode(d.cmi.data.node, false); // new Promise
+				}).then( function() {
+					log(CLIENT_SUCCESS);
+				}).catch( function(err) { log(err) } );
+			
 			
 			/* complete chaining */
 			/*
-			removeTable('scorm_tracking_'+sopGlobals.ilClient+'_'+sopGlobals.lmId, false).then( function(res) {
-				return tracking2sopclient(d.client_data, false); // new Promise
+			removeTable('cmi_node_'+sopGlobals.ilClient+'_'+sopGlobals.lmId, false).then( function(res) {
+				return il2sopCmiNode(d.cmi.data.node, false);
 			}).then( function() {
-				log(CLIENT_SUCCESS);
-				return tracking2sopuser(d.user_data, false); // new Promise
+				log(SCORM_SUCCESS+'cmi_node');
+				removeTable('cmi_node_'+sopGlobals.ilClient+'_'+sopGlobals.lmId, false).then( function(res) {return tracking2sopuser(d.user_data, false);})
 			}).then( function () {
 				log(USER_SUCCESS);
 				return tracking2soplm(d.lm, false); // new Promise
@@ -752,9 +866,10 @@ $( document ).ready( function() {
 				log(SAHS_SUCCESS);
 				return tracking2sopcmi(d.cmi, false); // new Promise
 			}).then( function () {
-				log(SCORM_SUCCESS);
+				log(CLIENT_SUCCESS);
 			}).catch( function(err) { log(err) } );
 			*/ 
+			}
 		}
 
 

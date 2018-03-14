@@ -394,7 +394,7 @@ class ilChatroomFormFactory
 		$osd->addSubItem($interval);
 
 		$play_sound = new ilCheckboxInputGUI($this->lng->txt('play_invitation_sound'), 'play_invitation_sound');
-		$play_sound->setInfo($this->lng->txt('play_invitation_sound'));
+		$play_sound->setInfo($this->lng->txt('play_invitation_sound_info'));
 		$osd->addSubItem($play_sound);
 
 		$enable_smilies = new ilCheckboxInputGUI($this->lng->txt('enable_smilies'), 'enable_smilies');

@@ -368,7 +368,11 @@ class ilAdvancedMDSettingsGUI
 		$table_gui->setTitle($this->lng->txt("md_record_export_table"));
 		$table_gui->parseFiles($file_data);
 		$table_gui->addMultiCommand("downloadFile",$this->lng->txt('download'));
-		$table_gui->addMultiCommand("confirmDeleteFiles", $this->lng->txt("delete"));
+		
+		if($GLOBALS['DIC']->access()->checkAccess('write','',$this->ref_id))
+		{
+			$table_gui->addMultiCommand("confirmDeleteFiles", $this->lng->txt("delete"));
+		}
 		$table_gui->addCommandButton('showFiles',$this->lng->txt('cancel'));
 		$table_gui->setSelectAllCheckbox("file_id");
 		
@@ -451,6 +455,12 @@ class ilAdvancedMDSettingsGUI
 	 		$this->editFiles();
 	 		return false;
 	 	}
+		
+		if(!$GLOBALS['DIC']->access()->checkAccess('write','',$this->ref_id))
+		{
+			ilUtil::sendFailure($this->lng->txt('permission_denied'),true);
+			$GLOBALS['DIC']->ctrl()->redirect($this,'showFiles');
+		}
 
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordExportFiles.php');
 		$files = new ilAdvancedMDRecordExportFiles($this->obj_id);

@@ -746,11 +746,8 @@ class ilObjSurveyQuestionPool extends ilObject
 			}
 			if (strpos($xml, "questestinterop") > 0)
 			{
-				// survey questions for ILIAS < 3.8
-				include_once "./Services/Survey/classes/class.SurveyImportParserPre38.php";
-				$import = new SurveyImportParserPre38($this->getId(), "", $spl_exists);
-				$import->setXMLContent($xml);
-				$import->startParsing();
+				include_once("./Modules/Survey/exceptions/class.ilInvalidSurveyImportFileException.php");
+				throw new ilInvalidSurveyImportFileException("Unsupported survey version (< 3.8) found.");
 			}
 			else
 			{

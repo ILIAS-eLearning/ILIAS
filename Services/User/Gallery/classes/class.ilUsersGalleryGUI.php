@@ -132,20 +132,10 @@ class ilUsersGalleryGUI
 			$contact_btn_html = ilBuddySystemLinkButton::getInstanceByUserId($user->getId())->getHtml();
 		}
 
+		include_once("./Services/User/Actions/classes/class.ilUserActionGUI.php");
 		include_once("./Services/User/Gallery/classes/class.ilGalleryUserActionContext.php");
-		include_once("./Services/User/Actions/classes/class.ilUserActionCollector.php");
-		$act_collector = ilUserActionCollector::getInstance($this->user->getId(),
-			new ilGalleryUserActionContext());
-		$action_collection = $act_collector->getActionsForTargetUser($user->getId());
-		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
-		$list = new ilAdvancedSelectionListGUI();
-		$list->setListTitle("");
-		foreach ($action_collection->getActions() as $action)
-		{
-			$list->addItem($action->getText(), "", $action->getHref(), "", "", "", "", false, "","","","",true, $action->getData());
-		}
-		$list_html = $list->getHTML();
-
+		$ua_gui = ilUserActionGUI::getInstance(new ilGalleryUserActionContext(), $this->tpl, $this->user->getId());
+		$list_html = $ua_gui->renderDropDown($user->getId());
 
 		if($contact_btn_html || $list_html)
 		{
@@ -208,10 +198,10 @@ class ilUsersGalleryGUI
 				}
 
 				$sections[] = $this->factory->listing()->descriptive(
-						[
-								$this->lng->txt("username") => $user->getAggregatedUser()->getLogin(),
-								$this->lng->txt("crs_contact_responsibility") => $group->getLabel()
-						]
+					[
+						$this->lng->txt("username")                   => $user->getAggregatedUser()->getLogin(),
+						$this->lng->txt("crs_contact_responsibility") => $group->getLabel()
+					]
 				);
 
 				$this->addActionSection($user->getAggregatedUser(), $sections);

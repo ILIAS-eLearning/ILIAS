@@ -63,9 +63,10 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel {
 	 * @param ilPropertyFormGUI $form
 	 */
 	public function storePropertiesFromForm(ilPropertyFormGUI $form) {
+		$representation = ilDclFieldFactory::getFieldRepresentationInstance($this);
+
 		$field_props = $this->getValidFieldProperties();
 		foreach ($field_props as $property) {
-			$representation = ilDclFieldFactory::getFieldRepresentationInstance($this);
 			$value = $form->getInput($representation->getPropertyInputFieldId($property));
 
 			// break down the multidimensional array from the multi input
@@ -198,7 +199,7 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel {
 				$record_field->setValue(array($record_field_value));
 				$record_field->doUpdate();
 			}
-			else if (is_array($record_field_value) && !$is_multi_now && (count($record_field_value) == 1)) {
+			else if (is_array($record_field_value) && !$is_multi_now) {
 				$record_field->setValue(array_shift($record_field_value));
 				$record_field->doUpdate();
 			}
@@ -237,11 +238,18 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel {
 		$join_str = "LEFT JOIN il_dcl_record_field AS sort_record_field_{$this->getId()} ON (sort_record_field_{$this->getId()}.record_id = record.id AND sort_record_field_{$this->getId()}.field_id = "
 			. $ilDB->quote($this->getId(), 'integer') . ") ";
 		$join_str .= "LEFT JOIN il_dcl_stloc{$this->getStorageLocation()}_value AS sort_stloc_{$this->getId()} ON (sort_stloc_{$this->getId()}.record_field_id = sort_record_field_{$this->getId()}.id) ";
-		$join_str .= "LEFT JOIN il_dcl_sel_opts as sel_opts_{$this->getId()} ON (sel_opts_{$this->getId()}.opt_id = sort_stloc_{$this->getId()}.value AND sel_opts_{$this->getId()}.field_id = " . $ilDB->quote($this->getId(), 'integer') . ") ";
+		//if ($this->isMulti()) {
+		//	$join_str .= "LEFT JOIN il_dcl_sel_opts as sel_opts_{$this->getId()} ON (sel_opts_{$this->getId()}.opt_id = sort_stloc_{$this->getId()}.value->'$[0]' AND sel_opts_{$this->getId()}.field_id = " . $ilDB->quote($this->getId(), 'integer') . ") ";
+		//} else {
+			$join_str .= "LEFT JOIN il_dcl_sel_opts as sel_opts_{$this->getId()} ON (sel_opts_{$this->getId()}.opt_id = sort_stloc_{$this->getId()}.value AND sel_opts_{$this->getId()}.field_id = " . $ilDB->quote($this->getId(), 'integer') . ") ";
+		//}
+
+
 
 		$sql_obj->setSelectStatement($select_str);
 		$sql_obj->setJoinStatement($join_str);
 		$sql_obj->setOrderStatement("field_{$this->getId()} {$direction}");
+
 
 		return $sql_obj;
 	}
@@ -267,5 +275,33 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel {
 			$option->delete();
 		}
 		parent::doDelete();
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function isConfirmationRequired(ilPropertyFormGUI $form) {
+		$will_be_multi = ($form->getInput('prop_' . static::PROP_SELECTION_TYPE) == self::SELECTION_TYPE_MULTI);
+		return $this->isMulti() && !$will_be_multi;
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getConfirmationGUI(ilPropertyFormGUI $form) {
+		global $DIC;
+		$representation = ilDclFieldFactory::getFieldRepresentationInstance($this);
+		$prop_selection_options = $representation->getPropertyInputFieldId(static::PROP_SELECTION_OPTIONS);
+		$prop_selection_type = $representation->getPropertyInputFieldId(static::PROP_SELECTION_TYPE);
+
+		$ilConfirmationGUI = parent::getConfirmationGUI($form);
+		$ilConfirmationGUI->setHeaderText($DIC->language()->txt('dcl_msg_mc_to_sc_confirmation'));
+		$ilConfirmationGUI->addHiddenItem($prop_selection_type, $form->getInput($prop_selection_type));
+		foreach ($form->getInput($prop_selection_options) as $key => $option) {
+			$ilConfirmationGUI->addHiddenItem($prop_selection_options . "[$key][selection_value]",$option['selection_value']);
+		}
+		return $ilConfirmationGUI;
 	}
 }

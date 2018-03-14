@@ -37,7 +37,7 @@ include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 class ilForumSearch extends ilAbstractSearch
 {
 
-	function &performSearch()
+	public function performSearch()
 	{
 		// Search in topic titles, posting title, posting
 		

@@ -25,8 +25,9 @@ class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
 	 *
 	 * @param	string	$a_title	Title
 	 * @param	string	$a_postvar	Post Variable
+	 * @param   string  $form
 	 */
-	function __construct($a_title, $a_postvar, $a_multi = false)
+	function __construct($a_title, $a_postvar, $a_multi = false, $form = ilPropertyFormGUI::class)
 	{
 		global $DIC;
 
@@ -37,7 +38,7 @@ class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
 		$this->postvar = $a_postvar;
 
 		include_once("./Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php");
-		$this->explorer_gui = new ilRepositorySelectorExplorerGUI(array("ilpropertyformgui", "ilformpropertydispatchgui", "ilrepositoryselector2inputgui"),
+		$this->explorer_gui = new ilRepositorySelectorExplorerGUI([$form, ilFormPropertyDispatchGUI::class, ilRepositorySelector2InputGUI::class],
 			$this->getExplHandleCmd(), $this, "selectRepositoryItem", "root_id", "rep_exp_sel_".$a_postvar);
 //		$this->explorer_gui->setTypeWhiteList($this->getVisibleTypes());
 //		$this->explorer_gui->setClickableTypes($this->getClickableTypes());

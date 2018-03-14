@@ -65,7 +65,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 		$this->options =& $options;
 	}
 
-	function &performSearch()
+	public function performSearch()
 	{
 		switch($this->getMode())
 		{

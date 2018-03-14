@@ -592,7 +592,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		
 		// wiki tabs
 		if (in_array($ilCtrl->getCmdClass(), array("", "ilobjwikigui",
-			"ilinfoscreengui", "ilpermissiongui", "ilexportgui", "ilratingcategorygui", "ilobjnotificationsettingsgui",
+			"ilinfoscreengui", "ilpermissiongui", "ilexportgui", "ilratingcategorygui", "ilobjnotificationsettingsgui", "iltaxmdgui",
 			"ilwikistatgui", "ilwikipagetemplategui", "iladvancedmdsettingsgui", "ilsettingspermissiongui", 'ilrepositoryobjectsearchgui'
 			)) || (in_array($ilCtrl->getNextClass(), array("ilpermissiongui"))))
 		{	

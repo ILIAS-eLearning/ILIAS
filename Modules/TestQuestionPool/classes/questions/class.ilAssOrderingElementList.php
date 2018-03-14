@@ -65,15 +65,14 @@ class ilAssOrderingElementList implements Iterator
 	{
 		$this->objectInstanceId = ++self::$objectInstanceCounter;
 
-		foreach($this as $element)
+		$elements = array();
+		
+		foreach($this as $key => $element)
 		{
-			$this->setPositionedElement(clone $element);
+			$elements[$key] = clone $element;
 		}
-	}
-	
-	protected function setPositionedElement(ilAssOrderingElement $element)
-	{
-		$this->elements[$element->getPosition()] = $element;
+		
+		$this->elements = $elements;
 	}
 	
 	/**
@@ -81,7 +80,8 @@ class ilAssOrderingElementList implements Iterator
 	 */
 	public function getClone()
 	{
-		return clone $this;
+		$that = clone $this;
+		return $that;
 	}
 	
 	/**
@@ -316,7 +316,11 @@ class ilAssOrderingElementList implements Iterator
 	 */
 	public function addElement(ilAssOrderingElement $element)
 	{
-		$this->registerIdentifiers($element);
+		if( $this->hasValidIdentifiers($element) )
+		{
+			$this->registerIdentifiers($element);
+		}
+		
 		$this->elements[] = $element;
 	}
 	
@@ -430,6 +434,29 @@ class ilAssOrderingElementList implements Iterator
 	
 	/**
 	 * @param ilAssOrderingElement $element
+	 * @return bool
+	 */
+	protected function hasValidIdentifiers(ilAssOrderingElement $element)
+	{
+		$identifier = $this->fetchIdentifier($element, self::IDENTIFIER_TYPE_SOLUTION);
+
+		if( !$this->isValidIdentifier(self::IDENTIFIER_TYPE_SOLUTION, $identifier) )
+		{
+			return false;
+		}
+		
+		$identifier = $this->fetchIdentifier($element, self::IDENTIFIER_TYPE_RANDOM);
+
+		if( !$this->isValidIdentifier(self::IDENTIFIER_TYPE_RANDOM, $identifier) )
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * @param ilAssOrderingElement $element
 	 */
 	protected function ensureValidIdentifiers(ilAssOrderingElement $element)
 	{
@@ -475,7 +502,11 @@ class ilAssOrderingElementList implements Iterator
 		}
 		
 		$identifier = $this->fetchIdentifier($element, $identifierType);
-		self::$identifierRegistry[$identifierType][$this->getQuestionId()][] = $identifier;
+		
+		if( !in_array($identifier, self::$identifierRegistry[$identifierType][$this->getQuestionId()]) )
+		{
+			self::$identifierRegistry[$identifierType][$this->getQuestionId()][] = $identifier;
+		}
 	}
 	
 	/**

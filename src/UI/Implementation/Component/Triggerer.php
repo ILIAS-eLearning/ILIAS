@@ -8,6 +8,8 @@ use ILIAS\UI\Component;
  *
  * Provides helper methods and default implementation for components acting as triggerer
  *
+ * TODO: This is missing tests!
+ *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  * @package ILIAS\UI\Implementation\Component
  */
@@ -27,7 +29,7 @@ trait Triggerer {
 	 */
 	protected function appendTriggeredSignal(Component\Signal $signal, $event) {
 		$clone = clone $this;
-		if (!is_array($clone->triggered_signals[$event])) {
+		if (!isset($clone->triggered_signals[$event])) {
 			$clone->triggered_signals[$event] = array();
 		}
 		$clone->triggered_signals[$event][] = new TriggeredSignal($signal, $event);
@@ -43,9 +45,23 @@ trait Triggerer {
 	 */
 	protected function addTriggeredSignal(Component\Signal $signal, $event) {
 		$clone = clone $this;
-		$clone->triggered_signals[$event] = array();
-		$clone->triggered_signals[$event][] = new TriggeredSignal($signal, $event);
+		$clone->setTriggeredSignal($signal, $event);
 		return $clone;
+	}
+
+	/**
+	 * Add a triggered signal, replacing any othe signals registered on the same event.
+	 *
+	 * ATTENTION: This mutates the original object and should only be used when there
+	 * is no other possibility.
+	 *
+	 * @param	Component\Signal 	$signal
+	 * @param	string	$event
+	 * @return	void
+	 */
+	protected function setTriggeredSignal(Component\Signal $signal, $event) {
+		$this->triggered_signals[$event] = array();
+		$this->triggered_signals[$event][] = new TriggeredSignal($signal, $event);
 	}
 
 	/**

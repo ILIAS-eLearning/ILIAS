@@ -68,7 +68,15 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 		}
 
 		if($this->userMayViewGrades() || $this->userMayEditGrades()) {
-			$status = $a_set[ilIndividualAssessmentMembers::FIELD_FINALIZED] == 1 ? $a_set[ilIndividualAssessmentMembers::FIELD_LEARNING_PROGRESS] : ilIndividualAssessmentMembers::LP_IN_PROGRESS;
+			$status = $a_set[ilIndividualAssessmentMembers::FIELD_LEARNING_PROGRESS];
+			if($status == 0)
+			{
+				$status = ilIndividualAssessmentMembers::LP_IN_PROGRESS;
+			}
+			if($a_set['finalized'] === '0' && $a_set['examiner_id'] !== null)
+			{
+				$status = ilIndividualAssessmentMembers::LP_ASSESSMENT_NOT_COMPLETED;
+			}
 			$this->tpl->setVariable("LP_STATUS", $this->getEntryForStatus($status));
 
 			$graded_by = "";
@@ -133,6 +141,9 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 				break;
 			case ilIndividualAssessmentMembers::LP_FAILED :
 				return $this->lng->txt('iass_status_failed');
+				break;
+			case ilIndividualAssessmentMembers::LP_ASSESSMENT_NOT_COMPLETED :
+				return $this->lng->txt('iass_assessment_not_completed');
 				break;
 		}
 	}

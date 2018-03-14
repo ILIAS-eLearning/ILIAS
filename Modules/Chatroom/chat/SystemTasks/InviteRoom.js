@@ -4,48 +4,58 @@ var Notice = require('../Model/Messages/Notice');
 var InviteAction = require('../Model/Messages/InviteAction');
 
 
-module.exports = function(req, res)
-{
+module.exports = function(req, res) {
+	var namespaceId = req.params.namespace;
 	var roomId = req.params.roomId;
 	var subRoomId = req.params.subRoomId;
+	var inviteeId = parseInt(req.params.invitedId, 10);
+	var hostId = req.params.id;
+
+	var namespace = Container.getNamespace(namespaceId);
 	var serverRoomId = Container.createServerRoomId(roomId, subRoomId);
-	var mainRoomId = Container.createServerRoomId(roomId, 0);
-	var namespace = Container.getNamespace(req.params.namespace);
 	var room = namespace.getRoom(serverRoomId);
-	var subscriber = namespace.getSubscriber(req.params.invitedId);
+	var subscriber = namespace.getSubscriber(inviteeId);
 
-	Container.getLogger().info('Invite Subscriber %s to room %s of namespace %s', req.params.invitedId, serverRoomId, namespace.getName());
+	function createNoticeEmitterForHost(namespace, notice) {
+		return function hostNoticeEmitter(socketId) {
+			namespace.getIO().to(socketId).emit('notice', notice);
+		};
+	}
 
-	if(subscriber == null)
-	{
-		subscriber = new Subscriber(req.params.invitedId);
+	function createNoticeEmitterForInvitee(namespace, action, notice) {
+		return function inviteeNoticeEmitter(socketId) {
+			namespace.getIO().to(socketId).emit('user_invited', action);
+			namespace.getIO().to(socketId).emit('notice', notice);
+		};
+	}
 
-		if(!namespace.hasSubscriber(subscriber.getId())){
+	Container.getLogger().info('Invite Subscriber %s to room %s of namespace %s', inviteeId, serverRoomId, namespace.getName());
+
+	if (subscriber === null) {
+		subscriber = new Subscriber(inviteeId);
+
+		if(!namespace.hasSubscriber(subscriber.getId())) {
 			namespace.addSubscriber(subscriber);
 		}
 	}
 	room.addSubscriber(subscriber);
 
+	if (namespace.hasSubscriber(hostId)) {
+		var host = namespace.getSubscriber(hostId);
 
-	if(namespace.hasSubscriber(req.params.id))
-	{
-		var inviter = namespace.getSubscriber(req.params.id);
-		var inviterSocketIds = inviter.getSocketIds();
+		var emitNoticeToHost = createNoticeEmitterForHost(
+			namespace,
+			Notice.create('user_invited', roomId, subRoomId)
+		);
+		host.getSocketIds().forEach(emitNoticeToHost);
 
-		var noticeInviter = Notice.create('user_invited', roomId, subRoomId);
-		inviterSocketIds.forEach(function(socketId){
-			namespace.getIO().to(socketId).emit('notice', noticeInviter);
-		});
+		var emitNoticeToInvitee = createNoticeEmitterForInvitee(
+			namespace,
+			InviteAction.create(roomId, subRoomId, room.getTitle(), room.getOwnerId()),
+			Notice.create('user_invited_self', roomId, -1, {user: host.getName(), room: room.getTitle()})
+		);
 
-		var invitedSocketIds = subscriber.getSocketIds();
-
-		var action = InviteAction.create(roomId, subRoomId, room.getTitle(), room.getOwnerId());
-		var noticeInvited = Notice.create('user_invited_self', roomId, -1, {user: inviter.getName(), room: room.getTitle()});
-
-		invitedSocketIds.forEach(function(socketId){
-			namespace.getIO().to(socketId).emit('user_invited', action);
-			namespace.getIO().to(socketId).emit('notice', noticeInvited);
-		});
+		subscriber.getSocketIds().forEach(emitNoticeToInvitee);
 	}
 
 	res.send({

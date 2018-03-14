@@ -44,7 +44,7 @@ class ButtonMonthTest extends ILIAS_UI_TestBase {
 		$expected_html = <<<EOT
 		<div  class="btn-group il-btn-month">
 	<button type="button" class="btn btn-default dropdown-toggle" href="" data-toggle="dropdown" aria-expanded="false">
-		<span class="il-current-month">month_02_long 2017</span>
+		<span class="il-current-month">month_02_short 2017</span>
 		<span class="caret"></span>
 		<span class="sr-only"></span>
 	</button>

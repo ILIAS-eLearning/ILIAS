@@ -251,8 +251,7 @@ class ilObjectServiceSettingsGUI
 				ilObject::_lookupType($a_obj_id)
 			);
 			if(
-				$position_settings->isActive() &&
-				$position_settings->isChangeableForObject()
+				$position_settings->isActive()
 			)
 			{
 				$lia = new ilCheckboxInputGUI(
@@ -264,6 +263,9 @@ class ilObjectServiceSettingsGUI
 				$lia->setChecked(
 					(bool) ilOrgUnitGlobalSettings::getInstance()->isPositionAccessActiveForObject($a_obj_id)
 				);
+				if(!$position_settings->isChangeableForObject()) {
+					$lia->setDisabled(true);
+				}
 				$form->addItem($lia);
 			}
 		}
@@ -284,12 +286,16 @@ class ilObjectServiceSettingsGUI
 
 		return $form;
 	}
-	
+
+
 	/**
 	 * Update service settings
-	 * @param type $a_obj_id
+	 *
+	 * @param int               $a_obj_id
 	 * @param ilPropertyFormGUI $form
-	 * @param type $services
+	 * @param string[]          $services
+	 *
+	 * @return bool
 	 */
 	public static function updateServiceSettingsForm($a_obj_id, ilPropertyFormGUI $form, $services)
 	{

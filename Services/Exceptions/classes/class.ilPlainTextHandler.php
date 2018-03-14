@@ -23,6 +23,7 @@ class ilPlainTextHandler extends Handler {
 	 * @return null
 	 */
 	public function handle() {
+		header("Content-Type: text/plain");
 		echo "<pre>\n";
 		echo $this->content();
 		echo "</pre>\n";

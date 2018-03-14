@@ -23,9 +23,9 @@ class ilForumTopic
 	
 	private $subject = '';
 	
-	private $createdate = '0000-00-00 00:00:00';
+	private $createdate = null;
 	
-	private $changedate = '0000-00-00 00:00:00';
+	private $changedate = null;
 	
 	private $num_posts = 0;
 	

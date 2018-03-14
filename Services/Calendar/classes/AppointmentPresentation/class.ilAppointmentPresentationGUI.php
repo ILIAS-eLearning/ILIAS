@@ -357,6 +357,7 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 	 */
 	function addListItemProperty($a_txt, $a_val)
 	{
+		#22638
 		$this->list_properties[] = array("txt" => $a_txt, "val" => $a_val);
 	}
 	
@@ -544,9 +545,6 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 			$this->addObjectLinks($a_obj_id);
 		}
 
-		// last edited
-		$this->addLastUpdate($a_app);
-
 		// container info (course groups)
 		if ($a_container_info)
 		{
@@ -654,8 +652,10 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 
 		$download_job->setBucketTitle($this->lng->txt("cal_calendar_download")." ".$appointment['event']->getTitle());
 		$download_job->setEvents(array($appointment));
-		$download_job->run();
-
+		if($download_job->run())
+		{
+			ilUtil::sendSuccess($this->lng->txt('cal_download_files_started'),true);
+		}
 		$this->ctrl->returnToParent($this);
 	}
 

@@ -65,6 +65,16 @@ class ilAdvancedMDRecordGUI
 	}
 	
 	/**
+	 * Set ref_id for context. In case of object creations this is the reference id 
+	 * of the parent container.
+	 * @param int ref_id
+	 */
+	public function setRefId($a_ref_id)
+	{
+		$this->ref_id = $a_ref_id;
+	}
+	
+	/**
 	 * set property form object
 	 *
 	 * @access public
@@ -424,11 +434,18 @@ class ilAdvancedMDRecordGUI
 					if(get_class($element) == 'ilADTLocation')
 					{
 						$presentation_bridge->setSize("100%","200px");
+						#22638
+						$presentation_value = $presentation_bridge->getHTML();
+					}
+					else
+					{
+						#22638
+						$presentation_value = strip_tags($presentation_bridge->getHTML());
 					}
 					$array_elements[$positions[$element_id]] =
 						[
 							"title" => $defs[$element_id]->getTitle(),
-							"value" => $presentation_bridge->getHTML()
+							"value" => $presentation_value
 						];
 				}
 			}

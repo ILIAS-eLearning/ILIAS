@@ -39,9 +39,9 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 		$this->setId('wfedef');
 		parent::__construct($parent_obj, $parent_cmd, $template_context);
 
-		global $ilCtrl, $lng;
-		$this->ilCtrl = $ilCtrl;
-		$this->lng = $lng;
+		global $DIC;
+		$this->ilCtrl = $DIC['ilCtrl'];
+		$this->lng = $DIC['lng'];
 
 		$this->initColumns();
 		$this->setEnableHeader(true);
@@ -51,8 +51,10 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 		$this->initFilter();
 
 		$this->setRowTemplate("tpl.wfe_def_row.html", "Services/WorkflowEngine");
-		$this->getProcessesForDisplay();
+		$this->populateTable();
 
+		$this->setDefaultOrderField("title");
+		$this->setDefaultOrderDirection("asc");
 		$this->setTitle($this->lng->txt("definitions"));
 	}
 
@@ -130,61 +132,35 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 	/**
 	 * @return void
 	 */
-	public function getProcessesForDisplay()
+	private function populateTable()
 	{
-		global $ilDB;
-		$query = 'SELECT workflow_class, count(workflow_id) total, sum(active) active
-				  FROM wfe_workflows
-				  GROUP BY workflow_class';
-		$result = $ilDB->query($query);
-		$stats = array();
-		while($row = $ilDB->fetchAssoc($result))
-		{
-			$stats[$row['workflow_class']] = array( 'total' => $row['total'], 'active' => $row['active'] );
-		}
+		global $DIC;
 
-		$entries = array();
+		require_once 'Services/WorkflowEngine/classes/administration/class.ilWorkflowDefinitionRepository.php';
+		$repository = new ilWorkflowDefinitionRepository(
+			$DIC['ilDB'],
+			$DIC['filesystem'],
+			ilObjWorkflowEngine::getRepositoryDir(true)
+		);
 
-		if(is_dir(ilObjWorkflowEngine::getRepositoryDir().'/'))
-		{
-			$entries = scandir(ilObjWorkflowEngine::getRepositoryDir().'/');
-		}
+		$baseList = $repository->getAll();
 
-		$base_list = array();
-		foreach($entries as $entry)
-		{
-			if( $entry == '.' || $entry == '..' )
-			{
-				continue;
+		$that = $this;
+
+		array_walk($baseList, function(array &$definition) use($that) {
+			$status = $that->lng->txt('missing_parsed_class');
+			if ($definition['status']) {
+				$status = 'OK';
 			}
 
-			if(substr($entry, strlen($entry)-6) == '.bpmn2')
-			{
-				$file_entry = array();
-				$file_entry['file'] = $entry;
-				$file_entry['id'] = substr($entry, 0, strlen($entry)-6);
-				$parts = explode('_', substr($entry, 6, strlen($entry)-12));
+			$definition['status'] = $status;
+		});
 
-				$file_entry['status'] = 'OK';
-				if(!file_exists(ilObjWorkflowEngine::getRepositoryDir() . '/' . $file_entry['id']. '.php'))
-				{
-					$file_entry['status'] = $this->lng->txt('missing_parsed_class');
-				}
+		$filteredBaseList = array_filter($baseList, function($item) use ($that) {
+			return !$this->isFiltered($item);
+		});
 
-				$file_entry['version'] = substr(array_pop($parts),1);
-				$file_entry['title'] = implode(' ', $parts);
-				$file_entry['instances'] = $stats[$file_entry['id'].'.php'];
-
-				if(!$this->isFiltered($file_entry))
-				{
-					$base_list[] = $file_entry;
-				}
-			}
-		}
-
-		$this->setDefaultOrderField("nr");
-		$this->setDefaultOrderDirection("asc");
-		$this->setData($base_list);
+		$this->setData($filteredBaseList);
 	}
 
 	/**
@@ -269,7 +245,7 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 			$action->addItem(
 				$this->lng->txt('delete_definition'),
 				'delete',
-				$this->ilCtrl->getLinkTarget($this->parent_obj,'definitions.delete')
+				$this->ilCtrl->getLinkTarget($this->parent_obj,'definitions.confirmdelete')
 			);
 		}
 
