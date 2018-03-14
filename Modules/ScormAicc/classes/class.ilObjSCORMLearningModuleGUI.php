@@ -471,7 +471,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		exec($unzipcmd);
 		chdir($cdir);
 		$tmp_file = $dir."/".$_GET["ref_id"].".".$tocheck;
-
+		require_once('./Services/Utilities/classes/class.ilFileUtils.php');
 		ilFileUtils::rename($dir."/".$tocheck,$tmp_file);
 		$new_manifest = file_get_contents($tmp_file);
 
@@ -506,6 +506,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 				//build targetdir in lm_data
 				$file_path = $this->object->getDataDirectory()."/".$_POST["uploaded_file"].".".$module_version;
 				// move the already copied file to the lm_data directory
+				require_once('./Services/Utilities/classes/class.ilFileUtils.php');
 				ilFileUtils::rename($source, $file_path);
 			}
 			
