@@ -17,8 +17,8 @@ function base() {
 		$view_controls,
 		function ($row, $record, $ui_factory, $environment) { //mapping-closure
 			return $row
-				->withTitle($record['title'])
-				->withSubTitle($record['type'])
+				->withHeadline($record['title'])
+				->withSubheadline($record['type'])
 				->withImportantFields(
 					array(
 						$record['begin_date'],

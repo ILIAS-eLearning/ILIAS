@@ -99,9 +99,9 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->setVariable("COLLAPSER", $default_renderer->render($collapser));
 		$tpl->setVariable("SHY_EXPANDER", $default_renderer->render($shy_expander));
 
-		$tpl->setVariable("TITLE", $component->getTitle());
+		$tpl->setVariable("HEADLINE", $component->getHeadline());
 		$tpl->setVariable("TOGGLE_SIGNAL", $sig_toggle);
-		$tpl->setVariable("SUBTITLE", $component->getSubtitle());
+		$tpl->setVariable("SUBHEADLINE", $component->getSubheadline());
 
 		foreach ($component->getImportantFields() as $label => $value) {
 			$tpl->setCurrentBlock("important_field");

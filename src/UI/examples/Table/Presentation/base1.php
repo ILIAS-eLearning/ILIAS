@@ -14,8 +14,8 @@ function base1() {
 	$mapping_closure = function($row, $record, $ui_factory, $environment) {
 
 		return $row
-		->withTitle($record['question_title'])
-		->withSubTitle($record['question_txt'])
+		->withHeadline($record['question_title'])
+		->withSubheadline($record['question_txt'])
 		->withImportantFields(
 			array(
 				$record['type'],

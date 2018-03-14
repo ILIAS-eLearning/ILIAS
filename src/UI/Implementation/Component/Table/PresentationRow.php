@@ -23,6 +23,11 @@ class PresentationRow implements T\PresentationRow {
 	protected $close_signal;
 
 	/**
+	 * @var Signal
+	 */
+	protected $toggle_signal;
+
+	/**
 	 * @var	string|null
 	 */
 	private $headline;
@@ -112,35 +117,35 @@ class PresentationRow implements T\PresentationRow {
 	/**
 	 * @inheritdoc
 	 */
-	public function withTitle($title) {
-		$this->checkStringArg("string", $title);
+	public function withHeadline($headline) {
+		$this->checkStringArg("string", $headline);
 		$clone = clone $this;
-		$clone->title = $title;
+		$clone->headline = $headline;
 		return $clone;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getTitle() {
-		return $this->title;
+	public function getHeadline() {
+		return $this->headline;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function withSubtitle($subtitle) {
-		$this->checkStringArg("string", $subtitle);
+	public function withSubheadline($subheadline) {
+		$this->checkStringArg("string", $subheadline);
 		$clone = clone $this;
-		$clone->subtitle = $subtitle;
+		$clone->subheadline = $subheadline;
 		return $clone;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getSubtitle() {
-		return $this->subtitle;
+	public function getSubheadline() {
+		return $this->subheadline;
 	}
 
 	/**

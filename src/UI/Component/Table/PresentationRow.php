@@ -13,12 +13,21 @@ use ILIAS\UI\Component\Triggerable;
 interface PresentationRow extends \ILIAS\UI\Component\Component, Triggerable {
 
 	/**
-	 * Get a row like this with the record-field to be used as subtitle.
+	 * Get a row like this with the given headline.
 	 *
-	 * @param string 	$subtitle
+	 * @param string 	$headline
 	 * @return \ILIAS\UI\Component\Table\PresentationRow
 	 */
-	public function withSubtitle($subtitle);
+	public function withHeadline($headline);
+
+
+	/**
+	 * Get a row like this with the given subheadline.
+	 *
+	 * @param string 	$subheadline
+	 * @return \ILIAS\UI\Component\Table\PresentationRow
+	 */
+	public function withSubheadline($subheadline);
 
 	/**
 	 * Get a row like this with the record-fields and labels
