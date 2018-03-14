@@ -27,6 +27,22 @@ class ilRestFileStorage extends ilFileSystemStorage
 	}
 
 	/**
+	 * Check if soap administration is enabled
+	 */
+	protected function checkWebserviceActivation()
+	{
+		$settings = $GLOBALS['ilSetting'];
+		if(!$settings->get('soap_user_administration',0))
+		{
+			Slim::getInstance()->response()->header('Content-Type','text/html');
+			Slim::getInstance()->response()->status(403);
+			Slim::getInstance()->response()->body('Webservices not enabled.');
+			return false;
+		}
+		return true;
+	}
+
+	/**
 	 * Get path prefix
 	 */
 	protected function  getPathPrefix()
@@ -57,6 +73,11 @@ class ilRestFileStorage extends ilFileSystemStorage
 	 */
 	public function getFile($name)
 	{
+		if(!$this->checkWebserviceActivation())
+		{
+			return false;
+		}
+		
 		$GLOBALS['ilLog']->write(__METHOD__.' original name: '.$this->getPath().'/'.$name);
 		
 		$real_path = realpath($this->getPath().'/'.$name);
@@ -103,6 +124,11 @@ class ilRestFileStorage extends ilFileSystemStorage
 	 */
 	public function createFile()
 	{
+		if(!$this->checkWebserviceActivation())
+		{
+			return false;
+		}
+		
 		$request = Slim::getInstance()->request();
 		$body = $request->post("content");
 
