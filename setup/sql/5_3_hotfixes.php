@@ -203,3 +203,23 @@ while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#14>
+<?php
+
+$client_id = basename(CLIENT_DATA_DIR);
+$web_path = ILIAS_ABSOLUTE_PATH . "/" . ILIAS_WEB_DIR . "/" . $client_id;
+$sec_path = $web_path."/sec";
+
+if(!file_exists($sec_path))
+{
+	ilUtil::makeDir($sec_path);
+}
+
+$old_path = $web_path."/IASS";
+$new_path = $sec_path."/ilIndividualAssessment";
+if(file_exists($old_path))
+{
+	rename($old_path, $new_path);
+}
+
+?>

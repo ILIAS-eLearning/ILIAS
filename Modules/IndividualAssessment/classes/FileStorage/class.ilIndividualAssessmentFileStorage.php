@@ -11,7 +11,7 @@ class ilIndividualAssessmentFileStorage extends ilFileSystemStorage implements I
 {
 	public static function getInstance($a_container_id = 0)
 	{
-		return new self(self::STORAGE_WEB, true, $a_container_id);
+		return new self(self::STORAGE_SECURED, true, $a_container_id);
 	}
 
 	/**
@@ -31,7 +31,7 @@ class ilIndividualAssessmentFileStorage extends ilFileSystemStorage implements I
 	 */
 	protected function getPathPrefix()
 	{
-		return 'IASS';
+		return 'ilIndividualAssessment';
 	}
 
 	/**
