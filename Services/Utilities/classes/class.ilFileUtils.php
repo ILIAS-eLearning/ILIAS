@@ -559,10 +559,12 @@ class ilFileUtils
 			'cpp',	// TEXT__X_C
 			'crt',	// APPLICATION__X_X509_CA_CERT
 			'css', 	// TEXT__CSS
+			'csv',
 			'doc',   // APPLICATION__MSWORD,
 			'docx',   // APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_DOCUMENT,
 			'dot',   // APPLICATION__MSWORD,
 			'dotx',   // APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_TEMPLATE,
+			'dtd',
 			'dvi',   // APPLICATION__X_DVI,
 			'el',   // TEXT__X_SCRIPT_ELISP,
 			'eps',   // APPLICATION__POSTSCRIPT,
@@ -685,6 +687,7 @@ class ilFileUtils
 			'tif',   // IMAGE__TIFF,
 			'tiff',   // IMAGE__TIFF,
 			'txt',   // TEXT__PLAIN,
+			'tmp', 
 			'vimeo',   // VIDEO__VIMEO,
 			'viv',   // VIDEO__VIMEO,
 			'vivo',   // VIDEO__VIVO,
@@ -700,6 +703,7 @@ class ilFileUtils
 			'xlsx',   // APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_SHEET,
 			'xml',   // self::TEXT__XML,
 			'xsl',   // APPLICATION__XML,
+			'xsd',   //
 			'zip'	// APPLICATION__ZIP
 		);
 	}
@@ -751,7 +755,7 @@ class ilFileUtils
 		if (!in_array(strtolower($pi["extension"]), self::getValidExtensions()))
 		{
 			include_once("./Services/Utilities/classes/class.ilFileUtilsException.php");
-			throw new ilFileUtilsException("Invalid target file ".$a_target.".");
+			throw new ilFileUtilsException("Invalid target file ".$pi["basename"].".");
 		}
 
 		return rename($a_source, $a_target);
