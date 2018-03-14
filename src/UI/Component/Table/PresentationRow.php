@@ -20,7 +20,6 @@ interface PresentationRow extends \ILIAS\UI\Component\Component, Triggerable {
 	 */
 	public function withHeadline($headline);
 
-
 	/**
 	 * Get a row like this with the given subheadline.
 	 *

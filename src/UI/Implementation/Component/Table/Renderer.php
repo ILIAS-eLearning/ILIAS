@@ -56,7 +56,6 @@ class Renderer extends AbstractComponentRenderer {
 		$row_mapping = $component->getRowMapping();
 		$data =  $component->getData();
 		foreach ($data as $record) {
-
 			$row = $row_mapping(
 				new PresentationRow($component->getSignalGenerator()),
 				$record,
