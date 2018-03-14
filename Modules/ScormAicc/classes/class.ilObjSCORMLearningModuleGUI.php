@@ -500,7 +500,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$unzipcmd = $unzip." -o ".ilUtil::escapeShellArg($source)." ".$tocheck;
 		exec($unzipcmd);
 		chdir($cdir);
-		$tmp_file = $dir."/".$tocheck.".".$_GET["ref_id"];
+		$tmp_file = $dir."/".$_GET["ref_id"].".".$tocheck;
 
 		ilFileUtils::rename($dir."/".$tocheck,$tmp_file);
 		$new_manifest = file_get_contents($tmp_file);
