@@ -579,6 +579,7 @@ class ilFileUtils
 			'jpeg',   // IMAGE__PJPEG,
 			'jpg',   // IMAGE__JPEG,
 			'js',   // APPLICATION__X_JAVASCRIPT,
+			'json',		// scorm
 			'latex',   // APPLICATION__X_LATEX,
 			'less', // less
 			'log',   // TEXT__PLAIN,
@@ -591,6 +592,7 @@ class ilFileUtils
 			'm4a',   // AUDIO__MP4,
 			'm4v',   // VIDEO__MP4,
 			'mid',   // AUDIO__MIDI,
+			'min',		// scorm articulate?
 			'midi',   // AUDIO__MIDI,
 			'mod',   // AUDIO__MOD,
 			'mov',   // VIDEO__QUICKTIME,
@@ -677,11 +679,12 @@ class ilFileUtils
 			'tif',   // IMAGE__TIFF,
 			'tiff',   // IMAGE__TIFF,
 			'txt',   // TEXT__PLAIN,
-			'tmp', 
+			'tmp',
 			'vimeo',   // VIDEO__VIMEO,
 			'viv',   // VIDEO__VIMEO,
 			'vivo',   // VIDEO__VIVO,
 			'vrml',   // APPLICATION__X_VRML,
+			'waf',		// scorm articulate?
 			'webm',   // VIDEO__WEBM,
 			'wmv',   // VIDEO__X_MS_WMV,
 			'wmx',   // VIDEO__X_MS_WMX,
@@ -693,7 +696,7 @@ class ilFileUtils
 			'xlsx',   // APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_SHEET,
 			'xml',   // self::TEXT__XML,
 			'xsl',   // APPLICATION__XML,
-			'xsd',   //
+			'xsd',   // scorm
 			'zip'	// APPLICATION__ZIP
 		);
 	}
