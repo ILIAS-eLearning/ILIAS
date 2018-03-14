@@ -147,9 +147,10 @@ class ilPersonalProfileGUI
 				$ilUser->update();
 
 				// move uploaded file
-				$uploaded_file = $this->form->moveFileUpload($image_dir, 
-					"userfile", "upload_".$ilUser->getId()."pic");
 
+				$pi = pathinfo($_FILES["userfile"]["name"]);
+				$uploaded_file = $this->form->moveFileUpload($image_dir, 
+					"userfile", "upload_".$ilUser->getId().".".$pi["extension"]);
 				if (!$uploaded_file)
 				{
 					ilUtil::sendFailure($this->lng->txt("upload_error", true));
