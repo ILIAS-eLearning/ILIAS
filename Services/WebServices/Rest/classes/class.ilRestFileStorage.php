@@ -57,7 +57,6 @@ class ilRestFileStorage extends ilFileSystemStorage
 	 */
 	public function getFile($name)
 	{
-		$name = 'vvv';
 		$GLOBALS['ilLog']->write(__METHOD__.' original name: '.$this->getPath().'/'.$name);
 		
 		$real_path = realpath($this->getPath().'/'.$name);
