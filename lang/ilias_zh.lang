@@ -15951,3 +15951,4 @@ wfe#:#wfe_sure_to_delete_process_def#:#Are you sure you want to delete the defin
 wfe#:#wfe_request_missing_process_id#:#The process id is missing, cannot perform the desired action.###26 01 2018 new variable
 wfe#:#wfe_started_listening#:#Process armed###26 01 2018 new variable
 wfe#:#wfe_stopped_listening#:#Process disarmed###26 01 2018 new variable
+assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.###15 03 2018 new variable

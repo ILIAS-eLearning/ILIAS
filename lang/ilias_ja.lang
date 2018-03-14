@@ -753,7 +753,6 @@ assessment#:#extratime#:#延長時間
 assessment#:#factor#:#要因
 assessment#:#failed_official#:#不合格です
 assessment#:#failed_short#:#不合格
-assessment#:#False#:#False
 assessment#:#feedback_all#:#全解答の特定フィードバックの回答を表示
 assessment#:#feedback_answers#:#問題の各答案に対するフィードバック
 assessment#:#feedback_checked#:#全選択または選択された解答の特定のフィードバック解答を表示
@@ -1365,7 +1364,6 @@ assessment#:#toplist_col_score#:#点数
 assessment#:#toplist_col_wtime#:#処理時間
 assessment#:#toplist_top_n_results#:#上位%sの結果
 assessment#:#toplist_your_result#:#順位
-assessment#:#True#:#True
 assessment#:#tst_access_code_created#:#テスト結果への恒久アクセスと、このテストを再開可能性を提供するためにユニークなテストのアクセス コードが作成されました。以降のアクションはこのコードを使って書いてください。
 assessment#:#tst_activate_skill_service#:#能力サービスを有効化
 assessment#:#tst_activate_skill_service_desc#:#新規タブ'能力'が表示されます。このタブには問題が能力へ割り当てられてしきい値は能力の一定レベル達成用に帰属します。
@@ -15950,3 +15948,7 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
+acc#:#acc_access_key#:#Access Key###15 03 2018 new variable
+assessment#:#false#:#False###15 03 2018 new variable
+assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.###15 03 2018 new variable
+assessment#:#true#:#True###15 03 2018 new variable
