@@ -112,7 +112,7 @@ class ilCertificate
 	*/
 	public function getBackgroundImageTempfilePath()
 	{
-		return $this->getAdapter()->getCertificatePath() . "background_upload";
+		return $this->getAdapter()->getCertificatePath() . "background_upload.tmp";
 	}
 
 	/**
@@ -576,7 +576,6 @@ class ilCertificate
 	{
 		if (!empty($image_tempfilename))
 		{
-			$image_filename = "background_upload";
 			$convert_filename = $this->getBackgroundImageName();
 			$imagepath = $this->getAdapter()->getCertificatePath();
 			if (!file_exists($imagepath))
@@ -584,8 +583,11 @@ class ilCertificate
 				ilUtil::makeDirParents($imagepath);
 			}
 			// upload the file
-			if (!ilUtil::moveUploadedFile($image_tempfilename, $image_filename, $this->getBackgroundImageTempfilePath()))
-			{
+			if (!ilUtil::moveUploadedFile(
+					$image_tempfilename,
+					basename($this->getBackgroundImageTempfilePath()),
+					$this->getBackgroundImageTempfilePath()
+			)) {
 				return FALSE;
 			}
 			// convert the uploaded file to JPEG
