@@ -1120,7 +1120,8 @@ class ilObjFile extends ilObject2 {
 			}
 
 			$file = $this->getDirectory($this->getVersion())."/".$a_filename;
-			rename($a_upload_file,  $file);
+			require_once('./Services/Utilities/classes/class.ilFileUtils.php');
+			ilFileUtils::rename($a_upload_file,  $file);
 			
 			// create preview
 			$this->createPreview();
