@@ -1132,11 +1132,11 @@ class ilObjFileGUI extends ilObject2GUI
 	protected function handleFileUpload($file_upload) 
 	{
 		global $ilUser;
-
+		require_once('./Services/Utilities/classes/class.ilFileUtils.php');
 		// file upload params
-		$filename = ilUtil::stripSlashes($file_upload["name"]);
+		$filename = ilFileUtils::getValidFilename(ilUtil::stripSlashes($file_upload["name"]));
 		$type = ilUtil::stripSlashes($file_upload["type"]);
-		$size = ilUtil::stripSlashes($file_upload["size"]);
+		$size = ilFileUtils::getValidFilename(ilUtil::stripSlashes($file_upload["size"]));
 		$temp_name = $file_upload["tmp_name"];
 		
 		// additional params
@@ -1288,7 +1288,7 @@ class ilObjFileGUI extends ilObject2GUI
 			// upload file to filesystem
 			$fileObj->createDirectory();
 			$fileObj->raiseUploadError(false);
-			$fileObj->getUploadFile($temp_name, $filename);
+			$fileObj->getUploadFile($temp_name, $filename, false);
 			
 			$this->handleAutoRating($fileObj);
 			

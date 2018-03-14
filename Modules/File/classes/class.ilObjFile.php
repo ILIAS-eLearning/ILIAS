@@ -234,9 +234,18 @@ class ilObjFile extends ilObject2 {
 		$this->raise_upload_error = $a_raise;
 	}
 
-	function getUploadFile($a_upload_file, $a_filename, $a_prevent_preview = false)
+	function getUploadFile($a_upload_file, $a_filename, $a_prevent_preview = false, $handle_secure_name = true)
 	{
-		$this->setVersion($this->getVersion() + 1);
+		if ($handle_secure_name) {
+			require_once('./Services/Utilities/classes/class.ilFileUtils.php');
+			$a_filename = ilFileUtils::getValidFilename($a_filename);
+			$this->setFileName($a_filename);
+			$this->setTitle($a_filename);
+			$this->update();
+		}
+		if($this->version) {
+			$this->setVersion($this->getVersion() + 1);
+		}
 
 		if (@!is_dir($this->getDirectory($this->getVersion())))
 		{
@@ -245,7 +254,7 @@ class ilObjFile extends ilObject2 {
 
 		$file = $this->getDirectory($this->getVersion())."/".$a_filename;
 		ilUtil::moveUploadedFile($a_upload_file, $a_filename, $file, $this->raise_upload_error);
-		
+
 		$this->handleQuotaUpdate($this);
 		
 		// create preview?
@@ -546,7 +555,7 @@ class ilObjFile extends ilObject2 {
 
 	function getVersion()
 	{
-		return $this->version;
+		return $this->version ? $this->version : 1;
 	}
 	
 	/**
