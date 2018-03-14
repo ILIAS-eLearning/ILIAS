@@ -274,14 +274,6 @@ class ilObjFile extends ilObject2 {
 
 		$upload = $DIC->upload();
 		$result = null;
-		$this->setVersion($this->getVersion() + 1);
-
-		if (!is_dir($this->getDirectory($this->getVersion()))) {
-			ilUtil::makeDirParents($this->getDirectory($this->getVersion()));
-		}
-
-		$target_directory = $this->getDirectory($this->getVersion()) . "/";
-		$relative_path_to_file = LegacyPathHelper::createRelativePath($target_directory);
 
 		if ($upload->hasUploads()) {
 			if ($upload->hasBeenProcessed() !== true) {
@@ -294,7 +286,7 @@ class ilObjFile extends ilObject2 {
 			 * @var $result \ILIAS\FileUpload\DTO\UploadResult
 			 */
 			$result = $upload->getResults()[$a_upload_file];
-			if ($result->getStatus() == \ILIAS\FileUpload\DTO\ProcessingStatus::OK) {
+			if ($result->getStatus()->getCode() === \ILIAS\FileUpload\DTO\ProcessingStatus::OK) {
 				$metadata = $result->getMetaData();
 				if ($metadata->has(ilCountPDFPagesPreProcessors::PAGE_COUNT)) {
 					$this->setPageCount($metadata->get(ilCountPDFPagesPreProcessors::PAGE_COUNT));
@@ -302,14 +294,26 @@ class ilObjFile extends ilObject2 {
 				}
 				$a_name = $result->getName();
 				$this->setFileName($a_name);
+
+				$this->setVersion($this->getVersion() + 1);
+
+				if (!is_dir($this->getDirectory($this->getVersion()))) {
+					ilUtil::makeDirParents($this->getDirectory($this->getVersion()));
+				}
+
+				$target_directory = $this->getDirectory($this->getVersion()) . "/";
+				$relative_path_to_file = LegacyPathHelper::createRelativePath($target_directory);
+
 				$upload->moveOneFileTo($result, $relative_path_to_file, Location::STORAGE);
-			}
 
-			$this->handleQuotaUpdate($this);
+				$this->handleQuotaUpdate($this);
 
-			// create preview?
-			if (!$a_prevent_preview) {
-				$this->createPreview(false);
+				// create preview?
+				if (!$a_prevent_preview) {
+					$this->createPreview(false);
+				}
+			} else {
+				throw new ilFileException('not supported File');
 			}
 		}
 
