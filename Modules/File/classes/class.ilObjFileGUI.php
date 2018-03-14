@@ -306,9 +306,10 @@ class ilObjFileGUI extends ilObject2GUI
 
 			// upload file to filesystem
 			$fileObj->createDirectory();
-			$fileObj->getUploadFile($upload_file["tmp_name"],
-				$upload_file["name"]);
-			
+			if ($result = $fileObj->getUploadFile($upload_file["tmp_name"], $upload_file["name"])) {
+				$fileObj->setFileName($result->getName());
+			}
+
 			$this->handleAutoRating($fileObj);
 
 			// BEGIN ChangeEvent: Record write event.
@@ -517,22 +518,23 @@ class ilObjFileGUI extends ilObject2GUI
 		
 		if (!empty($data["name"]))
 		{
+			$result = null;
 			switch($form->getInput('replace'))
 			{
 				case 1:
 					$this->object->deleteVersions();
 					$this->object->clearDataDirectory();
-					$this->object->replaceFile($data['tmp_name'],$data['name']);
+					$result = $this->object->replaceFile($data['tmp_name'],$data['name']);
 					break;
 				case 0:
-					$this->object->addFileVersion($data['tmp_name'],$data['name']);
+					$result = $this->object->addFileVersion($data['tmp_name'],$data['name']);
 					break;
 			}
-			$this->object->setFileName($data['name']);
-			include_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
-			$this->object->setFileType(ilMimeTypeUtil::getMimeType(
-				"", $data["name"], $data["type"]));
-			$this->object->setFileSize($data['size']);
+			if($result) {
+				$this->object->setFileType($result->getMimeType());
+				$this->object->setFileSize($result->getSize());
+				$this->object->setFilename($result->getName());
+			}
 		}
 		
 		$this->object->setDescription($form->getInput('description'));
@@ -665,39 +667,39 @@ class ilObjFileGUI extends ilObject2GUI
 
 		return $form;
 	}
-	
-	function sendFile()
-	{
+
+
+	public function sendFile() {
 		global $DIC;
-		$ilUser = $DIC['ilUser'];
-		
-		if(ANONYMOUS_USER_ID == $ilUser->getId() && isset($_GET['transaction']) )
-		{
-			$a_hist_entry_id = isset($_GET["hist_id"]) ? $_GET["hist_id"] : null;
-			$this->object->sendFile($a_hist_entry_id);
+
+		try {
+			if (ANONYMOUS_USER_ID == $DIC->user()->getId() && isset($_GET['transaction'])) {
+				$a_hist_entry_id = isset($_GET["hist_id"]) ? $_GET["hist_id"] : null;
+				$this->object->sendFile($a_hist_entry_id);
+			}
+
+			if ($this->checkPermissionBool("read")) {
+				// BEGIN ChangeEvent: Record read event.
+				require_once('Services/Tracking/classes/class.ilChangeEvent.php');
+
+				// Record read event and catchup with write events
+				ilChangeEvent::_recordReadEvent(
+					$this->object->getType(), $this->object->getRefId(), $this->object->getId(), $DIC->user()->getId()
+				);
+				// END ChangeEvent: Record read event.
+
+				require_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
+				ilLPStatusWrapper::_updateStatus($this->object->getId(), $DIC->user()->getId());
+
+				$a_hist_entry_id = isset($_GET["hist_id"]) ? $_GET["hist_id"] : null;
+				$this->object->sendFile($a_hist_entry_id);
+			} else {
+				$this->ilErr->raiseError($this->lng->txt("permission_denied"), $this->ilErr->MESSAGE);
+			}
+		} catch (\ILIAS\Filesystem\Exception\FileNotFoundException $e) {
+			$this->ilErr->raiseError($e->getMessage(), $this->ilErr->MESSAGE);
 		}
 
-		if ($this->checkPermissionBool("read"))
-		{
-			// BEGIN ChangeEvent: Record read event.
-			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-			global $DIC;
-			$ilUser = $DIC['ilUser'];
-			// Record read event and catchup with write events
-			ilChangeEvent::_recordReadEvent($this->object->getType(), $this->object->getRefId(),
-				$this->object->getId(), $ilUser->getId());			
-			// END ChangeEvent: Record read event.
-			
-			require_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
-			ilLPStatusWrapper::_updateStatus($this->object->getId(), $ilUser->getId());
-
-			$a_hist_entry_id = isset($_GET["hist_id"]) ? $_GET["hist_id"] : null;
-			$this->object->sendFile($a_hist_entry_id);
-		}
-		else
-		{
-			$this->ilErr->raiseError($this->lng->txt("permission_denied"),$this->ilErr->MESSAGE);
-		}
 		return true;
 	}
 
@@ -1270,8 +1272,12 @@ class ilObjFileGUI extends ilObject2GUI
 			// upload file to filesystem
 			$fileObj->createDirectory();
 			$fileObj->raiseUploadError(false);
-			$fileObj->getUploadFile($temp_name, $filename);
-			
+			$result = $fileObj->getUploadFile($temp_name, $filename);
+			if ($result) {
+				$fileObj->setTitle($result->getName());
+				$fileObj->setFileName($result->getName());
+			}
+			$fileObj->update();
 			$this->handleAutoRating($fileObj);
 
 			ilChangeEvent::_recordWriteEvent($fileObj->getId(), $ilUser->getId(), 'create');
