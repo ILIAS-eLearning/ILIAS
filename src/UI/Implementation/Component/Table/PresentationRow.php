@@ -78,11 +78,12 @@ class PresentationRow implements T\PresentationRow {
 	}
 
 	/**
-	 * Set the show and close signals for this component
+	 * Set the signals for this component.
 	 */
 	protected function initSignals() {
 		$this->show_signal = $this->signal_generator->create();
 		$this->close_signal = $this->signal_generator->create();
+		$this->toggle_signal = $this->signal_generator->create();
 	}
 
 	/**
@@ -98,6 +99,15 @@ class PresentationRow implements T\PresentationRow {
 	public function getCloseSignal() {
 		return $this->close_signal;
 	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getToggleSignal() {
+		return $this->toggle_signal;
+	}
+
 
 	/**
 	 * @inheritdoc

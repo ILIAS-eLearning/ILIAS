@@ -60,4 +60,25 @@ interface PresentationRow extends \ILIAS\UI\Component\Component, Triggerable {
 	 * @return \ILIAS\UI\Component\Table\PresentationRow
 	 */
 	public function withActions($actions);
+
+	/**
+	 * Get the signal to expand the row.
+	 *
+	 * @return Signal
+	 */
+	public function getShowSignal();
+
+	/**
+	 * Get the signal to collapse the row.
+	 *
+	 * @return Signal
+	 */
+	public function getCloseSignal();
+
+	/**
+	 * Get the signal to toggle (expand/collapse) the row.
+	 *
+	 * @return Signal
+	 */
+	public function getToggleSignal();
 }

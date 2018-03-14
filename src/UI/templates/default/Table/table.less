@@ -19,6 +19,12 @@
 	}
 	.il-table-presentation-row-controls {
 		width: @il-table-presentation-rowcontrol-colwidth;
+		.il-table-presentation-row-controls-collapser {
+			display: none; /*initially hidden*/
+		}
+		.il-table-presentation-row-controls-expander {
+			display: block; /*initially visible*/
+		}
 	}
 	.il-table-presentation-row-contents {
 		width: @il-table-presentation-contents-colwidth;
@@ -31,10 +37,15 @@
 			font-weight: normal;
 			padding: 0;
 			margin: 0;
+			cursor: pointer;
+		}
+		.il-table-presentation-row-header-fields {
+			display: block; /*initially visible*/
 		}
 	}
 
 	.il-table-presentation-row-expanded {
+		display: none; /*initially hidden*/
 		white-space: nowrap;
 		margin-top:  @padding-large-vertical;
 

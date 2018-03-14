@@ -41,11 +41,7 @@ function base1() {
 				'Median: ' => $record['answers'][$record['stats']['median']]['title']
 			)
 		)
-		->withButtons(
-			array(
-				$ui_factory->button()->standard('zur Frage', '#')
-			)
-		);
+		->withActions($ui_factory->button()->standard('zur Frage', '#'));
 
 	};
 

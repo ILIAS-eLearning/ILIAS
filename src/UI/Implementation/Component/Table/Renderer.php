@@ -84,6 +84,7 @@ class Renderer extends AbstractComponentRenderer {
 		$component = $this->registerSignals($component->withResetSignals());
 		$sig_show = $component->getShowSignal();
 		$sig_hide = $component->getCloseSignal();
+		$sig_toggle = $component->getToggleSignal();
 		$id = $this->bindJavaScript($component);
 
 		$expander = $f->glyph()->expand("#")
@@ -99,6 +100,7 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->setVariable("SHY_EXPANDER", $default_renderer->render($shy_expander));
 
 		$tpl->setVariable("TITLE", $component->getTitle());
+		$tpl->setVariable("TOGGLE_SIGNAL", $sig_toggle);
 		$tpl->setVariable("SUBTITLE", $component->getSubtitle());
 
 		foreach ($component->getImportantFields() as $label => $value) {
@@ -149,11 +151,12 @@ class Renderer extends AbstractComponentRenderer {
 	protected function registerSignals(Component\Table\PresentationRow $component) {
 		$show = $component->getShowSignal();
 		$close = $component->getCloseSignal();
-		return $component->withAdditionalOnLoadCode(function($id) use ($show, $close) {
+		$toggle = $component->getToggleSignal();
+		return $component->withAdditionalOnLoadCode(function($id) use ($show, $close, $toggle) {
 			return
 				"$(document).on('{$show}', function() { il.UI.table.presentation.expandRow('{$id}'); return false; });".
 				"$(document).on('{$close}', function() { il.UI.table.presentation.collapseRow('{$id}'); return false; });".
-				"il.UI.table.presentation.collapseRow('{$id}');";
+				"$(document).on('{$toggle}', function() { il.UI.table.presentation.toggleRow('{$id}'); return false; });";
 		});
 	}
 
