@@ -30894,7 +30894,7 @@ $ilDB->addIndex("object_data", $in_fields, "i4", false);
 $in_fields = array("title","description");
 $ilDB->addIndex("object_data", $in_fields, "i3", true);
 
-$ilDB->createSequence("object_data", 261);
+$ilDB->createSequence("object_data", 262);
 
 $ilDB->insert("object_data", array(
 'obj_id' => array('integer', '2'), 'type' => array('text', 'role'), 'title' => array('text', 'Administrator'), 'description' => array('text', 'Role for systemadministrators. This role grants access to everything!'), 'owner' => array('integer', '-1'), 'create_date' => array('timestamp', '2002-01-16 15:31:45'), 'last_update' => array('timestamp', '2003-08-15 13:18:57'), 'import_id' => array('text', '')));
@@ -30984,7 +30984,7 @@ $ilDB->insert("object_data", array(
 'obj_id' => array('integer', '33'), 'type' => array('text', 'typ'), 'title' => array('text', 'root'), 'description' => array('text', 'Root Folder Object'), 'owner' => array('integer', '-1'), 'create_date' => array('timestamp', '2002-12-21 00:04:00'), 'last_update' => array('timestamp', '2003-08-15 12:04:20'), 'import_id' => array('text', '')));
 
 $ilDB->insert("object_data", array(
-'obj_id' => array('integer', '70'), 'type' => array('text', 'lng'), 'title' => array('text', 'en'), 'description' => array('text', 'installed'), 'owner' => array('integer', '-1'), 'create_date' => array('timestamp', ''), 'last_update' => array('timestamp', '2018-02-07 20:20:47'), 'import_id' => array('text', '')));
+'obj_id' => array('integer', '70'), 'type' => array('text', 'lng'), 'title' => array('text', 'en'), 'description' => array('text', 'installed'), 'owner' => array('integer', '-1'), 'create_date' => array('timestamp', ''), 'last_update' => array('timestamp', '2018-03-14 23:50:40'), 'import_id' => array('text', '')));
 
 $ilDB->insert("object_data", array(
 'obj_id' => array('integer', '14'), 'type' => array('text', 'role'), 'title' => array('text', 'Anonymous'), 'description' => array('text', 'Default role for anonymous users (with no account)'), 'owner' => array('integer', '-1'), 'create_date' => array('timestamp', '2003-08-15 12:06:19'), 'last_update' => array('timestamp', '2005-07-20 15:15:06'), 'import_id' => array('text', '')));
@@ -31531,6 +31531,9 @@ $ilDB->insert("object_data", array(
 
 $ilDB->insert("object_data", array(
 'obj_id' => array('integer', '260'), 'type' => array('text', 'lng'), 'title' => array('text', 'el'), 'description' => array('text', 'not_installed'), 'owner' => array('integer', '6'), 'create_date' => array('timestamp', '2015-12-22 14:32:40'), 'last_update' => array('timestamp', '2015-12-22 14:32:40'), 'import_id' => array('text', '')));
+
+$ilDB->insert("object_data", array(
+'obj_id' => array('integer', '261'), 'type' => array('text', 'rolt'), 'title' => array('text', 'il_orgu_employee'), 'description' => array('text', 'OrgUnit Employee Role Template'), 'owner' => array('integer', '-1'), 'create_date' => array('timestamp', '2018-03-14 23:49:57'), 'last_update' => array('timestamp', '2018-03-14 23:49:57'), 'import_id' => array('text', '')));
 
 
 //
@@ -36551,6 +36554,9 @@ $ilDB->insert("rbac_fa", array(
 
 $ilDB->insert("rbac_fa", array(
 'rol_id' => array('integer', '231'), 'parent' => array('integer', '8'), 'assign' => array('text', 'n'), 'protected' => array('text', 'n'), 'blocked' => array('integer', '0')));
+
+$ilDB->insert("rbac_fa", array(
+'rol_id' => array('integer', '261'), 'parent' => array('integer', '8'), 'assign' => array('text', 'n'), 'protected' => array('text', 'n'), 'blocked' => array('integer', '0')));
 
 
 //
@@ -47504,7 +47510,7 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'db_update_running'), 'value' => array('clob', '0')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_5_1'), 'value' => array('clob', '33')));
+'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_5_1'), 'value' => array('clob', '34')));
 
 $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'mail_send_html'), 'value' => array('clob', '1')));
