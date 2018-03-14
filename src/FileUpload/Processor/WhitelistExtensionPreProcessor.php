@@ -13,7 +13,7 @@ use Psr\Http\Message\StreamInterface;
  * PreProcessor which allows only whitelisted file extensions.
  *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @since 5.3
+ * @since   5.3
  * @version 1.0.0
  */
 final class WhitelistExtensionPreProcessor implements PreProcessor {
@@ -22,6 +22,7 @@ final class WhitelistExtensionPreProcessor implements PreProcessor {
 	 * @var string[]
 	 */
 	private $whitelist;
+
 
 	/**
 	 * WhitelistExtensionPreProcessor constructor.
@@ -48,21 +49,24 @@ final class WhitelistExtensionPreProcessor implements PreProcessor {
 	 * @inheritDoc
 	 */
 	public function process(FileStream $stream, Metadata $metadata) {
-		if($this->isWhitelisted($metadata->getFilename()))
+		if ($this->isWhitelisted($metadata->getFilename())) {
 			return new ProcessingStatus(ProcessingStatus::OK, 'Extension complies with whitelist.');
+		}
 
 		return new ProcessingStatus(ProcessingStatus::REJECTED, 'Extension don\'t complies with whitelist.');
 	}
 
+
 	private function isWhitelisted($filename) {
 		$extensions = explode('.', $filename);
-		$extension = NULL;
+		$extension = null;
 
-		if(count($extensions) <= 1)
+		if (count($extensions) === 1) {
 			$extension = '';
-		else
+		} else {
 			$extension = end($extensions);
+		}
 
-		return in_array($extension, $this->whitelist);
+		return in_array(strtolower($extension), $this->whitelist);
 	}
 }
