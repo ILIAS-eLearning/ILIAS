@@ -355,7 +355,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 		$question_gui = $this->object->createQuestionGUI('', $question_id);
 
 		$tmp_tpl = new ilTemplate('tpl.il_as_tst_correct_solution_output.html', TRUE, TRUE, 'Modules/Test');
-		$result_output = $question_gui->getSolutionOutput($active_id, $pass, FALSE, FALSE, FALSE, $this->object->getShowSolutionFeedback());
+		$result_output = $question_gui->getSolutionOutput($active_id, $pass, FALSE, FALSE, FALSE, $this->object->getShowSolutionFeedback(), FALSE, TRUE);
 		$tmp_tpl->setVariable('TEXT_YOUR_SOLUTION', $this->lng->txt('answers_of') .' '. $participant->getName());
 		$maxpoints = $question_gui->object->getMaximumPoints();
 
