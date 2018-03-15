@@ -15953,3 +15953,7 @@ exc#:#exc_settings_feedback_file_info#:#Tutors upload a file. The participant re
 exc#:#exc_settings_feedback_text_info#:#Tutors type their evaluation in a text field. The participant receives a notification about it and the text is displayed at the assignment overview.
 wiki#:#wiki_pg_list_no_search_fields#:#No searchable meta data fields found in the metadata sets of the wiki.
 content#:#cont_transl_master_language_not_allowed#:#To import a translation you need to activate at least one additional language under Settings > Multilingualism
+dateplaner#:#crs_start#:#Course starts
+dateplaner#:#crs_end#:#Course ends
+dateplaner#:#grp_start#:#Group starts
+dateplaner#:#grp_end#:#Group ends
