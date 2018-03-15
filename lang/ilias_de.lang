@@ -15953,7 +15953,5 @@ chatroom#:#chat_deletion_interval_run_at#:#Time###25 08 2017 new variable
 wiki#:#wiki_pg_list_no_search_fields#:#Es befinden sich keine durchsuchbaren Metadatenfelder in den Metadatensätzen des Wikis.
 content#:#cont_transl_master_language_not_allowed#:#Um eine Übersetzung zu importieren, müssen sie zumindest eine zusätzliche Sprache unter "Einstellungen" > "Mehrsprachigkeit" aktivieren.
 rbac#:#sess_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
-dateplaner#:#crs_start#:#Course starts
-dateplaner#:#crs_end#:#Course ends
-dateplaner#:#grp_start#:#Group starts
-dateplaner#:#grp_end#:#Group ends 
+dateplaner#:#crs_start#:#Kurs startet
+dateplaner#:#crs_end#:#Kurs endet
