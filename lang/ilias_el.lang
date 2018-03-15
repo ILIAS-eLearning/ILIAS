@@ -14157,3 +14157,4 @@ background_tasks#:#remove#:#Remove###25 01 2018 new variable
 orgu#:#msg_success_permission_saved#:#Permissions saved.###25 01 2018 new variable
 rbac#:#file_read_learning_progress#:#User can view learning progress of other users###07 02 2018 new variable
 rbac#:#mcst_read_learning_progress#:#User can view learning progress of other users###07 02 2018 new variable
+assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.###15 03 2018 new variable

@@ -14156,3 +14156,4 @@ form#:#form_chars_remaining#:#Fennmaradó karakterszám:
 crs#:#crs_subscription_min_members_err#:#A résztvevők minimális száma nem lehet kisebb a résztvevők maximális számánál.
 rbac#:#file_read_learning_progress#:#User can view learning progress of other users###07 02 2018 new variable
 rbac#:#mcst_read_learning_progress#:#User can view learning progress of other users###07 02 2018 new variable
+assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.###15 03 2018 new variable
