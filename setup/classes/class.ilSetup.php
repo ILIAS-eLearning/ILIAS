@@ -2175,8 +2175,7 @@ class ilSetup
 	 * @return	bool
 	 */
 	protected function isDirectoryInOther($directory, $other_directory) {
-		$directory = realpath($directory);
-		$other_directory = realpath($other_directory);
+		$other_directory = $other_directory."/";
 
 		return !(strpos($directory, $other_directory) !== 0);
 	}
