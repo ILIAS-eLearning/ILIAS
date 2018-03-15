@@ -14,7 +14,7 @@ class PresentationTest extends ILIAS_UI_TestBase {
 		return new \ILIAS\UI\Implementation\Factory();
 	}
 
-	public function testConstruction() {
+	public function testTableConstruction() {
 		$f = $this->getFactory();
 		$this->assertInstanceOf("ILIAS\\UI\\Component\\Table\\Factory", $f->table());
 
@@ -30,6 +30,51 @@ class PresentationTest extends ILIAS_UI_TestBase {
 			->withData(array('dk'=>'dv'));
 		$this->assertEquals(array('k'=>'v'), $pt->getEnvironment());
 		$this->assertEquals(array('dk'=>'dv'), $pt->getData());
+	}
+
+	public function testBareTableRendering() {
+		$r = $this->getDefaultRenderer();
+		$f = $this->getFactory();
+		$pt = $f->table()->presentation('title', array(),	function(){});
+		$expected = ''.
+			'<div class="il-table-presentation">'.
+			'	<h3 class="ilHeader">title</h3>'.
+			'	<div class="il-table-presentation-data">		</div>'.
+			'</div>';
+		$this->assertHTMLEquals($expected, $r->render($pt->withData([])));
+
+	}
+
+	public function testRowConstruction() {
+		$f = $this->getFactory();
+		$pt = $f->table()->presentation('title', array(),	function(){});
+		$row = new \ILIAS\UI\Implementation\Component\Table\PresentationRow($pt->getSignalGenerator());
+
+		$this->assertInstanceOf("ILIAS\\UI\\Component\\Table\\PresentationRow", $row);
+		$this->assertInstanceOf("ILIAS\\UI\\Component\\Signal", $row->getShowSignal());
+		$this->assertInstanceOf("ILIAS\\UI\\Component\\Signal", $row->getCloseSignal());
+		$this->assertInstanceOf("ILIAS\\UI\\Component\\Signal", $row->getToggleSignal());
+
+		$this->assertEquals(
+			"headline",
+			$row->withHeadline("headline")->getHeadline()
+		);
+		$this->assertEquals(
+			"subheadline",
+			$row->withSubheadline("subheadline")->getSubheadline()
+		);
+		$this->assertEquals(
+			array("f1"=>"v1"),
+			$row->withImportantFields(array("f1"=>"v1"))->getImportantFields()
+		);
+		$this->assertEquals(
+			"field_headline",
+			$row->withFurtherFieldsHeadline("field_headline")->getFurtherFieldsHeadline()
+		);
+		$this->assertEquals(
+			array("ff1"=>"fv1"),
+			$row->withFurtherFields(array("ff1"=>"fv1"))->getFurtherFields()
+		);
 	}
 
 }
