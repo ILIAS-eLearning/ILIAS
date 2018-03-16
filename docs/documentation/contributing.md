@@ -96,8 +96,7 @@ other things you could contribute to ILIAS:
 
 * **Ideas for new Features**: The development of ILIAS is driven by requirements
   from the community. Contribute your ideas via [feature requests]
-  (http://www.ilias.de/docu/goto.php?target=wiki_5307&client_id=docu#
-  ilPageTocA119).
+  (http://www.ilias.de/docu/goto.php?target=wiki_5307&client_id=docu#ilPageTocA119).
 * **Bug Reports**: We do our best, but ILIAS might contain bugs we do not know
   yet. Check out how the ILIAS Community handles [bug reports]
   (http://www.ilias.de/docu/goto.php?target=wiki_5307&client_id=docu#ilPageTocA115).
