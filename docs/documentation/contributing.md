@@ -25,7 +25,7 @@ For practical reasons we need to define a contributor to be everyone who wants
 to contribute commits to our repository for now. We trying to figure out ways to
 also include Testers, Translators, Authors and other people into the processes
 described here. If you want to contribute to said activities please have a look
-[here](i_want_to_contribute_something_else_than_commits).
+[here](contributing.md).
 
 As a contributor you will be named in the release notes of our major relases
 with your name and your organisation as we find them in our commit history and
@@ -45,9 +45,9 @@ associated processes, if you require mediation please leave a mention via
 `@ILIAS-eLearning/technical-board` in the discussion of the PR.
 
 Please make sure to understand that the ILIAS society has a [process for
-functional feature request](http://www.ilias.de/docu/goto.php?target=
-wiki_1357_How_to_suggest_a_new_feature) before starting to create your PR. Your
-PR should thus only contain bug fixes or non-functional changes to our code base.
+functional feature request](https://www.ilias.de/docu/goto_docu_wiki_wpage_788_1357.html) 
+before starting to create your PR. Your PR should thus only contain bug fixes or 
+non-functional changes to our code base.
 
 <a name="rules-for-contributors"></a>
 #### Rules for Contributors
@@ -95,18 +95,16 @@ We are happy to get contributions that are no commits as well. There are many
 other things you could contribute to ILIAS:
 
 * **Ideas for new Features**: The development of ILIAS is driven by requirements
-  from the community. Contribute your ideas via [feature
-  requests](http://www.ilias.de/docu/goto.php?target=wiki_5307&client_id=docu#
+  from the community. Contribute your ideas via [feature requests]
+  (http://www.ilias.de/docu/goto.php?target=wiki_5307&client_id=docu#
   ilPageTocA119).
 * **Bug Reports**: We do our best, but ILIAS might contain bugs we do not know
-  yet. Check out how the ILIAS Community handles [bug
-  reports](http://www.ilias.de/docu/goto.php?target=wiki_5307&client_id=docu#
-  ilPageTocA115).
+  yet. Check out how the ILIAS Community handles [bug reports]
+  (http://www.ilias.de/docu/goto.php?target=wiki_5307&client_id=docu#ilPageTocA115).
 * **Information about Security Issues**: Check out how the ILIAS community
-  handles [security
-  issues](http://www.ilias.de/docu/goto.php?target=wiki_5307&client_id=docu#
-  ilPageTocA112). Reporter of security issues will also be named in the release
-  notes.
+  handles [security issues]
+  (http://www.ilias.de/docu/goto.php?target=wiki_5307&client_id=docu#ilPageTocA112). 
+  Reporter of security issues will also be named in the release notes.
 * **Time for Testing or Testcases**: We always need people that contribute
   testcases and perform them before new releases. Please have a look
   [here](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html) (German only).
