@@ -66,7 +66,7 @@ ServiceOpenLayers = {
 		console.log(central_marker);
 		console.log(replace_marker);
 		if(replace_marker) {
-			this.deleteAllMarkers(id);
+			this.deleteAllMarkers();
 			this.setMarker(id, pos);
 			return;
 		}
@@ -130,7 +130,7 @@ ServiceOpenLayers = {
 			e.preventDefault();
 			var center = e.coordinate;
 			this.jumpTo(id, center);
-			this.deleteAllMarkers(id);
+			this.deleteAllMarkers();
 			this.setMarker(id, center);
 			this.updateInputFields(id, center);
 		}, this);
@@ -201,7 +201,7 @@ ServiceOpenLayers = {
 				pos = module.posToOSM([lon, lat]);
 
 				module.jumpTo(id, pos, 16);
-				module.deleteAllMarkers(id);
+				module.deleteAllMarkers();
 				module.setMarker(id, pos);
 				module.updateInputFields(id, pos);
 
@@ -254,48 +254,77 @@ ServiceOpenLayers = {
 		this.map.addOverlay(popup);
 
 		element.innerHTML = "<img src='./Services/Maps/images/mm_20_blue.png'></img>";
-		element.addEventListener("click", (function(module) {
-			return function() {
-				if(elem && !clicked) {
-					var container = document.getElementById(id);
-					var append = document.createElement("div");
-					append.className = "arrow_box";
-					append.innerHTML = elem;
-					container.appendChild(append);
-
-					var user = new module.ol.Overlay({
-						element: append
-					});
-					user.setOffset([15.5, -57.5]);
-					user.setPosition(pos);
-					module.map.addOverlay(user);
-				}
-				clicked = true;
-			}
-		})(this));
 	},
 
 	/**
 	 * Remove all child elements.
 	 *
-	 * @param 	{stirng} id
+	 * @returns 	{void}
 	 *
 	 */
-	deleteAllMarkers: function(id) {
+	deleteAllMarkers: function() {
 		marker = document.getElementsByClassName('marker');
 		for (var i = 0; i < marker.length; i++) {
 			marker[i].remove();
 		}
 	},
 
-	// move to a user marker and open card
+	/**
+	 * Move to a user marker and open popup.
+	 *
+	 * @param 	{string} id
+	 * @param 	{number} j 	Counter for user_markers.
+	 * @returns {void}
+	 */
 	moveToUserMarkerAndOpen: function(id, j) {
 		var user_marker = this.user_markers[j];
 		if (user_marker) {
+			this.deleteAllPopups();
 			this.jumpTo(id, user_marker[0], 16);
+			this.setPopup(id, user_marker[0], user_marker[1]);
 		}
 		else {
 			console.log("No user marker no. "+j+" for map "+id);
+		}
+	},
+
+	/**
+	 * Set a popup window to pos.
+	 *
+	 * @param 	{string} 	id
+	 * @param 	{array} 	pos
+	 * @param 	{string} 	elem
+	 * @returns {void}
+	 */
+	setPopup: function(id, pos, elem) {
+		var container = document.getElementById(id);
+		var append = document.createElement("div");
+		append.className = "arrow_box";
+		append.addEventListener('click', (function(module) {
+			return function() {
+				module.deleteAllPopups();
+			}
+		})(this));
+		append.innerHTML = elem;
+		container.appendChild(append);
+
+		var popup = new this.ol.Overlay({
+			element: append
+		});
+		popup.setOffset([15.5, -57.5]);
+		popup.setPosition(pos);
+		this.map.addOverlay(popup);
+	},
+
+	/**
+	 * Delete all popups with class arrow_ox.
+	 *
+	 * @returns 	{void}
+	 */
+	deleteAllPopups: function() {
+		popups = document.getElementsByClassName('arrow_box');
+		for (var i = 0; i < popups.length; i++) {
+			popups[i].remove();
 		}
 	},
 
