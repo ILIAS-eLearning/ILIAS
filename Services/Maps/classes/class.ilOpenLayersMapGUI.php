@@ -42,7 +42,7 @@ class ilOpenLayersMapGUI extends ilMapGUI
 		parent::__construct();
 
 	}
-	
+
 	/**
 	 * Get HTML
 	 */
@@ -78,8 +78,10 @@ class ilOpenLayersMapGUI extends ilMapGUI
 
 
 		$lng->loadLanguageModule("maps");
-		$tpl->addJavaScript("Services/Maps/js/OpenLayers.js");
-		$tpl->addJavaScript("Services/Maps/js/ServiceOpenLayers.js");
+		$tpl->addCss("libs/bower/bower_components/OpenLayers/ol.css");
+		$tpl->addCss("Services/Maps/js/theme/default/style.css");
+		$tpl->addJavaScript("libs/bower/bower_components/OpenLayers/ol-debug.js");
+		$tpl->addJavaScript("Services/Maps/js/ServiceOpenLayerMeins.js");
 
 		// add user markers
 		$cnt = 0;
