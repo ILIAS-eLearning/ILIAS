@@ -5,7 +5,7 @@
 * @module	language file Hungarian
 * @modulegroup	language
 * @author	Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version	5.3.x 2018-01-23
+* @version	5.3.x 2018-03-18
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -672,6 +672,7 @@ assessment#:#log_selected_user_data_removed#:#%s felhasználó tesztadatainak t�
 assessment#:#log_user_answered_question#:#A felhasználó megválaszolt egy kérdést, és %s pontot ért el.
 assessment#:#log_user_entered_values#:#Felhasználó által beírt értékek
 assessment#:#log_user_not_entered_values#:#A felhasználó nem írt be értékeket
+assessment#:#log_user_solution_willingly_deleted#:#A felhasználó törölte a választ.
 assessment#:#maintenance#:#Karbantartás
 assessment#:#manscoring_done#:#Pontozott résztvevők
 assessment#:#manscoring_hint#:#Van legalább egy olyan kérdés, amely manuálisan pontozható. Kérjük, megfelelő időpontot adjon a teszteredmények eléréséhez annak érdekében, hogy a felhasználók a manuális pontozás előtt ne tekinthessék meg teszteredményüket.
@@ -3011,7 +3012,7 @@ common#:#objs_glo#:#Fogalomtárak
 common#:#objs_grp#:#Csoportok
 common#:#objs_htlm#:#HTML-tananyagok
 common#:#objs_lm#:#ILIAS-tananyagok
-common#:#objs_lres#:#Tanulási erőforrások
+common#:#objs_lres#:#Tananyagok
 common#:#objs_mail#:#Levelek
 common#:#objs_mcst#:#Médiasugárzások
 common#:#objs_mep#:#Médiagyűjtemény
@@ -3935,7 +3936,7 @@ content#:#cont_edit_style#:#Stílus módosítása
 content#:#cont_edit_tabs#:#Tulajdonságok
 content#:#cont_edit_term#:#Fogalom módosítása
 content#:#cont_empty_question#:#A kérdésszerkesztés nem fejeződött be. Kattintson a kérdésre és szerkessze azt, vagy törölje.
-content#:#cont_enable_time_scheduled_page_activation_info#:#Ha be van kapcsolva, aktiválási időszak (dátum/időpont) választható ki a tananyagszerkesztőben az egyes lapokhoz.
+content#:#cont_enable_time_scheduled_page_activation_info#:#Ha be van kapcsolva, aktiválási időszak (dátum/időpont) állítható a lapokhoz a tananyagszerkesztőben.
 content#:#cont_enable_time_scheduled_page_activation#:#Lapaktiválás ütemezése
 content#:#cont_end#:#Záró időpont
 content#:#cont_enter_a_dir_name#:#Adjon meg egy könyvtárnevet!
@@ -3945,11 +3946,11 @@ content#:#cont_Excursus#:#Exkurzus
 content#:#cont_export_all#:#Összes exportálása
 content#:#cont_file_created#:#A fájl létrejött.
 content#:#cont_file_deleted#:#A fájlt törölték.
-content#:#cont_file_from_repository#:#Fájl Taneszköztárolóból
+content#:#cont_file_from_repository#:#Fájl a Taneszköztárolóból
 content#:#cont_file_renamed#:#A fájl neve megváltozott.
 content#:#cont_file_unzipped#:#A fájlt kicsomagoltuk.
 content#:#cont_file#:#Fájl
-content#:#cont_FileListItem#:#Fájllistatétel (standard)
+content#:#cont_FileListItem#:#Fájllista-tétel (standard)
 content#:#cont_files#:#Fájlok
 content#:#cont_first_open#:#Első panel kinyitva
 content#:#cont_first_row_style#:#Első sor stílusosztálya
@@ -4628,7 +4629,7 @@ crs#:#crs_visibility_limitless#:#Korlátlan
 crs#:#crs_visibility_until#:#Elérhetőség időbeni korlátozása
 crs#:#crs_wait_info#:#Ha be van kapcsolva, és a kurzushoz rendelhető maximális felhasználói létszám betelt, az új regisztrálók várólistára kerülnek be.
 crs#:#crs_waiting_list#:#Várólista
-crs#:#crs_warn_no_max_set_on_waiting_list#:#Elérte a maximális kurzuslétszámát a kurzus. Csatlakozási kérelmével feliratkozhat a várólistára. A kurzusvezető üzenetet fog küldeni Önnek, ha kérését jóváhagyják vagy elutasítják.
+crs#:#crs_warn_no_max_set_on_waiting_list#:#A kurzus elérte a maximális kurzuslétszámát. Feliratkozhat a várólistára. A kurzusvezető üzenetet fog küldeni Önnek, ha kérését jóváhagyják vagy elutasítják.
 crs#:#crs_warn_wl_set_on_waiting_list#:#Van már néhány felhasználó a várólistán. Csatlakozási kérelmével Ön is feliratkozhat a várólistára. A kurzusvezető üzenetet fog küldeni Önnek, ha kérését jóváhagyják vagy elutasítják.
 crs#:#crs_wiz_back#:#Vissza
 crs#:#crs_wiz_next#:#Mentés
@@ -5282,7 +5283,7 @@ grp#:#grp_reg_subject#:#Üzenet
 grp#:#grp_registration_unlimited#:#Korlátlan
 grp#:#grp_search_users#:#Felhasználó keresése
 grp#:#grp_selected_users#:#Kiválasztott résztvevők
-grp#:#grp_set_on_waiting_list#:#Felveheti csatlakozási kérését a várólistára. Egy üzenetet fog kapni a csoportvezetőtől, amikor kérését jóváhagyják vagy elutasítják.
+grp#:#grp_set_on_waiting_list#:#Feljelentkezhet a várólistára. Egy üzenetet fog kapni a csoportvezetőtől, amikor kérését jóváhagyják vagy elutasítják.
 grp#:#grp_settings#:#Csoportbeállítások
 grp#:#grp_typ#:#Csoporttípus
 grp#:#grp_unsubscribe#:#Kilépés
@@ -5296,7 +5297,7 @@ grp#:#grp_warn_wl_set_on_waiting_list#:#Van már néhány felhasználó a váró
 grp#:#grp_wrong_max_members#:#A várólista bekapcsolásához a taglétszám maximalizálása szükséges!
 grp#:#grp_wrong_reg_time_limit#:#Ellenőrizze a regisztráció kezdő és záró időpontját!
 grp#:#reg_grp_max_members_short#:#Felhasználószám korlátozása
-grp#:#reg_grp_max_members#:#Tagok száma
+grp#:#reg_grp_max_members#:#Tagok maximális száma
 jscalendar#:#about_calendar_long#:#Dátumválasztók:\n- Év léptetése: « »\n- Hónap léptetése: < >\n- Tartsa nyomva a gombot a gyorsabb kiválasztáshoz.\n\nDHTML dátum/időpont választó\n(c) dynarch.com 2002-2003\nLegfrissebb verzió: http://dynarch.com/mishoo/calendar.epl\nTerjeszti a GNU LGPL. Lásd http://gnu.org/licenses/lgpl.html a részletekért.
 jscalendar#:#about_calendar#:#Súgó
 jscalendar#:#about_time#:#\n\nIdőválasztó:\n- Kattintson a megfelelő időrészen megnöveléséhez\n- vagy Shift-kattintással csökkentéséhez\n- vagy kattintás-húzás a gyorsabb kiválasztáshoz.
@@ -7078,9 +7079,9 @@ survey#:#confirm_sync_questions#:#A kérdés amit módosított, egy kérdés akt
 survey#:#constraint_add#:#Elágazási szabály létrehozása
 survey#:#constraints_first_question_description#:#Az első entitásnak nem lehet semmilyen elágazása, mert nincsenek megelőző kérdések.
 survey#:#constraints_introduction#:#Egy kérdéshez vagy több kérdést tartalmazó kérdésblokkhoz elágazási szabály definiálható. A kitöltő a korábbi válaszától függően kapja vagy nem kapja a következő kérdést, azaz a kitöltő számára a válasza alapján nem relevánsnak ítélt következő kérdés nem jelenik meg, így rövidebb, személyre szabottabb lesz a kérdőív. Az első kérdéshez, illetve kérdésblokkhoz nem rendelhető elágazási szabály.
-survey#:#constraints_list_of_entities#:#Elágazási szabályokhoz használható hurkok
+survey#:#constraints_list_of_entities#:#Elágazási szabályokhoz használható elemek
 survey#:#constraints_no_nonessay_available#:#Elágazási szabályok meghatározásához nincsenek korábbi kérdések. A következő típusok támogatottak: metrikus, egyválaszos, többválaszos.
-survey#:#constraints_no_questions_or_questionblocks_selected#:#Legalább egy kérdést vagy kérdésblokkot válasszon!
+survey#:#constraints_no_questions_or_questionblocks_selected#:#Legalább egy kérdést vagy kérdésblokkot válasszon ki!
 survey#:#constraints#:#Elágazási szabályok
 survey#:#contains#:#Magában foglalja
 survey#:#continue#:#Folytatás >>
@@ -7308,11 +7309,11 @@ survey#:#select_option#:#--- Válasszon egy beállítást ---
 survey#:#select_prior_question#:#Előzetes kérdés kiválasztása
 survey#:#select_questionpool_short#:#Kérdőívkérdés-gyűjtemény
 survey#:#select_questionpool#:#Válasszon ki egy kérdésgyűjteményt a létrehozott kérdés mentéséhez.
-survey#:#select_relation#:#Válasszon ki egy összefüggést.
+survey#:#select_relation#:#Kapcsolat kiválasztása
 survey#:#select_target_position_for_move_question#:#Válasszon célhelyet a kérdés(ek) áthelyezéséhez és nyomja meg az egyik beszúrás gombot!
 survey#:#select_value#:#Érték megadása
 survey#:#selection#:#Kiválasztás
-survey#:#show_questiontext_description#:#Ha bejelölt, a kérdésblokk egyes kérdéseinek kérdésszövege megjelenik. Ha nincs kiválasztva, a kérdésszövegek rejtve maradnak.
+survey#:#show_questiontext_description#:#Ha be van kapcsolva, a kérdésblokk egyes kérdéseinek kérdésszövege megjelenik. Ha nincs kiválasztva, a kérdésszövegek rejtve maradnak.
 survey#:#show_questiontext#:#Kérdésszöveg megjelenítése
 survey#:#skipped#:#kihagyott
 survey#:#spl_copy_insert_clipboard#:#A kiválasztott kérdés(ek)et a vágólapra másolta 
@@ -8327,7 +8328,7 @@ survey#:#survey_dnd_move_previous#:#Előző lapra mozgatás
 survey#:#survey_dnd_split_page#:#Lap felosztása
 survey#:#survey_dnd_clear_clipboard#:#Vágólap törlése
 survey#:#survey_dnd_paste#:#Beilleszt
-survey#:#survey_has_datasets_warning_page_view#:#A kérdőív már tartalmaz adathalmazokat. Nem szerkesztheti a kérdőív kérdéseit, amíg el nem távolítja azokat.
+survey#:#survey_has_datasets_warning_page_view#:#A kérdőív már tartalmaz válaszokat. Nem szerkesztheti a kérdőív kérdéseit, amíg el nem távolítja azokat.
 survey#:#survey_has_datasets_warning_page_view_link#:#Válaszadók módosítása
 survey#:#survey_using_template#:#Ez a kérdőív a(z) %s sablont használja. Ha nem szeretne sablont használni, és minden beállításhoz megvan az elérése, kattintson ide: %s.
 survey#:#survey_using_template_link#:#Ne használjon sablont a továbbiakban
@@ -8626,7 +8627,7 @@ content#:#cont_set_layout#:#Elrendezés beállítása
 mep#:#mep_content_snippet_used_in_older_versions#:#Ne feledje: néhány lap régebbi verziója használja ezt az építőelemet. Ha ezeket a lapokat visszaállítják egy olyan verzióra, amely tartalmazza ezt az építőelemet, az építőelem hiányozni fog a lapról.
 content#:#cont_missing_snippet#:#Hiányzó tartalom-építőelem. Ezt az építőelemet törölték.
 content#:#cont_enable_page_history#:#Lapelőzmények
-content#:#cont_enable_page_history_info#:#Lapok régebbi verzióinak tárolása, és a régebbi verziókra visszagörgetés lehetőségének megengedése.
+content#:#cont_enable_page_history_info#:#A lapok régebbi verzióinak tárolása és az azokra visszagörgetés lehetősége.
 style#:#sty_type_qover#:#Kérdésáttekintés
 ecs#:#ecs_tbl_settings_for_server#:#ECS beállítások ehhez: %s
 ecs#:#ecs_back_settings#:#ECS beállítások
@@ -9357,7 +9358,7 @@ blog#:#blog_admin_inactive_info#:#A blogfunkciót a munkaasztal rendszerbeállí
 prtf#:#prtf_set_default_publish_confirmation#:#A portfóliót legalább az összes regisztrált felhasználóval meg kell osztani. Legyen látható az interneten is regisztráció nélkül?
 prtf#:#prtf_unset_default_share_info#:#A módosításokat sikeresen mentette. Ellenőrizze a portfóliómegosztás jelenlegi beállításait!
 survey#:#svy_participation#:#Résztvétel
-blog#:#blog_new_posting_info#:#Az első szövegdoboz a hozzászóláslistában kivonatként használt.
+blog#:#blog_new_posting_info#:#A hozzászólást sikeresen publikálta.
 survey#:#svy_page_add_question#:#Új %s létrehozása
 skmg#:#skmg_from_lower_to_higher_levels#:#Úgy rendezze a szinteket, hogy a legalacsonyabb felül, a legmagasabb pedig alul helyezkedjen el.
 common#:#spl_import#:#Kérdőívkérdés-gyűjtemény importálása
@@ -11023,7 +11024,7 @@ orgu#:#user_assignments#:#Felhasználó hozzárendelései
 orgu#:#authorities#:#Utasítási jogkörök
 orgu#:#authority#:#Utasítási jogkör
 orgu#:#positions#:#Pozíciók
-orgu#:#add_position#:#Pozíciók hozzáadása
+orgu#:#add_position#:#Pozíció hozzáadása
 orgu#:#scope_1#:#Ugyanazon szervezeti egység
 orgu#:#scope_2#:#Alárendelt szervezeti egységek
 orgu#:#scope_3#:#Összes szervezeti egység
@@ -11047,6 +11048,7 @@ orgu#:#remove_successful#:#A felhasználót sikeresen eltávolította.
 orgu#:#orgu_enable_my_staff#:#'Munkatársak' nézete bekapcsolása
 orgu#:#orgu_enable_my_staff_info#:#'Munkatársak' nézet a saját beosztottak tanulási haladását jeleníti meg.
 orgu#:#org_op_manage_members#:#Tagok kezelése
+orgu#:#orgunit_position_permissions_not_active_for#:#Nem írhatja felül a típus pozíciófüggő jogosultságait:
 orgu#:#org_op_read_learning_progress#:#Más felhasználók tanulási haladásának megtekintése
 orgu#:#org_op_write_learning_progress#:#Más felhasználók tanulási haladásának módosítása
 rbac#:#org_op_write_learning_progress#:#Alárendelt felhasználók tanulási haladásának módosítása
@@ -11900,6 +11902,8 @@ rbac#:#sahs_read_learning_progress#:#A felhasználó megnézheti mások tanulás
 rbac#:#tst_read_learning_progress#:#A felhasználó megnézheti mások tanulási haladását
 rbac#:#exc_read_learning_progress#:#A felhasználó megnézheti mások tanulási haladását
 rbac#:#sess_read_learning_progress#:#A felhasználó megnézheti mások tanulási haladását
+rbac#:#file_read_learning_progress#:#A felhasználó megnézheti mások tanulási haladását
+rbac#:#mcst_read_learning_progress#:#A felhasználó megnézheti mások tanulási haladását
 content#:#cont_progress_icons#:#Haladási ikonok
 content#:#cont_progress_icons_info#:#A tanulási haladás ikonjai látszódjanak a fejezetek oldalikonjai helyett.
 content#:#cont_self_assessment#:#Önértékelés
@@ -12260,9 +12264,9 @@ survey#:#survey_access_codes#:#Hitelesítés kódokkal
 survey#:#survey_access_codes_info#:#A felhasználók az 'Információ' fülön megadható kóddal férhet hozzá a teszthez. Kódokat generálni a 'Válaszadók' fül alatti 'Hozzáférési kódok' alfül alatt lehet.
 survey#:#survey_results_anonymization#:#Adatvédelem
 survey#:#survey_results_personalized#:#Nevekkel
-survey#:#survey_results_personalized_info#:#A válaszadók neve és válaszai a 'Végeredmények' fülön jelennek meg. Akiknek hozzáférése van ehhez a fülhöz, azonosíthatják a válaszadókat. 
+survey#:#survey_results_personalized_info#:#A végeredmények megtekintésekor a válaszadók neve és válaszai megjelennek, azaz a válaszadók személyei a megfelelő jogosultsággal rendelkezők számára beazonosíthatóak.
 survey#:#survey_results_anonymized#:#Nevek nélküli / Anonimizált kérdőív
-survey#:#survey_results_anonymized_info#:#'Végeredmény' fülön a válaszadók neve helyett kódja jelenik meg. Akiknek hozzáférése van ehhez a fülhöz, azok sem köthetik a válaszokat válaszadóikhoz, csak például az 'iTXaF' kérdőívkódú felhasználóhoz.
+survey#:#survey_results_anonymized_info#:#A végeredmények megtekintésekor a válaszadók neve helyett egy kód jelenik meg, azaz a válaszadók személyei senki számára be nem azonosíthatóak.
 survey#:#material_added_empty#:#Az objektum nem tartalmaz megfelelő segédanyagot.
 ecs#:#ecs_refresh_participants#:#ECS-résztvevők frissítése
 survey#:#survey_sure_delete_constraint#:#Biztos, hogy törli a(z) '%2$s' kérdés '%1$s' elágazási szabályát?
@@ -13381,10 +13385,10 @@ survey#:#svy_eval_view_tables_charts#:#Táblázat és diagram
 survey#:#svy_eval_view_tables#:#Táblázat
 survey#:#svy_eval_view_charts#:#Diagram
 survey#:#svy_eval_captions#:#Ábrák
-survey#:#svy_eval_captions_abs_perc#:#Abszolúte és százalék
-survey#:#svy_eval_captions_abs#:#Abszolúte
+survey#:#svy_eval_captions_abs_perc#:#Abszolút és százalék
+survey#:#svy_eval_captions_abs#:#Abszolút
 survey#:#svy_eval_captions_perc#:#Százalék
-style#:#add_system_style#:#REndszerstílus létrehozása
+style#:#add_system_style#:#Rendszerstílus létrehozása
 style#:#add_substyle#:#Alstílus létrehozása
 style#:#skin_id#:#Skin ID
 style#:#skin_name#:#Skin megnevezése
@@ -14001,7 +14005,7 @@ mep#:#mep_master_language_only_no_media#:#Mesternyelv média nélkül
 content#:#cont_master_language_only_no_media#:#Mesternyelv média nélkül
 mep#:#mep_content#:#Tartalom
 mep#:#mep_media_subtitles#:#Média alcím
-content#:#cont_last_visited_page#:#Utolsó látogatott oldal
+content#:#cont_last_visited_page#:#Utoljára látogatott oldal
 content#:#cont_first_page#:#Első oldal
 content#:#cont_lm_starting_point#:#ILIAS tananyag kezdőpontja
 content#:#cont_lm_starting_point_info#:#A tananyag címére kattintáskor megnyíló oldal.
@@ -14154,6 +14158,3 @@ common#:#obj_exc_duplicate#:#Feladat másolása
 meta#:#adt_error_max_length#:#Kérem, rövidebb szöveget írjon.
 form#:#form_chars_remaining#:#Fennmaradó karakterszám:
 crs#:#crs_subscription_min_members_err#:#A résztvevők minimális száma nem lehet kisebb a résztvevők maximális számánál.
-rbac#:#file_read_learning_progress#:#User can view learning progress of other users###07 02 2018 new variable
-rbac#:#mcst_read_learning_progress#:#User can view learning progress of other users###07 02 2018 new variable
-assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.###15 03 2018 new variable
