@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @translator   5.3.x 2017-10-22 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @translator   5.4.x 2018-03-18 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @module       setup language file hungarian
 * @modulegroup  language
 * @author       Matthias Kunkel <mkunkel@me.com>
@@ -30,6 +30,7 @@ available_languages#:#Elérhető nyelvek
 back#:#Vissza
 basic_settings#:#Alapbeállítások
 cannot_create_datadir_no_write_access#:#Nincs írási jog. Nem tud létrehozni adatkönyvtárat.
+cannot_create_datadir_inside_webdir#:#A könyvtár a webhelykönyvtár alatt van. Az adatkönyvtár nem hozható létre.
 change_basic_settings#:#Alapbeállítások módosítása
 change_password#:#Jelszócsere
 change_sort_direction#:#Rendezési irány módosítása
@@ -58,8 +59,8 @@ client_setup_not_finished#:#A kliens beállítása még nem fejeződött be.
 client#:#Kliens
 clients#:#Kliensek
 client_cloned#:#A forrás minden fájlja és beállításának kliensre másolás megtörtént.
-clone_clientnotdisabled#:#A kliens még aktív. Tiltsa le a klienst feltöltése előtt.
-clone_clientismaster#:#A kliens mester azon a néven, ezért nem írható felül.
+clone_clientnotdisabled#:#A kliens még aktív. Tiltsa le a klienst a feltöltés előtt.
+clone_clientismaster#:#A kliens nevében szerepel a 'mester', ezért nem írható felül.
 clone_clientisnotmysql#:#A kliensnek nincs MySQL adatbázisa.
 clone_clientnodatabase#:#Jelenleg csak MySQL adatbázis támogatott.
 clone_disabledmessage#:#A klónozás az alábbi ok(ok) miatt le van tiltva:
@@ -106,7 +107,7 @@ database#:#Adatbázis
 datadir_path_comment1#:#Kötelező
 datadir_path_comment2#:#Ez ebben a setup-változatban nem változtatható meg.
 datadir_path#:#Elérési út az adatkönyvtárhoz
-datadir_webspacedir_match#:#Adatkönyvtára elérési útja ugyanarra a könyvtárra mutat, ahol a webkönyvtára is van. Válasszon másik könyvtárat.
+datadir_webspacedir_match#:#Adatkönyvtára elérési útja ugyanarra a könyvtárra mutat, ahol a webhely könyvtára is van. Válasszon másik könyvtárat.
 date#:#dátum
 db_conn#:#Adatbázis-kapcsolódás
 db_control_structure_missing#:#Hiányzik az irányítási struktúra (Lásd 'Részletek' -> 'Eszközök')
@@ -122,11 +123,11 @@ db_port#:#Adatbázisport
 db_selection#:#Adatbázis kiválasztása
 db_service_name#:#Szolgáltatásnév
 db_type#:#Adatbázistípus
-db_update_interrupted_avoid#:#A hiba elkerülés érdekében ellenőrizze a php.ini-ben a 'max_execution_time' és a 'memory_limit settings' értékeit. Kevesebb lépést futtasson egyszerre, így csökkentheti a szükséges erőforrásokat.
+db_update_interrupted_avoid#:#A hiba elkerülés érdekében ellenőrizze a php.ini-ben a 'max_execution_time' és a 'memory_limit' értékét. Kevesebb lépést futtasson egyszerre, így csökkentheti a szükséges erőforrásokat.
 db_update_interrupted#:#Az adatbázist frissítő script váratlanul elakadt az előző futás során. Ez rendszerében <b>inkonzisztens</b> állapotot idézhetett elő. Javasoljuk, hogy állítsa vissza utolsó biztonsági mentését, majd  futtassa újra a frissítést. 
 db_user#:#Adatbázis-felhasználó
 db_version#:#Adatbázis-változat
-default_client_changed#:#Alapértelmezett kliens cserélve.
+default_client_changed#:#Az alapértelmezett klienst sikeresen lecserélte.
 default_language#:#Alapértelmezett nyelv
 default#:#Alapértelmezett
 delete_confirm#:#Kliens törlésének megerősítése
@@ -140,7 +141,7 @@ disable_logging#:#Naplózás tiltása
 disable#:#Tiltás
 disabled#:#Tiltva
 display_clientlist#:#A kliensválasztás elérhető a felhasználók számára.
-duplicate_ctrl#:#Hiba: Duplikált hívási struktúra definíció (%s osztály) ezekben a fájlokban:<br /><br />- %s<br />- %s<br /><br />Távolítsa el a fájlt, hogy ne legyen része a IIAS hivatalos disztribúciónak.<br />Aztán hívja az 'Eszközök' -> 'Irányítási struktúra újra letöltés'-t az ILIAS setup-ban.
+duplicate_ctrl#:#Hiba: Duplikált hívási struktúradefiníció (%s osztály) ezekben a fájlokban:<br /><br />- %s<br />- %s<br /><br />Távolítsa el a fájlt, hogy ne legyen része a IIAS hivatalos disztribúciójának.<br />Aztán válassza az 'Eszközök' -> 'Irányítási struktúra újra letöltés'-t az ILIAS setup-ban.
 email_not_valid#:#Nem megfelelő e-mail cím
 email#:#E-mail
 en_by_default#:#(Az angol alapértelmezettként telepített és nem törölhető).
@@ -150,7 +151,7 @@ enter_dir_and_filename#:#Adja meg a teljes elérési utat (abszolút útvonalat)
 enter_password#:#Gépelje be a jelszót
 env_ok#:#Rendben. Jól hangzik.
 env_using#:#Az ILIAS mindjárt működik ezen:
-env_warning#:#Az ILIAS csak Linux-on és Windows-on volt tesztelve Apache webszerver használatával.<br/>Emellett működhet más környezetben is.
+env_warning#:#Az ILIAS-t csak Linux-on és Windows-on teszteltük Apache webszerveren.<br/>Emellett működhet más környezetben is.
 environment#:#Környezet
 err_create_database_failed#:#Az adatbázis létrehozása nem sikerült.
 err_wrong_login#:#Hibás bejelentkezés
@@ -376,8 +377,8 @@ pre_dom_missing#:#Engedélyezze a DOM támogatást PHP-telepítésében.
 pre_dom#:#DOM támogatás
 pre_error#:#Az Ön telepítése nem felel meg néhány alapkövetelménynek. További információkat az <a href="%s" target="_blank">ILIAS honlapján</a> talál.
 pre_folder_create_error#:#Nem hozható létre almappa. Változtassa meg a jogosultságokat.
-pre_folder_create#:#Mappák létrehozhatóak a webhely főmappájában
-pre_folder_write_error#:#A webhely főmappája nem írható. Változtassa meg a jogosultságokat!
+pre_folder_create#:#Mappák létrehozhatóak a webhely-főmappában
+pre_folder_write_error#:#A webhely-főmappa nem írható. Változtassa meg a jogosultságokat!
 pre_gd_missing#:#Engedélyezze a GD támogatást PHP-telepítésében, lásd <a target="_blank" href="%s">PHP dokumentáció</a>.
 pre_gd#:#GD támogatás
 pre_intro#:#Először nézzük, hogy környezete minden követelménynek megfelel-e, hogy telepítse és futtassa az ILIAS-t rendszerében.
@@ -391,7 +392,7 @@ pre_mysql_missing#:#Engedélyezze a MySQL támogatást (4.1 vagy magasabb verzi�
 pre_mysql#:#MySQL támogatás
 pre_php_version_too_low#:#Az Ön PHP verziója nem támogatott. PHP 5.2.1-et vagy magasabb verziót ajánlunk. A PHP 6 még nem volt tesztelve.
 pre_php#:#PHP verzió
-pre_root#:#Írható webhely főmappa
+pre_root#:#Írható webhely-főmappa
 pre_xsl_missing#:#Engedélyezze az XSL támogatást a PHP-telepítésében, lásd <a target="_blank" href="%s">PHP dokumentáció</a>.
 pre_xsl#:#XSL támogatás
 preliminaries#:#Előfeltételek
@@ -516,7 +517,7 @@ user#:#Felhasználó
 username#:#Felhasználónév
 version#:#Verzió
 virus_scanner#:#Víruskereső
-webspace_dir#:#Webhely adatok útvonala
+webspace_dir#:#Webhelyadatok útvonala
 with#:#ezzel:
 wrong_password#:#Hibás jelszó.
 zip_path_comment_win#:#Importfájlok kicsomagolásához szükséges, pl. 'C:/tools/zip/zip.exe'.
@@ -628,7 +629,7 @@ async#:#Aszinkron
 max_number_of_concurrent_tasks#:#Egyidőben futó feladatok maximális száma
 cancel#:#Mégsem
 background_task_configuration#:#Háttérfeladatok konfigurálása
-bt_available#:#Elérhető háttérfeladatok
+bt_available#:#Háttérfeladatok elérhető-e
 running_tasks#:#Futó feladatok
 waiting_tasks#:#Várakozó feladatok
 actions#:#Műveletek

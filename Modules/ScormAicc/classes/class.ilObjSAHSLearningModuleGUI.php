@@ -526,7 +526,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				$targetPath = $newObj->getDataDirectory()."/".$scormFile;
 				$file_path = $targetPath;
 
-				rename ($scormFilePath, $targetPath);
+				ilFileUtils::rename ($scormFilePath, $targetPath);
 			}
 			else
 			{

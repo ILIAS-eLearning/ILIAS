@@ -44,6 +44,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI {
 		if (! ilPageObject::_exists('dclf', $tableview_id)) {
 			$viewdef = new ilDclDetailedViewDefinition();
 			$viewdef->setId($tableview_id);
+			$viewdef->setParentId(ilObject2::_lookupObjectId($_GET['ref_id']));
 			$viewdef->setActive(false);
 			$viewdef->create();
 		}

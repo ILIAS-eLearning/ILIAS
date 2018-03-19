@@ -128,17 +128,28 @@ class ilBadgeImageTemplate
 	{
 		return $this->image;
 	}
-	
+
+	/**
+	 * @param array $a_upload_meta
+	 * @throws ilFileUtilsException
+	 */
 	public function uploadImage(array $a_upload_meta)
 	{		
 		if($this->getId() &&
 			$a_upload_meta["tmp_name"])
 		{
  			$path = $this->getFilePath($this->getId());
-			$tgt = $path."img".$this->getId();
-			if(move_uploaded_file($a_upload_meta["tmp_name"], $tgt))
+
+
+			include_once("./Services/Utilities/classes/class.ilFileUtils.php");
+			$filename = ilFileUtils::getValidFilename($a_upload_meta["name"]);
+
+			$suffix = strtolower(array_pop(explode(".", $filename)));
+			$tgt = $path."img".$this->getId().".".$suffix;
+
+			if(ilUtil::moveUploadedFile($a_upload_meta["tmp_name"], "img".$this->getId().".".$suffix, $tgt))
 			{
-				$this->setImage($a_upload_meta["name"]);
+				$this->setImage($filename);
 				$this->update();			
 			}
 		}
@@ -148,8 +159,17 @@ class ilBadgeImageTemplate
 	{
 		if($this->getId())
 		{
-			return $this->getFilePath($this->getId())."img".$this->getId();
+			if (is_file($this->getFilePath($this->getId())."img".$this->getId()))	// formerly (early 5.2 versino), images have been uploaded with no suffix
+			{
+				return $this->getFilePath($this->getId()) . "img" . $this->getId();
+			}
+			else
+			{
+				$suffix = strtolower(array_pop(explode(".", $this->getImage())));
+				return $this->getFilePath($this->getId()) . "img" . $this->getId() . "." . $suffix;
+			}
 		}
+		return "";
 	}
 	
 	/**
