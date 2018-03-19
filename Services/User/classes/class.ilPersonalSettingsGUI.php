@@ -518,7 +518,7 @@ class ilPersonalSettingsGUI
 		$this->form = new ilPropertyFormGUI();
 	
 		// Check whether password change is allowed
-		if ($this->allowPasswordChange())
+		if ($this->allowPasswordChange() && !ilSession::get('used_external_auth'))
 		{
 			// The current password needs to be checked for verification
 			// unless the user uses Shibboleth authentication with additional
@@ -588,31 +588,13 @@ class ilPersonalSettingsGUI
 	/**
 	* Check, whether password change is allowed for user
 	*/
-	function allowPasswordChange()
+	protected function allowPasswordChange()
 	{
-		global $ilUser, $ilSetting;
-		
-		
-		return ilAuthUtils::isPasswordModificationEnabled($ilUser->getAuthMode(true));
-		
-		// Moved to ilAuthUtils
-		
-		// do nothing if auth mode is not local database
-		if ($ilUser->getAuthMode(true) != AUTH_LOCAL &&
-			($ilUser->getAuthMode(true) != AUTH_CAS || !$ilSetting->get("cas_allow_local")) &&
-			($ilUser->getAuthMode(true) != AUTH_SHIBBOLETH || !$ilSetting->get("shib_auth_allow_local")) &&
-			($ilUser->getAuthMode(true) != AUTH_SOAP || !$ilSetting->get("soap_auth_allow_local")) &&
-			($ilUser->getAuthMode(true) != AUTH_OPENID)
-			)
-		{
-			return false;
-		}
-		if (!$this->userSettingVisible('password') ||
-			$this->ilias->getSetting('usr_settings_disable_password'))
-		{
-			return false;
-		}		
-		return true;
+		global $ilUser;
+
+		$status = ilAuthUtils::isPasswordModificationEnabled($ilUser->getAuthMode(true));
+
+		return $status || $ilUser->isPasswordChangeDemanded() || $ilUser->isPasswordExpired();
 	}
 	
 	/**
@@ -624,7 +606,7 @@ class ilPersonalSettingsGUI
 		global $tpl, $lng, $ilCtrl, $ilUser, $ilSetting;
 	
 		// normally we should not end up here
-		if (!$this->allowPasswordChange())
+		if (!$this->allowPasswordChange() || ilSession::get('used_external_auth'))
 		{
 			$ilCtrl->redirect($this, "showPersonalData");
 			return;
