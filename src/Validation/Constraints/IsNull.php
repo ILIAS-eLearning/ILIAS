@@ -1,6 +1,5 @@
 <?php
-/* Copyright (c) 2017 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see
-docs/LICENSE */
+/* Copyright (c) 2018 Fabian Schmid <fs@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Validation\Constraints;
 

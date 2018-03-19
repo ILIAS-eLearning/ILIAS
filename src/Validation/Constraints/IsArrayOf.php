@@ -1,4 +1,5 @@
 <?php
+/* Copyright (c) 2018 Fabian Schmid <fs@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Validation\Constraints;
 
@@ -9,6 +10,8 @@ use ILIAS\Data;
  * Class IsArrayOf
  *
  * @package ILIAS\Validation\Constraints
+ *
+ * @author  Fabian Schmid <fs@studer-raimann.ch>
  */
 class IsArrayOf extends Custom implements Constraint {
 
