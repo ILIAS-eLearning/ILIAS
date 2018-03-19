@@ -129,7 +129,7 @@ class ilScorm2004DataSet extends ilDataSet
 			$tmpdir = ilUtil::ilTempnam();
 			ilUtil::makeDir($tmpdir);
 			$exp_temp = $tmpdir.DIRECTORY_SEPARATOR.basename($zip);
-			rename($zip, $exp_temp);
+			ilFileUtils::rename($zip, $exp_temp);
 
 			$this->temp_dir[$a_set["Id"]] = $tmpdir;
 
@@ -188,7 +188,7 @@ class ilScorm2004DataSet extends ilDataSet
 				{
 					$source_dir = $this->getImportDirectory() . "/" . $dir;
 					$file_path = $lm->getDataDirectory() . "/" . $a_rec["File"];
-					rename($source_dir . "/" . $a_rec["File"], $file_path);
+					ilFileUtils::rename($source_dir . "/" . $a_rec["File"], $file_path);
 
 					ilUtil::unzip($file_path);
 					ilUtil::renameExecutables($lm->getDataDirectory());

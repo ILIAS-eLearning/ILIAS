@@ -79,6 +79,21 @@ class ilSystemStyleIconTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($icon->getType(), $this->icon_type);
 	}
 
+    public function testGetDirRelToCustomizing()
+    {
+        $path = $this->container->getImagesSkinPath($this->style->getId()) . "/" . $this->icon_name;
+        $icon = new ilSystemStyleIcon($this->icon_name, $path, $this->icon_type);
+
+        $this->assertEquals($icon->getDirRelToCustomizing(), "");
+
+        $name = "test.svg";
+        $rel_path = "global/skin/unibe50/images";
+        $path = "./Customizing".$rel_path."/".$name;
+        $icon = new ilSystemStyleIcon($name, $path, "svg");
+
+        $this->assertEquals($icon->getDirRelToCustomizing(), $rel_path);
+    }
+
 	public function testGetColorSet()
 	{
 		$path = $this->container->getImagesSkinPath($this->style->getId()) . "/" . $this->icon_name;

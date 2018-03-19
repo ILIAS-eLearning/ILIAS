@@ -5316,6 +5316,8 @@ abstract class assQuestion
 		$this->removeExistingSolutions($activeId, $pass);
 		$this->removeResultRecord($activeId, $pass);
 
+		$this->log($activeId, "log_user_solution_willingly_deleted");
+		
 		self::_updateTestPassResults(
 			$activeId, $pass, $this->areObligationsToBeConsidered(), $this->getProcessLocker(), $this->getTestId()
 		);

@@ -1027,7 +1027,12 @@ class ilPropertyFormGUI extends ilFormGUI
 	protected function keepFileUpload($a_hash, $a_field, $a_tmp_name, $a_name, $a_type, $a_index = null, $a_sub_index = null)
 	{
 		$ilUser = $this->user;
-		
+
+		if (trim($a_tmp_name) == "")
+		{
+			return;
+		}
+
 		$user_id = $ilUser->getId();
 		if(!$user_id || $user_id == ANONYMOUS_USER_ID)
 		{
@@ -1050,8 +1055,8 @@ class ilPropertyFormGUI extends ilFormGUI
 		{
 			ilUtil::createDirectory($temp_path);
 		}
-		
-		move_uploaded_file($a_tmp_name, $temp_path."/".$tmp_file_name);	
+
+		ilUtil::moveUploadedFile($a_tmp_name, $tmp_file_name, $temp_path."/".$tmp_file_name);
 	}
 	
 	/**
@@ -1187,7 +1192,7 @@ class ilPropertyFormGUI extends ilFormGUI
 			
 			if($data["is_upload"])
 			{
-				if (!move_uploaded_file($data["tmp_name"], $target_file))
+				if (!ilUtil::moveUploadedFile($data["tmp_name"], $data["name"], $target_file))
 				{
 					return;
 				}

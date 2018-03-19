@@ -66,7 +66,7 @@ class ilFileUtils
 		// Copy zip-file to new directory, unzip and remove it
 		// TODO: check archive for broken file
 		//copy ($a_file, $a_directory . "/" . $file);
-		move_uploaded_file($a_file, $a_directory . "/" . $file);
+		ilUtil::moveUploadedFile($a_file, $file, $a_directory . "/" . $file);
 		ilUtil::unzip($a_directory . "/" . $file);
 		unlink ($a_directory . "/" . $file);
 //echo "-".$a_directory . "/" . $file."-";
@@ -529,6 +529,260 @@ class ilFileUtils
 	{
 		return self::lookupFileMimeType($a_file);
 	}
+
+	/**
+	 * Valid extensions
+	 * @return array valid file extensions
+	 */
+	public static function getValidExtensions()
+	{
+		return array(
+			'3gp', 	// VIDEO__3_GPP
+			'aif', 	// AUDIO__AIFF
+			'aifc', // AUDIO__AIFF
+			'aiff', // AUDIO__AIFF
+			'au', 	// AUDIO__BASIC
+			'avi',  // AUDIO__BASIC
+			'backup', // scorm wbts
+			'bak', // scorm wbts
+			'bpmn', // bpmn
+			'bpmn2', // bpmn2
+			'bmp',	// IMAGE__BMP
+			'bib',	// bibtex
+			'bibtex',	// bibtex
+			'bz',	// APPLICATION__X_BZIP
+			'bz2', 	// APPLICATION__X_BZIP2
+			'c',	// TEXT__PLAIN
+			'c++', 	// TEXT__PLAIN
+			'cc', 	// TEXT__PLAIN
+			'cct', // scorm wbts
+			'cer', 	// APPLICATION__X_X509_CA_CERT
+			'class', // APPLICATION__X_JAVA_CLASS
+			'conf',	 // TEXT__PLAIN
+			'cpp',	// TEXT__X_C
+			'crt',	// APPLICATION__X_X509_CA_CERT
+			'crs', // scorm wbts
+			'css', 	// TEXT__CSS
+			'cst', // scorm wbts
+			'csv',
+			'cur', // scorm wbts
+			'db', // scorm wbts
+			'dcr', // scorm wbts
+			'des', // scorm wbts
+			'doc',   // APPLICATION__MSWORD,
+			'docx',   // APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_DOCUMENT,
+			'dot',   // APPLICATION__MSWORD,
+			'dotx',   // APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_TEMPLATE,
+			'dtd',
+			'dvi',   // APPLICATION__X_DVI,
+			'el',   // TEXT__X_SCRIPT_ELISP,
+			'eps',   // APPLICATION__POSTSCRIPT,
+			'f',   // TEXT__X_FORTRAN,
+			'f77',   // TEXT__X_FORTRAN,
+			'f90',   // TEXT__X_FORTRAN,
+			'flv',   // VIDEO__X_FLV,
+			'for',   // TEXT__X_FORTRAN,
+			'g3',   // IMAGE__G3FAX,
+			'gif',   // IMAGE__GIF,
+			'gl',   // VIDEO__GL,
+			'gsd',   // AUDIO__X_GSM,
+			'gsm',   // AUDIO__X_GSM,
+			'gtar',   // APPLICATION__X_GTAR,
+			'gz',   // APPLICATION__X_GZIP,
+			'gzip',   // APPLICATION__X_GZIP,
+			'htm',   // TEXT__HTML,
+			'html',   // TEXT__HTML,
+			'htmls',   // TEXT__HTML,
+			'ico',   // IMAGE__X_ICON,
+			'ini', // scorm wbts
+			'java',   // TEXT__X_JAVA_SOURCE,
+			'jbf', // scorm wbts
+			'jpeg',   // IMAGE__PJPEG,
+			'jpg',   // IMAGE__JPEG,
+			'js',   // APPLICATION__X_JAVASCRIPT,
+			'jsf', // scorm wbts
+			'jso', // scorm wbts
+			'json',		// scorm
+			'latex',   // APPLICATION__X_LATEX,
+			'less', // less
+			'log',   // TEXT__PLAIN,
+			'lsp',   // APPLICATION__X_LISP,
+			'ltx',   // APPLICATION__X_LATEX,
+			'm1v',   // VIDEO__MPEG,
+			'm2a',   // AUDIO__MPEG,
+			'm2v',   // VIDEO__MPEG,
+			'm3u',   // AUDIO__X_MPEQURL,
+			'm4a',   // AUDIO__MP4,
+			'm4v',   // VIDEO__MP4,
+			'mid',   // AUDIO__MIDI,
+			'min',		// scorm articulate?
+			'midi',   // AUDIO__MIDI,
+			'mod',   // AUDIO__MOD,
+			'mov',   // VIDEO__QUICKTIME,
+			'movie',   // VIDEO__X_SGI_MOVIE,
+			'mp2',   // AUDIO__X_MPEG,
+			'mp3',   // AUDIO__X_MPEG3,
+			'mp4',   // VIDEO__MP4,
+			'mpa',   // AUDIO__MPEG,
+			'mpeg',   // VIDEO__MPEG,
+			'mpg',   // AUDIO__MPEG,
+			'mpga',   // AUDIO__MPEG,
+			'mpp',   // APPLICATION__VND_MS_PROJECT,
+			'mpt',   // APPLICATION__X_PROJECT,
+			'mpv',   // APPLICATION__X_PROJECT,
+			'mpx',   // APPLICATION__X_PROJECT,
+			'mv',   // VIDEO__X_SGI_MOVIE,
+			'mv4',   // VIDEO__MP4,
+			'nif',   // IMAGE__X_NIFF,
+			'niff',   // IMAGE__X_NIFF,
+			'odt',   // Open document text,
+			'ods',   // Open document spreadsheet,
+			'odp',   // Open document presentation,
+			'odg',   // Open document graphics,
+			'odf',   // Open document formula,
+			'oga',   // AUDIO__OGG,
+			'ogg',   // AUDIO__OGG,
+			'ogv',   //  VIDEO__OGG,
+			'old',   //  no real file extension, but used in mail/forum components,
+			'p',   //  TEXT__X_PASCAL,
+			'pas',   //  TEXT__PASCAL,
+			'pbm',   //  IMAGE__X_PORTABLE_BITMAP,
+			'pcl',   //  APPLICATION__VND_HP_PCL,
+			'pct',   //  IMAGE__X_PICT,
+			'pcx',   // IMAGE__X_PCX,
+			'pdf',   // APPLICATION__PDF,
+			'pgm',   // IMAGE__X_PORTABLE_GRAYMAP,
+			'pic',   // IMAGE__PICT,
+			'pict',   // IMAGE__PICT,
+			'png',   // IMAGE__PNG,
+			'pov',   // MODEL__X_POV,
+			'project', // scorm wbts
+			'properties', // scorm wbts
+			'ppa',   // APPLICATION__VND_MS_POWERPOINT,
+			'ppm',   // IMAGE__X_PORTABLE_PIXMAP,
+			'pps',   // APPLICATION__VND_MS_POWERPOINT,
+			'ppsx',   // APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_PRESENTATIONML_SLIDESHOW,
+			'ppt',   // APPLICATION__POWERPOINT,
+			'pptx',   // APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_PRESENTATIONML_PRESENTATION,
+			'ppz',   // APPLICATION__MSPOWERPOINT,
+			'ps',   // APPLICATION__POSTSCRIPT,
+			'psd', // scorm wbts
+			'pwz',   // APPLICATION__VND_MS_POWERPOINT,
+			'qt',   // VIDEO__QUICKTIME,
+			'qtc',   // VIDEO__X_QTC,
+			'qti',   // IMAGE__X_QUICKTIME,
+			'qtif',   // IMAGE__X_QUICKTIME,
+			'ra',   // AUDIO__X_PN_REALAUDIO,
+			'ram',   // AUDIO__X_PN_REALAUDIO,
+			'rast',   // IMAGE__CMU_RASTER,
+			'rexx',   // TEXT__X_SCRIPT_REXX,
+			'ris',	// ris
+			'rf',   // IMAGE__VND_RN_REALFLASH,
+			'rgb',   // IMAGE__X_RGB,
+			'rm',   // APPLICATION__VND_RN_REALMEDIA,
+			'rmi',   // AUDIO__MID,
+			'rmm',   // AUDIO__X_PN_REALAUDIO,
+			'rmp',   // AUDIO__X_PN_REALAUDIO,
+			'rt',   // TEXT__RICHTEXT,
+			'rtf',   // TEXT__RICHTEXT,
+			'rtx',   // TEXT__RICHTEXT,
+			'rv',   // VIDEO__VND_RN_REALVIDEO,
+			's',   // TEXT__X_ASM,
+			'sec',   //
+			's3m',   // AUDIO__S3M,
+			'sdml',   // TEXT__PLAIN,
+			'sgm',   // TEXT__SGML,
+			'sgml',   // TEXT__SGML
+			'smi',   // APPLICATION__SMIL,
+			'smil',   // APPLICATION__SMIL,
+			'svg',   // IMAGE__SVG_XML,
+			'swa', // scorm wbts
+			'swf',   // APPLICATION__X_SHOCKWAVE_FLASH,
+			'swz', // scorm wbts
+			'tex',   // APPLICATION__X_TEX,
+			'texi',   // APPLICATION__X_TEXINFO,
+			'texinfo',   // APPLICATION__X_TEXINFO,
+			'text',   // TEXT__PLAIN,
+			'tgz',   // APPLICATION__X_COMPRESSED,
+			'tif',   // IMAGE__TIFF,
+			'tiff',   // IMAGE__TIFF,
+			'ttf', // scorm wbts
+			'txt',   // TEXT__PLAIN,
+			'tmp',
+			'vimeo',   // VIDEO__VIMEO,
+			'viv',   // VIDEO__VIMEO,
+			'vivo',   // VIDEO__VIVO,
+			'vrml',   // APPLICATION__X_VRML,
+			'wav',		// wav
+			'webm',   // VIDEO__WEBM,
+			'wmv',   // VIDEO__X_MS_WMV,
+			'wmx',   // VIDEO__X_MS_WMX,
+			'wmz',   // VIDEO__X_MS_WMZ,
+			'woff',   // web open font format,
+			'xhtml',   // APPLICATION__XHTML_XML,
+			'xif',   // IMAGE__VND_XIFF,
+			'xls',   // APPLICATION__EXCEL,
+			'xlsx',   // APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_SHEET,
+			'xml',   // self::TEXT__XML,
+			'xsl',   // APPLICATION__XML,
+			'xsd',   // scorm
+			'zip'	// APPLICATION__ZIP
+		);
+	}
+
+	/**
+	 * Get valid filename
+	 *
+	 * @param string filename
+	 * @return string valid upload filename
+	 * @throws ilFileUtilsException
+	 */
+	public static function getValidFilename($a_filename)
+	{
+		$pi = pathinfo($a_filename);
+		if (!in_array(strtolower($pi["extension"]), self::getValidExtensions())) {
+
+			// if extension is not in white list, remove all "." and add ".sec" extension
+			$basename = str_replace(".", "", $pi["basename"]);
+			if (trim($basename) == "")
+			{
+				include_once("./Services/Utilities/classes/class.ilFileUtilsException.php");
+				throw new ilFileUtilsException("Invalid upload filename.");
+			}
+			$basename.= ".sec";
+			if ($pi["dirname"] != "" && ($pi["dirname"] != "." || substr($a_filename, 0, 2) == "./"))
+			{
+				$a_filename = $pi["dirname"]."/".$basename;
+			}
+			else
+			{
+				$a_filename = $basename;
+			}
+		}
+		return $a_filename;
+	}
+
+
+	/**
+	 * Rename a file
+	 *
+	 * @param $a_source
+	 * @param $a_target
+	 * @return bool
+	 * @throws ilFileUtilsException
+	 */
+	public static function rename($a_source, $a_target)
+	{
+		$pi = pathinfo($a_target);
+		if (!in_array(strtolower($pi["extension"]), self::getValidExtensions()))
+		{
+			include_once("./Services/Utilities/classes/class.ilFileUtilsException.php");
+			throw new ilFileUtilsException("Invalid target file ".$pi["basename"].".");
+		}
+
+		return rename($a_source, $a_target);
+	}
+
 	
 } // END class.ilFileUtils
 

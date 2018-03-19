@@ -3844,11 +3844,13 @@ class ilObjSurvey extends ilObject
 	}
 
 	/**
-	* Imports a survey from XML into the ILIAS database
-	*
-	* @return boolean True, if the import succeeds, false otherwise
-	* @access public
-	*/
+ 	 * Imports a survey from XML into the ILIAS database
+	 * @param $file_info
+	 * @param $svy_qpl_id
+	 * @return string
+	 * @throws ilFileUtilsException
+	 * @throws ilInvalidSurveyImportFileException
+	 */
 	function importObject($file_info, $svy_qpl_id)
 	{
 		if ($svy_qpl_id < 1) $svy_qpl_id = -1;
@@ -3925,11 +3927,14 @@ class ilObjSurvey extends ilObject
 			unset($_SESSION["import_mob_xhtml"]);
 			if (strpos($xml, "questestinterop"))
 			{
+				include_once("./Modules/Survey/exceptions/class.ilInvalidSurveyImportFileException.php");
+				throw new ilInvalidSurveyImportFileException("Unsupported survey version (< 3.8) found.");
+				/*
 				include_once "./Services/Survey/classes/class.SurveyImportParserPre38.php";
 				$import = new SurveyImportParserPre38($svy_qpl_id, "", TRUE);
 				$import->setSurveyObject($this);
 				$import->setXMLContent($xml);
-				$import->startParsing();
+				$import->startParsing();*/
 			}
 			else
 			{
