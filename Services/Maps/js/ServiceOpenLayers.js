@@ -1,434 +1,382 @@
+ServiceOpenLayers = {
+	ol: null,
+	$: null,
+	map_data: null,
+	user_markers: null,
+	view: null,
 
+	/**
+	 * Create a ServiceOpenLayers object.
+	 *
+	 * @param 	{object} 	ol
+	 * @param 	{object} 	jQuery
+	 * @param 	{array} 	map_data
+	 * @param 	{string} 	invalid_address
+	 * @param 	{array} 	user_markers
+	 * @return 	{object}
+	 */
+	create: function(ol, jQuery, map_data, invalid_address, user_markers) {
+		var obj = Object.create(this);
+		obj.ol = ol;
+		obj.$ = jQuery;
+		obj.map_data = map_data;
+		obj.invalid_address = invalid_address;
+		obj.user_markers = user_markers;
+		obj.view = new ol.View();
+		return obj;
+	},
 
-// Prototype for OpenLayers bindings.
-// Needs libraries OpenLayers and jQuery.
-// addressInvalid is a string that will be displayed, when a searched address wasn't found
-// mapData is a dictionary containing the maps to be displayed as arrays with entrys
-//      [central_latitude, central_longitude, zoom_level, display_central_marker, 
-//			allow_zoom_and_pan, allow_replace_central_marker, tile_server, geolocation_server]
-//
-var _ilOpenLayers = function(OpenLayers, jQuery, addressInvalid, mapData, userMarkers) {
-	// Maps
-	this.maps = [];
+	/**
+	 * Init Object.
+	 *
+	 * @return {void}
+	 */
+	init: function() {
+		for (var id in ilOLMapData) {
+			var map = ilOLMapData[id];
+			var zoom = map[2];
+			var central_marker = map[3];
+			var nav_control = map[4];
+			var replace_marker = map[5];
+			var geo = map[7];
+			var pos = this.posToOSM([map[1], map[0]]);
 
-	// Central markers
-	this.centralMarkers = [];
+			this.geolocationURL = window.location.protocol + "//"+ geo;
+			this.initView(id, pos, zoom);
+			this.initMap(id);
+			this.initUserMarkers(id, pos, replace_marker);
+		}
+	},
 
-	// Additional markers from user
-	this.userMarkers = [];
-
-	// That is the projection used by google maps and therefore by current ilias
-	this.userProjection = new OpenLayers.Projection("EPSG:4326");
-
-	// Thats the Projection used by OSM
-	this.osmProjection = new OpenLayers.Projection("EPSG:900913");
-
-
-	// this gets displayed in the address search field
-	// if the address could not be found
-	this.addressInvalid = addressInvalid;
-
-	// Get location in OSM projection from longitude and latitude
-	this.OSMPosFromLonLat = function (longitude, latitude) {
-		var userPos = new OpenLayers.LonLat(longitude, latitude);
-		return this.toOSMProjection(userPos);
-	};
-
-	// Transforms location from OSM to user projection
-	this.toUserProjection = function (osm) {
-		var _osm = osm.clone();
-		_osm.transform(this.osmProjection, this.userProjection);
-		return _osm;
-	};
-
-	// Transforms location from user projection to OSM projection
-	this.toOSMProjection = function (user) {
-		var _user = user.clone();
-		_user.transform(this.userProjection, this.osmProjection);
-		return _user;
-	};
-
-	// Image for markers...
-	this.getMarkerImage = function() { return new OpenLayers.Icon(
-		"./Services/Maps/images/mm_20_blue.png",
-		new OpenLayers.Size(12, 20),
-		new OpenLayers.Pixel(-6,-20)); };
-
-	// ... and the shadow for it.
-	this.getMarkerShadow = function() { return new OpenLayers.Icon(
-		"./Services/Maps/images/mm_20_shadow.png",
-		new OpenLayers.Size(22, 20),
-		new OpenLayers.Pixel(-7,-20)); };
-
-	// OpenLayers seems to define Icons in a way that only allows
-	// the icon to be placed in one map at one location. Thats
-	// why it is getMarkerImage/Shadow and not a plain icon.
-
-
-
-	// Create a marker on map at latitude, longitude.
-	// Returns an object for marker that has method
-	// setPosition.
-	this.createMarker = function(id, latitude, longitude)
-	{
-		var map = this.maps[id];
-
-		var marker = function (map, latitude, longitude,  module) {
-			var pos = module.OSMPosFromLonLat(longitude, latitude);
-
-			this.marker = new OpenLayers.Marker( pos, module.getMarkerImage() );
-			this.shadow = new OpenLayers.Marker( pos, module.getMarkerShadow() );
-
-			map.__markerLayer__.addMarker(this.shadow);
-			map.__markerLayer__.addMarker(this.marker);
-
-			this.map = map;
-
-			this.pos = pos;
-
-			this.setPosition = (function (self) { return function (loc) {
-				self.map.__markerLayer__.removeMarker(self.marker);
-				self.map.__markerLayer__.removeMarker(self.shadow);
-
-				self.marker.erase();
-				self.shadow.erase();
-
-				self.marker = new OpenLayers.Marker( loc, module.getMarkerImage() );
-				self.shadow = new OpenLayers.Marker( loc, module.getMarkerShadow() );
-
-				self.map.__markerLayer__.addMarker(self.shadow);
-				self.map.__markerLayer__.addMarker(self.marker);
-
-				self.pos = loc;
-			};})(this);
-		};
-
-		return new marker(map, latitude, longitude, this);
-	};
-
-	// Sets the central position (and central marker if used) to the given position.
-	///Sets inputs accordingly.
-	this.jumpTo = function(id, pos)
-	{
-		var map = this.maps[id];
-		map.panTo(pos);
-
-		var userPos = this.toUserProjection(pos);
-
-		jQuery("#" + id + "_address").val("");
-		jQuery("#" + id + "_lat").val(userPos.lat);
-		jQuery("#" + id + "_lng").val(userPos.lon);
-
-		if (map.__replace_marker__) {
-			this.setCentralMarker(id, pos);
+	/**
+	 * Init the user_markers array.
+	 *
+	 * @param 	{string} 	id
+	 * @param 	{number} 	pos
+	 * @param 	{boolean} 	replace_marker
+	 * @returns {void}
+	 */
+	initUserMarkers: function(
+		id,
+		pos,
+		replace_marker
+	) {
+		if(replace_marker) {
+			this.deleteAllMarkers();
+			this.setMarker(id, pos);
+			return;
 		}
 
-		map.__longitude__ = userPos.lon;
-		map.__latitude__ = userPos.lat;
-	};
-	
-	this.setCentralMarker = function (id, pos) {
-		var map = this.maps[id];
-		if (map.__centralMarker__) {
-			map.__centralMarker__.setPosition(pos);
+		// Only for participants overview.
+		// Navigation is managed by participants-buttons here.
+		this.map.removeEventListener('click');
+		var mapUserMarkers = this.user_markers[id];
+		for (var cnt in mapUserMarkers) {
+			var userMarkerData = mapUserMarkers[cnt];
+			var pos = this.posToOSM([userMarkerData[0], userMarkerData[1]]);
+			this.user_markers[cnt] = [pos, userMarkerData[2]];
+			this.setMarker(id, pos, userMarkerData[2]);
 		}
-	};
+	},
 
-	// Look up address in geolocation service and jump
-	// to that position.
-	this.jumpToAddress = function (id, address) {
-		var map = this.maps[id];
+	/**
+	 * Init a view object.
+	 *
+	 * @param 	{string} id
+	 * @param 	{number} pos
+	 * @param 	{number} zoom
+	 * @returns {void}
+	 */
+	initView: function(id, pos, zoom) {
+		this.view.setCenter(pos);
+		this.view.setMaxZoom(18);
+		this.view.setMinZoom(0);
+		this.view.setZoom(zoom);
 
-		jQuery("#" + id + "_address").attr("disabled", "disabled");
-		jQuery("#" + id + "_search_address").attr("disabled", "disabled");
-		jQuery("#" + id + "_lat").attr("disabled", "disabled");
-		jQuery("#" + id + "_lng").attr("disabled", "disabled");
+		// Bind the maps zoom level to the select box zoom.
+		this.view.on("propertychange", function(e) {
+			if(e.key === 'resolution') {
+				$("#" + id + "_zoom").val(Math.floor(this.view.getZoom()));
+			}
+		}, this);
+	},
 
-		jQuery.ajax({
+	/**
+	 * Initialise a map on the page.
+	 *
+	 * @param 	{string} 	id
+	 * @return 	{void}
+	 */
+	initMap: function (id) {
+		this.map = new this.ol.Map({
+			layers: [
+				new this.ol.layer.Tile({
+					preload: 4,
+					source: new this.ol.source.OSM()
+				}),
+			],
+			target: id,
+			controls: this.ol.control.defaults().extend([
+				new this.ol.control.FullScreen()
+			]),
+			loadTilesWhileAnimating: true,
+			view: this.view
+		});
+
+		this.map.on("click", function(e) {
+			e.preventDefault();
+			var center = e.coordinate;
+			this.jumpTo(id, center);
+			this.deleteAllMarkers();
+			this.setMarker(id, center);
+			this.updateInputFields(id, center);
+		}, this);
+	},
+
+	/**
+	 * Transform a coordinate from OSM projection to human readable projection.
+	 *
+	 * @param 	{array} pos 	[longitude, latitude]
+	 * @return 	{array} 		[longitude, latitude]
+	 */
+	posToHuman: function(pos) {
+		return this.ol.proj.transform(pos, "EPSG:3857", "EPSG:4326")
+	},
+
+	/**
+	 * Transform a coordinate from human readable projection to OSM projection.
+	 *
+	 * @param 	{array} pos 	[longitude, latitude]
+	 * @return 	{array} 		[longitude, latitude]
+	 */
+	posToOSM: function(pos) {
+		return this.ol.proj.transform(pos, "EPSG:4326", "EPSG:3857");
+	},
+
+	/**
+	 * Jump to a position on the map.
+	 *
+	 * @param 	{string} 	id
+	 * @param 	{array} 	pos 	[longitude, latitude]
+	 * @param 	{number} 	zoom
+	 * @return 	{void}
+	 */
+	jumpTo: function(id, pos, zoom) {
+		this.view.animate({
+			center: pos,
+			duration: 2000,
+			zoom: zoom
+		});
+	},
+
+	/**
+	 * Looks up for an user given Address.
+	 *
+	 * @param 	{string} id
+	 * @param 	{stirng} address
+	 * @return 	{void}
+	 */
+	jumpToAddress: function(id, address) {
+		$("#" + id + "_addr").attr("disabled", "disabled");
+		$("#" + id + "_lng").attr("disabled", "disabled");
+		$("#" + id + "_lat").attr("disabled", "disabled");
+
+		$.ajax({
 			url: this.geolocationURL.replace("[QUERY]", address),
 			data: {},
-			dataType : "json" })
-			.done( (function(module) {	return function (data) {
+			dataType : "json"
+		}).done((function(module) {
+			return function (data) {
 				if (data.length === 0) {
-					jQuery("#" + id + "_address").val(module.addressInvalid);
+					$("#" + id + "_addr").val(module.addressInvalid);
 					return;
 				}
-				var lon = parseInt(data[0].lon, 10);
-				var lat = parseInt(data[0].lat, 10);
+				lon = parseFloat(data[0].lon, 10);
+				lat = parseFloat(data[0].lat, 10);
 
-				var pos = module.OSMPosFromLonLat(data[0].lon, data[0].lat);
+				pos = module.posToOSM([lon, lat]);
 
-				module.jumpTo(id, pos);
-
-				jQuery("#" + id + "_address").val(address);
-			};})(this))
-			.fail( function() {
-				jQuery("#" + id + "_address").val("");
-			})
-			.always( function() {
-				jQuery("#" + id + "_address").removeAttr("disabled");
-				jQuery("#" + id + "_search_address").removeAttr("disabled");
-				jQuery("#" + id + "_lat").removeAttr("disabled");
-				jQuery("#" + id + "_lng").removeAttr("disabled");
-			});
-	};
-
-
-	// Add a user marker at lon/lat to map with id.
-	// User marker will display html.
-	this.addUserMarker = function(id, lon, lat, html) {
-		var map = this.maps[id];
-
-		if (map.__userMarkers__ === undefined) {
-			map.__userMarkers__ = [];
-		}
-
-		var marker = this.createMarker(id, lon, lat);
-		map.__userMarkers__.push(marker);
-
-		var feature = new OpenLayers.Feature(map.__markerLayer__, marker.pos);
-		feature.closeBox = true;
-		feature.popupClass = OpenLayers.Class(OpenLayers.Popup.Anchored, { autoSize : true, closeOnMove : false});
-		feature.data.popupContentHTML = html;
-
-		marker.feature = feature;
-
-		feature.popup = feature.createPopup(true);
-		map.addPopup(feature.popup);
-		feature.popup.hide();
-		marker.marker.events.register("click", feature, function(ev) {
-			OpenLayers.Event.stop(ev);
-			this.popup.toggle();
+				module.jumpTo(id, pos, 16);
+				module.deleteAllMarkers();
+				module.setMarker(id, pos);
+				module.updateInputFields(id, pos, address);
+			};
+		})(this))
+		.fail(function() {
+			$("#" + id + "_address").val("");
+		})
+		.always( function() {
+			$("#" + id + "_addr").removeAttr("disabled");
+			$("#" + id + "_lng").removeAttr("disabled");
+			$("#" + id + "_lat").removeAttr("disabled");
 		});
-	};
-	
-	// move to a user marker and open card
-	this.moveToUserMarkerAndOpen = function(id, j) {
-		var map = this.maps[id];
-		var user_marker = map.__userMarkers__[j];
+	},
+
+	/**
+	 * Force throwing a resize event.
+	 *
+	 * @return 	{void}
+	 */
+	forceResize: function() {
+		$('input[onclick*="il.Form.showSubForm"]').each(function() {
+			$(this).attr(
+				'onclick',
+				$('input[onclick*="il.Form.showSubForm"]')
+				.attr('onclick') + "window.dispatchEvent(new Event('resize'));");
+		});
+	},
+
+	/**
+	 * Set a marker at the given position at the map.
+	 *
+	 * @param 	{string} 	id
+	 * @param 	{array} 	pos 	[longitude, latitude]
+	 * @return 	{void}
+	 */
+	setMarker: function(id, pos) {
+		var clicked = false;
+		var container = document.getElementById(id);
+		var element = document.createElement("div");
+		element.className = "marker";
+		container.appendChild(element);
+		var marker = new this.ol.Overlay({
+			element: element
+		});
+		marker.setOffset([-7.5, -23.5]);
+		marker.setPosition(pos);
+		this.map.addOverlay(marker);
+
+		element.innerHTML = "<img src='./Services/Maps/images/mm_20_blue.png'>";
+	},
+
+	/**
+	 * Remove all child elements.
+	 *
+	 * @returns 	{void}
+	 */
+	deleteAllMarkers: function() {
+		marker = document.getElementsByClassName('marker');
+		for (var i = 0; i < marker.length; i++) {
+			marker[i].remove();
+		}
+	},
+
+	/**
+	 * Move to a user marker and open popup.
+	 *
+	 * @param 	{string} id
+	 * @param 	{number} j 	Counter for user_markers.
+	 * @returns {void}
+	 */
+	moveToUserMarkerAndOpen: function(id, j) {
+		var user_marker = this.user_markers[j];
 		if (user_marker) {
-			var repl = map.__replace_marker__;
-			map.__replace_marker__ = false;
-			this.jumpTo(id, user_marker.pos);
-			map.__replace_marker__ = repl;
-			user_marker.feature.popup.show();
+			this.deleteAllPopups();
+			this.jumpTo(id, user_marker[0], 16);
+			this.setPopup(id, user_marker[0], user_marker[1]);
 		}
 		else {
 			console.log("No user marker no. "+j+" for map "+id);
 		}
-	};
-	
-	var self = this;
-	
-	// Update map after changes in input fields
-	this.updateMap = function(id) {
-		var map = self.maps[id];
-		
-		var latitude = jQuery("#" + id + "_lat").val();
-		var longitude = jQuery("#" + id + "_lng").val();
-		var zoom = jQuery("#"+id+"_zoom").val();
-		var pos = self.OSMPosFromLonLat(longitude, latitude);
+	},
 
-		map.setCenter( pos, zoom );
-		self.jumpTo(id, pos);
-	};
+	/**
+	 * Set a popup window to pos.
+	 *
+	 * @param 	{string} 	id
+	 * @param 	{array} 	pos
+	 * @param 	{string} 	elem 	Can hold html or pure text.
+	 * @returns {void}
+	 */
+	setPopup: function(id, pos, elem) {
+		var container = document.getElementById(id);
+		var append = document.createElement("div");
+		append.className = "arrow_box";
+		append.addEventListener('click', (function(module) {
+			return function() {
+				module.deleteAllPopups();
+			}
+		})(this));
+		append.innerHTML = elem;
+		container.appendChild(append);
 
-	// Initialise a map on the page.
-	// id - identifier of div to fill map in
-	// latitude, longitude - central position to show in the map
-	// zoom - zooming-level between 1 and 18
-	// central_marker - boolean, display marker at central position?
-	// nav_control - boolean, should the user be able to pan and zoom map?
-	// replace_marker - boolean, should the user be able to replace the central marker by a click?
-	//
-	// Searches for inputs named $id_zoom, $id_latitude and $id_longitude.
-	// If there are such inputs automatically updates the central position
-	// of the map when inputs change and otherway round.
-	// Also searches for input with id $id_address and and button with id
-	// $id_search_address. If map position changes, the address will be set to
-	// empty. If user clicks on $id_search_address, a geolocation will be searched
-	// by the input of the address field and the central position of the map
-	// will be set to that place.
-	// If a central marker is used it can be replaced by a single click on
-	// the map if replace_marker is set to true.
-	this.initMap = function (id, latitude, longitude, zoom, central_marker, nav_control, replace_marker, map_servers)
-	{
-		var mapControls = null;
-
-		if (nav_control || nav_control === undefined) {
-			mapControls = [ new OpenLayers.Control.Navigation(),
-							new OpenLayers.Control.PanZoom() ];
-		}
-		else
-			mapControls = [];
-
-		var map = new OpenLayers.Map( id, {
-			controls : mapControls
+		var popup = new this.ol.Overlay({
+			element: append,
+			insertFirst: false
 		});
+		popup.setOffset([15.5, -53.5]);
+		popup.setPosition(pos);
+		this.map.addOverlay(popup);
+	},
 
-		// layer for the actual map
-		var mapLayer = new OpenLayers.Layer.OSM("OpenStreetMap", map_servers);
-		
-		/*var mapLayer = new OpenLayers.Layer.OSM("OpenStreetMap",
-			["http://a."+server_url+"/${z}/${x}/${y}.png",
-			"http://b."+server_url+"/${z}/${x}/${y}.png",
-			"http://c."+server_url+"/${z}/${x}/${y}.png"]);*/
-
-		// central position of the map
-		var mapPos = this.OSMPosFromLonLat(longitude, latitude);
-
-		// show layer at central position with central position
-		// and zooming level applied
-		map.addLayer( mapLayer );
-		map.setCenter( mapPos, zoom );
-
-
-		// layer for central marker and user markers
-		var markerLayer = new OpenLayers.Layer.Markers( "MarkerLayer" );
-		map.addLayer( markerLayer );
-
-		// Store layer marker at map object for later use
-		map.__markerLayer__ = markerLayer;
-
-		var zoomInput = jQuery("#" + id + "_zoom");
-
-		// If theres an input it should be bound to the
-		// zooming level of the map. Apply all changes two way.
-		if(zoomInput.length > 0) {
-			map.events.register("zoomend", this, function(ev) {
-				var zoom = map.getZoom();
-				zoomInput.val(zoom);
-			});
-
-			zoomInput.change( function(ev) {
-				var zoom = parseInt(ev.target.value, 10);
-				map.setCenter(undefined, zoom);
-			});
+	/**
+	 * Delete all popups with class arrow_box.
+	 *
+	 * @returns 	{void}
+	 */
+	deleteAllPopups: function() {
+		popups = document.getElementsByClassName('arrow_box');
+		for (var i = 0; i < popups.length; i++) {
+			popups[i].remove();
 		}
+	},
 
-		var addressInput = jQuery("#" + id + "_address");
+	/**
+	 * Update the longitute, langitude and the zoom of the map.
+	 *
+	 * @param 	{string} id
+	 * @return 	{void}
+	 */
+	updateMap: function(id) {
+		var lat = parseFloat($("#" + id + "_lat").val());
+		var lon = parseFloat($("#" + id + "_lng").val());
+		var zoom = $("#"+id+"_zoom").val();
+		var pos = this.posToOSM([lon, lat]);
 
-		// Automatically update map on change longitude input
-		var lngInput = jQuery("#" + id + "_longitude");
+		//this.updateMarkers(id);
+		this.view.setZoom(zoom);
+		this.jumpTo(id, pos);
+		this.updateInputFields(id, pos);
+	},
 
-		lngInput.change( (function (module) { return function(ev) {
-			var lng = parseFloat(ev.target.value);
-
-			// User inserted something we don't understand
-			if (isNaN(lng)) {
-				return;
-			}
-
-			var pos = module.OSMPosFromLonLat(lng, map.__latitude__);
-
-			module.jumpTo(id, pos);
-		};})(this));
-
-
-		// Automatically update map on change of latitude input
-		var latInput = jQuery("#" + id + "_latitude");
-
-		latInput.change( ( function(module) { return function (ev) {
-			var lat = parseFloat(ev.target.value);
-
-			if(isNaN(lat)) {
-				return;
-			}
-
-			var pos = module.OSMPosFromLonLat(map.__longitude__, lat);
-
-			module.jumpTo(id, pos);
-		};})(this));
-
-
-		// Address search button
-		var addressSearchButton = jQuery("#" + id + "_search_address");
-
-		// event handler for jumping to address
-		var addressJump = ( function(self, addressInput) { return function(ev) {
-			ev.preventDefault();
-			self.jumpToAddress(id, addressInput.val());
-		};})(this, addressInput);
-
-		addressSearchButton.click(addressJump);
-
-		// Bind key press of enter in address input to the same function
-		addressInput.keypress( function(ev) {
-			if (ev.keyCode == 13) {
-				addressJump(ev);
-			}
-		});
-
-		map.__longitude__ = longitude;
-		map.__latitude__ = latitude;
-		map.__zoom__ = zoom;
-		map.__id__ = id;
-		map.__replace_marker__ = replace_marker;
-
-		this.maps[id] = map;
-
-		// Create central marker if users wants one.
-		if (central_marker) {
-			map.__centralMarker__ = this.createMarker(id, latitude, longitude);
-			}
-
-
-		if (replace_marker) {
-			map.events.register("click", map, (function(module) { return function(ev) {
-				ev.preventDefault();
-				var lonLat = this.getLonLatFromViewPortPx(ev.xy);
-				module.jumpTo(this.__id__, lonLat);
-			};})(this));
-
-		}
-	};
-
-
-	// URL for geolocation lookup
-	
-
-
-	for (var id in mapData) {
-		var map = mapData[id];
-
-		this.geolocationURL = window.location.protocol + "//"+ map[7];
-		
-		map_servers = map[6];
-		map_servers_count = map_servers.length;
-		
-		for(var j = 0; j < map_servers_count; j++) {
-			map_servers[j] = window.location.protocol+"//"+map_servers[j]+"/${z}/${x}/${y}.png";
-		}
-
-		this.initMap(id, map[0], map[1], map[2], map[3], map[4], map[5], map_servers);
-
-		var mapUserMarkers = userMarkers[id];
-
-		for (var cnt in mapUserMarkers) {
-			var userMarkerData = mapUserMarkers[cnt];
-
-			this.addUserMarker(id, userMarkerData[0], userMarkerData[1], userMarkerData[2]);
-		}
-	}
-};
+	/**
+	 * Update the input fields.
+	 *
+	 * @param 	{string} 	id
+	 * @param 	{array} 	pos 	[longitude, latitude]
+	 * @param 	{string} 	address
+	 * @return 	{void}
+	 */
+	updateInputFields: function(id, pos, address = "undefined") {
+		var human_pos = this.posToHuman(pos);
+		$("#" + id + "_addr").val(address);
+		$("#" + id + "_lng").val(human_pos[0]);
+		$("#" + id + "_lat").val(human_pos[1]);
+	},
+}
 
 // For passing data from ilias to js
-ilOLMapData = [];
-ilOLUserMarkers = [];
-ilOLInvalidAddress = undefined;
+var ilOLMapData = [];
+var ilOLUserMarkers = [];
+var ilOLInvalidAddress = undefined;
 
-if (OpenLayers && jQuery && il.Util.addOnLoad)
-{
-	il.Util.addOnLoad(function () {
-		ilOpenLayers = new _ilOpenLayers(OpenLayers, jQuery, ilOLInvalidAddress, ilOLMapData, ilOLUserMarkers);
+if (ol && jQuery && il.Util.addOnLoad) {
+	il.Util.addOnLoad(function() {
+		var openLayer = ServiceOpenLayers.create(ol, jQuery, ilOLInvalidAddress, ilOLMapData, ilOLUserMarkers);
+
 		ilLookupAddress = function(id, address) {
-			return ilOpenLayers.jumpToAddress(id, address);
+			return openLayer.jumpToAddress(id, address);
 		};
+
 		ilUpdateMap = function (id) {
-			return ilOpenLayers.updateMap(id);
+			return openLayer.updateMap(id);
 		};
-		ilShowUserMarker = function(id, j) {
-			return ilOpenLayers.moveToUserMarkerAndOpen(id, j);
+
+		ilShowUserMarker = function(id, counter) {
+			return openLayer.moveToUserMarkerAndOpen(id, counter);
 		};
+
+		openLayer.forceResize(jQuery);
+		openLayer.init();
 	});
 }
