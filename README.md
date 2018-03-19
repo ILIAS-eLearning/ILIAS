@@ -19,7 +19,7 @@ ILIAS can be extended with a lot of Plugins. You find the complete list in the [
 We have a big [community](http://www.ilias.de/docu/goto.php?target=cat_1444&client_id=docu) and you can get a member of [ILIAS Society](http://www.ilias.de/docu/goto.php?target=cat_1669&client_id=docu).
 You may even join us at one of our regular [ILIAS Conferences](http://www.ilias.de/docu/goto.php?target=cat_2255&client_id=docu).
 
-##Pull-Requests
+## Pull-Requests
 
 We highly appreciate Pull-Request from external developers. Due to some regulations in the developments process of ILIAS, some kinds of Pull-Request need further steps. Additionally Pull-Request should target the correct branch for easy merging.
 
