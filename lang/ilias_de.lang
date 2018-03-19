@@ -1408,7 +1408,6 @@ assessment#:#without_solutions_participants#:#Teilnehmer ohne Antworten
 assessment#:#tst_show_toplist#:#Zeige Platzierung
 assessment#:#toplist_by_score#:#Platzierung nach Punkten
 assessment#:#toplist_by_time#:#Platzierung nach Bearbeitungszeit
-assessment#:#toplist_top_n_results#:#Top-%s-Platzierungen
 assessment#:#toplist_col_rank#:#Platz
 assessment#:#toplist_col_participant#:#Teilnehmer
 assessment#:#toplist_col_achieved#:#Datum
@@ -1416,7 +1415,6 @@ assessment#:#toplist_col_score#:#Punktzahl
 assessment#:#toplist_col_percentage#:#Prozentwert
 assessment#:#toplist_col_hints#:#Hinweise
 assessment#:#toplist_col_wtime#:#Bearbeitungszeit
-assessment#:#toplist_your_result#:#Ihre Platzierung
 assessment#:#tst_highscore_enabled#:#Platzierungen
 assessment#:#tst_highscore_description#:#Im Reiter 'Info' wird Teilnehmern ein Button 'Zeige Platzierung' angezeigt. Teilnehmern wird nach dem Anklicken eine Tabelle über das Abschneiden der verschiedenen Teilnehmer im Test  angezeigt. Sie müssen die Option 'Teilnehmer sehen Testergebnisse' aktivieren, um diese Funktion zu nutzen.
 assessment#:#tst_highscore_anon#:#Keine Namen anzeigen

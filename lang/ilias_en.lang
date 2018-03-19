@@ -1248,7 +1248,6 @@ assessment#:#without_solutions_participants#:#Participants without solutions
 assessment#:#tst_show_toplist#:#Show Ranking
 assessment#:#toplist_by_score#:#High score by score
 assessment#:#toplist_by_time#:#High score by working time
-assessment#:#toplist_top_n_results#:#Top %s Results
 assessment#:#toplist_col_rank#:#Rank
 assessment#:#toplist_col_participant#:#Participant
 assessment#:#toplist_col_achieved#:#Date
@@ -1256,7 +1255,6 @@ assessment#:#toplist_col_score#:#Score
 assessment#:#toplist_col_percentage#:#Percentage
 assessment#:#toplist_col_hints#:#Hints
 assessment#:#toplist_col_wtime#:#Working Time
-assessment#:#toplist_your_result#:#Your ranking
 assessment#:#tst_highscore_enabled#:#Ranking
 assessment#:#tst_highscore_description#:#On the 'Info'-tab participants are presented with a button 'Show Ranking'. On clicking it participants are presented with a league table on the performance in the test. You have to activate 'Access to Test Results', too in order to use this functionality.
 assessment#:#tst_highscore_anon#:#Without Names
