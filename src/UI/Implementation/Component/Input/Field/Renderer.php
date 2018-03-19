@@ -257,6 +257,7 @@ class Renderer extends AbstractComponentRenderer {
 	protected function renderInputField(Template $tpl, Input $input, $id) {
 		switch (true) {
 			case ($input instanceof Text):
+			case ($input instanceof Checkbox):
 			case ($input instanceof Numeric):
 				$tpl->setVariable("NAME", $input->getName());
 
