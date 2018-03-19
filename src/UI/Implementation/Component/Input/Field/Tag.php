@@ -72,6 +72,7 @@ class Tag extends Input implements C\Input\Field\Tag {
 	 */
 	public function getConfiguration(): \stdClass {
 		$configuration = new \stdClass();
+		$configuration->id = null;
 		$configuration->options = $this->getTags();
 		$configuration->selected_options = $this->getValue();
 		$configuration->extendable = $this->areUserCreatedTagsAllowed();
@@ -79,6 +80,9 @@ class Tag extends Input implements C\Input\Field\Tag {
 		$configuration->max_chars = 2000;
 		$configuration->suggestion_limit = 50;
 		$configuration->debug = false;
+		$configuration->allow_duplicates = false;
+		$configuration->highlight = true;
+		$configuration->tag_class = "label label-primary";
 
 		return $configuration;
 	}

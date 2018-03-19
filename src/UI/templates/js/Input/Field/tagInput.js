@@ -18,18 +18,6 @@ il.UI.Input = il.UI.Input || {};
         var init = function (raw_id, config) {
             var _DEBUG = false;
             var _CONFIG = {
-                id: '',
-                options: [],
-                selected_options: [],
-                extendable: false,
-                suggestion_starts: 1,
-                max_chars: 2000,
-                suggestion_limit: 50,
-                debug: _DEBUG,
-                allow_duplicates: false,
-                highlight: true,
-                hint: true,
-                tag_class: "label label-primary"
             };
 
             var _ELEMENTS = {
