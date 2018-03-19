@@ -1,3 +1,8 @@
+/**
+ * Holds all functionality to work with openlayer maps.
+ *
+ * @author Daniel Weise <daniel.weise@concepts-and-training.de>
+ */
 ServiceOpenLayers = {
 	ol: null,
 	$: null,
@@ -322,7 +327,7 @@ ServiceOpenLayers = {
 	},
 
 	/**
-	 * Update the longitute, langitude and the zoom of the map.
+	 * Update the longitude, latitude and the zoom of the map.
 	 *
 	 * @param 	{string} id
 	 * @return 	{void}
