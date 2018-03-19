@@ -102,7 +102,7 @@ class ilPersonalSettingsGUI
 			"", "", "", $showGeneralSettings);
 
 		// password
-		if ($this->allowPasswordChange() && !ilSession::get('used_external_auth'))
+		if ($this->allowPasswordChange())
 		{
 			$ilTabs->addTarget("password", $this->ctrl->getLinkTarget($this, "showPassword"),
 				"", "", "", $showPassword);
@@ -198,7 +198,7 @@ class ilPersonalSettingsGUI
 		$this->form = new ilPropertyFormGUI();
 	
 		// Check whether password change is allowed
-		if ($this->allowPasswordChange() && !ilSession::get('used_external_auth'))
+		if ($this->allowPasswordChange())
 		{
 			// The current password needs to be checked for verification
 			// unless the user uses Shibboleth authentication with additional
@@ -261,9 +261,16 @@ class ilPersonalSettingsGUI
 	{
 		global $ilUser;
 
-		$status = ilAuthUtils::isPasswordModificationEnabled($ilUser->getAuthMode(true));
+		if (\ilSession::get('used_external_auth')) {
+			return false;
+		}
 
-		return $status || $ilUser->isPasswordChangeDemanded() || $ilUser->isPasswordExpired();
+		$status = ilAuthUtils::isPasswordModificationEnabled($ilUser->getAuthMode(true));
+		if ($status) {
+			return true;
+		}
+
+		return \ilAuthUtils::isPasswordModificationHidden() && ($ilUser->isPasswordChangeDemanded() || $ilUser->isPasswordExpired());
 	}
 	
 	/**
@@ -275,7 +282,7 @@ class ilPersonalSettingsGUI
 		global $tpl, $lng, $ilCtrl, $ilUser, $ilSetting;
 	
 		// normally we should not end up here
-		if (!$this->allowPasswordChange() || ilSession::get('used_external_auth'))
+		if (!$this->allowPasswordChange())
 		{
 			$ilCtrl->redirect($this, "showPersonalData");
 			return;
