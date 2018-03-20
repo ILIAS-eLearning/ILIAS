@@ -136,8 +136,6 @@ class ilForumCronNotification extends ilCronJob
 			$threshold = strtotime('-' . (int)$this->settings->get('max_notification_age', 30) . ' days', time());
 		}
 
-		$threshold = strtotime("-3years", time());
-
 		$threshold_date =  date('Y-m-d H:i:s', $threshold);
 		$new_posts_condition = '
 			frm_posts.pos_status = %s AND (
