@@ -225,14 +225,21 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	{
 		return $this->objPost->getImportName();
 	}
-	
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getPostUpdateUserId()
+	{
+		return $this->objPost->getUpdateUserId();
+	}
+
 	/**
 	 * @param $user_lang
 	 * @return string
 	 */
 	public function getPostUserName($user_lang)
 	{
-		// GET AUTHOR OF NEW POST
 		$authorinfo = new ilForumAuthorInformation(
 			$this->getPosAuthorId(),
 			$this->getPosDisplayUserId(),
@@ -250,10 +257,9 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	 */
 	public function getPostUpdateUserName($user_lang)
 	{
-		// GET AUTHOR OF UPDATED POST
 		$authorinfo = new ilForumAuthorInformation(
 			$this->getPosAuthorId(),
-			$this->objPost->getUpdateUserId(),
+			$this->getPostUpdateUserId(),
 			$this->getPosUserAlias(),
 			$this->getImportName()
 		);
