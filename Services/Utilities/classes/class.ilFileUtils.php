@@ -62,6 +62,12 @@ class ilFileUtils
 		$pathinfo = pathinfo($a_file);
 		$file = $pathinfo["basename"];
 
+		// see 22727
+		if ($pathinfo["extension"] == "")
+		{
+			$file.= ".zip";
+		}
+
 		// Copy zip-file to new directory, unzip and remove it
 		// TODO: check archive for broken file
 		//copy ($a_file, $a_directory . "/" . $file);
