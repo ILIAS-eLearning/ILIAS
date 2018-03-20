@@ -139,6 +139,11 @@ class ilFileWizardInputGUI extends ilFileInputGUI
 				$size_bytes = $pictures["size"][$index];
 				$temp_name = $pictures["tmp_name"][$index];
 				$error = $pictures["error"][$index];
+
+				include_once("./Services/Utilities/classes/class.ilStr.php");
+				$_FILES[$this->getPostVar()]["name"][$index] = ilStr::normalizeUtf8String($_FILES[$this->getPostVar()]["name"][$index]);
+
+
 				// error handling
 				if ($error > 0)
 				{
