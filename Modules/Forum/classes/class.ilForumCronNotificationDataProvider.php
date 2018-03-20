@@ -399,7 +399,6 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 	 */
 	public function getPostUserName($user_lang)
 	{
-		// GET AUTHOR OF NEW POST
 		$authorinfo = new ilForumAuthorInformation(
 			$this->getPosAuthorId(),
 			$this->getPosDisplayUserId(),
@@ -417,7 +416,6 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 	 */
 	public function getPostUpdateUserName($user_lang)
 	{
-		// GET AUTHOR OF UPDATED POST
 		$authorinfo = new ilForumAuthorInformation(
 			$this->getPosAuthorId(),
 			$this->getPostUpdateUserId(),

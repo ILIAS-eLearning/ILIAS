@@ -56,6 +56,11 @@ interface ilForumNotificationMailData
 	 * @return string frm_posts.pos_author_id
 	 */
 	public function getPosAuthorId();
+
+	/**
+	 * @return int
+	 */
+	public function getPostUpdateUserId();
 	
 	/**
 	 * @return string frm_posts.pos_display_user_id
