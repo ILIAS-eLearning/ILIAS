@@ -597,6 +597,7 @@ class ilFileUtils
 			'jso', // scorm wbts
 			'json',		// scorm
 			'latex',   // APPLICATION__X_LATEX,
+			'lang',   // lang files
 			'less', // less
 			'log',   // TEXT__PLAIN,
 			'lsp',   // APPLICATION__X_LISP,
