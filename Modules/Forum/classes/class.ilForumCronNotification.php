@@ -445,13 +445,13 @@ class ilForumCronNotification extends ilCronJob
 		$usrIdsToPreload = array();
 		foreach (self::$providerObject as $provider) {
 			if ($provider->getPosAuthorId()) {
-				$usrIdsToPreload[] = $provider->getPosAuthorId();
+				$usrIdsToPreload[$provider->getPosAuthorId()] = $provider->getPosAuthorId();
 			}
 			if ($provider->getPosDisplayUserId()) {
-				$usrIdsToPreload[] = $provider->getPosDisplayUserId();
+				$usrIdsToPreload[$provider->getPosDisplayUserId()] = $provider->getPosDisplayUserId();
 			}
 			if ($provider->getPostUpdateUserId()) {
-				$usrIdsToPreload[] = $provider->getPostUpdateUserId();
+				$usrIdsToPreload[$provider->getPostUpdateUserId()] = $provider->getPostUpdateUserId();
 			}
 		}
 
