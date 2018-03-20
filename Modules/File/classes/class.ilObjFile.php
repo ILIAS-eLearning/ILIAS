@@ -1096,7 +1096,9 @@ class ilObjFile extends ilObject2 {
 
 	function storeUnzipedFile($a_upload_file, $a_filename)
 		{
-			$this->setVersion($this->getVersion() + 1);
+			if($this->version) {
+				$this->setVersion($this->version + 1);
+			}
 
 			if (@!is_dir($this->getDirectory($this->getVersion())))
 			{
