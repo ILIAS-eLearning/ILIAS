@@ -196,7 +196,7 @@ $res = $ilDB->query($query);
 while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
 	$ilDB->dropSequence("il_meta_description");
-	$ilDB->createSequence("il_meta_description", $row->desc_id);
+	$ilDB->createSequence("il_meta_description", $row->desc_id + 100);
 }
 ?>
 <#13>
