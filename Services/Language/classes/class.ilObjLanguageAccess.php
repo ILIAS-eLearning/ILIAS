@@ -118,10 +118,10 @@ class ilObjLanguageAccess
         // ref id must be given to prevent params being deleted by ilAdministrtionGUI
         return "ilias.php"
         ."?ref_id=".self::_lookupLangFolderRefId()
-        ."&amp;baseClass=ilAdministrationGUI"
-        ."&amp;cmdClass=ilobjlanguageextgui"
-        ."&amp;view_mode=translate"
-        ."&amp;reset_offset=true";
+        ."&baseClass=ilAdministrationGUI"
+        ."&cmdClass=ilobjlanguageextgui"
+        ."&view_mode=translate"
+        ."&reset_offset=true";
     }
 
     /**
