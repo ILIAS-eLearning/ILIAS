@@ -20,7 +20,7 @@ class ilForumCronNotification extends ilCronJob
 	protected $settings;
 
 	/**
-	 * @var array  ilForumCronNotificationDataProvider
+	 * @var \ilForumCronNotificationDataProvider[]
 	 */
 	public static $providerObject = array();
 
@@ -441,6 +441,22 @@ class ilForumCronNotification extends ilCronJob
 				$this->addProviderObject($row);
 			}
 		}
+
+		$usrIdsToPreload = array();
+		foreach (self::$providerObject as $provider) {
+			if ($provider->getPosAuthorId()) {
+				$usrIdsToPreload[$provider->getPosAuthorId()] = $provider->getPosAuthorId();
+			}
+			if ($provider->getPosDisplayUserId()) {
+				$usrIdsToPreload[$provider->getPosDisplayUserId()] = $provider->getPosDisplayUserId();
+			}
+			if ($provider->getPostUpdateUserId()) {
+				$usrIdsToPreload[$provider->getPostUpdateUserId()] = $provider->getPostUpdateUserId();
+			}
+		}
+
+		require_once 'Modules/Forum/classes/class.ilForumAuthorInformationCache.php';
+		ilForumAuthorInformationCache::preloadUserObjects(array_unique($usrIdsToPreload));
 
 		$i = 0;
 		foreach(self::$providerObject as $provider)

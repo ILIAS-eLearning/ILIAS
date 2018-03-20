@@ -28,9 +28,14 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 	protected $obj_id = 0;
 
 	/**
-	 * @var string $post_user_name
+	 * @var string|null $post_user_name
 	 */
-	protected $post_user_name = '';
+	protected $post_user_name = null;
+
+	/**
+	 * @var string|null $update_user_name
+	 */
+	protected $update_user_name = null;
 
 	/**
 	 * @var int
@@ -399,16 +404,17 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 	 */
 	public function getPostUserName($user_lang)
 	{
-		// GET AUTHOR OF NEW POST
-		$authorinfo = new ilForumAuthorInformation(
-			$this->getPosAuthorId(),
-			$this->getPosDisplayUserId(),
-			$this->getPosUserAlias(),
-			$this->getImportName()
-		);
-		$this->post_user_name = $this->getPublicUserInformation($authorinfo);
-		
-		return $this->post_user_name;
+		if (null === $this->post_user_name) {
+			$authorinfo           = new ilForumAuthorInformation(
+				$this->getPosAuthorId(),
+				$this->getPosDisplayUserId(),
+				$this->getPosUserAlias(),
+				$this->getImportName()
+			);
+			$this->post_user_name = $this->getPublicUserInformation($authorinfo);
+		}
+
+		return (string)$this->post_user_name;
 	}
 	
 	/**
@@ -417,16 +423,17 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 	 */
 	public function getPostUpdateUserName($user_lang)
 	{
-		// GET AUTHOR OF UPDATED POST
-		$authorinfo = new ilForumAuthorInformation(
-			$this->getPosAuthorId(),
-			$this->getPostUpdateUserId(),
-			$this->getPosUserAlias(),
-			$this->getImportName()
-		);
-		$this->post_user_name = $this->getPublicUserInformation($authorinfo);
-		
-		return $this->post_user_name;
+		if ($this->update_user_name === null) {
+			$authorinfo           = new ilForumAuthorInformation(
+				$this->getPosAuthorId(),
+				$this->getPostUpdateUserId(),
+				$this->getPosUserAlias(),
+				$this->getImportName()
+			);
+			$this->update_user_name = $this->getPublicUserInformation($authorinfo);
+		}
+
+		return (string)$this->update_user_name;
 	}
 	
 	/**
