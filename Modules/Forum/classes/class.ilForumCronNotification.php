@@ -20,6 +20,11 @@ class ilForumCronNotification extends ilCronJob
 	protected $settings;
 
 	/**
+	 * @var \ilLogger
+	 */
+	protected $logger;
+
+	/**
 	 * @var \ilForumCronNotificationDataProvider[]
 	 */
 	public static $providerObject = array();
@@ -104,7 +109,9 @@ class ilForumCronNotification extends ilCronJob
 	 */
 	public function keepAlive()
 	{
+		$this->logger->debug('Sending ping to cron manager ...');
 		\ilCronManager::ping($this->getId());
+		$this->logger->debug(sprintf('Current memory usage: %s', memory_get_usage(true)));
 	}
 
 	/**
@@ -112,15 +119,19 @@ class ilForumCronNotification extends ilCronJob
 	 */
 	public function run()
 	{
-		global $DIC; 
-		$ilDB = $DIC->database(); 
-		$ilLog = $DIC->logger()->root(); 
-		$ilSetting = $DIC->settings(); 
-		$lng = $DIC->language();
+		global $DIC;
+
+		$ilDB      = $DIC->database();
+		$ilSetting = $DIC->settings();
+		$lng       = $DIC->language();
+
+		$this->logger = $DIC->logger()->frm();
 
 		$status = ilCronJobResult::STATUS_NO_ACTION;
 
 		$lng->loadLanguageModule('forum');
+
+		$this->logger->info('Started forum notification job ...');
 
 		if(!($last_run_datetime = $ilSetting->get('cron_forum_notification_last_date')))
 		{
@@ -139,6 +150,8 @@ class ilForumCronNotification extends ilCronJob
 		{
 			$threshold = strtotime('-' . (int)$this->settings->get('max_notification_age', 30) . ' days', time());
 		}
+
+		$this->logger->info(sprintf('Threshold for forum event determination is: %s', date('Y-m-d H:i:s', $threshold)));
 
 		$threshold_date =  date('Y-m-d H:i:s', $threshold);
 		$new_posts_condition = '
@@ -171,7 +184,9 @@ class ilForumCronNotification extends ilCronJob
 		$numRows = $ilDB->numRows($res);
 		if($numRows > 0)
 		{
+			$this->logger->info(sprintf('Sending notifications for %s "new posting" events ...', $numRows));
 			$this->sendCronForumNotification($res, ilForumMailNotification::TYPE_POST_NEW);
+			$this->logger->info(sprintf('Sent notifications for new postings ...'));
 		}
 
 		$this->keepAlive();
@@ -204,8 +219,12 @@ class ilForumCronNotification extends ilCronJob
 		$numRows = $ilDB->numRows($res);
 		if($numRows > 0)
 		{
+			$this->logger->info(sprintf('Sending notifications for %s "updated posting" events ...', $numRows));
 			$this->sendCronForumNotification($res, ilForumMailNotification::TYPE_POST_UPDATED);
+			$this->logger->info(sprintf('Sent notifications for updated postings ...'));
 		}
+
+		$this->keepAlive();
 
 		/*** censored posts ***/ 
 		$censored_condition = '
@@ -235,9 +254,11 @@ class ilForumCronNotification extends ilCronJob
 		$numRows = $ilDB->numRows($res);
 		if($numRows > 0)
 		{
+			$this->logger->info(sprintf('Sending notifications for %s "censored posting" events ...', $numRows));
 			$this->sendCronForumNotification($res, ilForumMailNotification::TYPE_POST_CENSORED);
+			$this->logger->info(sprintf('Sent notifications for new censored ...'));
 		}
-		
+
 		$this->keepAlive();
 
 		/*** uncensored posts ***/
@@ -268,7 +289,9 @@ class ilForumCronNotification extends ilCronJob
 		$numRows = $ilDB->numRows($res);
 		if($numRows > 0)
 		{
+			$this->logger->info(sprintf('Sending notifications for %s "uncensored posting" events ...', $numRows));
 			$this->sendCronForumNotification($res, ilForumMailNotification::TYPE_POST_UNCENSORED);
+			$this->logger->info(sprintf('Sent notifications for uncensored postings ...'));
 		}
 
 		$this->keepAlive();
@@ -297,12 +320,14 @@ class ilForumCronNotification extends ilCronJob
 		$numRows = $ilDB->numRows($res);
 		if($numRows > 0)
 		{
+			$this->logger->info(sprintf('Sending notifications for %s "deleted threads" events ...', $numRows));
 			$this->sendCronForumNotification($res, ilForumMailNotification::TYPE_THREAD_DELETED);
 			if(count(self::$deleted_ids_cache) > 0)
 			{
 				$ilDB->manipulate('DELETE FROM frm_posts_deleted WHERE '. $ilDB->in('deleted_id', self::$deleted_ids_cache, false, 'integer'));
-				$ilLog->write(__METHOD__ . ':DELETED ENTRIES: frm_posts_deleted');
+				$this->logger->info('Deleted obsolete entries of table "frm_posts_deleted" ...');
 			}
+			$this->logger->info(sprintf('Sent notifications for deleted threads ...'));
 		}
 
 		$this->keepAlive();
@@ -332,18 +357,22 @@ class ilForumCronNotification extends ilCronJob
 		$numRows = $ilDB->numRows($res);
 		if($numRows > 0)
 		{
+			$this->logger->info(sprintf('Sending notifications for %s "deleted postings" events ...', $numRows));
 			$this->sendCronForumNotification($res, ilForumMailNotification::TYPE_POST_DELETED);
 			if(count(self::$deleted_ids_cache) > 0)
 			{
 				$ilDB->manipulate('DELETE FROM frm_posts_deleted WHERE '. $ilDB->in('deleted_id', self::$deleted_ids_cache, false, 'integer')); 
-				$ilLog->write(__METHOD__ . ':DELETED ENTRIES: frm_posts_deleted');
+				$this->logger->info('Deleted entries from table "frm_posts_deleted" ...');
 			}
+			$this->logger->info(sprintf('Sent notifications for deleted postings ...'));
 		}
 
 		$ilSetting->set('cron_forum_notification_last_date', $cj_start_date);
 
 		$mess = 'Sent '.$this->num_sent_messages.' messages.';
-		$ilLog->write(__METHOD__.': '.$mess);
+
+		$this->logger->info($mess);
+		$this->logger->info('Finished forum notification job');
 
 		$result = new ilCronJobResult();
 		if($this->num_sent_messages)
@@ -409,8 +438,7 @@ class ilForumCronNotification extends ilCronJob
 	{
 		global $DIC; 
 		$ilDB = $DIC->database();
-		$ilLog = $DIC->logger()->root();
-		
+
 		include_once './Modules/Forum/classes/class.ilForumCronNotificationDataProvider.php';
 		include_once './Modules/Forum/classes/class.ilForumMailNotification.php';
 
@@ -426,7 +454,10 @@ class ilForumCronNotification extends ilCronJob
 			$ref_id = $this->getFirstAccessibleRefIdBUserAndObjId($row['user_id'], $row['obj_id']);
 			if($ref_id < 1)
 			{
-				$ilLog->write(__METHOD__.': User-Id: '.$row['user_id'].' has no read permission for object id: '.$row['obj_id']);
+				$this->logger->debug(sprintf(
+					'The recipient with id %s has no "read" permission for object with id %s',
+					$row['user_id'], $row['obj_id']
+				));
 				continue;
 			}
 
@@ -461,19 +492,26 @@ class ilForumCronNotification extends ilCronJob
 		$i = 0;
 		foreach(self::$providerObject as $provider)
 		{
-			$mailNotification = new ilForumMailNotification($provider);
-			$mailNotification->setIsCronjob(true);
-			$mailNotification->setType($notification_type);
-			$mailNotification->setRecipients(array_unique($provider->getCronRecipients()));
-
-			$mailNotification->send();
-
 			if ($i > 0 && ($i % self::KEEP_ALIVE_CHUNK_SIZE) == 0) {
 				$this->keepAlive();
 			}
-	
+
+			$recipients = array_unique($provider->getCronRecipients());
+
+			$this->logger->info(sprintf(
+				'Trying to sent forum notifications for posting id "%s", type "%s" and recipients: %s',
+				$provider->getPostId(), $notification_type, implode(', ', $recipients)
+			));
+
+			$mailNotification = new ilForumMailNotification($provider);
+			$mailNotification->setIsCronjob(true);
+			$mailNotification->setType($notification_type);
+			$mailNotification->setRecipients($recipients);
+
+			$mailNotification->send();
+
 			$this->num_sent_messages += count($provider->getCronRecipients());
-			$ilLog->write(__METHOD__.':SUCCESSFULLY SEND: NotificationType: '.$notification_type.' -> Recipients: '. implode(', ',$provider->getCronRecipients()));
+			$this->logger->info(sprintf("Sent notifications ... "));
 
 			++$i;
 		}
