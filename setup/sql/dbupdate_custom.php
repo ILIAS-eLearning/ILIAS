@@ -155,3 +155,25 @@ if (! $ilDB->tableExists('il_bibl_translation')) {
 
 }
 ?>
+<#5>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#6>
+<?php
+// Installing default fields from bib and ris
+$tf = new ilBiblTypeFactory();
+
+$bib = $tf->getInstanceForType(ilBiblTypeFactory::DATA_TYPE_BIBTEX);
+foreach ($bib->getStandardFieldIdentifiers() as $identifier) {
+
+}
+
+$ris = $tf->getInstanceForType(ilBiblTypeFactory::DATA_TYPE_RIS);
+foreach ($ris->getStandardFieldIdentifiers() as $identifier) {
+
+}
+
+
+?>
+

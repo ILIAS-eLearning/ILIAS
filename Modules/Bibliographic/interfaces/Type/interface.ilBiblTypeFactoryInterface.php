@@ -18,7 +18,7 @@ interface ilBiblTypeFactoryInterface {
 	 *
 	 * @return \ilBiblTypeInterface
 	 */
-	public function getInstanceForType($type);
+	public function getInstanceForType(int $type): ilBiblTypeInterface;
 
 
 	/**
@@ -28,7 +28,7 @@ interface ilBiblTypeFactoryInterface {
 	 *
 	 * @return \ilBiblTypeInterface
 	 */
-	public function getInstanceForFileName($filename);
+	public function getInstanceForFileName(string $filename): ilBiblTypeInterface;
 
 
 	/**
@@ -38,7 +38,8 @@ interface ilBiblTypeFactoryInterface {
 	 *
 	 * @return \ilBiblTypeInterface
 	 */
-	public function getInstanceForString($string);
+	public function getInstanceForString(string $string): ilBiblTypeInterface;
+
 
 	/**
 	 * @param string $file_ending
@@ -47,5 +48,5 @@ interface ilBiblTypeFactoryInterface {
 	 *
 	 * @return int
 	 */
-	public function convertFileEndingToDataType($file_ending);
+	public function convertFileEndingToDataType(string $file_ending): int;
 }

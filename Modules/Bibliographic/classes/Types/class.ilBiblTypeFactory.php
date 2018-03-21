@@ -10,15 +10,15 @@ class ilBiblTypeFactory implements ilBiblTypeFactoryInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function getInstanceForType($type) {
+	public function getInstanceForType(int $type): ilBiblTypeInterface {
 		assert(is_int($type));
 		switch ($type) {
-			case ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX:
-				return new ilBibTex();
-			case ilBiblTypeFactoryInterface::DATA_TYPE_RIS:
-				return new ilRis();
-			default:
-				throw new ilException("bibliografic type not found");
+		case ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX:
+			return new ilBibTex();
+		case ilBiblTypeFactoryInterface::DATA_TYPE_RIS:
+			return new ilRis();
+		default:
+			throw new ilException("bibliografic type not found");
 		}
 	}
 
@@ -26,10 +26,11 @@ class ilBiblTypeFactory implements ilBiblTypeFactoryInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function getInstanceForFileName($filename) {
+	public function getInstanceForFileName(string $filename): ilBiblTypeInterface {
 		//return bib for filetype .bibtex:
-		if (strtolower(substr($filename, - 6)) == "bibtex"
-		    || strtolower(substr($filename, - 3)) == "bib") {
+		if (strtolower(substr($filename, -6)) == "bibtex"
+			|| strtolower(substr($filename, -3)) == "bib"
+		) {
 			return $this->getInstanceForType(ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX);
 		}
 
@@ -41,30 +42,31 @@ class ilBiblTypeFactory implements ilBiblTypeFactoryInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function getInstanceForString($string) {
+	public function getInstanceForString(string $string): ilBiblTypeInterface {
 		switch ($string) {
-			case "bib":
-				return new ilBibTex();
-			case "ris":
-				return new ilRis();
-			default:
-				throw new ilException("bibliografic type not found");
+		case "bib":
+			return new ilBibTex();
+		case "ris":
+			return new ilRis();
+		default:
+			throw new ilException("bibliografic type not found");
 		}
 	}
+
 
 	/**
 	 * @inheritDoc
 	 */
-	public function convertFileEndingToDataType($file_ending) {
+	public function convertFileEndingToDataType(string $file_ending): int {
 		switch ($file_ending) {
-			case "ris":
-				return ilBiblTypeFactoryInterface::DATA_TYPE_RIS;
-				break;
-			case "bib":
-				return ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX;
-				break;
-			default:
-				throw new ilException("no data type found for this file ending");
+		case "ris":
+			return ilBiblTypeFactoryInterface::DATA_TYPE_RIS;
+			break;
+		case "bib":
+			return ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX;
+			break;
+		default:
+			throw new ilException("no data type found for this file ending");
 		}
 	}
 }
