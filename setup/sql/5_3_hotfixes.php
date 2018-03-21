@@ -223,3 +223,7 @@ if(file_exists($old_path))
 }
 
 ?>
+<#15>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
