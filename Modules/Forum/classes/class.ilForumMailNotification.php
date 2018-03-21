@@ -34,16 +34,25 @@ class ilForumMailNotification extends ilMailNotification
 	protected $provider;
 
 	/**
-	 * @param ilForumNotificationMailData $provider
+	 * @var \ilLogger
 	 */
-	public function __construct(ilForumNotificationMailData $provider)
+	protected $logger;
+
+	/**
+	 * ilForumMailNotification constructor.
+	 * @param ilForumNotificationMailData $provider
+	 * @param ilLogger                    $logger
+	 */
+	public function __construct(ilForumNotificationMailData $provider, \ilLogger $logger)
 	{
-		parent::__construct();
+		parent::__construct(false);
 		$this->provider = $provider;
+		$this->logger   = $logger;
 	}
 
 	/**
 	 * @return bool
+	 * @throws ilDateTimeException
 	 */
 	public function send()
 	{
