@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Class ilBibliographicDetailsGUI
- * The detailled view on each entry
+ * Class ilBiblEntryDetailPresentationGUI
  *
- * @ilCtrl_Calls ilObjBibliographicDetailsGUI: ilBibliographicGUI
+ * @author Martin Studer <ms@studer-raimann.ch>
+ * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilBibliographicDetailsGUI {
+class ilBiblEntryDetailPresentationGUI {
 
 	use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
 	/**
@@ -20,7 +20,7 @@ class ilBibliographicDetailsGUI {
 
 
 	/**
-	 * ilBibliographicDetailsGUI constructor.
+	 * ilBiblEntryPresentationGUI constructor.
 	 *
 	 * @param \ilBiblEntry         $entry
 	 * @param \ilBiblFactoryFacade $facade
@@ -31,10 +31,7 @@ class ilBibliographicDetailsGUI {
 	}
 
 
-	/**
-	 * @return string
-	 */
-	public function getHTML() {
+	private function initHelp() {
 		global $DIC;
 
 		$ilHelp = $DIC['ilHelp'];
@@ -42,21 +39,41 @@ class ilBibliographicDetailsGUI {
 		 * @var $ilHelp ilHelpGUI
 		 */
 		$ilHelp->setScreenIdComponent('bibl');
+	}
 
-		$form = new ilPropertyFormGUI();
+
+	private function initTabs() {
 		$this->tabs()->clearTargets();
 		$this->tabs()->setBackTarget($this->lng()->txt("back"), $this->ctrl()
-		                                                             ->getLinkTarget($this, 'showContent'));
+		                                                             ->getLinkTargetByClass(ilObjBibliographicGUI::class, ilObjBibliographicGUI::CMD_SHOW_CONTENT));
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getHTML() {
+		$this->initHelp();
+		$this->initTabs();
+
+		$form = new ilPropertyFormGUI();
 		$form->setTitle($this->lng()->txt('detail_view'));
-		// add link button if a link is defined in the settings
-		$set = new ilSetting("bibl");
-		$link = $set->get(strtolower($this->facade->iliasObject()->getFileTypeAsString()));
-		if (!empty($link)) {
-			$form->addCommandButton('autoLink', 'Link');
-		}
 
+		$this->renderAttributes($form);
+		$this->renderLibraries($form);
+
+		$this->tpl()->setPermanentLink("bibl", $this->facade->iliasObject()->getRefId(), "_"
+		                                                                                 . $_GET[ilObjBibliographicGUI::P_ENTRY_ID]);
+
+		return $form->getHTML();
+	}
+
+
+	/**
+	 * @param \ilPropertyFormGUI $form
+	 */
+	protected function renderAttributes(ilPropertyFormGUI $form) {
 		$attributes = $this->facade->attributeFactory()->getAttributesForEntry($this->entry);
-
 		$sorted = $this->facade->attributeFactory()
 		                       ->sortAttributes($this->facade->fieldFactory(), $attributes);
 
@@ -66,20 +83,22 @@ class ilBibliographicDetailsGUI {
 			$ci->setValue(self::prepareLatex($attribute->getValue()));
 			$form->addItem($ci);
 		}
+	}
 
 
+	/**
+	 * @param \ilPropertyFormGUI $form
+	 */
+	protected function renderLibraries(ilPropertyFormGUI $form) {
 		// generate/render links to libraries
 		// TODO REFACTOR
-		$settings = ilBibliographicSetting::getAll();
+		$settings = $this->facade->libraryFactory()->getAll();
 		foreach ($settings as $set) {
 			$ci = new ilCustomInputGUI($set->getName());
-			$ci->setHtml($set->getButton($this->facade->iliasObject(), $this->entry));
+			$presentation = new ilBiblLibraryPresentationGUI($set, $this->facade);
+			$ci->setHtml($presentation->getButton($this->facade->iliasObject(), $this->entry));
 			$form->addItem($ci);
 		}
-		$this->tpl()->setPermanentLink("bibl", $this->facade->iliasObject()->getRefId(), "_"
-		                                                                                 . $_GET[ilObjBibliographicGUI::P_ENTRY_ID]);
-
-		return $form->getHTML();
 	}
 
 

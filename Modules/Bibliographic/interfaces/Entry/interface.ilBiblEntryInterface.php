@@ -7,65 +7,27 @@
  */
 interface ilBiblEntryInterface {
 
-	public function doCreate();
-
-
-	public function doRead();
-
-
-	public function doUpdate();
-
-
-	public function doDelete();
-
-
 	/**
-	 * @param $attributes
+	 * @param int $id
 	 */
-	public function setAttributes($attributes);
-
-
-	/**
-	 * @return string[]
-	 */
-	public function getAttributes();
-
-
-	/**
-	 * @param string $overview
-	 */
-	public function setOverview($overview);
-
-
-	/**
-	 * @param int $bibliographic_obj_id
-	 */
-	public function setBibliographicObjId($bibliographic_obj_id);
+	public function setId($id);
 
 
 	/**
 	 * @return int
 	 */
-	public function getBibliographicObjId();
+	public function getId();
+
+	/**
+	 * @return integer
+	 */
+	public function getDataId();
 
 
 	/**
-	 * @param int $entry_id
+	 * @param integer $data_id
 	 */
-	public function setEntryId($entry_id);
-
-
-	/**
-	 * @return int
-	 */
-	public function getEntryId();
-
-
-	/**
-	 * @param string $type
-	 */
-	public function setType($type);
-
+	public function setDataId($data_id);
 
 	/**
 	 * @return string
@@ -74,13 +36,7 @@ interface ilBiblEntryInterface {
 
 
 	/**
-	 * @return string
+	 * @param string $type
 	 */
-	public function getFileType();
-
-
-	/**
-	 * @param string $file_type
-	 */
-	public function setFileType($file_type);
+	public function setType($type);
 }

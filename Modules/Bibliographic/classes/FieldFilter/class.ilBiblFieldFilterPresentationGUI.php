@@ -40,7 +40,7 @@ class ilBiblFieldFilterPresentationGUI {
 
 		$ilBiblFieldFilter = $this->getFilter();
 
-		$obj_id = $this->facade->iliasObject()->getId();
+		$obj_id = $this->facade->iliasObjId();
 		$f = $this->facade->attributeFactory();
 
 		switch ($ilBiblFieldFilter->getFilterType()) {

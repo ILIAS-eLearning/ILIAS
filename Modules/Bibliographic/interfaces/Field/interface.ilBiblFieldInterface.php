@@ -7,6 +7,10 @@
  */
 interface ilBiblFieldInterface {
 
+	const DATA_TYPE_RIS = 1;
+	const DATA_TYPE_BIBTEX = 2;
+
+
 	/**
 	 * @return int
 	 */
@@ -41,6 +45,7 @@ interface ilBiblFieldInterface {
 	 * @param int $position
 	 */
 	public function setPosition($position);
+
 
 
 	/**

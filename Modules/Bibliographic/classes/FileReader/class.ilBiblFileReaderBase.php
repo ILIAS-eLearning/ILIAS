@@ -24,7 +24,30 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface {
 	 * @var string
 	 */
 	protected $path_to_file = '';
+	/**
+	 * @var ilBiblEntryFactoryInterface
+	 */
+	protected $entry_factory;
+	/**
+	 * @var ilBiblFieldFactoryInterface
+	 */
+	protected $field_factory;
+	/**
+	 * @var ilBiblAttributeFactoryInterface
+	 */
+	protected $attribute_factory;
 
+
+	/**
+	 * ilBiblFileReaderBase constructor.
+	 *
+	 * @param ilBiblEntryFactoryInterface $entry_factory
+	 */
+	public function __construct(ilBiblEntryFactoryInterface $entry_factory, ilBiblFieldFactoryInterface $field_factory, ilBiblAttributeFactoryInterface $attribute_factory) {
+		$this->entry_factory = $entry_factory;
+		$this->field_factory = $field_factory;
+		$this->attribute_factory = $attribute_factory;
+	}
 
 
 	/**
@@ -39,8 +62,7 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface {
 		 */
 		$filesystem = $DIC["filesystem"];
 		$this->setPathToFile($path_to_file);
-		$this->setFileContent($this->convertStringToUTF8($filesystem->storage()
-		                                                            ->read($path_to_file)));
+		$this->setFileContent($this->convertStringToUTF8($filesystem->storage()->read($path_to_file)));
 
 		return true;
 	}
@@ -53,7 +75,7 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface {
 	 */
 	protected function convertStringToUTF8($string) {
 		if (!function_exists('mb_detect_encoding') || !function_exists('mb_detect_order')
-		    || !function_exists("mb_convert_encoding")) {
+			|| !function_exists("mb_convert_encoding")) {
 			return $string;
 		}
 		ob_end_clean();
@@ -110,13 +132,11 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface {
 	 * @inheritDoc
 	 */
 	public function parseContentToEntries(ilObjBibliographic $bib) {
-		$file_type = $bib->getFileTypeAsString();
-
 		$entries_from_file = $this->parseContent();
 		$entry_instances = [];
 		//fill each entry into a ilBibliographicEntry object and then write it to DB by executing doCreate()
 		foreach ($entries_from_file as $file_entry) {
-			$type = null;
+			$type = NULL;
 			$x = 0;
 			$parsed_entry = array();
 			foreach ($file_entry as $key => $attribute) {
@@ -128,8 +148,7 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface {
 				//if (mb_strlen($attribute, 'UTF-8') > self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH) {
 				if (ilStr::strLen($attribute) > self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH) {
 					// $attribute = mb_substr($attribute, 0, self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH - 3, 'UTF-8') . '...';
-					$attribute = ilStr::subStr($attribute, 0, self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH
-					                                          - 3) . '...';
+					$attribute = ilStr::subStr($attribute, 0, self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH - 3) . '...';
 				}
 				// ty (RIS) or entryType (BIB) is the type and is treated seperately
 				if (strtolower($key) == 'ty' || strtolower($key) == 'entrytype') {
@@ -140,20 +159,47 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface {
 				//change array structure (name not as the key, but under the key "name")
 				$parsed_entry[$x]['name'] = $key;
 				$parsed_entry[$x]['value'] = $attribute;
-				$x++;
+				$x ++;
 			}
 			/**
 			 * @var $entry_model ilBiblEntry
 			 */
 			//create the entry and fill data into database by executing doCreate()
-			$entry_model = ilBiblEntry::getInstance($file_type);
+			$entry_factory = $this->getEntryFactory();
+			$entry_model = $entry_factory->getEmptyInstance();
 			$entry_model->setType($type);
-			$entry_model->setAttributes($parsed_entry);
 			$entry_model->setBibliographicObjId($bib->getId());
-			$entry_model->doCreate();
+			$entry_model->store();
+			foreach($parsed_entry as $entry) {
+				$this->getAttributeFactory()->createAttribute($entry['name'], $entry['value'], $entry_model->getId());
+			}
+			//$entry_model->doCreate();
 			$entry_instances[] = $entry_model;
 		}
 
 		return $entry_instances;
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getEntryFactory() {
+		return $this->entry_factory;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getFieldFactory() {
+		return $this->field_factory;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getAttributeFactory() {
+		return $this->attribute_factory;
 	}
 }

@@ -22,6 +22,26 @@ class ilObjBibliographic extends ilObject2 {
 	 */
 	protected $bib_type_factory;
 	/**
+	 * @var \ilBiblEntryFactoryInterface
+	 */
+	protected $bib_entry_factory;
+	/**
+	 * @var \ilBiblFieldFactory
+	 */
+	protected $bib_field_factory;
+	/**
+	 * @var \ilBiblDataFactoryInterface
+	 */
+	protected $bib_data_factory;
+	/**
+	 * @var \ilBiblOverviewModelFactoryInterface
+	 */
+	protected $bib_overview_factory;
+	/**
+	 * @var \ilBiblAttributeFactoryInterface
+	 */
+	protected $bib_attribute_factory;
+	/**
 	 * Id of literary articles
 	 *
 	 * @var string
@@ -43,7 +63,6 @@ class ilObjBibliographic extends ilObject2 {
 	 * @var int
 	 */
 	protected $file_type = 0;
-
 
 	/**
 	 * initType
@@ -69,7 +88,11 @@ class ilObjBibliographic extends ilObject2 {
 		}
 		parent::__construct($existant_bibl_id, false);
 		$this->bib_type_factory = new ilBiblTypeFactory();
+		$this->bib_field_factory = new ilBiblFieldFactory($this->bib_type_factory->getInstanceForType($this->getFileType()));
+		$this->bib_overview_factory = new ilBiblOverviewModelFactory();
+		$this->bib_entry_factory = new ilBiblEntryFactory($this->bib_field_factory, $this->bib_type_factory->getInstanceForType($this->getFileType()), $this->bib_overview_factory);
 		$this->bib_filereader_factory = new ilBiblFileReaderFactory();
+		$this->bib_attribute_factory = new ilBiblAttributeFactory($this->bib_field_factory);
 	}
 
 
@@ -97,19 +120,15 @@ class ilObjBibliographic extends ilObject2 {
 		$this->parseFileToDatabase();
 	}
 
-
 	protected function doRead() {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
-		$set = $ilDB->query("SELECT * FROM il_bibl_data " . " WHERE id = "
-		                    . $ilDB->quote($this->getId(), "integer"));
-		while ($rec = $ilDB->fetchAssoc($set)) {
-			if (!$this->getFilename()) {
-				$this->setFilename($rec["filename"]);
-			}
-			$this->setFileType($rec["file_type"]);
-			$this->setOnline($rec['is_online']);
+		$ilBiblData = ilBiblData::where(array('id' => $this->getId()))->first();
+		if (!$this->getFilename()) {
+			$this->setFilename($ilBiblData->getFilename());
 		}
+		$this->setFileType($ilBiblData->getFileType());
+		$this->setOnline($ilBiblData->getIsOnline());
 	}
 
 
@@ -152,8 +171,8 @@ class ilObjBibliographic extends ilObject2 {
 		                  . "(SELECT il_bibl_entry.id FROM il_bibl_entry WHERE il_bibl_entry.data_id = "
 		                  . $ilDB->quote($this->getId(), "integer") . ")");
 		//il_bibl_entry
-		$ilDB->manipulate("DELETE FROM il_bibl_entry WHERE data_id = "
-		                  . $ilDB->quote($this->getId(), "integer"));
+		$this->bib_entry_factory->deleteEntryById($this->getId());
+
 		if (!$leave_out_il_bibl_data) {
 			//il_bibl_data
 			$ilDB->manipulate("DELETE FROM il_bibl_data WHERE id = "
@@ -271,7 +290,7 @@ class ilObjBibliographic extends ilObject2 {
 
 
 	/**
-	 * @deprecated
+	 * @deprecated use type factory instead of string representation
 	 * @return string
 	 */
 	public function getFileTypeAsString() {
@@ -289,26 +308,6 @@ class ilObjBibliographic extends ilObject2 {
 
 		return $instance->getId();
 		// return $this->file_type;
-	}
-
-
-	/**
-	 * @return array
-	 */
-	public static function getAllOverviewModels() {
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
-		$overviewModels = array();
-		$set = $ilDB->query('SELECT * FROM il_bibl_overview_model');
-		while ($rec = $ilDB->fetchAssoc($set)) {
-			if ($rec['literature_type']) {
-				$overviewModels[$rec['filetype']][$rec['literature_type']] = $rec['pattern'];
-			} else {
-				$overviewModels[$rec['filetype']] = $rec['pattern'];
-			}
-		}
-
-		return $overviewModels;
 	}
 
 
@@ -357,21 +356,6 @@ class ilObjBibliographic extends ilObject2 {
 
 
 	/**
-	 * @param $input
-	 *
-	 * @deprecated
-	 * @return string
-	 */
-	protected static function __removeSpacesAndDashesAtBeginning($input) {
-		for ($i = 0; $i < strlen($input); $i ++) {
-			if ($input[$i] != " " && $input[$i] != "-") {
-				return substr($input, $i);
-			}
-		}
-	}
-
-
-	/**
 	 * Reads out the source file and writes all entries to the database
 	 *
 	 * @return void
@@ -379,11 +363,9 @@ class ilObjBibliographic extends ilObject2 {
 	public function parseFileToDatabase() {
 		//Read File
 		$type = $this->getFileType();
-		$reader = $this->bib_filereader_factory->getByType($type);
+		$reader = $this->bib_filereader_factory->getByType($type, $this->bib_entry_factory, $this->bib_field_factory, $this->bib_attribute_factory);
 		$reader->readContent($this->getFileAbsolutePath());
 		$this->entries = $reader->parseContentToEntries($this);
-
-		
 	}
 
 

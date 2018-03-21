@@ -1,21 +1,22 @@
 <?php
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once './Services/Table/classes/class.ilTable2GUI.php';
 
 /**
  * Class ilDataCollectionField
  *
- * @author  Martin Studer <ms@studer-raimann.ch>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
+ * @author     Martin Studer <ms@studer-raimann.ch>
+ * @author     Fabian Schmid <fs@studer-raimann.ch>
+ *
+ * @deprecated REFACTOR
  */
-class ilBibliographicRecordListTableGUI extends ilTable2GUI {
+class ilBiblEntryTableGUI extends ilTable2GUI {
 
 	use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
 	/**
 	 * @var \ilBiblFieldFilterInterface[]
 	 */
-	protected $filter_objects= array();
+	protected $filter_objects = array();
 	/**
 	 * @var array
 	 */
@@ -31,7 +32,7 @@ class ilBibliographicRecordListTableGUI extends ilTable2GUI {
 
 
 	/**
-	 * ilBibliographicRecordListTableGUI constructor.
+	 * ilBiblEntryTableGUI constructor.
 	 *
 	 * @param \ilObjBibliographicGUI $a_parent_obj
 	 * @param \ilBiblFactoryFacade   $facade
@@ -61,8 +62,7 @@ class ilBibliographicRecordListTableGUI extends ilTable2GUI {
 
 
 	public function initFilter() {
-		foreach ($this->facade->filterFactory()->getAllForObjectId($this->facade->iliasObject()
-		                                                                        ->getId()) as $filter) {
+		foreach ($this->facade->filterFactory()->getAllForObjectId($this->facade->iliasObjId()) as $filter) {
 			$filter_presentation = new ilBiblFieldFilterPresentationGUI($filter, $this->facade);
 			$field = $filter_presentation->getFilterItem();
 			$this->addAndReadFilterItem($field);
@@ -89,17 +89,20 @@ class ilBibliographicRecordListTableGUI extends ilTable2GUI {
 	 * @param array $a_set
 	 */
 	public function fillRow($a_set) {
-		$il_obj_entry = ilBiblEntry::getInstance($this->parent_obj->object->getFileTypeAsString(), $a_set['entry_id']);
-		$this->tpl->setVariable('SINGLE_ENTRY', ilBibliographicDetailsGUI::prepareLatex($il_obj_entry->getOverview()));
+		$il_obj_entry = $this->facade->entryFactory()->findByIdAndTypeString($a_set['entry_id'], $a_set['entry_type']);
+		//TODO instanciate presentation gui class
+		$ilBiblOverviewGUI = new ilBiblEntryTablePresentationGUI($il_obj_entry, $this->facade);
+		$this->tpl->setVariable('SINGLE_ENTRY', ilBiblEntryDetailPresentationGUI::prepareLatex($ilBiblOverviewGUI->getHtml()));
 		//Detail-Link
 		$this->ctrl->setParameter($this->parent_obj, ilObjBibliographicGUI::P_ENTRY_ID, $a_set['entry_id']);
 		$this->tpl->setVariable('DETAIL_LINK', $this->ctrl->getLinkTarget($this->parent_obj, 'showDetails'));
 		// generate/render links to libraries
-		$settings = ilBibliographicSetting::getAll();
+		$settings = $this->facade->libraryFactory()->getAll();
 		$arr_library_link = array();
 		foreach ($settings as $set) {
 			if ($set->getShowInList()) {
-				$arr_library_link[] = $set->getButton($this->parent_obj->object, $il_obj_entry);
+				$presentation = new ilBiblLibraryPresentationGUI($set, $this->facade);
+				$arr_library_link[] = $presentation->getButton($this->parent_obj->object, $il_obj_entry);
 			}
 		}
 		if (count($arr_library_link)) {
@@ -140,10 +143,10 @@ class ilBibliographicRecordListTableGUI extends ilTable2GUI {
 		}
 
 		$entries = array();
-		$object_id = $this->facade->iliasObject()->getId();
+		$object_id = $this->facade->iliasObjId();
 		foreach ($this->facade->entryFactory()
 		                      ->filterEntryIdsForTableAsArray($object_id, $query) as $entry) {
-			$ilBibliographicEntry = ilBiblEntry::getInstance($this->parent_obj->object->getFileTypeAsString(), $entry['entry_id']);
+			$ilBibliographicEntry = $this->facade->entryFactory()->findByIdAndTypeString($entry['entry_id'], $entry['entry_type']);
 			$entry['content'] = strip_tags($ilBibliographicEntry->getOverview());
 			$entries[] = $entry;
 		}

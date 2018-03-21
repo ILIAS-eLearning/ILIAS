@@ -32,7 +32,13 @@ interface ilBiblAdminFactoryFacadeInterface {
 
 
 	/**
-	 * @return \ilObjBibliographicAdmin
+	 * @return int
 	 */
-	public function iliasObject();
+	public function iliasObjId();
+
+
+	/**
+	 * @return int
+	 */
+	public function iliasRefId();
 }

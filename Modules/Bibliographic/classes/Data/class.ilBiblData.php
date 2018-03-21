@@ -1,14 +1,13 @@
 <?php
 /**
- * Class ilField
+ * Class ilBiblData
  *
  * @author: Benjamin Seglias   <bs@studer-raimann.ch>
  */
 
-class ilBiblField extends ActiveRecord implements ilBiblFieldInterface {
+class ilBiblData extends ActiveRecord implements ilBiblDataInterface {
 
-	const TABLE_NAME = 'il_bibl_field';
-
+	const TABLE_NAME = 'il_bibl_data';
 
 	/**
 	 * @return string
@@ -17,14 +16,12 @@ class ilBiblField extends ActiveRecord implements ilBiblFieldInterface {
 		return self::TABLE_NAME;
 	}
 
-
 	/**
 	 * @return string
 	 */
 	public function getConnectorContainerName() {
 		return self::TABLE_NAME;
 	}
-
 
 	/**
 	 * @var
@@ -38,15 +35,17 @@ class ilBiblField extends ActiveRecord implements ilBiblFieldInterface {
 	 * @con_sequence   true
 	 */
 	protected $id;
+
 	/**
 	 * @var
 	 *
 	 * @con_has_field  true
 	 * @con_fieldtype  text
-	 * @con_length     50
+	 * @con_length     256
 	 * @con_is_notnull true
 	 */
-	protected $identifier;
+	protected $filename;
+
 	/**
 	 * @var
 	 *
@@ -55,15 +54,8 @@ class ilBiblField extends ActiveRecord implements ilBiblFieldInterface {
 	 * @con_length     1
 	 * @con_is_notnull true
 	 */
-	protected $data_type;
-	/**
-	 * @var
-	 *
-	 * @con_has_field  true
-	 * @con_fieldtype  integer
-	 * @con_length     3
-	 */
-	protected $position;
+	protected $is_online;
+
 	/**
 	 * @var
 	 *
@@ -72,7 +64,7 @@ class ilBiblField extends ActiveRecord implements ilBiblFieldInterface {
 	 * @con_length     1
 	 * @con_is_notnull true
 	 */
-	protected $is_standard_field;
+	protected $file_type;
 
 
 	/**
@@ -94,63 +86,49 @@ class ilBiblField extends ActiveRecord implements ilBiblFieldInterface {
 	/**
 	 * @return string
 	 */
-	public function getIdentifier() {
-		return $this->identifier;
+	public function getFilename() {
+		return $this->filename;
 	}
 
 
 	/**
-	 * @param string $identifier
+	 * @param string $filename
 	 */
-	public function setIdentifier($identifier) {
-		$this->identifier = $identifier;
-	}
-
-
-	/**
-	 * @return integer
-	 */
-	public function getPosition() {
-		return $this->position;
-	}
-
-
-	/**
-	 * @param integer $position
-	 */
-	public function setPosition($position) {
-		$this->position = $position;
+	public function setFilename($filename) {
+		$this->filename = $filename;
 	}
 
 
 	/**
 	 * @return integer
 	 */
-	public function getisStandardField() {
-		return $this->is_standard_field;
+	public function getIsOnline() {
+		return $this->is_online;
 	}
 
 
 	/**
-	 * @param integer $is_standard_field
+	 * @param integer $is_online
 	 */
-	public function setIsStandardField($is_standard_field) {
-		$this->is_standard_field = $is_standard_field;
+	public function setIsOnline($is_online) {
+		$this->is_online = $is_online;
 	}
 
 
 	/**
-	 * @return mixed
+	 * @return integer
 	 */
-	public function getDataType() {
-		return $this->data_type;
+	public function getFileType() {
+		return $this->file_type;
 	}
 
 
 	/**
-	 * @param mixed $data_type
+	 * @param integer $file_type
 	 */
-	public function setDataType($data_type) {
-		$this->data_type = $data_type;
+	public function setFileType($file_type) {
+		$this->file_type = $file_type;
 	}
+
+
 }

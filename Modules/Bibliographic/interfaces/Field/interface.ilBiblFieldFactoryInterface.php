@@ -16,7 +16,7 @@ interface ilBiblFieldFactoryInterface {
 	 *
 	 * @return \ilBiblFieldInterface
 	 */
-	public function getFieldByTypeAndIdentifier($type, $identifier);
+	public function getFieldByTypeAndIdentifier(int $type, string $identifier): ilBiblFieldInterface;
 
 
 	/**
@@ -28,7 +28,7 @@ interface ilBiblFieldFactoryInterface {
 	 *
 	 * @return \ilBiblFieldInterface
 	 */
-	public function findOrCreateFieldByTypeAndIdentifier($type, $identifier);
+	public function findOrCreateFieldByTypeAndIdentifier(int $type, string $identifier): ilBiblFieldInterface;
 
 
 	/**
@@ -36,7 +36,7 @@ interface ilBiblFieldFactoryInterface {
 	 *
 	 * @return ilBiblFieldInterface[] instances of all known standard-fields for the given type
 	 */
-	public function getAvailableFieldsForObjId($obj_id);
+	public function getAvailableFieldsForObjId(int $obj_id): array;
 
 
 	/**
@@ -45,7 +45,7 @@ interface ilBiblFieldFactoryInterface {
 	 *
 	 * @return \ilBiblField[]
 	 */
-	public function filterAllFieldsForType(ilBiblTypeInterface $type, ilBiblTableQueryInfoInterface $queryInfo = null);
+	public function filterAllFieldsForType(ilBiblTypeInterface $type, ilBiblTableQueryInfoInterface $queryInfo = null): array;
 
 
 	/**
@@ -54,53 +54,13 @@ interface ilBiblFieldFactoryInterface {
 	 *
 	 * @return array
 	 */
-	public function filterAllFieldsForTypeAsArray(ilBiblTypeInterface $type, ilBiblTableQueryInfoInterface $queryInfo = null);
-
-
-	/**
-	 * @param int $obj_id
-	 *
-	 * @return string
-	 */
-	public function getBiblAttributeById($obj_id);
-
-
-	/**
-	 * @param int $id
-	 *
-	 * @return int affected rows
-	 */
-	public function deleteBiblAttributeById($id);
-
-
-	/**
-	 * @param int $data_type
-	 *
-	 * @return array of il_bibl_attribute record data
-	 */
-	public function getAllAttributeNamesByDataType($data_type);
-
-
-	/**
-	 * @param string $identifier
-	 *
-	 * @return array of il_bibl_attribute record data
-	 */
-	public function getAllAttributeNamesByIdentifier($identifier);
-
-
-	/**
-	 * @param int $obj_id
-	 *
-	 * @return array of il_bibl_attribute record data
-	 */
-	public function getAttributeNameAndFileName($obj_id);
+	public function filterAllFieldsForTypeAsArray(ilBiblTypeInterface $type, ilBiblTableQueryInfoInterface $queryInfo = null): array;
 
 
 	/**
 	 * @return \ilBiblTypeInterface
 	 */
-	public function getType();
+	public function getType(): ilBiblTypeInterface;
 
 
 	/**
@@ -108,15 +68,7 @@ interface ilBiblFieldFactoryInterface {
 	 *
 	 * @return \ilBiblFieldInterface
 	 */
-	public function findById($id);
-
-
-	/**
-	 * @param integer $id
-	 *
-	 * @return array ilBiblData Record
-	 */
-	public function getilBiblDataById($id);
+	public function findById(int $id): ilBiblFieldInterface;
 
 
 	/**
@@ -124,5 +76,13 @@ interface ilBiblFieldFactoryInterface {
 	 *
 	 * @return \ilBiblFieldInterface
 	 */
-	public function findOrCreateFieldOfAttribute(ilBiblAttributeInterface $attribute);
+	public function findOrCreateFieldOfAttribute(ilBiblAttributeInterface $attribute): ilBiblFieldInterface;
+
+
+	/**
+	 * @param ilBiblFieldInterface $field
+	 *
+	 * @return int new position
+	 */
+	public function forcePosition(ilBiblFieldInterface $field): int;
 }

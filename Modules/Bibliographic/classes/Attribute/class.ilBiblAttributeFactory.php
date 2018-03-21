@@ -8,25 +8,12 @@
 class ilBiblAttributeFactory implements ilBiblAttributeFactoryInterface {
 
 	/**
-	 * @inheritdoc
+	 * @var \ilBiblFieldFactory
 	 */
-	public function convertIlBiblAttributesToObjects(array $il_bibl_attributes) {
-		$array_of_objects = [];
-		foreach ($il_bibl_attributes as $il_bibl_attribute) {
-			if (!is_array($il_bibl_attribute)) {
-				throw new InvalidArgumentException('no attributes array passed');
-			}
-			if (!array_diff_key(array_flip([ 'entry_id', 'name', 'value' ]), $il_bibl_attribute)) {
-				throw new InvalidArgumentException("array does not contain 'entry_id', 'name', 'value'");
-			}
-			$ilBiblAttribute = new ilBiblAttribute();
-			$ilBiblAttribute->setEntryId($il_bibl_attribute['entry_id']);
-			$ilBiblAttribute->setName($il_bibl_attribute['name']);
-			$ilBiblAttribute->setValue($il_bibl_attribute['value']);
-			$array_of_objects[] = $ilBiblAttribute;
-		}
+	protected $field_factory;
 
-		return $array_of_objects;
+	public function __construct(ilBiblFieldFactoryInterface $field_factory) {
+		$this->field_factory = $field_factory;
 	}
 
 
@@ -64,18 +51,18 @@ WHERE a.name = %s AND d.id = %s";
 	/**
 	 * @inheritDoc
 	 */
-	public function sortAttributes(ilBiblFieldFactoryInterface $fieldFactory, array $attributes) {
+	public function sortAttributes(array $attributes) {
 		/**
 		 * @var $attribute \ilBiblAttributeInterface
 		 */
 		$sorted = [];
-		$type_id = $fieldFactory->getType()->getId();
+		$type_id = $this->field_factory->getType()->getId();
 		$max = 0;
 		foreach ($attributes as $attribute) {
 			if (!$attribute->getName()) {
 				continue;
 			}
-			$field = $fieldFactory->findOrCreateFieldByTypeAndIdentifier($type_id, $attribute->getName());
+			$field = $this->field_factory->findOrCreateFieldByTypeAndIdentifier($type_id, $attribute->getName());
 			$position = (int)$field->getPosition();
 			$position = $position ? $position : $max + 1;
 
@@ -86,5 +73,20 @@ WHERE a.name = %s AND d.id = %s";
 		ksort($sorted);
 
 		return $sorted;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function createAttribute($name, $value, $entry_id) {
+
+		$ilBiblAttribute = new ilBiblAttribute();
+		$ilBiblAttribute->setName($name);
+		$ilBiblAttribute->setValue($value);
+		$ilBiblAttribute->setEntryId($entry_id);
+		$ilBiblAttribute->store();
+
+		$this->field_factory->findOrCreateFieldOfAttribute($ilBiblAttribute);
 	}
 }

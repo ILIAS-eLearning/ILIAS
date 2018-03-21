@@ -22,9 +22,9 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 
 
 	/**
-	 * @return \ilBiblTypeInterface
+	 * @inheritdoc
 	 */
-	public function getType() {
+	public function getType(): ilBiblTypeInterface {
 		return $this->type;
 	}
 
@@ -32,7 +32,7 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function findById($id) {
+	public function findById(int $id): ilBiblFieldInterface {
 		/**
 		 * @var $inst ilBiblField
 		 */
@@ -49,7 +49,7 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 	/**
 	 * @inheritdoc
 	 */
-	public function getFieldByTypeAndIdentifier($type, $identifier) {
+	public function getFieldByTypeAndIdentifier(int $type, string $identifier): ilBiblFieldInterface {
 		$this->checkType($type);
 		$inst = $this->getARInstance($type, $identifier);
 		if (!$inst) {
@@ -63,7 +63,7 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 	/**
 	 * @inheritdoc
 	 */
-	public function findOrCreateFieldByTypeAndIdentifier($type, $identifier) {
+	public function findOrCreateFieldByTypeAndIdentifier(int $type, string $identifier): ilBiblFieldInterface {
 		$this->checkType($type);
 		$inst = $this->getARInstance($type, $identifier);
 		if (!$inst) {
@@ -85,14 +85,15 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function getAvailableFieldsForObjId($obj_id) {
+	public function getAvailableFieldsForObjId(int $obj_id): array {
 		global $DIC;
-		$sql = "SELECT DISTINCT(il_bibl_attribute.name), il_bibl_data.file_type FROM il_bibl_data 
+		$sql
+			= "SELECT DISTINCT(il_bibl_attribute.name), il_bibl_data.file_type FROM il_bibl_data 
 					JOIN il_bibl_entry ON il_bibl_entry.data_id = il_bibl_data.id
 					JOIN il_bibl_attribute ON il_bibl_attribute.entry_id = il_bibl_entry.id
 				WHERE il_bibl_data.id = %s;";
 
-		$result = $DIC->database()->queryF($sql, [ 'integer' ], [ $obj_id ]);
+		$result = $DIC->database()->queryF($sql, ['integer'], [$obj_id]);
 
 		$data = [];
 		while ($d = $DIC->database()->fetchObject($result)) {
@@ -106,7 +107,7 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function filterAllFieldsForType(ilBiblTypeInterface $type, ilBiblTableQueryInfoInterface $queryInfo = null) {
+	public function filterAllFieldsForType(ilBiblTypeInterface $type, ilBiblTableQueryInfoInterface $queryInfo = null): array {
 		return $this->getCollectionForFilter($type, $queryInfo)->get();
 	}
 
@@ -114,7 +115,7 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function filterAllFieldsForTypeAsArray(ilBiblTypeInterface $type, ilBiblTableQueryInfoInterface $queryInfo = null) {
+	public function filterAllFieldsForTypeAsArray(ilBiblTypeInterface $type, ilBiblTableQueryInfoInterface $queryInfo = null): array {
 		return $this->getCollectionForFilter($type, $queryInfo)->getArray();
 	}
 
@@ -122,166 +123,62 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function getBiblAttributeById($id) {
-		global $DIC;
-		$result = $DIC->database()->query("SELECT * FROM il_bibl_attribute WHERE id = "
-		                                  . $DIC->database()->quote($id, "integer"));
-
-		$data = [];
-		while ($d = $DIC->database()->fetchAssoc($result)) {
-			$data[] = $d['name'];
+	public function findOrCreateFieldOfAttribute(ilBiblAttributeInterface $attribute): ilBiblFieldInterface {
+		$field = ilBiblField::where(['identifier' => $attribute->getName()])->first();
+		if ($field === null) {
+			$field = new ilBiblField();
+			$field->setIdentifier($attribute->getName());
+			$field->setDataType($this->type->getId());
+			$field->setIsStandardField($this->type->isStandardField($attribute->getName()));
+			$field->create();
+		} else {
+			$field->setDataType($this->type->getId());
+			$field->update();
 		}
 
-		return $data['name'];
+		return $field;
 	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function deleteBiblAttributeById($id) {
+	public function forcePosition(ilBiblFieldInterface $field): int {
 		global $DIC;
-		$DIC->database()->manipulate("DELETE FROM il_bibl_attribute WHERE id = " . $DIC->database()
-		                                                                               ->quote($id, "integer"));
+		$tablename = ilBiblField::TABLE_NAME;
+		$q = "UPDATE {$tablename} SET position = position + 1 WHERE data_type = %s AND position >= %s;";
+		$DIC->database()->manipulateF(
+			$q, ['integer', 'integer'], [
+				$field->getDataType(), $field->getPosition(),
+			]
+		);
+		$field->store();
+		$DIC->database()->query("SET @i=0");
+		$DIC->database()->manipulateF(
+			"UPDATE {$tablename} SET position = (@i := @i + 1) WHERE data_type = %s ORDER BY position", ['integer'], [
+				$field->getDataType(),
+			]
+		);
+
+		return (int)$field->getPosition();
 	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getAllAttributeNamesByDataType($data_type) {
-		global $DIC;
-
-		switch ($data_type) {
-			case ilBiblField::DATA_TYPE_RIS:
-				$data_type = "ris";
-				break;
-			case ilBiblField::DATA_TYPE_BIBTEX:
-				$data_type = "bib";
-				break;
-		}
-
-		$sql = "SELECT DISTINCT (il_bibl_attribute.id), (il_bibl_attribute.name), filename FROM il_bibl_attribute
-				JOIN il_bibl_entry ON il_bibl_attribute.entry_id = il_bibl_entry.id
-				JOIN il_bibl_data ON il_bibl_data.id = il_bibl_entry.data_id";
-
-		$result = $DIC->database()->query($sql);
-
-		$data = [];
-		$i = 0;
-		while ($d = $DIC->database()->fetchAssoc($result)) {
-			$file_parts = pathinfo($d['filename']);
-			if ($file_parts['extension'] == $data_type) {
-				$data[$i]['id'] = $d['id'];
-				$data[$i]['name'] = $d['name'];
-				$data[$i]['filename'] = $d['filename'];
-				$i ++;
-			}
-		}
-
-		return $data;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getAllAttributeNamesByIdentifier($identifier) {
-		global $DIC;
-
-		$sql = "SELECT DISTINCT (il_bibl_attribute.id), (il_bibl_attribute.name), filename FROM il_bibl_attribute
-				JOIN il_bibl_entry ON il_bibl_attribute.entry_id = il_bibl_entry.id
-				JOIN il_bibl_data ON il_bibl_data.id = il_bibl_entry.data_id WHERE "
-		       . $DIC->database()->like("il_bibl_attribute.name", "text", "%" . $identifier . "%");
-
-		$result = $DIC->database()->query($sql);
-
-		$data = [];
-
-		while ($d = $DIC->database()->fetchAssoc($result)) {
-			$data[] = $d;
-		}
-
-		return $data;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getAttributeNameAndFileName($obj_id) {
-		global $DIC;
-		$sql = "SELECT DISTINCT(il_bibl_attribute.name), filename FROM il_bibl_attribute
-				JOIN il_bibl_entry ON il_bibl_attribute.entry_id = il_bibl_entry.id
-				JOIN il_bibl_data ON il_bibl_data.id = il_bibl_entry.data_id";
-
-		$result = $DIC->database()->queryF($sql, [ 'integer' ], [ $obj_id ]);
-
-		$data = [];
-		while ($d = $DIC->database()->fetchAssoc($result)) {
-			$data[] = $d['name'];
-		}
-
-		return $data;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getilBiblDataById($id) {
-		global $DIC;
-		$data = array();
-		$set = $DIC->database()->query("SELECT * FROM il_bibl_data " . " WHERE id = "
-		                               . $DIC->database()->quote($id, "integer"));
-		while ($rec = $DIC->database()->fetchAssoc($set)) {
-			$data = $rec;
-		}
-
-		return $data;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function findOrCreateFieldOfAttribute(ilBiblAttributeInterface $ilBiblAttribute) {
-		$ilBiblField = ilBiblField::where([ 'identifier' => $ilBiblAttribute->getName() ])->first();
-		if ($ilBiblField === null) {
-			$ilBiblField = new ilBiblField();
-			$ilBiblField->setIdentifier($ilBiblAttribute->getName());
-
-			$ilBiblEntry = ilBiblEntry::getEntryById($ilBiblAttribute->getEntryId());
-			$ilBiblData = $this->getIlBiblDataById($ilBiblEntry['data_id']);
-
-			$file_parts = pathinfo($ilBiblData['filename']);
-			$extension = $file_parts['extension'];
-
-			$ilBiblTypeFactory = new ilBiblTypeFactory();
-			$data_type = $ilBiblTypeFactory->convertFileEndingToDataType($extension);
-
-			$ilBiblField->setDataType($data_type);
-			$type_inst = $ilBiblTypeFactory->getInstanceForType($data_type);
-			$ilBiblField->setIsStandardField($type_inst->isStandardField($ilBiblAttribute->getName()));
-
-			$ilBiblField->create();
-		}
-
-		return $ilBiblField;
-	}
-
 
 	// Internal Methods
-	private function findByIdentifier($identifier) {
-		return ilBiblField::where(array( 'identifier' => $identifier ))->first();
-	}
 
 
-	private function findByIdentifierWherePositionIsNotNull($identifier) {
-		return ilBiblField::where(array(
-			'identifier' => $identifier,
-			'position'   => null,
-		), array( 'identifier' => "=", 'position' => "IS NOT" ))->first();
+	/**
+	 * @param ilBiblFieldInterface $field
+	 *
+	 * @return int
+	 */
+	private function getNextFreePosition(ilBiblFieldInterface $field): int {
+		global $DIC;
+		$tablename = ilBiblField::TABLE_NAME;
+		$q = "SELECT MAX(position) + 1 as next_position FROM {$tablename} WHERE data_type = %s;";
+		$res = $DIC->database()->queryF($q, ['integer'], [$field->getDataType()]);
+		$data = $DIC->database()->fetchObject($res);
+
+		return (int)$data->next_position;
 	}
 
 
@@ -292,7 +189,7 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 	 * @return \ilBiblField
 	 */
 	private function getARInstance($type, $identifier) {
-		return ilBiblField::where([ "identifier" => $identifier, "data_type" => $type ])->first();
+		return ilBiblField::where(["identifier" => $identifier, "data_type" => $type])->first();
 	}
 
 
@@ -303,11 +200,11 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 	 */
 	private function checkType($type) {
 		switch ($type) {
-			case ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX:
-			case ilBiblTypeFactoryInterface::DATA_TYPE_RIS:
-				break;
-			default:
-				throw new ilException("bibliografic type not found");
+		case ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX:
+		case ilBiblTypeFactoryInterface::DATA_TYPE_RIS:
+			break;
+		default:
+			throw new ilException("bibliografic type not found");
 		}
 	}
 
@@ -321,7 +218,7 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 	private function getCollectionForFilter(ilBiblTypeInterface $type, ilBiblTableQueryInfoInterface $queryInfo = null) {
 		$collection = ilBiblField::getCollection();
 
-		$collection->where(array( 'data_type' => $type->getId() ));
+		$collection->where(array('data_type' => $type->getId()));
 
 		if ($queryInfo) {
 			$sorting_column = $queryInfo->getSortingColumn() ? $queryInfo->getSortingColumn() : null;
@@ -335,9 +232,9 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface {
 
 			foreach ($queryInfo->getFilters() as $queryFilter) {
 				switch ($queryFilter->getFieldName()) {
-					default:
-						$collection->where(array( $queryFilter->getFieldName() => $queryFilter->getFieldValue() ), $queryFilter->getOperator());
-						break;
+				default:
+					$collection->where(array($queryFilter->getFieldName() => $queryFilter->getFieldValue()), $queryFilter->getOperator());
+					break;
 				}
 			}
 		}

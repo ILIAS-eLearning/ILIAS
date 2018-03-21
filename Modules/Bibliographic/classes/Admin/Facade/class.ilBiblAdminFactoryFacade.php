@@ -24,9 +24,13 @@ class ilBiblAdminFactoryFacade implements ilBiblAdminFactoryFacadeInterface {
 	 */
 	protected $type_factory;
 	/**
-	 * @var \ilObjBibliographicAdmin
+	 * @var int
 	 */
-	protected $ilias_object;
+	protected $object_id;
+	/**
+	 * @var int
+	 */
+	protected $ref_id;
 
 
 	/**
@@ -35,7 +39,8 @@ class ilBiblAdminFactoryFacade implements ilBiblAdminFactoryFacadeInterface {
 	 * @param \ilObjBibliographicAdmin $ilObjBibliographicAdmin
 	 */
 	public function __construct(ilObjBibliographicAdmin $ilObjBibliographicAdmin, $type_id) {
-		$this->ilias_object = $ilObjBibliographicAdmin;
+		$this->object_id = $ilObjBibliographicAdmin->getId();
+		$this->ref_id = $ilObjBibliographicAdmin->getRefId();
 		$this->type_factory = new ilBiblTypeFactory();
 		$this->type = $this->type_factory->getInstanceForType($type_id);
 		$this->field_factory = new ilBiblFieldFactory($this->type);
@@ -78,7 +83,15 @@ class ilBiblAdminFactoryFacade implements ilBiblAdminFactoryFacadeInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function iliasObject() {
-		return $this->ilias_object;
+	public function iliasObjId() {
+		return $this->object_id;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function iliasRefId() {
+		return $this->ref_id;
 	}
 }

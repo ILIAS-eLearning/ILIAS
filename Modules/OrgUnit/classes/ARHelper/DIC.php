@@ -97,4 +97,31 @@ trait DIC {
 	protected function toolbar() {
 		return $this->dic()->toolbar();
 	}
+
+
+	/**
+	 * @return \ilDB
+	 */
+	protected function database() {
+		return $this->dic()->database();
+	}
+
+	//
+	// Helper
+	//
+	public function checkPermission($a_perm) {
+		if (!$this->checkPermissionBool($a_perm)) {
+			throw new \ilObjectException($this->lng()->txt("permission_denied"));
+		}
+	}
+
+
+	/**
+	 * @param $a_perm
+	 *
+	 * @return bool
+	 */
+	public function checkPermissionBool($a_perm) {
+		return (bool)$this->access()->checkAccess($a_perm, '', $this->http()->request()->getQueryParams()['ref_id']);
+	}
 }

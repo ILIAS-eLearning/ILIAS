@@ -161,19 +161,63 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#6>
 <?php
+// TODO fill filetype_id with the correct values
+if ($ilDB->tableExists('il_bibl_overview_model')) {
+	$type = function ($filetype_string) {
+		if (strtolower($filetype_string) == "bib"
+			|| strtolower($filetype_string) == "bibtex") {
+			return 1;
+		}
+		return 2;
+	};
+
+	if(!$ilDB->tableColumnExists('il_bibl_overview_model', 'filetype_id')) {
+		$ilDB->addTableColumn('il_bibl_overview_model', 'filetype_id', array("type" => "integer", 'length' => 4));
+	}
+
+	$res = $ilDB->query("SELECT * FROM il_bibl_overview_model");
+	while($d = $ilDB->fetchObject($res)) {
+		$type_id = (int)$type($d->filetype);
+		$ilDB->update("il_bibl_overview_model", [
+			"filetype_id" => [ "integer", $type_id ]
+		], [ "ovm_id" => $d->id ]);
+	}
+
+	$ilDB->dropTableColumn('il_bibl_overview_model', 'filetype');
+}
+?>
+<#7>
+<?php
 // Installing default fields from bib and ris
 $tf = new ilBiblTypeFactory();
-
+$bib_default_sorting = [
+	'title', 'author',
+];
 $bib = $tf->getInstanceForType(ilBiblTypeFactory::DATA_TYPE_BIBTEX);
-foreach ($bib->getStandardFieldIdentifiers() as $identifier) {
-
+$ff_bib = new ilBiblFieldFactory($bib);
+foreach ($bib->getStandardFieldIdentifiers() as $i => $identifier) {
+	$field = $ff_bib->findOrCreateFieldByTypeAndIdentifier($bib->getId(), $identifier);
+	$field->setPosition($i + 1);
+	$field->store();
+	$array_search = array_search($identifier, $bib_default_sorting);
+	if ($array_search !== false) {
+		$field->setPosition((int)$array_search + 1);
+		$ff_bib->forcePosition($field);
+	}
 }
-
+$ris_default_sorting = [
+	'T1', 'AU',
+];
 $ris = $tf->getInstanceForType(ilBiblTypeFactory::DATA_TYPE_RIS);
-foreach ($ris->getStandardFieldIdentifiers() as $identifier) {
-
+$ff_ris = new ilBiblFieldFactory($ris);
+foreach ($ris->getStandardFieldIdentifiers() as $i => $identifier) {
+	$field = $ff_ris->findOrCreateFieldByTypeAndIdentifier($ris->getId(), $identifier);
+	$field->setPosition($i + 1);
+	$field->store();
+	$array_search = array_search($identifier, $ris_default_sorting);
+	if ($array_search !== false) {
+		$field->setPosition((int)$array_search + 1);
+		$ff_bib->forcePosition($field);
+	}
 }
-
-
 ?>
-
