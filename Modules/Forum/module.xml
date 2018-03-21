@@ -31,4 +31,5 @@
 	<crons>		
 		<cron id="frm_notification" class="ilForumCronNotification" />
 	</crons>
+	<logging />
 </module>
