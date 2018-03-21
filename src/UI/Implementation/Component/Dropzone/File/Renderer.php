@@ -87,7 +87,7 @@ class Renderer extends AbstractComponentRenderer {
 		$button = $dropzone->getUploadButton();
 
 		// Select-Button
-		$select_button = $f->link()->standard($this->txt('select_files_from_computer'), '#');
+		$select_button = $f->button()->shy($this->txt('select_files_from_computer'), '#');
 		$tpl->setVariable('SHY_BUTTON', $r->render($select_button));
 
 		// Upload-Button
