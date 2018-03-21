@@ -8,12 +8,6 @@
 interface ilBiblOverviewModelFactoryInterface {
 
 	/**
-	 * @return \ilBiblOverviewModelInterface[]
-	 */
-	public function getAllOverviewModels();
-
-
-	/**
 	 * @param ilBiblTypeInterface $type
 	 *
 	 * @return ilBiblOverviewModelInterface

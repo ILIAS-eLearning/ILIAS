@@ -8,20 +8,34 @@
 class ilBiblOverviewModelFactory implements ilBiblOverviewModelFactoryInterface {
 
 	/**
+	 * @var array
+	 */
+	protected static $models = [];
+
+
+	/**
 	 * @deprecated REFACTOR use active record. Create ilBiblOverviewModel AR, Factory and Interface
 	 *
 	 * @return array
 	 */
-	public function getAllOverviewModels() {
+	private function getAllOverviewModels() {
+		if (count(self::$models) > 0) {
+			return self::$models;
+		}
+		/**
+		 * @var $overviewModels ilBiblOverviewModel[]
+		 */
 		$overviewModels = ilBiblOverviewModel::get();
 		$overviewModelsArray = array();
-		foreach($overviewModels as $model) {
-			if($model->getLiteratureType()) {
-				$overviewModelsArray[$model->getFileType()][$model->getLiteratureType()] = $model->getPattern();
+		foreach ($overviewModels as $model) {
+			if ($model->getLiteratureType()) {
+				$overviewModelsArray[(int)$model->getFileTypeId()][$model->getLiteratureType()] = $model->getPattern();
 			} else {
-				$overviewModelsArray[$model->getFileType()] = $model->getPattern();
+				$overviewModelsArray[(int)$model->getFileTypeId()] = $model->getPattern();
 			}
 		}
+		self::$models = $overviewModelsArray;
+
 		return $overviewModelsArray;
 	}
 
@@ -31,7 +45,9 @@ class ilBiblOverviewModelFactory implements ilBiblOverviewModelFactoryInterface 
 	 */
 	public function getAllOverviewModelsByType(ilBiblTypeInterface $type) {
 		$models = $this->getAllOverviewModels();
-		return $models[$type->getId()];
 
+		$id = $type->getId();
+
+		return $models[$id];
 	}
 }

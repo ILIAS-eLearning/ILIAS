@@ -44,8 +44,9 @@ class ilBiblEntryDetailPresentationGUI {
 
 	private function initTabs() {
 		$this->tabs()->clearTargets();
-		$this->tabs()->setBackTarget($this->lng()->txt("back"), $this->ctrl()
-		                                                             ->getLinkTargetByClass(ilObjBibliographicGUI::class, ilObjBibliographicGUI::CMD_SHOW_CONTENT));
+		$this->tabs()->setBackTarget(
+			$this->lng()->txt("back"), $this->ctrl()->getLinkTargetByClass(ilObjBibliographicGUI::class, ilObjBibliographicGUI::CMD_SHOW_CONTENT)
+		);
 	}
 
 
@@ -62,8 +63,9 @@ class ilBiblEntryDetailPresentationGUI {
 		$this->renderAttributes($form);
 		$this->renderLibraries($form);
 
-		$this->tpl()->setPermanentLink("bibl", $this->facade->iliasObject()->getRefId(), "_"
-		                                                                                 . $_GET[ilObjBibliographicGUI::P_ENTRY_ID]);
+		$this->tpl()->setPermanentLink(
+			"bibl", $this->facade->iliasRefId(), "_" . (int)$_GET[ilObjBibliographicGUI::P_ENTRY_ID]
+		);
 
 		return $form->getHTML();
 	}
@@ -74,8 +76,7 @@ class ilBiblEntryDetailPresentationGUI {
 	 */
 	protected function renderAttributes(ilPropertyFormGUI $form) {
 		$attributes = $this->facade->attributeFactory()->getAttributesForEntry($this->entry);
-		$sorted = $this->facade->attributeFactory()
-		                       ->sortAttributes($this->facade->fieldFactory(), $attributes);
+		$sorted = $this->facade->attributeFactory()->sortAttributes($attributes);
 
 		foreach ($sorted as $attribute) {
 			$translated = $this->facade->translationFactory()->translateAttribute($attribute);

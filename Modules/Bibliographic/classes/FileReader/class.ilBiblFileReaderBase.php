@@ -168,7 +168,7 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface {
 			$entry_factory = $this->getEntryFactory();
 			$entry_model = $entry_factory->getEmptyInstance();
 			$entry_model->setType($type);
-			$entry_model->setBibliographicObjId($bib->getId());
+			$entry_model->setDataId($bib->getId());
 			$entry_model->store();
 			foreach($parsed_entry as $entry) {
 				$this->getAttributeFactory()->createAttribute($entry['name'], $entry['value'], $entry_model->getId());

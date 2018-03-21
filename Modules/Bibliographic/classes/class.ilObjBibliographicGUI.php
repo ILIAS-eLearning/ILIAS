@@ -197,7 +197,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	public function infoScreenForward() {
 		global $DIC;
 
-		if (!$this->checkPermissionBool("visible") && !$this->checkPermissionBool('read')) {
+		if (!$this->checkPermissionBoolAndReturn("visible") && !$this->checkPermissionBoolAndReturn('read')) {
 			ilUtil::sendFailure($DIC['lng']->txt("msg_no_perm_read"), true);
 			$this->ctrl->redirectByClass('ilPersonalDesktopGUI', '');
 		}

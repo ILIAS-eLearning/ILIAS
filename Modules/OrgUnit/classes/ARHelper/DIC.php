@@ -109,8 +109,8 @@ trait DIC {
 	//
 	// Helper
 	//
-	public function checkPermission($a_perm) {
-		if (!$this->checkPermissionBool($a_perm)) {
+	public function checkPermissionAndFail($a_perm) {
+		if (!$this->checkPermissionBoolAndReturn($a_perm)) {
 			throw new \ilObjectException($this->lng()->txt("permission_denied"));
 		}
 	}
@@ -121,7 +121,7 @@ trait DIC {
 	 *
 	 * @return bool
 	 */
-	public function checkPermissionBool($a_perm) {
+	public function checkPermissionBoolAndReturn($a_perm) {
 		return (bool)$this->access()->checkAccess($a_perm, '', $this->http()->request()->getQueryParams()['ref_id']);
 	}
 }

@@ -51,7 +51,7 @@ class ilBiblLibraryGUI {
 	 * @return bool
 	 */
 	public function index() {
-		if ($this->checkPermissionBool('write')) {
+		if ($this->checkPermissionBoolAndReturn('write')) {
 			$b = ilLinkButton::getInstance();
 			$b->setCaption(self::CMD_ADD);
 			$b->setUrl($this->ctrl()->getLinkTarget($this, self::CMD_ADD));
@@ -71,7 +71,7 @@ class ilBiblLibraryGUI {
 	 * @return \ilBiblLibraryTableGUI
 	 */
 	protected function initTable() {
-		$table = new ilBiblLibraryTableGUI($this, $this->checkPermissionBool('write'));
+		$table = new ilBiblLibraryTableGUI($this, $this->checkPermissionBoolAndReturn('write'));
 		$settings = $this->facade->libraryFactory()->getAll();
 		$result = array();
 		foreach ($settings as $set) {
@@ -92,7 +92,7 @@ class ilBiblLibraryGUI {
 	 * add library
 	 */
 	public function add() {
-		$this->checkPermission('write');
+		$this->checkPermissionAndFail('write');
 		$form = new ilBiblLibraryFormGUI($this->facade->libraryFactory()->getEmptyInstance());
 		$this->tpl()->setContent($form->getHTML());
 	}
@@ -102,7 +102,7 @@ class ilBiblLibraryGUI {
 	 * delete library
 	 */
 	public function delete() {
-		$this->checkPermission('write');
+		$this->checkPermissionAndFail('write');
 		$ilBibliographicSetting = $this->getInstanceFromRequest();
 		$ilBibliographicSetting->delete();
 		$this->ctrl()->redirect($this, self::CMD_INDEX);
@@ -121,7 +121,7 @@ class ilBiblLibraryGUI {
 	 * save changes in library
 	 */
 	public function update() {
-		$this->checkPermission('write');
+		$this->checkPermissionAndFail('write');
 		$ilBibliographicSetting = $this->getInstanceFromRequest();
 		$form = new ilBiblLibraryFormGUI($ilBibliographicSetting);
 		$form->setValuesByPost();
@@ -137,7 +137,7 @@ class ilBiblLibraryGUI {
 	 * create library
 	 */
 	public function create() {
-		$this->checkPermission('write');
+		$this->checkPermissionAndFail('write');
 		$form = new ilBiblLibraryFormGUI($this->facade->libraryFactory()->getEmptyInstance());
 		$form->setValuesByPost();
 		if ($form->saveObject()) {
@@ -152,7 +152,7 @@ class ilBiblLibraryGUI {
 	 * edit library
 	 */
 	public function edit() {
-		$this->checkPermission('write');
+		$this->checkPermissionAndFail('write');
 		$this->ctrl()->saveParameter($this, self::F_LIB_ID);
 		$ilBibliographicSetting = $this->getInstanceFromRequest();
 		$form = new ilBiblLibraryFormGUI($ilBibliographicSetting);

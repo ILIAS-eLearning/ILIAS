@@ -9,6 +9,7 @@ class ilBiblOverviewModel extends ActiveRecord implements ilBiblOverviewModelInt
 
 	const TABLE_NAME = 'il_bibl_overview_model';
 
+
 	/**
 	 * @return string
 	 */
@@ -16,12 +17,14 @@ class ilBiblOverviewModel extends ActiveRecord implements ilBiblOverviewModelInt
 		return self::TABLE_NAME;
 	}
 
+
 	/**
 	 * @return string
 	 */
 	public function getConnectorContainerName() {
 		return self::TABLE_NAME;
 	}
+
 
 	/**
 	 * @var
@@ -42,7 +45,7 @@ class ilBiblOverviewModel extends ActiveRecord implements ilBiblOverviewModelInt
 	 * @con_fieldtype  integer
 	 * @con_length     4
 	 */
-	protected $filetype;
+	protected $file_type_id;
 	/**
 	 * @var
 	 *
@@ -59,6 +62,7 @@ class ilBiblOverviewModel extends ActiveRecord implements ilBiblOverviewModelInt
 	 * @con_length     512
 	 */
 	protected $pattern;
+
 
 	/**
 	 * @return mixed
@@ -79,16 +83,16 @@ class ilBiblOverviewModel extends ActiveRecord implements ilBiblOverviewModelInt
 	/**
 	 * @return mixed
 	 */
-	public function getFileType() {
-		return $this->filetype;
+	public function getFileTypeId() {
+		return $this->file_type_id;
 	}
 
 
 	/**
 	 * @param mixed $file_type
 	 */
-	public function setFileType($file_type) {
-		$this->filetype = $file_type;
+	public function setFileTypeId($file_type) {
+		$this->file_type_id = $file_type;
 	}
 
 
@@ -122,5 +126,4 @@ class ilBiblOverviewModel extends ActiveRecord implements ilBiblOverviewModelInt
 	public function setPattern($pattern) {
 		$this->pattern = $pattern;
 	}
-
 }

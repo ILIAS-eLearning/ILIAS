@@ -92,8 +92,8 @@ class ilBiblEntryFactory implements ilBiblEntryFactoryInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function findByIdAndTypeString($id, $type_string) {
-		return ilBiblEntry::where(array( 'id' => $id, 'type' => $type_string ))->first();
+	public function findByIdAndTypeString($id, $type_string): ilBiblEntryInterface {
+		return ilBiblEntry::where(array( 'id' => $id))->first();
 	}
 
 
@@ -204,7 +204,10 @@ class ilBiblEntryFactory implements ilBiblEntryFactoryInterface {
 
 
 	public function deleteEntryById($id) {
-		ilBiblEntry::where(array( 'id' => $id ))->first()->delete();
+		$entry = ilBiblEntry::where(array('id' => $id))->first();
+		if ($entry instanceof ilBiblEntry) {
+			$entry->delete();
+		}
 	}
 
 

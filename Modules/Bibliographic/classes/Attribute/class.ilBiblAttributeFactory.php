@@ -44,7 +44,7 @@ WHERE a.name = %s AND d.id = %s";
 	 * @inheritDoc
 	 */
 	public function getAttributesForEntry(ilBiblEntryInterface $entry) {
-		return ilBiblAttribute::where([ 'entry_id' => $entry->getEntryId() ])->get();
+		return ilBiblAttribute::where([ 'entry_id' => $entry->getId() ])->get();
 	}
 
 
@@ -80,7 +80,6 @@ WHERE a.name = %s AND d.id = %s";
 	 * @inheritDoc
 	 */
 	public function createAttribute($name, $value, $entry_id) {
-
 		$ilBiblAttribute = new ilBiblAttribute();
 		$ilBiblAttribute->setName($name);
 		$ilBiblAttribute->setValue($value);

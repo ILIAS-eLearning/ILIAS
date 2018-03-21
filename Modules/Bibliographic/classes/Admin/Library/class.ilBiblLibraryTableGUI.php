@@ -37,7 +37,7 @@ class ilBiblLibraryTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable('VAL_LIBRARY_URL', $a_set['url']);
 		$this->tpl->setVariable('VAL_LIBRARY_IMG', $a_set['img']);
 
-		if ($this->checkPermissionBool('write')) {
+		if ($this->checkPermissionBoolAndReturn('write')) {
 			$this->ctrl()->setParameter($this->parent_obj, ilBiblLibraryGUI::F_LIB_ID, $a_set['id']);
 			$current_selection_list = new ilAdvancedSelectionListGUI();
 			$current_selection_list->setListTitle($this->lng->txt("actions"));

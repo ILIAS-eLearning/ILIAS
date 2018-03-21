@@ -7,8 +7,8 @@
  */
 interface ilBiblTypeFactoryInterface {
 
-	const DATA_TYPE_BIBTEX = 2;
 	const DATA_TYPE_RIS = 1;
+	const DATA_TYPE_BIBTEX = 2;
 
 
 	/**

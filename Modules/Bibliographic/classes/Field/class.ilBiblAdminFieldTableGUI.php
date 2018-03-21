@@ -101,22 +101,17 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 	public function fillRow($a_set) {
 		$field = $this->facade->fieldFactory()->findById($a_set['id']);
 
+		$this->tpl->setVariable('FIELD_ID',  $field->getId());
 		$this->tpl->setCurrentBlock("POSITION");
-		$this->tpl->setVariable('POSITION_VALUE',  $this->position_index); //$field->getPosition() ? $field->getPosition() :
-		$this->tpl->setVariable('POSITION_NAME', "row_values[" . $a_set['id'] . "][position]");
+		$this->tpl->setVariable('POSITION_VALUE',  $this->position_index);
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setCurrentBlock("IDENTIFIER");
 		$this->tpl->setVariable('IDENTIFIER_VALUE', $field->getIdentifier());
-
-		$this->tpl->setVariable('IDENTIFIER_NAME', "row_values[" . $field->getId()
-		                                           . "][identifier]");
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setCurrentBlock("TRANSLATION");
-
 		$this->tpl->setVariable('VAL_TRANSLATION', $this->facade->translationFactory()->translate($field));
-
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setCurrentBlock("STANDARD");
@@ -126,14 +121,8 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI {
 			$this->tpl->setVariable('IS_STANDARD_VALUE', $this->lng()->txt("custom"));
 		}
 
-		$this->tpl->setVariable('IS_STANDARD_NAME', "row_values[" . $field->getId()
-		                                            . "][is_standard_field]");
 		$this->tpl->parseCurrentBlock();
 
-		$this->tpl->setCurrentBlock("DATA_TYPE");
-		$this->tpl->setVariable('DATA_TYPE_NAME', "row_values[" . $field->getId() . "][data_type]");
-		$this->tpl->setVariable('DATA_TYPE_VALUE', $this->facade->type()->getId());
-		$this->tpl->parseCurrentBlock();
 		$this->addActionMenu($field);
 
 		$this->position_index ++;

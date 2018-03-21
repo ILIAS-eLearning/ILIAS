@@ -56,6 +56,7 @@ class ilBiblAttribute extends ActiveRecord implements ilBiblAttributeInterface {
 	 * @con_is_notnull true
 	 * @con_is_primary true
 	 * @con_is_unique  true
+	 * @con_sequence  true
 	 */
 	protected $id;
 

@@ -14,35 +14,40 @@ interface ilBiblOverviewModelInterface {
 
 
 	/**
-	 * @param integer $ovm_id
+	 * @param int $ovm_id
 	 */
 	public function setOvmId($ovm_id);
 
 
 	/**
-	 * @return integer
+	 * @return int
 	 */
-	public function getFileType();
+	public function getFileTypeId();
+
 
 	/**
-	 * @param integer $file_type
+	 * @param int $file_type
 	 */
-	public function setFileType($file_type);
+	public function setFileTypeId($file_type);
+
 
 	/**
 	 * @return string
 	 */
 	public function getLiteratureType();
 
+
 	/**
 	 * @param string $literature_type
 	 */
 	public function setLiteratureType($literature_type);
 
+
 	/**
 	 * @return string
 	 */
 	public function getPattern();
+
 
 	/**
 	 * @param string $pattern

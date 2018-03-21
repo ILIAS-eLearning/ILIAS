@@ -64,6 +64,7 @@ class ilObjBibliographic extends ilObject2 {
 	 */
 	protected $file_type = 0;
 
+
 	/**
 	 * initType
 	 *
@@ -87,6 +88,7 @@ class ilObjBibliographic extends ilObject2 {
 			$this->doRead();
 		}
 		parent::__construct($existant_bibl_id, false);
+
 		$this->bib_type_factory = new ilBiblTypeFactory();
 		$this->bib_field_factory = new ilBiblFieldFactory($this->bib_type_factory->getInstanceForType($this->getFileType()));
 		$this->bib_overview_factory = new ilBiblOverviewModelFactory();
@@ -110,15 +112,15 @@ class ilObjBibliographic extends ilObject2 {
 			$this->moveUploadedFile($upload);
 		}
 
-		$DIC->database()->insert("il_bibl_data", [
-			"id"        => [ "integer", $this->getId() ],
-			"filename"  => [ "text", $this->getFilename() ],
-			"is_online" => [ "integer", $this->getOnline() ],
-			"file_type" => [ "integer", $this->determineFileTypeByFileName($this->getFilename()) ],
-		]);
+		$DIC->database()->insert(
+			"il_bibl_data", [
+			"id" => ["integer", $this->getId()], "filename" => ["text", $this->getFilename()], "is_online" => ["integer", $this->getOnline()], "file_type" => ["integer", $this->determineFileTypeByFileName($this->getFilename())],
+		]
+		);
 
 		$this->parseFileToDatabase();
 	}
+
 
 	protected function doRead() {
 		global $DIC;
@@ -148,11 +150,11 @@ class ilObjBibliographic extends ilObject2 {
 			$this->parseFileToDatabase();
 		}
 
-		$DIC->database()->update("il_bibl_data", [
-			"filename"  => [ "text", $this->getFilename() ],
-			"is_online" => [ "integer", $this->getOnline() ],
-			"file_type" => [ "integer", $this->getFileType() ],
-		], [ "id" => [ "integer", $this->getId() ] ]);
+		$DIC->database()->update(
+			"il_bibl_data", [
+			"filename" => ["text", $this->getFilename()], "is_online" => ["integer", $this->getOnline()], "file_type" => ["integer", $this->getFileType()],
+		], ["id" => ["integer", $this->getId()]]
+		);
 	}
 
 
@@ -167,16 +169,17 @@ class ilObjBibliographic extends ilObject2 {
 			$this->deleteFile();
 		}
 		//il_bibl_attribute
-		$ilDB->manipulate("DELETE FROM il_bibl_attribute WHERE il_bibl_attribute.entry_id IN "
-		                  . "(SELECT il_bibl_entry.id FROM il_bibl_entry WHERE il_bibl_entry.data_id = "
-		                  . $ilDB->quote($this->getId(), "integer") . ")");
+		$ilDB->manipulate(
+			"DELETE FROM il_bibl_attribute WHERE il_bibl_attribute.entry_id IN " . "(SELECT il_bibl_entry.id FROM il_bibl_entry WHERE il_bibl_entry.data_id = " . $ilDB->quote($this->getId(), "integer") . ")"
+		);
 		//il_bibl_entry
 		$this->bib_entry_factory->deleteEntryById($this->getId());
 
 		if (!$leave_out_il_bibl_data) {
 			//il_bibl_data
-			$ilDB->manipulate("DELETE FROM il_bibl_data WHERE id = "
-			                  . $ilDB->quote($this->getId(), "integer"));
+			$ilDB->manipulate(
+				"DELETE FROM il_bibl_data WHERE id = " . $ilDB->quote($this->getId(), "integer")
+			);
 		}
 		// delete history entries
 		ilHistory::_removeEntriesForObject($this->getId());
@@ -304,10 +307,13 @@ class ilObjBibliographic extends ilObject2 {
 	 * @return int
 	 */
 	public function getFileType() {
-		$instance = $this->bib_type_factory->getInstanceForFileName($this->getFilename());
+		$filename = $this->getFilename();
+		if ($filename === null) {
+			return ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX;
+		}
+		$instance = $this->bib_type_factory->getInstanceForFileName($filename);
 
 		return $instance->getId();
-		// return $this->file_type;
 	}
 
 

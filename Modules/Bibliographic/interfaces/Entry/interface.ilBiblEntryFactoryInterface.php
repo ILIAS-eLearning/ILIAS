@@ -15,7 +15,7 @@ interface ilBiblEntryFactoryInterface {
 	 *
 	 * @return \ilBiblEntryInterface
 	 */
-	public function findByIdAndTypeString($id, $type_string);
+	public function findByIdAndTypeString($id, $type_string): ilBiblEntryInterface;
 
 	/**
 	 * @param int        $id
