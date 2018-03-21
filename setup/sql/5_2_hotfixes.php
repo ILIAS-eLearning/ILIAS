@@ -439,3 +439,7 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#29>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
