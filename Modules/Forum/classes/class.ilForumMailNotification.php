@@ -51,6 +51,26 @@ class ilForumMailNotification extends ilMailNotification
 	}
 
 	/**
+	 * @inheritdoc
+	 */
+	protected function initMail()
+	{
+		$mail = parent::initMail();
+		$this->logger->debug('Initialized mail service');
+		return $mail;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function sendMail(array $a_rcp, $a_type, $a_parse_recipients = true)
+	{
+		$this->logger->debug('Delegating notification transport to mail service ...');
+		parent::sendMail($a_rcp, $a_type, $a_parse_recipients);
+		$this->logger->debug('Notification transport delegated');
+	}
+
+	/**
 	 * @return bool
 	 * @throws ilDateTimeException
 	 */
@@ -63,11 +83,13 @@ class ilForumMailNotification extends ilMailNotification
 
 		if(!$ilSetting->get('forum_notification', 0))
 		{
+			$this->logger->debug('Forum notifications are globally disabled');
 			return false;
 		}
 
 		if(!$this->getRecipients())
 		{
+			$this->logger->debug('No notification recipients, nothing to do');
 			return false;
 		}
 
