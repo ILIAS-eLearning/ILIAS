@@ -1,19 +1,25 @@
-<div>{QUESTIONTEXT}</div>
+<div class="ilc_question_MatchingQuestion">
+<!-- BEGIN question_text -->
+<div class="ilc_qtitle_Title">{QUESTIONTEXT}</div>
+<!-- END question_text -->
+<div class="ilc_answers answers">
 <table class="solutiontable ilClearFloat">
 <!-- BEGIN row -->
 	<tr>
 		<td class="matching">
 <!-- BEGIN definition_text -->
-			<span class="solutionbox">{DEFINITION}</span>
+			<div class="ilc_qanswer_Answer solutionbox">{DEFINITION}</div>
 <!-- END definition_text -->		
 <!-- BEGIN definition_image -->
 			<table class="ilc_media_cont_MediaContainer">
 				<tr>
-					<td class="ilc_Mob"><img border="0" src="{ANSWER_IMAGE_URL}" alt="{ANSWER_IMAGE_ALT}" title="{ANSWER_IMAGE_TITLE}" /></td>
+					<td class="ilc_Mob"><img class="ilc_qimg_QuestionImage" border="0" src="{ANSWER_IMAGE_URL}" alt="{ANSWER_IMAGE_ALT}" title="{ANSWER_IMAGE_TITLE}" /></td>
 				</tr>
 				<tr>
 					<td>
-						<div class="ilc_media_caption_MediaCaption"><a target="_blank" href="{URL_PREVIEW}" title="{TEXT_PREVIEW}"><!-- BEGIN definition_image_text -->{TEXT_DEFINITION} <!-- END definition_image_text --><img border="0" align="right" src="{IMG_PREVIEW}"/></a></div>
+						<div class="ilc_media_caption_MediaCaption">
+							<a class="ilc_qimgd_ImageDetailsLink" target="_blank" href="{URL_PREVIEW}" title="{TEXT_PREVIEW}"><!-- BEGIN definition_image_text -->{TEXT_DEFINITION} <!-- END definition_image_text --><img border="0" align="right" src="{IMG_PREVIEW}"/></a>
+						</div>
 					</td>
 				</tr>
 			</table>
@@ -22,16 +28,18 @@
 		<td><span>{TEXT_MATCHES}</span></td>
 		<td class="matching">
 <!-- BEGIN term_text -->
-			<span class="solutionbox">{TERM}</span>
+			<div class="ilc_qanswer_Answer solutionbox">{TERM}</div>
 <!-- END term_text -->		
 <!-- BEGIN term_image -->
 				<table class="ilc_media_cont_MediaContainer">
 					<tr>
-						<td class="ilc_Mob"><img border="0" src="{ANSWER_IMAGE_URL}" alt="{ANSWER_IMAGE_ALT}" title="{ANSWER_IMAGE_TITLE}" /></td>
+						<td class="ilc_Mob"><img class="ilc_qimg_QuestionImage" border="0" src="{ANSWER_IMAGE_URL}" alt="{ANSWER_IMAGE_ALT}" title="{ANSWER_IMAGE_TITLE}" /></td>
 					</tr>
 					<tr>
 						<td>
-							<div class="ilc_media_caption_MediaCaption"><a target="_blank" href="{URL_PREVIEW}" title="{TEXT_PREVIEW}"><!-- BEGIN term_image_text -->{TEXT_TERM} <!-- END term_image_text --><img border="0" align="right" src="{IMG_PREVIEW}"/></a></div>
+							<div class="ilc_media_caption_MediaCaption">
+								<a class="ilc_qimgd_ImageDetailsLink" target="_blank" href="{URL_PREVIEW}" title="{TEXT_PREVIEW}"><!-- BEGIN term_image_text -->{TEXT_TERM} <!-- END term_image_text --><img border="0" align="right" src="{IMG_PREVIEW}"/></a>
+							</div>
 						</td>
 					</tr>
 				</table>
@@ -51,3 +59,5 @@
 	</tr>
 <!-- END row -->
 </table>
+</div>
+</div>

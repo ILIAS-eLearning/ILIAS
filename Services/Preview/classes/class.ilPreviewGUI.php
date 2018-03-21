@@ -114,7 +114,8 @@ class ilPreviewGUI
 		if (!$ilCtrl->isAsynch())
 			ilPreviewGUI::initPreview();
 	}
-	
+
+
 	/**
 	* execute command
 	*/
@@ -352,59 +353,53 @@ class ilPreviewGUI
 		return $link;
 	}
 
+
 	/**
 	 * Initializes the preview and loads the needed javascripts and styles.
 	 */
-	private static function initPreview()
-	{
-		if (self::$initialized)
+	public static function initPreview() {
+		if (self::$initialized) {
 			return;
-		
+		}
+
 		global $DIC;
-		$tpl = $DIC['tpl'];
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
-		
-		
 		// jquery
-		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
 		iljQueryUtil::initjQuery();
-		
+
 		// load qtip
-		include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
 		ilTooltipGUI::init();
-		
+
 		// needed scripts & styles
-		$tpl->addJavaScript("./libs/bower/bower_components/jquery-mousewheel/jquery.mousewheel.js");
-		$tpl->addJavaScript("./Services/Preview/js/ilPreview.js");
-		$tpl->addCss(ilUtil::getStyleSheetLocation("filesystem", "preview.css", "Services/Preview"));
-		
+		$DIC->ui()->mainTemplate()->addJavaScript("./libs/bower/bower_components/jquery-mousewheel/jquery.mousewheel.js");
+		$DIC->ui()->mainTemplate()->addJavaScript("./Services/Preview/js/ilPreview.js");
+		$DIC->ui()->mainTemplate()->addCss(ilUtil::getStyleSheetLocation("filesystem", "preview.css", "Services/Preview"));
+
 		// create loading template
 		$tmpl = new ilTemplate("tpl.preview.html", true, true, "Services/Preview");
 		$tmpl->setCurrentBlock("no_preview");
 		$tmpl->setVariable("TXT_NO_PREVIEW", "%%0%%");
 		$tmpl->parseCurrentBlock();
-		
+
 		$initialHtml = str_replace(array("\r\n", "\r"), "\n", $tmpl->get());
 		$lines = explode("\n", $initialHtml);
 		$new_lines = array();
-		foreach ($lines as $i => $line) 
-		{
-			if(!empty($line))
+		foreach ($lines as $i => $line) {
+			if (!empty($line)) {
 				$new_lines[] = trim($line);
+			}
 		}
-		$initialHtml = implode($new_lines);		
-		
+		$initialHtml = implode($new_lines);
+
 		// add default texts and values
-		include_once("./Services/JSON/classes/class.ilJsonUtil.php");
-		$tpl->addOnLoadCode("il.Preview.texts.preview = \"" . self::jsonSafeString($lng->txt("preview")) . "\";");
-		$tpl->addOnLoadCode("il.Preview.texts.showPreview = \"" . self::jsonSafeString($lng->txt("preview_show")) . "\";");
-		$tpl->addOnLoadCode("il.Preview.texts.close = \"" . ilUtil::prepareFormOutput($lng->txt("close")) . "\";");
-		$tpl->addOnLoadCode("il.Preview.previewSize = " . ilPreviewSettings::getImageSize() . ";");
-		$tpl->addOnLoadCode("il.Preview.initialHtml = " . ilJsonUtil::encode($initialHtml) . ";");
-		$tpl->addOnLoadCode("il.Preview.highlightClass = \"ilContainerListItemOuterHighlight\";");
-		$tpl->addOnLoadCode("il.Preview.init();");
-		
+		$DIC->ui()->mainTemplate()->addOnLoadCode("il.Preview.texts.preview = \"" . self::jsonSafeString($DIC->language()->txt("preview")) . "\";");
+		$DIC->ui()->mainTemplate()->addOnLoadCode("il.Preview.texts.showPreview = \"" . self::jsonSafeString($DIC->language()->txt("preview_show"))
+		                                          . "\";");
+		$DIC->ui()->mainTemplate()->addOnLoadCode("il.Preview.texts.close = \"" . ilUtil::prepareFormOutput($DIC->language()->txt("close")) . "\";");
+		$DIC->ui()->mainTemplate()->addOnLoadCode("il.Preview.previewSize = " . ilPreviewSettings::getImageSize() . ";");
+		$DIC->ui()->mainTemplate()->addOnLoadCode("il.Preview.initialHtml = " . json_encode($initialHtml) . ";");
+		$DIC->ui()->mainTemplate()->addOnLoadCode("il.Preview.highlightClass = \"ilContainerListItemOuterHighlight\";");
+		$DIC->ui()->mainTemplate()->addOnLoadCode("il.Preview.init();");
+
 		self::$initialized = true;
 	}
 	
@@ -412,7 +407,7 @@ class ilPreviewGUI
 	 * Makes the specified string safe for JSON.
 	 * 
 	 * @param string $text The text to make JSON safe.
-	 * @return The JSON safe text.
+	 * @return string The JSON safe text.
 	 */
 	private static function jsonSafeString($text)
 	{

@@ -185,7 +185,7 @@ var Conversation = function Conversation(id, participants)
 					id = participants[key].getId();
 				}
 
-				if(id == participant.getId()) {
+				if(id > 0 && id == participant.getId()) {
 					return true;
 				}
 			}

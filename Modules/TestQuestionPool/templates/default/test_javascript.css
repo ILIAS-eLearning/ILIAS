@@ -29,6 +29,8 @@ ul.boxy li {
     text-align:left;
     margin: 5px;
     padding: 0.5em;
+	margin-left: 5px !important;
+	margin-right: 5px !important;
 }
 
 @media only screen and (min-width: 992px) {
@@ -47,6 +49,8 @@ ul.boxy li {
     margin: 5px;
     padding: 0.5em;
     cursor:pointer;
+	margin-left: 5px !important;
+	margin-right: 5px !important;
 }
 
 .draggableDisabled

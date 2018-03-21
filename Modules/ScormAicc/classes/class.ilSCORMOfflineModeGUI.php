@@ -40,7 +40,7 @@ class ilSCORMOfflineModeGUI
 	
 	function executeCommand()
 	{
-		global $log, $tpl, $ilCtrl;
+		global $log, $tpl, $ilCtrl, $lng;
 		$this->refId = $_GET["ref_id"];
 		$this->lmId = ilObject::_lookupObjectId($this->refId);
 		$this->clientIdSop = $this->offlineMode->getClientIdSop();
@@ -109,20 +109,71 @@ class ilSCORMOfflineModeGUI
 
 			case 'offlineMode_sop2ilOk':
 				$this->offlineMode->setOfflineMode("online");
-				$this->view($this->offlineMode->getOfflineMode(),$cmd);
+				ilUtil::sendSuccess($this->lng->txt('sop_msg_push_tracking_ok'),true);
+				ilUtil::redirect($this->offlineMode->lm_info_url);
+				//$this->view($this->offlineMode->getOfflineMode(),$cmd);
 				break;
 				
 			case 'offlineMode_player12' :
 				$log->write("offlineMode_player12");
 				$player12 = new ilTemplate('tpl.player12.html',true,true,'Modules/ScormAicc');
 				$player12->setVariable("SOP_TITLE","ILIAS SCORM 1.2 Offline Player"); // ToDo: Language Support
+				$js_data = file_get_contents("./Modules/ScormAicc/scripts/basisAPI.js");
+				$js_data .= file_get_contents("./Modules/ScormAicc/scripts/SCORM1_2standard.js");
+				$player12->setVariable("SOP_SCRIPT",$js_data);
 				$this->sendHtml($player12->get());
 				break;
 				
 			case 'offlineMode_player2004' :
 				$log->write("offlineMode_player2004");
+
+				// language strings
+				$langstrings['btnStart'] = $lng->txt('scplayer_start');
+				$langstrings['btnExit'] = $lng->txt('scplayer_exit');
+				$langstrings['btnExitAll'] = $lng->txt('scplayer_exitall');
+				$langstrings['btnSuspendAll'] = $lng->txt('scplayer_suspendall');
+				$langstrings['btnPrevious'] = $lng->txt('scplayer_previous');
+				$langstrings['btnContinue'] = $lng->txt('scplayer_continue');
+				$langstrings['btnhidetree']=$lng->txt('scplayer_hidetree');
+				$langstrings['btnshowtree']=$lng->txt('scplayer_showtree');
+				$langstrings['linkexpandTree']=$lng->txt('scplayer_expandtree');
+				$langstrings['linkcollapseTree']=$lng->txt('scplayer_collapsetree');
+				$langstrings['contCreditOff']=$lng->txt('cont_credit_off');
+				// if ($this->slm->getAutoReviewChar() == "s") {
+					// $langstrings['contCreditOff']=$lng->txt('cont_sc_score_was_higher_message');
+				// }
+				// $config['langstrings'] = $langstrings;
+
+				//template variables	
 				$player2004 = new ilTemplate('tpl.player2004.html',true,true,'Modules/ScormAicc');
-				$player2004->setVariable("SOP_TITLE","ILIAS SCORM 2004 Offline Player"); // ToDo: Language Support
+
+				include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
+				$player2004->setVariable("JS_FILE",iljQueryUtil::getLocaljQueryPath());
+				
+				$player2004->setVariable('JSON_LANGSTRINGS', json_encode($langstrings));
+				$player2004->setVariable('TREE_JS', "./Modules/Scorm2004/scripts/ilNestedList.js");
+				$player2004->setVariable($langstrings);
+				$player2004->setVariable("DOC_TITLE","ILIAS SCORM 2004 Offline Player");
+				$player2004->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+
+				$player2004->setVariable('TIMESTAMP', sprintf('%d%03d', $tsint, 1000*(float)$tsfrac));
+				$player2004->setVariable('BASE_DIR', './Modules/Scorm2004/');
+
+				include_once "./Modules/Scorm2004/classes/ilSCORM13Player.php";
+				$player2004->setVariable('INLINE_CSS', ilSCORM13Player::getInlineCss());
+
+				include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
+				$this->tpl->setVariable("JS_FILE",iljQueryUtil::getLocaljQueryPath());
+
+				$player2004->setVariable('JS_SCRIPTS', './Modules/Scorm2004/scripts/buildrte/rte.js');
+
+				//disable top menu
+				// if ($this->slm->getNoMenu()=="y") {
+					// $this->tpl->setVariable("VAL_DISPLAY", "style=\"display:none;\"");
+				// } else {
+					// $this->tpl->setVariable("VAL_DISPLAY", "");
+				// }
+				
 				$this->sendHtml($player2004->get());
 				break;
 				

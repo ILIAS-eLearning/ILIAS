@@ -12,13 +12,15 @@ include_once "./Modules/Forum/classes/class.ilForumMailNotification.php";
  */
 class ilForumCronNotification extends ilCronJob
 {
+	const KEEP_ALIVE_CHUNK_SIZE = 25;
+
 	/**
 	 * @var ilSetting
 	 */
 	protected $settings;
 
 	/**
-	 * @var array  ilForumCronNotificationDataProvider
+	 * @var \ilForumCronNotificationDataProvider[]
 	 */
 	public static $providerObject = array();
 
@@ -98,6 +100,14 @@ class ilForumCronNotification extends ilCronJob
 	}
 
 	/**
+	 * 
+	 */
+	public function keepAlive()
+	{
+		\ilCronManager::ping($this->getId());
+	}
+
+	/**
 	 * @return ilCronJobResult
 	 */
 	public function run()
@@ -117,7 +127,6 @@ class ilForumCronNotification extends ilCronJob
 			$last_run_datetime = null;
 		}
 
-		$numRows = 0;
 		$this->num_sent_messages = 0;
 		$cj_start_date = date('Y-m-d H:i:s');
 
@@ -130,6 +139,7 @@ class ilForumCronNotification extends ilCronJob
 		{
 			$threshold = strtotime('-' . (int)$this->settings->get('max_notification_age', 30) . ' days', time());
 		}
+
 		$threshold_date =  date('Y-m-d H:i:s', $threshold);
 		$new_posts_condition = '
 			frm_posts.pos_status = %s AND (
@@ -163,6 +173,8 @@ class ilForumCronNotification extends ilCronJob
 		{
 			$this->sendCronForumNotification($res, ilForumMailNotification::TYPE_POST_NEW);
 		}
+
+		$this->keepAlive();
 
 		/*** updated posts ***/
 		$updated_condition = '
@@ -226,6 +238,8 @@ class ilForumCronNotification extends ilCronJob
 			$this->sendCronForumNotification($res, ilForumMailNotification::TYPE_POST_CENSORED);
 		}
 		
+		$this->keepAlive();
+
 		/*** uncensored posts ***/
 		$uncensored_condition = '
 			frm_posts.pos_cens = %s AND frm_posts.pos_status = %s AND  
@@ -256,6 +270,8 @@ class ilForumCronNotification extends ilCronJob
 		{
 			$this->sendCronForumNotification($res, ilForumMailNotification::TYPE_POST_UNCENSORED);
 		}
+
+		$this->keepAlive();
 
 		/*** deleted threads ***/
 		$res = $ilDB->queryF('
@@ -288,6 +304,8 @@ class ilForumCronNotification extends ilCronJob
 				$ilLog->write(__METHOD__ . ':DELETED ENTRIES: frm_posts_deleted');
 			}
 		}
+
+		$this->keepAlive();
 
 		/*** deleted posts ***/
 		$res = $ilDB->queryF('
@@ -424,7 +442,24 @@ class ilForumCronNotification extends ilCronJob
 			}
 		}
 
-		foreach(self::$providerObject as  $provider)
+		$usrIdsToPreload = array();
+		foreach (self::$providerObject as $provider) {
+			if ($provider->getPosAuthorId()) {
+				$usrIdsToPreload[$provider->getPosAuthorId()] = $provider->getPosAuthorId();
+			}
+			if ($provider->getPosDisplayUserId()) {
+				$usrIdsToPreload[$provider->getPosDisplayUserId()] = $provider->getPosDisplayUserId();
+			}
+			if ($provider->getPostUpdateUserId()) {
+				$usrIdsToPreload[$provider->getPostUpdateUserId()] = $provider->getPostUpdateUserId();
+			}
+		}
+
+		require_once 'Modules/Forum/classes/class.ilForumAuthorInformationCache.php';
+		ilForumAuthorInformationCache::preloadUserObjects(array_unique($usrIdsToPreload));
+
+		$i = 0;
+		foreach(self::$providerObject as $provider)
 		{
 			$mailNotification = new ilForumMailNotification($provider);
 			$mailNotification->setIsCronjob(true);
@@ -432,9 +467,15 @@ class ilForumCronNotification extends ilCronJob
 			$mailNotification->setRecipients(array_unique($provider->getCronRecipients()));
 
 			$mailNotification->send();
+
+			if ($i > 0 && ($i % self::KEEP_ALIVE_CHUNK_SIZE) == 0) {
+				$this->keepAlive();
+			}
 	
 			$this->num_sent_messages += count($provider->getCronRecipients());
 			$ilLog->write(__METHOD__.':SUCCESSFULLY SEND: NotificationType: '.$notification_type.' -> Recipients: '. implode(', ',$provider->getCronRecipients()));
+
+			++$i;
 		}
 		
 		$this->resetProviderCache();

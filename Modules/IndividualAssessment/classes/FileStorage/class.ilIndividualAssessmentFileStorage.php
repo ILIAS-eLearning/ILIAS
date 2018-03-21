@@ -122,12 +122,13 @@ class ilIndividualAssessmentFileStorage extends ilFileSystemStorage implements I
 		$clean_name = preg_replace("/[^a-zA-Z0-9\_\.\-]/", "", $file["name"]);
 		$new_file = $path."/".$clean_name;
 
-		if (move_uploaded_file($file["tmp_name"], $new_file)) {
-			chmod($new_file, 0770);
-			return true;
-		}
+		ilUtil::moveUploadedFile(
+			$file["tmp_name"],
+			$clean_name, // This parameter does not do a thing
+			$new_file
+		);
 
-		return false;
+		return true;
 	}
 
 	/**

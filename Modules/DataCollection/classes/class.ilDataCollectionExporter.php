@@ -115,7 +115,7 @@ class ilDataCollectionExporter extends ilXmlExporter {
 		foreach ($a_ids as $dcl_obj_id) {
 			// If a DCL table has a detail view, we need to export the associated page objects!
 			$sql = "SELECT page_id FROM page_object "
-				. "WHERE parent_type = " . $this->db->quote('dclf', 'text');
+				. "WHERE parent_type = " . $this->db->quote('dclf', 'text') . " AND parent_id = " . $this->db->quote($dcl_obj_id, 'integer');
 			$set = $this->db->query($sql);
 			while ($rec = $this->db->fetchObject($set)) {
 				$page_object_ids[] = "dclf:" . $rec->page_id;

@@ -87,6 +87,7 @@ class ilSCORMOfflineModeUsersTableGUI extends ilTable2GUI
 		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
 		$this->setRowTemplate('tpl.scorm_offline_mode_users.html', 'Modules/ScormAicc');
 		$this->setTitle($this->lng->txt('offline_mode_users'));
+		$this->setDescription($this->lng->txt("offline_mode_users_info"));
 
 		$this->addColumn('','','1px');
 		$this->addColumn($this->lng->txt('name'), 'name');

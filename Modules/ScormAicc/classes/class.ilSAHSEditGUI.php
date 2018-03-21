@@ -9,7 +9,7 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id: class.ilSAHSPresentationGUI.php 11714 2006-07-30 17:15:55Z akill $
 *
-* @ilCtrl_Calls ilSAHSEditGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilObjSCORMLearningModuleGUI, ilObjAICCLearningModuleGUI, ilObjHACPLearningModuleGUI, ilInfoScreenGUI
+* @ilCtrl_Calls ilSAHSEditGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilObjSCORMLearningModuleGUI, ilInfoScreenGUI
 * @ilCtrl_Calls ilSAHSEditGUI: ilObjSCORM2004LearningModuleGUI, ilExportGUI, ilObjSAHSLearningModuleGUI, ilLTIProviderObjectSettingGUI
 *
 * @ingroup ModulesScormAicc
@@ -72,16 +72,6 @@ class ilSAHSEditGUI
 				include_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModuleGUI.php");
 				$this->slm_gui = new ilObjSCORMLearningModuleGUI("", $_GET["ref_id"],true,false);
 				break;
-
-			case "aicc":
-				include_once("./Modules/ScormAicc/classes/class.ilObjAICCLearningModuleGUI.php");
-				$this->slm_gui = new ilObjAICCLearningModuleGUI("", $_GET["ref_id"],true,false);
-				break;
-				
-			case "hacp":
-				include_once("./Modules/ScormAicc/classes/class.ilObjHACPLearningModuleGUI.php");
-				$this->slm_gui = new ilObjHACPLearningModuleGUI("", $_GET["ref_id"],true,false);
-				break;
 		}
 
 		if ($next_class == "")
@@ -96,14 +86,6 @@ class ilSAHSEditGUI
 				case "scorm":
 					$this->ctrl->setCmdClass("ilobjscormlearningmodulegui");
 					break;
-	
-				case "aicc":
-					$this->ctrl->setCmdClass("ilobjaicclearningmodulegui");
-					break;
-					
-				case "hacp":
-					$this->ctrl->setCmdClass("ilobjhacplearningmodulegui");
-					break;
 			}
 			$next_class = $this->ctrl->getNextClass($this);
 		}
@@ -115,13 +97,6 @@ class ilSAHSEditGUI
 			$ret = $this->ctrl->forwardCommand($this->slm_gui);
 			break;
 
-		case "ilobjaicclearningmodulegui":
-			$ret = $this->ctrl->forwardCommand($this->slm_gui);
-			break;
-
-		case "ilobjhacplearningmodulegui":
-			$ret = $this->ctrl->forwardCommand($this->slm_gui);
-			break;
 		case "ilexportgui":
 			$obj_id = ilObject::_lookupObjectId($_GET["ref_id"]);
 			if ($cmd == "create_xml")

@@ -118,4 +118,14 @@ class DefaultRendererTest extends ILIAS_UI_TestBase {
 		$html = $renderer->renderAsync($c2);
 		$this->assertEquals('foo<script>id:foo.id content:foo</script>',$html);
 	}
+
+	public function test_render_async_array() {
+		$c1 = new \ILIAS\UI\Component\Test\TestComponent("foo");
+
+		$renderer = $this->getDefaultRenderer(
+				new \ILIAS\UI\Implementation\Render\ilJavaScriptBinding($this->getTemplateFactory()->getTemplate(false,false,false))
+		);
+		$html = $renderer->renderAsync([$c1,$c1]);
+		$this->assertEquals('foofoo',$html);
+	}
 }

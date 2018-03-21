@@ -9,6 +9,18 @@
 interface ilDBInterface {
 
 	/**
+	 * @return bool
+	 */
+	public function doesCollationSupportMB4Strings();
+
+	/**
+	 * @param $query string to sanitize, all MB4-Characters like emojis will re replaced with ???
+	 *
+	 * @return string sanitized query
+	 */
+	public function sanitizeMB4StringIfNotSupported($query);
+
+	/**
 	 * Get reserved words. This must be overwritten in DBMS specific class.
 	 * This is mainly used to check whether a new identifier can be problematic
 	 * because it is a reserved word. So createTable / alterTable usually check
@@ -112,6 +124,14 @@ interface ilDBInterface {
 
 
 	/**
+	 * Run a (read-only) Query on the database
+	 *
+	 * The implementation MUST start and stop a $ilBench Database-Benchmark, e.g.:
+	 *
+	 * $ilBench->startDbBench($sql);
+	 * .... [run the query]
+	 * $ilBench->stopDbBench();
+	 *
 	 * @param $query string
 	 *
 	 * @return \ilPDOStatement
@@ -174,6 +194,14 @@ interface ilDBInterface {
 
 
 	/**
+	 * Run a (write) Query on the database
+	 *
+	 * The implementation MUST start and stop a $ilBench Database-Benchmark, e.g.:
+	 *
+	 * $ilBench->startDbBench($sql);
+	 * .... [run the query]
+	 * $ilBench->stopDbBench();
+	 *
 	 * @param $query string
 	 * @return int|void
 	 */
@@ -470,8 +498,11 @@ interface ilDBInterface {
 
 
 	/**
-	 * @param $module
+	 * @param string $module Manager|Reverse
+	 *
 	 * @return ilDBReverse|ilDBManager
+	 *
+	 * @internal Please do not use this in consumer code outside the Setup-Process or DB-Update-Steps.
 	 */
 	public function loadModule($module);
 
@@ -643,7 +674,7 @@ interface ilDBInterface {
 /**
  * Interface ilDBPdoInterface
  */
-interface ilDBPdoInterface {
+interface ilDBPdoInterface extends ilDBInterface {
 
 	/**
 	 * @param bool $native
@@ -687,6 +718,7 @@ interface ilDBPdoInterface {
 
 	/**
 	 * @param string $engine
+	 *
 	 * @return array of failed tables
 	 */
 	public function migrateAllTablesToEngine($engine = ilDBConstants::MYSQL_ENGINE_INNODB);
@@ -696,6 +728,20 @@ interface ilDBPdoInterface {
 	 * @return bool
 	 */
 	public function supportsEngineMigration();
+
+
+	/**
+	 * @param string $collation
+	 *
+	 * @return array of failed tables
+	 */
+	public function migrateAllTablesToCollation($collation = ilDBConstants::MYSQL_COLLATION_UTF8MB4);
+
+
+	/**
+	 * @return bool
+	 */
+	public function supportsCollationMigration();
 
 
 	/**

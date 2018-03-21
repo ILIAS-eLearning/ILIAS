@@ -768,45 +768,65 @@ class ilObjSession extends ilObject
 		}
 	}
 	
+	/**
+	 * Handle auto fill for session members
+	 */
 	public function handleAutoFill()
 	{	
-		if($this->isRegistrationWaitingListEnabled() &&
-			$this->hasWaitingListAutoFill())
-		{					
-			// :TODO: what about ilSessionParticipants?
-			
-			include_once './Modules/Session/classes/class.ilEventParticipants.php'; 
-			$part_obj = new ilEventParticipants($this->getId());			
-			$all_reg = $part_obj->getRegistered();
-			$now = sizeof($all_reg);
-			$max = $this->getRegistrationMaxUsers();
-			if($max > $now)
-			{				
-				include_once('./Modules/Session/classes/class.ilSessionWaitingList.php');
-				$waiting_list = new ilSessionWaitingList($this->getId());
-
-				foreach($waiting_list->getUserIds() as $user_id)
-				{
-					if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($user_id,false))
-					{
-						continue;
-					}
-					if(in_array($user_id, $all_reg))
-					{
-						continue;
-					}
-					
-					ilEventParticipants::_register($user_id, $this->getId());					
-					$waiting_list->removeFromList($user_id);
-
-					$now++;
-					if($now >= $max)
-					{
-						break;
-					}
-				}
+		if(
+			!$this->isRegistrationWaitingListEnabled() || 
+			!$this->hasWaitingListAutoFill()
+		)
+		{
+			$this->session_logger->debug('Waiting list or auto fill is disabled.');
+			return true;
+		}
+		
+		$parts = ilSessionParticipants::_getInstanceByObjId($this->getId());
+		$current = $parts->getCountParticipants();
+		$max = $this->getRegistrationMaxUsers();
+		
+		if($max <= $current)
+		{
+			$this->session_logger->debug('Maximum number of participants not reached.');
+			$this->session_logger->debug('Maximum number of members: ' . $max);
+			$this->session_logger->debug('Current number of members: ' . $current);
+			return true;
+		}
+		
+		$session_waiting_list = new ilSessionWaitingList($this->getId());
+		foreach($session_waiting_list->getUserIds() as $user_id)
+		{
+			$user = ilObjectFactory::getInstanceByObjId($user_id);
+			if(!$user instanceof ilObjUser)
+			{
+				$this->session_logger->warning('Found invalid user id on waiting list: ' . $user_id);
+				continue;
 			}
-		}		
+			if(in_array($user_id, $parts->getParticipants()))
+			{
+				$this->session_logger->notice('User on waiting list already session member: ' . $user_id);
+			}
+			
+			if($this->enabledRegistration())
+			{
+				$this->session_logger->debug('Registration enabled: register user');
+				$parts->register($user_id);
+			}
+			else
+			{
+				$this->session_logger->debug('Registration disabled: set user status to participated.');
+				$parts->getEventParticipants()->updateParticipation($user_id, true);
+			}
+			
+			$session_waiting_list->removeFromList($user_id);
+			
+			$current++;
+			if($current >= $max)
+			{
+				break;
+			}
+		}
 	}
 	
 	/**

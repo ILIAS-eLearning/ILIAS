@@ -294,7 +294,7 @@ class ilLocatorGUI
 	{
 		global $DIC;
 		$ltiview = $DIC["lti"];
-		if ($ltiview->isActive() && !$ltiview->home_is_container) 
+		if ($ltiview->isActive() && !$ltiview->show_locator)
 		{
  			return "";
  		}

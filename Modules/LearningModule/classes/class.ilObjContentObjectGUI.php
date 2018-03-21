@@ -2272,7 +2272,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			if($olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION_MANUAL)
 			{
 				$tabs_gui->$addcmd("learning_progress", 
-					$this->ctrl->getLinkTargetByClass(array("illmpresentationgui", "illearningprogressgui"), "editmanual"),
+					$this->ctrl->getLinkTargetByClass(array("illmpresentationgui", "illearningprogressgui"), "editManual"),
 						"", "", $buttonTarget, $active["learning_progress"]);
 			}
 			else if($olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION_TLT)

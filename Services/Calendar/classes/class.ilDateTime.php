@@ -489,7 +489,11 @@ class ilDateTime
 		// internally we always use the default timezone
 		if($this->dt_obj)
 		{
-			$this->dt_obj->setTimeZone(new DateTimeZone($this->default_timezone->getIdentifier()));		
+			#21553
+			if($this->dt_obj->getTimezone() === FALSE) {
+				$this->dt_obj->setTimeZone(new DateTimeZone($this->default_timezone->getIdentifier()));
+			}
+
 		}
 		
 	 	return true;

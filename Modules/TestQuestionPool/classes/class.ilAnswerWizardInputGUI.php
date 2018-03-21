@@ -197,7 +197,7 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
 	function checkInput()
 	{
 		global $lng;
-		if (is_array($_POST[$this->getPostVar()])) $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
+		$this->sanitizeSuperGlobalSubmitValue();
 		$foundvalues = $_POST[$this->getPostVar()];
 		if (is_array($foundvalues))
 		{
@@ -389,5 +389,13 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
 	protected function getTemplate()
 	{
 		return "tpl.prop_answerwizardinput.html";
+	}
+	
+	protected function sanitizeSuperGlobalSubmitValue()
+	{
+		if( isset($_POST[$this->getPostVar()]) && is_array($_POST[$this->getPostVar()]) )
+		{
+			$_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
+		}
 	}
 }

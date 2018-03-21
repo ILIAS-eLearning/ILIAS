@@ -17,7 +17,7 @@ class ilBTControllerGUI {
 	const SELECTED_OPTION = 'selected_option';
 	const REPLACE_SIGNAL = 'replaceSignal';
 	const CMD_ABORT = 'abortBucket';
-	const CMD_DISMISS = 'abortBucket';
+	const CMD_REMOVE = 'abortBucket';
 	const CMD_GET_POPOVER_CONTENT = 'getPopoverContent';
 	const CMD_USER_INTERACTION = 'userInteraction';
 
@@ -36,7 +36,7 @@ class ilBTControllerGUI {
 			case self::CMD_USER_INTERACTION:
 			case self::CMD_GET_POPOVER_CONTENT:
 			case self::CMD_ABORT:
-			case self::CMD_DISMISS:
+			case self::CMD_REMOVE:
 				$this->$cmd();
 		}
 	}

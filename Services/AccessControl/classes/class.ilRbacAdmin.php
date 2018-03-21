@@ -980,20 +980,20 @@ class ilRbacAdmin
 		{
 			return true;
 		}
-
-		$query = 'INSERT INTO rbac_templates (rol_id,type,ops_id,parent) '.
-			'VALUES (?,?,?,?)';
-		$sta = $ilDB->prepareManip($query,array('integer','text','integer','integer'));
-		foreach ($a_ops as $op)
+		
+		foreach($a_ops as $op)
 		{
-			$res = $ilDB->execute($sta,array(
-				$a_rol_id,
-				$a_type,
-				$op,
-				$a_ref_id
-			));
+			$ilDB->replace(
+				'rbac_templates',
+				[
+					'rol_id'	=> ['integer', $a_rol_id],
+					'type'		=> ['text', $a_type],
+					'ops_id'	=> ['integer', $op],
+					'parent'	=> ['integer', $a_ref_id]
+				],
+				[]
+			);
 		}
-
 		return true;
 	}
 

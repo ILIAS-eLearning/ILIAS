@@ -80,6 +80,7 @@ class ilWorkflowEngineDefinitionsGUI
 				break;
 
 			case'stoplistening':
+				return $this->stopListening();
 				break;
 
 			case 'view':
@@ -144,11 +145,13 @@ class ilWorkflowEngineDefinitionsGUI
 	}
 
 	/**
-	 * @return void
+	 * @return string
+	 * @throws \ILIAS\FileUpload\Exception\IllegalStateException
+	 * @throws \ILIAS\Filesystem\Exception\DirectoryNotFoundException
+	 * @throws \ILIAS\Filesystem\Exception\IOException
 	 */
 	public function handleUploadSubmit()
 	{
-
 		$this->processUploadFormCancellation();
 
 		require_once './Services/WorkflowEngine/classes/administration/class.ilUploadDefinitionForm.php';
@@ -157,60 +160,82 @@ class ilWorkflowEngineDefinitionsGUI
 				$this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui,'definitions.upload')
 		);
 
-		if(!$form->checkInput())
-		{
+		if (!$form->checkInput()) {
 			$form->setValuesByPost();
 			return $form->getHTML();
 		}
 
-		$repo_dir_name = ilObjWorkflowEngine::getRepositoryDir() . '/';
-		if(!is_dir($repo_dir_name))
-		{
-			mkdir($repo_dir_name, 0777, true);
+		$fs     = $this->dic->filesystem()->storage();
+		$upload = $this->dic->upload();
+
+		$repositoryDirectory = ilObjWorkflowEngine::getRepositoryDir(true);
+		if (!$fs->hasDir($repositoryDirectory)) {
+			$fs->createDir($repositoryDirectory);
 		}
 
-		$temp_dir_name =  ilObjWorkflowEngine::getTempDir();
-		if(!is_dir($temp_dir_name))
-		{
-			mkdir($temp_dir_name, 0777, true);
+		$tmpDirectory =  ilObjWorkflowEngine::getTempDir(true);
+		if (!$fs->hasDir($tmpDirectory)) {
+			$fs->createDir($tmpDirectory);
 		}
 
-		$file_name = $_FILES['process_file']['name'];
-		$temp_name = $_FILES['process_file']['tmp_name'];
-		move_uploaded_file($temp_name, $temp_dir_name.$file_name);
+		if (!$upload->hasUploads() || $upload->hasBeenProcessed()) {
+			$form->setValuesByPost();
+			return $form->getHTML();
+		}
 
-		$repo_base_name = 'il'.substr($file_name,0,strpos($file_name,'.'));
-		$wf_base_name = 'wfd.'.$repo_base_name.'_v';
-		$version = 0;
-		if ($handle = opendir($repo_dir_name))
-		{
-			while (false !== ($file = readdir($handle)))
+		$upload->process();
+
+		/** @var \ILIAS\FileUpload\DTO\UploadResult $uploadResult */
+		$uploadResult = array_values($upload->getResults())[0];
+		if (!$uploadResult || $uploadResult->getStatus() != \ILIAS\FileUpload\DTO\ProcessingStatus::OK) {
+			$form->setValuesByPost();
+			return $form->getHTML();
+		}
+
+		$upload->moveOneFileTo(
+			$uploadResult,
+			$tmpDirectory,
+			\ILIAS\FileUpload\Location::STORAGE,
+			$uploadResult->getName(),
+			true
+		);
+
+		$repo_base_name = 'il' . substr($uploadResult->getName(), 0, strpos($uploadResult->getName(), '.'));
+		$wf_base_name   = 'wfd.' . $repo_base_name . '_v';
+		$version        = 0;
+
+		$fileList = $fs->listContents($repositoryDirectory, true);
+
+		foreach ($fileList as $file) {
+			if ($file->isDir()) {
+				continue;
+			}
+
+			$fileBaseName = basename($file->getPath());
+
+			if (
+				substr(strtolower($fileBaseName), 0, strlen($wf_base_name)) == strtolower($wf_base_name) &&
+				substr($fileBaseName, -4) == '.php'
+			)
 			{
-				if(substr(strtolower($file), 0, strlen($wf_base_name)) == strtolower($wf_base_name)
-					&& substr($file, -4) == '.php')
-				{
-					$number = substr($file, strlen($wf_base_name), -4);
-					if($number > $version)
-					{
-						$version = $number;
-					}
+				$number = substr($fileBaseName, strlen($wf_base_name), -4);
+				if ($number > $version) {
+					$version = $number;
 				}
 			}
-			closedir($handle);
 		}
 		$version++;
 
-		$repo_name = $repo_base_name.'_v'.$version.'.php';
+		$repo_name = $repo_base_name . '_v' . $version . '.php';
 
-		// Parse
 		require_once './Services/WorkflowEngine/classes/parser/class.ilBPMN2Parser.php';
 		$parser = new ilBPMN2Parser();
-		$bpmn = file_get_contents($temp_dir_name.$file_name);
-		$code = $parser->parseBPMN2XML($bpmn,$repo_name);
+		$bpmn = $fs->read($tmpDirectory . $uploadResult->getName());
+		$code = $parser->parseBPMN2XML($bpmn, $repo_name);
 
-		file_put_contents($repo_dir_name.'wfd.'.$repo_name,$code);
-		file_put_contents($repo_dir_name.'wfd.'.$repo_base_name.'_v'.$version.'.bpmn2', $bpmn);
-		unlink($temp_dir_name.$file_name);
+		$fs->put($repositoryDirectory . 'wfd.' . $repo_name, $code);
+		$fs->put($repositoryDirectory . 'wfd.' . $repo_base_name . '_v' . $version . '.bpmn2', $bpmn);
+		$fs->delete($tmpDirectory . $uploadResult->getName());
 
 		ilUtil::sendSuccess($this->parent_gui->lng->txt('upload_parse_success'), true);
 		ilUtil::redirect(
@@ -308,6 +333,21 @@ class ilWorkflowEngineDefinitionsGUI
 		}
 
 		ilUtil::sendSuccess($this->parent_gui->lng->txt('wfe_started_listening'), true);
+		ilUtil::redirect(
+			html_entity_decode(
+				$this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.view')
+			)
+		);
+	}
+
+	public function stopListening()
+	{
+		$process_id = ilUtil::stripSlashes($_GET['process_id']);
+
+		require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowDbHelper.php';
+		ilWorkflowDbHelper::deleteStartEventData($process_id);
+
+		ilUtil::sendSuccess($this->parent_gui->lng->txt('wfe_stopped_listening'), true);
 		ilUtil::redirect(
 			html_entity_decode(
 				$this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.view')

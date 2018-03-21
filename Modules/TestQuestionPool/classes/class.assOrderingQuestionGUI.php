@@ -518,7 +518,12 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			
 			if (strlen($feedback))
 			{
-				$solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($feedback, true));
+				$cssClass = ( $this->hasCorrectSolution($active_id, $pass) ?
+					ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_CORRECT : ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_WRONG
+				);
+				
+				$solutiontemplate->setVariable("ILC_FB_CSS_CLASS", $cssClass);
+				$solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput( $feedback, true ));
 			}
 		}
 

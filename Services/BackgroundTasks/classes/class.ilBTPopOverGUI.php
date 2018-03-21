@@ -78,8 +78,8 @@ class ilBTPopOverGUI {
 						$this->getUserInteractionContent($observer, $redirect_uri),
 					]));
 					break;
-				default:
-					$expected = (int)$current_task->getExpectedTimeOfTaksInSeconds();
+				case State::RUNNING:
+					$expected = (int)$current_task->getExpectedTimeOfTaskInSeconds();
 					$possibly_failed = (bool)($observer->getLastHeartbeat() < (time() - $expected));
 
 					if ($possibly_failed) {
@@ -90,10 +90,13 @@ class ilBTPopOverGUI {
 					}
 					$bucket->setVariable("CONTENT", $r->render($this->getDefaultCardContent($observer)));
 					break;
+				default:
+					$bucket->setVariable("CONTENT", $r->render($this->getDefaultCardContent($observer)));
+					break;
 			}
 
 			if ($state === State::USER_INTERACTION) {
-				$this->addButton($current_task->getDismissOption(), $redirect_uri, $bucket, $observer);
+				$this->addButton($current_task->getRemoveOption(), $redirect_uri, $bucket, $observer);
 			}
 
 			$bucket->setCurrentBlock("bucket");
@@ -208,9 +211,9 @@ class ilBTPopOverGUI {
 				$action = $this->ctrl()
 				               ->getLinkTargetByClass([ ilBTControllerGUI::class ], ilBTControllerGUI::CMD_ABORT);
 				break;
-			case AbstractTask::MAIN_DISMISS:
+			case AbstractTask::MAIN_REMOVE:
 				$action = $this->ctrl()
-				               ->getLinkTargetByClass([ ilBTControllerGUI::class ], ilBTControllerGUI::CMD_DISMISS);
+				               ->getLinkTargetByClass([ ilBTControllerGUI::class ], ilBTControllerGUI::CMD_REMOVE);
 				break;
 			default:
 				$this->ctrl()

@@ -44,8 +44,8 @@ class ilCalendarDownloadZipInteraction extends AbstractUserInteraction {
 	/**
 	 * @inheritDoc
 	 */
-	public function getDismissOption() {
-		return new UserInteractionOption('dismiss', self::OPTION_CANCEL);
+	public function getRemoveOption() {
+		return new UserInteractionOption('remove', self::OPTION_CANCEL);
 	}
 
 

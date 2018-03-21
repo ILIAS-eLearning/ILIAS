@@ -558,7 +558,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 		}
 		
 		// peer review 
-		if($peer_review = $a_row["submission_obj"]->getPeerReview())
+		if(($peer_review = $a_row["submission_obj"]->getPeerReview()) && $a_ass->afterDeadlineStrict())	// see #22246
 		{									
 			$counter = $peer_review->countGivenFeedback(true, $a_user_id);
 			$counter = $counter

@@ -115,7 +115,11 @@ class Renderer extends AbstractComponentRenderer {
 		// Create the roundtrip modal which displays the uploaded files
 		$tplUploadFileList = $this->getFileListTemplate($dropzone);
 		$uploadButton = $this->getUIFactory()->button()->primary($this->txt('upload'), '')->withUnavailableAction();
-		$modal = $this->getUIFactory()->modal()->roundtrip($this->txt('upload'), $this->getUIFactory()->legacy($tplUploadFileList->get()))->withActionButtons([ $uploadButton ]);
+		$title = $dropzone->getTitle();
+		if(!$title){
+			$title = $this->txt('upload');
+		}
+		$modal = $this->getUIFactory()->modal()->roundtrip($title, $this->getUIFactory()->legacy($tplUploadFileList->get()))->withActionButtons([ $uploadButton ]);
 
 		// Register JS
 		$dropzone = $dropzone->withAdditionalDrop($modal->getShowSignal());

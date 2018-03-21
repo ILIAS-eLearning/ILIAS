@@ -10,49 +10,6 @@
 class ilChatroomSmilies
 {
 	/**
-	 *    Performs initial setup (db, dirs, default data)
-	 */
-	public static function _initial()
-	{
-		self::_setupDatabase();
-		self::_insertDefaultValues();
-		self::_setupFolder();
-	}
-
-	/**
-	 * Creates table and sequence
-	 */
-	private static function _setupDatabase()
-	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
-
-		$fields = array(
-			'smiley_id'       => array(
-				'type'   => 'integer',
-				'length' => 4,
-			),
-			'smiley_keywords' => array(
-				'type'   => 'text',
-				'length' => 100,
-			),
-			'smiley_path'     => array(
-				'type'   => 'text',
-				'length' => 200,
-			)
-		);
-
-		//$ilDB->dropTable( "chatroom_smilies" );
-		//$ilDB->dropTable( "chatroom_smilies_seq" );
-
-		$ilDB->createTable('chatroom_smilies', $fields);
-		$ilDB->addPrimaryKey('chatroom_smilies', array('smiley_id'));
-		$ilDB->createSequence('chatroom_smilies');
-	}
-
-	/**
 	 * Inserts default smiley set
 	 */
 	private static function _insertDefaultValues()
@@ -92,19 +49,6 @@ class ilChatroomSmilies
 				$val[0]
 			);
 			$stmt->execute($row);
-		}
-	}
-
-	/**
-	 * Setup directory
-	 */
-	private static function _setupFolder()
-	{
-		$path = ilUtil::getWebspaceDir() . '/chatroom/smilies';
-
-		if(!is_dir($path))
-		{
-			mkdir($path, 0755, true);
 		}
 	}
 
@@ -345,9 +289,9 @@ class ilChatroomSmilies
 	 * Returns smilies basepath.
 	 * @return string
 	 */
-	public static function _getSmiliesBasePath()
+	public static function getSmiliesBasePath()
 	{
-		return ilUtil::getWebspaceDir() . '/chatroom/smilies/';
+		return 'chatroom/smilies';
 	}
 
 	/**

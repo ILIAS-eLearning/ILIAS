@@ -70,11 +70,6 @@ class ilCalendarViewGUI
 	protected $seed;
 
 	/**
-	 * @var bool true if any plugin replaces the content of the grid
-	 */
-	protected $content_replaced_by_plugin = false;
-
-	/**
 	 * 
 	 * @param ilDate $seed
 	 * @param int $presentation_type
@@ -106,6 +101,13 @@ class ilCalendarViewGUI
 		$this->logger = $GLOBALS['DIC']->logger()->cal();
 		//by default "download files" button is not displayed.
 		$this->view_with_appointments = false;
+
+		if($this->presentation_type == self::CAL_PRESENTATION_DAY ||
+			$this->presentation_type == self::CAL_PRESENTATION_WEEK)
+		{
+			iljQueryUtil::initjQuery($this->tpl);
+			$this->tpl->addJavaScript('./Services/Calendar/js/calendar_appointment.js');
+		}
 	}
 
 	/**
@@ -330,10 +332,11 @@ class ilCalendarViewGUI
 	/**
 	 * @param $a_cal_entry
 	 * @param $a_start_date
-	 * @param $a_title
+	 * @param $a_content
+	 * @param $a_tpl needed to adding elements in the template like extra content inside the event container
 	 * @return string
 	 */
-	public function getContentByPlugins($a_cal_entry, $a_start_date, $a_content)
+	public function getContentByPlugins($a_cal_entry, $a_start_date, $a_content, $a_tpl)
 	{
 		$content = $a_content;
 
@@ -341,31 +344,28 @@ class ilCalendarViewGUI
 		foreach($this->getActivePlugins("capg") as $plugin)
 		{
 			$plugin->setAppointment($a_cal_entry, new ilDateTime($a_start_date));
-			if($new_content = $plugin->replaceContent($a_content))
+
+			if($new_title = $plugin->editShyButtonTitle())
+			{
+				$a_tpl->setVariable('EVENT_CONTENT', $this->getAppointmentShyButton($a_cal_entry, $a_start_date, $new_title));
+			}
+
+			if($glyph = $plugin->addGlyph())
+			{
+				$a_tpl->setVariable('EXTRA_GLYPH_BY_PLUGIN', $glyph);
+			}
+
+			if($more_content = $plugin->addExtraContent())
+			{
+				$a_tpl->setVariable('EXTRA_CONTENT_BY_PLUGIN', $more_content);
+			}
+
+			$a_tpl->parseCurrentBlock();
+			$html_content = $a_tpl->get();
+
+			if($new_content = $plugin->replaceContent($html_content))
 			{
 				$content = $new_content;
-				if($content != $a_content)
-				{
-					$this->content_replaced_by_plugin = true;
-				}
-			}
-			else
-			{
-				$shy_title = ($new_title = $plugin->editShyButtonTitle())? $new_title : "";
-				if($shy_title)
-				{
-					$content = $this->getAppointmentShyButton($a_cal_entry, $a_start_date, $shy_title);
-				}
-
-				if($glyph = $plugin->addGlyph())
-				{
-					$content = $glyph." ".$content;
-				}
-
-				if($more_content = $plugin->addExtraContent())
-				{
-					$content = $content." ".$more_content;
-				}
 			}
 		}
 		if($content == $a_content)

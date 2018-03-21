@@ -1984,6 +1984,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	 * @param int user_id
 	 * @param int role
 	 * @param bool force registration and do not check registration constraints.
+	 * @throws ilMembershipRegistrationException
 	 */
 	public function register($a_user_id,$a_role = ilCourseConstants::CRS_MEMBER, $a_force_registration = false)
 	{
@@ -1999,11 +2000,26 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		
 		if(!$a_force_registration)
 		{
-			// Availability
+			// offline
+			if(!ilObjCourseAccess::_isOnline($this->getId()))
+			{
+				throw new ilMembershipRegistrationException(
+					"Can't register to course, course is offline.",
+					ilMembershipRegistrationException::REGISTRATION_INVALID_OFFLINE
+				);
+			}
+			
+			// activation
+			if(!ilObjCourseAccess::_isActivated($this->getId()))
+			{
+				throw new ilMembershipRegistrationException(
+					"Can't register to course, course is not activated.",
+					ilMembershipRegistrationException::REGISTRATION_INVALID_AVAILABILITY
+				);
+			}
+			
 			if($this->getSubscriptionLimitationType() == IL_CRS_SUBSCRIPTION_DEACTIVATED)
 			{
-				include_once './Modules/Group/classes/class.ilObjGroupAccess.php';
-
 				if(!ilObjCourseAccess::_usingRegistrationCode())
 				{
 					throw new ilMembershipRegistrationException('Cant registrate to course '.$this->getId().

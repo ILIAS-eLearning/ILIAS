@@ -44,16 +44,18 @@ class ilOrgUnitUserAssignmentQueries {
 
 
 	/**
-	 * @param $user_id
-	 * @param $position_id
+	 * @param int $user_id
+	 * @param int $position_id
+	 * @param int $orgu_id Org-Units Ref-ID
 	 *
 	 * @return \ActiveRecord
 	 * @throws \ilException
 	 */
-	public function getAssignmentOrFail($user_id, $position_id) {
+	public function getAssignmentOrFail($user_id, $position_id, $orgu_id) {
 		$ua = ilOrgUnitUserAssignment::where([
 			'user_id'     => $user_id,
 			'position_id' => $position_id,
+			'orgu_id' => $orgu_id,
 		])->first();
 		if (!$ua) {
 			throw new  ilException('UserAssignement not found');

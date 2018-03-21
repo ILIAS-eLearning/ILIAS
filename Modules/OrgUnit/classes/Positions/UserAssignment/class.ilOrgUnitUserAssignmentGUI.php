@@ -77,7 +77,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands {
 	protected function delete() {
 		$r = $this->http()->request();
 		$ua = ilOrgUnitUserAssignmentQueries::getInstance()
-		                                    ->getAssignmentOrFail($_POST['usr_id'], $r->getQueryParams()['position_id']);
+		                                    ->getAssignmentOrFail($_POST['usr_id'], $r->getQueryParams()['position_id'], $this->getParentRefId());
 		$ua->delete();
 		ilUtil::sendSuccess($this->txt('remove_successful'), true);
 		$this->cancel();

@@ -285,6 +285,12 @@ The code base is deviced in several components:
 	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
 	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
 
+* **LTI**
+	* 1st Maintainer: [ukohnle](http://www.ilias.de/docu/goto_docu_usr_21855.html)
+	* 2nd Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
+	* Testcases: [atoedt](http://www.ilias.de/docu/goto_docu_usr_3139.html)
+	* Tester: [atoedt](http://www.ilias.de/docu/goto_docu_usr_3139.html)
+
 * **Mail**
 	* 1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html)
 	* 2nd Maintainer: [nadia](http://www.ilias.de/docu/goto_docu_usr_14206.html)
@@ -562,19 +568,18 @@ The code base is deviced in several components:
 	* Tester: [richtera](http://www.ilias.de/docu/goto_docu_usr_41247.html)
 
 
-Components in the Service-Maintenance-Model:
+Components in the Service Maintenance Model:
 * **UI-Service**
 	* Coordinators: [amstutz](http://www.ilias.de/docu/goto_docu_usr_26468.html) 
 	* Used in Directories: src/UI, 
 
 
-The following directories are currently maintained unter the Service-Maintenace-Model:
+The following directories are currently maintained unter the Service Maintenance Model:
 * src/UI
  (Coordinator: [amstutz](http://www.ilias.de/docu/goto_docu_usr_26468.html))
 
 
 The following directories are currently unmaintained:
-* Services/LTI
 * Services/License
 * Services/Membership
 * Services/QTI

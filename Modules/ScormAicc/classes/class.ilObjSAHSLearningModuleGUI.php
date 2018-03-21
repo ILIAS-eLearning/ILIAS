@@ -4,7 +4,7 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 require_once("./Services/FileSystem/classes/class.ilFileSystemGUI.php");
 
 /**
-* SCORM/AICC/HACP Learning Modules
+* SCORM Learning Modules
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * $Id$
@@ -128,16 +128,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 					if (!$this->object->getEditable())
 					{
 						$ilToolbar = $GLOBALS['DIC']->toolbar();
-						include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
-						$button = ilLinkButton::getInstance();
-						$button->setCaption("view");
-						$button->setPrimary(true);
-						$button->setUrl("ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->object->getRefID());
-						$button->setTarget("ilContObj".$this->object->getId());
-						$ilToolbar->addButtonInstance($button);
-						// $info->addButton($this->lng->txt("view"),
-							// "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->object->getRefID(),
-							// ' target="ilContObj'.$this->object->getId().'" ');
+						$ilToolbar->addButtonInstance($this->object->getViewButton());
 					}
 				}
 
@@ -535,7 +526,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				$targetPath = $newObj->getDataDirectory()."/".$scormFile;
 				$file_path = $targetPath;
 
-				rename ($scormFilePath, $targetPath);
+				ilFileUtils::rename ($scormFilePath, $targetPath);
 			}
 			else
 			{

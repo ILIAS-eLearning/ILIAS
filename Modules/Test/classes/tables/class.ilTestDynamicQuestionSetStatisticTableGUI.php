@@ -26,6 +26,11 @@ class ilTestDynamicQuestionSetStatisticTableGUI extends ilTable2GUI
 	private $taxonomyFilterEnabled = false;
 	
 	private $answerStatusFilterEnabled = false;
+	
+	/**
+	 * @var ilTestDynamicQuestionSetFilterSelection
+	 */
+	protected $filterSelection = null;
 
 	/**
 	 * Constructor
@@ -59,6 +64,22 @@ class ilTestDynamicQuestionSetStatisticTableGUI extends ilTable2GUI
 		$this->setDisableFilterHiding(true);
 	}
 	
+	/**
+	 * @return ilTestDynamicQuestionSetFilterSelection
+	 */
+	public function getFilterSelection()
+	{
+		return $this->filterSelection;
+	}
+	
+	/**
+	 * @param ilTestDynamicQuestionSetFilterSelection $filterSelection
+	 */
+	public function setFilterSelection($filterSelection)
+	{
+		$this->filterSelection = $filterSelection;
+	}
+	
 	public function initTitle($titleLangVar)
 	{
 		$this->setTitle($this->lng->txt($titleLangVar));
@@ -90,6 +111,12 @@ class ilTestDynamicQuestionSetStatisticTableGUI extends ilTable2GUI
 				$inp = new ilTaxSelectInputGUI($taxId, $postvar, true);
 				$this->addFilterItem($inp);
 				$inp->readFromSession();
+				
+				if( $this->getFilterSelection()->hasSelectedTaxonomy($taxId) )
+				{
+					$inp->setValue($this->getFilterSelection()->getSelectedTaxonomy($taxId));
+				}
+				
 				$this->filter[$postvar] = $inp->getValue();
 			}
 		}
@@ -107,6 +134,12 @@ class ilTestDynamicQuestionSetStatisticTableGUI extends ilTable2GUI
 			));
 			$this->addFilterItem($inp);
 			$inp->readFromSession();
+			
+			if( $this->getFilterSelection()->hasAnswerStatusSelection() )
+			{
+				$inp->setValue($this->getFilterSelection()->getAnswerStatusSelection());
+			}
+			
 			$this->filter['question_answer_status'] = $inp->getValue();
 		}
 	}

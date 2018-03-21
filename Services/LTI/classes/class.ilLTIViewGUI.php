@@ -58,7 +58,7 @@ class ilLTIViewGUI
 	/**
 	 * public variables
 	 */
-	public $home_is_container = false;
+	public $show_locator = true;
 	public $member_view = false;
 	public $member_view_url = "";
 	public $member_view_close_txt = "";
@@ -190,7 +190,7 @@ class ilLTIViewGUI
 		if ($this->home_type === '') 
 		{
 			$this->home_type = ilObject::_lookupType($this->home_id,true);
-			$this->home_is_container = $this->isContainer($this->home_type);
+			$this->show_locator = $this->showLocator($this->home_type);
 		}
 		if ($this->home_url === '') 
 		{
@@ -408,9 +408,9 @@ class ilLTIViewGUI
 	/**
 	 * @return bool
 	 */
-	private function isContainer($obj_type) {
+	private function showLocator($obj_type) {
 		//return true;
-		return preg_match("/(crs|grp|cat|root|fold)/",$obj_type);
+		return preg_match("/(crs|grp|cat|root|fold|lm)/",$obj_type);
 	}
 	
 	/**

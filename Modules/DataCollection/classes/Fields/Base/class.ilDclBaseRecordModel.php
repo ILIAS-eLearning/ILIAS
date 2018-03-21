@@ -425,6 +425,22 @@ class ilDclBaseRecordModel {
 	}
 
 	/**
+	 * Get Field Export Value
+	 *
+	 * @param int $field_id
+	 *
+	 * @return array
+	 */
+	public function getRecordFieldPlainText($field_id) {
+		$this->loadRecordFields();
+		if (ilDclStandardField::_isStandardField($field_id)) {
+			return $this->getStandardFieldHTML($field_id);
+		} else {
+			return $this->recordfields[$field_id]->getPlainText();
+		}
+	}
+
+	/**
 	 * @param $worksheet
 	 * @param $row
 	 * @param $col

@@ -18,6 +18,11 @@ abstract class Link implements C\Link\Link {
 	 */
 	protected $action;
 
+	/**
+	 * @var bool
+	 */
+	protected $open_in_new_viewport;
+
 	public function __construct($action) {
 		$this->checkStringArg("action", $action);
 		$this->action = $action;
@@ -29,4 +34,21 @@ abstract class Link implements C\Link\Link {
 	public function getAction() {
 		return $this->action;
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withOpenInNewViewport($open_in_new_viewport) {
+		$clone = clone $this;
+		$clone->open_in_new_viewport = (bool) $open_in_new_viewport;
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getOpenInNewViewport(){
+		return $this->open_in_new_viewport;
+	}
+
 }

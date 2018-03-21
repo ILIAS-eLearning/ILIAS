@@ -66,14 +66,14 @@ interface Task {
 
 
 	/**
-	 * @return Option   An Option to dismiss the current task and do some cleanup if possible. This
+	 * @return Option   An Option to remove the current task and do some cleanup if possible. This
 	 *                  Option is displayed if the Bucket is completed. You do not have to provide
-	 *                  an additional Option to dismiss in your UserInteraction, the dismiss-Option
+	 *                  an additional Option to remove in your UserInteraction, the remove-Option
 	 *                  is added to the list of Options (last position)
 	 *
 	 * @see self::getAbortOption();
 	 */
-	public function getDismissOption();
+	public function getRemoveOption();
 
 
 	/**

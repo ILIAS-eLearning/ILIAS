@@ -48,13 +48,16 @@ class ilMembershipRegistrationCodeUtils
 				case ilMembershipRegistrationException::ADMISSION_LINK_INVALID://admission link is invalid
 					ilUtil::sendFailure($lng->txt($a_type."_admission_link_failure_invalid_code"), true);
 					break;
+				case ilMembershipRegistrationException::REGISTRATION_INVALID_OFFLINE:
+					ilUtil::sendFailure($lng->txt($a_type.'_admission_link_failure_offline'),true);
+					break;
+				case ilMembershipRegistrationException::REGISTRATION_INVALID_AVAILABILITY:
+					ilUtil::sendFailure($lng->txt($a_type.'_admission_link_failure_availability'),true);
+					break;
 				default:
 					ilUtil::sendFailure($e->getMessage(), true);
 					break;
 			}
-			$GLOBALS['ilLog']->logStack();
-			$GLOBALS['ilLog']->write($e->getCode().': '.$e->getMessage());
-
 			$parent_id = $tree->getParentId($a_ref_id);
 			ilUtil::redirect(ilLink::_getLink($parent_id));
 		}
@@ -92,7 +95,7 @@ class ilMembershipRegistrationCodeUtils
 				$member_obj = $factory->getInstanceByRefId($ref_id,false);
 				if($member_obj instanceof ilObjCourse)
 				{
-					$member_obj->register($ilUser->getId(), ilCourseConstants::CRS_MEMBER, true);
+					$member_obj->register($ilUser->getId(), ilCourseConstants::CRS_MEMBER);
 				}
 				if($member_obj instanceof ilObjGroup)
 				{

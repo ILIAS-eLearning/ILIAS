@@ -292,6 +292,15 @@ class ilImport
 			$comp = $expfile["component"];
 			$class = ilImportExportFactory::getImporterClass($comp);
 
+			// log a warning for inactive page component plugins, but continue import
+			// page content will be imported, but not its additional data
+			// (other plugins throw an exception in ilImportExportFactory)
+			if ($class == '')
+			{
+				$this->log->warning("no class found for component: $comp");
+				continue;
+			}
+
 			$this->log->debug("create new class = $class");
 
 			$this->importer = new $class();

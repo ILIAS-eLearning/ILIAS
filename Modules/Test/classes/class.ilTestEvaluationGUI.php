@@ -489,7 +489,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				$tableData = array();
 
 				$counter = 0;
-				foreach($questions as $question)
+				foreach((array)$questions as $question)
 				{
 					$userDataData = array(
 						'counter' => ++$counter,

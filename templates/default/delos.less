@@ -17,7 +17,6 @@ In theory, you should also invert shadow... but i think we could postpone this t
 All parts that aren't checked yet are actually marked with "rtl-review"
 */
 
-
 @bsbase: "../../libs/bower/bower_components/bootstrap/less/";
 
 // This part should be a copy of the less/bootstrap.less file
@@ -1973,10 +1972,11 @@ div.ilGoogleMap {
 @media print {
     //bootstrap print.less
     * {
-        text-shadow: none !important;
+		/* see bug 0022342 */
+        /* text-shadow: none !important;
         color: black !important; // Black prints faster: h5bp.com/s
         background: transparent !important;
-        box-shadow: none !important;
+        box-shadow: none !important; */
     }
 
     a,

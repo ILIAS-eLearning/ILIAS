@@ -316,7 +316,11 @@ class ilAssOrderingElementList implements Iterator
 	 */
 	public function addElement(ilAssOrderingElement $element)
 	{
-		$this->registerIdentifiers($element);
+		if( $this->hasValidIdentifiers($element) )
+		{
+			$this->registerIdentifiers($element);
+		}
+		
 		$this->elements[] = $element;
 	}
 	
@@ -426,6 +430,29 @@ class ilAssOrderingElementList implements Iterator
 		}
 		
 		return self::$identifierRegistry[$identifierType][$this->getQuestionId()];
+	}
+	
+	/**
+	 * @param ilAssOrderingElement $element
+	 * @return bool
+	 */
+	protected function hasValidIdentifiers(ilAssOrderingElement $element)
+	{
+		$identifier = $this->fetchIdentifier($element, self::IDENTIFIER_TYPE_SOLUTION);
+
+		if( !$this->isValidIdentifier(self::IDENTIFIER_TYPE_SOLUTION, $identifier) )
+		{
+			return false;
+		}
+		
+		$identifier = $this->fetchIdentifier($element, self::IDENTIFIER_TYPE_RANDOM);
+
+		if( !$this->isValidIdentifier(self::IDENTIFIER_TYPE_RANDOM, $identifier) )
+		{
+			return false;
+		}
+		
+		return true;
 	}
 	
 	/**

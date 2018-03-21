@@ -12,7 +12,7 @@ try
 	$txt = $lng->txt('error_back_to_repository');
 	$tpl->SetCurrentBlock("ErrorLink");
 	$tpl->SetVariable("TXT_LINK", $txt);
-	$tpl->SetVariable("LINK", ILIAS_HTTP_PATH . '/ilias.php?baseClass=ilRepositoryGUI&amp;client_id=' . CLIENT_ID);
+	$tpl->SetVariable("LINK", ilUtil::secureUrl(ILIAS_HTTP_PATH . '/ilias.php?baseClass=ilRepositoryGUI&amp;client_id=' . CLIENT_ID));
 	$tpl->ParseCurrentBlock();
 
 	$tpl->setCurrentBlock("content");

@@ -296,4 +296,20 @@ class ilAssQuestionSkillAssignmentList
 	{
 		return $this->maxPointsBySkill[$this->buildSkillKey($skillBaseId, $skillTrefId)];
 	}
+	
+	public function hasSkillsAssignedLowerThanBarrier()
+	{
+		require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
+		$globalBarrier = ilObjAssessmentFolder::getSkillTriggerAnswerNumberBarrier();
+		
+		foreach($this->getUniqueAssignedSkills() as $skillData)
+		{
+			if( $skillData['num_assigns'] < $globalBarrier )
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
 }
