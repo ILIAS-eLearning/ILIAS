@@ -503,7 +503,7 @@ class ilForumCronNotification extends ilCronJob
 				$provider->getPostId(), $notification_type, implode(', ', $recipients)
 			));
 
-			$mailNotification = new ilForumMailNotification($provider);
+			$mailNotification = new ilForumMailNotification($provider, $this->logger);
 			$mailNotification->setIsCronjob(true);
 			$mailNotification->setType($notification_type);
 			$mailNotification->setRecipients($recipients);
