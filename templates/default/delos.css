@@ -58,6 +58,11 @@
   font-weight: 800;
   font-style: italic;
 }
+@font-face {
+  font-family: 'Open Sans Emoji';
+  src: url('fonts/OpenSansEmoji/OpenSansEmoji.ttf') format('truetype'), url('fonts/OpenSansEmoji/OpenSansEmoji.otf') format('otf');
+  font-style: normal;
+}
 /* rtl-review is this font safe for RTL languages? */
 /* rtl-review */
 [dir="ltr"] * {
@@ -6772,6 +6777,16 @@ button.close {
 .glyphicon.glyphicon-chevron-right {
   font-weight: 100;
 }
+.il-glyphicon-like,
+.il-glyphicon-love {
+  font-family: "Open Sans Emoji";
+}
+.il-glyphicon-like:before {
+  content: "\1f44d";
+}
+.il-glyphicon-love:before {
+  content: "\2764";
+}
 .il-panel-report .thumbnail {
   margin-bottom: 0;
 }
@@ -7205,6 +7220,11 @@ h6.il-divider {
 }
 hr.il-divider-with-label {
   display: none;
+}
+.il-divider-vertical:before {
+  content: "\2022";
+  padding-left: 6px;
+  padding-right: 6px;
 }
 .dropdown .btn {
   text-align: left;

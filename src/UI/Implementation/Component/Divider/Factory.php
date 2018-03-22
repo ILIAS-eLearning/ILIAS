@@ -13,4 +13,11 @@ class Factory implements D\Factory {
 	public function horizontal() {
 		return new Horizontal();
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function vertical() {
+		return new Vertical();
+	}
 }

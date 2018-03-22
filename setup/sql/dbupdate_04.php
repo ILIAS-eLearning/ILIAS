@@ -21911,3 +21911,7 @@ if($rp_ops_id && $ep_ops_id && $w_ops_id)
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5261>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
