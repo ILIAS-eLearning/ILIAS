@@ -321,6 +321,10 @@ class ilDBGenerator {
 				// auto increment sequence
 				$this->buildCreateSequenceStatement($table, $file);
 
+				if (in_array($table, array('usr_session_stats', 'usr_session_raw'))) {
+					continue;
+				}
+
 				// inserts
 				if ($isDirectory) {
 					$this->buildInsertStatement($table, $path);
