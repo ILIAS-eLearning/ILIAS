@@ -124,7 +124,7 @@ class ilIndividualAssessmentMemberGUI {
 		$item = $form->getItemByPostVar('file');
 		if ($item && $item->checkInput()) {
 			$post = $_POST;
-			$new_file = $this->uploadFile($post["file"], $post["file_delete"]);
+			$new_file = $this->uploadFile($post["file"]);
 			if ($new_file) {
 				$this->updateFileName($post['file']['name']);
 			}
@@ -161,7 +161,7 @@ class ilIndividualAssessmentMemberGUI {
 		$item = $form->getItemByPostVar('file');
 		if ($item && $item->checkInput()) {
 			$post = $_POST;
-			$new_file = $this->uploadFile($post["file"], $post["file_delete"]);
+			$new_file = $this->uploadFile($post["file"]);
 			if ($new_file) {
 				$this->updateFileName($post['file']['name']);
 			}
@@ -272,7 +272,7 @@ class ilIndividualAssessmentMemberGUI {
 		$item = $form->getItemByPostVar('file');
 		if ($item && $item->checkInput()) {
 			$post = $_POST;
-			$new_file = $this->uploadFile($post["file"], $post["file_delete"]);
+			$new_file = $this->uploadFile($post["file"]);
 			if ($new_file) {
 				$this->updateFileName($post['file']['name']);
 			}
@@ -625,17 +625,13 @@ class ilIndividualAssessmentMemberGUI {
 		return new ilDateTime($datetime." 00:00:00", IL_CAL_DATETIME);
 	}
 
-	protected function uploadFile($file, $file_delete)
+	protected function uploadFile($file)
 	{
 		$new_file = false;
 		$this->file_storage->setUserId($this->member->id());
 		$this->file_storage->create();
-		if (!$file["name"] == "" || $file_delete) {
-			$this->file_storage->deleteCurrentFile();
-			$this->file_storage->uploadFile($file);
-			$new_file = true;
-		}
 		if (!$file["name"] == "") {
+			$this->file_storage->deleteCurrentFile();
 			$this->file_storage->uploadFile($file);
 			$new_file = true;
 		}

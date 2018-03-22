@@ -149,7 +149,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
 				if ($_GET["back_url"] == "")
 				{
-					$profile_gui->setBackUrl($this->ctrl->getLinkTargetByClass("ilUsersGalleryGUI", 'view'));
+					$profile_gui->setBackUrl($this->ctrl->getLinkTargetByClass(["ilGroupMembershipGUI", "ilUsersGalleryGUI"], 'view'));
 				}
 				$html = $this->ctrl->forwardCommand($profile_gui);
 				$this->tpl->setVariable("ADM_CONTENT", $html);

@@ -503,4 +503,3 @@ class ilDBOracle extends ilDB
 		return false;
 	}
 }
-?>
