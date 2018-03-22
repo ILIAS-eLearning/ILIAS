@@ -30,7 +30,7 @@ class ilForumAppEventListener implements ilAppEventListener
 		 */
 		global $ilSetting;
 
-		$logger = $DIC->logger()->frm();
+		$logger = $GLOBALS['DIC']->logger()->frm();
 
 		// 0 = no notifications, 1 = direct, 2 = cron job
 		$immediate_notifications_enabled = $ilSetting->get('forum_notification', 0) == 1;
