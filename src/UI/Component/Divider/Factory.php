@@ -40,7 +40,7 @@ interface Factory
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       A Vertical Divider is used to mark a thematic change in a sequence of
+	 *       A Vertical Divider is used to mark a thematic or functional change in a sequence of
 	 *       elements that are stacked from left to right.
 	 *   composition: >
 	 *     Vertical Dividers consists of a glyph-like character.

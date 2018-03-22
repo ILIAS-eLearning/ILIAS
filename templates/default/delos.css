@@ -7208,8 +7208,8 @@ hr.il-divider-with-label {
 }
 .il-divider-vertical:before {
   content: "\2022";
-  padding-left: 5px;
-  padding-right: 5px;
+  padding-left: 6px;
+  padding-right: 6px;
 }
 .dropdown .btn {
   text-align: left;

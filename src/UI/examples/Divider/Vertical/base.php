@@ -4,7 +4,7 @@ function base() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	return $renderer->render(array($f->legacy("Some content "),
+	return $renderer->render(array($f->legacy("Some content"),
 		$f->divider()->vertical(),
-		$f->legacy(" More content")));
+		$f->legacy("More content")));
 }
