@@ -21,14 +21,24 @@ il.UI = il.UI || {};
 			}).done(function(html) {
 				var $new_content = $("<div>" + html + "</div>");
 				var $marked_new_content = $new_content.find("[data-replace-marker='" + marker + "']").first();
+
 				if ($marked_new_content.length == 0) {
+
+					// if marker does not come with the new content, we put the new content into the existing marker
+					// (this includes all script tags already)
 					$("#" + id + " [data-replace-marker='" + marker + "']").html(html);
+
 				} else {
+
+					// if marker is in new content, we replace the complete old node with the marker
+					// with the new marked node
 					$("#" + id + " [data-replace-marker='" + marker + "']").first()
 						.replaceWith($marked_new_content);
+
+					// append included script (which will not be part of the marked node
+					$("#" + id + " [data-replace-marker='" + marker + "']").first()
+						.after($new_content.find("[data-replace-marker='script']"));
 				}
-				$("#" + id + " [data-replace-marker='" + marker + "']").first()
-					.after($new_content.find("[data-replace-marker='script']"));
 			});
 		};
 
