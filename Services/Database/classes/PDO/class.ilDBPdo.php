@@ -2070,6 +2070,14 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 		return false;
 	}
 
+
+	/**
+	 * @inheritdoc
+	 */
+	public function groupConcat($a_field_name, $a_seperator = ",", $a_order = NULL) {
+		return $this->manager->getQueryUtils()->groupConcat($a_field_name, $a_seperator, $a_order);
+	}
+
 	/**
 	 * @inheritdoc
 	 */
