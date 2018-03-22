@@ -266,10 +266,6 @@ class ilDBPostgreSQL extends ilDB
 	}
 
 
-	public function queryRow($query, $types = null, $fetchmode = ilDBConstants::FETCHMODE_DEFAULT) {
-		// TODO: Implement queryRow() method.
-	}
-
 	/**
 	 * 
 	 * @param string $a_field_name
