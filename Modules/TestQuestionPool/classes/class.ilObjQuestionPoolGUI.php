@@ -545,7 +545,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 					$type = $this->lng->txt("assKprimChoice");
 					break;
 				case LONG_MENU_QUESTION_IDENTIFIER:
-					$type = $this->lng->txt("longMenuQuestion");
+					$type = $this->lng->txt("assLongMenu");
 					break;
 				case SINGLE_CHOICE_QUESTION_IDENTIFIER:
 					$type = $this->lng->txt("assSingleChoice");
