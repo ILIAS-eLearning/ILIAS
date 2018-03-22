@@ -141,11 +141,6 @@ abstract class ilDBPdoMySQL extends ilDBPdo implements ilDBInterface {
 		//			$supported = ($data->default_character_set_name === 'utf8mb4');
 		//		}
 
-		$q = "SHOW VARIABLES LIKE '%vers%'";
-		$res = $this->query($q);
-					$data = $this->fetchObject($res);
-		//			$supported = ($data->default_character_set_name === 'utf8mb4');
-
 		return false;
 	}
 }

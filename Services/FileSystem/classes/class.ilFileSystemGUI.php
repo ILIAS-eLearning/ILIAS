@@ -659,7 +659,24 @@ class ilFileSystemGUI
 			? $this->main_dir."/".$cur_subdir."/"
 			: $this->main_dir."/";
 
-		rename($dir.ilUtil::stripSlashes($_GET["old_name"]), $dir.$new_name);
+
+		if (is_dir($dir.ilUtil::stripSlashes($_GET["old_name"])))
+		{
+			rename($dir.ilUtil::stripSlashes($_GET["old_name"]), $dir.$new_name);
+		}
+		else
+		{
+			include_once("./Services/Utilities/classes/class.ilFileUtils.php");
+
+			try
+			{
+				ilFileUtils::rename($dir . ilUtil::stripSlashes($_GET["old_name"]), $dir . $new_name);
+			} catch (ilException $e)
+			{
+				ilUtil::sendFailure($e->getMessage(), true);
+				$this->ctrl->redirect($this, "listFiles");
+			}
+		}
 
 		ilUtil::renameExecutables($this->main_dir);
 		if (@is_dir($dir.$new_name))

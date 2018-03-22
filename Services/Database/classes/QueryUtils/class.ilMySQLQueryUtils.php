@@ -306,4 +306,13 @@ class ilMySQLQueryUtils extends ilQueryUtils {
 		}
 		return $sql;
 	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function cast($a_field_name, $a_dest_type) {
+		return $a_field_name;
+	}
+
 }

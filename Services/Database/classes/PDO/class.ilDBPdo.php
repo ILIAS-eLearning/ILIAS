@@ -608,11 +608,11 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 		$fields = array();
 		foreach ($values as $key => $val) {
 			$real[] = $this->quote($val[1], $val[0]);
-			$fields[] = $key;
+			$fields[] = $this->quoteIdentifier($key);
 		}
 		$values = implode(",", $real);
-		$fields = implode("`,`", $fields);
-		$query = "INSERT INTO " . $table_name . " (`" . $fields . "`) VALUES (" . $values . ")";
+		$fields = implode(",", $fields);
+		$query = "INSERT INTO " . $table_name . " (" . $fields . ") VALUES (" . $values . ")";
 
 		$query = $this->sanitizeMB4StringIfNotSupported($query);
 
@@ -702,7 +702,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 			$q = "UPDATE " . $table_name . " SET ";
 			$lim = "";
 			foreach ($fields as $k => $field) {
-				$q .= $lim . '`' . $field . '`' . " = " . $placeholders[$k];
+				$q .= $lim . $this->quoteIdentifier($field) . " = " . $placeholders[$k];
 				$lim = ", ";
 			}
 			$q .= " WHERE ";
@@ -2069,13 +2069,20 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	public function doesCollationSupportMB4Strings()
 	{
 		return false;
-	 * 
-	 * @param string $a_field_name
-	 * @param string $a_seperator
-	 * @param string $a_order
-	 * @return string
+	}
+
+
+	/**
+	 * @inheritdoc
 	 */
 	public function groupConcat($a_field_name, $a_seperator = ",", $a_order = NULL) {
 		return $this->manager->getQueryUtils()->groupConcat($a_field_name, $a_seperator, $a_order);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function cast($a_field_name, $a_dest_type) {
+		return $this->manager->getQueryUtils()->cast($a_field_name, $a_dest_type);
 	}
 }

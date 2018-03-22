@@ -289,6 +289,7 @@ class ilPostgresQueryUtils extends ilQueryUtils {
 		return $sql;
 	}
 
+
 	/**
 	 * 
 	 * @param string $a_field_name
@@ -305,4 +306,13 @@ class ilPostgresQueryUtils extends ilQueryUtils {
 		}
 		return $sql;
 	}
+	
+
+	/**
+	 * @inheritdoc
+	 */
+	public function cast($a_field_name, $a_dest_type) {
+		return "CAST({$a_field_name} AS " . $this->db_instance->getFieldDefinition()->getTypeDeclaration(array("type" => $a_dest_type)) . ")";
+	}
+
 }

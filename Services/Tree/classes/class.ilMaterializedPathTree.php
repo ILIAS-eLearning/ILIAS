@@ -226,7 +226,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 
 			$r = $ilDB->fetchObject($res);
 
-			if ($r->parent == NULL)
+			if ($r->parent === NULL)
 			{
 				ilLoggerFactory::getLogger('tree')->logStack(ilLogLevel::ERROR);
 				throw new ilInvalidTreeStructureException('Parent node not found in tree');
@@ -499,7 +499,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 	{
 		global $ilDB;
 		$q = ' UPDATE tree
-			SET path = CONCAT(COALESCE(' . $ilDB->quote($parentPath, 'text') . ', \'\'), COALESCE(child, \'\'))
+			SET path = CONCAT(COALESCE(' . $ilDB->quote($parentPath, 'text') . ', \'\'), COALESCE( ' . $ilDB->cast("child","text") . ' , \'\'))
 			WHERE parent = %s';
 		$r = $ilDB->manipulateF($q, array('integer'), array($parent));
 

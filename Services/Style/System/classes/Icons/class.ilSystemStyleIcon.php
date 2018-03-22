@@ -122,6 +122,15 @@ class ilSystemStyleIcon
 		$this->path = $path;
 	}
 
+    /**
+     * Only get dir rel to the Customizing dir
+     * without name and extension from
+     * @return string
+     */
+    public function getDirRelToCustomizing(){
+        return dirname(strstr($this->getPath(), 'global/skin'));
+    }
+
 	/**
 	 * @return ilSystemStyleIconColorSet
 	 */

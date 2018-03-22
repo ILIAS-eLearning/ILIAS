@@ -4181,8 +4181,7 @@ class ilUtil
 	 *
 	 * @see \ILIAS\DI\Container::upload()
 	 */
-	public static function moveUploadedFile($a_file, $a_name, $a_target, $a_raise_errors = true, $a_mode = "move_uploaded")
-	{
+	public static function moveUploadedFile($a_file, $a_name, $a_target, $a_raise_errors = true, $a_mode = "move_uploaded") {
 		global $DIC;
 		$targetFilename = basename($a_target);
 
@@ -4192,7 +4191,7 @@ class ilUtil
 		$upload = $DIC->upload();
 
 		// If the upload has not yet been processed make sure he gets processed now.
-		if(!$upload->hasBeenProcessed()) {
+		if (!$upload->hasBeenProcessed()) {
 			$upload->process();
 		}
 
@@ -4896,9 +4895,9 @@ class ilUtil
 	{
 		global $DIC;
 
-		$tpl = $DIC["tpl"];
-		if(is_object($tpl))
+		if(isset($DIC["tpl"]))
 		{
+			$tpl = $DIC["tpl"];
 			$tpl->setMessage("failure", $a_info, $a_keep);
 		}
 	}
