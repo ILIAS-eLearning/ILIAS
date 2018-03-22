@@ -550,4 +550,130 @@ interface Factory {
 	 */
 	public function love($action = null);
 
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       Clicking the Dislike Glyph indicates a user objects an item, e.g. a posting.
+	 *   composition: >
+	 *       The Dislike Glyph uses the "thumbs down" unicode emoji U+1F44E, see https://unicode.org/emoji/charts/full-emoji-list.html.
+	 *   effect: >
+	 *       Clicking toggles the state of the user expression. Clicking also updates the respective counter.
+	 *
+	 * context: Show timeline in groups and courses.
+	 *
+	 * rules:
+	 *   composition:
+	 *       1: >
+	 *          A Status Counter MUST indicate the overall amount of dislike expressions.
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be 'Dislike'.
+	 * ---
+	 * @param	string|null	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function dislike($action = null);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       Clicking the Laugh Glyph indicates a user finds an item hilarious, e.g. a posting.
+	 *   composition: >
+	 *       The Laugh Glyph uses the "grinning face with smiling eyes" unicode emoji U+1F604, see https://unicode.org/emoji/charts/full-emoji-list.html.
+	 *   effect: >
+	 *       Clicking toggles the state of the user expression. Clicking also updates the respective counter.
+	 *
+	 * context: Show timeline in groups and courses.
+	 *
+	 * rules:
+	 *   composition:
+	 *       1: >
+	 *          A Status Counter MUST indicate the overall amount of laugh expressions.
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be 'Laugh'.
+	 * ---
+	 * @param	string|null	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function laugh($action = null);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       Clicking the Wow Glyph indicates a user finds an item surprising, e.g. a posting.
+	 *   composition: >
+	 *       The Wow Glyph uses the "face with open mouth" unicode emoji U+1F62E, see https://unicode.org/emoji/charts/full-emoji-list.html.
+	 *   effect: >
+	 *       Clicking toggles the state of the user expression. Clicking also updates the respective counter.
+	 *
+	 * context: Show timeline in groups and courses.
+	 *
+	 * rules:
+	 *   composition:
+	 *       1: >
+	 *          A Status Counter MUST indicate the overall amount of wow expressions.
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be 'Wow'.
+	 * ---
+	 * @param	string|null	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function wow($action = null);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       Clicking the Sad Glyph indicates a user finds an item discouraging, e.g. a posting.
+	 *   composition: >
+	 *       The Sad Glyph uses the "sad but relieved face" unicode emoji U+1F625, see https://unicode.org/emoji/charts/full-emoji-list.html.
+	 *   effect: >
+	 *       Clicking toggles the state of the user expression. Clicking also updates the respective counter.
+	 *
+	 * context: Show timeline in groups and courses.
+	 *
+	 * rules:
+	 *   composition:
+	 *       1: >
+	 *          A Status Counter MUST indicate the overall amount of sad expressions.
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be 'Sad'.
+	 * ---
+	 * @param	string|null	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function sad($action = null);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       Clicking the Angry Glyph indicates a user finds an item outraging, e.g. a posting.
+	 *   composition: >
+	 *       The Angry Glyph uses the "angry face" unicode emoji U+1F620, see https://unicode.org/emoji/charts/full-emoji-list.html.
+	 *   effect: >
+	 *       Clicking toggles the state of the user expression. Clicking also updates the respective counter.
+	 *
+	 * context: Show timeline in groups and courses.
+	 *
+	 * rules:
+	 *   composition:
+	 *       1: >
+	 *          A Status Counter MUST indicate the overall amount of angry expressions.
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be 'Angry'.
+	 * ---
+	 * @param	string|null	$action
+	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function angry($action = null);
+
+
 }

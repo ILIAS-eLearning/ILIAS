@@ -33,6 +33,11 @@ interface Glyph extends \ILIAS\UI\Component\Component, \ILIAS\UI\Component\JavaS
 	const BRIEFCASE = "briefcase";
 	const LIKE = "like";
 	const LOVE = "love";
+	const DISLIKE = "dislike";
+	const LAUGH = "laugh";
+	const WOW = "wow";
+	const SAD = "sad";
+	const ANGRY = "angry";
 
 
 	/**
