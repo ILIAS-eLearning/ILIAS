@@ -103,4 +103,12 @@ interface ilQueryUtilsInterface {
 	 * @return mixed
 	 */
 	public function createDatabase($a_name, $a_charset = "utf8", $a_collation = "");
+	
+	
+	/**
+	 * @param string $a_field_name 
+	 * @param mixed $a_dest_type
+	 * @return string
+	 */
+	public function cast($a_field_name, $a_dest_type);
 }
