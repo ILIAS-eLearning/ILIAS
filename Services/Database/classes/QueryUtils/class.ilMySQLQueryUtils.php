@@ -288,6 +288,25 @@ class ilMySQLQueryUtils extends ilQueryUtils {
 
 		return $sql;
 	}
+	
+
+	/**
+	 * 
+	 * @param string $a_field_name
+	 * @param string $a_seperator
+	 * @param string $a_order
+	 * @return string
+	 */
+	public function groupConcat($a_field_name, $a_seperator = ",", $a_order = NULL) {
+		if ($a_order === NULL) {
+			$sql = "GROUP_CONCAT(" . $a_field_name . " SEPARATOR " . $this->quote($a_seperator, "text") . ")";
+		} else {
+			$sql = "GROUP_CONCAT(" . $a_field_name . " ORDER BY " . $a_order . " SEPARATOR " . $this->quote($a_seperator, "text"). ")";
+			
+		}
+		return $sql;
+	}
+
 
 	/**
 	 * @inheritdoc
