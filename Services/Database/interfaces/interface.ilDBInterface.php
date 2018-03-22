@@ -669,6 +669,15 @@ interface ilDBInterface {
 	 * @return \ilAtomQuery
 	 */
 	public function buildAtomQuery();
+
+
+	/**
+	 * @param string $a_field_name
+	 * @param string $a_dest_type
+	 * @return string;
+	 */
+	public function cast($a_field_name, $a_dest_type);
+	
 }
 
 /**
