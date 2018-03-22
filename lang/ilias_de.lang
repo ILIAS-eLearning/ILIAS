@@ -14160,3 +14160,12 @@ meta#:#adt_error_max_length#:#Der eingegebene Text ist zu lang. Bitte geben Sie 
 form#:#form_chars_remaining#:#Verbleibende Zeichen:
 poll#:#poll_voting_period_full_info#:#Abstimmung von %s bis %s
 crs#:#crs_subscription_min_members_err#:#Die minimale Anzahl darf nicht größer als die maximale Anzahl sein.
+background_tasks#:#abort#:#Abbrechen
+rbac#:#sess_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
+content#:#cont_lpe_cas_login_form#:#CAS-Loginmaske
+content#:#cont_lpe_language_selection#:#Sprachauswahl
+content#:#cont_lpe_login_form#:#Loginmaske
+content#:#cont_lpe_openid_login_form#:#OpenId-Loginmaske
+content#:#cont_lpe_registration_link#:#Link zur Neuanmeldung
+content#:#cont_lpe_shib_login_form#:#Shibboleth-Loginmaske
+content#:#cont_lpe_user_agreement_link#:#Link zur Benutzervereinbarung
