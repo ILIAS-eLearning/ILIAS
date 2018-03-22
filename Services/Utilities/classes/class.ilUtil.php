@@ -4895,9 +4895,9 @@ class ilUtil
 	{
 		global $DIC;
 
-		$tpl = $DIC["tpl"];
-		if(is_object($tpl))
+		if(isset($DIC["tpl"]))
 		{
+			$tpl = $DIC["tpl"];
 			$tpl->setMessage("failure", $a_info, $a_keep);
 		}
 	}
