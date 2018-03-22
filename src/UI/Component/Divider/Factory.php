@@ -35,5 +35,28 @@ interface Factory
 	 * @return  \ILIAS\UI\Component\Divider\Horizontal
 	 */
 	public function horizontal();
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       A Vertical Divider is used to mark a thematic or functional change in a sequence of
+	 *       elements that are stacked from left to right.
+	 *   composition: >
+	 *     Vertical Dividers consists of a glyph-like character.
+	 *
+	 * rules:
+	 *   usage:
+	 *       1: >
+	 *          Vertical Dividers MUST only be used in container components that render
+	 *          a sequence of items from left to right.
+	 *   ordering:
+	 *       1: >
+	 *          Vertical Dividers MUST always have a succeeding element
+	 *          in a sequence of elments, which MUST NOT be another Vertical Divider.
+	 * ---
+	 * @return  \ILIAS\UI\Component\Divider\Vertical
+	 */
+	public function vertical();
 }
 
