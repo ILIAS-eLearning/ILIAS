@@ -27,7 +27,7 @@ class ilDclReferenceFieldModel extends ilDclBaseFieldModel {
 			$n_ref = true;
 		}
 
-		$select_str = ($n_ref) ? " GROUP_CONCAT(stloc_{$this->getId()}_joined.value) AS field_{$this->getId()}" : "stloc_{$this->getId()}_joined.value AS field_{$this->getId()},";
+		$select_str = ($n_ref) ? " ". $ilDB->groupConcat("stloc_{$this->getId()}_joined.value") . " AS field_{$this->getId()}" : "stloc_{$this->getId()}_joined.value AS field_{$this->getId()},";
 		$join_str = "LEFT JOIN il_dcl_record_field AS record_field_{$this->getId()} ON (record_field_{$this->getId()}.record_id = record.id AND record_field_{$this->getId()}.field_id = "
 			. $ilDB->quote($this->getId(), 'integer') . ") ";
 		$join_str .= "LEFT JOIN il_dcl_stloc{$this->getStorageLocation()}_value AS stloc_{$this->getId()} ON (stloc_{$this->getId()}.record_field_id = record_field_{$this->getId()}.id) ";
