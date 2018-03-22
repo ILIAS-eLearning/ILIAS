@@ -71,8 +71,32 @@ class ilForumMailNotification extends ilMailNotification
 	}
 
 	/**
+	 * @inheritdoc
+	 */
+	protected function setSubject($a_subject)
+	{
+		$value = parent::setSubject($a_subject);
+		$this->logger->debug(sprintf('Setting subject to: %s', $a_subject));
+		return $value;
+	}
+
+	/**
+	 * 
+	 */
+	protected function appendAttachments()
+	{
+		if (count($this->provider->getAttachments()) > 0) {
+			$this->logger->debug('Adding attachments ...');
+			foreach ($this->provider->getAttachments() as $attachment) {
+				$this->appendBody($this->getLanguageText('attachment') . ": " . $attachment . "\n");
+			}
+			$this->appendBody("\n------------------------------------------------------------\n");
+			$this->setAttachments($this->provider->getAttachments());
+		}
+	}
+
+	/**
 	 * @return bool
-	 * @throws ilDateTimeException
 	 */
 	public function send()
 	{
@@ -197,15 +221,7 @@ class ilForumMailNotification extends ilMailNotification
 					}
 					$this->appendBody("------------------------------------------------------------\n");
 
-					if(count($this->provider->getAttachments()) > 0)
-					{
-						foreach($this->provider->getAttachments() as $attachment)
-						{
-							$this->appendBody($this->getLanguageText('attachment') . ": " . $attachment . "\n");
-						}
-						$this->appendBody("\n------------------------------------------------------------\n");
-						$this->setAttachments($this->provider->getAttachments());
-					}
+					$this->appendAttachments();
 
 					$this->appendBody($this->getPermanentLink());
 					$this->appendBody(ilMail::_getInstallationSignature());
@@ -260,15 +276,7 @@ class ilForumMailNotification extends ilMailNotification
 					}
 					$this->appendBody("------------------------------------------------------------\n");
 
-					if(count($this->provider->getAttachments()) > 0)
-					{
-						foreach($this->provider->getAttachments() as $attachment)
-						{
-							$this->appendBody($this->getLanguageText('attachment') . ": " . $attachment . "\n");
-						}
-						$this->appendBody("\n------------------------------------------------------------\n");
-						$this->setAttachments($this->provider->getAttachments());
-					}
+					$this->appendAttachments();
 
 					$this->appendBody($this->getPermanentLink());
 					$this->appendBody(ilMail::_getInstallationSignature());
@@ -323,15 +331,7 @@ class ilForumMailNotification extends ilMailNotification
 					}
 					$this->appendBody("------------------------------------------------------------\n");
 
-					if(count($this->provider->getAttachments()) > 0)
-					{
-						foreach($this->provider->getAttachments() as $attachment)
-						{
-							$this->appendBody($this->getLanguageText('attachment') . ": " . $attachment . "\n");
-						}
-						$this->appendBody("\n------------------------------------------------------------\n");
-						$this->setAttachments($this->provider->getAttachments());
-					}
+					$this->appendAttachments();
 
 					$this->appendBody($this->getPermanentLink());
 					$this->appendBody(ilMail::_getInstallationSignature());
@@ -385,15 +385,7 @@ class ilForumMailNotification extends ilMailNotification
 					}
 					$this->appendBody("------------------------------------------------------------\n");
 
-					if(count($this->provider->getAttachments()) > 0)
-					{
-						foreach($this->provider->getAttachments() as $attachment)
-						{
-							$this->appendBody($this->getLanguageText('attachment') . ": " . $attachment . "\n");
-						}
-						$this->appendBody("\n------------------------------------------------------------\n");
-						$this->setAttachments($this->provider->getAttachments());
-					}
+					$this->appendAttachments();
 
 					$this->appendBody($this->getPermanentLink());
 					$this->appendBody(ilMail::_getInstallationSignature());
@@ -446,15 +438,7 @@ class ilForumMailNotification extends ilMailNotification
 					}
 					$this->appendBody("------------------------------------------------------------\n");
 
-					if(count($this->provider->getAttachments()) > 0)
-					{
-						foreach($this->provider->getAttachments() as $attachment)
-						{
-							$this->appendBody($this->getLanguageText('attachment') . ": " . $attachment . "\n");
-						}
-						$this->appendBody("\n------------------------------------------------------------\n");
-						$this->setAttachments($this->provider->getAttachments());
-					}
+					$this->appendAttachments();
 
 					$this->appendBody($this->getPermanentLink());
 					$this->appendBody(ilMail::_getInstallationSignature());
@@ -500,15 +484,7 @@ class ilForumMailNotification extends ilMailNotification
 
 					$this->appendBody("------------------------------------------------------------\n");
 
-					if(count($this->provider->getAttachments()) > 0)
-					{
-						foreach($this->provider->getAttachments() as $attachment)
-						{
-							$this->appendBody($this->getLanguageText('attachment') . ": " . $attachment . "\n");
-						}
-						$this->appendBody("\n------------------------------------------------------------\n");
-						$this->setAttachments($this->provider->getAttachments());
-					}
+					$this->appendAttachments();
 
 					$this->appendBody($this->getPermanentLink());
 					$this->appendBody(ilMail::_getInstallationSignature());
@@ -622,6 +598,10 @@ class ilForumMailNotification extends ilMailNotification
 			$forum_parameters =  $this->provider->getRefId() . "_" . $this->provider->getThreadId() . "_" . $this->provider->getPostId();
 		}
 
+		$this->logger->debug(sprintf(
+			'Building permanent with parameters %s', $forum_parameters
+		));
+
 		if($this->isCronjob())
 		{
 			$posting_link = sprintf($language_text,
@@ -640,6 +620,10 @@ class ilForumMailNotification extends ilMailNotification
 					$ilClientIniFile->readVariable("client", "name"),
 					ilUtil::_getHttpPath() . '/?client_id=' . CLIENT_ID) . "\n\n";
 		}
+
+		$this->logger->debug(sprintf(
+			'Link built: %s', $posting_link
+		));
 
 		return $posting_link;
 	}
