@@ -506,9 +506,11 @@ interface Factory {
 	 *   purpose: >
 	 *       Clicking the Like Glyph indicates a user affirms an item, e.g. a posting.
 	 *   composition: >
-	 *       The Like Glyph uses the "thumbs up" unicode emoji U+1F44D
+	 *       The Like Glyph uses the "thumbs up" unicode emoji U+1F44D, see https://unicode.org/emoji/charts/full-emoji-list.html.
 	 *   effect: >
 	 *       Clicking toggles the state of the user expression. Clicking also updates the respective counter.
+	 *
+	 * context: Show timeline in groups and courses.
 	 *
 	 * rules:
 	 *   composition:
@@ -529,9 +531,11 @@ interface Factory {
 	 *   purpose: >
 	 *       Clicking the Love Glyph indicates a user adores an item, e.g. a posting.
 	 *   composition: >
-	 *       The Love Glyph uses the "red heart" unicode emoji U+2764
+	 *       The Love Glyph uses the "red heart" unicode emoji U+2764, see https://unicode.org/emoji/charts/full-emoji-list.html.
 	 *   effect: >
 	 *       Clicking toggles the state of the user expression. Clicking also updates the respective counter.
+	 *
+	 * context: Show timeline in groups and courses.
 	 *
 	 * rules:
 	 *   composition:
