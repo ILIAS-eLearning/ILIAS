@@ -155,7 +155,6 @@ class ilFileXMLParser extends ilSaxParser
                 {
 					$this->file->setFileType($a_attribs["type"]);
                 }
-                   $this->file->setVersion($this->file->getVersion() + 1);
 				break;
 			case 'Content':
 				$this->tmpFilename = ilUtil::ilTempnam();
