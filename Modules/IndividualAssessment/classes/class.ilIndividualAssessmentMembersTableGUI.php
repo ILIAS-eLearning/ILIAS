@@ -32,7 +32,7 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 		$this->iass_access = $this->parent_obj->object->accessHandler();
 
 		foreach ($this->visibleColumns() as $lng_var => $params) {
-			$this->addColumn($this->lng->txt($lng_var), $params[0]);
+			$this->addColumn($this->lng->txt($lng_var), $params[0], $params[1]);
 		}
 		$this->setData(iterator_to_array($a_parent_obj->object->loadVisibleMembers()));
 	}
@@ -43,14 +43,14 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 	 * @return string()
 	 */
 	protected function visibleColumns() {
-		$columns = array( 'name'				=> array('name')
-						, 'login'				=> array('login'));
+		$columns = array( 'name'				=> array('name', "")
+						, 'login'				=> array('login', ""));
 		if($this->userMayViewGrades() || $this->userMayEditGrades()) {
-			$columns['grading'] = array('lp_status');
-			$columns['iass_graded_by'] = array('iass_graded_by');
-			$columns['iass_changed_by'] = array('iass_changed_by');
+			$columns['grading'] = array('lp_status', "");
+			$columns['iass_graded_by'] = array('iass_graded_by', "");
+			$columns['iass_changed_by'] = array('iass_changed_by', "");
 		}
-		$columns['actions'] = array(null);
+		$columns['actions'] = array(null, "120px");
 		return $columns;
 	}
 
