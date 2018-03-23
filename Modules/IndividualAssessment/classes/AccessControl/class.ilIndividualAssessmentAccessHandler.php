@@ -6,8 +6,6 @@ require_once 'Services/AccessControl/classes/class.ilObjRole.php';
  * Deal with ilias rbac-system
  */
 class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessHandler {
-	const self::ADMIN = "Administrator";
-
 	/**
 	 * @var ilObjIndividualAssessment
 	 */
@@ -100,7 +98,7 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
 	/**
 	 * User view iass object
 	 *
-	 * @param bool 	$use_cache
+	 * @param bool	$use_cache
 	 *
 	 * @return bool
 	 */
@@ -110,13 +108,13 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
 			return $this->cacheCheckAccessToObj('read');
 		}
 
-		return $this->checkAccessToObj('read');
+		return $this->isSystemAdmin() || $this->checkAccessToObj('read');
 	}
 
 	/**
 	 * User edit iass
 	 *
-	 * @param bool 	$use_cache
+	 * @param bool	$use_cache
 	 *
 	 * @return bool
 	 */
@@ -126,13 +124,13 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
 			return $this->cacheCheckAccessToObj('write');
 		}
 
-		return $this->checkAccessToObj('write');
+		return $this->isSystemAdmin() || $this->checkAccessToObj('write');
 	}
 
 	/**
 	 * User edit permissions
 	 *
-	 * @param bool 	$use_cache
+	 * @param bool	$use_cache
 	 *
 	 * @return bool
 	 */
@@ -142,13 +140,13 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
 			return $this->cacheCheckAccessToObj('edit_permission');
 		}
 
-		return $this->checkAccessToObj('edit_permission');
+		return $this->isSystemAdmin() || $this->checkAccessToObj('edit_permission');
 	}
 
 	/**
 	 * User may edit members
 	 *
-	 * @param bool 	$use_cache
+	 * @param bool	$use_cache
 	 *
 	 * @return bool
 	 */
@@ -158,13 +156,13 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
 			return $this->cacheCheckAccessToObj('edit_members');
 		}
 
-		return $this->checkAccessToObj('edit_members');
+		return $this->isSystemAdmin() || $this->checkAccessToObj('edit_members');
 	}
 
 	/**
 	 * User may view gradings
 	 *
-	 * @param bool 	$use_cache
+	 * @param bool	$use_cache
 	 *
 	 * @return bool
 	 */
@@ -174,13 +172,13 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
 			return $this->cacheCheckAccessToObj('read_learning_progress');
 		}
 
-		return $this->checkAccessToObj('read_learning_progress');
+		return $this->isSystemAdmin() || $this->checkAccessToObj('read_learning_progress');
 	}
 
 	/**
 	 * User may grade
 	 *
-	 * @param bool 	$use_cache
+	 * @param bool	$use_cache
 	 *
 	 * @return bool
 	 */
@@ -190,7 +188,7 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
 			return $this->cacheCheckAccessToObj('edit_learning_progress');
 		}
 
-		return $this->checkAccessToObj('edit_learning_progress');
+		return $this->isSystemAdmin() || $this->checkAccessToObj('edit_learning_progress');
 	}
 
 	/**
@@ -202,13 +200,13 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
 	 */
 	public function mayGradeUserById($a_user_id)
 	{
-		return count($this->handler->filterUserIdsByRbacOrPositionOfCurrentUser("edit_learning_progress", "set_lp", $this->iass->getRefId(), [$a_user_id])) > 0;
+		return $this->isSystemAdmin() || count($this->handler->filterUserIdsByRbacOrPositionOfCurrentUser("edit_learning_progress", "set_lp", $this->iass->getRefId(), [$a_user_id])) > 0;
 	}
 
 	/**
 	 * User may Amend grading
 	 *
-	 * @param bool 	$use_cache
+	 * @param bool	$use_cache
 	 *
 	 * @return bool
 	 */
@@ -223,7 +221,7 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
 	/**
 	 * Get permission state from cache
 	 *
-	 * @param string 	$operation
+	 * @param string	$operation
 	 *
 	 * @return bool
 	 */
@@ -241,18 +239,12 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
 	}
 
 	/**
-	 * Check wheter user is admin.
+	 * Check whether user is system admin.
 	 *
 	 * @return bool
 	 */
-	public function isAdmin()
+	public function isSystemAdmin()
 	{
-		$global_roles = $this->review->assignedGlobalRoles($this->usr->getId());
-		foreach ($global_roles as $global_role) {
-			if(ilObject::_lookupTitle($global_role) == self::ADMIN) {
-				return true;
-			}
-		}
-		return false;
+		return $this->review->isAssigned($this->usr->getId(), SYSTEM_ROLE_ID);
 	}
 }
