@@ -187,6 +187,7 @@ class ilSoapFileAdministration extends ilSoapAdministration
 
             if ($fileXMLParser->start())
             {
+				$file->setVersion($file->getVersion() + 1);
                 $fileXMLParser->updateFileContents();
 
                 return  $file->update();
