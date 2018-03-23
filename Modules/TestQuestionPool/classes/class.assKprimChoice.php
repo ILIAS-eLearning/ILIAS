@@ -954,6 +954,18 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 		
 		return $combinedText;
 	}
+	
+	/**
+	 * @param ilAssSelfAssessmentMigrator $migrator
+	 */
+	protected function lmMigrateQuestionTypeSpecificContent(ilAssSelfAssessmentMigrator $migrator)
+	{
+		foreach($this->getAnswers() as $answer)
+		{
+			/* @var ilAssKprimChoiceAnswer $answer */
+			$answer->setAnswertext( $migrator->migrateToLmContent($answer->getAnswertext()) );
+		}
+	}
 
 	/**
 	 * Returns a JSON representation of the question

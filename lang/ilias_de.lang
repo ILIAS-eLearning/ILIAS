@@ -362,14 +362,14 @@ assessment#:#autosave_ival#:#Speicherintervall
 assessment#:#for#:#für
 assessment#:#wait_for_next_pass_hint_msg#:#Erneuter Durchlauf möglich ab folgendem Zeitpunkt: %s
 assessment#:#tst_pass_waiting_enabled#:#Wartezeit zwischen Durchläufen erzwingen
-assessment#:#tst_pass_waiting_info#:#Mit dieser Option können erneute Durchläufe erst gestartet werden, wenn die definierte Zeitspanne seid dem vorherigen Durchlauf abgelaufen ist.
+assessment#:#tst_pass_waiting_info#:#Mit dieser Option können erneute Durchläufe erst gestartet werden, wenn die definierte Zeitspanne seit dem vorherigen Durchlauf abgelaufen ist.
 assessment#:#tst_pass_waiting_time#:#Wartezeit
 assessment#:#char_selector_btn_label#:#&nbsp;Ω&nbsp;
 assessment#:#tst_objective_oriented_test_pass_without_questions#:#Der gestartete Durchlauf im Test "%s" enthält keine Fragen.
 assessment#:#tst_dyn_quest_set_pool_deleted#:#Der aktuell konfigurierte Fragenpool "%s" ist gelöscht worden.
 assessment#:#tst_old_style_rnd_quest_set_broken#:#Dieser Random Test befindet sich in einem irreparablen Zustand, da angeschlossene Fragepools gelöscht wurden. Aus diesem Grund können Teilnehmer diesen Test nicht länger absolvieren.
 assessment#:#solution_contain_keywords#:#Punkte werden auf Basis des Vorkommens der folgenden Begriffe vergeben:
-assessment#:#ass_mc_sel_lim_hint#:#Bitte wählen Sie %s von %s Antworten!
+assessment#:#ass_mc_sel_lim_hint#:#Bitte wählen Sie maximal %s von %s Antworten!
 assessment#:#ass_mc_sel_lim_exhausted_hint#:#Bitte wählen Sie nicht mehr als %s von %s Antworten!
 assessment#:#ass_mc_sel_lim_setting#:#Antwortbeschränkung
 assessment#:#ass_mc_sel_lim_setting_desc#:#Mit dieser Einstellung lässt sich die Anzahl durch den Teilnehmer wählbarer Antworten einschränken.
@@ -771,6 +771,7 @@ assessment#:#log_selected_user_data_removed#:#Testdaten des Benutzer %s entferne
 assessment#:#log_user_answered_question#:#Ein Benutzer beantwortet eine Frage und erhielt %s Punkte
 assessment#:#log_user_entered_values#:#Der Benutzer hat Werte eingetragen
 assessment#:#log_user_not_entered_values#:#Der Benutzer hat keine Werte eingetragen
+assessment#:#log_user_solution_willingly_deleted#:#Der Benutzer hat seine Antwort entfernt.
 assessment#:#mailnottype#:#Ein Versand findet auch beim Beenden einzelner Testdurchläufe statt
 assessment#:#maintenance#:#Wartung
 assessment#:#manscoring#:#Manuelle Bewertung
@@ -1019,9 +1020,9 @@ assessment#:#tst_instant_feedback_handling_none_desc#:#Teilnehmer können über 
 assessment#:#tst_instant_feedback_handling_freeze#:#Antworten festschreiben, wenn Rückmeldung angefordert wird
 assessment#:#tst_instant_feedback_handling_freeze_desc#:#Teilnehmer können über einen Button "Antwort festschreiben und prüfen" ihre Antwort festschreiben und eine Rückmeldung anzeigen lassen. Danach kann die Antwort nicht mehr geändert werden.
 assessment#:#tst_instant_feedback_handling_force_and_freeze#:#Automatische Rückmeldung und Antwort festschreiben
-assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#Klicken Teilnehmer auf "Antwort speichern und Rückmeldung anfordern oder speichern sie Ihre Antwort bei der Navigation zu einer anderen Frage, so können sie Ihre Antworten danach nicht mehr ändern. ILIAS präsentiert sofort die in der Option "Direkte Rückmeldung" konfigurierte Rückmeldung.
+assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#Klicken Teilnehmer auf "Antwort speichern und Rückmeldung anfordern oder speichern Sie Ihre Antwort beim Wechsel zu einer anderen Frage, so können Sie Ihre Antworten danach nicht mehr ändern. ILIAS präsentiert sofort die in der Option "Direkte Rückmeldung" konfigurierte Rückmeldung.
 assessment#:#tst_instant_feedback_handling_force#:#Automatische Rückmeldung, aber Antwort nicht festschreiben
-assessment#:#tst_instant_feedback_handling_force_desc#:#Klicken Teilnehmer auf "Rückmeldung anfordern", oder speichern sie Ihre Antwort bei der Navigation zu einer anderen Frage, so präsentiert ILIAS sofort die in der Option "Direkte Rückmeldung" konfigurierte Rückmeldung. Teilnehmer können danach ihre Antworten im Rahmen der erlaubten Testdurchläufe ändern.
+assessment#:#tst_instant_feedback_handling_force_desc#:#Klicken Teilnehmer auf "Rückmeldung anfordern", oder speichern sie Ihre Antwort beim Wechsel zu einer anderen Frage, so präsentiert ILIAS sofort die in der Option "Direkte Rückmeldung" konfigurierte Rückmeldung. Teilnehmer können danach ihre Antworten im Rahmen der erlaubten Testdurchläufe ändern.
 assessment#:#select_gap#:#Auswahl-Lücke
 assessment#:#select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus.
 assessment#:#select_one_user#:#Bitte wählen Sie mindestens einen Benutzer aus.
@@ -1213,10 +1214,10 @@ assessment#:#tst_passes#:#Testdurchläufe
 assessment#:#tst_allowed_users_max#:#Maximale Anzahl
 assessment#:#tst_password_form#:#Eingabe Testpasswort
 assessment#:#tst_password#:#Testpasswort
-assessment#:#tst_password_details#:#Wird ein Testpasswort definiert, müssen Teilnehmer dieses eingeben, um den Test starten zu können.
+assessment#:#tst_password_details#:#Wird ein Testpasswort definiert, müssen Teilnehmer dieses eingeben, um den Test starten oder fortsetzen zu können. Dies betrifft auch laufende Testdurchläufe.
 assessment#:#tst_password_enter#:#Passwort eingeben
 assessment#:#tst_password_entered_wrong_password#:#Sie können den Test nicht starten, da Sie ein falsches Testpasswort eingegeben haben!
-assessment#:#tst_password_introduction#:#Dieser Test kann nur mit einem Testpasswort gestartet werden. Bitte tragen Sie das Passwort hier ein.
+assessment#:#tst_password_introduction#:#Dieser Test kann nur mit einem Testpasswort gestartet bzw. fortgeführt werden. Bitte tragen Sie das Passwort hier ein.
 assessment#:#tst_percent_solved#:#Prozent gelöst
 assessment#:#tst_position#:#Frage %s von %s
 assessment#:#tst_position_without_total#:#Frage %s
@@ -10432,7 +10433,7 @@ dcl#:#dcl_max_import#:#Die maximal erlaubte Anzahl an importierten Datensätze w
 dcl#:#dcl_row_not_found#:# - Dieses Feld wurde in der Tabelle nicht gefunden.
 dcl#:#dcl_std_field_not_importable#:# - Standardfelder sind nicht importierbar.
 dcl#:#dcl_import_records .xls#:#Excel-Import
-dcl#:#dcl_file_format_description#:#Die Import-Datei muss im Excel-Format .xlsx vorliegen, mit den zu importierenden Daten auf der ersten Seite. In der ersten Reihe müssen die exakten Namen der Felder stehen (inklusive Grossschreibung) und in den folgenden Reihen die Werte der zu importierenden Datensatzeinträge. Es wird empfohlen, jeden Import zuerst zu simulieren. Für den Import von mehrfachen Einträgen bei Auswahlmenü-Feldern und Referenzfeldern werden Semikolon und/oder Komma als Trenner akzeptiert.
+dcl#:#dcl_file_format_description#:#Die Import-Datei muss im Excel-Format .xlsx vorliegen, mit den zu importierenden Daten auf der ersten Seite. In der ersten Zeile müssen die exakten Namen der Felder stehen (inklusive Grossschreibung) und in den folgenden Zeilen die Werte der zu importierenden Datensatzeinträge. Es wird empfohlen, jeden Import zuerst zu simulieren. Für den Import von mehrfachen Einträgen bei Auswahlmenü-Feldern und Referenzfeldern werden Semikolon und/oder Komma als Trenner akzeptiert.
 dcl#:#dcl_simulate_import#:#Import simulieren
 dcl#:#dcl_simulate_info#:#Hierbei werden keine Datensätze angelegt, sondern nur Feedback zu Fehlern in der Import-Datei gegeben. Dadurch können Sie fehlerhafte Imports vermeiden.
 dcl#:#dcl_multiple_selection#:#Mehrfachauswahl
@@ -11705,9 +11706,9 @@ blog#:#blog_nav_mode_month_single_info#:#Listet alle Beiträge eines Monats. Der
 blog#:#blog_list_num_postings#:#Anzahl Einträge in der initialen Übersicht
 blog#:#blog_list_num_postings_info#:#Diese Einstellung wird nur verwendet, wenn kein konkreter Monat ausgewählt ist.
 blog#:#blog_enable_keywords#:#Schlagwörter
-blog#:#blog_enable_keywords_info#:#Einträge können mit Schlagwörtern versehen werden, die zur Navigation benutzt werden können.
+blog#:#blog_enable_keywords_info#:#Einträge können mit Schlagwörtern versehen werden, die zum Navigieren benutzt werden können.
 blog#:#blog_enable_nav_authors#:#Autoren
-blog#:#blog_enable_nav_authors_info#:#Autoren können zur Navigation verwendet werden.
+blog#:#blog_enable_nav_authors_info#:#Autorennamen können zum Navigieren verwendet werden.
 blog#:#blog_nav_sortorder#:#Sortierung
 survey#:#svy_view_own_results#:#Eigene Antworten einsehen
 survey#:#svy_mail_own_results#:#Eigene Antworten per E-Mail versenden
@@ -13333,9 +13334,9 @@ trac#:#trac_defaults_info#:#Setzt den Modus zur Ermittlung des Bearbeitet-Status
 trac#:#trac_defaults_inactive#:#Inaktiv
 copg#:#copg_snippet_cannot_be_edited#:#Dies ist ein vordefinierter Inhaltsbaustein, der an dieser Stelle nicht editiert werden kann.
 assessment#:#tst_revert_changes#:#Bearbeitung zurücknehmen
-assessment#:#save_on_navigation#:#Navigation mit Speichern
-assessment#:#save_on_navigation_confirmation#:#Ihre geänderten Antworten werden bei der Navigation automatisch gespeichert.
-assessment#:#save_on_navigation_locked_confirmation#:#Ihre geänderten Antworten werden bei der Navigation automatisch gespeichert und festgeschrieben.
+assessment#:#save_on_navigation#:#Navigieren mit Speichern
+assessment#:#save_on_navigation_confirmation#:#Ihre geänderten Antworten werden beim Navigieren automatisch gespeichert.
+assessment#:#save_on_navigation_locked_confirmation#:#Ihre geänderten Antworten werden beim Navigieren automatisch gespeichert und festgeschrieben.
 assessment#:#save_on_navigation_forced_feedback_hint#:#Vorher erhalten Sie Feedback zu Ihrer Antwort.
 assessment#:#save_on_navigation_prevent_confirmation#:#Diese Meldung nicht mehr anzeigen.
 assessment#:#tst_answer_status_editing#:#(in Bearbeitung)
@@ -13739,7 +13740,7 @@ wsp#:#element_shared#:#Die Ressource wurde freigegeben.
 wsp#:#share#:#Freigeben
 common#:#obj_pdfg#:#PDF-Erstellung
 common#:#obj_pdfg_desc#:#Administrationseinstellungen für die PDF-Erstellung
-common#:#building_export_file#:#Erstelle Export Datei...
+common#:#building_export_file#:#Erstelle Export-Datei...
 common#:#pdfg_read#:#Lesezugrif auf PDF-Erstellung
 common#:#pdfg_visible#:#PDF-Erstellungs ist sichtbar.
 common#:#pdfg_write#:#Einstellungen der PDF-Erstellung bearbeiten
@@ -13747,7 +13748,7 @@ common#:#pdfg_edit_permission#:#Rechteeinstellungen ändern
 pdfgen#:#phantomjs#:#PhantomJS
 pdfgen#:#page_settings#:#Seiteneinstellungen
 pdfgen#:#orientation#:#Orientierung
-pdfgen#:#print_media_type#:#Benutze Druck Media Type anstatt Bildschirm
+pdfgen#:#print_media_type#:#Benutze 'Druck Media Type' anstatt 'Bildschirm'
 pdfgen#:#margin#:#Rand
 pdfgen#:#header_type#:#Kopfzeile
 pdfgen#:#text#:#Text
@@ -13765,10 +13766,10 @@ pdfgen#:#configure#:#Konfiguriere Renderer
 pdfgen#:#image_scale#:#Bildskalierung
 pdfgen#:#config_saved#:#Speichern erfolgreich.
 pdfgen#:#config_not_saved#:#Speichern fehlgeschlagen.
-pdfgen#:#margin_left#:#Margin Links
-pdfgen#:#margin_top#:#Margin Oben
-pdfgen#:#margin_right#:#Margin Rechts
-pdfgen#:#margin_bottom#:#Margin Unten
+pdfgen#:#margin_left#:#Margin links
+pdfgen#:#margin_top#:#Margin oben
+pdfgen#:#margin_right#:#Margin rechts
+pdfgen#:#margin_bottom#:#Margin unten
 pdfgen#:#viewport#:#Viewport
 pdfgen#:#viewport_info#:#Viewport in Pixeln z.B "1920*1080"
 pdfgen#:#zoom#:#Zoom
@@ -13855,14 +13856,14 @@ dateplaner#:#cal_grp_personal#:#Persönlich
 dateplaner#:#cal_grp_others#:#Andere
 dateplaner#:#cal_download_all_files#:#Alle Dateien herunterladen
 dateplaner#:#cal_owner#:#Eigentümer
-dateplaner#:#cal_contained_in#:#Contained in
+dateplaner#:#cal_contained_in#:#Enthalten in
 dateplaner#:#cal_app_info#:#Information zur Übungseinheit
 dateplaner#:#cal_crs_info#:#Course Information
 crs#:#crs_open#:#Kurs öffnen
 grp#:#grp_grp_open#:#Gruppe öffnen
 dateplaner#:#cal_grp_info#:#Information zur Gruppe
 dateplaner#:#cal_exc_info#:#Information zur Übungseinheit
-dateplaner#:#cal_sess_info#:#Session Information
+dateplaner#:#cal_sess_info#:#Information zur Sitzung
 dateplaner#:#cal_agenda#:#Agenda
 dateplaner#:#cal_exc_open#:#Übungseinheit öffnen
 book#:#book_open#:#Buchungspool öffnen
@@ -13988,7 +13989,7 @@ content#:#cont_lm_starting_point#:#Startseite für ILIAS-Lernmodule
 content#:#cont_lm_starting_point_info#:#Seite, die beim Anklicken des Lernmodultitels geöffnet wird.
 content#:#cont_short_titles#:#Kurztitel
 content#:#cont_short_title#:#Kurztitel
-content#:#cont_short_title_info#:#Kurztitel werden in der Präsentationsansicht in der Baumdarstellung auf der linken Seite und für die Vor- und Zurück-Navigation genutzt.
+content#:#cont_short_title_info#:#Kurztitel werden in der Baumdarstellung auf der linken Seite und für das Vor- und Zurück-Navigieren genutzt.
 grp#:#grp_add_to_group#:#Zur Gruppe hinzufügen
 grp#:#grp_add_user_to_group#:#Benutzer zur Gruppe hinzufügen
 grp#:#grp_create_or_use_existing#:#Wollen Sie den Benutzer zu einer bestehenden Gruppe hinzufügen oder eine neue Gruppe anlegen?
@@ -14154,5 +14155,12 @@ meta#:#adt_error_max_length#:#Der eingegebene Text ist zu lang. Bitte geben Sie 
 form#:#form_chars_remaining#:#Verbleibende Zeichen:
 poll#:#poll_voting_period_full_info#:#Abstimmung von %s bis %s
 crs#:#crs_subscription_min_members_err#:#Die minimale Anzahl darf nicht größer als die maximale Anzahl sein.
-background_tasks#:#abort#:#Abort###25 01 2018 new variable
-rbac#:#sess_read_learning_progress#:#User can view learning progress of other users###07 02 2018 new variable
+background_tasks#:#abort#:#Abbrechen
+rbac#:#sess_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
+content#:#cont_lpe_cas_login_form#:#CAS-Loginmaske
+content#:#cont_lpe_language_selection#:#Sprachauswahl
+content#:#cont_lpe_login_form#:#Loginmaske
+content#:#cont_lpe_openid_login_form#:#OpenId-Loginmaske
+content#:#cont_lpe_registration_link#:#Link zur Neuanmeldung
+content#:#cont_lpe_shib_login_form#:#Shibboleth-Loginmaske
+content#:#cont_lpe_user_agreement_link#:#Link zur Benutzervereinbarung

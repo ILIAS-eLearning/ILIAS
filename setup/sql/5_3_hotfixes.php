@@ -184,3 +184,46 @@ while ($res = $ilDB->fetchAssoc($set)) {
 	}
 }
 ?>
+<#11>
+<?php
+	$ilDB->manipulate('UPDATE exc_mem_ass_status SET status='.$ilDB->quote('notgraded', 'text').' WHERE status = '.$ilDB->quote('', 'text'));
+?>
+<#12>
+<?php
+
+$query = 'SELECT MAX(meta_description_id) desc_id from il_meta_description ';
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+{
+	$query = 'UPDATE il_meta_description_seq SET sequence = '. $ilDB->quote($row->desc_id + 100);
+	$ilDB->manipulate($query);
+}
+?>
+<#13>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#14>
+<?php
+
+$client_id = basename(CLIENT_DATA_DIR);
+$web_path = ILIAS_ABSOLUTE_PATH . "/" . ILIAS_WEB_DIR . "/" . $client_id;
+$sec_path = $web_path."/sec";
+
+if(!file_exists($sec_path))
+{
+	ilUtil::makeDir($sec_path);
+}
+
+$old_path = $web_path."/IASS";
+$new_path = $sec_path."/ilIndividualAssessment";
+if(file_exists($old_path))
+{
+	rename($old_path, $new_path);
+}
+
+?>
+<#15>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

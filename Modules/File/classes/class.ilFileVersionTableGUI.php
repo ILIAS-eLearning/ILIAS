@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Filesystem\Util\LegacyPathHelper;
+
 include_once("Services/Table/classes/class.ilTable2GUI.php");
 
 /** @defgroup ModulesFile Modules/File
@@ -107,9 +109,18 @@ class ilFileVersionTableGUI extends ilTable2GUI
 		$username = trim($name["title"] . " " . $name["firstname"] . " " . $name["lastname"]);
 		
 		// get file size
-		$filepath = $this->parent_obj->object->getDirectory($version) . "/" . $filename;
-		$filesize = filesize($filepath);
-		
+		/**
+		 * @var $object ilObjFile
+		 */
+		$object = $this->parent_obj->object;
+		$directory = LegacyPathHelper::createRelativePath($object->getDirectory($version));
+		$filepath = ilFileUtils::getValidFilename(rtrim($directory, "/") . "/" . $filename); // TODO remove after migration to filesystem
+		$filesize = 0;
+		if ($DIC->filesystem()->storage()->has($filepath)) {
+			$size = $filesize = $DIC->filesystem()->storage()->getSize($filepath, \ILIAS\Data\DataSize::Byte);
+			$filesize = $size->getSize();
+		}
+
 		// get action text
 		$action = $lng->txt("file_version_" . $a_set["action"]); // create, replace, new_version, rollback
 		if ($a_set["action"] == "rollback")

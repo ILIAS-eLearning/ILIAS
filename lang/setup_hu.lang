@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @translator   5.3.x 2018-01-23 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @translator   5.3.x 2018-03-18 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @module       setup language file hungarian
 * @modulegroup  language
 * @author       Matthias Kunkel <mkunkel@me.com>
@@ -30,6 +30,7 @@ available_languages#:#Elérhető nyelvek
 back#:#Vissza
 basic_settings#:#Alapbeállítások
 cannot_create_datadir_no_write_access#:#Nincs írási jog. Nem tud létrehozni adatkönyvtárat.
+cannot_create_datadir_inside_webdir#:#A könyvtár a webhelykönyvtár alatt van. Az adatkönyvtár nem hozható létre.
 change_basic_settings#:#Alapbeállítások módosítása
 change_password#:#Jelszócsere
 change_sort_direction#:#Rendezési irány módosítása
@@ -106,7 +107,7 @@ database#:#Adatbázis
 datadir_path_comment1#:#Kötelező
 datadir_path_comment2#:#Ez ebben a setup-változatban nem változtatható meg.
 datadir_path#:#Elérési út az adatkönyvtárhoz
-datadir_webspacedir_match#:#Adatkönyvtára elérési útja ugyanarra a könyvtárra mutat, ahol a webkönyvtára is van. Válasszon másik könyvtárat.
+datadir_webspacedir_match#:#Adatkönyvtára elérési útja ugyanarra a könyvtárra mutat, ahol a webhely könyvtára is van. Válasszon másik könyvtárat.
 date#:#dátum
 db_conn#:#Adatbázis-kapcsolódás
 db_control_structure_missing#:#Hiányzik az irányítási struktúra (Lásd 'Részletek' -> 'Eszközök')
@@ -376,8 +377,8 @@ pre_dom_missing#:#Engedélyezze a DOM támogatást PHP-telepítésében.
 pre_dom#:#DOM támogatás
 pre_error#:#Az Ön telepítése nem felel meg néhány alapkövetelménynek. További információkat az <a href="%s" target="_blank">ILIAS honlapján</a> talál.
 pre_folder_create_error#:#Nem hozható létre almappa. Változtassa meg a jogosultságokat.
-pre_folder_create#:#Mappák létrehozhatóak a webhely főmappájában
-pre_folder_write_error#:#A webhely főmappája nem írható. Változtassa meg a jogosultságokat!
+pre_folder_create#:#Mappák létrehozhatóak a webhely-főmappában
+pre_folder_write_error#:#A webhely-főmappa nem írható. Változtassa meg a jogosultságokat!
 pre_gd_missing#:#Engedélyezze a GD támogatást PHP-telepítésében, lásd <a target="_blank" href="%s">PHP dokumentáció</a>.
 pre_gd#:#GD támogatás
 pre_intro#:#Először nézzük, hogy környezete minden követelménynek megfelel-e, hogy telepítse és futtassa az ILIAS-t rendszerében.
@@ -391,7 +392,7 @@ pre_mysql_missing#:#Engedélyezze a MySQL támogatást (4.1 vagy magasabb verzi�
 pre_mysql#:#MySQL támogatás
 pre_php_version_too_low#:#Az Ön PHP verziója nem támogatott. PHP 5.2.1-et vagy magasabb verziót ajánlunk. A PHP 6 még nem volt tesztelve.
 pre_php#:#PHP verzió
-pre_root#:#Írható webhely főmappa
+pre_root#:#Írható webhely-főmappa
 pre_xsl_missing#:#Engedélyezze az XSL támogatást a PHP-telepítésében, lásd <a target="_blank" href="%s">PHP dokumentáció</a>.
 pre_xsl#:#XSL támogatás
 preliminaries#:#Előfeltételek
@@ -516,7 +517,7 @@ user#:#Felhasználó
 username#:#Felhasználónév
 version#:#Verzió
 virus_scanner#:#Víruskereső
-webspace_dir#:#Webhely adatok útvonala
+webspace_dir#:#Webhelyadatok útvonala
 with#:#ezzel:
 wrong_password#:#Hibás jelszó.
 zip_path_comment_win#:#Importfájlok kicsomagolásához szükséges, pl. 'C:/tools/zip/zip.exe'.
