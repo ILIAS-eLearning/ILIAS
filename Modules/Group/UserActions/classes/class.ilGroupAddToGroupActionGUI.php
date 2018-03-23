@@ -327,7 +327,11 @@ class ilGroupAddToGroupActionGUI
 
 		$group_gui = new ilObjGroupGUI("", 0, true);
 		$group_gui->setCreationMode(true);
+		// workaround for bug #22748 (which is triggered, if a didactic template for groups exist which is limited to a rep node)
+		$ref_id = $_GET["ref_id"];
+		$_GET["ref_id"] = $_GET["grp_act_par_ref_id"];
 		$form = $group_gui->initForm("create", true);
+		$_GET["ref_id"] = $ref_id;
 		$form->clearCommandButtons();
 		$form->addCommandButton("save", $lng->txt("grp_next"));
 		$form->setShowTopButtons(false);
