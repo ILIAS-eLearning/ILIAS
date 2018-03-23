@@ -68,6 +68,7 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 		}
 
 		if($this->userMayViewGrades() || $this->userMayEditGrades()) {
+			$this->tpl->setCurrentBlock('grading_columns');
 			$status = $a_set[ilIndividualAssessmentMembers::FIELD_LEARNING_PROGRESS];
 			if($status == 0)
 			{
@@ -94,6 +95,7 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 					;
 			}
 			$this->tpl->setVariable("CHANGED_BY", $changed_by);
+			$this->tpl->parseCurrentBlock();
 		}
 
 		$this->tpl->setVariable("ACTIONS",$this->buildActionDropDown($a_set));
