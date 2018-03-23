@@ -21915,3 +21915,25 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5262>
+<?php
+
+$query = 'select id from adm_settings_template  '.
+	'where title = '. $ilDB->quote('il_astpl_loc_initial','text').
+	'or title = '. $ilDB->quote('il_astpl_loc_qualified','text');
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+{
+	$ilDB->replace(
+		'adm_set_templ_value', 
+		[
+           	'template_id' => ['integer', $row->id],
+			 'setting' => ['text', 'pass_scoring']
+		],
+		[
+			'value' => ['integer',0],
+			'hide' => ['integer',1]
+		]
+	);
+}
+?>
