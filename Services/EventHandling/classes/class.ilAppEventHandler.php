@@ -60,11 +60,18 @@ class ilAppEventHandler
 	protected $listener; // [array]
 	
 	/**
+	 * @var \Psr\Log\LoggerInterface
+	 */
+	protected $logger;
+	
+	/**
 	* Constructor
 	*/
 	public function __construct()
 	{
 		$this->initListeners();
+
+		$this->logger = \ilLoggerFactory::getLogger('evnt');
 	}
 
 	protected function initListeners()
@@ -102,8 +109,20 @@ class ilAppEventHandler
 	* @param	string	$a_event		event e.g. "createUser", "updateUser", "deleteUser", ...
 	* @param	array	$a_parameter	parameter array (assoc), array("name" => ..., "phone_office" => ...)
 	*/
-	function raise($a_component, $a_event, $a_parameter = "")
+	public function raise($a_component, $a_event, $a_parameter = "")
 	{
+		$this->logger->debug(sprintf(
+			"Received event '%s' from component '%s'.",
+			$a_event, $a_component
+		));
+
+		$this->logger->debug(sprintf(
+			"Event Data: %s",
+			print_r($a_parameter, 1)
+		));
+		
+		$this->logger->debug("Started event propagation for event listeners ...");
+
 		if (is_array($this->listener[$a_component]))
 		{
 			foreach ($this->listener[$a_component] as $listener)
@@ -128,6 +147,8 @@ class ilAppEventHandler
 			}
 		}
 
+		$this->logger->debug("Finished event listener handling, started event propagation for plugins ...");
+
 		// get all event hook plugins and forward the event to them
 		include_once("./Services/Component/classes/class.ilPluginAdmin.php");
 		$plugins = ilPluginAdmin::getActivePluginsForSlot("Services", "EventHandling", "evhk");
@@ -138,8 +159,12 @@ class ilAppEventHandler
 			$plugin->handleEvent($a_component, $a_event, $a_parameter);	
 		}
 
+		$this->logger->debug("Finished plugin handling, started event propagation for workflow engine ...");
+
 		$workflow_engine = new ilWorkflowEngine(false);
 		$workflow_engine->handleEvent($a_component, $a_event, $a_parameter);
+
+		$this->logger->debug("Finished workflow engine handling.");
 	}
 }
 ?>
