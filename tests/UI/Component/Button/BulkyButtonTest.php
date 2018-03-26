@@ -43,6 +43,10 @@ class BulkyButtonTest extends ILIAS_UI_TestBase {
 		catch (\InvalidArgumentException $e) {
 			$this->assertTrue(true);
 		}
+	}
+
+	public function test_construction_wrong_params_icon() {
+		$f = $this->factory->button();
 		try {
 			$f->bulky("", "label", "http://www.ilias.de");
 			$this->assertFalse("This should not happen");
@@ -77,7 +81,6 @@ class BulkyButtonTest extends ILIAS_UI_TestBase {
 		$this->assertTrue($b->isEngaged());
 	}
 
-
 	public function test_render_glyph_context_and_state() {
 		$r = $this->getDefaultRenderer();
 		$b = $this->factory->button()->bulky($this->glyph, "label", "http://www.ilias.de");
@@ -109,6 +112,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase {
 			$r->render($b)
 		);
 	}
+
 	public function test_render_icon() {
 		$r = $this->getDefaultRenderer();
 		$b = $this->factory->button()->bulky($this->icon, "label", "http://www.ilias.de");
@@ -124,5 +128,4 @@ class BulkyButtonTest extends ILIAS_UI_TestBase {
 			$r->render($b)
 		);
 	}
-
 }
