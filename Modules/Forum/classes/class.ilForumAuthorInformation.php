@@ -78,6 +78,21 @@ class ilForumAuthorInformation
 	protected $author_id;
 
 	/**
+	 * @var \ilLanguage|null
+	 */
+	protected $lng;
+
+	/**
+	 * @var \ilLanguage
+	 */
+	protected $globalLng;
+
+	/**
+	 * @var \ilObjUser
+	 */
+	protected $globalUser;
+
+	/**
 	 * @param int    $author_id
 	 * @param int    $display_id
 	 * @param string $alias
@@ -86,6 +101,11 @@ class ilForumAuthorInformation
 	 */
 	public function __construct($author_id, $display_id, $alias, $import_name, array $public_profile_link_attributes = array())
 	{
+		global $ilUser, $lng;
+
+		$this->globalUser = $ilUser;
+		$this->globalLng  = $lng;
+
 		$this->author_id                      = $author_id;
 		$this->display_id                     = $display_id;
 		$this->alias                          = $alias;
@@ -133,7 +153,7 @@ class ilForumAuthorInformation
 	 */
 	protected function isAuthorAnonymous()
 	{
-		return $this->doesAuthorAccountExists() && $this->getAuthor()->getId() == ANONYMOUS_USER_ID;
+		return $this->doesAuthorAccountExists() && $this->getAuthor()->isAnonymous();
 	}
 
 	/**
@@ -141,12 +161,7 @@ class ilForumAuthorInformation
 	 */
 	protected function isCurrentUserSessionLoggedIn()
 	{
-		/**
-		 * @var $ilUser ilObjUser
-		 */
-		global $ilUser;
-
-		return !$ilUser->isAnonymous();
+		return !$this->globalUser->isAnonymous();
 	}
 
 	/**
@@ -186,12 +201,12 @@ class ilForumAuthorInformation
 	 */
 	protected function init()
 	{
-		/**
-		 * @var $lng ilLanguage
-		 */
-		global $lng;
-
 		include_once 'Modules/Forum/classes/class.ilObjForumAccess.php';
+
+		$translationLanguage = $this->globalLng;
+		if ($this->lng instanceof \ilLanguage) {
+			$translationLanguage = $this->lng;
+		}
 
 		$this->initUserInstance();
 
@@ -235,31 +250,31 @@ class ilForumAuthorInformation
 		{
 			// The author does not use a pseudonym, but the id does not exist anymore (deleted, lost on import etc.)
 			// We have no import name,so we check the pseudonym  
-			$this->author_short_name = $this->author_name = $this->alias . ' (' . $lng->txt('deleted') . ')';
-			$this->suffix            = $lng->txt('deleted');
+			$this->author_short_name = $this->author_name = $this->alias . ' (' . $translationLanguage->txt('deleted') . ')';
+			$this->suffix            = $translationLanguage->txt('deleted');
 			$this->buildAuthorProfileLink(false);
 			$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
 		}
 		else if(strlen($this->import_name))
 		{
 			// We have no user instance,so we check the import name
-			$this->author_short_name = $this->author_name = $this->import_name . ' (' . $lng->txt('imported') . ')';
-			$this->suffix            = $lng->txt('imported');
+			$this->author_short_name = $this->author_name = $this->import_name . ' (' . $translationLanguage->txt('imported') . ')';
+			$this->suffix            = $translationLanguage->txt('imported');
 			$this->buildAuthorProfileLink(false);
 			$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
 		}
 		else if(strlen($this->alias))
 		{
 			// We have no import name,so we check the pseudonym
-			$this->author_short_name = $this->author_name = $this->alias . ' (' . $lng->txt('frm_pseudonym') . ')';
-			$this->suffix            = $lng->txt('frm_pseudonym');
+			$this->author_short_name = $this->author_name = $this->alias . ' (' . $translationLanguage->txt('frm_pseudonym') . ')';
+			$this->suffix            = $translationLanguage->txt('frm_pseudonym');
 			$this->buildAuthorProfileLink(false);
 			$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
 		}
 		else
 		{
 			// If we did not find a pseudonym, the author could not be determined
-			$this->author_short_name = $this->author_name = $lng->txt('forums_anonymous');
+			$this->author_short_name = $this->author_name = $translationLanguage->txt('forums_anonymous');
 			$this->buildAuthorProfileLink(false);
 			$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
 		}
@@ -335,5 +350,13 @@ class ilForumAuthorInformation
 	public function getSuffix()
 	{
 		return $this->suffix;
+	}
+
+	/**
+	 * @param ilLanguage|null $lng
+	 */
+	public function setLng($lng)
+	{
+		$this->lng = $lng;
 	}
 }
