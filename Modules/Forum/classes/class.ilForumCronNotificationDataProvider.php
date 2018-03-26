@@ -426,9 +426,9 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 				$authorUsrId,
 				$displayUserId,
 				$usrAlias,
-				$importName
+				$importName,
+				$lng
 			);
-			$authorInformation->setLng($lng);
 
 			self::$authorInformationCache[$cacheKey] = $authorInformation;
 		}

@@ -241,9 +241,9 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 				$this->getPosAuthorId(),
 				$this->getPosDisplayUserId(),
 				$this->getPosUserAlias(),
-				$this->getImportName()
+				$this->getImportName(),
+				$user_lang
 			);
-			$authorinfo->setLng($user_lang);
 			$this->post_user_name = $this->getPublicUserInformation($authorinfo);
 		}
 
@@ -260,9 +260,9 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 				$this->getPosAuthorId(),
 				$this->getPostUpdateUserId(),
 				$this->getPosUserAlias(),
-				$this->getImportName()
+				$this->getImportName(),
+				$user_lang
 			);
-			$authorinfo->setLng($user_lang);
 			$this->update_user_name = $this->getPublicUserInformation($authorinfo);
 		}
 

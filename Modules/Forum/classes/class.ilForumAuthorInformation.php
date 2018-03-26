@@ -98,8 +98,9 @@ class ilForumAuthorInformation
 	 * @param string $alias
 	 * @param string $import_name
 	 * @param array  $public_profile_link_attributes
+	 * @param \ilLanguage|null  $lng
 	 */
-	public function __construct($author_id, $display_id, $alias, $import_name, array $public_profile_link_attributes = array())
+	public function __construct($author_id, $display_id, $alias, $import_name, array $public_profile_link_attributes = array(), \ilLanguage $lng = null)
 	{
 		global $ilUser, $lng;
 
@@ -111,6 +112,7 @@ class ilForumAuthorInformation
 		$this->alias                          = $alias;
 		$this->import_name                    = $import_name;
 		$this->public_profile_link_attributes = $public_profile_link_attributes;
+		$this->lng                            = $lng;
 
 		$this->init();
 	}
@@ -350,13 +352,5 @@ class ilForumAuthorInformation
 	public function getSuffix()
 	{
 		return $this->suffix;
-	}
-
-	/**
-	 * @param ilLanguage|null $lng
-	 */
-	public function setLng($lng)
-	{
-		$this->lng = $lng;
 	}
 }
