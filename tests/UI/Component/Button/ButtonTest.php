@@ -51,7 +51,6 @@ class ButtonTest extends ILIAS_UI_TestBase {
 			( "ILIAS\\UI\\Component\\Button\\Shy"
 			, $f->shy("label", "http://www.ilias.de")
 			);
-
 	}
 
 	/**

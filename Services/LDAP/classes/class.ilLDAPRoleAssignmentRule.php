@@ -1,37 +1,25 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** 
-* 
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-* 
-* 
-* @ingroup ServicesLDAP 
-*/
+/**
+ * 
+ * @author Stefan Meyer <meyer@leifos.com>
+ * 
+ * @ingroup ServicesLDAP 
+ */
 class ilLDAPRoleAssignmentRule
 {
 	private static $instances = null;
+	
+	/**
+	 * @var \ilLogger
+	 */
+	private $logger = null;
+	
+	/**
+	 * @var ilDBInterface
+	 */
+	private $db = null;
 	
 	const TYPE_GROUP = 1;
 	const TYPE_ATTRIBUTE = 2;
@@ -53,9 +41,8 @@ class ilLDAPRoleAssignmentRule
 	 */
 	private function __construct($a_id = 0)
 	{
-	 	global $ilDB;
-	 	
-	 	$this->db = $ilDB;	
+	 	$this->db = $GLOBALS['DIC']->database();
+		$this->logger = $GLOBALS['DIC']->logger()->auth();
 
 		$this->rule_id = $a_id;
 	 	$this->read();
@@ -101,8 +88,6 @@ class ilLDAPRoleAssignmentRule
 	 */
 	public function matches($a_user_data)
 	{
-		global $ilLog;
-		
 		switch($this->getType())
 		{
 			case self::TYPE_PLUGIN:
@@ -131,16 +116,9 @@ class ilLDAPRoleAssignmentRule
 				{
 					if($this->wildcardCompare(trim($this->getAttributeValue()),trim($value)))
 					{
-				 		$ilLog->write(__METHOD__.': Found role mapping: '.ilObject::_lookupTitle($this->getRoleId()));
+				 		$this->logger->debug(': Found role mapping: '.ilObject::_lookupTitle($this->getRoleId()));
 						return true;
 					}
-					/*					
-					if(trim($value) == trim($this->getAttributeValue()))
-					{
-				 		$ilLog->write(__METHOD__.': Found role mapping: '.ilObject::_lookupTitle($this->getRoleId()));
-						return true;
-					}
-					*/
 				}
 				return false;
 
@@ -153,7 +131,7 @@ class ilLDAPRoleAssignmentRule
 	protected function wildcardCompare($a_str1, $a_str2)
 	{
 		$pattern = str_replace('*','.*?', $a_str1);
-		$GLOBALS['ilLog']->write(__METHOD__.': Replace pattern:'. $pattern.' => '.$a_str2);
+		$this->logger->debug(': Replace pattern:'. $pattern.' => '.$a_str2);
 		return (bool) preg_match('/^'.$pattern.'$/i',$a_str2);
 	}
 	
@@ -167,9 +145,6 @@ class ilLDAPRoleAssignmentRule
 	 */
 	private function isGroupMember($a_user_data)
 	{
-		global $ilLog;
-		
-		
 		if($this->isMemberAttributeDN())
 		{
 			$user_cmp = $a_user_data['dn'];
@@ -182,7 +157,7 @@ class ilLDAPRoleAssignmentRule
  		include_once('Services/LDAP/classes/class.ilLDAPQuery.php');
  		include_once('Services/LDAP/classes/class.ilLDAPServer.php');
 				
-		$server = ilLDAPServer::getInstanceByServerId(ilLDAPServer::_getFirstActiveServer());
+		$server = ilLDAPServer::getInstanceByServerId($this->getServerId());
  		
  		try
  		{
@@ -198,7 +173,7 @@ class ilLDAPRoleAssignmentRule
  		}
 		catch(ilLDAPQueryException $e)
 		{
-			$ilLog->write(__METHOD__.': Caught Exception: '.$e->getMessage());
+			$this->logger->warning(': Caught Exception: '.$e->getMessage());
 			return false;
 		}
 	}
@@ -213,7 +188,7 @@ class ilLDAPRoleAssignmentRule
 	 */
 	public static function _getRules($a_server_id)
 	{
-	 	global $ilDB;
+	 	$ilDB = $GLOBALS['DIC']->database();
 	 	
 	 	$query = "SELECT rule_id FROM ldap_role_assignments ".
 				"WHERE server_id = ".$ilDB->quote($a_server_id,'integer');
@@ -465,7 +440,7 @@ class ilLDAPRoleAssignmentRule
 	 */
 	public function conditionToString()
 	{
-	 	global $lng;
+	 	$lng = $GLOBALS['DIC']->language();
 		
 		switch($this->getType())
 	 	{
@@ -492,8 +467,7 @@ class ilLDAPRoleAssignmentRule
 	 */
 	public function create()
 	{
-		global $ilDB;
-		
+		$ilDB = $this->db;
 		$next_id = $ilDB->nextId('ldap_role_assignments');
 
 	 	$query = "INSERT INTO ldap_role_assignments (server_id,rule_id,type,dn,attribute,isdn,att_name,att_value,role_id, ".
@@ -526,7 +500,7 @@ class ilLDAPRoleAssignmentRule
 	 */
 	public function update()
 	{
-	 	global $ilDB;
+		$ilDB = $this->db;
 	 	
 	 	$query = "UPDATE ldap_role_assignments ".
 	 		"SET server_id = ".$this->db->quote($this->getServerId(),'integer').", ".
@@ -602,7 +576,7 @@ class ilLDAPRoleAssignmentRule
 	 */
 	public function delete()
 	{
-	 	global $ilDB;
+		$ilDB = $this->db;
 	 	
 	 	$query = "DELETE FROM ldap_role_assignments ".
 	 		"WHERE rule_id = ".$this->db->quote($this->getRuleId(),'integer')." ";
@@ -618,7 +592,7 @@ class ilLDAPRoleAssignmentRule
 	 */
 	private function read()
 	{
-	 	global $ilDB;
+		$ilDB = $this->db;
 	 	
 	 	$query = "SELECT * FROM ldap_role_assignments ".
 	 		"WHERE rule_id = ".$this->db->quote($this->getRuleId(),'integer')." ";

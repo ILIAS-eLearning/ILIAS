@@ -2620,16 +2620,16 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->ctrl->redirect($this, "infoScreen");
 		}
 		
-		if( $this->testQuestionSetConfigFactory->getQuestionSetConfig()->areDepenciesBroken($this->tree) )
+		if( $this->testQuestionSetConfigFactory->getQuestionSetConfig()->areDepenciesBroken() )
 		{
 			ilUtil::sendFailure(
 					$this->testQuestionSetConfigFactory->getQuestionSetConfig()->getDepenciesBrokenMessage($this->lng)
 			);
 		}
-		elseif( $this->testQuestionSetConfigFactory->getQuestionSetConfig()->areDepenciesInVulnerableState($this->tree) )
+		elseif( $this->testQuestionSetConfigFactory->getQuestionSetConfig()->areDepenciesInVulnerableState() )
 		{
 			ilUtil::sendInfo(
-					$this->questionSetConfig->getDepenciesInVulnerableStateMessage($this->lng)
+					$this->testQuestionSetConfigFactory->getQuestionSetConfig()->getDepenciesInVulnerableStateMessage($this->lng)
 			);
 		}
 

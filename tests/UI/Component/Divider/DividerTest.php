@@ -58,4 +58,16 @@ class DividerTest extends ILIAS_UI_TestBase {
 		$this->assertHTMLEquals("<div>".$expected_html."</div>", "<div>".$html."</div>");
 	}
 
+	public function test_render_vertical() {
+		$f = $this->getFactory();
+		$r = $this->getDefaultRenderer();
+
+		$c = $f->divider()->vertical();
+
+		$html = trim($r->render($c));
+		$expected_html = '<span class="glyphicon il-divider-vertical" aria-hidden="true"></span>';
+
+		$this->assertHTMLEquals("<div>".$expected_html."</div>", "<div>".$html."</div>");
+	}
+
 }

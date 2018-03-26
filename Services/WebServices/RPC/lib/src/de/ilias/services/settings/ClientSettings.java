@@ -274,10 +274,10 @@ public class ClientSettings {
 		if(getDbType().equalsIgnoreCase("mysql") || getDbType().equalsIgnoreCase("innodb")) {
 			
 			if(getDbPort().length() > 0) {
-				return "jdbc:mysql://" + getDbHost() + ":" + getDbPort() + "/" + getDbName();
+				return getDbHost() + ":" + getDbPort() + "/" + getDbName();
 			}
 			else {
-				return "jdbc:mysql://" + getDbHost() + "/" + getDbName();
+				return getDbHost() + "/" + getDbName();
 			}
 		}
 		else {
