@@ -7189,6 +7189,9 @@ a.btn-link.ilSubmitInactive:hover {
   text-align: left;
   white-space: normal;
 }
+.btn-bulky {
+  width: 100%;
+}
 .btn-tag {
   display: inline-block;
   white-space: nowrap;
