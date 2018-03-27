@@ -242,6 +242,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 				$this->getPosDisplayUserId(),
 				$this->getPosUserAlias(),
 				$this->getImportName(),
+				array(),
 				$user_lang
 			);
 			$this->post_user_name = $this->getPublicUserInformation($authorinfo);
@@ -261,6 +262,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 				$this->getPostUpdateUserId(),
 				$this->getPosUserAlias(),
 				$this->getImportName(),
+				array(),
 				$user_lang
 			);
 			$this->update_user_name = $this->getPublicUserInformation($authorinfo);
