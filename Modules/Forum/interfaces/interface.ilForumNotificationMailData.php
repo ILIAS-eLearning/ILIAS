@@ -73,10 +73,10 @@ interface ilForumNotificationMailData
 	public function getPosUserAlias();
 
 	/**
-	 * @param ilLanguage object $user_lang
-	 * @return 			 string
+	 * @param \ilLanguage $user_lang
+	 * @return string
 	 */
-	public function getPostUserName($user_lang);
+	public function getPostUserName(\ilLanguage $user_lang);
 
 	/**
 	 * @return string frm_posts.pos_date
@@ -89,10 +89,10 @@ interface ilForumNotificationMailData
 	public function getPostUpdate();
 
 	/**
-	 * @param ilLanguage object $user_lang 
-	 * @return string login
+	 * @param \ilLanguage $user_lang 
+	 * @return string
 	 */
-	public function getPostUpdateUserName($user_lang);
+	public function getPostUpdateUserName(\ilLanguage $user_lang);
 	
 	/**
 	 * @return string frm_posts.pos_cens
