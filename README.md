@@ -28,3 +28,7 @@ We highly appreciate Pull-Request from external developers. Due to some regulati
 - Features/Refactorings need an entry in Feature-Wiki and has to get through the existing procedure for Feature-Requests: http://feature.ilias.de . Pull-Request target to trunk.
 
 Pull-Request will be assigned to the responsible maintainer(s). See further information on how contributions are handled in [/docs/documentation/contributing.md](/docs/documentation/contributing.md)
+
+### License
+
+Checkout the [license](./docs/LICENSE.md).
