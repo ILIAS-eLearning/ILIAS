@@ -4796,7 +4796,7 @@ abstract class ilPageObject
 			}
 		}
 
-		$set = $db->queryF("SELECT count(DISTINCT page_id, parent_type, hdate, lang) as cnt, lang, page_id, user_id FROM page_history ".
+		$set = $db->queryF("SELECT count(DISTINCT hdate) as cnt, lang, page_id, user_id FROM page_history ".
 			" WHERE parent_id = %s AND parent_type = %s AND user_id != %s ".$and_lang.
 			" GROUP BY page_id, user_id, lang ",
 			array("integer", "text", "integer"),
