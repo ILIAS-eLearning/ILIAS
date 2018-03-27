@@ -2373,7 +2373,10 @@ class ilObjUser extends ilObject
 
 		if ($this->id == SYSTEM_USER_ID) {
 			require_once './Services/User/classes/class.ilUserPasswordManager.php';
-			if (\ilUserPasswordManager::getInstance()->verifyPassword($this, base64_decode('aG9tZXI='))) {
+			if (
+				\ilUserPasswordManager::getInstance()->verifyPassword($this, base64_decode('aG9tZXI=')) &&
+				!ilAuthUtils::_needsExternalAccountByAuthMode($this->getAuthMode(true))
+			) {
 				return true;
 			}
 		}
