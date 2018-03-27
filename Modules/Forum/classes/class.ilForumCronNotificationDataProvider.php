@@ -427,6 +427,7 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 				$displayUserId,
 				$usrAlias,
 				$importName,
+				array(),
 				$lng
 			);
 
