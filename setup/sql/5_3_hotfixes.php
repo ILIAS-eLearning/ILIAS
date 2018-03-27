@@ -250,3 +250,7 @@ while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	);
 }
 ?>
+<#17>
+<?php
+$ilDB->modifyTableColumn('il_dcl_tableview', 'roles',array('type' => 'clob'));
+?>

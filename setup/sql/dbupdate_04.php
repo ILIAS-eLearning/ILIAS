@@ -15506,8 +15506,7 @@ $fields = array(
 
     ),
     'roles' => array(
-        'type' => 'text',
-        'length' => '256',
+        'type' => 'clob',
     ),
     'description' => array(
         'type' => 'text',
