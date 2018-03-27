@@ -43,6 +43,7 @@ class ilInitialisation
 	protected static function recursivelyRemoveUnsafeCharacters(&$var) {
 		if (is_array($var)) {
 			foreach ($var as $k => $v) {
+				unset($var[$k]);
 				$k = $this->recursivelyRemoveUnsafeCharacters($k);
 				$var[$k] = self::recursivelyRemoveUnsafeCharacters($v);
 			}
