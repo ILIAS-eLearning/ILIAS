@@ -1,4 +1,4 @@
-@import "less/font.less"; 
+@import "less/font.less";
  /* rtl-review is this font safe for RTL languages? */
 
  /* rtl-review */
@@ -93,6 +93,7 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 @import "@{uibase}Breadcrumbs/breadcrumbs.less";
 @import "@{uibase}Chart/chart.less";
 @import "@{uibase}Input/input.less";
+@import "@{uibase}Table/table.less";
 
 @import "less/variables.less";             // customized
 
@@ -529,7 +530,7 @@ img {
 		max-width: 100%;
 	}
 	&.olTileImage {
-		@media only screen and (max-width: @grid-float-breakpoint-max) {	
+		@media only screen and (max-width: @grid-float-breakpoint-max) {
 			// this fixes the open street map images, not the best place to
 			// to this. another option would be to not put the
 			// max-width behaviour above on every img...
