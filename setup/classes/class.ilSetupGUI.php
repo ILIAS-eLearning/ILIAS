@@ -68,7 +68,18 @@ class ilSetupGUI
 		$this->lang = $this->lng->lang_key;
 
 		// init setup
-		$this->setup = new ilSetup($_SESSION["auth"],$_SESSION["access_mode"]);
+		require_once 'setup/classes/class.ilSetupPasswordManager.php';
+		require_once 'setup/classes/class.ilSetupPasswordEncoderFactory.php';
+		$this->setup = new ilSetup(
+			new \ilSetupPasswordManager([
+				'password_encoder' => 'bcryptphp',
+				'encoder_factory'  => new \ilSetupPasswordEncoderFactory([
+					'default_password_encoder' => 'bcryptphp'
+				])
+			]),
+			$_SESSION["auth"],
+			$_SESSION["access_mode"]
+		);
 
 		// init client object if exists
 		$client_id = ($_GET["client_id"]) ? $_GET["client_id"] : $_SESSION["ClientId"];
@@ -1424,15 +1435,12 @@ class ilSetupGUI
 		$this->initMasterLoginForm();
 		if ($this->form->checkInput())
 		{
-			$i = $this->form->getItemByPostVar("mpassword");
-			if (!$this->setup->loginAsAdmin($_POST["mpassword"]))
-			{
-				$i->setAlert($this->lng->txt("login_invalid"));
-			}
-			else
-			{
+			$i = $this->form->getItemByPostVar('mpassword');
+			if (!$this->setup->loginAsAdmin($_POST['mpassword'])) {
+				$i->setAlert($this->lng->txt('login_invalid'));
+			} else {
 				// everything ok -> we are authenticated
-				ilUtil::redirect("setup.php");
+				ilUtil::redirect('setup.php');
 			}
 		}
 
@@ -3852,17 +3860,9 @@ class ilSetupGUI
 		// formular sent
 		if ($_POST["form"])
 		{
-			$pass_old = $this->setup->getPassword();
-
 			if (empty($_POST["form"]["pass_old"]))
 			{
 				$message = $this->lng->txt("password_enter_old");
-				$this->setup->raiseError($message,$this->setup->error_obj->MESSAGE);
-			}
-
-			if (md5($_POST["form"]["pass_old"]) != $pass_old)
-			{
-				$message = $this->lng->txt("password_old_wrong");
 				$this->setup->raiseError($message,$this->setup->error_obj->MESSAGE);
 			}
 
@@ -3878,16 +3878,14 @@ class ilSetupGUI
 				$this->setup->raiseError($message,$this->setup->error_obj->MESSAGE);
 			}
 
-			if (md5($_POST["form"]["pass"]) == $pass_old)
-			{
-				$message = $this->lng->txt("password_same");
+			if (!$this->setup->verifyMasterPassword($_POST['form']['pass_old'])) {
+				$message = $this->lng->txt('password_old_wrong');
 				$this->setup->raiseError($message,$this->setup->error_obj->MESSAGE);
 			}
 
-			if (!$this->setup->setPassword($_POST["form"]["pass"]))
-			{
-				$message = $this->lng->txt("save_error");
-				$this->setup->raiseError($message,$this->setup->error_obj->MESSAGE);
+			if (!$this->setup->storeMasterPassword($_POST['form']['pass'])) {
+				$message = $this->lng->txt('save_error');
+				$this->setup->raiseError($message, $this->setup->error_obj->MESSAGE);
 			}
 
 			ilUtil::sendInfo($this->lng->txt("password_changed"),true);
