@@ -38,11 +38,11 @@ abstract class ilComponent
 	* @return	string		version number
 	*/
 	abstract function getVersion();
-	
+
 	abstract function isCore();
-	
+
 	abstract static function getComponentType();
-	
+
 	/**
 	* Get Name.
 	*
@@ -61,7 +61,7 @@ abstract class ilComponent
 //		global $ilDB;
 		$this->global_cache = ilCachedComponentData::getInstance();
 
-		$this->setId($this->global_cache->lookCompId($this->getComponentType(), $this->getName()));	
+		$this->setId($this->global_cache->lookCompId($this->getComponentType(), $this->getName()));
 		$this->setPluginSlots(ilComponent::lookupPluginSlots(
 			$this->getComponentType(), $this->getName()));
 
@@ -78,7 +78,7 @@ abstract class ilComponent
 //		$this->setPluginSlots(ilComponent::lookupPluginSlots(
 //			$this->getComponentType(), $this->getName()));
 	}
-	
+
 	/**
 	* Set Id.
 	*
@@ -136,7 +136,7 @@ abstract class ilComponent
 		{
 			return null;
 		}
-		
+
 		switch ($a_ctype)
 		{
 			case IL_COMP_MODULE:
@@ -148,7 +148,7 @@ abstract class ilComponent
 					return $comp;
 				}
 				break;
-				
+
 			case IL_COMP_SERVICE:
 				if (is_file("./Services/".$a_cname."/classes/class.il".$a_cname."Service.php"))
 				{
@@ -159,7 +159,7 @@ abstract class ilComponent
 				}
 				break;
 		}
-		
+
 		return null;
 	}
 
@@ -182,7 +182,7 @@ abstract class ilComponent
 	{
 		return $this->subdirectory;
 	}
-	
+
 	/**
 	* Lookup all plugin slots of a component
 	*/
@@ -207,7 +207,7 @@ abstract class ilComponent
 		}
 		return $ps;
 	}
-	
+
 	/**
 	* Get name of plugin slot.
 	*
@@ -216,7 +216,7 @@ abstract class ilComponent
 	function getPluginSlotName($a_id)
 	{
 		$slots = $this->getPluginSlots();
-		
+
 		return $slots[$a_id]["name"];
 	}
 
@@ -228,11 +228,11 @@ abstract class ilComponent
 	function getPluginSlotDirectory($a_id)
 	{
 		$slots = $this->getPluginSlots();
-		
+
 		return "Customizing/global/plugins/".$this->getComponentType()."/".
 			$this->getName()."/".$slots[$a_id]["name"];
 	}
-	
+
 	/**
 	* Get language prefix for plugin slot.
 	*
@@ -243,7 +243,7 @@ abstract class ilComponent
 		$slots = $this->getPluginSlots();
 		return $this->getId()."_".$slots[$a_id]["id"]."_";
 	}
-	
+
 	/**
 	* Lookup ID of a component
 	*/
@@ -259,10 +259,10 @@ abstract class ilComponent
 		//	" AND name = %s", array("text", "text"),
 		//	array($a_type, $a_name));
 		//$rec = $ilDB->fetchAssoc($set);
-		
+
 		//return $rec["id"];
 	}
-	
+
 	/**
 	 * @param $a_type
 	 * @param $a_name
@@ -274,26 +274,26 @@ abstract class ilComponent
 
 		return $global_cache->lookupCompInfo($a_type, $a_name);
 	}
-	
+
 	/**
 	* Check version number.
 	*/
 	static final function checkVersionNumber($a_ver)
 	{
 		global $lng;
-		
+
 		$parts = explode(".", $a_ver);
-		
+
 		if (count($parts) != 3)
 		{
 			return "Version Number does not conform to format a.b.c";
 		}
-		
+
 		if (!is_numeric($parts[0]) || !is_numeric($parts[1]) || !is_numeric($parts[2]))
 		{
 			return "Not all version number parts a.b.c are numeric.";
 		}
-		
+
 		return $parts;
 	}
 
@@ -344,7 +344,7 @@ abstract class ilComponent
 
 		return false;
 	}
-	
+
 	/**
 	 * lookup component name
 	 * @global type $ilDB
@@ -354,17 +354,17 @@ abstract class ilComponent
 	public static function lookupComponentName($a_component_id)
 	{
 		global $ilDB;
-		
+
 		$query = 'SELECT name from il_component '.
 				'WHERE id = '.$ilDB->quote($a_component_id,'text');
-		
+
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->name;
 		}
 	}
-	
+
 
 }
 ?>
