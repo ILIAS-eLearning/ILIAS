@@ -50,6 +50,18 @@ class FlySystemLocalFilesystemFactory {
 			]
 			);
 
+		//switch the path separator to a forward slash, see Mantis 0022554
+		$reflection = new \ReflectionObject($adapter);
+		$property = $reflection->getProperty("pathSeparator");
+		$property->setAccessible(true);
+		$property->setValue($adapter, '/');
+
+		/* set new path separator in path prefix, the library will replace the old path ending
+		   while setting the path prefix.
+		*/
+		$adapter->setPathPrefix($adapter->getPathPrefix());
+
+
 		$filesystem = new \League\Flysystem\Filesystem($adapter);
 		$fileAccess = new FlySystemFileAccess($filesystem);
 		$facade = new FilesystemFacade(

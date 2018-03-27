@@ -21,9 +21,15 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	protected $obj_id = 0;
 
 	/**
-	 * @var string $post_user_name
+	 * @var string|null $post_user_name
 	 */
-	protected $post_user_name = '';
+	protected $post_user_name = null;
+
+	/**
+	 * @var string|null $update_user_name
+	 */
+	protected $update_user_name = null;
+
 	/**
 	 * @var int
 	 */
@@ -56,7 +62,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	private $db;
 	private $access;
 	private $user;
-	
+
 	/**
 	 * @var bool
 	 */
@@ -225,41 +231,53 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	{
 		return $this->objPost->getImportName();
 	}
-	
+
 	/**
-	 * @param $user_lang
-	 * @return string
+	 * @inheritdoc
 	 */
-	public function getPostUserName($user_lang)
+	public function getPostUpdateUserId()
 	{
-		// GET AUTHOR OF NEW POST
-		$authorinfo = new ilForumAuthorInformation(
-			$this->getPosAuthorId(),
-			$this->getPosDisplayUserId(),
-			$this->getPosUserAlias(),
-			$this->getImportName()
-		);
-		$this->post_user_name = $this->getPublicUserInformation($authorinfo);
-		
-		return $this->post_user_name;
+		return $this->objPost->getUpdateUserId();
 	}
 
 	/**
-	 * @param $user_lang
-	 * @return string
+	 * @inheritdoc
 	 */
-	public function getPostUpdateUserName($user_lang)
+	public function getPostUserName(\ilLanguage $user_lang)
 	{
-		// GET AUTHOR OF UPDATED POST
-		$authorinfo = new ilForumAuthorInformation(
-			$this->getPosAuthorId(),
-			$this->objPost->getUpdateUserId(),
-			$this->getPosUserAlias(),
-			$this->getImportName()
-		);
-		$this->post_user_name = $this->getPublicUserInformation($authorinfo);
-	
-		return $this->post_user_name;
+		if ($this->post_user_name === null) {
+			$authorinfo           = new ilForumAuthorInformation(
+				$this->getPosAuthorId(),
+				$this->getPosDisplayUserId(),
+				$this->getPosUserAlias(),
+				$this->getImportName(),
+				array(),
+				$user_lang
+			);
+			$this->post_user_name = $this->getPublicUserInformation($authorinfo);
+		}
+
+		return (string)$this->post_user_name;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getPostUpdateUserName(\ilLanguage $user_lang)
+	{
+		if ($this->update_user_name === null) {
+			$authorinfo             = new ilForumAuthorInformation(
+				$this->getPosAuthorId(),
+				$this->getPostUpdateUserId(),
+				$this->getPosUserAlias(),
+				$this->getImportName(),
+				array(),
+				$user_lang
+			);
+			$this->update_user_name = $this->getPublicUserInformation($authorinfo);
+		}
+
+		return (string)$this->update_user_name;
 	}
 	
 	/**
@@ -268,8 +286,6 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	 */
 	public function getPublicUserInformation(ilForumAuthorInformation $authorinfo)
 	{
-		$public_name = '';
-		
 		if($authorinfo->hasSuffix())
 		{
 			$public_name = $authorinfo->getAuthorName();
@@ -283,7 +299,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 				$public_name = $authorinfo->getAuthorName();
 			}
 		}
-		
+
 		return $public_name;
 	}
 	

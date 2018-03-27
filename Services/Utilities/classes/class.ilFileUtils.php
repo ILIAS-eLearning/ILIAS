@@ -63,6 +63,12 @@ class ilFileUtils
 		$pathinfo = pathinfo($a_file);
 		$file = $pathinfo["basename"];
 
+		// see 22727
+		if ($pathinfo["extension"] == "")
+		{
+			$file.= ".zip";
+		}
+
 		// Copy zip-file to new directory, unzip and remove it
 		// TODO: check archive for broken file
 		//copy ($a_file, $a_directory . "/" . $file);
@@ -543,6 +549,8 @@ class ilFileUtils
 			'aiff', // AUDIO__AIFF
 			'au', 	// AUDIO__BASIC
 			'avi',  // AUDIO__BASIC
+			'backup', // scorm wbts
+			'bak', // scorm wbts
 			'bpmn', // bpmn
 			'bpmn2', // bpmn2
 			'bmp',	// IMAGE__BMP
@@ -553,16 +561,25 @@ class ilFileUtils
 			'c',	// TEXT__PLAIN
 			'c++', 	// TEXT__PLAIN
 			'cc', 	// TEXT__PLAIN
+			'cct', // scorm wbts
 			'cer', 	// APPLICATION__X_X509_CA_CERT
 			'class', // APPLICATION__X_JAVA_CLASS
 			'conf',	 // TEXT__PLAIN
 			'cpp',	// TEXT__X_C
 			'crt',	// APPLICATION__X_X509_CA_CERT
+			'crs', // scorm wbts
 			'css', 	// TEXT__CSS
+			'cst', // scorm wbts
+			'csv',
+			'cur', // scorm wbts
+			'db', // scorm wbts
+			'dcr', // scorm wbts
+			'des', // scorm wbts
 			'doc',   // APPLICATION__MSWORD,
 			'docx',   // APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_DOCUMENT,
 			'dot',   // APPLICATION__MSWORD,
 			'dotx',   // APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_TEMPLATE,
+			'dtd',
 			'dvi',   // APPLICATION__X_DVI,
 			'el',   // TEXT__X_SCRIPT_ELISP,
 			'eps',   // APPLICATION__POSTSCRIPT,
@@ -583,11 +600,17 @@ class ilFileUtils
 			'html',   // TEXT__HTML,
 			'htmls',   // TEXT__HTML,
 			'ico',   // IMAGE__X_ICON,
+			'ini', // scorm wbts
 			'java',   // TEXT__X_JAVA_SOURCE,
+			'jbf', // scorm wbts
 			'jpeg',   // IMAGE__PJPEG,
 			'jpg',   // IMAGE__JPEG,
 			'js',   // APPLICATION__X_JAVASCRIPT,
+			'jsf', // scorm wbts
+			'jso', // scorm wbts
+			'json',		// scorm
 			'latex',   // APPLICATION__X_LATEX,
+			'lang',   // lang files
 			'less', // less
 			'log',   // TEXT__PLAIN,
 			'lsp',   // APPLICATION__X_LISP,
@@ -599,6 +622,7 @@ class ilFileUtils
 			'm4a',   // AUDIO__MP4,
 			'm4v',   // VIDEO__MP4,
 			'mid',   // AUDIO__MIDI,
+			'min',		// scorm articulate?
 			'midi',   // AUDIO__MIDI,
 			'mod',   // AUDIO__MOD,
 			'mov',   // VIDEO__QUICKTIME,
@@ -639,6 +663,8 @@ class ilFileUtils
 			'pict',   // IMAGE__PICT,
 			'png',   // IMAGE__PNG,
 			'pov',   // MODEL__X_POV,
+			'project', // scorm wbts
+			'properties', // scorm wbts
 			'ppa',   // APPLICATION__VND_MS_POWERPOINT,
 			'ppm',   // IMAGE__X_PORTABLE_PIXMAP,
 			'pps',   // APPLICATION__VND_MS_POWERPOINT,
@@ -647,6 +673,7 @@ class ilFileUtils
 			'pptx',   // APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_PRESENTATIONML_PRESENTATION,
 			'ppz',   // APPLICATION__MSPOWERPOINT,
 			'ps',   // APPLICATION__POSTSCRIPT,
+			'psd', // scorm wbts
 			'pwz',   // APPLICATION__VND_MS_POWERPOINT,
 			'qt',   // VIDEO__QUICKTIME,
 			'qtc',   // VIDEO__X_QTC,
@@ -676,7 +703,9 @@ class ilFileUtils
 			'smi',   // APPLICATION__SMIL,
 			'smil',   // APPLICATION__SMIL,
 			'svg',   // IMAGE__SVG_XML,
+			'swa', // scorm wbts
 			'swf',   // APPLICATION__X_SHOCKWAVE_FLASH,
+			'swz', // scorm wbts
 			'tex',   // APPLICATION__X_TEX,
 			'texi',   // APPLICATION__X_TEXINFO,
 			'texinfo',   // APPLICATION__X_TEXINFO,
@@ -684,11 +713,14 @@ class ilFileUtils
 			'tgz',   // APPLICATION__X_COMPRESSED,
 			'tif',   // IMAGE__TIFF,
 			'tiff',   // IMAGE__TIFF,
+			'ttf', // scorm wbts
 			'txt',   // TEXT__PLAIN,
+			'tmp',
 			'vimeo',   // VIDEO__VIMEO,
 			'viv',   // VIDEO__VIMEO,
 			'vivo',   // VIDEO__VIVO,
 			'vrml',   // APPLICATION__X_VRML,
+			'wav',		// wav
 			'webm',   // VIDEO__WEBM,
 			'wmv',   // VIDEO__X_MS_WMV,
 			'wmx',   // VIDEO__X_MS_WMX,
@@ -700,6 +732,7 @@ class ilFileUtils
 			'xlsx',   // APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_SHEET,
 			'xml',   // self::TEXT__XML,
 			'xsl',   // APPLICATION__XML,
+			'xsd',   // scorm
 			'zip'	// APPLICATION__ZIP
 		);
 	}
@@ -751,7 +784,7 @@ class ilFileUtils
 		if (!in_array(strtolower($pi["extension"]), self::getValidExtensions()))
 		{
 			include_once("./Services/Utilities/classes/class.ilFileUtilsException.php");
-			throw new ilFileUtilsException("Invalid target file ".$a_target.".");
+			throw new ilFileUtilsException("Invalid target file ".$pi["basename"].".");
 		}
 
 		return rename($a_source, $a_target);

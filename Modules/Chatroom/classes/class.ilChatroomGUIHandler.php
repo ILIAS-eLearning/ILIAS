@@ -42,6 +42,21 @@ abstract class ilChatroomGUIHandler
 	protected $upload;
 
 	/**
+	 * @var \ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
+	 * @var \ilTemplate
+	 */
+	protected $mainTpl;
+
+	/**
+	 * @var \ILIAS
+	 */
+	protected $ilias;
+
+	/**
 	 * @param ilChatroomObjectGUI $gui
 	 */
 	public function __construct(ilChatroomObjectGUI $gui)
@@ -52,8 +67,11 @@ abstract class ilChatroomGUIHandler
 		$this->ilUser       = $DIC->user();
 		$this->ilCtrl       = $DIC->ctrl();
 		$this->ilLng        = $DIC->language();
+		$this->rbacsystem   = $DIC->rbac()->system();
+		$this->mainTpl      = $DIC->ui()->mainTemplate();
 		$this->upload       = $DIC->upload();
 		$this->webDirectory = $DIC->filesystem()->web();
+		$this->ilias        = $DIC['ilias'];
 	}
 
 	/**
