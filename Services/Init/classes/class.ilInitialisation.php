@@ -42,7 +42,7 @@ class ilInitialisation
 		if (is_array($var)) {
 			foreach ($var as $k => $v) {
 				unset($var[$k]);
-				$k = $this->recursivelyRemoveUnsafeCharacters($k);
+				$k = self::recursivelyRemoveUnsafeCharacters($k);
 				$var[$k] = self::recursivelyRemoveUnsafeCharacters($v);
 			}
 			return $var;
