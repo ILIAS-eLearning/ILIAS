@@ -33,6 +33,7 @@ ILIAS is currently maintained by two types of Maintainerships:
 
 The code base is deviced in several components:
 
+
 <!-- REMOVE -->
 * **ActiveRecord**
 	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
