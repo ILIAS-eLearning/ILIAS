@@ -226,11 +226,11 @@ class ilForumAuthorInformation
 
 				if($this->getAuthor()->getPref('public_upload') == 'y')
 				{
-					$this->profilePicture = $this->getAuthor()->getPersonalPicturePath('xsmall');
+					$this->profilePicture = $this->getUserImagePath($this->getAuthor());
 				}
 				else
 				{
-					$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
+					$this->profilePicture = $this->getAnonymousImagePath();
 				}
 
 				if($this->getAuthor()->getPref('public_gender') != 'y')
@@ -245,7 +245,7 @@ class ilForumAuthorInformation
 				$this->getAuthor()->setGender('');
 				$this->author_short_name = $this->author_name = $this->getAuthor()->getLogin();
 				$this->buildAuthorProfileLink(false);
-				$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
+				$this->profilePicture = $this->getAnonymousImagePath();
 			}
 		}
 		else if($this->display_id > 0 && !$this->doesAuthorAccountExists() && strlen($this->alias))
@@ -255,7 +255,7 @@ class ilForumAuthorInformation
 			$this->author_short_name = $this->author_name = $this->alias . ' (' . $translationLanguage->txt('deleted') . ')';
 			$this->suffix            = $translationLanguage->txt('deleted');
 			$this->buildAuthorProfileLink(false);
-			$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
+			$this->profilePicture = $this->getAnonymousImagePath();
 		}
 		else if(strlen($this->import_name))
 		{
@@ -263,7 +263,7 @@ class ilForumAuthorInformation
 			$this->author_short_name = $this->author_name = $this->import_name . ' (' . $translationLanguage->txt('imported') . ')';
 			$this->suffix            = $translationLanguage->txt('imported');
 			$this->buildAuthorProfileLink(false);
-			$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
+			$this->profilePicture = $this->getAnonymousImagePath();
 		}
 		else if(strlen($this->alias))
 		{
@@ -271,15 +271,40 @@ class ilForumAuthorInformation
 			$this->author_short_name = $this->author_name = $this->alias . ' (' . $translationLanguage->txt('frm_pseudonym') . ')';
 			$this->suffix            = $translationLanguage->txt('frm_pseudonym');
 			$this->buildAuthorProfileLink(false);
-			$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
+			$this->profilePicture = $this->getAnonymousImagePath();
 		}
 		else
 		{
 			// If we did not find a pseudonym, the author could not be determined
 			$this->author_short_name = $this->author_name = $translationLanguage->txt('forums_anonymous');
 			$this->buildAuthorProfileLink(false);
-			$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
+			$this->profilePicture = $this->getAnonymousImagePath();
 		}
+	}
+
+	/**
+	 * @param ilObjUser $user
+	 * @return string
+	 */
+	protected function getUserImagePath(\ilObjUser $user)
+	{
+		if (!ilContext::hasHTML()) {
+			return'';
+		}
+
+		return $user->getPersonalPicturePath('xsmall');
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getAnonymousImagePath()
+	{
+		if (!ilContext::hasHTML()) {
+			return'';
+		}
+
+		return ilUtil::getImagePath('no_photo_xsmall.jpg');
 	}
 
 	/**
