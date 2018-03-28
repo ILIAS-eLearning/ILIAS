@@ -883,6 +883,43 @@
 		};
 	};
 
+	var DeferredActivityTrackerFactory = (function () {
+		var instances = {
+			
+		}, ms = 1000;
+		
+		function ActivityTracker() {
+			this.timer = 0;
+		}
+
+		ActivityTracker.prototype.track = function(cb) {
+			clearTimeout(this.timer);
+			this.timer = window.setTimeout(cb, ms);
+		};
+
+		/**
+		 * 
+		 * @param {String} conversationId
+		 * @returns {ActivityTracker}
+		 */
+		function createInstance(conversationId) {
+			return new ActivityTracker();
+		}
+
+		return {
+			/**
+			 * @param {String} conversationId
+			 * @returns {ActivityTracker}
+			 */
+			getInstance: function (conversationId) {
+				if (!instances.hasOwnProperty(conversationId)) {
+					instances[conversationId] = createInstance(conversationId);
+				}
+				return instances[conversationId];
+			}
+		};
+	})();
+	
 	var findUsernameByIdByConversation = function(conversation, usrId) {
 		for(var index in conversation.participants) {
 			if(conversation.participants.hasOwnProperty(index) && conversation.participants[index].id == usrId) {
