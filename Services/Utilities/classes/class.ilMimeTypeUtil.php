@@ -26,6 +26,7 @@ class ilMimeTypeUtil {
 	const APPLICATION__DXF = 'application/dxf';
 	const APPLICATION__ECMASCRIPT = 'application/ecmascript';
 	const APPLICATION__ENVOY = 'application/envoy';
+	const APPLICATION__EPUB = 'application/epub+zip';
 	const APPLICATION__EXCEL = 'application/excel';
 	const APPLICATION__FONT_WOFF = 'application/font-woff';
 	const APPLICATION__FRACTALS = 'application/fractals';
@@ -632,6 +633,7 @@ class ilMimeTypeUtil {
 		'elc' => self::APPLICATION__X_ELC,
 		'env' => self::APPLICATION__X_ENVOY,
 		'eps' => self::APPLICATION__POSTSCRIPT,
+		'epub' => self::APPLICATION__EPUB,
 		'es' => self::APPLICATION__X_ESREHBER,
 		'etx' => self::TEXT__X_SETEXT,
 		'evy' => array(

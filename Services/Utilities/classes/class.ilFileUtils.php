@@ -573,6 +573,7 @@ class ilFileUtils
 			'dvi',   // APPLICATION__X_DVI,
 			'el',   // TEXT__X_SCRIPT_ELISP,
 			'eps',   // APPLICATION__POSTSCRIPT,
+			'epub',   // APPLICATION__EPUB,
 			'f',   // TEXT__X_FORTRAN,
 			'f77',   // TEXT__X_FORTRAN,
 			'f90',   // TEXT__X_FORTRAN,
