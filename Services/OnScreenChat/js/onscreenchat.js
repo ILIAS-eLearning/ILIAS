@@ -707,7 +707,10 @@
 		trackActivityFor: function(conversation){
 			conversation.lastActivity = (new Date()).getTime();
 			getModule().storage.save(conversation);
-			$chat.trackActivity(conversation.id, getModule().user.id, conversation.lastActivity);
+
+			DeferredActivityTrackerFactory.getInstance(conversation.id).track(function() {
+				$chat.trackActivity(conversation.id, getModule().user.id, conversation.lastActivity);
+			});
 		},
 
 		getCaretPosition: function(elm) {
