@@ -902,7 +902,7 @@
 
 		/**
 		 * 
-		 * @param conversationId conversationId
+		 * @param {String} conversationId
 		 * @returns {ActivityTracker}
 		 */
 		function createInstance(conversationId) {
