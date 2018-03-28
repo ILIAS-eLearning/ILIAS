@@ -889,7 +889,7 @@
 	var DeferredActivityTrackerFactory = (function () {
 		var instances = {
 			
-		}, ms = 5000;
+		}, ms = 1000;
 		
 		function ActivityTracker() {
 			this.timer = 0;
