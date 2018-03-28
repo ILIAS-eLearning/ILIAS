@@ -40,7 +40,7 @@ class ilInitialisation
 
 	protected static function recursivelyRemoveUnsafeCharacters($var) {
 		if (is_array($var)) {
-			$mod = [];
+			$mod = array();
 			foreach ($var as $k => $v) {
 				$k = self::recursivelyRemoveUnsafeCharacters($k);
 				$mod[$k] = self::recursivelyRemoveUnsafeCharacters($v);
