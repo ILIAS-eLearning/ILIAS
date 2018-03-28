@@ -43,17 +43,17 @@ class ilInitialisation
 		// We do not need this characters in any case, so it is
 		// feasible to filter them everytime. POST parameters
 		// need attention through ilUtil::stripSlashes() and similar functions)
-		self::recursivelyRemoveUnsafeCharacters($_GET);
+		$_GET = self::recursivelyRemoveUnsafeCharacters($_GET);
 	}
 
-	protected static function recursivelyRemoveUnsafeCharacters(&$var) {
+	protected static function recursivelyRemoveUnsafeCharacters($var) {
 		if (is_array($var)) {
+			$mod = [];
 			foreach ($var as $k => $v) {
-				unset($var[$k]);
-				$k = $this->recursivelyRemoveUnsafeCharacters($k);
-				$var[$k] = self::recursivelyRemoveUnsafeCharacters($v);
+				$k = self::recursivelyRemoveUnsafeCharacters($k);
+				$mod[$k] = self::recursivelyRemoveUnsafeCharacters($v);
 			}
-			return $var;
+			return $mod;
 		}
 		return strip_tags(
 			str_replace(
