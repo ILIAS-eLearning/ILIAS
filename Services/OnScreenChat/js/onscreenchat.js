@@ -906,7 +906,7 @@
 		 * @returns {ActivityTracker}
 		 */
 		function createInstance(conversationId) {
-			return new ActivityTracker(conversationId);
+			return new ActivityTracker();
 		}
 
 		return {
