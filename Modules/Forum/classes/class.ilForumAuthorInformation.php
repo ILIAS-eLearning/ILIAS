@@ -226,7 +226,7 @@ class ilForumAuthorInformation
 
 				if($this->getAuthor()->getPref('public_upload') == 'y')
 				{
-					$this->profilePicture = $this->getAuthor()->getPersonalPicturePath('xsmall');
+					$this->profilePicture = $this->getUserImagePath($this->getAuthor());
 				}
 				else
 				{
@@ -286,6 +286,19 @@ class ilForumAuthorInformation
 	}
 
 	/**
+	 * @param ilObjUser $user
+	 * @return string
+	 */
+	protected function getUserImagePath(\ilObjUser $user)
+	{
+		if (!\ilContext::hasHTML()) {
+			return'';
+		}
+
+		return $user->getPersonalPicturePath('xsmall');
+	}
+
+	/**
 	 * @param string $name
 	 * @param int $usrId
 	 * @return string
@@ -293,6 +306,10 @@ class ilForumAuthorInformation
 	protected function getAvatarImageSource($name, $usrId = ANONYMOUS_USER_ID)
 	{
 		global $DIC;
+
+		if (!\ilContext::hasHTML()) {
+			return'';
+		}
 
 		/** @var ilUserAvatar $avatar */
 		$avatar = $DIC["user.avatar.factory"]->avatar('xsmall');
