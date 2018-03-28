@@ -15506,8 +15506,7 @@ $fields = array(
 
     ),
     'roles' => array(
-        'type' => 'text',
-        'length' => '256',
+        'type' => 'clob',
     ),
     'description' => array(
         'type' => 'text',
@@ -21936,4 +21935,8 @@ while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		]
 	);
 }
+?>
+<#5263>
+<?php
+$ilDB->modifyTableColumn('il_dcl_tableview', 'roles',array('type' => 'clob'));
 ?>
