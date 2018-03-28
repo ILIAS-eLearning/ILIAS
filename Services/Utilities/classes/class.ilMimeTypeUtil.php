@@ -26,8 +26,8 @@ class ilMimeTypeUtil {
 	const APPLICATION__DXF = 'application/dxf';
 	const APPLICATION__ECMASCRIPT = 'application/ecmascript';
 	const APPLICATION__ENVOY = 'application/envoy';
-	const APPLICATION__EXCEL = 'application/excel';
 	const APPLICATION__EPUB = 'application/epub+zip';
+	const APPLICATION__EXCEL = 'application/excel';
 	const APPLICATION__FONT_WOFF = 'application/font-woff';
 	const APPLICATION__FRACTALS = 'application/fractals';
 	const APPLICATION__FREELOADER = 'application/freeloader';
