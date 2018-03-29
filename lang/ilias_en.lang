@@ -14168,3 +14168,6 @@ content#:#cont_lpe_openid_login_form#:#OpenId Login Form
 content#:#cont_lpe_registration_link#:#New Registration Link
 content#:#cont_lpe_language_selection#:#Language Selection
 content#:#cont_lpe_user_agreement_link#:#User Agreement Link
+common#:#obj_fold_duplicate#:#Copy Folder
+common#:#fold_wizard_page#:#Copy Folder (Step 2/2)
+common#:#fold_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.
