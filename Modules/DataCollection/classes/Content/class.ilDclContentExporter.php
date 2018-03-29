@@ -21,7 +21,7 @@ class ilDclContentExporter
 {
 	const SOAP_FUNCTION_NAME = 'exportDataCollectionContent';
 
-	const EXPORT_EXCEL = 'xls';
+	const EXPORT_EXCEL = 'xlsx';
 	const IN_PROGRESS_POSTFIX = '.prog';
 
 	/**
