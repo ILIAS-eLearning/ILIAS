@@ -1778,7 +1778,10 @@ class ilCtrl
 					}
 					else if (isset($_POST[$par]))
 					{
-						$params[$par] = $_POST[$par];
+						if(!is_array($_POST[$par]))
+						{
+							$params[$par] = ilUtil::stripSlashes($_POST[$par], true);
+						}
 					}
 				}
 			}
