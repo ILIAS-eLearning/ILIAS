@@ -5355,7 +5355,7 @@ rbac#:#wiki_visible#:#Wiki ist sichtbar
 rbac#:#wiki_write#:#Einstellungen des Wikis bearbeiten
 common#:#with#:#mit
 common#:#wizard_search_list#:#Ihre Suche ergab folgende Ergebnisse. Bitte wählen Sie eines aus.
-common#:#wizard_title_info#:#Bitte geben Sie den Titel des zu kopierenden Objektes ein.
+common#:#wizard_title_info#:#Geben Sie bitte den Titel oder Teile des Titels ein, um das Objekt zu suchen, das Sie kopieren wollen. Klicken Sie auf "Weiter", um passende Suchergebnisse angezeigt zu bekommen.
 common#:#write#:#Schreiben
 common#:#wrong_ip_detected#:#Der Zugang zum System wird aufgrund einer falschen Client IP verweigert.<br>Ihre aktuelle IP-Adresse: %s<br>Bitte kontaktieren Sie die Technische Betreuung / Systemadministration.
 common#:#year#:#Jahr

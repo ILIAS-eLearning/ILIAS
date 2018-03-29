@@ -4720,7 +4720,7 @@ rbac#:#wiki_write#:#User can edit settings of wiki
 common#:#wiki#:#Wiki
 common#:#with#:#with
 common#:#wizard_search_list#:#Your search produced the following hits. Please select one of them.
-common#:#wizard_title_info#:#Please enter the title of the object you want to duplicate.
+common#:#wizard_title_info#:#Search for the object you want to duplicate. Please enter the object's title or a part of it and click on 'Continue' to get matching search results.
 common#:#write#:#Write
 common#:#wrong_ip_detected#:#Your access is denied because of a wrong client ip.<br>You are currently using this IP address: %s<br>Please contact the system administrator.
 common#:#year#:#Year
