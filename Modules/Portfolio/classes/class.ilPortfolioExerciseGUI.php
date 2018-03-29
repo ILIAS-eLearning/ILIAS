@@ -58,6 +58,11 @@ class ilPortfolioExerciseGUI
 		$info = array();
 		
 		$exercises = ilExSubmission::findUserFiles($a_user_id, $a_obj_id);
+		// #0022794
+		if (!$exercises)
+		{
+			$exercises = ilExSubmission::findUserFiles($a_user_id, $a_obj_id.".sec");
+		}
 		if($exercises)
 		{
 			foreach($exercises as $exercise)
