@@ -1929,7 +1929,8 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->object->update();
 
 			// move uploaded file
-			$uploaded_file = $image_dir."/upload_".$this->object->getId()."pic";
+			$pi = pathinfo($_FILES["userfile"]["name"]);
+			$uploaded_file = $image_dir."/upload_".$this->object->getId().".".$pi["extension"];
 			if (!ilUtil::moveUploadedFile($_FILES["userfile"]["tmp_name"], $_FILES["userfile"]["name"],
 				$uploaded_file, false))
 			{
