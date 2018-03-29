@@ -1820,7 +1820,7 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 	{
 		$_SESSION["comments_sort_asc"] = 0;
 		return $this->getNotesHtml();
-	}		
+	}
 }
 
 ?>
