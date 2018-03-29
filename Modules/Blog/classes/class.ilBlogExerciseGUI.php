@@ -76,6 +76,11 @@ class ilBlogExerciseGUI
 		$ilUser = $DIC->user();
 	
 		$exercises = ilExSubmission::findUserFiles($ilUser->getId(), $a_node_id);
+		// #0022794
+		if (!$exercises)
+		{
+			$exercises = ilExSubmission::findUserFiles($ilUser->getId(), $a_node_id.".sec");
+		}
 		if($exercises)
 		{
 			$info = array();				
