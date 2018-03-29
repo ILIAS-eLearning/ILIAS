@@ -3221,7 +3221,7 @@ common#:#fold_a#:#ein Ordner###deprecated
 common#:#fold_add#:#Ordner anlegen
 common#:#fold_added#:#Ordner angelegt
 rbac#:#fold_copy#:#Ordner kopieren
-common#:#fold_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.###deprecated
+common#:#fold_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
 rbac#:#fold_delete#:#Ordner löschen oder verschieben
 common#:#fold_edit#:#Ordner bearbeiten
 rbac#:#fold_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
@@ -3230,7 +3230,7 @@ common#:#fold_new#:#Neuen Ordner anlegen
 rbac#:#fold_read#:#Lesezugriff auf Ordner
 common#:#fold_type#:#Ordnerart###deprecated
 rbac#:#fold_visible#:#Ordner ist sichtbar
-common#:#fold_wizard_page#:#Ordner kopieren (Schritt 2/2)###deprecated
+common#:#fold_wizard_page#:#Ordner kopieren (Schritt 2/2)
 rbac#:#fold_write#:#Ordner bearbeiten
 common#:#folder#:#Ordner
 common#:#folders#:#Ordner
@@ -4206,7 +4206,7 @@ common#:#obj_file_duplicate#:#Datei kopieren###deprecated
 common#:#obj_file_inline#:#Lernmodul Datei
 common#:#obj_file_select#:#-- Bitte wählen Sie eine Datei aus --###deprecated
 common#:#obj_fold#:#Ordner
-common#:#obj_fold_duplicate#:#Ordner kopieren###deprecated
+common#:#obj_fold_duplicate#:#Ordner kopieren
 common#:#obj_fold_select#:#-- Bitte wählen Sie einen Ordner aus --###deprecated
 common#:#obj_frm#:#Forum
 common#:#obj_frm_duplicate#:#Forum kopieren
