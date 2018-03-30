@@ -1447,7 +1447,7 @@ class ilMimeTypeUtil {
 	 * @param $path_to_file
 	 */
 	protected function __construct($path_to_file) {
-		if (strpos($path_to_file, 'http://') || strpos($path_to_file, 'https://')) {
+		if (strpos($path_to_file, 'http://') !== false || strpos($path_to_file, 'https://') !== false) {
 			$this->setExternal(true);
 		}
 		$parts = parse_url($path_to_file);
@@ -1500,9 +1500,11 @@ class ilMimeTypeUtil {
 	 *
 	 * @return string
 	 */
-	public static function lookupMimeType($path_to_file, $fallback = self::APPLICATION__OCTET_STREAM, $a_external = false) {
+	public static function lookupMimeType($path_to_file, $fallback = self::APPLICATION__OCTET_STREAM, $a_external = null) {
 		$obj = new self($path_to_file);
-		$obj->setExternal($a_external);
+		if ($a_external !== null) {
+			$obj->setExternal($a_external);
+		}
 		$obj->setFallback($fallback);
 
 		return $obj->get();
