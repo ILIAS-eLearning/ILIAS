@@ -102,12 +102,30 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
 								serialize( $this->getParameters() )
 							)
 		);
-		if ($_SESSION["flash_upload_filename"])
-		{
+
+		try {
+			$this->moveAppletIfExists();
+		} catch (\ilFileUtilsException $e) {
+			\ilLoggerFactory::getRootLogger()->error($e->getMessage());
+		}
+	}
+
+	/**
+	 * Moves an applet file (maybe stored in the PHP session) to its final filesystem destination
+	 * @throws \ilFileUtilsException
+	 */
+	protected function moveAppletIfExists()
+	{
+		if (
+			isset($_SESSION['flash_upload_filename']) && is_string($_SESSION['flash_upload_filename']) &&
+			file_exists($_SESSION['flash_upload_filename']) && is_file($_SESSION['flash_upload_filename'])
+		) {
 			$path = $this->getFlashPath();
-			ilUtil::makeDirParents( $path );
-			@rename( $_SESSION["flash_upload_filename"], $path . $this->getApplet() );
-			unset($_SESSION["flash_upload_filename"]);
+			\ilUtil::makeDirParents($path);
+
+			require_once 'Services/Utilities/classes/class.ilFileUtils.php';
+			\ilFileUtils::rename($_SESSION['flash_upload_filename'], $path . $this->getApplet());
+			unset($_SESSION['flash_upload_filename']);
 		}
 	}
 
@@ -723,42 +741,4 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
 	 * Get the user solution for a question by active_id and the test pass
 	 *
 	 * @param int $active_id
-	 * @param int $pass
-	 *
-	 * @return ilUserQuestionResult
-	 */
-	public function getUserQuestionResult($active_id, $pass)
-	{
-		// TODO: Implement getUserQuestionResult() method.
-	}
-
-	/**
-	 * If index is null, the function returns an array with all anwser options
-	 * Else it returns the specific answer option
-	 *
-	 * @param null|int $index
-	 *
-	 * @return array|ASS_AnswerSimple
-	 */
-	public function getAvailableAnswerOptions($index = null)
-	{
-		// TODO: Implement getAvailableAnswerOptions() method.
-	}
-
-// fau: testNav - new function getTestQuestionConfig()
-	/**
-	 * Get the test question configuration
-	 * @return ilTestQuestionConfig
-	 */
-	// hey: refactored identifiers
-	public function buildTestPresentationConfig()
-	// hey.
-	{
-		// hey: refactored identifiers
-		return parent::buildTestPresentationConfig()
-		// hey.
-			->setFormChangeDetectionEnabled(false)
-			->setBackgroundChangeDetectionEnabled(true);
-	}
-// fau.
-}
+	 * @param int $pas
