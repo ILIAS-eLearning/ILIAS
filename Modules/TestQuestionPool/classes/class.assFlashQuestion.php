@@ -102,12 +102,13 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
 								serialize( $this->getParameters() )
 							)
 		);
-		if ($_SESSION["flash_upload_filename"])
-		{
+		if (isset($_SESSION['flash_upload_filename']) && is_string($_SESSION['flash_upload_filename'])) {
 			$path = $this->getFlashPath();
 			ilUtil::makeDirParents( $path );
-			@rename( $_SESSION["flash_upload_filename"], $path . $this->getApplet() );
-			unset($_SESSION["flash_upload_filename"]);
+
+			require_once 'Services/Utilities/classes/class.ilFileUtils.php';
+			\ilFileUtils::rename($_SESSION['flash_upload_filename'], $path . $this->getApplet());
+			unset($_SESSION['flash_upload_filename']);
 		}
 	}
 
