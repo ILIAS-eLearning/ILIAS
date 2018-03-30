@@ -54,7 +54,7 @@ class ilPresentationListTableGUI extends ilTable2GUI
 		$this->setId("glopr".$this->glossary->getId());
 		
 		include_once("./Modules/Glossary/classes/class.ilGlossaryAdvMetaDataAdapter.php");
-		$adv_ad = new ilGlossaryAdvMetaDataAdapter($this->glossary->getId());
+		$adv_ad = new ilGlossaryAdvMetaDataAdapter($this->glossary->getRefId());
 		$this->adv_fields = $adv_ad->getAllFields();
 
 		
@@ -68,7 +68,7 @@ class ilPresentationListTableGUI extends ilTable2GUI
 		else
 		{
 			include_once("./Modules/Glossary/classes/class.ilGlossaryAdvMetaDataAdapter.php");
-			$adv_ap = new ilGlossaryAdvMetaDataAdapter($this->glossary->getId());
+			$adv_ap = new ilGlossaryAdvMetaDataAdapter($this->glossary->getRefId());
 			$this->adv_cols_order = $adv_ap->getColumnOrder();
 			foreach ($this->adv_cols_order as $c)
 			{
