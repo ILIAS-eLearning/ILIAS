@@ -2381,11 +2381,25 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	}
 
 // fau: testNav - get the navigation url set by a submit from ilTestPlayerNavigationControl.js
+	/**
+	 * @return null|string Returns null if the navigation URL could not be determined via POST parameter, otherwise a relative URL string
+	 */
 	protected function getNavigationUrlParameter()
 	{
-		if (isset($_POST['test_player_navigation_url'])) {
-			return $_POST['test_player_navigation_url'];
+		if (isset($_POST['test_player_navigation_url']) && is_string($_POST['test_player_navigation_url'])) {
+			$url = \ilUtil::stripSlashes($_POST['test_player_navigation_url']);
+
+			$urlParts = parse_url($url);
+			$script = basename($urlParts['path']);
+
+			$url = implode('?', array(
+				$script,
+				$urlParts['query']
+			));
+
+			return $url;
 		}
+
 		return null;
 	}
 // fau.
