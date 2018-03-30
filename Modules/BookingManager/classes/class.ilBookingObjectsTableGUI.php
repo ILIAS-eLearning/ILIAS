@@ -60,7 +60,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 		$this->overall_limit = $a_pool_overall_limit;
 		$this->may_edit = $ilAccess->checkAccess('write', '', $this->ref_id);
 		
-		$this->advmd = ilObjBookingPool::getAdvancedMDFields($this->pool_id);
+		$this->advmd = ilObjBookingPool::getAdvancedMDFields($this->ref_id);
 		
 		$this->setId("bkobj");
 

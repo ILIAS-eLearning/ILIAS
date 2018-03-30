@@ -876,7 +876,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		{					
 			// advanced metadata auto-linking
 			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
-			if(count(ilAdvancedMDRecord::_getSelectedRecordsByObject("wiki", $this->object->getId(), "wpg")) > 0)
+			if(count(ilAdvancedMDRecord::_getSelectedRecordsByObject("wiki", $this->object->getRefId(), "wpg")) > 0)
 			{			
 				$link_md = new ilCheckboxInputGUI($lng->txt("wiki_link_md_values"), "link_md_values");
 				$link_md->setInfo($lng->txt("wiki_link_md_values_info"));
