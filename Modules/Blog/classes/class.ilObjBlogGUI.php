@@ -82,9 +82,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		
 		if($this->object)
 		{
-			$this->month = (string)$_REQUEST["bmn"];
-			$this->keyword = (string)$_REQUEST["kwd"];
-			$this->author = (int)$_REQUEST["ath"];
+			$this->month = (string) ilUtil::stripSlashes($_REQUEST["bmn"]);
+			$this->keyword = (string) ilUtil::stripSlashes($_REQUEST["kwd"]);
+			$this->author = (int) $_REQUEST["ath"];
 
 			// gather postings by month
 			$this->items = $this->buildPostingList($this->object->getId());	
@@ -565,10 +565,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");
 				$bpost_gui = new ilBlogPostingGUI($this->node_id,
 					$this->getAccessHandler(),
-					$_GET["blpg"],
-					$_GET["old_nr"],
+					ilUtil::stripSlashes($_GET["blpg"]),
+					ilUtil::stripSlashes($_GET["old_nr"]),
 					($this->object->getNotesStatus() && !$this->disable_notes),
-					$this->mayEditPosting($_GET["blpg"]),
+					$this->mayEditPosting(ilUtil::stripSlashes($_GET["blpg"])),
 					$style_sheet_id);
 
 				// keep preview mode through notes gui (has its own commands)
@@ -1037,7 +1037,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$lng = $this->lng;
 			
 			// see renderList()
-			if(ilObject::_lookupOwner($_REQUEST["prt_id"]) == $ilUser->getId())
+			if(ilObject::_lookupOwner(ilUtil::stripSlashes($_REQUEST["prt_id"])) == $ilUser->getId())
 			{				
 				// see ilPortfolioPageTableGUI::fillRow()
 				$ilCtrl->setParameterByClass("ilportfoliopagegui", "ppage", (int)$_REQUEST["user_page"]);
@@ -1208,7 +1208,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			// from editor (#10073)
 			else if($this->mayContribute())
 			{
-				$prvm = $_GET["prvm"];
+				$prvm = ilUtil::stripSlashes($_GET["prvm"]);
 				$this->ctrl->setParameter($this, "prvm", "");				
 				if(!$_GET["blpg"])
 				{								
@@ -1322,7 +1322,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				if($_GET["blpg"] && !$a_export)
 				{										
 					include_once "Modules/Blog/classes/class.ilBlogPosting.php";
-					$post = new ilBlogPosting($_GET["blpg"]);
+					$post = new ilBlogPosting((int) $_GET["blpg"]);
 					$author_id = $post->getAuthor();		
 					if($author_id)
 					{
@@ -1414,7 +1414,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		if($_REQUEST["prt_id"] && 
 			stristr($a_cmd, "embedded"))
 		{
-			if(ilObject::_lookupOwner($_REQUEST["prt_id"]) == $ilUser->getId())
+			if(ilObject::_lookupOwner(ilUtil::stripSlashes($_REQUEST["prt_id"])) == $ilUser->getId())
 			{	
 				// see ilPortfolioPageTableGUI::fillRow()
 				$ilCtrl->setParameterByClass("ilportfoliopagegui", "ppage", (int)$_REQUEST["user_page"]);
@@ -1961,7 +1961,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	{
 		$ilCtrl = $this->ctrl;
 		
-		$keywords = $this->getKeywords($a_show_inactive, $_GET["blpg"]);
+		$keywords = $this->getKeywords($a_show_inactive, (int) $_GET["blpg"]);
 		if($keywords)
 		{		
 			$wtpl = new ilTemplate("tpl.blog_list_navigation_keywords.html", true, true, "Modules/Blog");
@@ -2326,7 +2326,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		{
 			// keywords 		
 			$may_edit_keywords = ($_GET["blpg"] && 
-				$this->mayEditPosting($_GET["blpg"]) && 
+				$this->mayEditPosting((int) $_GET["blpg"]) &&
 				$a_list_cmd != "preview" && 
 				$a_list_cmd != "gethtml" &&				 
 				!$a_link_template);
@@ -2839,7 +2839,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		if($_GET["blpg"])
 		{
 			$sub_type = "blp";
-			$sub_id = $_GET["blpg"];
+			$sub_id = (int) $_GET["blpg"];
 		}		
 				
 		$lg = parent::initHeaderAction($sub_type, $sub_id);
@@ -3156,7 +3156,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			ilUtil::sendFailure($lng->txt('msg_no_search_string'));
 			return $this->contributors();
 		}
-		$users = explode(',', $_POST['user_login']);
+		$users = explode(',', ilUtil::stripSlashes($_POST['user_login']));
 				
 		$user_ids = array();
 		foreach($users as $user)
@@ -3172,7 +3172,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$user_ids[] = $user_id;
 		}
 	
-		return $this->addContributor($user_ids, $_POST["user_type"]);											
+		return $this->addContributor($user_ids, ilUtil::stripSlashes($_POST["user_type"]));
 	}
 		
 	/**
@@ -3223,7 +3223,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	 */
 	public function confirmRemoveContributor()
 	{	
-		$ids = $_POST["id"];
+		$ids = ilUtil::stripSlashesRecursive($_POST["id"]);
 		
 		if(!sizeof($ids))
 		{
@@ -3258,7 +3258,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$lng = $this->lng;
 		$rbacadmin = $this->rbacadmin;
 		
-		$ids = $_POST["id"];
+		$ids = ilUtil::stripSlashesRecursive($_POST["id"]);
 		
 		if(!sizeof($ids))
 		{
@@ -3385,7 +3385,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		else
 		{
 			$st_styles = ilObjStyleSheet::_getStandardStyles(true, false,
-				$_GET["ref_id"]);
+				(int) $_GET["ref_id"]);
 
 			$st_styles[0] = $this->lng->txt("default");
 			ksort($st_styles);
