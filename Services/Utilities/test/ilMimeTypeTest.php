@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'libs/composer/vendor/autoload.php';
-
 /**
  * Class ilMimeTypeTest
  */
