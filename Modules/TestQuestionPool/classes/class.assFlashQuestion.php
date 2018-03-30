@@ -102,9 +102,26 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
 								serialize( $this->getParameters() )
 							)
 		);
-		if (isset($_SESSION['flash_upload_filename']) && is_string($_SESSION['flash_upload_filename'])) {
+
+		try {
+			$this->moveAppletIfExists();
+		} catch (\ilFileUtilsException $e) {
+			\ilLoggerFactory::getRootLogger()->error($e->getMessage());
+		}
+	}
+
+	/**
+	 * Moves an applet file (maybe stored in the PHP session) to its final filesystem destination
+	 * @throws \ilFileUtilsException
+	 */
+	protected function moveAppletIfExists()
+	{
+		if (
+			isset($_SESSION['flash_upload_filename']) && is_string($_SESSION['flash_upload_filename']) &&
+			file_exists($_SESSION['flash_upload_filename']) && is_file($_SESSION['flash_upload_filename'])
+		) {
 			$path = $this->getFlashPath();
-			ilUtil::makeDirParents( $path );
+			\ilUtil::makeDirParents($path);
 
 			require_once 'Services/Utilities/classes/class.ilFileUtils.php';
 			\ilFileUtils::rename($_SESSION['flash_upload_filename'], $path . $this->getApplet());
