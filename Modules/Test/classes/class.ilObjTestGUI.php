@@ -21,6 +21,7 @@ require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
  *
  * @ilCtrl_Calls ilObjTestGUI: ilObjCourseGUI, ilObjectMetaDataGUI, ilCertificateGUI, ilPermissionGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestPlayerFixedQuestionSetGUI, ilTestPlayerRandomQuestionSetGUI, ilTestPlayerDynamicQuestionSetGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilTestParticipantsGUI
  * @ilCtrl_Calls ilObjTestGUI: ilLearningProgressGUI, ilMarkSchemaGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestEvaluationGUI, ilTestEvalObjectiveOrientedGUI
  * @ilCtrl_Calls ilObjTestGUI: ilAssGenFeedbackPageGUI, ilAssSpecFeedbackPageGUI
@@ -67,8 +68,10 @@ class ilObjTestGUI extends ilObjectGUI
 	/** @var ilTestSequenceFactory $testSequenceFactory Factory for test sequence. */
 	private $testSequenceFactory = null;
 	
-	/* @var ilObjTestCtrl */
-	private $testCtrl = null;
+	/**
+	 * @var ilTestTabsManager
+	 */
+	protected $tabsManager;
 	
 	/**
 	 * @var ilTestObjectiveOrientedContainer
@@ -109,12 +112,10 @@ class ilObjTestGUI extends ilObjectGUI
 			
 			require_once 'Modules/Test/classes/class.ilTestAccess.php';
 			$this->setTestAccess(new ilTestAccess($this->ref_id, $this->object->getTestId()));
+			
+			require_once 'Modules/Test/classes/class.ilTestTabsManager.php';
+			$this->setTabsManager(new ilTestTabsManager($this->testAccess));
 		}
-		
-		require_once 'Services/UICore/classes/class.ilObjTestCtrl.php';
-		$this->testCtrl = new ilObjTestCtrl();
-		$this->testCtrl->setCtrl($this->ctrl);
-		$this->testCtrl->setTestGUI($this);
 		
 		require_once 'Modules/Test/classes/class.ilTestObjectiveOrientedContainer.php';
 		$this->objectiveOrientedContainer = new ilTestObjectiveOrientedContainer();
@@ -218,6 +219,18 @@ class ilObjTestGUI extends ilObjectGUI
 				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
 				$md_gui = new ilObjectMetaDataGUI($this->object);	
 				$this->ctrl->forwardCommand($md_gui);
+				break;
+				
+			case 'iltestparticipantsgui':
+				
+				$this->prepareOutput();
+				$this->addHeaderAction();
+				
+				require_once 'Modules/Test/classes/class.ilTestParticipantsGUI.php';
+				$gui = new ilTestParticipantsGUI($this->object);
+				$gui->setTestAccess($this->getTestAccess());
+				$gui->setTestTabs($this->getTabsManager());
+				$this->ctrl->forwardCommand($gui);
 				break;
 
 			case "iltestplayerfixedquestionsetgui":
@@ -829,6 +842,22 @@ class ilObjTestGUI extends ilObjectGUI
 	public function setTestAccess($testAccess)
 	{
 		$this->testAccess = $testAccess;
+	}
+	
+	/**
+	 * @return ilTestTabsManager
+	 */
+	public function getTabsManager()
+	{
+		return $this->tabsManager;
+	}
+	
+	/**
+	 * @param ilTestTabsManager $tabsManager
+	 */
+	public function setTabsManager($tabsManager)
+	{
+		$this->tabsManager = $tabsManager;
 	}
 
 	private function forwardToEvaluationGUI()
@@ -3843,20 +3872,17 @@ class ilObjTestGUI extends ilObjectGUI
 		$help = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilHelp'] : $GLOBALS['ilHelp'];
 		$help->setScreenIdComponent("tst");
 		
-		require_once 'Modules/Test/classes/class.ilTestTabsManager.php';
-		$tabsManager = new ilTestTabsManager($this->testCtrl, $this->testAccess);
-		
-		$tabsManager->setTestOBJ($this->object);
-		$tabsManager->setTestQuestionSetConfig($this->testQuestionSetConfigFactory->getQuestionSetConfig());
+		$this->getTabsManager()->setTestOBJ($this->object);
+		$this->getTabsManager()->setTestQuestionSetConfig($this->testQuestionSetConfigFactory->getQuestionSetConfig());
 		
 		if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
 		{
 			require_once 'Services/Link/classes/class.ilLink.php';
 			$courseLink = ilLink::_getLink($this->getObjectiveOrientedContainer()->getRefId());
-			$tabsManager->setParentBackHref($this->lng->txt('back_to_objective_container'), $courseLink);
+			$this->getTabsManager()->setParentBackHref($this->lng->txt('back_to_objective_container'), $courseLink);
 		}
 		
-		$tabsManager->perform();
+		$this->getTabsManager()->perform();
 	}
 	
 	public static function accessViolationRedirect()

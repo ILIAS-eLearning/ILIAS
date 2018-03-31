@@ -10728,6 +10728,7 @@ assessment#:#tst_change_workingtime#:#Zeitverlängerung für einen Teilnehmer er
 assessment#:#tst_imap_qst_mode#:#Antwortmodus
 assessment#:#tst_imap_qst_mode_sc#:#Single Choice
 assessment#:#tst_imap_qst_mode_mc#:#Multiple Choice
+assessment#:#fixedparticipants_subtab#:#Ausgewählte Teilnehmer
 assessment#:#redirect_after_finishing_tst#:#Weiterleitung
 assessment#:#redirect_after_finishing_tst_desc#:#Teilnehmer werden nach Beenden des Tests automatisch zu einer definierten Webseite weitergeleitet. Dies geschieht nur, wenn der Test so konfiguriert wurde, dass die Teilnehmer ihre Testergebnisse nach Beenden des Tests nicht einsehen können. 
 assessment#:#redirect_after_finishing_rule#:#Weiterleitung

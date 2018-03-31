@@ -10745,6 +10745,7 @@ assessment#:#tst_change_workingtime#:#Add extra time for a participant
 assessment#:#tst_imap_qst_mode#:#Mode
 assessment#:#tst_imap_qst_mode_sc#:#Single Choice
 assessment#:#tst_imap_qst_mode_mc#:#Multiple Choice
+assessment#:#fixedparticipants_subtab#:#Manually Selected Participants
 assessment#:#redirect_after_finishing_tst#:#Redirect
 assessment#:#redirect_after_finishing_tst_desc#:#After completion of test each participant is automatically redirected to a defined webpage. This is only valid if the participants have no access to their test results.
 assessment#:#redirect_after_finishing_rule#:#Redirect
