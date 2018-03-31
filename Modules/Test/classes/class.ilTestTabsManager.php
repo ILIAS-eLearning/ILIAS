@@ -339,7 +339,7 @@ class ilTestTabsManager
 				
 				if( $this->isWriteAccessGranted() )
 				{
-					$this->getSettingsSubTabs($hidden_tabs);
+					$this->getSettingsSubTabs();
 				}
 				
 				break;
@@ -385,7 +385,8 @@ class ilTestTabsManager
 				// #8497: resetfilter is also used in lp
 				if($this->testCtrl->getCtrl()->getNextClass($this) != "illearningprogressgui")
 				{
-					return $this->getBrowseForQuestionsTab($this->tabs);
+					$this->getBrowseForQuestionsTab();
+					return;
 				}
 				break;
 			case "scoring":
@@ -447,6 +448,8 @@ class ilTestTabsManager
 				case ilObjTest::QUESTION_SET_TYPE_DYNAMIC:
 					$target = $this->testCtrl->getCtrl()->getLinkTargetByClass('ilObjTestDynamicQuestionSetConfigGUI');
 					break;
+					
+				default: $target = '';
 			} 
 			
 			$this->tabs->addTarget("assQuestions",
