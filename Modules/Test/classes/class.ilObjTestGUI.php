@@ -21,7 +21,7 @@ require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
  *
  * @ilCtrl_Calls ilObjTestGUI: ilObjCourseGUI, ilObjectMetaDataGUI, ilCertificateGUI, ilPermissionGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestPlayerFixedQuestionSetGUI, ilTestPlayerRandomQuestionSetGUI, ilTestPlayerDynamicQuestionSetGUI
- * @ilCtrl_Calls ilObjTestGUI: ilTestParticipantsGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilTestParticipantsGUI, ilTestResultsGUI
  * @ilCtrl_Calls ilObjTestGUI: ilLearningProgressGUI, ilMarkSchemaGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestEvaluationGUI, ilTestEvalObjectiveOrientedGUI
  * @ilCtrl_Calls ilObjTestGUI: ilAssGenFeedbackPageGUI, ilAssSpecFeedbackPageGUI
@@ -30,7 +30,7 @@ require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
  * @ilCtrl_Calls ilObjTestGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI
  * @ilCtrl_Calls ilObjTestGUI: assOrderingQuestionGUI, assImagemapQuestionGUI, assJavaAppletGUI
  * @ilCtrl_Calls ilObjTestGUI: assNumericGUI, assErrorTextGUI, ilTestScoringByQuestionsGUI
- * @ilCtrl_Calls ilObjTestGUI: assTextSubsetGUI, assOrderingHorizontalGUI, ilTestToplistGUI
+ * @ilCtrl_Calls ilObjTestGUI: assTextSubsetGUI, assOrderingHorizontalGUI
  * @ilCtrl_Calls ilObjTestGUI: assSingleChoiceGUI, assFileUploadGUI, assTextQuestionGUI, assFlashQuestionGUI
  * @ilCtrl_Calls ilObjTestGUI: assKprimChoiceGUI, assLongMenuGUI
  * @ilCtrl_Calls ilObjTestGUI: ilObjQuestionPoolGUI, ilEditClipboardGUI
@@ -41,7 +41,7 @@ require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
  * @ilCtrl_Calls ilObjTestGUI: ilTestPassDetailsOverviewTableGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestResultsToolbarGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestSettingsChangeConfirmationGUI
- * @ilCtrl_Calls ilObjTestGUI: ilTestSkillAdministrationGUI, ilTestSkillEvaluationGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilTestSkillAdministrationGUI
  * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionPreviewGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestQuestionBrowserTableGUI, ilTestInfoScreenToolbarGUI, ilLTIProviderObjectSettingGUI
  *
@@ -181,7 +181,7 @@ class ilObjTestGUI extends ilObjectGUI
 			case 'illtiproviderobjectsettinggui':
 				$this->prepareOutput();
 				$this->addHeaderAction();
-				$this->getSettingsSubTabs();
+				$this->tabsManager->getSettingsSubTabs();
 				$GLOBALS['DIC']->tabs()->activateTab('settings');
 				$GLOBALS['DIC']->tabs()->activateSubTab('lti_provider');
 				$lti_gui = new ilLTIProviderObjectSettingGUI($this->object->getRefId());
@@ -229,6 +229,23 @@ class ilObjTestGUI extends ilObjectGUI
 				require_once 'Modules/Test/classes/class.ilTestParticipantsGUI.php';
 				
 				$gui = new ilTestParticipantsGUI(
+					$this->object, $this->testQuestionSetConfigFactory->getQuestionSetConfig()
+				);
+				
+				$gui->setTestAccess($this->getTestAccess());
+				$gui->setTestTabs($this->getTabsManager());
+				
+				$this->ctrl->forwardCommand($gui);
+				break;
+				
+			case 'iltestresultsgui':
+				
+				$this->prepareOutput();
+				$this->addHeaderAction();
+				
+				require_once 'Modules/Test/classes/class.ilTestResultsGUI.php';
+				
+				$gui = new ilTestResultsGUI(
 					$this->object, $this->testQuestionSetConfigFactory->getQuestionSetConfig()
 				);
 				
@@ -399,41 +416,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$gui = new ilTestSkillAdministrationGUI($ilias, $this->ctrl, $ilAccess, $ilTabs, $this->tpl, $this->lng, $ilDB, $tree, $ilPluginAdmin, $this->object, $this->ref_id);
 				$this->ctrl->forwardCommand($gui);
 				break;
-
-			case 'iltestskillevaluationgui':
-				$this->prepareOutput();
-				$this->addHeaderAction();
-				
-				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
-				if( $this->object->isDynamicTest() )
-				{
-					require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
-					$dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig($tree, $ilDB, $ilPluginAdmin, $this->object);
-					$dynamicQuestionSetConfig->loadFromDb();
-					$questionList = new ilAssQuestionList($ilDB, $this->lng, $ilPluginAdmin);
-					$questionList->setParentObjId($dynamicQuestionSetConfig->getSourceQuestionPoolId());
-					$questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_ORIGINALS);
-				}
-				else
-				{
-					$questionList = new ilAssQuestionList($ilDB, $this->lng, $ilPluginAdmin);
-					$questionList->setParentObjId($this->object->getId());
-					$questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);
-				}
-				$questionList->load();
-
-				require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
-				$testSessionFactory = new ilTestSessionFactory($this->object);
-				$testSession = $testSessionFactory->getSession();
-
-				require_once 'Modules/Test/classes/class.ilTestSkillEvaluationGUI.php';
-				$gui = new ilTestSkillEvaluationGUI($this->ctrl, $ilTabs, $this->tpl, $this->lng, $ilDB, $this->object);
-				$gui->setQuestionList($questionList);
-				$gui->setTestSession($testSession);
-				$gui->setObjectiveOrientedContainer($this->getObjectiveOrientedContainer());
-				$this->ctrl->forwardCommand($gui);
-				break;
-
+			
 			case 'ilobjectcopygui':
 				$this->prepareOutput();
 				$this->addHeaderAction();
@@ -692,13 +675,6 @@ class ilObjTestGUI extends ilObjectGUI
 				$gui = new ilAssQuestionFeedbackEditingGUI($questionGUI, $ilCtrl, $ilAccess, $tpl, $ilTabs, $lng);
 				$ilCtrl->forwardCommand($gui);
 
-				break;
-
-			case 'iltesttoplistgui':
-				$this->prepareOutput();
-				require_once './Modules/Test/classes/class.ilTestToplistGUI.php';
-				$gui = new ilTestToplistGUI($this);
-				$this->ctrl->forwardCommand($gui);
 				break;
 
 			case 'ilscoringadjustmentgui':
@@ -3512,6 +3488,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$help->setScreenIdComponent("tst");
 		
 		$this->getTabsManager()->setTestOBJ($this->object);
+		$this->getTabsManager()->setTestSession($this->testSessionFactory->getSession());
 		$this->getTabsManager()->setTestQuestionSetConfig($this->testQuestionSetConfigFactory->getQuestionSetConfig());
 		
 		if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )

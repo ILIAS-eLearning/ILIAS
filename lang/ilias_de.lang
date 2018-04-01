@@ -1331,7 +1331,9 @@ assessment#:#tst_show_answer_sheet#:#Antwortenübersicht anzeigen
 assessment#:#tst_show_cancel#:#"Test unterbrechen" anzeigen
 assessment#:#tst_show_cancel_description#:#Zeigt während der Durchführung des Tests einen Button an, mit der der Test unterbrochen werden kann. Achtung: Das Unterbrechen des Tests hält nicht die unter 'Maximale Bearbeitungsdauer' festgelegte Bearbeitungszeit an.
 assessment#:#tst_show_pass_details#:#'Tabelle mit detaillierten Testergebnissen' pro Durchlauf zum gewählten Zeitpunkt anzeigen
-assessment#:#tst_show_results#:#Testergebnisse anzeigen
+assessment#:#tst_show_results#:#Testergebnisse
+assessment#:#participants_results_subtab#:#Alle Teilnehmer
+assessment#:#results_tab#:#Ergebnisse
 assessment#:#tst_show_side_list#:#Fragenliste an
 assessment#:#tst_dyn_unfreeze_answers_confirmation#:#Es sind Fragen enthalten, zu denen ihre initialen Antworten festgeschrieben wurden, so dass Sie keine Änderungen an den Antworten vornehmen können. Möchten Sie die Fragen jetzt erneut beantworten und die festgeschriebenen Antworten lösen?
 assessment#:#tst_dyn_unfreeze_answers#:#Erneut beantworten
@@ -1405,7 +1407,7 @@ assessment#:#you_received_a_of_b_points#:#Sie haben %s von %s möglichen Punkten
 assessment#:#all_participants#:#Alle Teilnehmer
 assessment#:#with_solutions_participants#:#Teilnehmer mit Antworten
 assessment#:#without_solutions_participants#:#Teilnehmer ohne Antworten
-assessment#:#tst_show_toplist#:#Zeige Platzierung
+assessment#:#tst_show_toplist#:#Platzierung
 assessment#:#toplist_by_score#:#Platzierung nach Punkten
 assessment#:#toplist_by_time#:#Platzierung nach Bearbeitungszeit
 assessment#:#toplist_col_rank#:#Platz
@@ -1510,7 +1512,7 @@ assessment#:#tst_max_comp_points#:#Max. Kompetenz-Punkte
 assessment#:#tst_level#:#Kompetenz-Ausprägung
 assessment#:#tst_threshold#:#Schwellenwert (in %)
 assessment#:#tst_save_thresholds#:#Speichere Schwellenwerte
-assessment#:#tst_show_comp_results#:#Kompetenz-Ergebnisse anzeigen
+assessment#:#tst_show_comp_results#:#Kompetenz-Ergebnisse
 assessment#:#tst_analysis#:#Analyse
 assessment#:#tst_all_test_competences#:#Alle Test-Kompetenzen
 assessment#:#tst_gap_analysis#:#Gap-Analyse

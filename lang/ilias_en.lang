@@ -1170,7 +1170,9 @@ assessment#:#tst_show_cancel_description#:#Participants are presented with a but
 assessment#:#tst_show_cancel#:#Suspend Test
 assessment#:#tst_show_pass_details#:#Show ‘Table of Detailed Test Results’ for each Test Pass upon Selected Point in Time
 assessment#:#tst_show_pass_details_desc#:#The summary of results will be appended at the point in time indicated in the setting above: A ‘Table of Detailed Test Results’ will show the title of the questions and the points scored in a particular test pass. <br> Other than that the table will be displayed after the last test pass possible (setting in link ‘General’, option ‘Limit Number of Test Passes’) or after the test is officially finished (setting in link ‘General’, option ‘Finishing Time’). <br> Further settings about the content of the ‘Table of Detailed Test Results’ can be made in the section ‘Further Details to be Included in Test Results’ of this form.
-assessment#:#tst_show_results#:#Show Test Results
+assessment#:#tst_show_results#:#Test Results
+assessment#:#participants_results_subtab#:#All Participants
+assessment#:#results_tab#:#Results
 assessment#:#tst_show_side_list#:#Show List of Questions
 assessment#:#tst_dyn_unfreeze_answers_confirmation#:#There are questions to which your initial answers were fixed and you could not make any changes. Do you want to answer them one more time now and thus unfreeze your answers?
 assessment#:#tst_dyn_unfreeze_answers#:#Answer once more
@@ -1245,7 +1247,7 @@ assessment#:#you_received_a_of_b_points#:#You received %s of %s possible points
 assessment#:#all_participants#:#All participants
 assessment#:#with_solutions_participants#:#Participants with solutions
 assessment#:#without_solutions_participants#:#Participants without solutions
-assessment#:#tst_show_toplist#:#Show Ranking
+assessment#:#tst_show_toplist#:#Ranking
 assessment#:#toplist_by_score#:#High score by score
 assessment#:#toplist_by_time#:#High score by working time
 assessment#:#toplist_col_rank#:#Rank
@@ -1350,7 +1352,7 @@ assessment#:#tst_max_comp_points#:#Max. Competence Points
 assessment#:#tst_level#:#Competence Level
 assessment#:#tst_threshold#:#Thresholds (in %)
 assessment#:#tst_save_thresholds#:#Save Thresholds
-assessment#:#tst_show_comp_results#:#Show Competence Results
+assessment#:#tst_show_comp_results#:#Competence Results
 assessment#:#tst_analysis#:#Analysis
 assessment#:#tst_all_test_competences#:#All Test Competence
 assessment#:#tst_gap_analysis#:#Gap Analysis

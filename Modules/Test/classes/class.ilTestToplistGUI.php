@@ -47,18 +47,17 @@ class ilTestToplistGUI
 	protected $toplist;
 
 	/**
-	 * @param ilObjTestGUI $a_object_gui
+	 * @param ilObjTest $testOBJ
 	 */
-	public function __construct(ilObjTestGUI $a_object_gui)
+	public function __construct(ilObjTest $testOBJ)
 	{
 		$this->ctrl = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilCtrl'] : $GLOBALS['ilCtrl'];
-		$this->tabs = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilTabs'] : $GLOBALS['ilTabs'];
 		$this->tpl = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['tpl'] : $GLOBALS['tpl'];
 		$this->lng = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['lng'] : $GLOBALS['lng'];
 		$this->user = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilUser'] : $GLOBALS['ilUser'];
 		
-		$this->object = $a_object_gui->object;
-		$this->toplist = new ilTestTopList($a_object_gui->object);
+		$this->object = $testOBJ;
+		$this->toplist = new ilTestTopList($testOBJ);
 	}
 
 	public function executeCommand()
@@ -76,18 +75,8 @@ class ilTestToplistGUI
 		switch($cmd)
 		{
 			default:
-				$this->manageTabs();
 				$this->showResultsToplistsCmd();
 		}
-	}
-	
-	protected function manageTabs()
-	{
-		$this->tabs->clearTargets();
-		
-		$this->tabs->setBackTarget( $this->lng->txt('tst_results_back_introduction'),
-			$this->ctrl->getLinkTargetByClass('ilObjTestGUI', 'infoScreen')
-		);
 	}
 	
 	protected function showResultsToplistsCmd()

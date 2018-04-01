@@ -17,6 +17,12 @@ class ilTestTabsManager
 	const SUBTAB_ID_FIXED_PARTICIPANTS = 'fixedparticipants';
 	const SUBTAB_ID_TIME_EXTENSION = 'timeextension';
 	
+	const TAB_ID_RESULTS = 'results';
+	const SUBTAB_ID_PARTICIPANTS_RESULTS = 'participantsresults';
+	const SUBTAB_ID_MY_RESULTS = 'myresults';
+	const SUBTAB_ID_HIGHSCORE = 'highscore';
+	const SUBTAB_ID_SKILL_RESULTS = 'skillresults';
+	
 	/**
 	 * @var ilTabsGUI
 	 */
@@ -41,6 +47,11 @@ class ilTestTabsManager
 	 * @var ilObjTest
 	 */
 	protected $testOBJ;
+	
+	/**
+	 * @var ilTestSession
+	 */
+	protected $testSession;
 	
 	/**
 	 * @var ilTestQuestionSetConfig
@@ -82,6 +93,7 @@ class ilTestTabsManager
 		switch($tabId)
 		{
 			case self::TAB_ID_PARTICIPANTS:
+			case self::TAB_ID_RESULTS:
 				
 				$this->tabs->activateTab($tabId);
 		}
@@ -96,6 +108,11 @@ class ilTestTabsManager
 		{
 			case self::SUBTAB_ID_FIXED_PARTICIPANTS:
 			case self::SUBTAB_ID_TIME_EXTENSION:
+				
+			case self::SUBTAB_ID_PARTICIPANTS_RESULTS:
+			case self::SUBTAB_ID_MY_RESULTS:
+			case self::SUBTAB_ID_HIGHSCORE:
+			case self::SUBTAB_ID_SKILL_RESULTS:
 				
 				$this->tabs->activateSubTab($subTabId);
 		}
@@ -115,6 +132,22 @@ class ilTestTabsManager
 	public function setTestOBJ(ilObjTest $testOBJ)
 	{
 		$this->testOBJ = $testOBJ;
+	}
+	
+	/**
+	 * @return ilTestSession
+	 */
+	public function getTestSession()
+	{
+		return $this->testSession;
+	}
+	
+	/**
+	 * @param ilTestSession $testSession
+	 */
+	public function setTestSession($testSession)
+	{
+		$this->testSession = $testSession;
 	}
 	
 	/**
@@ -562,6 +595,13 @@ class ilTestTabsManager
 			);
 		}
 		
+		if( $this->needsResultsTab() )
+		{
+			$this->tabs->addTab(self::TAB_ID_RESULTS,
+				$DIC->language()->txt('results_tab'), $this->getResultsTabTarget()
+			);
+		}
+		
 		if($this->isLpAccessGranted() && !$this->isHiddenTab('learning_progress'))
 		{
 			$this->tabs->addTarget('learning_progress',
@@ -775,7 +815,7 @@ class ilTestTabsManager
 			"", "");
 	}
 	
-	protected function getSettingsSubTabs()
+	public function getSettingsSubTabs()
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
@@ -911,6 +951,129 @@ class ilTestTabsManager
 			$this->tabs->addSubTab(
 				self::SUBTAB_ID_TIME_EXTENSION, $DIC->language()->txt('timing'),
 				$DIC->ctrl()->getLinkTargetByClass('ilTestParticipantsTimeExtensionGUI')
+			);
+		}
+	}
+	
+	/**
+	 * @return bool
+	 */
+	protected function needsResultsTab()
+	{
+		return $this->needsMyResultsSubTab() || $this->needsMyResultsSubTab()
+			|| $this->needsHighSoreSubTab() || $this->needsSkillResultsSubTab();
+	}
+	
+	/**
+	 * @return string
+	 */
+	protected function getResultsTabTarget()
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		if( $this->needsParticipantsResultsSubTab() )
+		{
+			return $DIC->ctrl()->getLinkTargetByClass(array('ilTestResultsGUI', 'ilParticipantsTestResultsGUI'));
+		}
+		
+		if( $this->needsMyResultsSubTab() )
+		{
+			return $DIC->ctrl()->getLinkTargetByClass(array('ilTestResultsGUI', 'ilMyTestResultsGUI'));
+		}
+		
+		return '';
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function needsMyResultsSubTab()
+	{
+		return $this->getTestSession()->reportableResultsAvailable($this->getTestOBJ());
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function needsParticipantsResultsSubTab()
+	{
+		if( $this->testAccess->checkManageParticipantsAccess() )
+		{
+			return true;
+		}
+		
+		if( $this->testAccess->checkParticipantsResultsAccess() )
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function needsHighSoreSubTab()
+	{
+		if( !$this->needsMyResultsSubTab() && !$this->needsParticipantsResultsSubTab() )
+		{
+			return false;
+		}
+		
+		return $this->getTestOBJ()->getHighscoreEnabled();
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function needsSkillResultsSubTab()
+	{
+		if( !$this->needsMyResultsSubTab() )
+		{
+			return false;
+		}
+		
+		return $this->getTestOBJ()->isSkillServiceToBeConsidered();
+	}
+	
+	public function getResultsSubTabs()
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		if( $this->needsMyResultsSubTab() )
+		{
+			$this->tabs->addSubTab(
+				self::SUBTAB_ID_PARTICIPANTS_RESULTS,
+				$DIC->language()->txt('participants_results_subtab'),
+				$DIC->ctrl()->getLinkTargetByClass(array('ilTestResultsGUI', 'ilParticipantsTestResultsGUI'))
+			);
+		}
+		
+		if( $this->needsMyResultsSubTab() )
+		{
+			$this->tabs->addSubTab(
+				self::SUBTAB_ID_MY_RESULTS,
+				$DIC->language()->txt('tst_show_results'),
+				$DIC->ctrl()->getLinkTargetByClass(array('ilTestResultsGUI', 'ilMyTestResultsGUI'))
+				// 'ilTestEvaluationGUI' => 'outUserResultsOverview'
+			);
+		}
+		
+		if( $this->needsSkillResultsSubTab() )
+		{
+			$this->tabs->addSubTab(
+				self::SUBTAB_ID_SKILL_RESULTS,
+				$DIC->language()->txt('tst_show_comp_results'),
+				$DIC->ctrl()->getLinkTargetByClass(array('ilTestResultsGUI', 'ilTestSkillEvaluationGUI'))
+			);
+		}
+		
+		if( $this->needsHighSoreSubTab() )
+		{
+			$this->tabs->addSubTab(
+				self::SUBTAB_ID_HIGHSCORE,
+				$DIC->language()->txt('tst_show_toplist'),
+				$DIC->ctrl()->getLinkTargetByClass(array('ilTestResultsGUI', 'ilTestToplistGUI'), 'outResultsToplist')
 			);
 		}
 	}

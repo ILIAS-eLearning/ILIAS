@@ -602,4 +602,33 @@ class ilTestSession
 	{
 		return $this->getUserId() == ANONYMOUS_USER_ID;
 	}
+	
+	/**
+	 * @var null|bool
+	 */
+	private $reportableResultsAvailable = null;
+	
+	/**
+	 * @param ilObjTest $testOBJ
+	 * @return bool
+	 */
+	public function reportableResultsAvailable(ilObjTest $testOBJ)
+	{
+		if( $this->reportableResultsAvailable === null )
+		{
+			$this->reportableResultsAvailable = true;
+			
+			if( !$this->getActiveId() )
+			{
+				$this->reportableResultsAvailable = false;
+			}
+			
+			if( !$testOBJ->canShowTestResults($this) )
+			{
+				$this->reportableResultsAvailable = false;
+			}
+		}
+		
+		return $this->reportableResultsAvailable;
+	}
 }
