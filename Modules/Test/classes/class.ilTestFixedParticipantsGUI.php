@@ -220,8 +220,6 @@ class ilTestFixedParticipantsGUI
 		$tableGUI->setFilterCommand('participantsSetFilter');
 		$tableGUI->setResetCommand('participantsResetFiler');
 		
-		$tableGUI->setData($this->applyFilterCriteria($participantList->getTableRows()));
-		
 		$DIC->ui()->mainTemplate()->setContent( $DIC->ctrl()->getHTML($tableGUI) );
 	}
 	
@@ -251,53 +249,6 @@ class ilTestFixedParticipantsGUI
 		
 		$toolbar->addSeparator();
 		$toolbar->addButtonInstance($search_btn);
-	}
-	
-	/**
-	 * @param array $in_rows
-	 * @return array
-	 */
-	protected function applyFilterCriteria($in_rows)
-	{
-		global $DIC; /* @var ILIAS\DI\Container $DIC */
-		
-		$sess_filter = $_SESSION['form_tst_participants_' . $this->getTestObj()->getRefId()]['selection'];
-		$sess_filter = str_replace('"','',$sess_filter);
-		$sess_filter = explode(':', $sess_filter);
-		$filter = substr($sess_filter[2],0, strlen($sess_filter[2])-1);
-		
-		if ($filter == 'all' || $filter == false)
-		{
-			return $in_rows; #unchanged - no filter.
-		}
-		
-		$with_result = array();
-		$without_result = array();
-		foreach ($in_rows as $row)
-		{
-			$result = $DIC->database()->query(
-				'SELECT count(solution_id) count
-				FROM tst_solutions
-				WHERE active_fi = ' . $DIC->database()->quote($row['active_id'])
-			);
-			$count = $DIC->database()->fetchAssoc($result);
-			$count = $count['count'];
-			
-			if ($count == 0)
-			{
-				$without_result[] = $row;
-			}
-			else
-			{
-				$with_result[] = $row;
-			}
-		}
-		
-		if ($filter == 'withSolutions')
-		{
-			return $with_result;
-		}
-		return $without_result;
 	}
 	
 	/**
