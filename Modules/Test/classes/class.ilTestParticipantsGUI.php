@@ -21,6 +21,11 @@ class ilTestParticipantsGUI
 	protected $testObj;
 	
 	/**
+	 * @var ilTestQuestionSetConfig
+	 */
+	protected $questionSetConfig;
+	
+	/**
 	 * @var ilTestAccess
 	 */
 	protected $testAccess;
@@ -34,9 +39,42 @@ class ilTestParticipantsGUI
 	 * ilTestParticipantsGUI constructor.
 	 * @param ilObjTest $testObj
 	 */
-	public function __construct(ilObjTest $testObj)
+	public function __construct(ilObjTest $testObj, ilTestQuestionSetConfig $questionSetConfig)
 	{
 		$this->testObj = $testObj;
+		$this->questionSetConfig = $questionSetConfig;
+	}
+	
+	/**
+	 * @return ilObjTest
+	 */
+	public function getTestObj()
+	{
+		return $this->testObj;
+	}
+	
+	/**
+	 * @param ilObjTest $testObj
+	 */
+	public function setTestObj($testObj)
+	{
+		$this->testObj = $testObj;
+	}
+	
+	/**
+	 * @return ilTestQuestionSetConfig
+	 */
+	public function getQuestionSetConfig()
+	{
+		return $this->questionSetConfig;
+	}
+	
+	/**
+	 * @param ilTestQuestionSetConfig $questionSetConfig
+	 */
+	public function setQuestionSetConfig($questionSetConfig)
+	{
+		$this->questionSetConfig = $questionSetConfig;
 	}
 	
 	/**
@@ -93,7 +131,7 @@ class ilTestParticipantsGUI
 				$this->getTestTabs()->activateSubTab(ilTestTabsManager::SUBTAB_ID_FIXED_PARTICIPANTS);
 				
 				require_once 'Modules/Test/classes/class.ilTestFixedParticipantsGUI.php';
-				$gui = new ilTestFixedParticipantsGUI($this->testObj);
+				$gui = new ilTestFixedParticipantsGUI($this->getTestObj(), $this->getQuestionSetConfig());
 				$gui->setTestAccess($this->getTestAccess());
 				$DIC->ctrl()->forwardCommand($gui);
 				break;
@@ -103,7 +141,7 @@ class ilTestParticipantsGUI
 				$this->getTestTabs()->activateSubTab(ilTestTabsManager::SUBTAB_ID_TIME_EXTENSION);
 				
 				require_once 'Modules/Test/classes/class.ilTestParticipantsTimeExtensionGUI.php';
-				$gui = new ilTestParticipantsTimeExtensionGUI($this->testObj);
+				$gui = new ilTestParticipantsTimeExtensionGUI($this->getTestObj());
 				$gui->setTestAccess($this->getTestAccess());
 				$DIC->ctrl()->forwardCommand($gui);
 				break;

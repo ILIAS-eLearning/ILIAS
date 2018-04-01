@@ -25,7 +25,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 	
 	public function __construct($a_parent_obj, $a_parent_cmd)
 	{
-		$this->setId('tst_participants_' . $a_parent_obj->object->getRefId());
+		$this->setId('tst_participants_' . $a_parent_obj->getTestObj()->getRefId());
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		global $lng, $ilCtrl;
@@ -154,13 +154,16 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 			$this->addColumn($this->lng->txt("clientip"),'clientip', '');
 		}
 		
-		$this->addColumn($this->lng->txt("tst_started"),'started', '');
-		$this->addColumn($this->lng->txt("tst_nr_of_tries_of_user"),'tries', '');
-		
-		$this->addColumn($this->lng->txt("unfinished_passes"),'unfinished_passes', '');
-		$this->addColumn($this->lng->txt("tst_finished"),'finished', '');
-		
-		$this->addColumn($this->lng->txt("last_access"),'access', '');
+		if( $this->isAccessResultsCommandsEnabled() )
+		{
+			$this->addColumn($this->lng->txt("tst_started"),'started', '');
+			$this->addColumn($this->lng->txt("tst_nr_of_tries_of_user"),'tries', '');
+			
+			$this->addColumn($this->lng->txt("unfinished_passes"),'unfinished_passes', '');
+			$this->addColumn($this->lng->txt("tst_finished"),'finished', '');
+			
+			$this->addColumn($this->lng->txt("last_access"),'access', '');
+		}
 		
 		if( $this->isActionsColumnRequired() )
 		{
@@ -172,8 +175,8 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 	{
 		if( $this->isManageInviteesCommandsEnabled() )
 		{
-			$this->addMultiCommand('saveClientIP', $this->lng->txt('save'));
-			$this->addMultiCommand('removeParticipant', $this->lng->txt('remove_as_participant'));
+			$this->addMultiCommand('saveClientIp', $this->lng->txt('save'));
+			$this->addMultiCommand('removeParticipants', $this->lng->txt('remove_as_participant'));
 		}
 		
 		if( $this->isAccessResultsCommandsEnabled() && !$this->getAnonymity() )
@@ -240,13 +243,16 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("ROW_KEY", $this->fetchRowKey($data));
 		$this->tpl->setVariable("LOGIN", $data['login']);
 		$this->tpl->setVariable("FULLNAME", $data['name']);
-
-		$this->tpl->setVariable("STARTED", ($data['started']) ? $this->buildOkIcon() : '');
-		$this->tpl->setVariable("TRIES", $this->fetchTriesValue($data));
-		$this->tpl->setVariable("UNFINISHED_PASSES", $this->buildUnfinishedPassesStatusString($data) );
 		
-		$this->tpl->setVariable("FINISHED", ($data['finished']) ? $this->buildOkIcon() : '');
-		$this->tpl->setVariable("ACCESS", $this->buildFormattedAccessDate($data));
+		if( $this->isAccessResultsCommandsEnabled() )
+		{
+			$this->tpl->setVariable("STARTED", ($data['started']) ? $this->buildOkIcon() : '');
+			$this->tpl->setVariable("TRIES", $this->fetchTriesValue($data));
+			$this->tpl->setVariable("UNFINISHED_PASSES", $this->buildUnfinishedPassesStatusString($data));
+			
+			$this->tpl->setVariable("FINISHED", ($data['finished']) ? $this->buildOkIcon() : '');
+			$this->tpl->setVariable("ACCESS", $this->buildFormattedAccessDate($data));
+		}
 	}
 	
 	/**

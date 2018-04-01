@@ -227,9 +227,14 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->addHeaderAction();
 				
 				require_once 'Modules/Test/classes/class.ilTestParticipantsGUI.php';
-				$gui = new ilTestParticipantsGUI($this->object);
+				
+				$gui = new ilTestParticipantsGUI(
+					$this->object, $this->testQuestionSetConfigFactory->getQuestionSetConfig()
+				);
+				
 				$gui->setTestAccess($this->getTestAccess());
 				$gui->setTestTabs($this->getTabsManager());
+				
 				$this->ctrl->forwardCommand($gui);
 				break;
 
@@ -436,32 +441,6 @@ class ilObjTestGUI extends ilObjectGUI
 				$cp = new ilObjectCopyGUI($this);
 				$cp->setType('tst');
 				$this->ctrl->forwardCommand($cp);
-				break;
-
-			case 'ilrepositorysearchgui':
-				
-				if( !$this->getTestAccess()->checkManageParticipantsAccess() )
-				{
-					self::accessViolationRedirect();
-				}
-				
-				$this->prepareOutput();
-				$this->addHeaderAction();
-				require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
-				require_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
-				$rep_search = new ilRepositorySearchGUI();
-				$rep_search->addUserAccessFilterCallable(
-					ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->ref_id)
-				);
-				$rep_search->setCallback($this,
-					'addParticipantsObject',
-					array()
-				);
-
-				// Set tabs
-				$this->ctrl->setReturn($this, 'participants');
-				$ret =& $this->ctrl->forwardCommand($rep_search);
-				$this->tabs_gui->setTabActive('participants');
 				break;
 
 			case 'ilpageeditorgui':
@@ -2767,32 +2746,6 @@ class ilObjTestGUI extends ilObjectGUI
 	
 	/**
 	 * @param ilToolbarGUI $toolbar
-	 * @param ilLanguage $lng
-	 */
-	protected function addUserSearchControls(ilToolbarGUI $toolbar, ilLanguage $lng)
-	{
-		// search button
-		include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
-		ilRepositorySearchGUI::fillAutoCompleteToolbar(
-			$this,
-			$toolbar,
-			array(
-				'auto_complete_name'	=> $lng->txt('user'),
-				'submit_name'			=> $lng->txt('add')
-			)
-		);
-		
-		require_once  'Services/UIComponent/Button/classes/class.ilLinkButton.php';
-		$search_btn = ilLinkButton::getInstance();
-		$search_btn->setCaption('tst_search_users');
-		$search_btn->setUrl($this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
-
-		$toolbar->addSeparator();
-		$toolbar->addButtonInstance($search_btn);
-	}
-	
-	/**
-	 * @param ilToolbarGUI $toolbar
 	 */
 	protected function addDeleteAllTestResultsButton(ilToolbarGUI $toolbar)
 	{
@@ -2988,69 +2941,6 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 	}
 	
-	function applyFilterCriteria($in_rows)
-	{
-		global $ilDB;
-		$sess_filter = $_SESSION['form_tst_participants_' . $this->ref_id]['selection'];
-		$sess_filter = str_replace('"','',$sess_filter);
-		$sess_filter = explode(':', $sess_filter);
-		$filter = substr($sess_filter[2],0, strlen($sess_filter[2])-1);
-		
-		if ($filter == 'all' || $filter == false)
-		{
-			return $in_rows; #unchanged - no filter.
-		}
-		
-		$with_result = array();
-		$without_result = array();
-		foreach ($in_rows as $row)
-		{
-			$result = $ilDB->query(
-				'SELECT count(solution_id) count
-				FROM tst_solutions
-				WHERE active_fi = ' . $ilDB->quote($row['active_id'])
-			);
-			$count = $ilDB->fetchAssoc($result);
-			$count = $count['count'];
-			
-			if ($count == 0)
-			{
-				$without_result[] = $row;
-			}
-			else
-			{
-				$with_result[] = $row;
-			}			
-		}
-		
-		if ($filter == 'withSolutions')
-		{
-			return $with_result;
-		}
-		return $without_result;
-
-	}
-
-	protected function participantsSetFilterObject()
-	{
-		include_once("./Modules/Test/classes/tables/class.ilTestParticipantsTableGUI.php");
-		$table_gui = new ilTestParticipantsTableGUI($this, "participants");
-		$table_gui->writeFilterToSession();        // writes filter to session
-		$table_gui->resetOffset();                // sets record offest to 0 (first page)
-		$this->participantsObject();
-		
-	}
-	
-	protected function participantsResetFilterObject()
-	{
-		include_once("./Modules/Test/classes/tables/class.ilTestParticipantsTableGUI.php");
-		$table_gui = new ilTestParticipantsTableGUI($this, "participants");
-		$table_gui->resetFilter();        // writes filter to session
-		$table_gui->resetOffset();                // sets record offest to 0 (first page)
-		$this->participantsObject();
-		
-	}
-	
  /**
 	* Shows the pass overview and the answers of one ore more users for the scored pass
 	*
@@ -3120,46 +3010,6 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
 			}
 		}
-	}
-
-	function removeParticipantObject()
-	{
-		require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
-		$filterCallback = ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->ref_id);
-		$a_user_ids = call_user_func_array($filterCallback, [(array)$_POST["chbUser"]]);
-		
-		if (is_array($a_user_ids)) 
-		{
-			foreach ($a_user_ids as $user_id)
-			{
-				$this->object->disinviteUser($user_id);
-			}
-		}
-		else
-		{
-			ilUtil::sendInfo($this->lng->txt("select_one_user"), true);
-		}
-		$this->ctrl->redirect($this, "participants");
-	}
-	
-	function saveClientIPObject()
-	{
-		require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
-		$filterCallback = ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->ref_id);
-		$a_user_ids = call_user_func_array($filterCallback, [(array)$_POST["chbUser"]]);
-		
-		if (is_array($a_user_ids)) 
-		{
-			foreach ($a_user_ids as $user_id)
-			{
-				$this->object->setClientIP($user_id, $_POST["clientip_".$user_id]);
-			}
-		}
-		else
-		{
-			ilUtil::sendInfo($this->lng->txt("select_one_user"), true);
-		}
-		$this->ctrl->redirect($this, "participants");
 	}
 	
 	/**
@@ -3353,43 +3203,6 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("PRINT_CONTENT", $template->get());
 		}
 	}	
-	
-	function addParticipantsObject($a_user_ids = array())
-	{
-		require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
-		$filterCallback = ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->ref_id);
-		$a_user_ids = call_user_func_array($filterCallback, [$a_user_ids]);
-
-		$countusers = 0;
-		// add users 
-		if (is_array($a_user_ids))
-		{
-			$i = 0;
-			foreach ($a_user_ids as $user_id)
-			{
-				$client_ip = $_POST["client_ip"][$i];
-				$this->object->inviteUser($user_id, $client_ip);
-				$countusers++;
-				$i++;
-			}
-		}
-		$message = "";
-		if ($countusers)
-		{
-			$message = $this->lng->txt("tst_invited_selected_users");
-		}
-		if (strlen($message))
-		{
-			ilUtil::sendInfo($message, TRUE);
-		}
-		else
-		{
-			ilUtil::sendInfo($this->lng->txt("tst_invited_nobody"), TRUE);
-			return false;
-		}
-		
-		$this->ctrl->redirect($this, "participants");
-	}
 
 	/**
 	 * Displays the settings page for test defaults

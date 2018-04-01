@@ -7,11 +7,11 @@
 	<!-- BEGIN client_ip_column -->
 	<td class="std" style="vertical-align: top"><input type="text" name="clientip_{ROW_KEY}" size="15" maxlength="15" value="{CLIENT_IP}" /></td>
 	<!-- END client_ip_column -->
-	<td class="std" style="vertical-align: top">{STARTED}</td>
-	<td class="std" style="vertical-align: top">{TRIES}</td>
-	<td class="std" style="vertical-align: top">{UNFINISHED_PASSES}</td>
-	<td class="std" style="vertical-align: top">{FINISHED}</td>
-	<td class="std" style="vertical-align: top">{ACCESS}</td>
+	<!-- BEGIN started_column --><td class="std" style="vertical-align: top">{STARTED}</td><!-- END started_column -->
+	<!-- BEGIN tries_column --><td class="std" style="vertical-align: top">{TRIES}</td><!-- END tries_column -->
+	<!-- BEGIN unfinished_column --><td class="std" style="vertical-align: top">{UNFINISHED_PASSES}</td><!-- END unfinished_column -->
+	<!-- BEGIN finished_column --><td class="std" style="vertical-align: top">{FINISHED}</td><!-- END finished_column -->
+	<!-- BEGIN access_column --><td class="std" style="vertical-align: top">{ACCESS}</td><!-- END access_column -->
 	<!-- BEGIN actions_column -->
 	<td class="std" style="vertical-align: top">{ACTIONS}</td>
 	<!-- END actions_column -->
