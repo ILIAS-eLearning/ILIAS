@@ -8,7 +8,7 @@
  * @author    Björn Heyser <info@bjoernheyser.de>
  * @version    $Id$
  *
- * @package    Modules/Test(QuestionPool)
+ * @package    Modules/Test
  * 
  * @ilCtrl_Calls ilTestParticipantsGUI: ilTestFixedParticipantsGUI
  * @ilCtrl_Calls ilTestParticipantsGUI: ilTestParticipantsTimeExtensionGUI
@@ -132,7 +132,6 @@ class ilTestParticipantsGUI
 				
 				require_once 'Modules/Test/classes/class.ilTestFixedParticipantsGUI.php';
 				$gui = new ilTestFixedParticipantsGUI($this->getTestObj(), $this->getQuestionSetConfig());
-				$gui->setTestAccess($this->getTestAccess());
 				$DIC->ctrl()->forwardCommand($gui);
 				break;
 				
@@ -142,7 +141,6 @@ class ilTestParticipantsGUI
 				
 				require_once 'Modules/Test/classes/class.ilTestParticipantsTimeExtensionGUI.php';
 				$gui = new ilTestParticipantsTimeExtensionGUI($this->getTestObj());
-				$gui->setTestAccess($this->getTestAccess());
 				$DIC->ctrl()->forwardCommand($gui);
 				break;
 		}

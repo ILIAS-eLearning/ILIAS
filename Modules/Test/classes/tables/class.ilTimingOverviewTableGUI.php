@@ -29,8 +29,6 @@ class ilTimingOverviewTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("name"),'name', '');
 		$this->addColumn($this->lng->txt("tst_started"),'started', '');
 		$this->addColumn($this->lng->txt("timing"),'extratime', '');
-		
-		$this->addCommandButton('showTimingForm', $this->lng->txt('timing'));
 	}
 
 	/**

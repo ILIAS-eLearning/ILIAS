@@ -8,7 +8,7 @@
  * @author    Björn Heyser <info@bjoernheyser.de>
  * @version    $Id$
  *
- * @package    Modules/Test(QuestionPool)
+ * @package    Modules/Test
  * 
  * @ilCtrl_Calls ilTestFixedParticipantsGUI: ilTestParticipantsTableGUI
  * @ilCtrl_Calls ilTestFixedParticipantsGUI: ilRepositorySearchGUI
@@ -35,11 +35,6 @@ class ilTestFixedParticipantsGUI
 	 * @var ilTestQuestionSetConfig
 	 */
 	protected $questionSetConfig;
-	
-	/**
-	 * @var ilTestAccess
-	 */
-	protected $testAccess;
 	
 	/**
 	 * ilTestFixedParticipantsGUI constructor.
@@ -81,22 +76,6 @@ class ilTestFixedParticipantsGUI
 	public function setQuestionSetConfig($questionSetConfig)
 	{
 		$this->questionSetConfig = $questionSetConfig;
-	}
-	
-	/**
-	 * @return ilTestAccess
-	 */
-	public function getTestAccess()
-	{
-		return $this->testAccess;
-	}
-	
-	/**
-	 * @param ilTestAccess $testAccess
-	 */
-	public function setTestAccess($testAccess)
-	{
-		$this->testAccess = $testAccess;
 	}
 	
 	/**
