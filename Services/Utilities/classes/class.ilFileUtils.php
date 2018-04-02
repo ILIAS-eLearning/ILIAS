@@ -537,10 +537,12 @@ class ilFileUtils
 	{
 		return array(
 			'3gp', 	// VIDEO__3_GPP
+			'ai', 	// APPLICATION__POSTSCRIPT
 			'aif', 	// AUDIO__AIFF
 			'aifc', // AUDIO__AIFF
 			'aiff', // AUDIO__AIFF
 			'au', 	// AUDIO__BASIC
+			'arw',  // IMAGE__X_SONY_ARW
 			'avi',  // AUDIO__BASIC
 			'backup', // scorm wbts
 			'bak', // scorm wbts
@@ -561,6 +563,8 @@ class ilFileUtils
 			'cpp',	// TEXT__X_C
 			'crt',	// APPLICATION__X_X509_CA_CERT
 			'crs', // scorm wbts
+			'crw', // IMAGE__X_CANON_CRW
+			'cr2', // IMAGE__X_CANON_CR2
 			'css', 	// TEXT__CSS
 			'cst', // scorm wbts
 			'csv',
@@ -568,6 +572,7 @@ class ilFileUtils
 			'db', // scorm wbts
 			'dcr', // scorm wbts
 			'des', // scorm wbts
+			'dng', // IMAGE__X_ADOBE_DNG
 			'doc',   // APPLICATION__MSWORD,
 			'docx',   // APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_DOCUMENT,
 			'dot',   // APPLICATION__MSWORD,
@@ -602,7 +607,7 @@ class ilFileUtils
 			'js',   // APPLICATION__X_JAVASCRIPT,
 			'jsf', // scorm wbts
 			'jso', // scorm wbts
-			'json',		// scorm
+			'json',		// APPLICATION__JSON
 			'latex',   // APPLICATION__X_LATEX,
 			'lang',   // lang files
 			'less', // less
@@ -618,6 +623,7 @@ class ilFileUtils
 			'mid',   // AUDIO__MIDI,
 			'min',		// scorm articulate?
 			'midi',   // AUDIO__MIDI,
+			'mobi',   // APPLICATION__X_MOBI,
 			'mod',   // AUDIO__MOD,
 			'mov',   // VIDEO__QUICKTIME,
 			'movie',   // VIDEO__X_SGI_MOVIE,
@@ -634,6 +640,7 @@ class ilFileUtils
 			'mpx',   // APPLICATION__X_PROJECT,
 			'mv',   // VIDEO__X_SGI_MOVIE,
 			'mv4',   // VIDEO__MP4,
+			'nef',   // IMAGE__X_NIKON_NEF,
 			'nif',   // IMAGE__X_NIFF,
 			'niff',   // IMAGE__X_NIFF,
 			'odt',   // Open document text,
