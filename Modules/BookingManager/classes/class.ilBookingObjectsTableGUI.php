@@ -108,23 +108,6 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 	{		
 		$lng = $this->lng;
 		
-		/* 
-		// preset period from parameters, e.g. course period
-		// currently NOT active 
-		if(trim($_GET["pf"]) || 
-			trim($_GET["pt"]))
-		{						
-			$_SESSION["form_".$this->getId()]["period"] = serialize(array(
-				"from" => $_GET["pf"] 
-					? serialize(new ilDateTime(trim($_GET["pf"]), IL_CAL_DATE))
-					: "",
-				"to" =>  $_GET["pt"] 
-					? serialize(new ilDateTime(trim($_GET["pt"]), IL_CAL_DATE))
-					: "",
-			));			
-		}
-		*/
-		
 		// title/description
 		$title = $this->addFilterItemByMetaType(
 			"title", 
