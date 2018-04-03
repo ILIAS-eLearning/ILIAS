@@ -33,6 +33,11 @@ class ilTestResultsGUI
 	protected $testAccess;
 	
 	/**
+	 * @var ilTestSession
+	 */
+	protected $testSession;
+	
+	/**
 	 * @var ilTestTabsManager
 	 */
 	protected $testTabs;
@@ -117,6 +122,22 @@ class ilTestResultsGUI
 	}
 	
 	/**
+	 * @return ilTestSession
+	 */
+	public function getTestSession()
+	{
+		return $this->testSession;
+	}
+	
+	/**
+	 * @param ilTestSession $testSession
+	 */
+	public function setTestSession($testSession)
+	{
+		$this->testSession = $testSession;
+	}
+	
+	/**
 	 * @return ilTestTabsManager
 	 */
 	public function getTestTabs()
@@ -131,7 +152,6 @@ class ilTestResultsGUI
 	{
 		$this->testTabs = $testTabs;
 	}
-	
 	
 	/**
 	 * Execute Command
@@ -170,6 +190,9 @@ class ilTestResultsGUI
 				require_once 'Modules/Test/classes/class.ilMyTestResultsGUI.php';
 				$gui = new ilMyTestResultsGUI();
 				$gui->setTestObj($this->getTestObj());
+				$gui->setTestAccess($this->getTestAccess());
+				$gui->setTestSession($this->getTestSession());
+				$gui->setObjectiveParent($this->getObjectiveParent());
 				$DIC->ctrl()->forwardCommand($gui);
 				break;
 			

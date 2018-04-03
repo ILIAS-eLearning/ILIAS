@@ -1249,6 +1249,7 @@ class ilTestServiceGUI
 				$this->lng->txt("tst_back_to_pass_details"), $this->ctrl->getLinkTarget($this, 'outUserPassDetails')
 			);
 		}
+		$ilTabs->clearSubTabs();
 
 		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->tpl->setCurrentBlock("ContentStyle");

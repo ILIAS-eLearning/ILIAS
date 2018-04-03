@@ -1229,15 +1229,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		global $ilTabs, $ilUser, $ilObjDataCache;
 
 		$this->handleTabs('results_pass_oriented');
-
-		if ($this->object->getNrOfTries() == 1)
-		{
-			$ilTabs->setBackTarget($this->lng->txt('tst_results_back_introduction'), $this->ctrl->getLinkTargetByClass('ilObjTestGUI', 'infoScreen'));
-		}
-		else
-		{
-			$ilTabs->setBackTarget($this->lng->txt('tst_results_back_overview'), $this->ctrl->getLinkTarget($this, 'outUserResultsOverview'));
-		}
+		
+		$ilTabs->clearSubTabs();
+		$ilTabs->setBackTarget($this->lng->txt('tst_results_back_overview'), $this->ctrl->getLinkTarget($this));
 
 		$testSession = $this->testSessionFactory->getSession();
 
@@ -1413,14 +1407,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	 */
 	function outUserResultsOverview()
 	{
-		global $ilUser, $ilTabs, $ilObjDataCache;
+		global $ilUser, $ilObjDataCache;
 
 		$this->handleTabs('results_pass_oriented');
-
-		$ilTabs->setBackTarget(
-			$this->lng->txt('tst_results_back_introduction'),
-			$this->ctrl->getLinkTargetByClass('ilObjTestGUI', 'infoScreen')
-		);
 
 		$testSession = $this->testSessionFactory->getSession();
 		$active_id = $testSession->getActiveId();

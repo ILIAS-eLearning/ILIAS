@@ -257,6 +257,7 @@ class ilObjTestGUI extends ilObjectGUI
 				);
 				
 				$gui->setTestAccess($this->getTestAccess());
+				$gui->setTestSession($this->testSessionFactory->getSession());
 				$gui->setTestTabs($this->getTabsManager());
 				$gui->setObjectiveParent($this->getObjectiveOrientedContainer());
 				

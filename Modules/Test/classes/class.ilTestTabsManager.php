@@ -379,8 +379,7 @@ class ilTestTabsManager
 		if ($DIC->ctrl()->getCmdClass() == 'iltestevaluationgui')
 		{
 			return in_array($DIC->ctrl()->getCmd(), array(
-				'outParticipantsResultsOverview', 'outEvaluation',
-				'eval_a', 'singleResults', 'detailedEvaluation'
+				'', 'outEvaluation', 'eval_a', 'singleResults', 'detailedEvaluation'
 			));
 		}
 		
@@ -421,7 +420,6 @@ class ilTestTabsManager
 			case "outCorrectSolution":
 			case "passDetails":
 			case "showAnswersOfUser":
-			case "outUserResultsOverview":
 			case "backFromSummary":
 			case "show_answers":
 			case "setsolved":
@@ -977,7 +975,7 @@ class ilTestTabsManager
 		
 		if( $this->needsMyResultsSubTab() )
 		{
-			return $DIC->ctrl()->getLinkTargetByClass(array('ilTestResultsGUI', 'ilMyTestResultsGUI'));
+			return $DIC->ctrl()->getLinkTargetByClass(array('ilTestResultsGUI', 'ilMyTestResultsGUI', 'ilTestEvaluationGUI'));
 		}
 		
 		return '';
@@ -1053,7 +1051,7 @@ class ilTestTabsManager
 			$this->tabs->addSubTab(
 				self::SUBTAB_ID_MY_RESULTS,
 				$DIC->language()->txt('tst_show_results'),
-				$DIC->ctrl()->getLinkTargetByClass(array('ilTestResultsGUI', 'ilMyTestResultsGUI'))
+				$DIC->ctrl()->getLinkTargetByClass(array('ilTestResultsGUI', 'ilMyTestResultsGUI', 'ilTestEvaluationGUI'))
 				// 'ilTestEvaluationGUI' => 'outUserResultsOverview'
 			);
 		}

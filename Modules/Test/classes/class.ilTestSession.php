@@ -631,4 +631,25 @@ class ilTestSession
 		
 		return $this->reportableResultsAvailable;
 	}
+	
+	/**
+	 * @return bool
+	 */
+	public function hasSinglePassReportable(ilObjTest $testObj)
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
+		$testPassesSelector = new ilTestPassesSelector($DIC->database(), $testObj);
+		$testPassesSelector->setActiveId($this->getActiveId());
+		$testPassesSelector->setLastFinishedPass($this->getLastFinishedPass());
+		
+		if( count($testPassesSelector->getReportablePasses()) == 1 )
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
 }
