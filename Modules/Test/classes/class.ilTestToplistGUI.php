@@ -81,10 +81,32 @@ class ilTestToplistGUI
 	
 	protected function showResultsToplistsCmd()
 	{
-		$html = $this->renderResultsToplistByScore();
+		$html = $this->renderMedianMarkPanel();
+		$html .= $this->renderResultsToplistByScore();
 		$html .= $this->renderResultsToplistByTime();
 		
 		$this->tpl->setVariable("ADM_CONTENT", $html);
+	}
+	
+	protected function renderMedianMarkPanel()
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$title = $DIC->language()->txt('tst_median_mark_panel');
+		
+		// BH: this really is the "mark of median" ??!
+		$activeId = $this->object->getActiveIdOfUser($DIC->user()->getId());
+		$data = $this->object->getCompleteEvaluationData();
+		$median = $data->getStatistics()->getStatistics()->median();
+		$pct    = $data->getParticipant($activeId)->getMaxpoints() ? ($median / $data->getParticipant($activeId)->getMaxpoints()) * 100.0 : 0;
+		$mark   = $this->object->mark_schema->getMatchingMark($pct);
+		$content = $mark->getShortName();
+		
+		$panel = $DIC->ui()->factory()->panel()->standard(
+			$title, $DIC->ui()->factory()->legacy($content)
+		);
+		
+		return $DIC->ui()->renderer()->render($panel);
 	}
 	
 	protected function renderResultsToplistByScore()
