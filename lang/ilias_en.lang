@@ -1036,7 +1036,7 @@ assessment#:#tst_introduction#:#Introductory Message
 assessment#:#tst_introduction_desc#:#Shows an introductory message on the tab ‘Info’ of the test. This text is accessible already before the test can be started.
 assessment#:#tst_invited_nobody#:#No users, groups or roles have been added as fixed test participants
 assessment#:#tst_invited_selected_users#:#The selected users have been added as fixed test participants
-assessment#:#tst_list_of_answers_show#:#Show List of Answers
+assessment#:#tst_list_of_answers_show#:#Review of Scored Answers
 assessment#:#tst_list_of_answers#:#List of Answers
 assessment#:#tst_list_of_questions_end#:#Show before a participant finishes the test
 assessment#:#tst_list_of_questions_start#:#Show prior to the first question

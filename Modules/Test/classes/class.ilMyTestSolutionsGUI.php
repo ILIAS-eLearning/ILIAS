@@ -3,22 +3,22 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Class ilMyTestResultsGUI
+ * Class ilMyTestSolutionsGUI
  *
  * @author    Björn Heyser <info@bjoernheyser.de>
  * @version    $Id$
  *
  * @package    Modules/Test
  * 
- * @ilCtrl_Calls ilMyTestResultsGUI: ilTestEvaluationGUI
- * @ilCtrl_Calls ilMyTestResultsGUI: ilAssQuestionPageGUI
+ * @ilCtrl_Calls ilMyTestSolutionsGUI: ilTestEvaluationGUI
+ * @ilCtrl_Calls ilMyTestSolutionsGUI: ilAssQuestionPageGUI
  */
-class ilMyTestResultsGUI
+class ilMyTestSolutionsGUI
 {
 	/**
 	 * command constants
 	 */
-	const EVALGUI_CMD_SHOW_PASS_OVERVIEW = 'outUserResultsOverview';
+	const EVALGUI_CMD_SHOW_PASS_OVERVIEW = 'outUserListOfAnswerPasses';
 	
 	/**
 	 * @var ilObjTest
@@ -29,11 +29,6 @@ class ilMyTestResultsGUI
 	 * @var ilTestAccess
 	 */
 	protected $testAccess;
-	
-	/**
-	 * @var ilTestSession
-	 */
-	protected $testSession;
 	
 	/**
 	 * @var ilTestObjectiveOrientedContainer
@@ -73,22 +68,6 @@ class ilMyTestResultsGUI
 	}
 	
 	/**
-	 * @return ilTestSession
-	 */
-	public function getTestSession()
-	{
-		return $this->testSession;
-	}
-	
-	/**
-	 * @param ilTestSession $testSession
-	 */
-	public function setTestSession($testSession)
-	{
-		$this->testSession = $testSession;
-	}
-	
-	/**
 	 * @return ilTestObjectiveOrientedContainer
 	 */
 	public function getObjectiveParent()
@@ -103,7 +82,7 @@ class ilMyTestResultsGUI
 	{
 		$this->objectiveParent = $objectiveParent;
 	}
-	
+
 	/**
 	 * Execute Command
 	 */
@@ -125,7 +104,7 @@ class ilMyTestResultsGUI
 				$gui->setTestAccess($this->getTestAccess());
 				$DIC->ctrl()->forwardCommand($gui);
 				break;
-				
+			
 			case 'ilassquestionpagegui':
 				require_once 'Modules/Test/classes/class.ilAssQuestionPageCommandForwarder.php';
 				$forwarder = new ilAssQuestionPageCommandForwarder();

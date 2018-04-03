@@ -584,17 +584,6 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 					$this->addInfoMessage($executable['errormessage']);
 				}
 			}
-			if ($this->getTestSession()->getActiveId() > 0)
-			{
-				if ($this->getTestOBJ()->canShowSolutionPrintview($this->getTestSession()->getUserId()))
-				{
-					$btn = ilLinkButton::getInstance();
-					$btn->setCaption('tst_list_of_answers_show');
-					$btn->setUrl($this->buildLinkTarget('ilTestEvaluationGUI',  'outUserListOfAnswerPasses'));
-					$btn->setPrimary(false);
-					$this->addButtonInstance($btn);
-				}
-			}
 
 			if( $this->isDeleteDynamicTestResultsButtonRequired() )
 			{

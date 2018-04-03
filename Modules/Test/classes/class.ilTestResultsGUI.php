@@ -12,6 +12,7 @@
  * 
  * @ilCtrl_Calls ilTestResultsGUI: ilParticipantsTestResultsGUI
  * @ilCtrl_Calls ilTestResultsGUI: ilMyTestResultsGUI
+ * @ilCtrl_Calls ilTestResultsGUI: ilMyTestSolutionsGUI
  * @ilCtrl_Calls ilTestResultsGUI: ilTestToplistGUI
  * @ilCtrl_Calls ilTestResultsGUI: ilTestSkillEvaluationGUI
  */
@@ -192,6 +193,18 @@ class ilTestResultsGUI
 				$gui->setTestObj($this->getTestObj());
 				$gui->setTestAccess($this->getTestAccess());
 				$gui->setTestSession($this->getTestSession());
+				$gui->setObjectiveParent($this->getObjectiveParent());
+				$DIC->ctrl()->forwardCommand($gui);
+				break;
+			
+			case 'ilmytestsolutionsgui':
+				
+				$this->getTestTabs()->activateSubTab(ilTestTabsManager::SUBTAB_ID_MY_SOLUTIONS);
+				
+				require_once 'Modules/Test/classes/class.ilMyTestSolutionsGUI.php';
+				$gui = new ilMyTestSolutionsGUI();
+				$gui->setTestObj($this->getTestObj());
+				$gui->setTestAccess($this->getTestAccess());
 				$gui->setObjectiveParent($this->getObjectiveParent());
 				$DIC->ctrl()->forwardCommand($gui);
 				break;

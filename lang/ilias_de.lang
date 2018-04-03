@@ -1173,7 +1173,7 @@ assessment#:#tst_invited_nobody#:#Es wurden keine Benutzer, Gruppen oder Rollen 
 assessment#:#tst_invited_selected_users#:#Die ausgewählten Benutzer wurden als feste Teilnehmer hinzugefügt
 assessment#:#tst_link_only_unassigned#:#Sie haben mindestens eine Frage ausgewählt, die bereits einem Fragepool zugeordnet ist. Nur Fragen, die keinem Fragenpool zugeordnet sind, können einem Fragenpool hinzugefügt werden. Bitte treffen Sie eine neue Auswahl.
 assessment#:#tst_list_of_answers#:#Liste der Antworten
-assessment#:#tst_list_of_answers_show#:#Liste der Antworten anzeigen
+assessment#:#tst_list_of_answers_show#:#Bewertete Antworten
 assessment#:#tst_list_of_questions_end#:#Vor dem Ende des Test anzeigen
 assessment#:#tst_list_of_questions_start#:#Noch vor der ersten Frage anzeigen
 assessment#:#tst_list_of_questions_with_description#:#Fragenbeschreibungen anzeigen

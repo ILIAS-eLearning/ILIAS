@@ -22,6 +22,7 @@ class ilTestTabsManager
 	const SUBTAB_ID_MY_RESULTS = 'myresults';
 	const SUBTAB_ID_HIGHSCORE = 'highscore';
 	const SUBTAB_ID_SKILL_RESULTS = 'skillresults';
+	const SUBTAB_ID_MY_SOLUTIONS = 'mysolutions';
 	
 	/**
 	 * @var ilTabsGUI
@@ -113,6 +114,7 @@ class ilTestTabsManager
 			case self::SUBTAB_ID_MY_RESULTS:
 			case self::SUBTAB_ID_HIGHSCORE:
 			case self::SUBTAB_ID_SKILL_RESULTS:
+			case self::SUBTAB_ID_MY_SOLUTIONS:
 				
 				$this->tabs->activateSubTab($subTabId);
 		}
@@ -379,7 +381,7 @@ class ilTestTabsManager
 		if ($DIC->ctrl()->getCmdClass() == 'iltestevaluationgui')
 		{
 			return in_array($DIC->ctrl()->getCmd(), array(
-				'', 'outEvaluation', 'eval_a', 'singleResults', 'detailedEvaluation'
+				'', 'outUserResultsPassOverview', 'outUserListOfAnswerPasses', 'outEvaluation', 'eval_a', 'singleResults', 'detailedEvaluation'
 			));
 		}
 		
@@ -536,7 +538,7 @@ class ilTestTabsManager
 			$this->tabs->addTarget("info_short",
 				$DIC->ctrl()->getLinkTargetByClass('ilObjTestGUI','infoScreen'),
 				array("infoScreen", "outIntroductionPage", "showSummary",
-					"setAnonymousId", "outUserListOfAnswerPasses", "redirectToInfoScreen"));
+					"setAnonymousId", "redirectToInfoScreen"));
 		}
 		
 		// settings tab
@@ -1033,6 +1035,16 @@ class ilTestTabsManager
 		return $this->getTestOBJ()->isSkillServiceToBeConsidered();
 	}
 	
+	public function needsMySolutionsSubTab()
+	{
+		if( !$this->needsMyResultsSubTab() )
+		{
+			return false;
+		}
+		
+		return $this->getTestOBJ()->canShowSolutionPrintview($this->getTestSession()->getUserId());
+	}
+	
 	public function getResultsSubTabs()
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
@@ -1071,6 +1083,15 @@ class ilTestTabsManager
 				self::SUBTAB_ID_HIGHSCORE,
 				$DIC->language()->txt('tst_show_toplist'),
 				$DIC->ctrl()->getLinkTargetByClass(array('ilTestResultsGUI', 'ilTestToplistGUI'), 'outResultsToplist')
+			);
+		}
+		
+		if( $this->needsMySolutionsSubTab() )
+		{
+			$this->tabs->addSubTab(
+				self::SUBTAB_ID_MY_SOLUTIONS,
+				$DIC->language()->txt('tst_list_of_answers_show'),
+				$DIC->ctrl()->getLinkTargetByClass(array('ilTestResultsGUI', 'ilMyTestSolutionsGUI', 'ilTestEvaluationGUI'))
 			);
 		}
 	}
