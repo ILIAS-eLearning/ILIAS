@@ -841,7 +841,22 @@ class ilInitialisation
 		
 		$script = "login.php?target=".$_GET["target"]."&client_id=".$_COOKIE["ilClientId"].
 			"&auth_stat=".$a_auth_stat;
-					
+
+		//cat-tms-patch start
+		$url = $_SERVER["REQUEST_URI"];
+		$query = parse_url($url, PHP_URL_QUERY);
+		parse_str($query, $params);
+		if(
+			$params['cmd'] === 'start' &&
+			$params['cmdClass'] === 'iltmsselfbookinggui' &&
+			$params['baseClass'] === 'ilpersonaldesktopgui' &&
+			array_key_exists('crs_ref_id', $params)
+		) {
+			ilUtil::setCookie("_redirect_booking", serialize($params));
+		}
+		//cat-tms-patch end
+
+
 		self::redirect(
 			$script, 
 			"init_error_authentication_fail",
@@ -1803,7 +1818,18 @@ class ilInitialisation
 			return true;
 		}
 
-		// for password change and incomplete profile 
+
+		//cat-tms-patch start
+		if($_COOKIE["_redirect_booking"] && !is_null($_COOKIE["_redirect_booking"])) {
+			$params = unserialize($_COOKIE["_redirect_booking"]);
+			ilUtil::setCookie('_redirect_booking', null);
+			$url = 'ilias.php?' .http_build_query($params);
+			ilUtil::redirect($url);
+		}
+		//cat-tms-patch end
+
+
+		// for password change and incomplete profile
 		// see ilPersonalDesktopGUI
 		if(!$_GET["target"])
 		{	
