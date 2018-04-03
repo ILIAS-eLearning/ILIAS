@@ -297,50 +297,54 @@ class ilForumMailNotification extends ilMailNotification
 	}
 
 	/**
-	 * @param $subject - Language id of subject
-	 * @param $rcp - recipient
-	 * @param $customText - mail text after salutation
-	 * @param $action - Language id of action
-	 * @param null $date - date to be added in mail
+	 * Add body and send mail with attachments
+	 *
+	 * @param string $subject - Language id of subject
+	 * @param int $userId - id of the user recipient of the mail
+	 * @param string $customText - mail text after salutation
+	 * @param string $action - Language id of action
+	 * @param string|null $date - date to be added in mail
 	 */
-	private function addBodyToMailWithAttachments($subject, $rcp, $customText, $action, $date = null)
+	private function addBodyToMailWithAttachments($subject, $userId, $customText, $action, $date = null)
 	{
-		$this->addMailBody($subject, $rcp, $customText, $action, $date);
+		$this->addMailBody($subject, $userId, $customText, $action, $date);
 		$this->appendAttachments();
 		$this->addLinkToMail();
-		$this->sendMail(array($rcp), array('system'));
+		$this->sendMail(array($userId), array('system'));
 	}
 
 	/**
-	 * @param $subject - Language id of subject
-	 * @param $rcp - recipient
-	 * @param $customText - mail text after salutation
-	 * @param $action - Language id of action
-	 * @param null $date - date to be added in mail
+	 * Add body and send mail without attachments
+	 *
+	 * @param string $subject - Language id of subject
+	 * @param int $userId - id of the user recipient of the mail
+	 * @param string $customText - mail text after salutation
+	 * @param string $action - Language id of action
+	 * @param string|null $date - date to be added in mail
 	 */
-	private function addBodyToMailWithoutAttachments($subject, $rcp, $customText, $action, $date = null)
+	private function addBodyToMailWithoutAttachments($subject, $userId, $customText, $action, $date = null)
 	{
-		$this->addMailBody($subject, $rcp, $customText, $action, $date);
+		$this->addMailBody($subject, $userId, $customText, $action, $date);
 		$this->addLinkToMail();
-		$this->sendMail(array($rcp), array('system'));
+		$this->sendMail(array($userId), array('system'));
 	}
 
 	/**
 	 * @internal
 	 *
-	 * @param $subject - Language id of subject
-	 * @param $rcp - recipient
-	 * @param $customText - mail text after salutation
-	 * @param $action - Language id of action
-	 * @param null $date - date to be added in mail
+	 * @param string $subject - Language id of subject
+	 * @param int $userId - id of the user recipient of the mail
+	 * @param string $customText - mail text after salutation
+	 * @param string $action - Language id of action
+	 * @param string|null $date - date to be added in mail
 	 */
-	private function addMailBody($subject, $rcp, $customText, $action, $date)
+	private function addMailBody($subject, $userId, $customText, $action, $date)
 	{
 		$date = $this->createMailDate($date);
 
 		$this->addMailSubject($subject);
 
-		$this->setBody(ilMail::getSalutation($rcp, $this->getLanguage()));
+		$this->setBody(ilMail::getSalutation($userId, $this->getLanguage()));
 		$this->appendBody("\n\n");
 		$this->appendBody($customText);
 		$this->appendBody("\n\n");
@@ -372,7 +376,7 @@ class ilForumMailNotification extends ilMailNotification
 
 	/**
 	 * @internal
-	 * @param $subject
+	 * @param string $subject
 	 */
 	private function addMailSubject($subject)
 	{
@@ -387,7 +391,8 @@ class ilForumMailNotification extends ilMailNotification
 
 	/**
 	 * @internal
-	 * @param $date
+	 *
+	 * @param string $date
 	 * @return string
 	 */
 	private function createMailDate($date)
