@@ -154,16 +154,13 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 			$this->addColumn($this->lng->txt("clientip"),'clientip', '');
 		}
 		
-		if( $this->isAccessResultsCommandsEnabled() )
-		{
-			$this->addColumn($this->lng->txt("tst_started"),'started', '');
-			$this->addColumn($this->lng->txt("tst_nr_of_tries_of_user"),'tries', '');
-			
-			$this->addColumn($this->lng->txt("unfinished_passes"),'unfinished_passes', '');
-			$this->addColumn($this->lng->txt("tst_finished"),'finished', '');
-			
-			$this->addColumn($this->lng->txt("last_access"),'access', '');
-		}
+		$this->addColumn($this->lng->txt("tst_started"),'started', '');
+		$this->addColumn($this->lng->txt("tst_nr_of_tries_of_user"),'tries', '');
+		
+		$this->addColumn($this->lng->txt("unfinished_passes"),'unfinished_passes', '');
+		$this->addColumn($this->lng->txt("tst_finished"),'finished', '');
+		
+		$this->addColumn($this->lng->txt("last_access"),'access', '');
 		
 		if( $this->isActionsColumnRequired() )
 		{
@@ -249,15 +246,12 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("LOGIN", $data['login']);
 		$this->tpl->setVariable("FULLNAME", $data['name']);
 		
-		if( $this->isAccessResultsCommandsEnabled() )
-		{
-			$this->tpl->setVariable("STARTED", ($data['started']) ? $this->buildOkIcon() : '');
-			$this->tpl->setVariable("TRIES", $this->fetchTriesValue($data));
-			$this->tpl->setVariable("UNFINISHED_PASSES", $this->buildUnfinishedPassesStatusString($data));
-			
-			$this->tpl->setVariable("FINISHED", ($data['finished']) ? $this->buildOkIcon() : '');
-			$this->tpl->setVariable("ACCESS", $this->buildFormattedAccessDate($data));
-		}
+		$this->tpl->setVariable("STARTED", ($data['started']) ? $this->buildOkIcon() : '');
+		$this->tpl->setVariable("TRIES", $this->fetchTriesValue($data));
+		$this->tpl->setVariable("UNFINISHED_PASSES", $this->buildUnfinishedPassesStatusString($data));
+		
+		$this->tpl->setVariable("FINISHED", ($data['finished']) ? $this->buildOkIcon() : '');
+		$this->tpl->setVariable("ACCESS", $this->buildFormattedAccessDate($data));
 	}
 	
 	/**

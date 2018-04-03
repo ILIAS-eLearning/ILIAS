@@ -121,7 +121,7 @@ class ilTestParticipantsGUI
 			ilObjTestGUI::accessViolationRedirect();
 		}
 		
-		$this->getTestTabs()->activateTab(ilTestTabsManager::TAB_ID_PARTICIPANTS);
+		$this->getTestTabs()->activateTab(ilTestTabsManager::TAB_ID_EXAM_DASHBOARD);
 		$this->getTestTabs()->getParticipantsSubTabs();
 		
 		switch( $DIC->ctrl()->getNextClass() )

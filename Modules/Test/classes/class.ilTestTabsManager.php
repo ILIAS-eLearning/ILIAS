@@ -24,7 +24,7 @@ class ilTestTabsManager
 	const TAB_ID_EXPORT = 'export';
 	const TAB_ID_PERMISSIONS = 'perm_settings';
 	
-	const TAB_ID_PARTICIPANTS = 'participants';
+	const TAB_ID_EXAM_DASHBOARD = 'dashboard_tab';
 	const SUBTAB_ID_FIXED_PARTICIPANTS = 'fixedparticipants';
 	const SUBTAB_ID_TIME_EXTENSION = 'timeextension';
 	
@@ -104,7 +104,7 @@ class ilTestTabsManager
 	{
 		switch($tabId)
 		{
-			case self::TAB_ID_PARTICIPANTS:
+			case self::TAB_ID_EXAM_DASHBOARD:
 			case self::TAB_ID_RESULTS:
 				
 				$this->tabs->activateTab($tabId);
@@ -600,8 +600,8 @@ class ilTestTabsManager
 		if( $this->needsParticipantsTab() )
 		{
 			// participants
-			$this->tabs->addTab(self::TAB_ID_PARTICIPANTS,
-				$DIC->language()->txt('participants'), $this->getParticipantsTabTarget()
+			$this->tabs->addTab(self::TAB_ID_EXAM_DASHBOARD,
+				$DIC->language()->txt('dashboard_tab'), $this->getParticipantsTabTarget()
 			);
 		}
 		
@@ -880,7 +880,7 @@ class ilTestTabsManager
 	 */
 	protected function needsParticipantsTab()
 	{
-		if( $this->isHiddenTab(self::TAB_ID_PARTICIPANTS) )
+		if( $this->isHiddenTab(self::TAB_ID_EXAM_DASHBOARD) )
 		{
 			return false;
 		}

@@ -776,6 +776,7 @@ assessment#:#output#:#Output
 assessment#:#participants_invitation_description#:#This test can only be accessed by users you have manually added in tab ‘Participants’.
 assessment#:#participants_invitation#:#Manually Selected Participants
 assessment#:#participants#:#Participants
+assessment#:#dashboard_tab#:#Exam Dashboard
 assessment#:#pass_finished#:#%s pass
 assessment#:#pass#:#Pass
 assessment#:#tst_attempt#:#Attempt
