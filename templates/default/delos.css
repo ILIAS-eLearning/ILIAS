@@ -6778,7 +6778,12 @@ button.close {
   font-weight: 100;
 }
 .il-glyphicon-like,
-.il-glyphicon-love {
+.il-glyphicon-love,
+.il-glyphicon-dislike:before,
+.il-glyphicon-laugh:before,
+.il-glyphicon-astounded:before,
+.il-glyphicon-sad:before,
+.il-glyphicon-angry:before {
   font-family: "Open Sans Emoji";
 }
 .il-glyphicon-like:before {
@@ -6786,6 +6791,21 @@ button.close {
 }
 .il-glyphicon-love:before {
   content: "\2764";
+}
+.il-glyphicon-dislike:before {
+  content: "\1f44e";
+}
+.il-glyphicon-laugh:before {
+  content: "\1f604";
+}
+.il-glyphicon-astounded:before {
+  content: "\1f62e";
+}
+.il-glyphicon-sad:before {
+  content: "\1f625";
+}
+.il-glyphicon-angry:before {
+  content: "\1f620";
 }
 .il-panel-report .thumbnail {
   margin-bottom: 0;
