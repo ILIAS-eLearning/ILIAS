@@ -46,6 +46,8 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		$tpl = $DIC->ui()->mainTemplate();
 		
+		$DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_MANUAL_SCORING);
+		
 		include_once 'Services/jQuery/classes/class.iljQueryUtil.php';
 		iljQueryUtil::initjQuery();
 

@@ -625,6 +625,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		{
 			ilObjTestGUI::accessViolationRedirect();
 		}
+		
+		$DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_STATISTICS);
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_anonymous_aggregation.html", "Modules/Test");
 
@@ -1705,6 +1707,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$this->object->setAccessFilteredParticipantList(
 			$this->object->buildStatisticsAccessFilteredParticipantList()
 		);
+		
+		$DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_STATISTICS);
 		
 		$data =& $this->object->getCompleteEvaluationData();
 		$color_class = array("tblrow1", "tblrow2");

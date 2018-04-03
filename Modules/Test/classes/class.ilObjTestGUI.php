@@ -206,6 +206,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 				$this->prepareOutput();
 				$this->addHeaderAction();
+				$DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_EXPORT);
 				require_once 'Modules/Test/classes/class.ilTestExportGUI.php';
 				$ilCtrl->forwardCommand(new ilTestExportGUI($this));
 				break;
@@ -223,6 +224,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 				$this->prepareOutput();
 				$this->addHeaderAction();
+				$DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_META_DATA);
 				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
 				$md_gui = new ilObjectMetaDataGUI($this->object);	
 				$this->ctrl->forwardCommand($md_gui);
@@ -310,6 +312,7 @@ class ilObjTestGUI extends ilObjectGUI
 			case 'ilpermissiongui':
 				$this->prepareOutput();
 				$this->addHeaderAction();
+				$DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_PERMISSIONS);
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
 				$ret      = $this->ctrl->forwardCommand($perm_gui);
@@ -318,6 +321,7 @@ class ilObjTestGUI extends ilObjectGUI
 			case "illearningprogressgui":
 				$this->prepareOutput();
 				$this->addHeaderAction();
+				$DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_LEARNING_PROGRESS);
 				require_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
 				$new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY, $this->object->getRefId());
 				$this->ctrl->forwardCommand($new_gui);
@@ -2244,6 +2248,10 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function historyObject()
 	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_HISTORY);
+		
 		include_once "./Modules/Test/classes/tables/class.ilTestHistoryTableGUI.php";
 		$table_gui = new ilTestHistoryTableGUI($this, 'history');
 		$table_gui->setTestObject($this->object);
@@ -2522,6 +2530,10 @@ class ilObjTestGUI extends ilObjectGUI
 			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$this->ctrl->redirect($this, "infoScreen");
 		}
+		
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_SETTINGS);
 
 		$ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'addDefaults'));
 		$ilToolbar->addFormButton($this->lng->txt('add'), 'addDefaults');
@@ -2714,6 +2726,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function infoScreen($session_lock = "")
 	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		/**
 		 * @var $ilAccess  ilAccessHandler
 		 * @var $ilUser    ilObjUser
@@ -2734,6 +2747,8 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
+		
+		$DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_INFOSCREEN);
 		
 		$this->trackTestObjectReadEvent();
 
@@ -2970,6 +2985,10 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function certificateObject()
 	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_SETTINGS);
+
 		include_once "./Services/Certificate/classes/class.ilCertificateGUI.php";
 		include_once "./Modules/Test/classes/class.ilTestCertificateAdapter.php";
 		$output_gui = new ilCertificateGUI(new ilTestCertificateAdapter($this->object));

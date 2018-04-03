@@ -13,6 +13,17 @@ class ilTestTabsManager
 	 * (Sub-)Tab ID constants
 	 */
 	
+	const TAB_ID_INFOSCREEN = 'info_short';
+	const TAB_ID_SETTINGS = 'settings';
+	const TAB_ID_LEARNING_PROGRESS = 'learning_progress';
+	const TAB_ID_MANUAL_SCORING = 'manscoring';
+	const TAB_ID_CORRECTION = 'scoringadjust';
+	const TAB_ID_STATISTICS = 'statistics';
+	const TAB_ID_HISTORY = 'history';
+	const TAB_ID_META_DATA = 'meta_data';
+	const TAB_ID_EXPORT = 'export';
+	const TAB_ID_PERMISSIONS = 'perm_settings';
+	
 	const TAB_ID_PARTICIPANTS = 'participants';
 	const SUBTAB_ID_FIXED_PARTICIPANTS = 'fixedparticipants';
 	const SUBTAB_ID_TIME_EXTENSION = 'timeextension';
@@ -601,15 +612,15 @@ class ilTestTabsManager
 			);
 		}
 		
-		if($this->isLpAccessGranted() && !$this->isHiddenTab('learning_progress'))
+		if($this->isLpAccessGranted() && !$this->isHiddenTab(self::TAB_ID_LEARNING_PROGRESS))
 		{
-			$this->tabs->addTarget('learning_progress',
+			$this->tabs->addTarget(self::TAB_ID_LEARNING_PROGRESS,
 				$DIC->ctrl()->getLinkTargetByClass(array('illearningprogressgui'),''),
 				'',
 				array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
 		}
 		
-		if( $this->checkScoreParticipantsTabAccess()  && !$this->isHiddenTab('manscoring') )
+		if( $this->checkScoreParticipantsTabAccess()  && !$this->isHiddenTab(self::TAB_ID_MANUAL_SCORING) )
 		{
 			include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
 			$scoring = ilObjAssessmentFolder::_getManualScoring();
@@ -617,7 +628,7 @@ class ilTestTabsManager
 			{
 				// scoring tab
 				$this->tabs->addTarget(
-					"manscoring", $DIC->ctrl()->getLinkTargetByClass('ilTestScoringByQuestionsGUI', 'showManScoringByQuestionParticipantsTable'),
+					self::TAB_ID_MANUAL_SCORING, $DIC->ctrl()->getLinkTargetByClass('ilTestScoringByQuestionsGUI', 'showManScoringByQuestionParticipantsTable'),
 					array(
 						'showManScoringParticipantsTable', 'applyManScoringParticipantsFilter', 'resetManScoringParticipantsFilter', 'showManScoringParticipantScreen',
 						'showManScoringByQuestionParticipantsTable', 'applyManScoringByQuestionFilter', 'resetManScoringByQuestionFilter', 'saveManScoringByQuestion'
@@ -634,7 +645,7 @@ class ilTestTabsManager
 		{
 			// scoring tab
 			$this->tabs->addTarget(
-				"scoringadjust", $DIC->ctrl()->getLinkTargetByClass('ilScoringAdjustmentGUI', 'showquestionlist'),
+				self::TAB_ID_CORRECTION, $DIC->ctrl()->getLinkTargetByClass('ilScoringAdjustmentGUI', 'showquestionlist'),
 				array(
 					'showquestionlist',
 					'savescoringfortest',
@@ -643,11 +654,11 @@ class ilTestTabsManager
 			);
 		}
 		
-		if ($this->checkStatisticsTabAccess()  && !$this->isHiddenTab('statistics'))
+		if ($this->checkStatisticsTabAccess()  && !$this->isHiddenTab(self::TAB_ID_STATISTICS))
 		{
 			// statistics tab
 			$this->tabs->addTarget(
-				"statistics",
+				self::TAB_ID_STATISTICS,
 				$DIC->ctrl()->getLinkTargetByClass("iltestevaluationgui", "eval_a"),
 				array(
 					"statistics", "outEvaluation", "exportEvaluation", "detailedEvaluation", "eval_a", "evalUserDetail",
@@ -659,32 +670,32 @@ class ilTestTabsManager
 		
 		if ($this->isWriteAccessGranted())
 		{
-			if (!$this->isHiddenTab('history')) {
+			if (!$this->isHiddenTab(self::TAB_ID_HISTORY)) {
 				
 				// history
-				$this->tabs->addTarget("history",
+				$this->tabs->addTarget(self::TAB_ID_HISTORY,
 					$DIC->ctrl()->getLinkTargetByClass('ilObjTestGUI','history'),
 					"history", "");
 			}
 			
-			if (!$this->isHiddenTab('meta_data')) {
+			if (!$this->isHiddenTab(self::TAB_ID_META_DATA)) {
 				// meta data
 				include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
 				$mdgui = new ilObjectMetaDataGUI($this->getTestOBJ());
 				$mdtab = $mdgui->getTab();
 				if($mdtab)
 				{
-					$this->tabs->addTarget("meta_data",
+					$this->tabs->addTarget(self::TAB_ID_META_DATA,
 						$mdtab,
 						"", "ilmdeditorgui");
 				}
 			}
 			
-			if(!$this->isHiddenTab('export'))
+			if(!$this->isHiddenTab(self::TAB_ID_EXPORT))
 			{
 				// export tab
 				$this->tabs->addTarget(
-					"export",
+					self::TAB_ID_EXPORT,
 					$DIC->ctrl()->getLinkTargetByClass('iltestexportgui' ,''),
 					'',
 					array('iltestexportgui')
@@ -692,9 +703,9 @@ class ilTestTabsManager
 			}
 		}
 		
-		if ($this->isPermissionsAccessGranted() && !$this->isHiddenTab('permissions'))
+		if ($this->isPermissionsAccessGranted() && !$this->isHiddenTab(self::TAB_ID_PERMISSIONS))
 		{
-			$this->tabs->addTarget("perm_settings",
+			$this->tabs->addTarget(self::TAB_ID_PERMISSIONS,
 				$DIC->ctrl()->getLinkTargetByClass(array('ilObjTestGUI','ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 		

@@ -118,6 +118,8 @@ class ilTestScoringGUI extends ilTestServiceGUI
 	*/
 	function executeCommand()
 	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
 		if( !$this->getTestAccess()->checkScoreParticipantsAccess() )
 		{
 			ilObjTestGUI::accessViolationRedirect();
@@ -131,6 +133,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
 		}
 		
+		$DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_MANUAL_SCORING);
 		$this->buildSubTabs($this->getActiveSubTabId());
 		
 		$nextClass = $this->ctrl->getNextClass($this);

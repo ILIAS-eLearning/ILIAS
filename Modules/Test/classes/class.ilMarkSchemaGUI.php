@@ -59,6 +59,10 @@ class ilMarkSchemaGUI
 	 */
 	public function executeCommand()
 	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_SETTINGS);
+		
 		$cmd = $this->ctrl->getCmd('showMarkSchema');
 		$this->$cmd();
 	}
