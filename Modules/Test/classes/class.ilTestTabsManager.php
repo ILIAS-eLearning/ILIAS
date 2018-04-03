@@ -648,7 +648,7 @@ class ilTestTabsManager
 			// statistics tab
 			$this->tabs->addTarget(
 				"statistics",
-				$DIC->ctrl()->getLinkTargetByClass("iltestevaluationgui", "outEvaluation"),
+				$DIC->ctrl()->getLinkTargetByClass("iltestevaluationgui", "eval_a"),
 				array(
 					"statistics", "outEvaluation", "exportEvaluation", "detailedEvaluation", "eval_a", "evalUserDetail",
 					"passDetails", "outStatisticsResultsOverview", "statisticsPassDetails", "singleResults"
@@ -795,11 +795,11 @@ class ilTestTabsManager
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
 		// user results subtab
-		$this->tabs->addSubTabTarget("eval_all_users",
+		/*$this->tabs->addSubTabTarget("eval_all_users",
 			$DIC->ctrl()->getLinkTargetByClass("iltestevaluationgui", "outEvaluation"),
 			array("outEvaluation", "detailedEvaluation", "exportEvaluation", "evalUserDetail", "passDetails",
 				"outStatisticsResultsOverview", "statisticsPassDetails")
-			, "");
+			, "");*/
 		
 		// aggregated results subtab
 		$this->tabs->addSubTabTarget("tst_results_aggregated",

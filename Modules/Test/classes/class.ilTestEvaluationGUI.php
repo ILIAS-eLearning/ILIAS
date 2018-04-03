@@ -143,7 +143,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		array_push($headervars, "");
 		return $headervars;
 	}
-
+	
+	/**
+	 * @deprecated command is not used any longer
+	 */
 	public function filterEvaluation()
 	{
 		if( !$this->getTestAccess()->checkStatisticsAccess() )
@@ -156,7 +159,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$table_gui->writeFilterToSession();
 		$this->ctrl->redirect($this, "outEvaluation");
 	}
-
+	
+	/**
+	 * @deprecated command is not used any longer
+	 */
 	public function resetfilterEvaluation()
 	{
 		if( !$this->getTestAccess()->checkStatisticsAccess() )
@@ -172,6 +178,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 	/**
 	* Creates the evaluation output for the test
+	 * @deprecated command is not used any longer
 	*
 	* @access public
 	*/
@@ -362,6 +369,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	* Creates the detailed evaluation output for a selected participant
 	*
 	* Creates the detailed evaluation output for a selected participant
+	 * 
+	 * @deprecated command is not used any longer
 	*
 	* @access public
 	*/
