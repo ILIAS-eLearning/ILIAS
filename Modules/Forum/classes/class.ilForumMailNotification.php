@@ -128,33 +128,8 @@ class ilForumMailNotification extends ilMailNotification
 				foreach($this->getRecipients() as $rcp)
 				{
 					$this->initLanguage($rcp);
-					ilDatePresentation::setLanguage($this->language);
-
-					$this->initMail();
-
-					$this->setSubject(sprintf(
-						$this->getLanguageText('frm_noti_subject_del_thread'),
-						$this->provider->getForumTitle(),
-						$this->provider->getThreadTitle()
-					));
-
-					$this->addBodyToMail($rcp, 'thread_deleted_by', 'content_deleted_thread');
-
-					if($this->provider->getPostCensored() == 1)
-					{
-						$this->appendBody($this->provider->getCensorshipComment() . "\n");
-					}
-					else
-					{
-						$pos_message = $this->getSecurePostMessage();
-						$this->appendBody(strip_tags($pos_message) . "\n");
-					}
-					$this->appendBody("------------------------------------------------------------\n");
-
-					$this->appendBody($this->getPermanentLink(self::PERMANENT_LINK_FORUM));
-					$this->appendBody(ilMail::_getInstallationSignature());
-
-					$this->sendMail(array($rcp), array('system'));
+					$customText = sprintf($this->getLanguageText('thread_deleted_by'), $ilUser->getLogin(),  $this->provider->getForumTitle());
+					$this->addBodyToMailWithoutAttachments('frm_noti_subject_del_thread', $rcp, $customText, 'content_deleted_thread');
 				}
 				break;
 
@@ -162,36 +137,8 @@ class ilForumMailNotification extends ilMailNotification
 				foreach($this->getRecipients() as $rcp)
 				{
 					$this->initLanguage($rcp);
-					ilDatePresentation::setLanguage($this->language);
-
-					$this->initMail();
-
-					$this->setSubject(sprintf(
-						$this->getLanguageText('frm_noti_subject_new_post'),
-						$this->provider->getForumTitle(),
-						$this->provider->getThreadTitle()
-					));
-
-					$this->addBodyToMail($rcp, 'frm_noti_new_post', 'new_post');
-
-					if($this->provider->getPostCensored() == 1)
-					{
-						$this->appendBody($this->provider->getCensorshipComment() . "\n");
-					}
-					else
-					{
-						$pos_message = $this->getSecurePostMessage();
-						$this->appendBody(strip_tags($pos_message) . "\n");
-					}
-					$this->appendBody("------------------------------------------------------------\n");
-
-					$this->appendAttachments();
-
-					$this->appendBody($this->getPermanentLink());
-					$this->appendBody(ilMail::_getInstallationSignature());
-
-					$this->sendMail(array($rcp), array('system'));
-
+					$customText = sprintf($this->getLanguageText('frm_noti_new_post'), $this->provider->getForumTitle());
+					$this->addBodyToMailWithAttachments('frm_noti_subject_new_post', $rcp, $customText, 'new_post');
 				}
 				break;
 
@@ -199,35 +146,8 @@ class ilForumMailNotification extends ilMailNotification
 				foreach($this->getRecipients() as $rcp)
 				{
 					$this->initLanguage($rcp);
-					ilDatePresentation::setLanguage($this->language);
-
-					$this->initMail();
-
-					$this->setSubject(sprintf(
-						$this->getLanguageText('frm_noti_subject_act_post'),
-						$this->provider->getForumTitle(),
-						$this->provider->getThreadTitle()
-					));
-
-					$this->addBodyToMail($rcp, 'forums_post_activation_mail', 'new_post');
-
-					if($this->provider->getPostCensored() == 1)
-					{
-						$this->appendBody($this->provider->getCensorshipComment() . "\n");
-					}
-					else
-					{
-						$pos_message = $this->getSecurePostMessage();
-						$this->appendBody(strip_tags($pos_message) . "\n");
-					}
-					$this->appendBody("------------------------------------------------------------\n");
-
-					$this->appendAttachments();
-
-					$this->appendBody($this->getPermanentLink());
-					$this->appendBody(ilMail::_getInstallationSignature());
-
-					$this->sendMail(array($rcp), array('system'));
+					$customText = $this->getLanguageText('forums_post_activation_mail');
+					$this->addBodyToMailWithAttachments('frm_noti_subject_act_post', $rcp, $customText, 'new_post');
 				}
 				break;
 
@@ -235,36 +155,8 @@ class ilForumMailNotification extends ilMailNotification
 				foreach($this->getRecipients() as $rcp)
 				{
 					$this->initLanguage($rcp);
-					ilDatePresentation::setLanguage($this->language);
-
-					$this->initMail();
-
-					$this->setSubject(sprintf(
-						$this->getLanguageText('frm_noti_subject_answ_post'),
-						$this->provider->getForumTitle(),
-						$this->provider->getThreadTitle()
-					));
-
-					$this->addBodyToMail($rcp, 'forum_post_replied', 'new_post');
-
-					if($this->provider->getPostCensored() == 1)
-					{
-						$this->appendBody($this->provider->getCensorshipComment() . "\n");
-					}
-					else
-					{
-						$pos_message = $this->getSecurePostMessage();
-						$this->appendBody(strip_tags($pos_message) . "\n");
-					}
-					$this->appendBody("------------------------------------------------------------\n");
-
-					$this->appendAttachments();
-
-					$this->appendBody($this->getPermanentLink());
-					$this->appendBody(ilMail::_getInstallationSignature());
-
-					$this->sendMail(array($rcp), array('system'));
-
+					$customText = $this->getLanguageText('forum_post_replied');
+					$this->addBodyToMailWithAttachments('frm_noti_subject_answ_post', $rcp, $customText, 'new_post');
 				}
 				break;
 
@@ -272,35 +164,8 @@ class ilForumMailNotification extends ilMailNotification
 				foreach($this->getRecipients() as $rcp)
 				{
 					$this->initLanguage($rcp);
-					ilDatePresentation::setLanguage($this->language);
-
-					$this->initMail();
-
-					$this->setSubject(sprintf(
-						$this->getLanguageText('frm_noti_subject_upt_post'),
-						$this->provider->getForumTitle(),
-						$this->provider->getThreadTitle()
-					));
-
-					$this->addBodyToMail($rcp, 'post_updated_by', 'content_post_updated');
-
-					if($this->provider->getPostCensored() == 1)
-					{
-						$this->appendBody($this->provider->getCensorshipComment() . "\n");
-					}
-					else
-					{
-						$pos_message = $this->getSecurePostMessage();
-						$this->appendBody(strip_tags($pos_message) . "\n");
-					}
-					$this->appendBody("------------------------------------------------------------\n");
-
-					$this->appendAttachments();
-
-					$this->appendBody($this->getPermanentLink());
-					$this->appendBody(ilMail::_getInstallationSignature());
-
-					$this->sendMail(array($rcp), array('system'));
+					$customText = sprintf($this->getLanguageText('post_updated_by'), $this->provider->getPostUpdateUserName($this->getLanguage()), $this->provider->getForumTitle());
+					$this->addBodyToMailWithAttachments('frm_noti_subject_upt_post', $rcp, $customText, 'content_post_updated');
 				}
 				break;
 
@@ -308,65 +173,18 @@ class ilForumMailNotification extends ilMailNotification
 				foreach($this->getRecipients() as $rcp)
 				{
 					$this->initLanguage($rcp);
-					ilDatePresentation::setLanguage($this->language);
-
-					$this->initMail();
-
-					$this->setSubject(sprintf(
-						$this->getLanguageText('frm_noti_subject_cens_post'),
-						$this->provider->getForumTitle(),
-						$this->provider->getThreadTitle()
-					));
-
-					$this->addBodyToMail($rcp, 'post_censored_by', 'content_censored_post');
-
-					if($this->provider->getPostCensored() == 1)
-					{
-						$this->appendBody($this->provider->getCensorshipComment() . "\n");
-					}
-					else
-					{
-						$pos_message = $this->getSecurePostMessage();
-						$this->appendBody(strip_tags($pos_message) . "\n");
-					}
-					$this->appendBody("------------------------------------------------------------\n");
-
-					$this->appendAttachments();
-
-					$this->appendBody($this->getPermanentLink());
-					$this->appendBody(ilMail::_getInstallationSignature());
-
-					$this->sendMail(array($rcp), array('system'));
+					$customText = sprintf($this->getLanguageText('post_censored_by'), $this->provider->getPostUpdateUserName($this->getLanguage()) ,$this->provider->getForumTitle());
+					$this->addBodyToMailWithAttachments('frm_noti_subject_cens_post', $rcp, $customText, 'content_censored_post');
 				}
 				break;
+
 			case self::TYPE_POST_UNCENSORED:
 				foreach($this->getRecipients() as $rcp)
 				{
 					$this->initLanguage($rcp);
-					ilDatePresentation::setLanguage($this->language);
-
-					$this->initMail();
-
-					$this->setSubject(sprintf(
-						$this->getLanguageText('frm_noti_subject_uncens_post'),
-						$this->provider->getForumTitle(),
-						$this->provider->getThreadTitle()
-					));
-
-					$date = ilDatePresentation::formatDate(new ilDateTime($this->provider->getPostCensoredDate(), IL_CAL_DATETIME));
-					$this->addBodyToMail($rcp, 'post_uncensored_by', 'forums_the_post', $date);
-
-					$pos_message = $this->getSecurePostMessage();
-					$this->appendBody(strip_tags($pos_message) . "\n");
-
-					$this->appendBody("------------------------------------------------------------\n");
-
-					$this->appendAttachments();
-
-					$this->appendBody($this->getPermanentLink());
-					$this->appendBody(ilMail::_getInstallationSignature());
-
-					$this->sendMail(array($rcp), array('system'));
+					$customText = sprintf($this->getLanguageText('post_uncensored_by'), $this->provider->getPostUpdateUserName($this->getLanguage()));
+					$date = $this->provider->getPostCensoredDate();
+					$this->addBodyToMailWithAttachments('frm_noti_subject_uncens_post', $rcp, $customText, 'forums_the_post', $date);
 				}
 				break;
 
@@ -374,33 +192,8 @@ class ilForumMailNotification extends ilMailNotification
 				foreach($this->getRecipients() as $rcp)
 				{
 					$this->initLanguage($rcp);
-					ilDatePresentation::setLanguage($this->language);
-
-					$this->initMail();
-
-					$this->setSubject(sprintf(
-						$this->getLanguageText('frm_noti_subject_del_post'),
-						$this->provider->getForumTitle(),
-						$this->provider->getThreadTitle()
-					));
-
-					$this->addBodyToMail($rcp, 'post_deleted_by', 'content_deleted_post');
-
-					if($this->provider->getPostCensored() == 1)
-					{
-						$this->appendBody($this->provider->getCensorshipComment() . "\n");
-					}
-					else
-					{
-						$pos_message = $this->getSecurePostMessage();
-						$this->appendBody(strip_tags($pos_message) . "\n");
-					}
-					$this->appendBody("------------------------------------------------------------\n");
-
-					$this->appendBody($this->getPermanentLink(self::PERMANENT_LINK_FORUM));
-					$this->appendBody(ilMail::_getInstallationSignature());
-
-					$this->sendMail(array($rcp), array('system'));
+					$customText = sprintf($this->getLanguageText('post_deleted_by'), $ilUser->getLogin(),  $this->provider->getForumTitle());
+					$this->addBodyToMailWithoutAttachments('frm_noti_subject_del_post', $rcp, $customText, 'content_deleted_post');
 				}
 				break;
 		}
@@ -504,23 +297,58 @@ class ilForumMailNotification extends ilMailNotification
 	}
 
 	/**
-	 * @param $rcp
+	 * @param $subject - Language id of subject
+	 * @param $rcp - recipient
+	 * @param $customText - mail text after salutation
+	 * @param $action - Language id of action
+	 * @param null $date - date to be added in mail
 	 */
-	private function addBodyToMail($rcp, $action, $kind, $date = null)
+	private function addBodyToMailWithAttachments($subject, $rcp, $customText, $action, $date = null)
 	{
-		if ($date === null) {
-			$date = ilDatePresentation::formatDate(new ilDateTime($this->provider->getPostDate(), IL_CAL_DATETIME));
-		}
+		$this->addMailBody($subject, $rcp, $customText, $action, $date);
+		$this->appendAttachments();
+		$this->addLinkToMail();
+		$this->sendMail(array($rcp), array('system'));
+	}
+
+	/**
+	 * @param $subject - Language id of subject
+	 * @param $rcp - recipient
+	 * @param $customText - mail text after salutation
+	 * @param $action - Language id of action
+	 * @param null $date - date to be added in mail
+	 */
+	private function addBodyToMailWithoutAttachments($subject, $rcp, $customText, $action, $date = null)
+	{
+		$this->addMailBody($subject, $rcp, $customText, $action, $date);
+		$this->addLinkToMail();
+		$this->sendMail(array($rcp), array('system'));
+	}
+
+	/**
+	 * @internal
+	 *
+	 * @param $subject - Language id of subject
+	 * @param $rcp - recipient
+	 * @param $customText - mail text after salutation
+	 * @param $action - Language id of action
+	 * @param null $date - date to be added in mail
+	 */
+	private function addMailBody($subject, $rcp, $customText, $action, $date)
+	{
+		$date = $this->createMailDate($date);
+
+		$this->addMailSubject($subject);
 
 		$this->setBody(ilMail::getSalutation($rcp, $this->getLanguage()));
 		$this->appendBody("\n\n");
-		$this->appendBody($this->getLanguageText($action));
+		$this->appendBody($customText);
 		$this->appendBody("\n\n");
 		$this->appendBody($this->getLanguageText('forum') . ": " . $this->provider->getForumTitle());
 		$this->appendBody("\n\n");
 		$this->appendBody($this->getLanguageText('thread') . ": " . $this->provider->getThreadTitle());
 		$this->appendBody("\n\n");
-		$this->appendBody($this->getLanguageText($kind) . ": \n------------------------------------------------------------\n");
+		$this->appendBody($this->getLanguageText($action) . ": \n------------------------------------------------------------\n");
 
 		$this->appendBody($this->getLanguageText('author') . ": " . $this->provider->getPostUserName($this->getLanguage()));
 		$this->appendBody("\n");
@@ -530,5 +358,55 @@ class ilForumMailNotification extends ilMailNotification
 		$this->appendBody("\n");
 		$this->appendBody($this->getLanguageText('frm_noti_message'));
 		$this->appendBody("\n");
+
+		$message = strip_tags($this->getSecurePostMessage());
+
+		if($this->provider->getPostCensored() == 1)
+		{
+			$message = $this->provider->getCensorshipComment();
+		}
+
+		$this->appendBody($message . "\n");
+		$this->appendBody("------------------------------------------------------------\n");
+	}
+
+	/**
+	 * @internal
+	 * @param $subject
+	 */
+	private function addMailSubject($subject)
+	{
+		$this->initMail();
+
+		$this->setSubject(sprintf(
+			$this->getLanguageText($subject),
+			$this->provider->getForumTitle(),
+			$this->provider->getThreadTitle()
+		));
+	}
+
+	/**
+	 * @internal
+	 * @param $date
+	 * @return string
+	 */
+	private function createMailDate($date)
+	{
+		ilDatePresentation::setLanguage($this->language);
+
+		if ($date === null) {
+			$date = $this->provider->getPostDate();
+		}
+		$date = ilDatePresentation::formatDate(new ilDateTime($date, IL_CAL_DATETIME));
+		return $date;
+	}
+
+	/**
+	 * @internal
+	 */
+	private function addLinkToMail()
+	{
+		$this->appendBody($this->getPermanentLink());
+		$this->appendBody(ilMail::_getInstallationSignature());
 	}
 }
