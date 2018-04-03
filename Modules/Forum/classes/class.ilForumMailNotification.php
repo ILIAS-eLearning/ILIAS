@@ -138,26 +138,7 @@ class ilForumMailNotification extends ilMailNotification
 						$this->provider->getThreadTitle()
 					));
 
-					$this->setBody(ilMail::getSalutation($rcp, $this->getLanguage()));
-					$this->appendBody("\n\n");
-					$this->appendBody(sprintf($this->getLanguageText('thread_deleted_by'), $ilUser->getLogin(),  $this->provider->getForumTitle()));
-					$this->appendBody("\n\n");
-					$this->appendBody($this->getLanguageText('forum') . ": " . $this->provider->getForumTitle());
-					$this->appendBody("\n\n");
-					$this->appendBody($this->getLanguageText('thread') . ": " . $this->provider->getThreadTitle());
-					$this->appendBody("\n\n");
-					$this->appendBody($this->getLanguageText('content_deleted_thread') ."\n------------------------------------------------------------\n");
-
-					$this->appendBody($this->getLanguageText('author') . ": " . $this->provider->getPostUserName($this->getLanguage()));
-					$this->appendBody("\n");
-
-					$post_date = ilDatePresentation::formatDate(new ilDateTime($this->provider->getPostDate(), IL_CAL_DATETIME));
-					$this->appendBody($this->getLanguageText('date') . ": " . $post_date);
-					$this->appendBody("\n");
-					$this->appendBody($this->getLanguageText('subject') . ": " . $this->provider->getPostTitle());
-					$this->appendBody("\n");
-					$this->appendBody($this->getLanguageText('frm_noti_message'));
-					$this->appendBody("\n");
+					$this->addBodyToMail($rcp, 'thread_deleted_by', 'content_deleted_thread');
 
 					if($this->provider->getPostCensored() == 1)
 					{
@@ -191,24 +172,7 @@ class ilForumMailNotification extends ilMailNotification
 						$this->provider->getThreadTitle()
 					));
 
-					$this->setBody(ilMail::getSalutation($rcp,$this->getLanguage()));
-					$this->appendBody("\n\n");
-					$this->appendBody(sprintf($this->getLanguageText('frm_noti_new_post'), $this->provider->getForumTitle()));
-					$this->appendBody("\n\n");
-					$this->appendBody($this->getLanguageText('forum').": ".$this->provider->getForumTitle());
-					$this->appendBody("\n\n");
-					$this->appendBody($this->getLanguageText('thread').": ".$this->provider->getThreadTitle());
-					$this->appendBody("\n\n");
-					$this->appendBody($this->getLanguageText('new_post').": \n------------------------------------------------------------\n");
-
-					$this->appendBody($this->getLanguageText('author').": ". $this->provider->getPostUserName($this->getLanguage()));
-					$this->appendBody("\n");
-					$this->appendBody($this->getLanguageText('date').": ". ilDatePresentation::formatDate(new ilDateTime($this->provider->getPostDate(), IL_CAL_DATETIME)));
-					$this->appendBody("\n");
-					$this->appendBody($this->getLanguageText('subject').": ". $this->provider->getPostTitle());
-					$this->appendBody("\n");
-					$this->appendBody($this->getLanguageText('frm_noti_message'));
-					$this->appendBody("\n");
+					$this->addBodyToMail($rcp, 'frm_noti_new_post', 'new_post');
 
 					if($this->provider->getPostCensored() == 1)
 					{
@@ -245,25 +209,7 @@ class ilForumMailNotification extends ilMailNotification
 						$this->provider->getThreadTitle()
 					));
 
-					$this->setBody(ilMail::getSalutation($rcp,$this->getLanguage()));
-					$this->appendBody("\n\n");
-
-					$this->appendBody($this->getLanguageText('forums_post_activation_mail'));
-					$this->appendBody("\n\n");
-					$this->appendBody($this->getLanguageText('forum').": ".$this->provider->getForumTitle());
-					$this->appendBody("\n\n");
-					$this->appendBody($this->getLanguageText('thread').": ".$this->provider->getThreadTitle());
-					$this->appendBody("\n\n");
-					$this->appendBody($this->getLanguageText('new_post').": \n------------------------------------------------------------\n");
-
-					$this->appendBody($this->getLanguageText('author').": ". $this->provider->getPostUserName($this->getLanguage()));
-					$this->appendBody("\n");
-					$this->appendBody($this->getLanguageText('date').": ". ilDatePresentation::formatDate(new ilDateTime($this->provider->getPostDate(), IL_CAL_DATETIME)));
-					$this->appendBody("\n");
-					$this->appendBody($this->getLanguageText('subject').": ". $this->provider->getPostTitle());
-					$this->appendBody("\n");
-					$this->appendBody($this->getLanguageText('frm_noti_message'));
-					$this->appendBody("\n");
+					$this->addBodyToMail($rcp, 'forums_post_activation_mail', 'new_post');
 
 					if($this->provider->getPostCensored() == 1)
 					{
@@ -299,26 +245,7 @@ class ilForumMailNotification extends ilMailNotification
 						$this->provider->getThreadTitle()
 					));
 
-					$this->setBody(ilMail::getSalutation($rcp,$this->getLanguage()));
-					$this->appendBody("\n\n");
-
-					$this->appendBody($this->getLanguageText('forum_post_replied'));
-					$this->appendBody("\n\n");
-					$this->appendBody($this->getLanguageText('forum').": ".$this->provider->getForumTitle());
-
-					$this->appendBody("\n\n");
-					$this->appendBody($this->getLanguageText('thread').": ".$this->provider->getThreadTitle());
-					$this->appendBody("\n\n");
-					$this->appendBody($this->getLanguageText('new_post').": \n------------------------------------------------------------\n");
-
-					$this->appendBody($this->getLanguageText('author').": ". $this->provider->getPostUserName($this->getLanguage()));
-					$this->appendBody("\n");
-					$this->appendBody($this->getLanguageText('date').": ". ilDatePresentation::formatDate(new ilDateTime($this->provider->getPostDate(), IL_CAL_DATETIME)));
-					$this->appendBody("\n");
-					$this->appendBody($this->getLanguageText('subject').": ". $this->provider->getPostTitle());
-					$this->appendBody("\n");
-					$this->appendBody($this->getLanguageText('frm_noti_message'));
-					$this->appendBody("\n");
+					$this->addBodyToMail($rcp, 'forum_post_replied', 'new_post');
 
 					if($this->provider->getPostCensored() == 1)
 					{
@@ -355,24 +282,7 @@ class ilForumMailNotification extends ilMailNotification
 						$this->provider->getThreadTitle()
 					));
 
-					$this->setBody(ilMail::getSalutation($rcp, $this->getLanguage()));
-					$this->appendBody("\n\n");
-					$this->appendBody(sprintf($this->getLanguageText('post_updated_by'), $this->provider->getPostUpdateUserName($this->getLanguage()), $this->provider->getForumTitle()));
-					$this->appendBody("\n\n");
-					$this->appendBody($this->getLanguageText('forum') . ": " . $this->provider->getForumTitle());
-					$this->appendBody("\n\n");
-					$this->appendBody($this->getLanguageText('thread') . ": " . $this->provider->getThreadTitle());
-					$this->appendBody("\n\n");
-					$this->appendBody($this->getLanguageText('content_post_updated') . "\n------------------------------------------------------------\n");
-
-					$this->appendBody($this->getLanguageText('author') . ": " . $this->provider->getPostUserName($this->getLanguage()));
-					$this->appendBody("\n");
-					$this->appendBody($this->getLanguageText('date') . ": " . ilDatePresentation::formatDate(new ilDateTime($this->provider->getPostUpdate(), IL_CAL_DATETIME)));
-					$this->appendBody("\n");
-					$this->appendBody($this->getLanguageText('subject') . ": " . $this->provider->getPostTitle());
-					$this->appendBody("\n");
-					$this->appendBody($this->getLanguageText('frm_noti_message'));
-					$this->appendBody("\n");
+					$this->addBodyToMail($rcp, 'post_updated_by', 'content_post_updated');
 
 					if($this->provider->getPostCensored() == 1)
 					{
@@ -408,24 +318,7 @@ class ilForumMailNotification extends ilMailNotification
 						$this->provider->getThreadTitle()
 					));
 
-					$this->setBody(ilMail::getSalutation($rcp, $this->getLanguage()));
-					$this->appendBody("\n\n");
-					$this->appendBody(sprintf($this->getLanguageText('post_censored_by'), $this->provider->getPostUpdateUserName($this->getLanguage()) ,$this->provider->getForumTitle()));
-					$this->appendBody("\n\n");
-					$this->appendBody($this->getLanguageText('forum') . ": " . $this->provider->getForumTitle());
-					$this->appendBody("\n\n");
-					$this->appendBody($this->getLanguageText('thread') . ": " . $this->provider->getThreadTitle());
-					$this->appendBody("\n\n");
-					$this->appendBody($this->getLanguageText('content_censored_post') . "\n------------------------------------------------------------\n");
-
-					$this->appendBody($this->getLanguageText('author') . ": " . $this->provider->getPostUserName($this->getLanguage()));
-					$this->appendBody("\n");
-					$this->appendBody($this->getLanguageText('date') . ": " . ilDatePresentation::formatDate(new ilDateTime($this->provider->getPostCensoredDate(), IL_CAL_DATETIME)));
-					$this->appendBody("\n");
-					$this->appendBody($this->getLanguageText('subject') . ": " . $this->provider->getPostTitle());
-					$this->appendBody("\n");
-					$this->appendBody($this->getLanguageText('frm_noti_message'));
-					$this->appendBody("\n");
+					$this->addBodyToMail($rcp, 'post_censored_by', 'content_censored_post');
 
 					if($this->provider->getPostCensored() == 1)
 					{
@@ -460,24 +353,8 @@ class ilForumMailNotification extends ilMailNotification
 						$this->provider->getThreadTitle()
 					));
 
-					$this->setBody(ilMail::getSalutation($rcp, $this->getLanguage()));
-					$this->appendBody("\n\n");
-					$this->appendBody(sprintf($this->getLanguageText('post_uncensored_by'), $this->provider->getPostUpdateUserName($this->getLanguage())));
-					$this->appendBody("\n\n");
-					$this->appendBody($this->getLanguageText('forum') . ": " . $this->provider->getForumTitle());
-					$this->appendBody("\n\n");
-					$this->appendBody($this->getLanguageText('thread') . ": " . $this->provider->getThreadTitle());
-					$this->appendBody("\n\n");
-					$this->appendBody($this->getLanguageText('forums_the_post') . "\n------------------------------------------------------------\n");
-
-					$this->appendBody($this->getLanguageText('author') . ": " . $this->provider->getPostUserName($this->getLanguage()));
-					$this->appendBody("\n");
-					$this->appendBody($this->getLanguageText('date') . ": " . ilDatePresentation::formatDate(new ilDateTime($this->provider->getPostCensoredDate(), IL_CAL_DATETIME)));
-					$this->appendBody("\n");
-					$this->appendBody($this->getLanguageText('subject') . ": " . $this->provider->getPostTitle());
-					$this->appendBody("\n");
-					$this->appendBody($this->getLanguageText('frm_noti_message'));
-					$this->appendBody("\n");
+					$date = ilDatePresentation::formatDate(new ilDateTime($this->provider->getPostCensoredDate(), IL_CAL_DATETIME));
+					$this->addBodyToMail($rcp, 'post_uncensored_by', 'forums_the_post', $date);
 
 					$pos_message = $this->getSecurePostMessage();
 					$this->appendBody(strip_tags($pos_message) . "\n");
@@ -507,26 +384,7 @@ class ilForumMailNotification extends ilMailNotification
 						$this->provider->getThreadTitle()
 					));
 
-					$this->setBody(ilMail::getSalutation($rcp, $this->getLanguage()));
-					$this->appendBody("\n\n");
-					$this->appendBody(sprintf($this->getLanguageText('post_deleted_by'), $ilUser->getLogin(),  $this->provider->getForumTitle()));
-					$this->appendBody("\n\n");
-					$this->appendBody($this->getLanguageText('forum') . ": " . $this->provider->getForumTitle());
-					$this->appendBody("\n\n");
-					$this->appendBody($this->getLanguageText('thread') . ": " . $this->provider->getThreadTitle());
-					$this->appendBody("\n\n");
-					$this->appendBody($this->getLanguageText('content_deleted_post') ."\n------------------------------------------------------------\n");
-
-					$this->appendBody($this->getLanguageText('author') . ": " . $this->provider->getPostUserName($this->getLanguage()));
-					$this->appendBody("\n");
-
-					$post_date = ilDatePresentation::formatDate(new ilDateTime($this->provider->getPostDate(), IL_CAL_DATETIME));
-					$this->appendBody($this->getLanguageText('date') . ": " . $post_date);
-					$this->appendBody("\n");
-					$this->appendBody($this->getLanguageText('subject') . ": " . $this->provider->getPostTitle());
-					$this->appendBody("\n");
-					$this->appendBody($this->getLanguageText('frm_noti_message'));
-					$this->appendBody("\n");
+					$this->addBodyToMail($rcp, 'post_deleted_by', 'content_deleted_post');
 
 					if($this->provider->getPostCensored() == 1)
 					{
@@ -643,5 +501,34 @@ class ilForumMailNotification extends ilMailNotification
 			return $pos_message;
 		}
 		return strip_tags($pos_message);
+	}
+
+	/**
+	 * @param $rcp
+	 */
+	private function addBodyToMail($rcp, $action, $kind, $date = null)
+	{
+		if ($date === null) {
+			$date = ilDatePresentation::formatDate(new ilDateTime($this->provider->getPostDate(), IL_CAL_DATETIME));
+		}
+
+		$this->setBody(ilMail::getSalutation($rcp, $this->getLanguage()));
+		$this->appendBody("\n\n");
+		$this->appendBody($this->getLanguageText($action));
+		$this->appendBody("\n\n");
+		$this->appendBody($this->getLanguageText('forum') . ": " . $this->provider->getForumTitle());
+		$this->appendBody("\n\n");
+		$this->appendBody($this->getLanguageText('thread') . ": " . $this->provider->getThreadTitle());
+		$this->appendBody("\n\n");
+		$this->appendBody($this->getLanguageText($kind) . ": \n------------------------------------------------------------\n");
+
+		$this->appendBody($this->getLanguageText('author') . ": " . $this->provider->getPostUserName($this->getLanguage()));
+		$this->appendBody("\n");
+		$this->appendBody($this->getLanguageText('date') . ": " . $date);
+		$this->appendBody("\n");
+		$this->appendBody($this->getLanguageText('subject') . ": " . $this->provider->getPostTitle());
+		$this->appendBody("\n");
+		$this->appendBody($this->getLanguageText('frm_noti_message'));
+		$this->appendBody("\n");
 	}
 }
