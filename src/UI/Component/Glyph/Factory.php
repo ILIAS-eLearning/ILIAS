@@ -604,9 +604,9 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       Clicking the Wow Glyph indicates a user finds an item surprising, e.g. a posting.
+	 *       Clicking the Astounded Glyph indicates a user finds an item surprising, e.g. a posting.
 	 *   composition: >
-	 *       The Wow Glyph uses the "face with open mouth" unicode emoji U+1F62E, see https://unicode.org/emoji/charts/full-emoji-list.html.
+	 *       The Astounded Glyph uses the "face with open mouth" unicode emoji U+1F62E, see https://unicode.org/emoji/charts/full-emoji-list.html.
 	 *   effect: >
 	 *       Clicking toggles the state of the user expression. Clicking also updates the respective counter.
 	 *
@@ -615,21 +615,21 @@ interface Factory {
 	 * rules:
 	 *   composition:
 	 *       1: >
-	 *          A Status Counter MUST indicate the overall amount of wow expressions.
+	 *          A Status Counter MUST indicate the overall amount of astounded expressions.
 	 *   accessibility:
 	 *       1: >
-	 *          The aria-label MUST be 'Wow'.
+	 *          The aria-label MUST be 'Astounded'.
 	 * ---
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function wow($action = null);
+	public function astounded($action = null);
 
 	/**
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       Clicking the Sad Glyph indicates a user finds an item discouraging, e.g. a posting.
+	 *       Clicking the Sad Glyph indicates a user finds an item disconcerting, e.g. a posting.
 	 *   composition: >
 	 *       The Sad Glyph uses the "sad but relieved face" unicode emoji U+1F625, see https://unicode.org/emoji/charts/full-emoji-list.html.
 	 *   effect: >

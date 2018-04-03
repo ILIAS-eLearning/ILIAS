@@ -172,8 +172,8 @@ class Factory implements G\Factory {
 	/**
 	 * @inheritdoc
 	 */
-	public function wow($action = null) {
-		return new Glyph(G\Glyph::WOW, "wow", $action);
+	public function astounded($action = null) {
+		return new Glyph(G\Glyph::ASTOUNDED, "astounded", $action);
 	}
 
 	/**

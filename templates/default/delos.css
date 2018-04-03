@@ -6781,7 +6781,7 @@ button.close {
 .il-glyphicon-love,
 .il-glyphicon-dislike:before,
 .il-glyphicon-laugh:before,
-.il-glyphicon-wow:before,
+.il-glyphicon-astounded:before,
 .il-glyphicon-sad:before,
 .il-glyphicon-angry:before {
   font-family: "Open Sans Emoji";
@@ -6798,7 +6798,7 @@ button.close {
 .il-glyphicon-laugh:before {
   content: "\1f604";
 }
-.il-glyphicon-wow:before {
+.il-glyphicon-astounded:before {
   content: "\1f62e";
 }
 .il-glyphicon-sad:before {
