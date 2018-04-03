@@ -937,7 +937,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		elseif ($this->object->getNrOfTries() == 1)
 		{
 			$ilTabs->setBackTarget(
-				$this->lng->txt('back'), $this->ctrl->getLinkTargetByClass('ilobjtestgui', 'participants')
+				$this->lng->txt('back'), $this->ctrl->getLinkTargetByClass('ilParticipantsTestResultsGUI')
 			);
 		}
 		else
@@ -2256,7 +2256,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	{
 		require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$cgui = new ilConfirmationGUI();
-		$cgui->setFormAction($this->ctrl->getFormAction($this, "participants"));
+		$cgui->setFormAction($this->ctrl->getFormAction($this));
 		$cgui->setHeaderText($this->lng->txt("finish_pass_for_all_users"));
 		$cgui->setCancel($this->lng->txt("cancel"), "redirectBackToParticipantsScreen");
 		$cgui->setConfirm($this->lng->txt("proceed"), "confirmFinishTestPassForAllUser");
@@ -2296,6 +2296,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	
 	protected function redirectBackToParticipantsScreen()
 	{
-		$this->ctrl->redirectByClass("ilobjtestgui", "participants");
+		$this->ctrl->redirectByClass("ilParticipantsTestResultsGUI");
 	}
 }

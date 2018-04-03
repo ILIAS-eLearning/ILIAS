@@ -242,7 +242,7 @@ class ilTestTabsManager
 	
 	/**
 	 */
-	protected function initSettingsTemplate()
+	public function initSettingsTemplate()
 	{
 		$this->resetHiddenTabs();
 		
@@ -348,7 +348,6 @@ class ilTestTabsManager
 	{
 		if( $this->isTabsConfigSetupRequired() )
 		{
-			$this->initSettingsTemplate();
 			$this->setupTabsGuiConfig();
 		}
 	}
@@ -505,7 +504,7 @@ class ilTestTabsManager
 			{
 				case ilObjTest::QUESTION_SET_TYPE_FIXED:
 					$target = $DIC->ctrl()->getLinkTargetByClass(
-						array('ilTestFixedQuestionSetConfigGUI', 'ilTestExpresspageObjectGUI'),'showPage'
+						'ilTestExpresspageObjectGUI','showPage'
 					);
 					break;
 				
@@ -743,7 +742,7 @@ class ilTestTabsManager
 		}
 	}
 	
-	protected function getQuestionsSubTabs()
+	public function getQuestionsSubTabs()
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
@@ -765,7 +764,7 @@ class ilTestTabsManager
 		if (!$this->isHiddenTab('questions')) {
 			// questions subtab
 			$this->tabs->addSubTabTarget("edit_test_questions",
-				$DIC->ctrl()->getLinkTarget($this,'questions'),
+				$DIC->ctrl()->getLinkTargetByClass('ilObjTestGUI','questions'),
 				array("questions", "browseForQuestions", "questionxBrowser", "createQuestion",
 					"randomselect", "filter", "resetFilter", "insertQuestions",
 					"back", "createRandomSelection", "cancelRandomSelect",
@@ -783,10 +782,10 @@ class ilTestTabsManager
 		if (!$this->getTestOBJ()->isRandomTest())
 		{
 			$this->tabs->addSubTabTarget("print_view",
-				$DIC->ctrl()->getLinkTarget($this,'print'),
+				$DIC->ctrl()->getLinkTargetByClass('ilObjTestGUI','print'),
 				"print", "", "", $DIC->ctrl()->getCmd() == 'print');
 			$this->tabs->addSubTabTarget('review_view',
-				$DIC->ctrl()->getLinkTarget($this, 'review'),
+				$DIC->ctrl()->getLinkTargetByClass('ilObjTestGUI', 'review'),
 				'review', '', '', $DIC->ctrl()->getCmd() == 'review');
 		}
 	}

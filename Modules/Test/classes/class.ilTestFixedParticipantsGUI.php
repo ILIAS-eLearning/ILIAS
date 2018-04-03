@@ -197,7 +197,7 @@ class ilTestFixedParticipantsGUI
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
-		$participantList = $this->getTestObj()->getParticipantList()->getAccessFilteredList(
+		$participantList = $this->getTestObj()->getInvitedParticipantList()->getAccessFilteredList(
 			ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->getTestObj()->getRefId())
 		);
 		
@@ -219,6 +219,8 @@ class ilTestFixedParticipantsGUI
 		$tableGUI->initFilter();
 		$tableGUI->setFilterCommand('participantsSetFilter');
 		$tableGUI->setResetCommand('participantsResetFiler');
+		
+		$tableGUI->setData($participantList->getTableRows());
 		
 		$DIC->ui()->mainTemplate()->setContent( $DIC->ctrl()->getHTML($tableGUI) );
 	}

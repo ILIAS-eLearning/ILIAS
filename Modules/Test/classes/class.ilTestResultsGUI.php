@@ -38,6 +38,11 @@ class ilTestResultsGUI
 	protected $testTabs;
 	
 	/**
+	 * @var ilTestObjectiveOrientedContainer
+	 */
+	protected $objectiveParent;
+	
+	/**
 	 * ilTestParticipantsGUI constructor.
 	 * @param ilObjTest $testObj
 	 */
@@ -45,6 +50,22 @@ class ilTestResultsGUI
 	{
 		$this->testObj = $testObj;
 		$this->questionSetConfig = $questionSetConfig;
+	}
+	
+	/**
+	 * @return ilTestObjectiveOrientedContainer
+	 */
+	public function getObjectiveParent()
+	{
+		return $this->objectiveParent;
+	}
+	
+	/**
+	 * @param ilTestObjectiveOrientedContainer $objectiveParent
+	 */
+	public function setObjectiveParent($objectiveParent)
+	{
+		$this->objectiveParent = $objectiveParent;
 	}
 	
 	/**
@@ -138,6 +159,7 @@ class ilTestResultsGUI
 				$gui->setTestObj($this->getTestObj());
 				$gui->setQuestionSetConfig($this->getQuestionSetConfig());
 				$gui->setTestAccess($this->getTestAccess());
+				$gui->setObjectiveParent($this->getObjectiveParent());
 				$DIC->ctrl()->forwardCommand($gui);
 				break;
 			

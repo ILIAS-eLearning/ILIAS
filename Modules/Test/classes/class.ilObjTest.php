@@ -7587,19 +7587,23 @@ function getAnswerFeedbackPoints()
 	/**
 	 * @return ilTestParticipantList
 	 */
-	public function getParticipantList()
+	public function getInvitedParticipantList()
 	{
 		require_once 'Modules/Test/classes/class.ilTestParticipantList.php';
 		$participantList = new ilTestParticipantList($this);
+		$participantList->initializeFromDbRows( $this->getInvitedUsers() );
 		
-		if( $this->getFixedParticipants() )
-		{
-			$participantList->initializeFromDbRows( $this->getInvitedUsers() );
-		}
-		else
-		{
-			$participantList->initializeFromDbRows( $this->getTestParticipants() );
-		}
+		return $participantList;
+	}
+	
+	/**
+	 * @return ilTestParticipantList
+	 */
+	public function getActiveParticipantList()
+	{
+		require_once 'Modules/Test/classes/class.ilTestParticipantList.php';
+		$participantList = new ilTestParticipantList($this);
+		$participantList->initializeFromDbRows( $this->getTestParticipants() );
 		
 		return $participantList;
 	}

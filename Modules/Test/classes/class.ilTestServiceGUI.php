@@ -1039,6 +1039,11 @@ class ilTestServiceGUI
 	 */
 	protected function buildPassDetailsOverviewTableGUI($targetGUI, $targetCMD)
 	{
+		if( !isset($targetGUI->object) && method_exists($targetGUI, 'getTestObj') )
+		{
+			$targetGUI->object = $targetGUI->getTestObj();
+		}
+		
 		require_once 'Modules/Test/classes/tables/class.ilTestPassDetailsOverviewTableGUI.php';
 		$tableGUI = new ilTestPassDetailsOverviewTableGUI($this->ctrl, $targetGUI, $targetCMD);
 		$tableGUI->setIsPdfGenerationRequest($this->isPdfDeliveryRequest());
