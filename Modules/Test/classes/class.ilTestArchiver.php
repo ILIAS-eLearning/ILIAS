@@ -383,7 +383,7 @@ class ilTestArchiver
 
 		// Generate test pass overview
 		$test = new ilObjTest($this->test_obj_id, false);
-		require_once '';
+		require_once 'Modules/Test/classes/class.ilParticipantsTestResultsGUI.php';
 		$gui = new ilParticipantsTestResultsGUI();
 		$gui->setTestObj($test);
 		$array_of_actives = array();
