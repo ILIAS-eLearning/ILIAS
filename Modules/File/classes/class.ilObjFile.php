@@ -1427,7 +1427,7 @@ class ilObjFile extends ilObject2 {
 			'version'    => [ 'integer', (int)$this->getVersion() ],
 			'f_mode'     => [ 'text', $this->getMode() ],
 			'page_count' => [ 'text', $this->getPageCount() ],
-			'rating'     => [ 'text', $this->hasRating() ],
+			'rating'     => [ 'integer', $this->hasRating()],
 		];
 	}
 }
