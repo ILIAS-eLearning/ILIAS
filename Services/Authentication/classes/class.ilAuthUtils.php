@@ -78,6 +78,18 @@ class ilAuthUtils
 		
 	}
 	
+	/**
+	 * Check if authentication is should be forced.
+	 */
+	public static function isAuthenticationForced()
+	{
+		if(isset($_GET['ecs_hash']) or isset($_GET['ecs_hash_url']))
+		{
+			return true;
+		}
+		return false;
+	}
+	
 	public static function handleForcedAuthentication()
 	{
 		if(isset($_GET['ecs_hash']) or isset($_GET['ecs_hash_url']))
