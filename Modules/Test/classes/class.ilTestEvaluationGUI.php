@@ -186,7 +186,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		$ilToolbar = $DIC->toolbar();
-		
+		ilObjTestGUI::accessViolationRedirect(); // method deprecated
 		if( !$this->getTestAccess()->checkStatisticsAccess() )
 		{
 			ilObjTestGUI::accessViolationRedirect();
@@ -377,7 +377,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	function detailedEvaluation()
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
-
+		ilObjTestGUI::accessViolationRedirect(); // method deprecated
 		if( !$this->getTestAccess()->checkStatisticsAccess() )
 		{
 			ilObjTestGUI::accessViolationRedirect();

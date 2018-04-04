@@ -135,7 +135,7 @@ class ilTestAccess
 	 */
 	public function checkParticipantsResultsAccess()
 	{
-		if( $this->getAccess()->checkAccess('write', '', $this->getRefId()) )
+		if( $this->getAccess()->checkAccess('tst_results', '', $this->getRefId()) )
 		{
 			return true;
 		}

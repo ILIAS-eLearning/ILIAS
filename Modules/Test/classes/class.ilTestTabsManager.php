@@ -331,11 +331,6 @@ class ilTestTabsManager
 			return true;
 		}
 		
-		if( $this->testAccess->checkParticipantsResultsAccess() )
-		{
-			return true;
-		}
-		
 		return false;
 	}
 	
@@ -970,7 +965,7 @@ class ilTestTabsManager
 	 */
 	protected function needsResultsTab()
 	{
-		return $this->needsMyResultsSubTab() || $this->needsMyResultsSubTab()
+		return $this->needsParticipantsResultsSubTab() || $this->needsMyResultsSubTab()
 			|| $this->needsHighSoreSubTab() || $this->needsSkillResultsSubTab();
 	}
 	
@@ -1025,7 +1020,7 @@ class ilTestTabsManager
 	 */
 	public function needsHighSoreSubTab()
 	{
-		if( !$this->needsMyResultsSubTab() && !$this->needsParticipantsResultsSubTab() )
+		if( !$this->needsMyResultsSubTab() )
 		{
 			return false;
 		}
@@ -1060,7 +1055,7 @@ class ilTestTabsManager
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
-		if( $this->needsMyResultsSubTab() )
+		if( $this->needsParticipantsResultsSubTab() )
 		{
 			$this->tabs->addSubTab(
 				self::SUBTAB_ID_PARTICIPANTS_RESULTS,

@@ -9528,6 +9528,7 @@ assessment#:#tst_question_hints_ordering_clipboard_resetted#:#Die Sortierungszwi
 assessment#:#tst_question_hints_save_order_success_msg#:#Die Reihenfolge der Lösungshinweise wurde erfolgreich gespeichert.
 assessment#:#tst_question_hints_paste_before_success_msg#:#Der Lösungshinweis %s wurde vor dem Lösungshinweis %s erfolgreich eingefügt.
 assessment#:#tst_question_hints_paste_after_success_msg#:#Der Lösungshinweis %s wurde nach dem Lösungshinweis %s erfolgreich eingefügt.
+assessment#:#tst_median_mark_panel#:#Note des Median
 assessment#:#tst_processing_time_duration#:#Bearbeitungsdauer
 assessment#:#tst_processing_time_duration_desc#:#Maximal zur Verfügung stehende Zeit zur Durchführung des Tests
 assessment#:#button_request_question_hint#:#Lösungshinweis anfordern

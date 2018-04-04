@@ -161,17 +161,17 @@ class ilTestResultsGUI
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
-		if( !$this->getTestAccess()->checkManageParticipantsAccess() )
-		{
-			ilObjTestGUI::accessViolationRedirect();
-		}
-		
 		$this->getTestTabs()->activateTab(ilTestTabsManager::TAB_ID_RESULTS);
 		$this->getTestTabs()->getResultsSubTabs();
 		
 		switch( $DIC->ctrl()->getNextClass() )
 		{
 			case 'ilparticipantstestresultsgui':
+				
+				if( !$this->getTestAccess()->checkManageParticipantsAccess() && !$this->getTestAccess()->checkParticipantsResultsAccess() )
+				{
+					ilObjTestGUI::accessViolationRedirect();
+				}
 				
 				$this->getTestTabs()->activateSubTab(ilTestTabsManager::SUBTAB_ID_PARTICIPANTS_RESULTS);
 				
@@ -186,6 +186,11 @@ class ilTestResultsGUI
 			
 			case 'ilmytestresultsgui':
 				
+				if( !$this->getTestTabs()->needsMyResultsSubTab() )
+				{
+					ilObjTestGUI::accessViolationRedirect();
+				}
+				
 				$this->getTestTabs()->activateSubTab(ilTestTabsManager::SUBTAB_ID_MY_RESULTS);
 				
 				require_once 'Modules/Test/classes/class.ilMyTestResultsGUI.php';
@@ -199,6 +204,11 @@ class ilTestResultsGUI
 			
 			case 'ilmytestsolutionsgui':
 				
+				if( !$this->getTestTabs()->needsMySolutionsSubTab() )
+				{
+					ilObjTestGUI::accessViolationRedirect();
+				}
+				
 				$this->getTestTabs()->activateSubTab(ilTestTabsManager::SUBTAB_ID_MY_SOLUTIONS);
 				
 				require_once 'Modules/Test/classes/class.ilMyTestSolutionsGUI.php';
@@ -210,6 +220,11 @@ class ilTestResultsGUI
 				break;
 			
 			case 'iltesttoplistgui':
+				
+				if( !$this->getTestTabs()->needsHighSoreSubTab() )
+				{
+					ilObjTestGUI::accessViolationRedirect();
+				}
 				
 				$this->getTestTabs()->activateSubTab(ilTestTabsManager::SUBTAB_ID_HIGHSCORE);
 				
@@ -223,7 +238,7 @@ class ilTestResultsGUI
 				$this->getTestTabs()->activateSubTab(ilTestTabsManager::SUBTAB_ID_SKILL_RESULTS);
 				
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
-				if( $this->object->isDynamicTest() )
+				if( $this->getTestObj()->isDynamicTest() )
 				{
 					require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
 					$dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig(
@@ -252,7 +267,7 @@ class ilTestResultsGUI
 				);
 				$gui->setQuestionList($questionList);
 				$gui->setTestSession($testSession);
-				$gui->setObjectiveOrientedContainer($this->getObjectiveOrientedContainer());
+				$gui->setObjectiveOrientedContainer($this->getObjectiveParent());
 				
 				$DIC->ctrl()->forwardCommand($gui);
 				break;

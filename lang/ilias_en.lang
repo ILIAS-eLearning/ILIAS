@@ -9597,6 +9597,7 @@ assessment#:#tst_question_hints_ordering_clipboard_resetted#:#The ordering clipb
 assessment#:#tst_question_hints_save_order_success_msg#:#The order of hint was saved successfully.
 assessment#:#tst_question_hints_paste_before_success_msg#:#The hint %s has been pasted before hint %s successfully.
 assessment#:#tst_question_hints_paste_after_success_msg#:#The hint %s has been pasted after hint %s successfully.
+assessment#:#tst_median_mark_panel#:#Mark of Median
 assessment#:#tst_processing_time_duration#:#Maximum Duration of the Test
 assessment#:#tst_processing_time_duration_desc#:#Maximum of time granted to take the test.
 assessment#:#button_request_question_hint#:#Request Hint

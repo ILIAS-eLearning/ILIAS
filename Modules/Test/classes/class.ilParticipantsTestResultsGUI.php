@@ -112,11 +112,6 @@ class ilParticipantsTestResultsGUI
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
-		if( !$this->getTestAccess()->checkManageParticipantsAccess() && !$this->getTestAccess()->checkParticipantsResultsAccess() )
-		{
-			ilObjTestGUI::accessViolationRedirect();
-		}
-		
 		switch( $DIC->ctrl()->getNextClass($this) )
 		{
 			case "iltestevaluationgui":
