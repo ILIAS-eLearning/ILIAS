@@ -617,6 +617,7 @@ class ilFileUtils
 			'm3u',   // AUDIO__X_MPEQURL,
 			'm4a',   // AUDIO__MP4,
 			'm4v',   // VIDEO__MP4,
+			'md',    // TEXT__MARKDOWN,
 			'mid',   // AUDIO__MIDI,
 			'min',		// scorm articulate?
 			'midi',   // AUDIO__MIDI,
