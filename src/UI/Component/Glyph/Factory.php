@@ -675,5 +675,51 @@ interface Factory {
 	 */
 	public function angry($action = null);
 
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       The Paperclip Glyph indicates whether or not something is attached to an object or entity.
+	 *   composition: >
+	 *      The Glasses Glyph uses the glyphicon-paperclip.
+	 *   effect: >
+	 *       Clicking toggles the state of the user expression. Clicking also updates the respective counter.
+	 *
+	 * context: Impose the information whether or not files have been attached to emails in the folder view.
+	 *
+	 * rules:
+	 *   composition:
+	 *       1: >
+	 *          A Status Counter MAY indicate the overall amount of attachments.
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be 'Paperclip'.
+	 * ---
+	 * @param string|null	$action
+	 * @return \ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function paperclip($action = null);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       The Glasses Glyph should be used to emphasize an object or entity has to be watched/viewed by an actor.
+	 *   composition: >
+	 *       The Glasses Glyph uses the glyphicon-sunglasses.
+	 *   effect: >
+	 *       Clicking marks the object as 'read by the actor'
+	 *
+	 * context: Emphasize unread emails in the inbox of the mail system 
+	 *
+	 * rules:
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be 'Glasses'.
+	 * ---
+	 * @param string|null	$action
+	 * @return \ILIAS\UI\Component\Glyph\Glyph
+	 */
+	public function glasses($action = null);
 
 }
