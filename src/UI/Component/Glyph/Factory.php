@@ -681,9 +681,9 @@ interface Factory {
 	 *   purpose: >
 	 *       The Paperclip Glyph indicates whether or not something is attached to an object or entity.
 	 *   composition: >
-	 *      The Glasses Glyph uses the glyphicon-paperclip.
+	 *      The Paperclip Glyph uses the glyphicon-paperclip.
 	 *   effect: >
-	 *       Clicking toggles the state of the user expression. Clicking also updates the respective counter.
+	 *       Clicking executes an action which delivers these attachments to the actor.
 	 *
 	 * context: Impose the information whether or not files have been attached to emails in the folder view.
 	 *
@@ -704,13 +704,13 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       The Glasses Glyph should be used to emphasize an object or entity has to be watched/viewed by an actor.
+	 *       The Glasses Glyph should be used to emphasize if an object or entity has to be watched/viewed/read by an actor, yet.
 	 *   composition: >
 	 *       The Glasses Glyph uses the glyphicon-sunglasses.
 	 *   effect: >
-	 *       Clicking marks the object as 'read by the actor'
+	 *       Clicking marks the object as 'read by the actor'.
 	 *
-	 * context: Emphasize unread emails in the inbox of the mail system 
+	 * context: Emphasize unread emails in the inbox of the mail system .
 	 *
 	 * rules:
 	 *   accessibility:
