@@ -165,7 +165,8 @@ class ilForumMailNotification extends ilMailNotification
 				{
 					$this->initLanguage($rcp);
 					$customText = sprintf($this->getLanguageText('post_updated_by'), $this->provider->getPostUpdateUserName($this->getLanguage()), $this->provider->getForumTitle());
-					$this->sendMailWithAttachments('frm_noti_subject_upt_post', (int) $rcp, (string) $customText, 'content_post_updated');
+					$date = $this->provider->getPostUpdate();
+					$this->sendMailWithAttachments('frm_noti_subject_upt_post', (int) $rcp, (string) $customText, 'content_post_updated', $date);
 				}
 				break;
 
@@ -174,7 +175,8 @@ class ilForumMailNotification extends ilMailNotification
 				{
 					$this->initLanguage($rcp);
 					$customText = sprintf($this->getLanguageText('post_censored_by'), $this->provider->getPostUpdateUserName($this->getLanguage()) ,$this->provider->getForumTitle());
-					$this->sendMailWithAttachments('frm_noti_subject_cens_post', (int) $rcp, (string) $customText, 'content_censored_post');
+					$date = $this->provider->getPostCensoredDate();
+					$this->sendMailWithAttachments('frm_noti_subject_cens_post', (int) $rcp, (string) $customText, 'content_censored_post', $date);
 				}
 				break;
 
