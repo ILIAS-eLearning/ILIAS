@@ -129,7 +129,7 @@ class ilForumMailNotification extends ilMailNotification
 				{
 					$this->initLanguage($rcp);
 					$customText = sprintf($this->getLanguageText('thread_deleted_by'), $ilUser->getLogin(),  $this->provider->getForumTitle());
-					$this->addBodyToMailWithoutAttachments('frm_noti_subject_del_thread', $rcp, $customText, 'content_deleted_thread');
+					$this->sendMailWithoutAttachments('frm_noti_subject_del_thread', (int) $rcp, (string) $customText, 'content_deleted_thread');
 				}
 				break;
 
@@ -138,7 +138,7 @@ class ilForumMailNotification extends ilMailNotification
 				{
 					$this->initLanguage($rcp);
 					$customText = sprintf($this->getLanguageText('frm_noti_new_post'), $this->provider->getForumTitle());
-					$this->addBodyToMailWithAttachments('frm_noti_subject_new_post', $rcp, $customText, 'new_post');
+					$this->sendMailWithAttachments('frm_noti_subject_new_post', (int) $rcp, (string) $customText, 'new_post');
 				}
 				break;
 
@@ -147,7 +147,7 @@ class ilForumMailNotification extends ilMailNotification
 				{
 					$this->initLanguage($rcp);
 					$customText = $this->getLanguageText('forums_post_activation_mail');
-					$this->addBodyToMailWithAttachments('frm_noti_subject_act_post', $rcp, $customText, 'new_post');
+					$this->sendMailWithAttachments('frm_noti_subject_act_post', (int) $rcp, (string) $customText, 'new_post');
 				}
 				break;
 
@@ -156,7 +156,7 @@ class ilForumMailNotification extends ilMailNotification
 				{
 					$this->initLanguage($rcp);
 					$customText = $this->getLanguageText('forum_post_replied');
-					$this->addBodyToMailWithAttachments('frm_noti_subject_answ_post', $rcp, $customText, 'new_post');
+					$this->sendMailWithAttachments('frm_noti_subject_answ_post', (int) $rcp, (string) $customText, 'new_post');
 				}
 				break;
 
@@ -165,7 +165,7 @@ class ilForumMailNotification extends ilMailNotification
 				{
 					$this->initLanguage($rcp);
 					$customText = sprintf($this->getLanguageText('post_updated_by'), $this->provider->getPostUpdateUserName($this->getLanguage()), $this->provider->getForumTitle());
-					$this->addBodyToMailWithAttachments('frm_noti_subject_upt_post', $rcp, $customText, 'content_post_updated');
+					$this->sendMailWithAttachments('frm_noti_subject_upt_post', (int) $rcp, (string) $customText, 'content_post_updated');
 				}
 				break;
 
@@ -174,7 +174,7 @@ class ilForumMailNotification extends ilMailNotification
 				{
 					$this->initLanguage($rcp);
 					$customText = sprintf($this->getLanguageText('post_censored_by'), $this->provider->getPostUpdateUserName($this->getLanguage()) ,$this->provider->getForumTitle());
-					$this->addBodyToMailWithAttachments('frm_noti_subject_cens_post', $rcp, $customText, 'content_censored_post');
+					$this->sendMailWithAttachments('frm_noti_subject_cens_post', (int) $rcp, (string) $customText, 'content_censored_post');
 				}
 				break;
 
@@ -184,7 +184,7 @@ class ilForumMailNotification extends ilMailNotification
 					$this->initLanguage($rcp);
 					$customText = sprintf($this->getLanguageText('post_uncensored_by'), $this->provider->getPostUpdateUserName($this->getLanguage()));
 					$date = $this->provider->getPostCensoredDate();
-					$this->addBodyToMailWithAttachments('frm_noti_subject_uncens_post', $rcp, $customText, 'forums_the_post', $date);
+					$this->sendMailWithAttachments('frm_noti_subject_uncens_post', (int) $rcp, (string) $customText, 'forums_the_post', $date);
 				}
 				break;
 
@@ -193,7 +193,7 @@ class ilForumMailNotification extends ilMailNotification
 				{
 					$this->initLanguage($rcp);
 					$customText = sprintf($this->getLanguageText('post_deleted_by'), $ilUser->getLogin(),  $this->provider->getForumTitle());
-					$this->addBodyToMailWithoutAttachments('frm_noti_subject_del_post', $rcp, $customText, 'content_deleted_post');
+					$this->sendMailWithoutAttachments('frm_noti_subject_del_post', (int) $rcp, (string) $customText, 'content_deleted_post');
 				}
 				break;
 		}
@@ -299,20 +299,20 @@ class ilForumMailNotification extends ilMailNotification
 	/**
 	 * Add body and send mail with attachments
 	 *
-	 * @param string $subject - Language id of subject
+	 * @param string $subjectLanguageId - Language id of subject
 	 * @param int $userId - id of the user recipient of the mail
 	 * @param string $customText - mail text after salutation
 	 * @param string $action - Language id of action
 	 * @param string|null $date - date to be added in mail
 	 */
-	private function addBodyToMailWithAttachments(
-		string $subject,
+	private function sendMailWithAttachments(
+		string $subjectLanguageId,
 		int $userId,
 		string $customText,
 		string $action,
 		string $date = null
 	) {
-		$this->addMailBody($subject, $userId, $customText, $action, $date);
+		$this->createMail($subjectLanguageId, $userId, $customText, $action, $date);
 		$this->appendAttachments();
 		$this->addLinkToMail();
 		$this->sendMail(array($userId), array('system'));
@@ -321,20 +321,20 @@ class ilForumMailNotification extends ilMailNotification
 	/**
 	 * Add body and send mail without attachments
 	 *
-	 * @param string $subject - Language id of subject
+	 * @param string $subjectLanguageId - Language id of subject
 	 * @param int $userId - id of the user recipient of the mail
 	 * @param string $customText - mail text after salutation
 	 * @param string $action - Language id of action
 	 * @param string|null $date - date to be added in mail
 	 */
-	private function addBodyToMailWithoutAttachments(
-		string $subject,
+	private function sendMailWithoutAttachments(
+		string $subjectLanguageId,
 		int $userId,
 		string $customText,
 		string $action,
-		string $date = null
+		string $date = ''
 	) {
-		$this->addMailBody($subject, $userId, $customText, $action, $date);
+		$this->createMail($subjectLanguageId, $userId, $customText, $action, $date);
 		$this->addLinkToMail();
 		$this->sendMail(array($userId), array('system'));
 	}
@@ -348,7 +348,7 @@ class ilForumMailNotification extends ilMailNotification
 	 * @param string $action - Language id of action
 	 * @param string|null $date - date to be added in mail
 	 */
-	private function addMailBody(
+	private function createMail(
 		string $subject,
 		int $userId,
 		string $customText,
@@ -414,10 +414,12 @@ class ilForumMailNotification extends ilMailNotification
 	{
 		ilDatePresentation::setLanguage($this->language);
 
-		if ($date === null) {
+		if ($date === '') {
 			$date = $this->provider->getPostDate();
 		}
+
 		$date = ilDatePresentation::formatDate(new ilDateTime($date, IL_CAL_DATETIME));
+
 		return $date;
 	}
 
