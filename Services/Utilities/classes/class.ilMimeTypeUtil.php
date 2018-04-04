@@ -370,6 +370,7 @@ class ilMimeTypeUtil {
 	const TEXT__ECMASCRIPT = 'text/ecmascript';
 	const TEXT__HTML = 'text/html';
 	const TEXT__JAVASCRIPT = 'text/javascript';
+	const TEXT__MARKDOWN = 'text/markdown';
 	const TEXT__MCF = 'text/mcf';
 	const TEXT__PASCAL = 'text/pascal';
 	const TEXT__PLAIN = 'text/plain';
@@ -887,6 +888,7 @@ class ilMimeTypeUtil {
 		'me' => self::APPLICATION__X_TROFF_ME,
 		'mht' => self::MESSAGE__RFC822,
 		'mhtml' => self::MESSAGE__RFC822,
+		'md' => self::TEXT__MARKDOWN,
 		'mid' => array(
 			self::AUDIO__MIDI,
 			self::APPLICATION__X_MIDI,
