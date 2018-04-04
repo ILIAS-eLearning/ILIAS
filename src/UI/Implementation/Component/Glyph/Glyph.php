@@ -69,7 +69,6 @@ class Glyph implements C\Glyph\Glyph {
 		, self::SAD
 		, self::ANGRY
 		, self::PAPERCLIP
-		, self::GLASSES
 		);
 
 

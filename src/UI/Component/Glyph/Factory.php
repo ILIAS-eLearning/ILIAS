@@ -699,27 +699,4 @@ interface Factory {
 	 * @return \ILIAS\UI\Component\Glyph\Glyph
 	 */
 	public function paperclip($action = null);
-
-	/**
-	 * ---
-	 * description:
-	 *   purpose: >
-	 *       The Glasses Glyph should be used to emphasize if an object or entity has to be watched/viewed/read by an actor, yet.
-	 *   composition: >
-	 *       The Glasses Glyph uses the glyphicon-sunglasses.
-	 *   effect: >
-	 *       Clicking marks the object as 'read by the actor'.
-	 *
-	 * context: Emphasize unread emails in the inbox of the mail system .
-	 *
-	 * rules:
-	 *   accessibility:
-	 *       1: >
-	 *          The aria-label MUST be 'Glasses'.
-	 * ---
-	 * @param string|null	$action
-	 * @return \ILIAS\UI\Component\Glyph\Glyph
-	 */
-	public function glasses($action = null);
-
 }

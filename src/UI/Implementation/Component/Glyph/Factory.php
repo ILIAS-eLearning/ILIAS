@@ -196,11 +196,4 @@ class Factory implements G\Factory {
 	public function paperclip($action = null) {
 		return new Glyph(G\Glyph::PAPERCLIP, "paperclip", $action);
 	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function glasses($action = null) {
-		return new Glyph(G\Glyph::GLASSES, "glasses", $action);
-	}
 }
