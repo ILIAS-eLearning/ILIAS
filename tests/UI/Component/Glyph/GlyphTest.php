@@ -44,6 +44,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		, C\Glyph\Glyph::ASTOUNDED			=> "glyphicon il-glyphicon-astounded"
 		, C\Glyph\Glyph::SAD				=> "glyphicon il-glyphicon-sad"
 		, C\Glyph\Glyph::ANGRY				=> "glyphicon il-glyphicon-angry"
+		, C\Glyph\Glyph::PAPERCLIP			=> "glyphicon glyphicon-paperclip"
 		);
 
 	static $aria_labels = array(
@@ -60,6 +61,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		, C\Glyph\Glyph::SORT_DESCENDING	=> "sort_descending"
 		, C\Glyph\Glyph::USER				=> "show_who_is_online"
 		, C\Glyph\Glyph::MAIL 				=> "mail"
+		, C\Glyph\Glyph::MAIL 				=> "mail"
 		, C\Glyph\Glyph::NOTIFICATION		=> "notifications"
 		, C\Glyph\Glyph::TAG				=> "tags"
 		, C\Glyph\Glyph::NOTE				=> "notes"
@@ -71,6 +73,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		, C\Glyph\Glyph::ASTOUNDED			=> "astounded"
 		, C\Glyph\Glyph::SAD				=> "sad"
 		, C\Glyph\Glyph::ANGRY				=> "angry"
+		, C\Glyph\Glyph::PAPERCLIP			=> "paperclip"
 	);
 
 	/**
@@ -262,6 +265,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 			, array(C\Glyph\Glyph::ASTOUNDED)
 			, array(C\Glyph\Glyph::SAD)
 			, array(C\Glyph\Glyph::ANGRY)
+			, array(C\Glyph\Glyph::PAPERCLIP)
 			);
 	}
 
