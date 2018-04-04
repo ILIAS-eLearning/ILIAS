@@ -3541,6 +3541,8 @@ rbac#:#tst_read#:#User can perform the test
 common#:#tst_run#:#Run
 common#:#tst_statistical_evaluation#:#Statistics
 common#:#tst_statistics#:#Statistics
+common#:#tst_results#:#Test Results
+rbac#:#tst_tst_results#:#User has access to test results
 common#:#tst_user_not_invited#:#You are not supposed to take this test.
 rbac#:#tst_visible#:#Test is visible
 common#:#tst_warning_test_not_complete#:#The test is not complete!

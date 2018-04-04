@@ -4078,6 +4078,8 @@ common#:#tst_run#:#Ausführen
 common#:#tst_statistical_evaluation#:#Statistik
 common#:#tst_statistics#:#Statistik
 rbac#:#tst_tst_statistics#:#Zugriff auf Teststatistik
+common#:#tst_results#:#Testergebnisse
+rbac#:#tst_tst_results#:#Zugriff auf Testergebnisse
 common#:#tst_user_not_invited#:#Sie dürfen an dieser Online-Prüfung nicht teilnehmen.
 rbac#:#tst_visible#:#Test ist sichtbar
 common#:#tst_warning_test_not_complete#:#Der Test ist nicht vollständig!
