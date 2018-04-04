@@ -305,8 +305,13 @@ class ilForumMailNotification extends ilMailNotification
 	 * @param string $action - Language id of action
 	 * @param string|null $date - date to be added in mail
 	 */
-	private function addBodyToMailWithAttachments($subject, $userId, $customText, $action, $date = null)
-	{
+	private function addBodyToMailWithAttachments(
+		string $subject,
+		int $userId,
+		string $customText,
+		string $action,
+		string $date = null
+	) {
 		$this->addMailBody($subject, $userId, $customText, $action, $date);
 		$this->appendAttachments();
 		$this->addLinkToMail();
@@ -322,8 +327,13 @@ class ilForumMailNotification extends ilMailNotification
 	 * @param string $action - Language id of action
 	 * @param string|null $date - date to be added in mail
 	 */
-	private function addBodyToMailWithoutAttachments($subject, $userId, $customText, $action, $date = null)
-	{
+	private function addBodyToMailWithoutAttachments(
+		string $subject,
+		int $userId,
+		string $customText,
+		string $action,
+		string $date = null
+	) {
 		$this->addMailBody($subject, $userId, $customText, $action, $date);
 		$this->addLinkToMail();
 		$this->sendMail(array($userId), array('system'));
@@ -338,8 +348,13 @@ class ilForumMailNotification extends ilMailNotification
 	 * @param string $action - Language id of action
 	 * @param string|null $date - date to be added in mail
 	 */
-	private function addMailBody($subject, $userId, $customText, $action, $date)
-	{
+	private function addMailBody(
+		string $subject,
+		int $userId,
+		string $customText,
+		string $action,
+		string $date
+	) {
 		$date = $this->createMailDate($date);
 
 		$this->addMailSubject($subject);
@@ -378,7 +393,7 @@ class ilForumMailNotification extends ilMailNotification
 	 * @internal
 	 * @param string $subject
 	 */
-	private function addMailSubject($subject)
+	private function addMailSubject(string $subject)
 	{
 		$this->initMail();
 
@@ -395,7 +410,7 @@ class ilForumMailNotification extends ilMailNotification
 	 * @param string $date
 	 * @return string
 	 */
-	private function createMailDate($date)
+	private function createMailDate(string $date) : string
 	{
 		ilDatePresentation::setLanguage($this->language);
 
