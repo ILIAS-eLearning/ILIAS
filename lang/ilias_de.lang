@@ -5925,7 +5925,7 @@ exc#:#exc_edit_assignments#:#Übungseinheiten bearbeiten
 exc#:#exc_edit_submission#:#Eingereichte Lösungen ändern
 exc#:#exc_ended_on#:#Beendet am
 exc#:#exc_export_excel#:#Export (Excel)
-exc#:#exc_fb_files#:#Dateien vom Tutor
+exc#:#exc_fb_files#:#Bewertungsdateien
 exc#:#exc_grades#:#Notenübersicht
 exc#:#exc_grades_overview#:#Notenübersicht
 exc#:#exc_hand_in#:#Datei abgeben
@@ -10832,7 +10832,7 @@ rbac#:#cld_write#:#Benutzer können Cloud-Objekt Einstellungen bearbeiten
 rbac#:#cld_delete#:#Benutzer können Cloud-Objekte löschen
 rbac#:#cld_permission#:#Benutzer können Rechteeinstellungen bearbeiten
 rbac#:#cld_upload#:#Benutzer können Dateien in das Cloud-Objekt laden
-rbac#:#cld_download#:#Benutzer können Dateien vom Cloud-Objekt herunterladen
+rbac#:#cld_download#:#Benutzer können Dateien aus dem Cloud-Objekt herunterladen
 rbac#:#cld_edit_permission#:#Rechteeinstellungen ändern
 wsp#:#wsp_shared_date#:#Freigabedatum
 wsp#:#wsp_shared_type#:#Freigegeben für
