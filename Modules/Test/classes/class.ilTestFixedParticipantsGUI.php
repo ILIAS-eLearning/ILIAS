@@ -161,8 +161,11 @@ class ilTestFixedParticipantsGUI
 	 */
 	protected function buildTableGUI()
 	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
 		require_once 'Modules/Test/classes/tables/class.ilTestParticipantsTableGUI.php';
 		$tableGUI = new ilTestParticipantsTableGUI($this, self::CMD_SHOW);
+		$tableGUI->setTitle($DIC->language()->txt('tst_tbl_invited_users'));
 		return $tableGUI;
 	}
 	

@@ -1204,6 +1204,8 @@ assessment#:#tst_nr_of_tries_of_user#:#Bereits durchgeführte Testdurchläufe
 assessment#:#tst_participant#:#Teilnehmer
 assessment#:#tst_participant_status#:#Teilnehmerstatus
 assessment#:#tst_participating_users#:#Teilnehmende Benutzer
+assessment#:#tst_tbl_invited_users#:#Ausgewählte Teilnehmer
+assessment#:#tst_tbl_results_grades#:#Ergebnisse und Noten
 assessment#:#tst_pass_best_pass#:#Besten Testdurchlauf bewerten
 assessment#:#tst_pass_best_pass_desc#:#Es wird der Testdurchlauf bewertet, bei dem der Teilnehmer die höchste Punktezahl erreicht hat. Diese Einstellungen greift nur, wenn mehrere Testdurchläufe durchgeführt werden können.
 assessment#:#tst_pass_details#:#Detaillierte Ergebnisse

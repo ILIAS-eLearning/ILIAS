@@ -111,21 +111,12 @@ class ilTestToplistGUI
 	
 	protected function renderResultsToplistByScore()
 	{
+		$title = $this->lng->txt('toplist_by_score');
 		$html = '';
 		
-		if($this->object->getHighscoreMode() == ilObjTest::HIGHSCORE_SHOW_OWN_TABLE)
-		{
-			
-		}
-		elseif(true)
-		{
-			
-		}
-			
 		if( $this->isTopTenRankingTableRequired() )
 		{
 			$data = $this->toplist->getGeneralToplistByPercentage($_GET['ref_id'], $this->user->getId());
-			$title = $this->lng->txt('toplist_by_score');
 			
 			$table_gui = $this->buildTableGUI();
 			
@@ -156,15 +147,15 @@ class ilTestToplistGUI
 	
 	protected function renderResultsToplistByTime()
 	{
+		$title = $this->lng->txt('toplist_by_time');
 		$html = '';
 
 		if( $this->isTopTenRankingTableRequired() )
 		{
-			$data = $this->toplist->getGeneralToplistByWorkingtime($_GET['ref_id'], $this->user->getId());
-			$title = $this->lng->txt('toplist_by_time');
+			$topData = $this->toplist->getGeneralToplistByWorkingtime($_GET['ref_id'], $this->user->getId());
 			
 			$table_gui = $this->buildTableGUI();
-			$table_gui->setData($data);
+			$table_gui->setData($topData);
 			$table_gui->setTitle($title);
 
 			$html .= $table_gui->getHTML();
@@ -172,17 +163,17 @@ class ilTestToplistGUI
 
 		if( $this->isOwnRankingTableRequired() )
 		{
+			$ownData = $this->toplist->getUserToplistByWorkingtime($_GET['ref_id'], $this->user->getID());
+			
 			$table_gui = $this->buildTableGUI();
 			
-			$table_gui->setData(
-				$this->toplist->getUserToplistByWorkingtime($_GET['ref_id'], $this->user->getID())
-			);
+			$table_gui->setData($ownData);
 			
 			if( !$this->isTopTenRankingTableRequired() )
 			{
 				$table_gui->setTitle($title);
 			}
-
+			
 			$html .= $table_gui->getHTML();
 		}
 

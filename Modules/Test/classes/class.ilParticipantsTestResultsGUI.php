@@ -201,6 +201,7 @@ class ilParticipantsTestResultsGUI
 		
 		require_once 'Modules/Test/classes/tables/class.ilTestParticipantsTableGUI.php';
 		$tableGUI = new ilTestParticipantsTableGUI($this, 'participants');
+		$tableGUI->setTitle($DIC->language()->txt('tst_tbl_results_grades'));
 		$tableGUI->setRowKeyDataField('active_id');
 
 		if( !$this->getQuestionSetConfig()->areDepenciesBroken() )

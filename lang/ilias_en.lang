@@ -1061,6 +1061,8 @@ assessment#:#tst_nr_of_passes#:#Number of Test Passes
 assessment#:#tst_nr_of_tries_of_user#:#Passes Already Completed
 assessment#:#tst_nr_of_tries#:#Max. Number of Passes
 assessment#:#tst_participating_users#:#Participating Users
+assessment#:#tst_tbl_invited_users#:#Manually Selected Participants
+assessment#:#tst_tbl_results_grades#:#Results and Grades
 assessment#:#tst_pass_best_pass#:#Score the Best Pass
 assessment#:#tst_pass_best_pass_desc#:#The pass in which a participant performed best will be scored. This setting does only apply when more than one test pass is possible.
 assessment#:#tst_pass_details#:#Detailed Results

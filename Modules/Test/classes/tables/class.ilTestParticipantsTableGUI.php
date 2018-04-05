@@ -40,8 +40,6 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 		
 		$this->setRowTemplate("tpl.il_as_tst_participants_row.html", "Modules/Test");
 		
-		$this->setTitle($this->lng->txt('tst_participating_users'));
-		
 		$this->setSelectAllCheckbox('chbUser');
 		
 		$this->enable('header');
