@@ -192,7 +192,7 @@ class ilNestedSetTree implements ilTreeImplementation
 					$res = $ilDB->query($query);
 					$r = $ilDB->fetchObject($res);
 
-					if ($r->parent == NULL)
+					if ($r->parent === NULL)
 					{
 						ilLoggerFactory::getLogger('tree')->logStack(ilLogLevel::ERROR);
 						throw new ilInvalidTreeStructureException('Parent with id '. $a_parent_id.' not found in tree');
@@ -226,7 +226,7 @@ class ilNestedSetTree implements ilTreeImplementation
 						$res = $ilDB->query($query);
 						$r = $ilDB->fetchAssoc($res);
 
-						if ($r['parent'] == null)
+						if ($r['parent'] === NULL)
 						{
 							ilLoggerFactory::getLogger('tree')->logStack(ilLogLevel::ERROR);
 							throw new ilInvalidTreeStructureException('Parent with id '. $a_parent_id.' not found in tree');
@@ -302,7 +302,7 @@ class ilNestedSetTree implements ilTreeImplementation
 						$res = $ilDB->query($query);
 						$r = $ilDB->fetchObject($res);
 
-						if ($r->parent == null)
+						if ($r->parent == NULL)
 						{
 							ilLoggerFactory::getLogger('tree')->logStack(ilLogLevel::ERROR);
 							throw new ilInvalidTreeStructureException('Parent with id '. $a_parent_id.' not found in tree');
