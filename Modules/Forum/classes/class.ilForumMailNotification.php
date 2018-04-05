@@ -312,7 +312,7 @@ class ilForumMailNotification extends ilMailNotification
 		int $userId,
 		string $customText,
 		string $action,
-		string $date = null
+		string $date = ''
 	) {
 		$this->createMail($subjectLanguageId, $userId, $customText, $action, $date);
 		$this->appendAttachments();
