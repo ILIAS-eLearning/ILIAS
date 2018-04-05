@@ -32,10 +32,36 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	 */
 	protected $settings;
 
-	protected $node_id; // [int]
+	/**
+	 * @var int
+	 */
+	protected $node_id;
 	protected $access_handler; // [object]
-	protected $enable_public_notes; // [bool]
-	protected $may_contribute; // [bool]
+
+	/**
+	 * @var bool
+	 */
+	protected $enable_public_notes;
+
+	/**
+	 * @var bool
+	 */
+	protected $may_contribute;
+
+	/**
+	 * @var bool
+	 */
+	protected $fetchall;
+
+	/**
+	 * @var int
+	 */
+	protected $blpg;
+
+	/**
+	 * @var string
+	 */
+	protected $term;
 
 	/**
 	 * Constructor
@@ -46,7 +72,6 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	 * @param int $a_old_nr
 	 * @param bool $a_enable_notes
 	 * @param bool $a_may_contribute
-	 * @return ilBlogPostingGUI
 	 */
 	function __construct($a_node_id, $a_access_handler = null, $a_id = 0, $a_old_nr = 0, $a_enable_public_notes = true, $a_may_contribute = true, $a_style_sheet_id = 0)
 	{
@@ -90,7 +115,11 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		$tpl->parseCurrentBlock();		
 					
 		// needed for editor			
-		$this->setStyleId($a_style_sheet_id);		
+		$this->setStyleId($a_style_sheet_id);
+
+		$this->blpg = (int) $_GET["blpg"];
+		$this->fetchall = (bool) $_GET["fetchall"];
+		$this->term = ilUtil::stripSlashes($_GET["term"]);
 	}
 
 	/**
@@ -116,29 +145,14 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 				// $ilTabs->setTabActive("pg");
 				return $this->previewFullscreen();
 
-			/*
-			case "ilratinggui":
-				include_once("./Services/Rating/classes/class.ilRatingGUI.php");
-				$rating_gui = new ilRatingGUI();
-				$rating_gui->setObject($this->getBlogPosting()->getParentId(), "blog",
-					$this->getBlogPosting()->getId(), "blp");
-				$this->ctrl->forwardCommand($rating_gui);
-				$ilCtrl->redirect($this, "preview");
-				break;
-			*/
-				
-			case "ilpageobjectgui":
-		die("Deprecated. Blog Posting gui forwarding to ilpageobject");
-				return;
-				
 			default:
 				if($posting)
 				{
-					if($_REQUEST["cmd"] == "deactivatePageToList")
+					if($ilCtrl->getCmd() == "deactivatePageToList")
 					{
 						ilUtil::sendSuccess($this->lng->txt("blog_draft_info"), true);
 					}
-					else if($_REQUEST["cmd"] == "activatePageToList")
+					else if($ilCtrl->getCmd() == "activatePageToList")
 					{
 						ilUtil::sendSuccess($this->lng->txt("blog_new_posting_info"), true);
 					}
@@ -248,8 +262,8 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		// permanent link
 		if($a_mode != "embedded")
 		{
-			$append = ($_GET["blpg"] != "")
-				? "_".$_GET["blpg"]
+			$append = ($this->blpg > 0)
+				? "_".$this->blpg
 				: "";
 			if($this->isInWorkspace())
 			{
@@ -775,10 +789,8 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	
 	function keywordAutocomplete()
 	{				
-		$force_all = (bool)$_GET["fetchall"];
-		
 		include_once("./Services/MetaData/classes/class.ilMDKeyword.php");
-		$res = ilMDKeyword::_getMatchingKeywords(ilUtil::stripSlashes($_GET["term"]),
+		$res = ilMDKeyword::_getMatchingKeywords($this->term,
 			"blp", $this->getParentObjId());
 		
 		include_once("./Services/Search/classes/class.ilSearchSettings.php");
@@ -788,7 +800,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		$result = array();		
 		foreach ($res as $r)
 		{
-			if(!$force_all &&
+			if(!$this->fetchall &&
 				sizeof($result["items"]) >= $cut)
 			{
 				$has_more = true;

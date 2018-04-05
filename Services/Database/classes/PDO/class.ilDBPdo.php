@@ -165,7 +165,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @param $a_name
 	 * @param string $a_charset
 	 * @param string $a_collation
-	 * @return \PDOStatement
+	 * @return ilPDOStatement|false
 	 * @throws \ilDatabaseException
 	 */
 	public function createDatabase($a_name, $a_charset = "utf8", $a_collation = "") {
@@ -1007,7 +1007,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @param string $query
 	 * @param \string[] $types
 	 * @param \mixed[] $values
-	 * @return \PDOStatement
+	 * @return ilPDOStatement
 	 * @throws \ilDatabaseException
 	 */
 	public function queryF($query, $types, $values) {

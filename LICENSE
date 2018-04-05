@@ -1,53 +1,3 @@
-ILIAS is licensed under GPL version 3 or (at your option) any later version.
-
-In addition, as a special exception, we give permission to link the code of this
-program with those files in the PEAR library that are licensed under the
-PHP License (or with modified versions of those files that use the same license
-as those files), and distribute linked combinations including them.
-You must obey the GNU General Public License in all respects for all of the code
-used other than those files in the PEAR library that are licensed under the
-PHP License. If you modify this file, you may extend this exception to your
-version of the file, but you are not obligated to do so. If you do not wish to
-do so, delete this exception statement from your version.
-
-PHP PEAR library files, licensed under PHP license:
-
-- PEAR Auth (Services/PEAR) is licensed under PHP license.
-- PEAR NET_Socket (Services/PEAR) is licensed under PHP license
-
-Other included libraries (regarded being compatible with GPL v3):
-
-- PEAR MDB2 (Services/Database/libs) is licensed under BSD licensee
-- YUI (Services/YUI) is licensed under BSD license
-- EvalMath (Services/Math/classes) is licensed under BSD license
-- mediaElement.js (Services/MediaObjects) is licensed under GPL/MIT
-- jQuery (Services/jQuery/js) is licensed under the MIT, BSD, and GPL
-- jQuery UI (Services/jQuery/js) is licensed under MIT or GPL Version 2
-- jquery.ui.touch-punch.min.js (Services/jQuery/js) is licensed under MIT or GPL Version 2
-- jQuery outside events (Services/jQuery/js) licensed under the MIT and GPL
-- TinyMCE (Services/RTE/tiny_mce) is licensed under LGPL
-- NuSOAP (Services/SOAPAuth/include) is licensed under LGPL
-  see http://www.info-zip.org/pub/infozip/license.html
-  see http://www.imagemagick.org/script/license.php
-- Aborla.net Validator (Services/XHTMLValidator) is licensed under LGPL
-- Nuvola Icon Set (templates/default/images) is licensed under LGPL
-- ilBrowser (classes) uses merged code of the php-mobile-detect project which is licensed under MIT license
-- Securimage (Services/Captcha/lib/securimage_3_5_1/) is licensed under the BSD License. 
-
-More libraries used in ILIAS, that use GPL license:
-
-- PHPExcel (Services/Excel)
-- Parts of MediaWiki (Services/COPage/mediawikidiff, Services/Utilities/classes,
-  include/Unicode)
-- Parts of phpBB (Services/COPage/phpBB)
-- Syntax Highlighter (Services/COPage/syntax_highlight)
-- MagpieRSS (Services/Feeds/magpierss)
-- HtmlPurifier (libs/composer/vendor/ezyang)
-- PHPMailer (libs/composer/vendor/phpmailer)
-
-
-1)
-
                     GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 
@@ -722,20 +672,3 @@ may consider it more useful to permit linking proprietary applications with
 the library.  If this is what you want to do, use the GNU Lesser General
 Public License instead of this License.  But first, please read
 <http://www.gnu.org/philosophy/why-not-lgpl.html>.
-
-
-2)
-      PHP License, see http://www.php.net/license/3_01.txt
-            
-3)
-      BSD License, see http://www.opensource.org/licenses/bsd-license.php
-
-4)
-      MIT License, see http://www.opensource.org/licenses/mit-license.php
-
-5)
-      LGPL License, see http://www.gnu.org/licenses/lgpl.html
-      
-6)
-      CC "Attribution-Noncommercial-Share Alike 3.0 Unported" license, see
-      http://creativecommons.org/licenses/by-nc-sa/3.0/

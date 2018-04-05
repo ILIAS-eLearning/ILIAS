@@ -47,6 +47,11 @@ class ilBookingScheduleGUI
 	protected $obj_data_cache;
 
 	/**
+	 * @var int
+	 */
+	protected $schedule_id;
+
+	/**
 	 * Constructor
 	 * @param	object	$a_parent_obj
 	 */
@@ -62,6 +67,7 @@ class ilBookingScheduleGUI
 		$this->help = $DIC["ilHelp"];
 		$this->obj_data_cache = $DIC["ilObjDataCache"];
 		$this->ref_id = $a_parent_obj->ref_id;
+		$this->schedule_id  = (int)$_REQUEST['schedule_id'];
 	}
 
 	/**
@@ -159,7 +165,7 @@ class ilBookingScheduleGUI
 		$ilHelp->setScreenId("schedules");
 		$ilHelp->setSubScreenId("edit");
 
-		$form = $this->initForm('edit', (int)$_GET['schedule_id']);
+		$form = $this->initForm('edit', $this->schedule_id);
 		$tpl->setContent($form->getHTML());
 	}
 
@@ -328,11 +334,11 @@ class ilBookingScheduleGUI
 		$tpl = $this->tpl;
 		$lng = $this->lng;
 
-		$form = $this->initForm('edit', (int)$_POST['schedule_id']);
+		$form = $this->initForm('edit', $this->schedule_id);
 		if($form->checkInput())
 		{
 			include_once 'Modules/BookingManager/classes/class.ilBookingSchedule.php';
-			$obj = new ilBookingSchedule((int)$_POST['schedule_id']);
+			$obj = new ilBookingSchedule($this->schedule_id);
 			$this->formToObject($form, $obj);
 			$obj->update();
 
@@ -452,8 +458,8 @@ class ilBookingScheduleGUI
 		$conf->setHeaderText($lng->txt('book_confirm_delete'));
 
 		include_once 'Modules/BookingManager/classes/class.ilBookingSchedule.php';
-		$type = new ilBookingSchedule((int)$_GET['schedule_id']);
-		$conf->addItem('schedule_id', (int)$_GET['schedule_id'], $type->getTitle());
+		$type = new ilBookingSchedule($this->schedule_id);
+		$conf->addItem('schedule_id', $this->schedule_id, $type->getTitle());
 		$conf->setConfirm($lng->txt('delete'), 'delete');
 		$conf->setCancel($lng->txt('cancel'), 'render');
 
@@ -469,7 +475,7 @@ class ilBookingScheduleGUI
 		$lng = $this->lng;
 
 		include_once 'Modules/BookingManager/classes/class.ilBookingSchedule.php';
-		$obj = new ilBookingSchedule((int)$_POST['schedule_id']);
+		$obj = new ilBookingSchedule($this->schedule_id);
 		$obj->delete();
 
 		ilUtil::sendSuccess($lng->txt('book_schedule_deleted'), true);

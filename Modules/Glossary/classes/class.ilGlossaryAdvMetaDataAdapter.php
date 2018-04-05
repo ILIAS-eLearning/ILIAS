@@ -24,13 +24,14 @@ class ilGlossaryAdvMetaDataAdapter
 	/**
 	 * Constructor
 	 */
-	function __construct($a_glo_id)
+	function __construct($a_glo_ref_id)
 	{
 		global $DIC;
 
 		$this->db = $DIC->database();
 		$this->lng = $DIC->language();
-		$this->glo_id = $a_glo_id;
+		$this->glo_id = ilObject::_lookupObjectId($a_glo_ref_id);
+		$this->glo_ref_id = $a_glo_ref_id;
 	}
 	
 
@@ -41,7 +42,7 @@ class ilGlossaryAdvMetaDataAdapter
 	{
 		$fields = array();
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
-		$recs = ilAdvancedMDRecord::_getSelectedRecordsByObject("glo", $this->glo_id, "term");
+		$recs = ilAdvancedMDRecord::_getSelectedRecordsByObject("glo", $this->glo_ref_id, "term");
 
 		foreach($recs as $record_obj)
 		{
