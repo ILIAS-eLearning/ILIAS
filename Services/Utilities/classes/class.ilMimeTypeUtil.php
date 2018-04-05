@@ -42,6 +42,7 @@ class ilMimeTypeUtil {
 	const APPLICATION__JAVA = 'application/java';
 	const APPLICATION__JAVASCRIPT = 'application/javascript';
 	const APPLICATION__JAVA_BYTE_CODE = 'application/java-byte-code';
+	const APPLICATION__JSON = 'application/json';
 	const APPLICATION__LHA = 'application/lha';
 	const APPLICATION__LZX = 'application/lzx';
 	const APPLICATION__MACBINARY = 'application/macbinary';
@@ -181,6 +182,7 @@ class ilMimeTypeUtil {
 	const APPLICATION__X_MAC_BINHEX40 = 'application/x-mac-binhex40';
 	const APPLICATION__X_MAGIC_CAP_PACKAGE_1_0 = 'application/x-magic-cap-package-1.0';
 	const APPLICATION__X_MATHCAD = 'application/x-mathcad';
+	const APPLICATION__X_MOBI = 'application/x-mobipocket-ebook';
 	const APPLICATION__X_MEME = 'application/x-meme';
 	const APPLICATION__X_MIDI = 'application/x-midi';
 	const APPLICATION__X_MIF = 'application/x-mif';
@@ -293,8 +295,12 @@ class ilMimeTypeUtil {
 	const AUDIO__X_VOC = 'audio/x-voc';
 	const AUDIO__X_WAV = 'audio/x-wav';
 	const CHEMICAL__X_PDB = 'chemical/x-pdb';
+	const IMAGE__ARW = 'image/ARW"';
 	const IMAGE__BMP = 'image/bmp';
 	const IMAGE__CMU_RASTER = 'image/cmu-raster';
+	const IMAGE__CRW = 'image/CRW';
+	const IMAGE__CR2 = 'image/CR2';
+	const IMAGE__DNG = 'image/DNG';
 	const IMAGE__FIF = 'image/fif';
 	const IMAGE__FLORIAN = 'image/florian';
 	const IMAGE__G3FAX = 'image/g3fax';
@@ -303,6 +309,7 @@ class ilMimeTypeUtil {
 	const IMAGE__JPEG = 'image/jpeg';
 	const IMAGE__JUTVISION = 'image/jutvision';
 	const IMAGE__NAPLPS = 'image/naplps';
+	const IMAGE__NEF = 'image/NEF';
 	const IMAGE__PICT = 'image/pict';
 	const IMAGE__PJPEG = 'image/pjpeg';
 	const IMAGE__PNG = 'image/png';
@@ -318,6 +325,9 @@ class ilMimeTypeUtil {
 	const IMAGE__VND_XIFF = 'image/vnd.xiff';
 	const IMAGE__XBM = 'image/xbm';
 	const IMAGE__XPM = 'image/xpm';
+	const IMAGE__X_ADOBE_DNG = 'image/x-adobe-dng';
+	const IMAGE__X_CANON_CRW = 'image/x-canon-crw';
+	const IMAGE__X_CANON_CR2 = 'image/x-canon-cr2';
 	const IMAGE__X_CMU_RASTER = 'image/x-cmu-raster';
 	const IMAGE__X_DWG = 'image/x-dwg';
 	const IMAGE__X_ICON = 'image/x-icon';
@@ -325,6 +335,7 @@ class ilMimeTypeUtil {
 	const IMAGE__X_JPS = 'image/x-jps';
 	const IMAGE__X_MS_BMP = 'image/x-ms-bmp';
 	const IMAGE__X_NIFF = 'image/x-niff';
+	const IMAGE__X_NIKON_NEF = 'image/x-nikon-nef';
 	const IMAGE__X_PCX = 'image/x-pcx';
 	const IMAGE__X_PICT = 'image/x-pict';
 	const IMAGE__X_PORTABLE_ANYMAP = 'image/x-portable-anymap';
@@ -334,6 +345,7 @@ class ilMimeTypeUtil {
 	const IMAGE__X_PORTABLE_PIXMAP = 'image/x-portable-pixmap';
 	const IMAGE__X_QUICKTIME = 'image/x-quicktime';
 	const IMAGE__X_RGB = 'image/x-rgb';
+	const IMAGE__X_SONY_ARW = 'image/x-sony-arw';
 	const IMAGE__X_TIFF = 'image/x-tiff';
 	const IMAGE__X_WINDOWS_BMP = 'image/x-windows-bmp';
 	const IMAGE__X_XBITMAP = 'image/x-xbitmap';
@@ -358,6 +370,7 @@ class ilMimeTypeUtil {
 	const TEXT__ECMASCRIPT = 'text/ecmascript';
 	const TEXT__HTML = 'text/html';
 	const TEXT__JAVASCRIPT = 'text/javascript';
+	const TEXT__MARKDOWN = 'text/markdown';
 	const TEXT__MCF = 'text/mcf';
 	const TEXT__PASCAL = 'text/pascal';
 	const TEXT__PLAIN = 'text/plain';
@@ -497,6 +510,10 @@ class ilMimeTypeUtil {
 			self::APPLICATION__OCTET_STREAM
 		),
 		'art' => self::IMAGE__X_JG,
+		'arw' => array(
+			self::IMAGE__X_SONY_ARW,
+			self::IMAGE__ARW,
+		),
 		'asd' => self::VIDEO__X_MS_ASF,
 		'asf' => self::VIDEO__X_MS_ASF,
 		'asm' => self::TEXT__X_ASM,
@@ -589,6 +606,14 @@ class ilMimeTypeUtil {
 			self::APPLICATION__PKIX_CERT,
 			self::APPLICATION__X_X509_USER_CERT,
 		),
+		'crw' => array(
+			self::IMAGE__X_CANON_CRW,
+			self::IMAGE__CRW,
+		),
+		'cr2' => array(
+			self::IMAGE__X_CANON_CR2,
+			self::IMAGE__CR2,
+		),
 		'csh' => array(
 			self::APPLICATION__X_CSH,
 			self::TEXT__X_SCRIPT_CSH,
@@ -613,6 +638,10 @@ class ilMimeTypeUtil {
 		'dot' => self::APPLICATION__MSWORD,
 		'dotx' => self::APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_TEMPLATE,
 		'dp' => self::APPLICATION__COMMONGROUND,
+		'dng' => array(
+			self::IMAGE__X_ADOBE_DNG,
+			self::IMAGE__DNG,
+		),
 		'drw' => self::APPLICATION__DRAFTING,
 		'dump' => self::APPLICATION__OCTET_STREAM,
 		'dv' => self::VIDEO__X_DV,
@@ -785,6 +814,10 @@ class ilMimeTypeUtil {
 			self::TEXT__JAVASCRIPT,
 			self::TEXT__ECMASCRIPT,
 		),
+		'json' => array(
+			self::APPLICATION__JSON, // rfc4627
+			self::APPLICATION__JAVASCRIPT,
+		),
 		'jut' => self::IMAGE__JUTVISION,
 		'kar' => array(
 			self::AUDIO__MIDI,
@@ -855,6 +888,7 @@ class ilMimeTypeUtil {
 		'me' => self::APPLICATION__X_TROFF_ME,
 		'mht' => self::MESSAGE__RFC822,
 		'mhtml' => self::MESSAGE__RFC822,
+		'md' => self::TEXT__MARKDOWN,
 		'mid' => array(
 			self::AUDIO__MIDI,
 			self::APPLICATION__X_MIDI,
@@ -886,6 +920,7 @@ class ilMimeTypeUtil {
 			self::APPLICATION__X_MEME,
 		),
 		'mme' => self::APPLICATION__BASE64,
+		'mobi' => self::APPLICATION__X_MOBI,
 		'mod' => array(
 			self::AUDIO__MOD,
 			self::AUDIO__X_MOD,
@@ -934,6 +969,10 @@ class ilMimeTypeUtil {
 		'naplps' => self::IMAGE__NAPLPS,
 		'nc' => self::APPLICATION__X_NETCDF,
 		'ncm' => self::APPLICATION__VND_NOKIA_CONFIGURATION_MESSAGE,
+		'nef' => array(
+			self::IMAGE__X_NIKON_NEF,
+			self::IMAGE__NEF,
+		),
 		'nif' => self::IMAGE__X_NIFF,
 		'niff' => self::IMAGE__X_NIFF,
 		'nix' => self::APPLICATION__X_MIX_TRANSFER,
