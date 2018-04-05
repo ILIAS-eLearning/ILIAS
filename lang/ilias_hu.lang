@@ -11048,7 +11048,6 @@ orgu#:#remove_successful#:#A felhasználót sikeresen eltávolította.
 orgu#:#orgu_enable_my_staff#:#'Munkatársak' nézete bekapcsolása
 orgu#:#orgu_enable_my_staff_info#:#'Munkatársak' nézet a saját beosztottak tanulási haladását jeleníti meg.
 orgu#:#org_op_manage_members#:#Tagok kezelése
-orgu#:#orgunit_position_permissions_not_active_for#:#Nem írhatja felül a típus pozíciófüggő jogosultságait:
 orgu#:#org_op_read_learning_progress#:#Más felhasználók tanulási haladásának megtekintése
 orgu#:#org_op_write_learning_progress#:#Más felhasználók tanulási haladásának módosítása
 rbac#:#org_op_write_learning_progress#:#Alárendelt felhasználók tanulási haladásának módosítása
@@ -14158,3 +14157,13 @@ common#:#obj_exc_duplicate#:#Feladat másolása
 meta#:#adt_error_max_length#:#Kérem, rövidebb szöveget írjon.
 form#:#form_chars_remaining#:#Fennmaradó karakterszám:
 crs#:#crs_subscription_min_members_err#:#A résztvevők minimális száma nem lehet kisebb a résztvevők maximális számánál.
+content#:#cont_lpe_login_form#:#Login Form###05 04 2018 new variable
+content#:#cont_lpe_cas_login_form#:#CAS Login Form###05 04 2018 new variable
+content#:#cont_lpe_shib_login_form#:#Shibboleth Login Form###05 04 2018 new variable
+content#:#cont_lpe_openid_login_form#:#OpenId Login Form###05 04 2018 new variable
+content#:#cont_lpe_registration_link#:#New Registration Link###05 04 2018 new variable
+content#:#cont_lpe_language_selection#:#Language Selection###05 04 2018 new variable
+content#:#cont_lpe_user_agreement_link#:#User Agreement Link###05 04 2018 new variable
+common#:#obj_fold_duplicate#:#Copy Folder###05 04 2018 new variable
+common#:#fold_wizard_page#:#Copy Folder (Step 2/2)###05 04 2018 new variable
+common#:#fold_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.###05 04 2018 new variable
