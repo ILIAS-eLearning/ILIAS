@@ -453,8 +453,12 @@ class ilTestTabsManager
 			case "resetFilter":
 			case "resetTextFilter":
 			case "insertQuestions":
-				// #8497: resetfilter is also used in lp
-				if($DIC->ctrl()->getNextClass($this) != "illearningprogressgui")
+				$classes = array(
+					'iltestparticipantsgui',
+					'iltestresultsgui',
+					"illearningprogressgui" // #8497: resetfilter is also used in lp
+				);
+				if( !in_array($DIC->ctrl()->getNextClass($this), $classes) )
 				{
 					$this->getBrowseForQuestionsTab();
 					return;
