@@ -48,13 +48,22 @@ class ilForumCronNotification extends ilCronJob
 	 * @var int
 	 */
 	protected $num_sent_messages = 0;
-	
+
+	/** @var \ilDBInterface */
+	private $ilDB;
+
 	/**
-	 *
+	 * @param ilDBInterface|null $database
 	 */
-	public function __construct()
+	public function __construct(\ilDBInterface $database = null)
 	{
 		$this->settings = new ilSetting('frma');
+
+		if ($database === null) {
+			global $DIC;
+			$ilDB = $DIC->database();
+		}
+		$this->ilDB = $ilDB;
 	}
 
 	public function getId()
@@ -121,7 +130,6 @@ class ilForumCronNotification extends ilCronJob
 	{
 		global $DIC;
 
-		$ilDB      = $DIC->database();
 		$ilSetting = $DIC->settings();
 		$lng       = $DIC->language();
 
@@ -154,218 +162,18 @@ class ilForumCronNotification extends ilCronJob
 		$this->logger->info(sprintf('Threshold for forum event determination is: %s', date('Y-m-d H:i:s', $threshold)));
 
 		$threshold_date =  date('Y-m-d H:i:s', $threshold);
-		$new_posts_condition = '
-			frm_posts.pos_status = %s AND (
-				(frm_posts.pos_date >= %s AND frm_posts.pos_date = frm_posts.pos_activation_date) OR 
-				(frm_posts.pos_activation_date >= %s AND frm_posts.pos_date < frm_posts.pos_activation_date)
-			) ';
-		$types          = array('integer', 'timestamp', 'timestamp');
-		$values         = array(1, $threshold_date, $threshold_date);
-		
-		/*** new posts ***/
-		$res = $ilDB->queryf('
-			SELECT 	frm_threads.thr_subject thr_subject, 
-					frm_data.top_name top_name, 
-					frm_data.top_frm_fk obj_id, 
-					frm_notification.user_id user_id, 
-					frm_threads.thr_pk thread_id,
-					frm_posts.* 
-			FROM 	frm_notification, frm_posts, frm_threads, frm_data 
-			WHERE	frm_posts.pos_thr_fk = frm_threads.thr_pk AND '.$new_posts_condition.' 
-			AND 	((frm_threads.thr_top_fk = frm_data.top_pk AND 	frm_data.top_frm_fk = frm_notification.frm_id)
-					OR (frm_threads.thr_pk = frm_notification.thread_id 
-			AND 	frm_data.top_pk = frm_threads.thr_top_fk) )
-			AND 	frm_posts.pos_display_user_id != frm_notification.user_id
-			ORDER BY frm_posts.pos_date ASC',
-			$types,
-			$values
-		);
-		
-		$numRows = $ilDB->numRows($res);
-		if($numRows > 0)
-		{
-			$this->logger->info(sprintf('Sending notifications for %s "new posting" events ...', $numRows));
-			$this->sendCronForumNotification($res, ilForumMailNotification::TYPE_POST_NEW);
-			$this->logger->info(sprintf('Sent notifications for new postings ...'));
-		}
 
-		$this->keepAlive();
+		$this->sendNotificationForNewPosts($threshold_date);
 
-		/*** updated posts ***/
-		$updated_condition = '
-			frm_posts.pos_cens = %s AND frm_posts.pos_status = %s AND 
-			(frm_posts.pos_update > frm_posts.pos_date AND frm_posts.pos_update >= %s) ';
-		$types             = array('integer', 'integer', 'timestamp');
-		$values            = array(0, 1, $threshold_date);
+		$this->sendNotificationForUpdatedPosts($threshold_date);
 
-		$res = $ilDB->queryf('
-			SELECT 	frm_threads.thr_subject thr_subject, 
-					frm_data.top_name top_name, 
-					frm_data.top_frm_fk obj_id, 
-					frm_notification.user_id user_id,
-					frm_threads.thr_pk thread_id,
-					frm_posts.* 
-			FROM 	frm_notification, frm_posts, frm_threads, frm_data 
-			WHERE	frm_posts.pos_thr_fk = frm_threads.thr_pk AND '.$updated_condition.' 
-			AND 	((frm_threads.thr_top_fk = frm_data.top_pk AND 	frm_data.top_frm_fk = frm_notification.frm_id)
-					OR (frm_threads.thr_pk = frm_notification.thread_id 
-			AND 	frm_data.top_pk = frm_threads.thr_top_fk) )
-			AND 	frm_posts.pos_display_user_id != frm_notification.user_id
-			ORDER BY frm_posts.pos_date ASC',
-			$types,
-			$values
-		);
-		
-		$numRows = $ilDB->numRows($res);
-		if($numRows > 0)
-		{
-			$this->logger->info(sprintf('Sending notifications for %s "updated posting" events ...', $numRows));
-			$this->sendCronForumNotification($res, ilForumMailNotification::TYPE_POST_UPDATED);
-			$this->logger->info(sprintf('Sent notifications for updated postings ...'));
-		}
+		$this->sendNotificationForCensoredPosts($threshold_date);
 
-		$this->keepAlive();
+		$this->sendNotificationForUncensoredPosts($threshold_date);
 
-		/*** censored posts ***/ 
-		$censored_condition = '
-			frm_posts.pos_cens = %s AND frm_posts.pos_status = %s AND  
-            (frm_posts.pos_cens_date >= %s AND frm_posts.pos_cens_date > frm_posts.pos_activation_date ) ';
-		$types              = array('integer', 'integer', 'timestamp');
-		$values             = array(1, 1, $threshold_date);
+		$this->sendNotificationForDeletedThreads();
 
-		$res = $ilDB->queryf('
-			SELECT 	frm_threads.thr_subject thr_subject, 
-					frm_data.top_name top_name, 
-					frm_data.top_frm_fk obj_id, 
-					frm_notification.user_id user_id,
-					frm_threads.thr_pk thread_id,
-					frm_posts.* 
-			FROM 	frm_notification, frm_posts, frm_threads, frm_data 
-			WHERE	frm_posts.pos_thr_fk = frm_threads.thr_pk AND '.$censored_condition.'
-			AND 	((frm_threads.thr_top_fk = frm_data.top_pk AND 	frm_data.top_frm_fk = frm_notification.frm_id)
-					OR (frm_threads.thr_pk = frm_notification.thread_id 
-			AND 	frm_data.top_pk = frm_threads.thr_top_fk) )
-			AND 	(frm_posts.pos_display_user_id != frm_notification.user_id)
-			ORDER BY frm_posts.pos_date ASC',
-			$types,
-			$values
-		);
-		
-		$numRows = $ilDB->numRows($res);
-		if($numRows > 0)
-		{
-			$this->logger->info(sprintf('Sending notifications for %s "censored posting" events ...', $numRows));
-			$this->sendCronForumNotification($res, ilForumMailNotification::TYPE_POST_CENSORED);
-			$this->logger->info(sprintf('Sent notifications for new censored ...'));
-		}
-
-		$this->keepAlive();
-
-		/*** uncensored posts ***/
-		$uncensored_condition = '
-			frm_posts.pos_cens = %s AND frm_posts.pos_status = %s AND  
-            (frm_posts.pos_cens_date >= %s AND frm_posts.pos_cens_date > frm_posts.pos_activation_date ) ';
-		$types              = array('integer', 'integer', 'timestamp');
-		$values             = array(0, 1, $threshold_date);
-
-		$res = $ilDB->queryf('
-			SELECT 	frm_threads.thr_subject thr_subject, 
-					frm_data.top_name top_name, 
-					frm_data.top_frm_fk obj_id, 
-					frm_notification.user_id user_id,
-					frm_threads.thr_pk thread_id,
-					frm_posts.* 
-			FROM 	frm_notification, frm_posts, frm_threads, frm_data 
-			WHERE	frm_posts.pos_thr_fk = frm_threads.thr_pk AND '.$uncensored_condition.' 
-			AND 	((frm_threads.thr_top_fk = frm_data.top_pk AND 	frm_data.top_frm_fk = frm_notification.frm_id)
-					OR (frm_threads.thr_pk = frm_notification.thread_id 
-			AND 	frm_data.top_pk = frm_threads.thr_top_fk) )
-			AND 	frm_posts.pos_display_user_id != frm_notification.user_id
-			ORDER BY frm_posts.pos_date ASC',
-			$types,
-			$values
-		);
-		
-		$numRows = $ilDB->numRows($res);
-		if($numRows > 0)
-		{
-			$this->logger->info(sprintf('Sending notifications for %s "uncensored posting" events ...', $numRows));
-			$this->sendCronForumNotification($res, ilForumMailNotification::TYPE_POST_UNCENSORED);
-			$this->logger->info(sprintf('Sent notifications for uncensored postings ...'));
-		}
-
-		$this->keepAlive();
-
-		/*** deleted threads ***/
-		$res = $ilDB->queryF('
-			SELECT 	frm_posts_deleted.thread_title thr_subject, 
-					frm_posts_deleted.forum_title  top_name, 
-					frm_posts_deleted.obj_id obj_id, 
-					frm_notification.user_id user_id, 
-					frm_posts_deleted.pos_display_user_id,
-					frm_posts_deleted.pos_usr_alias,
-					frm_posts_deleted.deleted_id,
-					frm_posts_deleted.post_date pos_date,
-					frm_posts_deleted.post_title pos_subject,
-					frm_posts_deleted.post_message pos_message
-					
-			FROM 	frm_notification, frm_posts_deleted
-			
-			WHERE 	( frm_posts_deleted.obj_id = frm_notification.frm_id
-					OR frm_posts_deleted.thread_id = frm_notification.thread_id) 
-			AND 	frm_posts_deleted.pos_display_user_id != frm_notification.user_id
-			AND 	frm_posts_deleted.is_thread_deleted = %s
-			ORDER BY frm_posts_deleted.post_date ASC',
-			array('integer'), array(1));
-		$numRows = $ilDB->numRows($res);
-		if($numRows > 0)
-		{
-			$this->logger->info(sprintf('Sending notifications for %s "deleted threads" events ...', $numRows));
-			$this->sendCronForumNotification($res, ilForumMailNotification::TYPE_THREAD_DELETED);
-			if(count(self::$deleted_ids_cache) > 0)
-			{
-				$ilDB->manipulate('DELETE FROM frm_posts_deleted WHERE '. $ilDB->in('deleted_id', self::$deleted_ids_cache, false, 'integer'));
-				$this->logger->info('Deleted obsolete entries of table "frm_posts_deleted" ...');
-			}
-			$this->logger->info(sprintf('Sent notifications for deleted threads ...'));
-		}
-
-		$this->keepAlive();
-
-		/*** deleted posts ***/
-		$res = $ilDB->queryF('
-			SELECT 	frm_posts_deleted.thread_title thr_subject, 
-					frm_posts_deleted.forum_title  top_name, 
-					frm_posts_deleted.obj_id obj_id, 
-					frm_notification.user_id user_id, 
-					frm_posts_deleted.pos_display_user_id,
-					frm_posts_deleted.pos_usr_alias,
-					frm_posts_deleted.deleted_id,
-					frm_posts_deleted.post_date pos_date,
-					frm_posts_deleted.post_title pos_subject,
-					frm_posts_deleted.post_message pos_message
-					
-			FROM 	frm_notification, frm_posts_deleted
-			
-			WHERE 	( frm_posts_deleted.obj_id = frm_notification.frm_id
-					OR frm_posts_deleted.thread_id = frm_notification.thread_id) 
-			AND 	frm_posts_deleted.pos_display_user_id != frm_notification.user_id
-			AND 	frm_posts_deleted.is_thread_deleted = %s
-			ORDER BY frm_posts_deleted.post_date ASC',
-			array('integer'), array(0));
-		
-		$numRows = $ilDB->numRows($res);
-		if($numRows > 0)
-		{
-			$this->logger->info(sprintf('Sending notifications for %s "deleted postings" events ...', $numRows));
-			$this->sendCronForumNotification($res, ilForumMailNotification::TYPE_POST_DELETED);
-			if(count(self::$deleted_ids_cache) > 0)
-			{
-				$ilDB->manipulate('DELETE FROM frm_posts_deleted WHERE '. $ilDB->in('deleted_id', self::$deleted_ids_cache, false, 'integer')); 
-				$this->logger->info('Deleted entries from table "frm_posts_deleted" ...');
-			}
-			$this->logger->info(sprintf('Sent notifications for deleted postings ...'));
-		}
+		$this->sendNotifcationForDeletedPosts();
 
 		$ilSetting->set('cron_forum_notification_last_date', $cj_start_date);
 
@@ -577,16 +385,14 @@ class ilForumCronNotification extends ilCronJob
 	public function activationWasToggled($a_currently_active)
 	{		
 		global $DIC;
-		
+
+		$value = 1;
 		// propagate cron-job setting to object setting
 		if((bool)$a_currently_active)
 		{
-			$DIC->settings()->set('forum_notification', 2);
+			$value = 2;
 		}
-		else
-		{
-			$DIC->settings()->set('forum_notification', 1);
-		}
+		$DIC->settings()->set('forum_notification', $value);
 	}
 
 	/**
@@ -619,5 +425,247 @@ class ilForumCronNotification extends ilCronJob
 	{
 		$this->settings->set('max_notification_age', $a_form->getInput('max_notification_age'));
 		return true;
+	}
+
+	/**
+	 * @param $threshold_date
+	 */
+	private function sendNotificationForNewPosts(string $threshold_date)
+	{
+		$new_posts_condition = '
+			frm_posts.pos_status = %s AND (
+				(frm_posts.pos_date >= %s AND frm_posts.pos_date = frm_posts.pos_activation_date) OR 
+				(frm_posts.pos_activation_date >= %s AND frm_posts.pos_date < frm_posts.pos_activation_date)
+			) ';
+		$types = array('integer', 'timestamp', 'timestamp');
+		$values = array(1, $threshold_date, $threshold_date);
+
+		$res = $this->ilDB->queryf('
+			SELECT 	frm_threads.thr_subject thr_subject, 
+					frm_data.top_name top_name, 
+					frm_data.top_frm_fk obj_id, 
+					frm_notification.user_id user_id, 
+					frm_threads.thr_pk thread_id,
+					frm_posts.* 
+			FROM 	frm_notification, frm_posts, frm_threads, frm_data 
+			WHERE	frm_posts.pos_thr_fk = frm_threads.thr_pk AND ' . $new_posts_condition . ' 
+			AND 	((frm_threads.thr_top_fk = frm_data.top_pk AND 	frm_data.top_frm_fk = frm_notification.frm_id)
+					OR (frm_threads.thr_pk = frm_notification.thread_id 
+			AND 	frm_data.top_pk = frm_threads.thr_top_fk) )
+			AND 	frm_posts.pos_display_user_id != frm_notification.user_id
+			ORDER BY frm_posts.pos_date ASC',
+			$types,
+			$values
+		);
+
+		$this->sendNotification(
+			$res,
+			'new posting',
+			ilForumMailNotification::TYPE_POST_NEW
+		);
+	}
+
+	/**
+	 * @param $threshold_date
+	 */
+	private function sendNotificationForUpdatedPosts(string $threshold_date)
+	{
+		$updated_condition = '
+			frm_posts.pos_cens = %s AND frm_posts.pos_status = %s AND 
+			(frm_posts.pos_update > frm_posts.pos_date AND frm_posts.pos_update >= %s) ';
+		$types = array('integer', 'integer', 'timestamp');
+		$values = array(0, 1, $threshold_date);
+
+		$res = $this->ilDB->queryf('
+			SELECT 	frm_threads.thr_subject thr_subject, 
+					frm_data.top_name top_name, 
+					frm_data.top_frm_fk obj_id, 
+					frm_notification.user_id user_id,
+					frm_threads.thr_pk thread_id,
+					frm_posts.* 
+			FROM 	frm_notification, frm_posts, frm_threads, frm_data 
+			WHERE	frm_posts.pos_thr_fk = frm_threads.thr_pk AND ' . $updated_condition . ' 
+			AND 	((frm_threads.thr_top_fk = frm_data.top_pk AND 	frm_data.top_frm_fk = frm_notification.frm_id)
+					OR (frm_threads.thr_pk = frm_notification.thread_id 
+			AND 	frm_data.top_pk = frm_threads.thr_top_fk) )
+			AND 	frm_posts.pos_display_user_id != frm_notification.user_id
+			ORDER BY frm_posts.pos_date ASC',
+			$types,
+			$values
+		);
+
+		$this->sendNotification(
+			$res,
+			'updated posting',
+			ilForumMailNotification::TYPE_POST_UPDATED
+		);
+	}
+
+	/**
+	 * @param $threshold_date
+	 */
+	private function sendNotificationForCensoredPosts(string $threshold_date)
+	{
+		$censored_condition = '
+			frm_posts.pos_cens = %s AND frm_posts.pos_status = %s AND  
+            (frm_posts.pos_cens_date >= %s AND frm_posts.pos_cens_date > frm_posts.pos_activation_date ) ';
+		$types = array('integer', 'integer', 'timestamp');
+		$values = array(1, 1, $threshold_date);
+
+		$res = $this->ilDB->queryf('
+			SELECT 	frm_threads.thr_subject thr_subject, 
+					frm_data.top_name top_name, 
+					frm_data.top_frm_fk obj_id, 
+					frm_notification.user_id user_id,
+					frm_threads.thr_pk thread_id,
+					frm_posts.* 
+			FROM 	frm_notification, frm_posts, frm_threads, frm_data 
+			WHERE	frm_posts.pos_thr_fk = frm_threads.thr_pk AND ' . $censored_condition . '
+			AND 	((frm_threads.thr_top_fk = frm_data.top_pk AND 	frm_data.top_frm_fk = frm_notification.frm_id)
+					OR (frm_threads.thr_pk = frm_notification.thread_id 
+			AND 	frm_data.top_pk = frm_threads.thr_top_fk) )
+			AND 	(frm_posts.pos_display_user_id != frm_notification.user_id)
+			ORDER BY frm_posts.pos_date ASC',
+			$types,
+			$values
+		);
+
+		$this->sendNotification(
+			$res,
+			'censored posting',
+			ilForumMailNotification::TYPE_POST_CENSORED
+		);
+	}
+
+	/**
+	 * @param $threshold_date
+	 */
+	private function sendNotificationForUncensoredPosts(string $threshold_date)
+	{
+		$uncensored_condition = '
+			frm_posts.pos_cens = %s AND frm_posts.pos_status = %s AND  
+            (frm_posts.pos_cens_date >= %s AND frm_posts.pos_cens_date > frm_posts.pos_activation_date ) ';
+		$types = array('integer', 'integer', 'timestamp');
+		$values = array(0, 1, $threshold_date);
+
+		$res = $this->ilDB->queryf('
+			SELECT 	frm_threads.thr_subject thr_subject, 
+					frm_data.top_name top_name, 
+					frm_data.top_frm_fk obj_id, 
+					frm_notification.user_id user_id,
+					frm_threads.thr_pk thread_id,
+					frm_posts.* 
+			FROM 	frm_notification, frm_posts, frm_threads, frm_data 
+			WHERE	frm_posts.pos_thr_fk = frm_threads.thr_pk AND ' . $uncensored_condition . ' 
+			AND 	((frm_threads.thr_top_fk = frm_data.top_pk AND 	frm_data.top_frm_fk = frm_notification.frm_id)
+					OR (frm_threads.thr_pk = frm_notification.thread_id 
+			AND 	frm_data.top_pk = frm_threads.thr_top_fk) )
+			AND 	frm_posts.pos_display_user_id != frm_notification.user_id
+			ORDER BY frm_posts.pos_date ASC',
+			$types,
+			$values
+		);
+
+		$this->sendNotification(
+			$res,
+			'uncensored posting',
+			ilForumMailNotification::TYPE_POST_UNCENSORED
+		);
+	}
+
+	private function sendNotificationForDeletedThreads()
+	{
+		$res = $this->ilDB->queryF('
+			SELECT 	frm_posts_deleted.thread_title thr_subject, 
+					frm_posts_deleted.forum_title  top_name, 
+					frm_posts_deleted.obj_id obj_id, 
+					frm_notification.user_id user_id, 
+					frm_posts_deleted.pos_display_user_id,
+					frm_posts_deleted.pos_usr_alias,
+					frm_posts_deleted.deleted_id,
+					frm_posts_deleted.post_date pos_date,
+					frm_posts_deleted.post_title pos_subject,
+					frm_posts_deleted.post_message pos_message
+					
+			FROM 	frm_notification, frm_posts_deleted
+			
+			WHERE 	( frm_posts_deleted.obj_id = frm_notification.frm_id
+					OR frm_posts_deleted.thread_id = frm_notification.thread_id) 
+			AND 	frm_posts_deleted.pos_display_user_id != frm_notification.user_id
+			AND 	frm_posts_deleted.is_thread_deleted = %s
+			ORDER BY frm_posts_deleted.post_date ASC',
+			array('integer'), array(1));
+
+		$this->sendDeleteNotifcations(
+			$res,
+			'frm_threads_deleted',
+			'deleted threads',
+			ilForumMailNotification::TYPE_THREAD_DELETED
+		);
+	}
+
+	private function sendNotifcationForDeletedPosts()
+	{
+		$res = $this->ilDB->queryF('
+			SELECT 	frm_posts_deleted.thread_title thr_subject, 
+					frm_posts_deleted.forum_title  top_name, 
+					frm_posts_deleted.obj_id obj_id, 
+					frm_notification.user_id user_id, 
+					frm_posts_deleted.pos_display_user_id,
+					frm_posts_deleted.pos_usr_alias,
+					frm_posts_deleted.deleted_id,
+					frm_posts_deleted.post_date pos_date,
+					frm_posts_deleted.post_title pos_subject,
+					frm_posts_deleted.post_message pos_message
+					
+			FROM 	frm_notification, frm_posts_deleted
+			
+			WHERE 	( frm_posts_deleted.obj_id = frm_notification.frm_id
+					OR frm_posts_deleted.thread_id = frm_notification.thread_id) 
+			AND 	frm_posts_deleted.pos_display_user_id != frm_notification.user_id
+			AND 	frm_posts_deleted.is_thread_deleted = %s
+			ORDER BY frm_posts_deleted.post_date ASC',
+			array('integer'), array(0));
+
+		$this->sendDeleteNotifcations($res, 'frm_posts_deleted', 'deleted postings', ilForumMailNotification::TYPE_POST_DELETED);
+	}
+
+	/**
+	 * @param $res
+	 * @param $actionName
+	 * @param $notificationType
+	 */
+	private function sendNotification(\ilPDOStatement $res, string $actionName, int $notificationType)
+	{
+		$numRows = $this->ilDB->numRows($res);
+		if($numRows > 0) {
+			$this->logger->info(sprintf('Sending notifications for %s "%s" events ...', $numRows, $actionName));
+			$this->sendCronForumNotification($res, $notificationType);
+			$this->logger->info(sprintf('Sent notifications for %s ...', $actionName));
+		}
+
+		$this->keepAlive();
+	}
+
+	/**
+	 * @param $res
+	 * @param $action
+	 * @param $actionDescription
+	 * @param $notificationType
+	 */
+	private function sendDeleteNotifcations(\ilPDOStatement $res, string $action, string $actionDescription, int $notificationType)
+	{
+		$numRows = $this->ilDB->numRows($res);
+		if ($numRows > 0) {
+			$this->logger->info(sprintf('Sending notifications for %s "%s" events ...', $numRows, $actionDescription));
+			$this->sendCronForumNotification($res, $notificationType);
+			if (count(self::$deleted_ids_cache) > 0) {
+				$this->ilDB->manipulate('DELETE FROM frm_posts_deleted WHERE ' . $this->ilDB->in('deleted_id', self::$deleted_ids_cache, false, 'integer'));
+				$this->logger->info('Deleted obsolete entries of table "' . $action . '" ...');
+			}
+			$this->logger->info(sprintf('Sent notifications for %s ...', $actionDescription));
+		}
+
+		$this->keepAlive();
 	}
 }
