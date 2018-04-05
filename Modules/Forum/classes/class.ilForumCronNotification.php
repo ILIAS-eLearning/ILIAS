@@ -431,7 +431,7 @@ class ilForumCronNotification extends ilCronJob
 	/**
 	 * @param $threshold_date
 	 */
-	private function sendNotificationForNewPosts($threshold_date)
+	private function sendNotificationForNewPosts(string $threshold_date)
 	{
 		$new_posts_condition = '
 			frm_posts.pos_status = %s AND (
@@ -469,7 +469,7 @@ class ilForumCronNotification extends ilCronJob
 	/**
 	 * @param $threshold_date
 	 */
-	private function sendNotificationForUpdatedPosts($threshold_date)
+	private function sendNotificationForUpdatedPosts(string $threshold_date)
 	{
 		$updated_condition = '
 			frm_posts.pos_cens = %s AND frm_posts.pos_status = %s AND 
@@ -505,7 +505,7 @@ class ilForumCronNotification extends ilCronJob
 	/**
 	 * @param $threshold_date
 	 */
-	private function sendNotificationForCensoredPosts($threshold_date)
+	private function sendNotificationForCensoredPosts(string $threshold_date)
 	{
 		$censored_condition = '
 			frm_posts.pos_cens = %s AND frm_posts.pos_status = %s AND  
@@ -541,7 +541,7 @@ class ilForumCronNotification extends ilCronJob
 	/**
 	 * @param $threshold_date
 	 */
-	private function sendNotificationForUncensoredPosts($threshold_date)
+	private function sendNotificationForUncensoredPosts(string $threshold_date)
 	{
 		$uncensored_condition = '
 			frm_posts.pos_cens = %s AND frm_posts.pos_status = %s AND  
