@@ -49,12 +49,13 @@ class ilForumCronNotification extends ilCronJob
 	 */
 	protected $num_sent_messages = 0;
 
-	/** @var ilDb */
+	/** @var \ilDBInterface */
 	private $ilDB;
+
 	/**
-	 *
+	 * @param ilDBInterface|null $database
 	 */
-	public function __construct(\ilDB $database = null)
+	public function __construct(\ilDBInterface $database = null)
 	{
 		$this->settings = new ilSetting('frma');
 
