@@ -1029,7 +1029,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 		if( count($testPassesSelector->getReportablePasses()) )
 		{
-			$this->ctrl->redirectByClass("ilTestEvaluationGUI", "outUserResultsOverview");
+			$this->ctrl->redirectByClass(array('ilTestResultsGUI', 'ilMyTestResultsGUI', 'ilTestEvaluationGUI'));
 		}
 
 		$this->backToInfoScreenCmd();

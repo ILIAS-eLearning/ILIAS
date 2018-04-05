@@ -109,6 +109,8 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 	 */
 	public function executeCommand()
 	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
 		// allow only write access
 
 		if (!$this->access->checkAccess("write", "", $this->testGUI->ref_id))
@@ -116,6 +118,8 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$this->ctrl->redirect($this->testGUI, "infoScreen");
 		}
+		
+		$DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_SETTINGS);
 
 		// process command
 

@@ -301,6 +301,10 @@ abstract class ilTestExport
 	 */
 	public function exportToExcel($deliver = TRUE, $filterby = "", $filtertext = "", $passedonly = FALSE)
 	{
+		$this->test_obj->setAccessFilteredParticipantList(
+			$this->test_obj->buildStatisticsAccessFilteredParticipantList()
+		);
+		
 		if (strcmp($this->mode, "aggregated") == 0) return $this->aggregatedResultsToExcel($deliver);
 
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssExcelFormatHelper.php';
@@ -803,7 +807,9 @@ abstract class ilTestExport
 	*/
 	function exportToCSV($deliver = TRUE, $filterby = "", $filtertext = "", $passedonly = FALSE)
 	{
-		global $ilLog;
+		$this->test_obj->setAccessFilteredParticipantList(
+			$this->test_obj->buildStatisticsAccessFilteredParticipantList()
+		);
 		
 		if (strcmp($this->mode, "aggregated") == 0) return $this->aggregatedResultsToCSV($deliver);
 
