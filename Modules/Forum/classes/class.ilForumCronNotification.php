@@ -385,16 +385,14 @@ class ilForumCronNotification extends ilCronJob
 	public function activationWasToggled($a_currently_active)
 	{		
 		global $DIC;
-		
+
+		$value = 1;
 		// propagate cron-job setting to object setting
 		if((bool)$a_currently_active)
 		{
-			$DIC->settings()->set('forum_notification', 2);
+			$value = 2;
 		}
-		else
-		{
-			$DIC->settings()->set('forum_notification', 1);
-		}
+		$DIC->settings()->set('forum_notification', $value);
 	}
 
 	/**
