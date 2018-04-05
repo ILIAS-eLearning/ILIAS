@@ -189,11 +189,6 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 	
 	public function initFilter()
 	{
-		if( !$this->isAccessResultsCommandsEnabled() )
-		{
-			return;
-		}
-		
 		global $lng;
 		
 		// title/description
