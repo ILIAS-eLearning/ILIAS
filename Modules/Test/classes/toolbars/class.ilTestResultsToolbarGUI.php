@@ -52,11 +52,6 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
 	 */
 	private $participantSelectorOptions = array();
 
-	/**
-	 * @var bool
-	 */
-	private $skillResultButtonEnabled = false;
-
 	public function __construct(ilCtrl $ctrl, ilTemplate $tpl, ilLanguage $lng)
 	{
 		$this->ctrl = $ctrl;
@@ -69,18 +64,6 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
 	public function build()
 	{
 		$this->setId('tst_results_toolbar');
-		
-		if( $this->isSkillResultButtonEnabled() )
-		{
-			require_once 'Modules/Test/classes/class.ilTestSkillEvaluationGUI.php';
-
-			$link = ilLinkButton::getInstance(); // always returns a new instance
-			$link->setUrl($this->ctrl->getLinkTargetByClass('ilTestSkillEvaluationGUI', ilTestSkillEvaluationGUI::CMD_SHOW));
-			$link->setCaption($this->lng->txt("tst_show_comp_results"), false);
-			$this->addButtonInstance($link);
-
-			$this->addSeparator();
-		}
 		
 		$this->addButton($this->lng->txt('print'), 'javascript:window.print();');
 
@@ -199,15 +182,5 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
 		}
 
 		return $options;
-	}
-
-	public function isSkillResultButtonEnabled()
-	{
-		return $this->skillResultButtonEnabled;
-	}
-
-	public function setSkillResultButtonEnabled($skillResultButtonEnabled)
-	{
-		$this->skillResultButtonEnabled = $skillResultButtonEnabled;
 	}
 }

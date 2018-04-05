@@ -1183,8 +1183,6 @@ class ilTestServiceGUI
 		require_once 'Modules/Test/classes/toolbars/class.ilTestResultsToolbarGUI.php';
 		$toolbar = new ilTestResultsToolbarGUI($this->ctrl, $this->tpl, $this->lng);
 
-		$toolbar->setSkillResultButtonEnabled($this->object->isSkillServiceToBeConsidered());
-
 		return $toolbar;
 	}
 
