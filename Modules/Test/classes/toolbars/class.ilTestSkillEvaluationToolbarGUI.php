@@ -28,8 +28,6 @@ class ilTestSkillEvaluationToolbarGUI extends ilToolbarGUI
 	private $noSkillProfileOptionEnabled;
 
 	private $selectedEvaluationMode;
-	
-	private $testResultButtonEnabled = false;
 
 	public function __construct(ilCtrl $ctrl, ilLanguage $lng, $parentGUI, $parentCMD)
 	{
@@ -71,28 +69,8 @@ class ilTestSkillEvaluationToolbarGUI extends ilToolbarGUI
 		return $this->selectedEvaluationMode;
 	}
 
-	public function isTestResultButtonEnabled()
-	{
-		return $this->testResultButtonEnabled;
-	}
-
-	public function setTestResultButtonEnabled($testResultButtonEnabled)
-	{
-		$this->testResultButtonEnabled = $testResultButtonEnabled;
-	}
-
 	public function build()
 	{
-		if( $this->isTestResultButtonEnabled() )
-		{
-			$link = ilLinkButton::getInstance(); // always returns a new instance
-			$link->setUrl($this->ctrl->getLinkTargetByClass('ilTestEvaluationGUI', 'outUserResultsOverview'));
-			$link->setCaption($this->lng->txt("tst_show_results"), false);
-			$this->addButtonInstance($link);
-
-			$this->addSeparator();
-		}
-		
 		$this->setFormAction($this->ctrl->getFormAction($this->parentGUI));
 
 		$select = new ilSelectInputGUI($this->lng->txt("tst_analysis"), self::SKILL_PROFILE_PARAM);

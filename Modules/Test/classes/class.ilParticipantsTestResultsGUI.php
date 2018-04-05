@@ -143,8 +143,10 @@ class ilParticipantsTestResultsGUI
 	 */
 	protected function buildTableGUI()
 	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		require_once 'Modules/Test/classes/tables/class.ilTestParticipantsTableGUI.php';
 		$tableGUI = new ilTestParticipantsTableGUI($this, self::CMD_SHOW_PARTICIPANTS);
+		$tableGUI->setTitle($DIC->language()->txt('tst_tbl_results_grades'));
 		return $tableGUI;
 	}
 	
@@ -176,8 +178,7 @@ class ilParticipantsTestResultsGUI
 		$participantList = $participantList->getAccessFilteredList($accessResultsFilter);
 		
 		require_once 'Modules/Test/classes/tables/class.ilTestParticipantsTableGUI.php';
-		$tableGUI = new ilTestParticipantsTableGUI($this, 'participants');
-		$tableGUI->setTitle($DIC->language()->txt('tst_tbl_results_grades'));
+		$tableGUI = $this->buildTableGUI();
 		$tableGUI->setRowKeyDataField('active_id');
 
 		if( !$this->getQuestionSetConfig()->areDepenciesBroken() )
