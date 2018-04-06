@@ -542,6 +542,41 @@ class ilFileUtils
 	 */
 	public static function getValidExtensions()
 	{
+		global $DIC;
+
+		$setting = $DIC->settings();
+
+		// default white list
+		$whitelist = self::getDefaultValidExtensionWhiteList();
+
+		// remove custom black list values
+		foreach (explode(",", $setting->get("suffix_repl_additional")) as $custom_black)
+		{
+			$custom_black = trim(strtolower($custom_black));
+			if (($key = array_search($custom_black, $whitelist)) !== false) {
+				unset($whitelist[$key]);
+			}
+		}
+
+		// add custom white list values
+		foreach (explode(",", $setting->get("suffix_custom_white_list")) as $custom_white)
+		{
+			$custom_white = trim(strtolower($custom_white));
+			if (!in_array($custom_white, $whitelist))
+			{
+				$whitelist[] = $custom_white;
+			}
+		}
+
+		return $whitelist;
+	}
+
+	/**
+	 * Valid extensions
+	 * @return array valid file extensions
+	 */
+	public static function getDefaultValidExtensionWhiteList()
+	{
 		return array(
 			'3gp', 	// VIDEO__3_GPP
 			'ai', 	// APPLICATION__POSTSCRIPT
