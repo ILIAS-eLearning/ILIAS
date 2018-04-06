@@ -4185,6 +4185,9 @@ class ilUtil
 		global $DIC;
 		$targetFilename = basename($a_target);
 
+		include_once("./Services/Utilities/classes/class.ilFileUtils.php");
+		$targetFilename = ilFileUtils::getValidFilename($targetFilename);
+
 		// Make sure the target is in a valid subfolder. (e.g. no uploads to ilias/setup/....)
 		list($targetFilesystem, $targetDir) = self::sanitateTargetPath($a_target);
 
@@ -4216,9 +4219,6 @@ class ilUtil
 
 			return false;
 		}
-
-		include_once("./Services/Utilities/classes/class.ilFileUtils.php");
-		$targetFilename = ilFileUtils::getValidFilename($targetFilename);
 
 		$upload->moveOneFileTo($UploadResult, $targetDir, $targetFilesystem, $targetFilename, true);
 
