@@ -936,7 +936,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$this->ctrl->saveParameter($this, "pass");
 		$pass = (int)$_GET["pass"];
 
-		if ( isset($_GET['statistics']) && $_GET['statistics'] == 1)
+		if ( false && isset($_GET['statistics']) && $_GET['statistics'] == 1) // detailed evaluation deprecated
 		{
 			$this->ctrl->setParameterByClass("ilTestEvaluationGUI", "active_id", $active_id);
 			$this->ctrl->saveParameter($this, 'statistics');
@@ -1113,7 +1113,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		}
 
 		$ilTabs->setBackTarget(
-			$this->lng->txt('back'), $this->ctrl->getLinkTargetByClass('ilobjtestgui', 'participants')
+			$this->lng->txt('back'), $this->ctrl->getLinkTargetByClass('ilParticipantsTestResultsGUI')
 		);
 
         // prepare generation before contents are processed (for mathjax)
