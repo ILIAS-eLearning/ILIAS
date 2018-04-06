@@ -607,6 +607,7 @@ class ilFileUtils
 			'html',   // TEXT__HTML,
 			'htmls',   // TEXT__HTML,
 			'ico',   // IMAGE__X_ICON,
+			'ics',   // iCalendar, TEXT__CALENDAR
 			'ini', // scorm wbts
 			'java',   // TEXT__X_JAVA_SOURCE,
 			'jbf', // scorm wbts
