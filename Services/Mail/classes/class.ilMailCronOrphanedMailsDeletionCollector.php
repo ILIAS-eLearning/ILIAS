@@ -41,7 +41,7 @@ class ilMailCronOrphanedMailsDeletionCollector
 	public function collect()
 	{
 		$mail_only_inbox_trash = (int)$this->settings->get('mail_only_inbox_trash');
-		$last_cron_start_ts    = (int)$this->settings->get('last_cronjob_start_ts');
+		$last_cron_start_ts    = (int)$this->settings->get('last_cronjob_start_ts', time());
 		$mail_notify_orphaned  = (int)$this->settings->get('mail_notify_orphaned');
 
 		$now = time();
