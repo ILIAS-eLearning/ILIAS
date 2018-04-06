@@ -311,7 +311,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 		$tpl->setVariable('PLACEHOLDER', $pl_format);		
 		
 		// current value		
-		$date_value = $this->invalid_input;			
+		$date_value = htmlspecialchars($this->invalid_input);			
 		if(!$date_value &&
 			$this->getDate())
 		{			
