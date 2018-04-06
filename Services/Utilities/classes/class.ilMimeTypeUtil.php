@@ -367,6 +367,7 @@ class ilMimeTypeUtil {
 	const PALEOVU__X_PV = 'paleovu/x-pv';
 	const TEXT__ASP = 'text/asp';
 	const TEXT__CSS = 'text/css';
+	const TEXT__CALENDAR = 'text/calendar';
 	const TEXT__ECMASCRIPT = 'text/ecmascript';
 	const TEXT__HTML = 'text/html';
 	const TEXT__JAVASCRIPT = 'text/javascript';
@@ -757,6 +758,7 @@ class ilMimeTypeUtil {
 		'htt' => self::TEXT__WEBVIEWHTML,
 		'htx' => self::TEXT__HTML,
 		'ice' => self::X_CONFERENCE__X_COOLTALK,
+		'ics' => self::TEXT__CALENDAR,
 		'ico' => self::IMAGE__X_ICON,
 		'idc' => self::TEXT__PLAIN,
 		'ief' => self::IMAGE__IEF,
