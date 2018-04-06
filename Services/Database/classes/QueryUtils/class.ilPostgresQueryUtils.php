@@ -157,7 +157,7 @@ class ilPostgresQueryUtils extends ilQueryUtils {
 		$locate .= '), ';
 		$locate .= $a_needle;
 		$locate .= ') + ';
-		$locate .= $a_start_pos;
+		$locate .= --$a_start_pos;
 
 		return $locate;
 	}
