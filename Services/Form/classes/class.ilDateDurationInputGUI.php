@@ -476,7 +476,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 		
 		// values
 		
-		$date_value = $this->invalid_input_start;			
+		$date_value = htmlspecialchars($this->invalid_input_start);			
 		if(!$date_value &&
 			$this->getStart())
 		{						
@@ -485,7 +485,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 		}
 		$tpl->setVariable('DATEPICKER_START_VALUE', $date_value);
 		
-		$date_value = $this->invalid_input_end;			
+		$date_value = htmlspecialchars($this->invalid_input_end);			
 		if(!$date_value &&
 			$this->getEnd())
 		{						
