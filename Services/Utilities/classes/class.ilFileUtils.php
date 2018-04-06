@@ -642,7 +642,7 @@ class ilFileUtils
 			'mpa',   // AUDIO__MPEG,
 			'mpeg',   // VIDEO__MPEG,
 			'mpg',   // AUDIO__MPEG,
-			'mph',
+			'mph',   // COMSOL Multiphysics
 			'mpga',   // AUDIO__MPEG,
 			'mpp',   // APPLICATION__VND_MS_PROJECT,
 			'mpt',   // APPLICATION__X_PROJECT,
