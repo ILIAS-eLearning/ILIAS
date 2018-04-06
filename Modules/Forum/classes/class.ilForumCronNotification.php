@@ -3,6 +3,7 @@
 
 include_once "Services/Cron/classes/class.ilCronJob.php";
 include_once "./Modules/Forum/classes/class.ilForumMailNotification.php";
+require_once './Modules/Forum/classes/class.ilForumNotificationCache.php';
 
 /**
  * Forum notifications
@@ -52,10 +53,14 @@ class ilForumCronNotification extends ilCronJob
 	/** @var \ilDBInterface */
 	private $ilDB;
 
+	/** @var \ilForumNotificationCache|null */
+	private $notificationCache;
+
 	/**
 	 * @param ilDBInterface|null $database
+	 * @param ilForumNotificationCache|null $notificationCache
 	 */
-	public function __construct(\ilDBInterface $database = null)
+	public function __construct(\ilDBInterface $database = null, \ilForumNotificationCache $notificationCache = null)
 	{
 		$this->settings = new ilSetting('frma');
 
@@ -64,6 +69,11 @@ class ilForumCronNotification extends ilCronJob
 			$ilDB = $DIC->database();
 		}
 		$this->ilDB = $ilDB;
+
+		if ($notificationCache === null) {
+			$notificationCache = new \ilForumNotificationCache();
+		}
+		$this->notificationCache = $notificationCache;
 	}
 
 	public function getId()
@@ -345,7 +355,7 @@ class ilForumCronNotification extends ilCronJob
 	 */
 	private function addProviderObject($row)
 	{
-		$tmp_provider = new ilForumCronNotificationDataProvider($row);
+		$tmp_provider = new ilForumCronNotificationDataProvider($row, $this->notificationCache);
 
 		self::$providerObject[$row['pos_pk']] = $tmp_provider;
 		self::$providerObject[$row['pos_pk']]->addRecipient($row['user_id']);
