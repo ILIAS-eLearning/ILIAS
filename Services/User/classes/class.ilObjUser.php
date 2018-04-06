@@ -2360,6 +2360,8 @@ class ilObjUser extends ilObject
 				!ilAuthUtils::_needsExternalAccountByAuthMode($this->getAuthMode(true))
 			) {
 				return true;
+			} else {
+				return false;
 			}
 		}
 
