@@ -410,13 +410,33 @@ class ilErrorHandling extends PEAR
 			case "PLAIN_TEXT":
 				return new ilPlainTextHandler();
 			case "PRETTY_PAGE":
-				return new PrettyPageHandler();
+				// fallthrough
 			default:
-				if ($ilLog) {
+				if ((!defined('ERROR_HANDLER') || ERROR_HANDLER != 'PRETTY_PAGE') && $ilLog) {
 					$ilLog->write("Unknown or undefined error handler '".ERROR_HANDLER."'. "
-								 ."Falling back to PrettyPageHandler.");
+						."Falling back to PrettyPageHandler.");
 				}
-				return new PrettyPageHandler();
+			$prettyPageHandler = new PrettyPageHandler();
+			if (defined('ERROR_EDITOR_URL')) {
+				$pathTranslations = [];
+
+				if (defined('ERROR_EDITOR_PATH_TRANSLATIONS')) {
+					$mappings = explode('|', ERROR_EDITOR_PATH_TRANSLATIONS);
+					foreach ($mappings as $mapping) {
+						$parts = explode(',', $mapping);
+						$pathTranslations[$parts[0]] = $parts[1];
+					}
+				}
+
+				$prettyPageHandler->setEditor(function ($file, $line) use ($pathTranslations) {
+					foreach ($pathTranslations as $from => $to) {
+						$file = preg_replace('@' . $from . '@' , $to, $file);
+					}
+
+					return str_ireplace(['[FILE]', '[LINE]'], [$file, $line], ERROR_EDITOR_URL);
+				});
+			}
+			return $prettyPageHandler;
 		}
 	}
 	

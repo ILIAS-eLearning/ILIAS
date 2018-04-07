@@ -139,6 +139,16 @@ class ilInitialisation
 		define ("PATH_TO_LESSC",$ilIliasIniFile->readVariable("tools","lessc"));
 		define ("PATH_TO_PHANTOMJS",$ilIliasIniFile->readVariable("tools","phantomjs"));
 
+		if ($ilIliasIniFile->groupExists('error')) {
+			if ($ilIliasIniFile->variableExists('error', 'editor_url')) {
+				define("ERROR_EDITOR_URL", $ilIliasIniFile->readVariable('error','editor_url'));
+			}
+
+			if ($ilIliasIniFile->variableExists('error', 'editor_path_translations')) {
+				define("ERROR_EDITOR_PATH_TRANSLATIONS", $ilIliasIniFile->readVariable('error','editor_path_translations'));
+			}
+		}
+
 		// read virus scanner settings
 		switch ($ilIliasIniFile->readVariable("tools", "vscantype"))
 		{
