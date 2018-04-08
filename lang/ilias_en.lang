@@ -43,11 +43,11 @@ lti#:#lti_admin#:#LTI Administrator
 lti#:#lti_tutor#:#LTI Instructor
 lti#:#lti_member#:#LTI Member
 auth#:#lti_consumer_inactive#:#LTI tool consumer is disabled.
-lti#:#lti_object_release_settings_form#:#LTI Freigaben bearbeiten
-lti#:#lti_provider#:#LTI-Freigaben
+lti#:#lti_object_release_settings_form#:#edit LTI-Shares
+lti#:#lti_provider#:#LTI-Shares
 lti#:#lti_launch_url#:#Url
-lti#:#lti_released_objects#:#Objekt-Freigaben
-lti#:#lti_consumer#:#Freigabe für
+lti#:#lti_released_objects#:#Shared Objects
+lti#:#lti_consumer#:#shared for
 orgu#:#orgu_global_set_form#:#Global Organisational Unit Settings
 orgu#:#orgu_global_set_positions#:#Show User Data according to Organisational Unit Positions
 orgu#:#orgu_global_set_positions_type_active#:#Positions in
