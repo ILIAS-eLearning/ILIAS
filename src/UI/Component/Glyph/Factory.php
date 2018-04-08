@@ -679,7 +679,7 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       The Paperclip Glyph indicates whether or not something is attached to an object or entity.
+	 *       The Paperclip Glyph indicates that something is attached to an object or entity.
 	 *   composition: >
 	 *      The Paperclip Glyph uses the glyphicon-paperclip.
 	 *   effect: >
