@@ -411,45 +411,6 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 	}
 
 	/**
-	 * @param ilLanguage $lng
-	 * @param            $authorUsrId
-	 * @param            $displayUserId
-	 * @param            $usrAlias
-	 * @param            $importName
-	 * @return \ilForumAuthorInformation
-	 */
-	private function getAuthorInformation(
-		\ilLanguage $lng,
-		int $authorUsrId,
-		int $displayUserId,
-		string $usrAlias,
-		string $importName
-	) {
-		$cacheKey = $this->notificationCache->createKeyByValues(array(
-			$lng->getLangKey(),
-			(int)$authorUsrId,
-			(int)$displayUserId,
-			(string)$usrAlias,
-			(string)$importName
-		));
-
-		if (false === $this->notificationCache->exists($cacheKey)) {
-			$authorInformation = new ilForumAuthorInformation(
-				$authorUsrId,
-				$displayUserId,
-				$usrAlias,
-				$importName,
-				array(),
-				$lng
-			);
-
-			$this->notificationCache->store($cacheKey, $authorInformation);
-		}
-
-		return $this->notificationCache->fetch($cacheKey);
-	}
-
-	/**
 	 * @inheritdoc
 	 */
 	public function getPostUserName(\ilLanguage $user_lang)
@@ -500,5 +461,44 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 		}
 
 		return $publicName;
+	}
+
+	/**
+	 * @param ilLanguage $lng
+	 * @param            $authorUsrId
+	 * @param            $displayUserId
+	 * @param            $usrAlias
+	 * @param            $importName
+	 * @return \ilForumAuthorInformation
+	 */
+	private function getAuthorInformation(
+		\ilLanguage $lng,
+		int $authorUsrId,
+		int $displayUserId,
+		string $usrAlias,
+		string $importName
+	) {
+		$cacheKey = $this->notificationCache->createKeyByValues(array(
+			$lng->getLangKey(),
+			(int)$authorUsrId,
+			(int)$displayUserId,
+			(string)$usrAlias,
+			(string)$importName
+		));
+
+		if (false === $this->notificationCache->exists($cacheKey)) {
+			$authorInformation = new ilForumAuthorInformation(
+				$authorUsrId,
+				$displayUserId,
+				$usrAlias,
+				$importName,
+				array(),
+				$lng
+			);
+
+			$this->notificationCache->store($cacheKey, $authorInformation);
+		}
+
+		return $this->notificationCache->fetch($cacheKey);
 	}
 }
