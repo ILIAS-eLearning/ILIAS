@@ -2,8 +2,6 @@
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/EventHandling/interfaces/interface.ilAppEventListener.php';
-require_once './Modules/Forum/classes/class.ilForumNotificationCache.php';
-
 
 /**
 * Forum listener. Listens to events of other components.
