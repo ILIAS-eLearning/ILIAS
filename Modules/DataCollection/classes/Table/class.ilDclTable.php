@@ -441,7 +441,6 @@ class ilDclTable {
 			/**
 			 * @var $ilDB ilDBInterface
 			 */
-			$desc = $ilDB->getDBType() == 'oracle' ? '' : 'il_dcl_field.description, ';
 			$query = "SELECT DISTINCT il_dcl_field.*, il_dcl_tfield_set.field_order
 						    FROM il_dcl_field
 						         INNER JOIN il_dcl_tfield_set
