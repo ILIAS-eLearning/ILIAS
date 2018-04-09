@@ -24,9 +24,9 @@ class ilChatroomInviteUsersToPrivateRoomGUI extends ilChatroomGUIHandler
 	 */
 	public function __construct(ilChatroomObjectGUI $gui)
 	{
-		global $ilUser;
+		global $DIC;
 
-		$this->ilUser = $ilUser;
+		$this->ilUser = $DIC->user();
 
 		parent::__construct($gui);
 	}
