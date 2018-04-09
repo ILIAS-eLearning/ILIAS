@@ -32,7 +32,7 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 		$this->iass_access = $this->parent_obj->object->accessHandler();
 
 		foreach ($this->visibleColumns() as $lng_var => $params) {
-			$this->addColumn($this->lng->txt($lng_var), $params[0]);
+			$this->addColumn($this->lng->txt($lng_var), $params[0], $params[1]);
 		}
 		$this->setData(iterator_to_array($a_parent_obj->object->loadVisibleMembers()));
 	}
@@ -43,14 +43,14 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 	 * @return string()
 	 */
 	protected function visibleColumns() {
-		$columns = array( 'name' 				=> array('name')
-						, 'login' 				=> array('login'));
+		$columns = array( 'name'				=> array('name', "")
+						, 'login'				=> array('login', ""));
 		if($this->userMayViewGrades() || $this->userMayEditGrades()) {
-			$columns['grading'] = array('lp_status');
-			$columns['iass_graded_by'] = array('iass_graded_by');
-			$columns['iass_changed_by'] = array('iass_changed_by');
+			$columns['grading'] = array('lp_status', "");
+			$columns['iass_graded_by'] = array('iass_graded_by', "");
+			$columns['iass_changed_by'] = array('iass_changed_by', "");
 		}
-		$columns['actions'] = array(null);
+		$columns['actions'] = array(null, "120px");
 		return $columns;
 	}
 
@@ -68,6 +68,7 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 		}
 
 		if($this->userMayViewGrades() || $this->userMayEditGrades()) {
+			$this->tpl->setCurrentBlock('grading_columns');
 			$status = $a_set[ilIndividualAssessmentMembers::FIELD_LEARNING_PROGRESS];
 			if($status == 0)
 			{
@@ -94,6 +95,7 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 					;
 			}
 			$this->tpl->setVariable("CHANGED_BY", $changed_by);
+			$this->tpl->parseCurrentBlock();
 		}
 
 		$this->tpl->setVariable("ACTIONS",$this->buildActionDropDown($a_set));
@@ -102,7 +104,7 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 	/**
 	 * Get image path for lp images
 	 *
-	 * @param int 	$a_status
+	 * @param int	$a_status
 	 *
 	 * @return string
 	 */
@@ -127,7 +129,7 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 	/**
 	 * Get text for lp status
 	 *
-	 * @param int 	$a_status
+	 * @param int	$a_status
 	 *
 	 * @return string
 	 */
@@ -163,29 +165,29 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 		$edited_by_viewer = $this->setWasEditedByViewer((int)$a_set[ilIndividualAssessmentMembers::FIELD_EXAMINER_ID]);
 		$finalized = (bool)$a_set[ilIndividualAssessmentMembers::FIELD_FINALIZED];
 
-		if ($finalized && (($this->userMayEditGradesOf($a_set["usr_id"]) && $edited_by_viewer) || $this->userMayViewGrades())) {
+		if (($this->userIsSystemAdmin() && $finalized) || ($finalized && (($this->userMayEditGradesOf($a_set["usr_id"]) && $edited_by_viewer) || $this->userMayViewGrades()))) {
 			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI','view');
 			$l->addItem($this->lng->txt('iass_usr_view'), 'view', $target);
 		}
 
-		if(!$finalized && $this->userMayEditGradesOf($a_set["usr_id"]) && $edited_by_viewer) {
+		if(($this->userIsSystemAdmin() && !$finalized) || (!$finalized && $this->userMayEditGradesOf($a_set["usr_id"]) && $edited_by_viewer)) {
 			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI','edit');
 			$l->addItem($this->lng->txt('iass_usr_edit'), 'edit', $target);
 		}
 
-		if(!$finalized && $this->userMayEditMembers()) {
+		if(($this->userIsSystemAdmin() && !$finalized) || (!$finalized && $this->userMayEditMembers())) {
 			$this->ctrl->setParameter($this->parent_obj, 'usr_id', $a_set['usr_id']);
 			$target = $this->ctrl->getLinkTarget($this->parent_obj,'removeUserConfirmation');
 			$this->ctrl->setParameter($this->parent_obj, 'usr_id', null);
 			$l->addItem($this->lng->txt('iass_usr_remove'), 'removeUser', $target);
 		}
 
-		if($finalized && $this->userMayAmendGrades()) {
+		if(($this->userIsSystemAdmin() && $finalized) || ($finalized && $this->userMayAmendGrades())) {
 			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI', 'amend');
 			$l->addItem($this->lng->txt('iass_usr_amend'), 'amend', $target);
 		}
 
-		if($this->userMayDownloadAttachment($a_set['usr_id']) && (string)$a_set['file_name'] !== '') {
+		if($this->userIsSystemAdmin() || ($this->userMayDownloadAttachment($a_set['usr_id']) && (string)$a_set['file_name'] !== '')) {
 			$target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI', 'downloadAttachment');
 			$l->addItem($this->lng->txt('iass_usr_download_attachment'), 'downloadAttachment', $target);
 		}
@@ -196,7 +198,7 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 	/**
 	 * Check the set was edited by viewing user
 	 *
-	 * @param int 	$examiner_id
+	 * @param int	$examiner_id
 	 *
 	 * @return bool
 	 */
@@ -257,5 +259,15 @@ class ilIndividualAssessmentMembersTableGUI extends ilTable2GUI {
 	 */
 	protected function userMayDownloadAttachment($usr_id) {
 		return $this->userMayViewGrades() || $this->userMayEditGrades() || $this->userMayEditGradesOf($usr_id);
+	}
+
+	/**
+	 * Check whether usr is admin.
+	 *
+	 * @return bool
+	 */
+	protected function userIsSystemAdmin()
+	{
+		return $this->iass_access->isSystemAdmin();
 	}
 }

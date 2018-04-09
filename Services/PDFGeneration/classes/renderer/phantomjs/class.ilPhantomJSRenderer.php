@@ -461,6 +461,7 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 	protected function buildJavascriptDelayForm()
 	{
 		$javascript_delay = new ilTextInputGUI($this->lng->txt('javascript_delay'), 'javascript_delay');
+		$javascript_delay->setInfo($this->lng->txt('javascript_delay_info'));
 		$javascript_delay->setValue($this->javascript_delay);
 		return $javascript_delay;
 	}

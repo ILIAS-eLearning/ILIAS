@@ -60,9 +60,9 @@ class ilSystemStyleLessVariable extends ilSystemStyleLessItem
 	public function __construct($name, $value, $comment,$category_name, $references)
 	{
 		$this->setName($name);
-		$this->setValue($value);
-		$this->setCategoryName($category_name);
-		$this->setComment($comment);
+        $this->setValue($value);
+        $this->setCategoryName($category_name);
+        $this->setComment($comment);
 		$this->setReferences($references);
 	}
 
@@ -95,16 +95,22 @@ class ilSystemStyleLessVariable extends ilSystemStyleLessItem
 	 */
 	public function setValue($value)
 	{
-		/**
-		 * @Todo: Fix this nasty hack to correct the icon-font-path
-		 */
-		if($value == "\"../../libs/bower/bower_components/bootstrap/fonts/\""){
-			$this->value = "\"../../../../libs/bower/bower_components/bootstrap/fonts/\"";
-		}else{
-			$this->value =  str_replace(PHP_EOL, '', $value);;
+        if($this->getName() == "icon-font-path"){
+            if($value[0] != "\""){
+                $value = "\"".$value;;
+            }
+            if(substr($value,-1,1) != "\""){
+                $value .= "\"";
+            }
 
-		}
-	}
+            if($value == "\"../../libs/bower/bower_components/bootstrap/fonts/\""){
+                $value = "\"../../../../libs/bower/bower_components/bootstrap/fonts/\"";
+            }
+        }
+
+        $this->value =  str_replace(PHP_EOL, '', $value);;
+
+    }
 
 	/**
 	 * @return string

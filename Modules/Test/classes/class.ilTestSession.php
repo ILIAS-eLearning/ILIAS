@@ -602,4 +602,54 @@ class ilTestSession
 	{
 		return $this->getUserId() == ANONYMOUS_USER_ID;
 	}
+	
+	/**
+	 * @var null|bool
+	 */
+	private $reportableResultsAvailable = null;
+	
+	/**
+	 * @param ilObjTest $testOBJ
+	 * @return bool
+	 */
+	public function reportableResultsAvailable(ilObjTest $testOBJ)
+	{
+		if( $this->reportableResultsAvailable === null )
+		{
+			$this->reportableResultsAvailable = true;
+			
+			if( !$this->getActiveId() )
+			{
+				$this->reportableResultsAvailable = false;
+			}
+			
+			if( !$testOBJ->canShowTestResults($this) )
+			{
+				$this->reportableResultsAvailable = false;
+			}
+		}
+		
+		return $this->reportableResultsAvailable;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function hasSinglePassReportable(ilObjTest $testObj)
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
+		$testPassesSelector = new ilTestPassesSelector($DIC->database(), $testObj);
+		$testPassesSelector->setActiveId($this->getActiveId());
+		$testPassesSelector->setLastFinishedPass($this->getLastFinishedPass());
+		
+		if( count($testPassesSelector->getReportablePasses()) == 1 )
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
 }

@@ -1080,7 +1080,7 @@ class ilObjFileGUI extends ilObject2GUI
 			}
 			catch (Exception $ex)
 			{
-				$response->error = $ex->getMessage() . " ## " . $ex->getTraceAsString();
+				$response->error = $ex->getMessage();
 			}
 		}
 		else

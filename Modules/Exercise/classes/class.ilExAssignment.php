@@ -1888,7 +1888,7 @@ class ilExAssignment
 	// FEEDBACK FILES
 	// 
 	
-	protected function getGlobalFeedbackFileStoragePath()
+	public function getGlobalFeedbackFileStoragePath()
 	{
 		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		$storage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
@@ -1904,7 +1904,7 @@ class ilExAssignment
 	{		
 		$path = $this->getGlobalFeedbackFileStoragePath();
 		ilUtil::delDir($path, true);
-		if (ilUtil::moveUploadedFile($a_file["tmp_name"], $a_file["name"], $path.$a_file["name"]))
+		if (ilUtil::moveUploadedFile($a_file["tmp_name"], $a_file["name"], $path."/".$a_file["name"]))
 		{
 			$this->setFeedbackFile($a_file["name"]);		
 			return true;

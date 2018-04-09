@@ -37,6 +37,8 @@ class ilPCAMDPageList extends ilPageContent
 		$this->db = $DIC->database();
 		$this->lng = $DIC->language();
 		$this->setType("amdpl");
+
+		$this->ref_id = (int) $_GET["ref_id"];
 	}
 	
 	/**
@@ -196,7 +198,7 @@ class ilPCAMDPageList extends ilPageContent
 
 		// only search in active fields
 		$found_ids = null;
-		$recs = ilAdvancedMDRecord::_getSelectedRecordsByObject("wiki", $wiki_id, "wpg");		
+		$recs = ilAdvancedMDRecord::_getSelectedRecordsByObject("wiki", $this->ref_id, "wpg");
 		foreach($recs as $record)
 		{ 				
 			foreach(ilAdvancedMDFieldDefinition::getInstancesByRecordId($record->getRecordId(), true) as $field)

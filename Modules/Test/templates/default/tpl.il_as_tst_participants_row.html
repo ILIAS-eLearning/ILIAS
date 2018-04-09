@@ -1,18 +1,18 @@
 <tr class="{CSS_ROW}">
 	<td class="std" style="vertical-align: top">
-		<input type="checkbox" name="chbUser[]" value="{USER_ID}" id="cb_{USER_ID}" {VAL_CHECKED} />
+		<input type="checkbox" name="chbUser[]" value="{ROW_KEY}" id="cb_{ROW_KEY}" {VAL_CHECKED} />
 	</td>
-	<td class="std" style="vertical-align: top">{FULLNAME}</td>
-	<td class="std" style="vertical-align: top"><label for="cb_{USER_ID}">{LOGIN}</label></td>
-	<td class="std" style="vertical-align: top">{STARTED}</td>
-	<td class="std" style="vertical-align: top">{PASSES}</td>
-	<td class="std" style="vertical-align: top">{UNFINISHED_PASSES}</td>
-	<td class="std" style="vertical-align: top">{FINISHED}</td>
-	<td class="std" style="vertical-align: top">{ACCESS}</td>
+	<td class="std" style="vertical-align: top"><label for="cb_{ROW_KEY}">{FULLNAME}</label></td>
+	<td class="std" style="vertical-align: top"><label for="cb_{ROW_KEY}">{LOGIN}</label></td>
+	<!-- BEGIN client_ip_column -->
+	<td class="std" style="vertical-align: top"><input type="text" name="clientip_{ROW_KEY}" size="15" maxlength="15" value="{CLIENT_IP}" /></td>
+	<!-- END client_ip_column -->
+	<!-- BEGIN started_column --><td class="std" style="vertical-align: top">{STARTED}</td><!-- END started_column -->
+	<!-- BEGIN tries_column --><td class="std" style="vertical-align: top">{TRIES}</td><!-- END tries_column -->
+	<!-- BEGIN unfinished_column --><td class="std" style="vertical-align: top">{UNFINISHED_PASSES}</td><!-- END unfinished_column -->
+	<!-- BEGIN finished_column --><td class="std" style="vertical-align: top">{FINISHED}</td><!-- END finished_column -->
+	<!-- BEGIN access_column --><td class="std" style="vertical-align: top">{ACCESS}</td><!-- END access_column -->
 	<!-- BEGIN actions_column -->
-		<td class="std" style="vertical-align: top">
-			<!-- BEGIN action_results_list -->{RESULTS_LIST}<!-- END action_results_list -->
-			<!-- BEGIN action_results --><a href="{RESULTS}">{RESULTS_TEXT}</a><!-- END action_results -->
-		</td>
+	<td class="std" style="vertical-align: top">{ACTIONS}</td>
 	<!-- END actions_column -->
 </tr>
