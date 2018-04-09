@@ -19,7 +19,9 @@ class ilChatroomInstaller
 		/**
 		 * @var $ilDB ilDBInterface
 		 */
-		global $ilDB;
+		global $DIC;
+
+		$ilDB = $DIC->database();
 
 		if(!$ilDB->tableExists('chatroom_settings'))
 		{
@@ -212,10 +214,10 @@ class ilChatroomInstaller
 	 */
 	public static function registerObject()
 	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
+		global $DIC;
+
+		/**@var $ilDB ilDBInterface */
+		$ilDB = $DIC->database();
 
 		$typ_id = null;
 
@@ -277,10 +279,10 @@ class ilChatroomInstaller
 
 	private static function getModeratorPermissionId()
 	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
+		global $DIC;
+
+		/**@var $ilDB ilDBInterface */
+		$ilDB = $DIC->database();
 
 		$rset = $ilDB->queryF(
 			'SELECT ops_id FROM rbac_operations WHERE operation = %s',
@@ -300,10 +302,10 @@ class ilChatroomInstaller
 	 */
 	public static function registerAdminObject()
 	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
+		global $DIC;
+
+		/**@var $ilDB ilDBInterface */
+		$ilDB = $DIC->database();
 
 		$query = 'SELECT * FROM object_data WHERE type = ' . $ilDB->quote('chta', 'text');
 		if(!$ilDB->fetchAssoc($ilDB->query($query)))
@@ -333,10 +335,10 @@ class ilChatroomInstaller
 
 	public static function removeOldChatEntries()
 	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
+		global $DIC;
+
+		/**@var $ilDB ilDBInterface */
+		$ilDB = $DIC->database();
 
 		$res = $ilDB->queryF(
 			'SELECT object_data.obj_id, ref_id, lft, rgt
@@ -386,10 +388,10 @@ class ilChatroomInstaller
 	 */
 	public static function convertChatObjects()
 	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
+		global $DIC;
+
+		/**@var $ilDB ilDBInterface */
+		$ilDB = $DIC->database();
 
 		$res = $ilDB->queryF(
 			"SELECT		obj_id
@@ -439,10 +441,10 @@ class ilChatroomInstaller
 
 	public static function createDefaultPublicRoom($force = false)
 	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
+		global $DIC;
+
+		/**@var $ilDB ilDBInterface */
+		$ilDB = $DIC->database();
 
 		if($force)
 		{
@@ -504,10 +506,10 @@ class ilChatroomInstaller
 
 	public static function createMissinRoomSettingsForConvertedObjects()
 	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
+		global $DIC;
+
+		/**@var $ilDB ilDBInterface */
+		$ilDB = $DIC->database();
 
 		$res = $ilDB->queryF(
 			"SELECT obj_id FROM object_data
@@ -532,12 +534,15 @@ class ilChatroomInstaller
 	 */
 	public static function ensureCorrectPublicChatroomTreeLocation($ref_id)
 	{
-		/**
-		 * @var $tree      ilTree
-		 * @var $ilDB      ilDBInterface
-		 * @var $rbacadmin ilRbacAdmin
-		 */
-		global $tree, $ilDB, $rbacadmin;
+
+		global $DIC;
+
+		/** @var $tree      ilTree */
+		$tree = $DIC['tree'];
+		/** @var ilDB $ilDB */
+		$ilDB = $DIC->database();
+		/** @var ilRbacAdmin $rbacadmin */
+		$rbacadmin = $DIC['rbacadmin'];
 
 		$ilDB->setLimit(1);
 		$query             = "
