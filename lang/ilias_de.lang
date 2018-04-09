@@ -426,6 +426,7 @@ assessment#:#applet_parameter#:#Parameter
 assessment#:#applet_parameters#:#Applet-Parameter
 assessment#:#apply#:#Übernehmen
 assessment#:#tst_msg_rand_quest_set_rule_label#:#Regel %s
+assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_missing_#:#Für Regel %s werden %s Fragen benötigt, es stehen aber nur %s Fragen zur Verfügung.
 assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_missing_shared#:#Von den vorgesehenen Fragen stehen %s Fragen zu dem auch den folgenden Regeln zur Verfügung: %s
 assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_reserved#:#Für Regel %s werden %s Fragen benötigt und es sind %s Fragen vorgesehen.
 assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_reserved_shared#:#Durch Überschneidungen mit den folgenden Regeln stehen aber nur %s Fragen garantiert zur Verfügung: %s
