@@ -13760,6 +13760,7 @@ pdfgen#:#header_show_pages#:#Zeige Seitenzahlen
 pdfgen#:#footer_text#:#Text
 pdfgen#:#footer_height#:#Höhe Fußzeile
 pdfgen#:#footer_show_pages#:#Zeige Seitenzahlen
+pdfgen#:#javascript_delay_info#:#Wenn JavaScript genutzt wird, um Seiteninhalte zu rendern, sorgt die Verzögerung dafür, dass diese Inhalte auch im PDF erscheinen. Die Standardverzögerung von 200ms sollte in den meisten Fällen ausreichen.
 prtf#:#pdf_export#:#PDF Export
 pdfgen#:#preferred_renderer#:#Bevorzugter Renderer
 pdfgen#:#selected_renderer#:#Gewählter Renderer

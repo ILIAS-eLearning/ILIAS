@@ -13766,7 +13766,7 @@ common#:#pdfg_edit_permission#:#User can change permission settings
 pdfgen#:#phantomjs#:#PhantomJS
 pdfgen#:#page_settings#:#Page Settings
 pdfgen#:#page_size#:#Pagesize
-pdfgen#:#margin#:#Margin
+pdfgen#:#margin#:#Margin 345
 pdfgen#:#header_type#:#Header
 pdfgen#:#text#:#Text
 pdfgen#:#footer_type#:#Footer
@@ -13782,6 +13782,7 @@ pdfgen#:#selected_renderer#:#Selected Renderer
 pdfgen#:#configure#:#Configure Renderer
 pdfgen#:#config_saved#:#Saved successfully
 pdfgen#:#config_not_saved#:#Saving failed
+pdfgen#:#javascript_delay_info#:#If JavaScript is used to render page content, add a delay to make sure the content appears in the PDF. The standard delay of 200ms should suffice in most cases.
 prtf#:#pdf_export#:#PDF Export
 pdfgen#:#print_media_type#:#Use print media type instead of screen
 pdfgen#:#javascript_delay#:#Javascript delay
