@@ -4,7 +4,6 @@
 include_once './Modules/Forum/interfaces/interface.ilForumNotificationMailData.php';
 include_once './Modules/Forum/classes/class.ilForumProperties.php';
 require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
-require_once './Modules/Forum/classes/class.ilForumNotificationCache.php';
 
 /**
  * Class ilForumCronNotificationDataProvider

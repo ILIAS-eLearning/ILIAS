@@ -3,7 +3,6 @@
 
 include_once "Services/Cron/classes/class.ilCronJob.php";
 include_once "./Modules/Forum/classes/class.ilForumMailNotification.php";
-require_once './Modules/Forum/classes/class.ilForumNotificationCache.php';
 
 /**
  * Forum notifications
