@@ -26,7 +26,12 @@ class ilChatroomInitialGUI extends ilChatroomGUIHandler
 	public function executeDefault($method)
 	{
 		throw new Exception('METHOD_NOT_IN_USE', 1456435027);
-		global $tpl, $ilUser, $ilCtrl, $lng, $rbacsystem;
+		global $DIC;
+
+		$tpl = $DIC['tpl'];
+		$ilUser = $DIC['ilUser'];
+		$lng = $DIC['lng'];
+		$rbacsystem = $DIC['rbacsystem'];
 
 		$room      = ilChatroom::byObjectId($this->gui->object->getId());
 		$chat_user = new ilChatroomUser($ilUser, $room);
