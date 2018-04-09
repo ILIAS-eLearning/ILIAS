@@ -3,7 +3,7 @@
  *
  * @author Daniel Weise <daniel.weise@concepts-and-training.de>
  */
-ServiceOpenLayers = {
+var ServiceOpenLayers = {
 	ol: null,
 	$: null,
 	map_data: null,
@@ -196,10 +196,10 @@ ServiceOpenLayers = {
 					$("#" + id + "_addr").val(module.addressInvalid);
 					return;
 				}
-				lon = parseFloat(data[0].lon, 10);
-				lat = parseFloat(data[0].lat, 10);
+				var lon = parseFloat(data[0].lon, 10);
+				var lat = parseFloat(data[0].lat, 10);
 
-				pos = module.posToOSM([lon, lat]);
+				var pos = module.posToOSM([lon, lat]);
 
 				module.jumpTo(id, pos, 16);
 				module.deleteAllMarkers();
@@ -260,7 +260,7 @@ ServiceOpenLayers = {
 	 * @returns 	{void}
 	 */
 	deleteAllMarkers: function() {
-		marker = document.getElementsByClassName('marker');
+		var marker = document.getElementsByClassName('marker');
 		for (var i = 0; i < marker.length; i++) {
 			marker[i].remove();
 		}
@@ -320,7 +320,7 @@ ServiceOpenLayers = {
 	 * @returns 	{void}
 	 */
 	deleteAllPopups: function() {
-		popups = document.getElementsByClassName('arrow_box');
+		var popups = document.getElementsByClassName('arrow_box');
 		for (var i = 0; i < popups.length; i++) {
 			popups[i].remove();
 		}
