@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/EventHandling/interfaces/interface.ilAppEventListener.php';
+require_once './Modules/Forum/classes/class.ilForumNotificationCache.php';
 
 
 /**
@@ -54,7 +55,7 @@ class ilForumAppEventListener implements ilAppEventListener
 						$post              = $a_parameter['post'];
 						$notify_moderators = $a_parameter['notify_moderators'];
 
-						$provider = new ilObjForumNotificationDataProvider($post, $a_parameter['ref_id']);
+						$provider = new ilObjForumNotificationDataProvider($post, $a_parameter['ref_id'], new ilForumNotificationCache());
 
 						if($immediate_notifications_enabled && $post->isActivated())
 						{
@@ -101,7 +102,7 @@ class ilForumAppEventListener implements ilAppEventListener
 						$post = $a_parameter['post'];
 						if($immediate_notifications_enabled && $post->isActivated())
 						{
-							$provider = new ilObjForumNotificationDataProvider($post, $a_parameter['ref_id']);
+							$provider = new ilObjForumNotificationDataProvider($post, $a_parameter['ref_id'], new ilForumNotificationCache());
 							self::delegateNotification(
 								$provider,
 								ilForumMailNotification::TYPE_POST_NEW,
@@ -122,7 +123,7 @@ class ilForumAppEventListener implements ilAppEventListener
 						$post              = $a_parameter['post'];
 						$notify_moderators = $a_parameter['notify_moderators'];
 
-						$provider = new ilObjForumNotificationDataProvider($post, $a_parameter['ref_id']);
+						$provider = new ilObjForumNotificationDataProvider($post, $a_parameter['ref_id'], new ilForumNotificationCache());
 
 						if($immediate_notifications_enabled && $post->isActivated())
 						{
@@ -151,7 +152,7 @@ class ilForumAppEventListener implements ilAppEventListener
 
 						if($immediate_notifications_enabled)
 						{
-							$provider = new ilObjForumNotificationDataProvider($post, $a_parameter['ref_id']);
+							$provider = new ilObjForumNotificationDataProvider($post, $a_parameter['ref_id'], new ilForumNotificationCache());
 							if($post->isCensored() && $post->isActivated())
 							{
 								self::delegateNotification(
@@ -180,7 +181,7 @@ class ilForumAppEventListener implements ilAppEventListener
 
 						$thread_deleted = $a_parameter['thread_deleted'];
 
-						$provider = new ilObjForumNotificationDataProvider($post, $a_parameter['ref_id']);
+						$provider = new ilObjForumNotificationDataProvider($post, $a_parameter['ref_id'], new ilForumNotificationCache());
 
 						if($post->isActivated())
 						{
