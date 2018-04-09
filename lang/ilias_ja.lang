@@ -14157,3 +14157,13 @@ wsp#:#wsp_type_wfld#:#フォルダ
 assessment#:#false#:#False###15 03 2018 new variable
 assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.###15 03 2018 new variable
 assessment#:#true#:#True###15 03 2018 new variable
+content#:#cont_lpe_login_form#:#Login Form###05 04 2018 new variable
+content#:#cont_lpe_cas_login_form#:#CAS Login Form###05 04 2018 new variable
+content#:#cont_lpe_shib_login_form#:#Shibboleth Login Form###05 04 2018 new variable
+content#:#cont_lpe_openid_login_form#:#OpenId Login Form###05 04 2018 new variable
+content#:#cont_lpe_registration_link#:#New Registration Link###05 04 2018 new variable
+content#:#cont_lpe_language_selection#:#Language Selection###05 04 2018 new variable
+content#:#cont_lpe_user_agreement_link#:#User Agreement Link###05 04 2018 new variable
+common#:#obj_fold_duplicate#:#Copy Folder###05 04 2018 new variable
+common#:#fold_wizard_page#:#Copy Folder (Step 2/2)###05 04 2018 new variable
+common#:#fold_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.###05 04 2018 new variable
