@@ -628,6 +628,8 @@ class ilFileUtils
 			'm3u',   // AUDIO__X_MPEQURL,
 			'm4a',   // AUDIO__MP4,
 			'm4v',   // VIDEO__MP4,
+			'm',     // MATLAB
+			'mat',   // MATLAB
 			'md',    // TEXT__MARKDOWN,
 			'mid',   // AUDIO__MIDI,
 			'min',		// scorm articulate?
