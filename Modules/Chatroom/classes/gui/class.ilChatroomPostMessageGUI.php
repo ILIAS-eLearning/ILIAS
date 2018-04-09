@@ -20,7 +20,11 @@ class ilChatroomPostMessageGUI extends ilChatroomGUIHandler
 	public function executeDefault($method)
 	{
 		throw new Exception('METHOD_NOT_IN_USE', 1456435027);
-		global $ilUser, $ilCtrl;
+
+		global $DIC;
+
+		$ilUser = $DIC['ilUser'];
+		$ilCtrl = $DIC['ilCtrl'];
 
 		require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 		require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
