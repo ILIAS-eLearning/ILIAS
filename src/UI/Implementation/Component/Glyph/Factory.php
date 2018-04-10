@@ -193,7 +193,7 @@ class Factory implements G\Factory {
 	/**
 	 * @inheritdoc
 	 */
-	public function paperclip($action = null) {
-		return new Glyph(G\Glyph::PAPERCLIP, "paperclip", $action);
+	public function attachment($action = null) {
+		return new Glyph(G\Glyph::ATTACHMENT, "attachment", $action);
 	}
 }

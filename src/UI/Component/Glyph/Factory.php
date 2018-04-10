@@ -679,11 +679,11 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       The Paperclip Glyph indicates whether or not something is attached to an object or entity.
+	 *      The attachment glyph indicates that a file is attached or can be attached to an object or entity.
 	 *   composition: >
-	 *      The Paperclip Glyph uses the glyphicon-paperclip.
+	 *      The Attachment Glyph uses the glyphicon-paperclip.
 	 *   effect: >
-	 *       Clicking executes an action which delivers these attachments to the actor.
+	 *       Clicking executes an action which delivers these attachments to the actor or initiates a process to add new attachments.
 	 *
 	 * context: Impose the information whether or not files have been attached to emails in the folder view.
 	 *
@@ -693,10 +693,10 @@ interface Factory {
 	 *          A Status Counter MAY indicate the overall amount of attachments.
 	 *   accessibility:
 	 *       1: >
-	 *          The aria-label MUST be 'Paperclip'.
+	 *          The aria-label MUST be 'Attachment'.
 	 * ---
 	 * @param string|null	$action
 	 * @return \ILIAS\UI\Component\Glyph\Glyph
 	 */
-	public function paperclip($action = null);
+	public function attachment($action = null);
 }
