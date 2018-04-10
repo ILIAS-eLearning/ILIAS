@@ -2791,7 +2791,6 @@ return array(
     'ilChatroomSmiliesGUI' => $baseDir . '/../../Modules/Chatroom/classes/class.ilChatroomSmiliesGUI.php',
     'ilChatroomSmiliesTableGUI' => $baseDir . '/../../Modules/Chatroom/classes/class.ilChatroomSmiliesTableGUI.php',
     'ilChatroomTabGUIFactory' => $baseDir . '/../../Modules/Chatroom/classes/class.ilChatroomTabGUIFactory.php',
-    'ilChatroomUploadFileGUI' => $baseDir . '/../../Modules/Chatroom/classes/gui/class.ilChatroomUploadFileGUI.php',
     'ilChatroomUser' => $baseDir . '/../../Modules/Chatroom/classes/class.ilChatroomUser.php',
     'ilChatroomViewGUI' => $baseDir . '/../../Modules/Chatroom/classes/gui/class.ilChatroomViewGUI.php',
     'ilChatroomXMLParser' => $baseDir . '/../../Modules/Chatroom/classes/class.ilChatroomXMLParser.php',
