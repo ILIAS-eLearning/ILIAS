@@ -83,7 +83,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 		$this->access = $DIC->access();
 		$this->user = $DIC->user();
 
-		$this->notificationCache = new \ilForumNotificationCache();
+		$this->notificationCache = $notificationCache;
 
 		$this->objPost = $objPost;
 		$this->ref_id  = $ref_id;
