@@ -137,7 +137,7 @@ class FilesystemFacade implements Filesystem {
 	 * @inheritDoc
 	 */
 	public function setVisibility($path, $visibility) {
-		$this->fileAccess->setVisibility($path, $visibility);
+		return $this->fileAccess->setVisibility($path, $visibility);
 	}
 
 
@@ -145,7 +145,7 @@ class FilesystemFacade implements Filesystem {
 	 * @inheritDoc
 	 */
 	public function getVisibility($path) {
-		$this->fileAccess->getVisibility($path);
+		return $this->fileAccess->getVisibility($path);
 	}
 
 
@@ -217,7 +217,7 @@ class FilesystemFacade implements Filesystem {
 	 * @inheritDoc
 	 */
 	public function readAndDelete($path) {
-		$this->fileAccess->readAndDelete($path);
+		return $this->fileAccess->readAndDelete($path);
 	}
 
 
