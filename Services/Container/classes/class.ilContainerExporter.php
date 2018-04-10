@@ -109,9 +109,12 @@ class ilContainerExporter extends ilXmlExporter
 	 */
 	public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
 	{
+		global $DIC;
+
+		$log = $DIC->logger()->root();
 		if($a_entity == 'struct')
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Received id = '.$a_id);
+			$log->debug(__METHOD__.': Received id = '.$a_id);
 			$writer = new ilContainerXmlWriter(end(ilObject::_getAllReferences($a_id)));
 			$writer->write();
 			return $writer->xmlDumpMem(false);
