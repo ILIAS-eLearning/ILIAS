@@ -240,7 +240,10 @@ class ilObjFile extends ilObject2 {
 			require_once('./Services/Utilities/classes/class.ilFileUtils.php');
 			$a_filename = ilFileUtils::getValidFilename($a_filename);
 			$this->setFileName($a_filename);
-			$this->setTitle($a_filename);
+			//if no title for the file was set use the filename as title
+			if(empty($this->getTitle())) {
+				$this->setTitle($a_filename);
+			}
 			$this->update();
 		}
 		if($this->version) {
