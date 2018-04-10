@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Provider\FlySystem;
 
@@ -16,7 +17,7 @@ use League\Flysystem\Adapter\Local;
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
  * @since 5.3
  */
-class FlySystemLocalFilesystemFactory {
+final class FlySystemLocalFilesystemFactory {
 
 	const PRIVATE_ACCESS_KEY = 'private';
 	const PUBLIC_ACCESS_KEY = 'public';

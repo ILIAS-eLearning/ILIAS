@@ -2,8 +2,6 @@
 
 namespace ILIAS\Filesystem\Security\Sanitizing;
 
-use ilException;
-
 /**
  * Interface FilenameSanitizer
  *
@@ -33,10 +31,8 @@ interface FilenameSanitizer {
 	 *
 	 * @version 1.0
 	 * @since 5.3.4
-	 *
-	 * @throws ilException Thrown if the filename is null.
 	 */
-	public function isClean($filename);
+	public function isClean(string $filename): bool;
 
 
 	/**
@@ -46,10 +42,8 @@ interface FilenameSanitizer {
 	 * @param string $filename The filename which should be sanitized.
 	 *
 	 * @return string The filename with a valid ending.
-	 *
-	 * @throws ilException Thrown if the filename is null.
 	 */
-	public function sanitize($filename);
+	public function sanitize(string $filename): string;
 
 
 

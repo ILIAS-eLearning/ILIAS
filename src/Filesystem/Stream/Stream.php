@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Stream;
 
@@ -14,7 +15,7 @@ use ILIAS\Filesystem\Util\PHPStreamFunctions;
  *
  * @internal
  */
-class Stream implements FileStream {
+final class Stream implements FileStream {
 
 	const MASK_ACCESS_READ = 01;
 	const MASK_ACCESS_WRITE = 02;

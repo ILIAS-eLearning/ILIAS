@@ -1,8 +1,8 @@
 <?php
+declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Security\Sanitizing;
 
-use ilException;
 use ilFileUtils;
 
 /**
@@ -13,7 +13,7 @@ use ilFileUtils;
  * @package ILIAS\Filesystem\Security\Sanitizising
  *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @version 1.0.0
+ * @version 1.1.0
  * @since 5.3.4
  */
 final class FilenameSanitizerImpl implements FilenameSanitizer {
@@ -41,8 +41,7 @@ final class FilenameSanitizerImpl implements FilenameSanitizer {
 	/**
 	 * @inheritDoc
 	 */
-	public function isClean($filename) {
-		$this->validateFilename($filename);
+	public function isClean(string $filename): bool {
 		return in_array($this->extractFileSuffix($filename), $this->whitelist, true);
 	}
 
@@ -50,8 +49,7 @@ final class FilenameSanitizerImpl implements FilenameSanitizer {
 	/**
 	 * @inheritDoc
 	 */
-	public function sanitize($filename) {
-		$this->validateFilename($filename);
+	public function sanitize(string $filename): string {
 		if($this->isClean($filename))
 			return $filename;
 
@@ -70,18 +68,5 @@ final class FilenameSanitizerImpl implements FilenameSanitizer {
 	 */
 	private function extractFileSuffix($filename) {
 		return strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-	}
-
-
-	/**
-	 * Validates that the filename is valid for further sanitizing.
-	 *
-	 * @param string $filename The filename which should get validated before sanitizing.
-	 *
-	 * @throws ilException Thrown if the filename is not considered valid for sanitizing.
-	 */
-	private function validateFilename($filename) {
-		if($filename === NULL)
-			throw new ilException("Filename must not be null to get sanitized!");
 	}
 }

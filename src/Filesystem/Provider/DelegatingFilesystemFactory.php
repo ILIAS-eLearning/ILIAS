@@ -1,8 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Provider;
 
 use ILIAS\Filesystem\Decorator\FilesystemWhitelistDecorator;
+use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
 use ILIAS\Filesystem\Provider\FlySystem\FlySystemFilesystemFactory;
 use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizer;
@@ -17,7 +19,7 @@ use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizer;
  * @since 5.3
  * @version 1.1.0
  */
-class DelegatingFilesystemFactory implements FilesystemFactory {
+final class DelegatingFilesystemFactory implements FilesystemFactory {
 
 	private $implementation;
 	/**
@@ -48,8 +50,7 @@ class DelegatingFilesystemFactory implements FilesystemFactory {
 	/**
 	 * @inheritDoc
 	 */
-	public function getLocal(LocalConfig $config) {
+	public function getLocal(LocalConfig $config): Filesystem {
 		return new FilesystemWhitelistDecorator($this->implementation->getLocal($config), $this->sanitizer);
-//		return $this->implementation->getLocal($config);
 	}
 }

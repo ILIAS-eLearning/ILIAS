@@ -1,10 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Provider\FlySystem;;
 
 use ILIAS\Filesystem\DTO\Metadata;
 use ILIAS\Filesystem\Exception\DirectoryNotFoundException;
-use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Filesystem\MetadataType;
 use ILIAS\Filesystem\Provider\DirectoryAccess;
@@ -19,7 +19,7 @@ use League\Flysystem\RootViolationException;
  * @since 5.3
  * @version 1.0.0
  */
-class FlySystemDirectoryAccess implements DirectoryAccess {
+final class FlySystemDirectoryAccess implements DirectoryAccess {
 
 	/**
 	 * @var FilesystemInterface $flySystemFS
@@ -48,7 +48,7 @@ class FlySystemDirectoryAccess implements DirectoryAccess {
 	/**
 	 * Checks whether the directory exists or not.
 	 *
-	 * @param string $path  The path which should be checked.
+	 * @param string $path The path which should be checked.
 	 *
 	 * @return bool         True if the directory exists otherwise false.
 	 *
@@ -57,7 +57,7 @@ class FlySystemDirectoryAccess implements DirectoryAccess {
 	 * @since   5.3
 	 * @version 1.0
 	 */
-	public function hasDir($path) {
+	public function hasDir(string $path): bool {
 		if($this->flySystemFS->has($path))
 		{
 			$meta = $this->flySystemFS->getMetadata($path);
@@ -86,7 +86,7 @@ class FlySystemDirectoryAccess implements DirectoryAccess {
 	 * @since   5.3
 	 * @version 1.0
 	 */
-	public function listContents($path = '', $recursive = false) {
+	public function listContents(string $path = '', bool $recursive = false): array {
 		$this->ensureDirectoryExistence($path);
 
 		$contents = $this->flySystemFS->listContents($path, $recursive);
@@ -121,7 +121,7 @@ class FlySystemDirectoryAccess implements DirectoryAccess {
 	 * @since   5.3
 	 * @version 1.0
 	 */
-	public function createDir($path, $visibility = Visibility::PUBLIC_ACCESS) {
+	public function createDir(string $path, string $visibility = Visibility::PUBLIC_ACCESS) {
 
 		$this->validateVisibility($visibility);
 
@@ -151,7 +151,7 @@ class FlySystemDirectoryAccess implements DirectoryAccess {
 	 * @since   5.3
 	 * @version 1.0
 	 */
-	public function copyDir($source, $destination) {
+	public function copyDir(string $source, string $destination) {
 
 		$this->ensureDirectoryExistence($source);
 		$this->ensureEmptyDirectory($destination);
@@ -182,7 +182,7 @@ class FlySystemDirectoryAccess implements DirectoryAccess {
 	 *
 	 * @throws IOException Thrown if the metadata of the path can not be fetched.
 	 */
-	private function ensureEmptyDirectory($path) {
+	private function ensureEmptyDirectory(string $path) {
 
 		//check if destination dir is empty
 		try {
@@ -205,7 +205,7 @@ class FlySystemDirectoryAccess implements DirectoryAccess {
 	 *
 	 * @throws DirectoryNotFoundException Thrown if the directory was not found.
 	 */
-	private function ensureDirectoryExistence($path) {
+	private function ensureDirectoryExistence(string $path) {
 
 		if(!$this->hasDir($path))
 			throw new DirectoryNotFoundException("Directory \"$path\" not found.");
@@ -225,7 +225,7 @@ class FlySystemDirectoryAccess implements DirectoryAccess {
 	 * @since   5.3
 	 * @version 1.0
 	 */
-	public function deleteDir($path) {
+	public function deleteDir(string $path) {
 		try {
 			if($this->flySystemFS->deleteDir($path) === false)
 				throw new IOException("Could not delete directory \"$path\".");
