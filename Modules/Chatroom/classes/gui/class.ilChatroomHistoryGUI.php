@@ -16,22 +16,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
 	/**
 	 * {@inheritdoc}
 	 */
-	public function __construct(
-		ilChatroomObjectGUI $gui,
-		$dic = null,
-		\ilTabsGUI $tabs = null
-	) {
-
-		if ($dic === null) {
-			global $DIC;
-			$dic = $DIC;
-		}
-
-		if ($tabs === null) {
-			$tabs = $dic->tabs();
-		}
-		$this->tabs = $tabs;
-
+	public function __construct(ilChatroomObjectGUI $gui) {
 		parent::__construct($gui);
 		require_once 'Modules/Chatroom/classes/class.ilChatroomFormFactory.php';
 		require_once 'Modules/Chatroom/classes/class.ilChatroom.php';

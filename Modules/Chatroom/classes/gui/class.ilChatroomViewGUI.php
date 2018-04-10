@@ -12,43 +12,6 @@ require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
  */
 class ilChatroomViewGUI extends ilChatroomGUIHandler
 {
-	/** @var ilNavigationHistory */
-	private $navigationHistory;
-
-	/** @var ilTree */
-	private $tree;
-
-	/**
-	 * @param ilChatroomObjectGUI $gui
-	 * @param null $dic
-	 * @param ilNavigationHistory|null $navigationHistory
-	 * @param ilTree|null $tree
-	 */
-	public function __construct(
-		ilChatroomObjectGUI $gui,
-		$dic = null,
-		\ilNavigationHistory $navigationHistory = null,
-		\ilTree $tree = null
-	) {
-		if ($dic === null) {
-			global $DIC;
-			$dic = $DIC;
-		}
-
-		if ($navigationHistory === null) {
-			$navigationHistory = $dic['ilNavigationHistory'];
-		}
-
-		if ($tree === null) {
-			$tree = $dic['tree'];
-		}
-
-		$this->navigationHistory = $navigationHistory;
-		$this->tree = $tree;
-
-		parent::__construct($gui);
-	}
-
 	/**
 	 * Joins user to chatroom with custom username, fetched from
 	 * $_REQUEST['custom_username_text'] or by calling buld method.
