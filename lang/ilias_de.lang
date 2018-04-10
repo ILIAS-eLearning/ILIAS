@@ -9049,7 +9049,7 @@ tagging#:#tagging_tag_info#:#Um Inhalte mit Tags (Schlagwörtern) auszuzeichnen,
 tagging#:#tagging_tags#:#Tags
 tagging#:#tagging_users_using_tag#:#Benutzer, die Tags benutzen
 tbl#:#tbl_export_csv#:#.csv exportieren
-tbl#:#tbl_export_excel#:#.xlsx exportieren
+tbl#:#tbl_export_excel#:#.xls exportieren
 tbl#:#tbl_template_create#:#Aktuelle Ansicht speichern
 tbl#:#tbl_template_created#:#Die aktuelle Ansicht wurde gespeichert.
 tbl#:#tbl_template_delete#:#Gespeicherte Ansicht löschen

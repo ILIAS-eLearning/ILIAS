@@ -7756,7 +7756,7 @@ search#:#search_item_filter_form#:#Search by Type
 search#:#search_item_filter_form_info#:#Search can be restricted to the chosen file types.
 administration#:#group_export#:#Visible in Groups
 tbl#:#tbl_export_csv#:#Export .csv
-tbl#:#tbl_export_excel#:#Export .xlsx
+tbl#:#tbl_export_excel#:#Export .xls
 crs#:#crs_custom_user_fields#:#Course Relevant User Data
 grp#:#grp_custom_user_fields#:#Group Relevant User Data
 assessment#:#info_answer_type_change#:#The question already contains images. You can't change the answer type to multi-line answers.
