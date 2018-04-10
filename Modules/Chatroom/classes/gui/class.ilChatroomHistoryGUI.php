@@ -10,11 +10,28 @@
  */
 class ilChatroomHistoryGUI extends ilChatroomGUIHandler
 {
+	/** @var ilTabsGUI */
+	private $tabs;
+
 	/**
 	 * {@inheritdoc}
 	 */
-	public function __construct(ilChatroomObjectGUI $gui)
-	{
+	public function __construct(
+		ilChatroomObjectGUI $gui,
+		$dic = null,
+		\ilTabsGUI $tabs = null
+	) {
+
+		if ($dic === null) {
+			global $DIC;
+			$dic = $DIC;
+		}
+
+		if ($tabs === null) {
+			$tabs = $dic->tabs();
+		}
+		$this->tabs = $tabs;
+
 		parent::__construct($gui);
 		require_once 'Modules/Chatroom/classes/class.ilChatroomFormFactory.php';
 		require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
@@ -23,12 +40,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
 
 	public function byDayExport()
 	{
-		/**
-		 * @var $ilTabs ilTabsGUI
-		 */
-		global $ilTabs;
-		
-		$ilTabs->activateSubTab('byday');
+		$this->tabs->activateSubTab('byday');
 		$this->byDay(true);
 	}
 
@@ -38,28 +50,20 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
 	 */
 	public function byDay($export = false)
 	{
-		/**
-		 * @var $lng    ilLanguage
-		 * @var $ilCtrl ilCtrl
-		 * @var $ilUser ilObjUser
-		 * @var $tpl    ilTemplate
-		 */
-		global $lng, $ilCtrl, $ilUser, $tpl;
-
 		$room = ilChatroom::byObjectId($this->gui->object->getId());
 
-		$tpl->addJavaScript('./Services/Form/js/date_duration.js');
+		$this->mainTpl->addJavaScript('./Services/Form/js/date_duration.js');
 
 		$scope = $room->getRoomId();
 
-		$chat_user   = new ilChatroomUser($ilUser, $room);
+		$chat_user   = new ilChatroomUser($this->ilUser, $room);
 		$formFactory = new ilChatroomFormFactory();
 
 		$durationForm = $formFactory->getPeriodForm();
-		$durationForm->setTitle($lng->txt('history_byday_title'));
-		$durationForm->addCommandButton('history-byDayExport', $lng->txt('export'));
-		$durationForm->addCommandButton('history-byDay', $lng->txt('show'));
-		$durationForm->setFormAction($ilCtrl->getFormAction($this->gui), 'history-byDay');
+		$durationForm->setTitle($this->ilLng->txt('history_byday_title'));
+		$durationForm->addCommandButton('history-byDayExport', $this->ilLng->txt('export'));
+		$durationForm->addCommandButton('history-byDay', $this->ilLng->txt('show'));
+		$durationForm->setFormAction($this->ilCtrl->getFormAction($this->gui), 'history-byDay');
 
 		$messages           = array();
 		$psessions          = array();
@@ -109,20 +113,13 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
 	 */
 	private function showMessages($messages, $durationForm, $export = false, $psessions = array(), $from, $to)
 	{
-		/**
-		 * @var $lng    ilLanguage
-		 * @var $ilCtrl ilCtrl
-		 * @var $tpl    ilTemplate
-		 */
-		global $tpl, $lng, $ilCtrl;
-
 		include_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 
 		$this->redirectIfNoPermission('read');
 
 		$this->gui->switchToVisibleMode();
 
-		$tpl->addCSS('Modules/Chatroom/templates/default/style.css');
+		$this->mainTpl->addCSS('Modules/Chatroom/templates/default/style.css');
 
 		// should be able to grep templates 
 		if($export)
@@ -141,8 +138,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
 			ilDatePresentation::setUseRelativeDates(false);
 		}
 
-		global $ilUser;
-		$time_format = $ilUser->getTimeFormat();
+		$time_format = $this->ilUser->getTimeFormat();
 
 		$prevDate      = '';
 		$messagesShown = 0;
@@ -177,10 +173,10 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
 							switch($time_format)
 							{
 								case ilCalendarSettings::TIME_FORMAT_24:
-									$date_string = $dateTime->get(IL_CAL_FKT_DATE, 'H:i', $ilUser->getTimeZone());
+									$date_string = $dateTime->get(IL_CAL_FKT_DATE, 'H:i', $this->ilUser->getTimeZone());
 									break;
 								case ilCalendarSettings::TIME_FORMAT_12:
-									$date_string = $dateTime->get(IL_CAL_FKT_DATE, 'g:ia', $ilUser->getTimeZone());
+									$date_string = $dateTime->get(IL_CAL_FKT_DATE, 'g:ia', $this->ilUser->getTimeZone());
 									break;
 							}
 
@@ -211,16 +207,16 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
 		if(!$messagesShown)
 		{
 			//$roomTpl->touchBlock('NO_MESSAGES');
-			$roomTpl->setVariable('LBL_NO_MESSAGES', $lng->txt('no_messages'));
+			$roomTpl->setVariable('LBL_NO_MESSAGES', $this->ilLng->txt('no_messages'));
 		}
 
 		asort($scopes, SORT_STRING);
 
-		$scopes = array($lng->txt('main')) + $scopes;
+		$scopes = array($this->ilLng->txt('main')) + $scopes;
 
 		if(count($scopes) > 1)
 		{
-			$select = new ilSelectInputGUI($lng->txt('scope'), 'scope');
+			$select = new ilSelectInputGUI($this->ilLng->txt('scope'), 'scope');
 			$select->setOptions($scopes);
 
 			if(isset($_REQUEST['scope']))
@@ -258,11 +254,11 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
 			$isPrivateRoom = (boolean)((int)$_REQUEST['scope']);
 			if($isPrivateRoom)
 			{
-				$roomTpl->setVariable('ROOM_TITLE', sprintf($lng->txt('history_title_private_room'), $scopes[(int)$_REQUEST['scope']]) . ' (' . $date_sub . ')');
+				$roomTpl->setVariable('ROOM_TITLE', sprintf($this->ilLng->txt('history_title_private_room'), $scopes[(int)$_REQUEST['scope']]) . ' (' . $date_sub . ')');
 			}
 			else
 			{
-				$roomTpl->setVariable('ROOM_TITLE', sprintf($lng->txt('history_title_general'), $this->gui->object->getTitle()) . ' (' . $date_sub . ')');
+				$roomTpl->setVariable('ROOM_TITLE', sprintf($this->ilLng->txt('history_title_general'), $this->gui->object->getTitle()) . ' (' . $date_sub . ')');
 			}
 		}
 
@@ -276,17 +272,12 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
 
 		$roomTpl->setVariable('PERIOD_FORM', $durationForm->getHTML());
 
-		$tpl->setVariable('ADM_CONTENT', $roomTpl->get());
+		$this->mainTpl->setVariable('ADM_CONTENT', $roomTpl->get());
 	}
 
 	public function bySessionExport()
 	{
-		/**
-		 * @var $ilTabs ilTabsGUI
-		 */
-		global $ilTabs;
-
-		$ilTabs->activateSubTab('bysession');
+		$this->tabs->activateSubTab('bysession');
 		$this->bySession(true);
 	}
 
@@ -296,26 +287,19 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
 	 */
 	public function bySession($export = false)
 	{
-		/**
-		 * @var $lng    ilLanguage
-		 * @var $ilCtrl ilCtrl
-		 * @var $ilUser ilObjUser
-		 */
-		global $lng, $ilCtrl, $ilUser;
-
 		$room = ilChatroom::byObjectId($this->gui->object->getId());
 
 		$scope = $room->getRoomId();
 
-		$chat_user = new ilChatroomUser($ilUser, $room);
+		$chat_user = new ilChatroomUser($this->ilUser, $room);
 
 		$formFactory  = new ilChatroomFormFactory();
 		$durationForm = $formFactory->getSessionForm($room->getSessions($chat_user));
-		$durationForm->setTitle($lng->txt('history_bysession_title'));
-		$durationForm->addCommandButton('history-bySessionExport', $lng->txt('export'));
-		$durationForm->addCommandButton('history-bySession', $lng->txt('show'));
+		$durationForm->setTitle($this->ilLng->txt('history_bysession_title'));
+		$durationForm->addCommandButton('history-bySessionExport', $this->ilLng->txt('export'));
+		$durationForm->addCommandButton('history-bySession', $this->ilLng->txt('show'));
 		$durationForm->setFormAction(
-			$ilCtrl->getFormAction($this->gui), 'history-bySession'
+			$this->ilCtrl->getFormAction($this->gui), 'history-bySession'
 		);
 
 		if(strtolower($_SERVER['REQUEST_METHOD']) == 'post')
