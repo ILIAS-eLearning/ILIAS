@@ -3,11 +3,7 @@
 namespace ILIAS\Filesystem\Decorator;
 
 use ilFileUtils;
-use ILIAS\Data\DataSize;
-use ILIAS\Filesystem\DTO\Metadata;
 use ILIAS\Filesystem\Exception\DirectoryNotFoundException;
-use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
-use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizer;

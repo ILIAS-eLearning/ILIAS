@@ -50,6 +50,5 @@ class DelegatingFilesystemFactory implements FilesystemFactory {
 	 */
 	public function getLocal(LocalConfig $config) {
 		return new FilesystemWhitelistDecorator($this->implementation->getLocal($config), $this->sanitizer);
-//		return $this->implementation->getLocal($config);
 	}
 }
