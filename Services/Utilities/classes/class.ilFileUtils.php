@@ -707,6 +707,7 @@ class ilFileUtils
 			'rtx',   // TEXT__RICHTEXT,
 			'rv',   // VIDEO__VND_RN_REALVIDEO,
 			's',   // TEXT__X_ASM,
+			'sav',   // SPSS
 			'sec',   //
 			's3m',   // AUDIO__S3M,
 			'sdml',   // TEXT__PLAIN,
