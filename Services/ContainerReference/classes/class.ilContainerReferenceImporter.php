@@ -57,6 +57,11 @@ abstract class ilContainerReferenceImporter extends ilXmlImporter
 	 */
 	function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
 	{
+		global $DIC;
+
+		$objDefinition = $DIC["objDefinition"];
+		$log = $DIC->logger()->root();
+
 		include_once './Modules/Category/classes/class.ilObjCategory.php';
 		if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_id))
 		{
@@ -82,7 +87,7 @@ abstract class ilContainerReferenceImporter extends ilXmlImporter
 			$parser->startParsing();
 			
 			$a_mapping->addMapping(
-					$GLOBALS['objDefinition']->getComponentForType($this->getType()),
+					$objDefinition->getComponentForType($this->getType()),
 					$this->getType(),
 					$a_id,
 					$this->getReference()->getId()
@@ -90,11 +95,11 @@ abstract class ilContainerReferenceImporter extends ilXmlImporter
 		}
 		catch(ilSaxParserException $e)
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Parsing failed with message, "'.$e->getMessage().'".');
+			$log->error(__METHOD__.': Parsing failed with message, "'.$e->getMessage().'".');
 		}
 		catch(Exception $e)
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Parsing failed with message, "'.$e->getMessage().'".');
+			$log->error(__METHOD__.': Parsing failed with message, "'.$e->getMessage().'".');
 		}
 	}
 }
