@@ -55,8 +55,10 @@ class ilObjectTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetGetLookup()
 	{
-		global $ilUser;
-		
+		global $DIC;
+		$ilUser = $DIC->user();
+
+
 		$obj = new ilObject();
 		$obj->setType("");				// otherwise type check will fail
 		$obj->setTitle("TestObject");
@@ -192,7 +194,8 @@ class ilObjectTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testTreeTrash()
 	{
-		global $tree;
+		global $DIC;
+		$tree = $DIC->repositoryTree();
 		
 		$obj = new ilObject();
 		$obj->setType("xxx");
