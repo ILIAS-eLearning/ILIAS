@@ -534,15 +534,13 @@ class ilChatroomInstaller
 	 */
 	public static function ensureCorrectPublicChatroomTreeLocation($ref_id)
 	{
-
 		global $DIC;
-
 		/** @var $tree      ilTree */
-		$tree = $DIC['tree'];
+		$tree = $DIC->repositoryTree();
 		/** @var ilDB $ilDB */
 		$ilDB = $DIC->database();
 		/** @var ilRbacAdmin $rbacadmin */
-		$rbacadmin = $DIC['rbacadmin'];
+		$rbacadmin = $DIC->rbac()->admin();
 
 		$ilDB->setLimit(1);
 		$query             = "
