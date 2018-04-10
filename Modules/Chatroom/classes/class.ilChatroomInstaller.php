@@ -537,7 +537,7 @@ class ilChatroomInstaller
 		global $DIC;
 		/** @var $tree      ilTree */
 		$tree = $DIC->repositoryTree();
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		$ilDB = $DIC->database();
 		/** @var ilRbacAdmin $rbacadmin */
 		$rbacadmin = $DIC->rbac()->admin();
