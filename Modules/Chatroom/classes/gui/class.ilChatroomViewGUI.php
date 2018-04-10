@@ -12,9 +12,18 @@ require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
  */
 class ilChatroomViewGUI extends ilChatroomGUIHandler
 {
+	/** @var ilNavigationHistory */
 	private $navigationHistory;
+
+	/** @var ilTree */
 	private $tree;
 
+	/**
+	 * @param ilChatroomObjectGUI $gui
+	 * @param null $dic
+	 * @param ilNavigationHistory|null $navigationHistory
+	 * @param ilTree|null $tree
+	 */
 	public function __construct(
 		ilChatroomObjectGUI $gui,
 		$dic = null,
