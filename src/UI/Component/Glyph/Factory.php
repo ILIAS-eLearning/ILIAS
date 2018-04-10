@@ -679,7 +679,7 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *      The attachment glyph indicates that a file is attached or can be attached to an object or entity.
+	 *      The Attachment glyph indicates that a file is attached or can be attached to an object or entity.
 	 *   composition: >
 	 *      The Attachment Glyph uses the glyphicon-paperclip.
 	 *   effect: >
