@@ -2774,7 +2774,6 @@ return array(
     'ilChatroomHistoryGUI' => $baseDir . '/../../Modules/Chatroom/classes/gui/class.ilChatroomHistoryGUI.php',
     'ilChatroomImporter' => $baseDir . '/../../Modules/Chatroom/classes/class.ilChatroomImporter.php',
     'ilChatroomInfoGUI' => $baseDir . '/../../Modules/Chatroom/classes/gui/class.ilChatroomInfoGUI.php',
-    'ilChatroomInitialGUI' => $baseDir . '/../../Modules/Chatroom/classes/gui/class.ilChatroomInitialGUI.php',
     'ilChatroomInstaller' => $baseDir . '/../../Modules/Chatroom/classes/class.ilChatroomInstaller.php',
     'ilChatroomInviteUsersToPrivateRoomGUI' => $baseDir . '/../../Modules/Chatroom/classes/gui/class.ilChatroomInviteUsersToPrivateRoomGUI.php',
     'ilChatroomKickGUI' => $baseDir . '/../../Modules/Chatroom/classes/gui/class.ilChatroomKickGUI.php',

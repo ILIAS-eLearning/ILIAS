@@ -2914,7 +2914,6 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilChatroomHistoryGUI' => __DIR__ . '/../..' . '/../../Modules/Chatroom/classes/gui/class.ilChatroomHistoryGUI.php',
         'ilChatroomImporter' => __DIR__ . '/../..' . '/../../Modules/Chatroom/classes/class.ilChatroomImporter.php',
         'ilChatroomInfoGUI' => __DIR__ . '/../..' . '/../../Modules/Chatroom/classes/gui/class.ilChatroomInfoGUI.php',
-        'ilChatroomInitialGUI' => __DIR__ . '/../..' . '/../../Modules/Chatroom/classes/gui/class.ilChatroomInitialGUI.php',
         'ilChatroomInstaller' => __DIR__ . '/../..' . '/../../Modules/Chatroom/classes/class.ilChatroomInstaller.php',
         'ilChatroomInviteUsersToPrivateRoomGUI' => __DIR__ . '/../..' . '/../../Modules/Chatroom/classes/gui/class.ilChatroomInviteUsersToPrivateRoomGUI.php',
         'ilChatroomKickGUI' => __DIR__ . '/../..' . '/../../Modules/Chatroom/classes/gui/class.ilChatroomKickGUI.php',
