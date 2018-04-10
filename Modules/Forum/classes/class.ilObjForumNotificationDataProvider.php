@@ -67,18 +67,24 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	 * @var bool
 	 */
 	protected $is_anonymized = false;
-	
+
+	/** @var ilForumNotificationCache */
+	private $notificationCache;
+
 	/**
 	 * @param ilForumPost $objPost
-	 * @param int         $ref_id
+	 * @param int $ref_id
+	 * @param ilForumNotificationCache $notificationCache
 	 */
-	public function __construct(ilForumPost $objPost, $ref_id)
+	public function __construct(ilForumPost $objPost, $ref_id, \ilForumNotificationCache $notificationCache)
 	{
 		global $DIC;
 		$this->db = $DIC->database();
 		$this->access = $DIC->access();
 		$this->user = $DIC->user();
-		
+
+		$this->notificationCache = $notificationCache;
+
 		$this->objPost = $objPost;
 		$this->ref_id  = $ref_id;
 		$this->obj_id  = ilObject::_lookupObjId($ref_id);
@@ -318,12 +324,22 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	 */
 	private function readThreadTitle()
 	{
-		$result = $this->db->queryf('
-			SELECT thr_subject FROM frm_threads 
-			WHERE thr_pk = %s',
-			array('integer'), array($this->objPost->getThreadId()));
+		$cacheKey = $this->notificationCache->createKeyByValues(array(
+			'thread_title',
+			$this->getObjId()
+		));
 
-		$row = $this->db->fetchAssoc($result);
+		if (false === $this->notificationCache->exists($cacheKey)) {
+			$result = $this->db->queryf('
+				SELECT thr_subject FROM frm_threads 
+				WHERE thr_pk = %s',
+					array('integer'), array($this->objPost->getThreadId()));
+
+			$row = $this->db->fetchAssoc($result);
+			$this->notificationCache->store($cacheKey, $row);
+		}
+
+		$row = $this->notificationCache->fetch($cacheKey);
 		$this->thread_title = $row['thr_subject'];
 	}
 
@@ -332,13 +348,25 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	 */
 	private function readForumData()
 	{
-		$result = $this->db->queryf('
-			SELECT top_pk, top_name, frm_settings.anonymized FROM frm_data
-			INNER JOIN frm_settings ON top_frm_fk = frm_settings.obj_id 
-			WHERE top_frm_fk = %s',
-			array('integer'), array($this->getObjId()));
+		$cacheKey = $this->notificationCache->createKeyByValues(array(
+			'forum_data',
+			$this->getObjId()
+		));
 
-		$row = $this->db->fetchAssoc($result);
+		if (false === $this->notificationCache->exists($cacheKey)) {
+			$result = $this->db->queryf('
+				SELECT top_pk, top_name, frm_settings.anonymized FROM frm_data
+				INNER JOIN frm_settings ON top_frm_fk = frm_settings.obj_id 
+				WHERE top_frm_fk = %s',
+				array('integer'), array($this->getObjId()
+			));
+
+			$row = $this->db->fetchAssoc($result);
+
+			$this->notificationCache->store($cacheKey, $row);
+		}
+
+		$row = $this->notificationCache->fetch($cacheKey);
 		$this->forum_id    = $row['top_pk'];
 		$this->forum_title = $row['top_name'];
 		$this->is_anonymized = (bool)$row['anonymized'];
@@ -371,16 +399,27 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	 */
 	public function getForumNotificationRecipients()
 	{
-		$res = $this->db->queryf('
+		$cacheKey = $this->notificationCache->createKeyByValues(array(
+			'forum',
+			$this->getForumId(),
+			$this->user->getId()
+		));
+
+		if (false === $this->notificationCache->exists($cacheKey)) {
+			$res = $this->db->queryf('
 			SELECT frm_notification.user_id FROM frm_notification, frm_data 
 			WHERE frm_data.top_pk = %s
 			AND frm_notification.frm_id = frm_data.top_frm_fk 
 			AND frm_notification.user_id <> %s
 			GROUP BY frm_notification.user_id',
-			array('integer', 'integer'),
-			array($this->getForumId(), $this->user->getId()));
+				array('integer', 'integer'),
+				array($this->getForumId(), $this->user->getId()));
 
-		$rcps = $this->createRecipientArray($res);
+			$rcps = $this->createRecipientArray($res);
+			$this->notificationCache->store($cacheKey, $rcps);
+		}
+
+		$rcps = $this->notificationCache->fetch($cacheKey);
 
 		return array_unique($rcps);
 	}
@@ -390,15 +429,26 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	 */
 	public function getThreadNotificationRecipients()
 	{
-		// GET USERS WHO WANT TO BE INFORMED ABOUT NEW POSTS
-		$res = $this->db->queryf('
+		$cacheKey = $this->notificationCache->createKeyByValues(array(
+			'thread',
+			$this->getThreadId(),
+			$this->user->getId()
+		));
+
+		if (false === $this->notificationCache->exists($cacheKey)) {
+			// GET USERS WHO WANT TO BE INFORMED ABOUT NEW POSTS
+			$res = $this->db->queryf('
 			SELECT user_id FROM frm_notification 
 			WHERE thread_id = %s
 			AND user_id <> %s',
-			array('integer', 'integer'),
-			array($this->getThreadId(), $this->user->getId()));
+				array('integer', 'integer'),
+				array($this->getThreadId(), $this->user->getId()));
 
-		$rcps = $this->createRecipientArray($res);
+			$rcps = $this->createRecipientArray($res);
+			$this->notificationCache->store($cacheKey, $rcps);
+		}
+
+		$rcps = $this->notificationCache->fetch($cacheKey);
 
 		return $rcps;
 	}
@@ -408,9 +458,19 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	 */
 	public function getPostAnsweredRecipients()
 	{
-		include_once './Modules/Forum/classes/class.ilForumPost.php';
-		$parent_objPost = new ilForumPost($this->objPost->getParentId());
+		$cacheKey = $this->notificationCache->createKeyByValues(array(
+			'post_answered',
+			$this->objPost->getParentId()
+		));
 
+		if (false === $this->notificationCache->exists($cacheKey)) {
+			include_once './Modules/Forum/classes/class.ilForumPost.php';
+			$parent_objPost = new ilForumPost($this->objPost->getParentId());
+
+			$this->notificationCache->store($cacheKey, $parent_objPost);
+		}
+
+		$parent_objPost = $this->notificationCache->fetch($cacheKey);
 		$rcps = array();
 		$rcps[] = $parent_objPost->getPosAuthorId();
 
@@ -422,10 +482,21 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	 */
 	public function getPostActivationRecipients()
 	{
-		include_once './Modules/Forum/classes/class.ilForum.php';
-		// get moderators to notify about needed activation
-		$rcps =  ilForum::_getModerators($this->getRefId());
-		return  (array)$rcps;
+		$cacheKey = $this->notificationCache->createKeyByValues(array(
+			'post_activation',
+			$this->getRefId()
+		));
+
+		if (false === $this->notificationCache->exists($cacheKey)) {
+			include_once './Modules/Forum/classes/class.ilForum.php';
+			// get moderators to notify about needed activation
+			$rcps = ilForum::_getModerators($this->getRefId());
+			$this->notificationCache->store($cacheKey, $rcps);
+		}
+
+		$rcps = $this->notificationCache->fetch($cacheKey);
+
+		return (array)$rcps;
 	}
 	
 	/**
