@@ -43,18 +43,25 @@ class ilInitialisation
 		// We do not need this characters in any case, so it is
 		// feasible to filter them everytime. POST parameters
 		// need attention through ilUtil::stripSlashes() and similar functions)
-		if (is_array($_GET))
-		{
-			foreach($_GET as $k => $v)
-			{
-				// \r\n used for IMAP MX Injection
-				// ' used for SQL Injection
-				$_GET[$k] = str_replace(array("\x00", "\n", "\r", "\\", "'", '"', "\x1a"), "", $v);
+		$_GET = self::recursivelyRemoveUnsafeCharacters($_GET);
+	}
 
-				// this one is for XSS of any kind
-				$_GET[$k] = strip_tags($_GET[$k]);
+	protected static function recursivelyRemoveUnsafeCharacters($var) {
+		if (is_array($var)) {
+			$mod = [];
+			foreach ($var as $k => $v) {
+				$k = self::recursivelyRemoveUnsafeCharacters($k);
+				$mod[$k] = self::recursivelyRemoveUnsafeCharacters($v);
 			}
+			return $mod;
 		}
+		return strip_tags(
+			str_replace(
+				array("\x00", "\n", "\r", "\\", "'", '"', "\x1a"),
+				"",
+				$var
+			)
+		);
 	}
 	
 	/**

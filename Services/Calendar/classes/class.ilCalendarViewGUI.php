@@ -68,6 +68,13 @@ class ilCalendarViewGUI
 	 * @var string
 	 */
 	protected $seed;
+	
+	/**
+	 * @var int
+	 */
+	protected $ch_user_id = 0;
+
+	
 
 	/**
 	 * 
@@ -79,6 +86,23 @@ class ilCalendarViewGUI
 		$this->seed = $seed;
 		$this->initialize($presentation_type);
 	}
+	
+	
+	public function setConsulationHoursUserId($a_user_id)
+	{
+		$this->ch_user_id = $a_user_id;
+	}
+	
+	/**
+	 * 
+	 */
+	public function getConsultationHoursUserId()
+	{
+		return $this->ch_user_id;
+	}
+
+
+	
 	
 
 	/**
@@ -139,7 +163,7 @@ class ilCalendarViewGUI
 	public function getEvents()
 	{
 		$user = $this->user->getId();
-
+		
 		switch($this->presentation_type)
 		{
 			case self::CAL_PRESENTATION_AGENDA_LIST:
@@ -277,8 +301,13 @@ class ilCalendarViewGUI
 	{
 		$f = $this->ui_factory;
 		$r = $this->ui_renderer;
-
+		
 		$this->ctrl->setParameter($this, "app_id", $a_calendar_entry->getEntryId());
+		
+		if($this->getConsultationHoursUserId())
+		{
+			$this->ctrl->setParameter($this, 'chuid', $this->getConsultationHoursUserId());
+		}
 		$this->ctrl->setParameter($this,'dt',$a_dstart);
 		$this->ctrl->setParameter($this,'seed',$this->seed->get(IL_CAL_DATE));
 		$url = $this->ctrl->getLinkTarget($this, "getModalForApp", "", true, false);

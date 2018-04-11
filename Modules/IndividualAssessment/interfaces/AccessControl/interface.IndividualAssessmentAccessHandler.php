@@ -37,4 +37,11 @@ interface IndividualAssessmentAccessHandler {
 	 * @param	ilObjUser	$usr
 	 */
 	public function deassignUserFromMemberRole(ilObjUser $usr, ilObjIndividualAssessment $iass);
+
+	/**
+	 * Check whether user is system admin.
+	 *
+	 * @return bool
+	 */
+	public function isSystemAdmin();
 }

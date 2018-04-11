@@ -60,7 +60,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 		$this->overall_limit = $a_pool_overall_limit;
 		$this->may_edit = $ilAccess->checkAccess('write', '', $this->ref_id);
 		
-		$this->advmd = ilObjBookingPool::getAdvancedMDFields($this->pool_id);
+		$this->advmd = ilObjBookingPool::getAdvancedMDFields($this->ref_id);
 		
 		$this->setId("bkobj");
 
@@ -107,23 +107,6 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 	function initFilter()
 	{		
 		$lng = $this->lng;
-		
-		/* 
-		// preset period from parameters, e.g. course period
-		// currently NOT active 
-		if(trim($_GET["pf"]) || 
-			trim($_GET["pt"]))
-		{						
-			$_SESSION["form_".$this->getId()]["period"] = serialize(array(
-				"from" => $_GET["pf"] 
-					? serialize(new ilDateTime(trim($_GET["pf"]), IL_CAL_DATE))
-					: "",
-				"to" =>  $_GET["pt"] 
-					? serialize(new ilDateTime(trim($_GET["pt"]), IL_CAL_DATE))
-					: "",
-			));			
-		}
-		*/
 		
 		// title/description
 		$title = $this->addFilterItemByMetaType(

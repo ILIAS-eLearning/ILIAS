@@ -23,17 +23,17 @@ class ilTestParticipantData
 	/**
 	 * @var array
 	 */
-	private $activeIds;
+	private $activeIdsFilter;
 
 	/**
 	 * @var array
 	 */
-	private $userIds;
+	private $userIdsFilter;
 
 	/**
 	 * @var array
 	 */
-	private $anonymousIds;
+	private $anonymousIdsFilter;
 
 	/**
 	 * @var array
@@ -50,18 +50,39 @@ class ilTestParticipantData
 	 */
 	private $byAnonymousId;
 	
+	/**
+	 * @var callable
+	 */
+	protected $participantAccessFilter;
+	
 	public function __construct(ilDBInterface $db, ilLanguage $lng)
 	{
 		$this->db = $db;
 		$this->lng = $lng;
 
-		$this->activeIds = array();
-		$this->userIds = array();
-		$this->anonymousIds = array();
+		$this->activeIdsFilter = array();
+		$this->userIdsFilter = array();
+		$this->anonymousIdsFilter = array();
 
 		$this->byActiveId = array();
 		$this->byUserId = array();
 		$this->byAnonymousId = array();
+	}
+	
+	/**
+	 * @return callable
+	 */
+	public function getParticipantAccessFilter()
+	{
+		return $this->participantAccessFilter;
+	}
+	
+	/**
+	 * @param callable $participantAccessFilter
+	 */
+	public function setParticipantAccessFilter($participantAccessFilter)
+	{
+		$this->participantAccessFilter = $participantAccessFilter;
 	}
 	
 	public function load($testId)
@@ -86,8 +107,27 @@ class ilTestParticipantData
 		
 		$res = $this->db->queryF($query, array('integer'), array($testId));
 		
+		$rows = array();
+		$accessFilteredUsrIds = array();
+		
 		while( $row = $this->db->fetchAssoc($res) )
 		{
+			$accessFilteredUsrIds[] = $row['user_id'];
+			$rows[] = $row;
+		}
+		
+		if( is_callable($this->getParticipantAccessFilter(), true) )
+		{
+			$accessFilteredUsrIds = call_user_func_array($this->getParticipantAccessFilter(), [$accessFilteredUsrIds]);
+		}
+		
+		foreach($rows as $row)
+		{
+			if( !in_array($row['user_id'], $accessFilteredUsrIds) )
+			{
+				continue;
+			}
+			
 			$this->byActiveId[ $row['active_id'] ] = $row;
 			
 			if( $row['user_id'] == ANONYMOUS_USER_ID )
@@ -99,29 +139,25 @@ class ilTestParticipantData
 				$this->byUserId[ $row['user_id'] ] = $row;
 			}
 		}
-
-		$this->setActiveIds(array_keys($this->byActiveId));
-		$this->setUserIds(array_keys($this->byUserId));
-		$this->setAnonymousIds(array_keys($this->byAnonymousId));
 	}
 	
 	public function getConditionalExpression()
 	{
 		$conditions = array();
 		
-		if( count($this->getActiveIds()) )
+		if( count($this->getActiveIdsFilter()) )
 		{
-			$conditions[] = $this->db->in('active_id', $this->getActiveIds(), false, 'integer');
+			$conditions[] = $this->db->in('active_id', $this->getActiveIdsFilter(), false, 'integer');
 		}
 
-		if( count($this->getUserIds()) )
+		if( count($this->getUserIdsFilter()) )
 		{
-			$conditions[] = $this->db->in('user_fi', $this->getUserIds(), false, 'integer');
+			$conditions[] = $this->db->in('user_fi', $this->getUserIdsFilter(), false, 'integer');
 		}
 
-		if( count($this->getAnonymousIds()) )
+		if( count($this->getAnonymousIdsFilter()) )
 		{
-			$conditions[] = $this->db->in('anonymous_id', $this->getAnonymousIds(), false, 'integer');
+			$conditions[] = $this->db->in('anonymous_id', $this->getAnonymousIdsFilter(), false, 'integer');
 		}
 
 		if( count($conditions) )
@@ -132,34 +168,49 @@ class ilTestParticipantData
 		return '1 = 1';
 	}
 
-	public function setActiveIds($activeIds)
+	public function setActiveIdsFilter($activeIdsFilter)
 	{
-		$this->activeIds = $activeIds;
+		$this->activeIdsFilter = $activeIdsFilter;
+	}
+	
+	public function getActiveIdsFilter()
+	{
+		return $this->activeIdsFilter;
+	}
+	
+	public function setUserIdsFilter($userIdsFilter)
+	{
+		$this->userIdsFilter = $userIdsFilter;
+	}
+	
+	public function getUserIdsFilter()
+	{
+		return $this->userIdsFilter;
+	}
+	
+	public function setAnonymousIdsFilter($anonymousIdsFilter)
+	{
+		$this->anonymousIdsFilter = $anonymousIdsFilter;
+	}
+	
+	public function getAnonymousIdsFilter()
+	{
+		return $this->anonymousIdsFilter;
 	}
 
 	public function getActiveIds()
 	{
-		return $this->activeIds;
-	}
-
-	public function setUserIds($userIds)
-	{
-		$this->userIds = $userIds;
+		return array_keys($this->byActiveId);
 	}
 
 	public function getUserIds()
 	{
-		return $this->userIds;
-	}
-
-	public function setAnonymousIds($anonymousIds)
-	{
-		$this->anonymousIds = $anonymousIds;
+		return array_keys($this->byUserId);
 	}
 
 	public function getAnonymousIds()
 	{
-		return $this->anonymousIds;
+		return array_keys($this->byAnonymousId);
 	}
 	
 	public function getUserIdByActiveId($activeId)

@@ -15506,8 +15506,7 @@ $fields = array(
 
     ),
     'roles' => array(
-        'type' => 'text',
-        'length' => '256',
+        'type' => 'clob',
     ),
     'description' => array(
         'type' => 'text',
@@ -21908,6 +21907,143 @@ if($rp_ops_id && $ep_ops_id && $w_ops_id)
 	$ilDB->manipulate('UPDATE exc_mem_ass_status SET status='.$ilDB->quote('notgraded', 'text').' WHERE status = '.$ilDB->quote('', 'text'));
 ?>
 <#5260>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5261>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5262>
+<?php
+
+$query = 'select id from adm_settings_template  '.
+	'where title = '. $ilDB->quote('il_astpl_loc_initial','text').
+	'or title = '. $ilDB->quote('il_astpl_loc_qualified','text');
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+{
+	$ilDB->replace(
+		'adm_set_templ_value', 
+		[
+           	'template_id' => ['integer', $row->id],
+			 'setting' => ['text', 'pass_scoring']
+		],
+		[
+			'value' => ['integer',0],
+			'hide' => ['integer',1]
+		]
+	);
+}
+?>
+<#5263>
+<?php
+$ilDB->modifyTableColumn('il_dcl_tableview', 'roles',array('type' => 'clob'));
+?>
+<#5264>
+<?php
+// get tst type id
+$row = $ilDB->fetchAssoc($ilDB->queryF(
+	"SELECT obj_id tst_type_id FROM object_data WHERE type = %s AND title = %s",
+	array('text', 'text'), array('typ', 'tst')
+));
+$tstTypeId = $row['tst_type_id'];
+
+// get 'write' operation id
+$row = $ilDB->fetchAssoc($ilDB->queryF(
+	"SELECT ops_id FROM rbac_operations WHERE operation = %s AND class = %s",
+	array('text', 'text'), array('write', 'general')
+));
+$writeOperationId = $row['ops_id'];
+
+// register new 'object' rbac operation for tst
+$resultsOperationId = $ilDB->nextId('rbac_operations');
+$ilDB->insert('rbac_operations', array(
+	'ops_id' => array('integer', $resultsOperationId),
+	'operation' => array('text', 'tst_results'),
+	'description' => array('text', 'view the results of test participants'),
+	'class' => array('text', 'object'),
+	'op_order' => array('integer', 7050)
+));
+$ilDB->insert('rbac_ta', array(
+	'typ_id' => array('integer', $tstTypeId),
+	'ops_id' => array('integer', $resultsOperationId)
+));
+
+// update existing role templates and grant new operation for all templates having 'write' granted
+$res = $ilDB->queryF(
+	"SELECT rol_id, parent FROM rbac_templates WHERE type = %s AND ops_id = %s",
+	array('text', 'integer'), array('tst', $writeOperationId)
+);
+$stmt = $ilDB->prepareManip("
+	INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (?, ?, ?, ?)
+	", array('integer', 'text', 'integer', 'integer')
+);
+while( $row = $ilDB->fetchAssoc($res) )
+{
+	$ilDB->execute($stmt, array($row['rol_id'], 'tst', $resultsOperationId, $row['parent']));
+}
+?>
+<#5265>
+<?php
+// get 'write' operation id
+$row = $ilDB->fetchAssoc($ilDB->queryF(
+	"SELECT ops_id FROM rbac_operations WHERE operation = %s AND class = %s",
+	array('text', 'text'), array('tst_results', 'object')
+));
+$resultsOperationId = $row['ops_id'];
+
+// get 'write' operation id
+$row = $ilDB->fetchAssoc($ilDB->queryF(
+	"SELECT ops_id FROM rbac_operations WHERE operation = %s AND class = %s",
+	array('text', 'text'), array('write', 'general')
+));
+$writeOperationId = $row['ops_id'];
+
+// get roles (not rolts) having 'tst_results' registered in rbac_template
+$res = $ilDB->queryF("
+	SELECT rol_id FROM rbac_templates INNER JOIN object_data
+	ON obj_id = rol_id AND object_data.type = %s WHERE rbac_templates.type = %s AND ops_id = %s
+	", array('text', 'text', 'integer'), array('role', 'tst', $resultsOperationId)
+);
+$roleIds = array();
+while( $row = $ilDB->fetchAssoc($res) )
+{
+	$roleIds[] = $row['rol_id'];
+}
+
+// get existing test object references
+$res = $ilDB->queryF("
+	SELECT oref.ref_id FROM object_data odat INNER JOIN object_reference oref
+	ON oref.obj_id = odat.obj_id WHERE odat.type = %s
+	", array('text'), array('tst')
+);
+$tstRefs = array();
+while( $row = $ilDB->fetchAssoc($res) )
+{
+	$tstRefs[] = $row['ref_id'];
+}
+
+// complete 'tst_results' permission for all existing role/reference combination that have 'write' permission
+$stmt = $ilDB->prepareManip("
+	UPDATE rbac_pa SET ops_id = ? WHERE rol_id = ? AND ref_id = ?
+	", array('text', 'integer', 'integer')
+);
+$IN_roles = $ilDB->in('rol_id', $roleIds, false, 'integer');
+$IN_tstrefs = $ilDB->in('ref_id', $tstRefs, false, 'integer');
+$res = $ilDB->query("SELECT * FROM rbac_pa WHERE {$IN_roles} AND {$IN_tstrefs}");
+while( $row = $ilDB->fetchAssoc($res) )
+{
+	$perms = unserialize($row['ops_id']);
+	
+	if( in_array($writeOperationId, $perms) && !in_array($resultsOperationId, $perms) )
+	{
+		$perms[] = $resultsOperationId;
+		$ilDB->execute($stmt, array(serialize($perms), $row['rol_id'], $row['ref_id']));
+	}
+}
+?>
+<#5266>
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>

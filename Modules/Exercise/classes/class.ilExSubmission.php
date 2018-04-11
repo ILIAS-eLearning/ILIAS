@@ -468,8 +468,9 @@ class ilExSubmission
 				$row["filename"] = $path.
 					"/".$row["user_id"]."/".basename($row["filename"]);
 
-				// see 22301
-				if (is_file($row["filename"]) || $this->assignment->getType() == ilExAssignment::TYPE_TEXT)
+				// see 22301, 22719
+				if (is_file($row["filename"]) || (!in_array($this->assignment->getType(),
+						array(ilExAssignment::TYPE_UPLOAD, ilExAssignment::TYPE_UPLOAD_TEAM))))
 				{
 					array_push($delivered_files, $row);
 				}

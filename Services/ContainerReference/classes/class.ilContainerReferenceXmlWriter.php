@@ -96,8 +96,7 @@ class ilContainerReferenceXmlWriter extends ilXmlWriter
 
 	/**
 	 * Build xml header
-	 * @global <type> $ilSetting
-	 * @return <type>
+	 * @return bool
 	 */
 	protected  function buildHeader()
 	{

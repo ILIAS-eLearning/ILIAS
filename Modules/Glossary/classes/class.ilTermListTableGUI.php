@@ -53,7 +53,7 @@ class ilTermListTableGUI extends ilTable2GUI
 		$this->term_perm = ilGlossaryTermPermission::getInstance();
 
 		include_once("./Modules/Glossary/classes/class.ilGlossaryAdvMetaDataAdapter.php");
-		$adv_ad = new ilGlossaryAdvMetaDataAdapter($this->glossary->getId());
+		$adv_ad = new ilGlossaryAdvMetaDataAdapter($this->glossary->getRefId());
 		$this->adv_fields = $adv_ad->getAllFields();
 		foreach ($this->adv_fields as $f)
 		{
@@ -80,7 +80,7 @@ class ilTermListTableGUI extends ilTable2GUI
 		//$this->addColumn($this->lng->txt("cont_term"));
 
 		include_once("./Modules/Glossary/classes/class.ilGlossaryAdvMetaDataAdapter.php");
-		$adv_ap = new ilGlossaryAdvMetaDataAdapter($this->glossary->getId());
+		$adv_ap = new ilGlossaryAdvMetaDataAdapter($this->glossary->getRefId());
 		$this->adv_cols_order = $adv_ap->getColumnOrder();
 		$this->selected_cols = $this->getSelectedColumns();
 		foreach ($this->adv_cols_order as $c)

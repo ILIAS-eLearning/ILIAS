@@ -426,6 +426,7 @@ assessment#:#applet_parameter#:#Parameter
 assessment#:#applet_parameters#:#Applet-Parameter
 assessment#:#apply#:#Übernehmen
 assessment#:#tst_msg_rand_quest_set_rule_label#:#Regel %s
+assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_missing_#:#Für Regel %s werden %s Fragen benötigt, es stehen aber nur %s Fragen zur Verfügung.
 assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_missing_shared#:#Von den vorgesehenen Fragen stehen %s Fragen zu dem auch den folgenden Regeln zur Verfügung: %s
 assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_reserved#:#Für Regel %s werden %s Fragen benötigt und es sind %s Fragen vorgesehen.
 assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_reserved_shared#:#Durch Überschneidungen mit den folgenden Regeln stehen aber nur %s Fragen garantiert zur Verfügung: %s
@@ -876,6 +877,7 @@ assessment#:#ordertext#:#Anzuordnender Text
 assessment#:#ordertext_info#:#Bitte geben Sie den Text in der Reihenfolge ein, in der er horizontal angeordnet werden soll. Die einzelnen Bestandteile werden durch Leerzeichen getrennt. Wenn Sie eine abweichende Trennung benötigen, verwenden Sie bitte stattdessen den Trenner %s anstelle der Leerzeichen.
 assessment#:#output#:#Ausgabe
 assessment#:#output_mode#:#Ausgabemodus
+assessment#:#dashboard_tab#:#Dashboard
 assessment#:#participants#:#Teilnehmer
 assessment#:#participants_invitation#:#Nur ausgewählte Teilnehmer
 assessment#:#participants_invitation_description#:#Der Test kann nur von den Benutzern durchgeführt werden, die im Reiter "Teilnehmer" hinzugefügt wurden.
@@ -1143,7 +1145,7 @@ assessment#:#tst_finish_notification_simple#:#Nur Benutzername und Datum des Bee
 assessment#:#tst_finish_notification_no#:#Keine Benachrichtigung
 assessment#:#tst_finished#:#Beendet
 assessment#:#unfinished_passes#:#Unbeendeter Testdurchlauf
-assessment#:#finish_pass_for_user_confirmation#:#Wollen Sie wirklich den Test Durchlauf beenden?
+assessment#:#finish_pass_for_user_confirmation#:#Wollen Sie den Test Durchlauf für den Teilnehmer "%s" wirklich beenden?
 assessment#:#finish_pass_for_all_users#:#Wollen Sie wirklich die Test Durchläufe für alle Benutzer beenden?
 assessment#:#finish_all_user_passes#:#Alle Testdurchläufe beenden
 assessment#:#finish_unfinished_passes#:#Beendet noch offene Testdurchläufe
@@ -1173,7 +1175,7 @@ assessment#:#tst_invited_nobody#:#Es wurden keine Benutzer, Gruppen oder Rollen 
 assessment#:#tst_invited_selected_users#:#Die ausgewählten Benutzer wurden als feste Teilnehmer hinzugefügt
 assessment#:#tst_link_only_unassigned#:#Sie haben mindestens eine Frage ausgewählt, die bereits einem Fragepool zugeordnet ist. Nur Fragen, die keinem Fragenpool zugeordnet sind, können einem Fragenpool hinzugefügt werden. Bitte treffen Sie eine neue Auswahl.
 assessment#:#tst_list_of_answers#:#Liste der Antworten
-assessment#:#tst_list_of_answers_show#:#Liste der Antworten anzeigen
+assessment#:#tst_list_of_answers_show#:#Bewertete Antworten
 assessment#:#tst_list_of_questions_end#:#Vor dem Ende des Test anzeigen
 assessment#:#tst_list_of_questions_start#:#Noch vor der ersten Frage anzeigen
 assessment#:#tst_list_of_questions_with_description#:#Fragenbeschreibungen anzeigen
@@ -1203,6 +1205,8 @@ assessment#:#tst_nr_of_tries_of_user#:#Bereits durchgeführte Testdurchläufe
 assessment#:#tst_participant#:#Teilnehmer
 assessment#:#tst_participant_status#:#Teilnehmerstatus
 assessment#:#tst_participating_users#:#Teilnehmende Benutzer
+assessment#:#tst_tbl_invited_users#:#Ausgewählte Teilnehmer
+assessment#:#tst_tbl_results_grades#:#Ergebnisse und Noten
 assessment#:#tst_pass_best_pass#:#Besten Testdurchlauf bewerten
 assessment#:#tst_pass_best_pass_desc#:#Es wird der Testdurchlauf bewertet, bei dem der Teilnehmer die höchste Punktezahl erreicht hat. Diese Einstellungen greift nur, wenn mehrere Testdurchläufe durchgeführt werden können.
 assessment#:#tst_pass_details#:#Detaillierte Ergebnisse
@@ -1331,7 +1335,9 @@ assessment#:#tst_show_answer_sheet#:#Antwortenübersicht anzeigen
 assessment#:#tst_show_cancel#:#"Test unterbrechen" anzeigen
 assessment#:#tst_show_cancel_description#:#Zeigt während der Durchführung des Tests einen Button an, mit der der Test unterbrochen werden kann. Achtung: Das Unterbrechen des Tests hält nicht die unter 'Maximale Bearbeitungsdauer' festgelegte Bearbeitungszeit an.
 assessment#:#tst_show_pass_details#:#'Tabelle mit detaillierten Testergebnissen' pro Durchlauf zum gewählten Zeitpunkt anzeigen
-assessment#:#tst_show_results#:#Testergebnisse anzeigen
+assessment#:#tst_show_results#:#Testergebnisse
+assessment#:#participants_results_subtab#:#Alle Teilnehmer
+assessment#:#results_tab#:#Ergebnisse
 assessment#:#tst_show_side_list#:#Fragenliste an
 assessment#:#tst_dyn_unfreeze_answers_confirmation#:#Es sind Fragen enthalten, zu denen ihre initialen Antworten festgeschrieben wurden, so dass Sie keine Änderungen an den Antworten vornehmen können. Möchten Sie die Fragen jetzt erneut beantworten und die festgeschriebenen Antworten lösen?
 assessment#:#tst_dyn_unfreeze_answers#:#Erneut beantworten
@@ -1405,10 +1411,9 @@ assessment#:#you_received_a_of_b_points#:#Sie haben %s von %s möglichen Punkten
 assessment#:#all_participants#:#Alle Teilnehmer
 assessment#:#with_solutions_participants#:#Teilnehmer mit Antworten
 assessment#:#without_solutions_participants#:#Teilnehmer ohne Antworten
-assessment#:#tst_show_toplist#:#Zeige Platzierung
+assessment#:#tst_show_toplist#:#Platzierung
 assessment#:#toplist_by_score#:#Platzierung nach Punkten
 assessment#:#toplist_by_time#:#Platzierung nach Bearbeitungszeit
-assessment#:#toplist_top_n_results#:#Top-%s-Platzierungen
 assessment#:#toplist_col_rank#:#Platz
 assessment#:#toplist_col_participant#:#Teilnehmer
 assessment#:#toplist_col_achieved#:#Datum
@@ -1416,7 +1421,6 @@ assessment#:#toplist_col_score#:#Punktzahl
 assessment#:#toplist_col_percentage#:#Prozentwert
 assessment#:#toplist_col_hints#:#Hinweise
 assessment#:#toplist_col_wtime#:#Bearbeitungszeit
-assessment#:#toplist_your_result#:#Ihre Platzierung
 assessment#:#tst_highscore_enabled#:#Platzierungen
 assessment#:#tst_highscore_description#:#Im Reiter 'Info' wird Teilnehmern ein Button 'Zeige Platzierung' angezeigt. Teilnehmern wird nach dem Anklicken eine Tabelle über das Abschneiden der verschiedenen Teilnehmer im Test  angezeigt. Sie müssen die Option 'Teilnehmer sehen Testergebnisse' aktivieren, um diese Funktion zu nutzen.
 assessment#:#tst_highscore_anon#:#Keine Namen anzeigen
@@ -1512,7 +1516,7 @@ assessment#:#tst_max_comp_points#:#Max. Kompetenz-Punkte
 assessment#:#tst_level#:#Kompetenz-Ausprägung
 assessment#:#tst_threshold#:#Schwellenwert (in %)
 assessment#:#tst_save_thresholds#:#Speichere Schwellenwerte
-assessment#:#tst_show_comp_results#:#Kompetenz-Ergebnisse anzeigen
+assessment#:#tst_show_comp_results#:#Kompetenz-Ergebnisse
 assessment#:#tst_analysis#:#Analyse
 assessment#:#tst_all_test_competences#:#Alle Test-Kompetenzen
 assessment#:#tst_gap_analysis#:#Gap-Analyse
@@ -4077,6 +4081,8 @@ common#:#tst_run#:#Ausführen
 common#:#tst_statistical_evaluation#:#Statistik
 common#:#tst_statistics#:#Statistik
 rbac#:#tst_tst_statistics#:#Zugriff auf Teststatistik
+common#:#tst_results#:#Testergebnisse
+rbac#:#tst_tst_results#:#Zugriff auf Testergebnisse
 common#:#tst_user_not_invited#:#Sie dürfen an dieser Online-Prüfung nicht teilnehmen.
 rbac#:#tst_visible#:#Test ist sichtbar
 common#:#tst_warning_test_not_complete#:#Der Test ist nicht vollständig!
@@ -4276,7 +4282,7 @@ rbac#:#wiki_visible#:#Wiki ist sichtbar
 rbac#:#wiki_write#:#Einstellungen des Wikis bearbeiten
 common#:#with#:#mit
 common#:#wizard_search_list#:#Ihre Suche ergab folgende Ergebnisse. Bitte wählen Sie eines aus.
-common#:#wizard_title_info#:#Bitte geben Sie den Titel des zu kopierenden Objektes ein.
+common#:#wizard_title_info#:#Geben Sie bitte den Titel oder Teile des Titels ein, um das Objekt zu suchen, das Sie kopieren wollen. Klicken Sie auf "Weiter", um passende Suchergebnisse angezeigt zu bekommen.
 common#:#write#:#Schreiben
 common#:#wrong_ip_detected#:#Der Zugang zum System wird aufgrund einer falschen Client IP verweigert.<br>Ihre aktuelle IP-Adresse: %s<br>Bitte kontaktieren Sie die Technische Betreuung / Systemadministration.
 common#:#year#:#Jahr
@@ -5925,7 +5931,7 @@ exc#:#exc_edit_assignments#:#Übungseinheiten bearbeiten
 exc#:#exc_edit_submission#:#Eingereichte Lösungen ändern
 exc#:#exc_ended_on#:#Beendet am
 exc#:#exc_export_excel#:#Export (Excel)
-exc#:#exc_fb_files#:#Dateien vom Tutor
+exc#:#exc_fb_files#:#Bewertungsdateien
 exc#:#exc_grades#:#Notenübersicht
 exc#:#exc_grades_overview#:#Notenübersicht
 exc#:#exc_hand_in#:#Datei abgeben
@@ -7554,11 +7560,11 @@ pwassist#:#pwassist_enter_email#:#Geben Sie eine E-Mail-Adresse ein, und klicken
 pwassist#:#pwassist_enter_username_and_email#:#Geben Sie einen Benutzernamen und die dazugehörende E-Mail-Adresse ein, und klicken Sie auf Abschicken.\nILIAS sendet eine E-Mail an diese Adresse. Die E-Mail enthält eine Adresse zu einer Webseite, mit der Sie ein neues Passwort für das Benutzerkonto eingeben können.\nFalls Sie mit dieser Funktion Ihr Passwort nicht setzen können, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Geben Sie den Benutzernamen, für den Sie Passwort-Unterstützung angefordert haben, und das zuzuweisende Passwort ein.
 pwassist#:#pwassist_invalid_auth_mode#:#Der angegebene Benutzer wird nicht direkt am ILIAS-System authentifiziert. Eine Zusendung des Kennworts ist daher nicht möglich.
-pwassist#:#pwassist_invalid_email#:#Bitte korrigieren Sie den Wert im Eingabefeld.\nDie E-Mail-Adresse, die Sie eingegeben haben, ist in der Datenbank nicht vorhanden.
 pwassist#:#pwassist_invalid_username_or_email#:#Bitte korrigieren Sie die Werte in den Eingabefeldern.\nDer Benutzername und die E-Mail-Adresse, die Sie eingegeben haben, sind auf der Datenbank nicht vorhanden.
 pwassist#:#pwassist_login_not_match#:#Bitte geben Sie einen anderen Benutzernamen ein.\nDer Benutzername, den Sie eingegeben haben, stimmt nicht mit dem Benutzernamen überein, für den Sie Passwort-Unterstützung angefordert hatten.
 pwassist#:#pwassist_mail_body#:#Tragen Sie ein neues Passwort für Ihr Benutzerkonto ein:\n\t%1$s\n\nDiese Nachricht wurde automatisch generiert von der ILIAS-Installation:\n\t%2$s\n\nSie (oder jemand mit der Adresse %3$s) hat Passwort-Unterstützung für den Benutzernamen "%4$s" angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Passwort-Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie diese Mail.\n\n-Sie sind sicher, dass Sie nie Passwort-Unterstützung für den angegebenen ILIAS-Server angefordert haben:\nBitte nehmen Sie mit %5$s Kontakt auf.\n\n- Sie haben um Passwort-Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%6$s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.\n\nBitte beachen Sie:\nAus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort-Unterstützung auf dem ILIAS-Server erneut anfordern.
 pwassist#:#pwassist_mail_sent#:#ILIAS hat eine E-Mail an die Adresse %1$s versandt.\nWeitere Anweisungen finden Sie in dieser Mail.
+pwassist#:#pwassist_mail_sent_generic#:#ILIAS hat eine E-Mail an die hinterlegte Adresse versandt.\nWeitere Anweisungen finden Sie in dieser Mail.
 pwassist#:#pwassist_mail_subject#:#ILIAS-Passwort-Unterstützung
 pwassist#:#pwassist_no_email_found#:#Leider kann die Passwortunterstützung nicht genutzt werden, da für das angegebene Benutzerkonto keine E-Mail Adresse hinterlegt ist.
 pwassist#:#pwassist_not_permitted#:#Bitte geben Sie einen anderen Benutzernamen ein.\nPasswort-Unterstützung ist für den angegebenen Benutzer nicht erlaubt.
@@ -9525,6 +9531,7 @@ assessment#:#tst_question_hints_ordering_clipboard_resetted#:#Die Sortierungszwi
 assessment#:#tst_question_hints_save_order_success_msg#:#Die Reihenfolge der Lösungshinweise wurde erfolgreich gespeichert.
 assessment#:#tst_question_hints_paste_before_success_msg#:#Der Lösungshinweis %s wurde vor dem Lösungshinweis %s erfolgreich eingefügt.
 assessment#:#tst_question_hints_paste_after_success_msg#:#Der Lösungshinweis %s wurde nach dem Lösungshinweis %s erfolgreich eingefügt.
+assessment#:#tst_median_mark_panel#:#Note des Median
 assessment#:#tst_processing_time_duration#:#Bearbeitungsdauer
 assessment#:#tst_processing_time_duration_desc#:#Maximal zur Verfügung stehende Zeit zur Durchführung des Tests
 assessment#:#button_request_question_hint#:#Lösungshinweis anfordern
@@ -10730,6 +10737,7 @@ assessment#:#tst_change_workingtime#:#Zeitverlängerung für einen Teilnehmer er
 assessment#:#tst_imap_qst_mode#:#Antwortmodus
 assessment#:#tst_imap_qst_mode_sc#:#Single Choice
 assessment#:#tst_imap_qst_mode_mc#:#Multiple Choice
+assessment#:#fixedparticipants_subtab#:#Ausgewählte Teilnehmer
 assessment#:#redirect_after_finishing_tst#:#Weiterleitung
 assessment#:#redirect_after_finishing_tst_desc#:#Teilnehmer werden nach Beenden des Tests automatisch zu einer definierten Webseite weitergeleitet. Dies geschieht nur, wenn der Test so konfiguriert wurde, dass die Teilnehmer ihre Testergebnisse nach Beenden des Tests nicht einsehen können. 
 assessment#:#redirect_after_finishing_rule#:#Weiterleitung
@@ -10832,7 +10840,7 @@ rbac#:#cld_write#:#Benutzer können Cloud-Objekt Einstellungen bearbeiten
 rbac#:#cld_delete#:#Benutzer können Cloud-Objekte löschen
 rbac#:#cld_permission#:#Benutzer können Rechteeinstellungen bearbeiten
 rbac#:#cld_upload#:#Benutzer können Dateien in das Cloud-Objekt laden
-rbac#:#cld_download#:#Benutzer können Dateien vom Cloud-Objekt herunterladen
+rbac#:#cld_download#:#Benutzer können Dateien aus dem Cloud-Objekt herunterladen
 rbac#:#cld_edit_permission#:#Rechteeinstellungen ändern
 wsp#:#wsp_shared_date#:#Freigabedatum
 wsp#:#wsp_shared_type#:#Freigegeben für
@@ -11226,7 +11234,7 @@ common#:#password_must_contain_lcase_chars#:#Das Passwort muss mindestens %s Kle
 common#:#password_must_contain_ucase_chars#:#Das Passwort muss mindestens %s Großbuchstaben enthalten.
 search#:#search_user_search_form#:#Suche in Persönlichen Profilen
 search#:#search_user_search_info_form#:#Benutzerdaten in Persönlichen Profilen werden indexiert und können genutzt werden, um Benutzer über die globale Suche zu finden.
-exc#:#exc_fb_tutor_info#:#Durch eine hochgeladene Feedback-Datei wird eine Benachrichtigung an den Benutzer gesendet, und die Datei wird in dessen Übungseinheiten-Übersicht gelistet.
+exc#:#exc_fb_tutor_info#:#Wird eine Datei zur Bewertung der Übungseinheit hochgeladen, erhält die Teilnehmerin oder der Teilnehmer eine Benachrichtigung und kann dann in der Übersicht der Übungseinheiten heruntergeladen und eingesehen werden.
 obj#:#svy_results#:#Ergebnisse
 survey#:#svy_result_mail_notification_info#:#Nach Beenden einer Umfrage werden die Antworten des Teilnehmers an die eingetragen Empfänger gesendet.
 bibl#:#bib_default_author#:#Autor
@@ -13763,6 +13771,7 @@ pdfgen#:#header_show_pages#:#Zeige Seitenzahlen
 pdfgen#:#footer_text#:#Text
 pdfgen#:#footer_height#:#Höhe Fußzeile
 pdfgen#:#footer_show_pages#:#Zeige Seitenzahlen
+pdfgen#:#javascript_delay_info#:#Wenn JavaScript genutzt wird, um Seiteninhalte zu rendern, sorgt die Verzögerung dafür, dass diese Inhalte auch im PDF erscheinen. Die Standardverzögerung von 200ms sollte in den meisten Fällen ausreichen.
 prtf#:#pdf_export#:#PDF Export
 pdfgen#:#preferred_renderer#:#Bevorzugter Renderer
 pdfgen#:#selected_renderer#:#Gewählter Renderer
@@ -13821,7 +13830,7 @@ common#:#saml_login_form_txt#:#Bei ILIAS anmelden über SAML
 common#:#saml_login_form_info_txt#:#Um sich ber SAML anzumelden, klicken Sie bitte den 'Anmelde'-Button.
 common#:#login_to_ilias_via_saml#:#Bei ILIAS via SAML-Authentifizierung anmelden
 auth#:#auth_saml_configure#:#SAML-Unterstützung konfigurieren
-auth#:#auth_saml_add_idp_btn#:#Identity Provider Hinzufügen
+auth#:#auth_saml_add_idp_btn#:#Identity Provider hinzufügen
 auth#:#auth_saml_sure_delete_idp#:#Sind Sie sicher, dass Sie den gewählten Identity Provider unwiederruflich löschen möchten? Für die betroffenen Benutzerkonten wird anschließend die Standard-Authentifizierung gewählt.
 auth#:#auth_saml_deleted_idp#:#Der Identity Provider wurde gelöscht.
 auth#:#auth_saml_unknow_idp#:#Der Identity Provider existiert nicht.
@@ -14160,3 +14169,15 @@ meta#:#adt_error_max_length#:#Der eingegebene Text ist zu lang. Bitte geben Sie 
 form#:#form_chars_remaining#:#Verbleibende Zeichen:
 poll#:#poll_voting_period_full_info#:#Abstimmung von %s bis %s
 crs#:#crs_subscription_min_members_err#:#Die minimale Anzahl darf nicht größer als die maximale Anzahl sein.
+background_tasks#:#abort#:#Abbrechen
+rbac#:#sess_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
+content#:#cont_lpe_cas_login_form#:#CAS-Loginmaske
+content#:#cont_lpe_language_selection#:#Sprachauswahl
+content#:#cont_lpe_login_form#:#Loginmaske
+content#:#cont_lpe_openid_login_form#:#OpenId-Loginmaske
+content#:#cont_lpe_registration_link#:#Link zur Neuanmeldung
+content#:#cont_lpe_shib_login_form#:#Shibboleth-Loginmaske
+content#:#cont_lpe_user_agreement_link#:#Link zur Benutzervereinbarung
+common#:#fold_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien kopiert, verknüpft oder aber beim Kopiervorgang ausgelassen werden sollen.
+common#:#obj_fold_duplicate#:#Ordner kopieren
+common#:#fold_wizard_page#:#Ordner kopieren (Schritt 2/2)

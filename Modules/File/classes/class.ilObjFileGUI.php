@@ -1080,7 +1080,7 @@ class ilObjFileGUI extends ilObject2GUI
 			}
 			catch (Exception $ex)
 			{
-				$response->error = $ex->getMessage() . " ## " . $ex->getTraceAsString();
+				$response->error = $ex->getMessage();
 			}
 		}
 		else
@@ -1274,7 +1274,10 @@ class ilObjFileGUI extends ilObject2GUI
 			$fileObj->raiseUploadError(false);
 			$result = $fileObj->getUploadFile($temp_name, $filename);
 			if ($result) {
-				$fileObj->setTitle($result->getName());
+				//if no title for the file was set use the filename as title
+				if(empty($fileObj->getTitle())) {
+					$fileObj->setTitle($result->getName());
+				}
 				$fileObj->setFileName($result->getName());
 			}
 			$fileObj->update();

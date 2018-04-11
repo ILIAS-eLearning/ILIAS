@@ -107,7 +107,7 @@ class ilAuthSession
 		$old_session_id = session_id();
 		session_regenerate_id(true);
 		$this->setId(session_id());
-		$this->getLogger()->info('Session regenrate id: ['.substr($old_session_id,0,5).'] -> ['.  substr($this->getId(),0,5).']');
+		$this->getLogger()->info('Session regenerate id: ['.substr($old_session_id,0,5).'] -> ['.  substr($this->getId(),0,5).']');
 	}
 	
 	/**
@@ -141,6 +141,10 @@ class ilAuthSession
 		ilSession::set(self::SESSION_AUTH_AUTHENTICATED, $a_status);
 		ilSession::set(self::SESSION_AUTH_USER_ID, (int) $a_user_id);
 		$this->setExpired(false);
+		if($a_status)
+		{
+			$this->regenerateId();
+		}
 	}
 	
 	/**
