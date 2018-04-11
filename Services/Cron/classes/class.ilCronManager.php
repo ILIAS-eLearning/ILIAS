@@ -508,7 +508,7 @@ class ilCronManager implements \ilCronManagerInterface
 	{
 		global $DIC;
 
-		$ilLog = $DIC['ilPluginAdmin'];
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 
 		$res = array();
 		
