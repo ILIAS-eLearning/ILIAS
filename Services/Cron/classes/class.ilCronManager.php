@@ -84,7 +84,7 @@ class ilCronManager implements \ilCronManagerInterface
 	{
 		global $DIC;
 
-		$ilLog = $DIC->logger();
+		$ilLog = $DIC->logger()->root();
 
 		$result = false;
 		
@@ -124,7 +124,7 @@ class ilCronManager implements \ilCronManagerInterface
 	{
 		global $DIC;
 
-		$ilLog = $DIC->logger();
+		$ilLog = $DIC->logger()->root();
 		$ilDB = $DIC->database();
 
 		$did_run = false;				
@@ -246,7 +246,7 @@ class ilCronManager implements \ilCronManagerInterface
 	{
 		global $DIC;
 
-		$ilLog = $DIC->logger();
+		$ilLog = $DIC->logger()->root();
 		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 
 		// plugin
@@ -300,7 +300,7 @@ class ilCronManager implements \ilCronManagerInterface
 	{
 		global $DIC;
 
-		$ilLog = $DIC->logger();
+		$ilLog = $DIC->logger()->root();
 
 		if(!$a_path)
 		{
@@ -359,7 +359,7 @@ class ilCronManager implements \ilCronManagerInterface
 
 		global $DIC;
 
-		$ilLog = $DIC->logger();
+		$ilLog = $DIC->logger()->root();
 		$ilDB = $DIC->database();
 		$ilSetting = $DIC->settings();
 
@@ -459,7 +459,7 @@ class ilCronManager implements \ilCronManagerInterface
 		global $DIC;
 
 		$ilDB = $DIC->database();
-		$ilLog = $DIC->logger();
+		$ilLog = $DIC->logger()->root();
 
 		if(!$ilDB->tableExists("cron_job"))
 		{
