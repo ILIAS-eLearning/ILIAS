@@ -55,9 +55,19 @@ final class FilenameSanitizerImpl implements FilenameSanitizer {
 		if($this->isClean($filename))
 			return $filename;
 
-		$filename = str_replace('.', '', $filename);
+		$pathInfo = pathinfo($filename);
+		$basename = $pathInfo['basename'];
+		$parentPath = $pathInfo['dirname'];
 
-		return "$filename." . FilenameSanitizer::CLEAN_FILE_SUFFIX;
+
+		$filename = str_replace('.', '', $basename);
+		$filename .= "." . FilenameSanitizer::CLEAN_FILE_SUFFIX;
+
+		// there is no parent
+		if($parentPath === '')
+			return $filename;
+
+		return "$parentPath/$filename";
 	}
 
 
