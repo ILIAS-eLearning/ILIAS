@@ -86,12 +86,14 @@ class ilLinkButton extends ilButtonBase
 	protected function renderAttributes(array $a_additional_attr = null)
 	{
 		if ('_blank' === $this->getTarget()) {
+			$relAttrVal = 'noopener';
+
 			if (isset($a_additional_attr['rel'])) {
-				if (strpos($a_additional_attr['rel'], 'noopener') === false) {
-					$a_additional_attr['rel'] .= ' noopener';
+				if (strpos($a_additional_attr['rel'], $relAttrVal) === false) {
+					$a_additional_attr['rel'] .= ' ' . $relAttrVal;
 				}
 			} else {
-				$a_additional_attr['rel'] = 'noopener';
+				$a_additional_attr['rel'] = $relAttrVal;
 			}
 		}
 
