@@ -100,7 +100,7 @@ class ilMWFakery
 		}
 		else
 		{
-			return '<a href="'.$url.'" target="_blank">'.$text.'</a>';
+			return '<a href="'.$url.'" target="_blank" rel="noopener">'.$text.'</a>';
 		}
 		//return '<a href="'.$url.'"'.$style.'>'.$text.'</a>';
 	}
