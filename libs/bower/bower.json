@@ -36,7 +36,8 @@
     "jquery-migrate": "3.0.0",
     "webui-popover": "1.2.18",
     "tinymce": "4.6.7",
-    "pouchdb": "^6.3.4"
+    "pouchdb": "^6.3.4",
+    "openlayers": "^4.6.4"
   },
   "extra": {
     "pouchdb": {
@@ -188,6 +189,14 @@
       "purpose": "UI Service Popover",
       "last-update-for-ilias": "5.3.0",
       "note": ""
-    }
+    },
+    "openlayers": {
+      "introduction-date": "2014-01-20",
+      "approved-by": "Jour Fixe",
+      "developer": "dweise",
+      "purpose": "Maps",
+      "last-update-for-ilias": "5.3.0",
+      "note": ""
+    },
   }
 }
