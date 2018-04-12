@@ -15,6 +15,14 @@ require_once('./Services/UIComponent/Button/classes/class.ilLinkButton.php');
 class ilStudyProgrammeTypeGUI {
 
 	/**
+	 * @var \ILIAS\DI\Container
+	 */
+	protected $dic;
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+	/**
 	 * @var ilCtrl
 	 */
 	public $ctrl;
@@ -61,26 +69,17 @@ class ilStudyProgrammeTypeGUI {
 	 */
 	public function __construct($parent_gui) {
 		global $DIC;
-		$tpl = $DIC['tpl'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilAccess = $DIC['ilAccess'];
-		$ilToolbar = $DIC['ilToolbar'];
-		$ilLocator = $DIC['ilLocator'];
-		$tree = $DIC['tree'];
-		$lng = $DIC['lng'];
-		$ilLog = $DIC['ilLog'];
-		$ilias = $DIC['ilias'];
-		$ilTabs = $DIC['ilTabs'];
-
-		$this->tpl = $tpl;
-		$this->ctrl = $ilCtrl;
-		$this->access = $ilAccess;
-		$this->locator = $ilLocator;
-		$this->toolbar = $ilToolbar;
-		$this->tabs = $ilTabs;
-		$this->log = $ilLog;
-		$this->lng = $lng;
-		$this->ilias = $ilias;
+		$this->dic = $DIC;
+		$this->rbacsystem = $this->dic->rbac()->system();
+		$this->tpl = $this->dic['tpl'];
+		$this->ctrl = $this->dic->ctrl();
+		$this->access = $this->dic->access();
+		$this->locator = $this->dic['ilLocator'];
+		$this->toolbar = $this->dic->toolbar();
+		$this->tabs = $this->dic->tabs();
+		$this->log = $this->dic['ilLog'];
+		$this->lng = $this->dic->language();
+		$this->ilias = $this->dic['ilias'];
 		$this->parent_gui = $parent_gui;
 		$this->lng->loadLanguageModule('prg');
 		$this->ctrl->saveParameter($this, 'type_id');
@@ -142,7 +141,7 @@ class ilStudyProgrammeTypeGUI {
 	 * Check if user can edit types
 	 */
 	protected function checkAccess() {
-		if (!$this->access->checkAccess("read", "", $this->parent_gui->object->getRefId())) {
+		if (!$this->rbacsystem->checkAccess("visible,read", $this->parent_gui->object->getRefId())) {
 			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
 			$this->ctrl->redirect($this->parent_gui);
 		}

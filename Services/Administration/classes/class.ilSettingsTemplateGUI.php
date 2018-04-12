@@ -33,6 +33,14 @@ class ilSettingsTemplateGUI
 	protected $lng;
 
 	private $config;
+	/**
+	 * @var \ILIAS\DI\Container
+	 */
+	protected $dic;
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
 
 	/**
 	 * Constructor
@@ -43,12 +51,13 @@ class ilSettingsTemplateGUI
 	function __construct($a_config)
 	{
 		global $DIC;
-
-		$this->ctrl = $DIC->ctrl();
-		$this->tpl = $DIC["tpl"];
-		$this->toolbar = $DIC->toolbar();
-		$this->lng = $DIC->language();
-		$ilCtrl = $DIC->ctrl();
+		$this->dic = $DIC;
+		$this->rbacsystem = $this->dic->rbac()->system();
+		$this->ctrl = $this->dic->ctrl();
+		$this->tpl = $this->dic["tpl"];
+		$this->toolbar = $this->dic->toolbar();
+		$this->lng = $this->dic->language();
+		$ilCtrl = $this->dic->ctrl();
 
 		$ilCtrl->saveParameter($this, array("templ_id"));
 
@@ -117,8 +126,10 @@ class ilSettingsTemplateGUI
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 
-		$ilToolbar->addButton($lng->txt("adm_add_settings_template"),
-		$ilCtrl->getLinkTarget($this, "addSettingsTemplate"));
+		if($this->rbacsystem->checkAccess('write', $_GET['ref_id'])) {
+			$ilToolbar->addButton($lng->txt("adm_add_settings_template"),
+				$ilCtrl->getLinkTarget($this, "addSettingsTemplate"));
+		}
 
 		include_once("./Services/Administration/classes/class.ilSettingsTemplateTableGUI.php");
 		$table = new ilSettingsTemplateTableGUI($this, "listSettingsTemplates",
@@ -253,18 +264,20 @@ class ilSettingsTemplateGUI
 			}
 		}
 
-		// save and cancel commands
-		if ($a_mode == "create")
-		{
-			$this->form->addCommandButton("saveSettingsTemplate", $lng->txt("save"));
-			$this->form->addCommandButton("listSettingsTemplates", $lng->txt("cancel"));
-			$this->form->setTitle($lng->txt("adm_add_settings_template"));
-		}
-		else
-		{
-			$this->form->addCommandButton("updateSettingsTemplate", $lng->txt("save"));
-			$this->form->addCommandButton("listSettingsTemplates", $lng->txt("cancel"));
-			$this->form->setTitle($lng->txt("adm_edit_settings_template"));
+		if($this->rbacsystem->checkAccess('write', $_GET['ref_id'])) {
+			// save and cancel commands
+			if ($a_mode == "create")
+			{
+				$this->form->addCommandButton("saveSettingsTemplate", $lng->txt("save"));
+				$this->form->addCommandButton("listSettingsTemplates", $lng->txt("cancel"));
+				$this->form->setTitle($lng->txt("adm_add_settings_template"));
+			}
+			else
+			{
+				$this->form->addCommandButton("updateSettingsTemplate", $lng->txt("save"));
+				$this->form->addCommandButton("listSettingsTemplates", $lng->txt("cancel"));
+				$this->form->setTitle($lng->txt("adm_edit_settings_template"));
+			}
 		}
 
 		$this->form->setFormAction($ilCtrl->getFormAction($this));

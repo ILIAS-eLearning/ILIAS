@@ -15,18 +15,34 @@ class ilObjECSSettingsGUI extends ilObjectGUI
 {
 
 	/**
+	 * @var \ILIAS\DI\Container
+	 */
+	protected $dic;
+	/**
+	 * @var ilSetupErrorHandling
+	 */
+	protected $error;
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
 	 * Constructor
 	 *
 	 * @access public
 	 */
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
-		global $lng;
+		global $DIC, $ilErr;
 		
 		$this->type = 'cals';
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
-		$this->lng = $lng;
+		$this->dic = $DIC;
+		$this->error = $ilErr;
+		$this->rbacsystem = $DIC->rbac()->system();
+		$this->lng = $this->dic->language();
 		$this->lng->loadLanguageModule('dateplaner');
 		$this->lng->loadLanguageModule('jscalendar');
 	}
@@ -39,14 +55,13 @@ class ilObjECSSettingsGUI extends ilObjectGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilErr,$ilAccess;
+		global $ilErr;
 
 		$next_class = $this->ctrl->getNextClass($this);
-		$cmd = $this->ctrl->getCmd();
 
 		$this->prepareOutput();
 
-		if(!$ilAccess->checkAccess('read','',$this->object->getRefId()))
+		if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
 		{
 			$ilErr->raiseError($this->lng->txt('no_permission'),$ilErr->WARNING);
 		}

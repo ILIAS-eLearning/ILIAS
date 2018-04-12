@@ -18,10 +18,6 @@ include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 */
 class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 {
-	/**
-	 * @var ilRbacSystem
-	 */
-	protected $rbacsystem;
 
 	/**
 	 * @var ilErrorHandling
@@ -38,7 +34,6 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 	{
 		global $DIC;
 
-		$this->rbacsystem = $DIC->rbac()->system();
 		$this->error = $DIC["ilErr"];
 		$this->access = $DIC->access();
 		$this->settings = $DIC->settings();
@@ -58,16 +53,14 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 	 */
 	public function executeCommand()
 	{
-		$rbacsystem = $this->rbacsystem;
 		$ilErr = $this->error;
-		$ilAccess = $this->access;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
 		$this->prepareOutput();
 
-		if(!$ilAccess->checkAccess('read','',$this->object->getRefId()))
+		if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
 		{
 			$ilErr->raiseError($this->lng->txt('no_permission'),$ilErr->WARNING);
 		}

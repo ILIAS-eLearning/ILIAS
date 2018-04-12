@@ -14,15 +14,21 @@ include_once("./Services/Tracking/classes/class.ilLPTableBaseGUI.php");
  */
 class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 {
+
+	/**
+	 * @var \ILIAS\DI\Container
+	 */
+	protected $dic;
+
 	/**
 	 * Constructor
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id, $a_print_mode = false)
 	{
-		global $ilCtrl, $objDefinition;
+		global $DIC, $ilCtrl, $objDefinition;
 		
 		$this->setId("trsmy");
-
+		$this->dic = $DIC;
 		$this->ref_id = $a_ref_id;
 		$this->obj_id = ilObject::_lookupObjId($a_ref_id);
 		$this->is_root = ($a_ref_id == ROOT_FOLDER_ID);
@@ -61,7 +67,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			$this->addColumn($labels[$c]["txt"], $c);
 		}
 
-		if($this->is_root)
+		if($this->dic->rbac()->system()->checkAccess('write', $this->ref_id))
 		{
 			$this->addColumn($this->lng->txt("path"));
 			$this->addColumn($this->lng->txt("action"));

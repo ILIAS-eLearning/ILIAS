@@ -85,7 +85,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 
 		$this->prepareOutput();
 
-		if(!$this->hierarchical_access->checkAccess('read', '', $this->object->getRefId()))
+		if (!$this->access->checkAccess("visible,read", $this->object->getRefId()))
 		{
 			$this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
 		}

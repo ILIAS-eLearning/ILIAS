@@ -246,7 +246,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 	{
 		$lng = $this->lng;
 
-		if ($this->checkPermissionBool("read"))
+		if ($this->rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
 		{
 			$this->tabs_gui->addTab("settings",
 				$lng->txt("settings"),
@@ -259,12 +259,10 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 				$this->ctrl->getLinkTarget($this, "specialusers"));			
 			*/
 
-			if ($this->checkPermissionBool("write"))
-			{
-				$this->tabs_gui->addTab("templates",
-					$lng->txt("adm_settings_templates"),
-					$this->ctrl->getLinkTargetByClass("ilsettingstemplategui", ""));
-			}
+			$this->tabs_gui->addTab("templates",
+				$lng->txt("adm_settings_templates"),
+				$this->ctrl->getLinkTargetByClass("ilsettingstemplategui", ""));
+
 		}
 		if ($this->checkPermissionBool("edit_permission"))
 		{

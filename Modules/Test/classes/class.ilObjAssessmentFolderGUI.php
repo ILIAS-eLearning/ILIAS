@@ -64,7 +64,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 				break;
 
 			case 'ilglobalunitconfigurationgui':
-				if(!$rbacsystem->checkAccess('write', $this->object->getRefId()))
+				if(!$rbacsystem->checkAccess('visible,read', $this->object->getRefId()))
 				{
 					$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->WARNING);
 				}
@@ -665,10 +665,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 			$this->tabs_gui->addTab("templates",
 				$lng->txt("adm_settings_templates"),
 				$this->ctrl->getLinkTargetByClass("ilsettingstemplategui", ""));
-		}
 
-		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
-		{
 			$this->tabs_gui->addTarget('units', $this->ctrl->getLinkTargetByClass('ilGlobalUnitConfigurationGUI', ''), '', 'ilglobalunitconfigurationgui');
 		}
 

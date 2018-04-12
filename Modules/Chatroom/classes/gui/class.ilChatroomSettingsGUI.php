@@ -95,8 +95,8 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
 		global $lng, $tpl, $ilCtrl;
 
 		if(!ilChatroom::checkUserPermissions(array(
-			'read',
-			'write'
+			'visible',
+			'read'
 		), $this->gui->ref_id)
 		)
 		{

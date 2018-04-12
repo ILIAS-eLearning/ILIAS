@@ -94,7 +94,9 @@ class ilWorkflowEngineDefinitionsGUI
 	 */
 	public function showDefinitionsTable()
 	{
-		$this->initToolbar();
+		if($this->dic->rbac()->system()->checkAccess('write', $_GET['ref_id'])) {
+			$this->initToolbar();
+		}
 		require_once './Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineDefinitionsTableGUI.php';
 		$table_gui = new ilWorkflowEngineDefinitionsTableGUI($this->parent_gui, 'definitions.view');
 		$table_gui->setFilterCommand("definitions.applyfilter");

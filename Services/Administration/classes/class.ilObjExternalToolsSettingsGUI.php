@@ -375,9 +375,8 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
-				
-		if (!$ilAccess->checkAccess("read", "", $this->object->getRefId()))
-		{
+
+		if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 		

@@ -284,7 +284,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 	 */
 	public function clientsettings(ilPropertyFormGUI $form = null)
 	{
-		$this->redirectIfNoPermission('read');
+		$this->redirectIfNoPermission(array('visible','read'));
 
 		$this->defaultActions();
 		$this->gui->switchToVisibleMode();
