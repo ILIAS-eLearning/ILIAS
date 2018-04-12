@@ -1140,6 +1140,7 @@ class ilExerciseManagementGUI
 					{
 						$member_status = $this->assignment->getMemberStatus($user_id);
 						$member_status->setComment(ilUtil::stripSlashes($comment));
+						$member_status->setFeedback(true);
 						$member_status->update();
 						
 						if(trim($comment))

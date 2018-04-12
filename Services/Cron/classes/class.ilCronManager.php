@@ -82,8 +82,10 @@ class ilCronManager implements \ilCronManagerInterface
 	 */
 	public static function runJobManual($a_job_id)
 	{
-		global $ilLog;
-		
+		global $DIC;
+
+		$ilLog = $DIC->logger()->root();
+
 		$result = false;
 		
 		$ilLog->write("CRON - manual start (".$a_job_id.")");
@@ -120,8 +122,11 @@ class ilCronManager implements \ilCronManagerInterface
 	 */
 	protected static function runJob(ilCronJob $a_job, array $a_job_data = null, $a_manual = false)
 	{
-		global $ilLog, $ilDB;
-		
+		global $DIC;
+
+		$ilLog = $DIC->logger()->root();
+		$ilDB = $DIC->database();
+
 		$did_run = false;				
 				
 		include_once "Services/Cron/classes/class.ilCronJobResult.php";		
@@ -239,8 +244,11 @@ class ilCronManager implements \ilCronManagerInterface
 	 */
 	public static function getJobInstanceById($a_job_id)
 	{
-		global $ilLog, $ilPluginAdmin;
-				
+		global $DIC;
+
+		$ilLog = $DIC->logger()->root();
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
+
 		// plugin
 		if(substr($a_job_id, 0, 4) == "pl__")
 		{
@@ -290,8 +298,10 @@ class ilCronManager implements \ilCronManagerInterface
 	 */
 	public static function getJobInstance($a_id, $a_component, $a_class, $a_path = null)
 	{
-		global $ilLog;
-		
+		global $DIC;
+
+		$ilLog = $DIC->logger()->root();
+
 		if(!$a_path)
 		{
 			$a_path = $a_component."/classes/";
@@ -346,8 +356,13 @@ class ilCronManager implements \ilCronManagerInterface
 	
 	public static function createDefaultEntry(ilCronJob $a_job, $a_component, $a_class, $a_path)
 	{
-		global $ilDB, $ilLog, $ilSetting;
-		
+
+		global $DIC;
+
+		$ilLog = $DIC->logger()->root();
+		$ilDB = $DIC->database();
+		$ilSetting = $DIC->settings();
+
 		// already exists?			
 		$sql = "SELECT job_id, schedule_type FROM cron_job".
 			" WHERE component = ".$ilDB->quote($a_component, "text").
@@ -415,9 +430,11 @@ class ilCronManager implements \ilCronManagerInterface
 	 * @param string $_path
 	 */
 	public static function updateFromXML($a_component, $a_id, $a_class, $a_path = null)
-	{		
-		global $ilDB;
-		
+	{
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
 		if(!$ilDB->tableExists("cron_job"))
 		{
 			return;
@@ -439,8 +456,11 @@ class ilCronManager implements \ilCronManagerInterface
 	 */
 	public static function clearFromXML($a_component, array $a_xml_job_ids)
 	{
-		global $ilDB, $ilLog;	
-		
+		global $DIC;
+
+		$ilDB = $DIC->database();
+		$ilLog = $DIC->logger()->root();
+
 		if(!$ilDB->tableExists("cron_job"))
 		{
 			return;
@@ -486,8 +506,10 @@ class ilCronManager implements \ilCronManagerInterface
 	
 	public static function getPluginJobs($a_only_active = false)
 	{
-		global $ilPluginAdmin;
-		
+		global $DIC;
+
+		$ilPluginAdmin = $DIC['ilPluginAdmin'];
+
 		$res = array();
 		
 		foreach($ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "Cron", "crnhk") as $pl_name)
@@ -526,8 +548,9 @@ class ilCronManager implements \ilCronManagerInterface
 	 */
 	public static function getCronJobData($a_id = null, $a_include_inactive = true)
 	{
-		global $ilDB;
-		
+		global $DIC;
+		$ilDB = $DIC->database();
+
 		$res = array();
 		
 		if($a_id && !is_array($a_id))
@@ -574,8 +597,9 @@ class ilCronManager implements \ilCronManagerInterface
 	 */
 	public static function resetJob(ilCronJob $a_job)
 	{
-		global $ilDB;
-		
+		global $DIC;
+		$ilDB = $DIC->database();
+
 		include_once "Services/Cron/classes/class.ilCronJobResult.php";
 		$result = new ilCronJobResult();
 		$result->setStatus(ilCronJobResult::STATUS_RESET);
@@ -600,8 +624,10 @@ class ilCronManager implements \ilCronManagerInterface
 	 */
 	public static function activateJob(ilCronJob $a_job, $a_manual = false)
 	{
-		global $ilDB, $ilUser;
-		
+		global $DIC;
+		$ilDB = $DIC->database();
+		$ilUser = $DIC->user();
+
 		$user_id = $a_manual ? $ilUser->getId() : 0;
 		
 		$sql = "UPDATE cron_job SET ".
@@ -623,8 +649,10 @@ class ilCronManager implements \ilCronManagerInterface
 	 */
 	public static function deactivateJob(ilCronJob $a_job, $a_manual = false)
 	{
-		global $ilDB, $ilUser;
-		
+		global $DIC;
+		$ilDB = $DIC->database();
+		$ilUser = $DIC->user();
+
 		$user_id = $a_manual ? $ilUser->getId() : 0;
 		
 		$sql = "UPDATE cron_job SET ".
@@ -679,8 +707,10 @@ class ilCronManager implements \ilCronManagerInterface
 	 */
 	protected static function updateJobResult(ilCronJob $a_job, ilCronJobResult $a_result, $a_manual = false)
 	{
-		global $ilDB, $ilUser;
-		
+		global $DIC;
+		$ilDB = $DIC->database();
+		$ilUser = $DIC->user();
+
 		$user_id = $a_manual ? $ilUser->getId() : 0;
 		
 		$sql = "UPDATE cron_job SET ".
@@ -704,7 +734,8 @@ class ilCronManager implements \ilCronManagerInterface
 	 */
 	public static function updateJobSchedule(ilCronJob $a_job, $a_schedule_type, $a_schedule_value)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 
 		if($a_schedule_type === null ||
 			($a_job->hasFlexibleSchedule() && 
@@ -736,8 +767,9 @@ class ilCronManager implements \ilCronManagerInterface
 	 */
 	public static function ping($a_job_id)
 	{
-		global $ilDB;
-		
+		global $DIC;
+		$ilDB = $DIC->database();
+
 		$ilDB->manipulate("UPDATE cron_job SET ".
 			" alive_ts = ".$ilDB->quote(time(), "integer").
 			" WHERE job_id = ".$ilDB->quote($a_job_id, "text"));

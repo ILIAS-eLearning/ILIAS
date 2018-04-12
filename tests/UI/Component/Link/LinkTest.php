@@ -63,7 +63,7 @@ class LinkTest extends ILIAS_UI_TestBase {
 		$html = $r->render($c);
 
 		$expected_html =
-			'<a href="http://www.ilias.de" target="_blank">label</a>';
+			'<a href="http://www.ilias.de" target="_blank" rel="noopener">label</a>';
 
 		$this->assertHTMLEquals($expected_html, $html);
 	}

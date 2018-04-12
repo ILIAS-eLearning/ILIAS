@@ -20,16 +20,10 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 	 */
 	public function joinWithCustomName()
 	{
-		/**
-		 * @var $ilUser ilObjUser
-		 * @var $lng    ilLanguage
-		 */
-		global $ilUser, $lng;
-
 		$this->gui->switchToVisibleMode();
 		$this->setupTemplate();
 		$room      = ilChatroom::byObjectId($this->gui->object->getId());
-		$chat_user = new ilChatroomUser($ilUser, $room);
+		$chat_user = new ilChatroomUser($this->ilUser, $room);
 		$failure   = false;
 		$username  = '';
 
@@ -57,7 +51,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 		}
 		else
 		{
-			ilUtil::sendFailure($lng->txt('no_username_given'));
+			ilUtil::sendFailure($this->ilLng->txt('no_username_given'));
 			$this->showNameSelection($chat_user);
 		}
 	}
@@ -67,19 +61,14 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 	 */
 	private function setupTemplate()
 	{
-		/**
-		 * @var $tpl ilTemplate
-		 */
-		global $tpl;
+		$this->mainTpl->addJavaScript('Modules/Chatroom/js/chat.js');
+		$this->mainTpl->addJavaScript('Modules/Chatroom/js/iliaschat.jquery.js');
+		$this->mainTpl->addJavaScript('libs/bower/bower_components/jquery-outside-events/jquery.ba-outside-events.min.js');
+		$this->mainTpl->addJavaScript('Modules/Chatroom/js/json2.js');
 
-		$tpl->addJavaScript('Modules/Chatroom/js/chat.js');
-		$tpl->addJavaScript('Modules/Chatroom/js/iliaschat.jquery.js');
-		$tpl->addJavaScript('libs/bower/bower_components/jquery-outside-events/jquery.ba-outside-events.min.js');
-		$tpl->addJavaScript('Modules/Chatroom/js/json2.js');
+		$this->mainTpl->addJavaScript('./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js');
 
-		$tpl->addJavaScript('./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js');
-
-		$tpl->addCSS('Modules/Chatroom/templates/default/style.css');
+		$this->mainTpl->addCSS('Modules/Chatroom/templates/default/style.css');
 	}
 
 	/**
@@ -89,25 +78,15 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 	 */
 	private function showRoom(ilChatroom $room, ilChatroomUser $chat_user)
 	{
-		/**
-		 * @var $tpl                 ilTemplate    $tpl
-		 * @var $ilUser              ilObjUser
-		 * @var $ilCtrl              ilCtrl
-		 * @var $rbacsystem          ilRbacSystem
-		 * @var $lng                 ilLanguage
-		 * @var $ilNavigationHistory ilNavigationHistory
-		 */
-		global $tpl, $ilUser, $ilCtrl, $rbacsystem, $lng, $ilNavigationHistory;
-
 		$this->redirectIfNoPermission('read');
 
-		$user_id = $chat_user->getUserId($ilUser);
+		$user_id = $chat_user->getUserId($this->ilUser);
 
-		$ilNavigationHistory->addItem($_GET['ref_id'], $ilCtrl->getLinkTargetByClass('ilrepositorygui', 'view'), 'chtr');
+		$this->navigationHistory->addItem($_GET['ref_id'], $this->ilCtrl->getLinkTargetByClass('ilrepositorygui', 'view'), 'chtr');
 
 		if($room->isUserBanned($user_id))
 		{
-			$this->cancelJoin($lng->txt('banned'));
+			$this->cancelJoin($this->ilLng->txt('banned'));
 			return;
 		}
 
@@ -117,8 +96,8 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
 		if(!$response)
 		{
-			ilUtil::sendFailure($lng->txt('unable_to_connect'), true);
-			$ilCtrl->redirectByClass('ilinfoscreengui', 'info');
+			ilUtil::sendFailure($this->ilLng->txt('unable_to_connect'), true);
+			$this->ilCtrl->redirectByClass('ilinfoscreengui', 'info');
 		}
 
 		if(!$room->isSubscribed($chat_user->getUserId()))
@@ -130,19 +109,19 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 		$response = $connector->sendEnterPrivateRoom($scope, $subScope, $user_id);
 		if(!$response)
 		{
-			ilUtil::sendFailure($lng->txt('unable_to_connect'), true);
-			$ilCtrl->redirectByClass('ilinfoscreengui', 'info');
+			ilUtil::sendFailure($this->ilLng->txt('unable_to_connect'), true);
+			$this->ilCtrl->redirectByClass('ilinfoscreengui', 'info');
 		}
 
 		$connection_info    = json_decode($response);
 		$settings           = $connector->getSettings();
-		$known_private_room = $room->getActivePrivateRooms($ilUser->getId());
+		$known_private_room = $room->getActivePrivateRooms($this->ilUser->getId());
 
 		$initial                        = new stdClass();
 		$initial->users                 = $room->getConnectedUsers();
 		$initial->private_rooms         = array_values($known_private_room);
-		$initial->redirect_url          = $ilCtrl->getLinkTarget($this->gui, 'view-lostConnection', '', false, false);
-		$initial->profile_image_url     = $ilCtrl->getLinkTarget($this->gui, 'view-getUserProfileImages', '', true, false);
+		$initial->redirect_url          = $this->ilCtrl->getLinkTarget($this->gui, 'view-lostConnection', '', false, false);
+		$initial->profile_image_url     = $this->ilCtrl->getLinkTarget($this->gui, 'view-getUserProfileImages', '', true, false);
 		$initial->no_profile_image_url  = ilUtil::getImagePath('no_photo_xxsmall.jpg');
 		$initial->private_rooms_enabled = (boolean)$room->getSetting('private_rooms_enabled');
 
@@ -204,7 +183,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 				{
 					$initial->messages[] = array(
 						'type'    => 'error',
-						'message' => $lng->txt('not_allowed_to_enter'),
+						'message' => $this->ilLng->txt('not_allowed_to_enter'),
 					);
 				}
 				else
@@ -236,7 +215,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 			{
 				$initial->messages[] = array(
 					'type'    => 'error',
-					'message' => $lng->txt('user_invited'),
+					'message' => $this->ilLng->txt('user_invited'),
 				);
 			}
 		}
@@ -253,13 +232,13 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 		$roomTpl->setVariable('SCOPE', $scope);
 		$roomTpl->setVariable('MY_ID', $user_id);
 		$roomTpl->setVariable('INITIAL_DATA', json_encode($initial));
-		$roomTpl->setVariable('POSTURL', $ilCtrl->getLinkTarget($this->gui, 'postMessage', '', true, true));
+		$roomTpl->setVariable('POSTURL', $this->ilCtrl->getLinkTarget($this->gui, 'postMessage', '', true, true));
 
-		$roomTpl->setVariable('ACTIONS', $lng->txt('actions'));
-		$roomTpl->setVariable('LBL_CREATE_PRIVATE_ROOM', $lng->txt('create_private_room_label'));
-		$roomTpl->setVariable('LBL_USER', $lng->txt('user'));
-		$roomTpl->setVariable('LBL_USER_TEXT', $lng->txt('invite_username'));
-		$roomTpl->setVariable('LBL_AUTO_SCROLL', $lng->txt('auto_scroll'));
+		$roomTpl->setVariable('ACTIONS', $this->ilLng->txt('actions'));
+		$roomTpl->setVariable('LBL_CREATE_PRIVATE_ROOM', $this->ilLng->txt('create_private_room_label'));
+		$roomTpl->setVariable('LBL_USER', $this->ilLng->txt('user'));
+		$roomTpl->setVariable('LBL_USER_TEXT', $this->ilLng->txt('invite_username'));
+		$roomTpl->setVariable('LBL_AUTO_SCROLL', $this->ilLng->txt('auto_scroll'));
 
 		$roomTpl->setVariable('INITIAL_USERS', json_encode($room->getConnectedUsers()));
 
@@ -275,13 +254,13 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
 		require_once 'Services/UIComponent/Panel/classes/class.ilPanelGUI.php';
 		$right_content_panel = ilPanelGUI::getInstance();
-		$right_content_panel->setHeading($lng->txt('users'));
+		$right_content_panel->setHeading($this->ilLng->txt('users'));
 		$right_content_panel->setPanelStyle(ilPanelGUI::PANEL_STYLE_SECONDARY);
 		$right_content_panel->setHeadingStyle(ilPanelGUI::HEADING_STYLE_BLOCK);
 		$right_content_panel->setBody($roomRightTpl->get());
 
-		$tpl->setContent($roomTpl->get());
-		$tpl->setRightContent($right_content_panel->getHTML());
+		$this->mainTpl->setContent($roomTpl->get());
+		$this->mainTpl->setRightContent($right_content_panel->getHTML());
 	}
 
 	/**
@@ -314,16 +293,11 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 	 */
 	protected function renderSendMessageBox(ilTemplate $roomTpl)
 	{
-		/**
-		 * @var $lng ilLanguage
-		 */
-		global $lng;
-
-		$roomTpl->setVariable('LBL_MESSAGE', $lng->txt('chat_message'));
-		$roomTpl->setVariable('LBL_TOALL', $lng->txt('chat_message_to_all'));
-		$roomTpl->setVariable('LBL_OPTIONS', $lng->txt('chat_message_options'));
-		$roomTpl->setVariable('LBL_DISPLAY', $lng->txt('chat_message_display'));
-		$roomTpl->setVariable('LBL_SEND', $lng->txt('send'));
+		$roomTpl->setVariable('LBL_MESSAGE', $this->ilLng->txt('chat_message'));
+		$roomTpl->setVariable('LBL_TOALL', $this->ilLng->txt('chat_message_to_all'));
+		$roomTpl->setVariable('LBL_OPTIONS', $this->ilLng->txt('chat_message_options'));
+		$roomTpl->setVariable('LBL_DISPLAY', $this->ilLng->txt('chat_message_display'));
+		$roomTpl->setVariable('LBL_SEND', $this->ilLng->txt('send'));
 	}
 
 	/**
@@ -331,11 +305,6 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 	 */
 	protected function renderLanguageVariables(ilTemplate $roomTpl)
 	{
-		/**
-		 * @var $lng ilLanguage
-		 */
-		global $lng;
-
 		$js_translations = array(
 			'LBL_MAINROOM'                     => 'chat_mainroom',
 			'LBL_LEAVE_PRIVATE_ROOM'           => 'leave_private_room',
@@ -377,15 +346,15 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 		);
 		foreach($js_translations as $placeholder => $lng_variable)
 		{
-			$roomTpl->setVariable($placeholder, json_encode($lng->txt($lng_variable)));
+			$roomTpl->setVariable($placeholder, json_encode($this->ilLng->txt($lng_variable)));
 		}
 
-		$roomTpl->setVariable('LBL_CREATE_PRIVATE_ROOM', $lng->txt('chat_create_private_room_button'));
-		$roomTpl->setVariable('LBL_CREATE_PRIVATE_ROOM_TEXT', $lng->txt('create_private_room_text'));
-		$roomTpl->setVariable('LBL_LAYOUT', $lng->txt('layout'));
-		$roomTpl->setVariable('LBL_SHOW_SETTINGS', $lng->txt('show_settings'));
-		$roomTpl->setVariable('LBL_USER_IN_ROOM', $lng->txt('user_in_room'));
-		$roomTpl->setVariable('LBL_USER_IN_ILIAS', $lng->txt('user_in_ilias'));
+		$roomTpl->setVariable('LBL_CREATE_PRIVATE_ROOM', $this->ilLng->txt('chat_create_private_room_button'));
+		$roomTpl->setVariable('LBL_CREATE_PRIVATE_ROOM_TEXT', $this->ilLng->txt('create_private_room_text'));
+		$roomTpl->setVariable('LBL_LAYOUT', $this->ilLng->txt('layout'));
+		$roomTpl->setVariable('LBL_SHOW_SETTINGS', $this->ilLng->txt('show_settings'));
+		$roomTpl->setVariable('LBL_USER_IN_ROOM', $this->ilLng->txt('user_in_room'));
+		$roomTpl->setVariable('LBL_USER_IN_ILIAS', $this->ilLng->txt('user_in_ilias'));
 	}
 
 	/**
@@ -393,12 +362,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 	 */
 	protected function renderRightUsersBlock(ilTemplate $roomTpl)
 	{
-		/**
-		 * @var $lng ilLanguage
-		 */
-		global $lng;
-
-		$roomTpl->setVariable('LBL_NO_FURTHER_USERS', $lng->txt('no_further_users'));
+		$roomTpl->setVariable('LBL_NO_FURTHER_USERS', $this->ilLng->txt('no_further_users'));
 	}
 
 	/**
@@ -409,27 +373,20 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 	 */
 	private function showNameSelection(ilChatroomUser $chat_user)
 	{
-		/**
-		 * @var $lng    ilLanguage
-		 * @var $ilCtrl ilCtrl
-		 * @var $tpl    ilTemplate
-		 */
-		global $lng, $ilCtrl, $tpl;
-
 		require_once 'Modules/Chatroom/classes/class.ilChatroomFormFactory.php';
 
 		$name_options  = $chat_user->getChatNameSuggestions();
 		$formFactory   = new ilChatroomFormFactory();
 		$selectionForm = $formFactory->getUserChatNameSelectionForm($name_options);
 
-		$ilCtrl->saveParameter($this->gui, 'sub');
+		$this->ilCtrl->saveParameter($this->gui, 'sub');
 
-		$selectionForm->addCommandButton('view-joinWithCustomName', $lng->txt('enter'));
+		$selectionForm->addCommandButton('view-joinWithCustomName', $this->ilLng->txt('enter'));
 		$selectionForm->setFormAction(
-			$ilCtrl->getFormAction($this->gui, 'view-joinWithCustomName')
+			$this->ilCtrl->getFormAction($this->gui, 'view-joinWithCustomName')
 		);
 
-		$tpl->setVariable('ADM_CONTENT', $selectionForm->getHtml());
+		$this->mainTpl->setVariable('ADM_CONTENT', $selectionForm->getHtml());
 	}
 
 	/**
@@ -440,13 +397,6 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 	 */
 	public function executeDefault($method)
 	{
-		/**
-		 * @var $ilUser ilObjUser
-		 * @var $lng    ilLanguage
-		 * @var $ilCtrl ilCtrl
-		 */
-		global $ilUser, $lng, $ilCtrl;
-
 		include_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 
 		$this->redirectIfNoPermission('read');
@@ -457,19 +407,19 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 		$chatSettings = new ilSetting('chatroom');
 		if(!$chatSettings->get('chat_enabled'))
 		{
-			$ilCtrl->redirect($this->gui, 'settings-general');
+			$this->ilCtrl->redirect($this->gui, 'settings-general');
 			exit;
 		}
 
 		$room = ilChatroom::byObjectId($this->gui->object->getId());
 
-		if(!$room->getSetting('allow_anonymous') && $ilUser->isAnonymous())
+		if(!$room->getSetting('allow_anonymous') && $this->ilUser->isAnonymous())
 		{
-			$this->cancelJoin($lng->txt('chat_anonymous_not_allowed'));
+			$this->cancelJoin($this->ilLng->txt('chat_anonymous_not_allowed'));
 			return;
 		}
 
-		$chat_user = new ilChatroomUser($ilUser, $room);
+		$chat_user = new ilChatroomUser($this->ilUser, $room);
 
 		if($room->getSetting('allow_custom_usernames'))
 		{
@@ -485,7 +435,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 		}
 		else
 		{
-			$chat_user->setUsername($ilUser->getLogin());
+			$chat_user->setUsername($this->ilUser->getLogin());
 			$this->showRoom($room, $chat_user);
 		}
 	}
@@ -495,20 +445,14 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 	 */
 	public function invitePD()
 	{
-		/**
-		 * @var $ilUser ilObjUser
-		 * @var $ilCtrl ilCtrl
-		 */
-		global $ilUser, $ilCtrl;
-
 		$chatSettings = new ilSetting('chatroom');
 		if(!$chatSettings->get('chat_enabled'))
 		{
-			$ilCtrl->redirect($this->gui, 'settings-general');
+			$this->ilCtrl->redirect($this->gui, 'settings-general');
 		}
 
 		$room      = ilChatroom::byObjectId($this->gui->object->getId());
-		$chat_user = new ilChatroomUser($ilUser, $room);
+		$chat_user = new ilChatroomUser($this->ilUser, $room);
 		$user_id   = $_REQUEST['usr_id'];
 		$connector = $this->gui->getConnector();
 		$title     = $room->getUniquePrivateRoomTitle($chat_user->buildLogin());
@@ -524,8 +468,8 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
 		$_SESSION['show_invitation_message'] = $user_id;
 
-		$ilCtrl->setParameter($this->gui, 'sub', $subRoomId);
-		$ilCtrl->redirect($this->gui, 'view');
+		$this->ilCtrl->setParameter($this->gui, 'sub', $subRoomId);
+		$this->ilCtrl->redirect($this->gui, 'view');
 	}
 
 	/**
@@ -534,17 +478,11 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 	public function logout()
 	{
 		/**
-		 * @var $tree   ilTree
-		 * @var $ilCtrl ilCtrl
-		 */
-		global $tree, $ilCtrl;
-
-		/**
 		 * @todo logout user from room
 		 */
-		$pid = $tree->getParentId($this->gui->getRefId());
-		$ilCtrl->setParameterByClass('ilrepositorygui', 'ref_id', $pid);
-		$ilCtrl->redirectByClass('ilrepositorygui', '');
+		$pid = $this->tree->getParentId($this->gui->getRefId());
+		$this->ilCtrl->setParameterByClass('ilrepositorygui', 'ref_id', $pid);
+		$this->ilCtrl->redirectByClass('ilrepositorygui', '');
 	}
 
 	/**
@@ -552,44 +490,36 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 	 */
 	public function lostConnection()
 	{
-		/**
-		 * @var $lng    ilLanguage
-		 * @var $ilCtrl ilCtrl
-		 */
-		global $lng, $ilCtrl;
-
 		if(isset($_GET['msg']))
 		{
 			switch($_GET['msg'])
 			{
 				case 'kicked':
-					ilUtil::sendFailure($lng->txt('kicked'), true);
+					ilUtil::sendFailure($this->ilLng->txt('kicked'), true);
 					break;
 
 				case 'banned':
-					ilUtil::sendFailure($lng->txt('banned'), true);
+					ilUtil::sendFailure($this->ilLng->txt('banned'), true);
 					break;
 
 				default:
-					ilUtil::sendFailure($lng->txt('lost_connection'), true);
+					ilUtil::sendFailure($this->ilLng->txt('lost_connection'), true);
 					break;
 			}
 		}
 		else
 		{
-			ilUtil::sendFailure($lng->txt('lost_connection'), true);
+			ilUtil::sendFailure($this->ilLng->txt('lost_connection'), true);
 		}
 
-		$ilCtrl->redirectByClass('ilinfoscreengui', 'info');
+		$this->ilCtrl->redirectByClass('ilinfoscreengui', 'info');
 	}
 
 	public function getUserProfileImages()
 	{
-		global $DIC;
-
 		$response = array();
 
-		if(!$DIC->user())
+		if(!$this->ilUser)
 		{
 			echo json_encode($response);
 			exit();
@@ -601,7 +531,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 			exit();
 		}
 
-		$DIC['lng']->loadLanguageModule('user');
+		$this->ilLng->loadLanguageModule('user');
 
 		require_once 'Services/WebAccessChecker/classes/class.ilWACSignedPath.php';
 		ilWACSignedPath::setTokenMaxLifetimeInSeconds(30);
