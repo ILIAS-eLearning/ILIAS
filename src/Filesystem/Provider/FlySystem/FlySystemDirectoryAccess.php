@@ -19,7 +19,7 @@ use League\Flysystem\RootViolationException;
  * @since 5.3
  * @version 1.0.0
  */
-final class FlySystemDirectoryAccess implements DirectoryAccess {
+class FlySystemDirectoryAccess implements DirectoryAccess {
 
 	/**
 	 * @var FilesystemInterface $flySystemFS

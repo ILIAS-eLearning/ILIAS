@@ -21,7 +21,7 @@ use League\Flysystem\FilesystemInterface;
  * @since 5.3
  * @version 1.0.0
  */
-final class FlySystemFileAccess implements FileAccess {
+class FlySystemFileAccess implements FileAccess {
 
 	/**
 	 * @var FilesystemInterface $flySystemFS

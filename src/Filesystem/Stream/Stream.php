@@ -15,7 +15,7 @@ use ILIAS\Filesystem\Util\PHPStreamFunctions;
  *
  * @internal
  */
-final class Stream implements FileStream {
+class Stream implements FileStream {
 
 	const MASK_ACCESS_READ = 01;
 	const MASK_ACCESS_WRITE = 02;
