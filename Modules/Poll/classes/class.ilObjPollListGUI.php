@@ -19,6 +19,11 @@ class ilObjPollListGUI extends ilObjectListGUI
 	*/
 	function init()
 	{
+		global $DIC;
+
+		$log = $DIC->logger()->root();
+		$log->debug("sdf");
+
 		$this->copy_enabled = false;
 		$this->delete_enabled = true;
 		$this->cut_enabled = false;

@@ -43,18 +43,25 @@ class ilInitialisation
 		// We do not need this characters in any case, so it is
 		// feasible to filter them everytime. POST parameters
 		// need attention through ilUtil::stripSlashes() and similar functions)
-		if (is_array($_GET))
-		{
-			foreach($_GET as $k => $v)
-			{
-				// \r\n used for IMAP MX Injection
-				// ' used for SQL Injection
-				$_GET[$k] = str_replace(array("\x00", "\n", "\r", "\\", "'", '"', "\x1a"), "", $v);
+		$_GET = self::recursivelyRemoveUnsafeCharacters($_GET);
+	}
 
-				// this one is for XSS of any kind
-				$_GET[$k] = strip_tags($_GET[$k]);
+	protected static function recursivelyRemoveUnsafeCharacters($var) {
+		if (is_array($var)) {
+			$mod = [];
+			foreach ($var as $k => $v) {
+				$k = self::recursivelyRemoveUnsafeCharacters($k);
+				$mod[$k] = self::recursivelyRemoveUnsafeCharacters($v);
 			}
+			return $mod;
 		}
+		return strip_tags(
+			str_replace(
+				array("\x00", "\n", "\r", "\\", "'", '"', "\x1a"),
+				"",
+				$var
+			)
+		);
 	}
 	
 	/**
@@ -230,12 +237,11 @@ class ilInitialisation
 
 		$dic['upload'] = function ($c) {
 			$fileUploadImpl = new \ILIAS\FileUpload\FileUploadImpl($c['upload.processor-manager'], $c['filesystem'], $c['http']);
-			$fileUploadImpl->register(new \ILIAS\FileUpload\Processor\BlacklistExtensionPreProcessor(array( "exe" )));
-			//	$fileUploadImpl->register(new \ILIAS\FileUpload\Processor\BlacklistMimeTypePreProcessor(array("exe")));
-			//	$fileUploadImpl->register(new \ILIAS\FileUpload\Processor\BlacklistFileHeaderPreProcessor(array("exe")));
 			if (IL_VIRUS_SCANNER != "None") {
 				$fileUploadImpl->register(new \ILIAS\FileUpload\Processor\VirusScannerPreProcessor(ilVirusScannerFactory::_getInstance()));
 			}
+
+			$fileUploadImpl->register(new \ILIAS\FileUpload\Processor\WhitelistExtensionPreProcessor(ilFileUtils::getValidExtensions()));
 
 			return $fileUploadImpl;
 		};

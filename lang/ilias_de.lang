@@ -426,6 +426,7 @@ assessment#:#applet_parameter#:#Parameter
 assessment#:#applet_parameters#:#Applet-Parameter
 assessment#:#apply#:#Übernehmen
 assessment#:#tst_msg_rand_quest_set_rule_label#:#Regel %s
+assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_missing_#:#Für Regel %s werden %s Fragen benötigt, es stehen aber nur %s Fragen zur Verfügung.
 assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_missing_shared#:#Von den vorgesehenen Fragen stehen %s Fragen zu dem auch den folgenden Regeln zur Verfügung: %s
 assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_reserved#:#Für Regel %s werden %s Fragen benötigt und es sind %s Fragen vorgesehen.
 assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_reserved_shared#:#Durch Überschneidungen mit den folgenden Regeln stehen aber nur %s Fragen garantiert zur Verfügung: %s
@@ -5923,7 +5924,7 @@ exc#:#exc_edit_assignments#:#Übungseinheiten bearbeiten
 exc#:#exc_edit_submission#:#Eingereichte Lösungen ändern
 exc#:#exc_ended_on#:#Beendet am
 exc#:#exc_export_excel#:#Export (Excel)
-exc#:#exc_fb_files#:#Dateien vom Tutor
+exc#:#exc_fb_files#:#Bewertungsdateien
 exc#:#exc_grades#:#Notenübersicht
 exc#:#exc_grades_overview#:#Notenübersicht
 exc#:#exc_hand_in#:#Datei abgeben
@@ -11223,7 +11224,7 @@ common#:#password_must_contain_lcase_chars#:#Das Passwort muss mindestens %s Kle
 common#:#password_must_contain_ucase_chars#:#Das Passwort muss mindestens %s Großbuchstaben enthalten.
 search#:#search_user_search_form#:#Suche in Persönlichen Profilen
 search#:#search_user_search_info_form#:#Benutzerdaten in Persönlichen Profilen werden indexiert und können genutzt werden, um Benutzer über die globale Suche zu finden.
-exc#:#exc_fb_tutor_info#:#Durch eine hochgeladene Feedback-Datei wird eine Benachrichtigung an den Benutzer gesendet, und die Datei wird in dessen Übungseinheiten-Übersicht gelistet.
+exc#:#exc_fb_tutor_info#:#Wird eine Datei zur Bewertung der Übungseinheit hochgeladen, erhält die Teilnehmerin oder der Teilnehmer eine Benachrichtigung und kann dann in der Übersicht der Übungseinheiten heruntergeladen und eingesehen werden.
 obj#:#svy_results#:#Ergebnisse
 survey#:#svy_result_mail_notification_info#:#Nach Beenden einer Umfrage werden die Antworten des Teilnehmers an die eingetragen Empfänger gesendet.
 bibl#:#bib_default_author#:#Autor
@@ -13760,6 +13761,7 @@ pdfgen#:#header_show_pages#:#Zeige Seitenzahlen
 pdfgen#:#footer_text#:#Text
 pdfgen#:#footer_height#:#Höhe Fußzeile
 pdfgen#:#footer_show_pages#:#Zeige Seitenzahlen
+pdfgen#:#javascript_delay_info#:#Wenn JavaScript genutzt wird, um Seiteninhalte zu rendern, sorgt die Verzögerung dafür, dass diese Inhalte auch im PDF erscheinen. Die Standardverzögerung von 200ms sollte in den meisten Fällen ausreichen.
 prtf#:#pdf_export#:#PDF Export
 pdfgen#:#preferred_renderer#:#Bevorzugter Renderer
 pdfgen#:#selected_renderer#:#Gewählter Renderer
@@ -13817,7 +13819,7 @@ common#:#saml_login_form_txt#:#Bei ILIAS anmelden über SAML
 common#:#saml_login_form_info_txt#:#Um sich ber SAML anzumelden, klicken Sie bitte den 'Anmelde'-Button.
 common#:#login_to_ilias_via_saml#:#Bei ILIAS via SAML-Authentifizierung anmelden
 auth#:#auth_saml_configure#:#SAML-Unterstützung konfigurieren
-auth#:#auth_saml_add_idp_btn#:#Identity Provider Hinzufügen
+auth#:#auth_saml_add_idp_btn#:#Identity Provider hinzufügen
 auth#:#auth_saml_sure_delete_idp#:#Sind Sie sicher, dass Sie den gewählten Identity Provider unwiederruflich löschen möchten? Für die betroffenen Benutzerkonten wird anschließend die Standard-Authentifizierung gewählt.
 auth#:#auth_saml_deleted_idp#:#Der Identity Provider wurde gelöscht.
 auth#:#auth_saml_unknow_idp#:#Der Identity Provider existiert nicht.
@@ -14158,3 +14160,13 @@ poll#:#poll_voting_period_full_info#:#Abstimmung von %s bis %s
 crs#:#crs_subscription_min_members_err#:#Die minimale Anzahl darf nicht größer als die maximale Anzahl sein.
 background_tasks#:#abort#:#Abbrechen
 rbac#:#sess_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
+content#:#cont_lpe_cas_login_form#:#CAS-Loginmaske
+content#:#cont_lpe_language_selection#:#Sprachauswahl
+content#:#cont_lpe_login_form#:#Loginmaske
+content#:#cont_lpe_openid_login_form#:#OpenId-Loginmaske
+content#:#cont_lpe_registration_link#:#Link zur Neuanmeldung
+content#:#cont_lpe_shib_login_form#:#Shibboleth-Loginmaske
+content#:#cont_lpe_user_agreement_link#:#Link zur Benutzervereinbarung
+common#:#fold_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien kopiert, verknüpft oder aber beim Kopiervorgang ausgelassen werden sollen.
+common#:#obj_fold_duplicate#:#Ordner kopieren
+common#:#fold_wizard_page#:#Ordner kopieren (Schritt 2/2)

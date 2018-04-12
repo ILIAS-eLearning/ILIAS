@@ -205,7 +205,7 @@ class ilMailCronOrphanedMails extends ilCronJob
 			$this->processNotification();
 		}
 
-		if((int)$this->settings->get('last_cronjob_start_ts') && $mail_threshold >= 1)
+		if((int)$this->settings->get('last_cronjob_start_ts', time()) && $mail_threshold >= 1)
 		{
 			$this->processDeletion();
 		}

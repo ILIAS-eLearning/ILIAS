@@ -249,7 +249,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		if($a_mode != "embedded")
 		{
 			$append = ($_GET["blpg"] != "")
-				? "_".$_GET["blpg"]
+				? "_".ilUtil::stripSlashes($_GET["blpg"])
 				: "";
 			if($this->isInWorkspace())
 			{

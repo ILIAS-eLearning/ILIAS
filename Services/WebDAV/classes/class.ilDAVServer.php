@@ -1069,7 +1069,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		$this->writelog('PUTfinished('.var_export($options, true).')');
 
 		if($this->putObjDAV->getResourceType()==""){
-			$vir = ilUtil::virusHandling($this->putObjDAV->obj->getDirectory($this->putObjDAV->obj->version).'/'.$this->putObjDAV->obj->filename, $this->putObjDAV->obj->filename);
+			$vir = ilUtil::virusHandling($this->putObjDAV->obj->getDirectory($this->putObjDAV->obj->getVersion()).'/'.$this->putObjDAV->obj->getFileName(), $this->putObjDAV->obj->getFileName());
 			if ($vir[0] == false)
 			{
 				$this->writelog('PUTfinished Virus found: '.$vir[1]);
@@ -1088,7 +1088,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 				$objDAV->setContentLength($objDAV->getContentOutputStreamLength());
 			} else {
 				$objDAV->write();
-				$objDAV->setContentLength(filesize($objDAV->obj->getDirectory($objDAV->obj->version).'/'.$objDAV->obj->filename));
+				$objDAV->setContentLength(filesize($objDAV->obj->getDirectory($objDAV->obj->getVersion()).'/'.$objDAV->obj->getFileName()));
 			}
 			$objDAV->write();
 			$this->putObjDAV = null;

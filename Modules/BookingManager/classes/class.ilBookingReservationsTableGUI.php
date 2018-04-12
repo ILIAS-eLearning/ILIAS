@@ -64,7 +64,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		$this->has_schedule = (bool)$a_has_schedule;		
 		$this->group_id = $a_group_id;
 		
-		$this->advmd = ilObjBookingPool::getAdvancedMDFields($this->pool_id);
+		$this->advmd = ilObjBookingPool::getAdvancedMDFields($a_ref_id);
 		
 		$this->setId("bkrsv".$a_ref_id);
 		

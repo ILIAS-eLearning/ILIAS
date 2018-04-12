@@ -43,7 +43,7 @@ class ilBlogExerciseGUI
 		$this->lng = $DIC->language();
 		$this->node_id = $a_node_id;
 		$this->ass_id = (int)$_GET["ass"];
-		$this->file = trim($_GET["file"]);
+		$this->file = trim(ilUtil::stripSlashes($_GET["file"]));
 	}
 	
 	function executeCommand()
@@ -76,6 +76,11 @@ class ilBlogExerciseGUI
 		$ilUser = $DIC->user();
 	
 		$exercises = ilExSubmission::findUserFiles($ilUser->getId(), $a_node_id);
+		// #0022794
+		if (!$exercises)
+		{
+			$exercises = ilExSubmission::findUserFiles($ilUser->getId(), $a_node_id.".sec");
+		}
 		if($exercises)
 		{
 			$info = array();				
@@ -114,7 +119,6 @@ class ilBlogExerciseGUI
 		$lng = $DIC->language();
 		$ilCtrl = $DIC->ctrl();
 		$ilUser = $DIC->user();
-					
 		$ass = new ilExAssignment($a_assignment_id);		
 		$exercise_id = $ass->getExerciseId();		
 		if(!$exercise_id)

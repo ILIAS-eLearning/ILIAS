@@ -63,6 +63,12 @@ class ilFileUtils
 		$pathinfo = pathinfo($a_file);
 		$file = $pathinfo["basename"];
 
+		// see 22727
+		if ($pathinfo["extension"] == "")
+		{
+			$file.= ".zip";
+		}
+
 		// Copy zip-file to new directory, unzip and remove it
 		// TODO: check archive for broken file
 		//copy ($a_file, $a_directory . "/" . $file);
@@ -538,11 +544,15 @@ class ilFileUtils
 	{
 		return array(
 			'3gp', 	// VIDEO__3_GPP
+			'ai', 	// APPLICATION__POSTSCRIPT
 			'aif', 	// AUDIO__AIFF
 			'aifc', // AUDIO__AIFF
 			'aiff', // AUDIO__AIFF
 			'au', 	// AUDIO__BASIC
+			'arw',  // IMAGE__X_SONY_ARW
 			'avi',  // AUDIO__BASIC
+			'backup', // scorm wbts
+			'bak', // scorm wbts
 			'bpmn', // bpmn
 			'bpmn2', // bpmn2
 			'bmp',	// IMAGE__BMP
@@ -553,19 +563,32 @@ class ilFileUtils
 			'c',	// TEXT__PLAIN
 			'c++', 	// TEXT__PLAIN
 			'cc', 	// TEXT__PLAIN
+			'cct', // scorm wbts
 			'cer', 	// APPLICATION__X_X509_CA_CERT
 			'class', // APPLICATION__X_JAVA_CLASS
 			'conf',	 // TEXT__PLAIN
 			'cpp',	// TEXT__X_C
 			'crt',	// APPLICATION__X_X509_CA_CERT
+			'crs', // scorm wbts
+			'crw', // IMAGE__X_CANON_CRW
+			'cr2', // IMAGE__X_CANON_CR2
 			'css', 	// TEXT__CSS
+			'cst', // scorm wbts
+			'csv',
+			'cur', // scorm wbts
+			'db', // scorm wbts
+			'dcr', // scorm wbts
+			'des', // scorm wbts
+			'dng', // IMAGE__X_ADOBE_DNG
 			'doc',   // APPLICATION__MSWORD,
 			'docx',   // APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_DOCUMENT,
 			'dot',   // APPLICATION__MSWORD,
 			'dotx',   // APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_TEMPLATE,
+			'dtd',
 			'dvi',   // APPLICATION__X_DVI,
 			'el',   // TEXT__X_SCRIPT_ELISP,
 			'eps',   // APPLICATION__POSTSCRIPT,
+			'epub',   // APPLICATION__EPUB,
 			'f',   // TEXT__X_FORTRAN,
 			'f77',   // TEXT__X_FORTRAN,
 			'f90',   // TEXT__X_FORTRAN,
@@ -574,6 +597,7 @@ class ilFileUtils
 			'g3',   // IMAGE__G3FAX,
 			'gif',   // IMAGE__GIF,
 			'gl',   // VIDEO__GL,
+			'gan',
 			'gsd',   // AUDIO__X_GSM,
 			'gsm',   // AUDIO__X_GSM,
 			'gtar',   // APPLICATION__X_GTAR,
@@ -583,11 +607,17 @@ class ilFileUtils
 			'html',   // TEXT__HTML,
 			'htmls',   // TEXT__HTML,
 			'ico',   // IMAGE__X_ICON,
+			'ini', // scorm wbts
 			'java',   // TEXT__X_JAVA_SOURCE,
+			'jbf', // scorm wbts
 			'jpeg',   // IMAGE__PJPEG,
 			'jpg',   // IMAGE__JPEG,
 			'js',   // APPLICATION__X_JAVASCRIPT,
+			'jsf', // scorm wbts
+			'jso', // scorm wbts
+			'json',		// APPLICATION__JSON
 			'latex',   // APPLICATION__X_LATEX,
+			'lang',   // lang files
 			'less', // less
 			'log',   // TEXT__PLAIN,
 			'lsp',   // APPLICATION__X_LISP,
@@ -598,8 +628,11 @@ class ilFileUtils
 			'm3u',   // AUDIO__X_MPEQURL,
 			'm4a',   // AUDIO__MP4,
 			'm4v',   // VIDEO__MP4,
+			'md',    // TEXT__MARKDOWN,
 			'mid',   // AUDIO__MIDI,
+			'min',		// scorm articulate?
 			'midi',   // AUDIO__MIDI,
+			'mobi',   // APPLICATION__X_MOBI,
 			'mod',   // AUDIO__MOD,
 			'mov',   // VIDEO__QUICKTIME,
 			'movie',   // VIDEO__X_SGI_MOVIE,
@@ -609,13 +642,16 @@ class ilFileUtils
 			'mpa',   // AUDIO__MPEG,
 			'mpeg',   // VIDEO__MPEG,
 			'mpg',   // AUDIO__MPEG,
+			'mph',   // COMSOL Multiphysics
 			'mpga',   // AUDIO__MPEG,
 			'mpp',   // APPLICATION__VND_MS_PROJECT,
 			'mpt',   // APPLICATION__X_PROJECT,
 			'mpv',   // APPLICATION__X_PROJECT,
 			'mpx',   // APPLICATION__X_PROJECT,
 			'mv',   // VIDEO__X_SGI_MOVIE,
+			'mw',
 			'mv4',   // VIDEO__MP4,
+			'nef',   // IMAGE__X_NIKON_NEF,
 			'nif',   // IMAGE__X_NIFF,
 			'niff',   // IMAGE__X_NIFF,
 			'odt',   // Open document text,
@@ -626,6 +662,7 @@ class ilFileUtils
 			'oga',   // AUDIO__OGG,
 			'ogg',   // AUDIO__OGG,
 			'ogv',   //  VIDEO__OGG,
+			'old',   //  no real file extension, but used in mail/forum components,
 			'p',   //  TEXT__X_PASCAL,
 			'pas',   //  TEXT__PASCAL,
 			'pbm',   //  IMAGE__X_PORTABLE_BITMAP,
@@ -638,6 +675,8 @@ class ilFileUtils
 			'pict',   // IMAGE__PICT,
 			'png',   // IMAGE__PNG,
 			'pov',   // MODEL__X_POV,
+			'project', // scorm wbts
+			'properties', // scorm wbts
 			'ppa',   // APPLICATION__VND_MS_POWERPOINT,
 			'ppm',   // IMAGE__X_PORTABLE_PIXMAP,
 			'pps',   // APPLICATION__VND_MS_POWERPOINT,
@@ -646,6 +685,7 @@ class ilFileUtils
 			'pptx',   // APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_PRESENTATIONML_PRESENTATION,
 			'ppz',   // APPLICATION__MSPOWERPOINT,
 			'ps',   // APPLICATION__POSTSCRIPT,
+			'psd', // scorm wbts
 			'pwz',   // APPLICATION__VND_MS_POWERPOINT,
 			'qt',   // VIDEO__QUICKTIME,
 			'qtc',   // VIDEO__X_QTC,
@@ -675,7 +715,9 @@ class ilFileUtils
 			'smi',   // APPLICATION__SMIL,
 			'smil',   // APPLICATION__SMIL,
 			'svg',   // IMAGE__SVG_XML,
+			'swa', // scorm wbts
 			'swf',   // APPLICATION__X_SHOCKWAVE_FLASH,
+			'swz', // scorm wbts
 			'tex',   // APPLICATION__X_TEX,
 			'texi',   // APPLICATION__X_TEXINFO,
 			'texinfo',   // APPLICATION__X_TEXINFO,
@@ -683,11 +725,15 @@ class ilFileUtils
 			'tgz',   // APPLICATION__X_COMPRESSED,
 			'tif',   // IMAGE__TIFF,
 			'tiff',   // IMAGE__TIFF,
+			'ttf', // scorm wbts
 			'txt',   // TEXT__PLAIN,
+			'tmp',
+			'uvproj',
 			'vimeo',   // VIDEO__VIMEO,
 			'viv',   // VIDEO__VIMEO,
 			'vivo',   // VIDEO__VIVO,
 			'vrml',   // APPLICATION__X_VRML,
+			'wav',		// wav
 			'webm',   // VIDEO__WEBM,
 			'wmv',   // VIDEO__X_MS_WMV,
 			'wmx',   // VIDEO__X_MS_WMX,
@@ -697,8 +743,10 @@ class ilFileUtils
 			'xif',   // IMAGE__VND_XIFF,
 			'xls',   // APPLICATION__EXCEL,
 			'xlsx',   // APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_SHEET,
+			'xmind',
 			'xml',   // self::TEXT__XML,
 			'xsl',   // APPLICATION__XML,
+			'xsd',   // scorm
 			'zip'	// APPLICATION__ZIP
 		);
 	}
@@ -735,6 +783,26 @@ class ilFileUtils
 		return $a_filename;
 	}
 
+
+	/**
+	 * Rename a file
+	 *
+	 * @param $a_source
+	 * @param $a_target
+	 * @return bool
+	 * @throws ilFileUtilsException
+	 */
+	public static function rename($a_source, $a_target)
+	{
+		$pi = pathinfo($a_target);
+		if (!in_array(strtolower($pi["extension"]), self::getValidExtensions()))
+		{
+			include_once("./Services/Utilities/classes/class.ilFileUtilsException.php");
+			throw new ilFileUtilsException("Invalid target file ".$pi["basename"].".");
+		}
+
+		return rename($a_source, $a_target);
+	}
 
 	
 } // END class.ilFileUtils
