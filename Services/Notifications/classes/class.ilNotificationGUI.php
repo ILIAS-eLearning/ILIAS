@@ -91,12 +91,10 @@ class ilNotificationGUI
 
 	function executeCommand()
 	{
-		global $ilCtrl;
-
-		if(!$ilCtrl->getCmd())
+		if(!$this->controller->getCmd())
 			return;
 
-		$cmd = $ilCtrl->getCmd() . 'Object';
+		$cmd = $this->controller->getCmd() . 'Object';
 		$this->$cmd();
 
 	}
