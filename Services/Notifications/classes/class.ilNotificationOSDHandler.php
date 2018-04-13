@@ -8,12 +8,44 @@ require_once 'Services/Notifications/classes/class.ilNotificationEchoHandler.php
  * browser
  */
 class ilNotificationOSDHandler extends ilNotificationEchoHandler {
+
+	/** @var ilDB|ilDBInterface */
+	private $database;
+
+	/** @var ilLanguage */
+	private $language;
+
+	/**
+	 * ilNotificationOSDHandler constructor.
+	 * @param ilDBInterface|null $database
+	 * @param ilLanguage|null $language
+	 * @param \ILIAS\DI\Container|null $dic
+	 */
+	private function __construct(
+		\ilDBInterface $database = null,
+		\ilLanguage $language = null,
+		\ILIAS\DI\Container $dic = null
+	) {
+		if ($dic === null) {
+			global $DIC;
+			$dic = $DIC;
+		}
+
+		if ($database === null) {
+			$database = $dic->database();
+		}
+		$this->database = $database;
+
+		if ($language === null) {
+			$language = $dic->language();
+		}
+		$this->language = $language;
+	}
+
     public function notify(ilNotificationObject $notification) {
-        global $ilDB;
+        $id = $this->database->nextId(ilNotificationSetupHelper::$tbl_notification_osd_handler);
 
-        $id = $ilDB->nextId(ilNotificationSetupHelper::$tbl_notification_osd_handler);
-
-        $ilDB->insert(
+        $this->database->insert(
                 ilNotificationSetupHelper::$tbl_notification_osd_handler,
                 array(
                     'notification_osd_id' => array('integer', $id),
@@ -28,10 +60,9 @@ class ilNotificationOSDHandler extends ilNotificationEchoHandler {
     }
 
     public function showSettings($item) {
-        global $lng;
-        $txt = new ilTextInputGUI($lng->txt('polling_intervall'), 'osd_polling_intervall');
+        $txt = new ilTextInputGUI($this->language->txt('polling_intervall'), 'osd_polling_intervall');
         $txt->setRequired(true);
-        $txt->setInfo($lng->txt('polling_in_seconds'));
+        $txt->setInfo($this->language->txt('polling_in_seconds'));
         $txt->setValue('300');
 
         $item->addSubItem($txt);
@@ -40,7 +71,9 @@ class ilNotificationOSDHandler extends ilNotificationEchoHandler {
     }
 
     public static function getNotificationsForUser($user_id, $append_osd_id_to_link = true, $max_age_seconds = 0) {
-        global $ilDB;
+        global $DIC;
+
+        $ilDB = $DIC->database();
 
         $query = 'SELECT notification_osd_id, serialized, valid_until, visible_for, type FROM ' . ilNotificationSetupHelper::$tbl_notification_osd_handler
             . ' WHERE usr_id = %s AND (valid_until = 0 OR valid_until > ' . $ilDB->quote( time() ,'integer') . ') AND time_added > %s';
@@ -95,7 +128,9 @@ class ilNotificationOSDHandler extends ilNotificationEchoHandler {
 	 * @param integer $notification_osd_id 
 	 */
 	public static function removeNotification($notification_osd_id) {
-        global $ilDB;
+        global $DIC;
+
+        $ilDB = $DIC->database();
 
         $query = 'SELECT usr_id FROM ' . ilNotificationSetupHelper::$tbl_notification_osd_handler . ' WHERE notification_osd_id = %s';
         $types = array('integer');
@@ -110,17 +145,6 @@ class ilNotificationOSDHandler extends ilNotificationEchoHandler {
             $values = array($notification_osd_id);
 
             $ilDB->manipulateF($query, $types, $values);
-
-			// sends a "delete the given notification" notification using the
-			// osd_maint channel
-            /*$deletedNotification = new ilNotificationConfig('osd_maint');
-            $deletedNotification->setValidForSeconds(120);
-            $deletedNotification->setTitleVar('deleted');
-            $deletedNotification->setShortDescriptionVar($notification_osd_id);
-            $deletedNotification->setLongDescriptionVar('dummy');
-
-            require_once 'Services/Notifications/classes/class.ilNotificationSystem.php';
-            ilNotificationSystem::sendNotificationToUsers($deletedNotification, array($row['usr_id']));*/
         }
     }
 
@@ -130,8 +154,11 @@ class ilNotificationOSDHandler extends ilNotificationEchoHandler {
 	 * @global ilDB $ilDB 
 	 */
     public static function cleanup() {
-        global $ilDB;
-        $query = 'DELETE FROM ' . ilNotificationSetupHelper::$tbl_notification_osd_handler . ' WHERE valid_until < ' . $ilDB->quote( time() ,'integer');
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
+		$query = 'DELETE FROM ' . ilNotificationSetupHelper::$tbl_notification_osd_handler . ' WHERE valid_until < ' . $ilDB->quote( time() ,'integer');
         $ilDB->manipulate($query);
     }
 
