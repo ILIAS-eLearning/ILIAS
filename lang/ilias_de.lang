@@ -16231,3 +16231,11 @@ wsp#:#search_no_match#:#Your search did not match any results###17 05 2017 new v
 wsp#:#element_shared#:#Element shared###17 05 2017 new variable
 wsp#:#share#:#Share###17 05 2017 new variable
 wiki#:#wiki_pg_list_no_search_fields#:#Es befinden sich keine durchsuchbaren Metadatenfelder in den Metadatensätzen des Wikis.
+file#:#file_suffix_default_white#:#Dateiendungen: Positivliste (Ausgangsliste)
+file#:#file_suffix_default_white_info#:#Voreingestellte Ausgangsliste für akzeptierte Dateiendungen.
+file#:#file_suffix_custom_black#:#Dateiendungen: Negativliste (Anpassungen)
+file#:#file_suffix_custom_black_info#:#Diese Dateiendungen werden aus der obigen Positivliste entfernt.
+file#:#file_suffix_custom_white#:#Dateiendungen: Positivliste (Anpassungen)
+file#:#file_suffix_custom_white_info#:#Diese Dateiendungen werden der obigen Positivliste hinzugefügt.
+file#:#file_suffix_overall_white#:#Effektive Positivliste
+file#:#file_suffix_overall_white_info#:#Dies ist die endgültige Liste akzeptierter Dateiendungen.

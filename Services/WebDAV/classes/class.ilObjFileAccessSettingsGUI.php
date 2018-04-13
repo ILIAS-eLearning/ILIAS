@@ -830,13 +830,34 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$num_prop->setValue(ilFileUploadSettings::getConcurrentUploads());
 		$num_prop->setInfo($lng->txt('concurrent_uploads_info'));
 		$chk_enabled->addSubItem($num_prop);
-		
-		// file suffix replacement
-		$ti = new ilTextInputGUI($this->lng->txt("file_suffix_repl"), "suffix_repl_additional");
+
+		include_once("./Services/Utilities/classes/class.ilFileUtils.php");
+
+		// default white list
+		$ne = new ilNonEditableValueGUI($this->lng->txt("file_suffix_default_white"), "");
+		$ne->setValue(implode(", ", ilFileUtils::getDefaultValidExtensionWhiteList()));
+		$ne->setInfo($this->lng->txt("file_suffix_default_white_info"));
+		$form->addItem($ne);
+
+		// file suffix custom black list
+		$ti = new ilTextInputGUI($this->lng->txt("file_suffix_custom_black"), "suffix_repl_additional");
 		$ti->setMaxLength(200);
 		$ti->setSize(40);
-		$ti->setInfo($this->lng->txt("file_suffix_repl_info")." ".SUFFIX_REPL_DEFAULT);
+		$ti->setInfo($this->lng->txt("file_suffix_custom_black_info"));
 		$form->addItem($ti);
+
+		// file suffix custom white list
+		$ti = new ilTextInputGUI($this->lng->txt("file_suffix_custom_white"), "suffix_custom_white_list");
+		$ti->setMaxLength(200);
+		$ti->setSize(40);
+		$ti->setInfo($this->lng->txt("file_suffix_custom_white_info"));
+		$form->addItem($ti);
+
+		// resulting overall white list
+		$ne = new ilNonEditableValueGUI($this->lng->txt("file_suffix_overall_white"), "");
+		$ne->setValue(implode(", ", ilFileUtils::getValidExtensions()));
+		$ne->setInfo($this->lng->txt("file_suffix_overall_white_info"));
+		$form->addItem($ne);
 
 		// command buttons
 		$form->addCommandButton('saveUploadSettings', $lng->txt('save'));
@@ -870,6 +891,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$val["enable_repository_dnd_upload"] = ilFileUploadSettings::isRepositoryDragAndDropUploadEnabled();
 		$val["concurrent_uploads"] = ilFileUploadSettings::getConcurrentUploads();
 		$val["suffix_repl_additional"] = $ilSetting->get("suffix_repl_additional");
+		$val["suffix_custom_white_list"] = $ilSetting->get("suffix_custom_white_list");
 		$form->setValuesByArray($val);
 
 		// set content
@@ -899,6 +921,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 			
 			// file suffic replacements
 			$ilSetting->set("suffix_repl_additional", $_POST["suffix_repl_additional"]);
+			$ilSetting->set("suffix_custom_white_list", $_POST["suffix_custom_white_list"]);
 
 			ilUtil::sendSuccess($lng->txt('settings_saved'), true);
 			$ilCtrl->redirect($this, "editUploadSettings");
