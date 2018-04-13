@@ -125,10 +125,13 @@ $logging_settings = new ilLoggingSetupSettings();
 $logging_settings->init();
 
 include_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
+$loggerFactory = ilLoggerFactory::newInstance($logging_settings);
+$log = $loggerFactory->getComponentLogger('setup');
 
-$log = ilLoggerFactory::newInstance($logging_settings)->getComponentLogger('setup');
 $ilLog = $log;
 $DIC["ilLog"] = function($c) { return $GLOBALS["ilLog"]; };
+$DIC["ilLoggerFactory"] = function($c) use ($loggerFactory) { return $loggerFactory; };
+$DIC["ilSetting"] = function($c) use ($ilSetting) { return new ilSetting(); };
 
 // init template - in the main program please use ILIAS Template class
 // instantiate main template
