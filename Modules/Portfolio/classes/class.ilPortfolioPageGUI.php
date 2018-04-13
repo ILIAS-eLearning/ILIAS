@@ -111,11 +111,32 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 				return $ilCtrl->forwardCommand($blog_gui);		
 				
 			case "ilcalendarmonthgui":
+				
+				
 				// booking action
 				if($cmd && $cmd != "preview")
 				{
+					$categories = ilCalendarCategories::_getInstance();
+					if($categories->getMode() == 0)
+					{
+						if($_GET['chuid'])
+						{
+							$categories->setCHUserId((int) $_GET['chuid']);
+						}
+						$categories->initialize(ilCalendarCategories::MODE_PORTFOLIO_CONSULTATION, null, true);
+					}
+					
+					if($_GET['seed'])
+					{
+						$seed = new ilDate((string) $_GET['seed'], IL_CAL_DATE);
+					}
+					else
+					{
+						$seed = new ilDate(time(),IL_CAL_UNIX);
+					}
+
 					include_once('./Services/Calendar/classes/class.ilCalendarMonthGUI.php');				
-					$month_gui = new ilCalendarMonthGUI(new ilDate());	
+					$month_gui = new ilCalendarMonthGUI($seed);
 					return $ilCtrl->forwardCommand($month_gui);
 				}
 				// calendar month navigation
@@ -623,6 +644,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarMonthGUI.php');
 		$month_gui = new ilCalendarMonthGUI($seed);
+		$month_gui->setConsulationHoursUserId($user_id);
 		
 		// custom schedule filter: handle booking group ids
 		include_once('./Services/Calendar/classes/class.ilCalendarScheduleFilterBookings.php');
