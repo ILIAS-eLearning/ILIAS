@@ -38,6 +38,7 @@ class ilNotificationGUI
 	 * @param ilTemplate|null $template
 	 * @param ilCtrl|null $controller
 	 * @param ilLanguage|null $language
+	 * @param ilLocatorGUI|null $locatorGUI
 	 * @param \ILIAS\DI\Container|null $dic
 	 */
 	function __construct(
@@ -218,18 +219,6 @@ class ilNotificationGUI
 		}
 
 		$this->template->setContent($form->getHtml() . $table->getHTML());
-	}
-
-	private function saveSettingsObject()
-	{
-		require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
-
-		ilNotificationDatabaseHandler::setUserConfig(
-			$this->user->getId(),
-			$_REQUEST['notification'] ? $_REQUEST['notification'] : array()
-		);
-
-		$this->showSettingsObject();
 	}
 
 	function addLocatorItems()
