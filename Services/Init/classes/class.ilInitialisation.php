@@ -6,6 +6,8 @@ use ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager;
 use ILIAS\BackgroundTasks\Implementation\Tasks\BasicTaskFactory;
 use ILIAS\BackgroundTasks\Dependencies\DependencyMap\BaseDependencyMap;
 use ILIAS\BackgroundTasks\Dependencies\Injector;
+use ILIAS\Filesystem\Provider\FilesystemFactory;
+use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizerImpl;
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -185,28 +187,54 @@ class ilInitialisation
 
 		global $DIC;
 
-		$delegatingFactory = new \ILIAS\Filesystem\Provider\DelegatingFilesystemFactory();
+		$DIC['filesystem.security.sanitizing.filename'] = function ($c) {
+			return new FilenameSanitizerImpl();
+		};
 
-		$DIC['filesystem.web'] = function ($c) use ($delegatingFactory) {
+		$DIC['filesystem.factory'] = function ($c) {
+			return new \ILIAS\Filesystem\Provider\DelegatingFilesystemFactory($c['filesystem.security.sanitizing.filename']);
+		};
+
+		$DIC['filesystem.web'] = function ($c) {
 			//web
+
+			/**
+			 * @var FilesystemFactory $delegatingFactory
+			 */
+			$delegatingFactory = $c['filesystem.factory'];
 			$webConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_ABSOLUTE_PATH . '/' . ILIAS_WEB_DIR . '/' . CLIENT_ID);
 			return $delegatingFactory->getLocal($webConfiguration);
 		};
 
-		$DIC['filesystem.storage'] = function ($c) use ($delegatingFactory) {
+		$DIC['filesystem.storage'] = function ($c) {
 			//storage
+
+			/**
+			 * @var FilesystemFactory $delegatingFactory
+			 */
+			$delegatingFactory = $c['filesystem.factory'];
 			$storageConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_DATA_DIR.'/'.CLIENT_ID);
 			return $delegatingFactory->getLocal($storageConfiguration);
 		};
 
-		$DIC['filesystem.temp'] = function ($c) use ($delegatingFactory) {
+		$DIC['filesystem.temp'] = function ($c) {
 			//temp
+
+			/**
+			 * @var FilesystemFactory $delegatingFactory
+			 */
+			$delegatingFactory = $c['filesystem.factory'];
 			$tempConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_DATA_DIR.'/'.CLIENT_ID.'/temp');
 			return $delegatingFactory->getLocal($tempConfiguration);
 		};
 
-		$DIC['filesystem.customizing'] = function ($c) use ($delegatingFactory) {
+		$DIC['filesystem.customizing'] = function ($c) {
 			//customizing
+
+			/**
+			 * @var FilesystemFactory $delegatingFactory
+			 */
+			$delegatingFactory = $c['filesystem.factory'];
 			$customizingConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_ABSOLUTE_PATH . '/' . 'Customizing');
 			return $delegatingFactory->getLocal($customizingConfiguration);
 		};
@@ -240,8 +268,6 @@ class ilInitialisation
 			if (IL_VIRUS_SCANNER != "None") {
 				$fileUploadImpl->register(new \ILIAS\FileUpload\Processor\VirusScannerPreProcessor(ilVirusScannerFactory::_getInstance()));
 			}
-
-			$fileUploadImpl->register(new \ILIAS\FileUpload\Processor\WhitelistExtensionPreProcessor(ilFileUtils::getValidExtensions()));
 
 			return $fileUploadImpl;
 		};
