@@ -282,4 +282,18 @@ class ilDBPostgreSQL extends ilDB
 		}
 		return $sql;
 	}
+
+
+	/**
+	 * 
+	 * @param string $a_needle
+	 * @param string $a_string
+	 * @param int $a_start_pos
+	 * @return string
+	 */
+	public function locate($a_needle, $a_string, $a_start_pos = 1): string {
+		$manager = $this->db->loadModule('Manager');
+		return $manager->getQueryUtils()->locate($a_needle, $a_string, $a_start_pos);		
+	}
+
 }
