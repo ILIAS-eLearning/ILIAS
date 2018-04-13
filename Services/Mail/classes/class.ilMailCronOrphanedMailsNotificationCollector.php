@@ -84,7 +84,6 @@ class ilMailCronOrphanedMailsNotificationCollector
 				if(is_object($collection_obj))
 				{
 					$this->addCollectionObject($collection_obj);
-					unset($collection_obj);
 				}	
 			}
 			

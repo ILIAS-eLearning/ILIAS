@@ -1459,7 +1459,7 @@
 
 <!-- ExtLink -->
 <xsl:template match="ExtLink">
-	<a class="ilc_link_ExtLink">
+	<a class="ilc_link_ExtLink" rel="noopener">
 		<xsl:variable name="targetframe"><xsl:value-of select="@TargetFrame"/></xsl:variable>
 		<xsl:variable name="link_target">
 			<xsl:if test="$targetframe != ''"><xsl:value-of select="//LinkTargets/LinkTarget[@TargetFrame=$targetframe]/@LinkTarget"/></xsl:if>
