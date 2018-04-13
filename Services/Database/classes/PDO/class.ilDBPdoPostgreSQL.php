@@ -94,6 +94,13 @@ class ilDBPdoPostgreSQL extends ilDBPdo implements ilDBInterface {
 	public function supportsTransactions() {
 		return true;
 	}
+	
+	/**
+	 * @return bool
+	 */
+	public function supportsSequences() {
+		return true;
+	}
 
 
 	/**
