@@ -21,7 +21,7 @@ class ilNotificationOSDHandler extends ilNotificationEchoHandler {
 	 * @param ilLanguage|null $language
 	 * @param \ILIAS\DI\Container|null $dic
 	 */
-	private function __construct(
+	public function __construct(
 		\ilDBInterface $database = null,
 		\ilLanguage $language = null,
 		\ILIAS\DI\Container $dic = null
