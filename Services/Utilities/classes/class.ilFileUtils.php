@@ -630,6 +630,8 @@ class ilFileUtils
 			'm4a',   // AUDIO__MP4,
 			'm4v',   // VIDEO__MP4,
 			'markdown',    // TEXT__MARKDOWN,
+			'm',     // MATLAB
+			'mat',   // MATLAB
 			'md',    // TEXT__MARKDOWN,
 			'mdown',    // TEXT__MARKDOWN,
 			'mid',   // AUDIO__MIDI,
