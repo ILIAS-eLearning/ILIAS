@@ -196,7 +196,8 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @param null $tmpClientIniFile
 	 */
 	public function initFromIniFile($tmpClientIniFile = null) {
-		global $ilClientIniFile;
+		global $DIC;
+		$ilClientIniFile = $DIC['ilClientIniFile'];
 		if ($tmpClientIniFile instanceof ilIniFile) {
 			$clientIniFile = $tmpClientIniFile;
 		} else {
@@ -956,7 +957,8 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @deprecated use
 	 */
 	public static function getReservedWords() {
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 
 		/**
 		 * @var $ilDB ilDBPdo
@@ -973,9 +975,10 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 		assert(is_array($tables));
 
 		$lock = $this->manager->getQueryUtils()->lock($tables);
-		global $ilLog;
-		if ($ilLog instanceof ilLog) {
-			$ilLog->write('ilDB::lockTables(): ' . $lock);
+		global $DIC;
+		$ilLogger = $DIC->logger()->root();
+		if ($ilLogger instanceof ilLogger) {
+			$ilLogger->log('ilDB::lockTables(): ' . $lock);
 		}
 
 		$this->pdo->exec($lock);
@@ -1583,7 +1586,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	public static function isReservedWord($a_word) {
 		require_once('./Services/Database/classes/PDO/FieldDefinition/class.ilDBPdoMySQLFieldDefinition.php');
 		global $DIC;
-		$ilDBPdoMySQLFieldDefinition = new ilDBPdoMySQLFieldDefinition($DIC['ilDB']);
+		$ilDBPdoMySQLFieldDefinition = new ilDBPdoMySQLFieldDefinition($DIC->database());
 
 		return $ilDBPdoMySQLFieldDefinition->isReserved($a_word);
 	}
