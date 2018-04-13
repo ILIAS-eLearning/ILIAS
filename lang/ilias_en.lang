@@ -15955,3 +15955,11 @@ wiki#:#wiki_pg_list_no_search_fields#:#No searchable meta data fields found in t
 content#:#cont_transl_master_language_not_allowed#:#To import a translation you need to activate at least one additional language under Settings > Multilingualism
 dateplaner#:#crs_start#:#Course starts
 dateplaner#:#crs_end#:#Course ends
+file#:#file_suffix_default_white#:#Default Suffix Whitelist
+file#:#file_suffix_default_white_info#:#Default list of accepted file suffixes.
+file#:#file_suffix_custom_black#:#Custom Suffix Blacklist
+file#:#file_suffix_custom_black_info#:#These suffixes will be removed from the default whitelist.
+file#:#file_suffix_custom_white#:#Custom Suffix Whitelist
+file#:#file_suffix_custom_white_info#:#These suffixes will be added to the default whitelist.
+file#:#file_suffix_overall_white#:#Overal Suffix Whitelist
+file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.
