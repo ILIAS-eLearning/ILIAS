@@ -63,12 +63,26 @@ class arFieldList {
 	 */
 	protected $fields = array();
 	/**
+	 * @var ActiveRecord
+	 */
+	protected $ar;
+	/**
 	 * @var array
 	 */
 	protected static $key_maps = array(
 		self::FIELDTYPE => 'type',
 		self::IS_NOTNULL => 'notnull',
 	);
+
+
+	/**
+	 * arFieldList constructor.
+	 *
+	 * @param ActiveRecord $ar
+	 */
+	public function __construct(ActiveRecord $ar) {
+		$this->ar = $ar;
+	}
 
 
 	/**
@@ -101,13 +115,14 @@ class arFieldList {
 	}
 
 
+
 	/**
 	 * @param ActiveRecord $ar
 	 *
 	 * @return \arFieldList
 	 */
 	public static function getInstance(ActiveRecord $ar) {
-		$arFieldList = new self();
+		$arFieldList = new self($ar);
 		$arFieldList->initRawFields($ar);
 		$arFieldList->initFields();
 
@@ -166,12 +181,13 @@ class arFieldList {
 	public function getFieldByName($field_name) {
 		$field = NULL;
 		static $field_map;
-		if ($field_map[$field_name]) {
-			return $field_map[$field_name];
+		$field_key = $this->ar->getConnectorContainerName() . '.' . $field_name;
+		if ($field_map[$field_key]) {
+			return $field_map[$field_key];
 		}
 		foreach ($this->getFields() as $field) {
 			if ($field->getName() == $field_name) {
-				$field_map[$field_name] = $field;
+				$field_map[$field_key] = $field;
 
 				return $field;
 			}
