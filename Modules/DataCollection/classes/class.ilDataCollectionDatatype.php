@@ -847,7 +847,7 @@ class ilDataCollectionDatatype {
 						return $link;
 					}
 
-					$html = "<a target='_blank' href='" . $link . "'>" . $link_value . "</a>";
+					$html = "<a rel='noopener' target='_blank' href='" . $link . "'>" . $link_value . "</a>";
 
 				} elseif ($arr_properties[ilDataCollectionField::PROPERTYID_LINK_DETAIL_PAGE_TEXT] AND
 					$link AND ilDataCollectionRecordViewViewdefinition::getIdByTableId($record_field->getRecord()->getTableId())
