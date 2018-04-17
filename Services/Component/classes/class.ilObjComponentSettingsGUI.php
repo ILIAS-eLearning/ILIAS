@@ -38,7 +38,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 	public function executeCommand()
 	{
 		global $DIC;
-		$rbacsystem = $DIC->rbac();
+		$rbacsystem = $DIC->rbac()->system();
 		$ilErr = $DIC['ilErr'];
 		$ilCtrl = $DIC->ctrl();
 
@@ -106,7 +106,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 	public function getAdminTabs()
 	{
 		global $DIC;
-		$rbacsystem = $DIC->rbac();
+		$rbacsystem = $DIC->rbac()->system();
 		$lng = $DIC->language();
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
