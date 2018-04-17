@@ -58,7 +58,8 @@ abstract class ilComponent
 
 	function __construct()
 	{
-//		global $ilDB;
+//		global $DIC;
+//		$ilDB = $DIC->database();
 		$this->global_cache = ilCachedComponentData::getInstance();
 
 		$this->setId($this->global_cache->lookCompId($this->getComponentType(), $this->getName()));	
@@ -127,7 +128,8 @@ abstract class ilComponent
 	*/
 	final static function getComponentObject($a_ctype, $a_cname)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 
 		$set = $ilDB->queryF("SELECT * FROM il_component WHERE type = %s ".
 			" AND name = %s", array("text", "text"),
@@ -188,7 +190,8 @@ abstract class ilComponent
 	*/
 	static function lookupPluginSlots($a_type, $a_name)
 	{
-//		global $ilDB;
+//		global $DIC;
+//		$ilDB = $DIC->database();
 
 		$cached_component = ilCachedComponentData::getInstance();
 		$recs = $cached_component->lookupPluginSlotByComponent($a_type."/".$a_name);
@@ -253,7 +256,8 @@ abstract class ilComponent
 
 		return $global_cache->lookCompId($a_type, $a_name);
 
-		//global $ilDB;
+		//global $DIC;
+		//$ilDB = $DIC->database();
 
 		//$set = $ilDB->queryF("SELECT * FROM il_component WHERE type = %s ".
 		//	" AND name = %s", array("text", "text"),
@@ -280,7 +284,8 @@ abstract class ilComponent
 	*/
 	static final function checkVersionNumber($a_ver)
 	{
-		global $lng;
+		global $DIC;
+		$lng = $DIC->language();
 		
 		$parts = explode(".", $a_ver);
 		
@@ -353,7 +358,8 @@ abstract class ilComponent
 	 */
 	public static function lookupComponentName($a_component_id)
 	{
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC->database();
 		
 		$query = 'SELECT name from il_component '.
 				'WHERE id = '.$ilDB->quote($a_component_id,'text');
